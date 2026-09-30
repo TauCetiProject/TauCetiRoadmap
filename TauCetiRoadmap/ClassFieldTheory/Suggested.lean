@@ -2,6 +2,11 @@ import Mathlib
 import TauCeti.FieldTheory.Galois.AbsoluteGaloisGroup.FiniteExtension
 import TauCeti.FieldTheory.GaloisCohomology.Kummer
 import TauCeti.NumberTheory.ClassFieldTheory.ClassField
+import TauCeti.NumberTheory.ClassFieldTheory.Formation.GaloisMaps
+import TauCeti.NumberTheory.ClassFieldTheory.Formation.GroundNorm
+import TauCeti.NumberTheory.ClassFieldTheory.Formation.Tate.Corestriction
+import TauCeti.NumberTheory.ClassFieldTheory.Formation.Tate.Cup
+import TauCeti.NumberTheory.ClassFieldTheory.Formation.Tate.Restriction
 import TauCeti.NumberTheory.LocalField.GaloisAction
 import TauCeti.RepresentationTheory.Homological.TateCohomology.HerbrandQuotient
 import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic
@@ -20,11 +25,13 @@ The normative roadmap is `README.md`. This file pins the structures and maps on 
 the development depends, together with the acceptance tests of `README.md` §5. `sorry` marks a
 target, not a result.
 
-The file does **not** define a new Tate-cohomology carrier: `NormalLayer.TateH` is Mathlib's
-`tateCohomology` of the finite quotient representation, and ordinary finite-layer cohomology is
-Mathlib's `groupCohomology`. The few `sorry` definitions before `ClassFormation` are adapters from
-the profinite formation module to the finite quotient representation; the Layer 0 supplier audit is
-to replace them by the exact imported declarations.
+Layers 1 and 2 are Tau Ceti's, in `TauCeti/NumberTheory/ClassFieldTheory/Formation/`, and are
+consumed under Tau Ceti's names: formations, finite normal layers, restriction, corestriction,
+inflation and conjugation of layers, class formations and their fundamental classes.
+`ClassFormation` is re-exported so that the targets of Layers 3 and 4 are its methods. The file
+defines no cohomology carrier: the finite-layer Tate cohomology `NormalLayer.TateH` is Mathlib's
+`tateCohomology` of Tau Ceti's layer representation, and ordinary finite-layer cohomology is
+Mathlib's `groupCohomology`.
 
 The central design constraint is the definitional chain
 
@@ -37,7 +44,7 @@ the requested Artin map is definitionally the inverse of cup product with the fu
 Tate degrees `-2` and `0` after the canonical low-degree identifications; it is not an arbitrary
 equivalence of two finite groups. Tate's theorem itself is stated generically, with its three
 hypotheses as separate explicit arguments rather than as an opaque bundle of class-formation
-axioms, and `ClassFormation` discharges them one by one.
+axioms, and Tau Ceti's `ClassFormation` discharges them one by one.
 
 The layer order is the dependency order and there are no forward references. In particular the
 local Brauer group and its invariant (Layer 5) precede the local class formation (Layer 6) that
@@ -65,163 +72,96 @@ exposed by `ProfiniteCohomology`; valuation and ramification objects come from
 `GlobalNumberFields`; the ideal Artin map comes from `NumberFieldArithmetic`. There is no
 quadratic-form import.
 
-Landed Tau Ceti declarations are consumed by name rather than restated: the comparison of the
-two absolute Galois groups (`TauCeti.absoluteGaloisGroupRestrictEquiv`), the open subgroup cut out
-by a finite extension (`TauCeti.galoisSubgroup`, `TauCeti.galoisSubgroupEquiv`), the class field of
-an open normal subgroup and the abelian layers (`TauCeti.ClassFieldTheory.classField`,
+Landed Tau Ceti declarations are consumed by name rather than restated: the formation machinery
+of Layers 1 and 2 (`TauCeti.ClassFieldTheory.Formation`, `NormalLayer`, `LayerRestriction`,
+`LayerRefinement`, `ClassFormation`, the maps between their cohomology groups and the cup product
+`cupClass`), the comparison of the two absolute Galois groups
+(`TauCeti.absoluteGaloisGroupRestrictEquiv`), the open subgroup cut out by a finite extension
+(`TauCeti.galoisSubgroup`, `TauCeti.galoisSubgroupEquiv`), the class field of an open normal
+subgroup and the abelian layers (`TauCeti.ClassFieldTheory.classField`,
 `OpenNormalSubgroup.IsAbelianClassFieldLayer`), the profinite integers `TauCeti.zHat`, the Herbrand
 quotient `TauCeti.TateCohomology.herbrandQuotient`, the Galois action on the integers of a local
 field, the coefficient dictionary `TauCeti.ofDiscreteModule`, the Galois-cohomology coefficients
 `TauCeti.KummerCoeff` and `TauCeti.UnitsCoeff`, the Kummer map `TauCeti.kummerMap` with Tau Ceti's
 explicit `H¹`, and the internal hom `TauCeti.InternalHom` with its conjugation action and
-evaluation pairing, from which the Tate dual and its evaluation pairing are built. The maximal unramified extension, inertia, arithmetic Frobenius lifts and
-`Gal(K^ur/K) ≅ Ẑ` are Tau Ceti's too, under their Tau Ceti names; `LocalFieldsRamification` states
-the ones the pinned Tau Ceti revision lacks, under the same names, so the unqualified names used
-below resolve to Tau Ceti's declarations once those are imported.
+evaluation pairing, from which the Tate dual and its evaluation pairing are built. The maximal
+unramified extension, inertia, arithmetic Frobenius lifts and `Gal(K^ur/K) ≅ Ẑ` are Tau Ceti's
+too, under their Tau Ceti names; `LocalFieldsRamification` states the ones the pinned Tau Ceti
+revision lacks, under the same names, so the unqualified names used below resolve to Tau Ceti's
+declarations once those are imported.
 -/
 
 namespace TauCetiRoadmap.ClassFieldTheory
 
 open CategoryTheory NumberField IsDedekindDomain
 open scoped MonoidalCategory nonZeroDivisors ValuativeRel TensorProduct
+open TauCeti.ClassFieldTheory hiding ClassFormation
 
-/-! ## Preliminaries: the invariant target `ℚ/ℤ` -/
+/-! ## Preliminaries: the invariant target `ℚ/ℤ`
 
-/-- The target of the class-formation invariant. -/
-abbrev RatModInt : Type := ℚ ⧸ AddSubgroup.zmultiples (1 : ℚ)
+Tau Ceti's `ClassFormation` writes `ℚ/ℤ` as the rational circle `AddCircle (1 : ℚ)`, its subgroup
+of order `n` as the `n`-torsion `AddSubgroup.torsionBy`, and the invariant of the fundamental class
+of a layer of degree `n` as the class of `1/n`. The three abbreviations below name these for the
+arithmetic columns; they are Tau Ceti's conventions, not a second normalization. -/
 
-/-- The subgroup of elements of `ℚ/ℤ` killed by `n`. For `n > 0` this is the unique subgroup of
-order `n`. -/
-def ratModIntTorsion (n : ℕ) : AddSubgroup RatModInt where
-  carrier := {x | n • x = 0}
-  zero_mem' := by simp
-  add_mem' {x y} (hx : n • x = 0) (hy : n • y = 0) := by
-    show n • (x + y) = 0
-    rw [nsmul_add, hx, hy, add_zero]
-  neg_mem' {x} (hx : n • x = 0) := by
-    show n • (-x) = 0
-    rw [smul_neg, hx, neg_zero]
+/-- The target `ℚ/ℤ` of the class-formation invariant: Tau Ceti's `AddCircle (1 : ℚ)`. -/
+abbrev RatModInt : Type := AddCircle (1 : ℚ)
 
-/-- The class of `1/n` in `ℚ/ℤ`. It is only applied to the positive degree of a finite normal
-layer. -/
-noncomputable def fundamentalInvariant (n : ℕ) : RatModInt :=
-  QuotientAddGroup.mk' (AddSubgroup.zmultiples (1 : ℚ)) ((1 : ℚ) / (n : ℚ))
+/-- The subgroup of elements of `ℚ/ℤ` killed by `n`: the image of the invariant of a layer of
+degree `n` (Tau Ceti's `ClassFormation.range_inv`). -/
+abbrev ratModIntTorsion (n : ℕ) : AddSubgroup RatModInt :=
+  AddSubgroup.torsionBy RatModInt n
 
-/-! ## Layer 1: formations and finite normal layers -/
+/-- The class of `1/n` in `ℚ/ℤ`: the invariant of the fundamental class of a layer of degree `n`
+(Tau Ceti's `ClassFormation.inv_fundamentalClass`). -/
+abbrev fundamentalInvariant (n : ℕ) : RatModInt :=
+  ((1 / n : ℚ) : AddCircle (1 : ℚ))
 
-/-- A formation in the topological form used by Artin–Tate: a profinite group together with a
-smooth discrete continuous module. The levels are the fixed subgroups of open subgroups of `G`.
-This is the modern equivalent of the triple `(G, {G_E}, A)` when `{G_E}` is the family of open
-subgroups. -/
-structure Formation (G : Type) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
-    [CompactSpace G] [TotallyDisconnectedSpace G] where
-  module : ProfiniteCohomology.TopRep ℤ G
-  smooth : ProfiniteCohomology.IsSmoothDiscrete ℤ module
+/-! ## Layers 1 and 2: formations, finite normal layers, and class formations
 
-namespace Formation
+Layers 1 and 2 are implemented in Tau Ceti, in `TauCeti/NumberTheory/ClassFieldTheory/Formation/`,
+and are consumed here under Tau Ceti's names; none of them is restated.
 
-variable {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
-  [CompactSpace G] [TotallyDisconnectedSpace G]
+* The formation `Formation G` is Tau Ceti's `SmoothDiscreteTopRep ℤ G` on a profinite `G`, with its
+  levels `Formation.level` (submodules of the ambient module).
+* A finite normal layer `NormalLayer G` has its Galois group `Gal`, `degree`, coefficient module
+  `rep`, cohomology carriers `H`, `TateH` and `TrivialTateH`, norm `norm`, `normSubgroup`,
+  `NormQuotient` and `normQuotientMk`; the layers `ofOpenNormal` of open normal subgroups; the
+  finite quotient system `subgroupLayer`, `subgroupGalEquiv`, `subgroupRestriction`,
+  `degree_subgroupLayer` and `relativeDegree_subgroupRestriction`; the low Tate degrees `tateHIsoH`,
+  `tateHMinusTwoEquivAbelianization`, `tateHZeroEquivNormQuotient` and `zeroTateClass`; and
+  conjugation `conjugate`, `conjugateCohomologyIso`, `conjugateTateIso`,
+  `conjugateGroundLevelEquiv` and `conjugateGalEquiv`.
+* A restriction `LayerRestriction` has its `relativeDegree`, `cohomologyRes`, `cohomologyCor`,
+  `tateRes`, `tateCor`, `trivialTateRes`, `trivialTateCor`, `groundInclusion`, `groundNorm`,
+  `transferHom` and `inclusionHom`, the normalization `cohomologyCor_cohomologyRes` and
+  `tateCor_tateRes`, and the tower laws `trans`, `relativeDegree_trans`, `cohomologyRes_trans`,
+  `cohomologyCor_trans`, `tateRes_trans` and `tateCor_trans`.
+* A refinement `LayerRefinement` has its `relativeDegree`, `cohomologyInfl`, `tateInfl`,
+  `groundEquiv` and `quotientHom`, the tower laws `trans`, `relativeDegree_trans` and
+  `cohomologyInfl_trans`, and `exists_commonRefinement`.
+* The abelian layers are `AbelianLayer`, with `isMulCommutative_gal_ofOpenNormal` and
+  `abelianizationGalEquiv`.
+* A class formation `ClassFormation F` carries its invariant map as data (`subsingleton_h1`, `inv`,
+  `inv_injective`, `range_inv`, `inv_restrict`, `inv_infl`, `inv_conj`), and derives
+  `fundamentalClass` with `inv_fundamentalClass`, `fundamentalClass_generates`,
+  `fundamentalClass_restrict`, `fundamentalClass_infl`, `fundamentalClass_conj`, `inv_cor`,
+  `fundamentalClass_cor`, `tateFundamentalClass`, the three hypotheses of Tate's theorem
+  `h1_subgroupLayer`, `card_H2_subgroupLayer` and `fundamentalClass_restrict_generates`, and the
+  cyclic norm index `natCard_normQuotient`.
+* The cup product with a class of `H²` is `cupClass`, and with the fundamental class
+  `ClassFormation.cupFundamentalClass`.
 
-/-- The `U`-level `A^U` of a formation, as the invariants of the restricted representation. -/
-abbrev level (F : Formation G) (U : OpenSubgroup G) : Type :=
-  (F.module.res U.toSubgroup.subtype).invariants
+What Tau Ceti does not yet have, namely Tate's theorem, the Artin map and its properties, is stated
+in Layers 3 and 4 below as targets about these objects. -/
 
-end Formation
-
-/-- A finite normal layer `V ◁ U` of a formation. In field notation this is the layer `K/F`,
-with `U = G_F` and `V = G_K`. -/
-structure NormalLayer (G : Type) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
-    [CompactSpace G] [TotallyDisconnectedSpace G] where
-  ground : OpenSubgroup G
-  top : OpenSubgroup G
-  top_le_ground : top ≤ ground
-  normal : (top.toSubgroup.comap ground.toSubgroup.subtype).Normal
-
-namespace NormalLayer
-
-variable {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
-  [CompactSpace G] [TotallyDisconnectedSpace G]
-
-/-- The subgroup `V` viewed inside `U`. -/
-def relativeTop (L : NormalLayer G) : Subgroup L.ground :=
-  L.top.toSubgroup.comap L.ground.toSubgroup.subtype
-
-instance (L : NormalLayer G) : L.relativeTop.Normal := L.normal
-
-/-- The finite Galois group `U/V` of the layer. -/
-abbrev Gal (L : NormalLayer G) : Type := L.ground ⧸ L.relativeTop
-
-/-- `V` is open in the compact group `U`, so the quotient is finite. -/
-instance instFiniteGal (L : NormalLayer G) : Finite L.Gal :=
-  Subgroup.quotient_finite_of_isOpen' L.ground.toSubgroup L.relativeTop L.ground.isOpen
-    (L.top.isOpen.preimage continuous_subtype_val)
-
-noncomputable instance instFintypeGal (L : NormalLayer G) : Fintype L.Gal :=
-  Fintype.ofFinite _
-
-/-- The degree `[U : V]` of a layer. -/
-noncomputable def degree (L : NormalLayer G) : ℕ := Nat.card L.Gal
-
-/-- The finite quotient representation of `U/V` on the top level `A^V`. Layer 1 implements this by
-restricting `F.module` to `U`, taking `V`-invariants, and using the quotient action; it is not a
-second coefficient module. -/
-noncomputable def rep (F : Formation G) (L : NormalLayer G) : Rep ℤ L.Gal :=
-  sorry
-
-/-- Ordinary group cohomology of the finite layer, on Mathlib's carrier. The class-formation axioms
-and the fundamental class are stated here, as in Artin–Tate. -/
-noncomputable abbrev H (F : Formation G) (L : NormalLayer G) (n : ℕ) : Type :=
-  groupCohomology (L.rep F) n
-
-/-- Mathlib's Tate cohomology of the finite layer, in every integer degree. -/
-noncomputable abbrev TateH (F : Formation G) (L : NormalLayer G) (r : ℤ) : Type :=
-  tateCohomology (L.rep F) r
-
-/-- Tate cohomology with trivial integral coefficients. -/
-noncomputable abbrev TrivialTateH (L : NormalLayer G) (r : ℤ) : Type :=
-  tateCohomology (Rep.trivial ℤ L.Gal ℤ) r
-
-/-- The norm from the top level `A^V` to the ground level `A^U`. -/
-noncomputable def norm (F : Formation G) (L : NormalLayer G) :
-    F.level L.top →+ F.level L.ground :=
-  sorry
-
-/-- The norm subgroup of the ground level. -/
-noncomputable def normSubgroup (F : Formation G) (L : NormalLayer G) :
-    AddSubgroup (F.level L.ground) :=
-  (L.norm F).range
-
-/-- The finite-layer norm quotient `A^U / N_{U/V}(A^V)`. -/
-noncomputable abbrev NormQuotient (F : Formation G) (L : NormalLayer G) : Type :=
-  F.level L.ground ⧸ L.normSubgroup F
-
-/-- The quotient map from the ground level to the norm quotient. -/
-noncomputable def normQuotientMk (F : Formation G) (L : NormalLayer G) :
-    F.level L.ground →+ L.NormQuotient F :=
-  QuotientAddGroup.mk' (L.normSubgroup F)
-
-/-- The layer `V ◁ ⊤` of an open normal subgroup: the finite Galois extensions of the ground field
-of the formation. -/
-def ofOpenNormal (V : OpenNormalSubgroup G) : NormalLayer G where
-  ground := ⊤
-  top := V.toOpenSubgroup
-  top_le_ground := le_top
-  normal := Subgroup.normal_comap _
-
-/-- The intermediate normal layer corresponding to a subgroup of the finite Galois group: the
-formation-theoretic Galois correspondence used in the proof of Tate's theorem. -/
-noncomputable def subgroupLayer (L : NormalLayer G) (H : Subgroup L.Gal) : NormalLayer G :=
-  sorry
-
-/-- Its Galois group is the chosen subgroup. Layer 1 must also provide the representation
-isomorphism identifying the restriction of `L.rep F` to `H` with `(L.subgroupLayer H).rep F`,
-through the change-of-groups API selected in the Tate-cohomology supplier audit. -/
-noncomputable def subgroupGalEquiv (L : NormalLayer G) (H : Subgroup L.Gal) :
-    (L.subgroupLayer H).Gal ≃* H :=
-  sorry
-
-end NormalLayer
+/-- **Tau Ceti's class formation**, `TauCeti.ClassFieldTheory.ClassFormation`, re-exported so that
+the targets of Layers 3 and 4 (Tate's theorem for the class formation, the Nakayama map, the Artin
+equivalence and the Artin map) are stated as its methods, `cf.tateIso` and `cf.artinMap`. It is an
+abbreviation: every field and theorem of Tau Ceti's structure applies to it by name. -/
+abbrev ClassFormation {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+    [CompactSpace G] [TotallyDisconnectedSpace G] (F : Formation G) :=
+  TauCeti.ClassFieldTheory.ClassFormation F
 
 /-! ### Abelian layers and the maximal abelian sublayer
 
@@ -238,10 +178,11 @@ is introduced here. The algebraic `commutator G` is the wrong subgroup for a pro
 not be closed, so `G ⧸ commutator G` need not be profinite, and Layer 9 records the same warning
 for the Weil group.
 
-The predicate, its carrier and the maximal abelian sublayer are Tau Ceti's
+The predicate, its carrier `AbelianLayer` and the maximal abelian sublayer are Tau Ceti's
 (`OpenNormalSubgroup.IsAbelianClassFieldLayer`, `TauCeti.ClassFieldTheory.AbelianLayer`,
-`OpenNormalSubgroup.maximalAbelianLayer`), consumed here under the names the rest of this file uses;
-the theorems below are Tau Ceti's proofs, applied. -/
+`OpenNormalSubgroup.maximalAbelianLayer`), as are `isMulCommutative_gal_ofOpenNormal` and
+`abelianizationGalEquiv`; the predicate and the sublayer are consumed here under the names the rest
+of this file uses, and the theorems below are Tau Ceti's proofs, applied. -/
 
 /-- An open normal subgroup cuts out an **abelian layer** when it contains the closed commutator
 subgroup — equivalently, when its finite quotient is commutative
@@ -252,12 +193,6 @@ subgroups that occur in the class-field correspondence. Tau Ceti's
 abbrev IsAbelianClassFieldLayer {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
     (V : OpenNormalSubgroup G) : Prop :=
   V.IsAbelianClassFieldLayer
-
-/-- The Galois side of the class-field correspondence: open normal subgroups with abelian
-quotient, ordered by inclusion of subgroups, hence by **reverse** inclusion of the fields they cut
-out. Tau Ceti's `TauCeti.ClassFieldTheory.AbelianLayer`. -/
-abbrev AbelianLayer (G : Type) [Group G] [TopologicalSpace G] [IsTopologicalGroup G] : Type :=
-  TauCeti.ClassFieldTheory.AbelianLayer G
 
 section AbelianLayer
 
@@ -299,404 +234,7 @@ theorem maximalAbelianLayer_eq_self_iff (V : OpenNormalSubgroup G) :
     maximalAbelianLayer V = V ↔ IsAbelianClassFieldLayer V :=
   V.maximalAbelianLayer_eq_self_iff
 
-variable [CompactSpace G] [TotallyDisconnectedSpace G]
-
-/-- The finite Galois group of the layer of an abelian `V` is commutative. This is what lets the
-Artin equivalence of Layer 4, whose target is `Abelianization L.Gal`, be read as an isomorphism
-onto `L.Gal` itself. -/
-theorem isMulCommutative_gal_ofOpenNormal {V : OpenNormalSubgroup G}
-    (hV : IsAbelianClassFieldLayer V) :
-    IsMulCommutative (NormalLayer.ofOpenNormal V).Gal :=
-  sorry
-
-open scoped IsMulCommutative in
-/-- For an abelian layer the canonical map `L.Gal → Abelianization L.Gal` is an isomorphism. It is
-Mathlib's `Abelianization.equivOfComm` for the commutative group structure supplied by
-`isMulCommutative_gal_ofOpenNormal`, not a new comparison map. This is what turns the
-abelianization-valued `ClassFormation.artinEquiv` into an isomorphism onto the Galois group
-itself. -/
-noncomputable def abelianizationGalEquiv {V : OpenNormalSubgroup G}
-    (hV : IsAbelianClassFieldLayer V) :
-    Abelianization (NormalLayer.ofOpenNormal V).Gal ≃* (NormalLayer.ofOpenNormal V).Gal :=
-  letI := isMulCommutative_gal_ofOpenNormal hV
-  Abelianization.equivOfComm.symm
-
-open scoped IsMulCommutative in
-@[simp]
-theorem abelianizationGalEquiv_of {V : OpenNormalSubgroup G} (hV : IsAbelianClassFieldLayer V)
-    (x : (NormalLayer.ofOpenNormal V).Gal) :
-    abelianizationGalEquiv hV (Abelianization.of x) = x := by
-  have := isMulCommutative_gal_ofOpenNormal hV
-  rfl
-
 end AbelianLayer
-
-/-! The next structures name the actual changes of layer. They prevent later statements from
-replacing restriction or inflation by an arbitrary map of the right type. -/
-
-/-- Restrict the ground field while keeping the top field fixed: in field notation,
-`F ⊆ E ⊆ K`, from `K/F` to `K/E`. -/
-structure LayerRestriction {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
-    [CompactSpace G] [TotallyDisconnectedSpace G]
-    (small big : NormalLayer G) : Prop where
-  same_top : small.top = big.top
-  ground_le : small.ground ≤ big.ground
-
-/-- Refine the top field while keeping the ground field fixed: in field notation,
-`F ⊆ K ⊆ L`, from `K/F` to `L/F`. -/
-structure LayerRefinement {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
-    [CompactSpace G] [TotallyDisconnectedSpace G]
-    (old new : NormalLayer G) : Prop where
-  same_ground : old.ground = new.ground
-  new_top_le : new.top ≤ old.top
-
-namespace LayerRestriction
-
-variable {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
-  [CompactSpace G] [TotallyDisconnectedSpace G]
-  {small big : NormalLayer G}
-
-/-- Restriction on ordinary finite-layer cohomology. -/
-noncomputable def cohomologyRes (T : LayerRestriction small big) (F : Formation G) (n : ℕ) :
-    big.H F n →+ small.H F n :=
-  sorry
-
-/-- Restriction on the finite-layer Tate groups. -/
-noncomputable def tateRes (T : LayerRestriction small big) (F : Formation G) (r : ℤ) :
-    big.TateH F r →+ small.TateH F r :=
-  sorry
-
-/-- Restriction on the trivial-coefficient Tate groups. -/
-noncomputable def trivialTateRes (T : LayerRestriction small big) (r : ℤ) :
-    big.TrivialTateH r →+ small.TrivialTateH r :=
-  sorry
-
-/-- The degree `[E:F]` by which the invariant changes under restriction from `K/F` to `K/E`. -/
-noncomputable def relativeDegree (T : LayerRestriction small big) : ℕ :=
-  sorry
-
-/-- The inclusion of ground levels `A^U ⊆ A^{U'}` for `U' ≤ U`. -/
-noncomputable def groundInclusion (T : LayerRestriction small big) (F : Formation G) :
-    F.level big.ground →+ F.level small.ground :=
-  sorry
-
-/-- The norm `A^{U'} → A^U` for `U' ≤ U`. -/
-noncomputable def groundNorm (T : LayerRestriction small big) (F : Formation G) :
-    F.level small.ground →+ F.level big.ground :=
-  sorry
-
-/-- The group-theoretic transfer `(U/V)^ab → (U'/V)^ab`. -/
-noncomputable def transferHom (T : LayerRestriction small big) :
-    Additive (Abelianization big.Gal) →+ Additive (Abelianization small.Gal) :=
-  sorry
-
-/-- The map `(U'/V)^ab → (U/V)^ab` induced by the inclusion `U' ≤ U`. -/
-noncomputable def inclusionHom (T : LayerRestriction small big) :
-    Additive (Abelianization small.Gal) →+ Additive (Abelianization big.Gal) :=
-  sorry
-
-/-- Corestriction on ordinary finite-layer cohomology: the transfer `H^n(K/E) → H^n(K/F)`, in the
-direction opposite to `cohomologyRes`. Corestriction is a separate named map, not a derived one:
-the invariant normalizations of restriction and of corestriction differ, and both are used
-downstream on their own. -/
-noncomputable def cohomologyCor (T : LayerRestriction small big) (F : Formation G) (n : ℕ) :
-    small.H F n →+ big.H F n :=
-  sorry
-
-/-- Corestriction on the finite-layer Tate groups, in every integer degree. -/
-noncomputable def tateCor (T : LayerRestriction small big) (F : Formation G) (r : ℤ) :
-    small.TateH F r →+ big.TateH F r :=
-  sorry
-
-/-- Corestriction on the trivial-coefficient Tate groups. -/
-noncomputable def trivialTateCor (T : LayerRestriction small big) (r : ℤ) :
-    small.TrivialTateH r →+ big.TrivialTateH r :=
-  sorry
-
-/-- **Restriction/corestriction normalization, first half:** `cor ∘ res = [E:F]`. -/
-theorem cohomologyCor_cohomologyRes (T : LayerRestriction small big) (F : Formation G) (n : ℕ)
-    (x : big.H F n) :
-    T.cohomologyCor F n (T.cohomologyRes F n x) = T.relativeDegree • x :=
-  sorry
-
-/-- The Tate-degree form of `cor ∘ res = [E:F]`, valid in every integer degree. -/
-theorem tateCor_tateRes (T : LayerRestriction small big) (F : Formation G) (r : ℤ)
-    (x : big.TateH F r) :
-    T.tateCor F r (T.tateRes F r x) = T.relativeDegree • x :=
-  sorry
-
-/-! ### Tower compatibility of restrictions
-
-A tower `F ⊆ E ⊆ E' ⊆ K` of ground fields is a composite of two restrictions. The composite is
-itself a restriction, and every map of this namespace is functorial along it. These are the
-statements downstream tower arguments use; they are stated separately from the class-formation
-axioms because they hold for any formation. -/
-
-/-- Restrictions compose: a tower `F ⊆ E ⊆ E' ⊆ K` of ground fields. -/
-theorem trans {mid : NormalLayer G} (S : LayerRestriction small mid)
-    (T : LayerRestriction mid big) : LayerRestriction small big where
-  same_top := S.same_top.trans T.same_top
-  ground_le := le_trans S.ground_le T.ground_le
-
-/-- The relative degree is multiplicative in a tower: `[E':F] = [E':E] · [E:F]`. -/
-theorem relativeDegree_trans {mid : NormalLayer G} (S : LayerRestriction small mid)
-    (T : LayerRestriction mid big) :
-    (S.trans T).relativeDegree = S.relativeDegree * T.relativeDegree :=
-  sorry
-
-/-- Restriction is functorial in a tower. -/
-theorem cohomologyRes_trans {mid : NormalLayer G} (S : LayerRestriction small mid)
-    (T : LayerRestriction mid big) (F : Formation G) (n : ℕ) (x : big.H F n) :
-    (S.trans T).cohomologyRes F n x = S.cohomologyRes F n (T.cohomologyRes F n x) :=
-  sorry
-
-/-- Corestriction is functorial in a tower. -/
-theorem cohomologyCor_trans {mid : NormalLayer G} (S : LayerRestriction small mid)
-    (T : LayerRestriction mid big) (F : Formation G) (n : ℕ) (x : small.H F n) :
-    (S.trans T).cohomologyCor F n x = T.cohomologyCor F n (S.cohomologyCor F n x) :=
-  sorry
-
-/-- Tate restriction is functorial in a tower, in every integer degree. -/
-theorem tateRes_trans {mid : NormalLayer G} (S : LayerRestriction small mid)
-    (T : LayerRestriction mid big) (F : Formation G) (r : ℤ) (x : big.TateH F r) :
-    (S.trans T).tateRes F r x = S.tateRes F r (T.tateRes F r x) :=
-  sorry
-
-/-- Tate corestriction is functorial in a tower, in every integer degree. -/
-theorem tateCor_trans {mid : NormalLayer G} (S : LayerRestriction small mid)
-    (T : LayerRestriction mid big) (F : Formation G) (r : ℤ) (x : small.TateH F r) :
-    (S.trans T).tateCor F r x = T.tateCor F r (S.tateCor F r x) :=
-  sorry
-
-end LayerRestriction
-
-namespace LayerRefinement
-
-variable {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
-  [CompactSpace G] [TotallyDisconnectedSpace G]
-  {old new : NormalLayer G}
-
-/-- Inflation on ordinary finite-layer cohomology. -/
-noncomputable def cohomologyInfl (T : LayerRefinement old new) (F : Formation G) (n : ℕ) :
-    old.H F n →+ new.H F n :=
-  sorry
-
-/-- Inflation on the finite-layer Tate groups, in positive degrees only. -/
-noncomputable def tateInfl (T : LayerRefinement old new) (F : Formation G) (r : ℕ)
-    (_hr : 0 < r) :
-    old.TateH F r →+ new.TateH F r :=
-  sorry
-
-/-- The relative top degree `[L:K]` for a refinement from `K/F` to `L/F`. -/
-noncomputable def relativeDegree (T : LayerRefinement old new) : ℕ :=
-  sorry
-
-/-- The quotient map `(U/V')^ab → (U/V)^ab` for `V' ≤ V`. -/
-noncomputable def quotientHom (T : LayerRefinement old new) :
-    Additive (Abelianization new.Gal) →+ Additive (Abelianization old.Gal) :=
-  sorry
-
-/-- The identity of ground levels, transported along `same_ground`. -/
-noncomputable def groundEquiv (T : LayerRefinement old new) (F : Formation G) :
-    F.level old.ground ≃+ F.level new.ground :=
-  sorry
-
-/-- Refinements compose: a tower `F ⊆ K ⊆ L ⊆ M` of top fields. -/
-theorem trans {newer : NormalLayer G} (S : LayerRefinement old new)
-    (T : LayerRefinement new newer) : LayerRefinement old newer where
-  same_ground := S.same_ground.trans T.same_ground
-  new_top_le := le_trans T.new_top_le S.new_top_le
-
-/-- The relative top degree is multiplicative in a tower. -/
-theorem relativeDegree_trans {newer : NormalLayer G} (S : LayerRefinement old new)
-    (T : LayerRefinement new newer) :
-    (S.trans T).relativeDegree = S.relativeDegree * T.relativeDegree :=
-  sorry
-
-/-- Inflation is functorial in a tower of top fields. -/
-theorem cohomologyInfl_trans {newer : NormalLayer G} (S : LayerRefinement old new)
-    (T : LayerRefinement new newer) (F : Formation G) (n : ℕ) (x : old.H F n) :
-    (S.trans T).cohomologyInfl F n x = T.cohomologyInfl F n (S.cohomologyInfl F n x) :=
-  sorry
-
-/-- Two refinements of a layer have a common refinement: the compositum, whose top subgroup is the
-intersection of the two top subgroups. This is what lets a construction made at "some refinement"
-be compared across refinements. -/
-theorem exists_commonRefinement {new₁ new₂ : NormalLayer G} (_T₁ : LayerRefinement old new₁)
-    (_T₂ : LayerRefinement old new₂) :
-    ∃ newer : NormalLayer G, LayerRefinement new₁ newer ∧ LayerRefinement new₂ newer :=
-  sorry
-
-end LayerRefinement
-
-namespace NormalLayer
-
-variable {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
-  [CompactSpace G] [TotallyDisconnectedSpace G]
-
-/-- **The finite quotient system.** The layer cut out by a subgroup `H ≤ U/V` has the same top
-field and a smaller ground field, so it is a `LayerRestriction` of `L`; this is the datum through
-which the hypotheses of Tate's theorem are checked subgroup by subgroup. -/
-theorem subgroupRestriction (L : NormalLayer G) (H : Subgroup L.Gal) :
-    LayerRestriction (L.subgroupLayer H) L :=
-  sorry
-
-/-- The relative degree of `subgroupRestriction` is the index `[U/V : H]`. -/
-theorem relativeDegree_subgroupRestriction (L : NormalLayer G) (H : Subgroup L.Gal) :
-    (L.subgroupRestriction H).relativeDegree = H.index :=
-  sorry
-
-/-- The degree of the layer cut out by `H` is `#H`. -/
-theorem degree_subgroupLayer (L : NormalLayer G) (H : Subgroup L.Gal) :
-    (L.subgroupLayer H).degree = Nat.card H :=
-  sorry
-
-end NormalLayer
-
-/-- The conjugate normal layer `gUg⁻¹ ⊇ gVg⁻¹`. -/
-noncomputable def conjugateLayer {G : Type} [Group G] [TopologicalSpace G]
-    [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G]
-    (g : G) (L : NormalLayer G) : NormalLayer G :=
-  sorry
-
-/-- Conjugation on ordinary finite-layer cohomology. -/
-noncomputable def layerCohomologyConj {G : Type} [Group G] [TopologicalSpace G]
-    [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G]
-    (F : Formation G) (g : G) (L : NormalLayer G) (n : ℕ) :
-    L.H F n →+ (conjugateLayer g L).H F n :=
-  sorry
-
-/-- Conjugation on the finite-layer Tate groups. -/
-noncomputable def layerTateConj {G : Type} [Group G] [TopologicalSpace G]
-    [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G]
-    (F : Formation G) (g : G) (L : NormalLayer G) (r : ℤ) :
-    L.TateH F r →+ (conjugateLayer g L).TateH F r :=
-  sorry
-
-/-- Conjugation on ground levels and on abelianized Galois groups. -/
-noncomputable def layerGroundConj {G : Type} [Group G] [TopologicalSpace G]
-    [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G]
-    (F : Formation G) (g : G) (L : NormalLayer G) :
-    F.level L.ground →+ F.level (conjugateLayer g L).ground :=
-  sorry
-
-noncomputable def layerGalConj {G : Type} [Group G] [TopologicalSpace G]
-    [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G]
-    (g : G) (L : NormalLayer G) :
-    Additive (Abelianization L.Gal) →+ Additive (Abelianization (conjugateLayer g L).Gal) :=
-  sorry
-
-/-! ## Layer 2: class formations and fundamental classes -/
-
-/-- A class formation in the finite-layer form of Artin–Tate. The invariant is data. The
-fundamental class is *not* a field of this structure; it is derived below as the unique class of
-invariant `1 / degree`. -/
-structure ClassFormation {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
-    [CompactSpace G] [TotallyDisconnectedSpace G] (F : Formation G) where
-  h1_eq_zero : ∀ L : NormalLayer G, Subsingleton (L.H F 1)
-  inv : ∀ L : NormalLayer G, L.H F 2 →+ RatModInt
-  inv_injective : ∀ L : NormalLayer G, Function.Injective (inv L)
-  inv_range : ∀ L : NormalLayer G,
-    Set.range (inv L) = (ratModIntTorsion L.degree : Set RatModInt)
-  inv_restrict : ∀ {small big : NormalLayer G} (T : LayerRestriction small big)
-    (x : big.H F 2),
-    inv small (T.cohomologyRes F 2 x) = T.relativeDegree • inv big x
-  inv_infl : ∀ {old new : NormalLayer G} (T : LayerRefinement old new)
-    (x : old.H F 2),
-    inv new (T.cohomologyInfl F 2 x) = inv old x
-  inv_conj : ∀ (g : G) (L : NormalLayer G) (x : L.H F 2),
-    inv (conjugateLayer g L) (layerCohomologyConj F g L 2 x) = inv L x
-
-namespace ClassFormation
-
-variable {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
-  [CompactSpace G] [TotallyDisconnectedSpace G]
-  {F : Formation G}
-
-/-- The fundamental class of a finite normal layer: the unique class with invariant
-`1 / [U:V]`. Its implementation must use `cf.inv_injective` and `cf.inv_range`; it is not a
-choice added to `ClassFormation`. -/
-noncomputable def fundamentalClass (cf : ClassFormation F) (L : NormalLayer G) : L.H F 2 :=
-  sorry
-
-/-- The defining normalization of the fundamental class. -/
-theorem inv_fundamentalClass (cf : ClassFormation F) (L : NormalLayer G) :
-    cf.inv L (cf.fundamentalClass L) = fundamentalInvariant L.degree :=
-  sorry
-
-/-- The fundamental class generates the two-dimensional cohomology group. -/
-theorem fundamentalClass_generates (cf : ClassFormation F) (L : NormalLayer G)
-    (x : L.H F 2) :
-    ∃ m : ℤ, x = m • cf.fundamentalClass L :=
-  sorry
-
-/-- Restriction of the fundamental class is the fundamental class of the restricted layer. -/
-theorem fundamentalClass_restrict (cf : ClassFormation F)
-    {small big : NormalLayer G} (T : LayerRestriction small big) :
-    T.cohomologyRes F 2 (cf.fundamentalClass big) = cf.fundamentalClass small :=
-  sorry
-
-/-- Under a refinement of the top field, inflation of the old fundamental class is the relative
-degree times the new fundamental class: `inf u_{K/F} = [L:K] u_{L/F}`. This is the scaling in the
-positive-degree inflation formula for Tate's theorem. -/
-theorem fundamentalClass_infl (cf : ClassFormation F)
-    {old new : NormalLayer G} (T : LayerRefinement old new) :
-    T.cohomologyInfl F 2 (cf.fundamentalClass old) =
-      T.relativeDegree • cf.fundamentalClass new :=
-  sorry
-
-/-- The corresponding conjugation formula. -/
-theorem fundamentalClass_conj (cf : ClassFormation F) (g : G) (L : NormalLayer G) :
-    layerCohomologyConj F g L 2 (cf.fundamentalClass L) =
-      cf.fundamentalClass (conjugateLayer g L) :=
-  sorry
-
-/-- **Restriction/corestriction normalization, second half:** corestriction preserves invariants,
-where restriction multiplies them by the relative degree. This is a theorem and not a field of
-`ClassFormation`: it follows from `inv_restrict`, `inv_injective` and
-`LayerRestriction.cohomologyCor_cohomologyRes`, and adding it as an axiom would let an
-implementation satisfy it by fiat. -/
-theorem inv_cor (cf : ClassFormation F) {small big : NormalLayer G}
-    (T : LayerRestriction small big) (x : small.H F 2) :
-    cf.inv big (T.cohomologyCor F 2 x) = cf.inv small x :=
-  sorry
-
-/-- Corestriction of a fundamental class: `cor u_{K/E} = [E:F] · u_{K/F}`. The scaling is the
-mirror image of the one in `fundamentalClass_infl`, and it is what makes the corestriction square
-for `tateIso` commute. -/
-theorem fundamentalClass_cor (cf : ClassFormation F) {small big : NormalLayer G}
-    (T : LayerRestriction small big) :
-    T.cohomologyCor F 2 (cf.fundamentalClass small) =
-      T.relativeDegree • cf.fundamentalClass big :=
-  sorry
-
-/-! ### The three hypotheses of Tate's theorem, verified for a class formation
-
-These are the individually named facts that Layer 3 feeds to `tateTheorem`. They are stated one by
-one, rather than being read off the `ClassFormation` structure at the point of use, because each is
-consumed separately downstream: `h1_subgroupLayer` in the Hilbert-90 arguments,
-`card_H2_subgroupLayer` in the norm-index computations, and
-`fundamentalClass_restrict_generates` in the tower comparisons. -/
-
-/-- `H¹` vanishes on every layer cut out by a subgroup of the Galois group. -/
-theorem h1_subgroupLayer (cf : ClassFormation F) (L : NormalLayer G) (H : Subgroup L.Gal) :
-    Subsingleton ((L.subgroupLayer H).H F 1) :=
-  cf.h1_eq_zero _
-
-/-- `H²` of the layer cut out by `H` has exactly `#H` elements. -/
-theorem card_H2_subgroupLayer (cf : ClassFormation F) (L : NormalLayer G) (H : Subgroup L.Gal) :
-    Nat.card ((L.subgroupLayer H).H F 2) = Nat.card H :=
-  sorry
-
-/-- The restriction of the fundamental class to the layer cut out by `H` generates that layer's
-`H²`. This is the third hypothesis of Tate's theorem and the one that is not immediate from the
-axioms: it combines `fundamentalClass_restrict` with `fundamentalClass_generates`. -/
-theorem fundamentalClass_restrict_generates (cf : ClassFormation F) (L : NormalLayer G)
-    (H : Subgroup L.Gal) (x : (L.subgroupLayer H).H F 2) :
-    ∃ m : ℤ, x = m • (L.subgroupRestriction H).cohomologyRes F 2 (cf.fundamentalClass L) :=
-  sorry
-
-end ClassFormation
 
 /-! ## Layer 3: Tate's theorem (Artin–Tate's Main Theorem)
 
@@ -705,36 +243,29 @@ argument about a formation, a finite normal layer, and a chosen two-dimensional 
 stated against an opaque bundle of "class-formation axioms". The hypotheses are used separately
 downstream — the cyclic-layer Herbrand computations need only `h1`, the norm-index theorems only
 `hcard`, the tower comparisons only `hgen` — and a consumer that has established them for one
-layer applies the theorem directly. Layer 2's `ClassFormation` is one supplier of the three
-hypotheses, through the individually named
-`ClassFormation.h1_subgroupLayer`, `ClassFormation.card_H2_subgroupLayer` and
-`ClassFormation.fundamentalClass_restrict_generates`. -/
+layer applies the theorem directly. Tau Ceti's `ClassFormation` is one supplier of the three
+hypotheses, through its individually named `ClassFormation.h1_subgroupLayer`,
+`ClassFormation.card_H2_subgroupLayer` and `ClassFormation.fundamentalClass_restrict_generates`.
+The cup-product map is Tau Ceti's `cupClass`. -/
 
 section TateTheorem
 
 variable {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
   [CompactSpace G] [TotallyDisconnectedSpace G]
 
-/-- Cup product with a chosen class `u : H²(U/V, A^V)`, after the tensor-unit identification
-`ℤ ⊗ A^V ≅ A^V` and Mathlib's comparison of ordinary `H²` with Tate degree `2`. This is the named
-homomorphism underlying Tate's theorem; its implementation is the generic Tate cup product of the
-Layer 0 supplier audit. -/
-noncomputable def cupClass (F : Formation G) (L : NormalLayer G) (u : L.H F 2) (r : ℤ) :
-    L.TrivialTateH r →+ L.TateH F (r + 2) :=
-  sorry
-
 /-- **Tate's theorem** (J. Tate, *The higher dimensional cohomology groups of class field theory*,
 Ann. of Math. 56 (1952); Artin–Tate, Chapter XIV §4), with its hypotheses stated one by one over
-the finite quotient system `H ↦ L.subgroupLayer H`:
+Tau Ceti's finite quotient system `H ↦ L.subgroupLayer H`:
 
 * `_h1` — `H¹(H, A^V) = 0` for every subgroup `H ≤ U/V`;
 * `_hcard` — `H²(H, A^V)` has exactly `#H` elements;
 * `_hgen` — the restriction of `u` to the layer of `H` generates that layer's `H²`.
 
-Then cup product with `u` is an isomorphism `Ĥ^r(U/V,ℤ) ≃ Ĥ^{r+2}(U/V,A^V)` in every integer
-degree. The Tate–Nakayama generalization replaces the trivial coefficients `ℤ` by a module `M`
-with `Tor₁^ℤ(M,A^V) = 0`; it is the same three hypotheses plus that vanishing, and it belongs to
-the generic Tate-cohomology supplier of Layer 0. -/
+Then cup product with `u` (Tau Ceti's `cupClass`) is an isomorphism
+`Ĥ^r(U/V,ℤ) ≃ Ĥ^{r+2}(U/V,A^V)` in every integer degree. The Tate–Nakayama generalization replaces
+the trivial coefficients `ℤ` by a module `M` with `Tor₁^ℤ(M,A^V) = 0`; it is the same three
+hypotheses plus that vanishing, and it belongs to the generic Tate-cohomology supplier of
+Layer 0. -/
 noncomputable def tateTheorem (F : Formation G) (L : NormalLayer G) (u : L.H F 2)
     (_h1 : ∀ H : Subgroup L.Gal, Subsingleton ((L.subgroupLayer H).H F 1))
     (_hcard : ∀ H : Subgroup L.Gal, Nat.card ((L.subgroupLayer H).H F 2) = Nat.card H)
@@ -744,8 +275,8 @@ noncomputable def tateTheorem (F : Formation G) (L : NormalLayer G) (u : L.H F 2
     L.TrivialTateH r ≃+ L.TateH F (r + 2) :=
   sorry
 
-/-- The isomorphism of Tate's theorem **is** cup product with `u`, not an unrelated equivalence
-between two groups of the same cardinality. -/
+/-- The isomorphism of Tate's theorem **is** cup product with `u`, Tau Ceti's `cupClass`, not an
+unrelated equivalence between two groups. -/
 theorem tateTheorem_toAddMonoidHom (F : Formation G) (L : NormalLayer G) (u : L.H F 2)
     (h1 : ∀ H : Subgroup L.Gal, Subsingleton ((L.subgroupLayer H).H F 1))
     (hcard : ∀ H : Subgroup L.Gal, Nat.card ((L.subgroupLayer H).H F 2) = Nat.card H)
@@ -763,36 +294,26 @@ variable {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
   [CompactSpace G] [TotallyDisconnectedSpace G]
   {F : Formation G}
 
-/-- The fundamental class transported from ordinary `H²` to positive Tate degree `2` through
-Mathlib's canonical comparison. -/
-noncomputable def tateFundamentalClass (cf : ClassFormation F) (L : NormalLayer G) :
-    L.TateH F 2 :=
-  ((TateCohomology.isoGroupCohomology (R := ℤ) (G := L.Gal) 2).app (L.rep F)).inv
-    (cf.fundamentalClass L)
-
-/-- Cup product with the fundamental class: the generic `cupClass` at `u = fundamentalClass`. -/
-noncomputable def cupFundamentalClass (cf : ClassFormation F) (L : NormalLayer G) (r : ℤ) :
-    L.TrivialTateH r →+ L.TateH F (r + 2) :=
-  cupClass F L (cf.fundamentalClass L) r
-
 /-- Tate's theorem for a class formation, in every integer degree: the generic theorem applied to
-the fundamental class, with the three hypotheses discharged by the three individually named
-consequences of the axioms. This is Artin–Tate's Main Theorem (Chapter XIV §4). -/
+Tau Ceti's fundamental class, with the three hypotheses discharged by Tau Ceti's three individually
+named consequences of the axioms. This is Artin–Tate's Main Theorem (Chapter XIV §4). -/
 noncomputable def tateIso (cf : ClassFormation F) (L : NormalLayer G) (r : ℤ) :
     L.TrivialTateH r ≃+ L.TateH F (r + 2) :=
   tateTheorem F L (cf.fundamentalClass L) (cf.h1_subgroupLayer L)
     (cf.card_H2_subgroupLayer L) (cf.fundamentalClass_restrict_generates L) r
 
-/-- The isomorphism is the cup-product map, not an unrelated equivalence between groups of the
-same cardinality. A closed proof: `tateIso` is definitionally the generic theorem, so this is the
-generic statement, applied. -/
+/-- The isomorphism is Tau Ceti's cup product with the fundamental class,
+`ClassFormation.cupFundamentalClass`, not an unrelated equivalence between groups of the same
+cardinality. A closed proof: `tateIso` is definitionally the generic theorem, so this is the generic
+statement, applied. -/
 theorem tateIso_toAddMonoidHom (cf : ClassFormation F)
     (L : NormalLayer G) (r : ℤ) :
     (cf.tateIso L r).toAddMonoidHom = cf.cupFundamentalClass L r :=
   tateTheorem_toAddMonoidHom F L (cf.fundamentalClass L) (cf.h1_subgroupLayer L)
     (cf.card_H2_subgroupLayer L) (cf.fundamentalClass_restrict_generates L) r
 
-/-- Compatibility of Tate's theorem with restriction to an intermediate ground field. -/
+/-- Compatibility of Tate's theorem with restriction to an intermediate ground field, through Tau
+Ceti's `LayerRestriction.tateRes` and `trivialTateRes`. -/
 theorem tateIso_res (cf : ClassFormation F)
     {small big : NormalLayer G} (T : LayerRestriction small big) (r : ℤ)
     (x : big.TrivialTateH r) :
@@ -800,9 +321,10 @@ theorem tateIso_res (cf : ClassFormation F)
       cf.tateIso small r (T.trivialTateRes r x) :=
   sorry
 
-/-- Compatibility of Tate's theorem with corestriction. ⚠ The corestriction square commutes
-without a scaling factor, where the restriction square of `tateIso_res` also does but the
-*inflation* square of `fundamentalClass_infl` does not. Asserting one shape for all three is the
+/-- Compatibility of Tate's theorem with corestriction, through Tau Ceti's
+`LayerRestriction.tateCor` and `trivialTateCor`. ⚠ The corestriction square commutes without a
+scaling factor, where the restriction square of `tateIso_res` also does but the *inflation* square
+of `ClassFormation.fundamentalClass_infl` does not. Asserting one shape for all three is the
 standard error here. -/
 theorem tateIso_cor (cf : ClassFormation F)
     {small big : NormalLayer G} (T : LayerRestriction small big) (r : ℤ)
@@ -812,8 +334,8 @@ theorem tateIso_cor (cf : ClassFormation F)
   sorry
 
 /-- Compatibility of Tate's theorem with a tower of ground fields, `F ⊆ E ⊆ E' ⊆ K`. Together with
-`LayerRestriction.relativeDegree_trans` this is the tower normalization the local and global
-towers of Layers 6 and 11 consume. -/
+Tau Ceti's `LayerRestriction.relativeDegree_trans` this is the tower normalization the local and
+global towers of Layers 6 and 11 consume. -/
 theorem tateIso_res_trans (cf : ClassFormation F)
     {small mid big : NormalLayer G} (S : LayerRestriction small mid)
     (T : LayerRestriction mid big) (r : ℤ) (x : big.TrivialTateH r) :
@@ -821,24 +343,17 @@ theorem tateIso_res_trans (cf : ClassFormation F)
       cf.tateIso small r ((S.trans T).trivialTateRes r x) :=
   sorry
 
-/-! ## Layer 4: low Tate degrees and the abstract Artin map -/
+/-! ## Layer 4: low Tate degrees and the abstract Artin map
 
-/-- The canonical identification `Ĥ⁻²(Γ,ℤ) ≃ Γ^ab`, supplied by generic Tate cohomology. -/
-noncomputable def tateHMinusTwoEquivAbelianization (L : NormalLayer G) :
-    L.TrivialTateH (-2) ≃+ Additive (Abelianization L.Gal) :=
-  sorry
-
-/-- The canonical identification `Ĥ⁰(Γ,A^V) ≃ A^U / N(A^V)`, supplied by generic Tate cohomology
-and the finite-layer coefficient dictionary. -/
-noncomputable def tateHZeroEquivNormQuotient (F : Formation G) (L : NormalLayer G) :
-    L.TateH F 0 ≃+ L.NormQuotient F :=
-  sorry
+The two low-degree identifications are Tau Ceti's `NormalLayer.tateHMinusTwoEquivAbelianization`
+and `NormalLayer.tateHZeroEquivNormQuotient`, and the zero-dimensional class of an element of the
+ground level is Tau Ceti's `NormalLayer.zeroTateClass`. -/
 
 /-- The degree `-2 → 0` cup-product direction, the Nakayama map `Γ^ab ≃ A^U / N(A^V)`. -/
 noncomputable def nakayamaNegTwo (cf : ClassFormation F) (L : NormalLayer G) :
     Additive (Abelianization L.Gal) ≃+ L.NormQuotient F :=
-  (tateHMinusTwoEquivAbelianization L).symm.trans
-    ((cf.tateIso L (-2)).trans (tateHZeroEquivNormQuotient F L))
+  L.tateHMinusTwoEquivAbelianization.symm.trans
+    ((cf.tateIso L (-2)).trans (L.tateHZeroEquivNormQuotient F))
 
 /-- **The Artin reciprocity direction.** Definitionally the inverse of `nakayamaNegTwo`; not a
 new opaque choice. -/
@@ -849,7 +364,7 @@ noncomputable def artinEquiv (cf : ClassFormation F) (L : NormalLayer G) :
 /-- The Artin map on the ground level, with kernel the norm subgroup. -/
 noncomputable def artinMap (cf : ClassFormation F) (L : NormalLayer G) :
     F.level L.ground →+ Additive (Abelianization L.Gal) :=
-  (cf.artinEquiv L).toAddMonoidHom.comp (L.normQuotientMk F)
+  (cf.artinEquiv L).toAddMonoidHom.comp (L.normQuotientMk F).toAddMonoidHom
 
 /-- Elementwise form of the definition of `artinMap`. -/
 theorem artinMap_apply (cf : ClassFormation F) (L : NormalLayer G)
@@ -860,14 +375,13 @@ theorem artinMap_apply (cf : ClassFormation F) (L : NormalLayer G)
 /-- The defining equality, recorded explicitly for downstream users and regression tests. -/
 theorem artinEquiv_eq_tateIso (cf : ClassFormation F) (L : NormalLayer G) :
     cf.artinEquiv L =
-      ((tateHMinusTwoEquivAbelianization L).symm.trans
-        ((cf.tateIso L (-2)).trans
-          (tateHZeroEquivNormQuotient F L))).symm :=
+      (L.tateHMinusTwoEquivAbelianization.symm.trans
+        ((cf.tateIso L (-2)).trans (L.tateHZeroEquivNormQuotient F))).symm :=
   rfl
 
-/-- The kernel of the Artin map is exactly the norm subgroup. -/
+/-- The kernel of the Artin map is exactly Tau Ceti's norm subgroup. -/
 theorem ker_artinMap (cf : ClassFormation F) (L : NormalLayer G) :
-    (cf.artinMap L).ker = L.normSubgroup F :=
+    (cf.artinMap L).ker = (L.normSubgroup F).toAddSubgroup :=
   sorry
 
 /-- Elementwise norm-kernel criterion. -/
@@ -881,10 +395,12 @@ theorem surjective_artinMap (cf : ClassFormation F) (L : NormalLayer G) :
     Function.Surjective (cf.artinMap L) :=
   sorry
 
-/-- The zero-dimensional Tate class of an element of the ground level. -/
-noncomputable def zeroTateClass (F : Formation G) (L : NormalLayer G) :
-    F.level L.ground →+ L.TateH F 0 :=
-  sorry
+end ClassFormation
+
+section Character
+
+variable {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+  [CompactSpace G] [TotallyDisconnectedSpace G]
 
 /-- The connecting class `δχ ∈ Ĥ²(Γ,ℤ)` attached to a character `χ : Γ^ab → ℚ/ℤ` through
 `0 → ℤ → ℚ → ℚ/ℤ → 0`. -/
@@ -893,20 +409,30 @@ noncomputable def characterConnectingClass (L : NormalLayer G)
     L.TrivialTateH 2 :=
   sorry
 
-/-- The class in `H²(Γ,A^V)` obtained by cupping the zero-dimensional class of `a` with `δχ`.
-The eventual definition must use the imported Tate cup product. -/
-noncomputable def artinCharacterCup (cf : ClassFormation F) (L : NormalLayer G)
-    (a : F.level L.ground)
-    (χ : Additive (Abelianization L.Gal) →+ RatModInt) :
-    L.H F 2 :=
-  sorry
+/-- **The class `a₀ ∪ δχ ∈ H²(Γ, A^V)`**: Tau Ceti's Tate cup product
+`TauCeti.TateCohomology.cup` of the zero-dimensional class `L.zeroTateClass F a` with
+`characterConnectingClass L χ`, followed by the unitor `A^V ⊗ ℤ ≅ A^V` and Tau Ceti's
+identification `NormalLayer.tateHIsoH` of Tate degree two with ordinary `H²`. -/
+noncomputable def artinCharacterCup (F : Formation G) (L : NormalLayer G)
+    (a : F.level L.ground) (χ : Additive (Abelianization L.Gal) →+ RatModInt) : L.H F 2 :=
+  (L.tateHIsoH F 2).hom ((tateCohomologyFunctor 2).map (ρ_ (L.rep F)).hom
+    (TauCeti.TateCohomology.cup (L.rep F) (Rep.trivial ℤ L.Gal ℤ) 0 2 2 (by omega)
+      (L.zeroTateClass F a) (characterConnectingClass L χ)))
+
+end Character
+
+namespace ClassFormation
+
+variable {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+  [CompactSpace G] [TotallyDisconnectedSpace G]
+  {F : Formation G}
 
 /-- Artin–Tate's character characterization `χ(artinMap a) = inv(a₀ ∪ δχ)`. Together with the
 transparent definition of `artinEquiv`, this pins the direction and the sign of the Artin map. -/
 theorem character_artinMap (cf : ClassFormation F) (L : NormalLayer G)
     (a : F.level L.ground)
     (χ : Additive (Abelianization L.Gal) →+ RatModInt) :
-    χ (cf.artinMap L a) = cf.inv L (cf.artinCharacterCup L a χ) :=
+    χ (cf.artinMap L a) = cf.inv L (artinCharacterCup F L a χ) :=
   sorry
 
 /-- Uniqueness: a homomorphism satisfying the character formula for every character is the Artin
@@ -914,11 +440,15 @@ map. -/
 theorem eq_artinMap_of_character (cf : ClassFormation F) (L : NormalLayer G)
     (φ : F.level L.ground →+ Additive (Abelianization L.Gal))
     (hφ : ∀ (a : F.level L.ground) (χ : Additive (Abelianization L.Gal) →+ RatModInt),
-      χ (φ a) = cf.inv L (cf.artinCharacterCup L a χ)) :
+      χ (φ a) = cf.inv L (artinCharacterCup F L a χ)) :
     φ = cf.artinMap L :=
   sorry
 
-/-! ### The four Artin–Tate functoriality diagrams -/
+/-! ### The four Artin–Tate functoriality diagrams
+
+Every map below is Tau Ceti's: `LayerRestriction.groundInclusion`, `transferHom`, `groundNorm`
+and `inclusionHom`, `NormalLayer.conjugateGroundLevelEquiv` and `conjugateGalEquiv`, and
+`LayerRefinement.groundEquiv` and `quotientHom`. -/
 
 /-- Inclusion of ground levels corresponds to group-theoretic transfer. -/
 theorem artinMap_groundInclusion (cf : ClassFormation F)
@@ -932,11 +462,12 @@ theorem artinMap_groundNorm (cf : ClassFormation F)
     cf.artinMap big (T.groundNorm F b) = T.inclusionHom (cf.artinMap small b) :=
   sorry
 
-/-- Conjugation corresponds to conjugation of Artin symbols. -/
+/-- Conjugation corresponds to conjugation of Artin symbols: on the conjugate layer
+`L.conjugate g`, the Artin symbol of `g · a` is the conjugate by `g` of the Artin symbol of `a`. -/
 theorem artinMap_conj (cf : ClassFormation F) (g : G) (L : NormalLayer G)
     (a : F.level L.ground) :
-    cf.artinMap (conjugateLayer g L) (layerGroundConj F g L a) =
-      layerGalConj g L (cf.artinMap L a) :=
+    cf.artinMap (L.conjugate g) (L.conjugateGroundLevelEquiv F g a) =
+      (L.conjugateGalEquiv g).abelianizationCongr.toAdditive (cf.artinMap L a) :=
   sorry
 
 /-- Passage to a quotient extension corresponds to the quotient map on Galois groups. -/
@@ -962,17 +493,15 @@ theorem normSubgroup_maximalAbelianLayer (cf : ClassFormation F) (V : OpenNormal
       (NormalLayer.ofOpenNormal V).normSubgroup F :=
   sorry
 
-/-! ### Abstract acceptance tests -/
+/-! ### Abstract acceptance tests
+
+The cyclic norm index `Nat.card (A^U / N(A^V)) = [U:V]` is Tau Ceti's
+`ClassFormation.natCard_normQuotient`. -/
 
 /-- Trivial layer: the Artin map of the layer `U/U` is the zero map between trivial groups. -/
 theorem artinMap_trivialLayer (cf : ClassFormation F) (L : NormalLayer G)
     (hL : L.top = L.ground) :
     cf.artinMap L = 0 :=
-  sorry
-
-/-- In a cyclic layer the norm quotient has exactly `[U:V]` elements. -/
-theorem card_normQuotient (cf : ClassFormation F) (L : NormalLayer G) [IsCyclic L.Gal] :
-    Nat.card (L.NormQuotient F) = L.degree :=
   sorry
 
 /-- The Artin symbol of `a` generates the abelianized Galois group exactly when the class of `a`
@@ -1023,20 +552,13 @@ correspondence written on subgroups is order **preserving**
 (`N₁ ≤ N₂ ↔ L₂ ≤ L₁`). Both forms are stated below at each scope; writing the subgroup form with
 the inclusions reversed would be false. -/
 
-/-- **The finite extension cut out by an open normal subgroup of `G_F`**: its fixed field inside
-the separable closure. Tau Ceti's `TauCeti.ClassFieldTheory.classField`. -/
-noncomputable abbrev classField (F : Type) [Field F]
-    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup F)) :
-    IntermediateField F (SeparableClosure F) :=
-  TauCeti.ClassFieldTheory.classField F V
-
-/-- The Galois correspondence, in the direction this roadmap uses: bigger subgroup, smaller field.
-This is what converts the order-preserving subgroup form of the class-field correspondence into
-the classical order-reversing form on fields. Tau Ceti's proof, applied. -/
-theorem classField_le_classField_iff (F : Type) [Field F]
-    (V W : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup F)) :
+/-- **The finite extension cut out by an open normal subgroup of `G_F`**, its fixed field inside
+the separable closure, is Tau Ceti's `classField F V`, and the Galois correspondence in the
+direction this roadmap uses — bigger subgroup, smaller field — is Tau Ceti's
+`classField_le_classField_iff`. Both are consumed by name below. -/
+example (F : Type) [Field F] (V W : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup F)) :
     classField F W ≤ classField F V ↔ V ≤ W :=
-  TauCeti.ClassFieldTheory.classField_le_classField_iff F V W
+  classField_le_classField_iff F V W
 
 section Local
 
@@ -1194,8 +716,9 @@ theorem isPrimitiveRoot_units_map {n : ℕ} [NeZero n] {F : Type} [Field F] (ζ 
 /-- The image of a primitive `n`-th root of unity `ζ ∈ F` in `μ_n(Fˢ)`. -/
 noncomputable def muNRepGenerator {n : ℕ} [NeZero n] {F : Type} [Field F] (ζ : F)
     (hζ : IsPrimitiveRoot ζ n) : (muNRep n F).V :=
-  (Additive.ofMul (hζ.map_of_injective (algebraMap F (SeparableClosure F)).injective).toRootsOfUnity :
-    TauCeti.KummerCoeff F n)
+  (Additive.ofMul
+    (hζ.map_of_injective (algebraMap F (SeparableClosure F)).injective).toRootsOfUnity :
+      TauCeti.KummerCoeff F n)
 
 /-- **The coordinate of `μ_n(Fˢ)` selected by a primitive root** `ζ ∈ F`: `ζ^k ↦ k`. It is
 Mathlib's `IsPrimitiveRoot.zmodEquivZPowers` at the image of `ζ` in `Fˢ`, whose powers are all of
@@ -1562,7 +1085,10 @@ noncomputable def localSymbol {n : ℕ} {F : Type} [Field F]
   tr (ProfiniteCohomology.degreeCast (by norm_num) (muNRep n F)
     (ProfiniteCohomology.cup P 1 1 x y))
 
-/-- Bilinearity after transporting multiplicative Kummer classes. -/
+omit [TopologicalSpace K] [IsNonarchimedeanLocalField K] in
+/-- Bilinearity after transporting multiplicative Kummer classes: `kummerClass` is additive
+(`kummerClass_mul`) and the cup product is additive in its first argument
+(`ProfiniteCohomology.cup_add_left`). A closed proof. -/
 theorem localSymbol_kummerClass_mul {n : ℕ}
     (P : ProfiniteCohomology.TopPairing (muNRep n K) (muNRep n K) (muNRep n K))
     (tr : H n K 2 (muNRep n K) ≃+ ZMod n)
@@ -1573,8 +1099,8 @@ theorem localSymbol_kummerClass_mul {n : ℕ}
   have h := ProfiniteCohomology.cup_add_left P 1 1 (kummerClass n K a) (kummerClass n K a')
     (kummerClass n K b)
   simp only [localSymbol, kummerClass_mul]
-  exact (congrArg (fun z => tr (ProfiniteCohomology.degreeCast (by norm_num) (muNRep n K) z)) h).trans
-    (map_add tr _ _)
+  exact (congrArg (fun z => tr (ProfiniteCohomology.degreeCast (by norm_num) (muNRep n K) z))
+    h).trans (map_add tr _ _)
 
 /-- Steinberg relation at the named arithmetic coefficient pairing. -/
 theorem localSymbol_kummerClass_steinberg {n : ℕ} (zeta : K)
@@ -1712,7 +1238,8 @@ instance instFiniteTateDual [NeZero n] (A : GalRep n F) [Finite A.V] : Finite (t
 `ofDiscreteModule_isSmoothDiscrete`, the conjugation action on `InternalHom` being continuous for a
 finite discrete source (Tau Ceti's `ContinuousSMul` instance on `InternalHom`). -/
 theorem isSmoothDiscrete_tateDual (A : GalRep n F) [DiscreteTopology A.V] [Finite A.V]
-    (hA : TauCeti.IsSmoothDiscrete (ZMod n) A) : TauCeti.IsSmoothDiscrete (ZMod n) (tateDual A) := by
+    (hA : TauCeti.IsSmoothDiscrete (ZMod n) A) :
+    TauCeti.IsSmoothDiscrete (ZMod n) (tateDual A) := by
   have := hA.continuousSMul
   exact TauCeti.ofDiscreteModule_isSmoothDiscrete (ZMod n) (Field.absoluteGaloisGroup F) _
 
@@ -1975,10 +1502,34 @@ theorem eulerCharacteristic_finrank_fp (p : ℕ) [Fact p.Prime]
 
 /-! ## Layer 6: the local class formation and finite local reciprocity -/
 
+/-- **The formation of a field**: the multiplicative group `(Fˢ)ˣ` of a separable closure, written
+additively as Tau Ceti's `UnitsCoeff F` and made a formation on Tau Ceti's `AbsoluteGaloisGroup F`
+by Tau Ceti's dictionary `ofDiscreteModule`. It is smooth because every unit of `Fˢ` has an
+open stabilizer (Tau Ceti's `unitsCoeff_continuousSMul`). Its layer `V ◁ U` is the multiplicative
+group of the extension cut out by `V`, with its Galois action. The local formation and the
+multiplicative formation of a number field are this formation. -/
+noncomputable def fieldFormation (F : Type) [Field F] :
+    Formation (TauCeti.AbsoluteGaloisGroup F) :=
+  haveI := unitsCoeff_continuousSMul_int F
+  ⟨TauCeti.ofDiscreteModule ℤ (TauCeti.AbsoluteGaloisGroup F) (TauCeti.UnitsCoeff F),
+    TauCeti.ofDiscreteModule_isSmoothDiscrete ℤ _ _⟩
+
+/-- **The ground level of the field formation is `H⁰(G_F, (Fˢ)ˣ)`**: both are the units of `Fˢ`
+fixed by all of `G_F`. This is what reads Tau Ceti's `baseUnitsEquivInvariants` on the ground
+level (`localGroundEquiv`). -/
+theorem h0_unitsCoeff_eq_level_top (F : Type) [Field F] :
+    TauCeti.ContCohomology.H0 (TauCeti.AbsoluteGaloisGroup F) (TauCeti.UnitsCoeff F) =
+      ((fieldFormation F).level ⊤).toAddSubgroup := by
+  ext x
+  simp only [FixedPoints.mem_addSubgroup]
+  exact ⟨fun h => (fieldFormation F).mem_level.2 fun u _ => h u,
+    fun h g => (fieldFormation F).mem_level.1 h g (Subgroup.mem_top g)⟩
+
 /-- The formation of multiplicative groups of finite separable extensions of `K`, written
-additively: its module is `unitsRep K` transported to the separable-closure Galois group. -/
-noncomputable def localFormation : Formation (ProfiniteCohomology.AbsoluteGaloisGroup K) :=
-  sorry
+additively: the field formation `fieldFormation K`, whose module is Tau Ceti's `UnitsCoeff K` on the
+separable-closure Galois group. -/
+noncomputable def localFormation : Formation (TauCeti.AbsoluteGaloisGroup K) :=
+  fieldFormation K
 
 /-- Hilbert 90 and the local Brauer invariant make `localFormation K` a class formation. -/
 noncomputable def localClassFormation : ClassFormation (localFormation K) :=
@@ -1986,13 +1537,13 @@ noncomputable def localClassFormation : ClassFormation (localFormation K) :=
 
 /-- Inflation from the two-dimensional cohomology of a finite layer of the local formation to the
 local Brauer group `Br K = H²(G_K, (Kˢ)ˣ)`. -/
-noncomputable def brInfl (L : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K))
+noncomputable def brInfl (L : NormalLayer (TauCeti.AbsoluteGaloisGroup K))
     (hL : L.ground = ⊤) : L.H (localFormation K) 2 →+ Br K :=
   sorry
 
 /-- The abstract invariant of a finite layer agrees with `invMap` on the local Brauer group after
 inflation to `Br K`; the two normalizations are one. -/
-theorem localClassFormation_inv (L : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K))
+theorem localClassFormation_inv (L : NormalLayer (TauCeti.AbsoluteGaloisGroup K))
     (hL : L.ground = ⊤) (x : L.H (localFormation K) 2) :
     (localClassFormation K).inv L x = invMap K (brInfl K L hL x) :=
   sorry
@@ -2001,7 +1552,7 @@ theorem localClassFormation_inv (L : NormalLayer (ProfiniteCohomology.AbsoluteGa
 closure. -/
 noncomputable def localLayer [Algebra K L] [Module.Finite K L] [IsGalois K L]
     (iota : L →ₐ[K] SeparableClosure K) :
-    NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K) :=
+    NormalLayer (TauCeti.AbsoluteGaloisGroup K) :=
   sorry
 
 /-- Identification of the concrete local norm quotient with the abstract norm quotient. -/
@@ -2460,37 +2011,40 @@ pins the class field is the conjunction of `localAbelianExistence`, `localClassF
 `classField` dictionary that bijection is the classical order-reversing correspondence onto the
 finite abelian extensions of `K` (`localClassField_orderReversing`). -/
 
-/-- The identification of the ground level `A^{G_K}` of the local formation with `Kˣ`. -/
+/-- **The identification of the ground level `A^{G_K}` of the local formation with `Kˣ`**: Tau
+Ceti's `baseUnitsEquivInvariants`, `Kˣ ≅ H⁰(G_K, (Kˢ)ˣ)`, read on the ground level, which is the
+same subgroup of `(Kˢ)ˣ` (`h0_unitsCoeff_eq_level_top`). -/
 noncomputable def localGroundEquiv :
     Additive Kˣ ≃+ (localFormation K).level ⊤ :=
-  sorry
+  (TauCeti.baseUnitsEquivInvariants K).trans
+    (AddEquiv.addSubgroupCongr (h0_unitsCoeff_eq_level_top K))
 
 /-- **The norm subgroup of `Kˣ` cut out by an open normal subgroup of `G_K`**: the norm subgroup of
 the layer `V ◁ ⊤`, read through `localGroundEquiv`. Writing the correspondence against this map
 rather than against the raw `comap` keeps the local statements in the multiplicative language of
 `Kˣ` that `LocalFieldsRamification.normGroup` also uses. -/
 noncomputable def localNormSubgroup
-    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)) : Subgroup Kˣ :=
+    (V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K)) : Subgroup Kˣ :=
   AddSubgroup.toSubgroup'
-    (((NormalLayer.ofOpenNormal V).normSubgroup (localFormation K)).comap
+    (((NormalLayer.ofOpenNormal V).normSubgroup (localFormation K)).toAddSubgroup.comap
       (localGroundEquiv K).toAddMonoidHom)
 
 /-- Norm subgroups are open. -/
 theorem isOpen_localNormSubgroup
-    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    (V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K)) :
     IsOpen ((localNormSubgroup K V : Subgroup Kˣ) : Set Kˣ) :=
   sorry
 
 /-- Norm subgroups have finite index. -/
 theorem finiteIndex_localNormSubgroup
-    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    (V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K)) :
     (localNormSubgroup K V).FiniteIndex :=
   sorry
 
 /-- The norm subgroup is monotone in the layer subgroup, hence **reverses inclusion of fields**: a
 larger `V` cuts out a smaller field, and a smaller field has a larger norm subgroup. -/
 theorem localNormSubgroup_mono
-    {V W : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)} (h : V ≤ W) :
+    {V W : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K)} (h : V ≤ W) :
     localNormSubgroup K V ≤ localNormSubgroup K W :=
   sorry
 
@@ -2499,10 +2053,11 @@ maximal abelian subextension have the same norm subgroup of `Kˣ`; this is the a
 `ClassFormation.normSubgroup_maximalAbelianLayer` transported through `localGroundEquiv`. It is the
 reason the existence theorems below must name the abelian layer. -/
 theorem localNormSubgroup_maximalAbelianLayer
-    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    (V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K)) :
     localNormSubgroup K (maximalAbelianLayer V) = localNormSubgroup K V := by
   simp only [localNormSubgroup,
     ClassFormation.normSubgroup_maximalAbelianLayer (localClassFormation K) V]
+  rfl
 
 /-- **Direction acceptance test.** The trivial layer `V = ⊤` cuts out `K` itself, whose norm
 subgroup is all of `Kˣ`. This is the extreme case that fixes which end of the correspondence is
@@ -2518,7 +2073,7 @@ abbrev LocalNormSubgroups : Type := {N : OpenSubgroup Kˣ // N.toSubgroup.Finite
 
 /-- The norm subgroup of a layer as an element of the source carrier. -/
 noncomputable def localNormOpenSubgroup
-    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    (V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K)) :
     LocalNormSubgroups K :=
   ⟨⟨localNormSubgroup K V, isOpen_localNormSubgroup K V⟩, finiteIndex_localNormSubgroup K V⟩
 
@@ -2530,7 +2085,7 @@ roadmap. -/
 theorem localAbelianExistence (p : ℕ) [Fact p.Prime]
     [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K]
     (N : Subgroup Kˣ) (hN : IsOpen (N : Set Kˣ)) [N.FiniteIndex] :
-    ∃ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
+    ∃ V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K),
       IsAbelianClassFieldLayer V ∧ localNormSubgroup K V = N :=
   sorry
 
@@ -2541,7 +2096,7 @@ occasionally what a consumer needs. -/
 theorem localExistence (p : ℕ) [Fact p.Prime]
     [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K]
     (N : Subgroup Kˣ) (hN : IsOpen (N : Set Kˣ)) [N.FiniteIndex] :
-    ∃ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
+    ∃ V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K),
       localNormSubgroup K V = N :=
   (localAbelianExistence K p N hN).imp fun _ h => h.2
 
@@ -2553,7 +2108,7 @@ theorem localAbelianExistence_primeToResidueCharacteristic
     (p : ℕ) [Fact p.Prime] [CharP 𝓀[K] p]
     (N : Subgroup Kˣ) (hN : IsOpen (N : Set Kˣ)) [N.FiniteIndex]
     (hindex : Nat.Coprime (Nat.card (Kˣ ⧸ N)) p) :
-    ∃ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
+    ∃ V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K),
       IsAbelianClassFieldLayer V ∧ localNormSubgroup K V = N :=
   sorry
 
@@ -2562,7 +2117,7 @@ theorem localExistence_primeToResidueCharacteristic
     (p : ℕ) [Fact p.Prime] [CharP 𝓀[K] p]
     (N : Subgroup Kˣ) (hN : IsOpen (N : Set Kˣ)) [N.FiniteIndex]
     (hindex : Nat.Coprime (Nat.card (Kˣ ⧸ N)) p) :
-    ∃ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
+    ∃ V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K),
       localNormSubgroup K V = N :=
   (localAbelianExistence_primeToResidueCharacteristic K p N hN hindex).imp fun _ h => h.2
 
@@ -2571,7 +2126,7 @@ half of the correspondence that turns existence into *the* class field attached 
 abelianity hypotheses it is false: `V` and `maximalAbelianLayer V` are a counterexample whenever
 the layer is nonabelian. -/
 theorem localClassField_unique
-    {V W : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+    {V W : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K)}
     (hV : IsAbelianClassFieldLayer V) (hW : IsAbelianClassFieldLayer W)
     (h : localNormSubgroup K V = localNormSubgroup K W) :
     V = W :=
@@ -2583,7 +2138,7 @@ later: `abelianizationGalEquiv hV` identifies `Abelianization L.Gal` with `L.Gal
 abelianization-valued `ClassFormation.artinEquiv` can be read here as reciprocity onto
 `Gal(L/K)`. -/
 noncomputable def localAbelianGaloisEquiv
-    {V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+    {V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K)}
     (hV : IsAbelianClassFieldLayer V) :
     Kˣ ⧸ localNormSubgroup K V ≃* (NormalLayer.ofOpenNormal V).Gal :=
   sorry
@@ -2593,7 +2148,7 @@ it is the abstract Artin map of the layer. Because the layer is abelian, `Abelia
 injective, so this pins the isomorphism; it is reciprocity, not an arbitrary isomorphism of two
 finite groups of the same order. -/
 theorem localAbelianGaloisEquiv_artinMap
-    {V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+    {V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K)}
     (hV : IsAbelianClassFieldLayer V) (x : Kˣ) :
     Additive.ofMul (Abelianization.of (localAbelianGaloisEquiv K hV (QuotientGroup.mk x))) =
       (localClassFormation K).artinMap (NormalLayer.ofOpenNormal V)
@@ -2603,7 +2158,7 @@ theorem localAbelianGaloisEquiv_artinMap
 /-- **The index equality `[Kˣ : N_{L/K}(Lˣ)] = [L : K]`.** `NormalLayer.degree` of the layer
 `V ◁ ⊤` is `Nat.card (G_K ⧸ V)`, the degree of the extension over `K`. -/
 theorem index_localNormSubgroup
-    {V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+    {V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K)}
     (hV : IsAbelianClassFieldLayer V) :
     (localNormSubgroup K V).index = (NormalLayer.ofOpenNormal V).degree :=
   (Subgroup.index_eq_card _).trans (Nat.card_congr (localAbelianGaloisEquiv K hV).toEquiv)
@@ -2612,7 +2167,7 @@ theorem index_localNormSubgroup
 it rather than pinned by an unproved equation. -/
 theorem exists_localClassField (p : ℕ) [Fact p.Prime]
     [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K] (N : LocalNormSubgroups K) :
-    ∃ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
+    ∃ V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K),
       IsAbelianClassFieldLayer V ∧ localNormSubgroup K V = N.1.toSubgroup :=
   haveI := N.2
   localAbelianExistence K p N.1.toSubgroup N.1.isOpen
@@ -2623,7 +2178,7 @@ extension of `ℚ_p`. It is the abelian layer produced by `localAbelianExistence
 form is `IntermediateField.fixedField` of the underlying subgroup. -/
 noncomputable def localClassField (p : ℕ) [Fact p.Prime]
     [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K] (N : LocalNormSubgroups K) :
-    AbelianLayer (ProfiniteCohomology.AbsoluteGaloisGroup K) :=
+    AbelianLayer (TauCeti.AbsoluteGaloisGroup K) :=
   ⟨(exists_localClassField K p N).choose, (exists_localClassField K p N).choose_spec.1⟩
 
 /-- **The characterizing equation of `localClassField`:** its norm subgroup is `N`. -/
@@ -2658,7 +2213,7 @@ classical order-**reversing** bijection onto the finite abelian extensions of `K
 (`localClassField_orderReversing`). -/
 noncomputable def localClassFieldCorrespondence (p : ℕ) [Fact p.Prime]
     [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K] :
-    LocalNormSubgroups K ≃o AbelianLayer (ProfiniteCohomology.AbsoluteGaloisGroup K) where
+    LocalNormSubgroups K ≃o AbelianLayer (TauCeti.AbsoluteGaloisGroup K) where
   toFun N := localClassField K p N
   invFun V := localNormOpenSubgroup K V.1
   left_inv N := by
@@ -2678,7 +2233,7 @@ abbrev LocalNormSubgroupsPrimeTo (p : ℕ) : Type :=
 
 /-- The matching Galois carrier: abelian layers of degree prime to `p`. -/
 abbrev AbelianLayerPrimeTo (p : ℕ) : Type :=
-  {V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K) //
+  {V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K) //
     IsAbelianClassFieldLayer V ∧
       Nat.Coprime (NormalLayer.ofOpenNormal V).degree p}
 
@@ -2686,7 +2241,7 @@ abbrev AbelianLayerPrimeTo (p : ℕ) : Type :=
 the class field lands in `AbelianLayerPrimeTo`. -/
 theorem exists_localClassField_primeToResidueCharacteristic
     (p : ℕ) [Fact p.Prime] [CharP 𝓀[K] p] (N : LocalNormSubgroupsPrimeTo K p) :
-    ∃ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
+    ∃ V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K),
       (IsAbelianClassFieldLayer V ∧ Nat.Coprime (NormalLayer.ofOpenNormal V).degree p) ∧
         localNormSubgroup K V = N.1.toSubgroup := by
   haveI := N.2.1
@@ -2772,7 +2327,7 @@ through `ClassFormation.ker_artinMap` at every finite layer, and it says nothing
 that intersection is trivial. -/
 theorem ker_artinMap_eq_iInf :
     (artinMap K).ker =
-      ⨅ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
+      ⨅ V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K),
         localNormSubgroup K V :=
   sorry
 
@@ -3062,13 +2617,13 @@ variable (L : Type) [Field L] [NumberField L] [Algebra K L]
 
 /-- The formation assembled from idele class groups of the finite separable extensions of `K`
 inside a fixed separable closure. -/
-noncomputable def globalFormation : Formation (ProfiniteCohomology.AbsoluteGaloisGroup K) :=
+noncomputable def globalFormation : Formation (TauCeti.AbsoluteGaloisGroup K) :=
   sorry
 
 /-- The formation assembled from the idele groups themselves, rather than the idele classes. The
 sum of local invariants is defined on its layers, where `H²` splits as a direct sum of local Brauer
 groups, and only then descends to the idele-class layers. -/
-noncomputable def ideleFormation : Formation (ProfiniteCohomology.AbsoluteGaloisGroup K) :=
+noncomputable def ideleFormation : Formation (TauCeti.AbsoluteGaloisGroup K) :=
   sorry
 
 /-- The formation assembled from the multiplicative groups `Lˣ` of the finite separable extensions
@@ -3076,8 +2631,8 @@ themselves, the first term of `1 → Lˣ → I_L → C_L → 1`. Its finite-laye
 Brauer group `Br(L/K)`, and its `H³` carries the obstruction to lifting an idele-class layer class
 to the idele layer. -/
 noncomputable def multiplicativeFormation :
-    Formation (ProfiniteCohomology.AbsoluteGaloisGroup K) :=
-  sorry
+    Formation (TauCeti.AbsoluteGaloisGroup K) :=
+  fieldFormation K
 
 /-! ### The global Brauer sequence and the sum of local invariants
 
@@ -3186,7 +2741,7 @@ The layer invariant is the sum of local invariants, computed on the idele layer 
 the idele-class layer. It is *defined* here, before `globalClassFormation` consumes it. -/
 
 /-- The comparison `H²(Gal(L/K), I_L) → H²(Gal(L/K), C_L)` induced by `I_L → C_L`. -/
-noncomputable def ideleToClassH2 (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+noncomputable def ideleToClassH2 (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K)) :
     Lay.H (ideleFormation K) 2 →+ Lay.H (globalFormation K) 2 :=
   sorry
 
@@ -3194,14 +2749,14 @@ noncomputable def ideleToClassH2 (Lay : NormalLayer (ProfiniteCohomology.Absolut
 It is the input from which inflation `H²(Gal(L/K), C_L) → H²(Gal(M/K), C_M)` is injective and the
 inflation–restriction sequence in degree two is exact, both used below. -/
 theorem subsingleton_h1_globalFormation
-    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K)) :
     Subsingleton (Lay.H (globalFormation K) 1) :=
   sorry
 
 /-- **The first fundamental inequality**: for a cyclic layer the norm index is at least the degree
 (Milne VII §4, from the Herbrand quotient of the idele classes). -/
 theorem degree_le_card_normQuotient_of_isCyclic
-    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) [IsCyclic Lay.Gal] :
+    (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K)) [IsCyclic Lay.Gal] :
     Lay.degree ≤ Nat.card (Lay.NormQuotient (globalFormation K)) :=
   sorry
 
@@ -3209,7 +2764,7 @@ theorem degree_le_card_normQuotient_of_isCyclic
 divides `[L:K]` (Milne VII, Theorem 5.1(c)). Together with a class of order `[L:K]` this is what
 identifies the group. -/
 theorem card_H2_globalFormation_dvd_degree
-    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K)) :
     Nat.card (Lay.H (globalFormation K) 2) ∣ Lay.degree :=
   sorry
 
@@ -3227,42 +2782,42 @@ order `lcm_v [L_w : K_v]`, which is everything only when some decomposition grou
 `Gal(L/K)`. The cyclic case is the one where the lift always exists: there
 `H³(Gal(L/K), Lˣ) ≃ H¹(Gal(L/K), Lˣ) = 0` by periodicity and Hilbert 90. -/
 theorem surjective_ideleToClassH2_of_isCyclic
-    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) [IsCyclic Lay.Gal] :
+    (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K)) [IsCyclic Lay.Gal] :
     Function.Surjective (ideleToClassH2 K Lay) :=
   sorry
 
 /-- **The obstruction to lifting**: the connecting homomorphism
 `H²(Gal(L/K), C_L) → H³(Gal(L/K), Lˣ)` of `1 → Lˣ → I_L → C_L → 1`. -/
 noncomputable def classToMultiplicativeH3
-    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K)) :
     Lay.H (globalFormation K) 2 →+ Lay.H (multiplicativeFormation K) 3 :=
   sorry
 
 /-- **Exactness at the idele-class layer**: a class lifts to the idele layer exactly when its
 obstruction vanishes. This is the precise form of the failure of surjectivity above. -/
 theorem range_ideleToClassH2
-    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K)) :
     (ideleToClassH2 K Lay).range = (classToMultiplicativeH3 K Lay).ker :=
   sorry
 
 /-- The local component of an idele-layer class at a finite place, in invariant coordinates. -/
-noncomputable def ideleLocalInvAt (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K))
+noncomputable def ideleLocalInvAt (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K))
     (v : HeightOneSpectrum (𝓞 K)) : Lay.H (ideleFormation K) 2 →+ RatModInt :=
   sorry
 
 /-- The local component of an idele-layer class at an archimedean place. -/
 noncomputable def ideleInfiniteInvAt
-    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K))
+    (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K))
     (w : NumberField.InfinitePlace K) : Lay.H (ideleFormation K) 2 →+ RatModInt :=
   sorry
 
 /-- The finite places at which an idele-layer class is ramified. -/
-noncomputable def ideleSupport (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K))
+noncomputable def ideleSupport (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K))
     (x : Lay.H (ideleFormation K) 2) : Finset (HeightOneSpectrum (𝓞 K)) :=
   sorry
 
 theorem ideleLocalInvAt_eq_zero_of_not_mem
-    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K))
+    (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K))
     (x : Lay.H (ideleFormation K) 2) (v : HeightOneSpectrum (𝓞 K))
     (hv : v ∉ ideleSupport K Lay x) :
     ideleLocalInvAt K Lay v x = 0 :=
@@ -3271,7 +2826,7 @@ theorem ideleLocalInvAt_eq_zero_of_not_mem
 /-- **The sum of local invariants on an idele layer.** `H²(Gal(L/K), I_L) = ⨁_v Br(L_w/K_v)`, and
 this is the sum of the local invariants of the components. -/
 noncomputable def ideleSumLocalInv
-    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K))
+    (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K))
     (x : Lay.H (ideleFormation K) 2) : RatModInt :=
   (∑ v ∈ ideleSupport K Lay x, ideleLocalInvAt K Lay v x) +
     ∑ w : NumberField.InfinitePlace K, ideleInfiniteInvAt K Lay w x
@@ -3279,7 +2834,7 @@ noncomputable def ideleSumLocalInv
 /-- The sum of local invariants is inflation-invariant on idele layers: each local invariant is,
 which is the fifth class-formation axiom at every completion. -/
 theorem ideleSumLocalInv_infl
-    {Lay Lay' : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+    {Lay Lay' : NormalLayer (TauCeti.AbsoluteGaloisGroup K)}
     (T : LayerRefinement Lay Lay') (x : Lay.H (ideleFormation K) 2) :
     ideleSumLocalInv K Lay' (T.cohomologyInfl (ideleFormation K) 2 x) =
       ideleSumLocalInv K Lay x :=
@@ -3297,8 +2852,8 @@ invariant `1/[L:K]`. Adjoin a cyclic cyclotomic extension `K'/K` one of whose lo
 divisible by `[L:K]` (Milne VII, Lemma 7.3) and take a class supported at that place; the
 refinement is the layer of `L·K'/K`. -/
 theorem exists_refinement_ideleSumLocalInv_eq
-    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
-    ∃ (Lay' : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K))
+    (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K)) :
+    ∃ (Lay' : NormalLayer (TauCeti.AbsoluteGaloisGroup K))
       (_ : LayerRefinement Lay Lay') (y : Lay'.H (ideleFormation K) 2),
       ideleSumLocalInv K Lay' y = fundamentalInvariant Lay.degree :=
   sorry
@@ -3315,8 +2870,8 @@ layer; by `subsingleton_h1_globalFormation` the kernel of restriction is the inf
 the image of the idele layer. The same argument gives `globalInv_injective` and `globalInv_range`
 (Milne VIII §4, Theorem 4.7). -/
 theorem exists_refinement_mem_range_ideleToClassH2
-    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
-    ∃ (Lay' : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K))
+    (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K)) :
+    ∃ (Lay' : NormalLayer (TauCeti.AbsoluteGaloisGroup K))
       (T : LayerRefinement Lay Lay'), ∀ x : Lay.H (globalFormation K) 2,
       T.cohomologyInfl (globalFormation K) 2 x ∈ (ideleToClassH2 K Lay').range :=
   sorry
@@ -3328,7 +2883,7 @@ image of `H²(Gal(M/K), Mˣ)` by `range_ideleToClassH2` and the injectivity of i
 image has invariant sum zero (`sumLocalInv_eq_zero`); the sums themselves are unchanged by
 inflation (`ideleSumLocalInv_infl`). -/
 theorem ideleSumLocalInv_eq_of_ideleToClassH2_eq
-    {Lay Lay₁ Lay₂ : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+    {Lay Lay₁ Lay₂ : NormalLayer (TauCeti.AbsoluteGaloisGroup K)}
     (T₁ : LayerRefinement Lay Lay₁) (T₂ : LayerRefinement Lay Lay₂)
     (x : Lay.H (globalFormation K) 2)
     (y₁ : Lay₁.H (ideleFormation K) 2) (y₂ : Lay₂.H (ideleFormation K) 2)
@@ -3343,7 +2898,7 @@ class it is the value at any refinement where the inflated class lifts
 (`exists_refinement_mem_range_ideleToClassH2`), which `ideleSumLocalInv_eq_of_ideleToClassH2_eq`
 makes independent of the refinement and of the lift. It is pinned by the two equations
 `globalInv_ideleToClassH2` and `globalInv_infl`, and `globalInv_unique` says those determine it. -/
-noncomputable def globalInv (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+noncomputable def globalInv (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K)) :
     Lay.H (globalFormation K) 2 →+ RatModInt :=
   sorry
 
@@ -3352,7 +2907,7 @@ class that lifts to the idele layer is the sum of the local invariants of any li
 defined because the sum of local invariants kills the image of `H²(Gal(L/K), Lˣ)`, i.e. because of
 `sumLocalInv_eq_zero`. -/
 theorem globalInv_ideleToClassH2
-    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K))
+    (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K))
     (x : Lay.H (ideleFormation K) 2) :
     globalInv K Lay (ideleToClassH2 K Lay x) = ideleSumLocalInv K Lay x :=
   sorry
@@ -3360,7 +2915,7 @@ theorem globalInv_ideleToClassH2
 /-- **Inflation invariance, the second defining equation.** With `globalInv_ideleToClassH2` and
 `exists_refinement_mem_range_ideleToClassH2` it determines `globalInv` on every class. -/
 theorem globalInv_infl
-    {Lay Lay' : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+    {Lay Lay' : NormalLayer (TauCeti.AbsoluteGaloisGroup K)}
     (T : LayerRefinement Lay Lay') (x : Lay.H (globalFormation K) 2) :
     globalInv K Lay' (T.cohomologyInfl (globalFormation K) 2 x) = globalInv K Lay x :=
   sorry
@@ -3369,15 +2924,15 @@ theorem globalInv_infl
 equations agrees with `globalInv`: the invariant is pinned by the sum formula and inflation
 invariance, not by the details of a construction. -/
 theorem globalInv_unique
-    (f : ∀ Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K),
+    (f : ∀ Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K),
       Lay.H (globalFormation K) 2 →+ RatModInt)
-    (hdesc : ∀ (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K))
+    (hdesc : ∀ (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K))
       (y : Lay.H (ideleFormation K) 2),
       f Lay (ideleToClassH2 K Lay y) = ideleSumLocalInv K Lay y)
-    (hinfl : ∀ {Lay Lay' : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+    (hinfl : ∀ {Lay Lay' : NormalLayer (TauCeti.AbsoluteGaloisGroup K)}
       (T : LayerRefinement Lay Lay') (x : Lay.H (globalFormation K) 2),
       f Lay' (T.cohomologyInfl (globalFormation K) 2 x) = f Lay x)
-    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K))
+    (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K))
     (x : Lay.H (globalFormation K) 2) :
     f Lay x = globalInv K Lay x :=
   sorry
@@ -3385,12 +2940,12 @@ theorem globalInv_unique
 /-- The class-formation axiom of injectivity, obtained as in
 `exists_refinement_mem_range_ideleToClassH2`: `H²(Gal(L/K), C_L)` is cyclic of order `[L:K]`,
 generated by a class of invariant `1/[L:K]`. -/
-theorem globalInv_injective (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+theorem globalInv_injective (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K)) :
     Function.Injective (globalInv K Lay) :=
   sorry
 
 /-- The class-formation axiom on the image, from the same argument. -/
-theorem globalInv_range (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+theorem globalInv_range (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K)) :
     Set.range (globalInv K Lay) = (ratModIntTorsion Lay.degree : Set RatModInt) :=
   sorry
 
@@ -3405,7 +2960,7 @@ noncomputable def globalClassFormation : ClassFormation (globalFormation K) :=
 /-- The invariant of the global class formation is the named sum-of-local-invariants map, not an
 independently chosen normalization. -/
 theorem globalClassFormation_inv
-    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K)) :
     (globalClassFormation K).inv Lay = globalInv K Lay :=
   sorry
 
@@ -3414,7 +2969,7 @@ stated once the class formation exists; it may not be used in the construction o
 `globalClassFormation`, whose invariant is `globalInv` by definition. The local components of any
 idele-layer lift of the global fundamental class sum to `1/[L:K]`. -/
 theorem ideleSumLocalInv_fundamentalClass
-    (Lay : NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K))
+    (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K))
     (x : Lay.H (ideleFormation K) 2)
     (hx : ideleToClassH2 K Lay x = (globalClassFormation K).fundamentalClass Lay) :
     ideleSumLocalInv K Lay x = fundamentalInvariant Lay.degree := by
@@ -3424,7 +2979,7 @@ theorem ideleSumLocalInv_fundamentalClass
 /-- The normal layer associated to a finite Galois extension `L/K`. -/
 noncomputable def globalLayer [Module.Finite K L] [IsGalois K L]
     (iota : L →ₐ[K] SeparableClosure K) :
-    NormalLayer (ProfiniteCohomology.AbsoluteGaloisGroup K) :=
+    NormalLayer (TauCeti.AbsoluteGaloisGroup K) :=
   sorry
 
 /-- Principal ideles, on the carrier owned by `GlobalNumberFields`. -/
@@ -3849,29 +3404,29 @@ noncomputable def globalGroundEquiv :
 /-- **The norm subgroup of `C_K` cut out by an open normal subgroup of `G_K`**: the norm subgroup
 of the layer `V ◁ ⊤`, read through `globalGroundEquiv`. -/
 noncomputable def globalNormSubgroup
-    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    (V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K)) :
     Subgroup (GlobalNumberFields.IdeleClassGroup K) :=
   AddSubgroup.toSubgroup'
-    (((NormalLayer.ofOpenNormal V).normSubgroup (globalFormation K)).comap
+    (((NormalLayer.ofOpenNormal V).normSubgroup (globalFormation K)).toAddSubgroup.comap
       (globalGroundEquiv K).toAddMonoidHom)
 
 /-- Idele-class norm subgroups are open. -/
 theorem isOpen_globalNormSubgroup
-    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    (V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K)) :
     IsOpen ((globalNormSubgroup K V : Subgroup (GlobalNumberFields.IdeleClassGroup K)) :
       Set (GlobalNumberFields.IdeleClassGroup K)) :=
   sorry
 
 /-- Idele-class norm subgroups have finite index. -/
 theorem finiteIndex_globalNormSubgroup
-    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    (V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K)) :
     (globalNormSubgroup K V).FiniteIndex :=
   sorry
 
 /-- The idele-class norm subgroup is monotone in the layer subgroup, hence reverses inclusion of
 fields. -/
 theorem globalNormSubgroup_mono
-    {V W : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)} (h : V ≤ W) :
+    {V W : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K)} (h : V ≤ W) :
     globalNormSubgroup K V ≤ globalNormSubgroup K W :=
   sorry
 
@@ -3880,7 +3435,7 @@ maximal abelian subextension have the same idele-class norm subgroup. This is th
 `ClassFormation.normSubgroup_maximalAbelianLayer` transported through `globalGroundEquiv`, and it
 is why `globalExistence` alone cannot name a class field. -/
 theorem globalNormSubgroup_maximalAbelianLayer
-    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    (V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K)) :
     globalNormSubgroup K (maximalAbelianLayer V) = globalNormSubgroup K V := by
   simp only [globalNormSubgroup,
     ClassFormation.normSubgroup_maximalAbelianLayer (globalClassFormation K) V]
@@ -3897,7 +3452,7 @@ abbrev GlobalNormSubgroups : Type :=
 
 /-- The idele-class norm subgroup of a layer as an element of the source carrier. -/
 noncomputable def globalNormOpenSubgroup
-    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    (V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K)) :
     GlobalNormSubgroups K :=
   ⟨⟨globalNormSubgroup K V, isOpen_globalNormSubgroup K V⟩, finiteIndex_globalNormSubgroup K V⟩
 
@@ -3917,9 +3472,9 @@ Grunwald–Wang theorem, which the existence theorem does not use. -/
 subgroup of a layer is the norm subgroup of an abelian layer, namely the preimage under the abstract
 Artin map of its image in the abelianized Galois group. -/
 theorem exists_abelianLayer_globalNormSubgroup_eq_of_le
-    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K))
+    (V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K))
     (N : Subgroup (GlobalNumberFields.IdeleClassGroup K)) (hN : globalNormSubgroup K V ≤ N) :
-    ∃ W : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
+    ∃ W : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K),
       IsAbelianClassFieldLayer W ∧ globalNormSubgroup K W = N :=
   sorry
 
@@ -3932,9 +3487,9 @@ resulting layer over `K` by its maximal abelian sublayer using
 roots-of-unity adjunction of the existence proof. -/
 theorem exists_abelianLayer_globalNormSubgroup_eq_of_comap_ideleClassNorm [Module.Finite K L]
     (N : Subgroup (GlobalNumberFields.IdeleClassGroup K))
-    (h : ∃ W : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup L),
+    (h : ∃ W : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup L),
       IsAbelianClassFieldLayer W ∧ globalNormSubgroup L W = N.comap (ideleClassNorm K L)) :
-    ∃ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
+    ∃ V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K),
       IsAbelianClassFieldLayer V ∧ globalNormSubgroup K V = N :=
   sorry
 
@@ -3965,7 +3520,7 @@ noncomputable def kummerNormSubgroup (S : Finset (HeightOneSpectrum (𝓞 K))) (
 /-- **The Kummer layer of the `S`-units**: the open normal subgroup of `G_K` cutting out
 `K(U(S)^{1/p})`, pinned by `classField_sUnitsKummerLayer`. -/
 noncomputable def sUnitsKummerLayer (S : Finset (HeightOneSpectrum (𝓞 K))) (p : ℕ) :
-    OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K) :=
+    OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K) :=
   sorry
 
 /-- The characterizing equation of `sUnitsKummerLayer`: the field it cuts out is generated by the
@@ -4031,7 +3586,7 @@ theorem exists_abelianLayer_globalNormSubgroup_eq_of_pow_mem (p : ℕ) [Fact p.P
     (N : Subgroup (GlobalNumberFields.IdeleClassGroup K))
     (hN : IsOpen (N : Set (GlobalNumberFields.IdeleClassGroup K)))
     (hp : ∀ c : GlobalNumberFields.IdeleClassGroup K, c ^ p ∈ N) :
-    ∃ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
+    ∃ V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K),
       IsAbelianClassFieldLayer V ∧ globalNormSubgroup K V = N :=
   sorry
 
@@ -4052,7 +3607,7 @@ theorem. -/
 theorem globalAbelianExistence
     (N : Subgroup (GlobalNumberFields.IdeleClassGroup K))
     (hN : IsOpen (N : Set (GlobalNumberFields.IdeleClassGroup K))) [N.FiniteIndex] :
-    ∃ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
+    ∃ V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K),
       IsAbelianClassFieldLayer V ∧ globalNormSubgroup K V = N :=
   sorry
 
@@ -4062,7 +3617,7 @@ norm subgroup. It is **not** the class-field correspondence, because
 theorem globalExistence
     (N : Subgroup (GlobalNumberFields.IdeleClassGroup K))
     (hN : IsOpen (N : Set (GlobalNumberFields.IdeleClassGroup K))) [N.FiniteIndex] :
-    ∃ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
+    ∃ V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K),
       globalNormSubgroup K V = N :=
   (globalAbelianExistence K N hN).imp fun _ h => h.2
 
@@ -4070,7 +3625,7 @@ theorem globalExistence
 Together with `globalAbelianExistence` this is what makes "the class field attached to `N`" a
 definition rather than a choice. -/
 theorem globalClassField_unique
-    {V W : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+    {V W : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K)}
     (hV : IsAbelianClassFieldLayer V) (hW : IsAbelianClassFieldLayer W)
     (h : globalNormSubgroup K V = globalNormSubgroup K W) :
     V = W :=
@@ -4078,7 +3633,7 @@ theorem globalClassField_unique
 
 /-- Global existence on the bundled carrier. -/
 theorem exists_globalClassField (N : GlobalNormSubgroups K) :
-    ∃ V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K),
+    ∃ V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K),
       IsAbelianClassFieldLayer V ∧ globalNormSubgroup K V = N.1.toSubgroup :=
   haveI := N.2
   globalAbelianExistence K N.1.toSubgroup N.1.isOpen
@@ -4088,7 +3643,7 @@ abelian layer produced by `globalAbelianExistence`, unique by `globalClassField_
 Hilbert, narrow Hilbert, ray and quadratic-order ring class fields are all values of `classField`
 at particular norm subgroups, never independent constructions. -/
 noncomputable def globalClassField (N : GlobalNormSubgroups K) :
-    AbelianLayer (ProfiniteCohomology.AbsoluteGaloisGroup K) :=
+    AbelianLayer (TauCeti.AbsoluteGaloisGroup K) :=
   ⟨(exists_globalClassField K N).choose, (exists_globalClassField K N).choose_spec.1⟩
 
 /-- **The characterizing equation of `globalClassField`:** its norm subgroup is `N`. -/
@@ -4115,7 +3670,7 @@ theorem globalClassField_orderReversing (N₁ N₂ : GlobalNormSubgroups K) :
 open finite-index subgroups of `C_K` and the finite abelian extensions of `K`, read through
 `classField` as the classical order-**reversing** bijection onto fields. -/
 noncomputable def globalClassFieldCorrespondence :
-    GlobalNormSubgroups K ≃o AbelianLayer (ProfiniteCohomology.AbsoluteGaloisGroup K) where
+    GlobalNormSubgroups K ≃o AbelianLayer (TauCeti.AbsoluteGaloisGroup K) where
   toFun N := globalClassField K N
   invFun V := globalNormOpenSubgroup K V.1
   left_inv N := by
@@ -4137,7 +3692,7 @@ order `2`, so its maximal abelian subextension has degree `8`; but the maximal a
 subextensions of the two factors generate only the biquadratic field, of degree `4`. By norm
 limitation the two sides then have indices `8` and `4`, and the formula fails. -/
 theorem globalNormSubgroup_inf_of_isAbelian
-    {V W : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+    {V W : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K)}
     (hV : IsAbelianClassFieldLayer V) (hW : IsAbelianClassFieldLayer W) :
     globalNormSubgroup K (V ⊓ W) = globalNormSubgroup K V ⊓ globalNormSubgroup K W :=
   sorry
@@ -4146,14 +3701,14 @@ theorem globalNormSubgroup_inf_of_isAbelian
 the two fields, is the join of the two norm subgroups; here no abelianity is needed, because the
 maximal abelian sublayer of a join is the join of the maximal abelian sublayers. -/
 theorem globalNormSubgroup_sup
-    (V W : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
+    (V W : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K)) :
     globalNormSubgroup K (V ⊔ W) = globalNormSubgroup K V ⊔ globalNormSubgroup K W :=
   sorry
 
 /-- **The canonical quotient identification `C_K / N_{L/K}(C_L) ≃ Gal(L/K)`** for an abelian layer.
 As in the local case the target is the Galois group of the layer, not an abelianization. -/
 noncomputable def globalAbelianGaloisEquiv
-    {V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+    {V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K)}
     (hV : IsAbelianClassFieldLayer V) :
     GlobalNumberFields.IdeleClassGroup K ⧸ globalNormSubgroup K V ≃*
       (NormalLayer.ofOpenNormal V).Gal :=
@@ -4163,7 +3718,7 @@ noncomputable def globalAbelianGaloisEquiv
 `Abelianization.of` it is the abstract Artin map of the layer, so it is reciprocity and not an
 arbitrary isomorphism of two finite groups of the same order. -/
 theorem globalAbelianGaloisEquiv_artinMap
-    {V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+    {V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K)}
     (hV : IsAbelianClassFieldLayer V) (c : GlobalNumberFields.IdeleClassGroup K) :
     Additive.ofMul (Abelianization.of (globalAbelianGaloisEquiv K hV (QuotientGroup.mk c))) =
       (globalClassFormation K).artinMap (NormalLayer.ofOpenNormal V)
@@ -4173,7 +3728,7 @@ theorem globalAbelianGaloisEquiv_artinMap
 /-- **The index equality `[C_K : N_{L/K}(C_L)] = [L : K]`** for an abelian layer; the layer form of
 `card_ideleClassNormQuotient`. -/
 theorem index_globalNormSubgroup
-    {V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)}
+    {V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K)}
     (hV : IsAbelianClassFieldLayer V) :
     (globalNormSubgroup K V).index = (NormalLayer.ofOpenNormal V).degree :=
   (Subgroup.index_eq_card _).trans (Nat.card_congr (globalAbelianGaloisEquiv K hV).toEquiv)
@@ -4191,13 +3746,13 @@ theorem globalClassField_index (N : GlobalNormSubgroups K) :
     N.1.toSubgroup.index = (NormalLayer.ofOpenNormal (globalClassField K N).1).degree :=
   (globalClassField_normSubgroup K N) ▸ index_globalNormSubgroup K (globalClassField K N).2
 
-/-- The Galois group of the field cut out by an open normal subgroup is the layer's Galois group.
-Composed with `globalClassFieldGaloisEquiv` this gives `Gal(L/K) ≃ C_K / N` for the class field of
-`N`, and it is how the ray-class, Hilbert and ring-class Galois groups below are computed. -/
-noncomputable def galClassFieldEquiv
-    (V : OpenNormalSubgroup (ProfiniteCohomology.AbsoluteGaloisGroup K)) :
-    (classField K V ≃ₐ[K] classField K V) ≃* (NormalLayer.ofOpenNormal V).Gal :=
-  sorry
+/-- The Galois group of the field cut out by an open normal subgroup is the layer's Galois group:
+Tau Ceti's `galClassFieldEquiv`. Composed with `globalClassFieldGaloisEquiv` it gives
+`Gal(L/K) ≃ C_K / N` for the class field of `N`, and it is how the ray-class, Hilbert and
+ring-class Galois groups below are computed. -/
+noncomputable example (V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K)) :
+    Gal(classField K V/K) ≃* (NormalLayer.ofOpenNormal V).Gal :=
+  galClassFieldEquiv V
 
 /-- The norm-index theorem for finite abelian extensions: `[C_K : N C_L] = [L:K]`. -/
 theorem card_ideleClassNormQuotient [Module.Finite K L] [IsAbelianGalois K L] :
