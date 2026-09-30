@@ -196,10 +196,10 @@ starting point for the profinite audit.
 - `LocalGaloisGroups` consumes the local-cohomological row of this roadmap without constructing
   private stand-ins: the coefficient objects and Kummer theory, `GalRep`, `H`, `muNRep` and
   `kummerEquiv_mixed`; degree two and local duality, `finite_H`, `h2MuEquivZMod_mixed`,
-  `h2FpEquivZMod_of_mu`, `tateDualityPairing`, `tateDualityPairing_perfect_mixed` and
+  `h2FpEquivZMod_of_mu`, `tateDual`, `tateDualityPairing`, `tateDualityPairing_perfect_mixed` and
   `eulerCharacteristic_finrank_fp`; the chosen-root comparison of the cup square with duality,
-  `muNRepEquivZMod`, `muNRep_ρ_eq_self`, `kummerCupPairing_bil`, `muNRepToTateDual`,
-  `bijective_muNRepToTateDual` and `tateDualityPairing_muNRepToTateDual`; reciprocity and the
+  `muNRepEquivZMod`, `muNRep_ρ_eq_self`, `kummerCupPairing`, `kummerCupPairing_bil`, `localSymbol`,
+  `muNRepToTateDual`, `bijective_muNRepToTateDual` and `tateDualityPairing_muNRepToTateDual`; reciprocity and the
   orientation, `artinMap`, `restrictAbsolute`, `artinMap_restrict`, `absoluteGaloisGroupExtend`,
   `artinMap_norm`, `denseRange_artinMap`, `localArtinMap`, `normResidue`, `unramifiedCoordinate`,
   `unramifiedCoordinate_artinMap`, `cyclotomicCharacter_artinMap` and
