@@ -8,6 +8,7 @@ import TauCeti.NumberTheory.ClassFieldTheory.Formation.Tate.Corestriction
 import TauCeti.NumberTheory.ClassFieldTheory.Formation.Tate.Cup
 import TauCeti.NumberTheory.ClassFieldTheory.Formation.Tate.Restriction
 import TauCeti.NumberTheory.LocalField.GaloisAction
+import TauCeti.RepresentationTheory.Homological.ContCohomology.TrivialFp
 import TauCeti.RepresentationTheory.Homological.TateCohomology.HerbrandQuotient
 import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic
 import TauCeti.Topology.Algebra.GroupAction.InternalHom
@@ -675,6 +676,13 @@ instance instDiscreteTopologyMuNRep (n : ℕ) (F : Type) [Field F] :
 instance instFiniteMuNRep (n : ℕ) [NeZero n] (F : Type) [Field F] : Finite (muNRep n F).V :=
   inferInstanceAs (Finite (TauCeti.KummerCoeff F n))
 
+/-- `μ_n(Fˢ)` is smooth, as an instance argument (`isSmoothDiscrete_muNRep`). This is how the
+smoothness hypothesis of `finite_H`, local duality and the Euler characteristic is found at
+`muNRep n F`. -/
+instance instFactIsSmoothDiscreteMuNRep (n : ℕ) (F : Type) [Field F] :
+    Fact (TauCeti.IsSmoothDiscrete (ZMod n) (muNRep n F)) :=
+  ⟨isSmoothDiscrete_muNRep n F⟩
+
 /-- **The action on `μ_n(Fˢ)`**: `G_F` acts through `absoluteGaloisGroupComparison`. -/
 theorem muNRep_ρ_apply (n : ℕ) (F : Type) [Field F] (g : Field.absoluteGaloisGroup F)
     (x : TauCeti.KummerCoeff F n) :
@@ -1204,8 +1212,9 @@ attribute [local instance] internalHom_smulCommClass internalHom_continuousSMul
 `GalRep n F` through Tau Ceti's dictionary `TauCeti.ofDiscreteModule`. Its carrier is
 `Hom(A, μ_n)` (`tateDualEquiv`), its action is `(g · φ)(a) = g · φ(g⁻¹ · a)`
 (`tateDualEquiv_ρ_apply`), and it is discrete, finite for finite `A`, and smooth for finite smooth
-discrete `A` (`isSmoothDiscrete_tateDual`). Every theorem below takes `A` finite and discrete, the
-setting in which `Hom(A, μ_n)` is the dual in the category of discrete `G_F`-modules. -/
+discrete `A` (`isSmoothDiscrete_tateDual`). Every duality theorem below takes `A` finite, discrete
+and smooth, the setting in which `Hom(A, μ_n)` is the dual in the category of discrete
+`G_F`-modules. -/
 noncomputable def tateDual (A : GalRep n F) : GalRep n F :=
   TauCeti.ofDiscreteModule (ZMod n) (Field.absoluteGaloisGroup F)
     (TauCeti.InternalHom (Field.absoluteGaloisGroup F) A.V (muNRep n F).V)
@@ -1245,6 +1254,13 @@ theorem isSmoothDiscrete_tateDual (A : GalRep n F) [DiscreteTopology A.V] [Finit
     TauCeti.IsSmoothDiscrete (ZMod n) (tateDual A) := by
   have := hA.continuousSMul
   exact TauCeti.ofDiscreteModule_isSmoothDiscrete (ZMod n) (Field.absoluteGaloisGroup F) _
+
+/-- The Tate dual of a finite smooth discrete module is smooth, as an instance argument
+(`isSmoothDiscrete_tateDual`). -/
+instance instFactIsSmoothDiscreteTateDual (A : GalRep n F) [DiscreteTopology A.V] [Finite A.V]
+    [hA : Fact (TauCeti.IsSmoothDiscrete (ZMod n) A)] :
+    Fact (TauCeti.IsSmoothDiscrete (ZMod n) (tateDual A)) :=
+  ⟨isSmoothDiscrete_tateDual A hA.out⟩
 
 /-- **The invariants of the Tate dual are the equivariant maps**: `g` fixes `φ` exactly when `φ`
 commutes with `g`, so `H⁰(G_F, Hom(A, μ_n)) = Hom_{G_F}(A, μ_n)`. Tau Ceti's
@@ -1371,17 +1387,37 @@ end TateDual
 
 The order is `finite_H`, then duality, then the Euler characteristic: duality is proved from the
 Hilbert pairing, Shapiro's lemma and a count that uses `finite_H`, and the Euler characteristic
-uses the `(0, 2)` case of duality for its additivity. -/
+uses the `(0, 2)` case of duality for its additivity.
 
-/-- Finiteness in local cohomological degrees zero through two, for a finite **discrete** module.
-Shapiro's lemma and dimension shifting reduce it to an open `G_L` acting trivially with
-`μ_ℓ ⊆ L` for each prime `ℓ` dividing `#A`, and there to `ℤ/ℓ ≅ μ_ℓ`, where `H¹` is
-`Lˣ/(Lˣ)^ℓ` (`kummerEquiv_mixed`, finite by `LocalFieldsRamification.card_powerClasses_mixed`)
-and `H²` is `ℤ/ℓ` (`h2MuEquivZMod_mixed`). -/
+**Smoothness is a hypothesis.** `GalRep n F` is Mathlib's `TopRep`, whose operators are continuous
+one group element at a time, so a discrete carrier does not make the action continuous in the group
+variable. `finite_H`, `tateDualityPairing_perfect_mixed` and both Euler-characteristic theorems
+therefore carry Tau Ceti's `TauCeti.IsSmoothDiscrete (ZMod n) A`, every point stabilizer open, as
+the instance argument `[Fact (TauCeti.IsSmoothDiscrete (ZMod n) A)]`. For finite `A` it makes the
+kernel of the action, the intersection of the stabilizers of the elements of `A`, an open subgroup
+`G_L`, and the finite Galois extension `L/F` it cuts out is where each reduction below starts; it
+is also the hypothesis under which `ProfiniteCohomology` supplies Shapiro's lemma and corestriction.
+It is found by instance search at `muNRep n F` (`instFactIsSmoothDiscreteMuNRep`), at the Tate dual
+of a finite smooth discrete module (`instFactIsSmoothDiscreteTateDual`) and at the trivial module
+`𝔽_p` (`instFactIsSmoothDiscreteTrivialFp`). -/
+
+/-- The trivial module `𝔽_p` of `G_F`, Tau Ceti's `trivialFp`, is smooth, as an instance argument
+(Tau Ceti's `isSmoothDiscrete_trivialFp`). -/
+instance instFactIsSmoothDiscreteTrivialFp (p : ℕ) (F : Type) [Field F] :
+    Fact (TauCeti.IsSmoothDiscrete (ZMod p) (TauCeti.trivialFp p (Field.absoluteGaloisGroup F))) :=
+  ⟨TauCeti.isSmoothDiscrete_trivialFp p _⟩
+
+/-- Finiteness in local cohomological degrees zero through two, for a finite smooth discrete
+module. Smoothness makes the kernel of the action an open `G_L`; enlarging `L`, take `μ_ℓ ⊆ L` for
+each prime `ℓ` dividing `#A`. Shapiro's lemma and dimension shifting along
+`0 → A → Coind_{G_L}^{G_F} A → A₂ → 0` reduce it to `G_L` acting trivially, and there to
+`ℤ/ℓ ≅ μ_ℓ`, where `H¹` is `Lˣ/(Lˣ)^ℓ` (`kummerEquiv_mixed`, finite by
+`LocalFieldsRamification.card_powerClasses_mixed`) and `H²` is `ℤ/ℓ` (`h2MuEquivZMod_mixed`). -/
 theorem finite_H (p : ℕ) [Fact p.Prime] (F : Type) [Field F] [ValuativeRel F]
     [TopologicalSpace F] [IsNonarchimedeanLocalField F] [Algebra ℚ_[p] F]
     [Module.Finite ℚ_[p] F] (n : ℕ) (_hn : n ≠ 0) (A : GalRep n F)
-    (_hA : Finite A.V) [DiscreteTopology A.V] (i : ℕ) (_hi : i ≤ 2) :
+    (_hA : Finite A.V) [DiscreteTopology A.V] [Fact (TauCeti.IsSmoothDiscrete (ZMod n) A)]
+    (i : ℕ) (_hi : i ≤ 2) :
     Finite (H n F i A) :=
   sorry
 
@@ -1455,19 +1491,22 @@ theorem tateDualityPairing_muNRepToTateDual {n : ℕ} [NeZero n] {F : Type} [Fie
   exact congrArg (fun z => tr (ProfiniteCohomology.degreeCast (by norm_num) (muNRep n F) z))
     (hid (1 + 1) _)
 
-/-- Perfect local Tate duality in mixed characteristic, for the named evaluation pairing. The
-base case is the Hilbert pairing over a field containing `μ_n`
+/-- Perfect local Tate duality in mixed characteristic, for the named evaluation pairing and a
+finite smooth discrete module. The base case is the Hilbert pairing over a field containing `μ_n`
 (`localSymbol_kummerClass_eq_zero_iff` in degree `(1,1)`, `h2MuEquivZMod_mixed` in degrees `(0,2)`
 and `(2,0)`); coinduction from such a field and Shapiro's lemma, with corestriction preserving the
-invariant, give it for coinduced modules; the four lemma along `0 → A → Coind A → A'' → 0` and its
+invariant, give it for coinduced modules; the four lemma along `0 → A → Coind A → A'' → 0`, with
+`Coind A` coinduced from the open kernel `G_L` of the action enlarged so that `μ_n ⊆ L`, and its
 dual makes the three maps `Hⁱ(A) → H²⁻ⁱ(Hom(A, μ_n))^∨` injective for every `A`, and applied to `A`
-and to its dual these injections between finite groups (`finite_H`) are bijections. -/
+and to its dual, smooth by `isSmoothDiscrete_tateDual`, these injections between finite groups
+(`finite_H`) are bijections. -/
 theorem tateDualityPairing_perfect_mixed (p : ℕ) [Fact p.Prime]
     (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F]
     [IsNonarchimedeanLocalField F] [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F]
     (n : ℕ) (_hn : n ≠ 0) (A : GalRep n F)
     (tr : H n F 2 (muNRep n F) ≃+ ZMod n) (_hA : Finite A.V)
-    [DiscreteTopology A.V] (i j : ℕ) (hij : i + j = 2) :
+    [DiscreteTopology A.V] [Fact (TauCeti.IsSmoothDiscrete (ZMod n) A)]
+    (i j : ℕ) (hij : i + j = 2) :
     (∀ x : H n F i (tateDual A),
         (∀ y : H n F j A, tateDualityPairing A tr i j hij x y = 0) → x = 0) ∧
       (∀ φ : H n F j A →+ ZMod n, ∃ x : H n F i (tateDual A),
@@ -1475,10 +1514,11 @@ theorem tateDualityPairing_perfect_mixed (p : ℕ) [Fact p.Prime]
   sorry
 
 /-- **Cardinality form of the mixed-characteristic local Euler characteristic**, for a finite
-discrete module: `#H¹ = #H⁰ · #H² · p^{[F:ℚ_p] v_p(#A)}`. The three groups are finite by `finite_H`.
-The proof is the dévissage of `README.md` Layer 5: both sides are multiplicative in short exact
-sequences (the `(0,2)` case of `tateDualityPairing_perfect_mixed` makes `H²` right exact), so they
-descend to the Grothendieck group of `𝔽_ℓ[Gal(L/K)]`-modules, where the modular Artin theorem of
+smooth discrete module: `#H¹ = #H⁰ · #H² · p^{[F:ℚ_p] v_p(#A)}`. The three groups are finite by
+`finite_H`. The proof is the dévissage of `README.md` Layer 5: both sides are multiplicative in
+short exact sequences (the `(0,2)` case of `tateDualityPairing_perfect_mixed` makes `H²` right
+exact), so they descend to the Grothendieck group of `𝔽_ℓ[Gal(L/K)]`-modules, `L/K` the finite
+Galois extension cut out by the open kernel of the action, where the modular Artin theorem of
 `RepresentationTheory/ModularInduction` reduces them to modules induced from cyclic subgroups of
 order prime to `ℓ`; there Shapiro's lemma, semisimplicity, duality, equivariant Kummer theory and
 the class of `Lˣ/(Lˣ)^ℓ` (through Mathlib's normal basis `IsGalois.normalBasis` when `ℓ = p`)
@@ -1486,23 +1526,51 @@ compute both. -/
 theorem eulerCharacteristic_mixed (p : ℕ) [Fact p.Prime]
     (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F]
     [IsNonarchimedeanLocalField F] [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F]
-    (n : ℕ) (_hn : n ≠ 0) (A : GalRep n F) (_hA : Finite A.V) [DiscreteTopology A.V] :
+    (n : ℕ) (_hn : n ≠ 0) (A : GalRep n F) (_hA : Finite A.V) [DiscreteTopology A.V]
+    [Fact (TauCeti.IsSmoothDiscrete (ZMod n) A)] :
     Nat.card (H n F 1 A)
       = Nat.card (H n F 0 A) * Nat.card (H n F 2 A)
         * p ^ (Module.finrank ℚ_[p] F * padicValNat p (Nat.card A.V)) :=
   sorry
 
-/-- The `𝔽_p` Euler-characteristic formula consumed by `LocalGaloisGroups`, for a finite discrete
-module: `eulerCharacteristic_mixed` at `n = p`, read in `𝔽_p`-dimensions. -/
+/-- The `𝔽_p` Euler-characteristic formula consumed by `LocalGaloisGroups`, for a finite smooth
+discrete module: `eulerCharacteristic_mixed` at `n = p`, read in `𝔽_p`-dimensions. -/
 theorem eulerCharacteristic_finrank_fp (p : ℕ) [Fact p.Prime]
     (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F]
     [IsNonarchimedeanLocalField F] [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F]
-    (A : GalRep p F) (_hA : Finite A.V) [DiscreteTopology A.V] :
+    (A : GalRep p F) (_hA : Finite A.V) [DiscreteTopology A.V]
+    [Fact (TauCeti.IsSmoothDiscrete (ZMod p) A)] :
     Module.finrank (ZMod p) (H p F 1 A)
       = Module.finrank (ZMod p) (H p F 0 A)
         + Module.finrank (ZMod p) (H p F 2 A)
         + Module.finrank ℚ_[p] F * Module.finrank (ZMod p) A.V :=
   sorry
+
+/-! The smoothness hypotheses are found by instance search at the modules `LocalGaloisGroups`
+applies these theorems to: duality at `μ_p`, finiteness at its Tate dual, and the Euler
+characteristic at the trivial module `𝔽_p`. -/
+
+example (p : ℕ) [Fact p.Prime] (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F]
+    [IsNonarchimedeanLocalField F] [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F]
+    (tr : H p F 2 (muNRep p F) ≃+ ZMod p) (x : H p F 1 (tateDual (muNRep p F)))
+    (hx : ∀ y : H p F 1 (muNRep p F), tateDualityPairing (muNRep p F) tr 1 1 rfl x y = 0) :
+    x = 0 :=
+  (tateDualityPairing_perfect_mixed p F p (NeZero.ne p) (muNRep p F) tr inferInstance 1 1
+    rfl).1 x hx
+
+example (p : ℕ) [Fact p.Prime] (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F]
+    [IsNonarchimedeanLocalField F] [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F] (i : ℕ)
+    (hi : i ≤ 2) : Finite (H p F i (tateDual (muNRep p F))) :=
+  finite_H p F p (NeZero.ne p) (tateDual (muNRep p F)) inferInstance i hi
+
+example (p : ℕ) [Fact p.Prime] (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F]
+    [IsNonarchimedeanLocalField F] [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F] :
+    Module.finrank (ZMod p) (H p F 1 (TauCeti.trivialFp p (Field.absoluteGaloisGroup F)))
+      = Module.finrank (ZMod p) (H p F 0 (TauCeti.trivialFp p (Field.absoluteGaloisGroup F)))
+        + Module.finrank (ZMod p) (H p F 2 (TauCeti.trivialFp p (Field.absoluteGaloisGroup F)))
+        + Module.finrank ℚ_[p] F *
+          Module.finrank (ZMod p) (TauCeti.trivialFp p (Field.absoluteGaloisGroup F)).V :=
+  eulerCharacteristic_finrank_fp p F _ (inferInstanceAs (Finite (ULift (ZMod p))))
 
 /-! ## Layer 6: the local class formation and finite local reciprocity -/
 
@@ -1746,7 +1814,8 @@ is `ProfiniteCohomology.cd_p_le_scd_p`. For `≤ 2`, use the `scd` criterion of 
 Layer 11, `strictCohomologicalDimensionAt_le_iff_forall_openSubgroup` at `n = 2` (NSW (3.3.4)),
 directly on `scd_p` and `cd_p`. Its first condition, `cd_ℓ G_K ≤ 2`, is
 `cd_p_absoluteGaloisGroup_eq_two`. Its second asks for `H³(G_L, ℤ)(ℓ) ≅ H²(G_L, ℚ_ℓ/ℤ_ℓ) = 0` for
-every finite `L/K`; by the `(2,0)` case of `tateDualityPairing_perfect_mixed` the group
+every finite `L/K`; by the `(2,0)` case of `tateDualityPairing_perfect_mixed` at the trivial
+module `ℤ/ℓᵐ`, which is smooth (`TauCeti.isSmoothDiscrete_of_ρ_apply_eq_self`), the group
 `H²(G_L, ℤ/ℓᵐ)` is dual to `μ_{ℓᵐ}(L)`, so the colimit over `m` is dual to the inverse limit of the
 `μ_{ℓᵐ}(L)` under `ℓ`-th powers, which is `0` because `μ_{ℓ^∞}(L)` is finite. -/
 theorem scd_p_absoluteGaloisGroup_eq_two (p : ℕ) [Fact p.Prime] [Algebra ℚ_[p] K]

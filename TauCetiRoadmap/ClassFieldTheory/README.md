@@ -108,7 +108,7 @@ This roadmap owns the following constructions and theorems.
    criterion and nondegeneracy. Before the invariant map: the Herbrand quotient of local units,
    the cyclic norm index and the local `H²` bound.
 5. Local Tate duality for the named evaluation pairing, finiteness of `H⁰`, `H¹`, `H²` of a
-   finite discrete module, and the local Euler-characteristic formula, in cardinality and
+   finite smooth discrete module, and the local Euler-characteristic formula, in cardinality and
    `𝔽_p`-rank form.
 6. The local class formation — built *from* the invariant map of item 4 — local Artin
    reciprocity, and the arithmetic-Frobenius normalization; the cohomological dimensions
@@ -206,8 +206,11 @@ starting point for the profinite audit.
   `cyclotomicCharacter_artinMap_padic`; the class formation and Tate's theorem, `ClassFormation`
   (Tau Ceti's, re-exported), Tau Ceti's `ClassFormation.fundamentalClass` and
   `ClassFormation.fundamentalClass_generates`, and this roadmap's `tateTheorem` and `artinMap_conj`;
-  and `scd_p_absoluteGaloisGroup_eq_two`. `cyclotomicCharacter_artinMap` is proved in Layer 11 from
-  `globalArtinMap_cyclotomic_prime`, so this consumer depends on Layers 10 and 11;
+  and `scd_p_absoluteGaloisGroup_eq_two`. The smoothness hypotheses of `finite_H`,
+  `tateDualityPairing_perfect_mixed` and `eulerCharacteristic_finrank_fp` are instance arguments,
+  found at `μ_p`, at its Tate dual and at the trivial module `𝔽_p`, the modules this consumer uses.
+  `cyclotomicCharacter_artinMap` is proved in Layer 11 from `globalArtinMap_cyclotomic_prime`, so
+  this consumer depends on Layers 10 and 11;
 - `GlobalQuadraticForms` owns Hasse–Minkowski and the global classification of quadratic
   forms, and consumes `hilbertProductFormula`;
 - `QuadraticFormInvariants` owns the norm-equation and quaternion presentations of local
@@ -574,12 +577,12 @@ names may change during implementation, but the mathematical direction of each m
 | the global class field and its uniqueness | `globalClassField`, `globalClassField_normSubgroup`, `globalClassField_unique` |
 | the global correspondence, number fields | `globalClassFieldCorrespondence`, `globalClassField_le_iff`, `globalClassField_orderReversing` |
 | global quotient and degree | `globalAbelianGaloisEquiv`, `globalAbelianGaloisEquiv_artinMap`, `index_globalNormSubgroup`, `globalClassFieldGaloisEquiv`, `globalClassField_index`; Tau Ceti's `galClassFieldEquiv` |
-| continuous local coefficients | `GalRep`, `H`, `muNRep`, `muNRep_ρ_apply`, `isSmoothDiscrete_muNRep`, `kummerClass`, `kummerClass_eq`, `kummerClass_mul`, `kummerEquiv_mixed`, `kummerEquiv_mixed_mk` |
+| continuous local coefficients | `GalRep`, `H`, `muNRep`, `muNRep_ρ_apply`, `isSmoothDiscrete_muNRep`, `instFactIsSmoothDiscreteMuNRep`, `kummerClass`, `kummerClass_eq`, `kummerClass_mul`, `kummerEquiv_mixed`, `kummerEquiv_mixed_mk` |
 | Kummer transport and local Brauer group | `absoluteGaloisGroupComparison`, `comparisonDistribMulAction`, `muNRepCoeffDictionary`, `explicitKummerClass`, `explicitH1AddEquivH`, `inhomogeneousCocycle1`, `unitsRep`, `Br`, `invMap`, `brRes`, `brCor` |
 | local units and the `H²` bound | `unitsFiniteLayerRep`, `herbrandQuotient_units_eq_one`, `herbrandQuotient_units_eq_finrank_of_isCyclic`, `index_normGroup_of_isCyclic`, `natCard_h2_units_le_finrank`, on Mathlib's normal basis `IsGalois.normalBasis` |
 | local invariant and Hilbert pairing | `h2MuEquivZMod_mixed`, `h2FpEquivZMod_of_mu`, `muNRepEquivZMod`, `muNRep_ρ_eq_self`, `kummerCupPairing`, `kummerCupPairing_bil`, `kummerCupPairing_bil_comm`, `localSymbol`, `localSymbol_antisymm`, `localSymbol_eq_zero_iff_mem_normGroup`, `localSymbol_kummerClass_eq_zero_iff` |
-| the Tate dual and evaluation | `tateDual`, `tateDualEquiv`, `tateDualEquiv_ρ_apply`, `isSmoothDiscrete_tateDual`, `tateDual_ρ_eq_self_iff`, `tateEvaluationPairing`, `tateEvaluationPairing_bil`, `tateDualMap`, `tateEvaluationPairing_tateDualMap`, `tateDualMap_exact`, `muNRepToTateDual`, `bijective_muNRepToTateDual` |
-| local duality and Euler characteristic | `tateDualityPairing`, `tateDualityPairing_tateDualMap`, `tateDualityPairing_muNRepToTateDual`, `tateDualityPairing_perfect_mixed`, `finite_H`, `eulerCharacteristic_mixed`, `eulerCharacteristic_finrank_fp` |
+| the Tate dual and evaluation | `tateDual`, `tateDualEquiv`, `tateDualEquiv_ρ_apply`, `isSmoothDiscrete_tateDual`, `instFactIsSmoothDiscreteTateDual`, `tateDual_ρ_eq_self_iff`, `tateEvaluationPairing`, `tateEvaluationPairing_bil`, `tateDualMap`, `tateEvaluationPairing_tateDualMap`, `tateDualMap_exact`, `muNRepToTateDual`, `bijective_muNRepToTateDual` |
+| local duality and Euler characteristic, for finite smooth discrete modules | `tateDualityPairing`, `tateDualityPairing_tateDualMap`, `tateDualityPairing_muNRepToTateDual`, `tateDualityPairing_perfect_mixed`, `finite_H`, `eulerCharacteristic_mixed`, `eulerCharacteristic_finrank_fp`, `instFactIsSmoothDiscreteTrivialFp` |
 | cohomological dimension of `G_K` | `subsingleton_h3_unitsRep`, `cd_p_absoluteGaloisGroup_eq_two`, `scd_p_absoluteGaloisGroup_eq_two` |
 | local conductors | `conductorExponent`, `conductorIdeal`, `characterConductorExp` |
 | global norm and Hilbert reciprocity | `cyclicHasseNorm`, `hilbertProductFormula` |
@@ -854,11 +857,11 @@ the two existence layers.
 two-periodicity for finite cyclic groups); `ProfiniteCohomology`; `LocalFieldsRamification`;
 Mathlib's normal basis theorem `IsGalois.normalBasis`; Tau Ceti's comparison of absolute Galois
 groups, `classField` and Galois action on the integers of a local field; Tau Ceti's coefficient
-dictionary `ofDiscreteModule`, Galois-cohomology coefficients `KummerCoeff` and `UnitsCoeff`, Kummer
-map `kummerMap`, explicit `H¹` with its comparison, and internal hom `InternalHom` with its
-evaluation pairing; for the Euler characteristic, `RepresentationTheory/ModularInduction` (its
-Layers 0, 3 and 4). **Not** Layers 1–4, and in particular not the local class formation, the local
-Artin map, or local existence.
+dictionary `ofDiscreteModule` with its smoothness predicate `IsSmoothDiscrete`, Galois-cohomology
+coefficients `KummerCoeff` and `UnitsCoeff`, Kummer map `kummerMap`, explicit `H¹` with its
+comparison, and internal hom `InternalHom` with its evaluation pairing; for the Euler
+characteristic, `RepresentationTheory/ModularInduction` (its Layers 0, 3 and 4). **Not** Layers
+1–4, and in particular not the local class formation, the local Artin map, or local existence.
 
 Keep all continuous cohomology on the imported Mathlib carrier:
 
@@ -986,8 +989,9 @@ Neither is a second construction, and their equations are named: the carrier is 
 (`tateDualEquiv`), the action is conjugation (`tateDualEquiv_ρ_apply`), the pairing is evaluation
 (`tateEvaluationPairing_bil`), and the invariants are the equivariant maps,
 `H⁰(G_F, Hom(A, μ_n)) = Hom_{G_F}(A, μ_n)` (`tateDual_ρ_eq_self_iff`). The dual is discrete, finite
-for finite `A` and `n ≠ 0`, and smooth for finite smooth discrete `A` (`isSmoothDiscrete_tateDual`);
-the evaluation pairing needs `A` discrete, which every duality statement assumes.
+for finite `A` and `n ≠ 0`, and smooth for finite smooth discrete `A` (`isSmoothDiscrete_tateDual`,
+and as an instance `instFactIsSmoothDiscreteTateDual`); the evaluation pairing needs `A` discrete,
+which every duality statement assumes.
 
 The dual is contravariant: `tateDualMap f = f^*` is precomposition
 (`tateDualEquiv_tateDualMap_apply`). Evaluation is natural, `⟨f^* ψ, a⟩ = ⟨ψ, f a⟩`
@@ -1007,17 +1011,31 @@ is the `(1, 1)` Tate-duality pairing; `LocalGaloisGroups` consumes it in that fo
 
 Construct local Tate duality from the evaluation pairing. The exported theorem
 `tateDualityPairing_perfect_mixed` is stated for the named evaluation pairing; quantifying over an
-arbitrary pairing would admit the zero pairing. The modules are finite and **discrete**: `finite_H`,
-the duality theorem and both Euler-characteristic theorems carry `[DiscreteTopology A.V]`; without
-it a finite module with the indiscrete topology would have the abstract cohomology of `G_K` instead
-of its continuous cohomology. The proof is a dévissage whose steps are named milestones, in this
-order:
+arbitrary pairing would admit the zero pairing. The modules are finite, **discrete** and **smooth**.
+`finite_H`, the duality theorem and both Euler-characteristic theorems carry
+`[DiscreteTopology A.V]`; without it a finite module with the indiscrete topology would have the
+abstract cohomology of `G_K` instead of its continuous cohomology. They also carry Tau Ceti's
+smoothness predicate `IsSmoothDiscrete (ZMod n) A`, every point stabilizer open, as the instance
+argument `[Fact (TauCeti.IsSmoothDiscrete (ZMod n) A)]`. It does not follow from discreteness:
+`GalRep n F` is Mathlib's `TopRep`, whose operators are continuous one group element at a time, not
+jointly in the group variable. For finite `A` it makes the kernel of the action, the intersection of
+the stabilizers of the elements of `A`, an open subgroup `G_L`, and every reduction below starts from
+the finite Galois extension `L/K` it cuts out; it is also the hypothesis under which
+`ProfiniteCohomology` supplies Shapiro's lemma and corestriction. A submodule and a quotient of a
+smooth module are smooth, a stabilizer in the submodule being a stabilizer in the module and one in
+the quotient containing one in the module; coinduced modules are smooth, and so is the Tate dual of
+a finite smooth module (`isSmoothDiscrete_tateDual`). Instances supply the hypothesis at
+`muNRep n F` (`instFactIsSmoothDiscreteMuNRep`), at the Tate dual of a finite smooth discrete module
+(`instFactIsSmoothDiscreteTateDual`) and at the trivial module `𝔽_p`, Tau Ceti's `trivialFp`
+(`instFactIsSmoothDiscreteTrivialFp`), so applications at those modules need no further argument.
+The proof is a dévissage whose steps are named milestones, in this order:
 
-1. `finite_H`: `H⁰`, `H¹`, `H²` of a finite discrete module are finite. Shapiro's lemma and
-   dimension shifting reduce it to an open `G_L` acting trivially, with `μ_ℓ ⊆ L` for each prime
-   `ℓ` dividing `#A`, and there to `ℤ/ℓ ≅ μ_ℓ`, where `H¹` is `Lˣ/(Lˣ)^ℓ` (`kummerEquiv_mixed`,
-   finite by `LocalFieldsRamification.card_powerClasses_mixed`) and `H²` is `ℤ/ℓ`
-   (`h2MuEquivZMod_mixed`); the long exact sequences propagate finiteness.
+1. `finite_H`: `H⁰`, `H¹`, `H²` of a finite smooth discrete module are finite. Let `G_L` be the
+   open kernel of the action, with `L` enlarged so that `μ_ℓ ⊆ L` for each prime `ℓ` dividing `#A`.
+   Shapiro's lemma and dimension shifting along `0 → A → Coind_{G_L}^{G_K} A → A₂ → 0` reduce it to
+   `G_L` acting trivially, and there to `ℤ/ℓ ≅ μ_ℓ`, where `H¹` is `Lˣ/(Lˣ)^ℓ`
+   (`kummerEquiv_mixed`, finite by `LocalFieldsRamification.card_powerClasses_mixed`) and `H²` is
+   `ℤ/ℓ` (`h2MuEquivZMod_mixed`); the long exact sequences propagate finiteness.
 2. `localSymbol_eq_zero_iff_mem_normGroup`: for `μ_n ⊆ K` and `L = K(b^{1/n})`, stated about that
    extension exactly (a chosen `s` with `s^n = b` generating `L`), the symbol
    `localSymbol (kummerCupPairing ζ) tr (kummerClass a) (kummerClass b)` vanishes exactly when
@@ -1042,12 +1060,12 @@ order:
    pairing over `K` is the pairing over `L` through Shapiro's lemma
    (`ProfiniteCohomology.shapiroIso`) and corestriction, which preserves the invariant
    (`invMap_brCor`), so 6 gives the three bijections for `A` over `K`.
-8. The closing step: embed `A` into `A₁ = Coind_{G_L}^{G_K} A`, with `G_L` acting trivially on `A`
-   and `μ_n ⊆ L`, and put `A₂ = A₁/A`. The long exact sequences of `0 → A → A₁ → A₂ → 0` and of
-   its dual `0 → A₂' → A₁' → A' → 0` (`tateDualMap`, exact by `tateDualMap_exact`), compatible with
-   the cups through the connecting-map identities of `ProfiniteCohomology` (whose compatibility
-   hypotheses are `tateEvaluationPairing_tateDualMap`), and the four lemma show in turn, for every
-   finite `A`, that
+8. The closing step: embed `A` into `A₁ = Coind_{G_L}^{G_K} A`, with `G_L` the open kernel of the
+   action, enlarged so that `μ_n ⊆ L`, and put `A₂ = A₁/A`. The long exact sequences of
+   `0 → A → A₁ → A₂ → 0` and of its dual `0 → A₂' → A₁' → A' → 0` (`tateDualMap`, exact by
+   `tateDualMap_exact`), compatible with the cups through the connecting-map identities of
+   `ProfiniteCohomology` (whose compatibility hypotheses are `tateEvaluationPairing_tateDualMap`),
+   and the four lemma show in turn, for every finite smooth discrete `A`, that
    `H⁰(A) → H²(A')^∨`, `H¹(A) → H¹(A')^∨` and `H²(A) → H⁰(A')^∨` are injective, each step using 7
    for `A₁` and the previous step for `A₂`. Applied to `A` and to `A'`, these injections between
    finite groups (`finite_H`) give `#Hⁱ(A) ≤ #H²⁻ⁱ(A') ≤ #Hⁱ(A)`, so they are bijections. This is
@@ -1060,7 +1078,7 @@ separately `#H⁰(K,M)` and `#H⁰(K,M')`; they need not agree (the same `ℚ_2`
 orders `3` and `1`).
 
 **The Euler characteristic.** After duality, prove the cardinality formula
-`eulerCharacteristic_mixed`: for `F/ℚ_p` finite and every finite discrete `A : GalRep n F`,
+`eulerCharacteristic_mixed`: for `F/ℚ_p` finite and every finite smooth discrete `A : GalRep n F`,
 `#H¹ = #H⁰ · #H² · p^{[F:ℚ_p] v_p(#A)}`; its `𝔽_p` finrank form is
 `eulerCharacteristic_finrank_fp`. Write `χ_K(A) = #H⁰ · #H² / #H¹` and
 `φ_K(A) = ‖#A‖_K = p^{−[K:ℚ_p] v_p(#A)}`, both in `ℚ^×_{>0}`; the formula is `χ_K = φ_K`. The proof
@@ -1068,7 +1086,8 @@ is a dévissage in twelve steps (NSW (7.3.1)–(7.3.4); Milne, *Arithmetic Duali
 Theorem 2.8), whose only modular input is the modular Artin theorem of
 `RepresentationTheory/ModularInduction`, proved there without Brauer characters:
 
-1. **Additivity.** For `0 → A' → A → A'' → 0`, `χ_K(A) = χ_K(A') χ_K(A'')`: `finite_H`, the long
+1. **Additivity.** For `0 → A' → A → A'' → 0` with `A` finite smooth discrete, and so `A'` and
+   `A''` too, `χ_K(A) = χ_K(A') χ_K(A'')`: `finite_H`, the long
    exact sequence (`ProfiniteCohomology.longExact_exact`), and the surjectivity of
    `H²(K,A) → H²(K,A'')`, which is the `(0,2)` case of duality with the naturality of the
    duality pairing in the coefficients (`tateDualityPairing_tateDualMap`): the map is dual to the
@@ -1077,11 +1096,12 @@ Theorem 2.8), whose only modular input is the modular Artin theorem of
 2. **Prime-power reduction.** By 1 and induction on `#A` along `0 → A[ℓ] → A → A/A[ℓ] → 0`, assume
    that a prime `ℓ` kills `A`.
 3. **Finite quotient.** Let `L/K` be the finite Galois extension cut out by the kernel of the
-   action (a `classField`) and `G = Gal(L/K)`; `A` is a finite `𝔽_ℓ[G]`-module. State once the
-   functor `galRepOfQuotient` from finite `𝔽_ℓ[G]`-modules to finite discrete modules in
-   `GalRep ℓ K` (restriction along `G_K → G` by `TopRep.resFunctor`, with the discrete topology),
-   and that every finite discrete `A` is isomorphic to its value at `A` regarded as a
-   `𝔽_ℓ[G]`-module. By 1, `χ_K` and `φ_K` descend to homomorphisms
+   action (a `classField`; the kernel is open because `A` is smooth) and `G = Gal(L/K)`; `A` is a
+   finite `𝔽_ℓ[G]`-module. State once the functor `galRepOfQuotient` from finite `𝔽_ℓ[G]`-modules to
+   finite smooth discrete modules in `GalRep ℓ K` (restriction along `G_K → G` by
+   `TopRep.resFunctor`, with the discrete topology; smooth because the open `G_L` acts trivially),
+   and that every finite smooth discrete `A` on which `G_L` acts trivially is isomorphic to its value
+   at `A` regarded as a `𝔽_ℓ[G]`-module. By 1, `χ_K` and `φ_K` descend to homomorphisms
    `modRepK0 (ZMod ℓ) G → Additive ℚ^×_{>0}` through the universal property `modRepK0.lift`, and
    `ℚ^×_{>0}` is torsion-free.
 4. **Modular Artin.** `modularArtin_exists_nsmul_mem_indCyclicCoprime`: a positive multiple of
@@ -1212,7 +1232,8 @@ Record the cohomological dimension of `G_K`, stated against `ProfiniteCohomology
   `scd_ℓ G ≤ n` if and only if `cd_ℓ G ≤ n` and `H^{n+1}(U, ℤ)(ℓ) = 0` for every open `U`), directly
   on `scd_p` and `cd_p`. Its first condition is `cd_p_absoluteGaloisGroup_eq_two`. Its second asks
   for `H³(G_L, ℤ)(ℓ) ≅ H²(G_L, ℚ_ℓ/ℤ_ℓ) = 0` for every finite `L/K`: by the `(2,0)` case of
-  `tateDualityPairing_perfect_mixed`, `H²(G_L, ℤ/ℓᵐ)` is dual to
+  `tateDualityPairing_perfect_mixed` at the trivial module `ℤ/ℓᵐ`, which is smooth
+  (`TauCeti.isSmoothDiscrete_of_ρ_apply_eq_self`), `H²(G_L, ℤ/ℓᵐ)` is dual to
   `H⁰(G_L, Hom(ℤ/ℓᵐ, μ_{ℓᵐ})) = Hom_{G_L}(ℤ/ℓᵐ, μ_{ℓᵐ}) = μ_{ℓᵐ}(L)` (`tateDual_ρ_eq_self_iff`), so
   the colimit over `m` is dual to the inverse limit of the `μ_{ℓᵐ}(L)` under `ℓ`-th powers, which is
   `0` because `μ_{ℓ^∞}(L)` is finite.
@@ -1939,7 +1960,8 @@ It contains:
   `InternalHom.evalPairing`; and the Kummer class, which is Tau Ceti's `kummerMap` transported
   along the comparison and the degree-one comparison over `ZMod n`;
 - the local-invariant, local-unit, duality, Euler-characteristic and conductor contracts of
-  Layers 5 and 7, and the cohomological dimension of `G_K` at the end of Layer 6;
+  Layers 5 and 7, with the smoothness instances the duality contracts are applied through, and the
+  cohomological dimension of `G_K` at the end of Layer 6;
 - the Weil-group carrier, topology, functoriality, inertia sequence and reciprocity isomorphism of
   Layer 9;
 - the Brauer sequence and sum-of-local-invariants contracts of Layer 10, stated before
