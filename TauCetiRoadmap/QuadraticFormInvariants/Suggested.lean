@@ -3,6 +3,7 @@ import TauCetiRoadmap.ProfiniteCohomology.Suggested
 import TauCetiRoadmap.LocalFieldsRamification.Suggested
 import TauCetiRoadmap.ClassFieldTheory.Suggested
 import TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras.Suggested
+import TauCeti.GroupTheory.SpecificGroups.Dihedral.Basic
 
 /-!
 # Quadratic forms and cohomological invariants: target signatures
@@ -1200,7 +1201,11 @@ declarations and adds only what is specific to `μ₂` and to quadratic forms.
 
 The carrier is that roadmap's `trivialF2` object over its `AbsoluteGaloisGroup`, so that its
 `cup`, `res`, `corestriction` and `evensNormIndexTwo` apply here with no transport at all. The
-abbreviations `contH`, `H1`, `H2` name that carrier and implement nothing.
+abbreviations `contH`, `H1`, `H2` name that carrier and implement nothing. The supplier re-exports
+Tau Ceti's implementation under its own names: `AbsoluteGaloisGroup`, `trivialF2`, `KummerCoeff`,
+`UnitsCoeff`, `kummerMap`, `kummerIso`, `kummerMapCanonical`, `hilbert90`, `h2KummerToUnits` and
+`galoisSubgroup` are `TauCeti` declarations, so every coefficient transport below starts from Tau
+Ceti's objects and no second copy of them occurs here.
 
 What this roadmap owns here is the coefficient identification specific to `μ₂`: the Galois action
 on `μ₂` is trivial when `2` is invertible, so the supplier's `KummerCoeff K 2` and its `trivialF2`
@@ -1220,12 +1225,11 @@ section Carriers
 variable (K)
 
 /-- `Hⁿ_cont(G_K, 𝔽₂)`, as the Profinite Cohomology roadmap's `trivialF2` object over its
-`AbsoluteGaloisGroup`. This is a carrier abbreviation and not an operation.
+`AbsoluteGaloisGroup`, which are Tau Ceti's `TauCeti.trivialF2` and `TauCeti.AbsoluteGaloisGroup`.
+This is a carrier abbreviation and not an operation.
 ⚠ It names **Mathlib's** `continuousCohomology`, which is what the supplier's operations are
 typed against: the supplier's own notation adapter is `private`, so a consumer cannot write that
-type, and its packaged `continuousCohomologyFunctor` is a separate `sorry`-bodied definition that
-does not reduce to it. Both alternatives typecheck in isolation and then fail to match
-`coeffMap`, `kummerIso` and `h2KummerToUnits`. -/
+type. -/
 noncomputable abbrev contH (n : ℕ) : TopModuleCat ℤ :=
   _root_.continuousCohomology n (trivialF2 (AbsoluteGaloisGroup K))
 
@@ -1752,7 +1756,8 @@ set_option synthInstance.maxHeartbeats 400000 in
 noncomputable def inflateTwoCocycleZ2 {L : IntermediateField K (SeparableClosure K)}
     [FiniteDimensional K ↥L] [Normal K ↥L] (z : TwoCocycle (K := K) ↥L) :
     Z2 (AbsoluteGaloisGroup K) (UnitsCoeff K) :=
-  ⟨unitsCochain z.inflate, continuous_unitsCochain_inflate z, unitsCochain_isCocycle₂ _⟩
+  ⟨unitsCochain z.inflate, TauCeti.ContCohomology.mem_Z2_iff.2
+    ⟨continuous_unitsCochain_inflate z, unitsCochain_isCocycle₂ _⟩⟩
 
 variable (K)
 
@@ -1968,7 +1973,7 @@ theorem unitsCoeff_mem_invariants (L : IntermediateField K (SeparableClosure K))
     (Additive.ofMul (Units.map
       (IsScalarTower.toAlgHom K ↥L (SeparableClosure K)).toRingHom.toMonoidHom y) :
         UnitsCoeff K) ∈ Invariants (galoisOpenNormal K L).toSubgroup (UnitsCoeff K) := by
-  intro u hu
+  rintro ⟨u, hu⟩
   show Additive.ofMul (u • _) = _
   refine congrArg Additive.ofMul (Units.ext ?_)
   show u (algebraMap (↥L) (SeparableClosure K) (y : ↥L)) =
@@ -1992,12 +1997,12 @@ noncomputable def finiteLevelZ2 (L : IntermediateField K (SeparableClosure K))
       (IsScalarTower.toAlgHom K ↥L (SeparableClosure K)).toRingHom.toMonoidHom
       (z.toFun (galoisQuotientMap K L q.1) (galoisQuotientMap K L q.2))),
     unitsCoeff_mem_invariants K L _⟩,
-   continuous_of_discreteTopology, by
+   TauCeti.ContCohomology.mem_Z2_iff.2 ⟨continuous_of_discreteTopology, by
     intro q1 q2 q3
     induction q1 using QuotientGroup.induction_on with | _ g1 =>
     induction q2 using QuotientGroup.induction_on with | _ g2 =>
     induction q3 using QuotientGroup.induction_on with | _ g3 =>
-    exact Subtype.ext (unitsCochain_isCocycle₂ z.inflate g1 g2 g3)⟩
+    exact Subtype.ext (unitsCochain_isCocycle₂ z.inflate g1 g2 g3)⟩⟩
 
 set_option maxHeartbeats 1000000 in
 set_option synthInstance.maxHeartbeats 400000 in
@@ -2234,15 +2239,21 @@ bridges are exactly the statements that mention a CFT object. -/
 
 /-- **Frozen QFI--CFT bridge, the single comparison of coefficients.** Class Field Theory's
 `localSymbol` at the Kummer cup pairing vanishes exactly when this roadmap's `cup11` of the two
-Kummer classes vanishes. The two cups are the same cup — Class Field Theory's `kummerCupPairing`
-and this file's `f2Pairing` are both the supplier's `cup` — but they are taken at different
-coefficient objects, `muNRep 2 F` against `trivialF2 (G_F)`, and over `Field.absoluteGaloisGroup`
-against `ProfiniteCohomology.AbsoluteGaloisGroup`. That coefficient-and-group comparison is the
-entire content of the bridge, and both halves of the dictionary it composes are supplied:
-`ClassFieldTheory.muNRepCoeffDictionary` with its continuity and equivariance and
-`ClassFieldTheory.absoluteGaloisGroupComparison` on one side, this file's
-`kummerCoeffIsoTrivialF2` on the other. `localSymbol` then adds the invariant `tr`, which is an
-`AddEquiv` and so does not affect vanishing.
+Kummer classes vanishes. Both sides are the Profinite Cohomology roadmap's `cup`, at two pairings:
+Class Field Theory's `kummerCupPairing ζ`, which is `(x, y) ↦ log_ζ(x) · y` on `muNRep 2 F`
+(`ClassFieldTheory.kummerCupPairing_bil`), over the coefficient ring `ZMod 2` and the group
+`Field.absoluteGaloisGroup F`; and the supplier's `f2Pairing` on `trivialF2`, over `ℤ` and
+`ProfiniteCohomology.AbsoluteGaloisGroup F`, which is Tau Ceti's `TauCeti.AbsoluteGaloisGroup F`.
+Both coefficient modules are Tau Ceti's `KummerCoeff F 2`: `ClassFieldTheory.muNRepCoeffDictionary`
+is its identity, and this file's `kummerCoeffIsoTrivialF2` starts from it. Both Kummer classes are
+Tau Ceti's `kummerMap` transported: Class Field Theory's by
+`ClassFieldTheory.kummerClass_eq_kummerCocycleClass`, and Layer 7A's through `kummerMapCanonical`.
+So the content of the bridge is the naturality of `cup` along three changes: the group comparison
+`ClassFieldTheory.absoluteGaloisGroupComparison`; the coefficient isomorphism
+`kummerCoeffIsoTrivialF2`, under which `log_ζ(x) · y` is the product of `𝔽₂`; and the passage from
+the coefficient ring `ZMod 2` to `ℤ`, which changes neither the homogeneous cochains nor their
+differentials. `localSymbol` then adds the invariant `tr`, which is an `AddEquiv` and so does not
+affect vanishing.
 ⚠ This is *not* a consequence of `brauerCohomologyEquiv_crossedProductClass`: the crossed-product
 comparison is about `Kˢˣ` coefficients and says nothing about the `μ₂`-valued cup that Class
 Field Theory's symbol is built from. -/
@@ -2457,15 +2468,28 @@ rank-one form `⟨a⟩`. The statements use this file's `scharlauTransfer s q` a
 `q.scharlauTransfer s` and `q.traceTransfer K`, and its additive `RegularFormClass.discr` is valued
 in `SquareClassGroup K`. -/
 
-/-- **Layer 9, the norm in square-root coordinates,** `N(u + v x) = u² − v² d`: the matrix of
-multiplication by `u + v x` in the basis `(1, x)` is `[[u, v d], [v, u]]`. The trace companion
-`Tr (u + v x) = 2 u` is Tau Ceti's
-`TauCeti.Algebra.trace_eq_zero_of_sq_algebraMap_of_not_mem_range`, which gives `Tr x = 0`. -/
+/-- **Layer 9, the norm in square-root coordinates,** `N(u + v x) = u² − v² d`. Tau Ceti's
+`Algebra.IsQuadraticExtension.norm_algebraMap_add_algebraMap_mul` gives
+`N(u + v x) = u² + u v · Tr x + v² · N x`; Tau Ceti's
+`TauCeti.Algebra.trace_eq_zero_of_sq_algebraMap_of_not_mem_range` gives `Tr x = 0`; and then
+Mathlib's `Algebra.IsQuadraticExtension.sq_eq_trace_smul_sub_norm`, `x² = Tr x · x − N x`, gives
+`N x = −d`. The trace companion `Tr (u + v x) = 2 u` is Tau Ceti's
+`Algebra.IsQuadraticExtension.trace_algebraMap_add_algebraMap_mul` with `Tr x = 0`. -/
 theorem norm_add_mul_of_sq {L : Type u} [Field L] [Algebra K L] {x : L} {d : K}
     (hfin : Module.finrank K L = 2) (hx : x ∉ Set.range (algebraMap K L))
     (hx2 : x ^ 2 = algebraMap K L d) (u v : K) :
-    Algebra.norm K (algebraMap K L u + algebraMap K L v * x) = u ^ 2 - v ^ 2 * d :=
-  sorry
+    Algebra.norm K (algebraMap K L u + algebraMap K L v * x) = u ^ 2 - v ^ 2 * d := by
+  have : Algebra.IsQuadraticExtension K L := ⟨hfin⟩
+  have : FiniteDimensional K L := Module.finite_of_finrank_eq_succ hfin
+  have htr : Algebra.trace K L x = 0 :=
+    TauCeti.Algebra.trace_eq_zero_of_sq_algebraMap_of_not_mem_range hx2
+      (fun h => hx (by simpa [RingHom.mem_range] using h))
+  have hnorm : Algebra.norm K x = -d := by
+    have h := Algebra.IsQuadraticExtension.sq_eq_trace_smul_sub_norm K x
+    rw [hx2, htr, zero_smul, zero_sub, ← map_neg] at h
+    linear_combination (algebraMap K L).injective h
+  rw [Algebra.IsQuadraticExtension.norm_algebraMap_add_algebraMap_mul, htr, hnorm]
+  ring
 
 /-- **Layer 9, the twisted trace form in Kahn's basis.** For `Tr a ≠ 0` the elements `1` and
 `x / a` are orthogonal for `Tr_*⟨a⟩`, because `Tr (a · x / a) = Tr x = 0`, and their values are
@@ -2483,7 +2507,9 @@ theorem traceTransfer_weightedSumSquares_equivalent [Invertible (2 : K)] {L : Ty
   sorry
 
 /-- **Layer 9, the twisted trace form at trace zero is hyperbolic.** `Tr_*⟨a⟩ (1) = Tr a = 0`, so
-the regular binary form `Tr_*⟨a⟩` is isotropic, hence `≅ ⟨1, −1⟩`. -/
+the regular binary form `Tr_*⟨a⟩` is isotropic. Tau Ceti's
+`TauCeti.exists_hyperbolicPlane_prod_equivalent` splits off a hyperbolic plane, and the complement
+has rank `0`; so `Tr_*⟨a⟩ ≅ ⟨1, −1⟩`, which is Tau Ceti's `TauCeti.hyperbolicPlane K`. -/
 theorem traceTransfer_weightedSumSquares_equivalent_hyperbolic [Invertible (2 : K)] {L : Type u}
     [Field L] [Algebra K L] [FiniteDimensional K L] [Algebra.IsSeparable K L]
     (hfin : Module.finrank K L = 2) (a : Lˣ) (htr : Algebra.trace K L (a : L) = 0) :
@@ -2602,20 +2628,14 @@ theorem galoisEvens2_embedding_independent {L : Type u} [Field L] [Algebra K L]
 /-! ### Layer 9: the norm of a restricted class and the kernel of restriction
 
 Identity 1, `res (N x) = x ∪ σ·x`, determines `N^{Ev}` only modulo the kernel of restriction, which
-is `(d) ∪ H¹(G_K, 𝔽₂)`. The statements below identify the supplier's subgroup and character of
-`L/K`, describe that kernel, and give the value of the norm on the classes that come from `K`; the
-value on every Kummer class is computed in the next block. -/
-
-/-- **Layer 9, `galoisSubgroup K L σ` is the subgroup of `G_K` fixing `σ L`.** The supplier's
-Layer 9 describes it as the open subgroup cut out by the embedding and exports no target
-signature for that description; the shape this layer consumes is frozen here. -/
-theorem mem_galoisSubgroup_iff {L : Type u} [Field L] [Algebra K L] [FiniteDimensional K L]
-    [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K) (γ : AbsoluteGaloisGroup K) :
-    γ ∈ galoisSubgroup K L σ ↔ ∀ y : L, γ (σ y) = σ y :=
-  sorry
+is `(d) ∪ H¹(G_K, 𝔽₂)`. The supplier's `galoisSubgroup K L σ` is Tau Ceti's, the subgroup of `G_K`
+fixing `σ L` pointwise (`TauCeti.mem_galoisSubgroup_iff`). The statements below identify the
+character of `L/K`, describe that kernel, and give the value of the norm on the classes that come
+from `K`; the value on every Kummer class is computed in the next block. -/
 
 /-- **Layer 9, the character of `K(√d)/K` is the Kummer class of `d`.** `σ x` is a square root of
-`d` in `Kˢ`, and its stabilizer is `galoisSubgroup K L σ`, because `σ L = K(σ x)`; so the
+`d` in `Kˢ`, and its stabilizer is `galoisSubgroup K L σ`, because `σ L = K(σ x)` and
+`galoisSubgroup K L σ` fixes `σ L` pointwise (`TauCeti.mem_galoisSubgroup_iff`); so the
 supplier's `galoisCharacter`, the class of the character with kernel `G_L`, is the Kummer class of
 `d`. ⚠ `x ∉ K` is load-bearing: for a square `d` the right-hand side is `0` and the left is not. -/
 theorem galoisCharacter_eq_kummerClass {L : Type u} [Field L] [Algebra K L]
@@ -2625,25 +2645,26 @@ theorem galoisCharacter_eq_kummerClass {L : Type u} [Field L] [Algebra K L]
     galoisCharacter K L σ hdeg = kummerClass d :=
   sorry
 
-/-- **Layer 9, identity 5 in this file's carriers,** the transport of the supplier's
-`galoisEvens_galoisRes`: `N (res y) = y ∪ y + χ_{L/K} ∪ y`, where `χ_{L/K} = (d)` by
+/-- **Layer 9, identity 5 in this file's carriers,** the supplier's `galoisEvens_galoisRes`, which
+is its proof: `N (res y) = y ∪ y + χ_{L/K} ∪ y`, where `χ_{L/K} = (d)` by
 `galoisCharacter_eq_kummerClass`. For `y = (c)` with `c ∈ Kˣ` it agrees with the value below, since
 `Tr c = 2c` and `N c = c²`. -/
 theorem galoisEvens2_galoisRes1 {L : Type u} [Field L] [Algebra K L] [FiniteDimensional K L]
     [Algebra.IsSeparable K L] [Invertible (2 : K)] (σ : L →ₐ[K] SeparableClosure K)
     (hdeg : Module.finrank K L = 2) (y : H1 K) :
     galoisEvens2 σ hdeg (galoisRes1 σ y) = cup11 y y + cup11 (galoisCharacter K L σ hdeg) y :=
-  sorry
+  galoisEvens_galoisRes K L σ hdeg y
 
-/-- **Layer 9, the kernel of restriction in degree two,** `ker (res_{L/K}) = (d) ∪ H¹(G_K, 𝔽₂)`,
-the transport of the supplier's `galoisRes_eq_zero_iff` through
-`galoisCharacter_eq_kummerClass`. The map is restriction and not corestriction. -/
+/-- **Layer 9, the kernel of restriction in degree two,** `ker (res_{L/K}) = (d) ∪ H¹(G_K, 𝔽₂)`:
+the supplier's `galoisRes_eq_zero_iff` after `galoisCharacter_eq_kummerClass`. The map is
+restriction and not corestriction. -/
 theorem galoisRes2_eq_zero_iff {L : Type u} [Field L] [Algebra K L] [FiniteDimensional K L]
     [Algebra.IsSeparable K L] [Invertible (2 : K)] (σ : L →ₐ[K] SeparableClosure K)
     (hdeg : Module.finrank K L = 2) (d : Kˣ) {x : L} (hx : x ∉ Set.range (algebraMap K L))
     (hx2 : x ^ 2 = algebraMap K L (d : K)) (z : H2 K) :
-    galoisRes2 σ z = 0 ↔ ∃ y : H1 K, z = cup11 (kummerClass d) y :=
-  sorry
+    galoisRes2 σ z = 0 ↔ ∃ y : H1 K, z = cup11 (kummerClass d) y := by
+  rw [← galoisCharacter_eq_kummerClass σ hdeg d hx hx2]
+  exact galoisRes_eq_zero_iff K L σ hdeg z
 
 /-! ### Layer 9: the value of the Evens norm, through the `Pin⁺` lift of `C₂ ≀ C₂`
 
@@ -2713,7 +2734,11 @@ theorem pinT_mul_self [Invertible (2 : F)] {r2 : F} (hr2 : r2 ^ 2 = 2) : pinT r2
 /-- **Layer 9, `x` is a `Pin⁺` lift of `w`:** `x` is orthogonal and its twisted adjoint action
 `v ↦ det(x) · x v xᵀ` on vectors is `w`. An orthogonal `2 × 2` matrix is homogeneous, even when its
 determinant is `1` and odd when it is `−1`, so this action is `v ↦ (−1)^{|x|} x v x⁻¹`.
-⚠ Without the sign, `e₁` would act as `diag(1, −1)`, the reflection in the wrong line. -/
+⚠ Without the sign, `e₁` would act as `diag(1, −1)`, the reflection in the wrong line.
+⚠ This is not Mathlib's `CliffordAlgebra.pinGroup`, on which Tau Ceti's
+`CliffordAlgebra.pinToOrthogonal` and `CliffordAlgebra.pinDoubleCover` are built: a vector in
+that group has `Q v = −1` and squares to `−1`, so it lifts a reflection by an element of order
+four, which is the `e_i² = −1` convention and lifts `C₂ ≀ C₂` to `Q₁₆`. -/
 def IsPinLift (x w : Matrix (Fin 2) (Fin 2) F) : Prop :=
   xᵀ * x = 1 ∧ ∀ y : Fin 2 → F, x.det • (x * pinVec y * xᵀ) = pinVec (w *ᵥ y)
 
@@ -2775,11 +2800,65 @@ noncomputable def pinDihedral (r2 : F) : DihedralGroup 8 → Matrix (Fin 2) (Fin
   | .r i => (pinE1 * pinT r2) ^ i.val
   | .sr i => pinT r2 * (pinE1 * pinT r2) ^ i.val
 
-/-- **`D̃₁₆` is dihedral of order 16:** `pinDihedral` is a homomorphism, by `t² = 1`,
-`t (e₁ t) t = (e₁ t)⁻¹` and `(e₁ t)⁸ = 1`; its kernel is trivial and `(e₁ t)⁴ = −1`. -/
+/-- **`(e₁ t)⁴ = −1`:** `e₁ t` is the rotation by `π/4`, since `(e₁ t)² = [[0, −1], [1, 0]]` once
+`r2² = 2`. So `e₁ t` has order `8`, the characteristic not being two. -/
+theorem pinE1_mul_pinT_pow_four [Invertible (2 : F)] {r2 : F} (hr2 : r2 ^ 2 = 2) :
+    (pinE1 * pinT r2) ^ 4 = -1 := by
+  have h2 : (2 : F) ≠ 0 := two_ne_zero' F
+  have hr : r2 ≠ 0 := by
+    rintro rfl
+    exact h2 (by simpa using hr2.symm)
+  have hq : r2⁻¹ * r2⁻¹ * 2 = 1 := by
+    rw [← hr2, pow_two, ← mul_assoc, mul_assoc r2⁻¹, inv_mul_cancel₀ hr, mul_one,
+      inv_mul_cancel₀ hr]
+  have hsq : (pinE1 * pinT r2) ^ 2 = !![0, -1; 1, 0] := by
+    ext i j; fin_cases i <;> fin_cases j <;>
+      simp [pow_two, pinT, pinE1, pinE2, Matrix.mul_apply, Fin.sum_univ_two]
+    all_goals first | ring1 | linear_combination hq | linear_combination -hq
+  rw [show 4 = 2 * 2 from rfl, pow_mul, hsq]
+  ext i j; fin_cases i <;> fin_cases j <;> simp [pow_two, Matrix.mul_apply, Fin.sum_univ_two]
+
+/-- **`D̃₁₆` is dihedral of order 16:** `pinDihedral` is a homomorphism. It is the underlying
+matrix of Tau Ceti's `TauCeti.dihedralHom` at the two involutions `t` and `t e₁ t` of the unit
+group of `M₂(F)`, whose product `e₁ t` has order `8` by `pinE1_mul_pinT_pow_four`; the two
+branches of `pinDihedral` are `TauCeti.dihedralHom_r` and `TauCeti.dihedralHom_sr`. -/
 theorem pinDihedral_mul [Invertible (2 : F)] {r2 : F} (hr2 : r2 ^ 2 = 2) (z z' : DihedralGroup 8) :
-    pinDihedral r2 (z * z') = pinDihedral r2 z * pinDihedral r2 z' :=
-  sorry
+    pinDihedral r2 (z * z') = pinDihedral r2 z * pinDihedral r2 z' := by
+  let E : (Matrix (Fin 2) (Fin 2) F)ˣ := ⟨pinE1, pinE1, pinE1_mul_self, pinE1_mul_self⟩
+  let T : (Matrix (Fin 2) (Fin 2) F)ˣ := ⟨pinT r2, pinT r2, pinT_mul_self hr2, pinT_mul_self hr2⟩
+  have hE : E * E = 1 := Units.ext pinE1_mul_self
+  have hT : T * T = 1 := Units.ext (pinT_mul_self hr2)
+  have hTET : T * E * T * (T * E * T) = 1 := by
+    calc T * E * T * (T * E * T) = T * E * (T * T) * E * T := by simp only [mul_assoc]
+      _ = 1 := by rw [hT, mul_one, mul_assoc T E E, hE, mul_one, hT]
+  have hprod : T * (T * E * T) = E * T := by
+    rw [← mul_assoc, ← mul_assoc, hT, one_mul]
+  have h4 : (E * T) ^ 4 = -1 := Units.ext (by
+    rw [Units.val_pow_eq_pow_val, Units.val_mul, Units.val_neg, Units.val_one]
+    exact pinE1_mul_pinT_pow_four hr2)
+  have hord : orderOf (T * (T * E * T)) = 8 := by
+    rw [hprod]
+    refine orderOf_eq_prime_pow (p := 2) (n := 2) ?_ ?_
+    · show ¬(E * T) ^ 4 = 1
+      rw [h4]
+      intro h
+      have h' := congrArg
+        (fun u : (Matrix (Fin 2) (Fin 2) F)ˣ => (u : Matrix (Fin 2) (Fin 2) F) 0 0) h
+      simp only [Units.val_neg, Units.val_one, Matrix.neg_apply, Matrix.one_apply_eq] at h'
+      exact two_ne_zero' F (by linear_combination -h')
+    · show (E * T) ^ 8 = 1
+      rw [show 8 = 4 * 2 from rfl, pow_mul, h4, neg_one_sq]
+  have key : ∀ w : DihedralGroup 8, pinDihedral r2 w =
+      ((TauCeti.dihedralHom hT hTET hord w : (Matrix (Fin 2) (Fin 2) F)ˣ) :
+        Matrix (Fin 2) (Fin 2) F) := by
+    rintro (i | i)
+    · rw [TauCeti.dihedralHom_r, hprod, ZMod.cast_eq_val, zpow_natCast,
+        Units.val_pow_eq_pow_val]
+      rfl
+    · rw [TauCeti.dihedralHom_sr, hprod, ZMod.cast_eq_val, zpow_natCast, Units.val_mul,
+        Units.val_pow_eq_pow_val]
+      rfl
+  simp only [key, map_mul, Units.val_mul]
 
 /-- **`D̃₁₆` lies over `C₂ ≀ C₂`:** `pinDihedral z` is a `Pin⁺` lift of the signed permutation of
 the supplier's `dihedralToWreath z`. On the generators, `t` lifts the swap `s` and `e₁ t` lifts
@@ -2795,7 +2874,7 @@ noncomputable def pinLift (r2 : F) (g : WreathC2) : Matrix (Fin 2) (Fin 2) F :=
   pinDihedral r2 (wreathSection g)
 
 /-- **The factor set of `pinLift` is `c_{D₁₆}`,** the supplier's `wreathD16Cocycle` read as a sign:
-`pinDihedral_mul` and `(e₁ t)⁴ = −1`. -/
+`pinDihedral_mul` and `(e₁ t)⁴ = −1` (`pinE1_mul_pinT_pow_four`). -/
 theorem pinLift_mul_mul_inv [Invertible (2 : F)] {r2 : F} (hr2 : r2 ^ 2 = 2) (g h : WreathC2) :
     pinLift r2 g * pinLift r2 h * (pinLift r2 (g * h))⁻¹ = (-1) ^ (wreathD16Cocycle (g, h)).val :=
   sorry
@@ -2844,7 +2923,8 @@ end PinModel
 
 open Classical in
 /-- **Layer 9, the sign of a root under `G_K`:** `rootSign r g` is `0` when `g r = r` and `1`
-otherwise. For `r² ∈ K` it is the Kummer character of `r²` read in `𝔽₂`. -/
+otherwise. For `r² ∈ K` it is the Kummer character of `r²` read in `𝔽₂`, that is Tau Ceti's Kummer
+cocycle `TauCeti.kummerCocycle`, `g ↦ g r / r ∈ μ₂`, read through `mu2EquivZMod2`. -/
 noncomputable def rootSign (r : SeparableClosure K) (g : AbsoluteGaloisGroup K) : ZMod 2 :=
   if g r = r then 0 else 1
 
@@ -2877,9 +2957,13 @@ theorem continuous_kummerCharacter (b : Kˣ) (r : SeparableClosure K)
   sorry
 
 /-- **Layer 9, the Kummer class is the class of the Kummer character.** The supplier's
-`kummerMapCanonical` at `n = 2` is the class of `g ↦ g r / r ∈ μ₂`, and the `μ₂` bridge
-`mu2EquivZMod2` reads that cocycle as `rootSign r`. This pins `kummerClass` at cochain level for
-every computation of this layer. -/
+`kummerMapCanonical` at `n = 2` is Tau Ceti's. By `explicitIso_kummerMap` it is the explicit class
+of Tau Ceti's `kummerMap`, which `TauCeti.kummerMap_eq_kummerCocycleClass` computes as the class of
+the Kummer cocycle `TauCeti.kummerCocycle`, `g ↦ g r / r ∈ μ₂`, with `r` read as a unit of `Kˢ`.
+The supplier's `explicitIso_coeffMap` carries the coefficient transport `kummerCoeffIsoTrivialF2`
+to that cocycle, which `mu2EquivZMod2` reads as `rootSign r`, and `homClass_eq_cochainClass`
+identifies the result with `homClass`. This pins `kummerClass` at cochain level for every
+computation of this layer. -/
 theorem kummerClass_eq_homClass [Invertible (2 : K)] (b : Kˣ) (r : SeparableClosure K)
     (hr : r ^ 2 = algebraMap K (SeparableClosure K) b) :
     kummerClass b =
@@ -2889,7 +2973,7 @@ theorem kummerClass_eq_homClass [Invertible (2 : K)] (b : Kˣ) (r : SeparableClo
 
 /-- **Layer 9, the Kummer character of `a ∈ Lˣ` on `G_L = galoisSubgroup K L σ`,**
 `γ ↦ rootSign r γ` for a square root `r` of `σ a`: every `γ` in `G_L` fixes `σ L`
-(`mem_galoisSubgroup_iff`), hence `r²`, so `γ r = ±r`. -/
+(`TauCeti.mem_galoisSubgroup_iff`), hence `r²`, so `γ r = ±r`. -/
 noncomputable def galoisKummerCharacter {L : Type u} [Field L] [Algebra K L]
     [FiniteDimensional K L] [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K)
     (a : Lˣ) (r : SeparableClosure K) (hr : r ^ 2 = σ (a : L)) :
@@ -2900,7 +2984,10 @@ noncomputable def galoisKummerCharacter {L : Type u} [Field L] [Algebra K L]
     have key : ∀ k : (galoisSubgroup K L σ).toSubgroup,
         (k : AbsoluteGaloisGroup K) r = r ∨ (k : AbsoluteGaloisGroup K) r = -r := fun k =>
       sq_eq_sq_iff_eq_or_eq_neg.1
-        (by rw [← map_pow, hr]; exact (mem_galoisSubgroup_iff σ k).1 k.2 (a : L))
+        (by
+          rw [← map_pow, hr]
+          exact (TauCeti.mem_galoisSubgroup_iff K L σ (g := (k : AbsoluteGaloisGroup K))).1 k.2
+            (a : L))
     have hmul : ((γ * γ' : (galoisSubgroup K L σ).toSubgroup) : AbsoluteGaloisGroup K) r =
         (γ : AbsoluteGaloisGroup K) ((γ' : AbsoluteGaloisGroup K) r) := rfl
     rw [← ofAdd_add]
@@ -2940,10 +3027,23 @@ noncomputable def f2CocycleClass (f : AbsoluteGaloisGroup K × AbsoluteGaloisGro
     (inhomogeneousCochain2 (AbsoluteGaloisGroup K) f hf)
     (inhomogeneousCochain2_d_eq_zero (AbsoluteGaloisGroup K) f hf hc)
 
-/-- **Layer 9, the class map is additive and kills coboundaries:** if
-`f = f₁ + f₂ + ∂ψ` for a continuous `ψ : G_K → 𝔽₂`, then `[f] = [f₁] + [f₂]`. This is the shape of
-the supplier's class map (Layer 1's `cochainClass` with `cochainClass_eq_of_sub_eq_d`, on Layer 3's
-explicit cochains) that this layer consumes; the supplier exports no target signature for it. -/
+/-- **Layer 9, the class map is additive:** `[f₁ + f₂] = [f₁] + [f₂]`, because Layer 3's
+`inhomogeneousCochain2` is additive in the cochain and Layer 1's `cochainClass` is the quotient map
+from cocycles. The supplier owns this milestone and exports no target signature for it, so the
+shape this layer consumes is frozen here, over `G_K`. -/
+theorem f2CocycleClass_add (f₁ f₂ : AbsoluteGaloisGroup K × AbsoluteGaloisGroup K → ZMod 2)
+    (hf₁ : Continuous f₁) (hf₂ : Continuous f₂)
+    (hc₁ : ∀ g h j, f₁ (g * h, j) + f₁ (g, h) = f₁ (h, j) + f₁ (g, h * j))
+    (hc₂ : ∀ g h j, f₂ (g * h, j) + f₂ (g, h) = f₂ (h, j) + f₂ (g, h * j)) :
+    f2CocycleClass (fun q => f₁ q + f₂ q) (hf₁.add hf₂)
+        (fun g h j => by linear_combination hc₁ g h j + hc₂ g h j) =
+      f2CocycleClass f₁ hf₁ hc₁ + f2CocycleClass f₂ hf₂ hc₂ :=
+  sorry
+
+/-- **Layer 9, the class map kills coboundaries and is additive:** if `f = f₁ + f₂ + ∂ψ` for a
+continuous `ψ : G_K → 𝔽₂`, then `[f] = [f₁] + [f₂]`. The coboundary step is the supplier's
+`cochainClass_inhomogeneousCochain2_eq_of_coboundary` at `G_K`, and the rest is
+`f2CocycleClass_add`. -/
 theorem f2CocycleClass_eq_add (f f₁ f₂ : AbsoluteGaloisGroup K × AbsoluteGaloisGroup K → ZMod 2)
     (hf : Continuous f) (hf₁ : Continuous f₁) (hf₂ : Continuous f₂)
     (hc : ∀ g h j, f (g * h, j) + f (g, h) = f (h, j) + f (g, h * j))
@@ -2952,11 +3052,15 @@ theorem f2CocycleClass_eq_add (f f₁ f₂ : AbsoluteGaloisGroup K × AbsoluteGa
     (ψ : AbsoluteGaloisGroup K → ZMod 2) (hψ : Continuous ψ)
     (h : ∀ g h, f (g, h) = f₁ (g, h) + f₂ (g, h) + (ψ h - ψ (g * h) + ψ g)) :
     f2CocycleClass f hf hc = f2CocycleClass f₁ hf₁ hc₁ + f2CocycleClass f₂ hf₂ hc₂ :=
-  sorry
+  (cochainClass_inhomogeneousCochain2_eq_of_coboundary (AbsoluteGaloisGroup K) f
+      (fun q => f₁ q + f₂ q) hf (hf₁.add hf₂) hc
+      (fun g h j => by linear_combination hc₁ g h j + hc₂ g h j) ψ hψ h).trans
+    (f2CocycleClass_add f₁ f₂ hf₁ hf₂ hc₁ hc₂)
 
 /-- **Layer 9, the cup of two classes of continuous homomorphisms is the class of the product
 cochain** `(g, h) ↦ χ(g) ψ(h)`: the supplier's `explicitIso_cup` and `homClass_eq_cochainClass` at
-the trivial `𝔽₂` coefficients, where the explicit `(1, 1)` cup `a(g) · g(b(h))` loses its action. -/
+the trivial `𝔽₂` coefficients, where the explicit `(1, 1)` cup `a(g) · g(b(h))`, Tau Ceti's
+`TauCeti.ContCohomology.explicitCup11_mk` under the supplier's `explicitCup11`, loses its action. -/
 theorem cup11_homClass [Invertible (2 : K)] (χ ψ : AbsoluteGaloisGroup K →* Multiplicative (ZMod 2))
     (hχ : Continuous χ) (hψ : Continuous ψ) :
     cup11 (homClass _ χ hχ) (homClass _ ψ hψ) =
