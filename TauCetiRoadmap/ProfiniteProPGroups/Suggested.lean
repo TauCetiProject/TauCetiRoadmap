@@ -1760,12 +1760,13 @@ example {p : ℕ} [Fact p.Prime] {G : Type u} [Group G] [TopologicalSpace G]
   (TauCeti.IsProPSylow.exists_map_conj_eq hP hQ).imp fun _ h ↦ h.symm
 
 /-- **Layer 2, Galois-group acceptance example.** The Galois group of any Galois extension,
-with its Krull topology, has a `p`-Sylow subgroup. This is the abstract group-theoretic half
-of the fixed-field statement that maximal prime-to-`p` subextensions exist; the fixed-field
-dictionary is deliberately left to a Galois-theory consumer. -/
+with its Krull topology, has a `p`-Sylow subgroup: Tau Ceti's `TauCeti.exists_isProPSylow`, at
+Mathlib's compact and totally separated Krull topology on `Gal(K/k)`. This is the abstract
+group-theoretic half of the fixed-field statement that maximal prime-to-`p` subextensions exist;
+the fixed-field dictionary is deliberately left to a Galois-theory consumer. -/
 example (p : ℕ) [Fact p.Prime] {k K : Type u} [Field k] [Field K] [Algebra k K]
     [IsGalois k K] : ∃ P : Subgroup (K ≃ₐ[k] K), IsProPSylow p P :=
-  sorry
+  TauCeti.exists_isProPSylow p (K ≃ₐ[k] K)
 
 /-- **Layer 2, the `p`-Sylow subgroup of `ℤ̂`.** Every `p`-Sylow subgroup of the profinite
 completion of `ℤ` is isomorphic, as a topological group, to `ℤ_p`: Tau Ceti's
@@ -2165,14 +2166,19 @@ example (p : ℕ) [Fact p.Prime] :
 obtained as the inverse limit of exponentiation in the finite abelian `p`-quotients; it is
 what makes an abelian pro-`p` group a topological `ℤ_p`-module. The exponentiation is Tau Ceti's
 `TauCeti.IsProP.padicPow`, defined on every pro-`p` group, with `padicPow_one`, `padicPow_add`,
-`padicPow_mul`, `padicPow_natCast` and `continuous_padicPow`. -/
+`padicPow_mul`, `padicPow_natCast` and `continuous_padicPow`, and this is a closed proof from
+them. -/
 example (p : ℕ) [Fact p.Prime] {A : Type u} [CommGroup A] [TopologicalSpace A]
     [IsTopologicalGroup A] [CompactSpace A] [TotallyDisconnectedSpace A] (hA : IsProP p A) :
     ∃ e : ℤ_[p] → A → A, Continuous (fun x : ℤ_[p] × A ↦ e x.1 x.2) ∧
       (∀ a, e 1 a = a) ∧ (∀ (l m : ℤ_[p]) (a : A), e (l * m) a = e l (e m a)) ∧
       (∀ (l m : ℤ_[p]) (a : A), e (l + m) a = e l a * e m a) ∧
       ∀ (n : ℕ) (a : A), e (n : ℤ_[p]) a = a ^ n :=
-  sorry
+  ⟨fun l a ↦ TauCeti.IsProP.padicPow hA a l, TauCeti.IsProP.continuous_padicPow hA,
+    TauCeti.IsProP.padicPow_one hA,
+    fun l m a ↦ by rw [mul_comm]; exact TauCeti.IsProP.padicPow_mul hA a m l,
+    fun l m a ↦ TauCeti.IsProP.padicPow_add hA a l m,
+    fun n a ↦ TauCeti.IsProP.padicPow_natCast hA a n⟩
 
 /-- **Layer 4, the structure theorem for finitely generated abelian pro-`p` groups.**
 `A ≅ ℤ_p^r × T` with `T` a finite abelian `p`-group: Tau Ceti's
