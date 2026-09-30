@@ -30,9 +30,9 @@ roadmap.
 
 The roadmap is complete when Tau Ceti supplies all of the following.
 
-1. A Toric-compatible algebraic API for rational salient polyhedral cones, primitive rays,
-   regularity, finite fans, fan morphisms, dual semigroups, affine toric schemes, face
-   localizations, fan gluing, torus actions, and algebraic toric maps.
+1. An algebraic API for rational salient polyhedral cones, primitive rays, regularity, finite
+   fans, fan morphisms, dual semigroups, affine toric schemes, face localizations, fan gluing,
+   torus actions, and algebraic toric maps.
 2. Every regular cone has an analytic affine chart on the complex points of its algebraic affine
    scheme. Its topology comes from a finite monomial embedding and is independent of the chosen
    semigroup generators. A basis extending the primitive ray generators gives a biholomorphism
@@ -63,18 +63,22 @@ The roadmap is complete when Tau Ceti supplies all of the following.
   names the declarations that every later layer uses and states the remaining algebraic targets
   on them. No layer restates them.
 - **Matching external declarations are consumed immediately.** Before implementing a remaining
-  Layer 0 target, search Toric, Mathlib, and active pull requests. If the exact object and laws
-  exist, import them instead. Otherwise implement the target in Tau Ceti on the objects that
-  Layer 0 names. Analytic work never pauses for external upstreaming, and this roadmap does not
-  assign work to another project.
+  Layer 0 target, search Mathlib, Tau Ceti, and active pull requests, and compare with the Toric
+  project. If the exact object and laws exist in Mathlib or Tau Ceti, import them instead.
+  Otherwise implement the target in Tau Ceti on the objects that Layer 0 names. Analytic work
+  never pauses for external upstreaming, and this roadmap does not assign work to another
+  project.
 - **Mathlib owns convex-cone vocabulary.** Use `PointedCone`, `PointedCone.FG`,
   `PointedCone.DualFG`, `PointedCone.IsFaceOf`, `PointedCone.Face`,
   `ConvexCone.Salient`, cone hulls, maps, duals, and the face lattice. A toric cone is a predicate
   on that carrier, not a replacement carrier.
-- **The Toric project owns its existing scheme-level vocabulary.** Consume its tori,
-  diagonalizable group schemes, monoid algebras, `AlgebraicGeometry.ToricVariety` class in
-  `Toric.ToricVariety.Defs`, and affine-monoid construction in `Toric.ToricVariety.FromMonoid`.
-  Layer 0 connects fan combinatorics to those objects; it does not put analytic fields into them.
+- **The Toric project is prior work, not a dependency.** Yaël Dillies's Toric project formalizes
+  tori, diagonalizable group schemes, the `AlgebraicGeometry.ToricVariety` class in
+  `Toric.ToricVariety.Defs`, and affine toric varieties from affine monoids in
+  `Toric.ToricVariety.FromMonoid`. Neither Tau Ceti nor this repository depends on it, so nothing
+  here consumes it: the dense torus is Tau Ceti's `ComplexTorus` and `denseTorusScheme`, and the
+  affine toric schemes are Tau Ceti's `affineToricScheme`. Its design is the model for the
+  algebraic torus action of Layer 0, item 7.
 - **This roadmap owns the gluing of complex manifolds.** Mathlib owns the manifold vocabulary:
   `ChartedSpace`, `StructureGroupoid`, `HasGroupoid`, `IsManifold`, `ContMDiff`,
   `PartialDiffeomorph`, `IsLocalDiffeomorph` and `Diffeomorph`. Tau Ceti owns the manifold
@@ -140,8 +144,6 @@ At the dependency pin, the following anchors already exist.
   simpliciality, salience, faces, maps, and the face lattice.
 - Finite free modules, scalar extension, `Basis`, `Module.Dual`, `Finsupp`, matrices, additive
   submonoids, monoid algebras, localizations, affine schemes, and scheme gluing.
-- The Toric modules for diagonalizable group schemes, tori, monoid algebras,
-  `AlgebraicGeometry.ToricVariety`, and affine toric varieties from affine monoids.
 - Complex differentiability, finite products, open subspaces, complex manifolds, local
   diffeomorphisms, and structure groupoids.
 - Mathlib's lifted charts `OpenPartialHomeomorph.lift_openEmbedding` and pushed-forward charts
@@ -153,7 +155,7 @@ At the dependency pin, the following anchors already exist.
   universal property.
 - Proper maps, compactness, local compactness, quotient maps, and second-countability tools.
 
-## Layer 0: the Toric-compatible algebraic supplier
+## Layer 0: the algebraic supplier
 
 This layer closes the algebraic prerequisite chain. Tau Ceti implements it in
 `TauCeti/Geometry/Toric/Algebraic/`, and every later layer states its targets on the declarations
@@ -204,11 +206,9 @@ for regular cones and regular fans, and `Suggested.lean` states them on Tau Ceti
    finite generation for regular cones, `IsRegularCone.fg_dualSemigroup`. The remaining target is
    Gordan's lemma: the dual semigroup of every toric cone is finitely generated.
 7. **Affine toric schemes.** The affine toric scheme is the spectrum of the complex monoid
-   algebra, with its dense torus and torus action, connected to the Toric project's affine-monoid
-   `ToricVariety` instance. Tau Ceti: `affineCoordinateRing`, `affineToricScheme`,
-   `affineToricSchemeMap` with its identity and composition laws, and the dense torus
-   `denseTorusScheme`. The remaining targets are the torus action and the connection to the
-   Toric project's `ToricVariety` instance.
+   algebra, with its dense torus and torus action. Tau Ceti: `affineCoordinateRing`,
+   `affineToricScheme`, `affineToricSchemeMap` with its identity and composition laws, and the
+   dense torus `denseTorusScheme`. The remaining target is the torus action.
 8. **Face localizations.** Every face inclusion gives a localization map and an affine open
    immersion, with identity, composition, pairwise-overlap, and cocycle laws. Tau Ceti:
    `faceAffineCoordinateRingMap` and `faceAffineToricSchemeMap` with their identity and
@@ -236,8 +236,8 @@ for regular cones and regular fans, and `Suggested.lean` states them on Tau Ceti
    toric maps to every finite fan. The affine torus actions glue to the global torus action. The
    fan scheme of `Fan.prod` is the fibre product over `Spec C` of the two fan schemes.
 
-**Source spine:** Cox--Little--Schenck, Chapters 1 and 3; Fulton, Chapter 1 and §2.1; the public
-Toric modules named above.
+**Source spine:** Cox--Little--Schenck, Chapters 1 and 3; Fulton, Chapter 1 and §2.1; and, as prior
+work, the Toric project.
 
 ## Layer 1: characters and mixed monomial maps
 
@@ -520,5 +520,6 @@ joins those tracks.
   1965, Chapter I.
 - John M. Lee, *Introduction to Smooth Manifolds*, second edition, Graduate Texts in Mathematics
   218, Springer, 2013, Chapter 1.
-- Yaël Dillies et al., [*Toric varieties in Lean*](https://github.com/YaelDillies/Toric), for
-  the existing tori, monoid-algebra, affine-monoid, and `ToricVariety` interfaces consumed here.
+- Yaël Dillies et al., [*Toric varieties in Lean*](https://github.com/YaelDillies/Toric), prior
+  work on tori, monoid algebras, affine monoids, and the `ToricVariety` class, cited but not a
+  dependency.
