@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.Algebra.MonoidAlgebra.Exactness
 import TauCeti.NumberTheory.LocalField.AbsoluteRamificationIndex
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Inflation.Basic
 import TauCeti.Topology.Algebra.Group.Profinite.Free.Basic
@@ -24,11 +25,12 @@ are genuine objects owned here: the specialization `G_K(p)`, the group of `p`-po
 unity, the local cyclotomic character and its descent, and the completed multiplicative module
 `A(L)` with its integral `ℤ_p[Gal(L/K)]`-structure.
 
-Four Tau Ceti modules are imported directly, because what they supply is landed at this
+Five Tau Ceti modules are imported directly, because what they supply is landed at this
 repository's pin: the twisted coefficients `TauCeti.ZModTwist` with the prescription property
 `TauCeti.HasPrescriptionProperty` of a continuous character, the explicit degree-one inflation
 `TauCeti.ContCohomology.explicitInfl1` with its exactness, the free profinite group
-`TauCeti.freeProfiniteGroup`, and `TauCeti.FinitePadicExtension`.
+`TauCeti.freeProfiniteGroup`, `TauCeti.FinitePadicExtension`, and the augmentation
+`TauCeti.MonoidAlgebra.augmentation` of a group algebra, whose kernel is the augmentation ideal.
 -/
 
 namespace TauCetiRoadmap.LocalGaloisGroups
@@ -36,7 +38,13 @@ namespace TauCetiRoadmap.LocalGaloisGroups
 universe u
 
 open ValuativeRel
-open scoped Classical TensorProduct TauCetiRoadmap.ProfiniteProPGroups
+open scoped Classical TensorProduct TauCetiRoadmap.ProfiniteProPGroups CategoryTheory
+
+/-- `p ≠ 0` for a prime `p`: the hypothesis `[NeZero p]` of the chosen-root dictionary
+`muNRepIsoTrivialFp`, of ClassFieldTheory's `muNRepToTateDual`, and of the finiteness of `μ_p`,
+at a prime. -/
+local instance neZero_of_fact_prime (p : ℕ) [Fact p.Prime] : NeZero p :=
+  ⟨(Fact.out : p.Prime).ne_zero⟩
 
 /-! ## Layer 0: arithmetic carriers -/
 
@@ -391,6 +399,83 @@ end ClassFieldSupplierChecks
 
 /-! ## Layers 1 and 2: cohomology and inflation -/
 
+/-! ### Layer 1: the chosen-root dictionary
+
+A primitive `n`-th root of unity `ζ ∈ F` identifies `μ_n` with the trivial module `ℤ/n`, and the
+Kummer pairing of ClassFieldTheory with the multiplication pairing of ProfiniteProPGroups; at
+`n = p` this is `μ_p ≅ 𝔽_p`. Both statements need only a field containing `ζ`: no valuation or
+topology of `F`, and no primality of `n`, enters them. -/
+
+section ChosenRootDictionary
+
+variable (n : ℕ) [NeZero n] (F : Type) [Field F]
+
+/-- **Layer 1, the chosen-root coefficient dictionary** `μ_n ≅ ℤ/n`, `ζ ^ x ↦ x`, as a
+construction; at `n = p` it is `μ_p ≅ 𝔽_p`. Its underlying map is ClassFieldTheory's coordinate
+`ClassFieldTheory.muNRepEquivZMod ζ` of `μ_n(Fˢ)`, followed by Tau Ceti's identification
+`TauCeti.trivialFpEquiv` of the carrier of `trivialFp` with `ZMod n`; the defining equation is
+`trivialFpEquiv_muNRepIsoTrivialFp_hom_apply`. Both directions are morphisms of coefficient
+objects because `G_F` fixes `μ_n(Fˢ)` pointwise when `ζ ∈ F` (`ClassFieldTheory.muNRep_ρ_eq_self`)
+and acts trivially on `ℤ/n` (`TauCeti.trivialFp_ρ_apply_apply`), and both are continuous because
+both carriers are discrete. At `n = p` this is the identification
+`ClassFieldTheory.h2FpEquivZMod_of_mu` takes as its hypothesis. -/
+noncomputable def muNRepIsoTrivialFp (ζ : F) (hζ : IsPrimitiveRoot ζ n) :
+    ClassFieldTheory.muNRep n F ≅
+      ProfiniteProPGroups.trivialFp n (Field.absoluteGaloisGroup F) :=
+  let e : (ClassFieldTheory.muNRep n F).V ≃+
+      (ProfiniteProPGroups.trivialFp n (Field.absoluteGaloisGroup F)).V :=
+    (ClassFieldTheory.muNRepEquivZMod ζ hζ).trans
+      (TauCeti.trivialFpEquiv n (Field.absoluteGaloisGroup F)).symm.toAddEquiv
+  { hom := CategoryTheory.ConcreteCategory.ofHom (C := ClassFieldTheory.GalRep n F)
+      ({ toContinuousLinearMap :=
+          ⟨e.toAddMonoidHom.toZModLinearMap n, continuous_of_discreteTopology⟩
+         isIntertwining' := fun g => by
+          refine ContinuousLinearMap.ext fun x => ?_
+          simp [ClassFieldTheory.muNRep_ρ_eq_self ζ hζ g x] } :
+        ContIntertwiningMap (ClassFieldTheory.muNRep n F).ρ
+          (ProfiniteProPGroups.trivialFp n (Field.absoluteGaloisGroup F)).ρ)
+    inv := CategoryTheory.ConcreteCategory.ofHom (C := ClassFieldTheory.GalRep n F)
+      ({ toContinuousLinearMap :=
+          ⟨e.symm.toAddMonoidHom.toZModLinearMap n, continuous_of_discreteTopology⟩
+         isIntertwining' := fun g => by
+          refine ContinuousLinearMap.ext fun y => ?_
+          simp [ClassFieldTheory.muNRep_ρ_eq_self ζ hζ g] } :
+        ContIntertwiningMap (ProfiniteProPGroups.trivialFp n (Field.absoluteGaloisGroup F)).ρ
+          (ClassFieldTheory.muNRep n F).ρ)
+    hom_inv_id := by
+      ext x
+      exact e.symm_apply_apply x
+    inv_hom_id := by
+      ext y
+      exact e.apply_symm_apply y }
+
+/-- **The dictionary is the coordinate `ζ ^ x ↦ x`**: read in `ZMod n` through Tau Ceti's
+`trivialFpEquiv`, it is `ClassFieldTheory.muNRepEquivZMod ζ`. A closed proof. -/
+theorem trivialFpEquiv_muNRepIsoTrivialFp_hom_apply (ζ : F) (hζ : IsPrimitiveRoot ζ n)
+    (x : (ClassFieldTheory.muNRep n F).V) :
+    TauCeti.trivialFpEquiv n (Field.absoluteGaloisGroup F) ((muNRepIsoTrivialFp n F ζ hζ).hom x) =
+      ClassFieldTheory.muNRepEquivZMod ζ hζ x :=
+  (TauCeti.trivialFpEquiv n (Field.absoluteGaloisGroup F)).apply_symm_apply
+    (ClassFieldTheory.muNRepEquivZMod ζ hζ x)
+
+/-- **The dictionary carries the Kummer pairing to multiplication.** ClassFieldTheory's
+`kummerCupPairing ζ` is `(x, y) ↦ log_ζ(x) · y` (`ClassFieldTheory.kummerCupPairing_bil`), and
+`log_ζ(log_ζ(x) · y) = log_ζ(x) · log_ζ(y)` is the multiplication of `ℤ/n`, which is
+ProfiniteProPGroups' `fpPairing` (`ProfiniteProPGroups.fpPairing_bil`). This is the compatibility
+hypothesis of `ProfiniteCohomology.cup_coeffMap` that carries the Kummer cup square on
+`H¹(G_F, μ_p)` to the cup square `cupFp` on `H¹(G_F, 𝔽_p)`. A closed proof. -/
+theorem muNRepIsoTrivialFp_hom_kummerCupPairing (ζ : F) (hζ : IsPrimitiveRoot ζ n)
+    (x y : (ClassFieldTheory.muNRep n F).V) :
+    (muNRepIsoTrivialFp n F ζ hζ).hom ((ClassFieldTheory.kummerCupPairing ζ hζ).bil x y) =
+      (ProfiniteProPGroups.fpPairing n (Field.absoluteGaloisGroup F)).bil
+        ((muNRepIsoTrivialFp n F ζ hζ).hom x) ((muNRepIsoTrivialFp n F ζ hζ).hom y) := by
+  apply (TauCeti.trivialFpEquiv n (Field.absoluteGaloisGroup F)).injective
+  rw [ProfiniteProPGroups.fpPairing_bil, trivialFpEquiv_muNRepIsoTrivialFp_hom_apply,
+    trivialFpEquiv_muNRepIsoTrivialFp_hom_apply, trivialFpEquiv_muNRepIsoTrivialFp_hom_apply,
+    ClassFieldTheory.kummerCupPairing_bil, ZMod.map_smul, smul_eq_mul]
+
+end ChosenRootDictionary
+
 /-! ### Layer 1: local cohomology with trivial coefficients
 
 Stated at `Type`, as the class-field suppliers are, with Tau Ceti's
@@ -402,24 +487,15 @@ variable (p : ℕ) [Fact p.Prime] (F : Type) [Field F]
   [ValuativeRel F] [TopologicalSpace F] [IsNonarchimedeanLocalField F]
   [TauCeti.FinitePadicExtension F p]
 
-/-- **Layer 1, the chosen-root coefficient dictionary.** A primitive `p`-th root of unity `ζ` of `F`
-identifies `μ_p` with the trivial module `𝔽_p` as coefficient objects, `ζ ^ x ↦ x`: `G_F` fixes `ζ`,
-so it acts trivially on `μ_p`. This is the identification `ClassFieldTheory.h2FpEquivZMod_of_mu`
-takes as its hypothesis. -/
-theorem nonempty_muNRep_iso_trivialFp (ζ : F) (_hζ : IsPrimitiveRoot ζ p) :
-    Nonempty (ClassFieldTheory.muNRep p F ≅
-      ProfiniteProPGroups.trivialFp p (Field.absoluteGaloisGroup F)) :=
-  sorry
-
 /-- **Layer 1, `H²(G_F, 𝔽_p) ≃ 𝔽_p` when `μ_p ⊆ F`**: `ClassFieldTheory.h2FpEquivZMod_of_mu` at the
-trivial module, through the chosen-root dictionary. A closed proof, so the supplier's coefficient
-hypothesis is checked against `ProfiniteProPGroups.trivialFp`. -/
+trivial module, through the chosen-root dictionary `muNRepIsoTrivialFp`. A closed proof, so the
+supplier's coefficient hypothesis is checked against `ProfiniteProPGroups.trivialFp`. -/
 theorem nonempty_cohomFp_two_addEquiv_of_mu (ζ : F) (hζ : IsPrimitiveRoot ζ p) :
     Nonempty (ProfiniteProPGroups.cohomFp p (Field.absoluteGaloisGroup F) 2 ≃+ ZMod p) :=
-  ClassFieldTheory.h2FpEquivZMod_of_mu p F ζ hζ _ (nonempty_muNRep_iso_trivialFp p F ζ hζ)
+  ClassFieldTheory.h2FpEquivZMod_of_mu p F ζ hζ _ ⟨muNRepIsoTrivialFp p F ζ hζ⟩
 
 /-- **Layer 1, `dim H¹(G_F, 𝔽_p) = N + 2` when `μ_p ⊆ F`, by Kummer theory alone.** The dictionary
-`nonempty_muNRep_iso_trivialFp` identifies `H¹(G_F, 𝔽_p)` with `H¹(G_F, μ_p)`, which
+`muNRepIsoTrivialFp` identifies `H¹(G_F, 𝔽_p)` with `H¹(G_F, μ_p)`, which
 `ClassFieldTheory.kummerEquiv_mixed` at `n = p` identifies with `Fˣ/(Fˣ)^p`. Its order is
 `p · #μ_p(F) · #𝓀[F] ^ v_F(p)` (`LocalFieldsRamification.card_powerClasses_mixed` at `n = p`), and
 `#μ_p(F) = p` (`IsPrimitiveRoot.card_rootsOfUnity`) while `#𝓀[F] ^ v_F(p) = p ^ (e · f) = p ^ N`
@@ -448,16 +524,112 @@ theorem finrank_cohomFp_one :
         + Module.finrank ℚ_[p] F :=
   sorry
 
-/-- **Layer 1, the cup square on `H¹(G_F, 𝔽_p)` is nondegenerate on the left when `μ_p ⊆ F`.**
-Through the chosen-root dictionary the trivial module is `μ_p` and its Tate dual `Hom(μ_p, μ_p)`,
-and the cup square is the evaluation pairing
-`H¹(G_F, Hom(μ_p, μ_p)) × H¹(G_F, μ_p) → H²(G_F, μ_p) ≃ ℤ/p` followed by the invariant; left
-nondegeneracy is the first half of `ClassFieldTheory.tateDualityPairing_perfect_mixed` at
-`(i, j) = (1, 1)` and `A = μ_p`. -/
-theorem cupFp_left_nondegenerate_of_mu (_hmu : ∃ ζ : F, IsPrimitiveRoot ζ p) :
+/-- **Layer 1, the cup square on `H¹(G_F, 𝔽_p)` is nondegenerate on the left when `μ_p ⊆ F`**, from
+local duality at `A = μ_p` and `(i, j) = (1, 1)`. A closed proof, in five steps.
+
+1. The chosen-root dictionary `muNRepIsoTrivialFp ζ` carries `a ≠ 0` to a class `x ≠ 0` of
+   `H¹(G_F, μ_p)`: coefficient maps along an isomorphism are inverse to each other
+   (`TauCeti.ContinuousCohomology.coeffMap_comp`, `TauCeti.ContinuousCohomology.coeffMap_id`).
+2. `ClassFieldTheory.muNRepToTateDual ζ : μ_p → Hom(μ_p, μ_p)` is bijective
+   (`ClassFieldTheory.bijective_muNRepToTateDual`), so it has an inverse morphism, and the image
+   `x'` of `x` in `H¹(G_F, Hom(μ_p, μ_p))` is nonzero.
+3. The first half of `ClassFieldTheory.tateDualityPairing_perfect_mixed`, with an invariant
+   `tr : H²(G_F, μ_p) ≃ ℤ/p` from `ClassFieldTheory.h2MuEquivZMod_mixed`, gives `y` with
+   `⟨x', y⟩ ≠ 0`.
+4. `ClassFieldTheory.tateDualityPairing_muNRepToTateDual` identifies `⟨x', y⟩` with the Hilbert
+   pairing `ClassFieldTheory.localSymbol (kummerCupPairing ζ) tr x y`, which is `tr` of the cup of
+   `x` and `y` along `kummerCupPairing ζ`; so that cup is nonzero.
+5. `ProfiniteCohomology.cup_coeffMap`, at the compatibility
+   `muNRepIsoTrivialFp_hom_kummerCupPairing`, carries that cup to `cupFp a b` for `b` the image of
+   `y`, and the dictionary is injective on `H²`. -/
+theorem cupFp_left_nondegenerate_of_mu (hmu : ∃ ζ : F, IsPrimitiveRoot ζ p) :
     ∀ a : ProfiniteProPGroups.cohomFp p (Field.absoluteGaloisGroup F) 1, a ≠ 0 →
-      ∃ b, ProfiniteProPGroups.cupFp p (Field.absoluteGaloisGroup F) a b ≠ 0 :=
-  sorry
+      ∃ b, ProfiniteProPGroups.cupFp p (Field.absoluteGaloisGroup F) a b ≠ 0 := by
+  obtain ⟨ζ, hζ⟩ := hmu
+  obtain ⟨tr⟩ := ClassFieldTheory.h2MuEquivZMod_mixed p F p (NeZero.ne p)
+  -- A coefficient morphism with a left inverse has a left inverse on cohomology.
+  have hleft : ∀ {X Y : ClassFieldTheory.GalRep p F} (f : X ⟶ Y) (g : Y ⟶ X), f ≫ g = 𝟙 X →
+      ∀ (n : ℕ) (z : ClassFieldTheory.H p F n X),
+        (ProfiniteCohomology.coeffMap (ZMod p) g n).hom
+          ((ProfiniteCohomology.coeffMap (ZMod p) f n).hom z) = z := by
+    intro X Y f g hfg n z
+    have key : TauCeti.ContinuousCohomology.coeffMap f n ≫
+        TauCeti.ContinuousCohomology.coeffMap g n = 𝟙 _ := by
+      rw [← TauCeti.ContinuousCohomology.coeffMap_comp, hfg,
+        TauCeti.ContinuousCohomology.coeffMap_id]
+    have h := congrArg
+      (fun φ : continuousCohomology n X ⟶ continuousCohomology n X => φ.hom z) key
+    simp only [TopModuleCat.hom_comp, TopModuleCat.hom_id, ContinuousLinearMap.coe_comp,
+      Function.comp_apply, ContinuousLinearMap.coe_id', id_eq] at h
+    exact h
+  -- Step 1: `a` is the image of a nonzero class `x` of `H¹(G_F, μ_p)`.
+  intro a ha
+  obtain ⟨x, rfl⟩ : ∃ x : ClassFieldTheory.H p F 1 (ClassFieldTheory.muNRep p F),
+      (ProfiniteCohomology.coeffMap (ZMod p) (muNRepIsoTrivialFp p F ζ hζ).hom 1).hom x = a :=
+    ⟨_, hleft (muNRepIsoTrivialFp p F ζ hζ).inv (muNRepIsoTrivialFp p F ζ hζ).hom
+      (muNRepIsoTrivialFp p F ζ hζ).inv_hom_id 1 a⟩
+  have hx : x ≠ 0 := by
+    rintro rfl
+    exact ha (map_zero _)
+  -- Step 2: `muNRepToTateDual ζ` has an inverse morphism, so the image of `x` is nonzero.
+  have hD : ∀ (g : Field.absoluteGaloisGroup F)
+      (w : (ClassFieldTheory.tateDual (ClassFieldTheory.muNRep p F)).V),
+      (ClassFieldTheory.tateDual (ClassFieldTheory.muNRep p F)).ρ g w = w := by
+    intro g w
+    obtain ⟨v, rfl⟩ := (ClassFieldTheory.bijective_muNRepToTateDual ζ hζ).2 w
+    rw [← TopRep.hom_comm_apply, ClassFieldTheory.muNRep_ρ_eq_self ζ hζ g v]
+  let E := LinearEquiv.ofBijective
+    (ClassFieldTheory.muNRepToTateDual ζ hζ).hom.toContinuousLinearMap.toLinearMap
+    (ClassFieldTheory.bijective_muNRepToTateDual ζ hζ)
+  let ψ : ClassFieldTheory.tateDual (ClassFieldTheory.muNRep p F) ⟶
+      ClassFieldTheory.muNRep p F :=
+    CategoryTheory.ConcreteCategory.ofHom (C := ClassFieldTheory.GalRep p F)
+      ({ toContinuousLinearMap := ⟨E.symm.toLinearMap, continuous_of_discreteTopology⟩
+         isIntertwining' := fun g => by
+          refine ContinuousLinearMap.ext fun w => ?_
+          simp [hD g, ClassFieldTheory.muNRep_ρ_eq_self ζ hζ g] } :
+        ContIntertwiningMap (ClassFieldTheory.tateDual (ClassFieldTheory.muNRep p F)).ρ
+          (ClassFieldTheory.muNRep p F).ρ)
+  have hψ : ClassFieldTheory.muNRepToTateDual ζ hζ ≫ ψ = 𝟙 _ := by
+    ext v
+    exact E.symm_apply_apply v
+  have hx' : (ProfiniteCohomology.coeffMap (ZMod p)
+      (ClassFieldTheory.muNRepToTateDual ζ hζ) 1).hom x ≠ 0 := by
+    intro h
+    exact hx ((hleft _ ψ hψ 1 x).symm.trans
+      ((congrArg (ProfiniteCohomology.coeffMap (ZMod p) ψ 1).hom h).trans (map_zero _)))
+  -- Step 3: local duality gives `y` pairing nontrivially with the image of `x`.
+  obtain ⟨y, hy⟩ : ∃ y : ClassFieldTheory.H p F 1 (ClassFieldTheory.muNRep p F),
+      ClassFieldTheory.tateDualityPairing (ClassFieldTheory.muNRep p F) tr 1 1 rfl
+        ((ProfiniteCohomology.coeffMap (ZMod p) (ClassFieldTheory.muNRepToTateDual ζ hζ) 1).hom
+          x) y ≠ 0 := by
+    by_contra h
+    push Not at h
+    exact hx' ((ClassFieldTheory.tateDualityPairing_perfect_mixed p F p (NeZero.ne p)
+      (ClassFieldTheory.muNRep p F) tr inferInstance 1 1 rfl).1 _ h)
+  -- Step 4: that pairing is the Hilbert pairing, so the Kummer cup of `x` and `y` is nonzero.
+  rw [ClassFieldTheory.tateDualityPairing_muNRepToTateDual ζ hζ tr x y] at hy
+  have hcup : ProfiniteCohomology.cup (ClassFieldTheory.kummerCupPairing ζ hζ) 1 1 x y ≠ 0 := by
+    intro h0
+    apply hy
+    rw [ClassFieldTheory.localSymbol, h0]
+    exact map_zero tr
+  -- Step 5: the dictionary carries the Kummer cup to `cupFp`, injectively.
+  refine ⟨(ProfiniteCohomology.coeffMap (ZMod p) (muNRepIsoTrivialFp p F ζ hζ).hom 1).hom y,
+    fun h0 => hcup ?_⟩
+  have h1 : ProfiniteCohomology.cup (ProfiniteProPGroups.fpPairing p (Field.absoluteGaloisGroup F))
+      1 1 ((ProfiniteCohomology.coeffMap (ZMod p) (muNRepIsoTrivialFp p F ζ hζ).hom 1).hom x)
+      ((ProfiniteCohomology.coeffMap (ZMod p) (muNRepIsoTrivialFp p F ζ hζ).hom 1).hom y) = 0 :=
+    h0
+  have h2 := ProfiniteCohomology.cup_coeffMap (ClassFieldTheory.kummerCupPairing ζ hζ)
+    (ProfiniteProPGroups.fpPairing p (Field.absoluteGaloisGroup F))
+    (muNRepIsoTrivialFp p F ζ hζ).hom (muNRepIsoTrivialFp p F ζ hζ).hom
+    (muNRepIsoTrivialFp p F ζ hζ).hom (muNRepIsoTrivialFp_hom_kummerCupPairing p F ζ hζ) 1 1 x y
+  exact (hleft (muNRepIsoTrivialFp p F ζ hζ).hom (muNRepIsoTrivialFp p F ζ hζ).inv
+      (muNRepIsoTrivialFp p F ζ hζ).hom_inv_id (1 + 1) _).symm.trans
+    ((congrArg
+      (ProfiniteCohomology.coeffMap (ZMod p) (muNRepIsoTrivialFp p F ζ hζ).inv (1 + 1)).hom
+      (h2.trans h1)).trans (map_zero _))
 
 /-- **Layer 1, the cup square is nondegenerate on both sides when `μ_p ⊆ F`.** One side suffices:
 the other follows from the graded commutativity `ProfiniteProPGroups.cupFp_gradedComm`, a closed
@@ -508,8 +680,26 @@ theorem inflH2AbsoluteGaloisProP_injective (p : ℕ) [Fact p.Prime]
     Function.Injective (inflH2AbsoluteGaloisProPMap p K) :=
   sorry
 
-/-- The degree-two comparison is an isomorphism. Surjectivity splits into the `μ_p` and
-`¬μ_p` cases described in the roadmap. -/
+/-- **Degree-two inflation is surjective for a `p`-adic field**, in the two arithmetic cases. When
+`μ_p ⊄ K` the target `H²(G_K, 𝔽_p)` vanishes, by Layer 1. When `μ_p ⊆ K` the target is
+one-dimensional, by Layer 1, and it contains a nonzero cup square of two inflated classes:
+degree-one inflation is bijective (`inflH1AbsoluteGaloisProP`), the cup square on `H¹(G_K, 𝔽_p)` is
+nondegenerate (Layer 1), and inflation commutes with the cup product
+(`ProfiniteCohomology.cup_infl`). Unlike injectivity, surjectivity uses the arithmetic of `K`. -/
+theorem inflH2AbsoluteGaloisProP_surjective (p : ℕ) [Fact p.Prime]
+    (K : Type u) [Field K] [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K]
+    [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
+    [CompactSpace (Field.absoluteGaloisGroup K)]
+    [TotallyDisconnectedSpace (Field.absoluteGaloisGroup K)]
+    [TotallyDisconnectedSpace (absoluteGaloisGroupProP p K)] :
+    Function.Surjective (inflH2AbsoluteGaloisProPMap p K) :=
+  sorry
+
+/-- **The degree-two inflation isomorphism** `H²(G_K(p), 𝔽_p) ≃ H²(G_K, 𝔽_p)` for a `p`-adic
+field: the inflation map `inflH2AbsoluteGaloisProPMap`, which is bijective by
+`inflH2AbsoluteGaloisProP_injective` and `inflH2AbsoluteGaloisProP_surjective`. The equivalence is
+the inflation map by construction, and the local-field structure of `K` enters it through the
+surjectivity theorem. -/
 noncomputable def inflH2AbsoluteGaloisProP (p : ℕ) [Fact p.Prime]
     (K : Type u) [Field K] [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K]
     [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
@@ -518,7 +708,8 @@ noncomputable def inflH2AbsoluteGaloisProP (p : ℕ) [Fact p.Prime]
     [TotallyDisconnectedSpace (absoluteGaloisGroupProP p K)] :
     ProfiniteProPGroups.cohomFp p (absoluteGaloisGroupProP p K) 2 ≃ₗ[ZMod p]
       ProfiniteProPGroups.cohomFp p (Field.absoluteGaloisGroup K) 2 :=
-  sorry
+  LinearEquiv.ofBijective (inflH2AbsoluteGaloisProPMap p K)
+    ⟨inflH2AbsoluteGaloisProP_injective p K, inflH2AbsoluteGaloisProP_surjective p K⟩
 
 theorem cohomFp_two_subsingleton_of_not_mu (p : ℕ) [Fact p.Prime]
     (K : Type u) [Field K] [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K]
@@ -796,7 +987,7 @@ theorem cyclotomicOrientation_range (hmu : ∃ ζ : K, IsPrimitiveRoot ζ p) :
 (`continuousLocalCyclotomicCharacter_hasPrescriptionProperty`), the pull-back
 `cyclotomicOrientation_comp_absoluteGaloisGroupProPMk`, and twisted inflation at the levels `i` and
 `1` (`explicitInfl1ZModTwist_bijective`, `explicitInfl1_zModTwist_reduce`). Local duality is not
-used. -/
+used. It is the input of `ProfiniteProPGroups.demushkinCharacter_unique` below. -/
 theorem cyclotomicOrientation_hasPrescriptionProperty
     (hmu : ∃ ζ : K, IsPrimitiveRoot ζ p) :
     TauCeti.HasPrescriptionProperty (cyclotomicOrientation p K hmu) := by
@@ -815,34 +1006,20 @@ theorem cyclotomicOrientation_hasPrescriptionProperty
   exact (DFunLike.congr_fun
     (explicitInfl1_zModTwist_reduce p K (cyclotomicOrientation p K hmu) i hi) w).symm
 
-/-- **Layer 5, the prescription property in the supplier's cocycle spelling.** PPG's
-`HasPrescriptionProperty` is Labute's condition 1, that `H¹(G, I(χ)/pⁱ) → H¹(G, I(χ)/p)` is onto,
-written with continuous crossed homomorphisms modulo principal ones, and Tau Ceti's explicit `H¹` is
-made of exactly those: `TauCeti.ContCohomology.H1` is `Z¹ ⧸ B¹`, whose membership conditions are the
-cocycle and coboundary conditions (`TauCeti.ContCohomology.mem_Z1_iff`, `mem_B1_iff`), and a
-continuous map into the discrete `ZMod (p ^ i)` is a locally constant one. So this is
-`cyclotomicOrientation_hasPrescriptionProperty` with its classes unfolded to representing cocycles.
-It is the input of `ProfiniteProPGroups.demushkinCharacter_unique` below. -/
-theorem cyclotomicOrientation_toMonoidHom_hasPrescriptionProperty
-    (hmu : ∃ ζ : K, IsPrimitiveRoot ζ p) :
-    ProfiniteProPGroups.HasPrescriptionProperty (cyclotomicOrientation p K hmu).toMonoidHom :=
-  sorry
-
-/-- The orientation extracted from the dualizing module is the descended cyclotomic character.
-This equation and `localCyclotomicCharacter_artinMap_unit` are the two halves of the comparison:
-the first identifies the abstract orientation with `χ_cyc`, the second computes `χ_cyc` from local
-reciprocity with the arithmetic-Frobenius normalization and the inverse. A closed proof:
-`ProfiniteProPGroups.demushkinCharacter_unique` applied to the continuous orientation and its
-prescription property. -/
+/-- The orientation extracted from the dualizing module is the descended cyclotomic character, as
+continuous homomorphisms. This equation and `localCyclotomicCharacter_artinMap_unit` are the two
+halves of the comparison: the first identifies the abstract orientation with `χ_cyc`, the second
+computes `χ_cyc` from local reciprocity with the arithmetic-Frobenius normalization and the inverse.
+A closed proof: ProfiniteProPGroups' prescription predicate is Tau Ceti's
+`TauCeti.HasPrescriptionProperty`, so `ProfiniteProPGroups.demushkinCharacter_unique` applies to the
+orientation and `cyclotomicOrientation_hasPrescriptionProperty` directly. -/
 theorem demushkinCharacter_absoluteGaloisGroupProP
     (hmu : ∃ ζ : K, IsPrimitiveRoot ζ p) :
-    ProfiniteProPGroups.demushkinCharacter
-        (isDemushkin_absoluteGaloisGroupProP_of_mu p K hmu)
-      = (cyclotomicOrientation p K hmu).toMonoidHom :=
+    ProfiniteProPGroups.demushkinCharacter (isDemushkin_absoluteGaloisGroupProP_of_mu p K hmu)
+      = cyclotomicOrientation p K hmu :=
   (ProfiniteProPGroups.demushkinCharacter_unique
-    (isDemushkin_absoluteGaloisGroupProP_of_mu p K hmu) (cyclotomicOrientation p K hmu).toMonoidHom
-    (map_continuous (cyclotomicOrientation p K hmu))
-    (cyclotomicOrientation_toMonoidHom_hasPrescriptionProperty p K hmu)).symm
+    (isDemushkin_absoluteGaloisGroupProP_of_mu p K hmu) (cyclotomicOrientation p K hmu)
+    (cyclotomicOrientation_hasPrescriptionProperty p K hmu)).symm
 
 end LocalField
 
@@ -1153,10 +1330,20 @@ section GroupAlgebra
 
 variable (p : ℕ) [Fact p.Prime] (G : Type u) [Group G]
 
-/-- The augmentation ideal `I_G` of `ℤ_p[G]`, the kernel of `g ↦ 1`, spelled as the span of the
-elements `g - 1`. -/
-noncomputable def augmentationIdeal : Ideal (MonoidAlgebra ℤ_[p] G) :=
-  Ideal.span (Set.range fun g : G => MonoidAlgebra.single g (1 : ℤ_[p]) - 1)
+/-- The augmentation ideal `I_G` of `ℤ_p[G]`: the kernel of Tau Ceti's augmentation
+`TauCeti.MonoidAlgebra.augmentation`, the ring map `ℤ_p[G] → ℤ_p` sending every `g` to `1`. Its
+generators `g - 1` are `augmentationIdeal_eq_span`. Tau Ceti's `Rep.augmentationIdeal` is the same
+kernel as an object of the representation category; this roadmap uses it as a left ideal of the
+group algebra, to form `ℤ_p[G] ⧸ I_G` and the submodule the Tate module maps onto. -/
+noncomputable abbrev augmentationIdeal : Ideal (MonoidAlgebra ℤ_[p] G) :=
+  RingHom.ker (TauCeti.MonoidAlgebra.augmentation ℤ_[p] G)
+
+/-- The augmentation ideal is generated by the elements `g - 1`: Tau Ceti's
+`TauCeti.MonoidAlgebra.ker_augmentation_eq_span`. A closed proof. -/
+theorem augmentationIdeal_eq_span :
+    augmentationIdeal p G =
+      Ideal.span (Set.range fun g : G => MonoidAlgebra.single g (1 : ℤ_[p]) - 1) :=
+  TauCeti.MonoidAlgebra.ker_augmentation_eq_span ℤ_[p] G
 
 /-- **The `p`-relation module of a generating family** (NSW (5.6.6), Lyndon's sequence): the
 kernel of `ℤ_p[G]^n → ℤ_p[G]`, `e_i ↦ g_i - 1`. For the presentation `1 → R → F_n → G → 1` in
@@ -1264,7 +1451,12 @@ section IntegralCancellation
 variable (p : ℕ) [Fact p.Prime] (G : Type u) [Group G] [Finite G]
 
 /-- **Krull–Schmidt cancellation over `ℤ_p[G]`** (NSW (5.6.10)(i)). Finitely generated modules
-over the group algebra of a finite group over a complete discrete valuation ring cancel. ⚠ The
+over the group algebra of a finite group over a complete discrete valuation ring cancel. The
+exchange argument is Tau Ceti's Krull–Schmidt theorem in Azumaya's form,
+`TauCeti.exists_equiv_linearEquiv_of_isLocalRing_end`, which needs local endomorphism rings on one
+side only. What is particular to `ℤ_p[G]` is that a finitely generated indecomposable
+`ℤ_p[G]`-module has a local endomorphism ring: that ring is a finite `ℤ_p`-algebra with no
+nontrivial idempotents, and over the complete local ring `ℤ_p` such an algebra is local. ⚠ The
 same statement over `ℤ[G]` fails in general — Swan's stably free, non-free modules over integral
 group rings of generalized quaternion groups — so completeness of `ℤ_p` is doing real work and
 the base may not be weakened to a Dedekind domain. -/
@@ -1674,8 +1866,11 @@ theorem tameFrameModule_torsion_linearEquiv (σ τ : L ≃ₐ[K] L) (a b : ℕ)
   sorry
 
 /-- **Step 3, existence of the Tate module** (NSW (5.6.5) for the extension `0 → A(L) → Y → I_G → 0`
-and (3.1.5), Tate's theorem, for the cohomological triviality). Its inputs are the class formation
-of `ClassFieldTheory` — `ClassFormation`, `fundamentalClass` and `tateTheorem` — and the
+and (3.1.5), Tate's theorem, for the cohomological triviality). Its inputs are the local class
+formation — `ClassFieldTheory.ClassFormation`, which is Tau Ceti's
+`TauCeti.ClassFieldTheory.ClassFormation` re-exported, with Tau Ceti's fundamental class
+`ClassFormation.fundamentalClass` and its generation theorem
+`ClassFormation.fundamentalClass_generates`, and `ClassFieldTheory.tateTheorem` — and the
 reciprocity identification `A(L) ≃ G_L^{ab}(p)` of Step 1, which carries the fundamental class of
 `Lˣ` to `A(L)`. -/
 theorem nonempty_tateModule : Nonempty (TateModule p L K) :=
@@ -1751,8 +1946,9 @@ order the `p`-part of `#(G_K ⧸ V)`. At `V = G_L` for a finite Galois layer `L/
 `1 → G_L^ab(p) → G_K/⁅G_L, G_L⁆G_L(p) → Gal(L/K) → 1` generates `H²(Gal(L/K), A(L))`. This is the
 one place strict cohomological dimension enters this roadmap, and it enters at `G_K` only. A closed
 proof: `ProfiniteCohomology.abelianizationProPClass_generates` at `G = G_K`, whose hypothesis
-`scd_p(G_K) ≤ 2` is `ClassFieldTheory.scd_p_absoluteGaloisGroup_eq_two` at `ℓ = p`, read on Tau
-Ceti's invariant through `ProfiniteCohomology.scd_p_eq_strictCohomologicalDimensionAt`. -/
+`scd_p(G_K) ≤ 2` is `ClassFieldTheory.scd_p_absoluteGaloisGroup_eq_two` at `ℓ = p`. Both are
+statements about `ProfiniteCohomology.scd_p`, which is Tau Ceti's `strictCohomologicalDimensionAt`,
+so no comparison enters. -/
 theorem contCohomologyClass_absoluteGaloisGroup_generates (p : ℕ) [Fact p.Prime] (K : Type)
     [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
     [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K]
@@ -1764,9 +1960,7 @@ theorem contCohomologyClass_absoluteGaloisGroup_generates (p : ℕ) [Fact p.Prim
           (Additive (ProfiniteCohomology.abelianizationProP p (Field.absoluteGaloisGroup K) V))) =
         p ^ padicValNat p (Nat.card (Field.absoluteGaloisGroup K ⧸ V)) :=
   ProfiniteCohomology.abelianizationProPClass_generates p (Field.absoluteGaloisGroup K)
-    ((ProfiniteCohomology.scd_p_eq_strictCohomologicalDimensionAt p
-        (Field.absoluteGaloisGroup K)).symm.trans
-      (ClassFieldTheory.scd_p_absoluteGaloisGroup_eq_two K p p)).le V hV
+    (ClassFieldTheory.scd_p_absoluteGaloisGroup_eq_two K p p).le V hV
 
 /-! ### Rejection tests for the finite-layer contracts
 
@@ -2005,8 +2199,7 @@ theorem exists_generating_tuple_quotient
       Subgroup.closure (Set.range x) = ⊤ :=
   sorry
 
-omit finQp [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
-  [CompactSpace (Field.absoluteGaloisGroup K)]
+omit finQp [CompactSpace (Field.absoluteGaloisGroup K)]
   [TotallyDisconnectedSpace (Field.absoluteGaloisGroup K)] in
 /-- ⚠ **Rejection test.** The finite-level statement with a `Finset` of cardinality exactly `N + 2`
 is false: `U = G_K` is open, normal and contains `⁅P_K, P_K⁆`, its quotient is trivial, and a
@@ -2028,7 +2221,10 @@ theorem not_forall_exists_finset_card_generating_quotient :
 /-- **Step 5b, the tuple sets.** For an open normal `U`, the set `X_U` of `(N + 2)`-tuples of
 elements of `G_K` whose images generate `G_K/U`. The compactness argument runs over these sets:
 no compatibility between independently chosen generating sets of different quotients is needed,
-because one tuple of `G_K` is compared against every quotient. -/
+because one tuple of `G_K` is compared against every quotient. The set depends only on `G_K` and
+on `N`; the local-field structure of `K` enters through the condition `⁅P_K, P_K⁆ ≤ U` of
+`generatingTuples_nonempty`, whose wild inertia `LocalFieldsRamification.wildInertia K` is built
+from the ramification groups of the valuation of `K`. -/
 def generatingTuples (U : OpenNormalSubgroup (Field.absoluteGaloisGroup K)) :
     Set (Fin (Module.finrank ℚ_[p] K + 2) → Field.absoluteGaloisGroup K) :=
   {x | Subgroup.closure (Set.range fun i =>

@@ -54,10 +54,10 @@ The roadmap owns:
 
 It does not rebuild abstract profinite or pro-`p` group theory, continuous-cohomology operations,
 ramification theory, Kummer theory, local reciprocity, or local Tate duality. In particular it
-defines no copy of `IsDemushkin`, no second cup product, no second local Artin map, and no
-private input record standing in for supplier theorems. There is no `LocalFieldInputs`,
-`ProPOps`, or `ProPRankInputs` structure in this roadmap. Each proof consumes the named supplier
-declarations directly.
+defines no copy of `IsDemushkin`, no second cup product, no second prescription predicate, no
+second Tate dual, no second local Artin map, and no private input record standing in for supplier
+theorems. There is no `LocalFieldInputs`, `ProPOps`, or `ProPRankInputs` structure in this
+roadmap. Each proof consumes the named supplier declarations directly.
 
 Labute's abstract classification of Demushkin groups stays in **ProfiniteProPGroups**, together
 with the three relator words and the two even-rank families. This roadmap computes the three
@@ -106,7 +106,7 @@ the table; subject descriptions without an exact declaration are not dependencie
 | maximal pro-`p` quotient | `proPKernel`, `maximalProPQuotient`, `IsProP`, `topAbelianization` |
 | generation and rank | `IsTopologicallyFinitelyGenerated`, `topologicalGeneratorRank`, `topologicalGeneratorRankNat`, `topologicalGeneratorRank_le_of_surjective`, `topologicalGeneratorRankNat_le_of_isOpen`, `topologicallyGenerates_iff_frattiniQuotient` |
 | free case | `freeProP`, `isFree_of_cd_p_le_one` |
-| Demushkin theory | `trivialFp`, `cohomFp`, `cupFp`, `IsDemushkin`, `demushkinRank`, `demushkinQ`, `demushkinCharacter`, `demushkinCharacter_unique`, `HasPrescriptionProperty` |
+| Demushkin theory | `trivialFp`, `cohomFp`, `fpPairing`, `fpPairing_bil`, `cupFp`, `cupFp_gradedComm`, `IsDemushkin`, `demushkinRank`, `demushkinQ`, `demushkinCharacter`, `demushkinCharacter_unique` |
 | marked classification | `presentedProP`, `freeProPGen`, `presentedProPGen`, `demushkinWordNeTwo`, `demushkinWordTwoOdd`, `demushkinWordTwoEven`, `isDemushkin_marked_of_q_ne_two`, `isDemushkin_marked_of_q_two_odd`, `isDemushkin_marked_of_q_two_even` |
 | marked dyadic target | `demushkinD0`, `d0A`, `d0S`, `d0Y`, `standardD0Orientation`, `standardD0Orientation_d0A`, `standardD0Orientation_d0S`, `standardD0Orientation_d0Y`, `standardD0Orientation_surjective` |
 | closed subgroups of `ℤ₂ˣ` | `unitsPrincipal`, `unitsPlusMinus`, `procyclicClosure` |
@@ -114,8 +114,13 @@ the table; subject descriptions without an exact declaration are not dependencie
 | lifting along an extension class (Layer 7, Step 5) | `ProfiniteGroupExtension.exists_continuous_monoidHom_of_contCohomologyClass_map_eq`, `ProfiniteGroupExtension.contCohomologyClass_map_eq_of_continuous_monoidHom`, `GroupExtension.surjective_of_comp_inl_eq` |
 
 The supplier owns the definitions and all abstract classification theorems. This roadmap applies
-them; it does not restate them with local-field hypotheses appended. The Demushkin row also uses
-`cupFp_gradedComm`, which makes one-sided nondegeneracy of the cup square enough (Layer 1).
+them; it does not restate them with local-field hypotheses appended. In the Demushkin row,
+`cupFp_gradedComm` makes one-sided nondegeneracy of the cup square enough, and `fpPairing` with its
+defining equation `fpPairing_bil` is the multiplication pairing that the chosen-root dictionary
+compares with the Kummer pairing (Layer 1). The supplier's `HasPrescriptionProperty` is Tau Ceti's
+`HasPrescriptionProperty` by reducible alias and `demushkinCharacter hG` is a continuous character,
+so `demushkinCharacter_unique` takes the Tau Ceti predicate of this roadmap's continuous orientation
+directly (Layer 5), and no second prescription predicate is involved.
 
 ### From `TauCetiRoadmap.ProfiniteCohomology`
 
@@ -123,14 +128,16 @@ them; it does not restate them with local-field hypotheses appended. The Demushk
 |---|---|
 | quotient comparison | `quotientToInvariants`, `quotientToInvariantsι`, `infl`, `explicitIso_infl` |
 | five-term argument | `transgression`, `fiveTerm_exact_H1N`, `fiveTerm_exact_H2Q`, `transgression_explicitResConj1`, `explicitInfl2_transgression` |
-| cup compatibility | `cup`, `degreeCast`, `cup_infl`, `cup_coeffMap`, `cup_add_left`, `cup_add_right`, `cup_gradedComm` |
-| cohomological dimension | `cd_p`, `cd_p_le_iff_finite_pPrimary`, `cd_p_le_iff_boundedExponent` |
-| the class module, used at `G_K` (PC Layer 11; NSW (3.6.4)(iii) at `G = G_K`, `V = G_L`, `L/K` finite Galois) | `abelianizationProP`, `abelianizationProPFactorSet`, `abelianizationProPClass`, `abelianizationProPClass_generates`, `scd_p_eq_strictCohomologicalDimensionAt` |
+| coefficient maps and cup compatibility | `coeffMap`, `cup`, `degreeCast`, `cup_infl`, `cup_coeffMap`, `cup_add_left`, `cup_add_right`, `cup_gradedComm` |
+| cohomological dimension | `cd_p`, `scd_p`, `cd_p_le_iff_finite_pPrimary`, `cd_p_le_iff_boundedExponent` |
+| the class module, used at `G_K` (PC Layer 11; NSW (3.6.4)(iii) at `G = G_K`, `V = G_L`, `L/K` finite Galois) | `abelianizationProP`, `abelianizationProPFactorSet`, `abelianizationProPClass`, `abelianizationProPClass_generates` |
 
 The comparison is always with Mathlib's `continuousCohomology`; this roadmap has no cohomology
-carrier of its own. The hypothesis of `abelianizationProPClass_generates` is
-`TauCeti.strictCohomologicalDimensionAt p G ≤ 2`; at `G = G_K` it is ClassFieldTheory's
-`scd_p_absoluteGaloisGroup_eq_two` read through `scd_p_eq_strictCohomologicalDimensionAt`. Layer 7
+carrier of its own. `cd_p` and `scd_p` are Tau Ceti's `cohomologicalDimensionAt` and
+`strictCohomologicalDimensionAt` by reducible alias. The hypothesis of
+`abelianizationProPClass_generates` is `scd_p p G ≤ 2`; at `G = G_K` it is ClassFieldTheory's
+`scd_p_absoluteGaloisGroup_eq_two`, a statement about the same invariant, so no comparison enters.
+Layer 1 carries the Kummer cup square to the cup square of `𝔽_p` with `cup_coeffMap`. Layer 7
 also reads the carrier `abelianizationProP`, with its conjugation action, and the class
 `abelianizationProPClass` at the relation subgroup `R` of a free profinite group, for Lyndon's
 theorem and the extension `E_top` of Step 5; the generation theorem is used only at `G_K`.
@@ -152,40 +159,57 @@ the upper bound for the full `G_K`. Ramification filtrations and the tame quotie
 that roadmap even when used in the proof here; in particular Layer 7 uses `tameQuotient`,
 `wildInertia` and the marked isomorphism `tameQuotientEquiv` as imported objects, takes its tame
 generator from `exists_topologicalClosure_zpowers_eq_tameInertia`, which puts it in inertia, and
-defines no second tame or wild carrier and no second Iwasawa presentation.
+defines no second tame or wild carrier and no second Iwasawa presentation. `wildInertia K` is built
+from the lower ramification groups of the finite Galois layers of `K`, and `normalizedValuation K`
+is Tau Ceti's normalized valuation, so both depend on the valuation and topology of `K`. Every
+statement here that mentions wild inertia, the tame quotient or tame inertia therefore carries
+`[ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]`, the quotient-generation
+statements of Layer 7 Step 5 included.
 
 ### From `TauCetiRoadmap.ClassFieldTheory`
 
 | Use here | Exact declarations |
 |---|---|
 | coefficient objects and Kummer theory | `GalRep`, `H`, `muNRep`, `kummerEquiv_mixed` |
-| degree two and local duality | `finite_H`, `h2MuEquivZMod_mixed`, `h2FpEquivZMod_of_mu`, `tateDualityPairing`, `tateDualityPairing_perfect_mixed`, `eulerCharacteristic_finrank_fp` |
+| degree two and local duality | `finite_H`, `h2MuEquivZMod_mixed`, `h2FpEquivZMod_of_mu`, `tateDual`, `tateDualityPairing`, `tateDualityPairing_perfect_mixed`, `eulerCharacteristic_finrank_fp` |
+| the chosen-root comparison of the cup square with duality | `muNRepEquivZMod`, `muNRep_ρ_eq_self`, `kummerCupPairing`, `kummerCupPairing_bil`, `localSymbol`, `muNRepToTateDual`, `bijective_muNRepToTateDual`, `tateDualityPairing_muNRepToTateDual` |
 | reciprocity and orientation | `artinMap`, `restrictAbsolute`, `artinMap_restrict`, `absoluteGaloisGroupExtend`, `artinMap_norm`, `denseRange_artinMap`, `localArtinMap`, `normResidue`, `unramifiedCoordinate`, `unramifiedCoordinate_artinMap`, `cyclotomicCharacter_artinMap`, `cyclotomicCharacter_artinMap_padic` |
-| class formation and Tate's theorem | `ClassFormation`, `fundamentalClass`, `fundamentalClass_generates`, `tateTheorem`, `artinMap_conj` |
+| class formation and Tate's theorem | `ClassFormation` (Tau Ceti's, re-exported), `tateTheorem`, `artinMap_conj` |
 | strict cohomological dimension of `G_K` | `scd_p_absoluteGaloisGroup_eq_two` |
 
 The `h2MuEquivZMod_mixed` theorem is the mixed-characteristic result valid at `n = p`; the
 away-from-`p` theorem with `IsUnit (n : 𝒪[K])` cannot replace it. Likewise,
 `h2FpEquivZMod_of_mu` carries a chosen primitive root and a coefficient identification. Omitting
-that identification makes the statement false. `cyclotomicCharacter_artinMap` and
-`cyclotomicCharacter_artinMap_padic` are proved in ClassFieldTheory's Layer 11, from global
-reciprocity over `ℚ`, so every statement here that consumes them depends on ClassFieldTheory
-Layers 10 and 11; `localCyclotomicCharacter_artinMap_padic_uniformizer` (Layer 5) does not.
+that identification makes the statement false. `tateDual A` is Tau Ceti's internal hom
+`Hom(A, μ_n)` with its conjugation action, and `tateDualityPairing` is evaluation followed by an
+invariant `H²(G_K, μ_n) ≃ ℤ/n`. After a primitive root `ζ ∈ K` is chosen, `muNRepToTateDual ζ`
+identifies `μ_p` with `Hom(μ_p, μ_p)`, and `tateDualityPairing_muNRepToTateDual` turns the `(1, 1)`
+duality pairing at `A = μ_p` into the Hilbert pairing `localSymbol (kummerCupPairing ζ)`. Layer 1
+reads that pairing on `H¹(G_K, 𝔽_p)` through the chosen-root dictionary.
+
+`cyclotomicCharacter_artinMap` and `cyclotomicCharacter_artinMap_padic` are proved in
+ClassFieldTheory's Layer 11, from global reciprocity over `ℚ`, so every statement here that
+consumes them depends on ClassFieldTheory Layers 10 and 11;
+`localCyclotomicCharacter_artinMap_padic_uniformizer` (Layer 5) does not.
 
 ### From Tau Ceti
 
 Several targets of the supplier roadmaps are landed in Tau Ceti at this repository's pin. This
-roadmap consumes those declarations directly, as `TauCeti.*`, and `Suggested.lean` imports their
-modules.
+roadmap consumes those declarations directly, as `TauCeti.*`, and `Suggested.lean` imports the
+modules of those that its statements and closed proofs use. The Krull–Schmidt theorem is used only
+in the proof route of a target, and is cited there by name.
 
 | Use here | Exact declarations |
 |---|---|
 | twisted coefficients and the prescription property | `ZModTwist`, `ZModTwist.reduce`, `ZModTwist.isProP_multiplicative`, `HasPrescriptionProperty`, `hasPrescriptionProperty_iff` |
 | explicit low-degree cohomology | `ContCohomology.explicitInfl1`, `ContCohomology.explicitInfl1_injective`, `ContCohomology.explicitInfRes_exact`, `ContCohomology.explicitInfl1_eq_explicitMap1`, `ContCohomology.explicitMap1_comp`, `ContCohomology.explicitRes1`, `ContCohomology.explicitCoeff1`, `ContCohomology.explicitCoeff1Equiv`, `ContCohomology.H1EquivOfSmulEqSelf`, `ContCohomology.explicitH2IsoGroupCohomology` |
 | Kummer theory on the explicit model | `kummerIsoTransport`, `kummerMap_surjective`, `kummerMap_eq_kummerCocycleClass`, `absoluteGaloisGroupRestrictEquiv` |
+| trivial coefficients and coefficient maps | `trivialFpEquiv`, `trivialFp_ρ_apply_apply`, `ContinuousCohomology.coeffMap_comp`, `ContinuousCohomology.coeffMap_id` |
 | continuous quotient maps | `ContinuousMonoidHom.quotientMk`, `ContinuousMonoidHom.quotientLift` |
 | free profinite groups and extensions | `freeProfiniteGroup`, `freeProfiniteGroup.lift`, `freeProfiniteGroup.hom_ext`, `freeProfiniteGroup.dense_closure_range_of`, `ProfiniteGroupExtension`, `GroupExtension.contCohomologyClass_factorSet_eq` |
-| local fields and dimension | `FinitePadicExtension`, `galoisSubgroup`, `galoisSubgroup_index`, `galoisSubgroupEquiv_apply_separableClosureRingEquiv`, `isProP_units_padicInt_two`, `strictCohomologicalDimensionAt` |
+| class formations | `ClassFieldTheory.ClassFormation.fundamentalClass`, `ClassFieldTheory.ClassFormation.fundamentalClass_generates` |
+| group algebras and cancellation | `MonoidAlgebra.augmentation`, `MonoidAlgebra.ker_augmentation_eq_span`, `exists_equiv_linearEquiv_of_isLocalRing_end` |
+| local fields | `FinitePadicExtension`, `galoisSubgroup`, `galoisSubgroup_index`, `galoisSubgroupEquiv_apply_separableClosureRingEquiv`, `isProP_units_padicInt_two` |
 
 Tau Ceti's `localCyclotomicCharacter` landed after this repository's Tau Ceti pin; this roadmap's
 `localCyclotomicCharacter` has the same values and is replaced by it when the pin moves.
@@ -277,8 +301,16 @@ following exact statements:
 - `H⁰(G_K, 𝔽_p)` is finite-dimensional of dimension `1`.
 - `H¹(G_K, 𝔽_p)` and `H²(G_K, 𝔽_p)` are finite-dimensional. Finiteness is a separate theorem
   from each finrank calculation: `Module.finrank` alone is `0` on an infinite-dimensional module.
-- The chosen-root dictionary `nonempty_muNRep_iso_trivialFp`: a primitive `p`-th root of unity `ζ`
-  of `K` identifies `μ_p` with `T` as coefficient objects, `ζ^x ↦ x`, because `G_K` fixes `ζ`.
+- The chosen-root dictionary `muNRepIsoTrivialFp n K ζ : μ_n ≅ ℤ/n`, a construction, for
+  `n ≠ 0` and a primitive `n`-th root of unity `ζ ∈ K`; at `n = p` it identifies `μ_p` with `T`.
+  Its underlying map is CFT's coordinate `muNRepEquivZMod ζ`, `ζ^x ↦ x`, followed by TC's
+  `trivialFpEquiv` (`trivialFpEquiv_muNRepIsoTrivialFp_hom_apply`). It is a morphism of
+  coefficient objects in both directions because `G_K` fixes `μ_n(Kˢ)` pointwise when `ζ ∈ K`
+  (CFT `muNRep_ρ_eq_self`) and acts trivially on `ℤ/n` (TC `trivialFp_ρ_apply_apply`). It carries
+  CFT's Kummer pairing `kummerCupPairing ζ`, `(x, y) ↦ log_ζ(x) · y` (`kummerCupPairing_bil`), to
+  PPG's multiplication pairing `fpPairing` (`fpPairing_bil`):
+  `muNRepIsoTrivialFp_hom_kummerCupPairing`, a closed proof. Neither statement uses the valuation
+  or topology of `K`, or the primality of `n`.
 - If `μ_p ⊆ K`, then `H²(G_K, 𝔽_p) ≃ 𝔽_p` (`nonempty_cohomFp_two_addEquiv_of_mu`), which is
   `CFT.h2FpEquivZMod_of_mu` at `T` through the dictionary.
 - If `μ_p ⊄ K`, then `H²(G_K, 𝔽_p)` actually vanishes. State `Subsingleton`, not merely
@@ -296,20 +328,36 @@ following exact statements:
   `CFT.eulerCharacteristic_finrank_fp`), and with the vanishing of `H²` the count `N + 1` when
   `μ_p ⊄ K` (`finrank_cohomFp_one_of_not_mu`). When `μ_p ⊆ K` it agrees with the Kummer count.
 - When `μ_p ⊆ K`, the cup square on `H¹(G_K, 𝔽_p)` is nondegenerate on both sides
-  (`cupFp_nondegenerate_of_mu`). Through the dictionary the trivial module is `μ_p`, its Tate dual
-  `Hom(μ_p, μ_p)` is again the trivial module, and the cup square is the evaluation pairing
-  `H¹(G_K, Hom(μ_p, μ_p)) × H¹(G_K, μ_p) → H²(G_K, μ_p) ≃ ℤ/p` (`CFT.tateDualityPairing`). Left
-  nondegeneracy (`cupFp_left_nondegenerate_of_mu`) is the first half of
-  `CFT.tateDualityPairing_perfect_mixed` at `(i, j) = (1, 1)` and `A = μ_p`. One side suffices: the
-  other follows from the graded commutativity `PPG.cupFp_gradedComm`, a closed proof. Do not
-  introduce an untyped assertion that “local duality holds.”
+  (`cupFp_nondegenerate_of_mu`). Left nondegeneracy (`cupFp_left_nondegenerate_of_mu`) is local
+  duality at `A = μ_p` and `(i, j) = (1, 1)`, read through the dictionary, in five steps, and it is
+  a closed proof:
+  1. the dictionary carries a class `a ≠ 0` of `H¹(G_K, 𝔽_p)` to a class `x ≠ 0` of
+     `H¹(G_K, μ_p)`, since coefficient maps along an isomorphism are inverse to each other (PC
+     `coeffMap`, TC `ContinuousCohomology.coeffMap_comp` and `coeffMap_id`);
+  2. CFT's `muNRepToTateDual ζ : μ_p → Hom(μ_p, μ_p)`, `x ↦ (y ↦ log_ζ(x) · y)`, is bijective
+     (`bijective_muNRepToTateDual`), hence an isomorphism of coefficient objects, so the image `x'`
+     of `x` in `H¹(G_K, Hom(μ_p, μ_p))` is nonzero;
+  3. the first half of `CFT.tateDualityPairing_perfect_mixed`, with an invariant
+     `tr : H²(G_K, μ_p) ≃ ℤ/p` from `CFT.h2MuEquivZMod_mixed`, gives `y` with `⟨x', y⟩ ≠ 0`;
+  4. `CFT.tateDualityPairing_muNRepToTateDual` identifies `⟨x', y⟩` with the Hilbert pairing
+     `localSymbol (kummerCupPairing ζ) tr x y`, which is `tr` of the cup of `x` and `y` along
+     `kummerCupPairing ζ`, so that cup is nonzero;
+  5. PC `cup_coeffMap`, at the compatibility `muNRepIsoTrivialFp_hom_kummerCupPairing`, carries that
+     cup to `cupFp a b` for `b` the image of `y`, and the dictionary is injective on `H²`.
 
-*Needs:* CFT `finite_H`, `h2MuEquivZMod_mixed`, `h2FpEquivZMod_of_mu`, `tateDualityPairing`,
-`tateDualityPairing_perfect_mixed`, `eulerCharacteristic_finrank_fp`, `kummerEquiv_mixed`, `muNRep`;
-LFR `card_powerClasses_mixed`, `card_squareClasses_dyadic`,
+  One side suffices: the other follows from the graded commutativity `PPG.cupFp_gradedComm`, a
+  closed proof. Do not introduce an untyped assertion that “local duality holds.”
+
+*Needs:* CFT `finite_H`, `h2MuEquivZMod_mixed`, `h2FpEquivZMod_of_mu`, `tateDual`,
+`tateDualityPairing`, `tateDualityPairing_perfect_mixed`, `eulerCharacteristic_finrank_fp`,
+`kummerEquiv_mixed`, `muNRep`, `muNRepEquivZMod`, `muNRep_ρ_eq_self`, `kummerCupPairing`,
+`kummerCupPairing_bil`, `localSymbol`, `muNRepToTateDual`, `bijective_muNRepToTateDual`,
+`tateDualityPairing_muNRepToTateDual`; LFR `card_powerClasses_mixed`, `card_squareClasses_dyadic`,
 `absoluteRamificationIndex_eq_natCastValuation`, `card_residueField`,
-`ramificationIndex_mul_inertiaDegree`; PPG `trivialFp`, `cohomFp`, `cupFp`, `cupFp_gradedComm`; TC
-`FinitePadicExtension`; M `IsPrimitiveRoot.card_rootsOfUnity`.
+`ramificationIndex_mul_inertiaDegree`; PPG `trivialFp`, `cohomFp`, `fpPairing`, `fpPairing_bil`,
+`cupFp`, `cupFp_gradedComm`; PC `coeffMap`, `cup_coeffMap`; TC `FinitePadicExtension`,
+`trivialFpEquiv`, `trivialFp_ρ_apply_apply`, `ContinuousCohomology.coeffMap_comp`,
+`ContinuousCohomology.coeffMap_id`; M `IsPrimitiveRoot.card_rootsOfUnity`.
 
 ## Layer 2: inflation from the maximal pro-p quotient
 
@@ -338,13 +386,16 @@ Let `R = PPG.proPKernel p G_K`.
   `I(χ)/pⁱ → I(χ)/pʲ` (`explicitInfl1_zModTwist_reduce`), because inflation is the pullback along a
   compatible pair (TC `explicitInfl1_eq_explicitMap1`) and pullbacks commute with coefficient maps
   (TC `explicitMap1_comp`). All of these are closed proofs in `Suggested.lean`.
-- Prove degree-two inflation is injective from the five-term sequence. Name the transgression
-  and exactness steps used; do not appeal to a generic spectral sequence without constructing
-  the maps.
-- Prove degree-two inflation is surjective in the two arithmetic cases. When `μ_p ⊄ K`, the
-  target vanishes. When `μ_p ⊆ K`, use cup compatibility and nondegeneracy to exhibit a nonzero
-  class, then use one-dimensionality. Conclude the degree-two inflation isomorphism in the form
-  consumed by the Demushkin construction.
+- Prove degree-two inflation `inflH2AbsoluteGaloisProPMap` is injective from the five-term
+  sequence (`inflH2AbsoluteGaloisProP_injective`). Name the transgression and exactness steps
+  used; do not appeal to a generic spectral sequence without constructing the maps.
+- Prove degree-two inflation is surjective in the two arithmetic cases
+  (`inflH2AbsoluteGaloisProP_surjective`). When `μ_p ⊄ K`, the target vanishes. When `μ_p ⊆ K`,
+  use cup compatibility and nondegeneracy to exhibit a nonzero class, then use
+  one-dimensionality. The degree-two inflation isomorphism `inflH2AbsoluteGaloisProP`, in the form
+  consumed by the Demushkin construction, is the inflation map made an equivalence by these two
+  theorems, so it is the inflation map by construction, and the local-field structure of `K`
+  enters it through the surjectivity theorem.
 - Transport the `H¹` dimension, `H²` vanishing or dimension-one result, and cup
   nondegeneracy to `G_K(p)`.
 
@@ -425,11 +476,12 @@ PC cohomological-dimension reductions.
   compatible with the reduction (`explicitInfl1ZModTwist_bijective`,
   `explicitInfl1_zModTwist_reduce`), carries the surjectivity to `G_K(p)`; that last step is a
   closed proof. Local duality is not used.
-- PPG's `HasPrescriptionProperty` is the same condition, Labute's condition 1, written with
-  continuous crossed homomorphisms modulo principal ones, which is what TC's explicit `H¹` is made
-  of; so `cyclotomicOrientation_toMonoidHom_hasPrescriptionProperty` is the previous theorem with
-  its classes unfolded to representing cocycles. Apply `PPG.demushkinCharacter_unique` to it to
-  obtain `demushkinCharacter_absoluteGaloisGroupProP`, a closed proof.
+- PPG's `HasPrescriptionProperty` is TC's `HasPrescriptionProperty` by reducible alias, and
+  `PPG.demushkinCharacter_unique` takes a continuous character with that property, so it applies to
+  the orientation and `cyclotomicOrientation_hasPrescriptionProperty` directly:
+  `demushkinCharacter_absoluteGaloisGroupProP`, the equation
+  `demushkinCharacter = cyclotomicOrientation p K hmu` of continuous homomorphisms, is a closed
+  proof.
 
 ### The exact comparison
 
@@ -499,7 +551,7 @@ image is a milestone and not a remark:
 `absoluteGaloisGroupExtend`, `normResidue`, `cyclotomicCharacter_artinMap`,
 `cyclotomicCharacter_artinMap_padic`; LFR `normGroup`, `unitFiltration`, `inertiaDegree`; M
 `IsPrimitiveRoot.norm_sub_one_of_prime_ne_two`, `IsPrimitiveRoot.norm_sub_one_two`,
-`cyclotomicCharacter.spec`; PPG `demushkinQ`, `demushkinRank`, `HasPrescriptionProperty`,
+`cyclotomicCharacter.spec`; PPG `demushkinQ`, `demushkinRank`, `demushkinCharacter`,
 `demushkinCharacter_unique`; TC `ContinuousMonoidHom.quotientLift`, `HasPrescriptionProperty`,
 `hasPrescriptionProperty_iff`, `kummerIsoTransport`, `kummerMap_surjective`,
 `kummerMap_eq_kummerCocycleClass`, `absoluteGaloisGroupRestrictEquiv`,
@@ -604,12 +656,11 @@ normalization, through the image computations of L5, which depend on CFT Layers 
 This layer proves topological finite generation before computing the exact rank. Strict
 cohomological dimension enters only once, and only at `G_K`: in
 `contCohomologyClass_absoluteGaloisGroup_generates` of Step 3, NSW (3.6.4)(iii) for `G = G_K` and
-`V = G_L`, whose input is `scd_p(G_K) ≤ 2` at the residue prime `p`, in PC's convention `scd_p`
-(`CFT.scd_p_absoluteGaloisGroup_eq_two`, read on TC's `strictCohomologicalDimensionAt` through
-`PC.scd_p_eq_strictCohomologicalDimensionAt`). Conventions for strict cohomological dimension
-differ, and no statement in another convention is an input. The lift of Step 5 is the extension
-dictionary, not (3.6.4), and no statement about the strict cohomological dimension of a free
-profinite group is used.
+`V = G_L`, whose input is `scd_p(G_K) ≤ 2` at the residue prime `p`, in PC's convention `scd_p`,
+which is TC's `strictCohomologicalDimensionAt` (`CFT.scd_p_absoluteGaloisGroup_eq_two`).
+Conventions for strict cohomological dimension differ, and no statement in another convention is
+an input. The lift of Step 5 is the extension dictionary, not (3.6.4), and no statement about the
+strict cohomological dimension of a free profinite group is used.
 
 ⚠ **A rational identity is not an integral bound.** The reciprocity-side computation of this layer
 produces `A(L) ⊗ ℚ_p ≃ ℚ_p[Gal(L/K)]^N ⊕ ℚ_p`. That equality of `ℚ_p[G]`-modules cannot by itself
@@ -684,8 +735,12 @@ Mathlib's left-factor `ℤ_p[G]`-structure; a `ℤ_p[G]`-linear isomorphism betw
 spaces is automatically `ℚ_p[G]`-linear, so no second module structure is installed on the
 rationalization.
 
-- **The group-algebra objects.** Define `augmentationIdeal p G`, the span of the `g - 1`;
-  `relationModule p G g` for a family `g : Fin n → G`, the kernel of `ℤ_p[G]^n → ℤ_p[G]`,
+- **The group-algebra objects.** The augmentation ideal `augmentationIdeal p G` is the kernel of
+  TC's augmentation `MonoidAlgebra.augmentation ℤ_[p] G`, `g ↦ 1`, and TC's
+  `MonoidAlgebra.ker_augmentation_eq_span` gives its generators `g - 1`
+  (`augmentationIdeal_eq_span`, a closed proof); TC's `Rep.augmentationIdeal` is the same kernel as
+  an object of the representation category, and this roadmap uses it as a left ideal of `ℤ_p[G]`.
+  Define `relationModule p G g` for a family `g : Fin n → G`, the kernel of `ℤ_p[G]^n → ℤ_p[G]`,
   `e_i ↦ g_i - 1`, which is `R^ab(p)` for the presentation of `G` on the `g_i` by Lyndon's theorem
   (NSW (5.6.6)), the milestone `relationModule_linearEquiv_abelianizationProP` below, with
   `range_linearCombination_eq_augmentationIdeal` supplying the other half of the
@@ -762,8 +817,9 @@ rationalization.
   `A(L)`. This is NSW's `Y = I_{G_K}/I_{G_L} I_{G_K}` ((5.6.5)); projective dimension at most one
   is cohomological triviality, which is Tate's theorem for the fundamental class of the layer
   carried to `A(L)` along the reciprocity identification of Step 1. Prove `nonempty_tateModule`.
-  *Needs:* CFT `ClassFormation`, `fundamentalClass`, `fundamentalClass_generates`, `tateTheorem`;
-  NSW (3.1.5); Step 1.
+  *Needs:* CFT `ClassFormation` (Tau Ceti's, re-exported), `tateTheorem`; TC
+  `ClassFieldTheory.ClassFormation.fundamentalClass`,
+  `ClassFieldTheory.ClassFormation.fundamentalClass_generates`; NSW (3.1.5); Step 1.
 - **The integral decomposition** `tateModule_linearEquiv`: `Y ≃ M₀ ⊕ ℤ_p[G]^N` as
   `ℤ_p[G]`-modules, the isomorphism `(∗∗)` in the proof of NSW (7.4.1). This is the theorem the
   cancellation lemmas are applied to: `exists_projective_prod_linearEquiv_of_torsion` gives
@@ -813,14 +869,13 @@ rationalization.
   `H²(G_K ⧸ V, V^ab(p))`, which is cyclic of order the `p`-part of `#(G_K ⧸ V)`. At `V = G_L`, read
   through Step 1, this says that the class of `1 → G_L^ab(p) → G_K/⁅G_L, G_L⁆G_L(p) → Gal(L/K) → 1`
   generates `H²(Gal(L/K), A(L))`. It is NSW (3.6.4)(iii) at `G = G_K`: PC's
-  `abelianizationProPClass_generates` at `G = G_K`, whose hypothesis
-  `TC.strictCohomologicalDimensionAt p G_K ≤ 2` is `CFT.scd_p_absoluteGaloisGroup_eq_two` at
-  `ℓ = p`, carried to TC's invariant by `PC.scd_p_eq_strictCohomologicalDimensionAt`.
+  `abelianizationProPClass_generates` at `G = G_K`, whose hypothesis `PC.scd_p p G_K ≤ 2` is
+  `CFT.scd_p_absoluteGaloisGroup_eq_two` at `ℓ = p`, a statement about the same invariant.
   `Suggested.lean` records it as a closed proof. This is the one place strict cohomological
   dimension enters this roadmap.
   *Needs:* PC `abelianizationProP`, `abelianizationProPFactorSet`, `abelianizationProPClass`,
-  `abelianizationProPClass_generates`, `scd_p_eq_strictCohomologicalDimensionAt` (the class-module
-  row); CFT `scd_p_absoluteGaloisGroup_eq_two`; Step 1.
+  `abelianizationProPClass_generates` (the class-module row), `scd_p`; CFT
+  `scd_p_absoluteGaloisGroup_eq_two`; Step 1.
 - **The `H²`-compatibility of `β`**, for the tame-frame `β`. Prove that `β` induces an
   isomorphism `H²(G, R^ab_{N+2}(p)) ≃ H²(G, A(L))`, both cyclic of order the `p`-part of `#G`;
   this is what Step 5a uses to lift `β` to a homomorphism of group extensions. `β` is surjective
@@ -841,13 +896,18 @@ rationalization.
 The integral cancellation library over `ℤ_p[G]`, for a finite group `G`, is owned here; no
 supplier in the dependency list has integral representation theory over a complete discrete
 valuation ring, and the `RepresentationTheory` roadmap's Krull-Schmidt is for quiver
-representations over a field, which is a different theorem.
+representations over a field, which is a different theorem. TC's module-theoretic Krull–Schmidt
+theorem in Azumaya's form is consumed, not restated, by the first item below.
 
 - **Krull-Schmidt cancellation** `linearEquiv_of_prod_linearEquiv`: finitely generated
-  `ℤ_p[G]`-modules cancel (NSW (5.6.10)(i)). ⚠ The corresponding statement over `ℤ[G]` fails in
-  general — Swan's stably free, non-free modules over integral group rings of generalized
-  quaternion groups — so completeness of `ℤ_p` is doing real work and the theorem may not be
-  weakened to a general Dedekind base.
+  `ℤ_p[G]`-modules cancel (NSW (5.6.10)(i)). The exchange argument is TC's Krull–Schmidt theorem
+  in Azumaya's form, `exists_equiv_linearEquiv_of_isLocalRing_end`, which needs local endomorphism
+  rings on one side only; the input particular to `ℤ_p[G]` is that a finitely generated
+  indecomposable `ℤ_p[G]`-module has a local endomorphism ring, a finite `ℤ_p`-algebra with no
+  nontrivial idempotents over the complete local ring `ℤ_p`. ⚠ The corresponding statement over
+  `ℤ[G]` fails in general — Swan's stably free, non-free modules over integral group rings of
+  generalized quaternion groups — so completeness of `ℤ_p` is doing real work and the theorem may
+  not be weakened to a general Dedekind base.
 - **Detection of projectives rationally** `linearEquiv_of_projective_of_tensorRat`: two finitely
   generated projective `ℤ_p[G]`-modules with isomorphic rationalizations are isomorphic
   (NSW (5.6.10)(ii), Swan). This is the lemma that upgrades a rational identity to an integral
@@ -1089,7 +1149,14 @@ Step 6.
   of `Φ_{p^n}` over `ℚ_p`, and the value `χ_cyc(Art_{ℚ_p}(p)) = 1` is proved from the same
   irreducibility, without the cyclotomic normalization of the Artin map on units.
 - `cyclotomicOrientation` is a continuous homomorphism with a body, and its prescription property
-  is proved from Kummer theory and twisted inflation, not from local duality.
+  is proved from Kummer theory and twisted inflation, not from local duality. It is TC's
+  `HasPrescriptionProperty`, the predicate PPG's `demushkinCharacter_unique` takes, so the
+  identification with the Demushkin orientation is a closed proof with no comparison of predicates.
+- The chosen-root dictionary `μ_p ≅ 𝔽_p` is a construction through CFT's coordinate
+  `muNRepEquivZMod`, and left nondegeneracy of the cup square is a closed proof from CFT's
+  chosen-root comparison `tateDualityPairing_muNRepToTateDual` and perfect local duality.
+- The degree-two inflation isomorphism is the inflation map, made an equivalence by named
+  injectivity and surjectivity theorems.
 - Strict cohomological dimension enters only at `G_K`, in
   `contCohomologyClass_absoluteGaloisGroup_generates`, and Lyndon's identification of
   `relationModule` with `R^ab(p)` is a named theorem, not a reading of the definition.
