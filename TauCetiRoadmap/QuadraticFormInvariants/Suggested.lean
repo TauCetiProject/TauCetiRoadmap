@@ -622,11 +622,14 @@ theorem pfisterForm_one (a : Kˣ) : pfisterForm ![a] = ![1, -a] :=
 theorem pfisterForm_two (a b : Kˣ) : pfisterForm ![a, b] = ![1, -a, -b, a * b] :=
   sorry
 
-/-- **Layer 4, `Iⁿ` is generated as an additive group by the `n`-fold Pfister forms.** Stated for
-general `n`; Layer 5 consumes `n = 2` for the construction of `c` and `n = 3` for its vanishing,
+/-- **Layer 4, `Iⁿ` is generated as an additive group by the `n`-fold Pfister forms**, for
+`n ≥ 1` (Tau Ceti's `fundamentalIdeal_pow_eq_addClosure` takes the same hypothesis). ⚠ At
+`n = 0` it is false: `I⁰ = W(K)`, the only `0`-fold Pfister form is `⟨1⟩`, and over `ℚ` the
+class of `⟨2⟩` is not an integer multiple of `⟨1⟩`. Layer 5 consumes `n = 2` for the
+construction of `c` and `n = 3` for its vanishing,
 and Layer 8 consumes `n = 2`. ⚠ Additive generation, not ideal generation: the weaker ideal
 statement does not let a homomorphism be defined by its values on the generators. -/
-theorem fundamentalIdeal_pow_eq_addClosure [Invertible (2 : K)] (n : ℕ) :
+theorem fundamentalIdeal_pow_eq_addClosure [Invertible (2 : K)] (n : ℕ) (hn : 0 < n) :
     ((fundamentalIdeal K ^ n : Ideal (wittRing K)) : Set (wittRing K)) =
       ↑(AddSubgroup.closure
         {x : wittRing K | ∃ a : Fin n → Kˣ,
