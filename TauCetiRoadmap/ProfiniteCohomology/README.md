@@ -24,13 +24,14 @@ field-theoretic interface (Hilbert 90, Kummer classes) in
 `TauCeti/FieldTheory/GaloisCohomology/`. Tau Ceti already implements a large part of this roadmap
 there: the coefficient dictionary and the named restriction, inflation and coefficient maps of
 Layer 1, the explicit complex and its functoriality of Layer 2, the comparisons of Layer 3, the
-finite-quotient systems and their colimit theorems of Layer 4, inflation and the five-term sequence
-with its transgression of Layer 5, the connecting-map identities of the explicit cups of Layer 8,
-the cohomological-dimension invariants of Layer 11, and the index-two cochains and graph class of
-Layer 13, among others. Wherever a milestone below is stated on such an object, the declaration it
-names is Tau Ceti's: `Suggested.lean` carries this roadmap's name as an abbreviation of the Tau
-Ceti declaration, or as a theorem proved by the Tau Ceti theorem, and names the Tau Ceti declaration
-in its docstring.
+finite-quotient systems and their colimit theorems of Layer 4, the long exact sequence, inflation
+and the five-term sequence with its transgression of Layer 5, the six explicit cups and their
+connecting-map identities of Layer 8, the Galois coefficients, Kummer theory and Hilbert 90 of
+Layer 9, the all-degree connecting map of Layer 10, the cohomological-dimension invariants of
+Layer 11, and the index-two cochains and graph class of Layer 13, among others. Wherever a
+milestone below is stated on such an object, the declaration it names is Tau Ceti's:
+`Suggested.lean` carries this roadmap's name as an abbreviation of the Tau Ceti declaration, or as
+a theorem proved by the Tau Ceti theorem, and names the Tau Ceti declaration in its docstring.
 
 ---
 
@@ -85,8 +86,14 @@ its objects (`SmoothDiscrete`, `Functoriality`, `Additive`, `LowDegree`, `Explic
 `CohomologyComparison`, `ContinuousCohomologyIso`, `GroupCohomologyIso`, `Invariants`,
 `Inflation/Basic`, `Inflation/Comparison`, `FiniteQuotient/Basic`, `FiniteQuotient/Explicit`,
 `FiniteQuotient/Colimit`, `FiniteQuotient/DegreeTwoDescent`, `Conjugation`, `FiveTerm`,
-`Transgression`, `Cup/ConnectingMap`, `CohomologicalDimension`, `TrivialF2`, `Evens/Cochain`,
-`Evens/Class`), together with `TauCeti.InternalHom`, the `G ⧸ H`-action on
+`Transgression`, `ShortExact`, `LongExact`, `DeltaNaturality`, `ExactCochains`,
+`HomologySequence`, `Inflation/ConnectingMap`, `ConnectingMapComparison`, `Cup/Product`,
+`Cup/ConnectingMap`, `CohomologicalDimension`, `TrivialF2`, `Evens/Cochain`, `Evens/Class`), the
+Galois-cohomology modules of `TauCeti/FieldTheory/GaloisCohomology/` (`Coefficients`, `Kummer`,
+`Hilbert90`, `BrauerTorsion`) with `TauCeti.AbsoluteGaloisGroup`,
+`TauCeti.absoluteGaloisGroupRestrictEquiv`, `TauCeti.galoisSubgroup` and the power classes of
+`TauCeti/Algebra/Group/PowerClassGroup.lean`, together with `TauCeti.InternalHom`, the
+`G ⧸ H`-action on
 `FixedPoints.addSubgroup H M` in `TauCeti/GroupTheory/GroupAction/FixedPoints.lean`,
 `TauCeti.QuotientGroup.mapOfLE`, `TauCeti.exists_openNormalSubgroup_smul_eq_self`,
 `TauCeti.exists_continuous_section`, `TauCeti.leastENatBound`, `TauCeti.IsPPrimaryTorsion`,
@@ -181,10 +188,8 @@ those are the only two acceptable states.
 
 What is exported is exactly this, named. Every entry in the declaration column is a Lean
 identifier: either one this roadmap builds, carried with its signature in `Suggested.lean`, or one
-Mathlib already supplies, which here is only `continuousCohomology`, or, in the row of the
-connecting maps and the low-degree cups, one Tau Ceti proves under its own name. A description
-such as "the colimit theorem" or "the six cup shapes" is not a citable export, and no row contains
-one.
+Mathlib already supplies, which here is only `continuousCohomology`. A description such as "the
+colimit theorem" or "the six cup shapes" is not a citable export, and no row contains one.
 
 | Exported object or theorem | Supplier layer | Declaration | Mathematical type |
 |---|---|---|---|
@@ -209,12 +214,12 @@ one.
 | explicit Shapiro and coinduction | 7 | `Coind`, `coindTopRep`, `coindFunctor`, `coindFunctor_map_shortExact`, `explicitShapiro0`, `explicitShapiro1`, `explicitShapiro2`, `algebraicCoindAsSmooth`, `topologicalCoindIsoAlgebraic`, `topologicalCoindIsoAlgebraic_shapiro` | explicit Shapiro in degrees `0,1,2`, and the open-subgroup algebraic comparison |
 | all-degree Shapiro and dimension shifting | 10 | `shapiroCochainIso`, `shapiroIso`, `coindEmbedding`, `dimensionShiftQuotient`, `coindAcyclic`, `dimensionShiftIso` | canonical Shapiro in every degree and the closed dependency chain used by Layer 11 |
 | the six low-degree cups | 8 | `explicitCup00`, `explicitCup01`, `explicitCup10`, `explicitCup02`, `explicitCup11`, `explicitCup20` | `H^p(G, M) × H^q(G, N) → H^{p+q}(G, P)`, `p + q ≤ 2` |
-| the connecting maps and the low-degree cups | 8 | `TauCeti.ContCohomology.explicitDelta0_explicitCup00_left`, `TauCeti.ContCohomology.explicitDelta1_explicitCup01_left`, `TauCeti.ContCohomology.explicitDelta1_explicitCup10_left`, `TauCeti.ContCohomology.explicitDelta0_explicitCup00_right`, `TauCeti.ContCohomology.explicitDelta1_explicitCup01_right`, `TauCeti.ContCohomology.explicitDelta1_explicitCup10_right` | `δ(x ⌣ y) = δx ⌣ y` and `δ(x ⌣ y) = (-1)^p x ⌣ δy` for a map of Tau Ceti's short exact coefficient sequences `TauCeti.ContCohomology.DiscreteShortExact`, in the six instances of degree `≤ 2` |
+| the connecting maps and the low-degree cups | 8 | `explicitDelta0_explicitCup00_left`, `explicitDelta1_explicitCup01_left`, `explicitDelta1_explicitCup10_left`, `explicitDelta0_explicitCup00_right`, `explicitDelta1_explicitCup01_right`, `explicitDelta1_explicitCup10_right` | `δ(x ⌣ y) = δx ⌣ y` and `δ(x ⌣ y) = (-1)^p x ⌣ δy` for a map of short exact coefficient sequences, in the six instances of degree `≤ 2`; Tau Ceti's theorems of the same names |
 | the graded cup | 12 | `TopPairing`, `resolutionCupPairing`, `resolutionCupPairing_apply_zero`, `resolutionCupPairing_apply_succ`, `cupCochain`, `cupCochain_apply`, `cupCochain_leibniz`, `cupAssocHomotopy`, `cupAssocHomotopy_spec`, `cupCommHomotopy`, `cupCommHomotopy_spec`, `cup`, `cup_add_left`, `cup_add_right`, `cup_one_left`, `cup_one_right`, `cup_assoc`, `cup_gradedComm`, `cup_res`, `cup_infl`, `cup_coeffMap`, `cup_projection` | `Hᵐ × Hⁿ → H^{m+n}` constructed on Mathlib's coinduction resolution |
 | agreement of the two cups | 12 | `ofDiscreteModulePairing`, `explicitIso_cup` | commuting square in bidegree `(1,1)` |
 | the evaluation pairing for duality | 0, 12 | `homAction`, `evalPairing`, `evalPairing_equivariant`, `TopPairing`, `ofDiscreteModulePairing`, `cup`, `cup_add_left`, `cup_add_right` | `Hⁱ(G, M →+ N) × H^{2-i}(G, M) → H²(G, N)`, the internal hom being Tau Ceti's `TauCeti.InternalHom G M N` |
-| the Kummer isomorphism | 9 | `AbsoluteGaloisGroup`, `KummerCoeff`, `kummerCoeff_continuousSMul`, `powerClassQuotient`, `kummerMap`, `kummerIso`, `kummerIsoTransport`, `kummerIso_res`, `kummerIso_norm`, `kummerMapCanonical`, `explicitIso_kummerMap` | `Kˣ ⧸ (Kˣ)ⁿ ≃* Multiplicative (H¹(AbsoluteGaloisGroup K, KummerCoeff K n))` |
-| the multiplicative coefficients, the Kummer sequence and Hilbert 90 | 9 | `UnitsCoeff`, `unitsCoeff_continuousSMul`, `kummerCoeffIncl`, `unitsCoeffPow`, `kummerShortExact`, `kummerShortExact_incl`, `kummerShortExact_proj`, `hilbert90`, `kummerCoeffToUnits`, `h2KummerToUnits`, `h2KummerToUnits_injective`, `h2KummerToUnits_range` | `H¹(G_K, (Kˢ)ˣ) = 0`, and `H²(G_K, μₙ) ↪ H²(G_K, (Kˢ)ˣ)` with image the `n`-torsion |
+| the Kummer isomorphism | 9 | `AbsoluteGaloisGroup`, `muN`, `KummerCoeff`, `kummerCoeff_continuousSMul`, `powerSubgroup`, `powerClassQuotient`, `powerClassMap`, `kummerMap`, `kummerIso`, `kummerIsoTransport`, `kummerRes`, `kummerIso_res`, `kummerIso_norm`, `kummerMapCanonical`, `explicitIso_kummerMap` | `Kˣ ⧸ (Kˣ)ⁿ ≃* Multiplicative (H¹(AbsoluteGaloisGroup K, KummerCoeff K n))`; Tau Ceti's `TauCeti.kummerIso` and its companions, except the norm square |
+| the multiplicative coefficients, the Kummer sequence and Hilbert 90 | 9 | `UnitsCoeff`, `unitsCoeff_continuousSMul`, `baseUnitsEquivInvariants`, `kummerCoeffIncl`, `unitsCoeffPow`, `kummerShortExact`, `kummerShortExact_incl`, `kummerShortExact_proj`, `hilbert90`, `kummerCoeffToUnits`, `h2KummerToUnits`, `h2KummerToUnits_injective`, `h2KummerToUnits_range` | `H¹(G_K, (Kˢ)ˣ) = 0`, and `H²(G_K, μₙ) ↪ H²(G_K, (Kˢ)ˣ)` with image the `n`-torsion; Tau Ceti's declarations of the same names |
 | the field-extension bridge | 9, with 10, 12 and 13 | `galoisSubgroup`, `galoisSubgroup_index`, `galoisSubgroupEquiv`, `galoisF2Iso`, `galoisRes`, `galoisCor`, `galoisEvens`, `galoisConj`, `galoisCharacter`, `galoisRes_galoisCor`, `galoisConj_evensConj`, `galoisRes_cup`, `galoisCor_cup`, `galoisRes_galoisEvens`, `galoisEvens_add`, `galoisEvens_galoisRes`, `galoisRes_eq_zero_iff`, `galoisRes_galoisCor_exact`, `galoisRes_comp`, `galoisSubgroup_conj`, `galoisRes_embedding_independent`, `galoisCor_embedding_independent`, `galoisEvens_embedding_independent`, `galoisCharacter_embedding_independent` | restriction, corestriction, the index-two norm and the quadratic character for a finite separable `L/K`; `res ∘ cor = id + conj`; the conjugate as the transport of `evensConj`; the cup and projection formulas; the Evens identities and the index-two exact sequence read on the `L/K` side; tower functoriality and embedding independence |
 | cohomological dimension | 11 | `IsPPrimaryTorsion`, `isPPrimaryTorsion_continuousCohomology`, `CohomologicalDimensionLE`, `StrictCohomologicalDimensionLE`, `cd_p`, `scd_p`, `cd`, `cd_p_le_iff`, `scd_p_le_iff`, `cohomologicalDimensionLE_iff_torsion`, `cd_p_le_iff_finite_pPrimary`, `cd_p_le_iff_boundedExponent`, `cd_p_le_scd_p`, `scd_p_le_cd_p_add_one`, `cd_p_le_of_isClosed`, `cd_p_eq_of_index_not_dvd`, `strictCohomologicalDimensionAt_openSubgroup_le`, `strictCohomologicalDimensionAt_le_iff_forall_openSubgroup` | Tau Ceti's `ℕ∞`-valued invariants `TauCeti.cohomologicalDimensionAt`, `TauCeti.strictCohomologicalDimensionAt` and `TauCeti.cohomologicalDimension` at the coefficient universe of `G`, and `Hⁿ(G, M)` `p`-primary for `p`-primary `M` |
 | the class module of strict dimension two | 11 | `abelianizationProP`, `abelianizationProPFactorSet`, `abelianizationProPClass`, `subsingleton_h1_abelianizationProP`, `abelianizationProPClass_generates` | for `scd_p G ≤ 2` and open normal `V`: `H¹(G ⧸ V, V^ab(p)) = 0`, and `H²(G ⧸ V, V^ab(p))` is cyclic of order `#(G ⧸ V)_p`, generated by the class of the extension |
@@ -959,13 +964,12 @@ implement the long exact sequence. This roadmap: Layer 0 for the continuous sect
   layer, and the corestriction compatibility of Layer 6, is about the same sequence and has to name
   the same two coefficient maps, so the sequence is an object and not a list of side conditions.
   `DiscreteShortExact.restrict` restricts it to a subgroup, which is what the naturality statements
-  below are stated against. Tau Ceti implements the same object as
-  `TauCeti.ContCohomology.DiscreteShortExact`, without the two continuity fields, which are
-  automatic between discrete modules, and with the connecting maps, the eight exactness nodes and
-  their naturality in `ShortExact.lean`, `LongExact.lean` and `DeltaNaturality.lean`. The
-  declarations of this bullet and the next are still this roadmap's own; they, the Kummer sequence
-  of Layer 9 that is typed by them, and the all-degree sequence of Layer 10 move onto Tau Ceti's
-  together.
+  below are stated against. It is Tau Ceti's `TauCeti.ContCohomology.DiscreteShortExact`, whose
+  two maps carry no continuity field, every map between discrete modules being continuous, and
+  whose exactness in the middle is `Function.Exact incl proj`. The connecting maps, the eight
+  exactness nodes and the restriction squares below are Tau Ceti's too, in `ShortExact.lean`,
+  `LongExact.lean` and `DeltaNaturality.lean`, and `Suggested.lean` carries them under this layer's
+  names.
 - **The long exact sequence** through degree 2 (NSW (1.3.2)): explicit connecting maps
   `explicitDelta0 : H⁰(G, C) → H¹(G, A)` (choose a preimage, apply `d⁰`) and
   `explicitDelta1 : H¹(G, C) → H²(G, A)`, their
@@ -1196,7 +1200,8 @@ On the explicit model, relative to an equivariant pairing as fixed in §3. Discr
   operation used in an associativity or commutativity statement below is one of these six. Each is
   a declaration of its own, `explicitCup00`, `explicitCup01`, `explicitCup10`, `explicitCup02`,
   `explicitCup11` and `explicitCup20`, so that a consumer names the shape it uses rather than a
-  bidegree of Layer 12's graded product.
+  bidegree of Layer 12's graded product. The six are Tau Ceti's, in
+  `ContCohomology/Cup/Product.lean`.
 - **Associativity.** Typing both sides needs four `G`-equivariant biadditive pairings and one
   coefficient identity. Given `μ₁ : A →+ B →+ D`, `μ₂ : D →+ C →+ E`, `ν₁ : B →+ C →+ F` and
   `ν₂ : A →+ F →+ E` with `μ₂ (μ₁ a b) c = ν₂ a (ν₁ b c)` for all `a, b, c`, and classes of degrees
@@ -1240,16 +1245,15 @@ On the explicit model, relative to an equivariant pairing as fixed in §3. Discr
 
   The coefficient diagrams are inputs of the theorems, not prose around an untyped equation. The
   instances required downstream, all with target degree at most 2, are six lemmas, named by the
-  connecting map on the left and the cup shape. Tau Ceti proves all six in
-  `ContCohomology/Cup/ConnectingMap.lean`, against its own `DiscreteShortExact`, connecting maps
-  and explicit cups, and this roadmap consumes them under Tau Ceti's names rather than restating
-  them. In the first variable: `TauCeti.ContCohomology.explicitDelta0_explicitCup00_left` (`δ⁰` of
-  the class, `(p, q) = (0, 0)`), `explicitDelta1_explicitCup01_left` (`δ⁰` of the class, `(0, 1)`)
-  and `explicitDelta1_explicitCup10_left` (`δ¹` of the class, `(1, 0)`). In the second variable:
+  connecting map on the left and the cup shape, as in Tau Ceti, which proves all six in
+  `ContCohomology/Cup/ConnectingMap.lean`; `Suggested.lean` proves each by the Tau Ceti theorem. In
+  the first variable: `explicitDelta0_explicitCup00_left` (`δ⁰` of the class, `(p, q) = (0, 0)`),
+  `explicitDelta1_explicitCup01_left` (`δ⁰` of the class, `(0, 1)`) and
+  `explicitDelta1_explicitCup10_left` (`δ¹` of the class, `(1, 0)`). In the second variable:
   `explicitDelta0_explicitCup00_right` (`δ⁰`, `(0, 0)`), `explicitDelta1_explicitCup10_right`
   (`δ⁰`, `(1, 0)`, with the sign `-1`) and `explicitDelta1_explicitCup01_right` (`δ¹`, `(0, 1)`).
   Layer 13's index-two exact sequence reads its connecting map off
-  `TauCeti.ContCohomology.explicitDelta1_explicitCup10_right` at the class `1`.
+  `explicitDelta1_explicitCup10_right` at the class `1`.
 - **The Bockstein.** The sum rule `δ(a ⌣ b) = δa ⌣ b + (-1)^p (a ⌣ δb)` is a statement about a
   single derivation, and needs multiplicative short-exact-sequence data that the two theorems above
   do not carry. Build it once, for the case the applications use: the Bockstein
@@ -1287,8 +1291,16 @@ explicit 1-cochain. State the `(0,q)` case at cochain level and the `(1,1)` case
 `instSubsingletonAlgHomOfIsPurelyInseparable`, `AlgEquiv.restrictNormalHom_surjective`,
 `Field.absoluteGaloisGroup`, `InfiniteGalois.isOpen_and_normal_iff_finite_and_isGalois`,
 `InfiniteGalois.normalAutEquivQuotient`, `rootsOfUnity`, `powMonoidHom`,
-`groupCohomology.H1ofAutOnUnitsUnique`, `krullTopology`. This roadmap: Layers 3, 4, 5 and 8; the
-field-extension bridge also Layers 10, 12 and 13.
+`groupCohomology.H1ofAutOnUnitsUnique`, `krullTopology`. Tau Ceti: `TauCeti.AbsoluteGaloisGroup`
+and `TauCeti.absoluteGaloisGroupRestrictEquiv`
+(`TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/Basic.lean`), the power classes of
+`TauCeti/Algebra/Group/PowerClassGroup.lean`, the action
+`TauCeti.rootsOfUnity.mulDistribMulAction`, and `TauCeti/FieldTheory/GaloisCohomology/` (the
+coefficient modules and the Kummer sequence in `Coefficients.lean`, the Kummer map, isomorphism and
+restriction square in `Kummer.lean`, `Hilbert90.lean`, and `h2KummerToUnits` in
+`BrauerTorsion.lean`), which implement this layer apart from the norm square and the
+field-extension bridge. This roadmap: Layers 3, 4, 5 and 8; the field-extension bridge also Layers
+10, 12 and 13.
 
 `K` a field, `Kˢ = SeparableClosure K`, and `G_K` its Galois group with the Krull topology. The
 Kummer half of this layer needs Layers 3, 4, 5 and 8. The field-extension bridge at its end also
@@ -1303,23 +1315,26 @@ is built after Layer 13 (§7).
   `Field.absoluteGaloisGroup K ≃ₜ* AbsoluteGaloisGroup K`, compatibly with the action on `Kˢ`.
   Injectivity is `instSubsingletonAlgHomOfIsPurelyInseparable` together with
   `separableClosure.isPurelyInseparable`; surjectivity is `AlgEquiv.restrictNormalHom_surjective`.
+  Tau Ceti's `AbsoluteGaloisGroup` and `absoluteGaloisGroupRestrictEquiv` are both.
   `G_K` is profinite in the unbundled sense (`CompactSpace`, `TotallyDisconnectedSpace`), by
   `separableClosure.isGalois` together with the pin's `[IsGalois k K] → CompactSpace Gal(K/k)`.
 - **The coefficient field and the invariant units.** The coefficient modules are `(Kˢ)ˣ` and its
   submodules. The module `(Kˢ)ˣ` is **discrete**, since every element lies in a finite
   subextension and so has open stabilizer; so are `μₙ ⊆ (Kˢ)ˣ` and the finite subquotients.
   `H⁰(G_K, (Kˢ)ˣ)` is the invariant subgroup `((Kˢ)ˣ)^{G_K}`, which is **not the same type** as
-  `Kˣ`. What exists is a canonical multiplicative equivalence
+  `Kˣ`. What exists is a canonical equivalence, written additively as Layer 2's `H0`,
   ```
-  baseUnitsEquivInvariants : Kˣ ≃* ((Kˢ)ˣ)^{G_K},
+  baseUnitsEquivInvariants : Additive Kˣ ≃+ H⁰(G_K, UnitsCoeff K),
   ```
-  induced by the algebra map and the fixed-field theorem. Name it, prove it, and use that exact
+  induced by the algebra map and the fixed-field theorem (Tau Ceti's
+  `TauCeti.baseUnitsEquivInvariants`). Name it, prove it, and use that exact
   map wherever `Kˣ` is the source of a cohomological construction; do not write the two as equal.
   As a coefficient module `(Kˢ)ˣ` is fixed once, as `UnitsCoeff K = Additive (Kˢ)ˣ` with the
   transported action, the discrete topology and continuity of the action installed as instances,
   exactly as for `KummerCoeff`. This is the module Hilbert 90 and the cohomological Brauer group
   are stated at, and a consumer that needs `H^i(G_K, (Kˢ)ˣ)` names it rather than building a
-  second one.
+  second one. Both coefficient modules, with their topologies, actions and continuity instances,
+  are Tau Ceti's `TauCeti.UnitsCoeff` and `TauCeti.KummerCoeff`.
 - **The Kummer coefficient module.** `μₙ` carries the natural `G_K`-action, which is in general
   nontrivial, and continuous cohomology depends on that action. So the coefficient object is fixed
   once, as `KummerCoeff K n = Additive μₙ` with the transported action and the discrete topology,
@@ -1342,12 +1357,18 @@ is built after Layer 13 (§7).
   (`H1ofAutOnUnitsUnique`) through Layer 3's finite comparison and the dictionary above, citing the
   named quotient and fixed-field equivalences rather than "by Layer 4". Then specialize to
   `L = Kˢ`, which is the exported `hilbert90`, stated at `UnitsCoeff K` against the canonical
-  carrier. Layer 4 makes this proof possible. Write the proof so that a reader can see this.
+  carrier: Tau Ceti's `TauCeti.subsingleton_H1_additive_units` and `TauCeti.hilbert90`. Layer 4
+  makes this proof possible. Write the proof so that a reader can see this.
   ⚠ The pin's `Rep` universe restriction (`k` and `G` in one universe, tracked in Mathlib #33608)
   touches exactly this comparison. Keep the profinite statement universe-clean and confine any
   workaround to the finite-level step.
 - **The Kummer sequence and isomorphism**, for `[NeZero n]` and `hn : IsUnit (n : K)`. Split into
-  agent-sized targets, in order:
+  agent-sized targets, in order. Tau Ceti implements all eight (`TauCeti.unitsCoeffPow_surjective`,
+  `TauCeti.kummerShortExact`, `TauCeti.powerSubgroup`, `TauCeti.kummerMap` with
+  `TauCeti.kummerMap_eq_kummerCocycleClass`, `TauCeti.kummerCocycleClass_congr`,
+  `TauCeti.ker_kummerMap` and `TauCeti.kummerMap_surjective`, `TauCeti.kummerIso` with
+  `TauCeti.kummerIsoTransport`, and `TauCeti.kummerMapCanonical` with
+  `TauCeti.explicitIso_kummerMap`), and `Suggested.lean` carries them under the names below.
   1. Surjectivity of the `n`-th power map on `(Kˢ)ˣ`: for `a ≠ 0`, `Xⁿ - a` is separable when `n`
      is invertible, and `Kˢ` is separably closed (`SeparableClosure.isSepClosed`).
   2. The short exact sequence `1 → μₙ → (Kˢ)ˣ → (Kˢ)ˣ → 1` of discrete `G_K`-modules, with `μₙ` the
@@ -1375,7 +1396,7 @@ is built after Layer 13 (§7).
   separable** extension `L/K` together with a `K`-embedding `L ↪ Kˢ`, which makes `Kˢ` a separable
   closure of `L` as well and `G_L = Gal(Kˢ/L)` an open subgroup of `G_K`:
   - restriction `H¹(G_K, μₙ) → H¹(G_L, μₙ)` corresponds to `Kˣ ⧸ (Kˣ)ⁿ → Lˣ ⧸ (Lˣ)ⁿ`, that is
-    `kummerIso_res` against `powerClassMap`;
+    `kummerIso_res` against `powerClassMap`, which is Tau Ceti's `TauCeti.kummerIso_res`;
   - corestriction `H¹(G_L, μₙ) → H¹(G_K, μₙ)` corresponds to the norm `N_{L/K}`, that is
     `kummerIso_norm` against `powerClassNorm`.
 
@@ -1388,6 +1409,9 @@ is built after Layer 13 (§7).
   `galoisSubgroup K L σ`, the open subgroup cut out by the embedding, with `galoisSubgroup_index`
   saying its index is `[L : K]`; and `galoisSubgroupEquiv`, the isomorphism of **topological**
   groups `G_L ≃ₜ* galoisSubgroup K L σ`, from which `galoisF2Iso` transports `𝔽₂`-cohomology.
+  The first two halves are Tau Ceti's `TauCeti.galoisSubgroup`, `TauCeti.galoisSubgroup_index` and
+  `TauCeti.galoisSubgroupEquiv`, in
+  `TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/FiniteExtension.lean`.
   On top of those, `galoisRes`, `galoisCor` and `galoisEvens` are Layer 1's `res`, Layer 10's
   `corestriction` and Layer 13's `evensNormIndexTwo` read through the transport, each with a real
   body so that no second copy of those operations exists, together with `galoisConj` for the
@@ -1480,7 +1504,14 @@ against the canonical object of Layer 1 throughout.
   `delta_corestriction`. Finally prove agreement with Layer 5's `explicitDelta0` and
   `explicitDelta1` (`explicitIso_delta0`, `explicitIso_delta1`). This construction is required
   because the pinned continuous-cohomology `Basic.lean` deliberately leaves long exact sequences
-  as a TODO; the carrier alone does not supply them.
+  as a TODO; the carrier alone does not supply them. Tau Ceti supplies it:
+  `TauCeti.ContCohomology.DiscreteShortExact.continuousCochainsShortExact` (`ExactCochains.lean`),
+  `delta`, `longExact_exact₁`, `longExact_exact₂`, `longExact_exact₃` and `delta_res`
+  (`HomologySequence.lean`), `delta_infl` (`Inflation/ConnectingMap.lean`), and
+  `explicitIso_delta0`, `explicitIso_delta1` (`ConnectingMapComparison.lean`); Tau Ceti's short
+  exactness of the cochain sequence is stated after forgetting the topology, so
+  `continuousCochainsShortExact_shortExact`, `delta_naturality` for a morphism of coefficient short
+  complexes, and `delta_corestriction` remain targets here.
 - **All-degree Shapiro and dimension shifting.** Construct a chain isomorphism
   `shapiroCochainIso` between the two canonical homogeneous-cochain complexes and define
   `shapiroIso` as its induced homology isomorphism. Prove that it agrees in degrees `0, 1, 2` with
@@ -2106,9 +2137,8 @@ half the sibling roadmap consumes; the general construction needs Layers 10 and 
   induce restriction and the sum over the cosets induces corestriction (Layer 10's `corestriction`
   is Shapiro followed by the trace, and `explicitIso_cor`, `explicitIso_cor2` carry it to the
   explicit model); `δ⁰ 1 = χ_U`, since the indicator of the coset `U` lifts `1` and its `d⁰` is
-  `χ_U` (`explicitDelta0_apply`); and the connecting map in degree 1 is `x ↦ x ⌣ χ_U` by Tau
-  Ceti's `TauCeti.ContCohomology.explicitDelta1_explicitCup10_right` at the class `1`, which is
-  `χ_U ⌣ x` by the mod-2 symmetry
+  `χ_U` (`explicitDelta0_apply`); and the connecting map in degree 1 is `x ↦ x ⌣ χ_U` by
+  `explicitDelta1_explicitCup10_right` at the class `1`, which is `χ_U ⌣ x` by the mod-2 symmetry
   of the `(1,1)` cup. The statements are made on the canonical carrier through Layer 3's
   comparisons, the dictionary sending the trivial `𝔽₂` module to `trivialF2`
   (`TauCeti.ofDiscreteModule_trivialF2`).
