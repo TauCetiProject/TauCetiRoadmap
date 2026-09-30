@@ -1402,7 +1402,8 @@ is built after Layer 13 (§7).
 
   Both squares include the finiteness and separability hypotheses and the chosen embedding
   explicitly. These are the compatibilities that the Quadratic Form Invariants roadmap consumes,
-  `kummerIso_res` and `kummerIso_norm`.
+  `kummerIso_res` and `kummerIso_norm`. That roadmap also reads its Layer 9 Kummer characters
+  through `kummerMapCanonical`, `explicitIso_kummerMap` and Layer 3's `explicitIso_coeffMap`.
 - **The field-extension bridge.** The operations of Layers 1, 10 and 13 are indexed by a
   **subgroup** of the ambient group, and a finite separable `L/K` supplies one only after an
   embedding is chosen. Both halves of the passage are targets here, not a consumer's work:
@@ -2264,8 +2265,8 @@ the lemmas `WreathC2.mk_zero`, `WreathC2.coordA_mk`, `WreathC2.coordB_mk`, `Wrea
 `WreathC2.mk_mul_mk`, then `wreathSection`, `dihedralToWreath`, `wreathD16Cocycle` with
 `wreathD16Cocycle_isCocycle`, `indexTwoInd` and `continuous_wreathD16Cocycle_indexTwoInd`. From
 Layers 1 and 3 it takes the class of an explicit 2-cocycle, `cochainClass` with
-`cochainClass_eq_of_sub_eq_d`, `inhomogeneousCochain2` with `inhomogeneousCochain2_d_eq_zero`, and
-`homClass_eq_cochainClass`. It does not name the group-level identities, `indexTwo_exact_cup_res2`
+`cochainClass_eq_of_sub_eq_d`, `inhomogeneousCochain2` with `inhomogeneousCochain2_d_eq_zero`,
+`cochainClass_inhomogeneousCochain2_eq_of_coboundary`, and `homClass_eq_cochainClass`. It does not name the group-level identities, `indexTwo_exact_cup_res2`
 or the cochain identity `evensGraphCochain_eq_indexTwoInd_pullback`; it reaches them only through
 these statements.
 The ten milestones of the general construction are this roadmap's own completion of the theory,
