@@ -3051,19 +3051,25 @@ noncomputable def abelianizationProPFactorSet (V : Subgroup G) [V.Normal] :
     (QuotientGroup.mk (⟨q.1.out * q.2.out * (q.1 * q.2).out⁻¹,
       out_mul_out_mul_inv_mem V q.1 q.2⟩ : V)))
 
-/-- **Layer 11, the factor set is a continuous 2-cocycle** of `G ⧸ V` with values in `V^ab(p)`; the
-cocycle identity is associativity in `G ⧸ K`. -/
-theorem abelianizationProPFactorSet_mem_Z2 (V : Subgroup G) [V.Normal] :
+/-- **Layer 11, the factor set is a continuous 2-cocycle** of `G ⧸ V` with values in `V^ab(p)`,
+for an **open** normal `V`; the cocycle identity is associativity in `G ⧸ K`. Membership in `Z²`
+includes continuity on `(G ⧸ V) × (G ⧸ V)`, and it is openness that supplies it: `G ⧸ V` is then
+finite and discrete (`QuotientGroup.discreteTopology`), so every function on it is continuous. For
+a subgroup that is not open the representatives `Quotient.out` need not vary continuously, and the
+class of the extension would have to be read through a continuous section instead
+(`TauCeti.GroupExtension.contCohomologyClass_factorSet_eq`). -/
+theorem abelianizationProPFactorSet_mem_Z2 (V : Subgroup G) [V.Normal]
+    (hV : IsOpen (V : Set G)) :
     abelianizationProPFactorSet p G V ∈ Z2 (G ⧸ V) (Additive (abelianizationProP p G V)) :=
   sorry
 
-/-- **Layer 11, the class `u_{G/V}(p)` of the extension of `G ⧸ V` by `V^ab(p)`.** Other
-representatives change the factor set by a coboundary, so this is the class of the extension; it is
-the image of NSW's `u_{G/V} ∈ H²(G ⧸ V, V^ab)` under `V^ab → V^ab(p)`. -/
-noncomputable def abelianizationProPClass (V : Subgroup G) [V.Normal] :
+/-- **Layer 11, the class `u_{G/V}(p)` of the extension of `G ⧸ V` by `V^ab(p)`,** for an open
+normal `V`. Other representatives change the factor set by a coboundary, so this is the class of
+the extension; it is the image of NSW's `u_{G/V} ∈ H²(G ⧸ V, V^ab)` under `V^ab → V^ab(p)`. -/
+noncomputable def abelianizationProPClass (V : Subgroup G) [V.Normal] (hV : IsOpen (V : Set G)) :
     H2 (G ⧸ V) (Additive (abelianizationProP p G V)) :=
   H2pi (G ⧸ V) (Additive (abelianizationProP p G V))
-    ⟨abelianizationProPFactorSet p G V, abelianizationProPFactorSet_mem_Z2 p G V⟩
+    ⟨abelianizationProPFactorSet p G V, abelianizationProPFactorSet_mem_Z2 p G V hV⟩
 
 /-- **Layer 11, NSW (3.3.11), surjectivity of corestriction in the top degree.** For
 `scd_p G ≤ n` and an open subgroup `V`, every `p`-primary class of `Hⁿ(G, X)` is the corestriction
@@ -3257,7 +3263,7 @@ onto the abelian `p`-group `G ⧸ V`, while `σ ≠ 1`. -/
 theorem abelianizationProPClass_generates_of_card_eq_prime
     (hG : scd_p p G ≤ 2) (V : Subgroup G) [V.Normal]
     (hV : IsOpen (V : Set G)) (hcard : Nat.card (G ⧸ V) = p) :
-    AddSubgroup.zmultiples (abelianizationProPClass p G V) = ⊤ ∧
+    AddSubgroup.zmultiples (abelianizationProPClass p G V hV) = ⊤ ∧
       Nat.card (H2 (G ⧸ V) (Additive (abelianizationProP p G V))) = p :=
   sorry
 
@@ -3355,9 +3361,9 @@ representatives `σ.out ∈ W`, and every choice of representatives gives the sa
 theorem abelianizationProPSubgroupOfH2Equiv_class (V W : Subgroup G) [V.Normal] (hVW : V ≤ W)
     (hV : IsOpen (V : Set G)) [CompactSpace W] [TotallyDisconnectedSpace W] :
     abelianizationProPSubgroupOfH2Equiv p G V W hVW hV
-        (abelianizationProPClass p W (V.subgroupOf W)) =
+        (abelianizationProPClass p W (V.subgroupOf W) (Subgroup.subgroupOf_isOpen W V hV)) =
       abelianizationProPRes2 p G V (W.map (QuotientGroup.mk' V))
-        (abelianizationProPClass p G V) :=
+        (abelianizationProPClass p G V hV) :=
   sorry
 
 /-- **Layer 11, the transfer from `W` to `V^ab(p)`, on `W^ab(p)`,** for open normal `V ≤ W` of
@@ -3451,8 +3457,9 @@ shifts through the coinduced module of the trivial subgroup (Layer 7's acyclicit
 connecting maps, natural in the coefficients) carry this to degree two. -/
 theorem abelianizationProPInfl2_class (V W : Subgroup G) [V.Normal] [W.Normal] (hVW : V ≤ W)
     (hV : IsOpen (V : Set G)) :
-    abelianizationProPInfl2 p G V W hVW hV (abelianizationProPClass p G W) =
-      V.relIndex W • abelianizationProPClass p G V :=
+    abelianizationProPInfl2 p G V W hVW hV
+        (abelianizationProPClass p G W (Subgroup.isOpen_mono hVW hV)) =
+      V.relIndex W • abelianizationProPClass p G V hV :=
   sorry
 
 /-- **Layer 11, NSW (1.6.7) for the pair `V ≤ W`, degree one:** `i` is injective, with image the
@@ -3497,14 +3504,20 @@ theorem subsingleton_h1_abelianizationProP_of_isPGroup
 theorem abelianizationProPClass_generates_of_isPGroup
     (hG : scd_p p G ≤ 2) (V : Subgroup G) [V.Normal]
     (hV : IsOpen (V : Set G)) (hpV : IsPGroup p (G ⧸ V)) :
-    AddSubgroup.zmultiples (abelianizationProPClass p G V) = ⊤ ∧
+    AddSubgroup.zmultiples (abelianizationProPClass p G V hV) = ⊤ ∧
       Nat.card (H2 (G ⧸ V) (Additive (abelianizationProP p G V))) = Nat.card (G ⧸ V) :=
   sorry
 
-/-- **Layer 11, `V^ab(p)` is uniquely divisible by integers prime to `p`:** it is pro-`p`
-(`TauCeti.isProP_maximalProPQuotient`), so on each finite quotient `a ↦ a ^ m` is a bijection of a
-finite `p`-group, and these bijections are compatible. -/
-theorem abelianizationProP_pow_bijective (V : Subgroup G) (m : ℕ) (hm : Nat.Coprime m p) :
+/-- **Layer 11, `V^ab(p)` is uniquely divisible by integers prime to `p`,** for an open `V`: an
+open subgroup of the compact `G` is closed, hence compact, so `V^ab(p)` is pro-`p`
+(`TauCeti.isProP_maximalProPQuotient`, a statement about compact groups); on each finite quotient
+`a ↦ a ^ m` is then a bijection of a finite `p`-group, these bijections are compatible, and
+compactness turns them into a bijection of the limit. Openness is not decoration. For the dense
+subgroup `V = ℤ` of `G = ℤ₂` at `p = 2`, the open normal subgroups `2ⁿℤ` of `V` have `2`-group
+quotients and meet in `0`, so the maximal pro-`2` quotient of `V^ab = ℤ` is `ℤ` itself, and `a ↦ 3a`
+misses `1` although `3` is prime to `2`. -/
+theorem abelianizationProP_pow_bijective (V : Subgroup G) (hV : IsOpen (V : Set G)) (m : ℕ)
+    (hm : Nat.Coprime m p) :
     Function.Bijective fun a : abelianizationProP p G V => a ^ m :=
   sorry
 
@@ -3551,7 +3564,7 @@ restriction of the class a generator of a group of order `#P`. -/
 theorem abelianizationProPClass_generates
     (hG : scd_p p G ≤ 2)
     (V : Subgroup G) [V.Normal] (hV : IsOpen (V : Set G)) :
-    AddSubgroup.zmultiples (abelianizationProPClass p G V) = ⊤ ∧
+    AddSubgroup.zmultiples (abelianizationProPClass p G V hV) = ⊤ ∧
       Nat.card (H2 (G ⧸ V) (Additive (abelianizationProP p G V))) =
         p ^ padicValNat p (Nat.card (G ⧸ V)) :=
   sorry
