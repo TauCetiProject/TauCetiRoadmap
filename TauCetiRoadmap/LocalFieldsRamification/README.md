@@ -42,6 +42,9 @@ valuation orthogonality. #226 owns the family and counting layer: `σ_K(n)`, its
 Haar-measure calculations, and the mass formulas. It may define intermediate-field wrappers,
 but they must install this roadmap's canonical structures and reduce to its canonical invariants.
 
+Where a milestone below names a Tau Ceti declaration as its implementation, this roadmap's Lean
+name for it is a reducible alias of that declaration, and the milestone's statements are about it.
+
 Conventions are fixed throughout: valuations are normalized additively by `v_K(π) = 1`;
 arithmetic Frobenius is primary and geometric Frobenius is its inverse; upper numbering is the
 one functorial under quotients; and `G_K^t` means the quotient by wild inertia, not the maximal
@@ -75,7 +78,12 @@ pro-`p` quotient.
   in `ℚ≥0`, and prove that it agrees with the `Padic` norm on `ℚ_[p]`. ⚠ The canonical valuation
   of Mathlib has `v(π) = exp(−1)`, so the integers are the elements with `v ≤ 1`, and the additive
   normalization carries a minus sign. Every statement that mixes the two cites the one named
-  `−log` translation lemma.
+  `−log` translation lemma. Tau Ceti implements the two constructors as `TauCeti.normalizedValuation`
+  and `TauCeti.normalizedAbsoluteValue` (`TauCeti/NumberTheory/LocalField/NormalizedValuation.lean`),
+  with the translation lemma `TauCeti.toAdd_normalizedValuation_eq_neg_log`, surjectivity, the
+  uniformizer equation and the kernel condition; this roadmap's `normalizedValuation` is a reducible
+  alias of the first, so the valuative relation, the topology and the local-field hypothesis of `K`
+  are parameters of it.
   - *Prerequisites:* `Mathlib: valueGroupWithZeroIsoInt`, `WithZero.log`,
     `Padic.norm_eq_zpow_neg_valuation`.
   - *API:*
@@ -101,7 +109,11 @@ pro-`p` quotient.
   valuative relation on `L`. A particular `Valuation L ℤᵐ⁰`, together with its equivalence to the
   pullback of `valuation K`, is a proof witness rather than a second public carrier. All constructed
   structures are named definitions rather than global instances, which keeps a field already
-  carrying compatible structures free of diamonds.
+  carrying compatible structures free of diamonds. Tau Ceti implements this construction and its
+  closed chain (`TauCeti.normalizedNormedField`, `TauCeti.finiteExtensionNormedField`,
+  `TauCeti.finiteExtensionNormedFieldTopology`, `TauCeti.finiteExtensionValuativeRel`, in
+  `TauCeti/NumberTheory/LocalField/FiniteExtension/Basic.lean`); this roadmap's names are reducible
+  aliases of them.
   - *Prerequisites:*
     - `Mathlib: Mathlib/RingTheory/Valuation/Extension.lean`;
     - `Mathlib: spectralNorm` and `Mathlib/Analysis/Normed/Field/Krasner.lean`;
@@ -114,7 +126,10 @@ pro-`p` quotient.
   class of `K` are equivalent, in the sense of `Valuation.IsEquiv`. Any two `ValuativeRel L`
   structures for which `ValuativeExtension K L` holds are equal. Corollary: every `K`-algebra
   automorphism of `L` preserves the valuation, and therefore acts on `𝒪[L]`, `𝓂[L]`, and `𝓀[L]`.
-  The corollary is stated here because Layers 2 and 3 use it many times.
+  The corollary is stated here because Layers 2 and 3 use it many times. Tau Ceti implements both
+  forms of uniqueness and the corollary (`TauCeti.finiteExtensionValuation_isEquiv`,
+  `TauCeti.finiteExtensionValuativeRel_eq`, `TauCeti.finiteExtensionNormedFieldTopology_eq`,
+  `AlgEquiv.valuation_eq`), and the milestones here are closed proofs of them.
   - *Prerequisites:*
     - `Layer 0: finite extensions, I`;
     - `Mathlib: Valuation.IsEquiv`.
@@ -126,7 +141,13 @@ pro-`p` quotient.
     - the induced map `Gal(L/K) → Gal(𝓀[L]/𝓀[K])`, whose kernel Layer 3 names the inertia group.
 - **Finite extensions, III: consequences.** From I and II derive `IsNonarchimedeanLocalField L`,
   completeness of `L`, the instances `Algebra 𝒪[K] 𝒪[L]` and `Algebra 𝓀[K] 𝓀[L]`, and freeness of
-  `𝒪[L]` as a finite `𝒪[K]`-module.
+  `𝒪[L]` as a finite `𝒪[K]`-module. The two algebra structures are Tau Ceti's instances
+  `TauCeti.integerRingAlgebra` and `TauCeti.residueFieldAlgebra`, and finiteness and freeness are its
+  instances `TauCeti.integerRingModuleFinite` and `TauCeti.integerRingModuleFree`; this roadmap names
+  them by reducible alias and closed proof and declares no second instance. The comparison with the
+  integral closure, the tower lemmas and the intermediate-field adapters are Tau Ceti's as well
+  (`TauCeti.integerRing_eq_integralClosure`, `TauCeti.finiteExtensionValuativeRel_tower`,
+  `TauCeti.finiteIntermediateFieldValuativeRel` and its companions).
   - *Prerequisites:*
     - `Layer 0: finite extensions, I`;
     - `Layer 0: finite extensions, II`;
@@ -183,7 +204,11 @@ pro-`p` quotient.
   `absoluteRamificationIndex_eq_natCastValuation`, identifying it with
   `natCastValuation K p hp`. Thus the invariant called the absolute ramification index exists only
   in mixed characteristic; there is no equal-characteristic junk branch, and the relative
-  `e(L/K)` above remains a different invariant.
+  `e(L/K)` above remains a different invariant. `natCastValuation`, its characteristic equation and
+  its vanishing criterion are Tau Ceti's `TauCeti.natCastValuation`,
+  `TauCeti.normalizedValuation_natCast` and `TauCeti.natCastValuation_eq_zero_iff`
+  (`TauCeti/NumberTheory/LocalField/NatCastValuation.lean`), consumed by reducible alias and closed
+  proof.
   - *Prerequisites:*
     - `Layer 0: the normalized valuation`;
     - `Layer 0: e and f, intrinsically`, for the comparison below.
@@ -209,7 +234,15 @@ pro-`p` quotient.
   used, namely the congruence `x ≡ 1 mod 𝓂[K]^i` inside `𝒪[K]` and the valuation inequality on
   `x − 1`, and prove that they agree. Indices are natural numbers throughout. Layers 3 and 7
   compare `U(K,i)` with a ramification group `G_j`. Each such statement writes out the shift
-  between the two index conventions.
+  between the two index conventions. Tau Ceti implements the object, both membership forms,
+  antitonicity, separation, openness, compactness and the neighbourhood basis
+  (`TauCeti.unitFiltration`, `TauCeti.mem_unitFiltration_succ_congr`,
+  `TauCeti.mem_unitFiltration_succ_valuation`, `TauCeti.unitFiltration_antitone`,
+  `TauCeti.iInf_unitFiltration`, `TauCeti.isOpen_unitFiltration`, `TauCeti.isCompact_unitFiltration`,
+  `TauCeti.hasBasis_nhds_one_unitFiltration`, in
+  `TauCeti/NumberTheory/LocalField/UnitFiltration/Basic.lean`), and the graded pieces
+  `U(K,i)/U(K,i+1)` as `TauCeti.UnitFiltrationGraded`; this roadmap's `unitFiltration` and
+  `UnitFiltrationGraded` are reducible aliases of them.
   - *Prerequisites:*
     - `Layer 0: the normalized valuation`;
     - `Mathlib: Subgroup`, `Valuation`.
@@ -635,7 +668,13 @@ pro-`p` quotient.
   well as agreement at integers. No topological `LeftContinuous` theorem is required before a
   topology on subgroup values is chosen. The Herbrand integral below needs `G_t` for real `t`.
   Prove compatibility with subgroups: `H_i = H ∩ G_i` for
-  `H = Gal(L/K')`.
+  `H = Gal(L/K')`. Tau Ceti implements the filtration at integer and at real index, for every
+  finite `L/K`, as `TauCeti.LocalFieldsRamification.lowerRamificationGroup` and
+  `lowerRamificationGroupReal` (`TauCeti/NumberTheory/LocalField/RamificationGroup.lean`), with
+  normality, antitonicity, the negative-index convention, the two comparison lemmas at `0`, eventual
+  triviality with the largest jump, the interval and integer-agreement lemmas, and compatibility
+  with subgroups; this roadmap's `lowerRamificationGroup` and `lowerRamificationGroupReal` are
+  reducible aliases of them, stated for `L/K` Galois.
   - *Prerequisites:*
     - `Layer 0: finite extensions, II`;
     - `Layer 0: the normalized valuation`;
@@ -937,7 +976,11 @@ temporary arithmetic declarations with the canonical exports above.
 `TauCeti.Topology.Algebra.Group.Profinite.Presentation` and
 `TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic` directly. No supplied group-theoretic
 declaration is restated: there is no `Supplied.*` alias and no private replacement carrier for the
-pro-`p`, Sylow, free-group or presentation API.
+pro-`p`, Sylow, free-group or presentation API. For the Galois theory of the finite levels it uses
+Mathlib's `FiniteGaloisIntermediateField` and `AlgEquiv.restrictNormalHom`, and Tau Ceti's Galois
+correspondence for normal extensions, `TauCeti.fixingSubgroup_fixedField`
+(`TauCeti/FieldTheory/Galois/AbsoluteGaloisGroup/Basic.lean`), which covers the algebraic closure in
+every characteristic.
 
 The dependency is **type-checked, not promised**. Layer 1's `unitFiltration_one_isProP` is stated
 against `ProfiniteProPGroups.IsProP` — the same statement as the inverse-limit description, not a
@@ -948,8 +991,8 @@ presentation and of its coordinate is `TauCeti.presentedProfiniteGroup.hom_ext_o
 rename, a carrier change or a changed hypothesis in a supplier breaks this build rather than being
 absorbed silently.
 
-**Contract audit.** The group-theoretic declarations this roadmap consumes are exactly these, and
-no others:
+**Contract audit.** The group-theoretic and Galois-theoretic declarations this roadmap consumes are
+exactly these, and no others:
 
 | Used in | Declaration |
 | --- | --- |
@@ -957,6 +1000,7 @@ no others:
 | Layer 4, wild inertia | `ProfiniteProPGroups.exists_isProPSylow`, `ProfiniteProPGroups.IsProP.exists_le_isProPSylow`, `ProfiniteProPGroups.IsProPSylow.eq_of_normal`, `ProfiniteProPGroups.IsProPSylow.map_of_surjective` |
 | Layer 4, the Iwasawa presentation | `TauCeti.freeProfiniteGroup` with `of` and `lift`; `TauCeti.presentedProfiniteGroup` with `of`, `lift`, `hom_ext_of` and `congr` |
 | Layers 2 and 4, the unramified coordinate | `TauCeti.zHat` and `TauCeti.zHat.gen` |
+| Layer 4, the finite levels, wild inertia and `K^t` | Mathlib's `FiniteGaloisIntermediateField`, `AlgEquiv.restrictNormalHom` and `InfiniteGalois.restrictNormalHom_continuous`; Tau Ceti's `TauCeti.fixingSubgroup_fixedField` and `IntermediateField.fixingSubgroup_inf_separableClosure` |
 
 This roadmap consumes **no** maximal pro-`p` quotient, **no** free pro-`p` group, and **no**
 generator-rank declaration. `G_K(p)`, its rank and its Demushkin presentation are
@@ -972,15 +1016,27 @@ used by no milestone here.
   is more convenient over a separable closure may then transport along it. No theorem below
   chooses its own model. Every infinite subextension, that is `K^{ur}`, `K^{t}`, and `K^{ab}`, is
   an `IntermediateField K (AlgebraicClosure K)`. Inertia, wild inertia, and the unramified
-  quotient are the corresponding closed subgroups and quotients, and are named as such.
-  - *Prerequisites:* `Mathlib: Field.absoluteGaloisGroup`, `separableClosure.algEquivOfAlgEquiv`,
-    `Mathlib/FieldTheory/KrullTopology.lean`.
+  quotient are the corresponding closed subgroups and quotients, and are named as such. The finite
+  levels are the finite Galois subextensions `L`, Mathlib's
+  `FiniteGaloisIntermediateField K (AlgebraicClosure K)`, with restriction
+  `AlgEquiv.restrictNormalHom L : G_K → Gal(L/K)`. Each carries the local-field structure that
+  Layer 0.III builds from that of `K` (`finiteIntermediateFieldValuativeRel`,
+  `finiteIntermediateFieldTopology`), and `finiteGaloisLowerRamificationGroup K L i` is the lower
+  ramification group `G_i(L/K)` of Layer 3 for that structure. It adapts the intermediate-field
+  carrier to the local-field carrier and defines no second filtration.
+  - *Prerequisites:*
+    - `Mathlib: Field.absoluteGaloisGroup`, `separableClosure.algEquivOfAlgEquiv`,
+      `Mathlib/FieldTheory/KrullTopology.lean`;
+    - `Mathlib: FiniteGaloisIntermediateField`, `AlgEquiv.restrictNormalHom`;
+    - `Layer 0: finite extensions, III`, for the intermediate-field adapters;
+    - `Layer 3: the lower-numbering filtration`.
   - *API:*
     - the comparison isomorphism, with continuity in both directions;
     - the transport lemmas for subgroups and for quotients;
     - the profinite structure;
     - the correspondence between closed subgroups and intermediate fields, specialized to the
-      three named fields.
+      three named fields;
+    - `finiteGaloisLowerRamificationGroup` and its normality.
 - **Inertia.** `I_K = Gal(Kˢ/K^{ur})` is Tau Ceti's `TauCeti.inertiaSubgroup K`, the fixing
   subgroup of `TauCeti.maximalUnramifiedExtension K (AlgebraicClosure K)`; it is closed
   (`TauCeti.isClosed_inertiaSubgroup`) and normal (`TauCeti.inertiaSubgroup_normal`). This
@@ -1001,30 +1057,56 @@ used by no milestone here.
     - `Layer 4: the ambient model`.
   - *API:*
     - functoriality in a finite extension of `K`;
-    - the image of `I_K` in a finite quotient, which is `G_0` of Layer 3.
-- **Wild inertia.** Define `P_K = Gal(Kˢ/K^{t})`, where `K^{t} = ⋃_{p ∤ m} K^{ur}(π^{1/m})` is the
-  maximal tamely ramified extension. Prove that `P_K` is the inverse limit of the finite-level
-  `G_1`. Prove that it is a closed normal pro-`p` subgroup of `G_K`; closedness is what makes the
-  tame quotient `G_K/P_K` Hausdorff, hence profinite. Prove that it is the unique maximal such
-  subgroup of `I_K`, that is, its pro-`p` Sylow subgroup. Sylow theory for profinite groups is free
-  of Galois vocabulary, and this roadmap does not restate it in that vocabulary. What is proved
-  here is the identification of that Sylow subgroup with `Gal(Kˢ/K^t)`.
+    - the image of `I_K` in `Gal(L/K)` for each finite Galois subextension `L`, which is
+      `G_0(L/K)` of Layer 3 (`map_restrictNormalHom_inertia`).
+- **Wild inertia.** Define wild inertia `P_K` (`wildInertia`) as the inverse limit of the
+  finite-level `G_1`: the elements of `G_K` whose restriction to every finite Galois subextension
+  `L` lies in `G_1(L/K)`, that is, in `finiteGaloisLowerRamificationGroup K L 1`. The
+  characterizing statement is `mem_wildInertia_iff`, a closed proof. `P_K` is a closed normal
+  subgroup of `G_K` (`wildInertia_isClosed`, `wildInertia_normal`), by closed proofs: restriction is
+  continuous into each finite discrete `Gal(L/K)`, and each `G_1(L/K)` is normal. Closedness is
+  what makes the tame quotient `G_K/P_K` Hausdorff, hence profinite. Define the maximal tamely
+  ramified extension `K^{t}` (`maximalTame`) as the separable part of the fixed field of `P_K`,
+  that is, the fixed field intersected with `separableClosure K K^{al}`. ⚠ The intersection is part
+  of the definition: in characteristic `p` the fixed field of every subgroup of `G_K` contains the
+  purely inseparable closure of `K`, while `K^{t}` is separable over `K`. Then
+  `P_K = Gal(K^{al}/K^{t})` (`fixingSubgroup_maximalTame`) is a closed proof from closedness,
+  `TauCeti.fixingSubgroup_fixedField` and `IntermediateField.fixingSubgroup_inf_separableClosure`.
+  Prove that the image of `P_K` in each `Gal(L/K)` is all of
+  `G_1(L/K)` (`map_restrictNormalHom_wildInertia`): restriction maps `G_0` onto `G_0` and `G_1` is
+  the unique `p`-Sylow subgroup of `G_0`, and compactness passes to the limit. Prove that a finite
+  Galois subextension lies in `K^{t}` exactly when its `G_1` is trivial, that is, exactly when it is
+  tamely ramified (`le_maximalTame_iff`), so that `K^{t}` is the compositum of the finite tamely
+  ramified subextensions, and prove the classical description `K^{t} = K^{ur}(π^{1/m} : p ∤ m)` for
+  any uniformizer `π` (`maximalTame_eq_maximalUnramified_sup_adjoin`). Prove that `P_K ≤ I_K`
+  (`wildInertia_le_inertia`), that `P_K` is pro-`p`, and that it is the unique maximal such subgroup
+  of `I_K`, that is, its pro-`p` Sylow subgroup. Sylow theory for profinite groups is free of
+  Galois vocabulary, and this roadmap does not restate it in that vocabulary. What is proved here is
+  the identification of that Sylow subgroup with `P_K`.
   - *Prerequisites:*
     - `Layer 3: tame and wild`;
+    - `Layer 3: the quotient embeddings`, for `G_1` as the `p`-Sylow subgroup of `G_0`;
+    - `Layer 4: the ambient model`, for the finite levels;
     - `Layer 4: inertia`;
-    - `Mathlib: Subgroup.normalClosure`, `OpenNormalSubgroup`;
+    - `Mathlib: InfiniteGalois.restrictNormalHom_continuous`, `Subgroup.normalClosure`,
+      `OpenNormalSubgroup`;
+    - Tau Ceti: `TauCeti.fixingSubgroup_fixedField`,
+      `IntermediateField.fixingSubgroup_inf_separableClosure`;
     - **Profinite and Pro-`p` Groups**:
       `ProfiniteProPGroups.exists_isProPSylow`,
       `ProfiniteProPGroups.IsProP.exists_le_isProPSylow`,
       `ProfiniteProPGroups.IsProPSylow.eq_of_normal`, and
       `ProfiniteProPGroups.IsProPSylow.map_of_surjective`.
   - *API:*
-    - the field `K^{t}` and the subgroup `P_K`;
-    - closedness, `wildInertia_isClosed`, and normality;
+    - the subgroup `P_K` with `mem_wildInertia_iff`, and the field `K^{t}`;
+    - closedness, `wildInertia_isClosed`, and normality, `wildInertia_normal`;
+    - `fixingSubgroup_maximalTame`, `le_maximalTame_iff` and
+      `maximalTame_eq_maximalUnramified_sup_adjoin`;
+    - the image of `P_K` in a finite quotient, which is `G_1` of Layer 3
+      (`map_restrictNormalHom_wildInertia`);
+    - `wildInertia_le_inertia`;
     - the pro-`p` property;
-    - the limit description;
-    - the Sylow identification;
-    - the image of `P_K` in a finite quotient, which is `G_1` of Layer 3.
+    - the Sylow identification.
 - **The tame character and the twist.** Prove `I_K/P_K ≅ lim_{p∤m} μ_m(Kˢ) = Ẑ^{(p')}(1)`, by
   `σ ↦ (σ(π^{1/m})/π^{1/m})_m`, and independence of the choices. ⚠ The notation `Ẑ^{(p')}(1)` is
   *defined* here, as the prime-to-`p` Tate module of `μ`. As a profinite group it is

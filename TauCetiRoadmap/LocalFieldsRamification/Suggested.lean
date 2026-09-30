@@ -1,4 +1,9 @@
 import Mathlib
+import TauCeti.FieldTheory.Galois.AbsoluteGaloisGroup.Basic
+import TauCeti.NumberTheory.LocalField.FiniteExtension.IntermediateField
+import TauCeti.NumberTheory.LocalField.FiniteExtension.Tower
+import TauCeti.NumberTheory.LocalField.NatCastValuation
+import TauCeti.NumberTheory.LocalField.RamificationGroup
 import TauCeti.NumberTheory.LocalField.UnitFiltration.RamificationGroup
 import TauCeti.Topology.Algebra.Group.Profinite.Presentation
 import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic
@@ -33,6 +38,22 @@ and the API used with them) are newer than the Tau Ceti revision this library is
 is stated here once, under its Tau Ceti name and with its Tau Ceti signature, and its docstring says
 so. Layer 4 opens `TauCeti`, so deleting these statements when the pin moves makes every use resolve
 to Tau Ceti's declaration.
+
+The local-field objects that the pinned Tau Ceti implements are **consumed, not restated**: the
+normalized valuation and the valuation of a natural-number cast (`TauCeti.normalizedValuation`,
+`TauCeti.natCastValuation`), the unit filtration and its graded pieces (`TauCeti.unitFiltration`,
+`TauCeti.UnitFiltrationGraded`), the spectral-norm construction of the local-field structure on a
+finite extension and on a finite intermediate field (`TauCeti.finiteExtensionValuativeRel`,
+`TauCeti.finiteIntermediateFieldValuativeRel` and their companions), the integer-ring and
+residue-field algebra structures (`TauCeti.integerRingAlgebra`, `TauCeti.residueFieldAlgebra`), and
+the lower ramification groups (`TauCeti.LocalFieldsRamification.lowerRamificationGroup`). This
+file's names for them are reducible aliases, and the milestones about them that Tau Ceti proves are
+closed proofs of Tau Ceti's theorems. Wild inertia is constructed from them: it is the group of
+elements of `G_K` whose restriction to every finite Galois subextension lies in the first lower
+ramification group of that subextension, whose local-field structure is built from `K`'s. The
+maximal tamely ramified extension, the tame quotient and the marked Iwasawa presentation are built
+from wild inertia, so each of them depends on the valuation and topology of `K` through its
+definition.
 -/
 
 namespace TauCetiRoadmap.LocalFieldsRamification
@@ -58,140 +79,152 @@ example (p : ℕ) [Fact p.Prime] : IsNonarchimedeanLocalField ℚ_[p] :=
   sorry
 
 /-- **Layer 0, the normalized valuation.** The valuation of a local field, written
-additively but encoded as a homomorphism to `Multiplicative ℤ`. This is `WithZero.log` of
-Mathlib's canonical valuation transported along `valueGroupWithZeroIsoInt`. ⚠ Sign trap:
-Mathlib's multiplicative convention has `valuation K π = exp (−1) < 1` on uniformizers, so
-the additive normalization carries a minus sign; keep that translation in one named lemma. -/
-noncomputable def normalizedValuation : Kˣ →* Multiplicative ℤ :=
-  sorry
+additively but encoded as a homomorphism to `Multiplicative ℤ`: `WithZero.log` of Mathlib's
+canonical valuation transported along `valueGroupWithZeroIsoInt`. Tau Ceti's
+`TauCeti.normalizedValuation` (`TauCeti/NumberTheory/LocalField/NormalizedValuation.lean`),
+consumed by reducible alias; its body uses the valuation, the topology and the local-field
+hypothesis of `K`, which are therefore parameters of this definition. ⚠ Sign trap: Mathlib's
+multiplicative convention has `valuation K π = exp (−1) < 1` on uniformizers, so the additive
+normalization carries a minus sign, confined to Tau Ceti's single translation lemma
+`TauCeti.toAdd_normalizedValuation_eq_neg_log`. -/
+noncomputable abbrev normalizedValuation : Kˣ →* Multiplicative ℤ :=
+  TauCeti.normalizedValuation K
 
-/-- **Layer 0.** The normalized valuation is surjective: the value group is all of `ℤ`. -/
+/-- **Layer 0.** The normalized valuation is surjective: the value group is all of `ℤ`. Tau
+Ceti's `TauCeti.normalizedValuation_surjective`. -/
 theorem normalizedValuation_surjective : Function.Surjective (normalizedValuation K) :=
-  sorry
+  TauCeti.normalizedValuation_surjective
 
 /-- **Layer 0.** `v_K^×(x) = 1` says the additive value is `0`, that is, `x` is a unit of
 `𝒪[K]`. This is the equation reserved for the kernel condition; the uniformizer equation is
-the next lemma, and the two must not be conflated. -/
+the next lemma, and the two must not be conflated. Tau Ceti's
+`TauCeti.normalizedValuation_eq_one_iff`. -/
 theorem normalizedValuation_eq_one_iff (x : Kˣ) :
     normalizedValuation K x = 1 ↔ valuation K (x : K) = 1 :=
-  sorry
+  TauCeti.normalizedValuation_eq_one_iff x
 
 /-- **Layer 0.** For a uniformizer the Lean-facing equation is
 `v_K^×(π) = Multiplicative.ofAdd 1`, equivalently `v_K(π) = 1` after decoding with
-`Multiplicative.toAdd`. -/
-theorem normalizedValuation_irreducible (π : 𝒪[K]) (_hπ : Irreducible π) (hπ0 : (π : K) ≠ 0) :
+`Multiplicative.toAdd`. Tau Ceti's `TauCeti.normalizedValuation_irreducible`; the nonvanishing
+proof is an argument here so that the unit is written `Units.mk0 (π : K) hπ0` by the caller. -/
+theorem normalizedValuation_irreducible (π : 𝒪[K]) (hπ : Irreducible π) (hπ0 : (π : K) ≠ 0) :
     normalizedValuation K (Units.mk0 (π : K) hπ0) = Multiplicative.ofAdd 1 :=
-  sorry
+  TauCeti.normalizedValuation_irreducible hπ
 
 /-- **Layer 0, uniformizers generate the value group.** Any irreducible element of the
 (discrete valuation) ring `𝒪[K]` has valuation a generator: every nonzero value is an
-integer power of it. -/
-example (π : 𝒪[K]) (_hπ : Irreducible π) :
+integer power of it. Tau Ceti's `TauCeti.exists_eq_valuation_zpow_of_irreducible`. -/
+example (π : 𝒪[K]) (hπ : Irreducible π) :
     ∀ γ : (ValueGroupWithZero K)ˣ,
       ∃ n : ℤ, (γ : ValueGroupWithZero K) = valuation K (π : K) ^ n :=
-  sorry
+  TauCeti.exists_eq_valuation_zpow_of_irreducible hπ
 
 /-- **Layer 0.I, bridge to the analytic API.** The normalized absolute value attached to the
 canonical valuative relation supplies the normed-field structure used by
 `spectralNorm`. This is a named value rather than a global instance, so installing it is always
-local and cannot create a topology diamond. -/
-@[implicit_reducible]
-noncomputable def normalizedNormedField : NormedField K :=
-  sorry
+local and cannot create a topology diamond. Tau Ceti's `TauCeti.normalizedNormedField`
+(`TauCeti/NumberTheory/LocalField/NormedField.lean`), consumed by reducible alias. -/
+noncomputable abbrev normalizedNormedField : NormedField K :=
+  TauCeti.normalizedNormedField K
 
 /-- **Layer 0.I, the topology carried by `normalizedNormedField`.** Naming it separately makes
-all later comparisons explicit. -/
-@[implicit_reducible]
-noncomputable def normalizedNormedFieldTopology : TopologicalSpace K := by
-  letI := normalizedNormedField K
-  exact inferInstance
+all later comparisons explicit. Tau Ceti's `TauCeti.normalizedNormedFieldTopology`. -/
+noncomputable abbrev normalizedNormedFieldTopology : TopologicalSpace K :=
+  TauCeti.normalizedNormedFieldTopology K
 
-/-- **Layer 0.I, compatibility of the analytic and valuative topologies on the base.** -/
+/-- **Layer 0.I, compatibility of the analytic and valuative topologies on the base.** Tau Ceti's
+`TauCeti.normalizedNormedField_topology_eq`. -/
 theorem normalizedNormedField_topology_eq :
     normalizedNormedFieldTopology K = (inferInstance : TopologicalSpace K) :=
-  sorry
+  TauCeti.normalizedNormedField_topology_eq K
 
 /-- **Layer 0.I, the spectral-norm structure on a bare finite algebra.** Completeness and
-ultrametricity come from `normalizedNormedField`; no topology or valuation on `M` is assumed. -/
-@[implicit_reducible]
-noncomputable def finiteExtensionNormedField (M : Type v) [Field M] [Algebra K M]
+ultrametricity come from `normalizedNormedField`; no topology or valuation on `M` is assumed.
+Tau Ceti's `TauCeti.finiteExtensionNormedField`
+(`TauCeti/NumberTheory/LocalField/FiniteExtension/Basic.lean`), consumed by reducible alias. -/
+noncomputable abbrev finiteExtensionNormedField (M : Type v) [Field M] [Algebra K M]
     [Module.Finite K M] : NormedField M :=
-  sorry
+  TauCeti.finiteExtensionNormedField K M
 
-/-- **Layer 0.I, the topology induced by the spectral norm.** -/
-@[implicit_reducible]
-noncomputable def finiteExtensionNormedFieldTopology (M : Type v) [Field M] [Algebra K M]
-    [Module.Finite K M] : TopologicalSpace M := by
-  letI := finiteExtensionNormedField K M
-  exact inferInstance
+/-- **Layer 0.I, the topology induced by the spectral norm.** Tau Ceti's
+`TauCeti.finiteExtensionNormedFieldTopology`. -/
+noncomputable abbrev finiteExtensionNormedFieldTopology (M : Type v) [Field M] [Algebra K M]
+    [Module.Finite K M] : TopologicalSpace M :=
+  TauCeti.finiteExtensionNormedFieldTopology K M
 
 /-- **Layer 0.I, constructing the valuative structure on a finite extension.** The spectral
 norm supplies a `ValuativeRel M`; a particular `Valuation M ℤᵐ⁰` is an implementation witness,
 not a second public carrier. This is a definition rather than a global instance, avoiding a
-diamond when `M` already has a valuative structure. -/
-@[implicit_reducible]
-noncomputable def finiteExtensionValuativeRel (M : Type v) [Field M] [Algebra K M]
+diamond when `M` already has a valuative structure. Tau Ceti's
+`TauCeti.finiteExtensionValuativeRel`, consumed by reducible alias. -/
+noncomputable abbrev finiteExtensionValuativeRel (M : Type v) [Field M] [Algebra K M]
     [Module.Finite K M] : ValuativeRel M :=
-  sorry
+  TauCeti.finiteExtensionValuativeRel K M
 
-/-- **Layer 0.I, compatibility of the constructed structure with the base field.** -/
+/-- **Layer 0.I, compatibility of the constructed structure with the base field.** Tau Ceti's
+`TauCeti.finiteExtension_valuativeExtension`. -/
 theorem finiteExtension_valuativeExtension (M : Type v) [Field M] [Algebra K M]
     [Module.Finite K M] :
     letI := finiteExtensionValuativeRel K M
     ValuativeExtension K M :=
-  sorry
+  TauCeti.finiteExtension_valuativeExtension K M
 
 /-- **Layer 0.I, the constructed topology is valuative for the constructed relation.** This is
-the missing bridge from the spectral norm to the public valuative carrier. -/
+the missing bridge from the spectral norm to the public valuative carrier. Tau Ceti's
+`TauCeti.finiteExtension_isValuativeTopology`. -/
 theorem finiteExtension_isValuativeTopology (M : Type v) [Field M] [Algebra K M]
     [Module.Finite K M] :
     @IsValuativeTopology M _ (finiteExtensionValuativeRel K M)
       (finiteExtensionNormedFieldTopology K M) :=
-  sorry
+  TauCeti.finiteExtension_isValuativeTopology K M
 
 /-- **Layer 0.III, a bare finite algebra is a local field with the structures just constructed.**
 Unlike the compatibility example below, this theorem assumes no topology or valuative relation
-on `M`; it closes the construction consumed by every later layer. -/
+on `M`; it closes the construction consumed by every later layer. Tau Ceti's
+`TauCeti.finiteExtension_isNonarchimedeanLocalField`. -/
 theorem finiteExtension_isNonarchimedeanLocalField (M : Type v) [Field M] [Algebra K M]
     [Module.Finite K M] :
     @IsNonarchimedeanLocalField M _ (finiteExtensionValuativeRel K M)
       (finiteExtensionNormedFieldTopology K M) :=
-  sorry
+  TauCeti.finiteExtension_isNonarchimedeanLocalField K M
 
 /-- **Layer 0.II, comparison with an already topologized compatible extension.** Uniqueness of
 the extended valuation identifies the spectral-norm topology with the pre-existing valuative
-topology. -/
+topology. Tau Ceti's `TauCeti.finiteExtensionNormedFieldTopology_eq`. -/
 theorem finiteExtensionNormedFieldTopology_eq (M : Type v) [Field M] [Algebra K M]
     [Module.Finite K M] [ValuativeRel M] [TopologicalSpace M] [IsValuativeTopology M]
     [ValuativeExtension K M] :
     finiteExtensionNormedFieldTopology K M = (inferInstance : TopologicalSpace M) :=
-  sorry
+  TauCeti.finiteExtensionNormedFieldTopology_eq K M
 
 /-- **Layer 0.II, uniqueness.** Any two valuations on a finite extension `M/K` restricting to
 the valuation class of `K` are equivalent. (Completeness of `K` is what makes this true, and
-it is part of `IsNonarchimedeanLocalField K`.) -/
+it is part of `IsNonarchimedeanLocalField K`.) Tau Ceti's
+`TauCeti.finiteExtensionValuation_isEquiv`. -/
 theorem finiteExtensionValuation_isEquiv (M : Type v) [Field M] [Algebra K M] [Module.Finite K M]
     {Γ₁ Γ₂ : Type*} [LinearOrderedCommGroupWithZero Γ₁] [LinearOrderedCommGroupWithZero Γ₂]
     (w₁ : Valuation M Γ₁) (w₂ : Valuation M Γ₂)
-    (_h₁ : (w₁.comap (algebraMap K M)).IsEquiv (valuation K))
-    (_h₂ : (w₂.comap (algebraMap K M)).IsEquiv (valuation K)) :
+    (h₁ : (w₁.comap (algebraMap K M)).IsEquiv (valuation K))
+    (h₂ : (w₂.comap (algebraMap K M)).IsEquiv (valuation K)) :
     w₁.IsEquiv w₂ :=
-  sorry
+  TauCeti.finiteExtensionValuation_isEquiv h₁ h₂
 
-/-- **Layer 0.II, the constructed relation agrees with any compatible existing relation.** -/
+/-- **Layer 0.II, the constructed relation agrees with any compatible existing relation.** Tau
+Ceti's `TauCeti.finiteExtensionValuativeRel_eq`. -/
 theorem finiteExtensionValuativeRel_eq (M : Type v) [Field M] [Algebra K M]
     [Module.Finite K M] [ValuativeRel M] [ValuativeExtension K M] :
     finiteExtensionValuativeRel K M = (inferInstance : ValuativeRel M) :=
-  sorry
+  TauCeti.finiteExtensionValuativeRel_eq K M
 
+omit [TopologicalSpace L] [IsNonarchimedeanLocalField L] in
 /-- **Layer 0.II, corollary: Galois invariance of the valuation.** Every `K`-algebra
 automorphism of a finite extension `L/K` of local fields preserves the canonical valuation.
 This is what makes `Gal(L/K)` act on `𝒪[L]`, `𝓂[L]`, and the residue field, and Layers 2
-and 3 use it constantly. -/
+and 3 use it constantly. Tau Ceti's `AlgEquiv.valuation_eq`. -/
 theorem valuation_algEquiv [Algebra K L] [ValuativeExtension K L] [Module.Finite K L]
     (σ : L ≃ₐ[K] L) (x : L) :
     valuation L (σ x) = valuation L x :=
-  sorry
+  AlgEquiv.valuation_eq σ x
 
 /-- **Layer 0.III, consequences.** Once the compatible valuation class and the valuative
 topology are in place, a finite extension of a nonarchimedean local field is a nonarchimedean
@@ -204,102 +237,119 @@ example (M : Type v) [Field M] [ValuativeRel M] [TopologicalSpace M]
   sorry
 
 /-- **Layer 0.III, integer rings in an extension.** The compatible valuation makes the map
-`K → L` restrict to `𝒪[K] → 𝒪[L]`. This named instance is part of the local package consumed by
-the monogenicity and different milestones below. -/
-noncomputable instance integerRingAlgebra [Algebra K L] [ValuativeExtension K L] :
+`K → L` restrict to `𝒪[K] → 𝒪[L]`. The instance is Tau Ceti's `TauCeti.integerRingAlgebra`
+(`TauCeti/RingTheory/Valuation/ValuativeRel/Extension.lean`), which every statement below uses;
+this reducible alias names it for the local package consumed by the monogenicity and different
+milestones below, and is not a second instance. -/
+noncomputable abbrev integerRingAlgebra [Algebra K L] [ValuativeExtension K L] :
     Algebra 𝒪[K] 𝒪[L] :=
-  sorry
+  TauCeti.integerRingAlgebra
 
 /-- **Layer 0.III, residue fields in an extension.** The reduction of the integer-ring algebra
-is the canonical `𝓀[K]`-algebra structure on `𝓀[L]`. -/
-noncomputable instance residueFieldAlgebra [Algebra K L] [ValuativeExtension K L] :
+is the canonical `𝓀[K]`-algebra structure on `𝓀[L]`. The instance is Tau Ceti's
+`TauCeti.residueFieldAlgebra`; this reducible alias names it and is not a second instance. -/
+noncomputable abbrev residueFieldAlgebra [Algebra K L] [ValuativeExtension K L] :
     Algebra 𝓀[K] 𝓀[L] :=
-  sorry
+  TauCeti.residueFieldAlgebra
 
+omit [TopologicalSpace K] [IsNonarchimedeanLocalField K]
+  [TopologicalSpace L] [IsNonarchimedeanLocalField L] in
 /-- **Layer 0.III, torsion-freeness of the integer-ring extension.** This is the ring-level
-hypothesis used by Mathlib's `differentIdeal`. -/
-noncomputable instance integerRingTorsionFree [Algebra K L] [ValuativeExtension K L] :
+hypothesis used by Mathlib's `differentIdeal`; it holds for every compatible extension, and is
+found by instance search. -/
+theorem integerRingTorsionFree [Algebra K L] [ValuativeExtension K L] :
     Module.IsTorsionFree 𝒪[K] 𝒪[L] :=
-  sorry
+  inferInstance
 
-/-- **Layer 0.III, finiteness of the integer-ring extension.** -/
-noncomputable instance integerRingModuleFinite [Algebra K L] [ValuativeExtension K L]
+/-- **Layer 0.III, finiteness of the integer-ring extension.** Tau Ceti's instance
+`TauCeti.integerRingModuleFinite` (`TauCeti/NumberTheory/LocalField/IntegerRing.lean`). -/
+theorem integerRingModuleFinite [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] : Module.Finite 𝒪[K] 𝒪[L] :=
-  sorry
+  TauCeti.integerRingModuleFinite K L
 
-/-- **Layer 0.III, finite freeness of the integer-ring extension.** -/
-noncomputable instance integerRingModuleFree [Algebra K L] [ValuativeExtension K L]
+/-- **Layer 0.III, finite freeness of the integer-ring extension.** Tau Ceti's instance
+`TauCeti.integerRingModuleFree`. -/
+theorem integerRingModuleFree [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] : Module.Free 𝒪[K] 𝒪[L] :=
-  sorry
+  TauCeti.integerRingModuleFree K L
 
-/-- **Layer 0.III, comparison with integral closure.** -/
+omit [TopologicalSpace L] [IsNonarchimedeanLocalField L] in
+/-- **Layer 0.III, comparison with integral closure.** Tau Ceti's
+`TauCeti.integerRing_eq_integralClosure`, read on carriers. -/
 theorem integerRing_eq_integralClosure [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] :
     (𝒪[L] : Set L) = integralClosure 𝒪[K] L :=
-  sorry
+  congrArg (fun S : Subring L => (S : Set L)) (TauCeti.integerRing_eq_integralClosure K L)
 
-/-- **Layer 0.III, compatibility of the constructed topology in a finite tower.** -/
+/-- **Layer 0.III, compatibility of the constructed topology in a finite tower.** Tau Ceti's
+`TauCeti.finiteExtensionNormedFieldTopology_tower`. -/
 theorem finiteExtensionNormedFieldTopology_tower
     (M : Type w) [Field M] [Algebra K L] [ValuativeExtension K L] [Module.Finite K L]
     [Algebra L M] [Module.Finite L M] [Algebra K M] [Module.Finite K M]
     [IsScalarTower K L M] :
     finiteExtensionNormedFieldTopology K M = finiteExtensionNormedFieldTopology L M :=
-  sorry
+  TauCeti.finiteExtensionNormedFieldTopology_tower K L M
 
-/-- **Layer 0.III, compatibility of the constructed valuative relation in a finite tower.** -/
+/-- **Layer 0.III, compatibility of the constructed valuative relation in a finite tower.** Tau
+Ceti's `TauCeti.finiteExtensionValuativeRel_tower`. -/
 theorem finiteExtensionValuativeRel_tower
     (M : Type w) [Field M] [Algebra K L] [ValuativeExtension K L] [Module.Finite K L]
     [Algebra L M] [Module.Finite L M] [Algebra K M] [Module.Finite K M]
     [IsScalarTower K L M] :
     finiteExtensionValuativeRel K M = finiteExtensionValuativeRel L M :=
-  sorry
+  TauCeti.finiteExtensionValuativeRel_tower K L M
 
 /-- **Layer 0.III, adapter for a finite intermediate-field carrier.** This is the exact entry
 point required by Counting Totally Ramified Extensions #226: its intermediate field acquires the
-spectral-norm structure without first postulating topology or valuation instances. -/
-@[implicit_reducible]
-noncomputable def finiteIntermediateFieldNormedField
+spectral-norm structure without first postulating topology or valuation instances. Tau Ceti's
+`TauCeti.finiteIntermediateFieldNormedField`
+(`TauCeti/NumberTheory/LocalField/FiniteExtension/IntermediateField.lean`), consumed by reducible
+alias. -/
+noncomputable abbrev finiteIntermediateFieldNormedField
     (Ω : Type v) [Field Ω] [Algebra K Ω]
     (M : IntermediateField K Ω) [Module.Finite K M] : NormedField M :=
-  finiteExtensionNormedField K M
+  TauCeti.finiteIntermediateFieldNormedField K Ω M
 
-/-- **Layer 0.III, valuative relation on a finite intermediate-field carrier.** -/
-@[implicit_reducible]
-noncomputable def finiteIntermediateFieldValuativeRel
+/-- **Layer 0.III, valuative relation on a finite intermediate-field carrier.** Tau Ceti's
+`TauCeti.finiteIntermediateFieldValuativeRel`, consumed by reducible alias. -/
+noncomputable abbrev finiteIntermediateFieldValuativeRel
     (Ω : Type v) [Field Ω] [Algebra K Ω]
     (M : IntermediateField K Ω) [Module.Finite K M] : ValuativeRel M :=
-  finiteExtensionValuativeRel K M
+  TauCeti.finiteIntermediateFieldValuativeRel K Ω M
 
-/-- **Layer 0.III, spectral-norm topology on a finite intermediate-field carrier.** -/
-@[implicit_reducible]
-noncomputable def finiteIntermediateFieldTopology
+/-- **Layer 0.III, spectral-norm topology on a finite intermediate-field carrier.** Tau Ceti's
+`TauCeti.finiteIntermediateFieldTopology`, consumed by reducible alias. -/
+noncomputable abbrev finiteIntermediateFieldTopology
     (Ω : Type v) [Field Ω] [Algebra K Ω]
     (M : IntermediateField K Ω) [Module.Finite K M] : TopologicalSpace M :=
-  finiteExtensionNormedFieldTopology K M
+  TauCeti.finiteIntermediateFieldTopology K Ω M
 
-/-- **Layer 0.III, compatibility of the intermediate-field adapter with the base valuation.** -/
+/-- **Layer 0.III, compatibility of the intermediate-field adapter with the base valuation.** Tau
+Ceti's `TauCeti.finiteIntermediateField_valuativeExtension`. -/
 theorem finiteIntermediateField_valuativeExtension
     (Ω : Type v) [Field Ω] [Algebra K Ω]
     (M : IntermediateField K Ω) [Module.Finite K M] :
     letI := finiteIntermediateFieldValuativeRel K Ω M
     ValuativeExtension K M :=
-  finiteExtension_valuativeExtension K M
+  TauCeti.finiteIntermediateField_valuativeExtension K Ω M
 
-/-- **Layer 0.III, the intermediate-field adapter carries the valuative topology.** -/
+/-- **Layer 0.III, the intermediate-field adapter carries the valuative topology.** Tau Ceti's
+`TauCeti.finiteIntermediateField_isValuativeTopology`. -/
 theorem finiteIntermediateField_isValuativeTopology
     (Ω : Type v) [Field Ω] [Algebra K Ω]
     (M : IntermediateField K Ω) [Module.Finite K M] :
     @IsValuativeTopology M _ (finiteIntermediateFieldValuativeRel K Ω M)
       (finiteIntermediateFieldTopology K Ω M) :=
-  finiteExtension_isValuativeTopology K M
+  TauCeti.finiteIntermediateField_isValuativeTopology K Ω M
 
-/-- **Layer 0.III, local-field theorem for a finite intermediate-field carrier.** -/
+/-- **Layer 0.III, local-field theorem for a finite intermediate-field carrier.** Tau Ceti's
+`TauCeti.finiteIntermediateField_isNonarchimedeanLocalField`. -/
 theorem finiteIntermediateField_isNonarchimedeanLocalField
     (Ω : Type v) [Field Ω] [Algebra K Ω]
     (M : IntermediateField K Ω) [Module.Finite K M] :
     @IsNonarchimedeanLocalField M _ (finiteIntermediateFieldValuativeRel K Ω M)
       (finiteIntermediateFieldTopology K Ω M) :=
-  sorry
+  TauCeti.finiteIntermediateField_isNonarchimedeanLocalField K Ω M
 
 /-- **Layer 0, the ramification index**, defined without choosing a uniformizer: the positive
 integer by which the map of normalized value groups multiplies. Its characteristic property
@@ -353,21 +403,25 @@ theorem isTotallyRamified_iff_inertiaDegree_eq_one [Algebra K L] [ValuativeExten
 
 /-- **Layer 0, the valuation of a natural-number cast.** The nonzero proof is part of the input;
 there is no equal-characteristic junk branch. This is the general quantity in power-class
-formulas and wild-different bounds. -/
-noncomputable def natCastValuation (n : ℕ) (hn : (n : K) ≠ 0) : ℕ :=
-  (Multiplicative.toAdd (normalizedValuation K (Units.mk0 (n : K) hn))).toNat
+formulas and wild-different bounds: the decoded normalized valuation `v_K((n : K))`. Tau Ceti's
+`TauCeti.natCastValuation` (`TauCeti/NumberTheory/LocalField/NatCastValuation.lean`), consumed by
+reducible alias. -/
+noncomputable abbrev natCastValuation (n : ℕ) (hn : (n : K) ≠ 0) : ℕ :=
+  TauCeti.natCastValuation K n hn
 
 /-- **Layer 0, the characteristic property of `natCastValuation`.** Its value is a natural
-number, so the equation also records that the natural-number cast lies in `𝒪[K]`. -/
+number, so the equation also records that the natural-number cast lies in `𝒪[K]`. Tau Ceti's
+`TauCeti.normalizedValuation_natCast`. -/
 theorem normalizedValuation_natCast (n : ℕ) (hn : (n : K) ≠ 0) :
     normalizedValuation K (Units.mk0 (n : K) hn)
       = Multiplicative.ofAdd (natCastValuation K n hn : ℤ) :=
-  sorry
+  TauCeti.normalizedValuation_natCast K n hn
 
-/-- **Layer 0, the vanishing criterion for a natural-number cast.** -/
+/-- **Layer 0, the vanishing criterion for a natural-number cast.** Tau Ceti's
+`TauCeti.natCastValuation_eq_zero_iff`. -/
 theorem natCastValuation_eq_zero_iff (n : ℕ) (hn : (n : K) ≠ 0) :
     natCastValuation K n hn = 0 ↔ IsUnit (n : ↥𝒪[K]) :=
-  sorry
+  TauCeti.natCastValuation_eq_zero_iff K n hn
 
 /-- **Layer 0, the absolute ramification index.** This name is reserved for a finite
 mixed-characteristic extension `K/ℚ_p`; definitionally it is the relative ramification index. -/
@@ -387,32 +441,35 @@ theorem absoluteRamificationIndex_eq_natCastValuation (p : ℕ) [Fact p.Prime]
 /-- **Layer 1, the unit filtration** as an object: `U(K,0) = 𝒪[K]ˣ` and
 `U(K,i) = 1 + 𝓂[K]^i` for `i ≥ 1`, a decreasing family of open compact subgroups of `Kˣ`
 indexed by `ℕ`. The depth-zero branch is part of the definition, not a special case bolted on
-afterwards. -/
-def unitFiltration (i : ℕ) : Subgroup Kˣ :=
-  sorry
+afterwards. Tau Ceti's `TauCeti.unitFiltration`
+(`TauCeti/NumberTheory/LocalField/UnitFiltration/Basic.lean`), consumed by reducible alias. -/
+noncomputable abbrev unitFiltration (i : ℕ) : Subgroup Kˣ :=
+  TauCeti.unitFiltration K i
 
-/-- **Layer 1, membership at depth `0`:** the units of `𝒪[K]` inside `Kˣ`. -/
+/-- **Layer 1, membership at depth `0`:** the units of `𝒪[K]` inside `Kˣ`. Tau Ceti's
+`TauCeti.mem_unitFiltration_zero`. -/
 theorem mem_unitFiltration_zero (x : Kˣ) :
     x ∈ unitFiltration K 0 ↔ valuation K (x : K) = 1 :=
-  sorry
+  TauCeti.mem_unitFiltration_zero x
 
 /-- **Layer 1, membership at positive depth, congruence form:** `x ≡ 1 mod 𝓂[K]^i` for a unit
-`x` of `𝒪[K]`. -/
+`x` of `𝒪[K]`. Tau Ceti's `TauCeti.mem_unitFiltration_succ_congr`. -/
 theorem mem_unitFiltration_succ_congr (i : ℕ) (u : (↥𝒪[K])ˣ) :
     Units.map (Subring.subtype 𝒪[K]).toMonoidHom u ∈ unitFiltration K (i + 1) ↔
       (u : ↥𝒪[K]) - 1 ∈ 𝓂[K] ^ (i + 1) :=
-  sorry
+  TauCeti.mem_unitFiltration_succ_congr i u
 
 /-- **Layer 1, membership at positive depth, valuation form:** an inequality on `x − 1`,
-measured against a uniformizer. Both forms get used; they are proved equivalent once. -/
-theorem mem_unitFiltration_succ_valuation (i : ℕ) (x : Kˣ) (π : 𝒪[K]) (_hπ : Irreducible π) :
+measured against a uniformizer. Both forms get used; they are proved equivalent once. Tau Ceti's
+`TauCeti.mem_unitFiltration_succ_valuation`. -/
+theorem mem_unitFiltration_succ_valuation (i : ℕ) (x : Kˣ) (π : 𝒪[K]) (hπ : Irreducible π) :
     x ∈ unitFiltration K (i + 1) ↔
       valuation K ((x : K) - 1) ≤ valuation K ((π : K) ^ (i + 1)) :=
-  sorry
+  TauCeti.mem_unitFiltration_succ_valuation i x π hπ
 
-/-- **Layer 1, the filtration is decreasing.** -/
+/-- **Layer 1, the filtration is decreasing.** Tau Ceti's `TauCeti.unitFiltration_antitone`. -/
 theorem unitFiltration_antitone : Antitone (unitFiltration K) :=
-  sorry
+  TauCeti.unitFiltration_antitone
 
 /-- **Layer 1, covariant unit-filtration map.** The algebra map scales depth by the
 ramification index. This is distinct from the contravariant, Herbrand-shifted norm theorem
@@ -424,9 +481,9 @@ theorem map_unitFiltration_le [Algebra K L] [ValuativeExtension K L] [Module.Fin
   sorry
 
 /-- **Layer 1, the filtration separates points**, which with openness makes it a neighborhood
-basis of `1` in `Kˣ`. -/
+basis of `1` in `Kˣ`. Tau Ceti's `TauCeti.iInf_unitFiltration`. -/
 theorem iInf_unitFiltration : ⨅ i, unitFiltration K i = ⊥ :=
-  sorry
+  TauCeti.iInf_unitFiltration
 
 /-- **Layer 1, reduction is surjective on units**, the depth-`0` graded piece
 `𝒪[K]ˣ ↠ 𝓀[K]ˣ` of the unit filtration, whose kernel is `U(K,1)`. The deeper pieces
@@ -459,14 +516,19 @@ example (π : 𝒪[K]) (_hπ : Irreducible π) (x : Kˣ) :
 
 /-- **Layer 1, the local exponential.** At this pin the implementation starts from
 `NormedSpace.expSeries`/`NormedSpace.exp` after locally installing `normalizedNormedField`; it is
-named here because Mathlib has no ready-made `p`-adic-field exponential/logarithm equivalence. -/
-noncomputable def localExponential : K → K :=
+named here because Mathlib has no ready-made `p`-adic-field exponential/logarithm equivalence.
+The local-field structure is bound in the header: the series is evaluated in the topology of
+`K`. -/
+noncomputable def localExponential (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K]
+    [IsNonarchimedeanLocalField K] : K → K :=
   sorry
 
 /-- **Layer 1, the local logarithm.** This is the evaluated series
 `PowerSeries.log = X - X²/2 + X³/3 - ⋯` on its nonarchimedean convergence domain. Constructing
-this function, its convergence theorem, and continuity is an explicit milestone. -/
-noncomputable def localLogarithm : K → K :=
+this function, its convergence theorem, and continuity is an explicit milestone. The local-field
+structure is bound in the header, as for `localExponential`. -/
+noncomputable def localLogarithm (K : Type u) [Field K] [ValuativeRel K] [TopologicalSpace K]
+    [IsNonarchimedeanLocalField K] : K → K :=
   sorry
 
 /-- **Layer 1, the sharp deep-unit exponential/logarithm equivalence.** The strict inequality is
@@ -779,44 +841,55 @@ theorem maximalUnramifiedGaloisGroupEquivZHat_apply_frobenius (Ω : Type*) [Fiel
 
 /-! ## Layer 3: ramification, the lower filtration, and the local different -/
 
-/-- **Layer 3, the canonical lower-numbering filtration.** The integer-indexed family is total;
-the theorem below fixes the convention at negative indices. Number-Field Arithmetic #191 imports
-this definition for its global/local comparison rather than defining a second filtration. -/
-noncomputable def lowerRamificationGroup [Algebra K L] [ValuativeExtension K L]
+/-- **Layer 3, the canonical lower-numbering filtration**
+`G_i = {σ | ∀ x ∈ 𝒪[L], σ x − x ∈ 𝓂[L]^{i+1}}`. The integer-indexed family is total; the theorem
+below fixes the convention at negative indices. Number-Field Arithmetic #191 imports this
+definition for its global/local comparison rather than defining a second filtration. Tau Ceti's
+`TauCeti.LocalFieldsRamification.lowerRamificationGroup`
+(`TauCeti/NumberTheory/LocalField/RamificationGroup.lean`), consumed by reducible alias; Tau Ceti
+defines it for every finite `L/K`, and this roadmap states it for `L/K` Galois. -/
+noncomputable abbrev lowerRamificationGroup [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] [IsGalois K L] (i : ℤ) : Subgroup (L ≃ₐ[K] L) :=
-  sorry
+  TauCeti.LocalFieldsRamification.lowerRamificationGroup K L i
 
-/-- **Layer 3, the negative-index convention.** `G_i = G` for every `i ≤ -1`. -/
+/-- **Layer 3, the negative-index convention.** `G_i = G` for every `i ≤ -1`. Tau Ceti's
+`TauCeti.LocalFieldsRamification.lowerRamificationGroup_eq_top_of_le_neg_one`. -/
 theorem lowerRamificationGroup_eq_top_of_le_neg_one [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] [IsGalois K L] (i : ℤ) (hi : i ≤ -1) :
     lowerRamificationGroup K L i = ⊤ :=
-  sorry
+  TauCeti.LocalFieldsRamification.lowerRamificationGroup_eq_top_of_le_neg_one K L hi
 
-/-- **Layer 3, the lower filtration is decreasing.** -/
+/-- **Layer 3, the lower filtration is decreasing.** Tau Ceti's
+`TauCeti.LocalFieldsRamification.lowerRamificationGroup_antitone`. -/
 theorem lowerRamificationGroup_antitone [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] [IsGalois K L] :
     Antitone (lowerRamificationGroup K L) :=
-  sorry
+  TauCeti.LocalFieldsRamification.lowerRamificationGroup_antitone K L
 
-/-- **Layer 3, real indexing for Herbrand theory.** The ceiling convention makes the step family
-constant on `(i-1,i]`, hence left-continuous in the usual informal sense. We pin the interval
-identity below rather than assert a topological continuity theorem on subgroup values. -/
-noncomputable def lowerRamificationGroupReal [Algebra K L] [ValuativeExtension K L]
+/-- **Layer 3, real indexing for Herbrand theory**, `G_u = G_{⌈u⌉}`. The ceiling convention makes
+the step family constant on `(i-1,i]`, hence left-continuous in the usual informal sense. We pin
+the interval identity below rather than assert a topological continuity theorem on subgroup
+values. Tau Ceti's `TauCeti.LocalFieldsRamification.lowerRamificationGroupReal`, consumed by
+reducible alias. -/
+noncomputable abbrev lowerRamificationGroupReal [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] [IsGalois K L] (u : ℝ) : Subgroup (L ≃ₐ[K] L) :=
-  lowerRamificationGroup K L ⌈u⌉
+  TauCeti.LocalFieldsRamification.lowerRamificationGroupReal K L u
 
-/-- **Layer 3, agreement of integer and real indexing.** -/
+/-- **Layer 3, agreement of integer and real indexing.** Tau Ceti's
+`TauCeti.LocalFieldsRamification.lowerRamificationGroupReal_intCast`. -/
 theorem lowerRamificationGroupReal_intCast [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] [IsGalois K L] (i : ℤ) :
     lowerRamificationGroupReal K L (i : ℝ) = lowerRamificationGroup K L i :=
-  sorry
+  TauCeti.LocalFieldsRamification.lowerRamificationGroupReal_intCast K L i
 
-/-- **Layer 3, the interval selected by ceiling indexing.** -/
+/-- **Layer 3, the interval selected by ceiling indexing.** Tau Ceti's
+`TauCeti.LocalFieldsRamification.lowerRamificationGroupReal_eq_of_sub_one_lt_of_le`. -/
 theorem lowerRamificationGroupReal_eq_of_sub_one_lt_of_le [Algebra K L]
     [ValuativeExtension K L] [Module.Finite K L] [IsGalois K L]
     (i : ℤ) (u : ℝ) (hleft : (i : ℝ) - 1 < u) (hright : u ≤ (i : ℝ)) :
     lowerRamificationGroupReal K L u = lowerRamificationGroup K L i :=
-  sorry
+  TauCeti.LocalFieldsRamification.lowerRamificationGroupReal_eq_of_sub_one_lt_of_le K L hleft
+    hright
 
 /-- **Layer 3, the genuine domain of Herbrand theory.** Keeping `[-1,∞)` in the type prevents
 global-function equalities from making accidental claims about arbitrary values below `-1`. -/
@@ -867,8 +940,6 @@ noncomputable def upperRamificationGroupQuotient [Algebra K L] [ValuativeExtensi
     Subgroup ((L ≃ₐ[K] L) ⧸ H) :=
   Subgroup.map (QuotientGroup.mk' H) (upperRamificationGroup K L u)
 
-omit [TopologicalSpace K] [IsNonarchimedeanLocalField K]
-  [TopologicalSpace L] [IsNonarchimedeanLocalField L] in
 /-- **Layer 3, abstract quotient compatibility.** -/
 theorem upperRamificationGroup_quotient [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] [IsGalois K L]
@@ -949,9 +1020,10 @@ theorem map_norm_unitFiltration_psiNat_le [Algebra K L] [ValuativeExtension K L]
         (unitFiltration L (psiNat K L i)) ≤ unitFiltration K i :=
   sorry
 
-/-- **Layer 3, a graded piece of the unit filtration.** -/
-abbrev UnitFiltrationGraded (i : ℕ) :=
-  unitFiltration K i ⧸ (unitFiltration K (i + 1)).subgroupOf (unitFiltration K i)
+/-- **Layer 3, a graded piece of the unit filtration**, `U(K,i)/U(K,i+1)`. Tau Ceti's
+`TauCeti.UnitFiltrationGraded`, consumed by reducible alias. -/
+abbrev UnitFiltrationGraded (i : ℕ) : Type u :=
+  TauCeti.UnitFiltrationGraded K i
 
 /-- **Layer 3, the norm on Herbrand-shifted graded pieces.** -/
 noncomputable def normGradedMap [Algebra K L] [ValuativeExtension K L]
@@ -1230,9 +1302,40 @@ subextensions. -/
 noncomputable abbrev maximalUnramified : IntermediateField K (AlgebraicClosure K) :=
   maximalUnramifiedExtension K (AlgebraicClosure K)
 
-/-- **Layer 4, the maximal tamely ramified extension** `K^t = ⋃_{p ∤ m} K^ur(π^{1/m})`. -/
-noncomputable def maximalTame : IntermediateField K (AlgebraicClosure K) :=
-  sorry
+/-! ### The finite levels
+
+A finite Galois subextension `L` of `K^al/K` is a Mathlib `FiniteGaloisIntermediateField`, and
+`G_K` maps onto `Gal(L/K)` by `AlgEquiv.restrictNormalHom L`. The local-field structure of `L` is the
+one Layer 0.III builds from `K`'s, installed locally, so that the ramification filtration of each
+finite level is the canonical `lowerRamificationGroup` of Layer 3 and depends on the valuation and
+topology of `K`. -/
+
+/-- **Layer 4, the lower ramification groups of a finite Galois subextension** `L` of `K^al/K`:
+`lowerRamificationGroup K L i` for the local-field structure that Layer 0.III installs on a finite
+intermediate field (`finiteIntermediateFieldValuativeRel`, `finiteIntermediateFieldTopology`).
+This adapts the intermediate-field carrier to the local-field carrier of Layer 3; no second
+filtration is defined. -/
+noncomputable def finiteGaloisLowerRamificationGroup
+    (L : FiniteGaloisIntermediateField K (AlgebraicClosure K)) (i : ℤ) :
+    Subgroup (L ≃ₐ[K] L) :=
+  letI := finiteIntermediateFieldValuativeRel K (AlgebraicClosure K) L.toIntermediateField
+  letI := finiteIntermediateFieldTopology K (AlgebraicClosure K) L.toIntermediateField
+  haveI := finiteIntermediateField_isNonarchimedeanLocalField K (AlgebraicClosure K)
+    L.toIntermediateField
+  haveI := finiteIntermediateField_valuativeExtension K (AlgebraicClosure K) L.toIntermediateField
+  lowerRamificationGroup K L i
+
+/-- **Layer 4.** Each finite-level lower ramification group is normal, by Tau Ceti's
+`TauCeti.LocalFieldsRamification.instNormalLowerRamificationGroup`. -/
+instance finiteGaloisLowerRamificationGroup_normal
+    (L : FiniteGaloisIntermediateField K (AlgebraicClosure K)) (i : ℤ) :
+    (finiteGaloisLowerRamificationGroup K L i).Normal :=
+  letI := finiteIntermediateFieldValuativeRel K (AlgebraicClosure K) L.toIntermediateField
+  letI := finiteIntermediateFieldTopology K (AlgebraicClosure K) L.toIntermediateField
+  haveI := finiteIntermediateField_isNonarchimedeanLocalField K (AlgebraicClosure K)
+    L.toIntermediateField
+  haveI := finiteIntermediateField_valuativeExtension K (AlgebraicClosure K) L.toIntermediateField
+  TauCeti.LocalFieldsRamification.instNormalLowerRamificationGroup K L i
 
 /-! ### Inertia and arithmetic Frobenius lifts, from Tau Ceti
 
@@ -1268,6 +1371,15 @@ Tau Ceti's `TauCeti.inertiaSubgroup`, so that a statement about `inertia K` is a
 it. -/
 noncomputable abbrev inertia : Subgroup (Field.absoluteGaloisGroup K) :=
   inertiaSubgroup K
+
+/-- **Layer 4, inertia at a finite level.** The image of `I_K` in `Gal(L/K)`, for a finite Galois
+subextension `L`, is the inertia group `G_0(L/K)` of Layer 3: restriction carries
+`Gal(K^al/K^ur)` onto `Gal(L/L ∩ K^ur)`, and `L ∩ K^ur` is the maximal unramified subextension of
+`L/K`. -/
+theorem map_restrictNormalHom_inertia
+    (L : FiniteGaloisIntermediateField K (AlgebraicClosure K)) :
+    (inertia K).map (AlgEquiv.restrictNormalHom L) = finiteGaloisLowerRamificationGroup K L 0 :=
+  sorry
 
 /-- **Layer 4, restriction to `K^ur`**, `G_K →* Gal(K^ur/K)`: a continuous surjection with kernel
 `I_K`, which with `maximalUnramifiedGaloisGroupEquivZHat` is the exact sequence
@@ -1331,13 +1443,85 @@ theorem unramifiedQuotient_equiv_zhat :
   ⟨(quotientInertiaSubgroupEquiv K).trans
     (maximalUnramifiedGaloisGroupEquivZHat K (AlgebraicClosure K))⟩
 
-/-! ### Wild inertia -/
+/-! ### Wild inertia and the maximal tamely ramified extension -/
 
-/-- **Layer 4, wild inertia** `P_K = Gal(K^al/K^t)`, the fixing subgroup of `maximalTame`. -/
+/-- **Layer 4, wild inertia** `P_K`: the elements of `G_K` whose restriction to every finite Galois
+subextension `L` of `K^al/K` lies in its first lower ramification group `G_1(L/K)`, that is, the
+inverse limit of the finite-level wild inertia groups. It depends on the valuation and topology of
+`K` through `finiteGaloisLowerRamificationGroup`. `fixingSubgroup_maximalTame` identifies it with
+`Gal(K^al/K^t)`. -/
 noncomputable def wildInertia : Subgroup (Field.absoluteGaloisGroup K) :=
+  ⨅ L : FiniteGaloisIntermediateField K (AlgebraicClosure K),
+    (finiteGaloisLowerRamificationGroup K L 1).comap (AlgEquiv.restrictNormalHom L)
+
+/-- **Layer 4, the characterizing property of wild inertia.** A closed proof. -/
+theorem mem_wildInertia_iff (σ : Field.absoluteGaloisGroup K) :
+    σ ∈ wildInertia K ↔ ∀ L : FiniteGaloisIntermediateField K (AlgebraicClosure K),
+      AlgEquiv.restrictNormalHom L σ ∈ finiteGaloisLowerRamificationGroup K L 1 :=
+  Subgroup.mem_iInf
+
+/-- **Layer 4, wild inertia at a finite level.** The image of `P_K` in `Gal(L/K)` is all of
+`G_1(L/K)`, not merely contained in it: restriction maps `G_1` of a larger finite level onto `G_1`
+of a smaller one, because `G_1` is the unique `p`-Sylow subgroup of `G_0` and restriction maps `G_0`
+onto `G_0` (`map_restrictNormalHom_inertia`), and compactness passes to the limit. -/
+theorem map_restrictNormalHom_wildInertia
+    (L : FiniteGaloisIntermediateField K (AlgebraicClosure K)) :
+    (wildInertia K).map (AlgEquiv.restrictNormalHom L) = finiteGaloisLowerRamificationGroup K L 1 :=
   sorry
 
-/-- **Layer 4.** Wild inertia sits inside inertia, because `K^ur ⊆ K^t`. -/
+/-- **Layer 4.** `P_K` is normal in `G_K`, so the tame quotient below is a group. A closed proof:
+each `G_1(L/K)` is normal, and preimages and intersections of normal subgroups are normal. -/
+instance wildInertia_normal : (wildInertia K).Normal :=
+  Subgroup.normal_iInf_normal fun _ => Subgroup.normal_comap _
+
+/-- **Layer 4.** `P_K` is closed. This is what makes the tame quotient Hausdorff
+(`QuotientGroup.instT3Space`), hence profinite, so that the topological isomorphisms below are
+statements about a profinite group. A closed proof: every restriction map is continuous
+(`InfiniteGalois.restrictNormalHom_continuous`) into a finite discrete group. -/
+theorem wildInertia_isClosed : IsClosed (wildInertia K : Set (Field.absoluteGaloisGroup K)) := by
+  rw [wildInertia, Subgroup.coe_iInf]
+  exact isClosed_iInter fun L =>
+    (isClosed_discrete (finiteGaloisLowerRamificationGroup K L 1 : Set (L ≃ₐ[K] L))).preimage
+      (InfiniteGalois.restrictNormalHom_continuous L.toIntermediateField)
+
+/-- **Layer 4, the maximal tamely ramified extension** `K^t`: the separable part of the fixed field
+of wild inertia. `maximalTame_eq_maximalUnramified_sup_adjoin` identifies it with
+`⋃_{p ∤ m} K^ur(π^{1/m})`, and `le_maximalTame_iff` with the compositum of the finite tamely
+ramified subextensions. ⚠ The intersection with the separable closure is part of the definition:
+in positive characteristic the fixed field of every subgroup of `G_K` contains the purely
+inseparable closure of `K` (Tau Ceti's `TauCeti.mem_perfectClosure_iff_fixed`), while `K^t` is
+separable over `K`. In characteristic `0` it changes nothing. -/
+noncomputable def maximalTame : IntermediateField K (AlgebraicClosure K) :=
+  IntermediateField.fixedField (wildInertia K) ⊓ separableClosure K (AlgebraicClosure K)
+
+/-- **Layer 4, `P_K = Gal(K^al/K^t)`.** A closed proof: intersecting with the separable closure
+does not change a fixing subgroup (Tau Ceti's `IntermediateField.fixingSubgroup_inf_separableClosure`),
+and `P_K` is closed, so it is the fixing subgroup of its fixed field (Tau Ceti's
+`TauCeti.fixingSubgroup_fixedField`, which covers the algebraic closure in every characteristic). -/
+theorem fixingSubgroup_maximalTame : (maximalTame K).fixingSubgroup = wildInertia K :=
+  (IntermediateField.fixingSubgroup_inf_separableClosure _).trans
+    (TauCeti.fixingSubgroup_fixedField (wildInertia_isClosed K))
+
+/-- **Layer 4, the finite levels of `K^t`.** A finite Galois subextension lies in `K^t` exactly
+when its first lower ramification group is trivial, that is, by Layer 3 (`G_1` is the `p`-Sylow
+subgroup of `G_0`, and `#G_0 = e`), exactly when it is tamely ramified. So `K^t` is the compositum
+of the finite tamely ramified subextensions. -/
+theorem le_maximalTame_iff (L : FiniteGaloisIntermediateField K (AlgebraicClosure K)) :
+    L.toIntermediateField ≤ maximalTame K ↔ finiteGaloisLowerRamificationGroup K L 1 = ⊥ :=
+  sorry
+
+/-- **Layer 4, the classical description** `K^t = K^ur(π^{1/m} : p ∤ m)`, for any uniformizer `π`,
+where `p = ringChar 𝓀[K]` is the residue characteristic. Adjoining all `m`-th roots of `π` rather
+than one of them changes nothing, because the `m`-th roots of unity lie in `K^ur` for `p ∤ m`. -/
+theorem maximalTame_eq_maximalUnramified_sup_adjoin (π : 𝒪[K]) (_hπ : Irreducible π) :
+    maximalTame K = maximalUnramified K ⊔ ⨆ (m : ℕ) (_ : ¬ ringChar 𝓀[K] ∣ m),
+      IntermediateField.adjoin K
+        {x : AlgebraicClosure K | x ^ m = algebraMap K (AlgebraicClosure K) (π : K)} :=
+  sorry
+
+/-- **Layer 4.** Wild inertia sits inside inertia: `G_1 ≤ G_0` at every finite level, and `I_K` is
+closed with finite-level images `G_0` (`map_restrictNormalHom_inertia`). Equivalently,
+`K^ur ⊆ K^t`. -/
 theorem wildInertia_le_inertia : wildInertia K ≤ inertia K :=
   sorry
 
@@ -1351,12 +1535,12 @@ theorem inertia_compactSpace : CompactSpace (inertia K) :=
 theorem inertia_totallyDisconnectedSpace : TotallyDisconnectedSpace (inertia K) :=
   sorry
 
-/-- **Layer 4.** `P_K` is normal in `I_K` — it is even normal in `G_K`, since `K^t/K` is Galois.
+/-- **Layer 4.** `P_K` is normal in `I_K`, because it is normal in `G_K` (`wildInertia_normal`).
 Normality inside `I_K` is what the supplier's uniqueness theorem consumes, and it is an
 `instance` because the tame quotient `I_K/P_K` of `tameInertiaEquiv` has no group structure
-without it. -/
+without it. A closed proof. -/
 instance wildInertia_subgroupOf_normal : ((wildInertia K).subgroupOf (inertia K)).Normal :=
-  sorry
+  inferInstance
 
 /-- **Layer 4, wild inertia is pro-`p`.** Stated separately from the Sylow identification below,
 because it is the hypothesis that identification consumes and a consumer may need it alone. -/
@@ -1405,16 +1589,6 @@ example (hp : ringChar 𝓀[K] = p) (Q : Subgroup (inertia K))
   have := inertia_totallyDisconnectedSpace K
   exact ProfiniteProPGroups.IsProPSylow.eq_of_normal p _ _ _
     (wildInertia_isProPSylow K p hp) hQ (wildInertia_subgroupOf_normal K)
-
-/-- **Layer 4.** `P_K` is normal in `G_K`, so the tame quotient below is a group. -/
-instance wildInertia_normal : (wildInertia K).Normal :=
-  sorry
-
-/-- **Layer 4.** `P_K` is closed, as the fixing subgroup of `K^t`. This is what makes the tame
-quotient Hausdorff (`QuotientGroup.instT3Space`), hence profinite, so that the topological
-isomorphisms below are statements about a profinite group. -/
-theorem wildInertia_isClosed : IsClosed (wildInertia K : Set (Field.absoluteGaloisGroup K)) :=
-  sorry
 
 /-! ### The tame quotient and the twist -/
 
