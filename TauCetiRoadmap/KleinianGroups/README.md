@@ -7,13 +7,19 @@ covolume, and the special values of Dedekind zeta functions that those covolumes
 of. Volumes are computed from explicit fundamental polyhedra and named `L`-values, not
 asserted.
 
-The main reusable endpoint is Humbert's formula: for an imaginary quadratic field `F` of
-discriminant `d_F`, the covolume of the Bianchi group `PSL(2, O_F)` acting on `H^3` is
-`|d_F|^(3/2) * zeta_F 2 / (4 * pi^2)`. A second endpoint applies it in the two cases where
-the zeta value factors through a classical constant: `Q(i)`, where the covolume is
-Catalan's constant over three, and `Q(omega)`, where it is `sqrt 3 * L(2, chi_(-3)) / 8`.
-A third endpoint is a faithful statement of Thurston's twenty-fourth question, that the
-volumes of hyperbolic 3-manifolds are not all rationally related, which is open.
+The main reusable endpoint is the covolume of the two Bianchi groups of smallest
+discriminant, computed from explicit fundamental polyhedra of torsion-free congruence
+subgroups: the covolume of `PSL(2, Z[i])` is Catalan's constant over three, and the
+covolume of `PSL(2, Z[omega])` is `sqrt 3 * L(2, chi_(-3)) / 8`. These are the two cases of
+Humbert's formula, `covolume (PSL(2, O_F)) = |d_F|^(3/2) * zeta_F 2 / (4 * pi^2)`, in which
+the zeta value factors through a classical constant; the general formula is stated in layer
+4 as motivation and labeled a roadmap-for-a-roadmap, not a target. A second endpoint is the
+two manifold volumes on the way to those covolumes, `20 * catalanConstant` for
+`Gamma(2 + i) \ H^3` and `21 * sqrt 3 * L(2, chi_(-3))` for `Gamma(3 + omega) \ H^3`, as
+members of the set of volumes of hyperbolic 3-manifolds. A third endpoint is a faithful
+statement of Thurston's twenty-third question, that the volumes of hyperbolic 3-manifolds
+are not all rationally related, which is open, together with one explicit finite
+approximation of it that is provable.
 
 This roadmap is the three-dimensional counterpart of
 [FuchsianOrbifolds](../FuchsianOrbifolds/README.md), which excludes general Kleinian groups
@@ -34,9 +40,11 @@ the `L`-value computations.
 
 The scope is discrete subgroups of `PSL(2,C)` acting on the upper half-space model of `H^3`,
 with special attention to Bianchi groups, congruence subgroups, torsion-free subgroups of
-finite index, and covolume. It proves Humbert's formula and evaluates it at the two smallest
-discriminants; it does not classify Kleinian groups, does not develop deformation theory, and
-does not touch the hyperbolic Dehn surgery that would construct the Weeks manifold.
+finite index, and covolume. It computes the covolumes of the Bianchi groups of the two
+smallest discriminants from explicit fundamental polyhedra; it does not prove Humbert's
+formula for a general imaginary quadratic field, does not classify Kleinian groups, does not
+develop deformation theory, and does not touch the hyperbolic Dehn surgery that would
+construct the Weeks manifold.
 
 Mostow rigidity, geometrization, the classification of cusped 3-manifolds by volume,
 Teichmueller and quasi-Fuchsian theory, and the irrationality of any ratio of volumes are
@@ -53,13 +61,20 @@ The roadmap is complete when Tau Ceti proves the following.
    freely; the covolume of a discrete subgroup is independent of the fundamental domain, and
    a subgroup of index `n` has `n` times the covolume.
 3. For an imaginary quadratic ring of integers `O_F`, the Bianchi group `PSL(2, O_F)` is
-   discrete, and an explicit polyhedron is a fundamental domain for a named congruence
-   subgroup of it.
-4. Humbert's formula holds: `covolume (PSL(2, O_F)) = |d_F|^(3/2) * zeta_F 2 / (4 * pi^2)`.
+   discrete, and an explicit polyhedron is a fundamental domain for a named torsion-free
+   congruence subgroup of it, `Gamma(2 + i)` of index `60` in `PSL(2, Z[i])` and
+   `Gamma(3 + omega)` of index `168` in `PSL(2, Z[omega])`.
+4. The covolumes of `Gamma(2 + i)` and `Gamma(3 + omega)` are `20 * catalanConstant` and
+   `21 * sqrt 3 * L 2 chi_(-3)`, by integration over their polyhedra, and the covolumes of
+   `PSL(2, Z[i])` and `PSL(2, Z[omega])` are `catalanConstant / 3` and
+   `sqrt 3 * L 2 chi_(-3) / 8`, by the index law.
 5. `zeta_(Q(i)) 2 = zeta 2 * L 2 chi_(-4)` and `zeta_(Q(omega)) 2 = zeta 2 * L 2 chi_(-3)`,
-   so the two covolumes are `catalanConstant / 3` and `sqrt 3 * L 2 chi_(-3) / 8`.
-6. The set of volumes of hyperbolic 3-manifolds is defined, is nonempty, is closed under
-   multiplication by a positive integer, and Thurston's question is stated against it.
+   so the two Bianchi covolumes are the values `|d_F|^(3/2) * zeta_F 2 / (4 * pi^2)` that
+   Humbert's formula predicts.
+6. The set of volumes of hyperbolic 3-manifolds is defined by a witnessing group, contains
+   the two manifold volumes of item 4, is closed under multiplication by the index of a
+   finite-index subgroup of a witnessing group, and Thurston's question is stated against
+   it, with `NoSmallRationalRatio 1000` proved as its finite approximation.
 
 ## Ownership and dependencies
 
@@ -131,12 +146,24 @@ from the two-dimensional one.
 - Covolume is Mathlib's `MeasureTheory.covolume`, valued in `ℝ≥0∞`, of the subgroup acting
   on `H^3` with `volume`. Its value on a given fundamental domain comes from
   `IsFundamentalDomain.covolume_eq_volume`, and existence from `HasFundamentalDomain`; this
-  roadmap adds no second notion of covolume. A group is **cofinite** exactly when its
-  covolume is neither `0` nor `⊤`.
+  roadmap adds no second notion of covolume. A group is **cofinite** exactly when it is
+  discrete and its covolume is not `⊤`, the shape of Tau Ceti's `Subgroup.IsCofinite` for
+  Fuchsian groups, with discreteness a field of the structure and not a consequence of the
+  covolume condition: a nondiscrete group can have covolume `0`, so finiteness alone is not
+  a lattice condition. Positivity of the covolume of a cofinite group is a theorem, not part
+  of the definition.
 - Bianchi groups are `PSL(2, O_F)` for `O_F` the ring of integers of an imaginary quadratic
-  field, embedded through `O_F -> C`. Congruence subgroups are kernels of reduction mod an
-  ideal; the two named ones are `Gamma(2 + i)` in `PSL(2, Z[i])` and `Gamma(3 + omega)` in
-  `PSL(2, Z[omega])`, each of which is torsion free, so the quotient is a manifold.
+  field `F`, which is stated in Mathlib's vocabulary as a number field with
+  `Module.finrank ℚ F = 2` that is `IsTotallyComplex`, together with a chosen embedding
+  `F →+* ℂ`. The embedding is part of the data of `bianchi` and `bianchiGamma`, not an
+  instance found by search: `F` has two complex embeddings, and the two subgroups they give
+  are conjugate in `PGL(2, C)` by complex conjugation but are not equal. Nothing is stated
+  for a general number field; `PSL(2, Z)` inside `PSL(2, C)` has infinite covolume on `H^3`.
+  Congruence subgroups are kernels of reduction mod an ideal; the two named ones are
+  `Gamma(2 + i)` in `PSL(2, Z[i])`, of index `60`, and `Gamma(3 + omega)` in
+  `PSL(2, Z[omega])`, of index `168`, each of which is torsion free, so the quotient is a
+  manifold. The indices are the orders of `PSL(2, F_5)` and `PSL(2, F_7)`, since reduction is
+  onto and `-1` is not in the kernel.
 - Catalan's constant has no name in Mathlib, so layer 4 introduces `catalanConstant`, as the
   sum `∑ (-1)^n / (2n+1)^2`, and proves it equal to `DirichletCharacter.LFunction` at the
   character mod `4` and `s = 2`; `L(2, χ₋₃)` is treated the same way. The name is not
@@ -206,9 +233,10 @@ through the Jacobian of the coordinate formula, and it is the long proof of this
 
 **Deliverables.** `H3.coe` and `height`, the `MeasureSpace` instance with `volume_def`, the
 `Dist` instance with `dist_eq` and `cosh_dist`, `T2Space PSL(2, C)` and the discreteness facts
-that mirror Tau Ceti's `PSL(2, R)` ones, the `MeasurableSpace` and `BorelSpace` instances, the action
-instance and `pslAction`, `isometry_smul`, the `SMulInvariantMeasure PSL(2, C) H^3 volume`
-instance, the coordinate formula `smul_def`, and `dist_ofUpperHalfPlane`, the agreement of
+that mirror Tau Ceti's `PSL(2, R)` ones, the `MeasurableSpace` and `BorelSpace` instances,
+the action instance and `pslAction`, `isometry_smul`, the `MeasurableConstSMul PSL(2, C) H^3`
+and `SMulInvariantMeasure PSL(2, C) H^3 volume` instances, the coordinate formula `smul_def`,
+and `dist_ofUpperHalfPlane`, the agreement of
 the `y = 0` slice with Mathlib's upper half-plane distance. Each name matches its
 two-dimensional counterpart in `Mathlib/Analysis/Complex/UpperHalfPlane/`.
 
@@ -233,10 +261,21 @@ independence of the fundamental domain, the index law consumed from Tau Ceti's g
 version, and the cofiniteness criterion in the shape of
 `Fuchsian.Covolume.isCofinite_iff_covolume_ne_top`.
 
+The index law is Tau Ceti's `covolume_eq_card_mul_covolume` specialized to `H^3`, and it is
+stated with that theorem's orientation and hypotheses: for `Δ ≤ Γ`, the covolume of `Δ` is
+`ENat.card (Γ ⧸ Δ.subgroupOf Γ)` times the covolume of `Γ`, the index `[Γ : Δ]` counted in
+`ℕ∞` so that infinite index gives `⊤` rather than the zero-totalized `ℕ`-valued
+`Subgroup.index`, under `[Countable Γ]` and `[HasFundamentalDomain Γ H^3 volume]`. The two
+lemmas that let a discrete subgroup use it are that a discrete subgroup of `PSL(2, C)` is
+countable and has a fundamental domain, the latter from
+`exists_isFundamentalDomain_of_properlyDiscontinuousSMul`.
+
 **Deliverables.** `properlyDiscontinuousSMul_of_discrete`, `IsKleinian`,
 `isKleinian_iff_discrete_and_torsionFree`, `covolume_eq_index_mul_covolume` as a corollary
-of the general lemma, `isCofinite_iff_covolume_ne_top`, and the existence of a measurable
-fundamental domain.
+of the general lemma, `countable_of_discrete`, `IsCofinite` as a structure with
+`DiscreteTopology Γ` and `covolume Γ H^3 volume ≠ ⊤` as its fields,
+`isCofinite_iff_covolume_ne_top`, `IsCofinite.covolume_pos`, and the existence of a
+measurable fundamental domain.
 
 **API.** `IsKleinian` is closed under passing to a subgroup and under conjugation, and is
 preserved by the two constructions that produce new groups here, intersection and finite
@@ -275,82 +314,120 @@ domains from the general construction.
 
 ## Layer 3: Bianchi groups
 
-**What to build.** `PSL(2, O_F)` for `O_F` imaginary quadratic; discreteness; the congruence
-subgroups and their torsion-freeness; the index computations `[PSL(2, Z[i]) : Gamma(2 + i)]`
-and `[PSL(2, Z[omega]) : Gamma(3 + omega)]`, each a finite computation in a matrix group over
-a finite ring.
+**What to build.** `PSL(2, O_F)` for `O_F` imaginary quadratic, through a chosen embedding
+`F →+* ℂ`; discreteness; the congruence subgroups and their torsion-freeness; the index
+computations `[PSL(2, Z[i]) : Gamma(2 + i)] = 60` and
+`[PSL(2, Z[omega]) : Gamma(3 + omega)] = 168`, each a finite computation in a matrix group
+over a finite ring: reduction mod the ideal is onto `SL(2, F_5)`, of order `120`, and
+`SL(2, F_7)`, of order `336`, and `-1` lies in neither kernel.
 
-**Deliverables.** `Bianchi O_F`, `isDiscrete_bianchi`, `Gamma`, `torsionFree_gamma`,
-`index_gamma`, and, from layer 1, that each quotient is a hyperbolic 3-manifold.
+**Deliverables.** `bianchi`, `isDiscrete_bianchi`, `bianchiGamma`, `torsionFree_gamma`,
+`index_gammaGaussian` and `index_gammaEisenstein` with the values `60` and `168`, and, from
+layer 1, that each quotient is a hyperbolic 3-manifold.
 
 **API.** The Bianchi group carries its generators for the two smallest discriminants, the
 translation subgroup and its identification with `O_F`, the parabolic elements and the
-cusps they fix, and the relation to `PSL(2, Z)` as the subgroup fixing the vertical plane.
+cusps they fix, and the inclusion of `PSL(2, Z)` as a subgroup preserving the vertical
+plane `y = 0` and acting on it through Mathlib's upper half-plane action. `PSL(2, Z)` is
+not the full setwise stabilizer of that plane: `diag(i, -i)` also preserves it, acting on it
+as the reflection `x |-> -x`, and lies in `PSL(2, Z[i])` but not in `PSL(2, Z)`. The
+stabilizer itself is not a target.
 The congruence subgroups carry normality, the finite quotient `PSL(2, O_F / I)`, the
 surjectivity of reduction, and the index as a product over the prime divisors of `I`.
 
-## Layer 4: Humbert's formula and the two special values
+## Layer 4: the two Bianchi covolumes and their special values
 
-**What to build.** The covolume of `PSL(2, O_F)` as `|d_F|^(3/2) * zeta_F 2 / (4 * pi^2)`,
-and the factorizations `zeta_(Q(i)) 2 = zeta 2 * L 2 chi_(-4)` and
-`zeta_(Q(omega)) 2 = zeta 2 * L 2 chi_(-3)`. The analytic input is the evaluation of the
-integral over the fundamental polyhedron, which for these two fields reduces to a log-sine
-integral: `-2 * integral over (0, pi/4) of log (2 * sin t)` is Catalan's constant, and the
-same integral at `pi/6` gives the `chi_(-3)` value.
+**What to build.** The covolumes of the two named congruence subgroups, computed by
+integrating `volume` over the fundamental domains of layer 2 and evaluating the resulting
+log-sine integrals: `20 * catalanConstant` for `Gamma(2 + i)` and `21 * sqrt 3 * L 2 chi_(-3)`
+for `Gamma(3 + omega)`. Then the covolumes of the two Bianchi groups themselves,
+`catalanConstant / 3` and `sqrt 3 * L 2 chi_(-3) / 8`, by dividing by the indices `60` and
+`168` of layer 3 through the index law of layer 1. Separately, the factorizations
+`zeta_(Q(i)) 2 = zeta 2 * L 2 chi_(-4)` and `zeta_(Q(omega)) 2 = zeta 2 * L 2 chi_(-3)`, which
+identify the two covolumes as the values Humbert's formula predicts. The analytic input is
+the evaluation of the integral over the fundamental polyhedron, which for these two fields
+reduces to a log-sine integral: `-2 * integral over (0, pi/4) of log (2 * sin t)` is
+Catalan's constant, and the same integral at `pi/6` gives the `chi_(-3)` value. This layer
+needs no zeta function and no class-number theory except in the factorizations, and its
+covolumes are what layer 5 consumes.
 
 **Deliverables.** `catalanConstant` and `lchi3` as definitions, each proved equal to
-`DirichletCharacter.LFunction` at its character and `s = 2`; `covolume_bianchiGaussian` and
-`covolume_bianchiEisenstein`; `covolume_bianchi`, stated with `NumberField.dedekindZeta` and
-`NumberField.discr`; `zeta_gaussian_two` and `zeta_eisenstein_two`, the factorizations of
-those zeta values; and the two log-sine integrals as named lemmas in
+`DirichletCharacter.LFunction` at its character and `s = 2`; `covolume_gammaGaussian` and
+`covolume_gammaEisenstein`, the two manifold volumes; `covolume_bianchiGaussian` and
+`covolume_bianchiEisenstein`, the two Bianchi covolumes; `zeta_gaussian_two` and
+`zeta_eisenstein_two`, the factorizations of those zeta values, stated with
+`NumberField.dedekindZeta`; and the two log-sine integrals as named lemmas in
 `TauCeti/Analysis/SpecialFunctions/LogSin.lean`.
 
-Layer 4 has two milestones, and both are work this roadmap wants.
+**Humbert's formula: a roadmap-for-a-roadmap, not a target.** For every imaginary quadratic
+field `F`, with a chosen embedding `ι : F →+* ℂ`, the covolume of `PSL(2, O_F)` is
+`|d_F|^(3/2) * zeta_F 2 / (4 * pi^2)`. The statement this roadmap would want, once the
+definitions of layer 3 exist, is
 
-**Milestone 4a: the two fields, from their explicit polyhedra.** The covolumes of the two
-named congruence subgroups, computed by integrating `volume` over the fundamental domains of
-layer 2 and evaluating the resulting log-sine integrals, and then the covolumes of the two
-Bianchi groups themselves, `catalanConstant / 3` and `sqrt 3 * L 2 chi_(-3) / 8`, by dividing by the
-indices of layer 3 through the index law of layer 1. This milestone is self-contained: it
-needs no zeta function and no class-number theory, and it is what layer 5 consumes.
+```lean
+theorem covolume_bianchi (F : Type) [Field F] [NumberField F] [IsTotallyComplex F]
+    [Fact (Module.finrank ℚ F = 2)] (ι : F →+* ℂ) :
+    (covolume (bianchi F ι) H3 volume).toReal =
+      |(discr F : ℝ)| ^ ((3 : ℝ) / 2) * (dedekindZeta F 2).re / (4 * Real.pi ^ 2)
+```
 
-**Milestone 4b: Humbert's formula for every imaginary quadratic field.** The general
-covolume formula, which needs the ideal-class decomposition of `zeta_F` and the class
-number. Its specialization to `Q(i)` must reproduce the value of milestone 4a, and that
-agreement is itself a target: two routes to `catalanConstant / 3` that are proved equal.
-
-**Design note.** The two milestones are ordered, not alternative. 4a fixes the constants
-and the integration technique on the cases where everything is explicit; 4b generalizes the
-covolume computation with those cases as its test.
+and the two covolumes of this layer are its values at the two smallest discriminants. It is
+**not** a target of this roadmap, and contributors should not attempt it from here, because
+no route to it is grounded in material that exists or is a target: the standard proof
+(Elstrodt, Grunewald, Mennicke, chapter 8) goes through the Eisenstein series of
+`PSL(2, O_F)`, its Fourier expansion with `zeta_F(2s) / zeta_F(2s - 1)` in the constant
+term, its meromorphic continuation, and the residue at the edge of the critical strip, which
+is `1 / covolume` up to the class number; the cusps of `PSL(2, O_F) \ H^3` correspond to the
+ideal classes of `F`, and the constant term is a sum over them. None of that machinery, in
+any dimension, is in Mathlib or Tau Ceti, and it is not a layer of this roadmap. A roadmap
+for it would start from the cusp-class correspondence and the Eisenstein series on `H^3`,
+and would consume this roadmap's layers 0 to 3 and its two covolumes as its test cases.
 
 ## Layer 5: the set of volumes, and Thurston's question
 
-**What to build.** The set of volumes of finite-volume hyperbolic 3-manifolds; the fact that
-it is nonempty, witnessed by a Bianchi congruence quotient; closure under multiplication by
-a positive integer, from the index law; and the statement of Thurston's question.
-Commensurable groups have rationally related volumes, which is the statement that makes the
-question non-trivial.
+**What to build.** The set of volumes of finite-volume hyperbolic 3-manifolds, defined by
+its witness: `v` is a volume when some Kleinian cofinite subgroup of `PSL(2, C)` has real
+covolume `v`. Then the fact that it is nonempty, witnessed by a Bianchi congruence quotient;
+closure under the index of a finite cover, from the index law; and the statement of
+Thurston's question. Commensurable groups have rationally related volumes, which is the
+statement that makes the question non-trivial.
+
+The closure statement is the one the index law actually gives: if `v` is witnessed by `Γ`
+and `Δ ≤ Γ` has finite index `n`, then `n * v` is a volume, witnessed by `Δ`, since a
+finite-index subgroup of a Kleinian cofinite group is Kleinian and cofinite. That every
+positive integer multiple of every volume is a volume is **not** claimed: it would need an
+index-`n` subgroup of some witnessing group for every `n`, and no target here supplies one.
 
 **Deliverables.** `hyperbolicVolumes`, `hyperbolicVolumes_nonempty`,
-`rat_ratio_of_commensurable`, and the statement, as a `Prop` that is *not* proved:
-`exists v w, v in hyperbolicVolumes and w in hyperbolicVolumes and forall q : Q, v != q * w`.
+`mul_index_mem_hyperbolicVolumes`, `rat_ratio_of_commensurable`, the statement
+`ThurstonQuestion23`, as a `Prop` that is *not* proved:
+`exists v w, v in hyperbolicVolumes and w in hyperbolicVolumes and forall q : Q, v != q * w`,
+the predicate `NoSmallRationalRatio N`, and its one explicit instance
+`noSmallRationalRatio_thousand : NoSmallRationalRatio 1000`.
 
-**API.** The set of volumes is closed under multiplication by a positive integer, contains
-the two arithmetic volumes of layer 4, consists of positive reals, and does not contain `0`
-or `infinity`; membership is witnessed by a group together with a fundamental domain, and
-the witness is recoverable from the membership proof. The finite approximation of the
-design note is a family of theorems indexed by a denominator bound `N`, each stating that
-no rational with denominator below `N` equals the ratio of the two named volumes, together
-with the rigorous enclosures of `catalanConstant` and `L 2 chi_(-3)` that produce it.
+**API.** The set of volumes contains the two manifold volumes of layer 4,
+`20 * catalanConstant` and `21 * sqrt 3 * L 2 chi_(-3)`, consists of positive reals, and does
+not contain `0`; membership is witnessed by a group, and the witness is recoverable from the
+membership proof. The two Bianchi covolumes themselves, `catalanConstant / 3` and
+`sqrt 3 * L 2 chi_(-3) / 8`, are **not** members: the Bianchi groups have torsion, so those
+are orbifold volumes, about `0.3053` and `0.1692`, below the minimum volume `0.9427` of an
+orientable hyperbolic 3-manifold (Milley), and a theorem placing them in the set would be
+false. The finite approximation of the design note is the predicate `NoSmallRationalRatio N`,
+that no rational with denominator below `N` equals the ratio of the two manifold volumes,
+and the target is one explicit bound, `N = 1000`, from rigorous enclosures of
+`catalanConstant` and `L 2 chi_(-3)`. The predicate for every `N` would be the open
+question itself, since a rational `q` is excluded by any `N > q.den`, so no target
+quantifies over `N`.
 
 **Design note.** This is the one layer whose headline is a statement rather than a theorem,
-and the roadmap says so. The candidate pair is the two volumes layer 4 builds, `catalanConstant / 3`
-and `sqrt 3 * L 2 chi_(-3) / 8`, which come from fields with different discriminants and
-whose ratio is expected to be irrational; irrationality of that ratio would answer the
-question. What *is* provable, and worth proving, is the finite
-approximation: no rational with denominator below a fixed bound equals that ratio, from
-rigorous enclosures of both constants. State the bound in the theorem, never as a claim about
-the ratio itself.
+and the roadmap says so. The candidate pair is the two manifold volumes layer 4 builds,
+`20 * catalanConstant` and `21 * sqrt 3 * L 2 chi_(-3)`, which come from fields with different
+discriminants and whose ratio is expected to be irrational; irrationality of that ratio
+would answer the question. Their ratio is `5 / 14` times the ratio of the two Bianchi
+covolumes, so the two irrationality questions are the same, but only the manifold volumes
+are members of the set. What *is* provable, and worth proving, is the finite approximation:
+no rational with denominator below `1000` equals that ratio, from rigorous enclosures of
+both constants. State the bound in the theorem, never as a claim about the ratio itself.
 
 ## Dependency order and parallel work
 
@@ -371,11 +448,13 @@ slice comparison in layer 0 must be kept in step with it.
    the same shape as `UpperHalfPlane.cosh_dist`.
 3. A Moebius transformation preserves `volume`, checked against the explicit Jacobian, and
    the invariance is an instance, as `SMulInvariantMeasure (GL (Fin 2) R) H volume` is.
-4. The covolume of `Gamma(2 + i)` is a positive rational multiple of Catalan's constant, and
-   the multiple is computed, not existentially quantified.
-5. The covolume of `Gamma(3 + omega)` is a positive rational multiple of
-   `sqrt 3 * L 2 chi_(-3)`.
-6. Humbert's formula specializes to `catalanConstant / 3` for `Q(i)`.
+4. The covolume of `Gamma(2 + i)` is `20 * catalanConstant`, and the covolume of
+   `PSL(2, Z[i])` is `catalanConstant / 3`, with the index `60` computed, not existentially
+   quantified.
+5. The covolume of `Gamma(3 + omega)` is `21 * sqrt 3 * L 2 chi_(-3)`, and the covolume of
+   `PSL(2, Z[omega])` is `sqrt 3 * L 2 chi_(-3) / 8`, with the index `168` computed.
+6. `NoSmallRationalRatio 1000` is proved from enclosures of both constants, and nothing
+   about the ratio is stated without a bound.
 7. The statement of Thurston's question elaborates and is not provable by `decide` or by
    `simp` from the definitions; an auditor given only the Lean statement, with all prose
    stripped, reports back the question Thurston asked.
@@ -393,3 +472,6 @@ slice comparison in layer 0 must be kept in step with it.
   169 (1919).
 - Neumann, Yang, *Bloch invariants of hyperbolic 3-manifolds*, Duke Math. J. 96 (1999), for
   why the question is arithmetic.
+- Milley, *Minimum volume hyperbolic 3-manifolds*, J. Topol. 2 (2009), 181-192,
+  [arXiv:0809.0346](https://arxiv.org/abs/0809.0346), for the bound `0.9427` that keeps the
+  Bianchi covolumes out of the set of manifold volumes.
