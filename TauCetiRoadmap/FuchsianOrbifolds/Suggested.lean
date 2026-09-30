@@ -376,20 +376,20 @@ theorem degree_comp (g : FiniteHolomorphicMap Y Z) (f : FiniteHolomorphicMap X Y
   sorry
 
 /-- A degree-one finite holomorphic map is a biholomorphism, not merely a homeomorphism. -/
-noncomputable def biholomorph_of_degree_eq_one (f : FiniteHolomorphicMap X Y)
+noncomputable def biholomorphOfDegreeEqOne (f : FiniteHolomorphicMap X Y)
     (hf : degree f = 1) : X ≃ₘ⟮𝓘(ℂ, ℂ), 𝓘(ℂ, ℂ)⟯ Y := by
   sorry
 
 @[simp]
-theorem biholomorph_of_degree_eq_one_toFun (f : FiniteHolomorphicMap X Y)
-    (hf : degree f = 1) : ⇑(biholomorph_of_degree_eq_one f hf) = f := by
+theorem biholomorphOfDegreeEqOne_toFun (f : FiniteHolomorphicMap X Y)
+    (hf : degree f = 1) : ⇑(biholomorphOfDegreeEqOne f hf) = f := by
   sorry
 
 /-- Divisors are integral finite formal sums of points. -/
 abbrev Divisor (X : Type*) := X →₀ ℤ
 
 /-- Pullback weights each point by the map's local multiplicity. -/
-noncomputable def divisor_pullback (f : FiniteHolomorphicMap X Y) :
+noncomputable def divisorPullback (f : FiniteHolomorphicMap X Y) :
     Divisor Y →+ Divisor X := by
   sorry
 
