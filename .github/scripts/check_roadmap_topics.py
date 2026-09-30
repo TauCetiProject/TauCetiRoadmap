@@ -35,9 +35,11 @@ ROADMAP_PARENTS = [ROOT / "TauCetiRoadmap", ROOT / "Completed"]
 METADATA = "metadata.toml"
 TAXONOMY = "https://arxiv.org/category_taxonomy"
 
-# The `math` archive of the arXiv taxonomy, in arXiv's order. arXiv also lists `math.IT` and
-# `math.MP` as aliases of `cs.IT` and `math-ph`; only the `math.` spellings are accepted here, so
-# that every topic has exactly one name.
+# The `math` archive of the arXiv taxonomy, in arXiv's order. arXiv gives four of these classes a
+# second spelling in another archive: `math.IT` is an alias of `cs.IT` and `math.MP` of `math-ph`,
+# while `cs.NA` is an alias of `math.NA` and `stat.TH` of `math.ST`. Only the `math.` spelling is
+# accepted here, so that every topic has exactly one name; the other spelling is rejected with a
+# hint (ALIASES below).
 TOPICS = {
     "math.AC": "Commutative Algebra",
     "math.AG": "Algebraic Geometry",
@@ -72,7 +74,12 @@ TOPICS = {
     "math.SP": "Spectral Theory",
     "math.ST": "Statistics Theory",
 }
-ALIASES = {"cs.IT": "math.IT", "math-ph": "math.MP"}
+ALIASES = {
+    "cs.IT": "math.IT",
+    "cs.NA": "math.NA",
+    "math-ph": "math.MP",
+    "stat.TH": "math.ST",
+}
 
 
 def roadmaps() -> list[pathlib.Path]:
