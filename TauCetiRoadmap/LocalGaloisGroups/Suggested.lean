@@ -397,7 +397,8 @@ theorem cyclotomicOrientation_range (hmu : ∃ ζ : K, IsPrimitiveRoot ζ p) :
 
 theorem cyclotomicOrientation_hasPrescriptionProperty
     (hmu : ∃ ζ : K, IsPrimitiveRoot ζ p) :
-    ProfiniteProPGroups.HasPrescriptionProperty (cyclotomicOrientation p K hmu) :=
+    ProfiniteProPGroups.HasPrescriptionProperty
+      ⟨cyclotomicOrientation p K hmu, cyclotomicOrientation_continuous p K hmu⟩ :=
   sorry
 
 /-- The orientation extracted from the dualizing module is the descended cyclotomic character.
