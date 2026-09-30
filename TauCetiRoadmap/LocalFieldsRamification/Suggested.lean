@@ -1,10 +1,22 @@
 import Mathlib
 import TauCeti.FieldTheory.Galois.AbsoluteGaloisGroup.Basic
+import TauCeti.NumberTheory.LocalField.AbsoluteRamificationIndex
+import TauCeti.NumberTheory.LocalField.Discriminant
 import TauCeti.NumberTheory.LocalField.FiniteExtension.IntermediateField
 import TauCeti.NumberTheory.LocalField.FiniteExtension.Tower
+import TauCeti.NumberTheory.LocalField.Herbrand
+import TauCeti.NumberTheory.LocalField.InertiaDegree
 import TauCeti.NumberTheory.LocalField.NatCastValuation
+import TauCeti.NumberTheory.LocalField.Norm.Unramified
+import TauCeti.NumberTheory.LocalField.PowerSubgroup
 import TauCeti.NumberTheory.LocalField.RamificationGroup
+import TauCeti.NumberTheory.LocalField.RamificationIndex
+import TauCeti.NumberTheory.LocalField.ResidueCorrespondence
+import TauCeti.NumberTheory.LocalField.Squares
+import TauCeti.NumberTheory.LocalField.Teichmuller
+import TauCeti.NumberTheory.LocalField.UnitFiltration.Map
 import TauCeti.NumberTheory.LocalField.UnitFiltration.RamificationGroup
+import TauCeti.NumberTheory.LocalField.UnitsDecomposition
 import TauCeti.Topology.Algebra.Group.Profinite.Presentation
 import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic
 import TauCetiRoadmap.ProfiniteProPGroups.Suggested
@@ -41,19 +53,30 @@ to Tau Ceti's declaration.
 
 The local-field objects that the pinned Tau Ceti implements are **consumed, not restated**: the
 normalized valuation and the valuation of a natural-number cast (`TauCeti.normalizedValuation`,
-`TauCeti.natCastValuation`), the unit filtration and its graded pieces (`TauCeti.unitFiltration`,
-`TauCeti.UnitFiltrationGraded`), the spectral-norm construction of the local-field structure on a
-finite extension and on a finite intermediate field (`TauCeti.finiteExtensionValuativeRel`,
+`TauCeti.natCastValuation`), the ramification index, the residue degree, the tame and wild
+predicates and the absolute ramification index (`TauCeti.ramificationIndex`,
+`TauCeti.inertiaDegree`, `TauCeti.IsTamelyRamified`, `TauCeti.IsWildlyRamified`,
+`TauCeti.absoluteRamificationIndex`), the unit filtration and its graded pieces
+(`TauCeti.unitFiltration`, `TauCeti.UnitFiltrationGraded`), the Teichmüller lift
+(`TauCeti.teichmuller`), the spectral-norm construction of the local-field structure on a finite
+extension and on a finite intermediate field (`TauCeti.finiteExtensionValuativeRel`,
 `TauCeti.finiteIntermediateFieldValuativeRel` and their companions), the integer-ring and
-residue-field algebra structures (`TauCeti.integerRingAlgebra`, `TauCeti.residueFieldAlgebra`), and
-the lower ramification groups (`TauCeti.LocalFieldsRamification.lowerRamificationGroup`). This
-file's names for them are reducible aliases, and the milestones about them that Tau Ceti proves are
-closed proofs of Tau Ceti's theorems. Wild inertia is constructed from them: it is the group of
-elements of `G_K` whose restriction to every finite Galois subextension lies in the first lower
-ramification group of that subextension, whose local-field structure is built from `K`'s. The
-maximal tamely ramified extension, the tame quotient and the marked Iwasawa presentation are built
-from wild inertia, so each of them depends on the valuation and topology of `K` through its
-definition.
+residue-field algebra structures (`TauCeti.integerRingAlgebra`, `TauCeti.residueFieldAlgebra`), the
+Frobenius of an unramified extension and the norm group (`TauCeti.frobeniusAlgEquiv`,
+`TauCeti.normGroup`), the lower ramification groups, the Herbrand function, its inverse and the
+upper ramification groups (`TauCeti.LocalFieldsRamification.lowerRamificationGroup`,
+`herbrandOrderIso`, `herbrand`, `inverseHerbrand`, `upperRamificationGroup`), and the different
+exponent, the discriminant ideal and the discriminant exponent (`TauCeti.differentExponent`,
+`TauCeti.discriminantIdeal`, `TauCeti.discriminantExponent`). This file's names for them are
+reducible aliases; `frobeniusAlgEquiv` and `absoluteRamificationIndex` adapt the hypotheses, as
+their docstrings say. The milestones about them that Tau Ceti proves are closed proofs of Tau
+Ceti's theorems, and the remaining milestones are stated about these objects.
+
+Wild inertia is constructed from them: it is the group of elements of `G_K` whose restriction to
+every finite Galois subextension lies in the first lower ramification group of that subextension,
+whose local-field structure is built from `K`'s. The maximal tamely ramified extension, the tame
+quotient and the marked Iwasawa presentation are built from wild inertia, so each of them depends
+on the valuation and topology of `K` through its definition.
 -/
 
 namespace TauCetiRoadmap.LocalFieldsRamification
@@ -70,13 +93,14 @@ variable (L : Type v) [Field L] [ValuativeRel L] [TopologicalSpace L]
 
 /-! ## Layer 0: local fields and their finite extensions -/
 
-/-- **Layer 0, non-vacuity: `ℚ_p` is a nonarchimedean local field.** The pin has
-`ValuativeRel ℚ_[p]` (via `Padic.mulValuation`) but neither `IsValuativeTopology ℚ_[p]` nor
-this instance; producing them, with the metric/valuative uniformity compatibility as a
-lemma rather than an accident, is the first milestone. The milestone is the general `p`;
-`p = 2` is the case every downstream consumer of this roadmap uses. -/
+/-- **Layer 0, non-vacuity: `ℚ_p` is a nonarchimedean local field.** Mathlib's instance
+(`Mathlib/NumberTheory/Padics/LocalField.lean`), built on its `ValuativeRel ℚ_[p]` and
+`IsValuativeTopology ℚ_[p]` (`Mathlib/NumberTheory/Padics/ValuativeRel.lean`). What the first
+milestone adds is the metric/valuative uniformity compatibility, as a lemma rather than an
+accident, and the comparisons with Mathlib's `p`-adic API. `p = 2` is the case every downstream
+consumer of this roadmap uses. -/
 example (p : ℕ) [Fact p.Prime] : IsNonarchimedeanLocalField ℚ_[p] :=
-  sorry
+  inferInstance
 
 /-- **Layer 0, the normalized valuation.** The valuation of a local field, written
 additively but encoded as a homomorphism to `Multiplicative ℤ`: `WithZero.log` of Mathlib's
@@ -351,17 +375,22 @@ theorem finiteIntermediateField_isNonarchimedeanLocalField
       (finiteIntermediateFieldTopology K Ω M) :=
   TauCeti.finiteIntermediateField_isNonarchimedeanLocalField K Ω M
 
-/-- **Layer 0, the ramification index**, defined without choosing a uniformizer: the positive
-integer by which the map of normalized value groups multiplies. Its characteristic property
-is `normalizedValuation_algebraMap` below. -/
-noncomputable def ramificationIndex [Algebra K L] [ValuativeExtension K L] [Module.Finite K L] :
-    ℕ :=
-  sorry
+/-- **Layer 0, the ramification index**, defined without choosing a uniformizer: the index in
+`Multiplicative ℤ` of the image of `Kˣ` under the normalized valuation of `L`. For a compatible
+extension this image is the subgroup of multiples of `e`, and `e` is the positive integer by which
+the map of normalized value groups multiplies; its characteristic property is
+`normalizedValuation_algebraMap` below. Tau Ceti's `TauCeti.ramificationIndex`
+(`TauCeti/NumberTheory/LocalField/RamificationIndex.lean`), consumed by reducible alias. Its body
+reads only the normalized valuation of `L` and the algebra map, so those are its parameters; every
+theorem about it assumes `ValuativeExtension K L`. -/
+noncomputable abbrev ramificationIndex [Algebra K L] : ℕ :=
+  TauCeti.ramificationIndex K L
 
-/-- **Layer 0, the residue degree.** This is definitionally the dimension of the residue-field
-extension supplied by `residueFieldAlgebra`. -/
-noncomputable def inertiaDegree [Algebra K L] [ValuativeExtension K L] [Module.Finite K L] :
-    ℕ := Module.finrank 𝓀[K] 𝓀[L]
+/-- **Layer 0, the residue degree**, the dimension of the residue-field extension supplied by
+`residueFieldAlgebra`. Tau Ceti's `TauCeti.inertiaDegree`
+(`TauCeti/NumberTheory/LocalField/InertiaDegree.lean`), consumed by reducible alias. -/
+noncomputable abbrev inertiaDegree [Algebra K L] [ValuativeExtension K L] : ℕ :=
+  TauCeti.inertiaDegree K L
 
 /-- **Layer 0, total ramification.** This is the canonical one-extension predicate consumed by
 #226. An intermediate-field family wrapper must compare to it and must not contain an independent
@@ -371,35 +400,47 @@ def IsTotallyRamified [Algebra K L] [ValuativeExtension K L] [Module.Finite K L]
 
 /-- **Layer 0, the characteristic property of `e`.** The normalized valuation of `L`
 restricted along `K` is the `e`-th power of that of `K`. Stated for all `x`, so no uniformizer
-is chosen; specializing to a uniformizer of `K` gives `v_L(π_K) = e`. -/
+is chosen; specializing to a uniformizer of `K` gives `v_L(π_K) = e`
+(`TauCeti.normalizedValuation_algebraMap_irreducible`). Tau Ceti's
+`TauCeti.normalizedValuation_algebraMap`; `TauCeti.ramificationIndex_eq_iff` says that `e` is the
+only exponent with this property. -/
 theorem normalizedValuation_algebraMap [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] (x : Kˣ) :
-    normalizedValuation L (Units.map (algebraMap K L : K →+* L).toMonoidHom x)
+    normalizedValuation L (Units.map (algebraMap K L : K →* L) x)
       = normalizedValuation K x ^ ramificationIndex K L :=
-  sorry
+  TauCeti.normalizedValuation_algebraMap x
 
-/-- **Layer 0, the characteristic property of `f`.** -/
+/-- **Layer 0, the characteristic property of `f`.** Tau Ceti's `TauCeti.natCard_residueField`. -/
 theorem card_residueField [Algebra K L] [ValuativeExtension K L] [Module.Finite K L] :
     Nat.card 𝓀[L] = Nat.card 𝓀[K] ^ inertiaDegree K L :=
-  sorry
+  TauCeti.natCard_residueField K L
 
-/-- **Layer 0, `e · f = n`.** With positivity of both factors, and multiplicativity in towers,
-this is the fundamental identity of the layer. The reconciliation with the Dedekind-level
-`Ideal.ramificationIdx`/`Ideal.inertiaDeg` (at a local field `𝓂[K]` has the single prime
-`𝓂[L]` above it) is a separate named milestone. -/
+/-- **Layer 0, `e · f = n`.** With positivity of both factors (`TauCeti.ramificationIndex_pos`,
+`TauCeti.inertiaDegree_pos`) and multiplicativity in towers (`TauCeti.ramificationIndex_tower`,
+`TauCeti.inertiaDegree_tower`), this is the fundamental identity of the layer. Tau Ceti's
+`TauCeti.ramificationIndex_mul_inertiaDegree`, proved through the reconciliation with the
+Dedekind-level pair (`TauCeti.ramificationIndex_eq_ramificationIdx`,
+`TauCeti.inertiaDegree_eq_inertiaDeg`, and `TauCeti.primesOver_maximalIdeal_eq_singleton`: at a
+local field `𝓂[K]` has the single prime `𝓂[L]` above it). -/
 theorem ramificationIndex_mul_inertiaDegree [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] :
     ramificationIndex K L * inertiaDegree K L = Module.finrank K L :=
-  sorry
+  TauCeti.ramificationIndex_mul_inertiaDegree K L
 
 /-- **Layer 0, residue-degree characterization of total ramification.** This is the stable
 one-extension bridge consumed by `TotallyRamified`; a family-level intermediate-field wrapper
 must compare to this theorem rather than define a second ramification predicate. No dependency on
-the consumer roadmap is introduced here. -/
+the consumer roadmap is introduced here. A closed proof from `e · f = n` and `0 < e`. -/
 theorem isTotallyRamified_iff_inertiaDegree_eq_one [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] :
-    IsTotallyRamified K L ↔ inertiaDegree K L = 1 :=
-  sorry
+    IsTotallyRamified K L ↔ inertiaDegree K L = 1 := by
+  have h := ramificationIndex_mul_inertiaDegree K L
+  have he : 0 < ramificationIndex K L := TauCeti.ramificationIndex_pos
+  refine ⟨fun ht => Nat.eq_of_mul_eq_mul_left he ?_, fun hf => ?_⟩
+  · rw [mul_one]
+    exact h.trans ht.symm
+  · rw [hf, mul_one] at h
+    exact h
 
 /-- **Layer 0, the valuation of a natural-number cast.** The nonzero proof is part of the input;
 there is no equal-characteristic junk branch. This is the general quantity in power-class
@@ -424,17 +465,24 @@ theorem natCastValuation_eq_zero_iff (n : ℕ) (hn : (n : K) ≠ 0) :
   TauCeti.natCastValuation_eq_zero_iff K n hn
 
 /-- **Layer 0, the absolute ramification index.** This name is reserved for a finite
-mixed-characteristic extension `K/ℚ_p`; definitionally it is the relative ramification index. -/
-noncomputable def absoluteRamificationIndex (p : ℕ) [Fact p.Prime] [Algebra ℚ_[p] K]
+mixed-characteristic extension `K/ℚ_p`; definitionally it is the relative ramification index
+`ramificationIndex ℚ_[p] K`. Tau Ceti's `TauCeti.absoluteRamificationIndex`
+(`TauCeti/NumberTheory/LocalField/AbsoluteRamificationIndex.lean`), which bundles the three
+instances below as `TauCeti.FinitePadicExtension K p`; the instance
+`TauCeti.FinitePadicExtension.ofInstances` supplies it from them, so this adapter takes them
+separately, as every statement of this roadmap does. -/
+noncomputable abbrev absoluteRamificationIndex (p : ℕ) [Fact p.Prime] [Algebra ℚ_[p] K]
     [ValuativeExtension ℚ_[p] K] [Module.Finite ℚ_[p] K] : ℕ :=
-  ramificationIndex ℚ_[p] K
+  TauCeti.absoluteRamificationIndex K p
 
-/-- **Layer 0, comparison with the valuation of the residue prime.** -/
+/-- **Layer 0, comparison with the valuation of the residue prime.** Tau Ceti's
+`TauCeti.absoluteRamificationIndex_eq_natCastValuation`; the nonvanishing proof is an argument
+here, and any two proofs of it give the same value. -/
 theorem absoluteRamificationIndex_eq_natCastValuation (p : ℕ) [Fact p.Prime]
     [Algebra ℚ_[p] K] [ValuativeExtension ℚ_[p] K] [Module.Finite ℚ_[p] K]
     (hp : (p : K) ≠ 0) :
     absoluteRamificationIndex K p = natCastValuation K p hp :=
-  sorry
+  TauCeti.absoluteRamificationIndex_eq_natCastValuation K p
 
 /-! ## Layer 1: units, the filtration, and the multiplicative group -/
 
@@ -473,46 +521,57 @@ theorem unitFiltration_antitone : Antitone (unitFiltration K) :=
 
 /-- **Layer 1, covariant unit-filtration map.** The algebra map scales depth by the
 ramification index. This is distinct from the contravariant, Herbrand-shifted norm theorem
-`map_norm_unitFiltration_psiNat_le` in Layer 3. -/
+`map_norm_unitFiltration_psiNat_le` in Layer 3. Tau Ceti's `TauCeti.map_unitFiltration_le`
+(`TauCeti/NumberTheory/LocalField/UnitFiltration/Map.lean`). -/
 theorem map_unitFiltration_le [Algebra K L] [ValuativeExtension K L] [Module.Finite K L]
     (i : ℕ) :
-    Subgroup.map (Units.map (algebraMap K L : K →+* L).toMonoidHom) (unitFiltration K i)
+    Subgroup.map (Units.map (algebraMap K L : K →* L)) (unitFiltration K i)
       ≤ unitFiltration L (ramificationIndex K L * i) :=
-  sorry
+  TauCeti.map_unitFiltration_le K L i
 
 /-- **Layer 1, the filtration separates points**, which with openness makes it a neighborhood
 basis of `1` in `Kˣ`. Tau Ceti's `TauCeti.iInf_unitFiltration`. -/
 theorem iInf_unitFiltration : ⨅ i, unitFiltration K i = ⊥ :=
   TauCeti.iInf_unitFiltration
 
+/-- **Layer 1, the Teichmüller section**: the canonical multiplicative section of reduction,
+characterized by `teichmuller_section` below together with the uniqueness statement that it is
+the only multiplicative section (`TauCeti.eq_teichmuller`) and that its image is the
+`(q−1)`-torsion of `𝒪[K]ˣ`, that is `μ_{q−1}(K)` (`TauCeti.range_teichmuller`). Tau Ceti's
+`TauCeti.teichmuller 𝒪[K]` (`TauCeti/RingTheory/Henselian/Teichmuller.lean`), the lift of a
+Henselian local ring with finite residue field, consumed by reducible alias; `𝒪[K]` is Henselian by
+Tau Ceti's instance `TauCeti.henselianLocalRing_integer`, which is where the topology and the
+local-field hypothesis of `K` enter. Its zero-preserving extension `𝓀[K] →*₀ 𝒪[K]` is Tau Ceti's
+`TauCeti.teichmullerLift`, which agrees with it on units (`TauCeti.coe_teichmuller_apply`). -/
+noncomputable abbrev teichmuller : (𝓀[K])ˣ →* (↥𝒪[K])ˣ :=
+  TauCeti.teichmuller 𝒪[K]
+
+/-- **Layer 1.** The Teichmüller map is a section of reduction. Tau Ceti's
+`TauCeti.unitsMap_residue_teichmuller`. -/
+theorem teichmuller_section (x : (𝓀[K])ˣ) :
+    Units.map (IsLocalRing.residue 𝒪[K]).toMonoidHom (teichmuller K x) = x :=
+  TauCeti.unitsMap_residue_teichmuller 𝒪[K] x
+
 /-- **Layer 1, reduction is surjective on units**, the depth-`0` graded piece
-`𝒪[K]ˣ ↠ 𝓀[K]ˣ` of the unit filtration, whose kernel is `U(K,1)`. The deeper pieces
-`U(K,i)/U(K,i+1) ≅ 𝓀[K]⁺` are stated once the quotient API is in `TauCeti/`. -/
+`𝒪[K]ˣ ↠ 𝓀[K]ˣ` of the unit filtration, whose kernel is `U(K,1)`. A closed proof: the
+Teichmüller map is a section. The graded pieces themselves, `U(K,0)/U(K,1) ≃* 𝓀[K]ˣ` and
+`U(K,i+1)/U(K,i+2) ≃ 𝓀[K]⁺`, are Tau Ceti's `TauCeti.unitFiltrationGradedZeroEquivResidueFieldUnits`
+and `TauCeti.unitFiltrationGradedSuccEquivResidueFieldOfUniformizer`. -/
 example :
     Function.Surjective
       (Units.map (IsLocalRing.residue 𝒪[K]).toMonoidHom : (↥𝒪[K])ˣ →* (𝓀[K])ˣ) :=
-  sorry
+  fun x => ⟨teichmuller K x, teichmuller_section K x⟩
 
-/-- **Layer 1, the Teichmüller section**: the canonical multiplicative section of reduction,
-characterized by `teichmuller_section` below together with the uniqueness statement that its
-image is the `(q−1)`-torsion of `𝒪[K]ˣ`, that is `μ_{q−1}(K)`. Whether the construction goes
-through `Perfection.teichmuller₀` or through Hensel applied to `X^(q−1) − 1` is an
-implementation note. -/
-noncomputable def teichmuller : (𝓀[K])ˣ →* (↥𝒪[K])ˣ :=
-  sorry
-
-/-- **Layer 1.** The Teichmüller map is a section of reduction. -/
-theorem teichmuller_section (x : (𝓀[K])ˣ) :
-    Units.map (IsLocalRing.residue 𝒪[K]).toMonoidHom (teichmuller K x) = x :=
-  sorry
-
-/-- **Layer 1, the multiplicative decomposition.** A choice of uniformizer splits
-`Kˣ ≅ ℤ × 𝒪[K]ˣ`: every element of `Kˣ` is uniquely `π^n · u` with `u ∈ 𝒪[K]ˣ`. (With the
-Teichmüller milestone this refines to `Kˣ ≅ π^ℤ × μ_{q−1} × U(K,1)`, and `U(K,1)` is pro-`p`,
-in the quotient form that `ProfiniteProPGroups.IsProP` unfolds to.) -/
-example (π : 𝒪[K]) (_hπ : Irreducible π) (x : Kˣ) :
-    ∃! p : ℤ × (↥𝒪[K])ˣ, (x : K) = (π : K) ^ p.1 * ((p.2 : ↥𝒪[K]) : K) :=
-  sorry
+/-- **Layer 1, the multiplicative decomposition.** A choice of uniformizer `π`, an element of
+normalized valuation one, splits `Kˣ ≅ ℤ × U(K,0)`: every element of `Kˣ` is uniquely `π^n · u`
+with `u ∈ U(K,0) = 𝒪[K]ˣ`. Tau Ceti's `TauCeti.existsUnique_eq_zpow_mul`, the uniqueness in the
+topological isomorphism `TauCeti.unitsEquivIntProd`. (With the Teichmüller milestone this refines
+to `Kˣ ≅ π^ℤ × μ_{q−1} × U(K,1)`, which is Tau Ceti's `TauCeti.unitFiltrationZeroEquivProd` on the
+second factor, and `U(K,1)` is pro-`p`, in the quotient form that `ProfiniteProPGroups.IsProP`
+unfolds to.) -/
+example (π : Kˣ) (hπ : normalizedValuation K π = Multiplicative.ofAdd 1) (x : Kˣ) :
+    ∃! p : ℤ × unitFiltration K 0, x = π ^ p.1 * p.2 :=
+  TauCeti.existsUnique_eq_zpow_mul hπ x
 
 /-- **Layer 1, the local exponential.** At this pin the implementation starts from
 `NormedSpace.expSeries`/`NormedSpace.exp` after locally installing `normalizedNormedField`; it is
@@ -571,11 +630,13 @@ theorem continuous_localLogarithm_deep (p : ℕ) [Fact p.Prime] [Algebra ℚ_[p]
 
 /-- **Layer 1, power classes in the prime-to-residue-characteristic regime.** If `n` is a unit
 in the valuation ring, the count is exact and holds in either characteristic: the factor
-`q ^ natCastValuation K n` of the general formula is `1`, which is where the hypothesis is used. -/
-theorem card_powerClasses_of_isUnit (n : ℕ) (_hn : n ≠ 0) (_hn' : IsUnit (n : ↥𝒪[K])) :
+`q ^ natCastValuation K n` of the general formula is `1`
+(`TauCeti.natCastValuation_eq_zero_of_isUnit`), which is where the hypothesis is used. Tau Ceti's
+`TauCeti.card_powerClasses_of_isUnit` (`TauCeti/NumberTheory/LocalField/PowerSubgroup.lean`). -/
+theorem card_powerClasses_of_isUnit (n : ℕ) (_hn : n ≠ 0) (hn' : IsUnit (n : ↥𝒪[K])) :
     Nat.card (Kˣ ⧸ (powMonoidHom n : Kˣ →* Kˣ).range)
       = n * Nat.card (rootsOfUnity n K) :=
-  sorry
+  TauCeti.card_powerClasses_of_isUnit hn'
 
 /-- **Layer 1, power classes in the mixed-characteristic regime.** For `K/ℚ_p` finite the same
 formula holds for every `n ≠ 0`, including `p ∣ n`, with the extra factor
@@ -591,11 +652,13 @@ theorem card_powerClasses_mixed (p : ℕ) [Fact p.Prime] [Algebra ℚ_[p] K]
   sorry
 
 /-- **Layer 1, openness of the power subgroup away from the residue characteristic.** Openness
-comes from the explicit deep subgroup contained in the range; no finite-index implication is used. -/
+comes from the explicit deep subgroup contained in the range
+(`TauCeti.unitFiltration_one_le_range_powMonoidHom_of_isUnit`); no finite-index implication is
+used. Tau Ceti's `TauCeti.isOpen_range_powMonoidHom_of_isUnit`. -/
 theorem isOpen_range_powMonoidHom_of_isUnit (n : ℕ) (_hn : n ≠ 0)
-    (_hn' : IsUnit (n : ↥𝒪[K])) :
+    (hn' : IsUnit (n : ↥𝒪[K])) :
     IsOpen ((powMonoidHom n : Kˣ →* Kˣ).range : Set Kˣ) :=
-  sorry
+  TauCeti.isOpen_range_powMonoidHom_of_isUnit hn'
 
 /-- **Layer 1, openness of the power subgroup in mixed characteristic.** -/
 theorem isOpen_range_powMonoidHom (p : ℕ) [Fact p.Prime] [Algebra ℚ_[p] K]
@@ -605,11 +668,12 @@ theorem isOpen_range_powMonoidHom (p : ℕ) [Fact p.Prime] [Algebra ℚ_[p] K]
   sorry
 
 /-- **Layer 1, finite index away from the residue characteristic.** This is derived from
-`card_powerClasses_of_isUnit`, independently of the openness proof. -/
+`card_powerClasses_of_isUnit`, independently of the openness proof. Tau Ceti's
+`TauCeti.finiteIndex_range_powMonoidHom_of_isUnit`. -/
 theorem finiteIndex_range_powMonoidHom_of_isUnit (n : ℕ) (_hn : n ≠ 0)
-    (_hn' : IsUnit (n : ↥𝒪[K])) :
+    (hn' : IsUnit (n : ↥𝒪[K])) :
     (powMonoidHom n : Kˣ →* Kˣ).range.FiniteIndex :=
-  sorry
+  TauCeti.finiteIndex_range_powMonoidHom_of_isUnit hn'
 
 /-- **Layer 1, finite index in mixed characteristic.** This is derived from
 `card_powerClasses_mixed`, not from openness. -/
@@ -621,10 +685,11 @@ theorem finiteIndex_range_powMonoidHom (p : ℕ) [Fact p.Prime] [Algebra ℚ_[p]
 
 /-- **Layer 1, the square classes away from residue characteristic `2`.** The specialization of
 `card_powerClasses_of_isUnit` at `n = 2`: the hypothesis makes `2` invertible in `𝒪[K]`, hence
-in `K`, so `μ_2(K) = {±1}` has order `2` and the count is `2 · 2 · 1`. -/
-theorem card_squareClasses_of_isUnit (_h2 : IsUnit (2 : ↥𝒪[K])) :
+in `K`, so `μ_2(K) = {±1}` has order `2` and the count is `2 · 2 · 1`. Tau Ceti's
+`TauCeti.card_squareClasses_of_isUnit`. -/
+theorem card_squareClasses_of_isUnit (h2 : IsUnit (2 : ↥𝒪[K])) :
     Nat.card (Kˣ ⧸ (powMonoidHom 2 : Kˣ →* Kˣ).range) = 4 :=
-  sorry
+  TauCeti.card_squareClasses_of_isUnit h2
 
 /-- **Layer 1, the square classes at residue characteristic `2`, in the `4 · q^e` form.** The
 specialization of `card_powerClasses_mixed` at `p = n = 2`, with `q = Nat.card 𝓀[K]` and
@@ -638,13 +703,15 @@ theorem card_squareClasses_dyadic [Algebra ℚ_[2] K] [ValuativeExtension ℚ_[2
       = 4 * Nat.card 𝓀[K] ^ absoluteRamificationIndex K 2 :=
   sorry
 
+omit [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K] in
 /-- **Layer 1, the two spellings of the square classes.** Mathlib's `Subgroup.square Kˣ` is the
 subgroup of squares, and the counts above are stated at the range of `powMonoidHom`. This is the
 identification at `n = 2`, and it is what lets a consumer read the count of this layer, and
-`ProfiniteCohomology.kummerIso`, on `Subgroup.square Kˣ`. -/
+`ProfiniteCohomology.kummerIso`, on `Subgroup.square Kˣ`. Tau Ceti's
+`TauCeti.square_eq_powMonoidHom_two_range`, for any commutative group. -/
 theorem square_eq_range_powMonoidHom :
     Subgroup.square Kˣ = (powMonoidHom 2 : Kˣ →* Kˣ).range :=
-  sorry
+  TauCeti.square_eq_powMonoidHom_two_range
 
 /-- **Layer 1, worked example: `ℚ_2ˣ/(ℚ_2ˣ)²` has order 8** (the classes of `−1, 2, 5`
 generate). The odd-`p` count is `4`; this factor-of-two dyadic difference is why no layer may
@@ -656,24 +723,30 @@ example : Nat.card (ℚ_[2]ˣ ⧸ (powMonoidHom 2 : ℚ_[2]ˣ →* ℚ_[2]ˣ).ra
 `e = absoluteRamificationIndex K 2`, every unit of depth `2e+1` is a square. ⚠ This is **not** an
 instance of the counts above, which decide how many square classes there are and not which
 subgroup lies inside the squares. The mixed-characteristic hypothesis is part of the type; there
-is no equal-characteristic value of `absoluteRamificationIndex`. -/
+is no equal-characteristic value of `absoluteRamificationIndex`. A closed proof: Tau Ceti's
+`TauCeti.unitFiltration_le_range_powMonoidHom_two`, read through
+`absoluteRamificationIndex_eq_natCastValuation`. -/
 theorem unitFiltration_le_range_powMonoidHom_two [Algebra ℚ_[2] K]
     [ValuativeExtension ℚ_[2] K] [Module.Finite ℚ_[2] K] :
     unitFiltration K (2 * absoluteRamificationIndex K 2 + 1)
-      ≤ (powMonoidHom 2 : Kˣ →* Kˣ).range :=
-  sorry
+      ≤ (powMonoidHom 2 : Kˣ →* Kˣ).range := by
+  rw [absoluteRamificationIndex, TauCeti.absoluteRamificationIndex_eq_natCastValuation K 2]
+  exact TauCeti.unitFiltration_le_range_powMonoidHom_two _
 
 /-- **Layer 1, sharpness of the local square theorem.** The threshold `2e+1` cannot be lowered,
 over any finite extension of `ℚ_2` and not only over `ℚ_2`: `U(K, 2e)` always meets the
 complement of the squares. The obstruction is the Artin–Schreier map `t ↦ t² + t` of `𝓀[K]`,
 which is `𝔽_2`-linear with kernel `𝔽_2` and therefore has image of index `2`; since
 `𝓂[K]^{2e} = 4 · 𝒪[K]`, a unit `1 + 4c` is a square exactly when the residue of `c` is in that
-image, so any `c` outside it is a witness. -/
+image, so any `c` outside it is a witness. A closed proof: Tau Ceti's
+`TauCeti.not_unitFiltration_le_range_powMonoidHom_two`, read through
+`absoluteRamificationIndex_eq_natCastValuation`. -/
 theorem not_unitFiltration_le_range_powMonoidHom_two [Algebra ℚ_[2] K]
     [ValuativeExtension ℚ_[2] K] [Module.Finite ℚ_[2] K] :
     ¬ unitFiltration K (2 * absoluteRamificationIndex K 2)
-      ≤ (powMonoidHom 2 : Kˣ →* Kˣ).range :=
-  sorry
+      ≤ (powMonoidHom 2 : Kˣ →* Kˣ).range := by
+  rw [absoluteRamificationIndex, TauCeti.absoluteRamificationIndex_eq_natCastValuation K 2]
+  exact TauCeti.not_unitFiltration_le_range_powMonoidHom_two _
 
 /-! ### The dyadic statements, indexed uniformly
 
@@ -681,29 +754,31 @@ theorem not_unitFiltration_le_range_powMonoidHom_two [Algebra ℚ_[2] K]
 `absoluteRamificationIndex K 2` is reserved for that case — its signature demands
 `[Algebra ℚ_[2] K]`. That makes them **unusable in odd residue characteristic**, where the
 intended reading of `e = v_K(2)` is simply `0`: a consumer splitting on `e = 0` versus `e ≠ 0`
-cannot even write the hypothesis, and `QuadraticFormInvariants` had to restate all three
-locally. The uniform forms below are indexed by `natCastValuation K 2`, which is defined for
-every nonarchimedean local field in which `2` is nonzero and vanishes exactly when the residue
-characteristic is odd. In mixed characteristic `2` the two agree, by
-`absoluteRamificationIndex_eq_natCastValuation`, so these are generalizations rather than a
-second convention. -/
+cannot even write the hypothesis. The uniform forms below are indexed by `natCastValuation K 2`,
+which is defined for every nonarchimedean local field in which `2` is nonzero and vanishes exactly
+when the residue characteristic is odd. The two local square theorems among them are Tau Ceti's
+(`TauCeti/NumberTheory/LocalField/Squares.lean`), which also proves the two-sided form
+`TauCeti.unitFiltration_le_range_powMonoidHom_two_iff`. In mixed characteristic `2` the two
+indexings agree, by `absoluteRamificationIndex_eq_natCastValuation`, so these are generalizations
+rather than a second convention. -/
 
-/-- **Layer 1, the local square theorem, uniformly indexed** (O'Meara 63:1). -/
+/-- **Layer 1, the local square theorem, uniformly indexed** (O'Meara 63:1). Tau Ceti's
+`TauCeti.unitFiltration_le_range_powMonoidHom_two`. -/
 theorem unitFiltration_natCastValuation_le_range_powMonoidHom_two
     (h2 : ((2 : ℕ) : K) ≠ 0) :
     unitFiltration K (2 * natCastValuation K 2 h2 + 1)
       ≤ (powMonoidHom 2 : Kˣ →* Kˣ).range :=
-  sorry
+  TauCeti.unitFiltration_le_range_powMonoidHom_two h2
 
 /-- **Layer 1, sharpness, uniformly indexed.** ⚠ In odd residue characteristic the exponent is
 `0`, and the statement says that `U(K,0) = 𝒪[K]ˣ` is not contained in the squares — which is
 true, and is the odd-residue-characteristic content that the `ℚ_2`-indexed version cannot
-express at all. -/
+express at all. Tau Ceti's `TauCeti.not_unitFiltration_le_range_powMonoidHom_two`. -/
 theorem not_unitFiltration_natCastValuation_le_range_powMonoidHom_two
     (h2 : ((2 : ℕ) : K) ≠ 0) :
     ¬ unitFiltration K (2 * natCastValuation K 2 h2)
       ≤ (powMonoidHom 2 : Kˣ →* Kˣ).range :=
-  sorry
+  TauCeti.not_unitFiltration_le_range_powMonoidHom_two h2
 
 /-- **Layer 1, the square-class count, uniformly indexed**: `#(Kˣ/(Kˣ)²) = 4 · q^{v_K(2)}`.
 At odd residue characteristic the exponent is `0` and this is the familiar `4`; over a finite
@@ -730,46 +805,66 @@ automatic here because `𝓀[K]` is finite. `IsGalois K L` is likewise automatic
 `L/K`, which is generated over `K` by the `(q^f − 1)`-st roots of unity and so is the splitting
 field of a separable polynomial; it is carried because the residue correspondence is stated for
 a Galois extension. ⚠ Arithmetic, never geometric: the inverse `(frobeniusAlgEquiv K L h)⁻¹` is
-the geometric Frobenius, and no statement of this roadmap uses the unqualified word for it. -/
-noncomputable def frobeniusAlgEquiv [Algebra K L] [ValuativeExtension K L] [Module.Finite K L]
-    [IsGalois K L] (_h : ramificationIndex K L = 1) : L ≃ₐ[K] L :=
-  sorry
+the geometric Frobenius, and no statement of this roadmap uses the unqualified word for it.
+Tau Ceti's `TauCeti.frobeniusAlgEquiv`
+(`TauCeti/NumberTheory/LocalField/ResidueCorrespondence.lean`), which asks for the class
+`TauCeti.IsUnramified K L`; this adapter supplies it from `h` by
+`TauCeti.isUnramified_iff_ramificationIndex_eq_one`, and the class is a proposition, so the value
+does not depend on the proof. Tau Ceti also proves that it generates `Gal(L/K)` and has order `f`
+(`TauCeti.zpowers_frobeniusAlgEquiv`, `TauCeti.orderOf_frobeniusAlgEquiv`), that it is the only
+automorphism with the congruence below
+(`TauCeti.eq_frobeniusAlgEquiv_of_valuation_sub_pow_lt_one`), and that it restricts to Frobenius
+in a tower (`TauCeti.frobeniusAlgEquiv_restrictNormal`). -/
+noncomputable abbrev frobeniusAlgEquiv [Algebra K L] [ValuativeExtension K L] [Module.Finite K L]
+    [IsGalois K L] (h : ramificationIndex K L = 1) : L ≃ₐ[K] L :=
+  haveI := (TauCeti.isUnramified_iff_ramificationIndex_eq_one K L).2 h
+  TauCeti.frobeniusAlgEquiv (K := K) (L := L)
 
 /-- **Layer 2, the characteristic property of Frobenius:** `σ(y) ≡ y^q mod 𝓂[L]` on `𝒪[L]`,
 with `q = Nat.card 𝓀[K]`. This is the equation that fixes `frobeniusAlgEquiv`, and it is stated
 on the valuation rather than on the residue field so that it needs no separate name for the
-induced action on `𝓀[L]`; `valuation L x < 1` is membership in `𝓂[L]`. -/
+induced action on `𝓀[L]`; `valuation L x < 1` is membership in `𝓂[L]`. Tau Ceti's
+`TauCeti.valuation_frobeniusAlgEquiv_sub_pow`. -/
 theorem valuation_frobeniusAlgEquiv_sub_pow [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] [IsGalois K L] (h : ramificationIndex K L = 1) (y : ↥𝒪[L]) :
     valuation L (frobeniusAlgEquiv K L h (y : L) - (y : L) ^ Nat.card 𝓀[K]) < 1 :=
-  sorry
+  haveI := (TauCeti.isUnramified_iff_ramificationIndex_eq_one K L).2 h
+  TauCeti.valuation_frobeniusAlgEquiv_sub_pow y
 
-/-- **The norm group** `N_{L/K}(Lˣ) : Subgroup Kˣ`, the image of the field norm. Layer 2 computes
-it for `L/K` unramified; `ClassFieldTheory.normResidue` and `conductorExponent` consume it for
-finite abelian extensions. It is a definition and not a placeholder. -/
-noncomputable def normGroup [Algebra K L] [Module.Finite K L] : Subgroup Kˣ :=
-  (Units.map (Algebra.norm K : L →* K)).range
+/-- **The norm group** `N_{L/K}(Lˣ) : Subgroup Kˣ`, the image of the field norm on units. Layer 2
+computes it for `L/K` unramified; `ClassFieldTheory.normResidue` and `conductorExponent` consume it
+for finite abelian extensions. Tau Ceti's `TauCeti.normGroup`
+(`TauCeti/RingTheory/Norm/Units.lean`), the range of `TauCeti.Algebra.normUnits K`, consumed by
+reducible alias. -/
+noncomputable abbrev normGroup [Algebra K L] [Module.Finite K L] : Subgroup Kˣ :=
+  TauCeti.normGroup K L
 
 /-- **Layer 2, norms of units from an unramified extension.** `N_{L/K}(𝒪[L]ˣ) = 𝒪[K]ˣ`, written
 on the depth-zero step of the unit filtration, which `mem_unitFiltration_zero` identifies with
 the units of the valuation ring. ⚠ *False generalization:* for a ramified extension the norm of
 a unit is still a unit, but the image is a proper subgroup; at `L = ℚ_2(√2)` it has index `2` in
-`ℤ_2ˣ`. -/
+`ℤ_2ˣ`. Tau Ceti's `TauCeti.map_normUnits_unitFiltration_zero`
+(`TauCeti/NumberTheory/LocalField/Norm/Unramified.lean`), under the same adaptation of `h` as
+`frobeniusAlgEquiv`. -/
 theorem map_norm_unitFiltration_zero [Algebra K L] [ValuativeExtension K L] [Module.Finite K L]
-    (_h : ramificationIndex K L = 1) :
-    Subgroup.map (Units.map (Algebra.norm K : L →* K)) (unitFiltration L 0) = unitFiltration K 0 :=
-  sorry
+    (h : ramificationIndex K L = 1) :
+    Subgroup.map (TauCeti.Algebra.normUnits K : Lˣ →* Kˣ) (unitFiltration L 0) =
+      unitFiltration K 0 :=
+  haveI := (TauCeti.isUnramified_iff_ramificationIndex_eq_one K L).2 h
+  TauCeti.map_normUnits_unitFiltration_zero K L
 
 /-- **Layer 2, the unramified norm group in norm-equation form.** `N_{L/K}(Lˣ) = π^{fℤ} × 𝒪[K]ˣ`,
 stated as the solvability criterion for the norm equation `N_{L/K}(y) = x`: with `e = 1` the
-valuation of a norm is `f · v_L(y)`, and units are norms by the milestone above, so `x` is a norm
-exactly when `f` divides `v_K(x)`. ⚠ `f` here is `inertiaDegree K L`, the residue degree of
-Layer 0, and never a conductor. -/
+valuation of a norm is `f · v_L(y)` (`TauCeti.normalizedValuation_norm`), and units are norms by
+the milestone above, so `x` is a norm exactly when `f` divides `v_K(x)`. ⚠ `f` here is
+`inertiaDegree K L`, the residue degree of Layer 0, and never a conductor. Tau Ceti's
+`TauCeti.mem_normGroup_iff_dvd_normalizedValuation`. -/
 theorem mem_normGroup_iff_dvd_normalizedValuation [Algebra K L] [ValuativeExtension K L]
-    [Module.Finite K L] (_h : ramificationIndex K L = 1) (x : Kˣ) :
+    [Module.Finite K L] (h : ramificationIndex K L = 1) (x : Kˣ) :
     x ∈ normGroup K L ↔
       (inertiaDegree K L : ℤ) ∣ Multiplicative.toAdd (normalizedValuation K x) :=
-  sorry
+  haveI := (TauCeti.isUnramified_iff_ramificationIndex_eq_one K L).2 h
+  TauCeti.mem_normGroup_iff_dvd_normalizedValuation
 
 /-- **Layer 2, worked example: the unramified quadratic extension of `ℚ_2`.** The adjoined set
 is *all* cube roots of unity, so the intermediate field is the splitting field of `X³ − 1`
@@ -892,45 +987,61 @@ theorem lowerRamificationGroupReal_eq_of_sub_one_lt_of_le [Algebra K L]
     hright
 
 /-- **Layer 3, the genuine domain of Herbrand theory.** Keeping `[-1,∞)` in the type prevents
-global-function equalities from making accidental claims about arbitrary values below `-1`. -/
-abbrev RamificationIndexDomain := Set.Ici (-1 : ℝ)
+global-function equalities from making accidental claims about arbitrary values below `-1`. Tau
+Ceti's `TauCeti.LocalFieldsRamification.RamificationIndexDomain`
+(`TauCeti/NumberTheory/LocalField/Herbrand.lean`), consumed by reducible alias. -/
+abbrev RamificationIndexDomain : Set ℝ :=
+  TauCeti.LocalFieldsRamification.RamificationIndexDomain
 
 /-- **Layer 3, Herbrand and inverse Herbrand as one order isomorphism.** Its forward map is
-`φ_{L/K}` and its inverse is `ψ_{L/K}`. -/
-noncomputable def herbrandOrderIso [Algebra K L] [ValuativeExtension K L]
+`φ_{L/K}(u) = ∫_0^u dt/[G_0 : G_t]` (`TauCeti.LocalFieldsRamification.coe_herbrand`) and its
+inverse is `ψ_{L/K}`. Tau Ceti's `TauCeti.LocalFieldsRamification.herbrandOrderIso`, built from the
+lower ramification groups above, consumed by reducible alias. -/
+noncomputable abbrev herbrandOrderIso [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] [IsGalois K L] :
     RamificationIndexDomain ≃o RamificationIndexDomain :=
-  sorry
+  TauCeti.LocalFieldsRamification.herbrandOrderIso K L
 
-/-- **Layer 3, the Herbrand function on its mathematical domain.** -/
-noncomputable def herbrand [Algebra K L] [ValuativeExtension K L]
+/-- **Layer 3, the Herbrand function on its mathematical domain**, the forward map of
+`herbrandOrderIso`. Tau Ceti's `TauCeti.LocalFieldsRamification.herbrand`, consumed by reducible
+alias; Tau Ceti proves that it is continuous, strictly increasing and concave, the identity on
+`[-1, 0]`, and given at integers by the finite-sum formula
+(`TauCeti.LocalFieldsRamification.coe_herbrand_of_coe_eq_natCast`). -/
+noncomputable abbrev herbrand [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] [IsGalois K L] :
     RamificationIndexDomain → RamificationIndexDomain :=
-  herbrandOrderIso K L
+  TauCeti.LocalFieldsRamification.herbrand K L
 
-/-- **Layer 3, the inverse Herbrand function on its mathematical domain.** -/
-noncomputable def inverseHerbrand [Algebra K L] [ValuativeExtension K L]
+/-- **Layer 3, the inverse Herbrand function on its mathematical domain**, the inverse of
+`herbrandOrderIso`. Tau Ceti's `TauCeti.LocalFieldsRamification.inverseHerbrand`, consumed by
+reducible alias. -/
+noncomputable abbrev inverseHerbrand [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] [IsGalois K L] :
     RamificationIndexDomain → RamificationIndexDomain :=
-  (herbrandOrderIso K L).symm
+  TauCeti.LocalFieldsRamification.inverseHerbrand K L
 
-/-- **Layer 3, `φ (ψ u) = u`.** -/
+/-- **Layer 3, `φ (ψ u) = u`.** Tau Ceti's
+`TauCeti.LocalFieldsRamification.herbrand_inverseHerbrand`. -/
 theorem herbrand_inverseHerbrand [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] [IsGalois K L] (u : RamificationIndexDomain) :
     herbrand K L (inverseHerbrand K L u) = u :=
-  sorry
+  TauCeti.LocalFieldsRamification.herbrand_inverseHerbrand K L u
 
-/-- **Layer 3, `ψ (φ u) = u`.** -/
+/-- **Layer 3, `ψ (φ u) = u`.** Tau Ceti's
+`TauCeti.LocalFieldsRamification.inverseHerbrand_herbrand`. -/
 theorem inverseHerbrand_herbrand [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] [IsGalois K L] (u : RamificationIndexDomain) :
     inverseHerbrand K L (herbrand K L u) = u :=
-  sorry
+  TauCeti.LocalFieldsRamification.inverseHerbrand_herbrand K L u
 
-/-- **Layer 3, the upper-numbering filtration.** -/
-noncomputable def upperRamificationGroup [Algebra K L] [ValuativeExtension K L]
+/-- **Layer 3, the upper-numbering filtration** `G^u = G_{ψ(u)}`. Tau Ceti's
+`TauCeti.LocalFieldsRamification.upperRamificationGroup`, consumed by reducible alias; Tau Ceti
+proves `G^{φ(u)} = G_u` (`TauCeti.LocalFieldsRamification.upperRamificationGroup_herbrand`),
+antitonicity and normality. -/
+noncomputable abbrev upperRamificationGroup [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] [IsGalois K L] (u : RamificationIndexDomain) :
     Subgroup (L ≃ₐ[K] L) :=
-  lowerRamificationGroupReal K L (inverseHerbrand K L u : ℝ)
+  TauCeti.LocalFieldsRamification.upperRamificationGroup K L u
 
 /-- **Layer 3, the quotient filtration attached to a normal subgroup.** The use of
 `QuotientGroup.mk'` pins the direction of the map. -/
@@ -989,12 +1100,16 @@ theorem inverseHerbrand_tower
       (herbrandOrderIso K L).symm.trans (herbrandOrderIso L M).symm :=
   sorry
 
-/-- **Layer 3, integral inverse-Herbrand depth.** -/
+/-- **Layer 3, integral inverse-Herbrand depth**: `ψℕ_{L/K}(n) = ⌊ψ_{L/K}(n)⌋₊`, read on the
+canonical `inverseHerbrand`. The floor only moves the value into `ℕ`; the milestone is
+`coe_psiNat`, that `ψ_{L/K}(n)` is already a natural number, so that nothing is rounded. -/
 noncomputable def psiNat [Algebra K L] [ValuativeExtension K L]
-    [Module.Finite K L] [IsGalois K L] : ℕ → ℕ :=
-  sorry
+    [Module.Finite K L] [IsGalois K L] (n : ℕ) : ℕ :=
+  ⌊(inverseHerbrand K L
+    ⟨(n : ℝ), le_trans (by norm_num : (-1 : ℝ) ≤ 0) (Nat.cast_nonneg n)⟩ : ℝ)⌋₊
 
-/-- **Layer 3, characterization of the integral inverse-Herbrand depth.** -/
+/-- **Layer 3, characterization of the integral inverse-Herbrand depth**: `ψ_{L/K}(n)` is a
+natural number, equal to `psiNat K L n`. -/
 theorem coe_psiNat [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] [IsGalois K L] (n : ℕ) :
     (psiNat K L n : ℝ) =
@@ -1031,18 +1146,26 @@ noncomputable def normGradedMap [Algebra K L] [ValuativeExtension K L]
     UnitFiltrationGraded L (psiNat K L v) →* UnitFiltrationGraded K v :=
   sorry
 
-/-- **Layer 3, tame ramification.** The residue characteristic does not divide `e(L/K)`. -/
-def IsTamelyRamified [Algebra K L] [ValuativeExtension K L] [Module.Finite K L] : Prop :=
-  ¬ ringChar 𝓀[K] ∣ ramificationIndex K L
+/-- **Layer 3, tame ramification.** The residue characteristic does not divide `e(L/K)`
+(`TauCeti.isTamelyRamified_iff`). Tau Ceti's `TauCeti.IsTamelyRamified`
+(`TauCeti/NumberTheory/LocalField/RamificationIndex.lean`), consumed by reducible alias. -/
+abbrev IsTamelyRamified [Algebra K L] : Prop :=
+  TauCeti.IsTamelyRamified K L
 
-/-- **Layer 3, wild ramification.** The residue characteristic divides `e(L/K)`. -/
-def IsWildlyRamified [Algebra K L] [ValuativeExtension K L] [Module.Finite K L] : Prop :=
-  ringChar 𝓀[K] ∣ ramificationIndex K L
+/-- **Layer 3, wild ramification.** The residue characteristic divides `e(L/K)`
+(`TauCeti.isWildlyRamified_iff`), that is, `L/K` is not tamely ramified
+(`TauCeti.not_isTamelyRamified_iff`). Tau Ceti's `TauCeti.IsWildlyRamified`, consumed by reducible
+alias. -/
+abbrev IsWildlyRamified [Algebra K L] : Prop :=
+  TauCeti.IsWildlyRamified K L
 
-/-- **Layer 3, predicate for an upper-numbering jump.** -/
+/-- **Layer 3, an upper-numbering jump**: `u` is a jump of the upper filtration when
+`G^v ≠ G^u` for every `v > u` (Serre LF IV §3). The upper filtration is antitone, so this says
+that the group drops immediately after `u`. A nontrivial unramified extension has its only jump
+at `-1`. -/
 def UpperJump [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] [IsGalois K L] (u : RamificationIndexDomain) : Prop :=
-  sorry
+  ∀ v : RamificationIndexDomain, u < v → upperRamificationGroup K L v ≠ upperRamificationGroup K L u
 
 /-- **Layer 3, the tame prime-degree break at zero.** In a totally ramified Galois extension
 of prime degree, the graded norm at the tame break is the `ℓ`-th power map on residue units.
@@ -1137,30 +1260,41 @@ theorem addVal_sum_eisenstein_powerBasis [Algebra K L] [ValuativeExtension K L]
       ⨅ i, ramificationIndex K L • IsDiscreteValuationRing.addVal 𝒪[K] (c i) + (i : ℕ) :=
   sorry
 
-/-- **Layer 3, the local different exponent.** This is the multiplicity of the maximal ideal in
-Mathlib's relative different ideal; it is a local invariant, not the global relative
-discriminant owned by Number-Field Arithmetic #191. -/
-noncomputable def differentExponent [Algebra K L] [ValuativeExtension K L]
-    [Module.Finite K L] [Algebra.IsSeparable K L] : ℕ :=
-  multiplicity 𝓂[L] (differentIdeal 𝒪[K] 𝒪[L])
+/-- **Layer 3, the local different exponent** `d(L/K)`: the multiplicity of the maximal ideal of
+`𝒪[L]` in Mathlib's relative different ideal `differentIdeal 𝒪[K] 𝒪[L]`; it is a local invariant,
+not the global relative discriminant owned by Number-Field Arithmetic #191. Tau Ceti's
+`TauCeti.differentExponent` (`TauCeti/NumberTheory/LocalField/Different/Basic.lean`), consumed by
+reducible alias. It is defined for every compatible extension, and every theorem about it assumes
+`Algebra.IsSeparable K L`: for `L/K` separable, `differentIdeal 𝒪[K] 𝒪[L] = 𝓂[L] ^ d(L/K)`
+(`TauCeti.differentIdeal_eq_maximalIdeal_pow`). -/
+noncomputable abbrev differentExponent [Algebra K L] [ValuativeExtension K L] : ℕ :=
+  TauCeti.differentExponent K L
 
-/-- **Layer 3, the local discriminant ideal.** This is the relative norm to `𝒪[K]` of the local
-different. It is distinct from the different ideal and from the global relative discriminant
-package owned by #191. -/
-noncomputable def localDiscriminantIdeal [Algebra K L] [ValuativeExtension K L]
-    [Module.Finite K L] [Algebra.IsSeparable K L] : Ideal 𝒪[K] :=
-  sorry
+/-- **Layer 3, the local discriminant ideal** `𝔩(L/K)`, the relative norm to `𝒪[K]` of the local
+different (`TauCeti.discriminantIdeal_def`). It is distinct from the different ideal, which is an
+ideal of `𝒪[L]`, and from the global relative discriminant package owned by #191. Tau Ceti's
+`TauCeti.discriminantIdeal` (`TauCeti/NumberTheory/LocalField/Discriminant.lean`), consumed by
+reducible alias. -/
+noncomputable abbrev localDiscriminantIdeal [Algebra K L] [ValuativeExtension K L] :
+    Ideal 𝒪[K] :=
+  TauCeti.discriminantIdeal K L
 
-/-- **Layer 3, the local discriminant exponent** at the unique maximal ideal of the base. -/
-noncomputable def discriminantExponent [Algebra K L] [ValuativeExtension K L]
-    [Module.Finite K L] [Algebra.IsSeparable K L] : ℕ :=
-  multiplicity 𝓂[K] (localDiscriminantIdeal K L)
+/-- **Layer 3, the local discriminant exponent** `δ(L/K)`, the multiplicity of the maximal ideal of
+the base in `localDiscriminantIdeal K L` (`TauCeti.discriminantExponent_def`), so that
+`𝔩(L/K) = 𝓂[K] ^ δ(L/K)` (`TauCeti.discriminantIdeal_eq_maximalIdeal_pow`). Tau Ceti's
+`TauCeti.discriminantExponent`, consumed by reducible alias; separability is an argument of the
+definition. -/
+noncomputable abbrev discriminantExponent [Algebra K L] [ValuativeExtension K L]
+    [Algebra.IsSeparable K L] : ℕ :=
+  TauCeti.discriminantExponent K L
 
-/-- **Layer 3, comparison of local discriminant and different exponents.** -/
+/-- **Layer 3, comparison of local discriminant and different exponents**,
+`δ(L/K) = f(L/K) · d(L/K)`. Tau Ceti's
+`TauCeti.discriminantExponent_eq_inertiaDegree_mul_differentExponent`. -/
 theorem discriminantExponent_eq_inertiaDegree_mul_differentExponent
     [Algebra K L] [ValuativeExtension K L] [Module.Finite K L] [Algebra.IsSeparable K L] :
     discriminantExponent K L = inertiaDegree K L * differentExponent K L :=
-  sorry
+  TauCeti.discriminantExponent_eq_inertiaDegree_mul_differentExponent K L
 
 /-- **Layer 3, invariance of the different exponent under a `K`-isomorphism.** The unique
 extension of the valuation makes every `K`-algebra equivalence compatible with the maximal
@@ -1194,15 +1328,18 @@ theorem differentExponent_eq_finsum_lowerRamificationGroup [Algebra K L]
   sorry
 
 /-- **Layer 3, the sharp lower bound and its equality criterion.** For a finite separable local
-extension, `d(L/K) = e(L/K) - 1` exactly in the tame case; hence wild ramification forces
-`e(L/K) ≤ d(L/K)`. -/
+extension, `e(L/K) - 1 ≤ d(L/K)` (`TauCeti.ramificationIndex_sub_one_le_differentExponent`), with
+equality exactly in the tame case; hence wild ramification forces `e(L/K) ≤ d(L/K)`
+(`TauCeti.ramificationIndex_le_differentExponent_iff`). Tau Ceti's
+`TauCeti.differentExponent_eq_ramificationIndex_sub_one_iff`. -/
 theorem differentExponent_eq_ramificationIndex_sub_one_iff [Algebra K L]
     [ValuativeExtension K L] [Module.Finite K L] [Algebra.IsSeparable K L] :
     differentExponent K L = ramificationIndex K L - 1 ↔ IsTamelyRamified K L :=
-  sorry
+  TauCeti.differentExponent_eq_ramificationIndex_sub_one_iff K L
 
 /-- **Layer 3, wild different bounds.** The lower bound holds for every finite separable wild
-extension. The upper bound uses the nonvanishing of `e` in `L`, excluding the equal-characteristic
+extension, and is Tau Ceti's `TauCeti.ramificationIndex_le_differentExponent_iff`. The upper
+bound uses the nonvanishing of `e` in `L`, excluding the equal-characteristic
 case where its valuation is not finite. -/
 theorem differentExponent_bounds_of_wild [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] [Algebra.IsSeparable K L] (hwild : IsWildlyRamified K L)

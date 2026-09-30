@@ -43,7 +43,11 @@ Haar-measure calculations, and the mass formulas. It may define intermediate-fie
 but they must install this roadmap's canonical structures and reduce to its canonical invariants.
 
 Where a milestone below names a Tau Ceti declaration as its implementation, this roadmap's Lean
-name for it is a reducible alias of that declaration, and the milestone's statements are about it.
+name for it is a reducible alias of that declaration, or, where the hypotheses are packaged
+differently, an adapter that supplies Tau Ceti's hypothesis from this roadmap's (the Frobenius
+`frobeniusAlgEquiv` and the absolute ramification index `absoluteRamificationIndex`). The
+milestone's statements are about that declaration, and the ones Tau Ceti proves are closed proofs
+of its theorems.
 
 Conventions are fixed throughout: valuations are normalized additively by `v_K(π) = 1`;
 arithmetic Frobenius is primary and geometric Frobenius is its inverse; upper numbering is the
@@ -54,22 +58,26 @@ pro-`p` quotient.
 
 ### Layer 0: local fields and their finite extensions
 
-- **`ℚ_p` is a local field.** Prove `IsValuativeTopology ℚ_[p]`, that is, the valuation topology
-  is the norm topology, and derive `IsNonarchimedeanLocalField ℚ_[p]`, for every prime `p`. ⚠
+- **`ℚ_p` is a local field.** Mathlib proves `IsValuativeTopology ℚ_[p]`, that is, the valuation
+  topology is the norm topology, and the instance `IsNonarchimedeanLocalField ℚ_[p]`, for every
+  prime `p` (`Mathlib/NumberTheory/Padics/ValuativeRel.lean`,
+  `Mathlib/NumberTheory/Padics/LocalField.lean`). Tau Ceti compares the normalized valuation of the
+  next milestone with Mathlib's `p`-adic API: `Padic.toAdd_normalizedValuation_eq_valuation`,
+  `Padic.normalizedAbsoluteValue_eq_nnnorm` and `Padic.natCastValuation_eq_padicValNat`
+  (`TauCeti/NumberTheory/LocalField/Padic.lean`). The milestone is the rest of the API below. ⚠
   Instance hygiene: `ℚ_[p]` carries a metric `UniformSpace`. Its compatibility with
   `IsTopologicalAddGroup.rightUniformSpace` must be a lemma, and not an accident of unification,
   or the `CompleteSpace` instances will not fire.
   - *Prerequisites:*
     - `Mathlib: Padic.mulValuation` and the instances of
-      `Mathlib/NumberTheory/Padics/ValuativeRel.lean`;
+      `Mathlib/NumberTheory/Padics/ValuativeRel.lean` and
+      `Mathlib/NumberTheory/Padics/LocalField.lean`;
     - `Mathlib: IsNonarchimedeanLocalField`.
   - *API:*
-    - the instance itself;
     - the compatibility lemma for the two uniformities;
-    - agreement of `Padic.valuation` with the normalized valuation of the next milestone;
     - `IsNonarchimedeanLocalField ℤ_[p]`-facing corollaries, that is `CompactSpace ℤ_[p]` and
       `IsAdicComplete`;
-    - the same instance for a finite extension of `ℚ_[p]`, through Layer 0.III.
+    - the same structure for a finite extension of `ℚ_[p]`, through Layer 0.III.
 - **The normalized valuation.** Define `v_K^× : Kˣ →* Multiplicative ℤ` through
   `valueGroupWithZeroIsoInt` and `WithZero.log`, and extend it across zero with `ℤᵐ⁰`. Prove the
   uniformizer equation `v_K^×(π) = Multiplicative.ofAdd 1`, surjectivity, and that `v_K^×(x) = 1`
@@ -178,7 +186,25 @@ pro-`p` quotient.
   multiplicativity of each in a tower; and the comparison lemmas with `Ideal.ramificationIdx` and
   `Ideal.inertiaDeg`. The comparison needs one bridging fact, proved once: at a local field
   `primesOver 𝓂[K] 𝒪[L]` is the singleton `{𝓂[L]}`. Do not re-derive the Dedekind theory here, and
-  do not force a consumer through the `sSup` in `Ideal.ramificationIdx`.
+  do not force a consumer through the `sSup` in `Ideal.ramificationIdx`. Tau Ceti implements both
+  invariants and this theory: `TauCeti.ramificationIndex` with its characteristic property
+  `TauCeti.normalizedValuation_algebraMap`, the uniqueness `TauCeti.ramificationIndex_eq_iff`, the
+  value on every uniformizer `TauCeti.normalizedValuation_algebraMap_irreducible`, positivity
+  `TauCeti.ramificationIndex_pos`, the comparison `TauCeti.ramificationIndex_eq_ramificationIdx` and
+  the tower law `TauCeti.ramificationIndex_tower`
+  (`TauCeti/NumberTheory/LocalField/RamificationIndex.lean`); and `TauCeti.inertiaDegree` with
+  `TauCeti.natCard_residueField`, `TauCeti.inertiaDegree_pos`,
+  `TauCeti.primesOver_maximalIdeal_eq_singleton`, `TauCeti.inertiaDegree_eq_inertiaDeg`, the
+  product formula `TauCeti.ramificationIndex_mul_inertiaDegree` and `TauCeti.inertiaDegree_tower`
+  (`TauCeti/NumberTheory/LocalField/InertiaDegree.lean`). This roadmap's `ramificationIndex` and
+  `inertiaDegree` are reducible aliases of the two definitions, and its
+  `normalizedValuation_algebraMap`, `card_residueField` and `ramificationIndex_mul_inertiaDegree`
+  are closed proofs of Tau Ceti's theorems. `TauCeti.ramificationIndex` reads only the normalized
+  valuation of `L` and the algebra map, and every theorem about it assumes
+  `ValuativeExtension K L`. The total-ramification predicate
+  `IsTotallyRamified K L`, that is `ramificationIndex K L = Module.finrank K L`, is defined here on
+  that object, and `isTotallyRamified_iff_inertiaDegree_eq_one` is a closed proof from the product
+  formula.
   - *Prerequisites:*
     - `Layer 0: the normalized valuation`;
     - `Layer 0: finite extensions, III`;
@@ -208,7 +234,19 @@ pro-`p` quotient.
   its vanishing criterion are Tau Ceti's `TauCeti.natCastValuation`,
   `TauCeti.normalizedValuation_natCast` and `TauCeti.natCastValuation_eq_zero_iff`
   (`TauCeti/NumberTheory/LocalField/NatCastValuation.lean`), consumed by reducible alias and closed
-  proof.
+  proof. The absolute ramification index is Tau Ceti's `TauCeti.absoluteRamificationIndex`
+  (`TauCeti/NumberTheory/LocalField/AbsoluteRamificationIndex.lean`), which bundles
+  `[Algebra ℚ_[p] K] [ValuativeExtension ℚ_[p] K] [Module.Finite ℚ_[p] K]` as the class
+  `TauCeti.FinitePadicExtension K p`, supplied from the three instances by
+  `TauCeti.FinitePadicExtension.ofInstances`. This roadmap's `absoluteRamificationIndex` takes the
+  three instances separately, as every statement below does, and its value is Tau Ceti's
+  declaration at that instance. Tau Ceti proves the comparison
+  `TauCeti.absoluteRamificationIndex_eq_natCastValuation`, of which this roadmap's
+  `absoluteRamificationIndex_eq_natCastValuation` is a closed proof, together with positivity
+  `TauCeti.absoluteRamificationIndex_pos`, multiplicativity
+  `TauCeti.absoluteRamificationIndex_tower` and the values `e_{ℚ_p} = 1`
+  (`TauCeti.absoluteRamificationIndex_padic`) and
+  `natCastValuation ℚ_[p] 2 = 0` for odd `p` (`Padic.natCastValuation_two`).
   - *Prerequisites:*
     - `Layer 0: the normalized valuation`;
     - `Layer 0: e and f, intrinsically`, for the comparison below.
@@ -242,7 +280,13 @@ pro-`p` quotient.
   `TauCeti.hasBasis_nhds_one_unitFiltration`, in
   `TauCeti/NumberTheory/LocalField/UnitFiltration/Basic.lean`), and the graded pieces
   `U(K,i)/U(K,i+1)` as `TauCeti.UnitFiltrationGraded`; this roadmap's `unitFiltration` and
-  `UnitFiltrationGraded` are reducible aliases of them.
+  `UnitFiltrationGraded` are reducible aliases of them. The rest of the API below is Tau Ceti's as
+  well: `U(K,0) = 𝒪[K]ˣ` (`TauCeti.unitFiltration_zero`,
+  `TauCeti.unitFiltrationZeroEquivIntegerUnits`), stability under automorphisms
+  (`AlgEquiv.smul_unitFiltration`), the indices (`TauCeti.relIndex_unitFiltration_one_zero`,
+  `TauCeti.relIndex_unitFiltration_succ_succ`) and the covariant contract
+  (`TauCeti.map_unitFiltration_le`, of which this roadmap's `map_unitFiltration_le` is a closed
+  proof). The norm contract is a milestone of Layer 3.
   - *Prerequisites:*
     - `Layer 0: the normalized valuation`;
     - `Mathlib: Subgroup`, `Valuation`.
@@ -262,7 +306,14 @@ pro-`p` quotient.
 - **Graded pieces.** Prove `U(K,0)/U(K,1) ≃* 𝓀[K]ˣ` by reduction, and, for `i ≥ 1`,
   `U(K,i)/U(K,i+1) ≃* 𝓀[K]⁺` through `1 + x ↦ x mod 𝓂^{i+1}`. The counts `q − 1` and `q` are
   corollaries. ⚠ The depth-zero piece is multiplicative and the deeper pieces are additive. The
-  two isomorphisms stay separate, and do not combine into one statement.
+  two isomorphisms stay separate, and do not combine into one statement. Tau Ceti implements both
+  isomorphisms and both counts: `TauCeti.unitFiltrationGradedZeroEquivResidueFieldUnits`
+  (`TauCeti/NumberTheory/LocalField/UnitFiltration/Basic.lean`),
+  `TauCeti.unitFiltrationGradedSuccEquivResidueFieldOfUniformizer` with its change of uniformizer
+  `TauCeti.unitFiltrationGradedSuccEquivResidueFieldOfUniformizer_change`
+  (`UnitFiltration/Uniformizer.lean`), and `TauCeti.natCard_unitFiltrationGraded_zero`,
+  `TauCeti.natCard_unitFiltrationGraded_succ`. The compatibility with the embeddings `θ_i` is the
+  remaining item.
   - *Prerequisites:*
     - `Layer 1: the unit filtration as an object`;
     - `Layer 0: the normalized valuation`.
@@ -277,9 +328,19 @@ pro-`p` quotient.
   - *Source:* Serre LF IV §2; Neukirch ANT II §3 and II §5.
 - **Teichmüller.** Define the multiplicative section `ω : 𝓀[K]ˣ →* 𝒪[K]ˣ` of the reduction map.
   Characterize it as the unique section whose image consists of `(q−1)`-torsion elements, and
-  prove `μ_{q−1}(K) ≅ 𝓀[K]ˣ`. That characterization is the public statement. Whether the proof
-  uses `Perfection.teichmuller₀`, since a finite field is perfect and `𝒪[K]` is `𝓂[K]`-adically
-  complete, or Hensel's lemma applied to `X^{q−1} − 1`, is an implementation note.
+  prove `μ_{q−1}(K) ≅ 𝓀[K]ˣ`. That characterization is the public statement. Tau Ceti implements
+  it for every Henselian local ring with finite residue field, as `TauCeti.teichmuller 𝒪[K]`
+  (`TauCeti/RingTheory/Henselian/Teichmuller.lean`; `𝒪[K]` is Henselian by
+  `TauCeti.henselianLocalRing_integer`), with the section property
+  `TauCeti.unitsMap_residue_teichmuller`, the characterization `TauCeti.teichmuller_eq_iff`, the
+  uniqueness among multiplicative sections `TauCeti.eq_teichmuller`, injectivity
+  `TauCeti.teichmuller_injective`, the image `TauCeti.range_teichmuller`, and
+  `μ_{q−1}(K) ≃* 𝓀[K]ˣ` as `TauCeti.rootsOfUnityAlgebraMulEquivUnitsResidueField 𝒪[K] K`. Its
+  zero-preserving extension `TauCeti.teichmullerLift` comes from `Perfection.teichmuller₀`, and
+  commutes with automorphisms of a finite extension (`AlgEquiv.smul_teichmullerLift`) and with
+  Frobenius (`TauCeti.frobeniusAlgEquiv_teichmullerLift`). This roadmap's `teichmuller` is a
+  reducible alias of `TauCeti.teichmuller 𝒪[K]`, and `teichmuller_section` is a closed proof; the
+  worked values below remain.
   - *Prerequisites:*
     - `Mathlib: Perfection.teichmuller₀`, `HenselianLocalRing`, `IsAdicComplete 𝓂[K] 𝒪[K]`;
     - `Layer 1: graded pieces`.
@@ -296,7 +357,14 @@ pro-`p` quotient.
   quotient of `U(K,1)` is a `p`-group. This is exactly the predicate
   `ProfiniteProPGroups.IsProP p (U(K,1))`, so the two statements are the same statement and not
   two rephrasings. Prove that the torsion subgroup
-  `μ(K)` is finite.
+  `μ(K)` is finite. Tau Ceti implements the two isomorphisms, on `U(K,0) = 𝒪[K]ˣ`, as
+  `TauCeti.unitsEquivIntProd` and `TauCeti.unitFiltrationZeroEquivProd`
+  (`TauCeti/NumberTheory/LocalField/UnitsDecomposition.lean`), with the uniqueness of the
+  decomposition `TauCeti.existsUnique_eq_zpow_mul`, the change of uniformizer
+  `TauCeti.coe_unitsEquivIntProd_apply_snd_eq_mul`, the kernel and continuity of `v_K`
+  (`TauCeti.ker_normalizedValuation`, `TauCeti.continuous_normalizedValuation`) and its splitting
+  `TauCeti.normalizedValuation_comp_zpowersHom`. The pro-`p` statement and the statements about
+  `μ(K)` remain.
   - *Prerequisites:*
     - `Layer 1: the unit filtration as an object`;
     - `Layer 1: Teichmüller`;
@@ -348,7 +416,16 @@ pro-`p` quotient.
   `p ∣ n`; the deep-unit logarithm supplies the `p`-primary factor. Finiteness of the quotient
   follows from the formula and is exported separately as
   `finiteIndex_range_powMonoidHom_of_isUnit` or `finiteIndex_range_powMonoidHom`, so downstream
-  declarations can consume a `Subgroup.FiniteIndex` proof without reconstructing it.
+  declarations can consume a `Subgroup.FiniteIndex` proof without reconstructing it. Tau Ceti
+  implements regime 1: the count `TauCeti.card_powerClasses_of_isUnit`, the vanishing
+  `TauCeti.natCastValuation_eq_zero_of_isUnit`, finite index
+  `TauCeti.finiteIndex_range_powMonoidHom_of_isUnit` and the count `4`
+  `TauCeti.card_squareClasses_of_isUnit` (`TauCeti/NumberTheory/LocalField/PowerSubgroup.lean`), and
+  the identification of the two spellings of the square classes,
+  `TauCeti.square_eq_powMonoidHom_two_range`. This roadmap's `card_powerClasses_of_isUnit`,
+  `finiteIndex_range_powMonoidHom_of_isUnit`, `card_squareClasses_of_isUnit` and
+  `square_eq_range_powMonoidHom` are closed proofs of them. Regime 2, the dyadic count and the
+  worked example are the remaining milestones.
   - *Prerequisites:*
     - `Layer 1: structure of Kˣ`;
     - `Layer 1: deep units in mixed characteristic` (regime 2 only);
@@ -405,6 +482,13 @@ pro-`p` quotient.
   A subgroup of a topological group that contains an open subgroup is open, and is therefore
   closed. In this application finite index is a separate consequence of
   `card_powerClasses_of_isUnit` or `card_powerClasses_mixed`; it does not follow from openness.
+  Tau Ceti implements regime 1: `TauCeti.isOpen_range_powMonoidHom_of_isUnit`, with the
+  containment `TauCeti.unitFiltration_one_le_range_powMonoidHom_of_isUnit`, closedness
+  `TauCeti.isClosed_range_powMonoidHom_of_isUnit`, and the corollary for subgroups
+  `TauCeti.isOpen_of_isUnit_exponent` and `TauCeti.isOpen_of_isUnit_index`; this roadmap's
+  `isOpen_range_powMonoidHom_of_isUnit` is a closed proof. It also proves the case `n = 2` in every
+  characteristic other than `2`, `TauCeti.isOpen_range_powMonoidHom_two`, from the local square
+  theorem below. Regime 2 for general `n` remains.
   - *Prerequisites:*
     - `Layer 1: the unit filtration as an object`;
     - `Layer 1: deep units in mixed characteristic` (regime 2 only);
@@ -447,6 +531,17 @@ pro-`p` quotient.
   `c = t + t²`, so `1 + 4c` is a square exactly when the residue of `c` lies in the image of `℘`,
   and any `c` outside it is a witness. At `K = ℚ_2` the witness is `5`: `U(K,3) = 1 + 8ℤ_2`
   consists of squares while `U(K,2) = 1 + 4ℤ_2` does not.
+
+  Tau Ceti implements both halves and the two-sided consequence for every nonarchimedean local
+  field in which `2 ≠ 0`, indexed by `natCastValuation K 2 h2`, which is `0` in odd residue
+  characteristic: `TauCeti.unitFiltration_le_range_powMonoidHom_two`,
+  `TauCeti.not_unitFiltration_le_range_powMonoidHom_two` and
+  `TauCeti.unitFiltration_le_range_powMonoidHom_two_iff`
+  (`TauCeti/NumberTheory/LocalField/Squares.lean`). This roadmap's uniformly indexed
+  `unitFiltration_natCastValuation_le_range_powMonoidHom_two` and
+  `not_unitFiltration_natCastValuation_le_range_powMonoidHom_two` are those theorems, and its
+  `ℚ_2`-indexed statements are closed proofs from them through
+  `absoluteRamificationIndex_eq_natCastValuation`.
   - *Prerequisites:*
     - `Layer 1: deep units in mixed characteristic`;
     - `Layer 1: the unit filtration as an object`;
@@ -469,7 +564,15 @@ pro-`p` quotient.
   it in the definition, so that the statement matches the general definition for valued fields and
   survives generalization. Compare the predicate once, as a theorem, with `Algebra.IsUnramifiedAt`
   and `Algebra.FormallyUnramified` over `𝒪[K]`, so that the étale library becomes usable. Do not
-  redefine those notions.
+  redefine those notions. Tau Ceti implements the predicate as the class `TauCeti.IsUnramified K L`
+  (`TauCeti/NumberTheory/LocalField/Unramified.lean`), with the equivalence with `e = 1`
+  (`TauCeti.isUnramified_iff_ramificationIndex_eq_one`), the value-group, valuation, ideal and
+  degree forms, tameness (`TauCeti.IsUnramified.isTamelyRamified`), stability in towers in both
+  directions (`TauCeti.isUnramified_tower_iff`) and the comparison theorems
+  `TauCeti.isUnramified_iff_formallyUnramified` and `TauCeti.isUnramified_iff_isUnramifiedAt`. This
+  roadmap states unramifiedness as `ramificationIndex K L = 1` and passes to the class through
+  `TauCeti.isUnramified_iff_ramificationIndex_eq_one` wherever a Tau Ceti theorem asks for it.
+  Composita, base change and the negative instance remain.
   - *Prerequisites:*
     - `Layer 0: e and f, intrinsically`;
     - `Mathlib: Algebra.IsUnramifiedAt`, `Algebra.FormallyUnramified`.
@@ -490,7 +593,17 @@ pro-`p` quotient.
   that declaration, and never at an arbitrary generator of `Gal(L/K)`: a cyclic group of order
   `f > 2` has generators that are not Frobenius, so the equation pinned by
   `ClassFieldTheory.normResidue_uniformizer` would be strictly weaker if stated at an arbitrary
-  generator.
+  generator. Tau Ceti implements the correspondence and the Frobenius
+  (`TauCeti/NumberTheory/LocalField/ResidueCorrespondence.lean`, `Frobenius.lean`):
+  `TauCeti.residueFieldAutEquiv`, `TauCeti.frobeniusAlgEquiv` under the class
+  `TauCeti.IsUnramified K L`, its order `TauCeti.orderOf_frobeniusAlgEquiv`, generation
+  `TauCeti.zpowers_frobeniusAlgEquiv`, the congruence `TauCeti.valuation_frobeniusAlgEquiv_sub_pow`
+  and the uniqueness it gives, `TauCeti.eq_frobeniusAlgEquiv_of_valuation_sub_pow_lt_one`,
+  functoriality `TauCeti.frobeniusAlgEquiv_restrictNormal`, the compatibility with the Teichmüller
+  lift `TauCeti.frobeniusAlgEquiv_teichmullerLift` and the action on roots of unity
+  `TauCeti.frobeniusAlgEquiv_rootsOfUnity`. This roadmap's `frobeniusAlgEquiv K L h`, with
+  `h : ramificationIndex K L = 1`, is `TauCeti.frobeniusAlgEquiv` with the class supplied from `h`,
+  and `valuation_frobeniusAlgEquiv_sub_pow` is a closed proof; the worked case remains.
   - *Prerequisites:*
     - `Layer 2: the arithmetic predicate`;
     - `Layer 0: finite extensions, II`;
@@ -561,7 +674,15 @@ pro-`p` quotient.
   of the statement that units are universal norms in the unramified direction. It is consumed by
   `ClassFieldTheory.normResidue` and the finite-Tate package `ClassFieldTheory.tateH`. ⚠ `f` here
   is the residue degree `inertiaDegree K L` of Layer 0, and the
-  letter is never reused for a conductor.
+  letter is never reused for a conductor. Tau Ceti implements all three: the norm group
+  `TauCeti.normGroup K L`, the range of the norm on units `TauCeti.Algebra.normUnits K`
+  (`TauCeti/RingTheory/Norm/Units.lean`); the valuation identity `TauCeti.normalizedValuation_norm`
+  (`TauCeti/NumberTheory/LocalField/Norm/Basic.lean`); and, under the class
+  `TauCeti.IsUnramified K L`, `TauCeti.map_normUnits_unitFiltration_zero` and
+  `TauCeti.mem_normGroup_iff_dvd_normalizedValuation` (`Norm/Unramified.lean`). This roadmap's
+  `normGroup` is a reducible alias, and
+  `map_norm_unitFiltration_zero` and `mem_normGroup_iff_dvd_normalizedValuation` are closed proofs,
+  with the class supplied from `e = 1` as for the Frobenius; the worked cases remain.
   - *Prerequisites:*
     - `Layer 2: residue correspondence`;
     - `Layer 1: graded pieces`;
@@ -598,7 +719,10 @@ pro-`p` quotient.
     - the degree of `L_0/K`, which is `f`;
     - the behaviour of the factorization in a tower.
 - **Tame and wild.** Define `IsTamelyRamified K L` by `p ∤ e` and `IsWildlyRamified K L` by
-  `p ∣ e`, where `p` is the residue characteristic. Reserve *totally wildly ramified* for the
+  `p ∣ e`, where `p` is the residue characteristic. These are Tau Ceti's `TauCeti.IsTamelyRamified`
+  and `TauCeti.IsWildlyRamified` (`TauCeti/NumberTheory/LocalField/RamificationIndex.lean`), with
+  `TauCeti.not_isTamelyRamified_iff` and `TauCeti.isTamelyRamified_iff_natCast_ne_zero`, and this
+  roadmap's two predicates are reducible aliases of them. Reserve *totally wildly ramified* for the
   stronger conjunction that `L/K` is totally ramified and `e` is a power of `p`. The public
   theorem about tame extensions is:
 
@@ -740,7 +864,19 @@ pro-`p` quotient.
   equalities on the mathematical domain, and no theorem makes an arbitrary claim below `-1`.
   A global wrapper may be added only after its value below `-1` is fixed explicitly. Prove that
   `ψ` carries the jumps of the upper filtration to the jumps of the lower one. The upper numbering
-  is `G^u := G_{ψ(u)}`, with the real-index groups above.
+  is `G^u := G_{ψ(u)}`, with the real-index groups above. Tau Ceti implements the definitions and
+  the analytic facts in `TauCeti/NumberTheory/LocalField/Herbrand.lean`, in the namespace
+  `TauCeti.LocalFieldsRamification`: `RamificationIndexDomain`, `herbrandOrderIso`, `herbrand` and
+  `inverseHerbrand`, with the integral formula `coe_herbrand`, the finite-sum formula
+  (`coe_herbrand_of_mem_Icc`, `coe_herbrand_of_coe_eq_natCast`), continuity and strict
+  monotonicity (`continuous_herbrand`, `herbrand_strictMono` and their counterparts for `ψ`),
+  concavity (`herbrand_slope_anti_adjacent`), the identity on `[-1, 0]`
+  (`herbrand_of_coe_le_zero`, `inverseHerbrand_of_coe_le_zero`), `herbrand_inverseHerbrand` and
+  `inverseHerbrand_herbrand`; and the upper numbering `upperRamificationGroup`, with
+  `G^{φ(u)} = G_u` (`upperRamificationGroup_herbrand`), antitonicity and normality. This roadmap's
+  names are reducible aliases of these definitions and its two inversion theorems are closed
+  proofs. The image of a jump, the quotient theorem and its field-theoretic corollary, tower
+  transitivity and the worked computation remain.
 
   State the abstract quotient theorem first. Let `M/K` be finite Galois, put
   `G = Gal(M/K)`, let `H ≤ G` be normal, and equip `G ⧸ H` with the quotient filtration. Then
@@ -774,10 +910,12 @@ pro-`p` quotient.
   - *Source:* Serre LF IV §3.
 - **Herbrand values as unit depths.** `φ` takes non-integral values at integers: in `ℚ_2(μ_8)/ℚ_2`
   below, `φ(2) = 3/2`. Its inverse does not. Prove that `ψ_{L/K}(n)` is a natural number for every
-  `n : ℕ`, and package the proof as `ψℕ_{L/K} : ℕ → ℕ`, with the characterizing lemma
-  `(ψℕ_{L/K} n : ℝ) = ψ_{L/K} n`. This is the only conversion from a Herbrand value to a unit
-  depth in this roadmap. Every index of `U(K, −)` and of `U(L, −)` below is a literal natural
-  number or a value of `ψℕ`, and `φ` never indexes a unit group. The proof is the piecewise
+  `n : ℕ`. The integral depth `ψℕ_{L/K} : ℕ → ℕ` (`psiNat`) is `n ↦ ⌊ψ_{L/K}(n)⌋₊`, read on the
+  canonical `inverseHerbrand`, and the integrality is its characterizing lemma
+  `(ψℕ_{L/K} n : ℝ) = ψ_{L/K} n` (`coe_psiNat`): the floor rounds nothing. This is the only
+  conversion from a Herbrand value to a unit depth in this roadmap. Every index of `U(K, −)` and
+  of `U(L, −)` below is a literal natural number or a value of `ψℕ`, and `φ` never indexes a unit
+  group. The proof is the piecewise
   formula with Lagrange's theorem: write `g_i = #G_i`, and take `t` to be the largest jump with
   `φ(t) ≤ n`; then `ψ(n) = t + (g_0·n − ∑_{i=1}^{t} g_i) / g_{t+1}`, and `g_{t+1}` divides `g_0`
   and every `g_i` with `i ≤ t`, because the filtration is decreasing.
@@ -801,7 +939,9 @@ pro-`p` quotient.
      for `x : Lˣ`. Therefore `N_{L/K}(𝒪[L]ˣ) ⊆ 𝒪[K]ˣ`, which is `N_{L/K}(U(L,0)) ⊆ U(K,0)`. If
      `L/K` is totally ramified, `N_{L/K}(π_L)` is a uniformizer of `K`. This is the basic API of
      the norm at a local field. The last part fixes the coordinate on the target of the graded
-     maps in item 4.
+     maps in item 4. Tau Ceti implements this item: `TauCeti.normalizedValuation_norm`,
+     `TauCeti.map_normUnits_unitFiltration_zero_le` and, for the uniformizer,
+     `TauCeti.isUniformizer_normUnits_iff` (`TauCeti/NumberTheory/LocalField/Norm/Basic.lean`).
   2. *The Herbrand-shifted inclusion, for `L/K` finite Galois.*
      `N_{L/K}(U(L, ψℕ_{L/K}(i))) ⊆ U(K, i)` for every `i : ℕ`. Both depths are natural numbers,
      because `ψℕ` is. The unshifted corollary is `N_{L/K}(U(L,i)) ⊆ U(K, ⌊φ_{L/K}(i)⌋)`, which
@@ -857,7 +997,9 @@ pro-`p` quotient.
     `normGradedMap`, `normGradedMap_tame_break_zero`, `normGradedMap_zero_before_break`,
     `normGradedMap_positive_before_break`, and `normGradedMap_at_break`.
 - **Hasse–Arf.** For a finite abelian Galois extension `L/K`, the jumps of the upper-numbering
-  filtration are integers. The proof contract includes the induction chain, not merely the phrase
+  filtration are integers. A jump is a `u` with `G^v ≠ G^u` for every `v > u` (Serre LF IV §3),
+  defined as `UpperJump K L u` on the upper filtration `upperRamificationGroup` of the preceding
+  milestone. The proof contract includes the induction chain, not merely the phrase
   “reduce to cyclic prime degree”:
   1. prove the unique-break and conductor calculation for cyclic extensions of prime degree;
   2. choose a prime-order normal quotient series for the finite abelian group;
@@ -875,9 +1017,9 @@ pro-`p` quotient.
   - *Source:* Serre LF V §7. The hypothesis is that `G` is abelian. *False generalization:* for
     `G` non-abelian the jumps of the upper numbering need not be integers; the quaternion
     extension in Serre LF IV §3, exercise 3, is the standard witness.
-- **The different and the discriminant.** Let `L/K` be finite separable. Define the different
-  `𝔡_{L/K} ⊆ 𝒪[L]` from the trace form, as the inverse of the trace dual of `𝒪[L]`. Compare it
-  with `differentIdeal` of Mathlib. Define the discriminant `𝔩_{L/K} = N_{L/K}(𝔡_{L/K}) ⊆ 𝒪[K]`,
+- **The different and the discriminant.** Let `L/K` be finite separable. The different
+  `𝔡_{L/K} ⊆ 𝒪[L]` is Mathlib's `differentIdeal 𝒪[K] 𝒪[L]`, the inverse of the trace dual of
+  `𝒪[L]`. Define the discriminant `𝔩_{L/K} = N_{L/K}(𝔡_{L/K}) ⊆ 𝒪[K]`,
   which is an ideal of the base. The two are not to be conflated. Define the local different
   exponent `d(L/K) := v_L(𝔡_{L/K})` and the local discriminant exponent
   `δ(L/K) := v_K(𝔩_{L/K})`; prove `δ(L/K) = f(L/K) d(L/K)`. Both exponents and both ideals are
@@ -892,13 +1034,29 @@ pro-`p` quotient.
   `ℚ_2(i)/ℚ_2` has `d = e = 2`, while `ℚ_2(√2)/ℚ_2` has
   `d = 3 = e − 1 + natCastValuation L e he`. The trace-dual definition comes before the valuation formula, which
   needs `L/K` Galois; the bounds and tame equality criterion do not.
+
+  Tau Ceti implements the discriminant ideal and both exponents, `TauCeti.discriminantIdeal`,
+  `TauCeti.differentExponent` and `TauCeti.discriminantExponent`
+  (`TauCeti/NumberTheory/LocalField/Different/Basic.lean`, `Discriminant.lean`), with
+  `𝔡_{L/K} = 𝓂[L]^{d(L/K)}` (`TauCeti.differentIdeal_eq_maximalIdeal_pow`),
+  `𝔩_{L/K} = 𝓂[K]^{δ(L/K)}` (`TauCeti.discriminantIdeal_eq_maximalIdeal_pow`), the product formula
+  `TauCeti.discriminantExponent_eq_inertiaDegree_mul_differentExponent`, the unramified criteria
+  `TauCeti.differentIdeal_eq_top_iff` and `TauCeti.discriminantIdeal_eq_top_iff`, the tame equality
+  criterion `TauCeti.differentExponent_eq_ramificationIndex_sub_one_iff`, the wild lower bound
+  `TauCeti.ramificationIndex_le_differentExponent_iff`, and multiplicativity in a tower,
+  `TauCeti.differentExponent_tower` (`Different/Tower.lean`). This roadmap's `differentExponent`,
+  `localDiscriminantIdeal` and `discriminantExponent` are reducible aliases of them, and its
+  product formula and tame criterion are closed proofs. `TauCeti.differentExponent` is defined for
+  every compatible extension and its theorems assume `Algebra.IsSeparable K L`;
+  `TauCeti.discriminantExponent` takes separability as an argument of the definition. The
+  invariance under `K`-isomorphism, the Hilbert formula, the mixed-characteristic upper bound and
+  the worked value remain.
   - *Prerequisites:*
     - `Mathlib: differentIdeal`, `Mathlib/RingTheory/Trace/`;
     - `Layer 3: the lower-numbering filtration`;
     - `Layer 0: finite extensions, III`.
   - *API:*
     - the two ideals;
-    - the comparison lemma with `differentIdeal`;
     - `discriminantExponent` and
       `discriminantExponent_eq_inertiaDegree_mul_differentExponent`;
     - `differentExponent_eq_of_algEquiv` and `discriminantExponent_eq_of_algEquiv`;
@@ -1260,10 +1418,10 @@ The declaration-level overlap is:
 | LeanBridge declarations at the audited revision | Roadmap destination and disposition |
 |---|---|
 | `PadicField.ringOfIntegers`, `PadicField.valuation`, `valuation_le_one_iff_isIntegral`, `ringEquiv_valuation_integer`, and the `ValuativeRel`, `IsValuativeTopology`, and `IsNonarchimedeanLocalField` instances | Adapt the proofs to the roadmap's `ValuativeRel`, `ValuativeExtension`, `𝒪[K]`, and `IsNonarchimedeanLocalField` carriers. The bespoke `PadicField` class is not exported. |
-| `PadicField.Extension.ramificationIdx`, `absoluteRamificationIndex`, `inertiaDeg`, `absoluteRamificationIndex_eq`, `ramificationIdx_mul_inertiaDeg`, and `map_maximalIdeal_eq_pow_ramificationIdx` | Reuse or adapt the ideal-theoretic proofs behind `ramificationIndex`, `absoluteRamificationIndex`, `inertiaDegree`, their tower law, and `e f = [L:K]`; replace the LeanBridge carriers by the intrinsic valuative contracts here. |
+| `PadicField.Extension.ramificationIdx`, `absoluteRamificationIndex`, `inertiaDeg`, `absoluteRamificationIndex_eq`, `ramificationIdx_mul_inertiaDeg`, and `map_maximalIdeal_eq_pow_ramificationIdx` | Tau Ceti implements these destinations on the valuative carriers (`TauCeti.ramificationIndex`, `TauCeti.absoluteRamificationIndex`, `TauCeti.inertiaDegree`, their tower laws, `TauCeti.ramificationIndex_mul_inertiaDegree` and `TauCeti.map_maximalIdeal_eq_maximalIdeal_pow`); nothing is ported. |
 | `mono_exists_primitive` and its supporting Newton-lift declarations | Adapt to `exists_integerRing_adjoin_eq_top` on `𝒪[K] → 𝒪[L]`; do not expose the generic helper namespace as a second local-field API. |
 | `TraceFiltration.intTrace_residue_scaling` | Reuse or adapt as the residue-trace input to tame/wild different bounds, behind the public different theorems. |
-| `PadicField.Extension.differentExponent`, `ramificationIdx_sub_one_le_differentExponent`, `ramificationIdx_le_differentExponent_of_dvd`, `differentExponent_tame`, `discExponent_eq_inertiaDeg_mul_differentExponent`, and `discExponent_tame` | Adapt the proofs to the separability-qualified `differentExponent` and the roadmap's intrinsic `e` and `f`; keep the global discriminant consequences in [the Number-Field Arithmetic roadmap](../NumberFieldArithmetic/README.md). |
+| `PadicField.Extension.differentExponent`, `ramificationIdx_sub_one_le_differentExponent`, `ramificationIdx_le_differentExponent_of_dvd`, `differentExponent_tame`, `discExponent_eq_inertiaDeg_mul_differentExponent`, and `discExponent_tame` | Tau Ceti implements these destinations (`TauCeti.differentExponent`, `TauCeti.ramificationIndex_sub_one_le_differentExponent`, `TauCeti.ramificationIndex_le_differentExponent_iff`, `TauCeti.differentExponent_eq_ramificationIndex_sub_one_iff`, `TauCeti.discriminantExponent_eq_inertiaDegree_mul_differentExponent` and `TauCeti.discriminantExponent_eq_inertiaDegree_mul_ramificationIndex_sub_one_iff`); nothing is ported. The global discriminant consequences stay in [the Number-Field Arithmetic roadmap](../NumberFieldArithmetic/README.md). |
 
 For every adapted proof, the implementation record must identify the LeanBridge declaration and
 revision or say explicitly that the proof was replaced. Regardless of implementation source,
