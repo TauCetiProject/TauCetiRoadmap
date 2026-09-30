@@ -1972,7 +1972,11 @@ It does not contain:
 - a forward reference: the file's section order is the layer order of §4, and no declaration
   mentions a name introduced below it;
 - a `sorry` inside a statement: every missing map used in a statement is a named `sorry`
-  definition with its own docstring.
+  definition with its own docstring;
+- a `sorry` definition that has lost a hypothesis its type needs. A `sorry` body drops every
+  section variable its header does not mention, so `invMap`, `localClassFormation`,
+  `localAbelianGaloisEquiv` and `localWeilArtinEquiv`, which are false over an arbitrary field or
+  an arbitrary topology, bind the local-field structure in their headers.
 
 The derived Artin definitions are ordinary definitions with bodies rather than opaque `sorry`
 declarations. This makes the eventual target definitionally equal to the inverse of the

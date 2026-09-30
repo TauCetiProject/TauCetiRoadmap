@@ -998,8 +998,11 @@ theorem natCard_h2_units_le_finrank [Algebra K L] [ValuativeExtension K L] [Modu
 /-- Local invariant, normalized by arithmetic Frobenius. It is first constructed on the unramified
 relative Brauer groups; by `natCard_h2_units_le_finrank` the unramified relative Brauer group of
 degree `[L:K]`, which lies in the kernel of restriction to `L`, is all of the relative Brauer group
-of `L/K`, so `Br K` is the union of the unramified relative Brauer groups. -/
-noncomputable def invMap : Br K ≃+ RatModInt :=
+of `L/K`, so `Br K` is the union of the unramified relative Brauer groups. The local-field
+structure is bound in the header: `Br ℂ = 0`, so no such isomorphism exists for an arbitrary
+field. -/
+noncomputable def invMap (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
+    [IsNonarchimedeanLocalField K] : Br K ≃+ RatModInt :=
   sorry
 
 noncomputable def brRes [Algebra K L] [Module.Finite K L] [Algebra.IsSeparable K L]
@@ -1531,8 +1534,11 @@ separable-closure Galois group. -/
 noncomputable def localFormation : Formation (TauCeti.AbsoluteGaloisGroup K) :=
   fieldFormation K
 
-/-- Hilbert 90 and the local Brauer invariant make `localFormation K` a class formation. -/
-noncomputable def localClassFormation : ClassFormation (localFormation K) :=
+/-- Hilbert 90 and the local Brauer invariant make `localFormation K` a class formation. The
+local-field structure is bound in the header: the formation of a number field is not a class
+formation. -/
+noncomputable def localClassFormation (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
+    [IsNonarchimedeanLocalField K] : ClassFormation (localFormation K) :=
   sorry
 
 /-- Inflation from the two-dimensional cohomology of a finite layer of the local formation to the
@@ -2136,8 +2142,10 @@ theorem localClassField_unique
 Its target is the Galois group of the layer itself, not an abelianization that happens to simplify
 later: `abelianizationGalEquiv hV` identifies `Abelianization L.Gal` with `L.Gal`, so the
 abelianization-valued `ClassFormation.artinEquiv` can be read here as reciprocity onto
-`Gal(L/K)`. -/
-noncomputable def localAbelianGaloisEquiv
+`Gal(L/K)`. The local-field structure is bound in the header, as for `localClassFormation`: over
+`ℚ` the norm quotient of `ℚ(i)` is infinite. -/
+noncomputable def localAbelianGaloisEquiv (K : Type) [Field K] [ValuativeRel K]
+    [TopologicalSpace K] [IsNonarchimedeanLocalField K]
     {V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K)}
     (hV : IsAbelianClassFieldLayer V) :
     Kˣ ⧸ localNormSubgroup K V ≃* (NormalLayer.ofOpenNormal V).Gal :=
@@ -2244,7 +2252,7 @@ theorem exists_localClassField_primeToResidueCharacteristic
     ∃ V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K),
       (IsAbelianClassFieldLayer V ∧ Nat.Coprime (NormalLayer.ofOpenNormal V).degree p) ∧
         localNormSubgroup K V = N.1.toSubgroup := by
-  haveI := N.2.1
+  have := N.2.1
   obtain ⟨V, hV, hN⟩ :=
     localAbelianExistence_primeToResidueCharacteristic K p N.1.toSubgroup N.1.isOpen N.2.2
   refine ⟨V, ⟨hV, ?_⟩, hN⟩
@@ -2578,8 +2586,11 @@ hypotheses.
 between them is injective only if the norm subgroups of *all* finite abelian extensions intersect
 trivially, and the prime-to-`p` ones this roadmap constructs all contain the principal units
 (`injective_artinMap`); the `p`-primary extensions come from the excluded Artin–Schreier–Witt
-theory. -/
-noncomputable def localWeilArtinEquiv (p : ℕ) [Fact p.Prime]
+theory.
+The local-field structure is bound in the header: the homeomorphism is for the valuation topology of
+`K`, not for an arbitrary topology on a finite extension of `ℚ_p`. -/
+noncomputable def localWeilArtinEquiv (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
+    [IsNonarchimedeanLocalField K] (p : ℕ) [Fact p.Prime]
     [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K] :
     Kˣ ≃ₜ* TopologicalAbelianization (WeilGroup K) :=
   sorry
