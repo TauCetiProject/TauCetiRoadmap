@@ -488,7 +488,7 @@ operation and falsifies the theorems.
   roadmap's `normalizedValuation`, `unitFiltration` and `natCastValuation`, the last of
   which is read at the argument `2`, so that `e = v_K(2)` throughout. It is that
   declaration and not `absoluteRamificationIndex`, for the reason 6A gives. What Layer 6A adds is the one object that roadmap does not
-  name, `IsUniformizer`, with its characterizing theorems. A uniformizer is a choice
+  name, `IsUniformizer`, which is Tau Ceti's `TauCeti.IsUniformizer`, with its characterizing theorems. A uniformizer is a choice
   satisfying `IsUniformizer`, and never a component of a package: an element of valuation
   one is not unique, so a package that stores one is not unique either.
 - **Mod-2 Galois cohomology.** The carrier is the profinite-cohomology roadmap's
@@ -519,10 +519,13 @@ shape its own layers consume, marked as such at the point of use.
 namespace `TauCetiRoadmap.LocalFieldsRamification`, over
 `[Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]`. That
 roadmap re-exports Tau Ceti's local-field API under its own names, with the same explicit
-arguments: `normalizedValuation`, `unitFiltration`, `natCastValuation` and
-`UnitFiltrationGraded` are abbreviations of Tau Ceti's declarations of the same names
+arguments: `normalizedValuation`, `unitFiltration`, `natCastValuation`,
+`UnitFiltrationGraded`, `ramificationIndex`, `inertiaDegree`, `absoluteRamificationIndex` and
+`teichmuller` are abbreviations of Tau Ceti's declarations
 (`TauCeti/NumberTheory/LocalField/NormalizedValuation.lean`, `UnitFiltration/Basic.lean`,
-`NatCastValuation.lean`), and the lemmas about them in the rows below are proved by Tau
+`NatCastValuation.lean`, `RamificationIndex.lean`, `InertiaDegree.lean`,
+`AbsoluteRamificationIndex.lean`, and `TauCeti/RingTheory/Henselian/Teichmuller.lean` for
+`TauCeti.teichmuller 𝒪[K]`), and the lemmas about them in the rows below are proved by Tau
 Ceti's. This roadmap consumes the supplier's names.
 
 | Consumer milestone | Supplier layer | Exact declaration | Mathematical type |
@@ -534,8 +537,8 @@ Ceti's. This roadmap consumes the supplier's names.
 | Layer 6A, the square-class dictionary; every count of 6D and the Kummer isomorphism of 7A | 1 | `square_eq_range_powMonoidHom` | `Subgroup.square Kˣ = (powMonoidHom 2).range`, the identification of Mathlib's subgroup of squares with the range the supplier's count and the Kummer isomorphism are stated at |
 | Layer 6A, the residue field and its unit group | 1 | `teichmuller`, `teichmuller_section` | `𝓀[K]ˣ →* 𝒪[K]ˣ`, a multiplicative section of reduction |
 | Layer 6A, the filtration quotients; 6B's approximation steps | 1, with the carrier from 3 | `UnitFiltrationGraded`; milestone *Graded pieces* (no target signature for the two isomorphisms) | the quotient `U(K,i)/U(K,i+1)` as a type, and `U(K,0)/U(K,1) ≃* 𝓀[K]ˣ`, `U(K,i)/U(K,i+1) ≃* 𝓀[K]⁺` for `i ≥ 1`. The two isomorphisms are frozen here as `nonempty_unitFiltrationGraded_zero_equiv` and `nonempty_unitFiltrationGraded_succ_equiv`, on the supplier's carrier |
-| Layer 6A, the square-class counts; 6D's counting arguments | 1 | `card_powerClasses_of_isUnit`, `card_powerClasses_mixed`, `card_squareClasses_of_isUnit`, `card_squareClasses_dyadic`; frozen here at `dyadicLevel` as `card_squareClass_of_odd` and `card_squareClass_of_dyadic` | `#(Kˣ/(Kˣ)ⁿ) = n · #μ_n(K) · q^{v_K(n)}` in the two regimes, with the `n = 2` values `4` when `2` is a unit of `𝒪[K]` and `4 · q^e` for `K/ℚ_2` finite, at `e = dyadicLevel K` |
-| Layer 6A, the local square theorem; 6B's list of unit defects | 1 | `unitFiltration_le_range_powMonoidHom_two`, `not_unitFiltration_le_range_powMonoidHom_two`; frozen here at `dyadicLevel` as `unitFiltration_le_square` and `not_unitFiltration_le_square` | `U(K, 2e+1) ⊆ (Kˣ)²` for `K/ℚ_2` finite, and its sharpness `U(K, 2e) ⊄ (Kˣ)²`, which 6B's defect list needs in order to know the bound is attained. The supplier's two carry `[Algebra ℚ_[2] K]`, which the odd-residue-characteristic branch cannot satisfy |
+| Layer 6A, the square-class counts; 6D's counting arguments | 1 | `card_powerClasses_of_isUnit`, `card_powerClasses_mixed`, `card_squareClasses_of_isUnit`, `card_squareClasses_dyadic`; at `dyadicLevel`, `card_squareClass_of_odd` is Tau Ceti's `TauCeti.card_squareClass_of_odd` and `card_squareClass_of_dyadic` is frozen here | `#(Kˣ/(Kˣ)ⁿ) = n · #μ_n(K) · q^{v_K(n)}` in the two regimes, with the `n = 2` values `4` when `2` is a unit of `𝒪[K]` and `4 · q^e` for `K/ℚ_2` finite, at `e = dyadicLevel K` |
+| Layer 6A, the local square theorem; 6B's list of unit defects | 1 | `unitFiltration_le_range_powMonoidHom_two`, `not_unitFiltration_le_range_powMonoidHom_two`; at `dyadicLevel`, Tau Ceti's `TauCeti.unitFiltration_le_square` and `TauCeti.not_unitFiltration_le_square`, consumed here under the same names | `U(K, 2e+1) ⊆ (Kˣ)²` for `K/ℚ_2` finite, and its sharpness `U(K, 2e) ⊄ (Kˣ)²`, which 6B's defect list needs in order to know the bound is attained. The supplier's two carry `[Algebra ℚ_[2] K]`, which the odd-residue-characteristic branch cannot satisfy; Tau Ceti's need only `2 ≠ 0` |
 | Layer 6A, the unramified class; 6B's evaluation formula | 2 | `normGroup`, `map_norm_unitFiltration_zero`, `mem_normGroup_iff_dvd_normalizedValuation`; milestone *Existence and uniqueness* (no target signature) | the unramified norm group in norm-equation form, `x ∈ normGroup L/K ↔ f ∣ v_K(x)`, with `N_{L/K}(𝒪[L]ˣ) = 𝒪[K]ˣ`; and the unramified extension of each degree. At degree `2` the existence and the uniqueness halves are frozen here, extension-free, as `exists_unramified_class` and `unramified_class_unique` |
 | Layer 6, the `ℚ_p` acceptance suite | 0 | the non-vacuity milestone (worked example) | `IsNonarchimedeanLocalField ℚ_[p]` |
 
@@ -547,7 +550,7 @@ theorems only.
 |---|---|---|---|
 | Layers 6E and 7C, the local invariant normalization | 2--3 | `H`, `muNRep`, `h2MuEquivZMod_mixed`, `h2FpEquivZMod_of_mu` | continuous `H²(F, mu_n)` and its arithmetic invariant in `ZMod n`, including mixed characteristic |
 | Layer 7C, the cohomological Hilbert pairing | 3 | `kummerClass`, `kummerClass_eq_kummerCocycleClass`, `kummerCupPairing`, `kummerCupPairing_bil`, `localSymbol` | the Kummer class, which is Tau Ceti's `kummerMap` carried to `Field.absoluteGaloisGroup F`; the pairing `(x, y) ↦ log_ζ(x) · y` on `μ_n` for a primitive `n`-th root `ζ ∈ F`; and their cup followed by the local invariant. No quadratic-form definition occurs in CFT |
-| Layer 7C, nondegeneracy comparison | 3 | `tateDualityPairing`, `tateDualityPairing_perfect_mixed` | local Tate duality between a discrete `A` and `tateDual A`, which is Tau Ceti's internal Hom into `μ_n`, and its perfectness for finite `A`, with the invariant normalization supplied by CFT |
+| Layer 7C, nondegeneracy comparison | 3 | `tateDualityPairing`, `tateDualityPairing_perfect_mixed` | local Tate duality between a discrete `A` and `tateDual A`, which is Tau Ceti's internal Hom into `μ_n`, and its perfectness for finite `A` on which the action is smooth (`TauCeti.IsSmoothDiscrete`, found by instance search at `muNRep`), with the invariant normalization supplied by CFT |
 | `hilbertSymbol_productFormula`, exported to Global Quadratic Forms | 5 | `finiteHilbertInvariantAt`, `infiniteHilbertInvariantAt`, `finiteHilbertSupport`, `hilbertProductFormula` | finite support and the additive Hilbert reciprocity equation over all finite and infinite places |
 
 The two frozen QFI bridge names are `hilbertSymbol_eq_cohomological` and
@@ -1298,12 +1301,16 @@ filtration or a second ramification index: a second one would need a comparison 
 every use site, and every statement of 6B, 6C and 6D is written against the supplied
 objects.
 
-One object remains this roadmap's own, because the supplier does not name it, and three
-statements remain because the supplier owns the mathematics but exports no target
-signature for the shape the later sublayers consume. Both kinds are listed below. Two
-further entries carry no work and are there to fix a name: they record which supplier
-declaration `e` and the square classes are read through, because 6B, 6C and 6D read both
-constantly. The supplier rows are in the contract table under
+One object and a few statements are named here because the supplier does not export them
+in the shape the later sublayers consume. Tau Ceti implements most of them in
+`TauCeti/NumberTheory/LocalField/{Uniformizer,Squares,SquareClass}.lean`: the uniformizer
+predicate `TauCeti.IsUniformizer` with `isUniformizer_iff_exists_irreducible` and
+`exists_isUniformizer`, the level `TauCeti.dyadicLevel`, the sharp local square theorem
+`TauCeti.unitFiltration_le_square` and `TauCeti.not_unitFiltration_le_square` in every
+residue characteristic, and the odd count `TauCeti.card_squareClass_of_odd`. This roadmap's
+names for them are aliases of those declarations. Two further entries carry no work and are
+there to fix a name: they record which supplier declaration `e` and the square classes are
+read through, because 6B, 6C and 6D read both constantly. The supplier rows are in the contract table under
 ["Cross-roadmap contract"](#cross-roadmap-contract).
 
 Scope: `K` is a nonarchimedean local field with `2` invertible. In odd residue
@@ -1333,16 +1340,18 @@ Prerequisites:
 
 Milestones:
 
-- **Uniformizers.** `IsUniformizer π` says that `v_K(π) = 1` for the supplied valuation,
-  and one exists. It is a predicate and not a component of a package, because an element
+- **Uniformizers** [Tau Ceti]. `IsUniformizer π`, which is `TauCeti.IsUniformizer`, says
+  that `v_K(π) = 1` for the supplied valuation, and one exists
+  (`TauCeti.exists_isUniformizer`). It is a predicate and not a component of a package, because an element
   of valuation one is not unique: over `ℚ_2` both `2` and `−2` are uniformizers. A theorem
   that needs a uniformizer takes it, and a theorem whose statement is independent of the
   choice says so. The local-fields-ramification roadmap pins uniformizers through `Irreducible` in
   `𝒪[K]` and proves one direction in `normalizedValuation_irreducible`; the equivalence of
-  the two descriptions is a single named lemma here, and every later statement uses
-  whichever side is convenient.
+  the two descriptions is the single named lemma `TauCeti.isUniformizer_iff_exists_irreducible`,
+  and every later statement uses whichever side is convenient.
 - **The level `e = v_K(2)`, consumed.** `e` is the supplier's `natCastValuation K 2`, the
-  decoded value `v_K(2)` of the supplied valuation, named `dyadicLevel` here. Under the
+  decoded value `v_K(2)` of the supplied valuation, named `dyadicLevel` here after Tau Ceti's
+  `TauCeti.dyadicLevel`. Under the
   standing hypothesis `Invertible (2 : K)` the element `2` is a unit, so `e` is not data,
   and `natCastValuation_eq_zero_iff` says that `e = 0` is exactly odd residue
   characteristic. Nothing is defined here; the supplier's defining equation
@@ -1368,12 +1377,12 @@ Milestones:
   in the generality 6B's classification of unit defects needs:
   `unitFiltration_le_range_powMonoidHom_two` and
   `not_unitFiltration_le_range_powMonoidHom_two`. Those two carry `[Algebra ℚ_[2] K]`,
-  which the odd-residue-characteristic branch cannot satisfy, so the general shape 6B and
-  6C consume — stated against `dyadicLevel` and valid in both residue characteristics — is
-  frozen here as `unitFiltration_le_square` and `not_unitFiltration_le_square`. No second
-  proof is intended: the supplier owns the mathematics. 6B needs the sharpness and not
-  only the containment, because a defect list built on a depth that is not attained would
-  classify nothing.
+  which the odd-residue-characteristic branch cannot satisfy. The general shape 6B and 6C
+  consume, stated against `dyadicLevel` and valid in both residue characteristics, is Tau
+  Ceti's `TauCeti.unitFiltration_le_square` and `TauCeti.not_unitFiltration_le_square`,
+  consumed here as `unitFiltration_le_square` and `not_unitFiltration_le_square`. 6B needs
+  the sharpness and not only the containment, because a defect list built on a depth that
+  is not attained would classify nothing.
 - **The square-class counts, consumed in the `4 · q^e` form 6D uses.** `Kˣ/(Kˣ)²` is
   finite, which is a separate statement from its order. The order is
   `card_squareClasses_of_isUnit`, that is `4`, when the residue
@@ -1382,9 +1391,10 @@ Milestones:
   characteristic is `2`. For a finite extension of `ℚ_2` of degree `N = e·f` the second
   reads `2^{N+2}`, and over `ℚ_2` it reads `8`. Both are the supplier's count
   `#(Kˣ/(Kˣ)ⁿ) = n · #μ_n(K) · q^{v_K(n)}` at `n = 2`, where `#μ_2(K) = 2` because `2` is
-  invertible; the supplier states the dyadic half relative to `ℚ_2`, so the `dyadicLevel`
-  shape 6D consumes is frozen here as `card_squareClass_of_odd` and
-  `card_squareClass_of_dyadic`. What is stated here, and is not the supplier's, is the
+  invertible. In the `dyadicLevel` shape 6D consumes, the odd count is Tau Ceti's
+  `TauCeti.card_squareClass_of_odd`, consumed here as `card_squareClass_of_odd`; the
+  supplier states the dyadic half relative to `ℚ_2`, so its `dyadicLevel` shape is frozen
+  here as `card_squareClass_of_dyadic`. What is stated here, and is not the supplier's, is the
   choice of representatives: for odd residue characteristic the four classes are
   represented by `1, u, π, uπ`, where `u` is a unit whose residue is a nonsquare. That
   choice of `u` is part of the statement and is never left implicit.
@@ -1415,8 +1425,8 @@ Milestones:
 
 Basic API for the objects introduced here:
 
-- constructors: `IsUniformizer` and `q = Nat.card 𝓀[K]`; `e` is the supplier's
-  `natCastValuation K 2`, named `dyadicLevel` here and constructed there;
+- constructors: `IsUniformizer`, which is Tau Ceti's, and `q = Nat.card 𝓀[K]`; `e` is the
+  supplier's `natCastValuation K 2`, named `dyadicLevel` here and constructed there;
 - examples: `ℚ_[p]` with `π = p`; `ℚ_2`, where `e = 1` and `#(ℚ_2ˣ/(ℚ_2ˣ)²) = 8` on the
   basis `−1, 2, 5`;
 - morphisms: none are introduced; the inclusions and quotient maps of the filtration are
@@ -2991,8 +3001,9 @@ subject matter belongs and built where its prerequisites are ready.
   second valuation and no second filtration.
   What 6A adds is the uniformizer predicate, the choice of square-class representatives in
   odd residue characteristic, and the passage from that roadmap's norm-equation criterion
-  to the binary form `b = x² − Δ y²` that 6B and 6C apply. The local square theorem in its
-  sharp form and the square-class counts are consumed by name and are not restated.
+  to the binary form `b = x² − Δ y²` that 6B and 6C apply. The uniformizer predicate, the
+  local square theorem in its sharp form and the odd square-class count are Tau Ceti's and
+  are consumed under this roadmap's names.
 - The [profinite-cohomology roadmap](../ProfiniteCohomology/README.md) owns continuous
   cohomology and its operations. Sublayer 7A consumes it through the exact contract
   above: the carrier, the cup product, restriction, inflation, corestriction, Kummer

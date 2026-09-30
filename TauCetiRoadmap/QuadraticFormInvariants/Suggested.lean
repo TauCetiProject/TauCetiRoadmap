@@ -11,6 +11,10 @@ import TauCeti.LinearAlgebra.QuadraticForm.Diagonal.Chain.Induction
 import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Descent
 import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Discriminant
 import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Semiring
+import TauCeti.NumberTheory.LocalField.AbsoluteRamificationIndex
+import TauCeti.NumberTheory.LocalField.SquareClass
+import TauCeti.NumberTheory.LocalField.Squares
+import TauCeti.NumberTheory.LocalField.Uniformizer
 
 /-!
 # Quadratic forms and cohomological invariants: target signatures
@@ -748,7 +752,12 @@ What remains is the quadratic-form-facing arithmetic, stated against those objec
 uniformizer predicate in its valuation form together with the lemma comparing it with the
 supplier's `Irreducible` convention, the sharp local square theorem, the square-class counts in
 the `4·q^e` shape that 6D consumes, and the unramified norm description in the shape 6C consumes.
-Each of the last three carries a remark naming the Local Fields Ramification milestone it rests on. -/
+Tau Ceti implements the dyadic level, the uniformizer predicate with both of its lemmas, the sharp
+local square theorem and the odd count (`TauCeti/NumberTheory/LocalField/Squares.lean`,
+`Uniformizer.lean`, `SquareClass.lean`), so those names below are its declarations under this
+roadmap's names and explicit arguments. They are stated against the supplier's
+`normalizedValuation`, `unitFiltration` and `natCastValuation`, which are abbreviations of Tau
+Ceti's, so each proof is the Tau Ceti theorem. -/
 
 section LocalField
 
@@ -760,63 +769,67 @@ open TauCetiRoadmap.LocalFieldsRamification (normalizedValuation unitFiltration
 variable (K)
 variable [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
 
-/-- **Layer 6A, the dyadic level** `e = v_K(2)`, the supplier's `natCastValuation` at `2`.
+/-- **Layer 6A, the dyadic level** `e = v_K(2)`: Tau Ceti's `TauCeti.dyadicLevel`, which is the
+supplier's `natCastValuation` at `2` (`TauCeti.dyadicLevel_def`).
 ⚠ It is deliberately **not** `absoluteRamificationIndex K 2`. That name is reserved by the
 supplier for a finite extension of `ℚ_p`, so writing it at `p = 2` forces `[Algebra ℚ_[2] K]`,
 and then `e = 0` — the odd-residue-characteristic case every count below splits on — is
 unsatisfiable rather than merely false. `natCastValuation` is defined for every nonarchimedean
 local field in which `2` is nonzero, and takes the value `0` exactly in odd residue
 characteristic, which is the split the square-class counts need. -/
-noncomputable def dyadicLevel [Invertible (2 : K)] : ℕ :=
-  natCastValuation K 2 (by simpa using (isUnit_of_invertible (2 : K)).ne_zero)
+noncomputable abbrev dyadicLevel [Invertible (2 : K)] : ℕ :=
+  TauCeti.dyadicLevel K (isUnit_of_invertible (2 : K)).ne_zero
 
 /-- **Layer 6A, the comparison with the supplier's absolute ramification index.** In mixed
 characteristic `2` the two agree, by the supplier's
-`absoluteRamificationIndex_eq_natCastValuation`; this is the only place the reserved name is
-used, and it is what lets a consumer that already has `K/ℚ_2` quote either. -/
+`absoluteRamificationIndex_eq_natCastValuation`, which is Tau Ceti's; this is the only place the
+reserved name is used, and it is what lets a consumer that already has `K/ℚ_2` quote either. -/
 theorem dyadicLevel_eq_absoluteRamificationIndex [Invertible (2 : K)] [Fact (Nat.Prime 2)]
     [Algebra ℚ_[2] K] [ValuativeExtension ℚ_[2] K] [Module.Finite ℚ_[2] K] :
     dyadicLevel K = absoluteRamificationIndex K 2 :=
-  sorry
+  (TauCeti.dyadicLevel_def _).trans (TauCeti.absoluteRamificationIndex_eq_natCastValuation K 2).symm
 
 variable {K}
 
-/-- **Layer 6A, a uniformizer** is an element of valuation one, said with the supplier's
-valuation. It is a choice, so it is a predicate and not a field of a package: over `ℚ_2` both
-`2` and `−2` have valuation one. -/
-def IsUniformizer (π : Kˣ) : Prop :=
-  normalizedValuation K π = Multiplicative.ofAdd 1
+/-- **Layer 6A, a uniformizer** is an element of valuation one: Tau Ceti's `TauCeti.IsUniformizer`,
+`normalizedValuation K π = Multiplicative.ofAdd 1` for the valuation the supplier re-exports. It is
+a choice, so it is a predicate and not a field of a package: over `ℚ_2` both `2` and `−2` have
+valuation one. -/
+abbrev IsUniformizer (π : Kˣ) : Prop :=
+  TauCeti.IsUniformizer K π
 
 variable (K)
 
 /-- **Layer 6A, the two descriptions of a uniformizer agree.** The Local Fields Ramification roadmap pins
 uniformizers through `Irreducible` in `𝒪[K]`, and its `normalizedValuation_irreducible` gives
 one direction. This is the equivalence, and it is the single lemma that relates the predicate
-above to that convention; every later statement uses whichever side is convenient. -/
+above to that convention; every later statement uses whichever side is convenient. It is Tau
+Ceti's `TauCeti.isUniformizer_iff_exists_irreducible`. -/
 theorem isUniformizer_iff_exists_irreducible (π : Kˣ) :
     IsUniformizer (K := K) π ↔ ∃ ϖ : 𝒪[K], Irreducible ϖ ∧ (ϖ : K) = (π : K) :=
-  sorry
+  TauCeti.isUniformizer_iff_exists_irreducible K π
 
-/-- A uniformizer exists. Statements that need one take it and this proof explicitly. -/
+/-- A uniformizer exists, by Tau Ceti's `TauCeti.exists_isUniformizer`. Statements that need one
+take it and this proof explicitly. -/
 theorem exists_isUniformizer : ∃ π : Kˣ, IsUniformizer (K := K) π :=
-  sorry
+  TauCeti.exists_isUniformizer K
 
 /-- **Layer 6A, the local square theorem in its sharp form** (O'Meara 63:1):
-`U(K, 2e+1) ⊆ (Kˣ)²`. The Local Fields Ramification roadmap owns this mathematics, in its Layer 1 milestone
-*Deep units are squares, in mixed characteristic*, and carries the dyadic instance
-`1 + 8ℤ_2 ⊆ (ℚ_2ˣ)²` as a worked example; it exports no target signature for the general
-statement, so the form that 6B and 6C consume is stated here, against the supplier's
-`unitFiltration` and `dyadicLevel`. -/
+`U(K, 2e+1) ⊆ (Kˣ)²`, in every residue characteristic: Tau Ceti's
+`TauCeti.unitFiltration_le_square`. The Local Fields Ramification roadmap exports the
+mixed-characteristic form `unitFiltration_le_range_powMonoidHom_two`, which carries
+`[Algebra ℚ_[2] K]` and so cannot serve the odd-residue-characteristic branch; this is the form that
+6B and 6C consume, against the supplier's `unitFiltration` and `dyadicLevel`. -/
 theorem unitFiltration_le_square [Invertible (2 : K)] :
     unitFiltration K (2 * dyadicLevel K + 1) ≤ Subgroup.square Kˣ :=
-  sorry
+  TauCeti.unitFiltration_le_square _
 
-/-- **Layer 6A, sharpness of the local square theorem.** The bound `2e+1` cannot be
-lowered. Over `ℚ_2`, where `e = 1`, the unit `5` lies in `U(ℚ_2, 2)` and is not a
-square. -/
+/-- **Layer 6A, sharpness of the local square theorem**, Tau Ceti's
+`TauCeti.not_unitFiltration_le_square`. The bound `2e+1` cannot be lowered. Over `ℚ_2`, where
+`e = 1`, the unit `5` lies in `U(ℚ_2, 2)` and is not a square. -/
 theorem not_unitFiltration_le_square [Invertible (2 : K)] :
     ¬ (unitFiltration K (2 * dyadicLevel K) ≤ Subgroup.square Kˣ) :=
-  sorry
+  TauCeti.not_unitFiltration_le_square _
 
 /-- **Layer 6A, the square-class group is finite.** A corollary of the Local Fields Ramification Layer 1
 milestone *Power classes, the primary statement*, through `square_eq_range_powMonoidHom`. -/
@@ -826,11 +839,16 @@ instance squareClass_finite [Invertible (2 : K)] : Finite (Kˣ ⧸ Subgroup.squa
 /-- **Layer 6A, the square-class count in odd residue characteristic**, together with the
 representatives `1, u, π, uπ` for a uniformizer `π` and a unit `u` whose residue is a
 nonsquare. This is the Local Fields Ramification Layer 1 count
-`#(Kˣ/(Kˣ)ⁿ) = n · #μ_n(K) · q^{v_K(n)}` at `n = 2` with `e = 0`, in the shape 6D consumes. -/
+`#(Kˣ/(Kˣ)ⁿ) = n · #μ_n(K) · q^{v_K(n)}` at `n = 2` with `e = 0`, in the shape 6D consumes. It is
+Tau Ceti's `TauCeti.card_squareClass_of_odd`, whose hypothesis `IsUnit (2 : 𝒪[K])` is `e = 0` by
+`TauCeti.natCastValuation_eq_zero_iff`. -/
 theorem card_squareClass_of_odd [Invertible (2 : K)]
     (hodd : dyadicLevel K = 0) :
-    Nat.card (Kˣ ⧸ Subgroup.square Kˣ) = 4 :=
-  sorry
+    Nat.card (Kˣ ⧸ Subgroup.square Kˣ) = 4 := by
+  have h2 : (2 : K) ≠ 0 := (isUnit_of_invertible (2 : K)).ne_zero
+  have hunit : IsUnit ((2 : ℕ) : 𝒪[K]) :=
+    (TauCeti.natCastValuation_eq_zero_iff K 2 h2).1 ((TauCeti.dyadicLevel_def h2).symm.trans hodd)
+  exact TauCeti.card_squareClass_of_odd (by exact_mod_cast hunit)
 
 /-- **Layer 6A, the square-class count in residue characteristic two**, stated
 intrinsically as `4 · q^e` with `q = #𝓀[K]` and `e = v_K(2)`. For a finite extension of
