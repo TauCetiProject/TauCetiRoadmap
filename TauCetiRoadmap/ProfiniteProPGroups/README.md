@@ -75,7 +75,7 @@ The frozen downstream surface includes:
 | lifting along an extension class | `ProfiniteGroupExtension.exists_continuous_monoidHom_of_contCohomologyClass_map_eq`, `ProfiniteGroupExtension.contCohomologyClass_map_eq_of_continuous_monoidHom`, `GroupExtension.surjective_of_comp_inl_eq` |
 | embedding problems and projectivity | `IsProC`, `FiniteEmbeddingProblem`, `FiniteEmbeddingProblem.IsSolution`, `HasElementaryAbelianSolutions`, `HasPGroupSolutions`, `levelProblem`, `IsProjective` |
 | `cd_p` of a Sylow subgroup | `res_injective_of_isProPSylow`, `cd_p_eq_of_isProPSylow` |
-| Demushkin invariants | `trivialFp`, `cohomFp`, `cupFp`, `cupFp_gradedComm`, `IsDemushkin`, `demushkinRank`, `demushkinQ`, `demushkinCharacter`, `demushkinCharacter_unique`, `HasPrescriptionProperty` |
+| Demushkin invariants | `trivialFp`, `cohomFp`, `fpPairing`, `fpPairing_bil`, `cupFp`, `cupFp_gradedComm`, `IsDemushkin`, `demushkinRank`, `demushkinQ`, `demushkinCharacter`, `demushkinCharacter_unique`, `HasPrescriptionProperty` |
 | marked classification | `demushkinWordNeTwo`, `demushkinWordTwoOdd`, `demushkinWordTwoEven`, `demushkinWordTwoRankTwo`, `isDemushkin_marked_of_q_ne_two`, `isDemushkin_marked_of_q_two_odd`, `isDemushkin_marked_of_q_two_even`, `isDemushkin_marked_of_q_two_rank_two` |
 | standard dyadic group | `demushkinD0`, `d0A`, `d0S`, `d0Y`, `standardD0Orientation` and its value theorems |
 
@@ -89,7 +89,9 @@ Four of these rows have named arithmetic consumers. `LocalGaloisGroups` uses
 `proPKernel_proPKernel_eq_top` for degree-one inflation from the maximal pro-`p` quotient of an
 absolute Galois group with twisted coefficients, the extension-lifting row to lift a surjection of
 relation modules to a surjective morphism of group extensions, and `demushkinCharacter_unique` to
-identify the orientation of `G_K(p)` with the descended cyclotomic character.
+identify the orientation of `G_K(p)` with the descended cyclotomic character. It also reads the
+cup square `cupFp` through `fpPairing` and `fpPairing_bil`, to compare it with the Kummer cup
+product after a choice of primitive root.
 `ClassFieldTheory` uses `cd_p_eq_of_isProPSylow` to compute the cohomological dimension of a
 local absolute Galois group from that of its Sylow subgroups.
 
