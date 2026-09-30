@@ -105,16 +105,20 @@ Each layer states its results against this table.
   `w : Fin n → K`. For a regular form the weights are units, that is `w : Fin n → Kˣ`
   coerced into `K`. The orthogonal sum of forms on different spaces is
   `QuadraticMap.prod`, and scaling is `a • Q`.
-- **Square classes.** The square-class group is `Kˣ ⧸ Subgroup.square Kˣ`. It
-  interoperates with the landed `TauCeti.SquareClassGroup`, which is
-  `Additive Kˣ ⧸ (Subgroup.square Kˣ).toAddSubgroup`, an `𝔽₂ = ZMod 2`-vector space.
-  Consume that file and do not redefine it. In a quotient-free statement, "same square
-  class" is `IsSquare (a * b)` for units `a b : Kˣ`, as in
-  `TauCeti.squareClass_eq_zero_iff`. This matches the multiquadratic roadmap's
+- **Square classes.** The square-class group is Tau Ceti's `TauCeti.SquareClassGroup K`,
+  which is `Additive Kˣ ⧸ (Subgroup.square Kˣ).toAddSubgroup`, an `𝔽₂ = ZMod 2`-vector space,
+  with the class `squareClass u` of a unit. Its multiplicative avatar is the literal quotient
+  `Kˣ ⧸ Subgroup.square Kˣ`, Tau Ceti's `TauCeti.MultiplicativeSquareClassGroup K`, and Tau
+  Ceti's `TauCeti.multiplicativeSquareClassEquiv` identifies the two, sending the class of a
+  unit to its `squareClass` (`multiplicativeSquareClassEquiv_mk`). Consume those files and do
+  not redefine either group. In a quotient-free statement, "same square class" is
+  `IsSquare (a * b)` for units `a b : Kˣ`, as in `TauCeti.squareClass_eq_zero_iff` and
+  `TauCeti.squareClass_eq_iff_isSquare_mul`. This matches the multiquadratic roadmap's
   `Finset`-product idiom.
-- **Representation and value sets.** `Represents Q a : Prop` is `∃ v, Q v = a` for
-  `a : K`. `unitValueSet Q : Set Kˣ` is `{a : Kˣ | Represents Q (a : K)}`, the classical
-  `D(q)` of nonzero represented values. The two are kept apart. `Represents Q 0` is
+- **Representation and value sets.** Tau Ceti's `QuadraticMap.Represents Q a : Prop` is
+  `∃ v, Q v = a` for `a : K`, and `QuadraticMap.unitValueSet Q : Set Kˣ` is
+  `{a : Kˣ | Represents Q (a : K)}`, the classical `D(q)` of nonzero represented values.
+  The two are kept apart. `Represents Q 0` is
   **always true**, for every `Q` and every space, the zero space included, because
   `Q 0 = 0`; it is a theorem with no hypotheses and never a nontrivial fact about `Q`.
   Nontrivial isotropic representation of `0`, that is `¬ Q.Anisotropic`, additionally
@@ -122,13 +126,18 @@ Each layer states its results against this table.
   statement below means `D(q)`, and a value set that contains `0` makes several of them
   false.
 - **Discriminant and signed discriminant.** For `q ≅ ⟨a₁, …, aₙ⟩` the *discriminant* is
-  `d(q) = a₁ ⋯ aₙ` in `Kˣ ⧸ (Kˣ)²`, and the **signed discriminant** is
-  `d±(q) = (−1)^{n(n−1)/2} · d(q)`. The two names are `discr` and `signedDiscr`, and
-  neither name is overloaded. Serre's classification invariant and the Stiefel-Whitney
-  class `w₁` use the plain `d`. The Witt-ring isomorphism `I/I² ≅ Kˣ/(Kˣ)²` and the
-  quadratic-extension dictionary use `d±`. The translation
-  `d± = (−1)^{n(n−1)/2} d` is a stated lemma, `signedDiscr_eq_sign_mul_discr`, and
-  every later proof converts through it.
+  `d(q) = a₁ ⋯ aₙ` modulo squares, and the **signed discriminant** is
+  `d±(q) = (−1)^{n(n−1)/2} · d(q)`. Both are Tau Ceti's, on the carrier below:
+  `TauCeti.RegularFormClass.discr` and `TauCeti.RegularFormClass.signedDiscr`, valued in the
+  additive `SquareClassGroup K`, where the sign is written `n.choose 2 • squareClass (−1)`.
+  This roadmap's `discr` and `signedDiscr` are the same two invariants read in
+  `Kˣ ⧸ (Kˣ)²` through `multiplicativeSquareClassEquiv`, under the names that
+  `GlobalQuadraticForms` consumes; neither name is overloaded, and neither is a second
+  construction. Serre's classification invariant and the Stiefel-Whitney class `w₁` use the
+  plain `d`. The Witt-ring isomorphism `I/I² ≅ Kˣ/(Kˣ)²` and the quadratic-extension
+  dictionary use `d±`. The translation `d± = (−1)^{n(n−1)/2} d` is Tau Ceti's
+  `signedDiscr_eq_sign_add_discr`, read multiplicatively as `signedDiscr_eq_sign_mul_discr`,
+  and every later proof converts through it.
 - **The symbol is a quaternion algebra first and a group element later.** For
   `a, b ∈ Kˣ` the symbol `(a, b)` is the quaternion algebra `ℍ[K, a, b]`. This is
   Mathlib's two-parameter notation for `QuaternionAlgebra K a 0 b`, with `i² = a`,
@@ -215,39 +224,51 @@ Each layer states its results against this table.
 
 ### The carrier for isometry classes
 
-Layers 3 to 5 speak of functions on isometry classes, and Layer 4 needs a ring whose
-elements are such classes. A quotient of the isometry relation over arbitrary
-finite-dimensional spaces forces universe and bundling decisions on the first
-implementer. This roadmap therefore fixes the carrier here.
-
-Work with diagonal presentations:
+Layers 3 to 9 speak of functions on isometry classes, and Layer 4 needs a ring whose
+elements are such classes. The carrier is Tau Ceti's, in
+`TauCeti/LinearAlgebra/QuadraticForm/RegularFormClass/`, and this roadmap consumes it. It
+works with diagonal presentations:
 
 ```lean
-RegularFormPresentation K := Σ n : ℕ, Fin n → Kˣ
+TauCeti.RegularFormPresentation K := Σ n : ℕ, Fin n → Kˣ
 ```
 
-Read `(n, w)` as `weightedSumSquares K (fun i => (w i : K))`. Two presentations are
-related when the forms they present are `QuadraticMap.Equivalent`. That relation
-compares forms on different spaces, so presentations of different lengths may be
-related, and only equal lengths ever are. Set
+Read `(n, w)` as `TauCeti.presentedForm ⟨n, w⟩`, which is
+`weightedSumSquares K (fun i => (w i : K))`. Two presentations are related
+(`TauCeti.regularFormSetoid`) when the forms they present are `QuadraticMap.Equivalent`.
+That relation compares forms on different spaces, so presentations of different lengths
+may be compared, and only equal lengths are ever related
+(`TauCeti.fst_eq_of_presentedForm_equivalent`). The carrier is
 
 ```lean
-RegularFormClass K := Quotient (regularFormSetoid K)
+TauCeti.RegularFormClass K := Quotient (TauCeti.regularFormSetoid K)
 ```
 
-The carrier owes the rest of the roadmap the following milestones.
+Tau Ceti supplies what the rest of the roadmap needs of it:
 
-- Every regular form on a finite-dimensional space has a class, by diagonalization
-  (`equivalent_weightedSumSquares_units_of_nondegenerate'`), and the class does not
-  depend on the chosen diagonalization.
-- Two regular forms are `Equivalent` if and only if their classes are equal.
-- Orthogonal sum and tensor product of presentations descend to `RegularFormClass K`.
-  The type is a commutative monoid under each operation, and the two distribute.
-- Dimension, `discr`, `signedDiscr`, and later `hasseInvariant` and `localHasse` descend
-  to it. Each descent is an application of the descent principle of Layer 0.
-- The Grothendieck-Witt ring is the Grothendieck group of `(RegularFormClass K, ⊥)`
-  with the multiplication induced by `⊗`. The Witt ring is its quotient by the ideal
-  generated by the hyperbolic plane.
+- every regular form on a finite-dimensional space has a class, `TauCeti.formClass Q hQ`,
+  computed by any diagonalization (`TauCeti.exists_presentedForm_equivalent`,
+  `TauCeti.formClass_mk`);
+- two regular forms are `Equivalent` if and only if their classes are equal
+  (`TauCeti.formClass_eq_iff`);
+- orthogonal sum and tensor product descend to the carrier, which is a commutative
+  semiring (`TauCeti.RegularFormClass.mk_add_mk`, `TauCeti.RegularFormClass.mk_mul_mk`,
+  `TauCeti.instCommSemiringRegularFormClass`), with the rank as a semiring map to `ℕ`
+  (`TauCeti.RegularFormClass.rankHom`), and the class of a sum or a tensor product of forms
+  is the sum or the product of the classes (`TauCeti.formClass_prod`,
+  `TauCeti.formClass_tmul`);
+- the discriminant and the signed discriminant (`TauCeti.RegularFormClass.discr`,
+  `TauCeti.RegularFormClass.signedDiscr`), and scalar extension along a field extension,
+  with which the rank and the discriminant commute (`TauCeti.RegularFormClass.baseChange`,
+  `rank_baseChange`, `discr_baseChange`);
+- the descent principle `TauCeti.RegularFormClass.liftDiagonal` of Layer 0, which turns a
+  function of presentations into a function of classes.
+
+On the carrier, this roadmap's layers define `hasseInvariant` (Layer 5), `localHasse`
+(Layer 6C), and `w₁` and `w₂` (Layer 8), each through the descent principle, and Layer 4
+builds its rings from the semiring. `GlobalQuadraticForms` consumes the carrier and the
+class of a form under this roadmap's names `RegularFormClass` and `formClass`, which
+`Suggested.lean` exports as aliases of Tau Ceti's declarations.
 
 `RegularFormClass K` is the carrier. `QuadraticModuleCat` is the natural alternative,
 and this roadmap does not use it: a roadmap that offers two carriers makes the first
@@ -338,12 +359,31 @@ implementer choose.
 Treat these landed files as fixed API. Cite them in the consuming files, and route an
 improvement through their own review rather than duplicating them.
 
-- **`TauCeti/FieldTheory/SquareClassGroup.lean`**: `TauCeti.SquareClassGroup K`, an
-  `𝔽₂`-vector space, with `squareClass`, `squareClass_eq_zero_iff`, `squareClass_prod`,
-  and `linearIndependent_squareClass_iff`, that is linear independence as the statement
-  that no nonempty subset product is a square. Layer 0's square-class calculus lands
-  next to this file and extends it with the multiplicative avatar and the finiteness
-  API.
+- **`TauCeti/FieldTheory/SquareClassGroup/{Basic,Multiplicative}.lean`**:
+  `TauCeti.SquareClassGroup K`, an `𝔽₂`-vector space, with `squareClass`,
+  `squareClass_eq_zero_iff`, `squareClass_prod`, `squareClass_eq_iff_isSquare_mul`, and
+  `linearIndependent_squareClass_iff`, that is linear independence as the statement that no
+  nonempty subset product is a square; and the multiplicative avatar
+  `MultiplicativeSquareClassGroup K = Kˣ ⧸ Subgroup.square Kˣ` with the dictionary
+  `multiplicativeSquareClassEquiv`, pushforward along a field map
+  (`RingHom.squareClassMap`, `RingHom.multiplicativeSquareClassMap`), and the finiteness and
+  `Nat.card` transfer. This is Layer 0's square-class calculus.
+- **`TauCeti/LinearAlgebra/QuadraticForm/RegularFormClass/`** (`Basic`, `TensorProduct`,
+  `Semiring`, `Discriminant`, `BaseChange`, `Descent`): the carrier `RegularFormClass` with
+  its presentations, `formClass`, the semiring, the discriminant and the signed
+  discriminant, scalar extension, and the descent principle `RegularFormClass.liftDiagonal`.
+  This is Layer 0's carrier and descent principle and Layer 3's discriminants; see "The
+  carrier for isometry classes".
+- **`TauCeti/LinearAlgebra/QuadraticForm/Diagonal/`** (`Basic`, `WittChain`, `Chain/Basic`,
+  `Chain/Induction`): diagonal forms, the chain relations `PermutationStep`, `BinaryStep`,
+  `DiagonalStep` and `DiagonalChain`, Witt's chain theorem in rank at least two with the
+  rank-zero and rank-one statements, and the pairwise-product lemmas
+  `PermutationStep.prod_prod_Ioi_eq` and `BinaryStep.prod_prod_Ioi_eq` through which the Hasse
+  invariants and `w₂` meet the descent principle.
+- **`TauCeti/LinearAlgebra/QuadraticForm/{Representation,Binary}.lean`** and
+  **`TauCeti/Algebra/Quaternion/Binary.lean`**: `QuadraticMap.Represents`,
+  `QuadraticMap.unitValueSet`, the representation criterion, the binary normal forms, and the
+  binary quaternion lemma.
 - **`TauCeti/FieldTheory/IntermediateField/Quadratic.lean`**: the quadratic normal form
   `a + b√x`, `finrank_adjoin_simple_eq_two_of_sq_mem_notMem`, and
   `isSquare_mul_of_adjoin_simple_eq`. Layer 6 uses these when `K(√a)` must lie inside a
@@ -593,13 +633,9 @@ Everything below the linear algebra:
 - the hyperbolic plane as a studied object, and the dichotomy between isotropy and
   splitting;
 - Witt decomposition, Witt cancellation, and the Witt index;
-- Witt's chain-equivalence theorem, without which no invariant of diagonal tuples is
-  well defined on isometry classes;
-- the representation predicate and the value-set calculus;
 - the Witt ring `W(K)`, the fundamental ideal `I(K)`, and Pfister forms;
 - the quaternion symbol layer, with its norm form, the split-or-division dichotomy, and
   the four-fold splitting criterion;
-- the classical invariants `dim mod 2`, `d`, and `d±`;
 - the Brauer-valued Hasse and Clifford invariants, and the classification in dimension
   at most 3;
 - the uniformizer predicate of Layer 6A, its square-class representatives in odd residue
@@ -635,8 +671,9 @@ None of this exists upstream as stated. Each object gets its complete basic theo
 not only the milestone that the headline needs.
 
 `Suggested.lean` fixes Lean forms for the design decisions that are most likely to fork
-an implementation, together with the worked examples. It prototypes the carrier for
-isometry classes, the chain-equivalence relation, the four-fold criterion, the Brauer
+an implementation, together with the worked examples. It applies Tau Ceti's carrier for
+isometry classes, chain theorem and descent principle, states the rank-one hypothesis of
+each invariant descended through it, and prototypes the four-fold criterion, the Brauer
 symbol and the Hasse invariant, the Witt ring with its fundamental ideal and the
 Clifford invariant, the Layer 6A objects stated against the supplied valuation and
 filtration, the quadratic defect with its exponent,
@@ -668,100 +705,135 @@ Class Field Theory's degree-two invariant, so it is placed after Layer 7B in the
 
 ### Layer 0: square classes, diagonal calculus, and chain equivalence
 
+Layer 0 is Tau Ceti's, and this roadmap consumes it. The milestones below are what the later
+layers apply, each with the Tau Ceti declaration that supplies it; the two that remain to be
+built here are marked as such.
+
 Prerequisites:
 
 - **[Mathlib]** `weightedSumSquares`, `QuadraticMap.Equivalent`,
   `QuadraticMap.Anisotropic`, `Equiv.Perm`, `Relation.ReflTransGen`;
-- **[Tau Ceti]** `TauCeti.SquareClassGroup` and `TauCeti.squareClass_eq_zero_iff`.
+- **[Tau Ceti]** the files listed under "From Tau Ceti": the square-class groups, the
+  carrier, the value sets and binary normal forms, the chain relations with Witt's chain
+  theorem, and the descent principle.
 
 Milestones:
 
-- **Square-class interop.** Consume `TauCeti.SquareClassGroup` and add what the
-  invariants need:
-  - the multiplicative avatar `Kˣ ⧸ Subgroup.square Kˣ`, with the `ZMod 2`-module
-    dictionary to the landed additive one;
-  - pushforward along a field map;
-  - finiteness transfer through the `Nat.card` API, which is the interface that Layer 6
-    consumes.
-- **Representation and value sets.** Define `Represents Q a` and `unitValueSet Q` as
-  fixed in the convention table, with the basic calculus:
-  - `unitValueSet` is closed under multiplication by squares, so it is a union of
-    square classes;
+- **Square-class interop** [Tau Ceti]. The additive `TauCeti.SquareClassGroup` and the
+  multiplicative `TauCeti.MultiplicativeSquareClassGroup = Kˣ ⧸ Subgroup.square Kˣ`, with the
+  dictionary `multiplicativeSquareClassEquiv` and the `ZMod 2`-module comparison
+  `elementaryTwoQuotientEquivSquareClassGroup`; pushforward along a field map
+  (`RingHom.squareClassMap`, `RingHom.multiplicativeSquareClassMap`), compatible with the
+  dictionary (`RingHom.multiplicativeSquareClassEquiv_map`); and the finiteness transfer
+  through the `Nat.card` API (`finite_multiplicativeSquareClassGroup_iff`,
+  `natCard_multiplicativeSquareClassGroup`), which is the interface that Layer 6 consumes.
+- **Representation and value sets** [Tau Ceti]. `QuadraticMap.Represents` and
+  `QuadraticMap.unitValueSet`, as fixed in the convention table, with the basic calculus:
+  - `unitValueSet` is closed under multiplication by squares
+    (`QuadraticMap.mem_unitValueSet_mul_sq_iff`), so it is a union of square classes;
   - `Represents Q 0` holds for **every** `Q`, by the zero vector, with no hypothesis on
-    `Q` and none on its space. It is stated and proved as such, because it is exactly
-    what makes the full value set useless as an invariant and the classification
-    statements use `unitValueSet`. It is not isotropy: `¬ Q.Anisotropic` asks for a
-    nonzero `v` with `Q v = 0`, and an anisotropic form satisfies the first and fails
-    the second;
-  - the **representation criterion** (Lam I.2.3, I.3.5): for regular `Q` and `a : Kˣ`,
+    `Q` and none on its space (`QuadraticMap.represents_zero`). This is exactly what makes
+    the full value set useless as an invariant, and the classification statements use
+    `unitValueSet`. It is not isotropy: `¬ Q.Anisotropic` asks for a nonzero `v` with
+    `Q v = 0`, and an anisotropic form satisfies the first and fails the second;
+  - the **representation criterion** (Lam I.2.3, I.3.5),
+    `QuadraticMap.mem_unitValueSet_iff_not_anisotropic_prod`: for regular `Q` and `a : Kˣ`,
     `a ∈ unitValueSet Q` if and only if `Q ⊥ ⟨−a⟩` is isotropic. The hypothesis `a : Kˣ`
-    carries the whole content of the reduction: the right-hand side is the existence of
-    a nonzero vector on which `Q ⊥ ⟨−a⟩` vanishes, and it is only for `a ≠ 0` that its
-    last coordinate can be normalized to `1` and the isotropic vector turned into a
-    representation of `a` by `Q`. Read at `a = 0` both sides degenerate: the left is the
-    universally true `Represents Q 0`, and the right becomes isotropy of the degenerate
-    form `Q ⊥ ⟨0⟩`, which every `Q` satisfies. So the criterion is a statement about
-    units and is stated only there.
+    carries the whole content of the reduction: the right-hand side is the existence of a
+    nonzero vector on which `Q ⊥ ⟨−a⟩` vanishes, and it is only for `a ≠ 0` that its last
+    coordinate can be normalized to `1` and the isotropic vector turned into a
+    representation of `a` by `Q`. Read at `a = 0` both sides hold for every `Q`, so the
+    criterion is a statement about units and is stated only there.
 
   Every later question about represented values is turned into an isotropy question
   through the criterion.
-- **Binary forms in normal form.** Two theorems, both about units `a b c d`:
-  - **representation normal form** (Lam I.2.3 (2)):
-    `c ∈ unitValueSet ⟨a,b⟩ ↔ ⟨a,b⟩ ≅ ⟨c, abc⟩`. The second coefficient is `abc`
-    because its square class must be `ab/c`, and `ab/c = abc` modulo squares. State
-    both spellings and prove them equal, because the sources use both.
-  - **binary equivalence criterion** (Lam I.5.1): `⟨a,b⟩ ≅ ⟨c,d⟩` if and only if
-    `IsSquare (a*b*(c*d))` and the two forms represent a common unit.
-- **Chain equivalence.** Every diagonal invariant rests on this theorem, so the
-  relation is stated exactly. For `w w' : Fin n → Kˣ`:
-  - `PermutationStep w w'`: there is `σ : Equiv.Perm (Fin n)` with `w' i = w (σ i)`;
-  - `BinaryStep w w'`: there are distinct `i j : Fin n` with `w k = w' k` for
+- **Binary forms in normal form** [Tau Ceti], both about units `a b c d`:
+  - **representation normal form** (Lam I.2.3 (2)),
+    `TauCeti.mem_unitValueSet_binary_iff_equivalent`:
+    `c ∈ unitValueSet ⟨a,b⟩ ↔ ⟨a,b⟩ ≅ ⟨c, abc⟩`. The second coefficient is `abc` because
+    its square class must be `ab/c`, and `ab/c = abc` modulo squares; the spelling with
+    `ab c⁻¹` presents the same form (`TauCeti.equivalent_binaryNormalForm_inv`);
+  - **binary equivalence criterion** (Lam I.5.1), `TauCeti.equivalent_binary_iff`:
+    `⟨a,b⟩ ≅ ⟨c,d⟩` if and only if `IsSquare (a*b*(c*d))` and the two forms represent a
+    common unit.
+- **Chain equivalence** [Tau Ceti]. Every diagonal invariant rests on this theorem. For
+  `w w' : Fin n → Kˣ` the relations are:
+  - `TauCeti.PermutationStep w w'`: there is `σ : Equiv.Perm (Fin n)` with `w' i = w (σ i)`;
+  - `TauCeti.BinaryStep w w'`: there are distinct `i j : Fin n` with `w k = w' k` for
     `k ∉ {i,j}` and `⟨w i, w j⟩ ≅ ⟨w' i, w' j⟩`;
-  - `DiagonalStep w w'` is the disjunction of the two;
-  - `DiagonalChain := Relation.ReflTransGen DiagonalStep`.
+  - `TauCeti.DiagonalStep w w'` is the disjunction of the two;
+  - `TauCeti.DiagonalChain := Relation.ReflTransGen DiagonalStep`.
 
-  A transposition is already a `BinaryStep`, because `⟨a,b⟩ ≅ ⟨b,a⟩`, so
-  `PermutationStep` adds no generating data. Prove that containment as a lemma and keep
-  both relations, because permutation invariance is the form that later proofs apply.
+  A transposition is already a `BinaryStep`, because `⟨a,b⟩ ≅ ⟨b,a⟩`, so `PermutationStep`
+  adds no generating data (`PermutationStep.to_reflTransGen_binaryStep`). Both relations are
+  kept, because permutation invariance is the form that later proofs apply.
 
-  The theorem is the equivalence
+  The comparison of chains with isometry depends on the rank `n`:
+  - **`n ≥ 2`**: `DiagonalChain w w' ↔ weightedSumSquares w ≅ weightedSumSquares w'`
+    (`TauCeti.diagonalChain_iff_equivalent_of_two_le`). Left to right is elementary,
+    because each step is an isometry (`DiagonalChain.equivalent`). Right to left is
+    **Witt's chain-equivalence theorem** (Lam I.5.2), and it is the difficult direction;
+  - **`n = 0`**: both sides hold (`TauCeti.diagonalChain_iff_equivalent_fin_zero`);
+  - **`n = 1`**: a chain is equality of the coefficient
+    (`TauCeti.diagonalChain_fin_one_iff_eq`), because a binary step needs two distinct
+    slots, while `⟨a⟩ ≅ ⟨b⟩` exactly when `a * b` is a square. ⚠ So the equivalence is
+    false in rank one: over `ℚ`, `⟨1⟩ ≅ ⟨4⟩` by halving the coordinate, and no chain joins
+    them.
 
-  ```text
-  DiagonalChain w w'  ↔  weightedSumSquares w ≅ weightedSumSquares w'
-  ```
+  **Built here:** the comparison with Serre IV Thm 5 on contiguous orthogonal bases, stated
+  as a separate theorem so that a development that uses contiguity can be consumed.
+  Contiguity is a comparison target, and never an alternative definition of the relation
+  above.
+- **The descent principle** [Tau Ceti], `TauCeti.RegularFormClass.liftDiagonal` with
+  `liftDiagonal_mk` and `liftDiagonal_unique`. A function `f` on diagonal presentations
+  descends uniquely along `Quotient.mk` to a function on `RegularFormClass K` that agrees
+  with `f` on each presentation as soon as it satisfies three hypotheses:
+  - `hperm`: `f` is invariant under `PermutationStep`;
+  - `hbin`: `f` is invariant under `BinaryStep`;
+  - `hone`: in rank one, `f ⟨a⟩ = f ⟨b⟩` whenever `a * b` is a square.
 
-  The two directions are not equally hard. Left to right is elementary, because each
-  step is an isometry and isometry is transitive. Right to left is **Witt's
-  chain-equivalence theorem** (Lam I.5.2), and it is the difficult direction. Prove it
-  by a convenient route. State the comparison with Serre IV Thm 5 on contiguous
-  orthogonal bases as a separate theorem, so that a development that uses contiguity can
-  be consumed. Contiguity is a comparison target, and never an alternative definition of
-  the relation above.
-- **The descent principle.** A function `f` on diagonal tuples of units that is
-  invariant under `PermutationStep` and under `BinaryStep` descends uniquely along
-  `Quotient.mk` to a function on `RegularFormClass K` that agrees with `f` on each
-  presentation. State it once in exactly this form. Apply it for `discr`,
-  `signedDiscr`, `hasseInvariant`, `localHasse`, `w₁`, and `w₂`.
+  Rank zero needs no hypothesis, having a single presentation. Ranks at least two need only
+  `hperm` and `hbin`, by the chain theorem. Rank one needs `hone`, because no chain joins two
+  isometric forms there. ⚠ Without `hone` the principle is false: the function that reads
+  off the coefficient in rank one and is `1` in every other rank satisfies `hperm` and
+  `hbin` and separates `⟨1⟩` from `⟨4⟩` over `ℚ`.
 
-Basic API for the objects introduced here:
+  The principle is applied to `hasseInvariant` (Layer 5), `localHasse` (Layer 6C), and `w₁`
+  and `w₂` (Layer 8), and each records its `hone`:
+  - `hasseInvariant`, `localHasse` and `w₂` are products or sums over the pairs `i < j`,
+    and in rank one there is no pair, so both sides of `hone` are `1` or `0`;
+  - `w₁ = ∑ᵢ (aᵢ)` has `hone : (a) = (b)` whenever `a * b` is a square (`sw1_rankOne`), which
+    is the one case where the hypothesis has content.
+
+  The discriminant and the signed discriminant do not go through the descent principle:
+  Tau Ceti descends them directly, by the Gram-determinant argument
+  `TauCeti.squareClass_prod_eq_of_equivalent`, which covers every rank at once.
+
+Basic API for the objects introduced here, Tau Ceti's except where a milestone is marked
+as built here:
 
 - constructors: `RegularFormPresentation`, `regularFormSetoid`, `RegularFormClass`,
   `Represents`, `unitValueSet`, `PermutationStep`, `BinaryStep`, `DiagonalChain`;
 - examples: `⟨1,1⟩` and `⟨1,−1⟩` over `ℚ`; the single `BinaryStep` from `⟨1,1⟩` to
-  `⟨2,2⟩` over `ℚ`;
+  `⟨2,2⟩` over `ℚ`; the rank-one pair `⟨1⟩` and `⟨4⟩` over `ℚ`, isometric and joined by no
+  chain;
 - morphisms: the quotient map from presentations to classes; the descent principle as
-  the universal property;
+  the universal property (`liftDiagonal_unique`);
 - functoriality: pushforward of square classes and of presentations along a field map
-  `K →+* L`, with `discr` and dimension commuting with it;
-- comparison lemmas: `DiagonalChain` against `Equivalent`; `IsSquare (a*b)` against
-  equality in the square-class group; contiguous orthogonal bases against
-  `DiagonalChain`;
-- naturality: the descent principle commutes with pushforward along `K →+* L`;
-- edge cases: rank `0` and rank `1`, where the empty and singleton products appear;
-  `Represents Q 0`, which holds for every `Q` and is not a statement about
-  `unitValueSet`;
-- downstream interfaces: Layers 3, 5, 6, and 8 each obtain a well-defined invariant
-  from the descent principle.
+  `K →+* L`, with the rank and `discr` commuting with it
+  (`TauCeti.RegularFormClass.baseChange`, `rank_baseChange`, `discr_baseChange`);
+- comparison lemmas: `DiagonalChain` against `Equivalent`, rank by rank; `IsSquare (a*b)`
+  against equality in the square-class group (`squareClass_eq_iff_isSquare_mul`);
+  contiguous orthogonal bases against `DiagonalChain`, built here;
+- naturality: the descent principle commutes with pushforward along `K →+* L`, built here:
+  if `g` on `L`-presentations and `f` on `K`-presentations satisfy the hypotheses and
+  `g (p.baseChange L) = f p`, then the descended functions satisfy the same equation on
+  `RegularFormClass.baseChange`;
+- edge cases: rank `0` and rank `1`, where the empty and singleton products appear and
+  where the chain theorem changes form; `Represents Q 0`, which holds for every `Q` and is
+  not a statement about `unitValueSet`;
+- downstream interfaces: Layers 5, 6C, and 8 each obtain a well-defined invariant from the
+  descent principle, and Layer 3's discriminants are Tau Ceti's.
 
 ⚠ Nearby false generalization. Equal length and equal discriminant do not give a chain,
 so they do not give an isometry. Over `ℚ`, `⟨1,1⟩` and `⟨−1,−1⟩` have discriminant
@@ -901,26 +973,37 @@ codomain exists.
 
 ### Layer 3: the classical invariants that need no Brauer group
 
-Everything here is a function of a diagonalization, well defined by the descent
-principle, with values in `ℕ`, in `ZMod 2`, or in the square-class group. The Hasse
-invariant is not in this layer, because its codomain is a group of Brauer classes, which
-Layer 5 supplies.
+Everything here is a function of a diagonalization, well defined on `RegularFormClass K`,
+with values in `ℕ`, in `ZMod 2`, or in the square-class group. The Hasse invariant is not in
+this layer, because its codomain is a group of Brauer classes, which Layer 5 supplies. The
+layer is Tau Ceti's except for the two milestones marked as built here.
 
 Prerequisites:
 
 - **[Mathlib]** `discr'`, `basisRepr`, `Matrix.det`, `ZMod 2`;
+- **[Tau Ceti]** `RegularFormClass/Discriminant.lean`, `Diagonal/Chain/Induction.lean`, and
+  `TauCeti/Algebra/Quaternion/Binary.lean`;
 - **[Layer 0]** the descent principle and the binary equivalence criterion;
 - **[Layer 2]** the symbol relations and the norm form.
 
 Milestones:
 
-- **Dimension and dimension mod 2**, with `Equivalent`-invariance, and the induced ring
-  map to `ZMod 2` that Layer 4 uses.
-- **Discriminant and signed discriminant** on `RegularFormClass K`. Prove
-  well-definedness through determinants of Gram matrices, that is Mathlib's `discr'`
-  transported by `basisRepr`, and also through the descent principle applied to
-  `w ↦ ∏ i, w i`. Prove that the two descriptions agree.
-- **The exact formulas**, for `q` of rank `m` and `r` of rank `n`, in `Kˣ ⧸ (Kˣ)²`:
+- **Dimension and dimension mod 2** [Tau Ceti]. The rank `TauCeti.RegularFormClass.rank`,
+  invariant under `Equivalent` (`TauCeti.rank_formClass`) and a semiring map to `ℕ`
+  (`RegularFormClass.rankHom`); the ring map to `ZMod 2` that Layer 4 uses is its composite
+  with `Nat.castRingHom (ZMod 2)`.
+- **Discriminant and signed discriminant** [Tau Ceti] on `RegularFormClass K`:
+  `TauCeti.RegularFormClass.discr` and `TauCeti.RegularFormClass.signedDiscr`, valued in
+  `SquareClassGroup K`, with `discr_mk` and `signedDiscr_mk` on presentations and
+  `TauCeti.discr_formClass` and `TauCeti.signedDiscr_formClass` on a regular form.
+  Well-definedness is the Gram-determinant computation
+  `TauCeti.squareClass_prod_eq_of_equivalent`, through Mathlib's `discr'`
+  (`QuadraticForm.discr'_weightedSumSquares`). This roadmap's `discr` and `signedDiscr`, with
+  `discr_mk`, `signedDiscr_mk` and `signedDiscr_eq_sign_mul_discr`, are the same invariants
+  read in `Kˣ ⧸ (Kˣ)²` through `multiplicativeSquareClassEquiv`, with proofs from Tau Ceti's;
+  they are the names that `GlobalQuadraticForms` consumes.
+- **The exact formulas** [Tau Ceti], for `q` of rank `m` and `r` of rank `n`, written here
+  multiplicatively in `Kˣ ⧸ (Kˣ)²`:
 
   ```text
   d(q ⊥ r)  = d(q) · d(r)                d±(q ⊥ r)  = (−1)^{mn} · d±(q) · d±(r)
@@ -928,40 +1011,55 @@ Milestones:
   d(q ⊗ r)  = d(q)^n · d(r)^m            d±(q ⊗ r)  = (−1)^{mn(mn−1)/2} d(q)^n d(r)^m
   ```
 
-  together with `signedDiscr_eq_sign_mul_discr : d±(q) = (−1)^{m(m−1)/2} · d(q)`, which
-  is the only conversion that a later proof uses. Values on the standard forms:
-  `d±⟨a⟩ = a`, `d±(ℍ_q) = 1`, and `d±⟨⟨a,b⟩⟩ = 1`.
-- **The binary quaternion lemma.** If `⟨a,b⟩ ≅ ⟨c,d⟩` for units `a b c d`, then
-  `ℍ[K,a,b] ≃ₐ[K] ℍ[K,c,d]` (Lam III.2.11 with Layer 2's norm form). This is the one
-  nontrivial input to the well-definedness of the Hasse invariant in Layer 5, and it is
-  proved here, where its codomain is only an isomorphism class of algebras.
-- **Chain induction, prepared.** Two lemmas that Layer 5, Layer 6C, and Layer 8 feed
-  into the descent principle. A function of the form `w ↦ ∏_{i<j} F (w i) (w j)` into a
-  commutative monoid is:
-  - `PermutationStep`-invariant as soon as `F` is symmetric;
-  - `BinaryStep`-invariant as soon as `F` is bimultiplicative and `F a b = F c d`
-    whenever `⟨a,b⟩ ≅ ⟨c,d⟩`.
+  These are `discr_add`, `discr_mk_rankOne_mul`, `discr_mul`, `signedDiscr_add`,
+  `signedDiscr_mk_rankOne_mul` and `signedDiscr_mul`, stated additively, with scaling by `λ`
+  written as multiplication by the rank-one class `⟨λ⟩`. The conversion
+  `d±(q) = (−1)^{m(m−1)/2} · d(q)` is `signedDiscr_eq_sign_add_discr`, read here as
+  `signedDiscr_eq_sign_mul_discr`, and it is the only conversion that a later proof uses.
+  Values on the standard forms: `d±⟨a⟩ = a` (`signedDiscr_mk_rankOne`), `d±(ℍ_q) = 1`
+  (`signedDiscr_hyperbolicClass`), and `d±⟨⟨a,b⟩⟩ = 1`, which Tau Ceti states in the Witt
+  ring (`WittRing.signedDiscr_oneFoldPfisterClass_mul`).
+- **The Gram-determinant description**, built here. For a regular `Q` on a
+  finite-dimensional space and any basis of that space, `discr (formClass Q hQ)` is the
+  square class of the determinant of the Gram matrix of `Q` in that basis, that is Mathlib's
+  `discr'` transported by `basisRepr`. Tau Ceti runs this computation on diagonal
+  presentations to prove well-definedness, and does not state it for an arbitrary basis.
+- **The binary quaternion lemma** [Tau Ceti],
+  `TauCeti.QuaternionAlgebra.nonempty_algEquiv_of_equivalent_binary`: if `⟨a,b⟩ ≅ ⟨c,d⟩`,
+  then `ℍ[K,a,b] ≃ₐ[K] ℍ[K,c,d]` (Lam III.2.11), through the functoriality of Clifford
+  algebras. This is the one nontrivial input to the well-definedness of the Hasse invariant
+  in Layer 5, and its codomain is only an isomorphism class of algebras.
+- **Chain induction, prepared** [Tau Ceti]. A function of the form
+  `w ↦ ∏_{i<j} F (w i) (w j)` into a commutative monoid is:
+  - `PermutationStep`-invariant as soon as `F` is symmetric
+    (`TauCeti.PermutationStep.prod_prod_Ioi_eq`);
+  - `BinaryStep`-invariant as soon as `F` is multiplicative in its first argument and
+    `F a b = F c d` whenever `⟨a,b⟩ ≅ ⟨c,d⟩` (`TauCeti.BinaryStep.prod_prod_Ioi_eq`).
 
-  State both for an abstract commutative monoid `M` and an abstract `F : Kˣ → Kˣ → M`.
-  Then Layer 5 with `M = BrauerGroup K`, Layer 6C with `M = ℤˣ`, and Layer 8 with
-  `M = H²(G_K, 𝔽₂)` written additively each invoke one lemma instead of repeating the
-  induction.
-- **The invariant dictionary, as documentation.** Record in the file docstring which
-  named invariant each source means: O'Meara's `∏_{i≤j}`, Serre's `ε`, Lam's `s`, and
-  Lam's `c`, with the ⚠ Wall caution of the convention table. There is no definition
+  Both are stated for an abstract commutative monoid `M` and an abstract
+  `F : Kˣ → Kˣ → M`. Layer 5 with `M = BrauerGroup K`, Layer 6C with `M = ℤˣ`, and Layer 8
+  with `M = H²(G_K, 𝔽₂)` written additively each invoke them instead of repeating the
+  induction. In rank one such a product is empty, which discharges the rank-one hypothesis
+  of the descent principle.
+- **The invariant dictionary, as documentation**, built here. Record in the file docstring
+  which named invariant each source means: O'Meara's `∏_{i≤j}`, Serre's `ε`, Lam's `s`,
+  and Lam's `c`, with the ⚠ Wall caution of the convention table. There is no definition
   here, and no formula that mentions a Brauer class.
 
 Basic API:
 
-- constructors: `discr`, `signedDiscr`, `dimMod2`;
+- constructors: `discr`, `signedDiscr`, and the rank, all Tau Ceti's;
 - examples: `d±⟨a⟩ = a`; `d±(ℍ_q) = 1`; `d(⟨−1,−1⟩) = [1]`;
-- morphisms: the ring map `RegularFormClass K → ZMod 2` given by dimension;
-- functoriality: `discr` and `signedDiscr` commute with base change along `K →+* L`;
+- morphisms: the ring map `RegularFormClass K → ZMod 2` given by the rank;
+- functoriality: `discr` commutes with base change along `K →+* L`
+  (`TauCeti.RegularFormClass.discr_baseChange`), and so does `signedDiscr`, because the rank
+  does;
 - comparison lemmas: `signedDiscr_eq_sign_mul_discr`; the Gram-determinant description
   against the product description;
 - naturality: the two chain-induction lemmas, stated for an abstract monoid, so that
   each later layer instantiates them;
-- edge cases: rank `0` and rank `1`, where `d± = d`; scaling by a square;
+- edge cases: rank `0` and rank `1`, where `d± = d`
+  (`RegularFormClass.signedDiscr_eq_discr_of_rank_le_one`); scaling by a square;
 - downstream interfaces: Layer 4's `I/I² ≅ Kˣ/(Kˣ)²`, Layer 5's Hasse invariant,
   Layer 6D's classification, and Layer 8's `w₁`.
 
@@ -981,7 +1079,8 @@ Prerequisites:
 Milestones:
 
 - **`Ŵ(K)` and `W(K)`** (Lam II.1). The commutative monoid `(RegularFormClass K, ⊥)`
-  with the multiplication induced by `⊗` is a commutative semiring. Its Grothendieck
+  with the multiplication induced by `⊗` is a commutative semiring, which is Tau Ceti's
+  `TauCeti.instCommSemiringRegularFormClass`. Its Grothendieck
   group is the **Witt-Grothendieck ring** `Ŵ(K)`, and the **Witt ring** `W(K)` is the
   quotient by the ideal generated by `ℍ_q`. Well-definedness rests on Layers 1 and 2,
   that is on cancellation and on the tensor product. Every regular form's Witt class is
@@ -1089,11 +1188,12 @@ Milestones:
     `⟨2,−1⟩ ≅ ⟨1,−2⟩` forces the value `1`.
 - **The Hasse invariant** `hasseInvariant : RegularFormClass K → BrauerGroup K`, with
   `s(⟨a₁,…,aₙ⟩) = ∏_{i<j} [(aᵢ, aⱼ)]` and the empty product for `n ≤ 1`.
-  Well-definedness is Layer 3's chain-induction lemma with `M = BrauerGroup K` and
-  `F a b = [(a,b)]`. Symmetry and bilinearity are the bullet above, and
-  `F a b = F c d` for `⟨a,b⟩ ≅ ⟨c,d⟩` is Layer 3's binary quaternion lemma. Lam V.3.18
-  is this argument. Then the two formulas, for `q` of rank `n` and `r` of rank `m`,
-  writing `s = hasseInvariant`:
+  Well-definedness is Layer 0's descent principle, whose two step hypotheses are Layer 3's
+  chain-induction lemmas with `M = BrauerGroup K` and `F a b = [(a,b)]`. Symmetry and
+  bilinearity are the bullet above, and `F a b = F c d` for `⟨a,b⟩ ≅ ⟨c,d⟩` is Layer 3's
+  binary quaternion lemma. Lam V.3.18 is this argument. The rank-one hypothesis holds
+  because in rank one the product is empty, so both sides are `1`. Then the two formulas,
+  for `q` of rank `n` and `r` of rank `m`, writing `s = hasseInvariant`:
 
   ```text
   s(q ⊥ r)  = s(q) · s(r) · [(d(q), d(r))]
@@ -1565,10 +1665,12 @@ Milestones, in this order:
 6. **Nondegeneracy.** For a nonsquare `a` there is `b` with `(a,b)_K = −1`, with the
    witnesses that 6B lists by defect.
 7. **The local Hasse invariant** `localHasse q = ∏_{i<j} (aᵢ, aⱼ)_K ∈ ℤˣ` for
-   `q ≅ ⟨a₁,…,aₙ⟩`. It is well defined by Layer 3's chain-induction lemma with
-   `M = ℤˣ`. Symmetry and bilinearity are items 3 and 5. The binary condition
-   `(a,b)_K = (c,d)_K` for `⟨a,b⟩ ≅ ⟨c,d⟩` follows from Layer 3's binary quaternion
-   lemma and from item 2. The two formulas of Layer 5 hold here in `{±1}`.
+   `q ≅ ⟨a₁,…,aₙ⟩`. It is well defined by Layer 0's descent principle, whose two step
+   hypotheses are Layer 3's chain-induction lemmas with `M = ℤˣ`. Symmetry and
+   bilinearity are items 3 and 5. The binary condition `(a,b)_K = (c,d)_K` for
+   `⟨a,b⟩ ≅ ⟨c,d⟩` follows from Layer 3's binary quaternion lemma and from item 2. The
+   rank-one hypothesis holds because in rank one the product is empty, so both sides are
+   `1`. The two formulas of Layer 5 hold here in `{±1}`.
 8. **The symbol on a square-class basis: units against a uniformizer.** Fix a uniformizer
    `π`. Then `Kˣ = π^ℤ × 𝒪[K]ˣ`, so by bimultiplicativity and square-class invariance the
    symbol is determined by three families of values, and each is stated as its own
@@ -2196,8 +2298,10 @@ Prerequisites: **[Layer 2]**, **[Layer 6C]** for the local identification only,
 
 Prerequisites:
 
-- **[Layer 0]** the descent principle;
-- **[Layer 3]** the discriminant and the chain-induction lemmas;
+- **[Tau Ceti]** the descent principle `TauCeti.RegularFormClass.liftDiagonal`, the class
+  `formClass` with `formClass_eq_iff`, `isSquare_prod_mul_prod_of_equivalent`, and the
+  chain-induction lemmas of `Diagonal/Chain/Induction.lean`;
+- **[Layer 3]** the discriminant;
 - **[Layer 7A]** the Kummer class, the square-class isomorphism, and `h2MuToUnits`;
 - **[Profinite Cohomology, Layer 12]** `cup` at `f2Pairing`;
 - **[Layer 7B]** and **[Layer 7C]** for the comparison with the Brauer-valued
@@ -2213,11 +2317,23 @@ Milestones:
   quadratic forms* §4). For a diagonal tuple, `w₁⟨a₁, …, aₙ⟩ = ∑ᵢ (aᵢ)` and
   `w₂⟨a₁, …, aₙ⟩ = ∑_{i<j} (aᵢ)(aⱼ)`.
 - **Invariance under isometry, and the descended definitions.** The tuple-level
-  definitions above are invariant under `PermutationStep` and `BinaryStep`: permutation
-  invariance is immediate, and the binary step is the cup identity `(a)(b) = (c)(d)` for
-  `⟨a,b⟩ ≅ ⟨c,d⟩`, which is Layer 7C applied to Layer 0's binary criterion. By Layer 0's
-  descent principle they therefore descend to **named functions `w₁` and `w₂` on
-  `RegularFormClass K`**, agreeing with the tuple-level definitions on every presentation.
+  definitions above satisfy the three hypotheses of Layer 0's descent principle, each a
+  named statement:
+  - for `w₁` (`sw1_permutationStep`, `sw1_binaryStep`, `sw1_rankOne`): `w₁` of a tuple is
+    the Kummer class of its discriminant (`sw1_eq_kummerSquareClassEquiv`), and equivalent
+    tuples of any rank have discriminants in the same square class
+    (`TauCeti.isSquare_prod_mul_prod_of_equivalent`). In rank one the hypothesis is
+    `(a) = (b)` whenever `a * b` is a square, and it does not follow from the two step
+    conditions, since no chain joins `⟨a⟩` to `⟨b⟩`;
+  - for `w₂` (`sw2_permutationStep`, `sw2_binaryStep`, `sw2_rankOne`): permutation
+    invariance is the symmetry of the cup (`cup11_comm`); the binary step is the cup identity
+    `(a)(b) = (c)(d)` for `⟨a,b⟩ ≅ ⟨c,d⟩`, which is Layer 7C applied to Tau Ceti's binary
+    criterion, fed to Tau Ceti's `BinaryStep.prod_prod_Ioi_eq`; and in rank one both sides
+    are the empty sum `0`.
+
+  By the descent principle they therefore descend to **named functions `w₁` and `w₂` on
+  `RegularFormClass K`**, `sw1Class` and `sw2Class`, agreeing with the tuple-level
+  definitions on every presentation (`sw1Class_mk`, `sw2Class_mk`).
   Those descended functions, composed with Layer 0's class of a regular form, are what
   `w₁(q)` and `w₂(q)` mean for a form `q` throughout this roadmap. In particular two
   regular forms that are `QuadraticMap.Equivalent` have the same `w₁` and `w₂`, which is
@@ -2273,8 +2389,9 @@ Basic API:
   against `d` and not against `d±` (`sw1Class_eq_discr`);
 - naturality: the descent of `w₁` and `w₂` along `Quotient.mk`, and their invariance under
   `QuadraticMap.Equivalent`;
-- edge cases: rank `0`, where both classes vanish; a hyperbolic form; `a` a square,
-  where `(a) = 0`;
+- edge cases: rank `0`, where both classes vanish; rank `1`, where `w₁⟨a⟩ = (a)` depends
+  only on the square class of `a` and `w₂⟨a⟩ = 0`; a hyperbolic form; `a` a square, where
+  `(a) = 0`;
 - downstream interfaces: Layer 9's relative Stiefel-Whitney formula, which is stated on
   the descended `w₁` and `w₂`.
 
@@ -2293,7 +2410,11 @@ Prerequisites:
   `Algebra.IsQuadraticExtension.norm_algebraMap_add_algebraMap_mul` and
   `trace_algebraMap_add_algebraMap_mul` of `TauCeti/RingTheory/Norm/Quadratic`;
   `TauCeti.hyperbolicPlane` and `TauCeti.exists_hyperbolicPlane_prod_equivalent` of
-  `TauCeti/LinearAlgebra/QuadraticForm/Hyperbolic`; `TauCeti.dihedralHom` with
+  `TauCeti/LinearAlgebra/QuadraticForm/Hyperbolic`; the class `TauCeti.formClass` with
+  `formClass_mk`, and the discriminant `TauCeti.RegularFormClass.discr` with
+  `TauCeti.discr_formClass`, of `TauCeti/LinearAlgebra/QuadraticForm/RegularFormClass`; the
+  normal form `Algebra.IsQuadraticExtension.exists_eq_algebraMap_add_algebraMap_mul` of
+  `TauCeti/LinearAlgebra/Dimension/IsQuadraticExtension`; `TauCeti.dihedralHom` with
   `dihedralHom_r` and `dihedralHom_sr` of `TauCeti/GroupTheory/SpecificGroups/Dihedral/Basic`;
   `TauCeti.mem_galoisSubgroup_iff`; `TauCeti.kummerCocycle` with
   `TauCeti.kummerMap_eq_kummerCocycleClass`; and the Cartan-Dieudonné theorem
@@ -2380,13 +2501,17 @@ Milestones:
     Tau Ceti's `TauCeti.exists_hyperbolicPlane_prod_equivalent` splits off a hyperbolic plane
     with a complement of rank `0`, so `Tr_*⟨a⟩ ≅ ⟨1, −1⟩`, which is
     `TauCeti.hyperbolicPlane K` (`traceTransfer_weightedSumSquares_equivalent_hyperbolic`);
-  - **the discriminant.** In both cases `d(Tr_*⟨a⟩) = d · N a` in `Kˣ/(Kˣ)²`
-    (`discr_traceTransfer`): `Tr a · d · Tr a / N a ≡ d · N a`, and at trace zero
-    `a = v x` and `−1 ≡ d · N(v x) = −v² d²`. This is the one step of the degree-1 formula
-    that the transfer milestones above do not state. Tau Ceti's landed discriminant is the
-    additive `TauCeti.RegularFormClass.discr`, valued in `SquareClassGroup K`; this
-    roadmap's `discr` is the same invariant written multiplicatively, in
-    `Kˣ ⧸ Subgroup.square Kˣ`.
+  - **the discriminant.** In both cases `d(Tr_*⟨a⟩) = d · N a` modulo squares
+    (`discr_traceTransfer`). It is stated for Tau Ceti's discriminant
+    `TauCeti.RegularFormClass.discr` of Tau Ceti's class `formClass` of the transferred
+    form, as `squareClass d + squareClass (N a)` in `SquareClassGroup K`. If `Tr a ≠ 0`,
+    `TauCeti.discr_formClass` reads the discriminant off Kahn's basis, and
+    `Tr a · d · Tr a / N a ≡ d · N a`. At trace zero the form is `TauCeti.hyperbolicPlane K`,
+    of discriminant `squareClass (−1)`, and `a = v x`, by Tau Ceti's normal form
+    `Algebra.IsQuadraticExtension.exists_eq_algebraMap_add_algebraMap_mul` with
+    `Tr(u + v x) = 2u`, gives `−1 ≡ d · N(v x) = −v² d²`. `Suggested.lean` proves it this way
+    from the two diagonalizations above. This is the one step of the degree-1 formula that the
+    transfer milestones above do not state.
 - **The Galois setup, and the imported transfer by name.** Fix a separable closure `Kˢ`
   containing `L`. The passage from a `K`-embedding `σ : L → Kˢ` to the open subgroup
   `G_L ≤ G_K` is `ProfiniteCohomology.galoisSubgroup` with `galoisSubgroup_index`, and the
@@ -2592,8 +2717,9 @@ Milestones:
 
   Nothing in the statement is a chosen diagonalization. The left-hand sides are Layer 8's
   descended `w₁` and `w₂` applied to the isometry classes of the two transferred forms
-  themselves, which exist by Layer 8's invariance milestone and by the transfer's respect
-  for isometry; the right-hand sides use the canonical corestriction, cup, and index-two
+  themselves, Tau Ceti's `formClass` of each, which exist by Layer 8's invariance milestone
+  and by the transfer's respect for isometry; the right-hand sides use the canonical
+  corestriction, cup, and index-two
   Evens norm attached to `L/K`. A consumer applies it to a quadratic extension and its
   trace forms and supplies no presentation of either side. The hypotheses
   `[FiniteDimensional K L]`, `[Algebra.IsSeparable K L]`, `finrank K L = 2`, and the
@@ -2610,8 +2736,8 @@ Milestones:
     the right-hand side is `(2) ∪ (d) + N^{Ev}((a))`. If `Tr a ≠ 0`, the left-hand side
     is `w₂⟨Tr a, d · Tr a / N a⟩ = (Tr a) ∪ (−d · N a)`, and by the value of the norm so is
     the right-hand side. If `Tr a = 0`, the left-hand side is `w₂⟨1, −1⟩ = 0`, and the
-    right-hand side is `(2) ∪ (d) + (2) ∪ (d) = 0`. Layer 8's `sw2Class_mk`, with
-    `formClass_mk`, evaluates `w₂` on these diagonalizations.
+    right-hand side is `(2) ∪ (d) + (2) ∪ (d) = 0`. Layer 8's `sw2Class_mk`, with Tau
+    Ceti's `formClass_mk`, evaluates `w₂` on these diagonalizations.
 - **The calculational corollary, on diagonal tuples.** The same identity with `w₁` and
   `w₂` read on tuples `t` and `b` that present `Tr_*⟨1⟩` and `Tr_*⟨a⟩`, which is the shape
   a computation over a fixed base uses. It follows from the theorem above through the
@@ -2688,6 +2814,11 @@ sign error.
 - Chain equivalence in one instance: `⟨1,1⟩ ≅ ⟨2,2⟩` over `ℚ`, because both forms
   represent `2` and both have discriminant `1`, exhibited as a single `BinaryStep`
   (Layer 0).
+- The rank-one boundary: `⟨1⟩ ≅ ⟨4⟩` over `ℚ`, and no diagonal chain joins them; and the
+  function that reads off the coefficient in rank one and is `1` in every other rank is
+  invariant under both kinds of step and separates the two presentations. The first shows
+  that the chain theorem needs rank at least two, and the second that the descent principle
+  needs its rank-one hypothesis (Layer 0).
 - `ℍ[ℚ,−1,−1]` is a division algebra; `ℍ[ℚ,1,b] ≃ₐ M₂(ℚ)` for every `b ∈ ℚˣ`; and
   `ℍ[ℚ_2,2,5]` is a division algebra while `ℍ[ℚ_2,5,5]` splits (Layer 2).
 - The four-fold criterion over `ℚ_2` at two points: at `(a,b) = (2,5)`, where all four
@@ -2759,7 +2890,8 @@ consumes says what the later statements assume.
 ## Ordering and parallelism
 
 Layers 0 to 4 are free of cohomology and of the Brauer group, and can be built
-immediately. Within them, Layer 0 comes first, because everything diagonal rests on it.
+immediately. Within them, Layer 0 comes first, because everything diagonal rests on it,
+and it is Tau Ceti's.
 Layers 1 and 2 are independent of each other. Layer 3 needs both, and Layer 4 needs
 Layers 1 to 3.
 

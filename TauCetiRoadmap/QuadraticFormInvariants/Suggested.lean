@@ -3,7 +3,14 @@ import TauCetiRoadmap.ProfiniteCohomology.Suggested
 import TauCetiRoadmap.LocalFieldsRamification.Suggested
 import TauCetiRoadmap.ClassFieldTheory.Suggested
 import TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras.Suggested
+import TauCeti.Algebra.Quaternion.Binary
+import TauCeti.FieldTheory.SquareClassGroup.Multiplicative
 import TauCeti.GroupTheory.SpecificGroups.Dihedral.Basic
+import TauCeti.LinearAlgebra.Dimension.IsQuadraticExtension
+import TauCeti.LinearAlgebra.QuadraticForm.Diagonal.Chain.Induction
+import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Descent
+import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Discriminant
+import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Semiring
 
 /-!
 # Quadratic forms and cohomological invariants: target signatures
@@ -22,9 +29,9 @@ no Stiefel-Whitney classes. We build that theory in `TauCeti/`.
 
 This file fixes the design decisions that are most likely to fork two implementations:
 
-* the carrier for isometry classes (Layer 0);
-* the chain-equivalence relation and the descent principle (Layer 0);
-* the binary normal forms (Layer 0);
+* how the invariants consume Tau Ceti's carrier for isometry classes, its chain theorem, which
+  holds in rank at least two, and its descent principle, whose separate rank-one hypothesis each
+  descended invariant discharges by name (Layers 0, 3, 5, 6C and 8);
 * the four-fold splitting criterion (Layer 2);
 * the Brauer-group data and the Hasse invariant built on it (Layer 5);
 * the quadratic-form adapters to the imported local-field toolkit (Layer 6A);
@@ -42,10 +49,13 @@ This file fixes the design decisions that are most likely to fork two implementa
 **Supplier carriers are canonical.** This roadmap imports the final declarations from
 `ProfiniteCohomology`, `LocalFieldsRamification`, and `ClassFieldTheory`; it does not package
 private substitutes for their cohomology, valuation, ramification, reciprocity, or local-duality
-interfaces. The only adapters below are specific to quadratic forms and to the coefficient
-identification `mu₂ ≃ ZMod 2`. In particular, Class Field Theory owns the cohomological Hilbert
-pairing and reciprocity, while this roadmap owns the norm-equation/quaternion symbol and proves
-the comparison. Hasse--Minkowski and global classification belong to `GlobalQuadraticForms`.
+interfaces. The same holds for Tau Ceti's quadratic-form API: the carrier `RegularFormClass`, the
+class of a form, the chain relations, the descent principle, and the discriminants are Tau Ceti's,
+and no copy of them is declared here. The only adapters below are specific to quadratic forms and
+to the coefficient identification `mu₂ ≃ ZMod 2`. In particular, Class Field Theory owns the
+cohomological Hilbert pairing and reciprocity, while this roadmap owns the norm-equation/quaternion
+symbol and proves the comparison. Hasse--Minkowski and global classification belong to
+`GlobalQuadraticForms`.
 
 Layer-6 conventions follow Serre (*A Course in Arithmetic*, ch. III and IV) and O'Meara
 (§63). The symbol is defined by the norm equation `b = x² − a·y²`, which needs no
@@ -60,6 +70,8 @@ namespace TauCetiRoadmap.QuadraticFormInvariants
 
 open QuadraticMap CategoryTheory
 open scoped Quaternion
+open TauCeti (RegularFormPresentation regularFormSetoid PermutationStep BinaryStep DiagonalChain
+  squareClass)
 
 universe u v
 
@@ -67,172 +79,187 @@ section FormTheory
 
 variable {K : Type u} [Field K]
 
-/-! ## Layer 0: the carrier for isometry classes
+/-! ## Layer 0: the carrier for isometry classes, consumed from Tau Ceti
 
-Functions on isometry classes appear from Layer 3 onwards, and Layer 4 needs a ring
-whose elements are such classes. A quotient over arbitrary finite-dimensional spaces
-would force universe and bundling decisions on the first implementer, so the roadmap
-fixes a diagonal presentation instead. -/
+Layer 0 is Tau Ceti's. The carrier is `TauCeti.RegularFormClass K`
+(`TauCeti/LinearAlgebra/QuadraticForm/RegularFormClass/Basic.lean`), the quotient of the diagonal
+presentations `TauCeti.RegularFormPresentation K := Σ n, Fin n → Kˣ` by isometry of the forms
+`TauCeti.presentedForm p` that they present (`TauCeti.regularFormSetoid`). The class of a regular
+form on a finite-dimensional space is `TauCeti.formClass`; it is computed by any diagonalization
+(`TauCeti.formClass_mk`), and two regular forms are isometric exactly when their classes agree
+(`TauCeti.formClass_eq_iff`). Orthogonal sum and tensor product make the carrier Tau Ceti's
+commutative semiring `TauCeti.instCommSemiringRegularFormClass`, and the rank
+`TauCeti.RegularFormClass.rank` is additive on sums and multiplicative on products.
 
-/-- A diagonal presentation of a regular quadratic form: a rank `n` together with a
-tuple of units, read as `⟨w 0, …, w (n-1)⟩`. -/
-abbrev RegularFormPresentation (K : Type u) [Field K] : Type u := Σ n : ℕ, Fin n → Kˣ
+`GlobalQuadraticForms` consumes the carrier and the class of a form under the names
+`RegularFormClass` and `formClass` of this namespace. The `export` below makes those two names
+aliases of Tau Ceti's declarations: they denote the same constants, and no copy is declared. -/
 
-/-- The form presented by `(n, w)`, namely `weightedSumSquares K w`. -/
-def presentedForm (p : RegularFormPresentation K) : QuadraticForm K (Fin p.1 → K) :=
-  weightedSumSquares K fun i => ((p.2 i : K))
+export TauCeti (RegularFormClass formClass)
 
-/-- Two presentations are related when the forms they present are isometric. Mathlib's
-`QuadraticMap.Equivalent` already compares forms on different spaces, so presentations
-of different ranks may be compared, and only equal ranks are ever related. -/
-instance regularFormSetoid (K : Type u) [Field K] : Setoid (RegularFormPresentation K) where
-  r p q := (presentedForm p).Equivalent (presentedForm q)
-  iseqv :=
-    { refl := fun p => Equivalent.refl (presentedForm p)
-      symm := fun h => h.symm
-      trans := fun h h' => h.trans h' }
+/-! ## Layer 0: value sets and binary normal forms, consumed from Tau Ceti
 
-/-- **Layer 0, the carrier.** Isometry classes of regular finite-dimensional quadratic
-forms, presented diagonally. Layer 3's invariants are functions on this type, and
-Layer 4's Witt-Grothendieck ring is built from its two monoid structures. -/
-abbrev RegularFormClass (K : Type u) [Field K] : Type u := Quotient (regularFormSetoid K)
-
-/-- **Layer 0, every regular form has a presentation.** Diagonalization
-(`equivalent_weightedSumSquares_units_of_nondegenerate'`) supplies one. -/
-theorem exists_presentedForm_equivalent [Invertible (2 : K)] {V : Type v} [AddCommGroup V]
-    [Module K V] [FiniteDimensional K V] (Q : QuadraticForm K V) (hQ : Q.Nondegenerate) :
-    ∃ p : RegularFormPresentation K, Q.Equivalent (presentedForm p) :=
-  sorry
-
-/-- **Layer 0, the class of a regular form.** The content of the milestone is that the class
-does not depend on the diagonalization chosen to compute it, which is `formClass_mk` below.
-This is what lets every invariant of Layers 3, 5, 6 and 8 be applied to a form rather than to
-a presentation, and it is what Layer 9's form-level Stiefel-Whitney theorem is stated
-through. -/
-noncomputable def formClass [Invertible (2 : K)] {V : Type v} [AddCommGroup V] [Module K V]
-    [FiniteDimensional K V] (Q : QuadraticForm K V) (hQ : Q.Nondegenerate) :
-    RegularFormClass K :=
-  Quotient.mk _ (exists_presentedForm_equivalent Q hQ).choose
-
-/-- **Layer 0, the class is computed by any diagonalization.** -/
-theorem formClass_mk [Invertible (2 : K)] {V : Type v} [AddCommGroup V] [Module K V]
-    [FiniteDimensional K V] (Q : QuadraticForm K V) (hQ : Q.Nondegenerate)
-    (p : RegularFormPresentation K) (hp : Q.Equivalent (presentedForm p)) :
-    formClass Q hQ = Quotient.mk _ p :=
-  sorry
-
-/-- **Layer 0, two regular forms are isometric exactly when their classes agree.** -/
-theorem formClass_eq_iff [Invertible (2 : K)] {V W : Type v} [AddCommGroup V] [Module K V]
-    [FiniteDimensional K V] [AddCommGroup W] [Module K W] [FiniteDimensional K W]
-    (Q : QuadraticForm K V) (hQ : Q.Nondegenerate) (R : QuadraticForm K W)
-    (hR : R.Nondegenerate) :
-    formClass Q hQ = formClass R hR ↔ Q.Equivalent R :=
-  sorry
-
-/-! ## Layer 0: chain equivalence and the descent principle -/
-
-/-- A permutation of the slots of a diagonal tuple. -/
-def PermutationStep {n : ℕ} (w w' : Fin n → Kˣ) : Prop :=
-  ∃ σ : Equiv.Perm (Fin n), ∀ i, w' i = w (σ i)
-
-/-- A binary move: two slots change by an isometry of binary forms, the rest are fixed. -/
-def BinaryStep [Invertible (2 : K)] {n : ℕ} (w w' : Fin n → Kˣ) : Prop :=
-  ∃ i j : Fin n, i ≠ j ∧ (∀ k, k ≠ i → k ≠ j → w k = w' k) ∧
-    (weightedSumSquares K ![(w i : K), (w j : K)]).Equivalent
-      (weightedSumSquares K ![(w' i : K), (w' j : K)])
-
-/-- One step of Witt's chain equivalence. A transposition is already a `BinaryStep`,
-because `⟨a,b⟩ ≅ ⟨b,a⟩`, so `PermutationStep` adds no generating data. It is kept
-because permutation invariance is what downstream proofs apply. -/
-def DiagonalStep [Invertible (2 : K)] {n : ℕ} (w w' : Fin n → Kˣ) : Prop :=
-  PermutationStep w w' ∨ BinaryStep w w'
-
-/-- **Chain equivalence** of diagonal tuples (Lam I.5.2). -/
-def DiagonalChain [Invertible (2 : K)] {n : ℕ} (w w' : Fin n → Kˣ) : Prop :=
-  Relation.ReflTransGen DiagonalStep w w'
-
-/-- **Layer 0, Witt's chain-equivalence theorem** (Lam I.5.2). The two directions are not
-equally hard. Left to right is elementary, because each step is an isometry. Right to
-left is Witt's theorem, and it is the difficult direction. -/
-example [Invertible (2 : K)] {n : ℕ} (w w' : Fin n → Kˣ) :
-    DiagonalChain w w' ↔
-      (weightedSumSquares K fun i => ((w i : K))).Equivalent
-        (weightedSumSquares K fun i => ((w' i : K))) :=
-  sorry
-
-/-- **Layer 0, the descent principle**, which is the form that every later invariant
-consumes. A function of diagonal tuples that is invariant under permutations and under
-binary moves descends uniquely to `RegularFormClass K`. It is applied with
-`M = BrauerGroup K` (Layer 5), `M = ℤˣ` (Layer 6C), and `M = H²(G_K, 𝔽₂)` written
-additively (Layer 8). -/
-example [Invertible (2 : K)] {M : Type v} [CommMonoid M] (f : RegularFormPresentation K → M)
-    (hperm : ∀ (n : ℕ) (w w' : Fin n → Kˣ), PermutationStep w w' → f ⟨n, w⟩ = f ⟨n, w'⟩)
-    (hbin : ∀ (n : ℕ) (w w' : Fin n → Kˣ), BinaryStep w w' → f ⟨n, w⟩ = f ⟨n, w'⟩) :
-    ∃! F : RegularFormClass K → M, ∀ p, F (Quotient.mk _ p) = f p :=
-  sorry
-
-/-! ## Layer 0: representation, value sets, and binary normal forms -/
+`QuadraticMap.Represents` and `QuadraticMap.unitValueSet`, with the representation criterion
+(`TauCeti/LinearAlgebra/QuadraticForm/Representation.lean`), and the binary normal forms
+(`TauCeti/LinearAlgebra/QuadraticForm/Binary.lean`) are Tau Ceti's. The statements below apply them
+in the shapes that the later layers use. -/
 
 /-- **Non-vacuity worked example.** `⟨1,1⟩` and `⟨1,−1⟩` are inequivalent over `ℚ`:
-the first is anisotropic, that is positive definite, and the second is the hyperbolic
-plane. -/
+the first is anisotropic, that is positive definite (Tau Ceti's
+`TauCeti.anisotropic_binary_one_one_iff`, as `−1` is not a square), and the second is the
+hyperbolic plane, isotropic at `(1, 1)`; anisotropy is an isometry invariant
+(`QuadraticMap.Equivalent.anisotropic_iff`). -/
 example :
-    ¬ (weightedSumSquares ℚ ![(1 : ℚ), 1]).Equivalent (weightedSumSquares ℚ ![(1 : ℚ), -1]) :=
-  sorry
+    ¬ (weightedSumSquares ℚ ![(1 : ℚ), 1]).Equivalent (weightedSumSquares ℚ ![(1 : ℚ), -1]) := by
+  intro h
+  have hani : (weightedSumSquares ℚ ![(1 : ℚ), 1]).Anisotropic :=
+    TauCeti.anisotropic_binary_one_one_iff.2 fun ⟨r, hr⟩ => by nlinarith [mul_self_nonneg r]
+  have h0 := h.anisotropic_iff.1 hani ![1, 1] (by simp [weightedSumSquares_apply])
+  exact one_ne_zero (by simpa using congrFun h0 0 : (1 : ℚ) = 0)
 
-/-- **Layer 0, every form represents the scalar `0`.** The witness is the zero vector, so this
-holds for every `Q`, on every space, with no regularity and no finiteness hypothesis. It is
-recorded as a theorem because it is what makes the full value set useless as an invariant, and
-it is why every classification statement below is about `unitValueSet`. -/
-theorem represents_zero {V : Type v} [AddCommGroup V] [Module K V] (Q : QuadraticForm K V) :
-    ∃ v : V, Q v = 0 :=
-  ⟨0, by simp⟩
+/-- **Layer 0, every form represents the scalar `0`, and that is not isotropy.** Tau Ceti's
+`QuadraticMap.represents_zero` holds for every `Q`, through the zero vector, and an anisotropic form
+represents `0` through the zero vector only. "Isotropic" is `¬ Q.Anisotropic`, which demands a
+**nonzero** vector; ⚠ never read the first as evidence of the second. It is why every
+classification statement below is about `unitValueSet`. -/
+example {V : Type v} [AddCommGroup V] [Module K V] (Q : QuadraticForm K V)
+    (hQ : Q.Anisotropic) :
+    QuadraticMap.Represents Q 0 ∧ ∀ v : V, Q v = 0 → v = 0 :=
+  ⟨QuadraticMap.represents_zero Q, hQ⟩
 
-/-- **Layer 0, representing `0` is not isotropy.** An anisotropic form still represents the
-scalar `0`, and does so only through the zero vector. The two notions are kept apart
-throughout: `Represents Q 0` is the theorem above, and "isotropic" is `¬ Q.Anisotropic`, which
-demands a **nonzero** vector. ⚠ Never read the first as evidence of the second. -/
-theorem represents_zero_of_anisotropic {V : Type v} [AddCommGroup V] [Module K V]
-    (Q : QuadraticForm K V) (hQ : Q.Anisotropic) :
-    (∃ v : V, Q v = 0) ∧ ∀ v : V, Q v = 0 → v = 0 :=
-  ⟨represents_zero Q, hQ⟩
+/-- **Layer 0, the representation criterion** (Lam I.3.5), Tau Ceti's
+`QuadraticMap.mem_unitValueSet_iff_not_anisotropic_prod`: a regular form represents a unit `a`
+exactly when `Q ⊥ ⟨−a⟩` is isotropic. This turns every value-set question into an isotropy
+question. The hypothesis `a : Kˣ` carries the content: read at `a = 0` both sides hold for every
+`Q`, so the criterion is stated for units and nowhere else. -/
+example {V : Type v} [AddCommGroup V] [Module K V] (Q : QuadraticForm K V)
+    (hQ : Q.Nondegenerate) (a : Kˣ) :
+    a ∈ QuadraticMap.unitValueSet Q ↔
+      ¬ (Q.prod ((-(a : K)) • (QuadraticMap.sq : QuadraticForm K K))).Anisotropic :=
+  QuadraticMap.mem_unitValueSet_iff_not_anisotropic_prod Q hQ a
 
-/-- **Layer 0, the representation criterion** (Lam I.3.5). A regular diagonal form
-represents a unit `a` exactly when `⟨−a⟩ ⊥ q` is isotropic. This turns every value-set
-question into an isotropy question. The criterion is about the unit value set `D(q)`, and the
-hypothesis `a : Kˣ` carries its content: the right-hand side asks for a **nonzero** vector on
-which `⟨−a⟩ ⊥ q` vanishes, and only for `a ≠ 0` can its first coordinate be normalized to `1`
-and the isotropic vector turned into a representation of `a` by `q`. ⚠ Read at `a = 0` both
-sides degenerate — the left is `represents_zero`, true for every `q`, and the right is isotropy
-of the degenerate form `⟨0⟩ ⊥ q`, also true for every `q` — so the criterion is stated for units
-and nowhere else. -/
-example [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) (a : Kˣ) :
-    (∃ x : Fin n → K, weightedSumSquares K (fun i => ((w i : K))) x = a) ↔
-      ¬ (weightedSumSquares K (Fin.cons (-(a : K)) fun i => ((w i : K)))).Anisotropic :=
-  sorry
-
-/-- **Layer 0, the binary representation normal form** (Lam I.2.3(2)). A binary form
-represents `c` exactly when `c` can be taken as its first coefficient, the second being
-forced by the discriminant. The second coefficient is written `a*b*c`, which is the
-square class of `a*b/c`. Both spellings occur in the sources, and their agreement is part
-of the milestone. -/
-example [Invertible (2 : K)] (a b c : Kˣ) :
-    (∃ x : Fin 2 → K, weightedSumSquares K ![(a : K), b] x = c) ↔
+/-- **Layer 0, the binary representation normal form** (Lam I.2.3(2)), Tau Ceti's
+`TauCeti.mem_unitValueSet_binary_iff_equivalent`: a binary form represents the unit `c` exactly
+when `c` can be taken as its first coefficient, the second being forced to `a*b*c`. The spelling
+`a*b*c⁻¹` of other sources presents the same form (`TauCeti.equivalent_binaryNormalForm_inv`). -/
+example (a b c : Kˣ) :
+    c ∈ QuadraticMap.unitValueSet (weightedSumSquares K ![(a : K), b]) ↔
       (weightedSumSquares K ![(a : K), b]).Equivalent
         (weightedSumSquares K ![(c : K), (a : K) * b * c]) :=
-  sorry
+  TauCeti.mem_unitValueSet_binary_iff_equivalent (a : K) b c
 
-/-- **Layer 0, the binary equivalence criterion** (Lam I.5.1). Two regular binary
-diagonal forms are equivalent exactly when they have the same discriminant in square
-classes, that is `IsSquare (a*b*(c*d))` in the quotient-free spelling of
-`TauCeti.squareClass_eq_zero_iff`, and represent a common unit. This is the single
-binary move to which chain equivalence reduces every equivalence of diagonal forms. -/
+/-- **Layer 0, the binary equivalence criterion** (Lam I.5.1), Tau Ceti's
+`TauCeti.equivalent_binary_iff`: two regular binary diagonal forms are equivalent exactly when
+they have the same discriminant in square classes, in the quotient-free spelling
+`IsSquare (a*b*(c*d))`, and represent a common unit. This is the single binary move to which the
+chain theorem reduces every equivalence of diagonal forms of rank at least two. -/
 example [Invertible (2 : K)] (a b c d : Kˣ) :
     (weightedSumSquares K ![(a : K), b]).Equivalent (weightedSumSquares K ![(c : K), d]) ↔
       (IsSquare (a * b * (c * d)) ∧
-        ∃ e : Kˣ, (∃ x : Fin 2 → K, weightedSumSquares K ![(a : K), b] x = e) ∧
-          ∃ x : Fin 2 → K, weightedSumSquares K ![(c : K), d] x = e) :=
-  sorry
+        ∃ e : Kˣ, e ∈ QuadraticMap.unitValueSet (weightedSumSquares K ![(a : K), b]) ∧
+          e ∈ QuadraticMap.unitValueSet (weightedSumSquares K ![(c : K), d])) :=
+  TauCeti.equivalent_binary_iff a b c d
+
+/-! ## Layer 0: chain equivalence and the descent principle, consumed from Tau Ceti
+
+The relations are Tau Ceti's `TauCeti.PermutationStep`, `TauCeti.BinaryStep`,
+`TauCeti.DiagonalStep` and `TauCeti.DiagonalChain`, the reflexive-transitive closure of the steps
+(`TauCeti/LinearAlgebra/QuadraticForm/Diagonal/Chain/Basic.lean`). A transposition is already a
+binary step (`TauCeti.PermutationStep.to_reflTransGen_binaryStep`), and a chain joins isometric
+forms (`TauCeti.DiagonalChain.equivalent`). Witt's converse (`Diagonal/WittChain.lean`) is a
+theorem about rank at least two. A binary step needs two distinct slots, so in rank one a chain is
+equality of the coefficient, while `⟨a⟩ ≅ ⟨b⟩` only asks for `a * b` to be a square. The three
+ranks are stated separately below, and the descent principle (`RegularFormClass/Descent.lean`)
+carries the rank-one case as a hypothesis of its own. -/
+
+/-- **Layer 0, Witt's chain-equivalence theorem in rank at least two** (Lam I.5.2), Tau Ceti's
+`TauCeti.diagonalChain_iff_equivalent_of_two_le`. Left to right is elementary, since each step is
+an isometry; right to left is Witt's theorem. -/
+example [Invertible (2 : K)] {n : ℕ} (hn : 2 ≤ n) (w w' : Fin n → Kˣ) :
+    DiagonalChain w w' ↔
+      (weightedSumSquares K fun i => ((w i : K))).Equivalent
+        (weightedSumSquares K fun i => ((w' i : K))) :=
+  TauCeti.diagonalChain_iff_equivalent_of_two_le hn
+
+/-- **Layer 0, the chain theorem in rank zero**, where both sides hold:
+`TauCeti.diagonalChain_iff_equivalent_fin_zero`. -/
+example (w w' : Fin 0 → Kˣ) :
+    DiagonalChain w w' ↔
+      (weightedSumSquares K fun i => ((w i : K))).Equivalent
+        (weightedSumSquares K fun i => ((w' i : K))) :=
+  TauCeti.diagonalChain_iff_equivalent_fin_zero
+
+/-- **Layer 0, in rank one a chain is equality of the coefficient**:
+`TauCeti.diagonalChain_fin_one_iff_eq`. -/
+example (w w' : Fin 1 → Kˣ) : DiagonalChain w w' ↔ w = w' :=
+  TauCeti.diagonalChain_fin_one_iff_eq
+
+/-- **Layer 0, the rank-one boundary of the chain theorem.** `⟨1⟩ ≅ ⟨4⟩` over `ℚ`, by halving the
+coordinate, and no diagonal chain joins them. So the equivalence of chains with isometry is false
+without the hypothesis `2 ≤ n`. -/
+example :
+    (weightedSumSquares ℚ ![((1 : ℚˣ) : ℚ)]).Equivalent
+        (weightedSumSquares ℚ ![((Units.mk0 (4 : ℚ) (by norm_num) : ℚˣ) : ℚ)]) ∧
+      ¬ DiagonalChain ![(1 : ℚˣ)] ![Units.mk0 (4 : ℚ) (by norm_num)] := by
+  refine ⟨⟨QuadraticForm.isometryEquivWeightedSumSquaresWeightedSumSquares
+    ![Units.mk0 (1 / 2 : ℚ) (by norm_num)] fun i => ?_⟩, ?_⟩
+  · fin_cases i
+    norm_num
+  · rw [TauCeti.diagonalChain_fin_one_iff_eq]
+    intro h
+    have := congrArg (fun f : Fin 1 → ℚˣ => ((f 0 : ℚˣ) : ℚ)) h
+    norm_num at this
+
+/-- **Layer 0, the descent principle**, which is the form that every later invariant consumes:
+Tau Ceti's `TauCeti.RegularFormClass.liftDiagonal`, with `liftDiagonal_mk` and
+`liftDiagonal_unique`. A function of diagonal presentations descends uniquely to
+`RegularFormClass K` when it is invariant under permutation steps, under binary steps, and, in
+rank one, under changing the coefficient by a square. Rank zero needs no hypothesis, having a
+single presentation; rank one needs `hone`, having no binary step; ranks at least two need only the
+two step conditions, by the chain theorem. It is applied with `M = BrauerGroup K` (Layer 5),
+`M = ℤˣ` (Layer 6C), and `M = H¹(G_K, 𝔽₂)` and `M = H²(G_K, 𝔽₂)` (Layer 8), and each of those
+invariants discharges `hone` as a named statement. -/
+example [Invertible (2 : K)] {M : Type v} (f : RegularFormPresentation K → M)
+    (hperm : ∀ {n} {w w' : Fin n → Kˣ}, PermutationStep w w' → f ⟨n, w⟩ = f ⟨n, w'⟩)
+    (hbin : ∀ {n} {w w' : Fin n → Kˣ}, BinaryStep w w' → f ⟨n, w⟩ = f ⟨n, w'⟩)
+    (hone : ∀ a b : Kˣ, IsSquare (a * b) → f ⟨1, fun _ => a⟩ = f ⟨1, fun _ => b⟩) :
+    ∃! F : RegularFormClass K → M, ∀ p, F (Quotient.mk _ p) = f p :=
+  ⟨TauCeti.RegularFormClass.liftDiagonal f hperm hbin hone,
+    TauCeti.RegularFormClass.liftDiagonal_mk f hperm hbin hone,
+    fun g hg => TauCeti.RegularFormClass.liftDiagonal_unique f hperm hbin hone g hg⟩
+
+/-- **Layer 0, the rank-one hypothesis of the descent principle is necessary.** The function that
+reads off the coefficient in rank one and is `1` in every other rank passes both step conditions,
+and it separates the presentations `⟨1⟩` and `⟨4⟩` of one class over `ℚ`. -/
+example : ∃ f : RegularFormPresentation ℚ → ℚˣ,
+    (∀ {n} {w w' : Fin n → ℚˣ}, PermutationStep w w' → f ⟨n, w⟩ = f ⟨n, w'⟩) ∧
+    (∀ {n} {w w' : Fin n → ℚˣ}, BinaryStep w w' → f ⟨n, w⟩ = f ⟨n, w'⟩) ∧
+    ∃ p q : RegularFormPresentation ℚ,
+      Quotient.mk (regularFormSetoid ℚ) p = Quotient.mk (regularFormSetoid ℚ) q ∧ f p ≠ f q := by
+  classical
+  refine ⟨fun p => if h : p.1 = 1 then p.2 ⟨0, by omega⟩ else 1, ?_, ?_, ?_⟩
+  · intro n w w' h
+    obtain ⟨σ, hσ⟩ := h.exists_perm
+    by_cases hn : n = 1
+    · subst hn
+      simp only [dite_true]
+      rw [hσ, Subsingleton.elim (σ ⟨0, _⟩) ⟨0, _⟩]
+    · simp [hn]
+  · intro n w w' h
+    obtain ⟨i, j, hij, -, -⟩ := h.exists_pair
+    by_cases hn : n = 1
+    · subst hn
+      exact absurd (Subsingleton.elim i j) hij
+    · simp [hn]
+  · refine ⟨⟨1, fun _ => 1⟩, ⟨1, fun _ => Units.mk0 4 (by norm_num)⟩, ?_, ?_⟩
+    · rw [TauCeti.RegularFormClass.mk_eq_mk_iff, TauCeti.presentedForm_eq_weightedSumSquares_coe,
+        TauCeti.presentedForm_eq_weightedSumSquares_coe]
+      exact ⟨QuadraticForm.isometryEquivWeightedSumSquaresWeightedSumSquares
+        (fun _ => Units.mk0 (1 / 2 : ℚ) (by norm_num)) fun _ => by norm_num⟩
+    · simp only [dite_true, ne_eq]
+      intro h
+      have := congrArg Units.val h
+      norm_num at this
 
 /-! ## Layer 1: hyperbolic planes and Witt theory -/
 
@@ -315,55 +342,87 @@ example [Invertible (2 : K)] (a b : Kˣ) :
       ¬ (weightedSumSquares K ![(1 : K), -(a : K), -(b : K)]).Anisotropic].TFAE :=
   sorry
 
-/-- **Layer 3, the binary quaternion lemma.** Equivalent binary forms have isomorphic
-quaternion algebras. This is the one nontrivial input to the well-definedness of the
-Hasse invariant in Layer 5 and of the local Hasse invariant in Layer 6C (Lam III.2.11,
-V.3.18). It is proved here, where its codomain is only an isomorphism class of
+/-- **Layer 3, the binary quaternion lemma**, Tau Ceti's
+`TauCeti.QuaternionAlgebra.nonempty_algEquiv_of_equivalent_binary`: equivalent binary forms have
+isomorphic quaternion algebras, through the functoriality of Clifford algebras. This is the one
+nontrivial input to the well-definedness of the Hasse invariant in Layer 5 and of the local Hasse
+invariant in Layer 6C (Lam III.2.11, V.3.18), and its codomain is only an isomorphism class of
 algebras. -/
-example [Invertible (2 : K)] (a b c d : Kˣ)
+example (a b c d : Kˣ)
     (h : (weightedSumSquares K ![(a : K), b]).Equivalent
       (weightedSumSquares K ![(c : K), d])) :
     Nonempty (ℍ[K, (a : K), (b : K)] ≃ₐ[K] ℍ[K, (c : K), (d : K)]) :=
-  sorry
+  TauCeti.QuaternionAlgebra.nonempty_algEquiv_of_equivalent_binary (a : K) b c d h
 
-/-! ## Layer 3: the classical invariants that need no Brauer group -/
+/-! ## Layer 3: the classical invariants that need no Brauer group
 
-/-- **Layer 3, discriminant invariance.** Equivalent regular diagonal forms have the same
-discriminant in square classes, in the quotient-free spelling. The signed discriminant
-`d± = (−1)^{n(n−1)/2} d` transports along the same statement, because the dimensions
-agree. -/
+The discriminant and the signed discriminant are Tau Ceti's `TauCeti.RegularFormClass.discr` and
+`TauCeti.RegularFormClass.signedDiscr` (`RegularFormClass/Discriminant.lean`), valued in the
+additive square-class group `TauCeti.SquareClassGroup K`. Tau Ceti also supplies their formulas:
+`discr_add`, `discr_mul` and `discr_mk_rankOne_mul` for the orthogonal sum, the tensor product and
+scaling, the same three for `signedDiscr`, `signedDiscr_mk_rankOne`, `signedDiscr_hyperbolicClass`,
+the conversion `signedDiscr_eq_sign_add_discr`, and `TauCeti.discr_formClass` for a regular form.
+Well-definedness is the Gram-determinant argument `TauCeti.squareClass_prod_eq_of_equivalent`, so
+neither invariant goes through the descent principle.
+
+`GlobalQuadraticForms` consumes both invariants in the multiplicative group `Kˣ ⧸ (Kˣ)²` under the
+names `discr` and `signedDiscr`. Those two are Tau Ceti's invariants carried across Tau Ceti's
+canonical equivalence
+`TauCeti.multiplicativeSquareClassEquiv : Kˣ ⧸ (Kˣ)² ≃* Multiplicative (SquareClassGroup K)`, and
+their equations on presentations are proved from Tau Ceti's. -/
+
+/-- **Layer 3, discriminant invariance**, Tau Ceti's `TauCeti.isSquare_prod_mul_prod_of_equivalent`:
+equivalent regular diagonal forms have the same discriminant in square classes, in the
+quotient-free spelling. The signed discriminant `d± = (−1)^{n(n−1)/2} d` transports along the same
+statement, because the dimensions agree. -/
 example [Invertible (2 : K)] {n : ℕ} (w w' : Fin n → Kˣ)
     (h : (weightedSumSquares K fun i => ((w i : K))).Equivalent
       (weightedSumSquares K fun i => ((w' i : K)))) :
     IsSquare ((∏ i, w i) * ∏ i, w' i) :=
-  sorry
+  TauCeti.isSquare_prod_mul_prod_of_equivalent
+    (by rwa [QuadraticMap.weightedSumSquares_units, QuadraticMap.weightedSumSquares_units])
 
-/-- **Layer 3, the discriminant** of a regular-form class in the square-class group. -/
-noncomputable def discr [Invertible (2 : K)] :
-    RegularFormClass K → Kˣ ⧸ Subgroup.square Kˣ :=
-  sorry
+/-- **Layer 3, the discriminant in `Kˣ ⧸ (Kˣ)²`**: Tau Ceti's additive
+`TauCeti.RegularFormClass.discr`, carried across `TauCeti.multiplicativeSquareClassEquiv`. -/
+noncomputable def discr [Invertible (2 : K)] (x : RegularFormClass K) :
+    Kˣ ⧸ Subgroup.square Kˣ :=
+  TauCeti.multiplicativeSquareClassEquiv.symm
+    (Multiplicative.ofAdd (TauCeti.RegularFormClass.discr x))
 
+/-- The discriminant of the class of `⟨w 0, …, w (n-1)⟩` is the class of `∏ i, w i`: Tau Ceti's
+`TauCeti.RegularFormClass.discr_mk` read through `TauCeti.multiplicativeSquareClassEquiv_mk`. -/
 theorem discr_mk [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) :
-    discr (Quotient.mk _ ⟨n, w⟩) = QuotientGroup.mk (∏ i, w i) :=
-  sorry
+    discr (Quotient.mk _ ⟨n, w⟩) = QuotientGroup.mk (∏ i, w i) := by
+  rw [discr, TauCeti.RegularFormClass.discr_mk, MulEquiv.symm_apply_eq,
+    TauCeti.multiplicativeSquareClassEquiv_mk]
 
-/-- **Layer 3, the signed discriminant**, kept separate from `discr` so that consumers cannot
-silently switch sign conventions. -/
-noncomputable def signedDiscr [Invertible (2 : K)] :
-    RegularFormClass K → Kˣ ⧸ Subgroup.square Kˣ :=
-  sorry
+/-- **Layer 3, the signed discriminant in `Kˣ ⧸ (Kˣ)²`**, kept separate from `discr` so that
+consumers cannot silently switch sign conventions: Tau Ceti's additive
+`TauCeti.RegularFormClass.signedDiscr`, carried across the same equivalence. -/
+noncomputable def signedDiscr [Invertible (2 : K)] (x : RegularFormClass K) :
+    Kˣ ⧸ Subgroup.square Kˣ :=
+  TauCeti.multiplicativeSquareClassEquiv.symm
+    (Multiplicative.ofAdd (TauCeti.RegularFormClass.signedDiscr x))
 
+/-- The signed discriminant of the class of `⟨w 0, …, w (n-1)⟩`: Tau Ceti's
+`TauCeti.RegularFormClass.signedDiscr_mk`, whose sign exponent `n.choose 2` is `n * (n - 1) / 2` by
+`Nat.choose_two_right`. -/
 theorem signedDiscr_mk [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) :
     signedDiscr (Quotient.mk _ ⟨n, w⟩) =
-      QuotientGroup.mk ((-1 : Kˣ) ^ (n * (n - 1) / 2) * ∏ i, w i) :=
-  sorry
+      QuotientGroup.mk ((-1 : Kˣ) ^ (n * (n - 1) / 2) * ∏ i, w i) := by
+  rw [signedDiscr, TauCeti.RegularFormClass.signedDiscr_mk, MulEquiv.symm_apply_eq,
+    TauCeti.multiplicativeSquareClassEquiv_mk, TauCeti.squareClass_mul, TauCeti.squareClass_pow,
+    Nat.choose_two_right]
 
+/-- **Layer 3, the conversion** `d± = (−1)^{n(n−1)/2} · d`, which is Tau Ceti's
+`TauCeti.RegularFormClass.signedDiscr_eq_sign_add_discr` read multiplicatively, and the only
+conversion that a later proof uses. -/
 theorem signedDiscr_eq_sign_mul_discr [Invertible (2 : K)] {n : ℕ}
     (w : Fin n → Kˣ) :
     signedDiscr (Quotient.mk _ ⟨n, w⟩) =
       QuotientGroup.mk ((-1 : Kˣ) ^ (n * (n - 1) / 2)) *
-        discr (Quotient.mk _ ⟨n, w⟩) :=
-  sorry
+        discr (Quotient.mk _ ⟨n, w⟩) := by
+  rw [signedDiscr_mk, discr_mk, QuotientGroup.mk_mul]
 
 /-! ## Layer 5: the Brauer group and the Hasse invariant
 
@@ -447,9 +506,13 @@ noncomputable def hasseInvariant [Invertible (2 : K)] {n : ℕ} (w : Fin n → K
     quaternionClass (w ij.1) (w ij.2)
 
 open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
-/-- **Layer 5, well-definedness of the Hasse invariant**, by the Layer 0 descent
-principle: permutation invariance from `quaternionClass_symm`, and binary invariance from
-`quaternionClass_mul` together with `quaternionClass_congr`. -/
+/-- **Layer 5, well-definedness of the Hasse invariant**, through the three hypotheses of the
+Layer 0 descent principle. Permutation invariance is `quaternionClass_symm`, and binary invariance
+is `quaternionClass_mul` together with `quaternionClass_congr`; these feed Tau Ceti's
+pairwise-product lemmas `TauCeti.PermutationStep.prod_prod_Ioi_eq` and
+`TauCeti.BinaryStep.prod_prod_Ioi_eq`, read in `BrauerGroup K`. The rank-one hypothesis holds
+because in rank one both sides are the empty product `1`, which is the case where no chain joins
+the isometric forms `⟨a⟩` and `⟨b⟩`. -/
 theorem hasseInvariant_congr [Invertible (2 : K)] {n : ℕ} (w w' : Fin n → Kˣ)
     (h : (weightedSumSquares K fun i => ((w i : K))).Equivalent
       (weightedSumSquares K fun i => ((w' i : K)))) :
@@ -481,10 +544,10 @@ These are the carriers that Layer 5's `I²` homomorphism and Layer 8's compariso
 Their types and map directions are fixed here; the constructions are milestones. -/
 
 /-- **Layer 4, the semiring of isometry classes**, with `⊥` as addition and `⊗` as
-multiplication. -/
-noncomputable instance regularFormClassSemiring [Invertible (2 : K)] :
-    CommSemiring (RegularFormClass K) :=
-  sorry
+multiplication, is Tau Ceti's `TauCeti.instCommSemiringRegularFormClass`
+(`RegularFormClass/Semiring.lean`), with rank as the semiring map
+`TauCeti.RegularFormClass.rankHom`. The rings below are built on that instance. -/
+example [Invertible (2 : K)] : CommSemiring (RegularFormClass K) := inferInstance
 
 /-- **Layer 4, the Witt-Grothendieck ring**, the Grothendieck group of that semiring. -/
 def wittGrothendieckRing (K : Type u) [Field K] [Invertible (2 : K)] : Type u :=
@@ -1054,9 +1117,11 @@ theorem exists_hilbertSymbol_eq_neg_one (a : Kˣ) (ha : ¬ IsSquare a) :
     ∃ b : Kˣ, hilbertSymbol a b = -1 :=
   sorry
 
-/-- **Layer 6C, well-definedness of the local Hasse invariant**, by the Layer 0 descent
-principle: permutation invariance from symmetry, and binary invariance from
-bimultiplicativity together with the Layer 3 binary quaternion lemma. -/
+/-- **Layer 6C, well-definedness of the local Hasse invariant**, through the three hypotheses of
+the Layer 0 descent principle. Permutation invariance is `hilbertSymbol_comm`, and binary
+invariance is `hilbertSymbol_mul` together with the Layer 3 binary quaternion lemma, through Tau
+Ceti's `TauCeti.PermutationStep.prod_prod_Ioi_eq` and `TauCeti.BinaryStep.prod_prod_Ioi_eq` read in
+`ℤˣ`. The rank-one hypothesis holds because in rank one both sides are the empty product `1`. -/
 theorem localHasse_congr {n : ℕ} (w w' : Fin n → Kˣ)
     (h : (weightedSumSquares K fun i => ((w i : K))).Equivalent
       (weightedSumSquares K fun i => ((w' i : K)))) :
@@ -2312,7 +2377,12 @@ theorem cup_kummerClass_one_sub [Invertible (2 : K)] (a : Kˣ) (h : (1 : K) - a 
       (kummerClass (Units.mk0 ((1 : K) - a) h)) = 0 :=
   sorry
 
-/-! ## Layer 8: Stiefel-Whitney classes in degrees 1 and 2 -/
+/-! ## Layer 8: Stiefel-Whitney classes in degrees 1 and 2
+
+`w₁` and `w₂` are defined on diagonal tuples and descended to `RegularFormClass K` by Tau Ceti's
+`TauCeti.RegularFormClass.liftDiagonal`. Its three hypotheses are stated below for each class, by
+name. The rank-one hypothesis has content for `w₁` only, where it says that `(a) = (b)` when
+`a * b` is a square; for `w₂` both sides are the empty sum `0`. -/
 
 /-- **Layer 8, the first Stiefel-Whitney class** of a diagonal tuple,
 `w₁(q) = ∑ᵢ (aᵢ) = (d(q))`, with the plain discriminant. -/
@@ -2325,56 +2395,139 @@ noncomputable def sw2 [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) : H2 K 
   ∑ ij ∈ Finset.univ.filter fun ij : Fin n × Fin n => ij.1 < ij.2,
     cup11 (kummerClass (w ij.1)) (kummerClass (w ij.2))
 
-/-- **Layer 8, well-definedness of the Stiefel-Whitney classes**, by the Layer 0 descent
-principle. The binary step is the cup identity `(a)(b) = (c)(d)` for `⟨a,b⟩ ≅ ⟨c,d⟩`, which is
-`cup_kummerClass_eq_zero_iff` together with Layer 0's binary criterion. -/
-theorem sw_congr [Invertible (2 : K)] {n : ℕ} (w w' : Fin n → Kˣ)
-    (h : (weightedSumSquares K fun i => ((w i : K))).Equivalent
-      (weightedSumSquares K fun i => ((w' i : K)))) :
-    sw1 w = sw1 w' ∧ sw2 w = sw2 w' :=
+/-- **Layer 8, `w₁` of a tuple is the Kummer class of its discriminant**, by the additivity of
+`kummerSquareClassEquiv` and `kummerSquareClassEquiv_kummerClass`. The three descent hypotheses for
+`w₁` are read off it. -/
+theorem sw1_eq_kummerSquareClassEquiv [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) :
+    sw1 w = kummerSquareClassEquiv K (Additive.ofMul (QuotientGroup.mk (∏ i, w i))) := by
+  rw [sw1, QuotientGroup.mk_prod, ofMul_prod, map_sum]
+  simp only [kummerSquareClassEquiv_kummerClass]
+
+/-- `w₁` of a tuple depends only on the square class of its discriminant, through Tau Ceti's
+`TauCeti.squareClass_eq_iff_isSquare_mul` and `TauCeti.multiplicativeSquareClassEquiv_mk`. -/
+theorem sw1_eq_of_isSquare [Invertible (2 : K)] {m n : ℕ} (w : Fin m → Kˣ) (w' : Fin n → Kˣ)
+    (h : IsSquare ((∏ i, w i) * ∏ i, w' i)) : sw1 w = sw1 w' := by
+  have hmk : (QuotientGroup.mk (∏ i, w i) : Kˣ ⧸ Subgroup.square Kˣ) =
+      QuotientGroup.mk (∏ i, w' i) :=
+    TauCeti.multiplicativeSquareClassEquiv.injective (by
+      rw [TauCeti.multiplicativeSquareClassEquiv_mk, TauCeti.multiplicativeSquareClassEquiv_mk,
+        (TauCeti.squareClass_eq_iff_isSquare_mul _ _).2 h])
+  rw [sw1_eq_kummerSquareClassEquiv, sw1_eq_kummerSquareClassEquiv, hmk]
+
+/-- **Layer 8, `w₁` is invariant under a permutation step**, the first hypothesis of the descent:
+the two tuples present isometric forms (`TauCeti.PermutationStep.equivalent`), whose discriminants
+agree in square classes (`TauCeti.isSquare_prod_mul_prod_of_equivalent`). -/
+theorem sw1_permutationStep [Invertible (2 : K)] {n : ℕ} {w w' : Fin n → Kˣ}
+    (h : PermutationStep w w') : sw1 w = sw1 w' :=
+  sw1_eq_of_isSquare w w' (TauCeti.isSquare_prod_mul_prod_of_equivalent (by
+    rw [QuadraticMap.weightedSumSquares_units, QuadraticMap.weightedSumSquares_units]
+    exact h.equivalent))
+
+/-- **Layer 8, `w₁` is invariant under a binary step**, the second hypothesis of the descent, by
+the same argument through `TauCeti.BinaryStep.equivalent`. -/
+theorem sw1_binaryStep [Invertible (2 : K)] {n : ℕ} {w w' : Fin n → Kˣ}
+    (h : BinaryStep w w') : sw1 w = sw1 w' :=
+  sw1_eq_of_isSquare w w' (TauCeti.isSquare_prod_mul_prod_of_equivalent (by
+    rw [QuadraticMap.weightedSumSquares_units, QuadraticMap.weightedSumSquares_units]
+    exact h.equivalent))
+
+/-- **Layer 8, the rank-one hypothesis for `w₁`**: `(a) = (b)` when `a * b` is a square. No chain
+joins `⟨a⟩` to `⟨b⟩`, so this is not a consequence of the two step conditions, and `w₁` is the one
+invariant of this roadmap for which the rank-one hypothesis of
+`TauCeti.RegularFormClass.liftDiagonal` has content. -/
+theorem sw1_rankOne [Invertible (2 : K)] (a b : Kˣ) (h : IsSquare (a * b)) :
+    sw1 (fun _ : Fin 1 => a) = sw1 (fun _ : Fin 1 => b) :=
+  sw1_eq_of_isSquare _ _ (by simpa only [Fin.prod_univ_one] using h)
+
+/-- **Layer 8, `w₂` is invariant under a permutation step**, the first hypothesis of the descent:
+`cup11` is symmetric on Kummer classes (`cup11_comm`), so reordering the coefficients does not
+change the pairwise sum. This is Tau Ceti's `TauCeti.PermutationStep.prod_prod_Ioi_eq`, read in
+`Multiplicative (H2 K)` after rewriting the sum over pairs `i < j` as `∑ i, ∑ j ∈ Finset.Ioi i`. -/
+theorem sw2_permutationStep [Invertible (2 : K)] {n : ℕ} {w w' : Fin n → Kˣ}
+    (h : PermutationStep w w') : sw2 w = sw2 w' :=
   sorry
+
+/-- **Layer 8, `w₂` is invariant under a binary step**, the second hypothesis of the descent. The
+input is the cup identity `(a) ∪ (b) = (c) ∪ (d)` for `⟨a,b⟩ ≅ ⟨c,d⟩`, which is Layer 7C's
+`cup_kummerClass_eq_zero_iff` together with Tau Ceti's binary criterion
+`TauCeti.equivalent_binary_iff`; with the bilinearity of `cup11` on Kummer classes it is what Tau
+Ceti's `TauCeti.BinaryStep.prod_prod_Ioi_eq` consumes. -/
+theorem sw2_binaryStep [Invertible (2 : K)] {n : ℕ} {w w' : Fin n → Kˣ}
+    (h : BinaryStep w w') : sw2 w = sw2 w' :=
+  sorry
+
+/-- **Layer 8, the rank-one hypothesis for `w₂`**: there is no pair `i < j` in rank one, so both
+sides are the empty sum `0`, whatever `a` and `b` are. -/
+theorem sw2_rankOne [Invertible (2 : K)] (a b : Kˣ) :
+    sw2 (fun _ : Fin 1 => a) = sw2 (fun _ : Fin 1 => b) := by
+  have hpairs : (Finset.univ.filter fun ij : Fin 1 × Fin 1 => ij.1 < ij.2) = ∅ := by decide
+  simp only [sw2, hpairs, Finset.sum_empty]
 
 variable (K)
 
-/-- **Layer 8, `w₁` on isometry classes.** The descent of `sw1` along `Quotient.mk`, by the
-Layer 0 descent principle applied to `sw_congr`. This is the definition the form-level theorem
-of Layer 9 is stated with: a consumer never supplies a diagonalization. -/
+/-- **Layer 8, `w₁` on isometry classes**: the descent of `sw1` by Tau Ceti's
+`TauCeti.RegularFormClass.liftDiagonal`, with the three hypotheses `sw1_permutationStep`,
+`sw1_binaryStep` and `sw1_rankOne`. This is the definition the form-level theorem of Layer 9 is
+stated with: a consumer never supplies a diagonalization. -/
 noncomputable def sw1Class [Invertible (2 : K)] : RegularFormClass K → H1 K :=
-  sorry
+  TauCeti.RegularFormClass.liftDiagonal (fun p => sw1 p.2) sw1_permutationStep sw1_binaryStep
+    sw1_rankOne
 
-/-- **Layer 8, `w₂` on isometry classes.** -/
+/-- **Layer 8, `w₂` on isometry classes**: the descent of `sw2`, with the three hypotheses
+`sw2_permutationStep`, `sw2_binaryStep` and `sw2_rankOne`. -/
 noncomputable def sw2Class [Invertible (2 : K)] : RegularFormClass K → H2 K :=
-  sorry
+  TauCeti.RegularFormClass.liftDiagonal (fun p => sw2 p.2) sw2_permutationStep sw2_binaryStep
+    fun a b _ => sw2_rankOne a b
 
 variable {K}
 
-/-- `w₁` of a class is computed on any presentation of it. -/
+/-- `w₁` of a class is computed on any presentation of it
+(`TauCeti.RegularFormClass.liftDiagonal_mk`). -/
 theorem sw1Class_mk [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) :
     sw1Class K (Quotient.mk (regularFormSetoid K) ⟨n, w⟩) = sw1 w :=
-  sorry
+  TauCeti.RegularFormClass.liftDiagonal_mk _ _ _ _ _
 
 /-- `w₂` of a class is computed on any presentation of it. -/
 theorem sw2Class_mk [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) :
     sw2Class K (Quotient.mk (regularFormSetoid K) ⟨n, w⟩) = sw2 w :=
-  sorry
+  TauCeti.RegularFormClass.liftDiagonal_mk _ _ _ _ _
+
+/-- **Layer 8, well-definedness of the Stiefel-Whitney classes on tuples**, in every rank:
+equivalent tuples present the same class (`TauCeti.RegularFormClass.mk_eq_mk_iff`), and the
+classes are the descended ones. -/
+theorem sw_congr [Invertible (2 : K)] {n : ℕ} (w w' : Fin n → Kˣ)
+    (h : (weightedSumSquares K fun i => ((w i : K))).Equivalent
+      (weightedSumSquares K fun i => ((w' i : K)))) :
+    sw1 w = sw1 w' ∧ sw2 w = sw2 w' := by
+  have hclass : (Quotient.mk (regularFormSetoid K) ⟨n, w⟩ : RegularFormClass K) =
+      Quotient.mk (regularFormSetoid K) ⟨n, w'⟩ := by
+    rw [TauCeti.RegularFormClass.mk_eq_mk_iff, TauCeti.presentedForm_eq_weightedSumSquares_coe,
+      TauCeti.presentedForm_eq_weightedSumSquares_coe]
+    exact h
+  exact ⟨(sw1Class_mk w).symm.trans ((congrArg (sw1Class K) hclass).trans (sw1Class_mk w')),
+    (sw2Class_mk w).symm.trans ((congrArg (sw2Class K) hclass).trans (sw2Class_mk w'))⟩
 
 /-- **Layer 8, `w₁` is the Kummer class of the discriminant,** on classes: the first low-degree
 identity `w₁(q) = (d(q))`, with the plain discriminant and not `d±`. -/
 theorem sw1Class_eq_discr [Invertible (2 : K)] (q : RegularFormClass K) :
-    sw1Class K q = kummerSquareClassEquiv K (Additive.ofMul (discr q)) :=
-  sorry
+    sw1Class K q = kummerSquareClassEquiv K (Additive.ofMul (discr q)) := by
+  induction q using Quotient.inductionOn with
+  | h p =>
+    obtain ⟨n, w⟩ := p
+    rw [sw1Class_mk, discr_mk, sw1_eq_kummerSquareClassEquiv]
 
 /-- **Layer 8, `w₁` and `w₂` are invariants of isometry.** Two regular forms that are
 `QuadraticMap.Equivalent` have the same classes, since they have the same class in
-`RegularFormClass K`. This is the statement a consumer needs in order to apply Layer 9 to a form
-given by a construction rather than by a tuple. -/
+`RegularFormClass K` (`TauCeti.formClass_eq_iff`). This is the statement a consumer needs in order
+to apply Layer 9 to a form given by a construction rather than by a tuple. -/
 theorem sw1Class_formClass_congr [Invertible (2 : K)] {V W : Type} [AddCommGroup V] [Module K V]
     [FiniteDimensional K V] [AddCommGroup W] [Module K W] [FiniteDimensional K W]
     (Q : QuadraticForm K V) (hQ : Q.Nondegenerate) (R : QuadraticForm K W)
     (hR : R.Nondegenerate) (h : Q.Equivalent R) :
     sw1Class K (formClass Q hQ) = sw1Class K (formClass R hR) ∧
-      sw2Class K (formClass Q hQ) = sw2Class K (formClass R hR) :=
-  sorry
+      sw2Class K (formClass Q hQ) = sw2Class K (formClass R hR) := by
+  have hc : formClass Q hQ = formClass R hR := (TauCeti.formClass_eq_iff Q hQ R hR).2 h
+  exact ⟨congrArg (sw1Class K) hc, congrArg (sw2Class K) hc⟩
 
 /-- **Layer 8, the orthogonal-sum identities**, stated degreewise, since this roadmap has
 no total class. -/
@@ -2463,10 +2616,11 @@ example [Invertible (2 : K)] (d : Kˣ) :
 /-! ### Layer 9: the twisted trace form
 
 For `L = K(x)` with `x² = d` and `a : Lˣ`, the transfer `Tr_*⟨a⟩ : y ↦ Tr_{L/K}(a y²)` of the
-rank-one form `⟨a⟩`. The statements use this file's `scharlauTransfer s q` and multiplicative
-`discr`; Tau Ceti's `TauCeti/LinearAlgebra/QuadraticForm/Transfer/` writes the same transfer
-`q.scharlauTransfer s` and `q.traceTransfer K`, and its additive `RegularFormClass.discr` is valued
-in `SquareClassGroup K`. -/
+rank-one form `⟨a⟩`. The statements use this file's `scharlauTransfer s q`, Tau Ceti's class
+`formClass` of a regular form, and Tau Ceti's discriminant `TauCeti.RegularFormClass.discr`, valued
+in the additive `SquareClassGroup K`. Tau Ceti's `TauCeti/LinearAlgebra/QuadraticForm/Transfer/`,
+which landed after this repository's Tau Ceti pin, writes the same transfer `q.scharlauTransfer s`
+and `q.traceTransfer K`. -/
 
 /-- **Layer 9, the norm in square-root coordinates,** `N(u + v x) = u² − v² d`. Tau Ceti's
 `Algebra.IsQuadraticExtension.norm_algebraMap_add_algebraMap_mul` gives
@@ -2518,17 +2672,72 @@ theorem traceTransfer_weightedSumSquares_equivalent_hyperbolic [Invertible (2 : 
   sorry
 
 /-- **Layer 9, the discriminant of the twisted trace form,** `d(Tr_*⟨a⟩) = d · N a` in square
-classes: in Kahn's basis `Tr a · (d · Tr a / N a) ≡ d · N a`, and at trace zero `a = v x` and
-`−1 ≡ d · N (v x) = −v² d²`. With Layer 8's `sw1Class_eq_discr` and Layer 7A's
-`galoisCor_kummerClass` this is the whole of the degree-1 formula. -/
+classes, stated for Tau Ceti's discriminant `TauCeti.RegularFormClass.discr` of Tau Ceti's class
+`formClass` of the transferred form. The proof reads the discriminant off a diagonalization with
+Tau Ceti's `TauCeti.discr_formClass`. For `Tr a ≠ 0` the diagonalization is Kahn's basis, and
+`Tr a · (d · Tr a / N a) ≡ d · N a`. At trace zero it is the hyperbolic plane `⟨1, −1⟩`, and
+`a = v x` (Tau Ceti's `Algebra.IsQuadraticExtension.exists_eq_algebraMap_add_algebraMap_mul`, the
+`1`-coordinate vanishing because `Tr a = 2u`) gives `N a = −v² d` by `norm_add_mul_of_sq`, so
+`−1 ≡ d · N a`. With Layer 8's `sw1Class_eq_discr` and Layer 7A's `galoisCor_kummerClass` this is
+the whole of the degree-1 formula. -/
 theorem discr_traceTransfer [Invertible (2 : K)] {L : Type u} [Field L] [Algebra K L]
     [FiniteDimensional K L] [Algebra.IsSeparable K L] [FiniteDimensional K (Fin 1 → L)]
     {x : L} (d : Kˣ) (hfin : Module.finrank K L = 2)
     (hx : x ∉ Set.range (algebraMap K L)) (hx2 : x ^ 2 = algebraMap K L (d : K)) (a : Lˣ)
     (ha : (scharlauTransfer (Algebra.trace K L) (weightedSumSquares L ![(a : L)])).Nondegenerate) :
-    discr (formClass _ ha) =
-      QuotientGroup.mk d * QuotientGroup.mk (Units.map (Algebra.norm K : L →* K) a) :=
-  sorry
+    TauCeti.RegularFormClass.discr (formClass _ ha) =
+      squareClass d + squareClass (Units.map (Algebra.norm K : L →* K) a) := by
+  have h2 : (2 : K) ≠ 0 := two_ne_zero' K
+  have hNa : Algebra.norm K (a : L) ≠ 0 := Algebra.norm_ne_zero_iff.2 a.ne_zero
+  rw [← TauCeti.squareClass_mul]
+  by_cases htr : Algebra.trace K L (a : L) = 0
+  · -- Trace zero: the form is hyperbolic, and `a = v x`, so `N a = −v² d`.
+    have hq := traceTransfer_weightedSumSquares_equivalent_hyperbolic hfin a htr
+    have hp : (scharlauTransfer (Algebra.trace K L) (weightedSumSquares L ![(a : L)])).Equivalent
+        (TauCeti.presentedForm ⟨2, ![1, -1]⟩) := by
+      rw [TauCeti.presentedForm_eq_weightedSumSquares_coe]
+      convert hq using 2
+      ext i
+      fin_cases i <;> simp
+    rw [TauCeti.discr_formClass _ ha _ hp, Fin.prod_univ_two]
+    have : Algebra.IsQuadraticExtension K L := ⟨hfin⟩
+    obtain ⟨v, u, hau⟩ :=
+      Algebra.IsQuadraticExtension.exists_eq_algebraMap_add_algebraMap_mul K L hx (a : L)
+    have htrx : Algebra.trace K L x = 0 :=
+      TauCeti.Algebra.trace_eq_zero_of_sq_algebraMap_of_not_mem_range hx2
+        (fun h => hx (by simpa [RingHom.mem_range] using h))
+    have hu : u = 0 := by
+      have h := htr
+      rw [hau, Algebra.IsQuadraticExtension.trace_algebraMap_add_algebraMap_mul, htrx] at h
+      simpa [h2] using h
+    have hN : Algebra.norm K (a : L) = -(v ^ 2 * d) := by
+      rw [hau, norm_add_mul_of_sq hfin hx hx2, hu]
+      ring
+    have hv : v ≠ 0 := by
+      rintro rfl
+      exact hNa (by simp [hN])
+    rw [TauCeti.squareClass_eq_iff_isSquare_mul]
+    refine ⟨Units.mk0 (v * d) (mul_ne_zero hv d.ne_zero), Units.ext ?_⟩
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Units.val_mul, Units.val_neg,
+      Units.val_one, Units.coe_map, Units.val_mk0]
+    rw [hN]
+    ring
+  · -- Kahn's basis: the form is `⟨Tr a, d · Tr a / N a⟩`.
+    have hq := traceTransfer_weightedSumSquares_equivalent hfin hx hx2 a htr
+    have hu : d * Algebra.trace K L (a : L) / Algebra.norm K (a : L) ≠ 0 :=
+      div_ne_zero (mul_ne_zero d.ne_zero htr) hNa
+    have hp : (scharlauTransfer (Algebra.trace K L) (weightedSumSquares L ![(a : L)])).Equivalent
+        (TauCeti.presentedForm ⟨2, ![Units.mk0 _ htr, Units.mk0 _ hu]⟩) := by
+      rw [TauCeti.presentedForm_eq_weightedSumSquares_coe]
+      convert hq using 2
+      ext i
+      fin_cases i <;> simp
+    rw [TauCeti.discr_formClass _ ha _ hp, Fin.prod_univ_two,
+      TauCeti.squareClass_eq_iff_isSquare_mul]
+    refine ⟨Units.mk0 (Algebra.trace K L (a : L) * d) (mul_ne_zero htr d.ne_zero), Units.ext ?_⟩
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Units.val_mul, Units.val_mk0,
+      Units.coe_map]
+    field_simp
 
 /-- **Layer 9, the supplier's corestriction in degree 1, read in this file's carrier.** As with
 `cup11`, the body is the supplier's `galoisCor` and the wrapper exists only because that
@@ -3320,8 +3529,8 @@ the right-hand side is `(2) ∪ (d) + N^{Ev}((a))`. For `Tr a ≠ 0` the left-ha
 `w₂ ⟨Tr a, d · Tr a / N a⟩ = (Tr a) ∪ (−d · N a)`, and `galoisEvens2_kummerClass` makes the
 right-hand side the same; for `Tr a = 0` both sides are `0`, by
 `traceTransfer_weightedSumSquares_equivalent_hyperbolic` and
-`galoisEvens2_kummerClass_of_trace_eq_zero`. `sw2Class_mk` with `formClass_mk` evaluates `w₂` on
-these diagonalizations. -/
+`galoisEvens2_kummerClass_of_trace_eq_zero`. `sw2Class_mk` with Tau Ceti's `TauCeti.formClass_mk`
+evaluates `w₂` on these diagonalizations. -/
 theorem relativeStiefelWhitney_quadraticExtension {L : Type u} [Field L] [Algebra K L]
     [FiniteDimensional K L] [Algebra.IsSeparable K L] [Invertible (2 : K)] [Invertible (2 : L)]
     [FiniteDimensional K (Fin 1 → L)]
