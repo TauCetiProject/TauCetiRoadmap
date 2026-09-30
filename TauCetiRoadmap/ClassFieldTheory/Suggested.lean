@@ -986,10 +986,10 @@ theorem index_normGroup_of_isCyclic [Algebra K L] [ValuativeExtension K L] [Modu
 
 /-- **The local `H²` bound** `#H²(Gal(L/K), Lˣ) ≤ [L:K]`. For cyclic `L/K`, two-periodicity
 identifies `H²` with `Ĥ⁰`, which has `[L:K]` elements by `index_normGroup_of_isCyclic`; in general
-`Gal(L/K)` is solvable (Tau Ceti's `TauCeti.LocalFieldsRamification.isSolvable_algEquiv`) and the
-bound propagates along a normal subgroup with cyclic quotient through inflation–restriction in
-degree two, exact because `H¹` vanishes by Hilbert 90. Equality is the class-formation axiom and
-belongs to Layer 6. -/
+`Gal(L/K)` is solvable (Tau Ceti's `TauCeti.LocalFieldsRamification.isSolvable_algEquiv`, which
+landed after this repository's Tau Ceti pin) and the bound propagates along a normal subgroup with
+cyclic quotient through inflation–restriction in degree two, exact because `H¹` vanishes by
+Hilbert 90. Equality is the class-formation axiom and belongs to Layer 6. -/
 theorem natCard_h2_units_le_finrank [Algebra K L] [ValuativeExtension K L] [Module.Finite K L]
     [IsGalois K L] :
     Nat.card (groupCohomology (Rep.ofAlgebraAutOnUnits K L) 2) ≤ Module.finrank K L :=
@@ -1713,7 +1713,8 @@ theorem localArtinMap_cyclotomic_uniformizer [Algebra K L] [ValuativeExtension K
 /-! ### The cohomological dimension of `G_K`
 
 Consequences of Tate's theorem for the local class formation, stated against
-`ProfiniteCohomology.cd_p` and `ProfiniteCohomology.scd_p`. -/
+`ProfiniteCohomology.cd_p` and `ProfiniteCohomology.scd_p`, which are aliases of Tau Ceti's
+`cohomologicalDimensionAt` and `strictCohomologicalDimensionAt`. -/
 
 /-- **`H³(G_K, (Kˢ)ˣ) = 0`**: on every finite layer `Ĥ³(Gal(L/K), Lˣ) ≅ Ĥ¹(Gal(L/K), ℤ) = 0` by
 `ClassFormation.tateIso` at degree `1` for `localClassFormation K`, and continuous cohomology is the
@@ -1733,16 +1734,14 @@ theorem cd_p_absoluteGaloisGroup_eq_two (p : ℕ) [Fact p.Prime] [Algebra ℚ_[p
     ProfiniteCohomology.cd_p ℓ (Field.absoluteGaloisGroup K) = 2 :=
   sorry
 
-/-- **`scd_ℓ G_K = 2`** for every prime `ℓ` and every finite extension `K/ℚ_p` (NSW (7.2.5)).
-`≥ 2` is `ProfiniteCohomology.cd_p_le_scd_p`. For `≤ 2`, use the `scd` criterion of
-`ProfiniteCohomology` Layer 11, `strictCohomologicalDimensionAt_le_iff_forall_openSubgroup` at
-`n = 2` (NSW (3.3.4)), carried to `scd_p` and `cd_p` by `scd_p_eq_strictCohomologicalDimensionAt`
-and `cd_p_eq_cohomologicalDimensionAt`. Its first condition, `cd_ℓ G_K ≤ 2`, is
-`cd_p_absoluteGaloisGroup_eq_two`. Its second asks for `H³(G_L, ℤ)(ℓ) ≅ H²(G_L, ℚ_ℓ/ℤ_ℓ) = 0`
-for every finite `L/K`; by the `(2,0)` case of
-`tateDualityPairing_perfect_mixed` the group `H²(G_L, ℤ/ℓᵐ)` is dual to `μ_{ℓᵐ}(L)`, so the colimit
-over `m` is dual to the inverse limit of the `μ_{ℓᵐ}(L)` under `ℓ`-th powers, which is `0` because
-`μ_{ℓ^∞}(L)` is finite. -/
+/-- **`scd_ℓ G_K = 2`** for every prime `ℓ` and every finite extension `K/ℚ_p` (NSW (7.2.5)). `≥ 2`
+is `ProfiniteCohomology.cd_p_le_scd_p`. For `≤ 2`, use the `scd` criterion of `ProfiniteCohomology`
+Layer 11, `strictCohomologicalDimensionAt_le_iff_forall_openSubgroup` at `n = 2` (NSW (3.3.4)),
+directly on `scd_p` and `cd_p`. Its first condition, `cd_ℓ G_K ≤ 2`, is
+`cd_p_absoluteGaloisGroup_eq_two`. Its second asks for `H³(G_L, ℤ)(ℓ) ≅ H²(G_L, ℚ_ℓ/ℤ_ℓ) = 0` for
+every finite `L/K`; by the `(2,0)` case of `tateDualityPairing_perfect_mixed` the group
+`H²(G_L, ℤ/ℓᵐ)` is dual to `μ_{ℓᵐ}(L)`, so the colimit over `m` is dual to the inverse limit of the
+`μ_{ℓᵐ}(L)` under `ℓ`-th powers, which is `0` because `μ_{ℓ^∞}(L)` is finite. -/
 theorem scd_p_absoluteGaloisGroup_eq_two (p : ℕ) [Fact p.Prime] [Algebra ℚ_[p] K]
     [Module.Finite ℚ_[p] K] (ℓ : ℕ) [Fact ℓ.Prime] :
     ProfiniteCohomology.scd_p ℓ (Field.absoluteGaloisGroup K) = 2 :=
@@ -1910,7 +1909,8 @@ theorem surjective_unramifiedCoordinate : Function.Surjective (unramifiedCoordin
   sorry
 
 /-- The kernel of the unramified coordinate is the image of inertia: Tau Ceti's
-`ker_restrictMaximalUnramifiedHom` and injectivity of `maximalUnramifiedGaloisGroupEquivZHat`. -/
+`ker_restrictMaximalUnramifiedHom`, which landed after this repository's Tau Ceti pin, and
+injectivity of `maximalUnramifiedGaloisGroupEquivZHat`. -/
 theorem unramifiedCoordinate_mk_eq_one_iff (σ : Field.absoluteGaloisGroup K) :
     unramifiedCoordinate K (QuotientGroup.mk σ) = 1 ↔ σ ∈ inertiaSubgroup K :=
   sorry

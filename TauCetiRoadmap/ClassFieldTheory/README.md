@@ -158,7 +158,7 @@ This roadmap owns the following constructions and theorems.
 | Integer-graded finite-group Tate cohomology, its long exact sequence, and its comparison with ordinary cohomology and homology | Mathlib `RepresentationTheory/Homological/TateCohomology` and the Richard Hill workshop development |
 | The formation machinery of Artin–Tate: formations and their levels, finite normal layers with their Galois groups, degrees, coefficient modules, cohomology carriers, norms and low Tate degrees, the finite quotient system, restriction, corestriction, inflation and conjugation of layers with their tower laws, the maps of abelianized Galois groups, the abelian layers, class formations with the invariant as data, fundamental classes with their restriction, corestriction, inflation and conjugation formulae, the three hypotheses of Tate's theorem, and the cup product with a class | Tau Ceti, `TauCeti/NumberTheory/ClassFieldTheory/Formation/`: `ClassFieldTheory.Formation`, `NormalLayer`, `LayerRestriction`, `LayerRefinement`, `ClassFormation`, `AbelianLayer`, `cupClass`, and the declarations listed in §2 and Layers 1 and 2 of §4 |
 | Restriction, corestriction, inflation, cup products, and low-degree Tate descriptions | Generic Tate-cohomology files, porting usable material from `kbuzzard/ClassFieldTheory` where necessary |
-| Continuous cohomology of profinite groups, the coefficient pairings `TopPairing` and continuous cup products with their laws (`cup_coeffMap`, `cup_add_left`, `cup_gradedComm`), coefficient maps `coeffMap`, degree casts, Shapiro's lemma, and the finite-quotient colimit; from Layer 11, `cd_p`, `scd_p`, `cd_p_le_of_isClosed`, `cd_p_le_scd_p`, the comparisons `cd_p_eq_cohomologicalDimensionAt` and `scd_p_eq_strictCohomologicalDimensionAt` with Tau Ceti's invariants, and the strict-dimension criterion `strictCohomologicalDimensionAt_le_iff_forall_openSubgroup` at `n = 2` | `ProfiniteCohomology` |
+| Continuous cohomology of profinite groups, the coefficient pairings `TopPairing` and continuous cup products with their laws (`cup_coeffMap`, `cup_add_left`, `cup_gradedComm`), coefficient maps `coeffMap`, degree casts, Shapiro's lemma, and the finite-quotient colimit; from Layer 11, `cd_p` and `scd_p` (aliases of Tau Ceti's `cohomologicalDimensionAt` and `strictCohomologicalDimensionAt`), `cd_p_le_of_isClosed`, `cd_p_le_scd_p`, and the strict-dimension criterion `strictCohomologicalDimensionAt_le_iff_forall_openSubgroup` at `n = 2` | `ProfiniteCohomology` |
 | Profinite groups, open subgroups, finite quotients, and abelianization | Mathlib and the profinite-group roadmaps |
 | Local fields, valuations, unit filtrations, norms, ramification, and arithmetic Frobenius; the maximal unramified extension, inertia, arithmetic Frobenius lifts and `Gal(K^ur/K) ≅ Ẑ`, under their Tau Ceti names | `LocalFieldsRamification` |
 | The comparison of the algebraic-closure and separable-closure absolute Galois groups, the open subgroup cut out by a finite extension, the class field of an open normal subgroup and the abelian layers, the profinite integers `zHat`, the Herbrand quotient and two-periodicity, and the Galois action on the integers of a local field | Tau Ceti: `absoluteGaloisGroupRestrictEquiv`, `galoisSubgroup`, `galoisSubgroupEquiv`, `ClassFieldTheory.classField`, `OpenNormalSubgroup.IsAbelianClassFieldLayer`, `zHat`, `TateCohomology.herbrandQuotient`, `Rep.FiniteCyclicGroup.periodicIso`, `integerRingIsInvariantSubring` |
@@ -947,9 +947,10 @@ all of `Br K`, prove, in this order (Milne, *Class Field Theory*, III, Lemmas 2.
   `index_localNormSubgroup` of Layer 8, which is reciprocity;
 - **the local `H²` bound** `natCard_h2_units_le_finrank`: `#H²(Gal(L/K), Lˣ) ≤ [L:K]` for every
   finite Galois `L/K`. In the cyclic case two-periodicity identifies `H²` with `Ĥ⁰`; in general
-  `Gal(L/K)` is solvable (Tau Ceti's `TauCeti.LocalFieldsRamification.isSolvable_algEquiv`), and
-  the bound propagates along a normal subgroup with cyclic quotient through inflation–restriction
-  in degree two, which is exact because `H¹` vanishes by Hilbert 90.
+  `Gal(L/K)` is solvable (Tau Ceti's `TauCeti.LocalFieldsRamification.isSolvable_algEquiv`, which
+  landed after this repository's Tau Ceti pin), and the bound propagates along a normal subgroup
+  with cyclic quotient through inflation–restriction in degree two, which is exact because `H¹`
+  vanishes by Hilbert 90.
 
 Then the invariant extends: the unramified relative Brauer group of degree `[L:K]` has `[L:K]`
 elements and lies in the kernel of restriction to `L`, since restriction multiplies the unramified
@@ -1192,8 +1193,8 @@ Units are norms in this case, so the local Artin map is determined by the valuat
 the comparison with the Layer 5 `localSymbol`.
 
 Record the cohomological dimension of `G_K`, stated against `ProfiniteCohomology.cd_p` and
-`ProfiniteCohomology.scd_p` (Tau Ceti implements the same invariants as `cohomologicalDimensionAt`
-and `strictCohomologicalDimensionAt`):
+`ProfiniteCohomology.scd_p`, which are aliases of Tau Ceti's `cohomologicalDimensionAt` and
+`strictCohomologicalDimensionAt`:
 
 - `subsingleton_h3_unitsRep`: `H³(G_K, (Kˢ)ˣ) = 0`, since on every finite layer
   `Ĥ³(Gal(L/K), Lˣ) ≅ Ĥ¹(Gal(L/K), ℤ) = 0` by `tateIso` at degree `1` for `localClassFormation K`,
@@ -1208,16 +1209,15 @@ and `strictCohomologicalDimensionAt`):
   divisible. For `≥ 2`, `H²(K(μ_ℓ), μ_ℓ) ≅ ℤ/ℓ` (`h2MuEquivZMod_mixed`) and
   `ProfiniteCohomology.cd_p_le_of_isClosed`;
 - `scd_p_absoluteGaloisGroup_eq_two`: `scd_ℓ G_K = 2` (NSW (7.2.5)). `≥ 2` is
-  `ProfiniteCohomology.cd_p_le_scd_p`. For `≤ 2`, use the `scd` criterion of
-  `ProfiniteCohomology` Layer 11, `strictCohomologicalDimensionAt_le_iff_forall_openSubgroup` at
-  `n = 2` (NSW (3.3.4): `scd_ℓ G ≤ n` if and only if `cd_ℓ G ≤ n` and `H^{n+1}(U, ℤ)(ℓ) = 0` for
-  every open `U`). It is stated for Tau Ceti's invariants, and
-  `scd_p_eq_strictCohomologicalDimensionAt` and `cd_p_eq_cohomologicalDimensionAt` carry it to
-  `scd_p` and `cd_p`. Its first condition is `cd_p_absoluteGaloisGroup_eq_two`. Its second asks
+  `ProfiniteCohomology.cd_p_le_scd_p`. For `≤ 2`, use the `scd` criterion of `ProfiniteCohomology`
+  Layer 11, `strictCohomologicalDimensionAt_le_iff_forall_openSubgroup` at `n = 2` (NSW (3.3.4):
+  `scd_ℓ G ≤ n` if and only if `cd_ℓ G ≤ n` and `H^{n+1}(U, ℤ)(ℓ) = 0` for every open `U`), directly
+  on `scd_p` and `cd_p`. Its first condition is `cd_p_absoluteGaloisGroup_eq_two`. Its second asks
   for `H³(G_L, ℤ)(ℓ) ≅ H²(G_L, ℚ_ℓ/ℤ_ℓ) = 0` for every finite `L/K`: by the `(2,0)` case of
   `tateDualityPairing_perfect_mixed`, `H²(G_L, ℤ/ℓᵐ)` is dual to
-  `H⁰(G_L, Hom(ℤ/ℓᵐ, μ_{ℓᵐ})) = Hom_{G_L}(ℤ/ℓᵐ, μ_{ℓᵐ}) = μ_{ℓᵐ}(L)` (`tateDual_ρ_eq_self_iff`), so the colimit over `m` is dual to the inverse limit of the `μ_{ℓᵐ}(L)`
-  under `ℓ`-th powers, which is `0` because `μ_{ℓ^∞}(L)` is finite.
+  `H⁰(G_L, Hom(ℤ/ℓᵐ, μ_{ℓᵐ})) = Hom_{G_L}(ℤ/ℓᵐ, μ_{ℓᵐ}) = μ_{ℓᵐ}(L)` (`tateDual_ρ_eq_self_iff`), so
+  the colimit over `m` is dual to the inverse limit of the `μ_{ℓᵐ}(L)` under `ℓ`-th powers, which is
+  `0` because `μ_{ℓ^∞}(L)` is finite.
 
 The statements are for finite extensions of `ℚ_p`: in characteristic `p`, `cd_p G_K = 1`.
 
@@ -1244,17 +1244,18 @@ definition with a body.
   finite maps are the restrictions of the absolute map (`artinMap_restrict`); because the finite
   quotients of `G_K^ab` are the `Gal(L/K)^ab`, this determines `artinMap`.
 - **Unramified coordinate.** `unramifiedCoordinate : G_K^ab →* Ẑ` is the descent to the topological
-  abelianization of Tau Ceti's `restrictMaximalUnramifiedHom` followed by
+  abelianization of `restrictMaximalUnramifiedHom` followed by
   `maximalUnramifiedGaloisGroupEquivZHat`, so `unramifiedCoordinate_mk` computes it on every class.
-  It is continuous and surjective (`continuous_unramifiedCoordinate`,
-  `surjective_unramifiedCoordinate`), its kernel is the image of inertia
-  (`unramifiedCoordinate_mk_eq_one_iff`, against Tau Ceti's `inertiaSubgroup`), and it sends
-  exactly the arithmetic Frobenius lifts to `zHat.gen` (`unramifiedCoordinate_mk_eq_gen_iff`,
-  against `IsArithFrobeniusLift`). On the Artin map it is the normalized valuation
-  (`unramifiedCoordinate_artinMap`), by `artinMap_restrict` at the finite unramified extensions,
-  `localArtinMap_eq_frobenius_pow_valuation` and `zHat.hom_ext`. Hence every lift of `Art_K(u)`,
-  `u` a unit, lies in inertia (`mem_inertiaSubgroup_of_mk_eq_artinMap`), and every lift of
-  `Art_K(π)`, `π` a uniformizer, is an arithmetic Frobenius lift
+  Both are Tau Ceti's and landed after this repository's Tau Ceti pin; `LocalFieldsRamification`
+  states them under their Tau Ceti names. It is continuous and surjective
+  (`continuous_unramifiedCoordinate`, `surjective_unramifiedCoordinate`), its kernel is the image of
+  inertia (`unramifiedCoordinate_mk_eq_one_iff`, against `LocalFieldsRamification`'s
+  `inertiaSubgroup`), and it sends exactly the arithmetic Frobenius lifts to `zHat.gen`
+  (`unramifiedCoordinate_mk_eq_gen_iff`, against `IsArithFrobeniusLift`). On the Artin map it is the
+  normalized valuation (`unramifiedCoordinate_artinMap`), by `artinMap_restrict` at the finite
+  unramified extensions, `localArtinMap_eq_frobenius_pow_valuation` and `zHat.hom_ext`. Hence every
+  lift of `Art_K(u)`, `u` a unit, lies in inertia (`mem_inertiaSubgroup_of_mk_eq_artinMap`), and
+  every lift of `Art_K(π)`, `π` a uniformizer, is an arithmetic Frobenius lift
   (`isArithFrobeniusLift_of_mk_eq_artinMap_uniformizer`); both are closed corollaries.
 - **Norm functoriality.** For `L/K` finite, embedded in `Kˢ` by `iota`, the image of `Art_L(x)`
   in `G_K^ab` under `absoluteGaloisGroupExtend K L iota` — Tau Ceti's `galoisSubgroupEquiv`, which
