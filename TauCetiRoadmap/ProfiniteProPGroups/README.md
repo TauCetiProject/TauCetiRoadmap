@@ -57,10 +57,16 @@ roadmap name is a statement about the Tau Ceti object and every Tau Ceti lemma a
 | `trivialFp`, `cohomFp` | `TauCeti.trivialFp`, `TauCeti.cohomFp` |
 | `HasPrescriptionProperty` | `TauCeti.HasPrescriptionProperty`, on continuous characters `G →ₜ* ℤ_[p]ˣ` |
 | `d0Relator`, `demushkinD0`, `d0A`, `d0S`, `d0Y`, `negThreeUnit`, `standardD0Orientation` | the `TauCeti` declarations of the same names |
+| `completedGroupAlgebra p Γ`, `IsCompactModule p Γ M` | `TauCeti.completedGroupAlgebra ℤ_[p] Γ`, and `TauCeti.IsCompactModule` over it |
 
 Every milestone about these carriers that Tau Ceti proves is a closed proof in `Suggested.lean`
 whose body is the Tau Ceti theorem, cited by name in the milestone below. The universal
-properties of the free and presented objects are used directly under their Tau Ceti names.
+properties of the free and presented objects are used directly under their Tau Ceti names, and so
+are the Tau Ceti objects that no downstream roadmap cites under a roadmap spelling: the finite
+embedding problems and projectivity (Layer 5), the graded pieces of the lower `p`-series with their
+bracket and `p`-power operator (Layer 8), the projections, coordinates and functoriality of the
+completed group algebra and the module structure on Labute's relation module (Layer 9), and the
+free pro-`C` groups on pointed spaces (Layer 10).
 
 The frozen downstream surface includes:
 
@@ -73,7 +79,7 @@ The frozen downstream surface includes:
 | free objects and presentations | `freeProfiniteGroup`, `freeProfiniteGroup.of`, `freeProC`, `freeProC.of`, `freeProP`, `freeProP.of`, `presentedProfiniteGroup`, `presentedProfiniteGroup.mk`, `presentedProP`, `presentedProP.mk` |
 | their universal properties | `freeProfiniteGroup.existsUnique_lift`, on morphisms of `ProfiniteGrp`; and, as continuous homomorphisms, Tau Ceti's `TauCeti.freeProfiniteGroup.lift`, `TauCeti.freeProfiniteGroup.hom_ext`, `TauCeti.freeProC.lift`, `TauCeti.freeProC.hom_ext`, `TauCeti.freeProP.lift`, `TauCeti.freeProP.hom_ext`, `TauCeti.presentedProfiniteGroup.lift`, `TauCeti.presentedProfiniteGroup.hom_ext`, `TauCeti.presentedProP.lift`, `TauCeti.presentedProP.hom_ext` |
 | lifting along an extension class | `ProfiniteGroupExtension.exists_continuous_monoidHom_of_contCohomologyClass_map_eq`, `ProfiniteGroupExtension.contCohomologyClass_map_eq_of_continuous_monoidHom`, `GroupExtension.surjective_of_comp_inl_eq` |
-| embedding problems and projectivity | `IsProC`, `FiniteEmbeddingProblem`, `FiniteEmbeddingProblem.IsSolution`, `HasElementaryAbelianSolutions`, `HasPGroupSolutions`, `levelProblem`, `IsProjective` |
+| embedding problems and projectivity | `IsProC`; Tau Ceti's `TauCeti.FiniteEmbeddingProblem`, `TauCeti.FiniteEmbeddingProblem.IsSolution`, `TauCeti.HasElementaryAbelianSolutions`, `TauCeti.HasPGroupSolutions`, `TauCeti.levelProblem`, `TauCeti.IsProjective`; `hasPGroupSolutions_of_isProjective`, `isProjective_iff_hasPGroupSolutions` |
 | `cd_p` of a Sylow subgroup | `res_injective_of_isProPSylow`, `cd_p_eq_of_isProPSylow` |
 | Demushkin invariants | `trivialFp`, `cohomFp`, `fpPairing`, `fpPairing_bil`, `cupFp`, `cupFp_gradedComm`, `IsDemushkin`, `demushkinRank`, `demushkinQ`, `demushkinCharacter`, `demushkinCharacter_unique`, `HasPrescriptionProperty` |
 | marked classification | `demushkinWordNeTwo`, `demushkinWordTwoOdd`, `demushkinWordTwoEven`, `demushkinWordTwoRankTwo`, `isDemushkin_marked_of_q_ne_two`, `isDemushkin_marked_of_q_two_odd`, `isDemushkin_marked_of_q_two_even`, `isDemushkin_marked_of_q_two_rank_two` |
@@ -138,9 +144,23 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
 - **Inverse limits, unbundled.** Restate the limit description for consumers outside the
   category: a compatible family of elements of the finite quotients of `G` comes from a
   unique element. Prove the compactness lemma in the form that Layer 8 uses: a directed
-  family of nonempty closed subsets of a profinite set has nonempty intersection.
-  *Needs:* M `ProfiniteGrp.toLimit_surjective`, M `ProfiniteGrp.toLimit_injective`.
+  family of nonempty closed subsets of a profinite set has nonempty intersection. Its inverse
+  system forms are: an inverse system of nonempty compact Hausdorff spaces, or of nonempty finite
+  sets, over a directed index has a compatible family, in the general and in the sequential
+  indexing; and a compatible family in a tower of `T1` spaces lifts along a levelwise surjective
+  continuous map from a tower of compact Hausdorff spaces, with no surjectivity asked of the
+  transition maps.
+  *Needs:* M `ProfiniteGrp.toLimit_surjective`, M `ProfiniteGrp.toLimit_injective`, M
+  `IsCompact.nonempty_iInter_of_directed_nonempty_isCompact_isClosed`.
+  *In Tau Ceti:* `TauCeti.exists_forall_map_eq_of_compact_t2`,
+  `TauCeti.exists_forall_map_eq_of_finite`, `TauCeti.exists_forall_map_succ_eq_of_compact_t2`,
+  `TauCeti.exists_forall_map_succ_eq_of_finite`,
+  `TauCeti.exists_forall_map_succ_eq_and_forall_eq_of_surjective`.
   *Source:* Ribes–Zalesskii Prop. 1.1.4 for the compactness lemma.
+  ⚠ The separation hypotheses of the lifting statement are needed. With `ℤ` indiscrete in every
+  degree upstairs and identity transitions, `ℤ/2^k` indiscrete downstairs with the reductions, and
+  the quotient maps between them, the compatible residues of `-1/3` modulo `2^k` come from no
+  single integer.
 - **Profinite completion.** Consume `ProfiniteGrp.ProfiniteCompletion`. Add the unbundled
   universal property: continuous homomorphisms from the completion to a profinite `P`
   correspond to abstract homomorphisms from `G`. Add that the unit is bijective on a finite
@@ -841,17 +861,22 @@ about the substrate.
   *Source:* NSW I §5 Exercise 4.
 
 The passage from the extension dictionary to projectivity is six statements, and each one is a
-milestone of its own below rather than a line in a proof of the last. `Suggested.lean` names all
-six, so the dependency graph closes without prose.
+milestone of its own below rather than a line in a proof of the last. All six are Tau Ceti's, used
+under their Tau Ceti names; `Suggested.lean` has a closed proof of each theorem among them, and
+proves the converse, 5.7, which needs a pro-`p` hypothesis.
 
 - **5.1 The finite embedding problem.** A finite embedding problem for `G` is a continuous
   surjection `π : G ↠ Q` onto a finite group together with a surjection `α : E ↠ Q` of finite
-  groups; a solution is a continuous `β : G → E` with `α ∘ β = π`. Both are named:
-  `FiniteEmbeddingProblem` and `FiniteEmbeddingProblem.IsSolution`.
+  groups; a solution is a continuous `β : G → E` with `α ∘ β = π`. A surjection `φ : E ↠ F` of
+  finite groups and a homomorphism `β : G → F` with open kernel cut out the problem whose
+  solutions are the lifts of `β` through `φ`.
   *Needs:* L0 profinite foundations; L5 extensions.
+  *In Tau Ceti:* `TauCeti.FiniteEmbeddingProblem` and `TauCeti.FiniteEmbeddingProblem.IsSolution`
+  with `isSolution_iff`; `TauCeti.FiniteEmbeddingProblem.ofSurjective` with
+  `isSolution_ofSurjective_iff`.
   ⚠ Continuity of a homomorphism into a finite discrete group is openness of its kernel, and that
   is how both are written; no field of the problem carries a topology, exactly as in
-  `OccursAsFiniteQuotient`.
+  `IsFiniteContinuousQuotient`.
   ⚠ A solution cannot be made surjective in general, and no statement here says otherwise. With
   `G = C_p`, `Q = 1` and `E = C_p × C_p`, the unique maps form an embedding problem whose
   solutions are the homomorphisms `C_p → C_p × C_p`, none of which is surjective. The Burnside
@@ -859,38 +884,71 @@ six, so the dependency graph closes without prose.
   cannot supply a missing generator. Everything below needs only the weak form.
 - **5.2 Solvability with elementary abelian kernel.** The predicate
   `HasElementaryAbelianSolutions p G`: every finite embedding problem for `G` whose kernel
-  `N = ker α` is elementary abelian has a solution. This is the single step that consumes
-  cohomology — conjugation makes `N` a `Q`-module, the extension dictionary turns the problem into
-  a class in `H²(G, N)`, and vanishing of that class is exactly solvability. If `H²(G, M) = 0` for
-  every finite discrete elementary abelian `p`-primary `G`-module `M`, the predicate holds.
+  `N = ker α` is commutative and killed by `p` has a solution. This is the single step that
+  consumes cohomology. Conjugation makes `N` a `Q`-module, the pullback of the extension
+  `1 → N → E → Q → 1` along `π` has a class in `H²(G, N)`, and the vanishing of that class is
+  exactly solvability. If `H²(G, M) = 0` for every finite discrete `G`-module `M` killed by `p`,
+  the predicate holds.
   *Needs:* L5 the bijection; L5 splitting.
+  *In Tau Ceti:* `TauCeti.HasElementaryAbelianSolutions`; the obstruction
+  `TauCeti.FiniteEmbeddingProblem.obstruction` with `exists_isSolution_iff_obstruction_eq_zero`;
+  `TauCeti.hasElementaryAbelianSolutions_of_subsingleton_continuousCohomology_two`.
 - **5.3 The lower `p`-central reduction.** A finite `p`-group kernel `N` is filtered by
   `λ_0(N) = N` and `λ_{k+1}(N) = λ_k(N)^p [λ_k(N), N]`, a chain that reaches `1` in finitely many
-  steps and whose factors are elementary abelian:
-  `exists_pLowerCentral_filtration_of_isPGroup`.
+  steps and whose factors are elementary abelian.
   *Needs:* M `IsPGroup` and the finite lower `p`-central series.
+  *In Tau Ceti:* `Subgroup.exists_pLowerCentral_filtration_of_isPGroup`, for the series
+  `Subgroup.pLowerCentralSeries p N` of `GroupTheory/PLowerCentralSeries.lean`.
   ⚠ Characteristicity is what makes the reduction work: each `λ_k(N)` is characteristic in `N`,
   hence normal in `E`, which is what makes each factor a `Q`-module. An arbitrary central series
   of `N` need not be stable under conjugation by `E`.
 - **5.4 Solvability with `p`-group kernel.** The predicate `HasPGroupSolutions p G`, and the
-  induction `hasPGroupSolutions_of_hasElementaryAbelianSolutions` that derives it from 5.2 by
-  climbing the filtration of 5.3, one extension of the kind in the dictionary per step. 5.3 is
-  used here and nowhere else, which is why it is stated separately.
+  induction that derives it from 5.2 by climbing the filtration of 5.3, one extension of the kind
+  in the dictionary per step. 5.3 is used here and nowhere else, which is why it is stated
+  separately.
   *Needs:* L5.1, L5.2, L5.3.
-- **5.5 Compatible systems of finite solutions.** For a surjection `α : A ↠ B` of pro-`p` groups
-  and a continuous `f : G → B`, each open normal `U ≤ A` cuts out a finite embedding problem
-  `levelProblem … U` with `E = A/U` and `Q = B/α(U)`. Every one of them is solvable by 5.4, its
-  solution set is finite, and the transition maps between levels are surjective:
-  `nonempty_isSolution_levelProblem`.
-  *Needs:* L5.4; L0 open normal subgroups.
-  ⚠ Nonemptiness level by level is not what the compactness lemma consumes. It needs a **directed
-  family of nonempty closed** subsets, so finiteness of each level set and surjectivity of the
-  transitions belong to this milestone rather than to the proof of the next.
-- **5.6 Inverse-limit lifting: projectivity.** The predicate `IsProjective p G` — every continuous
-  map into a pro-`p` quotient lifts — and `isProjective_of_hasPGroupSolutions`, which assembles
-  the compatible finite solutions of 5.5 into one continuous lift by the Layer 0 compactness
-  lemma. This is the projectivity statement Layer 6 consumes.
+  *In Tau Ceti:* `TauCeti.HasPGroupSolutions`,
+  `TauCeti.HasElementaryAbelianSolutions.hasPGroupSolutions`.
+- **5.5 Compatible systems of finite solutions.** Let `α : A ↠ B` be a continuous surjection from
+  a profinite pro-`p` group onto a Hausdorff group, let `f : G → B` be continuous, and let
+  `U ≤ A` be open normal. The level problem `levelProblem α hα f U` is `A/U → B/α(U)` restricted
+  to the preimage of the image of `G` in `B/α(U)`; its solutions are the continuous lifts of `f`
+  modulo `U`. Under 5.4 every level problem is solvable, the transition maps between the levels
+  are surjective, and there is a compatible family of level solutions. The compactness argument
+  runs on the fibres in `A` of a minimal closed relation between `A` and `G`, and not on the level
+  solution sets, so it needs no finiteness.
+  *Needs:* L5.4; L0 open normal subgroups and the compactness lemma.
+  *In Tau Ceti:* `TauCeti.levelProblem`, `TauCeti.LevelSolution`, `TauCeti.levelSolutionEquiv`,
+  `TauCeti.nonempty_isSolution_levelProblem`, `TauCeti.levelSolutionMap_surjective`,
+  `TauCeti.HasPGroupSolutions.exists_compatible_levelSolutions`,
+  `TauCeti.IsTopologicallyFinitelyGenerated.finite_levelSolution`.
+  ⚠ The level problem must be cut down to the image of `f`, because the map `G → B/α(U)` that `f`
+  induces need not be surjective. With `G = 1`, `A = B = C_p`, `α = id`, `U = 1` and `f` trivial
+  it is `1 → C_p`, so `E = A/U`, `Q = B/α(U)` is not an embedding problem at all.
+  ⚠ The level solution sets need not be finite. For `G` free pro-`p` on an infinite basis,
+  `A = C_p`, `B = 1` and `U = 1`, the solutions are the continuous homomorphisms `G → C_p`, and
+  there are infinitely many. They are finite when `G` is topologically finitely generated, which
+  is the only case in which a finite-set compactness argument applies to them.
+- **5.6 Inverse-limit lifting: projectivity.** The predicate `IsProjective p G`, that every
+  continuous homomorphism into a quotient of a profinite pro-`p` group lifts continuously, and
+  the theorem that 5.4 implies it, with no finite-generation hypothesis: the compatible level
+  solutions of 5.5 assemble into one continuous lift. This is the projectivity statement Layer 6
+  consumes.
   *Needs:* L0 compactness lemma; L5.5.
+  *In Tau Ceti:* `TauCeti.IsProjective` with `IsProjective.exists_continuous_lift` and
+  `IsProjective.of_equiv`, `TauCeti.exists_continuous_lift_of_compatible_levelSolutions`,
+  `TauCeti.isProjective_of_hasPGroupSolutions`.
+- **5.7 The converse, for pro-`p` groups.** A projective pro-`p` group solves every finite
+  embedding problem with `p`-group kernel (`hasPGroupSolutions_of_isProjective`), so for pro-`p`
+  `G` projectivity and 5.4 are equivalent (`isProjective_iff_hasPGroupSolutions`). `Q` is a
+  continuous finite quotient of the pro-`p` group `G`, hence a `p`-group; so `E`, an extension of
+  `Q` by the `p`-group `ker α`, is a finite `p`-group, hence pro-`p`, and the problem is a lifting
+  problem against `α`. `Suggested.lean` proves both statements.
+  *Needs:* L5.6; L3 the `IsProP` API; M `IsPGroup.of_subgroup_of_quotient`.
+  ⚠ The pro-`p` hypothesis is needed, and a `p`-group kernel does not make `E` and `Q`
+  `p`-groups. `G = PSL₂(𝔽₅)` is perfect, so every continuous homomorphism from it to a pro-`2`
+  group is trivial and `G` is projective at `p = 2`. But `SL₂(𝔽₅) ↠ G`, with kernel `C₂` and
+  `π = id`, has no solution: the only involution of `SL₂(𝔽₅)` is `-1`, while `G` has involutions.
 - **`H²` of a free pro-`p` group vanishes.** For `F` free pro-`p` of finite rank and `M`
   finite discrete `p`-primary, `H²(F, M) = 0`. Proof: by the dictionary a class is an
   extension `1 → M → E → F → 1`, and the universal property of `F` lifts a generating tuple
@@ -898,6 +956,8 @@ six, so the dependency graph closes without prose.
   zero. This theorem is proved here, because the relation-rank theorem below uses it. Layer
   6 restates it as `cd_p F ≤ 1` and proves the converse.
   *Needs:* L5 the dictionary; L4 universal property.
+  *In Tau Ceti:* `TauCeti.freeProP.subsingleton_continuousCohomology_two`, and
+  `TauCeti.hasPGroupSolutions_freeProP`, the same lifting argument read as 5.4.
   *Source:* Serre, *Galois Cohomology* I §3.4; Koch Ch. 4.12.
 
 #### Rank interpretations
@@ -917,6 +977,11 @@ six, so the dependency graph closes without prose.
   relations, and does not depend on the minimal presentation. This is the
   presentation-independence theorem.
   *Needs:* PC-5 the five-term sequence; L5 vanishing theorem; L5 presentations.
+  *In Tau Ceti:* `TauCeti.transgression_bijective_of_le_proPFrattini` (`ProP/Transgression.lean`);
+  `TauCeti.presentedProP.natCard_H2`, `TauCeti.presentedProP.natCard_H2_le_pow_iff`,
+  `TauCeti.presentedProP.finite_H2_iff` and
+  `TauCeti.presentedProP.topologicalGeneratorRankNat_quotient_pLowerCentralStep_eq`
+  (`ProP/RelationRank.lean`).
   *Source:* Labute §1.4; NSW (3.9.5).
 - **Deficiency and one-relator groups.** For pro-`p` `G` that is topologically finitely
   generated with `H²(G, 𝔽_p)` finite-dimensional, both `d(G)` and `r(G)` are natural
@@ -1348,48 +1413,59 @@ differs, the translation is stated once.
   `F_i` is our `λ_{i-1}`, and his `F_3`, the modulus of the normal-form congruences, is our
   `λ_2`. Every Labute index below is translated in place.
 - `gr_k(G) := λ_k / λ_{k+1}`, a profinite elementary abelian `p`-group, that is a profinite
-  `𝔽_p`-vector space, written additively; `Suggested.lean` names it `gradedPiece` and takes
+  `𝔽_p`-vector space, written additively. It is Tau Ceti's `TauCeti.gradedPiece p G k`, the
   `Additive` of the group quotient, so that the additive notation of this layer is the Lean
-  notation too. Normality of `λ_{k+1}` inside `λ_k` is a milestone of this layer, and it is a
-  hypothesis of every statement about `gradedPiece`. `gr(G) := ⨁_{k ≥ 0} gr_k(G)`.
-  ⚠ `gr_k(G)` is **finite** only under topological finite generation, and that is a theorem:
-  `IsTopologicallyFinitelyGenerated G → Finite (gr_k G)`, proved from openness of
+  notation too; the class of an element of `λ_k` is `TauCeti.gradedMk`, and the `𝔽_p`-module
+  structure is `TauCeti.instModuleZModGradedPiece`. `gr(G) := ⨁_{k ≥ 0} gr_k(G)`.
+  ⚠ `gr_k(G)` is **finite** only under topological finite generation, and that is a theorem,
+  `TauCeti.IsTopologicallyFinitelyGenerated.finite_gradedPiece`, proved from openness of
   `λ_{k+1}`. Without it the statement is false, since `G = ∏_I C_p` with `I` infinite has
   `λ_1(G) = 1` and `gr_0(G) = G`. Every span statement, basis correction and dimension count
   below is therefore stated for a free pro-`p` group of finite rank, or for another group
   that is explicitly topologically finitely generated.
-- The **bracket** `gradedBracket : gr_j × gr_k → gr_{j+k+1}`, induced by the group commutator;
-  the degree shifts by one because the indexing is 0-based, since `[λ_j, λ_k] ≤ λ_{j+k+1}`. The
-  **`p`-power operator** `gradedPow : gr_k → gr_{k+1}` is `π(x λ_{k+1}) = x^p λ_{k+2}`. Both are
-  named maps and not existence statements, and each carries its defining equation on classes,
-  `gradedBracket_mk` and `gradedPow_mk`; the two degree-raising membership statements
-  `commutator_mem_pLowerCentralSeries` and `pow_mem_pLowerCentralSeries` are what make them well
-  defined. The laws are `gradedBracket_bilinear`, `gradedBracket_alternating`,
-  `gradedBracket_jacobi`, `gradedPow_add_of_pos` and `gradedPow_add_of_odd`; a continuous
-  homomorphism induces `gradedMap`, compatible with both operations by `gradedBracket_natural`
-  and `gradedPow_natural`. The operator `π` commutes with scalars, and it is additive in every
-  degree except degree zero at `p = 2`.
+- The **bracket** `gr_j × gr_k → gr_{j+k+1}`, induced by the group commutator, is Tau Ceti's
+  biadditive `TauCeti.gradedBracket`, with its `𝔽_p`-bilinear form
+  `TauCeti.gradedBracketLinear`; the degree shifts by one because the indexing is 0-based, since
+  `[λ_j, λ_k] ≤ λ_{j+k+1}`. The **`p`-power operator** `π : gr_k → gr_{k+1}`,
+  `π(x λ_{k+1}) = x^p λ_{k+2}`, is `TauCeti.gradedPow`. Both are named maps and not existence
+  statements, and each carries its defining equation on classes, `TauCeti.gradedBracket_gradedMk`
+  and `TauCeti.gradedPow_gradedMk`; the two degree-raising membership statements
+  `TauCeti.commutator_mem_pLowerCentralSeries` and `TauCeti.pow_mem_pLowerCentralSeries` are what
+  make them well defined. The bracket is alternating (`TauCeti.gradedBracket_self`) and satisfies
+  the Jacobi identity (`TauCeti.gradedBracket_jacobi`); `π` is additive in every degree `k ≥ 1`
+  (`TauCeti.gradedPow_add_of_one_le`) and, for odd `p`, in degree zero too
+  (`TauCeti.gradedPow_add_zero_of_odd`); it commutes with scalars (`TauCeti.gradedPow_smul_zero`
+  in degree zero). A continuous homomorphism induces `TauCeti.gradedMap`, compatible with both
+  operations by `TauCeti.gradedMap_gradedBracket` and `TauCeti.gradedMap_gradedPow`, and
+  surjective in each degree for a continuous surjection (`TauCeti.gradedMap_surjective`).
+  `Suggested.lean` has a closed proof of each of these laws from the Tau Ceti theorem.
   *Source:* Labute Prop. 1 and Prop. 2, in our indexing.
+  *In Tau Ceti:* `Topology/Algebra/Group/LowerCentralSeries/Graded/Basic.lean`.
 - **`π` against the bracket, and the dyadic failure.** For every `p` the bracket is
-  `π`-bilinear away from degree zero: `π[x, y] = [πx, y] = [x, πy]` for `x ∈ λ_j` and
-  `y ∈ λ_k` with `j, k ≥ 1`, all three terms lying in `gr_{j+k+2}`. The group identities
-  behind this are `[x², y] = [x, y]²·[[x, y], x]` and `[x, y²] = [x, y]²·[[x, y], y]`, whose
-  correction terms have degrees `2j + k + 2` and `j + 2k + 2`, so they vanish in
-  `gr_{j+k+2}` unless the corresponding argument has degree zero. For odd `p` the operator
-  `π` is additive as well, because the Hall–Petrescu corrections carry coefficients
-  `binom(p, i)` that are divisible by `p`, and the degree-zero corrections vanish too; hence
-  `gr(G)` is a graded Lie algebra over `𝔽_p[π]`, with `π` of degree one.
+  `π`-bilinear away from degree zero: `π[x, y] = [πx, y]` for `x ∈ gr_j` with `j ≥ 1`, and
+  `π[x, y] = [x, πy]` for `y ∈ gr_k` with `k ≥ 1`, all three terms lying in `gr_{j+k+2}`
+  (`TauCeti.gradedPow_gradedBracket_left`, `TauCeti.gradedPow_gradedBracket_right`). The group
+  identities behind this are `[x², y] = [x, y]²·[[x, y], x]` and `[x, y²] = [x, y]²·[[x, y], y]`,
+  whose correction terms have degrees `2j + k + 2` and `j + 2k + 2`, so they vanish in
+  `gr_{j+k+2}` unless the corresponding argument has degree zero. For odd `p` the operator `π` is
+  additive as well, because the Hall–Petrescu corrections carry coefficients `binom(p, i)` that
+  are divisible by `p`, and the degree-zero corrections vanish too
+  (`TauCeti.gradedPow_gradedBracket_left_of_odd` and its mirror image); hence `gr(G)` is a graded
+  Lie algebra over `𝔽_p[π]`, with `π` of degree one.
   **For `p = 2` additivity fails in degree zero.** The exact failure is
   `π(x + y) = π(x) + π(y) + [x, y]` in `gr_1(G)`, for `x, y ∈ gr_0(G)`, which is the
-  `binom(2, 2)` term of the Hall–Petrescu expansion. That equation is the milestone
-  `gradedPow_add_zero_dyadic`, stated literally and not as a description. In degree zero the bracket identities
-  also acquire the correction `[πx, y] = π[x, y] + [[x, y], x]`, and its mirror image. So
-  `gr(F)` for free pro-`2` `F` is not an `𝔽_2[π]`-Lie algebra. The milestones are proofs of
-  these identities, `gradedPow_bracket_left` and `gradedPow_bracket_right` away from degree
-  zero, with a witness that the failure is not vacuous: in `F` free pro-`2` of rank 2,
-  `[x̄₁, x̄₂] ≠ 0` in `gr_1(F)`, which is `gradedBracket_freeProP_two_ne_zero`, so `π` is not
-  additive on `gr_0(F)`. Every `q = 2` argument downstream has this shape.
+  `binom(2, 2)` term of the Hall–Petrescu expansion (`TauCeti.gradedPow_add_zero_of_two`, the
+  case `p = 2` of `TauCeti.gradedPow_add_zero`). In degree zero the bracket identities also
+  acquire the correction `[πx, y] = π[x, y] + [[x, y], x]`, and its mirror image
+  (`TauCeti.gradedBracket_gradedPow_zero_left_of_two`,
+  `TauCeti.gradedBracket_gradedPow_zero_right_of_two`). So `gr(F)` for free pro-`2` `F` is not an
+  `𝔽_2[π]`-Lie algebra. The failure is not vacuous: in `F` free pro-`2` of rank 2,
+  `[x̄₁, x̄₂] ≠ 0` in `gr_1(F)` (`TauCeti.gradedBracket_freeProP_two_ne_zero`), so `π` is not
+  additive on `gr_0(F)` (`TauCeti.gradedPow_freeProP_two_not_additive`). Every `q = 2` argument
+  downstream has this shape.
   *Needs:* L8 the graded object; M the commutator identities.
+  *In Tau Ceti:* `Topology/Algebra/Group/LowerCentralSeries/Graded/Basic.lean` and `Pow.lean`;
+  `Topology/Algebra/Group/Profinite/Free/Graded.lean`.
 - **Openness and cofinality** (`Suggested.lean`). In a topologically finitely generated
   pro-`p` group every `λ_k` is open, by induction, and the series is a neighbourhood basis
   of `1`, so `G ≅ lim_k G/λ_k` with finite `p`-group levels and any comparison runs level by
@@ -1410,13 +1486,16 @@ differs, the translation is stated once.
   `w_i ∈ λ_{j-1}(F)`, for `j ≥ 1`, moves `r` inside its coset by an element of `λ_j(F)`
   whose class in `gr_j(F)` depends only on the classes `w̄_i ∈ gr_{j-1}(F)`. That map is
   `δ_j : gr_{j-1}(F)^{⊕ n} → gr_j(F)`,
-  `δ_j(w̄_1, …, w̄_n) = Σ_i [w̄_i, ∂_i r̄] + Σ_i c_i π(w̄_i)`,
-  where `r̄ ∈ gr_1(F)` is the class of the relator, `∂_i r̄ ∈ gr_0(F)` is the coefficient of
-  `x_i` in the commutator part of `r̄`, and `c_i ∈ 𝔽_p` is the coefficient of `x_i^p` in the
-  `p`-power part. Both terms land in `gr_j(F)`: the bracket raises the degree by
-  `0 + (j - 1) + 1`, and `π` raises it by one. The image `Im δ_j ≤ gr_j(F)` is the subspace
-  in the span statements of Layer 9. Linearity holds in the degrees the span statements use,
-  and fails in one case:
+  `δ_j(w̄_1, …, w̄_n) = Σ_i [w̄_i, ∂_i r̄] + Σ_i c_i (π(w̄_i) + binom(p, 2) [w̄_i, x̄_i])`,
+  where `r̄ ∈ gr_1(F)` is the class of the relator, `x̄_i ∈ gr_0(F)` is the class of `x_i`,
+  `∂_i r̄ ∈ gr_0(F)` is the coefficient of `x_i` in the commutator part of `r̄`, and
+  `c_i ∈ 𝔽_p` is the coefficient of `x_i^p` in the `p`-power part. Every term lands in
+  `gr_j(F)`: the brackets raise the degree by `0 + (j - 1) + 1`, and `π` raises it by one. The
+  last term vanishes for odd `p`; at `p = 2` it is `c_i [w̄_i, x̄_i]`, because
+  `(x_i w_i)² = x_i² w_i² [w_i, x_i]` modulo `λ_{j+1}(F)`, and it is the trace, in every degree,
+  of the failure of additivity of `π` on `gr_0(F)` (Labute's `[τ₁, ξ₁]` on p. 124). The image
+  `Im δ_j ≤ gr_j(F)` is the subspace in the span statements of Layer 9. Linearity holds in the
+  degrees the span statements use, and fails in one case:
   - for `j ≥ 2` the map `δ_j` is `𝔽_p`-linear, because `π` is additive above degree zero;
   - for `j = 1` at `p = 2` with some `c_i ≠ 0`, which is the case of the `q = 2` relators,
     the inputs lie in `gr_0(F)`, where `π(x + y) = π(x) + π(y) + [x, y]`, so `δ_1` is
@@ -1425,16 +1504,26 @@ differs, the translation is stated once.
     `δ_1` at `p = 2` is stated against that corrected map.
 
   The milestones are well-definedness of `δ_j`, linearity for `j ≥ 2`, the polarization
-  identity at `j = 1`, and the explicit formula at a relator in normal form.
+  identity at `j = 1`, and the explicit formula at a relator in normal form. For `j ≥ 2` Tau Ceti
+  has the first two and the formula, in the standard basis of `gr_1(F)`: `δ_j` is the bilinear
+  map `TauCeti.freeProP.basisModificationDelta`, the class of `r⁻¹ θ_w(r)` is its value
+  (`TauCeti.freeProP.gradedMk_inv_mul_basisModification`), and `basisModificationDelta_apply`
+  is the formula above. The polarization identity at `j = 1` is the remaining milestone.
   *Needs:* L8 the graded object; L4 free objects.
-  *Source:* Labute Prop. 5, in our indexing.
+  *In Tau Ceti:* `TauCeti.freeProP.basisModification`, `TauCeti.freeProP.basisModificationDelta`,
+  `TauCeti.freeProP.gradedMk_inv_mul_basisModification`,
+  `TauCeti.freeProP.basisModificationDelta_apply`, and the graded deviation
+  `TauCeti.gradedDeviation` of `Graded/Deviation.lean` that they rest on.
+  *Source:* Labute Prop. 5, in our indexing, and the formula on p. 124.
   API checklist for `pLowerCentralSeries` and `gr`:
   - Constructors: the series itself; the class of an element in `gr_k`; the bracket and the
     operator `π`.
-  - Examples: `λ_1(G) = Φ(G)`; `gr_0(G) = G/Φ(G)`; `gr(F)` for `F` free pro-`p` of rank `n`,
-    where `gr_1(F) ≅ Λ²(𝔽_p^n) ⊕ 𝔽_p^n`.
+  - Examples: `λ_1(G) = Φ(G)` (`TauCeti.pLowerCentralSeries_one_eq_proPFrattini`);
+    `gr_0(G) = G/Φ(G)` (`TauCeti.gradedPieceZeroEquiv`); `gr(F)` for `F` free pro-`p` of rank
+    `n`, where `gr_1(F) ≅ Λ²(𝔽_p^n) ⊕ 𝔽_p^n` with basis the classes `π x̄_i` and `[x̄_i, x̄_k]`
+    for `i < k` (`TauCeti.freeProP.degreeOneBasis`, `TauCeti.freeProP.finrank_gradedPiece_one`).
   - Morphisms: a continuous homomorphism induces a graded map; a continuous surjection
-    induces a surjection in each degree.
+    induces a surjection in each degree (`TauCeti.gradedMap_surjective`).
   - Functoriality: `f(λ_k(G)) ≤ λ_k(H)`, with equality for a continuous surjection; each
     `λ_k` is characteristic.
   - Comparison lemmas: the interleaving with the iterated Frattini series; agreement with
@@ -1637,20 +1726,29 @@ of the two even-rank families in the abstract classification.
 - **The algebra.** For a profinite group `Γ` and a prime `p`,
   `completedGroupAlgebra p Γ := lim_U ℤ_p[Γ/U]` over the open **normal** subgroups `U ≤ Γ`,
   with the inverse-limit topology; the subgroups are normal because `Γ/U` has to be a group for
-  `ℤ_p[Γ/U]` to be a group algebra. It is a compact topological `ℤ_p`-algebra: `Ring`,
+  `ℤ_p[Γ/U]` to be a group algebra. It is Tau Ceti's `TauCeti.completedGroupAlgebra ℤ_[p] Γ`,
+  aliased under the roadmap's name. It is a compact topological `ℤ_p`-algebra: the `Ring`,
   `Algebra ℤ_[p]`, `TopologicalSpace`, `IsTopologicalRing`, `CompactSpace` and
-  `TotallyDisconnectedSpace` are all part of the milestone. **It is commutative exactly when
-  `Γ` is abelian**, which is the case in every use below, since `Γ = Im χ ≤ ℤ_pˣ`; that is
-  `completedGroupAlgebra_mul_comm`, stated as an equation rather than as a second ring
-  structure. The finite-level projections `completedGroupAlgebra.proj` land in the group algebra
-  of `Γ/U` and are surjective, and `Λ` is separated, which together are the inverse-limit
-  description. The group elements sit inside `Λ` through
-  `completedGroupAlgebra.of : Γ →* Λˣ`, which is continuous. Functoriality is
-  `completedGroupAlgebra.map` with `map_id`, `map_comp`, `map_of` and `map_surjective`.
+  `TotallyDisconnectedSpace` instances are Tau Ceti's. **It is commutative exactly when `Γ` is
+  abelian** (`TauCeti.completedGroupAlgebra.isMulCommutative_iff`), which is the case in every use
+  below, since `Γ = Im χ ≤ ℤ_pˣ`; the `CommRing` structure for abelian `Γ` extends the ring
+  structure rather than adding a second one. The finite-level projections
+  `TauCeti.completedGroupAlgebra.proj ℤ_[p] Γ U` land in the group algebra of `Γ/U` and are
+  surjective, and an element is determined by its projections, which together are the
+  inverse-limit description. The group elements sit inside `Λ` through
+  `TauCeti.completedGroupAlgebra.of ℤ_[p] Γ : Γ →* Λ`, which is continuous and, for profinite `Γ`,
+  injective. Functoriality is `TauCeti.completedGroupAlgebra.map` with `map_id`, `map_comp`,
+  `map_of` and `map_surjective`, and a topological isomorphism induces `domCongr`.
+  `Suggested.lean` has a closed proof of each of these from the Tau Ceti theorem.
   *Needs:* L0 inverse limits; M `MonoidAlgebra`, M `PadicInt`.
+  *In Tau Ceti:* `TauCeti.completedGroupAlgebra` with `proj`, `proj_surjective`, `ext`, `of`,
+  `proj_of`, `continuous_of`, `of_injective`, `isMulCommutative_iff`, `lift` and `algHom_ext`
+  (`CompletedGroupAlgebra/Basic.lean`); `map`, `map_of`, `map_id`, `map_comp`, `map_surjective`
+  and `domCongr` (`CompletedGroupAlgebra/Map.lean`).
 
   API checklist for `completedGroupAlgebra`:
-  - Constructors: the limit definition; `of` on a group element; the structure map from `ℤ_p`.
+  - Constructors: the limit definition; `of` on a group element; the structure map from `ℤ_p`;
+    `lift` from a compatible family of algebra homomorphisms into the levels.
   - Examples: `Γ = ℤ_p`, where the algebra is `ℤ_p[[T]]`; `Γ` finite, where it is the finite
     group algebra, which `proj` at `U = 1` records.
   - Morphisms: continuous `ℤ_p`-algebra homomorphisms; evaluation at an element of the
@@ -1659,141 +1757,216 @@ of the two even-rank families in the abstract classification.
   - Comparison lemmas: the power-series coordinate below; `proj_of` at each finite level.
   - Naturality: the power-series coordinate depends on the chosen topological generator, and
     the dependence is the substitution recorded below.
-  - Edge cases: the trivial group; a finite procyclic `Γ`, where the truncated statement
-    holds and which the classification does not use; a non-abelian `Γ`, where the algebra is
-    not commutative and the coordinate does not apply.
+  - Edge cases: the trivial group; a finite procyclic `Γ`, where evaluation at `γ - 1` has kernel
+    `((1 + T)^|Γ| - 1)` and which the classification does not use; a non-abelian `Γ`, where the
+    algebra is not commutative and the coordinate does not apply.
   - Downstream interfaces: the module statements of Labute Thms 5 and 6, used in Layer 9.
-- **Compact modules.** `IsCompactModule p Γ M` is the predicate on a topological
-  `Λ`-module saying that it is a topological additive group with continuous scalar action,
-  compact and totally disconnected; for a module over a compact ring that is the same as being
-  separated and complete, and it is what the inverse-limit description needs. The milestones
-  are separatedness (`IsCompactModule.eq_zero_of_mem_open`), surjectivity of the transition maps
-  between quotients by open submodules, stability of the predicate under quotients by closed
-  submodules, and the exactness statement `compactModule_limit_surjective`: along a tower with
-  surjective transition maps and levelwise surjective comparison maps between compact levels, a
-  compatible family downstairs lifts. Without surjectivity of the transition maps that last
-  statement is false, so it is a hypothesis and not decoration.
-  *Needs:* L9 the algebra; L0 inverse limits.
-- **Power-series coordinates.** For a chosen topological generator `γ` of `Γ ≅ ℤ_p`, the
-  assignment `T ↦ γ - 1` extends to an isomorphism of `ℤ_p`-algebras
-  `ℤ_p[[T]] ≅ completedGroupAlgebra p Γ`, named
-  `completedGroupAlgebra.powerSeriesCoordinate`, with its defining value
-  `powerSeriesCoordinate_X`. The dependence on `γ` is part of the statement: a different
-  generator changes the isomorphism by the substitution `T ↦ (1+T)^u - 1` with `u ∈ ℤ_pˣ`, and
-  every statement below is invariant under it.
-  `PowerSeries` carries no topology at the pin, so the topological half of the coordinate is
-  stated as `powerSeriesCoordinate_filtration`, the identification of the `X`-adic filtration
-  with the kernels of the finite-level projections, which is exactly what the inverse-limit
-  topology is.
-  *Needs:* L9 the algebra; M `PowerSeries`.
-  *Source:* Labute §1.5.
-- **Evaluation.** For `ψ ∈ ℤ_p[[T]]` and `c` with `v_p(c) ≥ 1`, the evaluation `ψ(c) ∈ ℤ_p`
-  converges, and `ψ ↦ ψ(c)` is a `ℤ_p`-algebra homomorphism (`powerSeriesEval`, with
-  `powerSeriesEval_add_mul` and the defining values `powerSeriesEval_X_C`). The convergence
-  hypothesis `v_p(c) ≥ 1` is carried in every statement.
-  *Needs:* M `PowerSeries`, M `PadicInt` completeness.
+- **Compact modules.** `IsCompactModule p Γ M` is the predicate on a topological `Λ`-module
+  saying that it is a topological additive group with continuous scalar action, compact and
+  totally disconnected: Tau Ceti's `TauCeti.IsCompactModule` at the ring `Λ`. Over the compact
+  ring `Λ` its open submodules form a basis of neighbourhoods of `0`, which gives separatedness,
+  and a compatible family of elements of its quotients by the open submodules comes from exactly
+  one element, which is the inverse-limit description. The predicate passes to quotients by closed
+  submodules. The exactness statement that lets module statements be checked level by level is
+  the lifting lemma for towers of Layer 0: a compatible family downstairs lifts along a levelwise
+  surjective continuous map from a tower of compact Hausdorff spaces to a tower of `T1` spaces.
+  A compact module is Hausdorff, so towers of compact modules satisfy its hypotheses.
+  *Needs:* L9 the algebra; L0 inverse limits and the lifting lemma.
+  *In Tau Ceti:* `TauCeti.IsCompactModule` with `isLinearTopology`,
+  `eq_zero_of_forall_mem_of_isOpen`, `existsUnique_forall_mkQ_eq`, `quotient` and `t2Space`
+  (`Topology/Algebra/Module/Compact.lean`); `TauCeti.IsCompactModule.completedGroupAlgebraModule`,
+  the `Λ`-module structure on a compact `ℤ_p`-module with a continuous `Γ`-action
+  (`CompletedGroupAlgebra/Module.lean`); `TauCeti.exists_forall_map_succ_eq_and_forall_eq_of_surjective`.
+  ⚠ The lifting lemma needs its separation hypotheses, and not surjectivity of the transition
+  maps, which it does not use. With `A_k = ℤ` indiscrete and identity transitions, `B_k = ℤ/2^k`
+  indiscrete with the reductions, and the quotient maps between them, every other hypothesis
+  holds, but the compatible residues of `-1/3` modulo `2^k` come from no single integer, since
+  `2^k ∣ 3a + 1` for all `k` has no solution.
+- **Power-series coordinates.** For a topological generator `γ` of an infinite commutative
+  pro-`p` group `Γ`, so that `Γ ≅ ℤ_p`, the assignment `T ↦ γ - 1` extends to an isomorphism of
+  `ℤ_p`-algebras `ℤ_p[[T]] ≅ completedGroupAlgebra p Γ`, Tau Ceti's
+  `TauCeti.completedGroupAlgebra.powerSeriesCoordinate`, with its defining value
+  `powerSeriesCoordinate_X`. `ℤ_p[[T]]` carries the coefficientwise topology
+  (`PowerSeries.WithPiTopology`), which is compact, and the coordinate is a homeomorphism for it
+  and the inverse-limit topology on `Λ`. The finite levels are principal: through the coordinate,
+  the kernel of the projection to the level `U` is generated by `ω_U = (1 + T)^[Γ : U] - 1`, so the
+  levels of `Λ` are the ideals `(ω_m)`, `ω_m = (1 + T)^(p^m) - 1`, of Iwasawa theory. The
+  dependence on `γ` is part of the statement: a different generator changes the isomorphism by
+  the substitution `T ↦ (1 + T)^u - 1` with `u ∈ ℤ_pˣ`, and every statement below is invariant
+  under it. `Suggested.lean` has a closed proof of each of these from the Tau Ceti theorem.
+  *Needs:* L9 the algebra; M `PowerSeries`, M `PowerSeries.aeval`, M Weierstrass division.
+  *In Tau Ceti:* `TauCeti.completedGroupAlgebra.powerSeriesCoordinate` with
+  `powerSeriesCoordinate_X`, `powerSeriesCoordinate_one_add_X`, `continuous_powerSeriesCoordinate`,
+  `continuous_powerSeriesCoordinate_symm`, `powerSeriesCoordinate_binomialSeries` and
+  `exists_isUnit_powerSeriesCoordinate_eq_subst` (`CompletedGroupAlgebra/PowerSeries.lean`);
+  `ker_proj_comp_powerSeriesCoordinate`, `proj_powerSeriesCoordinate_eq_zero_iff`,
+  `powerSeriesLevelEquiv` and `ker_proj` (`CompletedGroupAlgebra/Filtration.lean`).
+  *Source:* Labute §1.5; Washington, *Introduction to Cyclotomic Fields*, §7.1.
+  ⚠ The finite levels are **not** the `T`-adic filtration. `ω_m` has `T`-order one and `ω_m / T`
+  has constant coefficient `p^m`, so `(ω_m)` is no power of `(T)`; and no level is the whole
+  algebra, since every projection is onto a nonzero ring.
+- **Evaluation.** For `ψ ∈ ℤ_p[[T]]` and `c` with `v_p(c) ≥ 1`, the point `c` is topologically
+  nilpotent in `ℤ_p`, so Mathlib's `PowerSeries.aeval` evaluates `ψ` at `c`, as a continuous
+  `ℤ_p`-algebra homomorphism with `X ↦ c`. The convergence hypothesis `v_p(c) ≥ 1` is carried in
+  every statement, as the proof of `PowerSeries.HasEval c`.
+  *Needs:* M `PowerSeries.aeval`, M `PadicInt` completeness.
+  *In Tau Ceti:* `TauCeti.Huber.PadicInt.isTopologicallyNilpotent_iff_dvd`,
+  `PowerSeries.aeval_X`, `PowerSeries.aeval_C`.
 - **Division.** For `ψ ∈ ℤ_p[[T]]` and `c` with `v_p(c) ≥ 1`, `(T - c) ∣ ψ` in `ℤ_p[[T]]` if
   and only if `ψ(c) = 0`, in both directions, with the quotient given by the explicit
-  series (`powerSeries_sub_C_dvd_iff`). This is the special case of Weierstrass division that
+  series `PowerSeries.divXSubC`. This is the special case of Weierstrass division that
   Labute uses on p. 122; the general Weierstrass preparation theorem is not a target. It is the
   step that produces the basis correction of Layer 9.
   *Needs:* L9 evaluation.
+  *In Tau Ceti:* `PadicInt.X_sub_C_dvd_iff_aeval_eq_zero` and `PadicInt.X_sub_C_mul_divXSubC`
+  (`NumberTheory/Padics/PowerSeries.lean`).
   *Source:* Labute §4, p. 122.
 - **The dyadic branch `Γ ≅ C₂ × ℤ₂`.** The same package for the second shape, by either of
   two routes, and the roadmap takes the first:
-  1. *Direct.* `completedGroupAlgebra 2 Γ ≅ ℤ₂[C₂][[T]]`
-     (`completedGroupAlgebra.dyadicCoordinate`), with `T = γ - 1` for a topological generator
-     `γ` of the `ℤ₂`-factor. The coefficient ring is the group ring of `C₂` over `ℤ₂`, and `C₂`
-     is `Multiplicative (ZMod 2)`, a genuine cyclic group. ⚠ It is **not** `ZMod 2` read as a
-     multiplicative monoid, whose monoid algebra is a different ring.
+  1. *Direct.* For `e : Γ ≃ₜ* C₂ × ℤ₂`, `completedGroupAlgebra 2 Γ ≅ ℤ₂[C₂][[T]]`, with
+     `T = γ - 1` for the generator `γ = e⁻¹(1, ofAdd 1)` of the `ℤ₂`-factor and `σ ∈ C₂` going to
+     `e⁻¹(σ, 1)`: Tau Ceti's `TauCeti.completedGroupAlgebra.dyadicCoordinate e`, the product
+     coordinate `prodPowerSeriesCoordinate` transported along `e`. The coefficient ring is the
+     group ring of `C₂` over `ℤ₂`, and `C₂` is `Multiplicative (ZMod 2)`, a genuine cyclic group.
+     ⚠ It is **not** `ZMod 2` read as a multiplicative monoid, whose monoid algebra is a
+     different ring.
   2. *By descent.* Restrict to the open procyclic subgroup `U^(f) ≤ Γ` of index 2, apply the
      procyclic package there, and descend along the `C₂`-action.
 
-  After inverting `2` the group ring splits into the two eigenspaces of the involution, through
-  the idempotents `(1 ± σ)/2`, and each eigenspace of the power-series ring over it is again a
-  power-series ring; that is `monoidAlgebraRatPadicCyclicTwoEquiv`. ⚠ **There is no integral
-  splitting.** The idempotents use `1/2`, so `ℤ₂[C₂]` does not decompose: its only idempotents
-  are `0` and `1`, which is `monoidAlgebraPadicIntCyclicTwo_isIdempotentElem`. Claiming a direct
-  product decomposition over `ℤ₂` is the error that statement rules out, and the Layer 9 basis
-  corrections are read in the `ℚ₂`-eigenspaces and then cleared of denominators.
+  The topological half is the finite levels, as in the procyclic case. For the open normal
+  subgroup `U_m = e⁻¹({1} × 2^m ℤ₂)`, the kernel of the projection to `U_m`, read through the
+  dyadic coordinate, is generated by `(1 + T)^(2^m) - 1` in `ℤ₂[C₂][[T]]`
+  (`completedGroupAlgebra.dyadicCoordinate_proj_eq_zero_iff`), because `ℤ₂[C₂]` is free over `ℤ₂`
+  on `1` and `σ` and the procyclic kernel formula applies in each coordinate; and every open
+  normal subgroup contains some `U_m` (`completedGroupAlgebra.exists_dyadicLevel_le`). At `m = 0`
+  the kernel is `(T)`. After inverting `2` the group ring splits into the two eigenspaces of the
+  involution, through the idempotents `(1 ± σ)/2`, and each eigenspace of the power-series ring
+  over it is again a power-series ring; the splitting is Tau Ceti's
+  `TauCeti.monoidAlgebraRatPadicCyclicTwoEquiv`. ⚠ **There is no integral splitting.** The
+  idempotents use `1/2`, so `ℤ₂[C₂]` does not decompose: its only idempotents are `0` and `1`
+  (`TauCeti.monoidAlgebraPadicIntCyclicTwo_isIdempotentElem_iff`). Claiming a direct product
+  decomposition over `ℤ₂` is the error that statement rules out. Labute's basis corrections in
+  this branch are computed integrally (§4.2, the lemma on p. 127); an argument that reads the
+  coefficients in the `ℚ₂`-eigenspaces has to clear the denominators afterwards.
   *Needs:* L9 the procyclic package; L7 the closed subgroups of `ℤ₂ˣ`; L1 index.
+  *In Tau Ceti:* `TauCeti.completedGroupAlgebra.dyadicCoordinate` with `dyadicCoordinate_X`,
+  `dyadicCoordinate_C_single` and the values of its inverse
+  (`CompletedGroupAlgebra/DyadicCoordinate.lean`); `prodPowerSeriesCoordinate`
+  (`CompletedGroupAlgebra/ProductCoordinate.lean`); `TauCeti.monoidAlgebraRatPadicCyclicTwoEquiv`
+  and `TauCeti.monoidAlgebraPadicIntCyclicTwo_isIdempotentElem_iff`.
   *Source:* Labute §4, p. 122, where the two even-rank families are treated separately.
 
 #### Labute's relation module
 
 The module Labute's Thms 5 and 6 work with is **not** the abelianized relation module. His §4
 Definition, on p. 121, sets `X = ker(χ)`, `E = X/(X, X)`, `Γ = F/X` and `Λ = Z₂(Γ)`, and makes
-`E` a topological `Γ`-module by `α·ξ = ` the class of `y⁻¹xy` for `ξ = x̄` and `α = ȳ`. The
-seven points that fix the object are these.
+`E` a topological `Γ`-module by `α·ξ = ` the class of `y⁻¹xy` for `ξ = x̄` and `α = ȳ`. Every
+piece of that structure is an existing declaration, and this roadmap builds no second action and
+no second scalar multiplication. The points that fix the object are these.
 
-1. **The object.** `E = X/(X, X)`, the topological abelianization of `X = ker χ`. In
-   `Suggested.lean` it is `labuteE`, written additively.
+1. **The object.** `E = X/(X, X)`, the topological abelianization of `X = ker χ`: Mathlib's
+   `TopologicalAbelianization χ.ker`, written additively. It is pro-`p` when `F` is
+   (`TauCeti.IsProP.topologicalAbelianization`).
 2. **Its construction from `1 → R → F → G → 1`.** `χ` is the canonical character of `G`
-   composed with `F ↠ G`, regarded as a character **on the free group** `F`; `X = ker(χ : F → Γ)`
-   contains `R`; and `Γ = F/X ≅ Im χ`.
+   composed with `F ↠ G`, regarded as a character **on the free group** `F`
+   (`demushkinRelatorCharacter`); `X = ker(χ : F → Γ)` contains `R`
+   (`demushkinRelatorCharacter_mem_ker`); and `Γ = F/X ≅ Im χ`, Mathlib's
+   `QuotientGroup.quotientKerEquivRange`.
 3. **What it is not.** It is neither `R/[R, R]` nor `R/[F, R]`. Those are quotients of the
    relation subgroup, while `E` is built from the whole of `ker χ`. The relator enters through
-   its image `r̄ ∈ E`, which makes sense because `r ∈ R ⊆ X`.
-4. **The map from the full relation module.** The inclusion `R ⊆ X` induces
-   `R^{ab} → E` (`relationModuleToLabuteE`), and the proofs use only the image of the relator
-   under it. That is why `R^{ab}` carries no milestone of its own here.
+   its class `r̄ ∈ E` (`labuteRelatorClass`), which makes sense because `r ∈ R ⊆ X`.
+4. **The map from the full relation module.** The inclusion `R ⊆ X` induces `R^{ab} → E`,
+   `TopologicalAbelianization.map` of the inclusion, which intertwines the actions of `F/R` and
+   of `Γ` (`TopologicalAbelianization.map_inclusion_quotient_smul`). The proofs use only the image
+   of the relator under it, which is why `R^{ab}` carries no milestone of its own here.
 5. **The acting algebra.** `Λ = completedGroupAlgebra p Γ` with `Γ = Im χ`. For `Γ ≅ ℤ₂` it is
    `ℤ₂[[T]]` with the generator going to `1 + T`, and for `Γ ≅ C₂ × ℤ₂` it is
    `ℤ₂[C₂] ⊗ ℤ₂[[T]]` (Labute p. 122). Those are the two shapes of the previous subsection.
 6. **The theorem connecting the action to `χ`.** The conjugation action of `F` on `E` factors
    through `Γ = F/ker(χ) ≅ Im χ`, because inner automorphisms by elements of `X` act trivially
-   on `X/(X, X)`. That is the whole of the connection.
+   on `X/(X, X)` (`TopologicalAbelianization.toConjAct_smul_eq_self_of_mem`). That is the whole of
+   the connection. The resulting action of `Γ` is Tau Ceti's jointly continuous instance
+   `TopologicalAbelianization.instMulDistribMulActionQuotient`, and it extends to the
+   `Λ`-module structure `TauCeti.IsProP.completedGroupAlgebraModule`, continuous, in which a group
+   element acts as it does on `E`.
    ⚠ **The action is conjugation by `Γ`, and not multiplication by the scalar `χ(g)`.** The
    scalar reading is false: `ℤ_p² = ⟨x, y ∣ (x, y)⟩` is Demushkin with trivial orientation,
    while its relation module carries the regular action through the conjugates of the relator,
    which a trivial scalar action would collapse to coinvariants.
-7. **The hypotheses.** `r` is a Demushkin relator with the §4 normalizations: `q = 2` and `n`
+7. **The convention.** Tau Ceti's action is Mathlib's, `ȳ • x̄ = ` the class of `yxy⁻¹`
+   (`TopologicalAbelianization.mk_smul_mk`), and Labute's is its composite with the inversion of
+   `Γ`: his `ȳ · x̄`, the class of `y⁻¹xy`, is `ȳ⁻¹ • x̄`
+   (`TopologicalAbelianization.mk_inv_smul_mk`). `Γ` is commutative, so inversion is a continuous
+   automorphism of it, `TauCeti.completedGroupAlgebra.map` turns it into an involution `ι` of `Λ`,
+   and Labute's scalar action is `l · ξ = ι(l) • ξ`. The two structures have the same submodules,
+   spans and generating sets, and a coefficient that Labute writes with `T = γ - 1` is written
+   with `γ⁻¹ - 1` here. The statements below are in Tau Ceti's convention.
+8. **The hypotheses.** `r` is a Demushkin relator with the §4 normalizations: `q = 2` and `n`
    even. Labute's Thm 5 is the branch `Im χ = U₂[f]` with `f ≠ ∞`, and his Thm 6 the branch
    `Im χ = {±1} × U₂(f)` with `2 ≤ f < ∞`.
 
-The milestones are: `labuteE` with its abelianness `labuteE_add_comm`; the conjugation action
-`labuteAction` with its laws and its defining equation `labuteAction_apply`; the scalar action
-`labuteSMul` of `Λ`, with the module axioms `labuteSMul_laws`, its continuity, and
-`labuteSMul_of` saying that it extends the conjugation action; the comparison map
-`relationModuleToLabuteE`; and the relator class `labuteRelatorClass`.
-⚠ The module axioms are stated as equations about a named scalar-action map rather than through
-a `Module` instance, because `E` is a quotient group and installing a second additive structure
-on it would not be definitionally the first.
+The milestones are the existing structure, checked in `Suggested.lean` by closed proofs from the
+Tau Ceti and Mathlib theorems: the action in Labute's form, the module structure with its
+continuity, the map from `R^{ab}`, and finite generation of `E` over `Λ` by the classes of finitely
+many elements of `X`, for `F` topologically finitely generated pro-`p` and `χ` continuous. The
+roadmap's own declarations here are `demushkinRelatorCharacter`, `demushkinRelatorCharacter_mem_ker`
+and the relator class `labuteRelatorClass`.
 *Needs:* L5 presentations; L7 canonical character; L9 the algebra and its compact modules; L4
 abelian pro-`p` structure theory.
+*In Tau Ceti:* `TopologicalAbelianization.instMulDistribMulActionQuotient`, `mk_smul_mk`,
+`mk_inv_smul_mk`, `toConjAct_smul_eq_self_of_mem`, `map` and `map_inclusion_quotient_smul`
+(`Topology/Algebra/Group/TopologicalAbelianization.lean`); `TauCeti.IsProP.completedGroupAlgebraModule`
+with `completedGroupAlgebraModule_of_smul` and `continuousSMul_completedGroupAlgebraModule`
+(`ProP/CompletedGroupAlgebraModule.lean`);
+`TauCeti.IsProP.exists_finite_span_completedGroupAlgebraModule_topologicalAbelianization_ker_eq_top`
+and `module_finite_completedGroupAlgebraModule_topologicalAbelianization_ker`
+(`ProP/RelationModule.lean`).
 *Source:* Labute §4 Definition, p. 121.
 
-#### The two module criteria that the classification uses
+#### The module statements that the classification uses
 
-With `E` and `Λ` as above, a chosen topological generator `γ` of `Γ` and `T = γ - 1`:
+With `E`, `Γ` and `Λ` as above, these are the statements Labute's Theorems 5 and 6 run on. The two
+branch statements carry Labute's hypotheses: `F` is free pro-`2` of even rank `n`,
+`r ∈ F²(F, F)` is a Demushkin relation with `q = 2`, `χ` is its associated character, and `Im χ`
+is in the branch named.
 
-- **The expression of the relator image.** `E` is topologically generated over `Λ` by finitely
-  many classes `ȳ_i` of the basis elements lying in `X` (`labuteE_exists_generators`), and `r̄`
-  is a `Λ`-combination of them (`labuteRelatorClass_eq_sum`), with the coefficients read off the
-  normal form of `r`. Labute computes on p. 122
-  `r̄ = (1 + a + (1+T)^a) ȳ₁ + (2^g + (1+T)^{ab} − 1) ȳ₃`
-  in the dyadic even-rank branch.
-- **The basis correction.** Applying the division criterion `(T − c) ∣ ψ ⟺ ψ(c) = 0` to those
-  coefficients replaces the generators by ones in which the relator image is a single multiple:
-  for the parameters `(α, f)` there is `z₁` with `r̄ = (2 + 2^f + T) z̄₁`
-  (`labuteRelatorClass_eq_smul_of_dyadic`). The corrections then iterate along the descending
-  `2`-central series, which is where Layer 8's comparison schema takes over. This is the exact
-  point at which the Division milestone above is used.
-- **The annihilator.** The annihilator of `E` as a `Λ`-module is generated by one element, the
-  *relator series* `ψ_r`, read off the normal form of `r`
-  (`labuteE_annihilator_isPrincipal`); two relators with the same invariants have associated
-  series, that is they differ by a unit of `Λ`.
-  ⚠ The annihilator statement is about `E`, and **not** about `R^{ab}`: no claim is made here
-  about the annihilator of the full relation module.
-- **Membership.** For `λ ∈ Λ` corresponding to `T − c` under the coordinate, membership of `r̄`
-  in `λE` is the vanishing `ψ_r(c) = 0` (`labuteRelatorClass_mem_smul_iff`). The basis
-  correction exists exactly when the membership holds.
+- **The relator class in a spanning family.** If finitely many `b_i` span `E` over `Λ`, then `r̄`
+  is a `Λ`-combination of them (`labuteRelatorClass_eq_sum`, from Mathlib's
+  `Submodule.mem_span_range_iff_exists_fun`). ⚠ The spanning hypothesis is needed: with no
+  generators, `F ≅ ℤ_p`, `χ` trivial and `r` a generator, the nonzero `r̄` is not the empty sum.
+  Labute's content is the explicit coefficients in a normalized basis. In the branch
+  `Im χ = U^[f]` (§4.1) the normal form `r = w₁^{2+α}(w₁, w₂)w₃^{2^g}(w₃, w₄)⋯`, with
+  `f = v₂(α) < g`, becomes a basis `y` with `χ(y₁) = 1`, `χ(y₂) = -(1 + 2^f)^{-1}` and `χ(y_i) = 1`
+  for `i > 2`, through `y₂ = w₂^{a⁻¹}` and `y₄ = w₄ w₂^{-b}` where `(1 + 2^f)^a = 1 + α` and
+  `(1 + α)^b = 1 - 2^g`; in it, in Labute's convention with `T = γ - 1` for the class `γ` of `y₂`
+  in `Γ`, `r̄ = (1 + α + (1 + T)^a) ȳ₁ + (2^g + (1 + T)^{ab} - 1) ȳ₃`, where `ȳ_i` is the class
+  of `y_i` in `E`.
+- **The branch `Im χ = U^[f]`, `2 ≤ f < ∞` (Theorem 5).** There is `z ∈ E` with
+  `r̄ = ((1 + 2^f) + ȳ) z` for any `y ∈ F` with `χ(y) = -(1 + 2^f)`
+  (`exists_labuteRelatorClass_eq_smul_of_range_eq_procyclicClosure`). In Labute's convention this
+  is `r̄ = (2 + 2^f + T) z̄₁` (p. 123): both coefficients above vanish at `T = -2 - 2^f`, so the
+  division criterion factors `2 + 2^f + T` out of each, and `z` is the corresponding combination
+  of `ȳ₁` and `ȳ₃`. The corrections then iterate along the descending `2`-central series, which
+  is where Layer 8's maps `δ_j` and comparison schema take over. This is the exact point at which
+  the Division milestone above is used.
+- **The branch `Im χ = {±1} × U^(f)`, `2 ≤ f < ∞` (Theorem 6).** There are `z₁, z₃ ∈ E` with
+  `r̄ = (1 + s̄) z₁ + ((2^f - 1) + ȳ) z₃` for any `s, y ∈ F` with `χ(s) = -1` and
+  `χ(y) = 1 - 2^f` (`exists_labuteRelatorClass_eq_add_smul_of_range_eq_unitsPlusMinus`). In
+  Labute's convention, over `Λ ≅ ℤ₂[S] ⊗ ℤ₂[[T]]`, this is `r̄ = (1 + S) z̄₁ + (2^f + T) z̄₃`
+  (p. 127). In his normalized basis `r̄ = (1 + α + S(1 + T)^b) ȳ₁ + (2^f + T) ȳ₃`, and the division
+  criterion at `T = -2^f` gives an element `φ` of `Λ`, a multiple of `S`, with
+  `(1 + α + S(1 + T)^b)(1 + α)^{-1} + (2^f + T) φ = 1 + S`. The procyclic statement does not
+  apply here, because `{±1} × U^(f)` is not procyclic (Layer 7).
 
-Both criteria carry the hypotheses that `E` is a compact `Λ`-module, that it is separated and
-complete, and that the transition maps of its defining system are surjective.
-`Suggested.lean` has the signatures.
-*Needs:* L9 Labute's relation module, L9 power-series coordinates, L9 evaluation, L9 division.
-*Source:* Labute Thms 5 and 6, and the computation on p. 122.
+⚠ The hypotheses of the two branch statements are Labute's and are not decoration. Without them,
+at `F = ℤ₂`, `χ` trivial, `Γ = 1` and `r` a generator, the procyclic statement would ask for
+`1 = (2 + 2^f) z`, impossible modulo `2`.
+⚠ Do not phrase these criteria through the annihilator of `E` as a `Λ`-module. In the procyclic
+branch `E` is free over `Λ` of rank `n - 1`, whatever the relator, so its annihilator is zero and
+carries no information about `r`.
+*Needs:* L9 Labute's relation module, L9 power-series coordinates, L9 evaluation, L9 division;
+L9 the normal forms and character values; L7 the closed subgroups of `ℤ₂ˣ`.
+*Source:* Labute §4.1 and §4.2, the computations on pp. 122–123 and 127.
 
 ### Layer 9: the classification of Demushkin groups
 
@@ -1933,29 +2106,41 @@ Layer 8.
 
 ### Layer 10: free pro-`C` groups on profinite spaces
 
-This layer is the home of the infinite-rank theory.
+This layer is the home of the infinite-rank theory. Its free object is Tau Ceti's
+`TauCeti.freeProCPointed C x₀`, used under that name; this roadmap builds no second free object on
+a space.
 
 - **Construction and universal property.** `F_C(X, ∗)` on a pointed profinite space, with a
   basis that converges to `1`: continuous maps `X → P` that send `∗` to `1` correspond to
-  continuous homomorphisms into a profinite `P` in the class `C`. It recovers the Layer 4
-  object for finite discrete `X`. For an infinite discrete set `S` there are two candidate
-  objects:
+  continuous homomorphisms into a profinite `P` in the class `C`. It is the quotient of
+  `freeProC C X` by the intersection of the open normal subgroups through which the generator
+  map is continuous and kills `∗`, and nothing in the construction uses compactness of `X`. It
+  recovers the Layer 4 object for discrete `X`: there it is the free pro-`C` group on
+  `X ∖ {∗}`. For an infinite discrete set `S` there are two candidate objects:
   - `freeProC C S`, the Layer 4 construction, whose universal property quantifies over all
     maps `S → P`;
   - `F_C(S⁺, ∗)` on the one-point compactification, whose universal property quantifies
     over maps that converge to `1`.
 
-  The inclusion `S → S⁺` induces a continuous surjection `freeProC C S ↠ F_C(S⁺, ∗)`. The
-  theorem to prove is that **at `C = finiteGroupClassP p`** this map is not injective for
-  infinite `S`. The witness is a computation of ranks, and not a description of the kernel by
-  generators, which this roadmap does not claim: the continuous characters of the source are
-  all maps `S → 𝔽_p`, a product of dimension `p^{#S}` by the Erdős–Kaplansky theorem, while
-  those of the target are the finitely supported maps, of dimension `#S`.
+  The inclusion `S → S⁺` induces a continuous surjection `freeProC C S ↠ F_C(S⁺, ∗)`, and the
+  images of the points of `S` converge to `1` in the target. The theorem to prove is that **at
+  `C = finiteGroupClassP p`** this map is not injective for infinite `S`
+  (`not_injective_fromFreeProC_finiteGroupClassP`). The witness is a computation of ranks, and
+  not a description of the kernel by generators, which this roadmap does not claim: the
+  continuous characters of the source are all maps `S → 𝔽_p`, a product of dimension `p^{#S}` by
+  the Erdős–Kaplansky theorem, while those of the target are the finitely supported maps, of
+  dimension `#S`.
   ⚠ The statement is false for an arbitrary class. If `C` contains only the trivial group,
   both objects are trivial and the map is injective. Do not state it for `FiniteGroupClass`
   when the proof is specific to pro-`p`.
   Never write "the free pro-`C` group on `S`" without saying which object is meant.
   *Needs:* L4 free objects and `FiniteGroupClass`; L3 rank.
+  *In Tau Ceti:* `TauCeti.freeProCPointed` with `of`, `continuous_of`, `of_basePoint`, `lift`,
+  `lift_of`, `lift_unique`, `existsUnique_lift`, `hom_ext` and
+  `topologicalClosure_closure_range_of_eq_top`, and `TauCeti.isProC_freeProCPointed`;
+  `TauCeti.freeProCPointed.equivFreeProC` for discrete `X`; `TauCeti.freeProCPointed.fromFreeProC`
+  with `fromFreeProC_surjective`, `tendsto_of_coe_cofinite_nhds_one` and
+  `convergesToOne_range_of_coe` (`Free/Pointed/Basic.lean`).
   *Source:* Ribes–Zalesskii §3.3.
 - **Bases and rank.** Three statements:
   - existence of bases that converge to `1`, and uniqueness of their cardinality;
@@ -1964,19 +2149,37 @@ This layer is the home of the infinite-rank theory.
   - the infinite-rank Frattini argument in the form proved in Layer 3, that is
     `topologicalGeneratorRank G = dim_{𝔽_p} Hom_cont(G, 𝔽_p)`.
 
-  The
-  rank of `F_C(X, ∗)` at `C = ` finite `p`-groups is the `𝔽_p`-dimension of the space of
+  The rank of `F_C(X, ∗)` at `C = ` finite `p`-groups is the `𝔽_p`-dimension of the space of
   continuous functions `X → 𝔽_p` that vanish at `∗`, which for `X = S⁺` is `#S`.
   *Needs:* L3 rank and Burnside; L10 construction.
+  *In Tau Ceti:* `TauCeti.topologicalGeneratorRank_congr`,
+  `TauCeti.IsProP.topologicalGeneratorRank_eq_rank_continuousZModDual`, and the bound
+  `TauCeti.topologicalGeneratorRank_freeProPInsertOne_le` of the rank of the free pro-`p` group on
+  `(insert 1 s, 1)` by `#s`.
 - **Presentations at arbitrary rank.** Every pro-`p` group has a presentation by a free
   pro-`p` group on a profinite space, and has a minimal one. This is the general statement
-  that Layer 5 does not make.
+  that Layer 5 does not make. The presentation on a subset `s ⊆ G` converging to `1` is the
+  continuous homomorphism `F_p(insert 1 s, 1) → G` extending the inclusion; it is surjective
+  exactly when `s` generates `G` topologically, and for a dual family of a basis of the continuous
+  `𝔽_p`-dual of `G` its kernel lies in the Frattini subgroup and it preserves the rank.
   *Needs:* L10 construction; L3 Burnside.
+  *In Tau Ceti:* `TauCeti.freeProPInsertOne`, `TauCeti.IsProP.presentation` with
+  `presentation_surjective_iff`, `exists_convergesToOne_presentation_surjective` and
+  `exists_convergesToOne_presentation_surjective_ker_le_proPFrattini`
+  (`Free/Pointed/Presentation.lean`).
 - **Serre's theorem in full generality.** `cd_p G ≤ 1` if and only if `G` is free pro-`p`,
   with no finite generation, which is the Layer 6 proof upgraded with bases that converge to
-  `1`. Closed subgroups of free pro-`p` groups are free pro-`p`, which is the full pro-`p`
-  Nielsen–Schreier theorem.
+  `1`. The forward implication, and the equivalence of projectivity with freeness for pro-`p`
+  groups, are Tau Ceti's. The converse runs through projectivity: an extension of a projective
+  pro-`p` group by a finite `p`-group splits continuously, so `H²` vanishes on finite
+  `p`-primary coefficients, and Layer 6 turns that vanishing into `cd_p ≤ 1`. Closed subgroups
+  of free pro-`p` groups are free pro-`p`, which is the full pro-`p` Nielsen–Schreier theorem.
   *Needs:* L6 Serre's theorem; L10 bases and presentations.
+  *In Tau Ceti:*
+  `TauCeti.IsProP.exists_convergesToOne_continuousMulEquiv_presentation_of_cohomologicalDimensionAt_le_one`,
+  `TauCeti.IsProP.isProjective_iff_exists_convergesToOne_continuousMulEquiv_presentation`,
+  `TauCeti.isProjective_freeProCPointed` and `TauCeti.hasPGroupSolutions_freeProCPointed`
+  (`Free/Pointed/Serre.lean`, `Free/Pointed/EmbeddingProblem.lean`).
   *Source:* Ribes–Zalesskii Cor. 7.7.5.
 - Nothing later in this roadmap uses this layer, because Layers 9 and 11 need only finite
   rank. Without it the theory is truncated.
