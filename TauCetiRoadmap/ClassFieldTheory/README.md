@@ -105,9 +105,8 @@ This roadmap owns the following constructions and theorems.
 4. The local Brauer group on the imported continuous carrier, its invariant map, and the
    cohomological local Hilbert symbol built from Kummer classes, the continuous cup product,
    and the invariant; bilinearity, the Steinberg relation, antisymmetry, the symbol–norm
-   criterion and nondegeneracy. Before the invariant map: the normal basis theorem for a finite
-   Galois extension of arbitrary fields, the Herbrand quotient of local units, the cyclic norm
-   index and the local `H²` bound.
+   criterion and nondegeneracy. Before the invariant map: the Herbrand quotient of local units,
+   the cyclic norm index and the local `H²` bound.
 5. Local Tate duality for the named evaluation pairing, finiteness of `H⁰`, `H¹`, `H²` of a
    finite discrete module, and the local Euler-characteristic formula, in cardinality and
    `𝔽_p`-rank form.
@@ -160,6 +159,7 @@ This roadmap owns the following constructions and theorems.
 | Restriction, corestriction, inflation, cup products, and low-degree Tate descriptions | Generic Tate-cohomology files, porting usable material from `kbuzzard/ClassFieldTheory` where necessary |
 | Continuous cohomology of profinite groups, the coefficient pairings `TopPairing` and continuous cup products with their laws (`cup_coeffMap`, `cup_add_left`, `cup_gradedComm`), coefficient maps `coeffMap`, degree casts, Shapiro's lemma, and the finite-quotient colimit; from Layer 11, `cd_p` and `scd_p` (aliases of Tau Ceti's `cohomologicalDimensionAt` and `strictCohomologicalDimensionAt`), `cd_p_le_of_isClosed`, `cd_p_le_scd_p`, and the strict-dimension criterion `strictCohomologicalDimensionAt_le_iff_forall_openSubgroup` at `n = 2` | `ProfiniteCohomology` |
 | Profinite groups, open subgroups, finite quotients, and abelianization | Mathlib and the profinite-group roadmaps |
+| The normal basis theorem for a finite Galois extension of arbitrary fields: a basis indexed by the Galois group whose value at `σ` is `σ θ` | Mathlib, `Mathlib/FieldTheory/Galois/NormalBasis.lean`: `IsGalois.normalBasis`, `IsGalois.normalBasis_apply` |
 | Local fields, valuations, unit filtrations, norms, ramification, and arithmetic Frobenius; the maximal unramified extension, inertia, arithmetic Frobenius lifts and `Gal(K^ur/K) ≅ Ẑ`, under their Tau Ceti names | `LocalFieldsRamification` |
 | The comparison of the algebraic-closure and separable-closure absolute Galois groups, the open subgroup cut out by a finite extension, the class field of an open normal subgroup and the abelian layers, the profinite integers `zHat`, the Herbrand quotient and two-periodicity, and the Galois action on the integers of a local field | Tau Ceti: `absoluteGaloisGroupRestrictEquiv`, `galoisSubgroup`, `galoisSubgroupEquiv`, `ClassFieldTheory.classField`, `OpenNormalSubgroup.IsAbelianClassFieldLayer`, `zHat`, `TateCohomology.herbrandQuotient`, `Rep.FiniteCyclicGroup.periodicIso`, `integerRingIsInvariantSubring` |
 | The coefficient dictionary between discrete modules and topological representations, the Galois-cohomology coefficients `μ_n` and `(Kˢ)ˣ`, the Kummer map, the explicit `H¹` with its functoriality and its comparison with continuous cohomology, and the internal hom with its conjugation action and evaluation pairing | Tau Ceti: `ofDiscreteModule`, `ofDiscreteModuleMap`, `IsSmoothDiscrete`, `ofDiscreteModule_isSmoothDiscrete`, `KummerCoeff`, `UnitsCoeff`, `kummerMap`, `kummerMap_eq_kummerCocycleClass`, `ContCohomology.H1`, `ContCohomology.explicitMap1`, `ContCohomology.explicitH1AddEquivContinuousCohomology`, `ContCohomology.cocycleEquiv1`, `InternalHom`, `homAction`, `InternalHom.evalPairing`, `InternalHom.smul_eq_self_iff` |
@@ -576,7 +576,7 @@ names may change during implementation, but the mathematical direction of each m
 | global quotient and degree | `globalAbelianGaloisEquiv`, `globalAbelianGaloisEquiv_artinMap`, `index_globalNormSubgroup`, `globalClassFieldGaloisEquiv`, `globalClassField_index`; Tau Ceti's `galClassFieldEquiv` |
 | continuous local coefficients | `GalRep`, `H`, `muNRep`, `muNRep_ρ_apply`, `isSmoothDiscrete_muNRep`, `kummerClass`, `kummerClass_eq`, `kummerClass_mul`, `kummerEquiv_mixed`, `kummerEquiv_mixed_mk` |
 | Kummer transport and local Brauer group | `absoluteGaloisGroupComparison`, `comparisonDistribMulAction`, `muNRepCoeffDictionary`, `explicitKummerClass`, `explicitH1AddEquivH`, `inhomogeneousCocycle1`, `unitsRep`, `Br`, `invMap`, `brRes`, `brCor` |
-| normal basis, local units and the `H²` bound | `exists_normalBasis`, `unitsFiniteLayerRep`, `herbrandQuotient_units_eq_one`, `herbrandQuotient_units_eq_finrank_of_isCyclic`, `index_normGroup_of_isCyclic`, `natCard_h2_units_le_finrank` |
+| local units and the `H²` bound | `unitsFiniteLayerRep`, `herbrandQuotient_units_eq_one`, `herbrandQuotient_units_eq_finrank_of_isCyclic`, `index_normGroup_of_isCyclic`, `natCard_h2_units_le_finrank`, on Mathlib's normal basis `IsGalois.normalBasis` |
 | local invariant and Hilbert pairing | `h2MuEquivZMod_mixed`, `h2FpEquivZMod_of_mu`, `muNRepEquivZMod`, `muNRep_ρ_eq_self`, `kummerCupPairing`, `kummerCupPairing_bil`, `kummerCupPairing_bil_comm`, `localSymbol`, `localSymbol_antisymm`, `localSymbol_eq_zero_iff_mem_normGroup`, `localSymbol_kummerClass_eq_zero_iff` |
 | the Tate dual and evaluation | `tateDual`, `tateDualEquiv`, `tateDualEquiv_ρ_apply`, `isSmoothDiscrete_tateDual`, `tateDual_ρ_eq_self_iff`, `tateEvaluationPairing`, `tateEvaluationPairing_bil`, `tateDualMap`, `tateEvaluationPairing_tateDualMap`, `tateDualMap_exact`, `muNRepToTateDual`, `bijective_muNRepToTateDual` |
 | local duality and Euler characteristic | `tateDualityPairing`, `tateDualityPairing_tateDualMap`, `tateDualityPairing_muNRepToTateDual`, `tateDualityPairing_perfect_mixed`, `finite_H`, `eulerCharacteristic_mixed`, `eulerCharacteristic_finrank_fp` |
@@ -851,13 +851,14 @@ the two existence layers.
 ### Layer 5: local coefficients, the Brauer group, the local invariant, and duality
 
 *Prerequisites:* Layer 0 (the Herbrand quotient, its multiplicativity and invariance, and
-two-periodicity for finite cyclic groups); `ProfiniteCohomology`; `LocalFieldsRamification`; Tau
-Ceti's comparison of absolute Galois groups, `classField` and Galois action on the integers of a
-local field; Tau Ceti's coefficient dictionary `ofDiscreteModule`, Galois-cohomology coefficients
-`KummerCoeff` and `UnitsCoeff`, Kummer map `kummerMap`, explicit `H¹` with its comparison, and
-internal hom `InternalHom` with its evaluation pairing; for the Euler characteristic,
-`RepresentationTheory/ModularInduction` (its Layers 0, 3 and 4). **Not** Layers 1–4, and in
-particular not the local class formation, the local Artin map, or local existence.
+two-periodicity for finite cyclic groups); `ProfiniteCohomology`; `LocalFieldsRamification`;
+Mathlib's normal basis theorem `IsGalois.normalBasis`; Tau Ceti's comparison of absolute Galois
+groups, `classField` and Galois action on the integers of a local field; Tau Ceti's coefficient
+dictionary `ofDiscreteModule`, Galois-cohomology coefficients `KummerCoeff` and `UnitsCoeff`, Kummer
+map `kummerMap`, explicit `H¹` with its comparison, and internal hom `InternalHom` with its
+evaluation pairing; for the Euler characteristic, `RepresentationTheory/ModularInduction` (its
+Layers 0, 3 and 4). **Not** Layers 1–4, and in particular not the local class formation, the local
+Artin map, or local existence.
 
 Keep all continuous cohomology on the imported Mathlib carrier:
 
@@ -914,22 +915,18 @@ layers, using the imported arithmetic Frobenius, and then on the full Brauer gro
 local `H²` bound below. The degree-`n` piece is the subgroup of `ℚ/ℤ` of order `n`, and the
 fundamental class of a degree-`n` local layer is the class of invariant `1/n`.
 
-**Local units and the `H²` bound.** Before the invariant is extended from the unramified layers to
-all of `Br K`, prove, in this order (Milne, *Class Field Theory*, III, Lemmas 2.3–2.6):
+**Local units and the `H²` bound.** The normal basis theorem is Mathlib's and is consumed, not
+restated: for a finite Galois extension `L/K` of arbitrary fields,
+`IsGalois.normalBasis K L : Module.Basis Gal(L/K) K L` is a `K`-basis of `L` whose value at `σ` is
+`σ θ` for `θ = IsGalois.normalBasis K L 1` (`IsGalois.normalBasis_apply`). Below, `θ` is that
+element multiplied by a power of a uniformizer of `K` so that it lies in `𝒪[L]`; its conjugates
+are still a `K`-basis, since `σ (c θ) = c σ θ` for `c ∈ Kˣ`. Before the invariant is extended from
+the unramified layers to all of `Br K`, prove, in this order (Milne, *Class Field Theory*, III,
+Lemmas 2.3–2.6):
 
-- **the normal basis theorem** `exists_normalBasis`: for a finite Galois extension `L/K` of
-  arbitrary fields there is `θ ∈ L` whose conjugates `σ θ`, `σ ∈ Gal(L/K)`, form a `K`-basis of
-  `L`, that is a `Module.Basis (L ≃ₐ[K] L) K L` whose value at `σ` is `σ θ`. It is field theory,
-  with no valuation. For infinite `K` follow Lang, *Algebra*, VI §13, Theorem 13.1: for a
-  primitive element `α` with minimal polynomial `f` and `g = f/((X − α) f'(α))`, the determinant
-  of `(σᵢ σⱼ g)` is a nonzero polynomial, so it has a nonzero value at some `a ∈ K`, and
-  `θ = g(a)`. For finite `K` the Galois group is cyclic, generated by the Frobenius `φ`, and
-  Dedekind's independence of characters (`linearIndependent_monoidHom`) makes `X^[L:K] − 1` the
-  minimal polynomial of the `K`-linear map `φ`; its degree is `dim_K L`, so `L` is a cyclic
-  `K[X]`-module through `φ` and a generator is a normal basis element;
 - **the local units** `unitsFiniteLayerRep K L`, `𝒪[L]ˣ` with the Galois action (which preserves
   `𝒪[L]`: Tau Ceti's `integerRingIsInvariantSubring`), and `herbrandQuotient_units_eq_one`: for
-  cyclic `L/K` its Herbrand quotient is `1`. Scale a normal basis element into `𝒪[L]`, so that
+  cyclic `L/K` its Herbrand quotient is `1`. The conjugates of `θ ∈ 𝒪[L]` being a `K`-basis,
   `M = ∑_σ 𝒪[K] σθ` is an open lattice free over `𝒪[K][Gal(L/K)]`. For `N` large, `A = π^N M`
   satisfies `A · A ⊆ πA`, so `1 + A` is an open Galois-stable subgroup of `𝒪[L]ˣ` whose filtration
   `1 + π^i A` has successive quotients `A/πA`, free over `𝓀[K][Gal(L/K)]`; it is cohomologically
@@ -1118,8 +1115,9 @@ Theorem 2.8), whose only modular input is the modular Artin theorem of
     `U(L,n)` (`latticeDefect_eq_of_finiteIndex`), which the logarithm identifies
     `G`-equivariantly with `𝔭_L^n` for `(p − 1)n > e` (`LocalFieldsRamification.localLogarithm`,
     `localExponential`); then that of the lattice `𝒪[L]`, and then that of `M = ∑_σ 𝒪[K] σθ` for
-    a normal basis element `θ` (`exists_normalBasis`), which is `[K:ℚ_p] · [𝔽_p[G]]`. The integral
-    form `𝒪[L] ≅ 𝒪[K][G]` is not needed.
+    `θ ∈ 𝒪[L]` a multiple of Mathlib's normal basis element `IsGalois.normalBasis K L 1` by a power
+    of a uniformizer of `K`, which is `[K:ℚ_p] · [𝔽_p[G]]`: by `IsGalois.normalBasis_apply`, `M` is
+    free over `𝒪[K][G]` on `θ`. The integral form `𝒪[L] ≅ 𝒪[K][G]` is not needed.
 12. **Count.** With `[μ_ℓ^{−1} ⊗ 𝔽_p[G]] = [𝔽_p[G]]` and `dim (𝔽_p[G] ⊗ A)^G = dim A`, steps 8–11
     give `dim H⁰ − dim H¹ + dim H² = −[ℓ = p] · [K:ℚ_p] · dim A`, that is `χ_K(A) = φ_K(A)`.
     Steps 1–5 return this to `eulerCharacteristic_mixed`; at `n = p` it is
@@ -1940,8 +1938,8 @@ It contains:
   transported by `absoluteGaloisGroupComparison`; the evaluation pairing, which is Tau Ceti's
   `InternalHom.evalPairing`; and the Kummer class, which is Tau Ceti's `kummerMap` transported
   along the comparison and the degree-one comparison over `ZMod n`;
-- the local-invariant, normal-basis, local-unit, duality, Euler-characteristic and conductor
-  contracts of Layers 5 and 7, and the cohomological dimension of `G_K` at the end of Layer 6;
+- the local-invariant, local-unit, duality, Euler-characteristic and conductor contracts of
+  Layers 5 and 7, and the cohomological dimension of `G_K` at the end of Layer 6;
 - the Weil-group carrier, topology, functoriality, inertia sequence and reciprocity isomorphism of
   Layer 9;
 - the Brauer sequence and sum-of-local-invariants contracts of Layer 10, stated before
@@ -2081,7 +2079,6 @@ global existence and the `GlobalNumberFields` order/`Pic` API.
   (7.2.6) for local duality, and (7.3.1)–(7.3.4) for the Euler characteristic.
 - J. S. Milne, *Arithmetic Duality Theorems*, 2nd ed., I §2 (Theorem 2.8, the Euler
   characteristic, and Lemmas 2.10 and 2.12).
-- S. Lang, *Algebra*, 3rd ed., VI §13, Theorem 13.1: the normal basis theorem.
 - J.-P. Serre, *Local class field theory*, in Cassels–Fröhlich, *Algebraic Number Theory*: the
   cohomologically trivial open subgroup of local units in every characteristic.
 - J. Neukirch, *Algebraic Number Theory*, Ch. VI–VII: local and global class field theory.
@@ -2102,8 +2099,9 @@ global existence and the `GlobalNumberFields` order/`Pic` API.
 - J. Tate, *The higher dimensional cohomology groups of class field theory*, Ann. of Math. 56
   (1952); T. Nakayama, *Cohomology of class field theory and tensor product modules I*, Ann. of
   Math. 65 (1957): the two theorems named in §2.4.
-- `leanprover-community/mathlib4`, `Mathlib/RepresentationTheory/Homological/TateCohomology`
-  and `Mathlib/RepresentationTheory/Homological/ContCohomology`.
+- `leanprover-community/mathlib4`, `Mathlib/RepresentationTheory/Homological/TateCohomology`,
+  `Mathlib/RepresentationTheory/Homological/ContCohomology` and
+  `Mathlib/FieldTheory/Galois/NormalBasis.lean`.
 - `kbuzzard/ClassFieldTheory`, especially `ClassFieldTheory/Cohomology/`.
 - Richard Hill and Edison Xie's continuous-cohomology and cup-product work, including the FLT
   repository versions.

@@ -927,23 +927,21 @@ theorem unitsRep_ρ_apply (F : Type) [Field F] (g : Field.absoluteGaloisGroup F)
 noncomputable abbrev Br (F : Type) [Field F] : Type _ :=
   continuousCohomology 2 (unitsRep F)
 
-/-! ### The normal basis theorem, the local units, and the local `H²` bound
+/-! ### The local units and the local `H²` bound
 
 These precede `invMap`: the invariant is extended from the unramified layers to all of `Br K`
 through the bound `natCard_h2_units_le_finrank`, and nothing here uses a class formation or an Artin
-map. -/
+map.
 
-/-- **The normal basis theorem**, for a finite Galois extension `E/F` of arbitrary fields: there is
-`θ ∈ E` whose conjugates `σ θ`, `σ ∈ Gal(E/F)`, form an `F`-basis of `E`. For infinite `F`, the
-determinant of `(σᵢ σⱼ g)` for `g = f/((X - α) f'(α))`, `α` a primitive element with minimal
-polynomial `f`, is a nonzero polynomial and has a nonvanishing value `g(a)`, `a ∈ F` (Lang,
-*Algebra*, VI §13, Theorem 13.1); for finite `F`, Dedekind's independence of characters
-(`linearIndependent_monoidHom`) makes `X ^ [E:F] - 1` the minimal polynomial of the Frobenius, so
-`E` is a cyclic `F[X]`-module through the Frobenius and a generator is a normal basis element. -/
-theorem exists_normalBasis (F E : Type*) [Field F] [Field E] [Algebra F E]
-    [FiniteDimensional F E] [IsGalois F E] :
-    ∃ (θ : E) (b : Module.Basis (E ≃ₐ[F] E) F E), ∀ σ, b σ = σ θ :=
-  sorry
+The normal basis theorem is Mathlib's, for a finite Galois extension of arbitrary fields:
+`IsGalois.normalBasis F E : Module.Basis Gal(E/F) F E` is a basis whose value at `σ` is `σ θ` for
+`θ = IsGalois.normalBasis F E 1` (`IsGalois.normalBasis_apply`). The local-unit step below and the
+lattice step of the Euler characteristic start from that basis; it is not restated. -/
+
+/-- Mathlib's normal basis is the orbit of its value at the identity. -/
+example (F E : Type*) [Field F] [Field E] [Algebra F E] [FiniteDimensional F E] [IsGalois F E]
+    (σ : Gal(E/F)) : IsGalois.normalBasis F E σ = σ (IsGalois.normalBasis F E 1) :=
+  IsGalois.normalBasis_apply σ
 
 /-- **The local units of a finite layer** `𝒪[L]ˣ`, written additively, as a representation of
 `Gal(L/K)`: the Galois action preserves `𝒪[L]` (Tau Ceti's `integerRingIsInvariantSubring`). -/
@@ -952,8 +950,10 @@ noncomputable def unitsFiniteLayerRep [Algebra K L] [ValuativeExtension K L] [Mo
   letI := Units.mulDistribMulActionRight (M := L ≃ₐ[K] L) (N := 𝒪[L])
   Rep.ofMulDistribMulAction (L ≃ₐ[K] L) 𝒪[L]ˣ
 
-/-- **The Herbrand quotient of the local units of a cyclic layer is `1`.** A normal basis element
-`θ ∈ 𝒪[L]` (`exists_normalBasis`) spans an open lattice `M = ∑_σ 𝒪[K] σθ`, free over
+/-- **The Herbrand quotient of the local units of a cyclic layer is `1`.** Let `θ` be Mathlib's
+normal basis element `IsGalois.normalBasis K L 1`, multiplied by a power of a uniformizer of `K` so
+that it lies in `𝒪[L]`; its conjugates are still a `K`-basis (`IsGalois.normalBasis_apply`), since
+`σ (c θ) = c σ θ` for `c ∈ Kˣ`. It spans an open lattice `M = ∑_σ 𝒪[K] σθ`, free over
 `𝒪[K][Gal(L/K)]`; for `N` large `A = πᴺ M` satisfies `A · A ⊆ π A`, so `1 + A` is an open
 Galois-stable subgroup of `𝒪[L]ˣ` whose filtration `1 + πⁱ A` has successive quotients `A/πA`, free
 over `𝓀[K][Gal(L/K)]`; it is therefore cohomologically trivial, of finite index, and
@@ -1481,7 +1481,8 @@ sequences (the `(0,2)` case of `tateDualityPairing_perfect_mixed` makes `H²` ri
 descend to the Grothendieck group of `𝔽_ℓ[Gal(L/K)]`-modules, where the modular Artin theorem of
 `RepresentationTheory/ModularInduction` reduces them to modules induced from cyclic subgroups of
 order prime to `ℓ`; there Shapiro's lemma, semisimplicity, duality, equivariant Kummer theory and
-the class of `Lˣ/(Lˣ)^ℓ` (through the normal basis theorem when `ℓ = p`) compute both. -/
+the class of `Lˣ/(Lˣ)^ℓ` (through Mathlib's normal basis `IsGalois.normalBasis` when `ℓ = p`)
+compute both. -/
 theorem eulerCharacteristic_mixed (p : ℕ) [Fact p.Prime]
     (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F]
     [IsNonarchimedeanLocalField F] [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F]
