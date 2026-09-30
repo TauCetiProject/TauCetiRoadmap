@@ -38,6 +38,30 @@ Demushkin groups. It consumes continuous cohomology only from the accepted **Pro
 Cohomology** roadmap. The extension dictionary with compact kernel is consumed from Tau Ceti,
 whose `TauCeti.ProfiniteGroupExtension` takes its classes in that roadmap's explicit `H²`.
 
+**One implementation.** Tau Ceti implements the foundational layers of this roadmap, and the
+roadmap consumes that implementation. Each carrier Tau Ceti provides is exported here under the
+roadmap's name as a reducible alias of the Tau Ceti declaration, so that a statement about the
+roadmap name is a statement about the Tau Ceti object and every Tau Ceti lemma applies to it:
+
+| Roadmap name | Tau Ceti (or Mathlib) declaration |
+|---|---|
+| `IsProP`, `proPKernel`, `maximalProPQuotient`, `IsProPSylow` | `TauCeti.IsProP`, `TauCeti.proPKernel`, `TauCeti.maximalProPQuotient`, `TauCeti.IsProPSylow` |
+| `IsTopologicallyFinitelyGenerated`, `ConvergesToOne`, `topologicalGeneratorRank`, `topologicalGeneratorRankNat` | the `TauCeti` declarations of the same names |
+| `proPFrattini`, `pLowerCentralStep`, `pLowerCentralSeries` | the `TauCeti` declarations of the same names |
+| `Supernatural`, `profiniteOrder`, `profiniteIndex` | `TauCeti.Supernatural`, `TauCeti.profiniteOrder`, `Subgroup.profiniteIndex` |
+| `FiniteGroupClass`, `finiteGroupClassP`, `proCKernel`, `IsProC` | the `TauCeti` declarations of the same names |
+| `freeProfiniteGroup`, `freeProC`, `freeProP`, each with `of` | the `TauCeti` declarations of the same names |
+| `presentedProfiniteGroup`, `presentedProP`, each with the continuous projection `mk` | the `TauCeti` declarations of the same names |
+| `zHat`, `unitsPrincipal`, `unitsPlusMinus`, `IsFiniteContinuousQuotient` | `TauCeti.zHat`, `TauCeti.unitsPrincipal 2`, `TauCeti.unitsPlusMinus`, `TauCeti.IsFiniteContinuousQuotient` |
+| `topAbelianization` | Mathlib's `TopologicalAbelianization` |
+| `trivialFp`, `cohomFp` | `TauCeti.trivialFp`, `TauCeti.cohomFp` |
+| `HasPrescriptionProperty` | `TauCeti.HasPrescriptionProperty`, on continuous characters `G →ₜ* ℤ_[p]ˣ` |
+| `d0Relator`, `demushkinD0`, `d0A`, `d0S`, `d0Y`, `negThreeUnit`, `standardD0Orientation` | the `TauCeti` declarations of the same names |
+
+Every milestone about these carriers that Tau Ceti proves is a closed proof in `Suggested.lean`
+whose body is the Tau Ceti theorem, cited by name in the milestone below. The universal
+properties of the free and presented objects are used directly under their Tau Ceti names.
+
 The frozen downstream surface includes:
 
 | Topic | Exact declarations |
@@ -45,22 +69,29 @@ The frozen downstream surface includes:
 | pro-`p` carriers | `IsProP`, `proPKernel`, `maximalProPQuotient`, `IsProPSylow` |
 | the pro-`p` kernel | `proPKernel_proPKernel_eq_top` |
 | profinite Sylow interface | `exists_isProPSylow`, `IsProP.exists_le_isProPSylow`, `IsProPSylow.eq_of_normal`, `IsProPSylow.map_of_surjective`, `IsProPSylow.not_dvd_index_of_le` |
-| finite generation | `IsTopologicallyFinitelyGenerated`, `topologicalGeneratorRank`, `topologicalGeneratorRankNat`, `proPFrattini` |
+| finite generation | `IsTopologicallyFinitelyGenerated`, `topologicalGeneratorRank`, `topologicalGeneratorRankNat`, `topologicalGeneratorRank_le_of_surjective`, `topologicalGeneratorRankNat_le_of_isOpen`, `topologicallyGenerates_iff_frattiniQuotient`, `proPFrattini` |
 | free objects and presentations | `freeProfiniteGroup`, `freeProfiniteGroup.of`, `freeProC`, `freeProC.of`, `freeProP`, `freeProP.of`, `presentedProfiniteGroup`, `presentedProfiniteGroup.mk`, `presentedProP`, `presentedProP.mk` |
-| their universal properties | `freeProfiniteGroup.lift`, `freeProfiniteGroup.hom_ext`, `freeProC.lift`, `freeProC.hom_ext`, `freeProP.lift`, `freeProP.hom_ext`, `presentedProfiniteGroup.lift`, `presentedProfiniteGroup.hom_ext`, `presentedProP.lift`, `presentedProP.hom_ext` |
+| their universal properties | `freeProfiniteGroup.existsUnique_lift`, on morphisms of `ProfiniteGrp`; and, as continuous homomorphisms, Tau Ceti's `TauCeti.freeProfiniteGroup.lift`, `TauCeti.freeProfiniteGroup.hom_ext`, `TauCeti.freeProC.lift`, `TauCeti.freeProC.hom_ext`, `TauCeti.freeProP.lift`, `TauCeti.freeProP.hom_ext`, `TauCeti.presentedProfiniteGroup.lift`, `TauCeti.presentedProfiniteGroup.hom_ext`, `TauCeti.presentedProP.lift`, `TauCeti.presentedProP.hom_ext` |
 | lifting along an extension class | `ProfiniteGroupExtension.exists_continuous_monoidHom_of_contCohomologyClass_map_eq`, `ProfiniteGroupExtension.contCohomologyClass_map_eq_of_continuous_monoidHom`, `GroupExtension.surjective_of_comp_inl_eq` |
 | embedding problems and projectivity | `IsProC`, `FiniteEmbeddingProblem`, `FiniteEmbeddingProblem.IsSolution`, `HasElementaryAbelianSolutions`, `HasPGroupSolutions`, `levelProblem`, `IsProjective` |
 | `cd_p` of a Sylow subgroup | `res_injective_of_isProPSylow`, `cd_p_eq_of_isProPSylow` |
-| Demushkin invariants | `IsDemushkin`, `demushkinRank`, `demushkinQ`, `demushkinCharacter`, `HasPrescriptionProperty` |
+| Demushkin invariants | `trivialFp`, `cohomFp`, `cupFp`, `cupFp_gradedComm`, `IsDemushkin`, `demushkinRank`, `demushkinQ`, `demushkinCharacter`, `demushkinCharacter_unique`, `HasPrescriptionProperty` |
 | marked classification | `demushkinWordNeTwo`, `demushkinWordTwoOdd`, `demushkinWordTwoEven`, `demushkinWordTwoRankTwo`, `isDemushkin_marked_of_q_ne_two`, `isDemushkin_marked_of_q_two_odd`, `isDemushkin_marked_of_q_two_even`, `isDemushkin_marked_of_q_two_rank_two` |
 | standard dyadic group | `demushkinD0`, `d0A`, `d0S`, `d0Y`, `standardD0Orientation` and its value theorems |
 
-Three of these rows have named arithmetic consumers. `LocalGaloisGroups` uses
+The orientation is a continuous character: `demushkinCharacter hG : G →ₜ* ℤ_[p]ˣ`, and
+`demushkinCharacter_unique` identifies it with any continuous character that has Tau Ceti's
+prescription property. A consumer proves `TauCeti.HasPrescriptionProperty χ` for its own
+character `χ` and applies `demushkinCharacter_unique`; no second prescription predicate, and no
+comparison between two of them, exists in this roadmap.
+
+Four of these rows have named arithmetic consumers. `LocalGaloisGroups` uses
 `proPKernel_proPKernel_eq_top` for degree-one inflation from the maximal pro-`p` quotient of an
-absolute Galois group with twisted coefficients, and the extension-lifting row to lift a
-surjection of relation modules to a surjective morphism of group extensions. `ClassFieldTheory`
-uses `cd_p_eq_of_isProPSylow` to compute the cohomological dimension of a local absolute Galois
-group from that of its Sylow subgroups.
+absolute Galois group with twisted coefficients, the extension-lifting row to lift a surjection of
+relation modules to a surjective morphism of group extensions, and `demushkinCharacter_unique` to
+identify the orientation of `G_K(p)` with the descended cyclotomic character.
+`ClassFieldTheory` uses `cd_p_eq_of_isProPSylow` to compute the cohomological dimension of a
+local absolute Galois group from that of its Sylow subgroups.
 
 ## How to read the milestones
 
@@ -69,7 +100,9 @@ implementation and ecosystem information is maintained in a private provenance l
 annotations, `M` means Mathlib at the repository pin, `TC` means Tau Ceti at the repository pin,
 `L0` through `L10` mean an earlier layer here, and `PC-<layer>` means an export of
 `ProfiniteCohomology`. No milestone depends on a branch, an unmerged external project,
-`LocalFieldsRamification`, or `ClassFieldTheory`.
+`LocalFieldsRamification`, or `ClassFieldTheory`. An *In Tau Ceti:* line names the Tau Ceti
+declarations that implement a milestone, or the part of it they name; the corresponding
+statements of `Suggested.lean` are closed proofs from them.
 
 Theorems use the unbundled profinite type-class stack except where a categorical limit or
 completion genuinely needs `ProfiniteGrp`. Pro-`p` means that every continuous finite
@@ -92,6 +125,7 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   `TotallyDisconnectedSpace (G ⧸ N)`, by the clopen-image argument; package it with the
   compactness and topological-group instances, which exist.
   *Needs:* M `QuotientGroup.instTopologicalSpace`, M `IsTopologicalGroup`.
+  *In Tau Ceti:* the instance `TauCeti.QuotientGroup.instTotallyDisconnectedSpace`.
   ⚠ Closedness of `N` is a hypothesis, not decoration. A quotient by a non-closed subgroup
   is not T1. Example: `ℤ̂ ⧸ ℤ` with `ℤ` dense.
 - **Closed and open subgroups.** A closed subgroup of a profinite group is profinite:
@@ -110,6 +144,8 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   correspond to abstract homomorphisms from `G`. Add that the unit is bijective on a finite
   group (`Suggested.lean`).
   *Needs:* M `ProfiniteGrp.profiniteCompletion`, M `ProfiniteGrp.ProfiniteCompletion.lift`.
+  *In Tau Ceti:* `TauCeti.ProfiniteCompletion.continuousMonoidHomEquiv`,
+  `TauCeti.ProfiniteCompletion.etaFn_bijective_of_finite`.
   ⚠ An abstract homomorphism out of a profinite group need not be continuous, so the
   completion of the underlying abstract group of a profinite group is in general larger.
   That subject (Nikolov–Segal) is outside this roadmap.
@@ -120,7 +156,8 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
 
 ### Layer 1: supernatural order and index
 
-- **Supernatural numbers.** `Supernatural := Nat.Primes → ℕ∞`, with:
+- **Supernatural numbers.** `Supernatural`, the exponent functions `Nat.Primes → ℕ∞` as a
+  separate type (Tau Ceti's `TauCeti.Supernatural`), with:
   - divisibility as pointwise `≤`, and multiplication as pointwise `+`;
   - the lattice operations as pointwise `⊔` and `⊓`;
   - the embedding of `ℕ+` by prime factorization;
@@ -146,6 +183,7 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   the supremum of the valuations of the orders of the finite quotients. On a finite discrete
   group it is the factorization of `Nat.card G` (`Suggested.lean`).
   *Needs:* L1 `Supernatural`, M `Nat.card`, M `OpenNormalSubgroup`.
+  *In Tau Ceti:* `TauCeti.profiniteOrder`, `TauCeti.profiniteOrder_apply_of_finite`.
 - **The index of a closed subgroup.** The definition is primewise through the finite
   quotients: `profiniteIndex H G ℓ = ⨆_N v_ℓ ([G/N : HN/N])`, the supremum over open normal
   `N ≤ G`. Both groups live in the same universe. The definition is written for an arbitrary
@@ -153,6 +191,8 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   **Theorem.** For closed `H`, `profiniteIndex H G = ⨆ {U : OpenSubgroup G // H ≤ U}, [G : U]`
   in the supernatural lattice. This is the description that the literature uses.
   *Needs:* L1 `Supernatural`, L0 closed-subgroup theory, M `Subgroup.index`.
+  *In Tau Ceti:* `Subgroup.profiniteIndex`, `Subgroup.profiniteIndex_apply_eq_iSup_openSubgroup`,
+  which holds for every `H` by the closure invariance below.
   *Source:* Ribes–Zalesskii §2.3.
   Both sides depend only on the closure of `H`, so two further statements come first:
   `profiniteIndex H G = profiniteIndex (closure H) G`, and
@@ -171,11 +211,14 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   - agreement with `Subgroup.index` for open `H`, as
     `profiniteIndex H G = ofNat (H.index)`.
   *Needs:* L1 the two definitions above; M `Subgroup.index_mul_card`.
+  *In Tau Ceti:* `Subgroup.profiniteIndex_topologicalClosure`, `Subgroup.profiniteIndex_eq_one_iff`,
+  `Subgroup.profiniteOrder_eq_mul_profiniteIndex`, `OpenSubgroup.profiniteIndex_eq_ofNat_index`.
   *Source:* Ribes–Zalesskii §2.3, Prop. 2.3.2 for Lagrange.
 - **Pro-`p` in supernatural terms.** `G` is pro-`p` if and only if `profiniteOrder G` is
   supported at `p` (`Suggested.lean`). `H` is open if and only if it is closed of
   natural-number index.
   *Needs:* L1 order and index; L0 open-versus-closed.
+  *In Tau Ceti:* `TauCeti.isProP_iff_profiniteOrder_apply_eq_zero`.
 
 ### Layer 2: profinite Sylow theory
 
@@ -183,6 +226,10 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   topology, and has index prime to `p`. `Suggested.lean` has the per-quotient form. The
   supernatural form `¬ p ∣ profiniteIndex P G` is proved equivalent to it here.
   *Needs:* L1 index, L0 closed subgroups, M `IsPGroup`.
+  *In Tau Ceti:* `TauCeti.IsProPSylow`, with `TauCeti.isProPSylow_iff`, the projections
+  `TauCeti.IsProPSylow.isClosed`, `isProP` and `not_dvd_index`,
+  `TauCeti.isProPSylow_iff_isClosed_and_isProP_and_not_dvd_profiniteIndex`, and
+  `TauCeti.isProPSylow_iff_exists_sylow_eq` on a finite group.
 
   API checklist for `IsProPSylow`:
   - Constructors: from a compatible family of Sylow subgroups of the finite quotients; from
@@ -201,6 +248,7 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   `p`-subgroups of the finite quotients form a surjective inverse system of nonempty finite
   sets, so the Layer 0 compactness lemma applies.
   *Needs:* L0 compactness lemma; M `Sylow.exists_subgroup_card_pow_prime`, M `Sylow`.
+  *In Tau Ceti:* `TauCeti.exists_isProPSylow`.
   *Source:* Ribes–Zalesskii Cor. 2.3.6.
 - **Conjugacy and the poset.** Any two `p`-Sylow subgroups are conjugate, by the same
   inverse-limit argument over the finite sets of conjugating elements. Every closed pro-`p`
@@ -208,16 +256,21 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   pro-`p`, and a maximal closed pro-`p` subgroup is `p`-Sylow. A normal `p`-Sylow subgroup
   is unique.
   *Needs:* L2 existence; L0 compactness lemma; M `Sylow.conj_eq`.
+  *In Tau Ceti:* `TauCeti.IsProPSylow.exists_map_conj_eq`, `TauCeti.IsProP.exists_le_isProPSylow`
+  (with no closedness hypothesis), `TauCeti.IsProPSylow.eq_of_le`,
+  `TauCeti.isProPSylow_iff_isProP_and_maximal`, `TauCeti.IsProPSylow.eq_of_normal`.
   *Source:* Ribes–Zalesskii §2.3.
 - **Functoriality.** The image of a `p`-Sylow subgroup under a continuous surjection is
   `p`-Sylow. The `p`-Sylow subgroup of an inverse limit is the inverse limit of `p`-Sylow
   subgroups. Both statements are intrinsic to profinite groups. `LocalGaloisGroups` may
   consume them when assembling its arithmetic examples.
   *Needs:* L2 existence and conjugacy; L0 inverse limits.
+  *In Tau Ceti:* `TauCeti.IsProPSylow.map_of_surjective`, `TauCeti.SylowFamily.equivIsProPSylow`.
 - **Open subgroups above a Sylow subgroup.** An open subgroup `U` that contains a `p`-Sylow
   subgroup `P` has index prime to `p` (`IsProPSylow.not_dvd_index_of_le`). For an open normal
   `N ≤ U`, `[G : U] = [G/N : U/N]` divides `[G/N : PN/N]`, which is prime to `p` by the
-  per-quotient definition. Layer 6 feeds these indices to `cor ∘ res = [G : U]`.
+  per-quotient clause `TauCeti.IsProPSylow.not_dvd_index`. Layer 6 feeds these indices to
+  `cor ∘ res = [G : U]`.
   *Needs:* L2 definition; M `IsTopologicalGroup.exist_openNormalSubgroup_sub_clopen_nhds_of_one`,
   M `Subgroup.index_map_eq`, M `Subgroup.index_dvd_of_le`.
 - **Worked instances** (`Suggested.lean`). Every `p`-Sylow subgroup of `ℤ̂` is
@@ -226,6 +279,7 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   uses are available. Its proof does **not** use a product decomposition `ℤ̂ ≅ ∏_ℓ ℤ_ℓ`,
   which is not a target of this roadmap.
   *Needs:* L2 existence; L4 the rank-one identification chain.
+  *In Tau Ceti:* `TauCeti.IsProPSylow.continuousMulEquivPadicInt`.
 
 ### Layer 3: pro-`p` groups, the maximal pro-`p` quotient, Frattini theory, generation
 
@@ -238,6 +292,11 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   limit of finite `p`-groups.
   *Needs:* M `IsPGroup`, M `IsPGroup.comap_of_ker_isPGroup`, M `ProfiniteGrp.ofFiniteGrp`, M
   `ProfiniteGrp.continuousMulEquivLimittoFiniteQuotientFunctor`; L0 quotients.
+  *In Tau Ceti:* `TauCeti.IsProP` with `TauCeti.isProP_iff`, `IsPGroup.isProP`,
+  `TauCeti.IsProP.of_surjective`, `TauCeti.IsProP.quotient`, `TauCeti.IsProP.subgroup`,
+  `TauCeti.IsProP.prod`, `TauCeti.IsProP.pi`, `TauCeti.IsProP.limit`,
+  `TauCeti.isProP_iff_exists_continuousMulEquiv_limit`, `TauCeti.IsProP.of_ker_isProP`,
+  `TauCeti.isProP_congr`, `TauCeti.isProP_iff_isPGroup`.
 
   API checklist for `IsProP`:
   - Constructors: from the quotient form; from a presentation as a limit of finite
@@ -260,6 +319,11 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   the defining family. State its quotient map, its universal property, its idempotence on
   pro-`p` groups, and its functoriality once, here.
   *Needs:* L0 quotients and closed subgroups; M `OpenNormalSubgroup`; M `IsPGroup`.
+  *In Tau Ceti:* `TauCeti.proPKernel`, `TauCeti.maximalProPQuotient` with `mk`, `map`, `lift`,
+  `equivOfIsProP` and `idempotentEquiv`; `TauCeti.isClosed_proPKernel`,
+  `TauCeti.map_proPKernel_eq`, `TauCeti.isProP_maximalProPQuotient`,
+  `TauCeti.existsUnique_continuousMonoidHom_maximalProPQuotient`,
+  `TauCeti.proPKernel_eq_bot_iff`, `TauCeti.proPKernel_eq_top_iff`.
 
   API checklist for `maximalProPQuotient`:
   - Constructors: the quotient map `G ↠ G(p)`; the induced map for a continuous
@@ -284,9 +348,9 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
      continuous automorphisms; conjugation by an element of `G` restricts to a continuous
      automorphism of the normal subgroup `N`, so `K` is normal in `G`;
   2. `G ⧸ K` is profinite and maps onto the pro-`p` group `G ⧸ N = maximalProPQuotient p G`,
-     with kernel the image of `N`. That image is `N ⧸ K = maximalProPQuotient p N`, which is
-     pro-`p`, because the continuous bijection from the compact `N ⧸ K` onto it is a
-     homeomorphism. By closure under extensions, `G ⧸ K` is pro-`p`;
+     with kernel the image of `N`. That image is a continuous image of the pro-`p` group
+     `N ⧸ K = maximalProPQuotient p N`, hence pro-`p` (`TauCeti.IsProP.of_surjective`). By
+     closure under extensions (`TauCeti.IsProP.of_ker_isProP`), `G ⧸ K` is pro-`p`;
   3. the universal property of the maximal pro-`p` quotient, applied to `G → G ⧸ K`, gives
      `N = proPKernel p G ≤ K`, that is `K = ⊤` in `N`.
 
@@ -294,7 +358,8 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   with finite `p`-primary coefficients on which the kernel acts trivially.
   *Needs:* L0 closed subgroups and quotients; L3 the `IsProP` API, including closure under
   extensions, and the maximal pro-`p` quotient: closedness, characteristicity, pro-`p`-ness and
-  the universal property; TC `TauCeti.IsProP.of_ker_isProP`, `TauCeti.map_proPKernel_eq`,
+  the universal property; TC `TauCeti.IsProP.of_ker_isProP`, `TauCeti.IsProP.of_surjective`,
+  `TauCeti.isClosed_proPKernel`, `TauCeti.map_proPKernel_eq`,
   `TauCeti.isProP_maximalProPQuotient`, `TauCeti.proPKernel_le_ker`.
 - **Topological generation and rank.** First the generation API through
   `Subgroup.topologicalClosure`, the predicate `IsTopologicallyFinitelyGenerated`, and the
@@ -307,14 +372,24 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
     `topologicalGeneratorRank` is an infimum over a nonempty family.
 
   Then the rank itself, with:
-  - monotonicity under continuous surjections;
+  - monotonicity under continuous surjections out of a profinite group;
   - invariance under topological isomorphism;
   - finiteness of the cardinal exactly under `IsTopologicallyFinitelyGenerated`;
   - the accessor `topologicalGeneratorRankNat G h`, with
     `(topologicalGeneratorRankNat G h : Cardinal) = topologicalGeneratorRank G`, and proof
     irrelevance in `h`.
   *Needs:* L0 open normal subgroups; M `Subgroup.topologicalClosure`; M `Cardinal`.
+  *In Tau Ceti:* `TauCeti.IsTopologicallyFinitelyGenerated` with
+  `TauCeti.IsTopologicallyFinitelyGenerated.of_surjective`, `TauCeti.ConvergesToOne`,
+  `TauCeti.exists_convergesToOne_topologicallyGenerates`, `TauCeti.topologicalGeneratorRank`,
+  `TauCeti.topologicalGeneratorRankNat`, `TauCeti.topologicalGeneratorRank_le_of_surjective`,
+  `TauCeti.topologicalGeneratorRank_congr`, `TauCeti.topologicalGeneratorRank_lt_aleph0_iff`,
+  `TauCeti.topologicalGeneratorRankNat_eq_topologicalGeneratorRank`.
   *Source:* Ribes–Zalesskii Prop. 2.6.2 for the existence of a converging generating set.
+  ⚠ Monotonicity needs a profinite source. For a group with no generating set converging to
+  `1` the infimum defining the rank is empty and the rank is `0`, so the identity from `ℚ` with
+  the discrete topology onto `ℚ` with the real topology, a continuous surjection from a group of
+  rank `0` onto one of rank `ℵ₀`, is a counterexample to the unrestricted statement.
 
   API checklist for `topologicalGeneratorRank`:
   - Constructors: from a converging generating set; from the finite accessor.
@@ -341,15 +416,23 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
 
   Layer 8 uses the sequential form. Prefer the general form wherever it is enough.
   *Needs:* L3 `IsTopologicallyFinitelyGenerated`; L0 compactness lemma.
+  *In Tau Ceti:* `TauCeti.IsTopologicallyFinitelyGenerated.finite_openSubgroup_index_eq`,
+  `countable_openSubgroup`, `countable_openNormalSubgroup` and
+  `exists_antitone_openNormalSubgroup_cofinal`, in that namespace.
 - **The Schreier bound.** An open subgroup `U` of a topologically finitely generated
   profinite group is topologically finitely generated, with
   `d(U) ≤ 1 + [G : U](d(G) - 1)` in natural numbers.
   *Needs:* L3 rank; M `Subgroup.index`.
+  *In Tau Ceti:* `TauCeti.IsTopologicallyFinitelyGenerated.of_openSubgroup`,
+  `TauCeti.topologicalGeneratorRankNat_le_of_openSubgroup`.
+  ⚠ Compactness of `G` is used: it makes the index finite. In `ℤ³` with the discrete topology,
+  `ℤ² × 0` is open of infinite index, whose natural-number index is `0`, and needs two generators.
   *Source:* Ribes–Zalesskii Cor. 3.6.3. Layer 6 proves equality in the free case.
 - **Hopf property.** A continuous surjective endomorphism of a topologically finitely
   generated profinite group is an isomorphism (`Suggested.lean`). This is the last step of
   every two-sided comparison in Layer 8.
   *Needs:* L3 finitely many open subgroups of each index; L0 compactness.
+  *In Tau Ceti:* `TauCeti.IsTopologicallyFinitelyGenerated.bijective_of_surjective`.
   *Source:* Ribes–Zalesskii Prop. 2.5.2.
   ⚠ False without finite generation: an infinite product of copies of a finite group admits
   a continuous surjective endomorphism that is not injective, namely the shift.
@@ -359,6 +442,7 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   (`Suggested.lean`). Corollary: for a quotient map whose kernel lies in `Φ(G)`, generators
   lift.
   *Needs:* L3 generation API; L0 compactness lemma.
+  *In Tau Ceti:* `TauCeti.exists_comp_eq_and_topologicalClosure_closure_range_eq_top`.
   *Source:* Ribes–Zalesskii Prop. 2.5.4.
 - **Frattini theory for pro-`p` groups.** For pro-`p` `G`, a maximal open subgroup is normal
   of index `p`; the finite input is that a maximal subgroup of a finite `p`-group is normal
@@ -368,6 +452,10 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   abelian, hence an `𝔽_p`-vector space.
   *Needs:* M `frattini`, M `IsPGroup.exists_maximal_subgroup_normal` and the finite Frattini
   lemmas; L3 `IsProP` API; L0 quotients.
+  *In Tau Ceti:* `TauCeti.proPFrattini` with `TauCeti.isClosed_proPFrattini`,
+  `ContinuousMulEquiv.map_proPFrattini_eq`, `TauCeti.proPFrattini_eq_topologicalClosure`,
+  `TauCeti.IsProP.proPFrattini_eq_iInf_isCoatom`, `TauCeti.IsProP.normal_of_isCoatom`,
+  `IsPGroup.proPFrattini_eq_frattini`.
 
   API checklist for `proPFrattini`:
   - Constructors: the index-`p` definition; the verbal description `closure (Gᵖ[G,G])`.
@@ -398,6 +486,13 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   `topologicalGeneratorRankNat G h = Module.finrank (ZMod p) (G/Φ(G))`.
   *Needs:* L3 Frattini theory, L3 rank and `ConvergesToOne`; M `Module.rank`, M
   `Module.finrank`.
+  *In Tau Ceti:* `TauCeti.topologicallyGenerates_iff_frattiniQuotient`,
+  `TauCeti.IsProP.eq_top_of_forall_not_le_openNormalSubgroup_index_eq`,
+  `TauCeti.IsProP.surjective_iff_surjective_quotient_index_eq`,
+  `TauCeti.IsProP.topologicalGeneratorRank_eq_rank_continuousZModDual`,
+  `TauCeti.IsProP.isTopologicallyFinitelyGenerated_iff_finite_quotient_proPFrattini`,
+  `TauCeti.IsProP.topologicalGeneratorRankNat_eq_finrank_quotient_proPFrattini`,
+  `TauCeti.IsProP.natCard_quotient_proPFrattini`.
   *Source:* Ribes–Zalesskii Prop. 2.8.7 and §2.8; NSW (3.9.1).
   Proof note for the cardinal identity. A continuous functional vanishes on all but finitely
   many members of a converging set. So restriction embeds the dual in the finitely supported
@@ -417,6 +512,9 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   `proCKernel (finiteGroupClassP p) G = proPKernel p G`. Every pro-`C` statement below is
   about this structure, and there is no per-class construction.
   *Needs:* L3 `proPKernel` API; M `Shrink`; M `IsPGroup`.
+  *In Tau Ceti:* `TauCeti.FiniteGroupClass` with `TauCeti.FiniteGroupClass.MemFinite`,
+  `TauCeti.finiteGroupClassP`, `TauCeti.proCKernel`, `TauCeti.IsProC`, `TauCeti.proCCompletion`,
+  `TauCeti.isProC_finiteGroupClassP_iff`, `TauCeti.proCKernel_finiteGroupClassP_eq_proPKernel`.
 
   API checklist for `FiniteGroupClass`:
   - Constructors: `finiteGroupClassP p`; the class of all finite groups; the class of finite
@@ -450,6 +548,9 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   presentation API.
   *Needs:* M `ProfiniteGrp.profiniteCompletion`, M `FreeGroup`; L3 `maximalProPQuotient`;
   L4 `FiniteGroupClass`.
+  *In Tau Ceti:* `TauCeti.freeProfiniteGroup`, `TauCeti.freeProC`, `TauCeti.freeProP`, each with
+  `of`; `TauCeti.presentedProfiniteGroup` and `TauCeti.presentedProP`, each with `mk` and `of`;
+  `TauCeti.freeProC.equivFreeProP`.
 
   API checklist for `freeProP`:
   - Constructors: `freeProP.of` on generators; the lift of a map `X → P` into a pro-`p`
@@ -469,9 +570,15 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   - Downstream interfaces: presentations in Layer 5, the tower of Layer 8, the normal forms
     of Layer 9.
 - **Universal property.** A map `X → P` into a profinite group `P` in the class `C` extends
-  uniquely to a continuous homomorphism (`Suggested.lean` has the pro-`p` case). The free
-  object is unique up to unique isomorphism, and it is functorial in `X`.
+  uniquely to a continuous homomorphism. The free object is unique up to unique isomorphism,
+  and it is functorial in `X`. The universal properties are used under their Tau Ceti names, as
+  continuous homomorphisms into a target in the universe of the generators;
+  `freeProfiniteGroup.existsUnique_lift` states the free profinite one on morphisms of
+  `ProfiniteGrp`.
   *Needs:* L4 construction; M `ProfiniteGrp.ProfiniteCompletion.lift`.
+  *In Tau Ceti:* `TauCeti.freeProfiniteGroup.lift`, `lift_of`, `lift_unique`, `existsUnique_lift`,
+  `hom_ext`, `map` and `existsUnique_continuousMulEquiv`, and the same names in the namespaces
+  `TauCeti.freeProC` and `TauCeti.freeProP`.
 - **Basics.** `freeProP p X` is pro-`p`. For finite `X` it is topologically finitely
   generated (`Suggested.lean`), of rank `#X`, through the Frattini quotient `(ℤ/p)^X` of
   Layer 3, with the natural-number form
@@ -479,6 +586,9 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   groups are residually `p`, so `FreeGroup X → freeProP p X` is injective
   (`Suggested.lean`).
   *Needs:* L3 Burnside; L4 universal property; M `FreeGroup`.
+  *In Tau Ceti:* `TauCeti.isProP_freeProP`, `TauCeti.isTopologicallyFinitelyGenerated_freeProP`,
+  `TauCeti.topologicalGeneratorRank_freeProP`, `TauCeti.topologicalGeneratorRankNat_freeProP`,
+  `TauCeti.freeProP.fromFreeGroup_injective`.
   *Source:* the residual `p`-finiteness of free groups; the argument uses the finite
   upper-triangular representations, or the lower `p`-series of the discrete free group.
   ⚠ For infinite `X` the rank of `freeProP p X` is **not** `#X`. Its continuous characters
@@ -501,6 +611,9 @@ commutator convention in relator words is Labute's `(x,y) = x⁻¹y⁻¹xy`.
   Step 3 is what every later `ℤ_p`-coefficient argument cites, in particular the
   identification of the characters `Hom_cont(G, ℤ_pˣ)` in Layer 7.
   *Needs:* L3 `maximalProPQuotient`; L4 universal property; M `PadicInt.toZModPow`.
+  *In Tau Ceti:* `TauCeti.zHat`, `TauCeti.zHat.maximalProPQuotientEquivPadicInt`,
+  `TauCeti.zHat.maximalProPQuotientEquivZModPowLimit`, `TauCeti.freeProP.equivPadicInt`,
+  `TauCeti.IsProPSylow.continuousMulEquivPadicInt`.
 
 #### Finitely generated abelian pro-`p` groups
 
@@ -512,6 +625,8 @@ several Layer 9 module arguments use it. Ribes–Zalesskii §4.3 is the source o
   abelian `p`-quotients, where `ℤ_p` acts through `ℤ/p^n`. Well-definedness is the
   compatibility of those actions, and continuity is the limit topology.
   *Needs:* L0 inverse limits; L3 `IsProP` API; M `ZMod.intCast_cast` and `PadicInt.toZModPow`.
+  *In Tau Ceti:* `TauCeti.IsProP.padicPow`, on every pro-`p` group, with `padicPow_one`,
+  `padicPow_add`, `padicPow_mul`, `padicPow_natCast` and `continuous_padicPow`.
 - **The `ℤ_p`-module structure.** `A` becomes a topological `ℤ_p`-module, functorially in
   continuous homomorphisms of abelian pro-`p` groups. Closed subgroups and quotients are
   submodules and quotient modules. A continuous group homomorphism between abelian pro-`p`
@@ -526,6 +641,7 @@ several Layer 9 module arguments use it. Ribes–Zalesskii §4.3 is the source o
   the torsion subgroup of `A`; it is closed always, and open when `r = 0`.
   *Needs:* L4 compact modules; M the structure theorem for finitely generated modules over a
   principal ideal domain, `Module.equiv_free_prod_directSum` and the `ℤ_[p]` PID instance.
+  *In Tau Ceti:* `TauCeti.IsProP.exists_continuousMulEquiv_pi_padicInt_prod_pi_zmod`.
   *Source:* Ribes–Zalesskii §4.3.
   ⚠ The theorem needs topological finite generation. `∏_{i ∈ ℕ} ℤ/p` is abelian pro-`p` and
   is not of this shape.
@@ -553,11 +669,15 @@ about the substrate.
 
 - **The coefficient object.** `trivialFp p G` is the trivial `𝔽_p`-representation of `G`, an
   object of `ProfiniteCohomology.TopRep (ZMod p) G`, and `cohomFp p G n` is its cohomology,
-  `(continuousCohomology (ZMod p) G n).obj (trivialFp p G)`. Mathlib places the coefficients in
-  the universe of `G`, so the trivial module is `ULift (ZMod p)`, which `Suggested.lean`
-  records. Every dimension count in this roadmap is about `cohomFp`. The other coefficient
-  systems used below are `I(χ)/p^i` and `𝔽_p[G/U]` for `U` open.
+  `(continuousCohomology (ZMod p) G n).obj (trivialFp p G)`. Both are Tau Ceti's. Mathlib places
+  the coefficients in the universe of `G`, so the trivial module is `ULift (ZMod p)`, identified
+  with `ZMod p` by `TauCeti.trivialFpEquiv`. Every dimension count in this roadmap is about
+  `cohomFp`. The other coefficient systems used below are `I(χ)/p^i`, Tau Ceti's
+  `TauCeti.ZModTwist χ i`, and `𝔽_p[G/U]` for `U` open.
   *Needs:* PC-1 `TopRep`, M `continuousCohomology`, M `TopModuleCat`, M `Action`.
+  *In Tau Ceti:* `TauCeti.trivialFp`, `TauCeti.cohomFp`, `TauCeti.trivialFpEquiv`,
+  `TauCeti.trivialFp_ρ_apply_apply`, `TauCeti.isSmoothDiscrete_trivialFp`,
+  `TauCeti.trivialFpResMap`.
 - **The multiplication pairing and the cup square.** `fpPairing p G` is the term of
   `ProfiniteCohomology.TopPairing` on `trivialFp p G` given by multiplication in `ZMod p`; it is
   `ZMod p`-bilinear, continuous because the coefficients are discrete, and equivariant because
@@ -580,8 +700,9 @@ about the substrate.
   - Morphisms: inflation, restriction, corestriction, the connecting map, and the maps induced
     by a map of coefficients, all imported.
   - Functoriality: contravariant in the group, covariant in the coefficients, both imported.
-  - Comparison lemmas: `fpPairing_bil`, the defining equation of the pairing; the imported
-    `explicitIso_cup` relating the canonical cup to the explicit `(1,1)` shape.
+  - Comparison lemmas: `fpPairing_bil`, the defining equation of the pairing, read through
+    `TauCeti.trivialFpEquiv`; the imported `explicitIso_cup` relating the canonical cup to the
+    explicit `(1,1)` shape.
   - Naturality: `cup_res`, `cup_infl`, `cup_coeffMap` and `cup_projection`, all imported.
   - Edge cases: the trivial group, where `H^n` vanishes for `n ≥ 1`; a finite group, where the
     imported comparison with discrete `groupCohomology` applies; coefficients with a nontrivial
@@ -597,6 +718,9 @@ about the substrate.
   with `topologicalGeneratorRankNat F = topologicalGeneratorRankNat G`, characterized by
   `R ≤ Φ(F)`.
   *Needs:* L4 free objects; L3 Burnside and Gaschütz.
+  *In Tau Ceti:* `TauCeti.presentedProP` with `mk`, `of`, `lift`, `hom_ext_of`, `map`,
+  `congr`, `isProP` and `isTopologicallyFinitelyGenerated`;
+  `TauCeti.IsProP.exists_surjective_freeProP`; `Profinite/ProP/MinimalPresentation.lean`.
   ⚠ A presentation of an arbitrary pro-`p` group needs free objects on an infinite basis
   that converges to `1`, which is Layer 10. The arbitrary-rank presentation theorem is
   stated there.
@@ -626,6 +750,9 @@ about the substrate.
   so
   `φ` factors through `D₀`, and `D₀ ↠ ℤ/2` is surjective. Therefore `D₀` is nontrivial.
   *Needs:* L4 universal property; L5 presentations.
+  *In Tau Ceti:* `TauCeti.demushkinD0`, `TauCeti.d0Relator`, `TauCeti.d0FreeCharacter` with
+  `d0FreeCharacter_d0Relator` and `d0FreeCharacter_surjective`, `TauCeti.d0Character` with
+  `d0Character_surjective`, and the `Nontrivial` instance on `TauCeti.demushkinD0`.
 
 #### Continuous extensions and finite `p`-embedding problems
 
@@ -651,10 +778,12 @@ about the substrate.
   of `E/N`, which has finite index. Third, finitely many coset translates of that local
   section give a section over a clopen partition of `E/N`.
   *Needs:* L0 open normal subgroups.
+  *In Tau Ceti:* `TauCeti.exists_continuous_section`, for an arbitrary closed subgroup of a
+  profinite group, of which this is the finite case.
   ⚠ A surjection of profinite **spaces** need not have a continuous section, so no statement
   here uses one. For profinite groups with an arbitrary closed kernel a section does exist
-  (Ribes–Zalesskii Prop. 2.2.2), but the finite-kernel case is elementary and is all that is
-  used.
+  (Ribes–Zalesskii Prop. 2.2.2); that is the Tau Ceti theorem, and the finite-kernel case is all
+  that this layer uses.
 - **Cocycles and extensions.** From a continuous normalized `2`-cocycle build the extension
   on `M × G` with the twisted multiplication, and check that the product topology makes it
   profinite. From a continuous normalized section build a continuous normalized cocycle. The
@@ -807,8 +936,10 @@ six, so the dependency graph closes without prose.
 
 `cd_p G` is `ProfiniteCohomology.cd_p p G`: the infimum, in `ℕ∞`, of the `n` for which
 `H^m(G, M)` vanishes for every `m > n` and every discrete `p`-primary torsion `G`-module `M`.
-That declaration belongs to the Profinite Cohomology roadmap, and this roadmap defines no second
-cohomological dimension. Three reduction theorems say when a smaller test suffices, and none of
+That declaration belongs to the Profinite Cohomology roadmap, where it is Tau Ceti's
+`TauCeti.cohomologicalDimensionAt` at coefficient universe `0`, characterized by
+`TauCeti.cohomologicalDimensionAt_le_iff` through the vanishing predicate
+`TauCeti.CohomologicalDimensionLE`; this roadmap defines no second cohomological dimension. Three reduction theorems say when a smaller test suffices, and none of
 them is the definition:
 
 - testing only the **finite** discrete `p`-primary modules gives the same predicate, by
@@ -831,6 +962,8 @@ would not agree with the standard `cd_p`.
   sequences takes the value `length M` times its value at `𝔽_p`, where
   `length M = padicValNat p (Nat.card M)` is the composition length.
   *Needs:* M `IsPGroup.card_modEq_card_fixedPoints`; L3 `IsProP` API.
+  *In Tau Ceti:* `TauCeti.exists_ne_zero_invariant_of_isProP`,
+  `TauCeti.exists_addSubgroup_natCard_eq_invariant_of_isProP`, `Profinite/ProP/Filtration.lean`.
   ⚠ Do not write `dim_{𝔽_p} M` here. A finite `p`-primary module is not an `𝔽_p`-vector
   space in general, and `ℤ/p²` is the smallest counterexample. The two agree exactly when
   `M` is killed by `p`. That is the case the Euler formulas use, since they take
@@ -840,6 +973,7 @@ would not agree with the standard `cd_p`.
   modules in that degree. Route: the trivial-filtration theorem above, and the long exact
   sequence in that degree.
   *Needs:* L6 trivial filtration; PC-5 the long exact sequence.
+  *In Tau Ceti:* `TauCeti.IsProP.forall_subsingleton_continuousCohomology_iff`, in each degree.
   *Source:* Serre, *Galois Cohomology* I §3.
 - **Vanishing in one degree gives vanishing above it.** If `H²(G, M) = 0` for every finite
   discrete `p`-primary `G`-module `M`, and `G` is pro-`p`, then `H^n(G, M) = 0` for every
@@ -855,7 +989,8 @@ would not agree with the standard `cd_p`.
   changes the coefficients and the vanishing theorem above changes the degree, so the proof
   needs both.
   *Needs:* L5 vanishing theorem; L6 dévissage; L6 vanishing in one degree gives vanishing
-  above it.
+  above it; TC `TauCeti.freeProP.subsingleton_continuousCohomology_two`, which is the Layer 5
+  theorem.
 - **Serre's theorem: `cd_p G ≤ 1` implies free pro-`p`,** for topologically finitely
   generated `G` (`isFree_of_cd_p_le_one`). The route has four steps:
   1. `cd_p G ≤ 1` gives the projectivity property of Layer 5;
@@ -865,6 +1000,11 @@ would not agree with the standard `cd_p`.
   4. the image `s(G)` is closed and maps onto `F/Φ(F)` by minimality, so `s(G) = F` by
      Burnside, and `φ` is an isomorphism.
   *Needs:* L5 projectivity; L3 Burnside; L4 free objects.
+  *In Tau Ceti:* `TauCeti.CohomologicalDimensionLE.isProjective` (step 1) and
+  `TauCeti.IsProP.nonempty_continuousMulEquiv_freeProP_of_cohomologicalDimensionAt_le_one`, the
+  theorem itself, for a generating type of cardinality `d(G)` in the universe of `G` and with
+  `cd_p` taken at the coefficient universe of `G`. `isFree_of_cd_p_le_one` is that theorem read
+  at the generating type `Fin d(G)` and at the coefficient universe of `cd_p`.
   *Source:* NSW III §5; Serre, *Galois Cohomology* I §4.2; Ribes–Zalesskii Ch. 7.
   ⚠ The version without finite generation is a different theorem with a different proof. It
   is stated in Layer 10, once free objects on a basis that converges to `1` exist.
@@ -880,16 +1020,18 @@ would not agree with the standard `cd_p`.
   `Hⁿ(G, M) → Hⁿ(P, M)` is injective (`res_injective_of_isProPSylow`). Restriction is additive,
   so it is enough that `res_P x = 0` forces `x = 0`, and each of the five steps below rests on
   named declarations:
-  1. `P` is closed, the first clause of `IsProPSylow`, so the imported descent
+  1. `P` is closed (`TauCeti.IsProPSylow.isClosed`), so the imported descent
      `ProfiniteCohomology.exists_openSubgroup_res_eq_zero_of_res_eq_zero`, at the smooth discrete
      object `ofDiscreteModule G M` (`ProfiniteCohomology.ofDiscreteModule_isSmoothDiscrete`),
      gives an open subgroup `U ⊇ P` with `res_U x = 0`;
   2. `ProfiniteCohomology.corestriction_comp_res` at `U`, evaluated at `x`
      (`ConcreteCategory.congr_hom`), gives `((U.toSubgroup.index : ℕ) : ℤ) • x = cor (res_U x) = 0`,
      an integer multiple because that theorem's scalar is `(U.toSubgroup.index : ℤ)`;
-  3. `ProfiniteCohomology.isPPrimaryTorsion_continuousCohomology` puts `x` in the `p`-primary
-     component, that is, `p ^ k • x = 0` for some `k : ℕ` (`AddCommGroup.mem_primaryComponent`).
-     This is a natural-number multiple, equal to `((p ^ k : ℕ) : ℤ) • x` by `natCast_zsmul`;
+  3. `ProfiniteCohomology.isPPrimaryTorsion_continuousCohomology`, which is Tau Ceti's
+     `TauCeti.isPPrimaryTorsion_continuousCohomology` read through the coefficient dictionary,
+     puts `x` in the `p`-primary component, that is, `p ^ k • x = 0` for some `k : ℕ`
+     (`AddCommGroup.mem_primaryComponent`). This is a natural-number multiple, equal to
+     `((p ^ k : ℕ) : ℤ) • x` by `natCast_zsmul`;
   4. `U.toSubgroup.index` is prime to `p` by `IsProPSylow.not_dvd_index_of_le`, hence coprime to
      `p ^ k` (`Nat.Prime.coprime_iff_not_dvd`, `Nat.Coprime.pow_left`);
   5. Bézout in `ℤ` (`Nat.gcd_eq_gcd_ab` with `Nat.Coprime.gcd_eq_one`): for
@@ -901,7 +1043,8 @@ would not agree with the standard `cd_p`.
   *Needs:* L2 `IsProPSylow`, `IsProPSylow.not_dvd_index_of_le`; PC-1 `res`, `ofDiscreteModule`,
   `ofDiscreteModule_isSmoothDiscrete`; PC-10 `exists_openSubgroup_res_eq_zero_of_res_eq_zero`,
   `corestriction`, `corestriction_comp_res`; PC-11 `IsPPrimaryTorsion`,
-  `isPPrimaryTorsion_continuousCohomology`; M `injective_iff_map_eq_zero`,
+  `isPPrimaryTorsion_continuousCohomology`; TC `TauCeti.IsProPSylow.isClosed`,
+  `TauCeti.isPPrimaryTorsion_continuousCohomology`; M `injective_iff_map_eq_zero`,
   `ConcreteCategory.congr_hom`, `AddCommGroup.mem_primaryComponent`, `natCast_zsmul`,
   `Nat.Prime.coprime_iff_not_dvd`, `Nat.Coprime.pow_left`, `Nat.gcd_eq_gcd_ab`,
   `Nat.Coprime.gcd_eq_one`, `one_zsmul`, `add_zsmul`, `mul_zsmul`.
@@ -913,9 +1056,9 @@ would not agree with the standard `cd_p`.
   `G_p` being closed. For `cd_p G ≤ cd_p G_p`, suppose `cd_p G_p ≤ n`, and let `M` be a discrete
   `p`-primary torsion `G`-module and `i > n`. Restricted to `G_p`, `M` is a discrete `p`-primary
   torsion `G_p`-module (`ProfiniteCohomology.ofDiscreteModuleRes`), so `Hⁱ(G_p, M) = 0`, and
-  injectivity of restriction gives `Hⁱ(G, M) = 0`; by `ProfiniteCohomology.cd_p_le_iff` this is
-  `cd_p G ≤ n`. This is the one milestone here about `cd_p` of a group that need not be
-  pro-`p`. `ClassFieldTheory` consumes it for the cohomological dimension of a local absolute
+  injectivity of restriction gives `Hⁱ(G, M) = 0`; by `TauCeti.cohomologicalDimensionAt_le_iff`,
+  read through the alias `ProfiniteCohomology.cd_p`, this is `cd_p G ≤ n`. This is the one
+  milestone here about `cd_p` of a group that need not be pro-`p`. `ClassFieldTheory` consumes it for the cohomological dimension of a local absolute
   Galois group. The statement asks nothing of `G_p` beyond `IsProPSylow`: being closed in the
   compact `G`, it is compact, and that instance is supplied inside the statement, while total
   disconnectedness passes to the subspace by instance.
@@ -925,7 +1068,8 @@ would not agree with the standard `cd_p`.
   `ProfiniteCohomology.exists_openSubgroup_res_eq_zero_of_res_eq_zero`, step 1 of the injectivity
   above, is what reaches the closed case.
   *Needs:* L2 `IsProPSylow`; L6 `res_injective_of_isProPSylow`; PC-1 `ofDiscreteModuleRes`;
-  PC-11 `cd_p_le_iff`, `cd_p_le_of_isClosed`; M `IsClosed.isCompact`,
+  PC-11 `cd_p`, `cd_p_le_of_isClosed`; TC `TauCeti.cohomologicalDimensionAt_le_iff`,
+  `TauCeti.CohomologicalDimensionLE`, `TauCeti.IsProPSylow.isClosed`; M `IsClosed.isCompact`,
   `isCompact_iff_compactSpace`, `Subtype.totallyDisconnectedSpace`.
   *Source:* NSW (3.3.5)(i) and (3.3.6); Serre, *Galois Cohomology* I §3.3.
 - **The two-term Euler formula.** Let `G` be a topologically finitely generated pro-`p`
@@ -1005,11 +1149,15 @@ would not agree with the standard `cd_p`.
   alone: it is `0` when the torsion is trivial, and the order of the torsion otherwise.
   Worked instance: `D₀^{ab} ≅ ℤ₂² × ℤ/2`, its torsion is finite, and `q(D₀) = 2`
   (`Suggested.lean`). That instance is a computation with the presentation, and it does not
-  use the classification.
+  use the classification; it is Tau Ceti's `TauCeti.d0AbelianizationEquiv` and
+  `TauCeti.nat_card_torsion_topologicalAbelianization_demushkinD0`. `topAbelianization` is
+  Mathlib's `TopologicalAbelianization`.
   *Needs:* L4 structure theorem; L5 presentations; L7 the predicate.
   *Source:* Labute p. 106.
-- **The prescription property.** For a continuous character `χ : G → ℤ_pˣ`, write
-  `I(χ)/p^i` for `ℤ/p^i` with action `g · x = χ(g)x`. When
+- **The prescription property.** For a continuous character `χ : G →ₜ* ℤ_pˣ`, write
+  `I(χ)/p^i` for `ℤ/p^i` with action `g · x = χ(g)x`; this is Tau Ceti's twisted module
+  `TauCeti.ZModTwist χ i`, placed in the universe of `G`, with the scalar
+  `TauCeti.charScalar χ i` and the reductions `TauCeti.ZModTwist.reduce`. When
   `dim H¹(G, 𝔽_p) < ∞`, the following three conditions are equivalent (Labute Prop. 6):
   1. the reduction map `H¹(G, I(χ)/p^i) → H¹(G, I(χ)/p)` is surjective for every
      `i ≥ 1`;
@@ -1020,22 +1168,37 @@ would not agree with the standard `cd_p`.
      `(c₁, …, c_n) ∈ ℤ_p^n`, there is a compatible inverse system of continuous crossed
      homomorphisms to `I(χ)/p^i` taking `g_j` to `c_j mod p^i`.
 
-  `HasPrescriptionProperty` uses condition 1. The finite coefficient modules are primary;
-  a crossed homomorphism valued directly in `I(χ)` is introduced only after constructing
-  the inverse limit. This equivalence is the bridge from Kummer-compatible finite
-  coefficients in downstream arithmetic applications to the marked character values used
-  by the abstract classification.
-  *Needs:* L5 coefficient objects; PC-5 connecting maps and exactness.
+  `HasPrescriptionProperty` is condition 1, and it is Tau Ceti's
+  `TauCeti.HasPrescriptionProperty χ`, stated on the explicit model of continuous cohomology,
+  with its cochain criterion `TauCeti.hasPrescriptionProperty_iff`. The equivalence of
+  conditions 1 and 2 is Tau Ceti's
+  `TauCeti.hasPrescriptionProperty_iff_forall_explicitDelta1_eq_zero` and
+  `TauCeti.hasPrescriptionProperty_iff_forall_injective_explicitCoeff2_mulPow`; condition 3,
+  and the lifting of a class through every level
+  (`TauCeti.HasPrescriptionProperty.surjective_explicitCoeff1_reduce`) that it rests on, is the
+  milestone here. The finite coefficient modules are primary; a crossed homomorphism valued
+  directly in `I(χ)` is introduced only after constructing the inverse limit. This equivalence
+  is the bridge from Kummer-compatible finite coefficients in downstream arithmetic
+  applications to the marked character values used by the abstract classification. A
+  downstream application proves `TauCeti.HasPrescriptionProperty` for its own continuous
+  character and hands it to the uniqueness theorem below; there is no second prescription
+  predicate and no comparison between two of them.
+  *Needs:* L5 coefficient objects; PC-5 connecting maps and exactness; TC
+  `TauCeti.ZModTwist`, `TauCeti.HasPrescriptionProperty`, `TauCeti.hasPrescriptionProperty_iff`.
   *Source:* Labute Prop. 6.
 - **The canonical character.** For `dim H¹(G, 𝔽_p) < ∞` the three prescription conditions
-  above are equivalent, and a free pro-`p` group satisfies them for every `χ`.
-  **Theorem.** A Demushkin group has exactly one continuous `χ : G → ℤ_pˣ` with the
-  prescription property. Define `demushkinCharacter G` to be that character. Prove that its
-  image is closed, and that it is invariant under topological isomorphism; the second
-  statement is the transport lemma that the acceptance instances use. Prove
-  `Im χ = 1 + q(G)ℤ_p` only in the case `q(G) ≠ 2`. For `q(G) = 2` keep `Im χ` as a separate
-  invariant, and do not recover `q` from a containment.
-  *Needs:* L5 the coefficient objects; PC-1 `coeffMap`; L7 the predicate; L4 `ℤ_p` chain.
+  above are equivalent, and a free pro-`p` group satisfies them for every `χ`
+  (`TauCeti.freeProP.hasPrescriptionProperty`).
+  **Theorem.** A Demushkin group has exactly one continuous character `χ : G →ₜ* ℤ_pˣ` with the
+  prescription property (`existsUnique_hasPrescriptionProperty`). Define `demushkinCharacter G`,
+  a continuous homomorphism, to be that character; `demushkinCharacter_unique` says that any
+  continuous character with the prescription property is it. Prove that its image is closed,
+  and that it is invariant under topological isomorphism; the second statement is the
+  transport lemma that the acceptance instances use. Prove `Im χ = 1 + q(G)ℤ_p` only in the
+  case `q(G) ≠ 2`. For `q(G) = 2` keep `Im χ` as a separate invariant, and do not recover `q`
+  from a containment.
+  *Needs:* L5 the coefficient objects; PC-1 `coeffMap`; L7 the predicate; L4 `ℤ_p` chain; TC
+  `TauCeti.HasPrescriptionProperty`.
   *Source:* Labute Prop. 6 and Thm 4.
 - **The closed subgroups of `ℤ₂ˣ`.** This item is `ℤ_pˣ`-theory, with no cohomology. Named
   definitions first, for `f : ℕ∞` with `f ≥ 2`:
@@ -1077,6 +1240,15 @@ would not agree with the standard `cd_p`.
     explicitly. The marked classification reads its values from this table.
 
   *Needs:* L1 index; M `PadicInt`, M `PadicInt.toZModPow`, M the `p`-adic logarithm.
+  *In Tau Ceti:* `TauCeti.unitsPrincipal` and `TauCeti.unitsPlusMinus`, with
+  `TauCeti.closedSubgroup_units_two_classification`, `TauCeti.unitsPrincipal_inj`,
+  `TauCeti.unitsPlusMinus_inj`, `TauCeti.unitsPrincipal_ne_unitsPlusMinus` and its companions,
+  `TauCeti.exists_topologicalClosure_zpowers_eq_of_isClosed_of_neg_one_notMem`,
+  `TauCeti.not_exists_topologicalClosure_zpowers_eq_unitsPlusMinus`,
+  `TauCeti.index_unitsPrincipal_two`, `TauCeti.index_unitsPlusMinus`,
+  `TauCeti.relIndex_map_powMonoidHom_two_eq_one_or_two_or_four`. In `Suggested.lean`, `{±1}` is
+  `Subgroup.zpowers (-1)` and `U^[f]` is `procyclicClosure u = (Subgroup.zpowers u).topologicalClosure`
+  at `u = -1 + 2^f`, the forms Tau Ceti's classification uses.
   *Source:* the remark after the corollary to Labute Thm 4.
 
 #### Demushkin duality, concretely
@@ -1219,6 +1391,12 @@ differs, the translation is stated once.
   level. Each `λ_k` is closed, normal and characteristic, with `λ_{k+1} ≤ λ_k`. A continuous
   homomorphism satisfies `f(λ_k(G)) ≤ λ_k(H)`, with equality when `f` is surjective.
   *Needs:* L3 Frattini theory and finite generation; L0 inverse limits.
+  *In Tau Ceti:* `TauCeti.pLowerCentralSeries`, `TauCeti.isClosed_pLowerCentralSeries`,
+  `TauCeti.pLowerCentralSeries_normal`, `TauCeti.pLowerCentralSeries_antitone`,
+  `MonoidHom.map_pLowerCentralSeries_le`, `MonoidHom.map_pLowerCentralSeries_eq_of_surjective`,
+  `ContinuousMulEquiv.map_pLowerCentralSeries_eq`,
+  `TauCeti.IsTopologicallyFinitelyGenerated.isOpen_pLowerCentralSeries`,
+  `TauCeti.IsProP.exists_pLowerCentralSeries_le`, `TauCeti.pLowerCentralSeries_one_eq_proPFrattini`.
   *Source:* Ribes–Zalesskii Prop. 2.8.13 states the same for the iterated Frattini series;
   prove it for both series, because they interleave.
 - **`δ_j`, the basis-modification maps.** Let `F = freeProP p (Fin n)` with basis
@@ -1294,6 +1472,10 @@ differs, the translation is stated once.
   Also proved here: the predicate depends only on the isomorphism class of `Q`, and only on
   the topological isomorphism class of `G`.
   *Needs:* L0 open subgroups; M `FiniteGrp`.
+  *In Tau Ceti:* `TauCeti.IsFiniteContinuousQuotient`, on an unbundled finite group, with
+  `TauCeti.isFiniteContinuousQuotient_iff_exists_continuous`,
+  `TauCeti.isFiniteContinuousQuotient_congr_left` and `TauCeti.isFiniteContinuousQuotient_congr_right`;
+  `IsFiniteContinuousQuotient G Q` here is that predicate at the underlying group of `Q`.
 - **Two epimorphisms.** If `G` is topologically finitely generated, and `G` and `H` have the
   same continuous finite quotients, then there are continuous surjections `G ↠ H` and
   `H ↠ G`. The route has five steps:
@@ -1310,6 +1492,8 @@ differs, the translation is stated once.
      the other direction is symmetric once step 1 is available.
 
   *Needs:* L0 compactness lemma; L3 finite generation and the Burnside rank bound.
+  *In Tau Ceti:* `TauCeti.IsTopologicallyFinitelyGenerated.of_forall_isFiniteContinuousQuotient`,
+  `TauCeti.exists_surjective_and_exists_surjective_of_forall_isFiniteContinuousQuotient_iff`.
   ⚠ The raw bonding maps on `E(N)` are **not** surjective, so step 3 is not decoration.
   Counterexample: `H = C₄ × C₂` surjects onto `C₂` by the second projection, and that
   surjection does not factor through `C₄ ↠ C₂`, although `H` does surject onto `C₄`.
@@ -1326,6 +1510,7 @@ differs, the translation is stated once.
   easier with both hypotheses, state that weaker lemma first, and then the argument that
   removes the second hypothesis.
   *Needs:* L8 two epimorphisms; L3 Hopf property.
+  *In Tau Ceti:* `TauCeti.nonempty_continuousMulEquiv_of_forall_isFiniteContinuousQuotient_iff`.
   *Source:* Fried–Jarden; Ribes–Zalesskii Thm. 3.2.9.
 - **Corollary.** Finitely generated abstract groups with the same finite quotients have
   topologically isomorphic profinite completions.
