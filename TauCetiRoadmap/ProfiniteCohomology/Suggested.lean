@@ -2,9 +2,13 @@ import Mathlib
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Additive
 import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologicalDimension
 import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologyComparison
+import TauCeti.RepresentationTheory.Homological.ContCohomology.Coinduced.Functor
+import TauCeti.RepresentationTheory.Homological.ContCohomology.Coinduced.PreservesExactness
 import TauCeti.RepresentationTheory.Homological.ContCohomology.ConnectingMapComparison
 import TauCeti.RepresentationTheory.Homological.ContCohomology.ContinuousCohomologyIso
+import TauCeti.RepresentationTheory.Homological.ContCohomology.Corestriction.Basic
 import TauCeti.RepresentationTheory.Homological.ContCohomology.DegreeZero
+import TauCeti.RepresentationTheory.Homological.ContCohomology.DeltaNaturality
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Evens.Class
 import TauCeti.RepresentationTheory.Homological.ContCohomology.ExactCochains
 import TauCeti.RepresentationTheory.Homological.ContCohomology.ExplicitFunctoriality
@@ -17,6 +21,8 @@ import TauCeti.RepresentationTheory.Homological.ContCohomology.HomologySequence
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Inflation.ConnectingMap
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Inflation.Comparison
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Invariants
+import TauCeti.RepresentationTheory.Homological.ContCohomology.ProjectionFormula
+import TauCeti.RepresentationTheory.Homological.ContCohomology.Shapiro
 import TauCeti.RepresentationTheory.Homological.ContCohomology.SmoothDiscrete
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Transgression
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Cup.ConnectingMap
@@ -26,6 +32,8 @@ import TauCeti.FieldTheory.GaloisCohomology.BrauerTorsion
 import TauCeti.FieldTheory.GaloisCohomology.Coefficients
 import TauCeti.FieldTheory.GaloisCohomology.Hilbert90
 import TauCeti.FieldTheory.GaloisCohomology.Kummer
+import TauCeti.GroupTheory.TransversalWord
+import TauCeti.Topology.Algebra.Group.LocallyConstant
 import TauCeti.Topology.Algebra.Group.Profinite.MaximalProP
 import TauCeti.Topology.Algebra.Group.Profinite.Section
 import TauCeti.Topology.Algebra.Group.Quotient.Basic
@@ -63,17 +71,25 @@ action), the internal hom (`homAction`, `evalPairing`), the named instances `res
 the comparison isomorphisms of Layer 3 with the transport of pullback, restriction, inflation and
 coefficient maps, Layer 4's finite-quotient systems with their comparison cocones and colimit
 theorems, Layer 5's short exact sequences with the two connecting maps, the eight exactness nodes
-and the five-term sequence with the transgression, Layer 8's six explicit cups with their
-connecting-map identities, Layer 9's absolute Galois group, coefficient modules, Kummer sequence,
-Kummer map and isomorphism with its restriction square, Hilbert 90, the map `h2KummerToUnits`
-and the subgroup `galoisSubgroup` of a finite extension with its index and its identification
-with `G_L`, Layer 10's connecting map `delta` with its exactness and its restriction and
-inflation squares, the cohomological-dimension invariants of Layer 11 (`IsPPrimaryTorsion`, the
-two vanishing predicates, `cd_p`, `scd_p`, `cd`) with `isPPrimaryTorsion_continuousCohomology`,
-and Layer 13's graph cochain with its Shapiro components, the trivial `𝔽₂` object `trivialF2`
-with its restriction map, and the graph class `graphClass`. The open stabilizers and continuous
-sections of Layer 0, the comparison of `Field.absoluteGaloisGroup` with Layer 9's group and the
-strict descent of continuous cocycles in Layer 4 are `example`s proved by the Tau Ceti theorems.
+and the five-term sequence with the transgression, Layer 6's transversal word `lWord` and the
+low-degree corestrictions `explicitCor0/1/2` with their variable-transversal forms, the change of
+transversal, `cor ∘ res`, the connecting-map compatibility and the projection formula, Layer 7's
+coinduced module (`Coind`, `coindTraceRaw`, `coindTopRep`, `coindFunctor`, the exactness
+`coindFunctor_map_shortExact`, the algebraic comparison `algebraicCoindAsSmooth` and
+`topologicalCoindIsoAlgebraic`) with its explicit Shapiro isomorphisms `explicitShapiro0/1/2`,
+Layer 8's six explicit cups with their connecting-map identities, Layer 9's absolute Galois group,
+coefficient modules, Kummer sequence, Kummer map and isomorphism with its restriction square,
+Hilbert 90, the map `h2KummerToUnits` and the subgroup `galoisSubgroup` of a finite extension with
+its index and its identification with `G_L`, Layer 10's connecting map `delta` with its exactness
+and its restriction and inflation squares and the trace `coindTrace` that all-degree
+corestriction is built from, the cohomological-dimension invariants of Layer 11
+(`IsPPrimaryTorsion`, the two vanishing predicates, `cd_p`, `scd_p`, `cd`) with
+`isPPrimaryTorsion_continuousCohomology`, and Layer 13's graph cochain with its Shapiro
+components, the trivial `𝔽₂` object `trivialF2` with its restriction map, and the graph class
+`graphClass`. The open stabilizers and continuous sections of Layer 0, the comparison of
+`Field.absoluteGaloisGroup` with Layer 9's group, the strict descent of continuous cocycles in
+Layer 4, the transversal cocycle law and the two corestriction cochain identities of Layer 6 and
+the uniform local constancy of Layer 7 are `example`s proved by the Tau Ceti theorems.
 The class-module maps of Layer 11 are built from Tau Ceti's explicit restriction, inflation and
 compatible-pair pullback. Layer 11's class module is stated against Tau Ceti's
 `maximalProPQuotient` and the conjugation action on Mathlib's `TopologicalAbelianization`.
@@ -101,7 +117,7 @@ explicit model with the canonical object names both sides. Where a map is not ye
 declared here as a target with a `sorry` body, rather than left as a parameter of the law: a law
 quantified over an arbitrary morphism is not a weaker statement about the intended map, it is a
 different and false statement about every morphism. The maps still carried for that reason are
-`ofDiscreteModulePairing`, `explicitCor1`, `cochainClass`, `resLe`, `corestrictionLe`,
+`ofDiscreteModulePairing`, `cochainClass`, `resLe`, `corestrictionLe`,
 `conjOpenSubgroup`, `conjMapOf`, `powerClassNorm`, `kummerCor`, `f2Pairing`, `cupFamily`,
 `trivialF2Quotient`, `trivialF2InflSub`, `evensNormLe`, `homClass`, `galoisF2Iso`,
 `explicitH2CyclicEquiv`, `abelianizationProPSubgroupOfEquiv` and `abelianizationProPTransferLe`.
@@ -132,11 +148,12 @@ and only the sum is given a class.
 
 Also prototyped: trivial-action `H¹` worked examples through `ContinuousAddMonoidHom` and the two
 topological facts the Layer 3 comparison rests on (Layers 2 and 3); the exactness of discrete
-cochain lifting (Layer 5); the corestriction transversal calculus for a **variable** transversal,
-with the representative action that general coefficients force (Layer 6); the coinduced module,
-the uniform local constancy behind it, the trace morphism all-degree corestriction is built from,
-and the descent of a vanishing restriction from a closed subgroup to an open one (Layers 7 and
-10); two cup-product cocycle identities and the `C₂` nontriviality anchor (Layer 8); the
+cochain lifting (Layer 5); the canonical Shapiro map `shapiroMap`, induced by the comparison
+cochain map `shapiroCochainMap`, with Shapiro's lemma in every degree as the statement that this
+cochain map is a quasi-isomorphism (`isIso_shapiroMap`, `quasiIso_shapiroCochainMap`) and
+`shapiroIso` the resulting isomorphism, and the descent of a vanishing restriction from a closed
+subgroup to an open one (Layer 10); two cup-product cocycle identities and the `C₂` nontriviality
+anchor (Layer 8); the
 general-`n` Kummer cocycle, the norm square of the Kummer isomorphism, and the field-extension
 bridge `galoisSubgroup` with its restriction, corestriction and norm (Layer 9);
 the order-theoretic wrapper `leastENatBound`, the `p`-primary torsion of the cohomology of
@@ -931,66 +948,90 @@ noncomputable abbrev explicitInfl2 (N : Subgroup G) [N.Normal]
     H2 (G ⧸ N) (Invariants N M) →+ H2 G M :=
   TauCeti.ContCohomology.explicitInfl2 G M N
 
-/-- **Layer 6, variable-transversal corestriction in degree 0.** Finite index is data: openness
-alone does not make the quotient finite for a general topological group. -/
-noncomputable def explicitCor0Transversal (U : OpenSubgroup G)
+/-- **Layer 6, variable-transversal corestriction in degree 0,** the norm
+`m ↦ ∑ u, t u • m`: Tau Ceti's `TauCeti.ContCohomology.explicitCor0Transversal`
+(`TauCeti/RepresentationTheory/Homological/ContCohomology/Corestriction/Basic.lean`). Finite index
+is data: openness alone does not make the quotient finite for a general topological group. The
+six corestrictions of this block are Tau Ceti's, which take `U : Subgroup G` with
+`[U.FiniteIndex]` and, in degrees 1 and 2, `IsOpen (U : Set G)`; this roadmap reads them at an
+`OpenSubgroup` with a `Fintype` quotient, and the finite index comes from the finite quotient
+(`Subgroup.finiteIndex_of_finite_quotient`). That repackaging is the only adaptation. -/
+noncomputable abbrev explicitCor0Transversal (U : OpenSubgroup G)
     [Fintype (G ⧸ U.toSubgroup)] (t : G ⧸ U.toSubgroup → G)
     (ht : ∀ x, QuotientGroup.mk (t x) = x) : H0 U.toSubgroup M →+ H0 G M :=
-  sorry
+  haveI : U.toSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
+  TauCeti.ContCohomology.explicitCor0Transversal G M U.toSubgroup t ht
 
-/-- **Layer 6, variable-transversal corestriction in degree 1.** -/
-noncomputable def explicitCor1Transversal (U : OpenSubgroup G)
+/-- **Layer 6, variable-transversal corestriction in degree 1,**
+`(cor¹_t f) γ = ∑ u, t u • f (ℓᵗ_u γ)`: Tau Ceti's
+`TauCeti.ContCohomology.explicitCor1Transversal`, the class of its cochain `cochainsCor1`. -/
+noncomputable abbrev explicitCor1Transversal (U : OpenSubgroup G)
     [Fintype (G ⧸ U.toSubgroup)] (t : G ⧸ U.toSubgroup → G)
     (ht : ∀ x, QuotientGroup.mk (t x) = x) : H1 U.toSubgroup M →+ H1 G M :=
-  sorry
+  haveI : U.toSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
+  TauCeti.ContCohomology.explicitCor1Transversal G M U.toSubgroup t ht U.isOpen
 
-/-- **Layer 6, variable-transversal corestriction in degree 2.** -/
-noncomputable def explicitCor2Transversal (U : OpenSubgroup G)
+/-- **Layer 6, variable-transversal corestriction in degree 2,**
+`(cor²_t f) (γ, η) = ∑ u, t u • f (ℓᵗ_u γ, ℓᵗ_{γ⁻¹ • u} η)`: Tau Ceti's
+`TauCeti.ContCohomology.explicitCor2Transversal`, the class of its cochain `cochainsCor2`. -/
+noncomputable abbrev explicitCor2Transversal (U : OpenSubgroup G)
     [Fintype (G ⧸ U.toSubgroup)] (t : G ⧸ U.toSubgroup → G)
     (ht : ∀ x, QuotientGroup.mk (t x) = x) : H2 U.toSubgroup M →+ H2 G M :=
-  sorry
+  haveI : U.toSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
+  TauCeti.ContCohomology.explicitCor2Transversal G M U.toSubgroup t ht U.isOpen
 
 /-- **Layer 6, change of transversal in degree 0.** The cochain formula is independent after
-passing to invariants. -/
+passing to invariants: Tau Ceti's `TauCeti.ContCohomology.explicitCor0_changeTransversal`. -/
 theorem explicitCor0_changeTransversal (U : OpenSubgroup G) [Fintype (G ⧸ U.toSubgroup)]
     (t t' : G ⧸ U.toSubgroup → G) (ht : ∀ x, QuotientGroup.mk (t x) = x)
     (ht' : ∀ x, QuotientGroup.mk (t' x) = x) :
     explicitCor0Transversal G M U t ht = explicitCor0Transversal G M U t' ht' :=
-  sorry
+  haveI : U.toSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
+  TauCeti.ContCohomology.explicitCor0_changeTransversal G M U.toSubgroup t t' ht ht'
 
 /-- **Layer 6, change of transversal in degree 1,** after the named coboundary identity on
-representatives. -/
+representatives (`TauCeti.ContCohomology.cochainsCor1_changeTransversal`): Tau Ceti's
+`TauCeti.ContCohomology.explicitCor1_changeTransversal`. -/
 theorem explicitCor1_changeTransversal (U : OpenSubgroup G) [Fintype (G ⧸ U.toSubgroup)]
     (t t' : G ⧸ U.toSubgroup → G) (ht : ∀ x, QuotientGroup.mk (t x) = x)
     (ht' : ∀ x, QuotientGroup.mk (t' x) = x) :
     explicitCor1Transversal G M U t ht = explicitCor1Transversal G M U t' ht' :=
-  sorry
+  haveI : U.toSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
+  TauCeti.ContCohomology.explicitCor1_changeTransversal G M U.toSubgroup t ht U.isOpen t' ht'
 
 /-- **Layer 6, change of transversal in degree 2,** after the named continuous 1-cochain
-coboundary identity. -/
+coboundary identity (`TauCeti.ContCohomology.cochainsCor2_changeTransversal`): Tau Ceti's
+`TauCeti.ContCohomology.explicitCor2_changeTransversal`. -/
 theorem explicitCor2_changeTransversal (U : OpenSubgroup G) [Fintype (G ⧸ U.toSubgroup)]
     (t t' : G ⧸ U.toSubgroup → G) (ht : ∀ x, QuotientGroup.mk (t x) = x)
     (ht' : ∀ x, QuotientGroup.mk (t' x) = x) :
     explicitCor2Transversal G M U t ht = explicitCor2Transversal G M U t' ht' :=
-  sorry
+  haveI : U.toSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
+  TauCeti.ContCohomology.explicitCor2_changeTransversal G M U.toSubgroup t ht U.isOpen t' ht'
 
 /-- **Layer 6, public corestriction on the explicit model in degree 0,** the norm at
-`t = Quotient.out`. -/
-noncomputable def explicitCor0 (U : OpenSubgroup G) [Fintype (G ⧸ U.toSubgroup)] :
+`t = Quotient.out`: Tau Ceti's `TauCeti.ContCohomology.explicitCor0`. -/
+noncomputable abbrev explicitCor0 (U : OpenSubgroup G) [Fintype (G ⧸ U.toSubgroup)] :
     H0 U.toSubgroup M →+ H0 G M :=
-  sorry
+  haveI : U.toSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
+  TauCeti.ContCohomology.explicitCor0 G M U.toSubgroup
 
 /-- **Layer 6, public corestriction on the explicit model in degree 1,** the
-`t = Quotient.out` specialization. -/
-noncomputable def explicitCor1 (U : OpenSubgroup G) [Fintype (G ⧸ U.toSubgroup)] :
+`t = Quotient.out` specialization: Tau Ceti's `TauCeti.ContCohomology.explicitCor1`, computed along
+any transversal by `explicitCor1_eq_transversal`. -/
+noncomputable abbrev explicitCor1 (U : OpenSubgroup G) [Fintype (G ⧸ U.toSubgroup)] :
     H1 U.toSubgroup M →+ H1 G M :=
-  sorry
+  haveI : U.toSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
+  TauCeti.ContCohomology.explicitCor1 G M U.toSubgroup U.isOpen
 
 /-- **Layer 6, public corestriction on the explicit model in degree 2,** the
-`t = Quotient.out` specialization with two nested transversal words. -/
-noncomputable def explicitCor2 (U : OpenSubgroup G) [Fintype (G ⧸ U.toSubgroup)] :
+`t = Quotient.out` specialization with two nested transversal words: Tau Ceti's
+`TauCeti.ContCohomology.explicitCor2`, computed along any transversal by
+`explicitCor2_eq_transversal`. -/
+noncomputable abbrev explicitCor2 (U : OpenSubgroup G) [Fintype (G ⧸ U.toSubgroup)] :
     H2 U.toSubgroup M →+ H2 G M :=
-  sorry
+  haveI : U.toSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
+  TauCeti.ContCohomology.explicitCor2 G M U.toSubgroup U.isOpen
 
 /-- **Layer 3, transport of inflation.** Stated in the same shape as restriction, with the
 quotient in place of the subgroup, and with the coefficient map of the dictionary morphism
@@ -1532,23 +1573,28 @@ theorem explicitDelta1_res (S : DiscreteShortExact G A B C) (T : Subgroup G) (x 
   TauCeti.ContCohomology.DiscreteShortExact.explicitDelta1_res S T x
 
 /-- **Layer 6, corestriction commutes with `δ⁰`** (NSW (1.5.2)). The sequence on `U` is the
-restriction of the sequence on `G`, so both sides name the same two coefficient maps. -/
+restriction of the sequence on `G`, so both sides name the same two coefficient maps. Tau Ceti's
+`TauCeti.ContCohomology.DiscreteShortExact.explicitCor_delta0`
+(`TauCeti/RepresentationTheory/Homological/ContCohomology/DeltaNaturality.lean`). -/
 theorem explicitCor_delta0 (S : DiscreteShortExact G A B C) (U : OpenSubgroup G)
     [Fintype (G ⧸ U.toSubgroup)]
     (x : H0 U.toSubgroup C) :
     explicitCor1 G A U
         (explicitDelta0 U.toSubgroup A B C (S.restrict G A B C U.toSubgroup) x) =
       explicitDelta0 G A B C S (explicitCor0 G C U x) :=
-  sorry
+  haveI : U.toSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
+  TauCeti.ContCohomology.DiscreteShortExact.explicitCor_delta0 S U.toSubgroup U.isOpen x
 
-/-- **Layer 6, corestriction commutes with `δ¹`.** -/
+/-- **Layer 6, corestriction commutes with `δ¹`:** Tau Ceti's
+`TauCeti.ContCohomology.DiscreteShortExact.explicitCor_delta1`. -/
 theorem explicitCor_delta1 (S : DiscreteShortExact G A B C) (U : OpenSubgroup G)
     [Fintype (G ⧸ U.toSubgroup)]
     (y : H1 U.toSubgroup C) :
     explicitCor2 G A U
         (explicitDelta1 U.toSubgroup A B C (S.restrict G A B C U.toSubgroup) y) =
       explicitDelta1 G A B C S (explicitCor1 G C U y) :=
-  sorry
+  haveI : U.toSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
+  TauCeti.ContCohomology.DiscreteShortExact.explicitCor_delta1 S U.toSubgroup U.isOpen y
 
 /-- **Layer 10, the connecting map of the long exact sequence in every degree,** against the
 canonical object. Layer 5 builds degrees 0 and 1 on the explicit model; this is the all-degree
@@ -1816,32 +1862,38 @@ end FiveTermSequence
 /-- **Layer 6, the transversal word** `ℓᵗ_u(γ) = (t u)⁻¹ * γ * t (γ⁻¹ • u)`, for a
 **variable** transversal `t : G ⧸ U → G`. The transversal is a variable and not `Quotient.out`
 from the start, because independence of the transversal is a theorem of Layer 6 and cannot
-even be stated otherwise. -/
-def lWord {G : Type*} [Group G] (U : Subgroup G) (t : G ⧸ U → G) (u : G ⧸ U) (γ : G) : G :=
-  (t u)⁻¹ * γ * t (γ⁻¹ • u)
+even be stated otherwise. Tau Ceti's `TauCeti.lWord`
+(`TauCeti/GroupTheory/TransversalWord.lean`), with `TauCeti.transversal_mul_lWord`, and its
+continuity for open `U` is `TauCeti.continuous_lWord`. -/
+abbrev lWord {G : Type*} [Group G] (U : Subgroup G) (t : G ⧸ U → G) (u : G ⧸ U) (γ : G) : G :=
+  TauCeti.lWord U t u γ
 
-/-- **Layer 6, the transversal word takes its value in `U`.** -/
+/-- **Layer 6, the transversal word takes its value in `U`,** Tau Ceti's `TauCeti.lWord_mem`. -/
 theorem lWord_mem {G : Type*} [Group G] (U : Subgroup G) (t : G ⧸ U → G)
     (ht : ∀ x : G ⧸ U, QuotientGroup.mk (t x) = x) (u : G ⧸ U) (γ : G) : lWord U t u γ ∈ U :=
-  sorry
+  TauCeti.lWord_mem U t ht u γ
 
 /-- **Layer 6, the transversal 1-cocycle law.** `ℓᵗ_u(γ) * ℓᵗ_{γ⁻¹ • u}(η) = ℓᵗ_u(γ * η)`:
 pure group theory, with no normality, no finite index, and no condition on `t` at all. This
-identity is why the degree-2 corestriction sum is a cocycle. -/
+identity is why the degree-2 corestriction sum is a cocycle. Tau Ceti's
+`TauCeti.lWord_mul_lWord`. -/
 example {G : Type*} [Group G] (U : Subgroup G) (t : G ⧸ U → G) (u : G ⧸ U) (γ η : G) :
     lWord U t u γ * lWord U t (γ⁻¹ • u) η = lWord U t u (γ * η) :=
-  sorry
+  TauCeti.lWord_mul_lWord U t u γ η
 
+attribute [local instance] Subgroup.fintypeQuotientOfFiniteIndex in
 /-- **Layer 6, corestriction in degree 1, with general coefficients.** The corestriction of a
 1-cocycle of `U` is `(cor¹_t f) γ = ∑ u, t u • f (ℓᵗ_u γ)`, and the factor `t u •` is forced:
 the proof rewrites `t u * ℓᵗ_u(γ) = γ * t (γ⁻¹ • u)` and reindexes, and without the action
 the sum is not a cocycle. A trivial-action formula that omits the factor is correct for trivial
 coefficients and wrong in general. The input is a cocycle **on `U`**, since that is all a
-class of `H¹(U, M)` is, and the transversal word is fed to it through its membership proof. -/
+class of `H¹(U, M)` is, and the transversal word is fed to it through its membership proof. The
+sum is Tau Ceti's cochain `TauCeti.ContCohomology.cochainsCor1`, a cocycle by
+`cochainsCor1_isCocycle₁` and continuous by `continuous_cochainsCor1`. -/
 example {G : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
     {M : Type*} [AddCommGroup M] [TopologicalSpace M] [DiscreteTopology M]
     [DistribMulAction G M] [ContinuousSMul G M]
-    (U : OpenSubgroup G) [Fintype (G ⧸ U.toSubgroup)] (t : G ⧸ U.toSubgroup → G)
+    (U : OpenSubgroup G) [U.toSubgroup.FiniteIndex] (t : G ⧸ U.toSubgroup → G)
     (ht : ∀ x : G ⧸ U.toSubgroup, QuotientGroup.mk (t x) = x)
     (f : U.toSubgroup → M) (hf : Continuous f) (hcoc : groupCohomology.IsCocycle₁ f) :
     groupCohomology.IsCocycle₁
@@ -1849,21 +1901,25 @@ example {G : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
           lWord_mem U.toSubgroup t ht u γ⟩) ∧
       Continuous (fun γ : G ↦ ∑ u : G ⧸ U.toSubgroup, t u • f ⟨lWord U.toSubgroup t u γ,
         lWord_mem U.toSubgroup t ht u γ⟩) :=
-  sorry
+  ⟨TauCeti.ContCohomology.cochainsCor1_isCocycle₁ G M U.toSubgroup t ht hcoc,
+    TauCeti.ContCohomology.continuous_cochainsCor1 G M U.toSubgroup t ht U.isOpen hf⟩
 
+attribute [local instance] Subgroup.fintypeQuotientOfFiniteIndex in
 /-- **Layer 6, `cor ∘ res` is the index only after passing to cohomology.** On cochains the
 composite differs from `(G : U) • f` by the coboundary of `c = ∑ u, f (t u)`, so the roadmap
 states `cor ∘ res = (G : U) • id` on `H⁰`, `H¹` and `H²` and never as a cochain identity in
 positive degrees. The analogous degree-2 statement replaces `c` by an explicit continuous
-1-cochain. Here `f` is a cocycle on all of `G`, since the composite starts by restricting
-it. -/
+1-cochain (Tau Ceti's `TauCeti.ContCohomology.cochainsCor2_res`). Here `f` is a cocycle on all of
+`G`, since the composite starts by restricting it. Tau Ceti's
+`TauCeti.ContCohomology.cochainsCor1_res`, evaluated at `γ`. -/
 example {G : Type*} [Group G] {M : Type*} [AddCommGroup M] [DistribMulAction G M]
-    (U : Subgroup G) [Fintype (G ⧸ U)] (t : G ⧸ U → G)
+    (U : Subgroup G) [U.FiniteIndex] (t : G ⧸ U → G)
     (ht : ∀ x : G ⧸ U, QuotientGroup.mk (t x) = x)
     (f : G → M) (hf : groupCohomology.IsCocycle₁ f) (γ : G) :
     ∑ u : G ⧸ U, t u • f (lWord U t u γ) =
-      U.index • f γ + (γ • (∑ v : G ⧸ U, f (t v)) - ∑ v : G ⧸ U, f (t v)) :=
-  sorry
+      U.index • f γ + (γ • (∑ v : G ⧸ U, f (t v)) - ∑ v : G ⧸ U, f (t v)) := by
+  have h := congrFun (TauCeti.ContCohomology.cochainsCor1_res G M U t ht hf) γ
+  simpa [TauCeti.ContCohomology.d0_apply, Finset.smul_sum] using h
 
 section LowDegreeCorestrictionLaws
 
@@ -1872,20 +1928,28 @@ variable (G : Type u) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
   [DiscreteTopology M] [DistribMulAction G M] [ContinuousSMul G M]
   (U : OpenSubgroup G) [Fintype (G ⧸ U.toSubgroup)]
 
-/-- **Layer 6, `cor ∘ res = index` in degree 0.** -/
+/-- **Layer 6, `cor ∘ res = index` in degree 0:** Tau Ceti's
+`TauCeti.ContCohomology.explicitCor0_comp_res0`. -/
 theorem explicitCor_comp_res0 (x : H0 G M) :
     explicitCor0 G M U (explicitRes0 G M U.toSubgroup x) = U.toSubgroup.index • x :=
-  sorry
+  haveI : U.toSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
+  TauCeti.ContCohomology.explicitCor0_comp_res0 G M U.toSubgroup x
 
-/-- **Layer 6, `cor ∘ res = index` in degree 1,** after the explicit coboundary correction. -/
+/-- **Layer 6, `cor ∘ res = index` in degree 1,** after the explicit coboundary correction
+`TauCeti.ContCohomology.cochainsCor1_res`: Tau Ceti's
+`TauCeti.ContCohomology.explicitCor1_comp_res1`. -/
 theorem explicitCor_comp_res1 (x : H1 G M) :
     explicitCor1 G M U (explicitRes1 G M U.toSubgroup x) = U.toSubgroup.index • x :=
-  sorry
+  haveI : U.toSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
+  TauCeti.ContCohomology.explicitCor1_comp_res1 G M U.toSubgroup U.isOpen x
 
-/-- **Layer 6, `cor ∘ res = index` in degree 2,** after the explicit 1-cochain correction. -/
+/-- **Layer 6, `cor ∘ res = index` in degree 2,** after the explicit 1-cochain correction
+`TauCeti.ContCohomology.cochainsCor2_res`: Tau Ceti's
+`TauCeti.ContCohomology.explicitCor2_comp_res2`. -/
 theorem explicitCor_comp_res2 (x : H2 G M) :
     explicitCor2 G M U (explicitRes2 G M U.toSubgroup x) = U.toSubgroup.index • x :=
-  sorry
+  haveI : U.toSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
+  TauCeti.ContCohomology.explicitCor2_comp_res2 G M U.toSubgroup U.isOpen x
 
 end LowDegreeCorestrictionLaws
 
@@ -1894,29 +1958,77 @@ end LowDegreeCorestrictionLaws
 /-- **Layer 7, uniform local constancy.** On a compact topological group a locally constant
 function is uniformly locally constant: its stabilizer under right translation is open. This
 is why the coinduced module `Coind_H^G A` of locally constant `H`-equivariant maps is again a
-*discrete* `G`-module, which the Shapiro layer needs. -/
+*discrete* `G`-module, which the Shapiro layer needs. Tau Ceti's
+`TauCeti.isOpen_rightTranslationStabilizer`
+(`TauCeti/Topology/Algebra/Group/LocallyConstant.lean`), the set being the subgroup
+`TauCeti.rightTranslationStabilizer f`. -/
 example {G : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G]
     {A : Type*} (f : G → A) (hf : IsLocallyConstant f) :
     IsOpen {g : G | ∀ x : G, f (x * g) = f x} :=
-  sorry
+  TauCeti.isOpen_rightTranslationStabilizer hf
 
 /-- **Layer 7, the coinduced module.** The locally constant `H`-equivariant maps `G → A`, which
-is Milne's `M_*` and Ribes-Zalesskii's `Coind_H^G`. The previous statement is why it is again a
-*discrete* `G`-module. -/
-def Coind (G : Type*) [Group G] [TopologicalSpace G] (U : Subgroup G)
-    (A : Type*) [AddCommGroup A] [DistribMulAction U A] : AddSubgroup (G → A) where
-  carrier := {f | IsLocallyConstant f ∧ ∀ (u : U) (g : G), f ((u : G) * g) = u • f g}
-  add_mem' {a b} ha hb := ⟨ha.1.add hb.1, fun u g => by simp [ha.2 u g, hb.2 u g, smul_add]⟩
-  zero_mem' := ⟨IsLocallyConstant.const 0, fun u g => by simp⟩
-  neg_mem' {a} ha := ⟨ha.1.neg, fun u g => by simp [ha.2 u g, smul_neg]⟩
+is Milne's `M_*` and Ribes-Zalesskii's `Coind_H^G`, with the right-translation action. The
+previous statement is why it is again a *discrete* `G`-module. Tau Ceti's `TauCeti.coind`
+(`TauCeti/RepresentationTheory/Homological/ContCohomology/Coinduced.lean`), with its action
+`TauCeti.instDistribMulActionCoind`, its functoriality `TauCeti.coindMap` and its exactness
+(`TauCeti.coindMap_injective`, `TauCeti.coindMap_range_eq_ker`, and `TauCeti.coindMap_surjective`
+for closed `U`). The same group with the discrete topology is `TauCeti.DiscreteCoind G U A`
+(`Coinduced/Discrete.lean`), a discrete `G`-module for compact `G`
+(`TauCeti.DiscreteCoind.instContinuousSMul`), and it is the coefficient module of the explicit
+Shapiro isomorphisms below. -/
+abbrev Coind (G : Type*) [Group G] [TopologicalSpace G] (U : Subgroup G)
+    (A : Type*) [AddCommGroup A] [DistribMulAction U A] : AddSubgroup (G → A) :=
+  TauCeti.coind G U A
 
-/-- **Layer 7, the trace on the underlying carrier,** `f ↦ ∑_{gU} g • f (g⁻¹)`. This is the
-elementwise formula; the object all-degree corestriction actually consumes is the bundled
-`coindTrace` below, and the two agree by construction. -/
-noncomputable def coindTraceRaw {G : Type*} [Group G] [TopologicalSpace G] (U : Subgroup G)
+/-- **Layer 7, the trace on the underlying carrier,** `f ↦ ∑_{gU} g • f (g⁻¹)`: Tau Ceti's
+`TauCeti.coindTrace`, which is `G`-equivariant (`TauCeti.coindTrace_smul`), natural in the
+coefficients (`TauCeti.coindTrace_coindMap`), and computed along any transversal
+(`TauCeti.coindTrace_eq_sum_transversal`). Tau Ceti takes `[U.FiniteIndex]`, which comes here from
+the finite quotient. This is the elementwise formula; the object all-degree corestriction consumes
+is the bundled `coindTrace` below, Tau Ceti's `TauCeti.coindTraceHom`, which acts by this map on
+the discrete carrier (`TauCeti.coindTraceHom_apply`). -/
+noncomputable abbrev coindTraceRaw {G : Type*} [Group G] [TopologicalSpace G] (U : Subgroup G)
     [Fintype (G ⧸ U)] (M : Type*) [AddCommGroup M] [DistribMulAction G M] :
     Coind G U M →+ M :=
-  sorry
+  haveI : U.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
+  TauCeti.coindTrace G U
+
+section ExplicitShapiro
+
+variable {G : Type u} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+  [CompactSpace G] [TotallyDisconnectedSpace G]
+  (H : Subgroup G) (A : Type*) [AddCommGroup A] [TopologicalSpace A] [DiscreteTopology A]
+  [DistribMulAction H A] [ContinuousSMul H A]
+
+/-- **Layer 7, explicit Shapiro in degree 0,** `H⁰(G, Coind_H^G A) ≃+ H⁰(H, A)`, on the discrete
+carrier `TauCeti.DiscreteCoind G H A` of `Coind`: evaluation at `1`, with the constant functions
+as inverse (`TauCeti.ContCohomology.explicitShapiro0_apply`, `explicitShapiro0_symm_apply`). Tau
+Ceti's `TauCeti.ContCohomology.explicitShapiro0`
+(`TauCeti/RepresentationTheory/Homological/ContCohomology/Shapiro.lean`). This degree needs no
+closedness of `H`. -/
+noncomputable abbrev explicitShapiro0 : H0 G (TauCeti.DiscreteCoind G H A) ≃+ H0 H A :=
+  TauCeti.ContCohomology.explicitShapiro0 G H A
+
+/-- **Layer 7, explicit Shapiro in degree 1,** for a closed subgroup `H`. The forward map is
+restriction to `H` followed by evaluation at `1`, the compatible-pair pullback `explicitMap1` at
+that pair (`TauCeti.ContCohomology.explicitShapiro1_apply`, `explicitShapiroMap1`), and involves no
+choice; the inverse is the section formula for **every** continuous right-coset factorization of
+`G` over `H` (`TauCeti.ContCohomology.explicitShapiro1_symm_apply`), which is where Layer 0's
+continuous section enters. Tau Ceti's `TauCeti.ContCohomology.explicitShapiro1`. -/
+noncomputable abbrev explicitShapiro1 (hH : IsClosed (H : Set G)) :
+    H1 G (TauCeti.DiscreteCoind G H A) ≃+ H1 H A :=
+  TauCeti.ContCohomology.explicitShapiro1 G H A hH
+
+/-- **Layer 7, explicit Shapiro in degree 2,** for a closed subgroup `H`, with the same forward map
+and the normalized section formula for its inverse
+(`TauCeti.ContCohomology.explicitShapiro2_symm_apply`). Tau Ceti's
+`TauCeti.ContCohomology.explicitShapiro2`. -/
+noncomputable abbrev explicitShapiro2 (hH : IsClosed (H : Set G)) :
+    H2 G (TauCeti.DiscreteCoind G H A) ≃+ H2 H A :=
+  TauCeti.ContCohomology.explicitShapiro2 G H A hH
+
+end ExplicitShapiro
 
 section AllDegreeCorestriction
 
@@ -1939,101 +2051,146 @@ noncomputable def resSmooth (S : Subgroup G) (X : TopRep R G) (hX : IsSmoothDisc
     SmoothDiscreteTopRep R S :=
   ⟨(TopRep.resFunctor S.subtype).obj X, hX.res R S⟩
 
-/-- **Layer 7, the coinduced object, bundled.** `Coind_H^G A` with its right-translation action.
-The coefficients are **smooth discrete** on both sides, and that is not a convenience: the carrier
-`Coind` above is the group of **locally constant** equivariant maps, which for a non-discrete
-coefficient object is not the continuous coinduction, so an all-`TopRep` signature would advertise
-a construction this one is not. Profiniteness of `G` and closedness of `H` give smoothness of the
-result: uniform local constancy on a **compact** group is what makes the right-translation
-stabilizer open, and without it a locally constant function need have no common open translation
-stabilizer. -/
-noncomputable def coindTopRep (H : Subgroup G) (hH : IsClosed (H : Set G))
-    (A : SmoothDiscreteTopRep R H) : SmoothDiscreteTopRep R G := sorry
+/-- **Layer 7, the coinduced object, bundled.** `Coind_H^G A` with its right-translation action,
+as a smooth discrete representation: Tau Ceti's `TauCeti.coindTopRep`
+(`TauCeti/RepresentationTheory/Homological/ContCohomology/Coinduced/Functor.lean`), the discrete
+carrier `TauCeti.DiscreteCoind` of `Coind` carried through Layer 1's dictionary. The coefficients
+are **smooth discrete** on both sides, and that is not a convenience: the carrier `Coind` above is
+the group of **locally constant** equivariant maps, which for a non-discrete coefficient object is
+not the continuous coinduction, so an all-`TopRep` signature would advertise a construction this
+one is not. Compactness of `G` gives smoothness of the result: uniform local constancy on a
+**compact** group is what makes the right-translation stabilizer open, and without it a locally
+constant function need have no common open translation stabilizer. The object needs no closedness
+of `H`; closedness enters in exactness on the right and in Shapiro's lemma. -/
+noncomputable abbrev coindTopRep (H : Subgroup G) (A : SmoothDiscreteTopRep R H) :
+    SmoothDiscreteTopRep R G :=
+  TauCeti.coindTopRep R G H A
 
-/-- **Layer 7, coinduction is a functor** between the smooth discrete subcategories. -/
-noncomputable def coindFunctor (H : Subgroup G) (hH : IsClosed (H : Set G)) :
-    SmoothDiscreteTopRep R H ⥤ SmoothDiscreteTopRep R G := sorry
+/-- **Layer 7, coinduction is a functor** between the smooth discrete subcategories: Tau Ceti's
+`TauCeti.coindFunctor`, whose counit is evaluation at `1` (`TauCeti.coindCounit`, natural as
+`TauCeti.coindCounitNatTrans`). -/
+noncomputable abbrev coindFunctor (H : Subgroup G) :
+    SmoothDiscreteTopRep R H ⥤ SmoothDiscreteTopRep R G :=
+  TauCeti.coindFunctor R G H
 
-/-- **Layer 7, the functor agrees with the object construction.** -/
-theorem coindFunctor_obj (H : Subgroup G) (hH : IsClosed (H : Set G))
-    (A : SmoothDiscreteTopRep R H) :
-    (coindFunctor R H hH).obj A = coindTopRep R H hH A :=
-  sorry
+/-- **Layer 7, the functor agrees with the object construction,** Tau Ceti's
+`TauCeti.coindFunctor_obj`. -/
+theorem coindFunctor_obj (H : Subgroup G) (A : SmoothDiscreteTopRep R H) :
+    (coindFunctor R H).obj A = coindTopRep R H A :=
+  TauCeti.coindFunctor_obj R G H A
 
-/-- **Layer 7, exactness of coinduction,** which is where Layer 0's continuous section of
-`G → G ⧸ H` is used, and hence where closedness of `H` enters. Stated as preservation of the two
-one-sided properties, which is the form the long exact sequence and Shapiro consume, and stated in
-the smooth discrete subcategory, which is where the section argument applies. -/
-theorem coindFunctor_preservesEpimorphisms (H : Subgroup G) (hH : IsClosed (H : Set G)) :
-    (coindFunctor R H hH).PreservesEpimorphisms :=
-  sorry
-
-/-- **Layer 7, the other half of exactness.** -/
-theorem coindFunctor_preservesMonomorphisms (H : Subgroup G) (hH : IsClosed (H : Set G)) :
-    (coindFunctor R H hH).PreservesMonomorphisms :=
-  sorry
-
-noncomputable instance coindFunctor_preservesZeroMorphisms (H : Subgroup G)
-    (hH : IsClosed (H : Set G)) : (coindFunctor R H hH).PreservesZeroMorphisms :=
-  sorry
-
-/-- **Layer 7, exactness of coinduction on a specified short exact sequence.** This includes
-exactness at the middle object; preservation of monos and epis alone is not used as a substitute. -/
+/-- **Layer 7, exactness of coinduction on a specified short exact sequence,** which is where
+Layer 0's continuous section of `G → G ⧸ H` is used, and hence where closedness of `H` enters: an
+injective map followed by a surjective one, exact at the middle object, is carried to maps with the
+same three properties. Exactness at the middle object is part of the statement; preservation of
+monomorphisms and epimorphisms alone is not a substitute. Tau Ceti's
+`TauCeti.coindFunctor_map_shortExact` (`Coinduced/PreservesExactness.lean`), the functorial form of
+`TauCeti.ContCohomology.DiscreteShortExact.coind`. -/
 theorem coindFunctor_map_shortExact (H : Subgroup G) (hH : IsClosed (H : Set G))
-    {S : ShortComplex (SmoothDiscreteTopRep R H)} (hS : S.ShortExact) :
-    (S.map (coindFunctor R H hH)).ShortExact :=
+    {A B C : SmoothDiscreteTopRep R H} (f : A ⟶ B) (g : B ⟶ C)
+    (hf : Function.Injective f.hom.hom) (hg : Function.Surjective g.hom.hom)
+    (hex : Function.Exact f.hom.hom g.hom.hom) :
+    Function.Injective ((coindFunctor R H).map f).hom.hom ∧
+      Function.Surjective ((coindFunctor R H).map g).hom.hom ∧
+      Function.Exact ((coindFunctor R H).map f).hom.hom ((coindFunctor R H).map g).hom.hom :=
+  TauCeti.coindFunctor_map_shortExact R G H hH f g hf hg hex
+
+/-- **Layer 7, coinduction from a closed subgroup preserves epimorphisms.** The epimorphisms of
+smooth discrete representations are the surjections, so this is the surjectivity half of
+`coindFunctor_map_shortExact` read in the category. -/
+theorem coindFunctor_preservesEpimorphisms (H : Subgroup G) (hH : IsClosed (H : Set G)) :
+    (coindFunctor R H).PreservesEpimorphisms :=
   sorry
 
-/-- **Layer 7, explicit Shapiro in degree 0.** The forward map is evaluation at `1`; its inverse
-uses the continuous quotient section. -/
-noncomputable def explicitShapiro0 (H : Subgroup G) (hH : IsClosed (H : Set G))
-    (A : SmoothDiscreteTopRep R H) :
-    H0 G ((ofSmoothDiscrete R G).obj (coindTopRep R H hH A)).V ≃+
-      H0 H ((ofSmoothDiscrete R H).obj A).V :=
-  sorry
-
-/-- **Layer 7, explicit Shapiro in degree 1.** -/
-noncomputable def explicitShapiro1 (H : Subgroup G) (hH : IsClosed (H : Set G))
-    (A : SmoothDiscreteTopRep R H) :
-    H1 G ((ofSmoothDiscrete R G).obj (coindTopRep R H hH A)).V ≃+
-      H1 H ((ofSmoothDiscrete R H).obj A).V :=
-  sorry
-
-/-- **Layer 7, explicit Shapiro in degree 2.** -/
-noncomputable def explicitShapiro2 (H : Subgroup G) (hH : IsClosed (H : Set G))
-    (A : SmoothDiscreteTopRep R H) :
-    H2 G ((ofSmoothDiscrete R G).obj (coindTopRep R H hH A)).V ≃+
-      H2 H ((ofSmoothDiscrete R H).obj A).V :=
+/-- **Layer 7, coinduction preserves monomorphisms,** from any subgroup. The monomorphisms of smooth
+discrete representations are the injections, and coinduction of an injective map is injective with
+no hypothesis on `H` (`TauCeti.coindMap_injective`). -/
+theorem coindFunctor_preservesMonomorphisms (H : Subgroup G) :
+    (coindFunctor R H).PreservesMonomorphisms :=
   sorry
 
 /-- **Layer 7, algebraic coinduction transported into the smooth-discrete topological
-subcategory.** For open `U` this is the `Rep.coind` object from the accepted
-`RepresentationTheory/InductionRestriction` roadmap, transported through Layer 1's dictionary. -/
-noncomputable def algebraicCoindAsSmooth (U : OpenSubgroup G)
+subcategory.** For open `U` this is Mathlib's `Representation.coind`, the coinduction of the
+merged `RepresentationTheory/InductionRestriction` roadmap, with the discrete topology: Tau Ceti's
+`TauCeti.algebraicCoindAsSmooth`, whose representation is Mathlib's `Representation.coind` on the
+nose (`TauCeti.algebraicCoindDiscreteRep_ρ`). -/
+noncomputable abbrev algebraicCoindAsSmooth (U : OpenSubgroup G)
     (A : SmoothDiscreteTopRep R U.toSubgroup) : SmoothDiscreteTopRep R G :=
-  sorry
+  TauCeti.algebraicCoindAsSmooth R G U A
 
-/-- **Layer 7, the topological/algebraic coinduction comparison for an open subgroup.** -/
-noncomputable def topologicalCoindIsoAlgebraic (U : OpenSubgroup G)
+/-- **Layer 7, the topological/algebraic coinduction comparison for an open subgroup,** Tau Ceti's
+`TauCeti.topologicalCoindIsoAlgebraic`: the identity on the underlying equivariant functions
+(`TauCeti.topologicalCoindIsoAlgebraic_hom_hom_hom_apply_coe`), because for an open subgroup every
+algebraically coinduced function is locally constant
+(`TauCeti.isLocallyConstant_representationCoindV`). -/
+noncomputable abbrev topologicalCoindIsoAlgebraic (U : OpenSubgroup G)
     (A : SmoothDiscreteTopRep R U.toSubgroup) :
-    coindTopRep R U.toSubgroup U.isClosed A ≅ algebraicCoindAsSmooth R U A :=
-  sorry
+    coindTopRep R U.toSubgroup A ≅ algebraicCoindAsSmooth R U A :=
+  TauCeti.topologicalCoindIsoAlgebraic R G U A
 
-/-- **Layer 10, the chain-level Shapiro construction.** The all-degree theorem is induced from
-this isomorphism of Mathlib's actual homogeneous-cochain complexes. -/
-noncomputable def shapiroCochainIso (H : Subgroup G) (hH : IsClosed (H : Set G))
-    (A : SmoothDiscreteTopRep R H) :
-    TopRep.homogeneousCochains ((smoothDiscreteι R G).obj (coindTopRep R H hH A)) ≅
+/-- **Layer 10, the comparison cochain map of Shapiro's lemma.** The compatible pair of the
+inclusion `H ↪ G` and the counit of coinduction, evaluation at `1` (Tau Ceti's
+`TauCeti.coindCounit`), fed to Mathlib's `ContinuousCohomology.cochainsMap`: the cochain map
+`σ ↦ ev₁ ∘ σ ∘ ι` from the homogeneous cochains of `G` with coefficients `Coind_H^G A` to those of
+`H` with coefficients `A`. It is a quasi-isomorphism (`quasiIso_shapiroCochainMap`) and not an
+isomorphism of complexes, and no isomorphism of the two complexes exists: for `G = C₂`, `H = 1`
+and `A = 𝔽₂` the degree-0 terms are `Coind_1^{C₂} 𝔽₂ = 𝔽₂^{C₂}` and `𝔽₂`, of orders `4` and `2`,
+a degree-0 homogeneous cochain being determined by its value at `1`
+(`TauCeti.ContCohomology.cochainEquiv0`). -/
+noncomputable abbrev shapiroCochainMap (H : Subgroup G) (A : SmoothDiscreteTopRep R H) :
+    TopRep.homogeneousCochains ((smoothDiscreteι R G).obj (coindTopRep R H A)) ⟶
       TopRep.homogeneousCochains ((smoothDiscreteι R H).obj A) :=
+  ContinuousCohomology.cochainsMap (TauCeti.ContinuousMonoidHom.subgroupSubtype H)
+    (TopRep.ofHom (TauCeti.coindCounit R G H A))
+
+/-- **Layer 10, the canonical Shapiro map** `Hⁿ(G, Coind_H^G A) ⟶ Hⁿ(H, A)` in every degree:
+Mathlib's `ContinuousCohomology.map` at the same compatible pair, so it is the map
+`shapiroCochainMap` induces on homology, restriction to `H` followed by the coefficient map of
+evaluation at `1`. At `R = ℤ`, on the image of Layer 1's dictionary, it is Tau Ceti's
+`TauCeti.ContinuousCohomology.shapiroMap`
+(`TauCeti/RepresentationTheory/Homological/ContCohomology/Shapiro/Canonical.lean`), which landed
+after this repository's Tau Ceti pin. -/
+noncomputable abbrev shapiroMap (H : Subgroup G) (A : SmoothDiscreteTopRep R H) (n : ℕ) :
+    (continuousCohomology R G n).obj ((smoothDiscreteι R G).obj (coindTopRep R H A)) ⟶
+      (continuousCohomology R H n).obj ((smoothDiscreteι R H).obj A) :=
+  ContinuousCohomology.map (TauCeti.ContinuousMonoidHom.subgroupSubtype H)
+    (TopRep.ofHom (TauCeti.coindCounit R G H A)) n
+
+/-- **Layer 10, Shapiro's lemma in every degree** (NSW (1.6.4), Ribes-Zalesskii Thm. 6.10.5): for
+a closed subgroup `H` of the profinite `G`, the canonical Shapiro map is an isomorphism. The route
+is in `README.md` Layer 10: Layer 7's explicit isomorphisms in degrees `0` and `1`, then dimension
+shifting along `0 → A → Coind_1^H A → Q → 0` and its coinduction to `G`, both middle terms being
+acyclic (`coindAcyclic`). At `R = ℤ` on the image of Layer 1's dictionary it is Tau Ceti's
+`TauCeti.ContinuousCohomology.isIso_shapiroMap`
+(`TauCeti/RepresentationTheory/Homological/ContCohomology/Shapiro/AllDegrees.lean`), which landed
+after this repository's Tau Ceti pin and is proved by that route. -/
+theorem isIso_shapiroMap (H : Subgroup G) (hH : IsClosed (H : Set G))
+    (A : SmoothDiscreteTopRep R H) (n : ℕ) : IsIso (shapiroMap R H A n) :=
   sorry
 
-/-- **Layer 10, Shapiro's lemma in every degree,** induced on homology by
-`shapiroCochainIso`. Closedness of `H` is what supplies the inverse chain map. -/
+/-- **Layer 10, the Shapiro cochain map is a quasi-isomorphism,** which is `isIso_shapiroMap` in
+every degree (Mathlib's `quasiIsoAt_iff_isIso_homologyMap`). -/
+theorem quasiIso_shapiroCochainMap (H : Subgroup G) (hH : IsClosed (H : Set G))
+    (A : SmoothDiscreteTopRep R H) : QuasiIso (shapiroCochainMap R H A) :=
+  ⟨fun n => (quasiIsoAt_iff_isIso_homologyMap _ n).2 (isIso_shapiroMap R H hH A n)⟩
+
+/-- **Layer 10, Shapiro's lemma in every degree, as an isomorphism,**
+`Hⁿ(G, Coind_H^G A) ≅ Hⁿ(H, A)`, whose forward map is the canonical Shapiro map
+(`shapiroIso_hom`), so that nothing about it depends on a choice: closedness of `H` is used only
+to prove that map bijective. At `R = ℤ` on the image of Layer 1's dictionary it is Tau Ceti's
+`TauCeti.ContinuousCohomology.shapiroIso`, which landed after this repository's Tau Ceti pin. -/
 noncomputable def shapiroIso (H : Subgroup G) (hH : IsClosed (H : Set G))
     (A : SmoothDiscreteTopRep R H) (n : ℕ) :
-    (continuousCohomology R G n).obj ((smoothDiscreteι R G).obj (coindTopRep R H hH A)) ≅
+    (continuousCohomology R G n).obj ((smoothDiscreteι R G).obj (coindTopRep R H A)) ≅
       (continuousCohomology R H n).obj ((smoothDiscreteι R H).obj A) :=
-  sorry
+  haveI := isIso_shapiroMap R H hH A n
+  asIso (shapiroMap R H A n)
+
+/-- **Layer 10, the forward map of `shapiroIso` is the canonical Shapiro map.** -/
+theorem shapiroIso_hom (H : Subgroup G) (hH : IsClosed (H : Set G))
+    (A : SmoothDiscreteTopRep R H) (n : ℕ) :
+    (shapiroIso R H hH A n).hom = shapiroMap R H A n :=
+  rfl
 
 /-- The algebraic Shapiro isomorphism transported through the coefficient dictionary. -/
 noncomputable def algebraicShapiroIso (U : OpenSubgroup G)
@@ -2052,49 +2209,59 @@ theorem topologicalCoindIsoAlgebraic_shapiro (U : OpenSubgroup G)
       (shapiroIso R U.toSubgroup U.isClosed A n).hom :=
   sorry
 
-/-- **Layer 10, the canonical embedding into the trivial-subgroup coinduced module.** -/
-noncomputable def coindEmbedding (hbot : IsClosed ((⊥ : Subgroup G) : Set G))
-    (X : TopRep R G) (hX : IsSmoothDiscrete R X) :
+/-- **Layer 10, the canonical embedding into the trivial-subgroup coinduced module.** Its
+underlying map is the orbit map `x ↦ (g ↦ g • x)`, which is Tau Ceti's
+`TauCeti.ContCohomology.coindBotEmbedding` for a discrete module. -/
+noncomputable def coindEmbedding (X : TopRep R G) (hX : IsSmoothDiscrete R X) :
     X ⟶ (smoothDiscreteι R G).obj
-      (coindTopRep R (⊥ : Subgroup G) hbot (resSmooth R (⊥ : Subgroup G) X hX)) :=
+      (coindTopRep R (⊥ : Subgroup G) (resSmooth R (⊥ : Subgroup G) X hX)) :=
   sorry
 
 /-- **Layer 10, the quotient used for dimension shifting,**
-`Coind_1^G X / coindEmbedding X`. -/
-noncomputable def dimensionShiftQuotient (hbot : IsClosed ((⊥ : Subgroup G) : Set G))
-    (X : TopRep R G) (hX : IsSmoothDiscrete R X) : SmoothDiscreteTopRep R G :=
+`Coind_1^G X / coindEmbedding X`; for a discrete module its underlying group is Tau Ceti's
+`TauCeti.ContCohomology.DimensionShiftQuotient`. -/
+noncomputable def dimensionShiftQuotient (X : TopRep R G) (hX : IsSmoothDiscrete R X) :
+    SmoothDiscreteTopRep R G :=
   sorry
 
-/-- **Layer 10, acyclicity of `Coind_1^G A` in every positive degree.** -/
-theorem coindAcyclic (hbot : IsClosed ((⊥ : Subgroup G) : Set G))
-    (A : SmoothDiscreteTopRep R (⊥ : Subgroup G)) (n : ℕ) (hn : 0 < n) :
+/-- **Layer 10, acyclicity of `Coind_1^G A` in every positive degree.** Tau Ceti's
+`TauCeti.ContCohomology.coindAcyclic`
+(`TauCeti/RepresentationTheory/Homological/ContCohomology/Coinduced/Acyclic.lean`); stated here
+because the pinned Tau Ceti revision predates it; replaced by the import when the pin moves. -/
+theorem coindAcyclic (A : SmoothDiscreteTopRep R (⊥ : Subgroup G)) (n : ℕ) (hn : 0 < n) :
     CategoryTheory.Limits.IsZero ((continuousCohomology R G n).obj
-      ((smoothDiscreteι R G).obj (coindTopRep R (⊥ : Subgroup G) hbot A))) :=
+      ((smoothDiscreteι R G).obj (coindTopRep R (⊥ : Subgroup G) A))) :=
   sorry
 
 /-- **Layer 10, dimension shifting in every positive degree,** derived from the named embedding,
 quotient, long exact sequence, and `coindAcyclic`. -/
-noncomputable def dimensionShiftIso (hbot : IsClosed ((⊥ : Subgroup G) : Set G))
-    (X : TopRep R G) (hX : IsSmoothDiscrete R X) (n : ℕ) (hn : 0 < n) :
+noncomputable def dimensionShiftIso (X : TopRep R G) (hX : IsSmoothDiscrete R X) (n : ℕ)
+    (hn : 0 < n) :
     (continuousCohomology R G (n + 1)).obj X ≅
       (continuousCohomology R G n).obj
-        ((smoothDiscreteι R G).obj (dimensionShiftQuotient R hbot X hX)) :=
+        ((smoothDiscreteι R G).obj (dimensionShiftQuotient R X hX)) :=
   sorry
 
 /-- **Layer 10, milestone 1: the trace as a morphism of coefficient objects.** A morphism in
 `TopRep R G`, not merely an additive map, so that it can be fed to Layer 1's `map`. The subgroup is
 **open**: the continuous transfer is defined for open subgroups, and a finite-index abstract
-subgroup of a topological group need not be open. -/
-noncomputable def coindTrace (U : OpenSubgroup G) (X : TopRep R G) (hX : IsSmoothDiscrete R X) :
-    (smoothDiscreteι R G).obj
-        (coindTopRep R U.toSubgroup U.isClosed (resSmooth R U.toSubgroup X hX)) ⟶ X :=
-  sorry
+subgroup of a topological group need not be open. Tau Ceti's `TauCeti.coindTraceHom`
+(`Coinduced/Functor.lean`) at the smooth discrete object `⟨X, hX⟩`, which acts by the trace
+`coindTraceRaw` on the discrete carrier (`TauCeti.coindTraceHom_apply`); an open subgroup of the
+compact `G` has finite index (`Subgroup.quotient_finite_of_isOpen`,
+`Subgroup.finiteIndex_of_finite_quotient`). -/
+noncomputable abbrev coindTrace (U : OpenSubgroup G) (X : TopRep R G)
+    (hX : IsSmoothDiscrete R X) :
+    (smoothDiscreteι R G).obj (coindTopRep R U.toSubgroup (resSmooth R U.toSubgroup X hX)) ⟶
+      X :=
+  haveI : U.toSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
+  TauCeti.coindTraceHom.{v, u, u} R G U.toSubgroup ⟨X, hX⟩
 
 /-- **Layer 10, milestone 2: all-degree corestriction,** the Shapiro-then-trace composite. It has
-a real body, so once `shapiroIso` and `coindTrace` exist this is not a further obligation, which
-is the point of choosing this route over an all-degree cochain formula. The coefficients are smooth
-discrete because coinduction is, which is the roadmap's scope: §1 puts non-discrete topological
-coefficient modules out of scope. -/
+a real body, built from `shapiroIso` and `coindTrace`, so it adds no obligation beyond
+`isIso_shapiroMap`, which is the point of choosing this route over an all-degree cochain formula.
+The coefficients are smooth discrete because coinduction is, which is the roadmap's scope: §1 puts
+non-discrete topological coefficient modules out of scope. -/
 noncomputable def corestriction (U : OpenSubgroup G) (X : TopRep R G) (hX : IsSmoothDiscrete R X)
     (n : ℕ) :
     (continuousCohomology R U.toSubgroup n).obj
@@ -3933,7 +4100,11 @@ noncomputable abbrev explicitCup20 (μ : M →+ N →+ P)
 
 /-- **Layer 8, the low-degree projection formula.** Finite index is explicit because the left and
 right sides both use the finite transversal sum; openness alone is not enough outside the compact
-case. This `(0,1)` shape determines the normalization used by the other low-degree shapes. -/
+case. This `(0,1)` shape determines the normalization used by the other low-degree shapes. Tau
+Ceti's `TauCeti.ContCohomology.explicitCup_projection`
+(`TauCeti/RepresentationTheory/Homological/ContCohomology/ProjectionFormula.lean`), whose
+companions `explicitCup_projection00`, `explicitCup_projection10`, `explicitCup_projection02`,
+`explicitCup_projection20` and `explicitCup_projection11` are the other five shapes. -/
 theorem explicitCup_projection (U : OpenSubgroup G) [Fintype (G ⧸ U.toSubgroup)]
     (μ : M →+ N →+ P) (hμ : Continuous fun p : M × N => μ p.1 p.2)
     (hequiv : ∀ (g : G) (m : M) (x : N), μ (g • m) (g • x) = g • μ m x)
@@ -3942,7 +4113,8 @@ theorem explicitCup_projection (U : OpenSubgroup G) [Fintype (G ⧸ U.toSubgroup
         (explicitCup01 U.toSubgroup M N P μ hμ
           (fun g m x => hequiv (g : G) m x) (explicitRes0 G M U.toSubgroup a) b) =
       explicitCup01 G M N P μ hμ hequiv a (explicitCor1 G N U b) :=
-  sorry
+  haveI : U.toSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
+  TauCeti.ContCohomology.explicitCup_projection G M N P U.toSubgroup U.isOpen μ hμ hequiv a b
 
 /-- **Layer 12, milestone 11: agreement with Layer 8's six explicit shapes** under Layer 3. The
 `(1,1)` shape is stated; the other five have the same form. Both cup products are named, so the

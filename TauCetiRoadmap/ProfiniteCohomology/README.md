@@ -25,10 +25,13 @@ field-theoretic interface (Hilbert 90, Kummer classes) in
 there: the coefficient dictionary and the named restriction, inflation and coefficient maps of
 Layer 1, the explicit complex and its functoriality of Layer 2, the comparisons of Layer 3, the
 finite-quotient systems and their colimit theorems of Layer 4, the long exact sequence, inflation
-and the five-term sequence with its transgression of Layer 5, the six explicit cups and their
-connecting-map identities of Layer 8, the Galois coefficients, Kummer theory and Hilbert 90 of
-Layer 9, the all-degree connecting map of Layer 10, the cohomological-dimension invariants of
-Layer 11, and the index-two cochains and graph class of Layer 13, among others. Wherever a
+and the five-term sequence with its transgression of Layer 5, the transversal calculus and the
+low-degree corestriction with its identities of Layer 6, the coinduced module with its functor,
+trace, exactness, algebraic comparison and explicit Shapiro isomorphisms of Layer 7, the six
+explicit cups and their connecting-map identities of Layer 8, the Galois coefficients, Kummer
+theory and Hilbert 90 of Layer 9, the all-degree connecting map and the trace of Layer 10, the
+cohomological-dimension invariants of Layer 11, and the index-two cochains and graph class of
+Layer 13, among others. Wherever a
 milestone below is stated on such an object, the declaration it names is Tau Ceti's:
 `Suggested.lean` carries this roadmap's name as an abbreviation of the Tau Ceti declaration, or as
 a theorem proved by the Tau Ceti theorem, and names the Tau Ceti declaration in its docstring.
@@ -87,8 +90,15 @@ its objects (`SmoothDiscrete`, `Functoriality`, `Additive`, `LowDegree`, `Explic
 `Inflation/Basic`, `Inflation/Comparison`, `FiniteQuotient/Basic`, `FiniteQuotient/Explicit`,
 `FiniteQuotient/Colimit`, `FiniteQuotient/DegreeTwoDescent`, `Conjugation`, `FiveTerm`,
 `Transgression`, `ShortExact`, `LongExact`, `DeltaNaturality`, `ExactCochains`,
-`HomologySequence`, `Inflation/ConnectingMap`, `ConnectingMapComparison`, `Cup/Product`,
-`Cup/ConnectingMap`, `CohomologicalDimension`, `TrivialF2`, `Evens/Cochain`, `Evens/Class`), the
+`HomologySequence`, `Inflation/ConnectingMap`, `ConnectingMapComparison`, `Corestriction/Basic`,
+`Corestriction/Transitivity`, `ProjectionFormula`, `Coinduced`, `Coinduced/Discrete`,
+`Coinduced/Exact`, `Coinduced/Functor`, `Coinduced/PreservesExactness`, `Shapiro`,
+`DimensionShifting/Basic`, `Cup/Product`, `Cup/ConnectingMap`, `CohomologicalDimension`,
+`TrivialF2`, `Evens/Cochain`, `Evens/Class`), the transversal word `TauCeti.lWord` of
+`TauCeti/GroupTheory/TransversalWord.lean` with its continuity `TauCeti.continuous_lWord`, the
+uniform local constancy `TauCeti.isOpen_rightTranslationStabilizer` of
+`TauCeti/Topology/Algebra/Group/LocallyConstant.lean`, the inclusion of a subgroup as a continuous
+homomorphism `TauCeti.ContinuousMonoidHom.subgroupSubtype`, the
 Galois-cohomology modules of `TauCeti/FieldTheory/GaloisCohomology/` (`Coefficients`, `Kummer`,
 `Hilbert90`, `BrauerTorsion`) with `TauCeti.AbsoluteGaloisGroup`,
 `TauCeti.absoluteGaloisGroupRestrictEquiv`, `TauCeti.galoisSubgroup` and the power classes of
@@ -207,12 +217,12 @@ colimit theorem" or "the six cup shapes" is not a citable export, and no row con
 | the long exact sequence in low degrees | 5 | `DiscreteShortExact`, `DiscreteShortExact.restrict`, `explicitDelta0`, `explicitDelta0_apply`, `explicitDelta1`, `explicitDelta1_apply`, `explicitLongExact_H0A`, `explicitLongExact_H0B`, `explicitLongExact_H0C`, `explicitLongExact_H1A`, `explicitLongExact_H1B`, `explicitLongExact_H1C`, `explicitLongExact_H2A`, `explicitLongExact_H2B`, `explicitDelta0_res`, `explicitDelta1_res` | connecting maps and exactness at eight nodes |
 | the five-term sequence | 5 | `H1ConjInvariants`, `explicitInfl1_injective`, `explicitInfRes_exact`, `explicitRes1_mem_conjInvariants`, `explicitResConj1`, `explicitInfResConj_exact`, `transgressionLift`, `transgressionCochain`, `transgressionCochain_apply`, `transgressionCochain_isCocycle`, `transgressionCochain_sub_mem_B2`, `transgression`, `transgression_apply`, `fiveTerm_exact_H1N`, `fiveTerm_exact_H2Q`, `transgression_explicitResConj1`, `explicitInfl2_transgression` | `0 → H¹(G⧸N, M^N) → H¹(G, M) → H¹(N, M)^{G⧸N} → H²(G⧸N, M^N) → H²(G, M)` |
 | the all-degree colimit and exact sequence | 10 | `continuousCohomologyFunctor`, `continuousFiniteQuotientSystem`, `continuousFiniteQuotientCocone`, `continuousFiniteQuotientColimit`, `continuousCohomology_preservesFilteredColimits`, `continuousCochainsShortExact`, `continuousCochainsShortExact_shortExact`, `delta`, `longExact_exact`, `delta_naturality`, `delta_res`, `delta_infl`, `delta_corestriction`, `explicitIso_delta0`, `explicitIso_delta1` | the canonical colimit, filtered-colimit preservation, and `Hⁿ(G, C) ⟶ Hⁿ⁺¹(G, A)` with all exactness and naturality data |
-| low-degree corestriction | 6 | `lWord`, `lWord_mem`, `explicitCor0Transversal`, `explicitCor1Transversal`, `explicitCor2Transversal`, `explicitCor0_changeTransversal`, `explicitCor1_changeTransversal`, `explicitCor2_changeTransversal`, `explicitCor0`, `explicitCor1`, `explicitCor2`, `explicitCor_delta0`, `explicitCor_delta1` | finite-index additive maps on cochains, descending to classes |
-| all-degree corestriction | 10 | `corestriction`, `corestrictionLe`, `corestriction_naturality`, `corestriction_trans`, `corestriction_comp_res`, `mackeyTerm`, `corestriction_mackey` | `Hⁿ(U, res X) ⟶ Hⁿ(G, X)` for open `U` |
+| low-degree corestriction | 6 | `lWord`, `lWord_mem`, `explicitCor0Transversal`, `explicitCor1Transversal`, `explicitCor2Transversal`, `explicitCor0_changeTransversal`, `explicitCor1_changeTransversal`, `explicitCor2_changeTransversal`, `explicitCor0`, `explicitCor1`, `explicitCor2`, `explicitCor_comp_res0`, `explicitCor_comp_res1`, `explicitCor_comp_res2`, `explicitCor_delta0`, `explicitCor_delta1` | finite-index additive maps on cochains, descending to classes; Tau Ceti's declarations of the same names, read at an open subgroup with a finite quotient |
+| all-degree corestriction | 10 | `coindTrace`, `corestriction`, `corestrictionLe`, `corestriction_naturality`, `corestriction_trans`, `corestriction_comp_res`, `mackeyTerm`, `corestriction_mackey` | `Hⁿ(U, res X) ⟶ Hⁿ(G, X)` for open `U` |
 | descent from a closed subgroup | 10 | `exists_openSubgroup_res_eq_zero_of_res_eq_zero` | a class of `Hⁿ(G, X)` with zero restriction to a closed `H` has zero restriction to some open `U ⊇ H`, in every degree |
 | agreement of the two corestrictions | 10 | `explicitIso_cor0`, `explicitIso_cor`, `explicitIso_cor2` | commuting squares in degrees 0, 1, 2 |
-| explicit Shapiro and coinduction | 7 | `Coind`, `coindTopRep`, `coindFunctor`, `coindFunctor_map_shortExact`, `explicitShapiro0`, `explicitShapiro1`, `explicitShapiro2`, `algebraicCoindAsSmooth`, `topologicalCoindIsoAlgebraic`, `topologicalCoindIsoAlgebraic_shapiro` | explicit Shapiro in degrees `0,1,2`, and the open-subgroup algebraic comparison |
-| all-degree Shapiro and dimension shifting | 10 | `shapiroCochainIso`, `shapiroIso`, `coindEmbedding`, `dimensionShiftQuotient`, `coindAcyclic`, `dimensionShiftIso` | canonical Shapiro in every degree and the closed dependency chain used by Layer 11 |
+| explicit Shapiro and coinduction | 7 | `Coind`, `coindTraceRaw`, `coindTopRep`, `coindFunctor`, `coindFunctor_obj`, `coindFunctor_map_shortExact`, `explicitShapiro0`, `explicitShapiro1`, `explicitShapiro2`, `algebraicCoindAsSmooth`, `topologicalCoindIsoAlgebraic`, `topologicalCoindIsoAlgebraic_shapiro` | `Hⁱ(G, Coind_H^G A) ≃+ Hⁱ(H, A)` for `i = 0, 1, 2`, and the open-subgroup algebraic comparison; Tau Ceti's `TauCeti.coind`, `TauCeti.coindTrace`, `TauCeti.coindTopRep`, `TauCeti.coindFunctor` and their companions, except `topologicalCoindIsoAlgebraic_shapiro` |
+| all-degree Shapiro and dimension shifting | 10 | `shapiroCochainMap`, `shapiroMap`, `isIso_shapiroMap`, `quasiIso_shapiroCochainMap`, `shapiroIso`, `shapiroIso_hom`, `coindEmbedding`, `dimensionShiftQuotient`, `coindAcyclic`, `dimensionShiftIso` | the canonical Shapiro map `Hⁿ(G, Coind_H^G A) ⟶ Hⁿ(H, A)`, induced by a cochain map that is a quasi-isomorphism and not an isomorphism of complexes, an isomorphism in every degree; and the closed dependency chain used by Layer 11 |
 | the six low-degree cups | 8 | `explicitCup00`, `explicitCup01`, `explicitCup10`, `explicitCup02`, `explicitCup11`, `explicitCup20` | `H^p(G, M) × H^q(G, N) → H^{p+q}(G, P)`, `p + q ≤ 2` |
 | the connecting maps and the low-degree cups | 8 | `explicitDelta0_explicitCup00_left`, `explicitDelta1_explicitCup01_left`, `explicitDelta1_explicitCup10_left`, `explicitDelta0_explicitCup00_right`, `explicitDelta1_explicitCup01_right`, `explicitDelta1_explicitCup10_right` | `δ(x ⌣ y) = δx ⌣ y` and `δ(x ⌣ y) = (-1)^p x ⌣ δy` for a map of short exact coefficient sequences, in the six instances of degree `≤ 2`; Tau Ceti's theorems of the same names |
 | the graded cup | 12 | `TopPairing`, `resolutionCupPairing`, `resolutionCupPairing_apply_zero`, `resolutionCupPairing_apply_succ`, `cupCochain`, `cupCochain_apply`, `cupCochain_leibniz`, `cupAssocHomotopy`, `cupAssocHomotopy_spec`, `cupCommHomotopy`, `cupCommHomotopy_spec`, `cup`, `cup_add_left`, `cup_add_right`, `cup_one_left`, `cup_one_right`, `cup_assoc`, `cup_gradedComm`, `cup_res`, `cup_infl`, `cup_coeffMap`, `cup_projection` | `Hᵐ × Hⁿ → H^{m+n}` constructed on Mathlib's coinduction resolution |
@@ -472,7 +482,12 @@ All paths at the Mathlib the repository currently builds.
   `ContRepresentation.coind₁`), the unbundled counterpart of the `TopRep` carrier fixed in §1;
   `Mathlib/RepresentationTheory/Homological/ContCohomology/Basic.lean` (`TopRep.resolutionX`,
   the coinduced resolution `X, C(G, X), C(G, C(G, X)), …` whose `G`-invariants, shifted by one,
-  are `TopRep.homogeneousCochains`).
+  are `TopRep.homogeneousCochains`), and `Functoriality.lean` beside it
+  (`ContinuousCohomology.cochainsMap`, the cochain map of a compatible pair, and
+  `ContinuousCohomology.map`, the map it induces on homology).
+- **Homological algebra:** `Mathlib/Algebra/Homology/ShortComplex/HomologicalComplex.lean`
+  (`HomologicalComplex.homologyMap`) and `Mathlib/Algebra/Homology/QuasiIso.lean` (`QuasiIso`,
+  `quasiIsoAt_iff_isIso_homologyMap`).
 - **Profinite groups:** `Mathlib/Topology/Algebra/OpenSubgroup.lean` (`OpenSubgroup`,
   `OpenNormalSubgroup`, their lattice structure); `Mathlib/Topology/Algebra/ClopenNhdofOne.lean`
   (`exist_openNormalSubgroup_sub_open_nhds_of_one` under
@@ -1044,14 +1059,41 @@ that wider generality and the five-term one does not.
 
 ### Layer 6: change of groups
 
-**Prerequisites.** Mathlib: `Subgroup.index`, `Subgroup.FiniteIndex`, `OpenSubgroup`,
-`QuotientGroup.mk`, `Quotient.out`. This roadmap: Layer 2, and Layer 5 for the compatibility of
-corestriction with the connecting maps.
+**Prerequisites.** Mathlib: `Subgroup.index`, `Subgroup.FiniteIndex`,
+`Subgroup.finiteIndex_of_finite_quotient`, `OpenSubgroup`, `QuotientGroup.mk`, `Quotient.out`. Tau
+Ceti: `TauCeti.lWord`, `TauCeti.lWord_mem`, `TauCeti.lWord_mul_lWord` and
+`TauCeti.transversal_mul_lWord` (`TauCeti/GroupTheory/TransversalWord.lean`),
+`TauCeti.continuous_lWord` (`TauCeti/Topology/Algebra/Group/TransversalWord.lean`), and the
+corestrictions with their identities in `Corestriction/Basic.lean`,
+`Corestriction/Transitivity.lean`, `DeltaNaturality.lean` and `ProjectionFormula.lean` of
+`TauCeti/RepresentationTheory/Homological/ContCohomology/`. This roadmap: Layer 2, and Layer 5 for
+the compatibility of corestriction with the connecting maps.
 
 For open `U ≤ G`, with `[Fintype (G ⧸ U.toSubgroup)]` carried on every finite-sum declaration.
 Compactness of `G` may synthesize this instance, but openness alone never may: the trivial subgroup
 of an infinite discrete group is open and can have infinite index. Everything is built through the
 transversal formulas of §3.
+
+Tau Ceti supplies most of this layer, and `Suggested.lean` carries this roadmap's names as its
+declarations. The transversal calculus is `TauCeti.lWord` with `lWord_mem`, `lWord_mul_lWord`,
+`transversal_mul_lWord` and `continuous_lWord`. In `TauCeti.ContCohomology`, the corestrictions
+`explicitCor0Transversal`, `explicitCor1Transversal` and `explicitCor2Transversal`, the
+change-of-transversal coboundaries `cochainsCor1_changeTransversal` and
+`cochainsCor2_changeTransversal` with the resulting independence `explicitCor0_changeTransversal`,
+`explicitCor1_changeTransversal` and `explicitCor2_changeTransversal`, the public `explicitCor0`,
+`explicitCor1` and `explicitCor2`, and `cor ∘ res = (G : U) • id` with its two cochain-level
+corrections (`explicitCor0_comp_res0`, `explicitCor1_comp_res1`, `explicitCor2_comp_res2`,
+`cochainsCor1_res`, `cochainsCor2_res`) are Tau Ceti's, and so are the compatibility with the
+connecting maps (`DiscreteShortExact.explicitCor_delta0`, `explicitCor_delta1`), the projection
+formula in the six low-degree shapes (`explicitCup_projection` and its five companions) and
+transitivity (`explicitCor0_trans`, `explicitCor1_trans`, `explicitCor2_trans`). Tau Ceti states
+them for `U : Subgroup G` with `[U.FiniteIndex]` and, in degrees 1 and 2, `IsOpen (U : Set G)`; the
+names here read them at an `OpenSubgroup` with a `Fintype` quotient, taking the finite index from
+the finite quotient, and are otherwise the Tau Ceti declarations. What remains to build here is the
+Mackey formula, naturality of `explicitCor1` and `explicitCor2` in coefficient maps on classes
+(Tau Ceti has it on cochains, `map_cochainsCor1` and `map_cochainsCor2`, and in degree 0,
+`map_explicitCor0`), the interaction of conjugation with restriction and corestriction, and the
+worked example.
 
 - **The transversal calculus.** For a variable transversal `t`, the word `ℓᵗ_u(γ)` lies in `U` and
   satisfies the 1-cocycle law `ℓᵗ_u(γ) * ℓᵗ_{γ⁻¹ • u}(η) = ℓᵗ_u(γη)`. This is pure group theory,
@@ -1126,34 +1168,64 @@ recorded in §3. Never state it as a cochain identity in positive degrees.
 ### Layer 7: coinduced modules and Shapiro's lemma
 
 **Prerequisites.** Mathlib: `Representation.coind`, `Rep.indCoindIso`,
-`groupCohomology.coindIso`, `IsLocallyConstant`. This roadmap: Layers 0, 2 and 6. Other roadmaps:
-`RepresentationTheory/InductionRestriction`, for the algebraic finite-index theory it owns.
+`groupCohomology.coindIso`, `IsLocallyConstant`. Tau Ceti:
+`TauCeti.isOpen_rightTranslationStabilizer`
+(`TauCeti/Topology/Algebra/Group/LocallyConstant.lean`) and the modules `Coinduced`,
+`Coinduced/Discrete`, `Coinduced/Exact`, `Coinduced/Functor`, `Coinduced/PreservesExactness`,
+`Shapiro` and `DimensionShifting/Basic` of
+`TauCeti/RepresentationTheory/Homological/ContCohomology/`. This roadmap: Layers 0, 2 and 6. Other
+roadmaps: `RepresentationTheory/InductionRestriction`, for the algebraic finite-index theory it
+owns.
 
 For profinite `G` and a **closed** subgroup `H ≤ G`, on discrete `H`-modules `A`. The generality is
 decided up front: closed, not merely open, since the trivial subgroup is the acyclicity case.
 
+Tau Ceti supplies the coinduced module, its functor and trace, the algebraic comparison and the
+explicit Shapiro isomorphisms, and `Suggested.lean` carries this roadmap's names as those
+declarations: `Coind` is `TauCeti.coind`, with the discrete carrier `TauCeti.DiscreteCoind`,
+`coindTraceRaw` is `TauCeti.coindTrace`, `coindTopRep`, `coindFunctor` and `coindFunctor_obj` are
+`TauCeti.coindTopRep`, `TauCeti.coindFunctor` and `TauCeti.coindFunctor_obj`,
+`coindFunctor_map_shortExact` is `TauCeti.coindFunctor_map_shortExact`, `algebraicCoindAsSmooth`
+and `topologicalCoindIsoAlgebraic` are Tau Ceti's declarations of those names, and
+`explicitShapiro0`, `explicitShapiro1` and `explicitShapiro2` are
+`TauCeti.ContCohomology.explicitShapiro0/1/2`. What remains to build here is the continuous
+Frobenius reciprocity, the naturality of the explicit Shapiro isomorphisms in `A` and their
+compatibility with restriction and corestriction, `Ind_H^G A ≅ Coind_H^G A` for open `H` with the
+induced-module form of Shapiro, `topologicalCoindIsoAlgebraic_shapiro`, the categorical forms
+`coindFunctor_preservesMonomorphisms` and `coindFunctor_preservesEpimorphisms`, and the worked
+example.
+
 - **The coinduced module.** `Coind_H^G A` is the locally constant `H`-equivariant maps `G → A`
   (`f (h * g) = h • f g`) with the right-translation action `(g • f) x = f (x * g)`; this is
-  Milne's `M_*` (ADT Remark 0.11) and Ribes-Zalesskii's `Coind_H^G` (Thm. 6.10.5). Prove it is
-  again **discrete** (a locally constant map on a profinite group is uniformly locally constant,
-  so stabilizers are open), functorial in `A`, and exact in `A`. Exactness uses Layer 0's
-  continuous section of `G → G ⧸ H`, cited by name. Adjunction with restriction:
+  Milne's `M_*` (ADT Remark 0.11) and Ribes-Zalesskii's `Coind_H^G` (Thm. 6.10.5). It is again
+  **discrete** (a locally constant map on a profinite group is uniformly locally constant, so
+  stabilizers are open: `TauCeti.isOpen_stabilizer_coind`,
+  `TauCeti.DiscreteCoind.instContinuousSMul`), functorial in `A` (`TauCeti.coindMap`), and exact
+  in `A` (`TauCeti.coindMap_injective`,
+  `TauCeti.coindMap_range_eq_ker`, `TauCeti.coindMap_surjective`); exactness on the right uses
+  Layer 0's continuous section of `G → G ⧸ H`, cited by name. The counit is evaluation at `1`
+  (`TauCeti.coindEval`, bundled as `TauCeti.coindCounit`). Adjunction with restriction:
   `Hom_G(M, Coind_H^G A) ≃ Hom_H(res M, A)`, the continuous Frobenius reciprocity, in the
   direction of the pin's discrete adjunction.
   Exactness is not represented only by preservation of monomorphisms and epimorphisms:
-  `coindFunctor_map_shortExact` states that every specified short exact sequence is sent to a
-  short exact sequence, including exactness at the middle object.
+  `coindFunctor_map_shortExact` states that an injective map followed by a surjective one, exact at
+  the middle object, is sent to maps with the same three properties, including exactness at the
+  middle object.
   ⚠ Terminology trap: NSW writes `Ind_G^H` for this **coinduced** functor and flags the abuse only
   in a footnote (2nd ed., p. 61). When citing NSW (1.6.4) next to a Lean `coind`, cite the
   footnote too, and reserve `ind` for the genuine left adjoint.
 - **Shapiro's lemma.** `Hⁱ(G, Coind_H^G A) ≅ Hⁱ(H, A)` for `i = 0, 1, 2` on the explicit model
   (NSW (1.6.4), Ribes-Zalesskii Thm. 6.10.5, Koch Thm. 3.9), natural in `A` and compatible with
-  restriction and, for open intermediate subgroups, corestriction. The forward map is evaluation
-  at `1`; the inverse is built from Layer 0's continuous section for closed `H`, and from a finite
-  transversal when `H` is open. The named maps are `explicitShapiro0`, `explicitShapiro1`, and
-  `explicitShapiro2`; their forward application theorems pin evaluation at `1`, and their inverses
-  pin the section formula. The pin's `coindIso` fixes the direction. The all-degree chain
-  construction and its induced `shapiroIso` are Layer 10 milestones, not Layer 7 exports.
+  restriction and, for open intermediate subgroups, corestriction. The forward map is restriction
+  to `H` followed by evaluation at `1`, and involves no choice; the inverse is the section formula
+  for every continuous right-coset factorization of `G` over `H`, which Layer 0's continuous section
+  supplies for closed `H`, open or not. The named maps are `explicitShapiro0`, `explicitShapiro1`,
+  and `explicitShapiro2`, on the discrete carrier `TauCeti.DiscreteCoind G H A`; their forward
+  application theorems (`TauCeti.ContCohomology.explicitShapiro1_apply` and its siblings) pin
+  evaluation at `1`, and their inverses pin the section formula
+  (`TauCeti.ContCohomology.explicitShapiro1_symm_apply`, `explicitShapiro2_symm_apply`). Degree `0`
+  needs no closedness. The pin's `coindIso` fixes the direction. The canonical Shapiro map in every
+  degree and its isomorphism `shapiroIso` are Layer 10 milestones, not Layer 7 exports.
 - **Open subgroups and the algebraic comparison.** For **open** `H`, prove `Ind_H^G A ≅
   Coind_H^G A` using a finite transversal, with the pin's discrete `Rep.indCoindIso` as the model,
   and derive the induced-module form of Shapiro. Then state the theorem that joins this roadmap to
@@ -1166,8 +1238,12 @@ decided up front: closed, not merely open, since the trivial subgroup is the acy
 - **Acyclicity and dimension shifting.** `Coind_1^G A`, the locally constant maps `G → A`, has
   vanishing `Hⁱ` for `i = 1, 2` (Shapiro at `H = 1`); every discrete `M` embeds in a discrete
   acyclic module `M ↪ Coind_1^G M`; hence dimension shifting `Hⁱ⁺¹(G, M) ≅ Hⁱ(G, Coind_1^G M ⧸ M)`
-  in the range where both sides are defined. The statement in all positive degrees, which Layer 11
-  runs its induction on, is a Layer 10 milestone.
+  in the range where both sides are defined. Tau Ceti supplies all three in
+  `DimensionShifting/Basic.lean`: `TauCeti.ContCohomology.subsingleton_H1_discreteCoind_bot`,
+  `subsingleton_H2_discreteCoind_bot`, the embedding `coindBotEmbedding` with its quotient
+  `DimensionShiftQuotient` and short exact sequence `coindBotShortExact`, and the shifts
+  `explicitDimensionShift0` and `explicitDimensionShift1`. The statement in all positive degrees,
+  which Layer 11 runs its induction on, is a Layer 10 milestone.
 
 **API** for `Coind_H^G A`. Constructors: the locally constant `H`-equivariant maps `G → A` with
 the right-translation action. Worked example: `Coind_1^G A`, the locally constant maps `G → A`,
@@ -1473,8 +1549,12 @@ hypothesis that is actually used.
 ### Layer 10: continuous cohomology in all degrees
 
 **Prerequisites.** Mathlib: `continuousCohomology`, `TopRep.resolutionX`,
-`ContinuousCohomology.resolutionMap`, `ProfiniteGrp.closedSubgroup_eq_sInf_open`. Tau Ceti:
-`ContinuousMap.exists_extension_of_discrete`. This roadmap: Layers 1, 3, 4, 5, 6 and 7.
+`ContinuousCohomology.resolutionMap`, `ContinuousCohomology.cochainsMap`,
+`ContinuousCohomology.map`, `HomologicalComplex.homologyMap`, `QuasiIso`,
+`quasiIsoAt_iff_isIso_homologyMap`, `ProfiniteGrp.closedSubgroup_eq_sInf_open`. Tau Ceti:
+`ContinuousMap.exists_extension_of_discrete`, `TauCeti.coindTopRep`, `TauCeti.coindCounit` and
+`TauCeti.coindTraceHom` (`Coinduced/Functor.lean`), `TauCeti.ContinuousMonoidHom.subgroupSubtype`.
+This roadmap: Layers 1, 3, 4, 5, 6 and 7.
 
 Everything above except Layer 3's comparison is stated in degrees `0, 1, 2`, because that is where
 explicit cochains are usable. Cohomological dimension, dévissage, the general torsion statements
@@ -1513,12 +1593,40 @@ against the canonical object of Layer 1 throughout.
   exactness of the cochain sequence is stated after forgetting the topology, so
   `continuousCochainsShortExact_shortExact`, `delta_naturality` for a morphism of coefficient short
   complexes, and `delta_corestriction` remain targets here.
-- **All-degree Shapiro and dimension shifting.** Construct a chain isomorphism
-  `shapiroCochainIso` between the two canonical homogeneous-cochain complexes and define
-  `shapiroIso` as its induced homology isomorphism. Prove that it agrees in degrees `0, 1, 2` with
-  `explicitShapiro0/1/2`. State exactness of coinduction on short exact sequences by
-  `coindFunctor_map_shortExact`, construct the embedding into the trivial-subgroup coinduced
-  module and its quotient, prove `coindAcyclic` in every positive degree, and derive the named
+- **All-degree Shapiro and dimension shifting.** For a closed subgroup `H` and a smooth discrete
+  `A`, the compatible pair of the inclusion `H ↪ G` and the counit of coinduction, evaluation at
+  `1` (Tau Ceti's `TauCeti.coindCounit`), gives Mathlib's cochain map `shapiroCochainMap` from the
+  homogeneous cochains of `G` with coefficients `Coind_H^G A` to those of `H` with coefficients
+  `A`, and the map it induces on homology, the canonical Shapiro map `shapiroMap` (Mathlib's
+  `ContinuousCohomology.map` at that pair), which is restriction to `H` followed by the
+  coefficient map of evaluation at `1`. Shapiro's lemma in every degree is that this cochain map is
+  a quasi-isomorphism: `isIso_shapiroMap` in every degree, equivalently
+  `quasiIso_shapiroCochainMap`. `shapiroIso` is `shapiroMap` as an isomorphism (`shapiroIso_hom`),
+  so nothing about it depends on a choice. The proof is by induction on the degree. Degrees `0`
+  and `1` are `explicitShapiro0` and `explicitShapiro1` under Layer 3's comparisons. For `n ≥ 1`,
+  take the short exact sequence `0 → A → Coind_1^H A → Q → 0` (Tau Ceti's `coindBotShortExact`)
+  and its coinduction to `G`, which is exact because `H` is closed (`coindFunctor_map_shortExact`).
+  The connecting maps of the two sequences commute with the Shapiro maps, the Shapiro map being
+  restriction followed by a coefficient map (`delta_res`, `delta_naturality`), and both are
+  isomorphisms in positive degree because both middle terms are acyclic: `Coind_1^H A` by
+  `coindAcyclic` for `H`, and `Coind_H^G (Coind_1^H A)`, which transitivity of coinduction
+  identifies with `Coind_1^G A`, by `coindAcyclic` for `G`. So degree `n + 1` for `A` is degree
+  `n` for `Q`. The argument runs over `ℤ`; over another coefficient ring the cohomology is that of
+  the underlying abelian groups, compatibly with the maps of compatible pairs. Tau Ceti has the case
+  `R = ℤ` on the image of the dictionary, proved by this route, as
+  `TauCeti.ContinuousCohomology.shapiroMap`, `isIso_shapiroMap` and `shapiroIso`
+  (`Shapiro/Canonical.lean`, `Shapiro/AllDegrees.lean`), with the transitivity
+  `TauCeti.DiscreteCoind.transIsoBot`, and it has the change of coefficient ring as
+  `TauCeti.ContCohomology.restrictScalarsIntIso`; all of these landed after this repository's Tau
+  Ceti pin. ⚠ Do not ask for an isomorphism of the two homogeneous-cochain complexes: none exists.
+  A degree-0 homogeneous cochain is determined by its value at `1`
+  (`TauCeti.ContCohomology.cochainEquiv0`), so for `G = C₂`, `H = 1` and `A = 𝔽₂` the degree-0
+  terms are `Coind_1^{C₂} 𝔽₂ = 𝔽₂^{C₂}`, of order `4`, and `𝔽₂`, of order `2`; only the maps
+  induced on cohomology are isomorphisms. Prove that `shapiroMap` agrees in degrees `0, 1, 2` with
+  `explicitShapiro0/1/2`. Construct the embedding into the trivial-subgroup coinduced module and
+  its quotient (for a discrete module, Tau Ceti's `coindBotEmbedding` and `DimensionShiftQuotient`),
+  prove `coindAcyclic` in every positive degree (Tau Ceti's `TauCeti.ContCohomology.coindAcyclic`,
+  `Coinduced/Acyclic.lean`, which landed after this repository's Tau Ceti pin), and derive the named
   `dimensionShiftIso : Hⁱ⁺¹(G, M) ≅ Hⁱ(G, Coind_1^G M ⧸ M)` for `i ≥ 1`.
 - **Corestriction in every degree, through coinduction.** Mathlib has no all-degree cohomological
   transfer and Layer 6 builds one only in degrees `0, 1, 2`, so this layer builds it, in five
@@ -1526,7 +1634,9 @@ against the canonical object of Layer 1 throughout.
   1. the **trace morphism** `tr_U^G : Coind_U^G (res_U M) → M` for open `U ≤ G`, given by
      `f ↦ ∑_{gU ∈ G ⧸ U} g • f (g⁻¹)`; the sum is finite because the index is, the value is
      independent of the coset representatives because `f` is `U`-equivariant, and the result is a
-     morphism of discrete `G`-modules;
+     morphism of discrete `G`-modules. Tau Ceti supplies it: the trace is `TauCeti.coindTrace`
+     (`Coinduced.lean`), and the morphism is `TauCeti.coindTraceHom` (`Coinduced/Functor.lean`),
+     which `coindTrace` here is;
   2. all-degree corestriction as the composite
      ```
      Hⁿ(U, res_U M) ≅ Hⁿ(G, Coind_U^G (res_U M)) → Hⁿ(G, M),
@@ -1595,6 +1705,13 @@ Comparison: agreement in degrees `0, 1, 2` with Layers 2, 4, 6 and 7, one lemma 
 Naturality: of the connecting maps and of the colimit isomorphism. Edge cases: `n = 0`, which is
 Layer 1's `continuousCohomologyZeroIso`; the trivial group; and `M` a `ℚ`-vector space, where
 every positive degree vanishes. Consumers: Layer 11 in full, and Layer 12 for the graded product.
+
+**Source** for the all-degree Shapiro lemma. NSW (1.6.4), with the p. 61 footnote on `Ind`;
+Ribes-Zalesskii Thm. 6.10.5; NSW (1.3.7) for the dimension-shifting argument. The hypotheses are
+`G` profinite and `H` closed; closedness is used for the explicit base cases and for exactness of
+coinduction on the right. The false neighbor is an isomorphism of the homogeneous-cochain
+complexes themselves, which fails already in degree `0` for `G = C₂`, `H = 1`, `A = 𝔽₂`: only
+the comparison cochain map exists, and it is a quasi-isomorphism.
 
 **Source** for the all-degree corestriction. Brown, *Cohomology of Groups*, III §9 gives five
 constructions of the transfer, of which the one used here is the coinduced-module construction;
