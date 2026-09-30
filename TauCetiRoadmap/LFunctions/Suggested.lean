@@ -320,85 +320,314 @@ theorem riemannZetaData_hasFunctionalEquation :
 /-! ## Layer 1: the mixed-space specialization of Poisson summation, and theta
 
 Nothing generic is developed here. `TauCetiRoadmap.ThetaSeries` owns lattice Poisson summation,
-the dual lattice and the Gaussian Fourier transform, and is imported. This section fixes the
-Fourier conventions of the mixed space, transports the supplier's theorem onto it along Mathlib's
+the dual lattice and the Gaussian Fourier transform, and is imported; Mathlib owns the Mellin
+principle, `WeakFEPair` in `Mathlib/NumberTheory/LSeries/AbstractFuncEq.lean`. This section
+extends Mathlib's pair to a level by transport (`FEPairWithLevel`), fixes the Fourier conventions
+of the mixed space, transports the supplier's theorem onto it along Mathlib's
 `NumberField.mixedEmbedding.euclidean.toMixed`, and compares the Euclidean dual of an ideal
 lattice with its trace dual. Every declaration with a generic ancestor is stated against that
 ancestor, and the closed checks at the end of the layer apply all nine consumed names. -/
 
-/-- **A functional-equation pair with level: the carrier of the Mellin principle** (Neukirch VII
-(1.4)). Two functions on `(0, ∞)` with limits `fLimit`, `gLimit` at `∞` approached exponentially
-fast, related by the transformation law `f (1/(level t)) = ε t^weight g t`, in which the `epsilon`
-field occurs. `completed` is the Mellin transform `L(f, s) = ∫ (f t - fLimit) t^s dt/t`, which
-converges for `Re s > weight`; the principle (`meromorphic_completed`, `completed_eq`,
-`residue_zero`, `residue_weight`) continues it to the plane with simple poles at `0` and `weight`
-of residues `-fLimit` and `ε level^(-weight) gLimit`, and gives
-`L(f, s) = ε level^(-s) L(g, weight - s)`. The Dedekind and Grossencharacter kernels of Layers 3
-and 6 are instances (`dedekindFEPair`, `grossencharacterFEPair`); this is how their completed
-functions are continued and their functional equations proved. -/
+/-- **A functional-equation pair with level: the carrier of the Mellin principle.** The hypotheses
+of Mathlib's `WeakFEPair`, field for field: `f` and `g` locally integrable on `(0, ∞)`, equal to the
+constants `f₀` and `g₀` at `∞` up to an error that decays faster than every power of `t`, a weight
+`k > 0` and a root number `ε ≠ 0`. The transformation law is taken at a level `N > 0`,
+`f (1/(N t)) = ε t^k g t`; at `N = 1` it is Mathlib's law. This is the wrapper that the level note
+of Mathlib's `AbstractFuncEq` proposes: `toWeakFEPair` rescales `g ↦ g(·/N)` and `ε ↦ ε N^(-k)`,
+and the completed function `Λ`, its Mellin representation, its residues and its functional
+equation are Mathlib's, read through that transport. Neukirch VII (1.4) is the case of continuous
+functions with exponential decay (`isBigO_rpow_of_isBigO_exp_neg`). ⚠ Neither `hk` nor `hε` can be
+dropped: with `ε = 0` the pair `f ≡ 0`, `g ≡ 1` satisfies the law while its reverse reads `1 = 0`,
+and with `k = 0` the pair `f = g ≡ 1` satisfies it while its residues `-f₀ = -1` and `ε g₀ = 1`
+sit at the same point (`not_exists_f_eq_zero_g_eq_one`, `not_exists_f_eq_one_g_eq_one`). -/
 structure FEPairWithLevel (E : Type*) [NormedAddCommGroup E] [NormedSpace ℂ E] where
   f : ℝ → E
   g : ℝ → E
-  fLimit : E
-  gLimit : E
-  level : ℝ
-  level_pos : 0 < level
-  weight : ℝ
-  epsilon : ℂ
-  transform : ∀ t : ℝ, 0 < t →
-    f (1 / (level * t)) = epsilon • ((((t ^ weight : ℝ) : ℂ)) • g t)
-  f_decay : ∃ c α : ℝ, 0 < c ∧ 0 < α ∧
-    (fun t ↦ f t - fLimit) =O[atTop] fun t : ℝ ↦ Real.exp (-c * t ^ α)
-  g_decay : ∃ c α : ℝ, 0 < c ∧ 0 < α ∧
-    (fun t ↦ g t - gLimit) =O[atTop] fun t : ℝ ↦ Real.exp (-c * t ^ α)
+  k : ℝ
+  ε : ℂ
+  f₀ : E
+  g₀ : E
+  N : ℝ
+  hN : 0 < N
+  hf_int : MeasureTheory.LocallyIntegrableOn f (Set.Ioi 0)
+  hg_int : MeasureTheory.LocallyIntegrableOn g (Set.Ioi 0)
+  hk : 0 < k
+  hε : ε ≠ 0
+  h_feq : ∀ t ∈ Set.Ioi (0 : ℝ), f (1 / (N * t)) = (ε * ↑(t ^ k)) • g t
+  hf_top (r : ℝ) : (f · - f₀) =O[atTop] (· ^ r)
+  hg_top (r : ℝ) : (g · - g₀) =O[atTop] (· ^ r)
 
 namespace FEPairWithLevel
 
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
+/-- Local integrability on `(0, ∞)` survives the rescaling `x ↦ x / N`: on each compact subset
+this is Mathlib's `integrable_comp_div_iff`, read through indicators. -/
+theorem locallyIntegrableOn_comp_div {E : Type*} [NormedAddCommGroup E] {g : ℝ → E}
+    (hg : MeasureTheory.LocallyIntegrableOn g (Set.Ioi 0)) {N : ℝ} (hN : 0 < N) :
+    MeasureTheory.LocallyIntegrableOn (fun x ↦ g (x / N)) (Set.Ioi 0) := by
+  rw [MeasureTheory.locallyIntegrableOn_iff isOpen_Ioi.isLocallyClosed] at hg ⊢
+  intro k hk hkc
+  have hk' : (fun x ↦ x / N) '' k ⊆ Set.Ioi 0 := by
+    rintro _ ⟨x, hx, rfl⟩
+    exact div_pos (hk hx) hN
+  have hkc' : IsCompact ((fun x ↦ x / N) '' k) := hkc.image (continuous_id.div_const N)
+  have h := hg _ hk' hkc'
+  rw [← MeasureTheory.integrable_indicator_iff hkc'.isClosed.measurableSet] at h
+  rw [← MeasureTheory.integrable_indicator_iff hkc.isClosed.measurableSet]
+  have heq : k.indicator (fun x ↦ g (x / N)) =
+      fun x ↦ ((fun x ↦ x / N) '' k).indicator g (x / N) := by
+    funext x
+    by_cases hx : x ∈ k
+    · have hx' : x / N ∈ (fun x ↦ x / N) '' k := ⟨x, hx, rfl⟩
+      simp only [Set.indicator_of_mem hx, Set.indicator_of_mem hx']
+    · have hx' : x / N ∉ (fun x ↦ x / N) '' k := by
+        rintro ⟨y, hy, hyx⟩
+        exact hx ((div_left_inj' hN.ne').mp hyx ▸ hy)
+      simp only [Set.indicator_of_notMem hx, Set.indicator_of_notMem hx']
+  rw [heq]
+  exact h.comp_div hN.ne'
 
-/-- The pair read backwards: `g (1/(level t)) = ε⁻¹ level^weight t^weight f t`. -/
-noncomputable def swap (P : FEPairWithLevel E) : FEPairWithLevel E where
+/-- **Neukirch's decay gives Mathlib's.** A function that approaches its limit like
+`exp (-c t^α)`, `c, α > 0`, as in Neukirch VII (1.4), is `O(t^r)` for every `r`, which is the form
+`WeakFEPair.hf_top` takes: Mathlib's `isLittleO_exp_neg_mul_rpow_atTop` along `t ↦ t^α`. -/
+theorem isBigO_rpow_of_isBigO_exp_neg {E : Type*} [NormedAddCommGroup E] {F : ℝ → E}
+    {c α : ℝ} (hc : 0 < c) (hα : 0 < α) (h : F =O[atTop] fun u ↦ Real.exp (-c * u ^ α))
+    (r : ℝ) : F =O[atTop] (· ^ r) := by
+  refine h.trans ?_
+  have h1 := ((isLittleO_exp_neg_mul_rpow_atTop hc (r / α)).isBigO).comp_tendsto
+    (tendsto_rpow_atTop hα)
+  refine h1.congr' (Eventually.of_forall fun u ↦ rfl) ?_
+  filter_upwards [eventually_gt_atTop 0] with u hu
+  simp only [Function.comp]
+  rw [← Real.rpow_mul hu.le, mul_div_cancel₀ _ hα.ne']
+
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] (P : FEPairWithLevel E)
+
+/-- **The level transport to Mathlib's pair**: `g ↦ g(·/N)` and `ε ↦ ε N^(-k)`. The law at
+`t = x/N` reads `f (1/x) = (ε N^(-k)) x^k g(x/N)`, which is `WeakFEPair.h_feq`. The transport
+does not move `f`, `k`, `f₀` or `g₀`, so the completed function of `f` is Mathlib's `Λ` of this
+pair on the nose. -/
+def toWeakFEPair : WeakFEPair E where
+  f := P.f
+  g := fun x ↦ P.g (x / P.N)
+  k := P.k
+  ε := P.ε * ↑(P.N ^ (-P.k))
+  f₀ := P.f₀
+  g₀ := P.g₀
+  hf_int := P.hf_int
+  hg_int := locallyIntegrableOn_comp_div P.hg_int P.hN
+  hk := P.hk
+  hε := mul_ne_zero P.hε (ofReal_ne_zero.mpr (Real.rpow_pos_of_pos P.hN _).ne')
+  h_feq x hx := by
+    have hx' : (0 : ℝ) < x := hx
+    have h := P.h_feq (x / P.N) (div_pos hx' P.hN)
+    rw [show P.N * (x / P.N) = x by field_simp [P.hN.ne']] at h
+    rw [h, Real.div_rpow hx'.le P.hN.le, Real.rpow_neg P.hN.le]
+    congr 1
+    have := (Real.rpow_pos_of_pos P.hN P.k).ne'
+    push_cast
+    field_simp
+  hf_top := P.hf_top
+  hg_top r := by
+    have h1 := (P.hg_top r).comp_tendsto (tendsto_id.atTop_div_const P.hN)
+    refine h1.trans ?_
+    have h2 : (fun x : ℝ ↦ (id x / P.N) ^ r) =ᶠ[atTop] fun x ↦ (P.N ^ r)⁻¹ * x ^ r := by
+      filter_upwards [eventually_ge_atTop 0] with x hx
+      rw [id, Real.div_rpow hx P.hN.le, div_eq_inv_mul]
+    exact ((isBigO_refl (fun x : ℝ ↦ x ^ r) atTop).const_mul_left _).congr' h2.symm .rfl
+
+/-- The pair read backwards at the same level: `g (1/(N t)) = ε⁻¹ N^k t^k f t`. -/
+def symm : FEPairWithLevel E where
   f := P.g
   g := P.f
-  fLimit := P.gLimit
-  gLimit := P.fLimit
-  level := P.level
-  level_pos := P.level_pos
-  weight := P.weight
-  epsilon := P.epsilon⁻¹ * ((P.level ^ P.weight : ℝ) : ℂ)
-  transform := sorry
-  f_decay := P.g_decay
-  g_decay := P.f_decay
+  k := P.k
+  ε := P.ε⁻¹ * ↑(P.N ^ P.k)
+  f₀ := P.g₀
+  g₀ := P.f₀
+  N := P.N
+  hN := P.hN
+  hf_int := P.hg_int
+  hg_int := P.hf_int
+  hk := P.hk
+  hε := mul_ne_zero (inv_ne_zero P.hε) (ofReal_ne_zero.mpr (Real.rpow_pos_of_pos P.hN _).ne')
+  h_feq t ht := by
+    have ht' : (0 : ℝ) < t := ht
+    have hN := P.hN
+    have hu : (0 : ℝ) < 1 / (P.N * t) := by positivity
+    have h := P.h_feq _ hu
+    rw [show 1 / (P.N * (1 / (P.N * t))) = t by field_simp] at h
+    rw [h, smul_smul]
+    have h1 : ((P.N ^ P.k : ℝ) : ℂ) ≠ 0 := ofReal_ne_zero.mpr (Real.rpow_pos_of_pos hN _).ne'
+    have h2 : ((t ^ P.k : ℝ) : ℂ) ≠ 0 := ofReal_ne_zero.mpr (Real.rpow_pos_of_pos ht' _).ne'
+    have hc : P.ε⁻¹ * ↑(P.N ^ P.k) * ↑(t ^ P.k) * (P.ε * ↑((1 / (P.N * t)) ^ P.k)) = 1 := by
+      rw [Real.div_rpow zero_le_one (by positivity), Real.one_rpow, Real.mul_rpow hN.le ht'.le]
+      push_cast
+      field_simp [P.hε]
+    rw [hc, one_smul]
+  hf_top := P.hg_top
+  hg_top := P.hf_top
 
-/-- The continued Mellin transform of `f`, pinned by `completed_eq_mellin` on `Re s > weight` and
-by `meromorphic_completed` everywhere. -/
-noncomputable def completed (P : FEPairWithLevel E) : ℂ → E := sorry
+/-- **The completed function** `Λ(f, s)`: Mathlib's `WeakFEPair.Λ` of `toWeakFEPair`, the continued
+Mellin transform of `f - f₀`. -/
+def Λ : ℂ → E := P.toWeakFEPair.Λ
 
-theorem completed_eq_mellin (P : FEPairWithLevel E) {s : ℂ} (hs : P.weight < s.re) :
-    P.completed s = ∫ t in Set.Ioi (0 : ℝ), ((t : ℂ) ^ s / (t : ℂ)) • (P.f t - P.fLimit) := sorry
+/-- Mathlib's `WeakFEPair.hasMellin`: on `Re s > k`, `Λ s` is Mathlib's `mellin` of `f - f₀`. -/
+theorem hasMellin [CompleteSpace E] {s : ℂ} (hs : P.k < s.re) :
+    HasMellin (P.f · - P.f₀) s (P.Λ s) :=
+  P.toWeakFEPair.hasMellin hs
 
-theorem meromorphic_completed (P : FEPairWithLevel E) : Meromorphic P.completed := sorry
+theorem Λ_eq_mellin [CompleteSpace E] {s : ℂ} (hs : P.k < s.re) :
+    P.Λ s = mellin (fun t ↦ P.f t - P.f₀) s :=
+  (P.hasMellin hs).2.symm
 
-theorem analyticAt_completed (P : FEPairWithLevel E) {s : ℂ} (h0 : s ≠ 0)
-    (hw : s ≠ P.weight) : AnalyticAt ℂ P.completed s := sorry
+/-- Mathlib's `IsStrongFEPair.hasMellin`: when both constants vanish, `Λ` is the Mellin transform
+of `f` at every `s`. -/
+theorem hasMellin_of_eq_zero (hf₀ : P.f₀ = 0) (hg₀ : P.g₀ = 0) (s : ℂ) :
+    HasMellin P.f s (P.Λ s) :=
+  IsStrongFEPair.hasMellin (P := P.toWeakFEPair) ⟨hf₀, hg₀⟩ s
 
-/-- **The Mellin principle**, Neukirch VII (1.4): `L(f, s) = ε level^(-s) L(g, weight - s)`,
-pointwise off the poles and as germs everywhere. -/
-theorem completed_eq (P : FEPairWithLevel E) {s : ℂ} (h0 : s ≠ 0) (hw : s ≠ P.weight) :
-    P.completed s =
-      (P.epsilon * ((P.level : ℂ) ^ (-s))) • P.swap.completed ((P.weight : ℂ) - s) := sorry
+/-- Mathlib's `IsStrongFEPair.differentiable_Λ`: when both constants vanish, `Λ` is entire. -/
+theorem differentiable_Λ_of_eq_zero (hf₀ : P.f₀ = 0) (hg₀ : P.g₀ = 0) :
+    Differentiable ℂ P.Λ :=
+  IsStrongFEPair.differentiable_Λ (P := P.toWeakFEPair) ⟨hf₀, hg₀⟩
 
-theorem completed_eventuallyEq (P : FEPairWithLevel E) (s : ℂ) :
-    P.completed =ᶠ[𝓝[≠] s]
-      fun z ↦ (P.epsilon * ((P.level : ℂ) ^ (-z))) • P.swap.completed ((P.weight : ℂ) - z) :=
-  sorry
+/-- Mathlib's `WeakFEPair.differentiableAt_Λ`. -/
+theorem differentiableAt_Λ {s : ℂ} (hs : s ≠ 0 ∨ P.f₀ = 0) (hs' : s ≠ P.k ∨ P.g₀ = 0) :
+    DifferentiableAt ℂ P.Λ s :=
+  P.toWeakFEPair.differentiableAt_Λ hs hs'
 
-theorem residue_zero (P : FEPairWithLevel E) :
-    Tendsto (fun s : ℂ ↦ s • P.completed s) (𝓝[≠] 0) (𝓝 (-P.fLimit)) := sorry
+theorem analyticAt_Λ [CompleteSpace E] {s : ℂ} (h0 : s ≠ 0) (hk : s ≠ P.k) :
+    AnalyticAt ℂ P.Λ s := by
+  have hfin : ({0, (P.k : ℂ)} : Set ℂ).Finite := (Set.finite_singleton _).insert _
+  refine DifferentiableOn.analyticAt (s := {0, (P.k : ℂ)}ᶜ) (fun z hz ↦ ?_)
+    (hfin.isClosed.isOpen_compl.mem_nhds ?_)
+  · simp only [Set.mem_compl_iff, Set.mem_insert_iff, Set.mem_singleton_iff, not_or] at hz
+    exact (P.differentiableAt_Λ (Or.inl hz.1) (Or.inl hz.2)).differentiableWithinAt
+  · simp [h0, hk]
 
-theorem residue_weight (P : FEPairWithLevel E) :
-    Tendsto (fun s : ℂ ↦ (s - P.weight) • P.completed s) (𝓝[≠] (P.weight : ℂ))
-      (𝓝 ((P.epsilon * ((P.level : ℂ) ^ (-(P.weight : ℂ)))) • P.gLimit)) := sorry
+/-- Mathlib's `Λ` is the entire `WeakFEPair.Λ₀` minus the two polar terms, so it is meromorphic
+on the plane. -/
+theorem meromorphic_Λ [CompleteSpace E] : Meromorphic P.Λ := fun x ↦ by
+  have h1 : MeromorphicAt P.toWeakFEPair.Λ₀ x :=
+    (P.toWeakFEPair.differentiable_Λ₀.analyticAt x).meromorphicAt
+  have h2 : MeromorphicAt (fun s : ℂ ↦ (1 / s) • P.f₀) x :=
+    ((MeromorphicAt.const 1 x).div (MeromorphicAt.id x)).smul (MeromorphicAt.const P.f₀ x)
+  have h3 : MeromorphicAt (fun s : ℂ ↦ (P.toWeakFEPair.ε / (P.k - s)) • P.g₀) x :=
+    ((MeromorphicAt.const _ x).div ((MeromorphicAt.const _ x).sub (MeromorphicAt.id x))).smul
+      (MeromorphicAt.const P.g₀ x)
+  exact (h1.sub h2).sub h3
+
+/-- Mathlib's `WeakFEPair.Λ_residue_zero`: the residue at `0` is `-f₀`. -/
+theorem Λ_residue_zero : Tendsto (fun s : ℂ ↦ s • P.Λ s) (𝓝[≠] 0) (𝓝 (-P.f₀)) :=
+  P.toWeakFEPair.Λ_residue_zero
+
+/-- Mathlib's `WeakFEPair.Λ_residue_k`: the residue at `k` is `ε N^(-k) g₀`. -/
+theorem Λ_residue_k :
+    Tendsto (fun s : ℂ ↦ (s - P.k) • P.Λ s) (𝓝[≠] (P.k : ℂ))
+      (𝓝 ((P.ε * ↑(P.N ^ (-P.k))) • P.g₀)) :=
+  P.toWeakFEPair.Λ_residue_k
+
+/-- Mathlib's `WeakFEPair.functional_equation` for the transported pair, at every `s`; its dual
+side is the continued Mellin transform of `g(·/N)`. -/
+theorem functional_equation (s : ℂ) :
+    P.Λ (P.k - s) = (P.ε * ↑(P.N ^ (-P.k))) • P.toWeakFEPair.symm.Λ s :=
+  P.toWeakFEPair.functional_equation s
+
+/-- **The one fact the level adds.** The dual side of the transported pair is the continued Mellin
+transform of `g(·/N)`, which is `N^s` times that of `g`: on `Re s > k` by Mathlib's
+`mellin_comp_mul_right`, and off `{0, k}` by the identity theorem on the connected set
+`ℂ ∖ {0, k}`. ⚠ Stated off the poles: there both sides are junk values of Mathlib's `Λ`, which the
+rescaling does not preserve. -/
+theorem toWeakFEPair_symm_Λ [CompleteSpace E] {s : ℂ} (h0 : s ≠ 0) (hk : s ≠ P.k) :
+    P.toWeakFEPair.symm.Λ s = (P.N : ℂ) ^ s • P.symm.Λ s := by
+  have hfin : ({0, (P.k : ℂ)} : Set ℂ).Finite := (Set.finite_singleton _).insert _
+  have memU : ∀ {z : ℂ}, z ∈ ({0, (P.k : ℂ)} : Set ℂ)ᶜ ↔ z ≠ 0 ∧ z ≠ (P.k : ℂ) := by
+    intro z
+    simp only [Set.mem_compl_iff, Set.mem_insert_iff, Set.mem_singleton_iff, not_or]
+  have hUo : IsOpen ({0, (P.k : ℂ)} : Set ℂ)ᶜ := hfin.isClosed.isOpen_compl
+  have hUc : IsPreconnected ({0, (P.k : ℂ)} : Set ℂ)ᶜ :=
+    (hfin.countable.isConnected_compl_of_one_lt_rank
+      (by rw [Complex.rank_real_complex]; norm_num)).isPreconnected
+  have hN0 : (P.N : ℂ) ≠ 0 := ofReal_ne_zero.mpr P.hN.ne'
+  have hL : AnalyticOnNhd ℂ P.toWeakFEPair.symm.Λ ({0, (P.k : ℂ)} : Set ℂ)ᶜ := by
+    refine DifferentiableOn.analyticOnNhd (fun z hz ↦ ?_) hUo
+    obtain ⟨hz0, hzk⟩ := memU.mp hz
+    exact (P.toWeakFEPair.symm.differentiableAt_Λ (Or.inl hz0)
+      (Or.inl hzk)).differentiableWithinAt
+  have hR : AnalyticOnNhd ℂ (fun z ↦ (P.N : ℂ) ^ z • P.symm.Λ z)
+      ({0, (P.k : ℂ)} : Set ℂ)ᶜ := by
+    refine DifferentiableOn.analyticOnNhd (fun z hz ↦ ?_) hUo
+    obtain ⟨hz0, hzk⟩ := memU.mp hz
+    exact ((differentiableAt_id.const_cpow (Or.inl hN0)).smul
+      (P.symm.differentiableAt_Λ (Or.inl hz0) (Or.inl hzk))).differentiableWithinAt
+  have hmem : ((P.k : ℂ) + 1) ∈ ({0, (P.k : ℂ)} : Set ℂ)ᶜ := by
+    refine memU.mpr ⟨fun h ↦ ?_, fun h ↦ ?_⟩
+    · have := congrArg Complex.re h
+      simp at this
+      linarith [P.hk]
+    · have := congrArg Complex.re h
+      simp at this
+  have hev : P.toWeakFEPair.symm.Λ =ᶠ[𝓝 ((P.k : ℂ) + 1)]
+      fun z ↦ (P.N : ℂ) ^ z • P.symm.Λ z := by
+    have hre : ∀ᶠ z in 𝓝 ((P.k : ℂ) + 1), P.k < z.re :=
+      (continuous_re.tendsto _).eventually (lt_mem_nhds (by simp))
+    filter_upwards [hre] with z hz
+    rw [← (P.toWeakFEPair.symm.hasMellin hz).2, ← (P.symm.hasMellin hz).2]
+    have h := mellin_comp_mul_right (fun t ↦ P.g t - P.g₀) z (inv_pos.mpr P.hN)
+    simp only [← div_eq_mul_inv] at h
+    refine h.trans ?_
+    congr 1
+    rw [ofReal_inv, inv_cpow _ _ (by rw [arg_ofReal_of_nonneg P.hN.le]; exact Real.pi_ne_zero.symm),
+      cpow_neg, inv_inv]
+  exact hL.eqOn_of_preconnected_of_eventuallyEq hR hUc hmem hev (memU.mpr ⟨h0, hk⟩)
+
+/-- **The Mellin principle at level `N`**, Neukirch VII (1.4) with a level:
+`Λ(f, s) = ε N^(-s) Λ(g, k - s)` off the poles `0` and `k`, from Mathlib's
+`functional_equation` and `toWeakFEPair_symm_Λ`. -/
+theorem Λ_eq [CompleteSpace E] {s : ℂ} (h0 : s ≠ 0) (hk : s ≠ P.k) :
+    P.Λ s = (P.ε * (P.N : ℂ) ^ (-s)) • P.symm.Λ (P.k - s) := by
+  have h := P.functional_equation (P.k - s)
+  rw [sub_sub_cancel] at h
+  rw [h, P.toWeakFEPair_symm_Λ (sub_ne_zero.mpr hk.symm)
+    (fun h' ↦ h0 (sub_eq_self.mp h')), smul_smul]
+  congr 1
+  rw [ofReal_cpow P.hN.le, mul_assoc, ← cpow_add _ _ (ofReal_ne_zero.mpr P.hN.ne')]
+  congr 2
+  push_cast
+  ring
+
+/-- The level principle as an equality of germs at every point, poles included. -/
+theorem Λ_eventuallyEq [CompleteSpace E] (s : ℂ) :
+    P.Λ =ᶠ[𝓝[≠] s] fun z ↦ (P.ε * (P.N : ℂ) ^ (-z)) • P.symm.Λ (P.k - z) := by
+  have hne : ∀ a : ℂ, ∀ᶠ z in 𝓝[≠] s, z ≠ a := fun a ↦ by
+    rcases eq_or_ne s a with rfl | h
+    · exact self_mem_nhdsWithin
+    · exact nhdsWithin_le_nhds (eventually_ne_nhds h)
+  filter_upwards [hne 0, hne P.k] with z hz0 hzk
+  exact P.Λ_eq hz0 hzk
+
+/-- ⚠ **Regression: no pair has `f ≡ 0` and `g ≡ 1`.** At `t = 1` the law reads `0 = ε`, which
+`hε` excludes. With `ε = 0` allowed, this pair would satisfy the law while its reverse `symm`
+asserted `1 = 0`. -/
+theorem not_exists_f_eq_zero_g_eq_one : ¬ ∃ P : FEPairWithLevel ℂ, P.f = 0 ∧ P.g = 1 := by
+  rintro ⟨P, hf, hg⟩
+  have h := P.h_feq 1 (Set.mem_Ioi.mpr one_pos)
+  simp only [hf, hg, Pi.zero_apply, Pi.one_apply, Real.one_rpow, ofReal_one, mul_one,
+    smul_eq_mul] at h
+  exact P.hε h.symm
+
+/-- ⚠ **Regression: no pair has `f = g ≡ 1`.** At `t = 1` and `t = 2` the law gives `2^k = 1`,
+which `hk` excludes. With `k = 0` allowed, this pair would satisfy the law at level `1` and
+`ε = 1`, while `Λ_residue_zero` and `Λ_residue_k` gave `s Λ(s)` the two limits `-1` and `1` in the
+same punctured neighbourhood of `0`. -/
+theorem not_exists_f_eq_one_g_eq_one : ¬ ∃ P : FEPairWithLevel ℂ, P.f = 1 ∧ P.g = 1 := by
+  rintro ⟨P, hf, hg⟩
+  have h1 := P.h_feq 1 (Set.mem_Ioi.mpr one_pos)
+  have h2 := P.h_feq 2 (Set.mem_Ioi.mpr two_pos)
+  simp only [hf, hg, Pi.one_apply, Real.one_rpow, ofReal_one, mul_one, smul_eq_mul] at h1 h2
+  rw [← h1, one_mul] at h2
+  have h3 : (2 : ℝ) ^ P.k = 1 := by exact_mod_cast h2.symm
+  have h4 := Real.one_lt_rpow (by norm_num : (1 : ℝ) < 2) P.hk
+  linarith
 
 end FEPairWithLevel
 
@@ -887,13 +1116,20 @@ theorem archHaar_eq_map (K : Type u) [Field K] [NumberField K] :
       (fun p : normOneSurface K × ℝ ↦ surfaceScale K (p.1 : ArchParam K) p.2)
       ((surfaceHaar K).prod multHaar) := sorry
 
-/-- A fundamental domain for the unit action on the norm-one hypersurface: a measurable subset
-of `S` meeting every orbit of `u ↦ unitScale u` in exactly one point, the stabilizer of every
-point being the torsion (`unitScale_eq_self_iff`). -/
+/-- A fundamental domain for the unit action on the norm-one hypersurface: a bounded measurable
+subset of `S` meeting every orbit of `u ↦ unitScale u` in exactly one point, the stabilizer of
+every point being the torsion (`unitScale_eq_self_iff`). Bounded, as Neukirch's `F` is and as
+Mathlib's cone is on `S` (`fundamentalCone.isBounded_normLeOne`): a bounded subset of `S` has
+compact closure in the open orthant, which is what makes the Mellin kernel of every lattice
+continuous and exponentially close to its constant term (`continuousOn_mellinKernel`,
+`mellinKernel_sub_const_isBigO`). ⚠ The kernel theorems hold for every lattice only because of
+this: over an unbounded measurable fundamental domain the theta series of a lattice that is not
+unit-stable can fail to be integrable, and its kernel is then Lean's junk value `0`. -/
 structure IsUnitFundamentalDomain (K : Type u) [Field K] [NumberField K]
     (D : Set (ArchParam K)) : Prop where
   subset : D ⊆ normOneSurface K
   measurableSet : MeasurableSet D
+  isBounded : Bornology.IsBounded D
   exists_mem : ∀ y ∈ normOneSurface K, ∃ u : (𝓞 K)ˣ, unitScale K u y ∈ D
   mem_iff : ∀ y ∈ D, ∀ u : (𝓞 K)ˣ, unitScale K u y ∈ D ↔ u ∈ NumberField.Units.torsion K
 
@@ -906,7 +1142,7 @@ the absolute values of the coordinates (`mem_of_normAtPlace_eq`); since `unitSca
 Neukirch's choice — the preimage under `log` of a fundamental mesh of the lattice `2 log |𝔬ˣ|`.
 ⚠ It is the same cone through which Mathlib enumerates the integral ideals of a class
 (`fundamentalCone.idealSetEquiv`), so the unfolding in Layer 3 consumes one fundamental domain,
-not two. -/
+not two. It is bounded because Mathlib's `fundamentalCone.isBounded_normLeOne` is. -/
 noncomputable def unitFundamentalDomain (K : Type u) [Field K] [NumberField K] :
     Set (ArchParam K) :=
   {y ∈ normOneSurface K |
@@ -1160,14 +1396,17 @@ noncomputable def epsteinZeta (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) (s : ℂ) 
       (-s)
 
 /-- ⚠ **The radial Mellin transform of the one-parameter theta series is the Epstein zeta
-function, not a partial zeta function.** Term by term, `∫ e^{-π t Q(x)} t^s dt/t = π^{-s} Γ(s)
+function, not a partial zeta function.** The theta series minus its constant term `1`, the term of
+the lattice point `0`, is transformed; term by term, `∫ e^{-π t Q(x)} t^s dt/t = π^{-s} Γ(s)
 Q(x)^{-s}`, so the transform in the single parameter `t` sums `Q(x)^{-s}` over the nonzero lattice
-points. That is a sum over points; it is the ideal sum only when the unit group is finite. -/
+points. That is a sum over points; it is the ideal sum only when the unit group is finite. ⚠ The
+constant is subtracted from the sum, not from each term: `∑' x, (e^{-π t Q(x)} - 1)` is not
+summable, so its `tsum` is Lean's junk value `0`. Over `ℚ` at `s = 1` the right side is
+`π⁻¹ ∑_{n ≠ 0} n⁻² = π/3`. -/
 theorem radialMellin_eq_epsteinZeta (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) {s : ℂ}
     (hs : (Module.finrank ℚ K : ℝ) / 2 < s.re) :
-    ∫ t in Set.Ioi (0 : ℝ),
-        (∑' x : mixedEmbedding.idealLattice K I,
-            mixedGaussian K t (x : mixedEmbedding.mixedSpace K) - 1) * (t : ℂ) ^ s / (t : ℂ) =
+    mellin (fun t ↦ (∑' x : mixedEmbedding.idealLattice K I,
+        mixedGaussian K t (x : mixedEmbedding.mixedSpace K)) - 1) s =
       (Real.pi : ℂ) ^ (-s) * Complex.Gamma s * epsteinZeta K I s := sorry
 
 /-- ⚠ **Regression: in positive unit rank the lattice-point sum is not the ideal sum.** Every
@@ -1303,15 +1542,14 @@ noncomputable def mellinKernel (D : Set (ArchParam K))
         ∂(surfaceHaar K)
 
 /-- **The Mellin transform**, Neukirch (5.5) `Z(𝔎, 2s) = L(f, s)`: for `Re s > 1`,
-`Z(𝔎, s) = ∫_0^∞ (f_D(𝔞, u) - a₀) u^(s/2) du/u`. ⚠ The completed function at `s` is the Mellin
-transform at `s/2`; the Mellin convention `L(f, s) = ∫ (f(t) - f(∞)) t^s dt/t` is Neukirch's (1.4)
-and the convention of `FEPairWithLevel.completed_eq_mellin`. -/
+`Z(𝔎, s) = ∫_0^∞ (f_D(𝔞, u) - a₀) u^(s/2) du/u`, Mathlib's `mellin` at `s/2`. ⚠ The completed
+function at `s` is the Mellin transform at `s/2`; Mathlib's `mellin f s = ∫ t^(s-1) f(t) dt` is
+Neukirch's `L(f, s)` of (1.4), and it is the transform in `FEPairWithLevel.hasMellin`. -/
 theorem completedPartialZeta_eq_mellin {D : Set (ArchParam K)}
     (hD : IsUnitFundamentalDomain K D) (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) {s : ℂ} (hs : 1 < s.re) :
     completedPartialZeta K I s =
-      ∫ u in Set.Ioi (0 : ℝ),
-        (mellinKernel K D (mixedEmbedding.idealLattice K I) u - (mellinConstant K : ℂ)) *
-          (u : ℂ) ^ (s / 2) / (u : ℂ) := sorry
+      mellin (fun u ↦ mellinKernel K D (mixedEmbedding.idealLattice K I) u - (mellinConstant K : ℂ))
+        (s / 2) := sorry
 
 /-- Neukirch (5.8), second half: the kernel is its constant term up to an exponentially small
 error, `f_D(L, u) = a₀ + O(e^{-c u^(1/n)})`, because on the compact closure of `D` every parameter
@@ -1326,6 +1564,15 @@ theorem mellinKernel_sub_const_isBigO {D : Set (ArchParam K)}
 theorem mellinKernel_tendsto {D : Set (ArchParam K)} (hD : IsUnitFundamentalDomain K D)
     (L : Submodule ℤ (mixedEmbedding.mixedSpace K)) [DiscreteTopology L] [IsZLattice ℝ L] :
     Tendsto (mellinKernel K D L) atTop (𝓝 (mellinConstant K : ℂ)) := sorry
+
+/-- **The kernel is continuous on `(0, ∞)`.** For `u` in a compact subset of `(0, ∞)` the
+parameters `x (u/V_L²)^(1/n)`, `x ∈ D`, stay in a compact subset of the open orthant, because `D`
+is a bounded subset of `S`, and there the theta series converges uniformly. This is the local
+integrability that Mathlib's pair takes (`dedekindFEPair`), and Neukirch's continuity hypothesis
+in (1.4). -/
+theorem continuousOn_mellinKernel {D : Set (ArchParam K)} (hD : IsUnitFundamentalDomain K D)
+    (L : Submodule ℤ (mixedEmbedding.mixedSpace K)) [DiscreteTopology L] [IsZLattice ℝ L] :
+    ContinuousOn (mellinKernel K D L) (Set.Ioi 0) := sorry
 
 /-- **Neukirch (5.8), first half — the transformation law of the kernel.** From
 `latticeTheta_inv` and the substitution `x ↦ x⁻¹` on `S`, which preserves `d*x` and carries `D`
@@ -1362,26 +1609,51 @@ theorem mellinKernel_dualIdealLattice {D : Set (ArchParam K)} (hD : IsUnitFundam
         (mixedEmbedding.idealLattice K (dualUnit K I)) u := sorry
 
 /-- **The Dedekind instance of the Mellin principle**: `f = f_D(𝔞, ·)`, `g = f_{D⁻¹}(𝔞^∨, ·)`,
-level `1`, weight `1/2`, `ε = 1`, both limits `a₀` (`mellinKernel_inv`, `mellinKernel_tendsto`,
-`mellinKernel_sub_const_isBigO`). Its `completed` at `s/2` is `completedPartialZeta 𝔞` at `s`
-(`dedekindFEPair_completed`), which is how the partial zeta functions are continued. -/
+level `1`, weight `1/2`, `ε = 1`, both constants `a₀`. Each hypothesis of Mathlib's pair is
+discharged from a named property of the kernel: local integrability from its continuity
+(`continuousOn_mellinKernel`), the law from `mellinKernel_inv`, and the rapid decay from the
+exponential decay of `mellinKernel_sub_const_isBigO`; `k = 1/2 > 0` and `ε = 1 ≠ 0`. Its `Λ` at
+`s/2` is `completedPartialZeta 𝔞` at `s` (`dedekindFEPair_completed`), which is how the partial
+zeta functions are continued. -/
 noncomputable def dedekindFEPair {D : Set (ArchParam K)} (hD : IsUnitFundamentalDomain K D)
     (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) : FEPairWithLevel ℂ where
   f := mellinKernel K D (mixedEmbedding.idealLattice K I)
   g := mellinKernel K ((fun y : ArchParam K ↦ fun w ↦ (y w)⁻¹) '' D) (dualIdealLattice K I)
-  fLimit := mellinConstant K
-  gLimit := mellinConstant K
-  level := 1
-  level_pos := one_pos
-  weight := 1 / 2
-  epsilon := 1
-  transform := sorry
-  f_decay := sorry
-  g_decay := sorry
+  k := 1 / 2
+  ε := 1
+  f₀ := mellinConstant K
+  g₀ := mellinConstant K
+  N := 1
+  hN := one_pos
+  hf_int := (continuousOn_mellinKernel K hD _).locallyIntegrableOn measurableSet_Ioi
+  hg_int :=
+    (continuousOn_mellinKernel K (IsUnitFundamentalDomain.inv K hD) _).locallyIntegrableOn
+      measurableSet_Ioi
+  hk := one_half_pos
+  hε := one_ne_zero
+  h_feq t ht := by
+    rw [show (1 : ℝ) / (1 * t) = t⁻¹ by ring, dualIdealLattice_eq_mixedDual,
+      mellinKernel_inv K hD (mixedEmbedding.idealLattice K I) ht, one_mul, ← Real.sqrt_eq_rpow,
+      smul_eq_mul]
+  hf_top r := by
+    obtain ⟨c, hc, h⟩ := mellinKernel_sub_const_isBigO K hD (mixedEmbedding.idealLattice K I)
+    exact FEPairWithLevel.isBigO_rpow_of_isBigO_exp_neg hc
+      (div_pos one_pos (Nat.cast_pos.mpr Module.finrank_pos)) h r
+  hg_top r := by
+    obtain ⟨c, hc, h⟩ :=
+      mellinKernel_sub_const_isBigO K (IsUnitFundamentalDomain.inv K hD) (dualIdealLattice K I)
+    exact FEPairWithLevel.isBigO_rpow_of_isBigO_exp_neg hc
+      (div_pos one_pos (Nat.cast_pos.mpr Module.finrank_pos)) h r
 
+/-- Mathlib's `hasMellin` for `dedekindFEPair`, read against `completedPartialZeta_eq_mellin`. -/
 theorem dedekindFEPair_completed {D : Set (ArchParam K)} (hD : IsUnitFundamentalDomain K D)
     (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) {s : ℂ} (hs : 1 < s.re) :
-    (dedekindFEPair K hD I).completed (s / 2) = completedPartialZeta K I s := sorry
+    (dedekindFEPair K hD I).Λ (s / 2) = completedPartialZeta K I s := by
+  rw [completedPartialZeta_eq_mellin K hD I hs]
+  refine (FEPairWithLevel.hasMellin _ ?_).2.symm
+  show (1 / 2 : ℝ) < (s / 2).re
+  rw [Complex.div_ofNat_re]
+  linarith
 
 theorem meromorphic_completedPartialZeta (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) :
     Meromorphic (completedPartialZeta K I) := sorry
@@ -1390,8 +1662,9 @@ theorem analyticAt_completedPartialZeta (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) 
     (h0 : s ≠ 0) (h1 : s ≠ 1) : AnalyticAt ℂ (completedPartialZeta K I) s := sorry
 
 /-- **Neukirch (5.9)**: `Z(𝔎, s) = Z(𝔎', 1 - s)` with `𝔎 𝔎' = [𝔡]`, i.e. against the dual ideal
-`(𝔞𝔡)⁻¹`; the Mellin principle for `dedekindFEPair`, with `mellinKernel_dualIdealLattice` on the
-`g` side. Pointwise off the poles `0`, `1`, and as germs everywhere. -/
+`(𝔞𝔡)⁻¹`; the Mellin principle `FEPairWithLevel.Λ_eq` for `dedekindFEPair`, with
+`mellinKernel_dualIdealLattice` on the `g` side. Pointwise off the poles `0`, `1`, and as germs
+everywhere (`FEPairWithLevel.Λ_eventuallyEq`). -/
 theorem completedPartialZeta_one_sub (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) {s : ℂ} (h0 : s ≠ 0)
     (h1 : s ≠ 1) :
     completedPartialZeta K I (1 - s) = completedPartialZeta K (dualUnit K I) s := sorry
@@ -1400,10 +1673,11 @@ theorem completedPartialZeta_one_sub_eventuallyEq (I : (FractionalIdeal (𝓞 K)
     (fun z ↦ completedPartialZeta K I (1 - z)) =ᶠ[𝓝[≠] s]
       completedPartialZeta K (dualUnit K I) := sorry
 
-/-- (5.9): the residue at `s = 1` is `2 a₀ = 2^r R / w`, from `residue_weight` at weight `1/2`
-in the variable `s/2`; summed over the `h` classes this is the residue `2^(r₁+r₂) h R / w` of
-`completedDedekindZeta` at `1` (`tendsto_sub_one_mul_completedDedekindZeta`, with
-`Γ_ℝ(1) = 1`, `Γ_ℂ(1) = 1/π` and the class number formula). -/
+/-- (5.9): the residue at `s = 1` is `2 a₀ = 2^r R / w`, from Mathlib's residue at `k = 1/2`
+(`FEPairWithLevel.Λ_residue_k`) in the variable `s/2`; summed over the `h` classes this is the
+residue `2^(r₁+r₂) h R / w` of `completedDedekindZeta` at `1`
+(`tendsto_sub_one_mul_completedDedekindZeta`, with `Γ_ℝ(1) = 1`, `Γ_ℂ(1) = 1/π` and the class
+number formula). -/
 theorem tendsto_sub_one_mul_completedPartialZeta (I : (FractionalIdeal (𝓞 K)⁰ K)ˣ) :
     Tendsto (fun s : ℂ ↦ (s - 1) * completedPartialZeta K I s) (𝓝[≠] 1)
       (𝓝 (2 * mellinConstant K : ℂ)) := sorry
@@ -2279,18 +2553,20 @@ theorem archimedeanValue_eq_of_isCongrOne {𝔪 : GNF.Modulus K} (χ : Grossench
     (x : Kˣ) (hx : GNF.IsCongrOne 𝔪 x) :
     archimedeanValue K χ x = ∏ τ : K →+* ℂ, τ (x : K) ^ χ.infinityType.exponent τ := sorry
 
-/-- **Hecke's finite character, derived from the primary object** rather than stored: for
-`a ∈ 𝓞_K`, `χ_f(a) := χ_u((a)) N(a)^shift · χ_∞(a)` with `χ_∞` the **full** archimedean value —
-signs at the real places included. It is `1` on `a ≡ 1 mod* 𝔪` by `compatibility`
+/-- **Hecke's finite character on integers, derived from the primary object** rather than stored:
+for `a ∈ 𝓞_K`, `χ_f(a) := χ_u((a)) N(a)^shift · χ_∞(a)` with `χ_∞` the **full** archimedean
+value — signs at the real places included. It is `1` on `a ≡ 1 mod* 𝔪` by `compatibility`
 (`finiteCharacter_eq_one_of_isCongrOne`); it is multiplicative, it vanishes exactly off the
-elements prime to `𝔪₀`, and it factors through the residue units `(𝓞/𝔪₀)ˣ`
+elements prime to `𝔪₀`, and on nonzero elements it depends only on the residue mod `𝔪₀`
 (`finiteCharacter_residue`) — no sign data survives, because the signs are exactly what
-`archimedeanValue` strips off. This is Neukirch's `χ_f = χ((a)) χ_∞(a)⁻¹` of VII (6.1), whose
-modulus is a finite ideal and whose `χ_∞` is the whole archimedean character; it is the residue
-character that the Gauss sum `gaussSum` and the twisted theta series evaluate, and it is the
-finite character of the unitary part. ⚠ Built from the algebraic exponents alone it would be even
-at `-1` for every finite-order character, and the theta series of an odd character would vanish
-by pairing `a` with `-a`. -/
+`archimedeanValue` strips off. This is Neukirch's `χ_f = χ((a)) χ_∞(a)⁻¹` of VII (6.1), read on
+integers: the coefficient that the twisted theta series evaluates (`finiteCharacterK'`), and the
+finite character of the unitary part. ⚠ It is not itself the residue character. It is `0` at the
+actual element `0` (`finiteCharacter_zero`), while at conductor one the residue of `0` is the unit
+`1`. The character of `(𝓞/𝔪₀)ˣ` that the Gauss sum `gaussSum` evaluates is `residueCharacter`,
+which agrees with this coefficient on nonzero elements (`residueCharacter_mk`). ⚠ Built from the
+algebraic exponents alone it would be even at `-1` for every finite-order character, and the
+theta series of an odd character would vanish by pairing `a` with `-a`. -/
 noncomputable def finiteCharacter {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (a : 𝓞 K) :
     ℂ :=
   χ.unitaryWeight (Ideal.span {a}) * ((Ideal.absNorm (Ideal.span {a}) : ℕ) : ℂ) ^ (χ.shift : ℂ) *
@@ -2310,16 +2586,57 @@ theorem finiteCharacter_mul {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪
 theorem finiteCharacter_eq_zero_iff {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (a : 𝓞 K) :
     finiteCharacter K χ a = 0 ↔ ¬ 𝔪.IsCoprimeTo (Ideal.span {a}) := sorry
 
-/-- **The finite character is a character of the residue units `(𝓞/𝔪₀)ˣ`**: two integers
-congruent modulo the finite part of the modulus — no condition on signs — have the same value.
-The signs at `𝔪∞` are removed by `archimedeanValue`: two integers `a`, `b` with `a = x b`,
-`x ≡ 1 mod 𝔪₀` at the finite places only, differ at the finite idele coordinates by a principal
-unit at each `v ∣ 𝔪₀`, on which the presented character is trivial, so the finite values
-`χ(a_f)`, `χ(b_f)` agree; and `χ(a_f) = χ_f(a)⁻¹` by the principal-idele relation. This is what
-lets `gaussSum` evaluate `χ_f` at any representative of a residue class. -/
+/-- The coefficient vanishes at the actual element `0`: `(0) = ⊥` is the zero of `Ideal (𝓞 K)`,
+where the ideal weight, a `→*₀` homomorphism, is `0`. -/
+theorem finiteCharacter_zero {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
+    finiteCharacter K χ 0 = 0 := by
+  have h : χ.unitaryWeight (Ideal.span {(0 : 𝓞 K)}) = 0 := by
+    rw [Ideal.span_singleton_eq_bot.mpr rfl, ← Ideal.zero_eq_bot]
+    exact map_zero _
+  rw [finiteCharacter, h, zero_mul, zero_mul]
+
+/-- The coefficient is `1` at `1`: `(1)` is the unit ideal, of weight `1` and norm `1`, and every
+archimedean factor is `1` there. -/
+theorem finiteCharacter_one {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
+    finiteCharacter K χ 1 = 1 := by
+  simp [finiteCharacter, archimedeanValue, ← Ideal.one_eq_top, Real.sign_one]
+
+/-- **The residue character exists and is unique**: a character of the residue ring `𝓞/𝔪₀` in
+Mathlib's sense (`MulChar`: multiplicative, `1` at `1`, `0` off the units) that agrees with the
+coefficient `finiteCharacter` on every nonzero element. It exists because on nonzero elements the
+coefficient depends only on the residue: two integers `a`, `b` with `a = x b`, `x ≡ 1 mod 𝔪₀` at
+the finite places only, differ at the finite idele coordinates by a principal unit at each
+`v ∣ 𝔪₀`, on which the presented character is trivial, and the signs at `𝔪∞` are removed by
+`archimedeanValue`. It vanishes exactly off the units mod `𝔪₀`, and it is unique because every
+residue class has a nonzero representative (`𝔪₀ ≠ 0`). ⚠ The comparison is on nonzero elements
+only, and this is needed at conductor one: there `𝓞/𝔪₀` has one element, the unit `1`, where every
+character is `1`, while the coefficient is `0` at `0`
+(`trivialCharacter_conductorOne_residue_test`). -/
+theorem existsUnique_residueCharacter {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
+    ∃! ρ : MulChar (𝓞 K ⧸ 𝔪.finitePart) ℂ,
+      ∀ a : 𝓞 K, a ≠ 0 → ρ (Ideal.Quotient.mk 𝔪.finitePart a) = finiteCharacter K χ a := sorry
+
+/-- **Hecke's residue character** `χ_f` of `(𝓞/𝔪₀)ˣ`, Neukirch VII (6.1), as Mathlib's `MulChar`
+of the residue ring, pinned by `residueCharacter_mk`. It is the character that the Gauss sum
+`gaussSum` evaluates, and the one in which Neukirch's (6.4) is stated (`gaussSum_mul`). -/
+noncomputable def residueCharacter {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
+    MulChar (𝓞 K ⧸ 𝔪.finitePart) ℂ :=
+  (existsUnique_residueCharacter K χ).exists.choose
+
+theorem residueCharacter_mk {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (a : 𝓞 K)
+    (ha : a ≠ 0) :
+    residueCharacter K χ (Ideal.Quotient.mk 𝔪.finitePart a) = finiteCharacter K χ a :=
+  (existsUnique_residueCharacter K χ).exists.choose_spec a ha
+
+/-- **On nonzero elements the coefficient depends only on the residue mod `𝔪₀`**, with no
+condition on signs: both values are the residue character's (`residueCharacter_mk`). ⚠ Not at
+`0`: at conductor one `0` and `1` have the same residue, while the coefficient is `0` at `0` and
+`1` at `1` (`trivialCharacter_conductorOne_residue_test`). -/
 theorem finiteCharacter_residue {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (a b : 𝓞 K)
+    (ha : a ≠ 0) (hb : b ≠ 0)
     (h : Ideal.Quotient.mk 𝔪.finitePart a = Ideal.Quotient.mk 𝔪.finitePart b) :
-    finiteCharacter K χ a = finiteCharacter K χ b := sorry
+    finiteCharacter K χ a = finiteCharacter K χ b := by
+  rw [← residueCharacter_mk K χ a ha, ← residueCharacter_mk K χ b hb, h]
 
 /-- On a unit the finite character is the full archimedean value, since `(u) = 𝓞_K` and
 `N(u) = 1`: Neukirch's `χ_f(ε) χ_∞(ε) = 1`, the input of (8.2). ⚠ With signs: at `u = -1` for the
@@ -2516,11 +2833,9 @@ theorem unitaryPartialCompletion_eq_mellin {𝔪 : GNF.Modulus K} {D : Set (Arch
     (h𝔞 : (primitiveConductor K χ).IsCoprimeTo 𝔞) {s : ℂ} (hs : 1 < s.re) :
     unitaryPartialCompletion K χ 𝔞 s =
       ((primitive K χ).unitaryWeight 𝔞)⁻¹ *
-        ∫ u in Set.Ioi (0 : ℝ),
-          (heckeMellinKernel K D χ (idealUnit K 𝔞 h𝔞.1) u -
-              heckeEpsilon K χ * (mellinConstant K : ℂ)) *
-            (u : ℂ) ^ ((s + (harmonicDegree K χ : ℂ) / (Module.finrank ℚ K : ℂ)) / 2) /
-              (u : ℂ) := sorry
+        mellin (fun u ↦ heckeMellinKernel K D χ (idealUnit K 𝔞 h𝔞.1) u -
+            heckeEpsilon K χ * (mellinConstant K : ℂ))
+          ((s + (harmonicDegree K χ : ℂ) / (Module.finrank ℚ K : ℂ)) / 2) := sorry
 
 /-- The total kernel over a system of class representatives, with the class factors
 `χ_u(rep c)⁻¹`: the Mellin inverse of the unitary completion. It does not depend on the
@@ -2547,17 +2862,25 @@ theorem heckeMellinTotal_congr {𝔪 : GNF.Modulus K} {D : Set (ArchParam K)}
     heckeMellinTotal K D χ rep hrep u = heckeMellinTotal K D χ rep' hrep' u := sorry
 
 /-- **The unitary completion is a Mellin transform**, with the kernel identified: for `Re s > 1`,
-`Λ(χ_u, s) = ∫_0^∞ (F_D(χ, u) - a₀(χ)) u^((s + Tr p / n)/2) du/u`. This is the theorem that
-`exists_mellin_completedHeckeLFunction` abbreviates in the finite-order case. -/
+`Λ(χ_u, s) = ∫_0^∞ (F_D(χ, u) - a₀(χ)) u^((s + Tr p / n)/2) du/u`, Mathlib's `mellin` at
+`(s + Tr p / n)/2`. This is the theorem that `exists_mellin_completedHeckeLFunction` abbreviates in
+the finite-order case. -/
 theorem unitaryCompletion_eq_mellin {𝔪 : GNF.Modulus K} {D : Set (ArchParam K)}
     (hD : IsUnitFundamentalDomain K D) (χ : Grossencharacter K 𝔪)
     (rep : ClassGroup (𝓞 K) → Ideal (𝓞 K))
     (hrep : IsClassRepresentatives K (primitiveConductor K χ) rep) {s : ℂ} (hs : 1 < s.re) :
     unitaryCompletion K χ s =
-      ∫ u in Set.Ioi (0 : ℝ),
-        (heckeMellinTotal K D χ rep hrep u - heckeMellinConstant K χ rep) *
-          (u : ℂ) ^ ((s + (harmonicDegree K χ : ℂ) / (Module.finrank ℚ K : ℂ)) / 2) / (u : ℂ) :=
+      mellin (fun u ↦ heckeMellinTotal K D χ rep hrep u - heckeMellinConstant K χ rep)
+        ((s + (harmonicDegree K χ : ℂ) / (Module.finrank ℚ K : ℂ)) / 2) :=
   sorry
+
+/-- The total kernel is continuous on `(0, ∞)`, for the reason of `continuousOn_mellinKernel`: the
+local integrability that Mathlib's pair takes (`grossencharacterFEPair`). -/
+theorem continuousOn_heckeMellinTotal {𝔪 : GNF.Modulus K} {D : Set (ArchParam K)}
+    (hD : IsUnitFundamentalDomain K D) (χ : Grossencharacter K 𝔪)
+    (rep : ClassGroup (𝓞 K) → Ideal (𝓞 K))
+    (hrep : IsClassRepresentatives K (primitiveConductor K χ) rep) :
+    ContinuousOn (heckeMellinTotal K D χ rep hrep) (Set.Ioi 0) := sorry
 
 /-- Neukirch (8.4), second half: exponential decay to the constant term. -/
 theorem heckeMellinTotal_sub_const_isBigO {𝔪 : GNF.Modulus K} {D : Set (ArchParam K)}
@@ -2588,10 +2911,14 @@ theorem heckeMellinTotal_inv {𝔪 : GNF.Modulus K} {D : Set (ArchParam K)}
           hrep' u := sorry
 
 /-- **The Grossencharacter instance of the Mellin principle**: `f = F_D(χ, ·)`,
-`g = F_{D⁻¹}(χ⁻¹, ·)`, level `1`, weight `1/2 + Tr p / n`, `ε = W(χ)`. Its `completed` at
-`(s + Tr p / n)/2` is `unitaryCompletion χ` at `s`, which is how the unitary completion is
-continued and `grossencharacterData_hasFunctionalEquation` proved; `Grossencharacter.completed`
-then follows by recentering. -/
+`g = F_{D⁻¹}(χ⁻¹, ·)`, level `1`, weight `1/2 + Tr p / n`, `ε = W(χ)`. Each hypothesis of
+Mathlib's pair is discharged from a named property of the kernel: local integrability from
+`continuousOn_heckeMellinTotal`, the law from `heckeMellinTotal_inv`, the rapid decay from the
+exponential decay of `heckeMellinTotal_sub_const_isBigO`, `ε ≠ 0` from `norm_rootNumber`, and the
+weight is positive. Its `Λ` at `(s + Tr p / n)/2` is `unitaryCompletion χ` at `s`
+(`grossencharacterFEPair_completed`), which is how the unitary completion is continued and
+`grossencharacterData_hasFunctionalEquation` proved; `Grossencharacter.completed` then follows by
+recentering. -/
 noncomputable def grossencharacterFEPair {𝔪 : GNF.Modulus K} {D : Set (ArchParam K)}
     (hD : IsUnitFundamentalDomain K D) (χ : Grossencharacter K 𝔪)
     (rep rep' : ClassGroup (𝓞 K) → Ideal (𝓞 K))
@@ -2600,25 +2927,65 @@ noncomputable def grossencharacterFEPair {𝔪 : GNF.Modulus K} {D : Set (ArchPa
     FEPairWithLevel ℂ where
   f := heckeMellinTotal K D χ rep hrep
   g := heckeMellinTotal K ((fun y : ArchParam K ↦ fun w ↦ (y w)⁻¹) '' D) (inverse K χ) rep' hrep'
-  fLimit := heckeMellinConstant K χ rep
-  gLimit := heckeMellinConstant K (inverse K χ) rep'
-  level := 1
-  level_pos := one_pos
-  weight := 1 / 2 + (harmonicDegree K χ : ℝ) / Module.finrank ℚ K
-  epsilon := rootNumber K χ
-  transform := sorry
-  f_decay := sorry
-  g_decay := sorry
+  k := 1 / 2 + (harmonicDegree K χ : ℝ) / Module.finrank ℚ K
+  ε := rootNumber K χ
+  f₀ := heckeMellinConstant K χ rep
+  g₀ := heckeMellinConstant K (inverse K χ) rep'
+  N := 1
+  hN := one_pos
+  hf_int := (continuousOn_heckeMellinTotal K hD χ rep hrep).locallyIntegrableOn measurableSet_Ioi
+  hg_int := (continuousOn_heckeMellinTotal K (IsUnitFundamentalDomain.inv K hD) (inverse K χ) rep'
+    hrep').locallyIntegrableOn measurableSet_Ioi
+  hk := by positivity
+  hε h := by
+    have := norm_rootNumber K χ
+    rw [h, norm_zero] at this
+    exact zero_ne_one this
+  h_feq t ht := by
+    rw [show (1 : ℝ) / (1 * t) = t⁻¹ by ring, heckeMellinTotal_inv K hD χ rep rep' hrep hrep' ht,
+      smul_eq_mul, Complex.ofReal_cpow (le_of_lt ht)]
+    push_cast
+    ring
+  hf_top r := by
+    obtain ⟨c, hc, h⟩ := heckeMellinTotal_sub_const_isBigO K hD χ rep hrep
+    exact FEPairWithLevel.isBigO_rpow_of_isBigO_exp_neg hc
+      (div_pos one_pos (Nat.cast_pos.mpr Module.finrank_pos)) h r
+  hg_top r := by
+    obtain ⟨c, hc, h⟩ := heckeMellinTotal_sub_const_isBigO K (IsUnitFundamentalDomain.inv K hD)
+      (inverse K χ) rep' hrep'
+    exact FEPairWithLevel.isBigO_rpow_of_isBigO_exp_neg hc
+      (div_pos one_pos (Nat.cast_pos.mpr Module.finrank_pos)) h r
 
+/-- Mathlib's Mellin representation for `grossencharacterFEPair`, read against
+`unitaryCompletion_eq_mellin`. With `Tr p = 0` it is `hasMellin`, since `k = 1/2 < Re s / 2`. With
+`Tr p > 0` the half-plane `Re s > 1` reaches below `k`, but then `ε(χ) = ε(χ⁻¹) = 0`, both constants
+vanish, and it is the strong-pair `hasMellin_of_eq_zero`, valid at every `s`. -/
 theorem grossencharacterFEPair_completed {𝔪 : GNF.Modulus K} {D : Set (ArchParam K)}
     (hD : IsUnitFundamentalDomain K D) (χ : Grossencharacter K 𝔪)
     (rep rep' : ClassGroup (𝓞 K) → Ideal (𝓞 K))
     (hrep : IsClassRepresentatives K (primitiveConductor K χ) rep)
     (hrep' : IsClassRepresentatives K (primitiveConductor K (inverse K χ)) rep') {s : ℂ}
     (hs : 1 < s.re) :
-    (grossencharacterFEPair K hD χ rep rep' hrep hrep').completed
+    (grossencharacterFEPair K hD χ rep rep' hrep hrep').Λ
         ((s + (harmonicDegree K χ : ℂ) / (Module.finrank ℚ K : ℂ)) / 2) =
-      unitaryCompletion K χ s := sorry
+      unitaryCompletion K χ s := by
+  rw [unitaryCompletion_eq_mellin K hD χ rep hrep hs]
+  by_cases hT : harmonicDegree K χ = 0
+  · refine (FEPairWithLevel.hasMellin _ ?_).2.symm
+    show 1 / 2 + (harmonicDegree K χ : ℝ) / Module.finrank ℚ K <
+      ((s + (harmonicDegree K χ : ℂ) / (Module.finrank ℚ K : ℂ)) / 2).re
+    simp only [hT, Nat.cast_zero, zero_div, add_zero, Complex.div_ofNat_re]
+    linarith
+  · have hf₀ : heckeMellinConstant K χ rep = 0 := by
+      simp [heckeMellinConstant, heckeEpsilon, hT]
+    have hg₀ : heckeMellinConstant K (inverse K χ) rep' = 0 := by
+      simp [heckeMellinConstant, heckeEpsilon, harmonicDegree_inverse, hT]
+    rw [← ((grossencharacterFEPair K hD χ rep rep' hrep hrep').hasMellin_of_eq_zero hf₀ hg₀
+      _).2]
+    congr 1
+    funext u
+    simp only [hf₀, sub_zero]
+    rfl
 
 end Grossencharacter
 
@@ -2635,36 +3002,39 @@ theorem completedHeckeLFunction_eq_mellin {D : Set (ArchParam K)}
       (Grossencharacter.primitiveConductor K (Grossencharacter.ofRayClassCharacter K ψ.character))
       rep) {s : ℂ} (hs : 1 < s.re) :
     completedHeckeLFunction K ψ s =
-      ∫ u in Set.Ioi (0 : ℝ),
-        (Grossencharacter.heckeMellinTotal K D (Grossencharacter.ofRayClassCharacter K ψ.character)
-            rep hrep u -
-          Grossencharacter.heckeMellinConstant K
-            (Grossencharacter.ofRayClassCharacter K ψ.character) rep) *
-          (u : ℂ) ^ ((s + (Grossencharacter.harmonicDegree K
-            (Grossencharacter.ofRayClassCharacter K ψ.character) : ℂ) /
-              (Module.finrank ℚ K : ℂ)) / 2) / (u : ℂ) := sorry
+      mellin (fun u ↦
+          Grossencharacter.heckeMellinTotal K D (Grossencharacter.ofRayClassCharacter K ψ.character)
+              rep hrep u -
+            Grossencharacter.heckeMellinConstant K
+              (Grossencharacter.ofRayClassCharacter K ψ.character) rep)
+        ((s + (Grossencharacter.harmonicDegree K
+          (Grossencharacter.ofRayClassCharacter K ψ.character) : ℂ) /
+            (Module.finrank ℚ K : ℂ)) / 2) := sorry
 
 open scoped Classical in
 /-- **Neukirch VII (6.3), the Gauss sum** of the finite character of a primitive ray-class
 character at `y ∈ 𝔪₀⁻¹𝔡⁻¹`: `τ_𝔪(χ_f, y) = ∑_{x mod 𝔪₀, (x, 𝔪₀) = 1} χ_f(x) e^(2πi Tr(xy))`, a
-finite sum over the residue units of `𝓞/𝔪₀` (the quotient by a nonzero ideal is finite), well
-defined because `Tr(xy) mod ℤ` depends only on `x mod 𝔪₀` for such `y` and `χ_f` factors through
-`(𝓞/𝔪₀)ˣ` (`Grossencharacter.finiteCharacter_residue`), so any representative `Quotient.out`
-may be evaluated. The finite character is `Grossencharacter.finiteCharacter` of the finite-order
-presentation — the residue character, with the real signs stripped by `archimedeanValue`. -/
+finite sum over the residue units of `𝓞/𝔪₀` (the quotient by a nonzero ideal is finite). The
+character is the residue character `Grossencharacter.residueCharacter` of the finite-order
+presentation, read on the residue class itself; only the trace needs a representative, and
+`Tr(xy) mod ℤ` depends only on `x mod 𝔪₀` for such `y`, so `Quotient.out` may be used
+(`gaussSum_eq_sum`). ⚠ Not the coefficient `finiteCharacter` at a representative: at conductor one
+the representative of the one residue class may be `0`, where the coefficient is `0`, while the
+Gauss sum is `1` (`gaussSum_of_finitePart_eq_top`). -/
 noncomputable def gaussSum (ψ : PrimitiveRayClassCharacter K) (y : K) : ℂ :=
   letI : Finite (𝓞 K ⧸ ψ.conductor.finitePart) :=
     Ideal.finiteQuotientOfFreeOfNeBot _ ψ.conductor.finitePart_ne_bot
   letI : Fintype (𝓞 K ⧸ ψ.conductor.finitePart)ˣ := Fintype.ofFinite _
   ∑ x : (𝓞 K ⧸ ψ.conductor.finitePart)ˣ,
-    Grossencharacter.finiteCharacter K (Grossencharacter.ofRayClassCharacter K ψ.character)
-        (Quotient.out (x : 𝓞 K ⧸ ψ.conductor.finitePart)) *
+    Grossencharacter.residueCharacter K (Grossencharacter.ofRayClassCharacter K ψ.character)
+        (x : 𝓞 K ⧸ ψ.conductor.finitePart) *
       Complex.exp (2 * Real.pi * Complex.I *
         ((Algebra.trace ℚ K (algebraMap (𝓞 K) K (Quotient.out
           (x : 𝓞 K ⧸ ψ.conductor.finitePart)) * y) : ℚ) : ℂ))
 
 /-- The Gauss sum does not depend on the representatives, for `y ∈ 𝔪₀⁻¹𝔡⁻¹`: changing `x` by an
-element of `𝔪₀` changes `Tr(xy)` by an element of `Tr(𝔡⁻¹) = ℤ`. -/
+element of `𝔪₀` changes `Tr(xy)` by an element of `Tr(𝔡⁻¹) = ℤ`, and the character is read on the
+residue class. -/
 theorem gaussSum_eq_sum {K : Type u} [Field K] [NumberField K] (ψ : PrimitiveRayClassCharacter K)
     (y : K) (hy : y ∈ FractionalIdeal.dual ℤ ℚ (ψ.conductor.finitePart : FractionalIdeal (𝓞 K)⁰ K))
     (rep : (𝓞 K ⧸ ψ.conductor.finitePart)ˣ → 𝓞 K)
@@ -2674,16 +3044,20 @@ theorem gaussSum_eq_sum {K : Type u} [Field K] [NumberField K] (ψ : PrimitiveRa
       Ideal.finiteQuotientOfFreeOfNeBot _ ψ.conductor.finitePart_ne_bot
     letI : Fintype (𝓞 K ⧸ ψ.conductor.finitePart)ˣ := Fintype.ofFinite _
     gaussSum K ψ y = ∑ x : (𝓞 K ⧸ ψ.conductor.finitePart)ˣ,
-      Grossencharacter.finiteCharacter K (Grossencharacter.ofRayClassCharacter K ψ.character)
-          (rep x) *
+      Grossencharacter.residueCharacter K (Grossencharacter.ofRayClassCharacter K ψ.character)
+          (x : 𝓞 K ⧸ ψ.conductor.finitePart) *
         Complex.exp (2 * Real.pi * Complex.I *
           ((Algebra.trace ℚ K (algebraMap (𝓞 K) K (rep x) * y) : ℚ) : ℂ)) := sorry
 
 /-- **Neukirch (6.4), first half**, for `y ∈ 𝔪₀⁻¹𝔡⁻¹` and a primitive character:
-`τ_𝔪(χ_f, a y) = conj(χ_f(a)) τ_𝔪(χ_f, y)`. Reindexing the sum by `x ↦ x a⁻¹` produces the
-**inverse** value `χ_f(a)⁻¹`, which is `conj(χ_f(a))` for a unit-modulus character — Mathlib's
-`gaussSum_mulShift_eq` states exactly this convention — and for `(a, 𝔪₀) ≠ 1` both sides are `0`
-(primitivity; `finiteCharacter` already vanishes there), so one equation covers (6.4)'s two cases.
+`τ_𝔪(χ_f, a y) = conj(χ_f(a)) τ_𝔪(χ_f, y)`, with `χ_f(a)` the residue character at `a mod 𝔪₀`.
+Reindexing the sum by `x ↦ x a⁻¹` produces the **inverse** value `χ_f(a)⁻¹`, which is
+`conj(χ_f(a))` for a unit-modulus character — Mathlib's `gaussSum_mulShift_eq` states exactly this
+convention — and for `(a, 𝔪₀) ≠ 1` both sides are `0` (primitivity; `a` is then not a unit mod
+`𝔪₀`, where the `MulChar` vanishes), so one equation covers (6.4)'s two cases. ⚠ At conductor one
+every `a`, `0` included, is a unit mod `𝔪₀` of character value `1`, and both sides are `1`; with
+the coefficient `finiteCharacter a` in place of the residue character the equation would read
+`1 = 0` at `a = 0`.
 ⚠ Quadratic characters cannot detect the inverse; an even primitive character of order `3`
 modulo `7` with `χ_f(3) = ω` gives `τ(χ, 3/7) = ω⁻¹ τ(χ, 1/7)`. ⚠ The domain hypothesis is needed
 for the vanishing case: over `ℚ` with the even character mod `5`, `a = 5` and `y = 1/25` (not in
@@ -2692,8 +3066,9 @@ theorem gaussSum_mul (ψ : PrimitiveRayClassCharacter K) (y : K)
     (hy : y ∈ FractionalIdeal.dual ℤ ℚ (ψ.conductor.finitePart : FractionalIdeal (𝓞 K)⁰ K))
     (a : 𝓞 K) :
     gaussSum K ψ (algebraMap (𝓞 K) K a * y) =
-      starRingEnd ℂ (Grossencharacter.finiteCharacter K
-        (Grossencharacter.ofRayClassCharacter K ψ.character) a) * gaussSum K ψ y := sorry
+      starRingEnd ℂ (Grossencharacter.residueCharacter K
+        (Grossencharacter.ofRayClassCharacter K ψ.character)
+          (Ideal.Quotient.mk ψ.conductor.finitePart a)) * gaussSum K ψ y := sorry
 
 /-- Neukirch (6.4), second half: `|τ_𝔪(χ_f, y)| = √N(𝔪₀)` when `y ∈ 𝔪₀⁻¹𝔡⁻¹` and the integral
 ideal `y 𝔪₀ 𝔡` is prime to `𝔪₀`. Consistency check with `gaussSum_mul`: over `ℚ` with the even
@@ -2705,6 +3080,15 @@ theorem norm_gaussSum (ψ : PrimitiveRayClassCharacter K) (y : K)
           (ψ.conductor.finitePart : FractionalIdeal (𝓞 K)⁰ K) *
           (differentIdeal ℤ (𝓞 K) : FractionalIdeal (𝓞 K)⁰ K) = 𝔟) :
     ‖gaussSum K ψ y‖ = Real.sqrt (Ideal.absNorm ψ.conductor.finitePart) := sorry
+
+/-- ⚠ **The Gauss sum at conductor one is `1`**, at every `y ∈ 𝔡⁻¹`: `(𝓞/𝓞)ˣ` has one element,
+the residue character is `1` there, and `Tr(x y) ∈ ℤ`. Conductor-one characters, the trivial one
+among them, stay in the programme through this value; it is the `τ(χ_f) = 1` in Neukirch's root
+number of `ζ_K`. -/
+theorem gaussSum_of_finitePart_eq_top (ψ : PrimitiveRayClassCharacter K)
+    (h : ψ.conductor.finitePart = ⊤) (y : K)
+    (hy : y ∈ FractionalIdeal.dual ℤ ℚ (ψ.conductor.finitePart : FractionalIdeal (𝓞 K)⁰ K)) :
+    gaussSum K ψ y = 1 := sorry
 
 theorem grossencharacterData_ofRayClassCharacter (χ : PrimitiveRayClassCharacter K) :
     (grossencharacterData K
@@ -2738,6 +3122,35 @@ theorem oddCharacter_mod_four_sign_test (y : ℝ) (hy : 0 < y) :
       Grossencharacter.heckeTheta ℚ χ 1 (fun _ ↦ y) =
         2 * ∑' n : ℕ, χ₄C ((n + 1 : ℕ) : ZMod 4) * ((n + 1 : ℕ) : ℂ) *
           Complex.exp (((-Real.pi * y * ((n + 1 : ℕ) : ℝ) ^ 2 : ℝ)) : ℂ) := sorry
+
+/-- ⚠ **Regression: the residue character is not the coefficient**, at the trivial character of
+`ℚ` at conductor one, whose L-function is `ζ`. The residue ring `𝓞/𝓞` has one element, a unit, so
+`0` and `1` have the same residue, where the residue character is `1`; the coefficient
+`finiteCharacter` is `0` at the actual element `0` and `1` at `1`. So the coefficient does not
+descend to the residue ring through `0`: the unrestricted descent is refuted by the last conjunct,
+`finiteCharacter_residue` asks for nonzero elements, and the Gauss sum reads the residue
+character. Every conjunct is closed from the definitions. -/
+theorem trivialCharacter_conductorOne_residue_test :
+    let χ :=
+      Grossencharacter.ofRayClassCharacter ℚ (1 : GNF.RayClassCharacter (GNF.Modulus.one ℚ))
+    Grossencharacter.finiteCharacter ℚ χ 0 = 0 ∧ Grossencharacter.finiteCharacter ℚ χ 1 = 1 ∧
+      Ideal.Quotient.mk (GNF.Modulus.one ℚ).finitePart (0 : 𝓞 ℚ) =
+        Ideal.Quotient.mk (GNF.Modulus.one ℚ).finitePart 1 ∧
+      Grossencharacter.residueCharacter ℚ χ
+        (Ideal.Quotient.mk (GNF.Modulus.one ℚ).finitePart 0) = 1 ∧
+      ¬ ∀ a b : 𝓞 ℚ, Ideal.Quotient.mk (GNF.Modulus.one ℚ).finitePart a =
+          Ideal.Quotient.mk (GNF.Modulus.one ℚ).finitePart b →
+        Grossencharacter.finiteCharacter ℚ χ a = Grossencharacter.finiteCharacter ℚ χ b := by
+  intro χ
+  have h0 := Grossencharacter.finiteCharacter_zero ℚ χ
+  have h1 := Grossencharacter.finiteCharacter_one ℚ χ
+  have hmk : Ideal.Quotient.mk (GNF.Modulus.one ℚ).finitePart (0 : 𝓞 ℚ) =
+      Ideal.Quotient.mk (GNF.Modulus.one ℚ).finitePart 1 :=
+    Ideal.Quotient.eq.mpr (by simp [TauCetiRoadmap.GlobalNumberFields.Modulus.one])
+  refine ⟨h0, h1, hmk, by rw [hmk, map_one, map_one], fun h ↦ ?_⟩
+  have := h 0 1 hmk
+  rw [h0, h1] at this
+  exact zero_ne_one this
 
 /-- Unconditional even-parity regression: no real place divides the modulus and the real gamma
 shift is zero. -/

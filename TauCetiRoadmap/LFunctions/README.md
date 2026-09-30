@@ -33,9 +33,9 @@ exhaustive checklist. Dated provenance records are maintained privately and are 
   the norm-one hypersurface with its Haar measure and a fundamental domain for the units on it
   (Mathlib's fundamental cone, with Neukirch's volume `2^(r-1) R`), the Mellin kernel of a partial
   zeta function — the theta series averaged over that domain — with its transformation law and its
-  constant term, the Mellin principle on a functional-equation pair, and the single theorem that
-  fixes the additive character, the self-dual measure, the Fourier sign, the discriminant factor
-  and both archimedean factors at once;
+  constant term, the extension of Mathlib's Mellin principle `WeakFEPair` to a level, and the
+  single theorem that fixes the additive character, the self-dual measure, the Fourier sign, the
+  discriminant factor and both archimedean factors at once;
 - partial zeta functions and the continuation, residue, and functional equation of Dedekind zeta;
 - special values and exact quadratic and cyclotomic factorizations;
 - Dirichlet L-function cards extending Mathlib's continued functions;
@@ -125,6 +125,12 @@ is closed by `gaussian_apply`, and a closed-checks section applies all nine at t
 so that a supplier rename or retype breaks this roadmap's file rather than a docstring. Layer 1
 here specializes them to the mixed embedding of a fractional ideal. It states no second Poisson
 theorem, no second dual-lattice notion, and no theta series on the upper half plane.
+
+From Mathlib, the Mellin principle: `WeakFEPair` and `IsStrongFEPair` in
+`Mathlib/NumberTheory/LSeries/AbstractFuncEq.lean`, with `WeakFEPair.Λ`, `hasMellin`,
+`functional_equation`, `Λ_residue_zero`, `Λ_residue_k` and `differentiableAt_Λ`, and `mellin` with
+`mellin_comp_mul_right` from `Mathlib/Analysis/MellinTransform.lean`. They are consumed through the
+level transport of Layer 1; no second Mellin theory is developed.
 
 ### Not owned here
 
@@ -285,7 +291,7 @@ modulus `𝔪 : GlobalNumberFields.Modulus K`; the general carrier is
 | Grossencharacter presentation | the idele class character is the primary object; the weight, the infinity type and the modulus condition are equations in it, so a presentation is determined by its Hecke character. The analytic card is the unitary part's. |
 | Hecke shift | the shift is the supplier's `HeckeCharacter.shift` of the primary object, `χ = χ_u N^shift` on ideals — at a prime idele `χ(π_𝔭) = χ_u(𝔭) N𝔭^shift` (`toHeckeCharacter_primeIdele`), i.e. `‖χ y‖ = ‖y‖^(-shift)` idelically — and the full completion is defined by recentering the unitary completion at `s-shift`. |
 | archimedean sign | `infinityType` is the idelic archimedean exponent `n`; the finite value on a principal ideal `(a)`, `a ≡ 1 mod* 𝔪`, is the **inverse** of the archimedean value: `χ_u((a)) N(a)^shift · ∏_τ τ(a)^(n_τ) = 1` (`compatibility`, Neukirch VII (6.13)). Hecke's classical infinity type is `-n`; the harmonic polynomial of the theta kernel puts the conjugate coordinate at a complex place of positive angular frequency. The nonreal test is `angularGrossencharacter_compatibility_test`. |
-| Mellin transform | Neukirch's (1.4): `L(f, s) = ∫ (f(t) - f(∞)) t^s dt/t`, on the carrier `FEPairWithLevel`. The completed partial zeta function at `s` is the Mellin transform of its kernel at `s/2` (5.5); the unitary completion of a Grossencharacter at `s` is the transform of its kernel at `(s + Tr p / n)/2` (8.3). No kernel is left to an existential. |
+| Mellin transform | Mathlib's `mellin f s = ∫_0^∞ t^(s-1) f(t) dt`, so Neukirch's (1.4) `L(f, s) = ∫ (f(t) - f(∞)) t^s dt/t` is `mellin (f - f(∞)) s`. The Mellin principle is Mathlib's `WeakFEPair`, reached from the carrier `FEPairWithLevel` by the level transport of Layer 1. The completed partial zeta function at `s` is the Mellin transform of its kernel minus its constant term at `s/2` (5.5); the unitary completion of a Grossencharacter at `s` is the transform of its kernel at `(s + Tr p / n)/2` (8.3). No kernel is left to an existential. |
 | root-number duality | `W(χ⁻¹) = W(χ)⁻¹`; for a unitary character this is also `conj W(χ)`. |
 
 ## The build, in layers
@@ -415,12 +421,16 @@ therefore needs, and this layer names in Neukirch's order:
   measure `dy/y = ∏_w dy_w/y_w` (`archHaar`), and the Haar measure `d*x` of `S` pinned by
   `dy/y = d*x × dt/t` (`surfaceHaar`, `archHaar_eq_map`) — "we will not need any more explicit
   description of `d*x`", and none is given;
-- a fundamental domain for the unit action on `S` (`IsUnitFundamentalDomain`), of which
+- a bounded fundamental domain for the unit action on `S` (`IsUnitFundamentalDomain`), of which
   Neukirch's `F` is taken from Mathlib: the parameters whose square root lies in
   `NumberField.mixedEmbedding.fundamentalCone K` (`unitFundamentalDomain`), a fundamental domain
-  for `(𝓞 K)ˣ` modulo torsion that depends only on `|x_w|` and is the cone through which Mathlib
-  itself enumerates the ideals of a class; inversion and translation on `S` carry fundamental
-  domains to fundamental domains;
+  for `(𝓞 K)ˣ` modulo torsion that depends only on `|x_w|`, is bounded on `S`
+  (`fundamentalCone.isBounded_normLeOne`), and is the cone through which Mathlib itself
+  enumerates the ideals of a class; inversion and translation on `S` carry fundamental domains to
+  fundamental domains. ⚠ Boundedness is part of the definition because the kernel theorems of
+  Layer 3 hold for every lattice: a bounded subset of `S` has compact closure in the open orthant,
+  whereas over an unbounded measurable fundamental domain the theta series of a lattice that is
+  not unit-stable can fail to be integrable;
 - Neukirch's (5.6), `vol(F) = 2^(r-1) R` with `r = r₁ + r₂` and `R` Mathlib's regulator, for
   every fundamental domain (`surfaceHaar_of_isUnitFundamentalDomain`). ⚠ Two normalizations differ
   from Neukirch's and are audited in the worked cases: the Gaussian uses `mixedInner`, in which a
@@ -429,15 +439,31 @@ therefore needs, and this layer names in Neukirch's order:
   `2^(r-1) R / 2^r₂` here, the compensating `2^r₂` sits in the Mellin kernel, and the kernel's
   constant term is Neukirch's `2^(r-1) R / w` in both.
 
-**The Mellin principle.** Package it once, on the carrier `FEPairWithLevel`: two functions on
-`(0, ∞)` with exponentially approached limits at `∞`, related by
-`f(1/(level t)) = ε t^weight g(t)` — the `epsilon` field occurs in that law — and the continued
-Mellin transform `L(f, s) = ∫ (f(t) - f(∞)) t^s dt/t` (`completed_eq_mellin`), which Neukirch's
-(1.4) continues to the plane with simple poles at `0` and `weight` of residues `-f(∞)` and
-`ε level^(-weight) g(∞)` and the equation `L(f, s) = ε level^(-s) L(g, weight - s)`
-(`completed_eq`, `residue_zero`, `residue_weight`). The Dedekind kernels of Layer 3 and the
-Grossencharacter kernels of Layer 6 are its instances; nothing else continues a completed
-function.
+**The Mellin principle is Mathlib's.** Mathlib's `WeakFEPair` packages Neukirch's (1.4) for the
+law `f(1/x) = ε x^k g(x)`, with its completed function `Λ`, the Mellin representation
+`hasMellin`, the functional equation, the residues `Λ_residue_zero` and `Λ_residue_k`, and the
+entire case `IsStrongFEPair`. Extend it to a level by transport, as the level note in its file
+proposes, and develop no second Mellin theory. The carrier `FEPairWithLevel` has the hypotheses of
+`WeakFEPair` field for field: `f` and `g` locally integrable on `(0, ∞)`, equal to constants `f₀`
+and `g₀` at `∞` up to an error that decays faster than every power, a weight `k > 0` and a root
+number `ε ≠ 0`. Its law is taken at a level `N > 0`, `f(1/(N t)) = ε t^k g(t)`. The transport
+`toWeakFEPair` replaces `g(x)` by `g(x/N)` and `ε` by `ε N^(-k)`, which turns the law into
+`f(1/x) = (ε N^(-k)) x^k g(x/N)`, exactly a `WeakFEPair`. It does not move `f`, so
+`FEPairWithLevel.Λ` is Mathlib's `Λ` of the transported pair, and its Mellin representation on
+`Re s > k` (`hasMellin`), its residues `-f₀` at `0` and `ε N^(-k) g₀` at `k` and its
+differentiability off `{0, k}` are Mathlib's statements read through the transport. The one fact
+the level adds is that the dual side, the continued Mellin transform of `g(·/N)`, is `N^s` times
+that of `g`: Mathlib's `mellin_comp_mul_right` on `Re s > k`, then the identity theorem on
+`ℂ ∖ {0, k}` (`toWeakFEPair_symm_Λ`). With Mathlib's functional equation it gives
+`Λ(f, s) = ε N^(-s) Λ(g, k - s)` off the poles and as germs at every point (`Λ_eq`,
+`Λ_eventuallyEq`). Neukirch's exponential decay `O(e^{-c t^α})` gives Mathlib's `O(t^r)` for every
+`r` (`isBigO_rpow_of_isBigO_exp_neg`). ⚠ The positive weight and the nonzero `ε` are hypotheses
+of (1.4) and cannot be dropped. With `ε = 0` the pair `f ≡ 0`, `g ≡ 1` satisfies the law while
+its reverse reads `1 = 0`; with `k = 0` the pair `f = g ≡ 1` satisfies it while its residues
+`-1` and `1` sit at the same point. Both are rejected (`not_exists_f_eq_zero_g_eq_one`,
+`not_exists_f_eq_one_g_eq_one`). The Dedekind kernels of Layer 3 and the Grossencharacter kernels of
+Layer 6 are its instances, each discharging every hypothesis from a named property of its kernel;
+nothing else continues a completed function.
 
 **One normalization theorem.** The functional equation depends on the additive character, the
 self-dual measure, the Fourier sign, the discriminant factor, the factor `2` inside
@@ -517,10 +543,12 @@ their sum over the classes (`completedDedekindZeta_eq_sum_completedPartialZeta`)
   the completed partial zeta function `completedPartialZeta` of a fractional ideal is pinned by
   both sums (`completedPartialZeta_eq_tsum`, `completedPartialZeta_eq_tsum_fundamentalCone`) and
   linked to Layer 2's ray-class partial zeta function (`completedPartialZeta_eq_partialZeta`);
-- ⚠ the Epstein regression first: the radial Mellin transform of the one-parameter theta series is
-  `π^(-s) Γ(s)` times the Epstein zeta function of `mixedInner` on `σ(𝔞)`, a sum over points
-  (`radialMellin_eq_epsteinZeta`), and in positive unit rank the corresponding sum over norms is
-  not summable at all (`not_summable_absNorm_of_rank_pos`);
+- ⚠ the Epstein regression first: the radial Mellin transform of the one-parameter theta series
+  minus its constant term `1` is `π^(-s) Γ(s)` times the Epstein zeta function of `mixedInner` on
+  `σ(𝔞)`, a sum over the nonzero points (`radialMellin_eq_epsteinZeta`), and in positive unit rank
+  the corresponding sum over norms is not summable at all (`not_summable_absNorm_of_rank_pos`). The
+  constant is subtracted from the theta series, not from each term, since `∑ (e^{-π t Q(x)} - 1)`
+  does not converge;
 - the unfolding, (5.5) before the Mellin substitution: over the cone `D × ℝ_+^*` above a
   fundamental domain (`unitCone`) the theta series minus its constant term integrates against
   `N(y)^(s/2) dy/y` to `Z(𝔎, s)` (`completedPartialZeta_eq_integral_unitCone`). The constants are
@@ -533,17 +561,20 @@ their sum over the classes (`completedDedekindZeta_eq_sum_completedPartialZeta`)
   `∑_𝔟 N𝔟^(-Re s)` converges for `Re s > 1` — whereas over all of `R_+^*` the same sum diverges,
   which is the Epstein regression seen from the integral side;
 - (5.5): the Mellin kernel `f_D(𝔞, u) = (2^r₂/w) ∫_D θ_𝔞(x (u/V_𝔞²)^(1/n)) d*x` (`mellinKernel`),
-  with `Z(𝔎, s) = ∫_0^∞ (f_D(𝔞, u) - a₀) u^(s/2) du/u` for `Re s > 1`
+  with `Z(𝔎, s) = ∫_0^∞ (f_D(𝔞, u) - a₀) u^(s/2) du/u` for `Re s > 1`, Mathlib's `mellin` at `s/2`
   (`completedPartialZeta_eq_mellin`); its constant term `a₀ = 2^(r-1) R / w` (`mellinConstant`) is
   the same for every fundamental domain;
-- (5.8): the kernel is `a₀ + O(e^{-c u^(1/n)})` at `∞` (`mellinKernel_sub_const_isBigO`), and it
+- (5.8): the kernel is continuous on `(0, ∞)` (`continuousOn_mellinKernel`) and
+  `a₀ + O(e^{-c u^(1/n)})` at `∞` (`mellinKernel_sub_const_isBigO`), and it
   transforms by `f_D(L, 1/u) = u^(1/2) f_{D⁻¹}(L^∨, u)` for every lattice, from `latticeTheta_inv`
   and the substitution `x ↦ x⁻¹` on `S` (`mellinKernel_inv`); the Euclidean dual of `σ(𝔞)` is the
   trace dual `σ((𝔞𝔡)⁻¹)` moved by `traceToEuclidean`, which on the parameters is the translation
   by the point `traceShift` of `S` (`mellinKernel_dualIdealLattice`), the covolumes
   `V_{(𝔞𝔡)⁻¹} = V_𝔞⁻¹ 4^(-r₂)` absorbing the `16^r₂` of the doubled complex coordinates;
-- the Mellin principle: `dedekindFEPair`, level `1`, weight `1/2`, `ε = 1`, both limits `a₀`,
-  whose `completed` at `s/2` is `Z(𝔎, s)` (`dedekindFEPair_completed`); this continues
+- the Mellin principle: `dedekindFEPair`, level `1`, weight `1/2`, `ε = 1`, both constants `a₀`,
+  each hypothesis of Mathlib's pair discharged from the kernel (local integrability from its
+  continuity, the law from `mellinKernel_inv`, the rapid decay from its exponential decay), whose
+  `Λ` at `s/2` is `Z(𝔎, s)` by Mathlib's `hasMellin` (`dedekindFEPair_completed`); this continues
   `completedPartialZeta` (`meromorphic_completedPartialZeta`, `analyticAt_completedPartialZeta`);
 - (5.9): `Z(𝔎, s) = Z(𝔎', 1 - s)` with `𝔎𝔎' = [𝔡]`, i.e. against `(𝔞𝔡)⁻¹` (`dualUnit`), pointwise
   off `0`, `1` and as germs (`completedPartialZeta_one_sub`, `_eventuallyEq`), and the residue
@@ -638,15 +669,21 @@ the number of odd real places — and `completedHeckeLFunction` is that kernel's
 is its existential shadow, kept because the zeros roadmap consumes it by name. Define the Gauss sum
 `τ_𝔪(χ_f, y) = ∑_{x mod 𝔪₀} χ_f(x) e^(2πi Tr(xy))` (`gaussSum`, Neukirch VII (6.3)) as a finite
 sum over the residue units of `𝓞/𝔪₀`, for `y ∈ 𝔪₀⁻¹𝔡⁻¹` — the domain on which `Tr(xy) mod ℤ`
-depends only on `x mod 𝔪₀` — with `χ_f` the residue character `Grossencharacter.finiteCharacter`
-of the finite-order presentation, which factors through `(𝓞/𝔪₀)ˣ` (`finiteCharacter_residue`) so
-that any representatives may be used (`gaussSum_eq_sum`). Prove (6.4) with its hypotheses in the
-types: for `y ∈ 𝔪₀⁻¹𝔡⁻¹` and a primitive character, `τ_𝔪(χ_f, a y) = conj(χ_f(a)) τ_𝔪(χ_f, y)`
+depends only on `x mod 𝔪₀` — with `χ_f` the residue character `Grossencharacter.residueCharacter`
+of the finite-order presentation, Mathlib's `MulChar` of `𝓞/𝔪₀`, read on the residue class itself,
+so that only the trace needs representatives and any may be used (`gaussSum_eq_sum`). Prove (6.4)
+with its hypotheses in the types: for `y ∈ 𝔪₀⁻¹𝔡⁻¹` and a primitive character,
+`τ_𝔪(χ_f, a y) = conj(χ_f(a)) τ_𝔪(χ_f, y)` with `χ_f(a)` the residue character at `a mod 𝔪₀`
 (`gaussSum_mul`) — the reindexing `x ↦ x a⁻¹` produces the **inverse** value, Mathlib's
 `gaussSum_mulShift_eq` convention, and the equation covers the vanishing case `(a, 𝔪₀) ≠ 1` because
-`χ_f` already vanishes there — and `|τ_𝔪(χ_f, y)| = √N(𝔪₀)` when moreover the integral ideal
-`y 𝔪₀ 𝔡` is prime to `𝔪₀` (`norm_gaussSum`). ⚠ Quadratic characters cannot see the conjugate: an
-even primitive character of order `3` modulo `7` with `χ_f(3) = ω` has `τ(χ, 3/7) = ω⁻¹ τ(χ, 1/7)`.
+`a` is then not a unit mod `𝔪₀`, where the `MulChar` vanishes — and `|τ_𝔪(χ_f, y)| = √N(𝔪₀)` when
+moreover the integral ideal `y 𝔪₀ 𝔡` is prime to `𝔪₀` (`norm_gaussSum`). At conductor one the
+residue ring has one element, a unit, where `χ_f` is `1`, and the Gauss sum is `1`
+(`gaussSum_of_finitePart_eq_top`). ⚠ This is why the Gauss sum reads the residue character and not
+the coefficient `finiteCharacter` at a representative: the coefficient is `0` at the element `0`,
+which may represent the one residue class, and (6.4) at `a = 0` would read `1 = 0`. ⚠ Quadratic
+characters cannot see the conjugate: an even primitive character of order `3` modulo `7` with
+`χ_f(3) = ω` has `τ(χ, 3/7) = ω⁻¹ τ(χ, 1/7)`.
 ⚠ Without the domain hypothesis the vanishing case is false: over `ℚ` with the even character mod
 `5`, `a = 5` and `y = 1/25 ∉ (1/5)ℤ` would force `τ(χ, 1/5) = 0`, against `|τ(χ, 1/5)| = √5`. The
 root number is pinned by the transformation law of the kernel (Layer 6), of which Neukirch's
@@ -764,16 +801,23 @@ with `-a` (`oddCharacter_mod_four_sign_test`, which also states the kernel as Ri
 function `2 ∑ χ₄(n) n e^{-π y n²}`). The algebraic infinity-type convention is kept: finite-order
 odd characters keep exponent `0`. So defined, `χ_f` is `1` on `a ≡ 1 mod* 𝔪` by the unit relation,
 multiplicative, zero exactly off the elements prime to `𝔪₀`, and — because the signs are exactly
-what `archimedeanValue` strips — a character of the residue units `(𝓞/𝔪₀)ˣ` alone
-(`finiteCharacter_residue`), which is what the Gauss sum evaluates at arbitrary representatives.
-This is Neukirch's `χ_f = χ((a)) χ_∞(a)⁻¹` of (6.1), whose modulus is a finite ideal and whose `χ_∞`
-is the whole archimedean character, and it is the finite character of the unitary part; extend it
-multiplicatively to the fractions prime to `𝔪₀` (`finiteCharacterK`, on the supplier's
-`primeToSubgroup`). Read the harmonic polynomial `N(a^p)` off the infinity type of
-the unitary part with the sign of the unit relation: `x^(ε_w)` at a real place, `ε_w` the parity
-of the archimedean restriction, and at a complex place of angular frequency `k_w = n_τ - n_τ̄` the
-monomial `conj(z)^(k_w)` for `k_w ≥ 0` and `z^(-k_w)` for `k_w < 0` (`harmonicFactor`), with
-per-place degree `P_w` (`harmonicExponent`) and total degree `Tr(p)` (`harmonicDegree`). Prove
+what `archimedeanValue` strips — on nonzero elements a function of the residue mod `𝔪₀` alone
+(`finiteCharacter_residue`). This is Neukirch's `χ_f = χ((a)) χ_∞(a)⁻¹` of (6.1), whose modulus is
+a finite ideal and whose `χ_∞` is the whole archimedean character, and it is the finite character
+of the unitary part; extend it multiplicatively to the fractions prime to `𝔪₀` (`finiteCharacterK`,
+on the supplier's `primeToSubgroup`). The residue character of `(𝓞/𝔪₀)ˣ` itself is
+`residueCharacter`, Mathlib's `MulChar` of `𝓞/𝔪₀`, unique with the value of `χ_f` at every nonzero
+element (`existsUnique_residueCharacter`, `residueCharacter_mk`); it is what the Gauss sum
+evaluates. ⚠ Keep the two apart. The coefficient `finiteCharacter` is `0` at the element `0`
+(`finiteCharacter_zero`), the value the twisted theta series needs; at conductor one the residue
+ring has one element, a unit, where the residue character is `1`, so the coefficient does not
+descend to the residue ring through `0`. Conductor-one characters, the trivial one and the
+Dedekind zeta function among them, stay in the programme. Read the harmonic polynomial `N(a^p)`
+off the infinity type of the unitary part with the sign of the unit relation: `x^(ε_w)` at a real
+place, `ε_w` the parity of the archimedean restriction, and at a complex place of angular frequency
+`k_w = n_τ - n_τ̄` the monomial `conj(z)^(k_w)` for `k_w ≥ 0` and `z^(-k_w)` for `k_w < 0`
+(`harmonicFactor`), with per-place degree `P_w` (`harmonicExponent`) and total degree `Tr(p)`
+(`harmonicDegree`). Prove
 Hecke's lemma: the polynomial times the Gaussian is a Fourier eigenfunction up to `(-i)^(Tr p)`
 and the weights `y_w^(-P_w)` (`mixedFourier_harmonicFactor_mul_archGaussian`). Define the twisted
 theta series `θ_χ(𝔞, y) = ε(χ) + ∑_{a ∈ 𝔞} χ_f(a) N(a^p) e^{-π ∑ y_w |a_w|²}` over a fractional
@@ -793,8 +837,12 @@ representatives) with `Λ(χ_u, s) = ∫ (F_D(χ, u) - a₀(χ)) u^((s + Tr p/n)
 (`unitaryCompletion_eq_mellin`), and prove (8.4): `F_D(χ, 1/u) = W(χ) u^(1/2 + Tr p/n)
 F_{D⁻¹}(χ⁻¹, u)` (`heckeMellinTotal_inv`), with exponential decay to the constant term. That law
 is what pins `rootNumber`; the instance `grossencharacterFEPair` of the Mellin principle, of
-weight `1/2 + Tr p/n` and `ε = W(χ)`, continues the unitary completion and proves its functional
-equation, and the full completion follows by recentering.
+weight `1/2 + Tr p/n` and `ε = W(χ)`, takes its local integrability from the continuity of the total
+kernel (`continuousOn_heckeMellinTotal`), its law from (8.4), its rapid decay from the exponential
+decay and `ε ≠ 0` from `|W(χ)| = 1`. It continues the unitary completion
+(`grossencharacterFEPair_completed`: Mathlib's `hasMellin` when `Tr p = 0`, and its strong-pair
+form when `Tr p > 0`, where both constants vanish) and proves its functional equation, and the full
+completion follows by recentering.
 
 ⚠ The archimedean carrier is the integer-exponent `AlgebraicInfinityType`, not the carrier of a
 general Hecke character: an arbitrary continuous idele-class character has complex archimedean
@@ -867,7 +915,11 @@ Required regression examples:
 - the real sign test: for the odd character mod `4∞` at the unit `-1`, `χ_f(-1) = -1`, the harmonic
   polynomial is `-1`, their product is `1`, and the theta kernel over `ℤ` is Riemann's odd theta
   function (`oddCharacter_mod_four_sign_test`); a finite character built from the algebraic
-  exponents alone fails it.
+  exponents alone fails it;
+- the conductor-one residue test: for the trivial character of `ℚ` at conductor one the
+  coefficient `finiteCharacter` is `0` at `0` and `1` at `1`, the two have the same residue in
+  `𝓞/𝓞`, and the residue character is `1` there (`trivialCharacter_conductorOne_residue_test`); a
+  descent of the coefficient to the residue ring that includes `0` fails it.
 
 ### Layer 7: intrinsic nonvanishing
 
