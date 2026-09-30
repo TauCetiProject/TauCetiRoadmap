@@ -46,8 +46,9 @@ The roadmap is complete when Tau Ceti supplies all of the following.
    and restrictions agree definitionally or by named natural isomorphisms. For finite source and
    target fans, the cone-by-cone support criterion characterizes properness.
 6. The analytic realization is naturally biholomorphic, as a toric space, to the global complex
-   points `Hom(Spec C, X_Sigma)` of the algebraic fan scheme. This comparison commutes with
-   affine charts, characters, orbit strata, boundary components, and toric maps.
+   points of the algebraic fan scheme, its morphisms `Spec C -> X_Sigma` over `Spec C`. This
+   comparison commutes with affine charts, characters, orbit strata, boundary components, and
+   toric maps.
 7. A finite regular fan is complete exactly when its analytic realization is compact. The
    standard fans for affine space, the algebraic torus, projective space, products, and a star
    subdivision satisfy the expected comparison and properness theorems.
@@ -112,8 +113,10 @@ These conventions are acceptance conditions.
   noninvertible source coordinates and integer exponents from invertible source coordinates.
   No noninvertible source coordinate may contribute to an invertible target coordinate.
 - Gluing uses `TopCat.GlueData.glued`. The analytic realization is not a second tagged quotient.
-- Global algebraic complex points mean scheme morphisms `Spec C -> X`, not the underlying
-  prime-ideal space of `X`.
+- Global algebraic complex points of a scheme `X` over `Spec C` mean morphisms `Spec C -> X`
+  over `Spec C`, Mathlib's `Scheme.Hom.IsOver`, not the underlying prime-ideal space of `X`. A
+  bare scheme morphism `Spec C -> X` is not a complex point: on an affine chart it is a ring
+  homomorphism from the coordinate ring to `C`, which need not be `C`-linear.
 - The toric boundary is a finite ray-indexed family of closed embedded complex hypersurfaces.
   Its simple-normal-crossings conclusion is a complex local biholomorphism, represented by a
   complex `PartialDiffeomorph`, under which the components are coordinate hyperplanes. A merely
@@ -217,11 +220,12 @@ for regular cones and regular fans, and `Suggested.lean` states them on Tau Ceti
    maps `FanHom.algebraicMap` with `FanHom.algebraicMap_id`, `FanHom.algebraicMap_comp` and the
    chart formula `FanHom.affineToricChartι_comp_algebraicMap`; and the open subscheme of a subfan,
    `Fan.isOpenImmersion_subfanInclusion_algebraicMap` with
-   `Fan.range_subfanInclusion_algebraicMap`. The remaining targets are three. By the separation
-   lemma, the chart diagram of every finite fan is locally directed, which extends the fan scheme
-   and its toric maps to every finite fan. The affine torus actions glue to the global torus
-   action. The fan scheme of `Fan.prod` is the fibre product over `Spec C` of the two fan
-   schemes.
+   `Fan.range_subfanInclusion_algebraicMap`. The remaining targets are four. The fan scheme is a
+   scheme over `Spec C`, by descending the structure morphisms of its affine charts, and the
+   chart inclusions and the toric maps are morphisms over `Spec C`. By the separation lemma, the
+   chart diagram of every finite fan is locally directed, which extends the fan scheme and its
+   toric maps to every finite fan. The affine torus actions glue to the global torus action. The
+   fan scheme of `Fan.prod` is the fibre product over `Spec C` of the two fan schemes.
 
 **Source spine:** Cox--Little--Schenck, Chapters 1 and 3; Fulton, Chapter 1 and §2.1; the public
 Toric modules named above.
@@ -371,13 +375,15 @@ The fans of this layer are regular, `Fan.IsRegular`.
 ## Layer 6: global algebraic--analytic comparison
 
 1. For every cone, compare algebra homomorphisms from its complex monoid algebra to `C` with
-   morphisms `Spec C -> U_sigma`. Prove compatibility with the independent monomial-embedding
-   topology.
-2. Prove that complex points preserve the finite affine-open gluing used to construct the fan
-   scheme `Fan.algebraicRealization`. Identify the resulting topological gluing with
-   `TopCat.GlueData.glued` and show that both overlap maps are the same face-localization maps.
-3. Glue the affine comparisons to a torus-equivariant homeomorphism from
-   `Hom(Spec C, X_Sigma)` to the analytic realization. Prove it and its inverse are holomorphic.
+   morphisms `Spec C -> U_sigma` over `Spec C`. Prove compatibility with the independent
+   monomial-embedding topology.
+2. Prove that complex points, for the structure morphism of Layer 0, item 9, preserve the finite
+   affine-open gluing used to construct the fan scheme `Fan.algebraicRealization`. Identify the
+   resulting topological gluing with `TopCat.GlueData.glued` and show that both overlap maps are
+   the same face-localization maps.
+3. Glue the affine comparisons to a torus-equivariant homeomorphism from the complex points of
+   `X_Sigma` to the analytic realization, which on every affine chart is the identity of complex
+   points. Prove it and its inverse are holomorphic.
 4. Prove naturality for fan morphisms, which act by `FanHom.algebraicMap` and by the glued map
    of Layer 5, and for characters, products, orbit inclusions, and boundary components. The
    comparison identifies analytic compactness with algebraic completeness through the common
@@ -429,9 +435,9 @@ independently after L3. L6 joins those tracks.
 - The boundary is proved to be a finite ray-indexed family of closed embedded complex
   hypersurfaces through a holomorphic coordinate-hyperplane local normal form. A
   `PartialHomeomorph` or a stored SNC assertion is insufficient.
-- The global comparison starts from `Hom(Spec C, X_Sigma)`, agrees on every affine chart and
-  overlap, and is natural for toric maps. An unrelated homeomorphism of final carriers is
-  insufficient.
+- The global comparison starts from the morphisms `Spec C -> X_Sigma` over `Spec C`, agrees on
+  every affine chart and overlap, and is natural for toric maps. An unrelated homeomorphism of
+  final carriers is insufficient.
 - No public declaration introduces a competing convex-cone, semigroup-algebra, scheme, gluing
   quotient, or biholomorphism carrier, or a second copy of a Tau Ceti toric object.
 

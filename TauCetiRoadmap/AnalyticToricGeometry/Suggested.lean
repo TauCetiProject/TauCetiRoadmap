@@ -100,6 +100,74 @@ theorem isLocallyDirected_affineToricDiagram (Φ : Fan i) :
 
 end AlgebraicSupplier
 
+/-! ## Layer 0, item 9: the fan scheme over `Spec ℂ`
+
+Stated for lattices in `Type`, where `Spec ℂ` and the fan scheme
+`TauCeti.Toric.Fan.algebraicRealization` are schemes of the same universe. -/
+
+section OverSpecComplex
+
+variable {N V : Type} [AddCommGroup N] [AddCommGroup V] [Module ℝ V] {i : N →+ V}
+
+/-- The structure morphisms of the affine toric charts of a fan form a cocone under the chart
+diagram. On the chart of a cone it is Mathlib's structure morphism `Spec A ↘ Spec ℂ` of the
+`ℂ`-algebra `A = affineCoordinateRing _ σ`, that is, `Spec` of its unit `ℂ → A`. The face
+morphisms are `Spec` of `ℂ`-algebra homomorphisms, which is why these commute. -/
+noncomputable def algebraicRealizationOverCocone (Φ : Fan i) :
+    Limits.Cocone Φ.affineToricDiagram where
+  pt := Spec (.of ℂ)
+  ι :=
+    { app := fun σ ↦ Spec (.of (affineCoordinateRing Φ.lattice σ.1)) ↘ Spec (.of ℂ)
+      naturality := by
+        intro τ σ h
+        change faceAffineToricSchemeMap Φ.lattice (Φ.isFaceOf_of_le σ.2 τ.2 (leOfHom h)) ≫
+          Spec.map _ = Spec.map _ ≫ 𝟙 _
+        rw [Category.comp_id, faceAffineToricSchemeMap_def, ← Spec.map_comp,
+          ← CommRingCat.ofHom_comp]
+        congr 2
+        exact AlgHom.comp_algebraMap
+          (faceAffineCoordinateRingMap Φ.lattice (Φ.isFaceOf_of_le σ.2 τ.2 (leOfHom h))) }
+
+/-- **Layer 0, item 9.** The fan scheme of a regular fan is a scheme over `Spec ℂ`: its structure
+morphism descends the structure morphisms of the affine charts through the colimit
+`TauCeti.Toric.Fan.isColimitAffineToricCocone`. -/
+@[instance_reducible]
+noncomputable def algebraicRealizationOver (Φ : Fan i) (hΦ : Φ.IsRegular) :
+    (Φ.algebraicRealization hΦ).Over (Spec (.of ℂ)) :=
+  OverClass.ofHom ((Φ.isColimitAffineToricCocone hΦ).desc (algebraicRealizationOverCocone Φ))
+
+/-- Every affine chart inclusion `TauCeti.Toric.Fan.affineToricChartι` is a morphism over
+`Spec ℂ`. -/
+theorem isOver_affineToricChartι (Φ : Fan i) (hΦ : Φ.IsRegular) (σ : Φ.cones) :
+    letI := algebraicRealizationOver Φ hΦ
+    (Φ.affineToricChartι hΦ σ).IsOver (Spec (.of ℂ)) := by
+  let _ := algebraicRealizationOver Φ hΦ
+  refine ⟨?_⟩
+  have h := (Φ.isColimitAffineToricCocone hΦ).fac (algebraicRealizationOverCocone Φ) σ
+  rw [Fan.affineToricCocone_ι_app] at h
+  exact h
+
+variable {N' V' : Type} [AddCommGroup N'] [AddCommGroup V'] [Module ℝ V'] {i' : N' →+ V'}
+  {Φ : Fan i} {Ψ : Fan i'}
+
+/-- Every toric map `TauCeti.Toric.FanHom.algebraicMap` is a morphism over `Spec ℂ`. -/
+theorem isOver_algebraicMap (f : FanHom Φ Ψ) (hΦ : Φ.IsRegular) (hΨ : Ψ.IsRegular) :
+    letI := algebraicRealizationOver Φ hΦ
+    letI := algebraicRealizationOver Ψ hΨ
+    (f.algebraicMap hΦ hΨ).IsOver (Spec (.of ℂ)) := by
+  let _ := algebraicRealizationOver Φ hΦ
+  let _ := algebraicRealizationOver Ψ hΨ
+  refine ⟨Fan.algebraicRealization_hom_ext Φ hΦ fun σ ↦ ?_⟩
+  have hΦσ := (isOver_affineToricChartι Φ hΦ σ).comp_over
+  have hΨτ := (isOver_affineToricChartι Ψ hΨ ⟨f.leastCone σ.2, f.leastCone_mem σ.2⟩).comp_over
+  rw [FanHom.affineToricChartι_comp_algebraicMap_assoc, hΨτ, hΦσ, specOverSpec_over,
+    specOverSpec_over, FanHom.affineToricChartMap_def, affineToricSchemeMap_def,
+    ← Spec.map_comp, ← CommRingCat.ofHom_comp]
+  congr 2
+  exact (affineCoordinateRingMap _ _ _ _ _ _).comp_algebraMap
+
+end OverSpecComplex
+
 /-! ## Layers 3 to 5: the glued analytic realization, its torus action, strata, and toric maps -/
 
 section AnalyticRealization
@@ -351,15 +419,36 @@ end AnalyticRealization
 /-! ## Layer 6: the comparison with algebraic complex points
 
 The comparison is stated for lattices in `Type`, where `Spec ℂ` and the fan scheme
-`TauCeti.Toric.Fan.algebraicRealization` are schemes of the same universe. -/
+`TauCeti.Toric.Fan.algebraicRealization` are schemes of the same universe.
+
+A complex point of a scheme `X` over `Spec ℂ` is a morphism `Spec ℂ ⟶ X` over `Spec ℂ`, in
+Mathlib's vocabulary `Scheme.Hom.IsOver`. A bare scheme morphism `Spec ℂ ⟶ X` need not be one: on
+an affine chart it is a ring homomorphism from the coordinate ring to `ℂ`, which need not be
+`ℂ`-linear. Precomposing a complex point with `Spec` of complex conjugation gives a scheme
+morphism that is not a complex point. -/
 
 section Comparison
 
 variable {N V : Type} [AddCommGroup N] [AddCommGroup V] [Module ℝ V] {i : N →+ V}
 
-/-- Global algebraic complex points mean morphisms from `Spec ℂ`, not prime ideals. -/
+/-- **Layer 6.** Global algebraic complex points are morphisms `Spec ℂ ⟶ X_Φ` over `Spec ℂ`:
+neither prime ideals of `X_Φ` nor bare scheme morphisms from `Spec ℂ`. -/
 abbrev AlgebraicComplexPoint (Φ : Fan i) (hΦ : Φ.IsRegular) :=
-  Spec (.of ℂ) ⟶ Φ.algebraicRealization hΦ
+  letI := algebraicRealizationOver Φ hΦ
+  {x : Spec (.of ℂ) ⟶ Φ.algebraicRealization hΦ // x.IsOver (Spec (.of ℂ))}
+
+/-- The complex point of the chart of a cone given by a `ℂ`-algebra homomorphism from its
+coordinate ring to `ℂ`, that is, by a point of the analytic chart of the cone. -/
+noncomputable def AlgebraicComplexPoint.ofAffinePoint (Φ : Fan i) (hΦ : Φ.IsRegular)
+    (σ : Φ.cones) (x : AffineSemigroupComplexPoint (dualSemigroup Φ.lattice σ.1)) :
+    AlgebraicComplexPoint Φ hΦ :=
+  letI := algebraicRealizationOver Φ hΦ
+  haveI := isOver_affineToricChartι Φ hΦ σ
+  ⟨Spec.map (CommRingCat.ofHom x.toRingHom) ≫ Φ.affineToricChartι hΦ σ, ⟨by
+    rw [Category.assoc, comp_over, specOverSpec_over, ← Spec.map_comp, ← CommRingCat.ofHom_comp,
+      show x.toRingHom.comp (algebraMap ℂ _) = algebraMap ℂ ℂ from
+        RingHom.ext fun z ↦ x.commutes z]
+    rfl⟩⟩
 
 /-- The topology on global algebraic complex points is glued from the independently topologized
 affine functor-of-points charts. -/
@@ -381,6 +470,15 @@ noncomputable def algebraicAnalyticHomeomorph (Φ : Fan i) (hΦ : Φ.IsRegular) 
       (algebraicComplexPointTopology Φ hΦ) inferInstance := by
   sorry
 
+/-- **Layer 6, item 3.** On every affine chart the comparison is the identity of complex points:
+the algebraic point of the chart of `σ` given by a `ℂ`-algebra homomorphism `x` goes to the point
+`x` of the analytic chart of `σ`. This chart computation identifies the comparison. -/
+theorem algebraicAnalyticHomeomorph_ofAffinePoint (Φ : Fan i) (hΦ : Φ.IsRegular) (σ : Φ.cones)
+    (x : AffineSemigroupComplexPoint (dualSemigroup Φ.lattice σ.1)) :
+    algebraicAnalyticHomeomorph Φ hΦ (AlgebraicComplexPoint.ofAffinePoint Φ hΦ σ x) =
+      analyticAffineChartι Φ hΦ σ x := by
+  sorry
+
 /-- The global comparison and its inverse are holomorphic. -/
 theorem algebraicAnalyticHomeomorph_mdifferentiable (Φ : Fan i) (hΦ : Φ.IsRegular) :
     letI := algebraicComplexPointTopology Φ hΦ
@@ -395,11 +493,20 @@ theorem algebraicAnalyticHomeomorph_mdifferentiable (Φ : Fan i) (hΦ : Φ.IsReg
 variable {N' V' : Type} [AddCommGroup N'] [AddCommGroup V'] [Module ℝ V'] {i' : N' →+ V'}
   {Φ : Fan i} {Ψ : Fan i'}
 
+/-- A toric map sends complex points to complex points, by composition. -/
+noncomputable def AlgebraicComplexPoint.map (f : FanHom Φ Ψ) (hΦ : Φ.IsRegular)
+    (hΨ : Ψ.IsRegular) (x : AlgebraicComplexPoint Φ hΦ) : AlgebraicComplexPoint Ψ hΨ :=
+  letI := algebraicRealizationOver Φ hΦ
+  letI := algebraicRealizationOver Ψ hΨ
+  haveI := x.2
+  haveI := isOver_algebraicMap f hΦ hΨ
+  ⟨x.1 ≫ f.algebraicMap hΦ hΨ, inferInstance⟩
+
 /-- The comparison is natural for fan morphisms: `TauCeti.Toric.FanHom.algebraicMap` on the
 algebraic side, `analyticMap` on the analytic side. -/
 theorem algebraicAnalyticHomeomorph_naturality (f : FanHom Φ Ψ) (hΦ : Φ.IsRegular)
     (hΨ : Ψ.IsRegular) (x : AlgebraicComplexPoint Φ hΦ) :
-    algebraicAnalyticHomeomorph Ψ hΨ (x ≫ f.algebraicMap hΦ hΨ) =
+    algebraicAnalyticHomeomorph Ψ hΨ (AlgebraicComplexPoint.map f hΦ hΨ x) =
       analyticMap f hΦ hΨ (algebraicAnalyticHomeomorph Φ hΦ x) := by
   sorry
 
