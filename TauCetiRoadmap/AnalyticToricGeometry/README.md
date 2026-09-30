@@ -463,7 +463,7 @@ Chapter I.
 | --- | --- | --- |
 | L0 algebraic supplier | Mathlib and Tau Ceti's algebraic toric modules | every later layer |
 | L1 character and mixed-monomial calculus | L0, Mathlib complex analysis | L2, L5--L6 |
-| L2 affine regular charts | L0--L1, complex manifolds | L3--L6 |
+| L2 affine regular charts | L0--L1, Mathlib's manifolds | L3--L6 |
 | L3G gluing complex manifolds | Mathlib manifolds, `TopCat.GlueData`, Tau Ceti | L3 items 2, 6 |
 | L3 finite-fan gluing | L2, L3G | L4--L6 |
 | L4 orbit and boundary theory | L2--L3 | L6 and downstream geometry |
