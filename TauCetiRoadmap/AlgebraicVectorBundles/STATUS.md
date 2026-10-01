@@ -1,0 +1,38 @@
+<!--tauceti-status:v1 {"roadmap":"AlgebraicVectorBundles","to_sha":"0d3161a2e5e92314bf045690e177580179a2f8d9","ts":"2026-09-30T18:26:01Z"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"L0A","remaining":"strong symmetric monoidal pullback of modules with identity and composition coherence, and the internal-Hom stalk comparison","state":"partial"},{"id":"L0B","remaining":"the milestone (finite locally free iff dualizable in QCoh(X)) by gluing local pairings, the rigid structure, internal Hom in QCoh(X) with base change","state":"partial"},{"id":"L0C","state":"untouched"},{"id":"L1A","state":"untouched"},{"id":"L1B","state":"untouched"},{"id":"L2A","state":"untouched"},{"id":"L2B","state":"untouched"}],"readme_sha":"9c3b4c3ecea68da2fac323f19fe7a3c6fc1fdf8a109bc708f5ebb4a097f7ff7d","roadmap":"AlgebraicVectorBundles","to_sha":"0d3161a2e5e92314bf045690e177580179a2f8d9"}-->
+# Status: AlgebraicVectorBundles
+
+This file documents the status of the AlgebraicVectorBundles roadmap up until `0d3161a` (2026-09-30T18:26:01Z). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** L0A's milestone is proved: sheaves of modules form a closed symmetric monoidal category. The layer still lacks monoidal pullback and the internal-Hom stalk comparison. L0B is well advanced: finite locally free sheaves are packaged with rank and local duality, but the duality milestone itself is still open. L0C, L1 and L2 have not begun beyond one input lemma for L1A.
+
+### Named results
+
+- **The closed symmetric monoidal category of sheaves of modules** — over a sheaf of commutative rings on a small site, and so on `X.Modules` for a scheme `X`, with tensor product and internal Hom the sheafifications of their presheaf counterparts ([`TauCeti.SheafOfModules.monoidalClosed`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Category/ModuleCat/Sheaf/TensorProduct/Closed.html#TauCeti.SheafOfModules.monoidalClosed)).
+- **Dualizable modules are the finite projective ones** — an `R`-module has a dual in `ModuleCat R` if and only if it is finite projective, which is the affine case of the L0B milestone ([`ModuleCat.nonempty_hasLeftDual_iff_finite_projective`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Category/ModuleCat/FiniteProjective/Dualizable.html#ModuleCat.nonempty_hasLeftDual_iff_finite_projective)).
+- **The dual-tensor criterion for dualizability** — in a closed symmetric monoidal category, `Y` is dualizable exactly when `Hom(Y, 𝟙) ⊗ Y → Hom(Y, Y)` is an isomorphism, and then its double-dual map is an isomorphism too ([`TauCeti.nonempty_hasLeftDual_iff_isIso_dualTensorIhom_app`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/CategoryTheory/Monoidal/Rigid/OfClosed.html#TauCeti.nonempty_hasLeftDual_iff_isIso_dualTensorIhom_app), [`TauCeti.isIso_doubleDualMap`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/CategoryTheory/Monoidal/Rigid/DoubleDual.html#TauCeti.isIso_doubleDualMap)).
+- **Local duality for finite locally free sheaves** — such a sheaf has a cover by finite free charts, on each of which it carries an exact pairing and an invertible dual-tensor comparison ([`SheafOfModules.IsLocallyFree.exists_isLocallyFreeData_isFiniteType_isIso_dualTensorIhom`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Category/ModuleCat/Sheaf/LocalDuality.html#SheafOfModules.IsLocallyFree.exists_isLocallyFreeData_isFiniteType_isIso_dualTensorIhom)).
+- **Invertible means rank one** — a finite locally free sheaf is invertible exactly when its rank is one at every point ([`TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf.isInvertible_iff_forall_rank_eq_one`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/VectorBundle/Rank.html#TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf.isInvertible_iff_forall_rank_eq_one)).
+
+### Notable definitions and infrastructure
+
+- **Finite locally free sheaves** — locally free, finitely presented `𝒪_X`-modules as an additive, symmetric monoidal category, closed under pullback with identity and composition comparisons, and containing the invertible sheaves ([`TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/VectorBundle/FiniteLocallyFree.html#TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf)).
+- **Rank** — a locally constant function `X → ℕ` given by the size of any local basis, with clopen rank loci and compatibility with pullback. L0C's fixed-rank determinant will be stated on these loci ([`TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf.rank`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/AlgebraicGeometry/VectorBundle/Rank.html#TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf.rank)).
+- **Quasi-coherent sheaves as a symmetric monoidal category** — `QCoh(X)`, where finite free sheaves are already dualizable and the L0B milestone is to show that the dualizable objects are exactly the finite locally free ones (`TauCeti.AlgebraicGeometry.QuasicoherentSheaf`).
+
+### Roadmap coverage
+
+L0A is partial. Its milestone is proved, along with the tensor-Hom adjunction and restriction to an open as a strong symmetric monoidal functor. Pushforward and restriction of scalars of presheaves of modules are lax braided monoidal. What is missing is strong symmetric monoidal pullback of modules with its coherence, and the internal-Hom stalk comparison. L0B is partial. `QCoh(X)` is symmetric monoidal, and finite locally free sheaves are closed under isomorphism, direct sums, tensor products and pullback. They also have rank and local finite free charts with exact pairings, and internal Hom out of a finite free sheaf stays finite locally free. The milestone (finite locally free if and only if dualizable in `QCoh(X)`, with the double-dual isomorphism), the rigid structure, internal Hom in `QCoh(X)` with its base-change comparison, and the sheaf-level affine comparison are missing. L0C, L1B, L2A and L2B are untouched, and L1A is untouched apart from the basic-open localization lemma.
+
+## The frontier
+
+- **Finite locally free if and only if dualizable (L0B milestone)** — the local pairings on finite free charts exist, and the dual-tensor criterion reduces dualizability to invertibility of one comparison map. What remains is to glue: show that comparison is an isomorphism globally because it is one on each chart. After that come the converse, the rigid structure, and the double-dual isomorphism, which the general theorem then supplies.
+- **Monoidal pullback of modules (L0A)** — pullback as a strong symmetric monoidal functor with coherent identity and composition comparisons, now that pushforward is lax braided monoidal at the presheaf level. The internal-Hom stalk comparison is also still to do. The pullback comparisons of L0B and L0C, and L1A's universal property, depend on it.
+- **Internal Hom in `QCoh(X)` (L0B)** — quasi-coherence of `Hom(E, F)` for finitely presented `E`, and the comparison `f^* Hom(E, F) → Hom(f^* E, f^* F)` with its two isomorphism criteria. Also the sheaf-level comparison with finite projective modules through `tildeEquiv`, whose module-level duality is now in place.
+- **Rank formulas and rank one (L0B)** — rank of direct sums and tensor products, and identifying the rank-one subcategory with `InvertibleSheaf X` as categories, not just objectwise.
+- **Relative Spec (L1A)** — quasi-coherent commutative algebras as commutative monoids in `QCoh(X)`, then `Spec_X` glued from affine-local spectra, with its functor-of-points property.

@@ -1,37 +1,57 @@
-<!--tauceti-status:v1 {"roadmap":"ModularForms","to_sha":"37aec57229a4a5828884027165b25804aac01ac8","ts":"2026-09-12T13:50:33Z"}-->
+<!--tauceti-status:v1 {"roadmap":"ModularForms","to_sha":"e440f4eb3fccf5479ede3f5d6a671b4be37c9dde","ts":"2026-09-30T05:46:25Z"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","remaining":"Eisenstein spanning, the cusp–Eisenstein decomposition, and the q-expansion of j","state":"partial"},{"id":"Layer 1","state":"done"},{"id":"Layer 2","remaining":"General-rank polynomial presentation and local–global hand-off","state":"partial"},{"id":"Layer 3","remaining":"Bad-prime newspace stability outside the p² | N case and exact conductor-indexed oldspace","state":"partial"},{"id":"Layer 4","remaining":"The p ‖ N and p | cond χ eigenvalue cases and uniqueness of the primitive pair","state":"partial"},{"id":"Layer 5","remaining":"Cross-level strong multiplicity one and the full coefficient characterization","state":"partial"},{"id":"Layer 6","remaining":"General-nebentypus pseudo-eigenvalues","state":"partial"},{"id":"Layer 7","remaining":"Sharp noncuspidal abscissa and signs beyond trivial nebentypus","state":"partial"},{"id":"Layer 8","remaining":"General Hecke commutativity on symbols, the period map and its injectivity, and the coefficient field","state":"partial"},{"id":"Layer 8G","state":"untouched"},{"id":"Layer 9","state":"untouched"},{"id":"Layer 10","remaining":"Analytic curve, Riemann–Roch input, and dimension formulas","state":"partial"},{"id":"Layer 11","remaining":"Remaining trace contributions and the final trace formula","state":"partial"}],"readme_sha":"bb3746a7dddf744322d72c8db49aa099944bd0e02d6fa39e598dcfca70e10d2c","roadmap":"ModularForms","to_sha":"e440f4eb3fccf5479ede3f5d6a671b4be37c9dde"}-->
 # Status: ModularForms
 
-This file documents the status of the ModularForms roadmap up until `37aec57` (2026-09-12T13:50:33Z). There may have been subsequent updates.
+This file documents the status of the ModularForms roadmap up until `e440f4e` (2026-09-30T05:46:25Z). There may have been subsequent updates.
 
 It is generated, and its prose is not security-validated; see
 https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 ## Where this roadmap stands
 
-**At a glance.** The general-level valence formula of Layer 1 is complete. The Hecke, Petersson, newform, and Atkin–Lehner layers now have substantial working infrastructure—including the classical prime action, bundled newforms, squarefree descent, and normalized Fricke involutions—but their main adjoint, decomposition, multiplicity-one, and sign theorems remain partial; the coefficient-field, LMFDB, trace-formula, and modular-curve dimension-formula summits have not begun.
+**At a glance.** The general-level valence formula is proved. Newform spanning and the good-prime spectral theory are in place, and newforms are now full Hecke eigenforms with an Euler product. The conductor, the rest of the bad-prime theory, Eisenstein spanning and the trace formula are partial. Modular symbols have begun, but the Galois and LMFDB layers have not.
 
 ### Named results
 
-- **The general-level valence formula** — the stabilizer-weighted interior orders and cusp-orbit orders of a nonzero finite-index modular form total `k·[SL₂(ℤ):Γ]/12`: [`valence_formula_finiteIndex`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/ModularForms/Norm/Cusps.html#TauCeti.ModularForm.valence_formula_finiteIndex).
-- **The Γ₀(N) Hecke multiplication table** — `T_m T_n` is the divisor sum over `d ∣ gcd(m,n)`, with no coprimality hypothesis: [`heckeTCompositeGamma0_mul_eq_sum_divisors_gcd`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/HeckeRing/GL2/Gamma0/Diagonal/Composite.html#HeckeRing.GL2.heckeTCompositeGamma0_mul_eq_sum_divisors_gcd).
-- **The level-one structure theorem** — `E₄` and `E₆` freely generate the graded ring of level-one modular forms: [`mvPolynomialEquivModularForms`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/ModularForms/LevelOne/GradedRing.html#TauCeti.ModularForm.mvPolynomialEquivModularForms).
-- **The old/new decomposition** — the Petersson-orthogonal old and new subspaces complement one another, including inside each nebentypus space: [`isCompl_cuspFormsOld_cuspFormsNew`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/ModularForms/Newforms/Basic.html#TauCeti.isCompl_cuspFormsOld_cuspFormsNew).
-- **The normalized Fricke involution** — in even weight, normalized Fricke squares to the identity on cusp forms and splits the space into complementary `±1` eigenspaces: [`normalizedFrickeOperatorCusp_involutive`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/ModularForms/Fricke/Normalized.html#TauCeti.normalizedFrickeOperatorCusp_involutive).
+- **The general-level valence formula**: on a finite-index subgroup, the stabilizer-weighted interior and cusp orders of a nonzero form sum to `k[SL₂(ℤ):Γ]/12` ([`valence_formula_finiteIndex`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/ModularForms/Norm/Cusps.html#TauCeti.ModularForm.valence_formula_finiteIndex)).
+- **Newform spanning**: every cusp form on `Γ₁(N)` is a combination of level-raised newforms from divisor levels ([`span_levelRaise_eq_top`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/ModularForms/Newforms/Decomposition.html#HeckeRing.GL2.Newform.span_levelRaise_eq_top)).
+- **The Atkin–Lehner–Li theorem**: at each prime `p ∣ N`, a newform is a `Uₚ`-eigenvector with eigenvalue `aₚ`, so it is an eigenform of every `Tₙ` ([`heckeUCuspNat_eq_qExpansion_coeff_smul`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/ModularForms/Newforms/FullEigenform.html#HeckeRing.GL2.Newform.heckeUCuspNat_eq_qExpansion_coeff_smul)).
+- **The newform Euler product**: for `Re s > k/2 + 1`, `L(s,f) = ∏ₚ (1 − aₚp^{−s} + χ(p)p^{k−1−2s})^{−1}`, with `χ` extended by zero ([`L_eulerProduct`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/ModularForms/LFunction/EulerProduct.html#HeckeRing.GL2.Newform.L_eulerProduct)).
+- **Hecke's signed functional equation**: a trivial-nebentypus newform satisfies `Λ_N(k−s,f) = i^k ε_N(f) Λ_N(s,f)` ([`frickeCompletedL_sub_eq`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/ModularForms/LFunction/Sign.html#HeckeRing.GL2.Newform.frickeCompletedL_sub_eq)).
 
 ### Notable definitions and infrastructure
 
-- The [`Γ₀(N)` Hecke-ring action on a character space](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/ModularForms/HeckeSlash/Nebentypus/Action.html#HeckeRing.GL2.heckeRingHomCharSpace) now sends the prime generator to the classical `Tₚ`, connecting the ring multiplication theory to operators on forms at prime indices.
-- A [`Newform`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/ModularForms/Newforms/Newform.html#HeckeRing.GL2.Newform) packages a nonzero good Hecke eigenform in the newspace with `a₁ = 1`; no full bad-prime eigenform theorem is built into it.
-- An [`Atkin–Lehner matrix`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/ModularForms/AtkinLehner/Matrix.html#TauCeti.IsAtkinLehnerMatrix) and its operator are available for every exact divisor, providing the family on which normalization and newform signs can be developed.
+- The [module of modular symbols](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/ModularForms/ModularSymbols/Basic.html#TauCeti.ModularSymbols) is finitely generated. Its [integral Hecke algebra](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/ModularForms/ModularSymbols/Hecke/Finite.html#TauCeti.ModularSymbols.heckeTAlgebra_finite) is a finite `ℤ`-module. Together these give the integral side of the route to coefficient fields.
+- The [Petersson adjoint formula](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/ModularForms/Petersson/Normal.html#HeckeRing.GL2.isAdjointPair_heckeTCuspNat) `Tₙ* = ⟨n⟩⁻¹Tₙ` holds for `n` coprime to the level, and it gives a simultaneous orthonormal eigenbasis in each nebentypus space.
+- Popa–Zagier's [trace reduction](https://taucetiproject.github.io/TauCeti/docs/TauCeti/NumberTheory/ModularForms/LevelOne/TraceFormula/TraceReduction.html#TauCeti.TraceFormulaMatrixModule.ExchangeRelations.trace_periodActionRestrict_eq_trace) moves traces on period polynomials to traces on binary forms. It is the route to the level-one trace formula.
 
 ### Roadmap coverage
 
-Layer 0 has diamonds, character spaces, parity, and their decomposition, but not Eisenstein series with character; Layer 1 is done. Layer 2 has the abstract and `Γ₀(N)` Hecke rings, uniform classical `T_n`, coefficient recurrences, the full ring multiplication table, and the character-space action, with the prime and scalar generators identified; the remaining composite identification, general-rank presentation, and local–global hand-off are not established. Layer 3 has the Petersson pairing, character orthogonality, and old/new complements, but no Hecke adjoints, normality, simultaneous diagonalization, exact conductor-indexed oldspace, or bad-prime newspace stability. Layers 4–5 now have good eigenforms, newforms, eigenvalue recurrences, finite-exception eigenvalue extension, descent, and the squarefree decomposition, but not the Main Lemma, conductor decomposition, full eigenforms, or either form of strong multiplicity one. Layer 6 has normalized Fricke theory and raw exact-divisor Atkin–Lehner operators, not general normalization or newform signs. Layer 7 has analytic continuation and existing abscissa bounds, but not the Euler product or one-form signed functional equation. Layers 8, 8G, 9, and 11 are untouched; Layer 10 has only its Sturm-bound preliminaries, not the modular curve or exact dimension formulas.
+Layer 1 is done.
+
+Layer 0 has:
+- the diamond operators and character spaces;
+- the `j` inputs, with orders at `ρ` and `i`, but not `j`'s `q`-expansion;
+- a defined Eisenstein subspace, but no proof that it spans or of the cusp–Eisenstein splitting.
+
+Layer 2 lacks the general-rank polynomial presentation.
+
+Layers 3–5 have the good-prime adjoints, the newform basis, spanning, and fixed-level strong multiplicity one. `Uₚ`-eigenvalues are proved at bad primes. What is missing:
+- newspace stability and `aₚ` vanishing only in the case `p² ∣ N` with character modulo `N/p`;
+- the other valuation cases;
+- the exact conductor-indexed oldspace;
+- cross-level strong multiplicity one, which the uniqueness of the primitive pair needs.
+
+Layer 6 has the trivial-nebentypus signs but not general pseudo-eigenvalues. Layer 7 has the signed equation, the Euler product, and analytic rank and conductor. It lacks the sharp non-cuspidal abscissa and signs beyond trivial character.
+
+Layer 8 is partial: it has symbols, Manin symbols, the Hecke action and integral finiteness. It lacks the period map, its injectivity, and coefficient fields. Layers 8G and 9 are untouched.
+
+Layer 10 has Sturm-bound preliminaries but not the curve or the dimension formulas. Layer 11 has period-polynomial machinery and some trace contributions, but not the formula.
 
 ## The frontier
 
-- **The Atkin–Lehner Main Lemma.** Assemble the coprime filters, prime-by-prime descent, factor dichotomy, and squarefree decomposition into the global statement that vanishing at every index coprime to `N` forces oldness.
-- **Petersson adjoints.** Prove `T_n* = ⟨n⟩⁻¹T_n` at good indices, then obtain normality and simultaneous diagonalization on each character space.
-- **The full classical Hecke action.** Extend the prime-generator comparison to composite and prime-power Hecke-ring elements, keeping the scalar normalization explicit.
-- **Bad-prime newform theory.** Establish newspace stability under `U_p`, upgrade newforms to full eigenforms, and prove the bad-prime eigenvalue classification.
-- **Multiplicity one and conductor uniqueness.** Prove equality of newforms, not merely equality of their good eigenvalues, first in a fixed character space and then across levels; the latter is needed for uniqueness of the primitive pair.
+- **The remaining bad-prime cases.** Prove the `p ‖ N` and `p ∣ cond χ` cases of the `aₚ` classification. The `p² ∣ N` vanishing case alone is now proved.
+- **Cross-level strong multiplicity one.** Compare newforms of unrelated levels `N`, `M`. This settles the uniqueness of the primitive pair. So far only the level is pinned along a divisor chain.
+- **The period map.** Pair cusp forms with modular symbols and prove injectivity by the Eichler-integral route. General Hecke commutativity on symbols is also still missing, and the transfer to the form side needs it.
+- **The Eisenstein decomposition.** Show that the defined Eisenstein subspace is a complement to the cusp forms in `M_k(N, χ)`.
+- **The level-one trace formula.** Evaluate the remaining upper-triangular contributions and assemble them against the Hurwitz class-number sum.

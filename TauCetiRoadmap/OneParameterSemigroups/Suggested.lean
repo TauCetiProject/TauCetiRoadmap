@@ -7,7 +7,8 @@ import TauCeti.Analysis.Bochner.BochnerTheorem
 import TauCeti.Analysis.CompletelyMonotone.Bernstein.HausdorffBernsteinWidder
 import TauCeti.Analysis.PositiveDefinite.SemigroupGroup.FourierLaplace.Uniqueness
 import TauCeti.Analysis.Semigroups.BoundedGenerator.Basic
-import TauCeti.Analysis.Semigroups.CauchyProblem
+import TauCeti.Analysis.Semigroups.CauchyProblem.Basic
+import TauCeti.Analysis.Semigroups.CauchyProblem.Uniqueness
 import TauCeti.Analysis.Semigroups.Dissipative.Basic
 import TauCeti.Analysis.Semigroups.Generation.HilleYosida.Generation
 import TauCeti.Analysis.Semigroups.Generation.LumerPhillips
