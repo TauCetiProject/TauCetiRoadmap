@@ -129,6 +129,11 @@ jobs:
               # Without it `--jq` is applied page by page: page one emits an empty line, and a
               # legitimate match on a later page is lost -- the same starvation the 30-item default
               # allowed, just moved. `--slurp` cannot be combined with `--jq`, hence `jq` afterwards.
+              #
+              # The responses reach `jq` on its standard input, never as arguments. They carry every
+              # candidate's body, and Linux caps a single argument at 128 KiB, so with `--argjson` a
+              # few long bodies stopped `jq` from starting at all and the report was never gated.
+              # `printf` is a bash builtin, so nothing is exec'd with them on its command line.
               by_commit="$(gh api --paginate --slurp "repos/$REPO/commits/$HEAD_SHA/pulls")"
               by_head='[]'
               if [[ "$HEAD_OWNER" =~ ^[A-Za-z0-9][A-Za-z0-9-]{0,38}$ ]] \
@@ -136,9 +141,10 @@ jobs:
                 by_head="$(gh api --paginate --slurp \
                            "repos/$REPO/pulls?state=open&per_page=100&head=$HEAD_OWNER:$HEAD_BRANCH")"
               fi
-              pr="$(jq -rn --arg repo "$REPO" --arg sha "$HEAD_SHA" \
-                         --argjson by_commit "$by_commit" --argjson by_head "$by_head" '
-                         [(($by_commit[][]), ($by_head[][] | select(.head.sha == $sha)))
+              pr="$(printf '%s\n' "$by_commit" "$by_head" \
+                    | jq -rs --arg repo "$REPO" --arg sha "$HEAD_SHA" '
+                         .[0] as $by_commit | .[1] as $by_head
+                         | [(($by_commit[][]), ($by_head[][] | select(.head.sha == $sha)))
                           | select(.state == "open")
                           | select(.draft | not)
                           | select(.base.ref == "main")
