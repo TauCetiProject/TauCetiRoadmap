@@ -651,6 +651,11 @@ several Layer 9 module arguments use it. Ribes–Zalesskii §4.3 is the source o
   *Needs:* L0 inverse limits; L3 `IsProP` API; M `ZMod.intCast_cast` and `PadicInt.toZModPow`.
   *In Tau Ceti:* `TauCeti.IsProP.padicPow`, on every pro-`p` group, with `padicPow_one`,
   `padicPow_add`, `padicPow_mul`, `padicPow_natCast` and `continuous_padicPow`.
+  On a nonabelian pro-`p` group it is the power of a single element, inside the procyclic
+  closure of that element (`padicPow_mem`), natural under continuous homomorphisms
+  (`map_padicPow`), and not a scalar action on the group. The `q = 2` normal-form words of
+  Layer 9 use it in the free pro-`2` group, for their exponents `2 + α` with `α ∈ 4ℤ₂` and `2^f`
+  with `f = ∞` allowed.
 - **The `ℤ_p`-module structure.** `A` becomes a topological `ℤ_p`-module, functorially in
   continuous homomorphisms of abelian pro-`p` groups. Closed subgroups and quotients are
   submodules and quotient modules. A continuous group homomorphism between abelian pro-`p`
@@ -1815,8 +1820,14 @@ of the two even-rank families in the abstract classification.
 - **Division.** For `ψ ∈ ℤ_p[[T]]` and `c` with `v_p(c) ≥ 1`, `(T - c) ∣ ψ` in `ℤ_p[[T]]` if
   and only if `ψ(c) = 0`, in both directions, with the quotient given by the explicit
   series `PowerSeries.divXSubC`. This is the special case of Weierstrass division that
-  Labute uses on p. 122; the general Weierstrass preparation theorem is not a target. It is the
-  step that produces the basis correction of Layer 9.
+  Labute uses on p. 122; the general Weierstrass preparation theorem is not a target.
+  ⚠ Division gives the quotient series, and with it scalar membership of the relator class; it
+  is not by itself the basis correction of Layer 9. What makes the quotient usable as a new
+  generator is its constant term: if `ψ = (T - c) φ` then `ψ(0) = -c · φ(0)`
+  (`constantCoeff_of_eq_sub_C_mul`), so `v_p(φ(0)) = v_p(ψ(0)) - v_p(c)`. Without that
+  computation the step is false: in `ℤ₂[[T]]²` the vector `(2, T)` has no nonunit common divisor
+  and lies in no basis, since its coordinate ideal `(2, T)` is proper
+  (`not_exists_complement_powerSeries_two_X`).
   *Needs:* L9 evaluation.
   *In Tau Ceti:* `PadicInt.X_sub_C_dvd_iff_aeval_eq_zero` and `PadicInt.X_sub_C_mul_divXSubC`
   (`NumberTheory/Padics/PowerSeries.lean`).
@@ -1839,15 +1850,24 @@ of the two even-rank families in the abstract classification.
   (`completedGroupAlgebra.dyadicCoordinate_proj_eq_zero_iff`), because `ℤ₂[C₂]` is free over `ℤ₂`
   on `1` and `σ` and the procyclic kernel formula applies in each coordinate; and every open
   normal subgroup contains some `U_m` (`completedGroupAlgebra.exists_dyadicLevel_le`). At `m = 0`
-  the kernel is `(T)`. After inverting `2` the group ring splits into the two eigenspaces of the
-  involution, through the idempotents `(1 ± σ)/2`, and each eigenspace of the power-series ring
-  over it is again a power-series ring; the splitting is Tau Ceti's
+  the kernel is `(T)`. The inverse-limit topology of `Λ` is then the one whose basic
+  neighbourhoods of `0` are the ideals `(2^s, (1 + T)^(2^m) - 1)`. ⚠ The ideals
+  `((1 + T)^(2^m) - 1)` alone do not define it: each level keeps its `2`-adic topology, and
+  without the `2^s` the coefficient ring `ℤ₂[C₂]` would be discrete in a compact `Λ`. After
+  inverting `2` the group ring splits into the two eigenspaces of the involution, through the
+  idempotents `(1 ± σ)/2`, and each eigenspace of the power-series ring over it is again a
+  power-series ring; the splitting is Tau Ceti's
   `TauCeti.monoidAlgebraRatPadicCyclicTwoEquiv`. ⚠ **There is no integral splitting.** The
   idempotents use `1/2`, so `ℤ₂[C₂]` does not decompose: its only idempotents are `0` and `1`
   (`TauCeti.monoidAlgebraPadicIntCyclicTwo_isIdempotentElem_iff`). Claiming a direct product
   decomposition over `ℤ₂` is the error that statement rules out. Labute's basis corrections in
   this branch are computed integrally (§4.2, the lemma on p. 127); an argument that reads the
-  coefficients in the `ℚ₂`-eigenspaces has to clear the denominators afterwards.
+  coefficients in the `ℚ₂`-eigenspaces has to clear the denominators afterwards. The coordinate
+  ring is not a domain: `(1 - S)(1 + S) = 0` with both factors nonzero
+  (`splitInvolution_isZeroDivisor`), so the procyclic argument, which cancels a common factor,
+  does not transfer. Since `ℤ₂[C₂][[T]]` is free over `ℤ₂[[T]]` on `1, S`, divisibility by an
+  element of the base such as `2^f + T` is coordinatewise divisibility in the domain `ℤ₂[[T]]`
+  (`splitBase_dvd_iff`), and that is where the one division of this branch happens.
   *Needs:* L9 the procyclic package; L7 the closed subgroups of `ℤ₂ˣ`; L1 index.
   *In Tau Ceti:* `TauCeti.completedGroupAlgebra.dyadicCoordinate` with `dyadicCoordinate_X`,
   `dyadicCoordinate_C_single` and the values of its inverse
@@ -1946,9 +1966,8 @@ is in the branch named.
   (`exists_labuteRelatorClass_eq_smul_of_range_eq_procyclicClosure`). In Labute's convention this
   is `r̄ = (2 + 2^f + T) z̄₁` (p. 123): both coefficients above vanish at `T = -2 - 2^f`, so the
   division criterion factors `2 + 2^f + T` out of each, and `z` is the corresponding combination
-  of `ȳ₁` and `ȳ₃`. The corrections then iterate along the descending `2`-central series, which
-  is where Layer 8's maps `δ_j` and comparison schema take over. This is the exact point at which
-  the Division milestone above is used.
+  of `ȳ₁` and `ȳ₃`. This is scalar membership of `r̄`, and nothing more; the change of generators
+  is the basis correction below.
 - **The branch `Im χ = {±1} × U^(f)`, `2 ≤ f < ∞` (Theorem 6).** There are `z₁, z₃ ∈ E` with
   `r̄ = (1 + s̄) z₁ + ((2^f - 1) + ȳ) z₃` for any `s, y ∈ F` with `χ(s) = -1` and
   `χ(y) = 1 - 2^f` (`exists_labuteRelatorClass_eq_add_smul_of_range_eq_unitsPlusMinus`). In
@@ -1957,6 +1976,50 @@ is in the branch named.
   criterion at `T = -2^f` gives an element `φ` of `Λ`, a multiple of `S`, with
   `(1 + α + S(1 + T)^b)(1 + α)^{-1} + (2^f + T) φ = 1 + S`. The procyclic statement does not
   apply here, because `{±1} × U^(f)` is not procyclic (Layer 7).
+- **The basis corrections.** What the successive approximation consumes is a change of
+  generators, and the two statements above do not provide one: they return some `z` with `r̄` a
+  multiple of it, and the `(2, T)` example under Division shows that factoring out a common
+  divisor does not produce a basis vector in general. So each branch has its own correction,
+  starting from the relator in the even normal form `x₁^{2+α}(x₁,x₂)x₃^{2^g}(x₃,x₄)⋯` in the
+  standard basis, with `χ` taking the values of Labute's Theorem 4 there, and returning a new basis
+  `z`, the values of `χ` on it, the relator read in `z` up to an error in `(X, X) ∩ F₃` (Labute's
+  `F₃` is `λ₂`), and `r̄` with its coefficients pinned to the corrected generators. A basis is
+  recorded as the image of the standard generators under a continuous automorphism of `F`. Two
+  criteria make a family a basis: an `n`-tuple that topologically generates the free pro-`p` group
+  of rank `n` is one (`exists_continuousMulEquiv_freeProPGen_of_generates`, by the Hopf property),
+  and so is a family congruent to a basis modulo `Φ(F)`
+  (`exists_continuousMulEquiv_freeProPGen_of_inv_mul_mem_proPFrattini`, by Burnside).
+  - *The branch `Im χ = U^[f]`* (`exists_labuteBasisCorrection_of_range_eq_procyclicClosure`,
+    §4.1, pp. 122–123). Here `f = v₂(α)` and `2 ≤ f < g ≤ ∞`, and the rank is even and at least
+    two; at rank two the fourth generator is `1` and the character values force `g = ∞`. The
+    result: `z ≡ x` modulo `Φ(F)`, `χ(z₂)(1 + 2^f) = -1` and `χ(z_i) = 1` otherwise,
+    `r = z₁^{2+2^f}(z₁,z₂)(z₃,z₄)⋯ · e` with `e ∈ (X, X) ∩ F₃`, and `r̄ = (2 + 2^f + T) z̄₁` with
+    `T` read from the class of `z₂`. The congruence comes from the constant terms, not from the
+    divisibility: with `c = -(2 + 2^f)`, `v₂(c) = 1`, `ψ₁(0) = 2 + α` has valuation `1` and
+    `ψ₂(0) = 2^g` has valuation `g ≥ 3` (it is `0` at `g = ∞`), so the quotients have `φ₁(0)` a
+    unit and `φ₂(0) ∈ 2ℤ₂`, whence `z₁ ≡ y₁` modulo `Φ(F)`.
+    ⚠ The coefficient is indexed by `f = v₂(α)`, the level of the image, and not by the exponent
+    `g` of the third generator. At `n = 4`, `α = 4`, `g = ∞`, with `χ(x₂) = -1/5`, the relator is
+    `x₁⁶(x₁,x₂)(x₃,x₄)` and the coefficient is `6 + T`. The `g`-indexed `2 + 2^∞ + T`, which is
+    `1 + γ` for every topological generator `γ`, is false there: the map onto the dihedral group
+    of order `16` sending `x₁ ↦ t`, `x₂ ↦ s` and `x₃, x₄ ↦ 1` induces `ℓ : E → ℤ/8` on which every
+    topological generator acts by `-1`, so `ℓ((1 + γ) z) = 0` for every `z`, while `ℓ(r̄) = 4`.
+    The correct coefficient passes the same test, since `ℓ((5 + γ) x̄₁) = 4`.
+  - *The branch `Im χ = {±1} × U^(f)`* (`exists_labuteBasisCorrection_of_range_eq_unitsPlusMinus`,
+    §4.2, pp. 126–128). Here `2 ≤ f < ∞`, `2^f ∣ α`, and the rank is even and at least four. The
+    result: `χ(z₂) = -1`, `χ(z₄)(1 - 2^f) = 1` and `χ(z_i) = 1` otherwise,
+    `r = z₁²(z₁,z₂)z₃^{2^f}(z₃,z₄)⋯ · e` with `e ∈ (X, X) ∩ F₃`, and
+    `r̄ = (1 + S) z̄₁ + (2^f + T) z̄₃` with `S` the class of `z₂` and `1 + T` that of `z₄`. The
+    argument divides in the base, as in the dyadic bullet above; the change of basis is lower
+    triangular over `Λ` with unit diagonal, and Labute's residual factor, an even `2`-adic power
+    of `(z₁, z₃)`, lies in `(X, X) ∩ F₃` because `z₁, z₃ ∈ X`. The corrected family is a basis
+    by the generation criterion. ⚠ It need not be congruent to the original basis modulo
+    `Φ(F)`: when `f = v₂(α)` the normalization of `χ(z₂)` uses an odd power of the fourth
+    generator, which changes the Frattini class of the second.
+
+  The corrections then iterate along the descending `2`-central series, which is where Layer 8's
+  maps `δ_j` and comparison schema take over. This is the exact point at which the Division
+  milestone above is used.
 
 ⚠ The hypotheses of the two branch statements are Labute's and are not decoration. Without them,
 at `F = ℤ₂`, `χ` trivial, `Γ = 1` and `r` a generator, the procyclic statement would ask for
@@ -1965,8 +2028,9 @@ at `F = ℤ₂`, `χ` trivial, `Γ = 1` and `r` a generator, the procyclic state
 branch `E` is free over `Λ` of rank `n - 1`, whatever the relator, so its annihilator is zero and
 carries no information about `r`.
 *Needs:* L9 Labute's relation module, L9 power-series coordinates, L9 evaluation, L9 division;
-L9 the normal forms and character values; L7 the closed subgroups of `ℤ₂ˣ`.
-*Source:* Labute §4.1 and §4.2, the computations on pp. 122–123 and 127.
+L9 the normal forms and character values; L7 the closed subgroups of `ℤ₂ˣ`; L3 Burnside's basis
+theorem and the Hopf property; L4 exponentiation by `ℤ_p`.
+*Source:* Labute §4.1 and §4.2, the computations on pp. 122–123 and 126–128.
 
 ### Layer 9: the classification of Demushkin groups
 
@@ -2019,7 +2083,16 @@ Layer 8.
   `isDemushkin_marked_of_q_two_even` for `n ≥ 4`, and `isDemushkin_marked_of_q_two_rank_two`
   for `n = 2`, and the relator words are the named terms `demushkinWordNeTwo`,
   `demushkinWordTwoOdd`, `demushkinWordTwoEven` and `demushkinWordTwoRankTwo`, each written on
-  a tuple of group elements so that the same word can be read in `F` and in `G`. The character
+  a tuple of group elements so that the same word can be read in `F` and in `G`. Their
+  parameters are natural numbers, which is all the marked statements need, since the image
+  equation pins the parameters and natural representatives exist. The `q = 2` words with the
+  genuine parameters `α ∈ 4ℤ₂` and `f : ℕ∞` of the successive-approximation conclusion are
+  `demushkinWordTwoOddPadic` and `demushkinWordTwoEvenPadic`, read on families in the free
+  pro-`2` group through Tau Ceti's `p`-adic power, with `2^f` given by `twoPowENat` and
+  `2^∞ = 0`; they agree with the natural-parameter words at natural parameters
+  (`demushkinWordTwoOddPadic_natCast`, `demushkinWordTwoEvenPadic_natCast`). A natural number
+  does not stand for a general `α`: the word in the nonabelian group `F` depends on the actual
+  exponent, not on its residue at one finite level. The character
   values are stated as equations in `ℤ_p`, for instance `χ(x₂)(1 - q) = 1` in place of
   `χ(x₂) = (1-q)^{-1}`, so that no unit has to be constructed in order to state them. The
   unmarked isomorphism statements are corollaries, obtained by forgetting the character
