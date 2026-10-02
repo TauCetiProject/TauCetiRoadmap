@@ -14,7 +14,9 @@ hyperbolic-plane theory, no Witt decomposition, no Witt cancellation, no Witt ri
 Pfister forms, no classification by discriminant and Hasse invariant, no Hilbert
 symbol, no transfer of forms along a field extension, and no Stiefel-Whitney classes.
 
-This roadmap builds that theory over a field with `2` invertible. The high points are:
+This roadmap builds that theory over a field with `2` invertible. Tau Ceti has since built
+the form theory below the Brauer group, Layers 0 to 4, which this roadmap consumes. The high
+points are:
 
 - the four-fold splitting criterion for quaternion algebras;
 - the classification of forms over a nonarchimedean local field by `(dim, d, s)`;
@@ -74,9 +76,8 @@ Excluded:
   continuous cohomology is the natural home for them, and this roadmap's degree-1 and
   degree-2 statements are the special cases it would subsume.
 
-Pfister forms are defined here in every degree. The elementary generation statements
-for `I`, `I²`, and `I³` are proved, because Layer 5 consumes them. Nothing past that is
-claimed.
+Pfister forms in every degree, and the elementary generation statements for `I`, `I²`,
+and `I³` that Layer 5 consumes, are Tau Ceti's. Nothing past that is claimed.
 
 ## Standing hypotheses and conventions
 
@@ -189,8 +190,11 @@ Each layer states its results against this table.
   `⟨⟨a, b⟩⟩ = ⟨1, −a⟩ ⊗ ⟨1, −b⟩ ≅ ⟨1, −a, −b, ab⟩`. This is the minus-sign convention of
   Lam Ch. X and of Elman-Karpenko-Merkurjev. Some older sources use `⟨1, a⟩` factors, so
   flag the convention at each citation. The `n`-fold `⟨⟨a₁, …, aₙ⟩⟩` is the `n`-fold
-  tensor product, through Mathlib's `QuadraticForm/TensorProduct.lean`, which already
-  carries `Invertible (2 : R)`.
+  tensor product, which is Tau Ceti's `TauCeti.pfisterFormClass`, the product of the classes
+  `1 + ⟨−aᵢ⟩` in the semiring of isometry classes. Its diagonal tuple `TauCeti.pfisterForm`
+  carries `∏_{i ∈ S} (−aᵢ)` in slot `k`, where `S` is the set of positions at which the
+  binary expansion of `k` has a `1` (`pfisterForm_apply` in `Suggested.lean`, with
+  `TauCeti.pfisterForm_one` and `TauCeti.pfisterForm_two`).
 - **Transfer.** The Scharlau transfer `s_*(q)` of a form `q` over `L` is taken along a
   nonzero `K`-linear functional `s : L →ₗ[K] K`, for `L/K` finite separable. The default
   functional is the trace `Algebra.trace K L`, written `Tr_*`. Every theorem is stated
@@ -265,10 +269,10 @@ Tau Ceti supplies what the rest of the roadmap needs of it:
   function of presentations into a function of classes.
 
 On the carrier, this roadmap's layers define `hasseInvariant` (Layer 5), `localHasse`
-(Layer 6C), and `w₁` and `w₂` (Layer 8), each through the descent principle, and Layer 4
-builds its rings from the semiring. `GlobalQuadraticForms` consumes the carrier and the
-class of a form under this roadmap's names `RegularFormClass` and `formClass`, which
-`Suggested.lean` exports as aliases of Tau Ceti's declarations.
+(Layer 6C), and `w₁` and `w₂` (Layer 8), each through the descent principle, and Tau Ceti
+builds the Witt rings of Layer 4 from the semiring. `GlobalQuadraticForms` consumes the
+carrier and the class of a form under this roadmap's names `RegularFormClass` and
+`formClass`, which `Suggested.lean` exports as aliases of Tau Ceti's declarations.
 
 `RegularFormClass K` is the carrier. `QuadraticModuleCat` is the natural alternative,
 and this roadmap does not use it: a roadmap that offers two carriers makes the first
@@ -384,6 +388,24 @@ improvement through their own review rather than duplicating them.
   **`TauCeti/Algebra/Quaternion/Binary.lean`**: `QuadraticMap.Represents`,
   `QuadraticMap.unitValueSet`, the representation criterion, the binary normal forms, and the
   binary quaternion lemma.
+- **`TauCeti/LinearAlgebra/QuadraticForm/Hyperbolic.lean`**, **`Witt/{Decomposition,
+  Cancellation,Extension}.lean`**, **`OrthogonalGroup.lean`** and
+  **`CartanDieudonne/Basic.lean`**: the hyperbolic plane `TauCeti.hyperbolicPlane K`, which is
+  `⟨1, −1⟩`, and the splitting of a hyperbolic plane off an isotropic regular form
+  (`TauCeti.exists_hyperbolicPlane_prod_equivalent`); Witt decomposition with the Witt index
+  and the anisotropic part; Witt cancellation; Witt's extension theorem; and reflections with
+  the Cartan-Dieudonné theorem. This is Layer 1, and Layer 9's trace-zero case uses the
+  hyperbolic plane and its splitting.
+- **`TauCeti/Algebra/Quaternion/`** (`NormForm`, `Split`, `SquareSplit`, `Steinberg`,
+  `SymbolEquiv`, `AlgEquiv`, `SplittingCriterion`, `BaseChange`): the norm form of
+  `ℍ[K,a,b]` and its diagonalization `⟨1, −a, −b, ab⟩`, the symbol relations as explicit
+  algebra equivalences, the naturality of quaternion equivalences, the split-or-division
+  dichotomy and the four-fold splitting criterion. This is Layer 2.
+- **`TauCeti/LinearAlgebra/QuadraticForm/Witt/`** (`Ring`, `FundamentalIdeal`,
+  `Discriminant`, `Pfister`, `Round`): the Witt-Grothendieck ring, the Witt ring, the Witt
+  class, the dimension map, the fundamental ideal, the signed discriminant on it with
+  `I/I² ≅ Kˣ/(Kˣ)²`, the Pfister forms with the additive generation of `Iⁿ` for `n ≥ 1`, and
+  the roundness of 1-fold and 2-fold Pfister forms. This is Layer 4.
 - **`TauCeti/FieldTheory/IntermediateField/Quadratic.lean`**: the quadratic normal form
   `a + b√x`, `finrank_adjoin_simple_eq_two_of_sq_mem_notMem`, and
   `isSquare_mul_of_adjoin_simple_eq`. Layer 6 uses these when `K(√a)` must lie inside a
@@ -405,9 +427,6 @@ improvement through their own review rather than duplicating them.
   quadratic algebra, `Algebra.IsQuadraticExtension.trace_algebraMap_add_algebraMap_mul` and
   `Algebra.IsQuadraticExtension.norm_algebraMap_add_algebraMap_mul`. Layer 9's square-root
   coordinates are their specialization at `Tr x = 0`.
-- **`TauCeti/LinearAlgebra/QuadraticForm/Hyperbolic.lean`**: `TauCeti.hyperbolicPlane K`,
-  which is `⟨1, −1⟩`, and `TauCeti.exists_hyperbolicPlane_prod_equivalent`, the splitting of
-  a hyperbolic plane off an isotropic regular form. Layer 9's trace-zero case uses both.
 - **`TauCeti/GroupTheory/SpecificGroups/Dihedral/Basic.lean`**: `TauCeti.dihedralHom`, the
   homomorphism out of `DihedralGroup n` attached to two involutions whose product has order
   `n`, with `dihedralHom_r` and `dihedralHom_sr`. Layer 9's `D̃₁₆ ⊂ M₂(F)` is its image at
@@ -631,14 +650,16 @@ this roadmap's own, because no other roadmap states it.
 
 ## What is missing (build here)
 
-Everything below the linear algebra:
+Tau Ceti has the form theory below the Brauer group: Layers 0 to 4, that is the carrier and
+the chain theorem, hyperbolic planes and Witt theory, the quaternion norm form with the
+four-fold splitting criterion, the discriminants, and the Witt ring with its fundamental ideal
+and Pfister forms (see "From Tau Ceti"). What remains:
 
-- the hyperbolic plane as a studied object, and the dichotomy between isotropy and
-  splitting;
-- Witt decomposition, Witt cancellation, and the Witt index;
-- the Witt ring `W(K)`, the fundamental ideal `I(K)`, and Pfister forms;
-- the quaternion symbol layer, with its norm form, the split-or-division dichotomy, and
-  the four-fold splitting criterion;
+- the milestones of Layers 0 to 4 that are marked there as built here: the contiguous-basis
+  comparison and the naturality of descent (Layer 0); the degenerate case of Witt
+  decomposition and the Witt index as the dimension of a maximal totally isotropic subspace
+  (Layer 1); the Gram-determinant description of the discriminant (Layer 3); and
+  `W(ℝ) ≅ ℤ` through the signature (Layer 4);
 - the Brauer-valued Hasse and Clifford invariants, and the classification in dimension
   at most 3;
 - the uniformizer predicate of Layer 6A, its square-class representatives in odd residue
@@ -675,11 +696,12 @@ not only the milestone that the headline needs.
 
 `Suggested.lean` fixes Lean forms for the design decisions that are most likely to fork
 an implementation, together with the worked examples. It applies Tau Ceti's carrier for
-isometry classes, chain theorem and descent principle, states the rank-one hypothesis of
-each invariant descended through it, and prototypes the four-fold criterion, the Brauer
-symbol and the Hasse invariant, the Witt ring with its fundamental ideal and the
-Clifford invariant, the Layer 6A objects stated against the supplied valuation and
-filtration, the quadratic defect with its exponent,
+isometry classes, chain theorem and descent principle, its Witt theory, its quaternion
+algebras with the four-fold criterion, and its Witt ring with the fundamental ideal and the
+Pfister forms; it states the rank-one hypothesis of each invariant descended through the
+descent principle; and it prototypes the Brauer symbol with the Hasse and Clifford
+invariants on Tau Ceti's `I²`, the Layer 6A objects stated against the supplied valuation
+and filtration, the quadratic defect with its exponent,
 the Hilbert symbol, the `μ₂` identification of Layer 7A with its laws, the
 Brauer comparison, `w₁` and `w₂` on isometry classes, the Scharlau transfer, the `Pin⁺`
 model in explicit `2 × 2` matrices with the value of the Evens norm, and the relative
@@ -845,53 +867,78 @@ negative definite.
 
 ### Layer 1: hyperbolic planes and Witt theory
 
+Layer 1 is Tau Ceti's, and this roadmap consumes it. The milestones below name the Tau Ceti
+declarations that supply them; the two that remain to be built here are marked as such.
+
 Prerequisites:
 
 - **[Mathlib]** `QuadraticMap.prod`, `QuadraticMap.Nondegenerate`, `basisRepr`,
   `exists_orthogonal_basis`, `Module.finrank`;
+- **[Tau Ceti]** `TauCeti/LinearAlgebra/QuadraticForm/Hyperbolic.lean`,
+  `Witt/Decomposition.lean`, `Witt/Cancellation.lean`, `Witt/Extension.lean`,
+  `OrthogonalGroup.lean` and `CartanDieudonne/Basic.lean`;
 - **[Layer 0]** the representation criterion and the binary normal forms.
 
 Milestones:
 
-- **The hyperbolic plane.** `ℍ_q := ⟨1, −1⟩`, which is equivalent to the `xy`-form
-  because `2` is invertible. Prove that `ℍ_q` represents every unit, that
-  `⟨a, −a⟩ ≅ ℍ_q`, that a regular isotropic form splits off a hyperbolic plane
-  (Lam I.3.4), and, as a consequence, that a regular isotropic form is universal.
-- **Witt decomposition** (Lam I.4.1). Every form splits as
-  `q ≅ q_t ⊥ (m × ℍ_q) ⊥ q_a`, where `q_t` is the zero form on the radical and `q_a` is
-  anisotropic, and all three parts are unique up to isometry. Define the **Witt index**
-  `m` and the **anisotropic part**. For regular `q`, the Witt index is the dimension of
-  a maximal totally isotropic subspace (Lam I.4.4).
-- **Witt cancellation** (Lam I.4.2): `q ⊥ q₁ ≅ q ⊥ q₂ → q₁ ≅ q₂` for regular `q`,
-  proved through hyperplane reflections (Lam I.4.5 to I.4.7). The regularity hypothesis
-  on the cancelled summand is part of the statement.
-- **Reflections and Cartan-Dieudonné** (Lam I.7). For regular `Q` and `v` with
-  `Q v ≠ 0`, the **reflection** is `τ_v x = x − (polar Q x v / Q v) • v`. Prove that
-  `τ_v` is an isometry, that `τ_v v = −v`, that `τ_v` fixes `v^⊥` pointwise, and that
-  `τ_v ∘ τ_v = id`. **Cartan-Dieudonné**: every isometry of a regular `n`-dimensional
-  quadratic space is a product of at most `n` reflections. The identity is the empty
-  product.
-- **Witt's extension theorem** (Lam I.4.9): an isometry between regular subspaces of a
-  regular space extends to the whole space. Mathlib has no form of this theorem, and
-  Layer 6 and Layer 9 both use it.
+- **The hyperbolic plane** [Tau Ceti]. `ℍ_q := ⟨1, −1⟩` is `TauCeti.hyperbolicPlane K`,
+  equivalent to the `xy`-form because `2` is invertible
+  (`TauCeti.equivalent_hyperbolicPlane_dualProd`), and its class is
+  `TauCeti.hyperbolicClass K`. It represents every scalar
+  (`TauCeti.represents_hyperbolicPlane`), `⟨a, −a⟩ ≅ ℍ_q`
+  (`TauCeti.equivalent_weightedSumSquares_self_neg_hyperbolicPlane`), and a regular isotropic
+  form splits off a hyperbolic plane (Lam I.3.4,
+  `TauCeti.exists_hyperbolicPlane_prod_equivalent`), so a regular isotropic form is
+  universal.
+- **Witt decomposition** (Lam I.4.1) [Tau Ceti] for regular forms. A regular form is `m`
+  hyperbolic planes plus an anisotropic diagonal form, with `m` its Witt index
+  (`QuadraticForm.exists_equivalent_hyperbolicPresentation_prod`). On the carrier,
+  `c = m • [ℍ_q] + anisotropicPart c` (`TauCeti.RegularFormClass.wittDecomposition`), where the
+  **Witt index** `TauCeti.RegularFormClass.wittIndex` and the **anisotropic part**
+  `TauCeti.RegularFormClass.anisotropicPart` are determined by any such decomposition
+  (`RegularFormClass.wittIndex_eq`, `RegularFormClass.anisotropicPart_eq`).
+  **Built here:** the decomposition `q ≅ q_t ⊥ (m × ℍ_q) ⊥ q_a` of a possibly degenerate
+  form, where `q_t` is the zero form on the radical, with all three parts unique up to
+  isometry; and, for regular `q`, the Witt index as the dimension of a maximal totally
+  isotropic subspace (Lam I.4.4).
+- **Witt cancellation** (Lam I.4.2) [Tau Ceti]: `q ⊥ q₁ ≅ q ⊥ q₂ → q₁ ≅ q₂` for regular
+  finite-dimensional `q`, with no hypothesis on `q₁` and `q₂`
+  (`TauCeti.equivalent_of_equivalent_prod`, and `equivalent_of_equivalent_prod_right` for the
+  summand on the right). On the carrier it is the instance
+  `IsCancelAdd (RegularFormClass K)`.
+- **Reflections and Cartan-Dieudonné** (Lam I.7) [Tau Ceti]. For `Q v` invertible the
+  reflection `τ_v x = x − (polar Q x v / Q v) • v` is the element
+  `TauCeti.QuadraticMap.reflectionOrthogonal Q v` of the orthogonal group
+  `TauCeti.QuadraticMap.orthogonalGroup Q` (`OrthogonalGroup.lean`). **Cartan-Dieudonné**:
+  every isometry of a regular `n`-dimensional quadratic space is a product of at most `n`
+  reflections (`TauCeti.QuadraticMap.exists_reflectionOrthogonal_list_prod_eq`), the
+  identity being the empty product.
+- **Witt's extension theorem** (Lam I.4.9) [Tau Ceti]: an isometry between regular
+  subspaces of a finite-dimensional quadratic space extends to the whole space, with no
+  regularity hypothesis on the ambient form (`QuadraticMap.IsometryEquiv.exists_extension`,
+  with the chosen extension `QuadraticMap.IsometryEquiv.extension`). Layer 6 and Layer 9 both
+  use it.
 
-Basic API:
+Basic API, Tau Ceti's except where marked as built here:
 
-- constructors: `hyperbolicPlane`, `wittIndex`, `anisotropicPart`, `reflection`;
+- constructors: `hyperbolicPlane`, `hyperbolicClass`, `RegularFormClass.wittIndex`,
+  `RegularFormClass.anisotropicPart`, `QuadraticMap.reflectionOrthogonal`, all in the
+  `TauCeti` namespace;
 - examples: `ℍ_q` over `ℚ`; `⟨1,1⟩` over `ℚ`, which is anisotropic and has Witt index
-  `0`;
-- morphisms: reflections and the isometry group; the extension of an isometry from a
+  `0` (`TauCeti.anisotropic_presentedForm_one_one`);
+- morphisms: reflections and the orthogonal group; the extension of an isometry from a
   subspace;
 - functoriality: the Witt index and the anisotropic part are invariants of
-  `Equivalent`. Under a field extension the Witt index cannot decrease, and the
-  extension of the anisotropic part need not stay anisotropic. An equality holds only
-  under a stated anisotropy-preservation hypothesis. ⚠ Do not claim that
-  `anisotropicPart` commutes with base change: `⟨1,1⟩` over `ℝ` has Witt index `0`, and
-  over `ℂ` it is hyperbolic with Witt index `1` and zero anisotropic part;
+  `Equivalent`. Under a field extension the Witt index cannot decrease
+  (`RegularFormClass.wittIndex_le_wittIndex_baseChange`), and the extension of the
+  anisotropic part need not stay anisotropic. An equality holds only under the
+  anisotropy-preservation hypothesis of `RegularFormClass.anisotropicPart_baseChange`.
+  ⚠ Do not claim that `anisotropicPart` commutes with base change: `⟨1,1⟩` over `ℝ` has Witt
+  index `0`, and over `ℂ` it is hyperbolic with Witt index `1` and zero anisotropic part;
 - comparison lemmas: the Witt index against the dimension of a maximal totally
-  isotropic subspace; the `xy`-form against `⟨1,−1⟩`;
-- naturality: `anisotropicPart (q ⊥ r)` against `anisotropicPart q ⊥ anisotropicPart r`
-  in the Witt ring of Layer 4;
+  isotropic subspace, built here; the `xy`-form against `⟨1,−1⟩`;
+- naturality: the anisotropic part of `q` represents its Witt class in the Witt ring of
+  Layer 4 (`TauCeti.wittClass_anisotropicPart`);
 - edge cases: the zero form; a form on the zero space; rank 1, where isotropy fails
   always;
 - downstream interfaces: Layer 4 needs cancellation for the Witt ring, and Layer 6
@@ -907,59 +954,83 @@ The route through quaternion algebras, rather than through a cocycle computation
 deliberate. Each equivalence proved here is reusable, and a cocycle identity is not.
 Nothing in this layer needs central simplicity, and no milestone here assumes it.
 
+Layer 2 is Tau Ceti's, in `TauCeti/Algebra/Quaternion/`, and this roadmap consumes it. The
+milestones below name the Tau Ceti declarations that supply them.
+
 Prerequisites:
 
 - **[Mathlib]** `QuaternionAlgebra`, `star`, `mul_star_eq_coe`,
   `QuaternionAlgebra.Basis` with `Basis.lift`, `QuadraticAlgebra K a 0` with its `norm`,
   `Matrix (Fin 2) (Fin 2) K`;
+- **[Tau Ceti]** `TauCeti/Algebra/Quaternion/{NormForm,Split,SquareSplit,Steinberg,
+  SymbolEquiv,AlgEquiv,SplittingCriterion,BaseChange}.lean`;
 - **[Layer 0]** the binary normal forms;
 - **[Layer 1]** the hyperbolic plane and the splitting of an isotropic form.
 
 Milestones:
 
-- **Norm form.** For `a, b ∈ Kˣ`, `Nrd(x) = x · star x` is scalar, by Mathlib's
-  `mul_star_eq_coe`. Package `x ↦ (x * star x).re` as a `QuadraticForm K ℍ[K,a,b]` and
-  prove `Nrd ≅ ⟨1, −a, −b, ab⟩ = ⟨⟨a, b⟩⟩`, the 2-fold Pfister form. Prove that the
-  **pure part** on the trace-zero subspace is `⟨−a, −b, ab⟩`, and that
-  `Nrd(xy) = Nrd(x)·Nrd(y)`.
-- **Split or division** (Lam III.2.2, III.2.7). `ℍ[K,a,b]` is a division algebra, or is
-  isomorphic to `Matrix (Fin 2) (Fin 2) K`, according to whether `Nrd` is anisotropic.
-  Route: `x ≠ 0` is invertible if and only if `Nrd(x) ≠ 0`, by the `star`-inverse; and
-  if `Nrd` is isotropic, then run the explicit `M₂(K)`-basis through
-  `QuaternionAlgebra.Basis.lift`. Both halves are computations with the norm form.
-- **Symbol relations at the algebra level**, each an `AlgEquiv` (Lam III.2.11):
-  `(a,b) ≅ (b,a)`; `(a, c²b) ≅ (a,b)`; `(a, −a) ≅ M₂(K)`; `(a, b²) ≅ M₂(K)`;
-  `(1, b) ≅ M₂(K)`; and the **Steinberg relation** `(a, 1−a) ≅ M₂(K)` for `a : Kˣ` with
-  `1 − a ≠ 0`.
-- **Naturality of quaternion equivalences.** A `K`-algebra equivalence
-  `f : ℍ[K,a,b] ≃ₐ[K] ℍ[K,c,d]` commutes with `star`, preserves the reduced trace and
-  the reduced norm, maps the trace-zero subspace onto the trace-zero subspace, and
-  restricts to an isometry of pure norm forms `⟨−a,−b,ab⟩ ≅ ⟨−c,−d,cd⟩`. Without this
-  milestone, equality of quaternion invariants gives no isometry, and the dimension-3
-  classification of Layer 5 has no proof.
-- **The four-fold splitting criterion**, the main theorem of the layer (Lam III.2.7 and
-  III.4.2, Serre III.1.1-1.2, Gille-Szamuely 1.1.9). For `a, b ∈ Kˣ` the following are
-  equivalent:
+- **Norm form** [Tau Ceti]. For `a, b ∈ Kˣ`, `Nrd(x) = x · star x` is scalar, by Mathlib's
+  `mul_star_eq_coe`, and `x ↦ (x * star x).re` is the quadratic form
+  `QuaternionAlgebra.normForm a 0 b` on `ℍ[K,a,b]` (`QuaternionAlgebra.normForm_apply`).
+  `Nrd ≅ ⟨1, −a, −b, ab⟩ = ⟨⟨a, b⟩⟩`, the 2-fold Pfister form
+  (`QuaternionAlgebra.equivalent_normForm_weightedSumSquares`); the **pure part**
+  `QuaternionAlgebra.pureNormForm` on the trace-zero subspace is `⟨−a, −b, ab⟩`
+  (`QuaternionAlgebra.equivalent_pureNormForm_weightedSumSquares`); and
+  `Nrd(xy) = Nrd(x)·Nrd(y)` (`QuaternionAlgebra.normForm_mul`).
+- **Split or division** (Lam III.2.2, III.2.7) [Tau Ceti]. `ℍ[K,a,b]` is a division algebra
+  exactly when `Nrd` is anisotropic (`QuaternionAlgebra.anisotropic_normForm_iff`), and
+  otherwise it is isomorphic to `Matrix (Fin 2) (Fin 2) K`
+  (`TauCeti.QuaternionAlgebra.forall_isUnit_or_nonempty_algEquiv_matrix`). Both halves are
+  computations with the norm form.
+- **Symbol relations at the algebra level** [Tau Ceti], each an `AlgEquiv` (Lam III.2.11):
+  `(a,b) ≅ (b,a)` is Mathlib's `QuaternionAlgebra.swapEquiv`; `(a, c²b) ≅ (a,b)` is
+  `TauCeti.QuaternionAlgebra.rescaleJEquiv`, with `rescaleIEquiv` in the first slot;
+  `(a, −a) ≅ M₂(K)` is `TauCeti.QuaternionAlgebra.aNegAEquivMatrix`; `(a, b²) ≅ M₂(K)` is
+  `TauCeti.secondSquareEquivMatrix`; `(1, b) ≅ M₂(K)` is
+  `TauCeti.QuaternionAlgebra.oneEquivMatrix`; and the **Steinberg relation**
+  `(a, 1−a) ≅ M₂(K)`, for `a` with `a` and `1 − a` units, is
+  `TauCeti.QuaternionAlgebra.steinbergEquivMatrix`.
+- **Naturality of quaternion equivalences** [Tau Ceti]. A `K`-algebra equivalence
+  `f : ℍ[K,a,b] ≃ₐ[K] ℍ[K,c,d]` commutes with `star` (`QuaternionAlgebra.map_star_of_algEquiv`),
+  preserves the reduced trace and the reduced norm (`reducedTrace_eq_of_algEquiv`,
+  `normForm_eq_of_algEquiv`), maps the trace-zero subspace onto the trace-zero subspace
+  (`map_ker_reₗ_of_algEquiv`), and restricts to an isometry of pure norm forms
+  `⟨−a,−b,ab⟩ ≅ ⟨−c,−d,cd⟩` (`QuaternionAlgebra.equivalent_weightedSumSquares_of_algEquiv`).
+  Without this milestone, equality of quaternion invariants gives no isometry, and the
+  dimension-3 classification of Layer 5 has no proof.
+- **The four-fold splitting criterion** [Tau Ceti], the main theorem of the layer (Lam III.2.7
+  and III.4.2, Serre III.1.1-1.2, Gille-Szamuely 1.1.9),
+  `TauCeti.QuaternionAlgebra.nonempty_algEquiv_matrix_tfae`. For `a, b ∈ Kˣ` the following
+  are equivalent:
   1. `ℍ[K,a,b]` splits, that is `≃ₐ[K] Matrix (Fin 2) (Fin 2) K`;
   2. `b` is a norm from the quadratic algebra `K(√a)`, that is
      `∃ z : QuadraticAlgebra K a 0, z.norm = b`;
   3. `b = x² − ay²` has a solution in `K`;
-  4. `⟨1, −a, −b⟩` is isotropic.
+  4. `⟨1, −a, −b⟩` is isotropic;
+  5. the norm form `⟨⟨a, b⟩⟩` is isotropic.
 
-  When `a` is a square all four conditions hold, so no hypothesis on `a` is carried.
-  The norm form `x² − a y²` is then universal. A fifth equivalent condition, the
+  Each condition against the first is a named theorem
+  (`nonempty_algEquiv_matrix_iff_exists_norm_eq`,
+  `nonempty_algEquiv_matrix_iff_exists_eq_sq_sub_mul_sq`,
+  `nonempty_algEquiv_matrix_iff_not_anisotropic_weightedSumSquares`,
+  `nonempty_algEquiv_matrix_iff_not_anisotropic_normForm`).
+  When `a` is a square all five conditions hold, so no hypothesis on `a` is carried.
+  The norm form `x² − a y²` is then universal. A further equivalent condition, the
   vanishing of the Kummer cup `(a) ∪ (b)`, is Layer 7C, and is kept out of here so that
   Layers 0 to 6 need no cohomology.
 
-Basic API:
+Basic API, Tau Ceti's except where marked as built here:
 
-- constructors: `quaternionNormForm`, `pureNormForm`, the splitting predicate;
+- constructors: `QuaternionAlgebra.normForm`, `QuaternionAlgebra.pureNormForm`, and the
+  splitting predicate `Nonempty (ℍ[K,a,b] ≃ₐ[K] Matrix (Fin 2) (Fin 2) K)`;
 - examples: `ℍ[ℚ,−1,−1]`, a division algebra; `ℍ[ℚ,1,b]`, split for every `b`;
-  `ℍ[ℚ_2,2,5]`, a division algebra; `ℍ[ℚ_2,5,5]`, split;
+  `ℍ[ℚ_2,2,5]`, a division algebra; `ℍ[ℚ_2,5,5]`, split; these are built here, with the
+  worked examples;
 - morphisms: `AlgEquiv` between quaternion algebras; the induced isometry of pure norm
-  forms;
-- functoriality: base change `ℍ[K,a,b] ⊗_K L ≃ₐ[L] ℍ[L,a,b]`, and the splitting
-  predicate under a field map;
+  forms (`QuaternionAlgebra.pureNormFormIsometryEquivOfAlgEquiv`);
+- functoriality: base change `ℍ[K,a,b] ⊗_K L ≃ₐ[L] ℍ[L,a,b]`
+  (`TauCeti.QuaternionAlgebra.baseChangeTwoParams`), and the splitting predicate under a
+  field map, which follows from it;
 - comparison lemmas: the four conditions of the criterion against each other;
   `⟨⟨a,b⟩⟩` against `Nrd`; `QuadraticAlgebra K a 0` against `K(√a)`;
 - naturality: `star` and the reduced norm commute with every `K`-algebra equivalence;
@@ -1071,73 +1142,116 @@ Basic API:
 This layer is free of the Brauer group. Everything below is about `RegularFormClass K`
 and the rings built from it. The maps into `Br(K)[2]` are Layer 5.
 
+Layer 4 is Tau Ceti's, in `TauCeti/LinearAlgebra/QuadraticForm/Witt/`, and this roadmap
+consumes it. `Suggested.lean` opens Tau Ceti's declarations and declares no second ring, ideal,
+discriminant map or Pfister form. The one milestone that remains to be built here, `W(ℝ) ≅ ℤ`,
+is marked as such.
+
 Prerequisites:
 
-- **[Mathlib]** `QuadraticForm/TensorProduct.lean`, `Ideal`, `AddMonoidHom`,
-  `Ring.toGrothendieckGroup`-style constructions;
+- **[Mathlib]** `Ideal`, `Ideal.Cotangent`, `AddSubgroup.closure`,
+  `Algebra.GrothendieckAddGroup`;
+- **[Tau Ceti]** `Witt/Ring.lean`, `Witt/FundamentalIdeal.lean`, `Witt/Discriminant.lean`,
+  `Witt/Pfister.lean` (the directory `Witt/Pfister/` after the pin) and `Witt/Round.lean`;
 - **[Layer 1]** Witt decomposition and cancellation;
 - **[Layer 2]** the norm form and the four-fold criterion;
 - **[Layer 3]** the discriminant formulas and the dimension map.
 
 Milestones:
 
-- **`Ŵ(K)` and `W(K)`** (Lam II.1). The commutative monoid `(RegularFormClass K, ⊥)`
-  with the multiplication induced by `⊗` is a commutative semiring, which is Tau Ceti's
-  `TauCeti.instCommSemiringRegularFormClass`. Its Grothendieck
-  group is the **Witt-Grothendieck ring** `Ŵ(K)`, and the **Witt ring** `W(K)` is the
-  quotient by the ideal generated by `ℍ_q`. Well-definedness rests on Layers 1 and 2,
-  that is on cancellation and on the tensor product. Every regular form's Witt class is
-  represented by its anisotropic part, and two anisotropic regular forms with the same
-  Witt class are isometric, by Witt decomposition and cancellation. Prove the basic
-  theory: `W` as a functor for field embeddings, and the dimension-mod-2 ring map
-  `W(K) → ZMod 2`. General torsion theorems for `W(K)` are excluded.
-- **The fundamental ideal.** `I(K) = ker(W(K) → ZMod 2)`. The generation statements are
-  elementary and are proved here:
-  - `I` is generated as an ideal, and indeed as an additive group, by the 1-fold Pfister
-    forms `⟨⟨a⟩⟩ = ⟨1,−a⟩`;
-  - `Iⁿ` is generated as an additive group by the `n`-fold Pfister forms
-    `⟨⟨a₁,…,aₙ⟩⟩`, which follows from the previous item and from the definition of a
-    power of an ideal. State it for every `n ≥ 1` as
-    `fundamentalIdeal_pow_eq_addClosure`, and record `n = 2` and `n = 3` as the cases
-    that later layers use. ⚠ It is false at `n = 0`: `I⁰ = W(K)` is not additively
-    generated by `⟨1⟩`, the only `0`-fold Pfister form (over `ℚ`, `⟨2⟩` is not a multiple
-    of `⟨1⟩`). ⚠ Additive generation is the statement Layer 5 needs; the
-    weaker ideal generation does not let a homomorphism be defined by its values on the
-    generators. Stating it at all needs the canonical `wittClass`, the semiring map
-    `RegularFormClass K → W(K)` through `toWittGrothendieck`, so that "the Witt class of
-    a Pfister form" has a meaning; both names are targets of this layer;
-  - `I/I² ≅ Kˣ/(Kˣ)²` through `d±`, which is where the signed discriminant is forced.
+- **`Ŵ(K)` and `W(K)`** (Lam II.1) [Tau Ceti]. The commutative monoid
+  `(RegularFormClass K, ⊥)` with the multiplication induced by `⊗` is the commutative semiring
+  `TauCeti.instCommSemiringRegularFormClass`. Its Grothendieck group is the
+  **Witt-Grothendieck ring** `TauCeti.WittGrothendieckRing K`, with the class map
+  `TauCeti.toWittGrothendieck`, which is injective by Witt cancellation
+  (`toWittGrothendieck_injective`). The **Witt ring** `TauCeti.WittRing K` is the quotient by
+  the ideal `TauCeti.hyperbolicIdeal K` generated by `ℍ_q`, which is the cyclic subgroup
+  `ℤ · [ℍ_q]` (`mem_hyperbolicIdeal_iff`), with the quotient map `TauCeti.WittRing.mk`. The Witt
+  class of a form is `TauCeti.wittClass`, the class map followed by the quotient map. Every
+  element of `W(K)` is a Witt class (`wittClass_surjective`), every regular form's Witt class
+  is represented by its anisotropic part (`wittClass_anisotropicPart`), and two forms have
+  the same Witt class exactly when their anisotropic parts are isometric
+  (`wittClass_eq_iff_anisotropicPart_eq`). The dimension-mod-2 ring map is
+  `TauCeti.WittRing.dimMod2`. `GlobalQuadraticForms` cites the Witt ring and the quotient
+  map as this roadmap's `wittRing` and `toWittRing`, which `Suggested.lean` keeps as reducible
+  aliases of `TauCeti.WittRing` and `TauCeti.WittRing.mk`. General torsion theorems for
+  `W(K)` are excluded.
+
+  `W` as a functor for field extensions is `TauCeti.WittRing.baseChange : W(K) →+* W(L)`, with
+  its value on Witt classes `WittRing.baseChange_wittClass`, the functor laws
+  `WittRing.baseChange_self` and `WittRing.baseChange_comp`, and
+  `WittRing.map_fundamentalIdeal_pow_le`; these are the localization maps that
+  `GlobalQuadraticForms` composes over the completions. They landed in
+  `TauCeti/LinearAlgebra/QuadraticForm/Witt/BaseChange.lean` after this repository's Tau Ceti
+  pin, and no statement here applies them, so `Suggested.lean` declares no stand-in; when the
+  pin moves past them, they are consumed directly.
+- **The fundamental ideal** [Tau Ceti]. `I(K) = ker(W(K) → ZMod 2)` is
+  `TauCeti.fundamentalIdeal K`, and a Witt class lies in it exactly when the rank is even
+  (`wittClass_mem_fundamentalIdeal_iff`). The generation statements:
+  - `I` is generated as an additive group, and so as an ideal, by the 1-fold Pfister
+    classes `⟨⟨a⟩⟩ = ⟨1,−a⟩`, that is `TauCeti.oneFoldPfisterClass`
+    (`fundamentalIdeal_toAddSubgroup_eq_closure_oneFoldPfisterClass`,
+    `fundamentalIdeal_eq_span_oneFoldPfisterClass`);
+  - `Iⁿ` is generated as an additive group by the `n`-fold Pfister classes for every
+    `n ≥ 1`, `TauCeti.fundamentalIdeal_pow_eq_addClosure`, with the cases `n = 2` and `n = 3`
+    that Layer 5 uses as `fundamentalIdeal_sq_eq_addClosure` and
+    `fundamentalIdeal_cube_eq_addClosure`. ⚠ It is false at `n = 0`: `I⁰ = W(K)` is not
+    additively generated by `⟨1⟩`, the only `0`-fold Pfister form (over `ℚ`, `⟨2⟩` is not a
+    multiple of `⟨1⟩`). ⚠ Additive generation is the statement Layer 5 needs; the weaker
+    ideal generation does not let a homomorphism be defined by its values on the
+    generators;
+  - `I/I² ≅ Kˣ/(Kˣ)²` through `d±`, which is where the signed discriminant is forced:
+    `TauCeti.signedDiscrHom` on `I(K)` is onto (`signedDiscrHom_surjective`) with kernel `I²`
+    (`signedDiscrHom_eq_zero_iff`), and induces `TauCeti.fundamentalIdealCotangentEquiv`.
+    A Witt class lies in `I²` exactly when it has even rank and trivial `d±`
+    (`wittClass_mem_fundamentalIdeal_sq_iff`). These maps are valued in the additive
+    `SquareClassGroup K`. Layer 3's multiplicative `signedDiscr` is the same invariant of the
+    Witt class carried across `multiplicativeSquareClassEquiv`
+    (`signedDiscr_eq_signedDiscr_wittClass` in `Suggested.lean`), and no second
+    discriminant map is defined on `W(K)`.
 
   No statement about `I³/I⁴` or about the higher filtration is claimed.
-- **Pfister forms.** `⟨⟨a₁,…,aₙ⟩⟩` in every degree as the `n`-fold tensor product, with
-  the theory developed for `n ≤ 2`:
-  - `⟨⟨a,b⟩⟩` is the norm form of `ℍ[K,a,b]` (Layer 2);
+- **Pfister forms** [Tau Ceti] in every degree, with the theory developed for `n ≤ 2`. The
+  diagonal tuple is `TauCeti.pfisterForm a : Fin (2 ^ n) → Kˣ`, whose slot `k` is
+  `∏_{i ∈ S} (−aᵢ)` over the positions `S` of the `1`s in the binary expansion of `k`
+  (`pfisterForm_apply` in `Suggested.lean`); its isometry class is `TauCeti.pfisterFormClass a`, the product of the
+  classes `1 + ⟨−aᵢ⟩` (`pfisterFormClass_eq_mk`); and its Witt class is
+  `TauCeti.pfisterClass a`, the product of the one-fold classes (`pfisterClass_eq_prod`), which
+  lies in `Iⁿ` (`pfisterClass_mem_fundamentalIdeal_pow`).
+  - `⟨⟨a,b⟩⟩` is the norm form of `ℍ[K,a,b]` (Layer 2,
+    `QuaternionAlgebra.equivalent_normForm_weightedSumSquares`);
   - **round**: for `n ≤ 2`, every `c ∈ unitValueSet ⟨⟨a₁,…,aₙ⟩⟩` is a similarity factor,
-    that is `c • ⟨⟨a₁,…,aₙ⟩⟩ ≅ ⟨⟨a₁,…,aₙ⟩⟩`;
-  - `⟨⟨a,b⟩⟩` is isotropic if and only if it is hyperbolic;
-  - `⟨⟨a,b⟩⟩` is hyperbolic if and only if `ℍ[K,a,b]` splits, which is the four-fold
-    criterion stated in the Witt ring.
+    that is `c • ⟨⟨a₁,…,aₙ⟩⟩ ≅ ⟨⟨a₁,…,aₙ⟩⟩`
+    (`TauCeti.oneFoldPfister_smul_equivalent_of_mem_unitValueSet`,
+    `TauCeti.twoFoldPfister_smul_equivalent_of_mem_unitValueSet`);
+  - `⟨⟨a,b⟩⟩` is isotropic if and only if it is hyperbolic, if and only if `ℍ[K,a,b]` splits,
+    which is the four-fold criterion stated in the Witt ring: Tau Ceti's
+    `pfisterFormClass_two_tfae`, with `pfisterClass_two_eq_zero_iff`, in
+    `Witt/Pfister/Hyperbolic.lean`, which landed after this repository's pin.
 
   The general theory of `n`-fold Pfister forms, that is roundness in all degrees, the
   Arason-Pfister Hauptsatz, and function-field methods, is excluded. The four items
   above are what Layers 5 and 8 consume.
 
-Basic API:
+Basic API, Tau Ceti's except where marked as built here:
 
-- constructors: `wittGrothendieckRing`, `wittRing`, `toWittGrothendieck`, `wittClass`,
-  `fundamentalIdeal`, `pfisterForm`;
-- examples: `W(ℂ) ≅ ZMod 2`; `W(ℝ) ≅ ℤ` through the signature; `⟨⟨1⟩⟩ = ⟨1,−1⟩`, which
-  is zero in `W(K)`;
-- morphisms: `W(K) → W(L)` for a field embedding; the dimension map `W(K) → ZMod 2`;
-  the discriminant map `I/I² → Kˣ/(Kˣ)²`;
+- constructors: `WittGrothendieckRing`, `WittRing`, `toWittGrothendieck`, `WittRing.mk`,
+  `wittClass`, `fundamentalIdeal`, `oneFoldPfisterClass`, `pfisterForm`, `pfisterFormClass`,
+  `pfisterClass`, with this roadmap's aliases `wittRing` and `toWittRing`;
+- examples: `W(K) ≅ ZMod 2` for `K` separably closed, so `W(ℂ) ≅ ZMod 2`
+  (`WittRing.equivZModTwoOfIsSepClosed`, after the pin); `W(ℝ) ≅ ℤ` through the signature,
+  built here; `⟨⟨1⟩⟩ = ⟨1,−1⟩`, which is zero in `W(K)` (`oneFoldPfisterClass_one`);
+- morphisms: the dimension map `WittRing.dimMod2`; the discriminant map
+  `I/I² → Kˣ/(Kˣ)²`; `WittRing.baseChange`, after the pin;
 - functoriality: `W` as a functor, with `I` and `Iⁿ` mapped into each other by a field
-  embedding;
+  extension (`WittRing.map_fundamentalIdeal_pow_le`, after the pin);
 - comparison lemmas: a Witt class against its anisotropic representative; a Pfister form
   against a quaternion norm form;
 - naturality: the generation of `Iⁿ` by Pfister forms is stable under a field
-  embedding;
-- edge cases: `n = 0`, where `⟨⟨⟩⟩ = ⟨1⟩`; the hyperbolic class, which is zero in
-  `W(K)`; the zero ring case, which does not occur for a field;
+  extension (`WittRing.baseChange_pfisterClass`, after the pin);
+- edge cases: `n = 0`, where `⟨⟨⟩⟩ = ⟨1⟩` (`pfisterClass_zero`); the hyperbolic class, which
+  is zero in `W(K)` (`wittClass_hyperbolicClass`); the zero ring case, which does not occur
+  for a field;
 - downstream interfaces: Layer 5's homomorphism `c : I² → Br(K)[2]`, and Layer 8's
   Stiefel-Whitney classes on `I²`.
 
@@ -1164,7 +1278,8 @@ Prerequisites:
   for `Brauer.CSA_Setoid`;
 - **[Layer 2]** the symbol relations and the split-or-division dichotomy;
 - **[Layer 3]** the binary quaternion lemma and the chain-induction lemmas;
-- **[Layer 4]** the generation of `I²` and of `I³` by Pfister forms.
+- **[Layer 4]** Tau Ceti's fundamental ideal `TauCeti.fundamentalIdeal K`, its powers, and
+  the generation of `I²` and of `I³` by Pfister classes.
 
 Milestones:
 
@@ -1230,23 +1345,27 @@ Milestones:
 - **The `I²` homomorphism**, in six steps. Each is a separate target, because the
   existence of `c` is a theorem about the Clifford invariant and not a formality.
   1. **Additivity on `I²`**, `cliffordInvariant_append_of_mem_I2`:
-     `c(q ⊥ r) = c(q) · c(r)` when both summands have even rank and trivial signed
-     discriminant, that is when both lie in `I²`. The dimension-dependent correction
+     `c(q ⊥ r) = c(q) · c(r)` when the Witt classes of both summands lie in Tau Ceti's
+     `fundamentalIdeal K ^ 2`, that is when both have even rank and trivial signed
+     discriminant (`TauCeti.wittClass_mem_fundamentalIdeal_sq_iff`). The dimension-dependent correction
      terms of the Lam V.3.20 comparison and of `s(q ⊥ r) = s(q) s(r) [(d q, d r)]` cancel
      exactly there. ⚠ Over a general pair the identity is false, so the two hypotheses
      are part of the statement, and `c` is not additive on `W(K)`.
   2. **The value on a 2-fold Pfister generator**,
-     `cliffordInvariant_pfisterForm_two`: `c(⟨⟨a,b⟩⟩) = [(a,b)]`. Together with step 1
-     and Layer 4's additive generation this determines `c` on all of `I²`.
+     `cliffordInvariant_pfisterForm_two`: `c(⟨⟨a,b⟩⟩) = [(a,b)]`, on Tau Ceti's tuple
+     `pfisterForm ![a, b]`. Together with step 1 and Layer 4's additive generation this
+     determines `c` on all of `I²`.
   3. **Vanishing on a 3-fold Pfister generator**,
      `cliffordInvariant_pfisterForm_three`: `c(⟨⟨a,b,c⟩⟩) = 1` (Lam V.3.4). It is stated
      on the generator, which is the shape a proof by generation can check.
-  4. **Generation of `I²` and of `I³`** by those forms is Layer 4's
-     `fundamentalIdeal_pow_eq_addClosure`, read at `n = 2` and `n = 3`. ⚠ Additive
+  4. **Generation of `I²` and of `I³`** by those forms is Tau Ceti's
+     `fundamentalIdeal_sq_eq_addClosure` and `fundamentalIdeal_cube_eq_addClosure`, the
+     cases `n = 2` and `n = 3` of `fundamentalIdeal_pow_eq_addClosure` (Layer 4). ⚠ Additive
      generation, not ideal generation: the ideal statement does not let a homomorphism be
      defined by its values on the generators.
   5. **The homomorphism** `cliffordHomI2 : I² → Br(K)[2]`, from steps 1 and 4, with
-     `cliffordHomI2_pfisterForm` computing it on a generator and
+     `cliffordHomI2_pfisterClass` computing it on the generator `TauCeti.pfisterClass ![a, b]`
+     and
      `cliffordHomI2_two_torsion` placing its image in the `2`-torsion. Without the first
      of those two equations the declaration would assert nothing. Then
      `cliffordHomI2_eq_zero`: it vanishes on `I³`, by step 3 through step 4 at `n = 3`.
@@ -2261,7 +2380,7 @@ Basic API:
 - naturality: `ι` carries multiplication to addition, which is milestone 7;
 - edge cases: a split algebra, whose class is `0`; `a` a square, where the cyclic
   computation degenerates;
-- downstream interfaces: Layer 7C's fifth equivalent condition and Layer 8's identity
+- downstream interfaces: Layer 7C's cup-norm theorem and Layer 8's identity
   for `w₂`.
 
 #### 7C. The cup-norm theorem
@@ -2301,6 +2420,9 @@ Prerequisites: **[Layer 2]**, **[Layer 6C]** for the local identification only,
 
   Together with the theorem above these are the five-fold criterion, and each direction
   is available to a consumer as one named theorem rather than as a chain to be assembled.
+  The first three follow from the cup-norm theorem through Tau Ceti's splitting criterion
+  (`nonempty_algEquiv_matrix_iff_exists_eq_sq_sub_mul_sq` and its siblings), and
+  `Suggested.lean` proves them that way.
 - Corollaries: `(a) ∪ (1−a) = 0` for `a : Kˣ` with `1 − a ≠ 0`, from Layer 2's algebra
   splitting; `(a) ∪ (−a) = 0`; and bilinearity of the cup product as a restatement of
   Layer 5's bimultiplicativity, which is the supplied `cup_add_left` and `cup_add_right`
@@ -2901,9 +3023,9 @@ consumes says what the later statements assume.
 
 ## Ordering and parallelism
 
-Layers 0 to 4 are free of cohomology and of the Brauer group, and can be built
-immediately. Within them, Layer 0 comes first, because everything diagonal rests on it,
-and it is Tau Ceti's.
+Layers 0 to 4 are free of cohomology and of the Brauer group, and they are Tau Ceti's
+except for the milestones marked in them as built here, which can be built immediately.
+In the dependency order, Layer 0 comes first, because everything diagonal rests on it.
 Layers 1 and 2 are independent of each other. Layer 3 needs both, and Layer 4 needs
 Layers 1 to 3.
 
