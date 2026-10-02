@@ -16,6 +16,7 @@ import TauCeti.NumberTheory.LocalField.Squares
 import TauCeti.NumberTheory.LocalField.Teichmuller
 import TauCeti.NumberTheory.LocalField.UnitFiltration.Map
 import TauCeti.NumberTheory.LocalField.UnitFiltration.RamificationGroup
+import TauCeti.NumberTheory.LocalField.UnitFiltration.Uniformizer
 import TauCeti.NumberTheory.LocalField.UnitsDecomposition
 import TauCeti.Topology.Algebra.Group.Profinite.Presentation
 import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic
@@ -484,6 +485,46 @@ theorem absoluteRamificationIndex_eq_natCastValuation (p : ℕ) [Fact p.Prime]
     absoluteRamificationIndex K p = natCastValuation K p hp :=
   TauCeti.absoluteRamificationIndex_eq_natCastValuation K p
 
+/-- **Layer 0, the integer ring of `ℚ_p` is `ℤ_p`.** This is the ring-level comparison between
+the roadmap's `𝒪[K]` API and its concrete `ℤ_[p]` examples. -/
+noncomputable def padicIntegerRingEquiv (p : ℕ) [Fact p.Prime] :
+    𝒪[ℚ_[p]] ≃+* ℤ_[p] :=
+  sorry
+
+/-- The integer-ring equivalence is the identity on the common ambient field `ℚ_p`. -/
+theorem coe_padicIntegerRingEquiv (p : ℕ) [Fact p.Prime] (x : 𝒪[ℚ_[p]]) :
+    ((padicIntegerRingEquiv p x : ℤ_[p]) : ℚ_[p]) = (x : ℚ_[p]) :=
+  sorry
+
+/-- **Layer 0, the integer-ring equivalence is also an equivalence of uniform spaces.** -/
+noncomputable def padicIntegerRingUniformEquiv (p : ℕ) [Fact p.Prime] :
+    𝒪[ℚ_[p]] ≃ᵤ ℤ_[p] :=
+  sorry
+
+/-- The ring and uniform equivalences have the same underlying map. -/
+theorem padicIntegerRingUniformEquiv_apply (p : ℕ) [Fact p.Prime] (x : 𝒪[ℚ_[p]]) :
+    padicIntegerRingUniformEquiv p x = padicIntegerRingEquiv p x :=
+  sorry
+
+/-- **Layer 0, compatibility with every power of the maximal ideal.** This pins the maximal
+ideal and the positive-depth unit filtrations under `padicIntegerRingEquiv`. -/
+theorem padicIntegerRingEquiv_mem_maximalIdeal_pow (p : ℕ) [Fact p.Prime]
+    (i : ℕ) (x : 𝒪[ℚ_[p]]) :
+    x ∈ 𝓂[ℚ_[p]] ^ i ↔
+      padicIntegerRingEquiv p x ∈ Ideal.span {((p : ℤ_[p]) ^ i)} :=
+  sorry
+
+/-- **Layer 0, the residue field of `ℚ_p` is `ZMod p`.** -/
+noncomputable def padicResidueFieldEquiv (p : ℕ) [Fact p.Prime] :
+    𝓀[ℚ_[p]] ≃+* ZMod p :=
+  sorry
+
+/-- Reduction through the integer-ring equivalence agrees with the residue-field equivalence. -/
+theorem padicResidueFieldEquiv_residue (p : ℕ) [Fact p.Prime] (x : 𝒪[ℚ_[p]]) :
+    padicResidueFieldEquiv p (IsLocalRing.residue _ x) =
+      PadicInt.toZMod (padicIntegerRingEquiv p x) :=
+  sorry
+
 /-! ## Layer 1: units, the filtration, and the multiplicative group -/
 
 /-- **Layer 1, the unit filtration** as an object: `U(K,0) = 𝒪[K]ˣ` and
@@ -493,6 +534,19 @@ afterwards. Tau Ceti's `TauCeti.unitFiltration`
 (`TauCeti/NumberTheory/LocalField/UnitFiltration/Basic.lean`), consumed by reducible alias. -/
 noncomputable abbrev unitFiltration (i : ℕ) : Subgroup Kˣ :=
   TauCeti.unitFiltration K i
+
+/-- **Layer 1, the integer-ring equivalence of `ℚ_p` on unit groups.** -/
+noncomputable def padicUnitEquiv (p : ℕ) [Fact p.Prime] :
+    𝒪[ℚ_[p]]ˣ ≃* ℤ_[p]ˣ :=
+  Units.mapEquiv (padicIntegerRingEquiv p).toMulEquiv
+
+/-- The concrete divisibility condition on `ℤ_pˣ` is exactly membership in the unit filtration
+of `ℚ_p`. At depth `0` both sides hold for every unit. -/
+theorem padicUnitEquiv_mem_unitFiltration (p : ℕ) [Fact p.Prime]
+    (i : ℕ) (u : 𝒪[ℚ_[p]]ˣ) :
+    Units.map (Subring.subtype 𝒪[ℚ_[p]]).toMonoidHom u ∈ unitFiltration ℚ_[p] i ↔
+      (p : ℤ_[p]) ^ i ∣ ((padicUnitEquiv p u : ℤ_[p]) - 1) :=
+  sorry
 
 /-- **Layer 1, membership at depth `0`:** the units of `𝒪[K]` inside `Kˣ`. Tau Ceti's
 `TauCeti.mem_unitFiltration_zero`. -/
@@ -1405,7 +1459,144 @@ theorem tameCharacter_conj_of_smul_eq_pow {G : Type w} [Group G] [MulSemiringAct
       TauCeti.tameCharacter (G := G) hϖ ⟨σ, hσ⟩ ^ q :=
   Units.ext <| by rw [tameCharacter_conj hϖ g σ hσ, hg, Units.val_pow_eq_pow_val]
 
+/-- **Layer 3, the residue form of the positive-level embedding**
+`θ_{n+1} : G_{n+1}/G_{n+2} → 𝓀[L]⁺` attached to a uniformizer `ϖ`: Tau Ceti's unit-quotient
+embedding `TauCeti.ramificationGroupGradedToUnitFiltrationGraded`, which does not depend on `ϖ`,
+followed by the residue coordinate `TauCeti.unitFiltrationGradedSuccEquivResidueFieldOfUniformizer`
+of `ϖ`, which does.
+
+⚠ Unlike the tame character, this map **depends on the uniformizer**: replacing `ϖ` by `ϖ u`
+multiplies it by `residue u ^ (-(n+1))` (`wildRamificationCharacter_change`). Injectivity and the
+action formula do not determine it, since multiplying it by a nonzero residue scalar preserves
+both; the representative formula `wildRamificationCharacter_mk` does. Over `k = 𝔽₄`,
+`K = k((s))` and `L = K(π)` with `π² + sπ + s = 0`, the nonidentity automorphism has
+`σ π = π + s`, break one, and value `residue (s/π²) = 1`; replacing the character by `ω` times
+it, for `ω ∈ 𝔽₄ \ 𝔽₂`, turns the norm polynomial `y ↦ y² + y` of `normGradedMap_at_break_apply`
+into `y ↦ y² + ω y`, which is not the norm. -/
+noncomputable def wildRamificationCharacter {G : Type w} [Group G] [MulSemiringAction G L]
+    [IsInvariantSubring G 𝒪[L]] {ϖ : 𝒪[L]} (hϖ : Irreducible ϖ) (n : ℕ) :
+    Additive (TauCeti.IsLocalRing.RamificationGroupGraded G 𝒪[L] ((n + 1 : ℕ) : ℤ)) →+ 𝓀[L] :=
+  (TauCeti.unitFiltrationGradedSuccEquivResidueFieldOfUniformizer n ϖ hϖ).toAddMonoidHom.comp
+    (MonoidHom.toAdditive
+      (TauCeti.ramificationGroupGradedToUnitFiltrationGraded (G := G) (n + 1) hϖ))
+
+/-- **Layer 3, the representative formula for the positive-level residue character:**
+`θ_{n+1}(σ) = residue ((σ ϖ − ϖ) / ϖ^(n+2))`, with the quotient written as an integral element
+`x`. -/
+theorem wildRamificationCharacter_mk {G : Type w} [Group G] [MulSemiringAction G L]
+    [IsInvariantSubring G 𝒪[L]] {ϖ : 𝒪[L]} (hϖ : Irreducible ϖ) (n : ℕ)
+    (σ : TauCeti.IsLocalRing.ramificationGroup G 𝒪[L] ((n + 1 : ℕ) : ℤ)) (x : 𝒪[L])
+    (hx : (x : L) * (ϖ : L) ^ (n + 2) = (σ : G) • (ϖ : L) - (ϖ : L)) :
+    wildRamificationCharacter (G := G) hϖ n
+        (Additive.ofMul
+          (QuotientGroup.mk σ :
+            TauCeti.IsLocalRing.RamificationGroupGraded G 𝒪[L] ((n + 1 : ℕ) : ℤ))) =
+      IsLocalRing.residue 𝒪[L] x :=
+  sorry
+
+/-- **Layer 3, the change of uniformizer for the positive-level residue character.** If
+`ϖ' = ϖ u`, the character at `ϖ` is `residue u ^ (n+1)` times the character at `ϖ'`, in Tau
+Ceti's convention for `TauCeti.uniformizerChangeResidueAddEquiv`. The tame character, by
+contrast, does not depend on the choice (`TauCeti.tameCharacter_eq_of_irreducible`). -/
+theorem wildRamificationCharacter_change {G : Type w} [Group G] [MulSemiringAction G L]
+    [IsInvariantSubring G 𝒪[L]] {ϖ ϖ' : 𝒪[L]} (hϖ : Irreducible ϖ) (hϖ' : Irreducible ϖ')
+    (n : ℕ)
+    (x : Additive (TauCeti.IsLocalRing.RamificationGroupGraded G 𝒪[L] ((n + 1 : ℕ) : ℤ))) :
+    wildRamificationCharacter (G := G) hϖ n x =
+      TauCeti.uniformizerChangeResidueAddEquiv ϖ ϖ' hϖ hϖ' (n + 1)
+        (wildRamificationCharacter (G := G) hϖ' n x) :=
+  sorry
+
 end TameCharacter
+
+/-- **Layer 3, the positive prime-degree break as a polynomial.** With `t = n + 1` the break,
+the graded norm in uniformizer coordinates is `y ↦ residue(a)^t · (y^ℓ − c^{ℓ−1}·y)`. Here `c` is
+the base residue whose image under the canonical map `𝓀[K] → 𝓀[L]` (bijective by total
+ramification) is the residue form of `θ_t` at `πL`, evaluated at a class `σ ∉ G_{t+1}`; the
+input coordinate is that of `πL` at depth `ψℕ(t)`; and the output coordinate is that of `πK`,
+where `N_{L/K}(πL) = πK · a`. For the compatible choice `πK = N_{L/K}(πL)`, `a = 1` and the
+factor disappears.
+
+⚠ This equation, not the kernel and cokernel counts of `normGradedMap_at_break`, is what pins
+`c`: rescaling the positive-level character changes `c` and the polynomial but not the counts.
+The residue-field identification is the canonical `algebraMap`, not an arbitrary equivalence,
+since composing with Frobenius of `𝓀[K] = 𝔽₄` gives another equivalence of the same type. The
+factor `residue(a)^t` is not optional: in the `𝔽₄` example of `wildRamificationCharacter`,
+`N(π) = s`, `c = 1`, `N(1 + yπ) = 1 + (y² + y)s`, and with `πK = ωs`, so that `a = ω⁻¹`, the
+depth-one output coordinate is `ω⁻¹(y² + y)`. The ramification groups are written as Tau Ceti's
+`TauCeti.IsLocalRing.ramificationGroup`, which is `lowerRamificationGroup` by
+`TauCeti.LocalFieldsRamification.lowerRamificationGroup_def`. -/
+theorem normGradedMap_at_break_apply [Algebra K L] [ValuativeExtension K L]
+    [Module.Finite K L] [IsGalois K L]
+    (ℓ : ℕ) [Fact ℓ.Prime] (_hdegree : Module.finrank K L = ℓ)
+    (_htr : IsTotallyRamified K L) (n : ℕ)
+    (_ht : UpperJump K L
+      ⟨((n + 1 : ℕ) : ℝ), le_trans (by norm_num : (-1 : ℝ) ≤ 0) (Nat.cast_nonneg (n + 1))⟩)
+    (m : ℕ) (hm : psiNat K L (n + 1) = m + 1)
+    (πL : 𝒪[L]) (hπL : Irreducible πL) (πK : 𝒪[K]) (hπK : Irreducible πK)
+    (a : (↥𝒪[K])ˣ) (ha : ((πK * (a : ↥𝒪[K]) : ↥𝒪[K]) : K) = Algebra.norm K (πL : L))
+    (σ : TauCeti.IsLocalRing.ramificationGroup (L ≃ₐ[K] L) 𝒪[L] ((n + 1 : ℕ) : ℤ))
+    (_hσ : (σ : L ≃ₐ[K] L) ∉
+      TauCeti.IsLocalRing.ramificationGroup (L ≃ₐ[K] L) 𝒪[L] (((n + 1 : ℕ) : ℤ) + 1))
+    (c : 𝓀[K])
+    (_hc : algebraMap 𝓀[K] 𝓀[L] c =
+      wildRamificationCharacter (G := L ≃ₐ[K] L) hπL n
+        (Additive.ofMul
+          (QuotientGroup.mk σ :
+            TauCeti.IsLocalRing.RamificationGroupGraded (L ≃ₐ[K] L) 𝒪[L] ((n + 1 : ℕ) : ℤ))))
+    (y : 𝓀[K]) :
+    TauCeti.unitFiltrationGradedSuccEquivResidueFieldOfUniformizer n πK hπK
+        (Additive.ofMul
+          (normGradedMap K L (n + 1)
+            (cast (congrArg (UnitFiltrationGraded L) hm.symm)
+              (Additive.toMul
+                ((TauCeti.unitFiltrationGradedSuccEquivResidueFieldOfUniformizer m πL hπL).symm
+                  (algebraMap 𝓀[K] 𝓀[L] y)))))) =
+      IsLocalRing.residue 𝒪[K] (a : ↥𝒪[K]) ^ (n + 1) * (y ^ ℓ - c ^ (ℓ - 1) * y) :=
+  sorry
+
+/-- The Eisenstein polynomial `X² − 3` defining the tame quadratic extension `ℚ₃(√3)`. -/
+noncomputable def q3Sqrt3Polynomial : Polynomial ℚ_[3] :=
+  Polynomial.X ^ 2 - Polynomial.C 3
+
+noncomputable instance q3Sqrt3Polynomial_irreducible :
+    Fact (Irreducible q3Sqrt3Polynomial) :=
+  ⟨sorry⟩
+
+/-- **Layer 3, worked example: the field `ℚ₃(√3)`**, with the local-field structure of Layer 0.I
+and Layer 0.III. -/
+abbrev Q3Sqrt3 : Type := AdjoinRoot q3Sqrt3Polynomial
+
+noncomputable instance q3Sqrt3ModuleFinite : Module.Finite ℚ_[3] Q3Sqrt3 :=
+  sorry
+
+noncomputable instance q3Sqrt3ValuativeRel : ValuativeRel Q3Sqrt3 :=
+  finiteExtensionValuativeRel ℚ_[3] Q3Sqrt3
+
+noncomputable instance q3Sqrt3TopologicalSpace : TopologicalSpace Q3Sqrt3 :=
+  finiteExtensionNormedFieldTopology ℚ_[3] Q3Sqrt3
+
+noncomputable instance q3Sqrt3ValuativeExtension : ValuativeExtension ℚ_[3] Q3Sqrt3 :=
+  finiteExtension_valuativeExtension ℚ_[3] Q3Sqrt3
+
+noncomputable instance q3Sqrt3IsNonarchimedeanLocalField :
+    IsNonarchimedeanLocalField Q3Sqrt3 :=
+  finiteExtension_isNonarchimedeanLocalField ℚ_[3] Q3Sqrt3
+
+/-- `ℚ₃(√3)/ℚ₃` is a totally ramified quadratic extension. -/
+theorem q3Sqrt3_finrank_and_totallyRamified :
+    Module.finrank ℚ_[3] Q3Sqrt3 = 2 ∧ IsTotallyRamified ℚ_[3] Q3Sqrt3 :=
+  sorry
+
+/-- **Layer 3, the unshifted norm inclusion fails.** In `ℚ₃(√3)` the base-field unit `4` lies in
+`U(L,2)`, since `v_L(4 − 1) = v_L(3) = 2`, while its norm `16` does not lie in `U(ℚ₃,2)`, since
+`v_3(16 − 1) = 1`. The Herbrand shift of `map_norm_unitFiltration_psiNat_le` is necessary. -/
+theorem norm_four_not_mem_unitFiltration_two :
+    let u : Q3Sqrt3ˣ := Units.map (algebraMap ℚ_[3] Q3Sqrt3).toMonoidHom
+      (Units.mk0 (4 : ℚ_[3]) (by norm_num))
+    u ∈ unitFiltration Q3Sqrt3 2 ∧
+      Units.map (Algebra.norm ℚ_[3] : Q3Sqrt3 →* ℚ_[3]) u ∉ unitFiltration ℚ_[3] 2 :=
+  sorry
 
 /-! ## Layer 4: the absolute Galois group, wild inertia, and the tame quotient
 
