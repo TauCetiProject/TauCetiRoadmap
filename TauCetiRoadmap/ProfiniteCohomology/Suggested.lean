@@ -328,9 +328,11 @@ private noncomputable def continuousCohomology
   obj X := _root_.continuousCohomology n X
   map f := ContinuousCohomology.map (ContinuousMonoidHom.id G) f n
 
-/-- **Layer 10, the canonical carrier packaged as an actual functor.** Its object and map fields
+/-- **Layer 1, the canonical carrier packaged as an actual functor.** Its object and map fields
 are Mathlib's `continuousCohomology` and `ContinuousCohomology.map`; the functor laws are
-Mathlib's `map_id` and `map_comp`. This packaging is what the filtered-colimit theorem names. It is
+Mathlib's `map_id` and `map_comp`. Restriction and inflation are natural transformations between
+these functors (Tau Ceti's `TauCeti.ContinuousCohomology.resNatTrans` and `inflNatTrans`), and
+Layer 10's filtered-colimit theorem uses the same packaging. It is
 Tau Ceti's `TauCeti.ContinuousCohomology.continuousCohomologyFunctor`
 (`TauCeti/RepresentationTheory/Homological/ContCohomology/Functoriality.lean`), whose map field is
 `coeffMap` below. -/
@@ -340,7 +342,7 @@ noncomputable abbrev continuousCohomologyFunctor
     TopRep R G ⥤ TopModuleCat.{u} R :=
   TauCeti.ContinuousCohomology.continuousCohomologyFunctor R G n
 
-/-- **Layer 10, Mathlib's homogeneous cochains packaged as a functor.** This is the functor to
+/-- **Layer 1, Mathlib's homogeneous cochains packaged as a functor.** This is the functor to
 which the short exact coefficient complex is mapped before applying the homology-sequence API. It
 is Tau Ceti's `TauCeti.ContinuousCohomology.continuousCochainsFunctor`
 (`TauCeti/RepresentationTheory/Homological/ContCohomology/Additive.lean`), which is additive. -/
