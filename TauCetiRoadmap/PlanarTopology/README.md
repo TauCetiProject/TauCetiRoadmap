@@ -103,7 +103,7 @@ Layer 0 also fixes the sup-norm comparison `‖x‖_∞ ≤ ‖x‖ ≤ √2 · 
 
 `AddCircle (1 : ℝ)` is the parametrization used whenever lifting, degree, or a linear order on a lift is needed. `AddCircle.homeomorphCircle one_ne_zero`, `Circle.exp`, and `sphereCircleHomeomorph` are the bridges; layer 0 states the round trips.
 
-⚠ `CircularOrder` on the topological circle has nothing to do with cyclic words. Keep them in separate namespaces with no coercion between them.
+⚠ `CircularOrder` on the topological circle has nothing to do with `SurfaceTopology`'s cyclic words, which are Mathlib's `Cycle`. Keep them apart, with no coercion between them.
 
 ### Surfaces
 
@@ -113,7 +113,7 @@ There is one family of surfaces, and it is Mathlib's. A **surface** is a type `M
 [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2) M] [T2Space M] [SecondCountableTopology M]
 ```
 
-and nothing bundled: a manifold is a type with instances, as `GeometricTopology` fixes it, and since the `C⁰` structure groupoid is the continuous one (`contDiffGroupoid_zero_eq`) no `IsManifold` instance carries information. **Compact**, **connected**, and **closed** are the hypotheses `CompactSpace M`, `ConnectedSpace M`, and `(𝓡∂ 2).boundary M = ∅`. Every displayed signature below abbreviates this list by a `variable` line at the head of its block; names such as `Surface` or `CompactSurface` are not classes and appear nowhere. Second countability of a compact charted space is Mathlib's `ChartedSpace.secondCountable_of_sigmaCompact` and is not a target.
+and nothing bundled: a manifold is a type with instances, as `GeometricTopology` fixes it, and since the `C⁰` structure groupoid is the continuous one (`contDiffGroupoid_zero_eq`) no `IsManifold` instance carries information. **Compact**, **connected**, and **closed** are the hypotheses `CompactSpace M`, `ConnectedSpace M`, and `(𝓡∂ 2).boundary M = ∅`. Every displayed signature below abbreviates this list by a `variable` line at the head of its block; names such as `Surface` or `CompactSurface` are not classes and appear nowhere. Second countability of a compact charted space is Mathlib's `ChartedSpace.secondCountable_of_sigmaCompact` and is not a target. The empty type satisfies every one of these hypotheses and is the empty surface: the empty complex is a combinatorial surface, Radó's theorem holds for it with the empty complex, its Euler characteristic is `0`, it is orientable, and it has no boundary components. Only `ConnectedSpace` excludes it.
 
 Half-space charts cover the boundaryless case, so a surface charted over `EuclideanSpace ℝ (Fin 2)`, such as Mathlib's sphere or the plane itself, enters the family by transport: layer 0 fixes a half-space chart on `EuclideanSpace ℝ (Fin 2)`, composes with `ChartedSpace.comp`, and proves that the result has empty boundary. The closed unit disc of `ℂ` gets its half-space structure in layer 0 as well; Mathlib does not provide one.
 
@@ -240,7 +240,7 @@ theorem exists_jordanCurve_volume_pos : ∃ J : Set ℂ, IsJordanCurve J ∧ 0 <
 ```
 **Mathematical route and formalization notes.**
 
-- Alexander's trick is short but needed in three places. L4 uses the PL version to correct the 2-skeleton and fills each triangle. L7 uses the topological version when it glues the two Schoenflies discs along the curve. L8 uses the isotopy form in exists_isotopic_plHomeomorph.
+- Alexander's trick is short but needed in three places. L4 uses the PL version to correct the 2-skeleton and fills each triangle. L7 uses the topological version when it glues the two Schoenflies discs along the curve. L5 uses the isotopy form in `exists_isotopic_plHomeomorph`.
 - The half-space transport is what makes Mathlib's sphere, the plane, and every Euclidean-charted surface a surface in the sense of the conventions. Its boundary is empty because every transported chart lands in the interior of the half-space. The closed disc is charted by hand, interior points by the identity and boundary points by straightening the circle, and its boundary is the unit circle.
 - Second countability of a compact surface is `ChartedSpace.secondCountable_of_sigmaCompact` and is not restated here.
 
@@ -275,8 +275,23 @@ structure PolygonalLoop where
   ne_nil : vertices ≠ []
 
 def PolygonalChain.carrier (P : PolygonalChain) : Set ℂ
-def PolygonalLoop.carrier (P : PolygonalLoop) : Set ℂ
-def PolygonalLoop.IsSimple (P : PolygonalLoop) : Prop
+/-- The sides of a loop, cyclically indexed, and their union. -/
+def PolygonalLoop.side (P : PolygonalLoop) (i : Fin P.vertices.length) : Set ℂ :=
+  segment ℝ (P.vertices.get i) (P.vertices.get (finRotate _ i))
+def PolygonalLoop.carrier (P : PolygonalLoop) : Set ℂ := ⋃ i, P.side i
+/-- Simplicity is a condition on the vertex presentation, not on the carrier: at least three
+    vertices, no vertex repeated, consecutive sides meeting only in their shared vertex, and
+    other pairs of sides disjoint. The list `[A, B, C, A, B, C]` has the triangle as its carrier
+    and is not simple, and must not be, since a ray from an interior point crosses it twice. -/
+def PolygonalLoop.IsSimple (P : PolygonalLoop) : Prop :=
+  3 ≤ P.vertices.length ∧ P.vertices.Nodup ∧
+    ∀ i j, i ≠ j →
+      (finRotate _ i = j → P.side i ∩ P.side j = {P.vertices.get j}) ∧
+      (finRotate _ i ≠ j → finRotate _ j ≠ i → Disjoint (P.side i) (P.side j))
+theorem isJordanCurve_carrier (P : PolygonalLoop) (hP : P.IsSimple) : IsJordanCurve P.carrier
+/-- Renormalization: a polygonal set that is a Jordan curve has a simple presentation. -/
+theorem exists_isSimple_of_isJordanCurve_carrier (P : PolygonalLoop) (h : IsJordanCurve P.carrier) :
+    ∃ Q : PolygonalLoop, Q.IsSimple ∧ Q.carrier = P.carrier
 def crossingParity (P : PolygonalLoop) (q : ℂ) : ZMod 2
 def polygonalWinding (P : PolygonalLoop) (q : ℂ) : ℤ
 
@@ -314,12 +329,13 @@ theorem not_exists_polygonalDrawing_K33 :
 - Crossing parity, not the winding number, is the primitive. It is `ZMod 2`-valued, it is decidable, and the crosscut identity is additive in it. The integer winding number and the comparison with `TauCeti/Analysis/Contour/Winding/` are corollaries.
 - ⚠ Do not restrict to lattice polygons.  You cannot inscribe a lattice polygon in an arbitrary Jordan curve, so the lattice version cannot serve layer 2. Re-derive at general-vertex generality.  (contrast with `rkirov/jordan_pick`)
 - Crossing parity is ray casting: `crossingParity P q` counts, modulo two, the segments of `P` crossed by the horizontal ray from `q` to the right, where a ray through a vertex counts once if the two segments at that vertex leave on opposite sides of the ray and not at all if they leave on the same side, and a segment lying along the ray counts as its two endpoints do. This is what makes parity locally constant off the loop.
+- Crossing parity is a function of the presentation, so simplicity must be too. A loop that traverses a triangle twice has a Jordan carrier and even parity at every interior point. `polygonal_jordan` and the crosscut identity therefore take `IsSimple`, the Jordan property of the carrier is a theorem, and a Jordan polygonal set is first renormalized to a simple presentation.
 - Nonplanarity of `K₃,₃` for polygonal drawings is a **finite** statement provable from the polygonal crosscut theorem alone. It is the lever that takes layer 2 from polygons to arbitrary curves. Its topological form, for drawings whose edges are arbitrary arcs, is not needed here: `SurfaceTopology` layer 10 derives nonplanarity of `K₅` and `K₃,₃` from Euler's formula, and layer 7's tameness of drawings identifies the two notions.
 - Ear-clipping is the engine of polygonal Schoenflies: triangulate a simple polygon by diagonals, then induct.
 
-**Examples and mathematical checks.** The crossing parity is computed in an exact worked example for a non-convex polygon and a point in a re-entrant pocket. A figure-eight polygonal loop shows that simplicity is essential in polygonal Jordan separation. The strict size hypothesis in the ear theorem is tested on a triangle, and a polygon with exactly two ears provides a sharp positive example.
+**Examples and mathematical checks.** The crossing parity is computed in an exact worked example for a non-convex polygon and a point in a re-entrant pocket. A figure-eight polygonal loop shows that simplicity is essential in polygonal Jordan separation. The strict size hypothesis in the ear theorem is tested on a triangle, and a polygon with exactly two ears provides a sharp positive example. The twice-traversed triangle `[A, B, C, A, B, C]` is the check that simplicity is not a property of the carrier.
 
-**Natural intermediate results.** (i) polygonal chains and loops, carriers, and simplicity; (ii) strips and the two-sidedness lemma; (iii) crossing parity, local constancy, and the integer winding number; (iv) polygonal Jordan separation; (v) the polygonal crosscut theorem; (vi) two ears and polygon triangulation; (vii) polygonal Schoenflies; (viii) nonplanarity of `K₃,₃` for polygonal drawings.
+**Natural intermediate results.** (i) polygonal chains and loops, sides, carriers, simplicity, the Jordan carrier, and renormalization; (ii) strips and the two-sidedness lemma; (iii) crossing parity, local constancy, and the integer winding number; (iv) polygonal Jordan separation; (v) the polygonal crosscut theorem; (vi) two ears and polygon triangulation; (vii) polygonal Schoenflies; (viii) nonplanarity of `K₃,₃` for polygonal drawings.
 
 **Consequences.** Both tracks depend on this.
 
@@ -356,7 +372,8 @@ theorem subset_closure_inside   : J ⊆ closure (filledHull J \ J)
 /-- The inside of a Jordan curve is a Jordan domain: the hypothesis Carathéodory's theorem takes. -/
 theorem isJordanDomain_inside   : IsJordanDomain hJ.inside
 
-theorem dense_accessible : Dense {p ∈ J | hJ.Accessible p}
+/-- Accessible points are dense in the curve: density in `J`, not in the plane. -/
+theorem closure_accessible : closure {p ∈ J | hJ.Accessible p} = J
 
 /-- The workhorse. -/
 theorem crosscut (P : Set ℂ) (hP : hJ.IsCrosscut P) :
@@ -455,9 +472,11 @@ theorem exists_isomorphic_subdivisions
       (L' : AbstractSimplicialComplex κ'),
       Subdivides K' K ∧ Subdivides L' L ∧ Nonempty (K' ≃ₛ L')
 
-/-- Concrete, not an instance of a dimension-general recursion. -/
+/-- Concrete, not an instance of a dimension-general recursion. Every facet is a triangle, which is
+    purity in dimension two and admits the empty complex: the empty surface is a surface, and
+    `IsCombinatorialManifold K 2` holds for it vacuously, so the comparison below is unconditional. -/
 def IsCombinatorialSurface (K : AbstractSimplicialComplex ι) : Prop :=
-  K.faces.Finite ∧ K.dimension = 2 ∧ K.IsPure ∧
+  K.faces.Finite ∧ (∀ σ ∈ K.facets, σ.card = 3) ∧
     (∀ e ∈ K.faces, e.card = 2 → 1 ≤ (K.trianglesContaining e).card ∧
        (K.trianglesContaining e).card ≤ 2) ∧
     (∀ v ∈ K.vertices, IsCombinatorialCircle (K.link v) ∨ IsCombinatorialArc (K.link v))
@@ -494,7 +513,7 @@ theorem isPLMap_iff_isPLOn (e : Realization K ≃ₜ P) (e' : Realization L ≃�
 - The realization of a finite complex is metrized by its barycentric coordinates. This metric is what layer 4's `ε` and layer 7's small-cell estimates measure with; no metric on realizations exists in Tau Ceti.
 - Combinatorial circles and arcs in dimension one are concrete: a combinatorial circle is a finite connected 1-complex in which every vertex has exactly two neighbours; a combinatorial arc is a finite connected 1-complex in which exactly two vertices have one neighbour and the rest have two. These should not be based on a general sphere-recognition recursion.
 
-**Examples and mathematical checks.** `IsCombinatorialSurface` is **false** for each of: two triangles sharing exactly one vertex; three triangles sharing an edge; the dunce hat; the cone on a theta graph. It is **true** for: the boundary of the tetrahedron; a triangulated disc; a triangulated Möbius band. Every one of these is a concrete finite complex checked by `decide`. ⚠ This is the layer where vacuity is a risk, because pinch points are possible for abstract complexes.
+**Examples and mathematical checks.** `IsCombinatorialSurface` is **false** for each of: two triangles sharing exactly one vertex; three triangles sharing an edge; the dunce hat; the cone on a theta graph. It is **true** for: the boundary of the tetrahedron; a triangulated disc; a triangulated Möbius band; and the empty complex, the empty surface. Every one of these is a concrete finite complex checked by `decide`. ⚠ This is the layer where vacuity is a risk, because pinch points are possible for abstract complexes.
 
 **Natural intermediate results.** (i) general subdivision and its realization homeomorphism, with stellar and barycentric subdivision as instances; (ii) the metric on a finite realization; (iii) purity, facets, and skeleta; (iv) isomorphic subdivisions for PL-homeomorphic complexes; (v) `IsPLMap` and its closure properties; (vi) combinatorial circles and arcs; (vii) `IsCombinatorialSurface` and the counter-witness battery; (viii) the realization theorem; (ix) the compatibility theorem with `IsCombinatorialManifold`; (x) the comparison of `IsPLOn` with `IsPLMap`.
 
@@ -552,6 +571,8 @@ This layer shows combinatorial invariants are topological.
 
 ⚠ **Neither of these depends on the Schoenflies theorem.** Moise makes this point immediately after his triangulation theorem.  The usual derivation from Schoenflies "is in a way misleading", since in dimension three Schoenflies fails and triangulation still holds.
 
+**From layers 0, 3, and 4.** Alexander's trick in its topological and PL forms, `Subdivides`, `IsPLMap`, the local and relative approximation theorems.
+
 **Representative formal statements.**
 
 ```lean
@@ -588,6 +609,19 @@ theorem hauptvermutung₂_isPL {K L} (hK : IsCombinatorialSurface K)
     (hL : IsCombinatorialSurface L) (h : Realization K ≃ₜ Realization L) :
     ∃ g : Realization K ≃ₜ Realization L, IsPLMap g ∧ IsPLMap g.symm
 
+/-- The sharp form, on a given homeomorphism: every homeomorphism of compact triangulated
+    surfaces is isotopic to a PL homeomorphism, and rel a subcomplex on which it is already PL.
+    It is layer 4's relative approximation theorem followed by Alexander's trick, and
+    `hauptvermutung₂_isPL` is its corollary. Layer 6's orientations and layer 8's comparison of
+    categories both spend it. -/
+theorem exists_isotopic_plHomeomorph {K L} (hK : IsCombinatorialSurface K)
+    (hL : IsCombinatorialSurface L) (f : Realization K ≃ₜ Realization L) :
+    ∃ g : Realization K ≃ₜ Realization L, IsPLMap g ∧ IsPLMap g.symm ∧ Isotopic f g
+theorem exists_isotopicRel_plHomeomorph {K L} (hK : IsCombinatorialSurface K)
+    (hL : IsCombinatorialSurface L) (f : Realization K ≃ₜ Realization L)
+    {A : Set (Realization K)} (hA : IsSubcomplexCarrier A) (hf : IsPLMap (f.restrict A)) :
+    ∃ g : Realization K ≃ₜ Realization L, IsPLMap g ∧ IsPLMap g.symm ∧ IsotopicRel A f g
+
 /-- Pachner's theorem in dimension two: triangulations with a common subdivision are related by
     the bistellar moves `1 ↔ 3` and `2 ↔ 2`, and, for surfaces with boundary, by those together with
     the boundary moves, relative to the boundary. The relation is closed under isomorphism of the
@@ -608,11 +642,12 @@ theorem pachner₂ {K L} (hK : IsCombinatorialSurface K) (hL : IsCombinatorialSu
 - The boundary case runs the same construction in half-plane charts, carrying the boundary along as a subcomplex at every stage: layer 4's local theorem is applied in its half-plane form, the polygonal replacement of chart boundaries preserves the boundary line, and the exposed boundary faces survive subdivision, relabelling, and gluing. No collar is used. The topological collar is then a corollary: a triangulated surface with boundary has a combinatorial collar, and `IsCollared` in Tau Ceti's sense follows by realization. Tau Ceti's `Boundary/Collar/` files supply the chart vocabulary and smooth collars only.
 - Every boundary component is a circle because the boundary subcomplex is a combinatorial 1-manifold, hence a disjoint union of combinatorial circles.
 - Pachner's theorem is what turns "invariant under the elementary moves" into "topological invariant": with the Hauptvermutung it says that triangulations of homeomorphic compact surfaces are related by bistellar moves. Its proof runs through the common subdivision: its vertices are inserted by `1 → 3` moves and flips, and two triangulations of a disc on the same vertex set are flip-connected.
+- Isotopy to a PL homeomorphism is the relative approximation theorem followed by Alexander's trick: a fine enough PL approximation of `f` differs from `f` by a map that is small on each triangle, and coning fills each triangle with an isotopy. The rel form keeps a subcomplex fixed throughout, which is what surfaces with boundary and `SurfaceTopology` layer 9 need.
 - Locally finite triangulations of second-countable noncompact surfaces are built only insofar as the compact proof needs them, and the general noncompact Radó is out of scope.
 
 **Examples and mathematical checks.** A triangulation is produced for a surface presented only by charts, with no combinatorial data supplied. For the Hauptvermutung, the tetrahedral and octahedral triangulations of the sphere are refined to isomorphic subdivisions; the example is stated in the same two-subdivision form as the theorem. Pachner's theorem is checked on the tetrahedral and octahedral spheres by exhibiting a move sequence.
 
-**Natural intermediate results.** (i) finite chart covers and shrinking; (ii) polygonal replacement of chart boundaries; (iii) assembly and Radó, closed case; (iv) boundary circles and the collar, as corollaries; (v) Radó with boundary; (vi) the Hauptvermutung; (vii) Pachner's theorem.
+**Natural intermediate results.** (i) finite chart covers and shrinking; (ii) polygonal replacement of chart boundaries; (iii) assembly and Radó, closed case; (iv) boundary circles and the collar, as corollaries; (v) Radó with boundary; (vi) the Hauptvermutung; (vii) Pachner's theorem; (viii) isotopy to a PL homeomorphism, absolute and rel a subcomplex.
 
 **Consequences.** Layer 6, layer 8, `GeometricTopology` layer 11, `SurfaceTopology` throughout.
 
@@ -622,15 +657,23 @@ theorem pachner₂ {K L} (hK : IsCombinatorialSurface K) (hL : IsCombinatorialSu
 
 The invariants that `SurfaceTopology` runs on: the Euler characteristic, orientability, and a chosen orientation. Each is defined on a finite combinatorial surface, proved invariant under subdivision and isomorphism, and carried to the surface by Radó and the Hauptvermutung. The boundary count, the third invariant of the classification, is layer 2's.
 
-**From layers 2, 3, and 5.** `boundaryComponentCount`, `Subdivides`, `IsCombinatorialSurface`, Radó, the Hauptvermutung, Pachner.
+**From layers 2, 3, and 5.** `boundaryComponentCount`, `Subdivides`, `IsCombinatorialSurface`, Radó, the Hauptvermutung, Pachner, isotopy to a PL homeomorphism.
 
 **Representative formal statements.**
 
 ```lean
+/-- The alternating sum over all faces, of every dimension. A sum over `Fin 3` is wrong for a
+    complex of dimension three: the full tetrahedron would give `4 - 6 + 4 = 2` and its barycentric
+    subdivision `15 - 50 + 60 = 25`. -/
 def AbstractSimplicialComplex.eulerChar (K : AbstractSimplicialComplex ι) [Finite K.faces] : ℤ :=
-  ∑ i : Fin 3, (-1 : ℤ) ^ (i : ℕ) * (K.facesOfDim i).card
+  ∑ σ : Face K, (-1 : ℤ) ^ (σ.1.card - 1)
 
-theorem eulerChar_subdivision (h : Subdivides K' K) : K'.eulerChar = K.eulerChar
+/-- On a combinatorial surface it is vertices minus edges plus triangles. -/
+theorem eulerChar_eq_of_isCombinatorialSurface (hK : IsCombinatorialSurface K) :
+    K.eulerChar = (K.facesOfDim 0).card - (K.facesOfDim 1).card + (K.facesOfDim 2).card
+
+/-- Invariance under subdivision, in dimension at most two, the only case this roadmap proves. -/
+theorem eulerChar_subdivision (hK : K.dimension ≤ 2) (h : Subdivides K' K) : K'.eulerChar = K.eulerChar
 theorem eulerChar_simplicialIso (h : K ≃ₛ L) : K.eulerChar = L.eulerChar
 
 /-- A coherent orientation: a cyclic order on each triangle such that the two triangles on an
@@ -657,7 +700,9 @@ def Surface.IsOrientable (M : Type*) [TopologicalSpace M]
 theorem Surface.isOrientable_congr (h : M ≃ₜ N) : Surface.IsOrientable M ↔ Surface.IsOrientable N
 
 /-- A chosen orientation of a surface: an oriented triangulation modulo agreement, where two agree
-    when a PL homeomorphism isotopic to the comparison map carries one orientation to the other. -/
+    when a PL homeomorphism isotopic to their comparison map carries one orientation to the other.
+    Layer 5's `exists_isotopic_plHomeomorph` supplies such a map for any two triangulations, and
+    the isotopy lemma below says the sign does not depend on which one is taken. -/
 def Surface.Orientation (M : Type*) [TopologicalSpace M]
     [ChartedSpace (EuclideanHalfSpace 2) M] [T2Space M] [CompactSpace M] : Type
 def Surface.Orientation.map (e : M ≃ₜ N) : Surface.Orientation M ≃ Surface.Orientation N
@@ -678,7 +723,7 @@ theorem isOrientable_sphere : Surface.IsOrientable (Metric.sphere (0 : Euclidean
 
 - ⚠ Classification of surfaces is downstream of this, so we do not prove topological invariance of the cell count by appealing to that. Invariance comes from subdivision invariance and the Hauptvermutung.
 - Define `eulerChar` and `IsOrientable` on complexes first, then transport. Each surface-level definition is `Classical.choice` over triangulations plus the invariance theorem.
-- An orientation is data, and the quotient defining `Surface.Orientation` needs the lemma that isotopic homeomorphisms act the same way. The route avoids homology: the sign of a PL homeomorphism between oriented triangulated surfaces is whether it preserves the two sheets of the orientation double cover, and an isotopy lifts to the cover by path lifting, so isotopic maps have the same sign. Layer 8's comparison of mapping class groups spends the same lemma.
+- An orientation is data. Comparing two oriented triangulations needs a PL homeomorphism in the isotopy class of their comparison map, which is layer 5's `exists_isotopic_plHomeomorph`, and the quotient needs the lemma that isotopic PL homeomorphisms act the same way. The route avoids homology: the sign of a PL homeomorphism between oriented triangulated surfaces is whether it preserves the two sheets of the orientation double cover, and an isotopy lifts to the cover by path lifting, so isotopic maps have the same sign. Layer 8's comparison of mapping class groups spends the same lemma.
 - **The boundary convention.** An oriented triangle directs its edges, and on a boundary circle the directions agree, so an orientation of `M` directs each boundary circle. The convention is that the surface lies to the left of the direction, so the unit disc's boundary runs counterclockwise. `SurfaceTopology`'s capping, doubling, and mapping-class conventions read this one.
 - **General principle of both roadmaps.** Every invariant is defined on a finite presentation, proved invariant under subdivision and the elementary moves, and upgraded to a homeomorphism invariant by the Hauptvermutung, or by Pachner's theorem when only invariance under the moves is at hand. There is no comparison theorem with Mathlib's singular homology or fundamental group here or in `SurfaceTopology`.
 
@@ -788,20 +833,17 @@ variable {M N : Type*} [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2)
     PL structure whose comparison with the original is that map. The Hauptvermutung, layer 5's
     `hauptvermutung₂_isPL`, gives a PL homeomorphism of the two polyhedra, not that the comparison
     map is one; the sharp form on a single surface is the identity case of
-    `exists_isotopic_plHomeomorph` below. -/
+    layer 5's `exists_isotopic_plHomeomorph`. -/
 structure PLStructure (M : Type*) [TopologicalSpace M] where
   ι : Type
   K : AbstractSimplicialComplex ι
   hK : IsCombinatorialSurface K
   e : Realization K ≃ₜ M
 
-/-- Every homeomorphism of compact surfaces is isotopic to a PL homeomorphism, and rel a subcomplex
-    on which it is already PL. -/
-theorem exists_isotopic_plHomeomorph (s : PLStructure M) (t : PLStructure N) (f : M ≃ₜ N) :
+/-- Layer 5's isotopy to a PL homeomorphism, read through two PL structures; the rel form is
+    layer 5's `exists_isotopicRel_plHomeomorph`. -/
+theorem PLStructure.exists_isotopic_plHomeomorph (s : PLStructure M) (t : PLStructure N) (f : M ≃ₜ N) :
     ∃ g : M ≃ₜ N, IsPLMap (t.e.symm ∘ g ∘ s.e) ∧ Isotopic f g
-theorem exists_isotopicRel_plHomeomorph (s : PLStructure M) (t : PLStructure N) (f : M ≃ₜ N)
-    {A : Set M} (hA : A is the carrier of a subcomplex of s) (hf : IsPLMap on A) :
-    ∃ g : M ≃ₜ N, IsPLMap (t.e.symm ∘ g ∘ s.e) ∧ IsotopicRel A f g
 
 /-- Epstein. Homotopic homeomorphisms of a closed surface are isotopic; with boundary the statement
     is relative, since on the disc the identity and conjugation are homotopic through continuous
@@ -828,20 +870,39 @@ theorem hasGroupoid_plGroupoid (s : PLStructure M) :
     @HasGroupoid _ _ _ _ (chartedSpace induced by s) (PLGroupoid (𝓡∂ 2))
 
 /-- Smoothing: every PL structure is compatible with a smooth structure, unique up to a
-    diffeomorphism isotopic to the identity. Compatibility is Whitehead's and Kuiper's, that each
-    closed simplex of the triangulation embeds smoothly with injective differential; it is not that
-    the smooth charts are PL, since a chart that is both is locally affine, and an affine atlas on
-    the sphere would develop into a local diffeomorphism to `ℝ²` with open compact image. -/
+    diffeomorphism isotopic to the identity. Compatibility is Whitehead's and Kuiper's smooth
+    triangulation condition, that each closed simplex embeds smoothly with injective differential,
+    asked of some subdivision of `s.K` rather than of `s.K` itself. It cannot be asked of `s.K`: a
+    disc triangulated as one triangle has two boundary edges at each vertex, which a half-space
+    chart must both send into its boundary line, so the differential of the closed triangle has
+    rank at most one there; after one barycentric subdivision no triangle meets the boundary in
+    two edges at a vertex. Nor is compatibility that the smooth charts are PL, since a chart that
+    is both is locally affine, and an affine atlas on the sphere would develop into a local
+    diffeomorphism to `ℝ²` with open compact image. No boundary condition on `s.e` is needed:
+    layer 2's `image_boundary` makes any realization carry the boundary subcomplex onto `∂M`. -/
+def PLStructure.IsCompatible (s : PLStructure M) (σ : ChartedSpace (EuclideanHalfSpace 2) M) : Prop :=
+  ∃ (ι' : Type) (K' : AbstractSimplicialComplex ι') (h : Subdivides K' s.K),
+    ∀ τ : Face K', s.e ∘ h.realization_homeomorph is a smooth embedding with injective differential on τ, for σ   -- schematic
 def PLStructure.smoothing (s : PLStructure M) : ChartedSpace (EuclideanHalfSpace 2) M
 theorem PLStructure.smoothing_isManifold (s : PLStructure M) :
     @IsManifold _ _ _ _ _ _ _ (𝓡∂ 2) ∞ M _ s.smoothing
-def PLStructure.IsCompatible (s : PLStructure M) (σ : ChartedSpace (EuclideanHalfSpace 2) M) : Prop
-    -- each closed simplex of `s.K`, read through `s.e`, is smooth and nondegenerate for `σ`
 theorem PLStructure.smoothing_isCompatible (s : PLStructure M) : s.IsCompatible s.smoothing
 theorem PLStructure.smoothing_unique (s : PLStructure M)
     (σ τ : ChartedSpace (EuclideanHalfSpace 2) M)
     (hσ : σ is smooth and s.IsCompatible σ) (hτ : τ is smooth and s.IsCompatible τ) :
     ∃ φ : M ≃ₘ⟮𝓡∂ 2, 𝓡∂ 2⟯ M, Isotopic φ.toHomeomorph (Homeomorph.refl M)   -- σ on the left, τ on the right
+
+/-- Every homeomorphism is isotopic to a diffeomorphism, for a smooth structure compatible with a
+    PL structure, and rel the boundary when it fixes the boundary pointwise. With Epstein's theorem
+    and `smoothIsotopic_of_isotopic` this makes the smooth mapping class groups of
+    `SurfaceTopology` layer 9 the topological ones. -/
+theorem exists_isotopic_diffeomorph (s : PLStructure M) (σ : ChartedSpace (EuclideanHalfSpace 2) M)
+    (hσ : σ is smooth and s.IsCompatible σ) (f : M ≃ₜ M) :
+    ∃ φ : M ≃ₘ⟮𝓡∂ 2, 𝓡∂ 2⟯ M, Isotopic f φ.toHomeomorph   -- σ on both sides
+theorem exists_isotopicRel_diffeomorph (s : PLStructure M) (σ : ChartedSpace (EuclideanHalfSpace 2) M)
+    (hσ : σ is smooth and s.IsCompatible σ) (f : M ≃ₜ M) (hf : Set.EqOn f id ((𝓡∂ 2).boundary M)) :
+    ∃ φ : M ≃ₘ⟮𝓡∂ 2, 𝓡∂ 2⟯ M, Set.EqOn φ id ((𝓡∂ 2).boundary M) ∧
+      IsotopicRel ((𝓡∂ 2).boundary M) f φ.toHomeomorph
 
 /-- Isotopic diffeomorphisms of compact surfaces are smoothly isotopic. -/
 theorem smoothIsotopic_of_isotopic (φ ψ : M ≃ₘ⟮𝓡∂ 2, 𝓡∂ 2⟯ N)
@@ -851,14 +912,14 @@ theorem smoothIsotopic_of_isotopic (φ ψ : M ≃ₘ⟮𝓡∂ 2, 𝓡∂ 2⟯ N
 **Mathematical route and formalization notes.**
 
 - A PL structure is a triangulation, and the Hauptvermutung of layer 5 compares any two of them by some PL homeomorphism, not by their own comparison map, which need not be PL. What this layer adds is the treatment of maps: the sharp uniqueness statement on a single surface is the identity case of `exists_isotopic_plHomeomorph`. The PL homeomorphism type `≃ₚₗ` bundles a homeomorphism with `IsPLMap` in both directions.
-- Isotopy to a PL homeomorphism is layer 4's relative approximation theorem followed by Alexander's trick: a fine enough PL approximation of `f` differs from `f` by a map that is small on each triangle, and coning fills each triangle with an isotopy. The rel form keeps a subcomplex fixed throughout, which is what surfaces with boundary and layer 9 of `SurfaceTopology` need.
+- Isotopy to a PL homeomorphism is layer 5's. What this layer adds is its consequences for isotopy classes, Epstein's theorem, and the smooth side.
 - Epstein's theorem is the injectivity that the mapping class group comparisons of `SurfaceTopology` layer 9 need. Its route: homotopic simple closed curves are isotopic, in Epstein's piecewise-linear form, then the Alexander method cuts the surface along a filling system of curves and reduces to the disc, where Alexander's trick finishes. Epstein states the closed and the boundary-relative cases separately, and so do we: the absolute statement is false with boundary, and cutting along curves produces surfaces with boundary, so the relative form is the one the induction runs on.
-- Smoothing follows Whitehead and Munkres: a triangulated surface is made `C¹` triangle by triangle, the corners along edges and at vertices are rounded with a partition of unity on the star of each simplex, and the result is a smooth atlas for which the given triangulation is smooth and nondegenerate on each simplex. Its transition maps are not PL, and cannot be: a map that is both smooth and PL is locally affine. Uniqueness uses layer 4's relative approximation to make a diffeomorphism between two smoothings PL, then Epstein to make it isotopic to the identity; smooth isotopy of isotopic diffeomorphisms is Munkres' smoothing of the isotopy.
+- Smoothing follows Whitehead and Munkres: a triangulated surface is made `C¹` triangle by triangle, the corners along edges and at vertices are rounded with a partition of unity on the star of each simplex, and the result is a smooth atlas for which the barycentric subdivision of the given triangulation is smooth and nondegenerate on each simplex. The subdivision is what lets a boundary vertex lying in a single triangle open its corner to a straight angle. The transition maps are not PL, and cannot be: a map that is both smooth and PL is locally affine. Uniqueness and isotopy to a diffeomorphism are Munkres' smoothing of piecewise-differentiable homeomorphisms: the identity between two compatible smoothings, or a PL homeomorphism from layer 5, is piecewise differentiable on a common subdivision, in dimension two there is no obstruction to approximating it by a diffeomorphism, and the approximation is close enough to be isotopic to it; the rel form keeps the boundary fixed throughout. Smooth isotopy of isotopic diffeomorphisms is Munkres' smoothing of the isotopy. Whitehead's converse, that every smooth structure is compatible with some triangulation, is not targeted; the comparison of smooth and topological mapping classes is stated for compatible structures.
 - `GeometricTopology` owns the chart-based `PLGroupoid`. The bridge theorem is stated here because it is what a consumer of both roadmaps needs, and its proof is the reconciliation that `GeometricTopology` layer 11 targets.
 
 **Examples and mathematical checks.** Two genuinely different triangulations of the torus are shown PL-equivalent, with the PL homeomorphism produced. A homeomorphism of the torus that is not PL is shown isotopic to a PL one. A note records that uniqueness of smooth structure fails in dimension four, so the smoothing theorem is visibly dimension-specific.
 
-**Natural intermediate results.** (i) PL structures and their equivalence; (ii) isotopy to a PL homeomorphism, absolute and rel a subcomplex; (iii) Epstein's theorem; (iv) the Top/PL classification agreement; (v) the bridge to `PLGroupoid`; (vi) corner rounding and existence of a smoothing; (vii) uniqueness of the smoothing and smooth isotopy.
+**Natural intermediate results.** (i) PL structures and their equivalence; (ii) the PL-structure reading of layer 5's isotopy theorem; (iii) Epstein's theorem; (iv) the Top/PL classification agreement; (v) the bridge to `PLGroupoid`; (vi) corner rounding and existence of a smoothing; (vii) smoothing of piecewise-differentiable homeomorphisms: uniqueness of the smoothing, isotopy to a diffeomorphism, and smooth isotopy.
 
 **Consequences.** `SurfaceTopology` layer 9. `GeometricTopology` layers 1 and 11.
 
@@ -924,6 +985,7 @@ Moore's decomposition theorem is the two-dimensional ancestor of the cell-like a
 - Continuum theory beyond the local-connectedness lemmas actually consumed. See the roadmap-for-a-roadmap above.
 - Noncompact surfaces beyond what the compact proofs require. The classification of noncompact surfaces (Kerékjártó) is a natural follow-on roadmap.
 - Measure-theoretic properties of curves beyond the single Osgood example in layer 0.
+- Whitehead's smooth triangulation theorem, that every smooth structure on a compact surface is compatible with some triangulation. Layer 8 goes from PL to smooth and compares smooth structures compatible with a given PL structure.
 
 ---
 
@@ -961,6 +1023,10 @@ vocabulary: `TauCeti.IsJordanCurve` rather than a parametrized definition, `ℂ`
   for the plane material.
 - J. R. Munkres, *Elementary Differential Topology*; J. H. C. Whitehead, *On C¹-complexes*.
   The smoothing route for layer 8.
+- J. R. Munkres, *Obstructions to the smoothing of piecewise-differentiable homeomorphisms*,
+  Ann. of Math. **72** (1960), 521–554; N. Kuiper, *On the smoothings of triangulated and
+  combinatorial manifolds*, in *Differential and Combinatorial Topology*, Princeton (1965). The
+  compatibility condition and the smoothing of piecewise-differentiable maps in layer 8.
 - D. B. A. Epstein, *Curves on 2-manifolds and isotopies*, Acta Math. **115** (1966), 83–107. The
   route for layer 8's isotopy theorem.
 - J. Cannon, *Topology as Fluid Geometry*, volume 2. Exposition reference for the

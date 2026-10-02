@@ -31,7 +31,7 @@ Each layer below is organized around its principal theorem, mathematical depende
 | `BelyiMaps` | the surface of a dessin, from its permutation triple: its realization, its classification by genus, Euler's formula and Riemann–Hurwitz for it, and the rotation systems of its embedded dessin | layers 2, 3, 5, and 8 |
 | a future Four Colour roadmap | plane maps, duality, Euler's formula, the five-colour theorem | layers 4, 5, and 10 |
 
-The relationship with [BelyiMaps](../BelyiMaps/README.md) is a boundary, stated once. BelyiMaps owns dessins, passports, triangle groups, and the covering-space side; this roadmap owns maps on surfaces in general, with boundary and non-orientability, their realization, and the classification. BelyiMaps' `PermutationTriple` and `BipartiteRibbonGraph` are the orientable, boundaryless, dessin case of layer 2's hypermaps and oriented maps, and layer 2 targets the conversions between the two vocabularies and the agreement of the two Euler characteristics.
+The relationship with [BelyiMaps](../BelyiMaps/README.md) is a boundary, stated once. BelyiMaps owns dessins, passports, triangle groups, and the covering-space side; this roadmap owns maps on surfaces in general, with boundary and non-orientability, their realization, and the classification. BelyiMaps' `PermutationTriple` is layer 2's hypermap presentation, used as it stands, and its `BipartiteRibbonGraph` is the dessin case of layer 2's oriented maps; layer 2 targets the conversions between the vocabularies and the agreement of the Euler characteristics.
 
 ### This roadmap consumes
 
@@ -44,7 +44,8 @@ From [PlanarTopology](../PlanarTopology/README.md), at the following points:
 | the two-dimensional Hauptvermutung and Pachner's theorem | 3, 7, 8 |
 | `Surface.eulerChar`, `Surface.IsOrientable`, `Surface.Orientation`, and `boundaryComponentCount`, all homeomorphism invariants, with the boundary convention | 3, 5, 7, 8, 9, 10 |
 | Schoenflies, tameness of arcs and simple closed curves, and tameness of finite families of arcs | 5, 9 |
-| isotopy to a PL homeomorphism, Epstein's theorem, and the smoothing theorems | 9 |
+| isotopy to a PL homeomorphism (layer 5) | 7, 9 |
+| Epstein's theorem, the smoothing theorems, and isotopy to a diffeomorphism (layer 8) | 9 |
 
 From [GraphConnectivityAndFlows](../GraphConnectivityAndFlows/README.md), under review as [#444](https://github.com/TauCetiProject/TauCetiRoadmap/pull/444), which owns the connectivity and components of Mathlib's `Graph α β`:
 
@@ -60,6 +61,7 @@ From Tau Ceti and Mathlib:
 | Item | Location |
 |---|---|
 | `Equiv.Perm`, orbits, `MulAction`, cycle types | Mathlib |
+| `Cycle`, lists modulo rotation | `Mathlib/Data/List/Cycle.lean` |
 | `AbstractSimplicialComplex`, `Realization`, `link`, subdivision, `SimplicialMap` | `TauCeti/AlgebraicTopology/SimplicialComplex/` |
 | `IsTriangulable` | `TauCeti/Topology/Triangulable.lean` |
 | structure theorem for finitely generated modules over a PID | `Mathlib.Algebra.Module.PID` |
@@ -85,7 +87,7 @@ From Tau Ceti and Mathlib:
 
 **The 2-dimensional generalized map is taken as the foundation.** A dart contains a complete flag, but also natively carries the side-incidence data that a face poset loses.  Boundary-ness is recorded by fixed points of the highest involution.  Non-orientability needs no signed variant.
 
-Oriented maps, hypermaps, and polygonal schemas are **presentations**: each translates into the language of generalized maps and back, and each has its own natural operations. This roadmap does not propose a parallel realization theory. Realization, Euler characteristic, orientability, the chain complex, and the operations are defined once, on generalized maps. `BelyiMaps`' permutation triples and bipartite ribbon graphs are presentations too, of the orientable boundaryless case, and layer 2 records them as such.  This is deliberate, and it follows the discipline `GeometricTopology` layer 4 states for knot presentations: pick a hub, do not aim for the complete graph on presentations.
+Oriented maps, permutation triples (hypermaps), and polygonal schemas are **presentations**: each translates into the language of generalized maps and back, and each has its own natural operations. This roadmap does not propose a parallel realization theory. Realization, Euler characteristic, orientability, the chain complex, and the operations are defined once, on generalized maps. `BelyiMaps`' permutation triples are the hypermap presentation itself, consumed as they stand, and its bipartite ribbon graphs are a presentation of the dessin case; layer 2 records both.  This is deliberate, and it follows the discipline `GeometricTopology` layer 4 states for knot presentations: pick a hub, do not aim for the complete graph on presentations.
 
 The comparison theorems in layer 2 are not a claim that all presentations are co-equal. They state precisely which information each conversion preserves and certify that the chosen hub represents the same finite surface data.
 
@@ -159,7 +161,7 @@ L5 embedded graphs and HER                 L6 schemas and normal forms
  |                                          |
  |                                         L8 classification  <---- PlanarTopology L2, L5, L6
  |                                          |
- |                                         L9 mapping class groups  <---- PlanarTopology L7, L8
+ |                                         L9 mapping class groups  <---- PlanarTopology L5, L7, L8
  |                                          |
  '---------------------------------------- L10 planarity  <---- GraphConnectivityAndFlows
 ```
@@ -168,15 +170,15 @@ L5 embedded graphs and HER                 L6 schemas and normal forms
 
 ## Layer 0: Finite conventions
 
-This layer isolates the finite equivalence relations needed by cyclic words and by moves that change an object's indexing type.
+This layer fixes the finite conventions: cyclic words are Mathlib's `Cycle`, and moves that change an object's indexing type go through bundling and isomorphism closure.
 
 **Representative formal statements.**
 
 ```lean
-/-- Cyclic words. Kept deliberately separate from `CircularOrder` and from the
-    topological circle: a cyclic word is a finite sequence with repeated labels,
-    taken modulo rotation. -/
-def CyclicWord (α : Type*) : Type* := Quotient (rotationSetoid α)
+-- Cyclic words are Mathlib's `Cycle α`: lists modulo rotation, repeated labels allowed, with its
+-- decidable equality, membership, reversal, and length. No second quotient is built, and
+-- `Cycle (label × Bool)` is the type of a face of a polygonal schema in layer 2. It has nothing to
+-- do with `CircularOrder` or the topological circle.
 
 class HasIsoRel (X : Type*) where
   IsoRel : X → X → Prop
@@ -196,9 +198,9 @@ theorem isoClosure_reflTransGen_congr : ...
 
 **Proof strategy and formalization notes.** `Function.Involutive` and `Commute` in `Equiv.Perm D` are the Mathlib idioms; do not hand-roll `∀ d, f (f d) = d` or `f ∘ g = g ∘ f`.
 
-**Examples and mathematical checks.** `CyclicWord` equality is `Decidable` and distinguishes `abab` from `aabb` while identifying `abab` with `baba`.
+**Examples and mathematical checks.** `Cycle` equality is Mathlib's decidable equality; that it distinguishes `abab` from `aabb` and identifies `abab` with `baba` is checked by `decide`.
 
-**Natural intermediate results.** (i) cyclic words; (ii) bundling and isomorphism closure; (iii) `ReflTransGen` lemmas for isomorphism-closed relations.
+**Natural intermediate results.** (i) whatever `Cycle` API the schema calculus needs beyond Mathlib's; (ii) bundling and isomorphism closure; (iii) `ReflTransGen` lemmas for isomorphism-closed relations.
 
 ---
 
@@ -316,34 +318,36 @@ def CombinatorialMap.toGMap2 : GMap2 (D × Bool)
 def GMap2.toCombinatorialMap (G : GMap2 D) (h : IsClosedSurfaceGMap G) (o : G.Orientation) :
     CombinatorialMap o.side
 
-/-- Hypermap. -/
-structure Hypermap (D : Type*) [Fintype D] [DecidableEq D] where
-  σ φ α : Equiv.Perm D
-  comp : σ * φ * α = 1
-/-- The Walsh bipartite map of a hypermap: the darts are `D × Bool`, the rotations at the black
-    and white vertices are `σ` and `φ` on the two ends, and the edge involution swaps the ends.
-    Doubling the darts of a hypermap directly does not work: the identity triple on one dart is
+/-- Hypermaps are Tau Ceti's `PermutationTriple n` (`Combinatorics/PermutationTriple/Basic.lean`,
+    owned by `BelyiMaps`): three permutations of `Fin n` with `σinf * σ1 * σ0 = 1`, with its
+    relabelling action, connectedness, and Euler characteristic. No second three-permutation
+    structure is introduced; a hypermap on another finite dart type is read through an equivalence
+    with `Fin n`, which costs nothing since generalized maps bundle their dart type. The Walsh
+    bipartite map of a triple has darts `Fin n × Bool`, the rotations at the black and white
+    vertices are `σ0` and `σ1` on the two ends, and the edge involution swaps the ends. Doubling
+    the sheets of the triple directly does not work: the identity triple of degree one is
     connected with Euler characteristic two, and a closed surface map on two darts does not exist,
     since `α₀`, `α₁` and `α₂` would all have to be the swap. -/
-def Hypermap.toWalshMap (H : Hypermap D) : CombinatorialMap (D × Bool)
-/-- The generalized map of a hypermap is then the doubling of its Walsh map, on darts
-    `(D × Bool) × Bool`, and it is a closed orientable surface map. -/
-def Hypermap.toGMap2 (H : Hypermap D) : GMap2 ((D × Bool) × Bool) := H.toWalshMap.toGMap2
-theorem Hypermap.isClosedSurfaceGMap_toGMap2 (H : Hypermap D) : IsClosedSurfaceGMap H.toGMap2
+def PermutationTriple.toWalshMap (t : PermutationTriple n) : CombinatorialMap (Fin n × Bool)
+/-- The generalized map of a triple is the doubling of its Walsh map, on darts
+    `(Fin n × Bool) × Bool`, and it is a closed orientable surface map. -/
+def PermutationTriple.toGMap2 (t : PermutationTriple n) : GMap2 ((Fin n × Bool) × Bool) :=
+  t.toWalshMap.toGMap2
+theorem PermutationTriple.isClosedSurfaceGMap_toGMap2 (t : PermutationTriple n) :
+    IsClosedSurfaceGMap t.toGMap2
 
-/-- BelyiMaps' finite objects are the orientable boundaryless case: a permutation triple is a
-    hypermap on `Fin n` in the convention `σinf * σ1 * σ0 = 1`, and a bipartite ribbon graph is an
-    oriented map whose white vertices all have degree two. The conversions and the agreement of the
-    Euler characteristics are the comparison with that roadmap. -/
-def Hypermap.toPermutationTriple (H : Hypermap D) (e : D ≃ Fin n) : PermutationTriple n
-def PermutationTriple.toHypermap (t : PermutationTriple n) : Hypermap (Fin n)
+/-- An oriented map on `n` darts is the triple of its rotation, its edge involution, and the
+    inverse of their product; a bipartite ribbon graph is an oriented map whose white vertices all
+    have degree two. These conversions and the agreement of the Euler characteristics are the
+    comparison with `BelyiMaps`. -/
+def CombinatorialMap.toPermutationTriple (M : CombinatorialMap D) (e : D ≃ Fin n) : PermutationTriple n
 def CombinatorialMap.toBipartiteRibbonGraph (M : CombinatorialMap D) : BipartiteRibbonGraph
 def BipartiteRibbonGraph.toCombinatorialMap (Γ : BipartiteRibbonGraph)
     (h : ∀ w, Γ.whiteDegree w = 2) : CombinatorialMap Γ.E
-theorem PermutationTriple.eulerChar_toHypermap (t : PermutationTriple n) :
-    t.toHypermap.toGMap2.eulerChar = t.eulerChar
-theorem PermutationTriple.isConnected_toHypermap (t : PermutationTriple n) :
-    t.toHypermap.toGMap2.IsConnected ↔ t.IsConnected
+theorem PermutationTriple.eulerChar_toGMap2 (t : PermutationTriple n) :
+    t.toGMap2.eulerChar = t.eulerChar
+theorem PermutationTriple.isConnected_toGMap2 (t : PermutationTriple n) :
+    t.toGMap2.IsConnected ↔ t.IsConnected
 theorem BipartiteRibbonGraph.eulerChar_toCombinatorialMap (Γ : BipartiteRibbonGraph)
     (h : ∀ w, Γ.whiteDegree w = 2) : (Γ.toCombinatorialMap h).toGMap2.eulerChar = Γ.eulerChar
 
@@ -352,7 +356,7 @@ theorem BipartiteRibbonGraph.eulerChar_toCombinatorialMap (Γ : BipartiteRibbonG
 structure PolygonalSchema where
   label : Type
   fintypeLabel : Fintype label
-  faces : List (CyclicWord (label × Bool))
+  faces : List (Cycle (label × Bool))
   occurs_once_or_twice : ∀ l, (occurrences l).length = 1 ∨ (occurrences l).length = 2
 def PolygonalSchema.toGMap2 : GMap2 _
 
@@ -370,11 +374,11 @@ def GMap2.toSchema (G : GMap2 D) (h : IsSurfaceGMap G) (o : ∀ e : G.Cell 1, G.
 3. `(G.toCombinatorialMap h o).toGMap2 ≅ G` for a closed surface map with an orientation, and `M.toGMap2.toCombinatorialMap ≅ M` after choosing the induced orientation. Tests the orientation encoding. Both directions need closedness: the round trip is between closed maps and rotation systems.
 4. `G.dual.dual ≅ G` for closed surface maps, with canonically homeomorphic realizations.
 5. `(G.toSchema h o).toGMap2 ≅ G` for a surface map, and `S.toGMap2.toSchema ≅ S` up to relabelling: the schema forgets nothing but the names, and its once-labels are exactly the boundary edges.
-6. The BelyiMaps comparisons: hypermaps and permutation triples correspond along `D ≃ Fin n`, oriented maps and bipartite ribbon graphs with white degrees two correspond, and both correspondences preserve Euler characteristic and connectedness.
+6. The BelyiMaps comparisons: a permutation triple and its generalized map have the same Euler characteristic and connectedness, and oriented maps and bipartite ribbon graphs with white degrees two correspond with the same Euler characteristic.
 
-**Examples and mathematical checks.** ⚠ **Exhibit two non-isomorphic surface maps with the same incidence poset of cells.** This answers the question "why darts and not a poset?": the poset forgets which of a face's several incidences to an edge is which. Source: Damiand–Lienhardt, Fig. 2.29. Each conversion is worked out on the layer 1 example table, and the BelyiMaps conversions on the dessins of degree at most four in that roadmap's layer 2.7. Degenerate examples show why the hypotheses of the comparison theorems are necessary. The smallest useful test of the hypermap conversion is the one-edge bipartite sphere: one dart of the Walsh map on each side, four generalized-map darts, Euler characteristic two.
+**Examples and mathematical checks.** ⚠ **Exhibit two non-isomorphic surface maps with the same incidence poset of cells.** This answers the question "why darts and not a poset?": the poset forgets which of a face's several incidences to an edge is which. Source: Damiand–Lienhardt, Fig. 2.29. Each conversion is worked out on the layer 1 example table, and the BelyiMaps conversions on the dessins of degree at most four in that roadmap's layer 2.7. Degenerate examples show why the hypotheses of the comparison theorems are necessary. The smallest useful test of the triple conversion is the identity triple of degree one, the one-edge bipartite sphere: one dart of the Walsh map on each side, four generalized-map darts, Euler characteristic two.
 
-**Natural intermediate results.** (i) oriented maps and the conversion both ways; (ii) hypermaps and the conversion; (iii) polygonal schemas, `toSchema`, and the round trips; (iv) the BelyiMaps conversions and their comparison theorems; (v) comparison theorems 3 and 4; (vi) the poset counter-example.
+**Natural intermediate results.** (i) oriented maps and the conversion both ways; (ii) permutation triples and the Walsh conversion; (iii) polygonal schemas, `toSchema`, and the round trips; (iv) the BelyiMaps conversions and their comparison theorems; (v) comparison theorems 3 and 4; (vi) the poset counter-example.
 
 ---
 
@@ -419,7 +423,12 @@ theorem IsSurfaceGMap.orientationEquiv (h : IsSurfaceGMap G) (hc : G.IsConnected
     inside a dart and the third crosses to a neighbouring dart of `G`, which one depending on the
     ordering; the exact packaging is schematic, the dart type is not. -/
 def GMap2.barycentricSubdivision (G : GMap2 D) : GMap2 (D × Equiv.Perm (Fin 3))
-theorem GMap2.eulerChar_barycentricSubdivision (G : GMap2 D) :
+theorem GMap2.isSurfaceGMap_barycentricSubdivision (h : IsSurfaceGMap G) :
+    IsSurfaceGMap G.barycentricSubdivision
+/-- The cell count is preserved for surface maps and not in general: the all-swap map on two darts
+    has orbit count `1`, while its subdivision has twelve darts, three vertices, three edges and two
+    faces, the counts of the sphere it realizes. -/
+theorem GMap2.eulerChar_barycentricSubdivision (h : IsSurfaceGMap G) :
     G.barycentricSubdivision.eulerChar = G.eulerChar
 
 /-- The simplicial bridge: a theorem about one subdivision, not a definition. -/
@@ -449,7 +458,7 @@ theorem flagComplex_toGMap2 (hK : IsCombinatorialSurface K) :
 - The surface structure needs no hypothesis either. Its charts come from the links: at a vertex, an edge midpoint, or a face centre the link is a cycle or a path, and the cone on it is a disc or a half-disc; on the interior of a side the two glued triangles, or the one unglued triangle, give the chart directly. The first two conditions of layer 1 enter only to identify the boundary with the `α₂`-fixed sides; the third enters only for the Euler characteristic.
 - `exists_gmap_of_compactSurface` is Radó followed by `toGMap2`; the orientation comparison is `PlanarTopology` layer 6 read through the flag complex.
 
-**Examples and mathematical checks.** The `aa` generalized map from the encoding conventions is a certified counter-witness: it is a valid surface map, its flag triple map is **not** injective, and its unsubdivided flag complex has one triangle where the map has four darts. Realization is checked to produce the correct Euler characteristic on the full layer 1 table, through `PlanarTopology`'s `Surface.eulerChar`, not through `GMap2.eulerChar`. The all-swap map on `Bool` is checked to realize to a sphere, so that `eulerChar_eq` fails for it as it must.
+**Examples and mathematical checks.** The `aa` generalized map from the encoding conventions is a certified counter-witness: it is a valid surface map, its flag triple map is **not** injective, and its unsubdivided flag complex has one triangle where the map has four darts. Realization is checked to produce the correct Euler characteristic on the full layer 1 table, through `PlanarTopology`'s `Surface.eulerChar`, not through `GMap2.eulerChar`. The all-swap map on `Bool` is checked to realize to a sphere, so that `eulerChar_eq` fails for it as it must. The barycentric subdivision of the all-swap map is checked to have Euler characteristic two, which is why `eulerChar_barycentricSubdivision` carries the surface hypothesis.
 
 **Natural intermediate results.** (i) the gluing setoid and the quotient topology; (ii) compactness, Hausdorffness, and the surface structure for every map; (iii) the flag triple, injectivity after subdivision, and the counter-witness; (iv) the homeomorphism with the flag complex realization; (v) `exists_gmap_of_compactSurface`; (vi) Euler characteristic agreement; (vii) the boundary identification and the boundary count; (viii) orientability and orientations agree.
 
@@ -573,9 +582,20 @@ theorem Drawing.exists_isotopic_isPL (D : Drawing Γ M) (hD : D.IsNoncrossing)
     (hint : D.support ⊆ (𝓡∂ 2).interior M) :
     ∃ D' : Drawing Γ M, D'.IsPL ∧ AmbientIsotopic D D'
 
-/-- The surface map of a cellular PL drawing, and the drawing of a surface map. -/
-def Drawing.toGMap2 (D : Drawing Γ M) (hpl : D.IsPL) (hc : D.IsCellular) : BundledGMap2
+/-- The surface map of a cellular PL drawing in a closed surface, and the drawing of a surface
+    map; the second is the only boundary-inclusive direction. -/
+def Drawing.toGMap2 (D : Drawing Γ M) (hb : (𝓡∂ 2).boundary M = ∅) (hpl : D.IsPL) (hc : D.IsCellular) :
+    BundledGMap2
 def GMap2.toDrawing (G : GMap2 D) (h : IsSurfaceGMap G) : Drawing G.underlyingGraph G.realization
+def Drawing.faceCount (D : Drawing Γ M) : ℕ := Nat.card (ConnectedComponents (D.supportᶜ : Set M))
+
+/-- Cellular noncrossing drawings in closed surfaces, bundled with the surface, and the oriented
+    form with a `Surface.Orientation`. Closedness is not cosmetic: `C₃` drawn as the boundary of a
+    closed disc and as an equator of the sphere are both cellular, with the same rotation at every
+    vertex, in surfaces that are not homeomorphic. -/
+def CellularDrawings (Γ : Graph α β) : Type* :=
+  {D : Σ M, Drawing Γ M // (𝓡∂ 2).boundary D.1 = ∅ ∧ D.2.IsNoncrossing ∧ D.2.IsCellular}
+def OrientedCellularDrawings (Γ : Graph α β) : Type*   -- likewise, with an orientation of `D.1`
 
 /-- Rotation systems of a finite multigraph: a cyclic order of the darts at each vertex. The darts
     are this roadmap's, two per edge and two per loop, since a loop occupies two positions in the
@@ -584,9 +604,11 @@ def GMap2.toDrawing (G : GMap2 D) (h : IsSurfaceGMap G) : Drawing G.underlyingGr
 def RotationSystem (Γ : Graph α β) : Type* := ...
 def SignedRotationSystem (Γ : Graph α β) : Type* := ...
 
-theorem cellularDrawings_equiv_gmaps (hΓ : Γ.Connected) :
-    {D : Σ M, Drawing Γ M // D.IsNoncrossing ∧ D.IsCellular} / Drawing.Equiv
-      ≃ {G : BundledGMap2 // G.underlyingGraph ≃ Γ} / GMap2.Iso
+/-- `K₁` is excluded: its one-point drawing in the sphere is cellular, and no generalized map has
+    it as underlying graph, since an empty dart type has no vertex and a nonempty one an edge. -/
+theorem cellularDrawings_equiv_gmaps (hΓ : Γ.Connected) (hE : E(Γ).Nonempty) :
+    CellularDrawings Γ / Drawing.Equiv
+      ≃ {G : BundledGMap2 // IsClosedSurfaceGMap G.map ∧ G.underlyingGraph ≃ Γ} / GMap2.Iso
 
 /-- Heffter–Edmonds–Ringel, orientable form: cellular drawings in oriented surfaces, up to
     orientation-preserving equivalence, are rotation systems up to equivalence. -/
@@ -597,8 +619,11 @@ theorem orientedCellularDrawings_equiv_rotationSystems (hΓ : Γ.Connected) :
 theorem cellularDrawings_equiv_signedRotationSystems (hΓ : Γ.Connected) :
     CellularDrawings Γ / Drawing.Equiv ≃ SignedRotationSystem Γ / EquivalenceOfSignedRotations
 
-/-- Euler's formula for a cellular drawing. -/
-theorem eulerFormula_cellular (D : Drawing Γ M) (hD : D.IsNoncrossing) (hc : D.IsCellular) :
+/-- Euler's formula for a cellular drawing in a closed surface. With boundary it fails unless the
+    support contains the boundary: `C₃` in a disc with one side along the boundary circle is
+    cellular with two faces, `3 - 3 + 2 ≠ 1`. -/
+theorem eulerFormula_cellular (hb : (𝓡∂ 2).boundary M = ∅) (D : Drawing Γ M) (hD : D.IsNoncrossing)
+    (hc : D.IsCellular) :
     (Nat.card V(Γ) : ℤ) - Nat.card E(Γ) + D.faceCount = Surface.eulerChar M
 
 /-- A finite branched cover of compact surfaces: a covering map away from finitely many points,
@@ -616,13 +641,13 @@ def Graph.nonorientableGenus (Γ : Graph α β) : ℕ
 
 **Proof strategy and formalization notes.**
 
-- ⚠ The correspondence is only for **cellular** drawings. A graph drawn in a torus with a non-disc face is the counter-witness and is given in the examples and mathematical checks.
+- ⚠ The correspondence is only for **cellular** drawings. A graph drawn in a torus with a non-disc face is the counter-witness and is given in the examples and mathematical checks. ⚠ And only for drawings in **closed** surfaces: the disc and the sphere both carry `C₃` cellularly with the same rotation at every vertex. With boundary, `GMap2.toDrawing` still produces a cellular drawing whose support contains the boundary, and that is the only direction stated.
 - The correspondence is proved on PL drawings, where a cellular drawing is a cell structure and the rotation at a vertex is read off the triangulation, and transported to all noncrossing drawings by `Drawing.exists_isotopic_isPL`. The orientable form is the general form read through layer 2's `toCombinatorialMap` with `PlanarTopology`'s `Surface.Orientation`.
 - The drawing structure follows the draft Mathlib `Drawing` of an incidence graph in a topological space (mathlib4 #43687), so that the eventual swap is a deletion; the PL subclass and cellularity are this roadmap's.
 - Riemann–Hurwitz is Euler's formula twice: a cellular drawing in `Y` whose vertices include the branch values pulls back to a cellular drawing in `X` with `d` times as many cells, except that a branch value with preimages of local degrees `e` has `Σ 1` preimages in place of `d`. `BelyiMaps` consumes it for the genus of a dessin's surface.
 - `Graph.genus` minimises over surfaces and therefore waits on layer 8; the correspondence and Euler's formula do not.
 
-**Examples and mathematical checks.** `K₅` and `K₃,₃` have genus 1 and are drawn cellularly in the torus. `IsCellular` is **false** for `K₄` drawn inside a disc in the torus. Euler's formula is checked on the layer 1 table. Riemann–Hurwitz is checked on `z ↦ zⁿ` on the sphere and on the orientation double cover of the projective plane map, an unbranched cover of degree two.
+**Examples and mathematical checks.** `K₅` and `K₃,₃` have genus 1 and are drawn cellularly in the torus. `IsCellular` is **false** for `K₄` drawn inside a disc in the torus. Euler's formula is checked on the layer 1 table. Riemann–Hurwitz is checked on `z ↦ zⁿ` on the sphere and on the orientation double cover of the projective plane map, an unbranched cover of degree two. `C₃` as the boundary of a disc and as an equator of the sphere is the check that the correspondences need closed surfaces, and the one-point drawing of `K₁` in the sphere the check that the generalized-map form needs an edge.
 
 **Natural intermediate results.** (i) degree of finite multigraphs and its comparison with GraphConnectivityAndFlows' incidence counts; (ii) the underlying multigraph; (iii) drawings, cellularity, PL drawings, and the tameness transport; (iv) rotation systems; (v) the orientable correspondence; (vi) the general correspondence; (vii) Euler's formula; (viii) branched covers and Riemann–Hurwitz; (ix) genus, after layer 8.
 
@@ -634,7 +659,7 @@ def Graph.nonorientableGenus (Γ : Graph α β) : ℕ
 
 The normal-form theorem is stated once, for connected surface schemas with or without boundary edges, following Gallier–Xu: a label occurring once is a boundary edge and rides through the moves unchanged, and the normal forms carry one hole block `c h c⁻¹` per boundary component.
 
-**From layers 0, 1, and 2.** `CyclicWord`, `isoClosure`, `IsSurfaceGMap`, `toGMap2`, `toSchema`.
+**From layers 0, 1, and 2.** `Cycle`, `isoClosure`, `IsSurfaceGMap`, `toGMap2`, `toSchema`.
 
 **Representative formal statements.**
 
@@ -692,7 +717,7 @@ theorem SchemaMove.boundaryComponentCount_eq (h : SchemaMove S T) :
 
 This layer attaches a finite chain complex and a finite group presentation to a surface map. Neither is on the classification path: layer 8's uniqueness uses the Euler characteristic, orientability, and the boundary count, which `PlanarTopology` makes topological invariants directly. They are the reusable finite invariants of the library, made topological invariants by `PlanarTopology`'s Pachner theorem, and layer 9 uses the action on `H₁`. Their comparison with singular homology and the topological fundamental group is out of scope.
 
-**From PlanarTopology.** Pachner's theorem and the Hauptvermutung (layer 5).
+**From PlanarTopology.** Pachner's theorem, the Hauptvermutung, and isotopy to a PL homeomorphism (layer 5); the common-subdivision theorem (layer 3).
 **From GraphConnectivityAndFlows.** `Graph.Connected` (Target 1.1), for the free edge-path group of a graph.
 
 **Representative formal statements.**
@@ -730,16 +755,52 @@ theorem Graph.edgePathGroup_free (Γ : Graph α β) [Finite V(Γ)] [Finite E(Γ)
     IsFreeGroup Γ.edgePathGroup ∧
       (Nat.card (FreeGroup.basis Γ.edgePathGroup) : ℤ) = 1 - Γ.eulerChar
 
-/-- Invariance under the moves, hence under homeomorphism by Pachner. -/
+/-- Invariance under isomorphism and the moves, as chain maps with chain-homotopy inverses, not
+    only as isomorphisms of homology groups. -/
+def GMap2.chainMap_ofIso (i : G.Iso G') : G.chainComplex h c R ⟶ G'.chainComplex h' c' R
+def GMap2.chainMap_subdivideEdge : G.chainComplex h c R ⟶ (G.subdivideEdge e).chainComplex _ _ R
+def GMap2.chainMap_subdivideFace : G.chainComplex h c R ⟶ (G.subdivideFace f).chainComplex _ _ R
+def GMap2.chainMap_flip : G.chainComplex h c R ⟶ (G.flip e).chainComplex _ _ R     -- the 2 ↔ 2 move
 theorem GMap2.homology_subdivideEdge : (G.subdivideEdge e).homology ≅ G.homology h c R i
 theorem GMap2.homology_subdivideFace : (G.subdivideFace f).homology ≅ G.homology h c R i
-theorem GMap2.homology_flip : (G.flip e).homology ≅ G.homology h c R i     -- the 2 ↔ 2 move
+theorem GMap2.homology_flip : (G.flip e).homology ≅ G.homology h c R i
 theorem GMap2.edgePathGroup_subdivideEdge : (G.subdivideEdge e).edgePathGroup ≃* G.edgePathGroup h c
+
+/-- The simplicial side, all finite linear algebra: the oriented chain complex of a finite complex,
+    the chain map of a simplicial map, the subdivision chain equivalence, chain homotopy for
+    contiguous maps, and the comparison of the cellular chains of a surface map with the simplicial
+    chains of the flag complex of its barycentric subdivision. -/
+def AbstractSimplicialComplex.chainComplex (K : AbstractSimplicialComplex ι) [LinearOrder ι]
+    [Finite K.faces] (R : Type*) [CommRing R] : ChainComplex (ModuleCat R) ℕ
+def SimplicialMap.chainMap (g : SimplicialMap K L) : K.chainComplex R ⟶ L.chainComplex R
+theorem SimplicialMap.chainMap_comp (f : SimplicialMap K L) (g : SimplicialMap L N) :
+    (g.comp f).chainMap = f.chainMap ≫ g.chainMap
+def Subdivides.chainEquiv (h : Subdivides K' K) : HomotopyEquiv (K'.chainComplex R) (K.chainComplex R)
+theorem SimplicialMap.homotopy_of_contiguous (g g' : SimplicialMap K L) (hgg' : Contiguous g g') :
+    Nonempty (Homotopy g.chainMap g'.chainMap)
+def GMap2.chainEquiv_flagComplex (h : IsSurfaceGMap G) (c : G.CellOrientations) :
+    HomotopyEquiv (G.chainComplex h c R) (G.barycentricSubdivision.flagComplex.chainComplex R)
+
+/-- The action of a homeomorphism of realizations: isotope `e` to a PL homeomorphism by
+    `PlanarTopology` layer 5, make it simplicial on subdivisions of the two flag complexes by
+    layer 3's common-subdivision theorem, and compose its chain map with the subdivision and
+    flag-complex equivalences. Two choices are isotopic, hence contiguous in steps after a further
+    subdivision, hence chain homotopic, so the map on homology is well defined; it is functorial,
+    isotopic homeomorphisms induce the same map, and layer 9 uses it on `H₁`. -/
+def GMap2.homologyMap (h' : IsSurfaceGMap G') (c' : G'.CellOrientations)
+    (e : G.realization ≃ₜ G'.realization) (i : ℕ) :
+    G.homology h c R i →ₗ[R] G'.homology h' c' R i
+theorem GMap2.homologyMap_refl : G.homologyMap h c (Homeomorph.refl _) i = LinearMap.id
+theorem GMap2.homologyMap_trans (e : G.realization ≃ₜ G'.realization) (e' : G'.realization ≃ₜ G''.realization) :
+    G.homologyMap h'' c'' (e.trans e') i = (G'.homologyMap h'' c'' e' i).comp (G.homologyMap h' c' e i)
+theorem GMap2.homologyMap_of_isotopic (e e' : G.realization ≃ₜ G'.realization) (hee' : Isotopic e e') :
+    G.homologyMap h' c' e i = G.homologyMap h' c' e' i
+theorem GMap2.homologyMap_bijective (e : G.realization ≃ₜ G'.realization) :
+    Function.Bijective (G.homologyMap h' c' e i)
+/-- Hence homeomorphic realizations have isomorphic homology, which with Radó makes the homology
+    of a compact surface well defined. -/
 theorem GMap2.homology_congr_homeomorph (h' : IsSurfaceGMap G') (e : G.realization ≃ₜ G'.realization) :
     G.homology h c R i ≅ G'.homology h' c' R i
-/-- The action of a homeomorphism on `H₁`, the same for isotopic homeomorphisms; layer 9 uses it. -/
-def GMap2.homologyMap (e : G.realization ≃ₜ G'.realization) :
-    G.homology h c ℤ 1 →ₗ[ℤ] G'.homology h' c' ℤ 1
 
 /-- The normal forms. Uses the PID structure theorem, not Smith normal form. -/
 theorem homology_normalFormOrientable_closed (g : ℕ) :
@@ -758,11 +819,11 @@ theorem homology_normalFormNonorientable_boundary (k : ℕ) (hk : 0 < k) (b : �
 - Abelianizing a presentation turns relators into the columns of the boundary matrix, so `abelianization_edgePathGroup` is a mechanical algebraic theorem and not a topological one.  This is Munkres' strategy with the topology removed.
 - ⚠ Use `Mathlib.Algebra.Module.PID`, not `TauCeti/LinearAlgebra/Matrix/SmithNormalForm.lean`, which handles only square matrices of positive determinant.
 - ⚠ van Kampen is out of scope. The edge-path group is defined combinatorially and its invariance comes from the moves, so no comparison with `π₁` of the realization is needed.
-- **Invariance.** Invariance under isomorphism and the moves `1 → 3`, `2 ↔ 2`, and edge subdivision is combinatorial. The Hauptvermutung and Pachner's theorem, read through the flag complex, then say that any two surface maps with homeomorphic realizations are related by these moves and isomorphisms, so the homology of a compact surface is well defined and a homeomorphism acts on it. No comparison with `TauCeti/AlgebraicTopology/UniversalCover/` is targeted: the fundamental groups computed there for the circle, the torus, and the projective plane coincide with the edge-path groups of the corresponding normal forms as abstract groups, but without a comparison theorem between the edge-path group and the topological fundamental group that coincidence is not evidence of anything.
+- **Invariance and functoriality.** Invariance under isomorphism and the moves `1 → 3`, `2 ↔ 2`, and edge subdivision is combinatorial, and each move is a chain map with a chain-homotopy inverse. The action of a homeomorphism needs more than invariance of the groups: the identity and a Dehn twist of the torus have the same source and target and must act differently. It is built on the simplicial side. A homeomorphism of realizations is isotopic to a PL one by `PlanarTopology` layer 5, which is simplicial on subdivisions of the two flag complexes by layer 3's common-subdivision theorem, and a simplicial map has a chain map; the subdivision operator is a chain equivalence, and the cellular chains of a surface map are chain equivalent to the simplicial chains of its subdivided flag complex. Independence of the PL approximation is the classical homotopy invariance: two approximations are isotopic, so after a further subdivision they are contiguous in finitely many steps, and contiguous simplicial maps are chain homotopic. Everything is finite linear algebra on finite complexes, and no singular theory appears. The Hauptvermutung and Pachner's theorem then say that any two surface maps with homeomorphic realizations are related by moves and isomorphisms, so the homology of a compact surface is well defined, and `homologyMap` is how a homeomorphism acts on it. No comparison with `TauCeti/AlgebraicTopology/UniversalCover/` is targeted: the fundamental groups computed there for the circle, the torus, and the projective plane coincide with the edge-path groups of the corresponding normal forms as abstract groups, but without a comparison theorem between the edge-path group and the topological fundamental group that coincidence is not evidence of anything.
 
 **Examples and mathematical checks.** The chain complexes of the layer 1 table are written out explicitly and `d_comp_d` is checked by `decide`. `homology_two_iff_orientable` is checked **false** for the Klein bottle and **true** for the torus. The `ZMod 2` torsion class in `homology_normalFormNonorientable_closed` is exhibited, not merely asserted, since it is what distinguishes the nonorientable normal forms and an off-by-one here would be invisible. The homology of the `aa` map and of its edge subdivision are compared explicitly.
 
-**Natural intermediate results.** (i) cell orientations, the chain complex, and `d ∘ d = 0`; (ii) independence of the orientations, homology, and Euler–Poincaré; (iii) `H₀` and connectedness; (iv) `H₂` and orientability; (v) the edge-path group and its presentation; (vi) abelianization; (vii) free groups for graphs; (viii) the normal-form computations; (ix) invariance under the moves and the action of homeomorphisms.
+**Natural intermediate results.** (i) cell orientations, the chain complex, and `d ∘ d = 0`; (ii) independence of the orientations, homology, and Euler–Poincaré; (iii) `H₀` and connectedness; (iv) `H₂` and orientability; (v) the edge-path group and its presentation; (vi) abelianization; (vii) free groups for graphs; (viii) the normal-form computations; (ix) chain maps of isomorphisms and moves; (x) the simplicial chain complex, simplicial chain maps, the subdivision chain equivalence, and chain homotopy of contiguous maps; (xi) the flag-complex comparison and `homologyMap`, with functoriality and isotopy invariance.
 
 **Consequences.** Layer 9's torus computation and `H₁` action. `BelyiMaps`, for the homology of a dessin's surface.
 
@@ -853,9 +914,9 @@ theorem model_nonorientable_homeomorph_sdiff_discs (k : ℕ) (hk : 0 < k) (b : �
 
 ## Layer 9: Curves, cutting, and mapping class groups
 
-The conventions the theorem statements use: for oriented surfaces, Dehn twists and Lickorish's theorem concern orientation-preserving mapping classes, with orientations the data of `PlanarTopology` layer 6; for surfaces with boundary, homeomorphisms and isotopies fix the boundary pointwise. The full mapping class group is stated separately. Everything is stated topologically and proved in the piecewise-linear category, which `PlanarTopology` layer 8 says is the same thing.
+The conventions the theorem statements use: for oriented surfaces, Dehn twists and Lickorish's theorem concern orientation-preserving mapping classes, with orientations the data of `PlanarTopology` layer 6; for surfaces with boundary, homeomorphisms and isotopies fix the boundary pointwise. The full mapping class group is stated separately. Everything is stated topologically and proved in the piecewise-linear category, which `PlanarTopology` layers 5 and 8 say is the same thing.
 
-**From PlanarTopology.** `IsArc` and `endpoints` (layer 0); Schoenflies, tameness of arcs and simple closed curves, and the collar of a two-sided curve (layer 7); `Surface.Orientation` and the boundary convention (layer 6); isotopy to a PL homeomorphism, Epstein's theorem, and the smoothing theorems (layer 8).
+**From PlanarTopology.** `IsArc` and `endpoints` (layer 0); Schoenflies, tameness of arcs and simple closed curves, and the collar of a two-sided curve (layer 7); `Surface.Orientation` and the boundary convention (layer 6); isotopy to a PL homeomorphism (layer 5); Epstein's theorem, the smoothing theorems, and isotopy to a diffeomorphism (layer 8).
 **From layers 4, 7, and 8.** Cutting on maps, the action on `H₁`, the named models.
 
 **Representative formal statements.**
@@ -879,6 +940,12 @@ def cutAlong (c : SimpleClosedCurve M) : Type*
 theorem eulerChar_cutAlong (c : SimpleClosedCurve M) : Surface.eulerChar (cutAlong c) = Surface.eulerChar M
 theorem boundaryComponentCount_cutAlong (c : SimpleClosedCurve M) (h : IsTwoSided c) :
     boundaryComponentCount (cutAlong c) = boundaryComponentCount M + 2
+/-- Cutting along a proper arc whose ends lie on two distinct boundary circles: the two circles and
+    the arc become one boundary circle. -/
+def cutAlongArc (a : Arc M) (ha : the ends of a lie on two distinct components of (𝓡∂ 2).boundary M) : Type*
+theorem eulerChar_cutAlongArc (a : Arc M) (ha) : Surface.eulerChar (cutAlongArc a ha) = Surface.eulerChar M + 1
+theorem boundaryComponentCount_cutAlongArc (a : Arc M) (ha) :
+    boundaryComponentCount (cutAlongArc a ha) = boundaryComponentCount M - 1
 
 /-- Full mapping classes, with no orientation restriction. -/
 def MappingClassGroupFull (M : Type*) [TopologicalSpace M] : Type* := Homeomorph M M ⧸ isotopicSetoid
@@ -888,12 +955,18 @@ def MappingClassGroupRel (M : Type*) [TopologicalSpace M] [ChartedSpace (Euclide
 def MappingClassGroupPlus (M : Type*) [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2) M]
     [T2Space M] [CompactSpace M] (o : Surface.Orientation M) : Type*
 
-/-- The forgetful homomorphisms from the PL and smooth mapping class groups. They are isomorphisms
-    by `PlanarTopology` layer 8: surjective by isotopy to a PL homeomorphism, injective by Epstein. -/
+/-- The forgetful homomorphisms from the PL and smooth mapping class groups. The PL one is an
+    isomorphism by `PlanarTopology` layers 5 and 8: surjective by isotopy to a PL homeomorphism,
+    injective by Epstein. The smooth one is stated for a smooth structure compatible with a PL
+    structure, which is where layer 8 supplies the representative: surjective by
+    `exists_isotopic_diffeomorph`, injective by `smoothIsotopic_of_isotopic`. The rel-boundary and
+    orientation-preserving groups compare the same way through the rel forms. -/
 def MappingClassGroupPL.toTop (s : PLStructure M) : MappingClassGroupPL s →* MappingClassGroupFull M
 theorem MappingClassGroupPL.toTop_bijective (s : PLStructure M) : Function.Bijective (MappingClassGroupPL.toTop s)
-def MappingClassGroupSmooth.toTop (σ : smooth structure) : MappingClassGroupSmooth σ →* MappingClassGroupFull M
-theorem MappingClassGroupSmooth.toTop_bijective (σ) : Function.Bijective (MappingClassGroupSmooth.toTop σ)
+def MappingClassGroupSmooth.toTop (σ : ChartedSpace (EuclideanHalfSpace 2) M) (hσ : σ is smooth) :
+    MappingClassGroupSmooth σ →* MappingClassGroupFull M
+theorem MappingClassGroupSmooth.toTop_bijective (s : PLStructure M) (σ) (hσ : σ is smooth and s.IsCompatible σ) :
+    Function.Bijective (MappingClassGroupSmooth.toTop σ hσ.1)
 
 /-- Base cases, with conventions made explicit. -/
 theorem mcg_disc_rel_boundary : MappingClassGroupRel Disc ≃* Unit
@@ -908,16 +981,18 @@ theorem dehnTwist_conj (f : M ≃ₜ M) (hf : Surface.Orientation.map f o = o) :
     ⟦f⟧ * dehnTwist o c hc * ⟦f⟧⁻¹ = dehnTwist o (f • c) (hc.map f)
 theorem dehnTwist_eq_of_isotopic (h : Isotopic c c') : dehnTwist o c hc = dehnTwist o c' hc'
 
-/-- The workhorse of the induction. -/
-theorem change_of_coordinates (o : Surface.Orientation M) (hb : (𝓡∂ 2).boundary M = ∅)
+/-- The workhorse of the induction, with or without boundary: a homeomorphism fixing the boundary
+    pointwise and preserving the orientation carries one nonseparating curve onto another. -/
+theorem change_of_coordinates (o : Surface.Orientation M)
     (c d : SimpleClosedCurve M) (hc : ¬ IsSeparating c) (hd : ¬ IsSeparating d) :
-    ∃ f : M ≃ₜ M, Surface.Orientation.map f o = o ∧ f '' c.carrier = d.carrier
+    ∃ f : M ≃ₜ M, Set.EqOn f id ((𝓡∂ 2).boundary M) ∧ Surface.Orientation.map f o = o ∧
+      f '' c.carrier = d.carrier
 
-/-- Lickorish's Lemma 2: twists reduce intersections. A product of twists about curves meeting `q`
-    fewer times carries `p` to a curve meeting `q` at most once, or twice with zero algebraic
-    intersection. -/
-theorem exists_twists_reduce_intersection (o : Surface.Orientation M) (p : SimpleClosedCurve M)
-    (q : SimpleClosedCurve M ⊕ Arc M) (hpq : p meets q finitely often) :
+/-- Lickorish's Lemma 2, for curves and for proper arcs: twists reduce intersections. A product of
+    twists about curves meeting `q` fewer times carries `p` to a curve or arc meeting `q` at most
+    once, or twice with zero algebraic intersection; for arcs, rel their ends. -/
+theorem exists_twists_reduce_intersection (o : Surface.Orientation M) (p q : SimpleClosedCurve M ⊕ Arc M)
+    (hpq : p meets q finitely often) :
     ∃ (l : List (SimpleClosedCurve M)) (h : ∀ c ∈ l, c meets q fewer times than p),
       (l.map (dehnTwist o)).prod • p meets q at most once, or twice with zero algebraic intersection
 
@@ -927,11 +1002,14 @@ theorem mcg_torus_plus (o : Surface.Orientation Torus) :
     MappingClassGroupPlus Torus o ≃* Matrix.SpecialLinearGroup (Fin 2) ℤ
 theorem mcg_torus_full : MappingClassGroupFull Torus ≃* Matrix.GeneralLinearGroup (Fin 2) ℤ
 
-/-- Lickorish 1962: every orientation-preserving mapping class of a closed orientable surface is
-    a product of Dehn twists. -/
-theorem dehnTwists_generate (o : Surface.Orientation M) (hb : (𝓡∂ 2).boundary M = ∅) :
+/-- Lickorish 1962, with boundary: every orientation-preserving mapping class rel boundary of a
+    compact connected orientable surface is a product of Dehn twists about two-sided curves in the
+    interior. The closed case is `b = 0`; cutting along closed curves alone cannot reach it, since
+    repeated handle cuts end at a sphere with `2g` holes. -/
+theorem dehnTwists_generate (o : Surface.Orientation M) :
     Subgroup.closure (Set.range (dehnTwist o)) = ⊤
-/-- Lickorish 1964: the `3g − 1` twists about the standard curves generate. -/
+/-- Lickorish 1964, with the 1966 corrigendum: the `3g − 1` twists about the standard curves
+    generate, for closed surfaces. -/
 theorem exists_dehnTwist_generatingSet_card (o : Surface.Orientation M) (hb : (𝓡∂ 2).boundary M = ∅)
     (hg : 0 < Surface.genus M) :
     ∃ S : Finset (SimpleClosedCurve M), S.card = 3 * Surface.genus M - 1 ∧
@@ -942,14 +1020,14 @@ theorem exists_dehnTwist_generatingSet_card (o : Surface.Orientation M) (hb : (�
 
 - A **Dehn twist** about a two-sided simple closed curve is supported in the annular collar that `PlanarTopology` layer 7 provides for a curve in the interior, rotates once across the annulus, and is the identity outside. The class is independent of the collar, isotopic curves have conjugate twists by isotopy extension for tame curves, and a twist about a curve bounding a disc is trivial.
 - The distinction between `MappingClassGroupPlus`, `MappingClassGroupRel`, and `MappingClassGroupFull` is essential. Dehn twists generate the orientation-preserving group: for the torus this is `SL(2,ℤ)`, whereas the full group is `GL(2,ℤ)`. The disc and annulus base cases require the boundary to be fixed pointwise.
-- **The route is Lickorish's**, in his 1962 and 1964 papers, and it runs in the piecewise-linear category: by `PlanarTopology` layer 8 every mapping class has a PL representative, and PL homeomorphisms are PL isotopic exactly when they are topologically isotopic, so nothing is lost. The steps: isotopic curves have conjugate twists; Lickorish's Lemma 2, by induction on the number of intersection points with a two-case analysis on the orientations of consecutive intersections, each step a twist about a curve made from an arc of `p` and an arc near `q`; every orientation-preserving homeomorphism is a product of twists, by induction on genus, since twists move the image of a nonseparating curve `a` back onto `a` up to isotopy, the homeomorphism is then isotoped to fix `a`, and cutting along `a` gives a surface of lower genus with two boundary circles where the rel-boundary statement applies, with the disc as the base case by Alexander's trick; and the `3g − 1` set, by Lickorish's Lemmas 3 to 5, explicit relations among twists on a torus minus two discs verified by tracking a filling system of curves, and his induction on the number of intersections with the standard reference curves. Farb–Margalit chapters 1 to 3 are the reference for the change-of-coordinates principle, intersection numbers, and the Alexander method; their chapter 4 proves finite generation through the curve complex and the Birman exact sequence, both out of scope, and is not the route.
+- **The route is Lickorish's**, in his 1962 and 1964 papers, and it runs in the piecewise-linear category: by `PlanarTopology` layer 8 every mapping class has a PL representative, and PL homeomorphisms are PL isotopic exactly when they are topologically isotopic, so nothing is lost. The steps: isotopic curves have conjugate twists; Lickorish's Lemma 2, by induction on the number of intersection points with a two-case analysis on the orientations of consecutive intersections, each step a twist about a curve made from an arc of `p` and an arc near `q`; every orientation-preserving homeomorphism rel boundary is a product of twists, by a double induction. On genus: twists move the image of a nonseparating curve `a` back onto `a` up to isotopy, the homeomorphism is isotoped rel boundary to fix `a`, and cutting along `a` gives a surface of lower genus with two more boundary circles, where the statement rel boundary applies and whose twists are twists of `M`. On the number of holes, once the genus is zero: a proper arc `a` joining two distinct boundary circles is carried by the homeomorphism to an arc with the same ends, the arc form of Lemma 2 brings that arc back to `a` by twists, the homeomorphism is isotoped rel boundary to fix `a`, and cutting along `a` leaves a sphere with one hole fewer. The disc is the base case by Alexander's trick, and the annulus is the first instance, its group generated by the twist about the core. Repeated handle cuts alone end at a sphere with `2g` holes, where neither base case applies, which is why the second induction is needed. And the `3g − 1` set, by Lickorish's Lemmas 3 to 5 of the 1964 paper as corrected in the 1966 corrigendum, which replaces the case analysis in the first half of its §3: explicit relations among twists on a torus minus two discs verified by tracking a filling system of curves, and his induction on the number of intersections with the standard reference curves. Farb–Margalit chapters 1 to 3 are the reference for the change-of-coordinates principle, intersection numbers, and the Alexander method; their chapter 4 proves finite generation through the curve complex and the Birman exact sequence, both out of scope, and is not the route.
 - The torus computation goes through the action on `H₁` from layer 7: the twists about the two standard curves act by the elementary matrices, so the map to `SL(2,ℤ)` is surjective, and it is injective by the Alexander method: a homeomorphism acting trivially on `H₁` fixes the two standard curves up to isotopy, which is proved by straightening arcs on the universal cover `ℝ² → T²`, and after cutting along both it is a homeomorphism of a disc rel boundary, hence isotopic to the identity.
 - Target Lickorish's generating set of `3g − 1` twists. Humphries' minimal `2g + 1` set and its minimality proof are a separate theorem and remain out of scope.
 - Do not write "of finite type" for compact surfaces. In this literature the phrase normally signals punctures as well as boundary components, leading to the Birman exact sequence and point-pushing, which are out of scope.
 
 **Examples and mathematical checks.** On the torus, twists about the two standard curves map to the elementary generators of `SL(2,ℤ)`. A separating and a nonseparating curve on a genus-two surface show that the nonseparating hypothesis in the change-of-coordinates principle is necessary. A twist about a curve bounding a disc represents the identity mapping class. The rel-boundary annulus group is generated by the twist about the core curve, and the `3g − 1` curves are drawn for genus two with the relations of Lickorish's Lemmas 3 to 5 verified on them.
 
-**Natural intermediate results.** (i) simple closed curves, essentiality, separation, and two-sidedness; (ii) cutting and its invariants; (iii) the full, rel-boundary, and orientation-preserving mapping class groups, and the forgetful isomorphisms; (iv) the base cases; (v) Dehn twists, conjugation, and isotopy invariance; (vi) Lickorish's Lemma 2; (vii) the change-of-coordinates principle; (viii) the action on `H₁` and the torus; (ix) Lickorish's 1962 theorem; (x) the `3g − 1` set.
+**Natural intermediate results.** (i) simple closed curves, essentiality, separation, and two-sidedness; (ii) cutting along curves and along proper arcs, and the invariants; (iii) the full, rel-boundary, and orientation-preserving mapping class groups, and the forgetful isomorphisms; (iv) the base cases; (v) Dehn twists, conjugation, and isotopy invariance; (vi) Lickorish's Lemma 2, for curves and arcs; (vii) the change-of-coordinates principle; (viii) the action on `H₁` and the torus; (ix) Lickorish's generation theorem rel boundary, by the double induction; (x) the `3g − 1` set.
 
 **Consequences.** `GeometricTopology` layer 9.
 
@@ -975,9 +1053,13 @@ variable {α β V : Type*} {Γ : Graph α β} [Finite V(Γ)] [Finite E(Γ)]
 
 -- `Γ.componentCount`, the number of connected components, is GraphConnectivityAndFlows'
 -- (Milestone 2): an isolated vertex is a component, and the empty graph has none.
-/-- The Euler characteristic of a rotation system: vertices minus edges plus the number of orbits
-    of its face permutation. -/
-def RotationSystem.eulerChar (R : RotationSystem Γ) : ℤ
+/-- The faces of a rotation system: the orbits of its face permutation, together with one face for
+    each isolated vertex, which has no darts and would otherwise have no face. The Euler
+    characteristic is vertices minus edges plus faces, so `K₁` has `1 - 0 + 1 = 2`;
+    `eulerFormula_plane` and layer 5's `Drawing.faceCount` use the same convention. -/
+def RotationSystem.faceCount (R : RotationSystem Γ) : ℕ
+def RotationSystem.eulerChar (R : RotationSystem Γ) : ℤ :=
+  (Nat.card V(Γ) : ℤ) - Nat.card E(Γ) + R.faceCount
 /-- A plane map is a rotation system that is spherical on every component, so its Euler
     characteristic is twice the component count; planarity is its existence. Asking for two
     outright is wrong once `Γ` is disconnected: two disjoint triangles cap to two spheres and give
@@ -1116,6 +1198,7 @@ encoded, and its use of hypermaps is the reason this roadmap builds on permutati
 - C. Thomassen, *Kuratowski's theorem*, J. Graph Theory **5** (1981). Kuratowski reference for layer 10.
 - W. B. R. Lickorish, *A representation of orientable combinatorial 3-manifolds*, Ann. of Math. **76** (1962). Every orientation-preserving homeomorphism is a product of twists, and the intersection-reduction lemma; the route of layer 9.
 - W. B. R. Lickorish, *A finite set of generators for the homeotopy group of a 2-manifold*, Proc. Cambridge Philos. Soc. **60** (1964). The generating set of `3g − 1` twists targeted in layer 9.
+- W. B. R. Lickorish, *On the homeotopy group of a 2-manifold (corrigendum)*, Proc. Cambridge Philos. Soc. **62** (1966), 679–681. Replaces the case analysis in the first half of §3 of the 1964 paper; the route to the `3g − 1` set follows the corrected proof.
 - D. B. A. Epstein, *Curves on 2-manifolds and isotopies*, Acta Math. **115** (1966). Homotopic homeomorphisms are isotopic, consumed from `PlanarTopology` layer 8 for the injectivity of layer 9's comparison maps.
 - B. Farb and D. Margalit, *A Primer on Mapping Class Groups*, chapters 1–3. The change-of-coordinates principle, intersection numbers, and the Alexander method, cited for conventions; the route is Lickorish's.
 - J. R. Munkres, *Topology*, chapter 12. The normal forms and the abelianization computations of layer 7; uniqueness here goes through the Euler characteristic, orientability, and the boundary count instead.

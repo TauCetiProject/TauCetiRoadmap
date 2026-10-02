@@ -1,6 +1,7 @@
 import Mathlib
 import TauCeti.AlgebraicTopology.SimplicialComplex.Realization
 import TauCeti.Combinatorics.PermutationTriple.Basic
+import TauCeti.Combinatorics.PermutationTriple.EulerCharacteristic
 import TauCeti.Combinatorics.RibbonGraph.Basic
 import TauCeti.Topology.JordanCurve.Basic
 import TauCeti.Topology.Triangulable
@@ -15,7 +16,7 @@ signatures; discharging all of them finishes neither a layer nor the roadmap. `s
 allowed in this human-owned roadmap library: these are targets, not completed proofs.
 
 This roadmap chooses two-dimensional generalized maps as the finite hub. Oriented maps,
-hypermaps, and polygonal schemas are presentations of the same finite surface data;
+permutation triples, and polygonal schemas are presentations of the same finite surface data;
 realization, Euler characteristic, orientability, and the main operations are defined at the
 hub and compared to the other presentations. Layers 1 through 8 end in the classification of
 compact surfaces; layers 9 and 10 build mapping class groups and planarity on top of it.
@@ -39,10 +40,10 @@ universe u v w
 
 /-! ## Layer 0: finite conventions -/
 
-/-- A finite cyclic word with repeated labels, modulo cyclic rotation. The implementation
-should remain separate from `CircularOrder` and from the topological circle. -/
-def CyclicWord (α : Type u) : Type u :=
-  sorry
+/-!
+Cyclic words are Mathlib's `Cycle α` (`Mathlib/Data/List/Cycle.lean`): lists modulo rotation,
+repeated labels allowed, with decidable equality. No second quotient is defined here.
+-/
 
 /-- A bundled finite indexing type. Moves which add or remove cells must not pretend to
 live on a fixed ambient type. -/
@@ -225,34 +226,34 @@ noncomputable def CombinatorialMap.toGMap2 {D : Type u} [Fintype D] [DecidableEq
     (M : CombinatorialMap D) : GMap2 (D × Bool) :=
   sorry
 
-/-- A hypermap in the three-permutation presentation. -/
-structure Hypermap (D : Type u) [Fintype D] [DecidableEq D] where
-  sigma : Equiv.Perm D
-  phi : Equiv.Perm D
-  alpha : Equiv.Perm D
-  comp : sigma * phi * alpha = 1
-
-/-- The Walsh bipartite map of a hypermap: darts `D × Bool`, the two rotations on the two ends,
-the edge involution swapping ends. Doubling the darts of the hypermap itself does not work: the
-identity triple on one dart would need a closed surface map on two darts, and there is none. -/
-noncomputable def Hypermap.toWalshMap {D : Type u} [Fintype D] [DecidableEq D]
-    (H : Hypermap D) : CombinatorialMap (D × Bool) :=
+/-- Hypermaps are Tau Ceti's `PermutationTriple n`, consumed as they stand. The Walsh bipartite
+map of a triple: darts `Fin n × Bool`, rotations `σ0` and `σ1` on the two ends, the edge
+involution swapping ends. Doubling the sheets directly does not work: the identity triple of
+degree one would need a closed surface map on two darts, and there is none. -/
+noncomputable def PermutationTriple.toWalshMap {n : ℕ} (t : TauCeti.PermutationTriple n) :
+    CombinatorialMap (Fin n × Bool) :=
   sorry
 
-/-- Conversion from a hypermap to the generalized-map hub, through the Walsh map. -/
-noncomputable def Hypermap.toGMap2 {D : Type u} [Fintype D] [DecidableEq D]
-    (H : Hypermap D) : GMap2 ((D × Bool) × Bool) :=
-  H.toWalshMap.toGMap2
+/-- The generalized map of a triple, through its Walsh map. -/
+noncomputable def PermutationTriple.toGMap2 {n : ℕ} (t : TauCeti.PermutationTriple n) :
+    GMap2 ((Fin n × Bool) × Bool) :=
+  (PermutationTriple.toWalshMap t).toGMap2
 
-/-- BelyiMaps' finite objects are the orientable boundaryless case: a permutation triple is a
-hypermap on `Fin n` in the convention `σinf * σ1 * σ0 = 1`. -/
-noncomputable def Hypermap.toPermutationTriple {D : Type u} [Fintype D] [DecidableEq D] {n : ℕ}
-    (H : Hypermap D) (e : D ≃ Fin n) : TauCeti.PermutationTriple n :=
+/-- It is a closed orientable surface map. -/
+example {n : ℕ} (t : TauCeti.PermutationTriple n) :
+    IsClosedSurfaceGMap (PermutationTriple.toGMap2 t) := by
   sorry
 
-/-- The converse conversion. -/
-noncomputable def PermutationTriple.toHypermap {n : ℕ} (t : TauCeti.PermutationTriple n) :
-    Hypermap (Fin n) :=
+/-- Its cell count is the triple's Euler characteristic
+(`TauCeti/Combinatorics/PermutationTriple/EulerCharacteristic.lean`). -/
+example {n : ℕ} (t : TauCeti.PermutationTriple n) :
+    (PermutationTriple.toGMap2 t).eulerChar = t.eulerChar := by
+  sorry
+
+/-- An oriented map on `n` darts is a permutation triple: rotation, edge involution, and the
+inverse of their product, in Tau Ceti's convention `σinf * σ1 * σ0 = 1`. -/
+noncomputable def CombinatorialMap.toPermutationTriple {D : Type u} [Fintype D] [DecidableEq D]
+    {n : ℕ} (M : CombinatorialMap D) (e : D ≃ Fin n) : TauCeti.PermutationTriple n :=
   sorry
 
 /-- A bipartite ribbon graph is an oriented map whose white vertices all have degree two: the
@@ -279,7 +280,7 @@ structure PolygonalSchema where
   label : Type u
   fintypeLabel : Fintype label
   decEqLabel : DecidableEq label
-  faces : List (CyclicWord (label × Bool))
+  faces : List (Cycle (label × Bool))
 
 /-- The generalized map of a schema: two darts per side, `α₀` along a side, `α₁` around a
 corner of the face, `α₂` the gluing of the two occurrences of a label, and `α₂`-fixed darts on
@@ -311,10 +312,10 @@ APIs. Representative forms:
   theorem dual_dual ...
   -- 5. Schemas and surface maps round-trip up to relabelling.
   theorem toSchema_toGMap2 ... and theorem toGMap2_toSchema ...
-  -- 6. The BelyiMaps comparisons preserve Euler characteristic and connectedness; the
-  --    permutation-triple Euler characteristic is on Tau Ceti main
-  --    (`Combinatorics/PermutationTriple/EulerCharacteristic.lean`).
-  theorem PermutationTriple.eulerChar_toHypermap (t) : t.toHypermap.toGMap2.eulerChar = t.eulerChar
+  -- 6. The BelyiMaps comparisons preserve Euler characteristic and connectedness; the Euler
+  --    characteristic one is compiled above.
+  theorem PermutationTriple.isConnected_toGMap2 (t) :
+      (PermutationTriple.toGMap2 t).IsConnected ↔ t.IsConnected
 
 The implementation should exhibit two non-isomorphic surface maps with the same incidence
 poset of cells (Damiand–Lienhardt, Fig. 2.29): the poset forgets which of a face's several
@@ -392,9 +393,12 @@ and `boundaryComponentCount` exist, add the decisive milestones:
   -- original dart as its face-vertex.
   theorem GMap2.flagComplex_isSimplicial_of_subdivided (G) :
       Function.Injective G.barycentricSubdivision.flagTriple
-  -- with the subdivision itself declared: darts `D × Equiv.Perm (Fin 3)`, Euler characteristic
-  -- unchanged.
+  -- with the subdivision itself declared: darts `D × Equiv.Perm (Fin 3)`, the surface condition
+  -- and the cell count preserved for surface maps and not in general (the all-swap map has orbit
+  -- count 1 and its subdivision 2, the sphere's).
   def GMap2.barycentricSubdivision (G : GMap2 D) : GMap2 (D × Equiv.Perm (Fin 3))
+  theorem GMap2.isSurfaceGMap_barycentricSubdivision (h : IsSurfaceGMap G) : ...
+  theorem GMap2.eulerChar_barycentricSubdivision (h : IsSurfaceGMap G) : ...
   theorem GMap2.realization_homeomorph_flagComplex (G) :
       G.realization ≃ₜ Realization G.barycentricSubdivision.flagComplex
 
@@ -524,15 +528,20 @@ correspondence needs the equivalence of drawings. Once these are pinned:
   theorem Drawing.exists_isotopic_isPL (D : Drawing Γ M) (hD : D.IsNoncrossing)
       (hint : D.support ⊆ (𝓡∂ 2).interior M) : ∃ D' : Drawing Γ M, D'.IsPL ∧ AmbientIsotopic D D'
 
-  def Drawing.toGMap2 (D : Drawing Γ M) (hpl : D.IsPL) (hc : D.IsCellular) : BundledGMap2
+  def Drawing.toGMap2 (D : Drawing Γ M) (hb : closed M) (hpl : D.IsPL) (hc : D.IsCellular) : BundledGMap2
   def GMap2.toDrawing (G : GMap2 D) (h : IsSurfaceGMap G) : Drawing G.underlyingGraph G.realization
+  def Drawing.faceCount (D : Drawing Γ M) : ℕ := Nat.card (ConnectedComponents D.supportᶜ)
 
-  -- Heffter–Edmonds–Ringel, in three forms, for connected finite multigraphs.
-  theorem cellularDrawings_equiv_gmaps ...
-  theorem orientedCellularDrawings_equiv_rotationSystems ...
-  theorem cellularDrawings_equiv_signedRotationSystems ...
+  -- Heffter–Edmonds–Ringel, in three forms, for connected finite multigraphs drawn in closed
+  -- surfaces: `C₃` as the boundary of a disc and as an equator of the sphere is why closedness is
+  -- needed, and the one-point drawing of `K₁` in the sphere is why the generalized-map form needs
+  -- an edge.
+  def CellularDrawings (Γ) : Type*        -- cellular noncrossing drawings in closed surfaces, bundled
+  theorem cellularDrawings_equiv_gmaps (hΓ : Γ.Connected) (hE : E(Γ).Nonempty) : ...
+  theorem orientedCellularDrawings_equiv_rotationSystems (hΓ) ...
+  theorem cellularDrawings_equiv_signedRotationSystems (hΓ) ...
 
-  theorem eulerFormula_cellular (D : Drawing Γ M) (hD : D.IsNoncrossing) (hc : D.IsCellular) :
+  theorem eulerFormula_cellular (hb : closed M) (D : Drawing Γ M) (hD : D.IsNoncrossing) (hc : D.IsCellular) :
       (Nat.card V(Γ) : ℤ) - Nat.card E(Γ) + D.faceCount = Surface.eulerChar M
 
   -- Finite branched covers and the topological Riemann–Hurwitz formula, from Euler's
@@ -614,13 +623,22 @@ API. Representative targets, all on `GMap2` since there is no separate cellulati
   theorem GMap2.abelianization_edgePathGroup :
       Abelianization (G.edgePathGroup h c) ≃* G.homology h c ℤ 1
 
-  -- Invariance under the moves, hence under homeomorphism by `PlanarTopology`'s Pachner
-  -- theorem; the action of a homeomorphism on `H₁`, the same for isotopic homeomorphisms,
-  -- which layer 9 uses.
+  -- Invariance under the moves as chain maps with chain-homotopy inverses; the simplicial side
+  -- (oriented chain complex of a finite complex, chain maps of simplicial maps, the subdivision
+  -- chain equivalence, chain homotopy of contiguous maps, the comparison of cellular chains with
+  -- the subdivided flag complex); and the action of a homeomorphism, well defined because two PL
+  -- approximations are isotopic hence chain homotopic, functorial, and the same for isotopic
+  -- homeomorphisms. Layer 9 uses it.
+  def GMap2.chainMap_ofIso ..., GMap2.chainMap_subdivideEdge ..., GMap2.chainMap_subdivideFace ..., GMap2.chainMap_flip ...
   theorem GMap2.homology_subdivideEdge ..., GMap2.homology_subdivideFace ..., GMap2.homology_flip ...
+  def AbstractSimplicialComplex.chainComplex ..., SimplicialMap.chainMap ..., Subdivides.chainEquiv ...
+  theorem SimplicialMap.homotopy_of_contiguous ...
+  def GMap2.chainEquiv_flagComplex (h : IsSurfaceGMap G) (c) : HomotopyEquiv (G.chainComplex h c R) (...)
+  def GMap2.homologyMap (h') (c') (e : G.realization ≃ₜ G'.realization) (i) :
+      G.homology h c R i →ₗ[R] G'.homology h' c' R i
+  theorem GMap2.homologyMap_refl ..., GMap2.homologyMap_trans ..., GMap2.homologyMap_of_isotopic ...,
+    GMap2.homologyMap_bijective ...
   theorem GMap2.homology_congr_homeomorph (e : G.realization ≃ₜ G'.realization) : ...
-  def GMap2.homologyMap (e : G.realization ≃ₜ G'.realization) :
-      G.homology h c ℤ 1 →ₗ[ℤ] G'.homology h' c' ℤ 1
 
   -- The normal forms, by the PID structure theorem for the rectangular boundary matrices,
   -- not the square-matrix Smith-normal-form file.
@@ -730,16 +748,20 @@ then the groups and the comparisons:
 
   def SimpleClosedCurve (M : Type*) [TopologicalSpace M] : Type*
   def cutAlong (c : SimpleClosedCurve M) : Type*
+  def cutAlongArc (a : Arc M) (ha : its ends lie on two distinct boundary circles) : Type*
 
   def MappingClassGroupFull (M) : Type*                        -- homeomorphisms modulo isotopy
   def MappingClassGroupRel (M) : Type*                         -- fixing the boundary pointwise
   def MappingClassGroupPlus (M) (o : Surface.Orientation M) : Type*   -- orientation-preserving
 
-  -- The forgetful homomorphisms from the PL and smooth groups are isomorphisms, by
-  -- `PlanarTopology` layer 8: surjective by isotopy to a PL homeomorphism, injective by Epstein.
+  -- The forgetful homomorphism from the PL group is an isomorphism, by `PlanarTopology` layers 5
+  -- and 8: surjective by isotopy to a PL homeomorphism, injective by Epstein. The smooth one is
+  -- stated for smooth structures compatible with a PL structure, where layer 8's
+  -- `exists_isotopic_diffeomorph` supplies the representative.
   def MappingClassGroupPL.toTop (s : PLStructure M) : MappingClassGroupPL s →* MappingClassGroupFull M
   theorem MappingClassGroupPL.toTop_bijective ...
-  def MappingClassGroupSmooth.toTop ... and theorem MappingClassGroupSmooth.toTop_bijective ...
+  def MappingClassGroupSmooth.toTop (σ) (hσ : smooth) ...
+  theorem MappingClassGroupSmooth.toTop_bijective (s : PLStructure M) (σ) (hσ : smooth ∧ s.IsCompatible σ) ...
 
   -- Base cases by the Alexander method, the twist, and the change-of-coordinates principle.
   theorem mcg_disc_rel_boundary : MappingClassGroupRel Disc ≃* Unit
@@ -748,18 +770,21 @@ then the groups and the comparisons:
       MappingClassGroupPlus M o
   theorem dehnTwist_conj ..., theorem dehnTwist_eq_of_isotopic ..., theorem change_of_coordinates ...
 
-  -- Lickorish's Lemma 2, the action on `H₁` through layer 7, and the torus.
+  -- Lickorish's Lemma 2, for curves and proper arcs, the action on `H₁` through layer 7, and the
+  -- torus; `change_of_coordinates` is stated with boundary and boundary-fixing.
   theorem exists_twists_reduce_intersection ...
   def MappingClassGroupFull.actH₁ : MappingClassGroupFull M →* (H₁ M ≃ₗ[ℤ] H₁ M)
   theorem mcg_torus_plus (o : Surface.Orientation Torus) :
       MappingClassGroupPlus Torus o ≃* Matrix.SpecialLinearGroup (Fin 2) ℤ
 
-  -- The two functional Dehn–Lickorish targets, with the eponym in the docstrings.
-  theorem dehnTwists_generate (o : Surface.Orientation M) (hb : (𝓡∂ 2).boundary M = ∅) :
+  -- The two functional Dehn–Lickorish targets, with the eponym in the docstrings. The first is
+  -- rel boundary for every compact connected orientable surface, by a double induction on genus
+  -- (cutting a nonseparating curve) and on the number of holes (cutting a proper arc).
+  theorem dehnTwists_generate (o : Surface.Orientation M) :
       Subgroup.closure (Set.range (dehnTwist o)) = ⊤                       -- Lickorish 1962
   theorem exists_dehnTwist_generatingSet_card (o) (hb) (hg : 0 < Surface.genus M) :
       ∃ S : Finset (SimpleClosedCurve M), S.card = 3 * Surface.genus M - 1 ∧
-        Subgroup.closure (dehnTwist o '' S) = ⊤                              -- Lickorish 1964
+        Subgroup.closure (dehnTwist o '' S) = ⊤                -- Lickorish 1964, with the 1966 corrigendum
 -/
 
 /-! ## Layer 10: planarity -/
@@ -774,6 +799,8 @@ topological minors, and contraction are shaped after the open Mathlib definition
 that roadmap's too. Use
 descriptive Lean names and keep the historical names in docstrings:
 
+  def RotationSystem.faceCount (R : RotationSystem Γ) : ℕ   -- face-permutation orbits plus one per isolated vertex
+  def RotationSystem.eulerChar (R : RotationSystem Γ) : ℤ := V - E + R.faceCount
   def PlaneMap (Γ : Graph α β) : Type* :=
       {R : RotationSystem Γ // R.eulerChar = 2 * Γ.componentCount}   -- componentwise sphericity
   def Graph.IsPlanar (Γ : Graph α β) : Prop := Nonempty (PlaneMap Γ)

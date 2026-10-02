@@ -168,12 +168,12 @@ occurs anywhere in it.
 
 **Maps on surfaces.** The general theory of maps on surfaces belongs to
 [SurfaceTopology](../SurfaceTopology/README.md): two-dimensional generalized maps with boundary
-and non-orientability, hypermaps and oriented maps on arbitrary finite dart types, their
-realization as compact surfaces, Euler characteristic as a topological invariant, and the
-classification of compact surfaces. This roadmap's permutation triples (Layer 0) and bipartite
-ribbon graphs (Layer 2) are the orientable, boundaryless, dessin case of those objects; the
-conversions between the two vocabularies and the agreement of their Euler characteristics and
-connectedness are targets of SurfaceTopology layer 2, not of this roadmap. The compact-surface
+and non-orientability, oriented maps on arbitrary finite dart types, their realization as compact
+surfaces, Euler characteristic as a topological invariant, and the classification of compact
+surfaces. This roadmap's permutation triples (Layer 0) are SurfaceTopology's hypermap presentation,
+consumed as they stand, and its bipartite ribbon graphs (Layer 2) are the dessin case of its
+oriented maps; the conversions between the two vocabularies and the agreement of their Euler
+characteristics and connectedness are targets of SurfaceTopology layer 2, not of this roadmap. The compact-surface
 carriers that the analytic comparison waits for are SurfaceTopology's realization.
 
 **Modular forms.** The compact-Riemann-surface cohomology chain — structure sheaf, sheaves of

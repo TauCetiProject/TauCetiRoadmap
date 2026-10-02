@@ -149,14 +149,34 @@ structure PolygonalLoop where
 noncomputable def PolygonalChain.carrier (P : PolygonalChain) : Set ℂ :=
   sorry
 
-/-- The carrier of a polygonal loop: the chain's segments together with the closing segment. -/
+/-- The `i`-th side of a loop: the segment from vertex `i` to the cyclically next vertex. -/
+noncomputable def PolygonalLoop.side (P : PolygonalLoop) (i : Fin P.vertices.length) : Set ℂ :=
+  segment ℝ (P.vertices.get i) (P.vertices.get (finRotate _ i))
+
+/-- The carrier of a polygonal loop: the union of its sides, including the closing one. -/
 noncomputable def PolygonalLoop.carrier (P : PolygonalLoop) : Set ℂ :=
+  ⋃ i, P.side i
+
+/-- Simplicity is a condition on the vertex presentation, not on the carrier: at least three
+vertices, no vertex repeated, consecutive sides meeting only in their shared vertex, and
+non-consecutive sides disjoint. The list `[A, B, C, A, B, C]` has the triangle as its carrier and
+is not simple; a ray from an interior point crosses it twice, so the carrier cannot be what
+crossing parity is computed on. That the carrier of a simple loop is a Jordan curve is a layer 1
+theorem, and a Jordan polygonal set has a simple presentation by renormalization. -/
+def PolygonalLoop.IsSimple (P : PolygonalLoop) : Prop :=
+  3 ≤ P.vertices.length ∧ P.vertices.Nodup ∧
+    ∀ i j, i ≠ j →
+      (finRotate _ i = j → P.side i ∩ P.side j = {P.vertices.get j}) ∧
+      (finRotate _ i ≠ j → finRotate _ j ≠ i → Disjoint (P.side i) (P.side j))
+
+/-- The carrier of a simple loop is a Jordan curve. -/
+example (P : PolygonalLoop) (hP : P.IsSimple) : TauCeti.IsJordanCurve P.carrier := by
   sorry
 
-/-- A loop is simple when its carrier is a Jordan curve. Layer 1 shows this is equivalent to the
-finite condition that segments meet only at shared consecutive vertices. -/
-def PolygonalLoop.IsSimple (P : PolygonalLoop) : Prop :=
-  TauCeti.IsJordanCurve P.carrier
+/-- Renormalization: a polygonal set that is a Jordan curve has a simple presentation. -/
+example (P : PolygonalLoop) (h : TauCeti.IsJordanCurve P.carrier) :
+    ∃ Q : PolygonalLoop, Q.IsSimple ∧ Q.carrier = P.carrier := by
+  sorry
 
 /-- Crossing parity is the primitive invariant of the polygonal separation proof. -/
 noncomputable def crossingParity (P : PolygonalLoop) (q : ℂ) : ZMod 2 :=
@@ -295,9 +315,9 @@ placeholder propositions. Compile them when their actual data is pinned in Tau C
       (h : Realization K ≃ₜ Realization L) (hPL : IsPLMap h) : ...
 
 `IsCombinatorialSurface` is a particularly important concrete definition. It carries
-finiteness, and it uses the dimension-two link condition (vertex links are combinatorial
-circles or arcs, and edges lie in one or two triangles), not a dimension-general recognition
-recursion and not `Prop := sorry`. Its compatibility with Tau Ceti's stellar-equivalence
+finiteness, every facet is a triangle, so the empty complex is the empty surface, and it uses the
+dimension-two link condition (vertex links are combinatorial circles or arcs, and edges lie in one
+or two triangles), not a dimension-general recognition recursion and not `Prop := sorry`. Its compatibility with Tau Ceti's stellar-equivalence
 definition is a theorem:
 
   theorem isCombinatorialSurface_iff_isCombinatorialManifold_two :
@@ -351,6 +371,12 @@ are present:
   theorem hauptvermutung₂ ... : ∃ K' L', Subdivides K' K ∧ Subdivides L' L ∧ Nonempty (K' ≃ₛ L')
   theorem hauptvermutung₂_isPL ... : ∃ g : Realization K ≃ₜ Realization L, IsPLMap g ∧ IsPLMap g.symm
 
+  -- The sharp form on a given homeomorphism, layer 4's relative approximation followed by
+  -- Alexander's trick; `hauptvermutung₂_isPL` is its corollary, and layers 6 and 8 spend it.
+  theorem exists_isotopic_plHomeomorph (hK) (hL) (f : Realization K ≃ₜ Realization L) :
+      ∃ g, IsPLMap g ∧ IsPLMap g.symm ∧ Isotopic f g
+  theorem exists_isotopicRel_plHomeomorph ...   -- rel a subcomplex on which `f` is already PL
+
   -- Pachner in dimension two: triangulations with a common subdivision are related by the
   -- bistellar moves `1 ↔ 3` and `2 ↔ 2`, with the boundary moves relative to the boundary.
   inductive BistellarMove : BundledCombinatorialSurface → BundledCombinatorialSurface → Prop
@@ -364,8 +390,9 @@ Compile the finite-complex Euler characteristic and orientability only after the
 API and heterogeneous subdivision relation are settled. The targets are:
 
   def AbstractSimplicialComplex.eulerChar (K) [Finite K.faces] : ℤ :=
-    ∑ i : Fin 3, (-1 : ℤ) ^ (i : ℕ) * (K.facesOfDim i).card
-  theorem eulerChar_subdivision ...
+    ∑ σ : Face K, (-1 : ℤ) ^ (σ.1.card - 1)      -- every dimension, not `Fin 3`
+  theorem eulerChar_eq_of_isCombinatorialSurface (hK) : K.eulerChar = V - E + F
+  theorem eulerChar_subdivision (hK : K.dimension ≤ 2) (h : Subdivides K' K) : K'.eulerChar = K.eulerChar
   theorem eulerChar_simplicialIso ...
 
   -- A coherent orientation: a cyclic order on each triangle such that the two triangles on
@@ -384,8 +411,8 @@ API and heterogeneous subdivision relation are settled. The targets are:
   theorem Surface.isOrientable_congr (h : M ≃ₜ N) : Surface.IsOrientable M ↔ Surface.IsOrientable N
 
   -- A chosen orientation: an oriented triangulation modulo agreement under PL homeomorphisms
-  -- isotopic to the comparison map. Isotopic homeomorphisms act the same way, and a connected
-  -- orientable surface has exactly two. Each boundary circle is directed with the surface on
+  -- isotopic to the comparison map, which layer 5's `exists_isotopic_plHomeomorph` supplies.
+  -- Isotopic homeomorphisms act the same way, and a connected orientable surface has exactly two. Each boundary circle is directed with the surface on
   -- its left; the unit circle bounding the disc runs counterclockwise.
   def Surface.Orientation (M : Type*) [...] : Type
   def Surface.Orientation.map (e : M ≃ₜ N) : Surface.Orientation M ≃ Surface.Orientation N
@@ -465,10 +492,9 @@ groupoid is Tau Ceti's `TauCeti.PLGroupoid` (`Geometry/Manifold/PLGroupoid.lean`
     hK : IsCombinatorialSurface K
     e : Realization K ≃ₜ M
 
-  -- Every homeomorphism is isotopic to a PL one, and rel a subcomplex on which it is PL.
-  theorem exists_isotopic_plHomeomorph (s : PLStructure M) (t : PLStructure N) (f : M ≃ₜ N) :
+  -- Layer 5's isotopy to a PL homeomorphism, read through `s.e` and `t.e`.
+  theorem PLStructure.exists_isotopic_plHomeomorph (s : PLStructure M) (t : PLStructure N) (f : M ≃ₜ N) :
       ∃ g : M ≃ₜ N, IsPLMap (t.e.symm ∘ g ∘ s.e) ∧ Isotopic f g
-  theorem exists_isotopicRel_plHomeomorph ...
 
   -- Epstein: homotopic homeomorphisms of a compact surface are isotopic; homotopic PL
   -- homeomorphisms are PL isotopic. The two together make the PL and smooth mapping class
@@ -485,11 +511,17 @@ groupoid is Tau Ceti's `TauCeti.PLGroupoid` (`Geometry/Manifold/PLGroupoid.lean`
       HasGroupoid M (TauCeti.PLGroupoid (𝓡∂ 2))     -- with the atlas the triangulation induces
 
   -- Smoothing: existence (Whitehead) and uniqueness up to a diffeomorphism isotopic to the
-  -- identity (Munkres), in Mathlib's `IsManifold (𝓡∂ 2) ∞ M` vocabulary; isotopic
-  -- diffeomorphisms are smoothly isotopic.
+  -- identity (Munkres), in Mathlib's `IsManifold (𝓡∂ 2) ∞ M` vocabulary. Compatibility of a
+  -- smooth structure with `s` is that some subdivision of `s.K` is a smooth triangulation, each
+  -- closed simplex a smooth embedding with injective differential; it cannot be asked of `s.K`
+  -- itself, since a disc triangulated as one triangle has two boundary edges at each vertex.
+  -- Every homeomorphism is isotopic to a diffeomorphism for such a structure, and rel boundary;
+  -- isotopic diffeomorphisms are smoothly isotopic.
+  def PLStructure.IsCompatible (s : PLStructure M) (σ : ChartedSpace (EuclideanHalfSpace 2) M) : Prop
   def PLStructure.smoothing (s : PLStructure M) : ChartedSpace (EuclideanHalfSpace 2) M
-  theorem PLStructure.smoothing_isManifold ...
+  theorem PLStructure.smoothing_isManifold ..., theorem PLStructure.smoothing_isCompatible ...
   theorem PLStructure.smoothing_unique ...
+  theorem exists_isotopic_diffeomorph ..., theorem exists_isotopicRel_diffeomorph ...
   theorem smoothIsotopic_of_isotopic ...
 -/
 
