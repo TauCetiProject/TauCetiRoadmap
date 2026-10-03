@@ -207,6 +207,21 @@ reviewers, can act on it without guessing.
 - **Pin conventions.** It's essential that you decide conventions ahead of time, or implementors
   will make bad decisions.
 
+### Filing a roadmap
+
+- **Give it an arXiv topic.** Each roadmap directory holds a `metadata.toml` with one key,
+  `topic`: the [arXiv math subject class](https://arxiv.org/category_taxonomy) under which a paper
+  proving the roadmap's main results would be listed.
+
+  ```toml
+  topic = "math.NT"
+  ```
+
+  Choose the one primary class, as you would for that paper, not every class the material touches.
+  Topics group the roadmaps by area, so that a reader can find the ones in their field. A
+  sub-roadmap is filed under its parent's topic and has no `metadata.toml` of its own. The `build`
+  check fails for a roadmap without a valid topic.
+
 ## How changes are made
 
 Anyone can open a pull request against a roadmap. It merges automatically once it has an

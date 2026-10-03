@@ -51,3 +51,24 @@ list waives every rule for the listed actor. One-time setup by an org admin:
 
 If setup is incomplete the workflow still runs and computes the fix, but the
 final `git push` fails, which is a visible signal rather than a silent miss.
+
+## `check_roadmap_topics.py`
+
+Every roadmap directory (under `TauCetiRoadmap/` or `Completed/`) holds a
+`metadata.toml` whose one key, `topic`, is an arXiv `math.*` subject class; see
+"Filing a roadmap" in the root README. The script checks that each roadmap has
+one, that it names a class from the arXiv taxonomy (the list is in the script),
+and that no sub-roadmap carries a `metadata.toml` of its own, since a
+sub-roadmap is filed under its parent's topic.
+
+- `python3 .github/scripts/check_roadmap_topics.py` exits non-zero, listing
+  every problem and the valid classes, if any roadmap lacks a valid topic.
+  It needs Python 3.11 or later, for `tomllib`.
+
+It runs as the first step of the `build` job in [`ci.yml`](../workflows/ci.yml),
+so a valid topic is a merge requirement.
+
+The topic lives in its own file rather than in the roadmap's `README.md`
+because the progress tooling identifies the specification a coverage assessment
+was made against by a hash of the README (`readme_sha`); a README edit that only
+changed the topic would mark that assessment as out of date.
