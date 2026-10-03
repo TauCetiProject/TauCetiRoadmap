@@ -2,6 +2,17 @@ import Mathlib
 import TauCeti.LinearAlgebra.Matrix.Triangular
 import TauCeti.MeasureTheory.Measure.GiryMonad
 import TauCeti.Probability.Distributions.Gaussian.Pi
+import TauCeti.Probability.Distributions.Gaussian.Density
+import TauCeti.Probability.Distributions.Gaussian.Transforms
+import TauCeti.Probability.Distributions.PDFInstances
+import TauCeti.Probability.Distributions.Wishart.Basic
+import TauCeti.Probability.Distributions.Uniform
+import TauCeti.Probability.Quantile
+import TauCeti.Probability.Distributions.ChiSquared
+import TauCeti.Probability.Distributions.InverseGamma
+import TauCeti.Probability.Distributions.StudentT.Basic
+import TauCeti.Probability.Distributions.Dirichlet.Basic
+import TauCeti.Probability.Distributions.NegativeBinomial.Basic
 
 /-!
 # Suggested declarations for standard probability distributions
@@ -19,21 +30,6 @@ noncomputable section
 open MeasureTheory ProbabilityTheory Real Filter
 open scoped ENNReal NNReal Topology unitInterval Matrix InnerProductSpace MatrixOrder
 
-/-- The Frobenius inner product compatible with the PiLp-based Frobenius norm. -/
-@[instance_reducible]
-noncomputable def Matrix.frobeniusInnerProductSpace
-    {m n : Type*} [Fintype m] [Fintype n] :
-    letI : NormedAddCommGroup (Matrix m n ℝ) := Matrix.frobeniusNormedAddCommGroup
-    InnerProductSpace ℝ (Matrix m n ℝ) := by
-  letI : NormedAddCommGroup (Matrix m n ℝ) := Matrix.frobeniusNormedAddCommGroup
-  exact
-    { __ := Matrix.frobeniusNormedSpace
-      inner A B := ∑ i, ∑ j, A i j * B i j
-      norm_sq_eq_re_inner := by sorry
-      conj_inner_symm := by sorry
-      add_left := by sorry
-      smul_left := by sorry }
-
 namespace TauCetiRoadmap.StandardDistributions
 
 /-! ## Layer 0: Connect existing densities and add the uniform distribution -/
@@ -50,9 +46,9 @@ theorem integral_id_uniformMeasure {a b : ℝ} (hab : a < b) :
 theorem variance_id_uniformMeasure {a b : ℝ} (hab : a < b) :
     variance id (uniformMeasure a b) = (b - a) ^ 2 / 12 := by sorry
 
-theorem hasPDF_of_hasLaw_gammaMeasure {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω}
-    {X : Ω → ℝ} {a r : ℝ} (ha : 0 < a) (hr : 0 < r) (hX : HasLaw X (gammaMeasure a r) P) :
-    HasPDF X P := by sorry
+example {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω}
+    {X : Ω → ℝ} {a r : ℝ} (hX : HasLaw X (gammaMeasure a r) P) :
+    HasPDF X P := TauCeti.Probability.hasPDF_of_hasLaw_gammaMeasure hX
 
 theorem hasPDF_of_hasLaw_gaussianReal {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω}
     {X : Ω → ℝ} {m : ℝ} {v : ℝ≥0} (hv : v ≠ 0) (hX : HasLaw X (gaussianReal m v) P) :
@@ -67,6 +63,11 @@ theorem measurable_gammaMeasure :
 
 theorem measurable_poissonMeasure :
     Measurable fun r : ℝ≥0 => poissonMeasure r := by sorry
+
+theorem charFun_uniformMeasure {a b : ℝ} (hab : a < b) {t : ℝ} (ht : t ≠ 0) :
+    charFun (uniformMeasure a b) t =
+      (Complex.exp (Complex.I * (b : ℂ) * (t : ℂ)) - Complex.exp (Complex.I * (a : ℂ) * (t : ℂ))) /
+        (Complex.I * ((b - a : ℝ) : ℂ) * (t : ℂ)) := by sorry
 
 /-! ## Layer 1: Complete the elementary theory of existing distributions -/
 
@@ -261,14 +262,15 @@ theorem covMatrix_multivariateGaussian {ι : Type*} [Fintype ι] [DecidableEq ι
     (m : EuclideanSpace ℝ ι) {S : Matrix ι ι ℝ} (hS : S.PosSemidef) :
     covMatrix (multivariateGaussian m S) = S := by sorry
 
-theorem integral_id_multivariateGaussian {ι : Type*} [Fintype ι] [DecidableEq ι]
-    (m : EuclideanSpace ℝ ι) {S : Matrix ι ι ℝ} (hS : S.PosSemidef) :
-    ∫ x, x ∂multivariateGaussian m S = m := by sorry
+example {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (m : EuclideanSpace ℝ ι) (S : Matrix ι ι ℝ) :
+    ∫ x, x ∂multivariateGaussian m S = m :=
+  ProbabilityTheory.integral_id_multivariateGaussian
 
-theorem integrableExpSet_inner_multivariateGaussian {ι : Type*} [Fintype ι]
-    [DecidableEq ι] (m θ : EuclideanSpace ℝ ι) {S : Matrix ι ι ℝ}
-    (hS : S.PosSemidef) :
-    integrableExpSet (fun x => ⟪θ, x⟫_ℝ) (multivariateGaussian m S) = Set.univ := by sorry
+example {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (m θ : EuclideanSpace ℝ ι) (S : Matrix ι ι ℝ) :
+    integrableExpSet (fun x => ⟪θ, x⟫_ℝ) (multivariateGaussian m S) = Set.univ :=
+  TauCeti.integrableExpSet_inner_multivariateGaussian m θ S
 
 theorem mgf_inner_multivariateGaussian {ι : Type*} [Fintype ι] [DecidableEq ι]
     (m θ : EuclideanSpace ℝ ι) {S : Matrix ι ι ℝ} (hS : S.PosSemidef) (t : ℝ) :
@@ -300,11 +302,11 @@ theorem mutuallySingular_multivariateGaussian_volume {ι : Type*} [Fintype ι] [
     (m : EuclideanSpace ℝ ι) {S : Matrix ι ι ℝ} (hS : ¬S.PosDef) :
     multivariateGaussian m S ⟂ₘ volume := by sorry
 
-theorem hasPDF_multivariateGaussian {Ω ι : Type*} [MeasurableSpace Ω] [Fintype ι]
-    [DecidableEq ι] {P : Measure Ω} [IsProbabilityMeasure P]
+example {Ω ι : Type*} [MeasurableSpace Ω] [Fintype ι]
+    [DecidableEq ι] {P : Measure Ω}
     (X : Ω → EuclideanSpace ℝ ι) (m : EuclideanSpace ℝ ι) {S : Matrix ι ι ℝ}
     (hX : HasLaw X (multivariateGaussian m S) P) (hS : S.PosDef) :
-    HasPDF X P := by sorry
+    HasPDF X P := TauCeti.hasPDF_of_hasLaw_multivariateGaussian hS hX
 
 theorem map_affine_multivariateGaussian {ι κ : Type*} [Fintype ι] [Fintype κ]
     [DecidableEq ι] [DecidableEq κ] (m : EuclideanSpace ℝ ι) {S : Matrix ι ι ℝ}
@@ -328,44 +330,45 @@ theorem mgf_inner_toEuclideanLin_multivariateGaussian {ι : Type*} [Fintype ι] 
       Real.rpow (Matrix.det (1 - (2 * t) • (Θ * S))) (-1 / 2) := by sorry
 
 -- State matrix-parameter measurability through the coordinate carrier and `Matrix.of`.
-theorem measurable_multivariateGaussian {ι : Type*} [Fintype ι] [DecidableEq ι] :
+example {ι : Type*} [Fintype ι] [DecidableEq ι] :
     Measurable fun q : EuclideanSpace ℝ ι × (ι → ι → ℝ) =>
-      multivariateGaussian q.1 (Matrix.of q.2) := by sorry
+      multivariateGaussian q.1 (Matrix.of q.2) :=
+  ProbabilityTheory.measurable_multivariateGaussian
 
 /-! ### Multinomial and Dirichlet distributions -/
 
 noncomputable def multinomialMeasure {ι : Type*} [Fintype ι] [Nonempty ι] (n : ℕ)
-    (p : stdSimplex ℝ≥0 ι) : Measure (ι → ℕ) :=
+    (p : Convexity.StdSimplex ℝ≥0 ι) : Measure (ι → ℕ) :=
   Measure.sum fun k : ι → ℕ =>
     (if ∑ i, k i = n then
       ENNReal.ofReal ((n.factorial : ℝ) / (∏ i, ((k i).factorial : ℝ)) *
-        (∏ i, ((p : ι → ℝ≥0) i : ℝ) ^ k i))
+        (∏ i, (p.weights i : ℝ) ^ k i))
     else 0) • Measure.dirac k
 
 theorem isProbabilityMeasure_multinomialMeasure {ι : Type*} [Fintype ι] [Nonempty ι]
-    (n : ℕ) (p : stdSimplex ℝ≥0 ι) :
+    (n : ℕ) (p : Convexity.StdSimplex ℝ≥0 ι) :
     IsProbabilityMeasure (multinomialMeasure n p) := by sorry
 
 theorem map_multinomialMeasure {ι κ : Type*} [Fintype ι] [Nonempty ι] [Fintype κ]
-    [Nonempty κ] [DecidableEq κ] (n : ℕ) (p : stdSimplex ℝ≥0 ι) (f : ι → κ) :
+    [Nonempty κ] [DecidableEq κ] (n : ℕ) (p : Convexity.StdSimplex ℝ≥0 ι) (f : ι → κ) :
     (multinomialMeasure n p).map (fun k j => ∑ i with f i = j, k i) =
-      multinomialMeasure n (stdSimplex.map f p) := by sorry
+      multinomialMeasure n (Convexity.StdSimplex.map f p) := by sorry
 
 def multinomialToEuclidean {ι : Type*} [Fintype ι] (k : ι → ℕ) :
     EuclideanSpace ℝ ι :=
   (EuclideanSpace.equiv ι ℝ).symm fun i => (k i : ℝ)
 
 theorem integrableExpSet_inner_multinomialMeasure {ι : Type*} [Fintype ι]
-    [Nonempty ι] [DecidableEq ι] (n : ℕ) (p : stdSimplex ℝ≥0 ι)
+    [Nonempty ι] [DecidableEq ι] (n : ℕ) (p : Convexity.StdSimplex ℝ≥0 ι)
     (θ : EuclideanSpace ℝ ι) :
     integrableExpSet (fun x => ⟪θ, x⟫_ℝ)
       ((multinomialMeasure n p).map multinomialToEuclidean) = Set.univ := by sorry
 
 theorem mgf_inner_multinomialMeasure {ι : Type*} [Fintype ι] [Nonempty ι]
-    [DecidableEq ι] (n : ℕ) (p : stdSimplex ℝ≥0 ι)
+    [DecidableEq ι] (n : ℕ) (p : Convexity.StdSimplex ℝ≥0 ι)
     (θ : EuclideanSpace ℝ ι) (t : ℝ) :
     mgf (fun x => ⟪θ, x⟫_ℝ) ((multinomialMeasure n p).map multinomialToEuclidean) t =
-      (∑ j, (p j : ℝ) * rexp (t * θ j)) ^ n := by sorry
+      (∑ j, (p.weights j : ℝ) * rexp (t * θ j)) ^ n := by sorry
 
 open scoped Classical in
 
@@ -441,7 +444,8 @@ theorem condDistrib_multivariateGaussian
     [DecidableEq ι] [DecidableEq κ] {P : Measure Ω} [IsProbabilityMeasure P]
     (X : Ω → EuclideanSpace ℝ (ι ⊕ κ))
     (m : EuclideanSpace ℝ (ι ⊕ κ)) (S : Matrix (ι ⊕ κ) (ι ⊕ κ) ℝ)
-    (hX : HasLaw X (multivariateGaussian m S) P) (hS : S.PosDef) :
+    (hX : HasLaw X (multivariateGaussian m S) P) (hS : S.PosSemidef)
+    (hS₂₂ : (gaussianBlock22 S).PosDef) :
     condDistrib (fun ω => euclideanSumFst (X ω)) (fun ω => euclideanSumSnd (X ω)) P
       =ᵐ[P.map (fun ω => euclideanSumSnd (X ω))] gaussianCondKernel m S := by sorry
 
@@ -631,9 +635,6 @@ noncomputable def posDiagLowerTriangularLebesgue (p : ℕ) :
     Measure (PosDiagLowerTriangular p) :=
   (posDiagLowerCoordinatesLebesgue p).map (lowerTriangleCoordinates p).symm
 
-theorem isLowerTriangular_ldl_lower {p : ℕ} {S : Matrix (Fin p) (Fin p) ℝ}
-    (hS : S.PosDef) : (LDL.lower hS).IsLowerTriangular := by sorry
-
 noncomputable def choleskyEquiv {p : ℕ} :
     PosDefMatrix p ≃ PosDiagLowerTriangular p := sorry
 
@@ -793,8 +794,8 @@ theorem cgf_trace_mul_nonsingularWishartMeasure {p : ℕ} {n t : ℝ}
     cgf (fun A : SymmetricMatrix p =>
         Matrix.trace ((Θ : Matrix (Fin p) (Fin p) ℝ) * (A : Matrix (Fin p) (Fin p) ℝ)))
         (nonsingularWishartMeasure n S) t =
-      Real.log (Real.rpow
-        (Matrix.det (1 - (2 * t) • ((Θ : Matrix (Fin p) (Fin p) ℝ) * S))) (-n / 2)) := by
+      -(n / 2) * Real.log
+        (Matrix.det (1 - (2 * t) • ((Θ : Matrix (Fin p) (Fin p) ℝ) * S))) := by
   sorry
 
 -- Positive semidefiniteness suffices, so the Gaussian-Gram family below reuses this lemma.
@@ -827,15 +828,11 @@ theorem charFun_nonsingularWishartMeasure {p : ℕ} {n : ℝ}
 
 /-! ### Gaussian-Gram Wishart distributions -/
 
-noncomputable def sumVecMulVec {p ν : ℕ} (X : Fin ν → EuclideanSpace ℝ (Fin p)) :
-    SymmetricMatrix p :=
-  ⟨∑ r, Matrix.vecMulVec (X r) (X r), by sorry⟩
+abbrev sumVecMulVec {p ν : ℕ} (X : Fin ν → EuclideanSpace ℝ (Fin p)) :
+    SymmetricMatrix p := TauCeti.wishartGram X
 
--- No branch on `S`: for a scale that is not positive semidefinite, Mathlib's
--- `multivariateGaussian 0 S` is `Measure.dirac 0`, and so is this law, for every `ν`.
-noncomputable def wishartGramMeasure {p : ℕ} (ν : ℕ)
-    (S : Matrix (Fin p) (Fin p) ℝ) : Measure (SymmetricMatrix p) :=
-  (Measure.pi fun _ : Fin ν => multivariateGaussian 0 S).map sumVecMulVec
+abbrev wishartGramMeasure {p : ℕ} (ν : ℕ) (S : Matrix (Fin p) (Fin p) ℝ) :
+    Measure (SymmetricMatrix p) := TauCeti.wishartGramMeasure ν S
 
 instance isProbabilityMeasure_wishartGramMeasure {p ν : ℕ} (S : Matrix (Fin p) (Fin p) ℝ) :
     IsProbabilityMeasure (wishartGramMeasure ν S) := by sorry
@@ -866,10 +863,15 @@ theorem cov_apply_wishartGramMeasure {p ν : ℕ}
         fun A => (A : Matrix (Fin p) (Fin p) ℝ) k l; wishartGramMeasure ν S] =
       (ν : ℝ) * (S i k * S j l + S i l * S j k) := by sorry
 
-theorem ae_posSemidef_wishartGramMeasure {p ν : ℕ}
+example {p : ℕ} (ν : ℕ) (S : Matrix (Fin p) (Fin p) ℝ) :
+    ∀ᵐ (A : SymmetricMatrix p) ∂wishartGramMeasure ν S,
+      (A : Matrix (Fin p) (Fin p) ℝ).PosSemidef :=
+  TauCeti.ae_posSemidef_wishartGramMeasure ν S
+
+theorem ae_rank_wishartGramMeasure {p ν : ℕ}
     {S : Matrix (Fin p) (Fin p) ℝ} (hS : S.PosSemidef) :
     ∀ᵐ (A : SymmetricMatrix p) ∂wishartGramMeasure ν S,
-      (A : Matrix (Fin p) (Fin p) ℝ).PosSemidef := by sorry
+      Matrix.rank (A : Matrix (Fin p) (Fin p) ℝ) = min ν S.rank := by sorry
 
 theorem ae_rank_le_wishartGramMeasure {p ν : ℕ}
     {S : Matrix (Fin p) (Fin p) ℝ} (hS : S.PosSemidef) :
@@ -941,9 +943,8 @@ theorem cgf_trace_mul_wishartGramMeasure {p ν : ℕ} {t : ℝ}
     cgf (fun A : SymmetricMatrix p =>
         Matrix.trace ((Θ : Matrix (Fin p) (Fin p) ℝ) * (A : Matrix (Fin p) (Fin p) ℝ)))
         (wishartGramMeasure ν S) t =
-      Real.log (Real.rpow
-        (Matrix.det (1 - (2 * t) • ((Θ : Matrix (Fin p) (Fin p) ℝ) * S)))
-        (-(ν : ℝ) / 2)) := by
+      -((ν : ℝ) / 2) * Real.log
+        (Matrix.det (1 - (2 * t) • ((Θ : Matrix (Fin p) (Fin p) ℝ) * S))) := by
   sorry
 
 theorem charFun_wishartGramMeasure {p ν : ℕ} {S : Matrix (Fin p) (Fin p) ℝ}
@@ -980,14 +981,14 @@ def bartlettEntry {p : ℕ} (T : PosDiagLowerTriangular p) : bartlettIndex p →
   | Sum.inl i => (T.1 i i) ^ 2
   | Sum.inr ij => T.1 ij.1.1 ij.1.2
 
-noncomputable def wishartPosDefMeasure (p ν : ℕ) : Measure (PosDefMatrix p) :=
-  (nonsingularWishartMeasure (ν : ℝ) (1 : Matrix (Fin p) (Fin p) ℝ)).comap Subtype.val
+noncomputable def wishartPosDefMeasure (p : ℕ) (ν : ℝ) : Measure (PosDefMatrix p) :=
+  (nonsingularWishartMeasure ν (1 : Matrix (Fin p) (Fin p) ℝ)).comap Subtype.val
 
-theorem map_wishartPosDefMeasure (p ν : ℕ) (hpν : p ≤ ν) :
+theorem map_wishartPosDefMeasure (p : ℕ) (ν : ℝ) (hpν : (p : ℝ) - 1 < ν) :
     (wishartPosDefMeasure p ν).map (Subtype.val : PosDefMatrix p → SymmetricMatrix p) =
-      nonsingularWishartMeasure (ν : ℝ) (1 : Matrix (Fin p) (Fin p) ℝ) := by sorry
+      nonsingularWishartMeasure ν (1 : Matrix (Fin p) (Fin p) ℝ) := by sorry
 
-theorem bartlett_nonsingularWishartMeasure {p ν : ℕ} (hpν : p ≤ ν) :
+theorem bartlett_nonsingularWishartMeasure {p : ℕ} {ν : ℝ} (hpν : (p : ℝ) - 1 < ν) :
     iIndepFun
         (fun r : bartlettIndex p => fun A : PosDefMatrix p =>
           bartlettEntry (cholesky A) r)
@@ -995,7 +996,7 @@ theorem bartlett_nonsingularWishartMeasure {p ν : ℕ} (hpν : p ≤ ν) :
       (∀ i : Fin p,
         HasLaw
           (fun A : PosDefMatrix p => bartlettEntry (cholesky A) (Sum.inl i))
-          (chiSquaredMeasure ((ν : ℝ) - (i.1 : ℝ))) (wishartPosDefMeasure p ν)) ∧
+          (chiSquaredMeasure (ν - (i.1 : ℝ))) (wishartPosDefMeasure p ν)) ∧
       (∀ ij : {ij : Fin p × Fin p // ij.2 < ij.1},
         HasLaw
           (fun A : PosDefMatrix p => bartlettEntry (cholesky A) (Sum.inr ij))
@@ -1071,5 +1072,615 @@ theorem measurable_inverseWishartMeasure (p : ℕ) :
 theorem measurable_nonsingularWishartMeasure_symmetric (p : ℕ) :
     Measurable fun q : ℝ × SymmetricMatrix p =>
       nonsingularWishartMeasure q.1 (q.2 : Matrix (Fin p) (Fin p) ℝ) := by sorry
+
+/-! ## Layers 7–15: constructions, extended families, and quantiles
+
+These prototypes use the public Tau Ceti distributions already available at the pin.
+The README supplies the complete family list and formula requirements.
+-/
+
+namespace Expansion
+
+open scoped ComplexOrder
+
+def upperQuantile (μ : Measure ℝ) (u : ℝ) : ℝ := sInf {x | u < cdf μ x}
+
+theorem cdf_quantile_eq (μ : Measure ℝ) [IsProbabilityMeasure μ]
+    (hF : Continuous (cdf μ : ℝ → ℝ)) {u : ℝ} (hu : u ∈ Set.Ioo (0 : ℝ) 1) :
+    cdf μ (μ.quantile u) = u := by sorry
+
+theorem measurable_quantile_cdf_family {α : Type*} [MeasurableSpace α]
+    (μ : α → Measure ℝ) (hμ : Measurable μ) (hprob : ∀ a, IsProbabilityMeasure (μ a)) :
+    Measurable fun q : α × Set.Ioo (0 : ℝ) 1 => (μ q.1).quantile q.2 := by sorry
+
+theorem map_uniform_quantile (μ : Measure ℝ) [IsProbabilityMeasure μ] :
+    (TauCeti.Probability.uniformMeasure 0 1).map (μ.quantile) = μ := by sorry
+
+theorem quantile_map_affine_pos (μ : Measure ℝ) [IsProbabilityMeasure μ]
+    (a : ℝ) {b u : ℝ} (hb : 0 < b) (hu : u ∈ Set.Ioo (0 : ℝ) 1) :
+    (μ.map (fun x => a + b * x)).quantile u =
+      a + b * μ.quantile u := by sorry
+
+theorem quantile_map_affine_neg (μ : Measure ℝ) [IsProbabilityMeasure μ]
+    (a : ℝ) {b u : ℝ} (hb : b < 0) (hu : u ∈ Set.Ioo (0 : ℝ) 1) :
+    (μ.map (fun x => a + b * x)).quantile u =
+      a + b * upperQuantile μ (1 - u) := by sorry
+
+theorem cdf_map_affine_neg (μ : Measure ℝ) [IsProbabilityMeasure μ]
+    (a : ℝ) {b : ℝ} (hb : b < 0) (x : ℝ) :
+    cdf (μ.map (fun y => a + b * y)) x = 1 - μ.real (Set.Iio ((x - a) / b)) := by sorry
+
+theorem integrableExpSet_map_affine (μ : Measure ℝ) [IsProbabilityMeasure μ] (a b : ℝ) :
+    integrableExpSet id (μ.map (fun x => a + b * x)) =
+      {t | b * t ∈ integrableExpSet id μ} := by sorry
+
+theorem quantile_cond_Ioc (μ : Measure ℝ) [IsProbabilityMeasure μ]
+    {l r u : ℝ} (hmass : 0 < μ (Set.Ioc l r)) (hu : u ∈ Set.Ioo (0 : ℝ) 1) :
+    (ProbabilityTheory.cond μ (Set.Ioc l r)).quantile u =
+      μ.quantile (cdf μ l + u * (cdf μ r - cdf μ l)) := by sorry
+
+def atomMixture (μ : Measure ℝ) (c : ℝ) (w : I) : Measure ℝ :=
+  ENNReal.ofReal (w : ℝ) • Measure.dirac c + ENNReal.ofReal (1 - (w : ℝ)) • μ
+
+theorem atomMixture_withDensity (f : ℝ → ℝ≥0∞) (c : ℝ) (w : I) :
+    atomMixture (volume.withDensity f) c w =
+      ENNReal.ofReal (w : ℝ) • Measure.dirac c +
+        volume.withDensity (fun x => ENNReal.ofReal (1 - (w : ℝ)) * f x) := by sorry
+
+def convolutionPower {E : Type*} [AddMonoid E] [MeasurableSpace E]
+    (μ : Measure E) : ℕ → Measure E
+  | 0 => Measure.dirac 0
+  | n + 1 => convolutionPower μ n ∗ μ
+
+def compoundPoissonMeasure {E : Type*} [AddMonoid E] [MeasurableSpace E]
+    (lam : ℝ≥0) (μ : Measure E) : Measure E :=
+  (poissonMeasure lam).bind (convolutionPower μ)
+
+theorem charFun_compoundPoissonMeasure {E : Type*} [NormedAddCommGroup E]
+    [InnerProductSpace ℝ E] [FiniteDimensional ℝ E] [MeasurableSpace E] [BorelSpace E]
+    (lam : ℝ≥0) (μ : Measure E) [IsProbabilityMeasure μ] (t : E) :
+    charFun (compoundPoissonMeasure lam μ) t =
+      Complex.exp ((lam : ℝ) * (charFun μ t - 1)) := by sorry
+
+/-! ### Special-function and elementary quantiles -/
+
+def inverseRegularizedGamma (a u : ℝ) : ℝ :=
+  if 0 < a ∧ u ∈ Set.Ioo (0 : ℝ) 1 then
+    sInf {x : ℝ | 0 ≤ x ∧ u ≤ TauCeti.regularizedGamma a x}
+  else 0
+
+theorem regularizedGamma_inverse {a u : ℝ} (ha : 0 < a)
+    (hu : u ∈ Set.Ioo (0 : ℝ) 1) :
+    TauCeti.regularizedGamma a (inverseRegularizedGamma a u) = u := by sorry
+
+theorem quantile_gammaMeasure {a r u : ℝ} (ha : 0 < a) (hr : 0 < r)
+    (hu : u ∈ Set.Ioo (0 : ℝ) 1) :
+    (gammaMeasure a r).quantile u = inverseRegularizedGamma a u / r := by sorry
+
+theorem quantile_inverseGammaMeasure {a r u : ℝ} (ha : 0 < a) (hr : 0 < r)
+    (hu : u ∈ Set.Ioo (0 : ℝ) 1) :
+    (TauCeti.Probability.inverseGammaMeasure a r).quantile u =
+      r / inverseRegularizedGamma a (1 - u) := by sorry
+
+def logisticMeasure (m s : ℝ) : Measure ℝ :=
+  if 0 < s then
+    (TauCeti.Probability.uniformMeasure 0 1).map (fun u => m + s * Real.log (u / (1 - u)))
+  else 0
+
+theorem quantile_logisticMeasure (m : ℝ) {s u : ℝ} (hs : 0 < s)
+    (hu : u ∈ Set.Ioo (0 : ℝ) 1) :
+    (logisticMeasure m s).quantile u = m + s * Real.log (u / (1 - u)) := by sorry
+
+def generalizedExtremeValueMeasure (m s ξ : ℝ) : Measure ℝ :=
+  if 0 < s then
+    (expMeasure 1).map (fun y =>
+      if ξ = 0 then m - s * Real.log y else m + s * (Real.rpow y (-ξ) - 1) / ξ)
+  else 0
+
+theorem quantile_generalizedExtremeValueMeasure (m ξ : ℝ) {s u : ℝ}
+    (hs : 0 < s) (hu : u ∈ Set.Ioo (0 : ℝ) 1) :
+    (generalizedExtremeValueMeasure m s ξ).quantile u =
+      if ξ = 0 then m - s * Real.log (-Real.log u)
+      else m + s * (Real.rpow (-Real.log u) (-ξ) - 1) / ξ := by sorry
+
+def generalizedParetoMeasure (s ξ : ℝ) : Measure ℝ :=
+  if 0 < s then
+    (expMeasure 1).map (fun y => if ξ = 0 then s * y else s * (Real.exp (ξ * y) - 1) / ξ)
+  else 0
+
+theorem quantile_generalizedParetoMeasure (ξ : ℝ) {s u : ℝ}
+    (hs : 0 < s) (hu : u ∈ Set.Ioo (0 : ℝ) 1) :
+    (generalizedParetoMeasure s ξ).quantile u =
+      if ξ = 0 then -s * Real.log (1 - u)
+      else s * (Real.rpow (1 - u) (-ξ) - 1) / ξ := by sorry
+
+/-! ### Mixtures and noncentral boundaries -/
+
+def noncentralChiSquaredMeasure (k : ℝ) (lam : ℝ≥0) : Measure ℝ :=
+  if 0 ≤ k then
+    (poissonMeasure (lam / 2)).bind (fun j => TauCeti.Probability.chiSquaredMeasure (k + 2 * j))
+  else 0
+
+theorem isProbabilityMeasure_noncentralChiSquaredMeasure {k : ℝ} (hk : 0 ≤ k) (lam : ℝ≥0) :
+    IsProbabilityMeasure (noncentralChiSquaredMeasure k lam) := by sorry
+
+theorem noncentralChiSquaredMeasure_zero_degree_mass (lam : ℝ≥0) :
+    (noncentralChiSquaredMeasure 0 lam).real {0} = Real.exp (-(lam : ℝ) / 2) := by sorry
+
+theorem noncentralChiSquaredMeasure_zero_noncentrality {k : ℝ} (hk : 0 ≤ k) :
+    noncentralChiSquaredMeasure k 0 = TauCeti.Probability.chiSquaredMeasure k := by sorry
+
+theorem quantile_noncentralChiSquaredMeasure_zero_degree (lam : ℝ≥0)
+    {u : ℝ} (hu : u ∈ Set.Ioo (0 : ℝ) 1) (h : u ≤ Real.exp (-(lam : ℝ) / 2)) :
+    (noncentralChiSquaredMeasure 0 lam).quantile u = 0 := by sorry
+
+theorem measurable_noncentralChiSquaredMeasure :
+    Measurable fun p : ℝ × ℝ≥0 => noncentralChiSquaredMeasure p.1 p.2 := by sorry
+
+def noncentralTMeasure (ν δ : ℝ) : Measure ℝ :=
+  if 0 < ν then
+    ((gaussianReal 0 1).prod (TauCeti.Probability.chiSquaredMeasure ν)).map
+      (fun z => (z.1 + δ) / Real.sqrt (z.2 / ν))
+  else 0
+
+theorem noncentralTMeasure_zero {ν : ℝ} (hν : 0 < ν) :
+    noncentralTMeasure ν 0 = TauCeti.Probability.studentTMeasure ν := by sorry
+
+def categoricalMeasure {ι : Type*} [Fintype ι] [MeasurableSpace ι]
+    (p : Convexity.StdSimplex ℝ≥0 ι) : Measure ι :=
+  ∑ i, (p.weights i : ℝ≥0∞) • Measure.dirac i
+
+theorem categoricalMeasure_singleton {ι : Type*} [Fintype ι] [MeasurableSpace ι]
+    [MeasurableSingletonClass ι] (p : Convexity.StdSimplex ℝ≥0 ι) (i : ι) :
+    categoricalMeasure p {i} = (p.weights i : ℝ≥0∞) := by sorry
+
+def gaussianLatticeSum (c s : ℝ) : ℝ :=
+  ∑' k : ℤ, Real.exp (-((k : ℝ) - c) ^ 2 / (2 * s ^ 2))
+
+def discreteGaussianMeasure (c s : ℝ) : Measure ℤ :=
+  if 0 < s then
+    Measure.sum (fun k : ℤ =>
+      ENNReal.ofReal (Real.exp (-((k : ℝ) - c) ^ 2 / (2 * s ^ 2)) / gaussianLatticeSum c s) •
+        Measure.dirac k)
+  else 0
+
+theorem mgf_discreteGaussianMeasure (c t : ℝ) {s : ℝ} (hs : 0 < s) :
+    mgf (fun k : ℤ => (k : ℝ)) (discreteGaussianMeasure c s) t =
+      Real.exp (c * t + s ^ 2 * t ^ 2 / 2) *
+        gaussianLatticeSum (c + s ^ 2 * t) s / gaussianLatticeSum c s := by sorry
+
+/-! ### Vector, complex, and circular carriers -/
+
+def multivariateTMeasure {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (m : EuclideanSpace ℝ ι) (S : Matrix ι ι ℝ) (ν : ℝ) : Measure (EuclideanSpace ℝ ι) := by
+  classical
+  exact if 0 < ν ∧ S.PosSemidef then
+    ((multivariateGaussian 0 S).prod (TauCeti.Probability.chiSquaredMeasure ν)).map
+      (fun z => m + Real.sqrt (ν / z.2) • z.1)
+    else 0
+
+theorem multivariateTMeasure_zero_scale {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (m : EuclideanSpace ℝ ι) {ν : ℝ} (hν : 0 < ν) :
+    multivariateTMeasure m 0 ν = Measure.dirac m := by sorry
+
+theorem quantile_multivariateTMeasure_projection {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (m θ : EuclideanSpace ℝ ι) {S : Matrix ι ι ℝ} (hS : S.PosSemidef)
+    {ν u : ℝ} (hν : 0 < ν) (hu : u ∈ Set.Ioo (0 : ℝ) 1) :
+    ((multivariateTMeasure m S ν).map (fun x => ⟪θ, x⟫_ℝ)).quantile u =
+      ⟪θ, m⟫_ℝ + Real.sqrt (⟪θ, S.toEuclideanLin θ⟫_ℝ) *
+        (TauCeti.Probability.studentTMeasure ν).quantile u := by sorry
+
+def matrixCoordinateEquiv {ι κ : Type*} [Fintype ι] [Fintype κ] :
+    EuclideanSpace ℝ (ι × κ) ≃ᵐ Matrix ι κ ℝ where
+  toFun x := Matrix.of (fun i j => x (i, j))
+  invFun A := WithLp.toLp 2 (fun ij => A ij.1 ij.2)
+  left_inv := by intro x; ext ij; rfl
+  right_inv := by intro A; rfl
+  measurable_toFun := by
+    change Measurable (fun x : EuclideanSpace ℝ (ι × κ) => Matrix.of (fun i j => x (i, j)))
+    fun_prop
+  measurable_invFun := by
+    change Measurable (fun A : Matrix ι κ ℝ => WithLp.toLp 2 (fun ij : ι × κ => A ij.1 ij.2))
+    fun_prop
+
+def matrixNormalMeasure {ι κ : Type*} [Fintype ι] [Fintype κ]
+    [DecidableEq ι] [DecidableEq κ]
+    (M : Matrix ι κ ℝ) (U : Matrix ι ι ℝ) (V : Matrix κ κ ℝ) : Measure (Matrix ι κ ℝ) := by
+  classical
+  exact if U.PosSemidef ∧ V.PosSemidef then
+    (multivariateGaussian (matrixCoordinateEquiv.symm M)
+      (fun ij kl => U ij.1 kl.1 * V ij.2 kl.2)).map matrixCoordinateEquiv
+  else Measure.dirac M
+
+theorem covariance_matrixNormalMeasure {ι κ : Type*} [Fintype ι] [Fintype κ]
+    [DecidableEq ι] [DecidableEq κ]
+    (M : Matrix ι κ ℝ) {U : Matrix ι ι ℝ} {V : Matrix κ κ ℝ}
+    (hU : U.PosSemidef) (hV : V.PosSemidef) (i k : ι) (j l : κ) :
+    covariance (fun A => A i j) (fun A => A k l) (matrixNormalMeasure M U V) =
+      U i k * V j l := by sorry
+
+def complexGaussianRealCovariance {ι : Type*} (C : Matrix ι ι ℂ) :
+    Matrix (ι ⊕ ι) (ι ⊕ ι) ℝ :=
+  Matrix.fromBlocks (fun i j => (C i j).re / 2) (fun i j => -(C i j).im / 2)
+    (fun i j => (C i j).im / 2) (fun i j => (C i j).re / 2)
+
+def properComplexGaussianMeasure {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (m : ι → ℂ) (C : Matrix ι ι ℂ) : Measure (ι → ℂ) := by
+  classical
+  exact if C.PosSemidef then
+    (multivariateGaussian
+      (WithLp.toLp 2 (Sum.elim (fun i => (m i).re) (fun i => (m i).im)))
+      (complexGaussianRealCovariance C)).map
+        (fun (x : EuclideanSpace ℝ (ι ⊕ ι)) i => (x (Sum.inl i) : ℂ) + Complex.I * (x (Sum.inr i) : ℂ))
+  else Measure.dirac m
+
+theorem properComplexGaussianMeasure_centered_rotation {ι : Type*} [Fintype ι] [DecidableEq ι]
+    {C : Matrix ι ι ℂ} (hC : C.PosSemidef) (θ : ℝ) :
+    (properComplexGaussianMeasure (0 : ι → ℂ) C).map
+      (fun z i => Complex.exp (Complex.I * θ) * z i) =
+        properComplexGaussianMeasure 0 C := by sorry
+
+def wrappedNormalMeasure (m : AddCircle (2 * Real.pi)) (v : ℝ≥0) :
+    Measure (AddCircle (2 * Real.pi)) :=
+  (gaussianReal 0 v).map (fun x : ℝ => m + (x : AddCircle (2 * Real.pi)))
+
+theorem wrappedNormalMeasure_zero (m : AddCircle (2 * Real.pi)) :
+    wrappedNormalMeasure m 0 = Measure.dirac m := by sorry
+
+theorem wrappedNormalMeasure_conv (m₁ m₂ : AddCircle (2 * Real.pi)) (v₁ v₂ : ℝ≥0) :
+    wrappedNormalMeasure m₁ v₁ ∗ wrappedNormalMeasure m₂ v₂ =
+      wrappedNormalMeasure (m₁ + m₂) (v₁ + v₂) := by sorry
+
+theorem measurable_wrappedNormalMeasure :
+    Measurable fun p : AddCircle (2 * Real.pi) × ℝ≥0 => wrappedNormalMeasure p.1 p.2 := by sorry
+
+/-! ### Spherical reference measure and special functions -/
+
+abbrev UnitSphere (d : ℕ) := Metric.sphere (0 : EuclideanSpace ℝ (Fin d)) 1
+
+def uniformSphereMeasure (d : ℕ) : Measure (UnitSphere d) :=
+  let surfaceMeasure := (volume : Measure (EuclideanSpace ℝ (Fin d))).toSphere
+  (surfaceMeasure Set.univ)⁻¹ • surfaceMeasure
+
+theorem isProbabilityMeasure_uniformSphereMeasure {d : ℕ} (hd : 0 < d) :
+    IsProbabilityMeasure (uniformSphereMeasure d) := by sorry
+
+def vonMisesFisherNaturalMeasure (d : ℕ) (η : EuclideanSpace ℝ (Fin d)) :
+    Measure (UnitSphere d) :=
+  (uniformSphereMeasure d).tilted (fun x => ⟪η, x.val⟫_ℝ)
+
+def vonMisesFisherMeasure (d : ℕ) (m : UnitSphere d) (κ : ℝ) : Measure (UnitSphere d) :=
+  if 0 ≤ κ then vonMisesFisherNaturalMeasure d (κ • m.val) else 0
+
+theorem vonMisesFisherMeasure_zero {d : ℕ} (hd : 0 < d) (m : UnitSphere d) :
+    vonMisesFisherMeasure d m 0 = uniformSphereMeasure d := by sorry
+
+theorem measurable_vonMisesFisherMeasure (d : ℕ) :
+    Measurable fun p : UnitSphere d × ℝ => vonMisesFisherMeasure d p.1 p.2 := by sorry
+
+local instance : Fact (0 < (2 * Real.pi : ℝ)) := ⟨by positivity⟩
+
+def circleHaarProbability : Measure (AddCircle (2 * Real.pi)) :=
+  ProbabilityTheory.cond (volume : Measure (AddCircle (2 * Real.pi))) Set.univ
+
+theorem circleHaarProbability_eq_smul_volume :
+    circleHaarProbability = (ENNReal.ofReal (2 * Real.pi))⁻¹ • volume := by sorry
+
+theorem isProbabilityMeasure_circleHaarProbability :
+    IsProbabilityMeasure circleHaarProbability := by sorry
+
+def owensT (h a : ℝ) : ℝ :=
+  (2 * Real.pi)⁻¹ * ∫ t in (0 : ℝ)..a, Real.exp (-h ^ 2 * (1 + t ^ 2) / 2) / (1 + t ^ 2)
+
+theorem hasDerivAt_owensT_right (h a : ℝ) :
+    HasDerivAt (owensT h) (Real.exp (-h ^ 2 * (1 + a ^ 2) / 2) /
+      (2 * Real.pi * (1 + a ^ 2))) a := by sorry
+
+/-! ### Shared moments, mixtures, and transformations -/
+
+theorem integrable_rpow_gammaMeasure_iff {a r : ℝ} (ha : 0 < a) (hr : 0 < r) (q : ℝ) :
+    Integrable (fun x => Real.rpow x q) (gammaMeasure a r) ↔ -a < q := by sorry
+
+theorem integral_rpow_gammaMeasure {a r q : ℝ} (ha : 0 < a) (hr : 0 < r) (hq : -a < q) :
+    ∫ x, Real.rpow x q ∂gammaMeasure a r =
+      Real.rpow r (-q) * Real.Gamma (a + q) / Real.Gamma a := by sorry
+
+theorem iteratedDeriv_pgf_one (μ : Measure ℕ) [IsProbabilityMeasure μ]
+    {t : ℝ} (ht : 0 < t) (hint : Integrable (fun k : ℕ => Real.exp (t * k)) μ) (n : ℕ) :
+    iteratedDeriv n (pgf id μ) 1 = ∫ k, (k.descFactorial n : ℝ) ∂μ := by sorry
+
+theorem map_normalize_sum_pi_gammaMeasure {ι : Type*} [Fintype ι] [Nonempty ι]
+    {a : ι → ℝ} {r : ℝ} (ha : ∀ i, 0 < a i) (hr : 0 < r) :
+    (Measure.pi (fun i => gammaMeasure (a i) r)).map
+        (fun x => (TauCeti.Probability.dirichletNormalize x, ∑ i, x i)) =
+      (TauCeti.Probability.dirichletMeasure a).prod (gammaMeasure (∑ i, a i) r) := by sorry
+
+theorem quantile_map_monotone (μ : Measure ℝ) [IsProbabilityMeasure μ]
+    {g : ℝ → ℝ} (hg : Monotone g) (hc : Continuous g)
+    {u : ℝ} (hu : u ∈ Set.Ioo (0 : ℝ) 1) :
+    (μ.map g).quantile u = g (μ.quantile u) := by sorry
+
+theorem variance_bind {α : Type*} [MeasurableSpace α]
+    (ρ : Measure α) [IsProbabilityMeasure ρ] (K : α → Measure ℝ) (hK : Measurable K)
+    (hprob : ∀ᵐ a ∂ρ, IsProbabilityMeasure (K a)) (hint : MemLp id 2 (ρ.bind K)) :
+    variance id (ρ.bind K) = (∫ a, variance id (K a) ∂ρ) +
+      variance (fun a => ∫ x, x ∂K a) ρ := by sorry
+
+theorem variance_bind_kernel {α : Type*} [MeasurableSpace α]
+    (ρ : Measure α) [IsProbabilityMeasure ρ] (K : Kernel α ℝ) [IsMarkovKernel K]
+    (hint : MemLp id 2 (ρ.bind K)) :
+    variance id (ρ.bind K) = (∫ a, variance id (K a) ∂ρ) +
+      variance (fun a => ∫ x, x ∂K a) ρ :=
+  variance_bind ρ K K.measurable (Filter.Eventually.of_forall fun _ => inferInstance) hint
+
+def mixedPoissonMeasure (ρ : Measure ℝ≥0) : Measure ℕ := ρ.bind poissonMeasure
+
+theorem variance_mixedPoissonMeasure (ρ : Measure ℝ≥0) [IsProbabilityMeasure ρ]
+    (hint : MemLp (fun x : ℝ≥0 => (x : ℝ)) 2 ρ) :
+    variance (fun k : ℕ => (k : ℝ)) (mixedPoissonMeasure ρ) =
+      (∫ x, (x : ℝ) ∂ρ) + variance (fun x : ℝ≥0 => (x : ℝ)) ρ := by sorry
+
+theorem tilted_gammaMeasure {a r t : ℝ} (ha : 0 < a) (hr : 0 < r) (ht : t < r) :
+    (gammaMeasure a r).tilted (fun x => t * x) = gammaMeasure a (r - t) := by sorry
+
+theorem isProbabilityMeasure_compoundPoissonMeasure {E : Type*}
+    [AddMonoid E] [MeasurableSpace E] [MeasurableAdd₂ E]
+    (lam : ℝ≥0) (μ : Measure E) [IsProbabilityMeasure μ] :
+    IsProbabilityMeasure (compoundPoissonMeasure lam μ) := by sorry
+
+/-! ### Additional scalar and count families -/
+
+def generalizedGammaMeasure (a c s : ℝ) : Measure ℝ :=
+  if 0 < a ∧ c ≠ 0 ∧ 0 < s then
+    (gammaMeasure a 1).map (fun x => s * Real.rpow x c⁻¹)
+  else 0
+
+theorem integral_rpow_generalizedGammaMeasure {a c s q : ℝ}
+    (ha : 0 < a) (hc : c ≠ 0) (hs : 0 < s) (hq : 0 < a + q / c) :
+    ∫ x, Real.rpow x q ∂generalizedGammaMeasure a c s =
+      Real.rpow s q * Real.Gamma (a + q / c) / Real.Gamma a := by sorry
+
+theorem quantile_generalizedGammaMeasure_neg {a c s u : ℝ}
+    (ha : 0 < a) (hc : c < 0) (hs : 0 < s) (hu : u ∈ Set.Ioo (0 : ℝ) 1) :
+    (generalizedGammaMeasure a c s).quantile u =
+      s * Real.rpow (inverseRegularizedGamma a (1 - u)) c⁻¹ := by sorry
+
+def generalizedNormalMeasure (m s p : ℝ) : Measure ℝ :=
+  if 0 < s ∧ 0 < p then
+    volume.withDensity (fun x => ENNReal.ofReal
+      (p / (2 * s * Real.Gamma p⁻¹) * Real.exp (-Real.rpow |(x - m) / s| p)))
+  else 0
+
+def asymmetricLaplaceMeasure (m l r : ℝ) : Measure ℝ :=
+  if 0 < l ∧ 0 < r then
+    ((expMeasure r).prod (expMeasure l)).map (fun x => m + x.1 - x.2)
+  else 0
+
+def logitNormalMeasure (m : ℝ) (v : ℝ≥0) : Measure ℝ :=
+  (gaussianReal m v).map (fun x => (1 + Real.exp (-x))⁻¹)
+
+def logUniformMeasure (a b : ℝ) : Measure ℝ :=
+  if 0 < a ∧ a < b then
+    (TauCeti.Probability.uniformMeasure (Real.log a) (Real.log b)).map Real.exp
+  else 0
+
+def halfStudentTMeasure (ν s : ℝ) : Measure ℝ :=
+  if 0 < ν ∧ 0 < s then
+    (TauCeti.Probability.studentTMeasure ν).map (fun x => s * |x|)
+  else 0
+
+abbrev halfCauchyMeasure (s : ℝ) : Measure ℝ := halfStudentTMeasure 1 s
+
+def negativeMultinomialMeasure {ι : Type*} [Fintype ι]
+    (r p₀ : ℝ) (p : ι → ℝ≥0) : Measure (ι → ℕ) :=
+  if 0 < p₀ ∧ p₀ + ∑ i, (p i : ℝ) = 1 then
+    if r = 0 then Measure.dirac 0
+    else if 0 < r then
+      (gammaMeasure r p₀).bind
+        (fun lam => Measure.pi (fun i => poissonMeasure (p i * Real.toNNReal lam)))
+    else 0
+  else 0
+
+def betaNegativeBinomialMeasure (r a b : ℝ) : Measure ℕ :=
+  if 0 < a ∧ 0 < b ∧ 0 ≤ r then
+    (betaMeasure a b).bind (TauCeti.Probability.negativeBinomialMeasure r)
+  else 0
+
+def wrappedCauchyMeasure (m : AddCircle (2 * Real.pi)) (γ : ℝ≥0) :
+    Measure (AddCircle (2 * Real.pi)) :=
+  (cauchyMeasure 0 γ).map (fun x : ℝ => m + (x : AddCircle (2 * Real.pi)))
+
+theorem wrappedCauchyMeasure_conv (m₁ m₂ : AddCircle (2 * Real.pi)) (γ₁ γ₂ : ℝ≥0) :
+    wrappedCauchyMeasure m₁ γ₁ ∗ wrappedCauchyMeasure m₂ γ₂ =
+      wrappedCauchyMeasure (m₁ + m₂) (γ₁ + γ₂) := by sorry
+
+/-! ### Correlation coordinates and LKJ reference measure -/
+
+abbrev strictLowerTriangle (p : ℕ) := {ij : Fin p × Fin p // ij.2 < ij.1}
+
+def correlationCoordinates (p : ℕ) (x : strictLowerTriangle p → ℝ) : SymmetricMatrix p :=
+  ⟨fun i j => if h : j < i then x ⟨(i, j), h⟩
+    else if h : i < j then x ⟨(j, i), h⟩ else 1, by sorry⟩
+
+def correlationLebesgue (p : ℕ) : Measure (SymmetricMatrix p) :=
+  (volume : Measure (strictLowerTriangle p → ℝ)).map (correlationCoordinates p)
+
+def lkjNormalizer (p : ℕ) (η : ℝ) : ℝ :=
+  ∏ j ∈ Finset.range (p - 1), ProbabilityTheory.beta (1 / 2)
+    (η + ((p : ℝ) - j - 2) / 2) ^ (p - j - 1)
+
+def lkjMeasure (p : ℕ) (η : ℝ) : Measure (SymmetricMatrix p) := by
+  classical
+  exact if 0 < η then
+    (correlationLebesgue p).withDensity (fun R =>
+      if (R.val).PosDef then ENNReal.ofReal (Real.rpow (Matrix.det R.val) (η - 1) /
+        lkjNormalizer p η) else 0)
+  else 0
+
+theorem isProbabilityMeasure_lkjMeasure (p : ℕ) {η : ℝ} (hη : 0 < η) :
+    IsProbabilityMeasure (lkjMeasure p η) := by sorry
+
+theorem lkjMeasure_entry_beta {p : ℕ} {η : ℝ} (hη : 0 < η)
+    (i j : Fin p) (hij : i ≠ j) :
+    (lkjMeasure p η).map (fun R => (R.val i j + 1) / 2) =
+      betaMeasure (η + ((p : ℝ) - 2) / 2) (η + ((p : ℝ) - 2) / 2) := by sorry
+
+/-! ### Cast cdfs and almost-everywhere probability mixtures -/
+
+theorem cdf_map_natCast (μ : Measure ℕ) [IsProbabilityMeasure μ] (x : ℝ) :
+    cdf (μ.map (Nat.cast : ℕ → ℝ)) x =
+      if x < 0 then 0 else μ.real {k | k ≤ ⌊x⌋₊} := by sorry
+
+example {α β : Type*} [MeasurableSpace α] [MeasurableSpace β]
+    (ρ : Measure α) [IsProbabilityMeasure ρ] (K : α → Measure β)
+    (hK : AEMeasurable K ρ) (hprob : ∀ᵐ p ∂ρ, IsProbabilityMeasure (K p)) :
+    IsProbabilityMeasure (ρ.bind K) := MeasureTheory.isProbabilityMeasure_bind hK hprob
+
+/-! ### Gaussian transformations and noncentral Beta -/
+
+def multivariateLogNormalMeasure {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (m : EuclideanSpace ℝ ι) (S : Matrix ι ι ℝ) : Measure (EuclideanSpace ℝ ι) :=
+  (multivariateGaussian m S).map (fun x => WithLp.toLp 2 (fun i => Real.exp (x i)))
+
+theorem integrable_mixed_rpow_multivariateLogNormalMeasure {ι : Type*}
+    [Fintype ι] [DecidableEq ι] (m q : EuclideanSpace ℝ ι) (S : Matrix ι ι ℝ) :
+    Integrable (fun x : EuclideanSpace ℝ ι => ∏ i, Real.rpow (x i) (q i))
+      (multivariateLogNormalMeasure m S) := by sorry
+
+theorem integral_mixed_rpow_multivariateLogNormalMeasure {ι : Type*}
+    [Fintype ι] [DecidableEq ι] (m q : EuclideanSpace ℝ ι)
+    {S : Matrix ι ι ℝ} (hS : S.PosSemidef) :
+    ∫ x, ∏ i, Real.rpow (x i) (q i) ∂multivariateLogNormalMeasure m S =
+      Real.exp (⟪q, m⟫_ℝ + ⟪q, S.toEuclideanLin q⟫_ℝ / 2) := by sorry
+
+def logisticNormalChart {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (r : ι) (z : EuclideanSpace ℝ {i : ι // i ≠ r}) : EuclideanSpace ℝ ι :=
+  let zbar : ι → ℝ := fun i => if h : i = r then 0 else z ⟨i, h⟩
+  WithLp.toLp 2 (fun i => Real.exp (zbar i) / ∑ j, Real.exp (zbar j))
+
+def logisticNormalMeasure {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (r : ι) (m : EuclideanSpace ℝ {i : ι // i ≠ r})
+    (S : Matrix {i : ι // i ≠ r} {i : ι // i ≠ r} ℝ) : Measure (EuclideanSpace ℝ ι) :=
+  (multivariateGaussian m S).map (logisticNormalChart r)
+
+def logisticNormalReferenceChange {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (r s : ι) : Matrix {i : ι // i ≠ s} {i : ι // i ≠ r} ℝ :=
+  fun i j => (if i.val = j.val then 1 else 0) - (if s = j.val then 1 else 0)
+
+theorem logisticNormalMeasure_change_reference {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (r s : ι) (m : EuclideanSpace ℝ {i : ι // i ≠ r})
+    (S : Matrix {i : ι // i ≠ r} {i : ι // i ≠ r} ℝ) :
+    logisticNormalMeasure r m S =
+      logisticNormalMeasure s ((logisticNormalReferenceChange r s).toEuclideanLin m)
+        (logisticNormalReferenceChange r s * S * (logisticNormalReferenceChange r s)ᵀ) := by
+  sorry
+
+theorem logisticNormalMeasure_of_not_posSemidef {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (r : ι) (m : EuclideanSpace ℝ {i : ι // i ≠ r})
+    {S : Matrix {i : ι // i ≠ r} {i : ι // i ≠ r} ℝ} (hS : ¬ S.PosSemidef) :
+    logisticNormalMeasure r m S = Measure.dirac (logisticNormalChart r m) := by sorry
+
+def noncentralBetaMeasure (a b : ℝ) (lam : ℝ≥0) : Measure ℝ :=
+  if 0 ≤ a ∧ 0 < b then
+    ((noncentralChiSquaredMeasure (2 * a) lam).prod
+      (TauCeti.Probability.chiSquaredMeasure (2 * b))).map (fun x => x.1 / (x.1 + x.2))
+  else 0
+
+theorem noncentralBetaMeasure_zero_shape_mass {b : ℝ} (hb : 0 < b) (lam : ℝ≥0) :
+    (noncentralBetaMeasure 0 b lam).real {0} = Real.exp (-(lam : ℝ) / 2) := by sorry
+
+theorem quantile_noncentralBetaMeasure_zero_shape {b u : ℝ} (hb : 0 < b)
+    (lam : ℝ≥0) (hu : u ∈ Set.Ioo (0 : ℝ) 1)
+    (hw : u ≤ Real.exp (-(lam : ℝ) / 2)) :
+    (noncentralBetaMeasure 0 b lam).quantile u = 0 := by sorry
+
+/-! ### Exponential sums, mixtures, and named Beta specializations -/
+
+def hypoexponentialMeasure {ι : Type*} [Fintype ι] (rates : ι → ℝ) : Measure ℝ :=
+  if ∀ i, 0 < rates i then
+    (Measure.pi (fun i => expMeasure (rates i))).map (fun x => ∑ i, x i)
+  else 0
+
+theorem hypoexponentialMeasure_empty {ι : Type*} [Fintype ι] [IsEmpty ι]
+    (rates : ι → ℝ) : hypoexponentialMeasure rates = Measure.dirac 0 := by sorry
+
+theorem integrableExpSet_hypoexponentialMeasure {ι : Type*} [Fintype ι]
+    (rates : ι → ℝ) (hr : ∀ i, 0 < rates i) :
+    integrableExpSet id (hypoexponentialMeasure rates) = {t | ∀ i, t < rates i} := by sorry
+
+def hyperexponentialMeasure {ι : Type*} [Fintype ι]
+    (p : Convexity.StdSimplex ℝ≥0 ι) (rates : ι → ℝ) : Measure ℝ :=
+  if ∀ i, 0 < p.weights i → 0 < rates i then
+    ∑ i, (p.weights i : ℝ≥0∞) • expMeasure (rates i)
+  else 0
+
+theorem integrableExpSet_hyperexponentialMeasure {ι : Type*} [Fintype ι]
+    (p : Convexity.StdSimplex ℝ≥0 ι) (rates : ι → ℝ)
+    (hr : ∀ i, 0 < p.weights i → 0 < rates i) :
+    integrableExpSet id (hyperexponentialMeasure p rates) =
+      {t | ∀ i, 0 < p.weights i → t < rates i} := by sorry
+
+def arcsineMeasure : Measure ℝ := betaMeasure (1 / 2) (1 / 2)
+
+def semicircleMeasure : Measure ℝ :=
+  (betaMeasure (3 / 2) (3 / 2)).map (fun x => 2 * x - 1)
+
+theorem quantile_arcsineMeasure {u : ℝ} (hu : u ∈ Set.Ioo (0 : ℝ) 1) :
+    arcsineMeasure.quantile u = Real.sin (Real.pi * u / 2) ^ 2 := by sorry
+
+/-! ### Scalar stable laws in Nolan's S₀ parameterization -/
+
+def stableShapeValid (α β : ℝ) : Prop := 0 < α ∧ α ≤ 2 ∧ -1 ≤ β ∧ β ≤ 1
+
+def stableCharacteristicExponent (α β u : ℝ) : ℂ :=
+  if u = 0 then 0
+  else if α = 1 then
+    -(abs u : ℝ) - Complex.I * (2 * β / Real.pi : ℝ) * u * Real.log |u|
+  else
+    -(Real.rpow |u| α : ℂ) + Complex.I * (β * Real.tan (Real.pi * α / 2) : ℝ) *
+      (SignType.sign u * Real.rpow |u| α - u : ℝ)
+
+def stableS1Location (α β : ℝ) (s : ℝ≥0) (m : ℝ) : ℝ :=
+  m - if s = 0 then 0
+      else if α = 1 then (2 / Real.pi) * β * s * Real.log s
+      else β * s * Real.tan (Real.pi * α / 2)
+
+def stableMeasure (α β : ℝ) (s : ℝ≥0) (m : ℝ) : Measure ℝ := by sorry
+
+theorem stableMeasure_of_invalid {α β : ℝ} (h : ¬ stableShapeValid α β)
+    (s : ℝ≥0) (m : ℝ) : stableMeasure α β s m = 0 := by sorry
+
+theorem stableMeasure_zero_scale {α β : ℝ} (h : stableShapeValid α β) (m : ℝ) :
+    stableMeasure α β 0 m = Measure.dirac m := by sorry
+
+theorem isProbabilityMeasure_stableMeasure {α β : ℝ} (h : stableShapeValid α β)
+    (s : ℝ≥0) (m : ℝ) : IsProbabilityMeasure (stableMeasure α β s m) := by sorry
+
+theorem charFun_stableMeasure {α β : ℝ} (h : stableShapeValid α β)
+    (s : ℝ≥0) (m t : ℝ) :
+    charFun (stableMeasure α β s m) t =
+      Complex.exp (Complex.I * m * t + stableCharacteristicExponent α β ((s : ℝ) * t)) := by
+  sorry
+
+theorem integrable_rpow_abs_stableMeasure_iff {α β q : ℝ}
+    (h : stableShapeValid α β) (hα : α < 2) {s : ℝ≥0} (hs : 0 < s)
+    (m : ℝ) (hq : 0 < q) :
+    Integrable (fun x => Real.rpow |x| q) (stableMeasure α β s m) ↔ q < α := by sorry
+
+theorem integrableExpSet_stableMeasure {α β : ℝ} (h : stableShapeValid α β)
+    (s : ℝ≥0) (m : ℝ) :
+    integrableExpSet id (stableMeasure α β s m) =
+      if s = 0 ∨ α = 2 then Set.univ
+      else if β = 1 then Set.Iic 0
+      else if β = -1 then Set.Ici 0
+      else {0} := by sorry
+
+theorem exists_probabilityMeasure_of_tendsto_charFun
+    (μ : ℕ → ProbabilityMeasure ℝ) (f : ℝ → ℂ) (hf : ContinuousAt f 0)
+    (hlim : ∀ t, Tendsto (fun n => charFun (μ n) t) atTop (𝓝 (f t))) :
+    ∃ ν : ProbabilityMeasure ℝ, (∀ t, charFun ν t = f t) ∧ Tendsto μ atTop (𝓝 ν) := by sorry
+
+
+end Expansion
 
 end TauCetiRoadmap.StandardDistributions
