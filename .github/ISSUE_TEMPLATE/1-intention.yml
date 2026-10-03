@@ -47,6 +47,7 @@ body:
         - JacobianChallenge
         - LocalFieldsRamification
         - LocalGaloisGroups
+        - ModularCurves
         - ModularForms
         - Multiquadratic
         - NumberFieldArithmetic
