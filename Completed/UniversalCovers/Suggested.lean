@@ -112,15 +112,15 @@ theorem isQuotientCoveringMap [LocallyPathConnectedSpace X] [PathConnectedSpace 
     IsQuotientCoveringMap (UniversalCover.proj (x₀ := x₀)) (FundamentalGroup X x₀) :=
   UniversalCover.isQuotientCoveringMap
 
-/-- **Milestone 4 — the deck transformation group.** `Deck p` is a subgroup of the
+/-- **Milestone 4 — the deck transformation group.** `deck p` is a subgroup of the
 self-homeomorphisms of the total space, and so is a group acting faithfully and continuously. -/
-example {E : Type u} [TopologicalSpace E] (p : E → X) : Subgroup (E ≃ₜ E) := Deck p
+example {E : Type u} [TopologicalSpace E] (p : E → X) : Subgroup (E ≃ₜ E) := deck p
 
-example {E : Type u} [TopologicalSpace E] (p : E → X) : MulAction (Deck p) E := inferInstance
+example {E : Type u} [TopologicalSpace E] (p : E → X) : MulAction (deck p) E := inferInstance
 
-example {E : Type u} [TopologicalSpace E] (p : E → X) : FaithfulSMul (Deck p) E := inferInstance
+example {E : Type u} [TopologicalSpace E] (p : E → X) : FaithfulSMul (deck p) E := inferInstance
 
-example {E : Type u} [TopologicalSpace E] (p : E → X) : ContinuousConstSMul (Deck p) E :=
+example {E : Type u} [TopologicalSpace E] (p : E → X) : ContinuousConstSMul (deck p) E :=
   inferInstance
 
 end Stage0
@@ -136,7 +136,7 @@ resolves against the opposite group: the `π₁` action of Stage 0.3 is a left a
 group is the opposite of the fundamental group, not the fundamental group itself. -/
 noncomputable def deckFundamentalGroupEquiv [LocallyPathConnectedSpace X] [PathConnectedSpace X]
     [SemilocallySimplyConnectedSpace X] (x₀ : X) :
-    Deck (UniversalCover.proj (x₀ := x₀)) ≃* (FundamentalGroup X x₀)ᵐᵒᵖ :=
+    deck (UniversalCover.proj (x₀ := x₀)) ≃* (FundamentalGroup X x₀)ᵐᵒᵖ :=
   UniversalCover.deckFundamentalGroupEquiv x₀
 
 /-- With that isomorphism, `UniversalCover x₀ / π₁(X, x₀) ≃ X` is the quotient-cover statement of
@@ -216,7 +216,7 @@ theorem isomorphic_iff_conjugate (H K : Subgroup (FundamentalGroup X x₀)) :
 noncomputable def deckSubgroupQuotientProjEquiv (H : Subgroup (FundamentalGroup X x₀)) :
     (Subgroup.normalizer (H : Set (FundamentalGroup X x₀))) ⧸
         H.subgroupOf (Subgroup.normalizer (H : Set (FundamentalGroup X x₀)))
-      ≃* Deck (UniversalCover.subgroupQuotientProj x₀ H) :=
+      ≃* deck (UniversalCover.subgroupQuotientProj x₀ H) :=
   UniversalCover.deckSubgroupQuotientProjEquiv x₀ H
 
 omit [LocallyPathConnectedSpace X] [SemilocallySimplyConnectedSpace X] in
@@ -224,7 +224,7 @@ omit [LocallyPathConnectedSpace X] [SemilocallySimplyConnectedSpace X] in
 group acts transitively on a fibre. -/
 theorem isRegular_iff_fiber_isPretransitive {E : Type u} [TopologicalSpace E]
     [PreconnectedSpace E] {p : E → X} (hp : IsCoveringMap p) {x : X} (e : p ⁻¹' {x}) :
-    Deck.IsRegular p ↔ MulAction.IsPretransitive (Deck p) (p ⁻¹' {x}) :=
+    Deck.IsRegular p ↔ MulAction.IsPretransitive (deck p) (p ⁻¹' {x}) :=
   Deck.isRegular_iff_fiber_isPretransitive hp e
 
 /-- **Regularity is normality**, and then the deck group is `π₁(X, x₀)/H`. -/
@@ -233,7 +233,7 @@ theorem isRegular_iff_normal (H : Subgroup (FundamentalGroup X x₀)) :
   UniversalCover.isRegular_subgroupQuotientProj_iff_normal x₀ H
 
 noncomputable def deckEquivOfNormal (H : Subgroup (FundamentalGroup X x₀)) [H.Normal] :
-    FundamentalGroup X x₀ ⧸ H ≃* Deck (UniversalCover.subgroupQuotientProj x₀ H) :=
+    FundamentalGroup X x₀ ⧸ H ≃* deck (UniversalCover.subgroupQuotientProj x₀ H) :=
   UniversalCover.deckSubgroupQuotientProjEquivOfNormal x₀ H
 
 end Stage2

@@ -244,7 +244,10 @@ skeleta and their colimit maps rather than a parallel cell-filtration record.
 
 ## Stage 5: bundles, covers, products, and finite-cover descent
 
-This stage consumes Stages 2--4.
+This stage consumes Stages 2--4, with one exception: the product maps of item 1 (the
+Alexander--Whitney and Eilenberg--Zilber maps, the shuffle map, and the chain homotopies between
+them) consume only Stage 2 and can proceed alongside Stages 3 and 4.  The Kunneth spectral
+sequence and theorems of item 1, and items 2--7, consume all of Stages 2--4.
 
 1. Construct the Alexander--Whitney and Eilenberg--Zilber maps for singular chains, the shuffle
    map, and the chain homotopies proving they are inverse up to homotopy.  Over every commutative
@@ -410,14 +413,16 @@ Chapters 3 and 12, supplies the Kan-group construction and comparison route.
 | 2 relative homology | current Mathlib and #41285/#38369's shapes | 1 |
 | 3 subdivision/excision | 2 | 1 and 6's cochain foundations |
 | 4 CW/cellular | 2--3 | 1 |
+| 5 product maps (item 1) | 2 | 1, 3, 4 |
 | 5 bundles/covers/finite covers | 2--4 | 1 |
 | 6 cohomology/duality | 2, Stage 5 product maps, external orientation/collars | 1 |
 | 7 Euler characteristic | 2--6 | 1 |
 | 8 Hurewicz/Whitehead | 2--4 and the cited external roadmaps | 1, 5--7 |
 
 In particular, Stage 1 is independent; the chain `2 -> 3 -> 4` is strict; Stages 2--4 all feed
-Stage 5; and every stage from 2 through 6 feeds Stage 7.  No implementation may reverse one of
-these arrows by assuming a downstream comparison theorem as input.
+Stage 5, except that Stage 2 alone feeds the product maps of Stage 5 item 1; and every stage from
+2 through 6 feeds Stage 7.  No implementation may reverse one of these arrows by assuming a
+downstream comparison theorem as input.
 
 ## Acceptance checks
 

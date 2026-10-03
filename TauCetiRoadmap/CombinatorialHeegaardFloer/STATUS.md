@@ -1,37 +1,58 @@
-<!--tauceti-status:v1 {"roadmap":"CombinatorialHeegaardFloer","to_sha":"b53ed554b8fc7cc0d6de54eb265d3b75e48a0d85","ts":"2026-09-08T04:21:52Z"}-->
+<!--tauceti-status:v1 {"roadmap":"CombinatorialHeegaardFloer","to_sha":"22df7c042dd40104856f178b64774ef6681232e1","ts":"2026-10-01T07:27:52Z"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Lane G","remaining":"exactness of the reduced X-stabilization cone, commutation invariance (G.5), tau and the structure theorem (G.6), and G.7-G.13","state":"partial"},{"id":"Lane ALG","remaining":"structure theorem for finitely generated bigraded F[U]-modules; filtered chain complexes","state":"partial"},{"id":"Lane K","remaining":"Cromwell's theorem and matching the grid determinant with the Alexander polynomial","state":"untouched"},{"id":"Lane L","remaining":"Z[U] lattice homology, Neumann-move invariance, the E8 computation","state":"partial"},{"id":"Lane H","remaining":"the chain complex, the nice-move calculus, and HF-hat_st with its invariance","state":"partial"}],"readme_sha":"b0a06bcbcbf2b463727d6e497c50aa531a405f2ca476e0d9cf87078126864a9d","roadmap":"CombinatorialHeegaardFloer","to_sha":"22df7c042dd40104856f178b64774ef6681232e1"}-->
 # Status: CombinatorialHeegaardFloer
 
-This file documents the status of the CombinatorialHeegaardFloer roadmap up until `b53ed55` (2026-09-08T04:21:52Z). There may have been subsequent updates.
+This file documents the status of the CombinatorialHeegaardFloer roadmap up until `22df7c0` (2026-10-01T07:27:52Z). There may have been subsequent updates.
 
 It is generated, and its prose is not security-validated; see
 https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 ## Where this roadmap stands
 
-**At a glance.** Lane G has the whole chain-level package over `𝔽₂` — diagrams, moves, links, gradings, the bigrading, all three complexes, the grid determinant formula — but not `∂² = 0` in general, not invariance, and not the homology of any nontrivial diagram. Lane L has its first computed lattice homology and a `U`-tower in every negative-definite plumbing, in characteristic two and with no Neumann-move invariance. Lane ALG has the stabilization and filtered-colimit API the roadmap asked for; Lanes K and H have not begun.
+**At a glance.** Lane G has grid homology in all three flavours over `𝔽₂`. It has `∂² = 0`, `GH⁻` of a knot grid as an `𝔽[U]`-module, the grid determinant as Euler characteristic, and the top non-torsion degree of torus knot grids. Invariance is not proved, so τ, the Milnor conjecture and everything after them have not started. Every ingredient of `X`-stabilization invariance is in place, but they have not been combined. Lanes L, ALG and H are partial, and Lane K has not begun.
 
 ### Named results
 
-- **The grid determinant formula and the Euler characteristic** — the alternating Alexander state sum of a grid diagram is a sign times a monomial times [the determinant of its weight matrix](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/Grid/Determinant.html#TauCeti.GridDiagram.stateSum_eq_smul_T_mul_det_weightMatrix), and on an odd-component diagram that expression is [the graded Euler characteristic of the bigraded chain module](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/Grid/EulerCharacteristic.html#TauCeti.OddComponentGridDiagram.gradedEulerChar_eq_smul_T_mul_det_weightMatrix). That is milestone G.4 on the chain side: the determinant is not yet matched to the Alexander polynomial, and with `∂² = 0` open it is not an Euler characteristic of homology.
-- **Links as grids modulo moves** — [`GridLink`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/Grid/Move.html#TauCeti.GridLink) is grid diagrams of every size modulo commutation and (de)stabilization, with [two diagrams presenting the same link exactly when moves connect them](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/Grid/Move.html#TauCeti.GridDiagram.toGridLink_eq_iff_movesTo): nothing waits on Cromwell's theorem.
-- **Lattice homology of a one-vertex negative-definite plumbing** — [free of rank one over `𝔽₂[U]`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LowDimTopology/Plumbing/OneVertex.html#TauCeti.coefficientEquivOneVertexPlumbingLatticeHomology) in every spin^c structure: one `U`-tower, the first lattice homology this roadmap computes rather than defines.
-- **The `U`-tower in every negative-definite plumbing** — a minimal-weight lattice point is a cycle [no nonzero multiple of which is a boundary](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LowDimTopology/Plumbing/Tower.html#TauCeti.PlumbingGraph.exists_injective_latticeHomologyCycleMap), so the homology is nonzero; [`E₈`'s too](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LowDimTopology/Plumbing/E8.html#TauCeti.e8Plumbing_not_isZero_latticeHomology) in every spin^c structure, though its rank is unknown.
-- **Both blow-ups split the intersection form** — blowing up at a vertex or [along an edge](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LowDimTopology/Plumbing/EdgeBlowUp.html#TauCeti.PlumbingGraph.intersectionForm_blowUpEdgeEquiv) adds an orthogonal `⟨-1⟩`, [preserves and reflects negative-definiteness](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LowDimTopology/Plumbing/EdgeBlowUp.html#TauCeti.PlumbingGraph.isNegativeDefinite_blowUpEdge_iff), and fixes the infimum of the characteristic weight: the Neumann moves in usable form, but nothing yet about homology.
+- **`∂² = 0` for the grid complexes.** The unblocked grid differential over `𝔽₂[V₀, …, V_{n-1}]` [squares to zero](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/Grid/Differential/Square/Zero.html#TauCeti.GridDiagram.unblockedDifferential_comp_self_eq_zero). The proof uses the book's case analysis of juxtaposed empty rectangles, and the blocked theories follow by specialization.
+- **The variables act as one `U`.** On a knot grid, [every `V_i` acts identically on homology](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/Grid/XHomotopy/Complex.html#TauCeti.GridDiagram.IsKnot.homologyMap_X_smul_eq), which makes `GH⁻` [an `𝔽[U]`-module](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/Grid/Homology/Unblocked.html#TauCeti.GridDiagram.IsKnot.unblockedHomologyModule).
+- **The Euler characteristic of grid homology.** The graded Euler characteristic of fully blocked grid homology [is the normalized grid determinant](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/Grid/Homology/EulerCharacteristic.html#TauCeti.OddComponentGridDiagram.gradedHomologyEulerChar_eq_smul_T_mul_det_weightMatrix). This is milestone G.4, with the Alexander-polynomial identification left to Lane K.
+- **The top non-torsion degree of torus knot grids.** On the standard grid of the `(p+1, q+1)` torus knot, `GH⁻` [has top non-torsion Alexander degree `p q / 2`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/Grid/TorusLink/Homology.html#TauCeti.GridDiagram.two_mul_supNonTorsionDegree_torusLink), which is `3` for `T(3,4)`. This is the grid-level content of `τ(T_{3,4}) = 3`, but it is not yet a statement about the knot.
+- **The `U`-tower in lattice homology.** In every negative-definite plumbing, a minimal-weight lattice point gives a cycle [no nonzero multiple of which is a boundary](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LowDimTopology/Plumbing/Tower.html#TauCeti.PlumbingGraph.exists_injective_latticeHomologyCycleMap).
 
 ### Notable definitions and infrastructure
 
-- [`GridChainMinus`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/Grid/Unblocked.html#TauCeti.GridChainMinus), the unblocked complex `GC⁻` over `𝔽₂[V₀, …, V_{n-1}]`, the simply blocked theory its [specialization at `V_i = 0`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/Grid/SimplyBlocked.html#TauCeti.GridDiagram.simplyBlockedDifferential). Everything from invariance onwards lives here: stabilization needs a mapping cone of `V₁ - V₂` on it, `τ` its `𝔽[U]`-module structure.
-- [`Bigraded.StableSeries`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Bigraded/Stabilization.html#TauCeti.Bigraded.StableSeries): bigraded Poincaré series up to `⊗ W`-stabilization, with [reduction a complete invariant](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Bigraded/Stabilization.html#TauCeti.Bigraded.isStablyEquiv_iff_reducedRep_eq) of a stable class. This answers the roadmap's demand for stabilization as API, but at the level of dimension data only, not modules.
-- The characteristic-weight filtration of the lattice complex, whose sublevels are [finitely generated over `𝔽₂[U]`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LowDimTopology/Plumbing/Filtration/Basic.html#TauCeti.PlumbingChain.characteristicWeightDegreePart_fg) on a negative-definite plumbing and have [lattice homology as their filtered colimit](https://taucetiproject.github.io/TauCeti/docs/TauCeti/LowDimTopology/Plumbing/Filtration/Homology.html#TauCeti.PlumbingGraph.latticeWeightSublevelHomologyCoconeIsColimit): an infinite lattice reached by finite pieces.
+- [`GridLink`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/Grid/Move.html#TauCeti.GridLink) defines a link as grid diagrams modulo commutation and (de)stabilization. Invariance theorems can target it without waiting on Cromwell's theorem.
+- The [stabilization map is a quasi-isomorphism whenever a reduced fully blocked comparison is bijective on homology](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/Grid/Stabilization/Reduction.html#TauCeti.GridDiagram.quasiIso_stabilizeXMap_of_bijective). That condition now has its intended tool: [exactness from a weight-preserving matching of generators](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Homology/SquareZero/Contraction.html#LinearMap.ker_le_range_of_matching). The grid side supplies [the row-swap matching](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/Grid/Stabilization/Matching.html#TauCeti.GridDiagram.stabilizeXMatching) and a [level that drops across rectangles covering outer squares](https://taucetiproject.github.io/TauCeti/docs/TauCeti/KnotTheory/Grid/Stabilization/Level.html#TauCeti.GridDiagram.stabilizeXLevel_lt_or_disjoint).
+- The [top non-torsion degree](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Module/GradedModule/NonTorsionDegree.html#TauCeti.InternalGrading.supNonTorsionDegree) of a graded `k[X]`-module is the shape τ will take. It can be used now, before the structure theorem exists.
 
 ### Roadmap coverage
 
-G.1, G.2 and the chain side of G.4 are done. G.3 is partial: all three complexes exist with their gradings, but `∂² = 0` holds only in size at most two and, in the general argument, on the annular and disjoint branches of the trichotomy. G.5 still has only its combinatorial half, and G.6-G.13 are untouched. Lane ALG has bigraded Poincaré series, their Euler characteristic, the stabilization quotient and filtered colimits of module complexes, but neither the structure theorem for finitely generated bigraded `𝔽[U]`-modules nor filtered chain complexes. Lane L has the lattice complex, both blow-ups, top-degree vanishing, the weight filtration, the `U`-tower and the one-vertex computation, all over `𝔽₂[U]`; Némethi's `ℤ[U]` theory and Neumann invariance are untouched. Lanes K and H have not started.
+**Lane G** is partial. G.1–G.4 are done, with G.4 in its grid-determinant form. G.5 is partial:
+
+- `X`-stabilization has its mapping cone, its reduction modulo the variables, and the matching and level for the reduced cone. Exactness of that cone remains open.
+- Commutation has the pentagon map, but its chain-map identity still lacks some overlapping cases, and there is no hexagon homotopy.
+
+G.6 has `GH⁻` as an `𝔽[U]`-module, the specialization exact sequence and the top non-torsion degree. It lacks the structure theorem and a definition of τ. G.7–G.13 are untouched.
+
+**Lane ALG** is partial. It has:
+
+- mapping-cone and polynomial-extension lemmas;
+- two-out-of-three for quasi-isomorphisms;
+- a graded Nakayama lemma;
+- exactness criteria from contracting homotopies and matchings.
+
+It has neither the structure theorem nor filtered complexes.
+
+**Lane L** is partial, all over `𝔽₂[U]`. It has the complex, blow-ups, the weight filtration, the tower and spin^c orbits. Némethi's `ℤ[U]` theory and Neumann invariance are untouched.
+
+**Lane H** is partial, within H.1. It has generators, domains, periodic domains, weak admissibility and a Maslov index. It has no differential, no nice moves and no `HF̂_st`.
+
+**Lane K** has not started.
 
 ## The frontier
 
-- **`∂⁻ ∘ ∂⁻ = 0`.** The blocking case is where the two rectangles share exactly one side column: three of its four configurations still need the recut pairing each decomposition with a second one through a different intermediate state.
-- **Grid homology of a nontrivial grid.** Every homology so far lives in size `n ≤ 2`, where the differential vanishes for lack of rectangles. The trefoil's `5 × 5` grid, the roadmap's first acceptance criterion, waits on `∂² = 0` and on rectangle counts that evaluate.
-- **Commutation and stabilization invariance.** No pentagon-counting chain map or hexagon-counting homotopy exists; stabilization additionally wants the mapping-cone identification, which `GC⁻` now makes statable.
-- **Lattice homology of `E₈`, and Neumann invariance.** Nonvanishing is known, the rank is not, and the literature's answer is over `ℤ[U]`. Invariance needs the blow-up results carried from the lattice up to the homology, plus the remaining Neumann moves.
-- **Lane H (stable `HF̂`).** Untouched: pointed Heegaard diagram combinatorics, admissibility and the nice-move calculus are all still to be built, and no other lane feeds it.
+- **Stabilization invariance.** Verify that the row-swap matching and the level satisfy the matching criterion's hypotheses for the reduced cone. That makes the cone exact, and so the reduced comparison is bijective. The other stabilization types must then be handled or reduced to this one.
+- **Commutation invariance.** The remaining overlapping rectangle–pentagon configurations need recuts to finish the chain-map identity. The pentagon map then needs a hexagon-counting homotopy inverse.
+- **τ and `τ(T_{3,4}) = 3`.** Define τ as minus the top non-torsion degree of `GH⁻` and lift it through `GridLink`. The torus-knot computation then gives the acceptance check almost immediately. This waits on both invariance targets above.
+- **Grid homology of the trefoil.** The first acceptance criterion is still open: `GĤ` of the `5 × 5` trefoil with its bigradings. It needs rectangle counts that evaluate.
+- **Lattice homology of `E₈`, and Neumann invariance.** Nonvanishing is known but the rank is not. Invariance needs the blow-up results carried up to homology.

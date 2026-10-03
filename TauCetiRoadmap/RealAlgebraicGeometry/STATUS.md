@@ -1,0 +1,38 @@
+<!--tauceti-status:v1 {"roadmap":"RealAlgebraicGeometry","to_sha":"8a32441b6e9708f9d6aeb9de8d3b11a35b9ee6ce","ts":"2026-10-01T19:24:41Z"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 1","remaining":"the Cauchy index, and one-sided and closed-endpoint versions of Sturm–Tarski","state":"partial"},{"id":"Layer 2","remaining":"subresultant Bezout identities, agreement with remainder sequences, signedPsc, and the Cauchy index formula","state":"partial"},{"id":"Layer 3","remaining":"semialgebraic functions, recursive BKR reduction, whole-line sign determination, uniform root descriptions","state":"partial"},{"id":"Layer 4","remaining":"real root continuity, constancy on connected bases, and the family matching lemma","state":"partial"},{"id":"Layer 5","state":"untouched"},{"id":"Layer 6","state":"untouched"},{"id":"Layer 7","state":"untouched"},{"id":"Layer 8","state":"untouched"}],"readme_sha":"4e22960daa5e9be64435d2e9eacdf53d942bab345e59d52a611561d4a59a67d3","roadmap":"RealAlgebraicGeometry","to_sha":"8a32441b6e9708f9d6aeb9de8d3b11a35b9ee6ce"}-->
+# Status: RealAlgebraicGeometry
+
+This file documents the status of the RealAlgebraicGeometry roadmap up until `8a32441` (2026-10-01T19:24:41Z). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** The univariate foundations are nearly complete: real closures, real closed field algebra, Sturm–Tarski in full generality and Thom encodings. Layers 2–4 each have their central first theorem: the subresultant gcd criterion, semialgebraic sets with the full BKR inversion, and continuity of complex roots with multiplicity. Collins delineability, CAD, quantifier elimination, McCallum and Lazard (Layers 5–8) have not begun.
+
+### Named results
+
+- **Existence of ordered real closures** — every ordered field has a real closed, algebraic, order-extending extension in its own universe, with no countability or Archimedean hypothesis: [`exists_realClosure`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/FieldTheory/RealClosure/Basic.html#TauCeti.RealClosure.exists_realClosure).
+- **The Sturm–Tarski theorem** — over any real closed field, the drop in sign variations of a signed remainder chain is the sum of `sign q` over the distinct roots of `p`, with no squarefreeness assumption. It holds on bounded intervals, half-lines and the [whole line](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Polynomial/Sturm/Infinity.html#TauCeti.Sturm.sum_sign_univ): [`Sturm.sum_sign`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Polynomial/Sturm/Tarski.html#TauCeti.Sturm.sum_sign).
+- **Thom's lemma for root encodings** — the signs of a root's derivatives determine it, and the order of two roots can be read off where their encodings last differ: [`thomEncoding_injOn`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Polynomial/Thom.html#Polynomial.thomEncoding_injOn), [`lt_iff_thomEncoding`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Polynomial/Thom.html#Polynomial.lt_iff_thomEncoding).
+- **The subresultant gcd criterion** — for nonzero polynomials at their actual degrees, the degree of the gcd is the first index with a nonzero principal subresultant coefficient. This also gives the distinct-root count from principal coefficients: [`natDegree_gcd_eq_iff_psc`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RingTheory/Polynomial/Subresultant/GCD.html#Polynomial.natDegree_gcd_eq_iff_psc).
+- **Continuity of roots with multiplicities** — the roots of a monic polynomial over `ℂ` can be matched bijectively, with multiplicity, to those of any sufficiently close monic polynomial of the same degree. Disc and continuous-family forms are included: [`Monic.exists_prod_X_sub_C_norm_sub_lt`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Polynomial/ContinuityOfRoots.html#Polynomial.Monic.exists_prod_X_sub_C_norm_sub_lt).
+
+### Notable definitions and infrastructure
+
+- **Tarski queries and the BKR moment matrix.** [`tarskiQuery`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Geometry/RealAlgebraic/SignDetermination/Defs.html#Polynomial.tarskiQuery) satisfies the full ternary matrix identity, and [inverting it](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Geometry/RealAlgebraic/SignDetermination/Roots.html#Polynomial.fullInverse_mulVec_tarskiQuery) recovers how many roots realize each sign condition. This is the non-recursive core of sign determination.
+- **Semialgebraic sets.** [`IsSemialgebraic`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Geometry/RealAlgebraic/Semialgebraic/Basic.html#TauCeti.IsSemialgebraic) is the intrinsic Boolean-combination definition. It is closed under polynomial preimages, coordinate changes, sections and products, and none of that relies on projection. This is the setting in which stacks and cells will be stated.
+- **Subresultants and reducta.** Principal coefficients and subresultant polynomials are defined as Sylvester minors at fixed formal bounds. [`reducta`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RingTheory/Polynomial/Reductum.html#Polynomial.reducta) is a finite set that [captures every specialization](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RingTheory/Polynomial/Reductum.html#Polynomial.exists_mem_reducta_map_eq) of a polynomial. Together these are the raw material of the Collins projection set.
+
+### Roadmap coverage
+
+Layer 1 is partial. Done: real closure existence, the real closed field algebra, IVT, Rolle with its mean-value consequences, Sturm and Sturm–Tarski without the simple-root hypothesis, and Thom encodings. Missing: the Cauchy index and the one-sided and closed-endpoint (`[a,b]`, `(a,b]`, `[a,b)`) versions. Layer 2 is partial. Done: the fixed-bound definitions, the gcd criterion, the distinct-root and gcd-multiplicity formulas, and reducta. Missing: the subresultant Bézout identities, agreement with signed remainder sequences, signed normalization, and the permanences-minus-variations formula for the Cauchy index. Layer 3 is partial. Done: the full BKR inversion and semialgebraic sets. Missing: semialgebraic functions, the recursive BKR reduction, whole-line sign determination and uniform root descriptions. Layer 4 is partial: complex root matching is done, for one polynomial and for continuous families at a point. Real roots, connected bases and the family matching lemma are not. Layers 5–8 are untouched.
+
+## The frontier
+
+- **The Cauchy index** — define it with the positive-jump convention and prove its Euclidean recurrence, then add the closed and half-open endpoint forms of Sturm–Tarski. Layer 2's signed subresultant formula depends on it.
+- **Real roots in families** — from the complex matching, derive continuity of the ordered real roots, local and then connected-base constancy of their number and multiplicities, and the family matching lemma under fixed pairwise gcd degrees.
+- **Signed subresultants** — the subresultant Bézout identities, `signedPsc`, and permanences minus variations equalling the Cauchy index of `q/p`.
+- **Recursive BKR sign determination** — restrict to realized columns, choose independent rows and prove counts are preserved when a polynomial is adjoined. Whole-line sign determination then follows.
+- **Uniform root descriptions and the Collins projection** — quantifier-free coefficient-sign descriptions of the `i`th root and its sectors, plus semialgebraic functions. The projection set itself can now be assembled from reducta and principal coefficients; delineability needs the family matching lemma first.
