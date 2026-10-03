@@ -1,4 +1,12 @@
 import Mathlib
+import TauCeti.AlgebraicTopology.FundamentalGroup.BasepointChange
+import TauCeti.AlgebraicTopology.UniversalCover.Classification.ActionCover
+import TauCeti.AlgebraicTopology.UniversalCover.Classification.Bijection
+import TauCeti.AlgebraicTopology.UniversalCover.Classification.DeckGroup
+import TauCeti.AlgebraicTopology.UniversalCover.Deck.FundamentalGroup.UniversalCover
+import TauCeti.AlgebraicTopology.UniversalCover.Deck.Regular.Monodromy
+import TauCeti.Topology.Homotopy.Monodromy.Basic
+import TauCeti.Topology.Homotopy.Monodromy.BasepointChange
 
 /-!
 # Belyi maps, dessins d'enfants, and three-point covers: target signatures
@@ -49,11 +57,14 @@ Conventions, recorded in `README.md` (§Pinned conventions):
   three rigidifications separately and the three quotient carriers are
   `ConnectedFiberNumberedCoverClass`, `ConnectedPointedCoverClass`, `ConnectedCoverClass`.
 * The two-open Seifert–van Kampen theorem is general algebraic topology and is owned by
-  UniversalCovers, not here; this file instantiates it (Layer 5.6) and exports no copy.
-* The associated-cover construction and the subgroup half of the covering classification are
-  intentionally absent here. Their semilocal-simple-connectivity and universal-cover carriers
-  are unresolved supplier contracts: UniversalCovers has not yet published compiled target
-  signatures. No local class stands in for that future public interface.
+  AlgebraicTopology (its Stage 1), not here; this file instantiates it (Layer 5.6) and exports no copy.
+* The universal cover, the associated cover of a `π₁`-set, deck groups and the subgroup half of
+  the covering classification are Tau Ceti declarations from the completed UniversalCovers
+  roadmap, and semilocal simple connectivity is Tau Ceti's
+  `TauCeti.SemilocallySimplyConnectedSpace`. This file imports them and restates each in the
+  form a Belyi layer consumes, closed by the supplier declaration (the section on the
+  UniversalCovers supply, and `subgroupConjSetoid_iff`); no local class or carrier stands in
+  for any of them.
 * The profinite integers as a ring, profinite exponentiation, and continuous outer
   automorphisms are generic group theory owned by `ProfiniteArithmetic`, the generic successor
   to `ProfiniteProPGroups` (#244), not by Belyi maps. Free profinite and free pro-`p` groups and
@@ -1078,10 +1089,10 @@ theorem periphInf_mul_periph1_mul_periph0 : periphInf * periph1 * periph0 = 1 :=
   rw [mul_assoc]
   exact inv_mul_cancel (periph1 * periph0)
 
-/-! **Layer 5.5 is a UniversalCovers supplier crossing, not a declaration of this roadmap.**
+/-! **Layer 5.5 is an AlgebraicTopology supplier crossing, not a declaration of this roadmap.**
 Van Kampen for two open sets with simply connected intersection is general algebraic
 topology, reusable far beyond three-point covers, and the pin has it in no form. Its exact
-owner is the UniversalCovers roadmap, which must publish `vanKampenLift`,
+owner is the AlgebraicTopology roadmap (Stage 1), which must publish `vanKampenLift`,
 `vanKampenLift_bijective`, `vanKampenEquiv` and `vanKampenEquiv_toMonoidHom` with the
 signatures pinned in README §5.5. This roadmap exports no local copy, alias or stand-in; it
 **instantiates** the supplier's theorem at the two-set cover of Layer 5.1 and reads off the
@@ -1089,7 +1100,7 @@ values on the canonical generators, which is Layer 5.6 below. -/
 
 /-- **Layer 5.6.** The fundamental group is free on the two peripheral generators — the
 instantiation this roadmap owns. Route: the two-set cover of 5.1, `π₁` of a punctured convex
-domain (5.4), and UniversalCovers' two-open van Kampen theorem applied to them. -/
+domain (5.4), and AlgebraicTopology's two-open van Kampen theorem applied to them. -/
 noncomputable def freeGroupEquiv :
     FreeGroup (Fin 2) ≃* FundamentalGroup ThricePuncturedSphere basePt := by
   sorry
@@ -1166,25 +1177,149 @@ end ThricePuncturedSphere
 
 /-- **Layer 5.3.** The fiber monodromy, packaged as a `MonoidHom` — a genuine
 homomorphism, with no `ᵐᵒᵖ`, by `IsCoveringMap.monodromy_trans_apply` and the
-`End`-multiplication convention. -/
+`End`-multiplication convention. This is Mathlib's `IsCoveringMap.monodromyPerm`, the
+permutation representation of `IsCoveringMap.fundamentalGroupMulAction`. -/
 noncomputable def monodromyHom {E : Type u} {X : Type v} [TopologicalSpace E]
     [TopologicalSpace X]
     {p : E → X} (hp : IsCoveringMap p) (x : X) :
-    FundamentalGroup X x →* Equiv.Perm (p ⁻¹' {x}) := by
-  sorry
+    FundamentalGroup X x →* Equiv.Perm (p ⁻¹' {x}) :=
+  hp.monodromyPerm x
 
 theorem monodromyHom_apply {E : Type u} {X : Type v} [TopologicalSpace E]
     [TopologicalSpace X]
     {p : E → X} (hp : IsCoveringMap p) (x : X)
     (γ : FundamentalGroup X x) (e : p ⁻¹' {x}) :
-    monodromyHom hp x γ e = hp.monodromy (FundamentalGroup.toPath γ) e := by
-  sorry
+    monodromyHom hp x γ e = hp.monodromy (FundamentalGroup.toPath γ) e :=
+  rfl
 
-/-! **Layer 6.2 remains a prose-only supplier crossing.** The README pins the associated-cover
-construction and its monodromy equation. It becomes a public target here only after
-UniversalCovers exports its semilocal-simple-connectivity class, universal-cover carrier, deck
-action, and quotient-covering theorem. A closed `#check` against those supplier declarations is
-required at that point. -/
+/-! ### Layers 5.7, 6.2–6.5: the UniversalCovers supply
+
+The general associated cover of a discrete `π₁`-set, the deck group of the universal cover, and
+the covering-space classification this roadmap composes with are Tau Ceti declarations from the
+completed UniversalCovers roadmap. Each statement below is the form in which a Belyi layer
+consumes one of them, closed by the supplier declaration, so that a change of spelling or carrier
+upstream fails here. The finite corollary of Layer 6.2 and its instantiation at `U` are this
+roadmap's own targets and are not stated here. -/
+
+section UniversalCoversSupply
+
+variable {X : Type u} [TopologicalSpace X] [PathConnectedSpace X] [LocallyPathConnectedSpace X]
+  [TauCeti.SemilocallySimplyConnectedSpace X] (x : X)
+
+/-- **Layer 5.7.** Changing the basepoint of a subgroup of `π₁` along a path. -/
+noncomputable example {y : X} (γ : Path x y) (H : Subgroup (FundamentalGroup X x)) :
+    Subgroup (FundamentalGroup X y) :=
+  TauCeti.FundamentalGroup.basepointChangeSubgroup γ H
+
+omit [PathConnectedSpace X] [LocallyPathConnectedSpace X]
+  [TauCeti.SemilocallySimplyConnectedSpace X] in
+/-- **Layer 5.7.** Moving the chosen lift by monodromy along a path changes the recovered subgroup
+by `basepointChangeSubgroup` along that path. -/
+theorem recoveredSubgroup_monodromy_path {E : Type u} [TopologicalSpace E] {p : E → X}
+    (hp : IsCoveringMap p) {y : X} (γ : Path x y) (e₀ : p ⁻¹' {x}) :
+    (FundamentalGroup.mapOfEq ⟨p, hp.continuous⟩ (hp.monodromy ⟦γ⟧ e₀).2).range =
+      TauCeti.FundamentalGroup.basepointChangeSubgroup γ
+        (FundamentalGroup.mapOfEq ⟨p, hp.continuous⟩ e₀.2).range :=
+  hp.range_mapOfEq_monodromy_path γ e₀
+
+/-- **Layer 6.2(1).** The class map `Ũ × S → assocCover S` is a quotient covering map for the
+diagonal action; this gives `assocCover S` its topology and the universal property for maps out
+of it. -/
+theorem assocCover_isQuotientCoveringMap_mk (S : Type u) [MulAction (FundamentalGroup X x) S]
+    [TopologicalSpace S] [DiscreteTopology S] :
+    IsQuotientCoveringMap
+      (Quotient.mk (MulAction.orbitRel (FundamentalGroup X x) (TauCeti.UniversalCover x × S)) :
+        TauCeti.UniversalCover x × S → TauCeti.UniversalCover.ActionCover x S)
+      (FundamentalGroup X x) :=
+  have : ContinuousConstSMul (FundamentalGroup X x) S :=
+    ⟨fun _ => continuous_of_discreteTopology⟩
+  TauCeti.BalancedProduct.isQuotientCoveringMap_mk S TauCeti.UniversalCover.isQuotientCoveringMap
+
+/-- **Layer 6.2(2).** The projection `assocCover S → X` is a covering map. This is the supplier's
+equivariant sheet computation, not a consequence of 6.2(1). -/
+theorem assocCover_isCoveringMap (S : Type u) [MulAction (FundamentalGroup X x) S]
+    [TopologicalSpace S] [DiscreteTopology S] :
+    IsCoveringMap (TauCeti.UniversalCover.actionCoverProj x S) :=
+  TauCeti.UniversalCover.isCoveringMap_actionCoverProj x S
+
+/-- **Layer 6.2(3).** The numbering `ν_S` of the fiber over `x`, in the direction `permCongr`
+needs: the inverse of the supplier's `s ↦ ⟦ũ₀, s⟧`. -/
+noncomputable def assocCoverNumbering (S : Type u) [MulAction (FundamentalGroup X x) S] :
+    ↥(TauCeti.UniversalCover.actionCoverProj x S ⁻¹' {x}) ≃ S :=
+  (TauCeti.UniversalCover.actionCoverFiberEquiv x S).symm
+
+/-- **Layer 6.2(4).** Monodromy read through `ν_S` is the given action of `π₁` on `S`, with no
+inverse and no `ᵐᵒᵖ`. -/
+theorem assocCoverNumbering_permCongr_monodromyHom (S : Type u)
+    [MulAction (FundamentalGroup X x) S] [TopologicalSpace S] [DiscreteTopology S]
+    (γ : FundamentalGroup X x) :
+    (assocCoverNumbering x S).permCongr (monodromyHom (assocCover_isCoveringMap x S) x γ) =
+      MulAction.toPerm γ := by
+  ext s
+  simp only [Equiv.permCongr_apply, MulAction.toPerm_apply, assocCoverNumbering,
+    Equiv.symm_symm]
+  exact (congrArg (TauCeti.UniversalCover.actionCoverFiberEquiv x S).symm
+    (TauCeti.UniversalCover.monodromy_actionCoverFiberEquiv x S γ s)).trans
+    (Equiv.symm_apply_apply _ _)
+
+omit [LocallyPathConnectedSpace X] [TauCeti.SemilocallySimplyConnectedSpace X] in
+/-- **Layer 6.2, the finite corollary's connectedness input.** Over a path-connected base, a
+cover is path-connected exactly when a fiber is nonempty and monodromy is transitive on it. -/
+theorem pathConnectedSpace_iff_monodromy_transitive {E : Type u} [TopologicalSpace E]
+    {p : E → X} (hp : IsCoveringMap p) :
+    PathConnectedSpace E ↔ Nonempty (p ⁻¹' {x}) ∧
+      (letI := hp.fundamentalGroupMulAction x
+       MulAction.IsPretransitive (FundamentalGroup X x) (p ⁻¹' {x})) :=
+  hp.pathConnectedSpace_iff x
+
+omit [PathConnectedSpace X] in
+/-- **Layer 6.3, the pointed subgroup half.** A pointed path-connected cover is isomorphic, over
+`X` and matching base points, to the quotient of the universal cover by exactly one subgroup. -/
+theorem existsUnique_subgroup_of_pointed {E : Type u} [TopologicalSpace E] [PathConnectedSpace E]
+    {p : E → X} (hp : IsCoveringMap p) {e₀ : E} (hpe : p e₀ = x) :
+    ∃! H : Subgroup (FundamentalGroup X x),
+      ∃ h : E ≃ₜ TauCeti.UniversalCover.SubgroupQuotient x H,
+        h e₀ = TauCeti.UniversalCover.SubgroupQuotient.basepoint x H ∧
+          TauCeti.UniversalCover.subgroupQuotientProj x H ∘ h = p :=
+  TauCeti.UniversalCover.existsUnique_subgroup_homeomorph_subgroupQuotient x hp hpe
+
+omit [PathConnectedSpace X] [LocallyPathConnectedSpace X]
+  [TauCeti.SemilocallySimplyConnectedSpace X] in
+/-- **Layer 6.3.** The recovered subgroup of a pointed cover is the stabilizer of the chosen point
+under monodromy. -/
+theorem stabilizer_eq_recoveredSubgroup {E : Type u} [TopologicalSpace E] {p : E → X}
+    (hp : IsCoveringMap p) (e : p ⁻¹' {x}) :
+    letI := hp.fundamentalGroupMulAction x
+    MulAction.stabilizer (FundamentalGroup X x) e =
+      (FundamentalGroup.mapOfEq ⟨p, hp.continuous⟩ e.2).range :=
+  hp.stabilizer_eq_range e
+
+omit [PathConnectedSpace X] [LocallyPathConnectedSpace X]
+  [TauCeti.SemilocallySimplyConnectedSpace X] in
+/-- **Layer 6.3.** The index of the recovered subgroup of a path-connected cover is its degree. -/
+theorem card_fiber_eq_index_recoveredSubgroup {E : Type u} [TopologicalSpace E]
+    [PathConnectedSpace E] {p : E → X} (hp : IsCoveringMap p) (e : p ⁻¹' {x}) :
+    Nat.card (p ⁻¹' {x}) = (FundamentalGroup.mapOfEq ⟨p, hp.continuous⟩ e.2).range.index :=
+  hp.card_fiber_eq_index e
+
+/-- **Layer 6.4.** The deck group of the universal cover is the **opposite** of `π₁`; Layer
+6.4 absorbs this `ᵐᵒᵖ` once. -/
+noncomputable def universalCoverDeckEquiv :
+    ↥(deck (TauCeti.UniversalCover.proj (x₀ := x))) ≃* (FundamentalGroup X x)ᵐᵒᵖ :=
+  TauCeti.UniversalCover.deckFundamentalGroupEquiv x
+
+/-- **Layer 6.5.** The cover attached to `H` is regular exactly when `H` is normal. -/
+theorem isRegular_subgroupQuotient_iff_normal (H : Subgroup (FundamentalGroup X x)) :
+    TauCeti.Deck.IsRegular (TauCeti.UniversalCover.subgroupQuotientProj x H) ↔ H.Normal :=
+  TauCeti.UniversalCover.isRegular_subgroupQuotientProj_iff_normal x H
+
+/-- **Layer 6.5.** For normal `H` the deck group of the cover attached to `H` is `π₁ ⧸ H`. -/
+noncomputable def deckSubgroupQuotientEquivOfNormal (H : Subgroup (FundamentalGroup X x))
+    [H.Normal] :
+    FundamentalGroup X x ⧸ H ≃* ↥(deck (TauCeti.UniversalCover.subgroupQuotientProj x H)) :=
+  TauCeti.UniversalCover.deckSubgroupQuotientProjEquivOfNormal x H
+
+end UniversalCoversSupply
 
 /-! ### Layer 6.3: the three combinatorial carriers
 
@@ -1244,8 +1379,10 @@ attribute [instance] ConnectedFiberNumberedCover.topE
   ConnectedFiberNumberedCover.pathConnectedE
 
 /-- **Layer 6.1.** A **connected** cover with one chosen point of the fiber, of degree `n`.
-The carrier Layer 6.3 classifies by marked triples, equivalently — by UniversalCovers
-milestone 8, which owns that half — by the index-`n` subgroups of `π₁`.
+The carrier Layer 6.3 classifies by marked triples, equivalently by the index-`n` subgroups of
+`π₁`: that half is UniversalCovers milestone 8, Tau Ceti's
+`TauCeti.UniversalCover.existsUnique_subgroup_homeomorph_subgroupQuotient`
+(`existsUnique_subgroup_of_pointed` above).
 
 ⚠ Connectedness is a field, not a convenience. A disconnected pointed cover recovers only the
 subgroup of the component containing the chosen point, so adjoining any unrelated cover as a
@@ -1539,9 +1676,10 @@ noncomputable def ConnectedPointedCoverClass.markedClass :
 
 /-- **Layer 6.3(3), the milestone.** Connected pointed covers of `(U, b)` up to pointed
 isomorphism correspond to connected triples with a marked label, modulo the diagonal
-relabeling action. ⚠ The composite with UniversalCovers milestone 8's pointed correspondence
-identifies this carrier with the index-`n` subgroups of `π₁(U, b)`; that half is the
-supplier's theorem and is not restated here. Hall's numbers `1, 3, 13, 71, 461` are the
+relabeling action. ⚠ The composite with UniversalCovers milestone 8's pointed correspondence,
+`TauCeti.UniversalCover.existsUnique_subgroup_homeomorph_subgroupQuotient`, identifies this
+carrier with the index-`n` subgroups of `π₁(U, b)`; that half is the supplier's theorem, restated
+above as the closed check `existsUnique_subgroup_of_pointed` and not reproved here. Hall's numbers `1, 3, 13, 71, 461` are the
 acceptance check on the count. -/
 theorem ConnectedPointedCoverClass.markedClass_bijective :
     Function.Bijective (ConnectedPointedCoverClass.markedClass (n := n)) := by
@@ -1566,12 +1704,47 @@ theorem ConnectedPointedCoverClass.isoClass_forgetPoint
   sorry
 
 /-- **Layer 6.3.** The conjugation action of a group on its subgroups, and the orbit relation
-it induces — the shape in which UniversalCovers milestone 8 states the unpointed half, and the
-target of the composite of `coverClassEquivIsoClass` with that milestone. ⚠ **Not**
-`ConjClasses (Subgroup G)`: `ConjClasses` is a monoid's quotient by conjugation **on itself**,
-and `Subgroup G` is not `G`. -/
+it induces: the target of the composite of `coverClassEquivIsoClass` with the unpointed half of
+UniversalCovers milestone 8. ⚠ **Not** `ConjClasses (Subgroup G)`: `ConjClasses` is a monoid's
+quotient by conjugation **on itself**, and `Subgroup G` is not `G`. -/
 noncomputable def subgroupConjSetoid {G : Type u} [Group G] : Setoid (Subgroup G) :=
   MulAction.orbitRel (ConjAct G) (Subgroup G)
+
+/-- **Layer 6.3.** `subgroupConjSetoid` is the relation in which the supplier states conjugacy,
+`∃ γ, K = H.map (MulAut.conj γ).toMonoidHom`. -/
+theorem subgroupConjSetoid_iff {G : Type u} [Group G] (H K : Subgroup G) :
+    subgroupConjSetoid H K ↔ ∃ γ : G, K = H.map (MulAut.conj γ).toMonoidHom := by
+  change MulAction.orbitRel (ConjAct G) (Subgroup G) H K ↔ _
+  rw [MulAction.orbitRel_apply, MulAction.mem_orbit_iff]
+  constructor
+  · rintro ⟨c, hc⟩
+    refine ⟨(ConjAct.ofConjAct c)⁻¹, ?_⟩
+    subst hc
+    ext g
+    simp only [Subgroup.mem_map, Subgroup.mem_pointwise_smul_iff_inv_smul_mem, ConjAct.smul_def]
+    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply, inv_inv, ConjAct.ofConjAct_inv]
+    constructor
+    · intro h
+      refine ⟨ConjAct.ofConjAct c * g * (ConjAct.ofConjAct c)⁻¹, ?_, ?_⟩ <;> group
+      · simpa using h
+    · rintro ⟨y, hy, rfl⟩
+      simpa [mul_assoc] using hy
+  · rintro ⟨γ, rfl⟩
+    refine ⟨ConjAct.toConjAct γ⁻¹, ?_⟩
+    ext g
+    simp [Subgroup.mem_pointwise_smul_iff_inv_smul_mem, ConjAct.smul_def]
+
+/-- **Layer 6.3, the unpointed subgroup half.** Two subgroup quotients of the universal cover are
+isomorphic over `X` exactly when the subgroups are related by `subgroupConjSetoid`. -/
+theorem subgroupQuotient_iso_iff {X : Type u} [TopologicalSpace X] [PathConnectedSpace X]
+    [LocallyPathConnectedSpace X] [TauCeti.SemilocallySimplyConnectedSpace X] (x : X)
+    (H K : Subgroup (FundamentalGroup X x)) :
+    (∃ h : TauCeti.UniversalCover.SubgroupQuotient x H ≃ₜ TauCeti.UniversalCover.SubgroupQuotient x K,
+        TauCeti.UniversalCover.subgroupQuotientProj x K ∘ h =
+          TauCeti.UniversalCover.subgroupQuotientProj x H) ↔
+      subgroupConjSetoid H K := by
+  rw [TauCeti.UniversalCover.exists_homeomorph_subgroupQuotient_comp_eq_iff_exists_eq_map_conj,
+    subgroupConjSetoid_iff]
 
 /-! ### Layers 2.6, 6.3: the topological branch-point action
 
