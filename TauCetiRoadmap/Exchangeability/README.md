@@ -916,7 +916,46 @@ objects, not just the final theorem.
 * The tail-family of a process is antitone.
 * The Lévy downward theorem specializes correctly to an eventually constant decreasing
   filtration (a test of `tendsto_ae_condExp_iInf`, not a de Finetti example).
+  Implemented as `tendsto_ae_condExp_of_eventually_const`
+  (`TauCeti/Probability/Martingale/LevyDownwardEventuallyConst.lean`).
 * In the real-valued L² lane, bounded observables give `MemLp 2` automatically.
+
+## Roadmap-to-implementation references
+
+The milestone lists above name targets, and `Suggested.lean` permits implementation names to
+differ. This table points each milestone whose implementation lives under a different name, or
+only inside another proof, to where it is established, so the lists can be checked against
+the library. Each row was checked against the declaration's hypotheses and conclusion; the
+requirements above are unchanged.
+
+| Roadmap name | Implemented as | Module | Note |
+|---|---|---|---|
+| `exists_perm_extending_strictMono` | Mathlib `Equiv.Perm.exists_extending_pair`; finitely supported form `exists_compl_fixedBy_subset_apply_eq` | `Mathlib/Logic/Equiv/Fintype`; `Algebra/GroupAction/FiniteSupportPerm` | for any injective finite selection, so strictly monotone ones in particular |
+| `contractable_of_exchangeable` | `Exchangeable.contractable` | `Probability/Exchangeability/Contractability` | takes `∀ i, AEMeasurable (X i) μ` |
+| `shift_measurable` | `measurable_shift` | `Probability/Exchangeability/Basic` | |
+| `shift_iterate_measurable` | `measurable_shift.iterate n` (Mathlib `Measurable.iterate`) | — | no separate declaration |
+| `tail_le_exchangeableSigma` | `pathTail_le_exchangeableSigma` | `Probability/Exchangeability/PathSpace/Exchangeable/Sigma` | |
+| `upcrossings_bdd_uniform` | `exists_lintegral_upcrossings_condExp_le` | `Probability/Martingale/Crossings/Bounds` | a finite bound on the expected total upcrossings of `n ↦ μ[f \| 𝔽 n]` |
+| `condExp_exists_ae_limit_antitone` | `exists_integrable_tendsto_ae_condExp_of_antitone` | `Probability/Martingale/AntitoneLimit` | |
+| `ae_limit_is_condexp_iInf` | established internally in the proof of `tendsto_ae_condExp_iInf` | `Probability/Martingale/Convergence` | the identification is a private lemma, consumed by the private joint a.e. and L¹ convergence theorem behind `tendsto_ae_condExp_iInf`; the public endpoint needs no integrability hypothesis |
+| `koopman` | Mathlib `MeasureTheory.Lp.compMeasurePreserving` | `Mathlib/MeasureTheory/Function/LpSpace/Basic` | used directly, as planned above |
+| `koopman_isometry` | Mathlib `Lp.compMeasurePreservingₗᵢ` (with `coe_compMeasurePreservingₗᵢ`) | `Mathlib/MeasureTheory/Function/LpSpace/Basic`; `Probability/Ergodic/FixedSpace` | |
+| `fixedSubspace` | `fixedSpace T hT` | `Probability/Ergodic/FixedSpace` | for any measure-preserving `T`, the shift included |
+| `metProjectionShift` | `metProjection T hT` | `Probability/Ergodic/MeanErgodic` | for any measure-preserving `T` |
+| `condexpL2` | Mathlib `MeasureTheory.condExpL2` | — | |
+| `koopman_eq_self_of_shiftInvariant` | `compMeasurePreserving_eq_self_iff`, `mem_fixedSpace_iff_aestronglyMeasurable_invariants` | `Probability/Ergodic/FixedSpace`; `Probability/Ergodic/InvariantSigma` | both directions, for any measure-preserving `T` |
+| `aestronglyMeasurable_shiftInvariant_of_koopman` | `aestronglyMeasurable_invariants_of_comp_ae_eq` | `Probability/Ergodic/InvariantSigma` | assumes only quasi-measure-preservation |
+| `lpMeas_eq_fixedSubspace` | `fixedSpace_eq_lpMeas_invariants` | `Probability/Ergodic/InvariantSigma` | real-valued `Lᵖ` over `ℝ` |
+| `proj_eq_condexp` | `metProjection_eq_condExpL2`, `metProjection_ae_eq_condExp` | `Probability/Ergodic/CondExpProjection` | |
+| `metProjectionShift_tendsto` | `birkhoffAverage_tendsto_metProjection`, `birkhoffAverage_tendsto_condExpL2` | `Probability/Ergodic/MeanErgodic`; `Probability/Ergodic/CondExpProjection` | |
+| `pathSpace_contractable_of_contractable` | `Contractable.contractableLaw_pathLaw` | `Probability/Exchangeability/PathSpace/Law/Bridge` | finite measure, a.e.-measurable coordinates |
+| `measure_map_shift_eq_of_contractable` | `ContractableLaw.map_shift`; process form `Contractable.measurePreserving_shift` | `Probability/Exchangeability/PathSpace/ContractableLaw`; `Probability/Exchangeability/Contractability` | |
+| `pathSpace_shift_preserving_of_contractable` | `ContractableLaw.measurePreserving_shift` | `Probability/Exchangeability/PathSpace/ContractableLaw` | |
+| `conditionallyIID_transfer` | `conditionallyIID_of_conditionallyIID_pathLaw`; witness form `ConditionallyIIDWith.of_pathLaw` | `Probability/Exchangeability/ConditionallyIID/Map` | measurable coordinates |
+| `conditionallyIID_bind_of_contractable` | `ContractableLaw.conditionallyIIDWith_invariantConditionalProbabilityMeasure` | `Probability/DeFinetti/ViaKoopman/Theorem` | the joint-disintegration predicate, with the invariant conditional law as directing measure |
+| `exchangeable_of_mixedIID` | `MixedIID.exchangeable` | `Probability/Exchangeability/MixedIID/Implications` | |
+
+Modules are paths under `TauCeti/` unless marked Mathlib.
 
 ## Ordering
 
