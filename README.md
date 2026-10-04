@@ -42,6 +42,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Integral quadratic forms and lattices](TauCetiRoadmap/IntegralLattices/README.md)
 - [Local fields and ramification](TauCetiRoadmap/LocalFieldsRamification/README.md)
 - [Local Galois groups of p-adic fields](TauCetiRoadmap/LocalGaloisGroups/README.md)
+- [Modular curves, following Katz–Mazur](TauCetiRoadmap/ModularCurves/README.md)
 - [Modular forms — Hecke theory, newforms, and L-functions](TauCetiRoadmap/ModularForms/README.md)
 - [Multiquadratic fields and genus theory](TauCetiRoadmap/Multiquadratic/README.md)
 - [Number fields, ramification, Frobenius, and the LMFDB invariants](TauCetiRoadmap/NumberFieldArithmetic/README.md)
