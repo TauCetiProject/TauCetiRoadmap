@@ -1750,7 +1750,8 @@ set_option synthInstance.maxHeartbeats 400000 in
 noncomputable def inflateTwoCocycleZ2 {L : IntermediateField K (SeparableClosure K)}
     [FiniteDimensional K ↥L] [Normal K ↥L] (z : TwoCocycle (K := K) ↥L) :
     Z2 (AbsoluteGaloisGroup K) (UnitsCoeff K) :=
-  ⟨unitsCochain z.inflate, continuous_unitsCochain_inflate z, unitsCochain_isCocycle₂ _⟩
+  ⟨unitsCochain z.inflate, TauCeti.ContCohomology.mem_Z2_iff.2
+    ⟨continuous_unitsCochain_inflate z, unitsCochain_isCocycle₂ _⟩⟩
 
 variable (K)
 
@@ -1966,7 +1967,7 @@ theorem unitsCoeff_mem_invariants (L : IntermediateField K (SeparableClosure K))
     (Additive.ofMul (Units.map
       (IsScalarTower.toAlgHom K ↥L (SeparableClosure K)).toRingHom.toMonoidHom y) :
         UnitsCoeff K) ∈ Invariants (galoisOpenNormal K L).toSubgroup (UnitsCoeff K) := by
-  intro u hu
+  rintro ⟨u, hu⟩
   show Additive.ofMul (u • _) = _
   refine congrArg Additive.ofMul (Units.ext ?_)
   show u (algebraMap (↥L) (SeparableClosure K) (y : ↥L)) =
@@ -1990,12 +1991,12 @@ noncomputable def finiteLevelZ2 (L : IntermediateField K (SeparableClosure K))
       (IsScalarTower.toAlgHom K ↥L (SeparableClosure K)).toRingHom.toMonoidHom
       (z.toFun (galoisQuotientMap K L q.1) (galoisQuotientMap K L q.2))),
     unitsCoeff_mem_invariants K L _⟩,
-   continuous_of_discreteTopology, by
+   TauCeti.ContCohomology.mem_Z2_iff.2 ⟨continuous_of_discreteTopology, by
     intro q1 q2 q3
     induction q1 using QuotientGroup.induction_on with | _ g1 =>
     induction q2 using QuotientGroup.induction_on with | _ g2 =>
     induction q3 using QuotientGroup.induction_on with | _ g3 =>
-    exact Subtype.ext (unitsCochain_isCocycle₂ z.inflate g1 g2 g3)⟩
+    exact Subtype.ext (unitsCochain_isCocycle₂ z.inflate g1 g2 g3)⟩⟩
 
 set_option maxHeartbeats 1000000 in
 set_option synthInstance.maxHeartbeats 400000 in
