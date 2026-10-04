@@ -113,14 +113,17 @@ jobs:
               # returns `[]` for every fork report. (ldct's reports #464 and #491-#524 were each gated
               # once, while their `build` was still running, and never again.) The run names the
               # repository and branch it built, so a fork's pull request is also looked up by that
-              # head, and held to the same filters plus the exact head SHA. The lookup needs nothing
-              # the event payload could abuse: the owner and the branch must have the shapes of a
-              # login and a progress branch, or it is skipped.
+              # head. The lookup needs nothing the event payload could abuse: the owner and the
+              # branch must have the shapes of a login and a progress branch, or it is skipped.
               #
               # Every condition the gate itself would refuse on is filtered FIRST, and only then is
-              # one chosen. Sharing a head SHA means sharing a tree, but not a base branch, a draft
-              # flag, or a branch name: an older pull request at the same commit, retargeted or
-              # renamed, would otherwise be selected, refused forever, and the legitimate report
+              # one chosen. That starts with the head SHA, for both lookups: the commit lookup also
+              # returns a pull request whose branch contains this commit but has moved past it, and
+              # the head lookup a branch that moved after CI built it. Chosen, such a pull request is
+              # gated on a head whose build may still be running and refused, and the report this run
+              # built is never queued. Sharing a head SHA means sharing a tree, but not a base branch,
+              # a draft flag, or a branch name: an older pull request at the same commit, retargeted
+              # or renamed, would otherwise be selected, refused forever, and the legitimate report
               # never reconsidered once CI completed.
               #
               # `min` among what survives, so repeated runs agree with each other.
@@ -144,7 +147,8 @@ jobs:
               pr="$(printf '%s\n' "$by_commit" "$by_head" \
                     | jq -rs --arg repo "$REPO" --arg sha "$HEAD_SHA" '
                          .[0] as $by_commit | .[1] as $by_head
-                         | [(($by_commit[][]), ($by_head[][] | select(.head.sha == $sha)))
+                         | [(($by_commit[][]), ($by_head[][]))
+                          | select(.head.sha == $sha)
                           | select(.state == "open")
                           | select(.draft | not)
                           | select(.base.ref == "main")
