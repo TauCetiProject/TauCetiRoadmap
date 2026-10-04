@@ -367,19 +367,23 @@ Geometric Topology.
 
 - **4.1 Distributions.** `Distribution I M n k`: rank-`k` fibers with local `C^n` frames; the frame
   criterion [Lee, Lemma 10.32] and the annihilator ideal of forms.
-- **4.2 Involutivity and integral manifolds.** `IsInvolutive`; `IntegralManifold D`, a carrier with
+- **4.2 Involutivity and integral manifolds.** `IsInvolutive` tests globally smooth sections;
+  `IntegralManifold D` is a carrier with
   its own manifold structure and an immersion whose differential has image *equal* to the fiber — ⚠
   never mere containment, never assumed embedded — with `IsIntegralManifold` unbundled. Integrable ⇒
-  involutive [Lee, Prop. 19.3], the 1-form criterion [Lee, Thm. 19.7], and `contactDistribution` as
-  the nonexample.
-- **4.3 Local Frobenius.** Flat charts (`exists_flatChart`), local integral manifolds as single
-  slices in Tau Ceti's `IsSliceChart` sense, weak embeddedness (`exists_contMDiff_factor`)
+  involutive [Lee, Prop. 19.3], the 1-form criterion [Lee, Thm. 19.7] on Hausdorff `M`, and
+  `contactDistribution` as the nonexample. Hausdorffness lets local bump extensions turn local
+  sections and annihilating forms into global ones; second countability alone does not suffice.
+  The distribution and integral-manifold carriers, `IsInvolutive`, and the integrable ⇒ involutive
+  direction retain their generality.
+- **4.3 Local Frobenius.** On Hausdorff `M`, flat charts (`exists_flatChart`), local integral
+  manifolds as single slices in Tau Ceti's `IsSliceChart` sense, weak embeddedness (`exists_contMDiff_factor`)
   [Lee, Thm. 19.12, 19.17] for integral manifolds in [Lee]'s sense — ⚠ injectively immersed with a
   second-countable carrier: the double cover `z ↦ z²` of the circle and the discrete real line are
   integral manifolds through which the identity does not factor — and the chart adapted to a
   transverse submanifold [Lee, Cor. 19.13], by induction on the rank from 3.4's canonical form.
-- **4.4 Leaves.** `leafThrough D hD x` on boundaryless `M` (⚠ the full distribution on `[0, ∞)` has
-  no leaf through `0`), connected, injectively immersed, second countable when `M` is, maximal
+- **4.4 Leaves.** `leafThrough D hD x` on Hausdorff boundaryless `M` (⚠ the full distribution on
+  `[0, ∞)` has no leaf through `0`), connected, injectively immersed, second countable when `M` is, maximal
   (`leafThrough_maximal`), the leaves partitioning `M` (`leafThrough_eq_or_disjoint`)
   [Lee, Thm. 19.21]. A leaf is a type with a finer charted structure, not a `Set`. *Acceptance:*
   affine slices for a constant distribution; `contactDistribution` is not involutive.
@@ -470,18 +474,21 @@ and the comparison with de Rham cohomology on those carriers, and never a second
   [Lee, Thm. 18.4, 18.6]; Mayer–Vietoris in homology (`TopCat.mayerVietorisδ`) is Tau Ceti's too.
   Nothing is built here.
 - **8.3 Smooth chains.** `SmoothSimplex` via `SmoothOnSubset` (⚠ local extendability is the
-  definition), `smoothBoundary`, `smoothSingularChainComplex`, and the smoothing theorem
-  [Lee, Thm. 18.7] as data: the relative smoothing theorem `exists_smoothSimplex_homotopicRel`, then
-  `smoothing`, `smoothToSingular` into Tau Ceti's real singular chains, and both chain homotopies,
-  over relative Whitney approximation into a manifold. Smooth simplices are closed under the
-  simplicial operators, so the smooth chains may be implemented as the chains of a sub-simplicial
-  set of `TopCat.toSSet.obj M`, as Tau Ceti's small chains are.
+  definition), `smoothBoundary`, `smoothSingularChainComplex`, and the inclusion `smoothToSingular`
+  into Tau Ceti's real singular chains are defined on a charted space. The smoothing theorem
+  [Lee, Thm. 18.7] requires `[IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
+  [FiniteDimensional ℝ E]`: relative Whitney approximation gives
+  `exists_smoothSimplex_homotopicRel`, then `smoothing` and both chain homotopies under the same
+  hypotheses. Smooth simplices are closed under the simplicial operators, so the smooth chains
+  may be implemented as the chains of a sub-simplicial set of `TopCat.toSSet.obj M`, as Tau Ceti's
+  small chains are.
 - **8.4 Simplices, Stokes for chains, the de Rham map.** The full-dimensional `fullSimplex` bridged
   to Mathlib's barycentric `Convexity.StdSimplex`, faces `simplexFace`, `SmoothSimplex.integral` and
   `chainIntegral` (vector-valued forms in complete spaces); Stokes for the simplex
   (`SmoothSimplex.integral_mextDeriv`, independent of 5.5) and for chains [Lee, Thm. 18.12];
-  `deRhamHom` into `realSingularCohomology`, natural and compatible with connecting maps
-  [Lee, Prop. 18.13].
+  `deRhamHom` into `realSingularCohomology`, under 8.3's smoothing hypotheses, natural and
+  compatible with connecting maps [Lee, Prop. 18.13]. Naturality carries those hypotheses on
+  both source and target.
 - **8.5 The de Rham theorem.** `deRhamEquiv` for T2 σ-compact finite-dimensional `M`
   [Lee, Thm. 18.14], by the reusable **Mayer–Vietoris induction principle**
   `mayerVietoris_induction` — ⚠ whose hypotheses include countable disjoint unions, because
@@ -580,6 +587,14 @@ Each is a tempting mistake with its refutation.
 - **"Integral manifolds are embedded", "leaves carry the subspace topology", "`T_pS ⊆ D_p`
   suffices".** The irrational line on the torus is a dense leaf; containment defines tangent
   submanifolds, for which Frobenius is false.
+- **"Global sections detect involutivity without Hausdorffness."** Glue a central `ℝ³(x,y,z)`
+  to a chart `ℝ³(u,y,z)` for each rational `a`, off `x = a` and `u = 0`, by `x = a + u³`.
+  This second-countable non-Hausdorff manifold carries the rank-2 distribution given by
+  `ker(dz − y dx)` centrally and `ker(dz − 3u²y du)` in each added chart. Every global section
+  of it is a multiple of `∂y`, so the global bracket condition holds, while the central local
+  fields `X = ∂x + y∂z` and `Y = ∂y` have bracket `−∂z` outside the distribution. The displayed
+  annihilator glues to a global smooth `α` with `dα(X,Y) = 1` in the central chart. Thus the
+  annihilating-form criterion and Frobenius consequences of this predicate require `[T2Space M]`.
 - **"The boundary of a manifold with corners is a manifold."** False at a corner of `[0, ∞)²`; the
   abstract boundary of *Boundary and corners* is what Stokes needs.
 - **"[Lee]'s boundary-orientation signs transfer verbatim."** Mathlib's half-space constrains the
@@ -590,6 +605,11 @@ Each is a tempting mistake with its refutation.
 - **"The de Rham comparison holds for every `IsManifold`."** The line with two origins has
   `H¹_dR = 0` and singular `H¹ ≅ ℝ`; `[T2Space M] [SigmaCompactSpace M]` are load-bearing throughout
   6–9.
+- **"Smooth and continuous chains are homotopy equivalent on every charted space."** On the real
+  line with preferred charts `φ_a(y) = cuberoot(y − a)`, smooth paths are constant: differentiating
+  `g(s) = g(t) + (φ_{g(t)}(g(s)))³` at `t` gives `g'(t) = 0`. Smooth `H₀` therefore distinguishes
+  every point, while ordinary singular `H₀` is `ℝ`. The smoothing equivalence needs smooth chart
+  compatibility and the relative-approximation hypotheses in 8.3.
 - **"`mpullback (g ∘ f) = mpullback f ∘ mpullback g` unconditionally."** `mfderiv` is junk-valued;
   the chain rule needs differentiability (0.3).
 - **"A smooth simplex extends smoothly to a neighbourhood of the whole simplex."** Local extensions

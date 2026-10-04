@@ -1483,7 +1483,10 @@ namespace Distribution
 
 variable (D : Distribution I M n k)
 
-/-- **Layer 4.2.** Involutivity: `C^n` sections of `D` are closed under the Lie bracket. -/
+/-- **Layer 4.2.** Involutivity: globally `C^n` sections of `D` are closed under the Lie
+bracket. The predicate itself needs no separation hypothesis. The annihilating-form
+criterion and Frobenius conclusions below require Hausdorffness: in finite dimension,
+local bump extensions then let global sections detect local nonintegrability. -/
 def IsInvolutive : Prop :=
   ∀ V W : (x : M) → TangentSpace I x,
     ContMDiff I I.tangent n (fun y ↦ (⟨y, V y⟩ : TangentBundle I M)) →
@@ -1522,8 +1525,11 @@ theorem isInvolutive_of_forall_exists_integralManifold [IsManifold I n M]
   sorry
 
 /-- **Layer 4.2, the 1-form criterion** [Lee, Thm. 19.7]: `D` is involutive iff `dη` annihilates
-`D` whenever the 1-form `η` does. -/
-theorem isInvolutive_iff_forall_mextDeriv [IsManifold I ∞ M] (D : Distribution I M ∞ k) :
+`D` whenever the 1-form `η` does. Hausdorffness permits local sections and annihilating
+forms to be extended with bump functions; global sections alone need not detect local
+nonintegrability on a non-Hausdorff manifold, even a second-countable one. -/
+theorem isInvolutive_iff_forall_mextDeriv [IsManifold I ∞ M] [T2Space M]
+    (D : Distribution I M ∞ k) :
     D.IsInvolutive ↔ ∀ η : RoughForm I M ℝ 1, IsSmoothForm I ∞ η →
       (∀ x, ∀ v ∈ D.fiber x, η x ![v] = 0) →
         ∀ x, ∀ v ∈ D.fiber x, ∀ w ∈ D.fiber x, mextDeriv η x ![v, w] = 0 :=
@@ -1531,8 +1537,10 @@ theorem isInvolutive_iff_forall_mextDeriv [IsManifold I ∞ M] (D : Distribution
 
 /-- **Layer 4.3, the local Frobenius theorem** [Lee, Thm. 19.12]: through every point of an
 involutive `C^∞` distribution there is a **flat chart**, carrying `D` to a constant subspace
-`W` of the model. -/
-theorem exists_flatChart [IsManifold I ∞ M] [BoundarylessManifold I M] (D : Distribution I M ∞ k)
+`W` of the model. Hausdorffness is needed to pass from the global-section predicate
+`IsInvolutive` to its local form. -/
+theorem exists_flatChart [IsManifold I ∞ M] [BoundarylessManifold I M] [T2Space M]
+    (D : Distribution I M ∞ k)
     (hD : D.IsInvolutive) (x : M) :
     ∃ (e : OpenPartialHomeomorph M H) (W : Submodule ℝ E), e ∈ IsManifold.maximalAtlas I ∞ M ∧
       x ∈ e.source ∧ Module.finrank ℝ W = k ∧
@@ -1541,7 +1549,7 @@ theorem exists_flatChart [IsManifold I ∞ M] [BoundarylessManifold I M] (D : Di
 
 /-- **Layer 4.3.** Through every point there is a local integral manifold which is a single
 *slice* of a flat chart, in Tau Ceti's `IsSliceChart` sense. -/
-theorem exists_isSliceChart_integralManifold [IsManifold I ∞ M] [I.Boundaryless]
+theorem exists_isSliceChart_integralManifold [IsManifold I ∞ M] [I.Boundaryless] [T2Space M]
     (D : Distribution I M ∞ k) (hD : D.IsInvolutive) (x : M) :
     ∃ (N : D.IntegralManifold) (e : OpenPartialHomeomorph M E) (S : Set E),
       x ∈ range N.inclusion ∧ x ∈ e.source ∧ TauCeti.IsSliceChart e S (range N.inclusion) :=
@@ -1554,7 +1562,7 @@ hypothesis can be dropped: the double cover `z ↦ z²` of the circle is an inte
 the full distribution through which the identity does not factor, and so is the real line with
 the discrete topology, injectively immersed as a `0`-dimensional integral manifold of the zero
 distribution. -/
-theorem exists_contMDiff_factor [IsManifold I ∞ M] [BoundarylessManifold I M]
+theorem exists_contMDiff_factor [IsManifold I ∞ M] [BoundarylessManifold I M] [T2Space M]
     (D : Distribution I M ∞ k) (hD : D.IsInvolutive) (N : D.IntegralManifold)
     (hinj : Function.Injective N.inclusion) [SecondCountableTopology N.carrier]
     {E' H' P : Type*} [NormedAddCommGroup E']
@@ -1567,24 +1575,25 @@ theorem exists_contMDiff_factor [IsManifold I ∞ M] [BoundarylessManifold I M]
 /-- **Layer 4.4, the global Frobenius theorem** [Lee, Thm. 19.21]: the leaf through `x`, a
 connected integral manifold with its own (finer) topology — the honest immersed leaf the
 subalgebra ↔ subgroup correspondence needs — characterized by `mem_range_leafThrough`,
-`connectedSpace_leafThrough`, `injective_leafThrough_inclusion` and maximality. ⚠ On boundaryless
-`M` only, like all of layer 4: the carrier is boundaryless, so no leaf can pass through a
-boundary point (the full distribution on `[0, ∞)` has no leaf through `0`). -/
-noncomputable def leafThrough [IsManifold I ∞ M] [BoundarylessManifold I M]
+`connectedSpace_leafThrough`, `injective_leafThrough_inclusion` and maximality. The ambient
+manifold is Hausdorff, so the global-section hypothesis gives local involutivity. ⚠ On
+boundaryless `M` only: the carrier is boundaryless, so no leaf can pass through a boundary
+point (the full distribution on `[0, ∞)` has no leaf through `0`). -/
+noncomputable def leafThrough [IsManifold I ∞ M] [BoundarylessManifold I M] [T2Space M]
     (D : Distribution I M ∞ k) (hD : D.IsInvolutive) (x : M) : D.IntegralManifold :=
   sorry
 
-theorem mem_range_leafThrough [IsManifold I ∞ M] [BoundarylessManifold I M]
+theorem mem_range_leafThrough [IsManifold I ∞ M] [BoundarylessManifold I M] [T2Space M]
     (D : Distribution I M ∞ k) (hD : D.IsInvolutive) (x : M) :
     x ∈ range (D.leafThrough hD x).inclusion :=
   sorry
 
-theorem connectedSpace_leafThrough [IsManifold I ∞ M] [BoundarylessManifold I M]
+theorem connectedSpace_leafThrough [IsManifold I ∞ M] [BoundarylessManifold I M] [T2Space M]
     (D : Distribution I M ∞ k) (hD : D.IsInvolutive) (x : M) :
     ConnectedSpace (D.leafThrough hD x).carrier :=
   sorry
 
-theorem injective_leafThrough_inclusion [IsManifold I ∞ M] [BoundarylessManifold I M]
+theorem injective_leafThrough_inclusion [IsManifold I ∞ M] [BoundarylessManifold I M] [T2Space M]
     (D : Distribution I M ∞ k) (hD : D.IsInvolutive) (x : M) :
     Function.Injective (D.leafThrough hD x).inclusion :=
   sorry
@@ -1592,13 +1601,13 @@ theorem injective_leafThrough_inclusion [IsManifold I ∞ M] [BoundarylessManifo
 /-- Leaves of a second-countable manifold are second countable, so `exists_contMDiff_factor`
 applies to them. -/
 theorem secondCountableTopology_leafThrough [IsManifold I ∞ M] [BoundarylessManifold I M]
-    [SecondCountableTopology M] (D : Distribution I M ∞ k) (hD : D.IsInvolutive) (x : M) :
+    [T2Space M] [SecondCountableTopology M] (D : Distribution I M ∞ k) (hD : D.IsInvolutive) (x : M) :
     SecondCountableTopology (D.leafThrough hD x).carrier :=
   sorry
 
 /-- Maximality: every connected integral manifold through `x` factors smoothly through the
 leaf. -/
-theorem leafThrough_maximal [IsManifold I ∞ M] [BoundarylessManifold I M]
+theorem leafThrough_maximal [IsManifold I ∞ M] [BoundarylessManifold I M] [T2Space M]
     (D : Distribution I M ∞ k) (hD : D.IsInvolutive) (x : M) (N : D.IntegralManifold)
     [ConnectedSpace N.carrier] (hx : x ∈ range N.inclusion) :
     ∃ g : N.carrier → (D.leafThrough hD x).carrier, ContMDiff (𝓡 k) (𝓡 k) ∞ g ∧
@@ -1606,7 +1615,7 @@ theorem leafThrough_maximal [IsManifold I ∞ M] [BoundarylessManifold I M]
   sorry
 
 /-- The leaves partition `M`. -/
-theorem leafThrough_eq_or_disjoint [IsManifold I ∞ M] [BoundarylessManifold I M]
+theorem leafThrough_eq_or_disjoint [IsManifold I ∞ M] [BoundarylessManifold I M] [T2Space M]
     (D : Distribution I M ∞ k) (hD : D.IsInvolutive) (x y : M) :
     range (D.leafThrough hD x).inclusion = range (D.leafThrough hD y).inclusion ∨
       Disjoint (range (D.leafThrough hD x).inclusion) (range (D.leafThrough hD y).inclusion) :=
@@ -2351,24 +2360,31 @@ noncomputable def smoothSingularChainComplex : ChainComplex (ModuleCat.{0} ℝ) 
     (fun p ↦ ModuleCat.ofHom (smoothBoundary I M p)) sorry
 
 variable (I M) in
-/-- **Layer 8.3, the smoothing theorem as data** [Lee, Thm. 18.7]: the inclusion of smooth chains
-into continuous chains, a chain map `smoothing` back, and the two chain homotopies — built by
-induction over the faces, each simplex smoothed relative to its already-smoothed boundary. -/
+/-- **Layer 8.3.** The inclusion of smooth chains into continuous chains is defined on any
+charted space. The inverse up to chain homotopy requires the hypotheses on `smoothing`. -/
 noncomputable def smoothToSingular :
     smoothSingularChainComplex I M ⟶ realSingularChains (TopCat.of M) :=
   sorry
 
 variable (I M) in
-noncomputable def smoothing : realSingularChains (TopCat.of M) ⟶ smoothSingularChainComplex I M :=
+/-- **Layer 8.3, the smoothing theorem as data** [Lee, Thm. 18.7]. Relative Whitney approximation
+on a Hausdorff, σ-compact, finite-dimensional smooth manifold gives a chain map back, built by
+induction over faces. Smooth chart compatibility is essential: a merely charted space can have
+only constant smooth paths while its underlying topological space is path connected. -/
+noncomputable def smoothing [IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
+    [FiniteDimensional ℝ E] :
+    realSingularChains (TopCat.of M) ⟶ smoothSingularChainComplex I M :=
   sorry
 
 variable (I M) in
-noncomputable def homotopySmoothingComp :
+noncomputable def homotopySmoothingComp [IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
+    [FiniteDimensional ℝ E] :
     Homotopy (smoothing I M ≫ smoothToSingular I M) (𝟙 (realSingularChains (TopCat.of M))) :=
   sorry
 
 variable (I M) in
-noncomputable def homotopyCompSmoothing :
+noncomputable def homotopyCompSmoothing [IsManifold I ∞ M] [T2Space M] [SigmaCompactSpace M]
+    [FiniteDimensional ℝ E] :
     Homotopy (smoothToSingular I M ≫ smoothing I M) (𝟙 (smoothSingularChainComplex I M)) :=
   sorry
 
@@ -2421,15 +2437,17 @@ variable [IsManifold I 1 M] [IsManifold I ∞ M]
 
 variable (I M) in
 /-- **Layer 8.4, the de Rham homomorphism** `I : H^k_dR(M) → H^k(M; ℝ)`, into Tau Ceti's singular
-cohomology with real coefficients; well defined by 8.3 and Stokes for chains; natural in `M`
-(`deRhamHom_naturality`). -/
-noncomputable def deRhamHom (k : ℕ) :
+cohomology with real coefficients; well defined by 8.3 and Stokes for chains, with the hypotheses
+needed to transfer from smooth to continuous chains; natural in `M` (`deRhamHom_naturality`). -/
+noncomputable def deRhamHom [T2Space M] [SigmaCompactSpace M] [FiniteDimensional ℝ E] (k : ℕ) :
     deRhamCohomology I M k →ₗ[ℝ] realSingularCohomology (TopCat.of M) k :=
   sorry
 
-theorem deRhamHom_naturality {E' H' : Type} [NormedAddCommGroup E'] [NormedSpace ℝ E']
+theorem deRhamHom_naturality [T2Space M] [SigmaCompactSpace M] [FiniteDimensional ℝ E]
+    {E' H' : Type} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
     [TopologicalSpace H'] {I' : ModelWithCorners ℝ E' H'} {M' : Type} [TopologicalSpace M']
-    [ChartedSpace H' M'] [IsManifold I' 1 M'] [IsManifold I' ∞ M'] {f : M → M'}
+    [ChartedSpace H' M'] [IsManifold I' 1 M'] [IsManifold I' ∞ M']
+    [T2Space M'] [SigmaCompactSpace M'] {f : M → M'}
     (hf : ContMDiff I I' ∞ f) (k : ℕ) :
     (deRhamHom I M k).comp (deRhamCohomology.map hf k) =
       (TopCat.singularCohomologyMap (R := ModuleCat.of ℝ ℝ) (k := ℝ) (M := ModuleCat.of ℝ ℝ)
