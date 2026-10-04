@@ -33,6 +33,9 @@ jobs:
       # This is a step of `build` rather than a job of its own because `build` is the check the
       # `main` ruleset requires, so this is what makes the topic a merge requirement. It runs before
       # the Lean setup so that a missing topic fails in seconds rather than after the Mathlib restore.
+      - name: Test the roadmap topic checker
+        run: python3 .github/scripts/test_check_roadmap_topics.py
+
       - name: Check roadmap topics
         run: python3 .github/scripts/check_roadmap_topics.py
 

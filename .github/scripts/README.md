@@ -65,8 +65,12 @@ sub-roadmap is filed under its parent's topic.
   every problem and the valid classes, if any roadmap lacks a valid topic.
   It needs Python 3.11 or later, for `tomllib`.
 
-It runs as the first step of the `build` job in [`ci.yml`](../workflows/ci.yml),
-so a valid topic is a merge requirement.
+It runs early in the `build` job of [`ci.yml`](../workflows/ci.yml), so a valid
+topic is a merge requirement. The step before it runs
+`test_check_roadmap_topics.py`, which runs the script on throwaway trees with
+missing, malformed, misspelled and misplaced metadata in both `TauCetiRoadmap/`
+and `Completed/`, so the checker cannot quietly stop rejecting them while this
+repository's own metadata stays valid.
 
 The topic lives in its own file rather than in the roadmap's `README.md`
 because the progress tooling identifies the specification a coverage assessment
