@@ -1460,181 +1460,209 @@ section Frobenius
 
 universe u
 
-variable {E H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [TopologicalSpace H]
-  {I : ModelWithCorners ℝ E H} {M : Type u} [TopologicalSpace M] [ChartedSpace H M]
-  [IsManifold I 1 M] [FiniteDimensional ℝ E] {n : WithTop ℕ∞} {k : ℕ}
+variable {E H : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E]
+  [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
+  {M : Type u} [TopologicalSpace M] [ChartedSpace H M]
+  [IsManifold I 1 M] [FiniteDimensional ℝ E]
+  {n : WithTop ℕ∞} {k : ℕ}
 
-/-- **Layer 4.1.** A rank-`k` `C^n` distribution, in the finite-dimensional generality of
-[Lee, Ch. 19] — the generality decided for this layer: a pointwise family of `k`-dimensional
-subspaces of the tangent spaces, locally spanned by `k` `C^n` vector fields. -/
-structure Distribution (I : ModelWithCorners ℝ E H) (M : Type u) [TopologicalSpace M]
-    [ChartedSpace H M] [IsManifold I 1 M] [FiniteDimensional ℝ E] (n : WithTop ℕ∞) (k : ℕ) where
-  /-- The subspace at each point. -/
+/-- Layer 4 signature adapter at the roadmap's dependency pin.
+The production data are the existing tangent-subspace family with
+`TauCeti.IsContMDiffDistribution`; this is not a second library target.
+The rank and spanning fields below express its local-frame condition. -/
+structure Distribution (I : ModelWithCorners ℝ E H) (M : Type u)
+    [TopologicalSpace M] [ChartedSpace H M] [IsManifold I 1 M]
+    [FiniteDimensional ℝ E] (n : WithTop ℕ∞) (k : ℕ) where
   fiber : (x : M) → Submodule ℝ (TangentSpace I x)
-  /-- Constant rank `k`. -/
   finrank_fiber : ∀ x, Module.finrank ℝ (fiber x) = k
-  /-- Local frames: near every point, `k` `C^n` fields span the fibers. -/
-  exists_localFrame : ∀ x : M, ∃ (U : Set M) (V : Fin k → (y : M) → TangentSpace I y),
-    IsOpen U ∧ x ∈ U ∧
-      (∀ i, ContMDiffOn I I.tangent n (fun y ↦ (⟨y, V i y⟩ : TangentBundle I M)) U) ∧
-      ∀ y ∈ U, fiber y = Submodule.span ℝ (range fun i ↦ V i y)
+  exists_localFrame : ∀ x : M,
+    ∃ (U : Set M) (V : Fin k → (y : M) → TangentSpace I y),
+      IsOpen U ∧ x ∈ U ∧
+        (∀ i, ContMDiffOn I I.tangent n
+          (fun y ↦ (⟨y, V i y⟩ : TangentBundle I M)) U) ∧
+        ∀ y ∈ U, fiber y = Submodule.span ℝ (range fun i ↦ V i y)
 
 namespace Distribution
 
 variable (D : Distribution I M n k)
 
-/-- **Layer 4.2.** Involutivity: globally `C^n` sections of `D` are closed under the Lie
-bracket. The predicate itself needs no separation hypothesis. The annihilating-form
-criterion and Frobenius conclusions below require Hausdorffness: in finite dimension,
-local bump extensions then let global sections detect local nonintegrability. -/
+/-- Pinned signature expansion of
+`TauCeti.IsInvolutiveDistribution I D.fiber`.
+The production interface is that existing predicate. Differentiability
+is required on the open set where the fields are tangent to `D`;
+neither mere continuity nor a global-section-only test is used. -/
 def IsInvolutive : Prop :=
-  ∀ V W : (x : M) → TangentSpace I x,
-    ContMDiff I I.tangent n (fun y ↦ (⟨y, V y⟩ : TangentBundle I M)) →
-    ContMDiff I I.tangent n (fun y ↦ (⟨y, W y⟩ : TangentBundle I M)) →
-    (∀ x, V x ∈ D.fiber x) → (∀ x, W x ∈ D.fiber x) →
-    ∀ x, VectorField.mlieBracket I V W x ∈ D.fiber x
+  ∀ ⦃U : Set M⦄, IsOpen U →
+    ∀ ⦃V W : (x : M) → TangentSpace I x⦄,
+      MDifferentiableOn I I.tangent
+        (fun y ↦ (⟨y, V y⟩ : TangentBundle I M)) U →
+      MDifferentiableOn I I.tangent
+        (fun y ↦ (⟨y, W y⟩ : TangentBundle I M)) U →
+      (∀ x ∈ U, V x ∈ D.fiber x) →
+      (∀ x ∈ U, W x ∈ D.fiber x) →
+      ∀ x ∈ U, VectorField.mlieBracket I V W x ∈ D.fiber x
 
-/-- **Layer 4.2.** An integral manifold of `D`: an *immersed* `k`-manifold whose differential has
-image *equal to* `D` — never assumed embedded, and ⚠ never merely contained in `D` (see
-*Statements that must not enter*). The carrier is a type with its own charted structure. -/
+/-- A parametrized integral immersion, with its own manifold carrier.
+Its differential image is equal to the distribution fiber.
+Injectivity and second countability are separate hypotheses where needed. -/
 structure IntegralManifold where
-  /-- The underlying manifold. -/
   carrier : Type u
   [topologicalSpace : TopologicalSpace carrier]
   [chartedSpace : ChartedSpace (EuclideanSpace ℝ (Fin k)) carrier]
   [isManifold : IsManifold (𝓡 k) n carrier]
-  /-- The inclusion into `M`. -/
   inclusion : carrier → M
   isImmersion : Manifold.IsImmersion (𝓡 k) I n inclusion
-  range_mfderiv : ∀ y, LinearMap.range (mfderiv (𝓡 k) I inclusion y).toLinearMap =
-    D.fiber (inclusion y)
+  range_mfderiv : ∀ y,
+    LinearMap.range (mfderiv (𝓡 k) I inclusion y).toLinearMap =
+      D.fiber (inclusion y)
 
-attribute [instance] IntegralManifold.topologicalSpace IntegralManifold.chartedSpace
-  IntegralManifold.isManifold
+attribute [instance] IntegralManifold.topologicalSpace
+  IntegralManifold.chartedSpace IntegralManifold.isManifold
 
-/-- **Layer 4.2.** The unbundled predicate: `ι : N → M` is an integral manifold of `D`. -/
-def IsIntegralManifold {N : Type*} [TopologicalSpace N] [ChartedSpace (EuclideanSpace ℝ (Fin k)) N]
+/-- The unbundled integral-immersion predicate. -/
+def IsIntegralManifold {N : Type*} [TopologicalSpace N]
+    [ChartedSpace (EuclideanSpace ℝ (Fin k)) N]
     [IsManifold (𝓡 k) n N] (ι : N → M) : Prop :=
   Manifold.IsImmersion (𝓡 k) I n ι ∧
-    ∀ y, LinearMap.range (mfderiv (𝓡 k) I ι y).toLinearMap = D.fiber (ι y)
+    ∀ y, LinearMap.range (mfderiv (𝓡 k) I ι y).toLinearMap =
+      D.fiber (ι y)
 
-/-- **Layer 4.2, the easy direction** [Lee, Prop. 19.3]: a distribution with an integral manifold
-through every point is involutive. -/
-theorem isInvolutive_of_forall_exists_integralManifold [IsManifold I n M]
-    (h : ∀ x : M, ∃ N : D.IntegralManifold, x ∈ range N.inclusion) : D.IsInvolutive :=
-  sorry
-
-/-- **Layer 4.2, the 1-form criterion** [Lee, Thm. 19.7]: `D` is involutive iff `dη` annihilates
-`D` whenever the 1-form `η` does. Hausdorffness permits local sections and annihilating
-forms to be extended with bump functions; global sections alone need not detect local
-nonintegrability on a non-Hausdorff manifold, even a second-countable one. -/
-theorem isInvolutive_iff_forall_mextDeriv [IsManifold I ∞ M] [T2Space M]
-    (D : Distribution I M ∞ k) :
-    D.IsInvolutive ↔ ∀ η : RoughForm I M ℝ 1, IsSmoothForm I ∞ η →
-      (∀ x, ∀ v ∈ D.fiber x, η x ![v] = 0) →
-        ∀ x, ∀ v ∈ D.fiber x, ∀ w ∈ D.fiber x, mextDeriv η x ![v, w] = 0 :=
-  sorry
-
-/-- **Layer 4.3, the local Frobenius theorem** [Lee, Thm. 19.12]: through every point of an
-involutive `C^∞` distribution there is a **flat chart**, carrying `D` to a constant subspace
-`W` of the model. Hausdorffness is needed to pass from the global-section predicate
-`IsInvolutive` to its local form. -/
-theorem exists_flatChart [IsManifold I ∞ M] [BoundarylessManifold I M] [T2Space M]
+/-- Integrability implies local involutivity in the smooth setting.
+There is intentionally no merely continuous specialization. -/
+theorem isInvolutive_of_forall_exists_integralManifold
+    [IsManifold I ∞ M] [BoundarylessManifold I M] [T2Space M]
     (D : Distribution I M ∞ k)
-    (hD : D.IsInvolutive) (x : M) :
-    ∃ (e : OpenPartialHomeomorph M H) (W : Submodule ℝ E), e ∈ IsManifold.maximalAtlas I ∞ M ∧
-      x ∈ e.source ∧ Module.finrank ℝ W = k ∧
-      ∀ y ∈ e.source, Submodule.map (mfderiv I 𝓘(ℝ, E) (I ∘ e) y).toLinearMap (D.fiber y) = W :=
+    (h : ∀ x : M, ∃ N : D.IntegralManifold,
+      x ∈ range N.inclusion) : D.IsInvolutive :=
   sorry
 
-/-- **Layer 4.3.** Through every point there is a local integral manifold which is a single
-*slice* of a flat chart, in Tau Ceti's `IsSliceChart` sense. -/
-theorem exists_isSliceChart_integralManifold [IsManifold I ∞ M] [I.Boundaryless] [T2Space M]
+/-- The global annihilating-one-form characterization of local involutivity.
+Hausdorffness supplies the local bump extensions used in this formulation. -/
+theorem isInvolutive_iff_forall_mextDeriv
+    [IsManifold I ∞ M] [T2Space M] (D : Distribution I M ∞ k) :
+    D.IsInvolutive ↔ ∀ η : RoughForm I M ℝ 1,
+      IsSmoothForm I ∞ η →
+      (∀ x, ∀ v ∈ D.fiber x, η x ![v] = 0) →
+      ∀ x, ∀ v ∈ D.fiber x, ∀ w ∈ D.fiber x,
+        mextDeriv η x ![v, w] = 0 :=
+  sorry
+
+/-- Local Frobenius: a flat chart for a smooth involutive distribution.
+Extend the existing graph-coordinate Frobenius API. -/
+theorem exists_flatChart [IsManifold I ∞ M]
+    [BoundarylessManifold I M] [T2Space M]
     (D : Distribution I M ∞ k) (hD : D.IsInvolutive) (x : M) :
-    ∃ (N : D.IntegralManifold) (e : OpenPartialHomeomorph M E) (S : Set E),
-      x ∈ range N.inclusion ∧ x ∈ e.source ∧ TauCeti.IsSliceChart e S (range N.inclusion) :=
+    ∃ (e : OpenPartialHomeomorph M H) (W : Submodule ℝ E),
+      e ∈ IsManifold.maximalAtlas I ∞ M ∧ x ∈ e.source ∧
+      Module.finrank ℝ W = k ∧
+      ∀ y ∈ e.source,
+        Submodule.map (mfderiv I 𝓘(ℝ, E) (I ∘ e) y).toLinearMap
+          (D.fiber y) = W :=
   sorry
 
-/-- **Layer 4.3, weak embeddedness** [Lee, Thm. 19.17]: a smooth map into `M` with image in an
-integral manifold of an involutive distribution factors smoothly through it — for integral
-manifolds in [Lee]'s sense, *injectively* immersed with a *second-countable* carrier. ⚠ Neither
-hypothesis can be dropped: the double cover `z ↦ z²` of the circle is an integral manifold of
-the full distribution through which the identity does not factor, and so is the real line with
-the discrete topology, injectively immersed as a `0`-dimensional integral manifold of the zero
-distribution. -/
-theorem exists_contMDiff_factor [IsManifold I ∞ M] [BoundarylessManifold I M] [T2Space M]
-    (D : Distribution I M ∞ k) (hD : D.IsInvolutive) (N : D.IntegralManifold)
-    (hinj : Function.Injective N.inclusion) [SecondCountableTopology N.carrier]
-    {E' H' P : Type*} [NormedAddCommGroup E']
-    [NormedSpace ℝ E'] [TopologicalSpace H'] {J : ModelWithCorners ℝ E' H'} [TopologicalSpace P]
-    [ChartedSpace H' P] [IsManifold J ∞ P] {f : P → M} (hf : ContMDiff J I ∞ f)
+/-- A local integral slice, using Tau Ceti's existing slice-chart interface. -/
+theorem exists_isSliceChart_integralManifold
+    [IsManifold I ∞ M] [I.Boundaryless] [T2Space M]
+    (D : Distribution I M ∞ k) (hD : D.IsInvolutive) (x : M) :
+    ∃ (N : D.IntegralManifold) (e : OpenPartialHomeomorph M E)
+      (S : Set E), x ∈ range N.inclusion ∧ x ∈ e.source ∧
+      TauCeti.IsSliceChart e S (range N.inclusion) :=
+  sorry
+
+/-- Weak embeddedness for an injectively immersed integral submanifold
+with second-countable carrier. The source is an ordinary finite-dimensional
+smooth Hausdorff second-countable boundaryless manifold. -/
+theorem exists_contMDiff_factor [IsManifold I ∞ M]
+    [BoundarylessManifold I M] [T2Space M]
+    (D : Distribution I M ∞ k) (hD : D.IsInvolutive)
+    (N : D.IntegralManifold) (hinj : Function.Injective N.inclusion)
+    [SecondCountableTopology N.carrier]
+    {E' H' P : Type*} [NormedAddCommGroup E'] [NormedSpace ℝ E']
+    [FiniteDimensional ℝ E'] [TopologicalSpace H']
+    {J : ModelWithCorners ℝ E' H'} [TopologicalSpace P]
+    [ChartedSpace H' P] [IsManifold J ∞ P]
+    [BoundarylessManifold J P] [T2Space P] [SecondCountableTopology P]
+    {f : P → M} (hf : ContMDiff J I ∞ f)
     (hrange : range f ⊆ range N.inclusion) :
-    ∃ g : P → N.carrier, ContMDiff J (𝓡 k) ∞ g ∧ N.inclusion ∘ g = f :=
+    ∃ g : P → N.carrier, ContMDiff J (𝓡 k) ∞ g ∧
+      N.inclusion ∘ g = f :=
   sorry
 
-/-- **Layer 4.4, the global Frobenius theorem** [Lee, Thm. 19.21]: the leaf through `x`, a
-connected integral manifold with its own (finer) topology — the honest immersed leaf the
-subalgebra ↔ subgroup correspondence needs — characterized by `mem_range_leafThrough`,
-`connectedSpace_leafThrough`, `injective_leafThrough_inclusion` and maximality. The ambient
-manifold is Hausdorff, so the global-section hypothesis gives local involutivity. ⚠ On
-boundaryless `M` only: the carrier is boundaryless, so no leaf can pass through a boundary
-point (the full distribution on `[0, ∞)` has no leaf through `0`). -/
-noncomputable def leafThrough [IsManifold I ∞ M] [BoundarylessManifold I M] [T2Space M]
-    (D : Distribution I M ∞ k) (hD : D.IsInvolutive) (x : M) : D.IntegralManifold :=
+/-- The maximal connected integral leaf through a point, with its own
+charted carrier. The construction is asserted on boundaryless manifolds. -/
+noncomputable def leafThrough [IsManifold I ∞ M]
+    [BoundarylessManifold I M] [T2Space M]
+    (D : Distribution I M ∞ k) (hD : D.IsInvolutive) (x : M) :
+    D.IntegralManifold :=
   sorry
 
-theorem mem_range_leafThrough [IsManifold I ∞ M] [BoundarylessManifold I M] [T2Space M]
+theorem mem_range_leafThrough [IsManifold I ∞ M]
+    [BoundarylessManifold I M] [T2Space M]
     (D : Distribution I M ∞ k) (hD : D.IsInvolutive) (x : M) :
     x ∈ range (D.leafThrough hD x).inclusion :=
   sorry
 
-theorem connectedSpace_leafThrough [IsManifold I ∞ M] [BoundarylessManifold I M] [T2Space M]
+theorem connectedSpace_leafThrough [IsManifold I ∞ M]
+    [BoundarylessManifold I M] [T2Space M]
     (D : Distribution I M ∞ k) (hD : D.IsInvolutive) (x : M) :
     ConnectedSpace (D.leafThrough hD x).carrier :=
   sorry
 
-theorem injective_leafThrough_inclusion [IsManifold I ∞ M] [BoundarylessManifold I M] [T2Space M]
+theorem injective_leafThrough_inclusion [IsManifold I ∞ M]
+    [BoundarylessManifold I M] [T2Space M]
     (D : Distribution I M ∞ k) (hD : D.IsInvolutive) (x : M) :
     Function.Injective (D.leafThrough hD x).inclusion :=
   sorry
 
-/-- Leaves of a second-countable manifold are second countable, so `exists_contMDiff_factor`
-applies to them. -/
-theorem secondCountableTopology_leafThrough [IsManifold I ∞ M] [BoundarylessManifold I M]
-    [T2Space M] [SecondCountableTopology M] (D : Distribution I M ∞ k) (hD : D.IsInvolutive) (x : M) :
+theorem secondCountableTopology_leafThrough [IsManifold I ∞ M]
+    [BoundarylessManifold I M] [T2Space M] [SecondCountableTopology M]
+    (D : Distribution I M ∞ k) (hD : D.IsInvolutive) (x : M) :
     SecondCountableTopology (D.leafThrough hD x).carrier :=
   sorry
 
-/-- Maximality: every connected integral manifold through `x` factors smoothly through the
-leaf. -/
-theorem leafThrough_maximal [IsManifold I ∞ M] [BoundarylessManifold I M] [T2Space M]
-    (D : Distribution I M ∞ k) (hD : D.IsInvolutive) (x : M) (N : D.IntegralManifold)
-    [ConnectedSpace N.carrier] (hx : x ∈ range N.inclusion) :
-    ∃ g : N.carrier → (D.leafThrough hD x).carrier, ContMDiff (𝓡 k) (𝓡 k) ∞ g ∧
+/-- Every connected smooth integral immersion through `x` factors through
+the maximal leaf. The source immersion need not itself be injective. -/
+theorem leafThrough_maximal [IsManifold I ∞ M]
+    [BoundarylessManifold I M] [T2Space M]
+    (D : Distribution I M ∞ k) (hD : D.IsInvolutive) (x : M)
+    (N : D.IntegralManifold) [ConnectedSpace N.carrier]
+    (hx : x ∈ range N.inclusion) :
+    ∃ g : N.carrier → (D.leafThrough hD x).carrier,
+      ContMDiff (𝓡 k) (𝓡 k) ∞ g ∧
       (D.leafThrough hD x).inclusion ∘ g = N.inclusion :=
   sorry
 
-/-- The leaves partition `M`. -/
-theorem leafThrough_eq_or_disjoint [IsManifold I ∞ M] [BoundarylessManifold I M] [T2Space M]
+/-- Leaf images partition the ambient manifold. -/
+theorem leafThrough_eq_or_disjoint [IsManifold I ∞ M]
+    [BoundarylessManifold I M] [T2Space M]
     (D : Distribution I M ∞ k) (hD : D.IsInvolutive) (x y : M) :
-    range (D.leafThrough hD x).inclusion = range (D.leafThrough hD y).inclusion ∨
-      Disjoint (range (D.leafThrough hD x).inclusion) (range (D.leafThrough hD y).inclusion) :=
+    range (D.leafThrough hD x).inclusion =
+        range (D.leafThrough hD y).inclusion ∨
+      Disjoint (range (D.leafThrough hD x).inclusion)
+        (range (D.leafThrough hD y).inclusion) :=
   sorry
 
 end Distribution
 
-/-- **Layer 4.2, the named nonexample**: the rank-2 distribution on `ℝ³` spanned by
-`∂x + y ∂z` and `∂y` (the contact distribution `ker (dz − y dx)`). -/
+/-- Coordinate signature for the existing standard contact distribution.
+For production, use the linear equivalence S(x,y,z) = (y,x,z) into
+`ℝ × ℝ × ℝ` and pull back `TauCeti.standardContactDistribution ℝ`:
+the fiber at p is the comap under S of the existing fiber at S p.
+The span below is that coordinate formula, not a second library target. -/
 noncomputable def contactDistribution :
-    Distribution 𝓘(ℝ, EuclideanSpace ℝ (Fin 3)) (EuclideanSpace ℝ (Fin 3)) ∞ 2 where
+    Distribution 𝓘(ℝ, EuclideanSpace ℝ (Fin 3))
+      (EuclideanSpace ℝ (Fin 3)) ∞ 2 where
   fiber p := Submodule.span ℝ
-    {EuclideanSpace.single 0 1 + p 1 • EuclideanSpace.single 2 1, EuclideanSpace.single 1 1}
+    {EuclideanSpace.single 0 1 + p 1 • EuclideanSpace.single 2 1,
+      EuclideanSpace.single 1 1}
   finrank_fiber := sorry
   exists_localFrame := sorry
 
-/-- **Layer 4.4, acceptance.** The contact distribution is not involutive, hence (by
-`isInvolutive_of_forall_exists_integralManifold`) has no integral surface through any point. -/
-theorem not_isInvolutive_contactDistribution : ¬ contactDistribution.IsInvolutive :=
+/-- Reuse the existing contact noninvolutivity theorem through the coordinate
+adapter. This statement alone negates integrability through every point;
+the stronger nowhere-integrable claim uses the pointwise bracket calculation. -/
+theorem not_isInvolutive_contactDistribution :
+    ¬ contactDistribution.IsInvolutive :=
   sorry
 
 end Frobenius

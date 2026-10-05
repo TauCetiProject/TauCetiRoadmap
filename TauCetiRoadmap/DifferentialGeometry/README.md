@@ -193,6 +193,22 @@ layer 1's `mextDeriv φ = 0`, with the chartwise description a theorem about it.
 definitions are imported in `Suggested.lean` only to state the migration's preservation laws
 against the pinned dependency.
 
+### Existing distribution and Frobenius implementation
+
+Layer 4 consumes the existing distribution, foliation and graph-coordinate
+Frobenius modules named there. These are present at Tau Ceti revision
+`f963990be62acce3c25fd8cc43d316712fd3f900`, ahead of the signature file's
+`a780c7ad` pin. They are existing code, not unimplemented roadmap targets.
+The local record and predicate in `Suggested.lean` describe their input data
+at the older pin; they do not authorize a parallel implementation. Implement
+Layer 4 on a working Tau Ceti revision containing those modules, extending
+their APIs and consumers. Updating this roadmap's shared toolchain or
+manifest is not itself a mathematical completion criterion.
+
+Source snapshots: [distribution and local involutivity](https://github.com/TauCetiProject/TauCeti/blob/f963990be62acce3c25fd8cc43d316712fd3f900/TauCeti/Geometry/Manifold/Distribution.lean),
+[the existing foliation carrier](https://github.com/TauCetiProject/TauCeti/blob/f963990be62acce3c25fd8cc43d316712fd3f900/TauCeti/Geometry/Manifold/Foliation/Basic.lean),
+and [graph-coordinate Frobenius](https://github.com/TauCetiProject/TauCeti/blob/f963990be62acce3c25fd8cc43d316712fd3f900/TauCeti/Geometry/Manifold/Distribution/Graph.lean).
+
 ## What is missing (build here)
 
 Everything the layers specify beyond the inventory above. The layer order is the order of
@@ -361,32 +377,106 @@ Geometric Topology.
   field of `ℝ²` by rotation.
 - **3.5 Time-dependent flows** (`exists_timeDependentFlow`) [Lee, Thm. 9.48].
 
-### Layer 4: the Frobenius theorem
+### Layer 4: distributions, Frobenius and leaves
 
-*[Lee, Ch. 19]. Finite-dimensional throughout; the Banach version is not targeted.*
+*[Lee, Ch. 19]. The Frobenius and leaf theorems in this layer concern smooth,
+finite-dimensional real manifolds. No Banach or merely continuous Frobenius
+theorem is a completion requirement.*
 
-- **4.1 Distributions.** `Distribution I M n k`: rank-`k` fibers with local `C^n` frames; the frame
-  criterion [Lee, Lemma 10.32] and the annihilator ideal of forms.
-- **4.2 Involutivity and integral manifolds.** `IsInvolutive` tests globally smooth sections;
-  `IntegralManifold D` is a carrier with
-  its own manifold structure and an immersion whose differential has image *equal* to the fiber — ⚠
-  never mere containment, never assumed embedded — with `IsIntegralManifold` unbundled. Integrable ⇒
-  involutive [Lee, Prop. 19.3], the 1-form criterion [Lee, Thm. 19.7] on Hausdorff `M`, and
-  `contactDistribution` as the nonexample. Hausdorffness lets local bump extensions turn local
-  sections and annihilating forms into global ones; second countability alone does not suffice.
-  The distribution and integral-manifold carriers, `IsInvolutive`, and the integrable ⇒ involutive
-  direction retain their generality.
-- **4.3 Local Frobenius.** On Hausdorff `M`, flat charts (`exists_flatChart`), local integral
-  manifolds as single slices in Tau Ceti's `IsSliceChart` sense, weak embeddedness (`exists_contMDiff_factor`)
-  [Lee, Thm. 19.12, 19.17] for integral manifolds in [Lee]'s sense — ⚠ injectively immersed with a
-  second-countable carrier: the double cover `z ↦ z²` of the circle and the discrete real line are
-  integral manifolds through which the identity does not factor — and the chart adapted to a
-  transverse submanifold [Lee, Cor. 19.13], by induction on the rank from 3.4's canonical form.
-- **4.4 Leaves.** `leafThrough D hD x` on Hausdorff boundaryless `M` (⚠ the full distribution on
-  `[0, ∞)` has no leaf through `0`), connected, injectively immersed, second countable when `M` is, maximal
-  (`leafThrough_maximal`), the leaves partitioning `M` (`leafThrough_eq_or_disjoint`)
-  [Lee, Thm. 19.21]. A leaf is a type with a finer charted structure, not a `Set`. *Acceptance:*
-  affine slices for a constant distribution; `contactDistribution` is not involutive.
+**Canonical interfaces and reuse.** A distribution is the existing family
+`D : (x : M) → Submodule ℝ (TangentSpace I x)`. Its local frames and regularity
+are `TauCeti.IsDistributionFrameOn` and `TauCeti.IsContMDiffDistribution`;
+involutivity is `TauCeti.IsInvolutiveDistribution`. The latter tests vector
+fields that are differentiable and tangent to `D` on an open set. It does not
+test arbitrary continuous fields, and it is not defined only by globally
+smooth sections. `TauCeti.Foliation` is the existing bundled foliation data.
+Extend these interfaces; do not introduce an independent distribution,
+involutivity or foliation implementation.
+
+The existing implementation is in
+`TauCeti/Geometry/Manifold/Distribution.lean`,
+`TauCeti/Geometry/Manifold/Foliation/Basic.lean`, and
+`TauCeti/Geometry/Manifold/Distribution/Graph.lean`. The last file already
+provides graph distributions, their involutivity criterion, and the local
+integral-graph theorem
+`TauCeti.IsInvolutiveDistribution.exists_eventually_hasFDerivAt`, using
+`TauCeti/Analysis/ODE/Frobenius.lean`. These are consumed, not scheduled again.
+
+The local `Distribution` record in `Suggested.lean` is only a bundled
+signature model at that file's older dependency pin. Its `fiber` is the
+canonical family; its rank and frame fields express the existing regularity
+predicate. Its local `IsInvolutive` spelling expands the canonical local
+predicate. Neither is a target for a second production implementation.
+Any convenience wrapper retained in Tau Ceti must package the existing family
+and predicates, and the theorem implementations must use that shared API.
+Already-merged work is not to be reimplemented merely because the roadmap's
+signature-checking pin is older.
+
+- **4.1 Distributions and frames.** Consume the existing rank, frame,
+  regularity, constant-distribution and contact-distribution APIs. Add the
+  restriction, coordinate-transport and annihilator lemmas needed by the
+  remaining geometry to those APIs. A frame is a basis of the distribution
+  fiber, not just a list of tangent vectors. Existing results are not new
+  completion targets.
+
+- **4.2 Integral manifolds and involutivity.** An integral immersion has its
+  own smooth `k`-dimensional manifold carrier and a smooth immersion into `M`
+  whose differential has image exactly `D` at every point. Define the
+  unbundled predicate and its bundled data, with their evaluation laws.
+  A parametrizing immersion need not be injective. Distinguish it from an
+  injectively immersed integral submanifold.
+
+  State `isInvolutive_of_forall_exists_integralManifold` for a smooth
+  distribution on a smooth Hausdorff boundaryless manifold, with smooth
+  integral immersions through every point. Its conclusion is the canonical
+  local differentiable-section predicate. There is no `n = 0` version of
+  this implication in the roadmap.
+
+  For a smooth distribution on a Hausdorff smooth manifold, prove the
+  annihilating-one-form criterion `isInvolutive_iff_forall_mextDeriv` with
+  the hypotheses displayed in `Suggested.lean`. Global smooth sections and
+  global annihilating forms can be used through local bump extensions;
+  they do not replace the local definition of involutivity.
+
+- **4.3 Local Frobenius.** On a finite-dimensional smooth Hausdorff
+  boundaryless manifold, an involutive smooth distribution has flat charts
+  and local integral slices. Transport the distribution into coordinates,
+  choose a complementary subspace, and express it locally as a graph
+  distribution. Reuse the existing graph-coordinate Frobenius theorem.
+  The remaining work includes the coordinate reduction and the transverse
+  parameter/local-diffeomorphism argument producing a flat chart; existence
+  of one integral graph alone is not a flat-chart theorem. Connect the
+  resulting slices to the existing `TauCeti.IsSliceChart` interface and
+  prove the chart statement adapted to a transverse submanifold.
+
+  Prove weak embeddedness for injectively immersed integral submanifolds
+  with second-countable carriers. The factorization target here is for
+  smooth maps from finite-dimensional smooth Hausdorff second-countable
+  boundaryless source manifolds. Do not assert it for an arbitrary
+  parametrizing immersion or an uncountable discrete carrier.
+
+- **4.4 Global leaves.** Construct the leaf through every point on a smooth
+  Hausdorff boundaryless manifold. Give it its own charted carrier, not the
+  subspace topology on its image. Prove that it contains the specified
+  point, is connected, has injective inclusion, and is maximal among
+  connected smooth integral immersions through that point. Prove that the
+  leaf images partition `M` and that leaves are second countable when `M`
+  is second countable. Develop these results on the existing distribution
+  and foliation interfaces. No assertion of a boundaryless leaf through
+  every boundary point is made: the full tangent distribution on `[0, ∞)`
+  rules out that generalization.
+
+**Acceptance examples.** Constant distributions give affine slices. Reuse
+`TauCeti.standardContactDistribution` and its noninvolutivity theorem. To
+retain the displayed convention `ker(dz − y dx)` on `EuclideanSpace ℝ (Fin 3)`,
+use the coordinate equivalence `S(x,y,z) = (y,x,z)` into `ℝ × ℝ × ℝ`; the
+existing convention there is `ker(dz − x dy)`. The adapter's fiber must be
+`S⁻¹` of the existing fiber at `S p`, with the coordinate formula proved.
+Do not construct a second contact-distribution theory. The pointwise
+contact-bracket calculation gives the stronger statement that there is
+no integral surface through any point; negating the global
+integrability-implies-involutivity statement alone does not give that
+stronger quantifier order.
 
 ### Layer 5: integration and Stokes' theorem
 
@@ -593,8 +683,12 @@ Each is a tempting mistake with its refutation.
   `ker(dz − y dx)` centrally and `ker(dz − 3u²y du)` in each added chart. Every global section
   of it is a multiple of `∂y`, so the global bracket condition holds, while the central local
   fields `X = ∂x + y∂z` and `Y = ∂y` have bracket `−∂z` outside the distribution. The displayed
-  annihilator glues to a global smooth `α` with `dα(X,Y) = 1` in the central chart. Thus the
-  annihilating-form criterion and Frobenius consequences of this predicate require `[T2Space M]`.
+  annihilator glues to a global smooth `α` with `dα(X,Y) = 1` in the central chart.
+  This refutes using only global smooth sections as the definition without
+  the hypotheses for local bump extension. It does not refute the canonical
+  local involutivity predicate, which is the definition used in layer 4.
+  The global annihilating-form characterization retains its Hausdorff
+  hypothesis.
 - **"The boundary of a manifold with corners is a manifold."** False at a corner of `[0, ∞)²`; the
   abstract boundary of *Boundary and corners* is what Stokes needs.
 - **"[Lee]'s boundary-orientation signs transfer verbatim."** Mathlib's half-space constrains the
@@ -632,13 +726,16 @@ One owner per shared construction, stated identically on both sides.
 
 - **Universal covers** owns π₁, deck groups, the classification and πₙ; 2.4, 6.3 and 10.5 consume
   them.
-- **Geometric topology** consumes the orientation interface (2), the distribution and leaf objects
-  (4) that its codimension-one foliations specialize, densities and form integration (5.5, 12.4),
-  and the abstract boundary of manifolds with corners (5.5), along whose faces its gluing operates;
-  the half-space boundary manifold is Tau Ceti's and consumed by both. It owns the Riemannian volume
-  measure, in Tau Ceti as `TauCeti.riemannianVolume` and consumed by 12.4, curvature, hyperbolic
-  structures, tubular and collar neighbourhoods, gluing, tautness, the Euler class, and everything
-  3-manifold-specific.
+- **Geometric topology** consumes the orientation interface (2), the canonical
+  Tau Ceti distribution and foliation APIs and their integral-manifold/leaf
+  extensions (4), densities and form integration (5.5, 12.4), and the abstract
+  boundary of manifolds with corners (5.5). The half-space boundary manifold
+  is Tau Ceti's and consumed by both. Geometric topology owns the Riemannian
+  volume measure, already `TauCeti.riemannianVolume` and consumed by 12.4,
+  curvature, hyperbolic structures, tubular and collar neighbourhoods,
+  gluing, tautness, the Euler class, and the 3-manifold-specific applications.
+  Layer 4 supplies the missing common Frobenius and leaf theory on the
+  existing APIs, not a replacement distribution or foliation carrier.
 - **Algebraic topology** owns singular chains and cochains, relative theory, subdivision, small
   chains, excision and Mayer–Vietoris (its Stages 2–3), and universal coefficients, cup and cap
   products and singular Poincaré duality (Stage 6); layer 8 consumes them and builds only smooth
