@@ -84,6 +84,11 @@ of them by hand does nothing except conflict with every other open roadmap PR, s
 alone; if you want to check what the generated list will look like, run
 `python3 .github/scripts/check_roadmap_areas.py --fix` locally and then discard the result.
 
+**A new roadmap's directory holds a `metadata.toml` naming its arXiv topic**, as described under
+[Filing a roadmap](README.md#filing-a-roadmap). The `build` check fails without one; run
+`python3 .github/scripts/check_roadmap_topics.py` to see the error, and the list of classes,
+before you push.
+
 ## The review workflow: labels
 
 Two labels track whose turn it is. Keeping them accurate is the single most useful thing you

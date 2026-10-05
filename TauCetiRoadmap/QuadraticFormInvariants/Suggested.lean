@@ -3,6 +3,25 @@ import TauCetiRoadmap.ProfiniteCohomology.Suggested
 import TauCetiRoadmap.LocalFieldsRamification.Suggested
 import TauCetiRoadmap.ClassFieldTheory.Suggested
 import TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras.Suggested
+import TauCeti.Algebra.Quaternion.Binary
+import TauCeti.Algebra.Quaternion.NormForm
+import TauCeti.Algebra.Quaternion.SplittingCriterion
+import TauCeti.FieldTheory.SquareClassGroup.Multiplicative
+import TauCeti.GroupTheory.SpecificGroups.Dihedral.Basic
+import TauCeti.LinearAlgebra.Dimension.IsQuadraticExtension
+import TauCeti.LinearAlgebra.QuadraticForm.CartanDieudonne.Basic
+import TauCeti.LinearAlgebra.QuadraticForm.Diagonal.Chain.Induction
+import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Descent
+import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Discriminant
+import TauCeti.LinearAlgebra.QuadraticForm.RegularFormClass.Semiring
+import TauCeti.LinearAlgebra.QuadraticForm.Witt.Cancellation
+import TauCeti.LinearAlgebra.QuadraticForm.Witt.Discriminant
+import TauCeti.LinearAlgebra.QuadraticForm.Witt.Extension
+import TauCeti.LinearAlgebra.QuadraticForm.Witt.Round
+import TauCeti.NumberTheory.LocalField.AbsoluteRamificationIndex
+import TauCeti.NumberTheory.LocalField.SquareClass
+import TauCeti.NumberTheory.LocalField.Squares
+import TauCeti.NumberTheory.LocalField.Uniformizer
 
 /-!
 # Quadratic forms and cohomological invariants: target signatures
@@ -21,11 +40,14 @@ no Stiefel-Whitney classes. We build that theory in `TauCeti/`.
 
 This file fixes the design decisions that are most likely to fork two implementations:
 
-* the carrier for isometry classes (Layer 0);
-* the chain-equivalence relation and the descent principle (Layer 0);
-* the binary normal forms (Layer 0);
-* the four-fold splitting criterion (Layer 2);
-* the Brauer-group data and the Hasse invariant built on it (Layer 5);
+* how the invariants consume Tau Ceti's carrier for isometry classes, its chain theorem, which
+  holds in rank at least two, and its descent principle, whose separate rank-one hypothesis each
+  descended invariant discharges by name (Layers 0, 3, 5, 6C and 8);
+* how the later layers consume Tau Ceti's Witt theory, its quaternion algebras with the four-fold
+  splitting criterion, and its Witt ring with the fundamental ideal and the Pfister forms
+  (Layers 1, 2 and 4);
+* the Brauer-group data and the Hasse and Clifford invariants built on it, stated on Tau Ceti's
+  fundamental ideal and its powers (Layer 5);
 * the quadratic-form adapters to the imported local-field toolkit (Layer 6A);
 * the fractional-ideal carrier of the quadratic defect and its exponent (Layer 6B);
 * the Hilbert symbol as a `{±1}`-valued function of the norm equation, and the local
@@ -33,16 +55,25 @@ This file fixes the design decisions that are most likely to fork two implementa
 * the realization constraints of the local classification (Layer 6D);
 * the operations on mod-2 Galois cohomology (Layer 7A);
 * the crossed-product package that the comparison `Br(K) ≃ H²` is built from (Layer 7B);
-* the Scharlau transfer and the degree-2 Evens-Kahn identity, with the conjugation and sign
-  conventions the supplier's Evens norm carries (Layer 9).
+* the Scharlau transfer and the twisted trace form, the value of the Evens norm on a Kummer
+  class through the `Pin⁺` lift of `C₂ ≀ C₂` in explicit `2 × 2` matrices, and the relative
+  Stiefel-Whitney formula it proves, with the conjugation and sign conventions the supplier's
+  Evens norm carries (Layer 9).
 
 **Supplier carriers are canonical.** This roadmap imports the final declarations from
 `ProfiniteCohomology`, `LocalFieldsRamification`, and `ClassFieldTheory`; it does not package
 private substitutes for their cohomology, valuation, ramification, reciprocity, or local-duality
-interfaces. The only adapters below are specific to quadratic forms and to the coefficient
-identification `mu₂ ≃ ZMod 2`. In particular, Class Field Theory owns the cohomological Hilbert
-pairing and reciprocity, while this roadmap owns the norm-equation/quaternion symbol and proves
-the comparison. Hasse--Minkowski and global classification belong to `GlobalQuadraticForms`.
+interfaces. The same holds for Tau Ceti's quadratic-form API: the carrier `RegularFormClass`, the
+class of a form, the chain relations, the descent principle, the discriminants, the hyperbolic
+plane with Witt decomposition and cancellation, the quaternion norm form with the splitting
+criterion, the Witt-Grothendieck ring, the Witt ring, the fundamental ideal with the signed
+discriminant on it, and the Pfister forms are Tau Ceti's, and no copy of them is declared here.
+The two names `wittRing` and `toWittRing` that `GlobalQuadraticForms` cites are reducible
+aliases of Tau Ceti's declarations. The only adapters below are specific to quadratic forms and
+to the coefficient identification `mu₂ ≃ ZMod 2`. In particular, Class Field Theory owns the
+cohomological Hilbert pairing and reciprocity, while this roadmap owns the norm-equation/quaternion
+symbol and proves the comparison. Hasse--Minkowski and global classification belong to
+`GlobalQuadraticForms`.
 
 Layer-6 conventions follow Serre (*A Course in Arithmetic*, ch. III and IV) and O'Meara
 (§63). The symbol is defined by the norm equation `b = x² − a·y²`, which needs no
@@ -57,6 +88,9 @@ namespace TauCetiRoadmap.QuadraticFormInvariants
 
 open QuadraticMap CategoryTheory
 open scoped Quaternion
+open TauCeti (RegularFormPresentation regularFormSetoid PermutationStep BinaryStep DiagonalChain
+  squareClass WittGrothendieckRing WittRing toWittGrothendieck wittClass fundamentalIdeal
+  pfisterForm pfisterClass)
 
 universe u v
 
@@ -64,303 +98,388 @@ section FormTheory
 
 variable {K : Type u} [Field K]
 
-/-! ## Layer 0: the carrier for isometry classes
+/-! ## Layer 0: the carrier for isometry classes, consumed from Tau Ceti
 
-Functions on isometry classes appear from Layer 3 onwards, and Layer 4 needs a ring
-whose elements are such classes. A quotient over arbitrary finite-dimensional spaces
-would force universe and bundling decisions on the first implementer, so the roadmap
-fixes a diagonal presentation instead. -/
+Layer 0 is Tau Ceti's. The carrier is `TauCeti.RegularFormClass K`
+(`TauCeti/LinearAlgebra/QuadraticForm/RegularFormClass/Basic.lean`), the quotient of the diagonal
+presentations `TauCeti.RegularFormPresentation K := Σ n, Fin n → Kˣ` by isometry of the forms
+`TauCeti.presentedForm p` that they present (`TauCeti.regularFormSetoid`). The class of a regular
+form on a finite-dimensional space is `TauCeti.formClass`; it is computed by any diagonalization
+(`TauCeti.formClass_mk`), and two regular forms are isometric exactly when their classes agree
+(`TauCeti.formClass_eq_iff`). Orthogonal sum and tensor product make the carrier Tau Ceti's
+commutative semiring `TauCeti.instCommSemiringRegularFormClass`, and the rank
+`TauCeti.RegularFormClass.rank` is additive on sums and multiplicative on products.
 
-/-- A diagonal presentation of a regular quadratic form: a rank `n` together with a
-tuple of units, read as `⟨w 0, …, w (n-1)⟩`. -/
-abbrev RegularFormPresentation (K : Type u) [Field K] : Type u := Σ n : ℕ, Fin n → Kˣ
+`GlobalQuadraticForms` consumes the carrier and the class of a form under the names
+`RegularFormClass` and `formClass` of this namespace. The `export` below makes those two names
+aliases of Tau Ceti's declarations: they denote the same constants, and no copy is declared. -/
 
-/-- The form presented by `(n, w)`, namely `weightedSumSquares K w`. -/
-def presentedForm (p : RegularFormPresentation K) : QuadraticForm K (Fin p.1 → K) :=
-  weightedSumSquares K fun i => ((p.2 i : K))
+export TauCeti (RegularFormClass formClass)
 
-/-- Two presentations are related when the forms they present are isometric. Mathlib's
-`QuadraticMap.Equivalent` already compares forms on different spaces, so presentations
-of different ranks may be compared, and only equal ranks are ever related. -/
-instance regularFormSetoid (K : Type u) [Field K] : Setoid (RegularFormPresentation K) where
-  r p q := (presentedForm p).Equivalent (presentedForm q)
-  iseqv :=
-    { refl := fun p => Equivalent.refl (presentedForm p)
-      symm := fun h => h.symm
-      trans := fun h h' => h.trans h' }
+/-! ## Layer 0: value sets and binary normal forms, consumed from Tau Ceti
 
-/-- **Layer 0, the carrier.** Isometry classes of regular finite-dimensional quadratic
-forms, presented diagonally. Layer 3's invariants are functions on this type, and
-Layer 4's Witt-Grothendieck ring is built from its two monoid structures. -/
-abbrev RegularFormClass (K : Type u) [Field K] : Type u := Quotient (regularFormSetoid K)
-
-/-- **Layer 0, every regular form has a presentation.** Diagonalization
-(`equivalent_weightedSumSquares_units_of_nondegenerate'`) supplies one. -/
-theorem exists_presentedForm_equivalent [Invertible (2 : K)] {V : Type v} [AddCommGroup V]
-    [Module K V] [FiniteDimensional K V] (Q : QuadraticForm K V) (hQ : Q.Nondegenerate) :
-    ∃ p : RegularFormPresentation K, Q.Equivalent (presentedForm p) :=
-  sorry
-
-/-- **Layer 0, the class of a regular form.** The content of the milestone is that the class
-does not depend on the diagonalization chosen to compute it, which is `formClass_mk` below.
-This is what lets every invariant of Layers 3, 5, 6 and 8 be applied to a form rather than to
-a presentation, and it is what Layer 9's form-level Stiefel-Whitney theorem is stated
-through. -/
-noncomputable def formClass [Invertible (2 : K)] {V : Type v} [AddCommGroup V] [Module K V]
-    [FiniteDimensional K V] (Q : QuadraticForm K V) (hQ : Q.Nondegenerate) :
-    RegularFormClass K :=
-  Quotient.mk _ (exists_presentedForm_equivalent Q hQ).choose
-
-/-- **Layer 0, the class is computed by any diagonalization.** -/
-theorem formClass_mk [Invertible (2 : K)] {V : Type v} [AddCommGroup V] [Module K V]
-    [FiniteDimensional K V] (Q : QuadraticForm K V) (hQ : Q.Nondegenerate)
-    (p : RegularFormPresentation K) (hp : Q.Equivalent (presentedForm p)) :
-    formClass Q hQ = Quotient.mk _ p :=
-  sorry
-
-/-- **Layer 0, two regular forms are isometric exactly when their classes agree.** -/
-theorem formClass_eq_iff [Invertible (2 : K)] {V W : Type v} [AddCommGroup V] [Module K V]
-    [FiniteDimensional K V] [AddCommGroup W] [Module K W] [FiniteDimensional K W]
-    (Q : QuadraticForm K V) (hQ : Q.Nondegenerate) (R : QuadraticForm K W)
-    (hR : R.Nondegenerate) :
-    formClass Q hQ = formClass R hR ↔ Q.Equivalent R :=
-  sorry
-
-/-! ## Layer 0: chain equivalence and the descent principle -/
-
-/-- A permutation of the slots of a diagonal tuple. -/
-def PermutationStep {n : ℕ} (w w' : Fin n → Kˣ) : Prop :=
-  ∃ σ : Equiv.Perm (Fin n), ∀ i, w' i = w (σ i)
-
-/-- A binary move: two slots change by an isometry of binary forms, the rest are fixed. -/
-def BinaryStep [Invertible (2 : K)] {n : ℕ} (w w' : Fin n → Kˣ) : Prop :=
-  ∃ i j : Fin n, i ≠ j ∧ (∀ k, k ≠ i → k ≠ j → w k = w' k) ∧
-    (weightedSumSquares K ![(w i : K), (w j : K)]).Equivalent
-      (weightedSumSquares K ![(w' i : K), (w' j : K)])
-
-/-- One step of Witt's chain equivalence. A transposition is already a `BinaryStep`,
-because `⟨a,b⟩ ≅ ⟨b,a⟩`, so `PermutationStep` adds no generating data. It is kept
-because permutation invariance is what downstream proofs apply. -/
-def DiagonalStep [Invertible (2 : K)] {n : ℕ} (w w' : Fin n → Kˣ) : Prop :=
-  PermutationStep w w' ∨ BinaryStep w w'
-
-/-- **Chain equivalence** of diagonal tuples (Lam I.5.2). -/
-def DiagonalChain [Invertible (2 : K)] {n : ℕ} (w w' : Fin n → Kˣ) : Prop :=
-  Relation.ReflTransGen DiagonalStep w w'
-
-/-- **Layer 0, Witt's chain-equivalence theorem** (Lam I.5.2). The two directions are not
-equally hard. Left to right is elementary, because each step is an isometry. Right to
-left is Witt's theorem, and it is the difficult direction. -/
-example [Invertible (2 : K)] {n : ℕ} (w w' : Fin n → Kˣ) :
-    DiagonalChain w w' ↔
-      (weightedSumSquares K fun i => ((w i : K))).Equivalent
-        (weightedSumSquares K fun i => ((w' i : K))) :=
-  sorry
-
-/-- **Layer 0, the descent principle**, which is the form that every later invariant
-consumes. A function of diagonal tuples that is invariant under permutations and under
-binary moves descends uniquely to `RegularFormClass K`. It is applied with
-`M = BrauerGroup K` (Layer 5), `M = ℤˣ` (Layer 6C), and `M = H²(G_K, 𝔽₂)` written
-additively (Layer 8). -/
-example [Invertible (2 : K)] {M : Type v} [CommMonoid M] (f : RegularFormPresentation K → M)
-    (hperm : ∀ (n : ℕ) (w w' : Fin n → Kˣ), PermutationStep w w' → f ⟨n, w⟩ = f ⟨n, w'⟩)
-    (hbin : ∀ (n : ℕ) (w w' : Fin n → Kˣ), BinaryStep w w' → f ⟨n, w⟩ = f ⟨n, w'⟩) :
-    ∃! F : RegularFormClass K → M, ∀ p, F (Quotient.mk _ p) = f p :=
-  sorry
-
-/-! ## Layer 0: representation, value sets, and binary normal forms -/
+`QuadraticMap.Represents` and `QuadraticMap.unitValueSet`, with the representation criterion
+(`TauCeti/LinearAlgebra/QuadraticForm/Representation.lean`), and the binary normal forms
+(`TauCeti/LinearAlgebra/QuadraticForm/Binary.lean`) are Tau Ceti's. The statements below apply them
+in the shapes that the later layers use. -/
 
 /-- **Non-vacuity worked example.** `⟨1,1⟩` and `⟨1,−1⟩` are inequivalent over `ℚ`:
-the first is anisotropic, that is positive definite, and the second is the hyperbolic
-plane. -/
+the first is anisotropic, that is positive definite (Tau Ceti's
+`TauCeti.anisotropic_binary_one_one_iff`, as `−1` is not a square), and the second is the
+hyperbolic plane, isotropic at `(1, 1)`; anisotropy is an isometry invariant
+(`QuadraticMap.Equivalent.anisotropic_iff`). -/
 example :
-    ¬ (weightedSumSquares ℚ ![(1 : ℚ), 1]).Equivalent (weightedSumSquares ℚ ![(1 : ℚ), -1]) :=
-  sorry
+    ¬ (weightedSumSquares ℚ ![(1 : ℚ), 1]).Equivalent (weightedSumSquares ℚ ![(1 : ℚ), -1]) := by
+  intro h
+  have hani : (weightedSumSquares ℚ ![(1 : ℚ), 1]).Anisotropic :=
+    TauCeti.anisotropic_binary_one_one_iff.2 fun ⟨r, hr⟩ => by nlinarith [mul_self_nonneg r]
+  have h0 := h.anisotropic_iff.1 hani ![1, 1] (by simp [weightedSumSquares_apply])
+  exact one_ne_zero (by simpa using congrFun h0 0 : (1 : ℚ) = 0)
 
-/-- **Layer 0, every form represents the scalar `0`.** The witness is the zero vector, so this
-holds for every `Q`, on every space, with no regularity and no finiteness hypothesis. It is
-recorded as a theorem because it is what makes the full value set useless as an invariant, and
-it is why every classification statement below is about `unitValueSet`. -/
-theorem represents_zero {V : Type v} [AddCommGroup V] [Module K V] (Q : QuadraticForm K V) :
-    ∃ v : V, Q v = 0 :=
-  ⟨0, by simp⟩
+/-- **Layer 0, every form represents the scalar `0`, and that is not isotropy.** Tau Ceti's
+`QuadraticMap.represents_zero` holds for every `Q`, through the zero vector, and an anisotropic form
+represents `0` through the zero vector only. "Isotropic" is `¬ Q.Anisotropic`, which demands a
+**nonzero** vector; ⚠ never read the first as evidence of the second. It is why every
+classification statement below is about `unitValueSet`. -/
+example {V : Type v} [AddCommGroup V] [Module K V] (Q : QuadraticForm K V)
+    (hQ : Q.Anisotropic) :
+    QuadraticMap.Represents Q 0 ∧ ∀ v : V, Q v = 0 → v = 0 :=
+  ⟨QuadraticMap.represents_zero Q, hQ⟩
 
-/-- **Layer 0, representing `0` is not isotropy.** An anisotropic form still represents the
-scalar `0`, and does so only through the zero vector. The two notions are kept apart
-throughout: `Represents Q 0` is the theorem above, and "isotropic" is `¬ Q.Anisotropic`, which
-demands a **nonzero** vector. ⚠ Never read the first as evidence of the second. -/
-theorem represents_zero_of_anisotropic {V : Type v} [AddCommGroup V] [Module K V]
-    (Q : QuadraticForm K V) (hQ : Q.Anisotropic) :
-    (∃ v : V, Q v = 0) ∧ ∀ v : V, Q v = 0 → v = 0 :=
-  ⟨represents_zero Q, hQ⟩
+/-- **Layer 0, the representation criterion** (Lam I.3.5), Tau Ceti's
+`QuadraticMap.mem_unitValueSet_iff_not_anisotropic_prod`: a regular form represents a unit `a`
+exactly when `Q ⊥ ⟨−a⟩` is isotropic. This turns every value-set question into an isotropy
+question. The hypothesis `a : Kˣ` carries the content: read at `a = 0` both sides hold for every
+`Q`, so the criterion is stated for units and nowhere else. -/
+example {V : Type v} [AddCommGroup V] [Module K V] (Q : QuadraticForm K V)
+    (hQ : Q.Nondegenerate) (a : Kˣ) :
+    a ∈ QuadraticMap.unitValueSet Q ↔
+      ¬ (Q.prod ((-(a : K)) • (QuadraticMap.sq : QuadraticForm K K))).Anisotropic :=
+  QuadraticMap.mem_unitValueSet_iff_not_anisotropic_prod Q hQ a
 
-/-- **Layer 0, the representation criterion** (Lam I.3.5). A regular diagonal form
-represents a unit `a` exactly when `⟨−a⟩ ⊥ q` is isotropic. This turns every value-set
-question into an isotropy question. The criterion is about the unit value set `D(q)`, and the
-hypothesis `a : Kˣ` carries its content: the right-hand side asks for a **nonzero** vector on
-which `⟨−a⟩ ⊥ q` vanishes, and only for `a ≠ 0` can its first coordinate be normalized to `1`
-and the isotropic vector turned into a representation of `a` by `q`. ⚠ Read at `a = 0` both
-sides degenerate — the left is `represents_zero`, true for every `q`, and the right is isotropy
-of the degenerate form `⟨0⟩ ⊥ q`, also true for every `q` — so the criterion is stated for units
-and nowhere else. -/
-example [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) (a : Kˣ) :
-    (∃ x : Fin n → K, weightedSumSquares K (fun i => ((w i : K))) x = a) ↔
-      ¬ (weightedSumSquares K (Fin.cons (-(a : K)) fun i => ((w i : K)))).Anisotropic :=
-  sorry
-
-/-- **Layer 0, the binary representation normal form** (Lam I.2.3(2)). A binary form
-represents `c` exactly when `c` can be taken as its first coefficient, the second being
-forced by the discriminant. The second coefficient is written `a*b*c`, which is the
-square class of `a*b/c`. Both spellings occur in the sources, and their agreement is part
-of the milestone. -/
-example [Invertible (2 : K)] (a b c : Kˣ) :
-    (∃ x : Fin 2 → K, weightedSumSquares K ![(a : K), b] x = c) ↔
+/-- **Layer 0, the binary representation normal form** (Lam I.2.3(2)), Tau Ceti's
+`TauCeti.mem_unitValueSet_binary_iff_equivalent`: a binary form represents the unit `c` exactly
+when `c` can be taken as its first coefficient, the second being forced to `a*b*c`. The spelling
+`a*b*c⁻¹` of other sources presents the same form (`TauCeti.equivalent_binaryNormalForm_inv`). -/
+example (a b c : Kˣ) :
+    c ∈ QuadraticMap.unitValueSet (weightedSumSquares K ![(a : K), b]) ↔
       (weightedSumSquares K ![(a : K), b]).Equivalent
         (weightedSumSquares K ![(c : K), (a : K) * b * c]) :=
-  sorry
+  TauCeti.mem_unitValueSet_binary_iff_equivalent (a : K) b c
 
-/-- **Layer 0, the binary equivalence criterion** (Lam I.5.1). Two regular binary
-diagonal forms are equivalent exactly when they have the same discriminant in square
-classes, that is `IsSquare (a*b*(c*d))` in the quotient-free spelling of
-`TauCeti.squareClass_eq_zero_iff`, and represent a common unit. This is the single
-binary move to which chain equivalence reduces every equivalence of diagonal forms. -/
+/-- **Layer 0, the binary equivalence criterion** (Lam I.5.1), Tau Ceti's
+`TauCeti.equivalent_binary_iff`: two regular binary diagonal forms are equivalent exactly when
+they have the same discriminant in square classes, in the quotient-free spelling
+`IsSquare (a*b*(c*d))`, and represent a common unit. This is the single binary move to which the
+chain theorem reduces every equivalence of diagonal forms of rank at least two. -/
 example [Invertible (2 : K)] (a b c d : Kˣ) :
     (weightedSumSquares K ![(a : K), b]).Equivalent (weightedSumSquares K ![(c : K), d]) ↔
       (IsSquare (a * b * (c * d)) ∧
-        ∃ e : Kˣ, (∃ x : Fin 2 → K, weightedSumSquares K ![(a : K), b] x = e) ∧
-          ∃ x : Fin 2 → K, weightedSumSquares K ![(c : K), d] x = e) :=
-  sorry
+        ∃ e : Kˣ, e ∈ QuadraticMap.unitValueSet (weightedSumSquares K ![(a : K), b]) ∧
+          e ∈ QuadraticMap.unitValueSet (weightedSumSquares K ![(c : K), d])) :=
+  TauCeti.equivalent_binary_iff a b c d
 
-/-! ## Layer 1: hyperbolic planes and Witt theory -/
+/-! ## Layer 0: chain equivalence and the descent principle, consumed from Tau Ceti
 
-/-- **Layer 1, the hyperbolic plane is universal.** `⟨1,−1⟩` represents every unit, with
-the witness `((a+1)/2)² − ((a−1)/2)² = a`. -/
-example [Invertible (2 : K)] (a : Kˣ) :
-    ∃ x : Fin 2 → K, weightedSumSquares K ![(1 : K), -1] x = a :=
-  sorry
+The relations are Tau Ceti's `TauCeti.PermutationStep`, `TauCeti.BinaryStep`,
+`TauCeti.DiagonalStep` and `TauCeti.DiagonalChain`, the reflexive-transitive closure of the steps
+(`TauCeti/LinearAlgebra/QuadraticForm/Diagonal/Chain/Basic.lean`). A transposition is already a
+binary step (`TauCeti.PermutationStep.to_reflTransGen_binaryStep`), and a chain joins isometric
+forms (`TauCeti.DiagonalChain.equivalent`). Witt's converse (`Diagonal/WittChain.lean`) is a
+theorem about rank at least two. A binary step needs two distinct slots, so in rank one a chain is
+equality of the coefficient, while `⟨a⟩ ≅ ⟨b⟩` only asks for `a * b` to be a square. The three
+ranks are stated separately below, and the descent principle (`RegularFormClass/Descent.lean`)
+carries the rank-one case as a hypothesis of its own. -/
 
-/-- **Layer 1, isotropic regular forms split off a hyperbolic plane** (Lam I.3.4). A
-nondegenerate isotropic form is equivalent to `⟨1,−1⟩ ⊥ q'` with `q'` regular
-diagonal. -/
+/-- **Layer 0, Witt's chain-equivalence theorem in rank at least two** (Lam I.5.2), Tau Ceti's
+`TauCeti.diagonalChain_iff_equivalent_of_two_le`. Left to right is elementary, since each step is
+an isometry; right to left is Witt's theorem. -/
+example [Invertible (2 : K)] {n : ℕ} (hn : 2 ≤ n) (w w' : Fin n → Kˣ) :
+    DiagonalChain w w' ↔
+      (weightedSumSquares K fun i => ((w i : K))).Equivalent
+        (weightedSumSquares K fun i => ((w' i : K))) :=
+  TauCeti.diagonalChain_iff_equivalent_of_two_le hn
+
+/-- **Layer 0, the chain theorem in rank zero**, where both sides hold:
+`TauCeti.diagonalChain_iff_equivalent_fin_zero`. -/
+example (w w' : Fin 0 → Kˣ) :
+    DiagonalChain w w' ↔
+      (weightedSumSquares K fun i => ((w i : K))).Equivalent
+        (weightedSumSquares K fun i => ((w' i : K))) :=
+  TauCeti.diagonalChain_iff_equivalent_fin_zero
+
+/-- **Layer 0, in rank one a chain is equality of the coefficient**:
+`TauCeti.diagonalChain_fin_one_iff_eq`. -/
+example (w w' : Fin 1 → Kˣ) : DiagonalChain w w' ↔ w = w' :=
+  TauCeti.diagonalChain_fin_one_iff_eq
+
+/-- **Layer 0, the rank-one boundary of the chain theorem.** `⟨1⟩ ≅ ⟨4⟩` over `ℚ`, by halving the
+coordinate, and no diagonal chain joins them. So the equivalence of chains with isometry is false
+without the hypothesis `2 ≤ n`. -/
+example :
+    (weightedSumSquares ℚ ![((1 : ℚˣ) : ℚ)]).Equivalent
+        (weightedSumSquares ℚ ![((Units.mk0 (4 : ℚ) (by norm_num) : ℚˣ) : ℚ)]) ∧
+      ¬ DiagonalChain ![(1 : ℚˣ)] ![Units.mk0 (4 : ℚ) (by norm_num)] := by
+  refine ⟨⟨QuadraticForm.isometryEquivWeightedSumSquaresWeightedSumSquares
+    ![Units.mk0 (1 / 2 : ℚ) (by norm_num)] fun i => ?_⟩, ?_⟩
+  · fin_cases i
+    norm_num
+  · rw [TauCeti.diagonalChain_fin_one_iff_eq]
+    intro h
+    have := congrArg (fun f : Fin 1 → ℚˣ => ((f 0 : ℚˣ) : ℚ)) h
+    norm_num at this
+
+/-- **Layer 0, the descent principle**, which is the form that every later invariant consumes:
+Tau Ceti's `TauCeti.RegularFormClass.liftDiagonal`, with `liftDiagonal_mk` and
+`liftDiagonal_unique`. A function of diagonal presentations descends uniquely to
+`RegularFormClass K` when it is invariant under permutation steps, under binary steps, and, in
+rank one, under changing the coefficient by a square. Rank zero needs no hypothesis, having a
+single presentation; rank one needs `hone`, having no binary step; ranks at least two need only the
+two step conditions, by the chain theorem. It is applied with `M = BrauerGroup K` (Layer 5),
+`M = ℤˣ` (Layer 6C), and `M = H¹(G_K, 𝔽₂)` and `M = H²(G_K, 𝔽₂)` (Layer 8), and each of those
+invariants discharges `hone` as a named statement. -/
+example [Invertible (2 : K)] {M : Type v} (f : RegularFormPresentation K → M)
+    (hperm : ∀ {n} {w w' : Fin n → Kˣ}, PermutationStep w w' → f ⟨n, w⟩ = f ⟨n, w'⟩)
+    (hbin : ∀ {n} {w w' : Fin n → Kˣ}, BinaryStep w w' → f ⟨n, w⟩ = f ⟨n, w'⟩)
+    (hone : ∀ a b : Kˣ, IsSquare (a * b) → f ⟨1, fun _ => a⟩ = f ⟨1, fun _ => b⟩) :
+    ∃! F : RegularFormClass K → M, ∀ p, F (Quotient.mk _ p) = f p :=
+  ⟨TauCeti.RegularFormClass.liftDiagonal f hperm hbin hone,
+    TauCeti.RegularFormClass.liftDiagonal_mk f hperm hbin hone,
+    fun g hg => TauCeti.RegularFormClass.liftDiagonal_unique f hperm hbin hone g hg⟩
+
+/-- **Layer 0, the rank-one hypothesis of the descent principle is necessary.** The function that
+reads off the coefficient in rank one and is `1` in every other rank passes both step conditions,
+and it separates the presentations `⟨1⟩` and `⟨4⟩` of one class over `ℚ`. -/
+example : ∃ f : RegularFormPresentation ℚ → ℚˣ,
+    (∀ {n} {w w' : Fin n → ℚˣ}, PermutationStep w w' → f ⟨n, w⟩ = f ⟨n, w'⟩) ∧
+    (∀ {n} {w w' : Fin n → ℚˣ}, BinaryStep w w' → f ⟨n, w⟩ = f ⟨n, w'⟩) ∧
+    ∃ p q : RegularFormPresentation ℚ,
+      Quotient.mk (regularFormSetoid ℚ) p = Quotient.mk (regularFormSetoid ℚ) q ∧ f p ≠ f q := by
+  classical
+  refine ⟨fun p => if h : p.1 = 1 then p.2 ⟨0, by omega⟩ else 1, ?_, ?_, ?_⟩
+  · intro n w w' h
+    obtain ⟨σ, hσ⟩ := h.exists_perm
+    by_cases hn : n = 1
+    · subst hn
+      simp only [dite_true]
+      rw [hσ, Subsingleton.elim (σ ⟨0, _⟩) ⟨0, _⟩]
+    · simp [hn]
+  · intro n w w' h
+    obtain ⟨i, j, hij, -, -⟩ := h.exists_pair
+    by_cases hn : n = 1
+    · subst hn
+      exact absurd (Subsingleton.elim i j) hij
+    · simp [hn]
+  · refine ⟨⟨1, fun _ => 1⟩, ⟨1, fun _ => Units.mk0 4 (by norm_num)⟩, ?_, ?_⟩
+    · rw [TauCeti.RegularFormClass.mk_eq_mk_iff, TauCeti.presentedForm_eq_weightedSumSquares_coe,
+        TauCeti.presentedForm_eq_weightedSumSquares_coe]
+      exact ⟨QuadraticForm.isometryEquivWeightedSumSquaresWeightedSumSquares
+        (fun _ => Units.mk0 (1 / 2 : ℚ) (by norm_num)) fun _ => by norm_num⟩
+    · simp only [dite_true, ne_eq]
+      intro h
+      have := congrArg Units.val h
+      norm_num at this
+
+/-! ## Layer 1: hyperbolic planes and Witt theory, consumed from Tau Ceti
+
+Layer 1 is Tau Ceti's. The hyperbolic plane `TauCeti.hyperbolicPlane K` is `⟨1, −1⟩`
+(`TauCeti/LinearAlgebra/QuadraticForm/Hyperbolic.lean`); Witt decomposition, with the Witt index
+and the anisotropic part of a class, is `Witt/Decomposition.lean`; Witt cancellation is
+`Witt/Cancellation.lean`; Witt's extension theorem is `Witt/Extension.lean`; and the reflections
+with the Cartan-Dieudonné theorem are `OrthogonalGroup.lean` and `CartanDieudonne/Basic.lean`.
+The statements below apply them in the shapes that the later layers use. -/
+
+/-- **Layer 1, the hyperbolic plane is universal**, Tau Ceti's
+`TauCeti.represents_hyperbolicPlane`: `⟨1,−1⟩` represents every scalar, with the witness
+`((a+1)/2)² − ((a−1)/2)² = a`. -/
+example [Invertible (2 : K)] (a : K) : (TauCeti.hyperbolicPlane K).Represents a :=
+  TauCeti.represents_hyperbolicPlane a
+
+/-- **Layer 1, isotropic regular forms split off a hyperbolic plane** (Lam I.3.4), Tau Ceti's
+`TauCeti.exists_hyperbolicPlane_prod_equivalent`: a nondegenerate isotropic form is equivalent to
+`⟨1,−1⟩ ⊥ q'` with `q'` regular diagonal. -/
 example [Invertible (2 : K)] {V : Type v} [AddCommGroup V] [Module K V]
     [FiniteDimensional K V] (Q : QuadraticForm K V) (hQ : Q.Nondegenerate)
     (h : ¬ Q.Anisotropic) :
-    ∃ (r : ℕ) (a : Fin r → Kˣ),
-      Q.Equivalent ((weightedSumSquares K ![(1 : K), -1]).prod
-        (weightedSumSquares K fun i => ((a i : K)))) :=
-  sorry
+    ∃ p : RegularFormPresentation K,
+      Q.Equivalent ((TauCeti.hyperbolicPlane K).prod (TauCeti.presentedForm p)) :=
+  TauCeti.exists_hyperbolicPlane_prod_equivalent Q hQ h
 
-/-- **Layer 1, Witt decomposition** (Lam I.4.1, nondegenerate case). Every nondegenerate
-form is equivalent to `m` hyperbolic planes plus an anisotropic form. Here `m` is the
-Witt index, and the anisotropic part is unique up to equivalence; uniqueness is a
-separate milestone that uses cancellation below. -/
+/-- **Layer 1, Witt decomposition** (Lam I.4.1, nondegenerate case), Tau Ceti's
+`QuadraticForm.exists_equivalent_hyperbolicPresentation_prod`: every nondegenerate form is
+equivalent to `m` hyperbolic planes plus an anisotropic diagonal form, where `m` is the Witt index
+`TauCeti.RegularFormClass.wittIndex` of its class. The anisotropic part is determined by any
+such decomposition (`TauCeti.RegularFormClass.anisotropicPart_eq`), which is where cancellation
+enters. -/
 example [Invertible (2 : K)] {V : Type v} [AddCommGroup V] [Module K V]
     [FiniteDimensional K V] (Q : QuadraticForm K V) (hQ : Q.Nondegenerate) :
-    ∃ (m r : ℕ) (a : Fin r → Kˣ),
-      Module.finrank K V = 2 * m + r ∧
-      Q.Equivalent
-        ((weightedSumSquares K
-            (Sum.elim (fun _ : Fin m => (1 : K)) fun _ : Fin m => (-1 : K))).prod
-          (weightedSumSquares K fun i => ((a i : K)))) ∧
-      (weightedSumSquares K fun i => ((a i : K))).Anisotropic :=
-  sorry
+    ∃ p : RegularFormPresentation K, (TauCeti.presentedForm p).Anisotropic ∧
+      Module.finrank K V = 2 * TauCeti.RegularFormClass.wittIndex (formClass Q hQ) + p.1 ∧
+      Q.Equivalent ((TauCeti.presentedForm (TauCeti.hyperbolicPresentation K
+        (TauCeti.RegularFormClass.wittIndex (formClass Q hQ)))).prod (TauCeti.presentedForm p)) :=
+  QuadraticForm.exists_equivalent_hyperbolicPresentation_prod Q hQ
 
-/-- **Layer 1, Witt cancellation** (Lam I.4.2). A common regular orthogonal summand
-cancels. Regularity of all three forms is part of the statement: cancellation is false
-without it. The proof runs through hyperplane reflections (Lam I.4.5 to I.4.7). -/
+/-- **Layer 1, Witt cancellation** (Lam I.4.2), Tau Ceti's `TauCeti.equivalent_of_equivalent_prod`.
+A regular finite-dimensional summand cancels. The hypotheses are on the cancelled summand only:
+`Q₁` and `Q₂` need be neither regular nor finite-dimensional. -/
 example [Invertible (2 : K)] {U V₁ V₂ : Type v}
     [AddCommGroup U] [Module K U] [FiniteDimensional K U]
-    [AddCommGroup V₁] [Module K V₁] [FiniteDimensional K V₁]
-    [AddCommGroup V₂] [Module K V₂] [FiniteDimensional K V₂]
+    [AddCommGroup V₁] [Module K V₁] [AddCommGroup V₂] [Module K V₂]
     (Q : QuadraticForm K U) (Q₁ : QuadraticForm K V₁) (Q₂ : QuadraticForm K V₂)
-    (hQ : Q.Nondegenerate) (hQ₁ : Q₁.Nondegenerate) (hQ₂ : Q₂.Nondegenerate)
-    (h : (Q.prod Q₁).Equivalent (Q.prod Q₂)) :
+    (hQ : Q.Nondegenerate) (h : (Q.prod Q₁).Equivalent (Q.prod Q₂)) :
     Q₁.Equivalent Q₂ :=
-  sorry
+  TauCeti.equivalent_of_equivalent_prod hQ h
 
-/-! ## Layer 2: quaternion algebras and the four-fold splitting criterion -/
+/-- **Layer 1, Witt's extension theorem** (Lam I.4.9), Tau Ceti's
+`QuadraticMap.IsometryEquiv.exists_extension`: an isometry between regular subspaces of a
+finite-dimensional quadratic space extends to an isometry of the whole space. The ambient form need
+not be regular. Layers 6 and 9 use it. -/
+example [Invertible (2 : K)] {V : Type v} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
+    {Q : QuadraticForm K V} {W W' : Submodule K V}
+    (f : (Q.restrict W).IsometryEquiv (Q.restrict W')) (hW : (Q.restrict W).Nondegenerate) :
+    ∃ e : Q.IsometryEquiv Q, ∀ x : W, e (x : V) = (f x : V) :=
+  QuadraticMap.IsometryEquiv.exists_extension f hW
 
-/-- **Layer 2, the norm form of a quaternion algebra.** The map `x ↦ (x * star x).re` is
-scalar-valued by Mathlib's `QuaternionAlgebra.mul_star_eq_coe`. It is a quadratic form on
-`ℍ[K, a, b]`, equivalent to the 2-fold Pfister form `⟨⟨a,b⟩⟩ = ⟨1, −a, −b, ab⟩`. -/
-example [Invertible (2 : K)] (a b : Kˣ) :
-    ∃ Q : QuadraticForm K ℍ[K, (a : K), (b : K)],
-      (∀ x, Q x = (x * star x).re) ∧
-      Q.Equivalent (weightedSumSquares K ![(1 : K), -(a : K), -(b : K), (a : K) * b]) :=
-  sorry
+/-- **Layer 1, Cartan-Dieudonné** (Lam I.7), Tau Ceti's
+`TauCeti.QuadraticMap.exists_reflectionOrthogonal_list_prod_eq`: every isometry of a regular
+`n`-dimensional quadratic space is a product of at most `n` reflections in vectors of invertible
+norm. ⚠ The hypothesis `2 ≠ 0` excludes the classical counterexample in dimension 4 over `𝔽₂`,
+so the theorem is not stated for a general field. -/
+example [NeZero (2 : K)] {V : Type v} [AddCommGroup V] [Module K V] [FiniteDimensional K V]
+    (Q : QuadraticForm K V) (hQ : Q.Nondegenerate) (g : TauCeti.QuadraticMap.orthogonalGroup Q) :
+    ∃ l : List (TauCeti.QuadraticMap.orthogonalGroup Q),
+      (∀ r ∈ l, ∃ (v : V) (_ : Invertible (Q v)),
+        TauCeti.QuadraticMap.reflectionOrthogonal Q v = r) ∧
+      l.length ≤ Module.finrank K V ∧ l.prod = g :=
+  TauCeti.QuadraticMap.exists_reflectionOrthogonal_list_prod_eq Q hQ g
 
-/-- **Layer 2, split or division** (Lam III.2.2, III.2.7). A quaternion algebra over a
-field is a division algebra or is isomorphic to `M₂(K)`. Both halves are computations
-with the norm form, and neither needs central simplicity, which is a Layer 5
-prerequisite. -/
+/-! ## Layer 2: quaternion algebras and the four-fold splitting criterion, consumed from Tau Ceti
+
+Layer 2 is Tau Ceti's (`TauCeti/Algebra/Quaternion/`): the norm form and its diagonalization
+(`NormForm.lean`), the split and square-parameter symbols and the Steinberg relation as explicit
+algebra equivalences (`Split.lean`, `SquareSplit.lean`, `Steinberg.lean`, `SymbolEquiv.lean`), the
+naturality of quaternion equivalences (`AlgEquiv.lean`), and the splitting criterion
+(`SplittingCriterion.lean`). The statements below apply them. -/
+
+/-- **Layer 2, the norm form of a quaternion algebra**, Tau Ceti's `QuaternionAlgebra.normForm`:
+the map `x ↦ (x * star x).re`, which is scalar-valued by Mathlib's
+`QuaternionAlgebra.mul_star_eq_coe`, as a quadratic form on `ℍ[K, a, b]`. It is equivalent to the
+2-fold Pfister form `⟨⟨a,b⟩⟩ = ⟨1, −a, −b, ab⟩`
+(`QuaternionAlgebra.equivalent_normForm_weightedSumSquares`). -/
+example (a b : Kˣ) :
+    (∀ x : ℍ[K, (a : K), (b : K)],
+      QuaternionAlgebra.normForm (a : K) 0 (b : K) x = (x * star x).re) ∧
+      (QuaternionAlgebra.normForm (a : K) 0 (b : K)).Equivalent
+        (weightedSumSquares K ![(1 : K), -(a : K), -(b : K), (a : K) * b]) :=
+  ⟨QuaternionAlgebra.normForm_apply _ _ _,
+    QuaternionAlgebra.equivalent_normForm_weightedSumSquares _ _⟩
+
+/-- **Layer 2, split or division** (Lam III.2.2, III.2.7), Tau Ceti's
+`TauCeti.QuaternionAlgebra.forall_isUnit_or_nonempty_algEquiv_matrix`. A quaternion algebra over a
+field is a division algebra or is isomorphic to `M₂(K)`. Both halves are computations with the
+norm form, and neither needs central simplicity, which is a Layer 5 prerequisite. -/
 example [Invertible (2 : K)] (a b : Kˣ) :
     (∀ x : ℍ[K, (a : K), (b : K)], x ≠ 0 → IsUnit x) ∨
       Nonempty (ℍ[K, (a : K), (b : K)] ≃ₐ[K] Matrix (Fin 2) (Fin 2) K) :=
-  sorry
+  TauCeti.QuaternionAlgebra.forall_isUnit_or_nonempty_algEquiv_matrix a b
 
 /-- **Layer 2, the four-fold splitting criterion**, the main theorem of the layer and the
 statement that `gq2`'s B11a uses (Lam III.2.7, Serre *CiA* III.1.1-1.2, Gille-Szamuely
-1.1.9). For `a, b ∈ Kˣ` the following are equivalent: (1) `ℍ[K,a,b]` splits; (2) `b` is a
-norm of the quadratic algebra `K[√a]`, that is Mathlib's `QuadraticAlgebra K a 0`; (3)
-`b = x² − ay²` has a solution; (4) `⟨1, −a, −b⟩` is isotropic. When `a` is a square all
-four hold, so no non-square hypothesis is carried. The fifth equivalent condition, the
+1.1.9), Tau Ceti's `TauCeti.QuaternionAlgebra.nonempty_algEquiv_matrix_tfae`. For `a, b ∈ Kˣ` the
+following are equivalent: (1) `ℍ[K,a,b]` splits; (2) `b` is a norm of the quadratic algebra
+`K[√a]`, that is Mathlib's `QuadraticAlgebra K a 0`; (3) `b = x² − ay²` has a solution; (4)
+`⟨1, −a, −b⟩` is isotropic; and (5) the norm form `⟨⟨a,b⟩⟩` is isotropic. When `a` is a square
+all of them hold, so no non-square hypothesis is carried. The further equivalent condition, the
 vanishing of the Kummer cup `(a) ∪ (b)`, is Layer 7C. -/
 example [Invertible (2 : K)] (a b : Kˣ) :
     [Nonempty (ℍ[K, (a : K), (b : K)] ≃ₐ[K] Matrix (Fin 2) (Fin 2) K),
-      ∃ z : QuadraticAlgebra K (a : K) 0, QuadraticAlgebra.norm z = (b : K),
-      ∃ x y : K, (b : K) = x ^ 2 - (a : K) * y ^ 2,
-      ¬ (weightedSumSquares K ![(1 : K), -(a : K), -(b : K)]).Anisotropic].TFAE :=
-  sorry
+      ∃ z : QuadraticAlgebra K (a : K) 0, z.norm = b,
+      ∃ x y : K, (b : K) = x ^ 2 - a * y ^ 2,
+      ¬ (weightedSumSquares K ![1, -(a : K), -(b : K)]).Anisotropic,
+      ¬ (QuaternionAlgebra.normForm (a : K) 0 (b : K)).Anisotropic].TFAE :=
+  TauCeti.QuaternionAlgebra.nonempty_algEquiv_matrix_tfae a b
 
-/-- **Layer 3, the binary quaternion lemma.** Equivalent binary forms have isomorphic
-quaternion algebras. This is the one nontrivial input to the well-definedness of the
-Hasse invariant in Layer 5 and of the local Hasse invariant in Layer 6C (Lam III.2.11,
-V.3.18). It is proved here, where its codomain is only an isomorphism class of
+/-- **Layer 3, the binary quaternion lemma**, Tau Ceti's
+`TauCeti.QuaternionAlgebra.nonempty_algEquiv_of_equivalent_binary`: equivalent binary forms have
+isomorphic quaternion algebras, through the functoriality of Clifford algebras. This is the one
+nontrivial input to the well-definedness of the Hasse invariant in Layer 5 and of the local Hasse
+invariant in Layer 6C (Lam III.2.11, V.3.18), and its codomain is only an isomorphism class of
 algebras. -/
-example [Invertible (2 : K)] (a b c d : Kˣ)
+example (a b c d : Kˣ)
     (h : (weightedSumSquares K ![(a : K), b]).Equivalent
       (weightedSumSquares K ![(c : K), d])) :
     Nonempty (ℍ[K, (a : K), (b : K)] ≃ₐ[K] ℍ[K, (c : K), (d : K)]) :=
-  sorry
+  TauCeti.QuaternionAlgebra.nonempty_algEquiv_of_equivalent_binary (a : K) b c d h
 
-/-! ## Layer 3: the classical invariants that need no Brauer group -/
+/-! ## Layer 3: the classical invariants that need no Brauer group
 
-/-- **Layer 3, discriminant invariance.** Equivalent regular diagonal forms have the same
-discriminant in square classes, in the quotient-free spelling. The signed discriminant
-`d± = (−1)^{n(n−1)/2} d` transports along the same statement, because the dimensions
-agree. -/
+The discriminant and the signed discriminant are Tau Ceti's `TauCeti.RegularFormClass.discr` and
+`TauCeti.RegularFormClass.signedDiscr` (`RegularFormClass/Discriminant.lean`), valued in the
+additive square-class group `TauCeti.SquareClassGroup K`. Tau Ceti also supplies their formulas:
+`discr_add`, `discr_mul` and `discr_mk_rankOne_mul` for the orthogonal sum, the tensor product and
+scaling, the same three for `signedDiscr`, `signedDiscr_mk_rankOne`, `signedDiscr_hyperbolicClass`,
+the conversion `signedDiscr_eq_sign_add_discr`, and `TauCeti.discr_formClass` for a regular form.
+Well-definedness is the Gram-determinant argument `TauCeti.squareClass_prod_eq_of_equivalent`, so
+neither invariant goes through the descent principle.
+
+`GlobalQuadraticForms` consumes both invariants in the multiplicative group `Kˣ ⧸ (Kˣ)²` under the
+names `discr` and `signedDiscr`. Those two are Tau Ceti's invariants carried across Tau Ceti's
+canonical equivalence
+`TauCeti.multiplicativeSquareClassEquiv : Kˣ ⧸ (Kˣ)² ≃* Multiplicative (SquareClassGroup K)`, and
+their equations on presentations are proved from Tau Ceti's. -/
+
+/-- **Layer 3, discriminant invariance**, Tau Ceti's `TauCeti.isSquare_prod_mul_prod_of_equivalent`:
+equivalent regular diagonal forms have the same discriminant in square classes, in the
+quotient-free spelling. The signed discriminant `d± = (−1)^{n(n−1)/2} d` transports along the same
+statement, because the dimensions agree. -/
 example [Invertible (2 : K)] {n : ℕ} (w w' : Fin n → Kˣ)
     (h : (weightedSumSquares K fun i => ((w i : K))).Equivalent
       (weightedSumSquares K fun i => ((w' i : K)))) :
     IsSquare ((∏ i, w i) * ∏ i, w' i) :=
-  sorry
+  TauCeti.isSquare_prod_mul_prod_of_equivalent
+    (by rwa [QuadraticMap.weightedSumSquares_units, QuadraticMap.weightedSumSquares_units])
 
-/-- **Layer 3, the discriminant** of a regular-form class in the square-class group. -/
-noncomputable def discr [Invertible (2 : K)] :
-    RegularFormClass K → Kˣ ⧸ Subgroup.square Kˣ :=
-  sorry
+/-- **Layer 3, the discriminant in `Kˣ ⧸ (Kˣ)²`**: Tau Ceti's additive
+`TauCeti.RegularFormClass.discr`, carried across `TauCeti.multiplicativeSquareClassEquiv`. -/
+noncomputable def discr [Invertible (2 : K)] (x : RegularFormClass K) :
+    Kˣ ⧸ Subgroup.square Kˣ :=
+  TauCeti.multiplicativeSquareClassEquiv.symm
+    (Multiplicative.ofAdd (TauCeti.RegularFormClass.discr x))
 
+/-- The discriminant of the class of `⟨w 0, …, w (n-1)⟩` is the class of `∏ i, w i`: Tau Ceti's
+`TauCeti.RegularFormClass.discr_mk` read through `TauCeti.multiplicativeSquareClassEquiv_mk`. -/
 theorem discr_mk [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) :
-    discr (Quotient.mk _ ⟨n, w⟩) = QuotientGroup.mk (∏ i, w i) :=
-  sorry
+    discr (Quotient.mk _ ⟨n, w⟩) = QuotientGroup.mk (∏ i, w i) := by
+  rw [discr, TauCeti.RegularFormClass.discr_mk, MulEquiv.symm_apply_eq,
+    TauCeti.multiplicativeSquareClassEquiv_mk]
 
-/-- **Layer 3, the signed discriminant**, kept separate from `discr` so that consumers cannot
-silently switch sign conventions. -/
-noncomputable def signedDiscr [Invertible (2 : K)] :
-    RegularFormClass K → Kˣ ⧸ Subgroup.square Kˣ :=
-  sorry
+/-- **Layer 3, the signed discriminant in `Kˣ ⧸ (Kˣ)²`**, kept separate from `discr` so that
+consumers cannot silently switch sign conventions: Tau Ceti's additive
+`TauCeti.RegularFormClass.signedDiscr`, carried across the same equivalence. -/
+noncomputable def signedDiscr [Invertible (2 : K)] (x : RegularFormClass K) :
+    Kˣ ⧸ Subgroup.square Kˣ :=
+  TauCeti.multiplicativeSquareClassEquiv.symm
+    (Multiplicative.ofAdd (TauCeti.RegularFormClass.signedDiscr x))
 
+/-- The signed discriminant of the class of `⟨w 0, …, w (n-1)⟩`: Tau Ceti's
+`TauCeti.RegularFormClass.signedDiscr_mk`, whose sign exponent `n.choose 2` is `n * (n - 1) / 2` by
+`Nat.choose_two_right`. -/
 theorem signedDiscr_mk [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) :
     signedDiscr (Quotient.mk _ ⟨n, w⟩) =
-      QuotientGroup.mk ((-1 : Kˣ) ^ (n * (n - 1) / 2) * ∏ i, w i) :=
-  sorry
+      QuotientGroup.mk ((-1 : Kˣ) ^ (n * (n - 1) / 2) * ∏ i, w i) := by
+  rw [signedDiscr, TauCeti.RegularFormClass.signedDiscr_mk, MulEquiv.symm_apply_eq,
+    TauCeti.multiplicativeSquareClassEquiv_mk, TauCeti.squareClass_mul, TauCeti.squareClass_pow,
+    Nat.choose_two_right]
 
+/-- **Layer 3, the conversion** `d± = (−1)^{n(n−1)/2} · d`, which is Tau Ceti's
+`TauCeti.RegularFormClass.signedDiscr_eq_sign_add_discr` read multiplicatively, and the only
+conversion that a later proof uses. -/
 theorem signedDiscr_eq_sign_mul_discr [Invertible (2 : K)] {n : ℕ}
     (w : Fin n → Kˣ) :
     signedDiscr (Quotient.mk _ ⟨n, w⟩) =
       QuotientGroup.mk ((-1 : Kˣ) ^ (n * (n - 1) / 2)) *
-        discr (Quotient.mk _ ⟨n, w⟩) :=
-  sorry
+        discr (Quotient.mk _ ⟨n, w⟩) := by
+  rw [signedDiscr_mk, discr_mk, QuotientGroup.mk_mul]
 
 /-! ## Layer 5: the Brauer group and the Hasse invariant
 
@@ -444,9 +563,13 @@ noncomputable def hasseInvariant [Invertible (2 : K)] {n : ℕ} (w : Fin n → K
     quaternionClass (w ij.1) (w ij.2)
 
 open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
-/-- **Layer 5, well-definedness of the Hasse invariant**, by the Layer 0 descent
-principle: permutation invariance from `quaternionClass_symm`, and binary invariance from
-`quaternionClass_mul` together with `quaternionClass_congr`. -/
+/-- **Layer 5, well-definedness of the Hasse invariant**, through the three hypotheses of the
+Layer 0 descent principle. Permutation invariance is `quaternionClass_symm`, and binary invariance
+is `quaternionClass_mul` together with `quaternionClass_congr`; these feed Tau Ceti's
+pairwise-product lemmas `TauCeti.PermutationStep.prod_prod_Ioi_eq` and
+`TauCeti.BinaryStep.prod_prod_Ioi_eq`, read in `BrauerGroup K`. The rank-one hypothesis holds
+because in rank one both sides are the empty product `1`, which is the case where no chain joins
+the isometric forms `⟨a⟩` and `⟨b⟩`. -/
 theorem hasseInvariant_congr [Invertible (2 : K)] {n : ℕ} (w w' : Fin n → Kˣ)
     (h : (weightedSumSquares K fun i => ((w i : K))).Equivalent
       (weightedSumSquares K fun i => ((w' i : K)))) :
@@ -472,96 +595,134 @@ theorem hasseInvariant_smul [Invertible (2 : K)] {n : ℕ} (lam : Kˣ) (w : Fin 
         quaternionClass lam (∏ i, w i) ^ (n - 1) :=
   sorry
 
-/-! ## Layer 4: the Witt ring, the fundamental ideal, and the Clifford invariant
+/-! ## Layer 4: the Witt ring, the fundamental ideal, and Pfister forms, consumed from Tau Ceti
 
-These are the carriers that Layer 5's `I²` homomorphism and Layer 8's comparisons use.
-Their types and map directions are fixed here; the constructions are milestones. -/
+Layer 4 is Tau Ceti's (`TauCeti/LinearAlgebra/QuadraticForm/Witt/`). `Ring.lean` builds the
+Witt-Grothendieck ring `TauCeti.WittGrothendieckRing K`, the Grothendieck ring of the semiring
+`RegularFormClass K`, with the class map `TauCeti.toWittGrothendieck`; the Witt ring
+`TauCeti.WittRing K`, its quotient by the ideal `TauCeti.hyperbolicIdeal K` that the hyperbolic
+plane generates, with the quotient map `TauCeti.WittRing.mk`; the Witt class `TauCeti.wittClass`
+of a form; and the dimension map `TauCeti.WittRing.dimMod2`. `FundamentalIdeal.lean` has
+`TauCeti.fundamentalIdeal K`, the kernel of that map. `Discriminant.lean` has the signed
+discriminant on `W(K)` and `I/I² ≅ Kˣ/(Kˣ)²`, and `Pfister.lean` has the Pfister forms and the
+additive generation of `Iⁿ` for `n ≥ 1` (imported through `Discriminant.lean`, which imports it
+at this pin and after the file moved to `Witt/Pfister/Basic.lean`). This file opens those names
+and declares no second ring, ideal, discriminant map or Pfister form.
 
-/-- **Layer 4, the semiring of isometry classes**, with `⊥` as addition and `⊗` as
-multiplication. -/
-noncomputable instance regularFormClassSemiring [Invertible (2 : K)] :
-    CommSemiring (RegularFormClass K) :=
-  sorry
+`GlobalQuadraticForms` cites the Witt ring and the quotient map under the names `wittRing` and
+`toWittRing` of this namespace, so those two are reducible aliases of Tau Ceti's declarations.
+The Witt ring of a field extension, `TauCeti.WittRing.baseChange`, and the criterion
+`TauCeti.pfisterFormClass_two_tfae` landed in Tau Ceti after this repository's pin. No statement
+here applies them, so no stand-in is declared; the README names them. -/
 
-/-- **Layer 4, the Witt-Grothendieck ring**, the Grothendieck group of that semiring. -/
-def wittGrothendieckRing (K : Type u) [Field K] [Invertible (2 : K)] : Type u :=
-  sorry
+/-- **Layer 4, the Witt ring** `W(K)`, under the name that `GlobalQuadraticForms` cites: Tau
+Ceti's `TauCeti.WittRing K`, the Witt-Grothendieck ring modulo the hyperbolic ideal. -/
+abbrev wittRing (K : Type u) [Field K] [Invertible (2 : K)] : Type u :=
+  WittRing K
 
-noncomputable instance [Invertible (2 : K)] : CommRing (wittGrothendieckRing K) := sorry
+/-- **Layer 4, the quotient map** `Ŵ(K) → W(K)`, under the name that `GlobalQuadraticForms`
+cites: Tau Ceti's `TauCeti.WittRing.mk`, whose kernel is the hyperbolic ideal
+(`TauCeti.WittRing.ker_mk`). -/
+noncomputable abbrev toWittRing [Invertible (2 : K)] : WittGrothendieckRing K →+* wittRing K :=
+  TauCeti.WittRing.mk
 
-/-- **Layer 4, the Witt ring**, the quotient by the ideal generated by the hyperbolic
-plane. -/
-def wittRing (K : Type u) [Field K] [Invertible (2 : K)] : Type u :=
-  sorry
+/-- **Layer 4, the Witt class of a form**, Tau Ceti's `TauCeti.wittClass`, is the class in the
+Witt-Grothendieck ring followed by the quotient map, and every element of `W(K)` is the Witt class
+of a form (`TauCeti.wittClass_surjective`). Two forms have the same Witt class exactly when their
+anisotropic parts agree (`TauCeti.wittClass_eq_iff_anisotropicPart_eq`). -/
+example [Invertible (2 : K)] :
+    (∀ x : RegularFormClass K, wittClass x = toWittRing (toWittGrothendieck x)) ∧
+      Function.Surjective (wittClass (K := K)) :=
+  ⟨TauCeti.wittClass_apply, TauCeti.wittClass_surjective⟩
 
-noncomputable instance [Invertible (2 : K)] : CommRing (wittRing K) := sorry
+/-- **Layer 4, the fundamental ideal** `I(K) = ker(W(K) → ZMod 2)`, Tau Ceti's
+`TauCeti.fundamentalIdeal K`: the Witt class of a form lies in it exactly when the rank is even
+(`TauCeti.wittClass_mem_fundamentalIdeal_iff`). -/
+example [Invertible (2 : K)] (x : RegularFormClass K) :
+    wittClass x ∈ fundamentalIdeal K ↔ Even (TauCeti.RegularFormClass.rank x) :=
+  TauCeti.wittClass_mem_fundamentalIdeal_iff x
 
-/-- **Layer 4, the quotient map** from the Witt-Grothendieck ring to the Witt ring. -/
-noncomputable def toWittRing [Invertible (2 : K)] :
-    wittGrothendieckRing K →+* wittRing K :=
-  sorry
+/-- **Layer 4, `I/I² ≅ Kˣ/(Kˣ)²` through `d±`**, Tau Ceti's `TauCeti.signedDiscrHom`, the signed
+discriminant on `I(K)` valued in the additive square-class group: it is onto, and its kernel is
+`I²`. The induced isomorphism of the cotangent space `I/I²` with the square-class group is
+`TauCeti.fundamentalIdealCotangentEquiv`. -/
+example [Invertible (2 : K)] :
+    Function.Surjective (TauCeti.signedDiscrHom (K := K)) ∧
+      ∀ x : fundamentalIdeal K,
+        TauCeti.signedDiscrHom x = 0 ↔ (x : WittRing K) ∈ fundamentalIdeal K ^ 2 :=
+  ⟨TauCeti.signedDiscrHom_surjective, TauCeti.signedDiscrHom_eq_zero_iff⟩
 
-/-- **Layer 4, the dimension map** `W(K) → ZMod 2`. -/
-noncomputable def wittDimMod2 [Invertible (2 : K)] : wittRing K →+* ZMod 2 :=
-  sorry
+/-- **Layer 4, Layer 3's multiplicative signed discriminant factors through `W(K)`.** It is Tau
+Ceti's signed discriminant of the Witt class, `TauCeti.WittRing.signedDiscr`, carried across
+`TauCeti.multiplicativeSquareClassEquiv`; on `I(K)` that is `TauCeti.signedDiscrHom` read in
+`Kˣ ⧸ (Kˣ)²`. This is the only multiplicative reading of `d±` on Witt classes, and it is a
+transport, not a second discriminant map. -/
+theorem signedDiscr_eq_signedDiscr_wittClass [Invertible (2 : K)] (x : RegularFormClass K) :
+    signedDiscr x = TauCeti.multiplicativeSquareClassEquiv.symm
+      (Multiplicative.ofAdd (TauCeti.WittRing.signedDiscr (wittClass x))) := by
+  rw [signedDiscr, TauCeti.WittRing.signedDiscr_wittClass]
 
-/-- **Layer 4, the fundamental ideal** `I(K) = ker(W(K) → ZMod 2)`. -/
-noncomputable def fundamentalIdeal (K : Type u) [Field K] [Invertible (2 : K)] :
-    Ideal (wittRing K) :=
-  RingHom.ker (wittDimMod2 (K := K))
+/-- **Layer 4, the `n`-fold Pfister form** `⟨⟨a₁,…,aₙ⟩⟩ = ⟨1,−a₁⟩ ⊗ ⋯ ⊗ ⟨1,−aₙ⟩`, Tau Ceti's tuple
+`TauCeti.pfisterForm a : Fin (2 ^ n) → Kˣ`, which is built by recursion on the first slot. It is
+the minus-sign convention of Lam Ch. X and EKM that the README pins: the weight in slot `k` is
+`∏_{i ∈ S} (−aᵢ)`, where `S` is the set of positions at which the binary expansion of `k` has
+a `1`. So `⟨⟨a⟩⟩ = ⟨1,−a⟩` and
+`⟨⟨a,b⟩⟩ = ⟨1,−a,−b,ab⟩` (`TauCeti.pfisterForm_one`, `TauCeti.pfisterForm_two`), and a source using
+`⟨1,a⟩` factors disagrees with this file. -/
+theorem pfisterForm_apply {n : ℕ} (a : Fin n → Kˣ) (k : Fin (2 ^ n)) :
+    pfisterForm a k =
+      ∏ i ∈ Finset.univ.filter fun i : Fin n => k.val.testBit i.val = true, (-(a i)) := by
+  induction n with
+  | zero => simp [TauCeti.pfisterForm_zero]
+  | succ n ih =>
+    -- Tau Ceti's recursion splits `k` as `(k / 2, k % 2)`; the low bit is the first slot.
+    have hdef : pfisterForm a k =
+        pfisterForm (Fin.tail a) (finProdFinEquiv.symm (Fin.cast (pow_succ 2 n) k)).1 *
+          ![1, -(a 0)] (finProdFinEquiv.symm (Fin.cast (pow_succ 2 n) k)).2 := rfl
+    rw [hdef, ih, Finset.prod_filter, Finset.prod_filter, Fin.prod_univ_succ, mul_comm]
+    congr 1
+    · rcases Nat.mod_two_eq_zero_or_one k.val with h | h
+      · have h2 : (finProdFinEquiv.symm (Fin.cast (pow_succ 2 n) k)).2 = 0 :=
+          Fin.ext (by simp [h])
+        rw [h2]
+        simp [Nat.testBit_zero, h]
+      · have h2 : (finProdFinEquiv.symm (Fin.cast (pow_succ 2 n) k)).2 = 1 :=
+          Fin.ext (by simp [h])
+        rw [h2]
+        simp [Nat.testBit_zero, h]
+    · refine Finset.prod_congr rfl fun i _ => ?_
+      simp [Fin.tail, Nat.testBit_succ]
 
-/-- **Layer 4, the class of a form in the Witt-Grothendieck ring.** `(RegularFormClass K, ⊥, ⊗)`
-is a commutative semiring and `Ŵ(K)` is its Grothendieck group, so this is the canonical map into
-it. Without it no statement about which forms generate an ideal of `W(K)` is expressible, and the
-generation milestones below would have no subject. -/
-noncomputable def toWittGrothendieck [Invertible (2 : K)] :
-    RegularFormClass K →+* wittGrothendieckRing K :=
-  sorry
+/-- **Layer 4, the Pfister class** `⟨⟨a₁,…,aₙ⟩⟩ ∈ W(K)`, Tau Ceti's `TauCeti.pfisterClass`: the Witt
+class of the tuple above (through `TauCeti.pfisterFormClass_eq_mk`), which is the product of the
+one-fold classes (`TauCeti.pfisterClass_eq_prod`) and lies in `Iⁿ`. -/
+example [Invertible (2 : K)] {n : ℕ} (a : Fin n → Kˣ) :
+    pfisterClass a = wittClass (Quotient.mk (regularFormSetoid K) ⟨2 ^ n, pfisterForm a⟩) ∧
+      pfisterClass a ∈ fundamentalIdeal K ^ n :=
+  ⟨by rw [← TauCeti.wittClass_pfisterFormClass, TauCeti.pfisterFormClass_eq_mk],
+    TauCeti.pfisterClass_mem_fundamentalIdeal_pow a⟩
 
-/-- **Layer 4, the Witt class of a form**, the composite of the two maps above. -/
-noncomputable def wittClass [Invertible (2 : K)] : RegularFormClass K →+* wittRing K :=
-  toWittRing.comp toWittGrothendieck
-
-/-- **Layer 4, the signed discriminant on the fundamental ideal**, whose kernel is `I²`.
-That pair of statements is `I/I² ≅ Kˣ/(Kˣ)²`. -/
-noncomputable def signedDiscrHom [Invertible (2 : K)] :
-    ↥(fundamentalIdeal K) →+ Additive (Kˣ ⧸ Subgroup.square Kˣ) :=
-  sorry
-
-theorem signedDiscrHom_surjective [Invertible (2 : K)] :
-    Function.Surjective (signedDiscrHom (K := K)) :=
-  sorry
-
-theorem signedDiscrHom_eq_zero_iff [Invertible (2 : K)] (x : ↥(fundamentalIdeal K)) :
-    signedDiscrHom x = 0 ↔ (x : wittRing K) ∈ fundamentalIdeal K ^ 2 :=
-  sorry
-
-/-- **Layer 4, the `n`-fold Pfister form** `⟨⟨a₁,…,aₙ⟩⟩ = ⟨1,−a₁⟩ ⊗ ⋯ ⊗ ⟨1,−aₙ⟩`, as a
-presentation of rank `2^n`. The tuple is real data and not a `sorry`, because the tuple *is* the
-minus-sign convention of Lam Ch. X and EKM that the README pins: the slot `k` carries
-`∏_{i ∈ S} (−aᵢ)` for the subset `S` read off the binary digits of `k`. So `⟨⟨a⟩⟩ = ⟨1,−a⟩` and
-`⟨⟨a,b⟩⟩ = ⟨1,−a,−b,ab⟩`, and a source using `⟨1,a⟩` factors disagrees with this file. -/
-def pfisterForm {n : ℕ} (a : Fin n → Kˣ) : Fin (2 ^ n) → Kˣ :=
-  fun k => ∏ i ∈ Finset.univ.filter fun i : Fin n => k.val.testBit i.val = true, (-(a i))
-
-/-- `⟨⟨a⟩⟩ = ⟨1, −a⟩`. -/
-theorem pfisterForm_one (a : Kˣ) : pfisterForm ![a] = ![1, -a] :=
-  sorry
-
-/-- `⟨⟨a,b⟩⟩ = ⟨1, −a, −b, ab⟩`, which is Layer 2's quaternion norm form. -/
-theorem pfisterForm_two (a b : Kˣ) : pfisterForm ![a, b] = ![1, -a, -b, a * b] :=
-  sorry
-
-/-- **Layer 4, `Iⁿ` is generated as an additive group by the `n`-fold Pfister forms.** Stated for
-general `n`; Layer 5 consumes `n = 2` for the construction of `c` and `n = 3` for its vanishing,
-and Layer 8 consumes `n = 2`. ⚠ Additive generation, not ideal generation: the weaker ideal
+/-- **Layer 4, `Iⁿ` is generated as an additive group by the `n`-fold Pfister forms**, for `n ≥ 1`,
+Tau Ceti's `TauCeti.fundamentalIdeal_pow_eq_addClosure`. Layer 5 consumes `n = 2` for the
+construction of `c` and `n = 3` for its vanishing, as `TauCeti.fundamentalIdeal_sq_eq_addClosure`
+and `TauCeti.fundamentalIdeal_cube_eq_addClosure`, and Layer 8 consumes `n = 2`. ⚠ At `n = 0` it
+is false: `I⁰ = W(K)`, the only `0`-fold Pfister form is `⟨1⟩`, and over `ℚ` the class of `⟨2⟩` is
+not an integer multiple of `⟨1⟩`. ⚠ Additive generation, not ideal generation: the weaker ideal
 statement does not let a homomorphism be defined by its values on the generators. -/
-theorem fundamentalIdeal_pow_eq_addClosure [Invertible (2 : K)] (n : ℕ) :
-    ((fundamentalIdeal K ^ n : Ideal (wittRing K)) : Set (wittRing K)) =
-      ↑(AddSubgroup.closure
-        {x : wittRing K | ∃ a : Fin n → Kˣ,
-          x = wittClass (Quotient.mk (regularFormSetoid K) ⟨2 ^ n, pfisterForm a⟩)}) :=
-  sorry
+example [Invertible (2 : K)] {n : ℕ} (hn : 0 < n) :
+    (fundamentalIdeal K ^ n).toAddSubgroup =
+      AddSubgroup.closure (Set.range (pfisterClass (K := K) (n := n))) :=
+  TauCeti.fundamentalIdeal_pow_eq_addClosure hn
+
+/-- **Layer 4, a 2-fold Pfister form is round**, Tau Ceti's
+`TauCeti.twoFoldPfister_smul_equivalent_of_mem_unitValueSet`, with the 1-fold case
+`TauCeti.oneFoldPfister_smul_equivalent_of_mem_unitValueSet`: every unit that `⟨⟨a,b⟩⟩` represents
+is a similarity factor. Roundness of `n`-fold forms for `n ≥ 3` is excluded. -/
+example (a b : K) (c : Kˣ)
+    (hc : c ∈ QuadraticMap.unitValueSet (weightedSumSquares K ![1, -a, -b, a * b])) :
+    ((c : K) • weightedSumSquares K ![1, -a, -b, a * b]).Equivalent
+      (weightedSumSquares K ![1, -a, -b, a * b]) :=
+  TauCeti.twoFoldPfister_smul_equivalent_of_mem_unitValueSet a b c hc
 
 open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
 /-- **Layer 5, the Clifford invariant.** The Brauer class of `C(q)` in even rank and of
@@ -581,22 +742,24 @@ theorem cliffordInvariant_eq [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) 
 
 open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
 /-- **Layer 5, step 1 of `c : I² → Br(K)[2]`: additivity of the Clifford invariant on `I²`.**
-`c(q ⊥ r) = c(q) · c(r)` when both summands lie in `I²`, that is when each has even rank and
-trivial signed discriminant. The correction terms of `cliffordInvariant_eq` and of
-`hasseInvariant_append` cancel exactly there, and nowhere else: over a general pair the
-identity is false, so the two hypotheses are part of the statement. This additivity, and not
-"the universal property", is what lets the homomorphism below exist. -/
+`c(q ⊥ r) = c(q) · c(r)` when the Witt classes of both summands lie in Tau Ceti's `I²`, that is
+when each has even rank and trivial signed discriminant
+(`TauCeti.wittClass_mem_fundamentalIdeal_sq_iff`).
+The correction terms of `cliffordInvariant_eq` and of `hasseInvariant_append` cancel exactly
+there, and nowhere else: over a general pair the identity is false, so the two hypotheses are
+part of the statement. This additivity, and not "the universal property", is what lets the
+homomorphism below exist. -/
 theorem cliffordInvariant_append_of_mem_I2 [Invertible (2 : K)] {m n : ℕ}
-    (w : Fin m → Kˣ) (w' : Fin n → Kˣ) (hm : Even m) (hn : Even n)
-    (hdm : IsSquare ((-1 : Kˣ) ^ (m * (m - 1) / 2) * ∏ i, w i))
-    (hdn : IsSquare ((-1 : Kˣ) ^ (n * (n - 1) / 2) * ∏ i, w' i)) :
+    (w : Fin m → Kˣ) (w' : Fin n → Kˣ)
+    (hw : wittClass (Quotient.mk (regularFormSetoid K) ⟨m, w⟩) ∈ fundamentalIdeal K ^ 2)
+    (hw' : wittClass (Quotient.mk (regularFormSetoid K) ⟨n, w'⟩) ∈ fundamentalIdeal K ^ 2) :
     cliffordInvariant (Fin.append w w') = cliffordInvariant w * cliffordInvariant w' :=
   sorry
 
 open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
 /-- **Layer 5, step 2: the value on a 2-fold Pfister generator.** `c(⟨⟨a,b⟩⟩) = [(a,b)]`, from
 `cliffordInvariant_eq` and `hasseInvariant` of `⟨1,−a,−b,ab⟩`. Together with additivity and
-Layer 4's `fundamentalIdeal_pow_eq_addClosure` at `n = 2`, it determines `c` on all of `I²`. -/
+Tau Ceti's `TauCeti.fundamentalIdeal_sq_eq_addClosure`, it determines `c` on all of `I²`. -/
 theorem cliffordInvariant_pfisterForm_two [Invertible (2 : K)] (a b : Kˣ) :
     cliffordInvariant (pfisterForm ![a, b]) = quaternionClass a b :=
   sorry
@@ -604,27 +767,29 @@ theorem cliffordInvariant_pfisterForm_two [Invertible (2 : K)] (a b : Kˣ) :
 open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
 /-- **Layer 5, step 3: the value on a 3-fold Pfister generator vanishes** (Lam V.3.4). This is
 the computation that the vanishing on `I³` reduces to, and it is stated on the generator itself
-rather than only on the ideal, because that is what `fundamentalIdeal_pow_eq_addClosure` at
-`n = 3` lets a proof check. -/
+rather than only on the ideal, because that is what Tau Ceti's
+`TauCeti.fundamentalIdeal_cube_eq_addClosure` lets a proof check. -/
 theorem cliffordInvariant_pfisterForm_three [Invertible (2 : K)] (a b c : Kˣ) :
     cliffordInvariant (pfisterForm ![a, b, c]) = 1 :=
   sorry
 
 open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
 /-- **Layer 5, step 4: the homomorphism `c : I² → Br(K)[2]`** induced by the Clifford invariant.
-It exists by additivity (step 1) together with Layer 4's additive generation of `I²` by the
-2-fold Pfister forms; `cliffordHomI2_pfisterForm` is what ties it to `cliffordInvariant`, and
-without that equation the declaration would assert nothing. -/
+It exists by additivity (step 1) together with the additive generation of `I²` by the 2-fold
+Pfister classes (`TauCeti.fundamentalIdeal_sq_eq_addClosure`); `cliffordHomI2_pfisterClass` is
+what ties it to `cliffordInvariant`, and without that equation the declaration would assert
+nothing. -/
 noncomputable def cliffordHomI2 [Invertible (2 : K)] :
     ↥(fundamentalIdeal K ^ 2) →+ Additive (BrauerGroup.{u, u} K) :=
   sorry
 
 open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
-/-- **Layer 5, `c` computes the Clifford invariant on the generators.** -/
-theorem cliffordHomI2_pfisterForm [Invertible (2 : K)] (a b : Kˣ)
-    (h : wittClass (Quotient.mk (regularFormSetoid K) ⟨2 ^ 2, pfisterForm ![a, b]⟩) ∈
-      fundamentalIdeal K ^ 2) :
-    cliffordHomI2 ⟨_, h⟩ = Additive.ofMul (quaternionClass a b) :=
+/-- **Layer 5, `c` computes the Clifford invariant on the generators**: its value on the 2-fold
+Pfister class `⟨⟨a,b⟩⟩ ∈ I²` (`TauCeti.pfisterClass_mem_fundamentalIdeal_pow`) is `[(a,b)]`, which
+is `cliffordInvariant_pfisterForm_two` read through `c`. -/
+theorem cliffordHomI2_pfisterClass [Invertible (2 : K)] (a b : Kˣ) :
+    cliffordHomI2 ⟨pfisterClass ![a, b], TauCeti.pfisterClass_mem_fundamentalIdeal_pow ![a, b]⟩ =
+      Additive.ofMul (quaternionClass a b) :=
   sorry
 
 open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
@@ -636,15 +801,15 @@ theorem cliffordHomI2_two_torsion [Invertible (2 : K)] (x : ↥(fundamentalIdeal
 
 open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
 /-- **Layer 5, step 5: `c` vanishes on `I³`**, checked on the 3-fold Pfister generators
-(Lam V.3.4) through Layer 4's `fundamentalIdeal_pow_eq_addClosure` at `n = 3`. -/
+(Lam V.3.4) through Tau Ceti's `TauCeti.fundamentalIdeal_cube_eq_addClosure`. -/
 theorem cliffordHomI2_eq_zero [Invertible (2 : K)] (x : ↥(fundamentalIdeal K ^ 2))
-    (hx : (x : wittRing K) ∈ fundamentalIdeal K ^ 3) :
+    (hx : (x : WittRing K) ∈ fundamentalIdeal K ^ 3) :
     cliffordHomI2 x = 0 :=
   sorry
 
 /-- `I³` seen as a submodule of `I²`, which is the subobject the quotient below divides by. -/
 noncomputable abbrev fundamentalI3InI2 (K : Type u) [Field K] [Invertible (2 : K)] :
-    Submodule (wittRing K) ↥(fundamentalIdeal K ^ 2) :=
+    Submodule (WittRing K) ↥(fundamentalIdeal K ^ 2) :=
   Submodule.comap (fundamentalIdeal K ^ 2).subtype (fundamentalIdeal K ^ 3)
 
 open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
@@ -682,7 +847,12 @@ What remains is the quadratic-form-facing arithmetic, stated against those objec
 uniformizer predicate in its valuation form together with the lemma comparing it with the
 supplier's `Irreducible` convention, the sharp local square theorem, the square-class counts in
 the `4·q^e` shape that 6D consumes, and the unramified norm description in the shape 6C consumes.
-Each of the last three carries a remark naming the Local Fields Ramification milestone it rests on. -/
+Tau Ceti implements the dyadic level, the uniformizer predicate with both of its lemmas, the sharp
+local square theorem and the odd count (`TauCeti/NumberTheory/LocalField/Squares.lean`,
+`Uniformizer.lean`, `SquareClass.lean`), so those names below are its declarations under this
+roadmap's names and explicit arguments. They are stated against the supplier's
+`normalizedValuation`, `unitFiltration` and `natCastValuation`, which are abbreviations of Tau
+Ceti's, so each proof is the Tau Ceti theorem. -/
 
 section LocalField
 
@@ -694,63 +864,67 @@ open TauCetiRoadmap.LocalFieldsRamification (normalizedValuation unitFiltration
 variable (K)
 variable [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
 
-/-- **Layer 6A, the dyadic level** `e = v_K(2)`, the supplier's `natCastValuation` at `2`.
+/-- **Layer 6A, the dyadic level** `e = v_K(2)`: Tau Ceti's `TauCeti.dyadicLevel`, which is the
+supplier's `natCastValuation` at `2` (`TauCeti.dyadicLevel_def`).
 ⚠ It is deliberately **not** `absoluteRamificationIndex K 2`. That name is reserved by the
 supplier for a finite extension of `ℚ_p`, so writing it at `p = 2` forces `[Algebra ℚ_[2] K]`,
 and then `e = 0` — the odd-residue-characteristic case every count below splits on — is
 unsatisfiable rather than merely false. `natCastValuation` is defined for every nonarchimedean
 local field in which `2` is nonzero, and takes the value `0` exactly in odd residue
 characteristic, which is the split the square-class counts need. -/
-noncomputable def dyadicLevel [Invertible (2 : K)] : ℕ :=
-  natCastValuation K 2 (by simpa using (isUnit_of_invertible (2 : K)).ne_zero)
+noncomputable abbrev dyadicLevel [Invertible (2 : K)] : ℕ :=
+  TauCeti.dyadicLevel K (isUnit_of_invertible (2 : K)).ne_zero
 
 /-- **Layer 6A, the comparison with the supplier's absolute ramification index.** In mixed
 characteristic `2` the two agree, by the supplier's
-`absoluteRamificationIndex_eq_natCastValuation`; this is the only place the reserved name is
-used, and it is what lets a consumer that already has `K/ℚ_2` quote either. -/
+`absoluteRamificationIndex_eq_natCastValuation`, which is Tau Ceti's; this is the only place the
+reserved name is used, and it is what lets a consumer that already has `K/ℚ_2` quote either. -/
 theorem dyadicLevel_eq_absoluteRamificationIndex [Invertible (2 : K)] [Fact (Nat.Prime 2)]
     [Algebra ℚ_[2] K] [ValuativeExtension ℚ_[2] K] [Module.Finite ℚ_[2] K] :
     dyadicLevel K = absoluteRamificationIndex K 2 :=
-  sorry
+  (TauCeti.dyadicLevel_def _).trans (TauCeti.absoluteRamificationIndex_eq_natCastValuation K 2).symm
 
 variable {K}
 
-/-- **Layer 6A, a uniformizer** is an element of valuation one, said with the supplier's
-valuation. It is a choice, so it is a predicate and not a field of a package: over `ℚ_2` both
-`2` and `−2` have valuation one. -/
-def IsUniformizer (π : Kˣ) : Prop :=
-  normalizedValuation K π = Multiplicative.ofAdd 1
+/-- **Layer 6A, a uniformizer** is an element of valuation one: Tau Ceti's `TauCeti.IsUniformizer`,
+`normalizedValuation K π = Multiplicative.ofAdd 1` for the valuation the supplier re-exports. It is
+a choice, so it is a predicate and not a field of a package: over `ℚ_2` both `2` and `−2` have
+valuation one. -/
+abbrev IsUniformizer (π : Kˣ) : Prop :=
+  TauCeti.IsUniformizer K π
 
 variable (K)
 
 /-- **Layer 6A, the two descriptions of a uniformizer agree.** The Local Fields Ramification roadmap pins
 uniformizers through `Irreducible` in `𝒪[K]`, and its `normalizedValuation_irreducible` gives
 one direction. This is the equivalence, and it is the single lemma that relates the predicate
-above to that convention; every later statement uses whichever side is convenient. -/
+above to that convention; every later statement uses whichever side is convenient. It is Tau
+Ceti's `TauCeti.isUniformizer_iff_exists_irreducible`. -/
 theorem isUniformizer_iff_exists_irreducible (π : Kˣ) :
     IsUniformizer (K := K) π ↔ ∃ ϖ : 𝒪[K], Irreducible ϖ ∧ (ϖ : K) = (π : K) :=
-  sorry
+  TauCeti.isUniformizer_iff_exists_irreducible K π
 
-/-- A uniformizer exists. Statements that need one take it and this proof explicitly. -/
+/-- A uniformizer exists, by Tau Ceti's `TauCeti.exists_isUniformizer`. Statements that need one
+take it and this proof explicitly. -/
 theorem exists_isUniformizer : ∃ π : Kˣ, IsUniformizer (K := K) π :=
-  sorry
+  TauCeti.exists_isUniformizer K
 
 /-- **Layer 6A, the local square theorem in its sharp form** (O'Meara 63:1):
-`U(K, 2e+1) ⊆ (Kˣ)²`. The Local Fields Ramification roadmap owns this mathematics, in its Layer 1 milestone
-*Deep units are squares, in mixed characteristic*, and carries the dyadic instance
-`1 + 8ℤ_2 ⊆ (ℚ_2ˣ)²` as a worked example; it exports no target signature for the general
-statement, so the form that 6B and 6C consume is stated here, against the supplier's
-`unitFiltration` and `dyadicLevel`. -/
+`U(K, 2e+1) ⊆ (Kˣ)²`, in every residue characteristic: Tau Ceti's
+`TauCeti.unitFiltration_le_square`. The Local Fields Ramification roadmap exports the
+mixed-characteristic form `unitFiltration_le_range_powMonoidHom_two`, which carries
+`[Algebra ℚ_[2] K]` and so cannot serve the odd-residue-characteristic branch; this is the form that
+6B and 6C consume, against the supplier's `unitFiltration` and `dyadicLevel`. -/
 theorem unitFiltration_le_square [Invertible (2 : K)] :
     unitFiltration K (2 * dyadicLevel K + 1) ≤ Subgroup.square Kˣ :=
-  sorry
+  TauCeti.unitFiltration_le_square _
 
-/-- **Layer 6A, sharpness of the local square theorem.** The bound `2e+1` cannot be
-lowered. Over `ℚ_2`, where `e = 1`, the unit `5` lies in `U(ℚ_2, 2)` and is not a
-square. -/
+/-- **Layer 6A, sharpness of the local square theorem**, Tau Ceti's
+`TauCeti.not_unitFiltration_le_square`. The bound `2e+1` cannot be lowered. Over `ℚ_2`, where
+`e = 1`, the unit `5` lies in `U(ℚ_2, 2)` and is not a square. -/
 theorem not_unitFiltration_le_square [Invertible (2 : K)] :
     ¬ (unitFiltration K (2 * dyadicLevel K) ≤ Subgroup.square Kˣ) :=
-  sorry
+  TauCeti.not_unitFiltration_le_square _
 
 /-- **Layer 6A, the square-class group is finite.** A corollary of the Local Fields Ramification Layer 1
 milestone *Power classes, the primary statement*, through `square_eq_range_powMonoidHom`. -/
@@ -760,11 +934,16 @@ instance squareClass_finite [Invertible (2 : K)] : Finite (Kˣ ⧸ Subgroup.squa
 /-- **Layer 6A, the square-class count in odd residue characteristic**, together with the
 representatives `1, u, π, uπ` for a uniformizer `π` and a unit `u` whose residue is a
 nonsquare. This is the Local Fields Ramification Layer 1 count
-`#(Kˣ/(Kˣ)ⁿ) = n · #μ_n(K) · q^{v_K(n)}` at `n = 2` with `e = 0`, in the shape 6D consumes. -/
+`#(Kˣ/(Kˣ)ⁿ) = n · #μ_n(K) · q^{v_K(n)}` at `n = 2` with `e = 0`, in the shape 6D consumes. It is
+Tau Ceti's `TauCeti.card_squareClass_of_odd`, whose hypothesis `IsUnit (2 : 𝒪[K])` is `e = 0` by
+`TauCeti.natCastValuation_eq_zero_iff`. -/
 theorem card_squareClass_of_odd [Invertible (2 : K)]
     (hodd : dyadicLevel K = 0) :
-    Nat.card (Kˣ ⧸ Subgroup.square Kˣ) = 4 :=
-  sorry
+    Nat.card (Kˣ ⧸ Subgroup.square Kˣ) = 4 := by
+  have h2 : (2 : K) ≠ 0 := (isUnit_of_invertible (2 : K)).ne_zero
+  have hunit : IsUnit ((2 : ℕ) : 𝒪[K]) :=
+    (TauCeti.natCastValuation_eq_zero_iff K 2 h2).1 ((TauCeti.dyadicLevel_def h2).symm.trans hodd)
+  exact TauCeti.card_squareClass_of_odd (by exact_mod_cast hunit)
 
 /-- **Layer 6A, the square-class count in residue characteristic two**, stated
 intrinsically as `4 · q^e` with `q = #𝓀[K]` and `e = v_K(2)`. For a finite extension of
@@ -1051,9 +1230,11 @@ theorem exists_hilbertSymbol_eq_neg_one (a : Kˣ) (ha : ¬ IsSquare a) :
     ∃ b : Kˣ, hilbertSymbol a b = -1 :=
   sorry
 
-/-- **Layer 6C, well-definedness of the local Hasse invariant**, by the Layer 0 descent
-principle: permutation invariance from symmetry, and binary invariance from
-bimultiplicativity together with the Layer 3 binary quaternion lemma. -/
+/-- **Layer 6C, well-definedness of the local Hasse invariant**, through the three hypotheses of
+the Layer 0 descent principle. Permutation invariance is `hilbertSymbol_comm`, and binary
+invariance is `hilbertSymbol_mul` together with the Layer 3 binary quaternion lemma, through Tau
+Ceti's `TauCeti.PermutationStep.prod_prod_Ioi_eq` and `TauCeti.BinaryStep.prod_prod_Ioi_eq` read in
+`ℤˣ`. The rank-one hypothesis holds because in rank one both sides are the empty product `1`. -/
 theorem localHasse_congr {n : ℕ} (w w' : Fin n → Kˣ)
     (h : (weightedSumSquares K fun i => ((w i : K))).Equivalent
       (weightedSumSquares K fun i => ((w' i : K)))) :
@@ -1198,7 +1379,11 @@ declarations and adds only what is specific to `μ₂` and to quadratic forms.
 
 The carrier is that roadmap's `trivialF2` object over its `AbsoluteGaloisGroup`, so that its
 `cup`, `res`, `corestriction` and `evensNormIndexTwo` apply here with no transport at all. The
-abbreviations `contH`, `H1`, `H2` name that carrier and implement nothing.
+abbreviations `contH`, `H1`, `H2` name that carrier and implement nothing. The supplier re-exports
+Tau Ceti's implementation under its own names: `AbsoluteGaloisGroup`, `trivialF2`, `KummerCoeff`,
+`UnitsCoeff`, `kummerMap`, `kummerIso`, `kummerMapCanonical`, `hilbert90`, `h2KummerToUnits` and
+`galoisSubgroup` are `TauCeti` declarations, so every coefficient transport below starts from Tau
+Ceti's objects and no second copy of them occurs here.
 
 What this roadmap owns here is the coefficient identification specific to `μ₂`: the Galois action
 on `μ₂` is trivial when `2` is invertible, so the supplier's `KummerCoeff K 2` and its `trivialF2`
@@ -1218,12 +1403,11 @@ section Carriers
 variable (K)
 
 /-- `Hⁿ_cont(G_K, 𝔽₂)`, as the Profinite Cohomology roadmap's `trivialF2` object over its
-`AbsoluteGaloisGroup`. This is a carrier abbreviation and not an operation.
+`AbsoluteGaloisGroup`, which are Tau Ceti's `TauCeti.trivialF2` and `TauCeti.AbsoluteGaloisGroup`.
+This is a carrier abbreviation and not an operation.
 ⚠ It names **Mathlib's** `continuousCohomology`, which is what the supplier's operations are
 typed against: the supplier's own notation adapter is `private`, so a consumer cannot write that
-type, and its packaged `continuousCohomologyFunctor` is a separate `sorry`-bodied definition that
-does not reduce to it. Both alternatives typecheck in isolation and then fail to match
-`coeffMap`, `kummerIso` and `h2KummerToUnits`. -/
+type. -/
 noncomputable abbrev contH (n : ℕ) : TopModuleCat ℤ :=
   _root_.continuousCohomology n (trivialF2 (AbsoluteGaloisGroup K))
 
@@ -1750,7 +1934,8 @@ set_option synthInstance.maxHeartbeats 400000 in
 noncomputable def inflateTwoCocycleZ2 {L : IntermediateField K (SeparableClosure K)}
     [FiniteDimensional K ↥L] [Normal K ↥L] (z : TwoCocycle (K := K) ↥L) :
     Z2 (AbsoluteGaloisGroup K) (UnitsCoeff K) :=
-  ⟨unitsCochain z.inflate, continuous_unitsCochain_inflate z, unitsCochain_isCocycle₂ _⟩
+  ⟨unitsCochain z.inflate, TauCeti.ContCohomology.mem_Z2_iff.2
+    ⟨continuous_unitsCochain_inflate z, unitsCochain_isCocycle₂ _⟩⟩
 
 variable (K)
 
@@ -1966,7 +2151,7 @@ theorem unitsCoeff_mem_invariants (L : IntermediateField K (SeparableClosure K))
     (Additive.ofMul (Units.map
       (IsScalarTower.toAlgHom K ↥L (SeparableClosure K)).toRingHom.toMonoidHom y) :
         UnitsCoeff K) ∈ Invariants (galoisOpenNormal K L).toSubgroup (UnitsCoeff K) := by
-  intro u hu
+  rintro ⟨u, hu⟩
   show Additive.ofMul (u • _) = _
   refine congrArg Additive.ofMul (Units.ext ?_)
   show u (algebraMap (↥L) (SeparableClosure K) (y : ↥L)) =
@@ -1990,12 +2175,12 @@ noncomputable def finiteLevelZ2 (L : IntermediateField K (SeparableClosure K))
       (IsScalarTower.toAlgHom K ↥L (SeparableClosure K)).toRingHom.toMonoidHom
       (z.toFun (galoisQuotientMap K L q.1) (galoisQuotientMap K L q.2))),
     unitsCoeff_mem_invariants K L _⟩,
-   continuous_of_discreteTopology, by
+   TauCeti.ContCohomology.mem_Z2_iff.2 ⟨continuous_of_discreteTopology, by
     intro q1 q2 q3
     induction q1 using QuotientGroup.induction_on with | _ g1 =>
     induction q2 using QuotientGroup.induction_on with | _ g2 =>
     induction q3 using QuotientGroup.induction_on with | _ g3 =>
-    exact Subtype.ext (unitsCochain_isCocycle₂ z.inflate g1 g2 g3)⟩
+    exact Subtype.ext (unitsCochain_isCocycle₂ z.inflate g1 g2 g3)⟩⟩
 
 set_option maxHeartbeats 1000000 in
 set_option synthInstance.maxHeartbeats 400000 in
@@ -2175,36 +2360,45 @@ end BrauerComparison
 The canonical cup-norm theorem is the first statement below, and the four theorems after it are
 the other descriptions of the same condition. Together they are what a consumer applies: one
 named theorem per description, all against the supplier's `cup` at the canonical `𝔽₂` pairing,
-so that a zero pairing cannot satisfy any of them. The hypothesis is `Invertible (2 : K)` and
-nothing else; in particular no statement excludes the dyadic case. -/
+so that a zero pairing cannot satisfy any of them. The three descriptions by the algebra, the
+norm and the ternary form are proved from the first through Tau Ceti's splitting criterion. The
+hypothesis is `Invertible (2 : K)` and nothing else; in particular no statement excludes the
+dyadic case. -/
 
 /-- **Layer 7C, the canonical cup-norm theorem.** The cup product of two Kummer classes vanishes
-exactly when the norm equation `b = x² − a y²` is solvable. This is the fifth equivalent
-condition of Layer 2's four-fold criterion, and it holds over any field in which `2` is
-invertible (Serre, *Local Fields* XIV §2 Prop. 4-5; Gille-Szamuely 4.7). -/
+exactly when the norm equation `b = x² − a y²` is solvable. It adds the cup product to the
+equivalent conditions of Layer 2's splitting criterion, and it holds over any field in which `2`
+is invertible (Serre, *Local Fields* XIV §2 Prop. 4-5; Gille-Szamuely 4.7). -/
 theorem cup_kummerClass_eq_zero_iff [Invertible (2 : K)] (a b : Kˣ) :
     cup11 (kummerClass a) (kummerClass b) = 0 ↔
       ∃ x y : K, (b : K) = x ^ 2 - (a : K) * y ^ 2 :=
   sorry
 
 /-- **Layer 7C, the cup against the splitting of the quaternion algebra.** The bridge to Layer
-2's four-fold criterion, named so that a consumer can move between the algebra and the class. -/
+2's four-fold criterion, named so that a consumer can move between the algebra and the class:
+the canonical theorem followed by Tau Ceti's
+`TauCeti.QuaternionAlgebra.nonempty_algEquiv_matrix_iff_exists_eq_sq_sub_mul_sq`. -/
 theorem cup_kummerClass_eq_zero_iff_split [Invertible (2 : K)] (a b : Kˣ) :
     cup11 (kummerClass a) (kummerClass b) = 0 ↔
       Nonempty (ℍ[K, (a : K), (b : K)] ≃ₐ[K] Matrix (Fin 2) (Fin 2) K) :=
-  sorry
+  (cup_kummerClass_eq_zero_iff a b).trans
+    (TauCeti.QuaternionAlgebra.nonempty_algEquiv_matrix_iff_exists_eq_sq_sub_mul_sq a b).symm
 
-/-- **Layer 7C, the cup against the quadratic-algebra norm condition.** -/
+/-- **Layer 7C, the cup against the quadratic-algebra norm condition**, through Tau Ceti's
+`TauCeti.QuaternionAlgebra.nonempty_algEquiv_matrix_iff_exists_norm_eq`. -/
 theorem cup_kummerClass_eq_zero_iff_norm [Invertible (2 : K)] (a b : Kˣ) :
     cup11 (kummerClass a) (kummerClass b) = 0 ↔
       ∃ z : QuadraticAlgebra K (a : K) 0, QuadraticAlgebra.norm z = (b : K) :=
-  sorry
+  (cup_kummerClass_eq_zero_iff_split a b).trans
+    (TauCeti.QuaternionAlgebra.nonempty_algEquiv_matrix_iff_exists_norm_eq a b)
 
-/-- **Layer 7C, the cup against isotropy of `⟨1, −a, −b⟩`.** -/
+/-- **Layer 7C, the cup against isotropy of `⟨1, −a, −b⟩`**, through Tau Ceti's
+`TauCeti.QuaternionAlgebra.nonempty_algEquiv_matrix_iff_not_anisotropic_weightedSumSquares`. -/
 theorem cup_kummerClass_eq_zero_iff_isotropic [Invertible (2 : K)] (a b : Kˣ) :
     cup11 (kummerClass a) (kummerClass b) = 0 ↔
       ¬ (weightedSumSquares K ![(1 : K), -(a : K), -(b : K)]).Anisotropic :=
-  sorry
+  (cup_kummerClass_eq_zero_iff_split a b).trans
+    (TauCeti.QuaternionAlgebra.nonempty_algEquiv_matrix_iff_not_anisotropic_weightedSumSquares a b)
 
 /-- **Layer 7C, the cup against the `{±1}`-valued Hilbert symbol**, over a nonarchimedean local
 field. The norm-equation criterion belongs here; the continuous cup product is imported from
@@ -2232,15 +2426,21 @@ bridges are exactly the statements that mention a CFT object. -/
 
 /-- **Frozen QFI--CFT bridge, the single comparison of coefficients.** Class Field Theory's
 `localSymbol` at the Kummer cup pairing vanishes exactly when this roadmap's `cup11` of the two
-Kummer classes vanishes. The two cups are the same cup — Class Field Theory's `kummerCupPairing`
-and this file's `f2Pairing` are both the supplier's `cup` — but they are taken at different
-coefficient objects, `muNRep 2 F` against `trivialF2 (G_F)`, and over `Field.absoluteGaloisGroup`
-against `ProfiniteCohomology.AbsoluteGaloisGroup`. That coefficient-and-group comparison is the
-entire content of the bridge, and both halves of the dictionary it composes are supplied:
-`ClassFieldTheory.muNRepCoeffDictionary` with its continuity and equivariance and
-`ClassFieldTheory.absoluteGaloisGroupComparison` on one side, this file's
-`kummerCoeffIsoTrivialF2` on the other. `localSymbol` then adds the invariant `tr`, which is an
-`AddEquiv` and so does not affect vanishing.
+Kummer classes vanishes. Both sides are the Profinite Cohomology roadmap's `cup`, at two pairings:
+Class Field Theory's `kummerCupPairing ζ`, which is `(x, y) ↦ log_ζ(x) · y` on `muNRep 2 F`
+(`ClassFieldTheory.kummerCupPairing_bil`), over the coefficient ring `ZMod 2` and the group
+`Field.absoluteGaloisGroup F`; and the supplier's `f2Pairing` on `trivialF2`, over `ℤ` and
+`ProfiniteCohomology.AbsoluteGaloisGroup F`, which is Tau Ceti's `TauCeti.AbsoluteGaloisGroup F`.
+Both coefficient modules are Tau Ceti's `KummerCoeff F 2`: `ClassFieldTheory.muNRepCoeffDictionary`
+is its identity, and this file's `kummerCoeffIsoTrivialF2` starts from it. Both Kummer classes are
+Tau Ceti's `kummerMap` transported: Class Field Theory's by
+`ClassFieldTheory.kummerClass_eq_kummerCocycleClass`, and Layer 7A's through `kummerMapCanonical`.
+So the content of the bridge is the naturality of `cup` along three changes: the group comparison
+`ClassFieldTheory.absoluteGaloisGroupComparison`; the coefficient isomorphism
+`kummerCoeffIsoTrivialF2`, under which `log_ζ(x) · y` is the product of `𝔽₂`; and the passage from
+the coefficient ring `ZMod 2` to `ℤ`, which changes neither the homogeneous cochains nor their
+differentials. `localSymbol` then adds the invariant `tr`, which is an `AddEquiv` and so does not
+affect vanishing.
 ⚠ This is *not* a consequence of `brauerCohomologyEquiv_crossedProductClass`: the crossed-product
 comparison is about `Kˢˣ` coefficients and says nothing about the `μ₂`-valued cup that Class
 Field Theory's symbol is built from. -/
@@ -2299,7 +2499,12 @@ theorem cup_kummerClass_one_sub [Invertible (2 : K)] (a : Kˣ) (h : (1 : K) - a 
       (kummerClass (Units.mk0 ((1 : K) - a) h)) = 0 :=
   sorry
 
-/-! ## Layer 8: Stiefel-Whitney classes in degrees 1 and 2 -/
+/-! ## Layer 8: Stiefel-Whitney classes in degrees 1 and 2
+
+`w₁` and `w₂` are defined on diagonal tuples and descended to `RegularFormClass K` by Tau Ceti's
+`TauCeti.RegularFormClass.liftDiagonal`. Its three hypotheses are stated below for each class, by
+name. The rank-one hypothesis has content for `w₁` only, where it says that `(a) = (b)` when
+`a * b` is a square; for `w₂` both sides are the empty sum `0`. -/
 
 /-- **Layer 8, the first Stiefel-Whitney class** of a diagonal tuple,
 `w₁(q) = ∑ᵢ (aᵢ) = (d(q))`, with the plain discriminant. -/
@@ -2312,50 +2517,139 @@ noncomputable def sw2 [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) : H2 K 
   ∑ ij ∈ Finset.univ.filter fun ij : Fin n × Fin n => ij.1 < ij.2,
     cup11 (kummerClass (w ij.1)) (kummerClass (w ij.2))
 
-/-- **Layer 8, well-definedness of the Stiefel-Whitney classes**, by the Layer 0 descent
-principle. The binary step is the cup identity `(a)(b) = (c)(d)` for `⟨a,b⟩ ≅ ⟨c,d⟩`, which is
-`cup_kummerClass_eq_zero_iff` together with Layer 0's binary criterion. -/
-theorem sw_congr [Invertible (2 : K)] {n : ℕ} (w w' : Fin n → Kˣ)
-    (h : (weightedSumSquares K fun i => ((w i : K))).Equivalent
-      (weightedSumSquares K fun i => ((w' i : K)))) :
-    sw1 w = sw1 w' ∧ sw2 w = sw2 w' :=
+/-- **Layer 8, `w₁` of a tuple is the Kummer class of its discriminant**, by the additivity of
+`kummerSquareClassEquiv` and `kummerSquareClassEquiv_kummerClass`. The three descent hypotheses for
+`w₁` are read off it. -/
+theorem sw1_eq_kummerSquareClassEquiv [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) :
+    sw1 w = kummerSquareClassEquiv K (Additive.ofMul (QuotientGroup.mk (∏ i, w i))) := by
+  rw [sw1, QuotientGroup.mk_prod, ofMul_prod, map_sum]
+  simp only [kummerSquareClassEquiv_kummerClass]
+
+/-- `w₁` of a tuple depends only on the square class of its discriminant, through Tau Ceti's
+`TauCeti.squareClass_eq_iff_isSquare_mul` and `TauCeti.multiplicativeSquareClassEquiv_mk`. -/
+theorem sw1_eq_of_isSquare [Invertible (2 : K)] {m n : ℕ} (w : Fin m → Kˣ) (w' : Fin n → Kˣ)
+    (h : IsSquare ((∏ i, w i) * ∏ i, w' i)) : sw1 w = sw1 w' := by
+  have hmk : (QuotientGroup.mk (∏ i, w i) : Kˣ ⧸ Subgroup.square Kˣ) =
+      QuotientGroup.mk (∏ i, w' i) :=
+    TauCeti.multiplicativeSquareClassEquiv.injective (by
+      rw [TauCeti.multiplicativeSquareClassEquiv_mk, TauCeti.multiplicativeSquareClassEquiv_mk,
+        (TauCeti.squareClass_eq_iff_isSquare_mul _ _).2 h])
+  rw [sw1_eq_kummerSquareClassEquiv, sw1_eq_kummerSquareClassEquiv, hmk]
+
+/-- **Layer 8, `w₁` is invariant under a permutation step**, the first hypothesis of the descent:
+the two tuples present isometric forms (`TauCeti.PermutationStep.equivalent`), whose discriminants
+agree in square classes (`TauCeti.isSquare_prod_mul_prod_of_equivalent`). -/
+theorem sw1_permutationStep [Invertible (2 : K)] {n : ℕ} {w w' : Fin n → Kˣ}
+    (h : PermutationStep w w') : sw1 w = sw1 w' :=
+  sw1_eq_of_isSquare w w' (TauCeti.isSquare_prod_mul_prod_of_equivalent (by
+    rw [QuadraticMap.weightedSumSquares_units, QuadraticMap.weightedSumSquares_units]
+    exact h.equivalent))
+
+/-- **Layer 8, `w₁` is invariant under a binary step**, the second hypothesis of the descent, by
+the same argument through `TauCeti.BinaryStep.equivalent`. -/
+theorem sw1_binaryStep [Invertible (2 : K)] {n : ℕ} {w w' : Fin n → Kˣ}
+    (h : BinaryStep w w') : sw1 w = sw1 w' :=
+  sw1_eq_of_isSquare w w' (TauCeti.isSquare_prod_mul_prod_of_equivalent (by
+    rw [QuadraticMap.weightedSumSquares_units, QuadraticMap.weightedSumSquares_units]
+    exact h.equivalent))
+
+/-- **Layer 8, the rank-one hypothesis for `w₁`**: `(a) = (b)` when `a * b` is a square. No chain
+joins `⟨a⟩` to `⟨b⟩`, so this is not a consequence of the two step conditions, and `w₁` is the one
+invariant of this roadmap for which the rank-one hypothesis of
+`TauCeti.RegularFormClass.liftDiagonal` has content. -/
+theorem sw1_rankOne [Invertible (2 : K)] (a b : Kˣ) (h : IsSquare (a * b)) :
+    sw1 (fun _ : Fin 1 => a) = sw1 (fun _ : Fin 1 => b) :=
+  sw1_eq_of_isSquare _ _ (by simpa only [Fin.prod_univ_one] using h)
+
+/-- **Layer 8, `w₂` is invariant under a permutation step**, the first hypothesis of the descent:
+`cup11` is symmetric on Kummer classes (`cup11_comm`), so reordering the coefficients does not
+change the pairwise sum. This is Tau Ceti's `TauCeti.PermutationStep.prod_prod_Ioi_eq`, read in
+`Multiplicative (H2 K)` after rewriting the sum over pairs `i < j` as `∑ i, ∑ j ∈ Finset.Ioi i`. -/
+theorem sw2_permutationStep [Invertible (2 : K)] {n : ℕ} {w w' : Fin n → Kˣ}
+    (h : PermutationStep w w') : sw2 w = sw2 w' :=
   sorry
+
+/-- **Layer 8, `w₂` is invariant under a binary step**, the second hypothesis of the descent. The
+input is the cup identity `(a) ∪ (b) = (c) ∪ (d)` for `⟨a,b⟩ ≅ ⟨c,d⟩`, which is Layer 7C's
+`cup_kummerClass_eq_zero_iff` together with Tau Ceti's binary criterion
+`TauCeti.equivalent_binary_iff`; with the bilinearity of `cup11` on Kummer classes it is what Tau
+Ceti's `TauCeti.BinaryStep.prod_prod_Ioi_eq` consumes. -/
+theorem sw2_binaryStep [Invertible (2 : K)] {n : ℕ} {w w' : Fin n → Kˣ}
+    (h : BinaryStep w w') : sw2 w = sw2 w' :=
+  sorry
+
+/-- **Layer 8, the rank-one hypothesis for `w₂`**: there is no pair `i < j` in rank one, so both
+sides are the empty sum `0`, whatever `a` and `b` are. -/
+theorem sw2_rankOne [Invertible (2 : K)] (a b : Kˣ) :
+    sw2 (fun _ : Fin 1 => a) = sw2 (fun _ : Fin 1 => b) := by
+  have hpairs : (Finset.univ.filter fun ij : Fin 1 × Fin 1 => ij.1 < ij.2) = ∅ := by decide
+  simp only [sw2, hpairs, Finset.sum_empty]
 
 variable (K)
 
-/-- **Layer 8, `w₁` on isometry classes.** The descent of `sw1` along `Quotient.mk`, by the
-Layer 0 descent principle applied to `sw_congr`. This is the definition the form-level theorem
-of Layer 9 is stated with: a consumer never supplies a diagonalization. -/
+/-- **Layer 8, `w₁` on isometry classes**: the descent of `sw1` by Tau Ceti's
+`TauCeti.RegularFormClass.liftDiagonal`, with the three hypotheses `sw1_permutationStep`,
+`sw1_binaryStep` and `sw1_rankOne`. This is the definition the form-level theorem of Layer 9 is
+stated with: a consumer never supplies a diagonalization. -/
 noncomputable def sw1Class [Invertible (2 : K)] : RegularFormClass K → H1 K :=
-  sorry
+  TauCeti.RegularFormClass.liftDiagonal (fun p => sw1 p.2) sw1_permutationStep sw1_binaryStep
+    sw1_rankOne
 
-/-- **Layer 8, `w₂` on isometry classes.** -/
+/-- **Layer 8, `w₂` on isometry classes**: the descent of `sw2`, with the three hypotheses
+`sw2_permutationStep`, `sw2_binaryStep` and `sw2_rankOne`. -/
 noncomputable def sw2Class [Invertible (2 : K)] : RegularFormClass K → H2 K :=
-  sorry
+  TauCeti.RegularFormClass.liftDiagonal (fun p => sw2 p.2) sw2_permutationStep sw2_binaryStep
+    fun a b _ => sw2_rankOne a b
 
 variable {K}
 
-/-- `w₁` of a class is computed on any presentation of it. -/
+/-- `w₁` of a class is computed on any presentation of it
+(`TauCeti.RegularFormClass.liftDiagonal_mk`). -/
 theorem sw1Class_mk [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) :
     sw1Class K (Quotient.mk (regularFormSetoid K) ⟨n, w⟩) = sw1 w :=
-  sorry
+  TauCeti.RegularFormClass.liftDiagonal_mk _ _ _ _ _
 
 /-- `w₂` of a class is computed on any presentation of it. -/
 theorem sw2Class_mk [Invertible (2 : K)] {n : ℕ} (w : Fin n → Kˣ) :
     sw2Class K (Quotient.mk (regularFormSetoid K) ⟨n, w⟩) = sw2 w :=
-  sorry
+  TauCeti.RegularFormClass.liftDiagonal_mk _ _ _ _ _
+
+/-- **Layer 8, well-definedness of the Stiefel-Whitney classes on tuples**, in every rank:
+equivalent tuples present the same class (`TauCeti.RegularFormClass.mk_eq_mk_iff`), and the
+classes are the descended ones. -/
+theorem sw_congr [Invertible (2 : K)] {n : ℕ} (w w' : Fin n → Kˣ)
+    (h : (weightedSumSquares K fun i => ((w i : K))).Equivalent
+      (weightedSumSquares K fun i => ((w' i : K)))) :
+    sw1 w = sw1 w' ∧ sw2 w = sw2 w' := by
+  have hclass : (Quotient.mk (regularFormSetoid K) ⟨n, w⟩ : RegularFormClass K) =
+      Quotient.mk (regularFormSetoid K) ⟨n, w'⟩ := by
+    rw [TauCeti.RegularFormClass.mk_eq_mk_iff, TauCeti.presentedForm_eq_weightedSumSquares_coe,
+      TauCeti.presentedForm_eq_weightedSumSquares_coe]
+    exact h
+  exact ⟨(sw1Class_mk w).symm.trans ((congrArg (sw1Class K) hclass).trans (sw1Class_mk w')),
+    (sw2Class_mk w).symm.trans ((congrArg (sw2Class K) hclass).trans (sw2Class_mk w'))⟩
+
+/-- **Layer 8, `w₁` is the Kummer class of the discriminant,** on classes: the first low-degree
+identity `w₁(q) = (d(q))`, with the plain discriminant and not `d±`. -/
+theorem sw1Class_eq_discr [Invertible (2 : K)] (q : RegularFormClass K) :
+    sw1Class K q = kummerSquareClassEquiv K (Additive.ofMul (discr q)) := by
+  induction q using Quotient.inductionOn with
+  | h p =>
+    obtain ⟨n, w⟩ := p
+    rw [sw1Class_mk, discr_mk, sw1_eq_kummerSquareClassEquiv]
 
 /-- **Layer 8, `w₁` and `w₂` are invariants of isometry.** Two regular forms that are
 `QuadraticMap.Equivalent` have the same classes, since they have the same class in
-`RegularFormClass K`. This is the statement a consumer needs in order to apply Layer 9 to a form
-given by a construction rather than by a tuple. -/
+`RegularFormClass K` (`TauCeti.formClass_eq_iff`). This is the statement a consumer needs in order
+to apply Layer 9 to a form given by a construction rather than by a tuple. -/
 theorem sw1Class_formClass_congr [Invertible (2 : K)] {V W : Type} [AddCommGroup V] [Module K V]
     [FiniteDimensional K V] [AddCommGroup W] [Module K W] [FiniteDimensional K W]
     (Q : QuadraticForm K V) (hQ : Q.Nondegenerate) (R : QuadraticForm K W)
     (hR : R.Nondegenerate) (h : Q.Equivalent R) :
     sw1Class K (formClass Q hQ) = sw1Class K (formClass R hR) ∧
-      sw2Class K (formClass Q hQ) = sw2Class K (formClass R hR) :=
-  sorry
+      sw2Class K (formClass Q hQ) = sw2Class K (formClass R hR) := by
+  have hc : formClass Q hQ = formClass R hR := (TauCeti.formClass_eq_iff Q hQ R hR).2 h
+  exact ⟨congrArg (sw1Class K) hc, congrArg (sw2Class K) hc⟩
 
 /-- **Layer 8, the orthogonal-sum identities**, stated degreewise, since this roadmap has
 no total class. -/
@@ -2440,6 +2734,132 @@ example [Invertible (2 : K)] (d : Kˣ) :
         (Algebra.traceForm K (QuadraticAlgebra K (d : K) 0))).Equivalent
       (weightedSumSquares K ![(2 : K), 2 * d]) :=
   sorry
+
+/-! ### Layer 9: the twisted trace form
+
+For `L = K(x)` with `x² = d` and `a : Lˣ`, the transfer `Tr_*⟨a⟩ : y ↦ Tr_{L/K}(a y²)` of the
+rank-one form `⟨a⟩`. The statements use this file's `scharlauTransfer s q`, Tau Ceti's class
+`formClass` of a regular form, and Tau Ceti's discriminant `TauCeti.RegularFormClass.discr`, valued
+in the additive `SquareClassGroup K`. Tau Ceti's `TauCeti/LinearAlgebra/QuadraticForm/Transfer/`,
+which landed after this repository's Tau Ceti pin, writes the same transfer `q.scharlauTransfer s`
+and `q.traceTransfer K`. -/
+
+/-- **Layer 9, the norm in square-root coordinates,** `N(u + v x) = u² − v² d`. Tau Ceti's
+`Algebra.IsQuadraticExtension.norm_algebraMap_add_algebraMap_mul` gives
+`N(u + v x) = u² + u v · Tr x + v² · N x`; Tau Ceti's
+`TauCeti.Algebra.trace_eq_zero_of_sq_algebraMap_of_not_mem_range` gives `Tr x = 0`; and then
+Mathlib's `Algebra.IsQuadraticExtension.sq_eq_trace_smul_sub_norm`, `x² = Tr x · x − N x`, gives
+`N x = −d`. The trace companion `Tr (u + v x) = 2 u` is Tau Ceti's
+`Algebra.IsQuadraticExtension.trace_algebraMap_add_algebraMap_mul` with `Tr x = 0`. -/
+theorem norm_add_mul_of_sq {L : Type u} [Field L] [Algebra K L] {x : L} {d : K}
+    (hfin : Module.finrank K L = 2) (hx : x ∉ Set.range (algebraMap K L))
+    (hx2 : x ^ 2 = algebraMap K L d) (u v : K) :
+    Algebra.norm K (algebraMap K L u + algebraMap K L v * x) = u ^ 2 - v ^ 2 * d := by
+  have : Algebra.IsQuadraticExtension K L := ⟨hfin⟩
+  have : FiniteDimensional K L := Module.finite_of_finrank_eq_succ hfin
+  have htr : Algebra.trace K L x = 0 :=
+    TauCeti.Algebra.trace_eq_zero_of_sq_algebraMap_of_not_mem_range hx2
+      (fun h => hx (by simpa [RingHom.mem_range] using h))
+  have hnorm : Algebra.norm K x = -d := by
+    have h := Algebra.IsQuadraticExtension.sq_eq_trace_smul_sub_norm K x
+    rw [hx2, htr, zero_smul, zero_sub, ← map_neg] at h
+    linear_combination (algebraMap K L).injective h
+  rw [Algebra.IsQuadraticExtension.norm_algebraMap_add_algebraMap_mul, htr, hnorm]
+  ring
+
+/-- **Layer 9, the twisted trace form in Kahn's basis.** For `Tr a ≠ 0` the elements `1` and
+`x / a` are orthogonal for `Tr_*⟨a⟩`, because `Tr (a · x / a) = Tr x = 0`, and their values are
+`Tr a` and `Tr (d / a) = d · Tr a / N a`; they are independent, because `x / a ∈ K` would put `a` in
+`K x` and force `Tr a = 0`. So `Tr_*⟨a⟩ ≅ ⟨Tr a, d · Tr a / N a⟩`, the basis in which the value of
+the Evens norm below is computed. ⚠ `Tr a ≠ 0` is load-bearing: at `Tr a = 0` the two entries are
+`0` and the form is hyperbolic, not `⟨0, 0⟩`. -/
+theorem traceTransfer_weightedSumSquares_equivalent [Invertible (2 : K)] {L : Type u} [Field L]
+    [Algebra K L] [FiniteDimensional K L] [Algebra.IsSeparable K L] {x : L} {d : K}
+    (hfin : Module.finrank K L = 2) (hx : x ∉ Set.range (algebraMap K L))
+    (hx2 : x ^ 2 = algebraMap K L d) (a : Lˣ) (htr : Algebra.trace K L (a : L) ≠ 0) :
+    (scharlauTransfer (Algebra.trace K L) (weightedSumSquares L ![(a : L)])).Equivalent
+      (weightedSumSquares K
+        ![Algebra.trace K L (a : L), d * Algebra.trace K L (a : L) / Algebra.norm K (a : L)]) :=
+  sorry
+
+/-- **Layer 9, the twisted trace form at trace zero is hyperbolic.** `Tr_*⟨a⟩ (1) = Tr a = 0`, so
+the regular binary form `Tr_*⟨a⟩` is isotropic. Tau Ceti's
+`TauCeti.exists_hyperbolicPlane_prod_equivalent` splits off a hyperbolic plane, and the complement
+has rank `0`; so `Tr_*⟨a⟩ ≅ ⟨1, −1⟩`, which is Tau Ceti's `TauCeti.hyperbolicPlane K`. -/
+theorem traceTransfer_weightedSumSquares_equivalent_hyperbolic [Invertible (2 : K)] {L : Type u}
+    [Field L] [Algebra K L] [FiniteDimensional K L] [Algebra.IsSeparable K L]
+    (hfin : Module.finrank K L = 2) (a : Lˣ) (htr : Algebra.trace K L (a : L) = 0) :
+    (scharlauTransfer (Algebra.trace K L) (weightedSumSquares L ![(a : L)])).Equivalent
+      (weightedSumSquares K ![(1 : K), -1]) :=
+  sorry
+
+/-- **Layer 9, the discriminant of the twisted trace form,** `d(Tr_*⟨a⟩) = d · N a` in square
+classes, stated for Tau Ceti's discriminant `TauCeti.RegularFormClass.discr` of Tau Ceti's class
+`formClass` of the transferred form. The proof reads the discriminant off a diagonalization with
+Tau Ceti's `TauCeti.discr_formClass`. For `Tr a ≠ 0` the diagonalization is Kahn's basis, and
+`Tr a · (d · Tr a / N a) ≡ d · N a`. At trace zero it is the hyperbolic plane `⟨1, −1⟩`, and
+`a = v x` (Tau Ceti's `Algebra.IsQuadraticExtension.exists_eq_algebraMap_add_algebraMap_mul`, the
+`1`-coordinate vanishing because `Tr a = 2u`) gives `N a = −v² d` by `norm_add_mul_of_sq`, so
+`−1 ≡ d · N a`. With Layer 8's `sw1Class_eq_discr` and Layer 7A's `galoisCor_kummerClass` this is
+the whole of the degree-1 formula. -/
+theorem discr_traceTransfer [Invertible (2 : K)] {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L] [FiniteDimensional K (Fin 1 → L)]
+    {x : L} (d : Kˣ) (hfin : Module.finrank K L = 2)
+    (hx : x ∉ Set.range (algebraMap K L)) (hx2 : x ^ 2 = algebraMap K L (d : K)) (a : Lˣ)
+    (ha : (scharlauTransfer (Algebra.trace K L) (weightedSumSquares L ![(a : L)])).Nondegenerate) :
+    TauCeti.RegularFormClass.discr (formClass _ ha) =
+      squareClass d + squareClass (Units.map (Algebra.norm K : L →* K) a) := by
+  have h2 : (2 : K) ≠ 0 := two_ne_zero' K
+  have hNa : Algebra.norm K (a : L) ≠ 0 := Algebra.norm_ne_zero_iff.2 a.ne_zero
+  rw [← TauCeti.squareClass_mul]
+  by_cases htr : Algebra.trace K L (a : L) = 0
+  · -- Trace zero: the form is hyperbolic, and `a = v x`, so `N a = −v² d`.
+    have hq := traceTransfer_weightedSumSquares_equivalent_hyperbolic hfin a htr
+    have hp : (scharlauTransfer (Algebra.trace K L) (weightedSumSquares L ![(a : L)])).Equivalent
+        (TauCeti.presentedForm ⟨2, ![1, -1]⟩) := by
+      rw [TauCeti.presentedForm_eq_weightedSumSquares_coe]
+      convert hq using 2
+      ext i
+      fin_cases i <;> simp
+    rw [TauCeti.discr_formClass _ ha _ hp, Fin.prod_univ_two]
+    have : Algebra.IsQuadraticExtension K L := ⟨hfin⟩
+    obtain ⟨v, u, hau⟩ :=
+      Algebra.IsQuadraticExtension.exists_eq_algebraMap_add_algebraMap_mul K L hx (a : L)
+    have htrx : Algebra.trace K L x = 0 :=
+      TauCeti.Algebra.trace_eq_zero_of_sq_algebraMap_of_not_mem_range hx2
+        (fun h => hx (by simpa [RingHom.mem_range] using h))
+    have hu : u = 0 := by
+      have h := htr
+      rw [hau, Algebra.IsQuadraticExtension.trace_algebraMap_add_algebraMap_mul, htrx] at h
+      simpa [h2] using h
+    have hN : Algebra.norm K (a : L) = -(v ^ 2 * d) := by
+      rw [hau, norm_add_mul_of_sq hfin hx hx2, hu]
+      ring
+    have hv : v ≠ 0 := by
+      rintro rfl
+      exact hNa (by simp [hN])
+    rw [TauCeti.squareClass_eq_iff_isSquare_mul]
+    refine ⟨Units.mk0 (v * d) (mul_ne_zero hv d.ne_zero), Units.ext ?_⟩
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Units.val_mul, Units.val_neg,
+      Units.val_one, Units.coe_map, Units.val_mk0]
+    rw [hN]
+    ring
+  · -- Kahn's basis: the form is `⟨Tr a, d · Tr a / N a⟩`.
+    have hq := traceTransfer_weightedSumSquares_equivalent hfin hx hx2 a htr
+    have hu : d * Algebra.trace K L (a : L) / Algebra.norm K (a : L) ≠ 0 :=
+      div_ne_zero (mul_ne_zero d.ne_zero htr) hNa
+    have hp : (scharlauTransfer (Algebra.trace K L) (weightedSumSquares L ![(a : L)])).Equivalent
+        (TauCeti.presentedForm ⟨2, ![Units.mk0 _ htr, Units.mk0 _ hu]⟩) := by
+      rw [TauCeti.presentedForm_eq_weightedSumSquares_coe]
+      convert hq using 2
+      ext i
+      fin_cases i <;> simp
+    rw [TauCeti.discr_formClass _ ha _ hp, Fin.prod_univ_two,
+      TauCeti.squareClass_eq_iff_isSquare_mul]
+    refine ⟨Units.mk0 (Algebra.trace K L (a : L) * d) (mul_ne_zero htr d.ne_zero), Units.ext ?_⟩
+    simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Units.val_mul, Units.val_mk0,
+      Units.coe_map]
+    field_simp
 
 /-- **Layer 9, the supplier's corestriction in degree 1, read in this file's carrier.** As with
 `cup11`, the body is the supplier's `galoisCor` and the wrapper exists only because that
@@ -2536,15 +2956,703 @@ theorem galoisEvens2_embedding_independent {L : Type u} [Field L] [Algebra K L]
     galoisEvens2 σ hdeg x = galoisEvens2 τ hdeg x :=
   sorry
 
+/-! ### Layer 9: the norm of a restricted class and the kernel of restriction
+
+Identity 1, `res (N x) = x ∪ σ·x`, determines `N^{Ev}` only modulo the kernel of restriction, which
+is `(d) ∪ H¹(G_K, 𝔽₂)`. The supplier's `galoisSubgroup K L σ` is Tau Ceti's, the subgroup of `G_K`
+fixing `σ L` pointwise (`TauCeti.mem_galoisSubgroup_iff`). The statements below identify the
+character of `L/K`, describe that kernel, and give the value of the norm on the classes that come
+from `K`; the value on every Kummer class is computed in the next block. -/
+
+/-- **Layer 9, the character of `K(√d)/K` is the Kummer class of `d`.** `σ x` is a square root of
+`d` in `Kˢ`, and its stabilizer is `galoisSubgroup K L σ`, because `σ L = K(σ x)` and
+`galoisSubgroup K L σ` fixes `σ L` pointwise (`TauCeti.mem_galoisSubgroup_iff`); so the
+supplier's `galoisCharacter`, the class of the character with kernel `G_L`, is the Kummer class of
+`d`. ⚠ `x ∉ K` is load-bearing: for a square `d` the right-hand side is `0` and the left is not. -/
+theorem galoisCharacter_eq_kummerClass {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L] [Invertible (2 : K)]
+    (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2) (d : Kˣ) {x : L}
+    (hx : x ∉ Set.range (algebraMap K L)) (hx2 : x ^ 2 = algebraMap K L (d : K)) :
+    galoisCharacter K L σ hdeg = kummerClass d :=
+  sorry
+
+/-- **Layer 9, identity 5 in this file's carriers,** the supplier's `galoisEvens_galoisRes`, which
+is its proof: `N (res y) = y ∪ y + χ_{L/K} ∪ y`, where `χ_{L/K} = (d)` by
+`galoisCharacter_eq_kummerClass`. For `y = (c)` with `c ∈ Kˣ` it agrees with the value below, since
+`Tr c = 2c` and `N c = c²`. -/
+theorem galoisEvens2_galoisRes1 {L : Type u} [Field L] [Algebra K L] [FiniteDimensional K L]
+    [Algebra.IsSeparable K L] [Invertible (2 : K)] (σ : L →ₐ[K] SeparableClosure K)
+    (hdeg : Module.finrank K L = 2) (y : H1 K) :
+    galoisEvens2 σ hdeg (galoisRes1 σ y) = cup11 y y + cup11 (galoisCharacter K L σ hdeg) y :=
+  galoisEvens_galoisRes K L σ hdeg y
+
+/-- **Layer 9, the kernel of restriction in degree two,** `ker (res_{L/K}) = (d) ∪ H¹(G_K, 𝔽₂)`:
+the supplier's `galoisRes_eq_zero_iff` after `galoisCharacter_eq_kummerClass`. The map is
+restriction and not corestriction. -/
+theorem galoisRes2_eq_zero_iff {L : Type u} [Field L] [Algebra K L] [FiniteDimensional K L]
+    [Algebra.IsSeparable K L] [Invertible (2 : K)] (σ : L →ₐ[K] SeparableClosure K)
+    (hdeg : Module.finrank K L = 2) (d : Kˣ) {x : L} (hx : x ∉ Set.range (algebraMap K L))
+    (hx2 : x ^ 2 = algebraMap K L (d : K)) (z : H2 K) :
+    galoisRes2 σ z = 0 ↔ ∃ y : H1 K, z = cup11 (kummerClass d) y := by
+  rw [← galoisCharacter_eq_kummerClass σ hdeg d hx hx2]
+  exact galoisRes_eq_zero_iff K L σ hdeg z
+
+/-! ### Layer 9: the value of the Evens norm, through the `Pin⁺` lift of `C₂ ≀ C₂`
+
+Kahn's Lemme II.2.1: `N^{Ev}((a)) = (Tr a) ∪ (−d · N a) + (2) ∪ (d)` when `Tr a ≠ 0`, and
+`(2) ∪ (d)` when `Tr a = 0`. The proof is Serre's second proof of his Théorème 1′ at `n = 2`, in
+explicit `2 × 2` matrices, and three conventions are pinned, each against a wrong alternative that
+changes the answer:
+
+* the Clifford relations `e₁² = e₂² = +1` and `e₁ e₂ = −e₂ e₁` (`pinE1_mul_self`,
+  `pinE2_mul_self`, `pinE1_mul_pinE2`, `pinT_mul_self`), which make the lift of `C₂ ≀ C₂` the
+  dihedral group `D₁₆` of `Pin⁺` and not the quaternion group `Q₁₆`, as the supplier's `D₁₆` class
+  and Kahn's and Serre's `(2)(d)` require;
+* the twisted adjoint action `v ↦ det(x) · x v xᵀ` of an orthogonal `x`, which is
+  `(−1)^{|x|} x v x⁻¹`, so that a unit vector lifts its own reflection (`IsPinLift`);
+* the descent convention: `g ∈ G_K` acts on the coordinates of a point of `W` by `ρ_a(g)ᵀ`, an
+  anti-homomorphism in `g`, while `ρ_a` itself is a homomorphism (`kummerPoint_galois`). -/
+
+section EvensValue
+
+open scoped Matrix
+
+section PinModel
+
+variable {F : Type*} [Field F]
+
+/-- **Layer 9, the first Clifford generator** `e₁ = diag(1, −1)` of `Cl(F², ⟨1, 1⟩) = M₂(F)`. -/
+def pinE1 : Matrix (Fin 2) (Fin 2) F := !![1, 0; 0, -1]
+
+/-- **Layer 9, the second Clifford generator** `e₂`, which is also the swap matrix. -/
+def pinE2 : Matrix (Fin 2) (Fin 2) F := !![0, 1; 1, 0]
+
+/-- `e₁² = +1`: the sign that makes the lift `D₁₆` and not `Q₁₆`. -/
+theorem pinE1_mul_self : (pinE1 : Matrix (Fin 2) (Fin 2) F) * pinE1 = 1 := by
+  ext i j; fin_cases i <;> fin_cases j <;> simp [pinE1, Matrix.mul_apply, Fin.sum_univ_two]
+
+/-- `e₂² = +1`. -/
+theorem pinE2_mul_self : (pinE2 : Matrix (Fin 2) (Fin 2) F) * pinE2 = 1 := by
+  ext i j; fin_cases i <;> fin_cases j <;> simp [pinE2, Matrix.mul_apply, Fin.sum_univ_two]
+
+/-- `e₁ e₂ = −e₂ e₁`. -/
+theorem pinE1_mul_pinE2 : (pinE1 : Matrix (Fin 2) (Fin 2) F) * pinE2 = -(pinE2 * pinE1) := by
+  ext i j; fin_cases i <;> fin_cases j <;> simp [pinE1, pinE2, Matrix.mul_apply, Fin.sum_univ_two]
+
+/-- **Layer 9, the vector** `y₀ e₁ + y₁ e₂` of `F²` inside the Clifford model. -/
+def pinVec (y : Fin 2 → F) : Matrix (Fin 2) (Fin 2) F := y 0 • pinE1 + y 1 • pinE2
+
+/-- **The Clifford relation** `v² = q(v) · 1` for the unit form `q = ⟨1, 1⟩`. -/
+theorem pinVec_mul_self (y : Fin 2 → F) :
+    pinVec y * pinVec y = (y 0 ^ 2 + y 1 ^ 2) • (1 : Matrix (Fin 2) (Fin 2) F) := by
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [pinVec, pinE1, pinE2, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+
+/-- **Layer 9, the unit vector `t = (e₁ − e₂)/√2`,** for a square root `r2` of `2`. Its
+reflection is the swap of the two coordinates. -/
+noncomputable def pinT (r2 : F) : Matrix (Fin 2) (Fin 2) F := r2⁻¹ • (pinE1 - pinE2)
+
+/-- `t² = +1`. -/
+theorem pinT_mul_self [Invertible (2 : F)] {r2 : F} (hr2 : r2 ^ 2 = 2) : pinT r2 * pinT r2 = 1 := by
+  have h2 : (2 : F) ≠ 0 := two_ne_zero' F
+  have hr : r2 ≠ 0 := by
+    rintro rfl
+    exact h2 (by simpa using hr2.symm)
+  ext i j; fin_cases i <;> fin_cases j <;>
+    simp [pinT, pinE1, pinE2, Matrix.mul_apply, Fin.sum_univ_two]
+  all_goals (field_simp; linear_combination -hr2)
+
+/-- **Layer 9, `x` is a `Pin⁺` lift of `w`:** `x` is orthogonal and its twisted adjoint action
+`v ↦ det(x) · x v xᵀ` on vectors is `w`. An orthogonal `2 × 2` matrix is homogeneous, even when its
+determinant is `1` and odd when it is `−1`, so this action is `v ↦ (−1)^{|x|} x v x⁻¹`.
+⚠ Without the sign, `e₁` would act as `diag(1, −1)`, the reflection in the wrong line.
+⚠ This is not Mathlib's `CliffordAlgebra.pinGroup`, on which Tau Ceti's
+`CliffordAlgebra.pinToOrthogonal` and `CliffordAlgebra.pinDoubleCover` are built: a vector in
+that group has `Q v = −1` and squares to `−1`, so it lifts a reflection by an element of order
+four, which is the `e_i² = −1` convention and lifts `C₂ ≀ C₂` to `Q₁₆`. -/
+def IsPinLift (x w : Matrix (Fin 2) (Fin 2) F) : Prop :=
+  xᵀ * x = 1 ∧ ∀ y : Fin 2 → F, x.det • (x * pinVec y * xᵀ) = pinVec (w *ᵥ y)
+
+/-- Lifts multiply. -/
+theorem IsPinLift.mul {x w x' w' : Matrix (Fin 2) (Fin 2) F} (h : IsPinLift x w)
+    (h' : IsPinLift x' w') : IsPinLift (x * x') (w * w') := by
+  refine ⟨?_, fun y => ?_⟩
+  · rw [Matrix.transpose_mul, Matrix.mul_assoc, ← Matrix.mul_assoc xᵀ, h.1, Matrix.one_mul, h'.1]
+  · rw [Matrix.det_mul, ← Matrix.mulVec_mulVec, ← h.2, ← h'.2, Matrix.transpose_mul, mul_smul,
+      Matrix.mul_smul, Matrix.smul_mul]
+    simp only [Matrix.mul_assoc]
+
+/-- Lifts invert. -/
+theorem IsPinLift.inv {x w : Matrix (Fin 2) (Fin 2) F} (h : IsPinLift x w) :
+    IsPinLift x⁻¹ w⁻¹ :=
+  sorry
+
+/-- Lifts are carried by ring homomorphisms, in particular by the Galois action on entries. -/
+theorem IsPinLift.map {F' : Type*} [Field F'] (φ : F →+* F') {x w : Matrix (Fin 2) (Fin 2) F}
+    (h : IsPinLift x w) : IsPinLift (x.map φ) (w.map φ) :=
+  sorry
+
+/-- **Two lifts differ by a sign.** If `x` and `x'` lift `w`, then `x' xᵀ` is orthogonal and acts
+trivially: of determinant `1` it commutes with `e₁` and `e₂` and is a scalar `±1`, and of
+determinant `−1` it would anticommute with both and be `μ e₁ e₂` with `μ² = 1`, which has
+determinant `1`. -/
+theorem IsPinLift.eq_or_eq_neg [Invertible (2 : F)] {x x' w : Matrix (Fin 2) (Fin 2) F}
+    (h : IsPinLift x w) (h' : IsPinLift x' w) : x' = x ∨ x' = -x :=
+  sorry
+
+/-- **Every orthogonal matrix has a lift** over a separably closed field of characteristic not
+two: by Tau Ceti's Cartan–Dieudonné theorem
+(`TauCeti.QuadraticMap.exists_reflectionOrthogonal_list_prod_eq`) it is a product of at most two
+reflections in anisotropic vectors, each vector can be scaled to a unit vector because square
+roots exist, and a unit vector `u` lifts its own reflection, since `det(u) = −1` and
+`u v u = 2⟨u, v⟩ u − v` by `pinVec_mul_self`. -/
+theorem exists_isPinLift [IsSepClosed F] [Invertible (2 : F)] (P : Matrix (Fin 2) (Fin 2) F)
+    (hP : Pᵀ * P = 1) : ∃ x, IsPinLift x P :=
+  sorry
+
+open Classical in
+/-- **Layer 9, the signed-permutation representation of `C₂ ≀ C₂`,**
+`(a, b, c) ↦ diag((−1)^a, (−1)^b) · e₂^c`: the base coordinates are signs and the top coordinate
+swaps. It is a homomorphism by the supplier's coordinate rule `WreathC2.mk_mul_mk`. -/
+def wreathSignedPerm : WreathC2 →* Matrix (Fin 2) (Fin 2) F where
+  toFun g := Matrix.diagonal ![if WreathC2.coordA g = 0 then 1 else -1,
+      if WreathC2.coordB g = 0 then 1 else -1] *
+    (if WreathC2.coordC g = 0 then 1 else pinE2)
+  map_one' := by
+    rw [← WreathC2.mk_zero]
+    simp only [WreathC2.coordA_mk, WreathC2.coordB_mk, WreathC2.coordC_mk, ↓reduceIte, mul_one]
+    ext i j; fin_cases i <;> fin_cases j <;> rfl
+  map_mul' := sorry
+
+/-- **Layer 9, `D₁₆` in `M₂(F)`,** on Mathlib's `DihedralGroup 8`: `r ↦ e₁ t`, the rotation by
+`π/4`, and `f = sr 0 ↦ t`, so that `r i ↦ (e₁ t)^i` and `sr i = f r^i ↦ t (e₁ t)^i`. Its image is
+`D̃₁₆ = ⟨e₁, t⟩`. -/
+noncomputable def pinDihedral (r2 : F) : DihedralGroup 8 → Matrix (Fin 2) (Fin 2) F
+  | .r i => (pinE1 * pinT r2) ^ i.val
+  | .sr i => pinT r2 * (pinE1 * pinT r2) ^ i.val
+
+/-- **`(e₁ t)⁴ = −1`:** `e₁ t` is the rotation by `π/4`, since `(e₁ t)² = [[0, −1], [1, 0]]` once
+`r2² = 2`. So `e₁ t` has order `8`, the characteristic not being two. -/
+theorem pinE1_mul_pinT_pow_four [Invertible (2 : F)] {r2 : F} (hr2 : r2 ^ 2 = 2) :
+    (pinE1 * pinT r2) ^ 4 = -1 := by
+  have h2 : (2 : F) ≠ 0 := two_ne_zero' F
+  have hr : r2 ≠ 0 := by
+    rintro rfl
+    exact h2 (by simpa using hr2.symm)
+  have hq : r2⁻¹ * r2⁻¹ * 2 = 1 := by
+    rw [← hr2, pow_two, ← mul_assoc, mul_assoc r2⁻¹, inv_mul_cancel₀ hr, mul_one,
+      inv_mul_cancel₀ hr]
+  have hsq : (pinE1 * pinT r2) ^ 2 = !![0, -1; 1, 0] := by
+    ext i j; fin_cases i <;> fin_cases j <;>
+      simp [pow_two, pinT, pinE1, pinE2, Matrix.mul_apply, Fin.sum_univ_two]
+    all_goals first | ring1 | linear_combination hq | linear_combination -hq
+  rw [show 4 = 2 * 2 from rfl, pow_mul, hsq]
+  ext i j; fin_cases i <;> fin_cases j <;> simp [pow_two, Matrix.mul_apply, Fin.sum_univ_two]
+
+/-- **`D̃₁₆` is dihedral of order 16:** `pinDihedral` is a homomorphism. It is the underlying
+matrix of Tau Ceti's `TauCeti.dihedralHom` at the two involutions `t` and `t e₁ t` of the unit
+group of `M₂(F)`, whose product `e₁ t` has order `8` by `pinE1_mul_pinT_pow_four`; the two
+branches of `pinDihedral` are `TauCeti.dihedralHom_r` and `TauCeti.dihedralHom_sr`. -/
+theorem pinDihedral_mul [Invertible (2 : F)] {r2 : F} (hr2 : r2 ^ 2 = 2) (z z' : DihedralGroup 8) :
+    pinDihedral r2 (z * z') = pinDihedral r2 z * pinDihedral r2 z' := by
+  let E : (Matrix (Fin 2) (Fin 2) F)ˣ := ⟨pinE1, pinE1, pinE1_mul_self, pinE1_mul_self⟩
+  let T : (Matrix (Fin 2) (Fin 2) F)ˣ := ⟨pinT r2, pinT r2, pinT_mul_self hr2, pinT_mul_self hr2⟩
+  have hE : E * E = 1 := Units.ext pinE1_mul_self
+  have hT : T * T = 1 := Units.ext (pinT_mul_self hr2)
+  have hTET : T * E * T * (T * E * T) = 1 := by
+    calc T * E * T * (T * E * T) = T * E * (T * T) * E * T := by simp only [mul_assoc]
+      _ = 1 := by rw [hT, mul_one, mul_assoc T E E, hE, mul_one, hT]
+  have hprod : T * (T * E * T) = E * T := by
+    rw [← mul_assoc, ← mul_assoc, hT, one_mul]
+  have h4 : (E * T) ^ 4 = -1 := Units.ext (by
+    rw [Units.val_pow_eq_pow_val, Units.val_mul, Units.val_neg, Units.val_one]
+    exact pinE1_mul_pinT_pow_four hr2)
+  have hord : orderOf (T * (T * E * T)) = 8 := by
+    rw [hprod]
+    refine orderOf_eq_prime_pow (p := 2) (n := 2) ?_ ?_
+    · show ¬(E * T) ^ 4 = 1
+      rw [h4]
+      intro h
+      have h' := congrArg
+        (fun u : (Matrix (Fin 2) (Fin 2) F)ˣ => (u : Matrix (Fin 2) (Fin 2) F) 0 0) h
+      simp only [Units.val_neg, Units.val_one, Matrix.neg_apply, Matrix.one_apply_eq] at h'
+      exact two_ne_zero' F (by linear_combination -h')
+    · show (E * T) ^ 8 = 1
+      rw [show 8 = 4 * 2 from rfl, pow_mul, h4, neg_one_sq]
+  have key : ∀ w : DihedralGroup 8, pinDihedral r2 w =
+      ((TauCeti.dihedralHom hT hTET hord w : (Matrix (Fin 2) (Fin 2) F)ˣ) :
+        Matrix (Fin 2) (Fin 2) F) := by
+    rintro (i | i)
+    · rw [TauCeti.dihedralHom_r, hprod, ZMod.cast_eq_val, zpow_natCast,
+        Units.val_pow_eq_pow_val]
+      rfl
+    · rw [TauCeti.dihedralHom_sr, hprod, ZMod.cast_eq_val, zpow_natCast, Units.val_mul,
+        Units.val_pow_eq_pow_val]
+      rfl
+  simp only [key, map_mul, Units.val_mul]
+
+/-- **`D̃₁₆` lies over `C₂ ≀ C₂`:** `pinDihedral z` is a `Pin⁺` lift of the signed permutation of
+the supplier's `dihedralToWreath z`. On the generators, `t` lifts the swap `s` and `e₁ t` lifts
+`us`, since `e₁` lifts `diag(−1, 1)`. -/
+theorem isPinLift_pinDihedral [Invertible (2 : F)] {r2 : F} (hr2 : r2 ^ 2 = 2)
+    (z : DihedralGroup 8) :
+    IsPinLift (pinDihedral r2 z) (wreathSignedPerm (dihedralToWreath z)) :=
+  sorry
+
+/-- **Layer 9, the lift of `C₂ ≀ C₂` into `D̃₁₆`** through the supplier's section `wreathSection`,
+`(us)^i s^j ↦ (e₁ t)^i t^j`. -/
+noncomputable def pinLift (r2 : F) (g : WreathC2) : Matrix (Fin 2) (Fin 2) F :=
+  pinDihedral r2 (wreathSection g)
+
+/-- **The factor set of `pinLift` is `c_{D₁₆}`,** the supplier's `wreathD16Cocycle` read as a sign:
+`pinDihedral_mul` and `(e₁ t)⁴ = −1` (`pinE1_mul_pinT_pow_four`). -/
+theorem pinLift_mul_mul_inv [Invertible (2 : F)] {r2 : F} (hr2 : r2 ^ 2 = 2) (g h : WreathC2) :
+    pinLift r2 g * pinLift r2 h * (pinLift r2 (g * h))⁻¹ = (-1) ^ (wreathD16Cocycle (g, h)).val :=
+  sorry
+
+open Classical in
+/-- **Layer 9, the lift `e₁^{ε₀} e₂^{ε₁}` of a diagonal sign matrix.** -/
+def pinDiagonalLift (ε : Fin 2 → ZMod 2) : Matrix (Fin 2) (Fin 2) F :=
+  (if ε 0 = 0 then 1 else pinE1) * (if ε 1 = 0 then 1 else pinE2)
+
+open Classical in
+/-- It lifts `diag((−1)^{ε₀}, (−1)^{ε₁})`: `e₁` lifts `diag(−1, 1)` and `e₂` lifts `diag(1, −1)`. -/
+theorem isPinLift_pinDiagonalLift (ε : Fin 2 → ZMod 2) :
+    IsPinLift (pinDiagonalLift ε : Matrix (Fin 2) (Fin 2) F)
+      (Matrix.diagonal fun i => if ε i = 0 then 1 else -1) := by
+  have hZ : ∀ x : ZMod 2, x = 0 ∨ x = 1 := by decide
+  unfold IsPinLift pinDiagonalLift
+  rcases hZ (ε 0) with h0 | h0 <;> rcases hZ (ε 1) with h1 | h1 <;>
+    (refine ⟨?_, fun y => ?_⟩ <;> ext i j <;> fin_cases i <;> fin_cases j <;>
+      simp [h0, h1, pinE1, pinE2, pinVec, Matrix.mul_apply, Fin.sum_univ_two, Matrix.mulVec,
+        Matrix.vecMul, Matrix.transpose_apply, dotProduct, Matrix.det_fin_two])
+
+open Classical in
+/-- **The product of two diagonal lifts,**
+`e₁^a e₂^b · e₁^{a'} e₂^{b'} = (−1)^{b a'} e₁^{a + a'} e₂^{b + b'}`, by `e_i² = +1` and
+`e₁ e₂ = −e₂ e₁`. So the twisted boundary of the diagonal lift of `diag(χ_α, χ_β)` is the cup
+`χ_β ∪ χ_α`. -/
+theorem pinDiagonalLift_mul (ε ε' : Fin 2 → ZMod 2) :
+    (pinDiagonalLift ε : Matrix (Fin 2) (Fin 2) F) * pinDiagonalLift ε' =
+      (if ε 1 * ε' 0 = 0 then 1 else -1) * pinDiagonalLift (ε + ε') := by
+  have hZ : ∀ x : ZMod 2, x = 0 ∨ x = 1 := by decide
+  have key : ∀ a b a' b' : ZMod 2,
+      ((if a = 0 then 1 else pinE1) * (if b = 0 then 1 else pinE2)) *
+          ((if a' = 0 then 1 else pinE1) * (if b' = 0 then 1 else pinE2)) =
+        (if b * a' = 0 then 1 else -1) *
+          ((if a + a' = 0 then 1 else pinE1) *
+            (if b + b' = 0 then (1 : Matrix (Fin 2) (Fin 2) F) else pinE2)) := by
+    intro a b a' b'
+    rcases hZ a with rfl | rfl <;> rcases hZ b with rfl | rfl <;> rcases hZ a' with rfl | rfl <;>
+      rcases hZ b' with rfl | rfl <;>
+      (simp (config := {decide := true}) only [↓reduceIte, one_mul, mul_one] <;>
+        ext i j <;> fin_cases i <;> fin_cases j <;>
+        simp [pinE1, pinE2, Matrix.mul_apply, Fin.sum_univ_two])
+  simpa [pinDiagonalLift] using key (ε 0) (ε 1) (ε' 0) (ε' 1)
+
+end PinModel
+
+open Classical in
+/-- **Layer 9, the sign of a root under `G_K`:** `rootSign r g` is `0` when `g r = r` and `1`
+otherwise. For `r² ∈ K` it is the Kummer character of `r²` read in `𝔽₂`, that is Tau Ceti's Kummer
+cocycle `TauCeti.kummerCocycle`, `g ↦ g r / r ∈ μ₂`, read through `mu2EquivZMod2`. -/
+noncomputable def rootSign (r : SeparableClosure K) (g : AbsoluteGaloisGroup K) : ZMod 2 :=
+  if g r = r then 0 else 1
+
+/-- **Layer 9, the Kummer character of `b ∈ Kˣ`,** `g ↦ rootSign r g` for a square root `r` of `b`
+in `Kˢ`. It is a homomorphism because `g r = ±r`, in every characteristic. -/
+noncomputable def kummerCharacter (b : Kˣ) (r : SeparableClosure K)
+    (hr : r ^ 2 = algebraMap K (SeparableClosure K) b) :
+    AbsoluteGaloisGroup K →* Multiplicative (ZMod 2) where
+  toFun g := Multiplicative.ofAdd (rootSign r g)
+  map_one' := by simp [rootSign]
+  map_mul' g h := by
+    have key : ∀ k : AbsoluteGaloisGroup K, k r = r ∨ k r = -r := fun k =>
+      sq_eq_sq_iff_eq_or_eq_neg.1 (by rw [← map_pow, hr, AlgEquiv.commutes])
+    have hmul : (g * h) r = g (h r) := rfl
+    rw [← ofAdd_add]
+    congr 1
+    unfold rootSign
+    rw [hmul]
+    rcases key h with hh | hh
+    · rw [hh]; simp
+    · rcases key g with hg | hg
+      · rw [hh, map_neg, hg]; simp
+      · rw [hh, map_neg, hg, neg_neg, ite_eq_left rfl]
+        split_ifs <;> decide
+
+/-- The Kummer character is continuous: the stabilizer of `r` is open. -/
+theorem continuous_kummerCharacter (b : Kˣ) (r : SeparableClosure K)
+    (hr : r ^ 2 = algebraMap K (SeparableClosure K) b) :
+    Continuous (kummerCharacter b r hr) :=
+  sorry
+
+/-- **Layer 9, the Kummer class is the class of the Kummer character.** The supplier's
+`kummerMapCanonical` at `n = 2` is Tau Ceti's. By `explicitIso_kummerMap` it is the explicit class
+of Tau Ceti's `kummerMap`, which `TauCeti.kummerMap_eq_kummerCocycleClass` computes as the class of
+the Kummer cocycle `TauCeti.kummerCocycle`, `g ↦ g r / r ∈ μ₂`, with `r` read as a unit of `Kˢ`.
+The supplier's `explicitIso_coeffMap` carries the coefficient transport `kummerCoeffIsoTrivialF2`
+to that cocycle, which `mu2EquivZMod2` reads as `rootSign r`, and `homClass_eq_cochainClass`
+identifies the result with `homClass`. This pins `kummerClass` at cochain level for every
+computation of this layer. -/
+theorem kummerClass_eq_homClass [Invertible (2 : K)] (b : Kˣ) (r : SeparableClosure K)
+    (hr : r ^ 2 = algebraMap K (SeparableClosure K) b) :
+    kummerClass b =
+      homClass (AbsoluteGaloisGroup K) (kummerCharacter b r hr)
+        (continuous_kummerCharacter b r hr) :=
+  sorry
+
+/-- **Layer 9, the Kummer character of `a ∈ Lˣ` on `G_L = galoisSubgroup K L σ`,**
+`γ ↦ rootSign r γ` for a square root `r` of `σ a`: every `γ` in `G_L` fixes `σ L`
+(`TauCeti.mem_galoisSubgroup_iff`), hence `r²`, so `γ r = ±r`. -/
+noncomputable def galoisKummerCharacter {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K)
+    (a : Lˣ) (r : SeparableClosure K) (hr : r ^ 2 = σ (a : L)) :
+    (galoisSubgroup K L σ).toSubgroup →* Multiplicative (ZMod 2) where
+  toFun γ := Multiplicative.ofAdd (rootSign r (γ : AbsoluteGaloisGroup K))
+  map_one' := by simp [rootSign]
+  map_mul' γ γ' := by
+    have key : ∀ k : (galoisSubgroup K L σ).toSubgroup,
+        (k : AbsoluteGaloisGroup K) r = r ∨ (k : AbsoluteGaloisGroup K) r = -r := fun k =>
+      sq_eq_sq_iff_eq_or_eq_neg.1
+        (by
+          rw [← map_pow, hr]
+          exact (TauCeti.mem_galoisSubgroup_iff K L σ (g := (k : AbsoluteGaloisGroup K))).1 k.2
+            (a : L))
+    have hmul : ((γ * γ' : (galoisSubgroup K L σ).toSubgroup) : AbsoluteGaloisGroup K) r =
+        (γ : AbsoluteGaloisGroup K) ((γ' : AbsoluteGaloisGroup K) r) := rfl
+    rw [← ofAdd_add]
+    congr 1
+    unfold rootSign
+    rw [hmul]
+    rcases key γ' with hh | hh
+    · rw [hh]; simp
+    · rcases key γ with hg | hg
+      · rw [hh, map_neg, hg]; simp
+      · rw [hh, map_neg, hg, neg_neg, ite_eq_left rfl]
+        split_ifs <;> decide
+
+/-- The Kummer character of `a` on `G_L` is continuous. -/
+theorem continuous_galoisKummerCharacter {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K)
+    (a : Lˣ) (r : SeparableClosure K) (hr : r ^ 2 = σ (a : L)) :
+    Continuous (galoisKummerCharacter σ a r hr) :=
+  sorry
+
+/-- **Layer 9, the Kummer class of `a ∈ Lˣ`, carried to `galoisSubgroup K L σ`, is the class of
+its Kummer character**: `kummerClass_eq_homClass` over `L`, transported along the supplier's
+`galoisSubgroupEquiv`, which sends `γ` to its action on `σ L`. -/
+theorem galoisF2Iso_inv_kummerClass {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L] [Invertible (2 : L)]
+    (σ : L →ₐ[K] SeparableClosure K) (a : Lˣ) (r : SeparableClosure K) (hr : r ^ 2 = σ (a : L)) :
+    (galoisF2Iso K L σ 1).inv.hom (kummerClass a) =
+      homClass _ (galoisKummerCharacter σ a r hr) (continuous_galoisKummerCharacter σ a r hr) :=
+  sorry
+
+/-- **Layer 9, the class of an explicit continuous `𝔽₂`-valued 2-cocycle of `G_K`,** read in
+`H²(G_K, 𝔽₂)`: the supplier's Layer 1 `cochainClass` of its Layer 3 `inhomogeneousCochain2`. -/
+noncomputable def f2CocycleClass (f : AbsoluteGaloisGroup K × AbsoluteGaloisGroup K → ZMod 2)
+    (hf : Continuous f)
+    (hc : ∀ g h j, f (g * h, j) + f (g, h) = f (h, j) + f (g, h * j)) : H2 K :=
+  cochainClass ℤ (trivialF2 (AbsoluteGaloisGroup K)) 2
+    (inhomogeneousCochain2 (AbsoluteGaloisGroup K) f hf)
+    (inhomogeneousCochain2_d_eq_zero (AbsoluteGaloisGroup K) f hf hc)
+
+/-- **Layer 9, the class map is additive:** `[f₁ + f₂] = [f₁] + [f₂]`, because Layer 3's
+`inhomogeneousCochain2` is additive in the cochain and Layer 1's `cochainClass` is the quotient map
+from cocycles. The supplier owns this milestone and exports no target signature for it, so the
+shape this layer consumes is frozen here, over `G_K`. -/
+theorem f2CocycleClass_add (f₁ f₂ : AbsoluteGaloisGroup K × AbsoluteGaloisGroup K → ZMod 2)
+    (hf₁ : Continuous f₁) (hf₂ : Continuous f₂)
+    (hc₁ : ∀ g h j, f₁ (g * h, j) + f₁ (g, h) = f₁ (h, j) + f₁ (g, h * j))
+    (hc₂ : ∀ g h j, f₂ (g * h, j) + f₂ (g, h) = f₂ (h, j) + f₂ (g, h * j)) :
+    f2CocycleClass (fun q => f₁ q + f₂ q) (hf₁.add hf₂)
+        (fun g h j => by linear_combination hc₁ g h j + hc₂ g h j) =
+      f2CocycleClass f₁ hf₁ hc₁ + f2CocycleClass f₂ hf₂ hc₂ :=
+  sorry
+
+/-- **Layer 9, the class map kills coboundaries and is additive:** if `f = f₁ + f₂ + ∂ψ` for a
+continuous `ψ : G_K → 𝔽₂`, then `[f] = [f₁] + [f₂]`. The coboundary step is the supplier's
+`cochainClass_inhomogeneousCochain2_eq_of_coboundary` at `G_K`, and the rest is
+`f2CocycleClass_add`. -/
+theorem f2CocycleClass_eq_add (f f₁ f₂ : AbsoluteGaloisGroup K × AbsoluteGaloisGroup K → ZMod 2)
+    (hf : Continuous f) (hf₁ : Continuous f₁) (hf₂ : Continuous f₂)
+    (hc : ∀ g h j, f (g * h, j) + f (g, h) = f (h, j) + f (g, h * j))
+    (hc₁ : ∀ g h j, f₁ (g * h, j) + f₁ (g, h) = f₁ (h, j) + f₁ (g, h * j))
+    (hc₂ : ∀ g h j, f₂ (g * h, j) + f₂ (g, h) = f₂ (h, j) + f₂ (g, h * j))
+    (ψ : AbsoluteGaloisGroup K → ZMod 2) (hψ : Continuous ψ)
+    (h : ∀ g h, f (g, h) = f₁ (g, h) + f₂ (g, h) + (ψ h - ψ (g * h) + ψ g)) :
+    f2CocycleClass f hf hc = f2CocycleClass f₁ hf₁ hc₁ + f2CocycleClass f₂ hf₂ hc₂ :=
+  (cochainClass_inhomogeneousCochain2_eq_of_coboundary (AbsoluteGaloisGroup K) f
+      (fun q => f₁ q + f₂ q) hf (hf₁.add hf₂) hc
+      (fun g h j => by linear_combination hc₁ g h j + hc₂ g h j) ψ hψ h).trans
+    (f2CocycleClass_add f₁ f₂ hf₁ hf₂ hc₁ hc₂)
+
+/-- **Layer 9, the cup of two classes of continuous homomorphisms is the class of the product
+cochain** `(g, h) ↦ χ(g) ψ(h)`: the supplier's `explicitIso_cup` and `homClass_eq_cochainClass` at
+the trivial `𝔽₂` coefficients, where the explicit `(1, 1)` cup `a(g) · g(b(h))`, Tau Ceti's
+`TauCeti.ContCohomology.explicitCup11_mk` under the supplier's `explicitCup11`, loses its action. -/
+theorem cup11_homClass [Invertible (2 : K)] (χ ψ : AbsoluteGaloisGroup K →* Multiplicative (ZMod 2))
+    (hχ : Continuous χ) (hψ : Continuous ψ) :
+    cup11 (homClass _ χ hχ) (homClass _ ψ hψ) =
+      f2CocycleClass (fun q => Multiplicative.toAdd (χ q.1) * Multiplicative.toAdd (ψ q.2))
+        ((continuous_of_discreteTopology (f := fun p : ZMod 2 × ZMod 2 => p.1 * p.2)).comp
+          ((continuous_toAdd.comp (hχ.comp continuous_fst)).prodMk
+            (continuous_toAdd.comp (hψ.comp continuous_snd))))
+        (fun g h j => by simp only [map_mul, toAdd_mul]; ring) :=
+  sorry
+
+/-- **Layer 9, the representation `ρ_a = Ind α_a : G_K → C₂ ≀ C₂`,** the supplier's `indexTwoInd`
+at the Kummer character of `a` on `G_L`, for a square root `r` of `σ a` and an `s ∈ G_K ∖ G_L`.
+Through `wreathSignedPerm` it is the action of `G_K` on the roots `r, s r` of `X² − σ a` and
+`X² − s (σ a)`: the `D₈`-representation of `M = K(√d, √a, √σa)`. -/
+noncomputable def kummerInd {L : Type u} [Field L] [Algebra K L] [FiniteDimensional K L]
+    [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2)
+    (a : Lˣ) (r : SeparableClosure K) (hr : r ^ 2 = σ (a : L)) (s : AbsoluteGaloisGroup K)
+    (hs : s ∉ galoisSubgroup K L σ) : AbsoluteGaloisGroup K →* WreathC2 :=
+  indexTwoInd (galoisSubgroup K L σ).toSubgroup (by rw [galoisSubgroup_index]; exact hdeg) s hs
+    (galoisKummerCharacter σ a r hr)
+
+set_option synthInstance.maxHeartbeats 400000 in
+/-- **Layer 9, step 1 at the bridge: `N^{Ev}((a)) = ρ_a^* c_{D₁₆}`.** The body of `galoisEvens2` is
+the supplier's `evensNormIndexTwo` at `galoisSubgroup K L σ` applied to the transported class,
+which is the class of the Kummer character by `galoisF2Iso_inv_kummerClass`, and the supplier's
+`evensNormIndexTwo_eq_ind_pullback` evaluates it as the class of `c_{D₁₆} ∘ (ρ_a × ρ_a)`. -/
+theorem galoisEvens2_kummerClass_eq_pullback {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L] [Invertible (2 : L)]
+    (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2) (a : Lˣ)
+    (r : SeparableClosure K) (hr : r ^ 2 = σ (a : L)) (s : AbsoluteGaloisGroup K)
+    (hs : s ∉ galoisSubgroup K L σ) :
+    galoisEvens2 σ hdeg (kummerClass a) =
+      f2CocycleClass
+        (fun q => wreathD16Cocycle (kummerInd σ hdeg a r hr s hs q.1,
+          kummerInd σ hdeg a r hr s hs q.2))
+        (continuous_wreathD16Cocycle_indexTwoInd (galoisSubgroup K L σ) _ s hs _
+          (continuous_galoisKummerCharacter σ a r hr))
+        (fun g h j => by simp only [map_mul]; exact wreathD16Cocycle_isCocycle _ _ _) :=
+  sorry
+
+/-- **Layer 9, the point `φ(y) = (σ y · r, s (σ y · r))` of `(Kˢ)²`** attached to `y ∈ L`. The image
+`W = φ(L)` is a `K`-form of `(Kˢ)²`, and with the unit form of `(Kˢ)²` it is `Tr_*⟨a⟩`. -/
+noncomputable def kummerPoint {L : Type u} [Field L] [Algebra K L]
+    (σ : L →ₐ[K] SeparableClosure K) (r : SeparableClosure K) (s : AbsoluteGaloisGroup K)
+    (y : L) : Fin 2 → SeparableClosure K :=
+  ![σ y * r, s (σ y * r)]
+
+/-- **Layer 9, step 2: `W` carries `Tr_*⟨a⟩`.** `φ(y) · φ(y') = Tr_{L/K}(a y y')` for the unit form
+of `(Kˢ)²`, because `σ` and `s ∘ σ` are the two `K`-embeddings of `L` into `Kˢ` and `r² = σ a`. -/
+theorem kummerPoint_dotProduct {L : Type u} [Field L] [Algebra K L] [FiniteDimensional K L]
+    [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2)
+    (a : Lˣ) (r : SeparableClosure K) (hr : r ^ 2 = σ (a : L)) (s : AbsoluteGaloisGroup K)
+    (hs : s ∉ galoisSubgroup K L σ) (y y' : L) :
+    kummerPoint σ r s y ⬝ᵥ kummerPoint σ r s y' =
+      algebraMap K (SeparableClosure K) (Algebra.trace K L ((a : L) * y * y')) :=
+  sorry
+
+/-- **Layer 9, step 2: the descent convention.** `g ∈ G_K` acts on the coordinates of `φ(y)` by
+`ρ_a(g)ᵀ`, where `ρ_a = wreathSignedPerm ∘ kummerInd`; so `g ↦ ρ_a(g)ᵀ` is an anti-homomorphism
+and `ρ_a` a homomorphism. At `y = 1` this says that the columns of `ρ_a(g)` are the images of the
+roots `r` and `s r` under `g`, in the basis `(r, s r)`. -/
+theorem kummerPoint_galois [Invertible (2 : K)] {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K)
+    (hdeg : Module.finrank K L = 2) (a : Lˣ) (r : SeparableClosure K) (hr : r ^ 2 = σ (a : L))
+    (s : AbsoluteGaloisGroup K) (hs : s ∉ galoisSubgroup K L σ) (y : L)
+    (g : AbsoluteGaloisGroup K) :
+    (fun i => g (kummerPoint σ r s y i)) =
+      (wreathSignedPerm (kummerInd σ hdeg a r hr s hs g))ᵀ *ᵥ kummerPoint σ r s y :=
+  sorry
+
+/-- **Layer 9, the frame of an orthogonal basis:** for `y : Fin 2 → L` and `c : Fin 2 → Kˢ`, the
+matrix whose `j`-th column is `φ(y j) / c j`. -/
+noncomputable def kummerFrame {L : Type u} [Field L] [Algebra K L]
+    (σ : L →ₐ[K] SeparableClosure K) (r : SeparableClosure K) (s : AbsoluteGaloisGroup K)
+    (y : Fin 2 → L) (c : Fin 2 → SeparableClosure K) :
+    Matrix (Fin 2) (Fin 2) (SeparableClosure K) :=
+  Matrix.of fun i j => kummerPoint σ r s (y j) i / c j
+
+open Classical in
+/-- **Layer 9, step 4: the diagonalization.** Let `y` be an orthogonal basis of `Tr_*⟨a⟩` with
+values `w_j = Tr (a y_j²)` and let `c_j² = w_j`. The frame `P` is orthogonal by
+`kummerPoint_dotProduct`, and `P⁻¹ ρ_a(g) g(P) = diag((−1)^{rootSign c₀ g}, (−1)^{rootSign c₁ g})`
+by `kummerPoint_galois`: `ρ_a` is cohomologous in `Z¹(G_K, O₂(Kˢ))` to the diagonal cocycle of the
+Kummer characters of `w₀` and `w₁`. In Kahn's basis `(1, x/a)` these are `Tr a` and
+`d · Tr a / N a`; at trace zero a hyperbolic basis gives `1` and `−1`. -/
+theorem kummerFrame_conj [Invertible (2 : K)] {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K)
+    (hdeg : Module.finrank K L = 2) (a : Lˣ) (r : SeparableClosure K) (hr : r ^ 2 = σ (a : L))
+    (s : AbsoluteGaloisGroup K) (hs : s ∉ galoisSubgroup K L σ) (y : Fin 2 → L)
+    (hy : Algebra.trace K L ((a : L) * y 0 * y 1) = 0) (c : Fin 2 → SeparableClosure K)
+    (hc : ∀ i, c i ^ 2 = algebraMap K (SeparableClosure K) (Algebra.trace K L ((a : L) * y i ^ 2)))
+    (hc0 : ∀ i, c i ≠ 0) (g : AbsoluteGaloisGroup K) :
+    (kummerFrame σ r s y c)ᵀ * kummerFrame σ r s y c = 1 ∧
+      (kummerFrame σ r s y c)⁻¹ * wreathSignedPerm (kummerInd σ hdeg a r hr s hs g) *
+          (kummerFrame σ r s y c).map g =
+        Matrix.diagonal fun i => if rootSign (c i) g = 0 then 1 else -1 :=
+  sorry
+
+/-- **Layer 9, the twisted boundary** of a matrix-valued 1-cochain of `G_K`,
+`δ(x)(g, h) = x(g) · g(x(h)) · x(gh)⁻¹`, with `g` acting on entries. -/
+noncomputable def twistedBoundary
+    (x : AbsoluteGaloisGroup K → Matrix (Fin 2) (Fin 2) (SeparableClosure K))
+    (q : AbsoluteGaloisGroup K × AbsoluteGaloisGroup K) :
+    Matrix (Fin 2) (Fin 2) (SeparableClosure K) :=
+  x q.1 * (x q.2).map q.1 * (x (q.1 * q.2))⁻¹
+
+open Classical in
+/-- **Layer 9, the twisted boundary read in `𝔽₂`:** `0` where it is `1` and `1` elsewhere. Where the
+twisted boundary is `±1`, this is its exponent. -/
+noncomputable def twistedBoundaryF2
+    (x : AbsoluteGaloisGroup K → Matrix (Fin 2) (Fin 2) (SeparableClosure K))
+    (q : AbsoluteGaloisGroup K × AbsoluteGaloisGroup K) : ZMod 2 :=
+  if twistedBoundary x q = 1 then 0 else 1
+
+/-- **Layer 9, step 5: conjugation invariance,** `δ(g ↦ Q⁻¹ x(g) g(Q)) = Q⁻¹ δ(x) Q` for invertible
+`Q`, because `g(h(Q)) = (g h)(Q)`. A scalar twisted boundary is therefore unchanged. -/
+theorem twistedBoundary_conj
+    (x : AbsoluteGaloisGroup K → Matrix (Fin 2) (Fin 2) (SeparableClosure K))
+    (Q : Matrix (Fin 2) (Fin 2) (SeparableClosure K)) (hQ : IsUnit Q.det)
+    (g h : AbsoluteGaloisGroup K) :
+    twistedBoundary (fun g => Q⁻¹ * x g * Q.map g) (g, h) = Q⁻¹ * twistedBoundary x (g, h) * Q :=
+  sorry
+
+/-- **Layer 9, the lift `ρ̃_a = pinLift ∘ ρ_a`** of the representation `ρ_a` into `D̃₁₆ ⊂ M₂(Kˢ)`,
+for a square root `r2` of `2` in `Kˢ`. -/
+noncomputable def kummerIndLift {L : Type u} [Field L] [Algebra K L] [FiniteDimensional K L]
+    [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2)
+    (a : Lˣ) (r : SeparableClosure K) (hr : r ^ 2 = σ (a : L)) (s : AbsoluteGaloisGroup K)
+    (hs : s ∉ galoisSubgroup K L σ) (r2 : SeparableClosure K) (g : AbsoluteGaloisGroup K) :
+    Matrix (Fin 2) (Fin 2) (SeparableClosure K) :=
+  pinLift r2 (kummerInd σ hdeg a r hr s hs g)
+
+/-- **Layer 9, the Galois action on the lift:** `g` fixes `e₁` and `e₂` and sends `t` to
+`(−1)^{rootSign r2 g} t`, since `g r2 = ±r2`; so it multiplies `pinLift w` by
+`(−1)^{rootSign r2 g · c}`, where `c` is the top coordinate of `w`, which counts the factors `t`. -/
+theorem pinLift_map_galois [Invertible (2 : K)] {r2 : SeparableClosure K} (hr2 : r2 ^ 2 = 2)
+    (g : AbsoluteGaloisGroup K) (w : WreathC2) :
+    (pinLift r2 w).map g = (-1) ^ (rootSign r2 g * WreathC2.coordC w).val * pinLift r2 w :=
+  sorry
+
+/-- **Layer 9, step 3: `δ(ρ̃_a) = ρ_a^* c_{D₁₆} + (2) ∪ (d)` at cochain level,** as an equation of
+matrices. `pinLift_mul_mul_inv` gives the factor set, `pinLift_map_galois` the twist, and the top
+coordinate of `ρ_a h` is `rootSign (σ x) h`, the character with kernel `G_L`. This `(2) ∪ (d)` is
+Serre's `(2)(d_E)`, and it is the discriminant of `L/K` that enters, not that of `Tr_*⟨a⟩`. -/
+theorem twistedBoundary_kummerIndLift [Invertible (2 : K)] {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L] (σ : L →ₐ[K] SeparableClosure K)
+    (hdeg : Module.finrank K L = 2) (d : Kˣ) {x : L} (hx : x ∉ Set.range (algebraMap K L))
+    (hx2 : x ^ 2 = algebraMap K L (d : K)) (a : Lˣ) (r : SeparableClosure K)
+    (hr : r ^ 2 = σ (a : L)) (s : AbsoluteGaloisGroup K) (hs : s ∉ galoisSubgroup K L σ)
+    {r2 : SeparableClosure K} (hr2 : r2 ^ 2 = 2) (g h : AbsoluteGaloisGroup K) :
+    twistedBoundary (kummerIndLift σ hdeg a r hr s hs r2) (g, h) =
+      (-1) ^ (wreathD16Cocycle (kummerInd σ hdeg a r hr s hs g, kummerInd σ hdeg a r hr s hs h) +
+        rootSign r2 g * rootSign (σ x) h).val :=
+  sorry
+
+/-- **Layer 9, step 5: `δ(ρ̃_a)` is cohomologous to the cup of the diagonal.** Take a `Pin⁺` lift
+`P̃` of the frame (`exists_isPinLift`). By `twistedBoundary_conj` and step 3, the cochain
+`g ↦ P̃⁻¹ ρ̃_a(g) g(P̃)` has the twisted boundary of `ρ̃_a`; by `isPinLift_pinDihedral`,
+`IsPinLift.mul`, `IsPinLift.inv`, `IsPinLift.map` and `kummerFrame_conj` it lifts the diagonal
+cocycle, as does `pinDiagonalLift`, so the two differ by a continuous sign `(−1)^{ψ(g)}`
+(`IsPinLift.eq_or_eq_neg`); and the diagonal lift is Galois-fixed with twisted boundary
+`rootSign c₁ g · rootSign c₀ h` by `pinDiagonalLift_mul`. -/
+theorem twistedBoundaryF2_kummerIndLift_cohomologous [Invertible (2 : K)] {L : Type u} [Field L]
+    [Algebra K L] [FiniteDimensional K L] [Algebra.IsSeparable K L]
+    (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2) (a : Lˣ)
+    (r : SeparableClosure K) (hr : r ^ 2 = σ (a : L)) (s : AbsoluteGaloisGroup K)
+    (hs : s ∉ galoisSubgroup K L σ) {r2 : SeparableClosure K} (hr2 : r2 ^ 2 = 2) (y : Fin 2 → L)
+    (hy : Algebra.trace K L ((a : L) * y 0 * y 1) = 0) (c : Fin 2 → SeparableClosure K)
+    (hc : ∀ i, c i ^ 2 = algebraMap K (SeparableClosure K) (Algebra.trace K L ((a : L) * y i ^ 2)))
+    (hc0 : ∀ i, c i ≠ 0) :
+    ∃ ψ : AbsoluteGaloisGroup K → ZMod 2, Continuous ψ ∧ ∀ g h,
+      twistedBoundaryF2 (kummerIndLift σ hdeg a r hr s hs r2) (g, h) =
+        rootSign (c 1) g * rootSign (c 0) h + (ψ h - ψ (g * h) + ψ g) :=
+  sorry
+
+end EvensValue
+
+/-- **Layer 9, the value of the Evens norm on a Kummer class** (Kahn, Invent. Math. 78 (1984),
+Lemme II.2.1), for `Tr a ≠ 0`:
+
+```text
+N^{Ev}((a)) = (Tr a) ∪ (−d · N a) + (2) ∪ (d).
+```
+
+Proof, for any `r`, `s`, `r2` as above: `galoisEvens2_kummerClass_eq_pullback`, then
+`twistedBoundary_kummerIndLift` and `twistedBoundaryF2_kummerIndLift_cohomologous` in Kahn's basis
+`(1, x / a)` (`traceTransfer_weightedSumSquares_equivalent`) give
+`c_{D₁₆} ∘ (ρ_a × ρ_a) = (rootSign c₁ ∪ rootSign c₀) + (rootSign r2 ∪ rootSign (σ x)) + ∂ψ`, so by
+`f2CocycleClass_eq_add`, `cup11_homClass` and `kummerClass_eq_homClass`,
+`N^{Ev}((a)) = (d · Tr a / N a) ∪ (Tr a) + (2) ∪ (d)`; finally `cup11_comm`, `1 / N a ≡ N a` and
+`(Tr a) ∪ (−Tr a) = 0` (`cup_kummerClass_eq_zero_iff`, `−t = 0² − t · 1²`) rewrite
+`(Tr a) ∪ (d · Tr a / N a)` as `(Tr a) ∪ (−d · N a)`. -/
+theorem galoisEvens2_kummerClass [Invertible (2 : K)] {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L] [Invertible (2 : L)]
+    (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2) (d : Kˣ) {x : L}
+    (hx : x ∉ Set.range (algebraMap K L)) (hx2 : x ^ 2 = algebraMap K L (d : K)) (a : Lˣ)
+    (t : Kˣ) (ht : (t : K) = Algebra.trace K L (a : L)) :
+    galoisEvens2 σ hdeg (kummerClass a) =
+      cup11 (kummerClass t) (kummerClass (-(d * Units.map (Algebra.norm K : L →* K) a))) +
+        cup11 (kummerClass (unitOfInvertible (2 : K))) (kummerClass d) :=
+  sorry
+
+/-- **Layer 9, the value of the Evens norm at trace zero:** `N^{Ev}((a)) = (2) ∪ (d)`. The same
+proof with a hyperbolic basis (`traceTransfer_weightedSumSquares_equivalent_hyperbolic`), whose
+values `1` and `−1` give `(−1) ∪ (1) = 0`. -/
+theorem galoisEvens2_kummerClass_of_trace_eq_zero [Invertible (2 : K)] {L : Type u} [Field L]
+    [Algebra K L] [FiniteDimensional K L] [Algebra.IsSeparable K L] [Invertible (2 : L)]
+    (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2) (d : Kˣ) {x : L}
+    (hx : x ∉ Set.range (algebraMap K L)) (hx2 : x ^ 2 = algebraMap K L (d : K)) (a : Lˣ)
+    (ht : Algebra.trace K L (a : L) = 0) :
+    galoisEvens2 σ hdeg (kummerClass a) =
+      cup11 (kummerClass (unitOfInvertible (2 : K))) (kummerClass d) :=
+  sorry
+
+/-- **Layer 9, the norm of `1 + t√d`:** `N^{Ev}((1 + t x)) = (2) ∪ (1 − t² d)`. From
+`galoisEvens2_kummerClass` with `Tr (1 + t x) = 2` (Tau Ceti's
+`TauCeti.Algebra.trace_eq_zero_of_sq_algebraMap_of_not_mem_range`) and `N (1 + t x) = 1 − t² d`
+(`norm_add_mul_of_sq`): `(2) ∪ (−d (1 − t² d)) + (2) ∪ (d) = (2) ∪ (−1) + (2) ∪ (1 − t² d)`, and
+`(2) ∪ (−1) = 0` because `−1 = 1² − 2 · 1²` (`cup_kummerClass_eq_zero_iff`). There is no term from
+the kernel `(d) ∪ H¹(G_K, 𝔽₂)` of restriction. -/
+theorem galoisEvens2_kummerClass_one_add [Invertible (2 : K)] {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L] [Invertible (2 : L)]
+    (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2) (d : Kˣ) {x : L}
+    (hx : x ∉ Set.range (algebraMap K L)) (hx2 : x ^ 2 = algebraMap K L (d : K)) (t : K)
+    (ht : 1 - t ^ 2 * (d : K) ≠ 0) (b : Lˣ) (hb : (b : L) = 1 + algebraMap K L t * x) :
+    galoisEvens2 σ hdeg (kummerClass b) =
+      cup11 (kummerClass (unitOfInvertible (2 : K))) (kummerClass (Units.mk0 _ ht)) :=
+  sorry
+
+/-- **Layer 9, the norm of `√d`:** `N^{Ev}((x)) = (2) ∪ (d)`, the trace-zero case at `a = x`. -/
+theorem galoisEvens2_kummerClass_sqrt [Invertible (2 : K)] {L : Type u} [Field L] [Algebra K L]
+    [FiniteDimensional K L] [Algebra.IsSeparable K L] [Invertible (2 : L)]
+    (σ : L →ₐ[K] SeparableClosure K) (hdeg : Module.finrank K L = 2) (d : Kˣ) {x : L}
+    (hx : x ∉ Set.range (algebraMap K L)) (hx2 : x ^ 2 = algebraMap K L (d : K)) (b : Lˣ)
+    (hb : (b : L) = x) :
+    galoisEvens2 σ hdeg (kummerClass b) =
+      cup11 (kummerClass (unitOfInvertible (2 : K))) (kummerClass d) :=
+  sorry
+
 /-- **Layer 9, the relative Stiefel-Whitney formula for a quadratic extension**, stated on the
-transferred forms themselves (Kahn, Invent. Math. 78 (1984), Théorème 2 in degrees `≤ 2`;
-Kozlowski, Proc. AMS 91 (1984), Thm 1.1; Evens, Trans. AMS 108 (1963), for the norm).
+transferred forms themselves (Kahn, Invent. Math. 78 (1984), Théorème 2 in degrees `≤ 2` and
+Prop. II.3.5 at rank one; Kozlowski, Proc. AMS 91 (1984), Thm 1.1; Evens, Trans. AMS 108 (1963),
+for the norm).
 
 Nothing in the statement is a chosen diagonalization: the two sides are the Stiefel-Whitney
 classes of the isometry classes of `Tr_*⟨1⟩` and `Tr_*⟨a⟩`, and the operations are the canonical
 corestriction, cup and Evens norm attached to `L/K`. The regularity hypotheses are what make the
 two transferred forms have classes; they are Layer 9's own milestone that the transfer of a
-regular form along a nonzero functional is regular. -/
+regular form along a nonzero functional is regular.
+
+Proof, with `L = K(x)`, `x² = d ∈ Kˣ`. Degree 1: `sw1Class_eq_discr`, `discr_traceTransfer` at
+`a` and at `1`, and `galoisCor_kummerClass` make both sides `(d) + (N a)`. Degree 2, Kahn's
+computation: `Tr_*⟨1⟩ ≅ ⟨2, 2d⟩`, so `w₁(Tr_*⟨1⟩) = (d)` and
+`w₂(Tr_*⟨1⟩) = (2) ∪ (2d) = (2) ∪ (d)`, as `(2) ∪ (2) = (2) ∪ (−1) = 0`; and
+`(d) ∪ cor (a) = (d) ∪ (N a) = 0`, since `N a = u² − d v²` (`cup_kummerClass_eq_zero_iff`). So
+the right-hand side is `(2) ∪ (d) + N^{Ev}((a))`. For `Tr a ≠ 0` the left-hand side is
+`w₂ ⟨Tr a, d · Tr a / N a⟩ = (Tr a) ∪ (−d · N a)`, and `galoisEvens2_kummerClass` makes the
+right-hand side the same; for `Tr a = 0` both sides are `0`, by
+`traceTransfer_weightedSumSquares_equivalent_hyperbolic` and
+`galoisEvens2_kummerClass_of_trace_eq_zero`. `sw2Class_mk` with Tau Ceti's `TauCeti.formClass_mk`
+evaluates `w₂` on these diagonalizations. -/
 theorem relativeStiefelWhitney_quadraticExtension {L : Type u} [Field L] [Algebra K L]
     [FiniteDimensional K L] [Algebra.IsSeparable K L] [Invertible (2 : K)] [Invertible (2 : L)]
     [FiniteDimensional K (Fin 1 → L)]
@@ -2574,6 +3682,31 @@ theorem relativeStiefelWhitney_quadraticExtension_diagonal {L : Type u} [Field L
     sw1 b = sw1 t + galoisCor1 σ (kummerClass a) ∧
       sw2 b = sw2 t + galoisEvens2 σ hdeg (kummerClass a) +
         cup11 (sw1 t) (galoisCor1 σ (kummerClass a)) :=
+  sorry
+
+/-- **Layer 9, acceptance: the value of the Evens norm pins its sign.** Over `ℚ₂` with `d = −1`,
+`L = ℚ₂(i)` and `a = 1 + 2i`: `Tr a = 2` and `N a = 5`, so `galoisEvens2_kummerClass_one_add` at
+`t = 2` gives `N^{Ev}((a)) = (2) ∪ (5)`, which is nonzero because `(2, 5)_{ℚ₂} = −1`. Kahn's form
+`(Tr a) ∪ (−d · N a) + (2) ∪ (d) = (2) ∪ (5) + (2) ∪ (−1)` is the class `(2) ∪ (−5)`, the same one,
+because `(2, −1)_{ℚ₂} = +1`. The value with the extra term `(d) ∪ (−1) = (−1) ∪ (−1)`, which is what
+the `SD₁₆` class would give, is `0`, because `(−1, −1)_{ℚ₂} = −1` and `H²(G_{ℚ₂}, 𝔽₂)` has two
+elements; restriction to `L` cannot see the difference, since `(d) ∪ (−1)` lies in its kernel. -/
+example [Invertible (2 : ℚ_[2])] {L : Type} [Field L] [Algebra ℚ_[2] L]
+    [FiniteDimensional ℚ_[2] L] [Algebra.IsSeparable ℚ_[2] L] [Invertible (2 : L)]
+    (σ : L →ₐ[ℚ_[2]] SeparableClosure ℚ_[2]) (hdeg : Module.finrank ℚ_[2] L = 2) (i : L)
+    (hi : i ^ 2 = -1) (a : Lˣ) (ha : (a : L) = 1 + 2 * i) :
+    galoisEvens2 σ hdeg (kummerClass a) =
+        cup11 (kummerClass (unitOfInvertible (2 : ℚ_[2])))
+          (kummerClass (Units.mk0 (5 : ℚ_[2]) (by norm_num))) ∧
+      cup11 (kummerClass (unitOfInvertible (2 : ℚ_[2])))
+          (kummerClass (Units.mk0 (5 : ℚ_[2]) (by norm_num))) ≠ 0 ∧
+      galoisEvens2 σ hdeg (kummerClass a) =
+        cup11 (kummerClass (unitOfInvertible (2 : ℚ_[2])))
+          (kummerClass (-Units.mk0 (5 : ℚ_[2]) (by norm_num))) ∧
+      galoisEvens2 σ hdeg (kummerClass a) ≠
+        cup11 (kummerClass (unitOfInvertible (2 : ℚ_[2])))
+            (kummerClass (Units.mk0 (5 : ℚ_[2]) (by norm_num))) +
+          cup11 (kummerClass (-1 : ℚ_[2]ˣ)) (kummerClass (-1 : ℚ_[2]ˣ)) :=
   sorry
 
 end Cohomology

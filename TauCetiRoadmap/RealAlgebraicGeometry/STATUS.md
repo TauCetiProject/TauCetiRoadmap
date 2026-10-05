@@ -1,0 +1,38 @@
+<!--tauceti-status:v1 {"roadmap":"RealAlgebraicGeometry","to_sha":"41e5e4923e49435450084dd38f558165776282ff","ts":"2026-10-04T21:34:46Z"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 1","state":"done"},{"id":"Layer 2","state":"done"},{"id":"Layer 3","remaining":"uniform coefficient-sign descriptions of the ith real root and its sectors","state":"partial"},{"id":"Layer 4","state":"done"},{"id":"Layer 5","remaining":"semialgebraicity of stack parts over semialgebraic bases; integerProjection and integer delineability","state":"partial"},{"id":"Layer 6","remaining":"existence of adapted CADs, projection closure, Tarski-Seidenberg, quantifier elimination","state":"partial"},{"id":"Layer 7","remaining":"analytic submanifolds, several-variable Cauchy integral, extension, root coverings, Puiseux with parameters, McCallum projection","state":"partial"},{"id":"Layer 8","state":"untouched"}],"readme_sha":"4e22960daa5e9be64435d2e9eacdf53d942bab345e59d52a611561d4a59a67d3","roadmap":"RealAlgebraicGeometry","to_sha":"41e5e4923e49435450084dd38f558165776282ff"}-->
+# Status: RealAlgebraicGeometry
+
+This file documents the status of the RealAlgebraicGeometry roadmap up until `41e5e49` (2026-10-04T21:34:46Z). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** Layers 1, 2 and 4 are done: real closures, Sturm–Tarski with every endpoint form, the Cauchy index, signed subresultants, and real roots in continuous families. Collins delineability, the main theorem of Layer 5, is proved, and CADs are defined. Sign determination, CAD existence and quantifier elimination are partial. The analytic toolkit of Layer 7 has begun, and Lazard's projection (Layer 8) has not.
+
+### Named results
+
+- **Collins delineability** — if the Collins projection of a finite family is sign-invariant on a preconnected `S ⊆ ℝⁿ`, the fibres have a common stack of continuous ordered roots over `S`, with constant multiplicities and constant signs on every section and sector. No well-orientedness or nonvanishing leading coefficient is assumed: [`nonempty_delineation_of_signInvariant_collinsProjection`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Geometry/RealAlgebraic/Projection/Delineability.html#TauCeti.nonempty_delineation_of_signInvariant_collinsProjection).
+- **The Sturm–Tarski theorem** — over any real closed field, the variation drop of a signed remainder chain is the sum of `sign q` over the distinct roots of `p`. No squarefreeness is assumed, and it holds on open, closed, half-open and unbounded intervals via algebraic one-sided signs: [`Sturm.sum_sign_Ioo`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Algebra/Polynomial/Sturm/OneSided.html#TauCeti.Sturm.sum_sign_Ioo).
+- **The Cauchy index by signed subresultants** — the whole-line Cauchy index of `q/p` is the permanences minus variations of the signed principal subresultant coefficients, so Tarski queries and root counts are read off from coefficient data: [`cauchyIndex_univ_eq_permanencesMinusVariations_signedPsc`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/RingTheory/Polynomial/Subresultant/CauchyIndex.html#Polynomial.cauchyIndex_univ_eq_permanencesMinusVariations_signedPsc).
+- **The family matching lemma** — for real polynomial families of fixed degree with fixed pairwise and derivative gcd degrees, nearby roots match in every member at once. Over a connected base this yields [continuous ordered common roots](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Polynomial/RealRoots/Common.html#Polynomial.exists_continuous_ordered_common_roots_of_preconnectedSpace): [`eventually_exists_bijOn_biUnion_aroots_toFinset`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Polynomial/RealRoots/Common.html#Polynomial.eventually_exists_bijOn_biUnion_aroots_toFinset).
+- **Existence of ordered real closures** — every ordered field has a real closed, algebraic, order-extending extension in its own universe: [`exists_realClosure`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/FieldTheory/RealClosure/Basic.html#TauCeti.RealClosure.exists_realClosure).
+
+### Notable definitions and infrastructure
+
+- **Cylindrical algebraic decompositions.** [`IsCAD`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Geometry/RealAlgebraic/CAD.html#TauCeti.IsCAD) is the recursive definition by semialgebraic stacks over cells. Finiteness, partition, connectedness of cells and cylindricity are theorems. Given the existence of an adapted CAD, its API already gives semialgebraic projections and sample points realizing every sign condition.
+- **Recursive sign determination.** The [BKR recursion](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Geometry/RealAlgebraic/SignDetermination/Recursive.html#TauCeti.SignDetermination.determineSigns_tarskiQuery_pos_iff) returns exactly the sign conditions realized at the roots of `p`, including repeated roots and zero queries.
+- **Formulas and semialgebraic sets.** A set is semialgebraic [exactly when a quantifier-free ordered-ring formula with parameters defines it](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Geometry/RealAlgebraic/Semialgebraic/Formula.html#TauCeti.isSemialgebraic_iff_exists_isQF). Once projection closure is available, quantifier elimination can be stated through Mathlib's model theory.
+
+### Roadmap coverage
+
+Layers 1, 2 and 4 are done. Layer 3 is partial: semialgebraic sets and functions, the full and recursive BKR reductions and whole-line sign determination are in, but the uniform coefficient-sign descriptions of the `i`th root and its sectors are not. Layer 5 is partial: the Collins projection, its specialization and `projection_map` laws, delineability and the stack API (connectedness, restriction, uniqueness) are done. Semialgebraicity of stack parts (which needs Layer 3's root descriptions) and the integer projection are missing. Layer 6 is partial: the CAD definition and its structural theorems are done, as is the term-to-polynomial and quantifier-free translation. Existence of adapted CADs, projection closure, Tarski–Seidenberg and quantifier elimination are not. Layer 7 is partial. Done: order of vanishing with its derivative characterization, the result that constant order implies sign-invariance (and its converse fails), irreducible bases, analytic inverse and implicit-root theorems, and local complexification. Analytic submanifolds, several-variable Cauchy integrals, extension, root coverings, Puiseux with parameters and the McCallum projection itself remain. Layer 8 is untouched.
+
+## The frontier
+
+- **Uniform root descriptions** — quantifier-free coefficient-sign descriptions of the graph of the `i`th real root and the regions between roots, on sets with a fixed root count. These make delineated stacks over semialgebraic bases semialgebraic.
+- **CAD existence** — induct on dimension, applying Collins delineability to a CAD adapted to the projection. Doing so requires the semialgebraic stacks above.
+- **Tarski–Seidenberg and quantifier elimination** — project unions of cells of an adapted CAD, then eliminate quantifiers through the existing formula translation.
+- **The integer projection** — `integerProjection` and its transport to `ℝ`, for `integer_delineability`.
+- **McCallum's analytic toolkit** — analytic submanifolds, the several-variable Cauchy integral and extension theorem, root coverings and the parameterized Puiseux theorem. These come before the local discriminant theorem and McCallum projection.
