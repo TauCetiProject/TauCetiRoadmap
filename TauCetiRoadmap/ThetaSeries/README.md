@@ -41,10 +41,12 @@ lattices.
 
 ## Scope and ownership
 
-Two roadmaps border this one: the
+Three roadmaps border this one: the
 [completed integral-lattices roadmap](../../Completed/IntegralLattices/README.md), whose material
 is Tau Ceti library code under `TauCeti/LinearAlgebra/IntegralLattice/` and
-`TauCeti/LinearAlgebra/FiniteBilinearModule/`, and the
+`TauCeti/LinearAlgebra/FiniteBilinearModule/`; the
+[integral quadratic forms and lattices roadmap](../IntegralLattices/README.md), which extends that
+library and whose 6D supplies the rank-`16` pair of 8E; and the
 [modular-forms roadmap](../ModularForms/README.md).  No other roadmap states a theta series or
 Poisson summation on a lattice; whichever later needs them consumes them from here.  The boundary
 is the following.
@@ -68,9 +70,10 @@ is the following.
   a positive-definite lattice (Layer 6).
 - **Modularity**: `Θ_L ∈ M_k(SL(2,ℤ))` for even unimodular `L`, the Hecke–Schoeneberg theorem
   `Θ_L ∈ M_k(Γ₀(N), χ_L)`, and `θ_γ ∈ M_k(Γ(N))` (Layers 5 and 7).
-- The **applications**: `Θ_{E₈}`, the Leech lattice, the rank-`16` pair `E₈ ⊕ E₈` and `D₁₆⁺` —
-  including the construction of `D₁₆⁺` by gluing and the non-isometry of the pair, which no other
-  roadmap builds — and `A₂` and `D₄` (Layer 8).
+- The **applications**: `Θ_{E₈}`, the Leech lattice, the theta identity of the rank-`16` pair
+  `E₈ ⊕ E₈` and `D₁₆⁺` with its consequence that the theta series does not determine the lattice,
+  and `A₂` and `D₄` (Layer 8).  The two rank-`16` lattices and their non-isometry are consumed
+  (below), not built.
 
 ### Consumed, not redefined
 
@@ -91,6 +94,16 @@ is the following.
   forms*).  Its `ofIntegralForm`, the rationalization of an integral form on a finite free
   `ℤ`-module, is the constructor the bridge of 2D uses.  This roadmap adds no competing definition
   of any of these; it transports them across the Layer-2 bridge.
+- From the [integral quadratic forms and lattices roadmap](../IntegralLattices/README.md), which
+  extends that library on the same carrier: its **6D**, the rank-`16` pair `E₈²` (written
+  `E₈ ⊕ E₈` here) and `D₁₆⁺`, constructed there (`D₁₆⁺` through the even-overlattice gluing of its
+  1F) and proved there to be even unimodular of rank `16`, in one genus, and non-isometric by their
+  root systems.  8E takes both lattices and the non-isometry across the converse direction of the
+  bridge 2D and gives neither lattice a second construction; that roadmap's Layer 8 records the
+  same contract from its side.  Its 6E, the rank-`24` reference lattices, is available on the same
+  terms and is consumed by no milestone here, since the rank-`24` statements (8C, 8D) are
+  lattice-free.  6D seeds no Lean declaration, so `Suggested.lean` imports Tau Ceti's library
+  directly rather than that roadmap's `Suggested.lean`, and 8E's witnesses enter by citation.
 - From the [modular-forms roadmap](../ModularForms/README.md): `modFormCharSpace` and the
   nebentypus decomposition, the parity lemma, the level-one graded ring, and the finite-index
   Sturm bound `ModularForm.sturm_bound_finiteIndex` with its corollary `eq_of_sturm_bound` (all
@@ -126,8 +139,9 @@ is the following.
 - **The arithmetic of the rational lattice beyond the library above** — Jordan splittings, the
   genus, the Gauss-sum signature `sign q ∈ ℤ/8` of a finite quadratic module, Milgram's theorem
   at indefinite signature, Nikulin's existence and uniqueness theory, the classification of
-  unimodular lattices in low rank.  None of it is needed here: 6C is Milgram's formula for a
-  *positive-definite* lattice, proved by theta asymptotics, which is exactly the form Layer 7
+  unimodular lattices in low rank.  All of it is the integral quadratic forms and lattices
+  roadmap's, and none of it is needed here except its 6D, consumed above: 6C is Milgram's formula
+  for a *positive-definite* lattice, proved by theta asymptotics, which is exactly the form Layer 7
   consumes.
 - **The Weil representation** of `SL(2, ℤ)` on `ℂ[A_L]`, and the presentation
   `SL(2, ℤ) ≅ ⟨S, T | S⁴ = 1, (ST)³ = S²⟩`.  Neither is needed for any theorem of this roadmap: the
@@ -144,7 +158,10 @@ is the following.
 The completed integral-lattices roadmap records the same boundary from its side: its
 introduction excludes theta series and modular forms from its scope, and the comparison lemmas it
 admits between a positive-definite rational lattice extended to `ℝ` and its algebraic carrier are
-exactly the bridge of Layer 2.  The modular-forms roadmap states no theta series, and this
+exactly the bridge of Layer 2.  The integral quadratic forms and lattices roadmap states no theta
+series, imports nothing from here, and lists in its Layer 8 what it supplies; 8E consumes its 6D,
+and no other milestone here consumes anything of it.  The modular-forms roadmap states no theta
+series, and this
 roadmap states no Hecke theory, dimension formula or newform theory of its own; Layers 5, 7 and 8
 consume its *Layer 0: diamond operators and modular forms with character (nebentypus)*, its
 *Layer 6: Atkin–Lehner and Fricke operators*, and the finite-index Sturm bound of its *Layer 10:
@@ -397,8 +414,9 @@ rank divisible by `8`; the theorem that its theta series is a level-one modular 
 for a positive-definite lattice, and the theorem that the conductor of `(D_L / ·)` divides the
 level; the Hecke–Schoeneberg theorem `Θ_L ∈ M_k(Γ₀(N), χ_L)` and `θ_γ ∈ M_k(Γ(N))`; the
 identification of `Θ_{E₈}` and `Θ_{Leech}` in the level-one graded ring, with the
-representation-number formulas that follow; and the rank-`16` pair `E₈ ⊕ E₈` and `D₁₆⁺`, summed
-and glued here from Tau Ceti's root lattices, with their non-isometry.
+representation-number formulas that follow; and the theta identity of the rank-`16` pair
+`E₈ ⊕ E₈` and `D₁₆⁺`, whose lattices and non-isometry are the integral quadratic forms and
+lattices roadmap's 6D.
 
 ---
 
@@ -958,37 +976,22 @@ computation.  `L` is even of even rank `n = 2k` and level `N`.
   by counting has not discharged this target.
 - **8E. The rank-16 pair.**  `E₈ ⊕ E₈` and `D₁₆⁺` are both even unimodular of rank `16`, so both
   have theta series `E₄²` by 8A; they are **not** isometric, so the theta series does not
-  determine the lattice.  No other roadmap constructs `D₁₆⁺`, so both lattices and their
-  non-isometry are built here, on the rational side from Tau Ceti's root lattices and gluing
-  correspondence, and reach the real model through the converse direction of the bridge 2D.
-  - **`E₈ ⊕ E₈`** is `orthogonalSum typeE₈RootLattice typeE₈RootLattice`: even, unimodular and
-    positive definite by `isEven_orthogonalSum_iff`, `discriminant_orthogonalSum` and the
-    signature of an orthogonal sum.
-  - **`D₁₆⁺`** is glued exactly as Tau Ceti glues `d8PlusLattice` from `checkerboardLattice 8`.
-    In `A_{D₁₆} ≅ (ℤ/2)²` the spinor class `s = checkerboardSpinorClass 16` has `q(s) = 16/8 ≡ 0`
-    (`discriminantQuadraticMap_checkerboardSpinorClass`), so `AddSubgroup.zmultiples s` is
-    quadratic-isotropic of order `2` in a group of order `4`, hence Lagrangian.  Its preimage
-    `intermediateCarrierOfDiscriminantSubgroup` is even by
-    `isEven_iff_isIsotropic_discriminantSubgroup` and has carrier `D₁₆ ∪ (s + D₁₆)`; its
-    `toIntegralLattice` is unimodular by `IsIntegral.isUnimodular_iff_natCard_sq_eq_discriminant`
-    (`2² = 4 = disc D₁₆`) and positive definite because gluing keeps the ambient dot product.
-  - **Non-isometry, route of record: the index of the root sublattice.**  For an integral lattice
-    `M` let `R(M) = span ℤ (vectorsOfNorm M 2)`, the sublattice generated by its norm-`2` vectors.
-    An isometry `M ≅ M'` carries `vectorsOfNorm M 2` onto `vectorsOfNorm M' 2`, hence `R(M)` onto
-    `R(M')`, so the index `[M : R(M)]` is an isometry invariant; state this for arbitrary integral
-    lattices and an arbitrary `Isometry`, then compute.  In `E₈ ⊕ E₈` the norm-`2` vectors are the
-    roots of the two summands (a vector of an even positive-definite sum with both components
-    nonzero has norm `≥ 4`), and `typeE₈RootLattice` is spanned by its simple roots, of norm `2`,
-    so the index is `1`.  In `D₁₆⁺` every vector of `s + D₁₆` has all coordinates in `½ + ℤ` and
-    hence norm `≥ 16/4 = 4`, so the norm-`2` vectors are exactly the `480` roots `±eᵢ ± eⱼ` of
-    `D₁₆`, which span `D₁₆`; thus `R(D₁₆⁺) = D₁₆` and the index is `2`.  Hence no `Isometry`
-    exists, and by the transfer statement of 2D no real linear isometry of ambient spaces carries
-    the real model of one lattice onto that of the other.
-  ⚠ Keep the two halves apart.  Equality of theta series is 8A's and says nothing about
-  isometry; the non-isometry is the index computation and nothing else.  A count of norm-`2`
-  vectors separates nothing — both lattices have `480` — and no root-system classification is to
-  be imported for this: `R(M)` and its index are elementary and are stated for any integral
-  lattice.  This is the one place the roadmap constructs a lattice, and it is sequenced last.
+  determine the lattice.  Both lattices and their non-isometry are the
+  [integral quadratic forms and lattices roadmap](../IntegralLattices/README.md)'s **6D**, which
+  constructs them — `E₈²` as the orthogonal sum, `D₁₆⁺` by the even-overlattice gluing of its 1F
+  along the spinor class of `D₁₆`, as Tau Ceti glues `d8PlusLattice` — proves them even
+  unimodular of rank `16` and in one genus, and separates them by their root systems.  They reach
+  this roadmap through the converse direction of the bridge 2D: `realModel` of each lattice, and
+  the transfer statement of 2D, which turns 6D's non-isometry into the absence of a real linear
+  isometry of ambient spaces carrying one real model onto the other.  What is owned here is the
+  theta identity `Θ_{E₈ ⊕ E₈} = Θ_{D₁₆⁺} = E₄²` and the statement that the theta series does not
+  determine the lattice, assembled from 8A and the consumed non-isometry.  ⚠ Keep the two halves
+  apart.  Equality of theta series is 8A's and says nothing about isometry; the non-isometry is
+  6D's and is not reproved here, whether by a root-sublattice index, by a vector count (both
+  lattices have `480` vectors of norm `2`, so the count separates nothing), or by any other route,
+  and neither lattice is given a second construction here.  Stating only the first invites the
+  reader to conclude the second.  This roadmap constructs no lattice: `E₈` is Tau Ceti's, the
+  rank-`16` pair is 6D's, and the Leech lattice is an input (8D).
 
 ## Worked examples (acceptance criteria)
 
@@ -1003,7 +1006,8 @@ nothing.
 - `Θ_{E₈} = E₄`; `r_{E₈}(2) = 240`; `r_{E₈}(2m) = 240 σ₃(m)`.
 - `Θ_Λ = E₄³ - 720 Δ = E₁₂ - (65520/691) Δ`; `r_Λ(4) = 196560`;
   `r_Λ(2m) = (65520/691)(σ₁₁(m) - τ(m))`.
-- `Θ_{E₈ ⊕ E₈} = Θ_{D₁₆⁺} = E₄²`, with the two lattices non-isometric.
+- `Θ_{E₈ ⊕ E₈} = Θ_{D₁₆⁺} = E₄²` for 6D's two lattices, hence the theta series does not determine
+  the lattice; 6D's non-isometry is the input, not re-derived.
 - `Θ_{A₂} ∈ M_1(Γ₀(3), χ₋₃)` and `Θ_{D₄} ∈ M_2(Γ₀(2))` (trivial character, since `D = 4`) — the
   general-level theorem at its two smallest interesting instances, with `level`, `det` and `χ`
   computed from the lattice through Layers 2 and 6 rather than quoted.  Weight `1` at `A₂` is
@@ -1085,15 +1089,15 @@ are the reasons a hypothesis is an argument of a definition rather than of a lat
   `modFormCharSpace`; for 7F, Tau Ceti's landed `frickeGL`, `frickeOperator` and `frickeScalar`,
   against which both normalizations of the Fricke identity are stated.
 - **Layer 8** (identifications) → Layer 5 only, for `E₈`, Leech and the theta series of the
-  rank-16 pair; the bridge 2D with Tau Ceti's `typeE₈RootLattice`, `checkerboardLattice`,
-  `orthogonalSum` and `Overlattice/*` for `E₈`, for the construction of `E₈ ⊕ E₈` and `D₁₆⁺`, and
-  for their non-isometry; Layer 7, the landed finite-index Sturm bound (`eq_of_sturm_bound`,
+  rank-16 pair; the bridge 2D with Tau Ceti's `typeE₈RootLattice` for `E₈`, and with the integral
+  quadratic forms and lattices roadmap's 6D for `E₈ ⊕ E₈`, `D₁₆⁺` and their non-isometry; Layer 7,
+  the landed finite-index Sturm bound (`eq_of_sturm_bound`,
   `Gamma0_prime_index`) and the modular-forms Layer-0 Eisenstein series with character for the
   two general-level identifications.  No dimension formula beyond Mathlib's level-one one is
   consumed.
-- The Leech lattice is consumed as an *input* at Layer 8 and nowhere earlier, and `E₈`, `E₈ ⊕ E₈`
-  and `D₁₆⁺` enter there through the bridge; nothing in Layers 1–7 mentions dimension `8`, `16`
-  or `24`.
+- The Leech lattice and 6D's rank-16 pair are consumed as *inputs* at Layer 8 and nowhere
+  earlier, and `E₈`, `E₈ ⊕ E₈` and `D₁₆⁺` enter there through the bridge; nothing in Layers 1–7
+  mentions dimension `8`, `16` or `24`.
 
 | Block | Status |
 |---|---|
@@ -1105,7 +1109,7 @@ are the reasons a hypothesis is an argument of a definition rather than of a lat
 | Layer 5 level one | **new**; the group-theoretic input is a single Mathlib lemma |
 | Layer 6 Gauss sums, reciprocity, Milgram, conductor | **new**; the hardest single block of the roadmap |
 | Layer 7 Hecke–Schoeneberg and the coset series | **new** |
-| Layer 8 identifications | **new**; `E₈` and `D₁₆` are Tau Ceti's, `E₈ ⊕ E₈` and `D₁₆⁺` are summed and glued here, the Leech lattice is formalized elsewhere (see *Provenance*) |
+| Layer 8 identifications | **new**; `E₈` is Tau Ceti's, `E₈ ⊕ E₈` and `D₁₆⁺` with their non-isometry are the integral quadratic forms and lattices roadmap's 6D, the Leech lattice is formalized elsewhere (see *Provenance*) |
 
 ## Provenance
 
@@ -1197,4 +1201,5 @@ sphere-packing formalization; see *Provenance* for the coordination requirement.
 discriminant-form vocabulary is Tau Ceti's, built to the
 [completed integral-lattices roadmap](../../Completed/IntegralLattices/README.md), and the
 modular-form vocabulary is the [modular-forms roadmap](../ModularForms/README.md)'s; this roadmap
-adds the bridge between them and the one glue construction of 8E.
+adds the bridge between them.  The rank-`16` pair of 8E is the
+[integral quadratic forms and lattices roadmap](../IntegralLattices/README.md)'s.
