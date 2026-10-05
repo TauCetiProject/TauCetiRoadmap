@@ -10,6 +10,7 @@ import TauCeti.NumberTheory.ClassFieldTheory.Formation.Tate.Restriction
 import TauCeti.NumberTheory.LocalField.GaloisAction
 import TauCeti.RepresentationTheory.Homological.ContCohomology.TrivialFp
 import TauCeti.RepresentationTheory.Homological.TateCohomology.HerbrandQuotient
+import TauCeti.RepresentationTheory.Homological.TateCohomology.TrivialityCriterion
 import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic
 import TauCeti.Topology.Algebra.GroupAction.InternalHom.Basic
 import TauCetiRoadmap.ProfiniteCohomology.Suggested
@@ -117,6 +118,76 @@ abbrev ratModIntTorsion (n : ℕ) : AddSubgroup RatModInt :=
 (Tau Ceti's `ClassFormation.inv_fundamentalClass`). -/
 abbrev fundamentalInvariant (n : ℕ) : RatModInt :=
   ((1 / n : ℚ) : AddCircle (1 : ℚ))
+
+/-! ## Layer 0: cohomological triviality and projective dimension
+
+The theorem of Nakayama and Rim, in the generic Tate-cohomology supplier. Cohomological triviality
+of `A : Rep k G` is written out as the conclusion of Tau Ceti's criterion
+`TauCeti.TateCohomology.isZero_of_forall_isPGroup`, so the criterion feeds these statements
+directly and no predicate is introduced. Mathlib's `Rep` and `tateCohomology` take the group and
+the coefficient ring in one universe. -/
+
+namespace TateCohomology
+
+universe u
+
+open Rep
+
+variable {k G : Type u} [CommRing k] [Group G] [Finite G]
+
+/-- **Projective modules are cohomologically trivial.** A representation whose `k[G]`-module is
+projective has vanishing Tate cohomology on every subgroup in every degree: free modules are
+coinduced from the trivial subgroup, and Tate cohomology commutes with direct sums and summands. -/
+theorem isZero_res_of_projective (A : Rep k G)
+    [Module.Projective (MonoidAlgebra k G) A.ρ.asModule] (S : Subgroup G) [Fintype S] (n : ℤ) :
+    Limits.IsZero (tateCohomology (res S.subtype A) n) :=
+  sorry
+
+/-- **Projective dimension at most one implies cohomological triviality.** If
+`0 → P₁ → P₀ → A → 0` is exact with `P₀` and `P₁` projective over `k[G]`, then `A` is
+cohomologically trivial, by `isZero_res_of_projective` and the long exact sequence. -/
+theorem isZero_res_of_exact (A : Rep k G) {P₀ P₁ : Type u}
+    [AddCommGroup P₀] [Module (MonoidAlgebra k G) P₀] [Module.Projective (MonoidAlgebra k G) P₀]
+    [AddCommGroup P₁] [Module (MonoidAlgebra k G) P₁] [Module.Projective (MonoidAlgebra k G) P₁]
+    (d : P₁ →ₗ[MonoidAlgebra k G] P₀) (q : P₀ →ₗ[MonoidAlgebra k G] A.ρ.asModule)
+    (hd : Function.Injective d) (hdq : Function.Exact d q) (hq : Function.Surjective q)
+    (S : Subgroup G) [Fintype S] (n : ℤ) :
+    Limits.IsZero (tateCohomology (res S.subtype A) n) :=
+  sorry
+
+variable [IsDomain k] [IsPrincipalIdealRing k] [CharZero k]
+
+/-- **Nakayama–Rim, lattice form** (Serre, *Local Fields*, IX §§3–5). Over a principal ideal domain
+of characteristic zero in which every prime number is a unit or generates a maximal ideal, a
+cohomologically trivial representation that is finite and free over `k` is projective over `k[G]`.
+At a prime `p` with `k/pk` a field, `A/pA` is free over `(k/pk)[P]` for every `p`-subgroup `P`, so
+`Hom_k(A, A)` is cohomologically trivial, the identity is a norm, and `A` is a summand of
+`k[G] ⊗_k A`. -/
+theorem projective_of_isZero_res
+    (hk : ∀ p : ℕ, p.Prime → IsUnit (p : k) ∨ (Ideal.span {(p : k)}).IsMaximal)
+    (A : Rep k G) [Module.Free k A.V] [Module.Finite k A.V]
+    (hA : ∀ (S : Subgroup G) [Fintype S] (n : ℤ),
+      Limits.IsZero (tateCohomology (res S.subtype A) n)) :
+    Module.Projective (MonoidAlgebra k G) A.ρ.asModule :=
+  sorry
+
+/-- **Nakayama–Rim: cohomological triviality is projective dimension at most one** (Rim, Ann. of
+Math. 69 (1959); Brown, *Cohomology of Groups*, VI §8). If `A` is cohomologically trivial, the
+kernel of every surjection onto it from a finitely generated projective `k[G]`-module is projective:
+it is finite and free over `k` and cohomologically trivial by the long exact sequence, so
+`projective_of_isZero_res` applies to it. -/
+theorem projective_ker_of_isZero_res
+    (hk : ∀ p : ℕ, p.Prime → IsUnit (p : k) ∨ (Ideal.span {(p : k)}).IsMaximal)
+    (A : Rep k G)
+    (hA : ∀ (S : Subgroup G) [Fintype S] (n : ℤ),
+      Limits.IsZero (tateCohomology (res S.subtype A) n))
+    {P : Type*} [AddCommGroup P] [Module (MonoidAlgebra k G) P]
+    [Module.Finite (MonoidAlgebra k G) P] [Module.Projective (MonoidAlgebra k G) P]
+    (f : P →ₗ[MonoidAlgebra k G] A.ρ.asModule) (hf : Function.Surjective f) :
+    Module.Projective (MonoidAlgebra k G) (LinearMap.ker f) :=
+  sorry
+
+end TateCohomology
 
 /-! ## Layers 1 and 2: formations, finite normal layers, and class formations
 

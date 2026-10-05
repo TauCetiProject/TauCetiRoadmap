@@ -177,6 +177,7 @@ statements of Layer 7 Step 5 included.
 | the chosen-root comparison of the cup square with duality | `muNRepEquivZMod`, `muNRep_ρ_eq_self`, `kummerCupPairing`, `kummerCupPairing_bil`, `localSymbol`, `muNRepToTateDual`, `bijective_muNRepToTateDual`, `tateDualityPairing_muNRepToTateDual` |
 | reciprocity and orientation | `artinMap`, `restrictAbsolute`, `artinMap_restrict`, `absoluteGaloisGroupExtend`, `artinMap_norm`, `denseRange_artinMap`, `localArtinMap`, `normResidue`, `unramifiedCoordinate`, `unramifiedCoordinate_artinMap`, `cyclotomicCharacter_artinMap`, `cyclotomicCharacter_artinMap_padic` |
 | class formation and Tate's theorem | `ClassFormation` (Tau Ceti's, re-exported), `tateTheorem`, `artinMap_conj` |
+| cohomological triviality and projective dimension | `TateCohomology.projective_ker_of_isZero_res` |
 | strict cohomological dimension of `G_K` | `scd_p_absoluteGaloisGroup_eq_two` |
 
 The `h2MuEquivZMod_mixed` theorem is the mixed-characteristic result valid at `n = p`; the
@@ -210,6 +211,7 @@ in the proof route of a target, and is cited there by name.
 | continuous quotient maps | `ContinuousMonoidHom.quotientMk`, `ContinuousMonoidHom.quotientLift` |
 | free profinite groups and extensions | `freeProfiniteGroup`, `freeProfiniteGroup.lift`, `freeProfiniteGroup.hom_ext`, `freeProfiniteGroup.dense_closure_range_of`, `ProfiniteGroupExtension`, `GroupExtension.contCohomologyClass_factorSet_eq` |
 | class formations | `ClassFieldTheory.ClassFormation.fundamentalClass`, `ClassFieldTheory.ClassFormation.fundamentalClass_generates` |
+| Tate's cohomological triviality criterion | `TateCohomology.isZero_of_forall_isPGroup` |
 | group algebras and cancellation | `MonoidAlgebra.augmentation`, `MonoidAlgebra.ker_augmentation_eq_span`, `exists_equiv_linearEquiv_of_isLocalRing_end` |
 | local fields | `FinitePadicExtension`, `galoisSubgroup`, `galoisSubgroup_index`, `galoisSubgroupEquiv_apply_separableClosureRingEquiv`, `isProP_units_padicInt_two` |
 
@@ -816,12 +818,18 @@ rationalization.
   `a⁻¹, b⁻¹`, which is NSW's `M₀ ≃ D(μ_{p^∞}(L)^∨)`.
 - **The Tate module** `TateModule p L K`: a finitely generated `ℤ_p[G]`-module `Y` of projective
   dimension at most one, an extension `0 → A(L) → Y → I_G → 0` of the augmentation ideal by
-  `A(L)`. This is NSW's `Y = I_{G_K}/I_{G_L} I_{G_K}` ((5.6.5)); projective dimension at most one
-  is cohomological triviality, which is Tate's theorem for the fundamental class of the layer
-  carried to `A(L)` along the reciprocity identification of Step 1. Prove `nonempty_tateModule`.
-  *Needs:* CFT `ClassFormation` (Tau Ceti's, re-exported), `tateTheorem`; TC
+  `A(L)`. This is NSW's `Y = I_{G_K}/I_{G_L} I_{G_K}` ((5.6.5)). `Y` is cohomologically trivial by
+  Tate's criterion (TC `TateCohomology.isZero_of_forall_isPGroup`), the vanishing in two
+  consecutive degrees being Tate's theorem for the fundamental class of the layer carried to `A(L)`
+  along the reciprocity identification of Step 1; projective dimension at most one then follows
+  from the theorem of Nakayama and Rim, CFT's `TateCohomology.projective_ker_of_isZero_res` at
+  `k = ℤ_[p]`. Tau Ceti's Tate cohomology takes the group and the coefficient ring in one universe,
+  so it is applied to a copy of `Gal(L/K)` in `Type`. Prove `nonempty_tateModule`.
+  *Needs:* CFT `ClassFormation` (Tau Ceti's, re-exported), `tateTheorem`,
+  `TateCohomology.projective_ker_of_isZero_res`; TC
   `ClassFieldTheory.ClassFormation.fundamentalClass`,
-  `ClassFieldTheory.ClassFormation.fundamentalClass_generates`; NSW (3.1.5); Step 1.
+  `ClassFieldTheory.ClassFormation.fundamentalClass_generates`,
+  `TateCohomology.isZero_of_forall_isPGroup`; NSW (3.1.5); Step 1.
 - **The integral decomposition** `tateModule_linearEquiv`: `Y ≃ M₀ ⊕ ℤ_p[G]^N` as
   `ℤ_p[G]`-modules, the isomorphism `(∗∗)` in the proof of NSW (7.4.1). This is the theorem the
   cancellation lemmas are applied to: `exists_projective_prod_linearEquiv_of_torsion` gives

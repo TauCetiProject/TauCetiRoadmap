@@ -206,7 +206,7 @@ starting point for the profinite audit.
   `cyclotomicCharacter_artinMap_padic`; the class formation and Tate's theorem, `ClassFormation`
   (Tau Ceti's, re-exported), Tau Ceti's `ClassFormation.fundamentalClass` and
   `ClassFormation.fundamentalClass_generates`, and this roadmap's `tateTheorem` and `artinMap_conj`;
-  and `scd_p_absoluteGaloisGroup_eq_two`. The smoothness hypotheses of `finite_H`,
+  the Nakayama–Rim theorem `projective_ker_of_isZero_res`; and `scd_p_absoluteGaloisGroup_eq_two`. The smoothness hypotheses of `finite_H`,
   `tateDualityPairing_perfect_mixed` and `eulerCharacteristic_finrank_fp` are instance arguments,
   found at `μ_p`, at its Tate dual and at the trivial module `𝔽_p`, the modules this consumer uses.
   `cyclotomicCharacter_artinMap` is proved in Layer 11 from `globalArtinMap_cyclotomic_prime`, so
@@ -657,7 +657,40 @@ Do not begin by writing a new `tateH` definition.
    - two-periodicity for cyclic groups and the Herbrand quotient, with multiplicativity in short
      exact sequences and invariance under maps with finite kernel and cokernel;
    - the generic cup-product criterion of Tate's theorem (Artin–Tate, Preliminaries §2,
-     Theorem A), and its Tate–Nakayama tensor-product generalization.
+     Theorem A), and its Tate–Nakayama tensor-product generalization;
+   - the theorem of Nakayama and Rim: a representation `A : Rep k G` of a finite group is
+     cohomologically trivial exactly when it has projective dimension at most one over `k[G]`.
+     Cohomological triviality is the conclusion of Tau Ceti's criterion
+     `TauCeti.TateCohomology.isZero_of_forall_isPGroup`, written out as
+     `∀ (S : Subgroup G) (n : ℤ), IsZero (tateCohomology (res S.subtype A) n)`, so vanishing in two
+     consecutive degrees on the subgroups of prime-power order suffices and no new predicate is
+     introduced. The ring `k` is a principal ideal domain of characteristic zero in which every
+     prime number is a unit or generates a maximal ideal, which covers `ℤ`, `ℤ_[p]`, `ℤ_(p)` and
+     every field of characteristic zero. The statements, in Tau Ceti's `TateCohomology` namespace
+     beside the criterion:
+     - `isZero_res_of_projective`: a projective `k[G]`-module is cohomologically trivial (for any
+       commutative ring `k`);
+     - `projective_of_isZero_res`: a cohomologically trivial representation whose underlying
+       `k`-module is finite and free is projective over `k[G]`;
+     - `projective_ker_of_isZero_res`: if `A` is cohomologically trivial, every surjection onto
+       `A.ρ.asModule` from a finitely generated projective `k[G]`-module has projective kernel;
+     - `isZero_res_of_exact`: conversely, `A` is cohomologically trivial when
+       `0 → P₁ → P₀ → A → 0` is exact with `P₀` and `P₁` projective (for any commutative ring `k`).
+
+     The route (Serre, *Local Fields*, IX §§3–5; Brown, *Cohomology of Groups*, VI §8; Rim,
+     Ann. of Math. 69 (1959)): free `k[G]`-modules are coinduced from the trivial subgroup, so their
+     Tate cohomology vanishes on every subgroup, and Tate cohomology commutes with direct sums and
+     direct summands. At a prime `p` that is a unit in `k`, Tate groups of a `p`-group vanish because
+     they are killed by its order. At a prime `p` with `F = k/pk` a field and a `p`-subgroup `P`, an
+     `F[P]`-module with one vanishing Tate group is free, because the augmentation ideal of `F[P]` is
+     nilpotent; so if `A` is free over `k` and cohomologically trivial, `A/pA` is free over `F[P]`,
+     `Hom_k(A, A)` is cohomologically trivial (its Tate groups at `P` are killed by `#P` and
+     multiplication by `p` is onto them), the identity of `A` is a norm `∑_g g φ g⁻¹`, and `A` is a
+     direct summand of the induced module `k[G] ⊗_k A`. For the kernel `R` of a surjection from a
+     finitely generated projective module, `R` is finite and free over `k` and cohomologically
+     trivial by the long exact sequence, so the lattice statement applies to it. The Tate–Nakayama
+     generalization above consumes these statements through a resolution of length one, and
+     `LocalGaloisGroups` consumes `projective_ker_of_isZero_res` at `k = ℤ_[p]` for its Tate module.
 
 5. Give comparison theorems with ordinary cohomology in positive degrees and with the existing
    explicit cyclic Tate theory. Do not expose duplicate public carriers.
@@ -668,7 +701,8 @@ Do not begin by writing a new `tateH` definition.
 
 **Exit criterion.** `Suggested.lean` states `tateTheorem`, `tateIso`, `nakayamaNegTwo`, and
 `artinEquiv` using imported Tate groups and imported cup products, with no locally defined
-cohomology object.
+cohomology object, and states the four Nakayama–Rim theorems on Mathlib's `tateCohomology` with the
+hypothesis shape of Tau Ceti's criterion.
 
 ### Layer 1: formations and finite normal layers
 
@@ -1938,6 +1972,8 @@ example stateable.
 
 It contains:
 
+- the four Nakayama–Rim theorems of Layer 0, stated on Mathlib's `tateCohomology` with the
+  hypothesis shape of Tau Ceti's `TateCohomology.isZero_of_forall_isPGroup`;
 - the re-export `ClassFormation` of Tau Ceti's class formation, on which Layers 3 and 4 are stated;
   every other object of Layers 1 and 2 is Tau Ceti's and is consumed by name, not restated
   (formations, layers, restriction, corestriction, inflation, conjugation, fundamental classes and
