@@ -1135,7 +1135,7 @@ theorem invariants_le (U V : OpenNormalSubgroup G) (hVU : V ≤ U) :
 /-- **Layer 4, the coefficient half of the transition pair,** the inclusion `M^U ↪ M^V`:
 Tau Ceti's `TauCeti.invariantsInclusion`. Coefficients are taken on the `Rep` side here, as
 `Rep.quotientToInvariants`, because that is where Mathlib's compatible-pair API for cohomology
-lives; Layer 0's dictionary identifies this object with `Invariants U M` above. -/
+lives; Layer 1's dictionary identifies this object with `Invariants U M` above. -/
 noncomputable abbrev invariantsInclusion (U V : OpenNormalSubgroup G) (hVU : V ≤ U) :
     invariants (A.ρ.comp U.toSubgroup.subtype) →ₗ[k] invariants (A.ρ.comp V.toSubgroup.subtype) :=
   TauCeti.invariantsInclusion A (U := U.toSubgroup) (V := V.toSubgroup) hVU

@@ -319,7 +319,7 @@ cited in Layer 7.
   search composes these freely and each statement quantifies over exactly the classes it needs.
   For discrete `M`, continuity of the action is equivalent to openness of every point stabilizer
   (`continuousSMul_iff_stabilizer_isOpen`); state and use both forms. The categorical form is
-  `TopRep k G` for canonical-facing statements, and the translation between the two is a Layer 0
+  `TopRep k G` for canonical-facing statements, and the translation between the two is a Layer 1
   target modelled on the pin's discrete `Rep.ofDistribMulAction`.
 - **Scalars.** The primary coefficient ring is `ℤ`: the explicit theory is stated for
   `DistribMulAction G M`, and the canonical statements are stated against `TopRep ℤ G`. A
@@ -639,15 +639,16 @@ unbundled classes of §3.
   `K ≤ H ≤ G`, the projection `G ⧸ K → G ⧸ H` admits a continuous section, with the normalized
   specialization: `G ⧸ H → G` continuous with `s 1 = 1` (Ribes-Zalesskii Prop. 2.2.2). Prove the
   companion extension lemma in the form the proofs use: a continuous map from a closed subspace of
-  a profinite space to a finite discrete target extends continuously. The section is stated once
-  and consumed in exactly three places: Layer 5's transgression, Layer 7's exactness of
+  a profinite space to a nonempty finite discrete target extends continuously. The section is
+  stated once and consumed in exactly three places: Layer 5's transgression, Layer 7's exactness of
   coinduction, and Layer 7's explicit inverse in Shapiro's lemma. The extension lemma is consumed
   in addition by Layer 10's descent from a closed subgroup to an open one
   (`exists_openSubgroup_res_eq_zero_of_res_eq_zero`). Neither is needed anywhere an **open**
   subgroup is in play, where `Quotient.out` already suffices. Tau Ceti proves both forms of the
   section, `TauCeti.exists_continuous_section` and `TauCeti.exists_continuous_section_of_le`, and
-  its transgression is built on the first; it proves the extension lemma, for any discrete target,
-  as `ContinuousMap.exists_extension_of_discrete` (`TauCeti/Topology/Separation/Profinite.lean`).
+  its transgression is built on the first; it proves the extension lemma, for any nonempty
+  discrete target, as `ContinuousMap.exists_extension_of_discrete`
+  (`TauCeti/Topology/Separation/Profinite.lean`).
 
 ### Layer 1: the canonical carrier and its functoriality
 
@@ -1619,7 +1620,7 @@ all-degree statements, and they all rest on this layer. It is stated against the
 of Layer 1 throughout.
 
 - `Hⁿ(G, M)` for all `n`, for a profinite `G` and a discrete `G`-module `M`, as the canonical
-  `continuousCohomology n` applied to the image of `M` under Layer 0's dictionary, with `ℤ` the
+  `continuousCohomology n` applied to the image of `M` under Layer 1's dictionary, with `ℤ` the
   default coefficient ring.
 - Restriction, inflation, coefficient maps and conjugation in every degree, with their composition
   laws, and their agreement in degrees `0, 1, 2` with Layer 2's explicit maps under Layer 3.
