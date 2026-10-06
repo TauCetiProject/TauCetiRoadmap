@@ -2071,6 +2071,124 @@ theorem unitFiltration_characterConductorExp_le_ker
       ≤ chi.toMonoidHom.ker :=
   sorry
 
+/-! ### The cyclotomic normalization
+
+`Art_{ℚ_p}` is compared with the explicit local symbols of the cyclotomic fields over `ℚ`, whose
+product formula is a direct computation; no reciprocity law and no Lubin–Tate theory enters. -/
+
+section CyclotomicNormalization
+
+/-- **The explicit local symbol of `ℚ(μ_m)/ℚ` at a prime `ℓ`**: `ℓ^k w`, with `w ∈ ℤ_ℓˣ`, goes to
+the class that is `w⁻¹` modulo the `ℓ`-primary part of `m` and `ℓ^k` modulo its prime-to-`ℓ`
+part. Pinned by `unitsMap_cyclotomicSymbol_primePow` and `unitsMap_cyclotomicSymbol_of_coprime`,
+which determine it by the Chinese remainder theorem. -/
+noncomputable def cyclotomicSymbol (m : ℕ) [NeZero m] (ℓ : ℕ) [Fact ℓ.Prime] :
+    ℚ_[ℓ]ˣ →* (ZMod m)ˣ :=
+  sorry
+
+theorem unitsMap_cyclotomicSymbol_primePow (m : ℕ) [NeZero m] (ℓ : ℕ) [Fact ℓ.Prime] {j : ℕ}
+    (hj : ℓ ^ j ∣ m) (x : ℚ_[ℓ]ˣ) (k : ℤ) (w : ℤ_[ℓ]ˣ)
+    (hx : (x : ℚ_[ℓ]) = (ℓ : ℚ_[ℓ]) ^ k * ((w : ℤ_[ℓ]) : ℚ_[ℓ])) :
+    ZMod.unitsMap hj (cyclotomicSymbol m ℓ x) =
+      (Units.map (PadicInt.toZModPow j : ℤ_[ℓ] →+* ZMod (ℓ ^ j)).toMonoidHom w)⁻¹ :=
+  sorry
+
+theorem unitsMap_cyclotomicSymbol_of_coprime (m : ℕ) [NeZero m] (ℓ : ℕ) [Fact ℓ.Prime] {d : ℕ}
+    (hd : d ∣ m) (hcop : Nat.Coprime ℓ d) (x : ℚ_[ℓ]ˣ) (k : ℤ) (w : ℤ_[ℓ]ˣ)
+    (hx : (x : ℚ_[ℓ]) = (ℓ : ℚ_[ℓ]) ^ k * ((w : ℤ_[ℓ]) : ℚ_[ℓ])) :
+    ZMod.unitsMap hd (cyclotomicSymbol m ℓ x) = ZMod.unitOfCoprime ℓ hcop ^ k :=
+  sorry
+
+/-- **The explicit symbol of `ℚ(μ_m)/ℚ` at the real place**: the sign, read in `(ℤ/m)ˣ`. -/
+noncomputable def realCyclotomicSymbol (m : ℕ) [NeZero m] : ℝˣ →* (ZMod m)ˣ :=
+  sorry
+
+theorem realCyclotomicSymbol_of_pos (m : ℕ) [NeZero m] (x : ℝˣ) (hx : 0 < (x : ℝ)) :
+    realCyclotomicSymbol m x = 1 :=
+  sorry
+
+theorem realCyclotomicSymbol_of_neg (m : ℕ) [NeZero m] (x : ℝˣ) (hx : (x : ℝ) < 0) :
+    realCyclotomicSymbol m x = -1 :=
+  sorry
+
+/-- **The product formula for the explicit cyclotomic symbols** (Milne VII Example 8.2, with these
+values as the definition of the local factors). For `a ∈ ℚˣ`, the real symbol times the symbols at
+the primes dividing `m · a` is `1`. Both sides are multiplicative in `a`, and `a = −1`, a prime
+dividing `m`, and a prime not dividing `m` are each one line. -/
+theorem prod_cyclotomicSymbol (m : ℕ) [NeZero m] (a : ℚˣ) :
+    realCyclotomicSymbol m (Units.map (algebraMap ℚ ℝ).toMonoidHom a) *
+        (∏ ℓ ∈ (m * (a : ℚ).num.natAbs * (a : ℚ).den).primeFactors.attach,
+          haveI : Fact (ℓ : ℕ).Prime := ⟨Nat.prime_of_mem_primeFactors ℓ.2⟩
+          cyclotomicSymbol m ℓ (Units.map (algebraMap ℚ ℚ_[ℓ]).toMonoidHom a)) = 1 :=
+  sorry
+
+/-- **The explicit symbol at `p` kills local norms.** Let `M` be a finite extension of `ℚ_p` inside
+`ℚ_p(μ_m)`. For `y ∈ Mˣ`, every `σ ∈ G_{ℚ_p}` acting on `μ_m` through
+`cyclotomicSymbol m p (N_{M/ℚ_p} y)` fixes `M`. Route: `M₀ = ℚ(μ_m) ∩ M` is cut out by the same
+subgroup of `(ℤ/m)ˣ` and `M` is its closure; weak approximation gives `Y ∈ M₀ˣ` close to `y` at the
+place of the embedding, close to `1` at the other places above `p` and above the other primes
+dividing `m`, and positive at the real places; `prod_cyclotomicSymbol` at `N_{M₀/ℚ}(Y)`, the
+local–global norm formula, and the residue degrees of `M₀` at the primes `ℓ ∤ m` put the symbol of
+`N_{M/ℚ_p}(y)` in the subgroup fixing `M₀`. -/
+theorem cyclotomicSymbol_norm_fixes (p : ℕ) [Fact p.Prime] (m : ℕ) [NeZero m]
+    (M : IntermediateField ℚ_[p] (AlgebraicClosure ℚ_[p])) [FiniteDimensional ℚ_[p] M]
+    (hM : M ≤ IntermediateField.adjoin ℚ_[p] {z : AlgebraicClosure ℚ_[p] | z ^ m = 1})
+    (y : Mˣ) (σ : Field.absoluteGaloisGroup ℚ_[p])
+    (hσ : ∀ z : AlgebraicClosure ℚ_[p], z ^ m = 1 →
+      σ.toRingEquiv z =
+        z ^ ((cyclotomicSymbol m p (Units.map (Algebra.norm ℚ_[p] : M →* ℚ_[p]) y) :
+          ZMod m).val))
+    (x : M) :
+    σ.toRingEquiv (x : AlgebraicClosure ℚ_[p]) = x :=
+  sorry
+
+/-- **The uniformizer of `ℚ_p`**: `χ_cyc(Art_{ℚ_p}(p)) = 1`. For every `n`, `p = N(1 − ζ)` for a
+primitive `p^n`-th root of unity `ζ` (Mathlib's `IsPrimitiveRoot.norm_sub_one_of_prime_ne_two` and
+`IsPrimitiveRoot.norm_sub_one_two`, whose irreducibility hypothesis is Tau Ceti's
+`irreducible_cyclotomic_prime_pow_ratPadic`), so `p` lies in the norm group of `ℚ_p(μ_{p^n})`,
+which the finite Artin map kills (`normResidue`, `artinMap_restrict`); a lift of `Art_{ℚ_p}(p)`
+fixes `μ_{p^n}` for every `n`. -/
+theorem cyclotomicCharacter_artinMap_padic_uniformizer (p : ℕ) [Fact p.Prime]
+    [IsNonarchimedeanLocalField ℚ_[p]] (σ : Field.absoluteGaloisGroup ℚ_[p])
+    (_hσ : (QuotientGroup.mk σ : Field.absoluteGaloisGroupAbelianization ℚ_[p])
+      = artinMap ℚ_[p] (Units.mk0 (p : ℚ_[p]) (Nat.cast_ne_zero.mpr (Fact.out : p.Prime).ne_zero))) :
+    cyclotomicCharacter (AlgebraicClosure ℚ_[p]) p σ.toRingEquiv = 1 :=
+  sorry
+
+/-- **The cyclotomic normalization at `ℚ_p`**: `χ_cyc(Art_{ℚ_p}(u)) = u⁻¹` for `u ∈ ℤ_pˣ`. Fix `n`,
+let `f = φ(p^n)`, `N = p^f − 1` and `L = ℚ_p(μ_{p^n N})`, and let `g` be the restriction to `L` of a
+lift of `Art_{ℚ_p}(pu)`. It acts on `μ_N` as arithmetic Frobenius
+(`unramifiedCoordinate_artinMap`) and `g^f = 1` (`cyclotomicCharacter_artinMap_padic_uniformizer`),
+so its fixed field `M` satisfies `M · ℚ_p(μ_N) = L` and `pu` is a norm from `M` (`localArtinEquiv`).
+The element acting by `u⁻¹` on `μ_{p^n}` and by Frobenius on `μ_N` acts through
+`cyclotomicSymbol (p^n N) p (pu)`, so it fixes `M` (`cyclotomicSymbol_norm_fixes`); it agrees with
+`g` on `μ_N`, hence on `L`, and `Art_{ℚ_p}(u)` acts on `μ_{p^n}` by `ζ ↦ ζ^{u⁻¹}`. -/
+theorem cyclotomicCharacter_artinMap_padic (p : ℕ) [Fact p.Prime]
+    [IsNonarchimedeanLocalField ℚ_[p]] (u : ℤ_[p]ˣ)
+    (σ : Field.absoluteGaloisGroup ℚ_[p])
+    (_hσ : (QuotientGroup.mk σ : Field.absoluteGaloisGroupAbelianization ℚ_[p])
+      = artinMap ℚ_[p] (Units.map (algebraMap ℤ_[p] ℚ_[p]).toMonoidHom u)) :
+    cyclotomicCharacter (AlgebraicClosure ℚ_[p]) p σ.toRingEquiv = u⁻¹ :=
+  sorry
+
+/-- **Cyclotomic orientation with the required field norm**: for `F/ℚ_p` finite and a unit `u`,
+`χ_cyc(Art_F(u)) = N_{F/ℚ_p}(u)⁻¹`. From `cyclotomicCharacter_artinMap_padic` and the norm
+functoriality `artinMap_norm` over `ℚ_p`, since the cyclotomic character of `G_F` is that of
+`G_{ℚ_p}` read through `absoluteGaloisGroupExtend` (`cyclotomicCharacter.spec` on the roots of
+unity). -/
+theorem cyclotomicCharacter_artinMap (p : ℕ) [Fact p.Prime]
+    (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F]
+    [IsNonarchimedeanLocalField F] [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F]
+    (u : Fˣ) (_hu : ValuativeRel.valuation F (u : F) = 1)
+    (σ : Field.absoluteGaloisGroup F)
+    (_hσ : (QuotientGroup.mk σ : Field.absoluteGaloisGroupAbelianization F) = artinMap F u) :
+    Units.map (algebraMap ℤ_[p] ℚ_[p]).toMonoidHom
+        (cyclotomicCharacter (AlgebraicClosure F) p σ.toRingEquiv)
+      = (Units.map (Algebra.norm ℚ_[p] : F →* ℚ_[p]) u)⁻¹ :=
+  sorry
+
+end CyclotomicNormalization
+
 /-! ## Layer 8: separate arithmetic local existence and the local class-field correspondence
 
 These targets are deliberately not methods of `ClassFormation`: reciprocity follows from the
@@ -2799,7 +2917,12 @@ theorem eq_zero_of_localInv_eq_zero (x : Br K)
     x = 0 :=
   sorry
 
-/-- Exactness in the middle: the local invariants of a global class sum to zero. -/
+/-- Exactness in the middle: the local invariants of a global class sum to zero. Milne VII
+Theorem 8.1(b), from the local symbols alone: over `ℚ(μ_m)/ℚ` they are Layer 7's explicit
+`cyclotomicSymbol`s, whose product is `1` (`prod_cyclotomicSymbol`); `artinMap_norm` carries the
+product formula to the cyclotomic extensions of `K`; the character formula turns it into this
+statement on cyclic cyclotomic layers; and every class of `Br K` is split by a cyclic cyclotomic
+layer (`eq_zero_of_localInv_eq_zero` and Milne VII Proposition 7.2). -/
 theorem sumLocalInv_eq_zero (x : Br K) : sumLocalInv K x = 0 :=
   sorry
 
@@ -3324,50 +3447,6 @@ theorem globalArtinMap_zeta5_restrict_Qsqrt5
     (hσ : globalArtinMap ℚ E iota (Additive.ofMul (primeIdeleClass ℚ v)) =
       Additive.ofMul (Abelianization.of σ)) :
     (∀ x : M, σ x = x) ↔ (ℓ % 5 = 1 ∨ ℓ % 5 = 4) :=
-  sorry
-
-/-! ### The cyclotomic normalization of the absolute local Artin map
-
-A consequence of global reciprocity over `ℚ` and not of anything local: these two theorems are
-stated after the global acceptance tests because their proof is global, and they mention no
-global variable. -/
-
-/-- **The cyclotomic normalization at `ℚ_p`**: `χ_cyc(Art_{ℚ_p}(u)) = u⁻¹` for `u ∈ ℤ_pˣ`. Proof,
-for `E = ℚ(ζ_{pⁿ})` and `d = [E_𝔭 : ℚ_p]` at the prime `𝔭` above `p`: by
-`LocalFieldsRamification.isOpen_range_powMonoidHom` the subgroup `(ℚ_pˣ)^d` contains `1 + pᴺℤ_p`
-for some `N ≥ n`, and it lies in the norm group of `E_𝔭` because `ℚ_pˣ/N(E_𝔭ˣ)` has exponent
-dividing `d` (`localArtinEquiv`); so for a positive integer `a ≡ u mod pᴺ` the local symbols of `u`
-and `a` agree on `E_𝔭`. The idele of `a` at `p` is the principal idele of `a`, whose symbol is
-trivial (`globalArtinMap_principal`), times the ideles of `a⁻¹` at `∞` and at the primes `ℓ ∣ a`
-and a unit idele at the other primes `ℓ ≠ p`, all unramified in `E`. The unit idele is an idelic
-norm and `a⁻¹ > 0` is a norm from `ℂ`, while at `ℓ ∣ a` the symbol is `Frob_ℓ^{-v_ℓ(a)}`
-(`globalArtinMap_local`, `decompositionRestrict_mk`, `localArtinMap_eq_frobenius_pow_valuation`),
-where `Frob_ℓ` acts on `ζ_{pⁿ}` by `ζ ↦ ζ^ℓ` (`localArtinMap_cyclotomic_uniformizer`). So
-`Art_{ℚ_p}(u)` acts on `ζ_{pⁿ}` by `ζ ↦ ζ^{a⁻¹} = ζ^{u⁻¹}`. The completion `v.adicCompletion ℚ` is
-compared with `ℚ_[p]` by `artinMap_congr` and Mathlib's
-`Rat.HeightOneSpectrum.adicCompletion.padicEquiv`. -/
-theorem cyclotomicCharacter_artinMap_padic (p : ℕ) [Fact p.Prime]
-    [IsNonarchimedeanLocalField ℚ_[p]] (u : ℤ_[p]ˣ)
-    (σ : Field.absoluteGaloisGroup ℚ_[p])
-    (_hσ : (QuotientGroup.mk σ : Field.absoluteGaloisGroupAbelianization ℚ_[p])
-      = artinMap ℚ_[p] (Units.map (algebraMap ℤ_[p] ℚ_[p]).toMonoidHom u)) :
-    cyclotomicCharacter (AlgebraicClosure ℚ_[p]) p σ.toRingEquiv = u⁻¹ :=
-  sorry
-
-/-- **Cyclotomic orientation with the required field norm**: for `F/ℚ_p` finite and a unit `u`,
-`χ_cyc(Art_F(u)) = N_{F/ℚ_p}(u)⁻¹`. From `cyclotomicCharacter_artinMap_padic` and the norm
-functoriality `artinMap_norm` over `ℚ_p`, since the cyclotomic character of `G_F` is that of
-`G_{ℚ_p}` read through `absoluteGaloisGroupExtend` (`cyclotomicCharacter.spec` on the roots of
-unity). -/
-theorem cyclotomicCharacter_artinMap (p : ℕ) [Fact p.Prime]
-    (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F]
-    [IsNonarchimedeanLocalField F] [Algebra ℚ_[p] F] [Module.Finite ℚ_[p] F]
-    (u : Fˣ) (_hu : ValuativeRel.valuation F (u : F) = 1)
-    (σ : Field.absoluteGaloisGroup F)
-    (_hσ : (QuotientGroup.mk σ : Field.absoluteGaloisGroupAbelianization F) = artinMap F u) :
-    Units.map (algebraMap ℤ_[p] ℚ_[p]).toMonoidHom
-        (cyclotomicCharacter (AlgebraicClosure F) p σ.toRingEquiv)
-      = (Units.map (Algebra.norm ℚ_[p] : F →* ℚ_[p]) u)⁻¹ :=
   sorry
 
 /-! ## Layer 12: separate arithmetic global existence, the norm index, and the global
