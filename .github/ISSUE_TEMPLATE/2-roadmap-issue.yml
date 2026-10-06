@@ -18,6 +18,7 @@ body:
         - AlgebraicCodingTheory
         - AlgebraicCurves
         - AlgebraicTopology
+        - AlgebraicVectorBundles
         - AnalyticToricGeometry
         - ArithmeticDirichletSeries
         - BelyiMaps
@@ -38,24 +39,31 @@ body:
         - HeegaardFloer
         - HodgeStructures
         - HopfRinow
+        - IntegralLattices
         - JacobianChallenge
         - LocalFieldsRamification
+        - LocalGaloisGroups
+        - ModularCurves
         - ModularForms
         - Multiquadratic
         - NumberFieldArithmetic
         - OneParameterSemigroups
         - OptimalTransport
+        - OrthogonalSpinGroups
         - PDE
+        - PeripheralActions
         - PolynomialGaloisGroups
+        - ProfiniteArithmetic
         - ProfiniteCohomology
         - ProfiniteProPGroups
         - QuadraticFormInvariants
+        - RealAlgebraicGeometry
         - ReductiveGroups
         - RepresentationTheory
+        - RestrictedProducts
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
-        - UniversalCovers
         - ZigzagPreprojective
     validations:
       required: true
