@@ -37,6 +37,7 @@ body:
         - GlobalQuadraticForms
         - GrothendieckEulerForms
         - HeegaardFloer
+        - HodgeStructures
         - HopfRinow
         - IntegralLattices
         - JacobianChallenge

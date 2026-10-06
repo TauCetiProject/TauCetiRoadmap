@@ -3,7 +3,7 @@ import TauCeti.Geometry.Hodge.Abelian
 import TauCeti.Geometry.Hodge.Dimension
 import TauCeti.Geometry.Hodge.Dual
 import TauCeti.Geometry.Hodge.HodgeForm
-import TauCeti.Geometry.Hodge.InternalHom
+import TauCeti.Geometry.Hodge.InternalHom.Basic
 import TauCeti.Geometry.Hodge.Mixed.Abelian
 import TauCeti.Geometry.Hodge.Mixed.Conjugation
 import TauCeti.Geometry.Hodge.Mixed.Decomposition
@@ -11,11 +11,12 @@ import TauCeti.Geometry.Hodge.Mixed.DeligneSplitting
 import TauCeti.Geometry.Hodge.Mixed.Strictness
 import TauCeti.Geometry.Hodge.Orthogonal
 import TauCeti.Geometry.Hodge.PeriodDomain
+import TauCeti.Geometry.Hodge.Realification
 import TauCeti.Geometry.Hodge.Semisimple
 import TauCeti.Geometry.Hodge.Tate.Basic
 import TauCeti.Geometry.Hodge.Tate.TensorProduct
 import TauCeti.Geometry.Hodge.Tate.Twist
-import TauCeti.Geometry.Hodge.TensorProduct
+import TauCeti.Geometry.Hodge.TensorProduct.Basic
 import TauCeti.Geometry.Hodge.WeightOne.Basic
 import TauCeti.Geometry.Hodge.WeightOne.Lattice
 import TauCeti.Geometry.Hodge.WeightOne.RiemannForm
@@ -43,17 +44,22 @@ definitions now live in Tau Ceti, in the conjugation-parametric form the README'
 definitions* section asked for, so the statements below are made about the Tau Ceti objects
 directly rather than about a local copy. Three differences from the proposals are deliberate.
 
-* `HodgeStructureOn` carries no `F_bot` field. A bounded-below filtration is forced by
-  opposedness together with `F_top`, so the field would be redundant.
+* `HodgeStructureOn` carries no `F_bot` field. Vanishing of the decreasing filtration in high
+  degree, `∃ p, F p = ⊥`, follows from `F_top`, opposedness and involutivity of the conjugation
+  (`HodgeStructureOn.F_bot`), so the field would be redundant.
 * `MixedHodgeStructure.graded_pure` asks for a Hodge structure on each complexified graded piece
   whose filtration *is* the induced filtration `gradedF`. This is stronger than the README's
   `Nonempty (HodgeStructureOn …)`, which does not tie the Hodge structure to the given `F`.
 * The symmetry group `Aut(V, Qint)` is `TauCeti.BilinForm.isometryGroup Qint`, a `Subgroup`
   of `V ≃ₗ[ℤ] V`, rather than a separate `IsLatticeIsometry` predicate.
 
-The successor *Variations of Hodge structure* roadmap and the specialization onto Mathlib's
-in-progress filtration API are outside this roadmap by its own text, so they are not part of the
-completion judgment.
+The successor *Variations of Hodge structure* roadmap is outside this roadmap by its own text,
+so it is not part of the completion judgment. The README also asks that `opposed`, `gradedF` and
+`gradedComplexEquiv` be specialized onto a Mathlib filtration API with opposed filtrations and
+induced filtrations on graded pieces, should one land. The Mathlib API merged so far
+(`CategoryTheory.Filtration`, mathlib4#42642) is a categorical filtration as a functor to
+`MonoOver X`, with strict morphisms; it has no notion of opposed filtrations or of graded pieces,
+so there is not yet anything for these declarations to specialize onto.
 -/
 
 namespace TauCetiRoadmap.HodgeStructures
@@ -94,11 +100,20 @@ theorem latticeConj_unique (hℂ : IsBaseChange ℂ ιℂ) (c : Vℂ →ₛₗ[s
     (hc : ∀ v, c (ιℂ v) = ιℂ v) : c = latticeConj hℂ :=
   Hodge.latticeConj_unique hℂ c hc
 
-/-- **Polarization is one integral form.** `IsPolarization` is a `Prop` on a given integral form,
-and the complex form of a `Polarization` is derived from the integral one. -/
-example (hℂ : IsBaseChange ℂ ιℂ) {n : ℤ} (hs : HodgeStructure hℂ n)
-    (Qint : LinearMap.BilinForm ℤ V) : Prop :=
-  IsPolarization hℂ hs Qint
+/-- **Polarization is one integral form.** `IsPolarization` is a `Prop` on a given integral form:
+`(-1)^n`-symmetry, nondegeneracy, orthogonality `Q(F^p, F^{n-p+1}) = 0` and positivity
+`i^{p-q} Q(v, v̄) > 0` on `H^{p,q}`. Nondegeneracy is stated for the integral form; on a finite
+free lattice this is equivalent to nondegeneracy of its complexification. The complex form of a
+`Polarization` is derived from the integral one. -/
+theorem isPolarization_iff (hℂ : IsBaseChange ℂ ιℂ) {n : ℤ} (hs : HodgeStructure hℂ n)
+    (Qint : LinearMap.BilinForm ℤ V) :
+    IsPolarization hℂ hs Qint ↔
+      (∀ x y, Qint y x = (n.negOnePow : ℤ) * Qint x y) ∧ Qint.Nondegenerate ∧
+        (∀ p, ∀ x ∈ hs.F p, ∀ y ∈ hs.F (n + 1 - p), integralFormBaseChange hℂ Qint x y = 0) ∧
+        (∀ p, ∀ x ∈ hs.piece p, x ≠ 0 →
+          0 < Complex.I ^ (2 * p - n) * integralFormBaseChange hℂ Qint x (latticeConj hℂ x)) :=
+  ⟨fun h ↦ ⟨h.symm_weight, h.nondegenerate, h.orthogonal, h.positive⟩,
+    fun ⟨h₁, h₂, h₃, h₄⟩ ↦ ⟨h₁, h₂, h₃, h₄⟩⟩
 
 theorem Polarization.Q_ι {hℂ : IsBaseChange ℂ ιℂ} {n : ℤ} {hs : HodgeStructure hℂ n}
     (P : Polarization hℂ hs) (x y : V) : P.Q (ιℂ x) (ιℂ y) = (P.Qint x y : ℂ) :=
@@ -186,13 +201,16 @@ theorem isRiemannForm_iff_isPolarization {V : Type u} {Vℂ : Type v} [AddCommGr
     J.IsRiemannForm E ↔ IsPolarization hℂ (J.latticeHodgeStructure hℂ) E :=
   J.isRiemannForm_iff_isPolarization hℂ E
 
-/-- The explicit rank-two instance on `ℤ × ℤ`: a polarized effective weight-one structure. -/
-theorem standard_isEffective : StandardWeightOne.hodgeStructure.IsEffective :=
-  StandardWeightOne.isEffective_hodgeStructure
+/-- The explicit standard instance on `ℤ^{l ⊕ l}`, principally polarized by the standard
+symplectic form: a polarized effective weight-one structure. -/
+theorem standard_isEffective (l : Type*) [Fintype l] [DecidableEq l] :
+    (StandardWeightOne.hodgeStructure l).IsEffective :=
+  StandardWeightOne.isEffective_hodgeStructure l
 
-noncomputable example : Polarization StandardWeightOne.isBaseChange_latticeToComplex
-    StandardWeightOne.hodgeStructure :=
-  StandardWeightOne.polarization
+noncomputable example (l : Type*) [Fintype l] [DecidableEq l] :
+    Polarization (StandardWeightOne.isBaseChange_latticeToComplex l)
+      (StandardWeightOne.hodgeStructure l) :=
+  StandardWeightOne.polarization l
 
 /-- **A pure structure viewed as mixed.** Its Deligne bigrading is the Hodge decomposition, placed
 in total degree `n`. -/
@@ -202,6 +220,15 @@ theorem ofPure_deligneSplitting_eq_piece {V : Type u} {Vℚ : Type v} {Vℂ : Ty
     {n : ℤ} (hs : HodgeStructure hℂ n) {p q : ℤ} (hpq : p + q = n) :
     (MixedHodgeStructure.ofPure (Vℚ := Vℚ) hℚ hℂ hs).deligneSplitting p q = hs.piece p :=
   MixedHodgeStructure.ofPure_deligneSplitting_eq_piece_of_add_eq hℚ hℂ hs hpq
+
+/-- Its weight filtration is concentrated in degree `n`, and its Hodge filtration is that of `hs`. -/
+theorem ofPure_WQ_F {V : Type u} {Vℚ : Type v} {Vℂ : Type w}
+    [AddCommGroup V] [AddCommGroup Vℚ] [Module ℚ Vℚ] [AddCommGroup Vℂ] [Module ℂ Vℂ]
+    {ιℚ : V →ₗ[ℤ] Vℚ} {ιℂ : V →ₗ[ℤ] Vℂ} (hℚ : IsBaseChange ℚ ιℚ) (hℂ : IsBaseChange ℂ ιℂ)
+    {n : ℤ} (hs : HodgeStructure hℂ n) (k : ℤ) :
+    (MixedHodgeStructure.ofPure (Vℚ := Vℚ) hℚ hℂ hs).WQ k = (if n ≤ k then ⊤ else ⊥) ∧
+      (MixedHodgeStructure.ofPure (Vℚ := Vℚ) hℚ hℂ hs).F = hs.F :=
+  ⟨rfl, rfl⟩
 
 end Instances
 
@@ -216,28 +243,115 @@ form an internal direct sum. -/
 theorem isInternal_piece (hs : HodgeStructureOn W ω n) : DirectSum.IsInternal hs.piece :=
   hs.isInternal_piece
 
+/-- The discharge route: the filtration is recovered from the pieces, `F^p = ⨆_{q ≥ p} H^{q}`, and
+conversely a conjugation-symmetric bounded internal direct sum comes from a unique Hodge structure,
+so `n`-opposed filtrations and `(p,q)`-decompositions are equivalent. -/
+theorem F_eq_iSup_piece (hs : HodgeStructureOn W ω n) (p : ℤ) :
+    hs.F p = ⨆ q, ⨆ (_ : p ≤ q), hs.piece q :=
+  hs.F_eq_iSup_piece p
+
+noncomputable example (ω : Conjugation W) (n : ℤ) :
+    HodgeStructureOn W ω n ≃ {H : ℤ → Submodule ℂ W // IsHodgeDecomposition ω n H} :=
+  HodgeStructureOn.decompositionEquiv ω n
+
+theorem coe_decompositionEquiv_apply (hs : HodgeStructureOn W ω n) :
+    (↑(HodgeStructureOn.decompositionEquiv ω n hs) : ℤ → Submodule ℂ W) = hs.piece :=
+  HodgeStructureOn.coe_decompositionEquiv_apply hs
+
+theorem isHodgeDecomposition_iff (H : ℤ → Submodule ℂ W) :
+    IsHodgeDecomposition ω n H ↔
+      DirectSum.IsInternal H ∧ (∀ p, (H p).map ω.toEquiv.toLinearMap = H (n - p)) ∧
+        ∃ a, ∀ p < a, H p = ⊥ :=
+  ⟨fun h ↦ ⟨h.isInternal, h.map_conj, h.exists_forall_lt_eq_bot⟩, fun ⟨h₁, h₂, h₃⟩ ↦ ⟨h₁, h₂, h₃⟩⟩
+
 /-- The `(p,q)` symmetry `conj (piece p) = piece (n - p)`. -/
 theorem conj_piece (hs : HodgeStructureOn W ω n) (p : ℤ) :
     (hs.piece p).map ω.toEquiv.toLinearMap = hs.piece (n - p) :=
   hs.conj_piece p
 
-/-- Morphisms, and the dual, tensor product and internal Hom, with their weights. -/
-example {W' : Type v} [AddCommGroup W'] [Module ℂ W'] {ω' : Conjugation W'}
-    (hs : HodgeStructureOn W ω n) (hs' : HodgeStructureOn W' ω' n) (g : W →ₗ[ℂ] W') : Prop :=
-  HodgeStructureOn.IsMorphism hs hs' g
+/-- **Morphisms.** A morphism of Hodge structures commutes with the conjugations and preserves
+the Hodge filtration. -/
+theorem isMorphism_iff {W' : Type v} [AddCommGroup W'] [Module ℂ W'] {ω' : Conjugation W'}
+    (hs : HodgeStructureOn W ω n) (hs' : HodgeStructureOn W' ω' n) (g : W →ₗ[ℂ] W') :
+    HodgeStructureOn.IsMorphism hs hs' g ↔
+      (∀ x, g (ω.toEquiv x) = ω'.toEquiv (g x)) ∧ ∀ p, (hs.F p).map g ≤ hs'.F p :=
+  ⟨fun h ↦ ⟨h.commutes_conj, h.map_F_le⟩, fun ⟨h₁, h₂⟩ ↦ ⟨h₁, h₂⟩⟩
+
+/-- On lattices, a morphism is an integral map whose complexification preserves the Hodge
+filtration. -/
+theorem Hom.map_F_le {V₁ V₂ W₁ W₂ : Type*} [AddCommGroup V₁] [AddCommGroup V₂] [AddCommGroup W₁]
+    [Module ℂ W₁] [AddCommGroup W₂] [Module ℂ W₂] {ι₁ : V₁ →ₗ[ℤ] W₁} {ι₂ : V₂ →ₗ[ℤ] W₂}
+    {h₁ : IsBaseChange ℂ ι₁} {h₂ : IsBaseChange ℂ ι₂} {source : HodgeStructure h₁ n}
+    {target : HodgeStructure h₂ n} (f : HodgeStructure.Hom source target) (p : ℤ) :
+    f.toLinearMap = integralMapToComplex h₁ ι₂ f.toIntLinearMap ∧
+      (source.F p).map f.toLinearMap ≤ target.F p :=
+  ⟨rfl, f.map_F_le p⟩
+
+/-- **The dual, tensor product and internal Hom**, with their weights and filtrations, first on
+complex spaces with a conjugation. -/
 
 noncomputable example (hs : HodgeStructureOn W ω n) : HodgeStructureOn (Module.Dual ℂ W) ω.dual (-n) :=
   hs.dual
+
+theorem dual_F (hs : HodgeStructureOn W ω n) (p : ℤ) :
+    hs.dual.F p = (hs.F (1 - p)).dualAnnihilator :=
+  HodgeStructureOn.dual_F hs p
 
 noncomputable example {W' : Type v} [AddCommGroup W'] [Module ℂ W'] {ω' : Conjugation W'} {n' : ℤ}
     (hs : HodgeStructureOn W ω n) (hs' : HodgeStructureOn W' ω' n') :
     HodgeStructureOn (W ⊗[ℂ] W') (ω.tensorProduct ω') (n + n') :=
   hs.tensorProduct hs'
 
+theorem tensorProduct_piece {W' : Type v} [AddCommGroup W'] [Module ℂ W'] {ω' : Conjugation W'}
+    {n' : ℤ} (hs : HodgeStructureOn W ω n) (hs' : HodgeStructureOn W' ω' n') (p : ℤ) :
+    (hs.tensorProduct hs').piece p =
+      ⨆ r : ℤ, Submodule.map₂ (TensorProduct.mk ℂ W W') (hs.piece r) (hs'.piece (p - r)) :=
+  hs.tensorProduct_piece_eq_iSup hs' p
+
 noncomputable example {W' : Type v} [AddCommGroup W'] [Module ℂ W'] {ω' : Conjugation W'} {n' : ℤ}
     (hs : HodgeStructureOn W ω n) (hs' : HodgeStructureOn W' ω' n') :
     HodgeStructureOn (W →ₗ[ℂ] W') (ω.internalHom ω') (n' - n) :=
   hs.internalHom hs'
+
+theorem mem_internalHom_F_iff {W' : Type v} [AddCommGroup W'] [Module ℂ W'] {ω' : Conjugation W'}
+    {n' : ℤ} (hs : HodgeStructureOn W ω n) (hs' : HodgeStructureOn W' ω' n') {p : ℤ}
+    (f : W →ₗ[ℂ] W') :
+    f ∈ (hs.internalHom hs').F p ↔ ∀ q, ∀ x ∈ hs.F q, f x ∈ hs'.F (p + q) :=
+  hs.mem_internalHom_F_iff hs' f
+
+/-- **The integral dual, tensor product and internal Hom.** On lattices these are Hodge structures
+on `Module.Dual ℤ V`, `V ⊗[ℤ] V'` and `V →ₗ[ℤ] V'`, carried by the base-change witnesses of the
+corresponding complexifications, so their conjugation is the lattice-induced one; their filtrations
+are those of the complex constructions above. -/
+noncomputable example {V : Type u} {Vℂ : Type v} [AddCommGroup V] [AddCommGroup Vℂ] [Module ℂ Vℂ]
+    {ιℂ : V →ₗ[ℤ] Vℂ} [Module.Free ℤ V] [Module.Finite ℤ V] {hℂ : IsBaseChange ℂ ιℂ}
+    (hs : HodgeStructure hℂ n) : HodgeStructure (isBaseChange_dualLatticeMap hℂ) (-n) :=
+  hs.dual
+
+theorem HodgeStructure.dual_F {V : Type u} {Vℂ : Type v} [AddCommGroup V] [AddCommGroup Vℂ]
+    [Module ℂ Vℂ] {ιℂ : V →ₗ[ℤ] Vℂ} [Module.Free ℤ V] [Module.Finite ℤ V]
+    {hℂ : IsBaseChange ℂ ιℂ} (hs : HodgeStructure hℂ n) (p : ℤ) :
+    hs.dual.F p = (hs.F (1 - p)).dualAnnihilator := by
+  rw [Hodge.HodgeStructure.dual_F, HodgeStructureOn.dual_F]
+
+theorem HodgeStructure.tensorProduct_piece {V V' Vℂ V'ℂ : Type*} [AddCommGroup V]
+    [AddCommGroup V'] [AddCommGroup Vℂ] [Module ℂ Vℂ] [AddCommGroup V'ℂ] [Module ℂ V'ℂ]
+    {ιℂ : V →ₗ[ℤ] Vℂ} {ι'ℂ : V' →ₗ[ℤ] V'ℂ} {hℂ : IsBaseChange ℂ ιℂ} {h'ℂ : IsBaseChange ℂ ι'ℂ}
+    {n' : ℤ} (hs : HodgeStructure hℂ n) (hs' : HodgeStructure h'ℂ n') (p : ℤ) :
+    (hs.tensorProduct hs' : HodgeStructure (isBaseChange_tensorLatticeMap hℂ h'ℂ) (n + n')).piece
+        p =
+      ⨆ r : ℤ, Submodule.map₂ (TensorProduct.mk ℂ Vℂ V'ℂ) (hs.piece r) (hs'.piece (p - r)) := by
+  rw [Hodge.HodgeStructure.tensorProduct_piece, HodgeStructureOn.tensorProduct_piece_eq_iSup]
+
+theorem HodgeStructure.mem_internalHom_F_iff {V₁ V₂ W₁ W₂ : Type*} [AddCommGroup V₁]
+    [AddCommGroup V₂] [AddCommGroup W₁] [Module ℂ W₁] [AddCommGroup W₂] [Module ℂ W₂]
+    {ι₁ : V₁ →ₗ[ℤ] W₁} {ι₂ : V₂ →ₗ[ℤ] W₂} {h₁ : IsBaseChange ℂ ι₁} {h₂ : IsBaseChange ℂ ι₂}
+    [Module.Free ℤ V₁] [Module.Finite ℤ V₁] {n₂ : ℤ} (hs₁ : HodgeStructure h₁ n)
+    (hs₂ : HodgeStructure h₂ n₂) {p : ℤ} (f : W₁ →ₗ[ℂ] W₂) :
+    f ∈ (hs₁.internalHom hs₂ :
+        HodgeStructure (isBaseChange_homLatticeMap h₁ h₂) (n₂ - n)).F p ↔
+      ∀ q, ∀ x ∈ hs₁.F q, f x ∈ hs₂.F (p + q) := by
+  rw [Hodge.HodgeStructure.internalHom_F, HodgeStructureOn.mem_internalHom_F_iff]
 
 /-- **Effectivity is a named hypothesis.** Under it, in weight one, the `±i`-eigenspaces of the
 Weil operator are exactly the `(1,0)` and `(0,1)` pieces. -/
@@ -248,6 +362,19 @@ theorem eigenspace_weilOperator_I (hs : HodgeStructureOn W ω 1) (heff : hs.IsEf
 theorem eigenspace_weilOperator_neg_I (hs : HodgeStructureOn W ω 1) (heff : hs.IsEffective) :
     Module.End.eigenspace hs.weilOperator (-Complex.I) = hs.piece 0 :=
   hs.eigenspace_weilOperator_neg_I heff
+
+/-- `V_ℝ` with its structure map `v ↦ 1 ⊗ v`. -/
+theorem realificationMap_apply {V : Type u} [AddCommGroup V] (x : V) :
+    Hodge.realificationMap x = (1 : ℝ) ⊗ₜ[ℤ] x :=
+  Hodge.realificationMap_apply x
+
+/-- The complex structure `J` built from an odd-weight structure complexifies to its Weil operator,
+so in effective weight one its `±i`-eigenspaces are the pieces above. -/
+theorem latticeComplexification_latticeAlmostComplexStructure {V : Type u} {Vℂ : Type v}
+    [AddCommGroup V] [AddCommGroup Vℂ] [Module ℂ Vℂ] {ιℂ : V →ₗ[ℤ] Vℂ} {hℂ : IsBaseChange ℂ ιℂ}
+    (hs : HodgeStructure hℂ n) (hn : Odd n) :
+    (hs.latticeAlmostComplexStructure hn).latticeComplexification hℂ = hs.weilOperator :=
+  hs.latticeComplexification_latticeAlmostComplexStructure hn
 
 /-- **The instance bridge.** On a lattice, complex structures on the realification correspond
 exactly to effective weight-one Hodge structures. -/
@@ -343,6 +470,21 @@ noncomputable example (WQ : ℤ → Submodule ℚ Vℚ) (hWQ : Monotone WQ) (k :
       weightGradedComplex (fun k ↦ rationalToComplexSubmodule hℚ hℂ (WQ k)) k :=
   gradedComplexEquiv hℚ hℂ WQ hWQ k
 
+/-- The comparison carries the lattice conjugation of `ℂ ⊗_ℚ grᵂ_k` to the conjugation induced on
+the complex graded piece, and `gradedF` is the induced filtration transported along it. -/
+theorem gradedComplexEquiv_latticeConj (WQ : ℤ → Submodule ℚ Vℚ) (hWQ : Monotone WQ) (k : ℤ)
+    (x : ℂ ⊗[ℚ] weightGradedRat WQ k) :
+    gradedComplexEquiv hℚ hℂ WQ hWQ k
+        (latticeConj (isBaseChange_ratTensorMap ℂ (weightGradedRat WQ k)) x) =
+      (gradedComplexConjugation hℚ hℂ WQ k).toEquiv (gradedComplexEquiv hℚ hℂ WQ hWQ k x) :=
+  Hodge.gradedComplexEquiv_latticeConj hℚ hℂ WQ hWQ k x
+
+example (WQ : ℤ → Submodule ℚ Vℚ) (hWQ : Monotone WQ) (F : ℤ → Submodule ℂ Vℂ) (k p : ℤ) :
+    gradedF hℚ hℂ WQ hWQ F k p =
+      (complexGradedF (fun k ↦ rationalToComplexSubmodule hℚ hℂ (WQ k)) F k p).comap
+        (gradedComplexEquiv hℚ hℂ WQ hWQ k).toLinearMap :=
+  rfl
+
 /-- **Conjugation-equivariance of the abstract complexified map**, for every `IsBaseChange` model
 and not only the concrete tensor. -/
 theorem rationalMapToComplex_comp_latticeConj (f : Vℚ →ₗ[ℚ] V'ℚ) :
@@ -350,8 +492,16 @@ theorem rationalMapToComplex_comp_latticeConj (f : Vℚ →ₗ[ℚ] V'ℚ) :
       (latticeConj h'ℂ).comp (rationalMapToComplex hℚ hℂ h'ℚ h'ℂ f) :=
   Hodge.rationalMapToComplex_comp_latticeConj hℚ hℂ h'ℚ h'ℂ f
 
-/-- **Deligne's bigrading**, defined by its closed formula, is an internal direct sum, and it
-recovers both the Hodge filtration and the complexified weight filtration. -/
+/-- **Deligne's bigrading** is defined by Deligne's closed formula in `F`, `conj F` and `W`. -/
+theorem deligneSplitting_def (mhs : MixedHodgeStructure hℚ hℂ) (p q : ℤ) :
+    mhs.deligneSplitting p q =
+      (mhs.F p ⊓ mhs.WC (p + q)) ⊓
+        ((mhs.conjF q ⊓ mhs.WC (p + q)) ⊔
+          ⨆ j : ℕ, mhs.conjF (q - (j : ℤ) - 1) ⊓ mhs.WC (p + q - (j : ℤ) - 2)) :=
+  mhs.deligneSplitting_def p q
+
+/-- The bigrading is an internal direct sum, and it recovers both the Hodge filtration and the
+complexified weight filtration. -/
 theorem isInternal_deligneSplittingFamily (mhs : MixedHodgeStructure hℚ hℂ) :
     DirectSum.IsInternal mhs.deligneSplittingFamily :=
   mhs.isInternal_deligneSplittingFamily
@@ -417,9 +567,11 @@ theorem PeriodDomain.Point.pol {n : ℤ} {Qint : LinearMap.BilinForm ℤ V} {hty
     (D : PeriodDomain.Point hℂ n Qint htype) : IsPolarization hℂ D.hs Qint :=
   D.pol
 
-/-- **The symmetry group** `Aut(V, Qint)`, as a subgroup of the integral automorphisms. -/
-example (Qint : LinearMap.BilinForm ℤ V) : Subgroup (V ≃ₗ[ℤ] V) :=
-  BilinForm.isometryGroup Qint
+omit [Module.Free ℤ V] [Module.Finite ℤ V] in
+/-- **The symmetry group** `Aut(V, Qint)`: the integral automorphisms preserving the form. -/
+theorem mem_isometryGroup_iff (Qint : LinearMap.BilinForm ℤ V) (e : V ≃ₗ[ℤ] V) :
+    e ∈ BilinForm.isometryGroup Qint ↔ ∀ x y, Qint (e x) (e y) = Qint x y :=
+  BilinForm.mem_isometryGroup_iff
 
 end L3
 

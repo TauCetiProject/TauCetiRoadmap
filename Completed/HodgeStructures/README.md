@@ -2,7 +2,8 @@
 
 The narrative roadmap for **Hodge theory's linear-algebraic core** — pure, mixed, and polarized
 Hodge structures and their period-domain points — at general weight, as a reusable library;
-`Suggested.lean` states the milestones as `sorry`-goals. Its summit in the pure theory is the
+`Suggested.lean` states the milestones, each now discharged by the Tau Ceti declaration that
+realizes it. Its summit in the pure theory is the
 **semisimplicity of polarizable Hodge structures** (Hodge–Riemann), and in the mixed theory Deligne's
 **strictness**. Written to the roadmap conventions: build the library not one theorem, ground in
 Mathlib's vocabulary, pin conventions up front, and — because this is a subject Mathlib has *nothing*
@@ -451,7 +452,11 @@ reference for the successor variations roadmap.)
 
 ---
 
-*NOTE: `Suggested.lean` proposes the core definitions (the chief deliverable of this entry) with a
+*Archived: this roadmap was declared complete on 2026-10-06. `Suggested.lean` now states each
+milestone against Tau Ceti and closes it with no `sorry`; the note below describes the file as it
+stood before archiving.*
+
+*NOTE: `Suggested.lean` proposed the core definitions (the chief deliverable of this entry) with a
 genuine milestone `sorry` at **L0, L1, L2, L3** (four milestones; the variations/rigidity material is
 the successor roadmap and is not seeded here). The Hodge structure carries its integral lattice `V_ℤ`
 as primary datum; the definitions are stated against the abstract **`IsBaseChange` interface** (see
