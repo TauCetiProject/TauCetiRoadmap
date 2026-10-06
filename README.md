@@ -38,7 +38,6 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Global quadratic forms over number fields](TauCetiRoadmap/GlobalQuadraticForms/README.md)
 - [Grothendieck groups, Cartan maps, and Euler forms](TauCetiRoadmap/GrothendieckEulerForms/README.md)
 - [Heegaard Floer homology, analytically](TauCetiRoadmap/HeegaardFloer/README.md)
-- [Hodge structures: pure, mixed, and polarized](TauCetiRoadmap/HodgeStructures/README.md)
 - [Integral quadratic forms and lattices](TauCetiRoadmap/IntegralLattices/README.md)
 - [Local fields and ramification](TauCetiRoadmap/LocalFieldsRamification/README.md)
 - [Local Galois groups of p-adic fields](TauCetiRoadmap/LocalGaloisGroups/README.md)
