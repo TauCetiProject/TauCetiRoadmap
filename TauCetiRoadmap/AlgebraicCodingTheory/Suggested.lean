@@ -12,9 +12,9 @@ permitted in this human-owned roadmap repository: these are targets, not impleme
 
 Linear codes remain Mathlib `Submodule`s and additive codes remain `AddSubgroup`s. Hamming weight
 is Mathlib's `hammingNorm`. Construction A uses the rational form `dotProduct / m`, and its gluing
-comparison consumes the integral-lattices roadmap's actual discriminant quotient and, through
-`evenIntermediateCarrierOrderIsoIsotropicSubgroup`, the inverse-image intermediate carrier attached
-to a quadratic-isotropic subgroup. The Markdown roadmap remains definitive.
+comparison consumes the integral-lattices roadmap's actual discriminant quotient and
+`ofIsotropicSubgroup`, the even overlattice glued along a quadratic-isotropic subgroup. The
+Markdown roadmap remains definitive.
 -/
 
 namespace TauCetiRoadmap.AlgebraicCodingTheory
@@ -579,11 +579,10 @@ noncomputable def constructionAAsGluing
     (hq : ∀ c ∈ C, constructionAQuadraticValue m hm₂ hmeven c = 0) :
     TauCeti.IntegralLattice.Isometry
       (constructionA m hm₂ C hself)
-      ((((constructionABase (ι := ι) m hm₂).evenIntermediateCarrierOrderIsoIsotropicSubgroup
-              (constructionABase_isEven (ι := ι) m hm₂ hmeven)).symm
-            ⟨codeInBaseDiscriminant m hm₂ C,
-              codeInBaseDiscriminant_isIsotropic m hm₂ hmeven C hq⟩).2.isIntegral
-        |>.toIntegralLattice) := sorry
+      ((constructionABase (ι := ι) m hm₂).ofIsotropicSubgroup
+        (constructionABase_isEven (ι := ι) m hm₂ hmeven)
+        (codeInBaseDiscriminant m hm₂ C)
+        (codeInBaseDiscriminant_isIsotropic m hm₂ hmeven C hq)) := sorry
 
 /-- The literal copy of `C` inside `C^⊥`, used to form the quotient `C^⊥/C`. -/
 noncomputable def codeInZModDual (m : ℕ) (hm₂ : 2 ≤ m) (C : AdditiveCode (ZMod m) ι)
@@ -761,7 +760,8 @@ theorem hexacode_d4_isLagrangian :
 noncomputable def golayConstructionA : IntegralLattice ((Fin 12 ⊕ Fin 12) → ℚ) :=
   constructionA 2 (by decide) extendedBinaryGolay.toAddSubgroup
     (by
-      rw [zmodDual_two_toAddSubgroup, extendedBinaryGolay_typeII.2])
+      rw [zmodDual_two_toAddSubgroup, extendedBinaryGolay_typeII.2]
+      exact le_rfl)
 
 theorem golayConstructionA_isEven : golayConstructionA.IsEven := sorry
 
