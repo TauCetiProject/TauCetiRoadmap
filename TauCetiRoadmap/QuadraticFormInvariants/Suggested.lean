@@ -3180,7 +3180,7 @@ theorem pinDihedral_mul [Invertible (2 : F)] {r2 : F} (hr2 : r2 ^ 2 = 2) (z z' :
     · show (E * T) ^ 8 = 1
       rw [show 8 = 4 * 2 from rfl, pow_mul, h4, neg_one_sq]
   have key : ∀ w : DihedralGroup 8, pinDihedral r2 w =
-      ((TauCeti.dihedralHom hT hTET hord w : (Matrix (Fin 2) (Fin 2) F)ˣ) :
+      ((TauCeti.dihedralHom hT hTET (hord ▸ pow_orderOf_eq_one _) w : (Matrix (Fin 2) (Fin 2) F)ˣ) :
         Matrix (Fin 2) (Fin 2) F) := by
     rintro (i | i)
     · rw [TauCeti.dihedralHom_r, hprod, ZMod.cast_eq_val, zpow_natCast,

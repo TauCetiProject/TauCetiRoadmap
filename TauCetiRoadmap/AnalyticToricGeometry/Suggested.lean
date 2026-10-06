@@ -8,7 +8,7 @@ import TauCeti.Geometry.Toric.Analytic.AffinePoint
 import TauCeti.Geometry.Toric.Analytic.Character.Action
 import TauCeti.Geometry.Toric.Analytic.Character.Basic
 import TauCeti.Geometry.Toric.Analytic.Cone.Manifold
-import TauCeti.Geometry.Toric.Analytic.Cone.Orbit
+import TauCeti.Geometry.Toric.Analytic.Cone.Orbit.Basic
 import TauCeti.Geometry.Toric.Analytic.Fan.Cocycle
 import TauCeti.Geometry.Toric.Analytic.Fan.Transition
 
@@ -135,22 +135,22 @@ noncomputable def algebraicRealizationOverCocone (Φ : Fan i) :
         exact AlgHom.comp_algebraMap
           (faceAffineCoordinateRingMap Φ.lattice (Φ.isFaceOf_of_le σ.2 τ.2 (leOfHom h))) }
 
-/-- **Layer 0, item 9.** The fan scheme of a regular fan is a scheme over `Spec ℂ`: its structure
+/-- **Layer 0, item 9.** The fan scheme of a finite fan is a scheme over `Spec ℂ`: its structure
 morphism descends the structure morphisms of the affine charts through the colimit
 `TauCeti.Toric.Fan.isColimitAffineToricCocone`. -/
 @[instance_reducible]
-noncomputable def algebraicRealizationOver (Φ : Fan i) (hΦ : Φ.IsRegular) :
-    (Φ.algebraicRealization hΦ).Over (Spec (.of ℂ)) :=
-  OverClass.ofHom ((Φ.isColimitAffineToricCocone hΦ).desc (algebraicRealizationOverCocone Φ))
+noncomputable def algebraicRealizationOver (Φ : Fan i) :
+    Φ.algebraicRealization.Over (Spec (.of ℂ)) :=
+  OverClass.ofHom (Φ.isColimitAffineToricCocone.desc (algebraicRealizationOverCocone Φ))
 
 /-- Every affine chart inclusion `TauCeti.Toric.Fan.affineToricChartι` is a morphism over
 `Spec ℂ`. -/
-theorem isOver_affineToricChartι (Φ : Fan i) (hΦ : Φ.IsRegular) (σ : Φ.cones) :
-    letI := algebraicRealizationOver Φ hΦ
-    (Φ.affineToricChartι hΦ σ).IsOver (Spec (.of ℂ)) := by
-  let _ := algebraicRealizationOver Φ hΦ
+theorem isOver_affineToricChartι (Φ : Fan i) (σ : Φ.cones) :
+    letI := algebraicRealizationOver Φ
+    (Φ.affineToricChartι σ).IsOver (Spec (.of ℂ)) := by
+  let _ := algebraicRealizationOver Φ
   refine ⟨?_⟩
-  have h := (Φ.isColimitAffineToricCocone hΦ).fac (algebraicRealizationOverCocone Φ) σ
+  have h := Φ.isColimitAffineToricCocone.fac (algebraicRealizationOverCocone Φ) σ
   rw [Fan.affineToricCocone_ι_app] at h
   exact h
 
@@ -158,15 +158,15 @@ variable {N' V' : Type} [AddCommGroup N'] [AddCommGroup V'] [Module ℝ V'] {i' 
   {Φ : Fan i} {Ψ : Fan i'}
 
 /-- Every toric map `TauCeti.Toric.FanHom.algebraicMap` is a morphism over `Spec ℂ`. -/
-theorem isOver_algebraicMap (f : FanHom Φ Ψ) (hΦ : Φ.IsRegular) (hΨ : Ψ.IsRegular) :
-    letI := algebraicRealizationOver Φ hΦ
-    letI := algebraicRealizationOver Ψ hΨ
-    (f.algebraicMap hΦ hΨ).IsOver (Spec (.of ℂ)) := by
-  let _ := algebraicRealizationOver Φ hΦ
-  let _ := algebraicRealizationOver Ψ hΨ
-  refine ⟨Fan.algebraicRealization_hom_ext Φ hΦ fun σ ↦ ?_⟩
-  have hΦσ := (isOver_affineToricChartι Φ hΦ σ).comp_over
-  have hΨτ := (isOver_affineToricChartι Ψ hΨ ⟨f.leastCone σ.2, f.leastCone_mem σ.2⟩).comp_over
+theorem isOver_algebraicMap (f : FanHom Φ Ψ) :
+    letI := algebraicRealizationOver Φ
+    letI := algebraicRealizationOver Ψ
+    f.algebraicMap.IsOver (Spec (.of ℂ)) := by
+  let _ := algebraicRealizationOver Φ
+  let _ := algebraicRealizationOver Ψ
+  refine ⟨Fan.algebraicRealization_hom_ext Φ fun σ ↦ ?_⟩
+  have hΦσ := (isOver_affineToricChartι Φ σ).comp_over
+  have hΨτ := (isOver_affineToricChartι Ψ ⟨f.leastCone σ.2, f.leastCone_mem σ.2⟩).comp_over
   rw [FanHom.affineToricChartι_comp_algebraicMap_assoc, hΨτ, hΦσ, specOverSpec_over,
     specOverSpec_over, FanHom.affineToricChartMap_def, affineToricSchemeMap_def,
     ← Spec.map_comp, ← CommRingCat.ofHom_comp]
@@ -194,7 +194,7 @@ revision predates it; replaced by the import when the pin moves. -/
 noncomputable def analyticGlueData (Φ : Fan i) (hΦ : Φ.IsRegular) : TopCat.GlueData :=
   TopCat.GlueData.mk'
     { J := Φ.cones
-      U σ := (Φ.analyticAffineChartDiagram hΦ).obj σ
+      U σ := (Φ.analyticAffineChartDiagram).obj σ
       V σ τ := Φ.analyticOverlapOpens hΦ σ τ
       t σ τ := Φ.analyticOverlapTransition hΦ σ τ
       V_id := Φ.analyticOverlapOpens_self hΦ
@@ -229,7 +229,7 @@ Tau Ceti's `TauCeti.Toric.Fan.analyticAffineChartι`
 (`TauCeti/Geometry/Toric/Analytic/Fan/GlueData.lean`); stated here because the pinned Tau Ceti
 revision predates it; replaced by the import when the pin moves. -/
 noncomputable def analyticAffineChartι (Φ : Fan i) (hΦ : Φ.IsRegular) (σ : Φ.cones) :
-    (Φ.analyticAffineChartDiagram hΦ).obj σ ⟶ analyticRealization Φ hΦ :=
+    (Φ.analyticAffineChartDiagram).obj σ ⟶ analyticRealization Φ hΦ :=
   (analyticGlueData Φ hΦ).ι σ
 
 /-- **Layer 3, item 5.** A cone of a subfan, as a cone of the ambient fan. -/
@@ -246,14 +246,12 @@ the finite generating families that each fan chooses, `TauCeti.Toric.Fan.analyti
 and the identity on points is continuous by independence of the generating family,
 `TauCeti.Toric.affinePointTopology_eq`. -/
 noncomputable def subfanAnalyticChartMap (Φ : Fan i) (S : Set (PointedCone ℝ V))
-    (hS : S ⊆ Φ.cones) (hface : ∀ ⦃σ τ⦄, σ ∈ S → τ.IsFaceOf σ → τ ∈ S) (hΦ : Φ.IsRegular)
+    (hS : S ⊆ Φ.cones) (hface : ∀ ⦃σ τ⦄, σ ∈ S → τ.IsFaceOf σ → τ ∈ S)
     (σ : (Φ.subfan S hS hface).cones) :
-    ((Φ.subfan S hS hface).analyticAffineChartDiagram (hΦ.subfan S hS hface)).obj σ ⟶
-      (Φ.analyticAffineChartDiagram hΦ).obj (subfanCone Φ S hS hface σ) :=
-  let g := ((Φ.subfan S hS hface).analyticChartGenerators σ
-    ((Fan.isRegular_iff.mp (hΦ.subfan S hS hface)) σ.1 σ.2)).2
-  let g' := (Φ.analyticChartGenerators (subfanCone Φ S hS hface σ)
-    ((Fan.isRegular_iff.mp hΦ) _ (subfanCone Φ S hS hface σ).2)).2
+    ((Φ.subfan S hS hface).analyticAffineChartDiagram).obj σ ⟶
+      (Φ.analyticAffineChartDiagram).obj (subfanCone Φ S hS hface σ) :=
+  let g := ((Φ.subfan S hS hface).analyticChartGenerators σ).2
+  let g' := (Φ.analyticChartGenerators (subfanCone Φ S hS hface σ)).2
   @TopCat.ofHom _ _ (affinePointTopology g) (affinePointTopology g')
     (@ContinuousMap.mk _ _ (affinePointTopology g) (affinePointTopology g') id
       (by rw [affinePointTopology_eq g g']; exact @continuous_id _ (affinePointTopology g')))
@@ -261,16 +259,14 @@ noncomputable def subfanAnalyticChartMap (Φ : Fan i) (S : Set (PointedCone ℝ 
 /-- **Layer 3, item 5.** The chart comparison is an isomorphism, with the identity on points as
 its inverse. -/
 noncomputable def subfanAnalyticChartIso (Φ : Fan i) (S : Set (PointedCone ℝ V))
-    (hS : S ⊆ Φ.cones) (hface : ∀ ⦃σ τ⦄, σ ∈ S → τ.IsFaceOf σ → τ ∈ S) (hΦ : Φ.IsRegular)
+    (hS : S ⊆ Φ.cones) (hface : ∀ ⦃σ τ⦄, σ ∈ S → τ.IsFaceOf σ → τ ∈ S)
     (σ : (Φ.subfan S hS hface).cones) :
-    ((Φ.subfan S hS hface).analyticAffineChartDiagram (hΦ.subfan S hS hface)).obj σ ≅
-      (Φ.analyticAffineChartDiagram hΦ).obj (subfanCone Φ S hS hface σ) where
-  hom := subfanAnalyticChartMap Φ S hS hface hΦ σ
+    ((Φ.subfan S hS hface).analyticAffineChartDiagram).obj σ ≅
+      (Φ.analyticAffineChartDiagram).obj (subfanCone Φ S hS hface σ) where
+  hom := subfanAnalyticChartMap Φ S hS hface σ
   inv :=
-    let g := ((Φ.subfan S hS hface).analyticChartGenerators σ
-      ((Fan.isRegular_iff.mp (hΦ.subfan S hS hface)) σ.1 σ.2)).2
-    let g' := (Φ.analyticChartGenerators (subfanCone Φ S hS hface σ)
-      ((Fan.isRegular_iff.mp hΦ) _ (subfanCone Φ S hS hface σ).2)).2
+    let g := ((Φ.subfan S hS hface).analyticChartGenerators σ).2
+    let g' := (Φ.analyticChartGenerators (subfanCone Φ S hS hface σ)).2
     @TopCat.ofHom _ _ (affinePointTopology g') (affinePointTopology g)
       (@ContinuousMap.mk _ _ (affinePointTopology g') (affinePointTopology g) id
         (by rw [affinePointTopology_eq g' g]; exact @continuous_id _ (affinePointTopology g)))
@@ -279,31 +275,28 @@ noncomputable def subfanAnalyticChartIso (Φ : Fan i) (S : Set (PointedCone ℝ 
 
 @[simp]
 theorem subfanAnalyticChartIso_hom (Φ : Fan i) (S : Set (PointedCone ℝ V))
-    (hS : S ⊆ Φ.cones) (hface : ∀ ⦃σ τ⦄, σ ∈ S → τ.IsFaceOf σ → τ ∈ S) (hΦ : Φ.IsRegular)
+    (hS : S ⊆ Φ.cones) (hface : ∀ ⦃σ τ⦄, σ ∈ S → τ.IsFaceOf σ → τ ∈ S)
     (σ : (Φ.subfan S hS hface).cones) :
-    (subfanAnalyticChartIso Φ S hS hface hΦ σ).hom = subfanAnalyticChartMap Φ S hS hface hΦ σ :=
+    (subfanAnalyticChartIso Φ S hS hface σ).hom = subfanAnalyticChartMap Φ S hS hface σ :=
   rfl
 
 /-- **Layer 3, item 5.** The chart comparison is an open embedding: it is a homeomorphism. -/
 theorem isOpenEmbedding_subfanAnalyticChartMap (Φ : Fan i) (S : Set (PointedCone ℝ V))
-    (hS : S ⊆ Φ.cones) (hface : ∀ ⦃σ τ⦄, σ ∈ S → τ.IsFaceOf σ → τ ∈ S) (hΦ : Φ.IsRegular)
+    (hS : S ⊆ Φ.cones) (hface : ∀ ⦃σ τ⦄, σ ∈ S → τ.IsFaceOf σ → τ ∈ S)
     (σ : (Φ.subfan S hS hface).cones) :
-    IsOpenEmbedding (subfanAnalyticChartMap Φ S hS hface hΦ σ) :=
-  (TopCat.homeoOfIso (subfanAnalyticChartIso Φ S hS hface hΦ σ)).isOpenEmbedding
+    IsOpenEmbedding (subfanAnalyticChartMap Φ S hS hface σ) :=
+  (TopCat.homeoOfIso (subfanAnalyticChartIso Φ S hS hface σ)).isOpenEmbedding
 
 /-- **Layer 3, item 5.** The chart comparisons commute with the analytic face maps
 `TauCeti.Toric.Fan.analyticFaceMap` of the two fans: both restrict characters along the same
 face. -/
 theorem analyticFaceMap_comp_subfanAnalyticChartMap (Φ : Fan i) (S : Set (PointedCone ℝ V))
-    (hS : S ⊆ Φ.cones) (hface : ∀ ⦃σ τ⦄, σ ∈ S → τ.IsFaceOf σ → τ ∈ S) (hΦ : Φ.IsRegular)
+    (hS : S ⊆ Φ.cones) (hface : ∀ ⦃σ τ⦄, σ ∈ S → τ.IsFaceOf σ → τ ∈ S)
     {τ σ : (Φ.subfan S hS hface).cones} (f : τ ⟶ σ) :
-    (Φ.subfan S hS hface).analyticFaceMap
-        ((Fan.isRegular_iff.mp (hΦ.subfan S hS hface)) τ.1 τ.2)
-        ((Fan.isRegular_iff.mp (hΦ.subfan S hS hface)) σ.1 σ.2) f ≫
-      subfanAnalyticChartMap Φ S hS hface hΦ σ =
-    subfanAnalyticChartMap Φ S hS hface hΦ τ ≫
-      Φ.analyticFaceMap ((Fan.isRegular_iff.mp hΦ) _ (subfanCone Φ S hS hface τ).2)
-        ((Fan.isRegular_iff.mp hΦ) _ (subfanCone Φ S hS hface σ).2)
+    (Φ.subfan S hS hface).analyticFaceMap f ≫
+      subfanAnalyticChartMap Φ S hS hface σ =
+    subfanAnalyticChartMap Φ S hS hface τ ≫
+      Φ.analyticFaceMap
         (homOfLE (show subfanCone Φ S hS hface τ ≤ subfanCone Φ S hS hface σ from leOfHom f)) :=
   TopCat.ext fun _ ↦ rfl
 
@@ -312,14 +305,14 @@ diagram of the subfan to the chart diagram of the ambient fan. This is what glue
 open-subfan map. -/
 theorem analyticAffineChartDiagram_map_comp_subfanAnalyticChartMap (Φ : Fan i)
     (S : Set (PointedCone ℝ V)) (hS : S ⊆ Φ.cones)
-    (hface : ∀ ⦃σ τ⦄, σ ∈ S → τ.IsFaceOf σ → τ ∈ S) (hΦ : Φ.IsRegular)
+    (hface : ∀ ⦃σ τ⦄, σ ∈ S → τ.IsFaceOf σ → τ ∈ S)
     {τ σ : (Φ.subfan S hS hface).cones} (f : τ ⟶ σ) :
-    ((Φ.subfan S hS hface).analyticAffineChartDiagram (hΦ.subfan S hS hface)).map f ≫
-      subfanAnalyticChartMap Φ S hS hface hΦ σ =
-    subfanAnalyticChartMap Φ S hS hface hΦ τ ≫
-      (Φ.analyticAffineChartDiagram hΦ).map
+    ((Φ.subfan S hS hface).analyticAffineChartDiagram).map f ≫
+      subfanAnalyticChartMap Φ S hS hface σ =
+    subfanAnalyticChartMap Φ S hS hface τ ≫
+      (Φ.analyticAffineChartDiagram).map
         (homOfLE (show subfanCone Φ S hS hface τ ≤ subfanCone Φ S hS hface σ from leOfHom f)) :=
-  analyticFaceMap_comp_subfanAnalyticChartMap Φ S hS hface hΦ f
+  analyticFaceMap_comp_subfanAnalyticChartMap Φ S hS hface f
 
 /-- **Layer 3, item 5.** For a face-closed set `S` of cones of a regular fan `Φ`, the map from the
 realization of the subfan `Φ.subfan S hS hface` to the realization of `Φ`, glued from the chart
@@ -341,7 +334,7 @@ theorem analyticAffineChartι_comp_subfanAnalyticMap (Φ : Fan i) (S : Set (Poin
     (σ : (Φ.subfan S hS hface).cones) :
     analyticAffineChartι (Φ.subfan S hS hface) (hΦ.subfan S hS hface) σ ≫
         subfanAnalyticMap Φ S hS hface hΦ =
-      subfanAnalyticChartMap Φ S hS hface hΦ σ ≫
+      subfanAnalyticChartMap Φ S hS hface σ ≫
         analyticAffineChartι Φ hΦ (subfanCone Φ S hS hface σ) := by
   sorry
 
@@ -596,18 +589,18 @@ variable {N V : Type} [AddCommGroup N] [AddCommGroup V] [Module ℝ V] {i : N �
 
 /-- **Layer 6.** Global algebraic complex points are morphisms `Spec ℂ ⟶ X_Φ` over `Spec ℂ`:
 neither prime ideals of `X_Φ` nor bare scheme morphisms from `Spec ℂ`. -/
-abbrev AlgebraicComplexPoint (Φ : Fan i) (hΦ : Φ.IsRegular) :=
-  letI := algebraicRealizationOver Φ hΦ
-  {x : Spec (.of ℂ) ⟶ Φ.algebraicRealization hΦ // x.IsOver (Spec (.of ℂ))}
+abbrev AlgebraicComplexPoint (Φ : Fan i) :=
+  letI := algebraicRealizationOver Φ
+  {x : Spec (.of ℂ) ⟶ Φ.algebraicRealization // x.IsOver (Spec (.of ℂ))}
 
 /-- The complex point of the chart of a cone given by a `ℂ`-algebra homomorphism from its
 coordinate ring to `ℂ`, that is, by a point of the analytic chart of the cone. -/
-noncomputable def AlgebraicComplexPoint.ofAffinePoint (Φ : Fan i) (hΦ : Φ.IsRegular)
+noncomputable def AlgebraicComplexPoint.ofAffinePoint (Φ : Fan i)
     (σ : Φ.cones) (x : AffineSemigroupComplexPoint (dualSemigroup Φ.lattice σ.1)) :
-    AlgebraicComplexPoint Φ hΦ :=
-  letI := algebraicRealizationOver Φ hΦ
-  haveI := isOver_affineToricChartι Φ hΦ σ
-  ⟨Spec.map (CommRingCat.ofHom x.toRingHom) ≫ Φ.affineToricChartι hΦ σ, ⟨by
+    AlgebraicComplexPoint Φ :=
+  letI := algebraicRealizationOver Φ
+  haveI := isOver_affineToricChartι Φ σ
+  ⟨Spec.map (CommRingCat.ofHom x.toRingHom) ≫ Φ.affineToricChartι σ, ⟨by
     rw [Category.assoc, comp_over, specOverSpec_over, ← Spec.map_comp, ← CommRingCat.ofHom_comp,
       show x.toRingHom.comp (algebraMap ℂ _) = algebraMap ℂ ℂ from
         RingHom.ext fun z ↦ x.commutes z]
@@ -616,21 +609,21 @@ noncomputable def AlgebraicComplexPoint.ofAffinePoint (Φ : Fan i) (hΦ : Φ.IsR
 /-- The topology on global algebraic complex points is glued from the independently topologized
 affine functor-of-points charts. -/
 @[instance_reducible]
-noncomputable def algebraicComplexPointTopology (Φ : Fan i) (hΦ : Φ.IsRegular) :
-    TopologicalSpace (AlgebraicComplexPoint Φ hΦ) := by
+noncomputable def algebraicComplexPointTopology (Φ : Fan i) :
+    TopologicalSpace (AlgebraicComplexPoint Φ) := by
   sorry
 
 /-- The affine algebraic complex-point charts glue to their own named complex atlas. -/
 @[instance_reducible]
 noncomputable def algebraicComplexPointChartedSpace (Φ : Fan i) (hΦ : Φ.IsRegular) :
-    letI := algebraicComplexPointTopology Φ hΦ
-    ChartedSpace (ToricModel (N := N)) (AlgebraicComplexPoint Φ hΦ) := by
+    letI := algebraicComplexPointTopology Φ
+    ChartedSpace (ToricModel (N := N)) (AlgebraicComplexPoint Φ) := by
   sorry
 
 /-- The affine comparisons glue to the global algebraic--analytic comparison. -/
 noncomputable def algebraicAnalyticHomeomorph (Φ : Fan i) (hΦ : Φ.IsRegular) :
-    @Homeomorph (AlgebraicComplexPoint Φ hΦ) (analyticRealization Φ hΦ)
-      (algebraicComplexPointTopology Φ hΦ) inferInstance := by
+    @Homeomorph (AlgebraicComplexPoint Φ) (analyticRealization Φ hΦ)
+      (algebraicComplexPointTopology Φ) inferInstance := by
   sorry
 
 /-- **Layer 6, item 3.** On every affine chart the comparison is the identity of complex points:
@@ -638,13 +631,13 @@ the algebraic point of the chart of `σ` given by a `ℂ`-algebra homomorphism `
 `x` of the analytic chart of `σ`. This chart computation identifies the comparison. -/
 theorem algebraicAnalyticHomeomorph_ofAffinePoint (Φ : Fan i) (hΦ : Φ.IsRegular) (σ : Φ.cones)
     (x : AffineSemigroupComplexPoint (dualSemigroup Φ.lattice σ.1)) :
-    algebraicAnalyticHomeomorph Φ hΦ (AlgebraicComplexPoint.ofAffinePoint Φ hΦ σ x) =
+    algebraicAnalyticHomeomorph Φ hΦ (AlgebraicComplexPoint.ofAffinePoint Φ σ x) =
       analyticAffineChartι Φ hΦ σ x := by
   sorry
 
 /-- The global comparison and its inverse are holomorphic. -/
 theorem algebraicAnalyticHomeomorph_mdifferentiable (Φ : Fan i) (hΦ : Φ.IsRegular) :
-    letI := algebraicComplexPointTopology Φ hΦ
+    letI := algebraicComplexPointTopology Φ
     letI := algebraicComplexPointChartedSpace Φ hΦ
     letI := analyticChartedSpace Φ hΦ
     ContMDiff 𝓘(ℂ, ToricModel (N := N)) 𝓘(ℂ, ToricModel (N := N)) ∞
@@ -657,19 +650,19 @@ variable {N' V' : Type} [AddCommGroup N'] [AddCommGroup V'] [Module ℝ V'] {i' 
   {Φ : Fan i} {Ψ : Fan i'}
 
 /-- A toric map sends complex points to complex points, by composition. -/
-noncomputable def AlgebraicComplexPoint.map (f : FanHom Φ Ψ) (hΦ : Φ.IsRegular)
-    (hΨ : Ψ.IsRegular) (x : AlgebraicComplexPoint Φ hΦ) : AlgebraicComplexPoint Ψ hΨ :=
-  letI := algebraicRealizationOver Φ hΦ
-  letI := algebraicRealizationOver Ψ hΨ
+noncomputable def AlgebraicComplexPoint.map (f : FanHom Φ Ψ) (x : AlgebraicComplexPoint Φ) :
+    AlgebraicComplexPoint Ψ :=
+  letI := algebraicRealizationOver Φ
+  letI := algebraicRealizationOver Ψ
   haveI := x.2
-  haveI := isOver_algebraicMap f hΦ hΨ
-  ⟨x.1 ≫ f.algebraicMap hΦ hΨ, inferInstance⟩
+  haveI := isOver_algebraicMap f
+  ⟨x.1 ≫ f.algebraicMap, inferInstance⟩
 
 /-- The comparison is natural for fan morphisms: `TauCeti.Toric.FanHom.algebraicMap` on the
 algebraic side, `analyticMap` on the analytic side. -/
 theorem algebraicAnalyticHomeomorph_naturality (f : FanHom Φ Ψ) (hΦ : Φ.IsRegular)
-    (hΨ : Ψ.IsRegular) (x : AlgebraicComplexPoint Φ hΦ) :
-    algebraicAnalyticHomeomorph Ψ hΨ (AlgebraicComplexPoint.map f hΦ hΨ x) =
+    (hΨ : Ψ.IsRegular) (x : AlgebraicComplexPoint Φ) :
+    algebraicAnalyticHomeomorph Ψ hΨ (AlgebraicComplexPoint.map f x) =
       analyticMap f hΦ hΨ (algebraicAnalyticHomeomorph Φ hΦ x) := by
   sorry
 

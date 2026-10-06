@@ -1,14 +1,15 @@
 import Mathlib
 import TauCeti.FieldTheory.Galois.AbsoluteGaloisGroup.Basic
 import TauCeti.NumberTheory.LocalField.AbsoluteRamificationIndex
-import TauCeti.NumberTheory.LocalField.Discriminant
+import TauCeti.NumberTheory.LocalField.Discriminant.Basic
 import TauCeti.NumberTheory.LocalField.FiniteExtension.IntermediateField
 import TauCeti.NumberTheory.LocalField.FiniteExtension.Tower
-import TauCeti.NumberTheory.LocalField.Herbrand
+import TauCeti.NumberTheory.LocalField.Herbrand.Basic
 import TauCeti.NumberTheory.LocalField.InertiaDegree
 import TauCeti.NumberTheory.LocalField.NatCastValuation
-import TauCeti.NumberTheory.LocalField.Norm.Unramified
-import TauCeti.NumberTheory.LocalField.PowerSubgroup
+import TauCeti.NumberTheory.LocalField.Norm.Unramified.Basic
+import TauCeti.NumberTheory.LocalField.PowerSubgroup.Basic
+import TauCeti.NumberTheory.LocalField.PowerSubgroup.Open
 import TauCeti.NumberTheory.LocalField.RamificationGroup
 import TauCeti.NumberTheory.LocalField.RamificationIndex
 import TauCeti.NumberTheory.LocalField.ResidueCorrespondence
@@ -17,7 +18,7 @@ import TauCeti.NumberTheory.LocalField.Teichmuller
 import TauCeti.NumberTheory.LocalField.UnitFiltration.Map
 import TauCeti.NumberTheory.LocalField.UnitFiltration.RamificationGroup
 import TauCeti.NumberTheory.LocalField.UnitsDecomposition
-import TauCeti.Topology.Algebra.Group.Profinite.Presentation
+import TauCeti.Topology.Algebra.Group.Profinite.Presentation.Basic
 import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic
 import TauCetiRoadmap.ProfiniteProPGroups.Suggested
 
@@ -654,11 +655,11 @@ theorem card_powerClasses_mixed (p : ℕ) [Fact p.Prime] [Algebra ℚ_[p] K]
 /-- **Layer 1, openness of the power subgroup away from the residue characteristic.** Openness
 comes from the explicit deep subgroup contained in the range
 (`TauCeti.unitFiltration_one_le_range_powMonoidHom_of_isUnit`); no finite-index implication is
-used. Tau Ceti's `TauCeti.isOpen_range_powMonoidHom_of_isUnit`. -/
+used. Tau Ceti's `TauCeti.isOpen_range_powMonoidHom`, which needs only `(n : K) ≠ 0`. -/
 theorem isOpen_range_powMonoidHom_of_isUnit (n : ℕ) (_hn : n ≠ 0)
     (hn' : IsUnit (n : ↥𝒪[K])) :
     IsOpen ((powMonoidHom n : Kˣ →* Kˣ).range : Set Kˣ) :=
-  TauCeti.isOpen_range_powMonoidHom_of_isUnit hn'
+  TauCeti.isOpen_range_powMonoidHom fun h ↦ hn'.ne_zero (Subtype.ext (by simpa using h))
 
 /-- **Layer 1, openness of the power subgroup in mixed characteristic.** -/
 theorem isOpen_range_powMonoidHom (p : ℕ) [Fact p.Prime] [Algebra ℚ_[p] K]
@@ -708,10 +709,10 @@ omit [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K] in
 subgroup of squares, and the counts above are stated at the range of `powMonoidHom`. This is the
 identification at `n = 2`, and it is what lets a consumer read the count of this layer, and
 `ProfiniteCohomology.kummerIso`, on `Subgroup.square Kˣ`. Tau Ceti's
-`TauCeti.square_eq_powMonoidHom_two_range`, for any commutative group. -/
+`TauCeti.square_eq_range_powMonoidHom`, for any commutative group. -/
 theorem square_eq_range_powMonoidHom :
     Subgroup.square Kˣ = (powMonoidHom 2 : Kˣ →* Kˣ).range :=
-  TauCeti.square_eq_powMonoidHom_two_range
+  TauCeti.square_eq_range_powMonoidHom
 
 /-- **Layer 1, worked example: `ℚ_2ˣ/(ℚ_2ˣ)²` has order 8** (the classes of `−1, 2, 5`
 generate). The odd-`p` count is `4`; this factor-of-two dyadic difference is why no layer may
@@ -843,15 +844,15 @@ noncomputable abbrev normGroup [Algebra K L] [Module.Finite K L] : Subgroup Kˣ 
 on the depth-zero step of the unit filtration, which `mem_unitFiltration_zero` identifies with
 the units of the valuation ring. ⚠ *False generalization:* for a ramified extension the norm of
 a unit is still a unit, but the image is a proper subgroup; at `L = ℚ_2(√2)` it has index `2` in
-`ℤ_2ˣ`. Tau Ceti's `TauCeti.map_normUnits_unitFiltration_zero`
-(`TauCeti/NumberTheory/LocalField/Norm/Unramified.lean`), under the same adaptation of `h` as
+`ℤ_2ˣ`. Tau Ceti's `TauCeti.map_normUnits_unitFiltration` at `i = 0`
+(`TauCeti/NumberTheory/LocalField/Norm/Unramified/Basic.lean`), under the same adaptation of `h` as
 `frobeniusAlgEquiv`. -/
 theorem map_norm_unitFiltration_zero [Algebra K L] [ValuativeExtension K L] [Module.Finite K L]
     (h : ramificationIndex K L = 1) :
     Subgroup.map (TauCeti.Algebra.normUnits K : Lˣ →* Kˣ) (unitFiltration L 0) =
       unitFiltration K 0 :=
   haveI := (TauCeti.isUnramified_iff_ramificationIndex_eq_one K L).2 h
-  TauCeti.map_normUnits_unitFiltration_zero K L
+  TauCeti.map_normUnits_unitFiltration K L 0
 
 /-- **Layer 2, the unramified norm group in norm-equation form.** `N_{L/K}(Lˣ) = π^{fℤ} × 𝒪[K]ˣ`,
 stated as the solvability criterion for the norm equation `N_{L/K}(y) = x`: with `e = 1` the

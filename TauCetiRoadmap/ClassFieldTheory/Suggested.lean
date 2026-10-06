@@ -11,7 +11,7 @@ import TauCeti.NumberTheory.LocalField.GaloisAction
 import TauCeti.RepresentationTheory.Homological.ContCohomology.TrivialFp
 import TauCeti.RepresentationTheory.Homological.TateCohomology.HerbrandQuotient
 import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic
-import TauCeti.Topology.Algebra.GroupAction.InternalHom
+import TauCeti.Topology.Algebra.GroupAction.InternalHom.Basic
 import TauCetiRoadmap.ProfiniteCohomology.Suggested
 import TauCetiRoadmap.LocalFieldsRamification.Suggested
 import TauCetiRoadmap.GlobalNumberFields.Suggested
@@ -1965,7 +1965,7 @@ theorem topologicalClosure_commutator_le_ker_restrictMaximalUnramifiedHom :
 /-- **Frozen public name.** The unramified coordinate `G_K^ab → Gal(K^ur/K) ≅ Ẑ`: the descent of
 `restrictMaximalUnramifiedHom` followed by `maximalUnramifiedGaloisGroupEquivZHat`, which sends the
 arithmetic Frobenius to `zHat.gen`. -/
-noncomputable def unramifiedCoordinate : Field.absoluteGaloisGroupAbelianization K →* zHat :=
+noncomputable def unramifiedCoordinate : Field.absoluteGaloisGroupAbelianization K →* zHat.{0} :=
   QuotientGroup.lift _
     ((maximalUnramifiedGaloisGroupEquivZHat K (AlgebraicClosure K)).toMulEquiv.toMonoidHom.comp
       (restrictMaximalUnramifiedHom K))

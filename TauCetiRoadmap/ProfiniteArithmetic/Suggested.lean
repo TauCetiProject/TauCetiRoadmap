@@ -49,9 +49,11 @@ universe u v
 
 /-! ## Layer 0: the ring structure on the profinite integers -/
 
+set_option quotPrecheck false in
 /-- The additive presentation of Tau Ceti's profinite integers `TauCeti.zHat`, the carrier of the
-ring of Layer 0. This is notation, not a new type. -/
-scoped notation "ẑ" => Additive TauCeti.zHat
+ring of Layer 0. This is notation, not a new type. Tau Ceti's `zHat` is universe-polymorphic;
+this file works with `zHat.{0}`, which needs the notation's precheck switched off. -/
+scoped notation "ẑ" => Additive TauCeti.zHat.{0}
 
 /-- **Layer 0.1, the ring structure.** Multiplication by `a` is the continuous endomorphism of
 `TauCeti.zHat` that sends the generator to `a`, as multiplication by an integer is on `ℤ`; so
@@ -181,7 +183,7 @@ with `ℤ_ℓ` sends the class of `a` to its component: the two descriptions of 
 `ẑ` are one map. -/
 theorem maximalProPQuotientEquivPadicInt_mk_eq_component (ℓ : ℕ) [Fact ℓ.Prime] (a : ẑ) :
     TauCeti.zHat.maximalProPQuotientEquivPadicInt ℓ
-        (TauCeti.maximalProPQuotient.mk ℓ TauCeti.zHat (Additive.toMul a))
+        (TauCeti.maximalProPQuotient.mk ℓ TauCeti.zHat.{0} (Additive.toMul a))
       = Multiplicative.ofAdd (component ℓ a) :=
   sorry
 
@@ -270,8 +272,9 @@ its target universe: the continuous homomorphism from `TauCeti.zHat` to a profin
 universe sending the generator to `a`. It is defined exactly as Tau Ceti defines it, through the
 generalized universal property; in Tau Ceti it replaces the `Type`-valued lift, and there is no
 second lift. -/
-noncomputable def lift (a : P) : TauCeti.zHat →ₜ* P :=
-  (ProfiniteCompletion.continuousMonoidHomEquiv (Multiplicative ℤ) P).symm (zpowersHom P a)
+noncomputable def lift (a : P) : TauCeti.zHat.{0} →ₜ* P :=
+  (ProfiniteCompletion.continuousMonoidHomEquiv (ULift.{0} (Multiplicative ℤ)) P).symm
+    ((zpowersHom P a).comp MulEquiv.ulift.toMonoidHom)
 
 /-- **Layer 1.1.** The lift sends the image of `n ∈ ℤ` to `a ^ n`, as Tau Ceti's
 `TauCeti.zHat.lift_ofInt`. -/
@@ -284,7 +287,7 @@ theorem lift_gen (a : P) : lift a TauCeti.zHat.gen = a := by
 
 /-- **Layer 1.1.** Uniqueness, as Tau Ceti's `TauCeti.zHat.lift_unique`: Tau Ceti's extensionality
 `TauCeti.zHat.hom_ext` already allows targets in every universe. -/
-theorem lift_unique (a : P) (φ : TauCeti.zHat →ₜ* P) (hφ : φ TauCeti.zHat.gen = a) :
+theorem lift_unique (a : P) (φ : TauCeti.zHat.{0} →ₜ* P) (hφ : φ TauCeti.zHat.gen = a) :
     φ = lift a :=
   TauCeti.zHat.hom_ext (by rw [hφ, lift_gen])
 

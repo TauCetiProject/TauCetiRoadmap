@@ -3,7 +3,7 @@ import TauCeti.Algebra.MonoidAlgebra.Exactness
 import TauCeti.NumberTheory.LocalField.AbsoluteRamificationIndex
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Inflation.Basic
 import TauCeti.Topology.Algebra.Group.Profinite.Free.Basic
-import TauCeti.Topology.Algebra.Group.Profinite.ProP.Prescription
+import TauCeti.Topology.Algebra.Group.Profinite.ProP.Prescription.Basic
 import TauCetiRoadmap.ProfiniteCohomology.Suggested
 import TauCetiRoadmap.ProfiniteProPGroups.Suggested
 import TauCetiRoadmap.LocalFieldsRamification.Suggested
