@@ -661,12 +661,14 @@ theorem isOpen_range_powMonoidHom_of_isUnit (n : ℕ) (_hn : n ≠ 0)
     IsOpen ((powMonoidHom n : Kˣ →* Kˣ).range : Set Kˣ) :=
   TauCeti.isOpen_range_powMonoidHom fun h ↦ hn'.ne_zero (Subtype.ext (by simpa using h))
 
-/-- **Layer 1, openness of the power subgroup in mixed characteristic.** -/
+/-- **Layer 1, openness of the power subgroup in mixed characteristic.** Tau Ceti's
+`TauCeti.isOpen_range_powMonoidHom`, since `n ≠ 0` in a field of characteristic zero. -/
 theorem isOpen_range_powMonoidHom (p : ℕ) [Fact p.Prime] [Algebra ℚ_[p] K]
     [ValuativeExtension ℚ_[p] K] [Module.Finite ℚ_[p] K]
     (n : ℕ) (_hn : n ≠ 0) :
     IsOpen ((powMonoidHom n : Kˣ →* Kˣ).range : Set Kˣ) :=
-  sorry
+  haveI : CharZero K := charZero_of_injective_algebraMap (algebraMap ℚ_[p] K).injective
+  TauCeti.isOpen_range_powMonoidHom (Nat.cast_ne_zero.mpr _hn)
 
 /-- **Layer 1, finite index away from the residue characteristic.** This is derived from
 `card_powerClasses_of_isUnit`, independently of the openness proof. Tau Ceti's

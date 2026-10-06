@@ -10,6 +10,9 @@ import TauCeti.Geometry.Toric.Analytic.Character.Basic
 import TauCeti.Geometry.Toric.Analytic.Cone.Manifold
 import TauCeti.Geometry.Toric.Analytic.Cone.Orbit.Basic
 import TauCeti.Geometry.Toric.Analytic.Fan.Cocycle
+import TauCeti.Geometry.Toric.Analytic.Fan.GlueData
+import TauCeti.Geometry.Toric.Analytic.Fan.Manifold
+import TauCeti.Geometry.Toric.Analytic.Fan.Subfan.Holomorphic
 import TauCeti.Geometry.Toric.Analytic.Fan.Transition
 
 /-!
@@ -27,16 +30,16 @@ schemes, face localizations, and the toric scheme of a regular fan with its tori
 `TauCeti/Geometry/Toric/Analytic/` supplies affine complex points with their monomial-embedding
 topology, mixed monomial maps, the charts of regular cones, face localizations of complex points,
 the coordinate-free complex torus, affine orbits, and, for a regular fan, the diagram of affine
-analytic charts with its overlap loci, transitions and cocycle. The targets below are stated on
-those objects. Nothing below restates a declaration of the pinned Tau Ceti revision. The gluing
-data, the realization and its chart inclusions landed in Tau Ceti after that revision, and the
-stand-ins `analyticGlueData`, `analyticRealization` and `analyticAffineChartι` assemble them from
-the pinned pieces. The complex atlas of the realization and its manifold theorem also landed after
-that revision, and `analyticChartedSpace` and `isManifold_analyticRealization` state them.
+analytic charts with its overlap loci, transitions and cocycle, the analytic realization glued from
+it with its chart inclusions (`TauCeti.Toric.Fan.analyticRealization`,
+`TauCeti.Toric.Fan.analyticAffineChartι`), its complex atlas and manifold theorem
+(`TauCeti.Toric.Fan.analyticChartedSpace`, `TauCeti.Toric.Fan.isManifold_analyticRealization`),
+and the open-subfan map (`TauCeti.Toric.Fan.subfanAnalyticMap`). The targets below are stated on
+those objects; `subfanAnalyticMap` is a reducible alias of Tau Ceti's.
 
 Nothing below states a gluing construction for manifolds. The ComplexManifolds roadmap, Milestone 5
 (TauCetiProject/TauCetiRoadmap#279), owns it, and Tau Ceti's `TauCeti.chartedSpaceOfIsOpenEmbedding`
-(`TauCeti/Geometry/Manifold/Gluing.lean`, after the pinned revision) implements the part that the
+(`TauCeti/Geometry/Manifold/Gluing.lean`) implements the part that the
 complex atlas of the realization uses.
 -/
 
@@ -181,57 +184,6 @@ section AnalyticRealization
 
 variable {N V : Type u} [AddCommGroup N] [AddCommGroup V] [Module ℝ V] {i : N →+ V}
 
-/-- **Layer 3, item 1.** The gluing data of the affine analytic charts of a regular fan along
-their overlap transitions, assembled by `TopCat.GlueData.mk'` from Tau Ceti's chart diagram
-`TauCeti.Toric.Fan.analyticAffineChartDiagram`, overlap loci
-`TauCeti.Toric.Fan.analyticOverlapOpens`, transitions
-`TauCeti.Toric.Fan.analyticOverlapTransition` and cocycle
-`TauCeti.Toric.Fan.analyticOverlapHomeomorph_cocycle`.
-
-Tau Ceti's `TauCeti.Toric.Fan.analyticGlueData`
-(`TauCeti/Geometry/Toric/Analytic/Fan/GlueData.lean`); stated here because the pinned Tau Ceti
-revision predates it; replaced by the import when the pin moves. -/
-noncomputable def analyticGlueData (Φ : Fan i) (hΦ : Φ.IsRegular) : TopCat.GlueData :=
-  TopCat.GlueData.mk'
-    { J := Φ.cones
-      U σ := (Φ.analyticAffineChartDiagram).obj σ
-      V σ τ := Φ.analyticOverlapOpens hΦ σ τ
-      t σ τ := Φ.analyticOverlapTransition hΦ σ τ
-      V_id := Φ.analyticOverlapOpens_self hΦ
-      t_id σ := by rw [Fan.analyticOverlapTransition_self, TopCat.coe_id]
-      t_inter {σ τ} υ x h := by
-        -- The transition acts on the `TopCat` object of the overlap open set, whose points are
-        -- those of the open set only after unfolding `Opens.toTopCat`.
-        erw [Fan.analyticOverlapTransition_apply]
-        exact Φ.analyticOverlapHomeomorph_mem hΦ σ τ υ x h
-      cocycle σ τ υ x h := by
-        have e : ∀ (σ τ : Φ.cones) (y : Φ.analyticOverlapOpens hΦ σ τ),
-            Subtype.val (Φ.analyticOverlapTransition hΦ σ τ y) =
-              Subtype.val (Φ.analyticOverlapHomeomorph hΦ σ τ y) := fun σ τ y ↦ by
-          erw [Fan.analyticOverlapTransition_apply]
-        simp only [e]
-        exact Φ.analyticOverlapHomeomorph_cocycle hΦ σ τ υ x h }
-
-/-- **Layer 3, item 1.** The analytic realization of a regular fan is the glued space
-`TopCat.GlueData.glued`, not a new quotient carrier.
-
-Tau Ceti's `TauCeti.Toric.Fan.analyticRealization`
-(`TauCeti/Geometry/Toric/Analytic/Fan/GlueData.lean`); stated here because the pinned Tau Ceti
-revision predates it; replaced by the import when the pin moves. -/
-noncomputable abbrev analyticRealization (Φ : Fan i) (hΦ : Φ.IsRegular) : TopCat :=
-  (analyticGlueData Φ hΦ).glued
-
-/-- **Layer 3, item 1.** The inclusion of the affine analytic chart of a cone into the analytic
-realization. Its points are the complex points `AffineSemigroupComplexPoint (dualSemigroup _ σ)`
-of the affine toric scheme of the cone.
-
-Tau Ceti's `TauCeti.Toric.Fan.analyticAffineChartι`
-(`TauCeti/Geometry/Toric/Analytic/Fan/GlueData.lean`); stated here because the pinned Tau Ceti
-revision predates it; replaced by the import when the pin moves. -/
-noncomputable def analyticAffineChartι (Φ : Fan i) (hΦ : Φ.IsRegular) (σ : Φ.cones) :
-    (Φ.analyticAffineChartDiagram).obj σ ⟶ analyticRealization Φ hΦ :=
-  (analyticGlueData Φ hΦ).ι σ
-
 /-- **Layer 3, item 5.** A cone of a subfan, as a cone of the ambient fan. -/
 def subfanCone (Φ : Fan i) (S : Set (PointedCone ℝ V)) (hS : S ⊆ Φ.cones)
     (hface : ∀ ⦃σ τ⦄, σ ∈ S → τ.IsFaceOf σ → τ ∈ S) (σ : (Φ.subfan S hS hface).cones) :
@@ -319,12 +271,12 @@ realization of the subfan `Φ.subfan S hS hface` to the realization of `Φ`, glu
 comparisons `subfanAnalyticChartMap` followed by the ambient chart inclusions.
 `analyticAffineChartι_comp_subfanAnalyticMap` computes it on every chart, which identifies it. It
 is a morphism of topological spaces; its holomorphy, `isLocalDiffeomorph_subfanAnalyticMap`, is a
-property of this same map. -/
-noncomputable def subfanAnalyticMap (Φ : Fan i) (S : Set (PointedCone ℝ V)) (hS : S ⊆ Φ.cones)
+property of this same map. Tau Ceti's `TauCeti.Toric.Fan.subfanAnalyticMap`. -/
+noncomputable abbrev subfanAnalyticMap (Φ : Fan i) (S : Set (PointedCone ℝ V)) (hS : S ⊆ Φ.cones)
     (hface : ∀ ⦃σ τ⦄, σ ∈ S → τ.IsFaceOf σ → τ ∈ S) (hΦ : Φ.IsRegular) :
-    analyticRealization (Φ.subfan S hS hface) (hΦ.subfan S hS hface) ⟶
-      analyticRealization Φ hΦ := by
-  sorry
+    Fan.analyticRealization (Φ.subfan S hS hface) (hΦ.subfan S hS hface) ⟶
+      Fan.analyticRealization Φ hΦ :=
+  Φ.subfanAnalyticMap hΦ S hS hface
 
 /-- **Layer 3, item 5, the chart computation.** The open-subfan map composed with the inclusion of
 the chart of a cone `σ` of the subfan is the chart comparison followed by the inclusion of the
@@ -332,11 +284,11 @@ chart of the same cone in the ambient realization. -/
 theorem analyticAffineChartι_comp_subfanAnalyticMap (Φ : Fan i) (S : Set (PointedCone ℝ V))
     (hS : S ⊆ Φ.cones) (hface : ∀ ⦃σ τ⦄, σ ∈ S → τ.IsFaceOf σ → τ ∈ S) (hΦ : Φ.IsRegular)
     (σ : (Φ.subfan S hS hface).cones) :
-    analyticAffineChartι (Φ.subfan S hS hface) (hΦ.subfan S hS hface) σ ≫
+    Fan.analyticAffineChartι (Φ.subfan S hS hface) (hΦ.subfan S hS hface) σ ≫
         subfanAnalyticMap Φ S hS hface hΦ =
       subfanAnalyticChartMap Φ S hS hface σ ≫
-        analyticAffineChartι Φ hΦ (subfanCone Φ S hS hface σ) := by
-  sorry
+        Fan.analyticAffineChartι Φ hΦ (subfanCone Φ S hS hface σ) :=
+  Fan.analyticAffineChartι_comp_subfanAnalyticMap Φ hΦ S hS hface σ
 
 /-- **Layer 3, item 5.** The open-subfan maps are functorial for nested open subfans. The subfan
 of `Φ.subfan S hS hface` on `T` is the fan `Φ.subfan T _ hfaceT`, since a fan is determined by its
@@ -356,42 +308,17 @@ theorem range_subfanAnalyticMap (Φ : Fan i) (S : Set (PointedCone ℝ V)) (hS :
     (hface : ∀ ⦃σ τ⦄, σ ∈ S → τ.IsFaceOf σ → τ ∈ S) (hΦ : Φ.IsRegular) :
     Set.range (subfanAnalyticMap Φ S hS hface hΦ) =
       ⋃ σ : (Φ.subfan S hS hface).cones,
-        Set.range (analyticAffineChartι Φ hΦ (subfanCone Φ S hS hface σ)) := by
-  sorry
+        Set.range (Fan.analyticAffineChartι Φ hΦ (subfanCone Φ S hS hface σ)) :=
+  Fan.range_subfanAnalyticMap Φ hΦ S hS hface
 
 /-- **Layer 3, item 5.** The open-subfan map is an open embedding of glued spaces. -/
 theorem isOpenEmbedding_subfanAnalyticMap (Φ : Fan i) (S : Set (PointedCone ℝ V))
     (hS : S ⊆ Φ.cones) (hface : ∀ ⦃σ τ⦄, σ ∈ S → τ.IsFaceOf σ → τ ∈ S) (hΦ : Φ.IsRegular) :
-    IsOpenEmbedding (subfanAnalyticMap Φ S hS hface hΦ) := by
-  sorry
+    IsOpenEmbedding (subfanAnalyticMap Φ S hS hface hΦ) :=
+  Fan.isOpenEmbedding_subfanAnalyticMap Φ hΦ S hS hface
 
 /-- Model vector space determined by the lattice rank. -/
 abbrev ToricModel := Fin (Module.finrank ℤ N) → ℂ
-
-/-- **Layer 3, item 2.** The complex atlas of the analytic realization of a regular fan, modelled on
-`ℂ ^ n` for `n` the rank of the lattice: the charts of the affine analytic charts, each with the
-complex structure of an extending basis (Layer 2, item 3), transported along the chart inclusions
-by `TauCeti.chartedSpaceOfIsOpenEmbedding`.
-
-Tau Ceti's `TauCeti.Toric.Fan.analyticChartedSpace`
-(`TauCeti/Geometry/Toric/Analytic/Fan/Manifold.lean`); stated here because the pinned Tau Ceti
-revision predates it; replaced by the import when the pin moves. -/
-@[instance_reducible]
-noncomputable def analyticChartedSpace (Φ : Fan i) (hΦ : Φ.IsRegular) :
-    ChartedSpace (ToricModel (N := N)) (analyticRealization Φ hΦ) := by
-  sorry
-
-/-- **Layer 3, item 2.** The analytic realization of a regular fan is a complex manifold: two affine
-charts are glued along the chart of their intersection cone by face localizations, which are
-biholomorphisms onto their open images (Layer 2, item 5).
-
-Tau Ceti's `TauCeti.Toric.Fan.isManifold_analyticRealization`
-(`TauCeti/Geometry/Toric/Analytic/Fan/Manifold.lean`); stated here because the pinned Tau Ceti
-revision predates it; replaced by the import when the pin moves. -/
-theorem isManifold_analyticRealization (Φ : Fan i) (hΦ : Φ.IsRegular) (n : ℕ∞ω) :
-    letI := analyticChartedSpace Φ hΦ
-    IsManifold 𝓘(ℂ, ToricModel (N := N)) n (analyticRealization Φ hΦ) := by
-  sorry
 
 /-- **Layer 3, item 6.** The open-subfan map of item 5 is a holomorphic local diffeomorphism, so,
 being an open embedding, a biholomorphism onto an open subset. On the chart of a cone of the subfan
@@ -402,31 +329,31 @@ biholomorphisms onto their open images, so near every point the map is the one c
 inverse of the other. -/
 theorem isLocalDiffeomorph_subfanAnalyticMap (Φ : Fan i) (S : Set (PointedCone ℝ V))
     (hS : S ⊆ Φ.cones) (hface : ∀ ⦃σ τ⦄, σ ∈ S → τ.IsFaceOf σ → τ ∈ S) (hΦ : Φ.IsRegular) :
-    letI := analyticChartedSpace (Φ.subfan S hS hface) (hΦ.subfan S hS hface)
-    letI := analyticChartedSpace Φ hΦ
+    letI := Fan.analyticChartedSpace (Φ.subfan S hS hface) (hΦ.subfan S hS hface)
+    letI := Fan.analyticChartedSpace Φ hΦ
     IsLocalDiffeomorph 𝓘(ℂ, ToricModel (N := N)) 𝓘(ℂ, ToricModel (N := N)) ∞
-      (subfanAnalyticMap Φ S hS hface hΦ) := by
-  sorry
+      (subfanAnalyticMap Φ S hS hface hΦ) :=
+  Fan.isLocalDiffeomorph_subfanAnalyticMap Φ hΦ S hS hface ∞
 
 /-- **Layer 4, item 1.** The affine torus actions glue to an action of Tau Ceti's coordinate-free
 complex torus `TauCeti.Toric.ComplexTorus N` on the analytic realization. -/
 noncomputable def torusAction (Φ : Fan i) (hΦ : Φ.IsRegular) :
-    ComplexTorus N →* Equiv.Perm (analyticRealization Φ hΦ) := by
+    ComplexTorus N →* Equiv.Perm (Fan.analyticRealization Φ hΦ) := by
   sorry
 
 /-- **Layer 4, item 1.** On every affine chart the glued action is Tau Ceti's action of the torus
 on the complex points of that chart. -/
 theorem torusAction_analyticAffineChartι (Φ : Fan i) (hΦ : Φ.IsRegular) (σ : Φ.cones)
     (t : ComplexTorus N) (x : AffineSemigroupComplexPoint (dualSemigroup Φ.lattice σ.1)) :
-    torusAction Φ hΦ t (analyticAffineChartι Φ hΦ σ x) = analyticAffineChartι Φ hΦ σ (t • x) := by
+    torusAction Φ hΦ t (Fan.analyticAffineChartι Φ hΦ σ x) = Fan.analyticAffineChartι Φ hΦ σ (t • x) := by
   sorry
 
 /-- **Layer 4, item 2.** The torus orbit of a cone: the image, under the inclusion of the chart of
 the cone, of Tau Ceti's stratum `TauCeti.Toric.affineConeOrbit` of the cone as a face of itself,
 the points at which a monomial is nonzero exactly when its character vanishes on the cone. -/
 noncomputable def orbit (Φ : Fan i) (hΦ : Φ.IsRegular) (σ : Φ.cones) :
-    Set (analyticRealization Φ hΦ) :=
-  analyticAffineChartι Φ hΦ σ '' affineConeOrbit Φ.lattice (⊤ : σ.1.Face)
+    Set (Fan.analyticRealization Φ hΦ) :=
+  Fan.analyticAffineChartι Φ hΦ σ '' affineConeOrbit Φ.lattice (⊤ : σ.1.Face)
 
 /-- **Layer 4, item 2.** Face inclusion is the reverse closure order on torus orbits. -/
 theorem orbit_subset_closure_iff (Φ : Fan i) (hΦ : Φ.IsRegular) {σ τ : Φ.cones} :
@@ -439,7 +366,7 @@ def FanRay (Φ : Fan i) :=
 
 /-- **Layer 4, item 3.** The invariant boundary component indexed by a ray. -/
 noncomputable def boundaryComponent (Φ : Fan i) (hΦ : Φ.IsRegular) (ρ : FanRay Φ) :
-    Set (analyticRealization Φ hΦ) := by
+    Set (Fan.analyticRealization Φ hΦ) := by
   sorry
 
 /-- **Layer 4, item 3.** Every boundary component is closed. Its hypersurface property follows
@@ -452,12 +379,12 @@ theorem boundaryComponent_isClosed (Φ : Fan i) (hΦ : Φ.IsRegular) (ρ : FanRa
 coordinate-hyperplane normal form. A complex `PartialDiffeomorph`, rather than a bare
 `PartialHomeomorph`, makes each component a complex hypersurface and makes the displayed
 coordinates holomorphic. -/
-theorem boundary_local_normalForm (Φ : Fan i) (hΦ : Φ.IsRegular) (x : analyticRealization Φ hΦ) :
-    letI := analyticChartedSpace Φ hΦ
+theorem boundary_local_normalForm (Φ : Fan i) (hΦ : Φ.IsRegular) (x : Fan.analyticRealization Φ hΦ) :
+    letI := Fan.analyticChartedSpace Φ hΦ
     ∃ (s : Set (FanRay Φ)) (_hs : s.Finite)
       (j : s ↪ Fin (Module.finrank ℤ N))
       (e : PartialDiffeomorph 𝓘(ℂ, ToricModel (N := N)) 𝓘(ℂ, ToricModel (N := N))
-        (analyticRealization Φ hΦ) (ToricModel (N := N)) ∞),
+        (Fan.analyticRealization Φ hΦ) (ToricModel (N := N)) ∞),
       x ∈ e.source ∧
         ∀ y ∈ e.source, ∀ ρ,
           y ∈ boundaryComponent Φ hΦ ρ ↔
@@ -469,7 +396,7 @@ variable {N' V' : Type u} [AddCommGroup N'] [AddCommGroup V'] [Module ℝ V'] {i
 
 /-- **Layer 5, item 1.** A fan morphism glues to a continuous analytic map. -/
 noncomputable def analyticMap (f : FanHom Φ Ψ) (hΦ : Φ.IsRegular) (hΨ : Ψ.IsRegular) :
-    analyticRealization Φ hΦ → analyticRealization Ψ hΨ := by
+    Fan.analyticRealization Φ hΦ → Fan.analyticRealization Ψ hΨ := by
   sorry
 
 /-- **Layer 5, item 1, the chart computation.** On the chart of a cone `σ`, the glued map is the
@@ -478,8 +405,8 @@ cone `TauCeti.Toric.FanHom.leastCone`. This is the analytic counterpart of Tau C
 `TauCeti.Toric.FanHom.affineToricChartι_comp_algebraicMap`. -/
 theorem analyticMap_analyticAffineChartι (f : FanHom Φ Ψ) (hΦ : Φ.IsRegular) (hΨ : Ψ.IsRegular)
     (σ : Φ.cones) (x : AffineSemigroupComplexPoint (dualSemigroup Φ.lattice σ.1)) :
-    analyticMap f hΦ hΨ (analyticAffineChartι Φ hΦ σ x) =
-      analyticAffineChartι Ψ hΨ ⟨f.leastCone σ.2, f.leastCone_mem σ.2⟩
+    analyticMap f hΦ hΨ (Fan.analyticAffineChartι Φ hΦ σ x) =
+      Fan.analyticAffineChartι Ψ hΨ ⟨f.leastCone σ.2, f.leastCone_mem σ.2⟩
         (AffineSemigroupComplexPoint.comap
           (dualSemigroupMap Φ.lattice Ψ.lattice f.latticeMap f.realMap f.map_lattice
             fun v hv ↦ f.map_le_leastCone σ.2 ⟨v, hv, rfl⟩) x) := by
@@ -499,8 +426,8 @@ theorem analyticMap_subfanInclusion (Φ : Fan i) (S : Set (PointedCone ℝ V)) (
 
 /-- The glued map is holomorphic for regular source and target fans. -/
 theorem analyticMap_mdifferentiable (f : FanHom Φ Ψ) (hΦ : Φ.IsRegular) (hΨ : Ψ.IsRegular) :
-    letI := analyticChartedSpace Φ hΦ
-    letI := analyticChartedSpace Ψ hΨ
+    letI := Fan.analyticChartedSpace Φ hΦ
+    letI := Fan.analyticChartedSpace Ψ hΨ
     ContMDiff 𝓘(ℂ, ToricModel (N := N)) 𝓘(ℂ, ToricModel (N := N')) ∞
       (analyticMap f hΦ hΨ) := by
   sorry
@@ -525,7 +452,7 @@ theorem analyticMap_isProper_iff (f : FanHom Φ Ψ) (hΦ : Φ.IsRegular) (hΨ : 
 complete. The empty fan is excluded: its realization is empty, hence compact, and it is not
 complete. -/
 theorem isCompact_univ_iff_isComplete (hΦ : Φ.IsRegular) (hΦ₀ : Nonempty Φ.cones) :
-    IsCompact (Set.univ : Set (analyticRealization Φ hΦ)) ↔ Φ.IsComplete := by
+    IsCompact (Set.univ : Set (Fan.analyticRealization Φ hΦ)) ↔ Φ.IsComplete := by
   sorry
 
 /-! ### Acceptance check: the empty subfan
@@ -539,9 +466,9 @@ jointly surjective, and there are no charts. -/
 theorem isEmpty_analyticRealization_subfan_empty (Φ : Fan i) (hΦ : Φ.IsRegular)
     (hS : ∅ ⊆ Φ.cones)
     (hface : ∀ ⦃σ τ : PointedCone ℝ V⦄, σ ∈ (∅ : Set _) → τ.IsFaceOf σ → τ ∈ (∅ : Set _)) :
-    IsEmpty (analyticRealization (Φ.subfan ∅ hS hface) (hΦ.subfan ∅ hS hface)) :=
+    IsEmpty (Fan.analyticRealization (Φ.subfan ∅ hS hface) (hΦ.subfan ∅ hS hface)) :=
   ⟨fun x ↦ by
-    obtain ⟨σ, _, _⟩ := (analyticGlueData _ _).ι_jointly_surjective x
+    obtain ⟨σ, _, _⟩ := (Fan.analyticGlueData _ _).ι_jointly_surjective x
     exact Set.notMem_empty _ σ.2⟩
 
 /-- The inclusion of the empty subfan is proper, as is every map out of an empty space. -/
@@ -622,7 +549,7 @@ noncomputable def algebraicComplexPointChartedSpace (Φ : Fan i) (hΦ : Φ.IsReg
 
 /-- The affine comparisons glue to the global algebraic--analytic comparison. -/
 noncomputable def algebraicAnalyticHomeomorph (Φ : Fan i) (hΦ : Φ.IsRegular) :
-    @Homeomorph (AlgebraicComplexPoint Φ) (analyticRealization Φ hΦ)
+    @Homeomorph (AlgebraicComplexPoint Φ) (Fan.analyticRealization Φ hΦ)
       (algebraicComplexPointTopology Φ) inferInstance := by
   sorry
 
@@ -632,14 +559,14 @@ the algebraic point of the chart of `σ` given by a `ℂ`-algebra homomorphism `
 theorem algebraicAnalyticHomeomorph_ofAffinePoint (Φ : Fan i) (hΦ : Φ.IsRegular) (σ : Φ.cones)
     (x : AffineSemigroupComplexPoint (dualSemigroup Φ.lattice σ.1)) :
     algebraicAnalyticHomeomorph Φ hΦ (AlgebraicComplexPoint.ofAffinePoint Φ σ x) =
-      analyticAffineChartι Φ hΦ σ x := by
+      Fan.analyticAffineChartι Φ hΦ σ x := by
   sorry
 
 /-- The global comparison and its inverse are holomorphic. -/
 theorem algebraicAnalyticHomeomorph_mdifferentiable (Φ : Fan i) (hΦ : Φ.IsRegular) :
     letI := algebraicComplexPointTopology Φ
     letI := algebraicComplexPointChartedSpace Φ hΦ
-    letI := analyticChartedSpace Φ hΦ
+    letI := Fan.analyticChartedSpace Φ hΦ
     ContMDiff 𝓘(ℂ, ToricModel (N := N)) 𝓘(ℂ, ToricModel (N := N)) ∞
         (algebraicAnalyticHomeomorph Φ hΦ) ∧
       ContMDiff 𝓘(ℂ, ToricModel (N := N)) 𝓘(ℂ, ToricModel (N := N)) ∞
