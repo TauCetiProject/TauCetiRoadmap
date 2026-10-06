@@ -18,6 +18,11 @@ namespace TauCetiRoadmap.McKaySkewGroup
 open CategoryTheory
 open scoped Matrix MatrixGroups MonoidalCategory Quaternion
 
+-- Mathlib's `AddCommGroup` instance for simple nilpotent additive groups would otherwise supply
+-- `AddCommGroup (ZMod 2)` in binders such as `FKSGradedAlgebra (ZMod 2) A`, and it is not
+-- reducibly equal to the `AddCommGroupWithOne` projection that the curved-object instances use.
+attribute [-instance] instAddCommGroupOfIsSimpleAddGroupOfIsNilpotent
+
 universe u v
 
 /-! ## Explicit unit-quaternion subgroups -/
