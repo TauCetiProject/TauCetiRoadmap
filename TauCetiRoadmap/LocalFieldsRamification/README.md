@@ -474,8 +474,7 @@ pro-`p` quotient.
 
   The name is `isOpen_range_powMonoidHom`. It holds in regime 1 for either characteristic, and in
   regime 2 for every `n`. ⚠ This does **not** follow from the count above. Finiteness of an
-  abstract quotient of a topological group says nothing about the topology of the kernel: the
-  additive group `ℚ_p` with the discrete topology has finite quotients by non-open subgroups. The
+  abstract quotient of a topological group says nothing about the topology of the kernel. The
   proof exhibits an open subgroup inside the range:
   - in regime 1, `U(K,1) ⊆ (Kˣ)^n`, by Hensel's lemma applied to `X^n − u` at the approximate
     root `1`. The derivative `n X^{n−1}` is a unit there, because `n` is a unit in `𝒪[K]`, and
@@ -705,7 +704,9 @@ pro-`p` quotient.
   - *Source:* Serre LF V §2. The proof is surjectivity on each graded piece, plus completeness.
     *False generalization:* for a ramified extension the norm of a unit is a unit, but the image
     is a proper subgroup: at `L = ℚ_2(√2)` the image of `𝒪[L]ˣ` has index `2` in `ℤ_2ˣ`, so the
-    norm-equation criterion is false there in both directions.
+    sufficiency half of the norm-equation criterion is false there. Here `f = 1`, so `f ∣ v_K(x)`
+    holds for every `x` while not every unit is a norm. Necessity survives in every extension:
+    `x = N_{L/K}(y)` gives `v_K(x) = f · v_L(y)`.
 
 ### Layer 3: ramification, the tame and wild cases, and the filtration
 
