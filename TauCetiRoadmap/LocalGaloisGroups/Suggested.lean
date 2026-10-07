@@ -330,8 +330,7 @@ theorem ties four separate conventions together — Mathlib's `cyclotomicCharact
 arithmetic-Frobenius `artinMap`, the field norm, and the inverse — and it is a **named theorem
 with a supplier proof**, so a change of normalization in any one of them breaks this file instead
 of silently changing the marked relator of Layer 6. `ClassFieldTheory.cyclotomicCharacter_artinMap`
-is proved in that roadmap's Layer 11, from global reciprocity over `ℚ`, so this theorem, and every
-statement here that consumes it, depends on `ClassFieldTheory` Layers 10 and 11. -/
+is proved in that roadmap's Layer 7, by comparison with the explicit cyclotomic symbols over `ℚ`. -/
 theorem localCyclotomicCharacter_artinMap_unit (u : Fˣ)
     (hu : ValuativeRel.valuation F (u : F) = 1) (σ : Field.absoluteGaloisGroup F)
     (hσ : (QuotientGroup.mk σ : Field.absoluteGaloisGroupAbelianization F)
@@ -342,8 +341,7 @@ theorem localCyclotomicCharacter_artinMap_unit (u : Fˣ)
 
 /-- The `ℚ_p` specialization, again as a closed proof. Together with the theorem above this pins
 the sign of the exponent: with the geometric normalization the right-hand side would be `u`.
-`ClassFieldTheory.cyclotomicCharacter_artinMap_padic` is proved in that roadmap's Layer 11, from
-global reciprocity over `ℚ`, so this theorem depends on `ClassFieldTheory` Layers 10 and 11. -/
+`ClassFieldTheory.cyclotomicCharacter_artinMap_padic` is proved in that roadmap's Layer 7. -/
 theorem localCyclotomicCharacter_artinMap_padic [IsNonarchimedeanLocalField ℚ_[p]] (u : ℤ_[p]ˣ)
     (σ : Field.absoluteGaloisGroup ℚ_[p])
     (hσ : (QuotientGroup.mk σ : Field.absoluteGaloisGroupAbelianization ℚ_[p])
@@ -351,23 +349,15 @@ theorem localCyclotomicCharacter_artinMap_padic [IsNonarchimedeanLocalField ℚ_
     localCyclotomicCharacter p ℚ_[p] σ = u⁻¹ :=
   ClassFieldTheory.cyclotomicCharacter_artinMap_padic p u σ hσ
 
-/-- **The value at the uniformizer `p` of `ℚ_p`**: `χ_cyc(Art_{ℚ_p}(p)) = 1`. For every `n`, `p`
-is the norm of `1 - ζ` from `ℚ_p(ζ)`, `ζ` a primitive `p^n`-th root of unity: Mathlib's
-`IsPrimitiveRoot.norm_sub_one_of_prime_ne_two` and `IsPrimitiveRoot.norm_sub_one_two`, whose
-hypothesis `Irreducible (cyclotomic (p ^ n) ℚ_[p])` is `irreducible_cyclotomic_prime_pow_ratPadic`.
-So `p` lies in the norm group of `ℚ_p(μ_{p^n})`, which the finite Artin map kills
-(`ClassFieldTheory.normResidue`), and the finite map is the restriction of the absolute one
-(`ClassFieldTheory.artinMap_restrict`). A lift `σ` of `Art_{ℚ_p}(p)` therefore fixes `μ_{p^n}` for
-every `n`, so `χ_cyc(σ) ≡ 1 mod p^n` by `cyclotomicCharacter.spec`, and `χ_cyc(σ) = 1` by
-`PadicInt.ext_of_toZModPow`. It consumes no cyclotomic normalization of the Artin map on units, so
-it does not depend on `ClassFieldTheory` Layers 10 and 11. -/
+/-- **The value at the uniformizer `p` of `ℚ_p`**: `χ_cyc(Art_{ℚ_p}(p)) = 1`, as a closed proof
+from `ClassFieldTheory.cyclotomicCharacter_artinMap_padic_uniformizer`. -/
 theorem localCyclotomicCharacter_artinMap_padic_uniformizer [IsNonarchimedeanLocalField ℚ_[p]]
     (σ : Field.absoluteGaloisGroup ℚ_[p])
     (_hσ : (QuotientGroup.mk σ : Field.absoluteGaloisGroupAbelianization ℚ_[p])
       = ClassFieldTheory.artinMap ℚ_[p]
           (Units.mk0 (p : ℚ_[p]) (Nat.cast_ne_zero.mpr (Fact.out : p.Prime).ne_zero))) :
     localCyclotomicCharacter p ℚ_[p] σ = 1 :=
-  sorry
+  ClassFieldTheory.cyclotomicCharacter_artinMap_padic_uniformizer p σ _hσ
 
 /-- **The uniformizer half of the comparison**, and the second generator of the orientation image.
 For a uniformizer `π` of `F` with residue degree `f = f(F/ℚ_p)`,
@@ -379,8 +369,7 @@ Its inputs are three. Write `N_{F/ℚ_p}(π) = u · p^f` with `u ∈ ℤ_pˣ`. N
 cyclotomic character is read through that map
 (`localCyclotomicCharacter_absoluteGaloisGroupExtend`);
 `localCyclotomicCharacter_artinMap_padic` gives `u⁻¹` on the first factor and
-`localCyclotomicCharacter_artinMap_padic_uniformizer` gives `1` on the second. Through
-`localCyclotomicCharacter_artinMap_padic` it depends on `ClassFieldTheory` Layers 10 and 11.
+`localCyclotomicCharacter_artinMap_padic_uniformizer` gives `1` on the second.
 
 ⚠ This theorem is **not** a consequence of the unit case. See the counterexample in
 `range_localCyclotomicCharacter`: `K(μ_{p^n})/K` need not be totally ramified, so `Kˣ` is not

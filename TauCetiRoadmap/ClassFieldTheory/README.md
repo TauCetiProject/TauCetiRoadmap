@@ -114,8 +114,8 @@ This roadmap owns the following constructions and theorems.
    reciprocity, and the arithmetic-Frobenius normalization; the cohomological dimensions
    `cd_ℓ G_K = scd_ℓ G_K = 2` for `K/ℚ_p` finite; the absolute local Artin map into the
    topological abelianization of `G_K`, pinned by restriction, its unramified coordinate and norm
-   functoriality, and its cyclotomic-character normalization, proved from global reciprocity
-   (item 11); local conductors.
+   functoriality, and its cyclotomic-character normalization, proved by comparison with the
+   explicit local symbols of the cyclotomic fields over `ℚ`; local conductors.
 7. The norm limitation theorem: a layer and its maximal abelian sublayer have the same norm
    subgroup. The abelian-layer condition and the canonical maximal abelian sublayer it is stated
    on are Tau Ceti's.
@@ -127,7 +127,7 @@ This roadmap owns the following constructions and theorems.
    topology, functoriality under finite extensions, the exact sequence `1 → I_K → W_K → ℤ → 1`,
    and, for finite extensions of `ℚ_p`, the topological abelianization isomorphism
    `Kˣ ≃ W_K^ab`.
-10. The archimedean local invariants, the exact sequence
+10. The archimedean local invariants and Artin maps, the exact sequence
     `0 → Br(K) → ⨁_v Br(K_v) → ℚ/ℤ → 0` in invariant coordinates, and the sum-of-local-invariants
     map on the idele layers, together with its descent to the idele-class layers: the obstruction
     to lifting an idele-class layer class to the idele layer, the refinement that kills it, and the
@@ -202,15 +202,16 @@ starting point for the profinite audit.
   `muNRepToTateDual`, `bijective_muNRepToTateDual` and `tateDualityPairing_muNRepToTateDual`; reciprocity and the
   orientation, `artinMap`, `restrictAbsolute`, `artinMap_restrict`, `absoluteGaloisGroupExtend`,
   `artinMap_norm`, `denseRange_artinMap`, `localArtinMap`, `normResidue`, `unramifiedCoordinate`,
-  `unramifiedCoordinate_artinMap`, `cyclotomicCharacter_artinMap` and
-  `cyclotomicCharacter_artinMap_padic`; the class formation and Tate's theorem, `ClassFormation`
+  `unramifiedCoordinate_artinMap`, `cyclotomicCharacter_artinMap`,
+  `cyclotomicCharacter_artinMap_padic` and `cyclotomicCharacter_artinMap_padic_uniformizer`; the
+  class formation and Tate's theorem, `ClassFormation`
   (Tau Ceti's, re-exported), Tau Ceti's `ClassFormation.fundamentalClass` and
   `ClassFormation.fundamentalClass_generates`, and this roadmap's `tateTheorem` and `artinMap_conj`;
   the Nakayama–Rim theorem `projective_ker_of_isZero_res`; and `scd_p_absoluteGaloisGroup_eq_two`. The smoothness hypotheses of `finite_H`,
   `tateDualityPairing_perfect_mixed` and `eulerCharacteristic_finrank_fp` are instance arguments,
   found at `μ_p`, at its Tate dual and at the trivial module `𝔽_p`, the modules this consumer uses.
-  `cyclotomicCharacter_artinMap` is proved in Layer 11 from `globalArtinMap_cyclotomic_prime`, so
-  this consumer depends on Layers 10 and 11;
+  `cyclotomicCharacter_artinMap` is proved in Layer 7, from the explicit local symbols of the
+  cyclotomic fields over `ℚ`, so this consumer does not depend on the global layers;
 - `GlobalQuadraticForms` owns Hasse–Minkowski and the global classification of quadratic
   forms, and consumes `hilbertProductFormula`;
 - `QuadraticFormInvariants` owns the norm-equation and quaternion presentations of local
@@ -550,7 +551,7 @@ names may change during implementation, but the mathematical direction of each m
 | unramified normalization | `localArtinMap_uniformizer`, `normResidue_uniformizer` |
 | absolute local Artin map and its pins | `artinMap`, `restrictAbsolute`, `iota_restrictAbsolute_apply`, `artinMap_restrict`, `absoluteGaloisGroupExtend`, `artinMap_norm`, `artinMap_congr`, `continuous_artinMap`, `denseRange_artinMap` |
 | unramified coordinate | `unramifiedCoordinate`, `unramifiedCoordinate_mk`, `unramifiedCoordinate_mk_eq_one_iff`, `unramifiedCoordinate_mk_eq_gen_iff`, `unramifiedCoordinate_artinMap`, `mem_inertiaSubgroup_of_mk_eq_artinMap`, `isArithFrobeniusLift_of_mk_eq_artinMap_uniformizer` |
-| cyclotomic normalization, proved in Layer 11 | `cyclotomicCharacter_artinMap`, `cyclotomicCharacter_artinMap_padic` |
+| cyclotomic normalization | `cyclotomicSymbol`, `realCyclotomicSymbol`, `prod_cyclotomicSymbol`, `cyclotomicSymbol_norm_fixes`, `cyclotomicCharacter_artinMap_padic_uniformizer`, `cyclotomicCharacter_artinMap_padic`, `cyclotomicCharacter_artinMap` |
 | local Weil group: carrier and topology | `localWeilGroup`, `inertia_le_localWeilGroup`, `dense_localWeilGroup`, `WeilGroup`, `weilToAbsolute`, `isOpen_inertia_weil`, `not_isOpen_inertia` |
 | local Weil group: functoriality | `weilTransfer`, `isOpen_range_weilTransfer`, `index_range_weilTransfer`, `weilDegree_weilTransfer`, `weilRestrict`, `range_weilTransfer_eq_ker_weilRestrict` |
 | local Weil group: inertia sequence | `weilDegree`, `surjective_weilDegree`, `ker_weilDegree`, `unramifiedCoordinate_weilDegree` |
@@ -562,6 +563,7 @@ names may change during implementation, but the mathematical direction of each m
 | local quotient and degree | `localAbelianGaloisEquiv`, `localAbelianGaloisEquiv_artinMap`, `index_localNormSubgroup`, `localClassFieldGaloisEquiv`, `localClassField_index` |
 | kernel and injectivity of the absolute local Artin map | `ker_artinMap_eq_iInf` (every local field); `injective_artinMap` (finite extensions of `ℚ_p`) |
 | global Brauer sequence and local invariants | `brFinite`, `brInfinite`, `infiniteInvMap`, `finiteInvAt`, `infiniteInvAt`, `brauerSupport`, `sumLocalInv`, `eq_zero_of_localInv_eq_zero`, `sumLocalInv_eq_zero`, `exists_br_of_sum_eq_zero` |
+| archimedean Artin maps | `infiniteClassFormation`, `infiniteClassFormation_inv`, `infiniteArtinAt`, `infiniteArtinAt_layer`, `character_infiniteArtinAt`, `infiniteArtinAt_eq_one_of_isComplex`, `infiniteArtinAt_eq_one_iff_of_isReal`, `infiniteArtinAt_rootsOfUnity_of_isReal`, `infiniteArtinAt_norm` |
 | fundamental inequalities and `H¹` of idele classes | `subsingleton_h1_globalFormation`, `degree_le_card_normQuotient_of_isCyclic`, `card_H2_globalFormation_dvd_degree` |
 | idele carrier and the global invariant | `ideleFormation`, `multiplicativeFormation`, `ideleToClassH2`, `ideleLocalInvAt`, `ideleInfiniteInvAt`, `ideleSumLocalInv`, `ideleSumLocalInv_infl`, `globalInv`, `globalInv_ideleToClassH2`, `globalInv_infl`, `globalInv_unique` |
 | lifting to the idele layer: obstruction, refinement, independence | `surjective_ideleToClassH2_of_isCyclic`, `classToMultiplicativeH3`, `range_ideleToClassH2`, `exists_refinement_ideleSumLocalInv_eq`, `exists_refinement_mem_range_ideleToClassH2`, `ideleSumLocalInv_eq_of_ideleToClassH2_eq`; Tau Ceti's `LayerRefinement.exists_commonRefinement` |
@@ -617,7 +619,7 @@ turned around into a construction of the invariant out of the class formation.
 
 The layer order below **is** the dependency order. Every layer's prerequisites are Mathlib, Tau
 Ceti, one of the supplier roadmaps of §1, or an *earlier* layer of this roadmap; no layer uses a
-name introduced later, and the graph of §7 is the same graph. Five orderings are normative rather
+name introduced later, and the graph of §7 is the same graph. Six orderings are normative rather
 than editorial:
 
 - the local Brauer group and its invariant map are built in Layer 5 and consumed by the local class
@@ -628,8 +630,13 @@ than editorial:
 - local existence is Layer 8, after the Kummer theory of Layer 5 that its proof uses;
 - the sum-of-local-invariants map is built in Layer 10 and *is* the invariant of the global class
   formation of Layer 11, so it cannot also be a theorem proved after it;
-- the cyclotomic normalization of the absolute local Artin map is a theorem of Layer 11, proved
-  from global reciprocity, and not of Layer 7.
+- the cyclotomic normalization of the absolute local Artin map is a theorem of Layer 7, proved by
+  comparison with the explicit local symbols of the cyclotomic fields over `ℚ`, whose product
+  formula is a direct computation; Layer 10 consumes it for `sumLocalInv_eq_zero`, so it cannot be
+  proved from the global class formation;
+- the archimedean Artin maps are built in Layer 10, beside `infiniteInvMap` and before
+  `sumLocalInv_eq_zero`, which reads the Artin symbol at `∞` as a local invariant; Layer 11
+  consumes them.
 
 ### Layer 0: audit and complete the cohomology suppliers
 
@@ -1298,7 +1305,12 @@ arithmetic Frobenius, and the kernel is the norm group.
 
 *Prerequisites:* Layers 5, 6; `LocalFieldsRamification` (with Tau Ceti's maximal unramified
 extension, inertia, arithmetic Frobenius lifts and `Gal(K^ur/K) ≅ Ẑ`); Tau Ceti's
-`galoisSubgroup`, `galoisSubgroupEquiv` and `zHat`.
+`galoisSubgroup`, `galoisSubgroupEquiv` and `zHat`; for the cyclotomic normalization, Mathlib's
+cyclotomic fields and the splitting of primes in them
+(`Mathlib/NumberTheory/NumberField/Cyclotomic/Ideal.lean`), Tau Ceti's
+`irreducible_cyclotomic_prime_pow_ratPadic`, weak approximation (`weakApproximation_denseRange`,
+`exists_fieldUnit_valuation_sub_lt_and_signHom_eq`) and the factorization of a global norm into
+the field norms from the completions, `TauCeti.algebraMap_norm_eq_prod_norm`.
 
 Passing to the inverse limit over finite abelian extensions gives the absolute
 `artinMap : Kˣ → G_K^ab` into the topological abelianization. It is pinned by three named
@@ -1342,12 +1354,65 @@ transports this to every finite quotient of `G_K^ab`), kernel the intersection o
 about its target is valid. For `K/ℚ_p` finite it is continuous (`continuous_artinMap`): the
 preimage of the open subgroup cutting out a finite abelian `L/K` is `normGroup K L`, which
 contains the `[L:K]`-th powers, an open subgroup by
-`LocalFieldsRamification.isOpen_range_powMonoidHom`. Its cyclotomic normalization
-`χ_cyc(Art_K(u)) = N_{K/ℚ_p}(u)⁻¹`, with the field norm (`cyclotomicCharacter_artinMap`, and its
-`ℚ_p` specialization `cyclotomicCharacter_artinMap_padic`), is proved from global reciprocity in
-Layer 11. These equations are consumed by `LocalGaloisGroups` to identify the abstract Demushkin
-orientation. `geometricArtinMap` is defined only as the precomposition of the arithmetic map with
-inversion.
+`LocalFieldsRamification.isOpen_range_powMonoidHom`. `geometricArtinMap` is defined only as the
+precomposition of the arithmetic map with inversion.
+
+**The cyclotomic normalization** `χ_cyc(Art_K(u)) = N_{K/ℚ_p}(u)⁻¹`, with the field norm
+(`cyclotomicCharacter_artinMap`, and its `ℚ_p` specialization `cyclotomicCharacter_artinMap_padic`),
+is proved here by comparing `Art_{ℚ_p}` with the explicit local symbols of the cyclotomic fields
+over `ℚ`. Their product formula is a direct computation, so the comparison uses no reciprocity
+law and no Lubin–Tate theory. These equations are consumed by `LocalGaloisGroups` to identify the
+abstract Demushkin orientation, and by Layer 10 for `sumLocalInv_eq_zero`.
+
+1. **The explicit symbols.** For `m ≥ 1` and a prime `ℓ`, `cyclotomicSymbol m ℓ : ℚ_ℓˣ →* (ℤ/m)ˣ`
+   sends `ℓ^k w`, with `w ∈ ℤ_ℓˣ`, to the class that is `w⁻¹` modulo the `ℓ`-primary part of `m`
+   and `ℓ^k` modulo its prime-to-`ℓ` part, pinned by those two reductions
+   (`unitsMap_cyclotomicSymbol_primePow`, `unitsMap_cyclotomicSymbol_of_coprime`);
+   `realCyclotomicSymbol m : ℝˣ →* (ℤ/m)ˣ` is the sign. For `a ∈ ℚˣ` the product of the real symbol
+   and the symbols at the primes dividing `m·a` is `1` (`prod_cyclotomicSymbol`): both sides are
+   multiplicative in `a`, and the cases `a = −1`, `a` a prime dividing `m`, and `a` a prime not
+   dividing `m` are each one line (Milne, *Class Field Theory*, VII Example 8.2, with these values
+   as the definition of the local factors).
+2. **The symbols kill local norms.** Let `M` be a finite extension of `ℚ_p` inside `ℚ_p(μ_m)`, in
+   `AlgebraicClosure ℚ_[p]`. For `y ∈ Mˣ`, every `σ ∈ G_{ℚ_p}` that acts on `μ_m` through
+   `cyclotomicSymbol m p (N_{M/ℚ_p} y)` fixes `M` (`cyclotomicSymbol_norm_fixes`). The global field
+   `M₀ = ℚ(μ_m) ∩ M` is cut out by the same subgroup of `(ℤ/m)ˣ`, and `M` is its closure. By weak
+   approximation choose `Y ∈ M₀ˣ` close to `y` at the place of `M₀` given by the embedding, close
+   to `1` at its other places above `p` and above the primes dividing `m` other than `p`, and
+   positive at its real places, and apply step 1 to `a = N_{M₀/ℚ}(Y)`. In `ℚ_p`, `a` is the product
+   of the field norms `N_{(M₀)_w/ℚ_p}(Y)` over the places `w | p` of `M₀`
+   (`TauCeti.algebraMap_norm_eq_prod_norm`, read in `ℚ_p` through
+   `Rat.HeightOneSpectrum.adicCompletion.padicEquiv`); the factor at the embedding's place is close
+   to `N_{M/ℚ_p}(y)`, the others are close to `1`, and the symbol is locally constant, so the symbol
+   of `a` at `p` is that of `N_{M/ℚ_p}(y)`. At the other primes dividing `m` and at the real place
+   the symbol of `a` is `1`; at a prime `ℓ ∤ m` it is `ℓ^{v_ℓ(a)}`, a power of `ℓ^f` with `f` the
+   residue degree of `M₀` at `ℓ`, which fixes `M₀`. So the symbol of `N_{M/ℚ_p}(y)` fixes `M₀`, and
+   by continuity `M`.
+3. **The uniformizer.** `χ_cyc(Art_{ℚ_p}(p)) = 1`
+   (`cyclotomicCharacter_artinMap_padic_uniformizer`): `p = N(1 − ζ_{p^n})` for every `n ≥ 1`.
+   Mathlib's `IsPrimitiveRoot.norm_sub_one_of_prime_ne_two` and `IsPrimitiveRoot.norm_sub_one_two`
+   (`n ≥ 2`), whose irreducibility hypothesis is `irreducible_cyclotomic_prime_pow_ratPadic`, give
+   `N(ζ_{p^n} − 1) = p`, and the degree `φ(p^n)` is even in both cases; at `p = 2`, `n = 1`,
+   `1 − (−1) = 2`. So `p` lies in the norm group of `ℚ_p(μ_{p^n})`, which the finite Artin map kills
+   (`normResidue`, `artinMap_restrict`).
+4. **The comparison.** Fix `u ∈ ℤ_pˣ` and `n ≥ 1`, let `f = φ(p^n)`, `N = p^f − 1` and
+   `L = ℚ_p(μ_{p^n N})`, and let `g` be the restriction to `L` of a lift of `Art_{ℚ_p}(pu)`. It acts
+   on `μ_N` as arithmetic Frobenius (`unramifiedCoordinate_artinMap`), and `g^f = 1`, because
+   `Art_{ℚ_p}(p)` fixes `μ_{p^n}` (step 3) and `Gal(ℚ_p(μ_{p^n})/ℚ_p)` has order `f`. So `g` has
+   order `f`, its fixed field `M` satisfies `M · ℚ_p(μ_N) = L`, and `pu` is a norm from `M`
+   (`localArtinEquiv`). The element of `Gal(L/ℚ_p)` acting by `u⁻¹` on `μ_{p^n}` and by Frobenius on
+   `μ_N` exists, `ℚ_p(μ_{p^n})` and `ℚ_p(μ_N)` being linearly disjoint, and it acts on `μ_{p^n N}`
+   through `cyclotomicSymbol (p^n N) p (pu)`, so it fixes `M` by step 2. Two elements of `Gal(L/ℚ_p)`
+   that fix `M` and agree on `μ_N` are equal, so `g` acts on `μ_{p^n}` by `ζ ↦ ζ^{u⁻¹}`, and so does
+   `Art_{ℚ_p}(u)` by step 3. Ranging over `n` gives `cyclotomicCharacter_artinMap_padic`.
+5. For `F/ℚ_p` finite, `artinMap_norm` over `ℚ_p` gives `cyclotomicCharacter_artinMap`,
+   `χ_cyc(Art_F(u)) = N_{F/ℚ_p}(u)⁻¹`, because the cyclotomic character of `G_F` is that of
+   `G_{ℚ_p}` read through `absoluteGaloisGroupExtend` (`cyclotomicCharacter.spec` on the roots of
+   unity).
+
+The signs agree with the acceptance tests: at `p = 2` and `u = −1`, step 1 gives the symbol
+`−1 = u⁻¹` on `μ_{2^n}`, so `χ_cyc(Art_{ℚ_2}(−1)) = −1`, as §5.3 requires, and
+`localArtinMap_Q2_zeta5` is the value of step 1 at the unramified prime `2` of `ℚ(μ_5)`.
 
 The conductor targets are the attained minima `conductorExponent`, `conductorIdeal`, and
 `characterConductorExp`, with minimality and the unramified criterion named. Character-conductor
@@ -1355,7 +1420,7 @@ attainment uses that `ℂˣ` has no small subgroups; continuity plus a neighbour
 insufficient, as the identity `Kˣ → Kˣ` is trivial on no unit-filtration subgroup.
 
 **Exit criterion.** `LocalGaloisGroups` can consume the local-cohomological row of §3 by name,
-except the cyclotomic normalization, which Layer 11 proves.
+the cyclotomic normalization included.
 
 ### Layer 8: separate arithmetic local existence and the local class-field correspondence
 
@@ -1478,9 +1543,16 @@ mixed characteristic, a reciprocity isomorphism, each with a name.
 
 ### Layer 10: global carriers, the Brauer sequence, and the sum of local invariants
 
-*Prerequisites:* Layers 1, 5; `GlobalNumberFields`; `ProfiniteCohomology`. **Not** the global
-class formation and **not** the global Artin map: Layer 11 builds both out of this layer's
-output.
+*Prerequisites:* Layer 1; from Layer 5, `Br K`, `invMap` and the local unit computations
+(`herbrandQuotient_units_eq_one`, `herbrandQuotient_units_eq_finrank_of_isCyclic`,
+`index_normGroup_of_isCyclic`); from Layer 6, `fieldFormation`, as `multiplicativeFormation`;
+`LocalFieldsRamification`; `GlobalNumberFields`; `ProfiniteCohomology`. That is all the layer
+needs through `eq_zero_of_localInv_eq_zero`: the carriers, the archimedean Brauer computation, the
+Herbrand quotients, both fundamental inequalities and `H¹`-vanishing. None of it waits for Layer
+5's Tate dual, local duality or Euler characteristic. The archimedean Artin maps add Layers 2, 4
+and 7 (`realCyclotomicSymbol`, `absoluteGaloisGroupExtend`), and `sumLocalInv_eq_zero` and
+everything after it add Layers 2, 4, 6 and 7. **Not** the global class formation and **not** the
+global Artin map: Layer 11 builds both out of this layer's output.
 
 Use the idele and idele-class carriers from `GlobalNumberFields` and assemble both the idele
 formation and the idele-class formation for a fixed separable closure, as Tau Ceti formations. The
@@ -1492,6 +1564,26 @@ Brauer group vanishes, the real Brauer group is cyclic of order two, and the non
 has invariant `1/2` (`infiniteInvMap`, `infiniteInvMap_eq_zero_of_isComplex`,
 `range_infiniteInvMap_of_isReal`). ⚠ Real places are not ignorable: dropping them already breaks
 the sum formula for `ℚ(i)/ℚ`.
+
+The archimedean Artin maps are built here too, before `sumLocalInv_eq_zero` uses them; Layer 11
+only consumes them. They come from the formation machinery of Layers 1–4 and the archimedean
+Brauer computation, with no reciprocity law:
+
+- `infiniteClassFormation K w`, the field formation of `K_w` as a class formation (Hilbert 90 and
+  `infiniteInvMap`), whose invariant on a layer over `K_w` is `infiniteInvMap` after inflation
+  (`infiniteClassFormation_inv`);
+- `infiniteArtinAt K w : K_wˣ → G_{K_w}^ab`, which on every layer `V ◁ ⊤` is the abstract Artin
+  map of that class formation (`infiniteArtinAt_layer`), so Layer 4's `character_artinMap` gives
+  the archimedean character formula `χ(Art_w x) = inv_w(x ∪ δχ)` as a closed proof
+  (`character_infiniteArtinAt`); on `ℂ/ℝ` this is Tau Ceti's `realInv_realClass`, the cyclic
+  class of `x` at complex conjugation having invariant `0` or `1/2` by the sign of `x`;
+- `Art_ℂ` is trivial (`infiniteArtinAt_eq_one_of_isComplex`), and `Art_ℝ` has kernel
+  `ℝ_{>0} = N_{ℂ/ℝ}(ℂˣ)` and sends a negative element to complex conjugation
+  (`infiniteArtinAt_eq_one_iff_of_isReal`), so it acts on the `m`-th roots of unity through
+  `realCyclotomicSymbol m` (`infiniteArtinAt_rootsOfUnity_of_isReal`);
+- norm functoriality at the archimedean places, the analogue of `artinMap_norm`
+  (`infiniteArtinAt_norm`): elementary, the norm being the identity for `ℝ/ℝ` and `ℂ/ℂ` and
+  positive for `ℂ/ℝ`, where both sides are trivial.
 
 Prove that continuous cohomology of the absolute Galois group is the imported finite-quotient
 colimit from `ProfiniteCohomology`; do not build a second continuous carrier here. Then prove the
@@ -1518,6 +1610,20 @@ establish the first and second fundamental inequalities for cyclic layers and de
   Theorem 5.1);
 - `H¹`-vanishing for idele classes, `subsingleton_h1_globalFormation`, from which inflation on
   `H²` of idele classes is injective and inflation–restriction in degree two is exact.
+
+`sumLocalInv_eq_zero` is proved as Milne VII Theorem 8.1(b), from the local symbols alone. For
+`a ∈ ℚˣ` and `ℚ(μ_m)/ℚ` the local Artin symbols are Layer 7's explicit ones
+(`cyclotomicCharacter_artinMap_padic` and `cyclotomicCharacter_artinMap_padic_uniformizer` on the
+`ℓ`-power roots of unity at `ℓ`, `localArtinMap_cyclotomic_uniformizer` on the others,
+`infiniteArtinAt_rootsOfUnity_of_isReal` at `∞`), so their product is `1` by
+`prod_cyclotomicSymbol` (Example 8.2). `artinMap_norm` and `infiniteArtinAt_norm` carry this
+product formula to the cyclotomic extensions of every number field (Lemma 8.4). For a cyclic layer,
+the character formula at each place (Layer 4's `character_artinMap` for the local class formations,
+`character_infiniteArtinAt` at the archimedean places) turns it into the vanishing of the sum of
+local invariants on `H²(Gal(L/K), Lˣ)` (Lemma 8.5). Every class of
+`Br K` lies in `H²` of a cyclic cyclotomic layer, by `eq_zero_of_localInv_eq_zero` and the local
+degrees of cyclotomic extensions (Proposition 7.2, Lemma 7.3), which gives the general case
+(Lemma 8.6).
 
 Then define the layer invariant. On an idele layer, `H²(Gal(L/K), I_L)` is the direct sum of the
 local Brauer groups, and `ideleSumLocalInv` is the sum of `ideleLocalInvAt` and
@@ -1562,14 +1668,13 @@ Global reciprocity, global existence, Chebotarev, and the classification of norm
 forbidden inputs to this layer: each is downstream of the abstract Artin map, which is downstream
 of the class formation, which is downstream of `globalInv`.
 
-**Exit criterion.** `globalInv` exists on every layer, is the sum of local invariants of a lift at
-a refinement by named theorems, and no declaration of this layer mentions `globalArtinMap`.
+**Exit criterion.** The archimedean Artin maps exist with their character formula, `globalInv`
+exists on every layer, is the sum of local invariants of a lift at a refinement by named theorems,
+and no declaration of this layer mentions `globalArtinMap`.
 
 ### Layer 11: the global class formation and global Artin reciprocity
 
-*Prerequisites:* Layers 1–4, 6, 7, 10; `NumberFieldArithmetic`; for the cyclotomic
-normalization of the absolute local Artin map, `LocalFieldsRamification` and Mathlib's
-`Rat.HeightOneSpectrum.adicCompletion.padicEquiv`.
+*Prerequisites:* Layers 1–4, 6, 7, 10; `NumberFieldArithmetic`.
 
 Package `globalInv` into `globalClassFormation`, and record `globalClassFormation_inv`: the
 invariant of the global class formation *is* the sum-of-local-invariants map of Layer 10, not a
@@ -1589,55 +1694,18 @@ The resulting `globalArtinMap` must satisfy:
   (`globalArtinMap_local`, with local factor `localArtinAt`, the completion instance of
   `artinMap`, read in `Gal(L/K)^ab` by `decompositionRestrict`, which `decompositionRestrict_mk`
   pins as restriction along a place of `L` above `v`);
-- triviality on principal ideles (`globalArtinMap_principal`, the reciprocity law), proved by the
-  cyclotomic crossing argument;
+- triviality on principal ideles (`globalArtinMap_principal`, the reciprocity law), which holds
+  because the global class formation is built on idele classes, its invariant being the
+  sum of local invariants of Layer 10 that `sumLocalInv_eq_zero` makes well defined;
 - compatibility in towers;
 - agreement, at every unramified finite prime, with `NumberFieldArithmetic.artinHomAway`
   (`globalArtinMap_ideal`), identified by its prime values and the supplier's uniqueness theorem;
 - arithmetic Frobenius normalization (`globalArtinMap_isArithFrobAt`).
 
-**The cyclotomic normalization of the absolute local Artin map** is a corollary of global
-reciprocity over `ℚ`, and is proved here: `cyclotomicCharacter_artinMap_padic` and
-`cyclotomicCharacter_artinMap`, stated after the global acceptance tests. Fix `u ∈ ℤ_pˣ`, `n ≥ 1`,
-`E = ℚ(ζ_{pⁿ})`, the prime `𝔭` of `E` above `p`, and `d = [E_𝔭 : ℚ_p]`. The completion of `ℚ` at
-`p`, the local field of `globalArtinMap_local`, is identified with `ℚ_[p]` by Mathlib's
-`Rat.HeightOneSpectrum.adicCompletion.padicEquiv`, and `artinMap_congr` carries the absolute Artin
-map along that identification, so the local symbols below are those of `ℚ_[p]`.
-
-1. By `LocalFieldsRamification.isOpen_range_powMonoidHom` the subgroup `(ℚ_pˣ)^d` is open, so it
-   contains `1 + pᴺℤ_p` for some `N ≥ n`, and it lies in the norm group of `E_𝔭`, because
-   `ℚ_pˣ/N(E_𝔭ˣ)` has exponent dividing `d` (`localArtinEquiv`). For a positive integer
-   `a ≡ u mod pᴺ`, `u/a` is therefore a norm, and the local symbols of `u` and `a` agree on
-   `E_𝔭`. ⚠ `a ≡ u mod pⁿ` alone does not make `u/a` a norm.
-2. The idele of `a` at `p` is the principal idele of `a`, whose symbol is trivial
-   (`globalArtinMap_principal`), times the ideles of `a⁻¹` at `∞` and at each prime `ℓ ∣ a`, and an
-   idele that is a unit at every other prime `ℓ ≠ p` and `1` at `p` and `∞`. That last idele is a
-   norm of an idele of `E`: `E` is unramified at those primes, every unit there is the norm of a
-   unit (`LocalFieldsRamification.map_norm_unitFiltration_zero`), and the unit preimages assemble
-   into an idele of `E`; so its symbol is trivial, the kernel of `globalArtinMap` being the norm
-   subgroup. At `∞`, `a⁻¹ > 0` is a norm from `ℂ`, so its symbol is trivial too.
-3. At `ℓ ∣ a` the prime `ℓ` is unramified in `E`, and `globalArtinMap_local`,
-   `decompositionRestrict_mk`, `artinMap_restrict` and `localArtinMap_eq_frobenius_pow_valuation`
-   make the symbol of `a⁻¹` at `ℓ` the power `Frob_ℓ^{−v_ℓ(a)}`, which acts on `ζ_{pⁿ}` by
-   `ζ ↦ ζ^{ℓ^{−v_ℓ(a)}}` (`localArtinMap_cyclotomic_uniformizer`). Hence the symbol of the idele of
-   `a` at `p` sends `ζ_{pⁿ}` to `ζ_{pⁿ}^{a⁻¹}`, `a` being prime to `p`.
-4. By `globalArtinMap_local` at `𝔭` and step 1, `Art_{ℚ_p}(u)` acts on `ζ_{pⁿ}` by
-   `ζ ↦ ζ^{a⁻¹} = ζ^{u⁻¹}`, and ranging over `n` gives `χ_cyc(Art_{ℚ_p}(u)) = u⁻¹`. This is
-   `cyclotomicCharacter_artinMap_padic`.
-5. For `F/ℚ_p` finite, `artinMap_norm` over `ℚ_p` gives `cyclotomicCharacter_artinMap`,
-   `χ_cyc(Art_F(u)) = N_{F/ℚ_p}(u)⁻¹`, because the cyclotomic character of `G_F` is that of
-   `G_{ℚ_p}` read through `absoluteGaloisGroupExtend` (`cyclotomicCharacter.spec` on the roots of
-   unity).
-
-The signs agree with the acceptance tests: at `p = 2` and `u = −1`, take `a = 2ᴺ − 1`; step 3 gives
-`ζ ↦ ζ^{a⁻¹} = ζ^{−1}`, so `χ_cyc(Art_{ℚ_2}(−1)) = −1`, as §5.3 requires, and
-`localArtinMap_Q2_zeta5` is step 3 with the roles of `2` and `5` exchanged.
-
 Adapt `[IsAbelianGalois K L]` to the explicit commutativity hypothesis of
 `NumberFieldArithmetic.artinHomAway` through the single adapter
-`algEquiv_commute_of_isAbelianGalois`. The archimedean Artin package belongs here: `Art_ℂ` is
-trivial, and `Art_ℝ` has kernel `ℝ_{>0} = N_{ℂ/ℝ}(ℂˣ)` and sends a negative element to
-conjugation; its invariant coordinates are the Layer 10 `infiniteInvMap`.
+`algEquiv_commute_of_isAbelianGalois`. At the archimedean places it consumes Layer 10's
+`infiniteArtinAt` and its laws; it does not build a second archimedean Artin map.
 
 There is one ideal-theoretic Artin map in the portfolio. The class-field-theory map is compared to
 it by a theorem, not duplicated.
@@ -1883,8 +1951,8 @@ example `ℚ₂(ζ₅)/ℚ₂` is unramified of degree four, and `localArtinMap(
 At `ℚ_p`, verify further that the unramified coordinate of `Art(p)` is the generator `zHat.gen`
 and that of a unit is trivial (`isArithFrobeniusLift_of_mk_eq_artinMap_uniformizer`,
 `mem_inertiaSubgroup_of_mk_eq_artinMap`), and that `χ_cyc(Art(u)) = u⁻¹`
-(`cyclotomicCharacter_artinMap_padic`, Layer 11); at `p = 2`, test `u = -1, -3` and the
-uniformizer separately.
+(`cyclotomicCharacter_artinMap_padic`, Layer 7); at `p = 2`, test `u = -1, -3` and the
+uniformizer (`cyclotomicCharacter_artinMap_padic_uniformizer`) separately.
 
 ### 5.4 Quadratic extensions
 
@@ -2122,16 +2190,21 @@ RepresentationTheory/ModularInduction                   |
 Layer 5 feeds both the local and the global column: the local column consumes `invMap` on `K`
 itself, the global column consumes it at every completion, and both consume the Galois dictionary
 `classField` recorded there. Layer 4's norm limitation theorem also feeds both existence layers.
-Layer 11 additionally consumes the absolute local Artin map of Layer 7 through `localArtinAt`,
-and it proves that map's cyclotomic normalization `cyclotomicCharacter_artinMap`, which
-`LocalGaloisGroups` consumes; that consumer therefore depends on Layers 10 and 11.
+Layer 11 additionally consumes the absolute local Artin map of Layer 7 through `localArtinAt`.
+Layer 7 proves that map's cyclotomic normalization `cyclotomicCharacter_artinMap` from the explicit
+cyclotomic symbols over `ℚ`, and both `LocalGaloisGroups` and Layer 10's `sumLocalInv_eq_zero`
+consume it. Layer 10 builds the archimedean Artin maps from the class formations of Layers 1–4,
+and Layer 11 consumes them with the finite ones.
 `RepresentationTheory/ModularInduction` enters only Layer 5, for the Euler characteristic, and
 `ProfiniteProPGroups` only the end of Layer 6, for the cohomological dimension of `G_K`.
 
 The abstract layers 0–4 can be implemented and reviewed before any arithmetic instance. Within the
 local column, Layer 5's coefficient dictionaries and Kummer transports can begin as soon as
-`ProfiniteCohomology` is available, in parallel with Layers 1–4. Ring class fields wait for both
-global existence and the `GlobalNumberFields` order/`Pic` API.
+`ProfiniteCohomology` is available, in parallel with Layers 1–4. In the global column, Layer 10
+can begin as soon as Layer 5 has `invMap` and the local unit computations, in parallel with the
+rest of the local column: its prerequisites say which of its steps wait for Layers 6 and 7, and
+none waits for Layer 5's duality or Euler characteristic. Ring class fields wait for both global
+existence and the `GlobalNumberFields` order/`Pic` API.
 
 ---
 
