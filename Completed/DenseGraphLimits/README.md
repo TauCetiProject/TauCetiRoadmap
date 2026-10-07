@@ -373,9 +373,12 @@ roadmap's canonical `GraphonSpaceI` carrier rather than an abstract existential 
 
 **The proof spine, pinned** — saying the gluing algebra's laws are "expressible" does not make
 their theory a target, so the route from the Layer-8a predicates to the summit is itself a chain of
-named targets, with no jump: reflection positivity → `graphParamMobius_nonneg` (`f† ≥ 0`: the
-fully-labelled connection matrices are PSD, and the Möbius transform is a congruence by an
-invertible `0/1` matrix, so the transformed diagonal is nonnegative) and
+named targets, with no jump: reflection positivity and isomorphism invariance →
+`graphParamMobius_nonneg` (`f† ≥ 0`: the fully-labelled connection matrices are PSD, and the
+Möbius transform is a congruence by an invertible `0/1` matrix, so the transformed diagonal is
+nonnegative; the connection matrix evaluates `f` on glued graphs, whose vertices are renumbered
+through `Fintype.equivFin`, so identifying it with the factorization `C = Z · diag(f†) · Zᵀ` uses
+`IsIsoInvariant f`) and
 `graphParamMobius_sum_eq_one` (`∑ f† = 1`: the double sum telescopes to `f` of the edgeless graph
 `= f(K₁)^n = 1`) → the **Möbius consistency calculus** `graphParamMobius_sum_comap` (each
 level-`k` mass is the total level-`n` mass of its extension event, for every label injection —
@@ -642,9 +645,9 @@ injectivity, the packaged `mixtureExchangeableLawEquiv` + `_apply`, and
 `graphonMixtureLawEquiv` — a transport of `mixtureExchangeableLawEquiv` along
 the extension — (+ `_dirac` and the mixture-coordinate law `_upperMass`); and the **Layer-8b
 spine** `graphParamMobius`
-(+ `graphParamMobius_nonneg` / `graphParamMobius_sum_eq_one`), the Möbius consistency calculus
+(+ `graphParamMobius_nonneg`, under `IsIsoInvariant f`, / `graphParamMobius_sum_eq_one`), the Möbius consistency calculus
 `graphParamMobius_sum_comap` with its measure packaging `paramGraphLaw`
-(+ `paramGraphLaw_isProbabilityMeasure`, `paramGraphLaw_map_comap`), `paramExchangeableLaw` — assembled from those fields —
+(+ `paramGraphLaw_isProbabilityMeasure`, under `IsIsoInvariant f`, `paramGraphLaw_map_comap`), `paramExchangeableLaw` — assembled from those fields —
 (+ `paramExchangeableLaw_upperMass`, `isDissociated_paramExchangeableLaw`). Described in prose
 rather than pinned (to
 avoid a premature API choice): only the weak-regularity `Finpartition` **adapter** shape, the exact
@@ -866,4 +869,6 @@ The mathematics and proof routes draw on two prior Lean developments,
 *Archived: this roadmap was declared complete on 2026-10-07. `Suggested.lean` now states each
 milestone against Tau Ceti and closes it with no `sorry`. The signature inventory above lists the
 names the file had before archiving; the file's header records where Tau Ceti's names and
-statements differ.*
+statements differ. The Layer-8b proof spine and the inventory were amended on archiving to name
+the `IsIsoInvariant f` hypothesis of `graphParamMobius_nonneg` and
+`paramGraphLaw_isProbabilityMeasure`.*

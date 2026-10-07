@@ -498,6 +498,14 @@ theorem Graphon.toAEEqFun_comap {Ω' : Type*} [MeasurableSpace Ω'] {μ' : Measu
       AEEqFun.compMeasurePreserving (Graphon.toAEEqFun W) (Prod.map φ φ) (hφ.prod hφ) :=
   TauCeti.DenseGraphLimits.Graphon.toAEEqFun_comap W hφ
 
+/-- **The L⁰→strict representative**: an a.e. `[0, 1]`-valued, a.e. symmetric class comes from a
+strict graphon. -/
+theorem exists_graphon_repr (f : (Ω × Ω) →ₘ[μ.prod μ] ℝ)
+    (hbdd : ∀ᵐ p ∂(μ.prod μ), f p ∈ Set.Icc (0 : ℝ) 1)
+    (hsymm : ∀ᵐ p ∂(μ.prod μ), f p = f p.swap) :
+    ∃ W : Graphon Ω μ, Graphon.toAEEqFun W = f :=
+  TauCeti.DenseGraphLimits.exists_graphon_repr f hbdd hsymm
+
 /-- **The representative section back**: exactly the a.e. `[0, 1]`-valued, a.e. symmetric classes
 come from strict graphons. -/
 theorem exists_graphon_repr_iff (f : (Ω × Ω) →ₘ[μ.prod μ] ℝ) :
