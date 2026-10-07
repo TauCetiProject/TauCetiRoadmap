@@ -54,9 +54,16 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   and geometric surgery.  This roadmap owns algebraic topology of CW pairs and proves results
   about any space of CW type.  A theorem that compact smooth manifolds have finite CW type
   consumes geometric topology's smooth-triangulation result.
-- The [Heegaard Floer roadmap](../HeegaardFloer/README.md) owns the Mathlib-compatible manifold
-  orientation and degree API.  This roadmap consumes it to construct integral fundamental
-  classes and owns the chain-level proof and consequences of manifold duality.
+- The [differential-geometry roadmap](../DifferentialGeometry/README.md) owns the
+  Mathlib-compatible manifold orientation and degree API (its layers 2 and 10), which the
+  [Heegaard Floer roadmap](../HeegaardFloer/README.md) also consumes.  This roadmap consumes it to
+  construct integral fundamental classes and owns the chain-level proof and consequences of
+  manifold duality.
+- The differential-geometry roadmap consumes this roadmap's singular chains and cochains, relative
+  cohomology, subdivision and small chains (Stages 2, 3 and 6), and needs Stage 6's universal
+  coefficients, cup product and cochain Mayer--Vietoris sequence for the de Rham theorem.  It owns
+  smooth singular chains, integration over them, and the de Rham comparison, and constructs no
+  second singular theory.
 - The [profinite-cohomology roadmap](../ProfiniteCohomology/README.md) owns continuous
   cohomology of profinite groups.  The singular cohomology here is cohomology of topological
   spaces; neither development introduces a second version of the other's objects.
@@ -307,7 +314,7 @@ follows Hatcher Section 3.G, and the bundle filtration follows Serre's skeletal 
 ## Stage 6: cohomology, products, and manifold duality
 
 This stage consumes Stage 2 and the product maps of Stage 5.  Its manifold statements also
-consume the orientation-and-degree API owned by Heegaard Floer and the boundary/collar
+consume the orientation-and-degree API owned by differential geometry and the boundary/collar
 conventions owned by geometric topology.
 
 Every manifold theorem in this stage uses a finite-dimensional Mathlib manifold carrier with
@@ -317,7 +324,8 @@ homology with one copy of the coefficient ring also assumes connectedness.
 
 1. Define absolute and relative singular cochains by applying `Hom` to singular chains.  Extend
    the construction to Stage 2's local coefficient systems and their duals.  Prove functoriality,
-   the long exact sequence, homotopy invariance, additivity, and constant-system comparison.  For
+   the long exact sequence, homotopy invariance, additivity, the Mayer--Vietoris sequence of a
+   binary open cover (dual to Stage 3's), and constant-system comparison.  For
    integral coefficients, and more generally over a PID or hereditary ring, prove the natural
    short exact sequence
    `0 -> Ext^1_R(H_(n-1)(X;R),M) -> H^n(X;M) -> Hom_R(H_n(X;R),M) -> 0`; prove that it splits and

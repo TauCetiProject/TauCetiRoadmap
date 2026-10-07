@@ -33,6 +33,7 @@ body:
         - ConformalMapping
         - DGAInfinity
         - DenseGraphLimits
+        - DifferentialGeometry
         - EllipticCurves
         - Exchangeability
         - FuchsianOrbifolds
@@ -47,6 +48,7 @@ body:
         - JacobianChallenge
         - LocalFieldsRamification
         - LocalGaloisGroups
+        - ModularCurves
         - ModularForms
         - Multiquadratic
         - NumberFieldArithmetic

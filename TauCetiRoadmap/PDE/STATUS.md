@@ -1,56 +1,68 @@
-<!--tauceti-status:v1 {"roadmap":"PDE","to_sha":"0d3161a2e5e92314bf045690e177580179a2f8d9","ts":"2026-09-30T18:26:01Z"}-->
-<!--tauceti-coverage:v1 {"layers":[{"id":"Lane A","remaining":"Meyers-Serrin on a general domain, trace and extension for Lipschitz boundary, the p = n embedding, agreement with Bessel-potential spaces","state":"partial"},{"id":"Lane B","remaining":"Riesz-Thorin, the Calderon-Zygmund decomposition and singular integrals, Mihlin-Hormander, BMO and John-Nirenberg","state":"partial"},{"id":"Lane C","remaining":"Harnack for general elliptic L, Poisson-integral solution on the ball, Perron's method with barriers","state":"partial"},{"id":"Lane D","state":"done"},{"id":"Lane E","remaining":"De Giorgi Hoelder continuity, H^k bootstrapping for variable coefficients, W^{2,p} and Schauder estimates","state":"partial"},{"id":"Lane F","state":"untouched"}],"readme_sha":"ed2de35c8da6c952cbae2728ccc368987ad7c9dd8616bc4f42da7cfa568d09aa","roadmap":"PDE","to_sha":"0d3161a2e5e92314bf045690e177580179a2f8d9"}-->
+<!--tauceti-status:v1 {"roadmap":"PDE","to_sha":"1d095894ac25298eb2a23398826c0f867b6d3164","ts":"2026-10-05T01:07:53Z"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Lane A","remaining":"trace and extension for Lipschitz boundary, the p = n embedding, Meyers-Serrin at higher order on a domain, W^{1,2} into H^{1,2} on the whole space","state":"partial"},{"id":"Lane B","remaining":"Riesz-Thorin, the Calderon-Zygmund decomposition and singular integrals, Mihlin-Hormander, BMO and John-Nirenberg","state":"partial"},{"id":"Lane C","remaining":"Harnack for general elliptic L, Perron's method with barriers","state":"partial"},{"id":"Lane D","state":"done"},{"id":"Lane E","remaining":"weak Harnack and Moser's Harnack, lower-order terms and n = 2 in De Giorgi, H^k bootstrapping, W^{2,p} and Schauder estimates","state":"partial"},{"id":"Lane F","remaining":"Bochner spaces and the Gelfand triple, Galerkin existence, parabolic maximum principle, the heat semigroup and kernel","state":"partial"}],"readme_sha":"ed2de35c8da6c952cbae2728ccc368987ad7c9dd8616bc4f42da7cfa568d09aa","roadmap":"PDE","to_sha":"1d095894ac25298eb2a23398826c0f867b6d3164"}-->
 # Status: PDE
 
-This file documents the status of the PDE roadmap up until `0d3161a` (2026-09-30T18:26:01Z). There may have been subsequent updates.
+This file documents the status of the PDE roadmap up until `1d09589` (2026-10-05T01:07:53Z). There may have been subsequent updates.
 
 It is generated, and its prose is not security-validated; see
 https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 ## Where this roadmap stands
 
-**At a glance.** Lane D is complete, from the weak formulation through to the Dirichlet spectrum. Lane E has started on its deepest theorem: De Giorgi's local boundedness is proved, and so is interior `H²` regularity for constant principal coefficients. Lane C has maximum principles, Hopf's lemma and Harnack in every dimension, plus Green's functions of the ball and the half-space, but not Perron's method. Lanes A and B are partial, and Lane F has not begun.
+**At a glance.** Lane D is complete, from the weak formulation through to the Dirichlet spectrum. De Giorgi's Hölder-continuity theorem is now proved for `n ≥ 3` without lower-order terms, but the rest of Lane E has not begun. Lanes A, B and C are substantially partial. Lane F has only the abstract Hille-Yosida theorem.
 
 ### Named results
 
-- **Existence and uniqueness for the Dirichlet problem.** Take a divergence-form `L` whose energy form is bounded and coercive on `H¹₀(Ω)`. Then exactly one `u ∈ H¹₀(Ω)` satisfies `a(u, v) = ∫_Ω f v` for every test `v` ([`existsUnique_isWeakSolutionDirichlet`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/PDE/DirichletProblem.html#TauCeti.PDE.existsUnique_isWeakSolutionDirichlet)).
-- **The Dirichlet eigenfunction basis.** On a bounded domain with a symmetric energy form, `L²(Ω)` has an orthonormal basis of Dirichlet eigenfunctions with positive eigenvalues ([`exists_hilbertBasis_forall_isDirichletEigenvalue`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/PDE/Spectrum.html#TauCeti.PDE.exists_hilbertBasis_forall_isDirichletEigenvalue)).
-- **De Giorgi's local boundedness.** A weak subsolution of `-div(a∇u) ≤ 0`, with `a` bounded, measurable and uniformly elliptic, is bounded on a half ball by its `L²` mass on the full ball ([`exists_ae_value_le_mul_rpow_mul_sqrt_setIntegral`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/PDE/Regularity/LocalBoundedness.html#TauCeti.PDE.exists_ae_value_le_mul_rpow_mul_sqrt_setIntegral)). This needs a Sobolev inequality, which holds unconditionally for `n ≥ 3`, and the operator may not have lower-order terms.
-- **Strong maximum principle and Hopf's lemma.** For `-Δ - b·∇ + c` with `c ≥ 0`, an interior maximum on a preconnected open set forces constancy ([`eqOn_const_of_mul_le_laplacian_add_fderiv_of_isMaxOn`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/InnerProductSpace/Laplacian/StrongMaximumPrinciple.html#TauCeti.eqOn_const_of_mul_le_laplacian_add_fderiv_of_isMaxOn)). A boundary maximum on a ball has a strictly positive outward derivative ([`fderiv_pos_of_mul_le_laplacian_add_fderiv_of_lt_ball_of_le_sphere`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/InnerProductSpace/Laplacian/HopfLemma.html#TauCeti.fderiv_pos_of_mul_le_laplacian_add_fderiv_of_lt_ball_of_le_sphere)). Harnack's inequality holds for nonnegative harmonic functions ([`harnack_inequality`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/PDE/Harnack/Basic.html#IsCompact.harnack_inequality)).
-- **Rellich-Kondrachov.** For bounded `Ω`, the value map `W^{1,p}_0(Ω) → Lᵖ(Ω)` is compact ([`isCompactOperator_valueL`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Sobolev/RellichKondrachov.html#TauCeti.W1p0.isCompactOperator_valueL)). The statement for all of `W^{1,p}(Ω)` would need boundary regularity.
+- **Existence and uniqueness for the Dirichlet problem.** Suppose the energy form of a divergence-form `L` is bounded and coercive on `H¹₀(Ω)`. Then `L u = f` has exactly one weak solution in `H¹₀(Ω)` ([`existsUnique_isWeakSolutionDirichlet`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/PDE/DirichletProblem.html#TauCeti.PDE.existsUnique_isWeakSolutionDirichlet)).
+- **The Dirichlet eigenfunction basis.** On a bounded domain with a symmetric energy form, `L²(Ω)` has an orthonormal basis of Dirichlet eigenfunctions, and their eigenvalues are positive ([`exists_hilbertBasis_forall_isDirichletEigenvalue`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/PDE/Spectrum.html#TauCeti.PDE.exists_hilbertBasis_forall_isDirichletEigenvalue)).
+- **De Giorgi's theorem.** Let `u` be a weak solution of `-div(a∇u) = 0` whose coefficients `a` are only measurable and uniformly elliptic. Its precise representative is Hölder continuous on compact subsets, with exponent depending only on `λ`, `Λ` and `n` ([`exists_holderOnWith_preciseRepresentative`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/PDE/Regularity/HolderContinuity.html#TauCeti.PDE.exists_holderOnWith_preciseRepresentative)). The result needs `n ≥ 3`.
+- **The Dirichlet problem on a ball.** For continuous data on a sphere in any dimension, the Poisson integral is harmonic inside the ball and continuous up to the boundary, where it equals the data ([`exists_harmonicOnNhd_ball_continuousOn_closedBall_eqOn_sphere`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/PDE/PoissonIntegral/Ball.html#TauCeti.exists_harmonicOnNhd_ball_continuousOn_closedBall_eqOn_sphere)).
+- **Strong maximum principle and Hopf's lemma.** Take `-Δ - b·∇ + c` with `c ≥ 0`. An interior maximum on a preconnected open set forces the function to be constant ([`eqOn_const_of_mul_le_laplacian_add_fderiv_of_isMaxOn`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/InnerProductSpace/Laplacian/StrongMaximumPrinciple.html#TauCeti.eqOn_const_of_mul_le_laplacian_add_fderiv_of_isMaxOn)). A boundary maximum on a ball has a strictly positive outward derivative ([`fderiv_pos_of_mul_le_laplacian_add_fderiv_of_lt_ball_of_le_sphere`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/InnerProductSpace/Laplacian/HopfLemma.html#TauCeti.fderiv_pos_of_mul_le_laplacian_add_fderiv_of_lt_ball_of_le_sphere)).
 
 ### Notable definitions and infrastructure
 
-- [`Wkp`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Sobolev/Wkp/Basic.html#TauCeti.Wkp) is `W^{k,p}(Ω)`, built from weak derivatives and complete at every order. On `ℝⁿ` it now carries translation and a [mollifier converging to the identity](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Sobolev/Wkp/ApproximateIdentity.html#TauCeti.Wkp.tendsto_normedBumpL), which gives density of smooth functions on the whole space.
-- [`ballGreenKernel`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/PDE/GreenFunction/Ball.html#TauCeti.ballGreenKernel) is the Dirichlet Green's function of the unit ball in any dimension. For `n ≥ 3` it satisfies `-ΔG = δ` distributionally, and its normal derivative is the Poisson kernel. It is the starting point for solving the Dirichlet problem on the ball by potential theory.
-- [`HolderSpace`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Holder/Normed.html#TauCeti.HolderSpace) and its higher-order counterparts are the `C^{k,α}` Banach spaces, now a normed algebra at order zero. Morrey's embedding maps into them, and Schauder theory will be stated there.
+- [`Wkp`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Sobolev/Wkp/Basic.html#TauCeti.Wkp) is `W^{k,p}(Ω)`, built from weak derivatives and complete at every order. Smooth functions are [dense in `W^{1,p}(Ω)`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Sobolev/W1p/MeyersSerrin.html#TauCeti.W1p.dense_contDiffOn_representatives) on any open `Ω` (Meyers-Serrin). [Rellich-Kondrachov](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Sobolev/RellichKondrachov.html#TauCeti.W1p0.isCompactOperator_valueL) holds for `W^{1,p}_0` on bounded domains, and it drives the spectral theory.
+- The [precise representative](https://taucetiproject.github.io/TauCeti/docs/TauCeti/MeasureTheory/Function/PreciseRepresentative.html#TauCeti.MeasureTheory.preciseRepresentative) of a function is the limit of its averages over shrinking balls. It turns oscillation decay into a pointwise Hölder statement, which is how De Giorgi's estimate becomes a regularity theorem.
+- [`HolderSpace`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Analysis/Holder/Normed.html#TauCeti.HolderSpace) and its higher-order counterparts are the `C^{k,α}` Banach spaces. Morrey's embedding maps into them, and Schauder theory will be stated there.
 
 ### Roadmap coverage
 
-**Lane A** has:
-
-- weak derivatives, `W^{k,p}` with completeness, and `W^{k,p}_0`;
-- the Gagliardo-Nirenberg-Sobolev embedding, and Morrey's for `p > n`;
-- Poincaré, and Poincaré-Wirtinger on convex bounded domains;
-- extension by zero from `W^{1,p}_0`;
-- truncation calculus, Rellich for `W^{1,p}_0`, and the Hölder spaces.
-
-It lacks Meyers-Serrin density on a general domain, trace, extension for `W^{1,p}(Ω)`, the borderline `p = n`, and agreement with the Bessel-potential scale.
-
-**Lane B** has the Hardy-Littlewood maximal inequality and Marcinkiewicz interpolation, and nothing of Riesz-Thorin, Calderón-Zygmund or BMO.
-
-**Lane C** has the `n`-dimensional mean-value property, the weak and strong maximum principles, Hopf's lemma and harmonic Harnack. For `n ≥ 3` it has `-Δ = δ` for the Newtonian kernel, and the ball and half-space Green and Poisson kernels. It lacks Harnack for general `L`, Perron's method, and a Poisson-integral solution of the ball's Dirichlet problem.
-
 **Lane D** is done.
 
-**Lane E** has Caccioppoli and De Giorgi's local boundedness. It also has interior `H²` regularity for constant principal coefficients with bounded lower-order terms, which is in the source but not linked here. It lacks Hölder continuity, `Hᵏ` bootstrapping, `W^{2,p}` and Schauder.
+**Lane A** has:
 
-**Lane F** is untouched.
+- `W^{k,p}` and `W^{k,p}_0`;
+- first-order Meyers-Serrin;
+- Gagliardo-Nirenberg-Sobolev and Morrey;
+- Poincaré, with its failure on `ℝⁿ`, and Poincaré-Wirtinger on convex domains;
+- Rellich for `W^{1,p}_0`;
+- the inclusion `H^{1,2}(ℝⁿ) ⊆ W^{1,2}(ℝⁿ)`.
+
+It lacks the trace, the extension operator, the borderline `p = n`, and the reverse inclusion with the rest of the Calderón agreement.
+
+**Lane B** has the maximal inequality and Marcinkiewicz, and nothing else.
+
+**Lane C** has:
+
+- the mean-value property and its converse;
+- the weak and strong maximum principles, and Hopf;
+- harmonic Harnack;
+- the Newtonian, ball and half-space kernels;
+- the Poisson solution of the Dirichlet problem on balls.
+
+It lacks Harnack for general `L` and Perron's method.
+
+**Lane E** has Caccioppoli, De Giorgi's Hölder theorem and interior `H²` for constant principal coefficients. It lacks the Moser and Harnack half of De Giorgi-Nash-Moser, the `Hᵏ` bootstrap, `W^{2,p}` estimates and Schauder estimates.
+
+**Lane F** has nothing specific to PDE. Its only milestone in place is the abstract Hille-Yosida theorem, which lives in the library's semigroup theory.
 
 ## The frontier
 
-- **De Giorgi Hölder continuity.** Local boundedness and the isoperimetric level-set inequality are in place. What remains is oscillation decay, and with it Hölder continuity and the weak Harnack inequality. Lower-order terms have yet to be admitted.
-- **The Dirichlet problem on the ball by Poisson integral.** The kernel's far-field mass is shown to vanish at a boundary point. It remains to show that the Poisson integral of continuous data is harmonic and attains its boundary values. After that comes Perron's method with barriers.
-- **Higher interior regularity.** `H²_loc` is known for constant principal coefficients. Variable Lipschitz coefficients and the `Hᵏ` bootstrap to `C^∞` remain.
-- **Meyers-Serrin, trace and extension.** Density is now known on `ℝⁿ` at every order. On a general domain it needs no boundary regularity. Trace and extension for `W^{1,p}(Ω)` need Lipschitz `∂Ω`.
-- **Calderón-Zygmund.** The decomposition, singular integrals and BMO have not begun. They are prerequisites for `W^{2,p}` and Schauder estimates.
+- **De Giorgi-Nash-Moser in full.** Hölder continuity is proved for the homogeneous principal-part equation. What remains:
+  - the weak Harnack inequality and the elliptic Harnack inequality;
+  - admitting lower-order terms and a right-hand side;
+  - the case `n = 2`, where `2* = ∞` breaks the present Sobolev input.
+- **Perron's method.** The ball Dirichlet problem, the converse mean-value property and the sub-mean-value maximum principles are all in place. Next come Perron's method and boundary attainment at regular points via barriers.
+- **Trace and extension.** These need Lipschitz `∂Ω`. Alongside them sit Meyers-Serrin at order `k ≥ 2` on a domain, and the inclusion `W^{1,2}(ℝⁿ) ⊆ H^{1,2}(ℝⁿ)`.
+- **Higher interior regularity.** Two steps remain: `H²_loc` for variable Lipschitz coefficients, and the `Hᵏ` bootstrap to `C^∞`.
+- **Calderón-Zygmund theory.** The decomposition, singular integrals, Riesz-Thorin and BMO have not begun. They are prerequisites for the `W^{2,p}` and Schauder estimates.
