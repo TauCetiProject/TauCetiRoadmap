@@ -308,8 +308,9 @@ not supply these runtime bounds.
 
 ### 3.4 Explicit symmetric and alternating families
 
-For \(n\ge5\), use the list of all transpositions \((i\,j)\), \(i<j\),
-as ambient generators. Prove it generates \(S_n\). Let \(s=\{0\}\)
+For \(n\ge5\), enumerate transpositions \((i\,j)\) on ordered pairs
+of distinct points as ambient generators. This lists each transposition
+twice and has at most \(n^2\) entries. Prove it generates \(S_n\). Let \(s=\{0\}\)
 and generate \(H\) using the transpositions on its complement.
 Use \(b=1\) and an identity or a transposition \((1\,x)\) for the
 orbit witnesses. A transposition in \(H\) supplies a prime cycle of
