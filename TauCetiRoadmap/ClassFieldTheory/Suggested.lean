@@ -2128,8 +2128,9 @@ theorem prod_cyclotomicSymbol (m : ℕ) [NeZero m] (a : ℚˣ) :
 subgroup of `(ℤ/m)ˣ` and `M` is its closure; weak approximation gives `Y ∈ M₀ˣ` close to `y` at the
 place of the embedding, close to `1` at the other places above `p` and above the other primes
 dividing `m`, and positive at the real places; `prod_cyclotomicSymbol` at `N_{M₀/ℚ}(Y)`, the
-local–global norm formula, and the residue degrees of `M₀` at the primes `ℓ ∤ m` put the symbol of
-`N_{M/ℚ_p}(y)` in the subgroup fixing `M₀`. -/
+factorization of `N_{M₀/ℚ}(Y)` in `ℚ_p` as the product of the field norms from the completions
+above `p` (`TauCeti.algebraMap_norm_eq_prod_norm`), and the residue degrees of `M₀` at the primes
+`ℓ ∤ m` put the symbol of `N_{M/ℚ_p}(y)` in the subgroup fixing `M₀`. -/
 theorem cyclotomicSymbol_norm_fixes (p : ℕ) [Fact p.Prime] (m : ℕ) [NeZero m]
     (M : IntermediateField ℚ_[p] (AlgebraicClosure ℚ_[p])) [FiniteDimensional ℚ_[p] M]
     (hM : M ≤ IntermediateField.adjoin ℚ_[p] {z : AlgebraicClosure ℚ_[p] | z ^ m = 1})
@@ -2142,12 +2143,13 @@ theorem cyclotomicSymbol_norm_fixes (p : ℕ) [Fact p.Prime] (m : ℕ) [NeZero m
     σ.toRingEquiv (x : AlgebraicClosure ℚ_[p]) = x :=
   sorry
 
-/-- **The uniformizer of `ℚ_p`**: `χ_cyc(Art_{ℚ_p}(p)) = 1`. For every `n`, `p = N(1 − ζ)` for a
-primitive `p^n`-th root of unity `ζ` (Mathlib's `IsPrimitiveRoot.norm_sub_one_of_prime_ne_two` and
-`IsPrimitiveRoot.norm_sub_one_two`, whose irreducibility hypothesis is Tau Ceti's
-`irreducible_cyclotomic_prime_pow_ratPadic`), so `p` lies in the norm group of `ℚ_p(μ_{p^n})`,
-which the finite Artin map kills (`normResidue`, `artinMap_restrict`); a lift of `Art_{ℚ_p}(p)`
-fixes `μ_{p^n}` for every `n`. -/
+/-- **The uniformizer of `ℚ_p`**: `χ_cyc(Art_{ℚ_p}(p)) = 1`. For every `n ≥ 1`, `p = N(1 − ζ)` for
+a primitive `p^n`-th root of unity `ζ`. Mathlib's `IsPrimitiveRoot.norm_sub_one_of_prime_ne_two` and
+`IsPrimitiveRoot.norm_sub_one_two` (`n ≥ 2`), whose irreducibility hypothesis is Tau Ceti's
+`irreducible_cyclotomic_prime_pow_ratPadic`, give `N(ζ − 1) = p`, and the degree `φ(p^n)` is even
+there; at `p = 2`, `n = 1`, `1 − (−1) = 2`. So `p` lies in the norm group of `ℚ_p(μ_{p^n})`, which
+the finite Artin map kills (`normResidue`, `artinMap_restrict`), and a lift of `Art_{ℚ_p}(p)` fixes
+`μ_{p^n}` for every `n`. -/
 theorem cyclotomicCharacter_artinMap_padic_uniformizer (p : ℕ) [Fact p.Prime]
     [IsNonarchimedeanLocalField ℚ_[p]] (σ : Field.absoluteGaloisGroup ℚ_[p])
     (_hσ : (QuotientGroup.mk σ : Field.absoluteGaloisGroupAbelianization ℚ_[p])
@@ -2875,6 +2877,115 @@ theorem infiniteInvMap_eq_zero_of_isComplex (w : NumberField.InfinitePlace K)
 are not ignorable: dropping them already breaks the sum formula for `ℚ(i)/ℚ`. -/
 theorem range_infiniteInvMap_of_isReal (w : NumberField.InfinitePlace K) (hw : w.IsReal) :
     Set.range (infiniteInvMap K w) = (ratModIntTorsion 2 : Set RatModInt) :=
+  sorry
+
+/-! ### The archimedean Artin maps
+
+The archimedean half of the local Artin package. It precedes `sumLocalInv_eq_zero`, whose proof
+reads the product of the local Artin symbols, the one at `∞` included, as a sum of local
+invariants; Layer 11 consumes it. It comes from the formation machinery of Layers 1–4 and the
+archimedean Brauer computation above, not from any reciprocity law. -/
+
+/-- **The archimedean class formation**: Hilbert 90 and `infiniteInvMap` make the field formation of
+an archimedean completion a class formation. Over `ℂ` every layer is trivial; over `ℝ` the one
+nontrivial layer is `ℂ/ℝ`, whose `H²` has order two. -/
+noncomputable def infiniteClassFormation (w : NumberField.InfinitePlace K) :
+    ClassFormation (fieldFormation w.Completion) :=
+  sorry
+
+/-- On a layer over `K_w`, the abstract invariant is `infiniteInvMap` after inflation to
+`Br K_w`. With `infiniteArtinAt_layer`, Layer 4's `character_artinMap` for
+`infiniteClassFormation` is the archimedean character formula `χ(Art_w a) = inv_w(a ∪ δχ)`; on
+`ℂ/ℝ` it is Tau Ceti's `realInv_realClass`, the cyclic class of `a` at complex conjugation having
+invariant `0` or `1/2` according to the sign of `a`. -/
+theorem infiniteClassFormation_inv (w : NumberField.InfinitePlace K)
+    (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup w.Completion)) (hL : Lay.ground = ⊤)
+    (x : Lay.H (fieldFormation w.Completion) 2) :
+    (infiniteClassFormation K w).inv Lay x = infiniteInvMap K w (brInfl w.Completion Lay hL x) :=
+  sorry
+
+/-- **The archimedean Artin map** `Art_w : K_wˣ → G_{K_w}^ab`. It is pinned against
+`infiniteClassFormation` by `infiniteArtinAt_layer`, and computed by
+`infiniteArtinAt_eq_one_of_isComplex` and `infiniteArtinAt_eq_one_iff_of_isReal`. -/
+noncomputable def infiniteArtinAt (w : NumberField.InfinitePlace K) :
+    (w.Completion)ˣ →* Field.absoluteGaloisGroupAbelianization w.Completion :=
+  sorry
+
+/-- `Art_w` is the abstract Artin map of `infiniteClassFormation` on every layer `V ◁ ⊤`, read
+through `localGroundEquiv` and `NormalLayer.galOfOpenNormalEquiv`, as
+`localAbelianGaloisEquiv_artinMap` reads the finite local map. -/
+theorem infiniteArtinAt_layer (w : NumberField.InfinitePlace K)
+    (V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup w.Completion)) (x : (w.Completion)ˣ)
+    (σ : Field.absoluteGaloisGroup w.Completion)
+    (hσ : (QuotientGroup.mk σ : Field.absoluteGaloisGroupAbelianization w.Completion) =
+      infiniteArtinAt K w x) :
+    (infiniteClassFormation K w).artinMap (NormalLayer.ofOpenNormal V)
+        (localGroundEquiv w.Completion (Additive.ofMul x)) =
+      Additive.ofMul (Abelianization.of ((NormalLayer.galOfOpenNormalEquiv V).symm
+        (QuotientGroup.mk (absoluteGaloisGroupComparison w.Completion σ)))) :=
+  sorry
+
+/-- **The archimedean character formula** `χ(Art_w x) = inv_w(x ∪ δχ)`, a closed proof from
+Layer 4's `character_artinMap` for `infiniteClassFormation`. This is the form in which
+`sumLocalInv_eq_zero` reads the Artin symbol at an archimedean place as a local invariant. -/
+theorem character_infiniteArtinAt (w : NumberField.InfinitePlace K)
+    (V : OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup w.Completion)) (x : (w.Completion)ˣ)
+    (σ : Field.absoluteGaloisGroup w.Completion)
+    (hσ : (QuotientGroup.mk σ : Field.absoluteGaloisGroupAbelianization w.Completion) =
+      infiniteArtinAt K w x)
+    (χ : Additive (Abelianization (NormalLayer.ofOpenNormal V).Gal) →+ RatModInt) :
+    χ (Additive.ofMul (Abelianization.of ((NormalLayer.galOfOpenNormalEquiv V).symm
+        (QuotientGroup.mk (absoluteGaloisGroupComparison w.Completion σ))))) =
+      infiniteInvMap K w (brInfl w.Completion (NormalLayer.ofOpenNormal V) rfl
+        (artinCharacterCup (fieldFormation w.Completion) (NormalLayer.ofOpenNormal V)
+          (localGroundEquiv w.Completion (Additive.ofMul x)) χ)) :=
+  (congrArg χ (infiniteArtinAt_layer K w V x σ hσ)).symm.trans
+    ((ClassFormation.character_artinMap _ _ _ χ).trans (infiniteClassFormation_inv K w _ rfl _))
+
+/-- **`Art_ℂ` is trivial.** -/
+theorem infiniteArtinAt_eq_one_of_isComplex (w : NumberField.InfinitePlace K) (hw : w.IsComplex)
+    (x : (w.Completion)ˣ) :
+    infiniteArtinAt K w x = 1 :=
+  sorry
+
+/-- **The kernel of `Art_ℝ` is `ℝ_{>0} = N_{ℂ/ℝ}(ℂˣ)`**: at a real place `Art_w(x)` is trivial
+exactly when `x` is positive, and is complex conjugation, the other element of
+`G_{K_w} ≅ Gal(ℂ/ℝ)`, when `x` is negative. -/
+theorem infiniteArtinAt_eq_one_iff_of_isReal (w : NumberField.InfinitePlace K) (hw : w.IsReal)
+    (x : (w.Completion)ˣ) :
+    infiniteArtinAt K w x = 1 ↔
+      0 < InfinitePlace.Completion.extensionEmbeddingOfIsReal hw (x : w.Completion) :=
+  sorry
+
+/-- **`Art_ℝ` on roots of unity**: a lift of `Art_w(x)` acts on the `m`-th roots of unity through
+`realCyclotomicSymbol m` at the real image of `x`, trivially for `x > 0` and by complex conjugation
+`ζ ↦ ζ⁻¹` for `x < 0`. It is the factor at `∞` of `prod_cyclotomicSymbol` read as an Artin
+symbol. -/
+theorem infiniteArtinAt_rootsOfUnity_of_isReal (w : NumberField.InfinitePlace K)
+    (hw : w.IsReal) (m : ℕ) [NeZero m] (x : (w.Completion)ˣ)
+    (σ : Field.absoluteGaloisGroup w.Completion)
+    (hσ : (QuotientGroup.mk σ : Field.absoluteGaloisGroupAbelianization w.Completion) =
+      infiniteArtinAt K w x)
+    (z : AlgebraicClosure w.Completion) (hz : z ^ m = 1) :
+    σ.toRingEquiv z = z ^ ((realCyclotomicSymbol m
+      (Units.map (InfinitePlace.Completion.extensionEmbeddingOfIsReal hw).toMonoidHom x) :
+        ZMod m).val) :=
+  sorry
+
+open scoped NumberField.LiesOver in
+/-- **Norm functoriality at the archimedean places**, the analogue of `artinMap_norm`: for `w` a
+place of `L` over `v`, the image in `G_{K_v}^ab` of `Art_w(x)` is `Art_v(N_{L_w/K_v} x)`. It is
+elementary: for `ℝ/ℝ` and `ℂ/ℂ` the norm is the identity, and for `ℂ/ℝ` both sides are trivial,
+`N(x) = |x|²` being positive. -/
+theorem infiniteArtinAt_norm (w : NumberField.InfinitePlace L) (v : NumberField.InfinitePlace K)
+    [w.LiesOver v] [Module.Finite v.Completion w.Completion]
+    (iota : w.Completion →ₐ[v.Completion] SeparableClosure v.Completion) (x : (w.Completion)ˣ)
+    (τ : Field.absoluteGaloisGroup w.Completion)
+    (hτ : (QuotientGroup.mk τ : Field.absoluteGaloisGroupAbelianization w.Completion) =
+      infiniteArtinAt L w x) :
+    (QuotientGroup.mk (absoluteGaloisGroupExtend v.Completion w.Completion iota τ) :
+        Field.absoluteGaloisGroupAbelianization v.Completion) =
+      infiniteArtinAt K v (Units.map (Algebra.norm v.Completion : w.Completion →* v.Completion) x) :=
   sorry
 
 /-- The local invariant of a global Brauer class at a finite place. The instance arguments needed
