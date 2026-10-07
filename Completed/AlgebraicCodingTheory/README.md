@@ -4,7 +4,7 @@ Algebraic codes are the finite algebra which turns coordinate data into lattice 
 This roadmap develops finite linear and additive codes far enough to support that use: matrix
 presentations, Hamming data, duality, the MacWilliams identity, the small exceptional codes, and
 Construction A.  Its final layer identifies code coordinates with the discriminant modules from
-the [integral-lattices roadmap](../../Completed/IntegralLattices/README.md), so the lattice attached to an
+the [integral-lattices roadmap](../IntegralLattices/README.md), so the lattice attached to an
 isotropic code is literally the preimage construction from that roadmap and has discriminant
 module `C^⊥/C`.
 
@@ -463,3 +463,8 @@ Mathematical review is wanted from a coding theorist, especially for the equival
 the `F₄` Hermitian/D₄ discriminant identification, and the exact hypotheses of the generalized
 `ZMod m` Construction A statements, and from a Lean contributor familiar with finite sums,
 matrices, `MvPolynomial`, and finite character sums.
+
+---
+
+*Archived: this roadmap was declared complete on 2026-10-07. `Suggested.lean` now states each
+milestone against Tau Ceti and closes it with no `sorry`.*
