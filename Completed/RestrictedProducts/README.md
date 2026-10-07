@@ -5,7 +5,8 @@ families of compact open subgroups used as reference data, componentwise maps, c
 family at finitely many indices, reindexing along an equivalence, the away-`S` decomposition, and
 diagonal homomorphisms whose coordinates are eventually integral. Its inputs are a family of
 topological groups, subgroups of them, and coordinate homomorphisms. It uses no arithmetic and no
-algebraic geometry, and its representative `Suggested.lean` imports only Mathlib.
+algebraic geometry, and its representative `Suggested.lean` imported only Mathlib until the
+roadmap was archived.
 
 It does **not** construct the local point groups of an algebraic group, prove strong approximation,
 or define Tamagawa measures. Those need reductive-group, integral-model, reduction-theory and
@@ -511,3 +512,7 @@ strong-approximation, Tamagawa and mass-formula results that neither of them cla
 
 - N. Bourbaki, *General Topology*, for restricted-product topology.
 - A. Weil, *Basic Number Theory*, for the classical restricted-product model of the adeles.
+
+*Archived: this roadmap was declared complete on 2026-10-07. `Suggested.lean` now states each
+milestone against Tau Ceti and closes it with no `sorry`; the definitions it proposed are the Tau
+Ceti ones, re-exported under the names above for the roadmaps that cite them.*
