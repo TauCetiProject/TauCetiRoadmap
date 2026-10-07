@@ -581,6 +581,52 @@ theorem tendsto_law_iff_laplaceFunctional {Λₙ : ℕ → Ω → LocallyFiniteM
           atTop (𝓝 (laplaceFunctional P (fun ω => (Λ ω : Measure S)) fun x => (f x : ℝ≥0∞))) := by
   sorry
 
+/-- Convergence in law from factorial moment measures.  Under Layer 3's local
+exponential-moment condition, uniformly in `n`, vague convergence of every factorial moment
+measure to that of `N` gives weak convergence of the laws. -/
+theorem tendsto_law_of_tendsto_factorialMomentMeasure {Nₙ : ℕ → Ω → PointMeasure S}
+    {N : Ω → PointMeasure S} (hₙ : ∀ n, Measurable (Nₙ n)) (h : Measurable N)
+    (hexp : ∀ W : Set S, MeasurableSet W → IsCompact (closure W) →
+      ∃ c : ℝ≥0∞, 2 < c ∧ (⨆ n, ∫⁻ ω, c ^ ((Nₙ n ω).count W).toNat ∂P) < ∞)
+    (hconv : ∀ (k : ℕ) (g : C_c(Fin k → S, ℝ)),
+      Tendsto (fun n => ∫ x, g x ∂(factorialMomentMeasure P (Nₙ n) k)) atTop
+        (𝓝 (∫ x, g x ∂(factorialMomentMeasure P N k)))) :
+    Tendsto (fun n => law P (Nₙ n) (hₙ n)) atTop (𝓝 (law P N h)) := by
+  sorry
+
+/-- The existence form: under the same uniform condition, vague convergence of the factorial
+moment measures to locally finite measures `α k` yields a limit law on `PointMeasure S` whose
+factorial moment measures are the `α k`. -/
+theorem exists_tendsto_law_of_tendsto_factorialMomentMeasure {Nₙ : ℕ → Ω → PointMeasure S}
+    (hₙ : ∀ n, Measurable (Nₙ n))
+    (hexp : ∀ W : Set S, MeasurableSet W → IsCompact (closure W) →
+      ∃ c : ℝ≥0∞, 2 < c ∧ (⨆ n, ∫⁻ ω, c ^ ((Nₙ n ω).count W).toNat ∂P) < ∞)
+    {α : (k : ℕ) → Measure (Fin k → S)} (hα : ∀ k, IsFiniteMeasureOnCompacts (α k))
+    (hconv : ∀ (k : ℕ) (g : C_c(Fin k → S, ℝ)),
+      Tendsto (fun n => ∫ x, g x ∂(factorialMomentMeasure P (Nₙ n) k)) atTop
+        (𝓝 (∫ x, g x ∂(α k)))) :
+    ∃ Q : ProbabilityMeasure (PointMeasure S),
+      (∀ k, factorialMomentMeasure (Q : Measure (PointMeasure S)) id k = α k) ∧
+        Tendsto (fun n => law P (Nₙ n) (hₙ n)) atTop (𝓝 Q) := by
+  sorry
+
+/-- The correlation-function corollary: locally uniform convergence of the correlation
+functions relative to a locally finite reference measure `μ`, with a bound `ρₙ n k ≤ C ^ k` on
+`W ^ k` uniform in `n` for every bounded window `W`, gives weak convergence of the laws. -/
+theorem tendsto_law_of_tendstoLocallyUniformly_correlationFunction {μ : Measure S}
+    [IsFiniteMeasureOnCompacts μ] {Nₙ : ℕ → Ω → PointMeasure S} {N : Ω → PointMeasure S}
+    (hₙ : ∀ n, Measurable (Nₙ n)) (h : Measurable N)
+    {ρₙ : ℕ → (k : ℕ) → (Fin k → S) → ℝ≥0} {ρ : (k : ℕ) → (Fin k → S) → ℝ≥0}
+    (hρₙ : ∀ n k, factorialMomentMeasure P (Nₙ n) k =
+      (Measure.pi fun _ : Fin k => μ).withDensity fun x => (ρₙ n k x : ℝ≥0∞))
+    (hρ : ∀ k, factorialMomentMeasure P N k =
+      (Measure.pi fun _ : Fin k => μ).withDensity fun x => (ρ k x : ℝ≥0∞))
+    (hunif : ∀ k, TendstoLocallyUniformly (fun n => ρₙ n k) (ρ k) atTop)
+    (hbound : ∀ W : Set S, MeasurableSet W → IsCompact (closure W) →
+      ∃ C : ℝ≥0, ∀ n k (x : Fin k → S), (∀ i, x i ∈ W) → ρₙ n k x ≤ C ^ k) :
+    Tendsto (fun n => law P (Nₙ n) (hₙ n)) atTop (𝓝 (law P N h)) := by
+  sorry
+
 /-- Grigelionis' theorem for a null array of independent point processes. -/
 theorem tendsto_sum_poissonLaw_of_nullArray {m : ℕ → ℕ}
     {ξ : (n : ℕ) → Fin (m n) → Ω → PointMeasure S}
