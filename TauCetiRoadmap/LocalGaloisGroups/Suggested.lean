@@ -1711,10 +1711,12 @@ theorem padicCompletionUnitsOf_norm_algEquiv (σ : L ≃ₐ[K] L) (x : Lˣ) :
 /-- **Step 3, the Tate module of the layer** — the module `Y = I_{G_K}/I_{G_L} I_{G_K}` of NSW
 (5.6.5) and the proof of (7.4.1), packaged by the properties the decomposition consumes: a
 finitely generated `ℤ_p[Gal(L/K)]`-module of projective dimension at most one that is an extension
-of the augmentation ideal `I_{Gal(L/K)}` by `A(L)`. Projective dimension at most one is
-cohomological triviality, which is Tate's theorem (NSW (3.1.5)) for the fundamental class of the
-layer transported to `A(L)` along the reciprocity identification of Step 1; the extension class is
-that class. The decomposition below uses only the properties recorded here, so the package
+of the augmentation ideal `I_{Gal(L/K)}` by `A(L)`. Projective dimension at most one follows from
+cohomological triviality by the theorem of Nakayama and Rim
+(`ClassFieldTheory.TateCohomology.projective_ker_of_isZero_res`), and cohomological triviality is
+Tate's criterion fed by Tate's theorem (NSW (3.1.5)) for the fundamental class of the layer
+transported to `A(L)` along the reciprocity identification of Step 1; the extension class is that
+class. The decomposition below uses only the properties recorded here, so the package
 carries nothing else. -/
 structure TateModule where
   /-- The carrier `Y`. -/
@@ -1870,9 +1872,11 @@ and (3.1.5), Tate's theorem, for the cohomological triviality). Its inputs are t
 formation — `ClassFieldTheory.ClassFormation`, which is Tau Ceti's
 `TauCeti.ClassFieldTheory.ClassFormation` re-exported, with Tau Ceti's fundamental class
 `ClassFormation.fundamentalClass` and its generation theorem
-`ClassFormation.fundamentalClass_generates`, and `ClassFieldTheory.tateTheorem` — and the
-reciprocity identification `A(L) ≃ G_L^{ab}(p)` of Step 1, which carries the fundamental class of
-`Lˣ` to `A(L)`. -/
+`ClassFormation.fundamentalClass_generates`, and `ClassFieldTheory.tateTheorem` — the reciprocity
+identification `A(L) ≃ G_L^{ab}(p)` of Step 1, which carries the fundamental class of `Lˣ` to
+`A(L)`, Tau Ceti's criterion `TauCeti.TateCohomology.isZero_of_forall_isPGroup`, and the theorem of
+Nakayama and Rim, `ClassFieldTheory.TateCohomology.projective_ker_of_isZero_res`, applied to a copy
+of `Gal(L/K)` in `Type`. -/
 theorem nonempty_tateModule : Nonempty (TateModule p L K) :=
   sorry
 
