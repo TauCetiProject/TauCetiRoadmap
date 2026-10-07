@@ -741,3 +741,9 @@ not the conclusion of Layer 10: Dirichlet density does not imply natural density
 - J.-P. Serre, *Local Fields*, for arithmetic/geometric Frobenius conventions.
 - L. Washington, *Introduction to Cyclotomic Fields*, Chapter 2, for total ramification of `ℚ(ζ_q)`
   at `q` and the resulting subfield ramification used in 7.2.
+
+---
+
+*Archived: this roadmap was declared complete on 2026-10-07. `Suggested.lean` now states each
+milestone against Tau Ceti and closes it with no `sorry`; its header records where Tau Ceti's
+names and forms differ from the ones requested here.*
