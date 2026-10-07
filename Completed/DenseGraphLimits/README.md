@@ -577,8 +577,9 @@ graphon modules consume them:
 
 ## Suggested signatures
 
-The compiled `sorry`-signatures live in [`Suggested.lean`](./Suggested.lean) (globbed by
-`lakefile.toml`, so CI type-checks them). They pin the types — in particular that the cut
+The compiled signatures live in [`Suggested.lean`](./Suggested.lean) (globbed by
+`lakefile.toml`, so CI type-checks them), each now discharged by the Tau Ceti declaration that
+realizes it. They pin the types — in particular that the cut
 norm acts on *kernels* (so `U − W` is well-typed), that `cutDist` is coupling-primary and
 cross-carrier, and that the constant-graphon and sampling targets share the `unitInterval` (`p : I`)
 convention with `SimpleGraph.binomialRandom`. Compiled there: `SymmKernel` / `Graphon`, `cutNorm`
@@ -859,3 +860,10 @@ The mathematics and proof routes draw on two prior Lean developments,
   graphon-sampling concentration theorems?
 - Do the computed-value backstops hold (`t(K₂, W_{K₄}) = 3/4`, `t(K₃, W_{C₅}) = 0`, `t(F, W_p) = p^{e(F)}`)?
 - Are the source repositories confined to Provenance?
+
+---
+
+*Archived: this roadmap was declared complete on 2026-10-07. `Suggested.lean` now states each
+milestone against Tau Ceti and closes it with no `sorry`. The signature inventory above lists the
+names the file had before archiving; the file's header records where Tau Ceti's names and
+statements differ.*
