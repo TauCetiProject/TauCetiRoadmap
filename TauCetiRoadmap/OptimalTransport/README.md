@@ -900,7 +900,7 @@ regularity](https://www.numdam.org/item/10.1007/s10240-014-0064-7.pdf).
 
 ### Layer 7: Riemannian Brenier--McCann transport
 
-The [Hopf--Rinow roadmap](../HopfRinow/README.md), Layers 1--4, supplies the Levi-Civita
+The [Hopf--Rinow roadmap](../../Completed/HopfRinow/README.md), Layers 1--4, supplies the Levi-Civita
 connection, interval-aware geodesics, exponential maps and their local inverse logarithms on
 normal neighborhoods, Hopf--Rinow, and minimizing geodesics.  The
 [geometric-topology roadmap](../GeometricTopology/README.md), Layer 7, consumes that connection
@@ -974,7 +974,7 @@ Theorem 1.1 and its distance-cost specialization.
 ### Layer 8: metric curves, dynamic plans, and Benamou--Brenier
 
 Consume metric curve length, length spaces, and constant-speed geodesic spaces from the shared API
-owned by the [Hopf--Rinow roadmap](../HopfRinow/README.md), Layer 4.  Build the remaining maximally
+owned by the [Hopf--Rinow roadmap](../../Completed/HopfRinow/README.md), Layer 4.  Build the remaining maximally
 general path-space theory first, then the Eulerian specialization.
 
 1. Define `ACᵖ([0,T];X)`, metric derivatives, `p`-energy/action, and measurable families of
@@ -1958,7 +1958,7 @@ guardrails.
   the PDE/semigroup identification of JKO limits.  Nonlinear Monge--Ampère, continuity
   equations of measure-valued curves, Fokker--Planck semigroup construction, and OT first
   variations remain explicit work here.
-* The [Hopf--Rinow roadmap](../HopfRinow/README.md) builds the Levi-Civita connection, geodesic
+* The [Hopf--Rinow roadmap](../../Completed/HopfRinow/README.md) builds the Levi-Civita connection, geodesic
   flow, exponential and local logarithm maps, completeness and minimizing-geodesic theory, and
   the shared metric length/geodesic-space API.  Layers 7--9 consume these results; Layer 7 retains
   ownership of injectivity-radius, cut-locus, squared-distance, and transport-specific bridges.
