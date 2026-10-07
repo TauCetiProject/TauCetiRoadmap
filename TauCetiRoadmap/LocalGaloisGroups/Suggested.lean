@@ -1697,15 +1697,45 @@ theorem padicCompletionUnitsOf_norm_algEquiv (σ : L ≃ₐ[K] L) (x : Lˣ) :
 
 /-! ### Step 3: the Tate module of a layer and its integral decomposition -/
 
+/-- `A(L)` as a representation of `Gal(L/K)` over `ℤ_p`, through its `ℤ_p[Gal(L/K)]`-module
+structure `padicCompletionUnitsModule`. Mathlib's group cohomology takes the group and the
+coefficient ring in one universe, so the fields are in `Type`. -/
+noncomputable abbrev padicCompletionUnitsRep (K L : Type) [Field K] [Field L] [Algebra K L] :
+    Rep ℤ_[p] (L ≃ₐ[K] L) :=
+  Rep.ofModuleMonoidAlgebra.obj
+    (ModuleCat.of (MonoidAlgebra ℤ_[p] (L ≃ₐ[K] L)) (Additive ↥(padicCompletionUnits p L)))
+
+/-- **Step 3, the cohomology of `A(L)` on the layer.** There is a class `u ∈ H²(Gal(L/K), A(L))`
+whose restriction to every subgroup `H` generates `H²(H, A(L))`, a group of order the `p`-part of
+`#H`, and `H¹(H, A(L)) = 0`. The class is the image of the fundamental class of the local class
+formation along `padicCompletionUnitsOf`, whose kernel (the roots of unity of order prime to `p`)
+and cokernel (`ℤ_p/ℤ`, along the valuation) have bijective multiplication by `p`; so by
+`ClassFieldTheory.TateCohomology.primaryComponent_tateCohomology_eq_bot` it induces
+`Ĥⁱ(H, Lˣ)(p) ≅ Ĥⁱ(H, A(L))`, and Hilbert 90 with Tau Ceti's `ClassFormation.h1_subgroupLayer`,
+`ClassFormation.card_H2_subgroupLayer` and `ClassFormation.fundamentalClass_restrict_generates`
+gives the three clauses. The reciprocity identification of Step 1 is not used. -/
+theorem exists_padicCompletionUnitsRep_class (K L : Type) [Field K] [Field L] [Algebra K L]
+    [Algebra ℚ_[p] L] [Module.Finite ℚ_[p] L] [Algebra ℚ_[p] K] [Module.Finite ℚ_[p] K]
+    [IsScalarTower ℚ_[p] K L] [IsGalois K L] [FiniteDimensional K L] :
+    ∃ u : groupCohomology (padicCompletionUnitsRep p K L) 2,
+      ∀ S : Subgroup (L ≃ₐ[K] L),
+        Subsingleton (groupCohomology (Rep.res S.subtype (padicCompletionUnitsRep p K L)) 1) ∧
+          AddSubgroup.zmultiples
+              (groupCohomology.map S.subtype (𝟙 (Rep.res S.subtype (padicCompletionUnitsRep p K L)))
+                2 u) = ⊤ ∧
+          Nat.card (groupCohomology (Rep.res S.subtype (padicCompletionUnitsRep p K L)) 2) =
+            p ^ padicValNat p (Nat.card S) :=
+  sorry
+
 /-- **Step 3, the Tate module of the layer** — the module `Y = I_{G_K}/I_{G_L} I_{G_K}` of NSW
 (5.6.5) and the proof of (7.4.1), packaged by the properties the decomposition consumes: a
 finitely generated `ℤ_p[Gal(L/K)]`-module of projective dimension at most one that is an extension
 of the augmentation ideal `I_{Gal(L/K)}` by `A(L)`. Projective dimension at most one follows from
 cohomological triviality by the theorem of Nakayama and Rim
 (`ClassFieldTheory.TateCohomology.projective_ker_of_isZero_res`), and cohomological triviality is
-Tate's criterion fed by Tate's theorem (NSW (3.1.5)) for the fundamental class of the layer
-transported to `A(L)` along the reciprocity identification of Step 1; the extension class is that
-class. The decomposition below uses only the properties recorded here, so the package
+Tate's criterion for the splitting module of the class of `exists_padicCompletionUnitsRep_class`,
+the image of the fundamental class of the layer along `padicCompletionUnitsOf`; the extension class
+is that class. The decomposition below uses only the properties recorded here, so the package
 carries nothing else. -/
 structure TateModule where
   /-- The carrier `Y`. -/
@@ -1856,16 +1886,14 @@ theorem tameFrameModule_torsion_linearEquiv (σ τ : L ≃ₐ[K] L) (a b : ℕ)
       ↥(pPowerTorsion p (L ≃ₐ[K] L) (Additive ↥(padicCompletionUnits p L)))) :=
   sorry
 
-/-- **Step 3, existence of the Tate module** (NSW (5.6.5) for the extension `0 → A(L) → Y → I_G → 0`
-and (3.1.5), Tate's theorem, for the cohomological triviality). Its inputs are the local class
-formation — `ClassFieldTheory.ClassFormation`, which is Tau Ceti's
-`TauCeti.ClassFieldTheory.ClassFormation` re-exported, with Tau Ceti's fundamental class
-`ClassFormation.fundamentalClass` and its generation theorem
-`ClassFormation.fundamentalClass_generates`, and `ClassFieldTheory.tateTheorem` — the reciprocity
-identification `A(L) ≃ G_L^{ab}(p)` of Step 1, which carries the fundamental class of `Lˣ` to
-`A(L)`, Tau Ceti's criterion `TauCeti.TateCohomology.isZero_of_forall_isPGroup`, and the theorem of
-Nakayama and Rim, `ClassFieldTheory.TateCohomology.projective_ker_of_isZero_res`, applied to a copy
-of `Gal(L/K)` in `Type`. -/
+/-- **Step 3, existence of the Tate module** (NSW (5.6.5) for the extension `0 → A(L) → Y → I_G → 0`).
+`Y` is Tau Ceti's splitting module `Rep.splittingModule` of the class of
+`exists_padicCompletionUnitsRep_class` (`Rep.splittingModuleSES_shortExact`), cohomologically
+trivial by Tau Ceti's criterion `TauCeti.TateCohomology.isZero_of_forall_isPGroup` in degrees `1`
+and `2` (`Rep.map_splittingModuleIncl_res_eq_zero` makes the connecting map onto), and of projective
+dimension at most one by the theorem of Nakayama and Rim,
+`ClassFieldTheory.TateCohomology.projective_ker_of_isZero_res`, applied to a copy of `Gal(L/K)` in
+`Type`. -/
 theorem nonempty_tateModule : Nonempty (TateModule p L K) :=
   sorry
 
