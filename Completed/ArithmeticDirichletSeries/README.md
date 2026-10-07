@@ -422,3 +422,8 @@ prime-ideal specialization additionally consumes the named external `LFunctions`
   finite-error calculus.
 - Titchmarsh, revised by Heath-Brown, *The Theory of the Riemann Zeta-Function*, Lemma 3.12 for
   the truncated Perron kernel and its endpoint restrictions.
+
+---
+
+*Archived: this roadmap was declared complete on 2026-10-07. `Suggested.lean` now states each
+milestone against Tau Ceti and closes it with no `sorry`.*
