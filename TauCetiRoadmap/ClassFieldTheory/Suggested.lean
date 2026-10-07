@@ -16,7 +16,7 @@ import TauCeti.Topology.Algebra.GroupAction.InternalHom.Basic
 import TauCetiRoadmap.ProfiniteCohomology.Suggested
 import TauCetiRoadmap.LocalFieldsRamification.Suggested
 import TauCetiRoadmap.GlobalNumberFields.Suggested
-import TauCetiRoadmap.NumberFieldArithmetic.Suggested
+import Completed.NumberFieldArithmetic.Suggested
 
 set_option autoImplicit false
 

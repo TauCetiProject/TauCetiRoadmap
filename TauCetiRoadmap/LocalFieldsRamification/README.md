@@ -22,7 +22,7 @@ extensions and Frobenius, the ramification filtrations and Herbrand transition, 
 the tame character, and the Iwasawa presentation of the tame quotient. Downstream roadmaps
 import those declarations directly; they do not reconstruct private local-field toolkits.
 
-In particular, [the Number-Field Arithmetic roadmap](../NumberFieldArithmetic/README.md) is a
+In particular, [the Number-Field Arithmetic roadmap](../../Completed/NumberFieldArithmetic/README.md) is a
 downstream consumer of this roadmap. This roadmap owns the intrinsic local extension,
 normalized valuations and `(e,f)`, the integer-ring/integral-closure theory, local
 monogenicity, the canonical lower filtration, and the local different theorems. Number-Field
@@ -756,7 +756,7 @@ pro-`p` quotient.
   `Algebra.adjoin 𝒪[K] {x} = ⊤`. Package the induced integral-basis and field-generation
   consequences so consumers do not have to reconstruct them from the primitive-element theorem.
   This is a local theorem: [the Number-Field Arithmetic
-  roadmap](../NumberFieldArithmetic/README.md) consumes it only after passing to a completion.
+  roadmap](../../Completed/NumberFieldArithmetic/README.md) consumes it only after passing to a completion.
   For an Eisenstein generator `ξ` of degree `n`, also prove the orthogonality of its power
   basis. If `c_i ∈ 𝒪[K]`, then
 
@@ -1423,7 +1423,7 @@ The declaration-level overlap is:
 | `PadicField.Extension.ramificationIdx`, `absoluteRamificationIndex`, `inertiaDeg`, `absoluteRamificationIndex_eq`, `ramificationIdx_mul_inertiaDeg`, and `map_maximalIdeal_eq_pow_ramificationIdx` | Tau Ceti implements these destinations on the valuative carriers (`TauCeti.ramificationIndex`, `TauCeti.absoluteRamificationIndex`, `TauCeti.inertiaDegree`, their tower laws, `TauCeti.ramificationIndex_mul_inertiaDegree` and `TauCeti.map_maximalIdeal_eq_maximalIdeal_pow`); nothing is ported. |
 | `mono_exists_primitive` and its supporting Newton-lift declarations | Adapt to `exists_integerRing_adjoin_eq_top` on `𝒪[K] → 𝒪[L]`; do not expose the generic helper namespace as a second local-field API. |
 | `TraceFiltration.intTrace_residue_scaling` | Reuse or adapt as the residue-trace input to tame/wild different bounds, behind the public different theorems. |
-| `PadicField.Extension.differentExponent`, `ramificationIdx_sub_one_le_differentExponent`, `ramificationIdx_le_differentExponent_of_dvd`, `differentExponent_tame`, `discExponent_eq_inertiaDeg_mul_differentExponent`, and `discExponent_tame` | Tau Ceti implements these destinations (`TauCeti.differentExponent`, `TauCeti.ramificationIndex_sub_one_le_differentExponent`, `TauCeti.ramificationIndex_le_differentExponent_iff`, `TauCeti.differentExponent_eq_ramificationIndex_sub_one_iff`, `TauCeti.discriminantExponent_eq_inertiaDegree_mul_differentExponent` and `TauCeti.discriminantExponent_eq_inertiaDegree_mul_ramificationIndex_sub_one_iff`); nothing is ported. The global discriminant consequences stay in [the Number-Field Arithmetic roadmap](../NumberFieldArithmetic/README.md). |
+| `PadicField.Extension.differentExponent`, `ramificationIdx_sub_one_le_differentExponent`, `ramificationIdx_le_differentExponent_of_dvd`, `differentExponent_tame`, `discExponent_eq_inertiaDeg_mul_differentExponent`, and `discExponent_tame` | Tau Ceti implements these destinations (`TauCeti.differentExponent`, `TauCeti.ramificationIndex_sub_one_le_differentExponent`, `TauCeti.ramificationIndex_le_differentExponent_iff`, `TauCeti.differentExponent_eq_ramificationIndex_sub_one_iff`, `TauCeti.discriminantExponent_eq_inertiaDegree_mul_differentExponent` and `TauCeti.discriminantExponent_eq_inertiaDegree_mul_ramificationIndex_sub_one_iff`); nothing is ported. The global discriminant consequences stay in [the Number-Field Arithmetic roadmap](../../Completed/NumberFieldArithmetic/README.md). |
 
 For every adapted proof, the implementation record must identify the LeanBridge declaration and
 revision or say explicitly that the proof was replaced. Regardless of implementation source,

@@ -72,7 +72,7 @@ No milestone here has a prerequisite of any other kind. In particular, no milest
 - an external repository;
 - a roadmap that does not yet exist.
 
-The [Local Fields and Ramification roadmap](../LocalFieldsRamification/README.md) is an explicit
+The [Local Fields and Ramification roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md) is an explicit
 prerequisite throughout the local dictionary: Layer 5.2 supplies the canonical
 `ValuativeExtension` adapter; Layer 5.5 compares that roadmap's local `(e,f)` with the global
 ideal invariants; Layer 5.7 consumes its finite-extension/integer-ring/integral-closure
@@ -85,7 +85,7 @@ inter-roadmap dependency, not an implicit reimplementation.
 Two neighbouring roadmaps overlap this one. The boundaries are stated once here.
 
 **Local fields.** The [Local Fields and Ramification
-roadmap](../LocalFieldsRamification/README.md) owns intrinsic local extensions, normalized
+roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md) owns intrinsic local extensions, normalized
 valuations and `(e,f)`, local integer-ring and integral-closure theory, local monogenicity, the
 canonical `ℤ`-indexed lower filtration, Hilbert's local different formula, and the tame/wild
 local different bounds. This roadmap imports those declarations. It owns the global-to-local
@@ -126,7 +126,7 @@ What this roadmap supplies to other subjects:
   (Layer 5).
 
 Conversely, this roadmap consumes the [Local Fields and Ramification
-roadmap](../LocalFieldsRamification/README.md) by name in Layers 5.2, 5.5, 5.7, 5.8, and 6.1–6.4.
+roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md) by name in Layers 5.2, 5.5, 5.7, 5.8, and 6.1–6.4.
 In particular, `LocalFieldsRamification.lowerRamificationGroup` is the sole local
 lower-filtration carrier, and every local invariant is formed using the `ValuativeExtension`
 installed in 5.2.
@@ -185,7 +185,7 @@ extension, and then `P` divides the different however small `e` is, by Mathlib's
 `dvd_differentIdeal_of_not_isSeparable`. This roadmap therefore does **not** claim a
 Dedekind-generic tame/wild exponent theorem. Layer 6.4 is restricted to number fields, whose
 finite residue fields are perfect, and transports the local theorem supplied by the [Local Fields
-and Ramification roadmap](../LocalFieldsRamification/README.md) through the completion and
+and Ramification roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md) through the completion and
 localization dictionary.
 
 **Number-field regime.** This regime covers the LMFDB-facing layers. Use `[Field K]` and
@@ -221,7 +221,7 @@ two places.
 | Decomposition group | `MulAction.stabilizer G Q`, Mathlib's spelling. There is no second named definition. |
 | Inertia group | `Q.inertia G`, that is `Ideal.inertia`. |
 | Decomposition and inertia fields | Mathlib's `IsDecompositionField` and `IsInertiaField`. State Layer 1.3's degree and index formulas through `Ideal.under`, `ramificationIdx` and `inertiaDeg` of the ideals, not through the intermediate field. |
-| Higher ramification groups | The local family is the total `LocalFieldsRamification.lowerRamificationGroup` of [the Local Fields and Ramification roadmap](../LocalFieldsRamification/README.md), indexed by `ℤ` with `G_i = ⊤` for `i ≤ -1`. This roadmap's global ideal-theoretic family is indexed by `ℕ`, so `G 0` is inertia; the decomposition group keeps its own name. Layer 6.2 compares the global group at `i` with the imported local group at `(i : ℤ)`. |
+| Higher ramification groups | The local family is the total `LocalFieldsRamification.lowerRamificationGroup` of [the Local Fields and Ramification roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md), indexed by `ℤ` with `G_i = ⊤` for `i ≤ -1`. This roadmap's global ideal-theoretic family is indexed by `ℕ`, so `G 0` is inertia; the decomposition group keeps its own name. Layer 6.2 compares the global group at `i` with the imported local group at `(i : ℤ)`. |
 | `e` and `f` | `P.ramificationIdx A` and `P.inertiaDeg A`. At the pin the unqualified `Ideal.ramificationIdx` and `Ideal.inertiaDeg` are the localization and residue-field definitions, taking the prime `P` of `B` first and the base **ring** `A` second; the base prime is `P.under A`, so a `[P.LiesOver p]` instance is what ties them to a named `p` rather than a second explicit argument. ⚠ The older two-ideal definitions survive as `ramificationIdx'` and `inertiaDeg'`, and `Ideal.sum_ramification_inertia` is stated for those; the counterpart for the unprimed definitions is `Ideal.sum_ramification_inertia_eq_finrank`. State milestones against the unprimed definitions. ⚠ The Galois-constant versions `ramificationIdxIn` and `inertiaDegIn` keep the opposite shape, base prime `p` first and upper **ring** `B` second. |
 | Splitting type | The multiset `{(e₁,f₁), …, (e_g,f_g)}`. "Splits completely" is the count equation `(Ideal.primesOver (span {(p:ℤ)}) (𝓞 K)).ncard = finrank ℚ K`, which is Tau Ceti's convention. There is no new predicate. Cycle types use `Equiv.Perm.cycleType`, ⚠ which omits fixed points, so a partition-valued statement adds the `1`s back. |
 | Discriminant, absolute | The signed `NumberField.discr K : ℤ`. Its sign is a theorem, `NumberField.sign_discr`, not a convention. The label uses `\|discr\|`, and the sign is recovered from the signature. |
@@ -458,11 +458,11 @@ The complete list, in one place.
   local-global dictionary: `Σ [L_w:K_v] = n`, `[L_w:K_v] = e·f`, `D_Q ≅ Gal(L_w/K_v)`, norm and
   trace, the completed integer rings as an integral-closure pair with module finiteness, the
   adapter to local monogenicity of [the Local Fields and Ramification
-  roadmap](../LocalFieldsRamification/README.md), localization of the different, and the
+  roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md), localization of the different, and the
   `IsNonarchimedeanLocalField` instance on a completion.
 - The global ramification consequences carried through that dictionary: the global
   ideal-theoretic lower filtration and its comparison with the local one of [the Local Fields and
-  Ramification roadmap](../LocalFieldsRamification/README.md), the global different-exponent
+  Ramification roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md), the global different-exponent
   formula, the tame and wild global corollaries, and the permutation-action discriminant formula.
 - The double-coset splitting law for non-Galois extensions, and totally-split in the Galois
   closure.
@@ -480,8 +480,8 @@ earlier layer. There are no forward references. Each milestone lists its direct 
 Each new object lists the basic API that must accompany it. Each hard theorem records its
 source, its true hypotheses, and a nearby false statement.
 
-`Suggested.lean` holds a suggested Lean signature for the milestones whose carrier, index type,
-or map determines the layers below. It is not a checklist, and it is not exhaustive.
+`Suggested.lean` states the milestones, each now discharged by the Tau Ceti declaration that
+realizes it. It is not a checklist, and it is not exhaustive.
 
 ### Layer 1: the splitting dictionary
 
@@ -1352,7 +1352,7 @@ Construct it using the existing
 
   and the resulting canonical
   `completionValuativeExtension v w : ValuativeExtension K_v L_w`. Every use of the local API of
-  [the Local Fields and Ramification roadmap](../LocalFieldsRamification/README.md) is through
+  [the Local Fields and Ramification roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md) is through
   this instance.
 - *Examples.* `L = K`, where the map is the identity; an unramified `w`, where `L_w/K_v` is
   unramified of degree `f`.
@@ -1378,7 +1378,7 @@ for this instance.
 *Prerequisites:* Mathlib `UniformSpace.Completion.extensionHom`,
 `IsDedekindDomain.HeightOneSpectrum.uniformContinuous_algebraMap_liesOver`,
 `HeightOneSpectrum.denseRange_algebraMap`, `ValuativeExtension`, `Module.Finite`; Layer 5.1; [the
-Local Fields and Ramification roadmap](../LocalFieldsRamification/README.md) for the precise
+Local Fields and Ramification roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md) for the precise
 `ValuativeExtension` contract consumed below.
 
 #### 5.3 Semi-local structure
@@ -1473,12 +1473,12 @@ The base prime is supplied by `[w.asIdeal.LiesOver v.asIdeal]` rather than passe
 argument to Mathlib's ideal invariants. Their proofs use the residue-field equivalences and
 compatibility between valuation inequalities, integer rings, maximal ideals, and ideal powers.
 Then derive `[L_w : K_v] = e(w ∣ v)·f(w ∣ v)` from the local degree theorem of [the Local Fields
-and Ramification roadmap](../LocalFieldsRamification/README.md). The degree formula is not a
+and Ramification roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md). The degree formula is not a
 substitute for the two comparisons, because downstream code consumes the local invariants
 separately.
 
 *Prerequisites:* Layers 5.1 and 5.2; [the Local Fields and Ramification
-roadmap](../LocalFieldsRamification/README.md), Layer 0; Mathlib `Ideal.ramificationIdx`,
+roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md), Layer 0; Mathlib `Ideal.ramificationIdx`,
 `Ideal.inertiaDeg`, `IsNonarchimedeanLocalField`.
 
 #### 5.6 The decomposition group is the local Galois group
@@ -1625,7 +1625,7 @@ None of this is decoration, and none of it can be deferred to an implementation 
 the bridge is checked and not asserted.
 
 *Prerequisites:* Layers 5.1, 5.2, and 5.3; the finite-extension/integer-ring/integral-closure
-contracts of [the Local Fields and Ramification roadmap](../LocalFieldsRamification/README.md);
+contracts of [the Local Fields and Ramification roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md);
 Mathlib `IsDedekindDomain.HeightOneSpectrum.adicCompletionIntegers`,
 `mem_adicCompletionIntegers`, `RingHom.toAlgebra`, `Module.IsTorsionFree`, `ValuationSubring`,
 `Valuation.Integers.mem_of_integral`, `IsIntegralClosure.finite`,
@@ -1634,7 +1634,7 @@ Mathlib `IsDedekindDomain.HeightOneSpectrum.adicCompletionIntegers`,
 #### 5.8 Importing local monogenicity at the completion
 
 Apply `LocalFieldsRamification.exists_integerRing_adjoin_eq_top` of [the Local Fields and
-Ramification roadmap](../LocalFieldsRamification/README.md) to the canonical local extension
+Ramification roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md) to the canonical local extension
 constructed in Layers 5.1, 5.2, and 5.7. Record the completion-facing adapter:
 
 ```text
@@ -1662,7 +1662,7 @@ dictionary. Two companion adapter statements are recorded because Layer 6.3 uses
   from anything named.
 
 With these adapters, the imported Hilbert different formula of [the Local Fields and Ramification
-roadmap](../LocalFieldsRamification/README.md) and the localization theorem of Layer 5.9 can be
+roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md) and the localization theorem of Layer 5.9 can be
 applied to the global extension without reconstructing a local generator.
 
 *Source:* Serre, *Local Fields*, III §6 Proposition 12.
@@ -1671,7 +1671,7 @@ applied to the global extension without reconstructing a local generator.
 extension. Number fields satisfy this everywhere.
 
 *Prerequisites:* [the Local Fields and Ramification
-roadmap](../LocalFieldsRamification/README.md), local monogenicity; Layers 5.1, 5.2 and 5.7, the
+roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md), local monogenicity; Layers 5.1, 5.2 and 5.7, the
 last for the canonical algebra structure, integral closure, and local separability; Mathlib
 `IsIntegralClosure.isIntegral`, `Algebra.adjoin`.
 
@@ -1718,7 +1718,7 @@ of Layer 6 reduces to this formula.
 
 This layer computes the exponents of the different and of the discriminant. It uses the Layer 5
 dictionary together with the explicitly imported local contracts of [the Local Fields and
-Ramification roadmap](../LocalFieldsRamification/README.md) and nothing beyond them.
+Ramification roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md) and nothing beyond them.
 
 #### 6.1 The imported local lower filtration
 
@@ -1730,7 +1730,7 @@ LocalFieldsRamification.lowerRamificationGroup K_v L_w :
 ```
 
 This is the total integer-indexed filtration of [the Local Fields and Ramification
-roadmap](../LocalFieldsRamification/README.md), including its `i ≤ -1` convention and real
+roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md), including its `i ≤ -1` convention and real
 comparison API. This roadmap imports its `Suggested.lean`, defines no alias and no second local
 carrier, and includes closed applications of the imported monogenicity, lower-filtration,
 Hilbert-different, tame-equality, and wild-bound declarations. Thus namespace, instance, and
@@ -1739,7 +1739,7 @@ instance adapter showing that the canonical completions of Layer 5 satisfy those
 Layer 6.2 can use the fully qualified declaration directly.
 
 *Prerequisites:* [the Local Fields and Ramification
-roadmap](../LocalFieldsRamification/README.md), lower-numbering filtration; Layers 5.1, 5.2, 5.6,
+roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md), lower-numbering filtration; Layers 5.1, 5.2, 5.6,
 and 5.7.
 
 #### 6.2 The global filtration, and the comparison
@@ -1764,7 +1764,7 @@ ramificationGroup Q i := {σ ∈ MulAction.stabilizer (L ≃ₐ[K] L) Q | ∀ x 
   subgroups along a named map, not an abstract isomorphism, because every computation below moves
   an element across it. The representative declaration
   `mem_ramificationGroup_iff_mem_lowerRamificationGroup` is stated against the carrier imported
-  from [the Local Fields and Ramification roadmap](../LocalFieldsRamification/README.md), rather
+  from [the Local Fields and Ramification roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md), rather
   than left in prose.
 - *Edge cases.* `i` large, where the group is trivial; `Q` ramified but tame, where `G_1 = 1`.
 - *Downstream interfaces.* Layers 6.3, 6.4, and 6.5.
@@ -1782,7 +1782,7 @@ to all completed integers. Name these `denseRange_globalIntegers`,
 isomorphism alone does not identify the filtrations.
 
 *Prerequisites:* [the Local Fields and Ramification
-roadmap](../LocalFieldsRamification/README.md), lower-numbering filtration; Layers 5.6, 5.7, and
+roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md), lower-numbering filtration; Layers 5.6, 5.7, and
 6.1; Mathlib `Ideal.inertia`, `galRestrict`, `MulAction.stabilizer`.
 
 #### 6.3 The different-exponent formula
@@ -1790,7 +1790,7 @@ roadmap](../LocalFieldsRamification/README.md), lower-numbering filtration; Laye
 Prove `v_Q(differentIdeal (𝓞 K) (𝓞 L)) = Σ_{i ≥ 0} (#(G i) − 1)`.
 
 Proof outline: apply the Hilbert local different formula of [the Local Fields and Ramification
-roadmap](../LocalFieldsRamification/README.md) to `L_w/K_v`, use Layer 6.2 to replace its
+roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md) to `L_w/K_v`, use Layer 6.2 to replace its
 canonical local lower groups by the global ideal-theoretic groups, and use Layer 5.9 to identify
 the completed different with the localization of the global different. Layer 5.8 supplies the
 completion-facing adapter for the local monogenicity hypothesis already owned by that roadmap; it
@@ -1802,7 +1802,7 @@ does not reprove the local formula.
 while the right side is not.
 
 *Prerequisites:* [the Local Fields and Ramification
-roadmap](../LocalFieldsRamification/README.md), Hilbert local different formula; Layers 5.8, 5.9,
+roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md), Hilbert local different formula; Layers 5.8, 5.9,
 6.1, and 6.2.
 
 #### 6.4 Exact tame and wild exponents
@@ -1810,7 +1810,7 @@ roadmap](../LocalFieldsRamification/README.md), Hilbert local different formula;
 Restrict this milestone to number fields. For `L/K` finite, `P` above `𝔭`, and
 `e = P.ramificationIdx (𝓞 K)`, use the canonical completion from Layer 5 and apply the local
 different theorems of [the Local Fields and Ramification
-roadmap](../LocalFieldsRamification/README.md). Transport their exponent through Layer 5.9 to
+roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md). Transport their exponent through Layer 5.9 to
 prove:
 
 - `v_P(𝔡) = e − 1` if and only if the completed local extension is tamely ramified;
@@ -1828,7 +1828,7 @@ natCastValuation_completion_eq_multiplicity_span :
 Prove it from `maximalIdeal_map_completion`, `maximalIdeal_pow_map_completion`, contraction of
 powers, and the normalized valuation/multiplicity characterization in a DVR. Layer 5.9 transports
 the different; this theorem transports the natural-number term in the upper bound of [the Local
-Fields and Ramification roadmap](../LocalFieldsRamification/README.md).
+Fields and Ramification roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md).
 
 The residue extension is finite and hence separable, and the fraction fields have characteristic
 zero, so the local supplier's separability hypotheses are discharged by the number-field
@@ -1857,7 +1857,7 @@ Eisenstein family `X^p − p` over `ℚ_p` behaves the same way: `e = p` and
 `v_P(𝔡) = v_P(p π^{p−1}) = p + (p − 1) = 2p − 1 = e − 1 + v_P(e)`.
 
 *Prerequisites:* [the Local Fields and Ramification
-roadmap](../LocalFieldsRamification/README.md), tame equality criterion and wild bounds; Layers
+roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md), tame equality criterion and wild bounds; Layers
 5.5, 5.7, and 5.9.
 
 #### 6.5 The permutation-action discriminant exponent formula
@@ -2221,7 +2221,7 @@ every displayed database invariant is proved for every field. Each has a section
   Analytic and L-function roadmaps supply prerequisites for its proof; they do not own the
   Chebotarev statement.
 - **No local ramification theory.** The [Local Fields and Ramification
-  roadmap](../LocalFieldsRamification/README.md) owns the canonical lower filtration, upper
+  roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md) owns the canonical lower filtration, upper
   numbering, Herbrand's theorem, Hasse–Arf, local monogenicity, and local different formulas.
   Layer 6.1 imports its API, and Layer 6.2 compares this roadmap's global ideal-theoretic
   filtration with it.
@@ -2481,10 +2481,10 @@ extra information is which layers are independent of each other.
   later adapter `artinHomAway_ramifiedSupport` depends on Layer 2.5.
 - **Layer 5** needs Layer 2 for the Frobenius comparison, Layer 4 for the discriminant
   localization/valuation, and [the Local Fields and Ramification
-  roadmap](../LocalFieldsRamification/README.md) directly in 5.2, 5.5, 5.7, and 5.8. Every
+  roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md) directly in 5.2, 5.5, 5.7, and 5.8. Every
   consumer of that roadmap also depends on the canonical `ValuativeExtension` of 5.2.
 - **Layer 6** needs Layer 5 and the named Layer 3 filtration/different exports of [the Local
-  Fields and Ramification roadmap](../LocalFieldsRamification/README.md); it is not a dependency
+  Fields and Ramification roadmap](../../TauCetiRoadmap/LocalFieldsRamification/README.md); it is not a dependency
   on Layer 5 alone.
 - **Layer 7** needs Layers 1 to 3. Its unit certification needs Layers 3.1 and 3.3, for the index
   formula that eliminates a candidate minimal polynomial, and Layer 7.1, for the prime-degree
@@ -2555,3 +2555,10 @@ extra information is which layers are independent of each other.
 **L. C. Washington, *Introduction to Cyclotomic Fields*, GTM 83.**
 
 - Ch. 1–4: the cyclotomic instances of Layers 2 and 6.
+
+---
+
+*Archived: this roadmap was declared complete on 2026-10-07. `Suggested.lean` now states each
+milestone against Tau Ceti and closes it with no `sorry`. It consumes Tau Ceti's local-field
+declarations directly rather than the Local Fields and Ramification roadmap's prototypes, so the
+descriptions above of that import are of the file as it stood before archiving.*
