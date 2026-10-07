@@ -1492,9 +1492,16 @@ mixed characteristic, a reciprocity isomorphism, each with a name.
 
 ### Layer 10: global carriers, the Brauer sequence, and the sum of local invariants
 
-*Prerequisites:* Layers 1, 2, 4, 5, 6, 7; `GlobalNumberFields`; `ProfiniteCohomology`. **Not**
-the global class formation and **not** the global Artin map: Layer 11 builds both out of this
-layer's output.
+*Prerequisites:* Layer 1; from Layer 5, `Br K`, `invMap` and the local unit computations
+(`herbrandQuotient_units_eq_one`, `herbrandQuotient_units_eq_finrank_of_isCyclic`,
+`index_normGroup_of_isCyclic`); from Layer 6, `fieldFormation`, as `multiplicativeFormation`;
+`LocalFieldsRamification`; `GlobalNumberFields`; `ProfiniteCohomology`. That is all the layer
+needs through `eq_zero_of_localInv_eq_zero`: the carriers, the archimedean Brauer computation, the
+Herbrand quotients, both fundamental inequalities and `H¹`-vanishing. None of it waits for Layer
+5's Tate dual, local duality or Euler characteristic. The archimedean Artin maps add Layers 2, 4
+and 7 (`realCyclotomicSymbol`, `absoluteGaloisGroupExtend`), and `sumLocalInv_eq_zero` and
+everything after it add Layers 2, 4, 6 and 7. **Not** the global class formation and **not** the
+global Artin map: Layer 11 builds both out of this layer's output.
 
 Use the idele and idele-class carriers from `GlobalNumberFields` and assemble both the idele
 formation and the idele-class formation for a fixed separable closure, as Tau Ceti formations. The
@@ -2139,8 +2146,11 @@ and Layer 11 consumes them with the finite ones.
 
 The abstract layers 0–4 can be implemented and reviewed before any arithmetic instance. Within the
 local column, Layer 5's coefficient dictionaries and Kummer transports can begin as soon as
-`ProfiniteCohomology` is available, in parallel with Layers 1–4. Ring class fields wait for both
-global existence and the `GlobalNumberFields` order/`Pic` API.
+`ProfiniteCohomology` is available, in parallel with Layers 1–4. In the global column, Layer 10
+can begin as soon as Layer 5 has `invMap` and the local unit computations, in parallel with the
+rest of the local column: its prerequisites say which of its steps wait for Layers 6 and 7, and
+none waits for Layer 5's duality or Euler characteristic. Ring class fields wait for both global
+existence and the `GlobalNumberFields` order/`Pic` API.
 
 ---
 
