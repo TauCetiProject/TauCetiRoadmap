@@ -823,8 +823,8 @@ rationalization.
   consecutive degrees being Tate's theorem for the fundamental class of the layer carried to `A(L)`
   along the reciprocity identification of Step 1; projective dimension at most one then follows
   from the theorem of Nakayama and Rim, CFT's `TateCohomology.projective_ker_of_isZero_res` at
-  `k = ℤ_[p]`. Tau Ceti's Tate cohomology takes the group and the coefficient ring in one universe,
-  so it is applied to a copy of `Gal(L/K)` in `Type`. Prove `nonempty_tateModule`.
+  `k = ℤ_[p]`. Mathlib's `tateCohomology` takes the group and the coefficient ring in one universe,
+  so both are applied to a copy of `Gal(L/K)` in `Type`. Prove `nonempty_tateModule`.
   *Needs:* CFT `ClassFormation` (Tau Ceti's, re-exported), `tateTheorem`,
   `TateCohomology.projective_ker_of_isZero_res`; TC
   `ClassFieldTheory.ClassFormation.fundamentalClass`,

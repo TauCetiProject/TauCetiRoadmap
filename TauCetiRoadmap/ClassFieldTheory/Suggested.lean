@@ -124,8 +124,16 @@ abbrev fundamentalInvariant (n : ℕ) : RatModInt :=
 The theorem of Nakayama and Rim, in the generic Tate-cohomology supplier. Cohomological triviality
 of `A : Rep k G` is written out as the conclusion of Tau Ceti's criterion
 `TauCeti.TateCohomology.isZero_of_forall_isPGroup`, so the criterion feeds these statements
-directly and no predicate is introduced. Mathlib's `Rep` and `tateCohomology` take the group and
-the coefficient ring in one universe. -/
+directly and no predicate is introduced. Mathlib's `tateCohomology` takes the group and the
+coefficient ring in one universe. -/
+
+/-- **Submodules of free modules over a principal ideal domain are free**, in any rank (Lang,
+*Algebra*, III Theorem 7.1). Mathlib's `Submodule.nonempty_basis_of_pid` is the finite-rank case;
+`TateCohomology.projective_ker_of_isZero_res` applies this to kernels of any rank. -/
+theorem Submodule.free_of_isPrincipalIdealRing {R M : Type*} [CommRing R] [IsDomain R]
+    [IsPrincipalIdealRing R] [AddCommGroup M] [Module R M] [Module.Free R M]
+    (N : Submodule R M) : Module.Free R N :=
+  sorry
 
 namespace TateCohomology
 
@@ -159,13 +167,13 @@ variable [IsDomain k] [IsPrincipalIdealRing k] [CharZero k]
 
 /-- **Nakayama–Rim, lattice form** (Serre, *Local Fields*, IX §§3–5). Over a principal ideal domain
 of characteristic zero in which every prime number is a unit or generates a maximal ideal, a
-cohomologically trivial representation that is finite and free over `k` is projective over `k[G]`.
-At a prime `p` with `k/pk` a field, `A/pA` is free over `(k/pk)[P]` for every `p`-subgroup `P`, so
-`Hom_k(A, A)` is cohomologically trivial, the identity is a norm, and `A` is a summand of
-`k[G] ⊗_k A`. -/
+cohomologically trivial representation that is free over `k`, of any rank, is projective over
+`k[G]`. At a prime `p` with `k/pk` a field, `A/pA` is free over `(k/pk)[P]` for every `p`-subgroup
+`P`; reducing modulo `p`, `Hom_k(A, A)` becomes a product of coinduced `P`-modules, so it is
+cohomologically trivial, the identity is a norm, and `A` is a summand of `k[G] ⊗_k A`. -/
 theorem projective_of_isZero_res
     (hk : ∀ p : ℕ, p.Prime → IsUnit (p : k) ∨ (Ideal.span {(p : k)}).IsMaximal)
-    (A : Rep k G) [Module.Free k A.V] [Module.Finite k A.V]
+    (A : Rep k G) [Module.Free k A.V]
     (hA : ∀ (S : Subgroup G) [Fintype S] (n : ℤ),
       Limits.IsZero (tateCohomology (res S.subtype A) n)) :
     Module.Projective (MonoidAlgebra k G) A.ρ.asModule :=
@@ -173,16 +181,18 @@ theorem projective_of_isZero_res
 
 /-- **Nakayama–Rim: cohomological triviality is projective dimension at most one** (Rim, Ann. of
 Math. 69 (1959); Brown, *Cohomology of Groups*, VI §8). If `A` is cohomologically trivial, the
-kernel of every surjection onto it from a finitely generated projective `k[G]`-module is projective:
-it is finite and free over `k` and cohomologically trivial by the long exact sequence, so
-`projective_of_isZero_res` applies to it. -/
+kernel of every surjection onto it from a projective `k[G]`-module is projective: it is a
+`k`-submodule of a free `k`-module, hence free by `Submodule.free_of_isPrincipalIdealRing`, and
+cohomologically trivial by the long exact sequence, so `projective_of_isZero_res` applies to it.
+No finiteness is assumed, so every cohomologically trivial `A` has a projective resolution of length
+one. -/
 theorem projective_ker_of_isZero_res
     (hk : ∀ p : ℕ, p.Prime → IsUnit (p : k) ∨ (Ideal.span {(p : k)}).IsMaximal)
     (A : Rep k G)
     (hA : ∀ (S : Subgroup G) [Fintype S] (n : ℤ),
       Limits.IsZero (tateCohomology (res S.subtype A) n))
     {P : Type*} [AddCommGroup P] [Module (MonoidAlgebra k G) P]
-    [Module.Finite (MonoidAlgebra k G) P] [Module.Projective (MonoidAlgebra k G) P]
+    [Module.Projective (MonoidAlgebra k G) P]
     (f : P →ₗ[MonoidAlgebra k G] A.ρ.asModule) (hf : Function.Surjective f) :
     Module.Projective (MonoidAlgebra k G) (LinearMap.ker f) :=
   sorry
