@@ -59,7 +59,6 @@ body:
         - RealAlgebraicGeometry
         - ReductiveGroups
         - RepresentationTheory
-        - RestrictedProducts
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
