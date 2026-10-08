@@ -39,10 +39,12 @@ import TauCeti.Combinatorics.DenseGraphLimits.StepGraphon.Density
 import TauCeti.Combinatorics.DenseGraphLimits.StepGraphon.Energy
 import TauCeti.Combinatorics.DenseGraphLimits.StepGraphon.FiniteGraph.Examples
 import TauCeti.Combinatorics.DenseGraphLimits.StepGraphon.Regularity
+import TauCeti.Combinatorics.DenseGraphLimits.StepGraphon.Validation
 import TauCeti.Combinatorics.SimpleGraph.Counting
 import TauCeti.MeasureTheory.Constructions.Pi
 import TauCeti.MeasureTheory.Measure.AtomlessStandardBorel
 import TauCeti.MeasureTheory.Measure.UnitIntervalMap
+import TauCeti.MeasureTheory.OptimalTransport.Finite.Gluing
 import TauCeti.Probability.Exchangeability.Arrays.Ergodic
 import TauCeti.Probability.Process.PartitionFiltration
 
@@ -55,7 +57,8 @@ converge on names and signatures; discharging all of them finishes neither a lay
 
 Every milestone of `README.md` has a statement here, in the form the roadmap asks for, closed by
 the Tau Ceti declaration that realizes it, so the correspondence is checked by the Lean kernel
-rather than asserted in prose. No statement is left open. That is evidence for completion, not its
+rather than asserted in prose, except the items listed under "Not certified" at the end of this
+header. No statement is left open. That is evidence for completion, not its
 criterion: completion is judged by a milestone-by-milestone audit against `README.md`, which a
 fully discharged file of suggested forms cannot replace.
 
@@ -101,11 +104,22 @@ README's names, closed by the Tau Ceti declaration even where its name differs. 
   theorem; `isDissociated_iff_ergodicSMul` below is the two-step composition through the array
   API.
 
-Left out: the companion graph-regularity roadmap, outside this roadmap by the README's text. Of the
-finite `Measure.pi` transports the README wants in a general home, the two-coordinate one is
-stated below; the three- and four-coordinate ones are still private in
-`TauCeti/Combinatorics/DenseGraphLimits/HomDensity/SmallGraphs.lean`. That is a home move, not a
-missing result.
+Left out: the companion graph-regularity roadmap, outside this roadmap by the README's text.
+
+Not certified, because the Tau Ceti declarations are private or anonymous at the pin:
+
+* **Finite `Measure.pi` transports.** Of the curry-uncurry lemmas the README wants in a general
+  `TauCeti/` home, the two-coordinate one is stated below. The three- and four-coordinate ones
+  (`measurePreserving_finThreeArrow`, `measurePreserving_finFourArrowPairPair`) are private in
+  `TauCeti/Combinatorics/DenseGraphLimits/HomDensity/SmallGraphs.lean`, so the general-home
+  requirement is not met for them.
+* **Design-validation regressions.** Finite gluing with zero-mass middle atoms, the null-cell
+  witness `exists_partition_stepGraphonAvg_ne_self_bernoulliMeasure`, both round-trip directions
+  and the Layer-5 Dirac, finite-atomic and mixed cases are stated below. The remaining checks
+  exist in Tau Ceti only as anonymous `example`s on private data: the null-cell Pythagoras,
+  increment and iteration-exponent values (`StepGraphon/Validation.lean`), the corrupted
+  representative's round trip on `(I, volume)` (`AEEqFun/Validation.lean`), and the finite-case
+  Möbius-consistency and dissociation checks (`Representability/Validation.lean`).
 -/
 
 namespace TauCetiRoadmap.DenseGraphLimits
@@ -249,6 +263,54 @@ theorem cutNormSet_def (K : SymmKernel Ω μ) :
         |∫ p in S ×ˢ T, K p.1 p.2 ∂(μ.prod μ)| := by
   simp only [TauCeti.DenseGraphLimits.cutNormSet_def, SymmKernel.rectIntegral_def]
 
+/-- **The cut-norm set/test-function equivalence**: the rectangle supremum equals the supremum of
+`|∫∫ u(x) v(y) K(x,y)|` over measurable `[0, 1]`-valued test functions. Closed by Tau Ceti's
+`abs_testIntegral_le_cutNorm` (every test integral is at most the cut norm) and
+`SymmKernel.testIntegral_indicator_one` (indicators recover the rectangles). -/
+theorem cutNorm_eq_iSup_testIntegral (K : SymmKernel Ω μ) :
+    cutNorm μ K =
+      ⨆ (u : Ω → ℝ) (_ : Measurable u) (_ : ∀ x, u x ∈ Set.Icc (0 : ℝ) 1)
+        (v : Ω → ℝ) (_ : Measurable v) (_ : ∀ y, v y ∈ Set.Icc (0 : ℝ) 1),
+        |K.testIntegral μ u v| := by
+  have h0 := TauCeti.DenseGraphLimits.cutNorm_nonneg μ K
+  have hinner (u : Ω → ℝ) :
+      (⨆ (_ : Measurable u) (_ : ∀ x, u x ∈ Set.Icc (0 : ℝ) 1)
+        (v : Ω → ℝ) (_ : Measurable v) (_ : ∀ y, v y ∈ Set.Icc (0 : ℝ) 1),
+        |K.testIntegral μ u v|) ≤ cutNorm μ K :=
+    Real.iSup_le (fun hu => Real.iSup_le (fun hu1 => Real.iSup_le (fun v =>
+      Real.iSup_le (fun hv => Real.iSup_le (fun hv1 =>
+        abs_testIntegral_le_cutNorm μ K hu hv hu1 hv1) h0) h0) h0) h0) h0
+  refine le_antisymm (cutNorm_le μ fun S hS T hT => ?_) (Real.iSup_le hinner h0)
+  have hu : Measurable (S.indicator (1 : Ω → ℝ)) := measurable_one.indicator hS
+  have hv : Measurable (T.indicator (1 : Ω → ℝ)) := measurable_one.indicator hT
+  have hu1 : ∀ x, S.indicator (1 : Ω → ℝ) x ∈ Set.Icc (0 : ℝ) 1 := fun x => by
+    by_cases hx : x ∈ S <;> simp [hx]
+  have hv1 : ∀ y, T.indicator (1 : Ω → ℝ) y ∈ Set.Icc (0 : ℝ) 1 := fun y => by
+    by_cases hy : y ∈ T <;> simp [hy]
+  rw [← K.testIntegral_indicator_one μ hS hT]
+  refine le_ciSup_of_le ⟨cutNorm μ K, by rintro _ ⟨u, rfl⟩; exact hinner u⟩ (S.indicator 1) ?_
+  refine le_ciSup_of_le ⟨cutNorm μ K, by
+    rintro _ ⟨hu', rfl⟩
+    exact Real.iSup_le (fun hu1 => Real.iSup_le (fun v => Real.iSup_le (fun hv =>
+      Real.iSup_le (fun hv1 => abs_testIntegral_le_cutNorm μ K hu' hv hu1 hv1) h0) h0) h0) h0⟩
+    hu ?_
+  refine le_ciSup_of_le ⟨cutNorm μ K, by
+    rintro _ ⟨hu1', rfl⟩
+    exact Real.iSup_le (fun v => Real.iSup_le (fun hv =>
+      Real.iSup_le (fun hv1 => abs_testIntegral_le_cutNorm μ K hu hv hu1' hv1) h0) h0) h0⟩
+    hu1 ?_
+  refine le_ciSup_of_le ⟨cutNorm μ K, by
+    rintro _ ⟨v, rfl⟩
+    exact Real.iSup_le (fun hv =>
+      Real.iSup_le (fun hv1 => abs_testIntegral_le_cutNorm μ K hu hv hu1 hv1) h0) h0⟩
+    (T.indicator 1) ?_
+  refine le_ciSup_of_le ⟨cutNorm μ K, by
+    rintro _ ⟨hv', rfl⟩
+    exact Real.iSup_le (fun hv1 => abs_testIntegral_le_cutNorm μ K hu hv' hu1 hv1) h0⟩ hv ?_
+  exact le_ciSup_of_le ⟨cutNorm μ K, by
+    rintro _ ⟨hv1', rfl⟩
+    exact abs_testIntegral_le_cutNorm μ K hu hv hu1 hv1'⟩ hv1 le_rfl
+
 /-- **Seminorm laws of the cut norm.** -/
 theorem cutNorm_nonneg (K : SymmKernel Ω μ) : 0 ≤ cutNorm μ K :=
   TauCeti.DenseGraphLimits.cutNorm_nonneg μ K
@@ -328,6 +390,32 @@ theorem cutDist_comm (U : Graphon Ω₁ μ₁) (W : Graphon Ω₂ μ₂) : cutDi
 theorem cutDist_self (U : Graphon Ω μ) : cutDist U U = 0 :=
   TauCeti.DenseGraphLimits.cutDist_self U
 
+section FiniteGluing
+
+variable {α β γ : Type*} [Fintype α] [Fintype β] [Fintype γ]
+
+/-- **The finite gluing gate, zero-mass middle atoms explicit.** Two finite couplings `π` on
+`α × β` and `ρ` on `β × γ` with a common middle marginal glue to the law with mass
+`π(a, b) ρ(b, c) / ν(b)`, set to `0` where the middle marginal `ν` vanishes. -/
+theorem finiteGluing_apply (π : PMF (α × β)) (ρ : PMF (β × γ))
+    (h : π.map Prod.snd = ρ.map Prod.fst) (a : α) (b : β) (c : γ) :
+    PMF.finiteGluing π ρ h (a, b, c) =
+      if π.map Prod.snd b = 0 then 0 else π (a, b) * ρ (b, c) / π.map Prod.snd b :=
+  PMF.finiteGluing_apply π ρ h a b c
+
+/-- The zero-mass branch does not disturb the marginals: the glued law recovers both inputs. -/
+theorem map_prodMap_id_fst_finiteGluing (π : PMF (α × β)) (ρ : PMF (β × γ))
+    (h : π.map Prod.snd = ρ.map Prod.fst) :
+    (PMF.finiteGluing π ρ h).map (fun p => (p.1, p.2.1)) = π :=
+  PMF.map_prodMap_id_fst_finiteGluing π ρ h
+
+theorem map_snd_finiteGluing (π : PMF (α × β)) (ρ : PMF (β × γ))
+    (h : π.map Prod.snd = ρ.map Prod.fst) :
+    (PMF.finiteGluing π ρ h).map (fun p => (p.2.1, p.2.2)) = ρ :=
+  PMF.map_snd_finiteGluing π ρ h
+
+end FiniteGluing
+
 /-- **The triangle inequality on arbitrary probability carriers** (Janson, Lemma 6.5), so
 `cutDist` is a pseudometric with no carrier hypotheses. -/
 theorem cutDist_triangle (U : Graphon Ω₁ μ₁) (V : Graphon Ω₂ μ₂) (W : Graphon Ω₃ μ₃) :
@@ -335,8 +423,9 @@ theorem cutDist_triangle (U : Graphon Ω₁ μ₁) (V : Graphon Ω₂ μ₂) (W 
   TauCeti.DenseGraphLimits.cutDist_triangle U V W
 
 /-- **The stability gate of the triangle route**: replacing either graphon moves the cut distance
-by at most the cut norm of the replacement. Tau Ceti's finite gluing with zero-mass middle atoms
-(`cutDist_triangle_of_countable_middle`) is private to `CutMetric/Triangle.lean`. -/
+by at most the cut norm of the replacement. The finite gluing it follows is stated above; the
+countable-middle triangle step built on it (`cutDist_triangle_of_countable_middle`) is private to
+`CutMetric/Triangle.lean`. -/
 theorem abs_cutDist_sub_le_cutNorm_add_cutNorm (U U' : Graphon Ω₁ μ₁) (W W' : Graphon Ω₂ μ₂) :
     |cutDist U W - cutDist U' W'| ≤
       cutNorm μ₁ (U.toSymmKernel - U'.toSymmKernel) +
@@ -416,6 +505,16 @@ theorem stepGraphonAvg_apply_of_measure_eq_zero_left (P : Finpartition (Set.univ
     (hp : μ (p : Set Ω) = 0) (hx : x ∈ (p : Set Ω)) (hy : y ∈ (q : Set Ω)) :
     stepGraphonAvg (μ := μ) P hP W x y = 0 :=
   TauCeti.DenseGraphLimits.stepGraphonAvg_apply_of_measure_eq_zero_left P hP W hp hx hy
+
+/-- **Null-cell regression**: on the carrier with masses `1/2`, `1/2`, `0`, block averaging over
+the three singletons erases the edges at the null atom, so it changes the strict graphon. -/
+theorem exists_partition_stepGraphonAvg_ne_self_bernoulliMeasure :
+    ∃ (P : Finpartition (Set.univ : Set (Fin 3)))
+      (W : Graphon (Fin 3) (ProbabilityTheory.bernoulliMeasure 0 1
+        ⟨1 / 2, by norm_num, by norm_num⟩)),
+      P.parts = {{0}, {1}, {2}} ∧
+      stepGraphonAvg P (fun _ _ ↦ MeasurableSet.of_discrete) W ≠ W :=
+  TauCeti.DenseGraphLimits.exists_partition_stepGraphonAvg_ne_self_bernoulliMeasure
 
 omit [IsProbabilityMeasure μ] in
 /-- **`l2sq`**, the `L²(μ ⊗ μ)` norm squared of a kernel, and its nonnegativity. -/
@@ -537,6 +636,17 @@ unit interval, which is why the public quotient sits on top of the strict carrie
 theorem toAEEqFun_not_injective_unitInterval :
     ¬ Function.Injective (Graphon.toAEEqFun (Ω := I) (μ := (volume : Measure I))) :=
   TauCeti.DenseGraphLimits.Graphon.toAEEqFun_not_injective_unitInterval
+
+/-- **The round-trip on an atomic example**: on the uniform two-point carrier every atom has
+positive mass, so the a.e. class determines the strict graphon. -/
+theorem toAEEqFun_injective_fin_two :
+    Function.Injective
+      (Graphon.toAEEqFun (Ω := Fin 2) (μ := ProbabilityTheory.uniformOn Set.univ)) := by
+  intro V W h
+  ext i j
+  apply ae_iff_of_countable.1 (Graphon.toAEEqFun_eq_iff.1 h) (i, j)
+  rw [← Set.singleton_prod_singleton, Measure.prod_prod]
+  simp [ProbabilityTheory.uniformOn_univ]
 
 /-! ## Layer 4: completeness and compactness -/
 
