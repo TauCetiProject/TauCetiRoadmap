@@ -42,8 +42,8 @@ The following differences between the README and Tau Ceti are deliberate.
   vector, for an arbitrary differentiable field along the curve, and the coordinate readings in
   two such charts are related by the tangent coordinate change. Its agreement with the ambient
   derivative is proved for pulled-back fields.
-* `riemannianExp` is total, with junk value `p` outside `expDomain p`. Every theorem using its
-  Domain hypotheses are carried where genuine geodesic evaluation or smoothness is needed.
+* `riemannianExp` is total, with junk value `p` outside `expDomain p`. Domain hypotheses are
+  carried where genuine geodesic evaluation or smoothness is needed.
   Identities and bounds that remain valid for the total extension are stated without them: for
   example the homogeneity identity `exp_p (t • v) = γ_{p,v}(t)` for every `t`, the closed-ball
   identity `closedBall p r = exp_p '' closedBall 0 r`, and the intertwining of exponential maps by
