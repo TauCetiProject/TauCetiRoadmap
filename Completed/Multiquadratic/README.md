@@ -71,15 +71,15 @@ rational and prime-indexed versions (the genus-theory inputs) as corollaries.
 The multiquadratic field `ℚ(√d₁, …, √dₙ)` as a structured object: its **degree** `2ⁿ`
 under square-class independence; its **Galois group** `(ℤ/2)ⁿ`; the lattice of
 subfields ↔ subspaces of `𝔽₂ⁿ`; the **prime-splitting law** in terms of the quadratic
-residue symbols of the `dⱼ`; the **2-torsion of the class group** `Cl/Cl²`; and the
-**genus field** with the resulting 2-rank formula. None of this is upstream.
+residue symbols of the `dⱼ`; the **maximal elementary-2 quotient of the class group**
+`Cl/Cl²`; and the **genus field** with the resulting 2-rank formula. None of this is upstream.
 
 ---
 
 ## The build, in layers
 
-The ordering below is the dependency order. As each layer makes the next layer's *types*
-expressible in `TauCeti/`, state its milestones in `Suggested.lean` (with `sorry`).
+The ordering below is the dependency order. `Suggested.lean` states the milestones of every
+layer, each now discharged by the Tau Ceti declaration that realizes it.
 
 ### Layer 0: the multiquadratic field
 - **Square-class descent.** If `√r ∈ K(√d₁, …, √dₙ)` for `r ∈ K`, then `r` is a square
@@ -119,8 +119,10 @@ expressible in `TauCeti/`, state its milestones in `Suggested.lean` (with `sorry
 ### Layer 3: the genus field and the 2-rank theorem (the summit)
 - The **genus field** `K_gen`: the maximal extension of `K = ℚ(√d)` unramified at all
   places (the infinite ones included) and abelian over `ℚ`. Prove it is
-  **multiquadratic** (the compositum of the `ℚ(√p*)` for the prime discriminants
-  dividing `disc K`, so Layer 0 applies) and prove `Gal(K_gen/K) ≅ Cl(K)/Cl(K)²`. (This
+  **multiquadratic** (for imaginary `K`, the compositum of the `ℚ(√p*)` for the prime
+  discriminants dividing `disc K`; for real `K` that compositum is the narrow genus field,
+  and `K_gen` is its maximal totally real subfield; so Layer 0 applies) and prove
+  `Gal(K_gen/K) ≅ Cl(K)/Cl(K)²`. (This
   isomorphism holds for real and imaginary `K` alike: the nontrivial automorphism acts on
   `Cl(K)` by inversion, since `I · σI` is principal, so the commutator subgroup of
   `Gal(H/ℚ)` is exactly `Cl(K)²`.)
@@ -171,3 +173,11 @@ The Layer-0 square-class and degree machinery is migrated from
 [kim-em/erdos-unit-distance](https://github.com/kim-em/erdos-unit-distance), where it was
 written (specialised to one CM field) for the formalization of Alpöge's disproof of the
 uniform-constant Erdős unit-distance conjecture. Thanks to its authors.
+
+---
+
+*Archived: this roadmap was declared complete on 2026-10-07. `Suggested.lean` now states each
+milestone of Layers 0–3 and the worked examples against Tau Ceti and closes it with no `sorry`;
+the Long horizon is not part of it. The Layer-3 parenthetical on the multiquadratic shape of
+`K_gen` was corrected on archiving: as first written it named the prime-discriminant compositum
+as the genus field for real `K` too, where it is the narrow genus field.*
