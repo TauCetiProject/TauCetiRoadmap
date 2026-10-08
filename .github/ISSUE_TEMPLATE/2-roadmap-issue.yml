@@ -45,7 +45,6 @@ body:
         - LocalGaloisGroups
         - ModularCurves
         - ModularForms
-        - Multiquadratic
         - NumberFieldArithmetic
         - OneParameterSemigroups
         - OptimalTransport

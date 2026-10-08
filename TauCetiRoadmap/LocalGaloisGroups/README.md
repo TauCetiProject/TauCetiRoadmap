@@ -175,8 +175,9 @@ statements of Layer 7 Step 5 included.
 | coefficient objects and Kummer theory | `GalRep`, `H`, `muNRep`, `kummerEquiv_mixed` |
 | degree two and local duality | `finite_H`, `h2MuEquivZMod_mixed`, `h2FpEquivZMod_of_mu`, `tateDual`, `tateDualityPairing`, `tateDualityPairing_perfect_mixed`, `eulerCharacteristic_finrank_fp` |
 | the chosen-root comparison of the cup square with duality | `muNRepEquivZMod`, `muNRep_ρ_eq_self`, `kummerCupPairing`, `kummerCupPairing_bil`, `localSymbol`, `muNRepToTateDual`, `bijective_muNRepToTateDual`, `tateDualityPairing_muNRepToTateDual` |
-| reciprocity and orientation | `artinMap`, `restrictAbsolute`, `artinMap_restrict`, `absoluteGaloisGroupExtend`, `artinMap_norm`, `denseRange_artinMap`, `localArtinMap`, `normResidue`, `unramifiedCoordinate`, `unramifiedCoordinate_artinMap`, `cyclotomicCharacter_artinMap`, `cyclotomicCharacter_artinMap_padic` |
+| reciprocity and orientation | `artinMap`, `restrictAbsolute`, `artinMap_restrict`, `absoluteGaloisGroupExtend`, `artinMap_norm`, `denseRange_artinMap`, `localArtinMap`, `normResidue`, `unramifiedCoordinate`, `unramifiedCoordinate_artinMap`, `cyclotomicCharacter_artinMap`, `cyclotomicCharacter_artinMap_padic`, `cyclotomicCharacter_artinMap_padic_uniformizer` |
 | class formation and Tate's theorem | `ClassFormation` (Tau Ceti's, re-exported), `tateTheorem`, `artinMap_conj` |
+| cohomological triviality and projective dimension | `TateCohomology.projective_ker_of_isZero_res` |
 | strict cohomological dimension of `G_K` | `scd_p_absoluteGaloisGroup_eq_two` |
 
 The `h2MuEquivZMod_mixed` theorem is the mixed-characteristic result valid at `n = p`; the
@@ -189,10 +190,10 @@ identifies `μ_p` with `Hom(μ_p, μ_p)`, and `tateDualityPairing_muNRepToTateDu
 duality pairing at `A = μ_p` into the Hilbert pairing `localSymbol (kummerCupPairing ζ)`. Layer 1
 reads that pairing on `H¹(G_K, 𝔽_p)` through the chosen-root dictionary.
 
-`cyclotomicCharacter_artinMap` and `cyclotomicCharacter_artinMap_padic` are proved in
-ClassFieldTheory's Layer 11, from global reciprocity over `ℚ`, so every statement here that
-consumes them depends on ClassFieldTheory Layers 10 and 11;
-`localCyclotomicCharacter_artinMap_padic_uniformizer` (Layer 5) does not.
+`cyclotomicCharacter_artinMap`, `cyclotomicCharacter_artinMap_padic` and
+`cyclotomicCharacter_artinMap_padic_uniformizer` are proved in ClassFieldTheory's Layer 7, by
+comparison with the explicit local symbols of the cyclotomic fields over `ℚ`; nothing here depends
+on ClassFieldTheory's global layers.
 
 ### From Tau Ceti
 
@@ -210,6 +211,7 @@ in the proof route of a target, and is cited there by name.
 | continuous quotient maps | `ContinuousMonoidHom.quotientMk`, `ContinuousMonoidHom.quotientLift` |
 | free profinite groups and extensions | `freeProfiniteGroup`, `freeProfiniteGroup.lift`, `freeProfiniteGroup.hom_ext`, `freeProfiniteGroup.dense_closure_range_of`, `ProfiniteGroupExtension`, `GroupExtension.contCohomologyClass_factorSet_eq` |
 | class formations | `ClassFieldTheory.ClassFormation.fundamentalClass`, `ClassFieldTheory.ClassFormation.fundamentalClass_generates` |
+| Tate's cohomological triviality criterion | `TateCohomology.isZero_of_forall_isPGroup` |
 | group algebras and cancellation | `MonoidAlgebra.augmentation`, `MonoidAlgebra.ker_augmentation_eq_span`, `exists_equiv_linearEquiv_of_isLocalRing_end` |
 | local fields | `FinitePadicExtension`, `galoisSubgroup`, `galoisSubgroup_index`, `galoisSubgroupEquiv_apply_separableClosureRingEquiv`, `isProP_units_padicInt_two` |
 
@@ -501,23 +503,18 @@ together by exactly these declarations:
   unit `u`, and `localCyclotomicCharacter_artinMap_padic`, its `ℚ_p` specialization. Both are
   closed proofs so that a change of normalization in the supplier breaks this build rather than
   silently changing a relator. CFT proves `cyclotomicCharacter_artinMap` and its `ℚ_p` form in its
-  Layer 11, from global reciprocity over `ℚ`, so these two theorems, and every image computation
-  below that consumes them, depend on CFT Layers 10 and 11;
+  Layer 7;
 - `localCyclotomicCharacter_artinMap_padic_uniformizer`, the value at the uniformizer `p` of
-  `ℚ_p`: `χ_cyc(Art_{ℚ_p}(p)) = 1`. Its proof is elementary once `Φ_{p^n}` is irreducible over
-  `ℚ_p` (`irreducible_cyclotomic_prime_pow_ratPadic`, Layer 0): `p = N(1 − ζ_{p^n})` for every `n`
-  (M `IsPrimitiveRoot.norm_sub_one_of_prime_ne_two`, `IsPrimitiveRoot.norm_sub_one_two`), so
-  `Art_{ℚ_p}(p)` lies in every cyclotomic norm group, which the finite Artin map kills
-  (`CFT.normResidue`, `CFT.artinMap_restrict`), and acts trivially on `μ_{p^∞}`. It consumes no
-  cyclotomic normalization of the unit map, and does not depend on CFT Layers 10 and 11;
+  `ℚ_p`: `χ_cyc(Art_{ℚ_p}(p)) = 1`, a **closed proof** consuming
+  `CFT.cyclotomicCharacter_artinMap_padic_uniformizer`, whose proof is that `p = N(1 − ζ_{p^n})`
+  lies in every cyclotomic norm group;
 - `localCyclotomicCharacter_artinMap_uniformizer`, the value at a uniformizer `π` of `K`:
   `χ_cyc(Art_K(π)) · N_{K/ℚ_p}(π) = p^f`, with `f = f(K/ℚ_p) = LFR.inertiaDegree ℚ_[p] K`. Write
   `N_{K/ℚ_p}(π) = u · p^f` with `u ∈ ℤ_pˣ`. Norm functoriality `CFT.artinMap_norm` over `ℚ_p` makes
   the image of a lift of `Art_K(π)` under `CFT.absoluteGaloisGroupExtend` a lift of
   `Art_{ℚ_p}(u) · Art_{ℚ_p}(p)^f`, the character of `G_K` is that of `G_{ℚ_p}` read along that map
   (`localCyclotomicCharacter_absoluteGaloisGroupExtend`), and the two previous items give
-  `χ_cyc(Art_K(π)) = u⁻¹`. Through `localCyclotomicCharacter_artinMap_padic` it depends on CFT
-  Layers 10 and 11.
+  `χ_cyc(Art_K(π)) = u⁻¹`.
 
 ⚠ The inverse is where an error is invisible. With the geometric normalization the right-hand
 sides above are `N_{K/ℚ_p}(u)` and `u`, the orientation is replaced by its inverse, and the marked
@@ -650,7 +647,7 @@ presentation.
 *Needs:* L5; L0 `range_localCyclotomicCharacter_ratPadic`,
 `range_localCyclotomicCharacter_le_ratPadic`; PPG three marked classification theorems, their
 relator words, `unitsPlusMinus` and `procyclicClosure`; LFR unit filtration; CFT cyclotomic
-normalization, through the image computations of L5, which depend on CFT Layers 10 and 11; TC
+normalization, through the image computations of L5; TC
 `isProP_units_padicInt_two`.
 
 ## Layer 7: exact rank of the full absolute Galois group
@@ -816,12 +813,18 @@ rationalization.
   `a⁻¹, b⁻¹`, which is NSW's `M₀ ≃ D(μ_{p^∞}(L)^∨)`.
 - **The Tate module** `TateModule p L K`: a finitely generated `ℤ_p[G]`-module `Y` of projective
   dimension at most one, an extension `0 → A(L) → Y → I_G → 0` of the augmentation ideal by
-  `A(L)`. This is NSW's `Y = I_{G_K}/I_{G_L} I_{G_K}` ((5.6.5)); projective dimension at most one
-  is cohomological triviality, which is Tate's theorem for the fundamental class of the layer
-  carried to `A(L)` along the reciprocity identification of Step 1. Prove `nonempty_tateModule`.
-  *Needs:* CFT `ClassFormation` (Tau Ceti's, re-exported), `tateTheorem`; TC
+  `A(L)`. This is NSW's `Y = I_{G_K}/I_{G_L} I_{G_K}` ((5.6.5)). `Y` is cohomologically trivial by
+  Tate's criterion (TC `TateCohomology.isZero_of_forall_isPGroup`), the vanishing in two
+  consecutive degrees being Tate's theorem for the fundamental class of the layer carried to `A(L)`
+  along the reciprocity identification of Step 1; projective dimension at most one then follows
+  from the theorem of Nakayama and Rim, CFT's `TateCohomology.projective_ker_of_isZero_res` at
+  `k = ℤ_[p]`. Mathlib's `tateCohomology` takes the group and the coefficient ring in one universe,
+  so both are applied to a copy of `Gal(L/K)` in `Type`. Prove `nonempty_tateModule`.
+  *Needs:* CFT `ClassFormation` (Tau Ceti's, re-exported), `tateTheorem`,
+  `TateCohomology.projective_ker_of_isZero_res`; TC
   `ClassFieldTheory.ClassFormation.fundamentalClass`,
-  `ClassFieldTheory.ClassFormation.fundamentalClass_generates`; NSW (3.1.5); Step 1.
+  `ClassFieldTheory.ClassFormation.fundamentalClass_generates`,
+  `TateCohomology.isZero_of_forall_isPGroup`; NSW (3.1.5); Step 1.
 - **The integral decomposition** `tateModule_linearEquiv`: `Y ≃ M₀ ⊕ ℤ_p[G]^N` as
   `ℤ_p[G]`-modules, the isomorphism `(∗∗)` in the proof of NSW (7.4.1). This is the theorem the
   cancellation lemmas are applied to: `exists_projective_prod_linearEquiv_of_torsion` gives

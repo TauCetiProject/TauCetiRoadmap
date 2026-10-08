@@ -29,5 +29,7 @@ revision against which an earlier version elaborated.
   (declared complete 2026-09-22)
 - [Hodge structures: pure, mixed, and polarized](HodgeStructures/README.md)
   (declared complete 2026-10-06)
+- [Multiquadratic fields and genus theory](Multiquadratic/README.md)
+  (declared complete 2026-10-07)
 - [Geodesics, the exponential map, and the Hopf-Rinow theorem](HopfRinow/README.md)
   (declared complete 2026-10-07)

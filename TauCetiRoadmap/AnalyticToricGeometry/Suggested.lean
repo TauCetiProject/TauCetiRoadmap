@@ -1,5 +1,8 @@
 import Mathlib
+import TauCeti.Geometry.Toric.Algebraic.Cone.Inf
 import TauCeti.Geometry.Toric.Algebraic.DualSemigroup.Face
+import TauCeti.Geometry.Toric.Algebraic.DualSemigroup.Finiteness
+import TauCeti.Geometry.Toric.Algebraic.DualSemigroup.Separation
 import TauCeti.Geometry.Toric.Algebraic.FaceLocalization
 import TauCeti.Geometry.Toric.Algebraic.Fan.Scheme
 import TauCeti.Geometry.Toric.Algebraic.Fan.SubfanScheme
@@ -19,14 +22,14 @@ import TauCeti.Geometry.Toric.Analytic.Fan.Transition
 # Analytic toric geometry: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These declarations pin representative interfaces for the remaining algebraic
-targets, finite-fan analytic realization, boundary normal forms, properness, and the comparison
-with algebraic complex points.
+`README.md`. These declarations pin representative interfaces for the algebraic supplier and the
+analytic layers: finite-fan analytic realization, boundary normal forms, properness, and the
+comparison with algebraic complex points.
 
 Every toric object here is Tau Ceti's, from the namespace `TauCeti.Toric`.
 `TauCeti/Geometry/Toric/Algebraic/` supplies integral lattices, toric cones, rays and primitive
 generators, regular cones, fans with subfans and fan morphisms, dual semigroups, affine toric
-schemes, face localizations, and the toric scheme of a regular fan with its toric maps.
+schemes, face localizations, and the toric scheme of every finite fan with its toric maps.
 `TauCeti/Geometry/Toric/Analytic/` supplies affine complex points with their monomial-embedding
 topology, mixed monomial maps, the charts of regular cones, face localizations of complex points,
 the coordinate-free complex torus, affine orbits, and, for a regular fan, the diagram of affine
@@ -50,10 +53,11 @@ open scoped ContDiff Manifold
 
 universe u
 
-/-! ## Layer 0: the algebraic targets that remain
+/-! ## Layer 0: the algebraic targets for every toric cone and every finite fan
 
-Tau Ceti proves the statements below for regular cones and regular fans. Layer 0 asks for them
-for every toric cone and every finite fan. -/
+Layer 0 asks for the statements below for every toric cone and every finite fan, not only for
+regular ones. Tau Ceti now proves each of them in that generality, and each is closed by the Tau
+Ceti declaration named in its docstring. -/
 
 section AlgebraicSupplier
 
@@ -63,31 +67,33 @@ variable {N : Type u} {V : Type*} [AddCommGroup N] [AddCommGroup V] [Module ℝ 
 /-- **Layer 0, item 2.** For an integral lattice, the intersection of two toric cones is a toric
 cone. The hypothesis is necessary: for the injective but non-discrete map
 `TauCeti.Toric.sqrtTwoMap`, `TauCeti.Toric.not_isToricCone_sqrtTwoCone_inf` gives two toric cones
-whose intersection is not lattice rational. -/
+whose intersection is not lattice rational. Tau Ceti's `TauCeti.Toric.IsToricCone.inf`, whose
+injectivity hypothesis an integral lattice supplies. -/
 theorem IsToricCone.inf (hi : IsIntegralLattice i) (hσ : IsToricCone i σ)
-    (hτ : IsToricCone i τ) : IsToricCone i (σ ⊓ τ) := by
-  sorry
+    (hτ : IsToricCone i τ) : IsToricCone i (σ ⊓ τ) :=
+  TauCeti.Toric.IsToricCone.inf hi.isBaseChange.liftBaseChange_injective hσ hτ
 
 /-- **Layer 0, item 6 (Gordan's lemma).** The dual semigroup of a toric cone is finitely
-generated. Tau Ceti proves the regular case as `TauCeti.Toric.IsRegularCone.fg_dualSemigroup`. -/
+generated: Tau Ceti's `TauCeti.Toric.IsToricCone.fg_dualSemigroup`. -/
 theorem IsToricCone.fg_dualSemigroup (hi : IsIntegralLattice i) (hσ : IsToricCone i σ) :
-    AddMonoid.FG (dualSemigroup hi σ) := by
-  sorry
+    AddMonoid.FG (dualSemigroup hi σ) :=
+  TauCeti.Toric.IsToricCone.fg_dualSemigroup hσ hi
 
 /-- **Layer 0, item 8 (the separation lemma).** Every face of a toric cone is cut out by a
-character of its dual semigroup. Tau Ceti proves the regular case as
-`TauCeti.Toric.IsRegularCone.exists_mem_dualSemigroup_inf_ker_eq`. -/
+character of its dual semigroup: Tau Ceti's
+`TauCeti.Toric.IsLatticeRational.exists_mem_dualSemigroup_inf_ker_eq`, for every lattice-rational
+cone. -/
 theorem IsToricCone.exists_mem_dualSemigroup_inf_ker_eq (hi : IsIntegralLattice i)
     (hσ : IsToricCone i σ) (hτ : τ.IsFaceOf σ) :
     ∃ m ∈ dualSemigroup hi σ,
-      σ ⊓ PointedCone.ofSubmodule (LinearMap.ker (hi.realCharacter m)) = τ := by
-  sorry
+      σ ⊓ PointedCone.ofSubmodule (LinearMap.ker (hi.realCharacter m)) = τ :=
+  hσ.rational.exists_mem_dualSemigroup_inf_ker_eq hi hτ
 
 /-- **Layer 0, item 8.** The face morphism `TauCeti.Toric.faceAffineToricSchemeMap` of every face
 of a toric cone is an open immersion: the separation lemma applied to Tau Ceti's open immersion
 for a face cut out by a character, `TauCeti.Toric.isOpenImmersion_affineToricSchemeMap_inf_ker`.
-Tau Ceti proves the regular case as
-`TauCeti.Toric.IsRegularCone.isOpenImmersion_faceAffineToricSchemeMap`. -/
+Tau Ceti states it for every lattice-rational cone as
+`TauCeti.Toric.IsLatticeRational.isOpenImmersion_faceAffineToricSchemeMap`. -/
 theorem IsToricCone.isOpenImmersion_faceAffineToricSchemeMap (hi : IsIntegralLattice i)
     (hσ : IsToricCone i σ) (hτ : τ.IsFaceOf σ) :
     IsOpenImmersion (faceAffineToricSchemeMap hi hτ) := by
@@ -100,13 +106,13 @@ theorem IsToricCone.isOpenImmersion_faceAffineToricSchemeMap (hi : IsIntegralLat
   exact (affineToricSchemeMap_def ..).symm
 
 /-- **Layer 0, item 9.** The diagram `TauCeti.Toric.Fan.affineToricDiagram` of affine toric charts
-of every finite fan is locally directed. With
+of every finite fan is locally directed: Tau Ceti's
+`TauCeti.Toric.Fan.isLocallyDirected_affineToricDiagram`. With
 `IsToricCone.isOpenImmersion_faceAffineToricSchemeMap`, its colimit glues the charts of every
-finite fan, as `TauCeti.Toric.Fan.algebraicRealization` does for a regular fan from the regular
-case `TauCeti.Toric.Fan.isLocallyDirected_affineToricDiagram`. -/
+finite fan, which is how `TauCeti.Toric.Fan.algebraicRealization` is built. -/
 theorem isLocallyDirected_affineToricDiagram (Φ : Fan i) :
-    (Φ.affineToricDiagram ⋙ Scheme.forget).IsLocallyDirected := by
-  sorry
+    (Φ.affineToricDiagram ⋙ Scheme.forget).IsLocallyDirected :=
+  TauCeti.Toric.Fan.isLocallyDirected_affineToricDiagram (Φ := Φ)
 
 end AlgebraicSupplier
 
