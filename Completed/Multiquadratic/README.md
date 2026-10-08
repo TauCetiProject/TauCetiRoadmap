@@ -123,8 +123,12 @@ as it stood before archiving.*
 ### Layer 3: the genus field and the 2-rank theorem (the summit)
 - The **genus field** `K_gen`: the maximal extension of `K = ℚ(√d)` unramified at all
   places (the infinite ones included) and abelian over `ℚ`. Prove it is
-  **multiquadratic** (the compositum of the `ℚ(√p*)` for the prime discriminants
-  dividing `disc K`, so Layer 0 applies) and prove `Gal(K_gen/K) ≅ Cl(K)/Cl(K)²`. (This
+  **multiquadratic** (so Layer 0 applies) and prove `Gal(K_gen/K) ≅ Cl(K)/Cl(K)²`.
+  (Erratum, corrected at archiving: the compositum of the `ℚ(√p*)` for the prime
+  discriminants dividing `disc K` is the *narrow* genus field, unramified at all finite
+  places, in both signatures. The genus field is that compositum for imaginary `K` and its
+  maximal totally real subfield for real `K`; for `ℚ(√3)` the compositum `ℚ(i, √3)`
+  ramifies at infinity.) (This
   isomorphism holds for real and imaginary `K` alike: the nontrivial automorphism acts on
   `Cl(K)` by inversion, since `I · σI` is principal, so the commutator subgroup of
   `Gal(H/ℚ)` is exactly `Cl(K)²`.)
