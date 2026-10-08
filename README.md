@@ -27,6 +27,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Continuous cohomology of profinite groups](TauCetiRoadmap/ProfiniteCohomology/README.md)
 - [Dense graph limits and graphons](TauCetiRoadmap/DenseGraphLimits/README.md)
 - [DG and A-infinity algebras, categories, and modules](TauCetiRoadmap/DGAInfinity/README.md)
+- [Differential geometry — forms, de Rham cohomology, flows, and degree](TauCetiRoadmap/DifferentialGeometry/README.md)
 - [Elliptic curves](TauCetiRoadmap/EllipticCurves/README.md)
 - [Exchangeability and de Finetti](TauCetiRoadmap/Exchangeability/README.md)
 - [Foundations of adic spaces](TauCetiRoadmap/AdicSpaces/README.md)
@@ -38,13 +39,11 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Global quadratic forms over number fields](TauCetiRoadmap/GlobalQuadraticForms/README.md)
 - [Grothendieck groups, Cartan maps, and Euler forms](TauCetiRoadmap/GrothendieckEulerForms/README.md)
 - [Heegaard Floer homology, analytically](TauCetiRoadmap/HeegaardFloer/README.md)
-- [Hodge structures: pure, mixed, and polarized](TauCetiRoadmap/HodgeStructures/README.md)
 - [Integral quadratic forms and lattices](TauCetiRoadmap/IntegralLattices/README.md)
 - [Local fields and ramification](TauCetiRoadmap/LocalFieldsRamification/README.md)
 - [Local Galois groups of p-adic fields](TauCetiRoadmap/LocalGaloisGroups/README.md)
 - [Modular curves, following Katz–Mazur](TauCetiRoadmap/ModularCurves/README.md)
 - [Modular forms — Hecke theory, newforms, and L-functions](TauCetiRoadmap/ModularForms/README.md)
-- [Multiquadratic fields and genus theory](TauCetiRoadmap/Multiquadratic/README.md)
 - [Number fields, ramification, Frobenius, and the LMFDB invariants](TauCetiRoadmap/NumberFieldArithmetic/README.md)
 - [One-parameter semigroups, completely monotone functions, and BCR Bochner](TauCetiRoadmap/OneParameterSemigroups/README.md)
 - [Optimal transport and Wasserstein geometry](TauCetiRoadmap/OptimalTransport/README.md)
@@ -57,7 +56,6 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Real algebraic geometry: sign determination and cylindrical decomposition](TauCetiRoadmap/RealAlgebraicGeometry/README.md)
 - [Reductive algebraic groups](TauCetiRoadmap/ReductiveGroups/README.md)
 - [Representation theory (semisimple algebras, character tables, Lie and classical groups, Schur-Weyl, Peter-Weyl)](TauCetiRoadmap/RepresentationTheory/README.md)
-- [Restricted products of topological groups and rational diagonals](TauCetiRoadmap/RestrictedProducts/README.md)
 - [Stable reduction of curves and stable maps](TauCetiRoadmap/StableReduction/README.md)
 - [Stable, periodic, and curved homological algebra](TauCetiRoadmap/StablePeriodicCurved/README.md)
 - [Standard probability distributions and their elementary theory](TauCetiRoadmap/StandardDistributions/README.md)
@@ -206,6 +204,21 @@ reviewers, can act on it without guessing.
 
 - **Pin conventions.** It's essential that you decide conventions ahead of time, or implementors
   will make bad decisions.
+
+### Filing a roadmap
+
+- **Give it an arXiv topic.** Each roadmap directory holds a `metadata.toml` with one key,
+  `topic`: the [arXiv math subject class](https://arxiv.org/category_taxonomy) under which a paper
+  proving the roadmap's main results would be listed.
+
+  ```toml
+  topic = "math.NT"
+  ```
+
+  Choose the one primary class, as you would for that paper, not every class the material touches.
+  Topics group the roadmaps by area, so that a reader can find the ones in their field. A
+  sub-roadmap is filed under its parent's topic and has no `metadata.toml` of its own. The `build`
+  check fails for a roadmap without a valid topic.
 
 ## How changes are made
 

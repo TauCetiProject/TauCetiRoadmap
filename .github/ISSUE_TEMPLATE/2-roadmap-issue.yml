@@ -29,6 +29,7 @@ body:
         - ConformalMapping
         - DGAInfinity
         - DenseGraphLimits
+        - DifferentialGeometry
         - EllipticCurves
         - Exchangeability
         - FuchsianOrbifolds
@@ -37,7 +38,6 @@ body:
         - GlobalQuadraticForms
         - GrothendieckEulerForms
         - HeegaardFloer
-        - HodgeStructures
         - HopfRinow
         - IntegralLattices
         - JacobianChallenge
@@ -45,7 +45,6 @@ body:
         - LocalGaloisGroups
         - ModularCurves
         - ModularForms
-        - Multiquadratic
         - NumberFieldArithmetic
         - OneParameterSemigroups
         - OptimalTransport
@@ -60,7 +59,6 @@ body:
         - RealAlgebraicGeometry
         - ReductiveGroups
         - RepresentationTheory
-        - RestrictedProducts
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions

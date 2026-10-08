@@ -420,9 +420,10 @@ pro-`p` quotient.
   implements regime 1: the count `TauCeti.card_powerClasses_of_isUnit`, the vanishing
   `TauCeti.natCastValuation_eq_zero_of_isUnit`, finite index
   `TauCeti.finiteIndex_range_powMonoidHom_of_isUnit` and the count `4`
-  `TauCeti.card_squareClasses_of_isUnit` (`TauCeti/NumberTheory/LocalField/PowerSubgroup.lean`), and
+  `TauCeti.card_squareClasses_of_isUnit`
+  (`TauCeti/NumberTheory/LocalField/PowerSubgroup/Basic.lean`), and
   the identification of the two spellings of the square classes,
-  `TauCeti.square_eq_powMonoidHom_two_range`. This roadmap's `card_powerClasses_of_isUnit`,
+  `TauCeti.square_eq_range_powMonoidHom`. This roadmap's `card_powerClasses_of_isUnit`,
   `finiteIndex_range_powMonoidHom_of_isUnit`, `card_squareClasses_of_isUnit` and
   `square_eq_range_powMonoidHom` are closed proofs of them. Regime 2, the dyadic count and the
   worked example are the remaining milestones.
@@ -482,13 +483,14 @@ pro-`p` quotient.
   A subgroup of a topological group that contains an open subgroup is open, and is therefore
   closed. In this application finite index is a separate consequence of
   `card_powerClasses_of_isUnit` or `card_powerClasses_mixed`; it does not follow from openness.
-  Tau Ceti implements regime 1: `TauCeti.isOpen_range_powMonoidHom_of_isUnit`, with the
-  containment `TauCeti.unitFiltration_one_le_range_powMonoidHom_of_isUnit`, closedness
-  `TauCeti.isClosed_range_powMonoidHom_of_isUnit`, and the corollary for subgroups
-  `TauCeti.isOpen_of_isUnit_exponent` and `TauCeti.isOpen_of_isUnit_index`; this roadmap's
-  `isOpen_range_powMonoidHom_of_isUnit` is a closed proof. It also proves the case `n = 2` in every
-  characteristic other than `2`, `TauCeti.isOpen_range_powMonoidHom_two`, from the local square
-  theorem below. Regime 2 for general `n` remains.
+  Tau Ceti implements both regimes in one statement, `TauCeti.isOpen_range_powMonoidHom`, whose
+  hypothesis `(n : K) ≠ 0` holds in regime 1 and for every `n ≠ 0` in regime 2. It comes with the
+  regime 1 containment `TauCeti.unitFiltration_one_le_range_powMonoidHom_of_isUnit`, the deep-unit
+  containment `TauCeti.unitFiltration_le_range_powMonoidHom`, closedness
+  `TauCeti.isClosed_range_powMonoidHom`, and the corollary for subgroups
+  `TauCeti.isOpen_of_natCast_exponent_ne_zero` and `TauCeti.isOpen_of_natCast_index_ne_zero`.
+  This roadmap's `isOpen_range_powMonoidHom_of_isUnit` and `isOpen_range_powMonoidHom` are closed
+  proofs.
   - *Prerequisites:*
     - `Layer 1: the unit filtration as an object`;
     - `Layer 1: deep units in mixed characteristic` (regime 2 only);
@@ -565,7 +567,7 @@ pro-`p` quotient.
   survives generalization. Compare the predicate once, as a theorem, with `Algebra.IsUnramifiedAt`
   and `Algebra.FormallyUnramified` over `𝒪[K]`, so that the étale library becomes usable. Do not
   redefine those notions. Tau Ceti implements the predicate as the class `TauCeti.IsUnramified K L`
-  (`TauCeti/NumberTheory/LocalField/Unramified.lean`), with the equivalence with `e = 1`
+  (`TauCeti/NumberTheory/LocalField/Unramified/Basic.lean`), with the equivalence with `e = 1`
   (`TauCeti.isUnramified_iff_ramificationIndex_eq_one`), the value-group, valuation, ideal and
   degree forms, tameness (`TauCeti.IsUnramified.isTamelyRamified`), stability in towers in both
   directions (`TauCeti.isUnramified_tower_iff`) and the comparison theorems
@@ -678,8 +680,8 @@ pro-`p` quotient.
   `TauCeti.normGroup K L`, the range of the norm on units `TauCeti.Algebra.normUnits K`
   (`TauCeti/RingTheory/Norm/Units.lean`); the valuation identity `TauCeti.normalizedValuation_norm`
   (`TauCeti/NumberTheory/LocalField/Norm/Basic.lean`); and, under the class
-  `TauCeti.IsUnramified K L`, `TauCeti.map_normUnits_unitFiltration_zero` and
-  `TauCeti.mem_normGroup_iff_dvd_normalizedValuation` (`Norm/Unramified.lean`). This roadmap's
+  `TauCeti.IsUnramified K L`, `TauCeti.map_normUnits_unitFiltration` and
+  `TauCeti.mem_normGroup_iff_dvd_normalizedValuation` (`Norm/Unramified/Basic.lean`). This roadmap's
   `normGroup` is a reducible alias, and
   `map_norm_unitFiltration_zero` and `mem_normGroup_iff_dvd_normalizedValuation` are closed proofs,
   with the class supplied from `e = 1` as for the Frobenius; the worked cases remain.
@@ -865,7 +867,7 @@ pro-`p` quotient.
   A global wrapper may be added only after its value below `-1` is fixed explicitly. Prove that
   `ψ` carries the jumps of the upper filtration to the jumps of the lower one. The upper numbering
   is `G^u := G_{ψ(u)}`, with the real-index groups above. Tau Ceti implements the definitions and
-  the analytic facts in `TauCeti/NumberTheory/LocalField/Herbrand.lean`, in the namespace
+  the analytic facts in `TauCeti/NumberTheory/LocalField/Herbrand/Basic.lean`, in the namespace
   `TauCeti.LocalFieldsRamification`: `RamificationIndexDomain`, `herbrandOrderIso`, `herbrand` and
   `inverseHerbrand`, with the integral formula `coe_herbrand`, the finite-sum formula
   (`coe_herbrand_of_mem_Icc`, `coe_herbrand_of_coe_eq_natCast`), continuity and strict
@@ -940,7 +942,7 @@ pro-`p` quotient.
      `L/K` is totally ramified, `N_{L/K}(π_L)` is a uniformizer of `K`. This is the basic API of
      the norm at a local field. The last part fixes the coordinate on the target of the graded
      maps in item 4. Tau Ceti implements this item: `TauCeti.normalizedValuation_norm`,
-     `TauCeti.map_normUnits_unitFiltration_zero_le` and, for the uniformizer,
+     `TauCeti.map_normUnits_unitFiltration_le` and, for the uniformizer,
      `TauCeti.isUniformizer_normUnits_iff` (`TauCeti/NumberTheory/LocalField/Norm/Basic.lean`).
   2. *The Herbrand-shifted inclusion, for `L/K` finite Galois.*
      `N_{L/K}(U(L, ψℕ_{L/K}(i))) ⊆ U(K, i)` for every `i : ℕ`. Both depths are natural numbers,
@@ -1037,7 +1039,7 @@ pro-`p` quotient.
 
   Tau Ceti implements the discriminant ideal and both exponents, `TauCeti.discriminantIdeal`,
   `TauCeti.differentExponent` and `TauCeti.discriminantExponent`
-  (`TauCeti/NumberTheory/LocalField/Different/Basic.lean`, `Discriminant.lean`), with
+  (`TauCeti/NumberTheory/LocalField/Different/Basic.lean`, `Discriminant/Basic.lean`), with
   `𝔡_{L/K} = 𝓂[L]^{d(L/K)}` (`TauCeti.differentIdeal_eq_maximalIdeal_pow`),
   `𝔩_{L/K} = 𝓂[K]^{δ(L/K)}` (`TauCeti.discriminantIdeal_eq_maximalIdeal_pow`), the product formula
   `TauCeti.discriminantExponent_eq_inertiaDegree_mul_differentExponent`, the unramified criteria

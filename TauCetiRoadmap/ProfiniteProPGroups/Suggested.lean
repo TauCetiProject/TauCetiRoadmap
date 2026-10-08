@@ -2,7 +2,7 @@ import Mathlib
 import TauCetiRoadmap.ProfiniteCohomology.Suggested
 import TauCeti.GroupTheory.PLowerCentralSeries
 import TauCeti.NumberTheory.Padics.DyadicUnits
-import TauCeti.NumberTheory.Padics.GroupAlgebraCyclicTwo
+import TauCeti.NumberTheory.Padics.GroupAlgebra.CyclicTwo
 import TauCeti.NumberTheory.Padics.PowerSeries
 import TauCeti.RepresentationTheory.Homological.ContCohomology.TrivialFp
 import TauCeti.Topology.Algebra.Group.FiniteQuotients
@@ -37,9 +37,9 @@ import TauCeti.Topology.Algebra.Group.Profinite.ProP.FiniteGeneration
 import TauCeti.Topology.Algebra.Group.Profinite.ProP.FixedPoints
 import TauCeti.Topology.Algebra.Group.Profinite.ProP.LowerCentralSeries
 import TauCeti.Topology.Algebra.Group.Profinite.ProP.Order
-import TauCeti.Topology.Algebra.Group.Profinite.ProP.Prescription
+import TauCeti.Topology.Algebra.Group.Profinite.ProP.Prescription.Basic
 import TauCeti.Topology.Algebra.Group.Profinite.ProP.Rank
-import TauCeti.Topology.Algebra.Group.Profinite.ProP.RelationModule
+import TauCeti.Topology.Algebra.Group.Profinite.ProP.Relation.Module
 import TauCeti.Topology.Algebra.Group.Profinite.ProP.StructureTheorem
 import TauCeti.Topology.Algebra.Group.Profinite.ProP.Surjective
 import TauCeti.Topology.Algebra.Group.Profinite.Rank
