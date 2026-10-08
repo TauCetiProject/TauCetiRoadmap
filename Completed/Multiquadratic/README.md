@@ -71,8 +71,8 @@ rational and prime-indexed versions (the genus-theory inputs) as corollaries.
 The multiquadratic field `ℚ(√d₁, …, √dₙ)` as a structured object: its **degree** `2ⁿ`
 under square-class independence; its **Galois group** `(ℤ/2)ⁿ`; the lattice of
 subfields ↔ subspaces of `𝔽₂ⁿ`; the **prime-splitting law** in terms of the quadratic
-residue symbols of the `dⱼ`; the **2-torsion of the class group** `Cl/Cl²`; and the
-**genus field** with the resulting 2-rank formula. None of this is upstream.
+residue symbols of the `dⱼ`; the **maximal elementary-2 quotient of the class group**
+`Cl/Cl²`; and the **genus field** with the resulting 2-rank formula. None of this is upstream.
 
 ---
 
