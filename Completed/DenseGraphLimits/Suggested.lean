@@ -108,11 +108,6 @@ Left out: the companion graph-regularity roadmap, outside this roadmap by the RE
 
 Not certified, because the Tau Ceti declarations are private or anonymous at the pin:
 
-* **Finite `Measure.pi` transports.** Of the curry-uncurry lemmas the README wants in a general
-  `TauCeti/` home, the two-coordinate one is stated below. The three- and four-coordinate ones
-  (`measurePreserving_finThreeArrow`, `measurePreserving_finFourArrowPairPair`) are private in
-  `TauCeti/Combinatorics/DenseGraphLimits/HomDensity/SmallGraphs.lean`, so the general-home
-  requirement is not met for them.
 * **Design-validation regressions.** Finite gluing with zero-mass middle atoms, the null-cell
   witness `exists_partition_stepGraphonAvg_ne_self_bernoulliMeasure`, both round-trip directions
   and the Layer-5 Dirac, finite-atomic and mixed cases are stated below. The remaining checks
@@ -148,6 +143,31 @@ theorem measurePreserving_eval_pair {ι : Type*} [Fintype ι] [DecidableEq ι] {
     {a b : ι} (hab : a ≠ b) :
     MeasurePreserving (fun x : ∀ i, α i => (x a, x b)) (Measure.pi ν) ((ν a).prod (ν b)) :=
   TauCeti.measurePreserving_eval_pair ν hab
+
+/-- **Three coordinates of a finite product measure.** `Fin 3 → β` is the right-nested triple
+`β × β × β`, carrying `Measure.pi` to the iterated product (general home:
+`TauCeti/MeasureTheory/Constructions/Pi.lean`). -/
+theorem measurePreserving_finThreeArrow {β : Type*} [MeasurableSpace β] (ν : Measure β)
+    [SigmaFinite ν] :
+    MeasurePreserving (TauCeti.finThreeArrow (β := β)) (Measure.pi fun _ : Fin 3 => ν)
+      (ν.prod (ν.prod ν)) :=
+  TauCeti.measurePreserving_finThreeArrow ν
+
+theorem finThreeArrow_apply {β : Type*} [MeasurableSpace β] (x : Fin 3 → β) :
+    TauCeti.finThreeArrow x = (x 0, x 1, x 2) :=
+  TauCeti.finThreeArrow_apply x
+
+/-- **Four coordinates of a finite product measure.** `Fin 4 → β` is the right-nested quadruple,
+carrying `Measure.pi` to the iterated product. -/
+theorem measurePreserving_finFourArrow {β : Type*} [MeasurableSpace β] (ν : Measure β)
+    [SigmaFinite ν] :
+    MeasurePreserving (TauCeti.finFourArrow (β := β)) (Measure.pi fun _ : Fin 4 => ν)
+      (ν.prod (ν.prod (ν.prod ν))) :=
+  TauCeti.measurePreserving_finFourArrow ν
+
+theorem finFourArrow_apply {β : Type*} [MeasurableSpace β] (x : Fin 4 → β) :
+    TauCeti.finFourArrow x = (x 0, x 1, x 2, x 3) :=
+  TauCeti.finFourArrow_apply x
 
 /-- **Standard-Borel plumbing.** A measurable function on a square with standard Borel values
 factors through one countable family of Boolean coordinates, applied to both arguments. -/

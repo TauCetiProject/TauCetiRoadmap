@@ -715,14 +715,14 @@ example [Invertible (2 : K)] {n : ℕ} (hn : 0 < n) :
   TauCeti.fundamentalIdeal_pow_eq_addClosure hn
 
 /-- **Layer 4, a 2-fold Pfister form is round**, Tau Ceti's
-`TauCeti.twoFoldPfister_smul_equivalent_of_mem_unitValueSet`, with the 1-fold case
-`TauCeti.oneFoldPfister_smul_equivalent_of_mem_unitValueSet`: every unit that `⟨⟨a,b⟩⟩` represents
+`TauCeti.twoFoldPfister_smul_equivalent_iff`, with the 1-fold case
+`TauCeti.oneFoldPfister_smul_equivalent_iff`: every unit that `⟨⟨a,b⟩⟩` represents
 is a similarity factor. Roundness of `n`-fold forms for `n ≥ 3` is excluded. -/
 example (a b : K) (c : Kˣ)
     (hc : c ∈ QuadraticMap.unitValueSet (weightedSumSquares K ![1, -a, -b, a * b])) :
     ((c : K) • weightedSumSquares K ![1, -a, -b, a * b]).Equivalent
       (weightedSumSquares K ![1, -a, -b, a * b]) :=
-  TauCeti.twoFoldPfister_smul_equivalent_of_mem_unitValueSet a b c hc
+  (TauCeti.twoFoldPfister_smul_equivalent_iff a b c).mpr hc
 
 open TauCetiRoadmap.RepresentationTheory.SemisimpleAlgebras in
 /-- **Layer 5, the Clifford invariant.** The Brauer class of `C(q)` in even rank and of
