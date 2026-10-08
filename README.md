@@ -45,6 +45,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Modular curves, following Katz–Mazur](TauCetiRoadmap/ModularCurves/README.md)
 - [Modular forms — Hecke theory, newforms, and L-functions](TauCetiRoadmap/ModularForms/README.md)
 - [Multiquadratic fields and genus theory](TauCetiRoadmap/Multiquadratic/README.md)
+- [Number fields, ramification, Frobenius, and the LMFDB invariants](TauCetiRoadmap/NumberFieldArithmetic/README.md)
 - [One-parameter semigroups, completely monotone functions, and BCR Bochner](TauCetiRoadmap/OneParameterSemigroups/README.md)
 - [Optimal transport and Wasserstein geometry](TauCetiRoadmap/OptimalTransport/README.md)
 - [Orthogonal and spin groups](TauCetiRoadmap/OrthogonalSpinGroups/README.md)
@@ -72,7 +73,6 @@ Roadmaps the maintainers have declared complete (a judgment against the roadmap'
 
 - [Effective arithmetic bounds and geometry of numbers](Completed/EffectiveBounds/README.md)
 - [Weighted orthogonal L² bases: completeness, Hilbert bases, and products of orthogonal systems](Completed/OrthogonalL2Bases/README.md)
-- [Number fields, ramification, Frobenius, and the LMFDB invariants](Completed/NumberFieldArithmetic/README.md)
 
 ## Generated status files
 
