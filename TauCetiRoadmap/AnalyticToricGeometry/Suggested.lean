@@ -22,28 +22,25 @@ import TauCeti.Geometry.Toric.Analytic.Fan.Transition
 # Analytic toric geometry: target signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
-`README.md`. These declarations pin representative interfaces for the remaining algebraic
-targets, finite-fan analytic realization, boundary normal forms, properness, and the comparison
-with algebraic complex points.
-
-Every toric object here is Tau Ceti's, from the namespace `TauCeti.Toric`.
-`TauCeti/Geometry/Toric/Algebraic/` supplies integral lattices, toric cones, rays and primitive
-generators, regular cones, fans with subfans and fan morphisms, dual semigroups, affine toric
-schemes, face localizations, and the toric scheme of every finite fan with its toric maps.
-`TauCeti/Geometry/Toric/Analytic/` supplies affine complex points with their monomial-embedding
-topology, mixed monomial maps, the charts of regular cones, face localizations of complex points,
-the coordinate-free complex torus, affine orbits, and, for a regular fan, the diagram of affine
-analytic charts with its overlap loci, transitions and cocycle, the analytic realization glued from
-it with its chart inclusions (`TauCeti.Toric.Fan.analyticRealization`,
+`README.md`. These declarations pin representative interfaces for the algebraic supplier and the
+remaining analytic targets: finite-fan analytic realization, boundary normal forms, properness, and
+the comparison with algebraic complex points. Every toric object here is Tau Ceti's, from the
+namespace `TauCeti.Toric`. `TauCeti/Geometry/Toric/Algebraic/` supplies integral lattices, toric
+cones, rays and primitive generators, regular cones, fans with subfans and fan morphisms, dual
+semigroups, affine toric schemes, face localizations, and the toric scheme of every finite fan with
+its toric maps. `TauCeti/Geometry/Toric/Analytic/` supplies affine complex points with their
+monomial-embedding topology, mixed monomial maps, the charts of regular cones, face localizations of
+complex points, the coordinate-free complex torus, affine orbits, and, for a regular fan, the
+diagram of affine analytic charts with its overlap loci, transitions and cocycle, the analytic
+realization glued from it with its chart inclusions (`TauCeti.Toric.Fan.analyticRealization`,
 `TauCeti.Toric.Fan.analyticAffineChartι`), its complex atlas and manifold theorem
-(`TauCeti.Toric.Fan.analyticChartedSpace`, `TauCeti.Toric.Fan.isManifold_analyticRealization`),
-and the open-subfan map (`TauCeti.Toric.Fan.subfanAnalyticMap`). The targets below are stated on
-those objects; `subfanAnalyticMap` is a reducible alias of Tau Ceti's.
-
-Nothing below states a gluing construction for manifolds. The ComplexManifolds roadmap, Milestone 5
+(`TauCeti.Toric.Fan.analyticChartedSpace`, `TauCeti.Toric.Fan.isManifold_analyticRealization`), and
+the open-subfan map (`TauCeti.Toric.Fan.subfanAnalyticMap`). The targets below are stated on those
+objects; `subfanAnalyticMap` is a reducible alias of Tau Ceti's. Nothing below states a gluing
+construction for manifolds. The ComplexManifolds roadmap, Milestone 5
 (TauCetiProject/TauCetiRoadmap#279), owns it, and Tau Ceti's `TauCeti.chartedSpaceOfIsOpenEmbedding`
-(`TauCeti/Geometry/Manifold/Gluing.lean`) implements the part that the
-complex atlas of the realization uses.
+(`TauCeti/Geometry/Manifold/Gluing.lean`) implements the part that the complex atlas of the
+realization uses.
 -/
 
 namespace TauCetiRoadmap.AnalyticToricGeometry
