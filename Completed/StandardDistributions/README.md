@@ -900,10 +900,10 @@ Completion checks:
 
 - The [orthogonal-L²-bases roadmap](../OrthogonalL2Bases/README.md) owns moment determinacy and Gaussian Hermite L² theory, represented in `TauCeti/Probability/Moments/` and `TauCeti/Probability/Distributions/Gaussian/`.
   This roadmap reuses the existing Gaussian `Basic`, `Pi`, and `PolynomialMemLp` material and adds elementary distribution APIs; it does not restate the Hermite-basis or determinacy targets.
-- The [optimal-transport roadmap](../OptimalTransport/README.md) covers multivariate-Gaussian transport: the Brenier matrix formula, the closed `W₂` formula, interpolation, barycenters, and the positive-definite square-root and geometric-mean identities they require.
+- The [optimal-transport roadmap](../../TauCetiRoadmap/OptimalTransport/README.md) covers multivariate-Gaussian transport: the Brenier matrix formula, the closed `W₂` formula, interpolation, barycenters, and the positive-definite square-root and geometric-mean identities they require.
   This roadmap covers distribution theory — densities, conditional laws, affine formulas — and Cholesky decomposition.
   Neither roadmap restates the other's matrix results.
-- The [one-parameter-semigroups roadmap](../OneParameterSemigroups/README.md) covers positive-definite functions and Bochner's theorem.
+- The [one-parameter-semigroups roadmap](../../TauCetiRoadmap/OneParameterSemigroups/README.md) covers positive-definite functions and Bochner's theorem.
   This roadmap computes characteristic functions for named distributions but does not redevelop their general positive-definiteness or Bochner representations.
   The two roadmaps have no shared targets or dependencies.
 
@@ -934,3 +934,9 @@ Treat the conditional-Gaussian result and the multivariate-Gamma integral as sep
 - M. L. Eaton, [*Multivariate Statistics: A Vector Space Approach*](https://books.google.com/books?id=WyvvAAAAMAAJ), IMS Lecture Notes–Monograph Series 53 (vector-space Gaussians, invariant measures, and Wishart theory).
 - *NIST Digital Library of Mathematical Functions*, [ch. 7](https://dlmf.nist.gov/7) (error functions, especially [§7.2](https://dlmf.nist.gov/7.2) and [§7.11](https://dlmf.nist.gov/7.11)) and [ch. 8](https://dlmf.nist.gov/8) (incomplete gamma and beta functions, especially [§8.2](https://dlmf.nist.gov/8.2) and [§8.17](https://dlmf.nist.gov/8.17)).
 - P. Billingsley, [*Probability and Measure*](https://books.google.com/books?id=d27jzQEACAAJ), 3rd ed., Wiley, 1995 (measure-theoretic probability foundations).
+
+---
+
+*Archived: this roadmap was declared complete on 2026-10-08. `Suggested.lean` now states each
+target of Layers 0 to 6, with the completion checks, against Tau Ceti and closes it with no
+`sorry`.*
