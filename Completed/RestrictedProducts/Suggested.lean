@@ -35,6 +35,10 @@ the statements below are made about the Tau Ceti objects. The definitions are re
 this namespace, because `IntegralLattices` and `OrthogonalSpinGroups` cite them from here. The
 following differences from the README's forms are deliberate.
 
+* *Erratum, corrected at archiving:* 1.2 asked for continuity of `restrictedProductCongrRight`
+  in both directions without naming a hypothesis. It needs one: the map is continuous when every
+  `φ i` is, and the inverse when every `(φ i).symm` is, which is how the two continuity theorems
+  below are stated. The README now says so, with a one-index counterexample to the bare form.
 * `restrictedProductReindex U e` and `restrictedProductCongrLeft U e` take the reference family
   before the equivalence; §*The three equivalences* writes `restrictedProductReindex e U`.
 * `restrictedProductSum U h₁ h₂` is stated for every filter `𝓕` on `ι₁ ⊕ ι₂`, with the factor
@@ -60,6 +64,15 @@ assigns to `AlgebraicGroupStrongApproximation`; the topics of §*Future consumer
 README says are not milestones; and the aliasing onto FLT's names of §*Relation to FLT*, which
 applies once FLT's second restricted-product layer reaches Mathlib. It has not: Mathlib's
 `Topology/Algebra/RestrictedProduct/` still has only `Basic`, `TopologicalSpace` and `Units`.
+Caution 3 of that section, to consume FLT's declarations under their namespaces and never
+redeclare them at the root, is met as far as it applies at this pin: no FLT declaration is among
+the dependencies to consume, since Tau Ceti imports Mathlib only, and nothing is declared at the
+root; the Tau Ceti declarations live in `TauCeti` and these statements in
+`TauCetiRoadmap.RestrictedProducts`.
+
+Worked examples 5 and 6 and rejection test 9 are stated twice: in Tau Ceti's quantified form, and
+at the README's witness itself (`not_map_integralSubgroup_le_witness`,
+`map_integralSubgroup_ne_witness`, `not_restrictedProductMap_surjective_witness`).
 -/
 
 namespace TauCetiRoadmap.RestrictedProducts
@@ -213,6 +226,24 @@ theorem exists_not_map_integralSubgroup_le :
         integralSubgroup U' :=
   TauCeti.exists_not_map_integralSubgroup_le
 
+/-- **Example 5** at the README's witness itself, rather than an existential over it. -/
+theorem not_map_integralSubgroup_le_witness
+    (hφ : ∀ᶠ i in cofinite, Set.MapsTo (MonoidHom.id (Multiplicative ℤ))
+      ((⊤ : Subgroup (Multiplicative ℤ)) : Set (Multiplicative ℤ))
+      ((if i = 0 then ⊥ else ⊤ : Subgroup (Multiplicative ℤ)) : Set (Multiplicative ℤ))) :
+    ¬ (integralSubgroup fun _ : ℕ ↦ (⊤ : Subgroup (Multiplicative ℤ))).map
+        (restrictedProductMap (fun _ ↦ ⊤) (fun i ↦ if i = 0 then ⊥ else ⊤)
+          (fun _ ↦ MonoidHom.id _) hφ) ≤
+      integralSubgroup fun i : ℕ ↦ (if i = 0 then ⊥ else ⊤ : Subgroup (Multiplicative ℤ)) := by
+  intro hle
+  let x : Πʳ _ : ℕ, [Multiplicative ℤ,
+      ((⊤ : Subgroup (Multiplicative ℤ)) : Set (Multiplicative ℤ))] :=
+    ⟨fun _ ↦ Multiplicative.ofAdd 1, .of_forall fun _ ↦ Subgroup.mem_top _⟩
+  have h0 := (TauCeti.mem_integralSubgroup _ _).mp (hle (Subgroup.mem_map_of_mem _
+    ((TauCeti.mem_integralSubgroup _ x).mpr fun _ ↦ Subgroup.mem_top _))) 0
+  rw [TauCeti.restrictedProductMap_apply] at h0
+  simp [x] at h0
+
 /-- **⚠ Rejection test for 1.1:** the eventual constructor need not preserve the integral
 subgroup. -/
 theorem not_forall_mapsTo_integralSubgroup :
@@ -267,6 +298,21 @@ theorem not_forall_restrictedProductMap_surjective :
         (hφ : ∀ᶠ i in cofinite, Set.MapsTo (φ i) (U i) (U' i)),
         Function.Surjective (restrictedProductMap U U' (fun i ↦ (φ i).toMonoidHom) hφ) :=
   TauCeti.not_forall_restrictedProductMap_surjective
+
+/-- **⚠ Rejection test 9** at the README's witness itself: identity maps, `U = ⊥`, `U' = ⊤`. -/
+theorem not_restrictedProductMap_surjective_witness
+    (hφ : ∀ᶠ _ in cofinite, Set.MapsTo (MulEquiv.refl (Multiplicative ℤ))
+      ((⊥ : Subgroup (Multiplicative ℤ)) : Set (Multiplicative ℤ))
+      ((⊤ : Subgroup (Multiplicative ℤ)) : Set (Multiplicative ℤ))) :
+    ¬ Function.Surjective (restrictedProductMap (fun _ : ℕ ↦ (⊥ : Subgroup (Multiplicative ℤ)))
+      (fun _ ↦ ⊤) (fun _ ↦ (MulEquiv.refl (Multiplicative ℤ)).toMonoidHom) hφ) := by
+  intro hs
+  obtain ⟨i, hi⟩ := ((TauCeti.restrictedProductMap_surjective_iff_eventually_bijOn _ _
+    (fun _ ↦ MulEquiv.refl _) hφ).mp hs).exists
+  obtain ⟨a, ha, hae⟩ := hi.surjOn (Subgroup.mem_top (Multiplicative.ofAdd (1 : ℤ)))
+  rw [SetLike.mem_coe, Subgroup.mem_bot] at ha
+  rw [ha, map_one, eq_comm, ofAdd_eq_one] at hae
+  exact one_ne_zero hae
 
 /-- For coordinatewise isomorphisms, eventual `Set.BijOn` is exactly what surjectivity needs. -/
 theorem restrictedProductMap_surjective_iff_eventually_bijOn (U : ∀ i, Subgroup (G i))
@@ -370,6 +416,17 @@ theorem exists_map_integralSubgroup_ne :
     ∃ (U U' : ℕ → Subgroup (Multiplicative ℤ)) (h : ∀ᶠ i in cofinite, U i = U' i),
       (integralSubgroup U).map (restrictedProductCongr U U' h) ≠ integralSubgroup U' :=
   TauCeti.exists_map_integralSubgroup_ne
+
+/-- **⚠ Example 6** at the README's witness itself, rather than an existential over it. -/
+theorem map_integralSubgroup_ne_witness
+    (h : ∀ᶠ i in cofinite,
+      (⊤ : Subgroup (Multiplicative ℤ)) = if i = 0 then ⊥ else ⊤) :
+    (integralSubgroup fun _ : ℕ ↦ (⊤ : Subgroup (Multiplicative ℤ))).map
+        (restrictedProductCongr (fun _ ↦ ⊤) (fun i ↦ if i = 0 then ⊥ else ⊤) h) ≠
+      integralSubgroup fun i : ℕ ↦ (if i = 0 then ⊥ else ⊤ : Subgroup (Multiplicative ℤ)) := by
+  intro heq
+  refine not_map_integralSubgroup_le_witness (h.mono fun _ hi _ hx ↦ hi ▸ hx) ?_
+  rw [← TauCeti.coe_monoidHom_restrictedProductCongr _ _ h, heq]
 
 end Congr
 

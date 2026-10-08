@@ -202,7 +202,7 @@ owned by another roadmap.
 | `not_forall_mapsTo_integralSubgroup` | 1 | ⚠ the eventual one does not |
 | `restrictedProductCongrRight` | 1 | change of factors from an eventual coordinatewise `Set.BijOn` |
 | `restrictedProductCongrRight_apply`, `restrictedProductCongrRight_symm_apply` | 1 | the coordinate formulas, `φ i` and `(φ i).symm` |
-| `continuous_restrictedProductCongrRight`, `continuous_restrictedProductCongrRight_symm` | 1 | it is a homeomorphism |
+| `continuous_restrictedProductCongrRight`, `continuous_restrictedProductCongrRight_symm` | 1 | it is a homeomorphism when every `φ i` is one (*erratum, corrected at archiving*: from continuity of each `φ i`, resp. each `(φ i).symm`; see 1.2) |
 | `restrictedProductCongr` | 1 | the equivalence for families agreeing outside a finite set; the `φ = id` case of `restrictedProductCongrRight` |
 | `restrictedProductCongr_apply`, `restrictedProductCongr_symm_apply` | 1 | both directions are coordinatewise the identity |
 | `continuous_restrictedProductCongr`, `continuous_restrictedProductCongr_symm` | 1 | it is a homeomorphism |
@@ -282,7 +282,11 @@ coordinatewise family `φ i : G i ≃* H i` that is a bijection of `U i` onto `U
 finitely many `i`. ⚠ `Set.MapsTo` is not the right hypothesis even for isomorphisms — see
 rejection test 9 — so the hypothesis is `∀ᶠ i in cofinite, Set.BijOn (φ i) (U i) (U' i)`, exactly
 FLT's. Prove the two coordinate formulas, `φ i` forwards and `(φ i).symm` backwards, and
-continuity in both directions.
+continuity in both directions. *Erratum, corrected at archiving:* continuity needs coordinatewise
+continuity. The map is continuous when every `φ i` is, and its inverse when every `(φ i).symm` is,
+so the equivalence is a homeomorphism when every `φ i` is one. `Set.BijOn` alone does not suffice,
+even for a single index with trivial reference subgroups: the identity from `Multiplicative ℚ`
+with the topology of `ℚ ⊆ ℝ` to `Multiplicative ℚ` with the discrete topology is not continuous.
 
 **1.2a Change of reference family.** Specialize to `H = G` and `φ = id`: the equivalence of two
 restricted products whose reference families agree outside a finite set, coordinatewise the
