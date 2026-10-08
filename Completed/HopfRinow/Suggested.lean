@@ -37,13 +37,17 @@ The following differences between the README and Tau Ceti are deliberate.
   `CovariantDerivative.leviCivitaConnection`, so no local metric-compatibility shim exists. Tau
   Ceti supplies uniqueness as the vanishing of the difference tensor, and the `C^∞` regularity.
 * The covariant derivative along a curve, `CovariantDerivative.alongCurveWithin`, is constructed
-  by the coordinate formula `v' + Γ(v, u')` in the chart at the current point of the curve. Its
-  agreement with the ambient derivative is proved for pulled-back fields, which is what the README
-  asks; chart independence for an arbitrary section along the curve is not separately stated.
+  by the coordinate formula `v' + Γ(v, u')` in the chart at the current point of the curve. The
+  same formula computed in any other chart whose base set contains that point gives the same
+  vector, for an arbitrary differentiable field along the curve, and the coordinate readings in
+  two such charts are related by the tangent coordinate change. Its agreement with the ambient
+  derivative is proved for pulled-back fields.
 * `riemannianExp` is total, with junk value `p` outside `expDomain p`. Every theorem using its
-  mathematical value carries the domain hypothesis, except the homogeneity identity
-  `exp_p (t • v) = γ_{p,v}(t)`, which holds for every `t` because both sides take the junk value
-  together.
+  Domain hypotheses are carried where genuine geodesic evaluation or smoothness is needed.
+  Identities and bounds that remain valid for the total extension are stated without them: for
+  example the homogeneity identity `exp_p (t • v) = γ_{p,v}(t)` for every `t`, the closed-ball
+  identity `closedBall p r = exp_p '' closedBall 0 r`, and the intertwining of exponential maps by
+  Riemannian isometries.
 * The Layer 3 statements assume `[MetricSpace M]` and `[IsRiemannianManifold I M]` but not
   `[ConnectedSpace M]`: a metric whose distance is the Riemannian distance has finite Riemannian
   distances, so a nonempty such `M` is already connected. Connectedness is assumed explicitly where
@@ -360,6 +364,27 @@ theorem alongCurveWithin_apply (s : Set ℝ) (t : ℝ) :
             (cov.isCovariantDerivativeOn (s := (trivializationAt E (TangentSpace I) (γ t)).baseSet))
             (γ t) (sectionCoord (F := E) γ V (γ t) t) (derivWithin (extChartAt I (γ t) ∘ γ) s t)) :=
   CovariantDerivative.alongCurveWithin_apply cov γ V s t
+
+/-- **Chart independence**: for an arbitrary field along the curve, the coordinate formula
+computed in the chart at any point `x` whose base set contains `γ t`, transported back to
+`T_{γ t} M`, is the derivative along `γ`. -/
+theorem symmL_alongCurveInChartWithin {x : M} {s : Set ℝ} {t : ℝ}
+    (hx : γ t ∈ (trivializationAt E (TangentSpace I) x).baseSet) (hu : UniqueDiffWithinAt ℝ s t)
+    (hγ : MDifferentiableWithinAt 𝓘(ℝ, ℝ) I γ s t)
+    (hV : DifferentiableWithinAt ℝ (sectionCoord (F := E) γ V (γ t)) s t) :
+    (trivializationAt E (TangentSpace I) x).symmL ℝ (γ t) (alongCurveInChartWithin cov γ V s x t) =
+      alongCurveWithin cov γ V s t :=
+  CovariantDerivative.symmL_alongCurveInChartWithin cov γ V hx hu hγ hV
+
+/-- The coordinate readings in two charts are related by the tangent coordinate change. -/
+theorem alongCurveInChartWithin_coordChange {x y : M} {s : Set ℝ} {t : ℝ}
+    (hx : γ t ∈ (trivializationAt E (TangentSpace I) x).baseSet)
+    (hy : γ t ∈ (trivializationAt E (TangentSpace I) y).baseSet)
+    (hu : UniqueDiffWithinAt ℝ s t) (hγ : MDifferentiableWithinAt 𝓘(ℝ, ℝ) I γ s t)
+    (hV : DifferentiableWithinAt ℝ (sectionCoord (F := E) γ V (γ t)) s t) :
+    alongCurveInChartWithin cov γ V s y t =
+      tangentCoordChange I x y (γ t) (alongCurveInChartWithin cov γ V s x t) :=
+  CovariantDerivative.alongCurveInChartWithin_coordChange cov γ V hx hy hu hγ hV
 
 /-- Linearity: the derivative along `γ` is additive in the field. -/
 theorem alongCurveWithin_add (W : ∀ t, TangentSpace I (γ t)) (s : Set ℝ) {t : ℝ}
