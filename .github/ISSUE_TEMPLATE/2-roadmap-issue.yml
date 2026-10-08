@@ -47,6 +47,7 @@ body:
         - ModularForms
         - NumberFieldArithmetic
         - OneParameterSemigroups
+        - OperatorTheory
         - OptimalTransport
         - OrthogonalSpinGroups
         - PDE

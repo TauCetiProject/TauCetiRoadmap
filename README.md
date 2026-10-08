@@ -46,6 +46,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Modular forms — Hecke theory, newforms, and L-functions](TauCetiRoadmap/ModularForms/README.md)
 - [Number fields, ramification, Frobenius, and the LMFDB invariants](TauCetiRoadmap/NumberFieldArithmetic/README.md)
 - [One-parameter semigroups, completely monotone functions, and BCR Bochner](TauCetiRoadmap/OneParameterSemigroups/README.md)
+- [Operator theory](TauCetiRoadmap/OperatorTheory/README.md)
 - [Optimal transport and Wasserstein geometry](TauCetiRoadmap/OptimalTransport/README.md)
 - [Orthogonal and spin groups](TauCetiRoadmap/OrthogonalSpinGroups/README.md)
 - [Partial differential equations](TauCetiRoadmap/PDE/README.md)
