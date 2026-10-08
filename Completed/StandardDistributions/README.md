@@ -289,6 +289,11 @@ For each family, supply the following missing results:
   Under a probability measure, prove multiplicativity over independent sums without extra hypotheses for `|t| ≤ 1`, and for arbitrary `t` when both factor integrands are integrable.
   Do not state an unrestricted theorem: Mathlib's totalized integral would make both sides zero when a factor is non-integrable, but that equality is only a consequence of totalization.
 
+  *Erratum, corrected at archiving:* "without extra hypotheses" should read "assuming only that `X` and `Y` are almost everywhere measurable".
+  Mathlib's `IndepFun` does not include measurability of the two functions, and for a non-measurable `X` the integrand `t ^ X` need not be almost everywhere strongly measurable, so `pgf X μ t` is then only the totalized value `0`.
+  Every Mathlib product rule for independent factors (`IndepFun.integral_mul_eq_mul_integral`, `IndepFun.mgf_add`) assumes almost-everywhere strong measurability for the same reason, and the unrestricted statement does not follow from existing declarations.
+  Almost-everywhere measurability is therefore the baseline; given it, no integrability hypothesis is needed for `|t| ≤ 1`, which is what the sentence intends.
+
   For every `t : ℝ`, prove
   - `pgf id (Ber((1 : ℕ), 0, p)) t = 1 - (p : ℝ) + (p : ℝ) * t` for `p : I`;
   - `pgf id (binomial n p) t = (1 - (p : ℝ) + (p : ℝ) * t)^n` for `n : ℕ` and `p : I`; and
@@ -939,4 +944,5 @@ Treat the conditional-Gaussian result and the multivariate-Gamma integral as sep
 
 *Archived: this roadmap was declared complete on 2026-10-08. `Suggested.lean` now states each
 target of Layers 0 to 6, with the completion checks, against Tau Ceti and closes it with no
-`sorry`.*
+`sorry`. The Layer 1 hypotheses for pgf multiplicativity on `|t| ≤ 1` were corrected on archiving
+by the marked erratum there: the factors are assumed almost everywhere measurable.*

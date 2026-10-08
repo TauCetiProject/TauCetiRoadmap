@@ -162,8 +162,10 @@ The deliberate differences between the README's requested forms and Tau Ceti's a
   mathlib4#35504 are likewise local Tau Ceti theorems. The README asks for these stand-ins to be
   removed once the pinned Mathlib provides the upstream declarations; that condition has not yet
   occurred. The binomial mean of mathlib4#40613 is consumed from Mathlib.
-* pgf multiplicativity on `|t| ≤ 1` assumes `AEMeasurable X` and `AEMeasurable Y` (and a finite
-  measure); it needs no integrability hypothesis.
+* pgf multiplicativity on `|t| ≤ 1` assumes `AEMeasurable X` and `AEMeasurable Y`; it needs no
+  integrability hypothesis. The README's "without extra hypotheses" is corrected by a marked
+  erratum: Mathlib's `IndepFun` does not include measurability, and without it `pgf X μ t` can be
+  the totalized value of a non-measurable integrand.
 * The uniform `ℝ≥0∞` density is Mathlib's `pdf.uniformPDF`, linked to `uniformPDFReal`. Geometric
   memorylessness is stated in Tau Ceti with `measureReal`; the README's division-free `ℝ≥0∞` form
   is a short bridge.
@@ -849,7 +851,9 @@ theorem pgf_exp (X : Ω → ℕ) (μ : Measure Ω) (t : ℝ) :
     pgf X μ (Real.exp t) = mgf (fun ω => (X ω : ℝ)) μ t :=
   TauCeti.Probability.pgf_exp X μ t
 
-/-- **Layer 1 completion check.** On `[-1, 1]`, the pgf of an independent sum is the product. -/
+/-- **Layer 1 completion check.** On `[-1, 1]`, the pgf of an independent sum is the product.
+The factors are assumed almost everywhere measurable, per the README erratum; no integrability
+hypothesis is needed. -/
 theorem pgf_add_of_abs_le_one [IsProbabilityMeasure P] {X Y : Ω → ℕ} (hXY : IndepFun X Y P)
     (hX : AEMeasurable X P) (hY : AEMeasurable Y P) {t : ℝ} (ht : |t| ≤ 1) :
     pgf (X + Y) P t = pgf X P t * pgf Y P t :=
@@ -1244,6 +1248,21 @@ theorem logNormalMeasure_eq_withDensity (μ : ℝ) {v : ℝ≥0} (hv : v ≠ 0) 
     logNormalMeasure μ v = volume.withDensity (logNormalPDF μ v) :=
   TauCeti.Probability.logNormalMeasure_eq_withDensity μ hv
 
+/-- **Log-normal change of variables.** `exp` maps `ℝ` injectively onto `(0, ∞)` with derivative
+`exp`, and transports weighted Lebesgue measure accordingly; this is the step from the Gaussian
+density to the log-normal one. -/
+theorem exp_changeOfVariables (f : ℝ → ℝ≥0∞) :
+    Real.exp '' Set.univ = Set.Ioi 0 ∧ Set.InjOn Real.exp Set.univ ∧
+      (∀ x, HasDerivAt Real.exp (Real.exp x) x) ∧
+      ((volume.restrict Set.univ).withDensity
+          fun t ↦ ENNReal.ofReal |Real.exp t| * f (Real.exp t)).map Real.exp =
+        (volume.restrict (Set.Ioi 0)).withDensity f := by
+  have h := TauCeti.MeasureTheory.map_withDensity_abs_deriv_mul (f := f) MeasurableSet.univ
+    Real.measurable_exp (fun x _ ↦ (Real.hasDerivAt_exp x).hasDerivWithinAt)
+    Real.exp_injective.injOn
+  rw [Set.image_univ, Real.range_exp] at h
+  exact ⟨by rw [Set.image_univ, Real.range_exp], Real.exp_injective.injOn, Real.hasDerivAt_exp, h⟩
+
 /-- `HasPDF` for `v ≠ 0`. -/
 theorem hasPDF_of_hasLaw_logNormalMeasure {μ : ℝ} {v : ℝ≥0} (hv : v ≠ 0)
     (hX : HasLaw X (logNormalMeasure μ v) P) : HasPDF X P volume :=
@@ -1401,6 +1420,13 @@ theorem mgf_id_weibullMeasure_of_one_lt {k lam : ℝ} (hk : 1 < k) (hlam : 0 < l
     mgf id (weibullMeasure k lam) t =
       ∑' n : ℕ, (t * lam) ^ n * Real.Gamma (1 + (n : ℝ) / k) / n.factorial :=
   TauCeti.Probability.mgf_id_weibullMeasure_of_one_lt hk hlam t
+
+/-- `1 < k`: the mgf series converges, and its sum is the mgf. -/
+theorem hasSum_mgf_id_weibullMeasure_of_one_lt {k lam : ℝ} (hk : 1 < k) (hlam : 0 < lam)
+    (t : ℝ) :
+    HasSum (fun n : ℕ => (t * lam) ^ n * Real.Gamma (1 + (n : ℝ) / k) / n.factorial)
+      (mgf id (weibullMeasure k lam) t) :=
+  TauCeti.Probability.hasSum_mgf_id_weibullMeasure_of_one_lt hk hlam t
 
 /-- `1 < k`: the cgf. -/
 theorem cgf_id_weibullMeasure_of_one_lt {k lam : ℝ} (hk : 1 < k) (hlam : 0 < lam) (t : ℝ) :
@@ -1583,6 +1609,23 @@ theorem inverseGammaMeasure_eq_withDensity (a r : ℝ) :
     inverseGammaMeasure a r = volume.withDensity (inverseGammaPDF a r) :=
   TauCeti.Probability.inverseGammaMeasure_eq_withDensity a r
 
+/-- **Scalar inversion change of variables.** `x ↦ x⁻¹` maps `(0, ∞)` injectively onto itself
+with derivative `-(x ^ 2)⁻¹`, and transports weighted Lebesgue measure accordingly; this is the
+step from the Gamma density to the inverse-gamma one. -/
+theorem inv_changeOfVariables (f : ℝ → ℝ≥0∞) :
+    (·⁻¹) '' Set.Ioi (0 : ℝ) = Set.Ioi 0 ∧ Set.InjOn (·⁻¹ : ℝ → ℝ) (Set.Ioi 0) ∧
+      (∀ x ∈ Set.Ioi (0 : ℝ), HasDerivAt (·⁻¹) (-(x ^ 2)⁻¹) x) ∧
+      ((volume.restrict (Set.Ioi 0)).withDensity
+          fun t ↦ ENNReal.ofReal |-(t ^ 2)⁻¹| * f t⁻¹).map (·⁻¹ : ℝ → ℝ) =
+        (volume.restrict (Set.Ioi 0)).withDensity f := by
+  have himage : (·⁻¹) '' Set.Ioi (0 : ℝ) = Set.Ioi 0 := by
+    ext y; simp [Set.image_inv_eq_inv]
+  have h := TauCeti.MeasureTheory.map_withDensity_abs_deriv_mul (f := f) measurableSet_Ioi
+    measurable_inv (fun y hy ↦ (hasDerivAt_inv (ne_of_gt hy)).hasDerivWithinAt)
+    inv_injective.injOn
+  rw [himage] at h
+  exact ⟨himage, inv_injective.injOn, fun x hx ↦ hasDerivAt_inv (ne_of_gt hx), h⟩
+
 /-- `HasPDF`. -/
 theorem hasPDF_of_hasLaw_inverseGammaMeasure {a r : ℝ}
     (hX : HasLaw X (inverseGammaMeasure a r) P) : HasPDF X P volume :=
@@ -1675,6 +1718,21 @@ theorem not_integrable_id_studentTMeasure {ν : ℝ} (hν0 : 0 < ν) (hν1 : ν 
     ¬ Integrable id (studentTMeasure ν) := by
   rw [TauCeti.Probability.integrable_id_studentTMeasure_iff hν0]
   exact not_lt.2 hν1
+
+/-- Integrability of `id` for `1 < ν`, the sharp existence hypothesis for the mean. -/
+theorem integrable_id_studentTMeasure {ν : ℝ} (hν : 1 < ν) :
+    Integrable id (studentTMeasure ν) :=
+  (TauCeti.Probability.integrable_id_studentTMeasure_iff (by linarith)).2 hν
+
+/-- Within the valid family, `id` is integrable exactly when `1 < ν`. -/
+theorem integrable_id_studentTMeasure_iff {ν : ℝ} (hν : 0 < ν) :
+    Integrable id (studentTMeasure ν) ↔ 1 < ν :=
+  TauCeti.Probability.integrable_id_studentTMeasure_iff hν
+
+/-- Within the valid family, `x ↦ x²` is integrable exactly when `2 < ν`. -/
+theorem integrable_sq_studentTMeasure_iff {ν : ℝ} (hν : 0 < ν) :
+    Integrable (fun x : ℝ => x ^ 2) (studentTMeasure ν) ↔ 2 < ν := by
+  simpa using TauCeti.Probability.integrable_pow_studentTMeasure_iff hν 2
 
 /-- Variance `ν / (ν - 2)` for `2 < ν`. -/
 theorem variance_id_studentTMeasure {ν : ℝ} (hν : 2 < ν) :
@@ -2145,6 +2203,22 @@ theorem map_div_add_prod_gammaMeasure {a b r : ℝ} (ha : 0 < a) (hb : 0 < b) (h
         (fun z ↦ (z.1 / (z.1 + z.2), z.1 + z.2)) =
       (betaMeasure a b).prod (gammaMeasure (a + b) r) :=
   TauCeti.Probability.map_div_add_prod_gammaMeasure ha hb hr
+
+/-- **Gamma-Beta change of variables.** The coordinate map `(u, s) ↦ (u s, (1 - u) s)` sends the
+target region `(0, 1) × (0, ∞)` injectively onto the source region `(0, ∞) × (0, ∞)`, with
+derivative determinant `s`, and transports Lebesgue measure accordingly. -/
+theorem betaGammaMap_changeOfVariables :
+    gammaBetaTarget = Set.Ioo 0 1 ×ˢ Set.Ioi 0 ∧ gammaBetaSource = Set.Ioi 0 ×ˢ Set.Ioi 0 ∧
+      (∀ z, betaGammaMap z = (z.1 * z.2, (1 - z.1) * z.2)) ∧
+      betaGammaMap '' gammaBetaTarget = gammaBetaSource ∧
+      Set.InjOn betaGammaMap gammaBetaTarget ∧
+      (∀ z, HasFDerivAt betaGammaMap (fderivBetaGammaMap z) z ∧
+        (fderivBetaGammaMap z).det = z.2) ∧
+      Measure.map betaGammaMap
+          ((volume.restrict gammaBetaTarget).withDensity fun z ↦ ENNReal.ofReal z.2) =
+        volume.restrict gammaBetaSource :=
+  ⟨rfl, rfl, fun _ ↦ rfl, betaGammaMap_image_target, betaGammaMap_injOn,
+    fun z ↦ ⟨hasFDerivAt_betaGammaMap z, det_fderivBetaGammaMap z⟩, map_betaGammaMap_withDensity⟩
 
 /-- **Layer 4, item 3.** The Beta marginal of the Gamma ratio. -/
 theorem map_div_add_gammaMeasure {a b r : ℝ} (ha : 0 < a) (hb : 0 < b) (hr : 0 < r) :
@@ -2677,6 +2751,24 @@ theorem dirichletMeasure_eq_map_withDensity_dirichletChartPDF [DecidableEq ι] {
         (dirichletChart i₀) :=
   TauCeti.Probability.dirichletMeasure_eq_map_withDensity_dirichletChartPDF ha i₀
 
+/-- **Dirichlet normalization change of variables.** The scaling map
+`(s, x) ↦ (s (1 - ∑ j, x j), s x)` sends the source region (a positive total and a point of the
+open chart region) injectively onto the open positive orthant, with derivative determinant
+`s ^ card J`, and transports Lebesgue measure accordingly. -/
+theorem dirichletUnchart_changeOfVariables [DecidableEq ι] (i₀ : ι) :
+    dirichletUnchartSource i₀ = Set.Ioi 0 ×ˢ dirichletChartRegion i₀ ∧
+      dirichletUnchartTarget i₀ = Set.Ioi 0 ×ˢ {y | ∀ j, 0 < y j} ∧
+      (∀ z, dirichletUnchart i₀ z = (z.1 * (1 - ∑ j, z.2 j), fun j ↦ z.1 * z.2 j)) ∧
+      dirichletUnchart i₀ '' dirichletUnchartSource i₀ = dirichletUnchartTarget i₀ ∧
+      Set.InjOn (dirichletUnchart i₀) (dirichletUnchartSource i₀) ∧
+      (∀ z, (fderiv ℝ (dirichletUnchart i₀) z).det = z.1 ^ Fintype.card {i // i ≠ i₀}) ∧
+      Measure.map (dirichletUnchart i₀)
+          ((volume.restrict (dirichletUnchartSource i₀)).withDensity
+            fun z ↦ ENNReal.ofReal (z.1 ^ Fintype.card {i // i ≠ i₀})) =
+        volume.restrict (dirichletUnchartTarget i₀) :=
+  ⟨rfl, rfl, fun _ ↦ rfl, dirichletUnchart_image_source i₀, dirichletUnchart_injOn i₀,
+    det_fderiv_dirichletUnchart i₀, map_dirichletUnchart_withDensity i₀⟩
+
 /-- **Layer 5, item 6.** The covariance packaged as `covMatrix`. -/
 theorem covMatrix_dirichletMeasure [DecidableEq ι] [Nonempty ι] {a : ι → ℝ} (ha : ∀ i, 0 < a i) :
     covMatrix (dirichletMeasure a) =
@@ -3192,6 +3284,22 @@ theorem map_finOne_nonsingularWishartMeasure {σ2 : ℝ} (hn : 0 < n) (hσ : 0 <
       (Probability.chiSquaredMeasure n).map (σ2 * ·) :=
   map_symmetricFinOneEquiv_nonsingularWishartMeasure hn hσ
 
+/-- A random matrix with a nonsingular Wishart law has a density against `symmetricLebesgue p`,
+which is the Wishart density in the valid family. -/
+theorem hasPDF_of_hasLaw_nonsingularWishartMeasure {Ω : Type*} [MeasurableSpace Ω]
+    {P : Measure Ω} {X : Ω → selfAdjoint.submodule ℝ (Matrix (Fin p) (Fin p) ℝ)}
+    (hS : S.PosDef) (hn : (p : ℝ) - 1 < n) (hX : HasLaw X (nonsingularWishartMeasure n S) P) :
+    HasPDF X P (symmetricLebesgue p) ∧
+      pdf X P (symmetricLebesgue p) =ᵐ[symmetricLebesgue p] nonsingularWishartPDF n S :=
+  ⟨TauCeti.Probability.hasPDF_of_hasLaw_nonsingularWishartMeasure hX,
+    pdf_eq_nonsingularWishartPDF_of_hasLaw_nonsingularWishartMeasure hS hn hX⟩
+
+/-- The Radon-Nikodym derivative of the nonsingular Wishart law against `symmetricLebesgue p`. -/
+theorem rnDeriv_nonsingularWishartMeasure (hS : S.PosDef) (hn : (p : ℝ) - 1 < n) :
+    (nonsingularWishartMeasure n S).rnDeriv (symmetricLebesgue p) =ᵐ[symmetricLebesgue p]
+      nonsingularWishartPDF n S :=
+  TauCeti.Probability.rnDeriv_nonsingularWishartMeasure hS hn
+
 end NonsingularWishart
 
 section GaussianGram
@@ -3340,6 +3448,22 @@ theorem mutuallySingular_wishartGramMeasure_symmetricLebesgue (S : Matrix (Fin p
     (h : min ν S.rank < p) : wishartGramMeasure ν S ⟂ₘ symmetricLebesgue p :=
   TauCeti.Probability.mutuallySingular_wishartGramMeasure_symmetricLebesgue ν S h
 
+/-- For `S.PosDef` and `p ≤ ν`, a Gaussian-Gram random matrix has the Wishart density against
+`symmetricLebesgue p`; otherwise the law is singular (see `mutuallySingular_*` above). -/
+theorem hasPDF_of_hasLaw_wishartGramMeasure {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω}
+    {X : Ω → selfAdjoint.submodule ℝ (Matrix (Fin p) (Fin p) ℝ)}
+    (hS : S.PosDef) (hp : p ≤ ν) (hX : HasLaw X (wishartGramMeasure ν S) P) :
+    HasPDF X P (symmetricLebesgue p) ∧
+      pdf X P (symmetricLebesgue p) =ᵐ[symmetricLebesgue p] nonsingularWishartPDF (ν : ℝ) S :=
+  ⟨TauCeti.Probability.hasPDF_of_hasLaw_wishartGramMeasure hS hp hX,
+    pdf_eq_nonsingularWishartPDF_of_hasLaw_wishartGramMeasure hS hp hX⟩
+
+/-- The Radon-Nikodym derivative of the Gaussian-Gram law for `S.PosDef` and `p ≤ ν`. -/
+theorem rnDeriv_wishartGramMeasure (hS : S.PosDef) (hp : p ≤ ν) :
+    (wishartGramMeasure ν S).rnDeriv (symmetricLebesgue p) =ᵐ[symmetricLebesgue p]
+      nonsingularWishartPDF (ν : ℝ) S :=
+  TauCeti.Probability.rnDeriv_wishartGramMeasure hS hp
+
 end GaussianGram
 
 /-! ### Item 5: Bartlett decomposition -/
@@ -3397,6 +3521,27 @@ theorem coe_symmetricInv (A : selfAdjoint.submodule ℝ (Matrix (Fin p) (Fin p) 
 theorem inverseWishartMeasure_def (n : ℝ) (S : Matrix (Fin p) (Fin p) ℝ) :
     inverseWishartMeasure n S = (nonsingularWishartMeasure n S⁻¹).map symmetricInv :=
   TauCeti.Probability.inverseWishartMeasure_def n S
+
+/-- The inverse-Wishart law is a probability measure under the Wishart parameter hypotheses. -/
+theorem isProbabilityMeasure_inverseWishartMeasure (hS : S.PosDef) (hn : (p : ℝ) - 1 < n) :
+    IsProbabilityMeasure (inverseWishartMeasure n S) :=
+  TauCeti.Probability.isProbabilityMeasure_inverseWishartMeasure hS hn
+
+/-- A random matrix with an inverse-Wishart law has a density against `symmetricLebesgue p`,
+which is the inverse-Wishart density in the valid family. -/
+theorem hasPDF_of_hasLaw_inverseWishartMeasure {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω}
+    {X : Ω → selfAdjoint.submodule ℝ (Matrix (Fin p) (Fin p) ℝ)}
+    (hS : S.PosDef) (hn : (p : ℝ) - 1 < n) (hX : HasLaw X (inverseWishartMeasure n S) P) :
+    HasPDF X P (symmetricLebesgue p) ∧
+      pdf X P (symmetricLebesgue p) =ᵐ[symmetricLebesgue p] inverseWishartPDF n S :=
+  ⟨TauCeti.Probability.hasPDF_of_hasLaw_inverseWishartMeasure hX,
+    pdf_eq_inverseWishartPDF_of_hasLaw_inverseWishartMeasure hS hn hX⟩
+
+/-- The Radon-Nikodym derivative of the inverse-Wishart law against `symmetricLebesgue p`. -/
+theorem rnDeriv_inverseWishartMeasure (hS : S.PosDef) (hn : (p : ℝ) - 1 < n) :
+    (inverseWishartMeasure n S).rnDeriv (symmetricLebesgue p) =ᵐ[symmetricLebesgue p]
+      inverseWishartPDF n S :=
+  TauCeti.Probability.rnDeriv_inverseWishartMeasure hS hn
 
 /-- Zero in the same invalid-parameter cases as Wishart. -/
 example : (¬ S.PosDef → inverseWishartMeasure n S = 0) ∧
