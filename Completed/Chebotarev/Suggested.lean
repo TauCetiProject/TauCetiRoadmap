@@ -2,6 +2,7 @@ import Mathlib
 import TauCeti.Algebra.Group.Conj
 import TauCeti.Algebra.Group.ConjFinite
 import TauCeti.Algebra.Group.Subgroup.ZPowers
+import TauCeti.FieldTheory.Galois.FiberProduct
 import TauCeti.FieldTheory.Galois.FixedField
 import TauCeti.GroupTheory.Perm.FinThree.Character
 import TauCeti.NumberTheory.ArithmeticDirichletSeries.EulerProduct.Analytic
@@ -40,11 +41,14 @@ import TauCeti.NumberTheory.Chebotarev.PrimeCounting.SplitsCompletely
 import TauCeti.NumberTheory.Chebotarev.PrimeCounting.Tower
 import TauCeti.NumberTheory.Chebotarev.TaggedFixedField
 import TauCeti.NumberTheory.NumberField.Cyclotomic.FifthIntersection
+import TauCeti.NumberTheory.NumberField.Cyclotomic.Ramification
 import TauCeti.NumberTheory.NumberField.DedekindZeta
 import TauCeti.NumberTheory.NumberField.DirichletDensityBounds
+import TauCeti.NumberTheory.NumberField.Frobenius.DecompositionGroup
 import TauCeti.NumberTheory.NumberField.Frobenius.FixedField.Fiber
 import TauCeti.NumberTheory.NumberField.Frobenius.FixedField.Inertia
 import TauCeti.NumberTheory.NumberField.Frobenius.Tower
+import TauCeti.NumberTheory.NumberField.Ideal.IntegersRat
 import TauCeti.RingTheory.Polynomial.Cyclotomic.SqrtFive
 
 /-!
@@ -54,11 +58,12 @@ import TauCeti.RingTheory.Polynomial.Cyclotomic.SqrtFive
 The statements here suggest Lean forms for the milestones, so that contributors and reviewers
 converge on names and signatures; discharging all of them finishes neither a layer nor the roadmap.
 
-Every milestone of `README.md` has a statement here, in the form the roadmap asks for, closed by
-the Tau Ceti declaration that realizes it, so the correspondence is checked by the Lean kernel
-rather than asserted in prose. Every statement is proved. That is evidence for completion, not
-its criterion: completion is judged by a milestone-by-milestone audit against `README.md`, which a
-fully proved file of suggested forms cannot replace.
+The milestones of `README.md` have statements here, in the form the roadmap asks for, closed by
+the Tau Ceti declarations that realize them, so the correspondence is checked by the Lean kernel
+rather than asserted in prose; the requests not yet certified are listed at the end of this
+header. Every statement is proved. That is evidence for completion, not its criterion: completion
+is judged by a milestone-by-milestone audit against `README.md`, which a fully proved file of
+suggested forms cannot replace.
 
 The earlier version of this file imported the `Suggested.lean` files of Arithmetic Dirichlet
 Series, Global Number Fields and Number Field Arithmetic, and proposed its own `ConjClasses.pow`,
@@ -71,20 +76,23 @@ made about the Tau Ceti objects. The differences from the README's requested for
   `MonoidHom.galoisCharacterWeight χ`, a `MultiplicativeIdealWeight` defined for every finite
   Galois `L / K`, not only for cyclotomic ones. Its continued series keeps the README's name
   `cyclotomicCharacterSeriesC`.
-* `cyclotomicCrossing_linearDisjoint` does not exist. The isomorphism of 7.4 is
-  `IsCyclotomicExtension.galEquivProd : Gal(M/K) ≃* Gal(L/K) × (ZMod q)ˣ` for `M = L(μ_q)`, proved
-  by a degree count from `q` coprime to `disc L` (which the auxiliary prime gets from
-  `N = |disc L|`) rather than from 7.3 and linear disjointness. Its second factor is
-  `Gal(K(ζ_q)/K)` through Mathlib's `IsCyclotomicExtension.autEquivPow` once 7.2 gives
-  irreducibility; the intersection of 7.3 is proved separately.
+* `cyclotomicCrossing_linearDisjoint` is not a Tau Ceti declaration. Tau Ceti's isomorphism of 7.4
+  is `IsCyclotomicExtension.galEquivProd : Gal(M/K) ≃* Gal(L/K) × (ZMod q)ˣ` for `M = L(μ_q)`,
+  proved by a degree count from `q` coprime to `disc L` (which the auxiliary prime gets from
+  `N = |disc L|`) rather than from 7.3 and linear disjointness. Below, the restriction isomorphism
+  with second factor `Gal(K(ζ_q)/K)` and the linear disjointness of `L` and `K(ζ_q)` are derived
+  from it in that order, with the irreducibility of 7.2; the intersection of 7.3 is proved
+  separately.
 * Layer 4 factors the Artin map of `K(μ_m) / K` through the ray class group of the admissible
   modulus `(m) ∞` (`cyclotomicModulus`) rather than the exact conductor, and compares no conductors.
 * Two intermediate results are private in Tau Ceti: `ψ_K(x) ~ x` of 12.2 and the prime ideal
   theorem for `K` that is the natural-density denominator of Layer 14. Both are stated below and
-  closed by the same short compositions Tau Ceti uses. The per-auxiliary-prime lower bounds of
-  Layers 9 and 12.4 are also private; they are internal steps of
-  `hasDirichletDensity_abelianFrobenius` and `frobeniusPsi_asymptotic_of_mul_comm`, as the README
-  describes them.
+  closed by specializing the public counting theorems to the trivial extension `K / K`, as Tau
+  Ceti itself does for the second.
+* *Erratum.* 12.1 of the README says that deleting the ramified Euler factors leaves the residue
+  of `ζ_K` unchanged. It multiplies it by `∏_{𝔭 ramified} (1 - 𝔑𝔭⁻¹)`, so for `ℚ(ζ₅)/ℚ` the
+  residue `1` becomes `4/5`. The statement below carries the corrected residue, and the README
+  marks the correction.
 * The non-Galois corollary of Layer 10 is stated for an intermediate field `E` of a finite Galois
   `M / K`, with density `1 / [N : K]` for the normal closure `N` of `E` in `M`.
 * Some public declarations sit outside `NumberField.Chebotarev`
@@ -92,9 +100,26 @@ made about the Tau Ceti objects. The differences from the README's requested for
   `TauCeti.fixedField_zpowers_isCyclotomicExtension`), and the folders under
   `TauCeti/NumberTheory/Chebotarev/` differ from the README's suggestion.
 
+The following requests of the README are not certified here: the Tau Ceti declarations they need
+are private or absent at the pin.
+
+* The exact conductor of `K(μ_m) / K` (Layer 4); see above.
+* The one-sided forms of the logarithmic normalization and of finite insertion and deletion
+  (Layer 3). Tau Ceti has those transfers for exact densities only.
+* The ramification data of the `S₃` witness of 8.3: the inertia group, `e(Q/2) = 3` and
+  `e(𝔓/2) = 3`, computed inside the proof of the witness but not exported. (`e(Q/𝔓) = 1` is its
+  conclusion `P ∉ ramifiedPrimes E L`.)
+* The tagged fibre densities and the lower bound `c_q` of Layer 9, and the tagged weighted limits
+  and `liminf ψ_σ(x)/x ≥ c_q` of 12.4. They are private steps of
+  `hasDirichletDensity_abelianFrobenius` and `frobeniusPsi_asymptotic_of_mul_comm`.
+* The assembled boundary data `G = F - κ/(s-1)` of 12.1, built inside the proof of
+  `frobeniusPsi_asymptotic_of_isCyclotomicExtension`; its ingredients are stated below.
+* The powered fibre count of 12.3; the degree-five example motivating it is stated below.
+
 Zero-free regions, explicit formulae and effective Chebotarev bounds are outside this roadmap by its
-own text (they belong to Zeros of L-functions), so nothing here states an error term beyond the
-`o(x)` discard estimates of 11.3.
+own text (they belong to Zeros of L-functions), so every remainder here is qualitative: `o(x)` in
+the discard estimates of 11.3 and in the asymptotics and transfers of Layers 12 and 13, and
+`O(log x)` for a finite set of primes and for the partition of `ψ_K` into Frobenius fibres.
 -/
 
 namespace TauCetiRoadmap.Chebotarev
@@ -619,6 +644,73 @@ theorem ramifiedPrimes_subset_ramifiedPrimes_union_natCast_mem :
 
 end Compositum
 
+section Restriction
+
+variable {L M : Type*} [Field L] [NumberField L] [Field M] [NumberField M] [Algebra K L]
+  [Algebra K M] [Algebra L M] [IsScalarTower K L M] [IsGalois K L] {q : ℕ} [NeZero q]
+  [IsCyclotomicExtension {q} L M]
+
+/-- **7.4 The restriction isomorphism** `Gal(M/K) ≃ Gal(L/K) × Gal(K(ζ_q)/K)`: restriction to `L`
+and to `K(ζ_q)` is jointly bijective, for `q` unramified in `K` and coprime to `disc L`. -/
+theorem bijective_restrictNormalHom_prod_restrictNormalHom (hq : q.Prime)
+    (hcop : ((NumberField.discr L).natAbs).Coprime q) {ζ : M} (hζ : IsPrimitiveRoot ζ q)
+    (hur : ∀ (𝔮 : Ideal (𝓞 K)) [𝔮.IsPrime] [𝔮.LiesOver (Ideal.span {(q : ℤ)})],
+      Algebra.IsUnramifiedAt ℤ 𝔮) :
+    haveI := (hζ.intermediateField_adjoin_isCyclotomicExtension K).isGalois
+    Function.Bijective ((AlgEquiv.restrictNormalHom (F := K) (K₁ := M) L).prod
+      (AlgEquiv.restrictNormalHom (F := K) (K₁ := M) K⟮ζ⟯)) := by
+  have := hζ.intermediateField_adjoin_isCyclotomicExtension K
+  have := (hζ.intermediateField_adjoin_isCyclotomicExtension K).isGalois
+  have hinj : Function.Injective ((AlgEquiv.restrictNormalHom (F := K) (K₁ := M) L).prod
+      (AlgEquiv.restrictNormalHom (F := K) (K₁ := M) K⟮ζ⟯)) := by
+    rw [injective_iff_map_eq_one]
+    intro σ hσ
+    rw [MonoidHom.prod_apply, Prod.mk_eq_one] at hσ
+    apply (IsCyclotomicExtension.galEquivProd K L M q hcop hζ).injective
+    rw [map_one, IsCyclotomicExtension.galEquivProd_apply, Prod.mk_eq_one]
+    refine ⟨hσ.1, (hζ.autToPow_eq_one_iff σ).mpr ?_⟩
+    have h := AlgEquiv.restrictNormal_commutes σ K⟮ζ⟯ ⟨ζ, mem_adjoin_simple_self K ζ⟩
+    have h1 : σ.restrictNormal K⟮ζ⟯ = 1 := hσ.2
+    rw [h1] at h
+    exact h.symm
+  refine (Nat.bijective_iff_injective_and_card _).mpr ⟨hinj, ?_⟩
+  rw [Nat.card_prod, Nat.card_congr (IsCyclotomicExtension.galEquivProd K L M q hcop hζ).toEquiv,
+    Nat.card_prod, IsGalois.card_aut_eq_finrank K K⟮ζ⟯,
+    IsCyclotomicExtension.finrank K⟮ζ⟯ (irreducible_cyclotomic_of_unramified q hq hur),
+    Nat.card_eq_fintype_card (α := (ZMod q)ˣ), ZMod.card_units_eq_totient]
+
+/-- The restriction isomorphism, packaged. -/
+noncomputable example (hq : q.Prime) (hcop : ((NumberField.discr L).natAbs).Coprime q) {ζ : M}
+    (hζ : IsPrimitiveRoot ζ q)
+    (hur : ∀ (𝔮 : Ideal (𝓞 K)) [𝔮.IsPrime] [𝔮.LiesOver (Ideal.span {(q : ℤ)})],
+      Algebra.IsUnramifiedAt ℤ 𝔮) :
+    haveI := (hζ.intermediateField_adjoin_isCyclotomicExtension K).isGalois
+    (M ≃ₐ[K] M) ≃* (L ≃ₐ[K] L) × (K⟮ζ⟯ ≃ₐ[K] K⟮ζ⟯) :=
+  MulEquiv.ofBijective _ (bijective_restrictNormalHom_prod_restrictNormalHom hq hcop hζ hur)
+
+/-- **`cyclotomicCrossing_linearDisjoint`**: `L` and `K(ζ_q)` are linearly disjoint over `K`
+inside `M`. -/
+theorem cyclotomicCrossing_linearDisjoint (hq : q.Prime)
+    (hcop : ((NumberField.discr L).natAbs).Coprime q) {ζ : M} (hζ : IsPrimitiveRoot ζ q)
+    (hur : ∀ (𝔮 : Ideal (𝓞 K)) [𝔮.IsPrime] [𝔮.LiesOver (Ideal.span {(q : ℤ)})],
+      Algebra.IsUnramifiedAt ℤ 𝔮) :
+    (IsScalarTower.toAlgHom K L M).fieldRange.LinearDisjoint K⟮ζ⟯ := by
+  have := (hζ.intermediateField_adjoin_isCyclotomicExtension K).isGalois
+  have : IsGalois K M :=
+    IsCyclotomicExtension.isGalois_of_isGalois_of_isCyclotomicExtension K L M q
+  have : IsGalois K (IsScalarTower.toAlgHom K L M).fieldRange :=
+    IsGalois.of_algEquiv (AlgEquiv.ofInjectiveField (IsScalarTower.toAlgHom K L M))
+  have hinf := (AlgEquiv.restrictNormalHom_prod_restrictNormalHom_surjective_iff
+    (F := K) (E := M) (K₁ := L) (K₂ := K⟮ζ⟯)).mp
+      (bijective_restrictNormalHom_prod_restrictNormalHom hq hcop hζ hur).2
+  have hval : (IsScalarTower.toAlgHom K K⟮ζ⟯ M).fieldRange = K⟮ζ⟯ := by
+    ext x
+    exact ⟨fun ⟨y, hy⟩ ↦ hy ▸ y.2, fun hx ↦ ⟨⟨x, hx⟩, rfl⟩⟩
+  rw [hval] at hinf
+  exact LinearDisjoint.of_inf_eq_bot hinf
+
+end Restriction
+
 /-- **7.5** `Z ⊓ (G × 1) = 1` exactly when `orderOf σ ∣ orderOf τ`. -/
 theorem zpowers_inf_top_prod_bot_eq_bot_of_orderOf_dvd {G H : Type*} [Group G] [Group H]
     (σ : G) (τ : H) (hστ : orderOf σ ∣ orderOf τ) :
@@ -732,6 +824,44 @@ theorem exists_isArithFrobAt_restrictScalars_eq_frobeniusThreeSeven_sq
         orderOf τ = 3 :=
   exists_isArithFrobAt_and_restrictScalars_eq_frobeniusThreeSeven_sq_and_orderOf_eq_three 𝔭 h𝔭 Q
 
+/-- The quadratic subfield is `M = ℚ(√-7)`, generated by a Gaussian period squaring to `-7`. -/
+theorem seventhCyclotomicQuadraticSubfield_eq_adjoin_sqrt_neg_seven :
+    seventhCyclotomicQuadraticSubfield (L := L) =
+        ℚ⟮seventhCyclotomicSqrtNegSeven (L := L)⟯ ∧
+      seventhCyclotomicSqrtNegSeven (L := L) ^ 2 = -7 :=
+  ⟨seventhCyclotomicQuadraticSubfield_eq_adjoin_sqrtNegSeven, seventhCyclotomicSqrtNegSeven_sq⟩
+
+/-- `σ_3 ^ 2 = σ_2 : ζ₇ ↦ ζ₇ ^ 2`. -/
+theorem frobeniusThreeSeven_sq_apply_zeta :
+    (frobeniusThreeSeven (L := L) ^ 2) (IsCyclotomicExtension.zeta 7 ℚ L) =
+      IsCyclotomicExtension.zeta 7 ℚ L ^ 2 := by
+  rw [← (IsCyclotomicExtension.zeta_spec 7 ℚ L).autToPow_spec ℚ (frobeniusThreeSeven ^ 2),
+    autToPow_frobeniusThreeSeven_sq]
+  rfl
+
+open TauCeti.NumberField.Chebotarev in
+/-- `f(Q/𝔭₃) = 3`, the order of the relative Frobenius `σ_2`. -/
+theorem inertiaDeg_seventhCyclotomicQuadraticSubfield_eq_three
+    (𝔭 : HeightOneSpectrum (𝓞 ℚ)) (h𝔭 : Ideal.absNorm 𝔭.asIdeal = 3)
+    (Q : Ideal (𝓞 L)) [Q.IsPrime] [Q.LiesOver 𝔭.asIdeal] :
+    Q.inertiaDeg (𝓞 (seventhCyclotomicQuadraticSubfield (L := L))) = 3 := by
+  have : IsGalois ℚ L := IsCyclotomicExtension.isGalois {7} ℚ L
+  have : IsGalois (seventhCyclotomicQuadraticSubfield (L := L)) L := by
+    rw [seventhCyclotomicQuadraticSubfield_def]
+    exact IsGalois.of_fixed_field L (Subgroup.zpowers (frobeniusThreeSeven (L := L) ^ 2))
+  have h7 : (7 : 𝓞 ℚ) ∉ 𝔭.asIdeal := fun h ↦ by
+    have hdvd := (Rat.HeightOneSpectrum.natCast_mem_iff_absNorm_asIdeal_dvd 𝔭).mp h
+    rw [h𝔭] at hdvd
+    norm_num at hdvd
+  have : Algebra.IsUnramifiedAt (𝓞 ℚ) Q :=
+    IsCyclotomicExtension.isUnramifiedAt_of_natCast_notMem L 7 h7 Q
+  have : Algebra.IsUnramifiedAt (𝓞 (seventhCyclotomicQuadraticSubfield (L := L))) Q :=
+    Algebra.IsUnramifiedAt.of_restrictScalars (𝓞 ℚ) Q
+  obtain ⟨τ, hτ, -, hord⟩ :=
+    exists_isArithFrobAt_and_restrictScalars_eq_frobeniusThreeSeven_sq_and_orderOf_eq_three 𝔭 h𝔭 Q
+  rw [← Ideal.orderOf_eq_inertiaDeg_of_isArithFrobAt Q
+    (Ideal.ne_bot_of_liesOver_of_ne_bot 𝔭.ne_bot Q) hτ, hord]
+
 end Seventh
 
 variable {K L : Type*} [Field K] [NumberField K] [Field L] [NumberField L] [Algebra K L]
@@ -795,6 +925,43 @@ theorem fixedField_frobenius_fiber_card_of_generator (σ : L ≃ₐ[K] L)
         P ∈ frobeniusPrimeSet ↥(fixedField (Subgroup.zpowers σ)) L
           (ConjClasses.mk σ.toFixedFieldAlgEquiv)} = 1 :=
   NumberField.Chebotarev.fixedField_frobenius_fiber_card_of_generator σ hσ p hp
+
+/-- **The cyclic-generator test, second half**: over the same prime the relative identity fibre
+is empty, since the relative class is `σ`, not the identity. -/
+theorem fixedField_frobenius_fiber_one_eq_empty_of_generator (σ : L ≃ₐ[K] L)
+    (hσ : Subgroup.zpowers σ = ⊤) (hσ1 : σ ≠ 1) (p : HeightOneSpectrum (𝓞 K))
+    (hp : p ∈ frobeniusPrimeSet K L (ConjClasses.mk σ)) :
+    {P : HeightOneSpectrum (𝓞 ↥(fixedField (Subgroup.zpowers σ))) |
+      P.under (𝓞 K) = p ∧ P ∈ frobeniusPrimeSet ↥(fixedField (Subgroup.zpowers σ)) L 1} = ∅ := by
+  refine Set.eq_empty_iff_forall_notMem.mpr fun P ⟨hPp, hP⟩ ↦ ?_
+  rw [ConjClasses.one_eq_mk_one] at hP
+  obtain ⟨hur, -⟩ := mem_frobeniusPrimeSet_iff.mp hp
+  obtain ⟨Q, hQ1⟩ := exists_isArithFrobAt_of_mem_frobeniusPrimeSet_mk hP
+  have : Q.1.IsPrime := Q.2.1
+  have hQK : Q.1.under (𝓞 K) = p.asIdeal := by
+    rw [← Ideal.under_under (B := 𝓞 ↥(fixedField (Subgroup.zpowers σ))) Q.1,
+      ← Q.2.2.over, ← HeightOneSpectrum.under_asIdeal, hPp]
+  have : Q.1.LiesOver p.asIdeal := ⟨hQK.symm⟩
+  have hQ0 : Q.1 ≠ ⊥ := Ideal.ne_bot_of_liesOver_of_ne_bot p.ne_bot Q.1
+  have : Algebra.IsUnramifiedAt (𝓞 K) Q.1 := hur Q.1
+  have : Algebra.IsUnramifiedAt (𝓞 ↥(fixedField (Subgroup.zpowers σ))) Q.1 :=
+    Algebra.IsUnramifiedAt.of_restrictScalars (𝓞 K) Q.1
+  -- An absolute Frobenius `φ` at `Q` lies in `⟨σ⟩ = G`, so `f(𝔓/𝔭) = 1` and `φ` is itself the
+  -- relative Frobenius at `Q`, which is `1`; but `φ` is conjugate to `σ ≠ 1`.
+  obtain ⟨φ, hφ⟩ := NumberField.exists_isArithFrobAt (K := K) Q.1 hQ0
+  have hdeg : (Q.1.under (𝓞 ↥(fixedField (Subgroup.zpowers σ)))).inertiaDeg (𝓞 K) = 1 :=
+    (Ideal.inertiaDeg_under_fixedField_eq_one_iff Q.1 hQ0 _ hφ).mpr (hσ ▸ Subgroup.mem_top φ)
+  obtain ⟨τ, hτ, hτφ⟩ := NumberField.exists_isArithFrobAt_pow_inertiaDeg
+    (fixedField (Subgroup.zpowers σ)) Q.1 _ p.asIdeal rfl hQK hur φ hφ
+  have hφ1 : φ = 1 := by
+    rw [hdeg, pow_one, NumberField.isArithFrobAt_eq_of_isUnramifiedAt hτ hQ1] at hτφ
+    rw [← hτφ]
+    rfl
+  have hne : ConjClasses.mk (1 : L ≃ₐ[K] L) ≠ ConjClasses.mk σ := by
+    rw [Ne, ConjClasses.mk_eq_mk_iff_isConj, isConj_one_right]
+    exact hσ1
+  exact Set.disjoint_left.mp (disjoint_frobeniusPrimeSet hne)
+    (mem_frobeniusPrimeSet_mk_of_isArithFrobAt hur Q.1 (hφ1 ▸ hφ)) hp
 
 /-- Above a split-completely prime the fibre of `σ ≠ 1` is empty. -/
 theorem fixedField_frobenius_fiber_eq_empty_of_mem_frobeniusPrimeSet_one
@@ -1113,36 +1280,23 @@ theorem frobeniusPsi_asymptotic_of_isCyclotomicExtension (m : ℕ) [NeZero m]
   NumberField.Chebotarev.frobeniusPsi_asymptotic_of_isCyclotomicExtension K L m σ
 
 omit [NumberField L] [IsGalois K L] in
-/-- **`ψ_K(x) / x → 1`**, by summing 12.2 over `Gal(K(μ₃)/K)` and restoring the ramified primes,
-as the private `TauCeti.NumberField.Chebotarev.primePsi_univ_asymptotic` does. -/
+open scoped Classical in
+/-- **`ψ_K(x) / x → 1`**. Tau Ceti proves it by summing 12.2 over `Gal(K(μ₃)/K)`, in the private
+`TauCeti.NumberField.Chebotarev.primePsi_univ_asymptotic`; here it is the counting theorem for the
+trivial extension `K / K`, whose single fibre accounts for `ψ_K` up to `O(log x)`. -/
 theorem tendsto_primePsi_univ :
     Tendsto (fun x : ℝ ↦ primePsi K Set.univ x / x) atTop (𝓝 1) := by
-  classical
-  let F := CyclotomicField 3 K
-  have := IsCyclotomicExtension.isGalois {3} K F
-  have := IsCyclotomicExtension.isMulCommutative {3} K F
-  have hsum := Asymptotics.IsLittleO.sum (s := Finset.univ)
-    (fun (ρ : F ≃ₐ[K] F) _ ↦
-      NumberField.Chebotarev.frobeniusPsi_asymptotic_of_isCyclotomicExtension K F 3 ρ)
-  have hmk : Function.Bijective
-      (ConjClasses.mk : (F ≃ₐ[K] F) → ConjClasses (F ≃ₐ[K] F)) :=
-    open scoped IsMulCommutative in ConjClasses.mk_bijective
-  have hclass (x : ℝ) : ∑ ρ : F ≃ₐ[K] F, frobeniusPsi K F (ConjClasses.mk ρ) x =
-      ∑ C : ConjClasses (F ≃ₐ[K] F), frobeniusPsi K F C x :=
-    Fintype.sum_bijective _ hmk _ _ fun _ ↦ rfl
-  have hlo : (fun x : ℝ ↦ primePsi K Set.univ x - x) =o[atTop] fun x : ℝ ↦ x := by
-    refine (hsum.add ((NumberField.Chebotarev.primePsi_univ_sub_sum_frobeniusPsi_isBigO_log
-      K F).trans_isLittleO Real.isLittleO_log_id_atTop)).congr_left fun x ↦ ?_
-    simp only [Finset.sum_apply, Finset.sum_sub_distrib, Finset.sum_const, Finset.card_univ,
-      nsmul_eq_mul, ← Nat.card_eq_fintype_card]
-    rw [hclass, ← mul_assoc, mul_one_div_cancel (Nat.cast_ne_zero.mpr Nat.card_pos.ne')]
-    ring
-  have h1 : Tendsto (fun x : ℝ ↦ (primePsi K Set.univ x - x) / x + 1) atTop (𝓝 (0 + 1)) :=
-    hlo.tendsto_div_nhds_zero.add_const 1
-  rw [zero_add] at h1
-  refine h1.congr' ?_
-  filter_upwards [eventually_gt_atTop 0] with x hx
-  rw [sub_div, div_self hx.ne', sub_add_cancel]
+  have h1 := NumberField.Chebotarev.tendsto_frobeniusPsi K K 1
+  rw [ConjClasses.one_eq_mk_one, TauCeti.ConjClasses.card_carrier_mk_one, Nat.card_unique,
+    Nat.cast_one, div_one] at h1
+  have h2 := (NumberField.Chebotarev.primePsi_univ_sub_sum_frobeniusPsi_isBigO_log K K
+    |>.trans_isLittleO Real.isLittleO_log_id_atTop).tendsto_div_nhds_zero
+  have hsum (x : ℝ) : ∑ C : ConjClasses (K ≃ₐ[K] K), frobeniusPsi K K C x =
+      frobeniusPsi K K (ConjClasses.mk 1) x := by
+    refine Fintype.sum_eq_single (ConjClasses.mk 1) fun C hC ↦ (hC ?_).elim
+    obtain ⟨g, rfl⟩ := ConjClasses.mk_surjective C
+    rw [Subsingleton.elim g 1]
+  simpa only [hsum, id, sub_div, sub_add_cancel, zero_add] using h2.add h1
 
 /-- **12.3 The exact residue-degree-one contraction**, with no error term. -/
 theorem primeTheta_fixedField_eq_mul_frobeniusTheta (C : ConjClasses (L ≃ₐ[K] L))
@@ -1165,6 +1319,38 @@ theorem frobeniusPsi_fixedField_sub_mul_frobeniusPsi_isLittleO (C : ConjClasses 
         ((Nat.card (L ≃ₐ[K] L) / (Nat.card C.carrier * orderOf σ) : ℕ) : ℝ) *
           frobeniusPsi K L C x) =o[atTop] fun x : ℝ ↦ x :=
   NumberField.Chebotarev.frobeniusPsi_fixedField_sub_mul_frobeniusPsi_isLittleO C σ hσ
+
+/-- **The degree-five example of 12.3**: in a cyclic extension of degree five with `G = ⟨g⟩`, a
+prime with Frobenius `g³` is outside the fibre of `g`, but its square term is counted by `Λ_g`,
+because `(g³)² = g`. -/
+theorem frobeniusVonMangoldtWeight_sq_of_mem_frobeniusPrimeSet_pow_three {g : L ≃ₐ[K] L}
+    (hg : Subgroup.zpowers g = ⊤) (h5 : Nat.card (L ≃ₐ[K] L) = 5)
+    {𝔭 : HeightOneSpectrum (𝓞 K)} (h𝔭 : 𝔭 ∈ frobeniusPrimeSet K L (ConjClasses.mk (g ^ 3))) :
+    𝔭 ∉ frobeniusPrimeSet K L (ConjClasses.mk g) ∧
+      frobeniusVonMangoldtWeight K L (ConjClasses.mk g)
+          (𝔭.idealPrimePowerOf 1 : (Ideal (𝓞 K))⁰) =
+        Real.log (Ideal.absNorm 𝔭.asIdeal) := by
+  have hord : orderOf g = 5 := by rw [orderOf_eq_card_of_zpowers_eq_top hg, h5]
+  refine ⟨fun h ↦ ?_, ?_⟩
+  · have hne : ConjClasses.mk (g ^ 3) ≠ ConjClasses.mk g := by
+      have : IsCyclic (L ≃ₐ[K] L) := isCyclic_iff_exists_zpowers_eq_top.mpr ⟨g, hg⟩
+      rw [Ne, ConjClasses.mk_eq_mk_iff_isConj, isConj_iff]
+      rintro ⟨c, hc⟩
+      rw [IsCyclic.commGroup.mul_comm c, mul_inv_cancel_right, pow_succ] at hc
+      have h2 : g ^ 2 = 1 := by simpa using hc
+      have := orderOf_dvd_of_pow_eq_one h2
+      rw [hord] at this
+      norm_num at this
+    exact Set.disjoint_left.mp (disjoint_frobeniusPrimeSet hne) h𝔭 h
+  · obtain ⟨hur, hart⟩ := mem_frobeniusPrimeSet_iff.mp h𝔭
+    have hmem : 𝔭.idealPrimePowerOf 1 ∈ frobeniusPrimePowerSet K L (ConjClasses.mk g) := by
+      rw [mem_frobeniusPrimePowerSet_iff, HeightOneSpectrum.primePowerBase_idealPrimePowerOf]
+      refine ⟨hur, ?_⟩
+      rw [hart, HeightOneSpectrum.primePowerExponent_idealPrimePowerOf, ConjClasses.mk_pow,
+        ← pow_mul, show 3 * (1 + 1) = 5 + 1 by rfl, pow_succ, ← hord, pow_orderOf_eq_one, one_mul]
+    rw [NumberField.Chebotarev.frobeniusVonMangoldtWeight_idealPrimePower,
+      frobeniusPrimePowerWeight_of_mem hmem, primePowerWeight,
+      HeightOneSpectrum.primePowerBase_idealPrimePowerOf]
 
 /-- **12.4 The weighted crossing.** The prime-power terms of distinct classes above `C` are counted
 by `ψ_C` disjointly. -/
