@@ -380,6 +380,12 @@ must exhibit the isometries rather than relying on those identifications as folk
   image of `C^⊥`, bilinear isotropy is equivalent to
   `C ≤ C^⊥`, quadratic isotropy for even `m` is equivalent to `q_m|_C=0`, and the preimage lattice
   `L₀.ofIsotropicSubgroup` is isometric to `P_m(C)`.
+  Erratum, corrected at archiving: `ofIsotropicSubgroup` glues an even lattice along a
+  quadratic-isotropic subgroup and always produces an even lattice, so this comparison needs `m`
+  even and `q_m|_C=0`.  Bilinear isotropy alone does not suffice: for `m=2` the self-dual code
+  `{00,11}` gives an odd `P_2(C)`, since `B_2(11,11)=1`.  For any `m` and `C ≤ C^⊥`, the
+  general comparison is that the integral lattice on the inverse-image intermediate carrier of
+  `L₀` is `P_m(C)`.
 - Consume the general gluing theorem to obtain, for isotropic `C`, the natural isometry
   `A_{P_m(C)} ≅ C^⊥/C`, first as an isometry of finite bilinear modules and, when `m` is even
   and `q_m|_C=0`, as an isometry of finite quadratic modules.  Its underlying quotient must be the

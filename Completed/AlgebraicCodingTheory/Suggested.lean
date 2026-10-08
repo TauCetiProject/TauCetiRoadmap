@@ -79,8 +79,15 @@ follows.
   involutive forms are the `_of_involutive` specializations. The binary MacWilliams invariance
   `W_C(X + Y, X - Y) = 2^(n/2) W_C` needs only self-duality and `W_C(X, iY) = W_C` only double
   evenness, both weaker than the README's Type II hypothesis.
-* The `A₂` alphabet is `IntegralLattice.typeAStandardQuadraticModule 2`, whose quadratic value
-  Tau Ceti states as `[a ≠ 0]/3`; the README's `a²/3` is derived below.
+* The `A₂` alphabet is `IntegralLattice.typeAStandardQuadraticModule 2`; the README's `a²/3` is
+  the specialization of Tau Ceti's value `k²n/(2(n + 1))` on the reduction of an integer `k`.
+* Minimum distance, puncturing, shortening and direct sums are stated for additive codes over any
+  abelian alphabet as well as for linear codes, as the README asks.
+* Erratum, corrected at archiving (README, Layer 7): the comparison of `L₀.ofIsotropicSubgroup`
+  with `P_m(C)` needs `m` even and `q_m|_C = 0`, since `ofIsotropicSubgroup` produces an even
+  lattice and `{00, 11}` for `m = 2` gives an odd `P_2(C)`. For any `m` and self-orthogonal `C`
+  the general comparison identifies the integral lattice on the inverse-image carrier with
+  `P_m(C)`; both forms are stated below.
 * The Layer 1 acceptance test is stated for every code, information set and coordinate
   equivalence, with the two-coordinate code `[1 | a]` under exchange of coordinates as a worked
   instance.
@@ -327,6 +334,81 @@ theorem map_directSum_sumAssoc {ν : Type*} (C : LinearCode F ι) (D : LinearCod
       C.directSum (D.directSum E) :=
   Submodule.map_directSum_sumAssoc C D E
 
+/-! **The operations for additive codes.** Puncturing, shortening and direct sums are defined for
+an additive code over any abelian alphabet, such as `ZMod 4`, with the same retained-set
+convention, repeated-operation identities, naturality and direct-sum structure. -/
+namespace AdditiveCode
+
+variable {A : Type*} [AddCommGroup A]
+
+theorem mem_puncture {C : TauCeti.AdditiveCode A ι} {s : Set ι} {y : s → A} :
+    y ∈ TauCeti.AdditiveCode.puncture C s ↔ ∃ x ∈ C, ∀ j : s, x j = y j :=
+  TauCeti.AdditiveCode.mem_puncture
+
+theorem mem_shorten {C : TauCeti.AdditiveCode A ι} {s : Set ι} {y : s → A} :
+    y ∈ TauCeti.AdditiveCode.shorten C s ↔ ∃ x ∈ C, (∀ i ∉ s, x i = 0) ∧ ∀ j : s, x j = y j :=
+  TauCeti.AdditiveCode.mem_shorten
+
+theorem puncture_puncture (C : TauCeti.AdditiveCode A ι) (s : Set ι) (t : Set s) :
+    (TauCeti.AdditiveCode.puncture (TauCeti.AdditiveCode.puncture C s) t).map
+        (AddMonoidHom.ofClass
+          (AddEquiv.arrowCongr (Equiv.subtypeSubtypeEquivSubtypeExists (· ∈ s) (· ∈ t))
+            (AddEquiv.refl A))) =
+      TauCeti.AdditiveCode.puncture C {i | ∃ hi : i ∈ s, (⟨i, hi⟩ : s) ∈ t} :=
+  TauCeti.AdditiveCode.puncture_puncture C s t
+
+theorem shorten_shorten (C : TauCeti.AdditiveCode A ι) (s : Set ι) (t : Set s) :
+    (TauCeti.AdditiveCode.shorten (TauCeti.AdditiveCode.shorten C s) t).map
+        (AddMonoidHom.ofClass
+          (AddEquiv.arrowCongr (Equiv.subtypeSubtypeEquivSubtypeExists (· ∈ s) (· ∈ t))
+            (AddEquiv.refl A))) =
+      TauCeti.AdditiveCode.shorten C {i | ∃ hi : i ∈ s, (⟨i, hi⟩ : s) ∈ t} :=
+  TauCeti.AdditiveCode.shorten_shorten C s t
+
+theorem puncture_map_arrowCongr (C : TauCeti.AdditiveCode A ι) (e : κ ≃ ι) (s : Set ι) :
+    TauCeti.AdditiveCode.puncture
+        (C.map (AddMonoidHom.ofClass (AddEquiv.arrowCongr e.symm (AddEquiv.refl A)))) (e ⁻¹' s) =
+      (TauCeti.AdditiveCode.puncture C s).map
+        (AddMonoidHom.ofClass (AddEquiv.arrowCongr (e.subtypeEquiv fun _ ↦ Iff.rfl).symm
+          (AddEquiv.refl A))) :=
+  TauCeti.AdditiveCode.puncture_map_arrowCongr C e s
+
+theorem shorten_map_arrowCongr (C : TauCeti.AdditiveCode A ι) (e : κ ≃ ι) (s : Set ι) :
+    TauCeti.AdditiveCode.shorten
+        (C.map (AddMonoidHom.ofClass (AddEquiv.arrowCongr e.symm (AddEquiv.refl A)))) (e ⁻¹' s) =
+      (TauCeti.AdditiveCode.shorten C s).map
+        (AddMonoidHom.ofClass (AddEquiv.arrowCongr (e.subtypeEquiv fun _ ↦ Iff.rfl).symm
+          (AddEquiv.refl A))) :=
+  TauCeti.AdditiveCode.shorten_map_arrowCongr C e s
+
+theorem mem_directSum_iff {C : TauCeti.AdditiveCode A ι} {D : TauCeti.AdditiveCode A κ}
+    {x : ι ⊕ κ → A} :
+    x ∈ C.directSum D ↔ (fun i ↦ x (.inl i)) ∈ C ∧ (fun j ↦ x (.inr j)) ∈ D :=
+  AddSubgroup.mem_directSum_iff
+
+theorem natCard_directSum (C : TauCeti.AdditiveCode A ι) (D : TauCeti.AdditiveCode A κ) :
+    Nat.card (C.directSum D) = Nat.card C * Nat.card D :=
+  AddSubgroup.natCard_directSum C D
+
+theorem hammingNorm_directSumEquivProd_symm [DecidableEq A] [Fintype ι] [Fintype κ]
+    (C : TauCeti.AdditiveCode A ι) (D : TauCeti.AdditiveCode A κ) (x : C) (y : D) :
+    hammingNorm ((C.directSumEquivProd D).symm (x, y) : ι ⊕ κ → A) =
+      hammingNorm x.1 + hammingNorm y.1 :=
+  AddSubgroup.hammingNorm_directSumEquivProd_symm C D x y
+
+theorem isPermutationEquivalent_directSum_comm (C : TauCeti.AdditiveCode A ι)
+    (D : TauCeti.AdditiveCode A κ) :
+    TauCeti.AdditiveCode.IsPermutationEquivalent (C.directSum D) (D.directSum C) :=
+  TauCeti.AdditiveCode.isPermutationEquivalent_directSum_comm C D
+
+theorem isPermutationEquivalent_directSum_assoc {ν : Type*} (C : TauCeti.AdditiveCode A ι)
+    (D : TauCeti.AdditiveCode A κ) (E : TauCeti.AdditiveCode A ν) :
+    TauCeti.AdditiveCode.IsPermutationEquivalent ((C.directSum D).directSum E)
+      (C.directSum (D.directSum E)) :=
+  TauCeti.AdditiveCode.isPermutationEquivalent_directSum_assoc C D E
+
+end AdditiveCode
+
 /-- **Monomial and semilinear word equivalences.** The coordinate formula pins the direction:
 coordinate `i` is scaled by `u i` and moved to `e i`, after applying `σ` in the semilinear case. -/
 theorem monomialEquiv_apply (u : ι → Fˣ) (e : ι ≃ κ) (x : ι → F) (j : κ) :
@@ -572,6 +654,38 @@ theorem hammingMinDist_directSum_bot [Fintype ι] [Fintype κ] [DecidableEq F]
       (C : Set (ι → F)).hammingMinDist :=
   TauCeti.hammingMinDist_directSum_bot C
 
+/-! **The bounds for additive codes**, over any abelian alphabet such as `ZMod 4`: the
+deleted-coordinate bound for puncturing, the shortening bound for a nonzero shortened code, and
+the direct-sum formulae. -/
+namespace AdditiveCode
+
+variable {A : Type*} [AddCommGroup A] [DecidableEq A]
+
+theorem hammingMinDist_le_hammingMinDist_puncture_add_card_compl [Fintype ι]
+    (C : TauCeti.AdditiveCode A ι) (s : Set ι) [DecidablePred (· ∈ s)] :
+    (C : Set (ι → A)).hammingMinDist ≤
+      (TauCeti.AdditiveCode.puncture C s : Set (s → A)).hammingMinDist + Fintype.card ↥sᶜ :=
+  TauCeti.AdditiveCode.hammingMinDist_le_hammingMinDist_puncture_add_card_compl C s
+
+theorem hammingMinDist_le_hammingMinDist_shorten [Fintype ι] (C : TauCeti.AdditiveCode A ι)
+    (s : Set ι) [DecidablePred (· ∈ s)] (hS : TauCeti.AdditiveCode.shorten C s ≠ ⊥) :
+    (C : Set (ι → A)).hammingMinDist ≤
+      (TauCeti.AdditiveCode.shorten C s : Set (s → A)).hammingMinDist :=
+  TauCeti.AdditiveCode.hammingMinDist_le_hammingMinDist_shorten C s hS
+
+theorem hammingMinDist_directSum [Fintype ι] [Fintype κ] (C : TauCeti.AdditiveCode A ι)
+    (D : TauCeti.AdditiveCode A κ) (hC : C ≠ ⊥) (hD : D ≠ ⊥) :
+    (C.directSum D : Set (ι ⊕ κ → A)).hammingMinDist =
+      min (C : Set (ι → A)).hammingMinDist (D : Set (κ → A)).hammingMinDist :=
+  AddSubgroup.hammingMinDist_directSum C D hC hD
+
+theorem hammingMinDist_directSum_bot [Fintype ι] [Fintype κ] (C : TauCeti.AdditiveCode A ι) :
+    (C.directSum (⊥ : TauCeti.AdditiveCode A κ) : Set (ι ⊕ κ → A)).hammingMinDist =
+      (C : Set (ι → A)).hammingMinDist :=
+  AddSubgroup.hammingMinDist_directSum_bot C
+
+end AdditiveCode
+
 /-- **Acceptance (Layer 2).** The binary repetition code `{00, 11}` has minimum distance two.
 Retaining only its first coordinate leaves the zero code, of minimum distance zero, so the
 shortening bound fails without `shorten C s ≠ ⊥`; and `{00, 11} ⊕ 0` has minimum distance two, not
@@ -709,10 +823,9 @@ theorem range_vecMulLinear_eq_iff_ker_map_eq_galoisDual [Fintype ι] (σ : F ≃
 /-- Frobenius `x ↦ x²` is an involution of a four-element field, and its Hermitian dual of a row
 space is the kernel of the entrywise-squared generator. -/
 theorem frobeniusEquiv_involutive {K : Type*} [Field K] [Fintype K] [CharP K 2]
-    (hK : Fintype.card K = 4) : Function.Involutive (frobeniusEquiv K 2) := fun x ↦ by
-  simp only [frobeniusEquiv_apply, frobenius_def, ← pow_mul]
-  rw [show 2 * 2 = Fintype.card K from hK.symm]
-  exact FiniteField.pow_card x
+    (hK : Fintype.card K = 4) : Function.Involutive (frobeniusEquiv K 2) :=
+  have : Fact (Nat.Prime 2) := ⟨Nat.prime_two⟩
+  TauCeti.FiniteField.frobeniusEquiv_involutive (by rw [Nat.card_eq_fintype_card, hK]; norm_num)
 
 theorem galoisDual_range_vecMulLinear_frobeniusEquiv [Fintype ι] {K : Type*} [Field K]
     [Finite K] [CharP K 2] (hK : Nat.card K = 2 ^ 2) [Fintype ρ] (G : Matrix ρ ι K) :
@@ -1480,8 +1593,20 @@ theorem isIsotropic_codeInZeroLatticeDiscriminantQuadraticModule_iff (hm : Even 
         0 :=
   ConstructionA.isIsotropic_codeInZeroLatticeDiscriminantQuadraticModule_iff m ι hm C
 
-/-- The preimage lattice `L₀.ofIsotropicSubgroup` is `P_m(C)` itself, which is stronger than an
-isometry. -/
+/-- **The preimage lattice is `P_m(C)`.** For any `m` and any self-orthogonal `C`, the inverse-image
+intermediate carrier of `L₀` is integral and its integral lattice is `P_m(C)` itself. This is the
+general bilinear comparison; `P_m(C)` need not be even (`{00, 11}` for `m = 2` gives an odd
+lattice). -/
+theorem toIntegralLattice_codeInZeroLatticeDiscriminantGroup_eq_integralLattice
+    (C : AdditiveCode (ZMod m) ι)
+    (hC : AddSubgroup.toZModSubmodule m C ≤ (AddSubgroup.toZModSubmodule m C).euclideanDual) :
+    ((zeroLattice m ι).isIntegral_intermediateCarrierOfDiscriminantSubgroup_iff _ |>.mpr
+        (isIsotropic_codeInZeroLatticeDiscriminantGroup m ι C hC)).toIntegralLattice =
+      integralLattice m C hC :=
+  ConstructionA.toIntegralLattice_codeInZeroLatticeDiscriminantGroup_eq_integralLattice m ι C hC
+
+/-- The even-lattice gluing `L₀.ofIsotropicSubgroup` needs `m` even and `q_m|_C = 0`; it is then
+`P_m(C)` itself, which is stronger than an isometry. -/
 theorem ofIsotropicSubgroup_codeInZeroLatticeDiscriminantGroup_eq_integralLattice
     (hm : Even (m : ℕ)) (C : AdditiveCode (ZMod m) ι)
     (hC : ((FiniteQuadraticModule.zmodStandard (m : ℕ) hm).coordinatePower ι).IsIsotropic C) :
@@ -1564,14 +1689,12 @@ class. -/
 theorem typeA2_quadratic (a : ZMod 3) :
     (typeAStandardQuadraticModule 2).quadratic a =
       ((((a.val : ℚ) ^ 2) / 3 : ℚ) : AddCircle (1 : ℚ)) := by
-  rw [typeAStandardQuadraticModule_two_quadratic]
-  rcases (by have := ZMod.val_lt a; omega : a.val = 0 ∨ a.val = 1 ∨ a.val = 2) with h | h | h
-  · simp [(ZMod.val_eq_zero a).mp h]
-  · have ha : a ≠ 0 := fun h0 ↦ by simp [h0] at h
-    simp [ha, h]
-  · have ha : a ≠ 0 := fun h0 ↦ by simp [h0] at h
-    rw [ite_eq_left ha, h, show ((2 : ℕ) : ℚ) ^ 2 / 3 = 1 / 3 + 1 by norm_num,
-      AddCircle.coe_add_period]
+  have h := typeAStandardQuadraticModule_quadratic_intCast (n := 2) (a.val : ℤ)
+  rw [Int.cast_natCast, ZMod.natCast_zmod_val] at h
+  rw [h]
+  congr 1
+  push_cast
+  ring
 
 theorem typeA2_pairing (a b : ZMod 3) :
     (typeAStandardQuadraticModule 2).toFiniteBilinearModule.pairing a b =
