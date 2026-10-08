@@ -136,7 +136,7 @@ the merge order; nothing there depends on anything here.
 | 5, the membership statement, and through it Layers 6, 8 and 9 | 3.10 | `exists_gal_fullCycleType_eq_factorizationType` | for `f : ℤ[X]` monic and `p` prime with `¬ (p : ℤ) ∣ f.discr`, there is `σ : (f.map (Int.castRingHom ℚ)).Gal` with `(galActionHom (f.map (Int.castRingHom ℚ)) ℂ σ).cycleType + Multiset.replicate (Fintype.card (rootSet ℂ) − support.card) 1` equal to `Multiset.map natDegree (normalizedFactors (f.map (Int.castRingHom (ZMod p))))` |
 
 The backticked name lives in the namespace `TauCetiRoadmap.NumberFieldArithmetic`, in
-`TauCetiRoadmap/NumberFieldArithmetic/Suggested.lean`.
+`Completed/NumberFieldArithmetic/Suggested.lean`.
 
 ## What this roadmap exports to Belyi Maps
 

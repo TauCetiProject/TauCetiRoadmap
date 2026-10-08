@@ -481,7 +481,8 @@ Each new object lists the basic API that must accompany it. Each hard theorem re
 source, its true hypotheses, and a nearby false statement.
 
 `Suggested.lean` states the milestones, each now discharged by the Tau Ceti declaration that
-realizes it. It is not a checklist, and it is not exhaustive.
+realizes it, apart from the items its header lists as not certified. It is not a checklist, and
+it is not exhaustive.
 
 ### Layer 1: the splitting dictionary
 
@@ -1174,6 +1175,14 @@ Everything here is under the AKLB setup, with
   `fractionalIdealDual_localization`, `differentIdeal_localization`, and
   `relNorm_localization`; then `relDiscr_localization` is their composite. The localized-ring
   instances provide the types and algebra structures, not any of these equalities.
+
+  *Erratum, corrected at archiving:* step 1 cannot be stated with `Algebra.trace`. Mathlib's
+  `Algebra.trace` is `0` on a module with no finite basis, so for a projective `B` that is not
+  free over `A` but whose localization is free, the equation fails. The step is the
+  compatibility of `Algebra.intTrace`, the restriction of the fraction-field trace
+  `Algebra.trace K L` to `B → A`, which needs no freeness hypothesis
+  (`Algebra.intTrace_eq_of_isLocalization`) and equals `Algebra.trace A B` when `B` is free
+  (`Algebra.intTrace_eq_trace`).
 
   ⚠ There is no unqualified base-change equation here, and none is asked for. An arbitrary base
   change does not commute with the different, and any such statement would need its own
@@ -2558,7 +2567,9 @@ extra information is which layers are independent of each other.
 
 ---
 
-*Archived: this roadmap was declared complete on 2026-10-07. `Suggested.lean` now states each
-milestone against Tau Ceti and closes it with no `sorry`. It consumes Tau Ceti's local-field
-declarations directly rather than the Local Fields and Ramification roadmap's prototypes, so the
-descriptions above of that import are of the file as it stood before archiving.*
+*Archived: this roadmap was declared complete on 2026-10-07. `Suggested.lean` now states the
+milestones against Tau Ceti and closes every statement with no `sorry`; its header lists the
+items not certified and the erratum corrected at archiving (Layer 4.2). It consumes Tau Ceti's
+local-field declarations directly rather than the Local Fields and Ramification roadmap's
+prototypes, so the descriptions above of that import are of the file as it stood before
+archiving.*

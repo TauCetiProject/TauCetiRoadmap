@@ -130,7 +130,8 @@ of them finishes neither a layer nor the roadmap.
 
 Every milestone of `README.md` has a statement here, in the form the roadmap asks for, closed by
 the Tau Ceti (or Mathlib) declaration that realizes it, so the correspondence is checked by the
-Lean kernel rather than asserted in prose. No statement is left unproved. That is evidence for
+Lean kernel rather than asserted in prose. The exceptions are listed below as "not certified".
+No statement is left unproved. That is evidence for
 completion, not its criterion: completion is judged by a milestone-by-milestone audit against
 `README.md`, which a fully discharged file of suggested forms cannot replace.
 
@@ -150,20 +151,45 @@ Differences from the README's requested forms:
   is the ring map `adicCompletionIntegersExtension`, with its algebra structure a scoped instance,
   and `residueFieldEquivCompletion` is `residueFieldEquivAdicCompletionIntegers` (5.7);
   `IsMonogenic` is `TauCeti.NumberField.IsMonogenic`, not in the `NumberField` namespace (7.3).
-* The README's named proof-route lemmas exist under other names. For 4.2, `trace_localization` is
-  Mathlib's `Algebra.trace_localization`, `traceDual_localization` is
-  `span_traceDual_one_eq_traceDual_one`, `fractionalIdealDual_localization` is
-  `extended_dual_one_eq_dual_one`, `differentIdeal_localization` is
-  `map_differentIdeal_eq_differentIdeal`, and `relNorm_localization` is Mathlib's
-  `Ideal.spanIntNorm_localization`. For 5.9 the steps are the `_adicCompletionIntegers` versions of
-  the trace-dual and fractional-dual lemmas; there is no `differentIdeal_integralSemilocal`, and the
-  proof runs componentwise through `sum_trace_mul_smul_algebraMap_eq`, as the README allows. The
-  6.2 engine is `denseRange_algebraMap_adicCompletionIntegers`,
-  `denseRange_localizationToCompletionIntegers`, `isOpen_maximalIdeal_pow_adicCompletionIntegers`,
-  `mem_asIdeal_pow_iff_valued_algebraMap_le` and `continuous_decompositionHom`.
-* Layer 3.10's five reduction lemmas do not exist: the proof of
-  `exists_gal_fullCycleType_eq_factorizationType` reduces roots modulo a prime directly and holds
-  for every monic `f` with `p ∤ disc f`, reducible or not.
+* The README's named proof-route lemmas exist under other names, and each is stated below. For
+  4.2, `trace_localization` is Mathlib's `Algebra.intTrace_eq_of_isLocalization` (see the erratum
+  below), `traceDual_localization` is `span_traceDual_one_eq_traceDual_one`,
+  `fractionalIdealDual_localization` is `extended_dual_one_eq_dual_one`,
+  `differentIdeal_localization` is `map_differentIdeal_eq_differentIdeal`, and
+  `relNorm_localization` is Mathlib's `Ideal.spanIntNorm_localization`. For 5.9,
+  `trace_completion` is `algebraMap_trace_eq_sum_trace` with `sum_trace_mul_smul_algebraMap_eq`,
+  and `traceDual_completion` and `fractionalIdealDual_completion` are the `_adicCompletionIntegers`
+  versions of the trace-dual and fractional-dual lemmas. The 6.2 engine is
+  `denseRange_algebraMap_adicCompletionIntegers`, `denseRange_localizationToCompletionIntegers`,
+  `isOpen_maximalIdeal_pow_adicCompletionIntegers` (closedness follows, as for any open ideal),
+  `mem_asIdeal_pow_iff_valued_algebraMap_le` with `mem_maximalIdeal_pow_iff`, and
+  `continuous_decompositionHom`.
+* Not certified: 5.9's companion `differentIdeal_integralSemilocal`, the different of the integral
+  semilocal algebra read componentwise, has no Tau Ceti counterpart; the localization of the
+  different is proved componentwise without it.
+* Layer 3.10's reduction lemmas exist only in part. The binary discriminant formula
+  `Polynomial.Monic.discr_mul`, separability from `discr ≠ 0`, `Polynomial.rootSet_mul`,
+  `Polynomial.factorDegrees_mul` and `IsArithFrobAt.restrictNormal` are stated with 3.10 below.
+  Not certified: the factorization into distinct monic irreducibles, the discriminant formula over
+  all factors with its pairwise resultants, and additivity of the full cycle type along the
+  root-set decomposition have no Tau Ceti counterpart. The theorem itself does not need them: its
+  proof reduces roots modulo a prime directly and holds for every monic `f` with `p ∤ disc f`,
+  reducible or not.
+* Not certified at the README's generality: Layers 1.4 and 1.5 are stated for number fields
+  `K ⊆ M`, as the README's display for 1.4 uses `𝓞 L`. The standing hypotheses place Layer 1 in the
+  Dedekind-generic regime, and the double-coset law and the Galois-closure and compositum
+  statements over an arbitrary Dedekind base have no Tau Ceti counterpart.
+* Not certified: the counts in the README's account of the `3.1.23.1` unit certificate (`98`
+  candidates, exactly two with a root in the open interval, `15` in the closed interval, `16` of
+  discriminant `−23`) have no Tau Ceti counterpart. The certificate
+  `cubicUnitEliminationCertificate`, its soundness, and the discriminants `49` and `257` of the
+  two survivors are stated.
+* Erratum, corrected at archiving: README 4.2 asked for compatibility of `Algebra.trace` with
+  localization on a finite projective algebra. Mathlib's `Algebra.trace` is `0` on a module with no
+  finite basis, so that equation fails for a projective, non-free `B` whose localization is free.
+  The step is stated for `Algebra.intTrace`, the restriction of the fraction-field trace, which
+  equals `Algebra.trace` on a free algebra and commutes with localization with no freeness
+  hypothesis. The README records the correction at 4.2.
 * `exists_isArithFrobAt_pow_inertiaDeg` (2.4) takes `[Q.IsPrime]`, since the README states the
   tower formula at one prime `Q` of `L`; the earlier signature allowed an arbitrary ideal.
 * `NormalClosureData` (7.1) records Mathlib's `IsNormalClosure ℚ K M` rather than `[IsGalois ℚ M]`
@@ -176,7 +202,8 @@ Differences from the README's requested forms:
 * The base-`ℚ` Artin symbol (2.3) is the symbol over `𝓞 ℚ`, with Frobenius elements over `ℤ`.
 * Stronger than asked: Dedekind's theorem (3.9) assumes only that `f mod p` is squarefree; the
   relative Dedekind–Kummer theorem (3.6) holds over any integrally closed base; `discr_smulTower`
-  (4.4) holds over commutative rings; unramifiedness in a compositum (1.5) is an `iff`.
+  (4.4) holds over commutative rings; unramifiedness in a compositum (1.5) is an `iff`, for number
+  fields.
 
 Layer 8.2 is an accounting table with no statement of its own. No class number is claimed for
 Dedekind's field. The README's explicit scope exclusions (Frobenius in an absolute Galois group,
@@ -238,6 +265,13 @@ example {R : Type*} [CommRing R] (A : Type*) [CommRing A] [Algebra R A] (p : Ide
       ∀ (P : Ideal A) (_ : P.IsPrime), P.LiesOver p → Algebra.IsUnramifiedAt R P :=
   Iff.rfl
 
+/-- **Layer 1.2, a set of primes is unramified**, by explicit quantification over the primes of
+the set and the primes above each, as for Mathlib's `IsUnramifiedAtInfinitePlaces`. -/
+example {R : Type*} [CommRing R] (A : Type*) [CommRing A] [Algebra R A] (S : Set (Ideal R)) :
+    (∀ p ∈ S, Algebra.IsUnramifiedIn A p) ↔
+      ∀ p ∈ S, ∀ (P : Ideal A) (_ : P.IsPrime), P.LiesOver p → Algebra.IsUnramifiedAt R P :=
+  Iff.rfl
+
 end Layer1_1
 
 section Layer1_3
@@ -273,6 +307,14 @@ example (E : Type*) [Field E] [Algebra E L] [IsInertiaField K L P E] [IsDomain A
     Module.finrank E L =
       P.ramificationIdx A * Field.finInsepDegree (A ⧸ P.under A) (B ⧸ P) :=
   TauCeti.IsInertiaField.finrank_eq_ramificationIdx_mul_finInsepDegree A K L P E
+
+/-- **Layer 1.3, the residue-separable corollary `[L : T] = e`**: `L / T` is totally ramified. -/
+example (E : Type*) [Field E] [Algebra E L] [IsInertiaField K L P E] [IsDomain A] [IsDomain B]
+    [Module.Finite A B] [Module.Flat A B] [P.IsMaximal]
+    [Algebra.IsSeparable (A ⧸ P.under A) (B ⧸ P)] :
+    Module.finrank E L = P.ramificationIdx A := by
+  rw [TauCeti.IsInertiaField.finrank_eq_ramificationIdx_mul_finInsepDegree A K L P E,
+    (isSeparable_iff_finInsepDegree_eq_one _ _).mp inferInstance, mul_one]
 
 end Degrees
 
@@ -338,6 +380,11 @@ variable [IsGalois K L] [IsDedekindDomain A] [IsDedekindDomain B] [Module.Finite
 example : P.inertiaDeg 𝓞E = Field.finInsepDegree (A ⧸ P.under A) (B ⧸ P) :=
   TauCeti.IsInertiaField.inertiaDeg_eq_finInsepDegree A K L P E 𝓞E
 
+/-- **Layer 1.3, the residue-separable corollary `f(P / P ∩ T) = 1`.** -/
+example [Algebra.IsSeparable (A ⧸ P.under A) (B ⧸ P)] : P.inertiaDeg 𝓞E = 1 := by
+  rw [TauCeti.IsInertiaField.inertiaDeg_eq_finInsepDegree A K L P E 𝓞E]
+  exact (isSeparable_iff_finInsepDegree_eq_one _ _).mp inferInstance
+
 /-- **Layer 1.3, the residue-separable corollary `f(P ∩ T / p) = f`.** The separability
 hypothesis is kept on this statement. -/
 example [Algebra.IsSeparable (A ⧸ P.under A) (B ⧸ P)] :
@@ -345,6 +392,36 @@ example [Algebra.IsSeparable (A ⧸ P.under A) (B ⧸ P)] :
   TauCeti.IsInertiaField.inertiaDeg_eq_inertiaDegIn A K L P E 𝓞E
 
 end Inertia
+
+section DecompositionInertia
+
+variable (A K L : Type*) {B : Type*} [Field K] [Field L] [Algebra K L] [CommRing A] [CommRing B]
+  [Algebra A B] {p : Ideal A} (P : Ideal B) [P.LiesOver p]
+  [Algebra A K] [IsFractionRing A K] [Algebra A L] [IsScalarTower A K L] [Algebra B L]
+  [IsScalarTower A B L] [IsFractionRing B L] [MulSemiringAction (L ≃ₐ[K] L) B]
+  [SMulDistribClass (L ≃ₐ[K] L) B L]
+  (D 𝓞D : Type*) [Field D] [Algebra D L] [IsDecompositionField K L P D] [CommRing 𝓞D]
+  [Algebra 𝓞D D] [IsFractionRing 𝓞D D] [Algebra 𝓞D B] [Algebra 𝓞D L]
+  [IsScalarTower 𝓞D D L] [IsScalarTower 𝓞D B L]
+  (E 𝓞E : Type*) [Field E] [Algebra E L] [IsInertiaField K L P E] [CommRing 𝓞E]
+  [Algebra 𝓞E E] [IsFractionRing 𝓞E E] [Algebra 𝓞E B] [Algebra 𝓞E L] [IsScalarTower 𝓞E E L]
+  [IsScalarTower 𝓞E B L]
+  [IsGalois K L] [FiniteDimensional K L] [IsDedekindDomain A] [IsDedekindDomain B]
+  [Module.Finite A B] [Module.IsTorsionFree A B] [Algebra A 𝓞D] [Module.Finite A 𝓞D]
+  [IsScalarTower A 𝓞D B] [IsDedekindDomain 𝓞D] [Algebra A 𝓞E] [Module.Finite A 𝓞E]
+  [IsScalarTower A 𝓞E B] [IsDedekindDomain 𝓞E] [P.IsMaximal]
+  [Algebra 𝓞D 𝓞E] [IsScalarTower A 𝓞D 𝓞E] [IsScalarTower 𝓞D 𝓞E B]
+
+/-- **Layer 1.3, the residue-separable corollary `f(P ∩ T / P ∩ Z) = f`**, from `f(P ∩ Z / p) = 1`
+and `f(P ∩ T / p) = f` by the tower law. -/
+example [Algebra.IsSeparable (A ⧸ P.under A) (B ⧸ P)] :
+    (P.under 𝓞E).inertiaDeg 𝓞D = p.inertiaDegIn B := by
+  have := inertiaDeg_tower (R := A) (P.under 𝓞D) (P.under 𝓞E)
+  rw [TauCeti.IsDecompositionField.inertiaDeg_under_eq_one A K L P D 𝓞D, one_mul,
+    TauCeti.IsInertiaField.inertiaDeg_eq_inertiaDegIn A K L P E 𝓞E (p := p)] at this
+  exact this.symm
+
+end DecompositionInertia
 
 end Layer1_3
 
@@ -885,9 +962,11 @@ theorem index_eq_one_of_rat (θ : IntegralPrimitiveElement ℚ) : θ.index = 1 :
   rw [hn]
   exact Subalgebra.algebraMap_mem _ n
 
-/-- **Layer 3.2, the power basis of an integral generator**, with generator `θ`. -/
-example (θ : IntegralPrimitiveElement K) : θ.powerBasis.gen = (θ.1 : K) :=
-  θ.powerBasis_gen
+/-- **Layer 3.2, the power basis of an integral generator**, with generator `θ` and dimension
+`finrank ℚ K`. -/
+example (θ : IntegralPrimitiveElement K) :
+    θ.powerBasis.gen = (θ.1 : K) ∧ θ.powerBasis.dim = Module.finrank ℚ K :=
+  ⟨θ.powerBasis_gen, θ.powerBasis.finrank.symm⟩
 
 /-- **Layer 3.2, the minimal polynomials agree after the cast.** -/
 example (θ : IntegralPrimitiveElement K) :
@@ -1026,7 +1105,9 @@ open scoped Classical in
 /-- **Layer 3.9, Dedekind's theorem.** The degrees of the monic irreducible factors of
 `minpoly θ mod p` are the cycle type of a Frobenius at a prime above `p`, acting on the roots in a
 number field `M` where the polynomial splits, with the fixed points added back as parts `1`. Only
-squarefreeness of `minpoly θ mod p` is assumed; it implies `p ∤ exponent θ`. -/
+squarefreeness of `minpoly θ mod p` is assumed, and `θ` need not generate `K`: the proof reduces
+the roots modulo a prime directly. When `Algebra.adjoin ℚ {(θ : K)} = ⊤`, squarefreeness implies
+`p ∤ exponent θ` (Layers 3.7 and 3.4), so the README's hypotheses are a special case. -/
 example {M : Type*} [Field M] [NumberField M] {K : Type*} [Field K] [NumberField K] {θ : 𝓞 K}
     {p : ℕ} [Fact p.Prime] (hsq : Squarefree ((minpoly ℤ θ).map (Int.castRingHom (ZMod p))))
     [Fact (((minpoly ℚ (θ : K)).map (algebraMap ℚ M)).Splits)]
@@ -1054,6 +1135,38 @@ theorem exists_gal_fullCycleType_eq_factorizationType
         Multiset.map (fun g => g.natDegree)
           (UniqueFactorizationMonoid.normalizedFactors (f.map (Int.castRingHom (ZMod p)))) :=
   TauCeti.NumberField.exists_gal_fullCycleType_eq_factorizationType f hf p hp
+
+/-- **Layer 3.10, reduction lemma 1, in part**: for monic `f`, `disc f ≠ 0` is separability over
+`ℚ`. -/
+example (f : ℤ[X]) (hf : f.Monic) : f.discr ≠ 0 ↔ (f.map (algebraMap ℤ ℚ)).Separable :=
+  hf.discr_ne_zero_iff_separable_map ℚ
+
+/-- **Layer 3.10, reduction lemma 2, for two factors**: `disc (f g) = disc f · disc g · Res(f, g)²`
+for monic `f` and `g`. -/
+example {R : Type*} [CommRing R] {f g : R[X]} (hf : f.Monic) (hg : g.Monic) :
+    (f * g).discr = f.discr * g.discr * f.resultant g ^ 2 :=
+  hf.discr_mul hg
+
+/-- **Layer 3.10, reduction lemma 3, the root set of a product**, for two factors. -/
+example {F E : Type*} [CommRing F] [CommRing E] [IsDomain E] [Algebra F E] {f g : F[X]}
+    (hf : f.map (algebraMap F E) ≠ 0) (hg : g.map (algebraMap F E) ≠ 0) :
+    (f * g).rootSet E = f.rootSet E ∪ g.rootSet E :=
+  Polynomial.rootSet_mul hf hg
+
+/-- **Layer 3.10, reduction lemma 4**: the factor-degree multiset of a product modulo `p` is the
+sum of those of the factors. -/
+example (f g : ℤ[X]) (p : ℕ) [Fact p.Prime] (hf : f.map (Int.castRingHom (ZMod p)) ≠ 0)
+    (hg : g.map (Int.castRingHom (ZMod p)) ≠ 0) :
+    (f * g).factorDegrees p = f.factorDegrees p + g.factorDegrees p :=
+  Polynomial.factorDegrees_mul f g p hf hg
+
+/-- **Layer 3.10, reduction lemma 5**: a Frobenius restricts to a Frobenius on a normal
+subextension, at the contracted prime. -/
+example {K M L : Type*} [Field K] [NumberField K] [Field M] [NumberField M] [Field L]
+    [NumberField L] [Algebra K M] [Algebra M L] [Algebra K L] [IsScalarTower K M L] [Normal K M]
+    {Q : Ideal (𝓞 L)} {σ : L ≃ₐ[K] L} (hσ : IsArithFrobAt (𝓞 K) σ Q) :
+    IsArithFrobAt (𝓞 K) (σ.restrictNormal M) (Q.under (𝓞 M)) :=
+  hσ.restrictNormal
 
 end Layer3_9
 
@@ -1133,6 +1246,37 @@ example (M : Submonoid A) (Aₘ Bₘ : Type*) [CommRing Aₘ] [CommRing Bₘ]
     (relDiscr A B).map (algebraMap A Aₘ) = relDiscr Aₘ Bₘ :=
   relDiscr_localization M Aₘ Bₘ
 
+/-- **Layer 4.2, step 1 of the localization chain: the trace.** By the erratum in the header,
+this is `Algebra.intTrace`, the fraction-field trace restricted to `B → A`, with no freeness
+hypothesis. -/
+example (M : Submonoid A) (Aₘ Bₘ : Type*) [CommRing Aₘ] [CommRing Bₘ]
+    [Algebra A Aₘ] [Algebra B Bₘ] [Algebra Aₘ Bₘ] [Algebra A Bₘ]
+    [IsScalarTower A Aₘ Bₘ] [IsScalarTower A B Bₘ]
+    [IsLocalization M Aₘ] [IsLocalization (Algebra.algebraMapSubmonoid B M) Bₘ]
+    [IsDedekindDomain Aₘ] [IsDedekindDomain Bₘ] [Module.Finite Aₘ Bₘ]
+    [Module.IsTorsionFree Aₘ Bₘ] (x : B) :
+    algebraMap A Aₘ (Algebra.intTrace A B x) = Algebra.intTrace Aₘ Bₘ (algebraMap B Bₘ x) :=
+  Algebra.intTrace_eq_of_isLocalization A B M x
+
+/-- **Layer 4.2, what `Algebra.intTrace` is**: the fraction-field trace, and `Algebra.trace`
+itself when `B` is free over `A`. -/
+example (x : B) :
+    algebraMap A (FractionRing A) (Algebra.intTrace A B x) =
+        Algebra.trace (FractionRing A) (FractionRing B) (algebraMap B _ x) ∧
+      (Module.Free A B → Algebra.intTrace A B = Algebra.trace A B) :=
+  ⟨Algebra.algebraMap_intTrace_fractionRing x, fun _ ↦ Algebra.intTrace_eq_trace A B⟩
+
+/-- **Layer 4.2, step 5 of the localization chain: the relative norm.** -/
+example (M : Submonoid A) (hM : M ≤ A⁰) (Aₘ Bₘ : Type*) [CommRing Aₘ] [CommRing Bₘ]
+    [Algebra A Aₘ] [Algebra B Bₘ] [Algebra Aₘ Bₘ] [Algebra A Bₘ]
+    [IsScalarTower A Aₘ Bₘ] [IsScalarTower A B Bₘ]
+    [IsLocalization M Aₘ] [IsLocalization (Algebra.algebraMapSubmonoid B M) Bₘ]
+    [IsDedekindDomain Aₘ] [IsDedekindDomain Bₘ] [Module.Finite Aₘ Bₘ]
+    [Module.IsTorsionFree Aₘ Bₘ] (I : Ideal B) :
+    Ideal.relNorm Aₘ (I.map (algebraMap B Bₘ)) = (Ideal.relNorm A I).map (algebraMap A Aₘ) := by
+  rw [Ideal.relNorm_apply, Ideal.relNorm_apply]
+  exact Ideal.spanIntNorm_localization A I M hM Bₘ
+
 /-- **Layer 4.2, the ramification criterion**: `p` divides `relDiscr A B` exactly when some prime
 above `p` fails `Algebra.IsUnramifiedAt`. No residue separability. -/
 example [Algebra.IsSeparable (FractionRing A) (FractionRing B)] {p : Ideal A} [p.IsPrime]
@@ -1161,6 +1305,47 @@ example {L : Type*} [Field L] [NumberField L] [Algebra K L] {p : Ideal (𝓞 K)}
   TauCeti.NumberField.dvd_relDiscr_iff_exists_one_lt_ramificationIdx hp
 
 end Layer4_2
+
+section Layer4_2_chain
+
+/-! Steps 2 to 4 of the Layer 4.2 localization chain, for a localization `Rₘ`, `Sₘ` of an AKLB
+setup with common fraction fields `K` and `L`. -/
+
+variable {R Rₘ S Sₘ K L : Type*} [CommRing R] [CommRing Rₘ] [CommRing S] [CommRing Sₘ] [Field K]
+  [Field L] {M : Submonoid R} [Algebra R Rₘ] [Algebra R S] [Algebra Rₘ Sₘ] [Algebra S Sₘ]
+  [Algebra R Sₘ] [IsScalarTower R S Sₘ] [Algebra R K] [Algebra Rₘ K] [IsScalarTower R Rₘ K]
+  [Algebra K L] [Algebra R L] [Algebra Rₘ L] [Algebra S L] [Algebra Sₘ L]
+  [IsScalarTower R K L] [IsScalarTower Rₘ K L] [IsScalarTower R S L] [IsScalarTower Rₘ Sₘ L]
+  [IsScalarTower S Sₘ L] [IsScalarTower R Sₘ L] [IsLocalization M Rₘ]
+  [IsLocalization (Algebra.algebraMapSubmonoid S M) Sₘ] [Module.Finite R S]
+
+/-- **Layer 4.2, step 2: the trace dual** of the localized algebra is spanned by the trace dual of
+the original one. -/
+example : Submodule.span Sₘ (Submodule.traceDual R K (1 : Submodule S L) : Set L) =
+    Submodule.traceDual Rₘ K (1 : Submodule Sₘ L) :=
+  TauCeti.span_traceDual_one_eq_traceDual_one (M := M)
+
+variable [IsDomain R] [IsFractionRing R K] [IsFractionRing S L] [IsIntegrallyClosed R]
+  [IsIntegralClosure S R L] [IsIntegralClosure Sₘ Rₘ L] [FiniteDimensional K L]
+  [Algebra.IsSeparable K L] [IsDomain Rₘ] [IsFractionRing Rₘ K] [IsFractionRing Sₘ L]
+  [IsIntegrallyClosed Rₘ]
+
+/-- **Layer 4.2, step 3: the dual fractional ideal**, extended along `S → Sₘ`. -/
+example [IsDomain S] [IsDomain Sₘ] (hMS : Algebra.algebraMapSubmonoid S M ≤ S⁰) :
+    FractionalIdeal.extended L
+        (nonZeroDivisors_le_comap_nonZeroDivisors_of_injective _
+          (IsLocalization.injective Sₘ hMS))
+        (FractionalIdeal.dual R K (1 : FractionalIdeal S⁰ L)) =
+      FractionalIdeal.dual Rₘ K (1 : FractionalIdeal Sₘ⁰ L) :=
+  TauCeti.extended_dual_one_eq_dual_one (M := M)
+
+/-- **Layer 4.2, step 4: the different ideal.** -/
+example [IsDedekindDomain S] [IsDedekindDomain Sₘ] [Module.IsTorsionFree R S]
+    [Module.IsTorsionFree Rₘ Sₘ] :
+    (differentIdeal R S).map (algebraMap S Sₘ) = differentIdeal Rₘ Sₘ :=
+  TauCeti.map_differentIdeal_eq_differentIdeal (M := M) (K := K) (L := L)
+
+end Layer4_2_chain
 
 section Layer4_3
 
@@ -1318,6 +1503,15 @@ example {M : Type*} [Field M] [NumberField M] [Algebra K M] [Algebra M L] [IsSca
       completionAlgHom v w :=
   completionAlgHom_comp v u w
 
+/-- **Layer 5.2, the example `L = K`**: the canonical map is the identity. -/
+example :
+    let _ : @Ideal.LiesOver (𝓞 K) _ (𝓞 K) _
+      (NumberField.inst_ringOfIntegersAlgebra (K := K) (L := K)) v.asIdeal v.asIdeal := ⟨by
+        change v.asIdeal = Ideal.comap (RingHom.id _) v.asIdeal
+        simp⟩
+    completionAlgHom v v = AlgHom.id K (v.adicCompletion K) :=
+  completionAlgHom_self v
+
 end Layer5_2
 
 section Layer5_3
@@ -1385,6 +1579,27 @@ example {R A B : Type*} [CommRing R] [CommRing A] [Algebra R A] [CommRing B] [Al
     Algebra.norm A ((1 : A) ⊗ₜ[R] x) = algebraMap R A (Algebra.norm R x) ∧
       Algebra.trace A (A ⊗[R] B) ((1 : A) ⊗ₜ[R] x) = algebraMap R A (Algebra.trace R B x) :=
   ⟨TauCeti.Algebra.norm_baseChange_tmul x, TauCeti.Algebra.trace_baseChange_tmul x⟩
+
+/-- **Layer 5.4, the linear-algebra package**: norm and trace are invariant under an algebra
+equivalence, and are the product and the sum over a finite product of free finite algebras. -/
+example {A B C : Type*} [CommRing A] [CommRing B] [CommRing C] [Algebra A B] [Algebra A C]
+    (e : B ≃ₐ[A] C) (x : B) :
+    Algebra.trace A C (e x) = Algebra.trace A B x ∧ Algebra.norm A (e x) = Algebra.norm A x :=
+  ⟨Algebra.trace_eq_of_algEquiv e x, Algebra.norm_eq_of_algEquiv e x⟩
+
+example {R : Type*} [CommRing R] {ι : Type*} [Fintype ι] {B : ι → Type*} [∀ i, CommRing (B i)]
+    [∀ i, Algebra R (B i)] [∀ i, Module.Free R (B i)] [∀ i, Module.Finite R (B i)]
+    (x : ∀ i, B i) :
+    Algebra.trace R (∀ i, B i) x = ∑ i, Algebra.trace R (B i) (x i) ∧
+      Algebra.norm R x = ∏ i, Algebra.norm R (x i) :=
+  ⟨TauCeti.Algebra.trace_pi x, TauCeti.Algebra.norm_pi x⟩
+
+/-- **Layer 5.4, the trace along `semilocalEquiv`**, before specializing to `1 ⊗ x`. -/
+example (ξ : v.adicCompletion K ⊗[K] L) :
+    Algebra.trace (v.adicCompletion K) (v.adicCompletion K ⊗[K] L) ξ =
+      ∑ w : {w : HeightOneSpectrum (𝓞 L) // w.asIdeal.LiesOver v.asIdeal},
+        Algebra.trace (v.adicCompletion K) (w.1.adicCompletion L) (semilocalEquiv L v ξ w) :=
+  trace_eq_sum_trace_semilocalEquiv L v ξ
 
 end Layer5_3
 
@@ -1609,6 +1824,24 @@ example :
         (1 : Submodule (w.adicCompletionIntegers L) (w.adicCompletion L)) :=
   span_traceDual_one_eq_traceDual_one_adicCompletionIntegers v w
 
+/-- **Layer 5.9, the trace step of the completion chain**: a trace-dual expansion of `L` over `K`
+remains one of `L_w` over `K_v`. The trace itself is the sum of local traces, Layer 5.4. -/
+example {ι : Type*} [Fintype ι] (b y : ι → L)
+    (h : ∀ x : L, ∑ i, Algebra.trace K L (x * b i) • y i = x) (z : w.adicCompletion L) :
+    ∑ i, Algebra.trace (v.adicCompletion K) (w.adicCompletion L)
+        (z * algebraMap L (w.adicCompletion L) (b i)) • algebraMap L (w.adicCompletion L) (y i) =
+      z :=
+  sum_trace_mul_smul_algebraMap_eq v w b y h z
+
+/-- **Layer 5.9, the fractional-dual step of the completion chain.** -/
+example :
+    (FractionalIdeal.dual (𝓞 K) K (1 : FractionalIdeal (𝓞 L)⁰ L)).extended (w.adicCompletion L)
+        (nonZeroDivisors_le_comap_nonZeroDivisors_of_injective _
+          (FaithfulSMul.algebraMap_injective (𝓞 L) (w.adicCompletionIntegers L))) =
+      FractionalIdeal.dual (v.adicCompletionIntegers K) (v.adicCompletion K)
+        (1 : FractionalIdeal (w.adicCompletionIntegers L)⁰ (w.adicCompletion L)) :=
+  extended_dual_one_eq_dual_one_adicCompletionIntegers v w
+
 end Layer5_7
 
 section Layer5_10
@@ -1748,8 +1981,25 @@ example (n : ℕ) (r : 𝓞 K) (σ : MulAction.stabilizer (L ≃ₐ[K] L) w.asId
       (r ∈ v.asIdeal ^ n ↔
         Valued.v (algebraMap (𝓞 K) (v.adicCompletion K) r) ≤ WithZero.exp (-(n : ℤ))) ∧
       Continuous (decompositionHom v w σ) :=
-  ⟨v.denseRange_algebraMap_adicCompletionIntegers, v.isOpen_maximalIdeal_pow_adicCompletionIntegers n,
+  ⟨v.denseRange_algebraMap_adicCompletionIntegers,
+    v.isOpen_maximalIdeal_pow_adicCompletionIntegers n,
     v.mem_asIdeal_pow_iff_valued_algebraMap_le, continuous_decompositionHom v σ⟩
+
+/-- **Layer 6.2, the topological engine, closedness and the completed ideal power**: every power
+of the maximal ideal of `𝒪_v` is closed, and `r ∈ v ^ n` exactly when the image of `r` lies in the
+`n`-th power of the maximal ideal of `𝒪_v`. -/
+example (n : ℕ) (r : 𝓞 K) :
+    IsClosed ((IsLocalRing.maximalIdeal (v.adicCompletionIntegers K) ^ n :
+        Ideal (v.adicCompletionIntegers K)) : Set (v.adicCompletionIntegers K)) ∧
+      (r ∈ v.asIdeal ^ n ↔ algebraMap (𝓞 K) (v.adicCompletionIntegers K) r ∈
+        IsLocalRing.maximalIdeal (v.adicCompletionIntegers K) ^ n) := by
+  refine ⟨AddSubgroup.isClosed_of_isOpen
+    (IsLocalRing.maximalIdeal (v.adicCompletionIntegers K) ^ n).toAddSubgroup
+    (v.isOpen_maximalIdeal_pow_adicCompletionIntegers n), ?_⟩
+  rw [v.mem_asIdeal_pow_iff_valued_algebraMap_le (K := K), v.mem_maximalIdeal_pow_iff,
+    ← ValuationSubring.algebraMap_apply,
+    ← v.algebraMap_adicCompletion_eq_algebraMap_adicCompletionIntegers (K := K)]
+  rfl
 
 /-- **Layer 6.3, Hilbert's different formula** `v_Q (𝔡) = Σ_{i ≥ 0} (#G_i − 1)`. -/
 example [IsGalois K L] :
@@ -2155,6 +2405,16 @@ example : 𝔭 = Ideal.span {1 + θ} ∧
     GaussianRationals.multiplicity_differentIdeal_eq_two hmin hgen 𝔭,
     GaussianRationals.multiplicity_differentIdeal_lt_ramificationIdx_sub_one_add hmin hgen 𝔭⟩
 
+/-- The exact values: `2 = −i (1 + i)²`, `v_𝔭 (e) = v_𝔭 (2) = 2`, and the upper bound
+`e − 1 + v_𝔭 (e) = 3`. -/
+example : (2 : 𝓞 K) = -θ * (1 + θ) ^ 2 ∧ multiplicity 𝔭 (Ideal.span {(2 : 𝓞 K)}) = 2 ∧
+    𝔭.ramificationIdx ℤ - 1 + multiplicity 𝔭 (Ideal.span {((𝔭.ramificationIdx ℤ : ℕ) : 𝓞 K)}) =
+      3 := by
+  refine ⟨by linear_combination (θ + 2) * GaussianRationals.sq_eq_neg_one hmin,
+    GaussianRationals.multiplicity_span_two_eq_two hmin hgen 𝔭, ?_⟩
+  rw [GaussianRationals.ramificationIdx_eq_two hmin hgen 𝔭, Nat.cast_ofNat,
+    GaussianRationals.multiplicity_span_two_eq_two hmin hgen 𝔭]
+
 /-- The lower filtration at `𝔭`: `G_0 = G_1 = Gal(K/ℚ)` and `G_2 = 1`, so `Σ (#G_i − 1) = 2`. -/
 example : 𝔭.ramificationGroup (K ≃ₐ[ℚ] K) 0 = ⊤ ∧ 𝔭.ramificationGroup (K ≃ₐ[ℚ] K) 1 = ⊤ ∧
     𝔭.ramificationGroup (K ≃ₐ[ℚ] K) 2 = ⊥ ∧
@@ -2180,6 +2440,18 @@ example {K : Type*} [Field K] [NumberField K] {θ : 𝓞 K} (hmin : minpoly ℤ 
       𝔭.ramificationIdx ℤ < multiplicity 𝔭 (differentIdeal ℤ (𝓞 K)) :=
   ⟨Sqrt2.multiplicity_differentIdeal_eq_ramificationIdx_sub_one_add hmin hgen 𝔭,
     Sqrt2.ramificationIdx_lt_multiplicity_differentIdeal hmin hgen 𝔭⟩
+
+/-- **`ℚ(√2)`, the exact values of README 6.4**: `𝔭 = (√2)`, `e = 2`, `v_𝔭 (e) = v_𝔭 (2) = 2` and
+`v_𝔭 (𝔡) = 3`. -/
+example {K : Type*} [Field K] [NumberField K] {θ : 𝓞 K} (hmin : minpoly ℤ θ = X ^ 2 - 2)
+    (hgen : Algebra.adjoin ℚ {(θ : K)} = ⊤) (𝔭 : Ideal (𝓞 K)) [𝔭.IsPrime]
+    [𝔭.LiesOver (Ideal.span {(2 : ℤ)})] :
+    𝔭 = Ideal.span {θ} ∧ 𝔭.ramificationIdx ℤ = 2 ∧
+      multiplicity 𝔭 (Ideal.span {(2 : 𝓞 K)}) = 2 ∧
+      multiplicity 𝔭 (differentIdeal ℤ (𝓞 K)) = 3 :=
+  ⟨Sqrt2.eq_span_gen hmin hgen 𝔭, Sqrt2.ramificationIdx_eq_two hmin hgen 𝔭,
+    Sqrt2.multiplicity_span_two_eq_two hmin hgen 𝔭,
+    Sqrt2.multiplicity_differentIdeal_eq_three hmin hgen 𝔭⟩
 
 end Worked_Sqrt2
 
@@ -2237,6 +2509,14 @@ example (F : IntermediateField ℚ K) {x : K} (hx : x ^ 2 = 5) :
   ⟨card_intermediateField_fifthCyclotomic,
     IntermediateField.eq_bot_or_eq_fifthCyclotomicQuadraticSubfield_or_eq_top F,
     adjoin_sqrt_five_eq_fifthCyclotomicQuadraticSubfield hx⟩
+
+/-- The middle subfield is `ℚ(√5)` with no square root of `5` assumed: `1 + 2 (ζ + ζ⁻¹)`, for a
+primitive fifth root of unity `ζ`, squares to `5` and generates it. -/
+example : ∃ ζ : K, IsPrimitiveRoot ζ 5 ∧ (1 + 2 * (ζ + ζ⁻¹)) ^ 2 = 5 ∧
+    IntermediateField.adjoin ℚ {1 + 2 * (ζ + ζ⁻¹)} = fifthCyclotomicQuadraticSubfield := by
+  have hζ := IsCyclotomicExtension.zeta_spec 5 ℚ K
+  exact ⟨_, hζ, hζ.one_add_two_mul_add_inv_sq_of_five,
+    adjoin_sqrt_five_eq_fifthCyclotomicQuadraticSubfield hζ.one_add_two_mul_add_inv_sq_of_five⟩
 
 end Worked_4_0_125_1
 
