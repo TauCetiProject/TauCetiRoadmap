@@ -139,7 +139,7 @@ cover. Two conventions from that roadmap bind here: deck groups are identified w
 (`TauCeti.UniversalCover.deckFundamentalGroupEquiv`, its milestone 5), and changing the chosen
 lift moves the recovered subgroup by conjugation (its milestone 7): along a loop,
 `IsCoveringMap.range_mapOfEq_monodromy`; along a path to another basepoint, by
-`TauCeti.FundamentalGroup.basepointChangeSubgroup`, `IsCoveringMap.range_mapOfEq_monodromy_path`. The constructive
+`FundamentalGroup.basepointChangeSubgroup`, `IsCoveringMap.range_mapOfEq_monodromy_path`. The constructive
 direction this roadmap needs, a cover of the base built *from* a permutation action, is Layer
 6.2's associated cover `(Ũ × S)/π₁`, which is Tau Ceti's
 `TauCeti.UniversalCover.ActionCover x₀ S`, the balanced product of the universal cover with an
@@ -533,7 +533,7 @@ the three portfolio suppliers have no local stand-ins here.
 | 3.2 | CharacterTheory Layer 4 | central characters, and the conversion to class sizes | `centralCharacter`, `centralCharacter_coordinate`, and the conversion of `ω_χ` on a class sum into class size times character value over degree, for which that roadmap pins **no Lean name**; local interface: `centralCharacter_eq_card_mul_div (χ) (j) : centralCharacter χ (classSum j) = (Nat.card (carrier j) : ℂ) * χ (rep j) / χ 1` |
 | 5.1, 6.2 | UniversalCovers milestone 2 | semilocal simple connectivity | `TauCeti.SemilocallySimplyConnectedSpace` (`TauCeti/AlgebraicTopology/SemilocallySimplyConnected/Basic.lean`); no local stand-in is exported |
 | 5.6 | AlgebraicTopology Stage 1 | Seifert–van Kampen for two open sets with simply connected intersection | **unresolved supplier contract**: the required declarations are `vanKampenLift`, `vanKampenLift_bijective`, `vanKampenEquiv` and `vanKampenEquiv_toMonoidHom`, with the signatures and hypotheses pinned verbatim in Layer 5.5 below. This roadmap exports no copy: Layer 5.6 is the instantiation, not the theorem. |
-| 5.7, 6.3 | UniversalCovers milestone 7 | basepoint change on subgroups, and the recovered subgroup under a change of lift | `TauCeti.FundamentalGroup.basepointChangeSubgroup` (conjugation of a subgroup along a path); `IsCoveringMap.range_mapOfEq_monodromy` (moving the lift along a loop conjugates the recovered subgroup); `IsCoveringMap.range_mapOfEq_monodromy_path` (moving it along a path applies `basepointChangeSubgroup`) |
+| 5.7, 6.3 | UniversalCovers milestone 7 | basepoint change on subgroups, and the recovered subgroup under a change of lift | `FundamentalGroup.basepointChangeSubgroup` (conjugation of a subgroup along a path); `IsCoveringMap.range_mapOfEq_monodromy` (moving the lift along a loop conjugates the recovered subgroup); `IsCoveringMap.range_mapOfEq_monodromy_path` (moving it along a path applies `basepointChangeSubgroup`) |
 | 6.2 | UniversalCovers milestones 2, 3 | the universal cover, its covering map, and the free properly discontinuous `π₁`-action | `TauCeti.UniversalCover x₀`, `TauCeti.UniversalCover.proj`, `TauCeti.UniversalCover.isCoveringMap`, `TauCeti.UniversalCover.simplyConnectedSpace`, `TauCeti.UniversalCover.isQuotientCoveringMap` |
 | 6.2 | UniversalCovers milestone 8 | the associated cover of an arbitrary discrete `π₁`-set, its covering map, its fiber and its monodromy | `TauCeti.UniversalCover.ActionCover x₀ A`, `TauCeti.UniversalCover.actionCoverProj`, `TauCeti.UniversalCover.isCoveringMap_actionCoverProj`, `TauCeti.UniversalCover.actionCoverFiberEquiv : A ≃ actionCoverProj x₀ A ⁻¹' {x₀}`, `TauCeti.UniversalCover.monodromy_actionCoverFiberEquiv`, `TauCeti.BalancedProduct.isQuotientCoveringMap_mk`; bundled, `TauCeti.UniversalCover.actionCoveringSpace` with `actionCoveringSpaceFiberEquiv` and `actionCoveringSpaceFiberEquiv_apply_monodromy`; as equivalences of categories, `TauCeti.CoveringSpace.fiberActionEquivalence` and `TauCeti.ConnectedCoveringSpace.transitiveFiberActionEquivalence` |
 | 6.3 | UniversalCovers milestone 8 | the pointed and unpointed subgroup correspondences, and sheet number as index | `TauCeti.UniversalCover.existsUnique_subgroup_homeomorph_subgroupQuotient`, `TauCeti.UniversalCover.exists_homeomorph_subgroupQuotient_comp_eq_iff_exists_eq_map_conj`, `IsCoveringMap.stabilizer_eq_range`, `IsCoveringMap.card_fiber_eq_index` |
@@ -1906,7 +1906,7 @@ fixing a path, and that failure is the topological origin of the outer form of t
 action in Layer 12.8.
 
 *Prerequisites:* Layers 5.2, 5.6; Mathlib `FundamentalGroup.fundamentalGroupMulEquivOfPath`;
-Tau Ceti `TauCeti.FundamentalGroup.basepointChangeSubgroup` (UniversalCovers milestone 7).
+Tau Ceti `FundamentalGroup.basepointChangeSubgroup` (UniversalCovers milestone 7).
 
 #### 5.8 The loop at infinity
 

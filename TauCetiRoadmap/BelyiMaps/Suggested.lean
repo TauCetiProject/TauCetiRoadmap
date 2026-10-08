@@ -1209,7 +1209,7 @@ variable {X : Type u} [TopologicalSpace X] [PathConnectedSpace X] [LocallyPathCo
 /-- **Layer 5.7.** Changing the basepoint of a subgroup of `π₁` along a path. -/
 noncomputable example {y : X} (γ : Path x y) (H : Subgroup (FundamentalGroup X x)) :
     Subgroup (FundamentalGroup X y) :=
-  TauCeti.FundamentalGroup.basepointChangeSubgroup γ H
+  FundamentalGroup.basepointChangeSubgroup γ H
 
 omit [PathConnectedSpace X] [LocallyPathConnectedSpace X]
   [TauCeti.SemilocallySimplyConnectedSpace X] in
@@ -1218,7 +1218,7 @@ by `basepointChangeSubgroup` along that path. -/
 theorem recoveredSubgroup_monodromy_path {E : Type u} [TopologicalSpace E] {p : E → X}
     (hp : IsCoveringMap p) {y : X} (γ : Path x y) (e₀ : p ⁻¹' {x}) :
     (FundamentalGroup.mapOfEq ⟨p, hp.continuous⟩ (hp.monodromy ⟦γ⟧ e₀).2).range =
-      TauCeti.FundamentalGroup.basepointChangeSubgroup γ
+      FundamentalGroup.basepointChangeSubgroup γ
         (FundamentalGroup.mapOfEq ⟨p, hp.continuous⟩ e₀.2).range :=
   hp.range_mapOfEq_monodromy_path γ e₀
 
