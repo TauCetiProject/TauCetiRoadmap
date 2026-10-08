@@ -76,9 +76,21 @@ differences from the README's requested forms are deliberate.
   Riemannian distance finite, hence `M` connected, so Layers 3–4 carry no connectedness hypothesis.
   Compact ⇒ geodesically complete is proved through the extended metric and needs neither
   connectedness nor a metric; the README took the connected route only for convenience.
-* **Constant-speed reparametrization** assumes the curve `C¹` on an open set containing `[a, b]`
-  rather than `C¹` within `[a, b]`, and produces unit speed on `[0, L]`; constant speed on `[0, 1]`
-  is a rescaling.
+* **Constant-speed reparametrization** assumes the curve `C¹` on an open set containing `[a, b]`,
+  with nowhere-zero ambient velocity there, and produces unit speed on `[0, L]`; constant speed on
+  `[0, 1]` is a rescaling. This is weaker than the README's milestone, which asks only for a
+  regular curve `C¹` within `[a, b]` (for example a clamped segment, not smooth at the endpoints
+  as a map on `ℝ`). The within-`[a, b]` form, with `curveVelocityWithin`, is not in Tau Ceti at
+  the pin, so that case of the milestone is not certified here.
+* **Chart independence of the derivative along a curve.** `alongCurveWithin` is defined by the
+  chart formula at the current point; the same formula in any chart whose base set contains that
+  point gives the same vector, and the readings in two charts are related by the tangent
+  coordinate change (`symmL_alongCurveInChartWithin`, `alongCurveInChartWithin_coordChange`).
+* **(c) ⇒ (d) through `TM`.** Tau Ceti runs the README's argument as an escape lemma: the
+  norm-bounded part of `TM` over a compact set is compact, and the velocity lift of a maximal
+  geodesic stays in it while the geodesic stays in the compact set. The README's ingredients are
+  stated separately below: the local uniform equivalence of the Riemannian and chart norms, and a
+  convergent subsequence of the lifted fixed-speed states.
 * **Spray and geodesics.** The base curve of an integral curve of the spray is a geodesic outright
   on open parameter sets; on a general set with unique derivatives Tau Ceti also asks the base
   curve to be `C²`. Every downstream use is on open intervals.
@@ -335,6 +347,13 @@ theorem IsLeviCivitaConnection.eq
     cov Y x v = cov' Y x v :=
   CovariantDerivative.IsLeviCivitaConnection.uniqueness I hcov hcov' hY v
 
+/-- **Uniqueness** as a tensor statement: two Levi-Civita connections have vanishing difference. -/
+theorem IsLeviCivitaConnection.difference_eq_zero
+    {cov cov' : CovariantDerivative I E (fun x : M ↦ TangentSpace I x)}
+    (hcov : cov.IsLeviCivitaConnection) (hcov' : cov'.IsLeviCivitaConnection) :
+    cov.difference cov' = 0 :=
+  CovariantDerivative.IsLeviCivitaConnection.difference_eq_zero hcov hcov'
+
 /-- **Regularity**: the Levi-Civita connection of a `C^∞` metric is `C^∞`. -/
 example : ContMDiffCovariantDerivative (leviCivitaConnection I M) ∞ :=
   inferInstance
@@ -391,6 +410,16 @@ theorem symmL_alongCurveInChartWithin {x : M}
         (alongCurveInChartWithin cov γ V s x t) =
       alongCurveWithin cov γ V s t :=
   CovariantDerivative.symmL_alongCurveInChartWithin cov γ V hx hu hγ hV
+
+/-- The coordinate readings in two charts are related by the tangent coordinate change. -/
+theorem alongCurveInChartWithin_coordChange {x y : M}
+    (hx : γ t ∈ (trivializationAt E (TangentSpace I) x).baseSet)
+    (hy : γ t ∈ (trivializationAt E (TangentSpace I) y).baseSet)
+    (hu : UniqueDiffWithinAt ℝ s t) (hγ : MDifferentiableWithinAt 𝓘(ℝ, ℝ) I γ s t)
+    (hV : DifferentiableWithinAt ℝ (sectionCoord (F := E) γ V (γ t)) s t) :
+    alongCurveInChartWithin cov γ V s y t =
+      tangentCoordChange I x y (γ t) (alongCurveInChartWithin cov γ V s x t) :=
+  CovariantDerivative.alongCurveInChartWithin_coordChange cov γ V hx hy hu hγ hV
 
 /-- **Linearity**: additivity. -/
 theorem alongCurveWithin_add
@@ -1110,6 +1139,80 @@ variable
   [IsContMDiffRiemannianBundle I ∞ E (fun x : M ↦ TangentSpace I x)]
   {p : M} {v : TangentSpace I p}
 
+omit [FiniteDimensional ℝ E] [I.Boundaryless] [T2Space M] in
+/-- **(c) ⇒ (d), local uniform equivalence of norms**: near `q`, the tangent-bundle trivialization
+at `q` and its inverse are bounded in operator norm, for the Riemannian norm on `T_y M` and the
+model norm on `E`. These are Mathlib's two trivialization bounds, combined. -/
+theorem exists_norm_trivializationAt_lt_and_norm_symmL_lt (q : M) :
+    ∃ C > 0, ∀ᶠ y in 𝓝 q,
+      ‖(trivializationAt E (TangentSpace I) q).continuousLinearMapAt ℝ y‖ < C ∧
+        ‖(trivializationAt E (TangentSpace I) q).symmL ℝ y‖ < C := by
+  have := IsContMDiffRiemannianBundle.toIsContinuousRiemannianBundle (IB := I) (n := ∞) (F := E)
+    (V := fun x : M ↦ TangentSpace I x)
+  obtain ⟨C₁, hC₁, h₁⟩ :=
+    eventually_norm_trivializationAt_lt E (fun x : M ↦ TangentSpace I x) q
+  obtain ⟨C₂, hC₂, h₂⟩ :=
+    eventually_norm_symmL_trivializationAt_lt E (fun x : M ↦ TangentSpace I x) q
+  refine ⟨max C₁ C₂, lt_max_of_lt_left hC₁, ?_⟩
+  filter_upwards [h₁, h₂] with y hy₁ hy₂
+  exact ⟨lt_max_of_lt_left hy₁, lt_max_of_lt_right hy₂⟩
+
+omit [I.Boundaryless] in
+/-- **(c) ⇒ (d), compactness in `TM`**: the tangent vectors of norm at most `r` over a compact set
+form a compact subset of `TM`. -/
+theorem isCompact_norm_le_tangentBundle {K : Set M} (hK : IsCompact K) (r : ℝ) :
+    IsCompact {z : TangentBundle I M | z.proj ∈ K ∧ ‖z.2‖ ≤ r} := by
+  have := IsContMDiffRiemannianBundle.toIsContinuousRiemannianBundle (IB := I) (n := ∞) (F := E)
+    (V := fun x : M ↦ TangentSpace I x)
+  exact hK.norm_le_bundle r
+
+/-- **(c) ⇒ (d), convergent subsequence of the lifted fixed-speed states**: if the maximal
+geodesic converges to `q` along times `t_n` of its maximal interval, then the states
+`(γ(t_n), γ'(t_n))` have a subsequence converging in `TM` to a vector over `q`. The proof reads the
+states in the tangent-bundle trivialization at `q`, where the velocity coordinates are bounded by
+the norm comparison and constant speed, and applies Bolzano-Weierstrass in `E`. -/
+theorem exists_tendsto_subseq_velocity_maximalGeodesic {q : M} {u : ℕ → ℝ}
+    (hu : ∀ n, u n ∈ geodesicInterval I M p v)
+    (hq : Tendsto (fun n ↦ maximalGeodesic I M p v (u n)) atTop (𝓝 q)) :
+    ∃ w : TangentSpace I q, ∃ φ : ℕ → ℕ, StrictMono φ ∧
+      Tendsto (fun n ↦ (TotalSpace.mk' E (maximalGeodesic I M p v (u (φ n)))
+        (curveVelocityWithin I (maximalGeodesic I M p v) (geodesicInterval I M p v) (u (φ n))) :
+          TangentBundle I M)) atTop (𝓝 (TotalSpace.mk' E q w)) := by
+  have := IsContMDiffRiemannianBundle.toIsContinuousRiemannianBundle (IB := I) (n := ∞) (F := E)
+    (V := fun x : M ↦ TangentSpace I x)
+  have h := TauCeti.Manifold.isGeodesicCurveOnFrom_maximalGeodesic (I := I) (M := M) p v
+  set z : ℕ → TangentBundle I M := fun n ↦ TotalSpace.mk' E (maximalGeodesic I M p v (u n))
+    (curveVelocityWithin I (maximalGeodesic I M p v) (geodesicInterval I M p v) (u n))
+  have hnorm (n : ℕ) : ‖(z n).2‖ = ‖v‖ := by
+    change ‖curveVelocityWithin I (maximalGeodesic I M p v) (geodesicInterval I M p v) (u n)‖ = _
+    rw [h.isGeodesicCurveOn.norm_curveVelocityWithin_eq
+      TauCeti.Manifold.isPreconnected_geodesicInterval (hu n)
+      TauCeti.Manifold.zero_mem_geodesicInterval]
+    exact congrArg (fun z : TangentBundle I M ↦ ‖z.2‖) h.initial_eq
+  set e := trivializationAt E (TangentSpace I) q
+  have hqb : q ∈ e.baseSet := FiberBundle.mem_baseSet_trivializationAt' q
+  obtain ⟨C, -, hC⟩ := eventually_norm_trivializationAt_lt E (fun x : M ↦ TangentSpace I x) q
+  have hbase : ∀ᶠ n in atTop, (z n).proj ∈ e.baseSet := hq (e.open_baseSet.mem_nhds hqb)
+  have hbdd : ∃ᶠ n in atTop, (e (z n)).2 ∈ Metric.closedBall (0 : E) (C * ‖v‖) := by
+    refine (hbase.and (hq hC)).frequently.mono fun n hn ↦ ?_
+    rw [mem_closedBall_zero_iff, ← hnorm n]
+    have hlin := e.continuousLinearMapAt_apply_of_mem (R := ℝ) hn.1 (z n).2
+    rw [TotalSpace.eta] at hlin
+    rw [← hlin]
+    exact (e.continuousLinearMapAt ℝ (z n).proj).le_of_opNorm_le hn.2.le _
+  obtain ⟨c, -, φ, hφ, hc⟩ := tendsto_subseq_of_frequently_bounded Metric.isBounded_closedBall hbdd
+  refine ⟨e.symm q c, φ, hφ, ?_⟩
+  have hlim : Tendsto (fun n ↦ e.toOpenPartialHomeomorph.symm ((z (φ n)).proj, (e (z (φ n))).2))
+      atTop (𝓝 (e.toOpenPartialHomeomorph.symm (q, c))) :=
+    (e.toOpenPartialHomeomorph.continuousAt_symm (e.mem_target.2 hqb)).tendsto.comp
+      ((hq.comp hφ.tendsto_atTop).prodMk_nhds hc)
+  rw [← e.mk_symm hqb] at hlim
+  refine hlim.congr' ?_
+  filter_upwards [hφ.tendsto_atTop.eventually hbase] with n hn
+  have hsrc : z (φ n) ∈ e.source := e.mem_source.2 hn
+  rw [show ((z (φ n)).proj, (e (z (φ n))).2) = e (z (φ n)) from
+    Prod.ext (e.coe_fst hsrc).symm rfl, ← e.coe_coe, e.toOpenPartialHomeomorph.left_inv hsrc]
+
 /-- The step of (c) ⇒ (d) that goes through `TM`: at a finite right endpoint of its maximal
 interval, a maximal geodesic eventually leaves every compact set. -/
 theorem eventually_notMem_nhdsLT_maximalGeodesic {b : ℝ} (hb : IsLUB (geodesicInterval I M p v) b)
@@ -1195,13 +1298,34 @@ variable
   [IsContMDiffRiemannianBundle J ∞ F (fun y : N ↦ TangentSpace J y)]
   (Φ : TauCeti.RiemannianIsometry I J M N)
 
-/-- **Smooth Riemannian isometries**: a `C^∞` diffeomorphism whose tangent maps preserve the
-Riemannian inner products. -/
-example (f : Diffeomorph I J M N ∞)
-    (hf : ∀ x (v w : TangentSpace I x),
-      inner ℝ (mfderiv I J f x v) (mfderiv I J f x w) = inner ℝ v w) :
-    TauCeti.RiemannianIsometry I J M N :=
-  ⟨f, hf⟩
+omit [FiniteDimensional ℝ E] [IsManifold I ∞ M]
+  [IsContMDiffRiemannianBundle I ∞ E (fun x : M ↦ TangentSpace I x)] [FiniteDimensional ℝ F]
+  [IsManifold J ∞ N] [IsContMDiffRiemannianBundle J ∞ F (fun y : N ↦ TangentSpace J y)] in
+/-- **Smooth Riemannian isometries**: a map is a `RiemannianIsometry` exactly when it is a `C^∞`
+diffeomorphism whose tangent maps preserve the Riemannian inner products at every point. -/
+theorem exists_riemannianIsometry_iff (f : M → N) :
+    (∃ Ψ : TauCeti.RiemannianIsometry I J M N, ⇑Ψ = f) ↔
+      ∃ Ψ : Diffeomorph I J M N ∞, ⇑Ψ = f ∧
+        ∀ x (v w : TangentSpace I x),
+          inner ℝ (mfderiv I J f x v) (mfderiv I J f x w) = inner ℝ v w := by
+  constructor
+  · rintro ⟨Ψ, rfl⟩
+    exact ⟨Ψ.toDiffeomorph, Ψ.coe_toDiffeomorph, Ψ.inner_mfderiv⟩
+  · rintro ⟨Ψ, rfl, h⟩
+    exact ⟨⟨Ψ, h⟩, rfl⟩
+
+omit [FiniteDimensional ℝ E] [IsManifold I ∞ M]
+  [IsContMDiffRiemannianBundle I ∞ E (fun x : M ↦ TangentSpace I x)] [FiniteDimensional ℝ F]
+  [IsManifold J ∞ N] [IsContMDiffRiemannianBundle J ∞ F (fun y : N ↦ TangentSpace J y)] in
+/-- The contents of a smooth Riemannian isometry: an equivalence with its inverse `Φ.symm`, both
+`C^∞`, whose tangent maps preserve the Riemannian inner products. -/
+theorem riemannianIsometry_spec :
+    (∀ x, Φ.symm (Φ x) = x) ∧ (∀ y, Φ (Φ.symm y) = y) ∧ ContMDiff I J ∞ Φ ∧
+      ContMDiff J I ∞ Φ.symm ∧
+      ∀ x (v w : TangentSpace I x),
+        inner ℝ (mfderiv I J Φ x v) (mfderiv I J Φ x w) = inner ℝ v w :=
+  ⟨Φ.symm_apply_apply, Φ.apply_symm_apply, Φ.toDiffeomorph.contMDiff,
+    Φ.coe_symm ▸ Φ.toDiffeomorph.symm.contMDiff, Φ.inner_mfderiv⟩
 
 /-- **Transport of the Levi-Civita connection**, identified with the target connection. -/
 theorem mfderiv_leviCivitaConnection_mpullback {Y : Π y : N, TangentSpace J y} {x : M}
@@ -1272,6 +1396,12 @@ theorem pathELength_lineMap (x y : F) :
   TauCeti.Manifold.pathELength_lineMap x y
 
 variable [FiniteDimensional ℝ F]
+
+/-- **Geodesics of `F` on an interval are affine segments.** -/
+theorem isGeodesicCurveOn_iff_exists_eqOn_add_smul {γ : ℝ → F} {s : Set ℝ}
+    (hs : UniqueDiffOn ℝ s) (hs' : IsPreconnected s) :
+    IsGeodesicCurveOn 𝓘(ℝ, F) γ s ↔ ∃ p v : F, EqOn γ (fun t : ℝ ↦ p + t • v) s :=
+  TauCeti.Manifold.isGeodesicCurveOn_iff_exists_eqOn_add_smul hs hs'
 
 /-- **Geodesics of `F` are affine lines.** -/
 theorem isGeodesicCurve_iff_exists_eq_add_smul {γ : ℝ → F} :
@@ -1344,6 +1474,16 @@ theorem realOpenUnitBall_exists_isGeodesicCurveOn_Icc_pathELength_eq_edist (q : 
       γ 1 = q ∧ pathELength 𝓘(ℝ, ℝ) γ 0 1 = edist RealOpenUnitBall.center q :=
   TauCeti.RealOpenUnitBall.exists_isGeodesicCurveOn_Icc_pathELength_eq_edist q
 
+/-- The witness is the **radial segment** `t ↦ t * q` on `[0, 1]`: it runs from `0` to `q`, is a
+geodesic on `[0, 1]`, and its length is `dist 0 q`. -/
+theorem realOpenUnitBall_radialSegment (q : realOpenUnitBall) :
+    (∀ t ∈ Icc (0 : ℝ) 1, (radialSegment q t : ℝ) = t * (q : ℝ)) ∧
+      radialSegment q 0 = RealOpenUnitBall.center ∧ radialSegment q 1 = q ∧
+      IsGeodesicCurveOn 𝓘(ℝ, ℝ) (radialSegment q) (Icc 0 1) ∧
+      pathELength 𝓘(ℝ, ℝ) (radialSegment q) 0 1 = edist RealOpenUnitBall.center q :=
+  ⟨coe_radialSegment q, radialSegment_zero q, radialSegment_one q,
+    isGeodesicCurveOn_radialSegment q, pathELength_radialSegment q⟩
+
 /-- `closedBall 0 2` is the whole ball and is not compact. -/
 theorem realOpenUnitBall_closedBall_two :
     Metric.closedBall RealOpenUnitBall.center 2 = univ ∧
@@ -1358,11 +1498,13 @@ theorem realOpenUnitBall_maximalGeodesic {v : TangentSpace 𝓘(ℝ, ℝ) RealOp
         (𝓝[<] 1) (𝓝 1) :=
   ⟨geodesicInterval_center_of_norm_eq_one hv, tendsto_abs_coe_maximalGeodesic_center hv⟩
 
-/-- The open unit ball is neither metrically nor geodesically complete. -/
+/-- The open unit ball is neither metrically nor geodesically complete, nor proper: `(f_p)` holds
+without (b). -/
 theorem realOpenUnitBall_not_complete :
     ¬ CompleteSpace realOpenUnitBall ∧
-      ¬ IsGeodesicallyCompleteAt 𝓘(ℝ, ℝ) realOpenUnitBall RealOpenUnitBall.center :=
-  ⟨not_completeSpace, not_isGeodesicallyCompleteAt RealOpenUnitBall.center⟩
+      ¬ IsGeodesicallyCompleteAt 𝓘(ℝ, ℝ) realOpenUnitBall RealOpenUnitBall.center ∧
+      ¬ ProperSpace realOpenUnitBall :=
+  ⟨not_completeSpace, not_isGeodesicallyCompleteAt RealOpenUnitBall.center, not_properSpace⟩
 
 end OpenUnitBall
 
