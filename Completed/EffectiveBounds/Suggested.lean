@@ -9,6 +9,8 @@ import TauCeti.NumberTheory.EffectiveBounds.UnitSquares.Basic
 import TauCeti.NumberTheory.EffectiveBounds.WorkedExamples
 import TauCeti.NumberTheory.GeometryOfNumbers.Doubling
 import TauCeti.NumberTheory.GeometryOfNumbers.RankTwoDoubling
+import TauCeti.NumberTheory.Multiquadratic.MinusFive.ClassNumber
+import TauCeti.NumberTheory.NumberField.Quadratic.RingOfIntegers
 import TauCeti.NumberTheory.NumberField.Discriminant.OfIntegralBasis
 
 /-!
@@ -19,17 +21,33 @@ import TauCeti.NumberTheory.NumberField.Discriminant.OfIntegralBasis
 contributors and reviewers converge on names and signatures; discharging all of them
 finishes neither a layer nor the roadmap.
 
-Every milestone of Layers 0, 1 and 2 of `README.md`, and each of its worked examples, has a
-statement here, in the form the roadmap asks for, closed by the Tau Ceti declaration that
-realizes it, so the correspondence is checked by the Lean kernel rather than asserted in prose.
+Every milestone of Layers 1 and 2 of `README.md`, the Layer-0 packing and doubling bounds, and
+each of the worked examples has a statement here, in the form the roadmap asks for, closed by
+the Tau Ceti declaration that realizes it (or by a short proof from it, where the spelling
+differs), so the correspondence is checked by the Lean kernel rather than asserted in prose.
 No statement is left as `sorry`. That is evidence for completion, not its criterion: completion
 is judged by a milestone-by-milestone audit against `README.md`, which a `sorry`-free file of
 suggested forms cannot replace.
 
-Layer 3 (explicit lower bounds on the regulator and the volume computations feeding the analytic
-class number formula) and the long-horizon Brauer–Siegel aspiration have no statement here: Tau
-Ceti realizes only the rank-zero base case of Layer 3 (`R_K = 1`), which is not the effective
-lower bound the roadmap asks for.
+The Layer-0 `ZLattice` reconciliation is represented only in part. The roadmap asks that every
+engine definition be mapped onto the `ZLattice`/covolume API, and that any `box` or separation
+definition that merely wraps Mathlib be dropped. Here `box_eq_pi` identifies Tau Ceti's `box`
+with a product of closed balls, and the doubling bound is restated for a discrete `ℤ`-submodule
+(the setting of Mathlib's `IsZLattice`), with its finiteness hypothesis discharged. Tau Ceti
+nevertheless keeps `box` as a named definition, and no statement relates the engine's counts to
+`ZLattice.covolume`.
+
+Layer 3 and the long-horizon Brauer–Siegel aspiration have no statement here. What Layer 3 asks
+for and Tau Ceti lacks is a general explicit lower bound on the regulator `R_F` in terms of the
+degree or the discriminant: Tau Ceti has `1 ≤ R_F` in unit rank zero, the rank-one formula
+`R_F = mult(w) · |log w(u)|` for a fundamental unit `u`, and evaluations for particular fields
+(such as `R = log φ` for `ℚ(√5)`), none of which is a lower bound for positive rank. The volume
+computations feeding the analytic class number formula are already upstream: Mathlib computes
+`vol(normLeOne F) = 2^r₁ · π^r₂ · R_F` and the residue of the Dedekind zeta function at `s = 1`,
+and Tau Ceti extends the volume to the ray fundamental domains of a modulus
+(`TauCeti.GlobalNumberFields.measureReal_rayFundamentalDomain_inter_normLeOne`). Those are exact
+identities rather than the effective estimates the roadmap's Layer 3 is after, so they are not
+restated here.
 
 The Layer-1 bounds are migrated from
 [kim-em/erdos-unit-distance](https://github.com/kim-em/erdos-unit-distance); the ported
@@ -55,6 +73,26 @@ theorem mem_box {r : ι → ℝ} {c : ℝ} {x : ι → ℂ} :
     x ∈ box r c ↔ ∀ i, ‖x i‖ ≤ c * r i :=
   TauCeti.GeometryOfNumbers.mem_box
 
+/-- **`ZLattice` reconciliation, the box.** `box r c` is Mathlib's product of closed balls
+`Set.pi univ (fun i ↦ closedBall 0 (c · r i))`; Tau Ceti keeps the name for the engine's
+statements, but it introduces no new notion. -/
+theorem box_eq_pi (r : ι → ℝ) (c : ℝ) :
+    box r c = Set.pi Set.univ (fun i ↦ Metric.closedBall (0 : ℂ) (c * r i)) := by
+  ext x
+  simp
+
+/-- **`ZLattice` reconciliation, finiteness.** A discrete additive subgroup of `ι → ℂ` meets
+every box in a finite set, since it is closed and the box is compact. This discharges the
+finiteness hypothesis of the doubling bound below. -/
+theorem finite_inter_box_of_discreteTopology [Finite ι] (Λ : AddSubgroup (ι → ℂ))
+    [DiscreteTopology Λ] (r : ι → ℝ) (c : ℝ) : ((Λ : Set (ι → ℂ)) ∩ box r c).Finite := by
+  have hc : IsCompact (box r c) := by
+    rw [box_eq_pi]
+    exact isCompact_univ_pi fun i ↦ isCompact_closedBall 0 _
+  have hcl : IsClosed (Λ : Set (ι → ℂ)) := AddSubgroup.isClosed_of_discreteTopology
+  exact (hc.inter_left hcl).finite
+    ((isDiscrete_iff_discreteTopology.mpr ‹_›).mono Set.inter_subset_left)
+
 /-- **Layer 0, packing.** A subset of `box r c` whose distinct points are `ε`-separated in some
 coordinate (relative to `r`) is finite, of cardinality at most `(4c/ε)^(2·#ι)`. -/
 theorem finite_and_ncard_le_of_subset_box_of_separated [Fintype ι] (r : ι → ℝ)
@@ -71,6 +109,16 @@ theorem ncard_inter_box_two_le_pow_mul_ncard_inter_box_one [Fintype ι] (r : ι 
     (((Λ : Set (ι → ℂ)) ∩ box r 2).ncard : ℝ) ≤
       49 ^ Fintype.card ι * ((Λ : Set (ι → ℂ)) ∩ box r 1).ncard :=
   TauCeti.GeometryOfNumbers.ncard_inter_box_two_le_pow_mul_ncard_inter_box_one r hr Λ hfin
+
+/-- **Layer 0, doubling in the `ZLattice` setting.** For a discrete `ℤ`-submodule `L` of
+`ι → ℂ` (the carrier of Mathlib's `IsZLattice ℝ L`, which adds only the spanning condition),
+`#(L ∩ box r 2) ≤ 49^#ι · #(L ∩ box r 1)` with no finiteness hypothesis. -/
+theorem ncard_inter_box_two_le_pow_mul_ncard_inter_box_one_of_discreteTopology [Fintype ι]
+    (r : ι → ℝ) (hr : ∀ i, 0 < r i) (L : Submodule ℤ (ι → ℂ)) [DiscreteTopology L] :
+    (((L : Set (ι → ℂ)) ∩ box r 2).ncard : ℝ) ≤
+      49 ^ Fintype.card ι * ((L : Set (ι → ℂ)) ∩ box r 1).ncard :=
+  TauCeti.GeometryOfNumbers.ncard_inter_box_two_le_pow_mul_ncard_inter_box_one r hr
+    L.toAddSubgroup (finite_inter_box_of_discreteTopology L.toAddSubgroup r 2)
 
 end Layer0
 
@@ -174,11 +222,34 @@ end Layer2
 
 section WorkedExamples
 
-/-- The class number bound is non-vacuous on `ℚ(√−5)` (`d = −20`, `n = 2`): `h ≤ 20 · 16`,
-with the field modelled as `AdjoinRoot (X² + 5)`. -/
-theorem classNumber_adjoinRoot_sqrt_neg_five_le :
-    NumberField.classNumber (AdjoinRoot (Polynomial.X ^ 2 - Polynomial.C (-5 : ℚ))) ≤ 20 * 16 :=
-  NumberField.WorkedExamples.classNumber_adjoinRoot_sqrt_neg_five_le
+/-- The field `ℚ(√−5)`, modelled as `AdjoinRoot (X² + 5)`. -/
+local notation "Q√−5" => AdjoinRoot (Polynomial.X ^ 2 - Polynomial.C (-5 : ℚ))
+
+/-- `ℚ(√−5)` has degree `n = 2`. -/
+theorem finrank_adjoinRoot_sqrt_neg_five : Module.finrank ℚ Q√−5 = 2 := by
+  obtain ⟨θ, hmin, hgen⟩ := TauCeti.NumberField.exists_minpoly_eq_X_sq_add_five_and_adjoin_eq_top
+  exact NumberField.finrank_rat_eq_two hmin hgen
+
+/-- `ℚ(√−5)` has discriminant `d = −20`. -/
+theorem discr_adjoinRoot_sqrt_neg_five : NumberField.discr Q√−5 = -20 := by
+  obtain ⟨θ, hmin, hgen⟩ := TauCeti.NumberField.exists_minpoly_eq_X_sq_add_five_and_adjoin_eq_top
+  simpa using NumberField.discr_eq_four_mul_of_mod_four_ne_one hmin hgen
+    ((Int.prime_iff_natAbs_prime.mpr (by decide)).squarefree) (by norm_num)
+
+/-- `ℚ(√−5)` has class number `h = 2`. -/
+theorem classNumber_adjoinRoot_sqrt_neg_five : NumberField.classNumber Q√−5 = 2 :=
+  TauCeti.NumberField.classNumber_adjoinRoot_sqrt_neg_five_eq_two
+
+/-- **The class number bound is non-vacuous on `ℚ(√−5)`.** With `h = 2`, `d = −20` and
+`n = 2`, the general bound `h_F ≤ |d_F| · 4ⁿ` reads `2 ≤ 20 · 16`; the proof is that
+instance of `classNumber_le_bound`, evaluated with the three values above. -/
+theorem classNumber_le_bound_adjoinRoot_sqrt_neg_five : (2 : ℝ) ≤ 20 * 16 := by
+  have h := classNumber_le_bound Q√−5
+  rw [classNumber_adjoinRoot_sqrt_neg_five, discr_adjoinRoot_sqrt_neg_five,
+    finrank_adjoinRoot_sqrt_neg_five] at h
+  calc (2 : ℝ) = ((2 : ℕ) : ℝ) := by norm_num
+    _ ≤ |((-20 : ℤ) : ℝ)| * 4 ^ 2 := h
+    _ = 20 * 16 := by norm_num
 
 /-- A concrete doubling instance for the rank-two Gaussian lattice `ℤ + ℤi ⊆ ℂ ≅ ℝ²`:
 `#(Λ ∩ box 2) ≤ 49 · #(Λ ∩ box 1)`. -/
