@@ -53,36 +53,39 @@ The statements here suggest Lean forms for the milestones, so that contributors 
 converge on names and signatures; discharging all of them finishes neither a layer nor the roadmap.
 
 Every milestone of `README.md`, Layers 0 to 3 with their named companions and the worked examples,
-has a statement here in the form the roadmap asks for, closed by the Tau Ceti declaration that
-realizes it, so the correspondence is checked by the Lean kernel rather than asserted in prose. No
-statement is left unproved. That is evidence for completion, not its criterion: completion is
-judged by a milestone-by-milestone audit against `README.md`, which a fully discharged file of
-suggested forms cannot replace.
+apart from the three listed under *Not yet certified* at the end of this note, has a statement here
+in the form the roadmap asks for, closed by the Tau Ceti declaration that realizes it, so the
+correspondence is checked by the Lean kernel rather than asserted in prose. No statement is left
+unproved. That is evidence for completion, not its criterion: completion is judged by a
+milestone-by-milestone audit against `README.md`, which a fully discharged file of suggested forms
+cannot replace.
 
-The earlier version of this file built its own copies of the objects (a `CommRing` instance on
-`ẑ`, `toZMod`, `component`, `idem`, `zpowHat`, `closedZpowers`, `ContinuousAut` with its group
-structure and congruence topology, `ContinuousOut`, `IsTopCharacteristic`, `mapQuotient`,
-`mapClosedQuotient`, `outerAction`, `frattiniKernel`, aliases `closedLowerCentralSeries`,
-`lcsGradedPiece`, `lcsGradedMk`, `lcsBracket`, and a topology on `TauCeti.HeisenbergGroup`) and
-stated the milestones about them. All of these except `frattiniKernel` now live in Tau Ceti under
-the same names, in the `TauCeti` namespace, so the statements below are made about the Tau Ceti
-objects directly. Only three local names remain: the notation `ẑ` for
+The earlier version of this file built its own copies of the objects (a `CommRing` instance on `ẑ`,
+`toZMod`, `component`, `idem`, `zpowHat`, `closedZpowers`, `ContinuousAut` with its group structure
+and congruence topology, `ContinuousOut`, `IsTopCharacteristic`, `mapQuotient`, `mapClosedQuotient`,
+`outerAction`, `frattiniKernel`, aliases `closedLowerCentralSeries`, `lcsGradedPiece`,
+`lcsGradedMk`, `lcsBracket`, and a topology on `TauCeti.HeisenbergGroup`) and stated the milestones
+about them. All of these except `frattiniKernel` now live in Tau Ceti under the same names, in the
+`TauCeti` namespace, so the statements below are made about the Tau Ceti objects directly. Apart
+from the compatibility names described below, only three local names remain: the notation `ẑ` for
 `Additive TauCeti.zHat.{0}` (the old file's convention, kept: Tau Ceti's `zHat` is
 universe-polymorphic, and the notation pins universe `0`, which needs `quotPrecheck` off), the
-README's alias `padicPow ℓ hG x u` for
-`TauCeti.IsProP.padicPow`, and the README's `HeisenbergZp p` for `TauCeti.HeisenbergGroup ℤ_[p]`.
-The old targets map as follows: `frattiniKernel P` is `(MulAut.mapQuotient (frattini P)).ker`;
-`nonempty_ringEquiv_pi` is the named `TauCeti.zHat.ringEquivPiPadicInt`; `isUnit_iff` is
-`isUnit_iff_toZMod`; `isProP_ker_toFrattiniQuotient` is split into its pro-`p` and open halves;
-`lcsBracket_natural` is `gradedMap_lcsBracket`;
-`commutator_mem_closedLowerCentralSeries` is the subgroup form
-`commutator_closedLowerCentralSeries_le`; `padicPow_mem_closedLowerCentralSeries` is the general
-`padicPow_mem` for closed subgroups; `lcsBracket_padicPow_left` and `_right` give the
-membership proofs explicitly instead of existentially; `lcsGradedPiece_eq_sum_bracket` (indexed
-through `Fintype.equivFin` and `List.ofFn`) is `exists_sum_lcsBracket_eq`, indexed by `ι`; the
-aliases `ProfiniteCompletion.continuousMonoidHomEquiv` and `zHat.lift` are dropped, because Tau
-Ceti generalized those declarations in place; `lcsBracket_add_left` and `_right` are dropped,
-because `lcsBracket` is a bundled biadditive map (`→+ →+`). Every other old target is restated.
+README's alias `padicPow ℓ hG x u` for `TauCeti.IsProP.padicPow`, and the README's `HeisenbergZp p`
+for `TauCeti.HeisenbergGroup ℤ_[p]`. The old targets map as follows: `frattiniKernel P` is
+`(MulAut.mapQuotient (frattini P)).ker`; `nonempty_ringEquiv_pi` is the named
+`TauCeti.zHat.ringEquivPiPadicInt`; `isUnit_iff` is `isUnit_iff_toZMod`;
+`isProP_ker_toFrattiniQuotient` is split into its pro-`p` and open halves; `lcsBracket_natural` is
+`gradedMap_lcsBracket`; `padicPow_mem_closedLowerCentralSeries` is the general `padicPow_mem` for
+closed subgroups; `lcsBracket_padicPow_left` and `_right` give the membership proofs explicitly
+instead of existentially; `lcsGradedPiece_eq_sum_bracket` is also stated in the reindexed form
+`exists_sum_lcsBracket_eq`; the aliases `ProfiniteCompletion.continuousMonoidHomEquiv` and
+`zHat.lift` are dropped, because Tau Ceti generalized those declarations in place. Every other old
+target is restated. The names that PeripheralActions' README lists in its dependency contract and
+that are theorems (`padicPow_one`, `padicPow_units_injective`, `zpowHat_idem_of_isProP`,
+`commutator_mem_closedLowerCentralSeries`, `lcsBracket_add_left`, `lcsBracket_add_right`,
+`lcsGradedPiece_eq_sum_bracket`) keep their old signatures in the last section of this file; the
+objects it lists (`ContinuousAut`, `closedLowerCentralSeries`, `lcsGradedPiece`, …) are Tau Ceti's,
+under the same names.
 
 The deliberate differences between the README's requested forms and Tau Ceti's are these.
 
@@ -120,6 +123,26 @@ The deliberate differences between the README's requested forms and Tau Ceti's a
   `TauCeti.PadicInt.continuousAutEquivUnits`, which is not in the pinned revision.
 
 The README marks nothing as optional or long-horizon; it has no out-of-scope milestones.
+
+**Not yet certified.** Three README statements have no Tau Ceti declaration at the pinned
+revision, and are not stated here.
+
+* Layer 3.4, the detecting group: the triples of `HeisenbergZp p` with all coordinates in
+  `p ^ n ℤ_p` form an open normal subgroup of index `p ^ (3 n)`, and these form a basis of
+  neighbourhoods of `1`. Tau Ceti has only the pro-`p` property `HeisenbergGroup.isProP_padicInt`,
+  proved by an extension argument. The levels are added in
+  https://github.com/TauCetiProject/TauCeti/pull/13171 (`HeisenbergGroup.level`,
+  `mem_level_iff`, `index_level`, `hasBasis_nhds_one_level`), to be certified here after the next
+  pin bump.
+* Layer 3.4, degree one: `gr_1(F)` as the exterior square of `gr_0(F)`, free of rank
+  `r (r - 1) / 2` with `x̄_i ∧ x̄_j ↦ [x̄_i, x̄_j]`. Tau Ceti proves the basis statement
+  `lcsGradedPiece_one_freeProP_bijective` and mentions the exterior square only in prose.
+* Layer 2.4, the pro-`p` theorem: the identification of the kernel on the Frattini quotient with
+  the inverse limit of the finite kernels over the characteristic open normal subgroups contained
+  in `proPFrattini p G`. Tau Ceti describes `ContinuousAut G` by compatible families over all
+  characteristic open quotients (`ContinuousAut.range_pi_mapQuotient`), but not this restricted
+  family of kernels; the bridge needs the cofinality of those subgroups below the open subgroup
+  `proPFrattini p G`, which is more than a specialization.
 -/
 
 set_option autoImplicit false
@@ -1174,6 +1197,13 @@ theorem continuous_lcsBracket (j k : ℕ) :
 homomorphism. -/
 example : LieRing (⨁ n, TauCeti.lcsGradedPiece G n) := inferInstance
 
+/-- **Layer 3.2.** The Lie bracket of `⨁ n, gr_n(G)` is the degreewise bracket: on homogeneous
+elements of degrees `j` and `k` it is `lcsBracket`, landing in degree `j + k + 1`. -/
+theorem lie_of_of {j k : ℕ} (x : TauCeti.lcsGradedPiece G j) (y : TauCeti.lcsGradedPiece G k) :
+    ⁅DirectSum.of (TauCeti.lcsGradedPiece G) j x, DirectSum.of (TauCeti.lcsGradedPiece G) k y⁆
+      = DirectSum.of (TauCeti.lcsGradedPiece G) (j + k + 1) (TauCeti.lcsBracket G j k x y) :=
+  TauCeti.of_lie_of x y
+
 theorem gradedLieHom_of {H : Type v} [Group H] [TopologicalSpace H] [IsTopologicalGroup H]
     (f : G →* H) (hf : Continuous f) (k : ℕ) (x : TauCeti.lcsGradedPiece G k) :
     TauCeti.gradedLieHom 0 f hf (DirectSum.of (TauCeti.lcsGradedPiece G) k x)
@@ -1193,6 +1223,19 @@ theorem lcsGradedMk_padicPow {n : ℕ} (x : TauCeti.closedLowerCentralSeries G n
         ⟨padicPow p hG x u, padicPow_mem p hG (isClosed_closedLowerCentralSeries n) x.2 u⟩
       = u • TauCeti.lcsGradedMk G n x :=
   hG.gradedMk_padicPow x u
+
+/-- **Layer 3.2.** Each `gr_n(G)` is a topological `ℤ_p`-module: the module structure is Tau
+Ceti's `IsProP.module` on the abelian pro-`p` quotient, whose scalar action is continuous. -/
+theorem continuousSMul_lcsGradedPiece (n : ℕ) :
+    letI := hG.gradedPieceModule 0 n
+    ContinuousSMul ℤ_[p] (TauCeti.lcsGradedPiece G n) := by
+  let R := TauCeti.pLowerCentralSeries 0 G n
+  let N := (TauCeti.pLowerCentralSeries 0 G (n + 1)).subgroupOf R
+  let _ : IsClosed (R : Set G) := TauCeti.isClosed_pLowerCentralSeries n
+  let _ : IsClosed (N : Set R) :=
+    (TauCeti.isClosed_pLowerCentralSeries (n + 1)).preimage continuous_subtype_val
+  rw [hG.gradedPieceModule_def]
+  exact ((hG.subgroup R).quotient N).continuousSMul_module
 
 /-- **Layer 3.2.** The bracket is `ℤ_p`-bilinear on classes of powers. -/
 theorem lcsBracket_padicPow_left {j k : ℕ} (x : TauCeti.closedLowerCentralSeries G j)
@@ -1475,5 +1518,75 @@ theorem lcsGradedPiece_one_freeProP_fin_two_bijective :
   rfl
 
 end WorkedExamples
+
+/-! ## Names kept for the PeripheralActions contract
+
+PeripheralActions' README lists these names from this roadmap's namespace in its dependency
+contract. They keep the old file's signatures and are closed by the Tau Ceti declarations. -/
+
+section Compatibility
+
+variable {G : Type u} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G]
+  [TotallyDisconnectedSpace G]
+
+/-- Tau Ceti's `TauCeti.IsProP.padicPow_one`. -/
+theorem padicPow_one (ℓ : ℕ) [Fact ℓ.Prime] (hG : TauCeti.IsProP ℓ G) (x : G) :
+    padicPow ℓ hG x 1 = x :=
+  hG.padicPow_one x
+
+/-- Unit powers are injective: Tau Ceti's `TauCeti.IsProP.padicPow_left_injective`. -/
+theorem padicPow_units_injective (ℓ : ℕ) [Fact ℓ.Prime] (hG : TauCeti.IsProP ℓ G)
+    (u : ℤ_[ℓ]ˣ) : Function.Injective (fun x : G => padicPow ℓ hG x u) :=
+  hG.padicPow_left_injective u
+
+/-- On a pro-`ℓ` group `ω_ℓ` acts as the identity exponent: Tau Ceti's
+`TauCeti.zpowHat_idem_of_isProP`. -/
+theorem zpowHat_idem_of_isProP (ℓ : ℕ) [Fact ℓ.Prime] (hG : TauCeti.IsProP ℓ G) (x : G) :
+    x ^ᶻ TauCeti.zHat.idem.{0} ℓ = x :=
+  TauCeti.zpowHat_idem_of_isProP hG x
+
+end Compatibility
+
+section CompatibilityLCS
+
+variable (G : Type u) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+
+/-- Commutators raise the degree: Tau Ceti's `TauCeti.commutator_closedLowerCentralSeries_le`. -/
+theorem commutator_mem_closedLowerCentralSeries (j k : ℕ) {x y : G}
+    (hx : x ∈ TauCeti.closedLowerCentralSeries G j)
+    (hy : y ∈ TauCeti.closedLowerCentralSeries G k) :
+    ⁅x, y⁆ ∈ TauCeti.closedLowerCentralSeries G (j + k + 1) :=
+  TauCeti.commutator_closedLowerCentralSeries_le j k (Subgroup.commutator_mem_commutator hx hy)
+
+/-- Additivity of the bracket in the first variable: `lcsBracket` is bundled biadditive. -/
+theorem lcsBracket_add_left (j k : ℕ) (x x' : TauCeti.lcsGradedPiece G j)
+    (y : TauCeti.lcsGradedPiece G k) :
+    TauCeti.lcsBracket G j k (x + x') y
+      = TauCeti.lcsBracket G j k x y + TauCeti.lcsBracket G j k x' y := by
+  simp only [map_add, AddMonoidHom.add_apply]
+
+theorem lcsBracket_add_right (j k : ℕ) (x : TauCeti.lcsGradedPiece G j)
+    (y y' : TauCeti.lcsGradedPiece G k) :
+    TauCeti.lcsBracket G j k x (y + y')
+      = TauCeti.lcsBracket G j k x y + TauCeti.lcsBracket G j k x y' :=
+  map_add _ y y'
+
+/-- The finite form of the spanning theorem, in the old file's `List.ofFn` form:
+`exists_sum_lcsBracket_eq` reindexed along `Fintype.equivFin`. -/
+theorem lcsGradedPiece_eq_sum_bracket [CompactSpace G] {ι : Type} [Fintype ι] (s : ι → G)
+    (hs : (Subgroup.closure (Set.range s)).topologicalClosure = ⊤) (n : ℕ)
+    (z : TauCeti.lcsGradedPiece G (0 + n + 1)) :
+    ∃ y : Fin (Fintype.card ι) → TauCeti.lcsGradedPiece G n,
+      z = (List.ofFn fun i => TauCeti.lcsBracket G 0 n
+        (TauCeti.lcsGradedMk G 0 ⟨s ((Fintype.equivFin ι).symm i),
+          TauCeti.mem_pLowerCentralSeries_zero 0 _⟩) (y i)).sum := by
+  obtain ⟨y, hy⟩ := exists_sum_lcsBracket_eq n s hs z
+  refine ⟨y ∘ (Fintype.equivFin ι).symm, ?_⟩
+  rw [List.sum_ofFn, ← hy]
+  exact (Equiv.sum_comp (Fintype.equivFin ι).symm
+    (fun i => TauCeti.lcsBracket G 0 n
+      (TauCeti.lcsGradedMk G 0 ⟨s i, TauCeti.mem_pLowerCentralSeries_zero 0 _⟩) (y i))).symm
+
+end CompatibilityLCS
 
 end TauCetiRoadmap.ProfiniteArithmetic
