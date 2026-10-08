@@ -17,10 +17,10 @@ local-diffeomorphism prerequisites belong under `TauCeti/Geometry/Manifold/`, bu
 is explicitly owned by this roadmap rather than deferred to another roadmap. In particular, this
 roadmap owns the Levi-Civita connection and its regularity, geodesics and their flow, exponential
 maps and their local inverse logarithms, and Hopf--Rinow. The [Geometric Topology
-roadmap](../GeometricTopology/README.md) consumes the connection to build curvature and volume;
-the [differential-geometry roadmap](../DifferentialGeometry/README.md) consumes it to build
+roadmap](../../TauCetiRoadmap/GeometricTopology/README.md) consumes the connection to build curvature and volume;
+the [differential-geometry roadmap](../../TauCetiRoadmap/DifferentialGeometry/README.md) consumes it to build
 gradient, divergence, Hessian and the Laplace–Beltrami operator; the
-[Optimal Transport roadmap](../OptimalTransport/README.md) consumes the exponential, logarithm,
+[Optimal Transport roadmap](../../TauCetiRoadmap/OptimalTransport/README.md) consumes the exponential, logarithm,
 completeness, and minimizing-geodesic APIs and owns the subsequent cut-locus and
 transport-specific theory.
 
@@ -182,6 +182,10 @@ implement every remaining roadmap target in Tau Ceti.
 
 As each layer makes the next layer's *types* expressible in `TauCeti/`, state its milestones in
 `Suggested.lean` (with `sorry`).
+
+*Archived: this roadmap was declared complete on 2026-10-08. `Suggested.lean` now states each
+milestone against Tau Ceti and closes it with no `sorry`; the sentence above describes the file as
+it stood before archiving.*
 
 ### Layer 0: the reconciled Riemannian distance
 - **Existing `C¹` length algebra (consume):** use `Manifold.pathELength_add` for subdivision and
