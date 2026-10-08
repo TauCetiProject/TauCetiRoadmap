@@ -44,7 +44,6 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Local Galois groups of p-adic fields](TauCetiRoadmap/LocalGaloisGroups/README.md)
 - [Modular curves, following Katz–Mazur](TauCetiRoadmap/ModularCurves/README.md)
 - [Modular forms — Hecke theory, newforms, and L-functions](TauCetiRoadmap/ModularForms/README.md)
-- [Multiquadratic fields and genus theory](TauCetiRoadmap/Multiquadratic/README.md)
 - [Number fields, ramification, Frobenius, and the LMFDB invariants](TauCetiRoadmap/NumberFieldArithmetic/README.md)
 - [One-parameter semigroups, completely monotone functions, and BCR Bochner](TauCetiRoadmap/OneParameterSemigroups/README.md)
 - [Optimal transport and Wasserstein geometry](TauCetiRoadmap/OptimalTransport/README.md)
