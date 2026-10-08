@@ -29,3 +29,5 @@ revision against which an earlier version elaborated.
   (declared complete 2026-09-22)
 - [Hodge structures: pure, mixed, and polarized](HodgeStructures/README.md)
   (declared complete 2026-10-06)
+- [profinite and pro-`p` groups](ProfiniteProPGroups/README.md)
+  (declared complete 2026-10-08)

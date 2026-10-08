@@ -2597,7 +2597,7 @@ Item numbers are verified against the editions cited.
   Layer 2): Thm. 3.9 (Shapiro), Thm. 3.10 (`cor ∘ res = (G : H)`), Thm. 3.14
   (inflation-restriction-transgression in degree `n`), Thm. 3.16 (inductive limits), §3.9 (cup
   products); Ch. 5 (cd of pro-`p` groups through `Hⁿ(G, 𝔽_p)`, Def. 5.1) and Ch. 6 (generator and
-  relation ranks through `H¹` and `H²`), which is the `../ProfiniteProPGroups/` interface.
+  relation ranks through `H¹` and `H²`), which is the `../../Completed/ProfiniteProPGroups/` interface.
 - J. S. Milne, *Arithmetic Duality Theorems*, 2nd ed. (2006), Ch. I §0: the continuous-cochain
   conventions (p. 2), cup-product properties (0.1.1)-(0.1.6), Remark 0.11 (Shapiro for `M_*`),
   Remark 0.10 (`Ext` colimits), Prop. 0.15 (conjugation acts trivially), the reference point for

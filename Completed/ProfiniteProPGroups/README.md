@@ -1,5 +1,11 @@
 # Roadmap: profinite and pro-`p` groups
 
+**Archived, declared complete 2026-10-08.** `Suggested.lean` states the milestones below, each now
+discharged by the Tau Ceti (or Mathlib) declaration that realizes it, with no `sorry`. Five
+statements of this document were found to be mathematically wrong at archiving; they are corrected
+in the closing section *Errata, corrected at archiving*. The first is an edge-case remark; for
+the other four `Suggested.lean` certifies the corrected forms.
+
 This roadmap develops the abstract group theory used throughout the arithmetic portfolio:
 profinite foundations, supernatural order and Sylow theory, Frattini quotients and generator
 rank, free pro-`p` groups, cohomological dimension, lower `p`-series, completed group algebras,
@@ -2211,3 +2217,27 @@ The mathematical spine is Serre, *Galois Cohomology*; Ribes–Zalesskii, *Profin
 Neukirch–Schmidt–Wingberg, *Cohomology of Number Fields*; and the classification work of
 Demushkin, Labute, and Serre. Implementation and source details are maintained in a private
 provenance ledger.
+
+## Errata, corrected at archiving
+
+- **Layer 3, Frattini edge case.** "the abstract `frattini` differs when `G` is not finitely
+  generated" should read *can differ*: for `G = (ℤ/p)^ℕ`, which is not finitely generated, both the
+  abstract Frattini subgroup and `proPFrattini p G` are trivial.
+- **Layer 5, deficiency.** The inequality goes the other way: `#S - #R ≤ d - r` in `ℤ` for every
+  finite presentation (adding a redundant relator lowers `#S - #R` and leaves `d - r` unchanged).
+  Equality holds exactly when the number of relators is the least number of normal generators of
+  the relation subgroup, `d(R ⧸ Rᵖ[R, F])`; a minimal generating set alone does not give it.
+- **Layer 8, `δ_1`.** The formula for `δ_j` at `j = 1` omits the quadratic commutator terms
+  `Σ_{i<k} a_{ik} [w̄_i, w̄_k]`, and the polarization identity omits their polarization
+  `Σ_{i<k} a_{ik} ([v_i, w_k] + [w_i, v_k])`. So `δ_1` is not additive at any `p` once the relator
+  has a commutator part. The identity `δ_1(v + w) - δ_1(v) - δ_1(w) = Σ_i c_i [v_i, w_i]` holds at
+  `p = 2` only when every commutator coordinate `a_{ik}` vanishes. The polarization identity is not
+  a remaining milestone: Tau Ceti proves the corrected form.
+- **Layer 9, span statements.** "for `q ≠ 2`, `gr_j(F) = Im δ_j` for every `j ≥ 2`" holds when the
+  relator class has a nonzero `p`-power part, that is for `q = p` at odd `p`. For `q = 0` or `q` a
+  higher power of `p` the class of the relator has no `p`-power part, so `Im δ_j` consists of
+  brackets and misses the classes `π^j x̄_i`. The statement used instead is the constrained one:
+  inside the kernel `X` of the exponent sum at `x₂`, `gr_{m+1}(X) = δ(gr_m(X)^n) + T_{m+1}`.
+- **Layer 9, nonalternating normal form.** In the nonalternating case the normal form modulo
+  `λ_2(F)` is `x₁²(x₂,x₃)(x₄,x₅)⋯` only for odd `n`. For even `n` that word omits `x_n`, so its cup
+  form is degenerate; the even-rank normal form is `x₁²(x₁,x₂)(x₃,x₄)⋯`, Labute's.
