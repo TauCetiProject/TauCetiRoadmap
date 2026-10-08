@@ -81,6 +81,10 @@ residue symbols of the `dⱼ`; the **2-torsion of the class group** `Cl/Cl²`; a
 The ordering below is the dependency order. As each layer makes the next layer's *types*
 expressible in `TauCeti/`, state its milestones in `Suggested.lean` (with `sorry`).
 
+*Archived: this roadmap was declared complete on 2026-10-08. `Suggested.lean` now states each
+milestone against Tau Ceti and closes it with no `sorry`; the sentence above describes the file
+as it stood before archiving.*
+
 ### Layer 0: the multiquadratic field
 - **Square-class descent.** If `√r ∈ K(√d₁, …, √dₙ)` for `r ∈ K`, then `r` is a square
   times a subset product `∏_{j ∈ T} dⱼ`. This is the engine; it is what is migrated from
