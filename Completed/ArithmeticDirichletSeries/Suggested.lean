@@ -42,6 +42,8 @@ import TauCeti.NumberTheory.LSeries.WienerIkehara.Ordered
 import TauCeti.NumberTheory.LSeries.WienerIkehara.SharpCutoff
 import TauCeti.NumberTheory.LSeries.WienerIkehara.Variants
 import TauCeti.NumberTheory.NumberField.DirichletDensityBounds
+import TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.Conductor
+import TauCeti.NumberTheory.NumberField.Global.HeckeCharacter.Weight
 import TauCeti.NumberTheory.NumberField.WorkedExamples.GaussianRationals.NormCoeff
 import TauCeti.Order.Northcott.Basic
 
@@ -70,7 +72,23 @@ Deliberate differences from the README and from the earlier proposals:
   stores nothing else. The local power series and local factors are derived from the function
   (`localPowerSeries`, `localArithmeticFactor`), the transport through `normCoeff` is the theorem
   `normCoeff_eq_eulerProduct`, and there is no finite bad set: a bad set with no prescribed shape
-  for the good factors would constrain nothing.
+  for the good factors would constrain nothing. The archived README records this in a note to
+  Layer 3.1.
+* The prime-power logarithmic expansion and the von Mangoldt coefficient identity (README 2.3 and
+  3.4) are proved at `s` with `σ < Re s`, where `σ` is a point of absolute convergence and every
+  local power series is zero-free on the disc of radius `N(𝔭)^{-σ}`. This is necessary: the Euler
+  product with the single factor `1 + 2 · 2^{-s}` converges absolutely everywhere and is zero-free
+  near `s = 0`, but its prime-power logarithmic series diverges there. The holomorphic logarithm on
+  a simply connected zero-free region of absolute convergence is the separate theorem
+  `exists_differentiableOn_exp_eq_LSeries`. The archived README carries an erratum to both items.
+* Modifying a weight on a finite set changes its summatory function eventually by the constant
+  `∑ i ∈ u, (w₁ i - w₂ i)` (`eventually_summatory_sub_eq`), not by nothing; the archived README
+  carries an erratum to Layer 4.2.
+* The fibre-count transfer (README 7.4) assumes in addition that the map preserves absolute norms
+  off the exception and does not increase them on it, and that the fibres over the exception are
+  uniformly bounded. Without norm preservation constant fibres say nothing about prime sums, and
+  local finiteness alone does not make the preimage of a density-zero set negligible. The archived
+  README carries an erratum to Layer 7.4.
 * `idealCount_linearBounds` is the theorem `Nonempty (IdealCountingLinearBounds K)` rather than a
   chosen package.
 * `PrimeBoundaryRemainder` keeps `series` and `remainder` only on `Re s > 1` and `Re s ≥ 1`
@@ -92,8 +110,10 @@ Three neighbouring items are not milestones of this README and are left out: non
 character-specific continuation the README assigns to `LFunctions`; the ownership of the boundary
 export `TauCeti.LFunctions.primeIdealVonMangoldtBoundary`, which Tau Ceti provides and worked
 example 6 uses, and which is a question for the `LFunctions` roadmap; and Wiener–Ikehara for
-coefficients in an infinite-dimensional ordered space, beyond the finite-dimensional case stated
-in Layer 9.2, which the README asks for only "when the proof permits it".
+coefficients in an infinite-dimensional ordered space. Layer 9.2 asks for coefficients in an
+ordered real normed algebra "when the proof permits it"; the available theorem
+`wienerIkehara_of_forall_monotone_dual` covers finite-dimensional ordered real normed spaces with
+closed positive cone, and those two restrictions are its own, not the README's.
 -/
 
 namespace TauCetiRoadmap.ArithmeticDirichletSeries
@@ -209,6 +229,26 @@ example (χ : TauCeti.MultiplicativeIdealWeight K) {n : ℕ} (hn : n ≠ 0)
     (h : ∀ 𝔭 : HeightOneSpectrum (𝓞 K), 𝔭 ∉ χ.badPrimes → χ 𝔭.asIdeal ^ n = 1) :
     (UnitaryIdealWeight.ofPowEqOne χ hn h).1 = χ :=
   rfl
+
+/-- **Finite-order Hecke characters land in `UnitaryIdealWeight`.** A finite-order Hecke
+character comes from a ray class character of its conductor, and its unitary ideal weight there
+has the finite primes of the conductor as bad primes and, on every ideal prime to the conductor,
+the value of the representing ray class character. -/
+theorem heckeCharacter_toUnitaryIdealWeightAt_conductor
+    (χ : GlobalNumberFields.HeckeCharacter K) (hχ : χ.IsFiniteOrder) :
+    let 𝔣 := χ.conductor hχ
+    let h𝔣 := GlobalNumberFields.HeckeCharacter.mem_range_ofRayClassCharacter_conductor hχ
+    (χ.toUnitaryIdealWeightAt 𝔣 h𝔣).1.badPrimes = 𝔣.support ∧
+      ∀ {I : Ideal (𝓞 K)} (hI : Ideal.IsPrimeTo I 𝔣.support),
+        (χ.toUnitaryIdealWeightAt 𝔣 h𝔣).1 I =
+          ((χ.rayClassCharacterAt 𝔣 h𝔣).onIdeals ⟨I,
+            NumberFieldArithmetic.mem_integralIdealsAway_iff.mpr
+              (Ideal.isPrimeTo_iff.mp hI)⟩ : ℂ) := by
+  intro 𝔣 h𝔣
+  rw [GlobalNumberFields.HeckeCharacter.val_toUnitaryIdealWeightAt]
+  exact ⟨GlobalNumberFields.RayClassCharacter.badPrimes_toMultiplicativeIdealWeight _,
+    fun hI ↦ GlobalNumberFields.RayClassCharacter.toMultiplicativeIdealWeight_apply_of_isPrimeTo
+      _ hI⟩
 
 /-- The unitary trivial weight, conjugation, product and restriction are those of the general
 carrier. -/
