@@ -23,8 +23,8 @@ import TauCeti.Geometry.Toric.Analytic.Fan.Transition
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is
 `README.md`. These declarations pin representative interfaces for the algebraic supplier and the
-remaining analytic targets: finite-fan analytic realization, boundary normal forms, properness, and
-the comparison with algebraic complex points.
+analytic layers: finite-fan analytic realization, boundary normal forms, properness, and the
+comparison with algebraic complex points.
 
 Every toric object here is Tau Ceti's, from the namespace `TauCeti.Toric`.
 `TauCeti/Geometry/Toric/Algebraic/` supplies integral lattices, toric cones, rays and primitive

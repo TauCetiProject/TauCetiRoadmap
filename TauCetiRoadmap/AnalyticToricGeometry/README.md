@@ -168,8 +168,8 @@ At the dependency pin, the following anchors already exist.
 This layer closes the algebraic prerequisite chain. Tau Ceti implements it in
 `TauCeti/Geometry/Toric/Algebraic/`, and every later layer states its targets on the declarations
 named here. Each item gives the specification, then Tau Ceti's declarations for it, then the
-targets that remain. The remaining targets are the general toric case of what Tau Ceti proves
-for regular cones and regular fans, and `Suggested.lean` states them on Tau Ceti's objects.
+targets that remain. The remaining targets are the algebraic torus actions of items 7 and 9 and
+the fan scheme of a product.
 
 1. **Integral lattices.** The integral-lattice predicate is an `R`-linear equivalence
    `R tensor[Z] N ≃ N_R` whose restriction to `1 tensor N` is the chosen lattice map, with
