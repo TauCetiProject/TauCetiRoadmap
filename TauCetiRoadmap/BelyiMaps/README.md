@@ -211,7 +211,7 @@ exact public names for the cyclotomic and peripheral applications.
 
 AlgebraicCurves, PolynomialGaloisGroups and ProfiniteProPGroups live at
 `../AlgebraicCurves/README.md`, `../PolynomialGaloisGroups/README.md` and
-`../ProfiniteProPGroups/README.md`.
+`../../Completed/ProfiniteProPGroups/README.md`.
 
 What this roadmap supplies to other subjects:
 

@@ -9,7 +9,7 @@ The boundary is deliberate. The **Class Field Theory** roadmap consumes these ob
 finite-group Tate cohomology, class formations, local reciprocity, and duality. The **Local
 Galois Groups** roadmap consumes them, together with abstract pro-`p` group theory, to determine
 `G_K(p)` and its Demushkin presentation. This roadmap in turn depends on [**Profinite and
-Pro-`p` Groups**](../ProfiniteProPGroups/README.md) for abstract profinite Sylow theory, and
+Pro-`p` Groups**](../../Completed/ProfiniteProPGroups/README.md) for abstract profinite Sylow theory, and
 imports its `Suggested.lean` directly, and on Tau Ceti's free profinite groups and profinite
 presentations (`TauCeti.freeProfiniteGroup`, `TauCeti.presentedProfiniteGroup`). It does not
 redeclare any of those group-theoretic suppliers.
@@ -1132,7 +1132,7 @@ temporary arithmetic declarations with the canonical exports above.
 ### Layer 4: the tame quotient of the absolute Galois group
 
 **Suppliers.** For the group theory of this layer, `Suggested.lean` imports
-`TauCetiRoadmap.ProfiniteProPGroups.Suggested` and Tau Ceti's
+`Completed.ProfiniteProPGroups.Suggested` and Tau Ceti's
 `TauCeti.Topology.Algebra.Group.Profinite.Presentation` and
 `TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic` directly. No supplied group-theoretic
 declaration is restated: there is no `Supplied.*` alias and no private replacement carrier for the
@@ -1383,7 +1383,7 @@ generic theorems.
 
 The external abstract dependency order is **[Continuous Cohomology of Profinite
 Groups](../ProfiniteCohomology/README.md) → [Profinite and Pro-`p`
-Groups](../ProfiniteProPGroups/README.md), a direct `import` of `Suggested.lean` here → this
+Groups](../../Completed/ProfiniteProPGroups/README.md), a direct `import` of `Suggested.lean` here → this
 roadmap**. Within this roadmap the intended order is
 Layer 0 → Layer 1 → Layer 2 → Layer 3 → Layer 4. Later work may proceed against explicit
 hypotheses, but the accepted exports use the canonical objects produced by the preceding layers.
