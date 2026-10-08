@@ -611,7 +611,12 @@ group action, in Mathlib's vocabulary. No statement mentions a field.
   `α ≃ (block system) × B`.
 
   - *Source:* Dixon and Mortimer, Theorem 2.6A.
-  - *Hypotheses:* the action is transitive and `B` is a nontrivial proper block.
+  - *Hypotheses:* the action is transitive and faithful, and `B` is a nontrivial proper block.
+
+  (*Erratum, corrected at archiving:* faithfulness was missing. The map to the wreath product
+  always exists, but it is injective exactly when the action is faithful. `C₃ × C₄` acting on
+  four points through `C₄` has a two-point block and order 12, so it does not embed in a wreath
+  product of order 8. Without faithfulness, the statement holds for the permutation image.)
 
   *Needs:* the block-stabilizer correspondence and the wreath products above (Layer 1).
 
@@ -1265,9 +1270,11 @@ displays as `nT(j+1)`.
      subgroups of `F₂₀` that contain `P` are `C₅`, `D₅`, and `F₂₀`, one for each subgroup of the
      cyclic group `F₂₀/P` of order 4.
   3. If it is 6, then `6` divides `|G|`, so `30` divides `|G|`.
-  4. `S₅` has no subgroup of order 30. Such a subgroup has index 4, so it gives a morphism
-     `S₅ → S₄` whose kernel has order 5. The normal subgroups of `S₅` are `1`, `A₅`, and `S₅`,
-     and none has order 5.
+  4. `S₅` has no subgroup of order 30. Such a subgroup has index 4, so the action on its cosets
+     gives a morphism `S₅ → S₄` whose kernel has order at least 5 and lies in the subgroup. The
+     normal subgroups of `S₅` are `1`, `A₅`, and `S₅`, and none of them is both. (*Erratum,
+     corrected at archiving:* this step first said the kernel has order exactly 5, which does
+     not follow, since the image need not be all of `S₄`.)
   5. So `|G|` is 60 or 120. A subgroup of order 60 has index 2 and is therefore `A₅`, and order
      120 is `S₅`.
 
@@ -1668,9 +1675,11 @@ convention it fixes:
   Amer. Math. Monthly 96 (1989), 133–137; stated as Theorem 4.1 of Conrad's notes above, which is
   where it was inspected. It separates `C₄` from `D₄` by asking whether `X² + aX + (b − r′)` and
   `X² − r′X + d` split over `K(√Δ)`, where `r′` is the unique base-field root of the resolvent
-  cubic. Those two quadratics are the factors of `f` over `K(√Δ)`, so the criterion is the same
-  as the one Layer 4 states — `C₄` exactly when `f` becomes reducible over `F(√disc f)` — and the
-  roadmap adopts the reducibility form, which mentions no choice of `r′`.
+  cubic. The criterion is equivalent to the one Layer 4 states, `C₄` exactly when `f` becomes
+  reducible over `F(√disc f)`, and the roadmap adopts the reducibility form, which mentions no
+  choice of `r′`. (*Erratum, corrected at archiving:* this entry first said that the two
+  quadratics are the factors of `f` over `K(√Δ)`. They are not: their roots are sums and products
+  of paired roots of `f`, and for `X⁴ − 2` they are `X²` and `X² − 2`.)
 - D. S. Dummit, *Solving solvable quintics*, Math. Comp. 57 (1991) 387-401. **Inspected.** The
   exact source for the quintic invariant and the solvability criterion.
 
@@ -1712,7 +1721,8 @@ a private provenance ledger. That ledger is not part of the specification.
 *Archived: this roadmap was declared complete on 2026-10-08. `Suggested.lean` now states each
 milestone of Layers 0 to 6 and 9, with the worked examples and non-examples, against Tau Ceti and
 closes it with no `sorry`; it imports Dedekind's factorization theorem from Tau Ceti directly.
-Three errata were corrected on archiving and are marked in place: the faithfulness hypothesis of
-the product-action primitivity theorem in Layer 1, the discriminant of `x⁵ − x` (`−256`, not
-`256`), and the discriminant of `x⁴ + x³ + x² + x + 1` in the degree-4 worked examples (`125`,
-not a square).*
+Six errata were corrected on archiving and are marked in place: the faithfulness hypotheses of
+the product-action primitivity theorem and of the wreath embedding in Layer 1, the discriminant
+of `x⁵ − x` (`−256`, not `256`), the discriminant of `x⁴ + x³ + x² + x + 1` in the degree-4
+worked examples (`125`, not a square), the kernel in the order-30 step of the degree-5
+classification, and the description of the Kappe–Warren quadratics.*

@@ -138,10 +138,11 @@ Deliberate differences between the README's forms and Tau Ceti's:
 * The quartic decision-table rows conclude `HasGaloisLabel`; the identification of each
   reference subgroup with `S₄`, `A₄`, `V₄`, `D₄` and `C₄` is the Layer 6 table.
 * The reference subgroups `3T2`, `4T4`, `4T5`, `5T4` and `5T5` are `⊤` or `alternatingGroup`,
-  and `4T2` is the Klein four-subgroup; the README's LMFDB generators for those rows are not
-  separately shown to generate them. The other rows are the README's generators.
+  and `4T2` is the Klein four-subgroup. The other rows are the README's generators.
 * `HasSecondRootInRootField` compares with `X %ₘ f` rather than `X`. Product-action primitivity of
-  the wreath product assumes `FaithfulSMul D Λ` (see the erratum in `README.md`).
+  the wreath product assumes `FaithfulSMul D Λ`, and the wreath embedding is injective exactly
+  for a faithful action (`toWreathProduct_injective_iff`); both hypotheses are errata recorded in
+  `README.md`.
 * The README's `IsSolvable` is spelled `Group.IsSolvable` in the pinned Mathlib.
 
 Earlier-proposed statements that are not carried over verbatim: `numResolventSpecs`,
@@ -155,6 +156,16 @@ are Frobenius orbit sizes; the two-cyclic-subgroups-of-order-4 example is replac
 earlier stated over `ℤ` with integer sextic roots, is stated over a general field (the integer
 form survives in `HasSexticRoot` and the certificate routes). Every other earlier statement is
 kept, some in a stronger form.
+
+Awaiting Tau Ceti (https://github.com/TauCetiProject/TauCeti/pull/13170), to be cited after the
+next pin bump:
+
+* **Not yet certified:** that the README's LMFDB generators generate the reference subgroups
+  `3T2`, `4T2`, `4T4`, `4T5`, `5T4` and `5T5` (`referenceSubgroup_*_eq_closure`).
+* **Proved in this file for now:** `disc(x⁵ − x − 1) = 2869`, by a resultant computation that
+  moves to Tau Ceti as `discr_X_pow_five_sub_X_sub_one`, and the group-side quintic criterion,
+  by a short bridge that becomes the public
+  `isSolvable_gal_iff_exists_le_map_conj_referenceSubgroup_five_two`.
 
 Not certified: Dedekind's cubic `x³ + x² − 2x + 8`, which the README cites as the false
 generalization of the imported theorem (its content is ramification theory, owned by Number
@@ -429,6 +440,15 @@ example (x : E) (y : (minpoly F x).rootSet (minpoly F x).SplittingField)
       TauCeti.splittingFieldEquivNormalClosure (F := F) (E := E) x
         (σ • y : (minpoly F x).SplittingField) :=
   TauCeti.quotientGalStabilizerEquivAlgHomSimpleField_mk_gen x y σ
+
+/-- **The embedding bijection is `G`-equivariant**: translating a coset by `σ` composes the
+corresponding embedding with the automorphism of the normal closure that `σ` induces. -/
+example (x : E) (y : (minpoly F x).rootSet (minpoly F x).SplittingField)
+    (σ : (minpoly F x).Gal) (q : (minpoly F x).Gal ⧸ stabilizer (minpoly F x).Gal y) :
+    TauCeti.quotientGalStabilizerEquivAlgHomSimpleField x y (σ • q) =
+      TauCeti.galEquivNormalClosure x σ •
+        TauCeti.quotientGalStabilizerEquivAlgHomSimpleField x y q :=
+  TauCeti.quotientGalStabilizerEquivAlgHomSimpleField_smul x y σ q
 
 /-- **Conjugate subfields and conjugate subgroups.** The conjugates of `F⟮x⟯` in its normal
 closure are the fields `F⟮y⟯` for the roots `y` of `minpoly F x`, and they correspond to the
@@ -1003,6 +1023,20 @@ example (hp : p.Separable) (hq : q.Separable)
   Gal.restrictProdMulEquiv_apply hp hq h g
 
 end Products
+
+/-- **A surjection `Gal p ↠ Gal q` when the splitting field of `q` embeds in that of `p`**, in
+general: if `q` splits in `p.SplittingField`, restriction `p.Gal →* q.Gal` is surjective, and it
+is compatible with the two root actions, so any `Gal p`-equivariant description of the roots of
+`q` inside the splitting field of `p` is read off through it. -/
+example (p q : F[X]) [Fact ((q.map (algebraMap F p.SplittingField)).Splits)] :
+    Function.Surjective (Gal.restrict q p.SplittingField : p.Gal →* q.Gal) :=
+  Gal.restrict_surjective q p.SplittingField
+
+example (p q : F[X]) [Fact ((q.map (algebraMap F p.SplittingField)).Splits)] (σ : p.Gal)
+    (x : q.rootSet p.SplittingField) :
+    (Gal.galActionHom q p.SplittingField (Gal.restrict q p.SplittingField σ) x :
+      p.SplittingField) = σ x :=
+  Gal.galActionHom_restrict q p.SplittingField σ x
 
 /-- **An equivariant polynomial map of root data gives a surjection of Galois groups.** For the
 map `α ↦ T(α)` from the roots of `f` to those of its Tschirnhaus transform, whose splitting field
@@ -2537,7 +2571,17 @@ example : referenceSubgroup 5 ⟨2, by simp⟩ =
     Subgroup.normalizer (referenceSubgroup 5 ⟨0, by simp⟩ : Set (Perm (Fin 5))) :=
   referenceSubgroup_five_two_eq_normalizer_referenceSubgroup_five_zero
 
-/-- **Degree 5, steps 3 to 5**: a subgroup of `S₅` of order divisible by `30` is `A₅` or `S₅`; in
+/-- **Degree 5, step 3**: if the number of Sylow 5-subgroups is `6`, then `6` and `5` both
+divide `|G|`, so `30` divides `|G|`. -/
+example (G : Subgroup (Perm (Fin 5))) (h5 : 5 ∣ Nat.card G)
+    (h6 : Nat.card (Sylow 5 G) = 6) : 30 ∣ Nat.card G := by
+  have : Fact (Nat.Prime 5) := ⟨by norm_num⟩
+  obtain ⟨P⟩ := (inferInstance : Nonempty (Sylow 5 G))
+  have h6' : 6 ∣ Nat.card G :=
+    h6 ▸ P.card_dvd_index.trans (P : Subgroup G).index_dvd_card
+  exact (by norm_num : Nat.Coprime 5 6).mul_dvd_of_dvd_of_dvd h5 h6'
+
+/-- **Degree 5, steps 4 and 5**: a subgroup of `S₅` of order divisible by `30` is `A₅` or `S₅`; in
 particular `S₅` has no subgroup of order `30`. -/
 example (G : Subgroup (Perm (Fin 5))) (h30 : 30 ∣ Nat.card G) :
     G = alternatingGroup (Fin 5) ∨ G = ⊤ := by
