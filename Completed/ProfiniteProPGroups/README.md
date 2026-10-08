@@ -1,10 +1,10 @@
 # Roadmap: profinite and pro-`p` groups
 
 **Archived, declared complete 2026-10-08.** `Suggested.lean` states the milestones below, each now
-discharged by the Tau Ceti (or Mathlib) declaration that realizes it, with no `sorry`. Five
+discharged by the Tau Ceti (or Mathlib) declaration that realizes it, with no `sorry`. Seven
 statements of this document were found to be mathematically wrong at archiving; they are corrected
 in the closing section *Errata, corrected at archiving*. The first is an edge-case remark; for
-the other four `Suggested.lean` certifies the corrected forms.
+the other six `Suggested.lean` certifies the corrected forms.
 
 This roadmap develops the abstract group theory used throughout the arithmetic portfolio:
 profinite foundations, supernatural order and Sylow theory, Frattini quotients and generator
@@ -2227,17 +2227,28 @@ provenance ledger.
   finite presentation (adding a redundant relator lowers `#S - #R` and leaves `d - r` unchanged).
   Equality holds exactly when the number of relators is the least number of normal generators of
   the relation subgroup, `d(R ⧸ Rᵖ[R, F])`; a minimal generating set alone does not give it.
+- **Layer 7, duality needs an infinite group.** The identification `H²(G, I(χ)/pⁱ) ≅ ℤ/pⁱ` and
+  the perfect pairings into it hold for *infinite* Demushkin groups. `ℤ/2` is Demushkin at `p = 2` with `χ` the sign, and `H²(ℤ/2, I(χ)/4)` has
+  order `2`, not `4`. The trace isomorphism `H²(G, 𝔽_p) ≅ 𝔽_p` holds for every Demushkin group.
 - **Layer 8, `δ_1`.** The formula for `δ_j` at `j = 1` omits the quadratic commutator terms
   `Σ_{i<k} a_{ik} [w̄_i, w̄_k]`, and the polarization identity omits their polarization
   `Σ_{i<k} a_{ik} ([v_i, w_k] + [w_i, v_k])`. So `δ_1` is not additive at any `p` once the relator
   has a commutator part. The identity `δ_1(v + w) - δ_1(v) - δ_1(w) = Σ_i c_i [v_i, w_i]` holds at
   `p = 2` only when every commutator coordinate `a_{ik}` vanishes. The polarization identity is not
   a remaining milestone: Tau Ceti proves the corrected form.
-- **Layer 9, span statements.** "for `q ≠ 2`, `gr_j(F) = Im δ_j` for every `j ≥ 2`" holds when the
+- **Layer 9, span statements for `q ≠ 2`.** "`gr_j(F) = Im δ_j` for every `j ≥ 2`" holds when the
   relator class has a nonzero `p`-power part, that is for `q = p` at odd `p`. For `q = 0` or `q` a
   higher power of `p` the class of the relator has no `p`-power part, so `Im δ_j` consists of
-  brackets and misses the classes `π^j x̄_i`. The statement used instead is the constrained one:
-  inside the kernel `X` of the exponent sum at `x₂`, `gr_{m+1}(X) = δ(gr_m(X)^n) + T_{m+1}`.
+  brackets and misses the classes `π^j x̄_i`; the statement then reads `gr_j(F) = Im δ_j + T_j`,
+  with the Layer 8 tail `T_j`, here spanned by all the `π^j x̄_i`. The successive approximation
+  can also run inside the kernel `X` of the exponent sum at `x₂`, with
+  `gr_{m+1}(X) = δ(gr_m(X)^n) + T'_{m+1}`, where the constrained tail `T'_{m+1}` is spanned by the
+  `π^{m+1} x̄_i` with `i ≠ 2` only; it is not the Layer 8 tail, which contains `π^{m+1} x̄₂`.
+- **Layer 9, the even-rank dyadic tail.** For the even-rank `q = 2` normal form
+  `x₁^{2+α}(x₁,x₂)x₃^{2^f}(x₃,x₄)⋯` the span statement is `gr_j(F) = Im δ_j + ⟨π^j x̄_i : i ≠ 2⟩`
+  (Labute Prop. 5). Its tail contains `π^j x̄₁`, although `c₁ ≠ 0`, and omits `π^j x̄₂`, so it is
+  not the Layer 8 tail `T_j`, which is spanned over the indices with `c_i = 0`. The odd-rank tail is
+  the Layer 8 one, as stated.
 - **Layer 9, nonalternating normal form.** In the nonalternating case the normal form modulo
   `λ_2(F)` is `x₁²(x₂,x₃)(x₄,x₅)⋯` only for odd `n`. For even `n` that word omits `x_n`, so its cup
   form is degenerate; the even-rank normal form is `x₁²(x₁,x₂)(x₃,x₄)⋯`, Labute's.

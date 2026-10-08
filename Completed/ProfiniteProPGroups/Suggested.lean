@@ -212,30 +212,40 @@ choice, and the words are Tau Ceti's with the same bodies. The earlier `sorry` e
 a README target, and the README's comparison of the rank with `Group.rank` on a finite discrete
 group is certified in general (`TauCeti.topologicalGeneratorRankNat_eq_rank`).
 
-Four differences from the README's descriptions are deliberate.
+Three differences from the README's descriptions are deliberate.
 
 * The multiplication pairing and the cup square are Tau Ceti's: `fpPairing p G` is
   `TauCeti.fpPairing p G`, a `TauCeti.TopPairing`, and `cupFp p G a b` is `TauCeti.cupFp p G a b`,
   the degree-`(1, 1)` cup product `(fpPairing p G).cup 1 1`. The README describes them through
   `ProfiniteCohomology.TopPairing` and `ProfiniteCohomology.cup`, and the latter has no body at
   the pin. `IsDemushkin` is `TauCeti.IsDemushkin`, whose two cup clauses are about `TauCeti.cupFp`.
-* `cd_p G` is `TauCeti.cohomologicalDimensionAt.{u} p G`, at the coefficient universe of
-  `G : Type u`, rather than the README's `ProfiniteCohomology.cd_p p G`, which is the same invariant
-  at coefficient universe `0`. The two agree for `G : Type`. Tau Ceti states its theorems about the
-  invariant at the universe of the group and has no comparison between coefficient universes.
 * `labuteRelatorClass` takes a continuous character `χ : F →ₜ* ℤ_[p]ˣ`, as Tau Ceti's does, rather
   than an arbitrary homomorphism `F →* A`; Labute's character is continuous.
 * The universal properties, presentations, embedding problems and the Labute module statements are
   Tau Ceti's and keep Tau Ceti's hypotheses where those are weaker; where a named roadmap theorem
   kept a hypothesis that Tau Ceti does not need, the hypothesis stays in the signature, unused.
 
-Five statements of `README.md` are corrected in its "Errata, corrected at archiving" section. One
+The `cd_p` statements use `TauCeti.cohomologicalDimensionAt.{u} p G` for `G : Type u`. The README's
+`ProfiniteCohomology.cd_p p G` is `TauCeti.cohomologicalDimensionAt.{0} p G`. Both quantify over
+coefficient modules in `Type (max u 0) = Type (max u u) = Type u`, so they test the same modules
+and are the same invariant. They are not definitionally equal only because Mathlib's
+`continuousCohomology` carries an auxiliary universe in its cochain complex, which the two readings
+instantiate differently; at `G : Type` they coincide literally.
+
+Seven statements of `README.md` are corrected in its "Errata, corrected at archiving" section. One
 is an edge-case remark: the abstract Frattini subgroup only *can* differ from `proPFrattini`
-without finite generation (Layer 3). For the other four this file certifies the corrected forms:
-the deficiency inequality reads `#S - #R ≤ d - r` (Layer 5), `δ_1` and its polarization carry the
-commutator terms (Layer 8), the span statement `gr_j(F) = Im δ_j` needs a nonzero `p`-power part,
-with a constrained form otherwise (Layer 9), and the even-rank nonalternating normal form is
-`x₁²(x₁,x₂)(x₃,x₄)⋯` (Layer 9).
+without finite generation (Layer 3). For the other six this file certifies the corrected forms:
+the deficiency inequality reads `#S - #R ≤ d - r` (Layer 5); the duality package, with
+`H²(G, I(χ)/pⁱ) ≅ ℤ/pⁱ` and the perfect pairings, is for infinite Demushkin groups (Layer 7);
+`δ_1` and its polarization carry the commutator terms (Layer 8); for `q ≠ 2` the span statement
+`gr_j(F) = Im δ_j` needs a nonzero `p`-power part, and otherwise reads `Im δ_j + T_j` (Layer 9);
+the even-rank dyadic tail is spanned by the `π^j x̄_i` with `i ≠ 2`, not by the Layer 8 tail
+(Layer 9); and the even-rank nonalternating normal form is `x₁²(x₁,x₂)(x₃,x₄)⋯` (Layer 9).
+
+Some checklist items are certified by short arguments that combine Tau Ceti and Mathlib lemmas
+rather than by a single Tau Ceti theorem. The two longest certify edge-case remarks: that the
+maximal pro-`p` quotient is trivial when `p` does not divide the supernatural order (Layer 3), and
+that `λ_1(∏_ℕ C_p)` is trivial and not open (Layer 8).
 -/
 
 namespace TauCetiRoadmap.ProfiniteProPGroups
@@ -1778,36 +1788,17 @@ example {G : Type u} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [Comp
     TauCeti.exists_comp_eq_and_topologicalClosure_closure_range_eq_top hf hfs hg hh
   exact ⟨g', fun i ↦ congrFun hg' i, hgen⟩
 
-/-- **Layer 3, Gaschütz corollary: generators lift along a Frattini quotient map.** For a
-continuous surjection `f` of a pro-`p` group onto a Hausdorff group with kernel in `Φ(G)`, every
-set whose image topologically generates the target topologically generates `G`: a bridge from
-Tau Ceti's `TauCeti.IsProP.eq_top_of_sup_proPFrattini_eq_top`. -/
+/-- **Layer 3, Gaschütz corollary: generators lift along a map with kernel in `Φ(G)`.** Let
+`φ : G →* H` have kernel in the Frattini subgroup of the pro-`p` group `G`. A homomorphism `s` into
+`G` with closed range whose composite with `φ` is surjective is itself surjective: generators of
+`H` lifted to `G` generate `G`. Tau Ceti's
+`TauCeti.IsProP.surjective_of_surjective_comp_of_ker_le_proPFrattini`. -/
 example {p : ℕ} [Fact p.Prime] {G : Type u} [Group G] [TopologicalSpace G]
     [IsTopologicalGroup G] [CompactSpace G] [TotallyDisconnectedSpace G]
-    (hG : TauCeti.IsProP p G) {H : Type v} [Group H] [TopologicalSpace H]
-    [IsTopologicalGroup H] [T2Space H]
-    (f : G →* H) (hf : Continuous f) (hker : f.ker ≤ TauCeti.proPFrattini p G) (s : Set G)
-    (hs : (Subgroup.closure (f '' s)).topologicalClosure = ⊤) :
-    (Subgroup.closure s).topologicalClosure = ⊤ := by
-  set K := (Subgroup.closure s).topologicalClosure
-  have hKc : IsClosed (K : Set G) := Subgroup.isClosed_topologicalClosure _
-  -- The image of `K` is closed and contains `f '' s`, so it is all of `H`.
-  have hfK : ∀ y : H, y ∈ K.map f := by
-    have hcl : IsClosed ((K.map f : Subgroup H) : Set H) := by
-      rw [Subgroup.coe_map]
-      exact (hKc.isCompact.image hf).isClosed
-    have hle : Subgroup.closure (f '' s) ≤ K.map f := by
-      rw [← MonoidHom.map_closure]
-      exact Subgroup.map_mono (Subgroup.le_topologicalClosure _)
-    intro y
-    have : (Subgroup.closure (f '' s)).topologicalClosure ≤ K.map f :=
-      Subgroup.topologicalClosure_minimal _ hle hcl
-    exact this (hs ▸ Subgroup.mem_top y)
-  refine hG.eq_top_of_sup_proPFrattini_eq_top hKc (top_unique fun x _ ↦ ?_)
-  obtain ⟨k, hk, hkx⟩ := Subgroup.mem_map.mp (hfK (f x))
-  have hmem : k⁻¹ * x ∈ TauCeti.proPFrattini p G :=
-    hker (by rw [MonoidHom.mem_ker, map_mul, map_inv, hkx, inv_mul_cancel])
-  simpa using Subgroup.mul_mem_sup hk hmem
+    (hG : TauCeti.IsProP p G) {K H : Type v} [Group K] [Group H] {s : K →* G}
+    (hs : IsClosed (s.range : Set G)) {φ : G →* H} (hφs : Function.Surjective (φ ∘ s))
+    (hker : φ.ker ≤ TauCeti.proPFrattini p G) : Function.Surjective s :=
+  hG.surjective_of_surjective_comp_of_ker_le_proPFrattini hs hφs hker
 
 end OpenSubgroups
 
@@ -2068,34 +2059,11 @@ example (C : TauCeti.FiniteGroupClass.{w}) {H : Type v} {K : Type u} [Group H] [
 
 /-- **Layer 4, the derived theorem on finite products.** A class of finite groups is closed under
 binary products, Tau Ceti's `TauCeti.FiniteGroupClass.MemFinite.prod` (a consequence of closure
-under extensions); the finite-product form below follows by induction on the index type. -/
+under extensions). Tau Ceti states the binary form only; products of finitely many factors follow
+by iterating it. -/
 example (C : TauCeti.FiniteGroupClass.{w}) {H : Type v} {K : Type u} [Group H] [Group K]
     (hH : C.MemFinite H) (hK : C.MemFinite K) : C.MemFinite (H × K) :=
   hH.prod hK
-
-/-- **Layer 4, closure under finite products.** The product of a finite family of members is a
-member, by induction from Tau Ceti's binary `TauCeti.FiniteGroupClass.MemFinite.prod`. -/
-example (C : TauCeti.FiniteGroupClass.{w}) {ι : Type u} [Finite ι] (H : ι → Type v)
-    [∀ i, Group (H i)] (hH : ∀ i, C.MemFinite (H i)) : C.MemFinite (∀ i, H i) := by
-  revert H
-  refine Finite.induction_empty_option
-    (P := fun (ι : Type u) ↦ ∀ (H : ι → Type v) [∀ i, Group (H i)],
-      (∀ i, C.MemFinite (H i)) → C.MemFinite (∀ i, H i)) ?_ ?_ ?_ ι
-  · intro α β e hα H _ hH
-    refine (hα (fun a ↦ H (e a)) fun a ↦ hH (e a)).of_injective
-      (MonoidHom.pi fun a ↦ Pi.evalMonoidHom H (e a)) fun x y hxy ↦ funext fun b ↦ ?_
-    have h := congrFun hxy (e.symm b)
-    simp only [MonoidHom.pi_apply, Pi.evalMonoidHom_apply] at h
-    rwa [e.apply_symm_apply] at h
-  · intro H _ _
-    exact TauCeti.FiniteGroupClass.memFinite_of_subsingleton
-  · intro α _ hα H _ hH
-    refine ((hH none).prod (hα (fun a ↦ H (some a)) fun a ↦ hH (some a))).of_injective
-      ((Pi.evalMonoidHom H none).prod (MonoidHom.pi fun a ↦ Pi.evalMonoidHom H (some a)))
-      fun x y hxy ↦ funext fun o ↦ ?_
-    cases o with
-    | none => exact congrArg Prod.fst hxy
-    | some a => exact congrFun (congrArg Prod.snd hxy) a
 
 /-- **Layer 4, constructor: finite `p`-groups.** Membership in `finiteGroupClassP p` is being a
 finite `p`-group: Tau Ceti's `TauCeti.finiteGroupClassP_memFinite_iff`. -/
@@ -6530,8 +6498,10 @@ example {p : ℕ} [Fact p.Prime] {X : Type} [Finite X] [LinearOrder X] {m : ℕ}
   TauCeti.freeProP.range_basisModificationDelta_eq_top_of_odd hp hm hspan hc
 
 /-- **Layer 9, the span statement at `x₁^q(x₁,x₂)⋯`, constrained form.** For `n` even, `p ∣ q` and
-`X` the kernel of the exponent sum at `x₂`, `gr_{m+1}(X) = δ_ρ(gr_m(X)^n) + T_{m+1}`, the tail
-spanned by the `π^{m+1}` of the generator classes: Tau Ceti's
+`X` the kernel of the exponent sum at `x₂`, `gr_{m+1}(X) = δ_ρ(gr_m(X)^n) + T'_{m+1}`, where the
+constrained tail `T'_{m+1}` is spanned by the `π^{m+1} x̄_i` with `i ≠ 2` only. It differs from
+the Layer 8 tail `T_{m+1}`, which at `q = 0` also contains `π^{m+1} x̄₂`, a class outside `X`:
+Tau Ceti's
 `freeProP.gradedPieceOf_exponentSumKer_demushkinWordNeTwo_eq_map_basisModificationDelta_sup`. -/
 example {p : ℕ} [Fact p.Prime] {n : ℕ} (hn : Even n) (hn1 : 1 < n) {q : ℕ} (hq : p ∣ q) {m : ℕ}
     (hm : 1 ≤ m) :
@@ -6549,6 +6519,57 @@ example {p : ℕ} [Fact p.Prime] {n : ℕ} (hn : Even n) (hn1 : 1 < n) {q : ℕ}
             (TauCeti.gradedMkZero p (TauCeti.freeProP p (Fin n)) (TauCeti.freeProP.of ↑a))) :=
   TauCeti.freeProP.gradedPieceOf_exponentSumKer_demushkinWordNeTwo_eq_map_basisModificationDelta_sup
     hn hn1 hq hm
+
+/-- **Layer 9, the span statement without a `p`-power part**, the case `q ≠ p` of `q ≠ 2` (Errata
+in `README.md`). If no generator class carries a `p`-power coefficient in `ρ` and the derivatives
+of `ρ` span `gr_0(F)`, then `gr_{m+1}(F) = Im δ_ρ + T_{m+1}(ρ)` for every `m ≥ 1`, with the Layer 8
+tail, here spanned by all the `π^{m+1} x̄_i`: Tau Ceti's
+`TauCeti.freeProP.range_basisModificationDelta_sup_basisModificationTail_eq_top`. -/
+example {p : ℕ} [Fact p.Prime] {X : Type} [Finite X] [LinearOrder X] {m : ℕ} (hm : 1 ≤ m)
+    {ρ : TauCeti.gradedPiece p (TauCeti.freeProP p X) 1}
+    (hρ : Submodule.span (ZMod p)
+      (Set.range fun i => TauCeti.freeProP.degreeOneDeriv p X i ρ) = ⊤)
+    (hc : ∀ i, (TauCeti.freeProP.degreeOneBasis p X).repr ρ (Sum.inl i) = 0) :
+    LinearMap.range (TauCeti.freeProP.basisModificationDelta p X hm ρ) ⊔
+      TauCeti.freeProP.basisModificationTail p X ρ (m + 1) = ⊤ :=
+  TauCeti.freeProP.range_basisModificationDelta_sup_basisModificationTail_eq_top hm hρ hc
+
+/-- **Layer 9, the dyadic span statement, odd rank** (Labute Prop. 5 at `q = 2`). For `n` odd,
+`f ≥ 2` and `ρ` the class of `x₁²x₂^{2^f}(x₂,x₃)⋯`, `gr_{m+1}(F) = Im δ_ρ + T_{m+1}(ρ)` for every
+`m ≥ 1`, with the Layer 8 tail, spanned by the `π^{m+1} x̄_i` with `i ≠ 1`: Tau Ceti's
+`freeProP.range_basisModificationDelta_sup_basisModificationTail_eq_top_demushkinWordTwoOdd`. -/
+example {n : ℕ} (hn : Odd n) {f : ℕ} (hf : 2 ≤ f) {m : ℕ} (hm : 1 ≤ m) :
+    LinearMap.range (TauCeti.freeProP.basisModificationDelta 2 (Fin n) hm
+        (TauCeti.gradedMk 2 (TauCeti.freeProP 2 (Fin n)) 1
+          ⟨demushkinWordTwoOdd f n (freeProPGen 2 n),
+            TauCeti.demushkinWordTwoOdd_mem_pLowerCentralSeries_one
+              (zero_lt_two.trans_le hf) n _⟩)) ⊔
+      TauCeti.freeProP.basisModificationTail 2 (Fin n)
+        (TauCeti.gradedMk 2 (TauCeti.freeProP 2 (Fin n)) 1
+          ⟨demushkinWordTwoOdd f n (freeProPGen 2 n),
+            TauCeti.demushkinWordTwoOdd_mem_pLowerCentralSeries_one
+              (zero_lt_two.trans_le hf) n _⟩)
+        (m + 1) = ⊤ :=
+  TauCeti.freeProP.range_basisModificationDelta_sup_basisModificationTail_eq_top_demushkinWordTwoOdd
+    hn hf hm
+
+/-- **Layer 9, the dyadic span statement, even rank** (Labute Prop. 5 at `q = 2`, `n` even). For
+`n ≥ 2` even, `4 ∣ a`, `f ≥ 2` and `ρ` the class of `x₁^{2+a}(x₁,x₂)x₃^{2^f}(x₃,x₄)⋯`,
+`gr_{m+1}(F) = Im δ_ρ + ⟨π^{m+1} x̄_i : i ≠ 2⟩` for every `m ≥ 1`. The tail contains
+`π^{m+1} x̄₁` and omits `π^{m+1} x̄₂`, so it is not the Layer 8 tail `T_{m+1}(ρ)`, which is spanned
+over the indices with `c_i = 0`, here `i ≠ 1` (Errata in `README.md`): Tau Ceti's
+`TauCeti.freeProP.range_basisModificationDelta_sup_gradedPowIterSpan_eq_top_demushkinWordTwoEven`.
+-/
+example {n : ℕ} (hn : Even n) (hn0 : 0 < n) {a f : ℕ} (ha : 4 ∣ a) (hf : 2 ≤ f) {m : ℕ}
+    (hm : 1 ≤ m) :
+    LinearMap.range (TauCeti.freeProP.basisModificationDelta 2 (Fin n) hm
+        (TauCeti.gradedMk 2 (TauCeti.freeProP 2 (Fin n)) 1
+          ⟨demushkinWordTwoEven a f n (freeProPGen 2 n),
+            TauCeti.demushkinWordTwoEven_mem_pLowerCentralSeries_one
+              (dvd_trans (Dvd.intro 2 rfl) ha) (zero_lt_two.trans_le hf) n _⟩)) ⊔
+      TauCeti.freeProP.gradedPowIterSpan 2 (Fin n) {i | (i : ℕ) ≠ 1} (m + 1) = ⊤ :=
+  TauCeti.freeProP.range_basisModificationDelta_sup_gradedPowIterSpan_eq_top_demushkinWordTwoEven
+    hn hn0 ha hf hm
 
 end CupForm
 

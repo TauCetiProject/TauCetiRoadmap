@@ -388,56 +388,6 @@ end ClassFieldSupplierChecks
 
 /-! ## Layers 1 and 2: cohomology and inflation -/
 
-/-! ### The cup square through `ProfiniteCohomology.cup`
-
-`ProfiniteProPGroups`, archived, states the multiplication pairing and the cup square with Tau
-Ceti's `TauCeti.fpPairing` and `TauCeti.cupFp`. The comparisons of Layer 1 run through the Profinite
-Cohomology roadmap's `ProfiniteCohomology.cup` and `ProfiniteCohomology.cup_coeffMap`, so the same
-multiplication pairing is repackaged here as a `ProfiniteCohomology.TopPairing`, with its cup
-square `cupSquare`. -/
-
-section CupSquare
-
-/-- Multiplication of trivial `𝔽_p` coefficients as a `ProfiniteCohomology.TopPairing`: the fields
-of Tau Ceti's `TauCeti.fpPairing`. -/
-noncomputable def fpTopPairing (p : ℕ) (G : Type u) [Group G] [TopologicalSpace G]
-    [IsTopologicalGroup G] :
-    ProfiniteCohomology.TopPairing (TauCeti.trivialFp p G) (TauCeti.trivialFp p G)
-      (TauCeti.trivialFp p G) where
-  bil := (TauCeti.fpPairing p G).bil
-  cont := (TauCeti.fpPairing p G).cont
-  equivariant := (TauCeti.fpPairing p G).equivariant
-
-/-- The pairing is multiplication, read through `TauCeti.trivialFpEquiv`. A closed proof. -/
-theorem fpTopPairing_bil (p : ℕ) (G : Type u) [Group G] [TopologicalSpace G]
-    [IsTopologicalGroup G] (a b : (TauCeti.trivialFp p G).V) :
-    TauCeti.trivialFpEquiv p G ((fpTopPairing p G).bil a b) =
-      TauCeti.trivialFpEquiv p G a * TauCeti.trivialFpEquiv p G b := by
-  rw [show (fpTopPairing p G).bil a b = (TauCeti.fpPairing p G).bil a b from rfl,
-    TauCeti.fpPairing_bil_apply, LinearEquiv.apply_symm_apply]
-
-/-- The cup square `H¹(G, 𝔽_p) × H¹(G, 𝔽_p) → H²(G, 𝔽_p)` of `ProfiniteCohomology.cup` at
-`fpTopPairing`, with the degree `1 + 1` rewritten as `2`. -/
-noncomputable abbrev cupSquare (p : ℕ) (G : Type u) [Group G] [TopologicalSpace G]
-    [IsTopologicalGroup G] (a b : TauCeti.cohomFp p G 1) : TauCeti.cohomFp p G 2 :=
-  ProfiniteCohomology.degreeCast (by norm_num) (TauCeti.trivialFp p G)
-    (ProfiniteCohomology.cup (fpTopPairing p G) 1 1 a b)
-
-/-- Graded commutativity of the cup square, from `ProfiniteCohomology.cup_gradedComm`: the
-opposite pairing of `fpTopPairing` is itself. A closed proof. -/
-theorem cupSquare_gradedComm (p : ℕ) (G : Type u) [Group G] [TopologicalSpace G]
-    [IsTopologicalGroup G] (a b : TauCeti.cohomFp p G 1) :
-    cupSquare p G a b = - cupSquare p G b a := by
-  have h := ProfiniteCohomology.cup_gradedComm (fpTopPairing p G) (fpTopPairing p G)
-    (fun x y => TauCeti.fpPairing_bil_comm p G y x) 1 1 a b
-  simp only [cupSquare]
-  rw [h]
-  change ((-1 : ZMod p) ^ (1 * 1)) • ProfiniteCohomology.cup (fpTopPairing p G) 1 1 b a =
-    -ProfiniteCohomology.cup (fpTopPairing p G) 1 1 b a
-  simp
-
-end CupSquare
-
 /-! ### Layer 1: the chosen-root dictionary
 
 A primitive `n`-th root of unity `ζ ∈ F` identifies `μ_n` with the trivial module `ℤ/n`, and the
@@ -500,16 +450,16 @@ theorem trivialFpEquiv_muNRepIsoTrivialFp_hom_apply (ζ : F) (hζ : IsPrimitiveR
 /-- **The dictionary carries the Kummer pairing to multiplication.** ClassFieldTheory's
 `kummerCupPairing ζ` is `(x, y) ↦ log_ζ(x) · y` (`ClassFieldTheory.kummerCupPairing_bil`), and
 `log_ζ(log_ζ(x) · y) = log_ζ(x) · log_ζ(y)` is the multiplication of `ℤ/n`, which is
-the multiplication pairing `fpTopPairing` (`fpTopPairing_bil`). This is the compatibility
+ProfiniteProPGroups' `fpPairing` (`ProfiniteProPGroups.fpPairing_bil`). This is the compatibility
 hypothesis of `ProfiniteCohomology.cup_coeffMap` that carries the Kummer cup square on
-`H¹(G_F, μ_p)` to the cup square `cupSquare` on `H¹(G_F, 𝔽_p)`. A closed proof. -/
+`H¹(G_F, μ_p)` to the cup square `cupFp` on `H¹(G_F, 𝔽_p)`. A closed proof. -/
 theorem muNRepIsoTrivialFp_hom_kummerCupPairing (ζ : F) (hζ : IsPrimitiveRoot ζ n)
     (x y : (ClassFieldTheory.muNRep n F).V) :
     (muNRepIsoTrivialFp n F ζ hζ).hom ((ClassFieldTheory.kummerCupPairing ζ hζ).bil x y) =
-      (fpTopPairing n (Field.absoluteGaloisGroup F)).bil
+      (ProfiniteProPGroups.fpPairing n (Field.absoluteGaloisGroup F)).bil
         ((muNRepIsoTrivialFp n F ζ hζ).hom x) ((muNRepIsoTrivialFp n F ζ hζ).hom y) := by
   apply (TauCeti.trivialFpEquiv n (Field.absoluteGaloisGroup F)).injective
-  rw [fpTopPairing_bil, trivialFpEquiv_muNRepIsoTrivialFp_hom_apply,
+  rw [ProfiniteProPGroups.fpPairing_bil, trivialFpEquiv_muNRepIsoTrivialFp_hom_apply,
     trivialFpEquiv_muNRepIsoTrivialFp_hom_apply, trivialFpEquiv_muNRepIsoTrivialFp_hom_apply,
     ClassFieldTheory.kummerCupPairing_bil, ZMod.map_smul, smul_eq_mul]
 
@@ -564,7 +514,8 @@ theorem finrank_cohomFp_one :
   sorry
 
 /-- **Layer 1, the cup square on `H¹(G_F, 𝔽_p)` is nondegenerate on the left when `μ_p ⊆ F`**, from
-local duality at `A = μ_p` and `(i, j) = (1, 1)`. A closed proof, in five steps.
+local duality at `A = μ_p` and `(i, j) = (1, 1)`. Five steps; steps 1 to 4 are closed, and step 5
+is `sorry`.
 
 1. The chosen-root dictionary `muNRepIsoTrivialFp ζ` carries `a ≠ 0` to a class `x ≠ 0` of
    `H¹(G_F, μ_p)`: coefficient maps along an isomorphism are inverse to each other
@@ -579,11 +530,18 @@ local duality at `A = μ_p` and `(i, j) = (1, 1)`. A closed proof, in five steps
    pairing `ClassFieldTheory.localSymbol (kummerCupPairing ζ) tr x y`, which is `tr` of the cup of
    `x` and `y` along `kummerCupPairing ζ`; so that cup is nonzero.
 5. `ProfiniteCohomology.cup_coeffMap`, at the compatibility
-   `muNRepIsoTrivialFp_hom_kummerCupPairing`, carries that cup to `cupSquare a b` for `b` the
-   image of `y`, and the dictionary is injective on `H²`. -/
+   `muNRepIsoTrivialFp_hom_kummerCupPairing`, carries that cup to `cupFp a b` for `b` the image of
+   `y`, and the dictionary is injective on `H²`.
+
+⚠ Step 5 is the remaining gap. `ProfiniteProPGroups.cupFp` is Tau Ceti's `TauCeti.cupFp`, the cup
+product of the `TauCeti.TopPairing` `TauCeti.fpPairing`, while `ProfiniteCohomology.cup_coeffMap`
+is stated for the Profinite Cohomology roadmap's own `TopPairing` and `cup`. Nothing at the pin
+connects that `cup` to Tau Ceti's, so the comparison is left as `sorry` until the coefficient-map
+naturality of Tau Ceti's cup (`TauCeti.TopPairing.cup_coeffMap`) is applied to the Kummer pairing
+in Tau Ceti's form. -/
 theorem cupFp_left_nondegenerate_of_mu (hmu : ∃ ζ : F, IsPrimitiveRoot ζ p) :
     ∀ a : ProfiniteProPGroups.cohomFp p (Field.absoluteGaloisGroup F) 1, a ≠ 0 →
-      ∃ b, cupSquare p (Field.absoluteGaloisGroup F) a b ≠ 0 := by
+      ∃ b, ProfiniteProPGroups.cupFp p (Field.absoluteGaloisGroup F) a b ≠ 0 := by
   obtain ⟨ζ, hζ⟩ := hmu
   obtain ⟨tr⟩ := ClassFieldTheory.h2MuEquivZMod_mixed p F p (NeZero.ne p)
   -- A coefficient morphism with a left inverse has a left inverse on cohomology.
@@ -653,34 +611,22 @@ theorem cupFp_left_nondegenerate_of_mu (hmu : ∃ ζ : F, IsPrimitiveRoot ζ p) 
     apply hy
     rw [ClassFieldTheory.localSymbol, h0]
     exact map_zero tr
-  -- Step 5: the dictionary carries the Kummer cup to `cupSquare`, injectively.
+  -- Step 5: the dictionary carries the Kummer cup to `cupFp`, injectively.
   refine ⟨(ProfiniteCohomology.coeffMap (ZMod p) (muNRepIsoTrivialFp p F ζ hζ).hom 1).hom y,
     fun h0 => hcup ?_⟩
-  have h1 : ProfiniteCohomology.cup (fpTopPairing p (Field.absoluteGaloisGroup F))
-      1 1 ((ProfiniteCohomology.coeffMap (ZMod p) (muNRepIsoTrivialFp p F ζ hζ).hom 1).hom x)
-      ((ProfiniteCohomology.coeffMap (ZMod p) (muNRepIsoTrivialFp p F ζ hζ).hom 1).hom y) = 0 :=
-    h0
-  have h2 := ProfiniteCohomology.cup_coeffMap (ClassFieldTheory.kummerCupPairing ζ hζ)
-    (fpTopPairing p (Field.absoluteGaloisGroup F))
-    (muNRepIsoTrivialFp p F ζ hζ).hom (muNRepIsoTrivialFp p F ζ hζ).hom
-    (muNRepIsoTrivialFp p F ζ hζ).hom (muNRepIsoTrivialFp_hom_kummerCupPairing p F ζ hζ) 1 1 x y
-  exact (hleft (muNRepIsoTrivialFp p F ζ hζ).hom (muNRepIsoTrivialFp p F ζ hζ).inv
-      (muNRepIsoTrivialFp p F ζ hζ).hom_inv_id (1 + 1) _).symm.trans
-    ((congrArg
-      (ProfiniteCohomology.coeffMap (ZMod p) (muNRepIsoTrivialFp p F ζ hζ).inv (1 + 1)).hom
-      (h2.trans h1)).trans (map_zero _))
+  sorry
 
 /-- **Layer 1, the cup square is nondegenerate on both sides when `μ_p ⊆ F`.** One side suffices:
-the other follows from the graded commutativity `cupSquare_gradedComm`, a closed
+the other follows from the graded commutativity `ProfiniteProPGroups.cupFp_gradedComm`, a closed
 proof. -/
 theorem cupFp_nondegenerate_of_mu (hmu : ∃ ζ : F, IsPrimitiveRoot ζ p) :
     (∀ a : ProfiniteProPGroups.cohomFp p (Field.absoluteGaloisGroup F) 1, a ≠ 0 →
-        ∃ b, cupSquare p (Field.absoluteGaloisGroup F) a b ≠ 0) ∧
+        ∃ b, ProfiniteProPGroups.cupFp p (Field.absoluteGaloisGroup F) a b ≠ 0) ∧
       (∀ b : ProfiniteProPGroups.cohomFp p (Field.absoluteGaloisGroup F) 1, b ≠ 0 →
-        ∃ a, cupSquare p (Field.absoluteGaloisGroup F) a b ≠ 0) := by
+        ∃ a, ProfiniteProPGroups.cupFp p (Field.absoluteGaloisGroup F) a b ≠ 0) := by
   refine ⟨cupFp_left_nondegenerate_of_mu p F hmu, fun b hb => ?_⟩
   obtain ⟨a, ha⟩ := cupFp_left_nondegenerate_of_mu p F hmu b hb
-  exact ⟨a, by rw [cupSquare_gradedComm]; exact neg_ne_zero.mpr ha⟩
+  exact ⟨a, by rw [ProfiniteProPGroups.cupFp_gradedComm]; exact neg_ne_zero.mpr ha⟩
 
 end LocalCohomologyTrivialFp
 
