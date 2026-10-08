@@ -210,7 +210,7 @@ namespace, and neither has a second carrier anywhere. `BelyiArithmeticActions` w
 exact public names for the cyclotomic and peripheral applications.
 
 AlgebraicCurves, PolynomialGaloisGroups and ProfiniteProPGroups live at
-`../AlgebraicCurves/README.md`, `../PolynomialGaloisGroups/README.md` and
+`../AlgebraicCurves/README.md`, `../../Completed/PolynomialGaloisGroups/README.md` and
 `../ProfiniteProPGroups/README.md`.
 
 What this roadmap supplies to other subjects:
