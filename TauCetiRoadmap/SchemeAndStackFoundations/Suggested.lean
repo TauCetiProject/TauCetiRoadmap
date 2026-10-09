@@ -145,6 +145,7 @@ import TauCeti.Algebra.TensorProduct.BaseChange
 import TauCeti.AlgebraicGeometry.AbelianVariety.End.Basic
 import TauCeti.AlgebraicGeometry.AbelianVariety.TangentSpace
 import TauCeti.AlgebraicGeometry.Cohomology.Module.Base
+import TauCeti.AlgebraicGeometry.Curves.StableReduction.DVRExtension.Basic
 import TauCeti.AlgebraicGeometry.Curves.StableReduction.Model.Basic
 import TauCeti.AlgebraicGeometry.Fibers
 import TauCeti.AlgebraicGeometry.LineBundle.Class
@@ -7166,8 +7167,9 @@ example (p : ℕ) [Fact p.Prime] (E : TauCeti.FiniteDVRExtension ℤ_[p] ℚ_[p]
 theorem FiniteDVRExtension.isTrait_completion {R K : Type u} [CommRing R] [IsDomain R]
     [IsDiscreteValuationRing R] [IsTrait R] [Field K] [Algebra R K] [IsFractionRing R K]
     (E : TauCeti.FiniteDVRExtension R K) :
-    IsDiscreteValuationRing (AdicCompletion (IsLocalRing.maximalIdeal E.localRing) E.localRing) ∧
-      IsLocalHom (algebraMap R E.localRing) := by
+    IsLocalHom (algebraMap R E.localRing) ∧
+      ∃ _ : IsDomain (AdicCompletion (IsLocalRing.maximalIdeal E.localRing) E.localRing),
+        IsDiscreteValuationRing (AdicCompletion (IsLocalRing.maximalIdeal E.localRing) E.localRing) := by
   sorry
 
 /-- A proper `S`-variety with an identification of its generic fibre is a Tau Ceti model. -/
