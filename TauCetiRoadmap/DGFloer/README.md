@@ -894,7 +894,11 @@ real boundary conditions.
      with the right action through the first, respectively the second projection; `ind x = 1`,
      `ind y = 0`, `m_{x,y} = (1, 0)`. The twisted differential of `Suggested.lean` gives
      `D(1 ⊗ x) = 1 ⊗ y` for the first action and `D(1 ⊗ x) = 0` for the second, and
-     `#check @twistedDifferential` shows the right-action instance among its arguments.
+     `#check @twistedDifferential` shows the right-action instance `[Module Aᵐᵒᵖ M]` and the
+     commutation instance `[SMulCommClass R Aᵐᵒᵖ M]` among its arguments. The latter is what
+     makes `D` `R`-linear: for `R = A = ℚ × ℚ` acting on `M = ℚ²` by `(a, b) • (u, v) = (au, bv)`
+     on the left and `(u, v) · (a, b) = (au + (b − a)v, bv)` on the right, the actions do not
+     commute and the formula is not `R`-linear.
 3. **Classical recovery.** A DG local system concentrated in degree zero gives back the Morse
    complex with classical local coefficients, naturally in the choices.
 4. **Fibration theorem on examples.**

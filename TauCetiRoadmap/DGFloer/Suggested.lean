@@ -131,7 +131,6 @@ theorem TwistingCocycle.one_sided_of_nonpos {P : Type*} {ind : P → ℤ} (m : P
   exact (Submodule.mem_bot R).1 h
 
 variable {M : Type*} [AddCommGroup M] [Module R M] [Module Aᵐᵒᵖ M] [IsScalarTower R Aᵐᵒᵖ M]
-  [SMulCommClass R Aᵐᵒᵖ M]
 
 /-- The **grading involution** `α ↦ (-1)^{|α|} α` of an internally graded module, which carries
 the Koszul sign of the twisted differential. -/
@@ -160,12 +159,21 @@ carries the Koszul sign. On a homogeneous elementary tensor this is
 `D(α ⊗ x) = ∂α ⊗ x + (-1)^{|α|} Σ_y α · m_{x,y} ⊗ y` (`twistedDifferential_single`). The right
 `A`-action on `M` enters the construction itself, so the map depends on it: for `A = ℚ × ℚ` acting
 on `M = ℚ` through either projection, with `ind x = 1`, `ind y = 0` and `m x y = (1, 0)`, the two
-actions give `D(1 ⊗ x) = 1 ⊗ y` and `D(1 ⊗ x) = 0` (acceptance criterion 2). -/
-def twistedDifferential (m : TwistingCocycle h P ind) (ℳ : ℤ → Submodule R M)
-    [DirectSum.Decomposition ℳ] (dM : M →ₗ[R] M) : (P → M) →ₗ[R] (P → M) where
+actions give `D(1 ⊗ x) = 1 ⊗ y` and `D(1 ⊗ x) = 0` (acceptance criterion 2).
+
+`R`-linearity needs the two actions on `M` to commute, `[SMulCommClass R Aᵐᵒᵖ M]`; the instance
+is bound on the definition and used in `map_smul'`, so it is retained in the signature. -/
+def twistedDifferential [SMulCommClass R Aᵐᵒᵖ M] (m : TwistingCocycle h P ind)
+    (ℳ : ℤ → Submodule R M) [DirectSum.Decomposition ℳ] (dM : M →ₗ[R] M) :
+    (P → M) →ₗ[R] (P → M) where
   toFun f y := dM (f y) + ∑ x, MulOpposite.op (m.m x y) • gradingInvolution ℳ (f x)
-  map_add' := sorry
-  map_smul' := sorry
+  map_add' f g := by
+    funext y
+    simp only [Pi.add_apply, map_add, smul_add, Finset.sum_add_distrib]
+    abel
+  map_smul' r f := by
+    funext y
+    simp only [Pi.smul_apply, map_smul, RingHom.id_apply, smul_add, Finset.smul_sum, smul_comm r]
 
 /-- Evaluation on a homogeneous elementary tensor `α ⊗ x`, with `α` of degree `q`. -/
 theorem twistedDifferential_single (m : TwistingCocycle h P ind) (dM : M →ₗ[R] M) (x : P)
