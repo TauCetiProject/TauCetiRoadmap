@@ -1,10 +1,42 @@
 import Mathlib
 import TauCeti.AlgebraicTopology.FundamentalGroup.BasepointChange
+import TauCeti.AlgebraicTopology.FundamentalGroup.VanKampen
+import TauCeti.AlgebraicTopology.ThricePuncturedSphere.BranchPointAction
+import TauCeti.AlgebraicTopology.ThricePuncturedSphere.Classification
+import TauCeti.AlgebraicTopology.ThricePuncturedSphere.Deck
+import TauCeti.AlgebraicTopology.ThricePuncturedSphere.FundamentalGroup
+import TauCeti.AlgebraicTopology.ThricePuncturedSphere.Regular
 import TauCeti.AlgebraicTopology.UniversalCover.Classification.ActionCover
 import TauCeti.AlgebraicTopology.UniversalCover.Classification.Bijection
 import TauCeti.AlgebraicTopology.UniversalCover.Classification.DeckGroup
+import TauCeti.AlgebraicTopology.UniversalCover.Classification.NumberedFiber
 import TauCeti.AlgebraicTopology.UniversalCover.Deck.FundamentalGroup.UniversalCover
 import TauCeti.AlgebraicTopology.UniversalCover.Deck.Regular.Monodromy
+import TauCeti.Combinatorics.PermutationTriple.BranchPoints
+import TauCeti.Combinatorics.PermutationTriple.ComputedInvariants
+import TauCeti.Combinatorics.PermutationTriple.Decidable
+import TauCeti.Combinatorics.PermutationTriple.Enumeration
+import TauCeti.Combinatorics.PermutationTriple.EulerCharacteristic
+import TauCeti.Combinatorics.PermutationTriple.Examples
+import TauCeti.Combinatorics.PermutationTriple.GeometryType
+import TauCeti.Combinatorics.PermutationTriple.IsoClass
+import TauCeti.Combinatorics.PermutationTriple.Passport.Class
+import TauCeti.Combinatorics.PermutationTriple.Passport.Cyclic
+import TauCeti.Combinatorics.PermutationTriple.Passport.Enumeration
+import TauCeti.Combinatorics.PermutationTriple.Passport.Examples
+import TauCeti.Combinatorics.PermutationTriple.Passport.Label
+import TauCeti.Combinatorics.PermutationTriple.Passport.OfTriple
+import TauCeti.Combinatorics.PermutationTriple.Primitivity.Basic
+import TauCeti.Combinatorics.PermutationTriple.Primitivity.Examples
+import TauCeti.Combinatorics.PermutationTriple.SmallDegrees
+import TauCeti.Combinatorics.RibbonGraph.Basic
+import TauCeti.Combinatorics.RibbonGraph.EulerCharacteristic
+import TauCeti.Combinatorics.RibbonGraph.OfPermutationTriple
+import TauCeti.Combinatorics.RibbonGraph.ToPermutationTriple
+import TauCeti.GroupTheory.Perm.ComputedCycleType
+import TauCeti.GroupTheory.Perm.SwapFactors
+import TauCeti.GroupTheory.TriangleGroup.Basic
+import TauCeti.GroupTheory.TriangleGroup.PermutationRepresentation
 import TauCeti.Topology.Homotopy.Monodromy.Basic
 import TauCeti.Topology.Homotopy.Monodromy.BasepointChange
 
@@ -16,14 +48,47 @@ import TauCeti.Topology.Homotopy.Monodromy.BasepointChange
 forms for particular milestones, so that contributors and reviewers agree on names and
 signatures. Discharging all of them finishes neither a layer nor the roadmap.
 
-What is prototyped here, in preference to end theorems, are the objects whose choice of
-carrier, index type, or map determines everything below them: the permutation-triple carrier
-with its pinned product relation, the relabeling action, dessins as bipartite ribbon graphs,
-triangle groups, the thrice-punctured sphere with its concrete peripheral loops, the
-monodromy homomorphism, the analytic Belyi-pair carrier, and the profinite peripheral
-objects with the pro-`ℓ` peripheral-power theorem. Every declaration elaborates against the
-pinned Mathlib. Proofs are `sorry` where the milestone is the proof; data is real wherever
-the formula is the convention being pinned.
+Tau Ceti implements the combinatorial and topological core of this roadmap, so every carrier
+below is Tau Ceti's and no local copy is defined: permutation triples with relabeling,
+connectedness, automorphisms, cycle data, Euler characteristic, genus, orders and geometry
+type, the six branch-point operations and the example suite (`TauCeti.PermutationTriple`);
+connected triples and their isomorphism and marked classes (`TauCeti.ConnectedTriple`,
+`TauCeti.ConnectedIsoClass`, `TauCeti.MarkedIsoClass`); passports (`TauCeti.PassportSpec`);
+dessins (`TauCeti.BipartiteRibbonGraph`); triangle groups (`TauCeti.TriangleGroup`); the
+thrice-punctured sphere with its peripheral loops, anharmonic maps and free fundamental group
+(`TauCeti.ThricePuncturedSphere`); and the three cover carriers with their classifications
+(`TauCeti.ConnectedFiberNumberedCover`, `TauCeti.ConnectedPointedCover`,
+`TauCeti.ConnectedCover`). A statement whose milestone Tau Ceti has proved is kept in the form
+the roadmap asks for and closed by the Tau Ceti declaration named in its docstring, so that a
+change of spelling or carrier upstream fails here. A statement still closed by `sorry` is a
+remaining target, unless its docstring names the Tau Ceti theorem that proves it in a version
+newer than the pinned dependency.
+
+Conventions of the Tau Ceti carriers that the statements below follow:
+
+* The cover carriers live over a base `X : TopCat` and bundle a
+  `TauCeti.ConnectedCoveringSpace X`, so the base here is
+  `TopCat.of TauCeti.ThricePuncturedSphere`. An isomorphism of covers is an isomorphism in that
+  category, which is a homeomorphism over the base; the bare relation is
+  `CategoryTheory.IsIsomorphic` on the underlying covers rather than a named
+  `ConnectedCoverIso`. The classifications are stated on Tau Ceti's quotients, which carry the
+  same three relations. A `TauCeti.ConnectedCoveringSpace` has a connected total space; over a
+  locally path-connected base such as `U` that is the same as a path-connected one, which is how
+  `README.md` states the carriers.
+* Pulling a cover back along a homeomorphism `h` moves its basepoint from `x` to `h⁻¹ x`
+  (`TauCeti.ConnectedCoverClass.pullback`). For `z ↦ 1 − z`, which fixes `1/2`, the basepoint
+  does not move. For `z ↦ z/(z − 1)`, which sends `1/2` to `−1`, the pulled-back cover lives
+  at `−1`, and the agreement theorem for that generator moves its basepoint back to `1/2` with
+  `TauCeti.ConnectedCoverClass.basepointChange`.
+* Connectedness is decided by a `Decidable` instance computing the monodromy orbits
+  (`TauCeti.PermutationTriple.monodromyOrbitFinset`), not by a separate Boolean.
+* Cycle counts are `TauCeti.orbitCount`, the number of orbits including fixed points, and cycle
+  partitions are Tau Ceti's `Equiv.Perm.fullCycleType`, computed by
+  `Equiv.Perm.computedCycleType`.
+* The two incidence laws of a ribbon graph, `blackEnd (rotB e) = blackEnd e` and its white
+  counterpart, are theorems of the `IsCycleOn` fields in Tau Ceti rather than fields.
+* The isomorphism of Layer 5.6 is `TauCeti.ThricePuncturedSphere.fundamentalGroupMulEquivFreeGroup`,
+  which runs from `π₁` to `FreeGroup (Fin 2)`; the roadmap's direction is its inverse.
 
 Conventions, recorded in `README.md` (§Pinned conventions):
 
@@ -32,137 +97,79 @@ Conventions, recorded in `README.md` (§Pinned conventions):
   `σinf * σ1 * σ0 = 1`, and the monodromy homomorphism of Layer 5.3 is a genuine
   `MonoidHom` with no `ᵐᵒᵖ`. The `z ↦ z²` example below pins the interpretation.
 * Relabeling is the left conjugation `MulAction`; isomorphism is `MulAction.orbitRel`.
-* Cycle data always includes fixed points: every occurrence uses the imported
-  `PolynomialGaloisGroups.fullCycleType`. Mathlib's bare `Equiv.Perm.cycleType` is never
-  compared with a partition of `n`.
 * Connectedness of a triple includes `n ≠ 0`; `MulAction.IsPretransitive` alone is
   vacuously true on `Fin 0`.
-* The genus is defined only after the Euler-characteristic bounds; the `Int.toNat` in
-  `genus` is made junk-free by `two_sub_two_mul_genus`.
 * Peripheral elements: `P`, `T` are the images of the free generators, `C := (T * P)⁻¹`,
-  so `C * T * P = 1` — the same display order as the triple relation. A source writing
+  so `C * T * P = 1`, the same display order as the triple relation. A source writing
   `P·T·C = 1` names a conjugate of this `C`; see README §Pinned conventions.
-* The former local `OnePoint ℂ` chart/manifold instances are disabled with the rest of the
-  compact-Riemann-surface stand-ins. Their owner must publish the sphere carrier before the
-  analytic Belyi successor states consumers.
-* Supplier-dependent passport declarations, compact-Riemann-surface declarations, Layers 9–11,
-  and the profinite layers have no Lean prototypes here. They become successor targets only after
-  their owning roadmaps publish compiled carriers. In particular this file neither imports an
-  unmerged roadmap branch nor recreates its API locally.
-* A literal `PermutationTriple n` is the invariant of a **connected, fiber-numbered** cover
-  (`ConnectedFiberNumberedCover` below), not of a pointed one: a chosen point of the fiber
-  leaves `(n−1)!` relabelings. Connectedness is a field of all three carriers, because a
-  transitive triple classifies a connected cover and nothing weaker. "Covers up to
-  isomorphism" is a quotient type here, never a `Prop`: README Layer 6.3 classifies the
-  three rigidifications separately and the three quotient carriers are
-  `ConnectedFiberNumberedCoverClass`, `ConnectedPointedCoverClass`, `ConnectedCoverClass`.
-* The two-open Seifert–van Kampen theorem is general algebraic topology and is owned by
-  AlgebraicTopology (its Stage 1), not here; this file instantiates it (Layer 5.6) and exports no copy.
+* Compact-Riemann-surface declarations, Layers 9–11, and the profinite layers have no Lean
+  prototypes here. They become successor targets only after their owning roadmaps publish
+  compiled carriers.
+* The two-open Seifert–van Kampen theorem is general algebraic topology, owned by
+  AlgebraicTopology (its Stage 1) and implemented in Tau Ceti as `TauCeti.vanKampenEquiv`; this
+  file checks the contract of Layer 5.5 against it and exports no copy.
 * The universal cover, the associated cover of a `π₁`-set, deck groups and the subgroup half of
   the covering classification are Tau Ceti declarations from the completed UniversalCovers
   roadmap, and semilocal simple connectivity is Tau Ceti's
-  `TauCeti.SemilocallySimplyConnectedSpace`. This file imports them and restates each in the
-  form a Belyi layer consumes, closed by the supplier declaration (the section on the
-  UniversalCovers supply, and `subgroupConjSetoid_iff`); no local class or carrier stands in
-  for any of them.
+  `TauCeti.SemilocallySimplyConnectedSpace`.
 * The profinite integers as a ring, profinite exponentiation, and continuous outer
-  automorphisms are generic group theory owned by `ProfiniteArithmetic`, the generic successor
-  to `ProfiniteProPGroups` (#244), not by Belyi maps. Free profinite and free pro-`p` groups and
-  the maximal pro-`p` quotient are Tau Ceti's implementations of `ProfiniteProPGroups`.
+  automorphisms are generic group theory owned by `ProfiniteArithmetic`, not by Belyi maps.
+  Free profinite and free pro-`p` groups and the maximal pro-`p` quotient are Tau Ceti's
+  implementations of `ProfiniteProPGroups`.
 -/
 
 open scoped Manifold ContDiff Topology Pointwise
 
 /- ⚠ Auto-implicits are off. This file is a set of exact signatures, and with them on a
 Mathlib name that has been renamed at the pin is silently bound as a fresh variable rather
-than reported: `PartialHomeomorph` (`OpenPartialHomeomorph` at this pin) was caught only
-because it happened to be applied to arguments. -/
+than reported. -/
 set_option autoImplicit false
+
+open TauCeti
 
 namespace TauCetiRoadmap.BelyiMaps
 
 universe u v
 
-/-! ## Layer 0: permutation triples -/
+/-! ## Layer 0: permutation triples
 
-/-- **Layer 0.1.** A degree-`n` permutation triple, with the pinned relation
-`σinf * σ1 * σ0 = 1` in Mathlib's multiplication: the concatenated loop
-"`γ0`, then `γ1`, then `γ∞`" is nullhomotopic, and monodromy is covariant. -/
-@[ext]
-structure PermutationTriple (n : ℕ) where
-  σ0 : Equiv.Perm (Fin n)
-  σ1 : Equiv.Perm (Fin n)
-  σinf : Equiv.Perm (Fin n)
-  product_eq_one : σinf * σ1 * σ0 = 1
+The carrier is `TauCeti.PermutationTriple`, with the pinned relation as its field
+`product_eq_one`, the constructor `TauCeti.PermutationTriple.ofTwo`, extensionality on the first
+two components `TauCeti.PermutationTriple.ext_of_two`, and the bijection with pairs
+`TauCeti.PermutationTriple.equivPair` carrying the computable `Fintype` and `DecidableEq`
+instances. -/
 
-namespace PermutationTriple
+section Layer0
 
 variable {n : ℕ}
 
-/-- **Layer 0.1.** The constructor from the first two components. -/
-def ofTwo (σ0 σ1 : Equiv.Perm (Fin n)) : PermutationTriple n where
-  σ0 := σ0
-  σ1 := σ1
-  σinf := (σ1 * σ0)⁻¹
-  product_eq_one := by group
+/-- **Layer 0.1.** The pinned relation, `σinf * σ1 * σ0 = 1` in Mathlib's multiplication. -/
+example (t : PermutationTriple n) : t.σinf * t.σ1 * t.σ0 = 1 := t.product_eq_one
 
-@[simp] theorem ofTwo_σ0 (σ0 σ1 : Equiv.Perm (Fin n)) : (ofTwo σ0 σ1).σ0 = σ0 := rfl
-@[simp] theorem ofTwo_σ1 (σ0 σ1 : Equiv.Perm (Fin n)) : (ofTwo σ0 σ1).σ1 = σ1 := rfl
-@[simp] theorem ofTwo_σinf (σ0 σ1 : Equiv.Perm (Fin n)) :
-    (ofTwo σ0 σ1).σinf = (σ1 * σ0)⁻¹ := rfl
-
-/-- **Layer 0.1.** `σinf` is determined by the other two components. -/
-theorem σinf_eq (t : PermutationTriple n) : t.σinf = (t.σ1 * t.σ0)⁻¹ := by
-  have h := t.product_eq_one
-  rw [mul_assoc] at h
-  exact eq_inv_of_mul_eq_one_left h
-
-/-- **Layer 0.1.** Extensionality on the first two components. -/
-theorem ext_of_two {t t' : PermutationTriple n} (h0 : t.σ0 = t'.σ0) (h1 : t.σ1 = t'.σ1) :
-    t = t' := by
-  ext1
-  · exact h0
-  · exact h1
-  · rw [t.σinf_eq, t'.σinf_eq, h0, h1]
-
-/-- **Layer 0.1.** A triple is exactly a pair of permutations: the third component is
-determined. This is the `Equiv` that carries the `Fintype` and `DecidableEq` instances, and
-the one Layer 3.1's enumeration runs on. -/
-def equivPair (n : ℕ) : PermutationTriple n ≃ Equiv.Perm (Fin n) × Equiv.Perm (Fin n) where
-  toFun t := (t.σ0, t.σ1)
-  invFun p := ofTwo p.1 p.2
-  left_inv _ := ext_of_two rfl rfl
-  right_inv _ := rfl
-
-/-- **Layer 0.1.** Finiteness, computably, through `equivPair`. -/
-instance : Fintype (PermutationTriple n) :=
-  Fintype.ofEquiv _ (equivPair n).symm
-
-/-- **Layer 0.1.** Decidable equality, computably, through `ext_of_two`. -/
-instance : DecidableEq (PermutationTriple n) := fun t t' =>
-  decidable_of_iff (t.σ0 = t'.σ0 ∧ t.σ1 = t'.σ1)
-    ⟨fun h => ext_of_two h.1 h.2, fun h => h ▸ ⟨rfl, rfl⟩⟩
+/-- **Layer 0.1.** `σinf` is determined by the other two components:
+`TauCeti.PermutationTriple.σinf_eq_inv`. -/
+theorem PermutationTriple.σinf_eq (t : PermutationTriple n) : t.σinf = (t.σ1 * t.σ0)⁻¹ :=
+  t.σinf_eq_inv
 
 /-- **Layer 0.1, the opposite-convention translation.** Componentwise inversion is the
-bijection with triples for the rival relation `σ0 * σ1 * σinf = 1`; it preserves cycle
-types, monodromy, connectedness, and automorphisms (README, Layer 0.1). -/
-theorem inv_components_reverse (t : PermutationTriple n) :
-    t.σ0⁻¹ * t.σ1⁻¹ * t.σinf⁻¹ = 1 := by
-  have h := t.product_eq_one
-  have : (t.σinf * t.σ1 * t.σ0)⁻¹ = 1 := by rw [h]; simp
-  simpa [mul_inv_rev, mul_assoc] using this
+bijection with triples for the rival relation `σ0 * σ1 * σinf = 1`:
+`TauCeti.PermutationTriple.equivOppositeConvention`. -/
+theorem PermutationTriple.inv_components_reverse (t : PermutationTriple n) :
+    t.σ0⁻¹ * t.σ1⁻¹ * t.σinf⁻¹ = 1 :=
+  (PermutationTriple.equivOppositeConvention n t).2
 
 /-- **Layer 0.1, the convention-pinning example.** The monodromy triple of `z ↦ z²`:
 `σ0 = σinf = (0 1)`, `σ1 = 1`. -/
-example : (ofTwo (Equiv.swap 0 1) 1 : PermutationTriple 2).σinf = Equiv.swap 0 1 := by
+example : (PermutationTriple.ofTwo (Equiv.swap 0 1) 1 : PermutationTriple 2).σinf =
+    Equiv.swap 0 1 := by
   simp
 
 /-! ### The LMFDB translation, machine-checked
 
-The frozen LMFDB record `3T2-3_2.1_2.1-a` (retained in the private provenance ledger) stores the triple
-`(1,2,3)`, `(2,3)`, `(1,2)`, which `0`-indexed is `finRotate 3`, `swap 1 2`, `swap 0 1`.
+The frozen LMFDB record `3T2-3_2.1_2.1-a` (retained in the private provenance ledger) stores the
+triple `(1,2,3)`, `(2,3)`, `(1,2)`, which `0`-indexed is `finRotate 3`, `swap 1 2`, `swap 0 1`.
 Because the database composes permutations left to right, that stored triple satisfies the
-**opposite** relation in Mathlib's multiplication — and its componentwise inverse, the
+**opposite** relation in Mathlib's multiplication, and its componentwise inverse, the
 Layer 0.1 involution, is a triple in this roadmap's convention. The two `decide`s below are
 the machine-checked form of Layer 14.2's translation lemma on one record; a record whose
 data is symmetric under the swap (`σ1 = σ0`, `σinf = 1`) would check both relations and
@@ -177,311 +184,238 @@ example : Equiv.swap 0 1 * Equiv.swap 1 2 * finRotate 3 ≠ 1 := by decide
 /-- The componentwise inverse does satisfy this roadmap's relation. -/
 example : Equiv.swap 0 1 * Equiv.swap 1 2 * (finRotate 3)⁻¹ = 1 := by decide
 
-/-- The frozen record as a `PermutationTriple` in this roadmap's convention. -/
+/-- The frozen record as a `TauCeti.PermutationTriple` in this roadmap's convention. -/
 def lmfdb3T2 : PermutationTriple 3 :=
   ⟨(finRotate 3)⁻¹, Equiv.swap 1 2, Equiv.swap 0 1, by decide⟩
 
-/-! ### Layer 0.2: relabeling -/
+/-! ### Layer 0.2: relabeling
 
-/-- **Layer 0.2.** Simultaneous conjugation, as a left action. -/
-instance : SMul (Equiv.Perm (Fin n)) (PermutationTriple n) where
-  smul τ t :=
-    { σ0 := MulAut.conj τ t.σ0
-      σ1 := MulAut.conj τ t.σ1
-      σinf := MulAut.conj τ t.σinf
-      product_eq_one := by
-        rw [← map_mul, ← map_mul, t.product_eq_one, map_one] }
+Simultaneous conjugation is Tau Ceti's `MulAction (Equiv.Perm (Fin n)) (PermutationTriple n)`,
+isomorphism is `TauCeti.PermutationTriple.Equivalent`, and the classes are
+`TauCeti.PermutationTriple.IsoClass`. -/
 
-@[simp] theorem smul_σ0 (τ : Equiv.Perm (Fin n)) (t : PermutationTriple n) :
-    (τ • t).σ0 = τ * t.σ0 * τ⁻¹ := rfl
-@[simp] theorem smul_σ1 (τ : Equiv.Perm (Fin n)) (t : PermutationTriple n) :
-    (τ • t).σ1 = τ * t.σ1 * τ⁻¹ := rfl
-@[simp] theorem smul_σinf (τ : Equiv.Perm (Fin n)) (t : PermutationTriple n) :
-    (τ • t).σinf = τ * t.σinf * τ⁻¹ := rfl
+/-- **Layer 0.2.** Relabeling conjugates each component. -/
+example (τ : Equiv.Perm (Fin n)) (t : PermutationTriple n) :
+    (τ • t).σ0 = τ * t.σ0 * τ⁻¹ := t.smul_σ0 τ
 
-instance : MulAction (Equiv.Perm (Fin n)) (PermutationTriple n) where
-  one_smul t := by ext1 <;> simp
-  mul_smul τ υ t := by ext1 <;> simp [mul_assoc]
-
-/-- **Layer 0.2.** Isomorphism of triples is simultaneous conjugacy. -/
-def Equivalent (t t' : PermutationTriple n) : Prop :=
-  ∃ τ : Equiv.Perm (Fin n), τ • t = t'
-
-/-- **Layer 0.2.** The type of isomorphism classes. -/
-def IsoClass (n : ℕ) : Type :=
-  MulAction.orbitRel.Quotient (Equiv.Perm (Fin n)) (PermutationTriple n)
+/-- **Layer 0.2.** Isomorphism of triples is simultaneous conjugacy:
+`TauCeti.PermutationTriple.equivalent_iff_exists_smul_eq`. -/
+example (t t' : PermutationTriple n) :
+    t.Equivalent t' ↔ ∃ τ : Equiv.Perm (Fin n), τ • t = t' :=
+  PermutationTriple.equivalent_iff_exists_smul_eq
 
 /-! ### Layers 0.3, 0.4: monodromy, connectedness, automorphisms -/
 
-/-- **Layer 0.3.** The monodromy group, generated by the first two components. -/
-def monodromyGroup (t : PermutationTriple n) : Subgroup (Equiv.Perm (Fin n)) :=
-  Subgroup.closure {t.σ0, t.σ1}
+/-- **Layer 0.3.** The monodromy group is generated by the first two components. -/
+example (t : PermutationTriple n) : t.monodromyGroup = Subgroup.closure {t.σ0, t.σ1} := rfl
 
-theorem σinf_mem_monodromyGroup (t : PermutationTriple n) :
-    t.σinf ∈ monodromyGroup t := by
-  rw [t.σinf_eq]
-  exact inv_mem (mul_mem (Subgroup.subset_closure (by simp))
-    (Subgroup.subset_closure (by simp)))
+/-- **Layer 0.4.** Connectedness, with the `n ≠ 0` clause in the definition. -/
+example (t : PermutationTriple n) :
+    t.IsConnected ↔ n ≠ 0 ∧ MulAction.IsPretransitive t.monodromyGroup (Fin n) :=
+  PermutationTriple.isConnected_iff
 
-/-- **Layer 0.4.** Connectedness. ⚠ The `n ≠ 0` clause is part of the definition:
-pretransitivity is vacuous on `Fin 0`, and the genus formula fails there. -/
-def IsConnected (t : PermutationTriple n) : Prop :=
-  n ≠ 0 ∧ MulAction.IsPretransitive (monodromyGroup t) (Fin n)
+/-- **Layer 0.2, 0.4.** Connectedness is invariant under relabeling:
+`TauCeti.PermutationTriple.isConnected_smul_iff`. -/
+theorem PermutationTriple.isConnected_smul (τ : Equiv.Perm (Fin n)) {t : PermutationTriple n}
+    (ht : t.IsConnected) : (τ • t).IsConnected :=
+  (TauCeti.PermutationTriple.isConnected_smul_iff τ t).2 ht
 
-/-- **Layer 0.2, 0.4.** Connectedness is invariant under relabeling — the lemma that makes
-`ConnectedTriple` an `Equiv.Perm (Fin n)`-set. -/
-theorem isConnected_smul (τ : Equiv.Perm (Fin n)) {t : PermutationTriple n}
-    (ht : t.IsConnected) : (τ • t).IsConnected := by
-  sorry
+/-- **Layer 3.1.** Connectedness, computably: every monodromy orbit, computed by closing a
+singleton under the generators, is everything. This is the iff behind Tau Ceti's `Decidable`
+instance, `TauCeti.PermutationTriple.isConnected_iff_forall_monodromyOrbitFinset_eq_univ`. -/
+theorem PermutationTriple.isConnected_iff_forall_monodromyOrbitFinset (t : PermutationTriple n) :
+    t.IsConnected ↔ n ≠ 0 ∧ ∀ i, t.monodromyOrbitFinset i = Finset.univ :=
+  t.isConnected_iff_forall_monodromyOrbitFinset_eq_univ
 
-/-- **Layer 3.1.** The closure of a set of labels under the two generators, one round. -/
-def orbitStep (t : PermutationTriple n) (s : Finset (Fin n)) : Finset (Fin n) :=
-  s ∪ s.image (fun i => t.σ0 i) ∪ s.image (fun i => t.σ1 i)
+/-- **Layer 0.4.** The automorphism group is the stabilizer under relabeling. -/
+example (t : PermutationTriple n) :
+    t.automorphismGroup = MulAction.stabilizer (Equiv.Perm (Fin n)) t := rfl
 
-/-- **Layer 3.1.** Connectedness, computably: `n` rounds of closure from each label
-saturate iff the monodromy group is transitive. `n` rounds suffice because a round that
-adds nothing is stationary and each earlier round adds at least one label. -/
-def isConnectedB (t : PermutationTriple n) : Bool :=
-  decide (n ≠ 0) && decide (∀ i : Fin n, (orbitStep t)^[n] {i} = Finset.univ)
+/-- **Layer 0.4.** The automorphism group is the centralizer of the monodromy group:
+`TauCeti.PermutationTriple.automorphismGroup_eq_centralizer_monodromyGroup`. -/
+theorem PermutationTriple.automorphismGroup_eq_centralizer (t : PermutationTriple n) :
+    t.automorphismGroup = Subgroup.centralizer (t.monodromyGroup : Set (Equiv.Perm (Fin n))) :=
+  t.automorphismGroup_eq_centralizer_monodromyGroup
 
-/-- **Layer 3.1.** Soundness of the computable connectedness test. -/
-theorem isConnectedB_eq_true_iff (t : PermutationTriple n) :
-    isConnectedB t = true ↔ t.IsConnected := by
-  sorry
+/-- **Layer 0.4.** For connected triples the automorphism group's order divides `n`:
+`TauCeti.PermutationTriple.card_automorphismGroup_dvd`. -/
+theorem PermutationTriple.card_automorphismGroup_dvd (t : PermutationTriple n)
+    (ht : t.IsConnected) : Nat.card t.automorphismGroup ∣ n :=
+  t.card_automorphismGroup_dvd ht.isPretransitive
 
-/-- **Layer 0.4.** The automorphism group is the stabilizer under relabeling —
-definitionally the simultaneous centralizer. -/
-def automorphismGroup (t : PermutationTriple n) : Subgroup (Equiv.Perm (Fin n)) :=
-  MulAction.stabilizer (Equiv.Perm (Fin n)) t
+/-- **Layer 0.4, 0.2.** Relabeling conjugates the automorphism group:
+`TauCeti.PermutationTriple.automorphismGroup_smul`. -/
+theorem PermutationTriple.automorphismGroup_smul (τ : Equiv.Perm (Fin n))
+    (t : PermutationTriple n) :
+    (τ • t).automorphismGroup = t.automorphismGroup.map (MulAut.conj τ).toMonoidHom :=
+  TauCeti.PermutationTriple.automorphismGroup_smul τ t
 
-/-- **Layer 0.4.** The automorphism group is the centralizer of the monodromy group. -/
-theorem automorphismGroup_eq_centralizer (t : PermutationTriple n) :
-    automorphismGroup t = Subgroup.centralizer (monodromyGroup t) := by
-  sorry
+/-! ### Layer 0.5: cycle data
 
-/-- **Layer 0.4.** For connected triples the automorphism action on `Fin n` is free, so
-the automorphism group's order divides `n`. -/
-theorem card_automorphismGroup_dvd (t : PermutationTriple n) (ht : t.IsConnected) :
-    Nat.card (automorphismGroup t) ∣ n := by
-  sorry
+Cycle counts are `TauCeti.orbitCount`, fixed points included, and the partitions are
+`Equiv.Perm.fullCycleType`. -/
 
-/-! ### Deferred supplier crossing: cycle data and genus
+/-- **Layer 0.5.** The cycle count, fixed points included, is the number of parts of the full
+cycle type: `Equiv.Perm.orbitCount_eq_card_parts_partition`. -/
+theorem orbitCount_eq_card_fullCycleType {α : Type u} [Fintype α] [DecidableEq α]
+    (σ : Equiv.Perm α) : orbitCount σ = Multiset.card σ.fullCycleType :=
+  Equiv.Perm.orbitCount_eq_card_parts_partition σ
 
-The full-cycle carrier and transitive-group labels are owned by `PolynomialGaloisGroups` (#243).
-Until that roadmap lands, this file deliberately exports neither a substitute carrier nor the
-passport/genus declarations that consume it. The exact downstream contracts remain in the README. -/
+/-- **Layer 0.5.** The full cycle type is a partition of the degree:
+`Equiv.Perm.sum_fullCycleType`. -/
+theorem fullCycleType_sum {α : Type u} [Fintype α] [DecidableEq α] (σ : Equiv.Perm α) :
+    σ.fullCycleType.sum = Fintype.card α :=
+  Equiv.Perm.sum_fullCycleType σ
 
-/-
+/-- **Layer 0.5, the transposition step lemma.** Multiplying by a transposition splits a
+cycle or merges two: `TauCeti.orbitCount_swap_mul_of_sameCycle` and
+`TauCeti.orbitCount_swap_mul_add_one_of_not_sameCycle`. -/
+theorem orbitCount_swap_mul {α : Type u} [Fintype α] [DecidableEq α]
+    (σ : Equiv.Perm α) {i j : α} (hij : i ≠ j) :
+    orbitCount (Equiv.swap i j * σ) =
+      if σ.SameCycle i j then orbitCount σ + 1 else orbitCount σ - 1 := by
+  split_ifs with h
+  · exact orbitCount_swap_mul_of_sameCycle hij h
+  · have := orbitCount_swap_mul_add_one_of_not_sameCycle (σ := σ) h
+    omega
 
-/-- **Layer 0.5.** The number of cycles, fixed points included. -/
-noncomputable def cycleCount {α : Type u} [Fintype α] (σ : Equiv.Perm α) : ℕ :=
-  (@PolynomialGaloisGroups.fullCycleType α _ (Classical.decEq α) σ).card
-
-theorem fullCycleType_sum {α : Type u} [Fintype α] (σ : Equiv.Perm α) :
-    (@PolynomialGaloisGroups.fullCycleType α _ (Classical.decEq α) σ).sum
-      = Fintype.card α := by
-  sorry
-
-/-! **Layer 3.1: the computable cycle decomposition.** The imported `fullCycleType` is built
-from Mathlib's `Equiv.Perm.cycleType`, which goes through `cycleFactorsFinset` and is not an
-executable decomposition; every `#eval` and `decide` in Layers 3 and 14 runs on the definitions
-below instead, and `computedCycleType_eq_fullCycleType` is what licenses that. -/
-
-/-- **Layer 3.1.** The length of the cycle of `σ` through `i`: the least `k ≥ 1` with
-`σ ^ k i = i`, found by a bounded scan. -/
-def cycleLenOf (σ : Equiv.Perm (Fin n)) (i : Fin n) : ℕ :=
-  ((List.range n).find? fun k => decide ((σ ^ (k + 1)) i = i)).elim n (· + 1)
-
-/-- **Layer 3.1.** Whether `i` is the least label in its `σ`-orbit — the orbit
-representative the decomposition below selects. The quantifier is bounded, hence
-decidable. -/
-def isOrbitMin (σ : Equiv.Perm (Fin n)) (i : Fin n) : Bool :=
-  decide (∀ k < n, i ≤ (σ ^ k) i)
-
-/-- **Layer 3.1.** The full cycle type, computably: one part per orbit, fixed points
-included. -/
-def computedCycleType (σ : Equiv.Perm (Fin n)) : Multiset ℕ :=
-  (Finset.univ.filter fun i => isOrbitMin σ i = true).val.map (cycleLenOf σ)
+/-- **Layer 0.5, the sign identity**: `Equiv.Perm.sign_eq_neg_one_pow_card_sub_orbitCount`. -/
+theorem sign_eq_pow_sub_orbitCount {α : Type u} [Fintype α] [DecidableEq α]
+    (σ : Equiv.Perm α) :
+    Equiv.Perm.sign σ = (-1 : ℤˣ) ^ (Fintype.card α - orbitCount σ) :=
+  Equiv.Perm.sign_eq_neg_one_pow_card_sub_orbitCount σ
 
 /-- **Layer 3.1, the comparison theorem.** The executable decomposition agrees with the
-abstract one. Without this, none of Layer 3's `#eval`s is evidence about `fullCycleType`. -/
+abstract one: `Equiv.Perm.computedCycleType_eq_fullCycleType`. -/
 theorem computedCycleType_eq_fullCycleType (σ : Equiv.Perm (Fin n)) :
-    computedCycleType σ = PolynomialGaloisGroups.fullCycleType σ := by
-  sorry
-
-/-- **Layer 0.5, the transposition step lemma.** Multiplying by a transposition merges two
-cycles or splits one. -/
-theorem cycleCount_swap_mul {α : Type u} [Fintype α] [DecidableEq α]
-    (σ : Equiv.Perm α) {i j : α} (hij : i ≠ j) :
-    cycleCount (Equiv.swap i j * σ) =
-      if σ.SameCycle i j then cycleCount σ + 1 else cycleCount σ - 1 := by
-  sorry
-
-/-- **Layer 0.5, the sign identity.** -/
-theorem sign_eq_pow_sub_cycleCount {α : Type u} [Fintype α] [DecidableEq α]
-    (σ : Equiv.Perm α) :
-    Equiv.Perm.sign σ = (-1 : ℤˣ) ^ (Fintype.card α - cycleCount σ) := by
-  sorry
+    σ.computedCycleType = σ.fullCycleType :=
+  Equiv.Perm.computedCycleType_eq_fullCycleType σ
 
 /-! ### Layer 0.6: Euler characteristic and genus -/
 
-/-- **Layer 0.6.** The Euler characteristic, in `ℤ`, before any genus is defined. -/
-noncomputable def eulerChar (t : PermutationTriple n) : ℤ :=
-  cycleCount t.σ0 + cycleCount t.σ1 + cycleCount t.σinf - n
+/-- **Layer 0.6.** The Euler characteristic, in `ℤ`. -/
+example (t : PermutationTriple n) :
+    t.eulerChar = orbitCount t.σ0 + orbitCount t.σ1 + orbitCount t.σinf - n := rfl
 
-/-- **Layer 0.6 (parity).** For every product-one triple, `2 - χ` is even — the sign
-identity applied to the relation. No connectedness is needed. -/
-theorem even_two_sub_eulerChar (t : PermutationTriple n) : Even (2 - t.eulerChar) := by
-  sorry
+/-- **Layer 0.6 (parity).** For every product-one triple, `2 - χ` is even:
+`TauCeti.PermutationTriple.two_dvd_two_sub_eulerChar`. -/
+theorem PermutationTriple.even_two_sub_eulerChar (t : PermutationTriple n) :
+    Even (2 - t.eulerChar) :=
+  even_iff_two_dvd.2 t.two_dvd_two_sub_eulerChar
 
-/-- **Layer 0.6 (the connected bound).** `χ ≤ 2` for connected triples. Proof route:
-induction along a minimal transposition factorization of `σ1` with
-`cycleCount_swap_mul`; source Lando–Zvonkin (see the private provenance ledger). -/
-theorem eulerChar_le_two (t : PermutationTriple n) (ht : t.IsConnected) :
-    t.eulerChar ≤ 2 := by
-  sorry
+/-- **Layer 0.6 (the connected bound).** `χ ≤ 2` for connected triples:
+`TauCeti.PermutationTriple.IsConnected.eulerChar_le_two`. -/
+theorem PermutationTriple.eulerChar_le_two (t : PermutationTriple n) (ht : t.IsConnected) :
+    t.eulerChar ≤ 2 :=
+  ht.eulerChar_le_two
 
-/-- **Layer 0.6.** The genus. Junk-free by `two_sub_two_mul_genus`; never used before the
-bounds above. -/
-noncomputable def genus (t : PermutationTriple n) : ℕ :=
-  ((2 - t.eulerChar) / 2).toNat
+/-- **Layer 0.6.** The genus, junk-free by `two_sub_two_mul_genus`. -/
+example (t : PermutationTriple n) : t.genus = ((2 - t.eulerChar) / 2).toNat := rfl
 
-/-- **Layer 0.6.** `2 - 2g = χ` for connected triples: the `toNat` loses nothing. -/
-theorem two_sub_two_mul_genus (t : PermutationTriple n) (ht : t.IsConnected) :
-    2 - 2 * (t.genus : ℤ) = t.eulerChar := by
-  sorry
--/
+/-- **Layer 0.6.** `2 - 2g = χ` for connected triples:
+`TauCeti.PermutationTriple.IsConnected.two_sub_two_mul_genus`. -/
+theorem PermutationTriple.two_sub_two_mul_genus (t : PermutationTriple n)
+    (ht : t.IsConnected) : 2 - 2 * (t.genus : ℤ) = t.eulerChar :=
+  ht.two_sub_two_mul_genus
 
 /-! ### Layer 0.7: orders and geometry type -/
 
-/-- **Layer 0.7.** The order triple — the LMFDB's `abc` datum. -/
-noncomputable def orderTriple (t : PermutationTriple n) : ℕ × ℕ × ℕ :=
-  (orderOf t.σ0, orderOf t.σ1, orderOf t.σinf)
+/-- **Layer 0.7.** The order triple, the LMFDB's `abc` datum. -/
+example (t : PermutationTriple n) :
+    t.orderTriple = (orderOf t.σ0, orderOf t.σ1, orderOf t.σinf) := rfl
 
-/-- **Layer 0.7.** Spherical, Euclidean, or hyperbolic. -/
-inductive GeometryType : Type
-  | spherical
-  | euclidean
-  | hyperbolic
-  deriving DecidableEq, Repr
+/-- **Layer 0.7.** Spherical exactly when `1/a + 1/b + 1/c > 1`, compared in `ℚ`:
+`TauCeti.PermutationTriple.geometryType_eq_spherical_iff`. -/
+theorem PermutationTriple.geometryType_eq_spherical_iff (t : PermutationTriple n) :
+    t.geometryType = .spherical ↔
+      1 < ((orderOf t.σ0 : ℚ)⁻¹ + (orderOf t.σ1 : ℚ)⁻¹ + (orderOf t.σinf : ℚ)⁻¹) :=
+  TauCeti.PermutationTriple.geometryType_eq_spherical_iff t
 
-/-- **Layer 0.7.** The geometry type, by exact comparison in `ℚ`. -/
-noncomputable def geometryType (t : PermutationTriple n) : GeometryType :=
-  let s : ℚ := (orderOf t.σ0 : ℚ)⁻¹ + (orderOf t.σ1 : ℚ)⁻¹ + (orderOf t.σinf : ℚ)⁻¹
-  if 1 < s then .spherical else if s = 1 then .euclidean else .hyperbolic
+/-- **Layer 0.7.** Euclidean exactly when `1/a + 1/b + 1/c = 1`:
+`TauCeti.PermutationTriple.geometryType_eq_euclidean_iff`. -/
+theorem PermutationTriple.geometryType_eq_euclidean_iff (t : PermutationTriple n) :
+    t.geometryType = .euclidean ↔
+      (orderOf t.σ0 : ℚ)⁻¹ + (orderOf t.σ1 : ℚ)⁻¹ + (orderOf t.σinf : ℚ)⁻¹ = 1 :=
+  TauCeti.PermutationTriple.geometryType_eq_euclidean_iff t
 
-/-! ### Layer 0.8: the example suite -/
+/-! ### Layer 0.8: the example suite
 
-/-- **Layer 0.8.** The monodromy triple of `z ↦ zⁿ`. -/
-def cyclicTriple (n : ℕ) : PermutationTriple n := ofTwo (finRotate n) 1
+`TauCeti.PermutationTriple.cyclicTriple`, `chebyshevTriple`, `torusTriple` and `s3Triple`, each
+with its invariants proved in `TauCeti/Combinatorics/PermutationTriple/Examples.lean`. -/
 
-/-- **Layer 0.8.** The monodromy triple of `z ↦ 4z(1−z)`: unramified over `0`. -/
-def chebyshevTriple : PermutationTriple 2 := ofTwo 1 (Equiv.swap 0 1)
+/-- **Layer 0.8.** The cyclic triple is connected in every positive degree:
+`TauCeti.PermutationTriple.isConnected_cyclicTriple_iff`. -/
+theorem PermutationTriple.cyclicTriple_isConnected (n : ℕ) (hn : n ≠ 0) :
+    (PermutationTriple.cyclicTriple n).IsConnected :=
+  PermutationTriple.isConnected_cyclicTriple_iff.2 hn
 
-/-- **Layer 0.8.** The Euclidean genus-one triple: degree `4`, cycle data
-`[4], [4], [2,2]`, regular with deck group `ℤ/4`, imprimitive. -/
-def torusTriple : PermutationTriple 4 := ofTwo (finRotate 4) (finRotate 4)
+example : PermutationTriple.torusTriple.σinf = (finRotate 4 ^ 2)⁻¹ := rfl
 
-/-- **Layer 0.8.** A triple with monodromy all of `S₃` and trivial automorphisms. -/
-def s3Triple : PermutationTriple 3 := ofTwo (finRotate 3) (Equiv.swap 0 1)
-
-example : torusTriple.σinf = (finRotate 4 ^ 2)⁻¹ := by simp [torusTriple, sq]
-
-theorem cyclicTriple_isConnected (n : ℕ) (hn : n ≠ 0) : (cyclicTriple n).IsConnected := by
-  sorry
+end Layer0
 
 /-! ### Layer 2.6: the branch-point action
 
-All six reindexings of `(0, 1, ∞)`, written out rather than schematized, with the
-conjugators that make them preserve the pinned relation, and a `decide`-checked witness that
-the naive color swap does not.
+All six reindexings of `(0, 1, ∞)` are Tau Ceti's: `TauCeti.PermutationTriple.swap01`,
+`swap1Inf`, `swap0Inf`, `rot` and `rotInv`, with `reindexBranchPoints` attaching one to each
+permutation of `Fin 3`. Tau Ceti defines `swap0Inf`, `rot` and `rotInv` as the composites, so
+the composite identities hold by definition and the content is in the component formulas.
 
 The operation named after a permutation `ρ` of `{0, 1, ∞}` is the one whose `σ_i` is the old
-`σ_{ρ i}` up to conjugacy; reindexing is contravariant, so `Op ρ ∘ Op ρ' = Op (ρ' * ρ)` and
-the six operations form a **right** `S₃`-action (README, Layer 2.6). -/
+`σ_{ρ i}` up to conjugacy; reindexing is contravariant, so the six operations form a **right**
+`S₃`-action (README, Layer 2.6), which Tau Ceti packages as the action of `(Perm (Fin 3))ᵐᵒᵖ` on
+`TauCeti.PermutationTriple.IsoClass n`. -/
 
-/-- **Layer 2.6.** Swap the roles of `0` and `1`. An involution on the nose. -/
-def swap01 (t : PermutationTriple n) : PermutationTriple n where
-  σ0 := t.σ1
-  σ1 := t.σ0
-  σinf := t.σ1⁻¹ * t.σinf * t.σ1
-  product_eq_one := by rw [t.σinf_eq]; group
+section BranchPoints
 
-/-- **Layer 2.6.** Swap the roles of `1` and `∞`. ⚠ Its square is simultaneous conjugation
-by `σ0`, not the identity, which is why the `S₃`-action lives on isomorphism classes. -/
-def swap1Inf (t : PermutationTriple n) : PermutationTriple n where
-  σ0 := t.σ0
-  σ1 := t.σ1⁻¹ * t.σinf * t.σ1
-  σinf := t.σ1
-  product_eq_one := by rw [t.σinf_eq]; group
+open TauCeti.PermutationTriple (swap01 swap1Inf swap0Inf rot rotInv s3Triple)
 
-/-- **Layer 2.6.** Swap the roles of `0` and `∞`. That it is the composite
-`swap01 ∘ swap1Inf ∘ swap01` is `swap0Inf_eq`; the simplification of the third component
-consumes the pinned relation and is proved, not asserted. -/
-def swap0Inf (t : PermutationTriple n) : PermutationTriple n where
-  σ0 := t.σinf
-  σ1 := t.σ1
-  σinf := t.σ1 * t.σ0 * t.σ1⁻¹
-  product_eq_one := by rw [t.σinf_eq]; group
+variable {n : ℕ}
 
-/-- **Layer 2.6.** The rotation `0 ↦ 1 ↦ ∞ ↦ 0` of the branch points: it replaces `σ0` by
-`σ1`, `σ1` by `σinf` and `σinf` by `σ0`, with **no conjugator at all**. That it is the
-composite `swap1Inf ∘ swap01` is `rot_eq`. -/
-def rot (t : PermutationTriple n) : PermutationTriple n where
-  σ0 := t.σ1
-  σ1 := t.σinf
-  σinf := t.σ0
-  product_eq_one := by rw [t.σinf_eq]; group
+/-- **Layer 2.6.** `swap01 (a, b, c) = (b, a, b⁻¹ · c · b)`. -/
+example (t : PermutationTriple n) :
+    (swap01 t).σ0 = t.σ1 ∧ (swap01 t).σ1 = t.σ0 ∧ (swap01 t).σinf = t.σ1⁻¹ * t.σinf * t.σ1 :=
+  ⟨rfl, rfl, rfl⟩
 
-/-- **Layer 2.6.** The rotation `0 ↦ ∞ ↦ 1 ↦ 0`, the composite `swap01 ∘ swap1Inf`
-(`rotInv_eq`). ⚠ It is **not** the inverse of `rot` on triples: `rotInv_rot` says the two
-composites differ by simultaneous conjugation by `σ1`, and they agree only on `IsoClass n`. -/
-def rotInv (t : PermutationTriple n) : PermutationTriple n where
-  σ0 := t.σ1⁻¹ * t.σinf * t.σ1
-  σ1 := t.σ0
-  σinf := t.σ0 * t.σ1 * t.σ0⁻¹
-  product_eq_one := by rw [t.σinf_eq]; group
+/-- **Layer 2.6.** `swap1Inf (a, b, c) = (a, b⁻¹ · c · b, b)`. -/
+example (t : PermutationTriple n) :
+    (swap1Inf t).σ0 = t.σ0 ∧ (swap1Inf t).σ1 = t.σ1⁻¹ * t.σinf * t.σ1 ∧ (swap1Inf t).σinf = t.σ1 :=
+  ⟨rfl, rfl, rfl⟩
 
-/-- **Layer 2.6.** `rot` is the composite `swap1Inf ∘ swap01`. -/
-theorem rot_eq (t : PermutationTriple n) : rot t = swap1Inf (swap01 t) := by
-  refine ext_of_two rfl ?_
-  show t.σinf = t.σ0⁻¹ * (t.σ1⁻¹ * t.σinf * t.σ1) * t.σ0
-  rw [t.σinf_eq]; group
-
-/-- **Layer 2.6.** `rotInv` is the composite `swap01 ∘ swap1Inf`. -/
-theorem rotInv_eq (t : PermutationTriple n) : rotInv t = swap01 (swap1Inf t) :=
-  ext_of_two rfl rfl
-
-/-- **Layer 2.6.** `swap0Inf` is the composite `swap01 ∘ swap1Inf ∘ swap01`. -/
+/-- **Layer 2.6.** `swap0Inf` is `swap01 ∘ swap1Inf ∘ swap01`, and it is `(c, b, b · a · b⁻¹)`:
+`TauCeti.PermutationTriple.swap0Inf_σ0` and `swap0Inf_σinf`. -/
 theorem swap0Inf_eq (t : PermutationTriple n) :
-    swap0Inf t = swap01 (swap1Inf (swap01 t)) := by
-  refine ext_of_two ?_ rfl
-  show t.σinf = t.σ0⁻¹ * (t.σ1⁻¹ * t.σinf * t.σ1) * t.σ0
-  rw [t.σinf_eq]; group
+    swap0Inf t = swap01 (swap1Inf (swap01 t)) ∧ (swap0Inf t).σ0 = t.σinf ∧
+      (swap0Inf t).σ1 = t.σ1 ∧ (swap0Inf t).σinf = t.σ1 * t.σ0 * t.σ1⁻¹ :=
+  ⟨rfl, t.swap0Inf_σ0, t.swap0Inf_σ1, t.swap0Inf_σinf⟩
 
-/-- **Layer 2.6, the Coxeter relation `(st)³ = 1`, on the nose.** Unlike `swap1Inf`, the
-rotation has its expected order without any relabeling; this is the statement that makes the
-`S₃`-action visible. -/
+/-- **Layer 2.6.** `rot` is `swap1Inf ∘ swap01`, and it is the rotation `(a, b, c) ↦ (b, c, a)`
+with no conjugator: `TauCeti.PermutationTriple.rot_σ0`, `rot_σ1`, `rot_σinf`. -/
+theorem rot_eq (t : PermutationTriple n) :
+    rot t = swap1Inf (swap01 t) ∧ (rot t).σ0 = t.σ1 ∧ (rot t).σ1 = t.σinf ∧ (rot t).σinf = t.σ0 :=
+  ⟨rfl, t.rot_σ0, t.rot_σ1, t.rot_σinf⟩
+
+/-- **Layer 2.6.** `rotInv` is `swap01 ∘ swap1Inf`, and it is
+`(b⁻¹ · c · b, a, a · b · a⁻¹)`: `TauCeti.PermutationTriple.rotInv_σ0`, `rotInv_σ1`,
+`rotInv_σinf`. -/
+theorem rotInv_eq (t : PermutationTriple n) :
+    rotInv t = swap01 (swap1Inf t) ∧ (rotInv t).σ0 = t.σ1⁻¹ * t.σinf * t.σ1 ∧
+      (rotInv t).σ1 = t.σ0 ∧ (rotInv t).σinf = t.σ0 * t.σ1 * t.σ0⁻¹ :=
+  ⟨rfl, t.rotInv_σ0, t.rotInv_σ1, t.rotInv_σinf⟩
+
+/-- **Layer 2.6, the Coxeter relation `(st)³ = 1`, on the nose:**
+`TauCeti.PermutationTriple.rot_rot_rot`. -/
 theorem rot_rot_rot (t : PermutationTriple n) : rot (rot (rot t)) = t :=
-  ext_of_two rfl rfl
+  t.rot_rot_rot
 
-/-- **Layer 2.6.** `rotInv ∘ rot` is simultaneous conjugation by **`σ1`**, not the identity —
-the counterpart for the rotations of `swap1Inf_sq`, and the second reason the `S₃`-action is
-stated on `IsoClass n`. -/
-theorem rotInv_rot (t : PermutationTriple n) : rotInv (rot t) = t.σ1 • t := by
-  refine ext_of_two ?_ ?_
-  · show t.σinf⁻¹ * t.σ0 * t.σinf = t.σ1 * t.σ0 * t.σ1⁻¹
-    rw [t.σinf_eq]; group
-  · show t.σ1 = t.σ1 * t.σ1 * t.σ1⁻¹
-    group
+/-- **Layer 2.6.** `rotInv ∘ rot` is simultaneous conjugation by **`σ1`**, not the identity:
+`TauCeti.PermutationTriple.rotInv_rot`. -/
+theorem rotInv_rot (t : PermutationTriple n) : rotInv (rot t) = t.σ1 • t :=
+  t.rotInv_rot
 
-/-- **Layer 2.6, the order witness.** `rot` is `swap1Inf ∘ swap01`, not `swap01 ∘ swap1Inf`:
-the two composites are genuinely different operations on triples, so the order in `rot_eq` is
-not a presentational choice. -/
+/-- **Layer 2.6, the order witness.** `rot` is `swap1Inf ∘ swap01`, not `swap01 ∘ swap1Inf`. -/
 example : rot s3Triple ≠ swap01 (swap1Inf s3Triple) := by decide
 
-/-- **Layer 2.6, the witness for `rotInv_rot`.** The relabeling in `rotInv_rot` is not
-removable: on `s3Triple` the composite really does move the triple. -/
+/-- **Layer 2.6, the witness for `rotInv_rot`.** -/
 example : rotInv (rot s3Triple) ≠ s3Triple := by decide
 
 /-- **Layer 2.6, the counterexample.** The naive color swap `(a,b,c) ↦ (b,a,a⁻¹ca)` does
@@ -490,28 +424,23 @@ example :
     ¬ ((s3Triple.σ0⁻¹ * s3Triple.σinf * s3Triple.σ0) * s3Triple.σ0 * s3Triple.σ1 = 1) := by
   decide
 
-/-- The corrected `swap01` does preserve it, on the same triple. -/
-example : (swap01 s3Triple).σinf * (swap01 s3Triple).σ1 * (swap01 s3Triple).σ0 = 1 :=
-  (swap01 s3Triple).product_eq_one
-
-/-- **Layer 2.6.** `swap01` is an involution on triples, on the nose. -/
-theorem swap01_involutive (t : PermutationTriple n) : swap01 (swap01 t) = t := by
-  sorry
+/-- **Layer 2.6.** `swap01` is an involution on triples, on the nose:
+`TauCeti.PermutationTriple.swap01_swap01`. -/
+theorem swap01_involutive (t : PermutationTriple n) : swap01 (swap01 t) = t :=
+  t.swap01_swap01
 
 /-- **Layer 2.6.** `swap1Inf` squared is simultaneous conjugation by **`σ0`**, not the
-identity — the statement that forces the `S₃`-action onto `IsoClass n`.
+identity: `TauCeti.PermutationTriple.swap1Inf_swap1Inf`.
 
 The computation is forced by the pinned relation. Writing `t = (a, b, c)` with `c * b * a = 1`,
 one application gives `(a, b⁻¹ * c * b, b)` and a second gives
 `(a, b⁻¹ * c⁻¹ * b * c * b, b⁻¹ * c * b)`; since `a = (c * b)⁻¹ = b⁻¹ * c⁻¹`, those last two
 entries are exactly `a * b * a⁻¹` and `a * c * a⁻¹`. -/
-theorem swap1Inf_sq (t : PermutationTriple n) : swap1Inf (swap1Inf t) = t.σ0 • t := by
-  sorry
+theorem swap1Inf_sq (t : PermutationTriple n) : swap1Inf (swap1Inf t) = t.σ0 • t :=
+  t.swap1Inf_swap1Inf
 
 /-- **Layer 2.6, the witness that fixes the conjugator.** `σ0` is not interchangeable with
-the two conjugators one might guess instead: on `s3Triple` both `σ1⁻¹ • t` and `σ1 • t`
-differ from `swap1Inf²`, so the theorem above is not merely one presentation among several.
-(Exhaustively, `σ0` is correct on all 576 triples in `S₄` while `σ1⁻¹` fails on 456.) -/
+the two conjugators one might guess instead. -/
 example : swap1Inf (swap1Inf s3Triple) = s3Triple.σ0 • s3Triple := by decide
 
 example : swap1Inf (swap1Inf s3Triple) ≠ s3Triple.σ1⁻¹ • s3Triple := by decide
@@ -531,654 +460,406 @@ is a statement about **conjugacy classes**, one slot at a time, and passport inv
 follows from these two finite facts alone. Powering by a unit modulo the order preserves the
 full cycle type... -/
 theorem fullCycleType_pow_of_coprime {α : Type u} [Fintype α] [DecidableEq α]
-    (σ : Equiv.Perm α) {u : ℕ} (hu : Nat.Coprime u (orderOf σ)) :
-    PolynomialGaloisGroups.fullCycleType (σ ^ u) =
-      PolynomialGaloisGroups.fullCycleType σ := by
+    (σ : Equiv.Perm α) {k : ℕ} (hk : Nat.Coprime k (orderOf σ)) :
+    (σ ^ k).fullCycleType = σ.fullCycleType := by
   sorry
 -/
 
 /-- ...and it does not change the generated subgroup, which is why the monodromy group is a
 Galois invariant. -/
-theorem closure_pow_eq {α : Type u} [Fintype α] [DecidableEq α]
-    (t : PermutationTriple n) {u : ℕ}
-    (hu : Nat.Coprime u (Monoid.exponent (monodromyGroup t))) :
-    Subgroup.closure {t.σ0 ^ u, t.σ1 ^ u} = monodromyGroup t := by
+theorem closure_pow_eq (t : PermutationTriple n) {k : ℕ}
+    (hk : Nat.Coprime k (Monoid.exponent t.monodromyGroup)) :
+    Subgroup.closure {t.σ0 ^ k, t.σ1 ^ k} = t.monodromyGroup := by
   sorry
 
-/-- **Layer 2.6.** The Coxeter braid relation, on isomorphism classes. -/
+/-- **Layer 2.6.** The Coxeter braid relation, on isomorphism classes:
+`(swap01 ∘ swap1Inf)³` is `rotInv³`, the identity by
+`TauCeti.PermutationTriple.rotInv_rotInv_rotInv`. -/
 theorem braid_on_isoClass (t : PermutationTriple n) :
-    Equivalent (swap01 (swap1Inf (swap01 (swap1Inf (swap01 (swap1Inf t)))))) t := by
-  sorry
+    (swap01 (swap1Inf (swap01 (swap1Inf (swap01 (swap1Inf t)))))).Equivalent t := by
+  rw [show swap01 (swap1Inf (swap01 (swap1Inf (swap01 (swap1Inf t))))) =
+    rotInv (rotInv (rotInv t)) from rfl, t.rotInv_rotInv_rotInv]
+  exact PermutationTriple.equivalent_iff_exists_smul_eq.2 ⟨1, one_smul _ t⟩
 
-/-- **Layer 2.6.** The branch-point operations preserve connectedness: each new pair of
-generators generates the same subgroup (`⟨b, a⟩ = ⟨a, b⟩` for `swap01`, and
-`⟨a, b⁻¹ · c · b⟩ = ⟨a, b⁻¹ · a⁻¹⟩ = ⟨a, b⟩` for `swap1Inf`), so `monodromyGroup` is
-unchanged, pretransitivity transfers, and `n` is untouched. -/
+/-- **Layer 2.6.** The branch-point operations preserve connectedness:
+`TauCeti.PermutationTriple.isConnected_swap01_iff` and `isConnected_swap1Inf_iff`. -/
 theorem isConnected_swap01 {t : PermutationTriple n} (ht : t.IsConnected) :
-    (swap01 t).IsConnected := by
-  sorry
+    (swap01 t).IsConnected :=
+  (t.isConnected_swap01_iff).2 ht
 
 theorem isConnected_swap1Inf {t : PermutationTriple n} (ht : t.IsConnected) :
-    (swap1Inf t).IsConnected := by
-  sorry
+    (swap1Inf t).IsConnected :=
+  (t.isConnected_swap1Inf_iff).2 ht
 
-/-- **Layer 0.4, 0.2.** Relabeling conjugates the automorphism group — the statement that
-makes the automorphism group a well-defined invariant of an `IsoClass n`, as a subgroup up
-to conjugacy rather than on the nose. -/
-theorem automorphismGroup_smul (τ : Equiv.Perm (Fin n)) (t : PermutationTriple n) :
-    automorphismGroup (τ • t) = Subgroup.map (MulAut.conj τ).toMonoidHom
-      (automorphismGroup t) := by
-  sorry
+/-- **Layer 2.6.** On connected triples the operations are
+`TauCeti.ConnectedTriple.reindexBranchPoints`; the transposition `(0 1)` gives `swap01`
+(`TauCeti.PermutationTriple.reindexBranchPoints_swap_zero_one`). -/
+example (t : ConnectedTriple n) :
+    ((t.reindexBranchPoints (Equiv.swap 0 1) : ConnectedTriple n) : PermutationTriple n) =
+      swap01 (t : PermutationTriple n) :=
+  (t : PermutationTriple n).reindexBranchPoints_swap_zero_one
 
-end PermutationTriple
+/-- ...and the transposition `(1 ∞)` gives `swap1Inf`
+(`TauCeti.PermutationTriple.reindexBranchPoints_swap_one_two`). -/
+example (t : ConnectedTriple n) :
+    ((t.reindexBranchPoints (Equiv.swap 1 2) : ConnectedTriple n) : PermutationTriple n) =
+      swap1Inf (t : PermutationTriple n) :=
+  (t : PermutationTriple n).reindexBranchPoints_swap_one_two
+
+end BranchPoints
 
 /-! ## Layer 1: passports
 
-⚠ Passports are attached to **connected** triples only (README, Layer 1.1). The carrier
-below is what every predicate and every function of this layer is stated on; none is stated
-on a bare triple and then hedged with a hypothesis. -/
+⚠ Passports are attached to **connected** triples only (README, Layer 1.1). The carrier is
+`TauCeti.ConnectedTriple`, and passports are `TauCeti.PassportSpec`, with membership
+`TauCeti.PassportSpec.HasPassport`, classes `TauCeti.PassportSpec.classSet` and size
+`TauCeti.PassportSpec.passportSize`. -/
+
+section Passports
+
+variable {n : ℕ}
 
 /-- **Layer 1.1.** The connected-triple carrier. -/
-def ConnectedTriple (n : ℕ) : Type :=
-  {t : PermutationTriple n // t.IsConnected}
+example : ConnectedTriple n = {t : PermutationTriple n // t.IsConnected} := rfl
 
-namespace ConnectedTriple
+/-- **Layer 1.1.** Admissibility: nonzero degree, transitive reference, three partitions of `n`
+into positive parts. -/
+example (P : PassportSpec n) :
+    P.IsAdmissible ↔ n ≠ 0 ∧ MulAction.IsPretransitive P.G (Fin n) ∧
+      (P.lam0.sum = n ∧ ∀ i ∈ P.lam0, 0 < i) ∧ (P.lam1.sum = n ∧ ∀ i ∈ P.lam1, 0 < i) ∧
+        (P.laminf.sum = n ∧ ∀ i ∈ P.laminf, 0 < i) :=
+  Iff.rfl
 
-variable {n : ℕ}
+/-- **Layer 1.1.** Passport membership: conjugate monodromy and equal cycle data. Tau Ceti's cycle
+data is the computed cycle type, equal to `fullCycleType` by
+`Equiv.Perm.computedCycleType_eq_fullCycleType`. -/
+example (t : ConnectedTriple n) (P : PassportSpec n) :
+    P.HasPassport t ↔
+      (∃ τ : Equiv.Perm (Fin n),
+          (t.1.monodromyGroup).map (MulAut.conj τ).toMonoidHom = P.G) ∧
+        t.1.cycleData.1 = P.lam0 ∧ t.1.cycleData.2.1 = P.lam1 ∧ t.1.cycleData.2.2 = P.laminf :=
+  Iff.rfl
 
-instance : SMul (Equiv.Perm (Fin n)) (ConnectedTriple n) where
-  smul τ t := ⟨τ • t.1, PermutationTriple.isConnected_smul τ t.2⟩
+/-- **Layer 1.5.** `passportOf` lands in admissible specifications:
+`TauCeti.ConnectedTriple.isAdmissible_passportOf`. -/
+theorem isAdmissible_passportOf (t : ConnectedTriple n) : t.passportOf.IsAdmissible :=
+  t.isAdmissible_passportOf
 
-instance : MulAction (Equiv.Perm (Fin n)) (ConnectedTriple n) where
-  one_smul _ := Subtype.ext (one_smul _ _)
-  mul_smul _ _ _ := Subtype.ext (mul_smul _ _ _)
-
-/-- **Layer 2.6.** The two generating branch-point operations restricted to connected
-triples, where Layer 6.3 needs them. The remaining four are their composites, by
-`PermutationTriple.rot_eq`, `rotInv_eq` and `swap0Inf_eq`. -/
-def swap01 (t : ConnectedTriple n) : ConnectedTriple n :=
-  ⟨PermutationTriple.swap01 t.1, PermutationTriple.isConnected_swap01 t.2⟩
-
-/-- **Layer 2.6.** Swap the roles of `1` and `∞`, on connected triples. -/
-def swap1Inf (t : ConnectedTriple n) : ConnectedTriple n :=
-  ⟨PermutationTriple.swap1Inf t.1, PermutationTriple.isConnected_swap1Inf t.2⟩
-
-end ConnectedTriple
-
-/-
-open PermutationTriple in
-/-- **Layer 1.1.** A passport specification: a reference transitive subgroup (up to the
-conjugacy stated in `HasPassport`) and the three full cycle partitions. -/
-structure PassportSpec (n : ℕ) where
-  G : Subgroup (Equiv.Perm (Fin n))
-  lam0 : Multiset ℕ
-  lam1 : Multiset ℕ
-  laminf : Multiset ℕ
-
-namespace PassportSpec
-
-variable {n : ℕ}
-
-/-- **Layer 1.1.** Well-formedness: nonzero degree, transitive reference, three partitions
-of `n` into positive parts. ⚠ `n ≠ 0` is part of admissibility for the same reason it is
-part of connectedness: `IsPretransitive` is vacuous on `Fin 0` and the empty multiset is a
-partition of `0`, so without it the degenerate specification is admissible and inhabited by
-nothing. -/
-def IsAdmissible (P : PassportSpec n) : Prop :=
-  n ≠ 0 ∧
-    MulAction.IsPretransitive P.G (Fin n) ∧
-    (P.lam0.sum = n ∧ ∀ i ∈ P.lam0, 0 < i) ∧
-    (P.lam1.sum = n ∧ ∀ i ∈ P.lam1, 0 < i) ∧
-    (P.laminf.sum = n ∧ ∀ i ∈ P.laminf, 0 < i)
-
-/-- **Layer 1.6.** The reference group has the supplier's transitive-group label. This is a
-thin use of the canonical predicate, not a local label carrier or a duplicate conjugacy
-condition. -/
-def HasTransitiveGroupLabel (P : PassportSpec n)
-    (j : PolynomialGaloisGroups.TransitiveGroupIndex n) : Prop :=
-  PolynomialGaloisGroups.TransitiveGroupLabel j P.G
-
-/-- **Layer 1.1.** Passport membership, on a **connected** triple: conjugate monodromy (the
-exact PolynomialGaloisGroups spelling) and equal cycle data. -/
-def HasPassport (t : ConnectedTriple n) (P : PassportSpec n) : Prop :=
-  (∃ τ : Equiv.Perm (Fin n),
-      (PermutationTriple.monodromyGroup t.1).map (MulAut.conj τ).toMonoidHom = P.G) ∧
-    PolynomialGaloisGroups.fullCycleType t.1.σ0 = P.lam0 ∧
-    PolynomialGaloisGroups.fullCycleType t.1.σ1 = P.lam1 ∧
-    PolynomialGaloisGroups.fullCycleType t.1.σinf = P.laminf
-
-end PassportSpec
-
-namespace ConnectedTriple
-
-variable {n : ℕ}
-
-/-- **Layer 1.5.** The passport of a connected triple. ⚠ The domain is `ConnectedTriple n`:
-on a disconnected triple this would produce an inadmissible specification. -/
-noncomputable def passportOf (t : ConnectedTriple n) : PassportSpec n :=
-  ⟨PermutationTriple.monodromyGroup t.1,
-    PolynomialGaloisGroups.fullCycleType t.1.σ0,
-    PolynomialGaloisGroups.fullCycleType t.1.σ1,
-    PolynomialGaloisGroups.fullCycleType t.1.σinf⟩
-
-/-- **Layer 1.5.** `passportOf` lands in admissible specifications. -/
-theorem isAdmissible_passportOf (t : ConnectedTriple n) : (passportOf t).IsAdmissible := by
-  sorry
-
-/-- **Layer 1.5.** A connected triple has its own passport. -/
-theorem hasPassport_passportOf (t : ConnectedTriple n) :
-    PassportSpec.HasPassport t (passportOf t) := by
-  sorry
-
-end ConnectedTriple
--/
-
-namespace PermutationTriple
-
-variable {n : ℕ}
+/-- **Layer 1.5.** A connected triple has its own passport:
+`TauCeti.ConnectedTriple.hasPassport_passportOf`. -/
+theorem hasPassport_passportOf (t : ConnectedTriple n) : PassportSpec.HasPassport t t.passportOf :=
+  t.hasPassport_passportOf
 
 /-- **Layer 1.4.** Primitivity of the monodromy action, Mathlib's notion. -/
-def IsPrimitive (t : PermutationTriple n) : Prop :=
-  MulAction.IsPreprimitive (monodromyGroup t) (Fin n)
+example (t : PermutationTriple n) :
+    t.IsPrimitive ↔ MulAction.IsPreprimitive t.monodromyGroup (Fin n) :=
+  PermutationTriple.isPrimitive_iff t
 
-/-! **Layer 3.1 is deferred with the full-cycle supplier contract.**
+/-- **Layer 1.6.** The stable part of a passport label, its degree, `nTj` group and three
+partitions, is `TauCeti.PassportLabel`, and its semantics is `TauCeti.PassportSpec.HasLabel`
+through PolynomialGaloisGroups' `TauCeti.TransitiveGroupLabel`. Tau Ceti's reference data stops
+at degree five (`TauCeti.numTransitiveGroups`); degrees six to eleven remain. -/
+example (P : PassportSpec n) (L : PassportLabel n) :
+    P.HasLabel L ↔
+      TransitiveGroupLabel L.group P.G ∧ P.lam0 = L.lam0 ∧ P.lam1 = L.lam1 ∧
+        P.laminf = L.laminf :=
+  Iff.rfl
 
-The executable passport enumeration is restored after #243 lands and its exact cycle and
-transitive-group carriers can be imported. -/
+end Passports
 
-/-
+/-! ### Layer 3.1: the executable enumeration -/
 
-/-! **Layer 3.1, continued: the executable enumeration.**
+section Enumeration
 
-The computable cycle decomposition earlier is only half of Layer 3.1. Everything the small
-tables of Layer 3.5 and the record certificates of Layer 14 are checked against must be a
-`Finset` or a `Bool` carrying a soundness theorem that ties it to the abstract definition;
-the targets below are those, one per abstract notion. -/
+variable {n : ℕ}
 
-/-- **Layer 3.1.** The Euler characteristic, computably — the cycle counts taken from the
-executable decomposition rather than from `cycleFactorsFinset`. -/
-def computedEulerChar (t : PermutationTriple n) : ℤ :=
-  (Multiset.card (computedCycleType t.σ0) + Multiset.card (computedCycleType t.σ1)
-    + Multiset.card (computedCycleType t.σinf) : ℤ) - n
+/-- **Layer 3.1.** The invariants computably, each agreeing with its Layer 0 definition:
+`TauCeti.PermutationTriple.computedEulerChar_eq`, `computedGenus_eq`, `computedOrderTriple_eq`,
+`computedGeometryType_eq`. -/
+theorem computedInvariants_eq (t : PermutationTriple n) :
+    t.computedEulerChar = t.eulerChar ∧ t.computedGenus = t.genus ∧
+      t.computedOrderTriple = t.orderTriple ∧ t.computedGeometryType = t.geometryType :=
+  ⟨t.computedEulerChar_eq, t.computedGenus_eq, t.computedOrderTriple_eq,
+    t.computedGeometryType_eq⟩
 
-theorem computedEulerChar_eq (t : PermutationTriple n) :
-    computedEulerChar t = eulerChar t := by
+/-- **Layer 3.1.** The monodromy group as a `Finset`:
+`TauCeti.PermutationTriple.mem_monodromyFinset`. -/
+theorem mem_monodromyFinset (t : PermutationTriple n) (g : Equiv.Perm (Fin n)) :
+    g ∈ t.monodromyFinset ↔ g ∈ t.monodromyGroup :=
+  t.mem_monodromyFinset
+
+/-- **Layer 3.1.** Blockhood, computably, quantifying over the whole monodromy group:
+`TauCeti.PermutationTriple.isBlockBool_eq_true_iff`. -/
+theorem isBlockBool_eq_true_iff (t : PermutationTriple n) (B : Finset (Fin n)) :
+    t.isBlockBool B = true ↔ MulAction.IsBlock t.monodromyGroup (B : Set (Fin n)) :=
+  t.isBlockBool_eq_true_iff B
+
+/-- **Layer 3.1.** Primitivity, computably:
+`TauCeti.PermutationTriple.isPrimitiveBool_eq_true_iff`. -/
+theorem isPrimitiveBool_eq_true_iff (t : PermutationTriple n) :
+    t.isPrimitiveBool = true ↔ t.IsPrimitive :=
+  t.isPrimitiveBool_eq_true_iff
+
+/-- **Layer 3.1, the acceptance checks for primitivity.** `torusTriple` is imprimitive,
+`s3Triple` primitive, and the degree-one triple primitive:
+`TauCeti.PermutationTriple.isPrimitiveBool_torusTriple` and its companions. The obvious wrong
+implementation, closing `{i, j}` under the two generators, is `true` on every connected triple,
+and `torusTriple` separates it from this one. -/
+example : PermutationTriple.torusTriple.isBlockBool {0, 2} = true := by decide
+
+example : PermutationTriple.torusTriple.isPrimitiveBool = false ∧
+    PermutationTriple.s3Triple.isPrimitiveBool = true ∧
+    (PermutationTriple.cyclicTriple 1).isPrimitiveBool = true :=
+  ⟨PermutationTriple.isPrimitiveBool_torusTriple, PermutationTriple.isPrimitiveBool_s3Triple,
+    PermutationTriple.isPrimitiveBool_cyclicTriple_one⟩
+
+/-- **Layer 3.1.** The `Finset` of connected triples of degree `n`:
+`TauCeti.mem_connectedTriples`. -/
+theorem mem_connectedTriples (t : PermutationTriple n) :
+    t ∈ connectedTriples n ↔ t.IsConnected :=
+  TauCeti.mem_connectedTriples
+
+/-- **Layer 3.1, soundness.** The isomorphism classes of connected triples as the `Finset` of
+relabeling orbits; each connected triple lies in exactly one: `TauCeti.existsUnique_mem_isoClasses`.
+⚠ Orbits, not chosen representatives. -/
+theorem isoClasses_spec (t : ConnectedTriple n) : ∃! c, c ∈ isoClasses n ∧ t ∈ c :=
+  existsUnique_mem_isoClasses t
+
+/-- **Layer 3.1.** The enumerated classes are exactly the isomorphism classes:
+`TauCeti.card_isoClasses`. -/
+theorem card_isoClasses_eq : (isoClasses n).card = Fintype.card (ConnectedIsoClass n) :=
+  card_isoClasses
+
+/-- **Layer 3.1, the passport fiber.** The classes with prescribed cycle data and monodromy group
+conjugate to a `Finset` presentation `G` of the reference subgroup, counted:
+`TauCeti.card_passportClasses`. ⚠ The group is compared **up to conjugacy in `S_n`**. -/
+theorem card_passportClasses_eq (P : PassportSpec n) (G : Finset (Equiv.Perm (Fin n)))
+    (hG : ∃ ρ, (G : Set (Equiv.Perm (Fin n))) = (P.conjugate ρ).G) :
+    (passportClasses G P.lam0 P.lam1 P.laminf).card = P.passportSize :=
+  card_passportClasses P G hG
+
+/-! **Layer 3.1, the executable acceptance checks**, proved by kernel computation in Tau Ceti:
+`1, 3, 7` classes in degrees one to three (`TauCeti.ConnectedIsoClass.card_three` and its
+companions). -/
+
+example : Fintype.card (ConnectedIsoClass 1) = 1 ∧ Fintype.card (ConnectedIsoClass 2) = 3 ∧
+    Fintype.card (ConnectedIsoClass 3) = 7 :=
+  ⟨ConnectedIsoClass.card_one, ConnectedIsoClass.card_two, ConnectedIsoClass.card_three⟩
+
+/-! ### Layer 3.5: the small complete tables -/
+
+/-- **Layer 3.1.** The end-to-end run from the enumeration to one passport fiber, by kernel
+computation: the `S₃` passport in degree three has one class,
+`TauCeti.card_passportClasses_symmetric_three`. -/
+example : (passportClasses Finset.univ {3} {2, 1} {2, 1} : Finset (Finset (ConnectedTriple 3))).card =
+    1 :=
+  card_passportClasses_symmetric_three
+
+/-- **Layer 3.5.** There are `26` connected classes in degree four. Tau Ceti proves this as
+`TauCeti.ConnectedIsoClass.card_four`, in a version newer than the pinned dependency. -/
+theorem card_connectedIsoClass_four : Fintype.card (ConnectedIsoClass 4) = 26 := by
   sorry
 
-/-- **Layer 3.1.** The genus, computably. -/
-def computedGenus (t : PermutationTriple n) : ℕ := ((2 - computedEulerChar t) / 2).toNat
-
-theorem computedGenus_eq (t : PermutationTriple n) : computedGenus t = genus t := by
+/-- **Layer 3.5.** Every ordered passport that occurs in degree at most four has exactly one class.
+Tau Ceti proves this as `TauCeti.PassportSpec.passportSize_eq_one_iff_of_degree_le_four`, in a
+version newer than the pinned dependency. -/
+theorem passportSize_eq_one_of_degree_le_four (hn : n ≤ 4) (P : PassportSpec n)
+    (hP : 0 < P.passportSize) : P.passportSize = 1 := by
   sorry
 
-/-- **Layer 3.1.** The order triple, computably: the order of a permutation is the `lcm` of
-its cycle lengths, which the executable decomposition already supplies. -/
-def computedOrderTriple (t : PermutationTriple n) : ℕ × ℕ × ℕ :=
-  ((computedCycleType t.σ0).lcm, (computedCycleType t.σ1).lcm,
-    (computedCycleType t.σinf).lcm)
+/-- **Layer 3.5.** The first passport with several classes: in degree five, monodromy `C₅` and
+cycle partitions `([5], [5], [5])`, of size three:
+`TauCeti.PassportSpec.passportSize_cyclicTotallyRamified_five`. -/
+theorem passportSize_cyclic_five : (PassportSpec.cyclicTotallyRamified 5).passportSize = 3 :=
+  PassportSpec.passportSize_cyclicTotallyRamified_five
 
-theorem computedOrderTriple_eq (t : PermutationTriple n) :
-    computedOrderTriple t = orderTriple t := by
-  sorry
+end Enumeration
 
-/-- **Layer 3.1.** The geometry type, computably, by exact comparison in `ℚ`. -/
-def computedGeometryType (t : PermutationTriple n) : GeometryType :=
-  let o := computedOrderTriple t
-  let s : ℚ := (o.1 : ℚ)⁻¹ + (o.2.1 : ℚ)⁻¹ + (o.2.2 : ℚ)⁻¹
-  if 1 < s then .spherical else if s = 1 then .euclidean else .hyperbolic
+/-! ## Layer 2: dessins as bipartite ribbon graphs
 
-theorem computedGeometryType_eq (t : PermutationTriple n) :
-    computedGeometryType t = geometryType t := by
-  sorry
+The carrier is `TauCeti.BipartiteRibbonGraph`: abstract edges, two vertex types, incidences, and
+rotations that are typed cyclic orders, `Equiv.Perm.IsCycleOn` each incidence fiber. -/
 
-/-- **Layer 3.1.** The monodromy group as a `Finset`: close `{1}` under right multiplication
-by the two generators. `n !` rounds suffice, since each round that changes anything adds at
-least one element and the group embeds in `Equiv.Perm (Fin n)`. -/
-def monodromyElems (t : PermutationTriple n) : Finset (Equiv.Perm (Fin n)) :=
-  (fun S => S ∪ S.image (· * t.σ0) ∪ S.image (· * t.σ1))^[Nat.factorial n] {1}
+section Dessins
 
-theorem mem_monodromyElems (t : PermutationTriple n) (g : Equiv.Perm (Fin n)) :
-    g ∈ monodromyElems t ↔ g ∈ monodromyGroup t := by
-  sorry
-
-/-- **Layer 3.1.** Blockhood, computably, as Mathlib's `IsBlock` in the equivalent
-one-argument form for a group action: every group element either preserves `B` or moves it
-off itself. ⚠ **The quantifier runs over the whole group, not over the two generators.**
-Preserving-or-disjoint is not closed under multiplication, so a generator-only test is not
-this predicate. -/
-def isBlockB (t : PermutationTriple n) (B : Finset (Fin n)) : Bool :=
-  decide (∀ g ∈ monodromyElems t, B.image g = B ∨ Disjoint (B.image g) B)
-
-theorem isBlockB_eq_true_iff (t : PermutationTriple n) (B : Finset (Fin n)) :
-    isBlockB t B = true ↔ MulAction.IsBlock (monodromyGroup t) (B : Set (Fin n)) := by
-  sorry
-
-/-- **Layer 3.1.** Primitivity, computably: pretransitive, and every block is trivial. This
-is Mathlib's `IsPreprimitive` transcribed, with no degree guard — `IsPreprimitive` holds
-vacuously at `n ≤ 1`, and adding a `1 < n` guard would make the Boolean disagree with the
-predicate it is supposed to decide. -/
-def isPrimitiveB (t : PermutationTriple n) : Bool :=
-  decide (∀ i j : Fin n, ∃ g ∈ monodromyElems t, g i = j) &&
-    decide (∀ B : Finset (Fin n), isBlockB t B = true → B.card ≤ 1 ∨ B = Finset.univ)
-
-theorem isPrimitiveB_eq_true_iff (t : PermutationTriple n) :
-    isPrimitiveB t = true ↔ IsPrimitive t := by
-  sorry
-
-/-! **Layer 3.1, the acceptance checks for primitivity.** ⚠ These are not decoration. The
-obvious wrong implementation — closing `{i, j}` under the two generators and asking whether
-the closure is everything — is *always* `true` on a connected triple, because that closure is
-the orbit of a nonempty set and the action is transitive. `torusTriple` is the witness that
-separates the two: it is connected and imprimitive, with blocks `{0, 2}` and `{1, 3}`, while
-every pair generates all of `Fin 4` under the orbit closure. -/
-
-section AcceptanceChecks
-
-set_option maxRecDepth 100000
-
-/-- `torusTriple` is imprimitive: `{0, 2}` is a nontrivial block. -/
-example : isBlockB torusTriple {0, 2} = true := by decide
-
-example : isPrimitiveB torusTriple = false := by decide
-
-/-- `s3Triple` is primitive: full symmetric monodromy in degree `3`. -/
-example : isPrimitiveB s3Triple = true := by decide
-
-/-- The degree-one edge case is primitive, matching `IsPreprimitive`. -/
-example : isPrimitiveB (cyclicTriple 1) = true := by decide
-
-end AcceptanceChecks
-
-/-- **Layer 3.1.** The `Finset` of connected triples of degree `n`. -/
-def connectedTriples (n : ℕ) : Finset (PermutationTriple n) :=
-  Finset.univ.filter fun t => isConnectedB t = true
-
-theorem mem_connectedTriples {n : ℕ} (t : PermutationTriple n) :
-    t ∈ connectedTriples n ↔ t.IsConnected := by
-  sorry
-
-/-- **Layer 3.1.** The relabeling orbit of a triple, as a `Finset`. -/
-def relabelOrbit (t : PermutationTriple n) : Finset (PermutationTriple n) :=
-  Finset.univ.image fun τ : Equiv.Perm (Fin n) => τ • t
-
-theorem mem_relabelOrbit {n : ℕ} (t t' : PermutationTriple n) :
-    t' ∈ relabelOrbit t ↔ Equivalent t t' := by
-  sorry
-
-/-- **Layer 3.1.** The isomorphism classes of connected triples, as the `Finset` of
-relabeling orbits. ⚠ Orbits, not chosen representatives: `PermutationTriple n` carries no
-order, so there is no least element to pick, and a classification stated through an
-arbitrary choice function proves nothing about the classes. -/
-def isoClasses (n : ℕ) : Finset (Finset (PermutationTriple n)) :=
-  (connectedTriples n).image relabelOrbit
-
-/-- **Layer 3.1, soundness.** Each connected triple lies in exactly one enumerated class,
-and the classes are exactly the orbits — stated so that a computed class list *is* the
-classification and not a lower bound for it. -/
-theorem isoClasses_spec {n : ℕ} (t : PermutationTriple n) (ht : t.IsConnected) :
-    ∃! c ∈ isoClasses n, t ∈ c := by
-  sorry
-
-theorem card_isoClasses_eq {n : ℕ} :
-    (isoClasses n).card = Nat.card {c : IsoClass n // ∃ t : ConnectedTriple n,
-      Quotient.mk _ t.1 = c} := by
-  sorry
-
-/-- **Layer 3.1.** The passport datum in the form the enumeration can actually decide: three
-partitions and the monodromy group **as a `Finset` of permutations**, which is how the LMFDB
-presents it and what a `#eval` can compare. -/
-structure PassportData (n : ℕ) where
-  lam0 : Multiset ℕ
-  lam1 : Multiset ℕ
-  laminf : Multiset ℕ
-  Gelems : Finset (Equiv.Perm (Fin n))
-  deriving DecidableEq
-
-/-- **Layer 3.1.** The passport fiber, computably: the classes whose cycle data and monodromy
-group match. The condition is relabeling-invariant, so testing one member of a class tests
-all of them — which is itself a target below.
-
-⚠ The group is compared **up to conjugacy in `S_n`**, since that is all a simultaneous
-conjugacy class determines. Comparing the literal subgroup instead over-splits: at degree `5`
-it is exactly the difference between `74` and a larger, wrong, passport count. -/
-def passportFiber (n : ℕ) (P : PassportData n) :
-    Finset (Finset (PermutationTriple n)) :=
-  (isoClasses n).filter fun c => decide (∃ t ∈ c,
-    computedCycleType t.σ0 = P.lam0 ∧ computedCycleType t.σ1 = P.lam1 ∧
-      computedCycleType t.σinf = P.laminf ∧
-      ∃ τ : Equiv.Perm (Fin n),
-        (monodromyElems t).image (fun g => τ * g * τ⁻¹) = P.Gelems)
-
-/-- **Layer 3.1.** The bridge from the decidable datum to `PassportSpec`: the `Finset` of
-group elements presents the subgroup, so the computable fiber is the abstract one. -/
-theorem passportFiber_eq_of_spec {n : ℕ} (P : PassportData n) (Q : PassportSpec n)
-    (hG : ∀ g, g ∈ P.Gelems ↔ g ∈ Q.G)
-    (h0 : P.lam0 = Q.lam0) (h1 : P.lam1 = Q.lam1) (hinf : P.laminf = Q.laminf)
-    (c : Finset (PermutationTriple n)) (hc : c ∈ isoClasses n) :
-    c ∈ passportFiber n P ↔
-      ∃ t : PermutationTriple n, ∃ ht : t.IsConnected,
-        t ∈ c ∧ PassportSpec.HasPassport ⟨t, ht⟩ Q := by
-  sorry
-
-open scoped Classical in
-/-- **Layer 3.1.** Having a passport is constant on a class — what makes `passportFiber`
-well defined despite testing an existential over the class. -/
-theorem hasPassport_relabel_invariant {n : ℕ} (P : PassportSpec n)
-    (t t' : PermutationTriple n) (h : Equivalent t t')
-    (ht : t.IsConnected) (ht' : t'.IsConnected) :
-    PassportSpec.HasPassport ⟨t, ht⟩ P ↔ PassportSpec.HasPassport ⟨t', ht'⟩ P := by
-  sorry
-
-/-- **Layer 3.1.** `passportSize` as a cardinality of computed data — what Layer 3.4's
-normalizer formula is checked against and what Layer 14's `pass_size` certificate consumes.
-Computable, so it is `#eval`-able at the degrees Layer 3.5 tabulates. -/
-def computedPassportSize (n : ℕ) (P : PassportData n) : ℕ :=
-  (passportFiber n P).card
-
-open scoped Classical in
-theorem computedPassportSize_eq_card {n : ℕ} (P : PassportData n) (Q : PassportSpec n)
-    (hG : ∀ g, g ∈ P.Gelems ↔ g ∈ Q.G)
-    (h0 : P.lam0 = Q.lam0) (h1 : P.lam1 = Q.lam1) (hinf : P.laminf = Q.laminf) :
-    computedPassportSize n P =
-      Nat.card {c : IsoClass n // ∃ t : ConnectedTriple n,
-        Quotient.mk _ t.1 = c ∧ PassportSpec.HasPassport t Q} := by
-  sorry
-
-/-- **Layer 3.1.** The passport of a triple, computably — the datum `passportFiber` is
-queried with. -/
-def computedPassportOf (t : PermutationTriple n) : PassportData n :=
-  ⟨computedCycleType t.σ0, computedCycleType t.σ1, computedCycleType t.σinf,
-    monodromyElems t⟩
-
-/-! **Layer 3.1, the executable acceptance checks.** These run the enumeration end to end —
-connected triples, relabeling orbits, passport datum, fiber, cardinality — and are proved by
-kernel reduction, so they are evidence and not annotation. The counts agree with the
-independent enumeration recorded in the private provenance ledger.
-
-⚠ `native_decide` is deliberately not used anywhere in this file. It would discharge the
-degree-`4` case too, but at the cost of adding `Lean.ofReduceBool` — a trusted-compiler axiom
-— to a repository that currently has none, and the degree-`4` run exercises no code path that
-degree `3` does not. Kernel `decide` does not complete at degree `4` within ten minutes;
-`#eval` gives `26` classes and passport size `1` there, matching the private provenance ledger, and that is
-recorded as a computation rather than promoted to a theorem. -/
-
-section AcceptanceCounts
-
-set_option maxRecDepth 1000000
-set_option maxHeartbeats 2000000
-
-example : (isoClasses 1).card = 1 := by decide
-example : (isoClasses 2).card = 3 := by decide
-example : (isoClasses 3).card = 7 := by decide
-
-/-- The end-to-end run: from a triple to the cardinality of its passport fiber. Every ordered
-passport in degree `≤ 4` has size `1` (Layer 3.5), and this is that statement at degree `3`,
-computed rather than assumed. -/
-example : computedPassportSize 3 (computedPassportOf s3Triple) = 1 := by decide
-
-end AcceptanceCounts
--/
-
-end PermutationTriple
-
-/-! ## Layer 2: dessins as bipartite ribbon graphs -/
-
-/-- **Layer 2.1.** A finite bipartite ribbon graph: abstract edges, two vertex types,
-incidences, and rotations that are typed cyclic orders — `Equiv.Perm.IsCycleOn` each
-incidence fiber. Surjectivity of the incidences excludes isolated vertices, which is no
-loss for dessins (vertices are cycles). ⚠ Cyclic orders are never lists with coverage side
-conditions. -/
-structure BipartiteRibbonGraph : Type (u + 1) where
-  E : Type u
-  B : Type u
-  W : Type u
-  [fintypeE : Fintype E]
-  [fintypeB : Fintype B]
-  [fintypeW : Fintype W]
-  [decidableEqE : DecidableEq E]
-  [decidableEqB : DecidableEq B]
-  [decidableEqW : DecidableEq W]
-  blackEnd : E → B
-  whiteEnd : E → W
-  rotB : Equiv.Perm E
-  rotW : Equiv.Perm E
-  blackEnd_surjective : Function.Surjective blackEnd
-  whiteEnd_surjective : Function.Surjective whiteEnd
-  blackEnd_rotB : ∀ e, blackEnd (rotB e) = blackEnd e
-  whiteEnd_rotW : ∀ e, whiteEnd (rotW e) = whiteEnd e
-  isCycleOn_rotB : ∀ b, rotB.IsCycleOn (blackEnd ⁻¹' {b})
-  isCycleOn_rotW : ∀ w, rotW.IsCycleOn (whiteEnd ⁻¹' {w})
-
-namespace BipartiteRibbonGraph
-
-attribute [instance] fintypeE fintypeB fintypeW decidableEqE decidableEqB decidableEqW
-
-variable (Γ : BipartiteRibbonGraph.{u})
-
-/-- **Layer 2.1.** The face permutation, in the pinned display order:
-`facePerm * rotW * rotB = 1`. -/
-def facePerm : Equiv.Perm Γ.E := (Γ.rotW * Γ.rotB)⁻¹
-
-theorem facePerm_mul : Γ.facePerm * Γ.rotW * Γ.rotB = 1 := by
-  simp [facePerm, mul_assoc]
+/-- **Layer 2.1.** The face permutation, in the pinned display order. -/
+example (Γ : BipartiteRibbonGraph.{u}) : Γ.facePerm * Γ.rotW * Γ.rotB = 1 :=
+  Γ.facePerm_mul_rotW_mul_rotB
 
 /-- **Layer 2.1.** Connectedness: jointly transitive rotations on a nonempty edge set. -/
-def IsConnected : Prop :=
-  Nonempty Γ.E ∧ MulAction.IsPretransitive (Subgroup.closure {Γ.rotB, Γ.rotW}) Γ.E
+example (Γ : BipartiteRibbonGraph.{u}) :
+    Γ.IsConnected ↔ Nonempty Γ.E ∧ MulAction.IsPretransitive Γ.rotationGroup Γ.E :=
+  Γ.isConnected_def
 
-/-
 /-- **Layer 2.1.** The Euler characteristic: vertices minus edges plus faces. -/
-noncomputable def eulerChar : ℤ :=
-  Nat.card Γ.B + Nat.card Γ.W + PermutationTriple.cycleCount Γ.facePerm - Nat.card Γ.E
--/
+example (Γ : BipartiteRibbonGraph.{u}) :
+    Γ.eulerChar = Fintype.card Γ.B + Fintype.card Γ.W + Γ.faceCount - Fintype.card Γ.E :=
+  Γ.eulerChar_def
 
-/-- **Layer 2.3.** The triple of a dessin, along a numbering of the edges. Changing the
-numbering relabels the triple (README, Layer 2.3). -/
-def toTriple {n : ℕ} (ν : Γ.E ≃ Fin n) : PermutationTriple n :=
-  PermutationTriple.ofTwo (ν.permCongr Γ.rotB) (ν.permCongr Γ.rotW)
+/-- **Layer 2.3.** The triple of a dessin, along a numbering of the edges. -/
+example (Γ : BipartiteRibbonGraph.{u}) {n : ℕ} (ν : Γ.E ≃ Fin n) :
+    Γ.toPermutationTriple ν =
+      PermutationTriple.ofTwo (ν.permCongr Γ.rotB) (ν.permCongr Γ.rotW) :=
+  rfl
 
-end BipartiteRibbonGraph
+/-- **Layer 2.2.** The dessin of a triple, `TauCeti.PermutationTriple.ribbonGraph`: edges `Fin n`,
+vertices the cycles of `σ0` and `σ1`. It is connected exactly when the triple is
+(`TauCeti.PermutationTriple.isConnected_ribbonGraph`), and its Euler characteristic is the
+triple's (`TauCeti.PermutationTriple.eulerChar_ribbonGraph`). -/
+theorem ribbonGraph_spec {n : ℕ} (t : PermutationTriple n) :
+    t.ribbonGraph.rotB = t.σ0 ∧ t.ribbonGraph.rotW = t.σ1 ∧
+      (t.ribbonGraph.IsConnected ↔ t.IsConnected) ∧ t.ribbonGraph.eulerChar = t.eulerChar :=
+  ⟨rfl, rfl, t.isConnected_ribbonGraph, t.eulerChar_ribbonGraph⟩
 
-/-- **Layer 2.2.** The dessin of a connected triple: edges `Fin n`, vertices the cycles
-(orbits) of `σ0` and `σ1`, rotations the permutations themselves. -/
-noncomputable def PermutationTriple.toDessin {n : ℕ} (t : PermutationTriple n)
-    (ht : t.IsConnected) : BipartiteRibbonGraph := by
-  sorry
+end Dessins
 
-/-! ## Layer 3: enumeration and counting
+/-! ## Layer 3: enumeration and counting -/
 
-The executable-enumeration milestones (Layer 3.1) are instance-level and appear as the
-`Fintype`/`DecidableEq` obligations on `PermutationTriple`; the Frobenius product-one
-formula (Layer 3.2) and its corrections (3.3, 3.4) are stated in `README.md` only, because
-their statements consume the CharacterTheory carriers (`classSum`, `structureConstant`,
-`characterTable`), which live in that roadmap. -/
+/-- **Layer 3.2 (the inverse-class involution).** Tau Ceti's `InvolutiveInv (ConjClasses G)`, with
+`ConjClasses.inv_mk`. -/
+theorem conjClasses_inv_mk {G : Type u} [Group G] (g : G) :
+    (ConjClasses.mk g)⁻¹ = ConjClasses.mk g⁻¹ :=
+  ConjClasses.inv_mk g
 
-/-- **Layer 3.2 (the inverse-class involution).** Owned here; on no other roadmap. -/
-noncomputable def ConjClasses.inv {G : Type u} [Group G] (C : ConjClasses G) :
-    ConjClasses G := by
-  sorry
+/-! ## Layer 4: triangle groups
 
-/-! ## Layer 4: triangle groups -/
+`TauCeti.TriangleGroup a b c` is the presented group on `x, y, z` with relators `x ^ a`,
+`y ^ b`, `z ^ c` and `z * y * x`, the product relator in the pinned display order. -/
 
-/-- **Layer 4.1.** The relators of the `(a,b,c)` triangle group, in the pinned display
-order: `z * y * x` is the product relator. -/
-def triangleRelators (a b c : ℕ) : Set (FreeGroup (Fin 3)) :=
-  {FreeGroup.of 0 ^ a, FreeGroup.of 1 ^ b, FreeGroup.of 2 ^ c,
-    FreeGroup.of 2 * FreeGroup.of 1 * FreeGroup.of 0}
+section TriangleGroups
 
-/-- **Layer 4.1.** The oriented triangle group `Δ(a,b,c)`. -/
-abbrev TriangleGroup (a b c : ℕ) : Type := PresentedGroup (triangleRelators a b c)
+/-- **Layer 4.1.** The relators, in the pinned display order. -/
+example (a b c : ℕ) :
+    triangleRelators a b c =
+      {FreeGroup.of 0 ^ a, FreeGroup.of 1 ^ b, FreeGroup.of 2 ^ c,
+        FreeGroup.of 2 * FreeGroup.of 1 * FreeGroup.of 0} :=
+  rfl
 
-namespace TriangleGroup
+/-- **Layer 4.1.** The product relation: `TauCeti.TriangleGroup.z_mul_y_mul_x`. -/
+theorem TriangleGroup.z_mul_y_mul_x (a b c : ℕ) :
+    TauCeti.TriangleGroup.z a b c * TauCeti.TriangleGroup.y a b c *
+      TauCeti.TriangleGroup.x a b c = 1 :=
+  TauCeti.TriangleGroup.z_mul_y_mul_x a b c
 
-variable {a b c : ℕ}
-
-/-- The generator `x`, mapping to `σ0`. -/
-def x (a b c : ℕ) : TriangleGroup a b c := PresentedGroup.of 0
-
-/-- The generator `y`, mapping to `σ1`. -/
-def y (a b c : ℕ) : TriangleGroup a b c := PresentedGroup.of 1
-
-/-- The generator `z`, mapping to `σinf`. -/
-def z (a b c : ℕ) : TriangleGroup a b c := PresentedGroup.of 2
-
-theorem z_mul_y_mul_x (a b c : ℕ) : z a b c * y a b c * x a b c = 1 := by
-  sorry
-
-theorem x_pow (a b c : ℕ) : x a b c ^ a = 1 := by
-  sorry
+/-- **Layer 4.1.** `TauCeti.TriangleGroup.x_pow`. -/
+theorem TriangleGroup.x_pow (a b c : ℕ) : TauCeti.TriangleGroup.x a b c ^ a = 1 :=
+  TauCeti.TriangleGroup.x_pow a b c
 
 /-- **Layer 4.2.** A triple with component orders dividing `(a, b, c)` is a permutation
-representation of the triangle group, with range the monodromy group. -/
-noncomputable def toPerm {n : ℕ} (t : TauCetiRoadmap.BelyiMaps.PermutationTriple n)
+representation of the triangle group, `TauCeti.TriangleGroup.toPerm`, with range the monodromy
+group (`TauCeti.TriangleGroup.range_toPerm`). -/
+theorem TriangleGroup.range_toPerm {a b c n : ℕ} (t : PermutationTriple n)
     (ha : t.σ0 ^ a = 1) (hb : t.σ1 ^ b = 1) (hc : t.σinf ^ c = 1) :
-    TriangleGroup a b c →* Equiv.Perm (Fin n) := by
-  sorry
+    (TauCeti.TriangleGroup.toPerm t ha hb hc).range = t.monodromyGroup :=
+  TauCeti.TriangleGroup.range_toPerm t ha hb hc
 
-end TriangleGroup
+end TriangleGroups
 
-/-! ## Layer 5: the thrice-punctured sphere -/
+/-! ## Layer 5: the thrice-punctured sphere
 
-/-- **Layer 5.1.** The affine model of `ℙ¹(ℂ) ∖ {0, 1, ∞}`. -/
-def ThricePuncturedSphere : Type := {z : ℂ // z ≠ 0 ∧ z ≠ 1}
+The base is `TauCeti.ThricePuncturedSphere`, the subtype `{z : ℂ // z ≠ 0 ∧ z ≠ 1}`, with
+basepoint `TauCeti.ThricePuncturedSphere.basePt = 1/2`. -/
 
 namespace ThricePuncturedSphere
 
-instance : TopologicalSpace ThricePuncturedSphere :=
-  inferInstanceAs (TopologicalSpace {z : ℂ // z ≠ 0 ∧ z ≠ 1})
+open TauCeti.ThricePuncturedSphere
 
-/-- **Layer 5.1.** The pinned basepoint `1/2` — on the real segment, so that the embedded
-graph of Layer 7.6 passes through it. -/
-noncomputable def basePt : ThricePuncturedSphere :=
-  ⟨1 / 2, by norm_num, by norm_num⟩
+/-- **Layer 5.1.** The affine model of `ℙ¹(ℂ) ∖ {0, 1, ∞}`. -/
+example : TauCeti.ThricePuncturedSphere = {z : ℂ // z ≠ 0 ∧ z ≠ 1} := rfl
 
-/-- **Layer 5.2.** The peripheral loop around `0`: the counterclockwise circle
-`t ↦ (1/2)·exp(2πit)` of radius `1/2` about `0`, based at `1/2`. -/
-noncomputable def γ0 : Path basePt basePt where
-  toFun t :=
-    ⟨(1 / 2 : ℂ) * Complex.exp (2 * Real.pi * Complex.I * (t : ℝ)), by sorry⟩
-  continuous_toFun := by sorry
-  source' := by sorry
-  target' := by sorry
+/-- **Layer 5.1.** The pinned basepoint `1/2`. -/
+example : (basePt : ℂ) = 1 / 2 := rfl
 
-/-- **Layer 5.2.** The peripheral loop around `1`: the counterclockwise circle
-`t ↦ 1 − (1/2)·exp(2πit)` of radius `1/2` about `1`, based at `1/2`. -/
-noncomputable def γ1 : Path basePt basePt where
-  toFun t :=
-    ⟨1 - (1 / 2 : ℂ) * Complex.exp (2 * Real.pi * Complex.I * (t : ℝ)), by sorry⟩
-  continuous_toFun := by sorry
-  source' := by sorry
-  target' := by sorry
+/-- **Layer 5.2.** The peripheral loop around `0` is the counterclockwise circle
+`t ↦ (1/2)·exp(2πit)`: `TauCeti.ThricePuncturedSphere.coe_γ0_eq_exp`. -/
+theorem γ0_apply (t : unitInterval) :
+    (γ0 t : ℂ) = 1 / 2 * Complex.exp (2 * Real.pi * Complex.I * (t : ℝ)) :=
+  coe_γ0_eq_exp t
 
-/-- **Layer 5.2.** The class of `γ0` in the fundamental group. -/
-noncomputable def periph0 : FundamentalGroup ThricePuncturedSphere basePt :=
-  FundamentalGroup.fromPath ⟦γ0⟧
+/-- **Layer 5.2.** The peripheral loop around `1` is `t ↦ 1 − (1/2)·exp(2πit)`:
+`TauCeti.ThricePuncturedSphere.coe_γ1_eq_exp`. -/
+theorem γ1_apply (t : unitInterval) :
+    (γ1 t : ℂ) = 1 - 1 / 2 * Complex.exp (2 * Real.pi * Complex.I * (t : ℝ)) :=
+  coe_γ1_eq_exp t
 
-/-- **Layer 5.2.** The class of `γ1`. -/
-noncomputable def periph1 : FundamentalGroup ThricePuncturedSphere basePt :=
-  FundamentalGroup.fromPath ⟦γ1⟧
-
-/-- **Layer 5.2.** The peripheral element at `∞`, *defined* so that the pinned relation
-holds; the orientation statement identifying it with a clockwise large circle is the
-Layer 5.2 milestone. -/
-noncomputable def periphInf : FundamentalGroup ThricePuncturedSphere basePt :=
-  (periph1 * periph0)⁻¹
+/-- **Layer 5.2.** The peripheral elements, with `periphInf` defined so that the pinned relation
+holds. -/
+example : periph0 = FundamentalGroup.fromPath ⟦γ0⟧ ∧ periph1 = FundamentalGroup.fromPath ⟦γ1⟧ ∧
+    periphInf = (periph1 * periph0)⁻¹ :=
+  ⟨rfl, rfl, rfl⟩
 
 /-- The pinned relation, in the same display order as the triple relation. -/
-theorem periphInf_mul_periph1_mul_periph0 : periphInf * periph1 * periph0 = 1 := by
-  rw [mul_assoc]
-  exact inv_mul_cancel (periph1 * periph0)
+theorem periphInf_mul_periph1_mul_periph0 : periphInf * periph1 * periph0 = 1 :=
+  TauCeti.ThricePuncturedSphere.periphInf_mul_periph1_mul_periph0
 
-/-! **Layer 5.5 is an AlgebraicTopology supplier crossing, not a declaration of this roadmap.**
-Van Kampen for two open sets with simply connected intersection is general algebraic
-topology, reusable far beyond three-point covers, and the pin has it in no form. Its exact
-owner is the AlgebraicTopology roadmap (Stage 1), which must publish `vanKampenLift`,
-`vanKampenLift_bijective`, `vanKampenEquiv` and `vanKampenEquiv_toMonoidHom` with the
-signatures pinned in README §5.5. This roadmap exports no local copy, alias or stand-in; it
-**instantiates** the supplier's theorem at the two-set cover of Layer 5.1 and reads off the
-values on the canonical generators, which is Layer 5.6 below. -/
+/-- **Layer 5.5, the AlgebraicTopology contract.** The two-open Seifert–van Kampen theorem with a
+simply connected intersection is Tau Ceti's `TauCeti.vanKampenEquiv`, whose underlying
+homomorphism is the canonical map `TauCeti.vanKampenLift` from the free product
+(`TauCeti.vanKampenEquiv_toMonoidHom`). Its cover hypothesis is the weaker
+`interior A ∪ interior B = univ`, which open sets covering the space satisfy. This roadmap
+exports no copy. -/
+example {X : Type u} [TopologicalSpace X] {A B : Set X} {x : X} (hAo : IsOpen A)
+    (hBo : IsOpen B) (hAB : A ∪ B = Set.univ) (hA : IsPathConnected A) (hB : IsPathConnected B)
+    (hI : IsSimplyConnected (A ∩ B)) (hxA : x ∈ A) (hxB : x ∈ B) :
+    ((TauCeti.vanKampenEquiv (by rw [hAo.interior_eq, hBo.interior_eq, hAB]) hA hB hI hxA hxB :
+        Monoid.Coprod (FundamentalGroup A ⟨x, hxA⟩) (FundamentalGroup B ⟨x, hxB⟩) ≃*
+          FundamentalGroup X x) :
+        Monoid.Coprod (FundamentalGroup A ⟨x, hxA⟩) (FundamentalGroup B ⟨x, hxB⟩) →*
+          FundamentalGroup X x) =
+      TauCeti.vanKampenLift A B x hxA hxB :=
+  TauCeti.vanKampenEquiv_toMonoidHom _ _ _ _ _ _
 
-/-- **Layer 5.6.** The fundamental group is free on the two peripheral generators — the
-instantiation this roadmap owns. Route: the two-set cover of 5.1, `π₁` of a punctured convex
-domain (5.4), and AlgebraicTopology's two-open van Kampen theorem applied to them. -/
+/-- **Layer 5.6.** The fundamental group is free on the two peripheral generators, by van Kampen
+applied to the two half-planes: the inverse of
+`TauCeti.ThricePuncturedSphere.fundamentalGroupMulEquivFreeGroup`. -/
 noncomputable def freeGroupEquiv :
-    FreeGroup (Fin 2) ≃* FundamentalGroup ThricePuncturedSphere basePt := by
-  sorry
+    FreeGroup (Fin 2) ≃* FundamentalGroup TauCeti.ThricePuncturedSphere basePt :=
+  fundamentalGroupMulEquivFreeGroup.symm
 
-theorem freeGroupEquiv_of0 : freeGroupEquiv (FreeGroup.of 0) = periph0 := by
-  sorry
+/-- `TauCeti.ThricePuncturedSphere.fundamentalGroupMulEquivFreeGroup_symm_of_zero`. -/
+theorem freeGroupEquiv_of0 : freeGroupEquiv (FreeGroup.of 0) = periph0 :=
+  fundamentalGroupMulEquivFreeGroup_symm_of_zero
 
-theorem freeGroupEquiv_of1 : freeGroupEquiv (FreeGroup.of 1) = periph1 := by
-  sorry
+/-- `TauCeti.ThricePuncturedSphere.fundamentalGroupMulEquivFreeGroup_symm_of_one`. -/
+theorem freeGroupEquiv_of1 : freeGroupEquiv (FreeGroup.of 1) = periph1 :=
+  fundamentalGroupMulEquivFreeGroup_symm_of_one
 
-/-- **Layer 5.1 (milestone, stated as an instance).** `U` is path-connected, being an open
-connected subset of `ℂ`; Layer 6.1's degree statement and Layer 6.3's pullback action are
-stated over a path-connected base. -/
-instance : PathConnectedSpace ThricePuncturedSphere := by
-  sorry
+/-- **Layer 5.1.** `U` is path-connected: Tau Ceti's instance. -/
+example : PathConnectedSpace TauCeti.ThricePuncturedSphere := inferInstance
 
 /-! ### Layer 5.1, 2.6: the anharmonic self-homeomorphisms
 
-The six Möbius transformations permuting `{0, 1, ∞}` restrict to self-homeomorphisms of `U`.
-The two generators are pinned here; the other four are their composites, with the formulas
-listed in README §5.1. ⚠ **Only `mob01` fixes the basepoint** `b = 1/2`: the orbit of `b`
-under the anharmonic group is `{1/2, 2, −1}`, which is why the induced `S₃`-action lives on
-isomorphism classes of covers and not on literal triples. -/
+The six Möbius transformations permuting `{0, 1, ∞}` are Tau Ceti's: `mob01`, `mob1Inf`,
+`mob0Inf`, `mobRot` and `mobRotInv` in `TauCeti.ThricePuncturedSphere`. ⚠ **Only `mob01` fixes
+the basepoint** `b = 1/2`: the orbit of `b` under the anharmonic group is `{1/2, 2, −1}`, which
+is why the induced `S₃`-action lives on isomorphism classes of covers. -/
 
-/-- **Layer 5.1.** `z ↦ 1 − z`: the involution exchanging the punctures `0` and `1` and
-fixing `∞`, the one anharmonic operation that fixes `b = 1/2`. -/
-noncomputable def mob01 : ThricePuncturedSphere ≃ₜ ThricePuncturedSphere where
-  toFun z := ⟨1 - z.1, by intro h; exact z.2.2 (by linear_combination -h),
-    by intro h; exact z.2.1 (by linear_combination -h)⟩
-  invFun z := ⟨1 - z.1, by intro h; exact z.2.2 (by linear_combination -h),
-    by intro h; exact z.2.1 (by linear_combination -h)⟩
-  left_inv := by sorry
-  right_inv := by sorry
-  continuous_toFun := by sorry
-  continuous_invFun := by sorry
+/-- **Layer 5.1.** `mob01 : z ↦ 1 − z`. -/
+example (z : TauCeti.ThricePuncturedSphere) : (mob01 z : ℂ) = 1 - z := rfl
 
-/-- **Layer 5.1.** `z ↦ z/(z − 1)`: the involution exchanging the punctures `1` and `∞` and
-fixing `0`. It moves the basepoint: `mob1Inf b = −1`. -/
-noncomputable def mob1Inf : ThricePuncturedSphere ≃ₜ ThricePuncturedSphere where
-  toFun z := ⟨z.1 / (z.1 - 1), div_ne_zero z.2.1 (sub_ne_zero_of_ne z.2.2),
-    by
-      intro h
-      exact one_ne_zero
-        (sub_eq_self.mp ((div_eq_one_iff_eq (sub_ne_zero_of_ne z.2.2)).mp h).symm)⟩
-  invFun z := ⟨z.1 / (z.1 - 1), div_ne_zero z.2.1 (sub_ne_zero_of_ne z.2.2),
-    by
-      intro h
-      exact one_ne_zero
-        (sub_eq_self.mp ((div_eq_one_iff_eq (sub_ne_zero_of_ne z.2.2)).mp h).symm)⟩
-  left_inv := by sorry
-  right_inv := by sorry
-  continuous_toFun := by sorry
-  continuous_invFun := by sorry
+/-- **Layer 5.1.** `mob1Inf : z ↦ z/(z − 1)`: `TauCeti.ThricePuncturedSphere.coe_mob1Inf`. -/
+example (z : TauCeti.ThricePuncturedSphere) : (mob1Inf z : ℂ) = z / (z - 1) := coe_mob1Inf z
 
-/-- **Layer 5.1.** `mob01` fixes the basepoint, which is what lets it act on `π₁(U, b)` with
-no choice of connecting path. -/
-theorem mob01_basePt : mob01 basePt = basePt := by
-  sorry
+/-- **Layer 5.1.** `mob01` fixes the basepoint: `TauCeti.ThricePuncturedSphere.mob01_basePt`. -/
+theorem mob01_basePt : mob01 basePt = basePt :=
+  TauCeti.ThricePuncturedSphere.mob01_basePt
 
 /-- **Layer 5.2, 2.6, the value pin.** `mob01` carries the peripheral loop at `0` to the
-peripheral loop at `1` **on the nose**, pointwise on the interval — the transport-free form
-of `h_*(periph0) = periph1`. -/
-theorem mob01_γ0 (s : unitInterval) : mob01 (γ0 s) = γ1 s := by
-  sorry
+peripheral loop at `1` **on the nose**: `TauCeti.ThricePuncturedSphere.mob01_γ0`. -/
+theorem mob01_γ0 (s : unitInterval) : mob01 (γ0 s) = γ1 s :=
+  TauCeti.ThricePuncturedSphere.mob01_γ0 s
 
-/-- ...and back, so `mob01` exchanges the two chosen generators rather than merely
-permuting their conjugacy classes. -/
-theorem mob01_γ1 (s : unitInterval) : mob01 (γ1 s) = γ0 s := by
-  sorry
+/-- ...and back: `TauCeti.ThricePuncturedSphere.mob01_γ1`. -/
+theorem mob01_γ1 (s : unitInterval) : mob01 (γ1 s) = γ0 s :=
+  TauCeti.ThricePuncturedSphere.mob01_γ1 s
 
 end ThricePuncturedSphere
 
 /-! ## Layers 5.4, 6: monodromy -/
 
-/-- **Layer 5.3.** The fiber monodromy, packaged as a `MonoidHom` — a genuine
-homomorphism, with no `ᵐᵒᵖ`, by `IsCoveringMap.monodromy_trans_apply` and the
-`End`-multiplication convention. This is Mathlib's `IsCoveringMap.monodromyPerm`, the
-permutation representation of `IsCoveringMap.fundamentalGroupMulAction`. -/
+/-- **Layer 5.3.** The fiber monodromy, packaged as a `MonoidHom`: Mathlib's
+`IsCoveringMap.monodromyPerm`, the permutation representation of
+`IsCoveringMap.fundamentalGroupMulAction`. -/
 noncomputable def monodromyHom {E : Type u} {X : Type v} [TopologicalSpace E]
     [TopologicalSpace X]
     {p : E → X} (hp : IsCoveringMap p) (x : X) :
@@ -1191,15 +872,15 @@ theorem monodromyHom_apply {E : Type u} {X : Type v} [TopologicalSpace E]
     (γ : FundamentalGroup X x) (e : p ⁻¹' {x}) :
     monodromyHom hp x γ e = hp.monodromy (FundamentalGroup.toPath γ) e :=
   rfl
-
 /-! ### Layers 5.7, 6.2–6.5: the UniversalCovers supply
 
 The general associated cover of a discrete `π₁`-set, the deck group of the universal cover, and
 the covering-space classification this roadmap composes with are Tau Ceti declarations from the
 completed UniversalCovers roadmap. Each statement below is the form in which a Belyi layer
 consumes one of them, closed by the supplier declaration, so that a change of spelling or carrier
-upstream fails here. The finite corollary of Layer 6.2 and its instantiation at `U` are this
-roadmap's own targets and are not stated here. -/
+upstream fails here. The finite corollary of Layer 6.2 is this roadmap's own milestone; Tau Ceti
+proves its existence half as `TauCeti.ConnectedFiberNumberedCover.exists_permCongrHom_comp_monodromyPerm_eq`,
+which gives the surjectivity in Layer 6.3(1) below. -/
 
 section UniversalCoversSupply
 
@@ -1321,390 +1002,137 @@ noncomputable def deckSubgroupQuotientEquivOfNormal (H : Subgroup (FundamentalGr
 
 end UniversalCoversSupply
 
-/-! ### Layer 6.3: the three combinatorial carriers
+/-! ### Layer 6.1: the three cover carriers
 
-Each of the three rigidifications of a cover is classified by an honest **type**, not by a
-`Prop`-valued relation: literal connected triples, their simultaneous-conjugacy quotient, and
-the quotient of marked triples by the diagonal relabeling action. -/
+Each rigidification of a cover is a Tau Ceti carrier over a base `X : TopCat`, bundling a
+`TauCeti.ConnectedCoveringSpace X`, so connectedness is part of the type:
 
-/-- **Layer 6.3.** Simultaneous-conjugacy classes of connected triples. -/
-def ConnectedIsoClass (n : ℕ) : Type :=
-  MulAction.orbitRel.Quotient (Equiv.Perm (Fin n)) (ConnectedTriple n)
+* `TauCeti.ConnectedFiberNumberedCover x n`, with a numbering `ν` of the fiber over `x`; this is
+  the carrier a literal `PermutationTriple n` classifies;
+* `TauCeti.ConnectedPointedCover x n`, with one chosen point `e` of the fiber and the degree
+  carried as `Nonempty (fiber ≃ Fin n)`;
+* `TauCeti.ConnectedCover x n`, with only the degree.
 
-/-- The class of a connected triple. -/
-def ConnectedIsoClass.mk {n : ℕ} (t : ConnectedTriple n) : ConnectedIsoClass n :=
-  Quotient.mk (MulAction.orbitRel (Equiv.Perm (Fin n)) (ConnectedTriple n)) t
+Their isomorphism relations are `TauCeti.ConnectedFiberNumberedCoverIso` (every label preserved),
+`TauCeti.ConnectedPointedCoverIso` (the chosen point preserved) and isomorphism of the underlying
+covers, and the quotients are `TauCeti.ConnectedFiberNumberedCoverClass`,
+`TauCeti.ConnectedPointedCoverClass` and `TauCeti.ConnectedCoverClass`. The forgetful maps
+`forgetNumbering`, `markLabel` and `forgetPoint` descend to the quotients. -/
 
-/-- **Layer 6.3.** Connected triples carrying a **marked label**, modulo the **diagonal**
-relabeling action `τ • (t, i) = (τ • t, τ i)` — the combinatorial carrier that classifies
-connected *pointed* covers. ⚠ Quotienting pairs by the stabilizer of `i` instead is a
-different and useless object: it never identifies pairs with different marked labels, and at
-`n = 3` it has `39` elements against `26` triples (README, Layer 6.3). -/
-def MarkedIsoClass (n : ℕ) : Type :=
-  MulAction.orbitRel.Quotient (Equiv.Perm (Fin n)) (ConnectedTriple n × Fin n)
+section Covers
 
-/-- The class of a marked connected triple. -/
-def MarkedIsoClass.mk {n : ℕ} (t : ConnectedTriple n) (i : Fin n) : MarkedIsoClass n :=
-  Quotient.mk (MulAction.orbitRel (Equiv.Perm (Fin n)) (ConnectedTriple n × Fin n)) (t, i)
+variable {X : TopCat.{u}} {x : X} {n : ℕ}
 
-/-- **Layer 6.3.** Forgetting the marked label — the combinatorial counterpart of forgetting
-the basepoint of a pointed cover. -/
-def MarkedIsoClass.forget {n : ℕ} : MarkedIsoClass n → ConnectedIsoClass n :=
-  Quotient.lift (fun ti => ConnectedIsoClass.mk ti.1) (by
-    rintro ⟨t, i⟩ ⟨t', i'⟩ ⟨g, hg⟩
-    exact Quotient.sound ⟨g, congrArg Prod.fst hg⟩)
+/-- **Layer 6.1.** A numbered isomorphism is an isomorphism of covers preserving every label. -/
+example (c c' : ConnectedFiberNumberedCover x n) :
+    ConnectedFiberNumberedCoverIso c c' ↔
+      ∃ f : c.cover ≅ c'.cover, ∀ i, f.hom.hom.left (c.ν.symm i).1 = (c'.ν.symm i).1 :=
+  Iff.rfl
 
-/-- **Layer 6.1.** A **connected** cover with a numbered fiber — the carrier that a literal
-`PermutationTriple n` classifies.
-
-⚠ **Connectedness is a field, not a convenience.** A literal transitive triple on `Fin n` is
-the invariant of a *connected* numbered cover: without path-connectedness of `E` the monodromy
-action on the fiber need not be transitive, and Layer 6.3's correspondence with connected
-triples is false. The two consistent packages are *connected numbered covers ↔ connected
-triples* and *arbitrary numbered covers ↔ arbitrary triples*; this roadmap pins the first, in
-the type.
-
-⚠ A *pointed* cover is a different carrier: one chosen point of the fiber leaves `(n−1)!`
-relabelings, and Layer 6.3 classifies pointed covers by subgroups of `π₁`, never by literal
-triples. -/
-structure ConnectedFiberNumberedCover {X : Type u} [TopologicalSpace X] (x : X) (n : ℕ) where
-  E : Type u
-  [topE : TopologicalSpace E]
-  [pathConnectedE : PathConnectedSpace E]
-  p : E → X
-  isCoveringMap : IsCoveringMap p
-  ν : ↥(p ⁻¹' {x}) ≃ Fin n
-
-attribute [instance] ConnectedFiberNumberedCover.topE
-  ConnectedFiberNumberedCover.pathConnectedE
-
-/-- **Layer 6.1.** A **connected** cover with one chosen point of the fiber, of degree `n`.
-The carrier Layer 6.3 classifies by marked triples, equivalently by the index-`n` subgroups of
-`π₁`: that half is UniversalCovers milestone 8, Tau Ceti's
-`TauCeti.UniversalCover.existsUnique_subgroup_homeomorph_subgroupQuotient`
-(`existsUnique_subgroup_of_pointed` above).
-
-⚠ Connectedness is a field, not a convenience. A disconnected pointed cover recovers only the
-subgroup of the component containing the chosen point, so adjoining any unrelated cover as a
-second component leaves the subgroup unchanged and the classification below would not be
-injective. -/
-structure ConnectedPointedCover {X : Type u} [TopologicalSpace X] (x : X) (n : ℕ) where
-  E : Type u
-  [topE : TopologicalSpace E]
-  [pathConnectedE : PathConnectedSpace E]
-  p : E → X
-  isCoveringMap : IsCoveringMap p
-  e : ↥(p ⁻¹' {x})
-  nonempty_ν : Nonempty (↥(p ⁻¹' {x}) ≃ Fin n)
-
-attribute [instance] ConnectedPointedCover.topE ConnectedPointedCover.pathConnectedE
-
-/-- **Layer 6.1.** A connected cover of degree `n` with no chosen point — the unpointed
-carrier. The degree is carried as the existence of *some* numbering of the fiber, which is
-also what makes the fiber finite; which numbering is chosen is exactly the data the other two
-carriers add. -/
-structure ConnectedCover {X : Type u} [TopologicalSpace X] (x : X) (n : ℕ) where
-  E : Type u
-  [topE : TopologicalSpace E]
-  [pathConnectedE : PathConnectedSpace E]
-  p : E → X
-  isCoveringMap : IsCoveringMap p
-  nonempty_ν : Nonempty (↥(p ⁻¹' {x}) ≃ Fin n)
-
-attribute [instance] ConnectedCover.topE ConnectedCover.pathConnectedE
-
-/-- **Layer 6.3.** Isomorphism of connected fiber-numbered covers: a homeomorphism over `X`
-preserving the label of **every** point of the fiber. -/
-def ConnectedFiberNumberedCoverIso {X : Type u} [TopologicalSpace X] {x : X} {n : ℕ}
-    (c c' : ConnectedFiberNumberedCover x n) : Prop :=
-  ∃ f : c.E ≃ₜ c'.E, (∀ y, c'.p (f y) = c.p y) ∧
-    ∀ i : Fin n, f (c.ν.symm i).1 = (c'.ν.symm i).1
-
-/-- **Layer 6.3.** Isomorphism of connected pointed covers: a homeomorphism over `X` carrying
-the chosen point to the chosen point — one point only. -/
-def ConnectedPointedCoverIso {X : Type u} [TopologicalSpace X] {x : X} {n : ℕ}
-    (c c' : ConnectedPointedCover x n) : Prop :=
-  ∃ f : c.E ≃ₜ c'.E, (∀ y, c'.p (f y) = c.p y) ∧ f c.e.1 = c'.e.1
-
-/-- **Layer 6.3.** Isomorphism of connected covers: a homeomorphism over `X`. -/
-def ConnectedCoverIso {X : Type u} [TopologicalSpace X] {x : X} {n : ℕ}
-    (c c' : ConnectedCover x n) : Prop :=
-  ∃ f : c.E ≃ₜ c'.E, ∀ y, c'.p (f y) = c.p y
-
-/-! ### Layer 6.3: isomorphism classes as quotient carriers
-
-⚠ "Covers up to isomorphism" is **not** a `Prop`. The three relations above are equivalence
-relations, and the objects Layer 6.3 puts in bijection with triples, marked triples and their
-conjugacy classes are the **quotients** below; the forgetful maps between the three
-rigidifications descend through them. -/
-
-instance connectedFiberNumberedCoverSetoid {X : Type u} [TopologicalSpace X] (x : X) (n : ℕ) :
-    Setoid (ConnectedFiberNumberedCover x n) where
-  r := ConnectedFiberNumberedCoverIso
-  iseqv :=
-    { refl := fun c => ⟨Homeomorph.refl c.E, fun _ => rfl, fun _ => rfl⟩
-      symm := fun {c c'} h => by
-        obtain ⟨f, hf, hν⟩ := h
-        refine ⟨f.symm, fun y => ?_, fun i => ?_⟩
-        · simpa using (hf (f.symm y)).symm
-        · rw [← hν i]; simp
-      trans := fun {c c' c''} h h' => by
-        obtain ⟨f, hf, hν⟩ := h
-        obtain ⟨g, hg, hν'⟩ := h'
-        exact ⟨f.trans g, fun y => (hg (f y)).trans (hf y),
-          fun i => by simpa [hν i] using hν' i⟩ }
-
-instance connectedPointedCoverSetoid {X : Type u} [TopologicalSpace X] (x : X) (n : ℕ) :
-    Setoid (ConnectedPointedCover x n) where
-  r := ConnectedPointedCoverIso
-  iseqv :=
-    { refl := fun c => ⟨Homeomorph.refl c.E, fun _ => rfl, rfl⟩
-      symm := fun {c c'} h => by
-        obtain ⟨f, hf, he⟩ := h
-        refine ⟨f.symm, fun y => ?_, ?_⟩
-        · simpa using (hf (f.symm y)).symm
-        · rw [← he]; simp
-      trans := fun {c c' c''} h h' => by
-        obtain ⟨f, hf, he⟩ := h
-        obtain ⟨g, hg, he'⟩ := h'
-        exact ⟨f.trans g, fun y => (hg (f y)).trans (hf y), by simpa [he] using he'⟩ }
-
-instance connectedCoverSetoid {X : Type u} [TopologicalSpace X] (x : X) (n : ℕ) :
-    Setoid (ConnectedCover x n) where
-  r := ConnectedCoverIso
-  iseqv :=
-    { refl := fun c => ⟨Homeomorph.refl c.E, fun _ => rfl⟩
-      symm := fun {c c'} h => by
-        obtain ⟨f, hf⟩ := h
-        exact ⟨f.symm, fun y => by simpa using (hf (f.symm y)).symm⟩
-      trans := fun {c c' c''} h h' => by
-        obtain ⟨f, hf⟩ := h
-        obtain ⟨g, hg⟩ := h'
-        exact ⟨f.trans g, fun y => (hg (f y)).trans (hf y)⟩ }
-
-/-- **Layer 6.3.** Fiber-numbered covers up to isomorphism. -/
-def ConnectedFiberNumberedCoverClass {X : Type u} [TopologicalSpace X] (x : X) (n : ℕ) :
-    Type (u + 1) :=
-  Quotient (connectedFiberNumberedCoverSetoid x n)
-
-/-- **Layer 6.3.** Pointed covers up to pointed isomorphism. -/
-def ConnectedPointedCoverClass {X : Type u} [TopologicalSpace X] (x : X) (n : ℕ) :
-    Type (u + 1) :=
-  Quotient (connectedPointedCoverSetoid x n)
-
-/-- **Layer 6.3.** Covers up to isomorphism over `X`. -/
-def ConnectedCoverClass {X : Type u} [TopologicalSpace X] (x : X) (n : ℕ) : Type (u + 1) :=
-  Quotient (connectedCoverSetoid x n)
-
-section Forget
-
-variable {X : Type u} [TopologicalSpace X] {x : X} {n : ℕ}
-
-/-- **Layer 6.1.** Forgetting the numbering. -/
-def ConnectedFiberNumberedCover.forgetNumbering (c : ConnectedFiberNumberedCover x n) :
-    ConnectedCover x n where
-  E := c.E
-  p := c.p
-  isCoveringMap := c.isCoveringMap
-  nonempty_ν := ⟨c.ν⟩
-
-/-- **Layer 6.1.** Keeping only the point with a chosen label: the numbered-to-pointed
-forgetful map, one for each label. -/
-def ConnectedFiberNumberedCover.markLabel (c : ConnectedFiberNumberedCover x n) (i : Fin n) :
-    ConnectedPointedCover x n where
-  E := c.E
-  p := c.p
-  isCoveringMap := c.isCoveringMap
-  e := c.ν.symm i
-  nonempty_ν := ⟨c.ν⟩
-
-/-- **Layer 6.1.** Forgetting the chosen point. -/
-def ConnectedPointedCover.forgetPoint (c : ConnectedPointedCover x n) : ConnectedCover x n where
-  E := c.E
-  p := c.p
-  isCoveringMap := c.isCoveringMap
-  nonempty_ν := c.nonempty_ν
-
-/-- **Layer 6.3.** Forgetting the numbering, on isomorphism classes. -/
-def ConnectedFiberNumberedCoverClass.forgetNumbering :
-    ConnectedFiberNumberedCoverClass x n → ConnectedCoverClass x n :=
-  Quotient.map ConnectedFiberNumberedCover.forgetNumbering
-    (fun _ _ h => by obtain ⟨f, hf, _⟩ := h; exact ⟨f, hf⟩)
-
-/-- **Layer 6.3.** Marking a label, on isomorphism classes: a numbered isomorphism preserves
-every label, so in particular it preserves the marked point. -/
-def ConnectedFiberNumberedCoverClass.markLabel (i : Fin n) :
-    ConnectedFiberNumberedCoverClass x n → ConnectedPointedCoverClass x n :=
-  Quotient.map (fun c => c.markLabel i)
-    (fun _ _ h => by obtain ⟨f, hf, hν⟩ := h; exact ⟨f, hf, hν i⟩)
-
-/-- **Layer 6.3.** Forgetting the point, on isomorphism classes. -/
-def ConnectedPointedCoverClass.forgetPoint :
-    ConnectedPointedCoverClass x n → ConnectedCoverClass x n :=
-  Quotient.map ConnectedPointedCover.forgetPoint
-    (fun _ _ h => by obtain ⟨f, hf, _⟩ := h; exact ⟨f, hf⟩)
-
-/-- **Layer 6.3.** The forgetful triangle commutes: marking a label and then forgetting it is
-forgetting the whole numbering. -/
+/-- **Layer 6.3.** The forgetful triangle commutes:
+`TauCeti.ConnectedFiberNumberedCoverClass.forgetPoint_markLabel`. -/
 theorem ConnectedFiberNumberedCoverClass.forgetPoint_markLabel (i : Fin n)
     (C : ConnectedFiberNumberedCoverClass x n) :
     (C.markLabel i).forgetPoint = C.forgetNumbering :=
-  Quotient.inductionOn C fun _ => rfl
+  TauCeti.ConnectedFiberNumberedCoverClass.forgetPoint_markLabel C i
 
-/-- **Layer 6.1.** A numbering of the fiber, chosen once. Which one is chosen is immaterial
-to everything stated on the quotients below. -/
-noncomputable def ConnectedCover.numbering (c : ConnectedCover x n) :
-    ConnectedFiberNumberedCover x n where
-  E := c.E
-  p := c.p
-  isCoveringMap := c.isCoveringMap
-  ν := c.nonempty_ν.some
-
-/-- **Layer 6.1.** The same, for a pointed cover; the marked label is `ν e`. -/
-noncomputable def ConnectedPointedCover.numbering (c : ConnectedPointedCover x n) :
-    ConnectedFiberNumberedCover x n where
-  E := c.E
-  p := c.p
-  isCoveringMap := c.isCoveringMap
-  ν := c.nonempty_ν.some
-
-/-- **Layer 6.1.** The degree of a connected cover does not depend on the point: the fiber
-cardinality is locally constant, hence constant on a path-connected base. -/
+/-- **Layer 6.1.** The degree of a connected cover does not depend on the point of a connected
+base: `TauCeti.ConnectedCover.nonempty_equiv_fin_of_mem_connectedComponent`. -/
 theorem ConnectedCover.nonempty_ν_of [PathConnectedSpace X] (c : ConnectedCover x n) (y : X) :
-    Nonempty (↥(c.p ⁻¹' {y}) ≃ Fin n) := by
-  sorry
+    Nonempty (↥(c.cover.proj ⁻¹' {y}) ≃ Fin n) :=
+  c.nonempty_equiv_fin_of_mem_connectedComponent
+    (by rw [PreconnectedSpace.connectedComponent_eq_univ]; trivial)
 
-end Forget
+end Covers
+
+/-! ### Layer 6.3: the classification at three levels
+
+On `U = TopCat.of TauCeti.ThricePuncturedSphere` at `1/2`, Tau Ceti attaches to each carrier its
+combinatorial invariant and proves the three bijections. -/
 
 section Classification
 
-open ThricePuncturedSphere
+open TauCeti.ThricePuncturedSphere
 
 variable {n : ℕ}
 
-/-- **Layer 6.1.** The monodromy triple of a connected fiber-numbered cover of the
-thrice-punctured sphere. The third component automatically computes the monodromy of
-`periphInf` (README, Layer 6.1). -/
-noncomputable def ConnectedFiberNumberedCover.triple
-    (c : ConnectedFiberNumberedCover basePt n) : PermutationTriple n :=
-  PermutationTriple.ofTwo
-    (c.ν.permCongr (monodromyHom c.isCoveringMap basePt periph0))
-    (c.ν.permCongr (monodromyHom c.isCoveringMap basePt periph1))
+/-- **Layer 6.1.** The monodromy triple of a numbered cover is connected, being a
+`TauCeti.ConnectedTriple`, and is `IsCoveringMap.monodromyTriple` read through the numbering. -/
+example (c : ConnectedFiberNumberedCover (X := TopCat.of TauCeti.ThricePuncturedSphere) basePt n) :
+    (c.connectedTriple : PermutationTriple n) = c.cover.isCoveringMap_proj.monodromyTriple c.ν :=
+  c.coe_connectedTriple
 
-/-- **Layer 6.1.** The triple of a **connected** numbered cover is connected: path lifting
-identifies the monodromy orbits on the fiber with the path components of `E`, and `n ≠ 0`
-matches `Nonempty E`. This is the theorem that the connectedness field of the carrier buys,
-and without that field it is false. -/
-theorem ConnectedFiberNumberedCover.triple_isConnected
-    (c : ConnectedFiberNumberedCover basePt n) : c.triple.IsConnected := by
-  sorry
+/-- **Layer 6.1.** The convention, pinned: the components of the triple are the fiber monodromy of
+the peripheral elements read through the numbering, with no inverse
+(`IsCoveringMap.monodromyTriple_σ0`, `IsCoveringMap.monodromyTriple_σ1`). -/
+theorem ConnectedFiberNumberedCover.connectedTriple_σ0_σ1
+    (c : ConnectedFiberNumberedCover (X := TopCat.of TauCeti.ThricePuncturedSphere) basePt n) :
+    (c.connectedTriple : PermutationTriple n).σ0 =
+        c.ν.permCongr (monodromyHom c.cover.isCoveringMap_proj basePt periph0) ∧
+      (c.connectedTriple : PermutationTriple n).σ1 =
+        c.ν.permCongr (monodromyHom c.cover.isCoveringMap_proj basePt periph1) :=
+  ⟨c.cover.isCoveringMap_proj.monodromyTriple_σ0 c.ν,
+    c.cover.isCoveringMap_proj.monodromyTriple_σ1 c.ν⟩
 
-/-- **Layer 6.1.** The triple, as a `ConnectedTriple n`. -/
-noncomputable def ConnectedFiberNumberedCover.connectedTriple
-    (c : ConnectedFiberNumberedCover basePt n) : ConnectedTriple n :=
-  ⟨c.triple, c.triple_isConnected⟩
-
-/-- **Layer 6.1.** The triple is unchanged by an isomorphism of fiber-numbered covers. -/
+/-- **Layer 6.1.** The triple is unchanged by an isomorphism of fiber-numbered covers, and in fact
+determines the cover up to such an isomorphism:
+`TauCeti.ConnectedFiberNumberedCover.connectedTriple_eq_connectedTriple_iff`. -/
 theorem ConnectedFiberNumberedCover.connectedTriple_congr
-    {c c' : ConnectedFiberNumberedCover basePt n} (h : ConnectedFiberNumberedCoverIso c c') :
-    c.connectedTriple = c'.connectedTriple := by
-  sorry
-
-/-- **Layer 6.3(1).** The classifying map at the numbered level, descended to isomorphism
-classes. -/
-noncomputable def ConnectedFiberNumberedCoverClass.triple :
-    ConnectedFiberNumberedCoverClass basePt n → ConnectedTriple n :=
-  Quotient.lift ConnectedFiberNumberedCover.connectedTriple
-    fun _ _ h => ConnectedFiberNumberedCover.connectedTriple_congr h
+    {c c' : ConnectedFiberNumberedCover (X := TopCat.of TauCeti.ThricePuncturedSphere) basePt n}
+    (h : ConnectedFiberNumberedCoverIso c c') : c.connectedTriple = c'.connectedTriple :=
+  TauCeti.ConnectedFiberNumberedCover.connectedTriple_eq_connectedTriple_iff.2 h
 
 /-- **Layer 6.3(1), the milestone.** Isomorphism classes of connected fiber-numbered covers
-correspond to connected triples **on the nose**: 6.1 one way, 6.2's finite corollary the
-other, with uniqueness from the pin's lifting criterion
-`IsCoveringMap.existsUnique_continuousMap_lifts_of_range_le`. This is the only level at which
-a literal triple is the classifying datum. -/
+correspond to connected triples **on the nose**:
+`TauCeti.ConnectedFiberNumberedCoverClass.triple_bijective`. The equivalence is
+`TauCeti.ConnectedFiberNumberedCoverClass.tripleEquiv`. -/
 theorem ConnectedFiberNumberedCoverClass.triple_bijective :
-    Function.Bijective (ConnectedFiberNumberedCoverClass.triple (n := n)) := by
-  sorry
-
-/-- **Layer 6.3(1).** The classification, as an equivalence of the two carriers. -/
-noncomputable def numberedCoverClassEquivTriple :
-    ConnectedFiberNumberedCoverClass basePt n ≃ ConnectedTriple n :=
-  Equiv.ofBijective _ ConnectedFiberNumberedCoverClass.triple_bijective
-
-/-- **Layer 6.3(2).** The isomorphism class of the triple of a connected cover: choose any
-numbering and pass to the relabeling orbit. -/
-noncomputable def ConnectedCover.isoClass (c : ConnectedCover basePt n) :
-    ConnectedIsoClass n :=
-  ConnectedIsoClass.mk c.numbering.connectedTriple
-
-theorem ConnectedCover.isoClass_congr {c c' : ConnectedCover basePt n}
-    (h : ConnectedCoverIso c c') : c.isoClass = c'.isoClass := by
-  sorry
-
-/-- **Layer 6.3(2).** The classifying map at the unnumbered level. -/
-noncomputable def ConnectedCoverClass.isoClass :
-    ConnectedCoverClass basePt n → ConnectedIsoClass n :=
-  Quotient.lift ConnectedCover.isoClass fun _ _ h => ConnectedCover.isoClass_congr h
+    Function.Bijective (TauCeti.ConnectedFiberNumberedCoverClass.triple
+      (n := n) : ConnectedFiberNumberedCoverClass (X := TopCat.of TauCeti.ThricePuncturedSphere)
+        basePt n → ConnectedTriple n) :=
+  TauCeti.ConnectedFiberNumberedCoverClass.triple_bijective
 
 /-- **Layer 6.3(2), the milestone.** Connected covers up to isomorphism over `U` correspond
-to simultaneous-conjugacy classes of connected triples: forgetting the numbering on one side
-is exactly passing to the relabeling orbit on the other. -/
+to simultaneous-conjugacy classes of connected triples:
+`TauCeti.ConnectedCoverClass.isoClass_bijective`. The equivalence is
+`TauCeti.ConnectedCoverClass.isoClassEquiv`. -/
 theorem ConnectedCoverClass.isoClass_bijective :
-    Function.Bijective (ConnectedCoverClass.isoClass (n := n)) := by
-  sorry
-
-/-- **Layer 6.3(2).** The classification, as an equivalence of the two carriers. -/
-noncomputable def coverClassEquivIsoClass :
-    ConnectedCoverClass basePt n ≃ ConnectedIsoClass n :=
-  Equiv.ofBijective _ ConnectedCoverClass.isoClass_bijective
-
-/-- **Layer 6.3(3).** The marked class of a connected pointed cover: choose a numbering, and
-mark the label of the chosen point. -/
-noncomputable def ConnectedPointedCover.markedClass (c : ConnectedPointedCover basePt n) :
-    MarkedIsoClass n :=
-  MarkedIsoClass.mk c.numbering.connectedTriple (c.numbering.ν c.e)
-
-theorem ConnectedPointedCover.markedClass_congr {c c' : ConnectedPointedCover basePt n}
-    (h : ConnectedPointedCoverIso c c') : c.markedClass = c'.markedClass := by
-  sorry
-
-/-- **Layer 6.3(3).** The classifying map at the pointed level. -/
-noncomputable def ConnectedPointedCoverClass.markedClass :
-    ConnectedPointedCoverClass basePt n → MarkedIsoClass n :=
-  Quotient.lift ConnectedPointedCover.markedClass
-    fun _ _ h => ConnectedPointedCover.markedClass_congr h
+    Function.Bijective (TauCeti.ConnectedCoverClass.isoClass
+      (n := n) : ConnectedCoverClass (X := TopCat.of TauCeti.ThricePuncturedSphere)
+        basePt n → ConnectedIsoClass n) :=
+  TauCeti.ConnectedCoverClass.isoClass_bijective
 
 /-- **Layer 6.3(3), the milestone.** Connected pointed covers of `(U, b)` up to pointed
-isomorphism correspond to connected triples with a marked label, modulo the diagonal
-relabeling action. ⚠ The composite with UniversalCovers milestone 8's pointed correspondence,
-`TauCeti.UniversalCover.existsUnique_subgroup_homeomorph_subgroupQuotient`, identifies this
-carrier with the index-`n` subgroups of `π₁(U, b)`; that half is the supplier's theorem, restated
-above as the closed check `existsUnique_subgroup_of_pointed` and not reproved here. Hall's numbers `1, 3, 13, 71, 461` are the
+isomorphism correspond to connected triples with a marked label, modulo the diagonal relabeling
+action: `TauCeti.ConnectedPointedCoverClass.markedClass_bijective`. The equivalence is
+`TauCeti.ConnectedPointedCoverClass.markedClassEquiv`. ⚠ The composite with UniversalCovers
+milestone 8's pointed correspondence, `existsUnique_subgroup_of_pointed` above, identifies this
+carrier with the index-`n` subgroups of `π₁(U, b)`; Hall's numbers `1, 3, 13, 71, 461` are the
 acceptance check on the count. -/
 theorem ConnectedPointedCoverClass.markedClass_bijective :
-    Function.Bijective (ConnectedPointedCoverClass.markedClass (n := n)) := by
-  sorry
-
-/-- **Layer 6.3(3).** The classification, as an equivalence of the two carriers. -/
-noncomputable def pointedCoverClassEquivMarkedIsoClass :
-    ConnectedPointedCoverClass basePt n ≃ MarkedIsoClass n :=
-  Equiv.ofBijective _ ConnectedPointedCoverClass.markedClass_bijective
+    Function.Bijective (TauCeti.ConnectedPointedCoverClass.markedClass
+      (n := n) : ConnectedPointedCoverClass (X := TopCat.of TauCeti.ThricePuncturedSphere)
+        basePt n → MarkedIsoClass n) :=
+  TauCeti.ConnectedPointedCoverClass.markedClass_bijective
 
 /-- **Layer 6.3.** The forgetful maps commute with the classifications: forgetting the
-numbering of a cover is passing to the relabeling orbit of its triple. -/
+numbering of a cover is passing to the relabeling orbit of its triple,
+`TauCeti.ConnectedFiberNumberedCoverClass.isoClass_forgetNumbering`. -/
 theorem ConnectedFiberNumberedCoverClass.isoClass_forgetNumbering
-    (C : ConnectedFiberNumberedCoverClass basePt n) :
-    C.forgetNumbering.isoClass = ConnectedIsoClass.mk C.triple := by
-  sorry
+    (C : ConnectedFiberNumberedCoverClass (X := TopCat.of TauCeti.ThricePuncturedSphere) basePt n) :
+    C.forgetNumbering.isoClass = ConnectedIsoClass.mk C.triple :=
+  TauCeti.ConnectedFiberNumberedCoverClass.isoClass_forgetNumbering C
 
-/-- **Layer 6.3.** ...and forgetting the chosen point is forgetting the marked label. -/
+/-- **Layer 6.3.** ...and forgetting the chosen point is forgetting the marked label,
+`TauCeti.ConnectedPointedCoverClass.isoClass_forgetPoint`. -/
 theorem ConnectedPointedCoverClass.isoClass_forgetPoint
-    (C : ConnectedPointedCoverClass basePt n) :
-    C.forgetPoint.isoClass = C.markedClass.forget := by
-  sorry
+    (C : ConnectedPointedCoverClass (X := TopCat.of TauCeti.ThricePuncturedSphere) basePt n) :
+    C.forgetPoint.isoClass = C.markedClass.forget :=
+  TauCeti.ConnectedPointedCoverClass.isoClass_forgetPoint C
 
+end Classification
 /-- **Layer 6.3.** The conjugation action of a group on its subgroups, and the orbit relation
-it induces: the target of the composite of `coverClassEquivIsoClass` with the unpointed half of
+it induces: the target of the composite of `TauCeti.ConnectedCoverClass.isoClassEquiv` with the unpointed half of
 UniversalCovers milestone 8. ⚠ **Not** `ConjClasses (Subgroup G)`: `ConjClasses` is a monoid's
 quotient by conjugation **on itself**, and `Subgroup G` is not `G`. -/
 noncomputable def subgroupConjSetoid {G : Type u} [Group G] : Setoid (Subgroup G) :=
@@ -1746,56 +1174,81 @@ theorem subgroupQuotient_iso_iff {X : Type u} [TopologicalSpace X] [PathConnecte
   rw [TauCeti.UniversalCover.exists_homeomorph_subgroupQuotient_comp_eq_iff_exists_eq_map_conj,
     subgroupConjSetoid_iff]
 
+
 /-! ### Layers 2.6, 6.3: the topological branch-point action
 
 Pulling a cover back along an anharmonic self-homeomorphism of `U` is the topological
-`S₃`-action; the two theorems below say it is the combinatorial one of Layer 2.6, on the
-nose, for the two generators. That is what makes "the expected `S₃` action" unambiguous
-about inversions and order. -/
+`S₃`-action, Tau Ceti's `TauCeti.ConnectedCoverClass.pullback`. Pulling back along `h` moves the
+basepoint from `x` to `h⁻¹ x`. The two theorems below say that, for the two generators, it is the
+combinatorial action of Layer 2.6. -/
 
-/-- **Layer 6.3.** The pullback of a cover along a self-homeomorphism of the base. -/
-noncomputable def ConnectedCover.pullback {X : Type u} [TopologicalSpace X]
-    [PathConnectedSpace X] {x : X} (h : X ≃ₜ X) (c : ConnectedCover x n) :
-    ConnectedCover x n where
-  E := {q : X × c.E // h q.1 = c.p q.2}
-  pathConnectedE := by sorry
-  p := fun q => q.1.1
-  isCoveringMap := by sorry
-  nonempty_ν := by sorry
+section BranchPointAction
 
-theorem ConnectedCover.pullback_congr {X : Type u} [TopologicalSpace X]
-    [PathConnectedSpace X] {x : X} (h : X ≃ₜ X) {c c' : ConnectedCover x n}
-    (hcc : ConnectedCoverIso c c') :
-    ConnectedCoverIso (c.pullback h) (c'.pullback h) := by
-  sorry
+open TauCeti.ThricePuncturedSphere
 
-/-- **Layer 6.3.** The pullback action on isomorphism classes. -/
-noncomputable def ConnectedCoverClass.pullback {X : Type u} [TopologicalSpace X]
-    [PathConnectedSpace X] {x : X} (h : X ≃ₜ X) :
-    ConnectedCoverClass x n → ConnectedCoverClass x n :=
-  Quotient.map (ConnectedCover.pullback h) fun _ _ hcc => ConnectedCover.pullback_congr h hcc
+variable {n : ℕ}
 
-/-- **Layer 2.6, 6.3, the agreement theorem, generator one.** Pulling back along
-`z ↦ 1 − z` replaces the triple of a cover by `swap01` of it. Because `mob01` fixes the
-basepoint, this holds with no choice of connecting path, and it is what pins the conjugator
-`b⁻¹ · c · b` in `swap01` against the topology rather than against a convention. -/
-theorem ConnectedCover.isoClass_pullback_mob01 (c : ConnectedCover basePt n) :
-    (c.pullback mob01).isoClass
-      = ConnectedIsoClass.mk (ConnectedTriple.swap01 c.numbering.connectedTriple) := by
-  sorry
+/-- **Layer 2.6, 6.3, the agreement theorem, generator one.** Pulling back along `z ↦ 1 − z`
+replaces the triple of a cover by `swap01` of it. Because `mob01` fixes the basepoint, this holds
+with no choice of connecting path: `TauCeti.ConnectedCoverClass.isoClass_pullback_mob01`, and on
+numbered covers, on the nose,
+`TauCeti.ConnectedFiberNumberedCover.connectedTriple_pullback_mob01`. -/
+theorem ConnectedCover.isoClass_pullback_mob01
+    (c : ConnectedCover (X := TopCat.of TauCeti.ThricePuncturedSphere) basePt n) :
+    ((ConnectedCoverClass.mk c).pullback mob01 mob01_basePt).isoClass =
+      ConnectedIsoClass.mk (c.numbering.connectedTriple.reindexBranchPoints (Equiv.swap 0 1)) := by
+  rw [TauCeti.ConnectedCoverClass.isoClass_pullback_mob01, ← c.forgetNumbering_numbering,
+    ← TauCeti.ConnectedFiberNumberedCoverClass.forgetNumbering_mk,
+    TauCeti.ConnectedFiberNumberedCoverClass.isoClass_forgetNumbering,
+    TauCeti.ConnectedFiberNumberedCoverClass.triple_mk, ConnectedIsoClass.op_smul_mk]
+  rfl
 
 /-- **Layer 2.6, 6.3, the agreement theorem, generator two.** Pulling back along
-`z ↦ z/(z − 1)` replaces the triple by `swap1Inf` of it. ⚠ Here the statement is genuinely
-one about **classes**: `mob1Inf b = −1 ≠ b`, so the induced map on `π₁(U, b)` exists only
-after a choice of connecting path, and the two choices differ by the inner automorphism that
-`swap1Inf_sq` records. -/
-theorem ConnectedCover.isoClass_pullback_mob1Inf (c : ConnectedCover basePt n) :
-    (c.pullback mob1Inf).isoClass
-      = ConnectedIsoClass.mk (ConnectedTriple.swap1Inf c.numbering.connectedTriple) := by
-  sorry
+`z ↦ z/(z − 1)` and moving the basepoint back from `−1` to `1/2` replaces the triple by
+`swap1Inf` of it: `TauCeti.ConnectedCoverClass.isoClass_basepointChange_pullback_mob1Inf`.
+⚠ Here the statement is genuinely one about **classes**: `mob1Inf b = −1 ≠ b`, and on
+numbered covers the triple depends on the path chosen to move the basepoint back
+(`TauCeti.ConnectedFiberNumberedCover.connectedTriple_basepointChange_pullback_mob1Inf` uses the
+path `αMob1Inf` through the upper half-plane). -/
+theorem ConnectedCover.isoClass_pullback_mob1Inf
+    (c : ConnectedCover (X := TopCat.of TauCeti.ThricePuncturedSphere) basePt n) :
+    (((ConnectedCoverClass.mk c).pullback mob1Inf (mob1Inf_mob1Inf basePt)).basepointChange
+        (by rw [PreconnectedSpace.connectedComponent_eq_univ]; trivial)).isoClass =
+      ConnectedIsoClass.mk (c.numbering.connectedTriple.reindexBranchPoints (Equiv.swap 1 2)) := by
+  rw [TauCeti.ConnectedCoverClass.isoClass_basepointChange_pullback_mob1Inf,
+    ← c.forgetNumbering_numbering, ← TauCeti.ConnectedFiberNumberedCoverClass.forgetNumbering_mk,
+    TauCeti.ConnectedFiberNumberedCoverClass.isoClass_forgetNumbering,
+    TauCeti.ConnectedFiberNumberedCoverClass.triple_mk, ConnectedIsoClass.op_smul_mk]
+  rfl
 
-end Classification
+end BranchPointAction
 
+/-! ### Layers 6.4, 6.5: deck transformations and regular covers -/
+
+section Deck
+
+open TauCeti.ThricePuncturedSphere
+
+variable {n : ℕ}
+
+/-- **Layer 6.4.** The deck group of a numbered cover is the automorphism group of its triple,
+a deck transformation going to the permutation it induces on the labels:
+`TauCeti.ConnectedFiberNumberedCover.deckMulEquiv`. -/
+noncomputable example
+    (c : ConnectedFiberNumberedCover (X := TopCat.of TauCeti.ThricePuncturedSphere) basePt n) :
+    deck c.cover.proj ≃* (c.connectedTriple : PermutationTriple n).automorphismGroup :=
+  c.deckMulEquiv
+
+/-- **Layer 6.5.** A numbered cover is regular exactly when its triple is, exactly when its
+deck group has order the degree: `TauCeti.ConnectedFiberNumberedCover.isRegular_proj_iff` and
+`TauCeti.ConnectedFiberNumberedCover.isRegular_iff_card_deck`. -/
+theorem ConnectedFiberNumberedCover.isRegular_iff
+    (c : ConnectedFiberNumberedCover (X := TopCat.of TauCeti.ThricePuncturedSphere) basePt n) :
+    (Deck.IsRegular c.cover.proj ↔ (c.connectedTriple : PermutationTriple n).IsRegular) ∧
+      ((c.connectedTriple : PermutationTriple n).IsRegular ↔ Nat.card (deck c.cover.proj) = n) :=
+  ⟨c.isRegular_proj_iff, c.isRegular_iff_card_deck⟩
+
+end Deck
 /-! ## Deferred compact-Riemann-surface crossing
 
 The analytic carrier, ramification API, and Riemann–Roch/Riemann–Hurwitz interfaces are not
