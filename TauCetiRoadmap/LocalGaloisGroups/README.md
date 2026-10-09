@@ -822,7 +822,7 @@ rationalization.
   principal units `U(L,1)` being already `p`-adically complete; multiplication by `p` is bijective
   on both. So by CFT's `TateCohomology.primaryComponent_tateCohomology_eq_bot` and the long exact
   sequences, `padicCompletionUnitsOf` induces isomorphisms `Ĥⁱ(H, Lˣ)(p) ≅ Ĥⁱ(H, A(L))`, the right
-  side being a `ℤ_p`-module and so its own `p`-primary component. Hilbert 90 and the class-formation
+  side being its own `p`-primary component because it is a `ℤ_p`-module killed by `#H`. Hilbert 90 and the class-formation
   axioms for `Lˣ` then give the statement. Mathlib's group cohomology takes the group and the
   coefficient ring in one universe, so it is stated for `K L : Type`. *Needs:* CFT `ClassFormation`
   (Tau Ceti's, re-exported), `TateCohomology.primaryComponent_tateCohomology_eq_bot`; TC
