@@ -57,6 +57,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Real algebraic geometry: sign determination and cylindrical decomposition](TauCetiRoadmap/RealAlgebraicGeometry/README.md)
 - [Reductive algebraic groups](TauCetiRoadmap/ReductiveGroups/README.md)
 - [Representation theory (semisimple algebras, character tables, Lie and classical groups, Schur-Weyl, Peter-Weyl)](TauCetiRoadmap/RepresentationTheory/README.md)
+- [Scheme, stack, cohomology and intersection foundations](TauCetiRoadmap/SchemeAndStackFoundations/README.md)
 - [Stable reduction of curves and stable maps](TauCetiRoadmap/StableReduction/README.md)
 - [Stable, periodic, and curved homological algebra](TauCetiRoadmap/StablePeriodicCurved/README.md)
 - [Standard probability distributions and their elementary theory](TauCetiRoadmap/StandardDistributions/README.md)
