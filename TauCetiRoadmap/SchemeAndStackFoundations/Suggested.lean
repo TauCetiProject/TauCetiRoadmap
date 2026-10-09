@@ -6142,20 +6142,10 @@ def ObstructionTheory.zero (D : PredeformationFunctor Λ k)
       Function.Surjective (D.F.map f)) : ObstructionTheory D :=
   sorry
 
-/-- Relations are bounded by obstructions (Schlessinger, Lemma 2.17; Stacks 98.22.6): for a hull
-`(R, ξ)` with a **minimal presentation** `R ≅ Λ[[t₁..t_d]]/J`, `d = dim_k T_D`, the number of
-minimal generators of `J` (the dimension of `J/mJ`) is at most `dim_k O`. Minimality is
-essential: `k[[t]]/(t)` presents the hull `k` of the one-point functor with one relation while the
-zero theory has `dim O = 0` (`test_nonminimal_presentation_rejected`). -/
-theorem ObstructionTheory.minimal_presentation {D : PredeformationFunctor Λ k}
-    (o : ObstructionTheory D) (h2 : D.H2) (d : ℕ) (J : Ideal (MvPowerSeries (Fin d) Λ))
-    (R : CompleteLocalAlg Λ k) (e : R.R ≃ₐ[Λ] MvPowerSeries (Fin d) Λ ⧸ J)
-    (ξ : FormalElement D R) (h : IsHull ξ)
-    (hd : letI := PredeformationFunctor.tangentSpace.addCommGroup D h2
-      letI := PredeformationFunctor.tangentSpace.module D h2
-      Module.finrank k D.tangentSpace = d) :
-    J.spanFinrank ≤ Module.finrank k o.O := by
-  sorry
+/- The relative relation bound is a stated gap in README §4.5. An obstruction theory on
+all finite-dimensional kernels, compatible with pushouts and direct sums, and the comparison
+of J.spanFinrank with J/mJ are required before typing ObstructionTheory.minimal_presentation.
+Schlessinger (1968), equation (2.17), p. 213 is the tangent action on lifts, not this bound. -/
 
 -- Check `test_nonminimal_presentation_rejected`: `k[[t]]/(t)` has one minimal relation and presents
 -- the hull `k` of the one-point functor, whose tangent space has dimension `0 ≠ 1`; the bound
@@ -7027,13 +7017,25 @@ theorem isSVariety_iff_genericFiber_nonempty {R K : Type u} [CommRing R] [IsDoma
     IsSVariety f ↔ Nonempty (TauCeti.genericFiber R K f).left := by
   sorry
 
-/-- Base change along a finite extension of traits, given as Tau Ceti's `FiniteDVRExtension`
-(StableReduction Layer 0): `R → R'` is a **dominant** local map of discrete valuation rings, so the
-base change is horizontal, and the components of `X ×_R R'` dominating `X` are `R'`-varieties mapping
-to `X` by alterations (de Jong 6.8). The vertical specialisation `ℤ_p → 𝔽_p` is not such an
-extension (`baseChange_component_test_vertical_excluded`). -/
-theorem IsSVariety.baseChange_component {R K : Type u} [CommRing R] [IsDomain R]
-    [IsDiscreteValuationRing R] [Field K] [Algebra R K] [IsFractionRing R K]
+/-- Every reduced irreducible component after a finite extension of traits is an S'-variety
+altering X (de Jong 1996, 6.8, p. 83). No separability assumption is imposed. -/
+theorem IsSVariety.baseChange_component {R R' : Type u} [CommRing R] [IsDomain R]
+    [IsDiscreteValuationRing R] [IsTrait R] [CommRing R'] [IsDomain R']
+    [IsDiscreteValuationRing R'] [IsTrait R'] [Algebra R R'] [Module.Finite R R']
+    [IsLocalHom (algebraMap R R')] (hinj : Function.Injective (algebraMap R R'))
+    {X : Scheme.{u}} (f : X ⟶ Spec (CommRingCat.of R)) [IsSVariety f]
+    (Z : (Limits.pullback f (Spec.map (CommRingCat.ofHom (algebraMap R R')))).IdealSheafData)
+    [IsIntegral Z.subscheme]
+    (hZ : (Z.support : Set ↥(Limits.pullback f
+      (Spec.map (CommRingCat.ofHom (algebraMap R R'))) : Scheme.{u})) ∈ irreducibleComponents
+        ↥(Limits.pullback f (Spec.map (CommRingCat.ofHom (algebraMap R R'))) : Scheme.{u})) :
+    IsSVariety (Z.subschemeι ≫ Limits.pullback.snd f _) ∧
+      IsAlteration (Z.subschemeι ≫ Limits.pullback.fst f _) := by
+  sorry
+
+-- Check: the native separable chosen-place carrier still supplies a component alteration.
+example {R K : Type u} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    [IsTrait R] [Field K] [Algebra R K] [IsFractionRing R K]
     (E : TauCeti.FiniteDVRExtension R K) {X : Scheme.{u}} (f : X ⟶ Spec (CommRingCat.of R))
     [IsSVariety f] :
     ∃ (Z : (Limits.pullback f (Spec.map (CommRingCat.ofHom (algebraMap R E.localRing)))).IdealSheafData)
@@ -7048,14 +7050,13 @@ example (p : ℕ) [Fact p.Prime] (E : TauCeti.FiniteDVRExtension ℤ_[p] ℚ_[p]
     ¬ Nonempty (E.localRing ≃+* ZMod p) := by
   sorry
 
-/-- The local ring of a `FiniteDVRExtension` of a trait, completed, is a trait dominating the base;
-`FiniteDVRExtension` is the finite-extension-of-traits notion of this layer. -/
-theorem FiniteDVRExtension.isTrait_completion {R K : Type u} [CommRing R] [IsDomain R]
+/-- Over a complete DVR the chosen local ring in a finite separable extension is already
+finite and complete. This supplies the separable case of de Jong 2.12, p. 57; it does not
+exhaust the extensions permitted by Theorem 6.5. -/
+theorem FiniteDVRExtension.isTrait {R K : Type u} [CommRing R] [IsDomain R]
     [IsDiscreteValuationRing R] [IsTrait R] [Field K] [Algebra R K] [IsFractionRing R K]
     (E : TauCeti.FiniteDVRExtension R K) :
-    IsLocalHom (algebraMap R E.localRing) ∧
-      ∃ _ : IsDomain (AdicCompletion (IsLocalRing.maximalIdeal E.localRing) E.localRing),
-        IsDiscreteValuationRing (AdicCompletion (IsLocalRing.maximalIdeal E.localRing) E.localRing) := by
+    Module.Finite R E.localRing ∧ IsTrait E.localRing := by
   sorry
 
 /-- A proper `S`-variety with an identification of its generic fibre is a Tau Ceti model. -/
@@ -7233,19 +7234,28 @@ theorem alteration_theorem (k : Type u) [Field k] {X : Scheme.{u}}
       ((PerfectField k) → IsAlteration.IsGenericallyEtale φ) := by
   sorry
 
-/-- de Jong's semistable alteration theorem over a trait (Theorem 6.5): after a finite extension of
-traits `E` (a `FiniteDVRExtension`), an alteration `φ : X₁ → X` from an integral `X₁`, an open
-immersion into a proper `E.localRing`-scheme `X̄₁` and an `SNCData` `H` such that `(X̄₁, H)` is a
-strict semistable pair, with the triangle `X₁ → X̄₁ → Spec E.localRing → Spec R` equal to
-`X₁ → X → Spec R` in `Over (Spec R)`. The compactification in the conclusion is proper. -/
-theorem semistable_alteration_theorem (R K : Type u) [CommRing R] [IsDomain R]
-    [IsDiscreteValuationRing R] [IsTrait R] [Field K] [Algebra R K] [IsFractionRing R K]
-    {X : Scheme.{u}} (f : X ⟶ Spec (CommRingCat.of R)) [IsSVariety f] :
-    ∃ (E : TauCeti.FiniteDVRExtension R K)
-      (X₁ : Scheme.{u}) (_ : IsIntegral X₁) (φ : X₁ ⟶ X) (_ : IsAlteration φ) (Xbar₁ : Scheme.{u})
-      (g : Xbar₁ ⟶ Spec (CommRingCat.of E.localRing)) (j : X₁ ⟶ Xbar₁) (H : SNCData Xbar₁),
-        IsOpenImmersion j ∧ IsProper g ∧ IsStrictSemistablePair E.extensionField g H ∧
-        j ≫ g ≫ Spec.map (CommRingCat.ofHom (algebraMap R E.localRing)) = φ ≫ f := by
+/-- Properness consequence of de Jong (1996), Theorem 6.5 and Diagram 6.6, p. 83.
+The finite trait extension may be inseparable. The boundary contains exactly the preimage of Z
+and the compactification complement. Projectivity is a README target without a native predicate. -/
+theorem semistable_alteration_theorem (R : Type u) [CommRing R] [IsDomain R]
+    [IsDiscreteValuationRing R] [IsTrait R]
+    {X : Scheme.{u}} (f : X ⟶ Spec (CommRingCat.of R)) [IsSVariety f]
+    (Z : Set X) (hZclosed : IsClosed Z) (hZproper : Z ≠ Set.univ)
+    (hZspecial : Set.range (TauCeti.specialFiberι R f) ⊆ Z) :
+    ∃ (R₁ : Type u) (_ : CommRing R₁) (_ : IsDomain R₁)
+      (_ : IsDiscreteValuationRing R₁) (_ : Algebra R R₁),
+      Module.Finite R R₁ ∧ Function.Injective (algebraMap R R₁) ∧
+      IsLocalHom (algebraMap R R₁) ∧ IsTrait R₁ ∧
+      ∃ (X₁ : Scheme.{u}) (_ : IsIntegral X₁) (φ : X₁ ⟶ X) (_ : IsAlteration φ)
+        (f₁ : X₁ ⟶ Spec (CommRingCat.of R₁)) (Xbar₁ : Scheme.{u})
+        (g : Xbar₁ ⟶ Spec (CommRingCat.of R₁)) (j : X₁ ⟶ Xbar₁) (H : SNCData Xbar₁),
+        IsSVariety f₁ ∧ IsOpenImmersion j ∧ IsProper g ∧
+        IsStrictSemistablePair (FractionRing R₁) g H ∧
+        GeometricallyIrreducible (TauCeti.genericFiber R₁ (FractionRing R₁) g).hom ∧
+        j ≫ g = f₁ ∧
+        f₁ ≫ Spec.map (CommRingCat.ofHom (algebraMap R R₁)) = φ ≫ f ∧
+        Set.range (TauCeti.specialFiberι R₁ g) ∪ (H.divisor.support : Set Xbar₁) =
+          (Set.range j)ᶜ ∪ j '' (φ ⁻¹' Z) := by
   sorry
 
 end DeJong
@@ -7525,6 +7535,84 @@ theorem intersectionNumber_mul {S : Scheme.{u}} (k : Type u) [Field k] (f : S �
     [IsProper f] [Fact (topologicalKrullDim S = 2)] (L M N : TauCeti.AlgebraicGeometry.LineBundleClass S) :
     intersectionNumber k f (L * M) N = intersectionNumber k f L N + intersectionNumber k f M N :=
   sorry
+
+/-- Tensor powers scale the surface intersection number. -/
+theorem intersectionNumber_pow_left {S : Scheme.{u}} (k : Type u) [Field k]
+    (f : S ⟶ Spec (.of k)) [IsProper f] [Fact (topologicalKrullDim S = 2)]
+    (L M : TauCeti.AlgebraicGeometry.LineBundleClass S) (n : ℕ) :
+    intersectionNumber k f (L ^ n) M = n * intersectionNumber k f L M := by
+  sorry
+
+/-- Quotients of line bundles represent differences of divisor classes. -/
+theorem intersectionNumber_div_left {S : Scheme.{u}} (k : Type u) [Field k]
+    (f : S ⟶ Spec (.of k)) [IsProper f] [Fact (topologicalKrullDim S = 2)]
+    (L M N : TauCeti.AlgebraicGeometry.LineBundleClass S) :
+    intersectionNumber k f (L / M) N =
+      intersectionNumber k f L N - intersectionNumber k f M N := by
+  sorry
+
+/-- Signed surface calculation underlying README §5.11. The hypotheses are the geometric
+intersection table, not a construction of the Frobenius graph. Multiplication of line-bundle
+classes represents addition of divisors. -/
+theorem weilBound_normalized_intersections {S : Scheme.{u}} (k : Type u) [Field k]
+    (f : S ⟶ Spec (.of k)) [IsProper f] [Fact (topologicalKrullDim S = 2)]
+    (Γ Δ F₁ F₂ : TauCeti.AlgebraicGeometry.LineBundleClass S) (q g N : ℕ)
+    (hΓ₁ : intersectionNumber k f Γ F₁ = 1)
+    (hΓ₂ : intersectionNumber k f Γ F₂ = q)
+    (hΔ₁ : intersectionNumber k f Δ F₁ = 1)
+    (hΔ₂ : intersectionNumber k f Δ F₂ = 1)
+    (h₁₁ : intersectionNumber k f F₁ F₁ = 0)
+    (h₂₂ : intersectionNumber k f F₂ F₂ = 0)
+    (h₁₂ : intersectionNumber k f F₁ F₂ = 1)
+    (hΓΓ : intersectionNumber k f Γ Γ = (q : ℤ) * (2 - 2 * g))
+    (hΔΔ : intersectionNumber k f Δ Δ = 2 - 2 * (g : ℤ))
+    (hΓΔ : intersectionNumber k f Γ Δ = N) :
+    let Γ₀ := Γ / (F₁ ^ q * F₂)
+    let Δ₀ := Δ / (F₁ * F₂)
+    intersectionNumber k f Γ₀ F₁ = 0 ∧ intersectionNumber k f Γ₀ F₂ = 0 ∧
+    intersectionNumber k f Δ₀ F₁ = 0 ∧ intersectionNumber k f Δ₀ F₂ = 0 ∧
+    intersectionNumber k f Γ₀ Γ₀ = -2 * (g : ℤ) * q ∧
+    intersectionNumber k f Δ₀ Δ₀ = -2 * (g : ℤ) ∧
+    intersectionNumber k f Γ₀ Δ₀ = (N : ℤ) - (q + 1) := by
+  have hmul (L M V : TauCeti.AlgebraicGeometry.LineBundleClass S) :
+      intersectionNumber k f L (M * V) =
+        intersectionNumber k f L M + intersectionNumber k f L V := by
+    rw [intersectionNumber_comm, intersectionNumber_mul]
+    rw [intersectionNumber_comm k f M L, intersectionNumber_comm k f V L]
+  have hdiv (L M V : TauCeti.AlgebraicGeometry.LineBundleClass S) :
+      intersectionNumber k f L (M / V) =
+        intersectionNumber k f L M - intersectionNumber k f L V := by
+    rw [intersectionNumber_comm, intersectionNumber_div_left]
+    rw [intersectionNumber_comm k f M L, intersectionNumber_comm k f V L]
+  have hpow (L M : TauCeti.AlgebraicGeometry.LineBundleClass S) (n : ℕ) :
+      intersectionNumber k f L (M ^ n) = n * intersectionNumber k f L M := by
+    rw [intersectionNumber_comm, intersectionNumber_pow_left, intersectionNumber_comm k f M L]
+  have h₁Γ : intersectionNumber k f F₁ Γ = 1 :=
+    (intersectionNumber_comm k f F₁ Γ).trans hΓ₁
+  have h₂Γ : intersectionNumber k f F₂ Γ = q :=
+    (intersectionNumber_comm k f F₂ Γ).trans hΓ₂
+  have h₁Δ : intersectionNumber k f F₁ Δ = 1 :=
+    (intersectionNumber_comm k f F₁ Δ).trans hΔ₁
+  have h₂Δ : intersectionNumber k f F₂ Δ = 1 :=
+    (intersectionNumber_comm k f F₂ Δ).trans hΔ₂
+  have h₂₁ : intersectionNumber k f F₂ F₁ = 1 :=
+    (intersectionNumber_comm k f F₂ F₁).trans h₁₂
+  dsimp
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_⟩ <;>
+    simp only [intersectionNumber_div_left, intersectionNumber_mul, intersectionNumber_pow_left,
+      hdiv, hmul, hpow, hΓ₁, hΓ₂, hΔ₁, hΔ₂, h₁₁, h₂₂, h₁₂, hΓΓ, hΔΔ, hΓΔ,
+      h₁Γ, h₂Γ, h₁Δ, h₂Δ, h₂₁] <;> ring
+
+-- Check `weilBound_test_transversality`: graph(0) and the diagonal in a tangent-plane model.
+example (k : Type u) [Field k] (v : k × k) (hΓ : v.2 = 0) (hΔ : v.2 = v.1) :
+    v = 0 := by
+  apply Prod.ext
+  · exact hΔ.symm.trans hΓ
+  · exact hΓ
+
+-- Check `weilBound_test_genus_zero`: the Hodge-index inequality forces the exact count at g = 0.
+example (N q : ℤ) (h : (N - (q + 1)) ^ 2 ≤ 0) : N = q + 1 := by
+  nlinarith [sq_nonneg (N - (q + 1))]
 
 /-- Numerical equivalence of line-bundle classes on a proper surface: equal pairings against
 every class. -/

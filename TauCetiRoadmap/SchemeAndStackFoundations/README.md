@@ -206,10 +206,16 @@ its side of each interface. (i) Cohomology is Mathlib's `Sheaf.H` on the named s
 (Bhatt–Scholze 2014, Def. 6.8.1, Lemma 6.8.2). (ii) Over `ℂ`, algebraic de Rham to Betti cohomology
 (Grothendieck 1966, Thm. 1′) and finite-coefficient étale to Betti cohomology with its relative form
 (SGA 4 XVI, Thm. 4.1) are taken on Layer 2's sites; over `ℝ` the Galois-equivariant Betti groups carry
-the sign twist (Benoist–Wittenberg 2020, §1.1; Benoist 2019, (1.1) and (2.16)). (iii) For `f : X → Y`
-proper and locally of finite type and torsion `Λ`, the comparisons `(Rf_*K)^ad ≅ Rf^ad_* K^ad` with adic
-spaces (Huber 1996, Thm. 3.7.2) and, in characteristic `p`, with diamonds (Scholze 2017, §§26–27) are
-taken on scheme–adic fibre products. (iv) `R lim_n RΓ_ét(X, ℤ/ℓⁿ)` with its Galois action is compared
+the sign twist (Benoist–Wittenberg 2020, §1.1; Benoist 2019, (1.1) and (2.16)). (iii) Let `A` be an adic space, `S` a scheme and
+`A → S` a morphism of locally ringed spaces. For schemes `X, Y` locally of finite type over `S`,
+a proper `S`-morphism `f : X → Y`, a torsion ring `Λ` and `K ∈ D⁺(X_ét, Λ)`, form
+`X^ad = X ×_S A`, `Y^ad = Y ×_S A` with site maps `φ_X, φ_Y`. The canonical map
+`φ_Y^* Rf_* K → Rf^ad_* φ_X^* K` is an isomorphism (R. Huber, *Étale Cohomology of Rigid Analytic
+Varieties and Adic Spaces*, setup 3.7.1, p. 225, Theorem 3.7.2, p. 226). This proper comparison
+allows arbitrary torsion coefficients, including residue-characteristic torsion; the bounded-below
+condition on `K` is part of the statement. The scheme–adic fibre products and site maps belong to
+the analytic roadmap, so this is a README-only interface here. Comparisons with diamonds in
+characteristic `p` are separate (Scholze 2017, §§26–27). (iv) `R lim_n RΓ_ét(X, ℤ/ℓⁿ)` with its Galois action is compared
 with pro-étale `ℤ_ℓ`-cohomology by derived completeness, and `lim H^q` replaces `H^q R lim` only under a
 stated `lim¹` vanishing (Bhatt–Scholze 2014, Def. 3.4.1, Prop. 3.4.2, Cor. 5.1.6). (v) Prismatic,
 crystalline and `A_inf` specializations (Bhatt–Scholze 2022, Thm. 1.8; Bhatt–Morrow–Scholze 2018,
@@ -1698,7 +1704,17 @@ induced by `R` on `|U|`; `φ` is universally submersive (`|φ ×_X Z|` is a quot
 relation satisfies every topological clause and is not a categorical quotient
 (`test_dual_numbers_not_quotient` below). Prove `IsGeometricQuotient.of_torsor` (for a free
 action with `U → U/G` a torsor, the quotient is geometric), `IsGeometricQuotient.pullback_flat`
-(stability under flat base change). Prove `artinBootstrap`: an fppf sheaf `F` with a map `U → F`
+(stability under flat base change). Geometric quotients alone do not imply a categorical
+universal property or uniqueness among algebraic spaces (D. Rydh, *Existence and properties of
+geometric quotients*, Remark 2.8, p. 8 of the 2012-05-04 author manuscript). The applicable
+criterion is Theorem 3.16, p. 18: a strongly geometric quotient of a groupoid is categorical if
+it is universally open, proper or integral. Here strong geometricity includes universal
+submersiveness of `R → U ×_X U` as well as the quotient conditions in the Zariski and constructible
+topologies (Definition 2.2, pp. 6–7). Without strong geometricity the same theorem only gives
+categoricity among locally separated targets under these hypotheses. This is a stated gap in the
+current Lean interface: neither a sheaf-coequalizer assumption that already asserts factorization
+nor the present `IsGeometricQuotient` predicate supplies these extra topological contracts.
+Prove `artinBootstrap`: an fppf sheaf `F` with a map `U → F`
 from an algebraic space that is representable by algebraic spaces, flat, locally of finite
 presentation and fppf locally surjective, is an algebraic space (Stacks, Theorem 80.10.1 (04S6),
 Lemmas 80.11.1 (04SK), 80.11.6 (06PG), 80.11.7 (06PH)). *Needs:* §1.7, §1.9, §1.10, §1.14, §1.15.
@@ -3214,12 +3230,17 @@ Definition 90.9.1 (06HP)). Without naturality in the extension, every functor ad
 one-dimensional "obstruction theory" by choosing `ob_e(ξ) ≠ 0` exactly when `ξ` does not lift,
 which carries no information (`test_fake_theory_rejected` below). API: `lift_iff'`,
 `ObstructionTheory.zero` (an unobstructed functor has the zero theory), `ObstructionTheory.map`
-(pullback along a smooth morphism of functors), `ObstructionTheory.minimal_presentation`: for a hull
-`(R, ξ)` with `R ≅ Λ[[t_1..t_d]]/J` a **minimal presentation** (`d = dim_k T_F` and `J ⊆ m² +
-m_Λ Λ[[t]]`, so that no generator is redundant), the relation module `J/(mJ + m_Λ J)` has
-`k`-dimension at most `dim_k O`: `dim_k J/(m J + m_Λ J) ≤ dim_k O` (Stacks, Lemma 98.22.6; Schlessinger,
-Lemma 2.17 "dim relations ≤ dim obstructions"). The minimality hypothesis is essential: for `Λ =
-k`, `F` the one-point functor with hull `R = k`, the zero obstruction theory and the non-minimal
+(pullback along a smooth morphism of functors), and the relation-bound target `ObstructionTheory.minimal_presentation`: for a hull
+`(R, ξ)` with a minimal presentation `R ≅ Λ[[t_1..t_d]]/J`, compare the minimal number of
+relations `dim_k J/m_S J` (`S = Λ[[t_1..t_d]]`) with `dim_k O`. **Stated gap:** the elementary-kernel
+`ObstructionTheory` signature does not supply an obstruction theory on every finite-dimensional
+kernel with compatibility under linear pushout and direct sums, or a comparison of
+`Ideal.spanFinrank J` with this relation space. The bound is not a theorem of that signature.
+An exact reference proving the relative relation bound for a hull with those compatibility
+hypotheses, and a Nakayama comparison for `J/m_S J`, is required. Stacks Definition 98.22.1 (07YG)
+specifies obstruction functors on all modules; its section has no Lemma 98.22.6. Schlessinger 1968,
+equation (2.17), p. 213, describes the tangent-space action on lifts, not a relation bound.
+The minimality hypothesis is essential: for `Λ = k`, `F` the one-point functor with hull `R = k`, the zero obstruction theory and the non-minimal
 presentation `R = k[[t]]/(t)`, the relation module `(t)/(t²)` is one-dimensional while `dim O = 0`
 (`test_nonminimal_presentation_rejected` below). *Needs:* §4.3, §4.4; Mathlib `Ideal.spanFinrank`,
 `TensorProduct`.
@@ -3236,7 +3257,7 @@ presentation `R = k[[t]]/(t)`, the relation module `(t)/(t²)` is one-dimensiona
   would have to satisfy `v = 4v`.
 - `test_nonminimal_presentation_rejected`: with `Λ = k`, the one-point functor, `R = k` and the zero
   theory, `R = k[[t]]/(t)` is not a minimal presentation (`d = 1 ≠ dim T_F = 0`), so
-  `minimal_presentation` does not apply, and its conclusion `1 ≤ 0` is false.
+  a relation bound without minimality would assert the false inequality `1 ≤ 0`.
 - `obstruction_H1_example`: for the functor of lifts of a fixed morphism `a : T → X` to a smooth
   `X` along thickenings of `T`, `H¹(T, Hom(a^* Ω, O))` is an obstruction space (§4.1).
 
@@ -3709,20 +3730,24 @@ the complement of `j` together with `j(φ⁻¹(Z))` is the support of a strict n
 
 ### 4.20 Traits, `S`-varieties, strict semistability and the semistable alteration theorem
 
-Define `IsTrait R`: `R` is a complete discrete valuation ring (de Jong 1996, 2.12, pp. 56–57); a
+Define `IsTrait R`: `R` is a complete discrete valuation ring (de Jong 1996, 2.12, p. 57); a
 morphism of traits is a local homomorphism `R → R'` of complete discrete valuation rings sending a
-uniformiser to a nonzero element, with `TraitHom.ramificationIndex` (the valuation of `π`). The
-finite extensions of traits used below are Tau Ceti's `FiniteDVRExtension R K` (StableReduction
-Layer 0): a finite separable extension `K'/K`, a chosen place and its local ring `R'`, with
-`FiniteDVRExtension.isTrait` (the completion of `R'` is a trait over `R`; `R'` itself is a DVR
-dominating `R`, and `finiteDVRExtension_of_trait` identifies the two notions). Define `IsSVariety f`
+uniformiser to a nonzero element, with `TraitHom.ramificationIndex` (the valuation of `π`). A
+finite extension of traits means a finite injective local homomorphism `R → R'` of complete DVRs
+(de Jong 1996, 2.12, p. 57). No separability of `Frac(R')/Frac(R)` is required. In the separable
+case use Tau Ceti's `FiniteDVRExtension R K` (StableReduction Layer 0), and prove that its local
+ring is already complete and finite over the complete base; completion is unnecessary here.
+The general alteration theorem quantifies directly over `R'`, its algebra structure, finiteness,
+locality and injectivity, so it also includes inseparable extensions. Define `IsSVariety f`
 for `f : X → Spec R`: `X` integral, `f` separated, flat and of finite type (de Jong 1996, 2.15, p.
 59), with `isSVariety_iff_genericFiber_nonempty` and `IsSVariety.toModel` (a proper `S`-variety
 with an identification of its generic fibre is Tau Ceti's `Model`). Prove
-`IsSVariety.baseChange_component`: for `R → R'` a finite extension of traits (`FiniteDVRExtension`,
-so `R'` dominates `R` and the base change is **horizontal**: `Spec R' → Spec R` is dominant), every
-irreducible component of `X ×_R R'` dominating `X` is an `S'`-variety mapping to `X` by an
-alteration, with the structure morphism over `Spec R' → Spec R` (de Jong 1996, 6.8, p. 83); the
+`IsSVariety.baseChange_component`: for `R → R'` any finite extension of traits
+(`R'` dominates `R` and the base change is **horizontal**: `Spec R' → Spec R` is dominant), every reduced
+irreducible component of `X ×_R R'` dominates `X` and is an `S'`-variety mapping to `X` by an
+alteration, with the structure morphism over `Spec R' → Spec R` (de Jong 1996, 6.8, p. 83).
+The Lean `IsSVariety.baseChange_component` takes any reduced irreducible component, including
+after inseparable extensions; a separate example retains the `FiniteDVRExtension` case. The
 vertical specialisation `ℤ_p → 𝔽_p` is not a morphism of traits and is excluded. Define
 `SemistableConditions K f` (de Jong 2.16 (a)–(d) without integrality): the generic fibre is smooth
 over `K`, the special fibre is the divisor of a transverse `SNCData` all of whose strata are
@@ -3737,20 +3762,48 @@ semistability of an `S`-variety with smooth generic fibre is: the special fibre 
 `X_s ∪ H` strict normal crossings, and every horizontal stratum satisfies the semistable
 conditions over `S` (de Jong 1996, 6.2–6.4, pp. 82–83), with `.of_strictlySemistable` (`H = ∅`),
 `.horizontal` (horizontal components are flat over `S`), `.restrict` (to opens), `.local_form`
-(complete local rings `C[[t, s]]/(π − t_1 ⋯ t_n)`). Prove `faltings_formal_smoothness` (de Jong 2.13,
-after Faltings): for an `S`-variety `X` with smooth generic fibre, after a finite extension of
-traits `R → R'` (a `FiniteDVRExtension`, and in characteristic `p` possibly inseparable, handled by
-passing to the normalisation), the normalisation of `X ×_R R'` has reduced special fibre (de Jong
-1996, 2.12–2.14, pp. 56–59). Prove `semistable_alteration_theorem` (de Jong 6.5): for a trait `S`
-and an `S`-variety `X`, there are a finite extension of traits `S_1 → S` (a `FiniteDVRExtension`
-with its completion), an alteration `φ : X_1 → X` with `X_1` integral, an open immersion `j : X_1 →
-X̄_1` into a projective `S_1`-scheme and an `SNCData` `H` on `X̄_1` such that `(X̄_1, H)` is a strict
-semistable pair over `S_1` and the triangles `X_1 → X → S` and `X_1 → X̄_1 → S_1 → S` commute in
-`Over S` (de Jong 1996, 6.1–6.16, pp. 82–87; Theorem 6.5 and Diagram 6.6, p. 83). *Needs:* §0.21,
+(complete local rings `C[[t, s]]/(π − t_1 ⋯ t_n)`). Prove `faltings_formal_smoothness` in its local form: let `R` be an excellent DVR,
+`X` normal and integral, flat of finite type over `Spec R`, and `ξ` a generic point of the special
+fibre. A finite extension of fraction fields, with an extending DVR `R'`, makes the normalization
+of the reduction of `O_{X,ξ} ⊗_R R'` formally smooth over `R'`: each localization at a maximal
+ideal has ramification index one and separable residue extension. This persists under further
+extensions with finite fraction-field degree (A. J. de Jong, *Smoothness, semi-stability and
+alterations*, Lemma 2.13, p. 57, proof pp. 57–59, credited to Faltings). Smoothness of the generic
+fibre and completeness of `R` are not hypotheses of this lemma. Over a trait, apply it at the
+finitely many generic points of the special fibre after normalization and take a common extension;
+this gives the reduced-special-fibre consequence used in 6.11, p. 84. Reduction before normalization
+is essential when base change is inseparable. This is de Jong's lemma, rather than a theorem of
+Faltings–Chai about degenerating abelian varieties.
+
+Prove `semistable_alteration_theorem`: let `S = Spec R` be a trait, `f : X → S` an `S`-variety,
+and `Z ⊊ X` a closed subset containing `X_s`. There are a finite extension of traits `S_1 → S`,
+an `S_1`-variety `X_1`, an alteration `φ : X_1 → X` over `S`, and an open immersion of
+`S_1`-varieties `j : X_1 → X̄_1`, where `X̄_1` is projective over `S_1` with geometrically
+irreducible generic fibre. The reduced boundary with support
+`B = (X̄_1 ∖ j(X_1)) ∪ j(φ⁻¹(Z))` makes `(X̄_1, B)` a strict semistable pair. In the horizontal
+`SNCData H` convention, require the exact equality
+`support(X̄_{1,s_1}) ∪ support(H) = (X̄_1 ∖ j(X_1)) ∪ j(φ⁻¹(Z))`.
+With `g : X̄_1 → S_1` and `f_1 : X_1 → S_1`, both `j ≫ g = f_1` and
+`f_1 ≫ (S_1 → S) = φ ≫ f` must hold (A. J. de Jong 1996, Theorem 6.5 and Diagram 6.6,
+p. 83; strict pairs: 6.2–6.4, pp. 82–83). The Lean signature records these boundary and base
+conditions, including geometric irreducibility, with the weaker properness conclusion;
+projectivity remains a README target using StableReduction Layer 2's projective morphisms,
+whose predicate is not present at the pins. *Needs:* §0.21,
 §4.11, §4.13, §4.15–§4.19; Tau Ceti `FiniteDVRExtension`, `genericFiber`, `specialFiberι`, `Model`;
 StableReduction Layers 0, 2–3; Mathlib `IsDiscreteValuationRing`, `IsAdicComplete`, `Smooth`.
 
 **Checks.**
+- `finite_trait_inseparable`: over a perfect field `k` of characteristic `p > 0`,
+  `k[[t]] → k[[u]]`, `t ↦ u^p`, is finite free of rank `p` and local, with a purely inseparable
+  fraction-field extension. It is allowed by Theorem 6.5 and cannot be a `FiniteDVRExtension`.
+- `faltings_inseparable`: with the same rings, `X = Spec k[[u]]` is normal and finite flat
+  over `Spec k[[t]]`, although its generic fibre is not smooth. After `t ↦ v^p`, the base-change
+  ring is `k[[v]][u]/((u − v)^p)`; its reduction and normalization are `k[[v]]`, formally smooth
+  over the new base. This tests both the absence of a generic-smoothness hypothesis in Lemma 2.13
+  and the need to reduce before normalizing.
+- `semistable_boundary_special_fibre`: for `X = Spec R`, take `Z = X_s`; the identity alteration
+  and compactification have `H = ∅` and boundary exactly `X_s`. If `X_s` is nonempty, `Z = ∅`
+  fails the input condition; adding a horizontal divisor requires its inverse image in the boundary.
 - `isTrait_padicInt`: `ℤ_p` is a trait with uniformiser `p`.
 - `not_isTrait_localization`: `ℤ_{(p)}` is a DVR and not a trait (not complete).
 - `ramification_sqrt`: `ℤ_p → ℤ_p[x]/(x² − p)` is a `FiniteDVRExtension` of ramification index `2`.
@@ -4148,14 +4201,13 @@ so `2g − 2 = Δ² + K_S · Δ = Δ² + 2(2g − 2)` and `2g − 2 = Γ² + K_S
 since `pr_1|_Γ` has degree `1` and `pr_2|_Γ = F` has degree `q`; (iii) `Γ · Δ = #C(𝔽_q)`: `Γ` and
 `Δ` meet exactly at the points `(P, P)` with `F(P) = P`, the `𝔽_q`-rational points, and the
 intersection is transversal at each because `dF = 0` so the tangent spaces of `Γ` and `Δ` are the
-horizontal and the diagonal directions (Fulton 1998, §8.1, the fixed point count as `Γ_f · Δ` with
-transversality when `df` has no eigenvalue `1`); (iv) put `Γ_0 := Γ − q F_1 − F_2` and `Δ_0 := Δ −
+horizontal and the diagonal directions (Milne 2024, Definition 11.12, p. 9, and the
+Frobenius fixed-point calculation following Example 11.55, p. 38); (iv) put `Γ_0 := Γ − q F_1 − F_2` and `Δ_0 := Δ −
 F_1 − F_2`; then `Γ_0 · F_1 = Γ_0 · F_2 = 0`, `Δ_0 · F_1 = Δ_0 · F_2 = 0`, `Γ_0² = Γ² − 2q(Γ · F_1)
 − 2(Γ · F_2) + q² F_1² + 2q(F_1 · F_2) + F_2² = q(2 − 2g) − 2q − 2q + 0 + 2q + 0 = −2gq`, `Δ_0² = Δ²
 − 2(Δ · F_1) − 2(Δ · F_2) + F_1² + 2(F_1 · F_2) + F_2² = (2 − 2g) − 2 − 2 + 0 + 2 + 0 = −2g`, and
 `Γ_0 · Δ_0 = Γ · Δ − Γ · F_1 − Γ · F_2 − q(F_1 · Δ) + q F_1² + q(F_1 · F_2) − F_2 · Δ + F_2 · F_1 +
-F_2² = #C(𝔽_q) − 1 − q − q + 0 + q − 1 + 1 + 0 = #C(𝔽_q) − (q + 1)`, the nine terms being the
-entries of `Suggested.lean`'s `weilBound_intersection_table`; (v) the Hodge index theorem (§5.10)
+F_2² = #C(𝔽_q) − 1 − q − q + 0 + q − 1 + 1 + 0 = #C(𝔽_q) − (q + 1)`, the nine terms being expanded with the displayed intersection products; (v) the Hodge index theorem (§5.10)
 for the ample class `H := F_1 + F_2`: `Γ_0` and `Δ_0` lie in `H^⊥`, on which the form is negative
 semidefinite, so the Cauchy–Schwarz inequality `(Γ_0 · Δ_0)² ≤ Γ_0² Δ_0²` holds, giving `|#C(𝔽_q) −
 (q + 1)|² ≤ 4 g² q`, that is `|#C(𝔽_q) − (q + 1)| ≤ 2g √q` (Castelnuovo–Severi); (vi) the degenerate
@@ -4164,12 +4216,23 @@ for a conic with a rational point (a genus-zero curve over a finite field has a 
 Wedderburn); for `q = 1` there is no finite field and the statement is empty; the elliptic case `g =
 1` is Tau Ceti's `WeierstrassCurve.hasse_bound`, with which the theorem agrees
 (`weilBound_eq_hasse`). Hypotheses: `C` smooth projective geometrically irreducible of genus `g`
-over `𝔽_q` (Hartshorne 1977, V.1, Exercises 1.9, 1.10). The Weil-conjectures roadmap imports this as
+over `𝔽_q`. The intersection formulas and inequality are those of J. S. Milne, *Algebraic
+Geometry*, Chapter 11, *Surfaces* (2024-11-04), Theorem 11.53, Corollary 11.54 and Example 11.55,
+p. 37, applied to Frobenius on p. 38. Milne's horizontal `C_1 × {P}` is our `F_2`, and his
+vertical `{P} × C_2` is our `F_1`; thus the degrees `q` and `1` must be swapped when translating
+his subscripts. The negative signs in `Γ_0² = −2gq` and `Δ_0² = −2g` agree with his nonnegative
+equivalence defect. The Weil-conjectures roadmap imports this as
 one of its two routes; the other is TraceFormula Layer 8's. *Needs:* §5.6, §5.9, §5.10, §3.3;
 FrobeniusGeometry Layer 3; Tau Ceti `WeierstrassCurve.hasse_bound`; AlgebraicCurves Layer 8.
 
 **Checks.**
-- `weilBound_intersection_table`: the eleven products of (i)–(iv) as separate equalities.
+- `weilBound_intersection_table`: all products in (i)–(iv) as separate equalities. This geometric
+  table is README-only: `intersectionNumber` accepts line-bundle classes, but there is no typed
+  construction here of `O(Γ)`, `O(Δ)` and the two fibre classes from a curve and its relative
+  Frobenius, with Cartier-divisor and degree comparisons. Those constructions are targets of
+  §5.6 and FrobeniusGeometry Layer 3. The Lean `weilBound_normalized_intersections` example checks
+  the signed normalization on the surface pairing conditional on the geometric table; it does
+  not assert that arbitrary four line-bundle classes come from this geometry.
 - `weilBound_test_projective_line`: `g = 0`, `#ℙ¹(𝔽_q) = q + 1`.
 - `weilBound_test_elliptic_hasse`: for `g = 1` the bound is `WeierstrassCurve.hasse_bound`.
 - `weilBound_test_transversality`: at a rational point `(P, P)`, `T Γ = graph(dF) = graph(0)` and
@@ -4244,8 +4307,11 @@ consumes nothing from this roadmap.
   schémas (1968).
 - Deligne–Mumford 1969: *The irreducibility of the space of curves of given genus*, Publ. IHÉS 36.
 - Deligne 1985: *Le lemme de Gabber*, Astérisque 127.
-- de Jong 1996: *Smoothness, semi-stability and alterations*, Publ. IHÉS 83.
+- de Jong 1996: A. J. de Jong, [*Smoothness, semi-stability and alterations*](https://www.numdam.org/item/PMIHES_1996__83__51_0.pdf),
+  Publ. IHÉS 83 (1996), pp. 51–93.
 - Morel–Voevodsky 1999: *A¹-homotopy theory of schemes*, Publ. IHÉS 90.
+- Milne 2024: J. S. Milne, [*Algebraic Geometry*, Chapter 11, *Surfaces*](https://www.jmilne.org/math/CourseNotes/AG11.pdf),
+  version 2024-11-04, chapter-local pagination; available at [the author’s site](https://www.jmilne.org/math/).
 - Huber 1996: *Étale cohomology of rigid analytic varieties and adic spaces*, Aspects of Mathematics
   E30, Vieweg.
 - Scholze 2017: *Étale cohomology of diamonds*, https://arxiv.org/abs/1709.07343.
@@ -4264,7 +4330,8 @@ consumes nothing from this roadmap.
   https://arxiv.org/abs/1803.10897v2.
 - Česnavičius 2018: *Purity for the Brauer group*, https://arxiv.org/abs/1711.06456v4.
 - Rydh 2013: *Existence and properties of geometric quotients*, J. Algebraic Geom. 22 (2013),
-  629–669, https://arxiv.org/abs/0708.3333v2.
+  629–669. Quotient locators here use the [2012-05-04 author manuscript](https://davidrydh.se/papers/quotients20120504.pdf),
+  whose pagination is 1–36.
 - Česnavičius 2020: *Grothendieck–Serre in the quasi-split unramified case*,
   https://arxiv.org/abs/2009.05299v7.
 - Česnavičius 2021: *Macaulayfication of Noetherian schemes*, https://arxiv.org/abs/1810.04493v2.
