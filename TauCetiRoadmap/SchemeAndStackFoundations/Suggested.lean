@@ -7284,11 +7284,14 @@ namespace Chow
 open _root_.CategoryTheory _root_.CategoryTheory.Limits _root_.AlgebraicGeometry Opposite
 open scoped _root_.TensorProduct
 
-/-- Cycles supported at generic points of closed subsets of dimension `k`.
-Negative degrees contain only the zero cycle. -/
+/-- Cycles supported at generic points of closed subsets of dimension `k`: the dimension of the
+closure of `x` is its coheight in the specialisation order (`Order.height x` would be its
+codimension, which differs on a non-equidimensional scheme and already on `Spec` of a discrete
+valuation ring, whose closed point has coheight `0` and height `1`). Negative degrees contain only
+the zero cycle. -/
 def cyclesOfDimension (X : Scheme.{u}) (k : ℤ) : AddSubgroup (AlgebraicCycle X ℤ) :=
   Function.locallyFinsuppWithin.supported ℤ Set.univ
-    {x : X | ∃ n : ℕ, k = (n : ℤ) ∧ Order.height x = n}
+    {x : X | ∃ n : ℕ, k = (n : ℤ) ∧ Order.coheight x = n}
 
 -- Check `cycles_zero`
 example (X : Scheme.{u}) (k : ℤ) : (0 : AlgebraicCycle X ℤ) ∈ cyclesOfDimension X k :=
@@ -7300,7 +7303,12 @@ example (X : Scheme.{u}) : cyclesOfDimension X (-1) = ⊥ := by sorry
 -- Check `cycles_support_agreement`
 example (X : Scheme.{u}) (k : ℤ) (c : AlgebraicCycle X ℤ) :
     c ∈ cyclesOfDimension X k ↔
-      ∀ x, c x ≠ 0 → ∃ n : ℕ, k = (n : ℤ) ∧ Order.height x = n := Iff.rfl
+      ∀ x, c x ≠ 0 → ∃ n : ℕ, k = (n : ℤ) ∧ Order.coheight x = n := Iff.rfl
+
+-- Check `cycles_dvr_closed_point` (dimension, not codimension)
+example (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] (x : Spec (.of R))
+    (hx : IsClosed ({x} : Set (Spec (.of R)))) : Order.coheight x = 0 ∧ Order.height x = 1 := by
+  sorry
 
 /-- The subgroup of `k`-cycles rationally equivalent to zero. -/
 def RatEquiv (X : Scheme.{u}) (k : ℤ) : AddSubgroup (cyclesOfDimension X k) := sorry
@@ -7346,12 +7354,17 @@ theorem flatPullback_properPushforward {X Y Y' : Scheme.{u}} (g : X ⟶ Y) [IsPr
       (properPushforward (pullback.snd g f) (k + d)).comp (flatPullback (pullback.fst g f) d (by sorry) k) :=
   sorry
 
+/-- The fibres of an open immersion are points, so it is flat of relative dimension `0`. -/
+theorem IsOpenImmersion.fiber_dim_zero {U X : Scheme.{u}} (j : U ⟶ X) [IsOpenImmersion j] :
+    ∀ y : X, ∀ Z ∈ irreducibleComponents (j.fiber y), topologicalKrullDim Z = 0 :=
+  sorry
+
 /-- The localisation sequence `CH_k(Z) → CH_k(X) → CH_k(U) → 0` for `Z` closed with open
 complement `U`. -/
 theorem localization_exact {Z X U : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmersion i]
     (j : U ⟶ X) [IsOpenImmersion j] (hUZ : Set.range j.base = (Set.range i.base)ᶜ) (k : ℤ) :
-    Function.Exact (properPushforward i k) (flatPullback j 0 (by sorry) k) ∧
-      Function.Surjective (flatPullback j 0 (by sorry) k) :=
+    Function.Exact (properPushforward i k) (flatPullback j 0 (IsOpenImmersion.fiber_dim_zero j) k) ∧
+      Function.Surjective (flatPullback j 0 (IsOpenImmersion.fiber_dim_zero j) k) :=
   sorry
 
 /-- `c_1(L) ∩ – : CH_k(X) → CH_{k−1}(X)`. -/
