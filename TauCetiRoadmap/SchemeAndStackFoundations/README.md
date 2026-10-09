@@ -250,10 +250,12 @@ here for the roadmaps that import them.
    `χ(E) − r·χ(O_X)`. Thickenings are closed immersions surjective on points; modifications are
    proper birational, alterations proper dominant and generically finite. Chow groups are graded by
    dimension; intersection products on smooth varieties are graded by codimension.
-5. Names live under `TauCeti.SchemeFoundations` for new carriers, under `AlgebraicGeometry` only for
-   direct extensions of Mathlib objects (relative Proj, thickenings, adic thickening systems,
-   alterations), and under `TauCeti.Henselization`, `TauCeti.AlgebraicGeometry.Curve` and
-   `TauCeti.AlgebraicGeometry.Picard` for the ring-theoretic and curve strands. `Suggested.lean`
+5. Names live under `TauCetiRoadmap.SchemeAndStackFoundations`, in namespaces named after the
+   strand (`Henselization`, `Excellence`, `IdealPullback`, `Spaces`, `Torsor`, `Coherent`, `Brauer`,
+   `Picard`, `Formal`, `Deformation`, `IsAlteration`, `Chow`, among others); the names proposed for
+   the library are the ones in the subsections below, under `AlgebraicGeometry` for direct
+   extensions of Mathlib objects (relative Proj, thickenings, adic thickening systems, alterations)
+   and under `TauCeti` for the ring-theoretic and curve strands. `Suggested.lean`
    states the signatures and the `example` tests that can be typed at the pins; this document names
    every API item and every test, and a test named here and absent from `Suggested.lean` is still
    required.
@@ -634,7 +636,7 @@ diagonal is an open immersion near `x` (Stacks, Lemmas 29.36.10 (02V5), 29.36.11
 
 ### 0.12 Étale neighbourhoods and the henselization of a pair
 
-This subsection is the strand `TauCeti.Henselization` of `Suggested.lean`; every lemma named here is a
+This subsection is the strand `Henselization` of `Suggested.lean`; every lemma named here is a
 declaration there. For a ring `R` and ideal `I`, define `IsNeighbourhood I : ObjectProperty
 (CommAlgCat R)`: `B` is an étale `R`-algebra (Mathlib `Algebra.Etale`) such that the canonical map
 `reducedMap I B : R/I → B/IB` is bijective; `Neighbourhood I` is the full subcategory (Stacks, Lemma
@@ -908,7 +910,7 @@ normalisation of `X` in a finite extension of its function field is finite over 
 
 ### 0.21 Regular maps, G-rings, J-2 rings, excellent rings and schemes
 
-This subsection is the strand `TauCeti.SchemeFoundations.Excellence` of `Suggested.lean`. Define
+This subsection is the strand `Excellence` of `Suggested.lean`. Define
 `GeometricallyRegular k B` for a field `k` and `k`-algebra `B`: `B` is Noetherian and `L ⊗_k B` is
 regular (`IsRegularRing`) for every finite purely inseparable extension `L/k` (Stacks, Definition
 10.166.2, Lemma 10.166.1), with `GeometricallyRegular.regular`, `.finite_extension` (then `L ⊗_k B`
@@ -1096,7 +1098,7 @@ FrobeniusGeometry Layer 1; Mathlib `Etale`, `AffineSpace`, `WittVector`, `IsRedu
 
 ### 0.27 Flat base change of annihilators and cokernels
 
-These are the strands `TauCeti.SchemeFoundations.FlatAnnihilator` and `QuotientBaseChange` of
+These are the strands `FlatAnnihilator` and `QuotientBaseChange` of
 `Suggested.lean`. For `R → S` flat and `M` a finite `R`-module, prove
 `annihilator_flat_baseChange`: `Ann_S(S ⊗_R M) = Ann_R(M) · S` (Stacks, Lemma 10.40.4, complete
 statement), through `ideal_map_eq_tensor_range` (the extended ideal is the image of `S ⊗ I`),
@@ -1132,7 +1134,7 @@ and `quotient_annihilator_flat_baseChange`, `baseChange_range`, `baseChange_map`
 
 ### 0.28 Ideal sheaves: the quotient-comparison API
 
-This subsection is the strand `TauCeti.SchemeFoundations.IdealPullback` of `Suggested.lean`,
+This subsection is the strand `IdealPullback` of `Suggested.lean`,
 organised around one canonical comparison API; every other statement of the strand is a
 characterising `_mk` lemma or a coherence lemma of the declarations named here. Fix a scheme `Y`,
 `I : Y.IdealSheafData` and `f : X → Y`. Define `preimageFunctor g` for `g` affine (the functor
@@ -1260,7 +1262,7 @@ algebraic space fppf-locally on `S` is an algebraic space (Stacks, Lemmas 80.11.
 
 ### 1.3 Representable diagonals, étale atlases and the algebraic-space predicate
 
-This subsection is the strand `TauCeti.SchemeFoundations.Spaces` of `Suggested.lean`. For
+This subsection is the strand `Spaces` of `Suggested.lean`. For
 `F : SchemePresheaf`, define `RepresentableDiagonal F`: the diagonal `F → F × F` is relatively
 representable with respect to `yoneda` (Mathlib `Functor.relativelyRepresentable`); `EtaleAtlas F U
 a` for a scheme `U` and `a : h_U → F`: `a` is relatively representable and every base change along
@@ -1881,7 +1883,7 @@ morphisms `H̃`), `.isGroupoid`, `.isoClasses` (`coker ∂`), `.aut` (`ker ∂`,
 
 ### 1.25 Galois gerbs
 
-This subsection is the strand `TauCeti.SchemeFoundations.GaloisGerbs` of `Suggested.lean`. For a
+This subsection is the strand `GaloisGerbs` of `Suggested.lean`. For a
 discrete group `N` and topological groups `E`, `Γ`, define `TopologicalExtension N E Γ`: a Mathlib
 `GroupExtension N E Γ` whose kernel inclusion is a topological embedding and whose quotient map is a
 continuous quotient map, with `kernel_iff`, `inl_project`, `continuous_projection`. Define
@@ -2574,7 +2576,7 @@ StableReduction Layers 1–2; JacobianChallenge Layer B.
 
 ### 2.21 Dualising complexes
 
-This subsection is the strand `TauCeti.SchemeFoundations.Coherent` of `Suggested.lean`. Define
+This subsection is the strand `Coherent` of `Suggested.lean`. Define
 `DualizingComplex A ω` for a Noetherian ring `A` and `ω ∈ D(A)`: `ω` has finite injective dimension,
 finite cohomology modules, and `A → RHom_A(ω, ω)` is a quasi-isomorphism (Stacks, Definition
 47.15.1), with `homothety`, `cohomology_finite`, `biduality` (`M ≅ RHom(RHom(M, ω), ω)` for `M ∈
@@ -2611,7 +2613,7 @@ proper `f` (the counit of §2.19) with `trace_comp`, `trace_baseChange`, `trace_
 
 ### 2.22 Sheaves of algebras, Azumaya algebras and the Brauer group of a scheme
 
-This subsection is the strand `TauCeti.SchemeFoundations.Brauer` of `Suggested.lean`. Define
+This subsection is the strand `Brauer` of `Suggested.lean`. Define
 `SheafAlgebra X`: a sheaf of associative unital rings `A` on `X` with a central structure map `O_X →
 A` whose underlying `O_X`-module is quasi-coherent, with `SheafAlgebra.sections`, `hom_ext`,
 `pullback` (Stacks, Section 59.62 (0A2J)). Define `Azumaya X A` for a quasi-coherent `O_X`-algebra:
@@ -2677,7 +2679,7 @@ Hochschild–Serre (Harpaz–Wittenberg 2023, §3, display (3.1), Remark 3.1, pp
 
 ### 2.23 Equivariant sheaf cohomology
 
-This subsection is the strand `TauCeti.SchemeFoundations.Equivariant` of `Suggested.lean`. For a
+This subsection is the strand `Equivariant` of `Suggested.lean`. For a
 ringed space `X` (a scheme) with a left action of a discrete group `Γ` by ringed-space
 automorphisms `act : Γ →* Aut X`, define `EquivariantModules X Γ act`, the category of
 `Γ`-equivariant `O_X`-modules: an `O_X`-module `F` with isomorphisms `φ_γ : γ^* F ≅ F` satisfying
