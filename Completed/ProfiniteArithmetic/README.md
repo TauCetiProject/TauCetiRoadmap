@@ -119,6 +119,11 @@ Two targets change existing Tau Ceti declarations instead of adding new ones.
 roadmap's namespace (`zHat.toZMod`, …). The theorem `zHat.lift_eq_tauCeti` records that on targets
 in `Type` the generalized lift is the one into the universe of `TauCeti.zHat`.
 
+*Archived: this roadmap was declared complete on 2026-10-08. Tau Ceti carries out both changes in
+place, and the ring API lives in its `TauCeti.zHat` namespace. `Suggested.lean` now states each
+milestone against the Tau Ceti declarations and closes it with no `sorry`; the paragraph above
+describes the file as it stood before archiving.*
+
 ## Conventions
 
 - **The profinite type-class stack** is unbundled, as in Tau Ceti:
