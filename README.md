@@ -67,11 +67,8 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 ## Completed roadmaps
 
 Roadmaps the maintainers have declared complete (a judgment against the roadmap's
-`README.md`, the definitive document) are archived under
-[`Completed/`](Completed/README.md), outside the active list above.
-
-- [Effective arithmetic bounds and geometry of numbers](Completed/EffectiveBounds/README.md)
-- [Weighted orthogonal L² bases: completeness, Hilbert bases, and products of orthogonal systems](Completed/OrthogonalL2Bases/README.md)
+`README.md`, the definitive document) are archived and listed in
+[`Completed/README.md`](Completed/README.md), outside the active list above.
 
 ## Generated status files
 
