@@ -27,6 +27,7 @@ body:
         - CombinatorialHeegaardFloer
         - ConformalMapping
         - DGAInfinity
+        - DGFloer
         - DenseGraphLimits
         - DifferentialGeometry
         - EllipticCurves
