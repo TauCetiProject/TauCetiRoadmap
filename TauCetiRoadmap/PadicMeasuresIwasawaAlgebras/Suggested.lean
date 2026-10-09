@@ -6533,6 +6533,13 @@ noncomputable section
 namespace TauCeti.Iwasawa
 section Coordinate
 variable (p : ℕ) [Fact p.Prime] (O : Type*) [CommRing O]
+/- NSW (5.3.5) takes `O` to be the integers of a finite extension of `ℚ_p`. The level maps need
+`p` in the Jacobson radical and `p`-adic completeness: for `O = ℚ` one has `(ω_n) = (T)` and no
+ring map `O⟦T⟧ → O[ℤ/pⁿ]` sends `T` to `[1] − 1`. A local noetherian ring complete for its
+maximal ideal with residue characteristic `p` covers the source's case and ℤ_p-algebras such as
+`ℤ_p⟦X⟧`; the same hypotheses give the injectivity and the image description below. -/
+variable [IsLocalRing O] [IsNoetherianRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]
+  [CharP (IsLocalRing.ResidueField O) p]
 
 /-- `L4/iwasawa-coordinate`, level `n`: `O⟦T⟧ → O[ℤ/pⁿ]`, `T ↦ [1] − 1`. -/
 def levelCoordinate (n : ℕ) :
@@ -6567,13 +6574,11 @@ example (n k : ℕ) :
     levelCoordinate p O n ((1 + PowerSeries.X) ^ k) =
       MonoidAlgebra.single (Multiplicative.ofAdd (k : ZMod (p ^ n))) 1 := sorry
 -- test coordinate_omega_not_power_of_T (non-example) [L4/iwasawa-coordinate]
-example (n : ℕ) [Nontrivial O] :
+example (n : ℕ) :
     levelCoordinate p O n ((1 + PowerSeries.X) ^ (p ^ n) - 1) = 0 ∧
       levelCoordinate p O (n + 1) ((1 + PowerSeries.X) ^ (p ^ n) - 1) ≠ 0 ∧
       levelCoordinate p O (n + 1) (PowerSeries.X ^ (p ^ n)) ≠ 0 := sorry
 
-variable [IsLocalRing O] [IsNoetherianRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]
-  [CharP (IsLocalRing.ResidueField O) p]
 
 theorem iwasawaCoordinate_injective : Function.Injective (iwasawaCoordinate p O) := sorry
 theorem range_iwasawaCoordinate :
