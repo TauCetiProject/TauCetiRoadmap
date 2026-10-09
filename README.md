@@ -14,7 +14,6 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 ## Roadmaps
 
 - [A statement of the classification of finite simple groups](TauCetiRoadmap/CFSGStatement/README.md)
-- [Algebraic codes and code-lattice constructions](TauCetiRoadmap/AlgebraicCodingTheory/README.md)
 - [Algebraic curves: function fields, divisors, and Riemann–Roch](TauCetiRoadmap/AlgebraicCurves/README.md)
 - [Algebraic topology of spaces and manifolds](TauCetiRoadmap/AlgebraicTopology/README.md)
 - [Algebraic vector bundles](TauCetiRoadmap/AlgebraicVectorBundles/README.md)
@@ -44,6 +43,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Local Galois groups of p-adic fields](TauCetiRoadmap/LocalGaloisGroups/README.md)
 - [Modular curves, following Katz–Mazur](TauCetiRoadmap/ModularCurves/README.md)
 - [Modular forms — Hecke theory, newforms, and L-functions](TauCetiRoadmap/ModularForms/README.md)
+- [Morse and Floer homology with DG local coefficients](TauCetiRoadmap/DGFloer/README.md)
 - [Number fields, ramification, Frobenius, and the LMFDB invariants](TauCetiRoadmap/NumberFieldArithmetic/README.md)
 - [One-parameter semigroups, completely monotone functions, and BCR Bochner](TauCetiRoadmap/OneParameterSemigroups/README.md)
 - [Operator theory](TauCetiRoadmap/OperatorTheory/README.md)

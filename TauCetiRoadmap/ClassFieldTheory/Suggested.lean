@@ -163,6 +163,16 @@ theorem isZero_res_of_exact (A : Rep k G) {P₀ P₁ : Type u}
     Limits.IsZero (tateCohomology (res S.subtype A) n) :=
   sorry
 
+/-- **`p`-primary Tate cohomology sees only `p`.** If multiplication by a prime `p` is bijective on
+`A`, the `p`-primary component of `Ĥⁿ(S, A)` is trivial for every subgroup `S` and every `n`: it is
+killed by `#S`, and multiplication by `p` on `A` induces a bijection of it. With the long exact
+sequences, a morphism whose kernel and cokernel have bijective multiplication by `p` induces
+isomorphisms on the `p`-primary components of Tate cohomology. -/
+theorem primaryComponent_tateCohomology_eq_bot (p : ℕ) [Fact p.Prime] (A : Rep k G)
+    (hA : Function.Bijective fun x : A.V => (p : k) • x) (S : Subgroup G) [Fintype S] (n : ℤ) :
+    AddCommGroup.primaryComponent (tateCohomology (res S.subtype A) n) p = ⊥ :=
+  sorry
+
 variable [IsDomain k] [IsPrincipalIdealRing k] [CharZero k]
 
 /-- **Nakayama–Rim, lattice form** (Serre, *Local Fields*, IX §§3–5). Over a principal ideal domain

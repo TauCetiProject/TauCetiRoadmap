@@ -15,7 +15,6 @@ body:
       label: Roadmap area
       options:
         - AdicSpaces
-        - AlgebraicCodingTheory
         - AlgebraicCurves
         - AlgebraicTopology
         - AlgebraicVectorBundles
@@ -28,6 +27,7 @@ body:
         - CombinatorialHeegaardFloer
         - ConformalMapping
         - DGAInfinity
+        - DGFloer
         - DenseGraphLimits
         - DifferentialGeometry
         - EllipticCurves

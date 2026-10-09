@@ -19,7 +19,6 @@ body:
       description: Which roadmap does this intention sit in?
       options:
         - AdicSpaces
-        - AlgebraicCodingTheory
         - AlgebraicCurves
         - AlgebraicTopology
         - AlgebraicVectorBundles
@@ -32,6 +31,7 @@ body:
         - CombinatorialHeegaardFloer
         - ConformalMapping
         - DGAInfinity
+        - DGFloer
         - DenseGraphLimits
         - DifferentialGeometry
         - EllipticCurves
