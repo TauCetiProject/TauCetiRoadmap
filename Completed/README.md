@@ -35,3 +35,5 @@ revision against which an earlier version elaborated.
   (declared complete 2026-10-07)
 - [Algebraic codes and code-lattice constructions](AlgebraicCodingTheory/README.md)
   (declared complete 2026-10-07)
+- [Standard probability distributions and their elementary theory](StandardDistributions/README.md)
+  (declared complete 2026-10-08)
