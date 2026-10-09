@@ -6076,10 +6076,15 @@ theorem IsProrepresentable.isHull {D : PredeformationFunctor Λ k} (h : IsProrep
     ∃ (R : CompleteLocalAlg Λ k) (ξ : FormalElement D R), IsHull ξ := by
   sorry
 
-theorem IsVersal.powerSeries {D : PredeformationFunctor Λ k} {R : CompleteLocalAlg Λ k}
-    (ξ : FormalElement D R) (h : IsVersal ξ) :
-    ∃ (R₀ : CompleteLocalAlg Λ k) (ξ₀ : FormalElement D R₀) (r : ℕ), IsHull ξ₀ ∧
-      Nonempty (R.R ≃ₐ[Λ] MvPowerSeries (Fin r) R₀.R) := by
+/-- Under the Rim–Schlessinger condition `H1 ∧ H2` and `H3`, every versal formal element factors
+through a hull by a power-series extension (Stacks 90.14.9, Remark 90.14.10). The hypotheses are
+necessary: a predeformation functor failing `H2` can have a versal element and no hull
+(`versal_quotient_no_hull`). -/
+theorem IsVersal.exists_hull_of_RS {D : PredeformationFunctor Λ k} {R : CompleteLocalAlg Λ k}
+    (ξ : FormalElement D R) (h : IsVersal ξ) (h1 : D.H1) (h2 : D.H2) (h3 : D.H3 h2) :
+    ∃ (R₀ : CompleteLocalAlg Λ k) (ξ₀ : FormalElement D R₀) (r : ℕ)
+      (π : (prorep R).F ⟶ (prorep R₀).F),
+      IsHull ξ₀ ∧ ξ = π ≫ ξ₀ ∧ Nonempty (R.R ≃ₐ[Λ] MvPowerSeries (Fin r) R₀.R) := by
   sorry
 
 /-- Schlessinger's theorem: hulls (Stacks 06IX, 06IY). -/
@@ -6130,23 +6135,63 @@ example (R R₁ : CompleteLocalAlg Λ k) (e : R.R ≃ₐ[Λ] MvPowerSeries (Fin 
     (hv : IsVersal ξ) : ¬ IsHull ξ := by
   sorry
 
--- Check `versal_quotient_no_hull`: the quotient functor of `not_H2_quotient` has a versal
--- element but no hull.
-example (h2 : (2 : k) ≠ 0) : ∃ D : PredeformationFunctor Λ k,
+-- Check `versal_quotient_no_hull`: the quotient functor of `not_H2_quotient` satisfies `H1`, fails
+-- `H2`, has a versal element (`h_{k[[t]]} → D`) and no hull; it lies outside the hypotheses of
+-- `IsVersal.exists_hull_of_RS`, and `schlessinger_hull` confirms the absence of a hull.
+example (h2 : (2 : k) ≠ 0) : ∃ D : PredeformationFunctor Λ k, D.H1 ∧ ¬ D.H2 ∧
     (∃ (R : CompleteLocalAlg Λ k) (ξ : FormalElement D R), IsVersal ξ) ∧
     ¬ ∃ (R : CompleteLocalAlg Λ k) (ξ : FormalElement D R), IsHull ξ := by
   sorry
 
-/-- Obstruction theories (Stacks 07YG specialised to `C_Λ`). The kernel `I` of a small extension is
-one-dimensional, so the class `ob ∈ O ⊗ I` is recorded in `O` after choosing a generator. -/
+-- Check `versal_powerSeries_hull_not_unique_map`: the hull of `h_{k[[t]]}` is unique but the
+-- factorisation of the versal `(k[[t, s]], t ↦ t)` through it is not (`s ↦ 0` and `s ↦ t`).
+example (R R₁ : CompleteLocalAlg Λ k) (e : R.R ≃ₐ[Λ] MvPowerSeries (Fin 2) Λ)
+    (e₁ : R₁.R ≃ₐ[Λ] MvPowerSeries (Fin 1) Λ) (ξ : FormalElement (prorep R₁) R) (hv : IsVersal ξ) :
+    ∃ π π' : (prorep R).F ⟶ (prorep R₁).F, π ≠ π' ∧ ξ = π ≫ 𝟙 _ ∧ ξ = π' ≫ 𝟙 _ := by
+  sorry
+
+/-- The kernel of a small extension, as a `k`-vector space (it is an ideal killed by the maximal
+ideal of `A'`, so an `A'/m = k`-module). -/
+def smallExtensionKernel {A' A : ArtinLocalAlg Λ k} (f : A' ⟶ A) : Type u :=
+  RingHom.ker (ArtinLocalAlg.toAlgHom f).toRingHom
+
+noncomputable instance {A' A : ArtinLocalAlg Λ k} (f : A' ⟶ A) :
+    AddCommGroup (smallExtensionKernel f) :=
+  inferInstanceAs (AddCommGroup (RingHom.ker (ArtinLocalAlg.toAlgHom f).toRingHom))
+
+noncomputable instance {A' A : ArtinLocalAlg Λ k} (f : A' ⟶ A) : Module k (smallExtensionKernel f) :=
+  sorry
+
+/-- A morphism of small extensions: a commutative square over `A₁ → A₂`. -/
+structure SmallExtensionHom {A₁' A₁ A₂' A₂ : ArtinLocalAlg Λ k} (f₁ : A₁' ⟶ A₁) (f₂ : A₂' ⟶ A₂) where
+  top : A₁' ⟶ A₂'
+  bot : A₁ ⟶ A₂
+  comm : top ≫ f₂ = f₁ ≫ bot
+
+/-- The induced `k`-linear map of kernels. -/
+noncomputable def SmallExtensionHom.kernelMap {A₁' A₁ A₂' A₂ : ArtinLocalAlg Λ k} {f₁ : A₁' ⟶ A₁}
+    {f₂ : A₂' ⟶ A₂} (φ : SmallExtensionHom f₁ f₂) :
+    smallExtensionKernel f₁ →ₗ[k] smallExtensionKernel f₂ :=
+  sorry
+
+/-- An obstruction theory for `D` (Stacks 07YG specialised to `C_Λ`): a finite-dimensional
+`k`-vector space `O` and, for every small extension `e : A' → A` with kernel `I` and every
+`ξ ∈ D(A)`, a class `ob_e(ξ) ∈ O ⊗_k I` vanishing iff `ξ` lifts, natural in morphisms of small
+extensions. Naturality is essential: without it every functor has a one-dimensional "theory"
+(`ob_e(ξ) := v ≠ 0` exactly when `ξ` does not lift) carrying no information. -/
 structure ObstructionTheory (D : PredeformationFunctor Λ k) where
   O : Type u
   [addCommGroup : AddCommGroup O]
   [module : Module k O]
   [finiteDimensional : FiniteDimensional k O]
-  ob : ∀ {A' A : ArtinLocalAlg Λ k} (f : A' ⟶ A), IsSmallExtension f → D.F.obj A → O
+  ob : ∀ {A' A : ArtinLocalAlg Λ k} (f : A' ⟶ A), IsSmallExtension f → D.F.obj A →
+    TensorProduct k O (smallExtensionKernel f)
   lift_iff : ∀ {A' A : ArtinLocalAlg Λ k} (f : A' ⟶ A) (hf : IsSmallExtension f) (ξ : D.F.obj A),
     ob f hf ξ = 0 ↔ ∃ x, D.F.map f x = ξ
+  naturality : ∀ {A₁' A₁ A₂' A₂ : ArtinLocalAlg Λ k} (f₁ : A₁' ⟶ A₁) (f₂ : A₂' ⟶ A₂)
+    (h₁ : IsSmallExtension f₁) (h₂ : IsSmallExtension f₂) (φ : SmallExtensionHom f₁ f₂)
+    (ξ : D.F.obj A₁),
+    ob f₂ h₂ (D.F.map φ.bot ξ) = LinearMap.lTensor O φ.kernelMap (ob f₁ h₁ ξ)
 
 attribute [instance] ObstructionTheory.addCommGroup ObstructionTheory.module
   ObstructionTheory.finiteDimensional
@@ -6162,11 +6207,30 @@ def ObstructionTheory.zero (D : PredeformationFunctor Λ k)
       Function.Surjective (D.F.map f)) : ObstructionTheory D :=
   sorry
 
-/-- A hull `Λ[[t₁..t_d]]/J` with `d = dim T_F` has at most `dim O` minimal relations. -/
-theorem ObstructionTheory.relations_le {D : PredeformationFunctor Λ k} (o : ObstructionTheory D)
-    (d : ℕ) (J : Ideal (MvPowerSeries (Fin d) Λ)) (R : CompleteLocalAlg Λ k)
-    (e : R.R ≃ₐ[Λ] MvPowerSeries (Fin d) Λ ⧸ J) (ξ : FormalElement D R) (h : IsHull ξ) :
+/-- Relations are bounded by obstructions (Schlessinger, Lemma 2.17; Stacks 98.22.6): for a hull
+`(R, ξ)` with a **minimal presentation** `R ≅ Λ[[t₁..t_d]]/J`, `d = dim_k T_D`, the number of
+minimal generators of `J` (the dimension of `J/mJ`) is at most `dim_k O`. Minimality is
+essential: `k[[t]]/(t)` presents the hull `k` of the one-point functor with one relation while the
+zero theory has `dim O = 0` (`test_nonminimal_presentation_rejected`). -/
+theorem ObstructionTheory.minimal_presentation {D : PredeformationFunctor Λ k}
+    (o : ObstructionTheory D) (h2 : D.H2) (d : ℕ) (J : Ideal (MvPowerSeries (Fin d) Λ))
+    (R : CompleteLocalAlg Λ k) (e : R.R ≃ₐ[Λ] MvPowerSeries (Fin d) Λ ⧸ J)
+    (ξ : FormalElement D R) (h : IsHull ξ)
+    (hd : letI := PredeformationFunctor.tangentSpace.addCommGroup D h2
+      letI := PredeformationFunctor.tangentSpace.module D h2
+      Module.finrank k D.tangentSpace = d) :
     J.spanFinrank ≤ Module.finrank k o.O := by
+  sorry
+
+-- Check `test_nonminimal_presentation_rejected`: `k[[t]]/(t)` has one minimal relation and presents
+-- the hull `k` of the one-point functor, whose tangent space has dimension `0 ≠ 1`; the bound
+-- `1 ≤ 0` would be false, and the minimality hypothesis excludes the presentation.
+example : (Ideal.span {(MvPowerSeries.X 0 : MvPowerSeries (Fin 1) Λ)}).spanFinrank = 1 ∧
+    ∃ (D : PredeformationFunctor Λ k) (h2 : D.H2) (o : ObstructionTheory D),
+      (∀ A, Subsingleton (D.F.obj A)) ∧ Module.finrank k o.O = 0 ∧
+      (letI := PredeformationFunctor.tangentSpace.addCommGroup D h2
+       letI := PredeformationFunctor.tangentSpace.module D h2
+       Module.finrank k D.tangentSpace = 0) := by
   sorry
 
 /-- Obstruction theories pull back along smooth morphisms. -/
@@ -6540,6 +6604,22 @@ theorem grothendieck_existence (A : AdicRing.{u}) [IsNoetherianRing A.carrier] {
       Nonempty (∀ n, (Scheme.completionFunctor X I M hM).F n ≅ 𝓜.F n) := by
   sorry
 
+/-- Full faithfulness of the completion functor (Stacks 0885, 088C): a family of maps between the
+completions of two coherent modules that is compatible with the transition isomorphisms comes from
+a unique morphism of coherent modules; with `grothendieck_existence` this is the equivalence of
+categories. -/
+theorem grothendieck_existence_fullyFaithful (A : AdicRing.{u}) [IsNoetherianRing A.carrier]
+    {X : Scheme.{u}} (f : X ⟶ Spec (CommRingCat.of A.carrier)) [IsProper f] (I : X.IdealSheafData)
+    (hI : I.support = (Set.range (Limits.pullback.fst f (Spec.map (CommRingCat.ofHom
+      (Ideal.Quotient.mk A.ideal)))) : Set X))
+    (M N : X.Modules) (hM : M.IsFinitePresentation) (hN : N.IsFinitePresentation)
+    (φ : ∀ n, (Scheme.completionFunctor X I M hM).F n ⟶ (Scheme.completionFunctor X I N hN).F n)
+    (hφ : ∀ n, (Scheme.Modules.pullback ((Scheme.formalCompletion X I).ι n)).map (φ (n + 1)) ≫
+        ((Scheme.completionFunctor X I N hN).iso n).hom =
+      ((Scheme.completionFunctor X I M hM).iso n).hom ≫ φ n) :
+    ∃! g : M ⟶ N, ∀ n, (Scheme.Modules.pullback (Scheme.formalCompletion.toScheme X I n)).map g = φ n := by
+  sorry
+
 /- Algebraization of closed formal subschemes (Stacks 0899, 09ZT) is part of
    Layer 4 (algebraization of subschemes and morphisms) and is stated in the roadmap. -/
 
@@ -6548,29 +6628,55 @@ abbrev quotMap (A : AdicRing.{u}) (n : ℕ) :
     Spec (CommRingCat.of (A.carrier ⧸ A.ideal ^ (n + 1))) ⟶ Spec (CommRingCat.of A.carrier) :=
   Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (A.ideal ^ (n + 1))))
 
-/-- Algebraization of morphisms (Stacks 0A42): compatible maps of reductions of a proper scheme to
-a separated finite-type scheme over a complete Noetherian ring come from a unique map. -/
+/-- The closed immersion `Spec (A/I^{n+1}) → Spec (A/I^{n+2})`. -/
+abbrev quotIncl (A : AdicRing.{u}) (n : ℕ) :
+    Spec (CommRingCat.of (A.carrier ⧸ A.ideal ^ (n + 1))) ⟶
+      Spec (CommRingCat.of (A.carrier ⧸ A.ideal ^ (n + 2))) :=
+  Spec.map (CommRingCat.ofHom (Ideal.Quotient.factor
+    (Ideal.pow_le_pow_right (by omega : n + 1 ≤ n + 2))))
+
+/-- The transition `X_n → X_{n+1}` between the reductions of an `A`-scheme. -/
+noncomputable def levelIncl (A : AdicRing.{u}) {X : Scheme.{u}} (fX : X ⟶ Spec (CommRingCat.of A.carrier))
+    (n : ℕ) : Limits.pullback fX (quotMap A n) ⟶ Limits.pullback fX (quotMap A (n + 1)) :=
+  Limits.pullback.map fX (quotMap A n) fX (quotMap A (n + 1)) (𝟙 X) (quotIncl A n) (𝟙 _)
+    (by simp) (by sorry)
+
+/-- Algebraization of morphisms (Stacks 0A42): a **morphism of adic thickening systems** between
+the reductions of a proper `X` and a separated finite-type `Y` over a complete Noetherian ring,
+that is a family `g_n : X_n → Y_n` over `A/I^{n+1}` compatible with the transitions, comes from a
+unique `G : X → Y`. Compatibility is essential: `g_0 = 0` and `g_1 = 1` on `Spec k[[t]] → 𝔸¹` form
+no system and come from no morphism (`algebraize_hom_test_incompatible`). -/
 theorem algebraize_hom (A : AdicRing.{u}) [IsNoetherianRing A.carrier]
     {X Y : Scheme.{u}} (fX : X ⟶ Spec (CommRingCat.of A.carrier))
     (fY : Y ⟶ Spec (CommRingCat.of A.carrier)) [IsProper fX] [IsSeparated fY]
     [LocallyOfFiniteType fY]
     (g : ∀ n, Limits.pullback fX (quotMap A n) ⟶ Limits.pullback fY (quotMap A n))
-    (hg : ∀ n, g n ≫ Limits.pullback.snd fY (quotMap A n) = Limits.pullback.snd fX (quotMap A n)) :
+    (hg : ∀ n, g n ≫ Limits.pullback.snd fY (quotMap A n) = Limits.pullback.snd fX (quotMap A n))
+    (hcompat : ∀ n, levelIncl A fX n ≫ g (n + 1) = g n ≫ levelIncl A fY n) :
     ∃! G : X ⟶ Y, ∃ h : G ≫ fY = fX, ∀ n,
       Limits.pullback.map fX (quotMap A n) fY (quotMap A n) G (𝟙 _) (𝟙 _)
         (by rw [Category.comp_id, h]) (by simp) = g n := by
   sorry
 
-/-- Grothendieck's algebraization theorem (Stacks 089A): a compatible system of proper schemes over
-`A/I^{n+1}` whose first member carries an ample line bundle lifting to all levels is the system of
-reductions of a proper `A`-scheme. Ampleness is Tau Ceti StableReduction Layer 2's notion and is
-recorded in the roadmap; the typed form records the conclusion. -/
-theorem grothendieck_algebraization (A : AdicRing.{u}) [IsNoetherianRing A.carrier]
-    (𝔛 : AdicThickeningSystem.{u}) (π : AdicThickeningSystem.Hom 𝔛 (Spf A)) (hπ : AdicThickeningSystem.IsAdicHom π)
-    (hproper : IsProper (π.app 0)) :
-    ∃ (X : Scheme.{u}) (f : X ⟶ Spec (CommRingCat.of A.carrier)), IsProper f ∧
-      ∀ n, Nonempty (Limits.pullback f (quotMap A n) ≅ 𝔛.X n) := by
+-- Check `algebraize_hom_test_compatible`: a compatible system of points of `𝔸¹` over `A/I^{n+1}`
+-- is an element of `A` (completeness), the ring-level shadow of `algebraize_hom`.
+example (A : AdicRing.{u}) : Function.Bijective (AdicCompletion.of A.ideal A.carrier) := by
   sorry
+
+-- Check `algebraize_hom_test_incompatible`: no `a ∈ k[[t]]` satisfies `a ≡ 0 (mod t)` and
+-- `a ≡ 1 (mod t²)`, so the maps `0` and `1` on the first two reductions are not a system.
+example (k : Type u) [Field k] :
+    ¬ ∃ a : PowerSeries k, a ∈ Ideal.span {(PowerSeries.X : PowerSeries k)} ∧
+      a - 1 ∈ Ideal.span {(PowerSeries.X : PowerSeries k) ^ 2} := by
+  sorry
+
+/- Grothendieck's algebraization theorem (Stacks 089A, Layer 4 §4.10 of the README): a compatible
+system of proper schemes over `A/I^{n+1}` **together with a compatible system of invertible sheaves
+whose initial member is ample** is the system of reductions of a proper `A`-scheme with an ample
+invertible sheaf, and the functor to such systems is an equivalence. Relative ampleness is
+StableReduction Layer 2's notion and is not a declaration at the pins, so the theorem is stated in
+the README only; properness of the initial fibre alone is not a sufficient hypothesis and no form
+with that hypothesis is admitted here. -/
 
 /-! ### Modifications, strict transforms, flattening, regularity -/
 
@@ -6624,8 +6730,10 @@ def IsGenericallyEtale {S' S : Scheme.{u}} (f : S' ⟶ S) [IsIntegral S] [IsInte
   letI := (functionFieldMap f).hom.toAlgebra
   Algebra.IsSeparable S.functionField S'.functionField
 
-theorem comp {S'' S' S : Scheme.{u}} (g : S'' ⟶ S') (f : S' ⟶ S) [IsAlteration g]
-    [IsAlteration f] : IsAlteration (g ≫ f) := by
+/-- Composition of alterations of **integral** schemes; on a disconnected target the clause "finite
+over a nonempty open" does not compose (`test_comp_needs_integral`). -/
+theorem comp {S'' S' S : Scheme.{u}} [IsIntegral S''] [IsIntegral S'] [IsIntegral S]
+    (g : S'' ⟶ S') (f : S' ⟶ S) [IsAlteration g] [IsAlteration f] : IsAlteration (g ≫ f) := by
   sorry
 
 theorem genericDegree_comp {S'' S' S : Scheme.{u}} [IsIntegral S''] [IsIntegral S'] [IsIntegral S]
@@ -6637,11 +6745,30 @@ theorem isModification_iff {S' S : Scheme.{u}} (f : S' ⟶ S) [IsIntegral S] [Is
     [IsAlteration f] : IsModification f ↔ genericDegree f = 1 := by
   sorry
 
-/-- de Jong 5.4: finitely many alterations are dominated by a single alteration. -/
-theorem exists_dominating {S : Scheme.{u}} {ι : Type} [Finite ι] (T : ι → Scheme.{u})
+/-- de Jong 5.4: finitely many alterations of an **integral** Noetherian scheme by integral schemes
+are dominated by a single alteration, with the triangles `a_i ≫ g_i = h` in `Over S`. For
+`S = Spec k ⊔ Spec k` and the two inclusions no integral scheme dominates both
+(`test_exists_dominating_needs_integral`). -/
+theorem exists_dominating {S : Scheme.{u}} [IsIntegral S] [_root_.AlgebraicGeometry.IsLocallyNoetherian S]
+    {ι : Type} [Finite ι] (T : ι → Scheme.{u}) [∀ i, IsIntegral (T i)]
     (g : ∀ i, T i ⟶ S) [∀ i, IsAlteration (g i)] :
     ∃ (T' : Scheme.{u}) (_ : IsIntegral T') (h : T' ⟶ S) (_ : IsAlteration h),
       ∀ i, ∃ a : T' ⟶ T i, a ≫ g i = h := by
+  sorry
+
+-- Check `test_comp_needs_integral`: on the two-point scheme the inclusion of one point is proper
+-- and finite but not dominant; the predicate rejects it, and the integrality hypotheses of `comp`
+-- and `exists_dominating` are what make the generic-finiteness clause compose.
+example (k : Type u) [Field k] :
+    ¬ IsAlteration (coprod.inl : Spec (CommRingCat.of k) ⟶ Spec (CommRingCat.of k) ⨿ Spec (CommRingCat.of k)) := by
+  sorry
+
+-- Check `test_exists_dominating_needs_integral`: no integral scheme dominates both inclusions of
+-- `Spec k` into `Spec k ⊔ Spec k`.
+example (k : Type u) [Field k] :
+    ¬ ∃ (T' : Scheme.{u}) (_ : IsIntegral T') (h : T' ⟶ Spec (CommRingCat.of k) ⨿ Spec (CommRingCat.of k)),
+      IsAlteration h ∧ (∃ a : T' ⟶ Spec (CommRingCat.of k), a ≫ coprod.inl = h) ∧
+        (∃ b : T' ⟶ Spec (CommRingCat.of k), b ≫ coprod.inr = h) := by
   sorry
 
 end IsAlteration
@@ -6710,43 +6837,83 @@ example (k : Type u) [Field k]
    StableReduction Layer 4) is a modification with centre the origin; the blowup is not available
    in this build. -/
 
-/-- Strict transform of `X → S` along `S' → S` (Stacks 080D; de Jong 2.18): the ideal sheaf of the
-scheme-theoretic closure of the base change over the open where `S' → S` is an isomorphism. -/
-def strictTransform {X S S' : Scheme.{u}} (f : X ⟶ S) (φ : S' ⟶ S) [IsModification φ] :
-    (Limits.pullback f φ).IdealSheafData :=
+/-- A witness that the modification `φ` is an isomorphism over the dense open `U`. -/
+def IsModification.Witness {S' S : Scheme.{u}} (φ : S' ⟶ S) [IsModification φ] (U : S.Opens) : Prop :=
+  Dense (U : Set S) ∧ IsIso (φ ∣_ U)
+
+/-- Strict transform of `f : X → S` along a modification `φ : S' → S` with a chosen dense open `U`
+over which `φ` is an isomorphism (Stacks 080D; de Jong 2.18): the ideal sheaf of the
+scheme-theoretic closure of `f⁻¹(U) = X ×_S φ⁻¹(U)` in `X ×_S S'`. The open is part of the data:
+for the identity modification of `𝔸¹` and `X` the origin, `U = 𝔸¹` gives `X` and `U = 𝔾_m` gives
+`∅` (`strictTransform_witness_matters`). -/
+def strictTransform {X S S' : Scheme.{u}} (f : X ⟶ S) (φ : S' ⟶ S) [IsModification φ] (U : S.Opens)
+    (hU : IsModification.Witness φ U) : (Limits.pullback f φ).IdealSheafData :=
   sorry
 
-/-- Strict transform of a module: quotient by sections supported over the exceptional locus. -/
+/-- Strict transform of a module: the quotient of `pr₁^* M` by the sections supported over the
+exceptional locus `S' ∖ φ⁻¹(U)`. -/
 def strictTransformModule {X S S' : Scheme.{u}} (f : X ⟶ S) (φ : S' ⟶ S) [IsModification φ]
-    (M : X.Modules) : (Limits.pullback f φ).Modules :=
+    (U : S.Opens) (hU : IsModification.Witness φ U) (M : X.Modules) : (Limits.pullback f φ).Modules :=
   sorry
 
-/-- The strict transform is the scheme-theoretic closure of the restriction over any dense open
-over which `φ` is an isomorphism (de Jong 2.18). -/
+/-- The support of the strict transform is the closure of the preimage of `U`. -/
 theorem strictTransform_eq_closure {X S S' : Scheme.{u}} (f : X ⟶ S) (φ : S' ⟶ S)
-    [IsModification φ] (U : S.Opens) (hU : Dense (U : Set S)) (hφ : IsIso (φ ∣_ U)) :
-    (↑(strictTransform f φ).support : Set ↥(Limits.pullback f φ)) =
+    [IsModification φ] (U : S.Opens) (hU : IsModification.Witness φ U) :
+    (↑(strictTransform f φ U hU).support : Set ↥(Limits.pullback f φ)) =
       closure {x : ↥(Limits.pullback f φ) | Limits.pullback.snd f φ x ∈ φ ⁻¹ᵁ U} := by
   sorry
 
-/-- A closed subscheme of `X ×_S S'` flat over `S'` and equal to the base change over a dense open
-is the strict transform (de Jong 2.18). -/
-theorem strictTransform_unique_of_flat {X S S' : Scheme.{u}} (f : X ⟶ S) (φ : S' ⟶ S)
-    [IsModification φ] (Z : (Limits.pullback f φ).IdealSheafData)
-    (hflat : Flat (Z.subschemeι ≫ Limits.pullback.snd f φ))
-    (hgen : ∃ U : S'.Opens, Dense (U : Set S') ∧
-      ∀ x : ↥(Limits.pullback f φ), Limits.pullback.snd f φ x ∈ U → x ∈ Z.support) :
-    Z = strictTransform f φ := by
+/-- The strict transform does not depend on the witness when `f⁻¹(U)` is dense in `X` and `X` is
+reduced (so that `f⁻¹(U)` is scheme-theoretically dense in every `f⁻¹(U')`). -/
+theorem strictTransform_independent_of_witness {X S S' : Scheme.{u}} (f : X ⟶ S) (φ : S' ⟶ S)
+    [IsModification φ] [IsReduced X] (U U' : S.Opens) (hU : IsModification.Witness φ U)
+    (hU' : IsModification.Witness φ U') (hle : U ≤ U') (hdense : Dense ((f ⁻¹ᵁ U : X.Opens) : Set X)) :
+    strictTransform f φ U hU = strictTransform f φ U' hU' := by
   sorry
 
-/- AlgebraicGeometry.strictTransform_comp (transitivity), strictTransform_eq_blowup (Stacks 080E),
-   strictTransform_closedImmersion (agreement with Tau Ceti StableReduction Layer 4's strict
-   transform of a closed subscheme), and the tests strictTransform_line and
-   strictTransform_centre_empty need the blowup of Layer 4; they are stated in the roadmap. -/
+/-- A closed subscheme of `X ×_S S'` that is flat over `S'` and agrees with `X ×_S S'` **as a closed
+subscheme** over `φ⁻¹(U)` is the strict transform (de Jong 2.18). Scheme-theoretic agreement is
+essential: on the dual numbers, the reduced point is flat with the same support and is not the
+strict transform (`strictTransform_unique_needs_scheme_structure`). -/
+theorem strictTransform_unique_of_flat {X S S' : Scheme.{u}} (f : X ⟶ S) (φ : S' ⟶ S)
+    [IsModification φ] (U : S.Opens) (hU : IsModification.Witness φ U)
+    (Z : (Limits.pullback f φ).IdealSheafData)
+    (hflat : Flat (Z.subschemeι ≫ Limits.pullback.snd f φ))
+    (hgen : Z.comap ((Limits.pullback.snd f φ) ⁻¹ᵁ (φ ⁻¹ᵁ U)).ι = ⊥) :
+    Z = strictTransform f φ U hU := by
+  sorry
+
+/- `strictTransform_comp` (transitivity along composites of modifications), `strictTransform_eq_blowup`
+(for `φ` the blow-up along `C` with `U = S ∖ C`, agreement with StableReduction Layer 4's strict
+transform along the blow-up, the module version being the quotient by the exceptional-ideal power
+torsion; Stacks 080E) and `strictTransform_closedImmersion` need StableReduction Layer 4's blow-up
+and are stated in the README; so are the tests `strictTransform_line` and
+`strictTransform_centre_empty`. -/
 
 -- Check `strictTransform_self`
-example {S S' : Scheme.{u}} (φ : S' ⟶ S) [IsModification φ] :
-    strictTransform (𝟙 S) φ = ⊥ := by
+example {S S' : Scheme.{u}} (φ : S' ⟶ S) [IsModification φ] (U : S.Opens)
+    (hU : IsModification.Witness φ U) : strictTransform (𝟙 S) φ U hU = ⊥ := by
+  sorry
+
+-- Check `strictTransform_witness_matters`: for the identity modification of `𝔸¹_k` and `X` the
+-- origin, the witness `U = 𝔸¹` gives `X` (`⊥`) and a witness missing the origin gives `∅` (`⊤`).
+example (k : Type u) [Field k] (hid : IsModification (𝟙 (Spec (CommRingCat.of (Polynomial k)))))
+    (U : (Spec (CommRingCat.of (Polynomial k))).Opens)
+    (hU : letI := hid; IsModification.Witness (𝟙 (Spec (CommRingCat.of (Polynomial k)))) U)
+    (hU0 : ∀ x : Spec (CommRingCat.of k),
+      Spec.map (CommRingCat.ofHom (Polynomial.evalRingHom (0 : k))) x ∉ U)
+    (htop : letI := hid; IsModification.Witness (𝟙 (Spec (CommRingCat.of (Polynomial k)))) ⊤) :
+    letI := hid
+    strictTransform (Spec.map (CommRingCat.ofHom (Polynomial.evalRingHom (0 : k)))) (𝟙 _) ⊤ htop = ⊥ ∧
+      strictTransform (Spec.map (CommRingCat.ofHom (Polynomial.evalRingHom (0 : k)))) (𝟙 _) U hU = ⊤ := by
+  sorry
+
+-- Check `strictTransform_unique_needs_scheme_structure`: on `X = Spec k[ε]/(ε²)` over `Spec k`
+-- the reduced point is a closed subscheme flat over the base with full support that is not `X`;
+-- support agreement alone would not identify the strict transform.
+example (k : Type u) [Field k] : ∃ Z : (Spec (CommRingCat.of (DualNumber k))).IdealSheafData, Z ≠ ⊥ ∧
+    (Z.support : Set (Spec (CommRingCat.of (DualNumber k)))) = Set.univ ∧
+    Flat (Z.subschemeι ≫ Spec.map (CommRingCat.ofHom (algebraMap k (DualNumber k)))) := by
   sorry
 
 -- Check `strictTransformModule_torsion`: the module k[t]/(t) is t-power torsion, so its
@@ -6764,8 +6931,9 @@ theorem generic_flatness {X S : Scheme.{u}} (f : X ⟶ S) [IsIntegral S] [Locall
 081R; de Jong 2.19); the admissible blowup itself is Tau Ceti StableReduction Layer 4. -/
 theorem flattening_by_modification {X S : Scheme.{u}} (f : X ⟶ S) [IsIntegral S] [IsNoetherian S]
     [IsProper f] (U : S.Opens) (hU : Dense (U : Set S)) (hf : Flat (f ∣_ U)) :
-    ∃ (S' : Scheme.{u}) (_ : IsIntegral S') (φ : S' ⟶ S) (_ : IsModification φ),
-      Flat ((strictTransform f φ).subschemeι ≫ Limits.pullback.snd f φ) := by
+    ∃ (S' : Scheme.{u}) (_ : IsIntegral S') (φ : S' ⟶ S) (_ : IsModification φ)
+      (hw : IsModification.Witness φ U),
+      Flat ((strictTransform f φ U hw).subschemeι ≫ Limits.pullback.snd f φ) := by
   sorry
 
 /- Layer 4 (modification domination) (Stacks 081T) and Layer 4 (chow lemma) (Stacks 0200) assert that the
@@ -6972,19 +7140,35 @@ theorem isSVariety_iff_genericFiber_nonempty {R K : Type u} [CommRing R] [IsDoma
     IsSVariety f ↔ Nonempty (TauCeti.genericFiber R K f).left := by
   sorry
 
-/-- Base change along a finite extension of traits: components of the base change dominating `X`
-are `S'`-varieties mapping to `X` by alterations (de Jong 6.8). -/
-theorem IsSVariety.baseChange_component {R R' : Type u} [CommRing R] [IsDomain R]
-    [CommRing R'] [IsDomain R'] [Algebra R R'] [Module.Finite R R'] {X : Scheme.{u}}
-    (f : X ⟶ Spec (CommRingCat.of R)) [IsSVariety f] :
-    ∃ (Z : (Limits.pullback f (Spec.map (CommRingCat.ofHom (algebraMap R R')))).IdealSheafData)
+/-- Base change along a finite extension of traits, given as Tau Ceti's `FiniteDVRExtension`
+(StableReduction Layer 0): `R → R'` is a **dominant** local map of discrete valuation rings, so the
+base change is horizontal, and the components of `X ×_R R'` dominating `X` are `R'`-varieties mapping
+to `X` by alterations (de Jong 6.8). The vertical specialisation `ℤ_p → 𝔽_p` is not such an
+extension (`baseChange_component_test_vertical_excluded`). -/
+theorem IsSVariety.baseChange_component {R K : Type u} [CommRing R] [IsDomain R]
+    [IsDiscreteValuationRing R] [Field K] [Algebra R K] [IsFractionRing R K]
+    (E : TauCeti.FiniteDVRExtension R K) {X : Scheme.{u}} (f : X ⟶ Spec (CommRingCat.of R))
+    [IsSVariety f] :
+    ∃ (Z : (Limits.pullback f (Spec.map (CommRingCat.ofHom (algebraMap R E.localRing)))).IdealSheafData)
       (_ : IsIntegral Z.subscheme),
       IsSVariety (Z.subschemeι ≫ Limits.pullback.snd f _) ∧
         IsAlteration (Z.subschemeι ≫ Limits.pullback.fst f _) := by
   sorry
 
-/- AlgebraicGeometry.DeJong.finiteDVRExtension_of_trait: comparison with Tau Ceti's
-   `FiniteDVRExtension`, whose module is not compiled in this build; stated in the roadmap. -/
+-- Check `baseChange_component_test_vertical_excluded`: the local ring of a `FiniteDVRExtension` of
+-- `ℤ_p` is a discrete valuation ring, never the residue field `𝔽_p`.
+example (p : ℕ) [Fact p.Prime] (E : TauCeti.FiniteDVRExtension ℤ_[p] ℚ_[p]) :
+    ¬ Nonempty (E.localRing ≃+* ZMod p) := by
+  sorry
+
+/-- The local ring of a `FiniteDVRExtension` of a trait, completed, is a trait dominating the base;
+`FiniteDVRExtension` is the finite-extension-of-traits notion of this layer. -/
+theorem FiniteDVRExtension.isTrait_completion {R K : Type u} [CommRing R] [IsDomain R]
+    [IsDiscreteValuationRing R] [IsTrait R] [Field K] [Algebra R K] [IsFractionRing R K]
+    (E : TauCeti.FiniteDVRExtension R K) :
+    IsDiscreteValuationRing (AdicCompletion (IsLocalRing.maximalIdeal E.localRing) E.localRing) ∧
+      IsLocalHom (algebraMap R E.localRing) := by
+  sorry
 
 /-- A proper `S`-variety with an identification of its generic fibre is a Tau Ceti model. -/
 def IsSVariety.toModel {R K : Type u} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
@@ -7161,16 +7345,20 @@ theorem alteration_theorem (k : Type u) [Field k] {X : Scheme.{u}}
       ((PerfectField k) → IsAlteration.IsGenericallyEtale φ) := by
   sorry
 
-/-- de Jong's semistable alteration theorem over a trait (Theorem 6.5). -/
-theorem semistable_alteration_theorem (R : Type u) [CommRing R] [IsDomain R]
-    [IsDiscreteValuationRing R] [IsTrait R] {X : Scheme.{u}} (f : X ⟶ Spec (CommRingCat.of R))
-    [IsSVariety f] :
-    ∃ (R₁ K₁ : Type u) (_ : CommRing R₁) (_ : IsDomain R₁) (_ : IsDiscreteValuationRing R₁)
-      (_ : IsTrait R₁) (_ : Algebra R R₁) (_ : Module.Finite R R₁) (_ : Field K₁)
-      (_ : Algebra R₁ K₁) (_ : IsFractionRing R₁ K₁)
+/-- de Jong's semistable alteration theorem over a trait (Theorem 6.5): after a finite extension of
+traits `E` (a `FiniteDVRExtension`), an alteration `φ : X₁ → X` from an integral `X₁`, an open
+immersion into a proper `E.localRing`-scheme `X̄₁` and an `SNCData` `H` such that `(X̄₁, H)` is a
+strict semistable pair, with the triangle `X₁ → X̄₁ → Spec E.localRing → Spec R` equal to
+`X₁ → X → Spec R` in `Over (Spec R)`. Projectivity of `X̄₁` is StableReduction Layer 2's notion and
+is recorded in the README; properness is its consequence stated here. -/
+theorem semistable_alteration_theorem (R K : Type u) [CommRing R] [IsDomain R]
+    [IsDiscreteValuationRing R] [IsTrait R] [Field K] [Algebra R K] [IsFractionRing R K]
+    {X : Scheme.{u}} (f : X ⟶ Spec (CommRingCat.of R)) [IsSVariety f] :
+    ∃ (E : TauCeti.FiniteDVRExtension R K)
       (X₁ : Scheme.{u}) (_ : IsIntegral X₁) (φ : X₁ ⟶ X) (_ : IsAlteration φ) (Xbar₁ : Scheme.{u})
-      (g : Xbar₁ ⟶ Spec (CommRingCat.of R₁)) (j : X₁ ⟶ Xbar₁) (H : SNCData Xbar₁),
-        IsOpenImmersion j ∧ IsProper g ∧ IsStrictSemistablePair K₁ g H := by
+      (g : Xbar₁ ⟶ Spec (CommRingCat.of E.localRing)) (j : X₁ ⟶ Xbar₁) (H : SNCData Xbar₁),
+        IsOpenImmersion j ∧ IsProper g ∧ IsStrictSemistablePair E.extensionField g H ∧
+        j ≫ g ≫ Spec.map (CommRingCat.ofHom (algebraMap R E.localRing)) = φ ≫ f := by
   sorry
 
 end DeJong
