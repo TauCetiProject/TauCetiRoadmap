@@ -131,6 +131,7 @@ theorem TwistingCocycle.one_sided_of_nonpos {P : Type*} {ind : P → ℤ} (m : P
   exact (Submodule.mem_bot R).1 h
 
 variable {M : Type*} [AddCommGroup M] [Module R M] [Module Aᵐᵒᵖ M] [IsScalarTower R Aᵐᵒᵖ M]
+  [SMulCommClass R Aᵐᵒᵖ M]
 
 /-- The **grading involution** `α ↦ (-1)^{|α|} α` of an internally graded module, which carries
 the Koszul sign of the twisted differential. -/
@@ -153,11 +154,18 @@ variable {h : TauCeti.IsDGAlgebra 𝒜 d} {P : Type*} [Fintype P] [DecidableEq P
   [SetLike.GradedSMul (TauCeti.InternalGrading.ofDecomposition 𝒜).opposite.piece ℳ]
   [DirectSum.Decomposition ℳ]
 
-/-- The twisted differential on `M ⊗_R K_m`, identified with `P → M`:
-`D(α ⊗ x) = ∂α ⊗ x + (-1)^{|α|} Σ_y α · m_{x,y} ⊗ y`. It takes the grading of `M`, from which
-the Koszul sign is read. -/
+/-- The twisted differential on `M ⊗_R K_m`, identified with `P → M`. Its `y`-component is
+`(D f) y = ∂(f y) + Σ_x (m_{x,y} acting on the right) (ε (f x))`, where `ε = gradingInvolution ℳ`
+carries the Koszul sign. On a homogeneous elementary tensor this is
+`D(α ⊗ x) = ∂α ⊗ x + (-1)^{|α|} Σ_y α · m_{x,y} ⊗ y` (`twistedDifferential_single`). The right
+`A`-action on `M` enters the construction itself, so the map depends on it: for `A = ℚ × ℚ` acting
+on `M = ℚ` through either projection, with `ind x = 1`, `ind y = 0` and `m x y = (1, 0)`, the two
+actions give `D(1 ⊗ x) = 1 ⊗ y` and `D(1 ⊗ x) = 0` (acceptance criterion 2). -/
 def twistedDifferential (m : TwistingCocycle h P ind) (ℳ : ℤ → Submodule R M)
-    [DirectSum.Decomposition ℳ] (dM : M →ₗ[R] M) : (P → M) →ₗ[R] (P → M) := sorry
+    [DirectSum.Decomposition ℳ] (dM : M →ₗ[R] M) : (P → M) →ₗ[R] (P → M) where
+  toFun f y := dM (f y) + ∑ x, MulOpposite.op (m.m x y) • gradingInvolution ℳ (f x)
+  map_add' := sorry
+  map_smul' := sorry
 
 /-- Evaluation on a homogeneous elementary tensor `α ⊗ x`, with `α` of degree `q`. -/
 theorem twistedDifferential_single (m : TwistingCocycle h P ind) (dM : M →ₗ[R] M) (x : P)

@@ -204,6 +204,14 @@ Four of these touch other roadmaps and are coordination points:
   over them), with constant sections, and with the actions used downstream. Every homeomorphism
   with a mapping space in this roadmap is stated for the fixed-interval model and then composed
   with this comparison.
+  - The duration `L` is a continuous function on the Moore space. On a Riemannian manifold, the
+    geometric length of a Moore loop is only lower semicontinuous in the compact-open topology, and
+    the loops parametrized at unit speed are **not** a closed subspace: in a flat torus, the
+    unit-speed loops `γ_n(t) = (sin 2πnt, 1 − cos 2πnt)/(2πn)` of duration `1` converge to the
+    constant loop of duration `1`, whose unit-speed representative has duration `0`. So no statement
+    of this roadmap filters a Moore space by geometric length, and no subspace of unit-speed loops
+    appears anywhere. The source's Lemma 4.5 is replaced by the compact-family approximation of
+    Layer 9 item 3.
 - **Mapping-space topology.** Path, loop and mapping spaces carry Mathlib's compact-open topology on
   `C(X, Y)`. Two kinds of source occur.
   - Sphere and interval models have a compact Hausdorff source.
@@ -310,8 +318,8 @@ None of the following exist in Mathlib, in Tau Ceti, or on another roadmap. They
 - `H₁ ≅ π₁ᵃᵇ`;
 - CW approximation;
 - the filtered-complex spectral sequence;
-- Serre classes, Eilenberg--MacLane spaces `K(A, n)` for arbitrary abelian `A`, and the Whitehead
-  tower;
+- Serre classes, Eilenberg--MacLane spaces `K(A, n)` for arbitrary abelian `A` with their
+  uniqueness up to weak equivalence, and the one-step connected covers of Layer 1 item 4;
 - the Pontryagin--Thom collapse in a non-Euclidean ambient manifold;
 - Stiefel manifolds;
 - `CPᵈ` and `HPᵈ` as manifolds.
@@ -378,22 +386,57 @@ These are general facts that the later layers use, which no other roadmap builds
      is uniquely 2-divisible (a `ℤ[1/2]`-module). Only this direction is used. No finite generation
      is assumed. A uniquely 2-divisible group has `G ⊗ ℤ/2 = 0`, which is how Layer 10 item 5
      applies it. Its prerequisites are owned here, since no roadmap supplies them:
-     - Eilenberg--MacLane spaces `K(A, n)` for every abelian group `A` and `n ≥ 1`, as CW
-       complexes, functorial in `A`, with homology commuting with filtered colimits in `A`. (Tau
-       Ceti has only `IsEilenbergMacLaneSpaceOne`.)
-     - The Whitehead tower: `n`-connected covers `Y⟨n+1⟩ → Y`, with homotopy fibre
-       `K(π_n Y, n − 1)`.
-     - `H̃_*(K(A, n); 𝔽₂) = 0` for every `ℤ[1/2]`-module `A`. For `n = 1`: write `A` as the
-       filtered colimit of its finitely generated `ℤ[1/2]`-submodules, which are sums of copies of
-       `ℤ[1/2]` and finite cyclic groups of odd order; `K(ℤ[1/2], 1)` is the colimit of circles
-       under degree-2 maps, so its mod-2 homology is the colimit of `𝔽₂` under multiplication by 2;
-       odd cyclic groups have odd-torsion homology; finish with Künneth. For `n ≥ 2`: induction
-       through the path-loop fibration `K(A, n−1) → P → K(A, n)` and the mod-2 Serre spectral
-       sequence over the simply connected base.
-     - The induction: the lowest nonzero `π_n Y` is `H_n(Y; ℤ)` by Hurewicz; universal
-       coefficients and mod-2 vanishing in degrees `n` and `n + 1` make it uniquely 2-divisible;
-       the mod-2 Serre spectral sequence of `K(π_n Y, n − 1) → Y⟨n+1⟩ → Y` gives
-       `H̃_*(Y⟨n+1⟩; 𝔽₂) = 0`, and the induction continues.
+     - **Eilenberg--MacLane spaces.** `K(A, 1) = |B_•A|`, the realization of the bar construction
+       (the nerve of `A`), which is a `K(A, 1)` because the realization of the contractible `E_•A`
+       covers it; and `K(A, n)` for `n ≥ 2` by iterating the bar construction, or as the
+       realization of the simplicial abelian group corresponding to `A[n]` under Dold--Kan. These
+       are CW complexes, functorial in `A`. For a **directed union** `A = ⋃ A_i` of subgroups, the
+       `|B_•A_i|` are subcomplexes with union `|B_•A|`, so `H_*(K(A, n)) = colim H_*(K(A_i, n))`
+       by compact supports. No statement about arbitrary topological filtered colimits is made: the
+       topological colimit of the circles `S¹ → S¹ → ⋯` under the degree-2 maps is indiscrete and
+       is not a `K(ℤ[1/2], 1)`. (Their mapping telescope is one, but it is not used.) Tau Ceti has
+       only `IsEilenbergMacLaneSpaceOne`.
+     - **Uniqueness.** For the CW complex `K(A, n)` above and any space `Z` with `π_n Z ≅ A` and
+       all other homotopy groups zero, a map `K(A, n) → Z` realizing a given isomorphism on `π_n`
+       exists and is a weak equivalence (Hatcher, Proposition 4.30; it needs Whitehead's theorem
+       from Stage 8 of the algebraic topology roadmap and CW approximation from item 2). Through
+       item 2, every `K(A, n)` has the homology of the bar model.
+     - `H̃_*(K(A, n); 𝔽₂) = 0` for every `ℤ[1/2]`-module `A`. For `n = 1`: `A` is the directed
+       union of its finitely generated `ℤ[1/2]`-submodules, which are finite sums of copies of
+       `ℤ[1/2]` and of finite cyclic groups of odd order, so by the directed-union property and
+       Künneth it suffices to treat these two. For `ℤ[1/2] = ⋃_r 2^{−r}ℤ`: each `2^{−r}ℤ ≅ ℤ`, and
+       under these identifications the inclusion `2^{−r}ℤ ⊂ 2^{−r−1}ℤ` is multiplication by `2`.
+       By uniqueness, `K(ℤ, 1)` has the homology of `S¹`, and `H_1(K(G, 1)) ≅ G^{ab}` naturally in
+       `G` (item 1), so `H̃_*(K(ℤ[1/2], 1); 𝔽₂) = colim(𝔽₂ →×2 𝔽₂ →×2 ⋯) = 0`, since `×2 = 0`
+       on `𝔽₂`. Finite cyclic groups of odd order have odd-torsion reduced integral homology. For
+       `n ≥ 2`: induction through the path-loop fibration `K(A, n−1) → P → K(A, n)` over the simply
+       connected base `K(A, n)`; the mod-2 Serre spectral sequence has `E²` concentrated in the
+       bottom row, which is `H_*(K(A, n); 𝔽₂)`, so `E² = E^∞`, and the total space is
+       contractible.
+     - **The one-step lemma.** Let `n ≥ 2` and let `Z` be an `(n−1)`-connected space with
+       `H̃_*(Z; 𝔽₂) = 0`. Then:
+       - `π_n Z ≅ H_n(Z; ℤ)` (Hurewicz, Stage 8) is uniquely 2-divisible. By universal
+         coefficients, `H_n(Z; 𝔽₂) = H_n(Z) ⊗ ℤ/2 ⊕ Tor(H_{n−1}(Z), ℤ/2)` with `H_{n−1}(Z) = 0`,
+         so `H_n(Z) ⊗ ℤ/2 = 0`, and `H_{n+1}(Z; 𝔽₂) ⊇ Tor(H_n(Z), ℤ/2)`, so `Tor(H_n(Z), ℤ/2) = 0`.
+       - After CW approximation (item 2), attaching cells of dimension `≥ n + 2` to `Z` kills `π_k`
+         for `k > n` and produces a `K(π_n Z, n)` containing `Z`, with `Z → K(π_n Z, n)` an
+         isomorphism on `π_n` (Hatcher §4.1). Let `Z' → Z` be its homotopy fibre. Then `Z'` is
+         `n`-connected, `π_k Z' ≅ π_k Z` for `k > n`, and the fibre of `Z' → Z` is `ΩK(π_n Z, n)`,
+         a `K(π_n Z, n − 1)`.
+       - `H̃_*(Z'; 𝔽₂) = 0`. The mod-2 Serre spectral sequence of `K(π_n Z, n−1) → Z' → Z` has a
+         simply connected base, `H̃_*(Z; 𝔽₂) = 0`, and `H̃_*(K(π_n Z, n−1); 𝔽₂) = 0` by the previous
+         two items, so `E²` is concentrated at `(0, 0)`.
+
+       The Eilenberg--MacLane fibre sits over the `(n−1)`-connected stage `Z`, never over the
+       original space: for `Y = S²` and `n = 3`, a 3-connected `E` in a fibre sequence
+       `K(π₃S², 2) → E → S²` would give `0 = π₂(E) → π₂(S²) = ℤ → π₁(K(π₃S², 2)) = 0` in the long
+       exact sequence, which is impossible. Iterating the lemma produces the Whitehead tower
+       `⋯ → Y⟨n+1⟩ → Y⟨n⟩ → ⋯ → Y⟨2⟩ = Y` with `K(π_n Y, n−1) → Y⟨n+1⟩ → Y⟨n⟩` between
+       **successive** stages; the tower as a whole is not needed.
+     - **The induction.** Start with `Z = Y`, which is 1-connected, and `n = 2`. The lemma shows
+       that `π_2 Y` is uniquely 2-divisible and gives a 2-connected `Z'` with `H̃_*(Z'; 𝔽₂) = 0`
+       and `π_k Z' ≅ π_k Y` for `k ≥ 3`. Applying it to `Z'` with `n = 3`, and so on, shows that
+       every `π_i(Y)`, `i ≥ 2`, is uniquely 2-divisible; `π_1 Y = 0`.
 5. **Pontryagin--Thom collapse.** For a closed codimension-`k` submanifold of a closed manifold
    with a framed normal bundle, the collapse map onto `S^k`, determined by a chosen tubular
    neighbourhood (from geometric topology) and the framing. The construction is the one of the
@@ -426,8 +469,6 @@ These are general facts that the later layers use, which no other roadmap builds
      topological monoid.
    - The free loop space `𝓛X` and its component `𝓛₀X` of contractible loops.
    - Constant loops `X ↪ 𝓛₀X`.
-   - Loops of length `≤ L`, and the deformation retraction onto unit-speed loops (the source's
-     Lemma 4.5).
 2. Hurewicz fibrations, and transitive lifting functions `E ×_B P B → P E` that preserve
    concatenation. A homotopy lifting property alone does not supply a transitive lifting function.
    - Every Hurewicz fibration is a Serre fibration in the algebraic topology roadmap's sense.
@@ -584,6 +625,15 @@ corner structures.
      item 3). The extension owned here is the closed version: closed broken geodesics with a fixed
      number of breaks, their deformation equivalence with the free-loop energy sublevels, and the
      inclusions as the number of breaks grows. No second carrier is built.
+   - A closed broken geodesic with `r` breaks is determined by its vertices, an `r`-tuple of
+     points of `Q` with consecutive distances below the injectivity radius. The carrier above cuts
+     these tuples by an energy bound. The Viterbo proof (Layer 9 item 3) uses the same tuples with
+     Abouzaid's cut, `𝓛ʳQ = {q ∈ Qʳ | d(q_i, q_{i−1}) ≤ δᵢʳ}`, a compact manifold with corners for
+     generic `δᵢʳ ∈ (δ/2, δ)`, with the embeddings `ιʳ : 𝓛ʳQ → 𝓛ʳ⁺¹Q` that repeat `q_0` and the
+     maps `geoʳ : 𝓛ʳQ → 𝓛Q` sending a tuple to the broken geodesic through it, parametrized at unit
+     speed as a Moore loop. Both systems have the colimit property of BDHO §13 for `𝓛Q`, by the
+     weak equivalence of Layer 9 item 3, so the DG Morse homology of `𝓛Q` is the same through
+     either; the cut is a choice of cutoff, not a third model.
 7. **Morse--Bott energy on `CPᵈ` and `HPᵈ`**, as applications of the homotopy spheres roadmap's
    Morse--Bott API (Stage 4B items 2, 4 and 5). For the homogeneous metric, the energy functional on
    the finite-dimensional approximations of `Ω_p` is Morse--Bott:
@@ -740,6 +790,26 @@ real boundary conditions.
    - the hybrid moduli spaces `𝓑(x; y)` (Proposition 4.10), their representing chains
      (Proposition 4.11), evaluation maps (Proposition 4.13) and the equation for `b_{x,y}`
      (Proposition 4.14);
+   - the finite-dimensional approximation of the source's §4.3 (Abouzaid §11.2): the manifolds
+     `𝓛ʳQ` and the maps `ιʳ`, `geoʳ` of Layer 5 item 6, and the sampling maps
+     `evᵣ : 𝓛Q → Qʳ`, `γ ↦ (γ(0), γ(L_γ/r), …, γ((r−1)L_γ/r))`, which are continuous on the Moore
+     space because the duration `L_γ` is. The source's Lemma 4.5 is replaced by the
+     **compact-family approximation lemma**: for a compact `K ⊆ 𝓛Q`, durations are bounded on `K`
+     and `K` is equicontinuous (Arzelà--Ascoli), so there is `r(K)` with `evᵣ(K) ⊆ 𝓛ʳQ` for
+     `r ≥ r(K)`, and `geoʳ ∘ evᵣ|_K` is homotopic to the inclusion of `K` through the canonical
+     homotopy that moves each arc `γ|_{[(i−1)L_γ/r, iL_γ/r]}` to the minimizing geodesic between
+     its endpoints inside a convex ball and interpolates the durations linearly. It is natural in
+     `K`. It shows that `colim geoʳ : colim 𝓛ʳQ → 𝓛Q` is a weak homotopy equivalence (Abouzaid,
+     Proposition 11.2.4), which suffices by Layer 1 item 2: surjectivity on `π_k` by applying it
+     to the image of a sphere; injectivity by applying it to the image of a nullhomotopy in `𝓛Q`
+     of `geoʳ ∘ σ`, for `σ : S^k → 𝓛ʳQ`, together with a homotopy inside `𝓛^{r'}Q`, for
+     `r' ≥ r` large, between `ev_{r'} ∘ geoʳ` and the iterated `ι`, which slides the sample
+     vertices along the broken geodesic while the consecutive distances stay below the cut (this
+     is where the monotonicity `δᵢʳ ≤ δⱼʳ⁺¹` of the cutoffs is used). Part 1 of the source's
+     Lemma 4.5, the retraction of the Moore loops of length `≤ L` onto the unit-speed ones, is
+     false on the Moore carrier (standing conventions) and is not consumed by the source: its only
+     use, in the proof of Lemma 4.15, is `geoʳ ∘ evᵣ ≃ id` on the compact set
+     `⋃_x π ∘ Im ∘ q̄_x(𝓜̄(x))`, which the compact-family lemma supplies;
    - the finite-dimensional reduction (Lemma 4.15);
    - the chain map `Ψ̃^r` (Proposition 4.16).
 
@@ -820,6 +890,11 @@ real boundary conditions.
    - In `K_m`, `d²(x) = 0`; through the bridge, the right `R^op`-module complex has `d² = 0`.
    - The literal right-free reading `d(e_x) = e_z a + e_y c`, `d(e_z) = e_y b` gives
      `d²(e_x) = e_y(ba − ab) ≠ 0`, recorded as the reason for the variance convention.
+   - Action dependence: `A = ℚ × ℚ` in degree `0` with zero differential, `M = ℚ` in degree `0`
+     with the right action through the first, respectively the second projection; `ind x = 1`,
+     `ind y = 0`, `m_{x,y} = (1, 0)`. The twisted differential of `Suggested.lean` gives
+     `D(1 ⊗ x) = 1 ⊗ y` for the first action and `D(1 ⊗ x) = 0` for the second, and
+     `#check @twistedDifferential` shows the right-action instance among its arguments.
 3. **Classical recovery.** A DG local system concentrated in degree zero gives back the Morse
    complex with classical local coefficients, naturally in the choices.
 4. **Fibration theorem on examples.**
@@ -849,6 +924,13 @@ real boundary conditions.
    - on `T*ℝ` with `H = (q² + p²)/2`, the linearized flow and its Conley--Zehnder index are the
      same before and after transport along `ν`;
    - `Ψ'^*_σ ω_can = ω_can + π^*dσ` for `Ψ'_σ(q, p) = (q, p − σ(q))`.
+10. **Loop approximation.** In the flat `S¹` and `T²`:
+    - the unit-speed loops `γ_n` of the standing conventions converge in `𝓛T²` to the constant
+      loop of duration `1`; the unit-speed loops are not closed;
+    - for the constant loop `c` of duration `1` in `𝓛S¹`, `evᵣ(c)` is the constant tuple,
+      `geoʳ ∘ evᵣ(c)` is the constant loop of duration `0`, and the homotopy of the compact-family
+      lemma is the linear interpolation of durations;
+    - for `K = {c}`, `r(K) = 1`.
 
 ## Source coverage
 
@@ -885,7 +967,7 @@ version (TeX source of 13 May 2026, compiled).
 | Lem 3.41 | 10.4 |
 | Props 3.44--3.46, Thm 3.49 | 8.7 |
 | Prop 4.1, Cor 4.17 | 9.4 |
-| Lem 4.5 | 2.1 |
+| Lem 4.5 | 9.3, part 2 on compact families; part 1 (the unit-speed retraction) is false on the Moore carrier and not consumed, dropped |
 | Props 4.6, 4.7, 4.9--4.11, 4.13, 4.14, Lem 4.15, Prop 4.16 | 9.3 |
 | Thm 5.1, Prop 5.5, Lem 5.7, Prop 5.8 | 10.1 |
 | Def 5.3 | 6.5 |
