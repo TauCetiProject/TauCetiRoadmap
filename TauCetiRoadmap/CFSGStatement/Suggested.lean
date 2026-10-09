@@ -311,11 +311,9 @@ against the identity. -/
 def fixedSubgroup {G : Type*} [Group G] (F : G →* G) : Subgroup G :=
   F.eqLocus (MonoidHom.id G)
 
-/-- The ambient group attached to the valid index `d`: the points over an algebraic closure of the
-explicitly pinned simply connected Chevalley--Demazure group, or, under the explicit-carrier rule of
-`README.md`, a concrete carrier with named root subgroups that then owes the `L5` agreement with the
-pinned group. Either way the implementation must expose the root-subgroup maps specified in
-`README.md`, and neither may be a group chosen from an existence or classification theorem. -/
+/-- The ambient group attached to the valid index `d`: the points over `d.Closure` of the simply
+connected Chevalley--Demazure group of `d.dynkinType`, `ChevalleyGroup` of the Chevalley groups
+roadmap. Every family of the same diagram, twisted or not, has this same ambient group. -/
 def ValidLieTypeIndex.AmbientGroup (_d : ValidLieTypeIndex) : Type := sorry
 
 /-- The group structure on the algebraic group's points. -/
@@ -333,10 +331,9 @@ example (d : ValidLieTypeIndex) : IsAlgClosed d.Closure := inferInstance
 example (d : ValidLieTypeIndex) : CharP d.Closure d.characteristic := inferInstance
 
 /-- The numbered simple root subgroup `x_{α_i}` of the pinning, as a map from the additive group of
-the algebraic closure. The full root-subgroup family is part of the pinned route's contract, and an
-explicit carrier owes the positive and negative simple root subgroups and generation by them, as
-`README.md` states under L0; this is the piece the equations below are stated against, and the piece
-a pinning normalizes. -/
+the algebraic closure: `rootSubgroup` of the Chevalley groups roadmap at `DynkinType.simpleIndex`.
+The root subgroups for every root come from that roadmap; this is the piece the equations below are
+stated against, and the piece a pinning normalizes. -/
 def ValidLieTypeIndex.simpleRootSubgroup (d : ValidLieTypeIndex) (i : Fin d.rank)
     (t : d.Closure) : d.AmbientGroup := sorry
 
@@ -360,11 +357,12 @@ family, so no branch needs a dummy construction. -/
 def GraphTwistedIndex.graphAut (d : GraphTwistedIndex) :
     d.1.AmbientGroup →* d.1.AmbientGroup := sorry
 
-/-- `γ (x_α(t)) = x_{γ α}(t)` for `α` simple. This is the pinning condition, and `γ` is then the
-unique automorphism with that action, by the isomorphism theorem for pinned groups targeted in the
-reductive-groups roadmap. It must not be strengthened to arbitrary roots: there the equation carries
-signs `ε_α = ±1` forced by the structure constants, and the type-`A` graph automorphism
-`X ↦ -J Xᵀ J` of `sl_n` already exhibits them. -/
+/-- `γ (x_α(t)) = x_{γ α}(t)` for `α` positive simple; the same holds for the negative simple roots.
+Together these are the pinning condition, and `γ` is then the unique automorphism with that action,
+by C5 of the Chevalley groups roadmap. It must not be
+strengthened to arbitrary roots: there the equation carries signs `ε_α = ±1` forced by the
+structure constants, and the type-`A` graph automorphism `X ↦ -J Xᵀ J` of `sl_n` already exhibits
+them. -/
 theorem GraphTwistedIndex.graphAut_simpleRootSubgroup (d : GraphTwistedIndex) (i : Fin d.1.rank)
     (t : d.1.Closure) :
     d.graphAut (d.1.simpleRootSubgroup i t) = d.1.simpleRootSubgroup (d.diagramPerm i) t := sorry
@@ -373,8 +371,8 @@ theorem GraphTwistedIndex.graphAut_simpleRootSubgroup (d : GraphTwistedIndex) (i
 def ValidLieTypeIndex.primeFrobenius (d : ValidLieTypeIndex) :
     d.AmbientGroup →* d.AmbientGroup := sorry
 
-/-- The exceptional isogeny `τ_X` on the points of `e`, obtained from the special isogeny of pinned
-group schemes targeted by the reductive-groups roadmap rather than constructed here. What this
+/-- The exceptional isogeny `τ_X` on the points of `e`, obtained from the exceptional isogeny of the
+Chevalley group, C5 of the Chevalley groups roadmap, rather than constructed here. What this
 roadmap owns is selecting it for the index and taking the odd power below. -/
 def SuzukiReeIndex.halfFrobenius (e : SuzukiReeIndex) :
     e.1.AmbientGroup →* e.1.AmbientGroup := sorry
