@@ -2863,7 +2863,7 @@ example {p : ℕ} [Fact p.Prime] :
 
 /-- §1.7: comparison on finite-free base-change tensors. -/
 theorem extendCoefficients_baseChange_tmul {p : ℕ} [Fact p.Prime]
-    [CommGroup X] [IsTopologicalGroup X] [Algebra ℤ_[p] O]
+    [CommGroup X] [IsTopologicalGroup X] [Algebra ℤ_[p] O] [ContinuousSMul ℤ_[p] O]
     [Module.Free ℤ_[p] O] [Module.Finite ℤ_[p] O]
     (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1)
     (hi : Isometry (j.comp (algebraMap ℤ_[p] O)))
