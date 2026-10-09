@@ -14,7 +14,6 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 ## Roadmaps
 
 - [A statement of the classification of finite simple groups](TauCetiRoadmap/CFSGStatement/README.md)
-- [Algebraic codes and code-lattice constructions](TauCetiRoadmap/AlgebraicCodingTheory/README.md)
 - [Algebraic curves: function fields, divisors, and Riemann–Roch](TauCetiRoadmap/AlgebraicCurves/README.md)
 - [Algebraic topology of spaces and manifolds](TauCetiRoadmap/AlgebraicTopology/README.md)
 - [Algebraic vector bundles](TauCetiRoadmap/AlgebraicVectorBundles/README.md)
