@@ -7,7 +7,7 @@ import TauCeti.Geometry.Toric.Algebraic.FaceLocalization
 import TauCeti.Geometry.Toric.Algebraic.Fan.Scheme
 import TauCeti.Geometry.Toric.Algebraic.Fan.SubfanScheme
 import TauCeti.Geometry.Toric.Algebraic.Regular
-import TauCeti.Geometry.Toric.Analytic.AffinePoint
+import TauCeti.Geometry.Toric.Analytic.AffinePoint.Basic
 import TauCeti.Geometry.Toric.Analytic.Character.Action
 import TauCeti.Geometry.Toric.Analytic.Character.Basic
 import TauCeti.Geometry.Toric.Analytic.Cone.Manifold
