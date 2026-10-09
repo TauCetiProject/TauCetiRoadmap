@@ -107,10 +107,11 @@ import TauCeti.LinearAlgebra.ExteriorPower.Basic
 # Suggested Lean forms: p-adic measures, completed group algebras, and characteristic ideals
 
 This file is not the roadmap and it is not exhaustive. The roadmap document (README.md) is
-definitive. These signatures suggest names, hypotheses and tests so that contributors
+definitive; references of the form §k.n are to its subsections. These signatures suggest names, hypotheses and tests so that contributors
 converge on them. All new proofs use `sorry`; nothing here is claimed formalised.
-The layers appear in the order L0, L1, L2, L3, L4, L6; the statements of L0a and L5 that
-cannot be typed at the pinned libraries are named in the closing comment.
+The layers appear in the order L0, L1, L2, L3, L4, L6, then the universal character of L3a; the
+statements of L3a and L5 that cannot be typed at the pinned libraries are named in the closing
+comment.
 
 The algebraic declarations work with an explicit Dirac homomorphism `δ : G →* R` into a
 commutative ring and its existing total quotient ring. The completed group algebra, topology,
@@ -1786,7 +1787,7 @@ example : extendIntegralUnitCoefficients (R := ℚ_[p])
     (restrictUnits p ℤ_[p] (dirac ℤ_[p] (p : ℤ_[p]))) = 0 := by sorry
 end SuggestedTests.UnitIntegralLattice
 
-/-! ## Cartier operators on power series (L2/cartier-power-series)
+/-! ## Cartier operators on power series (§2.9)
 
 The coefficient-decimation operators `Λ_r` (`r ∈ ℕ`) of modulus `q ≥ 1` on `k⟦X⟧`, for any
 commutative ring `k`: `coeff n (Λ_r F) = coeff (q * n + r) F`. For every `k` one has
@@ -1798,7 +1799,7 @@ namespace PowerSeries
 
 variable (k : Type*) [CommRing k]
 
-/-- `L2/cartier-power-series`: the Cartier operator `Λ_r` of modulus `q` on power series,
+/-- §2.9: the Cartier operator `Λ_r` of modulus `q` on power series,
 `coeff n (Λ_r F) = coeff (q * n + r) F`. -/
 def cartier (q r : ℕ) : k⟦X⟧ →ₗ[k] k⟦X⟧ where
   toFun F := PowerSeries.mk fun n => coeff (q * n + r) F
@@ -1816,16 +1817,21 @@ theorem cartier_monomial (q r m : ℕ) (hq : 0 < q) (a : k) :
 
 theorem cartier_one_zero (F : k⟦X⟧) : cartier k 1 0 F = F := sorry
 
-/-- The general semilinearity: `Λ_r (F(X^q) * G) = F * Λ_r G` over any commutative ring. -/
-theorem cartier_expand_mul (q r : ℕ) (hq : q ≠ 0) (F G : k⟦X⟧) :
+/-- The general semilinearity: `Λ_r (F(X^q) * G) = F * Λ_r G` over any commutative ring, for an
+actual residue `r < q`. The hypothesis is necessary: with `q = 1`, `r = 1`, `F = X`, `G = 1` the
+left side is `1` and the right side is `0` (`CartierTests.out_of_range`). -/
+theorem cartier_expand_mul (q r : ℕ) (hq : q ≠ 0) (hr : r < q) (F G : k⟦X⟧) :
     cartier k q r (expand q hq F * G) = F * cartier k q r G := sorry
 
 /-- Decomposition of a series by residue classes of exponents modulo `q`. -/
 theorem sum_X_pow_mul_expand_cartier (q : ℕ) (hq : q ≠ 0) (F : k⟦X⟧) :
     F = ∑ r ∈ Finset.range q, X ^ r * expand q hq (cartier k q r F) := sorry
 
-/-- Christol's relation over a finite field with `q` elements: `Λ_r (F^q * G) = F * Λ_r G`. -/
-theorem cartier_pow_card_mul {K : Type*} [Field K] [Fintype K] (r : ℕ) (F G : K⟦X⟧) :
+/-- Christol's relation over a finite field with `q` elements: `Λ_r (F^q * G) = F * Λ_r G`, for
+`r < q`; for `K = 𝔽₃`, `r = 3`, `F = X`, `G = 1` the two sides are `1` and `0`
+(`CartierTests.out_of_range_finite_field`). -/
+theorem cartier_pow_card_mul {K : Type*} [Field K] [Fintype K] (r : ℕ)
+    (hr : r < Fintype.card K) (F G : K⟦X⟧) :
     cartier K (Fintype.card K) r (F ^ Fintype.card K * G) =
       F * cartier K (Fintype.card K) r G := sorry
 
@@ -1839,19 +1845,27 @@ end PowerSeries
 namespace CartierTests
 open PowerSeries
 
--- test CartierTests.single (computation) [L2/cartier-power-series]
+-- test CartierTests.single (computation) [§2.9]
 example : cartier (ZMod 3) 3 1 (monomial 7 (1 : ZMod 3)) = monomial 2 1 ∧
     cartier (ZMod 3) 3 0 (monomial 7 (1 : ZMod 3)) = 0 := sorry
--- test CartierTests.modulus_one (degenerate) [L2/cartier-power-series]
+-- test CartierTests.modulus_one (degenerate) [§2.9]
 example (F : ℤ⟦X⟧) : cartier ℤ 1 0 F = F := sorry
--- test CartierTests.frobenius (characterisation) [L2/cartier-power-series]
+-- test CartierTests.frobenius (characterisation) [§2.9]
 example (F : (ZMod 3)⟦X⟧) : cartier (ZMod 3) 3 0 (F ^ 3) = F := sorry
--- test CartierTests.residue_shift (computation) [L2/cartier-power-series]
+-- test CartierTests.residue_shift (computation) [§2.9]
 example : cartier (ZMod 3) 3 1 (X : (ZMod 3)⟦X⟧) = 1 ∧
     cartier (ZMod 3) 3 0 (X : (ZMod 3)⟦X⟧) = 0 := sorry
--- test CartierTests.not_multiplicative (non-example) [L2/cartier-power-series]
+-- test CartierTests.not_multiplicative (non-example) [§2.9]
 example : cartier (ZMod 2) 2 0 ((X : (ZMod 2)⟦X⟧) * X) ≠
     cartier (ZMod 2) 2 0 (X : (ZMod 2)⟦X⟧) * cartier (ZMod 2) 2 0 (X : (ZMod 2)⟦X⟧) := sorry
+-- test CartierTests.out_of_range (non-example) [§2.9]
+-- `q = 1`, `r = 1` (so `F(X^q) = F = X`): `Λ_1 (X · 1) = 1` while `X · Λ_1 1 = 0`, so `cartier_expand_mul` needs `r < q`.
+example : cartier ℤ 1 1 (expand 1 one_ne_zero (X : ℤ⟦X⟧) * 1) = 1 ∧
+    (X : ℤ⟦X⟧) * cartier ℤ 1 1 1 = 0 := sorry
+-- test CartierTests.out_of_range_finite_field (non-example) [§2.9]
+-- `K = 𝔽₃`, `r = 3 = #K`: `Λ_3 (X^3 · 1) = 1` while `X · Λ_3 1 = 0`, so `cartier_pow_card_mul` needs `r < #K`.
+example : cartier (ZMod 3) 3 3 ((X : (ZMod 3)⟦X⟧) ^ 3 * 1) = 1 ∧
+    (X : (ZMod 3)⟦X⟧) * cartier (ZMod 3) 3 3 1 = 0 := sorry
 
 end CartierTests
 
@@ -1859,7 +1873,7 @@ end CartierTests
 ## Residue of the integral averaging operator
 
 Existing ZMod p and existing power series are used. The Cartier operators are the power-series
-operators `PowerSeries.cartier` defined above (L2/cartier-power-series); only modulus q=p and
+operators `PowerSeries.cartier` defined above (§2.9); only modulus q=p and
 0≤i<p are consumed. The residue operator is their signed sum; its semilinearity is the finite-field
 specialization of `cartier_expand_mul`.
 The previous AbstractMeasure.psiMeasure_dirac signature is promoted, not declared twice.
@@ -1883,7 +1897,7 @@ theorem psiSeries_one_add_X_pow (n : ℕ) :
     AbstractMeasure.psiSeries p ((1+X : B)^n) =
       if p ∣ n then (1+X : B)^(n/p) else 0 := sorry
 
-/-- `L2/residue-psi`: the finite weighted sum Σ (-1)^i Λ_i of the Cartier operators of modulus p. -/
+/-- §2.10: the finite weighted sum Σ (-1)^i Λ_i of the Cartier operators of modulus p. -/
 def residuePsi : B₀ →ₗ[ZMod p] B₀ :=
   ∑ i ∈ Finset.range p, ((-1 : ZMod p) ^ i) • PowerSeries.cartier (ZMod p) p i
 
@@ -1974,26 +1988,26 @@ variable {X A B R : Type*} [TopologicalSpace X]
   [CommRing R] [TopologicalSpace R] [IsTopologicalRing R]
 
 def finiteProjection (q : C(X,A)) : D(X,R) →ₗ[R] (A →₀ R) := sorry
-lemma finiteProjection_zero (q : C(X,A)) : finiteProjection (R := R) q 0 = 0 := sorry
-lemma finiteProjection_add (q : C(X,A)) (μ ν : D(X,R)) :
+theorem finiteProjection_zero (q : C(X,A)) : finiteProjection (R := R) q 0 = 0 := sorry
+theorem finiteProjection_add (q : C(X,A)) (μ ν : D(X,R)) :
     finiteProjection q (μ+ν) = finiteProjection q μ + finiteProjection q ν := sorry
-lemma finiteProjection_smul (q : C(X,A)) (c : R) (μ : D(X,R)) :
+theorem finiteProjection_smul (q : C(X,A)) (c : R) (μ : D(X,R)) :
     finiteProjection q (c • μ) = c • finiteProjection q μ := sorry
-lemma finiteProjection_apply (q : C(X,A)) (μ : D(X,R)) (a : A) :
+theorem finiteProjection_apply (q : C(X,A)) (μ : D(X,R)) (a : A) :
     finiteProjection q μ a = μ ((ContinuousMap.equivFnOfDiscrete.symm
       (Function.update (fun _ => 0) a 1)).comp q) := sorry
-lemma finiteProjection_pairing (q : C(X,A)) (μ : D(X,R)) (h : A → R) :
+theorem finiteProjection_pairing (q : C(X,A)) (μ : D(X,R)) (h : A → R) :
     μ ((ContinuousMap.equivFnOfDiscrete.symm h).comp q) =
       ∑ a, h a * finiteProjection q μ a := sorry
-lemma finiteProjection_dirac (q : C(X,A)) (x : X) :
+theorem finiteProjection_dirac (q : C(X,A)) (x : X) :
     finiteProjection q (dirac R x) = Finsupp.single (q x) 1 := sorry
-lemma finiteProjection_refinement (q : C(X,A)) (h : C(A,B)) (μ : D(X,R)) :
+theorem finiteProjection_refinement (q : C(X,A)) (h : C(A,B)) (μ : D(X,R)) :
     finiteProjection (h.comp q) μ = Finsupp.mapDomain h (finiteProjection q μ) := sorry
-lemma finiteProjection_totalMass (q : C(X,A)) (μ : D(X,R)) :
+theorem finiteProjection_totalMass (q : C(X,A)) (μ : D(X,R)) :
     ∑ a, finiteProjection q μ a = μ (ContinuousMap.const X 1) := sorry
-lemma finiteProjection_reconstruct (μ : D(A,R)) :
+theorem finiteProjection_reconstruct (μ : D(A,R)) :
     μ = ∑ a, finiteProjection (ContinuousMap.id A) μ a • dirac R a := sorry
-lemma finiteProjection_bijective :
+theorem finiteProjection_bijective :
     Function.Bijective (finiteProjection (R := R) (ContinuousMap.id A)) := sorry
 end FiniteCoefficients
 
@@ -2001,7 +2015,7 @@ section FiniteTopology
 variable {X A R : Type*} [TopologicalSpace X]
   [Fintype A] [DecidableEq A] [TopologicalSpace A] [DiscreteTopology A]
   [NormedCommRing R]
-lemma continuous_finiteProjection_coeff (q : C(X,A)) (a : A) :
+theorem continuous_finiteProjection_coeff (q : C(X,A)) (a : A) :
     letI := WeakTopology (X := X) (R := R) (E := R)
     Continuous (fun μ : D(X,R) => finiteProjection q μ a) := sorry
 variable [CompactSpace X] [T2Space X] [TotallyDisconnectedSpace X]
@@ -2017,24 +2031,24 @@ variable {X A B : Type*} [TopologicalSpace X]
 variable (p : ℕ) [Fact p.Prime]
 def jointFiniteProjection (r : ℕ) (q : C(X,A)) :
     D(X,ℤ_[p]) →+ (A →₀ ZMod (p^r)) := sorry
-lemma jointFiniteProjection_zero (r : ℕ) (q : C(X,A)) :
+theorem jointFiniteProjection_zero (r : ℕ) (q : C(X,A)) :
     jointFiniteProjection p r q 0 = 0 := sorry
-lemma jointFiniteProjection_add (r : ℕ) (q : C(X,A)) (μ ν : D(X,ℤ_[p])) :
+theorem jointFiniteProjection_add (r : ℕ) (q : C(X,A)) (μ ν : D(X,ℤ_[p])) :
     jointFiniteProjection p r q (μ+ν) =
       jointFiniteProjection p r q μ + jointFiniteProjection p r q ν := sorry
-lemma jointFiniteProjection_zero_precision (q : C(X,A)) (μ : D(X,ℤ_[p])) :
+theorem jointFiniteProjection_zero_precision (q : C(X,A)) (μ : D(X,ℤ_[p])) :
     jointFiniteProjection p 0 q μ = 0 := sorry
-lemma jointFiniteProjection_apply (r : ℕ) (q : C(X,A)) (μ : D(X,ℤ_[p])) (a : A) :
+theorem jointFiniteProjection_apply (r : ℕ) (q : C(X,A)) (μ : D(X,ℤ_[p])) (a : A) :
     jointFiniteProjection p r q μ a = PadicInt.toZModPow r (finiteProjection q μ a) := sorry
-lemma jointFiniteProjection_precision (r s : ℕ) (hrs : r ≤ s)
+theorem jointFiniteProjection_precision (r s : ℕ) (hrs : r ≤ s)
     (q : C(X,A)) (μ : D(X,ℤ_[p])) :
     Finsupp.mapRange (ZMod.castHom (pow_dvd_pow p hrs) (ZMod (p^r))) (map_zero _)
       (jointFiniteProjection p s q μ) = jointFiniteProjection p r q μ := sorry
-lemma jointFiniteProjection_refinement (r : ℕ) (q : C(X,A)) (h : C(A,B))
+theorem jointFiniteProjection_refinement (r : ℕ) (q : C(X,A)) (h : C(A,B))
     (μ : D(X,ℤ_[p])) :
     jointFiniteProjection p r (h.comp q) μ =
       Finsupp.mapDomain h (jointFiniteProjection p r q μ) := sorry
-lemma jointFiniteProjection_dirac (r : ℕ) (q : C(X,A)) (x : X) :
+theorem jointFiniteProjection_dirac (r : ℕ) (q : C(X,A)) (x : X) :
     jointFiniteProjection p r q (dirac ℤ_[p] x) = Finsupp.single (q x) 1 := sorry
 variable [CompactSpace X] [T2Space X] [TotallyDisconnectedSpace X]
 theorem jointFiniteProjection_ext (μ ν : D(X,ℤ_[p]))
@@ -2086,31 +2100,33 @@ set_option quotPrecheck false in
 local notation "dil" a => (⟨fun x : Z => a*x,
   continuous_const.mul continuous_id⟩ : C(Z,Z))
 
-/-- L2/mahler-dilation-natural. -/
+/-- §2.11: the Mahler function `mahler n` at `a * m`, `m : ℕ`, expanded in the Mahler basis with
+the coefficients of `(binomialSeries a - 1)^k`. -/
 theorem mahler_mul_padic_nat (a : Z) (m n : ℕ) :
     mahler n (a * (m : Z)) =
       ∑ k ∈ Finset.range (n+1), coeff n ((ba a)^k) * mahler k (m : Z) := by sorry
-/-- L2/mahler-dilation. -/
+/-- §2.11: the Mahler dilation identity, `mahler n (a * x) = Σ_k coeff n ((binomialSeries a - 1)^k)
+* mahler k x`, from the natural case by continuity. -/
 theorem mahler_mul_padic (a : Z) (n : ℕ) (x : Z) :
     mahler n (a*x) =
       ∑ k ∈ Finset.range (n+1), coeff n ((ba a)^k) * mahler k x := by sorry
-/-- L2/amice-dilation. -/
+/-- §2.11: the Amice transform of the dilation pushforward is the binomial substitution `S_a`. -/
 theorem amiceTransform_map_mul (a : Z) (μ : D(Z,Z)) :
     (map (dil a) μ).amiceTransform = subst (ba a) μ.amiceTransform := by sorry
-/-- L2/unit-restriction-dilation. -/
+/-- §2.11: unit restriction commutes with dilation by a unit. -/
 theorem unitRestriction_map_unit (R : Type*) [NormedCommRing R]
     (a : Zˣ) (μ : D(Z,R)) :
     unitRestriction p R (map (dil (a : Z)) μ) =
       map (dil (a : Z)) (unitRestriction p R μ) := by sorry
-/-- L2/unit-dilation-psi-kernel. -/
+/-- §2.11: dilation by a unit preserves the kernel of `psiSeries`. -/
 theorem psiSeries_subst_binomial_eq_zero (a : Zˣ) (F : B)
     (hF : psiSeries p F = 0) :
     psiSeries p (subst (ba (a : Z)) F) = 0 := by sorry
-/-- L2/inverse-mahler-dilation. -/
+/-- §2.11: inverse Mahler covariance under binomial substitution by a unit, with the factor `a⁻¹`. -/
 theorem inverseMahler_subst_binomial_unit (a : Zˣ) (F : B) :
     inverseMahler p (subst (ba (a : Z)) F) =
       (↑(a⁻¹) : Z) • subst (ba (a : Z)) (inverseMahler p F) := by sorry
-/-- L2/binomial-substitution-coefficient-continuity. -/
+/-- §2.11: the binomial substitution `S_a` is continuous for the coefficientwise topology. -/
 theorem continuous_subst_binomial (a : Z) :
     Continuous (fun F : B => subst (ba a) F) := by sorry
 
@@ -2143,8 +2159,8 @@ example : psiSeries 3 (1 + PowerSeries.X) = 0 ∧
 end AbstractMeasure
 
 /-! Convolution and finite algebra coordinates (L1).
-The right-handed orientation and the principal names follow Mathlib pull request 41961
-(`Mathlib/NumberTheory/Padics/Measure/Monoid.lean`). All
+The right-handed orientation and the principal names are those of Mathlib's
+`Mathlib/NumberTheory/Padics/Measure/Monoid.lean`, which is in the pinned Mathlib. All
 proofs below are `sorry`; the structural fields fix the multiplication and the identity of the
 ring instance. -/
 namespace AbstractMeasure
@@ -2155,18 +2171,18 @@ variable {G H R : Type*} [TopologicalSpace G] [Monoid G] [ContinuousMul G]
   [LocallyCompactSpace G] [TopologicalSpace H] [Monoid H] [ContinuousMul H]
   [LocallyCompactSpace H] [CommRing R] [TopologicalSpace R] [IsTopologicalRing R]
 
-/- `L1/right-convolution-function`, `L1/convolution-product` and `L1/convolution-algebra` are
+/- Right convolution of a function, the convolution product and the algebra of measures are
 Mathlib's `AbstractMeasure.convolveFunRight` (with `convolveFunRight_apply`,
 `convolveFunRight_dirac_apply`, `convolveFunRight_apply_one`, `convolveFunRight_one`,
 `convolveFunRight_mul`), the `Mul`, `One`, `Ring` and `Algebra R` instances on `D(G,R)` with
 `mul_def`, `mul_apply`, `dirac_mul_dirac`, `one_def` and `one_apply`, and the `CommRing` instance
 for commutative `G` (`Mathlib.NumberTheory.Padics.Measure.Monoid`); they are not restated. The
 examples below exercise those instances. -/
-lemma algebraMap_apply (r : R) (f : C(G,R)) :
+theorem algebraMap_apply (r : R) (f : C(G,R)) :
     algebraMap R D(G,R) r f = r * f 1 := sorry
-lemma map_mul (h : G →* H) (hh : Continuous h) (μ ν : D(G,R)) :
+theorem map_mul (h : G →* H) (hh : Continuous h) (μ ν : D(G,R)) :
     map ⟨h,hh⟩ (μ*ν) = map ⟨h,hh⟩ μ * map ⟨h,hh⟩ ν := sorry
-lemma mul_totalMass (μ ν : D(G,R)) :
+theorem mul_totalMass (μ ν : D(G,R)) :
     (μ*ν) (ContinuousMap.const G 1) =
       μ (ContinuousMap.const G 1) * ν (ContinuousMap.const G 1) := sorry
 
@@ -2199,30 +2215,30 @@ section FiniteAlgebra
 variable {G A R : Type*} [TopologicalSpace G] [Monoid G] [ContinuousMul G]
   [LocallyCompactSpace G] [TopologicalSpace A] [Monoid A] [Fintype A] [DecidableEq A]
   [DiscreteTopology A] [CommRing R] [TopologicalSpace R] [IsTopologicalRing R]
-lemma finiteProjection_map (q : C(G,A)) (μ : D(G,R)) :
+theorem finiteProjection_map (q : C(G,A)) (μ : D(G,R)) :
     finiteProjection (.id A) (map q μ) = finiteProjection q μ := sorry
-lemma finite_convolution_expansion (μ ν : D(A,R)) :
+theorem finite_convolution_expansion (μ ν : D(A,R)) :
     μ*ν = ∑ a, ∑ b, (finiteProjection (.id A) μ a * finiteProjection (.id A) ν b) •
       dirac R (a*b) := sorry
-lemma finiteProjection_mul (q : G →* A) (hq : Continuous q) (μ ν : D(G,R)) :
+theorem finiteProjection_mul (q : G →* A) (hq : Continuous q) (μ ν : D(G,R)) :
     MonoidAlgebra.ofCoeff (finiteProjection ⟨q,hq⟩ (μ*ν)) =
       MonoidAlgebra.ofCoeff (finiteProjection ⟨q,hq⟩ μ) *
         MonoidAlgebra.ofCoeff (finiteProjection ⟨q,hq⟩ ν) := sorry
 def finiteProjectionAlgHom (q : G →* A) (hq : Continuous q) :
     D(G,R) →ₐ[R] MonoidAlgebra R A := sorry
-lemma finiteProjectionAlgHom_apply (q : G →* A) (hq : Continuous q) (μ : D(G,R)) :
+theorem finiteProjectionAlgHom_apply (q : G →* A) (hq : Continuous q) (μ : D(G,R)) :
     finiteProjectionAlgHom q hq μ = MonoidAlgebra.ofCoeff (finiteProjection ⟨q,hq⟩ μ) := sorry
-lemma finiteProjectionAlgHom_coeff (q : G →* A) (hq : Continuous q) (μ : D(G,R)) (a : A) :
+theorem finiteProjectionAlgHom_coeff (q : G →* A) (hq : Continuous q) (μ : D(G,R)) (a : A) :
     (finiteProjectionAlgHom q hq μ).coeff a = finiteProjection ⟨q,hq⟩ μ a := sorry
-lemma finiteProjectionAlgHom_dirac (q : G →* A) (hq : Continuous q) (x : G) :
+theorem finiteProjectionAlgHom_dirac (q : G →* A) (hq : Continuous q) (x : G) :
     finiteProjectionAlgHom (R := R) q hq (dirac R x) = MonoidAlgebra.single (q x) 1 := sorry
 
 def finiteProjectionAlgEquiv : D(A,R) ≃ₐ[R] MonoidAlgebra R A := sorry
-lemma finiteProjectionAlgEquiv_apply (μ : D(A,R)) :
+theorem finiteProjectionAlgEquiv_apply (μ : D(A,R)) :
     finiteProjectionAlgEquiv μ = finiteProjectionAlgHom (MonoidHom.id A) continuous_id μ := sorry
-lemma finiteProjectionAlgEquiv_symm_apply (c : MonoidAlgebra R A) :
+theorem finiteProjectionAlgEquiv_symm_apply (c : MonoidAlgebra R A) :
     finiteProjectionAlgEquiv.symm c = ∑ a, c.coeff a • dirac R a := sorry
-lemma finiteProjectionAlgEquiv_symm_single (a : A) (r : R) :
+theorem finiteProjectionAlgEquiv_symm_single (a : A) (r : R) :
     finiteProjectionAlgEquiv.symm (MonoidAlgebra.single a r) = r • dirac R a := sorry
 -- ConvolutionTests.finite_algebra_one
 example (q : G →* A) (hq : Continuous q) :
@@ -2241,19 +2257,19 @@ example (a b : A) (r s : R) :
       (r*s) • dirac R (a*b) := sorry
 
 variable (p : ℕ) [Fact p.Prime]
-lemma jointFiniteProjection_mul (r : ℕ) (q : G →* A) (hq : Continuous q)
+theorem jointFiniteProjection_mul (r : ℕ) (q : G →* A) (hq : Continuous q)
     (μ ν : D(G,ℤ_[p])) :
     MonoidAlgebra.ofCoeff (jointFiniteProjection p r ⟨q,hq⟩ (μ*ν)) =
       MonoidAlgebra.ofCoeff (jointFiniteProjection p r ⟨q,hq⟩ μ) *
         MonoidAlgebra.ofCoeff (jointFiniteProjection p r ⟨q,hq⟩ ν) := sorry
 def jointFiniteProjectionRingHom (r : ℕ) (q : G →* A) (hq : Continuous q) :
     D(G,ℤ_[p]) →+* MonoidAlgebra (ZMod (p^r)) A := sorry
-lemma jointFiniteProjectionRingHom_apply (r : ℕ) (q : G →* A) (hq : Continuous q)
+theorem jointFiniteProjectionRingHom_apply (r : ℕ) (q : G →* A) (hq : Continuous q)
     (μ : D(G,ℤ_[p])) : jointFiniteProjectionRingHom p r q hq μ =
       MonoidAlgebra.ofCoeff (jointFiniteProjection p r ⟨q,hq⟩ μ) := sorry
-lemma jointFiniteProjectionRingHom_dirac (r : ℕ) (q : G →* A) (hq : Continuous q) (x : G) :
+theorem jointFiniteProjectionRingHom_dirac (r : ℕ) (q : G →* A) (hq : Continuous q) (x : G) :
     jointFiniteProjectionRingHom p r q hq (dirac ℤ_[p] x) = MonoidAlgebra.single (q x) 1 := sorry
-lemma jointFiniteProjectionRingHom_zero_precision (q : G →* A) (hq : Continuous q)
+theorem jointFiniteProjectionRingHom_zero_precision (q : G →* A) (hq : Continuous q)
     (μ : D(G,ℤ_[p])) : jointFiniteProjectionRingHom p 0 q hq μ = 0 := sorry
 end FiniteAlgebra
 
@@ -2301,38 +2317,37 @@ variable (p : ℕ) [Fact p.Prime]
 (`TauCeti.NumberTheory.Padics.RingHoms`), a continuous homomorphism; its value on units
 (`coe_unitsToZModPow_apply`), surjectivity (`surjective_units_map_toZModPow`) and the
 continuity of `toZModPow` are library facts and are not restated. -/
-/- `L1/local-field-integers-comparison` is Tau Ceti's `Padic.integerRing_eq_subring`
+/- The identification `𝒪[ℚ_p] = PadicInt.subring p` is Tau Ceti's `Padic.integerRing_eq_subring`
 (`TauCeti.NumberTheory.LocalField.Padic`). The kernel of `unitsToZModPow n` is Tau Ceti's
 `TauCeti.unitsPrincipal p n` (`TauCeti.NumberTheory.Padics.PrincipalUnits`), whose membership,
 openness and neighbourhood-basis lemmas `mem_unitsPrincipal_iff`, `isOpen_unitsPrincipal` and
 `hasBasis_nhds_one_unitsPrincipal` are not restated. -/
-lemma unitsToZModPow_zero (u : (ℤ_[p])ˣ) : (PadicInt.unitsToZModPow (p := p) 0).toMonoidHom u = 1 := sorry
-lemma unitsToZModPow_refinement (m n : ℕ) (h : m ≤ n) :
+theorem unitsToZModPow_zero (u : (ℤ_[p])ˣ) : (PadicInt.unitsToZModPow (p := p) 0).toMonoidHom u = 1 := sorry
+theorem unitsToZModPow_refinement (m n : ℕ) (h : m ≤ n) :
     (ZMod.unitsMap (pow_dvd_pow p h)).comp ((PadicInt.unitsToZModPow (p := p) n).toMonoidHom) = (PadicInt.unitsToZModPow (p := p) m).toMonoidHom := sorry
-lemma toZModPow_eq_iff_norm_sub_le (n : ℕ) (x y : ℤ_[p]) :
+theorem toZModPow_eq_iff_norm_sub_le (n : ℕ) (x y : ℤ_[p]) :
     toZModPow n x = toZModPow n y ↔ ‖x-y‖ ≤ (p:ℝ)^(-(n:ℤ)) := sorry
-lemma unitsToZModPow_ker_eq_unitFiltration (n : ℕ) :
+theorem unitsToZModPow_ker_eq_unitFiltration (n : ℕ) :
     ((PadicInt.unitsToZModPow (p := p) n).toMonoidHom).ker = (TauCeti.unitFiltration ℚ_[p] n).comap
       (Units.map (Coe.ringHom (p := p)).toMonoidHom) := sorry
 theorem exists_ker_unitsToZModPow_le (H : OpenSubgroup (ℤ_[p])ˣ) :
     ∃ n, ((PadicInt.unitsToZModPow (p := p) n).toMonoidHom).ker ≤ H.toSubgroup := sorry
-lemma unitsToZModPow_ext (u v : (ℤ_[p])ˣ)
-    (h : ∀ n, (PadicInt.unitsToZModPow (p := p) n).toMonoidHom u = (PadicInt.unitsToZModPow (p := p) n).toMonoidHom v) : u = v := sorry
+-- Separation of units by their reductions is `TauCeti.iInf_unitsPrincipal_eq_bot` and is not restated.
 
 def unitsToZModPowQuotient (n : ℕ) :
     (ℤ_[p])ˣ ⧸ ((PadicInt.unitsToZModPow (p := p) n).toMonoidHom).ker ≃* (ZMod (p^n))ˣ := sorry
-lemma unitsToZModPowQuotient_mk (n : ℕ) (u : (ℤ_[p])ˣ) :
+theorem unitsToZModPowQuotient_mk (n : ℕ) (u : (ℤ_[p])ˣ) :
     unitsToZModPowQuotient p n (QuotientGroup.mk u) = (PadicInt.unitsToZModPow (p := p) n).toMonoidHom u := sorry
-lemma unitsToZModPowQuotient_symm_apply (n : ℕ) (u : (ℤ_[p])ˣ) :
+theorem unitsToZModPowQuotient_symm_apply (n : ℕ) (u : (ℤ_[p])ˣ) :
     (unitsToZModPowQuotient p n).symm ((PadicInt.unitsToZModPow (p := p) n).toMonoidHom u) = QuotientGroup.mk u := sorry
-lemma unitsToZModPowQuotient_eq_native (n : ℕ) :
+theorem unitsToZModPowQuotient_eq_native (n : ℕ) :
     unitsToZModPowQuotient p n = QuotientGroup.quotientKerEquivOfSurjective
       ((PadicInt.unitsToZModPow (p := p) n).toMonoidHom) (PadicInt.surjective_units_map_toZModPow n) := sorry
 
 theorem exists_unitsToZModPow_factor {A : Type*} [Group A] [TopologicalSpace A]
     [DiscreteTopology A] (q : (ℤ_[p])ˣ →* A) (hq : Continuous q) :
     ∃ n, ∃ t : (ZMod (p^n))ˣ →* A, t.comp ((PadicInt.unitsToZModPow (p := p) n).toMonoidHom) = q := sorry
-lemma unitsToZModPow_factor_unique {A : Type*} [Monoid A] (n : ℕ)
+theorem unitsToZModPow_factor_unique {A : Type*} [Monoid A] (n : ℕ)
     (t t' : (ZMod (p^n))ˣ →* A)
     (h : t.comp ((PadicInt.unitsToZModPow (p := p) n).toMonoidHom) = t'.comp ((PadicInt.unitsToZModPow (p := p) n).toMonoidHom)) : t=t' := sorry
 end PadicInt
@@ -2378,49 +2393,49 @@ noncomputable section
 open scoped AbstractMeasure
 variable (p : ℕ) [Fact p.Prime]
 
-lemma PadicInt.unitsToZModPow_function_factor_iff {A : Type*} (n : ℕ) (f : (ℤ_[p])ˣ → A) :
+theorem PadicInt.unitsToZModPow_function_factor_iff {A : Type*} (n : ℕ) (f : (ℤ_[p])ˣ → A) :
     (∃ g : (ZMod (p^n))ˣ → A, g ∘ (PadicInt.unitsToZModPow (p := p) n).toMonoidHom = f) ↔
       ((PadicInt.unitsToZModPow (p := p) n).toMonoidHom).ker ≤ TauCeti.rightTranslationStabilizer f := sorry
 
-lemma PadicInt.exists_unitsToZModPow_locallyConstant_factor {A : Type*} (f : (ℤ_[p])ˣ → A)
+theorem PadicInt.exists_unitsToZModPow_locallyConstant_factor {A : Type*} (f : (ℤ_[p])ˣ → A)
     (hf : IsLocallyConstant f) :
     ∃ n, ∃ g : (ZMod (p^n))ˣ → A, g ∘ (PadicInt.unitsToZModPow (p := p) n).toMonoidHom = f := sorry
 
-lemma PadicInt.isLocallyConstant_iff_unitsToZModPow_factor {A : Type*} (f : (ℤ_[p])ˣ → A) :
+theorem PadicInt.isLocallyConstant_iff_unitsToZModPow_factor {A : Type*} (f : (ℤ_[p])ˣ → A) :
     IsLocallyConstant f ↔ ∃ n, ∃ g : (ZMod (p^n))ˣ → A,
       g ∘ (PadicInt.unitsToZModPow (p := p) n).toMonoidHom = f := sorry
 
-lemma PadicInt.unitsToZModPow_function_factor_unique {A : Type*} (n : ℕ)
+theorem PadicInt.unitsToZModPow_function_factor_unique {A : Type*} (n : ℕ)
     (g h : (ZMod (p^n))ˣ → A)
     (heq : g ∘ (PadicInt.unitsToZModPow (p := p) n).toMonoidHom = h ∘ (PadicInt.unitsToZModPow (p := p) n).toMonoidHom) : g = h := sorry
 
-lemma PadicInt.unitsToZModPow_function_factor_refinement {A : Type*} (m n : ℕ) (hmn : m ≤ n)
+theorem PadicInt.unitsToZModPow_function_factor_refinement {A : Type*} (m n : ℕ) (hmn : m ≤ n)
     (f : (ℤ_[p])ˣ → A) (g : (ZMod (p^m))ˣ → A)
     (hg : g ∘ (PadicInt.unitsToZModPow (p := p) m).toMonoidHom = f) :
     (g ∘ ZMod.unitsMap (pow_dvd_pow p hmn)) ∘ (PadicInt.unitsToZModPow (p := p) n).toMonoidHom = f := sorry
 
-lemma PadicInt.exists_unitsToZModPow_continuous_factor {A : Type*} [TopologicalSpace A] [DiscreteTopology A]
+theorem PadicInt.exists_unitsToZModPow_continuous_factor {A : Type*} [TopologicalSpace A] [DiscreteTopology A]
     (f : (ℤ_[p])ˣ → A) (hf : Continuous f) :
     ∃ n, ∃ g : (ZMod (p^n))ˣ → A, g ∘ (PadicInt.unitsToZModPow (p := p) n).toMonoidHom = f := sorry
 
-lemma PadicInt.unitsToZModPow_zero_factor_iff {A : Type*} (f : (ℤ_[p])ˣ → A) :
+theorem PadicInt.unitsToZModPow_zero_factor_iff {A : Type*} (f : (ℤ_[p])ˣ → A) :
     (∃ g : (ZMod (p^0))ˣ → A, g ∘ (PadicInt.unitsToZModPow (p := p) 0).toMonoidHom = f) ↔
       ∀ x, f x = f 1 := sorry
 
-lemma PadicInt.dense_unitsToZModPow_tests {R : Type*} [MetricSpace R] :
+theorem PadicInt.dense_unitsToZModPow_tests {R : Type*} [MetricSpace R] :
     Dense {f : C((ℤ_[p])ˣ,R) | ∃ n, ∃ g : (ZMod (p^n))ˣ → R,
       g ∘ (PadicInt.unitsToZModPow (p := p) n).toMonoidHom = f} := sorry
 
-lemma AbstractMeasure.unitsToZModPow_ext {R : Type*} [NormedCommRing R]
+theorem AbstractMeasure.unitsToZModPow_ext {R : Type*} [NormedCommRing R]
     (μ ν : D((ℤ_[p])ˣ,R))
     (h : ∀ n, AbstractMeasure.finiteProjection ⟨(PadicInt.unitsToZModPow (p := p) n).toMonoidHom, (PadicInt.unitsToZModPow (p := p) n).continuous⟩ μ =
       AbstractMeasure.finiteProjection ⟨(PadicInt.unitsToZModPow (p := p) n).toMonoidHom, (PadicInt.unitsToZModPow (p := p) n).continuous⟩ ν) : μ = ν := sorry
 
-lemma AbstractMeasure.jointUnitToZModPow_ext (μ ν : D((ℤ_[p])ˣ,ℤ_[p]))
+theorem AbstractMeasure.jointUnitToZModPow_ext (μ ν : D((ℤ_[p])ˣ,ℤ_[p]))
     (h : ∀ r n, AbstractMeasure.jointFiniteProjection p r ⟨(PadicInt.unitsToZModPow (p := p) n).toMonoidHom, (PadicInt.unitsToZModPow (p := p) n).continuous⟩ μ =
       AbstractMeasure.jointFiniteProjection p r ⟨(PadicInt.unitsToZModPow (p := p) n).toMonoidHom, (PadicInt.unitsToZModPow (p := p) n).continuous⟩ ν) : μ = ν := sorry
 
-lemma AbstractMeasure.diagonalUnitToZModPow_ext (μ ν : D((ℤ_[p])ˣ,ℤ_[p]))
+theorem AbstractMeasure.diagonalUnitToZModPow_ext (μ ν : D((ℤ_[p])ˣ,ℤ_[p]))
     (h : ∀ n, AbstractMeasure.jointFiniteProjection p n ⟨(PadicInt.unitsToZModPow (p := p) n).toMonoidHom, (PadicInt.unitsToZModPow (p := p) n).continuous⟩ μ =
       AbstractMeasure.jointFiniteProjection p n ⟨(PadicInt.unitsToZModPow (p := p) n).toMonoidHom, (PadicInt.unitsToZModPow (p := p) n).continuous⟩ ν) : μ = ν := sorry
 
@@ -2536,12 +2551,12 @@ variable (hc : ∀ {m n : ℕ} (h : m ≤ n),
   Finsupp.mapDomain (ZMod.unitsMap (pow_dvd_pow p h)) (c n) = c m)
 
 include hc in
-lemma unitCoordinate_pairing_refinement (m n : ℕ) (h : m ≤ n)
+theorem unitCoordinate_pairing_refinement (m n : ℕ) (h : m ≤ n)
     (g : (ZMod (p^m))ˣ → ℤ_[p]) :
     ∑ a, g a * c m a =
       ∑ b, g (ZMod.unitsMap (pow_dvd_pow p h) b) * c n b := by sorry
 include hc in
-lemma unitCoordinate_pairing_independent (m n : ℕ)
+theorem unitCoordinate_pairing_independent (m n : ℕ)
     (g : (ZMod (p^m))ˣ → ℤ_[p]) (h : (ZMod (p^n))ˣ → ℤ_[p])
     (heq : g ∘ (PadicInt.unitsToZModPow (p := p) m).toMonoidHom = h ∘ (PadicInt.unitsToZModPow (p := p) n).toMonoidHom) :
     ∑ a, g a * c m a = ∑ b, h b * c n b := by sorry
@@ -2549,36 +2564,36 @@ lemma unitCoordinate_pairing_independent (m n : ℕ)
 def unitCoordinateIntegral (c : ∀ n : ℕ, (ZMod (p^n))ˣ →₀ ℤ_[p])
     (hc : ∀ {m n : ℕ} (h : m ≤ n),
       Finsupp.mapDomain (ZMod.unitsMap (pow_dvd_pow p h)) (c n) = c m) : LocallyConstant (ℤ_[p])ˣ ℤ_[p] →ₗ[ℤ_[p]] ℤ_[p] := by sorry
-lemma unitCoordinateIntegral_factor (f : LocallyConstant (ℤ_[p])ˣ ℤ_[p])
+theorem unitCoordinateIntegral_factor (f : LocallyConstant (ℤ_[p])ˣ ℤ_[p])
     (n : ℕ) (g : (ZMod (p^n))ˣ → ℤ_[p])
     (hg : g ∘ (PadicInt.unitsToZModPow (p := p) n).toMonoidHom = f) :
     unitCoordinateIntegral p c hc f = ∑ a, g a * c n a := by sorry
-lemma unitCoordinateIntegral_norm_le (f : LocallyConstant (ℤ_[p])ˣ ℤ_[p]) :
+theorem unitCoordinateIntegral_norm_le (f : LocallyConstant (ℤ_[p])ˣ ℤ_[p]) :
     ‖unitCoordinateIntegral p c hc f‖ ≤ ‖f.toContinuousMap‖ := by sorry
-lemma unitCoordinateIntegral_zero : unitCoordinateIntegral p c hc 0 = 0 := by sorry
-lemma unitCoordinateIntegral_add (f g : LocallyConstant (ℤ_[p])ˣ ℤ_[p]) :
+theorem unitCoordinateIntegral_zero : unitCoordinateIntegral p c hc 0 = 0 := by sorry
+theorem unitCoordinateIntegral_add (f g : LocallyConstant (ℤ_[p])ˣ ℤ_[p]) :
     unitCoordinateIntegral p c hc (f+g) =
       unitCoordinateIntegral p c hc f + unitCoordinateIntegral p c hc g := by sorry
-lemma unitCoordinateIntegral_smul (a : ℤ_[p]) (f : LocallyConstant (ℤ_[p])ˣ ℤ_[p]) :
+theorem unitCoordinateIntegral_smul (a : ℤ_[p]) (f : LocallyConstant (ℤ_[p])ˣ ℤ_[p]) :
     unitCoordinateIntegral p c hc (a • f) = a * unitCoordinateIntegral p c hc f := by sorry
 
 def ofUnitCoordinates (c : ∀ n : ℕ, (ZMod (p^n))ˣ →₀ ℤ_[p])
     (hc : ∀ {m n : ℕ} (h : m ≤ n),
       Finsupp.mapDomain (ZMod.unitsMap (pow_dvd_pow p h)) (c n) = c m) : D((ℤ_[p])ˣ,ℤ_[p]) := by sorry
-lemma ofUnitCoordinates_locallyConstant (f : LocallyConstant (ℤ_[p])ˣ ℤ_[p]) :
+theorem ofUnitCoordinates_locallyConstant (f : LocallyConstant (ℤ_[p])ˣ ℤ_[p]) :
     ofUnitCoordinates p c hc f.toContinuousMap = unitCoordinateIntegral p c hc f := by sorry
-lemma ofUnitCoordinates_norm_le (f : C((ℤ_[p])ˣ,ℤ_[p])) :
+theorem ofUnitCoordinates_norm_le (f : C((ℤ_[p])ˣ,ℤ_[p])) :
     ‖ofUnitCoordinates p c hc f‖ ≤ ‖f‖ := by sorry
-lemma finiteProjection_ofUnitCoordinates (n : ℕ) :
+theorem finiteProjection_ofUnitCoordinates (n : ℕ) :
     finiteProjection ⟨(PadicInt.unitsToZModPow (p := p) n).toMonoidHom, (PadicInt.unitsToZModPow (p := p) n).continuous⟩
       (ofUnitCoordinates p c hc) = c n := by sorry
-lemma ofUnitCoordinates_mass :
+theorem ofUnitCoordinates_mass :
     ofUnitCoordinates p c hc (ContinuousMap.const _ 1) = c 0 1 := by sorry
-lemma ofUnitCoordinates_zero
+theorem ofUnitCoordinates_zero
     (h0 : ∀ {m n : ℕ} (h : m ≤ n),
       Finsupp.mapDomain (ZMod.unitsMap (pow_dvd_pow p h)) (0 : (ZMod (p^n))ˣ →₀ ℤ_[p]) = 0) :
     ofUnitCoordinates p (fun _ => 0) h0 = 0 := by sorry
-lemma ofUnitCoordinates_add
+theorem ofUnitCoordinates_add
     (d : ∀ n : ℕ, (ZMod (p^n))ˣ →₀ ℤ_[p])
     (hd : ∀ {m n : ℕ} (h : m ≤ n),
       Finsupp.mapDomain (ZMod.unitsMap (pow_dvd_pow p h)) (d n) = d m)
@@ -2586,7 +2601,7 @@ lemma ofUnitCoordinates_add
       Finsupp.mapDomain (ZMod.unitsMap (pow_dvd_pow p h)) (c n+d n) = c m+d m) :
     ofUnitCoordinates p (fun n => c n+d n) hcd =
       ofUnitCoordinates p c hc + ofUnitCoordinates p d hd := by sorry
-lemma ofUnitCoordinates_smul (a : ℤ_[p])
+theorem ofUnitCoordinates_smul (a : ℤ_[p])
     (hac : ∀ {m n : ℕ} (h : m ≤ n),
       Finsupp.mapDomain (ZMod.unitsMap (pow_dvd_pow p h)) (a • c n) = a • c m) :
     ofUnitCoordinates p (fun n => a • c n) hac = a • ofUnitCoordinates p c hc := by sorry
@@ -2596,11 +2611,11 @@ theorem existsUnique_ofUnitCoordinates : ∃! μ : D((ℤ_[p])ˣ,ℤ_[p]),
     ∀ n, finiteProjection
       ⟨(PadicInt.unitsToZModPow (p := p) n).toMonoidHom, (PadicInt.unitsToZModPow (p := p) n).continuous⟩ μ = c n := by sorry
 
-lemma unitCoordinates_compatible (μ : D((ℤ_[p])ˣ,ℤ_[p])) {m n : ℕ} (h : m ≤ n) :
+theorem unitCoordinates_compatible (μ : D((ℤ_[p])ˣ,ℤ_[p])) {m n : ℕ} (h : m ≤ n) :
     Finsupp.mapDomain (ZMod.unitsMap (pow_dvd_pow p h))
       (finiteProjection ⟨(PadicInt.unitsToZModPow (p := p) n).toMonoidHom, (PadicInt.unitsToZModPow (p := p) n).continuous⟩ μ) =
       finiteProjection ⟨(PadicInt.unitsToZModPow (p := p) m).toMonoidHom, (PadicInt.unitsToZModPow (p := p) m).continuous⟩ μ := by sorry
-lemma ofUnitCoordinates_finiteProjection (μ : D((ℤ_[p])ˣ,ℤ_[p])) :
+theorem ofUnitCoordinates_finiteProjection (μ : D((ℤ_[p])ˣ,ℤ_[p])) :
     ofUnitCoordinates p
       (fun n => finiteProjection ⟨(PadicInt.unitsToZModPow (p := p) n).toMonoidHom, (PadicInt.unitsToZModPow (p := p) n).continuous⟩ μ)
       (fun h => unitCoordinates_compatible p μ h) = μ := by sorry
@@ -2689,21 +2704,21 @@ theorem tendsto_unitMeasures_weak_iff_joint {ι : Type*} (l : Filter ι)
     Filter.Tendsto μ l (𝓝 ν) ↔ ∀ r n, ∀ᶠ i in l,
       jointFiniteProjection p r (Q n) (μ i) = jointFiniteProjection p r (Q n) ν := by sorry
 
-lemma hasBasis_unitMeasures_weak_zero :
+theorem hasBasis_unitMeasures_weak_zero :
     letI : TopologicalSpace M := WeakTopology
     (𝓝 (0 : M)).HasBasis (fun _ : ℕ × ℕ => True)
       (fun k => {μ : M | jointFiniteProjection p k.1 (Q k.2) μ = 0}) := by sorry
 
-lemma hasBasis_unitMeasures_weak_zero_diagonal :
+theorem hasBasis_unitMeasures_weak_zero_diagonal :
     letI : TopologicalSpace M := WeakTopology
     (𝓝 (0 : M)).HasBasis (fun _ : ℕ => True)
       (fun k => {μ : M | jointFiniteProjection p k (Q k) μ = 0}) := by sorry
 
-lemma unitMeasures_isTopologicalRing_weak :
+theorem unitMeasures_isTopologicalRing_weak :
     letI : TopologicalSpace M := WeakTopology
     IsTopologicalRing M := by sorry
 
-lemma unitMeasures_isLinearTopology_weak :
+theorem unitMeasures_isLinearTopology_weak :
     letI : TopologicalSpace M := WeakTopology
     IsLinearTopology M M := by sorry
 end AbstractMeasure
@@ -2750,8 +2765,7 @@ example :
 end UnitCoordinateTopologyTests
 end
 
-/-! Comparison with the completed group algebra (L1/finite-quotient-tower,
-L1/measure-completed-algebra-equiv, L1/completed-algebra-coefficients). The carrier is Tau Ceti's
+/-! Comparison with the completed group algebra (§1.7). The carrier is Tau Ceti's
 `TauCeti.completedGroupAlgebra ℤ_[p] Γ`
 (`TauCeti.Topology.Algebra.Group.Profinite.CompletedGroupAlgebra.Basic`), with
 `completedGroupAlgebra.proj` to the finite levels and `completedGroupAlgebra.of` for the image of
@@ -2766,7 +2780,7 @@ variable {Γ : Type*} [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ] [
 variable {A : ℕ → Type*} [∀ n, Group (A n)] [∀ n, Fintype (A n)] [∀ n, TopologicalSpace (A n)]
   [∀ n, DiscreteTopology (A n)]
 
-/-- `L1/finite-quotient-tower`: a countable tower of finite quotients of a topological group
+/-- §1.7: a countable tower of finite quotients of a topological group
 `Γ`: continuous surjections `q n : Γ →* A n` with transition maps `t h : A n →* A m` for
 `m ≤ n`, compatible with the `q`, whose kernels separate points. -/
 structure FiniteQuotientTower (Γ : Type*) [Group Γ] [TopologicalSpace Γ]
@@ -2778,9 +2792,9 @@ structure FiniteQuotientTower (Γ : Type*) [Group Γ] [TopologicalSpace Γ]
   t_q : ∀ {m n : ℕ} (h : m ≤ n) (x : Γ), t h (q n x) = q m x
   separates : ∀ x : Γ, x ≠ 1 → ∃ n, q n x ≠ 1
 
-lemma FiniteQuotientTower.t_comp (T : FiniteQuotientTower Γ A) {k m n : ℕ} (hkm : k ≤ m)
+theorem FiniteQuotientTower.t_comp (T : FiniteQuotientTower Γ A) {k m n : ℕ} (hkm : k ≤ m)
     (hmn : m ≤ n) (x : Γ) : T.t hkm (T.t hmn (T.q n x)) = T.t (hkm.trans hmn) (T.q n x) := sorry
-lemma FiniteQuotientTower.ker_cofinal (T : FiniteQuotientTower Γ A) (U : Subgroup Γ)
+theorem FiniteQuotientTower.ker_cofinal (T : FiniteQuotientTower Γ A) (U : Subgroup Γ)
     (hU : IsOpen (U : Set Γ)) : ∃ n, (T.q n).ker ≤ U := sorry
 /-- The tower `red_n : ℤ_pˣ → (ℤ/pⁿ)ˣ` of the units. -/
 def FiniteQuotientTower.unitTower :
@@ -2789,28 +2803,28 @@ def FiniteQuotientTower.unitTower :
 def FiniteQuotientTower.padicTower :
     FiniteQuotientTower (Multiplicative ℤ_[p]) (fun n => Multiplicative (ZMod (p ^ n))) := sorry
 
--- test unitTower_q (agreement) [L1/finite-quotient-tower]
+-- test unitTower_q (agreement) [§1.7]
 example (n : ℕ) : (FiniteQuotientTower.unitTower p).q n = (PadicInt.unitsToZModPow (p := p) n).toMonoidHom := sorry
--- test constant_tower_finite (degenerate) [L1/finite-quotient-tower]
+-- test constant_tower_finite (degenerate) [§1.7]
 example {B : Type*} [Group B] [Fintype B] [TopologicalSpace B] [DiscreteTopology B] :
     Nonempty (FiniteQuotientTower B (fun _ => B)) ∧
       ∀ T : FiniteQuotientTower B (fun _ => B), (∀ n, T.q n = MonoidHom.id B) →
         ∀ {m n : ℕ} (h : m ≤ n), T.t h = MonoidHom.id B := sorry
--- test trivial_maps_not_a_tower (non-example) [L1/finite-quotient-tower]
+-- test trivial_maps_not_a_tower (non-example) [§1.7]
 example [Nontrivial Γ] :
     ¬ ∃ T : FiniteQuotientTower Γ (fun _ => PUnit), ∀ n, T.q n = 1 := sorry
 
-/-- `L1/measure-completed-algebra-equiv`: the `ℤ_p`-algebra map from integral measures on `Γ` to
+/-- §1.7: the `ℤ_p`-algebra map from integral measures on `Γ` to
 Tau Ceti's completed group algebra `ℤ_p⟦Γ⟧`, whose projection to the level `Γ ⧸ U` is the finite
 algebra projection along `Γ → Γ ⧸ U`. -/
 def toCompletedGroupAlgebra : D(Γ,ℤ_[p]) →ₐ[ℤ_[p]] TauCeti.completedGroupAlgebra ℤ_[p] Γ := sorry
-lemma toCompletedGroupAlgebra_apply (μ : D(Γ,ℤ_[p])) (U : OpenNormalSubgroup Γ)
+theorem toCompletedGroupAlgebra_apply (μ : D(Γ,ℤ_[p])) (U : OpenNormalSubgroup Γ)
     [Fintype (Γ ⧸ U.toSubgroup)] [DiscreteTopology (Γ ⧸ U.toSubgroup)] :
     TauCeti.completedGroupAlgebra.proj ℤ_[p] Γ U (toCompletedGroupAlgebra p μ) =
       finiteProjectionAlgHom (QuotientGroup.mk' U.toSubgroup) continuous_quotient_mk' μ := sorry
-lemma toCompletedGroupAlgebra_dirac (x : Γ) :
+theorem toCompletedGroupAlgebra_dirac (x : Γ) :
     toCompletedGroupAlgebra p (dirac ℤ_[p] x) = TauCeti.completedGroupAlgebra.of ℤ_[p] Γ x := sorry
-lemma toCompletedGroupAlgebra_injective :
+theorem toCompletedGroupAlgebra_injective :
     Function.Injective (toCompletedGroupAlgebra p (Γ := Γ)) := sorry
 /-- Every compatible family of finite-level coefficients comes from a measure (RJW 3.16). -/
 theorem toCompletedGroupAlgebra_surjective :
@@ -2822,40 +2836,40 @@ theorem compactSpace_integralMeasures_weak_of_tower (T : FiniteQuotientTower Γ 
     letI : TopologicalSpace D(Γ,ℤ_[p]) := WeakTopology
     CompactSpace D(Γ,ℤ_[p]) := sorry
 
--- test dirac_product_levels (computation) [L1/measure-completed-algebra-equiv]
+-- test dirac_product_levels (computation) [§1.7]
 example (x y : Γ) (U : OpenNormalSubgroup Γ) :
     TauCeti.completedGroupAlgebra.proj ℤ_[p] Γ U
         (toCompletedGroupAlgebra p (dirac ℤ_[p] x * dirac ℤ_[p] y)) =
       MonoidAlgebra.single (QuotientGroup.mk (x * y) : Γ ⧸ U.toSubgroup) 1 := sorry
--- test dirac_separated (non-example) [L1/measure-completed-algebra-equiv]
+-- test dirac_separated (non-example) [§1.7]
 example (x y : Γ) (hxy : x ≠ y) :
     toCompletedGroupAlgebra p (dirac ℤ_[p] x) ≠ toCompletedGroupAlgebra p (dirac ℤ_[p] y) := sorry
--- test dirac_one (degenerate) [L1/measure-completed-algebra-equiv]
+-- test dirac_one (degenerate) [§1.7]
 example : toCompletedGroupAlgebra p (dirac ℤ_[p] (1 : Γ)) = 1 := sorry
 
-/-- `L1/completed-algebra-coefficients`: coefficient extension along a finite free `ℤ_p`-algebra. -/
+/-- §1.7: coefficient extension along a finite free `ℤ_p`-algebra. -/
 def completedGroupAlgebraBaseChange (O : Type*) [NormedCommRing O] [Algebra ℤ_[p] O]
     [Module.Free ℤ_[p] O] [Module.Finite ℤ_[p] O] :
     TensorProduct ℤ_[p] O D(Γ,ℤ_[p]) ≃ₗ[O] D(Γ,O) := sorry
-lemma completedGroupAlgebraBaseChange_tmul_dirac (O : Type*) [NormedCommRing O] [Algebra ℤ_[p] O]
+theorem completedGroupAlgebraBaseChange_tmul_dirac (O : Type*) [NormedCommRing O] [Algebra ℤ_[p] O]
     [Module.Free ℤ_[p] O] [Module.Finite ℤ_[p] O] (a : O) (x : Γ) :
     completedGroupAlgebraBaseChange p O (TensorProduct.tmul ℤ_[p] a (dirac ℤ_[p] x)) =
       a • dirac O x := sorry
-lemma completedGroupAlgebraBaseChange_mul (O : Type*) [NormedCommRing O] [Algebra ℤ_[p] O]
+theorem completedGroupAlgebraBaseChange_mul (O : Type*) [NormedCommRing O] [Algebra ℤ_[p] O]
     [Module.Free ℤ_[p] O] [Module.Finite ℤ_[p] O] (a b : O) (μ ν : D(Γ,ℤ_[p])) :
     completedGroupAlgebraBaseChange p O (TensorProduct.tmul ℤ_[p] (a * b) (μ * ν)) =
       completedGroupAlgebraBaseChange p O (TensorProduct.tmul ℤ_[p] a μ) *
         completedGroupAlgebraBaseChange p O (TensorProduct.tmul ℤ_[p] b ν) := sorry
 
--- test baseChange_padicInt (degenerate) [L1/completed-algebra-coefficients]
+-- test baseChange_padicInt (degenerate) [§1.7]
 example (μ : D(Γ,ℤ_[p])) :
     completedGroupAlgebraBaseChange p ℤ_[p] (TensorProduct.tmul ℤ_[p] 1 μ) = μ := sorry
--- test baseChange_one_tmul_dirac (computation) [L1/completed-algebra-coefficients]
+-- test baseChange_one_tmul_dirac (computation) [§1.7]
 example (O : Type*) [NormedCommRing O] [Algebra ℤ_[p] O] [Module.Free ℤ_[p] O]
     [Module.Finite ℤ_[p] O] (x : Γ) :
     completedGroupAlgebraBaseChange p O (TensorProduct.tmul ℤ_[p] 1 (dirac ℤ_[p] x)) =
       dirac O x := sorry
--- test baseChange_injective_on_basis (non-example) [L1/completed-algebra-coefficients]
+-- test baseChange_injective_on_basis (non-example) [§1.7]
 example (O : Type*) [NormedCommRing O] [Algebra ℤ_[p] O] [Module.Free ℤ_[p] O]
     [Module.Finite ℤ_[p] O] (a b : O) (hab : a ≠ b) (x : Γ) :
     completedGroupAlgebraBaseChange p O (TensorProduct.tmul ℤ_[p] a (dirac ℤ_[p] x)) ≠
@@ -2863,6 +2877,82 @@ example (O : Type*) [NormedCommRing O] [Algebra ℤ_[p] O] [Module.Free ℤ_[p] 
 end CompletedGroupAlgebra
 end AbstractMeasure
 end
+
+/-! ## §1.7: extension of coefficients along a bounded ring map
+
+The map `ι_j : D(X, O) → D(X, K)` for a profinite `X`, a normed commutative ring `O`, a
+nonarchimedean nontrivially normed field `K` and a continuous ring homomorphism `j : O → K` with
+`‖j a‖ ≤ ‖a‖` (the case of use: `O` the valuation ring of a finite extension of `ℚ_p` inside
+`ℂ_p`, `j` the inclusion). It is determined by `ι_j(μ)(j ∘ f) = j(μ f)` on test functions; it is
+`j`-semilinear, commutes with pushforward, is a ring homomorphism for the convolutions on a
+profinite monoid, and is compatible with the admissible evaluation of pseudo-measures of L3. It is
+an extension map; nothing is asserted about its image. L3a defines the bounded functions `F_μ`
+on the character space through it. -/
+namespace AbstractMeasure
+noncomputable section
+section CoefficientExtension
+
+variable {X : Type*} [TopologicalSpace X] [CompactSpace X] [T2Space X]
+  [TotallyDisconnectedSpace X]
+variable (O K : Type*) [NormedCommRing O] [NontriviallyNormedField K] [IsUltrametricDist K]
+variable (j : O →+* K)
+
+/-- §1.7: `ι_j : D(X, O) →+ D(X, K)`, the additive map with
+`ι_j(μ)(j ∘ f) = j(μ f)`; on a locally constant `Σ cᵢ 1_{Uᵢ}` its value is `Σ cᵢ j(μ(1_{Uᵢ}))`,
+extended by continuity using the ultrametric bound `‖Σ cᵢ j(μ 1_{Uᵢ})‖ ≤ max ‖cᵢ‖ · sup ‖j(μ 1_U)‖`. -/
+def extendCoefficients (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) : D(X, O) →+ D(X, K) := sorry
+
+theorem extendCoefficients_apply_comp (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) (μ : D(X, O)) (f : C(X, O)) :
+    extendCoefficients O K j hj hjc μ ((ContinuousMap.mk j hjc).comp f) = j (μ f) := sorry
+theorem extendCoefficients_smul (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) (a : O) (μ : D(X, O)) :
+    extendCoefficients O K j hj hjc (a • μ) = j a • extendCoefficients O K j hj hjc μ := sorry
+theorem extendCoefficients_dirac (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) (x : X) :
+    extendCoefficients O K j hj hjc (dirac O x) = dirac K x := sorry
+theorem extendCoefficients_map (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) {Y : Type*} [TopologicalSpace Y] [CompactSpace Y] [T2Space Y]
+    [TotallyDisconnectedSpace Y] (φ : C(X, Y)) (μ : D(X, O)) :
+    extendCoefficients O K j hj hjc (map φ μ) = map φ (extendCoefficients O K j hj hjc μ) := sorry
+/-- Injectivity for an isometric `j` into a complete field (the image of `j` is then closed). -/
+theorem extendCoefficients_injective (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) [CompleteSpace K] (hiso : Isometry j) :
+    Function.Injective (extendCoefficients O K j hj hjc (X := X)) := sorry
+/-- The operator-norm bound on the field-valued carrier; this is the meaning of `‖μ‖` for an
+`O`-valued measure in L3a, where no norm is installed on `D(X, O)` itself. -/
+theorem norm_toCLMEquiv_extendCoefficients_le (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) (hj1 : ∀ a, ‖j a‖ ≤ 1) (μ : D(X, O)) :
+    ‖toCLMEquiv (extendCoefficients O K j hj hjc μ)‖ ≤ 1 := sorry
+
+variable [CommMonoid X] [ContinuousMul X] [LocallyCompactSpace X]
+
+/-- `ι_j` as a ring homomorphism for the right-handed convolutions of a profinite monoid. -/
+def extendCoefficientsRingHom (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) : D(X, O) →+* D(X, K) := sorry
+theorem coe_extendCoefficientsRingHom (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) :
+    ⇑(extendCoefficientsRingHom O K j hj hjc (X := X)) = ⇑(extendCoefficients O K j hj hjc (X := X)) := sorry
+theorem extendCoefficients_mul (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) (μ ν : D(X, O)) :
+    extendCoefficients O K j hj hjc (μ * ν) =
+      extendCoefficients O K j hj hjc μ * extendCoefficients O K j hj hjc ν := sorry
+/-- Compatibility with the admissible evaluation of L3 (`Iwasawa.evalAt_spec` transported along
+`ι_j`): the extended cleared numerator is the cleared numerator of the extended pseudo-measure. -/
+theorem extendCoefficients_numerator_evalAt (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) {G : Type*} [Group G] (δ : G →* D(X, O))
+    (Q : Type*) [CommRing Q] [Algebra D(X, O) Q] [IsFractionRing D(X, O) Q] (g : G)
+    (z : Iwasawa.pseudomeasures δ Q) :
+    letI : Algebra D(X, O) D(X, K) := (extendCoefficientsRingHom O K j hj hjc).toAlgebra
+    ∀ hg : IsUnit (algebraMap D(X, O) D(X, K) (δ g - 1)),
+      extendCoefficients O K j hj hjc (δ g - 1) * Iwasawa.evalAt δ Q D(X, K) g hg z =
+        extendCoefficients O K j hj hjc (Iwasawa.numerator δ Q g z) := sorry
+
+-- test extendCoefficients_id (degenerate) [§1.7]
+example (μ : D(X, K)) :
+    extendCoefficients K K (RingHom.id K) (fun _ => le_rfl) continuous_id μ = μ := sorry
+-- test extendCoefficients_dirac_apply (computation) [§1.7]
+example (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) (x : X) (f : C(X, K)) :
+    extendCoefficients O K j hj hjc (dirac O x) f = f x := sorry
+-- test extendCoefficients_two_smul (non-example) [§1.7]
+-- a map forgetting the coefficient would send `2 δ_x` to `δ_x`.
+example (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) [CharZero K] (x : X) :
+    extendCoefficients O K j hj hjc ((2 : O) • dirac O x) ≠
+      extendCoefficients O K j hj hjc (dirac O x) := sorry
+
+end CoefficientExtension
+end
+end AbstractMeasure
 
 /-! Continuous-character integration and positive moments on unit measures.
 No completed group algebra or total-fraction-ring character extension is assumed. -/
@@ -2873,19 +2963,18 @@ section CharacterIntegration
 variable {G R : Type*} [TopologicalSpace G] [Monoid G] [ContinuousMul G]
   [LocallyCompactSpace G] [CommRing R] [TopologicalSpace R] [IsTopologicalRing R]
 
--- This spelling follows Mathlib pull request 41961.
-/- `L1/dirac-hom`: `AbstractMeasure.diracHom : G →* D(G,R)` and `diracHom_apply` are Mathlib
+/- The Dirac monoid homomorphism `AbstractMeasure.diracHom : G →* D(G,R)` and `diracHom_apply` are Mathlib
 (`Mathlib.NumberTheory.Padics.Measure.Monoid`); `diracHom_pow` is `map_pow` and `diracHom_map` is
 `map_dirac`. -/
 
 def characterIntegralAlgHom (κ : ContinuousMonoidHom G R) : D(G,R) →ₐ[R] R := sorry
-lemma characterIntegralAlgHom_apply (κ : ContinuousMonoidHom G R) (μ : D(G,R)) :
+theorem characterIntegralAlgHom_apply (κ : ContinuousMonoidHom G R) (μ : D(G,R)) :
     characterIntegralAlgHom κ μ = μ κ.toContinuousMap := sorry
-lemma characterIntegralAlgHom_dirac (κ : ContinuousMonoidHom G R) (g : G) :
+theorem characterIntegralAlgHom_dirac (κ : ContinuousMonoidHom G R) (g : G) :
     characterIntegralAlgHom κ (dirac R g) = κ g := sorry
-lemma characterIntegralAlgHom_one_character (μ : D(G,R)) :
+theorem characterIntegralAlgHom_one_character (μ : D(G,R)) :
     characterIntegralAlgHom (1 : ContinuousMonoidHom G R) μ = μ 1 := sorry
-lemma characterIntegralAlgHom_diracHom (κ : ContinuousMonoidHom G R) :
+theorem characterIntegralAlgHom_diracHom (κ : ContinuousMonoidHom G R) :
     (characterIntegralAlgHom κ).toMonoidHom.comp (diracHom (R := R)) = κ.toMonoidHom := sorry
 
 -- UnitMomentTests.dirac_hom_one
@@ -2914,25 +3003,25 @@ local notation "j" => (ContinuousMap.mk Units.val Units.continuous_val : C(U,Z))
 
 -- The inherited ring operations are unchanged; use the existing commutativity theorem locally.
 
-lemma polynomial_apply_eq_zero_of_positive_moments (μ : D(Z,Z))
+theorem polynomial_apply_eq_zero_of_positive_moments (μ : D(Z,Z))
     (hμ : ∀ k : ℕ, 0 < k → μ ((ContinuousMap.id Z)^k) = 0)
     (f : Polynomial Z) (hf : f.coeff 0 = 0) :
     μ ⟨fun x => f.eval x, by fun_prop⟩ = 0 := sorry
-lemma mahler_apply_eq_zero_of_positive_moments (μ : D(Z,Z))
+theorem mahler_apply_eq_zero_of_positive_moments (μ : D(Z,Z))
     (hμ : ∀ k : ℕ, 0 < k → μ ((ContinuousMap.id Z)^k) = 0)
     (n : ℕ) (hn : 0 < n) : μ (mahler n) = 0 := sorry
-lemma amice_eq_constant_of_positive_moments (μ : D(Z,Z))
+theorem amice_eq_constant_of_positive_moments (μ : D(Z,Z))
     (hμ : ∀ k : ℕ, 0 < k → μ ((ContinuousMap.id Z)^k) = 0) :
     μ.amiceTransform = PowerSeries.C (μ 1) := sorry
 
 theorem units_eq_zero_of_positive_moments (μ : M)
     (hμ : ∀ k : ℕ, 0 < k → μ (uTest^k) = 0) : μ = 0 := sorry
-lemma units_mul_moment (μ ν : M) (k : ℕ) :
+theorem units_mul_moment (μ ν : M) (k : ℕ) :
     (μ*ν) (uTest^k) = μ (uTest^k) * ν (uTest^k) := sorry
 theorem units_regular_of_positive_moments (μ : M)
     (hμ : ∀ k : ℕ, 0 < k → μ (uTest^k) ≠ 0) : μ ∈ nonZeroDivisors M := sorry
-lemma exists_one_add_prime_unit : ∃ a : U, (a : Z) = (p+1 : ℕ) := sorry
-lemma one_add_prime_unit_pow_ne_one (a : U) (ha : (a : Z) = (p+1 : ℕ))
+theorem exists_one_add_prime_unit : ∃ a : U, (a : Z) = (p+1 : ℕ) := sorry
+theorem one_add_prime_unit_pow_ne_one (a : U) (ha : (a : Z) = (p+1 : ℕ))
     (k : ℕ) (hk : 0 < k) : (a : Z)^k ≠ 1 := sorry
 theorem dirac_sub_one_regular (a : U) (ha : ∀ k : ℕ, 0 < k → (a : Z)^k ≠ 1) :
     dirac Z a - 1 ∈ nonZeroDivisors M := sorry
@@ -2943,21 +3032,21 @@ local notation "Q" => FractionRing M
 local notation "PM" => Iwasawa.pseudomeasures (diracHom (G := U) (R := Z)) Q
 
 def positivePseudoMoment (k : ℕ) (hk : 0 < k) : PM → ℚ_[p] := sorry
-lemma positivePseudoMoment_eq (k : ℕ) (hk : 0 < k) (a : U)
+theorem positivePseudoMoment_eq (k : ℕ) (hk : 0 < k) (a : U)
     (ha : (a : Z) = (p+1 : ℕ)) (z : PM) :
     positivePseudoMoment p k hk z =
       ((Iwasawa.numerator (diracHom (G := U) (R := Z)) Q a z) (uTest^k) : ℚ_[p]) /
         ((a : Z)^k-1 : Z) := sorry
-lemma positivePseudoMoment_integral (k : ℕ) (hk : 0 < k) (μ : M) :
+theorem positivePseudoMoment_integral (k : ℕ) (hk : 0 < k) (μ : M) :
     positivePseudoMoment p k hk (Iwasawa.integral (diracHom (G := U) (R := Z)) Q μ) =
       (μ (uTest^k) : ℚ_[p]) := sorry
-lemma positivePseudoMoment_add (k : ℕ) (hk : 0 < k) (z η : PM) :
+theorem positivePseudoMoment_add (k : ℕ) (hk : 0 < k) (z η : PM) :
     positivePseudoMoment p k hk (z+η) =
       positivePseudoMoment p k hk z + positivePseudoMoment p k hk η := sorry
-lemma positivePseudoMoment_smul (k : ℕ) (hk : 0 < k) (μ : M) (z : PM) :
+theorem positivePseudoMoment_smul (k : ℕ) (hk : 0 < k) (μ : M) (z : PM) :
     positivePseudoMoment p k hk (μ • z) =
       (μ (uTest^k) : ℚ_[p]) * positivePseudoMoment p k hk z := sorry
-lemma positivePseudoMoment_numerator (k : ℕ) (hk : 0 < k) (g : U) (z : PM) :
+theorem positivePseudoMoment_numerator (k : ℕ) (hk : 0 < k) (g : U) (z : PM) :
     ((Iwasawa.numerator (diracHom (G := U) (R := Z)) Q g z) (uTest^k) : ℚ_[p]) =
       (((g : Z)^k-1 : Z) : ℚ_[p]) * positivePseudoMoment p k hk z := sorry
 theorem pseudomeasure_eq_zero_of_positive_moments (z : PM)
@@ -3005,18 +3094,18 @@ local notation "uTest" => (ContinuousMap.mk Units.val Units.continuous_val : C(U
 
 /-- The integral-character specialization, on the pseudomeasure module only. -/
 def unitCharacterEval (κ : ContinuousMonoidHom U Z) (hκ : κ ≠ 1) : PM →+ ℚ_[p] := sorry
-lemma unitCharacterEval_eq (κ : ContinuousMonoidHom U Z) (hκ : κ ≠ 1)
+theorem unitCharacterEval_eq (κ : ContinuousMonoidHom U Z) (hκ : κ ≠ 1)
     (g : U) (hg : κ g ≠ 1) (z : PM) :
     unitCharacterEval p κ hκ z =
       ((Iwasawa.numerator δ Q g z) κ.toContinuousMap : ℚ_[p]) / ((κ g-1 : Z) : ℚ_[p]) := sorry
-lemma unitCharacterEval_integral (κ : ContinuousMonoidHom U Z) (hκ : κ ≠ 1) (μ : M) :
+theorem unitCharacterEval_integral (κ : ContinuousMonoidHom U Z) (hκ : κ ≠ 1) (μ : M) :
     unitCharacterEval p κ hκ (Iwasawa.integral δ Q μ) = (μ κ.toContinuousMap : ℚ_[p]) := sorry
-lemma unitCharacterEval_smul (κ : ContinuousMonoidHom U Z) (hκ : κ ≠ 1) (μ : M) (z : PM) :
+theorem unitCharacterEval_smul (κ : ContinuousMonoidHom U Z) (hκ : κ ≠ 1) (μ : M) (z : PM) :
     unitCharacterEval p κ hκ (μ • z) =
       (μ κ.toContinuousMap : ℚ_[p]) * unitCharacterEval p κ hκ z := sorry
-lemma unitCharacterEval_dirac (κ : ContinuousMonoidHom U Z) (hκ : κ ≠ 1) (g : U) :
+theorem unitCharacterEval_dirac (κ : ContinuousMonoidHom U Z) (hκ : κ ≠ 1) (g : U) :
     unitCharacterEval p κ hκ (Iwasawa.integral δ Q (dirac Z g)) = (κ g : ℚ_[p]) := sorry
-lemma unitCharacterEval_numerator (κ : ContinuousMonoidHom U Z) (hκ : κ ≠ 1)
+theorem unitCharacterEval_numerator (κ : ContinuousMonoidHom U Z) (hκ : κ ≠ 1)
     (g : U) (z : PM) :
     ((Iwasawa.numerator δ Q g z) κ.toContinuousMap : ℚ_[p]) =
       ((κ g-1 : Z) : ℚ_[p]) * unitCharacterEval p κ hκ z := sorry
@@ -3026,24 +3115,24 @@ theorem unitCharacterEval_unique (κ : ContinuousMonoidHom U Z) (hκ : κ ≠ 1)
     (hL : ∀ (μ : M) (z : PM), L (μ • z) = (μ κ.toContinuousMap : ℚ_[p]) * L z)
     (hI : ∀ μ : M, L (Iwasawa.integral δ Q μ) = (μ κ.toContinuousMap : ℚ_[p])) :
     L = unitCharacterEval p κ hκ := sorry
-lemma unitCharacterEval_eq_positivePseudoMoment (κ : ContinuousMonoidHom U Z)
+theorem unitCharacterEval_eq_positivePseudoMoment (κ : ContinuousMonoidHom U Z)
     (hκ : κ ≠ 1) (k : ℕ) (hk : 0 < k) (hpow : ∀ g : U, κ g = (g : Z)^k) (z : PM) :
     unitCharacterEval p κ hκ z = positivePseudoMoment p k hk z := sorry
 theorem unitCharacterEval_ext (z η : PM)
     (h : ∀ (κ : ContinuousMonoidHom U Z) (hκ : κ ≠ 1),
       unitCharacterEval p κ hκ z = unitCharacterEval p κ hκ η) : z = η := sorry
-lemma unitCharacterEval_norm_le (κ : ContinuousMonoidHom U Z) (hκ : κ ≠ 1)
+theorem unitCharacterEval_norm_le (κ : ContinuousMonoidHom U Z) (hκ : κ ≠ 1)
     (g : U) (hg : κ g ≠ 1) (z : PM) :
     ‖unitCharacterEval p κ hκ z‖ ≤ ‖κ g-1‖⁻¹ := sorry
 
 variable {S : Type*} [TopologicalSpace S]
-lemma continuous_unitCharacterIntegral (κ : S → ContinuousMonoidHom U Z)
+theorem continuous_unitCharacterIntegral (κ : S → ContinuousMonoidHom U Z)
     (hκ : Continuous (fun s => (κ s).toContinuousMap)) (μ : M) :
     Continuous (fun s => (μ (κ s).toContinuousMap : ℚ_[p])) := sorry
-lemma isOpen_unitCharacterClearing (κ : S → ContinuousMonoidHom U Z)
+theorem isOpen_unitCharacterClearing (κ : S → ContinuousMonoidHom U Z)
     (hκ : Continuous (fun s => (κ s).toContinuousMap)) (g : U) :
     IsOpen {s : S | κ s g ≠ 1} := sorry
-lemma continuousOn_unitCharacterClearing (κ : S → ContinuousMonoidHom U Z)
+theorem continuousOn_unitCharacterClearing (κ : S → ContinuousMonoidHom U Z)
     (hκ : Continuous (fun s => (κ s).toContinuousMap)) (g : U) (z : PM) :
     ContinuousOn (fun s => ((Iwasawa.numerator δ Q g z) (κ s).toContinuousMap : ℚ_[p]) /
       ((κ s g-1 : Z) : ℚ_[p])) {s : S | κ s g ≠ 1} := sorry
@@ -3086,10 +3175,10 @@ No Fourier averaging or coefficient-field extension is implicit in these signatu
 namespace PadicInt
 variable {p : ℕ} [Fact p.Prime]
 
-lemma isClopen_toZModPow_fiber (n : ℕ) (a : ZMod (p ^ n)) :
+theorem isClopen_toZModPow_fiber (n : ℕ) (a : ZMod (p ^ n)) :
     IsClopen {x : ℤ_[p] | toZModPow n x = a} := sorry
 
-lemma toZModPow_eq_iff_sub_dvd (n : ℕ) (x b : ℤ_[p]) :
+theorem toZModPow_eq_iff_sub_dvd (n : ℕ) (x b : ℤ_[p]) :
     toZModPow n x = toZModPow n b ↔ (p : ℤ_[p]) ^ n ∣ x - b := sorry
 end PadicInt
 
@@ -3105,53 +3194,53 @@ local notation "χ" => (fun (n : ℕ) (a : ZMod (p ^ n)) =>
 def restrictResidue (n : ℕ) (a : ZMod (p ^ n)) : D(Z, R) →ₗ[R] D(Z, R) :=
   weight (χ n a)
 
-lemma restrictResidue_apply (n : ℕ) (a : ZMod (p ^ n))
+theorem restrictResidue_apply (n : ℕ) (a : ZMod (p ^ n))
     (μ : D(Z, R)) (f : C(Z, R)) : restrictResidue p R n a μ f = μ (χ n a * f) := sorry
 
-lemma restrictResidue_dirac (n : ℕ) (a : ZMod (p ^ n)) (x : Z) :
+theorem restrictResidue_dirac (n : ℕ) (a : ZMod (p ^ n)) (x : Z) :
     restrictResidue p R n a (dirac R x) = if ρ n x = a then dirac R x else 0 := sorry
 
-lemma restrictResidue_comp (n : ℕ) (a b : ZMod (p ^ n)) (μ : D(Z, R)) :
+theorem restrictResidue_comp (n : ℕ) (a b : ZMod (p ^ n)) (μ : D(Z, R)) :
     restrictResidue p R n a (restrictResidue p R n b μ) =
       if a = b then restrictResidue p R n a μ else 0 := sorry
 
-lemma sum_restrictResidue (n : ℕ) (μ : D(Z, R)) :
+theorem sum_restrictResidue (n : ℕ) (μ : D(Z, R)) :
     ∑ a : ZMod (p ^ n), restrictResidue p R n a μ = μ := sorry
 
-lemma restrictResidue_zero_depth (a : ZMod (p ^ 0)) (μ : D(Z, R)) :
+theorem restrictResidue_zero_depth (a : ZMod (p ^ 0)) (μ : D(Z, R)) :
     restrictResidue p R 0 a μ = μ := sorry
 
-lemma restrictResidue_refinement (m n : ℕ) (h : m ≤ n)
+theorem restrictResidue_refinement (m n : ℕ) (h : m ≤ n)
     (a : ZMod (p ^ m)) (μ : D(Z, R)) :
     restrictResidue p R m a μ =
       ∑ b : ZMod (p ^ n), if ZMod.castHom (pow_dvd_pow p h) (ZMod (p ^ m)) b = a
         then restrictResidue p R n b μ else 0 := sorry
 
-lemma restrictResidue_mass (n : ℕ) (a : ZMod (p ^ n)) (μ : D(Z, R)) :
+theorem restrictResidue_mass (n : ℕ) (a : ZMod (p ^ n)) (μ : D(Z, R)) :
     restrictResidue p R n a μ 1 =
       finiteProjection ⟨ρ n, PadicInt.continuous_toZModPow (p := p) n⟩ μ a := sorry
 
-lemma finiteProjection_restrictResidue (n : ℕ) (a : ZMod (p ^ n)) (μ : D(Z, R)) :
+theorem finiteProjection_restrictResidue (n : ℕ) (a : ZMod (p ^ n)) (μ : D(Z, R)) :
     finiteProjection ⟨ρ n, PadicInt.continuous_toZModPow (p := p) n⟩ (restrictResidue p R n a μ) =
       Finsupp.single a (finiteProjection ⟨ρ n, PadicInt.continuous_toZModPow (p := p) n⟩ μ a) := sorry
 
-lemma restrictResidue_map_add (n : ℕ) (a : ZMod (p ^ n)) (b : Z) (μ : D(Z, R)) :
+theorem restrictResidue_map_add (n : ℕ) (a : ZMod (p ^ n)) (b : Z) (μ : D(Z, R)) :
     restrictResidue p R n a (map ⟨fun x : Z => x + b, by fun_prop⟩ μ) =
       map ⟨fun x : Z => x + b, by fun_prop⟩ (restrictResidue p R n (a - ρ n b) μ) := sorry
 
-lemma restrictResidue_eq_map_restrictClopen (n : ℕ) (a : ZMod (p ^ n)) (μ : D(Z, R)) :
+theorem restrictResidue_eq_map_restrictClopen (n : ℕ) (a : ZMod (p ^ n)) (μ : D(Z, R)) :
     let s : TopologicalSpace.Clopens Z := ⟨{x | ρ n x = a}, PadicInt.isClopen_toZModPow_fiber n a⟩
     restrictResidue p R n a μ = map (ContinuousMap.subtypeVal s) (restrictClopen s R μ) := sorry
 
-lemma continuous_restrictResidue_weak (n : ℕ) (a : ZMod (p ^ n)) :
+theorem continuous_restrictResidue_weak (n : ℕ) (a : ZMod (p ^ n)) :
     letI : TopologicalSpace D(Z, R) := WeakTopology
     Continuous (restrictResidue p R n a) := sorry
 
-lemma restrictResidue_one_zero (μ : D(Z, R)) :
+theorem restrictResidue_one_zero (μ : D(Z, R)) :
     restrictResidue p R 1 0 μ = restrictMultiples p R μ := sorry
 
 variable [Algebra ℤ_[p] R] [ContinuousSMul ℤ_[p] R]
-lemma coeff_amiceTransform_restrictResidue (n : ℕ) (a : ZMod (p ^ n))
+theorem coeff_amiceTransform_restrictResidue (n : ℕ) (a : ZMod (p ^ n))
     (μ : D(Z, R)) (k : ℕ) :
     PowerSeries.coeff k (restrictResidue p R n a μ).amiceTransform =
       μ (χ n a * ((mahler k : C(Z, Z)) • (1 : C(Z, R)))) := sorry
@@ -3193,7 +3282,7 @@ namespace TauCeti.Iwasawa
 open Polynomial
 open scoped TensorProduct Pointwise
 
-/-- L4/character-decomposition: integral projector; orthogonality requires unit group order.
+/-- §4.6: integral projector; orthogonality requires unit group order.
 The definition is on Mathlib's finite group algebra, shared with the L6 consumers. -/
 def charIdempotent {O H : Type*} [CommRing O] [CommGroup H] [Finite H]
     (χ : H →* Oˣ) : MonoidAlgebra O H :=
@@ -3205,16 +3294,16 @@ section PseudoNull
 
 variable (A : Type*) [CommRing A] (M : Type*) [AddCommGroup M] [Module A M]
 
-/-- `L4/pseudo-null`: a finitely generated module is pseudo-null if it vanishes at every prime of height at most
+/-- §4.1: a finitely generated module is pseudo-null if it vanishes at every prime of height at most
 one (NSW (5.1.4)). -/
 def IsPseudoNull : Prop :=
   Module.Finite A M ∧
     ∀ 𝔭 : PrimeSpectrum A, 𝔭.asIdeal.height ≤ 1 → Subsingleton (LocalizedModule 𝔭.asIdeal.primeCompl M)
 
-/-- `L4/pseudo-null`: pseudo-null modules are torsion (NSW (5.1.4), Remark 2). -/
+/-- §4.1: pseudo-null modules are torsion (NSW (5.1.4), Remark 2). -/
 theorem IsPseudoNull.isTorsion [IsDomain A] (h : IsPseudoNull A M) : Module.IsTorsion A M := sorry
 
-/-- `L4/pseudo-null`: over a two-dimensional noetherian integrally closed local domain with finite residue field,
+/-- §4.1: over a two-dimensional noetherian integrally closed local domain with finite residue field,
 pseudo-null means finite (NSW (5.1.4), Remark 4). -/
 theorem isPseudoNull_iff_finite [IsDomain A] [IsNoetherianRing A] [IsIntegrallyClosed A] [IsLocalRing A]
     [Finite (IsLocalRing.ResidueField A)] (hdim : ringKrullDim A = 2) [Module.Finite A M] :
@@ -3222,7 +3311,7 @@ theorem isPseudoNull_iff_finite [IsDomain A] [IsNoetherianRing A] [IsIntegrallyC
 
 variable {A M} {N : Type*} [AddCommGroup N] [Module A N]
 
-/-- `L4/pseudo-isomorphism`: kernel and cokernel are pseudo-null (NSW (5.1.5)). -/
+/-- §4.1: kernel and cokernel are pseudo-null (NSW (5.1.5)). -/
 def IsPseudoIsomorphism (f : M →ₗ[A] N) : Prop :=
   IsPseudoNull A (LinearMap.ker f) ∧ IsPseudoNull A (N ⧸ LinearMap.range f)
 
@@ -3233,7 +3322,7 @@ section CharacteristicIdeal
 variable (A : Type*) [CommRing A] [IsDomain A] [IsNoetherianRing A] [IsIntegrallyClosed A]
   (M : Type*) [AddCommGroup M] [Module A M]
 
-/-- `L4/characteristic-ideal`: the divisor of a finitely generated torsion module, `𝔭 ↦ length_{A_𝔭} M_𝔭` at the
+/-- §4.6: the divisor of a finitely generated torsion module, `𝔭 ↦ length_{A_𝔭} M_𝔭` at the
 height-one primes (zero elsewhere). -/
 noncomputable def charDivisor [Module.Finite A M]
     (hM : Module.IsTorsion A M) : PrimeSpectrum A →₀ ℕ := sorry
@@ -3247,17 +3336,17 @@ theorem charDivisor_spec [Module.Finite A M] (hM : Module.IsTorsion A M)
           (LocalizedModule 𝔭.asIdeal.primeCompl M)).toNat
       else 0 := sorry
 
-/-- `L4/characteristic-ideal`: over a unique factorisation domain the divisor is principal; `charIdeal` is the
+/-- §4.6: over a unique factorisation domain the divisor is principal; `charIdeal` is the
 ideal it generates. -/
 noncomputable def charIdeal [UniqueFactorizationMonoid A] (M : Type*) [AddCommGroup M]
     [Module A M] [Module.Finite A M] (hM : Module.IsTorsion A M) : Ideal A :=
   (charDivisor A M hM).prod (fun 𝔭 n => 𝔭.asIdeal ^ n)
 
-/-- `L4/characteristic-ideal`: the value on a cyclic module. -/
+/-- §4.6: the value on a cyclic module. -/
 theorem charIdeal_quotient_span [UniqueFactorizationMonoid A] (f : A) (hf : f ≠ 0) :
     charIdeal A (A ⧸ Ideal.span {f}) (by sorry) = Ideal.span {f} := sorry
 
-/-- `L4/characteristic-ideal`: finite modules over a two-dimensional local ring have unit characteristic ideal. -/
+/-- §4.6: finite modules over a two-dimensional local ring have unit characteristic ideal. -/
 theorem charIdeal_eq_top_of_isPseudoNull [UniqueFactorizationMonoid A]
     [Module.Finite A M] (h : IsPseudoNull A M) :
     charIdeal A M (h.isTorsion) = ⊤ := sorry
@@ -3270,18 +3359,18 @@ variable (O : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
   [IsAdicComplete (IsLocalRing.maximalIdeal O) O]
   [Finite (IsLocalRing.ResidueField O)]
 
-/-- L4/iwasawa-invariants-api-2: the monic horizontal factor of the torsion submodule.
+/-- §4.4: the monic horizontal factor of the torsion submodule.
 No fraction-field dimension formula is asserted for a module of positive Λ-rank. -/
 def charPoly (O : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [Finite (IsLocalRing.ResidueField O)] (M : Type*) [AddCommGroup M] [Module (PowerSeries O) M]
     [Module.Finite (PowerSeries O) M] : O[X] := sorry
 
-/-- L4/iwasawa-invariants-api-1: reduced degree of the horizontal characteristic factor. -/
+/-- §4.4: reduced degree of the horizontal characteristic factor. -/
 def lambdaInvariant (O : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [Finite (IsLocalRing.ResidueField O)] (M : Type*) [AddCommGroup M] [Module (PowerSeries O) M]
     [Module.Finite (PowerSeries O) M] : ℕ := (charPoly O M).natDegree
 
-/-- L4/iwasawa-invariants: local length of the torsion submodule at the vertical prime.
+/-- §4.4: local length of the torsion submodule at the vertical prime.
 The prime assertion and finite length must be proved; ENat.toNat alone does not prove them. -/
 def muInvariant (O : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [Finite (IsLocalRing.ResidueField O)] (ϖ : O) (hϖ : Irreducible ϖ) (M : Type*) [AddCommGroup M]
@@ -3442,7 +3531,7 @@ end InvariantExactness
 
 section MonicRoot
 variable {O : Type*} [CommRing O]
-/-- L4/weierstrass-adapter: calculate the determinant in the existing monic power basis.
+/-- §4.3: calculate the determinant in the existing monic power basis.
 This is valid over a commutative ring and includes the zero-rank quotient F=1.
 Transport through Polynomial.IsDistinguishedAt.algEquivQuotient gives the series statement. -/
 theorem charpoly_mulT_quotient (F : O[X]) (hF : F.Monic) :
@@ -3464,12 +3553,20 @@ theorem sum_charIdempotent [HasEnoughRootsOfUnity O (Monoid.exponent H)] :
 
 variable (M : Type*) [AddCommGroup M] [Module O M] [Module (MonoidAlgebra O H) M]
   [IsScalarTower O (MonoidAlgebra O H) M]
-/-- L4/character-decomposition-api-3: image of the integral projector. -/
+/-- §4.6: image of the integral projector. -/
 def isotypicComponent (χ : H →* Oˣ) : Submodule O M :=
   LinearMap.range (Algebra.lsmul O O M (charIdempotent χ))
 
 include hH in
+/-- §4.6: the eigencharacter criterion. With `#H` a unit, the range of
+the projector `e_χ` is the set of vectors on which every `h` acts by `χ(h)`. -/
 theorem isotypicComponent_spec (χ : H →* Oˣ) (m : M) :
+    m ∈ isotypicComponent M χ ↔ ∀ h : H, MonoidAlgebra.of O H h • m = ((χ h : Oˣ) : O) • m := sorry
+
+include hH in
+/-- The fixed-point form of the criterion, equivalent to `isotypicComponent_spec` because
+`h · e_χ = χ(h) e_χ` in `O[H]`. -/
+theorem mem_isotypicComponent_iff_smul_eq (χ : H →* Oˣ) (m : M) :
     m ∈ isotypicComponent M χ ↔ charIdempotent χ • m = m := sorry
 
 theorem isotypicComponent_zero (χ : H →* Oˣ) :
@@ -3480,7 +3577,7 @@ theorem isotypicComponent_equiv {N : Type*} [AddCommGroup N] [Module O N]
     (e : M ≃ₗ[MonoidAlgebra O H] N) (χ : H →* Oˣ) :
     (isotypicComponent M χ).map (e.toLinearMap.restrictScalars O) = isotypicComponent N χ := sorry
 
-/-- L4/character-decomposition-api-4: a finite product is the finite direct sum here.
+/-- §4.6: a finite product is the finite direct sum here.
 The inverse is the sum of inclusions; the forward map consists of the e_χ projections. -/
 def isotypicDecomposition (hH : IsUnit (Nat.card H : O)) [HasEnoughRootsOfUnity O (Monoid.exponent H)] :
     M ≃ₗ[O] (∀ χ : H →* Oˣ, isotypicComponent M χ) := sorry
@@ -3492,7 +3589,7 @@ variable {ι : Type*} [Finite ι] (A : Type*) [CommRing A] [IsDomain A]
   [IsNoetherianRing A] [IsIntegrallyClosed A] [UniqueFactorizationMonoid A]
   (M : ι → Type*) [∀ i, AddCommGroup (M i)] [∀ i, Module A (M i)]
   [∀ i, Module.Finite A (M i)]
-/-- L4/character-decomposition-api-5: ideal on the product ring, by its components.
+/-- §4.6: ideal on the product ring, by its components.
 A completed-algebra result pulls this ideal back along the owner's split ring equivalence. -/
 def charIdealProduct (hM : ∀ i, Module.IsTorsion A (M i)) : Ideal (ι → A) :=
   ⨅ i, (charIdeal A (M i) (hM i)).comap (Pi.evalRingHom (fun _ : ι => A) i)
@@ -3513,7 +3610,7 @@ section Delta
 variable (p : ℕ) [Fact p.Prime]
 variable (M : Type*) [AddCommGroup M] [Module (PowerSeries (PadicInt p)) M]
 
-/-- L4/delta-submodule: union of the increasing cyclotomic kernels on the existing module. -/
+/-- §4.7: union of the increasing cyclotomic kernels on the existing module. -/
 def delta_submodule (p : ℕ) [Fact p.Prime] (M : Type*) [AddCommGroup M]
     [Module (PowerSeries (PadicInt p)) M] : Submodule (PowerSeries (PadicInt p)) M where
   carrier := {m | ∃ n : ℕ, (((1 + PowerSeries.X) ^ (p ^ n) - 1 : PowerSeries (PadicInt p)) • m) = 0}
@@ -3556,103 +3653,113 @@ variable (p : ℕ) [Fact p.Prime]
 local instance : Finite (IsLocalRing.ResidueField (PadicInt p)) :=
   Finite.of_equiv (ZMod p) PadicInt.residueField.symm.toEquiv
 
--- test L4Tests.residue_field (computation) [L4/pseudo-null]
+-- test L4Tests.residue_field (computation) [§4.1]
 example : IsPseudoNull (PowerSeries (PadicInt p)) ((PowerSeries (PadicInt p)) ⧸ (Ideal.span ({PowerSeries.C (p : PadicInt p), PowerSeries.X} : Set (PowerSeries (PadicInt p))))) := sorry
--- test L4Tests.mu_part (non-example) [L4/pseudo-null]
+-- test L4Tests.mu_part (non-example) [§4.1]
 example : ¬ IsPseudoNull (PowerSeries (PadicInt p)) ((PowerSeries (PadicInt p)) ⧸ Ideal.span {PowerSeries.C (p : (PadicInt p))}) := sorry
--- test L4Tests.dedekind (degenerate) [L4/pseudo-null]
+-- test L4Tests.dedekind (degenerate) [§4.1]
 example : ¬ IsPseudoNull (PadicInt p) ((PadicInt p) ⧸ Ideal.span {(p : (PadicInt p))}) := sorry
 
--- test L4Tests.mul_p_on_cyclic (computation) [L4/pseudo-isomorphism]
+-- test L4Tests.mul_p_on_cyclic (computation) [§4.1]
 example : IsPseudoIsomorphism
     (Algebra.lsmul (PowerSeries (PadicInt p)) (PowerSeries (PadicInt p)) ((PowerSeries (PadicInt p)) ⧸ Ideal.span {(PowerSeries.X : PowerSeries (PadicInt p))}) (PowerSeries.C (p : (PadicInt p)))) := sorry
--- test L4Tests.dedekind (degenerate) [L4/pseudo-isomorphism]
+-- test L4Tests.dedekind (degenerate) [§4.1]
 example {M N : Type*} [AddCommGroup M] [Module (PadicInt p) M] [Module.Finite (PadicInt p) M]
     [AddCommGroup N] [Module (PadicInt p) N] [Module.Finite (PadicInt p) N] (f : M →ₗ[(PadicInt p)] N) :
     IsPseudoIsomorphism f ↔ Function.Bijective f := sorry
--- test L4Tests.rjw_agreement (compatibility) [L4/pseudo-isomorphism]
+-- test L4Tests.rjw_agreement (compatibility) [§4.1]
 example {M N : Type*} [AddCommGroup M] [Module (PowerSeries (PadicInt p)) M] [Module.Finite (PowerSeries (PadicInt p)) M]
     [AddCommGroup N] [Module (PowerSeries (PadicInt p)) N] [Module.Finite (PowerSeries (PadicInt p)) N] (f : M →ₗ[(PowerSeries (PadicInt p))] N) :
     IsPseudoIsomorphism f ↔ Finite (LinearMap.ker f) ∧ Finite (N ⧸ LinearMap.range f) := sorry
 
--- test L4Tests.eisenstein (computation) [L4/iwasawa-invariants,L4/iwasawa-invariants-api-1,L4/iwasawa-invariants-api-2]
+-- test L4Tests.eisenstein (computation) [§4.4]
 example : let F : (PadicInt p)[X] := X ^ 2 + C (p : (PadicInt p)) * X + C (p : (PadicInt p))
     let M := (PowerSeries (PadicInt p)) ⧸ Ideal.span {(F : (PowerSeries (PadicInt p)))}
     muInvariant (PadicInt p) (p : (PadicInt p)) (by sorry) M = 0 ∧ lambdaInvariant (PadicInt p) M = 2 ∧ charPoly (PadicInt p) M = F := sorry
--- test L4Tests.finite (degenerate) [L4/iwasawa-invariants,L4/iwasawa-invariants-api-1,L4/iwasawa-invariants-api-2]
+-- test L4Tests.finite (degenerate) [§4.4]
 example : muInvariant (PadicInt p) (p : (PadicInt p)) (by sorry) ((PowerSeries (PadicInt p)) ⧸ (Ideal.span ({PowerSeries.C (p : PadicInt p), PowerSeries.X} : Set (PowerSeries (PadicInt p))))) = 0 ∧
     lambdaInvariant (PadicInt p) ((PowerSeries (PadicInt p)) ⧸ (Ideal.span ({PowerSeries.C (p : PadicInt p), PowerSeries.X} : Set (PowerSeries (PadicInt p))))) = 0 ∧ charPoly (PadicInt p) ((PowerSeries (PadicInt p)) ⧸ (Ideal.span ({PowerSeries.C (p : PadicInt p), PowerSeries.X} : Set (PowerSeries (PadicInt p))))) = 1 := sorry
--- test L4Tests.mu_part (computation) [L4/iwasawa-invariants,L4/iwasawa-invariants-api-1,L4/iwasawa-invariants-api-2]
+-- test L4Tests.mu_part (computation) [§4.4]
 example : muInvariant (PadicInt p) (p : (PadicInt p)) (by sorry) ((PowerSeries (PadicInt p)) ⧸ Ideal.span {PowerSeries.C (p : (PadicInt p))}) = 1 ∧
     lambdaInvariant (PadicInt p) ((PowerSeries (PadicInt p)) ⧸ Ideal.span {PowerSeries.C (p : (PadicInt p))}) = 0 ∧
     charPoly (PadicInt p) ((PowerSeries (PadicInt p)) ⧸ Ideal.span {PowerSeries.C (p : (PadicInt p))}) = 1 := sorry
--- test Lambda.free (non-example) [L4/iwasawa-invariants-api-1]
+-- test Lambda.free (non-example) [§4.4]
 example : lambdaInvariant (PadicInt p) (PowerSeries (PadicInt p)) = 0 := sorry
--- test CharacteristicPolynomial.free (non-example) [L4/iwasawa-invariants-api-2]
+-- test CharacteristicPolynomial.free (non-example) [§4.4]
 example : charPoly (PadicInt p) (PowerSeries (PadicInt p)) = 1 := sorry
 
--- test Divisor.zero (degenerate) [L4/characteristic-ideal-api-0]
+-- test Divisor.zero (degenerate) [§4.6]
 example : charDivisor (PowerSeries (PadicInt p)) PUnit (by sorry) = 0 := sorry
--- test Divisor.cyclic (computation) [L4/characteristic-ideal-api-0]
+-- test Divisor.cyclic (computation) [§4.6]
 example : let P : PrimeSpectrum (PowerSeries (PadicInt p)) := ⟨Ideal.span {(PowerSeries.X : PowerSeries (PadicInt p))}, by sorry⟩
     charDivisor (PowerSeries (PadicInt p)) ((PowerSeries (PadicInt p)) ⧸ Ideal.span {(PowerSeries.X : PowerSeries (PadicInt p)) ^ 2}) (by sorry) = Finsupp.single P 2 := sorry
--- test Divisor.finite (non-example) [L4/characteristic-ideal-api-0]
+-- test Divisor.finite (non-example) [§4.6]
 example : charDivisor (PowerSeries (PadicInt p)) ((PowerSeries (PadicInt p)) ⧸ (Ideal.span ({PowerSeries.C (p : PadicInt p), PowerSeries.X} : Set (PowerSeries (PadicInt p))))) (by sorry) = 0 := sorry
--- test L4Tests.cyclic (computation) [L4/characteristic-ideal]
+-- test L4Tests.cyclic (computation) [§4.6]
 example : charIdeal (PowerSeries (PadicInt p)) ((PowerSeries (PadicInt p)) ⧸ Ideal.span {(PowerSeries.X : PowerSeries (PadicInt p)) ^ 2}) (by sorry) = Ideal.span {(PowerSeries.X : PowerSeries (PadicInt p)) ^ 2} := sorry
--- test L4Tests.finite (non-example) [L4/characteristic-ideal]
+-- test L4Tests.finite (non-example) [§4.6]
 example : charIdeal (PowerSeries (PadicInt p)) ((PowerSeries (PadicInt p)) ⧸ (Ideal.span ({PowerSeries.C (p : PadicInt p), PowerSeries.X} : Set (PowerSeries (PadicInt p))))) (by sorry) = ⊤ := sorry
--- test L4Tests.unit (degenerate) [L4/characteristic-ideal]
+-- test L4Tests.unit (degenerate) [§4.6]
 example : charIdeal (PowerSeries (PadicInt p)) PUnit (by sorry) = ⊤ := sorry
 
--- test Delta.zero (degenerate) [L4/delta-submodule]
+-- test Delta.zero (degenerate) [§4.7]
 example : delta_submodule p PUnit = ⊥ := sorry
--- test Delta.free (non-example) [L4/delta-submodule]
+-- test Delta.free (non-example) [§4.7]
 example : delta_submodule p (PowerSeries (PadicInt p)) = ⊥ := sorry
--- test Delta.trivial_action (computation) [L4/delta-submodule]
+-- test Delta.trivial_action (computation) [§4.7]
 example : delta_submodule p ((PowerSeries (PadicInt p)) ⧸ Ideal.span {(PowerSeries.X : PowerSeries (PadicInt p))}) = ⊤ := sorry
 
--- test MonicRoot.one (degenerate) [L4/weierstrass-adapter]
+-- test MonicRoot.one (degenerate) [§4.3]
 example : (LinearMap.toMatrix (AdjoinRoot.powerBasis' (monic_one : (1 : (PadicInt p)[X]).Monic)).basis
     (AdjoinRoot.powerBasis' (monic_one : (1 : (PadicInt p)[X]).Monic)).basis
     (LinearMap.mulLeft (PadicInt p) (AdjoinRoot.root (1 : (PadicInt p)[X])))).charpoly = 1 := sorry
--- test MonicRoot.degree_two (computation) [L4/weierstrass-adapter]
+-- test MonicRoot.degree_two (computation) [§4.3]
 example : (LinearMap.toMatrix (AdjoinRoot.powerBasis' (monic_X_pow 2 : (X ^ 2 : (PadicInt p)[X]).Monic)).basis
     (AdjoinRoot.powerBasis' (monic_X_pow 2 : (X ^ 2 : (PadicInt p)[X]).Monic)).basis
     (LinearMap.mulLeft (PadicInt p) (AdjoinRoot.root (X ^ 2 : (PadicInt p)[X])))).charpoly = X ^ 2 := sorry
 
 section CharacterTests
 variable {R H : Type*} [CommRing R] [IsDomain R] [CommGroup H] [Finite H]
--- test Character.trivial (degenerate) [L4/character-decomposition]
+-- test Character.trivial (degenerate) [§4.6]
 example [Subsingleton H] : charIdempotent (1 : H →* Rˣ) = 1 := sorry
--- test Character.orthogonal (compatibility) [L4/character-decomposition]
+-- test Character.orthogonal (compatibility) [§4.6]
 example (hH : IsUnit (Nat.card H : R)) (χ ψ : H →* Rˣ) (hne : χ ≠ ψ) :
     charIdempotent χ * charIdempotent ψ = 0 := sorry
--- test Character.dyadic (non-example) [L4/character-decomposition]
+-- test Character.dyadic (non-example) [§4.6]
 example : ¬ IsUnit (Nat.card (Multiplicative (ZMod 2)) : ℤ_[2]) := sorry
 
 variable (M : Type*) [AddCommGroup M] [Module R M] [Module (MonoidAlgebra R H) M]
   [IsScalarTower R (MonoidAlgebra R H) M]
--- test Isotypic.trivial (degenerate) [L4/character-decomposition-api-3]
+-- test Isotypic.trivial (degenerate) [§4.6]
 example [Subsingleton H] : isotypicComponent M (1 : H →* Rˣ) = ⊤ := sorry
--- test Isotypic.plus (computation) [L4/character-decomposition-api-3]
+-- test Isotypic.plus (computation) [§4.6]
 example (hH : IsUnit (Nat.card H : R)) (h : H) (hc : Nat.card H = 2)
     (hgen : ∀ a : H, a = 1 ∨ a = h) (m : M) :
     m ∈ isotypicComponent M (1 : H →* Rˣ) ↔ MonoidAlgebra.of R H h • m = m := sorry
--- test Isotypic.sign (non-example) [L4/character-decomposition-api-3]
+-- test Isotypic.sign (non-example) [§4.6]
 example (hH : IsUnit (Nat.card H : R)) (h : H) (hc : Nat.card H = 2)
     (hgen : ∀ a : H, a = 1 ∨ a = h) (χ : H →* Rˣ) (hχ : (χ h : R) = -1) (m : M) :
     m ∈ isotypicComponent M χ ↔ MonoidAlgebra.of R H h • m = -m := sorry
 end CharacterTests
 
--- test Product.zero (degenerate) [L4/character-decomposition-api-5]
+-- test Product.zero (degenerate) [§4.6]
 example : charIdealProduct (PowerSeries (PadicInt p)) (fun _ : Fin 2 => PUnit) (by sorry) = ⊤ := sorry
--- test Product.trivial (computation) [L4/character-decomposition-api-5]
+-- test Product.trivial (computation) [§4.6]
 example : (fun _ : Fin 1 => (PowerSeries.X : PowerSeries (PadicInt p)) ^ 2) ∈
     charIdealProduct (PowerSeries (PadicInt p)) (fun _ : Fin 1 => (PowerSeries (PadicInt p)) ⧸ Ideal.span {(PowerSeries.X : PowerSeries (PadicInt p)) ^ 2}) (by sorry) := sorry
--- test Product.residue (non-example) [L4/character-decomposition-api-5]
+-- test Product.residue (non-example) [§4.6]
 example : (1 : Fin 2 → (PowerSeries (PadicInt p))) ∉ charIdealProduct (PowerSeries (PadicInt p))
     (fun i : Fin 2 => (PowerSeries (PadicInt p)) ⧸ Ideal.span {if i = 0 then (PowerSeries.X : PowerSeries (PadicInt p)) else 1}) (by sorry) := sorry
+-- test Product.not_restriction_of_scalars (non-example) [§4.6]
+-- Two components `Λ/(T)`: the product-ring ideal is `((T), (T))`, which contains `(T, T)` and not
+-- `(T², 1)`, whereas the characteristic ideal of `Λ/(T) ⊕ Λ/(T)` over the single ring `Λ` is `(T²)`.
+example : let Λ := PowerSeries (PadicInt p)
+    let M : Fin 2 → Type _ := fun _ => Λ ⧸ Ideal.span {(PowerSeries.X : Λ)}
+    charIdealProduct Λ M (by sorry) = Ideal.pi (fun _ : Fin 2 => Ideal.span {(PowerSeries.X : Λ)}) ∧
+    (fun _ : Fin 2 => (PowerSeries.X : Λ)) ∈ charIdealProduct Λ M (by sorry) ∧
+    (fun i : Fin 2 => if i = 0 then (PowerSeries.X : Λ) ^ 2 else 1) ∉ charIdealProduct Λ M (by sorry) ∧
+    charIdeal Λ ((Λ ⧸ Ideal.span {(PowerSeries.X : Λ)}) × (Λ ⧸ Ideal.span {(PowerSeries.X : Λ)}))
+      (by sorry) = Ideal.span {(PowerSeries.X : Λ) ^ 2} := sorry
 
 end L4Tests
 
@@ -3668,7 +3775,7 @@ theorem iwasawa_free_criterion : Module.Free (PowerSeries (PadicInt p)) M ↔
     Subsingleton (Submodule.torsionBy (PowerSeries (PadicInt p)) M (PowerSeries.X : PowerSeries (PadicInt p))) ∧
       Module.Free (PadicInt p) (M ⧸ ((PowerSeries.X : PowerSeries (PadicInt p)) • (⊤ : Submodule (PowerSeries (PadicInt p)) M))) := sorry
 
-/-- L4/projective-dimension-and-resolution: genuine exact maps between existing finite free modules.
+/-- §4.2: genuine exact maps between existing finite free modules.
 The (PadicInt p)-lengths of the p-killed modules are the corresponding F_p dimensions. -/
 theorem exists_minimal_resolution :
     let H₀ := M ⧸ ((PowerSeries.X : PowerSeries (PadicInt p)) • (⊤ : Submodule (PowerSeries (PadicInt p)) M))
@@ -3683,6 +3790,31 @@ theorem exists_minimal_resolution :
       Function.Surjective ε ∧
       (∀ v i, d₂₁ v i ∈ IsLocalRing.maximalIdeal (PowerSeries (PadicInt p))) ∧
       (∀ v i, d₁₀ v i ∈ IsLocalRing.maximalIdeal (PowerSeries (PadicInt p))) := sorry
+
+/-- §4.2: the minimal resolution over a general complete
+discrete valuation ring `O` with uniformizer `ϖ` and finite residue field `k`, with the Betti
+numbers `d₀ = dim_k(H₀/ϖH₀)`, `d₁ = dim_k H₀[ϖ] + dim_k(H₁/ϖH₁)`, `d₂ = dim_k H₁[ϖ]` for
+`H₀ = M/TM` and `H₁ = M[T]`; the `k`-dimensions are the `O`-lengths. The `ℤ_p` statement above is
+the case `O = ℤ_p`, `ϖ = p`; the `𝔽_p`-dimension formula is wrong for `O ≠ ℤ_p` (for `M = O⟦T⟧`,
+`d₀ = 1` but `dim_{𝔽_p} O/pO = [Frac O : ℚ_p]`). -/
+theorem exists_minimal_resolution_general (O : Type*) [CommRing O] [IsDomain O]
+    [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]
+    [Finite (IsLocalRing.ResidueField O)] (ϖ : O) (hϖ : Irreducible ϖ)
+    (M : Type*) [AddCommGroup M] [Module (PowerSeries O) M] [Module.Finite (PowerSeries O) M]
+    [Module O M] [IsScalarTower O (PowerSeries O) M] :
+    let H₀ := M ⧸ ((PowerSeries.X : PowerSeries O) • (⊤ : Submodule (PowerSeries O) M))
+    let H₁ := Submodule.torsionBy (PowerSeries O) M (PowerSeries.X : PowerSeries O)
+    let d₀ := (Module.length O (H₀ ⧸ (ϖ • (⊤ : Submodule O H₀)))).toNat
+    let d₁ := (Module.length O (Submodule.torsionBy O H₀ ϖ)).toNat +
+      (Module.length O (H₁ ⧸ (ϖ • (⊤ : Submodule O H₁)))).toNat
+    let d₂ := (Module.length O (Submodule.torsionBy O H₁ ϖ)).toNat
+    ∃ (d₂₁ : (Fin d₂ → PowerSeries O) →ₗ[PowerSeries O] (Fin d₁ → PowerSeries O))
+      (d₁₀ : (Fin d₁ → PowerSeries O) →ₗ[PowerSeries O] (Fin d₀ → PowerSeries O))
+      (ε : (Fin d₀ → PowerSeries O) →ₗ[PowerSeries O] M),
+      Function.Injective d₂₁ ∧ Function.Exact d₂₁ d₁₀ ∧ Function.Exact d₁₀ ε ∧
+      Function.Surjective ε ∧
+      (∀ v i, d₂₁ v i ∈ IsLocalRing.maximalIdeal (PowerSeries O)) ∧
+      (∀ v i, d₁₀ v i ∈ IsLocalRing.maximalIdeal (PowerSeries O)) := sorry
 
 /-- The existing projective-dimension carrier is the existing categorical one. -/
 theorem iwasawa_projective_dimension_criterion :
@@ -3709,7 +3841,7 @@ theorem delta_maximal_finite_submodule : ∃ F : Submodule (PowerSeries (PadicIn
       ∃ k : ℕ, PowerSeries.C (p ^ k : (PadicInt p)) • m = 0) ∧
     Finite F ∧ (∀ N : Submodule (PowerSeries (PadicInt p)) M, Finite N → N ≤ F) := sorry
 
-/-- L4/cyclotomic-growth-step retains the source's Z_p normalization and rank bound. -/
+/-- §4.7 retains the source's Z_p normalization and rank bound. -/
 theorem cyclotomic_growth_step [Module.Free (PadicInt p) M] [Module.Finite (PadicInt p) M]
     (n : ℕ) (hn : Module.finrank (PadicInt p) M * (Module.finrank (PadicInt p) M - 1) / 2 < n) :
     (∑ i ∈ Finset.range p, ((1 + (PowerSeries.X : PowerSeries (PadicInt p))) ^ (i * p ^ n))) • (⊤ : Submodule (PowerSeries (PadicInt p)) M) =
@@ -3718,7 +3850,7 @@ theorem cyclotomic_growth_step [Module.Free (PadicInt p) M] [Module.Finite (Padi
 end NativeResolutionAndGrowth
 
 section CyclotomicPrimary
-/-- L4/cyclotomic-primary-submodule: saturate by taking δ of successive quotients.
+/-- §4.7: saturate by taking δ of successive quotients.
 Noetherian stabilization and the elementary classification are separate proof obligations. -/
 def cyclotomic_primary_submodule (p : ℕ) [Fact p.Prime]
     (M : Type*) [AddCommGroup M] [Module (PowerSeries (PadicInt p)) M] :
@@ -3728,11 +3860,11 @@ def cyclotomic_primary_submodule (p : ℕ) [Fact p.Prime]
 
 namespace L4Tests
 variable (p : ℕ) [Fact p.Prime]
--- test CyclotomicPrimary.zero (degenerate) [L4/cyclotomic-primary-submodule]
+-- test CyclotomicPrimary.zero (degenerate) [§4.7]
 example : cyclotomic_primary_submodule p PUnit = ⊥ := sorry
--- test CyclotomicPrimary.free (non-example) [L4/cyclotomic-primary-submodule]
+-- test CyclotomicPrimary.free (non-example) [§4.7]
 example : cyclotomic_primary_submodule p (PowerSeries (PadicInt p)) = ⊥ := sorry
--- test CyclotomicPrimary.square (computation) [L4/cyclotomic-primary-submodule]
+-- test CyclotomicPrimary.square (computation) [§4.7]
 example : let M := (PowerSeries (PadicInt p)) ⧸ Ideal.span {(PowerSeries.X : (PowerSeries (PadicInt p))) ^ 2}
     cyclotomic_primary_submodule p M = ⊤ ∧ delta_submodule p M ≠ ⊤ := sorry
 end L4Tests
@@ -3758,14 +3890,14 @@ namespace L4Tests
 variable (p : ℕ) [Fact p.Prime]
 local instance : Finite (IsLocalRing.ResidueField (PadicInt p)) :=
   Finite.of_equiv (ZMod p) PadicInt.residueField.symm.toEquiv
--- test Resolution.free (computation) [L4/projective-dimension-and-resolution]
+-- test Resolution.free (computation) [§4.2]
 -- ε=id gives the exact minimal resolution with ranks (1,0,0); lengths test the source convention.
 example : let H₀ := (PowerSeries (PadicInt p)) ⧸ ((PowerSeries.X : PowerSeries (PadicInt p)) • (⊤ : Submodule (PowerSeries (PadicInt p)) (PowerSeries (PadicInt p))))
     let H₁ := Submodule.torsionBy (PowerSeries (PadicInt p)) (PowerSeries (PadicInt p)) (PowerSeries.X : PowerSeries (PadicInt p))
     (Module.length (PadicInt p) (H₀ ⧸ ((p : (PadicInt p)) • (⊤ : Submodule (PadicInt p) H₀)))).toNat = 1 ∧
       (Module.length (PadicInt p) (Submodule.torsionBy (PadicInt p) H₀ (p : (PadicInt p)))).toNat = 0 ∧
       Subsingleton H₁ := sorry
--- test Resolution.residue (non-example) [L4/projective-dimension-and-resolution]
+-- test Resolution.residue (non-example) [§4.2]
 -- Both H₀ and H₁ are the residue field, giving (d₀,d₁,d₂)=(1,2,1).
 example : let M := (PowerSeries (PadicInt p)) ⧸ Ideal.span ({PowerSeries.C (p : (PadicInt p)), (PowerSeries.X : PowerSeries (PadicInt p))} : Set (PowerSeries (PadicInt p)))
     let H₀ := M ⧸ ((PowerSeries.X : PowerSeries (PadicInt p)) • (⊤ : Submodule (PowerSeries (PadicInt p)) M))
@@ -3789,7 +3921,7 @@ private abbrev fractionLattice (A : Type*) [CommRing A] [IsDomain A]
   LinearMap.range (LocalizedModule.lift 𝔭.asIdeal.primeCompl
     (TensorProduct.mk A (FractionRing A) M 1) (by sorry))
 
-/-- L4/bidual-intersection: a canonical embedding characterized by evaluation on M. -/
+/-- §4.1: a canonical embedding characterized by evaluation on M. -/
 theorem bidual_eq_iInf_localization [Module.IsTorsionFree A M] :
     ∃ j : Module.Dual A (Module.Dual A M) →ₗ[A] (FractionRing A ⊗[A] M),
       Function.Injective j ∧
@@ -3797,7 +3929,7 @@ theorem bidual_eq_iInf_localization [Module.IsTorsionFree A M] :
       LinearMap.range j = ⨅ (𝔭 : PrimeSpectrum A) (_ : 𝔭.asIdeal.height = 1),
         fractionLattice A M 𝔭 := sorry
 
-/-- L4/dual-intersection: integrality of a K-linear functional on every height-one lattice.
+/-- §4.1: integrality of a K-linear functional on every height-one lattice.
 The right side spells out membership in A_𝔭 using numerator/denominator pairs. -/
 theorem dual_intersection [Module.IsTorsionFree A M] :
     ∃ j : Module.Dual A M →ₗ[A]
@@ -3817,7 +3949,7 @@ theorem reflexive_intersection_criterion [Module.IsTorsionFree A M] :
 
 theorem dual_reflexive : Module.IsReflexive A (Module.Dual A M) := sorry
 
--- `L4/reflexive-torsion-free` is Mathlib's instance `Module.IsReflexive.to_isTorsionFree`.
+-- That reflexive modules are torsion-free is Mathlib's instance `Module.IsReflexive.to_isTorsionFree`.
 
 theorem isPseudoIsomorphism_bidual [Module.IsTorsionFree A M] :
     IsPseudoIsomorphism (Module.Dual.eval A M) := sorry
@@ -3898,7 +4030,9 @@ end CoefficientDVR
 section CyclotomicPolynomials
 variable (p : ℕ) [Fact p.Prime] (O : Type*) [CommRing O] [IsDomain O]
   [IsDiscreteValuationRing O] [CharP (IsLocalRing.ResidueField O) p]
--- ω_-1 is the empty product 1; natural-index ω_n is defined without integer division.
+/-- Corollary at `𝔪_O` of Tau Ceti's `TauCeti.Polynomial.isDistinguishedAt_one_add_X_pow_sub_one`
+(distinguished at the ideal `(p)`, which lies in `𝔪_O`) and `natDegree_one_add_X_pow_sub_one`.
+`ω_{-1}` is the empty product `1`; the natural-index `ω_n` is defined without integer division. -/
 theorem omega_isDistinguishedAt (n : ℕ) :
     (((1 + X) ^ (p ^ n) - 1 : O[X]).IsDistinguishedAt (IsLocalRing.maximalIdeal O)) ∧
       ((1 + X) ^ (p ^ n) - 1 : O[X]).natDegree = p ^ n := sorry
@@ -4014,13 +4148,13 @@ theorem charPoly_elementary_spec {ι κ : Type*} [Fintype ι] [Fintype κ]
       IsPseudoIsomorphism f) : charPoly O M = ∏ i, F i ^ e i := sorry
 
 namespace L4Tests
--- test Ramification.uniformizer (computation) [L4/iwasawa-invariants]
+-- test Ramification.uniformizer (computation) [§4.4]
 example : muInvariant O ϖ hϖ
     (PowerSeries O ⧸ Ideal.span {PowerSeries.C ϖ}) = 1 := sorry
--- test L4Tests.mu_part (computation) [L4/iwasawa-invariants,L4/iwasawa-invariants-api-1,L4/iwasawa-invariants-api-2]
+-- test L4Tests.mu_part (computation) [§4.4]
 example : muInvariant O ϖ hϖ (PowerSeries O ⧸ Ideal.span {PowerSeries.C ϖ}) = 1 ∧
     lambdaInvariant O (PowerSeries O ⧸ Ideal.span {PowerSeries.C ϖ}) = 0 ∧ charPoly O (PowerSeries O ⧸ Ideal.span {PowerSeries.C ϖ}) = 1 := sorry
--- test Ramification.ramified_p (non-example) [L4/iwasawa-invariants]
+-- test Ramification.ramified_p (non-example) [§4.4]
 example (a : O) (r : ℕ) (u : Oˣ) (ha : a = u * ϖ ^ r) :
     muInvariant O ϖ hϖ (PowerSeries O ⧸ Ideal.span {PowerSeries.C a}) = r := sorry
 end L4Tests
@@ -4038,20 +4172,25 @@ end FinitePseudoIsomorphism
 
 namespace L4Tests
 variable (p : ℕ) [Fact p.Prime]
--- test L4Tests.two_variables (non-example) [L4/pseudo-null]
+-- test L4Tests.two_variables (non-example) [§4.1]
 example : let A := MvPowerSeries (Fin 2) (PadicInt p)
     let I : Ideal A := Ideal.span {MvPowerSeries.X 0, MvPowerSeries.X 1}
     IsPseudoNull A (A ⧸ I) ∧ Infinite (A ⧸ I) := sorry
--- test L4Tests.maximal_ideal (non-example) [L4/pseudo-isomorphism]
+-- test L4Tests.maximal_ideal (non-example) [§4.1]
 example : let A := PowerSeries (PadicInt p)
     let I : Ideal A := Ideal.span {PowerSeries.C (p : PadicInt p), PowerSeries.X}
     IsPseudoIsomorphism I.subtype ∧
       ¬ ∃ f : A →ₗ[A] I, IsPseudoIsomorphism f := sorry
--- test L4Tests.not_complete_invariant (non-example) [L4/characteristic-ideal]
+-- test L4Tests.not_complete_invariant (non-example) [§4.6]
+-- `Λ/(T²)` and `Λ/(T) ⊕ Λ/(T)` have the same characteristic ideal `(T²)` but no pseudo-isomorphism
+-- exists in either direction (a fortiori no linear equivalence): a map `Λ/(T²) → Λ/(T)²` kills
+-- `T·Λ/(T²) ≅ ℤ_p`, and a map `Λ/(T)² → Λ/(T²)` has image killed by `T`, of infinite index.
 example : let A := PowerSeries (PadicInt p)
     let M := A ⧸ Ideal.span {(PowerSeries.X : A) ^ 2}
     let N := (A ⧸ Ideal.span {(PowerSeries.X : A)}) × (A ⧸ Ideal.span {(PowerSeries.X : A)})
-    charIdeal A M (by sorry) = charIdeal A N (by sorry) ∧ ¬ Nonempty (M ≃ₗ[A] N) := sorry
+    charIdeal A M (by sorry) = charIdeal A N (by sorry) ∧
+      (¬ ∃ f : M →ₗ[A] N, IsPseudoIsomorphism f) ∧
+      (¬ ∃ g : N →ₗ[A] M, IsPseudoIsomorphism g) := sorry
 end L4Tests
 
 /-! ### L4 arithmetic controls
@@ -4061,25 +4200,25 @@ roadmap leaves to implementation. -/
 
 namespace L4Tests
 
-/-- `L4/cyclotomic-weierstrass-polynomials`: `ξ₁ = 1 + (1+T) + (1+T)² = T² + 3T + 3` for `p = 3`, a distinguished
+/-- §4.3: `ξ₁ = 1 + (1+T) + (1+T)² = T² + 3T + 3` for `p = 3`, a distinguished
 polynomial. -/
 example : (1 + (1 + X) + (1 + X) ^ 2 : ℤ[X]) = X ^ 2 + 3 * X + 3 := by ring
 
-/-- `L4/cyclotomic-weierstrass-polynomials`: `ω₁ = (1+T)² − 1 = T² + 2T` for `p = 2`. -/
+/-- §4.3: `ω₁ = (1+T)² − 1 = T² + 2T` for `p = 2`. -/
 example : ((1 + X) ^ 2 - 1 : ℤ[X]) = X ^ 2 + 2 * X := by ring
 
-/-- `L4/cyclotomic-weierstrass-polynomials`: modulo `p`, `ω_n ≡ T^{p^n}` (here `p = 2`, `n = 2`). -/
+/-- §4.3: modulo `p`, `ω_n ≡ T^{p^n}` (here `p = 2`, `n = 2`). -/
 example : ((1 + X) ^ 4 - 1 : (ZMod 2)[X]) = X ^ 4 := by
   have h := add_pow_char_pow (R := (ZMod 2)[X]) (p := 2) (n := 2) (1 : (ZMod 2)[X]) X
   norm_num at h
   rw [h]
   ring
 
-/-- `L4/iwasawa-growth-formula` (Lemma 5.3.18, `λ = 1`): on `Λ/(T − 3)` (γ acting by `4`), `ξ₂ = Σ_{i<3} γ^{3i}` acts by
+/-- §4.7 (Lemma 5.3.18, `λ = 1`): on `Λ/(T − 3)` (γ acting by `4`), `ξ₂ = Σ_{i<3} γ^{3i}` acts by
 `1 + 4³ + 4⁶ = 3 · 1387` with `3 ∤ 1387`, so `ξ₂ M = 3M`. -/
 example : (1 + 4 ^ 3 + 4 ^ 6 : ℤ) = 3 * 1387 ∧ ¬ (3 : ℤ) ∣ 1387 := by decide
 
-/-- `L4/finite-coinvariants-euler-characteristic`: for `M = Λ/(T − p)` and `n = 0`, `#M_Γ = p` and `M^Γ = 0`, and the
+/-- §4.7: for `M = Λ/(T − p)` and `n = 0`, `#M_Γ = p` and `M^Γ = 0`, and the
 formula's right side is `|F(0)|_p = |−p|_p = 1/p` (here `p = 3`). -/
 example : padicNorm 3 (-3 : ℚ) = 1 / 3 := by
   have h := padicNorm.padicNorm_p (p := 3) (by norm_num)
@@ -4087,11 +4226,11 @@ example : padicNorm 3 (-3 : ℚ) = 1 / 3 := by
   norm_num at h ⊢
   exact h
 
-/-- `L4/iwasawa-invariants` (non-example): the characteristic polynomial depends on γ. For `M = Λ/(T − p)`
+/-- §4.4 (non-example): the characteristic polynomial depends on γ. For `M = Λ/(T − p)`
 (γ acting by `1 + p`), for odd prime p the generator `γ²` acts by `(1 + p)² = 1 + (2p + p²)`, so `F_{M,γ²} = T − (2p + p²)`. -/
 example (p : ℤ) : (1 + p) ^ 2 - 1 = 2 * p + p ^ 2 := by ring
 
-/-- `L4/character-decomposition` (`|H| = 2`, `p` odd): `e_± = (1 ± h)/2` are orthogonal idempotents. -/
+/-- §4.6 (`|H| = 2`, `p` odd): `e_± = (1 ± h)/2` are orthogonal idempotents. -/
 example (h : ℚ) (hh : h ^ 2 = 1) :
     ((1 + h) / 2) ^ 2 = (1 + h) / 2 ∧ ((1 + h) / 2) * ((1 - h) / 2) = 0 ∧ (1 + h) / 2 + (1 - h) / 2 = 1 := by
   refine ⟨?_, ?_, ?_⟩
@@ -4099,7 +4238,7 @@ example (h : ℚ) (hh : h ^ 2 = 1) :
   · linear_combination (-1 / 4 : ℚ) * hh
   · ring
 
-/-- `L4/weierstrass-adapter`: Mathlib's preparation theorem is the adapter's source. -/
+/-- §4.3: Mathlib's preparation theorem is the adapter's source. -/
 example {A : Type*} [CommRing A] [IsLocalRing A] [IsAdicComplete (IsLocalRing.maximalIdeal A) A]
     {g : PowerSeries A} (hg : g.map (IsLocalRing.residue A) ≠ 0) :
     ∃ f h, g.IsWeierstrassFactorization f h :=
@@ -4120,7 +4259,7 @@ local notation "Λ" => PowerSeries (PadicInt p)
 local notation "ω[" n "]" => ((1 + PowerSeries.X) ^ (p ^ n) - 1 : PowerSeries (PadicInt p))
 -- ξ_j is written out as `if j = 0 then T else ∑_{i<p} (1+T)^{i p^{j-1}}` (NSW (5.3.13)).
 
-/-- `L4/delta-and-cyclotomic-submodules` (NSW (5.3.11)): the snake lemma for multiplication by `T`
+/-- §4.7 (NSW (5.3.11)): the snake lemma for multiplication by `T`
 on a short exact sequence gives the six-term exact sequence of invariants `M^Γ = ker T` and
 coinvariants `M_Γ = M/TM`. -/
 theorem invariants_coinvariants_six_term_exact
@@ -4144,7 +4283,7 @@ theorem invariants_coinvariants_six_term_exact
       Function.Injective fΓ ∧ Function.Exact fΓ gΓ ∧ Function.Exact gΓ δ ∧
       Function.Exact δ fΓ' ∧ Function.Exact fΓ' gΓ' ∧ Function.Surjective gΓ' := sorry
 
-/-- `L4/iwasawa-growth-formula` (NSW (5.3.17)). The index `n₀` here is the source's `n₀ + 1`:
+/-- §4.7 (NSW (5.3.17)). The index `n₀` here is the source's `n₀ + 1`:
 `∏_{j < n₀} ξ_j = ω_{n₀-1}` (the empty product is `ω_{-1} = 1`) and
 `∏_{n₀ ≤ j ≤ n} ξ_j = ω_n / ω_{n₀-1}`. The hypothesis says that `ω_{n₀-1}` carries `M_δ` into the
 maximal finite submodule (the coefficient torsion of `M_δ`), that is `d(M) ≤ n₀ - 1`. -/
@@ -4159,7 +4298,56 @@ theorem card_quotient_omega_eq (M : Type*) [AddCommGroup M] [Module Λ M] [Modul
         (p : ℚ) ^ ((muInvariant (PadicInt p) (p : PadicInt p) hp M * p ^ n +
           lambdaInvariant (PadicInt p) M * n : ℕ) : ℤ) * (p : ℚ) ^ ν := sorry
 
-/-- `L4/finite-coinvariants-euler-characteristic` (NSW §3, Exercise 3): finiteness of the
+/-- §4.7: the growth formula over a mixed-characteristic coefficient
+ring `O` with `p = u ϖ^e` (`e ≥ 1`, so `O` has characteristic zero and residue characteristic `p`)
+and residue field of cardinality `p^f`, with the `ϖ`-normalised `μ`:
+`#(M/(ω_n/ω_{n₀-1})M) = p^{f μ p^n + e f λ n + ν}`. The hypothesis on `n₀` is that of
+`card_quotient_omega_eq`, with the `δ`-submodule written out. The statement is registered
+separately from the `ℤ_p` one because the exponents differ; `e = f = 1` recovers it. It is false in
+equal characteristic (`L4Tests.growth_formula_fails_equal_characteristic`). -/
+theorem card_quotient_omega_eq_general (O : Type*) [CommRing O] [IsDomain O]
+    [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]
+    [Finite (IsLocalRing.ResidueField O)] (ϖ : O) (hϖ : Irreducible ϖ)
+    (e f : ℕ) (he : 0 < e) (u : Oˣ) (hpe : (p : O) = u * ϖ ^ e)
+    (hf : Nat.card (IsLocalRing.ResidueField O) = p ^ f)
+    (M : Type*) [AddCommGroup M] [Module (PowerSeries O) M] [Module.Finite (PowerSeries O) M]
+    (hM : Module.IsTorsion (PowerSeries O) M) (n₀ : ℕ)
+    (hn₀ : ∀ m : M, (∃ n : ℕ, (((1 + PowerSeries.X) ^ (p ^ n) - 1 : PowerSeries O)) • m = 0) →
+      ∃ k : ℕ, PowerSeries.C (ϖ ^ k) • ((∏ j ∈ Finset.range n₀,
+        (if j = 0 then (PowerSeries.X : PowerSeries O)
+          else ∑ i ∈ Finset.range p, (1 + PowerSeries.X) ^ (i * p ^ (j - 1)))) • m) = 0) :
+    ∃ (ν : ℤ) (N : ℕ), ∀ n, N ≤ n → n₀ ≤ n →
+      (Nat.card (M ⧸ ((∏ j ∈ Finset.Ico n₀ (n + 1), (if j = 0 then (PowerSeries.X : PowerSeries O)
+          else ∑ i ∈ Finset.range p, (1 + PowerSeries.X) ^ (i * p ^ (j - 1)))) •
+            (⊤ : Submodule (PowerSeries O) M))) : ℚ) =
+        (p : ℚ) ^ ((f * muInvariant O ϖ hϖ M * p ^ n + e * f * lambdaInvariant O M * n : ℕ) : ℤ) *
+          (p : ℚ) ^ ν := sorry
+
+namespace L4Tests
+-- test L4Tests.growth_formula_fails_equal_characteristic (non-example) [§4.7]
+-- `O = 𝔽_p⟦ϖ⟧`, `M = O⟦T⟧/(T − ϖ) ≅ O` with `T` acting by `ϖ`: `μ = 0`, `λ = 1`, but
+-- `ω_n = (1 + ϖ)^{p^n} − 1 = ϖ^{p^n}` in characteristic `p`, so `#M/ω_nM = p^{p^n}`, not `p^{n + ν}`.
+example [IsAdicComplete (IsLocalRing.maximalIdeal (PowerSeries (ZMod p))) (PowerSeries (ZMod p))]
+    [Finite (IsLocalRing.ResidueField (PowerSeries (ZMod p)))]
+    (hX : Irreducible (PowerSeries.X : PowerSeries (ZMod p))) :
+    let O := PowerSeries (ZMod p)
+    let M := PowerSeries O ⧸ Ideal.span {(PowerSeries.X - PowerSeries.C (PowerSeries.X : O) : PowerSeries O)}
+    muInvariant O PowerSeries.X hX M = 0 ∧ lambdaInvariant O M = 1 ∧
+    ∀ n : ℕ, Nat.card (M ⧸ ((((1 + PowerSeries.X) ^ (p ^ n) - 1 : PowerSeries O)) •
+      (⊤ : Submodule (PowerSeries O) M))) = p ^ (p ^ n) := sorry
+-- test L4Tests.growth_formula_unramified_quadratic (computation) [§4.7]
+-- `O` unramified quadratic over `ℤ_p` (`f = 2`, `e = 1`), `M = O⟦T⟧/(p)`: `μ = 1`, `λ = 0` and
+-- `#M/ω_nM = #𝔽_{p²}[T]/(T^{p^n}) = p^{2 p^n}`, which the `ℤ_p`-normalised formula `p^{p^n}` misses.
+example (O : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
+    [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [Finite (IsLocalRing.ResidueField O)]
+    (hp : Irreducible (p : O)) (hf : Nat.card (IsLocalRing.ResidueField O) = p ^ 2) :
+    let M := PowerSeries O ⧸ Ideal.span {(PowerSeries.C (p : O) : PowerSeries O)}
+    muInvariant O (p : O) hp M = 1 ∧ lambdaInvariant O M = 0 ∧
+    ∀ n : ℕ, Nat.card (M ⧸ ((((1 + PowerSeries.X) ^ (p ^ n) - 1 : PowerSeries O)) •
+      (⊤ : Submodule (PowerSeries O) M))) = p ^ (2 * p ^ n) := sorry
+end L4Tests
+
+/-- §4.7 (NSW §3, Exercise 3): finiteness of the
 coinvariants and of the invariants at level `n` are equivalent, and equivalent to
 `F_M(ζ - 1) ≠ 0` for every `p^n`-th root of unity `ζ`, which is the coprimality of `F_M` and
 `ω_n` in `ℚ_p[X]`. -/
@@ -4170,7 +4358,7 @@ theorem finite_coinvariants_iff (M : Type*) [AddCommGroup M] [Module Λ M] [Modu
       IsCoprime ((charPoly (PadicInt p) M).map (algebraMap (PadicInt p) ℚ_[p]))
         ((1 + X) ^ (p ^ n) - 1 : ℚ_[p][X])) := sorry
 
-/-- `L4/coinvariants-euler-product` (NSW §3, Exercise 3): under the finiteness conditions,
+/-- §4.7 (NSW §3, Exercise 3): under the finiteness conditions,
 `#M^{Γ_n} / #M_{Γ_n} = p^{-μ p^n} ∏_{ζ^{p^n} = 1} |F_M(ζ - 1)|_p`, the product over the
 `p^n`-th roots of unity in `ℂ_p`. -/
 theorem coinvariants_euler_product (M : Type*) [AddCommGroup M] [Module Λ M] [Module.Finite Λ M]
@@ -4183,13 +4371,13 @@ theorem coinvariants_euler_product (M : Type*) [AddCommGroup M] [Module Λ M] [M
           ‖Polynomial.aeval (ζ - 1)
             ((charPoly (PadicInt p) M).map (algebraMap (PadicInt p) ℚ_[p]))‖).prod := sorry
 
-/-- `L4/pseudoiso-maximal-ideal-control` (NSW §3, Exercise 1): the inclusion of the maximal ideal
+/-- §4.1 (NSW §3, Exercise 1): the inclusion of the maximal ideal
 is a pseudo-isomorphism, and no map in the other direction is one. -/
 theorem pseudoiso_maximal_ideal_control :
     let I : Ideal Λ := Ideal.span {PowerSeries.C (p : PadicInt p), PowerSeries.X}
     IsPseudoIsomorphism I.subtype ∧ ¬ ∃ f : Λ →ₗ[Λ] I, IsPseudoIsomorphism f := sorry
 
-/-- `L4/disjoint-torsion-extension` (NSW (5.1.7)): an extension of torsion modules with disjoint
+/-- §4.2 (NSW (5.1.7)): an extension of torsion modules with disjoint
 height-one supports is pseudo-isomorphic to the direct sum. -/
 theorem disjoint_torsion_extension {A : Type*} [CommRing A] [IsDomain A] [IsNoetherianRing A]
     [IsIntegrallyClosed A] {M N P : Type*} [AddCommGroup M] [Module A M] [Module.Finite A M]
@@ -4202,7 +4390,7 @@ theorem disjoint_torsion_extension {A : Type*} [CommRing A] [IsDomain A] [IsNoet
         Subsingleton (LocalizedModule 𝔭.asIdeal.primeCompl P)) :
     ∃ h : N →ₗ[A] M × P, IsPseudoIsomorphism h := sorry
 
-/-- `L4/regular-parameter-reflexivity-criterion` (NSW (5.1.9)): for a regular local ring of
+/-- §4.2 (NSW (5.1.9)): for a regular local ring of
 dimension `n ≥ 2` with regular system of parameters `x`, a finitely generated module is free iff
 `M/(x_0, …, x_{i-1})M` is reflexive over `A/(x_0, …, x_{i-1})` for every `i ≤ n - 2`. The quotient
 module is written as the base change `(A/I) ⊗[A] M`. -/
@@ -4214,7 +4402,7 @@ theorem regular_parameter_reflexivity_criterion {A : Type*} [CommRing A] [IsRegu
       Module.IsReflexive (A ⧸ Ideal.span (x '' {j | (j : ℕ) < i}))
         ((A ⧸ Ideal.span (x '' {j | (j : ℕ) < i})) ⊗[A] M) := sorry
 
-/-- `L4/finite-index-inclusion`: submodules agreeing after inverting `ϖ` and differing by a
+/-- §4.1: submodules agreeing after inverting `ϖ` and differing by a
 series of finite reduced degree have finite index; the inclusion is a pseudo-isomorphism. -/
 theorem finite_index_inclusion (O : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [Finite (IsLocalRing.ResidueField O)]
@@ -4225,7 +4413,7 @@ theorem finite_index_inclusion (O : Type*) [CommRing O] [IsDomain O] [IsDiscrete
     (f : PowerSeries O) (hf : f.map (IsLocalRing.residue O) ≠ 0) (hfM : ∀ m : M, f • m ∈ N) :
     Finite (M ⧸ N) ∧ IsPseudoIsomorphism N.subtype := sorry
 
-/-- `L4/delta-cyclotomic-elementary-factors` (NSW (5.3.16)): the elementary factors of `M_δ` are
+/-- §4.7 (NSW (5.3.16)): the elementary factors of `M_δ` are
 `Λ/(ξ_m)` with exponent one; there are no vertical factors and no higher cyclotomic powers. -/
 theorem delta_cyclotomic_elementary_factors (M : Type*) [AddCommGroup M] [Module Λ M]
     [Module.Finite Λ M] :
@@ -4235,21 +4423,39 @@ theorem delta_cyclotomic_elementary_factors (M : Type*) [AddCommGroup M] [Module
           else ∑ k ∈ Finset.range p, (1 + PowerSeries.X) ^ (k * p ^ (e i - 1)))})),
       IsPseudoIsomorphism f := sorry
 
-/-- `L4/character-orbit-coefficients` (nonsplit coefficients): for `#H` a unit in `O`, the finite
-group algebra `O[H]` is a finite product of finite free unramified extensions of `O`, one for each
-Galois orbit of characters; unramified is recorded as a uniformizer staying irreducible, with
-finite (hence perfect) residue fields. -/
+/-- §4.6: the Galois-orbit relation on the characters `H →* O'ˣ` of a
+finite abelian group with values in an `O`-algebra `O'`: `χ ~ χ'` when `χ' = σ ∘ χ` for an
+`O`-algebra automorphism `σ` of `O'`. -/
+def characterGaloisOrbit (O O' H : Type*) [CommRing O] [CommRing O'] [Algebra O O']
+    [CommGroup H] : Setoid (H →* O'ˣ) where
+  r χ χ' := ∃ σ : O' ≃ₐ[O] O', ∀ h, σ (χ h) = χ' h
+  iseqv := by sorry
+
+/-- §4.6 (nonsplit coefficients): for `#H` a unit in `O` and `O'` a
+domain over `O` containing the values of all characters of `H`, evaluation at one representative
+per Galois orbit of characters identifies `O[H]` with `∏_{[χ]} O[χ(H)]`, the product over the
+orbits of the `O`-subalgebras of `O'` generated by the character values; each factor is a discrete
+valuation ring, finite free and unramified over `O` (a uniformizer of `O` stays irreducible), with
+finite residue field. The index set is the set of orbits and the factors are the `O[χ(H)]`, not an
+unspecified product decomposition; for split `O` every orbit is a singleton
+(§4.6). -/
 theorem character_orbit_coefficients (O : Type*) [CommRing O] [IsDomain O]
     [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]
     [Finite (IsLocalRing.ResidueField O)]
-    (H : Type*) [CommGroup H] [Finite H] (hH : IsUnit (Nat.card H : O)) :
-    ∃ (ι : Type) (_ : Fintype ι) (R : ι → Type) (_ : ∀ i, CommRing (R i))
-      (_ : ∀ i, Algebra O (R i)),
-      (∀ i, ∃ (_ : IsDomain (R i)) (_ : IsDiscreteValuationRing (R i)),
-        Module.Finite O (R i) ∧ Module.Free O (R i) ∧
-        Finite (IsLocalRing.ResidueField (R i)) ∧
-        ∀ ϖ : O, Irreducible ϖ → Irreducible (algebraMap O (R i) ϖ)) ∧
-      Nonempty (MonoidAlgebra O H ≃ₐ[O] ∀ i, R i) := sorry
+    (H : Type*) [CommGroup H] [Finite H] (hH : IsUnit (Nat.card H : O))
+    (O' : Type*) [CommRing O'] [IsDomain O'] [Algebra O O']
+    [HasEnoughRootsOfUnity O' (Monoid.exponent H)] :
+    let rep : Quotient (characterGaloisOrbit O O' H) → (H →* O'ˣ) := Quotient.out
+    let R : Quotient (characterGaloisOrbit O O' H) → Subalgebra O O' :=
+      fun c => Algebra.adjoin O (Set.range fun h => ((rep c h : O'ˣ) : O'))
+    let ev : MonoidAlgebra O H → Quotient (characterGaloisOrbit O O' H) → O' :=
+      fun x c => MonoidAlgebra.lift O O' H ((Units.coeHom O').comp (rep c)) x
+    Function.Injective ev ∧
+    Set.range ev = {v | ∀ c, v c ∈ R c} ∧
+    ∀ c, ∃ (_ : IsDomain (R c)) (_ : IsDiscreteValuationRing (R c)),
+      Module.Finite O (R c) ∧ Module.Free O (R c) ∧
+      Finite (IsLocalRing.ResidueField (R c)) ∧
+      ∀ ϖ : O, Irreducible ϖ → Irreducible (algebraMap O (R c) ϖ) := sorry
 
 section GeneratorChange
 variable (σ : PowerSeries (PadicInt p) ≃ₐ[PadicInt p] PowerSeries (PadicInt p))
@@ -4258,7 +4464,7 @@ local instance : RingHomInvPair σ.toRingEquiv.toRingHom σ.toRingEquiv.symm.toR
 local instance : RingHomInvPair σ.toRingEquiv.symm.toRingHom σ.toRingEquiv.toRingHom :=
   RingHomInvPair.of_ringEquiv_symm σ.toRingEquiv
 
-/-- `L4/iwasawa-invariants-api-8`: `r`, `μ` and `λ` do not depend on the topological generator.
+/-- §4.4: `r`, `μ` and `λ` do not depend on the topological generator.
 A change of generator `T ↦ (1 + T)^a - 1`, `a ∈ ℤ_pˣ`, is a `ℤ_p`-algebra automorphism `σ` of `Λ`,
 and the module for the new generator is the restriction of scalars along `σ`, written here as a
 `σ`-semilinear equivalence `N ≃ M`. -/
@@ -4272,7 +4478,7 @@ theorem invariants_generator_indep (hp : Irreducible (p : PadicInt p))
       Module.finrank (FractionRing Λ) (FractionRing Λ ⊗[Λ] M) := sorry
 end GeneratorChange
 
-/-- `L4/characteristic-ideal-api-8`: `char_{Λ'}(Λ' ⊗_Λ M) = char_Λ(M) Λ'` for a finite flat
+/-- §4.6: `char_{Λ'}(Λ' ⊗_Λ M) = char_Λ(M) Λ'` for a finite flat
 (equivalently, over a discrete valuation ring, finite free) coefficient extension `O → O'`. -/
 theorem charIdeal_baseChange (O O' : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [Finite (IsLocalRing.ResidueField O)]
@@ -4287,7 +4493,7 @@ theorem charIdeal_baseChange (O O' : Type*) [CommRing O] [IsDomain O] [IsDiscret
     charIdeal (PowerSeries O') (PowerSeries O' ⊗[PowerSeries O] M) (by sorry) =
       (charIdeal (PowerSeries O) M hM).map (PowerSeries.map (algebraMap O O')) := sorry
 
-/-- `L4/characteristic-ideal-api-9`: for `O` finite free over `ℤ_p` and `char_{Λ_O}(M) = (f)`,
+/-- §4.6: for `O` finite free over `ℤ_p` and `char_{Λ_O}(M) = (f)`,
 the characteristic ideal of `M` as a `ℤ_p⟦T⟧`-module is generated by the norm of `f`, the
 determinant of multiplication by `f` on the finite free `ℤ_p⟦T⟧`-module `O⟦T⟧`. -/
 theorem charIdeal_restrictScalars (O : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
@@ -4304,7 +4510,7 @@ theorem charIdeal_restrictScalars (O : Type*) [CommRing O] [IsDomain O] [IsDiscr
 
 namespace L4Tests
 
--- test L4Tests.generator_dependence (non-example) [L4/iwasawa-invariants,L4/iwasawa-invariants-api-1,L4/iwasawa-invariants-api-2]
+-- test L4Tests.generator_dependence (non-example) [§4.4]
 -- With γ ↦ γ², the module Λ/(T − p) becomes Λ/(T − (2p + p²)): F changes, λ does not.
 example (hp2 : p ≠ 2) :
     charPoly (PadicInt p) (Λ ⧸ Ideal.span {(PowerSeries.X - PowerSeries.C (p : PadicInt p) : Λ)}) =
@@ -4320,7 +4526,7 @@ example (hp2 : p ≠ 2) :
       σ (PowerSeries.X - PowerSeries.C (2 * p + p ^ 2 : PadicInt p)) ∈
         Ideal.span {(PowerSeries.X - PowerSeries.C (p : PadicInt p) : Λ)} := sorry
 
--- test L4Tests.ramified_normalisation (compatibility) [L4/iwasawa-invariants,L4/iwasawa-invariants-api-1,L4/iwasawa-invariants-api-2]
+-- test L4Tests.ramified_normalisation (compatibility) [§4.4]
 -- O = ℤ_p[√p], ϖ = √p: μ(Λ/(ϖ)) = 1 in the ϖ-normalisation (not ½), and μ(Λ/(p)) = 2.
 example (O : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [Finite (IsLocalRing.ResidueField O)]
@@ -4328,7 +4534,7 @@ example (O : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     muInvariant O ϖ hϖ (PowerSeries O ⧸ Ideal.span {PowerSeries.C ϖ}) = 1 ∧
     muInvariant O ϖ hϖ (PowerSeries O ⧸ Ideal.span {PowerSeries.C (p : O)}) = 2 := sorry
 
--- test L4Tests.norm_formula (computation) [L4/characteristic-ideal]
+-- test L4Tests.norm_formula (computation) [§4.6]
 -- p ≡ 3 mod 4, O = ℤ_p[i], M = O⟦T⟧/(T − ip): as a ℤ_p⟦T⟧-module, char(M) = (T² + p²).
 example (O : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [Finite (IsLocalRing.ResidueField O)]
@@ -4341,7 +4547,7 @@ example (O : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     charIdeal Λ M (by sorry) =
       Ideal.span {(PowerSeries.X ^ 2 + PowerSeries.C (p ^ 2 : PadicInt p) : Λ)} := sorry
 
--- test L4Tests.order_two (computation) [L4/character-decomposition]
+-- test L4Tests.order_two (computation) [§4.6]
 -- H = {1, h}, p odd: e_± = (1 ± h)/2 are orthogonal idempotents summing to 1.
 example (hp2 : p ≠ 2) (χ : Multiplicative (ZMod 2) →* (PadicInt p)ˣ)
     (hχ : (χ (Multiplicative.ofAdd 1) : PadicInt p) = -1) :
@@ -4355,7 +4561,7 @@ example (hp2 : p ≠ 2) (χ : Multiplicative (ZMod 2) →* (PadicInt p)ˣ)
         (1 - MonoidAlgebra.of (PadicInt p) (Multiplicative (ZMod 2)) (Multiplicative.ofAdd 1)) :=
   sorry
 
--- test L4Tests.teichmuller (computation) [L4/character-decomposition]
+-- test L4Tests.teichmuller (computation) [§4.6]
 -- H = μ_{p-1} ≅ (ℤ/p)ˣ, p odd: #H is a unit in ℤ_p and ℤ_p has the Teichmüller roots of unity,
 -- so O = ℤ_p suffices for the split decomposition.
 example (hp2 : p ≠ 2) :
@@ -4363,14 +4569,14 @@ example (hp2 : p ≠ 2) :
     (∃ ζ : PadicInt p, IsPrimitiveRoot ζ (p - 1)) ∧
     HasEnoughRootsOfUnity (PadicInt p) (Monoid.exponent (ZMod p)ˣ) := sorry
 
--- test L4Tests.p_divides (non-example) [L4/character-decomposition]
+-- test L4Tests.p_divides (non-example) [§4.6]
 -- H = C_p: 1/p ∉ ℤ_p, and ℤ_p[C_p] is local with no nontrivial idempotent.
 example : ¬ IsUnit ((Nat.card (Multiplicative (ZMod p)) : ℕ) : PadicInt p) ∧
     IsLocalRing (MonoidAlgebra (PadicInt p) (Multiplicative (ZMod p))) ∧
     ∀ e : MonoidAlgebra (PadicInt p) (Multiplicative (ZMod p)),
       IsIdempotentElem e → e = 0 ∨ e = 1 := sorry
 
--- test L4Tests.trivial_group (degenerate) [L4/character-decomposition]
+-- test L4Tests.trivial_group (degenerate) [§4.6]
 example {R : Type*} [CommRing R] [IsDomain R] {H : Type*} [CommGroup H] [Finite H]
     [Subsingleton H] (M : Type*) [AddCommGroup M] [Module R M] [Module (MonoidAlgebra R H) M]
     [IsScalarTower R (MonoidAlgebra R H) M] :
@@ -4407,14 +4613,14 @@ Conventions.
   finite quotients `O/(a)`, `a ≠ 0`. A set of characters "belonging to one `χ`" is a set whose
   pairwise quotients have `p`-power order.
 * `Fitt⁰`: `TauCeti.fittingIdeal R M 0` is the initial Fitting ideal of a finitely
-  presented module, `L4/initial-fitting-ideal`, declared with its API after the
+  presented module, §4.5, declared with its API after the
   contragredient block below because L6 is its main consumer. `Fittⁱ` for every `i` is L6's
-  `TauCeti.fittingIdeal R M i` (`L6/higher-fitting-ideal`), the same declaration at
+  `TauCeti.fittingIdeal R M i` (§6.5), the same declaration at
   `i = 0`. Both take `[Module.FinitePresentation R M]`; where
   a statement concludes that a module is finitely presented, that instance is an argument,
   because the ideal cannot be written without it.
 * `e_χ`: `TauCeti.Iwasawa.charIdempotent χ` stands for the character idempotent
-  `#H⁻¹ Σ_{a ∈ H} χ(a)⁻¹ a ∈ O[H]` of `L4/character-decomposition`, declared in the L4 block and reused here. L6 does not own it. In `O[G]`, for a subgroup `G'` and a character `χ` of `G'`,
+  `#H⁻¹ Σ_{a ∈ H} χ(a)⁻¹ a ∈ O[H]` of §4.6, declared in the L4 block and reused here. L6 does not own it. In `O[G]`, for a subgroup `G'` and a character `χ` of `G'`,
   `e_χ` is `MonoidAlgebra.mapDomainAlgHom O O G'.subtype (Iwasawa.charIdempotent χ)`.
 
 Tau Ceti declarations that the block reuses instead of restating:
@@ -4447,14 +4653,13 @@ open scoped Pointwise
 
 namespace TauCeti
 
-/-! ## PadicMeasuresIwasawaAlgebras:L6/character-evaluation (construction) and
-L6/joint-evaluation-injective (lemma) -/
+/-! ## Character evaluation and the joint evaluation (§6.1) -/
 
 section CharacterEvaluation
 
 variable {O G : Type*} [CommRing O] [CommGroup G]
 
-/-- `L6/character-evaluation`: the evaluation `ev_ψ : O[G] → O`, `Σ a_g g ↦ Σ a_g ψ(g)`, of the
+/-- §6.1: the evaluation `ev_ψ : O[G] → O`, `Σ a_g g ↦ Σ a_g ψ(g)`, of the
 group ring at a character `ψ : G →* Oˣ`. It is an abbreviation of the pinned
 `TauCeti.DiagonalizableGroup.point ψ` with `R = A = O` and is not defined again. -/
 abbrev charEval (ψ : G →* Oˣ) : MonoidAlgebra O G →ₐ[O] O :=
@@ -4505,14 +4710,14 @@ theorem asAlgebraHom_ofLinearCharacter (ψ : G →* Oˣ) (x : MonoidAlgebra O G)
     Representation.asAlgebraHom (Representation.ofLinearCharacter ψ) x y = charEval ψ x * y :=
   sorry
 
-/-- `L6/character-evaluation`: the joint evaluation `ev_Ψ : O[G] → ∏_{ψ ∈ Ψ} O`. -/
+/-- §6.1: the joint evaluation `ev_Ψ : O[G] → ∏_{ψ ∈ Ψ} O`. -/
 def jointEval (Ψ : Set (G →* Oˣ)) : MonoidAlgebra O G →ₐ[O] (Ψ → O) :=
   AlgHom.pi (fun ψ : Ψ => charEval ψ.1)
 
 @[simp] theorem jointEval_apply (Ψ : Set (G →* Oˣ)) (x : MonoidAlgebra O G) (ψ : Ψ) :
     jointEval Ψ x ψ = charEval ψ.1 x := rfl
 
-/-- `L6/joint-evaluation-injective`: for `G` finite and `O` a domain with enough roots of unity
+/-- §6.1: for `G` finite and `O` a domain with enough roots of unity
 for the exponent of `G`, the joint evaluation at all characters is injective. The proof is column
 orthogonality, the pinned `CommGroup.sum_inv_mul_monoidHom_apply_eq_ite`:
 `Σ_ψ ψ(g)⁻¹ ψ(x) = #G · a_g` for `x = Σ a_h h`. No hypothesis `#G ≠ 0` is needed: the exponent
@@ -4558,25 +4763,25 @@ theorem jointEval_injective [IsDomain O] [Finite G] [HasEnoughRootsOfUnity O (Mo
   simp only [h0, mul_zero, Finset.sum_const_zero] at this
   simpa using (mul_eq_zero.mp this.symm).resolve_left hG
 
--- test charEval_sign (computation) [L6/character-evaluation]
+-- test charEval_sign (computation) [§6.1]
 example [IsDomain O] (h : G) (hh : h ≠ 1) (hh2 : h * h = 1) (ψ : G →* Oˣ)
     (hψ : (ψ h : O) = -1) :
     charEval ψ (MonoidAlgebra.of O G 1 + MonoidAlgebra.of O G h) = 0 ∧
       charEval ψ (MonoidAlgebra.of O G 1 - MonoidAlgebra.of O G h) = 2 := sorry
 
--- test charEval_trivialGroup (degenerate) [L6/character-evaluation]
+-- test charEval_trivialGroup (degenerate) [§6.1]
 example [Subsingleton G] : Function.Bijective (charEval (1 : G →* Oˣ)) := sorry
 
--- test charEval_not_injective (non-example) [L6/character-evaluation]
+-- test charEval_not_injective (non-example) [§6.1]
 example [Nontrivial O] (h : G) (hh : h ≠ 1) (ψ : G →* Oˣ) :
     ¬ Function.Injective (charEval ψ) := sorry
 
--- test charEval_lift (compatibility) [L6/character-evaluation]
+-- test charEval_lift (compatibility) [§6.1]
 example (ψ : G →* Oˣ) (g : G) :
     charEval ψ (MonoidAlgebra.of O G g) =
       MonoidAlgebra.lift O O G ((Units.coeHom O).comp ψ) (MonoidAlgebra.of O G g) := rfl
 
--- test jointEval_two (computation) [L6/character-evaluation]
+-- test jointEval_two (computation) [§6.1]
 example (h : G) (ψ₁ ψ₂ : G →* Oˣ) (h₁ : (ψ₁ h : O) = 1) (h₂ : (ψ₂ h : O) = -1) (a b : O) :
     jointEval {ψ₁, ψ₂} (MonoidAlgebra.single 1 a + MonoidAlgebra.single h b) ⟨ψ₁, by simp⟩ =
         a + b ∧
@@ -4585,14 +4790,13 @@ example (h : G) (ψ₁ ψ₂ : G →* Oˣ) (h₁ : (ψ₁ h : O) = 1) (h₂ : (�
 
 end CharacterEvaluation
 
-/-! ## PadicMeasuresIwasawaAlgebras:L6/character-group-ring (definition) and
-L6/character-group-ring-scaled-idempotent (lemma) -/
+/-! ## Character group rings and the scaled idempotent (§6.1) -/
 
 section CharacterGroupRing
 
 variable {O G : Type*} [CommRing O] [CommGroup G]
 
-/-- `L6/character-group-ring`: the character group ring `R_Ψ`, the image of
+/-- §6.1: the character group ring `R_Ψ`, the image of
 `ev_Ψ : O[G] → ∏_{ψ ∈ Ψ} O` (Dasgupta–Kakde §2.2). It is in general a proper, non-maximal
 order in the product and is never replaced by it. -/
 def charGroupRing (Ψ : Set (G →* Oˣ)) : Subalgebra O (Ψ → O) := (jointEval Ψ).range
@@ -4691,7 +4895,7 @@ theorem subsingleton_empty : Subsingleton (charGroupRing (∅ : Set (G →* Oˣ)
 def equivOfSingletonOne : charGroupRing ({1} : Set (G →* Oˣ)) ≃ₐ[O] O :=
   AlgEquiv.ofBijective (eval (⟨1, Set.mem_singleton 1⟩ : ({1} : Set (G →* Oˣ)))) sorry
 
-/-- `L6/character-group-ring-scaled-idempotent`: for `G` finite, `O` a domain and `ψ ∈ Ψ`,
+/-- §6.1: for `G` finite, `O` a domain and `ψ ∈ Ψ`,
 `α_Ψ(Σ_g ψ(g)⁻¹ g) = #G · δ_ψ`; hence `#G · δ_ψ ∈ R_Ψ`, and `#G · ∏_{ψ ∈ Ψ} O ⊆ R_Ψ`. No
 hypothesis on roots of unity is needed. -/
 theorem card_smul_single_mem [IsDomain O] [Fintype G] [DecidableEq (G →* Oˣ)]
@@ -4703,7 +4907,7 @@ theorem card_smul_single_mem [IsDomain O] [Fintype G] [DecidableEq (G →* Oˣ)]
 
 end charGroupRing
 
--- test charGroupRing_cyclic_proper (non-example) [L6/character-group-ring]
+-- test charGroupRing_cyclic_proper (non-example) [§6.1]
 example [IsDomain O] [Fintype G] [DecidableEq (G →* Oˣ)] (p : ℕ) [Fact p.Prime]
     (hG : Fintype.card G = p) (hp : ¬ IsUnit (p : O)) [HasEnoughRootsOfUnity O p]
     (ψ : G →* Oˣ) :
@@ -4716,7 +4920,7 @@ triples that are pairwise congruent modulo `λ`, and the ring `R_Ψ/λR_Ψ` is l
 ideal squares to zero and is not principal (so its socle is two-dimensional and `R_Ψ` is not
 Gorenstein); stated for any local domain `O` with a primitive `p`-th root of unity `ζ` and
 maximal ideal `(ζ - 1)`. -/
--- test charGroupRing_not_gorenstein (non-example) [L6/character-group-ring]
+-- test charGroupRing_not_gorenstein (non-example) [§6.1]
 example [IsDomain O] [IsLocalRing O] (p : ℕ) [Fact p.Prime] (ζ : O) (hζ : IsPrimitiveRoot ζ p)
     (hlam : IsLocalRing.maximalIdeal O = Ideal.span {ζ - 1}) (g h : G) (ψ₁ ψ₂ : G →* Oˣ)
     (h₁g : (ψ₁ g : O) = ζ) (h₁h : (ψ₁ h : O) = 1) (h₂g : (ψ₂ g : O) = 1) (h₂h : (ψ₂ h : O) = ζ)
@@ -4727,38 +4931,35 @@ example [IsDomain O] [IsLocalRing O] (p : ℕ) [Fact p.Prime] (ζ : O) (hζ : Is
       IsLocalRing (charGroupRing Ψ ⧸ I) ∧
       ∀ 𝔪 : Ideal (charGroupRing Ψ ⧸ I), 𝔪.IsMaximal → 𝔪 ^ 2 = ⊥ ∧ ¬ 𝔪.IsPrincipal := sorry
 
--- test charGroupRing_empty (degenerate) [L6/character-group-ring]
+-- test charGroupRing_empty (degenerate) [§6.1]
 example : Subsingleton (charGroupRing (∅ : Set (G →* Oˣ))) := charGroupRing.subsingleton_empty
 
--- test charGroupRing_trivial (degenerate) [L6/character-group-ring]
+-- test charGroupRing_trivial (degenerate) [§6.1]
 example (g : G) (a : O) :
     charGroupRing.equivOfSingletonOne (charGroupRing.proj {1} (MonoidAlgebra.single g a)) = a := by
   simp [charGroupRing.equivOfSingletonOne]
 
--- test charGroupRing_full (compatibility) [L6/character-group-ring]
+-- test charGroupRing_full (compatibility) [§6.1]
 example [IsDomain O] [Finite G] [HasEnoughRootsOfUnity O (Monoid.exponent G)] :
     Function.Bijective (charGroupRing.proj (Set.univ : Set (G →* Oˣ))) :=
   (charGroupRing.equivGroupRing (O := O) (G := G)).bijective
 
 end CharacterGroupRing
 
-/-! ## Theorems on character group rings: L6/character-group-ring-lattice,
-L6/character-group-ring-finite-index, L6/character-group-ring-nonzerodivisor,
-L6/norm-element-kernel, L6/character-idempotent-evaluation, L6/component-character-group-ring,
-L6/group-ring-component-decomposition and L6/component-norm-quotient -/
+/-! ## Theorems on character group rings: lattice, norm quotients and components (§6.1) -/
 
 section CharacterGroupRingTheory
 
 variable {O G : Type*} [CommRing O] [CommGroup G]
 
-/-- `L6/character-group-ring-lattice`: `R_Ψ` is free over `O` of rank `#Ψ`, a full-rank
+/-- §6.1: `R_Ψ` is free over `O` of rank `#Ψ`, a full-rank
 `O`-lattice in `∏_{ψ ∈ Ψ} O`. What is used: `O` is a principal ideal domain, `G` is finite and
 `#G ≠ 0` in `O`. -/
 theorem charGroupRing.free [IsDomain O] [IsPrincipalIdealRing O] [Finite G]
     (hG : (Nat.card G : O) ≠ 0) (Ψ : Set (G →* Oˣ)) :
     Module.Free O (charGroupRing Ψ) ∧ Module.finrank O (charGroupRing Ψ) = Nat.card Ψ := sorry
 
-/-- `L6/character-group-ring-finite-index`: the quotient `(∏_{ψ ∈ Ψ} O)/R_Ψ` is finite; more
+/-- §6.1: the quotient `(∏_{ψ ∈ Ψ} O)/R_Ψ` is finite; more
 precisely it is a quotient of `(O/#G)^Ψ`: the class of `v` depends only on `v` modulo `#G`. What
 is used: `G` is finite, `O` is a domain with `#G ≠ 0`, and `O/(#G)` is finite, which holds when
 `O` has finite quotients. -/
@@ -4769,7 +4970,7 @@ theorem charGroupRing.finite_quotient [IsDomain O] [Ring.HasFiniteQuotients O] [
         (Submodule.Quotient.mk v : (Ψ → O) ⧸ Subalgebra.toSubmodule (charGroupRing Ψ)) =
           Submodule.Quotient.mk w := sorry
 
-/-- `L6/character-group-ring-nonzerodivisor`: for `x ∈ R_Ψ` the following are equivalent: `x` is
+/-- §6.1: for `x ∈ R_Ψ` the following are equivalent: `x` is
 a non-zerodivisor of `R_Ψ`; every value `ψ(x)` is nonzero; `x` is a non-zerodivisor of
 `∏_{ψ ∈ Ψ} O`. Multiplication by such `x` is injective on `∏_{ψ ∈ Ψ} O` and induces an
 isomorphism of `O`-modules `(∏ O)/R_Ψ → x(∏ O)/xR_Ψ`, as used in Lemma 2.5. What is used: `G` is
@@ -4788,7 +4989,7 @@ theorem charGroupRing.mem_nonZeroDivisors_iff [IsDomain O] [Finite G]
         ∀ v : Ψ → O, e (Submodule.Quotient.mk v) =
           Submodule.Quotient.mk ⟨L v, LinearMap.mem_range_self L v⟩) := sorry
 
-/-- `L6/norm-element-kernel` (Dasgupta–Kakde Lemma 2.2): for a subgroup `I` and
+/-- §6.1 (Dasgupta–Kakde Lemma 2.2): for a subgroup `I` and
 `Ψ = {ψ : ψ(I) ≠ 1}`, the kernel of `α_Ψ` is the principal ideal generated by the norm element
 `N_I = Σ_{σ ∈ I} σ`, the pinned `TauCeti.subgroupCharSum` of the trivial character over `I`.
 What is used: `G` is finite and `O` is a domain with enough roots of unity for the exponent of
@@ -4798,7 +4999,7 @@ theorem charGroupRing.ker_proj_eq_span_norm [IsDomain O] [Finite G]
     RingHom.ker (charGroupRing.proj {ψ : G →* Oˣ | ¬ ∀ σ ∈ I, ψ σ = 1}) =
       Ideal.span {subgroupCharSum (1 : G →* O) I} := sorry
 
-/-- `L6/character-idempotent-evaluation`: for a finite subgroup `G'` of `G` whose order is a unit
+/-- §6.1: for a finite subgroup `G'` of `G` whose order is a unit
 of the domain `O`, a character `χ` of `G'` and its idempotent `e_χ ∈ O[G'] ⊆ O[G]`, every
 character `ψ` of `G` has `ψ(e_χ) = 1` if `ψ|_{G'} = χ` and `ψ(e_χ) = 0` otherwise. Neither a
 complement of `G'` nor a hypothesis on roots of unity is used. -/
@@ -4807,7 +5008,7 @@ theorem charEval_charIdempotent [IsDomain O] (G' : Subgroup G) [Finite G']
     charEval ψ (MonoidAlgebra.mapDomainAlgHom O O G'.subtype (Iwasawa.charIdempotent χ)) =
       if ψ.comp G'.subtype = χ then 1 else 0 := sorry
 
-/-- `L6/component-character-group-ring`: for a subgroup `G'` of order invertible in `O`, a
+/-- §6.1: for a subgroup `G'` of order invertible in `O`, a
 character `χ` of `G'` and `Ψ_χ` the characters of `G` restricting to `χ`, the kernel of
 `α_{Ψ_χ}` is generated by `1 - e_χ`, so `R_{Ψ_χ} ≅ O[G]/(1 - e_χ) ≅ e_χ O[G] = R_χ`
 (`charGroupRing.quotientKerEquiv`). The complement of `G'` plays no part. -/
@@ -4818,7 +5019,7 @@ theorem charGroupRing.ker_proj_component [IsDomain O] [Finite G]
       Ideal.span
         {1 - MonoidAlgebra.mapDomainAlgHom O O G'.subtype (Iwasawa.charIdempotent χ)} := sorry
 
-/-- `L6/group-ring-component-decomposition`: for a subgroup `G'` of order invertible in `O`, the
+/-- §6.1: for a subgroup `G'` of order invertible in `O`, the
 idempotents `e_χ ∈ O[G]`, `χ ∈ Ĝ'`, are pairwise orthogonal with sum `1` (the images in `O[G]` of
 the L4 relations of the idempotents; the sum is over the finite type of characters of `G'`, the
 pinned `instFintypeMonoidHomUnits`), every character of `G` lies in exactly one `Ψ_χ`, and
@@ -4833,7 +5034,7 @@ theorem charGroupRing.bijective_proj_components [IsDomain O] [Finite G]
       Function.Bijective (fun (x : MonoidAlgebra O G) (χ : G' →* Oˣ) =>
         charGroupRing.proj {ψ : G →* Oˣ | ψ.comp G'.subtype = χ} x) := sorry
 
-/-- `L6/component-norm-quotient` (Dasgupta–Kakde Corollary 2.3): with `e_χ` and `Ψ_χ` as above
+/-- §6.1 (Dasgupta–Kakde Corollary 2.3): with `e_χ` and `Ψ_χ` as above
 and any subgroup `I` of `G` (the source takes `I ⊆ G_p`), the kernel of `α_Ψ` for
 `Ψ = {ψ ∈ Ψ_χ : ψ(I) ≠ 1}` is generated by `1 - e_χ` and `N_I`, so `R_χ/N_I R_χ ≅ R_Ψ`. -/
 theorem charGroupRing.ker_proj_component_norm [IsDomain O] [Finite G]
@@ -4847,7 +5048,7 @@ theorem charGroupRing.ker_proj_component_norm [IsDomain O] [Finite G]
 
 end CharacterGroupRingTheory
 
-/-! ## PadicMeasuresIwasawaAlgebras:L6/component-group-ring-equiv (construction) -/
+/-! ## The component R_χ as the twisted group ring O[G_p]_χ (§6.1) -/
 
 section ComponentGroupRing
 
@@ -4855,7 +5056,7 @@ variable {O G : Type*} [CommRing O] [CommGroup G]
 
 namespace charGroupRing
 
-/-- `L6/component-group-ring-equiv`: for complementary subgroups `G'` and `Gp` of `G`
+/-- §6.1: for complementary subgroups `G'` and `Gp` of `G`
 (`G = Gp × G'`) and a character `χ` of `G'`, the `O`-algebra homomorphism
 `π_χ : O[G] → O[Gp]`, `g' gp ↦ χ(g') gp`: the lift (`MonoidAlgebra.lift`) of the monoid
 homomorphism `G → O[Gp]`, `g' gp ↦ χ(g') • gp`. -/
@@ -4893,7 +5094,7 @@ theorem ker_componentProj [IsDomain O] [Finite G] [HasEnoughRootsOfUnity O (Mono
       RingHom.ker (componentProj hcompl χ) =
         RingHom.ker (proj {ψ : G →* Oˣ | ψ.comp G'.subtype = χ}) := sorry
 
-/-- `L6/component-group-ring-equiv`: `R_{Ψ_χ} ≅ O[Gp]`, induced by the two surjections
+/-- §6.1: `R_{Ψ_χ} ≅ O[Gp]`, induced by the two surjections
 `α_{Ψ_χ}` and `π_χ` from `O[G]`, which have the same kernel. With `G` acting on `O[Gp]` through
 `π_χ` this is the source's `O[G_p]_χ`, so `R_χ ≅ O[G_p]_χ`. That `Gp` is the `p`-Sylow subgroup
 is not used. -/
@@ -4967,7 +5168,7 @@ theorem componentEquiv_of_trivial_sylow [IsDomain O] [Finite G]
 
 end charGroupRing
 
--- test componentProj_sign (computation) [L6/component-group-ring-equiv]
+-- test componentProj_sign (computation) [§6.1]
 example {G' Gp : Subgroup G} (hcompl : G'.IsComplement' Gp) (hcard : Nat.card G' = 2) (h : G')
     (hh : h ≠ 1) (χ : G' →* Oˣ) (hχ : ((χ h : Oˣ) : O) = -1) [Invertible (2 : O)] (gp : Gp) :
     charGroupRing.componentProj hcompl χ (MonoidAlgebra.of O G ((h : G) * (gp : G))) =
@@ -4976,14 +5177,14 @@ example {G' Gp : Subgroup G} (hcompl : G'.IsComplement' Gp) (hcard : Nat.card G'
       charGroupRing.componentProj hcompl χ (⅟(2 : O) • (1 + MonoidAlgebra.of O G (h : G))) = 0 :=
   sorry
 
--- test componentEquiv_trivialComplement (degenerate) [L6/component-group-ring-equiv]
+-- test componentEquiv_trivialComplement (degenerate) [§6.1]
 example [IsDomain O] [Finite G] [HasEnoughRootsOfUnity O (Monoid.exponent G)]
     (h1 : IsUnit (Nat.card (⊥ : Subgroup G) : O)) (x : MonoidAlgebra O G) :
     charGroupRing.componentEquiv Subgroup.isComplement'_bot_top h1 (1 : (⊥ : Subgroup G) →* Oˣ)
         (charGroupRing.restrict (Set.subset_univ _) (charGroupRing.proj Set.univ x)) =
       MonoidAlgebra.mapDomainAlgHom O O (Subgroup.topEquiv (G := G)).symm x := sorry
 
--- test componentEquiv_trivialSylow (degenerate) [L6/component-group-ring-equiv]
+-- test componentEquiv_trivialSylow (degenerate) [§6.1]
 example [IsDomain O] [Finite G] [HasEnoughRootsOfUnity O (Monoid.exponent G)]
     (hG : IsUnit (Nat.card (⊤ : Subgroup G) : O)) (χ : (⊤ : Subgroup G) →* Oˣ) (g : G) :
     charGroupRing.componentEquiv Subgroup.isComplement'_top_bot hG χ
@@ -4991,7 +5192,7 @@ example [IsDomain O] [Finite G] [HasEnoughRootsOfUnity O (Monoid.exponent G)]
       algebraMap O (MonoidAlgebra O (⊥ : Subgroup G)) ((χ ⟨g, Subgroup.mem_top g⟩ : Oˣ) : O) :=
   ((charGroupRing.componentEquiv_of_trivial_sylow hG χ).2.2 g)
 
--- test componentProj_eval (compatibility) [L6/component-group-ring-equiv]
+-- test componentProj_eval (compatibility) [§6.1]
 example {G' Gp : Subgroup G} (hcompl : G'.IsComplement' Gp) (χ : G' →* Oˣ) (ψp : Gp →* Oˣ)
     (ψ : G →* Oˣ) (hψ : ψ.comp G'.subtype = χ) (hψp : ψ.comp Gp.subtype = ψp)
     (x : MonoidAlgebra O G) :
@@ -4999,7 +5200,7 @@ example {G' Gp : Subgroup G} (hcompl : G'.IsComplement' Gp) (χ : G' →* Oˣ) (
 
 /- Next test: the twist is by `χ` and not by `χ⁻¹`: if `χ² ≠ 1` then `π_{χ⁻¹}(e_χ) = 0`, whereas
 `π_χ(e_χ) = 1`. And `π_χ` is not injective when `G' ≠ 1`: it kills `1 - e_χ ≠ 0`. -/
--- test componentProj_twist (non-example) [L6/component-group-ring-equiv]
+-- test componentProj_twist (non-example) [§6.1]
 example [IsDomain O] {G' Gp : Subgroup G} [Finite G'] (hcompl : G'.IsComplement' Gp)
     (hG' : IsUnit (Nat.card G' : O)) (χ : G' →* Oˣ) :
     (χ ^ 2 ≠ 1 → charGroupRing.componentProj hcompl χ⁻¹
@@ -5014,17 +5215,13 @@ example [IsDomain O] {G' Gp : Subgroup G} [Finite G'] (hcompl : G'.IsComplement'
 
 end ComponentGroupRing
 
-/-! ## Units, locality and completeness of character group rings:
-L6/character-group-ring-unit-criterion, L6/character-group-ring-unit-one-character,
-L6/character-group-ring-local, L6/character-group-ring-maximal-ideal-power,
-L6/character-group-ring-eval-local-hom, L6/character-group-ring-residue-field,
-L6/character-group-ring-adic-complete and L6/character-group-ring-index -/
+/-! ## Units, locality and completeness of character group rings (§6.1) -/
 
 section CharacterGroupRingLocal
 
 variable {O G : Type*} [CommRing O] [CommGroup G]
 
-/-- `L6/character-group-ring-unit-criterion`: `x ∈ R_Ψ` is a unit iff every value `ψ(x)` is a
+/-- §6.1: `x ∈ R_Ψ` is a unit iff every value `ψ(x)` is a
 unit of `O`, and iff the product of its values is a unit of `O` (`R_Ψ ⊆ ∏ O` is an integral
 extension). Only that `O` is a commutative ring and that `Ψ` is finite is used; no locality is
 assumed. -/
@@ -5032,7 +5229,7 @@ theorem charGroupRing.isUnit_iff (Ψ : Set (G →* Oˣ)) [Fintype Ψ] (x : charG
     (IsUnit x ↔ ∀ ψ : Ψ, IsUnit ((x : Ψ → O) ψ)) ∧
       (IsUnit x ↔ IsUnit (∏ ψ : Ψ, (x : Ψ → O) ψ)) := sorry
 
-/-- `L6/character-group-ring-unit-one-character`: for a nonempty set of characters that belong
+/-- §6.1: for a nonempty set of characters that belong
 to one `χ` (pairwise quotients of `p`-power order, `O` local with residue characteristic `p`),
 the following are equivalent for `x ∈ R_Ψ`: `x` is a unit; some value `ψ(x)` is a unit of `O`;
 every value `ψ(x)` is a unit of `O`. For `Ψ = ∅` the statement would be false: `R_∅` is the zero
@@ -5044,7 +5241,7 @@ theorem charGroupRing.isUnit_iff_exists [IsLocalRing O] (p : ℕ)
     List.TFAE [IsUnit x, ∃ ψ : Ψ, IsUnit ((x : Ψ → O) ψ), ∀ ψ : Ψ, IsUnit ((x : Ψ → O) ψ)] :=
   sorry
 
-/-- `L6/character-group-ring-local`: for nonempty `Ψ` belonging to one `χ`, `R_Ψ` is local, and
+/-- §6.1: for nonempty `Ψ` belonging to one `χ`, `R_Ψ` is local, and
 its maximal ideal (its set of non-units) is `𝔪_Ψ = {x : ψ(x) ∈ 𝔪_O}`, for any `ψ ∈ Ψ`. -/
 theorem charGroupRing.isLocalRing [IsLocalRing O] (p : ℕ) [Fact p.Prime]
     [CharP (IsLocalRing.ResidueField O) p] (Ψ : Set (G →* Oˣ)) [Finite Ψ] (hne : Ψ.Nonempty)
@@ -5053,7 +5250,7 @@ theorem charGroupRing.isLocalRing [IsLocalRing O] (p : ℕ) [Fact p.Prime]
       ∀ (ψ : Ψ) (x : charGroupRing Ψ), x ∈ nonunits (charGroupRing Ψ) ↔
         charGroupRing.eval ψ x ∈ IsLocalRing.maximalIdeal O := sorry
 
-/-- `L6/character-group-ring-maximal-ideal-power`: `𝔪_O R_Ψ ⊆ 𝔪_Ψ`, and `𝔪_Ψ^N ⊆ 𝔪_O R_Ψ` for
+/-- §6.1: `𝔪_O R_Ψ ⊆ 𝔪_Ψ`, and `𝔪_Ψ^N ⊆ 𝔪_O R_Ψ` for
 some `N ≥ 1`, so the two ideals define the same topology on `R_Ψ`. What is used: `O` is a local
 ring, and `R_Ψ` is a local ring (`charGroupRing.isLocalRing`) and a finite `O`-module (it is one
 when `G` is finite). Completeness of `O` is not used. -/
@@ -5064,7 +5261,7 @@ theorem charGroupRing.exists_maximalIdeal_pow_le [IsLocalRing O] (Ψ : Set (G �
       ∃ N : ℕ, 1 ≤ N ∧ IsLocalRing.maximalIdeal (charGroupRing Ψ) ^ N ≤
         (IsLocalRing.maximalIdeal O).map (algebraMap O (charGroupRing Ψ)) := sorry
 
-/-- `L6/character-group-ring-eval-local-hom`: for `Ψ` belonging to one `χ` and `ψ ∈ Ψ`, the
+/-- §6.1: for `Ψ` belonging to one `χ` and `ψ ∈ Ψ`, the
 evaluation `ev_ψ : R_Ψ → O` is a local homomorphism: if `ev_ψ(x)` is a unit of `O`, then `x` is
 a unit of `R_Ψ`. The locality of `R_Ψ` is not used. -/
 theorem charGroupRing.isLocalHom_eval [IsLocalRing O] (p : ℕ) [Fact p.Prime]
@@ -5072,7 +5269,7 @@ theorem charGroupRing.isLocalHom_eval [IsLocalRing O] (p : ℕ) [Fact p.Prime]
     (hΨ : ∀ ψ ∈ Ψ, ∀ ψ' ∈ Ψ, ∃ n : ℕ, (ψ' / ψ) ^ (p ^ n) = 1) (ψ : Ψ) :
     IsLocalHom (charGroupRing.eval ψ) := sorry
 
-/-- `L6/character-group-ring-residue-field`: the homomorphism of residue fields
+/-- §6.1: the homomorphism of residue fields
 `R_Ψ/𝔪_Ψ → O/𝔪_O = k` induced by the local homomorphism `ev_ψ` is bijective, so the residue
 field of `R_Ψ` is `k`. That `R_Ψ` is local is `charGroupRing.isLocalRing` and that `ev_ψ` is
 local is `charGroupRing.isLocalHom_eval`; they are instance arguments because
@@ -5083,7 +5280,7 @@ theorem charGroupRing.bijective_residueFieldMap_eval [IsLocalRing O] (Ψ : Set (
     Function.Bijective
       (IsLocalRing.ResidueField.map (charGroupRing.eval ψ : charGroupRing Ψ →+* O)) := sorry
 
-/-- `L6/character-group-ring-adic-complete`: the local ring `R_Ψ` is noetherian, and it is
+/-- §6.1: the local ring `R_Ψ` is noetherian, and it is
 complete and separated for the `𝔪_Ψ`-adic topology, which is its `𝔪_O`-adic topology
 (`charGroupRing.exists_maximalIdeal_pow_le`). What is used beyond locality
 (`charGroupRing.isLocalRing`): `O` is a noetherian local ring that is `𝔪_O`-adically complete
@@ -5094,7 +5291,7 @@ theorem charGroupRing.isAdicComplete [IsLocalRing O] [IsNoetherianRing O]
     IsNoetherianRing (charGroupRing Ψ) ∧
       IsAdicComplete (IsLocalRing.maximalIdeal (charGroupRing Ψ)) (charGroupRing Ψ) := sorry
 
-/-- `L6/character-group-ring-index` (Dasgupta–Kakde Lemma 2.5): for a non-zerodivisor `x` of
+/-- §6.1 (Dasgupta–Kakde Lemma 2.5): for a non-zerodivisor `x` of
 `R_Ψ`, the quotient `R_Ψ/(x)` is finite and `#(R_Ψ/(x)) = #(O/(∏_{ψ ∈ Ψ} ψ(x)))`. What is used:
 `O` is an infinite Dedekind domain with `#G ≠ 0` and with `O/(a)` finite for every `a ≠ 0`
 (`Ring.HasFiniteQuotients O`), and `G` is finite. -/
@@ -5107,13 +5304,13 @@ theorem charGroupRing.card_quotient_span [IsDedekindDomain O] [Infinite O]
 
 end CharacterGroupRingLocal
 
-/-! ## PadicMeasuresIwasawaAlgebras:L6/sharp-involution (construction) -/
+/-! ## PadicMeasuresIwasawaAlgebras:§6.1 (construction) -/
 
 section Sharp
 
 variable {O G : Type*} [CommRing O] [CommGroup G]
 
-/-- `L6/sharp-involution`: the involution `#` of `O[G]`, `g ↦ g⁻¹`: an abbreviation of
+/-- §6.1: the involution `#` of `O[G]`, `g ↦ g⁻¹`: an abbreviation of
 Mathlib's `HopfAlgebra.antipodeAlgHom O (MonoidAlgebra O G)`, the antipode of the commutative
 Hopf algebra `O[G]`. -/
 abbrev sharp : MonoidAlgebra O G →ₐ[O] MonoidAlgebra O G :=
@@ -5148,7 +5345,7 @@ theorem sharp_eq_mapDomain :
       MonoidAlgebra.mapDomainAlgHom O O (invMonoidHom : G →* G) := by
   ext g; simp
 
-/-- `L6/sharp-involution`: `#` induces `R_Ψ ≅ R_{Ψ⁻¹}` (`R^# = R_{Ψ^#}`). -/
+/-- §6.1: `#` induces `R_Ψ ≅ R_{Ψ⁻¹}` (`R^# = R_{Ψ^#}`). -/
 def charGroupRing.sharpEquiv (Ψ : Set (G →* Oˣ)) :
     charGroupRing Ψ ≃ₐ[O] charGroupRing (Ψ⁻¹) := sorry
 
@@ -5191,32 +5388,32 @@ def charGroupRing.sharpAut (Ψ : Set (G →* Oˣ)) (h : Ψ⁻¹ = Ψ) :
     ((charGroupRing.restrict h.superset).comp (charGroupRing.sharpEquiv Ψ : _ →ₐ[O] _))
     sorry sorry
 
-/-- `L6/sharp-involution` (API `sharpAut_proj`): for `Ψ⁻¹ = Ψ`, `#(α_Ψ(x)) = α_Ψ(x^#)`. -/
+/-- §6.1 (API `sharpAut_proj`): for `Ψ⁻¹ = Ψ`, `#(α_Ψ(x)) = α_Ψ(x^#)`. -/
 theorem charGroupRing.sharpAut_proj (Ψ : Set (G →* Oˣ)) (h : Ψ⁻¹ = Ψ)
     (x : MonoidAlgebra O G) :
     charGroupRing.sharpAut Ψ h (charGroupRing.proj Ψ x) = charGroupRing.proj Ψ (sharp x) := sorry
 
-/-- `L6/sharp-involution` (API `coord_sharpAut`): for `Ψ⁻¹ = Ψ`, `(# y)(ψ) = y(ψ⁻¹)`. -/
+/-- §6.1 (API `coord_sharpAut`): for `Ψ⁻¹ = Ψ`, `(# y)(ψ) = y(ψ⁻¹)`. -/
 theorem charGroupRing.coord_sharpAut (Ψ : Set (G →* Oˣ)) (h : Ψ⁻¹ = Ψ) (y : charGroupRing Ψ)
     (ψ : Ψ) :
     ((charGroupRing.sharpAut Ψ h y : charGroupRing Ψ) : Ψ → O) ψ =
       (y : Ψ → O) ⟨ψ.1⁻¹, Set.mem_inv.mp (h.superset ψ.2)⟩ := sorry
 
--- test sharp_component (computation) [L6/sharp-involution]
+-- test sharp_component (computation) [§6.1]
 example [IsDomain O] (τ : G) (ψ : G →* Oˣ) (ζ : O) (hζ : IsPrimitiveRoot ζ 3)
     (hψ : (ψ τ : O) = ζ) :
     charEval ψ (sharp (MonoidAlgebra.of O G τ)) = ζ ^ 2 := sorry
 
--- test sharp_not_endomorphism (non-example) [L6/sharp-involution]
+-- test sharp_not_endomorphism (non-example) [§6.1]
 example [IsDomain O] [CharZero O] (τ : G) (ψ : G →* Oˣ) (ζ : O) (hζ : IsPrimitiveRoot ζ 3)
     (hψ : (ψ τ : O) = ζ) :
     charGroupRing.proj {ψ} (MonoidAlgebra.of O G τ - algebraMap O _ ζ) = 0 ∧
       charGroupRing.proj {ψ} (sharp (MonoidAlgebra.of O G τ - algebraMap O _ ζ)) ≠ 0 := sorry
 
--- test sharp_trivialGroup (degenerate) [L6/sharp-involution]
+-- test sharp_trivialGroup (degenerate) [§6.1]
 example [Subsingleton G] (x : MonoidAlgebra O G) : sharp x = x := sorry
 
--- test sharp_full (compatibility) [L6/sharp-involution]
+-- test sharp_full (compatibility) [§6.1]
 example (x : MonoidAlgebra O G) (ψ : G →* Oˣ) :
     (Set.univ : Set (G →* Oˣ))⁻¹ = Set.univ ∧
       ((charGroupRing.sharpEquiv (Set.univ : Set (G →* Oˣ)) (charGroupRing.proj Set.univ x) :
@@ -5226,14 +5423,14 @@ example (x : MonoidAlgebra O G) (ψ : G →* Oˣ) :
 
 end Sharp
 
-/-! ## PadicMeasuresIwasawaAlgebras:L6/contragredient-dual (construction) -/
+/-! ## PadicMeasuresIwasawaAlgebras:§6.2 (construction) -/
 
 section Contragredient
 
 variable {R S M N P : Type*} [CommRing R] [CommRing S] [AddCommGroup M] [Module R M]
   [AddCommGroup N] [Module R N] [AddCommGroup P] [Module R P]
 
-/-- `L6/contragredient-dual`: `M^* = Hom_R(M, R)` as an `S`-module along a ring isomorphism
+/-- §6.2: `M^* = Hom_R(M, R)` as an `S`-module along a ring isomorphism
 `σ : S ≃+* R`, `(s · φ)(x) = φ(σ(s) · x)`. For `R = R_Ψ`, `S = R^#` and `σ = #`, this is
 Dasgupta–Kakde (80). -/
 def ContragredientDual (_σ : S ≃+* R) (M : Type*) [AddCommGroup M] [Module R M] : Type _ :=
@@ -5361,23 +5558,23 @@ theorem ContragredientDual.equivDualOfGroupRing_dual (M : Type*) [AddCommGroup M
 
 end GroupRing
 
--- test contragredient_smul_group (computation) [L6/contragredient-dual]
+-- test contragredient_smul_group (computation) [§6.2]
 example {O G : Type*} [CommRing O] [CommGroup G] (g : G) :
     let σ : MonoidAlgebra O G ≃+* MonoidAlgebra O G := (sharpAlgEquiv (O := O) (G := G)).toRingEquiv
     ContragredientDual.toDual σ (MonoidAlgebra.of O G g •
         (ContragredientDual.toDual σ).symm LinearMap.id) 1 = MonoidAlgebra.of O G g⁻¹ := sorry
 
--- test contragredient_trivial (degenerate) [L6/contragredient-dual]
+-- test contragredient_trivial (degenerate) [§6.2]
 example (s : R) (φ : ContragredientDual (RingEquiv.refl R) M) (x : M) :
     ContragredientDual.toDual _ (s • φ) x = s • ContragredientDual.toDual _ φ x := sorry
 
--- test contragredient_not_ordinary (non-example) [L6/contragredient-dual]
+-- test contragredient_not_ordinary (non-example) [§6.2]
 example {O G : Type*} [CommRing O] [Nontrivial O] [CommGroup G] (g : G) (hg : g⁻¹ ≠ g) :
     let σ : MonoidAlgebra O G ≃+* MonoidAlgebra O G := (sharpAlgEquiv (O := O) (G := G)).toRingEquiv
     ContragredientDual.toDual σ (MonoidAlgebra.of O G g •
         (ContragredientDual.toDual σ).symm LinearMap.id) 1 ≠ MonoidAlgebra.of O G g := sorry
 
--- test contragredient_semilinear (compatibility) [L6/contragredient-dual]
+-- test contragredient_semilinear (compatibility) [§6.2]
 example (σ : S ≃+* R) (s : S) (x : R) :
     ContragredientDual.equivSemilinear σ
         ((ContragredientDual.toDual σ).symm (LinearMap.id : R →ₗ[R] R)) x = σ.symm x ∧
@@ -5385,7 +5582,7 @@ example (σ : S ≃+* R) (s : S) (x : R) :
         (s • (ContragredientDual.toDual σ).symm (LinearMap.id : R →ₗ[R] R)) x = s * σ.symm x :=
   sorry
 
--- test contragredient_dual_representation (compatibility) [L6/contragredient-dual]
+-- test contragredient_dual_representation (compatibility) [§6.2]
 example {O G : Type*} [CommRing O] [CommGroup G] [Fintype G] (g : G)
     (f : Module.Dual O (RestrictScalars O (MonoidAlgebra O G) (MonoidAlgebra O G))) :
     ContragredientDual.equivDualOfGroupRing (MonoidAlgebra O G)
@@ -5393,7 +5590,7 @@ example {O G : Type*} [CommRing O] [CommGroup G] [Fintype G] (g : G)
       MonoidAlgebra.of O G g • ContragredientDual.equivDualOfGroupRing (MonoidAlgebra O G) f :=
   ContragredientDual.equivDualOfGroupRing_dual _ g f
 
--- test contragredient_matrix (computation) [L6/contragredient-dual]
+-- test contragredient_matrix (computation) [§6.2]
 example {O G : Type*} [CommRing O] [CommGroup G] (g h : G)
     (φ : ContragredientDual (sharpAlgEquiv (O := O) (G := G)).toRingEquiv
       (Fin 2 → MonoidAlgebra O G)) :
@@ -5406,9 +5603,9 @@ example {O G : Type*} [CommRing O] [CommGroup G] (g h : G)
 
 end Contragredient
 
-/-! ## L4/initial-fitting-ideal (definition), declared here because L6 is its main consumer -/
+/-! ## The initial Fitting ideal (§4.5), declared here because Layer 6 is its main consumer -/
 
-/- `L4/initial-fitting-ideal`: the initial Fitting ideal `Fitt⁰_A(M)` is Tau Ceti's
+/- §4.5: the initial Fitting ideal `Fitt⁰_A(M)` is Tau Ceti's
 `TauCeti.fittingIdeal A M 0` (`TauCeti.RingTheory.FittingIdeal.Basic`); presentation
 independence in the form `fittingIdeal_eq_minorsIdeal_ker`, `fittingIdeal_quotient_zero`,
 `fittingIdeal_congr` and `fittingIdeal_baseChange` (`TauCeti.RingTheory.FittingIdeal.BaseChange`)
@@ -5420,42 +5617,33 @@ open scoped TensorProduct
 variable {A M N : Type*} [CommRing A] [AddCommGroup M] [Module A M] [Module.FinitePresentation A M]
   [AddCommGroup N] [Module A N] [Module.FinitePresentation A N]
 
-/-- Independence of the presentation: for any presentation `Aᵐ → Aⁿ → M → 0`, `Fitt⁰_A(M)` is
-the ideal of the `n × n` minors of the relation matrix (columns indexed by `n` chosen
-relations). -/
-theorem Module.fittingIdeal_eq_span_minors {m n : ℕ} (f : (Fin m → A) →ₗ[A] (Fin n → A))
-    (g : (Fin n → A) →ₗ[A] M) (hg : Function.Surjective g) (hfg : Function.Exact f g) :
-    TauCeti.fittingIdeal A M 0 =
-      Ideal.span {d | ∃ s : Fin n → Fin m,
-        d = (Matrix.of fun i j => f (Pi.single (s j) 1) i).det} := sorry
 theorem Module.fittingIdeal_le_annihilator : TauCeti.fittingIdeal A M 0 ≤ Module.annihilator A M :=
   sorry
 theorem Module.fittingIdeal_prod [Module.FinitePresentation A (M × N)] :
     TauCeti.fittingIdeal A (M × N) 0 = TauCeti.fittingIdeal A M 0 * TauCeti.fittingIdeal A N 0 := sorry
 theorem Module.fittingIdeal_eq_top_iff : TauCeti.fittingIdeal A M 0 = ⊤ ↔ Subsingleton M := sorry
 
--- test fitting_cyclic (computation) [L4/initial-fitting-ideal]
+-- test fitting_cyclic (computation) [§4.5]
 example (a : A) [Module.FinitePresentation A (A ⧸ Ideal.span {a})] :
     TauCeti.fittingIdeal A (A ⧸ Ideal.span {a}) 0 = Ideal.span {a} := sorry
--- test fitting_free_and_zero (degenerate) [L4/initial-fitting-ideal]
+-- test fitting_free_and_zero (degenerate) [§4.5]
 example [Nontrivial A] (n : ℕ) [Module.FinitePresentation A (Fin (n + 1) → A)]
     [Module.FinitePresentation A (Fin 0 → A)] :
     TauCeti.fittingIdeal A (Fin (n + 1) → A) 0 = ⊥ ∧ TauCeti.fittingIdeal A (Fin 0 → A) 0 = ⊤ := sorry
--- test fitting_not_annihilator (non-example) [L4/initial-fitting-ideal]
+-- test fitting_not_annihilator (non-example) [§4.5]
 example [Module.FinitePresentation ℤ (ZMod 2 × ZMod 2)] :
     TauCeti.fittingIdeal ℤ (ZMod 2 × ZMod 2) 0 = Ideal.span {4} ∧
       Module.annihilator ℤ (ZMod 2 × ZMod 2) = Ideal.span {2} := sorry
 end FittingIdealAPI
 
-/-! ## PadicMeasuresIwasawaAlgebras:L6/quadratic-presentation (definition) and
-L6/fitting-quadratic (theorem) -/
+/-! ## Quadratic presentations and their Fitting ideal (§6.3) -/
 
 section Quadratic
 
 variable {R R' N N' N'' : Type*} [CommRing R] [CommRing R'] [Algebra R R'] [AddCommGroup N]
   [Module R N] [AddCommGroup N'] [Module R N'] [AddCommGroup N''] [Module R N'']
 
-/-- `L6/quadratic-presentation`: a quadratic presentation `R^m →φ R^m → N → 0`, `m ≥ 1`
+/-- §6.3: a quadratic presentation `R^m →φ R^m → N → 0`, `m ≥ 1`
 (Dasgupta–Kakde §2.3). -/
 structure QuadraticPresentation (R N : Type*) [CommRing R] [AddCommGroup N] [Module R N] where
   /-- the common number `m ≥ 1` of generators and relations -/
@@ -5597,7 +5785,7 @@ def ofPresentation (pres : Module.Presentation R N) {m : ℕ} (hm : 0 < m) (eG :
   gen_surjective := sorry
   range_rel_eq_ker := sorry
 
-/-- `L6/fitting-quadratic`: `Fitt_R(N) = (det φ)` (Dasgupta–Kakde §2.3). The instance is
+/-- §6.3: `Fitt_R(N) = (det φ)` (Dasgupta–Kakde §2.3). The instance is
 `P.finitePresentation`. -/
 theorem fittingIdeal_eq (P : QuadraticPresentation R N) [Module.FinitePresentation R N] :
     TauCeti.fittingIdeal R N 0 = Ideal.span {P.rel.det} := sorry
@@ -5611,24 +5799,24 @@ theorem isQuadraticallyPresented_iff_exists_presentation :
     IsQuadraticallyPresented R N ↔ ∃ pres : Module.Presentation.{0, 0} R N,
       Finite pres.G ∧ Finite pres.R ∧ Nat.card pres.G = Nat.card pres.R := sorry
 
--- test quadratic_cyclic (computation) [L6/quadratic-presentation]
+-- test quadratic_cyclic (computation) [§6.3]
 example (a : R) : (QuadraticPresentation.cyclic a).size = 1 ∧
     (QuadraticPresentation.cyclic a).rel.det = a :=
   ⟨QuadraticPresentation.cyclic_size a, QuadraticPresentation.cyclic_det a⟩
 
--- test quadratic_zero (degenerate) [L6/quadratic-presentation]
+-- test quadratic_zero (degenerate) [§6.3]
 example : IsQuadraticallyPresented R PUnit ∧ (QuadraticPresentation.zero (R := R)).size = 1 ∧
     (QuadraticPresentation.zero (R := R)).rel = 1 ∧
     ∀ P : QuadraticPresentation R PUnit, P.size ≠ 0 :=
   ⟨⟨QuadraticPresentation.zero⟩, QuadraticPresentation.zero_size,
     QuadraticPresentation.zero_rel, fun P => P.size_pos.ne'⟩
 
--- test quadratic_free (degenerate) [L6/quadratic-presentation]
+-- test quadratic_free (degenerate) [§6.3]
 example (m : ℕ) (hm : 0 < m) :
     ∃ P : QuadraticPresentation R (Fin m → R), P.size = m ∧ P.rel = 0 :=
   ⟨⟨m, hm, 0, LinearMap.id, Function.surjective_id, by simp⟩, rfl, rfl⟩
 
--- test not_quadratic_residue_field (non-example) [L6/quadratic-presentation]
+-- test not_quadratic_residue_field (non-example) [§6.3]
 example (p : ℕ) [Fact p.Prime] :
     ¬ IsQuadraticallyPresented (PowerSeries (PadicInt p))
       (PowerSeries (PadicInt p) ⧸ (Ideal.span {(p : PowerSeries (PadicInt p)),
@@ -5637,16 +5825,16 @@ example (p : ℕ) [Fact p.Prime] :
 /- Next test: the base change of the presentation `R →(a) R` of `R/(a)` along `R → R'` is a
 quadratic presentation of `R' ⊗_R R/(a)` over `R'` of size 1 whose matrix is `(a')`, `a'` the
 image of `a` (a `1 × 1` matrix is determined by its determinant). -/
--- test quadratic_baseChange (computation) [L6/quadratic-presentation]
+-- test quadratic_baseChange (computation) [§6.3]
 example (a : R) : ((QuadraticPresentation.cyclic a).baseChange (R' := R')).size = 1 ∧
     ((QuadraticPresentation.cyclic a).baseChange (R' := R')).rel.det = algebraMap R R' a := sorry
 
--- test quadratic_toPresentation (compatibility) [L6/quadratic-presentation]
+-- test quadratic_toPresentation (compatibility) [§6.3]
 example (P : QuadraticPresentation R N) (i j : Fin P.size) :
     P.toPresentation.var i = P.gen (Pi.single i 1) ∧
       P.toPresentation.relation j i = P.rel i j := ⟨rfl, rfl⟩
 
--- test quadratic_columns (computation) [L6/quadratic-presentation]
+-- test quadratic_columns (computation) [§6.3]
 example [Nontrivial R] :
     (Pi.single 0 1 : Fin 2 → R) ∈
         LinearMap.range (Matrix.toLin' (!![0, 1; 0, 0] : Matrix (Fin 2) (Fin 2) R)) ∧
@@ -5655,59 +5843,21 @@ example [Nontrivial R] :
 
 end Quadratic
 
-/-! ## PadicMeasuresIwasawaAlgebras:L6/higher-fitting-ideal (definition),
-L6/relation-minors-add-generator (lemma), L6/higher-fitting-independence (theorem) and
-L6/higher-fitting-base-change (lemma) -/
+/-! ## Higher Fitting ideals (§6.5) -/
 
 section HigherFitting
 
 variable {R M : Type*} [CommRing R] [AddCommGroup M] [Module R M]
 
-/-- The relation-minors ideal of a family `x : Fin n → M` in degree `i`: the ideal `J_{n-i}(x)`
-generated by the minors of size `n - i` of the matrices whose `n - i` columns are relations among
-the `x_j`; it is `⊤` when `n ≤ i` (the empty determinant is `1`). -/
-def Module.relationMinorsIdeal {n : ℕ} (x : Fin n → M) (i : ℕ) : Ideal R :=
-  Ideal.span {a | ∃ φ : Matrix (Fin n) (Fin (n - i)) R, (∀ j, ∑ k, φ k j • x k = 0) ∧
-    ∃ f : Fin (n - i) → Fin n, a = (φ.submatrix f id).det}
 
-/-- If the columns of an `n × m` matrix `A` generate the relations among `x_1, …, x_n`, then the
-relation-minors ideal of the family in degree `i` is generated by the minors of `A` of size
-`n - i` (`R` when `i ≥ n`, `0` when `n - i > m`). -/
-theorem Module.relationMinorsIdeal_eq_span_minors {n m : ℕ} (x : Fin n → M)
-    (A : Matrix (Fin n) (Fin m) R)
-    (hA : LinearMap.range (Matrix.toLin' A) = LinearMap.ker (Fintype.linearCombination R x))
-    (i : ℕ) :
-    Module.relationMinorsIdeal x i =
-      Ideal.span {a | ∃ (f : Fin (n - i) → Fin n) (g : Fin (n - i) → Fin m),
-        a = (A.submatrix f g).det} := sorry
-
-/-- The relation-minors ideal of a family in degree `i` is contained in the one in degree
-`i + 1`: `J_{k+1}(x) ⊆ J_k(x)`, by expansion of a minor along a column. -/
-theorem Module.relationMinorsIdeal_le_succ {n : ℕ} (x : Fin n → M) (i : ℕ) :
-    Module.relationMinorsIdeal (R := R) x i ≤ Module.relationMinorsIdeal x (i + 1) := sorry
-
-/-- `L6/relation-minors-add-generator`: appending to `x_1, …, x_n` an element `y` of their span
-does not change the relation-minors ideal in any degree: `J_k(x_1, …, x_n, y) = J_{k-1}(x)` for
-`k ≥ 1`. The family `x` need not generate `M`. -/
-theorem Module.relationMinorsIdeal_snoc {n : ℕ} (x : Fin n → M) (y : M)
-    (hy : y ∈ Submodule.span R (Set.range x)) (i : ℕ) :
-    Module.relationMinorsIdeal (R := R) (Fin.snoc x y : Fin (n + 1) → M) i =
-      Module.relationMinorsIdeal x i := sorry
-
-/- The higher Fitting ideals `Fittⁱ_R(M)` are Tau Ceti's `TauCeti.fittingIdeal R M i`
-(`TauCeti.RingTheory.FittingIdeal.Basic`, with `fittingIdeal_monotone` for the chain
-`Fittⁱ ⊆ Fittʲ`); the statements below relate them to the relation-minors ideals. -/
-
-/-- `L6/higher-fitting-independence`: for every finite generating family `x_1, …, x_n` of `M`,
-`Fittⁱ_R(M)` is the relation-minors ideal of the family in degree `i`; no finite generating set
-of relations has to be chosen. -/
-theorem Module.higherFittingIdeal_eq_relationMinorsIdeal [Module.FinitePresentation R M] {n : ℕ}
-    (x : Fin n → M) (hx : Submodule.span R (Set.range x) = ⊤) (i : ℕ) :
-    TauCeti.fittingIdeal R M i = Module.relationMinorsIdeal x i := sorry
-
-/-- `L6/higher-fitting-independence`, matrix form: for every finite presentation
-`R^m →A R^n →π M → 0`, `Fittⁱ` is generated by the minors of `A` of size `n - i` (all of `R` when
-`i ≥ n`, zero when `n - i > m`). -/
+/-- Fitting ideals in matrix form (§6.5): for a presentation `R^m →A R^n →π M → 0`, `Fittⁱ_R(M)` is
+generated by the minors of `A` of size `n - i` (all of `R` when `i ≥ n`, zero when `n - i > m`).
+This is a translation of Tau Ceti's `fittingIdeal_eq_minorsIdeal_ker` and
+`fittingIdeal_eq_minorsIdealOfSet` (stated there with `Submodule.minorsIdeal`); monotonicity,
+invariance under equivalence, base change, localisation, the free-module and cyclic values are
+`TauCeti.fittingIdeal_le_of_surjective`, `fittingIdeal_congr`, `fittingIdeal_baseChange`,
+`fittingIdeal_eq_map`, `fittingIdeal_eq_bot_of_lt_finrank`, `fittingIdeal_eq_top_iff_finrank_le`,
+`fittingIdeal_eq_top_of_surjective` and `fittingIdeal_quotient_zero`, and are not restated. -/
 theorem Module.higherFittingIdeal_eq_span_minors [Module.FinitePresentation R M] {n m : ℕ}
     (A : Matrix (Fin n) (Fin m) R) (π : (Fin n → R) →ₗ[R] M) (hπ : Function.Surjective π)
     (hA : LinearMap.range (Matrix.toLin' A) = LinearMap.ker π) (i : ℕ) :
@@ -5715,78 +5865,25 @@ theorem Module.higherFittingIdeal_eq_span_minors [Module.FinitePresentation R M]
       Ideal.span {a | ∃ (f : Fin (n - i) → Fin n) (g : Fin (n - i) → Fin m),
         a = (A.submatrix f g).det} := sorry
 
-
-
-/-- Top degree: a module generated by `n` elements has `Fittⁱ = R` for `i ≥ n`. -/
-theorem Module.higherFittingIdeal_eq_top [Module.FinitePresentation R M] {n : ℕ} (x : Fin n → M)
-    (hx : Submodule.span R (Set.range x) = ⊤) {i : ℕ} (h : n ≤ i) :
-    TauCeti.fittingIdeal R M i = ⊤ := sorry
-
-/-- Monotonicity: `Fittⁱ(M) ⊆ Fittⁱ(M')` for a surjection `M ↠ M'` of finitely presented
-modules. -/
-theorem Module.higherFittingIdeal_le_of_surjective {M' : Type*} [AddCommGroup M'] [Module R M']
-    [Module.FinitePresentation R M] [Module.FinitePresentation R M'] (f : M →ₗ[R] M')
-    (hf : Function.Surjective f) (i : ℕ) :
-    TauCeti.fittingIdeal R M i ≤ TauCeti.fittingIdeal R M' i := sorry
-
-/-- Isomorphic finitely presented modules have the same Fitting ideals. -/
-theorem Module.higherFittingIdeal_eq_of_linearEquiv {M' : Type*} [AddCommGroup M'] [Module R M']
-    [Module.FinitePresentation R M] [Module.FinitePresentation R M'] (e : M ≃ₗ[R] M') (i : ℕ) :
-    TauCeti.fittingIdeal R M i = TauCeti.fittingIdeal R M' i := sorry
-
-/-- `L6/higher-fitting-base-change`: for a ring map `R → R'` (no flatness),
-`Fittⁱ_{R'}(R' ⊗_R M) = Fittⁱ_R(M) · R'`. The base change is finitely presented
-(Mathlib's instance for `TensorProduct R R' M`). -/
-theorem Module.higherFittingIdeal_baseChange (R' : Type*) [CommRing R'] [Algebra R R']
-    [Module.FinitePresentation R M] (i : ℕ) :
-    TauCeti.fittingIdeal R' (TensorProduct R R' M) i =
-      (TauCeti.fittingIdeal R M i).map (algebraMap R R') := sorry
-
-/-- `L6/higher-fitting-base-change`, localisation: `Fittⁱ_{S⁻¹R}(S⁻¹M) = S⁻¹ Fittⁱ_R(M)`. -/
-theorem Module.higherFittingIdeal_localization (S : Submonoid R) [Module.FinitePresentation R M]
-    (i : ℕ) :
-    TauCeti.fittingIdeal (Localization S) (LocalizedModule S M) i =
-      (TauCeti.fittingIdeal R M i).map (algebraMap R (Localization S)) := sorry
-
-/-- Example (`L6/higher-fitting-independence`): `Fittⁱ(R^n)` is `0` for `i < n` and `R` for
-`i ≥ n`. -/
-theorem Module.higherFittingIdeal_pi (n i : ℕ) :
-    TauCeti.fittingIdeal R (Fin n → R) i = if i < n then ⊥ else ⊤ := sorry
-
-/-- Example (`L6/higher-fitting-independence`): `Fitt⁰(R/(a)) = (a)` and `Fittⁱ(R/(a)) = R` for
-`i ≥ 1`. -/
-theorem Module.higherFittingIdeal_quotient_span_singleton (a : R)
-    [Module.FinitePresentation R (R ⧸ Ideal.span {a})] (i : ℕ) :
-    TauCeti.fittingIdeal R (R ⧸ Ideal.span {a}) i = if i = 0 then Ideal.span {a} else ⊤ :=
-  sorry
-
-/-- Example (`L6/higher-fitting-independence`): `R/(a) ⊕ R/(b)` has `Fitt⁰ = (ab)`,
-`Fitt¹ = (a, b)`, `Fittⁱ = R` for `i ≥ 2`. -/
-theorem Module.higherFittingIdeal_prod_quotient_span_singleton (a b : R)
-    [Module.FinitePresentation R (R ⧸ Ideal.span {a})]
-    [Module.FinitePresentation R (R ⧸ Ideal.span {b})] (i : ℕ) :
-    TauCeti.fittingIdeal R ((R ⧸ Ideal.span {a}) × (R ⧸ Ideal.span {b})) i =
-      if i = 0 then Ideal.span {a * b} else if i = 1 then Ideal.span {a, b} else ⊤ := sorry
-
 end HigherFitting
 
 section HigherFittingTests
 
 attribute [local instance] Module.finitePresentation_of_finite
 
--- test higherFitting_free (computation) [L6/higher-fitting-ideal]
+-- test higherFitting_free (computation) [§6.5]
 example {R : Type*} [CommRing R] [Nontrivial R] :
     TauCeti.fittingIdeal R (Fin 3 → R) 2 = ⊥ ∧
       TauCeti.fittingIdeal R (Fin 3 → R) 3 = ⊤ ∧
       TauCeti.fittingIdeal R (Fin 3 → R) 2 ≠ TauCeti.fittingIdeal R (Fin 3 → R) 3 :=
   sorry
 
--- test higherFitting_two_cyclic (computation) [L6/higher-fitting-ideal]
+-- test higherFitting_two_cyclic (computation) [§6.5]
 example : TauCeti.fittingIdeal ℤ (ZMod 2 × ZMod 4) 0 = Ideal.span {8} ∧
     TauCeti.fittingIdeal ℤ (ZMod 2 × ZMod 4) 1 = Ideal.span {2} ∧
     TauCeti.fittingIdeal ℤ (ZMod 2 × ZMod 4) 2 = ⊤ := sorry
 
--- test higherFitting_not_initial (non-example) [L6/higher-fitting-ideal]
+-- test higherFitting_not_initial (non-example) [§6.5]
 example : TauCeti.fittingIdeal ℤ (ℤ × ZMod 2) 0 = ⊥ ∧
     TauCeti.fittingIdeal ℤ (ℤ × ZMod 2) 1 = Ideal.span {2} ∧
     TauCeti.fittingIdeal ℤ (ℤ × ZMod 2) 2 = ⊤ ∧
@@ -5797,7 +5894,7 @@ example : TauCeti.fittingIdeal ℤ (ℤ × ZMod 2) 0 = ⊥ ∧
 generators with relation matrix `[[a, 0], [0, 1]]`. The minors of size 1 of the first and of
 size 2 of the second both generate `(a)`, both cokernels have `Fitt⁰ = (a)`, and `Fitt¹ = R`
 from either. -/
--- test higherFitting_presentation_independent (characterisation) [L6/higher-fitting-ideal]
+-- test higherFitting_presentation_independent (characterisation) [§6.5]
 example {R : Type*} [CommRing R] (a : R)
     [Module.FinitePresentation R ((Fin 1 → R) ⧸
       LinearMap.range (Matrix.toLin' (!![a, a ^ 2] : Matrix (Fin 1) (Fin 2) R)))]
@@ -5819,7 +5916,7 @@ example {R : Type*} [CommRing R] (a : R)
         LinearMap.range (Matrix.toLin' (!![a, 0; 0, 1] : Matrix (Fin 2) (Fin 2) R))) 1 = ⊤ :=
   sorry
 
--- test higherFitting_nonprincipal (computation) [L6/higher-fitting-ideal]
+-- test higherFitting_nonprincipal (computation) [§6.5]
 example :
     TauCeti.fittingIdeal (Polynomial ℤ)  
         ((Polynomial ℤ ⧸ Ideal.span {(2 : Polynomial ℤ)}) ×
@@ -5834,7 +5931,7 @@ example :
         ((Polynomial ℤ ⧸ Ideal.span {(2 : Polynomial ℤ)}) ×
           (Polynomial ℤ ⧸ Ideal.span {(Polynomial.X : Polynomial ℤ)})) 2 = ⊤ := sorry
 
--- test higherFitting_zero_compat (compatibility) [L6/higher-fitting-ideal]
+-- test higherFitting_zero_compat (compatibility) [§6.5]
 example {R M : Type*} [CommRing R] [AddCommGroup M] [Module R M] [Module.FinitePresentation R M]
     (a b : R) [Module.FinitePresentation R (R ⧸ Ideal.span {a})]
     [Module.FinitePresentation R (R ⧸ Ideal.span {b})] :
@@ -5843,7 +5940,7 @@ example {R M : Type*} [CommRing R] [AddCommGroup M] [Module R M] [Module.FiniteP
       TauCeti.fittingIdeal R ((R ⧸ Ideal.span {a}) × (R ⧸ Ideal.span {b})) 0 =
         Ideal.span {a * b} := sorry
 
--- test higherFitting_baseChange (computation) [L6/higher-fitting-ideal]
+-- test higherFitting_baseChange (computation) [§6.5]
 example :
     TauCeti.fittingIdeal (ZMod 2) (TensorProduct ℤ (ZMod 2) (ZMod 2 × ZMod 4)) 1 = ⊥ ∧
       TauCeti.fittingIdeal ℤ (ZMod 2 × ZMod 4) 1 = Ideal.span {2} ∧
@@ -5851,14 +5948,14 @@ example :
 
 end HigherFittingTests
 
-/-! ## PadicMeasuresIwasawaAlgebras:L6/locally-quadratic-presentation (definition) -/
+/-! ## Locally quadratic presentations (§6.3) -/
 
 section LocallyQuadratic
 
 variable {R M P₀ P₁ : Type*} [CommRing R] [AddCommGroup M] [Module R M]
   [AddCommGroup P₀] [Module R P₀] [AddCommGroup P₁] [Module R P₁]
 
-/-- `L6/locally-quadratic-presentation`: `P₁ →f P₀ →π M → 0` exact, with `P₀, P₁` finitely
+/-- §6.3: `P₁ →f P₀ →π M → 0` exact, with `P₀, P₁` finitely
 generated projective of the same constant rank (Dasgupta–Kakde Lemma A.5, Remark A.7). -/
 structure IsLocallyQuadraticPresentation (f : P₁ →ₗ[R] P₀) (π : P₀ →ₗ[R] M) : Prop where
   projective₀ : Module.Projective R P₀
@@ -5904,7 +6001,7 @@ theorem IsLocallyQuadraticPresentation.baseChange (R' : Type*) [CommRing R'] [Al
     {f : P₁ →ₗ[R] P₀} {π : P₀ →ₗ[R] M} (h : IsLocallyQuadraticPresentation f π) :
     IsLocallyQuadraticPresentation (f.baseChange R') (π.baseChange R') := sorry
 
--- test lq_quadratic (compatibility) [L6/locally-quadratic-presentation]
+-- test lq_quadratic (compatibility) [§6.3]
 example (P : QuadraticPresentation R M) :
     IsLocallyQuadraticPresentation (Matrix.toLin' P.rel) P.gen :=
   P.isLocallyQuadraticPresentation
@@ -5912,18 +6009,18 @@ example (P : QuadraticPresentation R M) :
 /- Next test: over `R = ℤ_p × ℤ_p`, the inclusion of the ideal `I = ℤ_p × 0` presents
 `R/I ≅ 0 × ℤ_p` by projectives of ranks `(1, 0)` and `(1, 1)` on the two components: not locally
 quadratic. -/
--- test lq_unequal_rank (non-example) [L6/locally-quadratic-presentation]
+-- test lq_unequal_rank (non-example) [§6.3]
 example (p : ℕ) [Fact p.Prime] :
     let I : Ideal (PadicInt p × PadicInt p) := Ideal.span {((1 : PadicInt p), (0 : PadicInt p))}
     ¬ IsLocallyQuadraticPresentation I.subtype I.mkQ := sorry
 
--- test lq_rank_zero (degenerate) [L6/locally-quadratic-presentation]
+-- test lq_rank_zero (degenerate) [§6.3]
 example : IsLocallyQuadraticPresentation (0 : PUnit →ₗ[R] PUnit) (0 : PUnit →ₗ[R] PUnit) := sorry
 
 /- Next test: `R = ℤ[√-5]`, `I = (2, 1 + √-5)`. The presentation `I ↪ R ↠ R/I` is locally
 quadratic of rank 1 (`I` is invertible), but `R/I` is not quadratically presented: a square
 presentation `φ` would give `(det φ) = I`, and `I` is not principal. -/
--- test lq_not_quadratic (non-example) [L6/locally-quadratic-presentation]
+-- test lq_not_quadratic (non-example) [§6.3]
 example :
     let I : Ideal (Zsqrtd (-5)) := Ideal.span {(2 : Zsqrtd (-5)), ⟨1, 1⟩}
     IsLocallyQuadraticPresentation I.subtype I.mkQ ∧
@@ -5931,10 +6028,7 @@ example :
 
 end LocallyQuadratic
 
-/-! ## Extensions and cardinalities: L6/extension-relation-matrix,
-L6/quadratic-presentation-extension, L6/fitting-extension, L6/fitting-fibre-product,
-L6/pid-cokernel-cardinality, L6/finite-index-cokernel-descent, L6/cokernel-modulo-finite-ideal,
-L6/finite-index-subring-nonzerodivisor and L6/quadratic-cardinality -/
+/-! ## Extensions and cardinalities (§6.3, §6.6) -/
 
 section FittingExtension
 
@@ -5942,7 +6036,7 @@ variable {R A B C A' B' : Type*} [CommRing R] [AddCommGroup A] [Module R A] [Add
   [Module R B] [AddCommGroup C] [Module R C] [AddCommGroup A'] [Module R A'] [AddCommGroup B']
   [Module R B']
 
-/-- `L6/extension-relation-matrix`, the relations of an extension `0 → A → B → C → 0`: for
+/-- §6.6, the relations of an extension `0 → A → B → C → 0`: for
 generators `a` of `A` with relation matrix `Ψ` (any number of columns; `A` need not be
 quadratically presented), a square presentation `(Φ, c)` of `C`, lifts `c'` of its generators and
 `X` with `c' ∘ Φ = i ∘ a ∘ X`, the family `(i ∘ a, c')` generates `B` and its relations are
@@ -5962,10 +6056,10 @@ theorem range_toLin'_fromBlocks_eq_ker_of_exact {n p m : Type*} [Fintype n] [Fin
     Function.Surjective g ∧
       LinearMap.range (Matrix.toLin' (Matrix.fromBlocks Ψ (-X) 0 Φ)) = LinearMap.ker g := sorry
 
-/-- `L6/quadratic-presentation-extension`, as data (an API item of `L6/quadratic-presentation`):
+/-- §6.6, as data (an API item of §6.3):
 from quadratic presentations of `A` (size `n`) and `C` (size `m`), the presentation of `B` of
 size `n + m` with the block upper-triangular matrix `[[ψ_A, -X], [0, φ_C]]` of
-`L6/extension-relation-matrix`. It depends on the choice of the lifts and of `X`; its size and
+§6.6. It depends on the choice of the lifts and of `X`; its size and
 its determinant do not. -/
 def QuadraticPresentation.ofExact (PA : QuadraticPresentation R A)
     (PC : QuadraticPresentation R C) {i : A →ₗ[R] B} {q : B →ₗ[R] C}
@@ -5983,7 +6077,7 @@ theorem QuadraticPresentation.ofExact_det (PA : QuadraticPresentation R A)
     (hq : Function.Surjective q) (hex : Function.Exact i q) :
     (PA.ofExact PC hi hq hex).rel.det = PA.rel.det * PC.rel.det := sorry
 
-/-- `L6/quadratic-presentation-extension` (Dasgupta–Kakde Lemma 2.6, second assertion): an
+/-- §6.6 (Dasgupta–Kakde Lemma 2.6, second assertion): an
 extension of quadratically presented modules is quadratically presented (by
 `QuadraticPresentation.ofExact`, of size `n + m` and determinant `det ψ_A · det φ_C`). -/
 theorem isQuadraticallyPresented_of_exact {i : A →ₗ[R] B} {q : B →ₗ[R] C}
@@ -5992,7 +6086,7 @@ theorem isQuadraticallyPresented_of_exact {i : A →ₗ[R] B} {q : B →ₗ[R] C
     IsQuadraticallyPresented R B :=
   hA.elim fun PA => hC.elim fun PC => ⟨PA.ofExact PC hi hq hex⟩
 
-/-- `L6/fitting-extension` (Dasgupta–Kakde Lemma 2.6, first assertion): for `0 → A → B → C → 0`
+/-- §6.6 (Dasgupta–Kakde Lemma 2.6, first assertion): for `0 → A → B → C → 0`
 exact with `C` quadratically presented and `A` finitely presented (then `B` is finitely
 presented, by `Module.finitePresentation_of_ker`), `Fitt(B) = Fitt(A) Fitt(C)`. -/
 theorem fittingIdeal_eq_mul_of_exact [Module.FinitePresentation R A]
@@ -6001,7 +6095,7 @@ theorem fittingIdeal_eq_mul_of_exact [Module.FinitePresentation R A]
     (hex : Function.Exact i q) (hC : IsQuadraticallyPresented R C) :
     TauCeti.fittingIdeal R B 0 = TauCeti.fittingIdeal R A 0 * TauCeti.fittingIdeal R C 0 := sorry
 
-/-- `L6/fitting-fibre-product` (Dasgupta–Kakde Lemma 2.7), with `A` and `A'` finitely
+/-- §6.6 (Dasgupta–Kakde Lemma 2.7), with `A` and `A'` finitely
 presented. -/
 theorem fittingIdeal_mul_comm_of_exact [Module.FinitePresentation R A]
     [Module.FinitePresentation R B] [Module.FinitePresentation R A']
@@ -6013,7 +6107,7 @@ theorem fittingIdeal_mul_comm_of_exact [Module.FinitePresentation R A]
     TauCeti.fittingIdeal R A 0 * TauCeti.fittingIdeal R B' 0 =
       TauCeti.fittingIdeal R A' 0 * TauCeti.fittingIdeal R B 0 := sorry
 
-/-- `L6/pid-cokernel-cardinality`: over a principal ideal domain (possibly a field),
+/-- §6.3: over a principal ideal domain (possibly a field),
 `#(D^m/AD^m) = #(D/(det A))` when `det A ≠ 0`. `Nat.card` is `0` for infinite quotients, so the
 two quotients are finite together. -/
 theorem natCard_quotient_range_toLin'_of_det_ne_zero {D : Type*} [CommRing D] [IsDomain D]
@@ -6021,7 +6115,7 @@ theorem natCard_quotient_range_toLin'_of_det_ne_zero {D : Type*} [CommRing D] [I
     Nat.card ((Fin m → D) ⧸ LinearMap.range (Matrix.toLin' A)) =
       Nat.card (D ⧸ Ideal.span {A.det}) := sorry
 
-/-- `L6/finite-index-cokernel-descent` (Dasgupta–Kakde (27), (28)): for a subring `B` of finite
+/-- §6.3 (Dasgupta–Kakde (27), (28)): for a subring `B` of finite
 additive index of `B'` and a square matrix `A` over `B` whose determinant is a non-zerodivisor
 of `B'` (not only of `B`), `#(B^m/AB^m) = #(B'^m/AB'^m)`. -/
 theorem natCard_quotient_range_toLin'_subring {B' : Type*} [CommRing B'] (B : Subring B')
@@ -6030,7 +6124,7 @@ theorem natCard_quotient_range_toLin'_subring {B' : Type*} [CommRing B'] (B : Su
     Nat.card ((Fin m → B) ⧸ LinearMap.range (Matrix.toLin' A)) =
       Nat.card ((Fin m → B') ⧸ LinearMap.range (Matrix.toLin' (A.map B.subtype))) := sorry
 
-/-- `L6/cokernel-modulo-finite-ideal`: for an ideal `K` of `B` that is finite as a set and a
+/-- §6.3: for an ideal `K` of `B` that is finite as a set and a
 square matrix `A` over `B` whose determinant is a non-zerodivisor of `B`: (a) the projection
 `B^m → (B/K)^m` induces a bijection between the cokernels of `A` over `B` and over `B/K`, so the
 two are finite together and have the same cardinality; (b) the image of `det A` is a
@@ -6046,7 +6140,7 @@ theorem natCard_quotient_range_toLin'_quotient_of_finite {B : Type*} [CommRing B
           LinearMap.range (Matrix.toLin' (A.map (Ideal.Quotient.mk K)))) ∧
       Ideal.Quotient.mk K A.det ∈ nonZeroDivisors (B ⧸ K) := sorry
 
-/-- `L6/finite-index-subring-nonzerodivisor`: for a subring `B` of finite additive index of a
+/-- §6.3: for a subring `B` of finite additive index of a
 product of infinite domains and `x ∈ B`, the following are equivalent: `x` is a non-zerodivisor
 of `B`; every component of `x` is nonzero; `x` is a non-zerodivisor of the product. -/
 theorem mem_nonZeroDivisors_tfae_of_finiteIndex_pi {ι : Type*} {D : ι → Type*}
@@ -6055,7 +6149,7 @@ theorem mem_nonZeroDivisors_tfae_of_finiteIndex_pi {ι : Type*} {D : ι → Type
     List.TFAE [x ∈ nonZeroDivisors B, ∀ i, (x : ∀ i, D i) i ≠ 0,
       (x : ∀ i, D i) ∈ nonZeroDivisors (∀ i, D i)] := sorry
 
-/-- `L6/quadratic-cardinality` (Dasgupta–Kakde Lemma 2.4), in the source's generality: `B` a
+/-- §6.3 (Dasgupta–Kakde Lemma 2.4), in the source's generality: `B` a
 subring of finite index of a finite product of principal ideal domains (fields allowed, no
 hypothesis on the characteristic), `N` quadratically presented with `Fitt(N) = (x)`, `x` a
 non-zerodivisor of `B` and `B/(x)` finite: `N` is finite and `#N = #(B/(x))`. -/
@@ -6071,9 +6165,7 @@ end FittingExtension
 
 end TauCeti
 
-/-! ## PadicMeasuresIwasawaAlgebras:L6/compound-matrix and L6/higher-adjugate (constructions),
-L6/complement-shuffle-sign, L6/generalised-laplace-expansion and L6/compound-image-determinant
-(lemmas) -/
+/-! ## Compound matrices and higher adjugates (§6.4) -/
 
 section Compound
 
@@ -6083,7 +6175,7 @@ variable {R : Type*} [CommRing R]
 
 namespace Matrix
 
-/-- `L6/compound-matrix`: the `r`-th compound matrix `C_r(A)`, whose `(S, T)` entry is the minor of
+/-- §6.4: the `r`-th compound matrix `C_r(A)`, whose `(S, T)` entry is the minor of
 `A` on the rows `S` and columns `T` (both in increasing order). -/
 def compound {ι κ : Type*} [LinearOrder ι] [LinearOrder κ] (A : Matrix ι κ R) (r : ℕ) :
     Matrix (Set.powersetCard ι r) (Set.powersetCard κ r) R :=
@@ -6147,7 +6239,7 @@ theorem compound_two_eq_pairMinor {ι κ : Type*} [LinearOrder ι] [LinearOrder 
     A.compound 2 (ofFinEmbEquiv p) (ofFinEmbEquiv q) = A.pairMinor (p 0, p 1) (q 0, q 1) :=
   sorry
 
-/-- `L6/higher-adjugate`: the `r`-th higher adjugate of a square matrix, with
+/-- §6.4: the `r`-th higher adjugate of a square matrix, with
 `adj_r(A)_{T,S} = (-1)^{ΣS + ΣT} det A[Sᶜ, Tᶜ]`. -/
 def higherAdjugate {m : ℕ} (A : Matrix (Fin m) (Fin m) R) (r : ℕ) (hr : r ≤ m) :
     Matrix (Set.powersetCard (Fin m) r) (Set.powersetCard (Fin m) r) R :=
@@ -6155,7 +6247,7 @@ def higherAdjugate {m : ℕ} (A : Matrix (Fin m) (Fin m) R) (r : ℕ) (hr : r �
     (A.submatrix (ofFinEmbEquiv.symm (compl (m := m - r) (by simp; omega) S))
       (ofFinEmbEquiv.symm (compl (m := m - r) (by simp; omega) T))).det
 
-/-- `L6/complement-shuffle-sign`: for an `r`-subset `T` of `Fin m`, the shuffle that sorts `T`
+/-- §6.4: for an `r`-subset `T` of `Fin m`, the shuffle that sorts `T`
 followed by `Tᶜ` (`Set.powersetCard.permOfDisjoint`) has sign `(-1)^{ΣT - r(r-1)/2}`, `ΣT` the
 sum of the elements of `T` as natural numbers `0, …, m - 1` (so `ΣT ≥ r(r-1)/2`). -/
 theorem _root_.Set.powersetCard.sign_permOfDisjoint_compl {m r : ℕ} (hr : r ≤ m)
@@ -6164,7 +6256,7 @@ theorem _root_.Set.powersetCard.sign_permOfDisjoint_compl {m r : ℕ} (hr : r �
         (by simp [Finset.disjoint_left]) : Equiv.Perm (Fin (r + (m - r)))).sign : ℤ) =
       (-1) ^ (∑ j ∈ (T : Finset (Fin m)), (j : ℕ) - r * (r - 1) / 2) := sorry
 
-/-- `L6/generalised-laplace-expansion`: for `r`-subsets `S, S'` of `Fin m`,
+/-- §6.4: for `r`-subsets `S, S'` of `Fin m`,
 `Σ_T (-1)^{ΣS' + ΣT} det A[S, T] det A[S'ᶜ, Tᶜ]` is `det A` if `S' = S` and `0` if `S' ≠ S`, the
 sum over the `r`-subsets `T`. -/
 theorem sum_compound_mul_compound_compl {m : ℕ} (A : Matrix (Fin m) (Fin m) R) (r : ℕ)
@@ -6220,7 +6312,7 @@ theorem higherAdjugate_transpose {m : ℕ} (A : Matrix (Fin m) (Fin m) R) (r : �
 theorem higherAdjugate_zero {m : ℕ} (A : Matrix (Fin m) (Fin m) R)
     (S T : Set.powersetCard (Fin m) 0) : A.higherAdjugate 0 (Nat.zero_le m) T S = A.det := sorry
 
-/-- `L6/compound-image-determinant`: for an `m × n` matrix `A` and the `m × m` submatrix `A_J`
+/-- §6.4: for an `m × n` matrix `A` and the `m × m` submatrix `A_J`
 on the columns `J = e(Fin m)`, `det(A_J) x = C_r(A)(ι_J(adj_r(A_J) x))` for every `x`, where
 `ι_J` extends a vector indexed by the `r`-subsets of `Fin m` by zero along `T ↦ e(T)`; hence
 `det(A_J) x` lies in the image of `C_r(A)`. -/
@@ -6234,49 +6326,49 @@ theorem det_smul_mem_range_compound {m n : ℕ} (A : Matrix (Fin m) (Fin n) R)
 
 end Matrix
 
--- test compound_one_by_one (degenerate) [L6/compound-matrix]
+-- test compound_one_by_one (degenerate) [§6.4]
 example (A : Matrix (Fin 2) (Fin 3) R) (i : Fin 2) (k : Fin 3) :
     A.compound 1 (Set.powersetCard.ofSingleton i) (Set.powersetCard.ofSingleton k) = A i k :=
   Matrix.compound_one_eq A i k
 
--- test compound_two_by_two (computation) [L6/compound-matrix]
+-- test compound_two_by_two (computation) [§6.4]
 example (a b c d : R) (S T : Set.powersetCard (Fin 2) 2) :
     (!![a, b; c, d] : Matrix (Fin 2) (Fin 2) R).compound 2 S T = a * d - b * c := sorry
 
--- test compound_too_large (degenerate) [L6/compound-matrix]
+-- test compound_too_large (degenerate) [§6.4]
 example (A : Matrix (Fin 2) (Fin 3) R) : IsEmpty (Set.powersetCard (Fin 2) 3) := sorry
 
--- test compound_two_pairMinor (compatibility) [L6/compound-matrix]
+-- test compound_two_pairMinor (compatibility) [§6.4]
 example (A : Matrix (Fin 3) (Fin 3) R) (S T : Set.powersetCard (Fin 3) 2)
     (hS : (S : Finset (Fin 3)) = {0, 1}) (hT : (T : Finset (Fin 3)) = {1, 2}) :
     A.compound 2 S T = A.pairMinor (0, 1) (1, 2) ∧
       A.pairMinor (0, 1) (1, 2) = A 0 1 * A 1 2 - A 0 2 * A 1 1 := sorry
 
--- test compound_not_additive (non-example) [L6/compound-matrix]
+-- test compound_not_additive (non-example) [§6.4]
 example : ((1 : Matrix (Fin 2) (Fin 2) ℤ) + 1).compound 2 ≠
     (1 : Matrix (Fin 2) (Fin 2) ℤ).compound 2 + (1 : Matrix (Fin 2) (Fin 2) ℤ).compound 2 := sorry
 
--- test higherAdjugate_one (compatibility) [L6/higher-adjugate]
+-- test higherAdjugate_one (compatibility) [§6.4]
 example (A : Matrix (Fin 3) (Fin 3) R) (i j : Fin 3) :
     A.higherAdjugate 1 (by omega) (Set.powersetCard.ofSingleton j)
       (Set.powersetCard.ofSingleton i) = A.adjugate j i := A.higherAdjugate_one_eq (by omega) i j
 
--- test higherAdjugate_top (degenerate) [L6/higher-adjugate]
+-- test higherAdjugate_top (degenerate) [§6.4]
 example (A : Matrix (Fin 3) (Fin 3) R) (S T : Set.powersetCard (Fin 3) 3) :
     A.higherAdjugate 3 le_rfl T S = 1 := A.higherAdjugate_self S T
 
--- test higherAdjugate_identity (computation) [L6/higher-adjugate]
+-- test higherAdjugate_identity (computation) [§6.4]
 example (r : ℕ) (hr : r ≤ 3) :
     (1 : Matrix (Fin 3) (Fin 3) R).higherAdjugate r hr = 1 := sorry
 
--- test higherAdjugate_not_compound (non-example) [L6/higher-adjugate]
+-- test higherAdjugate_not_compound (non-example) [§6.4]
 example : (Matrix.diagonal ![2, 1, 1] : Matrix (Fin 3) (Fin 3) ℤ).higherAdjugate 1 (by omega) ≠
     (Matrix.diagonal ![2, 1, 1] : Matrix (Fin 3) (Fin 3) ℤ).compound 1 := sorry
 
 /- Next test: for a `3 × 3` matrix `A` (indices 0, 1, 2), `adj_2(A)_{{0,1},{0,2}} = -A_{12}` and
 `adj_2(A)_{{0,1},{1,2}} = A_{02}` (row index `T` first, as in `higherAdjugate`); for
 `A = (1 2 3; 4 5 6; 7 8 10)` these are `-6` and `3`. -/
--- test higherAdjugate_two_of_three (computation) [L6/higher-adjugate]
+-- test higherAdjugate_two_of_three (computation) [§6.4]
 example (A : Matrix (Fin 3) (Fin 3) R) (S S' T : Set.powersetCard (Fin 3) 2)
     (hT : (T : Finset (Fin 3)) = {0, 1}) (hS : (S : Finset (Fin 3)) = {0, 2})
     (hS' : (S' : Finset (Fin 3)) = {1, 2}) :
@@ -6287,17 +6379,17 @@ end Compound
 
 namespace TauCeti
 
-/-! ## PadicMeasuresIwasawaAlgebras:L6/exterior-cokernel-annihilator (theorem) -/
+/-! ## Fitting ideals annihilate exterior-power cokernels (§6.7) -/
 
 section ExteriorCokernel
 
 variable {R M : Type*} [CommRing R] [AddCommGroup M] [Module R M]
 
-/-- `L6/exterior-cokernel-annihilator` (Dasgupta–Kakde Lemma 3.9, proof corrected by
+/-- §6.7 (Dasgupta–Kakde Lemma 3.9, proof corrected by
 `PadicMeasuresIwasawaAlgebras/E17`): for `N ⊆ M` with `N` finitely generated and `M` finitely
 presented, `Fitt(M/N)` annihilates the cokernel of `⋀^r N → ⋀^r M` for every `r ≥ 1`. The
 quotient `M/N` is finitely presented (`Module.finitePresentation_of_surjective`); that instance
-is an argument because the stand-in for `Fitt⁰` needs it to be stated. The free case is
+is an argument because `TauCeti.fittingIdeal` needs it to be stated. The free case is
 `Matrix.det_smul_mem_range_compound`. -/
 theorem fittingIdeal_le_annihilator_exteriorPower_cokernel (N : Submodule R M)
     [Module.FinitePresentation R M] [Module.Finite R N] [Module.FinitePresentation R (M ⧸ N)]
@@ -6308,16 +6400,14 @@ theorem fittingIdeal_le_annihilator_exteriorPower_cokernel (N : Submodule R M)
 
 end ExteriorCokernel
 
-/-! ## PadicMeasuresIwasawaAlgebras:L6/presentation-transpose (construction),
-L6/transpose-stable-equivalence, L6/transpose-fitting, L6/transpose-higher-fitting-free and
-L6/transpose-higher-fitting -/
+/-! ## The presentation transpose and its Fitting ideals (§6.2) -/
 
 section Transpose
 
 variable {R S M P₀ P₁ : Type*} [CommRing R] [CommRing S] [AddCommGroup M] [Module R M]
   [AddCommGroup P₀] [Module R P₀] [AddCommGroup P₁] [Module R P₁]
 
-/-- `L6/presentation-transpose`: the transpose `coker(f^* : P₀^* → P₁^*)` of a presentation
+/-- §6.2: the transpose `coker(f^* : P₀^* → P₁^*)` of a presentation
 `P₁ →f P₀ → M → 0`, as an `S`-module along `σ : S ≃+* R` (for `R = R_Ψ`, `S = R^#`, `σ = #`).
 The carrier is the pinned `TauCeti.AuslanderReitenTranspose f`. -/
 def PresentationTranspose (_σ : S ≃+* R) (f : P₁ →ₗ[R] P₀) : Type _ :=
@@ -6428,12 +6518,12 @@ theorem quadraticPresentation_rel (P : QuadraticPresentation R M) :
 
 end PresentationTranspose
 
-/- `L6/transpose-stable-equivalence` is Tau Ceti's
+/- That transposes are unique up to projective summands is Tau Ceti's
 `TauCeti.AuslanderReitenTranspose.nonempty_linearEquiv_prod_dual`
 (`TauCeti.Algebra.Module.AuslanderReiten.StableTranspose`), for any ring and any two projective
 presentations; restricting scalars along `σ` is all that remains and it is not restated. -/
 
-/-- `L6/transpose-fitting` (Dasgupta–Kakde Lemma 6.1): for the transpose attached to a quadratic
+/-- §6.2 (Dasgupta–Kakde Lemma 6.1): for the transpose attached to a quadratic
 presentation, which is quadratically presented over `S = R^#` by
 `PresentationTranspose.quadraticPresentation`, `Fitt_S(M^tr) = σ⁻¹(Fitt_R(M))`. -/
 theorem PresentationTranspose.fittingIdeal_eq (σ : S ≃+* R) (P : QuadraticPresentation R M)
@@ -6442,7 +6532,7 @@ theorem PresentationTranspose.fittingIdeal_eq (σ : S ≃+* R) (P : QuadraticPre
     TauCeti.fittingIdeal S (PresentationTranspose σ (Matrix.toLin' P.rel)) 0 =
       Ideal.map σ.symm (TauCeti.fittingIdeal R M 0) := sorry
 
-/-- `L6/transpose-higher-fitting-free`: for a free presentation `R^t →A R^{t+s} → M → 0`
+/-- §6.2: for a free presentation `R^t →A R^{t+s} → M → 0`
 (`t` relations, `t + s` generators), `Fitt⁰_S(M^tr) = σ⁻¹(Fitt^s_R(M))`; both are generated by
 the `t × t` minors of `A`, resp. of `(σ⁻¹(a_ji))`. -/
 theorem PresentationTranspose.fittingIdeal_eq_excess (σ : S ≃+* R) {t s : ℕ}
@@ -6453,7 +6543,7 @@ theorem PresentationTranspose.fittingIdeal_eq_excess (σ : S ≃+* R) {t s : ℕ
     TauCeti.fittingIdeal S (PresentationTranspose σ (Matrix.toLin' A)) 0 =
       Ideal.map σ.symm (TauCeti.fittingIdeal R M s) := sorry
 
-/-- `L6/transpose-higher-fitting` (Dasgupta–Kakde (171)): for a presentation
+/-- §6.2 (Dasgupta–Kakde (171)): for a presentation
 `P₁ →f P₀ → M → 0` by finitely generated projective modules of constant ranks `t` and `t + s`,
 `Fitt⁰_S(M^tr) = σ⁻¹(Fitt^s_R(M))`, by localisation from the free case. -/
 theorem PresentationTranspose.fittingIdeal_eq_excess_of_projective (σ : S ≃+* R) {t s : ℕ}
@@ -6466,22 +6556,22 @@ theorem PresentationTranspose.fittingIdeal_eq_excess_of_projective (σ : S ≃+*
     TauCeti.fittingIdeal S (PresentationTranspose σ f) 0 =
       Ideal.map σ.symm (TauCeti.fittingIdeal R M s) := sorry
 
--- test transpose_iso_presentation (degenerate) [L6/presentation-transpose]
+-- test transpose_iso_presentation (degenerate) [§6.2]
 example (σ : S ≃+* R) : Subsingleton
     (PresentationTranspose σ (LinearMap.id : (Fin 1 → R) →ₗ[R] (Fin 1 → R))) :=
   AuslanderReitenTranspose.subsingleton_of_comp_eq_id (r := LinearMap.id) _ (by simp)
 
--- test transpose_depends_on_presentation (non-example) [L6/presentation-transpose]
+-- test transpose_depends_on_presentation (non-example) [§6.2]
 example [Nontrivial R] (σ : S ≃+* R) :
     Nonempty (PresentationTranspose σ (LinearMap.fst R R R) ≃ₗ[S] S) ∧
       ¬ Subsingleton (PresentationTranspose σ (LinearMap.fst R R R)) := sorry
 
--- test transpose_cyclic (computation) [L6/presentation-transpose]
+-- test transpose_cyclic (computation) [§6.2]
 example (σ : S ≃+* R) (a : R) :
     Nonempty (PresentationTranspose σ (Matrix.toLin' (!![a] : Matrix (Fin 1) (Fin 1) R)) ≃ₗ[S]
       S ⧸ Ideal.span {σ.symm a}) := sorry
 
--- test transpose_reuses_AR (compatibility) [L6/presentation-transpose]
+-- test transpose_reuses_AR (compatibility) [§6.2]
 example (σ : S ≃+* R) (f : P₁ →ₗ[R] P₀) (φ : Module.Dual R P₁) (s : S) :
     PresentationTranspose.toARTranspose σ f
         (PresentationTranspose.mk σ f ((ContragredientDual.toDual σ).symm φ)) =
@@ -6498,12 +6588,12 @@ end
 
 end L6
 
-/-! ### L4/characteristic-finite-fitting-control, stated after the imported Fitting carrier -/
+/-! ### §4.6, stated after the imported Fitting carrier -/
 namespace TauCeti.Iwasawa
 section FittingControl
 variable (p : ℕ) [Fact p.Prime]
 
-/-- `L4/characteristic-finite-fitting-control`: for `Λ = ℤ_p⟦T⟧`, the finite module `Λ/(p, T)` has
+/-- §4.6: for `Λ = ℤ_p⟦T⟧`, the finite module `Λ/(p, T)` has
 unit characteristic ideal, whereas its initial Fitting ideal (the imported carrier) is `(p, T)`. -/
 theorem characteristic_finite_fitting_control :
     let I : Ideal (PowerSeries (PadicInt p)) :=
@@ -6515,7 +6605,7 @@ theorem characteristic_finite_fitting_control :
   sorry
 
 namespace L4Tests
--- test L4Tests.finite_vs_fitting (degenerate) [L4/characteristic-ideal]
+-- test L4Tests.finite_vs_fitting (degenerate) [§4.6]
 example : let I : Ideal (PowerSeries (PadicInt p)) :=
       Ideal.span {PowerSeries.C (p : PadicInt p), PowerSeries.X}
     haveI : Module.FinitePresentation (PowerSeries (PadicInt p))
@@ -6528,7 +6618,7 @@ end L4Tests
 end FittingControl
 end TauCeti.Iwasawa
 
-/-! ### L4/iwasawa-coordinate: `O⟦T⟧ ≅ lim_n O[ℤ/pⁿ]` for a complete noetherian local `O` -/
+/-! ### §4.5: `O⟦T⟧ ≅ lim_n O[ℤ/pⁿ]` for a complete noetherian local `O` -/
 noncomputable section
 namespace TauCeti.Iwasawa
 section Coordinate
@@ -6541,14 +6631,14 @@ maximal ideal with residue characteristic `p` covers the source's case and ℤ_p
 variable [IsLocalRing O] [IsNoetherianRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]
   [CharP (IsLocalRing.ResidueField O) p]
 
-/-- `L4/iwasawa-coordinate`, level `n`: `O⟦T⟧ → O[ℤ/pⁿ]`, `T ↦ [1] − 1`. -/
+/-- §4.5, level `n`: `O⟦T⟧ → O[ℤ/pⁿ]`, `T ↦ [1] − 1`. -/
 def levelCoordinate (n : ℕ) :
     PowerSeries O →+* MonoidAlgebra O (Multiplicative (ZMod (p ^ n))) := sorry
-lemma levelCoordinate_X (n : ℕ) :
+theorem levelCoordinate_X (n : ℕ) :
     levelCoordinate p O n PowerSeries.X =
       MonoidAlgebra.single (Multiplicative.ofAdd (1 : ZMod (p ^ n))) 1 - 1 := sorry
-lemma levelCoordinate_surjective (n : ℕ) : Function.Surjective (levelCoordinate p O n) := sorry
-lemma ker_levelCoordinate (n : ℕ) :
+theorem levelCoordinate_surjective (n : ℕ) : Function.Surjective (levelCoordinate p O n) := sorry
+theorem ker_levelCoordinate (n : ℕ) :
     RingHom.ker (levelCoordinate p O n) =
       Ideal.span {(1 + PowerSeries.X : PowerSeries O) ^ (p ^ n) - 1} := sorry
 
@@ -6556,24 +6646,24 @@ lemma ker_levelCoordinate (n : ℕ) :
 def transition {m n : ℕ} (h : m ≤ n) :
     Multiplicative (ZMod (p ^ n)) →* Multiplicative (ZMod (p ^ m)) :=
   AddMonoidHom.toMultiplicative (ZMod.castHom (pow_dvd_pow p h) (ZMod (p ^ m))).toAddMonoidHom
-lemma levelCoordinate_transition {m n : ℕ} (h : m ≤ n) (F : PowerSeries O) :
+theorem levelCoordinate_transition {m n : ℕ} (h : m ≤ n) (F : PowerSeries O) :
     MonoidAlgebra.mapDomainRingHom O (transition p h) (levelCoordinate p O n F) =
       levelCoordinate p O m F := sorry
 
-/-- `L4/iwasawa-coordinate`: `O⟦T⟧ → lim_n O[ℤ/pⁿ]`, the coordinate `γ ↦ 1 + T`. -/
+/-- §4.5: `O⟦T⟧ → lim_n O[ℤ/pⁿ]`, the coordinate `γ ↦ 1 + T`. -/
 def iwasawaCoordinate : PowerSeries O →+* ∀ n, MonoidAlgebra O (Multiplicative (ZMod (p ^ n))) :=
   sorry
-lemma iwasawaCoordinate_apply (F : PowerSeries O) (n : ℕ) :
+theorem iwasawaCoordinate_apply (F : PowerSeries O) (n : ℕ) :
     iwasawaCoordinate p O F n = levelCoordinate p O n F := sorry
 
--- test coordinate_level_zero (degenerate) [L4/iwasawa-coordinate]
+-- test coordinate_level_zero (degenerate) [§4.5]
 example (F : PowerSeries O) :
     levelCoordinate p O 0 F = MonoidAlgebra.single 1 (PowerSeries.constantCoeff F) := sorry
--- test coordinate_group_element (computation) [L4/iwasawa-coordinate]
+-- test coordinate_group_element (computation) [§4.5]
 example (n k : ℕ) :
     levelCoordinate p O n ((1 + PowerSeries.X) ^ k) =
       MonoidAlgebra.single (Multiplicative.ofAdd (k : ZMod (p ^ n))) 1 := sorry
--- test coordinate_omega_not_power_of_T (non-example) [L4/iwasawa-coordinate]
+-- test coordinate_omega_not_power_of_T (non-example) [§4.5]
 example (n : ℕ) :
     levelCoordinate p O n ((1 + PowerSeries.X) ^ (p ^ n) - 1) = 0 ∧
       levelCoordinate p O (n + 1) ((1 + PowerSeries.X) ^ (p ^ n) - 1) ≠ 0 ∧
@@ -6591,19 +6681,103 @@ end Coordinate
 end TauCeti.Iwasawa
 end
 
-/-!
-## L0a and L5: statements this file does not type
+/-! ## §3a.1: the universal character of `ℤ_p` and its evaluation
 
-L0a (rigid character and weight spaces): the character space `W(A) = Hom_cts(ℤ_pˣ, Aˣ)` with its
+The universal character `κ : ℤ_p → (ℤ_p⟦X⟧)ˣ`, `a ↦ (1 + X)^a = binomialSeries ℤ_p a`, and its
+universal property in the adic case through Mathlib's topological evaluation `PowerSeries.aeval`
+(a linearly topologized complete Hausdorff `ℤ_p`-algebra `S` and a topologically nilpotent `z`,
+`PowerSeries.HasEval z`). The normed case (a complete normed `ℚ_p`-algebra, whose topology is not
+linear, with `‖z‖ < 1`) is stated in the README with its own convergent-sum evaluation and is not
+typed here. -/
+namespace TauCetiRoadmap.PadicMeasuresIwasawaAlgebras.UniversalCharacter
+noncomputable section
+open PowerSeries
+
+variable (p : ℕ) [Fact p.Prime]
+
+/-- §3a.1: `κ(a) = (1 + X)^a`, the binomial series with coefficients
+`binom(a, n)`, a unit with inverse `(1 + X)^{-a}` (`binomialSeries_add`). -/
+def universalCharacter : Multiplicative ℤ_[p] →* (ℤ_[p]⟦X⟧)ˣ where
+  toFun a := ⟨binomialSeries ℤ_[p] (Multiplicative.toAdd a),
+    binomialSeries ℤ_[p] (-Multiplicative.toAdd a), by sorry, by sorry⟩
+  map_one' := by sorry
+  map_mul' := by sorry
+
+theorem universalCharacter_apply_coe (a : Multiplicative ℤ_[p]) :
+    (universalCharacter p a : ℤ_[p]⟦X⟧) = binomialSeries ℤ_[p] (Multiplicative.toAdd a) := sorry
+theorem universalCharacter_natCast (n : ℕ) :
+    (universalCharacter p (Multiplicative.ofAdd (n : ℤ_[p])) : ℤ_[p]⟦X⟧) = (1 + X) ^ n := sorry
+theorem universalCharacter_one :
+    (universalCharacter p (Multiplicative.ofAdd (1 : ℤ_[p])) : ℤ_[p]⟦X⟧) = 1 + X := sorry
+
+section Adic
+variable {S : Type*} [CommRing S] [UniformSpace S] [IsUniformAddGroup S] [IsTopologicalRing S]
+  [IsLinearTopology S S] [CompleteSpace S] [T2Space S] [Algebra ℤ_[p] S] [ContinuousSMul ℤ_[p] S]
+
+/-- The character `a ↦ (1 + z)^a` of `ℤ_p` attached to a topologically nilpotent `z`: the composite
+of `κ` with `PowerSeries.aeval z`. -/
+def characterOfHasEval {z : S} (hz : HasEval z) : Multiplicative ℤ_[p] →* Sˣ :=
+  (Units.map (aeval (R := ℤ_[p]) hz).toMonoidHom).comp (universalCharacter p)
+
+theorem characterOfHasEval_apply_coe {z : S} (hz : HasEval z) (a : Multiplicative ℤ_[p]) :
+    (characterOfHasEval p hz a : S) = aeval hz (universalCharacter p a : ℤ_[p]⟦X⟧) := sorry
+
+/-- Universal property, adic case: a character `χ` of `ℤ_p` with values in `Sˣ`, continuous as a
+map into `S`, with `χ(1) − 1` topologically nilpotent, is the character attached to `χ(1) − 1`;
+with `PowerSeries.aeval_unique` (uniqueness of the continuous `ℤ_p`-algebra map `X ↦ z`) this is
+the bijection between such characters and topologically nilpotent elements. -/
+theorem characterOfHasEval_eq (χ : Multiplicative ℤ_[p] →* Sˣ)
+    (hχ : Continuous fun a => (χ a : S))
+    (hz : HasEval ((χ (Multiplicative.ofAdd (1 : ℤ_[p])) : S) - 1)) :
+    χ = characterOfHasEval p hz := sorry
+
+/-- The character attached to `z` is continuous. -/
+theorem continuous_characterOfHasEval {z : S} (hz : HasEval z) :
+    Continuous fun a => (characterOfHasEval p hz a : S) := sorry
+
+end Adic
+
+-- test universalCharacter_nat (computation) [§3a.1]
+example (n : ℕ) : coeff 1 (universalCharacter p (Multiplicative.ofAdd (n : ℤ_[p])) : ℤ_[p]⟦X⟧) = n :=
+  sorry
+-- test universalCharacter_neg_one (computation) [§3a.1]
+-- `κ(−1) = (1 + X)⁻¹ = Σ (−X)^k`, not `1 − X`.
+example : (universalCharacter p (Multiplicative.ofAdd (-1 : ℤ_[p])) : ℤ_[p]⟦X⟧) =
+      PowerSeries.mk (fun k => (-1) ^ k) ∧
+    (universalCharacter p (Multiplicative.ofAdd (-1 : ℤ_[p])) : ℤ_[p]⟦X⟧) ≠ 1 - X := sorry
+-- test universalCharacter_trivial (degenerate) [§3a.1]
+-- `z = 0` gives the trivial character, `aeval 0` being the constant coefficient.
+example [IsLinearTopology ℤ_[p] ℤ_[p]] (a : Multiplicative ℤ_[p]) :
+    (characterOfHasEval p (S := ℤ_[p]) HasEval.zero a : ℤ_[p]) = 1 := sorry
+-- test universalCharacter_one_add_p (computation) [§3a.1]
+-- `z = p` gives `1 ↦ 1 + p` and `n ↦ (1 + p)^n`.
+example [IsLinearTopology ℤ_[p] ℤ_[p]] (hp : HasEval (p : ℤ_[p])) (n : ℕ) :
+    (characterOfHasEval p hp (Multiplicative.ofAdd (n : ℤ_[p])) : ℤ_[p]) = (1 + p) ^ n := sorry
+-- test universalCharacter_not_topologically_nilpotent (non-example) [§3a.1]
+-- `p − 1` is not topologically nilpotent in `ℚ_p` (its powers have norm `1`), so the hypothesis on
+-- `χ(1) − 1` is not redundant; `p` is, but `ℚ_p` is not linearly topologized, which is why the
+-- normed case is stated separately in the README.
+example : ¬ HasEval ((p : ℚ_[p]) - 1) ∧ HasEval (p : ℚ_[p]) ∧ ¬ IsLinearTopology ℚ_[p] ℚ_[p] := sorry
+
+end
+end TauCetiRoadmap.PadicMeasuresIwasawaAlgebras.UniversalCharacter
+
+/-!
+## L3a and L5: statements this file does not type
+
+L3a (rigid character and weight spaces): the character space `W(A) = Hom_cts(ℤ_pˣ, Aˣ)` with its
 decomposition over the torsion characters, the identification of the characters of the principal
-units with the open unit disc of `ℂ_p`, the bounded functions `F_μ` of measures and the
-meromorphic functions of pseudo-measures on it, and the universal character `Γ → Λˣ` with its
-universal property. Mathlib has no rigid analytic spaces; the roadmap states these targets on
+units with the open unit disc of `ℂ_p`, the bounded functions `F_μ` of measures (through the
+extension map `extendCoefficients` above) and the functions `F_λ` of pseudo-measures with their
+character-dependent clearing element, and the normed case of the universal property of the
+universal character. Mathlib has no rigid analytic spaces; the roadmap states these targets on
 `ContinuousMonoidHom`, `PadicComplex` and `completedGroupAlgebra`.
 
-L5 (determinants, specialization and exactness): the determinant line of a bounded complex of
-finite projective modules with its quasi-isomorphism invariance, short-exact multiplicativity,
-base change and duality; its rational trivialization and the comparison with characteristic
-ideals; specialization with the Tor correction; exactness of inverse limits of compact modules;
-topological Nakayama. These need a graded-invertible-module carrier that Mathlib does not have.
+L5 (determinants, specialization and exactness): the ring-level line-module foundation, the
+determinant line of a bounded complex of finite projective modules with its quasi-isomorphism
+invariance, short-exact multiplicativity, base change and duality; its rational trivialization
+and the comparison with characteristic ideals (image `∏ char(Hⁱ)^{(-1)^{i+1}}` for the
+trivialization `det P ⊗ Q → Q`); specialization with the universal-coefficient sequences and the
+perfectness hypothesis; topological Nakayama. These need a graded-invertible-module carrier that
+Mathlib does not have.
 -/
