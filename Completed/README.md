@@ -35,3 +35,5 @@ revision against which an earlier version elaborated.
   (declared complete 2026-10-07)
 - [Algebraic codes and code-lattice constructions](AlgebraicCodingTheory/README.md)
   (declared complete 2026-10-07)
+- [Conformal mapping and the geometric theory of holomorphic functions](ConformalMapping/README.md)
+  (declared complete 2026-10-08)
