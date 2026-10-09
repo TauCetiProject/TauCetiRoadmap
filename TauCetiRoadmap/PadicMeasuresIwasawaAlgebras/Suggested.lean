@@ -2760,16 +2760,22 @@ example (x y : Γ) (hxy : x ≠ y) :
 -- test dirac_one (degenerate) [§1.7]
 example : toCompletedGroupAlgebra p (dirac ℤ_[p] (1 : Γ)) = 1 := sorry
 
-/-- §1.7: coefficient extension along a finite free `ℤ_p`-algebra. -/
+/-- §1.7: coefficient extension along a finite free `ℤ_p`-algebra `O` whose norm topology is
+compatible with the `ℤ_p`-action (`ContinuousSMul ℤ_[p] O`): a finite basis then gives a continuous
+bijection `ℤ_p^d → O`, a homeomorphism by compactness and Hausdorffness, which supplies the
+continuous coefficient coordinates. Without it the equivalence fails: `ℤ_p` with the norm
+`‖a‖ = |σ(a)|_∞` for an abstract embedding `σ : ℚ_p → ℂ` is a free rank-one normed `ℤ_p`-algebra
+on which `p^n • 1` does not tend to zero, and no Dirac-preserving linear map
+`D(ℤ_p, ℤ_p) → D(ℤ_p, O)` exists (test `μ = ∑ p^n δ_{p^n}` against `f_m = (pm+1)⁻¹ 1_{p^m + p^{m+1}ℤ_p}`). -/
 def completedGroupAlgebraBaseChange (O : Type*) [NormedCommRing O] [Algebra ℤ_[p] O]
-    [Module.Free ℤ_[p] O] [Module.Finite ℤ_[p] O] :
+    [ContinuousSMul ℤ_[p] O] [Module.Free ℤ_[p] O] [Module.Finite ℤ_[p] O] :
     TensorProduct ℤ_[p] O D(Γ,ℤ_[p]) ≃ₗ[O] D(Γ,O) := sorry
 theorem completedGroupAlgebraBaseChange_tmul_dirac (O : Type*) [NormedCommRing O] [Algebra ℤ_[p] O]
-    [Module.Free ℤ_[p] O] [Module.Finite ℤ_[p] O] (a : O) (x : Γ) :
+    [ContinuousSMul ℤ_[p] O] [Module.Free ℤ_[p] O] [Module.Finite ℤ_[p] O] (a : O) (x : Γ) :
     completedGroupAlgebraBaseChange p O (TensorProduct.tmul ℤ_[p] a (dirac ℤ_[p] x)) =
       a • dirac O x := sorry
 theorem completedGroupAlgebraBaseChange_mul (O : Type*) [NormedCommRing O] [Algebra ℤ_[p] O]
-    [Module.Free ℤ_[p] O] [Module.Finite ℤ_[p] O] (a b : O) (μ ν : D(Γ,ℤ_[p])) :
+    [ContinuousSMul ℤ_[p] O] [Module.Free ℤ_[p] O] [Module.Finite ℤ_[p] O] (a b : O) (μ ν : D(Γ,ℤ_[p])) :
     completedGroupAlgebraBaseChange p O (TensorProduct.tmul ℤ_[p] (a * b) (μ * ν)) =
       completedGroupAlgebraBaseChange p O (TensorProduct.tmul ℤ_[p] a μ) *
         completedGroupAlgebraBaseChange p O (TensorProduct.tmul ℤ_[p] b ν) := sorry
@@ -2778,15 +2784,20 @@ theorem completedGroupAlgebraBaseChange_mul (O : Type*) [NormedCommRing O] [Alge
 example (μ : D(Γ,ℤ_[p])) :
     completedGroupAlgebraBaseChange p ℤ_[p] (TensorProduct.tmul ℤ_[p] 1 μ) = μ := sorry
 -- test baseChange_one_tmul_dirac (computation) [§1.7]
-example (O : Type*) [NormedCommRing O] [Algebra ℤ_[p] O] [Module.Free ℤ_[p] O]
+example (O : Type*) [NormedCommRing O] [Algebra ℤ_[p] O] [ContinuousSMul ℤ_[p] O] [Module.Free ℤ_[p] O]
     [Module.Finite ℤ_[p] O] (x : Γ) :
     completedGroupAlgebraBaseChange p O (TensorProduct.tmul ℤ_[p] 1 (dirac ℤ_[p] x)) =
       dirac O x := sorry
 -- test baseChange_injective_on_basis (non-example) [§1.7]
-example (O : Type*) [NormedCommRing O] [Algebra ℤ_[p] O] [Module.Free ℤ_[p] O]
+example (O : Type*) [NormedCommRing O] [Algebra ℤ_[p] O] [ContinuousSMul ℤ_[p] O] [Module.Free ℤ_[p] O]
     [Module.Finite ℤ_[p] O] (a b : O) (hab : a ≠ b) (x : Γ) :
     completedGroupAlgebraBaseChange p O (TensorProduct.tmul ℤ_[p] a (dirac ℤ_[p] x)) ≠
       completedGroupAlgebraBaseChange p O (TensorProduct.tmul ℤ_[p] b (dirac ℤ_[p] x)) := sorry
+-- test baseChange_scalar_action_not_continuous (negative control) [§1.7]: the hypothesis
+-- `ContinuousSMul ℤ_[p] O` is what the incompatible-norm coefficient ring violates.
+example (O : Type*) [NormedCommRing O] [Algebra ℤ_[p] O] [Module.Free ℤ_[p] O]
+    [Module.Finite ℤ_[p] O] (h : ¬ Filter.Tendsto (fun n : ℕ => ((p : ℤ_[p]) ^ n) • (1 : O))
+      Filter.atTop (nhds 0)) : ¬ ContinuousSMul ℤ_[p] O := sorry
 end CompletedGroupAlgebra
 end AbstractMeasure
 end
