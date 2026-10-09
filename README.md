@@ -49,6 +49,7 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Operator theory](TauCetiRoadmap/OperatorTheory/README.md)
 - [Optimal transport and Wasserstein geometry](TauCetiRoadmap/OptimalTransport/README.md)
 - [Orthogonal and spin groups](TauCetiRoadmap/OrthogonalSpinGroups/README.md)
+- [p-adic measures, completed group algebras, and characteristic ideals](TauCetiRoadmap/PadicMeasuresIwasawaAlgebras/README.md)
 - [Partial differential equations](TauCetiRoadmap/PDE/README.md)
 - [Peripheral actions on free pro-`p` groups](TauCetiRoadmap/PeripheralActions/README.md)
 - [Profinite and pro-`p` groups](TauCetiRoadmap/ProfiniteProPGroups/README.md)
