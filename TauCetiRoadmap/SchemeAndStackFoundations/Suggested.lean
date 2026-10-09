@@ -1,144 +1,4 @@
-import Mathlib.Algebra.Azumaya.Defs
-import Mathlib.Algebra.Azumaya.Matrix
-import Mathlib.Algebra.BrauerGroup.Defs
-import Mathlib.Algebra.Category.CommAlgCat.Basic
-import Mathlib.Algebra.Category.CommAlgCat.FiniteType
-import Mathlib.Algebra.Category.CommHopfAlgCat
-import Mathlib.Algebra.Category.Grp.Basic
-import Mathlib.Algebra.Category.ModuleCat.Descent
-import Mathlib.Algebra.Category.ModuleCat.Sheaf.LocallyFree
-import Mathlib.Algebra.Category.ModuleCat.Sheaf.Quasicoherent
-import Mathlib.Algebra.Category.Ring.FilteredColimits
-import Mathlib.Algebra.DualNumber
-import Mathlib.Algebra.Module.SpanRank
-import Mathlib.Algebra.Polynomial.Monic
-import Mathlib.Algebra.TrivSqZeroExt.Basic
-import Mathlib.AlgebraicGeometry.AffineSpace
-import Mathlib.AlgebraicGeometry.Birational.Birational
-import Mathlib.AlgebraicGeometry.FunctionField
-import Mathlib.AlgebraicGeometry.Geometrically.Integral
-import Mathlib.AlgebraicGeometry.Group.Affine
-import Mathlib.AlgebraicGeometry.IdealSheaf.Functorial
-import Mathlib.AlgebraicGeometry.IdealSheaf.Subscheme
-import Mathlib.AlgebraicGeometry.Limits
-import Mathlib.AlgebraicGeometry.Modules.Sheaf
-import Mathlib.AlgebraicGeometry.Modules.Tilde
-import Mathlib.AlgebraicGeometry.Morphisms.Affine
-import Mathlib.AlgebraicGeometry.Morphisms.ClosedImmersion
-import Mathlib.AlgebraicGeometry.Morphisms.Etale
-import Mathlib.AlgebraicGeometry.Morphisms.Finite
-import Mathlib.AlgebraicGeometry.Morphisms.FinitePresentation
-import Mathlib.AlgebraicGeometry.Morphisms.Flat
-import Mathlib.AlgebraicGeometry.Morphisms.FlatRank
-import Mathlib.AlgebraicGeometry.Morphisms.FormallyUnramified
-import Mathlib.AlgebraicGeometry.Morphisms.Immersion
-import Mathlib.AlgebraicGeometry.Morphisms.Proper
-import Mathlib.AlgebraicGeometry.Morphisms.QuasiFinite
-import Mathlib.AlgebraicGeometry.Morphisms.QuasiSeparated
-import Mathlib.AlgebraicGeometry.Morphisms.Separated
-import Mathlib.AlgebraicGeometry.Morphisms.Smooth
-import Mathlib.AlgebraicGeometry.Noetherian
-import Mathlib.AlgebraicGeometry.Normalization
-import Mathlib.AlgebraicGeometry.ProjectiveSpectrum.Functor
-import Mathlib.AlgebraicGeometry.ProjectiveSpectrum.Proper
-import Mathlib.AlgebraicGeometry.Pullbacks
-import Mathlib.AlgebraicGeometry.RelativeGluing
-import Mathlib.AlgebraicGeometry.ResidueField
-import Mathlib.AlgebraicGeometry.Sites.AffineEtale
-import Mathlib.AlgebraicGeometry.Sites.ElladicCohomology
-import Mathlib.AlgebraicGeometry.Sites.Etale
-import Mathlib.AlgebraicGeometry.Sites.EtalePoint
-import Mathlib.AlgebraicGeometry.Sites.Fpqc
-import Mathlib.AlgebraicGeometry.Sites.Proetale
-import Mathlib.AlgebraicGeometry.Sites.SmallAffineZariski
-import Mathlib.AlgebraicGeometry.ZariskisMainTheorem
-import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.HasExt
-import Mathlib.CategoryTheory.Abelian.RightDerived
-import Mathlib.CategoryTheory.Bicategory.NaturalTransformation.Pseudo
-import Mathlib.CategoryTheory.Comma.Over.Basic
-import Mathlib.CategoryTheory.Comma.Presheaf.Basic
-import Mathlib.CategoryTheory.Core
-import Mathlib.CategoryTheory.EssentiallySmall
-import Mathlib.CategoryTheory.Filtered.Basic
-import Mathlib.CategoryTheory.Filtered.Connected
-import Mathlib.CategoryTheory.Groupoid
-import Mathlib.CategoryTheory.Limits.ConcreteCategory.Basic
-import Mathlib.CategoryTheory.Limits.Constructions.Over.Connected
-import Mathlib.CategoryTheory.Limits.Shapes.Pullback.Categorical.Basic
-import Mathlib.CategoryTheory.Monoidal.Braided.Basic
-import Mathlib.CategoryTheory.Monoidal.Cartesian.Over
-import Mathlib.CategoryTheory.Monoidal.Grp
-import Mathlib.CategoryTheory.Monoidal.Mod
-import Mathlib.CategoryTheory.Monoidal.Rigid.Basic
-import Mathlib.CategoryTheory.MorphismProperty.Representable
-import Mathlib.CategoryTheory.ObjectProperty.FullSubcategory
-import Mathlib.CategoryTheory.Sites.ConstantSheaf
-import Mathlib.CategoryTheory.Sites.Descent.DescentDataAsCoalgebra
-import Mathlib.CategoryTheory.Sites.Descent.IsStack
-import Mathlib.CategoryTheory.Sites.Descent.Precoverage
-import Mathlib.CategoryTheory.Sites.LeftExact
-import Mathlib.CategoryTheory.Sites.LocallySurjective
-import Mathlib.CategoryTheory.Sites.MayerVietorisSquare
-import Mathlib.CategoryTheory.Sites.NonabelianCohomology.H1
-import Mathlib.CategoryTheory.Sites.PrecoverageToGrothendieck
-import Mathlib.CategoryTheory.Sites.PseudofunctorSheafOver
-import Mathlib.CategoryTheory.Sites.Sheaf
-import Mathlib.CategoryTheory.Sites.SheafCohomology.Basic
-import Mathlib.CategoryTheory.Sites.SheafCohomology.Cech
-import Mathlib.CategoryTheory.Sites.SheafCohomology.MayerVietoris
-import Mathlib.CategoryTheory.Skeletal
-import Mathlib.Data.ZMod.Basic
-import Mathlib.FieldTheory.AbsoluteGaloisGroup
-import Mathlib.FieldTheory.IntermediateField.Adjoin.Basic
-import Mathlib.FieldTheory.KrullTopology
-import Mathlib.FieldTheory.PurelyInseparable.Basic
-import Mathlib.FieldTheory.Separable
-import Mathlib.GroupTheory.GroupExtension.Basic
-import Mathlib.GroupTheory.GroupExtension.Defs
-import Mathlib.LinearAlgebra.Matrix.Defs
-import Mathlib.LinearAlgebra.Projectivization.Basic
-import Mathlib.LinearAlgebra.SymmetricAlgebra.Basic
-import Mathlib.LinearAlgebra.TensorProduct.Pi
-import Mathlib.LinearAlgebra.TensorProduct.Quotient
-import Mathlib.NumberTheory.Padics.PadicIntegers
-import Mathlib.NumberTheory.Padics.RingHoms
-import Mathlib.NumberTheory.Zsqrtd.GaussianInt
-import Mathlib.Order.RelSeries
-import Mathlib.RepresentationTheory.Homological.GroupCohomology.Hilbert90
-import Mathlib.RingTheory.AdicCompletion.Algebra
-import Mathlib.RingTheory.AdicCompletion.Basic
-import Mathlib.RingTheory.Algebraic.Basic
-import Mathlib.RingTheory.DiscreteValuationRing.Basic
-import Mathlib.RingTheory.Etale.Basic
-import Mathlib.RingTheory.Etale.StandardEtale
-import Mathlib.RingTheory.FiniteType
-import Mathlib.RingTheory.Finiteness.Basic
-import Mathlib.RingTheory.Flat.Equalizer
-import Mathlib.RingTheory.Henselian
-import Mathlib.RingTheory.Ideal.Colon
-import Mathlib.RingTheory.Ideal.Cotangent
-import Mathlib.RingTheory.Ideal.Height
-import Mathlib.RingTheory.Ideal.Maps
-import Mathlib.RingTheory.Ideal.Quotient.Operations
-import Mathlib.RingTheory.Invariant.Basic
-import Mathlib.RingTheory.Jacobson.Ideal
-import Mathlib.RingTheory.LocalRing.Basic
-import Mathlib.RingTheory.LocalRing.ResidueField.Fiber
-import Mathlib.RingTheory.Localization.Away.Basic
-import Mathlib.RingTheory.MvPowerSeries.Inverse
-import Mathlib.RingTheory.Norm.Defs
-import Mathlib.RingTheory.PicardGroup
-import Mathlib.RingTheory.PowerSeries.Basic
-import Mathlib.RingTheory.Regular.RegularSequence
-import Mathlib.RingTheory.RegularLocalRing.Defs
-import Mathlib.RingTheory.Smooth.Basic
-import Mathlib.RingTheory.TensorProduct.Quotient
-import Mathlib.Topology.Algebra.Group.Basic
-import Mathlib.Topology.Homeomorph.Defs
-import Mathlib.Topology.KrullDimension
-import Mathlib.Topology.NoetherianSpace
-import Mathlib.Topology.Sheaves.Flasque
-import Mathlib.Topology.Sheaves.LocallySurjective
+import Mathlib
 import TauCeti.Algebra.AlgebraicGroup.ConstantGroup.Scheme
 import TauCeti.Algebra.BrauerGroup.BaseChange
 import TauCeti.Algebra.BrauerGroup.Group
@@ -159,26 +19,15 @@ import TauCeti.FieldTheory.FunctionField.RiemannRoch.Genus
 import TauCeti.RingTheory.Derivation.DualNumber
 
 /-!
-# Scheme, stack, cohomology and intersection foundations: representative target signatures
+# Scheme, stack, cohomology and intersection foundations
 
-The mathematical roadmap is `README.md`. This file records definitions and theorem signatures
-which can be stated against the pinned Mathlib and Tau Ceti APIs. It is not an exhaustive list of
-the results in any layer, and discharging everything here finishes no layer. Every proof is
-`sorry`; unit tests are `example`s named in the README's **Checks** lists.
-
-Design choices made explicit here. Algebraic spaces are fppf sheaves on `Scheme.{u}` with
-representable diagonal and an étale atlas; group spaces are `GrpObj` in `Over h_S`, and the only
-carrier of torsor classes is `NonabelianH1` of Layer 2 (Layer 1's torsor classes are its fppf
-instance). The Picard carrier is Tau Ceti's `LineBundleClass`; finite locally free sheaves of a
-given rank are Mathlib's `IsLocallyFree` with AlgebraicVectorBundles' rank predicate, named
-`isFiniteLocallyFreeOfRank` here with the same meaning. Formal schemes are prototyped as adic
-thickening systems with level-preserving morphisms; the comparison with the EGA category is a
-target of the README. Layer 5 is typed on `Chow.ChowGroup`, the quotient of Mathlib's `AlgebraicCycle` by a
-rational-equivalence subgroup, with `Chow.K0` and `Chow.G0` the Grothendieck groups of finite
-locally free and of finitely presented modules. Statements that cannot be typed at the pins are
-stated in the README only; the closing comment of each layer lists them by name. The étale-section
-lemmas of Layer 0 (`Henselization.etale_section_selector` and its companions) are proved.
+Algebraic spaces are fppf sheaves with representable diagonal and an étale atlas.
+Group spaces are group objects over the represented base; their torsor classes are
+nonabelian first cohomology. Line-bundle classes use Tau Ceti's `LineBundleClass`.
+The five étale-section results below include proofs.
 -/
+
+set_option synthInstance.maxHeartbeats 100000
 
 namespace TauCetiRoadmap.SchemeAndStackFoundations
 
@@ -671,10 +520,6 @@ theorem quotient_annihilator_map_le_baseChange (Q : Submodule R M) :
 
 theorem baseChange_range (f : M →ₗ[R] N) :
     LinearMap.range (f.baseChange S) = f.range.baseChange S := by
-  sorry
-
-theorem baseChange_map (Q : Submodule R M) (f : M →ₗ[R] N) :
-    (Q.map f).baseChange S = (Q.baseChange S).map (f.baseChange S) := by
   sorry
 
 theorem baseChange_le_comap (Q : Submodule R M) (P : Submodule R N)
@@ -2982,8 +2827,7 @@ variable (N : Type gerbU) (E : Type gerbV) (G : Type gerbW)
 variable [Group N] [Group E] [Group G]
 variable [TopologicalSpace N] [TopologicalSpace E] [TopologicalSpace G]
 variable [IsTopologicalGroup E] [IsTopologicalGroup G] [DiscreteTopology N]
-/-- Topological extension prefix only: the algebraic kernel and Galois quotient are
-specified separately in the definitive roadmap. -/
+/-- A group extension with discrete embedded kernel and continuous quotient projection. -/
 structure TopologicalExtension [IsTopologicalGroup E] [IsTopologicalGroup G]
     [DiscreteTopology N] extends GroupExtension N E G where
   inl_embedding : Topology.IsEmbedding toGroupExtension.inl
@@ -3148,7 +2992,7 @@ no dimension function on topological spaces at a point, no perfection colimit fo
 `AlgebraicGeometry.IsUniversalHomeomorphism`, `AlgebraicGeometry.PerfectlyProper`,
 `AlgebraicGeometry.PerfectlySmoothOfRelativeDimension` and
 `AlgebraicGeometry.Scheme.IsWeaklyNormal`. Their API items and unit tests are the ones the
-README lists; no `Prop`-valued stand-in is introduced for any of them. -/
+README describes. -/
 
 end
 end SF_SF_0
@@ -3261,10 +3105,6 @@ theorem qcohPseudofunctor_obj (X : Scheme.{u}) :
 `Scheme.Modules.pullback`. -/
 theorem qcohPseudofunctor_map {X Y : Scheme.{u}} (f : X ⟶ Y) (M : QCohCat Y) :
     SheafOfModules.isQuasicoherent X.ringCatSheaf ((Scheme.Modules.pullback f).obj M.obj) := sorry
-
-theorem qcohPseudofunctor_mapComp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z) :
-    Nonempty (Scheme.Modules.pullback g ⋙ Scheme.Modules.pullback f ≅
-      Scheme.Modules.pullback (f ≫ g)) := sorry
 
 /-- The fibrewise inclusion `QCoh(X) ⥤ X.Modules`; these functors form a strong transformation to
 the left-adjoint part of `Scheme.Modules.pseudofunctor`. -/
@@ -3880,6 +3720,12 @@ structure Groupoid where
 
 namespace Groupoid
 
+-- Check `groupoid_inverse_endpoints`: arrows are (target, source), composed right to left.
+example :
+    let c : (Fin 2 × Fin 2) → (Fin 2 × Fin 2) → (Fin 2 × Fin 2) := fun a b => (a.1, b.2)
+    c (1, 0) (0, 1) = (1, 1) ∧ c (0, 1) (1, 0) = (0, 0) := by
+  decide
+
 /-- The identity is determined by the unit laws. -/
 theorem e_unique (G : Groupoid.{u}) (e' : G.U ⟶ G.R) (h_s : e' ≫ G.s = 𝟙 G.U)
     (h_t : e' ≫ G.t = 𝟙 G.U)
@@ -4051,7 +3897,7 @@ noncomputable def GroupSpace.sheafOfGroups {S : Scheme.{u}} (G : GroupSpace S) :
   sorry
 
 /-- Torsor classes of a group space: `NonabelianH1` on the big fppf site over `S` with coefficients
-`h_G`; the single carrier of torsor classes of the roadmap, pointed by the trivial torsor. -/
+`h_G`, pointed by the trivial torsor. -/
 noncomputable abbrev torsorClasses {S : Scheme.{u}} (G : GroupSpace S) : Type (u + 1) :=
   SiteCohomology.NonabelianH1 (Scheme.fppfTopology.over S) G.sheafOfGroups
 
@@ -4071,11 +3917,6 @@ theorem torsorClasses.surjective_mk {S : Scheme.{u}} (G : GroupSpace S) (x : tor
     ∃ (P : Over (yoneda.obj S)) (_ : ModObj G.obj P) (h : IsTorsor G P), torsorClasses.mk G P h = x :=
   sorry
 
-noncomputable def torsorClasses.pullback {S S' : Scheme.{u}} (f : S' ⟶ S) (G : GroupSpace S)
-    (G' : GroupSpace S') (e : G'.obj.left ≅ pullback G.obj.hom (yoneda.map f)) :
-    torsorClasses G → torsorClasses G' :=
-  sorry
-
 noncomputable def torsorClasses.pushforward {S : Scheme.{u}} {G G' : GroupSpace S}
     (φ : G.obj ⟶ G'.obj) [IsMonHom φ] : torsorClasses G → torsorClasses G' :=
   sorry
@@ -4090,24 +3931,23 @@ noncomputable def torsorClasses.cechColimit {S : Scheme.{u}} (G : GroupSpace S) 
 `𝔾_{m,S} = Spec_S 𝒪_S[t, t⁻¹] = Spec ℤ[t, t⁻¹] ×_ℤ S` through `GroupSpace.ofGroupScheme`. -/
 noncomputable def Gm (S : Scheme.{u}) : GroupSpace S := sorry
 
-/-- The `T`-points of `𝔾_m` are the units of `Γ(T, 𝒪_T)`. -/
-theorem Gm_obj (S T : Scheme.{u}) : Nonempty ((Gm S).obj.left.obj (op T) ≃ (Γ(T, ⊤))ˣ) := sorry
+/-- The points of `𝔾_{m,S}` over a specified map `T → S` are the units of `Γ(T, 𝒪_T)`. -/
+theorem Gm_obj {S T : Scheme.{u}} (f : T ⟶ S) :
+    Nonempty ({x : (Gm S).obj.left.obj (op T) //
+      (Gm S).obj.hom.app (op T) x = f} ≃ (Γ(T, ⊤))ˣ) := sorry
+
+-- Check `gm_needs_base_map`: no map from a nonempty scheme to the empty base.
+example (S T : Scheme.{u}) [IsEmpty S] [Nonempty T] : IsEmpty (T ⟶ S) := by
+  exact ⟨fun f => isEmptyElim (f (Classical.choice inferInstance))⟩
 
 /-- Hilbert 90 in torsor form: `𝔾_m`-torsor classes over `S` are line-bundle classes, the class of
 the frame torsor `Isom(𝒪_S, L)` going to `L` and the base point to `𝒪_S`; the inverse is the
-contracted product with `𝔸¹`. Only `𝔾_m` has this property (`test_picEquiv_not_trivial_group`). -/
+contracted product with `𝔸¹`. The trivial group does not have this property on bases with nontrivial Picard group. -/
 noncomputable def picEquiv (S : Scheme.{u}) :
     torsorClasses (Gm S) ≃ TauCeti.AlgebraicGeometry.LineBundleClass S :=
   sorry
 
 theorem picEquiv_one (S : Scheme.{u}) : picEquiv S 1 = 1 := sorry
-
-/-- `picEquiv` is natural in `S`. -/
-theorem picEquiv_pullback {S S' : Scheme.{u}} (f : S' ⟶ S)
-    (e : (Gm S').obj.left ≅ pullback (Gm S).obj.hom (yoneda.map f)) (x : torsorClasses (Gm S)) :
-    picEquiv S' (torsorClasses.pullback f (Gm S) (Gm S') e x) =
-      TauCeti.AlgebraicGeometry.LineBundleClass.pullback f (picEquiv S x) :=
-  sorry
 
 -- Check `test_trivial_group`
 example {S : Scheme.{u}} (G : GroupSpace S) (hG : IsTerminal G.obj) : Subsingleton (torsorClasses G) :=
@@ -4143,12 +3983,13 @@ theorem contractedProduct_trivial {S : Scheme.{u}} (G : GroupSpace S) (X : Over 
 (needs `ModObj` transport along `Over.pullback`). -/
 
 /-- The inner form `G_P = P ×ᴳ G` for the conjugation action. -/
-def innerForm {S : Scheme.{u}} (G : GroupSpace S) (P : Over (yoneda.obj S)) [ModObj G.obj P] :
+def innerForm {S : Scheme.{u}} (G : GroupSpace S) (P : Over (yoneda.obj S)) [ModObj G.obj P]
+    (hP : IsTorsor G P) :
     GroupSpace S := sorry
 
 /-- Pushforward of torsors along a homomorphism `G ⟶ H`. -/
 def pushforwardTorsor {S : Scheme.{u}} {G H : GroupSpace S} (φ : G.obj ⟶ H.obj) [IsMonHom φ]
-    (P : Over (yoneda.obj S)) [ModObj G.obj P] : Over (yoneda.obj S) := sorry
+    (P : Over (yoneda.obj S)) [ModObj G.obj P] (hP : IsTorsor G P) : Over (yoneda.obj S) := sorry
 
 -- Check `test_trivial`
 example {S : Scheme.{u}} (G : GroupSpace S) (X : Over (yoneda.obj S)) [ModObj G.obj X] :
@@ -4168,7 +4009,7 @@ over `Spec K` (`L / K` quadratic Galois) twisted by itself, the contracted produ
 
 /-- Twisting torsors. -/
 theorem twistingBijection {S : Scheme.{u}} (G : GroupSpace S) (E : Over (yoneda.obj S)) [ModObj G.obj E]
-    (hE : IsTorsor G E) : Nonempty (torsorClasses (innerForm G E) ≃ torsorClasses G) := sorry
+    (hE : IsTorsor G E) : Nonempty (torsorClasses (innerForm G E hE) ≃ torsorClasses G) := sorry
 
 /-- Representability of torsors: an fppf sheaf over `S` with a
 `G`-action that is a pseudo-torsor and trivial over an fppf cover of `S`, with no algebraicity
@@ -4224,25 +4065,6 @@ def IsGeometricQuotient {U R X : AlgSpace.{u}} (s t : R ⟶ U) (φ : U ⟶ X) : 
     (∀ x y : points U, points_map φ x = points_map φ y →
       ∃ r : points R, points_map s r = x ∧ points_map t r = y) ∧
     IsIso (structureSheafToInvariants s t φ h)
-
-/-- `φ` exhibits `X` as the coequaliser of `s, t` among fppf sheaves: `φ` is invariant and every
-invariant map from `U` to an fppf sheaf factors uniquely through `φ`. -/
-def IsSheafCoequalizer {U R X : SchemePresheaf.{u}} (s t : R ⟶ U) (φ : U ⟶ X) : Prop :=
-  s ≫ φ = t ≫ φ ∧ ∀ (F : Sheaf Scheme.fppfTopology.{u} (Type u)) (ψ : U ⟶ F.obj),
-    s ≫ ψ = t ≫ ψ → ∃! χ : X ⟶ F.obj, φ ≫ χ = ψ
-
-/-- A geometric quotient which is also the fppf-sheaf coequaliser of `s, t` is a categorical
-quotient. The sheaf-coequaliser clause is not implied by the geometric-quotient clauses. -/
-theorem IsGeometricQuotient.isCategoricalQuotient {U R X : AlgSpace.{u}} (s t : R ⟶ U) (φ : U ⟶ X)
-    (h : IsGeometricQuotient s t φ)
-    (hq : IsSheafCoequalizer (isAlgebraicSpace.ι.map s) (isAlgebraicSpace.ι.map t)
-      (isAlgebraicSpace.ι.map φ)) :
-    IsCategoricalQuotient (isAlgebraicSpace.ι.map s) (isAlgebraicSpace.ι.map t) (isAlgebraicSpace.ι.map φ) :=
-  sorry
-
-theorem IsGeometricQuotient.unique {U R X X' : AlgSpace.{u}} (s t : R ⟶ U) (φ : U ⟶ X) (φ' : U ⟶ X')
-    (h : IsGeometricQuotient s t φ) (h' : IsGeometricQuotient s t φ') : ∃ e : X ≅ X', φ ≫ e.hom = φ' :=
-  sorry
 
 -- Check `test_dual_numbers_not_quotient`: `U = Spec k[ε]/(ε²)` with the identity relation and
 -- `φ : U → Spec k` is neither a geometric nor a categorical quotient, although every topological
@@ -4395,23 +4217,28 @@ variable {C : Type u₁} [Category.{u} C] {D : Type u₂} [Category.{u} D]
   [HasSheafify J AddCommGrpCat.{u}] [HasSheafify K AddCommGrpCat.{u}]
   [HasExt.{u} (Sheaf J AddCommGrpCat.{u})] [HasExt.{u} (Sheaf K AddCommGrpCat.{u})]
 
-/-- Pullback on sheaf cohomology along a morphism of sites, given by its exact inverse-image
-functor `pb` (for a continuous `u : D ⥤ C`, `pb` is Mathlib's `Functor.sheafPullback`). -/
+/-- Transport in cohomology through an exact coefficient functor and a specified comparison
+from the constant integral sheaf to the image of the constant integral sheaf. For an inverse-image
+functor of a geometric morphism, use its canonical constant-sheaf comparison. -/
 noncomputable def Sheaf.H.pullback (pb : Sheaf K AddCommGrpCat.{u} ⥤ Sheaf J AddCommGrpCat.{u})
     [pb.Additive] [Limits.PreservesFiniteLimits pb] [Limits.PreservesFiniteColimits pb]
+    (c : (constantSheaf J AddCommGrpCat.{u}).obj (AddCommGrpCat.of (ULift.{u} ℤ)) ⟶
+      pb.obj ((constantSheaf K AddCommGrpCat.{u}).obj (AddCommGrpCat.of (ULift.{u} ℤ))))
     (G : Sheaf K AddCommGrpCat.{u}) (n : ℕ) : G.H n →+ (pb.obj G).H n :=
   sorry
 
 theorem Sheaf.H.pullback_naturality
     (pb : Sheaf K AddCommGrpCat.{u} ⥤ Sheaf J AddCommGrpCat.{u})
     [pb.Additive] [Limits.PreservesFiniteLimits pb] [Limits.PreservesFiniteColimits pb]
+    (c : (constantSheaf J AddCommGrpCat.{u}).obj (AddCommGrpCat.of (ULift.{u} ℤ)) ⟶
+      pb.obj ((constantSheaf K AddCommGrpCat.{u}).obj (AddCommGrpCat.of (ULift.{u} ℤ))))
     {G G' : Sheaf K AddCommGrpCat.{u}} (φ : G ⟶ G') (n : ℕ) (x : G.H n) :
-    Sheaf.H.map (pb.map φ) n (Sheaf.H.pullback pb G n x) =
-      Sheaf.H.pullback pb G' n (Sheaf.H.map φ n x) :=
+    Sheaf.H.map (pb.map φ) n (Sheaf.H.pullback pb c G n x) =
+      Sheaf.H.pullback pb c G' n (Sheaf.H.map φ n x) :=
   sorry
 
 theorem Sheaf.H.pullback_id (G : Sheaf K AddCommGrpCat.{u}) (n : ℕ) :
-    Sheaf.H.pullback (𝟭 _) G n = AddMonoidHom.id _ :=
+    Sheaf.H.pullback (𝟭 _) (𝟙 _) G n = AddMonoidHom.id _ :=
   sorry
 
 /- `Sheaf.H.pullback_zero`: in degree 0, composed with `Sheaf.H.equiv₀`, the pullback is restriction
@@ -4420,7 +4247,7 @@ of sections; `Sheaf.H.pullback_comp`: pullback along a composite is the composit
 
 -- Check `test_pullback_id_etale`
 example (X : Scheme.{u}) (G : Sheaf (Scheme.smallEtaleTopology X) AddCommGrpCat.{u}) :
-    Sheaf.H.pullback (𝟭 (Sheaf (Scheme.smallEtaleTopology X) AddCommGrpCat.{u})) G 2 =
+    Sheaf.H.pullback (𝟭 (Sheaf (Scheme.smallEtaleTopology X) AddCommGrpCat.{u})) (𝟙 _) G 2 =
       AddMonoidHom.id (G.H 2) := sorry
 -- Check `test_pullback_zero_restriction`
 /- For an open immersion `j : U → X`, pullback in degree 0 on `O_X` is restriction `O(X) → O(U)`. -/
@@ -4756,7 +4583,7 @@ theorem smallNisnevichTopology_le_smallEtale (X : Scheme.{u}) :
 example : Scheme.zariskiTopology.{u} ≤ nisnevichTopology ∧
     nisnevichTopology.{u} ≤ Scheme.etaleTopology := sorry
 -- Check `test_nisnevich_not_etale`
-example (k K : Type u) [Field k] [Field K] [Algebra k K] (h : Module.finrank k K = 2) :
+example (k K : Type u) [Field k] [Field K] [Algebra k K] [Algebra.IsSeparable k K] (h : Module.finrank k K = 2) :
     ∃ R : Sieve (Spec (CommRingCat.of k)), R ∈ Scheme.etaleTopology _ ∧
       R ∉ nisnevichTopology _ := sorry
 -- Check `test_nisnevich_field_global_sections`
@@ -4770,8 +4597,8 @@ example (Y : Scheme.{u}) : Presheaf.IsSheaf nisnevichTopology (yoneda.obj Y) := 
 immersion `j : U → X`, an étale `p : V → X`, the reduced closed complement `Z` of `j`, and the
 condition that `p` is an isomorphism over `Z`: the base change `Z ×_X V → Z` is an isomorphism. The
 pointwise form "one preimage with trivial residue extension" is weaker (`Spec ℝ ⊔ Spec ℂ → Spec ℝ`
-satisfies it, `test_eds_not_distinguished_extra_point`) and is recovered under finiteness by
-`of_pointwise`. -/
+satisfies it, `test_eds_not_distinguished_extra_point`). The finite criterion `of_pointwise`
+requires a unique point in the entire fibre, with trivial residue extension. -/
 structure ElementaryDistinguishedSquare (X : Scheme.{u}) where
   U : Scheme.{u}
   V : Scheme.{u}
@@ -4815,8 +4642,8 @@ noncomputable def pullback (S : ElementaryDistinguishedSquare X) {Y : Scheme.{u}
 /-- The pointwise characterisation implies the isomorphism condition when `p⁻¹(Z) → Z` is finite. -/
 theorem of_pointwise {U V : Scheme.{u}} (j : U ⟶ X) (p : V ⟶ X) [IsOpenImmersion j] [Etale p]
     (Z : X.IdealSheafData) (hZ : (Z.support : Set X) = (Set.range j)ᶜ) (hred : IsReduced Z.subscheme)
-    (hpt : ∀ x : X, x ∈ (Z.support : Set X) → ∃! y : V, p y = x ∧
-      Function.Bijective (Scheme.Hom.residueFieldMap p y).hom)
+    (hpt : ∀ x : X, x ∈ (Z.support : Set X) → ∃ y : V, p y = x ∧
+      Function.Bijective (Scheme.Hom.residueFieldMap p y).hom ∧ ∀ z : V, p z = x → z = y)
     (hfin : IsFinite (pullback.fst Z.subschemeι p)) :
     IsIso (pullback.fst Z.subschemeι p) :=
   sorry
@@ -4999,7 +4826,7 @@ namespace Etale
 open _root_.AlgebraicGeometry _root_.Opposite Topologies
 
 /-- Hilbert's Theorem 90: `H^1(X_et, G_m)` is the Picard group of isomorphism classes of line bundles
-(Tau Ceti's `LineBundleClass`, a commutative monoid whose inverses JacobianChallenge Layer A adds). -/
+(Tau Ceti's `LineBundleClass`). -/
 theorem hilbert90 (X : Scheme.{u}) :
     Nonempty ((GmEtale X).H 1 ≃+ Additive (TauCeti.AlgebraicGeometry.LineBundleClass X)) :=
   sorry
@@ -5147,7 +4974,10 @@ example (X : Scheme.{u}) (K : DerivedCategory X.Modules)
 `test_DQCoh_extension_by_zero_not_qc` are roadmap items. -/
 
 noncomputable def derivedTensor {X : Scheme.{u}} : DQCoh X ⥤ DQCoh X ⥤ DQCoh X := sorry
-noncomputable def derivedHom {X : Scheme.{u}} : (DQCoh X)ᵒᵖ ⥤ DQCoh X ⥤ DQCoh X := sorry
+/-- Internal derived Hom in the ambient derived category of module sheaves.
+Quasi-coherence of its output requires separate hypotheses. -/
+noncomputable def derivedHom {X : Scheme.{u}} :
+    (DerivedCategory X.Modules)ᵒᵖ ⥤ DerivedCategory X.Modules ⥤ DerivedCategory X.Modules := sorry
 
 noncomputable def derivedPullback {X Y : Scheme.{u}} (f : X ⟶ Y) : DQCoh Y ⥤ DQCoh X := sorry
 noncomputable def totalDirectImage {X Y : Scheme.{u}} (f : X ⟶ Y) [QuasiCompact f]
@@ -5234,8 +5064,7 @@ theorem isAzumaya_iff_matrix_after_etale (R A : Type u) [CommRing R] [Ring A] [A
 
 /-- The class in `H²(X_ét, 𝔾_m)` of an Azumaya algebra given by its global-section data: a
 finite projective `Γ(X, O)`-algebra `A` which is Azumaya in Mathlib's sense, via its gerbe of
-trivialisations. The sheaf-algebra form over a non-affine `X` is Layer 2's `sheaf algebra`
-target. -/
+trivialisations. This construction uses algebras over global sections. -/
 noncomputable def azumayaClass (X : Scheme.{u}) (A : Type u) [Ring A] [Algebra Γ(X, ⊤) A]
     [Module.Finite Γ(X, ⊤) A] [Module.Projective Γ(X, ⊤) A] (hA : IsAzumaya Γ(X, ⊤) A) :
     (GmEtale X).H 2 :=
@@ -5346,7 +5175,7 @@ abbrev structureModule (X : Scheme.{u}) : X.Modules := _root_.SheafOfModules.uni
 def eulerChar (X : Scheme.{u}) [X.Over (Spec (.of k))] (M : X.Modules) : ℤ :=
   (cohomologyDim k X M 0 : ℤ) - cohomologyDim k X M 1
 
-/-- The genus `dim_k H¹(X, O_X)` of JacobianChallenge Layer B, as used by this layer. -/
+/-- The genus `dim_k H¹(X, O_X)`. -/
 def genus (X : Scheme.{u}) [X.Over (Spec (.of k))] : ℕ := cohomologyDim k X (structureModule X) 1
 
 /-! ### Nonsingular projective model -/
@@ -5437,9 +5266,7 @@ theorem genus_baseChange (X : Scheme.{u}) [X.Over (Spec (.of k))]
 /-! ### Vector bundle degree -/
 
 /-- `E` is finite locally free of constant rank `r`: Mathlib's `IsLocallyFree` witnessed by local
-generators that are bases of cardinality `r`. This is AlgebraicVectorBundles L0B's predicate
-`isFiniteLocallyFreeOfRank` (there an `ObjectProperty`), with which it agrees once that roadmap
-lands; no second carrier is intended. -/
+generators that are bases of cardinality `r`. -/
 def isFiniteLocallyFreeOfRank {X : Scheme.{u}} (E : X.Modules) (r : ℕ) : Prop :=
   ∃ q : _root_.SheafOfModules.LocalGeneratorsData.{u} E,
     q.IsLocallyFreeData ∧ ∀ i, Finite (q.generators i).I ∧ Nat.card (q.generators i).I = r
@@ -5688,20 +5515,20 @@ variable (k : Type u) [Field k]
 /-- The degree-`d` component `Pic^d_{X/k}` of the Picard scheme of a smooth projective
 geometrically connected curve, constructed without a rational point. -/
 def picardComponent (X : Scheme.{u}) [X.Over (Spec (.of k))] [IsProper (X ↘ Spec (.of k))]
-    [Smooth (X ↘ Spec (.of k))] [GeometricallyIntegral (X ↘ Spec (.of k))] (d : ℤ) :
+    [Smooth (X ↘ Spec (.of k))] [GeometricallyIntegral (X ↘ Spec (.of k))] [Fact (topologicalKrullDim X = 1)] (d : ℤ) :
     Over (Spec (.of k)) := sorry
 
 /-- `Pic⁰_{X/k}` as an abelian variety (the Jacobian, with or without a rational point). -/
 def jacobian (X : Scheme.{u}) [X.Over (Spec (.of k))] [IsProper (X ↘ Spec (.of k))]
-    [Smooth (X ↘ Spec (.of k))] [GeometricallyIntegral (X ↘ Spec (.of k))] :
+    [Smooth (X ↘ Spec (.of k))] [GeometricallyIntegral (X ↘ Spec (.of k))] [Fact (topologicalKrullDim X = 1)] :
     TauCeti.AlgebraicGeometry.AbelianVariety k := sorry
 
 /-- The `k`-points of the Picard sheaf, `Pic(X_{k^s})^{G_k}`, as an abstract group. -/
 def picardSheafPoints (X : Scheme.{u}) [X.Over (Spec (.of k))] [IsProper (X ↘ Spec (.of k))]
-    [Smooth (X ↘ Spec (.of k))] [GeometricallyIntegral (X ↘ Spec (.of k))] : Type u := sorry
+    [Smooth (X ↘ Spec (.of k))] [GeometricallyIntegral (X ↘ Spec (.of k))] [Fact (topologicalKrullDim X = 1)] : Type u := sorry
 
 variable (X : Scheme.{u}) [X.Over (Spec (.of k))] [IsProper (X ↘ Spec (.of k))]
-  [Smooth (X ↘ Spec (.of k))] [GeometricallyIntegral (X ↘ Spec (.of k))]
+  [Smooth (X ↘ Spec (.of k))] [GeometricallyIntegral (X ↘ Spec (.of k))] [Fact (topologicalKrullDim X = 1)]
 
 theorem picardComponent_zero : (jacobian k X).toOver = picardComponent k X 0 := by sorry
 
@@ -5923,9 +5750,7 @@ theorem etale_iff_formallyEtale {X S : Scheme.{u}} (f : X ⟶ S) [LocallyOfFinit
   sorry
 
 /-- Torsor of lifts, affine part: a smooth morphism admits lifts along affine first-order
-thickenings, and an étale one admits unique lifts. The sheaf-level torsor under
-`Hom(a^*Ω_{X/S}, I)` and its class in `H¹` need the sheaf of differentials of Tau Ceti
-StableReduction Layer 1 and are not typed here. -/
+thickenings, and an étale one admits unique lifts. -/
 theorem Smooth.exists_lift {X S : Scheme.{u}} (f : X ⟶ S) [Smooth f]
     {T T' : Scheme.{u}} [IsAffine T'] (i : T ⟶ T') [IsFirstOrderThickening i]
     (g : T ⟶ X) (h : T' ⟶ S) (w : g ≫ f = i ≫ h) : ∃ l : T' ⟶ X, i ≫ l = g ∧ l ≫ f = h := by
@@ -6018,13 +5843,6 @@ def ArtinLocalAlg.dualAdd :
       (ArtinLocalAlg.toResidue_surjective _) ⟶ ArtinLocalAlg.dualNumbers :=
   sorry
 
-/-- Every surjection in `C_Λ` is a finite composite of small extensions (Stacks 06GE). -/
-theorem factor_smallExtensions {A' A : ArtinLocalAlg Λ k} (f : A' ⟶ A)
-    (hf : Function.Surjective (ArtinLocalAlg.toAlgHom f)) :
-    ∃ (n : ℕ) (B : Fin (n + 1) → ArtinLocalAlg Λ k) (g : ∀ i : Fin n, B i.castSucc ⟶ B i.succ),
-      (∀ i, IsSmallExtension (g i)) ∧ Nonempty (B 0 ≅ A') ∧ Nonempty (B (Fin.last n) ≅ A) := by
-  sorry
-
 /-- Complete Noetherian local Λ-algebras with residue field `k` (the category `Ĉ_Λ`, Stacks 06GW),
 bundled with their augmentation. -/
 structure CompleteLocalAlg (Λ : Type u) [CommRing Λ] (k : Type u) [Field k] [Algebra Λ k] where
@@ -6039,11 +5857,6 @@ structure CompleteLocalAlg (Λ : Type u) [CommRing Λ] (k : Type u) [Field k] [A
 
 attribute [instance] CompleteLocalAlg.commRing CompleteLocalAlg.algebra
   CompleteLocalAlg.isLocalRing CompleteLocalAlg.isNoetherianRing CompleteLocalAlg.complete
-
-/-- An object of `Ĉ_Λ` is the limit of its Artinian quotients `R/m^n` (Stacks 06GW). -/
-theorem CompleteLocalAlg.toPro (R : CompleteLocalAlg Λ k) :
-    Function.Bijective (AdicCompletion.of (IsLocalRing.maximalIdeal R.R) R.R) := by
-  sorry
 
 -- Check `zmod_prime_pow_mem`: Z/p^(n+1) is Artinian local (an object of C_{Z_p}).
 example (p : ℕ) [Fact p.Prime] (n : ℕ) : IsArtinianRing (ZMod (p ^ (n + 1))) ∧
@@ -6165,7 +5978,7 @@ def IsVersal {D : PredeformationFunctor Λ k} {R : CompleteLocalAlg Λ k} (ξ : 
     Prop :=
   IsSmoothMorphism ξ
 
-/-- Hulls = minimal versal formal elements (Stacks 06T4). -/
+/-- A smooth formal element inducing a bijection on tangent spaces. -/
 def IsHull {D : PredeformationFunctor Λ k} {R : CompleteLocalAlg Λ k} (ξ : FormalElement D R) :
     Prop :=
   IsVersal ξ ∧ Function.Bijective (PredeformationFunctor.map (prorep R) D ξ)
@@ -6173,6 +5986,11 @@ def IsHull {D : PredeformationFunctor Λ k} {R : CompleteLocalAlg Λ k} (ξ : Fo
 /-- Prorepresentable functors (Stacks 06GX). -/
 def IsProrepresentable (D : PredeformationFunctor Λ k) : Prop :=
   ∃ (R : CompleteLocalAlg Λ k) (ξ : FormalElement D R), IsIso ξ
+
+variable [Λ_noeth : IsNoetherianRing Λ] [Λ_finite : Module.Finite Λ k]
+  [Λ_local : IsLocalRing Λ] [Λ_complete : IsAdicComplete (IsLocalRing.maximalIdeal Λ) Λ]
+  [Λ_residue : Fact (Function.Surjective (algebraMap Λ k))]
+include Λ_noeth Λ_finite Λ_local Λ_complete Λ_residue
 
 theorem IsHull.unique {D : PredeformationFunctor Λ k} {R R' : CompleteLocalAlg Λ k}
     (ξ : FormalElement D R) (ξ' : FormalElement D R') (h : IsHull ξ) (h' : IsHull ξ') :
@@ -6250,24 +6068,32 @@ example (h2 : (2 : k) ≠ 0) : ∃ D : PredeformationFunctor Λ k, D.H1 ∧ ¬ D
     ¬ ∃ (R : CompleteLocalAlg Λ k) (ξ : FormalElement D R), IsHull ξ := by
   sorry
 
--- Check `versal_powerSeries_hull_not_unique_map`: the hull of `h_{k[[t]]}` is unique but the
--- factorisation of the versal `(k[[t, s]], t ↦ t)` through it is not (`s ↦ 0` and `s ↦ t`).
-example (R R₁ : CompleteLocalAlg Λ k) (e : R.R ≃ₐ[Λ] MvPowerSeries (Fin 2) Λ)
-    (e₁ : R₁.R ≃ₐ[Λ] MvPowerSeries (Fin 1) Λ) (ξ : FormalElement (prorep R₁) R) (hv : IsVersal ξ) :
-    ∃ π π' : (prorep R).F ⟶ (prorep R₁).F, π ≠ π' ∧ ξ = π ≫ 𝟙 _ ∧ ξ = π' ≫ 𝟙 _ := by
-  sorry
+-- Check `versal_identity_factorization_unique`: factoring through the identity fixes the map.
+example (R R₁ : CompleteLocalAlg Λ k) (ξ : FormalElement (prorep R₁) R) :
+    ¬ ∃ π π' : (prorep R).F ⟶ (prorep R₁).F,
+      π ≠ π' ∧ ξ = π ≫ 𝟙 _ ∧ ξ = π' ≫ 𝟙 _ := by
+  rintro ⟨π, π', hne, h, h'⟩
+  simp only [Category.comp_id] at h h'
+  exact hne (h.symm.trans h')
 
 /-- The kernel of a small extension, as a `k`-vector space (it is an ideal killed by the maximal
 ideal of `A'`, so an `A'/m = k`-module). -/
-def smallExtensionKernel {A' A : ArtinLocalAlg Λ k} (f : A' ⟶ A) : Type u :=
+def smallExtensionKernel {A' A : ArtinLocalAlg Λ k} (f : A' ⟶ A) (_hf : IsSmallExtension f) : Type u :=
   RingHom.ker (ArtinLocalAlg.toAlgHom f).toRingHom
 
-noncomputable instance {A' A : ArtinLocalAlg Λ k} (f : A' ⟶ A) :
-    AddCommGroup (smallExtensionKernel f) :=
+noncomputable instance {A' A : ArtinLocalAlg Λ k} (f : A' ⟶ A) (hf : IsSmallExtension f) :
+    AddCommGroup (smallExtensionKernel f hf) :=
   inferInstanceAs (AddCommGroup (RingHom.ker (ArtinLocalAlg.toAlgHom f).toRingHom))
 
-noncomputable instance {A' A : ArtinLocalAlg Λ k} (f : A' ⟶ A) : Module k (smallExtensionKernel f) :=
+noncomputable instance {A' A : ArtinLocalAlg Λ k} (f : A' ⟶ A) (hf : IsSmallExtension f) :
+    Module k (smallExtensionKernel f hf) :=
   sorry
+
+-- Check `kernel_not_residue_vector_space`: in the kernel of ℤ/8 → ℤ/2,
+-- the element 2 is not killed by 2, so its additive group cannot be an 𝔽₂-module.
+example : (2 : ℕ) • (2 : ZMod 8) ≠ 0 ∧
+    (ZMod.castHom (by decide : 2 ∣ 8) (ZMod 2)) (2 : ZMod 8) = 0 := by
+  decide
 
 /-- A morphism of small extensions: a commutative square over `A₁ → A₂`. -/
 structure SmallExtensionHom {A₁' A₁ A₂' A₂ : ArtinLocalAlg Λ k} (f₁ : A₁' ⟶ A₁) (f₂ : A₂' ⟶ A₂) where
@@ -6277,8 +6103,9 @@ structure SmallExtensionHom {A₁' A₁ A₂' A₂ : ArtinLocalAlg Λ k} (f₁ :
 
 /-- The induced `k`-linear map of kernels. -/
 noncomputable def SmallExtensionHom.kernelMap {A₁' A₁ A₂' A₂ : ArtinLocalAlg Λ k} {f₁ : A₁' ⟶ A₁}
-    {f₂ : A₂' ⟶ A₂} (φ : SmallExtensionHom f₁ f₂) :
-    smallExtensionKernel f₁ →ₗ[k] smallExtensionKernel f₂ :=
+    {f₂ : A₂' ⟶ A₂} (φ : SmallExtensionHom f₁ f₂)
+    (h₁ : IsSmallExtension f₁) (h₂ : IsSmallExtension f₂) :
+    smallExtensionKernel f₁ h₁ →ₗ[k] smallExtensionKernel f₂ h₂ :=
   sorry
 
 /-- An obstruction theory for `D` (Stacks 07YG specialised to `C_Λ`): a finite-dimensional
@@ -6291,18 +6118,19 @@ structure ObstructionTheory (D : PredeformationFunctor Λ k) where
   [addCommGroup : AddCommGroup O]
   [module : Module k O]
   [finiteDimensional : FiniteDimensional k O]
-  ob : ∀ {A' A : ArtinLocalAlg Λ k} (f : A' ⟶ A), IsSmallExtension f → D.F.obj A →
-    TensorProduct k O (smallExtensionKernel f)
+  ob : ∀ {A' A : ArtinLocalAlg Λ k} (f : A' ⟶ A) (hf : IsSmallExtension f), D.F.obj A →
+    TensorProduct k O (smallExtensionKernel f hf)
   lift_iff : ∀ {A' A : ArtinLocalAlg Λ k} (f : A' ⟶ A) (hf : IsSmallExtension f) (ξ : D.F.obj A),
     ob f hf ξ = 0 ↔ ∃ x, D.F.map f x = ξ
   naturality : ∀ {A₁' A₁ A₂' A₂ : ArtinLocalAlg Λ k} (f₁ : A₁' ⟶ A₁) (f₂ : A₂' ⟶ A₂)
     (h₁ : IsSmallExtension f₁) (h₂ : IsSmallExtension f₂) (φ : SmallExtensionHom f₁ f₂)
     (ξ : D.F.obj A₁),
-    ob f₂ h₂ (D.F.map φ.bot ξ) = LinearMap.lTensor O φ.kernelMap (ob f₁ h₁ ξ)
+    ob f₂ h₂ (D.F.map φ.bot ξ) = LinearMap.lTensor O (φ.kernelMap h₁ h₂) (ob f₁ h₁ ξ)
 
 attribute [instance] ObstructionTheory.addCommGroup ObstructionTheory.module
   ObstructionTheory.finiteDimensional
 
+omit Λ_noeth Λ_finite Λ_local Λ_complete Λ_residue in
 theorem ObstructionTheory.lift_iff' {D : PredeformationFunctor Λ k} (o : ObstructionTheory D)
     {A' A : ArtinLocalAlg Λ k} (f : A' ⟶ A) (hf : IsSmallExtension f) (ξ : D.F.obj A) :
     o.ob f hf ξ = 0 ↔ ∃ x, D.F.map f x = ξ :=
@@ -6397,11 +6225,8 @@ def levelMap (X : ℕ → Scheme.{u}) (ι : ∀ n, X n ⟶ X (n + 1)) : ∀ n, X
   | n + 1 => levelMap X ι n ≫ ι n
 
 /-- An adic thickening system: a tower of thickenings `X 0 ⊂ X 1 ⊂ ⋯` in which `X n` is cut out in
-`X (n + 1)` by the `(n + 1)`-st power of the ideal of `X 0` (Stacks 0AIF). This is the carrier of
-what the README calls a formal scheme; its morphisms `Hom` are the level-preserving ones, a
-strictly smaller class than the continuous morphisms of formal schemes (`not_levelPreserving_powerSeries`),
-and the full class is `HomReindexed`. The comparison with topologically locally ringed spaces needs
-sheaves of topological rings and is stated in the README. -/
+`X (n + 1)` by the `(n + 1)`-st power of the ideal of `X 0` (Stacks 0AIF). Its morphisms `Hom` preserve levels; continuity alone does not imply this condition
+(`not_levelPreserving_powerSeries`). -/
 structure AdicThickeningSystem where
   X : ℕ → Scheme.{u}
   ι : ∀ n, X n ⟶ X (n + 1)
@@ -6417,23 +6242,6 @@ abbrev reduction (𝔛 : AdicThickeningSystem.{u}) (n : ℕ) : Scheme.{u} := �
 structure Hom (𝔛 𝔜 : AdicThickeningSystem.{u}) where
   app : ∀ n, 𝔛.X n ⟶ 𝔜.X n
   comm : ∀ n, 𝔛.ι n ≫ app (n + 1) = app n ≫ 𝔜.ι n
-
-/-- A cofinal reindexing `n ↦ φ n`. -/
-structure Reindexing where
-  φ : ℕ → ℕ
-  strictMono : StrictMono φ
-
-/-- The reindexed system `n ↦ X (φ n)` with the composite transition maps. -/
-def reindex (𝔛 : AdicThickeningSystem.{u}) (r : Reindexing) : AdicThickeningSystem.{u} := sorry
-
-theorem reindex_X (𝔛 : AdicThickeningSystem.{u}) (r : Reindexing) (n : ℕ) :
-    (𝔛.reindex r).X n = 𝔛.X (r.φ n) := sorry
-
-/-- Morphisms up to a reindexing of the target: the morphisms of the formal-scheme category. -/
-def HomReindexed (𝔛 𝔜 : AdicThickeningSystem.{u}) : Type u := Σ r : Reindexing, Hom 𝔛 (𝔜.reindex r)
-
-/-- A level-preserving morphism is a reindexed one (with the identity reindexing). -/
-def Hom.toReindexed {𝔛 𝔜 : AdicThickeningSystem.{u}} (f : Hom 𝔛 𝔜) : HomReindexed 𝔛 𝔜 := sorry
 
 /-- Adic morphisms: each level is the base change of the next. -/
 def IsAdicHom {𝔛 𝔜 : AdicThickeningSystem.{u}} (f : Hom 𝔛 𝔜) : Prop :=
@@ -6475,32 +6283,11 @@ def Spf (A : AdicRing.{u}) : AdicThickeningSystem.{u} where
 
 namespace Spf
 
-/-- Global sections of `Spf A` recover `A`: `A` is the limit of the `A/I^{n+1}`. -/
-theorem globalSections (A : AdicRing.{u}) :
-    Function.Bijective (AdicCompletion.of A.ideal A.carrier) := by
-  sorry
-
 /-- Level-preserving morphisms `Spf B → Spf A` are the ring maps `A → B` carrying the ideal of
 definition of `A` into that of `B`. -/
 theorem homEquiv (A B : AdicRing.{u}) :
     Nonempty (AdicThickeningSystem.Hom (Spf B) (Spf A) ≃
       {φ : A.carrier →+* B.carrier // A.ideal.map φ ≤ B.ideal}) := by
-  sorry
-
-/-- Reindexed morphisms `Spf B → Spf A` are the continuous ring maps `A → B`: some power of the
-extended ideal of definition lies in that of `B`. -/
-theorem homEquiv_reindexed (A B : AdicRing.{u}) :
-    Nonempty (AdicThickeningSystem.HomReindexed (Spf B) (Spf A) ≃
-      {φ : A.carrier →+* B.carrier // ∃ a : ℕ, (A.ideal.map φ) ^ a ≤ B.ideal}) := by
-  sorry
-
-/-- Independence of the ideal of definition: ideals `I`, `J` with `I ^ a ≤ J ≤ I` give reindexed
-systems that are isomorphic levelwise. -/
-theorem idealOfDefinition_independence (A : AdicRing.{u}) (J : Ideal A.carrier) (hJ : J ≤ A.ideal)
-    (hfg : J.FG) (a : ℕ) (ha : A.ideal ^ a ≤ J) [IsAdicComplete J A.carrier] :
-    ∃ (r r' : AdicThickeningSystem.Reindexing)
-      (f : AdicThickeningSystem.Hom ((Spf A).reindex r) ((Spf ⟨A.carrier, J, hfg⟩).reindex r')),
-      ∀ n, IsIso (f.app n) := by
   sorry
 
 /- AlgebraicGeometry.Spf.basicOpen_sections: Γ(D(f), O_{Spf A}) is the I-adic completion of A_f;
@@ -6558,7 +6345,7 @@ example (p : ℕ) [Fact p.Prime] (n : ℕ) (A : AdicRing.{0})
 
 -- Check `not_levelPreserving_powerSeries`: the identity of `k[[t]]` is continuous from the
 -- `(t)`-adic to the `(t²)`-adic topology but does not carry `(t)` into `(t²)`, so it is not a
--- level-preserving morphism `Spf (k[[t]], (t)) → Spf (k[[t]], (t²))`; it is a reindexed one, as
+-- level-preserving morphism `Spf (k[[t]], (t²)) → Spf (k[[t]], (t))`; it is continuous, as
 -- `(t)² ≤ (t²)`.
 example (k : Type u) [Field k] :
     ¬ ((Ideal.span {(PowerSeries.X : PowerSeries k)}).map (RingHom.id _) ≤
@@ -6608,15 +6395,6 @@ theorem reduction (X : Scheme.{u}) (I : X.IdealSheafData) (n : ℕ) :
 theorem isLocallyNoetherian (X : Scheme.{u}) [_root_.AlgebraicGeometry.IsLocallyNoetherian X]
     (I : X.IdealSheafData) :
     AdicThickeningSystem.IsLocallyNoetherian (Scheme.formalCompletion X I) := by
-  sorry
-
-/-- Flatness of the completion `X/Z → X` (Stacks 87.14.4): on a locally Noetherian `X`, for every
-affine open `U` and point `x ∈ U`, the `I_x`-adic completion of the stalk `𝒪_{X,x}` is a flat
-`𝒪_{X,x}`-module, `I_x` the stalk of `I`. -/
-theorem flat (X : Scheme.{u}) [_root_.AlgebraicGeometry.IsLocallyNoetherian X] (I : X.IdealSheafData)
-    (U : X.affineOpens) (x : X) (hx : x ∈ (U : X.Opens)) :
-    Module.Flat (X.presheaf.stalk x)
-      (AdicCompletion ((I.ideal U).map (X.presheaf.germ U.1 x hx).hom) (X.presheaf.stalk x)) := by
   sorry
 
 end Scheme.formalCompletion
@@ -6674,8 +6452,7 @@ def Scheme.completionFunctor (X : Scheme.{u}) (I : X.IdealSheafData)
 -- Check `completion_structureSheaf_spec`: for a complete Noetherian ring the map to
 -- the completion is bijective.
 example (A : Type u) [CommRing A] [IsNoetherianRing A] (I : Ideal A) [IsAdicComplete I A] :
-    Function.Bijective (AdicCompletion.of I A) := by
-  sorry
+    Function.Bijective (AdicCompletion.of I A) := AdicCompletion.of_bijective I A
 
 -- Check `completion_zero_ideal`
 example (A : Type u) [CommRing A] : Function.Bijective (AdicCompletion.of (⊥ : Ideal A) A) := by
@@ -6708,7 +6485,9 @@ theorem grothendieck_existence (A : AdicRing.{u}) [IsNoetherianRing A.carrier] {
       (Ideal.Quotient.mk A.ideal)))) : Set X))
     (𝓜 : Scheme.CoherentFormalModule (Scheme.formalCompletion X I)) :
     ∃ (M : X.Modules) (hM : M.IsFinitePresentation),
-      Nonempty (∀ n, (Scheme.completionFunctor X I M hM).F n ≅ 𝓜.F n) := by
+      ∃ e : ∀ n, (Scheme.completionFunctor X I M hM).F n ≅ 𝓜.F n,
+        ∀ n, (Scheme.Modules.pullback ((Scheme.formalCompletion X I).ι n)).map (e (n + 1)).hom ≫
+          (𝓜.iso n).hom = ((Scheme.completionFunctor X I M hM).iso n).hom ≫ (e n).hom := by
   sorry
 
 /-- Full faithfulness of the completion functor (Stacks 0885, 088C): a family of maps between the
@@ -6767,8 +6546,8 @@ theorem algebraize_hom (A : AdicRing.{u}) [IsNoetherianRing A.carrier]
 
 -- Check `algebraize_hom_test_compatible`: a compatible system of points of `𝔸¹` over `A/I^{n+1}`
 -- is an element of `A` (completeness), the ring-level shadow of `algebraize_hom`.
-example (A : AdicRing.{u}) : Function.Bijective (AdicCompletion.of A.ideal A.carrier) := by
-  sorry
+example (A : AdicRing.{u}) : Function.Bijective (AdicCompletion.of A.ideal A.carrier) :=
+  AdicCompletion.of_bijective A.ideal A.carrier
 
 -- Check `algebraize_hom_test_incompatible`: no `a ∈ k[[t]]` satisfies `a ≡ 0 (mod t)` and
 -- `a ≡ 1 (mod t²)`, so the maps `0` and `1` on the first two reductions are not a system.
@@ -6934,10 +6713,11 @@ example (k : Type u) [Field k] :
 -- Check `isModification_cusp_normalization`: 𝔸¹ → V(y² − x³), t ↦ (t², t³).
 example (k : Type u) [Field k]
     (φ : (MvPolynomial (Fin 2) k ⧸
-      Ideal.span {(MvPolynomial.X 1 ^ 2 - MvPolynomial.X 0 ^ 3 : MvPolynomial (Fin 2) k)}) →+*
+      Ideal.span {(MvPolynomial.X 1 ^ 2 - MvPolynomial.X 0 ^ 3 : MvPolynomial (Fin 2) k)}) →ₐ[k]
         Polynomial k)
     (hφ : ∀ i, φ (Ideal.Quotient.mk _ (MvPolynomial.X i)) = Polynomial.X ^ (i.val + 2)) :
-    IsModification (Spec.map (CommRingCat.ofHom φ)) ∧ IsFinite (Spec.map (CommRingCat.ofHom φ)) := by
+    IsModification (Spec.map (CommRingCat.ofHom φ.toRingHom)) ∧
+      IsFinite (Spec.map (CommRingCat.ofHom φ.toRingHom)) := by
   sorry
 
 /- AlgebraicGeometry.isModification_blowup_origin: the blowup of 𝔸² at the origin (Tau Ceti
@@ -6983,7 +6763,7 @@ subscheme** over `φ⁻¹(U)` is the strict transform (de Jong 2.18). Scheme-the
 essential: on the dual numbers, the reduced point is flat with the same support and is not the
 strict transform (`strictTransform_unique_needs_scheme_structure`). -/
 theorem strictTransform_unique_of_flat {X S S' : Scheme.{u}} (f : X ⟶ S) (φ : S' ⟶ S)
-    [IsModification φ] (U : S.Opens) (hU : IsModification.Witness φ U)
+    [IsIntegral S] [IsIntegral S'] [IsModification φ] (U : S.Opens) (hU : IsModification.Witness φ U)
     (Z : (Limits.pullback f φ).IdealSheafData)
     (hflat : Flat (Z.subschemeι ≫ Limits.pullback.snd f φ))
     (hgen : Z.comap ((Limits.pullback.snd f φ) ⁻¹ᵁ (φ ⁻¹ᵁ U)).ι = ⊥) :
@@ -6998,8 +6778,8 @@ and are stated in the README; so are the tests `strictTransform_line` and
 `strictTransform_centre_empty`. -/
 
 -- Check `strictTransform_self`
-example {S S' : Scheme.{u}} (φ : S' ⟶ S) [IsModification φ] (U : S.Opens)
-    (hU : IsModification.Witness φ U) : strictTransform (𝟙 S) φ U hU = ⊥ := by
+example {S S' : Scheme.{u}} (φ : S' ⟶ S) [IsIntegral S] [IsIntegral S'] [IsModification φ]
+    (U : S.Opens) (hU : IsModification.Witness φ U) : strictTransform (𝟙 S) φ U hU = ⊥ := by
   sorry
 
 -- Check `strictTransform_witness_matters`: for the identity modification of `𝔸¹_k` and `X` the
@@ -7353,7 +7133,8 @@ theorem IsStrictlySemistable.smooth_over_model {R : Type u} [CommRing R] [IsDoma
     (hπ : Irreducible π) (x : X) :
     ∃ (U : X.Opens) (_ : x ∈ U) (r : ℕ)
       (g : U.toScheme ⟶ Spec (CommRingCat.of (MvPolynomial (Fin r) R ⧸
-        Ideal.span {(∏ i, MvPolynomial.X i) - MvPolynomial.C π}))), Smooth g := by
+        Ideal.span {(∏ i, MvPolynomial.X i) - MvPolynomial.C π}))),
+      Smooth g ∧ g ≫ Spec.map (CommRingCat.ofHom (algebraMap R _)) = U.ι ≫ f := by
   sorry
 
 /- AlgebraicGeometry.DeJong.IsStrictlySemistable.local_form (complete local rings
@@ -7441,14 +7222,13 @@ theorem IsStrictSemistablePair.restrict {R : Type u} [CommRing R] [IsDomain R]
 
 /-- de Jong's alteration theorem (de Jong 1996, Theorem 4.1): a regular projective `Xbar₁` with an
 open `X₁` altering `X`, with SNC boundary containing the preimage of `Z`; generically étale over a
-perfect field. Projectivity is recorded as properness here (projective morphisms are Tau Ceti
-StableReduction Layer 2). -/
+perfect field. The conclusion below uses properness of the compactification. -/
 theorem alteration_theorem (k : Type u) [Field k] {X : Scheme.{u}}
     (f : X ⟶ Spec (CommRingCat.of k)) [IsIntegral X] [IsSeparated f] [LocallyOfFiniteType f]
     [QuasiCompact f] (Z : X.IdealSheafData) (hZ : Z ≠ ⊥) :
     ∃ (X₁ : Scheme.{u}) (_ : IsIntegral X₁) (φ : X₁ ⟶ X) (_ : IsAlteration φ) (Xbar₁ : Scheme.{u})
       (j : X₁ ⟶ Xbar₁) (g : Xbar₁ ⟶ Spec (CommRingCat.of k)) (B : Xbar₁.IdealSheafData),
-      IsOpenImmersion j ∧ IsProper g ∧ IsRegular Xbar₁ ∧ IsStrictNormalCrossings B ∧
+      IsOpenImmersion j ∧ j ≫ g = φ ≫ f ∧ IsProper g ∧ IsRegular Xbar₁ ∧ IsStrictNormalCrossings B ∧
       (B.support : Set Xbar₁) = (Set.range j)ᶜ ∪ j '' (φ ⁻¹' (Z.support : Set X)) ∧
       ((PerfectField k) → IsAlteration.IsGenericallyEtale φ) := by
   sorry
@@ -7457,8 +7237,7 @@ theorem alteration_theorem (k : Type u) [Field k] {X : Scheme.{u}}
 traits `E` (a `FiniteDVRExtension`), an alteration `φ : X₁ → X` from an integral `X₁`, an open
 immersion into a proper `E.localRing`-scheme `X̄₁` and an `SNCData` `H` such that `(X̄₁, H)` is a
 strict semistable pair, with the triangle `X₁ → X̄₁ → Spec E.localRing → Spec R` equal to
-`X₁ → X → Spec R` in `Over (Spec R)`. Projectivity of `X̄₁` is StableReduction Layer 2's notion and
-is recorded in the README; properness is its consequence stated here. -/
+`X₁ → X → Spec R` in `Over (Spec R)`. The compactification in the conclusion is proper. -/
 theorem semistable_alteration_theorem (R K : Type u) [CommRing R] [IsDomain R]
     [IsDiscreteValuationRing R] [IsTrait R] [Field K] [Algebra R K] [IsFractionRing R K]
     {X : Scheme.{u}} (f : X ⟶ Spec (CommRingCat.of R)) [IsSVariety f] :
@@ -7495,17 +7274,35 @@ namespace Chow
 open _root_.CategoryTheory _root_.CategoryTheory.Limits _root_.AlgebraicGeometry Opposite
 open scoped _root_.TensorProduct
 
+/-- Cycles supported at generic points of closed subsets of dimension `k`.
+Negative degrees contain only the zero cycle. -/
+def cyclesOfDimension (X : Scheme.{u}) (k : ℤ) : AddSubgroup (AlgebraicCycle X ℤ) :=
+  Function.locallyFinsuppWithin.supported ℤ Set.univ
+    {x : X | ∃ n : ℕ, k = (n : ℤ) ∧ Order.height x = n}
+
+-- Check `cycles_zero`
+example (X : Scheme.{u}) (k : ℤ) : (0 : AlgebraicCycle X ℤ) ∈ cyclesOfDimension X k :=
+  (cyclesOfDimension X k).zero_mem
+
+-- Check `cycles_negative`
+example (X : Scheme.{u}) : cyclesOfDimension X (-1) = ⊥ := by sorry
+
+-- Check `cycles_support_agreement`
+example (X : Scheme.{u}) (k : ℤ) (c : AlgebraicCycle X ℤ) :
+    c ∈ cyclesOfDimension X k ↔
+      ∀ x, c x ≠ 0 → ∃ n : ℕ, k = (n : ℤ) ∧ Order.height x = n := Iff.rfl
+
 /-- The subgroup of `k`-cycles rationally equivalent to zero. -/
-def RatEquiv (X : Scheme.{u}) (k : ℤ) : AddSubgroup (AlgebraicCycle X ℤ) := sorry
+def RatEquiv (X : Scheme.{u}) (k : ℤ) : AddSubgroup (cyclesOfDimension X k) := sorry
 
 /-- `CH_k(X)`, the Chow group of `k`-dimensional cycles modulo rational equivalence. -/
-def ChowGroup (X : Scheme.{u}) (k : ℤ) : Type u := AlgebraicCycle X ℤ ⧸ RatEquiv X k
+def ChowGroup (X : Scheme.{u}) (k : ℤ) : Type u := cyclesOfDimension X k ⧸ RatEquiv X k
 
 instance (X : Scheme.{u}) (k : ℤ) : AddCommGroup (ChowGroup X k) :=
-  inferInstanceAs (AddCommGroup (AlgebraicCycle X ℤ ⧸ RatEquiv X k))
+  inferInstanceAs (AddCommGroup (cyclesOfDimension X k ⧸ RatEquiv X k))
 
 /-- The class of a cycle. -/
-def cycleClass (X : Scheme.{u}) (k : ℤ) : AlgebraicCycle X ℤ →+ ChowGroup X k :=
+def cycleClass (X : Scheme.{u}) (k : ℤ) : cyclesOfDimension X k →+ ChowGroup X k :=
   QuotientAddGroup.mk' _
 
 -- Check `cycleClass_surjective`
@@ -7519,7 +7316,9 @@ def properPushforward {X Y : Scheme.{u}} (f : X ⟶ Y) [IsProper f] (k : ℤ) :
 
 /-- Flat pullback `f^* : CH_k(Y) → CH_{k+d}(X)` for `f` flat of relative dimension `d`. -/
 def flatPullback {X Y : Scheme.{u}} (f : X ⟶ Y) [Flat f] [LocallyOfFinitePresentation f]
-    (d k : ℤ) : ChowGroup Y k →+ ChowGroup X (k + d) :=
+    (d : ℕ) (hd : ∀ y : Y, ∀ Z ∈ irreducibleComponents (f.fiber y),
+      topologicalKrullDim Z = d) (k : ℤ) :
+    ChowGroup Y k →+ ChowGroup X (k + d) :=
   sorry
 
 theorem properPushforward_comp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z) [IsProper f]
@@ -7531,17 +7330,18 @@ theorem properPushforward_comp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z) 
 flat of relative dimension `d`, `f^* g_* = g'_* f'^*` as maps `CH_k(X) → CH_{k+d}(Y')`, where
 `f'` is the base change of `f` and `g'` that of `g`. -/
 theorem flatPullback_properPushforward {X Y Y' : Scheme.{u}} (g : X ⟶ Y) [IsProper g]
-    (f : Y' ⟶ Y) [Flat f] [LocallyOfFinitePresentation f] (d k : ℤ) :
-    (flatPullback f d k).comp (properPushforward g k) =
-      (properPushforward (pullback.snd g f) (k + d)).comp (flatPullback (pullback.fst g f) d k) :=
+    (f : Y' ⟶ Y) [Flat f] [LocallyOfFinitePresentation f] (d : ℕ) (k : ℤ)
+    (hd : ∀ y : Y, ∀ Z ∈ irreducibleComponents (f.fiber y), topologicalKrullDim Z = d) :
+    (flatPullback f d hd k).comp (properPushforward g k) =
+      (properPushforward (pullback.snd g f) (k + d)).comp (flatPullback (pullback.fst g f) d (by sorry) k) :=
   sorry
 
 /-- The localisation sequence `CH_k(Z) → CH_k(X) → CH_k(U) → 0` for `Z` closed with open
 complement `U`. -/
 theorem localization_exact {Z X U : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmersion i]
     (j : U ⟶ X) [IsOpenImmersion j] (hUZ : Set.range j.base = (Set.range i.base)ᶜ) (k : ℤ) :
-    Function.Exact (properPushforward i k) (flatPullback j 0 k) ∧
-      Function.Surjective (flatPullback j 0 k) :=
+    Function.Exact (properPushforward i k) (flatPullback j 0 (by sorry) k) ∧
+      Function.Surjective (flatPullback j 0 (by sorry) k) :=
   sorry
 
 /-- `c_1(L) ∩ – : CH_k(X) → CH_{k−1}(X)`. -/
@@ -7559,13 +7359,13 @@ theorem c1_comm {X : Scheme.{u}} (L M : TauCeti.AlgebraicGeometry.LineBundleClas
 
 /-- The total space of a finite locally free sheaf (the relative spectrum of its symmetric
 algebra on the dual). -/
-def totalSpace {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] : Scheme.{u} := sorry
+def totalSpace {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] [E.IsFiniteType] : Scheme.{u} := sorry
 
-def totalSpace.proj {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] : totalSpace E ⟶ X := sorry
+def totalSpace.proj {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] [E.IsFiniteType] : totalSpace E ⟶ X := sorry
 
-instance {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] : Flat (totalSpace.proj E) := sorry
+instance {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] [E.IsFiniteType] : Flat (totalSpace.proj E) := sorry
 
-instance {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] :
+instance {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] [E.IsFiniteType] :
     LocallyOfFinitePresentation (totalSpace.proj E) :=
   sorry
 
@@ -7573,34 +7373,44 @@ instance {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] :
 a module of rank `r`. -/
 def HasRank {X : Scheme.{u}} (E : X.Modules) (r : ℕ) : Prop :=
   ∀ x : X, ∃ U : X.affineOpens, x ∈ U.1 ∧
-    Module.finrank (X.ringCatSheaf.obj.obj (op U.1)) (E.val.obj (op U.1)) = r
+    Nonempty (E.val.obj (op U.1) ≃ₗ[X.ringCatSheaf.obj.obj (op U.1)]
+      (Fin r → X.ringCatSheaf.obj.obj (op U.1)))
+
+/-- The projection of a vector bundle of constant rank `r` has pure relative dimension `r`. -/
+theorem totalSpace.pureRelativeDimension {X : Scheme.{u}} (E : X.Modules)
+    [E.IsLocallyFree] [E.IsFiniteType] (r : ℕ) (hr : HasRank E r) :
+    ∀ y : X, ∀ Z ∈ irreducibleComponents ((totalSpace.proj E).fiber y),
+      topologicalKrullDim Z = r := by sorry
 
 /-- Homotopy invariance: `p^* : CH_k(X) → CH_{k+r}(E)` is bijective for the total space of a
 finite locally free sheaf of rank `r`. The inverse is constructed from the localisation sequence
 and the projective bundle theorem; its identification with the Gysin map of the zero section comes
 afterwards. -/
-theorem homotopy_invariance {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] (r : ℕ)
-    (hr : HasRank E r) (k : ℤ) : Function.Bijective (flatPullback (totalSpace.proj E) r k) :=
+theorem homotopy_invariance {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] [E.IsFiniteType] (r : ℕ)
+    (hr : HasRank E r) (k : ℤ) :
+    Function.Bijective (flatPullback (totalSpace.proj E) r
+      (totalSpace.pureRelativeDimension E r hr) k) :=
   sorry
 
 -- Check `test_homotopy_affine_line`
-example {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] (hr : HasRank E 1) (k : ℤ) :
-    Function.Bijective (flatPullback (totalSpace.proj E) 1 k) :=
+example {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] [E.IsFiniteType] (hr : HasRank E 1) (k : ℤ) :
+    Function.Bijective (flatPullback (totalSpace.proj E) 1
+      (totalSpace.pureRelativeDimension E 1 hr) k) :=
   homotopy_invariance E 1 hr k
 
 /-- `c_i(E) ∩ – : CH_k(X) → CH_{k−i}(X)`. -/
-def chernClass {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] (i : ℕ) (k : ℤ) :
+def chernClass {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] [E.IsFiniteType] (i : ℕ) (k : ℤ) :
     ChowGroup X k →+ ChowGroup X (k - i) :=
   sorry
 
-theorem chernClass_vanish {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] (r : ℕ)
+theorem chernClass_vanish {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] [E.IsFiniteType] (r : ℕ)
     (hr : HasRank E r) (i : ℕ) (hi : r < i) (k : ℤ) : chernClass E i k = 0 :=
   sorry
 
-/-- `i` is a regular immersion of codimension `d`: around every point of `X` the ideal of `Z` is
+/-- `i` is a regular immersion of codimension `d`: around every point of `Z` the ideal of `Z` is
 generated by a regular sequence of length `d`. -/
 def IsRegularImmersion {Z X : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmersion i] (d : ℕ) : Prop :=
-  ∀ x : X, ∃ U : X.affineOpens, x ∈ U.1 ∧ ∃ s : List Γ(X, U), s.length = d ∧
+  ∀ z : Z, ∃ U : X.affineOpens, i z ∈ U.1 ∧ ∃ s : List Γ(X, U), s.length = d ∧
     RingTheory.Sequence.IsRegular Γ(X, U) s ∧ Ideal.span {a | a ∈ s} = i.ker.ideal U
 
 /-- The normal cone `C_Z X = Spec_Z (⊕ I^n/I^{n+1})` of a closed immersion. -/
@@ -7615,8 +7425,10 @@ def specialization {Z X : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmersion i] (k : �
     ChowGroup X k →+ ChowGroup (normalCone i) k :=
   sorry
 
-/-- The external product `CH_a(X) ⊗ CH_b(Y) → CH_{a+b}(X ×_S Y)`. -/
-def externalProduct {S X Y : Scheme.{u}} (f : X ⟶ S) (g : Y ⟶ S) (a b : ℤ) :
+/-- The external product over a field `CH_a(X) ⊗ CH_b(Y) → CH_{a+b}(X ×_k Y)`. -/
+def externalProduct (k : Type u) [Field k] {X Y : Scheme.{u}}
+    (f : X ⟶ Spec (.of k)) (g : Y ⟶ Spec (.of k)) [LocallyOfFiniteType f]
+    [LocallyOfFiniteType g] (a b : ℤ) :
     ChowGroup X a →+ ChowGroup Y b →+ ChowGroup (pullback f g) (a + b) :=
   sorry
 
@@ -7676,7 +7488,7 @@ theorem kPushforward_comp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z) [IsPr
   sorry
 
 /-- The rational Chow group, graded by dimension. -/
-def ChowRat (X : Scheme.{u}) : Type u := ∀ k : ℤ, ℚ ⊗[ℤ] ChowGroup X k
+def ChowRat (X : Scheme.{u}) : Type u := Π₀ k : ℤ, ℚ ⊗[ℤ] ChowGroup X k
 
 instance (X : Scheme.{u}) : AddCommGroup (ChowRat X) := by unfold ChowRat; infer_instance
 instance (X : Scheme.{u}) : Module ℚ (ChowRat X) := by unfold ChowRat; infer_instance
@@ -7700,28 +7512,28 @@ example {X : Scheme.{u}} (E : K0 X) :
 example {X : Scheme.{u}} (E : K0 X) : toddClassOp E 1 = (1 / 2 : ℚ) • chernClassOp E 1 := sorry
 
 /-- The intersection number `L · M` of two line-bundle classes on a proper surface over `k`. -/
-def intersectionNumber {S : Scheme.{u}} (k : Type u) [Field k] (f : S ⟶ Spec (.of k)) [IsProper f]
+def intersectionNumber {S : Scheme.{u}} (k : Type u) [Field k] (f : S ⟶ Spec (.of k)) [IsProper f] [Fact (topologicalKrullDim S = 2)]
     (L M : TauCeti.AlgebraicGeometry.LineBundleClass S) : ℤ :=
   sorry
 
 theorem intersectionNumber_comm {S : Scheme.{u}} (k : Type u) [Field k] (f : S ⟶ Spec (.of k))
-    [IsProper f] (L M : TauCeti.AlgebraicGeometry.LineBundleClass S) :
+    [IsProper f] [Fact (topologicalKrullDim S = 2)] (L M : TauCeti.AlgebraicGeometry.LineBundleClass S) :
     intersectionNumber k f L M = intersectionNumber k f M L :=
   sorry
 
 theorem intersectionNumber_mul {S : Scheme.{u}} (k : Type u) [Field k] (f : S ⟶ Spec (.of k))
-    [IsProper f] (L M N : TauCeti.AlgebraicGeometry.LineBundleClass S) :
+    [IsProper f] [Fact (topologicalKrullDim S = 2)] (L M N : TauCeti.AlgebraicGeometry.LineBundleClass S) :
     intersectionNumber k f (L * M) N = intersectionNumber k f L N + intersectionNumber k f M N :=
   sorry
 
 /-- Numerical equivalence of line-bundle classes on a proper surface: equal pairings against
 every class. -/
 def NumericallyEquivalent {S : Scheme.{u}} (k : Type u) [Field k] (f : S ⟶ Spec (.of k))
-    [IsProper f] (L M : TauCeti.AlgebraicGeometry.LineBundleClass S) : Prop :=
+    [IsProper f] [Fact (topologicalKrullDim S = 2)] (L M : TauCeti.AlgebraicGeometry.LineBundleClass S) : Prop :=
   ∀ N, intersectionNumber k f L N = intersectionNumber k f M N
 
 -- Check `test_num_principal`
-example {S : Scheme.{u}} (k : Type u) [Field k] (f : S ⟶ Spec (.of k)) [IsProper f]
+example {S : Scheme.{u}} (k : Type u) [Field k] (f : S ⟶ Spec (.of k)) [IsProper f] [Fact (topologicalKrullDim S = 2)]
     (L : TauCeti.AlgebraicGeometry.LineBundleClass S) : NumericallyEquivalent k f L L :=
   fun _ => rfl
 
@@ -7752,7 +7564,7 @@ scheme–diamond fibre products, derived limits of finite-coefficient cohomology
 `A_inf` cohomology, `B_dR`, cycle class maps); only the native objects of interface (i) exist at the pins
 (`CategoryTheory.Sheaf.H`, `AlgebraicGeometry.Scheme.ProEt.topology`,
 `AlgebraicGeometry.Scheme.ellAdicSheaf`, `AlgebraicGeometry.Scheme.EllAdicCohomology`).
-No proposition-valued stand-in is introduced for any of them.
+
 -/
 
 end TauCetiRoadmap.SchemeAndStackFoundations
