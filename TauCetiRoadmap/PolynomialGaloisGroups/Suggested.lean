@@ -1,5 +1,5 @@
 import Mathlib
-import TauCetiRoadmap.NumberFieldArithmetic.Suggested
+import Completed.NumberFieldArithmetic.Suggested
 
 /-!
 # Galois groups of polynomials: target signatures

@@ -1,7 +1,7 @@
 import Mathlib
 import TauCetiRoadmap.ArithmeticDirichletSeries.Suggested
 import TauCetiRoadmap.GlobalNumberFields.Suggested
-import TauCetiRoadmap.NumberFieldArithmetic.Suggested
+import Completed.NumberFieldArithmetic.Suggested
 
 /-!
 # The Chebotarev density theorem: target signatures
@@ -294,7 +294,7 @@ noncomputable def fixedFieldGenerator (σ : L ≃ₐ[K] L) :
 from `Gal(L/L^⟨σ⟩)` to `Gal(L/K)`, and the absolute Frobenius is raised to the residue degree
 of the intermediate prime. -/
 theorem artinClass_restrict_fixedField (σ : L ≃ₐ[K] L)
-    (Q : Ideal (𝓞 L)) (𝔓 : Ideal (𝓞 (cyclicFixedField K L σ)))
+    (Q : Ideal (𝓞 L)) [Q.IsPrime] (𝔓 : Ideal (𝓞 (cyclicFixedField K L σ)))
     (𝔭 : Ideal (𝓞 K))
     (hQE : Q.under (𝓞 (cyclicFixedField K L σ)) = 𝔓)
     (hQK : Q.under (𝓞 K) = 𝔭)
@@ -317,7 +317,7 @@ def fixedFieldFrobeniusPrimeSet (σ : L ≃ₐ[K] L) :
 law is `1`, so the relative Frobenius *is* the absolute one, unpowered. This is the only situation
 in which the fibre count may compare the two without an exponent. -/
 theorem isArithFrobAt_fixedField_of_inertiaDeg_one (σ : L ≃ₐ[K] L)
-    (Q : Ideal (𝓞 L)) (𝔓 : Ideal (𝓞 (cyclicFixedField K L σ)))
+    (Q : Ideal (𝓞 L)) [Q.IsPrime] (𝔓 : Ideal (𝓞 (cyclicFixedField K L σ)))
     (𝔭 : Ideal (𝓞 K))
     (hQE : Q.under (𝓞 (cyclicFixedField K L σ)) = 𝔓)
     (hQK : Q.under (𝓞 K) = 𝔭)
