@@ -6,7 +6,11 @@ Mathlib's Riemannian library has the metric-and-distance layer: `RiemannianBundl
 `Manifold.riemannianEDist` live in `Mathlib/Geometry/Manifold/Riemannian/PathELength.lean`.
 Mathlib also has general covariant derivatives and their torsion. The pinned revision predates
 Mathlib's `CovariantDerivative.IsMetricCompatible`; whenever the working Mathlib revision contains
-it, consume that predicate rather than maintaining a local duplicate. The owned Riemannian
+it, consume that predicate rather than maintaining a local duplicate. (*Archival note:* this
+describes the Mathlib pin at the time of writing. The pin at archiving has
+`CovariantDerivative/Metric.lean` and `CovariantDerivative/LeviCivita.lean`, with
+`IsMetricCompatible`, `IsLeviCivitaConnection` and `leviCivitaConnection`; Tau Ceti consumes them
+and keeps no local shim.) The owned Riemannian
 connection-and-geodesic work is existence and uniqueness and `C^∞` regularity of the Levi-Civita
 connection, covariant differentiation along curves, geodesics and their flow, the exponential map,
 and geodesic completeness. Without that layer, Hopf–Rinow — which ties metric completeness of a Riemannian
@@ -17,10 +21,10 @@ local-diffeomorphism prerequisites belong under `TauCeti/Geometry/Manifold/`, bu
 is explicitly owned by this roadmap rather than deferred to another roadmap. In particular, this
 roadmap owns the Levi-Civita connection and its regularity, geodesics and their flow, exponential
 maps and their local inverse logarithms, and Hopf--Rinow. The [Geometric Topology
-roadmap](../GeometricTopology/README.md) consumes the connection to build curvature and volume;
-the [differential-geometry roadmap](../DifferentialGeometry/README.md) consumes it to build
+roadmap](../../TauCetiRoadmap/GeometricTopology/README.md) consumes the connection to build curvature and volume;
+the [differential-geometry roadmap](../../TauCetiRoadmap/DifferentialGeometry/README.md) consumes it to build
 gradient, divergence, Hessian and the Laplace–Beltrami operator; the
-[Optimal Transport roadmap](../OptimalTransport/README.md) consumes the exponential, logarithm,
+[Optimal Transport roadmap](../../TauCetiRoadmap/OptimalTransport/README.md) consumes the exponential, logarithm,
 completeness, and minimizing-geodesic APIs and owns the subsequent cut-locus and
 transport-specific theory.
 
@@ -89,7 +93,8 @@ Spell hypotheses out; do not bundle them. Work over a finite-dimensional real mo
   `Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/Metric.lean` (from
   [mathlib4#36299](https://github.com/leanprover-community/mathlib4/pull/36299)). That file is absent
   from the pinned revision; use the Mathlib predicate whenever the working dependency contains it
-  rather than defining a lasting duplicate here.
+  rather than defining a lasting duplicate here. (*Archival note:* the pin at archiving contains
+  `Metric.lean`, and `LeviCivita.lean` with the Levi-Civita connection; both are consumed.)
 - **Completeness and properness.** `CompleteSpace`, `ProperSpace`, the instances
   `complete_of_proper` and `proper_of_compact`, `Metric.isCompact_iff_isClosed_bounded` (under
   `[T2Space M]`), `IsClosed.completeSpace_coe`, and the Cauchy/total-boundedness API
@@ -183,6 +188,9 @@ implement every remaining roadmap target in Tau Ceti.
 As each layer makes the next layer's *types* expressible in `TauCeti/`, state its milestones in
 `Suggested.lean` (with `sorry`).
 
+*Archived: `Suggested.lean` now states each milestone against Tau Ceti and closes it with no
+`sorry`; the sentence above describes the file as it stood before archiving.*
+
 ### Layer 0: the reconciled Riemannian distance
 - **Existing `C¹` length algebra (consume):** use `Manifold.pathELength_add` for subdivision and
   `Manifold.pathELength_comp_of_monotoneOn` for differentiable monotone reparametrizations. Do not
@@ -222,8 +230,9 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
 - **The Levi-Civita connection:** use `CovariantDerivative.IsMetricCompatible` from Mathlib's
   `Metric.lean` whenever the working dependency contains it. At the pinned revision, define only
   the matching local shim needed to state metric compatibility, and remove that shim when the
-  Mathlib declaration becomes available. Prove existence and uniqueness of the torsion-free,
-  metric-compatible connection, reusing `CovariantDerivative.torsion_eq_zero_iff`.
+  Mathlib declaration becomes available. (*Archival note:* at the pin at archiving Mathlib has the
+  predicate and the connection, so no shim exists.) Prove existence and uniqueness of the
+  torsion-free, metric-compatible connection, reusing `CovariantDerivative.torsion_eq_zero_iff`.
   mathlib4#36845 is the design reference: adopt its implementation when available, and otherwise
   implement the same milestone in Tau Ceti's shared manifold connection namespace. This roadmap
   owns delivery in either case; the Geometric Topology roadmap consumes the resulting API.
@@ -463,3 +472,8 @@ shared metric length/geodesic-space API.
   roadmap's curvature layer.
 - P. Petersen, *Riemannian Geometry*, GTM 171: an alternative account of completeness, minimizing
   geodesics, and the length-space view (cross-checks for Layers 2–4).
+
+---
+
+*Archived: this roadmap was declared complete on 2026-10-07. `Suggested.lean` now states each
+milestone against Tau Ceti and closes it with no `sorry`.*
