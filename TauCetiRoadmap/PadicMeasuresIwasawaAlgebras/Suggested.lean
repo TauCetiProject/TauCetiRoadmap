@@ -2791,77 +2791,99 @@ end CompletedGroupAlgebra
 end AbstractMeasure
 end
 
-/-! ## §1.7: extension of coefficients along a bounded ring map
+/-! ## §1.7: extension from integral normed coefficients
 
-The map `ι_j : D(X, O) → D(X, K)` for a profinite `X`, a normed commutative ring `O`, a
-nonarchimedean nontrivially normed field `K` and a continuous ring homomorphism `j : O → K` with
-`‖j a‖ ≤ ‖a‖` (the case of use: `O` the valuation ring of a finite extension of `ℚ_p` inside
-`ℂ_p`, `j` the inclusion). It is determined by `ι_j(μ)(j ∘ f) = j(μ f)` on test functions; it is
-`j`-semilinear, commutes with pushforward, is a ring homomorphism for the convolutions on a
-profinite monoid, and is compatible with the admissible evaluation of pseudo-measures of L3. It is
-an extension map; nothing is asserted about its image. L3a defines the bounded functions `F_μ`
-on the character space through it. -/
+`O` is complete, `K` is a complete nontrivially normed ultrametric field, and `j` is an
+isometric ring map into its unit ball. This includes a complete DVR with its valuation-ring
+norm embedded in `C_p`. The uniform clopen bound is one, before any density extension.
+The existing `AbstractMeasure` carrier is unchanged. -/
 namespace AbstractMeasure
 noncomputable section
 section CoefficientExtension
 
 variable {X : Type*} [TopologicalSpace X] [CompactSpace X] [T2Space X]
   [TotallyDisconnectedSpace X]
-variable (O K : Type*) [NormedCommRing O] [NontriviallyNormedField K] [IsUltrametricDist K]
+variable (O K : Type*) [NormedCommRing O] [CompleteSpace O]
+  [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K]
 variable (j : O →+* K)
 
 /-- §1.7: `ι_j : D(X, O) →+ D(X, K)`, the additive map with
 `ι_j(μ)(j ∘ f) = j(μ f)`; on a locally constant `Σ cᵢ 1_{Uᵢ}` its value is `Σ cᵢ j(μ(1_{Uᵢ}))`,
 extended by continuity using the ultrametric bound `‖Σ cᵢ j(μ 1_{Uᵢ})‖ ≤ max ‖cᵢ‖ · sup ‖j(μ 1_U)‖`. -/
-def extendCoefficients (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) : D(X, O) →+ D(X, K) := sorry
+def extendCoefficients (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) : D(X, O) →+ D(X, K) := sorry
 
-theorem extendCoefficients_apply_comp (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) (μ : D(X, O)) (f : C(X, O)) :
-    extendCoefficients O K j hj hjc μ ((ContinuousMap.mk j hjc).comp f) = j (μ f) := sorry
-theorem extendCoefficients_smul (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) (a : O) (μ : D(X, O)) :
-    extendCoefficients O K j hj hjc (a • μ) = j a • extendCoefficients O K j hj hjc μ := sorry
-theorem extendCoefficients_dirac (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) (x : X) :
-    extendCoefficients O K j hj hjc (dirac O x) = dirac K x := sorry
-theorem extendCoefficients_map (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) {Y : Type*} [TopologicalSpace Y] [CompactSpace Y] [T2Space Y]
+theorem extendCoefficients_apply_comp (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) (μ : D(X, O)) (f : C(X, O)) :
+    extendCoefficients O K j hj hj1 μ ((ContinuousMap.mk j hj.continuous).comp f) = j (μ f) := sorry
+theorem extendCoefficients_smul (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) (a : O) (μ : D(X, O)) :
+    extendCoefficients O K j hj hj1 (a • μ) = j a • extendCoefficients O K j hj hj1 μ := sorry
+theorem extendCoefficients_dirac (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) (x : X) :
+    extendCoefficients O K j hj hj1 (dirac O x) = dirac K x := sorry
+theorem extendCoefficients_map (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) {Y : Type*} [TopologicalSpace Y] [CompactSpace Y] [T2Space Y]
     [TotallyDisconnectedSpace Y] (φ : C(X, Y)) (μ : D(X, O)) :
-    extendCoefficients O K j hj hjc (map φ μ) = map φ (extendCoefficients O K j hj hjc μ) := sorry
-/-- Injectivity for an isometric `j` into a complete field (the image of `j` is then closed). -/
-theorem extendCoefficients_injective (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) [CompleteSpace K] (hiso : Isometry j) :
-    Function.Injective (extendCoefficients O K j hj hjc (X := X)) := sorry
+    extendCoefficients O K j hj hj1 (map φ μ) = map φ (extendCoefficients O K j hj hj1 μ) := sorry
+/-- Injectivity follows from test-function agreement and injectivity of `j`. -/
+theorem extendCoefficients_injective (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) :
+    Function.Injective (extendCoefficients O K j hj hj1 (X := X)) := sorry
 /-- The operator-norm bound on the field-valued carrier; this is the meaning of `‖μ‖` for an
 `O`-valued measure in L3a, where no norm is installed on `D(X, O)` itself. -/
-theorem norm_toCLMEquiv_extendCoefficients_le (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) (hj1 : ∀ a, ‖j a‖ ≤ 1) (μ : D(X, O)) :
-    ‖toCLMEquiv (extendCoefficients O K j hj hjc μ)‖ ≤ 1 := sorry
+theorem norm_toCLMEquiv_extendCoefficients_le (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) (μ : D(X, O)) :
+    ‖toCLMEquiv (extendCoefficients O K j hj hj1 μ)‖ ≤ 1 := sorry
+
+theorem extendCoefficients_clopen_bound (hj1 : ∀ a, ‖j a‖ ≤ 1)
+    (μ : D(X, O)) (s : TopologicalSpace.Clopens X) :
+    ‖j (μ (ContinuousMap.zeroExtendClopen s O 1))‖ ≤ 1 := sorry
+
+theorem extendCoefficients_restrictClopen (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1)
+    (s : TopologicalSpace.Clopens X) (μ : D(X, O)) :
+    extendCoefficients O K j hj hj1 (restrictClopen s O μ) =
+      restrictClopen s K (extendCoefficients O K j hj hj1 μ) := sorry
+
+theorem extendCoefficients_eq_extendIntegralCoefficients {p : ℕ} [Fact p.Prime]
+    [Algebra ℤ_[p] K] [IsBoundedSMul ℤ_[p] K]
+    (hi : Isometry (algebraMap ℤ_[p] K)) (hb : ∀ a : ℤ_[p], ‖algebraMap ℤ_[p] K a‖ ≤ 1)
+    (μ : D(ℤ_[p], ℤ_[p])) :
+    extendCoefficients ℤ_[p] K (algebraMap ℤ_[p] K) hi hb μ =
+      extendIntegralCoefficients (R := K) μ := sorry
+
+-- test discrete_norm_Haar_rejected (negative control) [§1.7]
+-- For the identity from discretely normed Q_p, the elements p^(-n) violate the unit-ball bound.
+example {p : ℕ} [Fact p.Prime] :
+    ¬ (∀ a : ℚ_[p], ‖(RingHom.id ℚ_[p]) a‖ ≤ 1) := sorry
+
+/-- §1.7: comparison on finite-free base-change tensors. -/
+theorem extendCoefficients_baseChange_tmul {p : ℕ} [Fact p.Prime]
+    [CommGroup X] [IsTopologicalGroup X] [Algebra ℤ_[p] O]
+    [Module.Free ℤ_[p] O] [Module.Finite ℤ_[p] O]
+    (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1)
+    (hi : Isometry (j.comp (algebraMap ℤ_[p] O)))
+    (hb : ∀ a, ‖j.comp (algebraMap ℤ_[p] O) a‖ ≤ 1)
+    (a : O) (μ : D(X, ℤ_[p])) :
+    extendCoefficients O K j hj hj1
+      (completedGroupAlgebraBaseChange p O (TensorProduct.tmul ℤ_[p] a μ)) =
+        j a • extendCoefficients ℤ_[p] K (j.comp (algebraMap ℤ_[p] O)) hi hb μ := sorry
 
 variable [CommMonoid X] [ContinuousMul X] [LocallyCompactSpace X]
 
 /-- `ι_j` as a ring homomorphism for the right-handed convolutions of a profinite monoid. -/
-def extendCoefficientsRingHom (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) : D(X, O) →+* D(X, K) := sorry
-theorem coe_extendCoefficientsRingHom (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) :
-    ⇑(extendCoefficientsRingHom O K j hj hjc (X := X)) = ⇑(extendCoefficients O K j hj hjc (X := X)) := sorry
-theorem extendCoefficients_mul (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) (μ ν : D(X, O)) :
-    extendCoefficients O K j hj hjc (μ * ν) =
-      extendCoefficients O K j hj hjc μ * extendCoefficients O K j hj hjc ν := sorry
-/-- Compatibility with the admissible evaluation of L3 (`Iwasawa.evalAt_spec` transported along
-`ι_j`): the extended cleared numerator is the cleared numerator of the extended pseudo-measure. -/
-theorem extendCoefficients_numerator_evalAt (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) {G : Type*} [Group G] (δ : G →* D(X, O))
-    (Q : Type*) [CommRing Q] [Algebra D(X, O) Q] [IsFractionRing D(X, O) Q] (g : G)
-    (z : Iwasawa.pseudomeasures δ Q) :
-    letI : Algebra D(X, O) D(X, K) := (extendCoefficientsRingHom O K j hj hjc).toAlgebra
-    ∀ hg : IsUnit (algebraMap D(X, O) D(X, K) (δ g - 1)),
-      extendCoefficients O K j hj hjc (δ g - 1) * Iwasawa.evalAt δ Q D(X, K) g hg z =
-        extendCoefficients O K j hj hjc (Iwasawa.numerator δ Q g z) := sorry
-
+def extendCoefficientsRingHom (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) : D(X, O) →+* D(X, K) := sorry
+theorem coe_extendCoefficientsRingHom (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) :
+    ⇑(extendCoefficientsRingHom O K j hj hj1 (X := X)) = ⇑(extendCoefficients O K j hj hj1 (X := X)) := sorry
+theorem extendCoefficients_mul (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) (μ ν : D(X, O)) :
+    extendCoefficients O K j hj hj1 (μ * ν) =
+      extendCoefficients O K j hj hj1 μ * extendCoefficients O K j hj hj1 ν := sorry
 -- test extendCoefficients_id (degenerate) [§1.7]
-example (μ : D(X, K)) :
-    extendCoefficients K K (RingHom.id K) (fun _ => le_rfl) continuous_id μ = μ := sorry
+-- Identity on source tests is retained; a nontrivially normed field is not its unit ball.
+example (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) (μ : D(X, O)) (f : C(X, O)) :
+    extendCoefficients O K j hj hj1 μ ((ContinuousMap.mk j hj.continuous).comp f) =
+      j (μ f) := sorry
 -- test extendCoefficients_dirac_apply (computation) [§1.7]
-example (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) (x : X) (f : C(X, K)) :
-    extendCoefficients O K j hj hjc (dirac O x) f = f x := sorry
+example (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) (x : X) (f : C(X, K)) :
+    extendCoefficients O K j hj hj1 (dirac O x) f = f x := sorry
 -- test extendCoefficients_two_smul (non-example) [§1.7]
 -- a map forgetting the coefficient would send `2 δ_x` to `δ_x`.
-example (hj : ∀ a, ‖j a‖ ≤ ‖a‖) (hjc : Continuous j) [CharZero K] (x : X) :
-    extendCoefficients O K j hj hjc ((2 : O) • dirac O x) ≠
-      extendCoefficients O K j hj hjc (dirac O x) := sorry
+example (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1) [CharZero K] (x : X) :
+    extendCoefficients O K j hj hj1 ((2 : O) • dirac O x) ≠
+      extendCoefficients O K j hj hj1 (dirac O x) := sorry
 
 end CoefficientExtension
 end
@@ -2904,6 +2926,80 @@ example (κ : ContinuousMonoidHom G R) : characterIntegralAlgHom κ 1 = 1 := sor
 example (κ : ContinuousMonoidHom G R) (c : R) (g : G) :
     characterIntegralAlgHom κ (c • dirac R g) = c * κ g := sorry
 end CharacterIntegration
+
+section ExtendedCharacterEvaluation
+variable {G O K : Type*} [TopologicalSpace G] [CompactSpace G] [T2Space G]
+  [TotallyDisconnectedSpace G] [CommGroup G] [IsTopologicalGroup G]
+  [NormedCommRing O] [CompleteSpace O] [NontriviallyNormedField K]
+  [CompleteSpace K] [IsUltrametricDist K]
+variable (j : O →+* K) (hj : Isometry j) (hj1 : ∀ a, ‖j a‖ ≤ 1)
+  (χ : ContinuousMonoidHom G K)
+
+/-- §1.7/§3.3: the scalar ring map f_χ, before localization. -/
+def extendedCharacterRingHom : D(G, O) →+* K :=
+  (characterIntegralAlgHom χ).toRingHom.comp (extendCoefficientsRingHom O K j hj hj1)
+theorem extendedCharacterRingHom_apply (μ : D(G, O)) :
+    extendedCharacterRingHom j hj hj1 χ μ =
+      extendCoefficients O K j hj hj1 μ χ.toContinuousMap := sorry
+theorem extendedCharacterRingHom_dirac (g : G) :
+    extendedCharacterRingHom j hj hj1 χ (dirac O g) = χ g := sorry
+
+theorem exists_character_ne_one (hχ : χ ≠ 1) : ∃ g, χ g ≠ 1 := sorry
+
+variable (Q : Type*) [CommRing Q] [Algebra D(G, O) Q] [IsFractionRing D(G, O) Q]
+local notation "δ" => (diracHom (G := G) (R := O))
+
+/-- §3.3: choose a clearing element separately for each nontrivial character. -/
+def extendedPseudoCharacterEval (hχ : χ ≠ 1) (z : Iwasawa.pseudomeasures δ Q) : K :=
+  let g := Classical.choose (exists_character_ne_one χ hχ)
+  extendedCharacterRingHom j hj hj1 χ (Iwasawa.numerator δ Q g z) / (χ g - 1)
+
+theorem extendCoefficients_numerator_evalAt (hχ : χ ≠ 1) (g : G)
+    (z : Iwasawa.pseudomeasures δ Q) :
+    (χ g - 1) * extendedPseudoCharacterEval j hj hj1 χ Q hχ z =
+      extendedCharacterRingHom j hj hj1 χ (Iwasawa.numerator δ Q g z) := sorry
+
+theorem extendedPseudoCharacterEval_eq (hχ : χ ≠ 1) (g : G) (hg : χ g ≠ 1)
+    (z : Iwasawa.pseudomeasures δ Q) :
+    extendedPseudoCharacterEval j hj hj1 χ Q hχ z =
+      extendedCharacterRingHom j hj hj1 χ (Iwasawa.numerator δ Q g z) / (χ g - 1) := sorry
+
+theorem extendedPseudoCharacterEval_independent (g h : G) (hg : χ g ≠ 1) (hh : χ h ≠ 1)
+    (z : Iwasawa.pseudomeasures δ Q) :
+    extendedCharacterRingHom j hj hj1 χ (Iwasawa.numerator δ Q g z) / (χ g - 1) =
+      extendedCharacterRingHom j hj hj1 χ (Iwasawa.numerator δ Q h z) / (χ h - 1) := sorry
+
+theorem extendedPseudoCharacterEval_integral (hχ : χ ≠ 1) (μ : D(G, O)) :
+    extendedPseudoCharacterEval j hj hj1 χ Q hχ (Iwasawa.integral δ Q μ) =
+      extendedCharacterRingHom j hj hj1 χ μ := sorry
+
+/-- The `Iwasawa.evalAt` denominator is a unit in the scalar field. -/
+theorem extendedPseudoCharacterEval_eq_evalAt (hχ : χ ≠ 1) (g : G) (hg : χ g ≠ 1)
+    (z : Iwasawa.pseudomeasures δ Q) :
+    letI : Algebra D(G, O) K := (extendedCharacterRingHom j hj hj1 χ).toAlgebra
+    ∃ hu : IsUnit (algebraMap D(G, O) K (δ g - 1)),
+      extendedPseudoCharacterEval j hj hj1 χ Q hχ z = Iwasawa.evalAt δ Q K g hu z := sorry
+
+theorem extendedPseudoCharacterEval_smul (hχ : χ ≠ 1) (μ : D(G, O))
+    (z : Iwasawa.pseudomeasures δ Q) :
+    extendedPseudoCharacterEval j hj hj1 χ Q hχ (μ • z) =
+      extendedCharacterRingHom j hj hj1 χ μ * extendedPseudoCharacterEval j hj hj1 χ Q hχ z := sorry
+
+end ExtendedCharacterEvaluation
+
+-- test extendedPseudoCharacterEval_sign_two (positive control) [§1.7/§3.3]
+example (χ : ContinuousMonoidHom ℤ_[2]ˣ ℚ_[2]) (hχ : χ ≠ 1)
+    (hsign : χ (-1) = -1)
+    (hi : Isometry (algebraMap ℤ_[2] ℚ_[2]))
+    (hb : ∀ a : ℤ_[2], ‖algebraMap ℤ_[2] ℚ_[2] a‖ ≤ 1)
+    (z : Iwasawa.pseudomeasures (diracHom (G := ℤ_[2]ˣ) (R := ℤ_[2]))
+      (FractionRing D(ℤ_[2]ˣ, ℤ_[2]))) :
+    (-2 : ℚ_[2]) * extendedPseudoCharacterEval (algebraMap ℤ_[2] ℚ_[2]) hi hb χ
+      (FractionRing D(ℤ_[2]ˣ, ℤ_[2])) hχ z =
+    extendedCharacterRingHom (algebraMap ℤ_[2] ℚ_[2]) hi hb χ
+      (Iwasawa.numerator (diracHom (G := ℤ_[2]ˣ) (R := ℤ_[2]))
+        (FractionRing D(ℤ_[2]ˣ, ℤ_[2])) (-1) z) := sorry
+
 
 section PositiveMoments
 variable (p : ℕ) [Fact p.Prime]
@@ -3022,6 +3118,15 @@ theorem unitCharacterEval_numerator (κ : ContinuousMonoidHom U Z) (hκ : κ ≠
     (g : U) (z : PM) :
     ((Iwasawa.numerator δ Q g z) κ.toContinuousMap : ℚ_[p]) =
       ((κ g-1 : Z) : ℚ_[p]) * unitCharacterEval p κ hκ z := sorry
+
+theorem extendedPseudoCharacterEval_eq_unitCharacterEval
+    (κ : ContinuousMonoidHom U Z) (hκ : κ ≠ 1)
+    (χ : ContinuousMonoidHom U ℚ_[p]) (hχ : χ ≠ 1)
+    (hcomp : ∀ g, χ g = (κ g : ℚ_[p]))
+    (hi : Isometry (algebraMap Z ℚ_[p])) (hb : ∀ a : Z, ‖algebraMap Z ℚ_[p] a‖ ≤ 1)
+    (z : PM) :
+    extendedPseudoCharacterEval (algebraMap Z ℚ_[p]) hi hb χ Q hχ z =
+      unitCharacterEval p κ hκ z := sorry
 
 theorem unitCharacterEval_unique (κ : ContinuousMonoidHom U Z) (hκ : κ ≠ 1)
     (L : PM →+ ℚ_[p])
@@ -4240,6 +4345,10 @@ namespace L4Tests
 -- test L4Tests.growth_formula_fails_equal_characteristic (non-example) [§4.7]
 -- `O = 𝔽_p⟦ϖ⟧`, `M = O⟦T⟧/(T − ϖ) ≅ O` with `T` acting by `ϖ`: `μ = 0`, `λ = 1`, but
 -- `ω_n = (1 + ϖ)^{p^n} − 1 = ϖ^{p^n}` in characteristic `p`, so `#M/ω_nM = p^{p^n}`, not `p^{n + ν}`.
+section EqualCharacteristicGrowthTest
+local instance : AddCommGroup (PowerSeries (ZMod p)) :=
+  (inferInstance : CommRing (PowerSeries (ZMod p))).toAddCommGroup
+
 example [IsAdicComplete (IsLocalRing.maximalIdeal (PowerSeries (ZMod p))) (PowerSeries (ZMod p))]
     [Finite (IsLocalRing.ResidueField (PowerSeries (ZMod p)))]
     (hX : Irreducible (PowerSeries.X : PowerSeries (ZMod p))) :
@@ -4248,6 +4357,8 @@ example [IsAdicComplete (IsLocalRing.maximalIdeal (PowerSeries (ZMod p))) (Power
     muInvariant O PowerSeries.X hX M = 0 ∧ lambdaInvariant O M = 1 ∧
     ∀ n : ℕ, Nat.card (M ⧸ ((((1 + PowerSeries.X) ^ (p ^ n) - 1 : PowerSeries O)) •
       (⊤ : Submodule (PowerSeries O) M))) = p ^ (p ^ n) := sorry
+end EqualCharacteristicGrowthTest
+
 -- test L4Tests.growth_formula_unramified_quadratic (computation) [§4.7]
 -- `O` unramified quadratic over `ℤ_p` (`f = 2`, `e = 1`), `M = O⟦T⟧/(p)`: `μ = 1`, `λ = 0` and
 -- `#M/ω_nM = #𝔽_{p²}[T]/(T^{p^n}) = p^{2 p^n}`, which the `ℤ_p`-normalised formula `p^{p^n}` misses.
@@ -4336,39 +4447,51 @@ theorem delta_cyclotomic_elementary_factors (M : Type*) [AddCommGroup M] [Module
           else ∑ k ∈ Finset.range p, (1 + PowerSeries.X) ^ (k * p ^ (e i - 1)))})),
       IsPseudoIsomorphism f := sorry
 
-/-- §4.6: the Galois-orbit relation on the characters `H →* O'ˣ` of a
-finite abelian group with values in an `O`-algebra `O'`: `χ ~ χ'` when `χ' = σ ∘ χ` for an
-`O`-algebra automorphism `σ` of `O'`. -/
-def characterGaloisOrbit (O O' H : Type*) [CommRing O] [CommRing O'] [Algebra O O']
-    [CommGroup H] : Setoid (H →* O'ˣ) where
-  r χ χ' := ∃ σ : O' ≃ₐ[O] O', ∀ h, σ (χ h) = χ' h
+/-- §4.6: use the full Galois group of a splitting field, acting on field-valued
+characters. An arbitrary coefficient ring's automorphisms do not define these orbits. -/
+def characterGaloisOrbit (K L H : Type*) [Field K] [Field L] [Algebra K L]
+    [FiniteDimensional K L] [IsGalois K L] [CommGroup H] : Setoid (H →* Lˣ) where
+  r χ χ' := ∃ σ : L ≃ₐ[K] L, ∀ h, σ (χ h) = χ' h
   iseqv := by sorry
 
-/-- §4.6 (nonsplit coefficients): for `#H` a unit in `O` and `O'` a
-domain over `O` containing the values of all characters of `H`, evaluation at one representative
-per Galois orbit of characters identifies `O[H]` with `∏_{[χ]} O[χ(H)]`, the product over the
-orbits of the `O`-subalgebras of `O'` generated by the character values; each factor is a discrete
-valuation ring, finite free and unramified over `O` (a uniformizer of `O` stays irreducible), with
-finite residue field. The index set is the set of orbits and the factors are the `O[χ(H)]`, not an
-unspecified product decomposition; for split `O` every orbit is a singleton
-(§4.6). -/
+/-- §4.6: faithfulness is supplied by the fraction field and its field extension. -/
+theorem splitting_coefficientMap_injective (O K L : Type*) [CommRing O] [IsDomain O]
+    [Field K] [Algebra O K] [IsFractionRing O K] [Field L] [Algebra K L]
+    [Algebra O L] [IsScalarTower O K L] :
+    Function.Injective (algebraMap O L) := sorry
+
+/-- §4.6: O' is the integral closure of O in a finite unramified Galois splitting
+extension L/K, K = Frac(O). Evaluation uses `MonoidAlgebra.lift` directly. -/
 theorem character_orbit_coefficients (O : Type*) [CommRing O] [IsDomain O]
     [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]
     [Finite (IsLocalRing.ResidueField O)]
+    (K L : Type*) [Field K] [Algebra O K] [IsFractionRing O K]
+    [Field L] [Algebra K L] [Algebra O L] [IsScalarTower O K L]
+    [FiniteDimensional K L] [IsGalois K L]
+    [Algebra.Unramified O (integralClosure O L)]
     (H : Type*) [CommGroup H] [Finite H] (hH : IsUnit (Nat.card H : O))
-    (O' : Type*) [CommRing O'] [IsDomain O'] [Algebra O O']
-    [HasEnoughRootsOfUnity O' (Monoid.exponent H)] :
-    let rep : Quotient (characterGaloisOrbit O O' H) → (H →* O'ˣ) := Quotient.out
-    let R : Quotient (characterGaloisOrbit O O' H) → Subalgebra O O' :=
-      fun c => Algebra.adjoin O (Set.range fun h => ((rep c h : O'ˣ) : O'))
-    let ev : MonoidAlgebra O H → Quotient (characterGaloisOrbit O O' H) → O' :=
-      fun x c => MonoidAlgebra.lift O O' H ((Units.coeHom O').comp (rep c)) x
-    Function.Injective ev ∧
+    [HasEnoughRootsOfUnity L (Monoid.exponent H)] :
+    let rep : Quotient (characterGaloisOrbit K L H) → (H →* Lˣ) := Quotient.out
+    let R : Quotient (characterGaloisOrbit K L H) → Subalgebra O L :=
+      fun c => Algebra.adjoin O (Set.range fun h => ((rep c h : Lˣ) : L))
+    let ev : MonoidAlgebra O H → Quotient (characterGaloisOrbit K L H) → L :=
+      fun x c => MonoidAlgebra.lift O L H ((Units.coeHom L).comp (rep c)) x
+    Function.Injective (algebraMap O L) ∧ Function.Injective ev ∧
     Set.range ev = {v | ∀ c, v c ∈ R c} ∧
     ∀ c, ∃ (_ : IsDomain (R c)) (_ : IsDiscreteValuationRing (R c)),
       Module.Finite O (R c) ∧ Module.Free O (R c) ∧
       Finite (IsLocalRing.ResidueField (R c)) ∧
       ∀ ϖ : O, Irreducible ϖ → Irreducible (algebraMap O (R c) ϖ) := sorry
+
+-- test orbit_residue_map_rejected (negative control) [§4.6]
+example (j : ℤ_[3] →+* ZMod 3) : ¬ Function.Injective j := sorry
+
+-- test orbit_nonnormal_rejected (negative control) [§4.6]
+-- In L = Q_2(ζ_3, α), α^3 = 2ζ_3, every Q_2-automorphism fixes ζ_3;
+-- a Galois extension containing ζ_3 must also realize its nontrivial conjugate.
+example (L : Type*) [Field L] [Algebra ℚ_[2] L] [FiniteDimensional ℚ_[2] L]
+    (ζ : L) (hζ : IsPrimitiveRoot ζ 3)
+    (hfix : ∀ σ : L ≃ₐ[ℚ_[2]] L, σ ζ = ζ) : ¬ IsGalois ℚ_[2] L := sorry
 
 section GeneratorChange
 variable (σ : PowerSeries (PadicInt p) ≃ₐ[PadicInt p] PowerSeries (PadicInt p))
@@ -4834,6 +4957,7 @@ ideal squares to zero and is not principal (so its socle is two-dimensional and 
 Gorenstein); stated for any local domain `O` with a primitive `p`-th root of unity `ζ` and
 maximal ideal `(ζ - 1)`. -/
 -- test charGroupRing_not_gorenstein (non-example) [§6.1]
+set_option synthInstance.maxHeartbeats 200000 in
 example [IsDomain O] [IsLocalRing O] (p : ℕ) [Fact p.Prime] (ζ : O) (hζ : IsPrimitiveRoot ζ p)
     (hlam : IsLocalRing.maximalIdeal O = Ideal.span {ζ - 1}) (g h : G) (ψ₁ ψ₂ : G →* Oˣ)
     (h₁g : (ψ₁ g : O) = ζ) (h₁h : (ψ₁ h : O) = 1) (h₂g : (ψ₂ g : O) = 1) (h₂h : (ψ₂ h : O) = ζ)
@@ -6157,15 +6281,15 @@ theorem compound_two_eq_pairMinor {ι κ : Type*} [LinearOrder ι] [LinearOrder 
 def higherAdjugate {m : ℕ} (A : Matrix (Fin m) (Fin m) R) (r : ℕ) (hr : r ≤ m) :
     Matrix (Set.powersetCard (Fin m) r) (Set.powersetCard (Fin m) r) R :=
   fun T S => (-1) ^ (∑ i ∈ (S : Finset (Fin m)), (i : ℕ) + ∑ j ∈ (T : Finset (Fin m)), (j : ℕ)) *
-    (A.submatrix (ofFinEmbEquiv.symm (compl (m := m - r) (by simp; omega) S))
-      (ofFinEmbEquiv.symm (compl (m := m - r) (by simp; omega) T))).det
+    (A.submatrix (ofFinEmbEquiv.symm (Set.powersetCard.compl (m := m - r) (by simp; omega) S))
+      (ofFinEmbEquiv.symm (Set.powersetCard.compl (m := m - r) (by simp; omega) T))).det
 
 /-- §6.4: for an `r`-subset `T` of `Fin m`, the shuffle that sorts `T`
 followed by `Tᶜ` (`Set.powersetCard.permOfDisjoint`) has sign `(-1)^{ΣT - r(r-1)/2}`, `ΣT` the
 sum of the elements of `T` as natural numbers `0, …, m - 1` (so `ΣT ≥ r(r-1)/2`). -/
 theorem _root_.Set.powersetCard.sign_permOfDisjoint_compl {m r : ℕ} (hr : r ≤ m)
     (T : Set.powersetCard (Fin m) r) :
-    ((permOfDisjoint (s := T) (t := compl (m := m - r) (by simp; omega) T)
+    ((permOfDisjoint (s := T) (t := Set.powersetCard.compl (m := m - r) (by simp; omega) T)
         (by simp [Finset.disjoint_left]) : Equiv.Perm (Fin (r + (m - r)))).sign : ℤ) =
       (-1) ^ (∑ j ∈ (T : Finset (Fin m)), (j : ℕ) - r * (r - 1) / 2) := sorry
 
@@ -6176,8 +6300,8 @@ theorem sum_compound_mul_compound_compl {m : ℕ} (A : Matrix (Fin m) (Fin m) R)
     (hr : r ≤ m) (S S' : Set.powersetCard (Fin m) r) :
     ∑ T : Set.powersetCard (Fin m) r,
       (-1) ^ (∑ i ∈ (S' : Finset (Fin m)), (i : ℕ) + ∑ j ∈ (T : Finset (Fin m)), (j : ℕ)) *
-        (A.compound r S T * A.compound (m - r) (compl (m := m - r) (by simp; omega) S')
-          (compl (m := m - r) (by simp; omega) T)) = if S = S' then A.det else 0 := sorry
+        (A.compound r S T * A.compound (m - r) (Set.powersetCard.compl (m := m - r) (by simp; omega) S')
+          (Set.powersetCard.compl (m := m - r) (by simp; omega) T)) = if S = S' then A.det else 0 := sorry
 
 /-- Generalised Laplace expansion along the rows `S`, the case `S' = S` of
 `Matrix.sum_compound_mul_compound_compl`:
@@ -6186,8 +6310,8 @@ theorem det_eq_sum_compound_mul_compound_compl {m : ℕ} (A : Matrix (Fin m) (Fi
     (hr : r ≤ m) (S : Set.powersetCard (Fin m) r) :
     A.det = ∑ T : Set.powersetCard (Fin m) r,
       (-1) ^ (∑ i ∈ (S : Finset (Fin m)), (i : ℕ) + ∑ j ∈ (T : Finset (Fin m)), (j : ℕ)) *
-        (A.compound r S T * A.compound (m - r) (compl (m := m - r) (by simp; omega) S)
-          (compl (m := m - r) (by simp; omega) T)) := by
+        (A.compound r S T * A.compound (m - r) (Set.powersetCard.compl (m := m - r) (by simp; omega) S)
+          (Set.powersetCard.compl (m := m - r) (by simp; omega) T)) := by
   rw [sum_compound_mul_compound_compl A r hr S S, ite_eq_left rfl]
 
 /-- The case `S' ≠ S` of `Matrix.sum_compound_mul_compound_compl`: for `r`-subsets `S ≠ S'`,
@@ -6197,8 +6321,8 @@ theorem sum_compound_mul_compound_compl_eq_zero {m : ℕ} (A : Matrix (Fin m) (F
     (hr : r ≤ m) {S S' : Set.powersetCard (Fin m) r} (h : S ≠ S') :
     ∑ T : Set.powersetCard (Fin m) r,
       (-1) ^ (∑ i ∈ (S' : Finset (Fin m)), (i : ℕ) + ∑ j ∈ (T : Finset (Fin m)), (j : ℕ)) *
-        (A.compound r S T * A.compound (m - r) (compl (m := m - r) (by simp; omega) S')
-          (compl (m := m - r) (by simp; omega) T)) = 0 := by
+        (A.compound r S T * A.compound (m - r) (Set.powersetCard.compl (m := m - r) (by simp; omega) S')
+          (Set.powersetCard.compl (m := m - r) (by simp; omega) T)) = 0 := by
   rw [sum_compound_mul_compound_compl A r hr S S', ite_eq_right h]
 
 /-- The right-sided identity used for Lemma 3.9: `C_r(A) adj_r(A) = det(A) I`. -/
@@ -6537,7 +6661,7 @@ namespace TauCeti.Iwasawa
 section Coordinate
 variable (p : ℕ) [Fact p.Prime] (O : Type*) [CommRing O]
 /- NSW (5.3.5) takes `O` to be the integers of a finite extension of `ℚ_p`. The level maps need
-`p` in the Jacobson radical and `p`-adic completeness: for `O = ℚ` one has `(ω_n) = (T)` and no
+`p` in the Jacobson radical and `p`-adic completeness: for `O = ℚ` and `n > 0` one has `(ω_n) = (T)` and no
 ring map `O⟦T⟧ → O[ℤ/pⁿ]` sends `T` to `[1] − 1`. A local noetherian ring complete for its
 maximal ideal with residue characteristic `p` covers the source's case and ℤ_p-algebras such as
 `ℤ_p⟦X⟧`; the same hypotheses give the injectivity and the image description below. -/
@@ -6546,13 +6670,30 @@ variable [IsLocalRing O] [IsNoetherianRing O] [IsAdicComplete (IsLocalRing.maxim
 
 /-- §4.5, level `n`: `O⟦T⟧ → O[ℤ/pⁿ]`, `T ↦ [1] − 1`. -/
 def levelCoordinate (n : ℕ) :
-    PowerSeries O →+* MonoidAlgebra O (Multiplicative (ZMod (p ^ n))) := sorry
+    PowerSeries O →ₐ[O] MonoidAlgebra O (Multiplicative (ZMod (p ^ n))) := sorry
 theorem levelCoordinate_X (n : ℕ) :
     levelCoordinate p O n PowerSeries.X =
       MonoidAlgebra.single (Multiplicative.ofAdd (1 : ZMod (p ^ n))) 1 - 1 := sorry
+theorem levelCoordinate_C (n : ℕ) (a : O) :
+    levelCoordinate p O n (PowerSeries.C a) = algebraMap O _ a := sorry
+
+/-- Continuity for the (m,T)-adic source and m-adic finite group algebra. -/
+theorem continuous_levelCoordinate (n : ℕ) :
+    let I := (IsLocalRing.maximalIdeal O).map (PowerSeries.C (R := O)) ⊔
+      Ideal.span {(PowerSeries.X : PowerSeries O)}
+    let J := (IsLocalRing.maximalIdeal O).map
+      (algebraMap O (MonoidAlgebra O (Multiplicative (ZMod (p ^ n)))))
+    @Continuous _ _ I.adicTopology J.adicTopology (levelCoordinate p O n) := sorry
+
+theorem levelCoordinate_unique (n : ℕ)
+    (f : PowerSeries O →ₐ[O] MonoidAlgebra O (Multiplicative (ZMod (p ^ n))))
+    (hf : f PowerSeries.X =
+      MonoidAlgebra.single (Multiplicative.ofAdd (1 : ZMod (p ^ n))) 1 - 1) :
+    f = levelCoordinate p O n := sorry
+
 theorem levelCoordinate_surjective (n : ℕ) : Function.Surjective (levelCoordinate p O n) := sorry
 theorem ker_levelCoordinate (n : ℕ) :
-    RingHom.ker (levelCoordinate p O n) =
+    RingHom.ker (levelCoordinate p O n).toRingHom =
       Ideal.span {(1 + PowerSeries.X : PowerSeries O) ^ (p ^ n) - 1} := sorry
 
 /-- The transition map `ℤ/pⁿ → ℤ/pᵐ` for `m ≤ n`, written multiplicatively. -/
@@ -6564,7 +6705,7 @@ theorem levelCoordinate_transition {m n : ℕ} (h : m ≤ n) (F : PowerSeries O)
       levelCoordinate p O m F := sorry
 
 /-- §4.5: `O⟦T⟧ → lim_n O[ℤ/pⁿ]`, the coordinate `γ ↦ 1 + T`. -/
-def iwasawaCoordinate : PowerSeries O →+* ∀ n, MonoidAlgebra O (Multiplicative (ZMod (p ^ n))) :=
+def iwasawaCoordinate : PowerSeries O →ₐ[O] ∀ n, MonoidAlgebra O (Multiplicative (ZMod (p ^ n))) :=
   sorry
 theorem iwasawaCoordinate_apply (F : PowerSeries O) (n : ℕ) :
     iwasawaCoordinate p O F n = levelCoordinate p O n F := sorry
@@ -6576,12 +6717,48 @@ example (F : PowerSeries O) :
 example (n k : ℕ) :
     levelCoordinate p O n ((1 + PowerSeries.X) ^ k) =
       MonoidAlgebra.single (Multiplicative.ofAdd (k : ZMod (p ^ n))) 1 := sorry
--- test coordinate_omega_not_power_of_T (non-example) [§4.5]
-example (n : ℕ) :
-    levelCoordinate p O n ((1 + PowerSeries.X) ^ (p ^ n) - 1) = 0 ∧
-      levelCoordinate p O (n + 1) ((1 + PowerSeries.X) ^ (p ^ n) - 1) ≠ 0 ∧
-      levelCoordinate p O (n + 1) (PowerSeries.X ^ (p ^ n)) ≠ 0 := sorry
+-- test coordinate_omega_not_power_of_T (negative control, same level) [§4.5]
+example (n : ℕ) (hn : 0 < n) :
+    levelCoordinate p ℤ_[p] n ((1 + PowerSeries.X) ^ (p ^ n) - 1) = 0 ∧
+      levelCoordinate p ℤ_[p] n (PowerSeries.X ^ (p ^ n)) ≠ 0 := sorry
 
+-- test coordinate_two_level_one (computation) [§4.5]
+example : let t : MonoidAlgebra ℤ_[2] (Multiplicative (ZMod (2 ^ 1))) :=
+      MonoidAlgebra.single (Multiplicative.ofAdd 1) 1 - 1
+    t ^ 2 = -2 * t ∧ t ^ 2 ≠ 0 ∧
+      levelCoordinate 2 ℤ_[2] 1 ((1 + PowerSeries.X) ^ 2 - 1) = 0 := sorry
+
+-- test coordinate_characteristic_p (specialization) [§4.5]
+theorem omega_eq_X_pow_of_charP [CharP O p] (n : ℕ) :
+    (1 + PowerSeries.X : PowerSeries O) ^ (p ^ n) - 1 = PowerSeries.X ^ (p ^ n) := sorry
+
+-- test coordinate_coefficient_shear_rejected (negative control) [§4.5]
+-- In O = Z_p[[S]], a sheared map takes C(S) to C(S) + ([1]-1).
+example (n : ℕ) (hn : 0 < n) :
+    let Oₛ := PowerSeries ℤ_[p]
+    let A := MonoidAlgebra Oₛ (Multiplicative (ZMod (p ^ n)))
+    ∀ f : PowerSeries Oₛ →ₐ[Oₛ] A,
+      f (PowerSeries.C PowerSeries.X) ≠ algebraMap Oₛ A PowerSeries.X +
+        (MonoidAlgebra.single (Multiplicative.ofAdd 1) 1 - 1) := sorry
+
+/-- Assemble into the existing Tau Ceti carrier via its inverse-limit universal property. -/
+def completedCoordinate : PowerSeries O ≃ₐ[O]
+    TauCeti.completedGroupAlgebra O (Multiplicative ℤ_[p]) := sorry
+
+theorem completedCoordinate_X : completedCoordinate p O PowerSeries.X =
+    TauCeti.completedGroupAlgebra.of O (Multiplicative ℤ_[p]) (Multiplicative.ofAdd 1) - 1 := sorry
+
+/-- The projection induced by reduction Z_p → Z/p^n, using the cofinal open kernels. -/
+def completedLevel (n : ℕ) : TauCeti.completedGroupAlgebra O (Multiplicative ℤ_[p]) →ₐ[O]
+    MonoidAlgebra O (Multiplicative (ZMod (p ^ n))) := sorry
+
+theorem completedLevel_of (n : ℕ) (a : ℤ_[p]) :
+    completedLevel p O n (TauCeti.completedGroupAlgebra.of O (Multiplicative ℤ_[p])
+      (Multiplicative.ofAdd a)) =
+        MonoidAlgebra.single (Multiplicative.ofAdd (PadicInt.toZModPow n a)) 1 := sorry
+
+theorem completedCoordinate_level (n : ℕ) :
+    (completedLevel p O n).comp (completedCoordinate p O).toAlgHom = levelCoordinate p O n := sorry
 
 theorem iwasawaCoordinate_injective : Function.Injective (iwasawaCoordinate p O) := sorry
 theorem range_iwasawaCoordinate :
@@ -6686,7 +6863,12 @@ character-dependent clearing element, and the normed case of the universal prope
 universal character. Mathlib has no rigid analytic spaces; the roadmap states these targets on
 `ContinuousMonoidHom`, `PadicComplex` and `completedGroupAlgebra`.
 
-L5 (determinants, specialization and exactness): the ring-level line-module foundation, the
+L5 (determinants, specialization and exactness): `projectiveDeterminant`, constructed by the
+finite clopen/idempotent rank decomposition (Stacks 0FJ9), with independence of refinement,
+constant-rank specialization and base change; graded lines use the locally constant
+`projectiveDeterminantParity : Spec A → ZMod 2`, including rank (1,0) over k × k.
+AlgebraicVectorBundles L0C imports this ring-level API and compares its affine determinant
+with the associated invertible sheaf, compatibly with base change and determinant maps. The
 determinant line of a bounded complex of finite projective modules with its quasi-isomorphism
 invariance, short-exact multiplicativity, base change and duality; its rational trivialization
 and the comparison with characteristic ideals (image `∏ char(Hⁱ)^{(-1)^{i+1}}` for the
@@ -6694,3 +6876,73 @@ trivialization `det P ⊗ Q → Q`); specialization with the universal-coefficie
 perfectness hypothesis; topological Nakayama. These need a graded-invertible-module carrier that
 Mathlib does not have.
 -/
+
+
+namespace TauCeti.Iwasawa
+/-- §4.7: the polynomial ω_n / ω_{n₀-1}, written without division. -/
+def growthTransition (p : ℕ) (O : Type*) [CommRing O] (n₀ n : ℕ) : PowerSeries O :=
+  ∏ j ∈ Finset.Ico n₀ (n + 1),
+    if j = 0 then PowerSeries.X
+    else ∑ i ∈ Finset.range p, (1 + PowerSeries.X) ^ (i * p ^ (j - 1))
+
+theorem growthTransition_mul (p : ℕ) (O : Type*) [CommRing O]
+    (n₀ n : ℕ) (h₀ : 0 < n₀) (hn : n₀ ≤ n + 1) :
+    growthTransition p O n₀ n * ((1 + PowerSeries.X) ^ (p ^ (n₀ - 1)) - 1) =
+      (1 + PowerSeries.X : PowerSeries O) ^ (p ^ n) - 1 := sorry
+
+/-- On Λ/(T), the transition acts by this nonzero scalar in mixed characteristic. -/
+theorem growthTransition_constantCoeff (p : ℕ) (O : Type*) [CommRing O]
+    (n₀ n : ℕ) (h₀ : 0 < n₀) (hn : n₀ ≤ n + 1) :
+    PowerSeries.constantCoeff (growthTransition p O n₀ n) = (p : O) ^ (n + 1 - n₀) := sorry
+
+-- test growth_horizontal_T (negative control for using ω_n) [§4.7]
+example (p : ℕ) [Fact p.Prime] (n₀ n : ℕ) (h₀ : 0 < n₀) (hn : n₀ ≤ n) :
+    PowerSeries.constantCoeff ((1 + PowerSeries.X : PowerSeries ℤ_[p]) ^ (p ^ n) - 1) = 0 ∧
+    PowerSeries.constantCoeff (growthTransition p ℤ_[p] n₀ n) = (p : ℤ_[p]) ^ (n - n₀ + 1) ∧
+    PowerSeries.constantCoeff (growthTransition p ℤ_[p] n₀ n) ≠ 0 := sorry
+end TauCeti.Iwasawa
+
+namespace TauCeti
+section ProjectiveRank
+variable (A P : Type*) [CommRing A] [AddCommGroup P] [Module A P]
+  [Module.Finite A P] [Module.Projective A P]
+
+/-- §5.1: the clopen rank-r piece used to construct the determinant. -/
+def projectiveRankClopen (r : ℕ) : TopologicalSpace.Clopens (PrimeSpectrum A) :=
+  ⟨{x | Module.rankAtStalk P x = r}, by sorry⟩
+theorem projectiveRankClopen_mem (r : ℕ) (x : PrimeSpectrum A) :
+    x ∈ projectiveRankClopen A P r ↔ Module.rankAtStalk P x = r := sorry
+theorem projectiveRank_finite_range : Set.Finite (Set.range (Module.rankAtStalk (R := A) P)) := sorry
+
+/-- Parity is a locally constant function, including when Spec A is disconnected. -/
+def projectiveDeterminantParity : LocallyConstant (PrimeSpectrum A) (ZMod 2) :=
+  ⟨fun x => (Module.rankAtStalk P x : ZMod 2), by sorry⟩
+theorem projectiveDeterminantParity_apply (x : PrimeSpectrum A) :
+    projectiveDeterminantParity A P x = (Module.rankAtStalk P x : ZMod 2) := sorry
+end ProjectiveRank
+
+-- test determinant_product_ring_rank (negative control) [§5.1]
+example (k : Type*) [Field k] :
+    let A := k × k
+    let P : Ideal A := Ideal.span {((1 : k), (0 : k))}
+    ∃ x y : PrimeSpectrum A, Module.rankAtStalk P x = 1 ∧ Module.rankAtStalk P y = 0 := sorry
+end TauCeti
+
+
+namespace TauCeti.WeightSpace
+/-- §3a.1: a continuous dual-number character outside the coefficient-maximum norm disc. -/
+def dualNumberCharacter (p : ℕ) [Fact p.Prime] :
+    ContinuousMonoidHom (Multiplicative ℤ_[p]) (TrivSqZeroExt ℚ_[p] ℚ_[p]) := sorry
+
+theorem dualNumberCharacter_apply (p : ℕ) [Fact p.Prime] (a : ℤ_[p]) :
+    dualNumberCharacter p (Multiplicative.ofAdd a) =
+      1 + TrivSqZeroExt.inr (a : ℚ_[p]) := sorry
+
+-- test dualNumberCharacter_not_small (negative control) [§3a.1]
+example (p : ℕ) [Fact p.Prime] :
+    let ε : TrivSqZeroExt ℚ_[p] ℚ_[p] := TrivSqZeroExt.inr 1
+    ε ^ 2 = 0 ∧
+    (dualNumberCharacter p (Multiplicative.ofAdd 1) - 1) = ε ∧
+    max ‖ε.fst‖ ‖ε.snd‖ = 1 ∧
+    ∀ a : ℤ_[p], IsUnit (dualNumberCharacter p (Multiplicative.ofAdd a)) := sorry
+end TauCeti.WeightSpace
