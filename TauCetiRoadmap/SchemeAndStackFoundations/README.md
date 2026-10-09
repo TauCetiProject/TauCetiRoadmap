@@ -49,8 +49,11 @@ Mathlib schemes, Tau Ceti curves/models  →  SF.0  →  SF.1  →  SF.2  →  S
   effective descent of affine schemes, finite quotients, Weil restriction, coarse schemes of finite
   quotient problems), ClassFieldTheory and ProfiniteCohomology (Brauer groups of fields and
   continuous cohomology), QuadraticFormInvariants (the field Brauer group as H²), and the
-  CohomologicalPointCounting family (finite-coefficient étale cohomology, base change, compact
-  support, ℓ-adic realization, Frobenius, Artin comparison, trace formula).
+  following étale-cohomology inputs, which are explicit prerequisites expected from the pending
+  CohomologicalPointCounting roadmap (TauCetiRoadmap pull request 196, not yet merged) and are not
+  targets here: finite-coefficient étale cohomology, proper and smooth base change, cohomology
+  with compact support, the ℓ-adic realization, Frobenius, the Artin comparison with Betti
+  cohomology, and the Lefschetz trace formula.
 - **Not built here.** Étale supports, the étale `f^!`, absolute purity and perverse sheaves
   (EtaleDualityAndPerverseSheaves); banded gerbes, Picard schemes over general bases and
   characteristic-zero resolution (AlgebraicModuliForArithmeticGeometry); Néron models
@@ -827,7 +830,7 @@ classification (the algebraic-moduli roadmap), perfect-site variants (GeometricS
 
 **T182** `SF.1/torsor-cohomology`: The pointed set of torsor classes. Poonen 2017, Section 5.12.4 (classification of torsors, Proposition 5.12.14) and Proposition 6.5.9, Example 6.5.5, pp. 154-181.
 
-**T183** `SF.1/torsor-representability`: Representability and descent of torsors. Poonen 2017, Theorem 6.5.10(i) and Remark 6.5.11, pp. 181-182.
+**T183** `SF.1/torsor-representability`: Representability of torsors. An fppf sheaf over `S` with a `G`-action that is a pseudo-torsor (`G × P ≅ P × P`) and trivial over an fppf cover of `S`, with no algebraicity assumed on it, is an algebraic space, hence a torsor in the sense of T181: it is fppf-locally the algebraic space `G ×_S S_i`, and the definition of an algebraic space is fppf local. Stacks, Lemma 80.11.1 (tag 04SK), Bootstrap, Section 80.11; Poonen 2017, Theorem 6.5.10(i) and Remark 6.5.11, pp. 181-182.
 
 **T184** `SF.1/contracted-product`: Contracted products and twisting by torsors. Poonen 2017, Sections 5.12.5.2 (contracted products) and 6.5.6 (geometric operations over a base), pp. 155-183.
 
@@ -1066,8 +1069,8 @@ cohomologically indexed; `D_QCoh(O_X)` is the full subcategory with quasi-cohere
 Mathlib's `Field.absoluteGaloisGroup`. Coefficient regimes are stated on every target, as in the
 roadmap conventions. **Imported, never rebuilt:** finite-coefficient étale theory, base change,
 compact support, ℓ-adic realization, Frobenius, Artin comparison and the trace formula are the
-CohomologicalPointCounting family's (its child roadmaps ConstructibleEtale, EtaleBaseChange,
-CompactSupport, EllAdicRealization, FrobeniusGeometry, ComplexComparison, TraceFormula); affine
+prerequisites expected from the pending CohomologicalPointCounting roadmap (TauCetiRoadmap
+pull request 196, not yet merged), never targets here; affine
 acyclicity, Čech computation, flat base change and Jacobians are JacobianChallenge Layers A–D;
 proper coherence and relative dualizing sheaves of curves are StableReduction Layer 2; Hilbert 90,
 Kummer theory and continuous cohomology are ProfiniteCohomology Layers 9–10; the field Brauer
@@ -1425,8 +1428,8 @@ Abel–Jacobi with a base point is JacobianChallenge Layer F; the Abel maps here
 **Imported:** JacobianChallenge Layers A–F, AlgebraicCurves Layers 3, 4, 7, 8, 10 and 12,
 StableReduction Layers 0–2 (differentials, the single dualizing-sheaf interface for proper
 Gorenstein curves, ampleness by degree), ClassFieldTheory Layers 5 and 10, and the
-CohomologicalPointCounting family through SF.2 (μ_n, Kummer, finite-coefficient cohomology, Tate
-modules of abelian varieties). **Not here:** Néron–Severi groups and Picard numbers
+pending CohomologicalPointCounting roadmap (TauCetiRoadmap pull request 196) through SF.2 (μ_n,
+Kummer, finite-coefficient cohomology, Tate modules of abelian varieties), as prerequisites. **Not here:** Néron–Severi groups and Picard numbers
 (AbelianSchemesAndArithmeticModuli), coherent duality beyond curves (SF.2), positivity beyond
 degree bounds (SF.5), Picard schemes over general bases, models of curves (SF.4).
 
@@ -1870,7 +1873,7 @@ valuation ring the same formula restricted to vertical divisors is StableReducti
 **T433** `SF.5/surface-adjunction-and-riemann-roch` (theorem). For `S` smooth projective over `k = k̄`
 with canonical class `K`: `2p_a − 2 = C·(C + K)` for an integral curve `C ⊆ S`; `χ(O(D)) = ½D·(D − K) + χ(O_S)`;
 and Noether's formula `12χ(O_S) = K² + c_2(T_S)` with `deg c_2(T_S)` the ℓ-adic Euler characteristic of
-the CohomologicalPointCounting family, stated as a hypothesis of the formula.
+the pending CohomologicalPointCounting roadmap (a prerequisite), stated as a hypothesis of the formula.
 - Hypotheses: `k` algebraically closed; `K` the class of `Ω²_S`; Serre duality `h²(D) = h⁰(K − D)` from SF.2.
 - Source: Hartshorne 1977, V.1, Proposition 1.5 (nonsingular `C`), Exercise 1.3 (the `p_a` form), Theorem 1.6 and Remark 1.6.1; Fulton 1998, §15.2 (Noether's formula as an instance of Riemann–Roch). Needs T432; SF.2 coherent duality targets; SF.3 genus targets.
 
@@ -1953,4 +1956,4 @@ of the intersection is needed for the inequality, which is the form the height a
 - Milne LEC: *Lectures on Étale Cohomology* (v2.21), https://www.jmilne.org/math/CourseNotes/LEC.pdf.
 - Milne 2008: *Abelian Varieties* (course notes v2.00), https://www.jmilne.org/math/CourseNotes/AV.pdf.
 - Kedlaya–Liu: *Relative p-adic Hodge theory: foundations*, Astérisque 371 (2015).
-- Tau Ceti AlgebraicCurves, Tau Ceti CohomologicalPointCounting: the Tau Ceti roadmaps of those names, https://github.com/TauCetiProject/TauCetiRoadmap.
+- Tau Ceti AlgebraicCurves: the Tau Ceti roadmap of that name, https://github.com/TauCetiProject/TauCetiRoadmap; Tau Ceti CohomologicalPointCounting: the pending roadmap of that name (TauCetiRoadmap pull request 196).

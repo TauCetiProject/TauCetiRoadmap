@@ -4279,11 +4279,18 @@ over `Spec K` (`L / K` quadratic Galois) twisted by itself, the contracted produ
 theorem twistingBijection {S : Scheme.{u}} (G : GroupSpace S) (E : Over (yoneda.obj S)) [ModObj G.obj E]
     (hE : IsTorsor G E) : Nonempty (H1 (innerForm G E) ≃ H1 G) := sorry
 
-/-- Representability of torsors and their descent (`SF.1/torsor-representability`). -/
+/-- Representability of torsors (`SF.1/torsor-representability`): an fppf sheaf over `S` with a
+`G`-action that is a pseudo-torsor and trivial over an fppf cover of `S`, with no algebraicity
+assumed on it, is an algebraic space, hence a torsor in the sense of `IsTorsor`. It is fppf-locally
+the algebraic space `G ×_S S_i`, and the definition of an algebraic space is fppf local
+(Stacks, Lemma 80.11.1, tag 04SK). -/
 theorem torsorRepresentability {S : Scheme.{u}} (G : GroupSpace S) (P : Over (yoneda.obj S))
-    [ModObj G.obj P] (h : IsTorsor G P)
-    (hG : MorphismProperty.presheaf (@Flat ⊓ @LocallyOfFinitePresentation : MorphismProperty Scheme.{u})
-      G.obj.hom) : IsAlgebraicSpace P.left := h.isSpace
+    [ModObj G.obj P] (hP : Presheaf.IsSheaf Scheme.fppfTopology P.left)
+    (hpseudo : IsIso (lift (act G P) (snd G.obj P)))
+    (hloc : ∃ (ι : Type u) (Si : ι → Scheme.{u}) (f : ∀ i, Si i ⟶ S),
+      Sieve.ofArrows Si f ∈ Scheme.fppfTopology S ∧
+        ∀ i, ∃ σ : yoneda.obj (Si i) ⟶ P.left, σ ≫ P.hom = yoneda.map (f i)) :
+    IsAlgebraicSpace P.left ∧ IsTorsor G P := sorry
 
 /-- Invariant morphisms, categorical and geometric quotients (`SF.1/categorical-geometric-quotient`),
 for a pre-relation `s, t : R ⟶ U` of presheaves. -/
