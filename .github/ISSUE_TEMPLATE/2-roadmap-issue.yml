@@ -45,9 +45,9 @@ body:
         - LocalGaloisGroups
         - ModularCurves
         - ModularForms
-        - Multiquadratic
         - NumberFieldArithmetic
         - OneParameterSemigroups
+        - OperatorTheory
         - OptimalTransport
         - OrthogonalSpinGroups
         - PDE
@@ -60,7 +60,6 @@ body:
         - RealAlgebraicGeometry
         - ReductiveGroups
         - RepresentationTheory
-        - RestrictedProducts
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
