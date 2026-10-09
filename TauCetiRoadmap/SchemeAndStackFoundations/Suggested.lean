@@ -129,6 +129,7 @@ import Mathlib.RingTheory.MvPowerSeries.Inverse
 import Mathlib.RingTheory.Norm.Defs
 import Mathlib.RingTheory.PicardGroup
 import Mathlib.RingTheory.PowerSeries.Basic
+import Mathlib.RingTheory.Regular.RegularSequence
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.Smooth.Basic
 import Mathlib.RingTheory.TensorProduct.Quotient
@@ -172,8 +173,11 @@ instance). The Picard carrier is Tau Ceti's `LineBundleClass`; finite locally fr
 given rank are Mathlib's `IsLocallyFree` with AlgebraicVectorBundles' rank predicate, named
 `isFiniteLocallyFreeOfRank` here with the same meaning. Formal schemes are prototyped as adic
 thickening systems with level-preserving morphisms; the comparison with the EGA category is a
-target of the README. Statements that cannot be typed at the pins are stated in the README only;
-the closing comment of each layer lists them by name.
+target of the README. Layer 5 is typed on `Chow.ChowGroup`, the quotient of Mathlib's `AlgebraicCycle` by a
+rational-equivalence subgroup, with `Chow.K0` and `Chow.G0` the Grothendieck groups of finite
+locally free and of finitely presented modules. Statements that cannot be typed at the pins are
+stated in the README only; the closing comment of each layer lists them by name. The étale-section
+lemmas of Layer 0 (`Henselization.etale_section_selector` and its companions) are proved.
 -/
 
 namespace TauCetiRoadmap.SchemeAndStackFoundations
@@ -288,7 +292,12 @@ theorem simple_root_lift (I : Ideal R) (f : Polynomial (algebra I))
 theorem henselian (I : Ideal R) : HenselianRing (algebra I) (extended I) := by sorry
 attribute [instance] henselian
 
+/-! ### Étale sections of étale algebras
 
+A section `σ : B → R` of an étale `R`-algebra `B` is cut out by an idempotent `e` with
+`σ e = 1` and `e · b = e · σ(b)`; it splits `B` as `R × B/(e)` and identifies `B[1/e]` with `R`.
+Over a henselian pair two sections agreeing modulo the ideal agree. These five statements are
+proved. -/
 
 section EtaleSection
 variable {B : Type u} [CommRing B] [Algebra R B] [Algebra.Etale R B]
@@ -3069,9 +3078,9 @@ together with AlgebraicVectorBundles Layers L1A, L1B and L2A (`relativeSpecHomEq
 Tau Ceti's `TauCeti.AlgebraicGeometry.irreducibleSpace_of_connected_of_isDomain_stalk`.
 
 The remaining targets of these two subsections are stated in the roadmap document on those
-carriers and have no Lean form here yet: Layer 0's `qcoh algebra sheaf comparison` (the README target, the
+carriers and have no Lean form here yet: Layer 0's `qcoh algebra sheaf comparison` (the
 coequifibered presheaf on `S.AffineZariskiSite` of a `QuasicoherentAlgebra`, cf. Tau Ceti's
-`CommMon.sectionsPresheaf`), Layer 0's `pushforward algebra` (the README target, `f_* O_X` for `f` quasi-compact
+`CommMon.sectionsPresheaf`), Layer 0's `pushforward algebra` (`f_* O_X` for `f` quasi-compact
 and quasi-separated), Layer 0's `relative spec morphism properties`,
 Layer 0's `affine pushforward qcoh equivalence`, Layer 0's `relative proj` with its base
 change, affine comparison and the compatibility with StableReduction Layer 2's
@@ -4002,10 +4011,25 @@ example {S : Scheme.{u}} (G : GroupSpace S) :
     IsTorsor G G.obj := Torsor.trivial G
 
 -- Check `test_frobenius_mu_p`
--- (in characteristic `p`, `s ↦ sᵖ` on `𝔾_m` is a `μ_p`-torsor, not etale-locally trivial: its
--- fibre over `1` is `Spec k[s]/(sᵖ - 1)`, which has no reduced etale cover with a section)
+-- (in characteristic `p`, `s ↦ sᵖ` on `𝔾_m` is a `μ_p`-torsor over `𝔾_m = Spec k[t, t⁻¹]`
+-- which is not étale-locally trivial: at the generic point it is `Spec k(t)[u]/(uᵖ − t)`, and
+-- no separable extension of `k(t)` contains a `p`-th root of `t`, since such a root is purely
+-- inseparable over `k(t)` and `t` is not a `p`-th power there)
+example (p : ℕ) [Fact p.Prime] :
+    ¬ ∃ (L : Type) (_ : Field L) (_ : Algebra (RatFunc (ZMod p)) L)
+      (_ : Algebra.IsSeparable (RatFunc (ZMod p)) L) (u : L),
+      u ^ p = algebraMap (RatFunc (ZMod p)) L RatFunc.X := sorry
+
+-- Check `test_frobenius_mu_p_fibre_trivial`
+-- (the fibre over `t = 1` is `μ_p = Spec k[s]/(sᵖ − 1)`: nonreduced, yet a trivial torsor,
+-- because it has the section `s = 1`; nonreducedness does not obstruct étale-local triviality)
 example (p : ℕ) [Fact p.Prime] (k : Type u) [Field k] [CharP k p] :
-    ¬ IsReduced (Polynomial k ⧸ Ideal.span {(Polynomial.X ^ p - 1 : Polynomial k)}) := sorry
+    Nonempty ((Polynomial k ⧸ Ideal.span {(Polynomial.X : Polynomial k) ^ p - 1}) →ₐ[k] k) :=
+  ⟨Ideal.Quotient.liftₐ _ (Polynomial.aeval (1 : k)) (by
+    intro a ha
+    rw [Ideal.mem_span_singleton'] at ha
+    obtain ⟨c, rfl⟩ := ha
+    simp)⟩
 
 /- Check `test_frobenius_twisted_action` — `x · g = x F(g)` on a
 positive-dimensional smooth group over `𝔽_p` makes `X(𝔽̄_p)` a `G(𝔽̄_p)`-torsor but `X` is not a
@@ -4201,8 +4225,18 @@ def IsGeometricQuotient {U R X : AlgSpace.{u}} (s t : R ⟶ U) (φ : U ⟶ X) : 
       ∃ r : points R, points_map s r = x ∧ points_map t r = y) ∧
     IsIso (structureSheafToInvariants s t φ h)
 
+/-- `φ` exhibits `X` as the coequaliser of `s, t` among fppf sheaves: `φ` is invariant and every
+invariant map from `U` to an fppf sheaf factors uniquely through `φ`. -/
+def IsSheafCoequalizer {U R X : SchemePresheaf.{u}} (s t : R ⟶ U) (φ : U ⟶ X) : Prop :=
+  s ≫ φ = t ≫ φ ∧ ∀ (F : Sheaf Scheme.fppfTopology.{u} (Type u)) (ψ : U ⟶ F.obj),
+    s ≫ ψ = t ≫ ψ → ∃! χ : X ⟶ F.obj, φ ≫ χ = ψ
+
+/-- A geometric quotient which is also the fppf-sheaf coequaliser of `s, t` is a categorical
+quotient. The sheaf-coequaliser clause is not implied by the geometric-quotient clauses. -/
 theorem IsGeometricQuotient.isCategoricalQuotient {U R X : AlgSpace.{u}} (s t : R ⟶ U) (φ : U ⟶ X)
-    (h : IsGeometricQuotient s t φ) :
+    (h : IsGeometricQuotient s t φ)
+    (hq : IsSheafCoequalizer (isAlgebraicSpace.ι.map s) (isAlgebraicSpace.ι.map t)
+      (isAlgebraicSpace.ι.map φ)) :
     IsCategoricalQuotient (isAlgebraicSpace.ι.map s) (isAlgebraicSpace.ι.map t) (isAlgebraicSpace.ι.map φ) :=
   sorry
 
@@ -5028,8 +5062,7 @@ namespace Proetale
 open _root_.CategoryTheory _root_.AlgebraicGeometry
 
 /- The morphism of topoi `ν : Sh(X_proét) → Sh(X_ét)`, the comparison `H^q(X_ét, F) ≅ H^q(X_proét, ν^* F)`
-for torsion `F` and lisse adic sheaves are EllAdicRealization Layers 1, 3 and 4 (TauCetiRoadmap pull
-request 196); this roadmap states only the site foundations below, which those layers consume. -/
+for torsion `F` and lisse adic sheaves are EllAdicRealization Layers 1, 3 and 4; this roadmap states only the site foundations below, which those layers consume. -/
 
 /-- A category of sheaves is replete if limits of towers of epimorphisms are epimorphisms onto
 every stage. -/
@@ -5064,24 +5097,54 @@ namespace Coherent
 
 open _root_.CategoryTheory _root_.AlgebraicGeometry
 
-/-- `D_QCoh(O_X)`: the derived category of `O_X`-modules restricted to complexes with
-quasi-coherent cohomology (carrier; Mathlib's `DerivedCategory` of `X.Modules` once its universe
-and `HasDerivedCategory` instance are fixed). -/
-noncomputable def DQCoh (X : Scheme.{u}) : Type (u + 1) := sorry
+noncomputable instance instHasDerivedCategoryModules (X : Scheme.{u}) :
+    HasDerivedCategory X.Modules :=
+  HasDerivedCategory.standard _
 
-noncomputable instance (X : Scheme.{u}) : Category.{u} (DQCoh X) := sorry
+/-- `D_QCoh(O_X)`: the full subcategory of the derived category of `O_X`-modules on the complexes
+whose cohomology sheaves are all quasi-coherent. -/
+def DQCoh (X : Scheme.{u}) : Type (u + 1) :=
+  ObjectProperty.FullSubcategory (fun K : DerivedCategory X.Modules =>
+    ∀ n : ℤ, ((DerivedCategory.homologyFunctor X.Modules n).obj K).IsQuasicoherent)
+
+noncomputable instance (X : Scheme.{u}) : Category.{u + 1} (DQCoh X) := by
+  unfold DQCoh; infer_instance
+
+/-- The inclusion `D_QCoh(O_X) → D(O_X)`. -/
+noncomputable def DQCoh.ι (X : Scheme.{u}) : DQCoh X ⥤ DerivedCategory X.Modules :=
+  ObjectProperty.ι _
+
+theorem DQCoh.mem_iff (X : Scheme.{u}) (K : DQCoh X) :
+    ∀ n : ℤ, ((DerivedCategory.homologyFunctor X.Modules n).obj K.obj).IsQuasicoherent :=
+  K.property
 
 noncomputable instance (X : Scheme.{u}) : Limits.HasZeroObject (DQCoh X) := sorry
 
-/-- For `X = Spec A`, `D(A) ≌ D_QCoh(O_X)` (carrier of `DQCoh.affineEquiv`, with `D(A)` the
-derived category of `ModuleCat A`). -/
-noncomputable def DQCoh.affineEquivFunctor (A : CommRingCat.{u}) :
-    ModuleCat.{u} A ⥤ DQCoh (Spec A) :=
+/-- Bounded below: the cohomology vanishes in all degrees below some `n`. -/
+def DQCoh.IsBoundedBelow {X : Scheme.{u}} (K : DQCoh X) : Prop :=
+  ∃ n : ℤ, ∀ i < n, Limits.IsZero ((DerivedCategory.homologyFunctor X.Modules i).obj K.obj)
+
+/-- `D⁺_QCoh(O_X)`, the bounded-below part. -/
+def DQCohPlus (X : Scheme.{u}) : Type (u + 1) :=
+  ObjectProperty.FullSubcategory (fun K : DQCoh X => K.IsBoundedBelow)
+
+noncomputable instance (X : Scheme.{u}) : Category.{u + 1} (DQCohPlus X) := by
+  unfold DQCohPlus; infer_instance
+
+/-- For `X = Spec A`, `D(A) ≌ D_QCoh(O_X)`. -/
+noncomputable def DQCoh.affineEquiv (A : CommRingCat.{u}) :
+    letI := HasDerivedCategory.standard (ModuleCat.{u} A)
+    DerivedCategory (ModuleCat.{u} A) ≌ DQCoh (Spec A) :=
   sorry
 
-/- `DQCoh.mem_iff`, `DQCoh.isTriangulated`, `DQCoh.hasCoproducts`, `DQCoh.affineEquiv`, `DCoh` and the
-tests `test_DQCoh_structure_sheaf`, `test_DQCoh_affine_free`, `test_DQCoh_extension_by_zero_not_qc` are
-roadmap items. -/
+-- Check `test_DQCoh_structure_sheaf`
+example (X : Scheme.{u}) (K : DerivedCategory X.Modules)
+    (hK : ∀ n : ℤ, ((DerivedCategory.homologyFunctor X.Modules n).obj K).IsQuasicoherent) :
+    DQCoh X :=
+  ⟨K, hK⟩
+
+/- `DQCoh.isTriangulated`, `DQCoh.hasCoproducts`, `DCoh` and the tests `test_DQCoh_affine_free`,
+`test_DQCoh_extension_by_zero_not_qc` are roadmap items. -/
 
 noncomputable def derivedTensor {X : Scheme.{u}} : DQCoh X ⥤ DQCoh X ⥤ DQCoh X := sorry
 noncomputable def derivedHom {X : Scheme.{u}} : (DQCoh X)ᵒᵖ ⥤ DQCoh X ⥤ DQCoh X := sorry
@@ -5114,20 +5177,26 @@ example (X : Scheme.{u}) : Nonempty (pushforwardRightAdjoint (𝟙 X) ≅ 𝟭 (
 -- Check `test_rightAdjoint_not_upperShriek`
 /- Closed point of `𝔸¹` and non-proper affine line (statements in the README). -/
 
-/-- The upper shriek of a separated finite-type morphism of Noetherian schemes (the functor of
-`coherent duality`, on the bounded-below part). -/
+/-- The upper shriek `f^! : D⁺_QCoh(Y) → D⁺_QCoh(X)` of a separated finite-type morphism of
+Noetherian schemes, defined through a compactification `f = f̄ ∘ j` as `j^* ∘ a_{f̄}`. -/
 noncomputable def upperShriek {X Y : Scheme.{u}} (f : X ⟶ Y) [IsSeparated f]
-    [LocallyOfFiniteType f] [QuasiCompact f] [IsNoetherian Y] : DQCoh Y ⥤ DQCoh X :=
+    [LocallyOfFiniteType f] [QuasiCompact f] [IsNoetherian Y] : DQCohPlus Y ⥤ DQCohPlus X :=
   sorry
 
 theorem upperShriek_openImmersion {X Y : Scheme.{u}} (j : X ⟶ Y) [IsOpenImmersion j]
     [IsSeparated j] [LocallyOfFiniteType j] [QuasiCompact j] [IsNoetherian Y] :
-    Nonempty (upperShriek j ≅ derivedPullback j) :=
+    Nonempty (upperShriek j ⋙ ObjectProperty.ι _ ≅ ObjectProperty.ι _ ⋙ derivedPullback j) :=
   sorry
 
 theorem upperShriek_proper {X Y : Scheme.{u}} (f : X ⟶ Y) [IsProper f] [QuasiCompact f]
     [IsNoetherian Y] :
-    Nonempty (upperShriek f ≅ pushforwardRightAdjoint f) :=
+    Nonempty (upperShriek f ⋙ ObjectProperty.ι _ ≅ ObjectProperty.ι _ ⋙ pushforwardRightAdjoint f) :=
+  sorry
+
+/-- The counit `Rf_* f^! K → K` on the bounded-below part, for `f` proper. -/
+noncomputable def upperShriek_counit {X Y : Scheme.{u}} (f : X ⟶ Y) [IsProper f] [QuasiCompact f]
+    [IsNoetherian Y] :
+    upperShriek f ⋙ ObjectProperty.ι _ ⋙ totalDirectImage f ⟶ ObjectProperty.ι _ :=
   sorry
 
 /-- A relative dualizing complex `(K, ξ)` for a flat finitely presented morphism (carrier). -/
@@ -5163,19 +5232,39 @@ theorem isAzumaya_iff_matrix_after_etale (R A : Type u) [CommRing R] [Ring A] [A
         Nonempty (TensorProduct R (B i) A ≃ₐ[B i] Matrix (Fin n) (Fin n) (B i)) :=
   sorry
 
-/-- The class in `H^2(X_et, G_m)` of an Azumaya algebra, via its gerbe of trivialisations
-(the algebra given here by its affine data; the sheaf-algebra carrier is
-Layer 2's `sheaf algebra`). -/
-noncomputable def azumayaClass (X : Scheme.{u}) (A : Type u) : (GmEtale X).H 2 := sorry
+/-- The class in `H²(X_ét, 𝔾_m)` of an Azumaya algebra given by its global-section data: a
+finite projective `Γ(X, O)`-algebra `A` which is Azumaya in Mathlib's sense, via its gerbe of
+trivialisations. The sheaf-algebra form over a non-affine `X` is Layer 2's `sheaf algebra`
+target. -/
+noncomputable def azumayaClass (X : Scheme.{u}) (A : Type u) [Ring A] [Algebra Γ(X, ⊤) A]
+    [Module.Finite Γ(X, ⊤) A] [Module.Projective Γ(X, ⊤) A] (hA : IsAzumaya Γ(X, ⊤) A) :
+    (GmEtale X).H 2 :=
+  sorry
+
+/-- The class of an Azumaya algebra of degree `d` is `d`-torsion; it lies in `Br′ = H²_tors`. -/
+theorem azumayaClass_torsion (X : Scheme.{u}) (A : Type u) [Ring A] [Algebra Γ(X, ⊤) A]
+    [Module.Finite Γ(X, ⊤) A] [Module.Projective Γ(X, ⊤) A] (hA : IsAzumaya Γ(X, ⊤) A)
+    (d : ℕ) (hd : Module.finrank Γ(X, ⊤) A = d ^ 2) : d • azumayaClass X A hA = 0 :=
+  sorry
+
+theorem azumayaClass_tensor (X : Scheme.{u}) (A B : Type u) [Ring A] [Algebra Γ(X, ⊤) A]
+    [Module.Finite Γ(X, ⊤) A] [Module.Projective Γ(X, ⊤) A] (hA : IsAzumaya Γ(X, ⊤) A)
+    [Ring B] [Algebra Γ(X, ⊤) B] [Module.Finite Γ(X, ⊤) B] [Module.Projective Γ(X, ⊤) B]
+    (hB : IsAzumaya Γ(X, ⊤) B) (hAB : IsAzumaya Γ(X, ⊤) (TensorProduct Γ(X, ⊤) A B)) :
+    azumayaClass X (TensorProduct Γ(X, ⊤) A B) hAB = azumayaClass X A hA + azumayaClass X B hB :=
+  sorry
+
+-- Check `test_class_matrix`
+example (X : Scheme.{u}) (n : ℕ) [NeZero n] :
+    azumayaClass X (Matrix (Fin n) (Fin n) Γ(X, ⊤)) (IsAzumaya.matrix _ _) = 0 := sorry
 
 /- `trivializationGerbe`, `trivializationGerbe_isGerbe`, `azumayaClass_eq_zero_iff`,
-`azumayaClass_tensor`, `azumayaClass_eq_delta`, `azumayaClass_pullback` and the tests
-`test_class_matrix`, `test_class_quaternion_real`, `test_class_field_agrees`,
-`test_class_not_module_class` are roadmap items; the carrier `azumayaClass` above takes the
-algebra as a placeholder type argument until the sheaf-algebra carrier exists. -/
+`azumayaClass_eq_delta`, `azumayaClass_pullback`, the factorisation through `Br′` for
+quasi-compact `X`, and the tests `test_class_quaternion_real`, `test_class_field_agrees`,
+`test_class_not_module_class` are roadmap items. -/
 
 /- Layer 2 (brauer field comparison) is Tau Ceti's `TauCeti.brauerCohomologyEquiv`
-   (`Additive (BrauerGroup K) ≃+ H²(Gal, K̄ˣ)`) together with the README target; it is not restated.
+   (`Additive (BrauerGroup K) ≃+ H²(Gal, K̄ˣ)`); it is not restated.
    Layer 2 (brauer henselian local): the finite-field case `Subsingleton (BrauerGroup k)` is Tau Ceti's
    `TauCeti.subsingleton_brauerGroup_of_finite`; the henselian local ring statement needs Azumaya
    algebras over a local ring and is stated in the roadmap. -/
@@ -5555,25 +5644,34 @@ theorem lineBundleClass_spec_equiv_pic (R : Type u) [CommRing R] :
 
 /-! ### Line bundle norm -/
 
-/-- `Norm_π : Pic(X) → Pic(Y)` for a finite locally free morphism of constant degree `d ≥ 1`. -/
-def lineBundleNorm {X Y : Scheme.{u}} (π : X ⟶ Y) [IsFinite π] [Flat π] (d : ℕ) :
+/-- `Norm_π : Pic(X) → Pic(Y)` for a finite locally free morphism `π` (finite, flat and of finite
+presentation); no constancy of the degree is needed for the norm itself. -/
+def lineBundleNorm {X Y : Scheme.{u}} (π : X ⟶ Y) [IsFinite π] [Flat π]
+    [LocallyOfFinitePresentation π] :
     TauCeti.AlgebraicGeometry.LineBundleClass X → TauCeti.AlgebraicGeometry.LineBundleClass Y :=
   sorry
 
-theorem lineBundleNorm_tensor {X Y : Scheme.{u}} (π : X ⟶ Y) [IsFinite π] [Flat π] (d : ℕ)
-    (a b : TauCeti.AlgebraicGeometry.LineBundleClass X) :
-    lineBundleNorm π d (a * b) = lineBundleNorm π d a * lineBundleNorm π d b := by sorry
+theorem lineBundleNorm_tensor {X Y : Scheme.{u}} (π : X ⟶ Y) [IsFinite π] [Flat π]
+    [LocallyOfFinitePresentation π] (a b : TauCeti.AlgebraicGeometry.LineBundleClass X) :
+    lineBundleNorm π (a * b) = lineBundleNorm π a * lineBundleNorm π b := by sorry
 
-theorem lineBundleNorm_one {X Y : Scheme.{u}} (π : X ⟶ Y) [IsFinite π] [Flat π] (d : ℕ) :
-    lineBundleNorm π d 1 = 1 := by sorry
+theorem lineBundleNorm_one {X Y : Scheme.{u}} (π : X ⟶ Y) [IsFinite π] [Flat π]
+    [LocallyOfFinitePresentation π] : lineBundleNorm π 1 = 1 := by sorry
 
-/- Remaining API: `lineBundleNorm_pullback` (Norm(π*N) = N^d), `lineBundleNorm_comp`,
-`lineBundleNorm_baseChange`, `lineBundleNorm_det`, `sectionNorm`, `lineBundleNorm_divisor`;
-they need pullback and determinants of invertible sheaves, not available at the pin. -/
+/-- `Norm_π(π^* N) = N^d` when `π` has constant degree `d` (Mathlib's `Scheme.Hom.finrank`). -/
+theorem lineBundleNorm_pullback {X Y : Scheme.{u}} (π : X ⟶ Y) [IsFinite π] [Flat π]
+    [LocallyOfFinitePresentation π] (d : ℕ) (hd : ∀ y, π.finrank y = d)
+    (N : TauCeti.AlgebraicGeometry.LineBundleClass Y) :
+    lineBundleNorm π (TauCeti.AlgebraicGeometry.LineBundleClass.pullback π N) = N ^ d := by
+  sorry
+
+/- Remaining API: `lineBundleNorm_comp`, `lineBundleNorm_baseChange`, `lineBundleNorm_det`,
+`sectionNorm`, `lineBundleNorm_divisor`; they need determinants of finite locally free sheaves,
+not available at the pin. -/
 
 -- Check `lineBundleNorm_id`
 example (X : Scheme.{u}) (a : TauCeti.AlgebraicGeometry.LineBundleClass X) :
-    lineBundleNorm (𝟙 X) 1 a = a := by sorry
+    lineBundleNorm (𝟙 X) a = a := by sorry
 
 /- Check `lineBundleNorm_field` — over a field the norm on units
 is Mathlib's `Algebra.norm` (needs `sectionNorm`).
@@ -5660,13 +5758,21 @@ scheme `T` is `picardGroupoid` of `X ×_k T`. -/
 `X ×_k T`; in particular it is a groupoid. -/
 example (X : Scheme.{u}) : Groupoid (picardGroupoid X) := inferInstance
 
-/-! ### Abel maps high degree, picard norm sequence, invariant differentials,
-Layer 3 (abel jacobi differentials), Layer 3 (tate module etale h1)
+/-! ### Abel maps, the norm sequence and invariant differentials
 
 The Abel maps need the symmetric powers of JacobianChallenge Layer C; the norm sequence needs the
 Picard stacks above; the differential statements need the sheaf of differentials of a scheme
 (StableReduction Layers 0–1). The comparison of the Tate module of the Jacobian with
-`H¹_ét` is TraceFormula Layer 8 (TauCetiRoadmap pull request 196) and is not stated here. -/
+`H¹_ét` is TraceFormula Layer 8 and is not stated here.
+
+The Abel map `a_d : X^{(d)} → Pic^d_{X/k}` is, for `d > 2g − 2`, a Brauer–Severi family of
+relative dimension `d − g`: over a test scheme `T → Pic^d` carrying a line bundle `L` on `X × T`
+that represents the point, its pullback is `Proj_T Sym((p_* L)^∨)`, and replacing `L` by `L ⊗ p^* M`
+does not change this projectivisation. It is the projective bundle `ℙ(E)` of a locally free sheaf
+`E` on `Pic^d` only when the `𝔾_m`-gerbe `picardStack → Pic^d` is split, for instance when `X` has
+a rational point. The regression is the real conic `x² + y² + z² = 0`: `Pic¹` is `Spec ℝ`, while
+`X^{(1)} = X` has no real point, so `a_1` is a nonsplit conic over a point and not `ℙ(E)` for any
+rank-two `E`. -/
 
 /- node: Layer 3 (invariant differentials) — Ω¹_{G/S} ≅ f*e*Ω¹ and
 Γ(A, Ω¹) ≅ T₀(A)^∨ for an abelian variety; needs the sheaf of differentials of a scheme.
@@ -7370,18 +7476,274 @@ end Formal
 end
 end SF_SF_4
 
+section SF_SF_5
+universe u
+noncomputable section
+
+/-! ### Intersection theory
+
+Chow groups are the quotient of Mathlib's `AlgebraicCycle` by rational equivalence, indexed by
+dimension. The operations are proper pushforward, flat pullback, the first Chern class of a line
+bundle, Chern classes of finite locally free sheaves, the normal cone with its specialisation map,
+homotopy invariance for the total space of a finite locally free sheaf, the external product and
+the refined Gysin map of a regular immersion; `K0` and `G0` are the Grothendieck groups of finite
+locally free and of finitely presented modules, with the resolution property as the hypothesis of
+their comparison; the surface pairing is a bilinear form on line-bundle classes. -/
+
+namespace Chow
+
+open _root_.CategoryTheory _root_.CategoryTheory.Limits _root_.AlgebraicGeometry Opposite
+open scoped _root_.TensorProduct
+
+/-- The subgroup of `k`-cycles rationally equivalent to zero. -/
+def RatEquiv (X : Scheme.{u}) (k : ℤ) : AddSubgroup (AlgebraicCycle X ℤ) := sorry
+
+/-- `CH_k(X)`, the Chow group of `k`-dimensional cycles modulo rational equivalence. -/
+def ChowGroup (X : Scheme.{u}) (k : ℤ) : Type u := AlgebraicCycle X ℤ ⧸ RatEquiv X k
+
+instance (X : Scheme.{u}) (k : ℤ) : AddCommGroup (ChowGroup X k) :=
+  inferInstanceAs (AddCommGroup (AlgebraicCycle X ℤ ⧸ RatEquiv X k))
+
+/-- The class of a cycle. -/
+def cycleClass (X : Scheme.{u}) (k : ℤ) : AlgebraicCycle X ℤ →+ ChowGroup X k :=
+  QuotientAddGroup.mk' _
+
+-- Check `cycleClass_surjective`
+example (X : Scheme.{u}) (k : ℤ) : Function.Surjective (cycleClass X k) :=
+  QuotientAddGroup.mk'_surjective _
+
+/-- Proper pushforward `f_* : CH_k(X) → CH_k(Y)`. -/
+def properPushforward {X Y : Scheme.{u}} (f : X ⟶ Y) [IsProper f] (k : ℤ) :
+    ChowGroup X k →+ ChowGroup Y k :=
+  sorry
+
+/-- Flat pullback `f^* : CH_k(Y) → CH_{k+d}(X)` for `f` flat of relative dimension `d`. -/
+def flatPullback {X Y : Scheme.{u}} (f : X ⟶ Y) [Flat f] [LocallyOfFinitePresentation f]
+    (d k : ℤ) : ChowGroup Y k →+ ChowGroup X (k + d) :=
+  sorry
+
+theorem properPushforward_comp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z) [IsProper f]
+    [IsProper g] (k : ℤ) :
+    properPushforward (f ≫ g) k = (properPushforward g k).comp (properPushforward f k) :=
+  sorry
+
+/-- Proper pushforward and flat pullback commute in a cartesian square: for `g` proper and `f`
+flat of relative dimension `d`, `f^* g_* = g'_* f'^*` as maps `CH_k(X) → CH_{k+d}(Y')`, where
+`f'` is the base change of `f` and `g'` that of `g`. -/
+theorem flatPullback_properPushforward {X Y Y' : Scheme.{u}} (g : X ⟶ Y) [IsProper g]
+    (f : Y' ⟶ Y) [Flat f] [LocallyOfFinitePresentation f] (d k : ℤ) :
+    (flatPullback f d k).comp (properPushforward g k) =
+      (properPushforward (pullback.snd g f) (k + d)).comp (flatPullback (pullback.fst g f) d k) :=
+  sorry
+
+/-- The localisation sequence `CH_k(Z) → CH_k(X) → CH_k(U) → 0` for `Z` closed with open
+complement `U`. -/
+theorem localization_exact {Z X U : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmersion i]
+    (j : U ⟶ X) [IsOpenImmersion j] (hUZ : Set.range j.base = (Set.range i.base)ᶜ) (k : ℤ) :
+    Function.Exact (properPushforward i k) (flatPullback j 0 k) ∧
+      Function.Surjective (flatPullback j 0 k) :=
+  sorry
+
+/-- `c_1(L) ∩ – : CH_k(X) → CH_{k−1}(X)`. -/
+def c1 {X : Scheme.{u}} (L : TauCeti.AlgebraicGeometry.LineBundleClass X) (k : ℤ) :
+    ChowGroup X k →+ ChowGroup X (k - 1) :=
+  sorry
+
+theorem c1_mul {X : Scheme.{u}} (L M : TauCeti.AlgebraicGeometry.LineBundleClass X) (k : ℤ)
+    (α : ChowGroup X k) : c1 (L * M) k α = c1 L k α + c1 M k α :=
+  sorry
+
+theorem c1_comm {X : Scheme.{u}} (L M : TauCeti.AlgebraicGeometry.LineBundleClass X) (k : ℤ)
+    (α : ChowGroup X k) : c1 L (k - 1) (c1 M k α) = c1 M (k - 1) (c1 L k α) :=
+  sorry
+
+/-- The total space of a finite locally free sheaf (the relative spectrum of its symmetric
+algebra on the dual). -/
+def totalSpace {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] : Scheme.{u} := sorry
+
+def totalSpace.proj {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] : totalSpace E ⟶ X := sorry
+
+instance {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] : Flat (totalSpace.proj E) := sorry
+
+instance {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] :
+    LocallyOfFinitePresentation (totalSpace.proj E) :=
+  sorry
+
+/-- `E` has constant rank `r`: every point has an affine neighbourhood on which the sections form
+a module of rank `r`. -/
+def HasRank {X : Scheme.{u}} (E : X.Modules) (r : ℕ) : Prop :=
+  ∀ x : X, ∃ U : X.affineOpens, x ∈ U.1 ∧
+    Module.finrank (X.ringCatSheaf.obj.obj (op U.1)) (E.val.obj (op U.1)) = r
+
+/-- Homotopy invariance: `p^* : CH_k(X) → CH_{k+r}(E)` is bijective for the total space of a
+finite locally free sheaf of rank `r`. The inverse is constructed from the localisation sequence
+and the projective bundle theorem; its identification with the Gysin map of the zero section comes
+afterwards. -/
+theorem homotopy_invariance {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] (r : ℕ)
+    (hr : HasRank E r) (k : ℤ) : Function.Bijective (flatPullback (totalSpace.proj E) r k) :=
+  sorry
+
+-- Check `test_homotopy_affine_line`
+example {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] (hr : HasRank E 1) (k : ℤ) :
+    Function.Bijective (flatPullback (totalSpace.proj E) 1 k) :=
+  homotopy_invariance E 1 hr k
+
+/-- `c_i(E) ∩ – : CH_k(X) → CH_{k−i}(X)`. -/
+def chernClass {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] (i : ℕ) (k : ℤ) :
+    ChowGroup X k →+ ChowGroup X (k - i) :=
+  sorry
+
+theorem chernClass_vanish {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] (r : ℕ)
+    (hr : HasRank E r) (i : ℕ) (hi : r < i) (k : ℤ) : chernClass E i k = 0 :=
+  sorry
+
+/-- `i` is a regular immersion of codimension `d`: around every point of `X` the ideal of `Z` is
+generated by a regular sequence of length `d`. -/
+def IsRegularImmersion {Z X : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmersion i] (d : ℕ) : Prop :=
+  ∀ x : X, ∃ U : X.affineOpens, x ∈ U.1 ∧ ∃ s : List Γ(X, U), s.length = d ∧
+    RingTheory.Sequence.IsRegular Γ(X, U) s ∧ Ideal.span {a | a ∈ s} = i.ker.ideal U
+
+/-- The normal cone `C_Z X = Spec_Z (⊕ I^n/I^{n+1})` of a closed immersion. -/
+def normalCone {Z X : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmersion i] : Scheme.{u} := sorry
+
+def normalCone.proj {Z X : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmersion i] : normalCone i ⟶ Z :=
+  sorry
+
+/-- The specialisation map `σ : CH_k(X) → CH_k(C_Z X)` through the deformation to the normal
+cone. -/
+def specialization {Z X : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmersion i] (k : ℤ) :
+    ChowGroup X k →+ ChowGroup (normalCone i) k :=
+  sorry
+
+/-- The external product `CH_a(X) ⊗ CH_b(Y) → CH_{a+b}(X ×_S Y)`. -/
+def externalProduct {S X Y : Scheme.{u}} (f : X ⟶ S) (g : Y ⟶ S) (a b : ℤ) :
+    ChowGroup X a →+ ChowGroup Y b →+ ChowGroup (pullback f g) (a + b) :=
+  sorry
+
+/-- The refined Gysin map `i^! : CH_k(X') → CH_{k−d}(Z ×_X X')` of a regular immersion of
+codimension `d` along any `f : X' → X`: specialise to the normal cone and apply the inverse of
+`homotopy_invariance` for the pulled-back normal bundle. -/
+def gysin {Z X X' : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmersion i] (d : ℕ)
+    (hi : IsRegularImmersion i d) (f : X' ⟶ X) (k : ℤ) :
+    ChowGroup X' k →+ ChowGroup (pullback i f) (k - d) :=
+  sorry
+
+/-- Every finitely presented module is a quotient of a finite locally free one. -/
+def HasResolutionProperty (X : Scheme.{u}) : Prop :=
+  ∀ F : X.Modules, F.IsFinitePresentation →
+    ∃ (E : X.Modules) (_ : E.IsLocallyFree) (_ : E.IsFiniteType) (q : E ⟶ F), Epi q
+
+/-- `G_0(X)`: the Grothendieck group of finitely presented `O_X`-modules. -/
+def G0 (X : Scheme.{u}) : Type (u + 1) :=
+  FreeAbelianGroup {F : X.Modules // F.IsFinitePresentation} ⧸
+    AddSubgroup.closure {x | ∃ (S : ShortComplex X.Modules) (_ : S.ShortExact)
+      (h₁ : S.X₁.IsFinitePresentation) (h₂ : S.X₂.IsFinitePresentation)
+      (h₃ : S.X₃.IsFinitePresentation),
+      x = FreeAbelianGroup.of ⟨S.X₂, h₂⟩ - FreeAbelianGroup.of ⟨S.X₁, h₁⟩ -
+        FreeAbelianGroup.of ⟨S.X₃, h₃⟩}
+
+instance (X : Scheme.{u}) : AddCommGroup (G0 X) := by unfold G0; infer_instance
+
+/-- `K_0(X)`: the Grothendieck group of finite locally free `O_X`-modules. -/
+def K0 (X : Scheme.{u}) : Type (u + 1) :=
+  FreeAbelianGroup {E : X.Modules // E.IsLocallyFree ∧ E.IsFiniteType} ⧸
+    AddSubgroup.closure {x | ∃ (S : ShortComplex X.Modules) (_ : S.ShortExact)
+      (h₁ : S.X₁.IsLocallyFree ∧ S.X₁.IsFiniteType) (h₂ : S.X₂.IsLocallyFree ∧ S.X₂.IsFiniteType)
+      (h₃ : S.X₃.IsLocallyFree ∧ S.X₃.IsFiniteType),
+      x = FreeAbelianGroup.of ⟨S.X₂, h₂⟩ - FreeAbelianGroup.of ⟨S.X₁, h₁⟩ -
+        FreeAbelianGroup.of ⟨S.X₃, h₃⟩}
+
+instance (X : Scheme.{u}) : AddCommGroup (K0 X) := by unfold K0; infer_instance
+
+/-- `K_0(X) → G_0(X)` on a Noetherian scheme, where finite locally free modules of finite type are
+finitely presented. -/
+def K0.toG0 (X : Scheme.{u}) [IsNoetherian X] : K0 X →+ G0 X := sorry
+
+/-- On a regular Noetherian scheme with the resolution property, `K_0 → G_0` is bijective. -/
+theorem K0.toG0_bijective (X : Scheme.{u}) [IsNoetherian X] (hX : HasResolutionProperty X)
+    (hreg : ∀ x : X, IsRegularLocalRing (X.presheaf.stalk x)) :
+    Function.Bijective (K0.toG0 X) :=
+  sorry
+
+/-- `f_! : G_0(X) → G_0(Y)`, the alternating sum of the coherent higher direct images, for `f`
+proper with Noetherian target. -/
+def kPushforward {X Y : Scheme.{u}} (f : X ⟶ Y) [IsProper f] [IsNoetherian Y] : G0 X →+ G0 Y :=
+  sorry
+
+theorem kPushforward_comp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z) [IsProper f] [IsProper g]
+    [IsNoetherian Y] [IsNoetherian Z] :
+    kPushforward (f ≫ g) = (kPushforward g).comp (kPushforward f) :=
+  sorry
+
+/-- The rational Chow group, graded by dimension. -/
+def ChowRat (X : Scheme.{u}) : Type u := ∀ k : ℤ, ℚ ⊗[ℤ] ChowGroup X k
+
+instance (X : Scheme.{u}) : AddCommGroup (ChowRat X) := by unfold ChowRat; infer_instance
+instance (X : Scheme.{u}) : Module ℚ (ChowRat X) := by unfold ChowRat; infer_instance
+
+/-- `c_i(E) ∩ –` on rational Chow groups, extended to `K_0`. -/
+def chernClassOp {X : Scheme.{u}} (E : K0 X) (i : ℕ) : ChowRat X →ₗ[ℚ] ChowRat X := sorry
+
+/-- The degree-`i` component of the Todd class, as an operator. -/
+def toddClassOp {X : Scheme.{u}} (E : K0 X) (i : ℕ) : ChowRat X →ₗ[ℚ] ChowRat X := sorry
+
+/-- The Chern character, as an operator. -/
+def chernCharacterOp {X : Scheme.{u}} (E : K0 X) : ChowRat X →ₗ[ℚ] ChowRat X := sorry
+
+-- Check `test_todd_degree_two`
+example {X : Scheme.{u}} (E : K0 X) :
+    toddClassOp E 2 =
+      (1 / 12 : ℚ) • ((chernClassOp E 1).comp (chernClassOp E 1) + chernClassOp E 2) :=
+  sorry
+
+-- Check `test_todd_degree_one`
+example {X : Scheme.{u}} (E : K0 X) : toddClassOp E 1 = (1 / 2 : ℚ) • chernClassOp E 1 := sorry
+
+/-- The intersection number `L · M` of two line-bundle classes on a proper surface over `k`. -/
+def intersectionNumber {S : Scheme.{u}} (k : Type u) [Field k] (f : S ⟶ Spec (.of k)) [IsProper f]
+    (L M : TauCeti.AlgebraicGeometry.LineBundleClass S) : ℤ :=
+  sorry
+
+theorem intersectionNumber_comm {S : Scheme.{u}} (k : Type u) [Field k] (f : S ⟶ Spec (.of k))
+    [IsProper f] (L M : TauCeti.AlgebraicGeometry.LineBundleClass S) :
+    intersectionNumber k f L M = intersectionNumber k f M L :=
+  sorry
+
+theorem intersectionNumber_mul {S : Scheme.{u}} (k : Type u) [Field k] (f : S ⟶ Spec (.of k))
+    [IsProper f] (L M N : TauCeti.AlgebraicGeometry.LineBundleClass S) :
+    intersectionNumber k f (L * M) N = intersectionNumber k f L N + intersectionNumber k f M N :=
+  sorry
+
+/-- Numerical equivalence of line-bundle classes on a proper surface: equal pairings against
+every class. -/
+def NumericallyEquivalent {S : Scheme.{u}} (k : Type u) [Field k] (f : S ⟶ Spec (.of k))
+    [IsProper f] (L M : TauCeti.AlgebraicGeometry.LineBundleClass S) : Prop :=
+  ∀ N, intersectionNumber k f L N = intersectionNumber k f M N
+
+-- Check `test_num_principal`
+example {S : Scheme.{u}} (k : Type u) [Field k] (f : S ⟶ Spec (.of k)) [IsProper f]
+    (L : TauCeti.AlgebraicGeometry.LineBundleClass S) : NumericallyEquivalent k f L L :=
+  fun _ => rfl
+
+end Chow
+
+end
+end SF_SF_5
+
 /-!
 ## Targets without a typed form at the pins
 
-Layer 5 (intersection theory). None of the README target–the README target is typed here: `CH_k(X)` needs rational
-equivalence on Mathlib's `AlgebraicCycle`, which has no carrier yet; the README target–the README target (proper
-pushforward, flat pullback, localization) need that quotient; the README target–the README target (first Chern class,
-projective bundles, Chern classes, refined Gysin maps, the intersection product) need the
-relative Proj of Layer 0 and the normal-cone deformation of Layer 4; the README target–the README target
-(Grothendieck–Riemann–Roch, the surface pairing, adjunction, Riemann–Roch and Hodge index on
-surfaces, the Weil bound, Bézout) need all of the above together with Layer 2's coherent duality.
-Proposed names: `Chow.RatEquiv`, `.c1`, `.chernClass`, `.gysin`,
-`.intersect`, `AlgebraicGeometry.projectiveBundle`.
+Layer 5 (intersection theory). Typed above are the Chow groups with proper pushforward, flat
+pullback, the localisation sequence, `c_1`, Chern classes, the normal cone, specialisation,
+homotopy invariance, the external product, the refined Gysin map, `K_0`, `G_0`, the
+`K`-theoretic pushforward, the Chern character and Todd operators, and the surface pairing with
+numerical equivalence. Without a typed form: the projective bundle theorem (it needs the relative
+Proj of Layer 0), the intersection product on smooth varieties (the diagonal Gysin map on the
+external product), Grothendieck–Riemann–Roch, adjunction, Riemann–Roch and Noether's formula on
+surfaces, Nakai–Moishezon, the Hodge index theorem, the Weil bound via surfaces and Bézout (they
+need the intersection product, degrees of cycles in projective space, and Layer 2's coherent
+duality on surfaces). Proposed names: `Chow.projectiveBundleBasis`, `Chow.intersect`,
+`Chow.grr`, `Chow.adjunction`, `Chow.nakai_moishezon`, `Chow.hodge_index`, `Chow.bezout`.
 
 Interfaces (the boundaries section of the README). The comparison maps that the arithmetic
 roadmaps consume are interfaces on carriers owned by other roadmaps
