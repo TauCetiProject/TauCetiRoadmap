@@ -1,4 +1,6 @@
 import Mathlib
+import TauCetiRoadmap.AlgebraicVectorBundles.Suggested
+import TauCeti.AlgebraicGeometry.Morphisms.PureRelativeDimension
 import TauCeti.Algebra.AlgebraicGroup.ConstantGroup.Scheme
 import TauCeti.Algebra.BrauerGroup.BaseChange
 import TauCeti.Algebra.BrauerGroup.Group
@@ -2737,6 +2739,14 @@ end Excellence
 open _root_.CategoryTheory _root_.CategoryTheory.Limits _root_.Opposite _root_.AlgebraicGeometry
 namespace Spaces
 
+-- Check `atlas_two_lifts_rejected`
+example (k : Type u) [Field k] :
+    IsEmpty (pullback
+      (coprod.inl : Spec (.of k) ⟶ Spec (.of k) ⨿ Spec (.of k))
+      (coprod.inr : Spec (.of k) ⟶ Spec (.of k) ⨿ Spec (.of k)) : Scheme.{u}) ∧
+      Nonempty (pullback (𝟙 (Spec (.of k))) (𝟙 (Spec (.of k))) : Scheme.{u}) := by sorry
+
+
 abbrev SchemePresheaf := Scheme.{u}ᵒᵖ ⥤ Type u
 
 /-- A named condition on the native diagonal, using native relative representability. -/
@@ -2978,6 +2988,58 @@ theorem quotientCompNatIso_id_left (I : Z.IdealSheafData) (g : Y ⟶ Z) [IsAffin
   sorry
 
 end IdealPullback
+
+/-! Affine controls for the module and prescribed-point formulas. -/
+section AffineControls
+set_option backward.isDefEq.respectTransparency false
+set_option backward.isDefEq.respectTransparency.types false
+open _root_.AlgebraicGeometry _root_.CategoryTheory _root_.CategoryTheory.Limits
+open scoped _root_.TensorProduct
+
+-- Check `relativeSpec_tensor_counit`: the multiplication counit kills this nonzero element.
+example (k : Type u) [Field k] :
+    (Polynomial.X ⊗ₜ[k] (1 : Polynomial k)) ≠
+      ((1 : Polynomial k) ⊗ₜ[k] Polynomial.X) := by sorry
+
+-- Check `relativeSpec_identity`
+example (A : Type u) [CommRing A] : Nonempty (A ⊗[A] A ≃ₗ[A] A) := by sorry
+
+-- Check `relativeSpec_zero_module`
+example (A : Type u) [CommRing A] : Subsingleton (A ⊗[A] (Fin 0 → A)) := by sorry
+
+-- Check `reflexive_extension_torsion_rejected`
+example (k : Type u) [Field k] :
+    let A := Polynomial k
+    let M := A × (A ⧸ Ideal.span {(Polynomial.X : Polynomial k)})
+    ¬ NoZeroSMulDivisors A M ∧ Nonempty (Module.Dual A (Module.Dual A M) ≃ₗ[A] A) := by
+  sorry
+
+-- Check `smooth_section_generic_rejected`: a finite residue extension cannot receive k(t).
+example (k L : Type u) [Field k] [Field L] [Algebra k L] [Module.Finite k L] :
+    IsEmpty (RatFunc k →ₐ[k] L) := by sorry
+
+-- Check `smooth_section_rational`
+example (k : Type u) [Field k] (a : k) :
+    ∃ σ : Polynomial k →ₐ[k] k, σ Polynomial.X = a := by sorry
+
+-- Check `smooth_section_separable`
+example (k L : Type u) [Field k] [Field L] [Algebra k L] [Module.Finite k L]
+    [Algebra.IsSeparable k L] (a : L) :
+    ∃ σ : Polynomial k →ₐ[k] L, σ Polynomial.X = a := by sorry
+
+-- Check `perfection_dual_numbers_not_immersion`: the structural map already fails monomorphy.
+example (p : ℕ) [Fact p.Prime] :
+    ¬ Mono (Spec.map (CommRingCat.ofHom (algebraMap (ZMod p) (DualNumber (ZMod p))))) := by
+  sorry
+
+-- Check `weaklyNormal_frobenius_twist`: the retained models must remember their generic fields.
+-- Relative Frobenius/perfection for elliptic schemes uses the untyped §0.24 supplier;
+-- the native j-invariant detects the failure of an unqualified model isomorphism.
+example (p : ℕ) [Fact p.Prime] (k : Type u) [Field k] [CharP k p]
+    (E : WeierstrassCurve k) [E.IsElliptic] (hj : E.j ^ p ≠ E.j) :
+    (E.map (frobenius k p)).j ≠ E.j := by sorry
+
+end AffineControls
 
 /-! ### Layer 0 definitions without a typed form at the pins
 
@@ -4522,6 +4584,10 @@ theorem isAffine_of_H1_ideal_vanishing (X : Scheme.{u}) [CompactSpace X]
     (h : ∀ (I : X.Modules) [I.IsQuasicoherent], Subsingleton (cohomology I 1)) : IsAffine X :=
   sorry
 
+-- Check `higherDirectImage_unbounded_base`: the coproduct base is excluded by the affine bound.
+example (k : Type u) [Field k] :
+    ¬ IsAffine (∐ fun _ : ℕ => Spec (.of k)) := by sorry
+
 end QCoh
 
 namespace Supports
@@ -4731,10 +4797,11 @@ example (X : Scheme.{u}) (U V : X.Opens) (h : U ⊔ V = ⊤) :
 /- `X = 𝔸¹_ℚ`, `U = 𝔸¹ ∖ {0}`, `V = 𝔸¹ ∖ {−1, −2}` with `s ↦ s² + 2s` is an elementary
 distinguished square (statement in the README). -/
 -- Check `test_eds_not_distinguished`: for a separable quadratic `L / K`, `(∅ ⊂ Spec K, Spec L → Spec K)`
--- is not an elementary distinguished square: the complement is all of `Spec K` and `Spec L ≇ Spec K`.
+-- is rejected over Spec K, retaining the specified algebra structure.
 example (K L : Type u) [Field K] [Field L] [Algebra K L] [Algebra.IsSeparable K L]
     (hL : Module.finrank K L = 2) (S : ElementaryDistinguishedSquare (Spec (CommRingCat.of K)))
-    (hU : IsEmpty S.U) : ¬ Nonempty (S.V ≅ Spec (CommRingCat.of L)) := sorry
+    (hU : IsEmpty S.U) : ¬ Nonempty (Over.mk S.p ≅
+      Over.mk (Spec.map (CommRingCat.ofHom (algebraMap K L)))) := sorry
 -- Check `test_eds_not_distinguished_extra_point`: `V = Spec K ⊔ Spec L` over `Spec K` with `U = ∅`
 -- satisfies the pointwise clause and is rejected by the structure.
 example (K L : Type u) [Field K] [Field L] [Algebra K L] [Algebra.IsSeparable K L]
@@ -4745,6 +4812,14 @@ example (K L : Type u) [Field K] [Field L] [Algebra K L] [Algebra.IsSeparable K 
         Function.Bijective (Scheme.Hom.residueFieldMap p y).hom) ∧
       ∀ S : ElementaryDistinguishedSquare (Spec (CommRingCat.of K)), IsEmpty S.U →
         ¬ Nonempty (S.V ≅ Spec (CommRingCat.of K) ⨿ Spec (CommRingCat.of L)) := sorry
+
+-- Check `eds_rational_function_square`: the same abstract field, a different structural map.
+example (φ : RatFunc ℚ →ₐ[ℚ] RatFunc ℚ)
+    (hφ : φ RatFunc.X = RatFunc.X ^ 2)
+    (S : ElementaryDistinguishedSquare (Spec (.of (RatFunc ℚ)))) (hU : IsEmpty S.U) :
+    Nonempty (Spec (.of (RatFunc ℚ)) ≅ Spec (.of (RatFunc ℚ))) ∧
+      ¬ Nonempty (Over.mk S.p ≅ Over.mk (Spec.map (CommRingCat.ofHom φ.toRingHom))) := by
+  sorry
 
 theorem ElementaryDistinguishedSquare.exists_mayerVietorisSquare {X : Scheme.{u}}
     [HasWeakSheafify nisnevichTopology.{u} (Type u)]
@@ -4787,12 +4862,19 @@ noncomputable def bigSheaf {S : Scheme.{u}} (F : S.Modules) [F.IsQuasicoherent] 
 
 /- `bigSheaf_obj`: sections over `(T, h)` are `Γ(T, h^*F)`;
    `bigSheaf_isSheaf`: `F^a` is a sheaf for the Zariski, étale, fppf and fpqc topologies;
-   `bigSheaf_exact`: exactness on short exact sequences of quasi-coherent modules;
+   `bigSheaf_rightExact`: right exactness on quasi-coherent modules;
+   `bigSheaf_exact_of_flat_quotient`: exactness when the quotient is flat;
    `bigSheaf_pullback`: compatibility with pullback along `S' → S`;
    `bigSheaf_structureSheaf`: `(O_S)^a` is the structure sheaf `G_a`;
    `bigSheaf_fullyFaithful`: `F ↦ F^a` is fully faithful on quasi-coherent modules.
    These need the global-sections functor of `Scheme.Modules` and an `Over`-site restriction API;
    the carrier above fixes the type. -/
+
+-- Check `bigSheaf_nonflat_pullback`: the same multiplication map before and after t = 0.
+example (k : Type u) [Field k] :
+    Function.Injective (fun a : Polynomial k => Polynomial.X * a) ∧
+      ¬ Function.Injective (fun a : k => Polynomial.eval 0 (Polynomial.X : Polynomial k) * a) := by
+  sorry
 
 -- Check `test_bigSheaf_zero`
 /- `F = 0` gives the zero sheaf (needs a quasi-coherence instance for the zero module). -/
@@ -5136,20 +5218,23 @@ theorem isAzumaya_iff_matrix_after_etale (R A : Type u) [CommRing R] [Ring A] [A
         Nonempty (TensorProduct R (B i) A ≃ₐ[B i] Matrix (Fin n) (Fin n) (B i)) :=
   sorry
 
-/-- The class in `H²(X_ét, 𝔾_m)` of an Azumaya algebra given by its global-section data: a
+/-- For affine `X`, the class in `H²(X_ét, 𝔾_m)` of an Azumaya algebra given by its global-section data: a
 finite projective `Γ(X, O)`-algebra `A` which is Azumaya in Mathlib's sense, by the étale cohomological Brauer-class map. This construction uses algebras over global sections. -/
-noncomputable def azumayaClass (X : Scheme.{u}) (A : Type u) [Ring A] [Algebra Γ(X, ⊤) A]
+noncomputable def azumayaClass (X : Scheme.{u}) [IsAffine X] (A : Type u) [Ring A] [Algebra Γ(X, ⊤) A]
     [Module.Finite Γ(X, ⊤) A] [Module.Projective Γ(X, ⊤) A] (hA : IsAzumaya Γ(X, ⊤) A) :
     (GmEtale X).H 2 :=
   sorry
 
 /-- The class of an Azumaya algebra of degree `d` is `d`-torsion; it lies in `Br′ = H²_tors`. -/
-theorem azumayaClass_torsion (X : Scheme.{u}) (A : Type u) [Ring A] [Algebra Γ(X, ⊤) A]
+theorem azumayaClass_torsion (X : Scheme.{u}) [IsAffine X] (A : Type u) [Ring A] [Algebra Γ(X, ⊤) A]
     [Module.Finite Γ(X, ⊤) A] [Module.Projective Γ(X, ⊤) A] (hA : IsAzumaya Γ(X, ⊤) A)
-    (d : ℕ) (hd : Module.finrank Γ(X, ⊤) A = d ^ 2) : d • azumayaClass X A hA = 0 :=
+    (d : ℕ) (hpos : 0 < d)
+    (hd : ∀ x : PrimeSpectrum Γ(X, ⊤),
+      Module.finrank x.asIdeal.ResidueField (TensorProduct Γ(X, ⊤) x.asIdeal.ResidueField A) = d ^ 2) :
+    d • azumayaClass X A hA = 0 :=
   sorry
 
-theorem azumayaClass_tensor (X : Scheme.{u}) (A B : Type u) [Ring A] [Algebra Γ(X, ⊤) A]
+theorem azumayaClass_tensor (X : Scheme.{u}) [IsAffine X] (A B : Type u) [Ring A] [Algebra Γ(X, ⊤) A]
     [Module.Finite Γ(X, ⊤) A] [Module.Projective Γ(X, ⊤) A] (hA : IsAzumaya Γ(X, ⊤) A)
     [Ring B] [Algebra Γ(X, ⊤) B] [Module.Finite Γ(X, ⊤) B] [Module.Projective Γ(X, ⊤) B]
     (hB : IsAzumaya Γ(X, ⊤) B) (hAB : IsAzumaya Γ(X, ⊤) (TensorProduct Γ(X, ⊤) A B)) :
@@ -5157,11 +5242,18 @@ theorem azumayaClass_tensor (X : Scheme.{u}) (A B : Type u) [Ring A] [Algebra Γ
   sorry
 
 -- Check `test_class_matrix`
-example (X : Scheme.{u}) (n : ℕ) [NeZero n] :
+example (X : Scheme.{u}) [IsAffine X] (n : ℕ) [NeZero n] :
     azumayaClass X (Matrix (Fin n) (Fin n) Γ(X, ⊤)) (IsAzumaya.matrix _ _) = 0 := sorry
 
+-- Check `test_class_structure_algebra`: the degree-one scalar algebra is split.
+example (X : Scheme.{u}) [IsAffine X] :
+    azumayaClass X Γ(X, ⊤) (by infer_instance) = 0 := by sorry
+
+-- Check `test_class_empty`: the empty affine scheme has only the zero class.
+example : Subsingleton ((GmEtale Scheme.empty.{u}).H 2) := by sorry
+
 /- `azumayaClass_eq_zero_iff`, `azumayaClass_pullback`, the factorisation through `Br′` for
-quasi-compact `X`, and the tests `test_class_quaternion_real`, `test_class_field_agrees`,
+affine `X`, and the tests `test_class_quaternion_real`, `test_class_field_agrees`,
 `test_class_not_module_class` are roadmap items. -/
 
 /- Layer 2 (brauer field comparison) is Tau Ceti's `TauCeti.brauerCohomologyEquiv`
@@ -5169,6 +5261,13 @@ quasi-compact `X`, and the tests `test_class_quaternion_real`, `test_class_field
    Layer 2 (brauer henselian local): the finite-field case `Subsingleton (BrauerGroup k)` is Tau Ceti's
    `TauCeti.subsingleton_brauerGroup_of_finite`; the henselian local ring statement needs Azumaya
    algebras over a local ring and is stated in the roadmap. -/
+
+-- Check `brauer_units_torus_rejected`: t is an invertible nonconstant geometric function.
+example : IsUnit (LaurentPolynomial.T (R := ℂ) 1) ∧
+    ∀ c : ℂ, LaurentPolynomial.T (R := ℂ) 1 ≠ LaurentPolynomial.C c := by sorry
+
+-- Check `test_nisnevich_real_field_contrast`: the nonzero étale side of the field contrast.
+example : Nontrivial ((GmEtale (Spec (.of ℝ))).H 2) := by sorry
 
 end Brauer
 
@@ -5337,11 +5436,9 @@ theorem genus_baseChange (X : Scheme.{u}) [X.Over (Spec (.of k))]
 
 /-! ### Vector bundle degree -/
 
-/-- `E` is finite locally free of constant rank `r`: Mathlib's `IsLocallyFree` witnessed by local
-generators that are bases of cardinality `r`. -/
-def isFiniteLocallyFreeOfRank {X : Scheme.{u}} (E : X.Modules) (r : ℕ) : Prop :=
-  ∃ q : _root_.SheafOfModules.LocalGeneratorsData.{u} E,
-    q.IsLocallyFreeData ∧ ∀ i, Finite (q.generators i).I ∧ Nat.card (q.generators i).I = r
+/-- The finite-locally-free owner’s constant-rank predicate on the native module. -/
+abbrev isFiniteLocallyFreeOfRank {X : Scheme.{u}} (E : X.Modules) (r : ℕ) : Prop :=
+  TauCetiRoadmap.AlgebraicVectorBundles.isFiniteLocallyFreeOfRank X r E
 
 section Degree
 
@@ -5960,6 +6057,44 @@ structure PredeformationFunctor (Λ : Type u) [CommRing Λ] (k : Type u) [Field 
   F : ArtinLocalAlg Λ k ⥤ Type u
   unique : Unique (F.obj ArtinLocalAlg.residue)
 
+/-- The kernel of a small extension, as a `k`-vector space (it is an ideal killed by the maximal
+ideal of `A'`, so an `A'/m = k`-module). -/
+def smallExtensionKernel {A' A : ArtinLocalAlg Λ k} (f : A' ⟶ A) (_hf : IsSmallExtension f) : Type u :=
+  RingHom.ker (ArtinLocalAlg.toAlgHom f).toRingHom
+
+noncomputable instance {A' A : ArtinLocalAlg Λ k} (f : A' ⟶ A) (hf : IsSmallExtension f) :
+    AddCommGroup (smallExtensionKernel f hf) :=
+  inferInstanceAs (AddCommGroup (RingHom.ker (ArtinLocalAlg.toAlgHom f).toRingHom))
+
+noncomputable instance {A' A : ArtinLocalAlg Λ k} (f : A' ⟶ A) (hf : IsSmallExtension f) :
+    Module k (smallExtensionKernel f hf) :=
+  sorry
+
+
+/-- The subterminal functor recording the union of the vanishing conditions for a and b. -/
+def vanishingSubterminal (a b : Λ) (ha : algebraMap Λ k a = 0) : PredeformationFunctor Λ k where
+  F := {
+    obj A := ULift.{u} (PLift (algebraMap Λ A.obj.left a = 0 ∨ algebraMap Λ A.obj.left b = 0))
+    map f := TypeCat.ofHom (fun x => ⟨⟨by sorry⟩⟩)
+    map_id := by sorry
+    map_comp := by sorry }
+  unique := { default := ⟨⟨by sorry⟩⟩, uniq := by sorry }
+
+-- Check `subterminal_values`
+example (a b : Λ) (ha : algebraMap Λ k a = 0) (A : ArtinLocalAlg Λ k) :
+    Subsingleton ((vanishingSubterminal a b ha).F.obj A) := by
+  change Subsingleton (ULift (PLift _))
+  infer_instance
+
+-- Check `subterminal_residue`
+example (a b : Λ) (ha : algebraMap Λ k a = 0) :
+    Nonempty ((vanishingSubterminal a b ha).F.obj ArtinLocalAlg.residue) := by sorry
+
+-- Check `subterminal_nonzero`
+example (a b : Λ) (ha : algebraMap Λ k a = 0) (A : ArtinLocalAlg Λ k)
+    (hA : algebraMap Λ A.obj.left a ≠ 0) (hB : algebraMap Λ A.obj.left b ≠ 0) :
+    IsEmpty ((vanishingSubterminal a b ha).F.obj A) := by sorry
+
 namespace PredeformationFunctor
 
 variable (D : PredeformationFunctor Λ k)
@@ -6016,13 +6151,32 @@ theorem tangentSpace.add_def (h : D.H2) (v w : D.tangentSpace)
     v + w = D.F.map ArtinLocalAlg.dualAdd x := by
   sorry
 
-/-- Lifts along a small extension, when they exist, form a torsor under the tangent space
-(Stacks 06JI, kernel one-dimensional). -/
+/-- Lifts carry an additive action of `T_F ⊗ I`, simply transitive whenever lifts exist
+(Stacks 06JI). No trivialization of the kernel is chosen. -/
 theorem lifts_torsor (h2 : D.H2) (h4 : D.H4) {A' A : ArtinLocalAlg Λ k} (f : A' ⟶ A)
     (hs : IsSmallExtension f) (ξ : D.F.obj A) :
     letI := tangentSpace.addCommGroup D h2
-    ∃ act : D.tangentSpace → {x // D.F.map f x = ξ} → {x // D.F.map f x = ξ},
-      ∀ x y : {x // D.F.map f x = ξ}, ∃! v, act v x = y := by
+    letI := tangentSpace.module D h2
+    ∃ act : (TensorProduct k D.tangentSpace (smallExtensionKernel f hs)) →
+        {x // D.F.map f x = ξ} → {x // D.F.map f x = ξ},
+      (∀ x, act 0 x = x) ∧
+      (∀ v w x, act (v + w) x = act v (act w x)) ∧
+      ∀ x y, ∃! v, act v x = y := by
+  sorry
+
+-- Check `lifts_action_identity`
+example (V P : Type u) [AddCommGroup V] [AddAction V P] (x : P) : (0 : V) +ᵥ x = x :=
+  zero_vadd V x
+
+-- Check `lifts_action_composition`
+example (V P : Type u) [AddCommGroup V] [AddAction V P] (v w : V) (x : P) :
+    (v + w) +ᵥ x = v +ᵥ (w +ᵥ x) := add_vadd v w x
+
+-- Check `lifts_fake_action_rejected`
+example : (∀ x y : ZMod 3, ∃! v : ZMod 3, v + 2 * x = y) ∧
+    ¬ ∃ act : ZMod 3 → ZMod 3 → ZMod 3,
+      act = (fun v x => v + 2 * x) ∧
+      (∀ x, act 0 x = x) ∧ (∀ v w x, act (v + w) x = act v (act w x)) := by
   sorry
 
 /-- Functoriality of tangent spaces. -/
@@ -6030,6 +6184,16 @@ def map (D' : PredeformationFunctor Λ k) (η : D.F ⟶ D'.F) : D.tangentSpace �
   η.app _
 
 end PredeformationFunctor
+
+-- Check `subterminal_not_point`: the two dual-number points have no point over their pullback.
+example (k : Type u) [Field k] :
+    let Λ := MvPowerSeries (Fin 2) k
+    letI : Algebra Λ k := MvPowerSeries.constantCoeff.toAlgebra
+    ¬ (vanishingSubterminal (MvPowerSeries.X (0 : Fin 2))
+      (MvPowerSeries.X (1 : Fin 2)) (by sorry : algebraMap Λ k (MvPowerSeries.X 0) = 0)).H1 := by
+  sorry
+
+
 
 /-- The prorepresented functor on augmented Artinian algebras: maps preserve the fixed
 augmentation to k (Stacks, Definition 90.6.1 and Section 90.4). -/
@@ -6133,8 +6297,9 @@ example (R : CompleteLocalAlg Λ k) (n : ℕ) (e : R.R ≃ₐ[Λ] MvPowerSeries 
 
 -- Check `point_functor`: a functor with one-point values satisfies H1 and H4 and has a
 -- one-point tangent space.
-example (D : PredeformationFunctor Λ k) (h : ∀ A, Subsingleton (D.F.obj A)) :
-    D.H1 ∧ D.H4 ∧ Subsingleton D.tangentSpace := by
+example (D : PredeformationFunctor Λ k) (h : ∀ A, Subsingleton (D.F.obj A))
+    (hne : ∀ A, Nonempty (D.F.obj A)) :
+    D.H1 ∧ ∃ h2 : D.H2, D.H3 h2 ∧ D.H4 ∧ Subsingleton D.tangentSpace := by
   sorry
 
 -- Check `not_H2_quotient`: for char k ≠ 2, the quotient of h_{k[[t]]} by t ↦ −t satisfies H1
@@ -6178,19 +6343,6 @@ example (R R₁ : CompleteLocalAlg Λ k) (ξ : FormalElement (prorep R₁) R) :
   rintro ⟨π, π', hne, h, h'⟩
   simp only [Category.comp_id] at h h'
   exact hne (h.symm.trans h')
-
-/-- The kernel of a small extension, as a `k`-vector space (it is an ideal killed by the maximal
-ideal of `A'`, so an `A'/m = k`-module). -/
-def smallExtensionKernel {A' A : ArtinLocalAlg Λ k} (f : A' ⟶ A) (_hf : IsSmallExtension f) : Type u :=
-  RingHom.ker (ArtinLocalAlg.toAlgHom f).toRingHom
-
-noncomputable instance {A' A : ArtinLocalAlg Λ k} (f : A' ⟶ A) (hf : IsSmallExtension f) :
-    AddCommGroup (smallExtensionKernel f hf) :=
-  inferInstanceAs (AddCommGroup (RingHom.ker (ArtinLocalAlg.toAlgHom f).toRingHom))
-
-noncomputable instance {A' A : ArtinLocalAlg Λ k} (f : A' ⟶ A) (hf : IsSmallExtension f) :
-    Module k (smallExtensionKernel f hf) :=
-  sorry
 
 -- Check `kernel_not_residue_vector_space`: in the kernel of ℤ/8 → ℤ/2,
 -- the element 2 is not killed by 2, so its additive group cannot be an 𝔽₂-module.
@@ -6289,7 +6441,12 @@ example (R : CompleteLocalAlg Λ k)
 
    Theorems of Layer 4 of the roadmap not typed here (they need Ext groups of O_X-modules
    and the sheaf of differentials of Tau Ceti StableReduction Layer 1):
-   * Layer 4 (algebra deformation classes)  (Stacks 0GPT, 08S7, 08S5, 08S6, 0D14),
+   * Layer 4 (algebra deformation classes): with an existing flat lift, the
+     Ext¹ classification using the two-term Algebra.Extension.cotangentComplex
+     and Hom of differentials for automorphisms (Stacks 0GPT, 08S7, 08S5).
+     General Ext² obstructions require a full Algebra.CotangentComplex supplier
+     with resolutions, transitivity and the obstruction class of Stacks 08SP,
+     and are outside the retained target,
    * Layer 4 (deformations of smooth schemes) (Stacks 0DY7–0ET5, 0DZQ; H¹(T), H²(T), H¹(O), H²(O)),
    * Layer 4 (node versal deformation) (hull Λ[[t]], universal family uv = t; DM69 (1.6)). -/
 
@@ -7371,30 +7528,70 @@ the refined Gysin map of a regular immersion; `K0` and `G0` are the Grothendieck
 locally free and of finitely presented modules, with the resolution property as the hypothesis of
 their comparison; the surface pairing is a bilinear form on line-bundle classes. -/
 
+-- Check `bertini_frobenius_pencil_rejected`: the affine chart of the member p·{0}.
+example (p : ℕ) [Fact p.Prime] (k : Type u) [Field k] [CharP k p] :
+    Polynomial.derivative ((Polynomial.X : Polynomial k) ^ p) = 0 ∧
+      ¬ IsReduced (Polynomial k ⧸ Ideal.span {(Polynomial.X : Polynomial k) ^ p}) := by sorry
+
 namespace Chow
 
 open _root_.CategoryTheory _root_.CategoryTheory.Limits _root_.AlgebraicGeometry Opposite
 open scoped _root_.TensorProduct
+
+variable (κ : Type u) [Field κ]
+
+/-- The native dimension condition in terms of scheme-theoretic fibre components. -/
+theorem pureRelativeDimension_iff_fiber_components {X Y : Scheme.{u}}
+    (f : X ⟶ Y) [LocallyOfFiniteType f] (d : ℕ) :
+    TauCeti.AlgebraicGeometry.PureRelativeDimension d f ↔
+      ∀ y : Y, ∀ Z ∈ irreducibleComponents (f.fiber y), topologicalKrullDim Z = d := by
+  sorry
+
+instance {X : Scheme.{u}} [X.Over (Spec (.of κ))] :
+    (X ↘ Spec (.of κ)).IsOver (Spec (.of κ)) := by sorry
+
+instance : Scheme.empty.{u}.Over (Spec (.of κ)) := ⟨Scheme.emptyTo _⟩
+instance : LocallyOfFiniteType (Scheme.empty.{u} ↘ Spec (.of κ)) := sorry
+
+instance {X Y Z : Scheme.{u}} [X.Over (Spec (.of κ))]
+    [Y.Over (Spec (.of κ))] [Z.Over (Spec (.of κ))]
+    (f : X ⟶ Z) (g : Y ⟶ Z) : (pullback f g).Over (Spec (.of κ)) :=
+  ⟨pullback.fst f g ≫ (X ↘ Spec (.of κ))⟩
+
+instance {X Y Z : Scheme.{u}} [X.Over (Spec (.of κ))]
+    [Y.Over (Spec (.of κ))] [Z.Over (Spec (.of κ))]
+    (f : X ⟶ Z) (g : Y ⟶ Z) : (pullback.fst f g).IsOver (Spec (.of κ)) := ⟨rfl⟩
+
+instance {X Y Z : Scheme.{u}} [X.Over (Spec (.of κ))]
+    [Y.Over (Spec (.of κ))] [Z.Over (Spec (.of κ))]
+    (f : X ⟶ Z) (g : Y ⟶ Z) [f.IsOver (Spec (.of κ))] [g.IsOver (Spec (.of κ))] :
+    (pullback.snd f g).IsOver (Spec (.of κ)) := by sorry
+
+instance {X Y Z : Scheme.{u}} [X.Over (Spec (.of κ))]
+    [Y.Over (Spec (.of κ))] [Z.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (X ↘ Spec (.of κ))] [LocallyOfFiniteType (Y ↘ Spec (.of κ))]
+    (f : X ⟶ Z) (g : Y ⟶ Z) [f.IsOver (Spec (.of κ))] [g.IsOver (Spec (.of κ))] :
+    LocallyOfFiniteType (pullback f g ↘ Spec (.of κ)) := by sorry
 
 /-- Cycles supported at generic points of closed subsets of dimension `k`: the dimension of the
 closure of `x` is its coheight in the specialisation order (`Order.height x` would be its
 codimension, which differs on a non-equidimensional scheme and already on `Spec` of a discrete
 valuation ring, whose closed point has coheight `0` and height `1`). Negative degrees contain only
 the zero cycle. -/
-def cyclesOfDimension (X : Scheme.{u}) (k : ℤ) : AddSubgroup (AlgebraicCycle X ℤ) :=
+def cyclesOfDimension (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) : AddSubgroup (AlgebraicCycle X ℤ) :=
   Function.locallyFinsuppWithin.supported ℤ Set.univ
     {x : X | ∃ n : ℕ, k = (n : ℤ) ∧ Order.coheight x = n}
 
 -- Check `cycles_zero`
-example (X : Scheme.{u}) (k : ℤ) : (0 : AlgebraicCycle X ℤ) ∈ cyclesOfDimension X k :=
-  (cyclesOfDimension X k).zero_mem
+example (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) : (0 : AlgebraicCycle X ℤ) ∈ cyclesOfDimension κ X k :=
+  (cyclesOfDimension κ X k).zero_mem
 
 -- Check `cycles_negative`
-example (X : Scheme.{u}) : cyclesOfDimension X (-1) = ⊥ := by sorry
+example (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] : cyclesOfDimension κ X (-1) = ⊥ := by sorry
 
 -- Check `cycles_support_agreement`
-example (X : Scheme.{u}) (k : ℤ) (c : AlgebraicCycle X ℤ) :
-    c ∈ cyclesOfDimension X k ↔
+example (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) (c : AlgebraicCycle X ℤ) :
+    c ∈ cyclesOfDimension κ X k ↔
       ∀ x, c x ≠ 0 → ∃ n : ℕ, k = (n : ℤ) ∧ Order.coheight x = n := Iff.rfl
 
 -- Check `cycles_dvr_closed_point` (dimension, not codimension)
@@ -7402,130 +7599,152 @@ example (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R] (x : 
     (hx : IsClosed ({x} : Set (Spec (.of R)))) : Order.coheight x = 0 ∧ Order.height x = 1 := by
   sorry
 
+-- Check `chow_dvr_generic_open_rejected`: absolute dimension drops under this open immersion.
+example (R K : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    [Field K] [Algebra R K] [IsFractionRing R K] :
+    IsOpenImmersion (Spec.map (CommRingCat.ofHom (algebraMap R K))) ∧
+      topologicalKrullDim (Spec (.of R)) = 1 ∧ topologicalKrullDim (Spec (.of K)) = 0 := by
+  sorry
+
 /-- The subgroup of `k`-cycles rationally equivalent to zero. -/
-def RatEquiv (X : Scheme.{u}) (k : ℤ) : AddSubgroup (cyclesOfDimension X k) := sorry
+def RatEquiv (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) : AddSubgroup (cyclesOfDimension κ X k) := sorry
 
 /-- `CH_k(X)`, the Chow group of `k`-dimensional cycles modulo rational equivalence. -/
-def ChowGroup (X : Scheme.{u}) (k : ℤ) : Type u := cyclesOfDimension X k ⧸ RatEquiv X k
+def ChowGroup (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) : Type u := cyclesOfDimension κ X k ⧸ RatEquiv κ X k
 
-instance (X : Scheme.{u}) (k : ℤ) : AddCommGroup (ChowGroup X k) :=
-  inferInstanceAs (AddCommGroup (cyclesOfDimension X k ⧸ RatEquiv X k))
+instance (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) : AddCommGroup (ChowGroup κ X k) :=
+  inferInstanceAs (AddCommGroup (cyclesOfDimension κ X k ⧸ RatEquiv κ X k))
 
 /-- The class of a cycle. -/
-def cycleClass (X : Scheme.{u}) (k : ℤ) : cyclesOfDimension X k →+ ChowGroup X k :=
+def cycleClass (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) : cyclesOfDimension κ X k →+ ChowGroup κ X k :=
   QuotientAddGroup.mk' _
 
 -- Check `cycleClass_surjective`
-example (X : Scheme.{u}) (k : ℤ) : Function.Surjective (cycleClass X k) :=
+example (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) : Function.Surjective (cycleClass κ X k) :=
   QuotientAddGroup.mk'_surjective _
 
 -- Check `ratEquiv_point`: a field point has no nonzero rational equivalences of zero-cycles.
-example (K : Type u) [Field K] : RatEquiv (Spec (.of K)) 0 = ⊥ := sorry
+example : RatEquiv κ (Spec (.of κ)) 0 = ⊥ := sorry
 
 -- Check `ratEquiv_empty`: there are no cycles on the empty scheme.
-example (k : ℤ) : RatEquiv Scheme.empty.{u} k = ⊥ := sorry
+example (k : ℤ) : RatEquiv κ Scheme.empty.{u} k = ⊥ := sorry
 
 -- Check `ratEquiv_affine_line`: every zero-cycle on the affine line is principal.
-example (K : Type u) [Field K] : RatEquiv (Spec (.of (Polynomial K))) 0 = ⊤ := sorry
+example : RatEquiv κ (Spec (.of (Polynomial κ))) 0 = ⊤ := sorry
 
 -- Check `chow_point`: the class of a field point has arbitrary integral multiplicity.
-example (K : Type u) [Field K] : Nonempty (ChowGroup (Spec (.of K)) 0 ≃+ ℤ) := sorry
+example : Nonempty (ChowGroup κ (Spec (.of κ)) 0 ≃+ ℤ) := sorry
 
 -- Check `chow_empty`: every graded Chow group of the empty scheme vanishes.
-example (k : ℤ) : Subsingleton (ChowGroup Scheme.empty.{u} k) := sorry
+example (k : ℤ) : Subsingleton (ChowGroup κ Scheme.empty.{u} k) := sorry
 
 -- Check `chow_negative`: dimension minus one contributes no classes.
-example (X : Scheme.{u}) : Subsingleton (ChowGroup X (-1)) := sorry
+example (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] : Subsingleton (ChowGroup κ X (-1)) := sorry
 
 -- Check `cycleClass_point`: over a field, the quotient loses no zero-cycle information.
-example (K : Type u) [Field K] : Function.Bijective (cycleClass (Spec (.of K)) 0) := sorry
+example : Function.Bijective (cycleClass κ (Spec (.of κ)) 0) := sorry
 
 -- Check `cycleClass_affine_line`: the same map on the affine line is not injective.
-example (K : Type u) [Field K] : ¬ Function.Injective (cycleClass (Spec (.of (Polynomial K))) 0) := sorry
+example : ¬ Function.Injective (cycleClass κ (Spec (.of (Polynomial κ))) 0) := sorry
 
 -- Check `cycleClass_zero`: quotienting sends the zero cycle to zero.
-example (X : Scheme.{u}) (k : ℤ) : cycleClass X k 0 = 0 := (cycleClass X k).map_zero
+example (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) : cycleClass κ X k 0 = 0 := (cycleClass κ X k).map_zero
 
 /-- Proper pushforward `f_* : CH_k(X) → CH_k(Y)`. -/
-def properPushforward {X Y : Scheme.{u}} (f : X ⟶ Y) [IsProper f] (k : ℤ) :
-    ChowGroup X k →+ ChowGroup Y k :=
+def properPushforward {X Y : Scheme.{u}} [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] [Y.Over (Spec (.of κ))] [LocallyOfFiniteType (Y ↘ Spec (.of κ))] (f : X ⟶ Y) [f.IsOver (Spec (.of κ))] [IsProper f] (k : ℤ) :
+    ChowGroup κ X k →+ ChowGroup κ Y k :=
   sorry
 
 /-- Flat pullback `f^* : CH_k(Y) → CH_{k+d}(X)` for `f` flat of relative dimension `d`. -/
-def flatPullback {X Y : Scheme.{u}} (f : X ⟶ Y) [Flat f] [LocallyOfFinitePresentation f]
-    (d : ℕ) (hd : ∀ y : Y, ∀ Z ∈ irreducibleComponents (f.fiber y),
-      topologicalKrullDim Z = d) (k : ℤ) :
-    ChowGroup Y k →+ ChowGroup X (k + d) :=
+def flatPullback {X Y : Scheme.{u}} [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] [Y.Over (Spec (.of κ))] [LocallyOfFiniteType (Y ↘ Spec (.of κ))] (f : X ⟶ Y) [f.IsOver (Spec (.of κ))] [Flat f] [LocallyOfFinitePresentation f]
+    (d : ℕ) (hd : TauCeti.AlgebraicGeometry.PureRelativeDimension d f) (k : ℤ) :
+    ChowGroup κ Y k →+ ChowGroup κ X (k + d) :=
   sorry
 
-theorem properPushforward_comp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z) [IsProper f]
+theorem properPushforward_comp {X Y Z : Scheme.{u}} [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] [Y.Over (Spec (.of κ))] [LocallyOfFiniteType (Y ↘ Spec (.of κ))] [Z.Over (Spec (.of κ))] [LocallyOfFiniteType (Z ↘ Spec (.of κ))] (f : X ⟶ Y) [f.IsOver (Spec (.of κ))] (g : Y ⟶ Z) [g.IsOver (Spec (.of κ))] [IsProper f]
     [IsProper g] (k : ℤ) :
-    properPushforward (f ≫ g) k = (properPushforward g k).comp (properPushforward f k) :=
+    properPushforward κ (f ≫ g) k = (properPushforward κ g k).comp (properPushforward κ f k) :=
   sorry
 
 /-- The base change of a flat map of relative dimension `d` has relative dimension `d`: the
 fibre of `pullback.fst g f` over `x : X` is the fibre of `f` over `g x`. -/
 theorem pullback_fst_fiber_dim {X Y Y' : Scheme.{u}} (g : X ⟶ Y) (f : Y' ⟶ Y) [Flat f]
     [LocallyOfFinitePresentation f] (d : ℕ)
-    (hd : ∀ y : Y, ∀ Z ∈ irreducibleComponents (f.fiber y), topologicalKrullDim Z = d) :
-    ∀ x : X, ∀ Z ∈ irreducibleComponents ((pullback.fst g f).fiber x), topologicalKrullDim Z = d :=
+    (hd : TauCeti.AlgebraicGeometry.PureRelativeDimension d f) :
+    TauCeti.AlgebraicGeometry.PureRelativeDimension d (pullback.fst g f) :=
   sorry
 
 /-- Proper pushforward and flat pullback commute in a cartesian square: for `g` proper and `f`
 flat of relative dimension `d`, `f^* g_* = g'_* f'^*` as maps `CH_k(X) → CH_{k+d}(Y')`, where
 `f'` is the base change of `f` and `g'` that of `g`. -/
-theorem flatPullback_properPushforward {X Y Y' : Scheme.{u}} (g : X ⟶ Y) [IsProper g]
-    (f : Y' ⟶ Y) [Flat f] [LocallyOfFinitePresentation f] (d : ℕ) (k : ℤ)
-    (hd : ∀ y : Y, ∀ Z ∈ irreducibleComponents (f.fiber y), topologicalKrullDim Z = d) :
-    (flatPullback f d hd k).comp (properPushforward g k) =
-      (properPushforward (pullback.snd g f) (k + d)).comp
-        (flatPullback (pullback.fst g f) d (pullback_fst_fiber_dim g f d hd) k) :=
+theorem flatPullback_properPushforward {X Y Y' : Scheme.{u}} [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] [Y.Over (Spec (.of κ))] [LocallyOfFiniteType (Y ↘ Spec (.of κ))] [Y'.Over (Spec (.of κ))] [LocallyOfFiniteType (Y' ↘ Spec (.of κ))] (g : X ⟶ Y) [g.IsOver (Spec (.of κ))] [IsProper g]
+    (f : Y' ⟶ Y) [f.IsOver (Spec (.of κ))] [Flat f] [LocallyOfFinitePresentation f] (d : ℕ) (k : ℤ)
+    (hd : TauCeti.AlgebraicGeometry.PureRelativeDimension d f) :
+    (flatPullback κ f d hd k).comp (properPushforward κ g k) =
+      (properPushforward κ (pullback.snd g f) (k + d)).comp
+        (flatPullback κ (pullback.fst g f) d (pullback_fst_fiber_dim g f d hd) k) :=
   sorry
 
 /-- The fibres of an open immersion are points, so it is flat of relative dimension `0`. -/
 theorem IsOpenImmersion.fiber_dim_zero {U X : Scheme.{u}} (j : U ⟶ X) [IsOpenImmersion j] :
-    ∀ y : X, ∀ Z ∈ irreducibleComponents (j.fiber y), topologicalKrullDim Z = 0 :=
+    TauCeti.AlgebraicGeometry.PureRelativeDimension 0 j :=
   sorry
 
 /-- The localisation sequence `CH_k(Z) → CH_k(X) → CH_k(U) → 0` for `Z` closed with open
 complement `U`. -/
-theorem localization_exact {Z X U : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmersion i]
-    (j : U ⟶ X) [IsOpenImmersion j] (hUZ : Set.range j.base = (Set.range i.base)ᶜ) (k : ℤ) :
-    Function.Exact (properPushforward i k) (flatPullback j 0 (IsOpenImmersion.fiber_dim_zero j) k) ∧
-      Function.Surjective (flatPullback j 0 (IsOpenImmersion.fiber_dim_zero j) k) :=
+theorem localization_exact {Z X U : Scheme.{u}} [Z.Over (Spec (.of κ))] [LocallyOfFiniteType (Z ↘ Spec (.of κ))] [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] [U.Over (Spec (.of κ))] [LocallyOfFiniteType (U ↘ Spec (.of κ))] (i : Z ⟶ X) [i.IsOver (Spec (.of κ))] [IsClosedImmersion i]
+    (j : U ⟶ X) [j.IsOver (Spec (.of κ))] [IsOpenImmersion j] (hUZ : Set.range j.base = (Set.range i.base)ᶜ) (k : ℤ) :
+    Function.Exact (properPushforward κ i k) (flatPullback κ j 0 (IsOpenImmersion.fiber_dim_zero j) k) ∧
+      Function.Surjective (flatPullback κ j 0 (IsOpenImmersion.fiber_dim_zero j) k) :=
   sorry
 
 /-- `c_1(L) ∩ – : CH_k(X) → CH_{k−1}(X)`. -/
-def c1 {X : Scheme.{u}} (L : TauCeti.AlgebraicGeometry.LineBundleClass X) (k : ℤ) :
-    ChowGroup X k →+ ChowGroup X (k - 1) :=
+def c1 {X : Scheme.{u}} [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (L : TauCeti.AlgebraicGeometry.LineBundleClass X) (k : ℤ) :
+    ChowGroup κ X k →+ ChowGroup κ X (k - 1) :=
   sorry
 
-theorem c1_mul {X : Scheme.{u}} (L M : TauCeti.AlgebraicGeometry.LineBundleClass X) (k : ℤ)
-    (α : ChowGroup X k) : c1 (L * M) k α = c1 L k α + c1 M k α :=
+theorem c1_mul {X : Scheme.{u}} [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (L M : TauCeti.AlgebraicGeometry.LineBundleClass X) (k : ℤ)
+    (α : ChowGroup κ X k) : c1 κ (L * M) k α = c1 κ L k α + c1 κ M k α :=
   sorry
 
-theorem c1_comm {X : Scheme.{u}} (L M : TauCeti.AlgebraicGeometry.LineBundleClass X) (k : ℤ)
-    (α : ChowGroup X k) : c1 L (k - 1) (c1 M k α) = c1 M (k - 1) (c1 L k α) :=
+theorem c1_comm {X : Scheme.{u}} [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (L M : TauCeti.AlgebraicGeometry.LineBundleClass X) (k : ℤ)
+    (α : ChowGroup κ X k) : c1 κ L (k - 1) (c1 κ M k α) = c1 κ M (k - 1) (c1 κ L k α) :=
   sorry
 
-/-- The total space of a finite locally free sheaf (the relative spectrum of its symmetric
-algebra on the dual). -/
-def totalSpace {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] [E.IsFiniteType] : Scheme.{u} := sorry
+/-- The owner's geometric total space, using the same native module object. -/
+abbrev totalSpace {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree]
+    [E.IsFinitePresentation] : Scheme.{u} :=
+  ((TauCetiRoadmap.AlgebraicVectorBundles.totalSpaceScheme X).obj
+    ⟨E, inferInstance, inferInstance⟩).obj.left
 
-def totalSpace.proj {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] [E.IsFiniteType] : totalSpace E ⟶ X := sorry
+/-- The structure morphism of the owner's relative spectrum. -/
+abbrev totalSpace.proj {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree]
+    [E.IsFinitePresentation] : totalSpace E ⟶ X :=
+  ((TauCetiRoadmap.AlgebraicVectorBundles.totalSpaceScheme X).obj
+    ⟨E, inferInstance, inferInstance⟩).obj.hom
 
-instance {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] [E.IsFiniteType] : Flat (totalSpace.proj E) := sorry
+instance {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] [E.IsFinitePresentation] :
+    Flat (totalSpace.proj E) := sorry
 
-instance {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] [E.IsFiniteType] :
-    LocallyOfFinitePresentation (totalSpace.proj E) :=
-  sorry
+instance {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] [E.IsFinitePresentation] :
+    LocallyOfFinitePresentation (totalSpace.proj E) := sorry
 
-/-- `E` has constant rank `r`: every point has an affine neighbourhood on which the sections form
-a module of rank `r`. -/
-def HasRank {X : Scheme.{u}} (E : X.Modules) (r : ℕ) : Prop :=
-  ∀ x : X, ∃ U : X.affineOpens, x ∈ U.1 ∧
-    Nonempty (E.val.obj (op U.1) ≃ₗ[X.ringCatSheaf.obj.obj (op U.1)]
-      (Fin r → X.ringCatSheaf.obj.obj (op U.1)))
+/-- Constant rank in the finite-locally-free owner's sense. -/
+abbrev HasRank {X : Scheme.{u}} (E : X.Modules) (r : ℕ) : Prop :=
+  TauCetiRoadmap.AlgebraicVectorBundles.isFiniteLocallyFreeOfRank X r E
+
+instance {X : Scheme.{u}} [X.Over (Spec (.of κ))]
+    (E : X.Modules) [E.IsLocallyFree] [E.IsFinitePresentation] :
+    (totalSpace E).Over (Spec (.of κ)) := ⟨totalSpace.proj E ≫ (X ↘ Spec (.of κ))⟩
+
+instance {X : Scheme.{u}} [X.Over (Spec (.of κ))]
+    (E : X.Modules) [E.IsLocallyFree] [E.IsFinitePresentation] :
+    (totalSpace.proj E).IsOver (Spec (.of κ)) := ⟨rfl⟩
+
+instance {X : Scheme.{u}} [X.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (X ↘ Spec (.of κ))]
+    (E : X.Modules) [E.IsLocallyFree] [E.IsFinitePresentation] :
+    LocallyOfFiniteType (totalSpace E ↘ Spec (.of κ)) := by sorry
 
 -- Check `rank_empty`: a rank condition is vacuous on the empty base.
 example (E : Scheme.empty.{u}.Modules) (r : ℕ) : HasRank E r := sorry
@@ -7539,48 +7758,71 @@ example (X : Scheme.{u}) (r : ℕ) :
     HasRank (SheafOfModules.free (R := X.ringCatSheaf) (ULift.{u} (Fin r))) r := sorry
 
 -- Check `totalSpace_rank_zero`: a bundle of rank zero is the base, over the base.
-example {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] [E.IsFiniteType]
+example {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] [E.IsFinitePresentation]
     (h : HasRank E 0) : IsIso (totalSpace.proj E) := sorry
 
 -- Check `totalSpace_empty`: the total space on the empty scheme is empty.
-example (E : Scheme.empty.{u}.Modules) [E.IsLocallyFree] [E.IsFiniteType] :
+example (E : Scheme.empty.{u}.Modules) [E.IsLocallyFree] [E.IsFinitePresentation] :
     IsEmpty (totalSpace E) := sorry
 
 -- Check `totalSpace_line_over_field`: a rank-one bundle on a field point is the affine line.
-example (K : Type u) [Field K] (E : (Spec (.of K)).Modules) [E.IsLocallyFree] [E.IsFiniteType]
+example (K : Type u) [Field K] (E : (Spec (.of K)).Modules) [E.IsLocallyFree] [E.IsFinitePresentation]
     (h : HasRank E 1) : Nonempty (Over.mk (totalSpace.proj E) ≅
       Over.mk (Spec.map (CommRingCat.ofHom (algebraMap K (Polynomial K))))) := sorry
 
 /-- The projection of a vector bundle of constant rank `r` has pure relative dimension `r`. -/
 theorem totalSpace.pureRelativeDimension {X : Scheme.{u}} (E : X.Modules)
-    [E.IsLocallyFree] [E.IsFiniteType] (r : ℕ) (hr : HasRank E r) :
-    ∀ y : X, ∀ Z ∈ irreducibleComponents ((totalSpace.proj E).fiber y),
-      topologicalKrullDim Z = r := by sorry
+    [E.IsLocallyFree] [E.IsFinitePresentation] (r : ℕ) (hr : HasRank E r) :
+    TauCeti.AlgebraicGeometry.PureRelativeDimension r (totalSpace.proj E) := by sorry
 
 /-- Homotopy invariance: `p^* : CH_k(X) → CH_{k+r}(E)` is bijective for the total space of a
 finite locally free sheaf of rank `r`. The inverse is constructed from the localisation sequence
 and the projective bundle theorem; its identification with the Gysin map of the zero section comes
 afterwards. -/
-theorem homotopy_invariance {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] [E.IsFiniteType] (r : ℕ)
+theorem homotopy_invariance {X : Scheme.{u}} [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (E : X.Modules) [E.IsLocallyFree] [E.IsFinitePresentation] (r : ℕ)
     (hr : HasRank E r) (k : ℤ) :
-    Function.Bijective (flatPullback (totalSpace.proj E) r
+    Function.Bijective (flatPullback κ (totalSpace.proj E) r
       (totalSpace.pureRelativeDimension E r hr) k) :=
   sorry
 
 -- Check `test_homotopy_affine_line`
-example {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] [E.IsFiniteType] (hr : HasRank E 1) (k : ℤ) :
-    Function.Bijective (flatPullback (totalSpace.proj E) 1
+example {X : Scheme.{u}} [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (E : X.Modules) [E.IsLocallyFree] [E.IsFinitePresentation] (hr : HasRank E 1) (k : ℤ) :
+    Function.Bijective (flatPullback κ (totalSpace.proj E) 1
       (totalSpace.pureRelativeDimension E 1 hr) k) :=
-  homotopy_invariance E 1 hr k
+  homotopy_invariance κ E 1 hr k
 
 /-- `c_i(E) ∩ – : CH_k(X) → CH_{k−i}(X)`. -/
-def chernClass {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] [E.IsFiniteType] (i : ℕ) (k : ℤ) :
-    ChowGroup X k →+ ChowGroup X (k - i) :=
+def chernClass {X : Scheme.{u}} [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (E : X.Modules) [E.IsLocallyFree] [E.IsFinitePresentation] (i : ℕ) (k : ℤ) :
+    ChowGroup κ X k →+ ChowGroup κ X (k - i) :=
   sorry
 
-theorem chernClass_vanish {X : Scheme.{u}} (E : X.Modules) [E.IsLocallyFree] [E.IsFiniteType] (r : ℕ)
-    (hr : HasRank E r) (i : ℕ) (hi : r < i) (k : ℤ) : chernClass E i k = 0 :=
+theorem chernClass_vanish {X : Scheme.{u}} [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (E : X.Modules) [E.IsLocallyFree] [E.IsFinitePresentation] (r : ℕ)
+    (hr : HasRank E r) (i : ℕ) (hi : r < i) (k : ℤ) : chernClass κ E i k = 0 :=
   sorry
+
+-- Check `native_bundle_all_consumers`: no replacement carrier or second rank witness.
+example {X : Scheme.{u}} [X.Over (Spec (.of κ))]
+    [IsProper (X ↘ Spec (.of κ))]
+    (hdim : topologicalKrullDim X ≤ 1)
+    (E : TauCetiRoadmap.AlgebraicVectorBundles.FiniteLocallyFreeSheaf X)
+    (r : ℕ) (hr : TauCetiRoadmap.AlgebraicVectorBundles.isFiniteLocallyFreeOfRank X r E.obj)
+    (n : ℤ) :
+    Curve.isFiniteLocallyFreeOfRank E.obj r ∧
+      Curve.vectorBundleDegree κ X E.obj r =
+        Curve.eulerChar κ X E.obj - r * Curve.eulerChar κ X (Curve.structureModule X) ∧
+      Nonempty (Over.mk (totalSpace.proj E.obj) ≅
+        ((TauCetiRoadmap.AlgebraicVectorBundles.totalSpaceScheme X).obj E).obj) ∧
+      Function.Bijective (flatPullback κ (totalSpace.proj E.obj) r
+        (totalSpace.pureRelativeDimension E.obj r hr) n) ∧
+      chernClass κ E.obj (r + 1) n = 0 := by
+  sorry
+
+-- Check `native_bundle_sections`: the geometric variance and base projection are the owner's.
+example {X : Scheme.{u}} (E : TauCetiRoadmap.AlgebraicVectorBundles.FiniteLocallyFreeSheaf X)
+    (T : Over X) :
+    Nonempty ((T ⟶ Over.mk (totalSpace.proj E.obj)) ≃
+      (SheafOfModules.unit T.left.ringCatSheaf ⟶ (Scheme.Modules.pullback T.hom).obj E.obj)) := by
+  exact ⟨TauCetiRoadmap.AlgebraicVectorBundles.totalSpaceHomEquiv E T⟩
 
 /-- `i` is a regular immersion of codimension `d`: around every point of `Z` the ideal of `Z` is
 generated by a regular sequence of length `d`. -/
@@ -7618,25 +7860,33 @@ example (K : Type u) [Field K] {X : Scheme.{u}} (i : Spec (.of K) ⟶ X)
     Nonempty (Over.mk (normalCone.proj i) ≅
       Over.mk (Spec.map (CommRingCat.ofHom (algebraMap K (Polynomial K))))) := sorry
 
+instance {Z X : Scheme.{u}} [Z.Over (Spec (.of κ))]
+    (i : Z ⟶ X) [IsClosedImmersion i] : (normalCone i).Over (Spec (.of κ)) :=
+  ⟨normalCone.proj i ≫ (Z ↘ Spec (.of κ))⟩
+
+instance {Z X : Scheme.{u}} [Z.Over (Spec (.of κ))] [X.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (Z ↘ Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))]
+    (i : Z ⟶ X) [IsClosedImmersion i] [i.IsOver (Spec (.of κ))] :
+    LocallyOfFiniteType (normalCone i ↘ Spec (.of κ)) := by sorry
+
 /-- The specialisation map `σ : CH_k(X) → CH_k(C_Z X)` through the deformation to the normal
 cone. -/
-def specialization {Z X : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmersion i] (k : ℤ) :
-    ChowGroup X k →+ ChowGroup (normalCone i) k :=
+def specialization {Z X : Scheme.{u}} [Z.Over (Spec (.of κ))] [LocallyOfFiniteType (Z ↘ Spec (.of κ))] [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (i : Z ⟶ X) [i.IsOver (Spec (.of κ))] [IsClosedImmersion i] (k : ℤ) :
+    ChowGroup κ X k →+ ChowGroup κ (normalCone i) k :=
   sorry
 
 /-- The external product over a field `CH_a(X) ⊗ CH_b(Y) → CH_{a+b}(X ×_k Y)`. -/
-def externalProduct (k : Type u) [Field k] {X Y : Scheme.{u}}
-    (f : X ⟶ Spec (.of k)) (g : Y ⟶ Spec (.of k)) [LocallyOfFiniteType f]
-    [LocallyOfFiniteType g] (a b : ℤ) :
-    ChowGroup X a →+ ChowGroup Y b →+ ChowGroup (pullback f g) (a + b) :=
+def externalProduct {X Y : Scheme.{u}} [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] [Y.Over (Spec (.of κ))] [LocallyOfFiniteType (Y ↘ Spec (.of κ))] (a b : ℤ) :
+    ChowGroup κ X a →+ ChowGroup κ Y b →+
+      ChowGroup κ (pullback (X ↘ Spec (.of κ)) (Y ↘ Spec (.of κ))) (a + b) :=
   sorry
 
 /-- The refined Gysin map `i^! : CH_k(X') → CH_{k−d}(Z ×_X X')` of a regular immersion of
 codimension `d` along any `f : X' → X`: specialise to the normal cone and apply the inverse of
-`homotopy_invariance` for the pulled-back normal bundle. -/
-def gysin {Z X X' : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmersion i] (d : ℕ)
-    (hi : IsRegularImmersion i d) (f : X' ⟶ X) (k : ℤ) :
-    ChowGroup X' k →+ ChowGroup (pullback i f) (k - d) :=
+`homotopy_invariance κ` for the pulled-back normal bundle. -/
+def gysin {Z X X' : Scheme.{u}} [Z.Over (Spec (.of κ))] [LocallyOfFiniteType (Z ↘ Spec (.of κ))] [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] [X'.Over (Spec (.of κ))] [LocallyOfFiniteType (X' ↘ Spec (.of κ))] (i : Z ⟶ X) [i.IsOver (Spec (.of κ))] [IsClosedImmersion i] (d : ℕ)
+    (hi : IsRegularImmersion i d) (f : X' ⟶ X) [f.IsOver (Spec (.of κ))] (k : ℤ) :
+    ChowGroup κ X' k →+ ChowGroup κ (pullback i f) (k - d) :=
   sorry
 
 /-- Every finitely presented module is a quotient of a finite locally free one. -/
@@ -7687,28 +7937,28 @@ theorem kPushforward_comp {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z) [IsPr
   sorry
 
 /-- The rational Chow group, graded by dimension. -/
-def ChowRat (X : Scheme.{u}) : Type u := Π₀ k : ℤ, ℚ ⊗[ℤ] ChowGroup X k
+def ChowRat (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] : Type u := Π₀ k : ℤ, ℚ ⊗[ℤ] ChowGroup κ X k
 
-instance (X : Scheme.{u}) : AddCommGroup (ChowRat X) := by unfold ChowRat; infer_instance
-instance (X : Scheme.{u}) : Module ℚ (ChowRat X) := by unfold ChowRat; infer_instance
+instance (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] : AddCommGroup (ChowRat κ X) := by unfold ChowRat; infer_instance
+instance (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] : Module ℚ (ChowRat κ X) := by unfold ChowRat; infer_instance
 
 /-- `c_i(E) ∩ –` on rational Chow groups, extended to `K_0`. -/
-def chernClassOp {X : Scheme.{u}} (E : K0 X) (i : ℕ) : ChowRat X →ₗ[ℚ] ChowRat X := sorry
+def chernClassOp {X : Scheme.{u}} [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (E : K0 X) (i : ℕ) : ChowRat κ X →ₗ[ℚ] ChowRat κ X := sorry
 
 /-- The degree-`i` component of the Todd class, as an operator. -/
-def toddClassOp {X : Scheme.{u}} (E : K0 X) (i : ℕ) : ChowRat X →ₗ[ℚ] ChowRat X := sorry
+def toddClassOp {X : Scheme.{u}} [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (E : K0 X) (i : ℕ) : ChowRat κ X →ₗ[ℚ] ChowRat κ X := sorry
 
 /-- The Chern character, as an operator. -/
-def chernCharacterOp {X : Scheme.{u}} (E : K0 X) : ChowRat X →ₗ[ℚ] ChowRat X := sorry
+def chernCharacterOp {X : Scheme.{u}} [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (E : K0 X) : ChowRat κ X →ₗ[ℚ] ChowRat κ X := sorry
 
 -- Check `test_todd_degree_two`
-example {X : Scheme.{u}} (E : K0 X) :
-    toddClassOp E 2 =
-      (1 / 12 : ℚ) • ((chernClassOp E 1).comp (chernClassOp E 1) + chernClassOp E 2) :=
+example {X : Scheme.{u}} [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (E : K0 X) :
+    toddClassOp κ E 2 =
+      (1 / 12 : ℚ) • ((chernClassOp κ E 1).comp (chernClassOp κ E 1) + chernClassOp κ E 2) :=
   sorry
 
 -- Check `test_todd_degree_one`
-example {X : Scheme.{u}} (E : K0 X) : toddClassOp E 1 = (1 / 2 : ℚ) • chernClassOp E 1 := sorry
+example {X : Scheme.{u}} [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (E : K0 X) : toddClassOp κ E 1 = (1 / 2 : ℚ) • chernClassOp κ E 1 := sorry
 
 /-- The intersection number `L · M` of two line-bundle classes on a proper surface over `k`. -/
 def intersectionNumber {S : Scheme.{u}} (k : Type u) [Field k] (f : S ⟶ Spec (.of k)) [IsProper f] [Fact (topologicalKrullDim S = 2)]
