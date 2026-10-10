@@ -11084,6 +11084,32 @@ theorem fixedCoset_lift {G : Type*} [Group G] (σ : MulAut G) (J : Subgroup G)
     group
   · simpa using hz
 
+-- Test Lang.positiveLevel_presentation_lifting
+-- The finite-level presentation is explicit input when J is a positive-depth intersection.
+example {G : Type u} [Group G] (σ : MulAut G) (J : Subgroup G)
+    (σJ : MulAut J) (hσJ : ∀ j : J, (σJ j : G) = σ j)
+    {F : Type u} [Field F] [Fintype F] {ι : Type v} [Preorder ι] [Nonempty ι]
+    (hdir : ∀ i j : ι, ∃ k, i ≤ k ∧ j ≤ k)
+    (H : ι → TauCeti.FiniteTypeCommHopfAlgCat.{u, u} F)
+    (hsm : ∀ i, TauCeti.smoothCommHopfAlgProperty F (H i).obj)
+    (hconn : ∀ i, TauCeti.geometricallyConnectedCommHopfAlgProperty F (H i).obj)
+    (f : ∀ i j, i ≤ j → (H i ⟶ H j))
+    (fid : ∀ i, f i i le_rfl = 𝟙 (H i))
+    (fcomp : ∀ i j k (hij : i ≤ j) (hjk : j ≤ k),
+      f i j hij ≫ f j k hjk = f i k (hij.trans hjk))
+    (Frob : AlgebraicClosure F →ₐ[F] AlgebraicClosure F)
+    (hFrob : ∀ z, Frob z = z ^ Fintype.card F)
+    (Jlim : Subgroup (∀ i, WithConv (H i →ₐ[F] AlgebraicClosure F)))
+    (hlim : ∀ g, g ∈ Jlim ↔ ∀ i j (hij : i ≤ j),
+      WithConv.toConv ((g j).ofConv.comp
+        (TauCeti.FiniteTypeCommHopfAlgCat.toBialgHom (f i j hij)).toAlgHom) = g i)
+    (e : J ≃* Jlim)
+    (he : ∀ (j : J) i, (e (σJ j)).val i =
+      WithConv.toConv (Frob.comp ((e j).val i).ofConv))
+    (h : G) (hh : h⁻¹ * σ h ∈ J) :
+    ∃ h' : G, σ h' = h' ∧ h'⁻¹ * h ∈ J := by
+  sorry
+
 /-- Smooth points lift over any complete DVR, including the integers of the completed
 maximal unramified extension. Mathlib's formally smooth adic lifting theorem. -/
 theorem completeDVR_reduction_surjective (O : Type u) [CommRing O] [IsDomain O]
@@ -12441,6 +12467,19 @@ theorem dominanceLE_trans [Nonempty (Apartment φ)] (hφ : φ.IsDiscrete) (v : D
     dominanceLE φ hφ v t t'' := by
   sorry
 
+/-- Cone dominance implies Bruhat comparison when both translations are dominant in the
+chamber containing the base alcove at the chosen special vertex (He 2021, §2.2, p. 6).
+The cone order itself remains defined on all translations. -/
+theorem bruhatLE_of_dominanceLE [Nonempty (Apartment φ)] (hφ : φ.IsDiscrete)
+    (a : BaseAlcove D φ) (x : Apartment φ) (hx : Facet.IsSpecial x)
+    (v : D.V) (hv : IsRegularVector D v)
+    (hav : x ∈ a.closure ∧ ∀ y ∈ a.facet.carrier, ∀ i,
+      0 < D.Φ.root i v → 0 ≤ D.Φ.root i (y -ᵥ x))
+    (t t' : translations D) (ht : IsDominant φ v t) (ht' : IsDominant φ v t')
+    (hle : dominanceLE φ hφ v t t') :
+    bruhatLE a (t : IwahoriWeylGroup D) (t' : IwahoriWeylGroup D) := by
+  sorry
+
 -- Test BruhatTits.Coinvariants.dominanceLE_refl
 example [Nonempty (Apartment φ)] (hφ : φ.IsDiscrete) (v : D.V) (t : translations D) :
     dominanceLE φ hφ v t t := by
@@ -12514,6 +12553,43 @@ example [TopologicalSpace K] [IsNonarchimedeanLocalField K] (π : Kˣ)
     dominanceLE (GLBuilding.standardValuation 2) hφ v t₁ t₂ ∧
       ¬ dominanceLE (GLBuilding.standardValuation 2) hφ v t₁ t₃ ∧
       ¬ dominanceLE (GLBuilding.standardValuation 2) hφ v t₃ t₁ := by
+  sorry
+
+-- Test BruhatTits.Coinvariants.dominanceLE_bruhat_gl2_negative
+-- Equal Ω-part and cone dominance do not suffice: (-1,1) ≤dom (0,0), but lengths are 2 and 0.
+example [TopologicalSpace K] [IsNonarchimedeanLocalField K]
+    (hφ : (GLBuilding.standardValuation (K := K) 2).IsDiscrete)
+    (a : BaseAlcove (GLBuilding.standardData (K := K) 2) (GLBuilding.standardValuation 2))
+    (v : (GLBuilding.standardData (K := K) 2).V)
+    (hv : GLBuilding.standardCoordinates 2 v = ![1, 0])
+    (t : translations (GLBuilding.standardData (K := K) 2))
+    (ht : GLBuilding.standardCoordinates 2
+      (translationVector (GLBuilding.standardValuation 2) t) = ![-1, 1]) :
+    dominanceLE (GLBuilding.standardValuation 2) hφ v t 1 ∧
+      (t : IwahoriWeylGroup (GLBuilding.standardData (K := K) 2)) ∈
+        affineWeyl (GLBuilding.standardData (K := K) 2) (GLBuilding.standardValuation 2) ∧
+      ¬ IsDominant (GLBuilding.standardValuation 2) v t ∧
+      length a (t : IwahoriWeylGroup _) = 2 ∧ length a 1 = 0 ∧
+      ¬ bruhatLE a (t : IwahoriWeylGroup _) 1 := by
+  sorry
+
+-- Test BruhatTits.Coinvariants.dominanceLE_bruhat_gl2_dominant
+example [TopologicalSpace K] [IsNonarchimedeanLocalField K]
+    (hφ : (GLBuilding.standardValuation (K := K) 2).IsDiscrete)
+    (a : BaseAlcove (GLBuilding.standardData (K := K) 2) (GLBuilding.standardValuation 2))
+    (ha : GLBuilding.standardCoordinates 2 a.basePoint.displacement = ![1 / 2, 0])
+    (v : (GLBuilding.standardData (K := K) 2).V)
+    (hv : GLBuilding.standardCoordinates 2 v = ![1, 0])
+    (t t' : translations (GLBuilding.standardData (K := K) 2))
+    (ht : GLBuilding.standardCoordinates 2
+      (translationVector (GLBuilding.standardValuation 2) t) = ![1, 0])
+    (ht' : GLBuilding.standardCoordinates 2
+      (translationVector (GLBuilding.standardValuation 2) t') = ![2, -1]) :
+    IsDominant (GLBuilding.standardValuation 2) v t ∧
+      IsDominant (GLBuilding.standardValuation 2) v t' ∧
+      dominanceLE (GLBuilding.standardValuation 2) hφ v t t' ∧
+      length a (t : IwahoriWeylGroup _) = 1 ∧ length a (t' : IwahoriWeylGroup _) = 3 ∧
+      bruhatLE a (t : IwahoriWeylGroup _) (t' : IwahoriWeylGroup _) := by
   sorry
 
 -- Test BruhatTits.Coinvariants.dominance_simpleRoot_negative (non-example)
@@ -12639,6 +12715,69 @@ theorem dominantNormalForm [Nonempty (Apartment φ)] (a : BaseAlcove D φ) (x₀
 
 end Coinvariants
 
+namespace Coinvariants
+
+/-- Iterating a translation followed by actual arithmetic Frobenius sums the Frobenius
+transforms of its displacement. If Frobenius has affine order dividing `m`, the iterate
+is a translation; its displacement divided by `m` is the vector to dominantize in
+`newton_translation_average` (He 2021, §2.2, pp. 5–6). -/
+theorem translation_frobenius_iterate {E : Type u} [Field E] [ValuativeRel E]
+    [TopologicalSpace E] [IsNonarchimedeanLocalField E]
+    [ModelField (MaxUnramifiedCompletion.Breve E)]
+    {H₀ : TauCeti.FiniteTypeCommHopfAlgCat.{u, u} E} (A : UnramifiedApartmentData H₀)
+    [Nonempty (Apartment A.valuation)] (t : IwahoriWeylGroup.translations A.data)
+    (m : ℕ) (hm : 0 < m) (hσ : (frobeniusOnApartment A) ^ m = 1)
+    (x : Apartment A.valuation) :
+    ((IwahoriWeylGroup.apartmentAction A.data A.valuation t * frobeniusOnApartment A) ^ m) x =
+      (∑ i ∈ Finset.range m,
+        ((frobeniusOnApartment_linear A) ^ i) (translationVector A.valuation t)) +ᵥ x := by
+  sorry
+
+-- Test BruhatTits.Coinvariants.newton_translation_resGL2_interface
+-- H₀ is the actual Weil restriction; c is its two-factor root chart over the completed
+-- maximal unramified extension. The comparison uses its translations, dominantRep and Frobenius.
+example {E E' : Type u} [Field E] [ValuativeRel E] [TopologicalSpace E]
+    [IsNonarchimedeanLocalField E] [Field E'] [ValuativeRel E'] [TopologicalSpace E']
+    [IsNonarchimedeanLocalField E'] [Algebra E E'] [ValuativeExtension E E']
+    [TauCeti.IsUnramified E E'] [FiniteDimensional E E'] [Algebra.IsSeparable E E']
+    [ModelField (MaxUnramifiedCompletion.Breve E)]
+    (hd : Module.finrank E E' = 2) {H₀ : TauCeti.FiniteTypeCommHopfAlgCat.{u, u} E}
+    (e : H₀ ≃ₐc[E] WeilRestriction.ResHopf E E'
+      (TauCeti.GeneralLinear.finiteTypeCoordinateHopfAlgebra E' 2))
+    (A : UnramifiedApartmentData H₀) [Nonempty (Apartment A.valuation)]
+    (c : A.data.V ≃ₗ[ℝ] (Fin 2 → Fin 2 → ℝ))
+    (hroots : Set.range A.data.Φ.root =
+      {f | ∃ i : Fin 2, ∃ ε : ℝ, (ε = 1 ∨ ε = -1) ∧
+        ∀ z, f z = ε * ((c z) i 0 - (c z) i 1)})
+    (hcoroots : ∀ i (j : Fin 2),
+      (∀ z, A.data.Φ.root i z = (c z) j 0 - (c z) j 1) →
+      c (A.data.Φ.coroot i) = fun k => if k = j then ![1, -1] else 0)
+    (v : A.data.V) (hv : c v = ![![1, 0], ![1, 0]])
+    (hσ : ∀ z, c (frobeniusOnApartment_linear A z) = ![(c z) 1, (c z) 0])
+    (hσ₂ : (frobeniusOnApartment A) ^ 2 = 1)
+    (t : IwahoriWeylGroup.translations A.data)
+    (ht : c (translationVector A.valuation t) = ![![1, 0], ![0, 1]])
+    (t' : IwahoriWeylGroup.translations A.data)
+    (ht' : c (translationVector A.valuation t') = ![![2, 0], ![1, 0]])
+    (x : Apartment A.valuation) :
+    let d := translationVector A.valuation t
+    let ddom := translationVector A.valuation (dominantRep A.valuation v t)
+    let d' := translationVector A.valuation t'
+    c (((IwahoriWeylGroup.apartmentAction A.data A.valuation t *
+        frobeniusOnApartment A) ^ 2) x -ᵥ x) = ![![1, 1], ![1, 1]] ∧
+      c ((1 / 2 : ℝ) • (d + frobeniusOnApartment_linear A d)) =
+        ![![1/2, 1/2], ![1/2, 1/2]] ∧
+      c ((1 / 2 : ℝ) • (ddom + frobeniusOnApartment_linear A ddom)) =
+        ![![1, 0], ![1, 0]] ∧
+      (1 / 2 : ℝ) • (d + frobeniusOnApartment_linear A d) ≠
+        (1 / 2 : ℝ) • (ddom + frobeniusOnApartment_linear A ddom) ∧
+      IsDominant A.valuation v t' ∧ dominantRep A.valuation v t' = t' ∧
+      c ((1 / 2 : ℝ) • (d' + frobeniusOnApartment_linear A d')) =
+        ![![3/2, 0], ![3/2, 0]] := by
+  sorry
+
+end Coinvariants
+
 namespace Admissible
 
 open IwahoriWeylGroup
@@ -12678,8 +12817,40 @@ theorem admissibleSet_subset_coset (a : BaseAlcove D φ) (x₀ : Apartment φ) (
       (affineWeyl D φ : Set (IwahoriWeylGroup D)) * {(μ : IwahoriWeylGroup D)} := by
   sorry
 
+/-- A Bruhat-order automorphism preserving the translation endpoint set preserves `Adm(μ)`.
+This specializes Mathlib's `lowerClosure_image` to the defining lower closure of `admissibleSet`;
+it does not require preservation of the chosen vertex-Weyl subgroup. -/
+theorem admissibleSet_map_eq_of_endpoints (a : BaseAlcove D φ) (x₀ : Apartment φ)
+    (μ : translations D) (θ : IwahoriWeylGroup D ≃* IwahoriWeylGroup D)
+    (hθ : ∀ w w', bruhatLE a (θ w) (θ w') ↔ bruhatLE a w w')
+    (hE : θ '' {z | ∃ y ∈ Decomposition.parahoricWeyl D {x₀},
+        z = y * (μ : IwahoriWeylGroup D) * y⁻¹} =
+      {z | ∃ y ∈ Decomposition.parahoricWeyl D {x₀},
+        z = y * (μ : IwahoriWeylGroup D) * y⁻¹}) :
+    θ '' admissibleSet a x₀ μ = admissibleSet a x₀ μ := by
+  ext w
+  constructor
+  · rintro ⟨z, ⟨y, hy, hzy⟩, rfl⟩
+    have he : θ (y * (μ : IwahoriWeylGroup D) * y⁻¹) ∈
+        {z | ∃ y ∈ Decomposition.parahoricWeyl D {x₀},
+          z = y * (μ : IwahoriWeylGroup D) * y⁻¹} := by
+      rw [← hE]
+      exact ⟨_, ⟨y, hy, rfl⟩, rfl⟩
+    obtain ⟨y', hy', he⟩ := he
+    exact ⟨y', hy', he ▸ (hθ _ _).mpr hzy⟩
+  · rintro ⟨y, hy, hwy⟩
+    have he : y * (μ : IwahoriWeylGroup D) * y⁻¹ ∈ θ ''
+        {z | ∃ y ∈ Decomposition.parahoricWeyl D {x₀},
+          z = y * (μ : IwahoriWeylGroup D) * y⁻¹} := by
+      rw [hE]
+      exact ⟨y, hy, rfl⟩
+    obtain ⟨z, ⟨y', hy', rfl⟩, he⟩ := he
+    refine ⟨θ.symm w, ⟨y', hy', (hθ _ _).mp ?_⟩, θ.apply_symm_apply w⟩
+    simpa only [θ.apply_symm_apply, he] using hwy
+
 /-- An automorphism of `W̃` preserving the Bruhat relation and `W_{x₀}`, and mapping `μ` into its
-`W_{x₀}`-orbit, preserves `Adm(μ)`; Frobenius is one when `W_0 μ` is `σ`-stable. -/
+`W_{x₀}`-orbit, preserves `Adm(μ)`. For Frobenius this sufficient-condition corollary applies
+when the chosen special vertex is fixed and the translation orbit is stable. -/
 theorem admissibleSet_map_eq (a : BaseAlcove D φ) (x₀ : Apartment φ) (μ : translations D)
     (θ : IwahoriWeylGroup D ≃* IwahoriWeylGroup D)
     (hθ : ∀ w w', bruhatLE a (θ w) (θ w') ↔ bruhatLE a w w')
@@ -12687,6 +12858,61 @@ theorem admissibleSet_map_eq (a : BaseAlcove D φ) (x₀ : Apartment φ) (μ : t
     (hμ : ∃ y ∈ Decomposition.parahoricWeyl D {x₀}, θ μ = y * (μ : IwahoriWeylGroup D) * y⁻¹) :
     θ '' admissibleSet a x₀ μ = admissibleSet a x₀ μ := by
   sorry
+
+-- Test BruhatTits.Admissible.admissibleSet_inner_A1_endpoints
+-- The faithful affine-A₁ action has C=(0,1), s₁(x)=-x, τ(x)=1-x, μ(x)=x+1.
+-- Conjugation by τ models inner Frobenius: the vertex subgroup moves, but the endpoints do not.
+example (a : BaseAlcove D φ) (x₀ : Apartment φ) (hx : Facet.IsSpecial x₀)
+    (c : Apartment φ ≃ᵃ[ℝ] ℝ) (hc : c '' a.facet.carrier = Set.Ioo 0 1)
+    (hx₀ : c x₀ = 0) (hfaith : Function.Injective (apartmentAction D φ))
+    (s₁ τ : IwahoriWeylGroup D) (μ : translations D)
+    (hs₁ : s₁ ∈ affineWeyl D φ)
+    (hs₁x : ∀ x, c (apartmentAction D φ s₁ x) = -c x)
+    (hτx : ∀ x, c (apartmentAction D φ τ x) = 1 - c x)
+    (hμx : ∀ x, c (apartmentAction D φ μ x) = c x + 1) :
+    let θ := MulAut.conj τ
+    let s₀ := θ s₁
+    let Eμ : Set (IwahoriWeylGroup D) :=
+      {z | ∃ y ∈ Decomposition.parahoricWeyl D {x₀}, z = y * (μ : IwahoriWeylGroup D) * y⁻¹}
+    (∀ x, c (apartmentAction D φ s₀ x) = 2 - c x) ∧ θ s₀ = s₁ ∧
+      (Decomposition.parahoricWeyl D {x₀} : Set (IwahoriWeylGroup D)) = {1, s₁} ∧
+      ((Decomposition.parahoricWeyl D {x₀}).map θ.toMonoidHom : Set (IwahoriWeylGroup D)) =
+        {1, s₀} ∧
+      (Decomposition.parahoricWeyl D {x₀}).map θ.toMonoidHom ≠
+        Decomposition.parahoricWeyl D {x₀} ∧
+      θ (μ : IwahoriWeylGroup D) = (μ : IwahoriWeylGroup D)⁻¹ ∧
+      Eμ = {(μ : IwahoriWeylGroup D), (μ : IwahoriWeylGroup D)⁻¹} ∧ θ '' Eμ = Eμ ∧
+      (∀ w w', bruhatLE a (θ w) (θ w') ↔ bruhatLE a w w') ∧
+      θ '' admissibleSet a x₀ μ = admissibleSet a x₀ μ := by
+  sorry
+
+-- Test BruhatTits.Admissible.admissibleSet_fixed_vertex
+-- Actual Frobenius fixes x₀; equivariance of the Weyl action then preserves its vertex subgroup.
+example {E : Type u} [Field E] [ValuativeRel E] [TopologicalSpace E]
+    [IsNonarchimedeanLocalField E] {H₀ : TauCeti.FiniteTypeCommHopfAlgCat.{u, u} E}
+    [ModelField (MaxUnramifiedCompletion.Breve E)]
+    (A : UnramifiedApartmentData H₀) (a : BaseAlcove A.data A.valuation)
+    (x₀ : Apartment A.valuation) (hx : Facet.IsSpecial x₀)
+    (hfix : frobeniusOnApartment A x₀ = x₀)
+    (θ : IwahoriWeylGroup A.data ≃* IwahoriWeylGroup A.data)
+    (hθ : ∀ w w', bruhatLE a (θ w) (θ w') ↔ bruhatLE a w w')
+    (hWa : (affineWeyl A.data A.valuation).map θ.toMonoidHom = affineWeyl A.data A.valuation)
+    (hact : ∀ w x, apartmentAction A.data A.valuation (θ w) (frobeniusOnApartment A x) =
+      frobeniusOnApartment A (apartmentAction A.data A.valuation w x))
+    (μ : translations A.data)
+    (hμ : ∃ y ∈ Decomposition.parahoricWeyl A.data {x₀},
+      θ μ = y * (μ : IwahoriWeylGroup A.data) * y⁻¹) :
+    (Decomposition.parahoricWeyl A.data {x₀}).map θ.toMonoidHom =
+        Decomposition.parahoricWeyl A.data {x₀} ∧
+      θ '' admissibleSet a x₀ μ = admissibleSet a x₀ μ := by
+  sorry
+
+-- Test BruhatTits.Admissible.admissibleSet_map_identity
+-- In the split case Frobenius induces the identity on W̃, so the old sufficient conditions apply.
+example (a : BaseAlcove D φ) (x₀ : Apartment φ) (μ : translations D) :
+    (MulEquiv.refl (IwahoriWeylGroup D)) '' admissibleSet a x₀ μ = admissibleSet a x₀ μ := by
+  exact admissibleSet_map_eq a x₀ μ (MulEquiv.refl _) (fun _ _ => Iff.rfl)
+    (by ext w; simp) ⟨1, Subgroup.one_mem _, by simp⟩
 
 /-- The parahoric admissible set `Adm^Ω(μ) = W_Ω Adm(μ) W_Ω`. -/
 def parahoricAdmissibleSet (a : BaseAlcove D φ) (x₀ : Apartment φ) (μ : translations D)

@@ -201,6 +201,7 @@ characters between the finite enumeration and the shared subtype of nonzero adjo
 | Extension of a valuative relation and the decomposition group | `ValuativeExtension`, `ValuationSubring.decompositionSubgroup` | `Mathlib/RingTheory/Valuation/ValuativeRel/Basic.lean`, `Mathlib/RingTheory/Valuation/RamificationGroup.lean` |
 | Coinvariants of a representation and quotient representations | `Representation.Coinvariants`, `Representation.quotientToCoinvariants`, `Representation.quotient` | `Mathlib/RepresentationTheory/Coinvariants.lean`, `Mathlib/RepresentationTheory/Basic.lean` |
 | Induced maps of quotient groups | `QuotientGroup.map` | `Mathlib/GroupTheory/QuotientGroup/Defs.lean` |
+| Lower closure and transport by an order isomorphism | `lowerClosure`, `lowerClosure_image` | `Mathlib/Order/UpperLower/Closure.lean` |
 | Modular character of a locally compact group | `MeasureTheory.Measure.modularCharacter` | `Mathlib/MeasureTheory/Group/ModularCharacter.lean` |
 
 `NormTorus.norm` differs from the units norm by swapping `k' ⊗[k] R` to `R ⊗[k] k'`
@@ -4487,7 +4488,8 @@ transition homomorphisms over `𝔽_q`, and a group isomorphism
 The point identification must be proved using the positive-depth root filtrations
 and completeness of `O_L`, including both injectivity and surjectivity; an abstract
 pro-`p` structure does not give this presentation. This is the exact hypothesis of
-the concrete lifting endpoint below. Finite-level construction and connectedness
+the concrete lifting endpoint below and of the positive-level parts of
+*double-coset-cardinalities*, for every intersection used there. Finite-level construction and connectedness
 are separate geometric inputs, not consequences attributed to the parahoric
 intersection argument of [Haines–Rapoport], Remark 9, p. 5.
 *Needs:* *moy-prasad-filtration*; *positive-depth-filtration-basis*;
@@ -4499,12 +4501,23 @@ Under *positive-depth-intersection-presentation*, with `I_n=Ĭ_n^σ`, prove
 First apply `Lang.lang_proAlgebraic_surjective` to the specified system and transport
 through its Frobenius-equivariant point isomorphism to obtain Lang surjectivity on `J`.
 Then apply `Lang.fixedCoset_lift`. The endpoint is conditional on that presentation;
-no connectedness assertion for a positive-depth intersection is inferred from
+any use of this endpoint in positive-level counts retains the same hypothesis for
+`Ĭ_n∩gĬ_ng⁻¹` and for the intersections occurring in its reduced-word argument.
+No connectedness assertion for a positive-depth intersection is inferred from
 pro-`p` alone. [He 2018], Lemma 4.5 and proof, arXiv v3 p. 13 (published Lemma 15,
 pp. 16–17), gives the fixed-coset endpoint; the additional hypothesis here specifies
 the geometric input to its Lang step.
 *Needs:* *positive-depth-intersection-presentation*; *lang-for-pro-algebraic-groups*;
 *fixed-coset-lifting*; *parahoric-subgroup*.
+
+**Checks.**
+
+- `positiveLevel_presentation_lifting` — transporting
+  `Lang.lang_proAlgebraic_surjective` through a Frobenius-equivariant group
+  isomorphism from `J` to the compatible tuples gives `Lang.fixedCoset_lift`.
+  The Lean example retains the directed system, smoothness, geometric
+  connectedness, transition laws and equivariant isomorphism as hypotheses;
+  these are the presentation inputs inherited by the positive-level counts.
 
 **Reduction of smooth models.** (*smooth-model-reduction*) Over a complete DVR `O`, including `O_E` and `O_Ĕ`, a smooth affine model has
 surjective reduction on points (`Lang.completeDVR_reduction_surjective`). There is no
@@ -4963,13 +4976,21 @@ Prop. (6.4.9), p. 136, and Prop. (6.4.48), p. 152, via the valued root datum). *
 subgroups, and `ℓ̆` the length of `W̃_L` restricted to `W̃_E = (W̃_L)^σ`. First, `#(IẇI/I) = q^{ℓ̆(w)}`;
 for `s ∈ S̃`, `ℓ(s) = 1` while `ĬṡĬ/Ĭ` is an affine space over `κ̄` of dimension `ℓ̆(s)`, and
 `ℓ̆(s) = 1` iff the `σ`-orbit of `s` in `S̃_L` is a singleton; `ℓ̆ = ℓ` when `G` is residually split, in
-particular when `G` is split. Second, for `n ≥ 1` and `g ∈ IẇI`, `#(I_n g I_n/I_n) = q^{ℓ̆(w)}`,
-independently of `g` (via a reduced word in `W̃_L`, contraction, and Lang's theorem). Third, `IẇI`
+particular when `G` is split. This ordinary Iwahori count does not assume
+*positive-depth-intersection-presentation*. Second, assume
+*positive-depth-intersection-presentation* for `Ĭ_n∩gĬ_ng⁻¹` and every intersection
+used in the reduced-word and fixed-coset argument. For `n ≥ 1` and `g ∈ IẇI`,
+`#(I_n g I_n/I_n) = q^{ℓ̆(w)}`, independently of `g`, under these hypotheses
+(via a reduced word in `W̃_L`, contraction, and the conditional Lang lifting endpoint).
+Third, under these presentation hypotheses for all the intersections used as `g`
+ranges through `IẇI`, `IẇI`
 has `q^{ℓ̆(w)}[I : I_n]` left `I_n`-cosets, hence is a disjoint union of `[I : I_n]` double cosets
 of `I_n` ([He 2018], Lem. 4.5, p. 13, Lem. 4.6, pp. 13–14, and the proof of Thm 5.3, p. 16;
 [Richarz], Proposition 1.11, p. 122, and Remark 1.13, p. 124 (arXiv pp. 4–5)). These are statements of
-this document. *Needs:* *simple-cell-multiplication*; RG2.3 *frobenius-fixed-coset-lifting*;
-*length-and-bruhat-order*; *iwahori-factorization*.
+this document. *Needs (ordinary Iwahori count):* *simple-cell-multiplication*;
+*length-and-bruhat-order*. *Needs (positive-level counts):* the ordinary count;
+RG2.3 *positive-depth-intersection-presentation* as an explicit hypothesis for the
+intersections used; RG2.3 *frobenius-fixed-coset-lifting*; *iwahori-factorization*.
 
 **Finiteness of compact double cosets.** (*compact-double-coset-finiteness*) Let `G` be a
 topological group, `K` a compact open subgroup, `K'` an open subgroup and `g ∈ G`. First, `KgK'` is
@@ -4977,8 +4998,13 @@ the disjoint union of `[K : K ∩ gK'g^{-1}]` left cosets `hK'`, finitely many; 
 well, it is also the disjoint union of `[K' : K' ∩ g^{-1}Kg]` right cosets `Kh`. Second,
 `μ(KgK') = [K : K ∩ gK'g^{-1}]μ(K')` for a left Haar measure `μ`, and, for `K'` compact,
 `μ(KgK') = [K' : K' ∩ g^{-1}Kg]μ(K)` for a right Haar measure. Third, for `K` and `K'` compact open,
-`K\G/K'` is finite iff `G` is compact; this fails for `G(E)`: the Cartan set is infinite, and
-finiteness holds per double coset. The left-coset decomposition of a double coset is Tau Ceti's
+`K\G/K'` is finite iff `G` is compact. Thus for noncompact `G(E)` the Cartan set is
+infinite, equivalently the rational translation quotient in *cartan-decomposition*
+has positive free rank; each individual double coset still has finitely many left
+and right cosets. Anisotropic `G(E)` is compact and has a finite Cartan set: the
+unramified quadratic norm-one torus has a singleton connected-parahoric Cartan
+set, while the quaternionic `PGL₁(D)` retains its finite torsion quotient.
+The left-coset decomposition of a double coset is Tau Ceti's
 `DoubleCoset.doubleCoset_eq_iUnion_leftCosets` (`TauCeti/GroupTheory/DoubleCoset/Basic.lean`) and
 the finiteness of `K/(K ∩ gK'g^{-1})` is Mathlib's `Subgroup.quotient_finite_of_isOpen'`;
 `doubleCoset_finite_of_isCompact` adds the count. In `BruhatTits.Decomposition`, prove
@@ -4989,6 +5015,15 @@ the right-coset and third statements are elementary statements of this document)
 `Subgroup.quotient_finite_of_isOpen'`, `MeasureTheory.Measure.haar`,
 `MeasureTheory.Measure.IsHaarMeasure`, `DoubleCoset.doubleCoset`; Tau Ceti
 `DoubleCoset.doubleCoset_eq_iUnion_leftCosets`.
+
+**Checks.**
+
+- `cartan_unramified_normOne` — the unramified quadratic norm-one torus has compact
+  rational points and its connected parahoric is the whole group; its Cartan set
+  is a singleton. This is the `NormTorus` example under *cartan-decomposition*.
+- `minimalLevi_quaternion_quotient` — scalar valuations are `2ℤ`, so the compact
+  quaternionic inner form has rational translation quotient `ℤ/2`; compactness
+  permits a finite nonsingleton Cartan set.
 
 ### RG2.4.3 cocharacters, lengths and admissible sets
 
@@ -5020,15 +5055,24 @@ valuation normalization our representative has `κ(t^λ) = −λ` and Newton poi
 `ν_std(t^λ) = dom(−m⁻¹ Σ σ^i(λ̄)) = −w₀ ν_disp(t^λ)`.
 Thus neither the sign nor dominantization may be suppressed. Fourth, `λ ≤ λ'` iff
 `λ' − λ ∈ ℕΣ^{∨,+} ⊂ X_*(T_sc)_I`, that is, `t^{λ'}(t^λ)^{-1} ∈ W_a` and `λ̄' − λ̄` is a sum of positive
-coroots of `Σ`; this is a partial order, compatible with the Bruhat order on translations of equal
-`Ω`-part and finer than real dominance. Fifth, the Hodge coweight `μ̄ ∈ X_*(T)_I` of a geometric
+coroots of `Σ`; this is a partial order on the full translation lattice and is finer
+than real dominance. If both `λ` and `λ'` are dominant for the same chosen chamber
+containing `C` at `x_0`, then `λ ≤ λ'` implies `t^λ ≤Bruhat t^{λ'}`. The equal
+`Ω`-part condition is included in the cone order; it does not replace either
+endpoint-dominance hypothesis. Fifth, the Hodge coweight `μ̄ ∈ X_*(T)_I` of a geometric
 conjugacy class `{μ}` is the image of its `B`-dominant member, for `B ⊃ T` over `L` containing the
 chamber; it is well defined up to `W_0`, with dominant form `μ̄_dom`. In `BruhatTits.Coinvariants`,
 define `translationVector` as `ν(t)` for `t ∈ Z(K)/Z(K)_0`, `IsDominant` as `ν(t) ∈ C^+` (every root
 positive on a regular `v` in the chamber of `C` is nonnegative on `ν(t)`), `dominantRep` as the
 dominant element of the `W̃`-conjugacy orbit, and `dominanceLE` as the fourth statement; prove
 `apartmentAction_translation`, `dominantRep_mem_orbit`, `eq_dominantRep` (uniqueness),
-`dominantRep_of_isDominant`, `dominanceLE_trans` and `dominanceLE_antisymm`. The Hodge average, `newton_translation_average`, its normalization conversion, and the Hodge coweight are targets of this document ([Haines–Rapoport], Lem. 15 and
+`dominantRep_of_isDominant`, `dominanceLE_trans`, `dominanceLE_antisymm` and
+`bruhatLE_of_dominanceLE`, with both endpoint-dominance hypotheses and the chosen
+chamber at a special vertex of `C̄`. `translation_frobenius_iterate` supplies the
+iterate identity using `IwahoriWeylGroup.apartmentAction`, `translationVector` and
+the actual `frobeniusOnApartment`, with the `ModelField` context of RG2.0 on `Ĕ`
+and `m>0`: if `σ^m=1`, `(tσ)^m` displaces by
+`Σ_{i<m} σ_lin^i(ν(t))`. The Hodge average, `newton_translation_average`, its normalization conversion, and the Hodge coweight are targets of this document ([Haines–Rapoport], Lem. 15 and
 the preceding discussion, pp. 7–9; [Kisin–Zhou], §2.1.3–2.1.5, p. 7; [He 2021], §2.1, p. 5, and §2.2,
 p. 6 (`λ^♦`, `λ_w` and the order `≥_ℤ`); [Gleason–Lim–Xu], §2, (2.5)–(2.7), pp. 14–15). *Needs:*
 *iwahori-weyl-exact-sequences*; RG2.1 *echelonnage-root-system*; RG2.1 *minuscule-coweight*; RG2.1
@@ -5040,6 +5084,18 @@ p. 6 (`λ^♦`, `λ_w` and the order `≥_ℤ`); [Gleason–Lim–Xu], §2, (2.5
   swaps the factors. For `λ=((1,0),(0,1))`, averaging gives `((1/2,1/2),(1/2,1/2))`,
   whereas averaging `dom λ` gives `((1,0),(1,0))`. The square of the twisted translation
   displaces by `((1,1),(1,1))`; the Newton displacement is central.
+- `newton_translation_resGL2_interface` — on `WeilRestriction.ResHopf` of `GL₂`
+  along an unramified quadratic extension, use a two-factor root-and-coroot chart
+  of its `UnramifiedApartmentData` in the `ModelField` context on `Ĕ`, with actual
+  Frobenius swapping the factors and
+  squaring to the identity. An actual translation with vector `((1,0),(0,1))`
+  has twisted square displacement `((1,1),(1,1))`; its half-displacement is
+  central, whereas the average of `translationVector (dominantRep t)` is
+  `((1,0),(1,0))`. A dominant translation `((2,0),(1,0))` is fixed by
+  `dominantRep` and has average `((3/2,0),(3/2,0))` by both operations.
+  This tests the supplier and consumer interfaces. The rational
+  arrays in `newton_translation_resGL2`, `newton_translation_dominant` and
+  `newton_translation_split_sign` are arithmetic controls of the same conventions.
 - `newton_translation_dominant` — for `λ=((2,0),(1,0))`, both averaging operations
   give the dominant vector `((3/2,0),(3/2,0))`.
 - `newton_translation_split_sign` — split `GL₂`: displacements `(1,0)` and `(2,0)`
@@ -5068,6 +5124,13 @@ p. 6 (`λ^♦`, `λ_w` and the order `≥_ℤ`); [Gleason–Lim–Xu], §2, (2.5
   matrix `[[2,−1],[−1,2]]` sends the coefficient vector `(1, 0)` to `(2, −1)`.)
 - `dominanceLE_gl2` — for `GL_2` and `v = (1, 0)`, `(1, 0) ≤ (2, −1)` via the coroot `(1, −1)`, while
   `(1, 0)` and `(1, 1)` are incomparable because they differ in `π₁ = ℤ`.
+- `dominanceLE_bruhat_gl2_negative` — `(-1,1) ≤dom (0,0)` and both translations
+  have trivial `Ω`-part, but the first endpoint is not dominant and their lengths
+  are `2` and `0`; the corresponding `bruhatLE` assertion is false. The example
+  uses `Coinvariants.dominanceLE` and actual `GL₂` translations.
+- `dominanceLE_bruhat_gl2_dominant` — the actual dominant translations `(1,0)`
+  and `(2,-1)` satisfy both cone dominance and `bruhatLE`, with lengths `1` and `3`,
+  for the base alcove `0 < x₁-x₂ < 1`.
 - `dominance_not_real_order` (non-example) — a translation outside `W_a` is never `≥ 0`; for `PGL_2`
   with `X_*(T)_I = ℤ`, `0 ≤ 1` holds in `V` (the coroot is `2`) yet `1 ∉ 2ℕ`, so `ℝ`-coefficients
   ignore the `Ω`-part.
@@ -5127,20 +5190,44 @@ and `parahoricAdmissibleSet` as `W_Ω Adm(μ) W_Ω` for a nonempty finite `Ω �
 `admissibleSet_finite`, `admissibleSet_lowerSet` (if `w' ≤ w` and
 `w ∈ Adm(μ)` then `w' ∈ Adm(μ)`), `translation_mem_admissibleSet` (`t^{x(μ̄)} ∈ Adm(μ)`),
 `length_le_of_mem_admissibleSet` (`ℓ(w) ≤ ℓ(t^μ) = ⟨μ̄, 2ρ_Σ⟩`, with equality iff `w = t^{x(μ̄)}`),
-`admissibleSet_subset_coset` (`Adm(μ) ⊆ W_a t^μ = W_a τ_μ`), `admissibleSet_map_eq` (an automorphism
-of `W̃` preserving the Bruhat relation and `W_{x_0}` and mapping `t^μ` into its `W_{x_0}`-orbit
-preserves `Adm(μ)`; `σ` is one when `W_0μ̄` is `σ`-stable),
+`admissibleSet_subset_coset` (`Adm(μ) ⊆ W_a t^μ = W_a τ_μ`),
+`admissibleSet_map_eq_of_endpoints` (a Bruhat-order automorphism `θ` with
+`θ '' E_μ = E_μ`, where `E_μ = {y t^μ y⁻¹ : y ∈ W_{x_0}}`, preserves `Adm(μ)`),
+and `admissibleSet_map_eq` as a sufficient-condition corollary: preservation of
+`W_{x_0}` and membership of `θ(t^μ)` in its `W_{x_0}`-orbit imply endpoint stability.
+Frobenius preserves Bruhat order for a stable alcove, so stability of the translation
+endpoint set suffices for the first theorem. The corollary applies when the chosen
+special vertex is also Frobenius fixed. A stable alcove alone need not fix that
+vertex or its finite Weyl subgroup. Also prove
 `admissibleSet_subset_parahoricAdmissibleSet` and `parahoricAdmissibleSet_alcove` (`Adm^C(μ) = Adm(μ)`)
 ([Gleason–Lim–Xu], §2, (2.3)–(2.4), p. 14, and §3.2, p. 19 (the μ-admissible locus); [van Hoften],
 §2.2.15, p. 19 (τ_μ, Adm(μ) ⊆ W_a τ_μ, Adm^F(μ))). The elementary properties are derived from the
 definition: a finite union of finite Bruhat intervals is finite and lower; equal-length translation
-endpoints are exactly the maximal elements; an automorphism as in `admissibleSet_map_eq` permutes the
-endpoints and so preserves their lower sets. Their common length is the translation-length formula.
+endpoints are exactly the maximal elements. Mathlib's `lowerClosure_image`
+(`Mathlib/Order/UpperLower/Closure.lean`) transports lower closures under order
+isomorphisms; `admissibleSet_map_eq_of_endpoints` specializes it to this endpoint
+set and the Bruhat order, without introducing another admissible-set carrier.
+Their common length is the translation-length formula.
 *Needs:* *length-and-bruhat-order*; *dominant-coinvariant-cocharacters*; *translation-length-formula*;
 *parahoric-double-cosets*.
 
 **Checks.**
 
+- `admissibleSet_inner_A1_endpoints` — on the faithful affine-A₁ apartment with
+  alcove `(0,1)` and special vertex `0`, take `s₁(x)=-x`, `τ(x)=1-x` and
+  `t(x)=x+1`. Inner Frobenius `θ=conj τ` exchanges `s₁` and `s₀(x)=2-x`:
+  it takes the actual vertex subgroup `{1,s₁}` to `{1,s₀}`, so `hW` fails.
+  Nevertheless `θ(t)=t⁻¹`, the actual endpoint set is `{t,t⁻¹}`, and both that
+  set and `Admissible.admissibleSet` are preserved. This tests the affine action,
+  vertex subgroup and Bruhat lower closure, beyond the `Fin 2` permutation control
+  `unramifiedComparison_inner_A1_rejected`.
+- `admissibleSet_fixed_vertex` — for actual arithmetic Frobenius fixing the chosen
+  special vertex, in the `ModelField` context on `Ĕ`, a compatible Weyl automorphism
+  preserving the affine Weyl group
+  and Bruhat order preserves the vertex subgroup; if it maps the translation
+  into its vertex-Weyl orbit, it preserves `Adm(μ)` by the sufficient-condition corollary.
+- `admissibleSet_map_identity` — split Frobenius induces the identity on `W̃`,
+  satisfies the vertex-subgroup and orbit hypotheses, and preserves `Adm(μ)`.
 - `displacement_loses_torsion` — every additive map `ℤ/2 → ℝ` kills the nonzero class. For the ramified
   norm-one torus this is why the zero-dimensional apartment cannot replace the Kottwitz congruence in
   `Perm(μ)`; the Lean example proves the additive obstruction.
@@ -5866,7 +5953,10 @@ consequence that `G(E)` has no proper subgroup of finite index (AA.4). It states
 `F_v` instances of RG2.0 and RG2.0a itself. SmoothRepresentationsOfLocalGroups consumes the local
 Iwahori decompositions and the modulus clauses of RG2.4 — the Iwahori factorization, the
 double-coset cardinalities, the modulus `δ_P` and the Iwasawa integration formula — without
-restating them, and
+restating them. Any positive-level count used in SR carries
+*positive-depth-intersection-presentation* for every intersection in its lifting
+argument. The ordinary Iwahori count, including SR's
+`HeckeAlgebraLevel.iwahoriBasis_index`, has no such presentation hypothesis. SR
 builds Hecke algebras and the Satake isomorphism on the decompositions of RG2.4. The Shimura-datum
 and Shimura-level consumers import the Deligne torus of RG2.0a, the parahoric group schemes,
 hyperspecial vertices and tame realizations of RG2.3, and the admissible sets of RG2.4. Later
