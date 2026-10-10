@@ -26,6 +26,7 @@ import TauCeti.RingTheory.Derivation.DualNumber
 Algebraic spaces are fppf sheaves with representable diagonal and an étale atlas.
 Group spaces are group objects over the represented base; their torsor classes are
 nonabelian first cohomology. Line-bundle classes use Tau Ceti's `LineBundleClass`.
+The README is the definitive specification; these declarations give representative typed interfaces.
 The five étale-section results below include proofs.
 -/
 
@@ -3517,7 +3518,8 @@ theorem quasiFiniteDescent (F : SchemePresheaf.{u}) (hF : Presheaf.IsSheaf Schem
 /-- Presentations of algebraic spaces. -/
 theorem spacePresentation (F : SchemePresheaf.{u}) (hF : IsAlgebraicSpace F) (U : Scheme.{u})
     (a : yoneda.obj U ⟶ F) (ha : EtaleAtlas F U a) :
-    ∃ (R : Scheme.{u}) (s t : R ⟶ U), EtaleEquivRel s t ∧ Nonempty ((quotientSheaf s t).obj ≅ F) :=
+    ∃ (R : Scheme.{u}) (s t : R ⟶ U), EtaleEquivRel s t ∧
+      ∃ e : (quotientSheaf s t).obj ≅ F, quotientSheaf.π s t ≫ e.hom = a :=
   sorry
 
 /-- The topological space `|X|` of an algebraic space. -/
@@ -3554,6 +3556,22 @@ Check `test_no_residue_field` — the generic point of `𝔸¹/ℤ`
 the explicit quotients of Layer 1's `folded line space` and Layer 1's `translation quotient space`, whose
 equivalence relations are not constructed in this file. -/
 
+/-- Fibre products of algebraic spaces. -/
+theorem isAlgebraicSpace_pullback {F G H : SchemePresheaf.{u}} (f : F ⟶ H) (g : G ⟶ H)
+    (hF : IsAlgebraicSpace F) (hG : IsAlgebraicSpace G) (hH : IsAlgebraicSpace H) :
+    IsAlgebraicSpace (pullback f g) := sorry
+
+/-- The fibre product in `AlgSpace`. -/
+def AlgSpace.pullbackObj {F G H : AlgSpace.{u}} (f : F ⟶ H) (g : G ⟶ H) : AlgSpace.{u} :=
+  ⟨pullback (isAlgebraicSpace.ι.map f) (isAlgebraicSpace.ι.map g),
+    isAlgebraicSpace_pullback _ _ F.property G.property H.property⟩
+
+def AlgSpace.pullbackFst {F G H : AlgSpace.{u}} (f : F ⟶ H) (g : G ⟶ H) :
+    AlgSpace.pullbackObj f g ⟶ F := ObjectProperty.homMk (pullback.fst _ _)
+
+def AlgSpace.pullbackSnd {F G H : AlgSpace.{u}} (f : F ⟶ H) (g : G ⟶ H) :
+    AlgSpace.pullbackObj f g ⟶ G := ObjectProperty.homMk (pullback.snd _ _)
+
 /-- Properties of morphisms of algebraic spaces defined etale locally. -/
 def EtaleLocal (P : MorphismProperty Scheme.{u}) {F G : AlgSpace.{u}} (f : F ⟶ G) : Prop :=
   ∃ (U V : Scheme.{u}) (a : yoneda.obj U ⟶ F.obj) (b : yoneda.obj V ⟶ G.obj) (h : U ⟶ V),
@@ -3580,12 +3598,14 @@ theorem iff_presheaf [P.IsStableUnderBaseChange] {F G : AlgSpace.{u}} (f : F ⟶
 theorem comp [P.IsStableUnderComposition] {F G H : AlgSpace.{u}} (f : F ⟶ G) (g : G ⟶ H)
     (hf : EtaleLocal P f) (hg : EtaleLocal P g) : EtaleLocal P (f ≫ g) := sorry
 
-/- API `baseChange` — stability under base change, stated
-with the fibre products of Layer 1's `space fibre products` (`AlgSpace.pullbackObj` below). -/
+/-- Stability of the specified pullback projection. Stacks, §67.22 (03MJ, 04RD). -/
 theorem baseChange [P.IsStableUnderBaseChange] {F G H : AlgSpace.{u}} (f : F ⟶ H) (g : G ⟶ H)
-    (hf : EtaleLocal P f) :
-    ∃ (W : AlgSpace.{u}) (q : W ⟶ G), Nonempty (W.obj ≅ pullback (isAlgebraicSpace.ι.map f)
-      (isAlgebraicSpace.ι.map g)) ∧ EtaleLocal P q := sorry
+    (hf : EtaleLocal P f) : EtaleLocal P (AlgSpace.pullbackSnd f g) := sorry
+
+-- Check `EtaleLocal_baseChange_projection`
+example [P.IsStableUnderBaseChange] {F G H : AlgSpace.{u}} (f : F ⟶ H) (g : G ⟶ H)
+    (hf : EtaleLocal P f) : EtaleLocal P (AlgSpace.pullbackSnd f g) :=
+  baseChange P f g hf
 
 end EtaleLocal
 
@@ -3611,28 +3631,17 @@ example (k : Type u) [Field k] :
     let A := Spec (CommRingCat.of (Polynomial k))
     IsClosedImmersion (𝟙 A) ∧ ¬ IsClosedImmersion (coprod.desc (𝟙 A) (𝟙 A)) := sorry
 
-/-- Fibre products of algebraic spaces. -/
-theorem isAlgebraicSpace_pullback {F G H : SchemePresheaf.{u}} (f : F ⟶ H) (g : G ⟶ H)
-    (hF : IsAlgebraicSpace F) (hG : IsAlgebraicSpace G) (hH : IsAlgebraicSpace H) :
-    IsAlgebraicSpace (pullback f g) := sorry
-
-/-- The fibre product in `AlgSpace`. -/
-def AlgSpace.pullbackObj {F G H : AlgSpace.{u}} (f : F ⟶ H) (g : G ⟶ H) : AlgSpace.{u} :=
-  ⟨pullback (isAlgebraicSpace.ι.map f) (isAlgebraicSpace.ι.map g),
-    isAlgebraicSpace_pullback _ _ F.property G.property H.property⟩
-
-def AlgSpace.pullbackFst {F G H : AlgSpace.{u}} (f : F ⟶ H) (g : G ⟶ H) :
-    AlgSpace.pullbackObj f g ⟶ F := ObjectProperty.homMk (pullback.fst _ _)
-
-def AlgSpace.pullbackSnd {F G H : AlgSpace.{u}} (f : F ⟶ H) (g : G ⟶ H) :
-    AlgSpace.pullbackObj f g ⟶ G := ObjectProperty.homMk (pullback.snd _ _)
-
 theorem ofScheme_relativelyRepresentable (F : AlgSpace.{u}) (U : Scheme.{u}) (a : yoneda.obj U ⟶ F.obj) :
     yoneda.relativelyRepresentable a := sorry
 
+/-- The scheme comparison preserves both projections. Stacks, §65.7. -/
 theorem ofScheme_preservesPullback {X Y Z : Scheme.{u}} (f : X ⟶ Z) (g : Y ⟶ Z) :
-    Nonempty ((AlgSpace.pullbackObj (AlgSpace.ofScheme.map f) (AlgSpace.ofScheme.map g)).obj ≅
-      yoneda.obj (pullback f g)) := sorry
+    ∃ e : (AlgSpace.pullbackObj (AlgSpace.ofScheme.map f) (AlgSpace.ofScheme.map g)).obj ≅
+        yoneda.obj (pullback f g),
+      e.hom ≫ yoneda.map (pullback.fst f g) =
+        isAlgebraicSpace.ι.map (AlgSpace.pullbackFst (AlgSpace.ofScheme.map f) (AlgSpace.ofScheme.map g)) ∧
+      e.hom ≫ yoneda.map (pullback.snd f g) =
+        isAlgebraicSpace.ι.map (AlgSpace.pullbackSnd (AlgSpace.ofScheme.map f) (AlgSpace.ofScheme.map g)) := sorry
 
 /-- Separation axioms and properness. -/
 def IsSeparatedSpace {F G : AlgSpace.{u}} (f : F ⟶ G) : Prop :=
@@ -3884,9 +3893,11 @@ example {S : Scheme.{u}} (G : GroupSpace S) :
     letI : ModObj G.obj G.obj := ModObj.regular G.obj
     Action.IsFree G G.obj := sorry
 
--- Check `test_scaling_not_free`
--- (`𝔾_m` acting on `𝔸¹` by scaling, over `Spec k`; stated as non-injectivity of `(a, pr₂)` on points)
-example (k : Type u) [Field k] (c : kˣ) (hc : c ≠ 1) : (c : k) * 0 = ((1 : kˣ) : k) * 0 := by simp
+-- Check `test_scaling_not_free`: a nonidentity group element fixing a point violates freeness.
+example {S : Scheme.{u}} (G : GroupSpace S) (X T : Over (yoneda.obj S)) [ModObj G.obj X]
+    (g : T ⟶ G.obj) (x : T ⟶ X) (hg : g ≠ toUnit T ≫ MonObj.one)
+    (hfix : lift g x ≫ act G X = x) : ¬ Action.IsFree G X := by
+  exact fun h => hg (h T g x hfix)
 
 -- Check `test_constant_group`
 example (k : Type u) [Field k] (Γ : Type u) [Group Γ] [Finite Γ] (hΓ : Nat.card Γ = 2)
@@ -4026,7 +4037,7 @@ example (k : Type u) [Field k] (x : k) (c : kˣ) : (c : k) * x = x ↔ (c = 1 �
 example (p : ℕ) [Fact p.Prime] (k : Type u) [Field k] [CharP k p] :
     (Polynomial.X - 1 : Polynomial k) ^ p = Polynomial.X ^ p - 1 := sorry
 
-/-- Torsors under a group space, scheme-represented and fppf locally trivial. -/
+/-- Torsors represented by algebraic spaces and fppf locally trivial. -/
 structure IsTorsor {S : Scheme.{u}} (G : GroupSpace S) (P : Over (yoneda.obj S)) [ModObj G.obj P] :
     Prop where
   isSpace : IsAlgebraicSpace P.left
@@ -4052,9 +4063,23 @@ theorem hom_isIso {S : Scheme.{u}} (G : GroupSpace S) (P Q : Over (yoneda.obj S)
 /- API `baseChange` — torsors pull back along `S' ⟶ S`
 (needs the transport of `ModObj` along `Over.pullback`, not packaged at the pins). -/
 
+/-- Flatness is étale local on algebraic spaces; no relative scheme representability is inferred.
+Stacks, §39.11 and Remark 39.11.5 (0497). -/
 theorem flat_of_flat {S : Scheme.{u}} (G : GroupSpace S) (P : Over (yoneda.obj S)) [ModObj G.obj P]
-    (h : IsTorsor G P) (hG : MorphismProperty.presheaf (@Flat : MorphismProperty Scheme.{u}) G.obj.hom) :
-    MorphismProperty.presheaf (@Flat : MorphismProperty Scheme.{u}) P.hom := sorry
+    (h : IsTorsor G P)
+    (hG : EtaleLocal (@Flat : MorphismProperty Scheme.{u})
+      (ObjectProperty.homMk G.obj.hom : (⟨G.obj.left, G.isSpace⟩ : AlgSpace.{u}) ⟶ AlgSpace.ofScheme.obj S)) :
+    EtaleLocal (@Flat : MorphismProperty Scheme.{u})
+      (ObjectProperty.homMk P.hom : (⟨P.left, h.isSpace⟩ : AlgSpace.{u}) ⟶ AlgSpace.ofScheme.obj S) := sorry
+
+-- Check `torsor_flat_space_projection`
+example {S : Scheme.{u}} (G : GroupSpace S) (P : Over (yoneda.obj S)) [ModObj G.obj P]
+    (h : IsTorsor G P)
+    (hG : EtaleLocal (@Flat : MorphismProperty Scheme.{u})
+      (ObjectProperty.homMk G.obj.hom : (⟨G.obj.left, G.isSpace⟩ : AlgSpace.{u}) ⟶ AlgSpace.ofScheme.obj S)) :
+    EtaleLocal (@Flat : MorphismProperty Scheme.{u})
+      (ObjectProperty.homMk P.hom : (⟨P.left, h.isSpace⟩ : AlgSpace.{u}) ⟶ AlgSpace.ofScheme.obj S) :=
+  flat_of_flat G P h hG
 
 end Torsor
 
@@ -4353,18 +4378,38 @@ example {U R X : AlgSpace.{u}} (s t : R ⟶ U) (φ : U ⟶ X) (h : s ≫ φ = t 
         (pushforwardStructureSheafMap t φ (s ≫ φ) h.symm) = structureSheafMap φ := by
   exact equalizer.lift_ι _ _
 
-/-- Geometric quotients (Stacks 04AE): `φ` is invariant, surjective on points, its fibres on points
-are the equivalence classes of the relation induced by `R`, it is universally submersive, and
-`𝒪_X → (φ_* 𝒪_U)^R` is an isomorphism. The last clause is essential: without it
-`Spec k[ε]/(ε²) → Spec k` with the identity relation satisfies every other clause and is not a
-categorical quotient (`test_dual_numbers_not_quotient`). -/
+/-- Geometric quotients of pre-equivalence relations (Stacks 048M, 04AE).
+The relation on every scheme's points is an equivalence relation. Orbits are tested by
+surjectivity onto the actual fibre product, allowing extensions of geometric residue fields. -/
 def IsGeometricQuotient {U R X : AlgSpace.{u}} (s t : R ⟶ U) (φ : U ⟶ X) : Prop :=
+  (∀ T : Scheme.{u}, Equivalence (fun x y : U.obj.obj (op T) =>
+    ∃ r : R.obj.obj (op T), (isAlgebraicSpace.ι.map s).app (op T) r = x ∧
+      (isAlgebraicSpace.ι.map t).app (op T) r = y)) ∧
   ∃ h : s ≫ φ = t ≫ φ,
     Function.Surjective (points_map φ) ∧
     (∀ (Z : AlgSpace.{u}) (g : Z ⟶ X), Topology.IsQuotientMap (points_map (AlgSpace.pullbackFst g φ))) ∧
-    (∀ x y : points U, points_map φ x = points_map φ y →
-      ∃ r : points R, points_map s r = x ∧ points_map t r = y) ∧
+    Function.Surjective (points_map (ObjectProperty.homMk
+      (pullback.lift (isAlgebraicSpace.ι.map s) (isAlgebraicSpace.ι.map t)
+        (congrArg (fun f => isAlgebraicSpace.ι.map f) h)) : R ⟶ AlgSpace.pullbackObj φ φ)) ∧
     IsIso (structureSheafToInvariants s t φ h)
+
+-- Check `IsGeometricQuotient_identity`
+example (X : AlgSpace.{u}) : IsGeometricQuotient (𝟙 X) (𝟙 X) (𝟙 X) := by sorry
+
+-- Check `IsGeometricQuotient_empty`
+example : IsGeometricQuotient (𝟙 (AlgSpace.ofScheme.obj Scheme.empty.{u})) (𝟙 _) (𝟙 _) := by sorry
+
+-- Check `IsGeometricQuotient_translation_field`
+example (τ : ℤ → RatFunc ℚ →ₐ[ℚ] RatFunc ℚ)
+    (hτ : ∀ n, τ n RatFunc.X = RatFunc.X + algebraMap ℚ (RatFunc ℚ) n) :
+    let V := Spec (.of (RatFunc ℚ))
+    let U := AlgSpace.ofScheme.obj V
+    let R := AlgSpace.ofScheme.obj (∐ (fun _ : ℤ => V))
+    let s : R ⟶ U := AlgSpace.ofScheme.map (Sigma.desc (fun _ => 𝟙 V))
+    let t : R ⟶ U := AlgSpace.ofScheme.map
+      (Sigma.desc (fun n => Spec.map (CommRingCat.ofHom (τ n).toRingHom)))
+    let φ := AlgSpace.ofScheme.map (Spec.map (CommRingCat.ofHom (algebraMap ℚ (RatFunc ℚ))))
+    ¬ IsGeometricQuotient s t φ := by sorry
 
 -- Check `test_dual_numbers_not_quotient`: `U = Spec k[ε]/(ε²)` with the identity relation and
 -- `φ : U → Spec k` is neither a geometric nor a categorical quotient, although every topological
@@ -4384,8 +4429,8 @@ example (k : Type u) [Field k] :
     let φ : U ⟶ X := AlgSpace.ofScheme.map (Spec.map (CommRingCat.ofHom (algebraMap k (DualNumber k))))
     Function.Surjective (points_map φ) ∧
       (∀ (Z : AlgSpace.{u}) (g : Z ⟶ X), Topology.IsQuotientMap (points_map (AlgSpace.pullbackFst g φ))) ∧
-      (∀ x y : points U, points_map φ x = points_map φ y →
-        ∃ r : points U, points_map (𝟙 U) r = x ∧ points_map (𝟙 U) r = y) := sorry
+      Function.Surjective (points_map (ObjectProperty.homMk
+        (pullback.lift (𝟙 U.obj) (𝟙 U.obj) rfl) : U ⟶ AlgSpace.pullbackObj φ φ)) := sorry
 
 -- Check `test_finite_affine`
 example (A : Type u) [CommRing A] (Γ : Type u) [Group Γ] [Finite Γ] [MulSemiringAction Γ A]
@@ -4756,6 +4801,8 @@ end Supports
 
 namespace Nisnevich
 
+open Opposite
+
 open _root_.AlgebraicGeometry
 
 /-- A family of étale morphisms is a Nisnevich covering if every point of the target has a preimage
@@ -4946,24 +4993,132 @@ theorem ElementaryDistinguishedSquare.exists_mayerVietorisSquare {X : Scheme.{u}
     ∃ M : nisnevichTopology.{u}.MayerVietorisSquare, M.toSquare = S.toSquare :=
   sorry
 
-/-- The Nisnevich sheaf criterion on the site of Noetherian schemes of finite Krull dimension: a
-presheaf of sets satisfies the sheaf condition for every Nisnevich covering sieve of such a scheme
-iff it sends the empty scheme to a point and every elementary distinguished square over such a
-scheme to a pullback (Morel–Voevodsky, §3.1, Proposition 1.4). The restriction to Noetherian
-finite-dimensional schemes is part of the statement. -/
-theorem isSheaf_iff_distinguishedSquares (P : Scheme.{u}ᵒᵖ ⥤ Type u) :
-    (∀ X : Scheme.{u}, IsNoetherian X → topologicalKrullDim X ≠ ⊤ →
-        ∀ R ∈ nisnevichTopology X, Presieve.IsSheafFor P R.arrows) ↔
-      ∀ X : Scheme.{u}, IsNoetherian X → topologicalKrullDim X ≠ ⊤ →
-        (IsEmpty X → Nonempty (Unique (P.obj (Opposite.op X)))) ∧
-        ∀ S : ElementaryDistinguishedSquare X, (S.toSquare.op.map P).IsPullback :=
-  sorry
+/-- The quasi-compact étale basis over a fixed scheme. -/
+abbrev QcEtale (X : Scheme.{u}) :=
+  ObjectProperty.FullSubcategory (fun U : X.Etale => QuasiCompact U.hom)
 
-/- Layer 2 (nisnevich points henselization),
-   Layer 2 (nisnevich cohomological dimension), Layer 2 (nisnevich cech comparison) and
-   Layer 2 (brown gersten vanishing) are stated in the roadmap; their Lean statements need the small
-   Nisnevich site's sheafification and Ext instances and the henselization carrier, neither of
-   which exists at the pinned commits. -/
+/-- The induced Nisnevich topology on the quasi-compact étale basis. -/
+noncomputable def qcNisnevichTopology (X : Scheme.{u}) : GrothendieckTopology (QcEtale X) :=
+  (ObjectProperty.ι (fun U : X.Etale => QuasiCompact U.hom)).inducedTopology
+    (smallNisnevichTopology X)
+
+/-- The criterion is a statement about presheaves on this basis itself.
+Morel–Voevodsky, §3.1, Proposition 1.4 and Lemma 1.5. -/
+theorem isSheaf_iff_distinguishedSquares (X : Scheme.{u}) [IsNoetherian X]
+    (hdim : topologicalKrullDim X ≠ ⊤) (P : (QcEtale X)ᵒᵖ ⥤ Type u) :
+    Presheaf.IsSheaf (qcNisnevichTopology X) P ↔
+      (∀ E : QcEtale X, IsEmpty E.obj.left → Nonempty (Unique (P.obj (op E)))) ∧
+      ∀ S : Square (QcEtale X),
+        (∃ D : ElementaryDistinguishedSquare S.X₄.obj.left,
+          S.map (ObjectProperty.ι (fun U : X.Etale => QuasiCompact U.hom) ⋙
+            Scheme.Etale.forget X ⋙ Over.forget X) = D.toSquare) →
+        (S.op.map P).IsPullback := by sorry
+
+/-- Restriction to the basis is an equivalence of sheaf categories (Stacks 03A0).
+Quasi-compact étale objects admit finite covering refinements over a Noetherian base. -/
+theorem qcNisnevich_comparison (X : Scheme.{u}) [IsNoetherian X] :
+    ∃ e : Sheaf (smallNisnevichTopology X) (Type u) ≌
+        Sheaf (qcNisnevichTopology X) (Type u),
+      Nonempty (e.functor ⋙ sheafToPresheaf (qcNisnevichTopology X) (Type u) ≅
+        sheafToPresheaf (smallNisnevichTopology X) (Type u) ⋙
+          (Functor.whiskeringLeft _ _ (Type u)).obj
+            (ObjectProperty.ι (fun U : X.Etale => QuasiCompact U.hom)).op) := by sorry
+
+-- Check `QcEtale_identity`
+example (X : Scheme.{u}) :
+    ∃ V : QcEtale X, V.obj = Scheme.Etale.mk (𝟙 X) := by sorry
+-- Check `QcEtale_empty`
+example (X : Scheme.{u}) (E : X.Etale) [IsEmpty E.left] :
+    ∃ V : QcEtale X, V.obj = E := by sorry
+-- Check `QcEtale_infinite_coproduct`
+example (K : Type u) [Field K] :
+    let f := Sigma.desc (fun _ : ℕ => 𝟙 (Spec (.of K)))
+    Etale f ∧ ¬ IsNoetherian (∐ (fun _ : ℕ => Spec (.of K))) ∧
+      ¬ ∃ V : QcEtale (Spec (.of K)),
+        Nonempty ((Scheme.Etale.forget _).obj V.obj ≅ Over.mk f) := by sorry
+
+-- Check `qcNisnevichTopology_representable`
+example (X : Scheme.{u}) [IsNoetherian X] (V : QcEtale X) :
+    Presheaf.IsSheaf (qcNisnevichTopology X) (yoneda.obj V) := by sorry
+-- Check `qcNisnevichTopology_empty`
+example (X : Scheme.{u}) [IsNoetherian X] (E : QcEtale X) [IsEmpty E.obj.left] :
+    (⊥ : Sieve E) ∈ qcNisnevichTopology X E := by sorry
+-- Check `qcNisnevichTopology_quadratic_not_cover`
+example (V : QcEtale (Spec (.of ℝ)))
+    (hV : Nonempty ((Scheme.Etale.forget _).obj V.obj ≅
+      Over.mk (Spec.map (CommRingCat.ofHom (algebraMap ℝ ℂ)))))
+    (B : QcEtale (Spec (.of ℝ))) (hB : IsIso B.obj.hom) (f : V ⟶ B) :
+    Sieve.generate (Presieve.singleton f) ∉ qcNisnevichTopology _ B := by sorry
+
+/-- The fibre functor of the pro-object of pointed Nisnevich neighbourhoods of `x` in
+an étale object `U → X`: take the filtered colimit of the presheaf on those neighbourhoods.
+Its pro-limit is `Spec O^h_{U,x}` over `X`. Gabber–Kelly, Theorem 2.3; the small-site
+conservativity statement uses every `U`, not just `U = X`. -/
+noncomputable def henselianStalk (X : Scheme.{u}) (U : X.Etale) (x : U.left) :
+    (X.Etaleᵒᵖ ⥤ Type u) ⥤ Type u := sorry
+
+/-- Evaluation on representables identifies the specified pro-object (Stacks, §59.33 (04HW)). -/
+theorem henselianStalk_representable (X : Scheme.{u}) (U V : X.Etale) (x : U.left) :
+    let A := U.left.presheaf.stalk x
+    let H := Henselization.algebra (IsLocalRing.maximalIdeal A)
+    let h : Spec (.of H) ⟶ X :=
+      Spec.map (CommRingCat.ofHom (algebraMap A H)) ≫ U.left.fromSpecStalk x ≫ U.hom
+    Nonempty ((henselianStalk X U x).obj (yoneda.obj V) ≃
+      (Over.mk h ⟶ (Scheme.Etale.forget X).obj V)) := by sorry
+
+/-- Filtered colimits of evaluations preserve finite limits; Gabber–Kelly, Theorem 2.3. -/
+theorem henselianStalk_preservesFiniteLimits (X : Scheme.{u}) (U : X.Etale) (x : U.left) :
+    PreservesFiniteLimits (henselianStalk X U x) := by sorry
+
+/-- A colimit of evaluation functors preserves colimits; Gabber–Kelly, Theorem 2.3. -/
+theorem henselianStalk_preservesColimits (X : Scheme.{u}) (U : X.Etale) (x : U.left) :
+    PreservesColimitsOfSize.{u, u} (henselianStalk X U x) := by sorry
+
+/-- All étale objects contribute points; no classification of all topos points is asserted.
+Morel–Voevodsky, §3.1, p. 99; Gabber–Kelly, Theorem 2.3. -/
+theorem nisnevich_points_henselization (X : Scheme.{u}) [IsNoetherian X]
+    {F G : X.Etaleᵒᵖ ⥤ Type u} (hF : Presheaf.IsSheaf (smallNisnevichTopology X) F)
+    (hG : Presheaf.IsSheaf (smallNisnevichTopology X) G) (α : F ⟶ G) :
+    IsIso α ↔ ∀ (U : X.Etale) (x : U.left),
+      Function.Bijective ((henselianStalk X U x).map α) := by sorry
+
+-- Check `henselianStalk_real_base`
+example (V : (Spec (.of ℝ)).Etale)
+    (hV : Nonempty ((Scheme.Etale.forget _).obj V ≅
+      Over.mk (Spec.map (CommRingCat.ofHom (algebraMap ℝ ℂ)))))
+    (x : Spec (.of ℝ)) :
+    IsEmpty ((henselianStalk _ (Scheme.Etale.mk (𝟙 (Spec (.of ℝ)))) x).obj
+      (yoneda.obj V)) := by sorry
+
+-- Check `henselianStalk_complex_object`
+example (V : (Spec (.of ℝ)).Etale)
+    (hV : Nonempty ((Scheme.Etale.forget _).obj V ≅
+      Over.mk (Spec.map (CommRingCat.ofHom (algebraMap ℝ ℂ))))) (x : V.left) :
+    Nat.card ((henselianStalk _ V x).obj (yoneda.obj V)) = 2 := by sorry
+
+-- Check `henselianStalk_initial`
+example (X : Scheme.{u}) (U : X.Etale) (x : U.left) (E : X.Etale) (hE : IsEmpty E.left) :
+    IsEmpty ((henselianStalk X U x).obj (yoneda.obj E)) := by sorry
+
+-- Check `henselianStalk_real_not_conservative`
+example (V E : (Spec (.of ℝ)).Etale) (hE : IsEmpty E.left)
+    (hV : Nonempty ((Scheme.Etale.forget _).obj V ≅
+      Over.mk (Spec.map (CommRingCat.ofHom (algebraMap ℝ ℂ))))) (e : E ⟶ V) :
+    (∀ x : Spec (.of ℝ), Function.Bijective
+      ((henselianStalk _ (Scheme.Etale.mk (𝟙 (Spec (.of ℝ)))) x).map (yoneda.map e))) ∧
+      ¬ IsIso (yoneda.map e) := by sorry
+
+-- Check `henselianStalk_dvr_extensions`
+example (R : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    (U : (Spec (.of R)).Etale) (x : U.left) (V : (Spec (.of R)).Etale) :
+    let A := U.left.presheaf.stalk x
+    let H := Henselization.algebra (IsLocalRing.maximalIdeal A)
+    Nonempty ((henselianStalk _ U x).obj (yoneda.obj V) ≃
+      (Over.mk (Spec.map (CommRingCat.ofHom (algebraMap A H)) ≫
+        U.left.fromSpecStalk x ≫ U.hom) ⟶ (Scheme.Etale.forget _).obj V)) := by sorry
+
+/- Nisnevich cohomological dimension, Čech comparison and Brown–Gersten vanishing retain
+ their separate statements in §2.14. -/
 
 end Nisnevich
 
@@ -5482,6 +5637,28 @@ theorem isAzumaya_iff_matrix_after_etale (R A : Type u) [CommRing R] [Ring A] [A
       ∀ i, ∃ n : ℕ, 0 < n ∧
         Nonempty (TensorProduct R (B i) A ≃ₐ[B i] Matrix (Fin n) (Fin n) (B i)) :=
   sorry
+
+/-- Positive fibre rank supplies precisely the faithfulness missing from the endomorphism
+criterion for finite projective algebras. Grothendieck, Brauer I, Theorem 5.1. -/
+theorem isAzumaya_iff_positive_fibres_mulLeftRight (R A : Type u)
+    [CommRing R] [Ring A] [Algebra R A] [Module.Finite R A] [Module.Projective R A] :
+    IsAzumaya R A ↔
+      (∀ p : PrimeSpectrum R,
+        0 < Module.finrank p.asIdeal.ResidueField (TensorProduct R p.asIdeal.ResidueField A)) ∧
+      Function.Bijective (AlgHom.mulLeftRight R A) := by sorry
+
+-- Check `azumaya_zero_algebra`
+example (K : Type u) [Field K] :
+    Function.Bijective (AlgHom.mulLeftRight K (Matrix (Fin 0) (Fin 0) K)) ∧
+      ¬ IsAzumaya K (Matrix (Fin 0) (Fin 0) K) := by sorry
+
+-- Check `azumaya_missing_component`
+example (K : Type u) [Field K] :
+    letI : Algebra (K × K) K := (RingHom.fst K K).toAlgebra
+    Nontrivial K ∧ ¬ FaithfulSMul (K × K) K ∧ ¬ IsAzumaya (K × K) K := by sorry
+
+-- Check `azumaya_empty_base`
+example : IsAzumaya PUnit PUnit := by sorry
 
 /-- For affine `X`, the class in `H²(X_ét, 𝔾_m)` of an Azumaya algebra given by its global-section data: a
 finite projective `Γ(X, O)`-algebra `A` which is Azumaya in Mathlib's sense, by the étale cohomological Brauer-class map. This construction uses algebras over global sections. -/
@@ -6983,7 +7160,12 @@ example (p m : ℕ) [Fact p.Prime] :
 /- Theorems of Layer 4 that need coherent cohomology Hⁱ(X, F) and higher direct images (Tau Ceti's
    `TauCeti.AlgebraicGeometry.Cohomology.Basic` is not compiled in this build, and coherence of
    Rⁱf_* is Tau Ceti StableReduction Layer 2):
-   * Layer 4 (theorem on formal functions)  (Stacks 02OC): H^p(X,F)^ ≅ lim_n H^p(X, F/IⁿF);
+   * Layer 4 (theorem on formal functions), Stacks 30.20.5 (02OC):
+     `Scheme.Modules.Cohomology.formalFunctionsIso` in
+     `TauCeti/AlgebraicGeometry/Cohomology/FormalFunctions.lean` identifies
+     H^p(X,F)^ with lim_n H^p(X, F/IⁿF). Coherent proper cohomology and
+     higher-direct-image finiteness precede it; the Grothendieck Picard construction
+     in JacobianChallenge consumes it;
    * Layer 4 (stein factorization) (Stacks 03H0, 0AY8);
    * Layer 4 (effective formal deformations of curves).
    The existence and algebraization theorems are typed below. -/
@@ -8230,6 +8412,79 @@ example (K : Type u) [Field K] {X : Scheme.{u}} (i : Spec (.of K) ⟶ X)
     Nonempty (Over.mk (normalCone.proj i) ≅
       Over.mk (Spec.map (CommRingCat.ofHom (algebraMap K (Polynomial K))))) := sorry
 
+/-- The conormal sheaf `I/I²` on the closed subscheme, using the owner's quasicoherent carrier.
+On an affine chart it is the sheaf associated to `Ideal.Cotangent`. Fulton, §4.1. -/
+def conormal {Z X : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmersion i] :
+    TauCetiRoadmap.AlgebraicVectorBundles.QuasicoherentSheaf Z := sorry
+
+/-- A regular sequence gives a finite locally free conormal sheaf. Fulton, Appendix B.7. -/
+theorem conormal_regular {Z X : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmersion i]
+    (d : ℕ) (hi : IsRegularImmersion i d) :
+    TauCetiRoadmap.AlgebraicVectorBundles.isFiniteLocallyFree Z (conormal i).obj := by sorry
+
+/-- The normal bundle is `Spec Sym(I/I²)`, with its specified projection to `Z`. -/
+noncomputable def normalBundle {Z X : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmersion i]
+    (d : ℕ) (_hi : IsRegularImmersion i d) : Over Z :=
+  ((TauCetiRoadmap.AlgebraicVectorBundles.linearSpecScheme Z).obj (op (conormal i))).obj
+
+/-- The sections convention uses the dual of the conormal sheaf. Fulton, §4.1;
+AlgebraicVectorBundles, L2B. -/
+theorem normalBundle_dual_conormal {Z X : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmersion i]
+    (d : ℕ) (hi : IsRegularImmersion i d) :
+    let C : TauCetiRoadmap.AlgebraicVectorBundles.FiniteLocallyFreeSheaf Z :=
+      ⟨(conormal i).obj, conormal_regular i d hi⟩
+    Nonempty (normalBundle i d hi ≅
+      ((TauCetiRoadmap.AlgebraicVectorBundles.totalSpaceScheme Z).obj
+        ((TauCetiRoadmap.AlgebraicVectorBundles.dual Z).obj (op C))).obj) := by sorry
+
+/-- The associated graded of a regular ideal is its conormal symmetric algebra. Fulton, §4.1. -/
+theorem normalCone_eq_normalBundle {Z X : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmersion i]
+    (d : ℕ) (hi : IsRegularImmersion i d) :
+    Nonempty (Over.mk (normalCone.proj i) ≅ normalBundle i d hi) := by sorry
+
+-- Check `conormal_identity`
+example (X : Scheme.{u}) : IsZero (conormal (𝟙 X)).obj := by sorry
+-- Check `normalBundle_identity`
+example (X : Scheme.{u}) (h : IsRegularImmersion (𝟙 X) 0) :
+    IsIso (normalBundle (𝟙 X) 0 h).hom := by sorry
+
+-- Checks `conormal_zero_section`, `normalBundle_zero_section`
+set_option backward.isDefEq.respectTransparency false in
+example (X : Scheme.{u}) (E : TauCetiRoadmap.AlgebraicVectorBundles.FiniteLocallyFreeSheaf X)
+    (hE : HasRank E.obj 1)
+    (hne : ¬ Nonempty (E ≅ (TauCetiRoadmap.AlgebraicVectorBundles.dual X).obj (op E))) :
+    let z := ((TauCetiRoadmap.AlgebraicVectorBundles.totalSpaceHomEquiv E (Over.mk (𝟙 X))).symm 0).left
+    letI : IsClosedImmersion z := by sorry
+    ∃ hz : IsRegularImmersion z 1,
+      Nonempty ((conormal z).obj ≅
+        ((TauCetiRoadmap.AlgebraicVectorBundles.dual X).obj (op E)).obj) ∧
+      Nonempty (normalBundle z 1 hz ≅ Over.mk (totalSpace.proj E.obj)) := by sorry
+
+attribute [local instance] MvPolynomial.gradedAlgebra
+
+-- Checks `conormal_hyperplane`, `normalBundle_hyperplane`
+example (K : Type u) [Field K]
+    (f : (MvPolynomial.homogeneousSubmodule (Fin 3) K) →+*ᵍ
+      (MvPolynomial.homogeneousSubmodule (Fin 2) K))
+    (hf : HomogeneousIdeal.irrelevant (MvPolynomial.homogeneousSubmodule (Fin 2) K) ≤
+      (HomogeneousIdeal.irrelevant (MvPolynomial.homogeneousSubmodule (Fin 3) K)).map f)
+    (h0 : f (MvPolynomial.X 0) = MvPolynomial.X 0)
+    (h1 : f (MvPolynomial.X 1) = MvPolynomial.X 1)
+    (h2 : f (MvPolynomial.X 2) = 0)
+    (hK : ∀ a : K, f (MvPolynomial.C a) = MvPolynomial.C a) :
+    let i := Proj.map f hf
+    letI : IsClosedImmersion i := by sorry
+    ∃ hi : IsRegularImmersion i 1,
+      let C : TauCetiRoadmap.AlgebraicVectorBundles.FiniteLocallyFreeSheaf _ :=
+        ⟨(conormal i).obj, conormal_regular i 1 hi⟩
+      Subsingleton (QCoh.cohomology C.obj 0) ∧
+      ¬ Subsingleton (QCoh.cohomology
+        ((TauCetiRoadmap.AlgebraicVectorBundles.dual _).obj (op C)).obj 0) ∧
+      ¬ Nonempty (C ≅ (TauCetiRoadmap.AlgebraicVectorBundles.dual _).obj (op C)) ∧
+      Nonempty (normalBundle i 1 hi ≅
+        ((TauCetiRoadmap.AlgebraicVectorBundles.totalSpaceScheme _).obj
+          ((TauCetiRoadmap.AlgebraicVectorBundles.dual _).obj (op C))).obj) := by sorry
+
 instance {Z X : Scheme.{u}} [Z.Over (Spec (.of κ))]
     (i : Z ⟶ X) [IsClosedImmersion i] : (normalCone i).Over (Spec (.of κ)) :=
   ⟨normalCone.proj i ≫ (Z ↘ Spec (.of κ))⟩
@@ -8239,11 +8494,122 @@ instance {Z X : Scheme.{u}} [Z.Over (Spec (.of κ))] [X.Over (Spec (.of κ))]
     (i : Z ⟶ X) [IsClosedImmersion i] [i.IsOver (Spec (.of κ))] :
     LocallyOfFiniteType (normalCone i ↘ Spec (.of κ)) := by sorry
 
-/-- The specialisation map `σ : CH_k(X) → CH_k(C_Z X)` through the deformation to the normal
-cone. -/
-def specialization {Z X : Scheme.{u}} [Z.Over (Spec (.of κ))] [LocallyOfFiniteType (Z ↘ Spec (.of κ))] [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (i : Z ⟶ X) [i.IsOver (Spec (.of κ))] [IsClosedImmersion i] (k : ℤ) :
+/-- Supported Cartier intersection, constructed by orders of vanishing on integral cycles,
+using the restricted divisor line on components contained in the divisor, and descended through
+rational equivalence. It precedes general regular-immersion Gysin. Stacks 02T7. -/
+def cartierIntersection {Z X : Scheme.{u}} [Z.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (Z ↘ Spec (.of κ))] [X.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (X ↘ Spec (.of κ))] (i : Z ⟶ X)
+    [i.IsOver (Spec (.of κ))] [IsClosedImmersion i] (hi : IsRegularImmersion i 1) (k : ℤ) :
+    ChowGroup κ X (k + 1) →+ ChowGroup κ Z k := sorry
+
+/-- A Cartier divisor with trivial conormal line kills classes pushed from its support.
+This divisor self-intersection identity uses only the divisor construction. Stacks 02T7. -/
+theorem cartierIntersection_supported_zero {Z X : Scheme.{u}} [Z.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (Z ↘ Spec (.of κ))] [X.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (X ↘ Spec (.of κ))] (i : Z ⟶ X)
+    [i.IsOver (Spec (.of κ))] [IsClosedImmersion i]
+    (hi : IsRegularImmersion i 1)
+    (htriv : Nonempty ((conormal i).obj ≅ SheafOfModules.unit Z.ringCatSheaf))
+    (k : ℤ) (β : ChowGroup κ Z (k + 1)) :
+    cartierIntersection κ i hi k (properPushforward κ i (k + 1) β) = 0 := by sorry
+
+/-- Localization lifts differ by a class supported on the special Cartier fibre; its normal
+line is trivial. Fulton, §5.2. -/
+theorem specialization_independent_lift {Z X : Scheme.{u}} [Z.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (Z ↘ Spec (.of κ))] [X.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (X ↘ Spec (.of κ))] (i : Z ⟶ X)
+    [i.IsOver (Spec (.of κ))] [IsClosedImmersion i]
+    (hi : IsRegularImmersion i 1)
+    (htriv : Nonempty ((conormal i).obj ≅ SheafOfModules.unit Z.ringCatSheaf))
+    (k : ℤ) (α : ChowGroup κ X (k + 1)) (β : ChowGroup κ Z (k + 1)) :
+    cartierIntersection κ i hi k (α + properPushforward κ i (k + 1) β) =
+      cartierIntersection κ i hi k α := by sorry
+
+-- Check `cartierIntersection_supported_lift`
+example {Z X : Scheme.{u}} [Z.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (Z ↘ Spec (.of κ))] [X.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (X ↘ Spec (.of κ))] (i : Z ⟶ X)
+    [i.IsOver (Spec (.of κ))] [IsClosedImmersion i] (hi : IsRegularImmersion i 1)
+    (htriv : Nonempty ((conormal i).obj ≅ SheafOfModules.unit Z.ringCatSheaf))
+    (k : ℤ) (α : ChowGroup κ X (k + 1)) (β : ChowGroup κ Z (k + 1)) :
+    cartierIntersection κ i hi k (α + properPushforward κ i (k + 1) β) =
+      cartierIntersection κ i hi k α := by
+  exact specialization_independent_lift κ i hi htriv k α β
+
+-- Check `cartierIntersection_empty`
+example {Z X : Scheme.{u}} [Z.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (Z ↘ Spec (.of κ))] [X.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (X ↘ Spec (.of κ))] (i : Z ⟶ X)
+    [i.IsOver (Spec (.of κ))] [IsClosedImmersion i] [IsEmpty Z] (hi : IsRegularImmersion i 1) (k : ℤ) :
+    cartierIntersection κ i hi k = 0 := by sorry
+
+-- Check `cartierIntersection_affine_origin`
+example :
+    let i := Spec.map (CommRingCat.ofHom (Polynomial.evalRingHom (0 : κ)))
+    letI : IsClosedImmersion i := by sorry
+    letI : i.IsOver (Spec (.of κ)) := by sorry
+    ∃ hi : IsRegularImmersion i 1, Function.Bijective (cartierIntersection κ i hi 0) := by sorry
+
+/-- On an integral support `W ⊆ X`, take the closure of `W × A¹` in the deformation space
+and its special Cartier fibre with generic-length multiplicities. Extend to locally finite
+cycles. This uses Cartier intersection, not regular-immersion Gysin. Fulton, §5.2. -/
+def specializationCycle {Z X : Scheme.{u}} [Z.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (Z ↘ Spec (.of κ))] [X.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (X ↘ Spec (.of κ))] (i : Z ⟶ X)
+    [i.IsOver (Spec (.of κ))] [IsClosedImmersion i] (k : ℤ) :
+    cyclesOfDimension κ X k →+ cyclesOfDimension κ (normalCone i) k := sorry
+
+/-- The cycle specialization carries locally finite rational equivalences to rational
+equivalences; this is the descent needed before constructing Gysin. Fulton, §5.2. -/
+theorem specializationCycle_ratEquiv {Z X : Scheme.{u}} [Z.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (Z ↘ Spec (.of κ))] [X.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (X ↘ Spec (.of κ))] (i : Z ⟶ X)
+    [i.IsOver (Spec (.of κ))] [IsClosedImmersion i] (k : ℤ) :
+    RatEquiv κ X k ≤ (RatEquiv κ (normalCone i) k).comap (specializationCycle κ i k) := by sorry
+
+/-- The specialization on Chow groups is induced by the cycle construction. -/
+def specialization {Z X : Scheme.{u}} [Z.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (Z ↘ Spec (.of κ))] [X.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (X ↘ Spec (.of κ))] (i : Z ⟶ X)
+    [i.IsOver (Spec (.of κ))] [IsClosedImmersion i] (k : ℤ) :
     ChowGroup κ X k →+ ChowGroup κ (normalCone i) k :=
-  sorry
+  QuotientAddGroup.map _ _ (specializationCycle κ i k) (specializationCycle_ratEquiv κ i k)
+
+/-- Compatibility with the cycle quotient, Fulton, §5.2. -/
+theorem specialization_cycleClass {Z X : Scheme.{u}} [Z.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (Z ↘ Spec (.of κ))] [X.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (X ↘ Spec (.of κ))] (i : Z ⟶ X)
+    [i.IsOver (Spec (.of κ))] [IsClosedImmersion i] (k : ℤ) (α : cyclesOfDimension κ X k) :
+    specialization κ i k (cycleClass κ X k α) =
+      cycleClass κ (normalCone i) k (specializationCycle κ i k α) := by sorry
+
+-- Checks `specializationCycle_identity`, `specialization_identity`
+example (X : Scheme.{u}) [X.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) :
+    Function.Bijective (specializationCycle κ (𝟙 X) k) ∧
+      Function.Bijective (specialization κ (𝟙 X) k) := by sorry
+
+-- Checks `specializationCycle_empty`, `specialization_empty`
+example {Z X : Scheme.{u}} [Z.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (Z ↘ Spec (.of κ))] [X.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (X ↘ Spec (.of κ))] (i : Z ⟶ X)
+    [i.IsOver (Spec (.of κ))] [IsClosedImmersion i] [IsEmpty Z] (k : ℤ) :
+    specializationCycle κ i k = 0 ∧ specialization κ i k = 0 := by sorry
+
+-- Checks `specializationCycle_affine_origin`, `specialization_affine_origin`
+example :
+    let i := Spec.map (CommRingCat.ofHom (Polynomial.evalRingHom (0 : κ)))
+    letI : IsClosedImmersion i := by sorry
+    letI : i.IsOver (Spec (.of κ)) := by sorry
+    (∃ α : cyclesOfDimension κ (Spec (.of (Polynomial κ))) 1,
+      specializationCycle κ i 1 α ≠ 0) ∧ Function.Bijective (specialization κ i 1) := by sorry
+
+-- Check `deformation_origin_plane_not_flat`: coordinates x ↦ ta, y ↦ tb.
+example :
+    let f : MvPolynomial (Fin 2) κ →ₐ[κ] MvPolynomial (Fin 3) κ :=
+      MvPolynomial.aeval (fun j => MvPolynomial.X 0 * MvPolynomial.X j.succ)
+    ¬ Flat (Spec.map (CommRingCat.ofHom f.toRingHom)) := by sorry
 
 /-- The external product over a field `CH_a(X) ⊗ CH_b(Y) → CH_{a+b}(X ×_k Y)`. -/
 def externalProduct {X Y : Scheme.{u}} [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] [Y.Over (Spec (.of κ))] [LocallyOfFiniteType (Y ↘ Spec (.of κ))] (a b : ℤ) :

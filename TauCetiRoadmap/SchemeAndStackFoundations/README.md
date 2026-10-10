@@ -102,7 +102,10 @@ comparisons to them and never a second carrier.
   Riemann–Roch and Serre duality for line bundles, relative cohomology and base change, the Picard
   functor of a curve with a rational point, the Jacobian, Abel–Jacobi, the Picard–Brauer
   obstruction*: [JacobianChallenge](../JacobianChallenge/README.md) Layers A–F. The theorem on
-  formal functions that its Layer C may use is Layer 4 here (one owner).
+  formal functions used by the Picard construction in its Layer C is owned here in §4.9,
+  at `TauCeti/AlgebraicGeometry/Cohomology/FormalFunctions.lean`, with shared API
+  `Scheme.Modules.Cohomology.formalFunctionsIso`. Its coherent higher-direct-image
+  and finiteness theorems are inputs to that API; its Picard construction is a consumer.
 - *Function fields, places, divisors, `L(D)`, the genus, Riemann–Roch, the different and Hurwitz's
   formula, constant-field extensions, the regular projective model of a function field and the
   anti-equivalence with regular projective curves*: [AlgebraicCurves](../AlgebraicCurves/README.md)
@@ -1515,7 +1518,13 @@ opens of `|F|`); `points_pullback` (the map `|F ×_H G| → |F| ×_{|H|} |G|` is
 
 ### 1.8 Fibre products and étale-local properties of morphisms
 
-Prove `isAlgebraicSpace_pullback`: fibre products of algebraic spaces are algebraic spaces, with
+Prove `isAlgebraicSpace_pullback`: fibre products of algebraic spaces are algebraic spaces.
+`EtaleLocal.baseChange` gives `EtaleLocal P (AlgSpace.pullbackSnd f g)`
+under the source/target étale-locality and base-change-stability assumptions on `P`.
+`spacePresentation`
+identifies the quotient projection with the chosen atlas, and
+`ofScheme_preservesPullback` identifies both projections under its comparison
+isomorphism (Stacks, §65.7 and §67.22 (03MJ, 04RD)). The named fibre-product API is
 `AlgSpace.pullbackObj`, `pullbackFst`, `pullbackSnd`, `ofScheme_preservesPullback`, and
 `ofScheme_relativelyRepresentable` (every `h_U → F` is relatively representable); chart products:
 for atlases `U → F`, `V → G`, the scheme representing `U ×_H V`
@@ -1533,6 +1542,9 @@ morphism `f : F → G` of algebraic spaces: there is a commutative square with �
 `IsStableUnderComposition`.
 
 **Checks.**
+- `EtaleLocal_baseChange_projection`: a consumer obtains `P` for the specified
+  second pullback projection directly from the theorem.
+
 - `atlas_two_lifts_rejected`: take `F = G = H = Spec k` and `W = Spec k ⊔ Spec k`.
   Lift `U = V = Spec k` to different components of `W`. Then `U ×_W V = ∅`,
   whereas `U ×_H V = Spec k`; only the latter covers the required product.
@@ -1649,7 +1661,8 @@ ModularCurves 0B's convention (`yoneda : Over S ⥤ Over h_S` preserves finite p
 **Checks.**
 - `Action.test_translation_free`: `G` acting on itself by left translation is free.
 - `Action.test_scaling_not_free`: `𝔾_m` acting on `𝔸¹` by scaling is not free (every `c ≠ 1` fixes
-  `0`).
+  `0`). The typed criterion rejects `Action.IsFree` whenever an actual
+  nonidentity group-valued point fixes a point of the given action.
 - `Action.test_constant_group`: the action of the constant group `(ℤ/2)_k` on `X` is a
   homomorphism `ℤ/2 → Aut X`, by `Action.constantEquiv`.
 - `Action.test_trivial_group`: the trivial group has a unique action on every `X`.
@@ -1713,7 +1726,9 @@ section fppf-locally on `S` (Stacks, Definitions 78.9.1, 78.9.3 (04TY)). For fpp
 flat and locally of finite presentation over `S`; for fpqc torsors `G` is flat and affine. API:
 `Torsor.trivial` (`G` acting on itself), `Torsor.trivial_iff_section` (a torsor is isomorphic to `G`
 iff it has a section), `Torsor.hom_isIso` (equivariant maps of torsors are isomorphisms),
-`Torsor.baseChange`, `Torsor.flat_of_flat` (a torsor under a flat group is flat),
+`Torsor.baseChange`, `Torsor.flat_of_flat` (flatness of the specified projection in
+`EtaleLocal @Flat` for an algebraic-space torsor under an étale-locally flat group space;
+this does not assert scheme-relative representability),
 `Torsor.toSheafTorsor`: the fppf sheaf `P` with its `h_G`-action is a torsor under the sheaf of
 groups `h_G` on the big fppf site `(Sch/S)_fppf` in the sense of §2.3. Define the **set of torsor
 classes** as Layer 2's `NonabelianH1 (fppfTopology.over S) h_G` (§2.3): `torsorClasses G :=
@@ -1743,6 +1758,9 @@ fppf local (§1.2; Stacks, Lemma 80.11.1 (04SK); Poonen 2017, Theorem 6.5.10 (i)
 `LineBundleClass`, `CommHopfAlgCat.isPullback_fppfQuotientTorsor`.
 
 **Checks.**
+- `torsor_flat_space_projection`: the flatness conclusion is for the torsor's own
+  algebraic-space projection, with no assumption that the torsor is a scheme.
+
 - `Torsor.test_trivial`: `G` is a `G`-torsor with the base-point class.
 - `Torsor.test_frobenius_mu_p`: in characteristic `p`, the `p`-th power map `𝔾_m → 𝔾_m` over
   `S = 𝔾_m` (coordinate `t`) is a `μ_p`-torsor over `S`; its fibre over the generic point is
@@ -1807,9 +1825,14 @@ invariant and every invariant morphism to an algebraic space factors uniquely th
 `IsCategoricalQuotient.unique` (Stacks, Definitions 83.3.1 (048E), 83.4.1 (048J)). Define the
 **invariant sections**: for `φ` invariant, `(φ_* O_U)^R ⊆ φ_* O_U` is the equaliser of
 `s^♯, t^♯ : φ_* O_U ⇉ (φ ∘ s)_* O_R` on the small étale site of `X` (§1.10), with the canonical
-comparison `O_X → (φ_* O_U)^R` induced by `φ^♯`. Define `IsGeometricQuotient s t φ`: `φ` is
-invariant; `|φ|` is surjective; its fibres on points are the equivalence classes of the relation
-induced by `R` on `|U|`; `φ` is universally submersive (`|φ ×_X Z|` is a quotient map for every
+comparison `O_X → (φ_* O_U)^R` induced by `φ^♯`. Define `IsGeometricQuotient s t φ` for a **pre-equivalence relation**: on each
+scheme-valued point set the image of `(s,t)` is an equivalence relation (in particular this
+includes action groupoids). Require `φ` invariant, `|φ|` surjective, and the induced
+map `R → U ×_X U` surjective on underlying points of the actual fibre product. This
+is the geometric orbit condition with field extensions allowed, not a condition on
+`|U| ×_|X| |U|` (Stacks, §83.5 (048M), Definition 83.5.4 and Lemma 83.5.17).
+For an arbitrary pre-relation use its generated pre-equivalence relation as in Lemma 83.5.6.
+Require also `φ` universally submersive (`|φ ×_X Z|` is a quotient map for every
 `Z → X`); and the comparison `O_X → (φ_* O_U)^R` is an isomorphism (Stacks, Definition 83.10.1
 (04AE)). The last clause is essential: without it `Spec k[ε]/ε² → Spec k` with the identity
 relation satisfies every topological clause and is not a categorical quotient
@@ -1839,6 +1862,15 @@ Lemmas 80.11.1 (04SK), 80.11.6 (06PG), 80.11.7 (06PH)). *Needs:* §1.7, §1.9, �
   `k → k[ε]/(ε²)` is not an isomorphism, and `φ` is not a categorical quotient (`𝟙_U` is invariant
   and does not factor through `Spec k`); the identity-relation quotient is `U` itself, with its
   nilpotents, not its reduction.
+
+- `IsGeometricQuotient_identity`: the identity relation and identity map satisfy the predicate.
+- `IsGeometricQuotient_empty`: the identity quotient of the empty scheme satisfies it.
+- `IsGeometricQuotient_translation_field`: on `U = Spec ℚ(t)`, let `R = ⨿_{n∈ℤ} U`
+  with source identity on each component and target induced by `t ↦ t+n`.
+  The structure map to `Spec ℚ` fails the predicate: in an algebraic closure of `ℚ(t)`,
+  the points `t ↦ t` and `t ↦ 2t` are never related, even after field extension.
+  The invariant functions are `ℚ` (and `L` after finite separable `L/ℚ`), so the
+  invariant-sheaf clause does not conceal the failure of the geometric orbit clause.
 
 - `invariants_swap_pair`: for `U = Spec(k × k) → X = Spec k`, with the exchange action
   encoded by `U ×_X U ⇉ U`, invariant sections are the diagonal copy of `k`; the comparison
@@ -2506,12 +2538,21 @@ the same `Spec ℝ ⊔ Spec ℂ` counterexample is finite. Prove `distinguishedS
 square is a Mayer–Vietoris square for the Nisnevich topology (Mathlib's `MayerVietorisSquare`), so
 every Nisnevich sheaf sends it to a pullback and every abelian Nisnevich sheaf has a long exact
 Mayer–Vietoris sequence (Morel–Voevodsky 1999, §3.1, Lemma 1.6, Remark 1.7, pp. 97–98). Prove
-`nisnevich_sheaf_criterion`: on the site of **Noetherian schemes of finite Krull dimension** with
-the Nisnevich topology (the full subcategory `Scheme.NoetherianFiniteDim`, closed under étale maps
-and fibre products), a presheaf of sets is a Nisnevich sheaf iff it sends the empty scheme to a
-point and every elementary distinguished square to a pullback (Morel–Voevodsky 1999, §3.1,
-Proposition 1.4, Lemma 1.5, pp. 96–98). The restriction to that site is essential: the criterion is
-stated on the category of all schemes only with a hypothesis no scheme category satisfies. *Needs:*
+`nisnevich_sheaf_criterion` (`Nisnevich.isSheaf_iff_distinguishedSquares`): fix a
+Noetherian finite-dimensional scheme `X`. Let `QcEtale X` be the full subcategory
+of `X.Etale` on quasi-compact structure maps, with `qcNisnevichTopology X` induced
+from `smallNisnevichTopology X`. A presheaf **on `QcEtale X`** is a sheaf iff it
+sends the empty object to a point and its elementary distinguished squares to
+pullbacks (Morel–Voevodsky 1999, §3.1, Proposition 1.4, Lemma 1.5, pp. 96–98).
+Its objects are Noetherian of finite dimension. Fibre products over objects of
+this fixed basis and quasi-compact open complements stay in the basis; the
+étale maps involved are of finite type. Nisnevich covers of a basis object
+admit finite refinements by basis objects. Prove `qcNisnevich_comparison`:
+restriction induces an equivalence between sheaves on all of `X.Etale` and on
+this basis, with the underlying restriction functor identified (Stacks,
+Lemma 7.29.1 (03A0)). Arbitrary étale schemes, such as an infinite coproduct
+of field points, remain objects of the larger site. No closure of arbitrary
+Noetherian schemes under arbitrary fibre products is claimed. *Needs:*
 §2.12; Mathlib `Square`, `IsPullback`, `MayerVietorisSquare`, `IsOpenImmersion`, `Etale`,
 `IsNoetherian`, `topologicalKrullDim`.
 
@@ -2530,14 +2571,29 @@ stated on the category of all schemes only with a hypothesis no scheme category 
 - `test_eds_not_distinguished_extra_point`: `X = Spec ℝ`, `U = ∅`, `V = Spec ℝ ⊔ Spec ℂ`: the
   pointwise clause holds (one preimage with residue field `ℝ`) and the isomorphism clause fails
   (`p⁻¹(Z) = Spec ℝ ⊔ Spec ℂ ≠ Spec ℝ`); the structure rejects it.
-- `test_sheaf_criterion_representable`: on `Scheme.NoetherianFiniteDim`, every representable
-  presheaf satisfies the criterion.
+- `QcEtale_identity`: the identity belongs to the basis.
+- `QcEtale_empty`: the empty étale object belongs to the basis.
+- `QcEtale_infinite_coproduct`: `⨿_{n∈ℕ} Spec k → Spec k` is étale but neither
+  quasi-compact nor Noetherian; it belongs only to the larger site.
+- `qcNisnevichTopology_representable`: every representable on the basis is a sheaf.
+- `qcNisnevichTopology_empty`: the empty sieve covers the empty basis object.
+- `qcNisnevichTopology_quadratic_not_cover`: `Spec ℂ → Spec ℝ` lies in the basis
+  but its generated sieve does not cover the final object.
 
 ### 2.14 Nisnevich points, cohomological dimension, Čech comparison and Brown–Gersten
 
-Prove `nisnevich_points_henselization`: for `X` Noetherian the stalk functors at the henselizations
-`Spec O^h_{X,x}` (§0.13) form a conservative family of points of `Sh(X_Nis)`, and every point is of
-this form up to isomorphism (Morel–Voevodsky 1999, §3.1, paragraph before Lemma 1.11, p. 99). Prove
+Construct `henselianStalk X U u` for every étale object `U → X` and `u ∈ U`:
+take the filtered colimit over pointed étale neighbourhoods `(V,v) → (U,u)` inducing
+`κ(u) ≅ κ(v)`, using an essentially small cofinal neighbourhood category. The
+associated pro-object has limit `Spec O^h_{U,u}` over `X`; it need not itself be
+an object of `X_ét`. Prove `henselianStalk_representable`: on `h_W` this is
+`Hom_X(Spec O^h_{U,u}, W)`, including the structural map to `X`; prove preservation
+of finite limits and colimits. Prove `nisnevich_points_henselization`: for
+Noetherian `X`, a morphism of sheaves on `X_Nis` is invertible exactly when all
+these fibre maps are bijective. There is no assertion classifying all points.
+The neighbourhood argument is the small-site form of Morel–Voevodsky 1999, §3.1,
+p. 99; compare Gabber–Kelly, Theorems 2.3 and 2.6 for the site/pro-object distinction,
+without importing their finite-type big-site classification. Prove
 `nisnevich_cohomological_dimension`: for `X` Noetherian of Krull dimension `d`, `H^q(X_Nis, F) = 0`
 for `q > d` and every abelian Nisnevich sheaf (Morel–Voevodsky 1999, §3.1, Proposition 1.8, pp.
 98–99). Prove `nisnevich_cech_comparison`: on a Noetherian scheme of finite dimension, Čech
@@ -2553,7 +2609,18 @@ Noetherian finite-dimensional `X` (Morel–Voevodsky 1999, §3.1, Definitions 1.
 - `test_nisnevich_real_field_contrast`: on `Spec ℝ`, positive-degree Nisnevich
   cohomology vanishes, whereas `H²_ét(𝔾_m) = Br(ℝ) ≅ ℤ/2`, detected by the
   quaternion class (§2.22).
-- `test_points_dvr`: on `Spec R` of a DVR, the two points are `Spec R^h` and `Spec K`.
+- `henselianStalk_real_base`: the representable `h_{Spec ℂ}` has empty fibre at
+  `Spec ℝ`; the initial sheaf has the same fibre.
+- `henselianStalk_complex_object`: the fibre of that representable at the point
+  of the étale object `Spec ℂ → Spec ℝ` consists of identity and conjugation.
+- `henselianStalk_initial`: the sheaf represented by the empty object has empty
+  fibre at every `(U,u)`.
+- `henselianStalk_real_not_conservative`: the map from the initial sheaf to
+  `h_{Spec ℂ}` is bijective on the base's sole henselian fibre but is not an
+  isomorphism of sheaves.
+- `henselianStalk_dvr_extensions`: for a DVR `R`, use `Spec O^h_{U,u}` for all
+  étale `U → Spec R`, including nontrivial finite separable residue-field
+  extensions and generic-field extensions. The two base points alone are insufficient.
 
 ### 2.15 Étale cohomology: Gabber, fields, limits, Hochschild–Serre
 
@@ -2841,10 +2908,17 @@ constant function `d`), `Azumaya.pullback`, `Azumaya.tensor`, `Azumaya.opposite`
 (over `Spec R` the condition is Mathlib's `IsAzumaya R A`). Prove `qcohAlgebra_descent`:
 quasi-coherent algebras descend along fpqc coverings (§1.1) and the Azumaya property is fpqc local
 (Stacks, Section 35.3 (023F), Section 59.62). Prove `azumaya_equivalent_conditions`: for a
-quasi-coherent `O_X`-algebra `A` finite locally free as a module, the following are equivalent: `A`
+quasi-coherent `O_X`-algebra `A` finite locally free as a module **of positive rank at
+every point** (equivalently locally faithful), the following are equivalent: `A`
 is Azumaya; `A ⊗ A^op → End(A)` is an isomorphism; every geometric fibre `A ⊗ κ(x̄)` is a matrix
-algebra; `A` is fppf-locally a matrix algebra (Grothendieck, Brauer I, Théorème 5.1, Propositions
-5.4–5.5, pp. 210–212). Define `StabilizedEquivalence A B`: there are finite locally free `E`, `F` of
+algebra of positive degree; `A` is fppf-locally a matrix algebra (Grothendieck, Brauer I, Théorème 5.1, Propositions
+5.4–5.5, pp. 210–212). In the affine comparison use precisely the same condition:
+`isAzumaya_iff_positive_fibres_mulLeftRight` identifies native `IsAzumaya R A`
+with positive rank over every residue field together with bijectivity of
+`AlgHom.mulLeftRight R A`, for finite projective `A`. Native `IsAzumaya` includes
+`FaithfulSMul R A` (Mathlib, `Algebra/Azumaya/Defs.lean`); global nontriviality of
+`A` does not replace it. Positivity is vacuous over the empty scheme.
+Define `StabilizedEquivalence A B`: there are finite locally free `E`, `F` of
 positive rank at every point with `A ⊗ End(E) ≅ B ⊗ End(F)`, with `refl`, `symm`, `trans`; and
 `SchemeBrauerGroup X := Azumaya algebras / ≈`, an abelian group under `⊗` with inverse `A^op`, with
 `SchemeBrauerGroup.mk`, `mk_eq_zero_iff` (`A ≅ End(E)`), `mk_tensor`, `mk_opposite`, `pullback f :
@@ -2880,6 +2954,12 @@ Hochschild–Serre (Harpaz–Wittenberg 2023, §3, display (3.1), Remark 3.1, pp
 `brauerCohomologyEquiv`, `subsingleton_brauerGroup_of_finite`; AlgebraicVectorBundles L0B.
 
 **Checks.**
+- `azumaya_zero_algebra`: over a field the rank-zero matrix algebra has bijective
+  `mulLeftRight` but fails native `IsAzumaya`.
+- `azumaya_missing_component`: over `k × k`, the algebra `k` via the first
+  projection is nonzero but unfaithful and not Azumaya; its second fibre has rank zero.
+- `azumaya_empty_base`: the zero ring over itself is Azumaya, preserving the empty-base case.
+
 - `brauer_units_torus_rejected`: for `X = 𝔾_m/ℝ`, `Pic(X_ℂ) = 0` but
   `(−1,t)` is a nonconstant algebraic Brauer class: evaluation at `t=1` is split
   and at `t=−1` is the Hamilton class. The unit `t` violates
@@ -3600,12 +3680,28 @@ side is the `I`-adic completion of the finite `A`-module `H^p(X, F)`; the invers
 F/I^n F)` is Mittag-Leffler, and for `f` proper to a Noetherian scheme `Y`, `(R^p f_* F)^∧_y ≅ lim_n
 H^p(X_n, F_n)` on the completion of the local ring at `y` (Stacks, Proposition 30.19.1 (02O5),
 Lemma 30.19.3 (0897), Lemma 30.20.4 (02OB), Theorem 30.20.5 (02OC), Lemmas 30.20.6 (087U), 30.20.7
-(02OD)). This is the single owner of formal functions; JacobianChallenge Layer C consumes it. Prove
+(02OD)). The shared destination is `TauCeti/AlgebraicGeometry/Cohomology/FormalFunctions.lean`,
+exporting `Scheme.Modules.Cohomology.formalFunctionsIso` for the displayed completion
+isomorphism, `formalFunctions_mittagLeffler` for its inverse system, and
+`formalFunctions_local` for the local-ring version. These are the general
+formal-functions targets of this subsection, on the existing
+`Scheme.Modules.Cohomology` and §4.8 completion carriers.
+
+The theorem-level supplier direction is: JacobianChallenge's
+`Cohomology/Proper.lean` supplies finiteness of coherent cohomology over a
+Noetherian affine base; its `Cohomology/Pushforward.lean` supplies coherence of
+higher direct images. Together with §4.8's module completion and Artin–Rees,
+these feed `formalFunctionsIso` here. JacobianChallenge Layer C's subsequent
+Grothendieck Picard construction consumes this specific API. StableReduction's
+J-C contract consumes the same earlier pushforward, base-change, semicontinuity,
+projection-formula and Leray inputs directly; it is not a prerequisite Picard
+construction for formal functions. Prove
 `stein_factorization`: a proper morphism `f : X → Y` of Noetherian schemes factors as `X → Spec_Y
 (f_* O_X) → Y` with the first map proper with geometrically connected fibres and `f_* O = O`, the
 second finite; Zariski's connectedness theorem: if `f_* O_X = O_Y` then the fibres of `f` are
 geometrically connected (Stacks, Theorem 37.53.4 (03H0), Lemma 37.53.6 (0AY8)). *Needs:* §0.1,
-§2.6, §4.8; StableReduction Layer 2 (coherence of `R^i f_*`).
+§2.6, §4.8; JacobianChallenge Layers B–C (proper coherent-cohomology finiteness
+and coherent higher direct images, before the Picard construction).
 
 **Checks.**
 - `formal_functions_test_affine`: for `X = Spec A` the theorem reads `M^∧ = lim M/I^n M`.
@@ -4282,14 +4378,45 @@ L0B–L0C, L2A–L2B; StableReduction Layer 2.
 
 Define the normal cone `normalCone i := Spec_X (⊕ I^n/I^{n+1})` of a closed immersion `i : X → Y`
 with ideal `I` (relative Spec of the Rees quotient algebra, §0.2 and Mathlib's `reesAlgebra`), the
-normal bundle `normalBundle i := V(I/I²)` for `i` a regular immersion (`I` locally generated by a
-regular sequence, Mathlib's `RingTheory.Sequence.IsRegular`), with `normalCone_eq_normalBundle` for
+conormal sheaf `conormal i = I/I²` on the native quasicoherent carrier, and the
+normal bundle `normalBundle i := ((AlgebraicVectorBundles.linearSpecScheme X).obj (op (conormal i))).obj`
+with its projection in `Over X`, for `i` a regular immersion (`I` locally generated by a
+regular sequence, Mathlib's `RingTheory.Sequence.IsRegular`). Prove `conormal_regular`
+and `normalBundle_dual_conormal`: this relative spectrum is canonically the owner's
+`totalSpaceScheme` of `(I/I²)∨`, by finite locally free biduality. Prove `normalCone_eq_normalBundle` for
 regular immersions and `normalCone_pullback` for the base change `X' = X ×_Y Y'` (`C_{X'} Y' ⊆ f^*
-N_X Y`). Construct `deformationToNormalCone i`: the blow-up `M := Bl_{X × {∞}} (Y × ℙ¹)` minus the
+N_X Y`). Here `N` as a sheaf always means `(I/I²)∨`; the excess sheaf is
+`f^*((I/I²)∨) / (I'/I'²)∨`. The determinant and top Chern class in self-intersection
+are those of this normal sheaf. In particular `c₁(N) = −c₁(I/I²)` for a Cartier divisor.
+These conventions also identify the normal sheaf of the zero section of `E` with `E`
+(Fulton, §4.1 and Theorems 6.2–6.3). Construct `deformationToNormalCone i`: the blow-up `M := Bl_{X × {∞}} (Y × ℙ¹)` minus the
 strict transform of `Y × {∞}`, flat over `ℙ¹`, with fibre `Y` over `0` and `C_X Y` over `∞`
-(StableReduction Layer 4's blow-up), and the specialisation `σ : CH_k(Y) → CH_k(C_X Y)`, `α ↦ i_∞^!
-(pr^* α)`, with `specialization_pullback` (compatibility with flat pullback) (Fulton 1998, §5.1,
-§5.2). Use the locally finite rational equivalence of §5.1 throughout. Prove `homotopy_invariance`: for the total space `p : E → X` (`Chow.totalSpace`) of a finite
+(StableReduction Layer 4's blow-up). The construction inside this subsection has the
+following order (Fulton 1998, §5.2; Stacks, §42.29 (02T7)):
+
+1. Construct `cartierIntersection` on supported Chow groups from divisor orders,
+   using the restricted divisor line on components lying in the divisor. Prove
+   descent through rational equivalence and `cartierIntersection_supported_zero`
+   for a Cartier divisor with trivial normal line, independently of general Gysin.
+2. Pull `α ∈ CH_k(Y)` back along the flat projection `Y × A¹ → Y` on the
+   complement of the special fibre. This class lies in `CH_{k+1}(Y × A¹)`.
+3. Use §5.2's localization surjectivity to choose a lift in `CH_{k+1}(M)`.
+4. Intersect the lift with the special Cartier fibre. Prove
+   `specialization_independent_lift`: replacing a lift by `lift + (i_∞)_*β`
+   has no effect, since the special fibre's normal line is trivial.
+5. Define general refined Gysin only after this specialization, the normal-cone
+   embedding and vector-bundle homotopy invariance are available.
+
+The equivalent cycle construction `specializationCycle` takes each integral
+support `W` to the special fibre of the closure of `W × A¹` in `M`, with
+scheme-theoretic multiplicities, and extends to locally finite cycles.
+`specializationCycle_ratEquiv` proves descent; `specialization` is the induced
+quotient homomorphism, with `specialization_cycleClass` and
+`specialization_pullback` for flat morphisms of fixed pure relative dimension.
+Prove `specialization_eq_cartier_lift` for every lift of the open flat pullback,
+`specialization_pushforward` for proper maps of closed pairs, and
+`specializationCycle_locallyFinite` for locally finite input supports. No pullback along `M → Y`
+is used: that morphism need not be flat. Use the locally finite rational equivalence of §5.1 throughout. Prove `homotopy_invariance`: for the total space `p : E → X` (`Chow.totalSpace`) of a finite
 locally free sheaf of rank `r` (`Chow.HasRank`), `p^* : CH_k(X) → CH_{k+r}(E)` is bijective;
 surjectivity by the localisation sequence and the affine case, injectivity through the projective
 completion `ℙ(E ⊕ 1)` and the projective bundle theorem of §5.4, so the inverse is constructed
@@ -4312,6 +4439,35 @@ hypothesis on `f`. API: `pushforward_compat` (`i^! g_* = g'_* i^!` for `g` prope
 4; AlgebraicVectorBundles L2B.
 
 **Checks.**
+- `cartierIntersection_supported_lift`: adding `i_*β` to a lift leaves the
+  intersection unchanged when the Cartier normal line is trivial.
+- `cartierIntersection_empty`: the supported map for the empty divisor is zero.
+- `cartierIntersection_affine_origin`: intersection with the origin of `A¹_κ`
+  identifies `CH₁(A¹_κ)` with `CH₀(Spec κ)` with positive multiplicity one.
+- `specializationCycle_identity`, `specialization_identity`: specialization for
+  the identity immersion is bijective on cycles and Chow groups.
+- `specializationCycle_empty`, `specialization_empty`: an empty centre gives zero maps.
+- `specializationCycle_affine_origin`, `specialization_affine_origin`: the fundamental
+  one-cycle of `A¹_κ` specializes nontrivially to its normal line and induces an
+  isomorphism on `CH₁`.
+- `deformation_origin_plane_not_flat`: in the origin-in-`A²` deformation chart,
+  `κ[x,y] → κ[t,a,b]`, `x ↦ ta`, `y ↦ tb`, induces a nonflat morphism.
+  Modulo `x`, the nonzero class of `a` annihilates `y`; there is no flat
+  pullback along this projection.
+
+- `conormal_identity`, `normalBundle_identity`: the identity has zero conormal sheaf
+  and the normal-bundle projection is an isomorphism.
+- `conormal_hyperplane`, `normalBundle_hyperplane`: for the standard line
+  `D = ℙ¹ ⊂ ℙ²` cut out by the third homogeneous coordinate, `I/I² = O_D(−1)`
+  and the normal sheaf is `O_D(1)`. The typed example uses the graded coordinate
+  quotient, checks that the conormal has no nonzero global section while its
+  dual does, rejects self-duality, and compares the normal bundle
+  over `D` with the owner's total space of its dual. Thus its determinant has
+  degree `+1` and its first Chern class is the positive hyperplane class.
+- `conormal_zero_section`, `normalBundle_zero_section`: for a non-self-dual line
+  bundle `L`, the zero section of `totalSpace(L)` has conormal `L∨` and normal
+  bundle `totalSpace(L)` over the base, including the example `L = O_{ℙ¹}(1)`.
+
 - `test_normal_bundle_hypersurface`: for a hypersurface `D ⊆ Y`, `N = O(D)|_D`.
 - `test_specialization_point`: for `X` a point of a curve `Y`, `σ[Y] = [N]`.
 - `native_bundle_all_consumers`: a single finite locally free `E : X.Modules` on a proper curve over `κ`, with
@@ -4596,7 +4752,10 @@ NeronModelsAndSemistableAbelianVarieties imports formal functions and algebraiza
 and the semistable alteration theorem (§4.20). EtaleDualityAndPerverseSheaves imports coherent
 duality (§§2.18–2.21) and the pro-étale foundations. AbelianSchemesAndArithmeticModuli imports Chow
 groups and numerical equivalence (§§5.1–5.10). The Weil-conjectures roadmap imports the Weil bound
-(§5.11). JacobianChallenge Layer C consumes the theorem on formal functions (§4.9). StableReduction
+(§5.11). JacobianChallenge Layer C's Grothendieck Picard construction consumes
+`Scheme.Modules.Cohomology.formalFunctionsIso` from §4.9, after its own
+proper-cohomology finiteness and coherent-pushforward prerequisites. The same
+completion and coherent-cohomology carriers serve both sides. StableReduction
 consumes nothing from this roadmap.
 
 ## References
