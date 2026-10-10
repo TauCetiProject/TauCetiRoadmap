@@ -92,13 +92,15 @@ RepresentationTheory/LieGroups, layer 9, supplies Cartan and Iwasawa theory; sim
 self-adjointness of a nested chain is proved in AA.3.3. GlobalQuadraticForms, layer 5,
 supplies local and global quadratic isotropy. Chebotarev, layer 10, supplies the density input
 for approximation obstructions. ClassFieldTheory, layers 11–12, supplies quadratic idele
-characters, reciprocity and the global norm-index theorem. RepresentationTheory/CompactGroups,
+characters, reciprocity and the global norm-index theorem. LFunctions #248 supplies
+finite-order Hecke analysis through ThetaSeries #286; AA supplies Artin induction and assembly. RepresentationTheory/CompactGroups,
 layer 5, supplies compact abelian Fourier theory, and its layer 0 supplies the Haar probability
 measure of a compact group; on a compact open factor `B_i` it is the restriction of a local Haar
 measure normalized as in AA.0. AlgebraicTopology, stages 5–6, supplies the integral cohomology
 of products of circles. LocalFieldsRamification, layer 0, supplies the local-field input for the
 distance of `p`-adic roots of unity from one (AA.4.3). SmoothRepresentationsOfLocalGroups supplies ring-valued Haar measures (SR.1.1)
-and the modulus character of a local parabolic (SR.2.2). IntegralLattices, 2F–2G, supplies
+; the arbitrary-characteristic local modulus is supplied by RG2.4,
+`LocalIntegration.modularCharacter_eq_adjointModulus`. IntegralLattices, 2F–2G, supplies
 Minkowski reduction for integral lattices. The
 [Fuchsian orbifolds roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/FuchsianOrbifolds/README.md)
 supplies the coarse quotient Riemann surface `Γ\ℍ` of a Fuchsian group (layers 0–1), its cusp
@@ -144,7 +146,7 @@ compactness, functoriality, centre and the `G_a`, `G_m`, `GL_n` identifications 
 `R = 𝔸_F` (AA.1); the Weil-restriction point adjunction of RG2.0a with GlobalNumberFields'
 `adeleBaseChangeEquiv` (AA.1.4); local unimodularity and the local Iwasawa factorization and
 integration formula of RG2.4.4 (AA.1.5, AA.3.1); the modulus character of a local parabolic,
-SmoothRepresentationsOfLocalGroups SR.2.2 (AA.2.2); Mathlib's `QuotientGroup` instances and
+RG2.4 `LocalIntegration.modularCharacter_eq_adjointModulus` (AA.2.2); Mathlib's `QuotientGroup` instances and
 `inducedMeasure` for normal subgroups, and `QuotientGroup.integral_eq_integral_automorphize` for
 discrete ones (AA.2.2–AA.2.3); Tau Ceti `exists_isFundamentalDomain_of_properlyDiscontinuousSMul`
 (AA.2.3); Minkowski reduction for integral lattices, IntegralLattices 2F–2G (AA.3.2); the local
@@ -232,8 +234,13 @@ contributes the square (`localModulus_empty`, `localModulus_singleton`).
 | Object | Exact supplier and file | Use here |
 |---|---|---|
 | Relative roots and weights | RG2 `AlgebraicRelativeRoots.Character`, `.Root`, `.weightSpace`, `.localModulus`; `ReductiveGroupsPartII/Suggested.lean` | Shared algebraic carriers extending ReductiveGroups layer 7; AA adds reduction data. |
-| Geometric torsors and classes | SchemeAndStackFoundations #779, §§1.15, 2.3: `Torsor.baseChange`, `Torsor.trivial_iff_section`, `Torsor.hom_isIso`, `torsorClasses G := NonabelianH1 (fppfTopology.over S) h_G`, `torsorClasses.mk_eq_base_iff` | AA.4.1 owns the affine coordinate comparison, its naturality and the class-set Hasse statement; no second geometric torsor owner. |
+| Geometric torsors and classes | SchemeAndStackFoundations #779, §§1.15, 2.3: `Torsor.baseChange`, `Torsor.trivial_iff_section`, `Torsor.hom_isIso`, `torsorClasses G := NonabelianH1 (fppfTopology.over S) h_G`, `torsorClasses.mk_eq_one_iff` | AA.4.1 owns the affine coordinate comparison, its naturality and the class-set Hasse statement; no second geometric torsor owner. |
 | Finite-image Artin factors | AA.2.4 owns `FiniteImageArtin.localFactor`, `localFactor_induction`, `leadingCoeff_nonzero`, `characterLeadingCoeff_pos` | Determinants on inertia invariants and the nonzero leading coefficient at one. Chebotarev layer 10 supplies Dirichlet density only. |
+| Linear Haar scaling | [MassFormula #226, Layer 2](https://github.com/0stellensatz/TauCetiRoadmap/blob/c4f7f7be6186fcf26cc8a7ef678b5c5e90a53cee/TauCetiRoadmap/MassFormula/README.md) | One generic DVR lattice-index theorem (`q^length`) and linear Haar image law `μ(M A)=|det M| μ(A)`; arbitrary measurable sets require regular Haar measure. AA owns completion, nonlinear charts, gauge forms, extension-basis Jacobians and the global discriminant. |
+| Rational tuple heights | [ArithmeticHeights #287, §0.1](https://github.com/rwst/TauCetiRoadmap/blob/b8aec35b6cd8e68031df1038a2cae63088be4a17/TauCetiRoadmap/ArithmeticHeights/Suggested.lean): `NumberField.arakelovMulHeight`, `arakelovMulHeight_eq`, `arakelovMulHeight_pow_finrank`, `arakelovMulHeight_rpow_comp` | The relative finite-sup/archimedean-ℓ² height of the entry tuple of `(ρ(g),ρ(g)⁻¹)` agrees with `Reduction.height` on rational points. AA retains adelic properness and quantitative counting. |
+| Finite-order Hecke analysis | [LFunctions #248, layers 5–6](https://github.com/roed-math/TauCetiRoadmap/blob/e632e3a41fc257fce7b0d9938d48507b962f4fbb/TauCetiRoadmap/LFunctions/Suggested.lean): `PrimitiveRayClassCharacter`, `heckeLFunctionC`, `heckeLFunctionC_eq`, `heckeLFunctionC_induced`, `heckeLFunctionC_eq_primitive`, `eulerCorrection`, `heckeLFunction_ne_zero_of_one_le_re` | GlobalNumberFields supplies ray class carriers; ArithmeticDirichletSeries supplies ideal series; ThetaSeries #286 supplies Poisson/Mellin analysis. AA uses the nonzero germ at one for nontrivial primitive finite-order characters. |
+| One-dimensional Artin–Hecke comparison | ClassFieldTheory reciprocity, with arithmetic Frobenius, plus AA `FiniteImageArtin.oneDimensional_eq_hecke` | For a finite-order Galois character χ, choose its primitive ray class character with value χ(Frob_v) at unramified v. Match conductor primes using inertia invariants. For a larger modulus multiply the primitive function by #248's `eulerCorrection`; state equality on `Re s > 1` and of meromorphic germs, including ramified factors. |
+
 | Trace discriminants and lattice indices | `NumberField.discr_eq_of_integralBasis`, `TauCeti/NumberTheory/NumberField/Discriminant/OfIntegralBasis.lean`; `Algebra.discr_of_matrix_vecMul`, `Mathlib/RingTheory/Discriminant.lean`; `AddSubgroup.index_eq_natAbs_det`, `Mathlib/LinearAlgebra/FreeModule/Finite/CardQuotient.lean` | The local lattice covolumes and archimedean determinants in AA.2.5. |
 
 | Scheme centralizers, normalizers and character evaluation | `TauCetiRoadmap.ReductiveGroupsPartII.BruhatTits.GeometricRoots.characterValue`, `characterValue_coe`, `centralizer`, `normalizer`, `centralizerIdeal`, `centralizerIdeal_points_iff`; `TauCetiRoadmap/ReductiveGroupsPartII/Suggested.lean` | AA.3.1 spells the same contracts on the unbundled coordinate algebra `H` and the pinned `quotientPointsSubgroup`. The root-ray helper additionally accepts non-root characters and uses the pinned dynamic contraction subgroups. |
@@ -391,11 +398,12 @@ NumberFieldArithmetic, layer 4 (discriminant identities). RepresentationTheory/L
 (Cartan and Iwasawa theory). RepresentationTheory/CompactGroups, layer 0 (Haar probability on a
 compact group) and layer 5 (compact abelian Fourier theory). GlobalQuadraticForms, layer 5 (local
 and global quadratic isotropy). Chebotarev, layer 10 (the density input for approximation
-obstructions and the leading coefficient of `L^S(X, s)`). ClassFieldTheory, layers 11–12
+obstructions only). LFunctions #248, layers 5–6, consumes ThetaSeries #286 for
+finite-order Hecke continuation and nonvanishing; AA assembles finite-image Artin functions. ClassFieldTheory, layers 11–12
 (quadratic idele characters, reciprocity, the global norm-index theorem). AlgebraicTopology,
 stages 5–6 (integral cohomology of products of circles). LocalFieldsRamification, layer 0
 (the input for the distance of `p`-adic roots of unity from one).
-SmoothRepresentationsOfLocalGroups, SR.1.1 and SR.2.2. IntegralLattices, 2F–2G. FuchsianOrbifolds,
+SmoothRepresentationsOfLocalGroups, SR.1.1; RG2.4 local integration. IntegralLattices, 2F–2G. FuchsianOrbifolds,
 layers 0, 1, 4 and 5.
 
 ### Analytic and integral dependencies
@@ -982,7 +990,9 @@ mixed monomial is killed by `pε`; this is a direct binomial calculation.
   is the composite of those for `L/E` and `E/F`). The Weil restriction and the completion/adelic
   base-change maps are the natural adjunction and canonical tensor-product maps; arbitrary point
   equivalences are excluded, and the integral generic-fibre identifications are Hopf
-  isomorphisms ([Conrad], Example 4.2, p. 10; [Arthur], §2, p. 11). The tower isomorphism
+  isomorphisms ([Conrad], Example 4.2, p. 10; [Arthur], §2, p. 11).
+  The general commutative-ring tower interface retains finite/projective instances for
+  `k′/k`, `k″/k′`, and `k″/k` (the last follows mathematically by transitivity).
   `WeilRestriction.compHopfEquiv : Res_{E/F} Res_{L/E} H ≃ Res_{L/F} H` used in `resEquiv_trans` is
   fixed by `WeilRestriction.compHopfEquiv_pointsMulEquiv`: on `R`-points both sides give the same
   `L`-algebra map out of `H`, through `L ⊗_E (E ⊗_F R) ≃ L ⊗_F R` (Mathlib
@@ -1292,7 +1302,25 @@ restriction of scalars.
   *Needs:* AA.2.2; AA.1.5; AA.1.3; Tau Ceti `TauCeti.Cocharacter.leviDecompositionMulEquiv`;
   Mathlib `MeasureTheory.Measure.modularCharacter`; AA.0.3.
 
+  The nonarchimedean input is RG2 `LocalIntegration.modularCharacter_eq_adjointModulus`
+  over every nonarchimedean local field, together with `parabolic_adjointDet_eq_radical`.
+  AA owns `Parabolic.exists_singlePlace` and `Parabolic.modulus_singlePlace`: a point
+  supported at a finite place has exactly the local adjoint modulus after scalar extension.
+  Multiplication gives the finite-support product comparison; continuity and the integral
+  compact-open subgroups give the restricted-product statement. Archimedean factors use
+  the real/complex analytic change of variables. SR consumes the RG2 theorem directly
+  and changes coefficients under its residue-cardinality invertibility hypotheses.
+  No square root occurs here; a choice of square root belongs to normalized induction.
+
   **Checks.**
+  - `modulus_singlePlace_upper` and `modulus_singlePlace_opposite` put `diag(3,1)`
+    at a residue-cardinality-three place of ℚ, with every other coordinate the identity:
+    their adelic moduli are `1/3` and `3`. The general `modulus_singlePlace_local`
+    example compares the local Haar modular character after base change. RG2's
+    `adjointModulus_q3_upper`, `adjointModulus_q3_opposite`,
+    `adjointModulus_f3Laurent_upper`, and `adjointModulus_f3Laurent_opposite`
+    check these same local numbers in both characteristics.
+
   - For the upper triangular Borel of `GL₂/ℚ`, the real point `diag(2, 1)` has modular character
     `2` (`modularCharacter_borel_two`), not `1/2`: right translation by it doubles left Haar
     measure, as `(a, x) ↦ (2a, x)` does for `da dx/a²` in the coordinates `n(x) diag(a, 1)`.
@@ -1548,20 +1576,48 @@ restriction of scalars.
   `Tamagawa.characterLocalFactor`, `characterLeadingCoeff`, and
   `measure_eq_product_artin`. The split formulas remain specializations, with
   `characterLocalFactor_split` and `characterLeadingCoeff_split`.
-  Construct the analytic supplier by Brauer induction, finite-order Hecke
-  nonvanishing and the Dedekind-zeta residue: [Marzec–Neururer], Definition 5.11
-  and Remark 5.12, p. 62; Theorem 5.14, pp. 62–64; Theorem 5.20 and Corollary 5.21,
-  p. 67. Positivity for integral character lattices follows from positive real
-  Euler factors for real `s > 1` and the nonzero limit. This does not require
-  the Artin holomorphy conjecture. Removing finitely many Euler factors and
-  restoring them at `s=1` gives the same coefficient.
+  Brauer induction reduces this construction to finite-order Hecke characters.
+  Consume the two contracts in the table above, including `heckeLFunctionC_eq_primitive`
+  and `heckeLFunction_ne_zero_of_one_le_re`; the analytic dependency is
+  AA → LFunctions #248 → ThetaSeries #286, with GlobalNumberFields and
+  ArithmeticDirichletSeries providing the carriers. The analytic hypotheses of
+  `leadingCoeff_nonzero` are precisely that Hecke/reciprocity contract.
+  AA constructs finite-image representations, inertia invariants, induction and their
+  determinant identities. General Artin coefficients need not be completely multiplicative
+  and do not inhabit `UnitaryIdealWeight`.
+  Use arithmetic Frobenius throughout; if a reciprocity API uses geometric Frobenius,
+  compose its reciprocity map with inversion before forming the Hecke character.
+  A one-dimensional unramified factor is
+  `(1 − χ(Frob_v) q_v^(−s))⁻¹`. At conductor primes with nontrivial inertia the
+  one-dimensional invariant space is zero and the factor is one. For a larger ray modulus,
+  #248's `eulerCorrection` deletes precisely its additional factors; compare germs at poles,
+  not totalized point values. Brauer induction and the zeta residue then give the limit:
+  [Marzec–Neururer], Definition 5.11 and Remark 5.12, p. 62; Theorem 5.14,
+  pp. 62–64; Theorem 5.20 and Corollary 5.21, p. 67. Integral character lattices
+  give positive real factors for real `s > 1`, hence a positive nonzero leading coefficient.
+  A partial Euler product has the full leading coefficient multiplied by the deleted
+  factors' inverses at one; restoring those factors recovers the full coefficient.
   *Needs:* Tau Ceti `TauCeti.CommHopfAlgCat.geometricCharacterGroup`,
   `TauCeti.CommHopfAlgCat.instGeometricCharacterGroupGaloisAction`; AA.2.1;
   Mathlib `NumberField.dedekindZeta_residue_pos`,
   `NumberField.tendsto_sub_one_mul_dedekindZeta_nhdsGT`;
-  Tau Ceti `TauCeti.dedekindZeta_eulerProduct_hasProd`.
+  Tau Ceti `TauCeti.dedekindZeta_eulerProduct_hasProd`; the Hecke/reciprocity contracts above.
 
   **Checks.**
+  - `artin_trivial_zeta` identifies the rank-one trivial determinant Euler product with
+    Dedekind zeta. `globalL_trivial_eq_zeta` is the general meromorphic-germ target.
+  - `artin_quadratic_hecke` identifies the nontrivial character of ℚ(i)/ℚ with the
+    primitive character χ₄, hence with #248's `oddPrimitiveModFour` under reciprocity.
+    Its factor at 2 is one. `artin_hecke_imprimitive` raises modulus 4 to 12 and obtains
+    the correction `1 + 3^(−s)`. These are specializations of `oneDimensional_eq_hecke`.
+    `artin_arithmetic_frobenius_cubic` distinguishes eigenvalue ζ from ζ⁻¹ for a
+    nontrivial cube root of unity: at q=2 and s=1 the factors are distinct.
+  - `artin_induced_gaussian_zeta` identifies `Ind_{ℚ(i)}^ℚ 1 = 1 ⊕ χ₄` with ζ_{ℚ(i)}
+    on the convergence half-plane and as meromorphic germs. The general target
+    `globalL_induced_trivial_eq_zeta` is `L_F(Ind_E^F 1,s)=ζ_E(s)` for every finite
+    separable extension, using the ramified induction identity at every place.
+    The existing `localFactor_ramified_gaussian` still checks the inertia-fixed line at 2.
+
   - Rank zero gives `splitLocalFactor F v 0 s = 1`, including at `s = 1`
     (`splitLocalFactor_rank_zero`).
   - For a place of residue cardinality `2`, rank one at `s = 1` gives `2`
@@ -1683,6 +1739,14 @@ Consequently the lattice-normalized logarithmic measure is `2 dt/t` in this case
 
 ### 2.5 Scalar Jacobians and restriction of scalars
 
+The linear measure input in the next target is MassFormula #226, Layer 2:
+for a complete discretely valued field with finite residue field, use its lattice
+index and regular-Haar scaling laws, extending integral invertible matrices to
+arbitrary invertible matrices by a scalar denominator. Pushforward has inverse
+absolute determinant. AA additionally compares the additive measures of a finite
+extension and a chosen base-field basis, then handles nonlinear analytic charts,
+gauge forms and the global discriminant; these are not supplied by the linear law.
+
 - **Finite-place scalar Jacobian for a chosen basis.** (*restriction-finite-jacobian*) For
   `E/F` a finite extension of number fields of degree `n`, `v` a finite place of `F`, `β` an
   `F`-basis of `E` read as `β : F_v^n ≃ E ⊗ F_v ≅ ∏_{w|v} E_w`, and Haar measures on `F_v` and
@@ -1790,7 +1854,8 @@ Layers AA.0 and AA.1; Mathlib's group-like elements, modular character, Riesz re
 fundamental domains, `L²` spaces, exterior powers and Dedekind zeta residues; Tau Ceti's geometric
 characters with their Galois action, cotangent spaces, adjoint representation, dynamic parabolics
 and Euler product; ReductiveGroups, layer 4; ReductiveGroupsPartII, RG2.0 and RG2.1;
-GlobalNumberFields, layers 0 and 6; NumberFieldArithmetic, layer 4; Chebotarev, layer 10;
+GlobalNumberFields, layers 0 and 6; NumberFieldArithmetic, layer 4; LFunctions #248, layers 5–6 (ThetaSeries #286);
+ClassFieldTheory reciprocity; Chebotarev, layer 10;
 RepresentationTheory/CompactGroups, layer 5.
 
 ## Layer 3: reduction and arithmetic quotients
@@ -2682,6 +2747,23 @@ cannot replace the reduced norm in the defining equation.
 
 ### 3.5 Algebraic heights
 
+- **Rational-point Arakelov comparison.** `Reduction.height_diagonal_relative` identifies
+  the adelic height on `g ∈ G(F)` with #287's relative `NumberField.arakelovMulHeight`
+  of the tuple indexed by `Bool × Fin m × Fin m`, containing the entries of
+  `ρ(g)` and `ρ(g)⁻¹`. Its finite factors use normalized `|π_v|=N(v)⁻¹`; at infinity
+  they use the ℓ² norm to exponent `mult(v)`. For `d=[F:ℚ]`, the absolute
+  Arakelov height is `height(Δg)^(1/d)`, equivalently the adelic height is the
+  d-th power of the absolute height. For `m=0`, the empty tuple and the adelic
+  representation both have height one. Consume #287's extension-power comparison;
+  do not introduce a separate rational tuple-height definition. This is a comparison
+  of the displayed formulas in #287 §0.1 and `height_eq`, not a Northcott counting bound.
+
+  **Checks.** `height_diagonal_rank_zero` gives one. `height_diagonal_identity_two`
+  gives relative height `2^[F:ℚ]` for the two-dimensional identity and absolute
+  height two, including over quadratic F. `height_diagonal_scalar_two` gives
+  `sqrt(17)` for the rational GL₁ point 2: the tuple `(2,1/2)` has archimedean
+  factor `sqrt(17)/2` and 2-adic factor 2.
+
 - **Local polynomial comparison for algebraic heights.** Define `Reduction.finiteHeight`
   as the maximum of the normalized absolute values of entries of r(g) and its inverse;
   define `Reduction.infiniteHeight` as their combined Hilbert–Schmidt norm to the
@@ -3146,21 +3228,62 @@ quaternion norms and compact abelian Fourier limits.
     change has the distinguished class (`torsorClasses_sqrtTwo_nontrivial`,
     `torsorClasses_sqrtTwo_identity`, `torsorClasses_sqrtTwo_real`).
 
-- **Kneser's theorem: local triviality of torsors.** For `G` connected semisimple simply
-  connected over a nonarchimedean local field `F_v` of characteristic `0`, prove that every
-  `G`-torsor over `F_v` is trivial (`H¹(F_v, G) = 1`) ([HW], §6.2, p. 22; [Khayutin], §2.3, arXiv
-  v3 pp. 15–16; Annals p. 162). *Needs:* AA.4.1; Tau Ceti
-  `TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty`.
-- **Hasse principle for simply connected groups.** For `G` connected semisimple simply
-  connected over a number field `F`, prove that a `G`-torsor over `F` is trivial iff it is
-  trivial over `F_v` for every real place `v` (`Torsor.isTrivial_iff_forall_real`, through
-  `Torsor.baseChange` along the real embeddings; the full statement is that
-  `H¹(F, G) → ∏_{v real} H¹(F_v, G)` is bijective) ([Khayutin], §2.3, arXiv v3 pp. 15–16; Annals
-  p. 162; [HW], Lemme 6.3, p. 22). *Needs:* AA.4.1.
-- **Weak approximation for simply connected groups.** For `G` connected semisimple simply
-  connected over a number field `F`, prove that `G` has weak approximation; more generally
-  (property (⋆)) a torsor under `G` that has points at all real places has an `F`-point and
-  satisfies weak approximation ([HW], Théorème 6.1, proof, p. 21). *Needs:* AA.4.1.
+- **Canonical μ₂ class and scalar extension.** The target `canonical_mu2_sqrtTwo`
+  uses #779's `GroupSpace` associated to `Spec ℚ[ℤ/2]` and
+  `torsorClasses G = SiteCohomology.NonabelianH1 (Scheme.fppfTopology.over (Spec ℚ))
+  G.sheafOfGroups`. Its class is `torsorClasses.mk` of `Spec ℚ[t]/(t²−2)` with
+  coaction `t ↦ t⊗g`; it is not the identity class. Pullback along the identity
+  of `Spec ℚ` fixes this nontrivial class, while pullback along `Spec ℝ → Spec ℚ`
+  gives the identity. Use geometric `Torsor.baseChange` and its section comparison,
+  then `torsorClasses.mk_eq_one_iff`; coefficient `pushforward` is a different map.
+  These are equalities in the canonical class set, independently of an arbitrary C.
+  Source interfaces are [#779 §§1.15, 2.3](https://github.com/TauCetiProject/TauCetiRoadmap/blob/94dae83ded2e18c604ce405d00e059692ea7673b/TauCetiRoadmap/SchemeAndStackFoundations/Suggested.lean).
+
+  **Checks.** `canonical_mu2_rational_sections` excludes sections of this concrete
+  affine torsor over ℚ; `canonical_mu2_identity_sections` does the same after identity
+  scalar extension; `canonical_mu2_real_sections` constructs sections after extension
+  to ℝ. The canonical `mk_eq_one_iff` turns these into exactly the three class assertions
+  of `canonical_mu2_sqrtTwo`; the earlier `ClassComparison` examples remain transport tests.
+
+- **Local H¹ vanishing.** For connected semisimple simply connected `G` over a
+  characteristic-zero nonarchimedean local field, `Torsor.isTrivial_of_simplyConnected_local`
+  asserts `H¹(E,G)=1`. The source is [PR94], Theorem 6.4, pp. 284–285, with proofs in
+  §§6.7–6.8. Reduce by restriction of scalars and products to absolutely simple groups;
+  construct twisting and central isogeny sequences, reduced norms and Hermitian-form
+  invariants for classical types, and the exceptional-type arguments, including E₈.
+  The quaternion norm-one case in [Khayutin], §2.3, is one specialization.
+  *Needs:* AA.4.1 coordinate/geometric comparison; ReductiveGroups simple-factor structure;
+  ClassFieldTheory local Brauer and norm theorems; GlobalQuadraticForms' form invariants.
+- **Hasse kernel and injectivity.** Retain `Torsor.isTrivial_iff_forall_real` over number
+  fields for semisimple simply connected `G`. [PR94], Theorem 6.6, p. 286 and §§6.7–6.8
+  supplies the Hasse kernel; local vanishing removes finite places and algebraic
+  closedness removes complex places. To compare *two* classes, twist by one torsor and
+  apply the kernel theorem to the resulting simply connected inner form. The target
+  `Torsor.iso_iff_forall_real` records that injectivity direction. Supply compatibility
+  of twisting with base change and preservation of semisimple simply connected structure.
+  `Torsor.hasse_classSet` only transports basepoint detection through an assumed
+  `ClassComparison`; it does not prove full bijectivity or construct the canonical carrier.
+- **Real-class realization.** `Torsor.real_classes_realized` realizes every family of real
+  torsors by a global torsor. Use [PR94], Proposition 6.17, pp. 337–339: represent real
+  classes in maximal tori, approximate those tori globally, then use real-localization
+  surjectivity for tori (§7.3, Corollary 2). Combined with twisting injectivity this gives
+  `torsorClasses.realLocalization_bijective` on #779's canonical fppf class set.
+  The affine comparison uses #779's `torsorClasses.surjective_mk`,
+  `torsorClasses.mk_eq_one_iff`, representability and natural base change.
+- **Weak approximation.** `Approximation.hasWeakApproximation_of_simplyConnected` holds
+  for every finite set of places. [PR94], Theorem 7.8, p. 415, proof in §7.3, uses
+  reduction theory, local Kneser–Tits, the Hasse principle, and weak approximation for
+  suitable tori. Build these inputs separately; strong approximation is not an input.
+  A torsor trivial at real places has a global point by the kernel theorem; translation
+  transfers weak approximation from `G`. This proves property (⋆) used by [HW],
+  Theorem 6.1, p. 21. HW Lemma 6.3 only propagates that property through fibrations.
+  The anisotropic-factor step of AA.4.2 consumes this weak-approximation theorem.
+
+  **Checks.** `hasse_no_real_places` tests triviality over a totally imaginary number
+  field; `hasse_two_classes` tests the twisting/injectivity direction;
+  `real_classes_realized` tests the independent realization direction. The existing
+  μ₂ examples test comparison and scalar extension only: μ₂ is not semisimple simply
+  connected and cannot satisfy the Hasse-kernel conclusion.
 
 ### 4.2 Strong approximation and arithmetic closures
 
@@ -3267,9 +3390,21 @@ quaternion norms and compact abelian Fourier limits.
   algebra. First establish `arithmetic_zariskiDense_restriction`: the given
   S-arithmetic subgroup is ℚ-Zariski dense in `Res_{F/ℚ} G`, including when S
   contains only some places over a rational prime. Prove `arithmeticClosure_open` and `arithmeticClosure_finiteIndex`.
-  This is a separate owned scalar-restriction deduction: apply Borel density
-  to the ℚ-group `Res_{F/ℚ} G` and its arithmetic subgroup, so the closure Lie
-  algebra is an ideal in the entire `p`-adic product. Each restricted simple
+  Establish density by a commensurator argument, extending the proof of [PR94],
+  §4.4, pp. 205–206. Put `R=Res_{F/ℚ}G`, which is ℚ-simple, and let `Γ` be the
+  actual partial-place arithmetic group. Reduction theory and `G_S` noncompact
+  make `Γ` infinite. The target `arithmetic_commensurated` says that every element
+  of `G(F)=R(ℚ)` commensurates `Γ`: outside the chosen places, conjugation changes
+  only finitely many integral compact opens, whose intersections have finite index.
+  Thus the identity component `J` of the ℚ-Zariski closure of `Γ` is positive
+  dimensional and normalized by `R(ℚ)`. Rational-point Zariski density in connected
+  groups ([PR94], Theorem 2.2) makes `J` normal in `R`; ℚ-simplicity gives `J=R`.
+  This proves `arithmetic_zariskiDense_restriction` without enlarging S or asserting
+  finite index in a rational-prime-saturated group.
+  After base change to ℚ_p, the algebraic stabilizer of the closure Lie algebra
+  contains Γ, so it contains the whole restricted group, including every factor
+  over p. Project to the factors in S₁; the Lie algebra is an ideal in that entire
+  product. Each restricted simple
   factor is ℚ_p-simple (after algebraic closure its simple factors are
   transitively permuted by the local Galois group); nondiscreteness at each
   place makes every projected ideal nonzero. Ideals in a direct sum of simple
@@ -3279,7 +3414,8 @@ quaternion norms and compact abelian Fourier limits.
   This extends the ideal argument of [Rapinchuk], Lemma 2.7, p. 16 and §3,
   pp. 17–18, with the scalar-restriction decomposition of AA.1.4; it does not
   infer openness from factorwise surjectivity alone.
-  *Needs:* Borel density for the restricted ℚ-group, local restriction of
+  *Needs:* `arithmetic_commensurated`, infinitude from reduction theory,
+  rational-point Zariski density and ℚ-simplicity of the restriction; local restriction of
   scalars, closed-subgroup Lie theory, extra-place nondiscreteness,
   *projection-finite-covolume*.
 
@@ -3287,30 +3423,41 @@ quaternion norms and compact abelian Fourier limits.
   `arithmeticClosure_same_prime`; the diagonal Lie subalgebra in two copies
   of `sl₂(ℚ_p)` surjects to each factor but is not an ideal
   (`arithmeticClosure_diagonal_not_ideal`).
+  `arithmeticClosure_mixed_prime` puts one of two places over p in S and the other
+  in S₁. For `F=ℚ(√2)`, write `π=3+√2`, `π′=3−√2`: `ππ′=7`.
+  The Check `arithmetic_partial_seven` gives pairwise distinct additive cosets of
+  `π′^(−n)` modulo `𝒪_F[1/π]`. The corresponding upper-unipotent matrices give
+  infinitely many cosets of `SL₂(𝒪_F[1/π])` in `SL₂(𝒪_F[1/7])`.
+  This rules out transferring density by finite index from the saturated group.
+
 
 - **Openness in a finite product of rational completions.** Under the preceding hypotheses,
   the arithmetic closure is open in `∏_{p∈S₁} G(ℚ_p)` and has finite index, by its finite
   covolume ([Platonov], Propositions 3.2–3.3, pp. 1144–1145).
   *Needs:* AA.4.2; *projection-finite-covolume*.
-- **Anisotropic factors from weak approximation.** For `G/ℚ` connected absolutely almost
-  simple and simply connected, `S` finite containing infinity with `G(ℚ_S)` noncompact,
-  let `T` be the finite set of anisotropic primes outside `S`. Once the closure of
-  `G(ℚ)G(ℚ_S)` contains each isotropic local factor, closedness and density of the
+- **Anisotropic factors from weak approximation.** For `G/F` connected absolutely almost
+  simple and simply connected over any number field, `S` finite containing infinity
+  with `G(F_S)` noncompact, let `T` be the finite set of anisotropic finite places outside `S`. Once the closure of
+  `G(F)G(F_S)` contains each isotropic local factor, closedness and density of the
   finite-support subgroup show that it contains the whole adelic factor away from `T`.
-  Weak approximation makes its projection to `∏_{p∈T} G(ℚ_p)` dense. Apply
+  Weak approximation makes its projection to `∏_{v∈T} G(F_v)` dense. Apply
   `Approximation.eq_top_of_contains_factor_dense_projection`: for groups `A, B` with
   topologies and a closed subgroup `C ≤ A × B`, if `A × {1} ⊆ C` and the projection of
   `C` to `B` is dense, then `C = A × B`. Thus the adelic closure is the whole group
-  ([Platonov addendum], §§1–2, pp. 784–785). *Needs:* AA.4.1; AA.4.2;
+  ([Platonov addendum], §§1–2, pp. 784–785, with the preceding number-field
+  closure argument). *Needs:* AA.4.1 `hasWeakApproximation_of_simplyConnected`; AA.4.2;
   ReductiveGroupsPartII, RG2.4 (kneser-tits-local).
-- **Arithmetic closure at one isotropic place.** Let `F = ℚ`, `G` connected,
+- **Arithmetic closure at one isotropic place.** Let `F` be any number field, `G` connected,
   absolutely almost simple and simply connected over `F`, `S` finite, containing the archimedean
   places, with `G_S` noncompact, `v ∉ S` a finite place at which `G` is `F_v`-isotropic, and
   `W ⊂ G(𝔸_F^{S∪{v}})` a compact open subgroup. Prove that the image of
   `Γ_W = G(F) ∩ (G_S × G(F_v) × W)` is dense in `G(F_v)`; consequently the closure of `G(F)G_S` in
   `G(𝔸_F)` contains `G(F_v)`, placed at `v` ([Platonov], §3.4, p. 1145; [Rapinchuk], §2.6, pp. 16–17; [Rapinchuk], Remark 1
   after Theorem 2.3, p. 12). *Needs:* AA.3.4; AA.4.2; ReductiveGroupsPartII, RG2.4
-  (kneser-tits-local).
+  (kneser-tits-local); `arithmeticClosure_open` over F. For each compact-open
+  condition W, its arithmetic subgroup is commensurable with the partial-S group.
+  Apply the whole-product Lie-ideal argument before local Kneser–Tits; separate
+  rational primes with pro-p subgroups. No saturation of S is used.
 - **Almost all local factors are isotropic.** (*isotropic-almost-everywhere*) For `F` a number
   field and `G` a connected semisimple group over `F` with `dim G > 0`, prove that `G` is
   quasi-split, hence isotropic, over `F_v` for all but finitely many places `v`; in particular,
@@ -3926,11 +4073,14 @@ applications. The Fourier limits of AA.4.7 apply to specified compact abelian qu
 Function-field applications consume Layer AA.0
 unchanged, since it is stated for countable families of second countable locally compact groups.
 The Calegari–Geraghty `GL_1` computations of AA.5.1 are the base case for the invariant `l0` in
-modularity-lifting roadmaps. Within this roadmap, AA.3.4 consumes the real reduction of AA.3.2–3.3
-and the cusp theory of AA.3.6, AA.4.2 consumes the lattices of AA.3.4, and AA.4.4–AA.4.5 consume
+modularity-lifting roadmaps. Within this roadmap, AA.3.4 consumes the real reduction of AA.3.2–3.3;
+AA.3.6 consumes AA.3.4, AA.4.2 consumes its lattices, and AA.4.4–AA.4.5 consume
 the neat levels of AA.4.3.
 
 ## References
+
+- **[PR94]** V. Platonov and A. Rapinchuk, *Algebraic Groups and Number Theory*,
+  Academic Press, 1994; [author-hosted text](https://uva.theopenscholar.com/files/andrei-rapinchuk/files/agnt_english.pdf).
 
 The locators above refer to the following editions. Rosengarten is cited for statements that
 hold over number fields as well as function fields; the analytic normalizations of AA.2 use the

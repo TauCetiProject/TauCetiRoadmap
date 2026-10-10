@@ -2755,6 +2755,69 @@ theorem modularCharacter_eq_modulus [Algebra.FiniteType F H] (p : AdelicPoints F
     MeasureTheory.Measure.modularCharacter p = modulus F H p := by
   sorry
 
+/-- A local point extends uniquely to an adelic point with identity coordinates elsewhere. -/
+theorem exists_singlePlace [Algebra.FiniteType F H]
+    (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F))
+    (g : AdelicPoints.LocalPoints F H v) :
+    ∃! p : AdelicPoints F H, AdelicPoints.proj F H v p = g ∧
+      AdelicPoints.infiniteProjection F H p = 1 ∧
+      ∀ w, w ≠ v → AdelicPoints.proj F H w p = 1 := by sorry
+
+/-- Finite-place comparison with the arbitrary-local-field adjoint modulus of RG2. -/
+theorem modulus_singlePlace [Algebra.FiniteType F H]
+    (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F))
+    [FiniteDimensional (v.adicCompletion F)
+      (TauCeti.Bialgebra.CotangentSpace (v.adicCompletion F) ((v.adicCompletion F) ⊗[F] H))]
+    (p : AdelicPoints F H) (hinf : AdelicPoints.infiniteProjection F H p = 1)
+    (hother : ∀ w, w ≠ v → AdelicPoints.proj F H w p = 1) :
+    modulus F H p = TauCetiRoadmap.ReductiveGroupsPartII.LocalIntegration.adjointModulus
+      (v.adicCompletion F) ((v.adicCompletion F) ⊗[F] H)
+      (TauCeti.AlgHom.baseChangePointsMulEquiv (k := F) (K := v.adicCompletion F)
+        (A := H) (R := v.adicCompletion F) (AdelicPoints.proj F H v p)) := by sorry
+
+-- Test modulus_singlePlace_local
+example [Algebra.FiniteType F H]
+    (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F))
+    (p : AdelicPoints F H) (hinf : AdelicPoints.infiniteProjection F H p = 1)
+    (hother : ∀ w, w ≠ v → AdelicPoints.proj F H w p = 1) :
+    modulus F H p = MeasureTheory.Measure.modularCharacter (AdelicPoints.proj F H v p) := by sorry
+
+-- Test modulus_singlePlace_upper
+example (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers ℚ))
+    (hv : Ideal.absNorm v.asIdeal = 3) :
+    let A := TauCeti.GeneralLinear.coordinateHopfAlgebra ℚ 2
+    let X : A := TauCeti.GeneralLinear.coordinateHopfAlgebraAlgEquiv ℚ 2
+      (TauCeti.GeneralLinear.coordinateRingMap ℚ 2 (MvPolynomial.X (1, 0)))
+    let I : Ideal A := Ideal.span {X}
+    letI : I.IsHopfIdeal ℚ := by sorry
+    letI : FiniteDimensional ℚ (GaugeForm.cotangent ℚ (A ⧸ I)) := by sorry
+    ∀ p : AdelicPoints ℚ (A ⧸ I),
+      AdelicPoints.infiniteProjection ℚ (A ⧸ I) p = 1 →
+      (∀ w, w ≠ v → AdelicPoints.proj ℚ (A ⧸ I) w p = 1) →
+      (∀ i j : Fin 2, (AdelicPoints.proj ℚ (A ⧸ I) v p).ofConv
+        (Ideal.Quotient.mk I (TauCeti.GeneralLinear.coordinateHopfAlgebraAlgEquiv ℚ 2
+          (TauCeti.GeneralLinear.coordinateRingMap ℚ 2 (MvPolynomial.X (i,j))))) =
+            (!![3, 0; 0, 1] : Matrix (Fin 2) (Fin 2) (v.adicCompletion ℚ)) i j) →
+      modulus ℚ (A ⧸ I) p = (1 / 3) := by sorry
+
+-- Test modulus_singlePlace_opposite
+example (v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers ℚ))
+    (hv : Ideal.absNorm v.asIdeal = 3) :
+    let A := TauCeti.GeneralLinear.coordinateHopfAlgebra ℚ 2
+    let X : A := TauCeti.GeneralLinear.coordinateHopfAlgebraAlgEquiv ℚ 2
+      (TauCeti.GeneralLinear.coordinateRingMap ℚ 2 (MvPolynomial.X (0, 1)))
+    let I : Ideal A := Ideal.span {X}
+    letI : I.IsHopfIdeal ℚ := by sorry
+    letI : FiniteDimensional ℚ (GaugeForm.cotangent ℚ (A ⧸ I)) := by sorry
+    ∀ p : AdelicPoints ℚ (A ⧸ I),
+      AdelicPoints.infiniteProjection ℚ (A ⧸ I) p = 1 →
+      (∀ w, w ≠ v → AdelicPoints.proj ℚ (A ⧸ I) w p = 1) →
+      (∀ i j : Fin 2, (AdelicPoints.proj ℚ (A ⧸ I) v p).ofConv
+        (Ideal.Quotient.mk I (TauCeti.GeneralLinear.coordinateHopfAlgebraAlgEquiv ℚ 2
+          (TauCeti.GeneralLinear.coordinateRingMap ℚ 2 (MvPolynomial.X (i,j))))) =
+            (!![3, 0; 0, 1] : Matrix (Fin 2) (Fin 2) (v.adicCompletion ℚ)) i j) →
+      modulus ℚ (A ⧸ I) p = 3 := by sorry
+
 -- Test Parabolic.modulus_trivial
 example (p : AdelicPoints F F) :
     letI : FiniteDimensional F (GaugeForm.cotangent F F) := by sorry
@@ -3165,6 +3228,40 @@ example (z : ℂ) :
 -- Test localFactor_zero
 example (q : ℕ) (s : ℂ) :
     localFactor (⊥ : Submodule ℂ ℂ) (LinearEquiv.refl ℂ _) q s = 1 := by sorry
+
+-- Test artin_trivial_zeta
+example (F : Type) [Field F] [NumberField F] (s : ℂ) (hs : 1 < s.re) :
+    HasProd (fun v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F) =>
+      localFactor (⊤ : Submodule ℂ ℂ) (LinearEquiv.refl ℂ _) (Ideal.absNorm v.asIdeal) s)
+      (NumberField.dedekindZeta F s) := by sorry
+
+-- Test artin_quadratic_hecke
+example (s : ℂ) (hs : 1 < s.re) :
+    let χ : DirichletCharacter ℂ 4 := ZMod.χ₄.ringHomComp (Int.castRingHom ℂ)
+    HasProd (fun p : Nat.Primes => (1 - χ p * (p : ℂ) ^ (-s))⁻¹)
+      (DirichletCharacter.LFunction χ s) ∧ χ 2 = 0 ∧ χ 3 = -1 := by sorry
+
+-- Test artin_hecke_imprimitive
+example (s : ℂ) :
+    let χ : DirichletCharacter ℂ 4 := ZMod.χ₄.ringHomComp (Int.castRingHom ℂ)
+    DirichletCharacter.LFunction (DirichletCharacter.changeLevel (show 4 ∣ 12 by decide) χ) s =
+      DirichletCharacter.LFunction χ s * (1 + (3 : ℂ) ^ (-s)) := by sorry
+
+-- Test artin_arithmetic_frobenius_cubic
+example (ζ : ℂ) (hζ : ζ ^ 3 = 1) (hζ1 : ζ ≠ 1) :
+    let I : Submodule ℂ ℂ := ⊤
+    let frob : I ≃ₗ[ℂ] I := LinearEquiv.ofBijective
+      (ζ • (LinearMap.id : I →ₗ[ℂ] I)) (by sorry)
+    localFactor I frob 2 1 = (1 - ζ / 2)⁻¹ ∧
+      localFactor I frob 2 1 ≠ (1 - ζ⁻¹ / 2)⁻¹ := by sorry
+
+-- Test artin_induced_gaussian_zeta
+example (E : Type) [Field E] [NumberField E] [IsCyclotomicExtension {4} ℚ E] :
+    let χ : DirichletCharacter ℂ 4 := ZMod.χ₄.ringHomComp (Int.castRingHom ℂ)
+    (∀ s : ℂ, 1 < s.re → NumberField.dedekindZeta E s =
+      riemannZeta s * DirichletCharacter.LFunction χ s) ∧
+    (∀ s : ℂ, NumberField.dedekindZeta E =ᶠ[𝓝[≠] s]
+      fun z => riemannZeta z * DirichletCharacter.LFunction χ z) := by sorry
 
 end FiniteImageArtin
 
@@ -4282,6 +4379,15 @@ theorem Torsor.sqrtTwo_coaction :
       Torsor.sqrtTwo.coaction (e.symm (AdjoinRoot.root _)) =
         e.symm (AdjoinRoot.root _) ⊗ₜ[ℚ]
           MonoidAlgebra.single (Multiplicative.ofAdd (1 : ZMod 2)) (1 : ℚ) := by sorry
+
+-- Test canonical_mu2_rational_sections
+example : IsEmpty (Torsor.sqrtTwo.A →ₐ[ℚ] ℚ) := by sorry
+
+-- Test canonical_mu2_identity_sections
+example : IsEmpty ((ℚ ⊗[ℚ] Torsor.sqrtTwo.A) →ₐ[ℚ] ℚ) := by sorry
+
+-- Test canonical_mu2_real_sections
+example : Nonempty ((ℝ ⊗[ℚ] Torsor.sqrtTwo.A) →ₐ[ℝ] ℝ) := by sorry
 
 -- Test torsorClasses_sqrtTwo_nontrivial
 example {C : Type*}
@@ -6793,6 +6899,41 @@ theorem height_eq {m : ℕ} (hm : 0 < m)
               (((TauCeti.normalizedAbsoluteValue (v.adicCompletion F) ((g' ij.1 ij.2).2 v) : ℚ≥0) : ℝ)) := by
   sorry
 
+/-- Rational-point specialization of the relative Arakelov formula for the entry tuple
+of (rho(g), rho(g)⁻¹). ArithmeticHeights §0.1 uses the same finite sup and infinite ℓ² norms. -/
+theorem height_diagonal_relative {m : ℕ}
+    (r : TauCeti.GeneralLinear.coordinateHopfAlgebra F m →ₐc[F] H)
+    (x : WithConv (H →ₐ[F] F)) :
+    let g := TauCeti.GeneralLinear.pointsMulEquiv (R := F) m (TauCeti.AlgHom.mapDomain r x)
+    let entries : Bool × Fin m × Fin m → F := fun b =>
+      if b.1 then (g : Matrix (Fin m) (Fin m) F) b.2.1 b.2.2
+      else (g⁻¹ : Matrix (Fin m) (Fin m) F) b.2.1 b.2.2
+    height r (AdelicPoints.diagonal F H x) = if m = 0 then 1 else
+      (∏ w : NumberField.InfinitePlace F,
+        Real.sqrt (∑ i, w (entries i) ^ 2) ^ w.mult) *
+      ∏ᶠ v : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F),
+        ⨆ i, (((TauCeti.normalizedAbsoluteValue (v.adicCompletion F)
+          (algebraMap F (v.adicCompletion F) (entries i)) : ℚ≥0) : ℝ)) := by sorry
+
+-- Test height_diagonal_rank_zero
+example (r : TauCeti.GeneralLinear.coordinateHopfAlgebra F 0 →ₐc[F] H)
+    (x : WithConv (H →ₐ[F] F)) : height r (AdelicPoints.diagonal F H x) = 1 := by sorry
+
+-- Test height_diagonal_identity_two
+example :
+    let h := height (BialgHom.id F (TauCeti.GeneralLinear.coordinateHopfAlgebra F 2))
+      (AdelicPoints.diagonal F _ 1)
+    h = (2 : ℝ) ^ Module.finrank ℚ F ∧
+      h ^ ((Module.finrank ℚ F : ℝ)⁻¹) = 2 := by sorry
+
+-- Test height_diagonal_scalar_two
+example :
+    let g := Matrix.GeneralLinearGroup.mkOfDetNeZero
+      (!![2] : Matrix (Fin 1) (Fin 1) ℚ) (by norm_num)
+    let x := (TauCeti.GeneralLinear.pointsMulEquiv (R := ℚ) 1).symm g
+    height (BialgHom.id ℚ (TauCeti.GeneralLinear.coordinateHopfAlgebra ℚ 1))
+      (AdelicPoints.diagonal ℚ _ x) = Real.sqrt 17 := by sorry
+
 /-- The zero-dimensional representation has height one. -/
 example (r : TauCeti.GeneralLinear.coordinateHopfAlgebra F 0 →ₐc[F] H)
     (x : AdelicPoints F H) : height r x = 1 := by
@@ -8346,6 +8487,7 @@ RG2.0a, states it for the underlying algebras (`compEquiv`); the Hopf form is st
 the tower maps of this layer are Hopf maps. -/
 def compHopfEquiv (k'' : Type) [CommRing k''] [Algebra k' k''] [Algebra k k'']
     [IsScalarTower k k' k''] [Module.Finite k' k''] [Module.Projective k' k'']
+    [Module.Finite k k''] [Module.Projective k k'']
     (H'' : Type) [CommRing H''] [HopfAlgebra k'' H''] :
     WeilRestriction.ResHopf k k' (WeilRestriction.ResHopf k' k'' H'') ≃ₐc[k]
       WeilRestriction.ResHopf k k'' H'' := sorry
@@ -8355,6 +8497,7 @@ def compHopfEquiv (k'' : Type) [CommRing k''] [Algebra k' k''] [Algebra k k'']
 `k''`-algebra map out of `H''`, through `k'' ⊗_{k'} (k' ⊗_k R) ≃ k'' ⊗_k R`. -/
 theorem compHopfEquiv_pointsMulEquiv (k'' : Type) [CommRing k''] [Algebra k' k''] [Algebra k k'']
     [IsScalarTower k k' k''] [Module.Finite k' k''] [Module.Projective k' k'']
+    [Module.Finite k k''] [Module.Projective k k'']
     (H'' : Type) [CommRing H''] [HopfAlgebra k'' H''] (R : Type) [CommRing R] [Algebra k R]
     (x : WithConv (WeilRestriction.ResHopf k k'' H'' →ₐ[k] R)) :
     (WeilRestriction.pointsMulEquiv k k'' H'' R x).ofConv =
@@ -8605,6 +8748,61 @@ theorem Torsor.hasse_classSet (F : Type) [Field F] [NumberField F]
   obtain ⟨X, rfl⟩ := c.surjective z
   rw [hbase, hlocal]
   exact Torsor.isTrivial_iff_forall_real F G hsc X
+
+/-- Injectivity of real localization uses the Hasse kernel for twisted inner forms.
+PR94, Theorem 6.6 and §§6.7–6.8. -/
+theorem Torsor.iso_iff_forall_real (F : Type) [Field F] [NumberField F]
+    (G : TauCeti.SemisimpleCommHopfAlgCat F)
+    (hsc : TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty F G)
+    (X Y : Torsor F (G.obj : Type)) :
+    X.Iso Y ↔ ∀ (v : NumberField.InfinitePlace F) (hv : v.IsReal),
+      letI := (NumberField.InfinitePlace.embedding_of_isReal hv).toAlgebra
+      (X.baseChange ℝ).Iso (Y.baseChange ℝ) := by sorry
+
+/-- Real-class realization, independent of the Hasse-kernel direction.
+PR94, Proposition 6.17, pp. 337–339. -/
+theorem Torsor.real_classes_realized (F : Type) [Field F] [NumberField F]
+    (G : TauCeti.SemisimpleCommHopfAlgCat F)
+    (X : ∀ (v : NumberField.InfinitePlace F) (hv : v.IsReal),
+      letI := (NumberField.InfinitePlace.embedding_of_isReal hv).toAlgebra
+      Torsor ℝ (ℝ ⊗[F] (G.obj : Type))) :
+    ∃ Y : Torsor F (G.obj : Type), ∀ v hv,
+      letI := (NumberField.InfinitePlace.embedding_of_isReal hv).toAlgebra
+      (Y.baseChange ℝ).Iso (X v hv) := by sorry
+
+/-- PR94, Theorem 7.8, p. 415: weak approximation at arbitrary finite sets of places. -/
+theorem hasWeakApproximation_of_simplyConnected (F : Type) [Field F] [NumberField F]
+    (G : TauCeti.SemisimpleCommHopfAlgCat F)
+    (hsc : TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty F G)
+    (Sinf : Finset (NumberField.InfinitePlace F))
+    (Sf : Finset (IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F))) :
+    HasWeakApproximation F (G.obj : Type) Sinf Sf := by sorry
+
+-- Test hasse_no_real_places
+example (F : Type) [Field F] [NumberField F]
+    (hF : ∀ v : NumberField.InfinitePlace F, ¬ v.IsReal)
+    (G : TauCeti.SemisimpleCommHopfAlgCat F)
+    (hsc : TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty F G)
+    (X : Torsor F (G.obj : Type)) : X.IsTrivial := by sorry
+
+-- Test hasse_two_classes
+example (F : Type) [Field F] [NumberField F]
+    (G : TauCeti.SemisimpleCommHopfAlgCat F)
+    (hsc : TauCeti.simplyConnectedSemisimpleCommHopfAlgProperty F G)
+    (X Y : Torsor F (G.obj : Type))
+    (h : ∀ (v : NumberField.InfinitePlace F) (hv : v.IsReal),
+      letI := (NumberField.InfinitePlace.embedding_of_isReal hv).toAlgebra
+      (X.baseChange ℝ).Iso (Y.baseChange ℝ)) : X.Iso Y := by sorry
+
+-- Test real_classes_realized
+example (F : Type) [Field F] [NumberField F]
+    (G : TauCeti.SemisimpleCommHopfAlgCat F)
+    (X : ∀ (v : NumberField.InfinitePlace F) (hv : v.IsReal),
+      letI := (NumberField.InfinitePlace.embedding_of_isReal hv).toAlgebra
+      Torsor ℝ (ℝ ⊗[F] (G.obj : Type))) :
+    ∃ Y : Torsor F (G.obj : Type), ∀ v hv,
+      letI := (NumberField.InfinitePlace.embedding_of_isReal hv).toAlgebra
+      (Y.baseChange ℝ).Iso (X v hv) := by sorry
 
 -- Test Approximation.Torsor.hasse_fails_without_simply_connected: for `μ_2` over `ℚ` the torsor
 -- `ℚ[x]/(x² - 2)` is trivial over `ℝ` but not over `ℚ`.
@@ -9552,6 +9750,27 @@ example (F : Type) [Field F] [NumberField F] (p : ℕ) [Fact p.Prime]
         (H := TauCeti.SpecialLinear.coordinateHopfAlgebra F 2) {v, w} U =>
       (AdelicPoints.proj F _ v (AdelicPoints.diagonal F _ γ.val),
        AdelicPoints.proj F _ w (AdelicPoints.diagonal F _ γ.val))) := by sorry
+
+-- Test arithmeticClosure_mixed_prime
+example (F : Type) [Field F] [NumberField F] (p : ℕ) [Fact p.Prime]
+    (v w : IsDedekindDomain.HeightOneSpectrum (NumberField.RingOfIntegers F)) (hvw : v ≠ w)
+    (hv : ringChar (NumberField.RingOfIntegers F ⧸ v.asIdeal) = p)
+    (hw : ringChar (NumberField.RingOfIntegers F ⧸ w.asIdeal) = p)
+    (U : Subgroup (AdelicPoints.FiniteAdelicPoints F
+      (TauCeti.SpecialLinear.coordinateHopfAlgebra F 2)))
+    (hUc : IsCompact U.carrier) (hUo : IsOpen U.carrier) :
+    DenseRange (fun γ : Reduction.SArithmetic.arithmetic (F := F)
+        (H := TauCeti.SpecialLinear.coordinateHopfAlgebra F 2) {v, w} U =>
+      AdelicPoints.proj F _ w (AdelicPoints.diagonal F _ γ.val)) := by sorry
+
+-- Test arithmetic_partial_seven
+example (F : Type) [Field F] [NumberField F] (a : F) (ha : a ^ 2 = 2)
+    (hdeg : Module.finrank ℚ F = 2) :
+    let R : Subring F := Subring.closure
+      (Set.range (algebraMap (NumberField.RingOfIntegers F) F) ∪ {(3 + a)⁻¹})
+    (3 + a) * (3 - a) = 7 ∧
+      Function.Injective (fun n : ℕ =>
+        (QuotientAddGroup.mk ((3 - a) ^ (-(n : ℤ))) : F ⧸ R.toAddSubgroup)) := by sorry
 
 -- Test arithmeticClosure_diagonal_not_ideal
 /-- The diagonal in sl₂ × sl₂ contains (e,e), but its bracket with (h,0)
