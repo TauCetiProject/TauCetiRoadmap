@@ -1000,7 +1000,8 @@ integral closure of `R` in `L` is finite over `R`, including inseparable `L` (St
 (032L)), `of_isIntegrallyClosed_charZero`, `IsJapanese.localization` (Lemma 10.161.5 (032I)),
 `IsJapanese.of_finite_extension` (Lemma 10.161.11 (032M)), `IsJapanese.polynomial` (Lemma 10.161.13
 (032O)), `isJapanese_of_dedekind_charZero` (Lemma 10.161.12 (032N)), `IsJapanese.of_complete_local`
-(Lemma 10.161.15 (0333)), `IsN1.test_isIntegrallyClosed`. Define `Ring.IsUniversallyJapanese R`:
+(Lemma 10.162.8 (032W)), `IsN1.test_isIntegrallyClosed`. The N-1 local criterion is Lemma
+10.161.15 (0333). Define `Ring.IsUniversallyJapanese R`:
 every finite-type `R`-algebra that is a domain is N-2; `Ring.IsNagata R`: `R` is Noetherian and
 `R/p` is N-2 for every prime `p` (Stacks, Definition 10.162.1 (032R)); the Nagata predicate includes
 Noetherianity and universally Japanese does not. API: `IsNagata.isNoetherianRing`,
@@ -3006,6 +3007,9 @@ with positive rank over every residue field together with bijectivity of
 `AlgHom.mulLeftRight R A`, for finite projective `A`. Native `IsAzumaya` includes
 `FaithfulSMul R A` (Mathlib, `Algebra/Azumaya/Defs.lean`); global nontriviality of
 `A` does not replace it. Positivity is vacuous over the empty scheme.
+
+Export `IsAzumaya.exists_etale_matrix_splitting` in the neutral ring-level API: for a commutative ring `A`, an `A`-algebra `R` with native `IsAzumaya A R`, `0 < d`, and `Module.rankAtStalk (R := A) R = d * d`, there is a commutative `A`-algebra `B` with `Algebra.Etale A B`, `Module.FaithfullyFlat A B`, and `B ⊗[A] R ≃ₐ[B] Matrix (Fin d) (Fin d) B`. Include the finite-cover adapter: from finitely many affine étale splitting charts `Spec Bᵢ → Spec A` whose images jointly cover `Spec A`, form `B = ∏ᵢ Bᵢ`, prove it is étale and faithfully flat over `A`, and assemble the chartwise splittings into the matrix equivalence over this same `B`. This ring-level result supplies both the affine/sheaf equivalence here and the reduced-norm construction in IntegralHeckeAndGaloisDeterminants; the ring-level API is independent of those consumers. Source: Grothendieck, *Le groupe de Brauer I*, Theorem 5.1(ii)–(iii), p.210; the finite-product construction passes from the affine cover to a single algebra.
+
 Define `StabilizedEquivalence A B`: there are finite locally free `E`, `F` of
 positive rank at every point with `A ⊗ End(E) ≅ B ⊗ End(F)`, with `refl`, `symm`, `trans`; and
 `SchemeBrauerGroup X := Azumaya algebras / ≈`, an abelian group under `⊗` with inverse `A^op`, with

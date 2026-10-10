@@ -5820,6 +5820,30 @@ end Coherent
 
 /-! ### Brauer groups and equivariant sheaves -/
 
+/-- An Azumaya algebra of constant positive degree splits over a faithfully flat étale algebra.
+Grothendieck, Brauer I, Theorem 5.1(ii)–(iii), p. 210. -/
+theorem _root_.IsAzumaya.exists_etale_matrix_splitting
+    (A R : Type u) [CommRing A] [Ring R] [Algebra A R] [IsAzumaya A R]
+    (d : ℕ) (hd : 0 < d)
+    (hrank : Module.rankAtStalk (R := A) R = fun _ => d * d) :
+    ∃ (B : Type u) (_ : CommRing B) (_ : Algebra A B),
+      Algebra.Etale A B ∧ Module.FaithfullyFlat A B ∧
+        Nonempty (TensorProduct A B R ≃ₐ[B] Matrix (Fin d) (Fin d) B) := by sorry
+
+/-- A finite jointly surjective affine étale splitting cover gives a splitting over its product
+algebra. Grothendieck, Brauer I, Theorem 5.1(ii)–(iii), p. 210, with the finite-product construction. -/
+theorem _root_.IsAzumaya.etale_matrix_splitting_of_finite_cover
+    (A R : Type u) [CommRing A] [Ring R] [Algebra A R]
+    (d : ℕ) (ι : Type u) [Finite ι] (B : ι → Type u)
+    [∀ i, CommRing (B i)] [∀ i, Algebra A (B i)] [∀ i, Algebra.Etale A (B i)]
+    (hcover : ∀ p : PrimeSpectrum A, ∃ i, ∃ q : PrimeSpectrum (B i),
+      q.asIdeal.comap (algebraMap A (B i)) = p.asIdeal)
+    (hsplit : ∀ i, Nonempty (TensorProduct A (B i) R ≃ₐ[B i]
+      Matrix (Fin d) (Fin d) (B i))) :
+    Algebra.Etale A (∀ i, B i) ∧ Module.FaithfullyFlat A (∀ i, B i) ∧
+      Nonempty (TensorProduct A (∀ i, B i) R ≃ₐ[∀ i, B i]
+        Matrix (Fin d) (Fin d) (∀ i, B i)) := by sorry
+
 namespace Brauer
 
 open _root_.CategoryTheory _root_.AlgebraicGeometry Topologies
