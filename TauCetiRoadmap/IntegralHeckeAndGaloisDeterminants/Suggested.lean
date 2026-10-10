@@ -988,6 +988,73 @@ theorem universalRing_generated :
     Algebra.adjoin O {a : universalRing G C | ∃ (n : ℕ) (f : C.ring n) (g : Fin n → G),
       a = (universalRing_equiv C (AlgHom.id O (universalRing G C))).theta n f g} = ⊤ := sorry
 
+
+section UntwistedExcursions
+open CategoryTheory
+open TauCetiRoadmap.SmoothRepresentationsOfLocalGroups
+variable {O G : Type} [CommRing O] [Group G] (C : InvariantCoordinateInput O)
+
+/-- Trivial-action free cocycles are tuples of points, with simultaneous conjugation.
+Quast §3.1, pp.10–11 and §3.6–3.7, pp.19–20; SR.6.3's invariant-word colimit. -/
+def untwistedFreeCoordinates (n : ℕ) : C.ring n ≃ₐ[O]
+    CocycleScheme.invariants C (1 : FreeGroup (Fin n) →* Aut C) := sorry
+
+/-- The coordinate comparison is fixed on points over every coefficient algebra. -/
+theorem untwistedFreeCoordinates_evaluate (n : ℕ) {S : Type} [CommRing S] [Algebra O S]
+    (c : CocycleScheme.coordinateRing C (1 : FreeGroup (Fin n) →* Aut C) →ₐ[O] S)
+    (f : C.ring n) :
+    c (untwistedFreeCoordinates C n f).val = C.tensorEvaluate n
+      (fun i => (CocycleScheme.points C 1 S c).value (FreeGroup.of i)) f.val := sorry
+
+/-- The common untwisted colimit, with SR owning the generic word-colimit construction.
+Quast Theorem 3.20 and SR.6.3 `ExcursionAlgebra.algebra_universal`. -/
+def excursionEquiv : ExcursionAlgebra.algebra C (1 : G →* Aut C) ≃ₐ[O]
+    universalRing G C := sorry
+
+theorem excursionEquiv_generator (n : ℕ) (g : Fin n → G) (f : C.ring n) :
+    excursionEquiv C (ExcursionAlgebra.generator C (1 : G →* Aut C) n g
+      (untwistedFreeCoordinates C n f)) =
+      (universalRing_equiv C (AlgHom.id O (universalRing G C))).theta n f g := sorry
+
+/-- Evaluation and coefficient postcomposition commute with the comparison. -/
+theorem excursionEquiv_evaluate {S : Type} [CommRing S] [Algebra O S]
+    (φ : universalRing G C →ₐ[O] S) (n : ℕ) (g : Fin n → G) (f : C.ring n) :
+    (φ.comp (excursionEquiv C).toAlgHom)
+      (ExcursionAlgebra.generator C (1 : G →* Aut C) n g
+        (untwistedFreeCoordinates C n f)) =
+      (universalRing_equiv C φ).theta n f g := sorry
+
+/-- `untwistedFreeCoordinates_empty`: the empty tuple preserves a scalar. -/
+example : untwistedFreeCoordinates C 0 (algebraMap O _ 7) = algebraMap O _ 7 := by simp
+/-- `untwistedFreeCoordinates_single`: one generator evaluates at its actual point. -/
+example {S : Type} [CommRing S] [Algebra O S]
+    (c : CocycleScheme.coordinateRing C (1 : FreeGroup (Fin 1) →* Aut C) →ₐ[O] S)
+    (f : C.ring 1) :
+    c (untwistedFreeCoordinates C 1 f).val = C.tensorEvaluate 1
+      ![(CocycleScheme.points C 1 S c).value (FreeGroup.of 0)] f.val := sorry
+/-- `untwistedFreeCoordinates_swap`: two coordinates are simultaneously reindexed. -/
+example {S : Type} [CommRing S] [Algebra O S]
+    (c : CocycleScheme.coordinateRing C (1 : FreeGroup (Fin 2) →* Aut C) →ₐ[O] S)
+    (f : C.ring 2) :
+    c (untwistedFreeCoordinates C 2 (C.reindex (Equiv.swap (0 : Fin 2) 1) f)).val =
+      C.tensorEvaluate 2
+        ![(CocycleScheme.points C 1 S c).value (FreeGroup.of 1),
+          (CocycleScheme.points C 1 S c).value (FreeGroup.of 0)] f.val := sorry
+
+/-- `excursionEquiv_scalar`: the colimit comparison preserves the coefficient seven. -/
+example : excursionEquiv (G := G) C (algebraMap O _ 7) = algebraMap O _ 7 := by simp
+/-- `excursionEquiv_empty`: the empty excursion is the same scalar generator. -/
+example : excursionEquiv (G := G) C
+    (ExcursionAlgebra.generator C (1 : G →* Aut C) 0 Fin.elim0
+      (untwistedFreeCoordinates C 0 (algebraMap O _ 1))) = 1 := by simp
+/-- `excursionEquiv_product_word`: multiplication of source elements is word substitution. -/
+example (g h : G) (f : C.ring 1) :
+    excursionEquiv C (ExcursionAlgebra.generator C (1 : G →* Aut C) 2 ![g,h]
+      (untwistedFreeCoordinates C 2 (C.multiply 0 f))) =
+    (universalRing_equiv C (AlgHom.id O (universalRing G C))).theta 1 f ![g*h] := sorry
+
+end UntwistedExcursions
+
 end ReductivePseudocharacter
 end
 
@@ -2942,6 +3009,21 @@ theorem mapCoefficients_comp {C : Type u} [CommRing C]
     (D : Determinant A (MonoidAlgebra A G) d) (φ : A →+* B) (ψ : B →+* C) :
     (D.mapCoefficients φ).mapCoefficients ψ = D.mapCoefficients (ψ.comp φ) := sorry
 end Determinant
+namespace Theorems
+/-- Let G be a group with a topology, A compact Hausdorff, all A_i Hausdorff, and ι:A→∏A_i a continuous injective ring map. Let D_i be continuous degree-d determinants. If for each g in a dense subset X⊂G the tuple of characteristic polynomials lies in ι(A)[X], there is a unique continuous determinant D over A with D⊗A_i=D_i. The compact closed embedding gives integrality on all G; an injective map without closed image does not suffice. -/
+theorem compact_determinant_gluing {G : Type u} [Group G] [TopologicalSpace G]
+    [TopologicalSpace A] [CompactSpace A] [T2Space A]
+    (ι : Type w) (B : ι → Type u) [∀ i, CommRing (B i)] [∀ i, TopologicalSpace (B i)] [∀ i, T2Space (B i)]
+    (φ : ∀ i, A →+* B i) (hinj : Function.Injective (fun a : A ↦ fun i ↦ φ i a))
+    (hφ : ∀ i, Continuous (φ i))
+    (D : ∀ i, Determinant (B i) (MonoidAlgebra (B i) G) d) (hD : ∀ i, (D i).IsContinuous)
+    (S : Set G) (hS : Dense S)
+    (hcoeff : ∀ g ∈ S, ∀ k, ∃ a : A, ∀ i,
+      ((D i).charpoly (MonoidAlgebra.of (B i) G g)).coeff k=φ i a) :
+    ∃! E : Determinant A (MonoidAlgebra A G) d,
+      E.IsContinuous ∧ ∀ i, E.mapCoefficients (φ i)=D i := sorry
+
+end Theorems
 namespace Interpolation
 variable [TopologicalSpace G]
 
@@ -3019,7 +3101,15 @@ variable {V : Type u} {Frob : V → G}
 variable [TopologicalSpace A] [CompactSpace A] [T2Space A]
 /-- Apply compact coefficient gluing to the conjugacy-saturated Frobenius set. -/
 def determinant (W : CongruenceWitness A G V d Frob) :
-    Determinant A (MonoidAlgebra A G) d := sorry
+    Determinant A (MonoidAlgebra A G) d := by
+  letI := W.coefficientTopology
+  letI := W.coefficientT2
+  exact Classical.choose (Theorems.compact_determinant_gluing
+    (Fin W.count) (fun i => W.coefficient i)
+    (fun i => algebraMap A (W.coefficient i)) W.injective W.coefficient_continuous
+    W.classical (by intro i; exact W.classical_continuous i)
+    {g : G | ∃ v h, g = h * Frob v * h⁻¹} W.frobenius_dense
+    (by sorry))
 theorem determinant_continuous (W : CongruenceWitness A G V d Frob) :
     (determinant W).IsContinuous := sorry
 /-- Descent is equality of polynomial laws, not only equality at Frobenius elements. -/
@@ -3322,6 +3412,71 @@ theorem canonicalCocycle_mul (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (F
     (χ ψ : G →* Aˣ) (g h : G) :
     canonicalCocycle ρ χ ψ (g*h) = canonicalCocycle ρ χ ψ g +
       ((↑(χ g) : A)*(↑(ψ g)⁻¹ : A)) • canonicalCocycle ρ χ ψ h := sorry
+
+/-- Noetherian submodules and finite quotients give the canonical module's finiteness.
+DKSW §2.1, pp.8–9, with finite coefficient containment as an explicit input. -/
+theorem modules_finite_of_lattice [IsNoetherianRing A]
+    (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B) (χ ψ : G →* Aˣ)
+    (Λ : Submodule A (Matrix (Fin 2) (Fin 2) B)) [Module.Finite A Λ]
+    (hχΛ : differenceModule ρ χ ≤ Λ) (hψΛ : differenceModule ρ ψ ≤ Λ) :
+    Module.Finite A (differenceModule ρ χ) ∧ Module.Finite A (differenceModule ρ ψ) ∧
+      Module.Finite A (initialModule ρ χ ψ) ∧ Module.Finite A (localModule L ρ χ ψ) := sorry
+
+/-- Artin–Rees identifies the subspace topology; quotient maps give the adic quotient topology.
+Stacks, Lemma 10.51.2 and Section 10.96; DKSW §2.1, pp.8–9 for the modules. -/
+theorem lattice_submodule_topology [IsNoetherianRing A] (m : Ideal A)
+    [TopologicalSpace B] (Λ : Submodule A (Matrix (Fin 2) (Fin 2) B))
+    [Module.Finite A Λ]
+    (hΛtop : m.adicModuleTopology Λ =
+      TopologicalSpace.induced (fun x : Λ => (x : Matrix (Fin 2) (Fin 2) B)) inferInstance)
+    (D : Submodule A (Matrix (Fin 2) (Fin 2) B)) (hD : D ≤ Λ) :
+    m.adicModuleTopology D =
+      TopologicalSpace.induced (fun x : D => (x : Matrix (Fin 2) (Fin 2) B)) inferInstance := sorry
+
+/-- Powers of the ideal commute with a surjective linear map, hence its adic topology is final.
+Stacks, Section 10.96, definition of the I-adic module topology. -/
+theorem adic_quotient_topology {M : Type u} [AddCommGroup M] [Module A M]
+    (m : Ideal A) (Q : Submodule A M) :
+    m.adicModuleTopology (M ⧸ Q) =
+      TopologicalSpace.coinduced Q.mkQ (m.adicModuleTopology M) := sorry
+
+/-- Continuity into the finite lattice passes to both canonical quotients.
+DKSW §2.1, pp.8–9, with the induced/adic topology comparison stated explicitly. -/
+theorem cocycles_continuous_of_lattice [IsNoetherianRing A] [IsLocalRing A]
+    [TopologicalSpace A] [TopologicalSpace B] [IsTopologicalRing B]
+    [TopologicalSpace G] (hAdic : IsAdic (IsLocalRing.maximalIdeal A))
+    (hAB : Continuous (algebraMap A B))
+    (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B)
+    (hρ : Continuous (fun g : G => ρ (MonoidAlgebra.of A G g)))
+    (χ ψ : G →* Aˣ) (hψ : Continuous ψ)
+    (Λ : Submodule A (Matrix (Fin 2) (Fin 2) B)) [Module.Finite A Λ]
+    (hψΛ : differenceModule ρ ψ ≤ Λ)
+    (hΛtop : (IsLocalRing.maximalIdeal A).adicModuleTopology Λ =
+      TopologicalSpace.induced (fun x : Λ => (x : Matrix (Fin 2) (Fin 2) B)) inferInstance) :
+    letI : TopologicalSpace (initialModule ρ χ ψ) :=
+      (IsLocalRing.maximalIdeal A).adicModuleTopology _
+    letI : TopologicalSpace (localModule L ρ χ ψ) :=
+      (IsLocalRing.maximalIdeal A).adicModuleTopology _
+    Continuous (canonicalCocycle ρ χ ψ) ∧ Continuous (localCocycle L ρ χ ψ) := sorry
+
+/-- A finite coefficient order contains both difference modules, including scalar differences.
+DKSW §2.1, equation (13), with an explicit finite order instead of compactness. -/
+theorem differences_le_order
+    (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B) (χ ψ : G →* Aˣ)
+    (Ω : Subalgebra A (Matrix (Fin 2) (Fin 2) B))
+    (hρΩ : ∀ g, ρ (MonoidAlgebra.of A G g) ∈ Ω) :
+    differenceModule ρ χ ≤ Ω.toSubmodule ∧ differenceModule ρ ψ ≤ Ω.toSubmodule := sorry
+
+/-- A finite lattice in a total quotient ring has its adic subspace topology.
+Clear one common regular denominator, then apply Artin–Rees (Stacks, Lemma 10.51.2). -/
+theorem fraction_lattice_topology [IsNoetherianRing A] [IsLocalRing A]
+    [IsLocalization (nonZeroDivisors A) B]
+    [TopologicalSpace A] [TopologicalSpace B] [IsTopologicalRing B]
+    (hAdic : IsAdic (IsLocalRing.maximalIdeal A))
+    (hAB : Topology.IsEmbedding (algebraMap A B))
+    (Λ : Submodule A (Matrix (Fin 2) (Fin 2) B)) [Module.Finite A Λ] :
+    (IsLocalRing.maximalIdeal A).adicModuleTopology Λ =
+      TopologicalSpace.induced (fun x : Λ => (x : Matrix (Fin 2) (Fin 2) B)) inferInstance := sorry
 
 /-- `difference_product_sign_character`: products are nonzero although commutators vanish. -/
 example :
@@ -5061,19 +5216,6 @@ theorem frobenius_determinant_uniqueness {G V : Type u} [Group G] [TopologicalSp
     (D E : Determinant A (MonoidAlgebra A G) d) (hD : D.IsContinuous) (hE : E.IsContinuous)
     (h : ∀ v, D.charpoly (MonoidAlgebra.of A G (Frob v))=E.charpoly (MonoidAlgebra.of A G (Frob v))) : D=E := sorry
 
-/-- Let G be compact, A compact Hausdorff, all A_i Hausdorff, and ι:A→∏A_i a continuous injective ring map. Let D_i be continuous degree-d determinants. If for each g in a dense subset X⊂G the tuple of characteristic polynomials lies in ι(A)[X], there is a unique continuous determinant D over A with D⊗A_i=D_i. The compact closed embedding gives integrality on all G; an injective map without closed image does not suffice. -/
-theorem compact_determinant_gluing {G : Type u} [Group G] [TopologicalSpace G] [CompactSpace G]
-    [TopologicalSpace A] [CompactSpace A] [T2Space A]
-    (ι : Type u) (B : ι → Type u) [∀ i, CommRing (B i)] [∀ i, TopologicalSpace (B i)] [∀ i, T2Space (B i)]
-    (φ : ∀ i, A →+* B i) (hinj : Function.Injective (fun a : A ↦ fun i ↦ φ i a))
-    (hφ : ∀ i, Continuous (φ i))
-    (D : ∀ i, Determinant (B i) (MonoidAlgebra (B i) G) d) (hD : ∀ i, (D i).IsContinuous)
-    (S : Set G) (hS : Dense S)
-    (hcoeff : ∀ g ∈ S, ∀ k, ∃ a : A, ∀ i,
-      ((D i).charpoly (MonoidAlgebra.of (B i) G g)).coeff k=φ i a) :
-    ∃! E : Determinant A (MonoidAlgebra A G) d,
-      E.IsContinuous ∧ ∀ i, E.mapCoefficients (φ i)=D i := sorry
-
 /-- Compatible discrete quotient laws have a unique continuous determinant when A has
 its separated quotient-limit topology. -/
 theorem classical_interpolation {G : Type u} [Group G] [TopologicalSpace G]
@@ -5089,7 +5231,7 @@ theorem classical_interpolation {G : Type u} [Group G] [TopologicalSpace G]
 
 /-- Intersection gluing uses the image of the diagonal quotient map, including nilpotents. -/
 theorem intersection_determinant_gluing {G : Type u} [Group G]
-    [TopologicalSpace G] [CompactSpace G] (I J : Ideal A)
+    [TopologicalSpace G] (I J : Ideal A)
     [TopologicalSpace (A ⧸ (I ⊓ J))] [CompactSpace (A ⧸ (I ⊓ J))]
     [T2Space (A ⧸ (I ⊓ J))] [TopologicalSpace (A ⧸ I)] [T2Space (A ⧸ I)]
     [TopologicalSpace (A ⧸ J)] [T2Space (A ⧸ J)]
@@ -5362,6 +5504,29 @@ example : RingHom.ker (algebraMap ℤ (Module.End ℤ (Fin 0 → ℤ))) = ⊤ �
 
 /-! ## Layer IHG.6 theorems: integral Ribet modules and Fitting ideals -/
 
+/-- Finite normalization in a finite field extension, including inseparable extensions.
+Stacks, Lemmas 10.162.2 and 10.162.8. -/
+theorem finite_integralClosure_complete {K E : Type u} [Field K] [Field E]
+    [IsDomain A] [IsLocalRing A] [IsNoetherianRing A]
+    [IsAdicComplete (IsLocalRing.maximalIdeal A) A]
+    [Algebra A K] [IsFractionRing A K] [Algebra K E] [Algebra A E]
+    [IsScalarTower A K E] [Module.Finite K E] :
+    Module.Finite A (integralClosure A E) := sorry
+
+/-- Bounded differences over the same reduced complete coefficient ring.
+DKSW Theorem 1.1 and §2.1; the inseparable field factors use finite normalization
+(Stacks, Lemmas 10.162.2 and 10.162.8), not the matrix trace pairing. -/
+theorem global_difference_lattice {B G : Type u} [CommRing B] [Algebra A B] [Group G]
+    [IsLocalization (nonZeroDivisors A) B]
+    [IsLocalRing A] [IsNoetherianRing A] [IsReduced A]
+    [IsAdicComplete (IsLocalRing.maximalIdeal A) A]
+    (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B)
+    (χ ψ : G →* Aˣ) (hIrr : RibetIrreducible ρ)
+    (hcoeff : ∀ g, ∃ P : A[X], P.map (algebraMap A B) =
+      Matrix.charpoly (ρ (MonoidAlgebra.of A G g))) :
+    ∃ Λ : Submodule A (Matrix (Fin 2) (Fin 2) B), Module.Finite A Λ ∧
+      IntegralRibet.differenceModule ρ χ ≤ Λ ∧ IntegralRibet.differenceModule ρ ψ ≤ Λ := sorry
+
 /-- Under Theorem 1.1’s hypotheses with χ≢ψ modulo m, choose τ with χ(τ)−ψ(τ) a unit and diagonalize ρ(τ) using its two Henselian roots. Let B be the finite T-module generated by upper-right matrix entries b(g). Then κ(g)=ψ(g)⁻¹b(g) modulo IB is a continuous cocycle, every representative generates B/IB, B is faithful and Fitt₀_T(B/IB)⊆I. -/
 theorem distinct_character_ribet {B G : Type u} [CommRing B] [Algebra A B] [Group G]
     [IsLocalization (nonZeroDivisors A) B]
@@ -5384,7 +5549,7 @@ theorem distinct_character_ribet {B G : Type u} [CommRing B] [Algebra A B] [Grou
         (∀ x, Submodule.span A (Set.range (fun g ↦ κ g+((↑(χ g) : A)*(↑(ψ g)⁻¹ : A)-1) • x))=⊤)) ∧
       (TauCeti.fittingIdeal A (L ⧸ (I • (⊤ : Submodule A L))) 0) ≤ I := sorry
 
-/-- Under exactly Theorem 2.1’s hypotheses, including χ≡ψ modulo m, local triangularizations diag(η_v,ξ_v), ξ_v≡ψ on Σ, ξ_v≡χ on I_v for v∈P, and chosen σ_v∈G_v, the finite local quotient N satisfies (∏_(v∈P)(ξ_v(σ_v)−χ(σ_v)))·Fitt₀_T(N)·T̃⊆Ĩ. The containment is in T̃; local factors need not belong to T. -/
+/-- Conditional on finiteness of the prescribed local module and Theorem 2.1’s hypotheses, including χ≡ψ modulo m, local triangularizations diag(η_v,ξ_v), ξ_v≡ψ on Σ, ξ_v≡χ on I_v for v∈P, and chosen σ_v∈G_v, the finite local quotient N satisfies (∏_(v∈P)(ξ_v(σ_v)−χ(σ_v)))·Fitt₀_T(N)·T̃⊆Ĩ. The containment is in T̃; local factors need not belong to T. -/
 theorem weighted_fitting_containment {Tilde B G : Type u} [CommRing Tilde] [CommRing B] [Algebra A Tilde]
     [Algebra Tilde B] [Algebra A B] [IsScalarTower A Tilde B]
     [IsArtinianRing B] [IsPrincipalIdealRing B] [Group G]
@@ -5410,7 +5575,7 @@ theorem weighted_fitting_containment {Tilde B G : Type u} [CommRing Tilde] [Comm
       ((↑(loc.xi v (σ v)) : Tilde)-algebraMap A Tilde (χ (σ v)))} : Ideal Tilde) *
       ((TauCeti.fittingIdeal A (IntegralRibet.localModule L ρ χ ψ) 0)).map (algebraMap A Tilde)) ≤ Itilde := sorry
 
-/-- For a noetherian inclusion T⊆T̃, T local and both complete for m_T, a proper nonzero Ĩ⊆T̃, I=Ĩ∩T, K=Frac(T̃) a finite product of local rings with principal maximal ideals and reduced quotient a product of fields, a compact G and continuous ρ:G→GL₂(K), assume characteristic polynomials lie in T[X] and reduce modulo I to (X−χ)(X−ψ), χ≡ψ modulo m_T, and every reduced field-factor representation is irreducible. With the finite triangular local input of the weighted-containment theorem, there exist finite N, continuous κ and vectors y_v having all its prescribed local values, generating N together, and satisfying its weighted Fitting containment. -/
+/-- For a noetherian inclusion T⊆T̃, T local and both complete for m_T, a proper nonzero Ĩ⊆T̃, I=Ĩ∩T, K=Frac(T̃) a finite product of local rings with principal maximal ideals and reduced quotient a product of fields, a compact G and continuous ρ:G→GL₂(K), assume characteristic polynomials lie in T[X] and reduce modulo I to (X−χ)(X−ψ), χ≡ψ modulo m_T, and every reduced field-factor representation is irreducible. With an explicit finite T-submodule containing both character differences whose induced topology is m_T-adic, and the finite triangular local input of the weighted-containment theorem, there exist finite N, continuous κ and vectors y_v having all its prescribed local values, generating N together, and satisfying its weighted Fitting containment. -/
 theorem local_ribet_theorem {Tilde B G : Type u} [CommRing Tilde] [CommRing B] [Algebra A Tilde]
     [Algebra Tilde B] [Algebra A B] [IsScalarTower A Tilde B]
     [IsArtinianRing B] [IsPrincipalIdealRing B] [Group G]
@@ -5430,7 +5595,12 @@ theorem local_ribet_theorem {Tilde B G : Type u} [CommRing Tilde] [CommRing B] [
     (hχ : Continuous χ) (hψ : Continuous ψ)
     (hρ : Continuous (fun g : G ↦ ρ (MonoidAlgebra.of A G g)))
     (L : IntegralRibet.LocalData G) (loc : RibetLocalInput ρ χ ψ Itilde L)
-    (σ : ∀ v, L.subgroup v) :
+    (σ : ∀ v, L.subgroup v)
+    (Λ : Submodule A (Matrix (Fin 2) (Fin 2) B)) [Module.Finite A Λ]
+    (hχΛ : IntegralRibet.differenceModule ρ χ ≤ Λ)
+    (hψΛ : IntegralRibet.differenceModule ρ ψ ≤ Λ)
+    (hΛtop : (IsLocalRing.maximalIdeal A).adicModuleTopology Λ =
+      TopologicalSpace.induced (fun x : Λ => (x : Matrix (Fin 2) (Fin 2) B)) inferInstance) :
     ∃ hfin : Module.Finite A (IntegralRibet.localModule L ρ χ ψ),
       letI := hfin
       letI : TopologicalSpace (IntegralRibet.localModule L ρ χ ψ) :=
@@ -5440,7 +5610,14 @@ theorem local_ribet_theorem {Tilde B G : Type u} [CommRing Tilde] [CommRing B] [
           Set.range (IntegralRibet.localVector L ρ χ ψ))=⊤ ∧
         ((Ideal.span {∏ v ∈ Finset.univ.filter (fun v ↦ v ∉ L.sigma),
           ((↑(loc.xi v (σ v)) : Tilde)-algebraMap A Tilde (χ (σ v)))} : Ideal Tilde) *
-          ((TauCeti.fittingIdeal A (IntegralRibet.localModule L ρ χ ψ) 0)).map (algebraMap A Tilde)) ≤ Itilde := sorry
+          ((TauCeti.fittingIdeal A (IntegralRibet.localModule L ρ χ ψ) 0)).map (algebraMap A Tilde)) ≤ Itilde := by
+  have hfin := (IntegralRibet.modules_finite_of_lattice L ρ χ ψ Λ hχΛ hψΛ).2.2.2
+  refine ⟨hfin, ?_⟩
+  let := hfin
+  refine ⟨(IntegralRibet.cocycles_continuous_of_lattice L hAdic hAB.continuous
+    ρ hρ χ ψ hψ Λ hψΛ hΛtop).2, IntegralRibet.localModule_span L ρ χ ψ, ?_⟩
+  exact weighted_fitting_containment hAdic hAB ρ hρ χ ψ hχ hψ Itilde
+    hproper hnonzero hinj hIrr hres hchar L loc σ
 
 /-- Let T be complete reduced noetherian local, I⊆T any ideal, G compact and ρ:G→GL₂(Frac(T)) continuous. Assume every characteristic polynomial lies in T[X], reduces modulo I to (X−χ(g))(X−ψ(g)) for continuous T-unit characters χ,ψ, and every field-factor representation is irreducible. Then there are a finite T-module M and a continuous class in H¹(G,M(χψ⁻¹)) for which every representative cocycle generates M, and Fitt₀_T(M)⊆I. Residual equality and residue characteristic two are allowed. -/
 theorem global_ribet_theorem {B G : Type u} [CommRing B] [Algebra A B] [Group G]
@@ -6246,29 +6423,31 @@ end Nilpotence
 
 namespace Theorems
 variable {A : Type u} [CommRing A]
-/-- Adjugates of relation minors annihilate every generator of a finite module. -/
-theorem fitting_zero_le_annihilator {M : Type u} [AddCommGroup M] [Module A M]
-    [Module.Finite A M] : TauCeti.fittingIdeal A M 0 ≤ Module.annihilator A M := sorry
+/-- PadicMeasuresIwasawaAlgebras §4.5 supplies `TauCeti.fittingIdeal_le_annihilator`
+in TauCeti/RingTheory/FittingIdeal, for finite modules over arbitrary commutative rings.
+`fittingIdeal_le_annihilator_cyclic`: the cyclic annihilator is its defining ideal. -/
 example : Module.annihilator ℤ (ZMod 6) = Ideal.span {(6 : ℤ)} := sorry
+/-- `fittingIdeal_le_annihilator_strict`: the inclusion can be strict. -/
 example : TauCeti.fittingIdeal ℤ (ZMod 2 × ZMod 2) 0 = Ideal.span {(4 : ℤ)} ∧
     Module.annihilator ℤ (ZMod 2 × ZMod 2) = Ideal.span {(2 : ℤ)} := sorry
-example : TauCeti.fittingIdeal A (Fin 0 → A) 0 = Module.annihilator A (Fin 0 → A) := sorry
+/-- `fittingIdeal_le_annihilator_zero`: both ideals are the unit ideal. -/
+example : TauCeti.fittingIdeal A (Fin 0 → A) 0 = ⊤ ∧
+    Module.annihilator A (Fin 0 → A) = ⊤ := sorry
 end Theorems
 
 
 namespace Determinant
 variable {A R : Type u} [CommRing A] [Ring R] [Algebra A R]
-/-- Grothendieck, Brauer I, Theorem 5.1 (ii) ⇔ (iii), on an affine base.
-A finite affine étale covering can be combined into one faithfully flat étale algebra. -/
-theorem exists_etale_matrix_splitting [IsAzumaya A R] (d : ℕ) (hd : 0 < d)
-    (hrank : Module.rankAtStalk (R := A) R = (d * d : ℕ)) :
-    ∃ B : CommAlgCat.{u} A, Algebra.Etale A B ∧ Module.FaithfullyFlat A B ∧
-      Nonempty ((B ⊗[A] R) ≃ₐ[B] Matrix (Fin d) (Fin d) B) := sorry
-
+/-- SchemeAndStackFoundations §2.22 supplies `IsAzumaya.exists_etale_matrix_splitting`,
+including the finite affine cover adapter, in the neutral ring-theory API.
+These are its determinant-consumer checks (Brauer I, Theorem 5.1, p.210).
+`exists_etale_matrix_splitting_matrix`: split matrices admit the required cover. -/
 example (d : ℕ) (hd : 0 < d) :
     ∃ B : CommAlgCat.{u} A, Algebra.Etale A B ∧ Module.FaithfullyFlat A B ∧
       Nonempty ((B ⊗[A] Matrix (Fin d) (Fin d) A) ≃ₐ[B] Matrix (Fin d) (Fin d) B) := sorry
+/-- `exists_etale_matrix_splitting_quaternion_complex`: extension splits Hamilton quaternions. -/
 example : Nonempty ((ℂ ⊗[ℝ] Quaternion ℝ) ≃ₐ[ℂ] Matrix (Fin 2) (Fin 2) ℂ) := sorry
+/-- `exists_etale_matrix_splitting_quaternion_real`: splitting need not exist over the base. -/
 example : ¬ Nonempty (Quaternion ℝ ≃ₐ[ℝ] Matrix (Fin 2) (Fin 2) ℝ) := sorry
 end Determinant
 
@@ -7918,5 +8097,115 @@ example : HeckeImage.actionGhostKernel (Fixtures.degreeZero A) (Fixtures.scalarD
 example : HeckeImage.imageGhostIdeal (Fixtures.degreeZero A) (Fixtures.scalarDerived A) = ⊥ := sorry
 end Derived
 end MoreBoundaryChecks
+
+
+namespace AcceptanceChecks
+open IntegralRibet
+
+/-- `modules_finite_of_lattice_zero`: scalar differences and the empty local quotient vanish. -/
+example {A G : Type u} [CommRing A] [IsNoetherianRing A] [Group G] (ψ : G →* Aˣ) :
+    Module.Finite A (localModule (Fixtures.emptyLocal G) (Fixtures.scalarRepresentation ψ) ψ ψ) ∧
+    Subsingleton (localModule (Fixtures.emptyLocal G) (Fixtures.scalarRepresentation ψ) ψ ψ) := sorry
+
+/-- `modules_finite_of_lattice_unipotent`: a finite lattice permits a nonzero free quotient. -/
+example : Module.Finite ℤ (initialModule Fixtures.upperUnipotent 1 1) ∧
+    Nonempty (initialModule Fixtures.upperUnipotent 1 1 ≃ₗ[ℤ] ℤ) := sorry
+
+/-- `modules_finite_of_lattice_finite_extension`: finite coefficient extensions supply containment. -/
+example {A B G : Type u} [CommRing A] [IsNoetherianRing A] [CommRing B] [Algebra A B]
+    [Module.Finite A B] [Group G] (L : LocalData G)
+    (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B) (χ ψ : G →* Aˣ) :
+    Module.Finite A (localModule L ρ χ ψ) := by
+  let : Module.Finite A (Matrix (Fin 2) (Fin 2) B) := by
+    change Module.Finite A (Fin 2 → Fin 2 → B)
+    infer_instance
+  exact (modules_finite_of_lattice L ρ χ ψ ⊤ le_top le_top).2.2.2
+
+/-- `modules_finite_of_lattice_infinite_residue`: coefficient functionals detecting infinitely
+many quotient classes exclude finite generation, as in the exponent-one extension example. -/
+example {A B G : Type u} [CommRing A] [IsLocalRing A] [CommRing B] [Algebra A B] [Group G]
+    (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B) (ψ : G →* Aˣ)
+    (δ : ℕ → differenceModule ρ ψ)
+    (ℓ : ℕ → differenceModule ρ ψ →ₗ[A] A ⧸ IsLocalRing.maximalIdeal A)
+    (hprod : ∀ i x, x ∈ productInside ρ ψ ψ → ℓ i x = 0)
+    (hδ : ∀ i j, ℓ i (δ j) = if i = j then 1 else 0) :
+    ¬ Module.Finite A (localModule (Fixtures.emptyLocal G) ρ ψ ψ) := sorry
+
+/-- `cocycles_continuous_of_lattice_discrete_obstruction`: an m-annihilated quotient is discrete;
+nonzero cocycle values along a sequence tending to the identity prevent continuity. -/
+example {A B G : Type u} [CommRing A] [IsLocalRing A] [CommRing B] [Algebra A B] [Group G]
+    [TopologicalSpace G] (L : LocalData G)
+    (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B) (χ ψ : G →* Aˣ)
+    (hm : IsLocalRing.maximalIdeal A • (⊤ : Submodule A (localModule L ρ χ ψ)) = ⊥)
+    (e : ℕ → G) (he : Filter.Tendsto e Filter.atTop (nhds 1))
+    (hne : ∀ i, localCocycle L ρ χ ψ (e i) ≠ 0) :
+    letI : TopologicalSpace (localModule L ρ χ ψ) :=
+      (IsLocalRing.maximalIdeal A).adicModuleTopology _
+    ¬ Continuous (localCocycle L ρ χ ψ) := sorry
+
+/-- `global_difference_lattice_inseparable_trace`: in characteristic two the quadratic image
+algebra has zero trace pairing, even when t has no square root in the fraction field. -/
+example {k : Type u} [Field k] [CharP k 2] (t a b c d : k) :
+    let J : Matrix (Fin 2) (Fin 2) k := !![0,t;1,0]
+    J * J = t • (1 : Matrix (Fin 2) (Fin 2) k) ∧
+      Matrix.trace ((a • (1 : Matrix (Fin 2) (Fin 2) k) + b • J) *
+        (c • (1 : Matrix (Fin 2) (Fin 2) k) + d • J)) = 0 := sorry
+
+/-- `global_difference_lattice_nonsquare`: a nonsquare companion matrix has no invariant line,
+including in characteristic two; ordinary irreducibility does not force a nonzero trace pairing. -/
+example {k : Type u} [Field k] [CharP k 2] (t : k) (ht : ∀ x : k, x^2 ≠ t)
+    (v : Fin 2 → k) (hv : v ≠ 0) (a : k) :
+    (!![0,t;1,0] : Matrix (Fin 2) (Fin 2) k).mulVec v ≠ a • v := sorry
+
+/-- `global_difference_lattice_specialization`: the original global hypotheses supply both
+new local inputs, with no finite-extension or separability assumption. -/
+example {A B G : Type u} [CommRing A] [CommRing B] [Algebra A B] [Group G]
+    [IsLocalization (nonZeroDivisors A) B] [IsLocalRing A] [IsNoetherianRing A]
+    [IsReduced A] [IsAdicComplete (IsLocalRing.maximalIdeal A) A]
+    [TopologicalSpace A] [TopologicalSpace B] [IsTopologicalRing B]
+    (hAdic : IsAdic (IsLocalRing.maximalIdeal A))
+    (hAB : Topology.IsEmbedding (algebraMap A B))
+    (ρ : MonoidAlgebra A G →ₐ[A] Matrix (Fin 2) (Fin 2) B) (χ ψ : G →* Aˣ)
+    (hIrr : Theorems.RibetIrreducible ρ)
+    (hcoeff : ∀ g, ∃ P : A[X], P.map (algebraMap A B) =
+      Matrix.charpoly (ρ (MonoidAlgebra.of A G g))) :
+    ∃ Λ : Submodule A (Matrix (Fin 2) (Fin 2) B), Module.Finite A Λ ∧
+      differenceModule ρ χ ≤ Λ ∧ differenceModule ρ ψ ≤ Λ ∧
+      (IsLocalRing.maximalIdeal A).adicModuleTopology Λ =
+        TopologicalSpace.induced (fun x : Λ => (x : Matrix (Fin 2) (Fin 2) B)) inferInstance := by
+  obtain ⟨Λ, hfin, hχ, hψ⟩ := Theorems.global_difference_lattice ρ χ ψ hIrr hcoeff
+  let := hfin
+  exact ⟨Λ, hfin, hχ, hψ, fraction_lattice_topology hAdic hAB Λ⟩
+
+/-- `adic_quotient_topology_two`: the quotient of 2-adic integers by four has its quotient topology. -/
+example :
+    (Ideal.span {(2 : ℤ)}).adicModuleTopology (ℤ ⧸ Ideal.span {(4 : ℤ)}) =
+      TopologicalSpace.coinduced (Ideal.span {(4 : ℤ)}).mkQ
+        ((Ideal.span {(2 : ℤ)}).adicModuleTopology ℤ) :=
+  adic_quotient_topology (Ideal.span {(2 : ℤ)}) (Ideal.span {(4 : ℤ)})
+
+/-- `compact_determinant_gluing_noncompact`: the actual supplier applies to discrete infinite ℤ. -/
+example (D : Determinant (ZMod 2) (MonoidAlgebra (ZMod 2) (Multiplicative ℤ)) 1)
+    (hD : D.IsContinuous) :
+    ¬ CompactSpace (Multiplicative ℤ) ∧
+    ∃! E : Determinant (ZMod 2) (MonoidAlgebra (ZMod 2) (Multiplicative ℤ)) 1,
+      E.IsContinuous ∧ ∀ _i : Unit, E.mapCoefficients (RingHom.id (ZMod 2)) = D := by
+  refine ⟨?_, ?_⟩
+  · sorry
+  · exact Theorems.compact_determinant_gluing Unit (fun _ => ZMod 2)
+      (fun _ => RingHom.id _) (by intro a b h; exact congrFun h ())
+      (fun _ => continuous_id) (fun _ => D) (fun _ => hD)
+      Set.univ dense_univ (by intro g _ k; exact ⟨_, fun _ => rfl⟩)
+
+/-- `determinant_noncompact_witness`: witness reconstruction uses the same general supplier. -/
+example (W : Interpolation.CongruenceWitness (ZMod 2) (Multiplicative ℤ)
+    (Multiplicative ℤ) 1 id) :
+    ¬ CompactSpace (Multiplicative ℤ) ∧ W.determinant.IsContinuous ∧
+      ∀ i, W.determinant.mapCoefficients (algebraMap (ZMod 2) (W.coefficient i)) =
+        W.classical i := by
+  refine ⟨?_, W.determinant_continuous, W.determinant_classical⟩
+  sorry
+
+end AcceptanceChecks
 
 end TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants

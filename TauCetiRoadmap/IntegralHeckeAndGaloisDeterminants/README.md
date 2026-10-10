@@ -73,15 +73,21 @@ exact declarations are listed under *Exact supplier contracts*.
   supplies bounded-action building fixed points and the passage, after finite field extension and
   conjugation, to a hyperspecial integral model.
 - **SmoothRepresentationsOfLocalGroups** (SR.4, SR.6) supplies the integral spherical double-coset
-  generators, normalised Satake, the `GSp₄` spin polynomial and the excursion algebra; the explicit
-  coefficient comparisons are proved here.
+  generators, normalised Satake, the `GSp₄` spin polynomial and the generic invariant-word colimit and its twisted excursion applications. The trivial-action
+  comparison with the pseudocharacter representing ring, its evaluations, and the GL determinant
+  comparison are proved here; a finite Weil action is retained in the twisted theory.
 - **ClassFieldTheory** (layer 7) supplies local Artin reciprocity with an explicit Frobenius
   normalisation and its inverse conversion; **Chebotarev** (layer 10) supplies the density of
   conjugacy classes of unramified Frobenius in every finite quotient of `G_{F,S}`.
 - **ProfiniteCohomology** (layer 2) supplies explicit continuous cochains, 1-cocycles,
   coboundaries and `H¹`; **ModularForms** (layer 9) supplies the classical Hecke polynomial
-  `X²−a_ℓX+ω(ℓ)ℓ^{k−1}`; **AlgebraicVectorBundles** (L0C) supplies the invertible top exterior
-  power at constant rank.
+  `X²−a_ℓX+ω(ℓ)ℓ^{k−1}`; **PadicMeasuresIwasawaAlgebras** (§5.1) supplies the ring-level
+  finite-projective determinant-line API; AlgebraicVectorBundles L0C sheafifies it.
+- **SchemeAndStackFoundations** (§2.22) owns affine Azumaya étale splitting and the
+  finite-cover-to-one-faithfully-flat-étale-algebra adapter in the neutral `IsAzumaya` API.
+  The reduced-norm polynomial law is owned here.
+- **PadicMeasuresIwasawaAlgebras** (§4.5) owns `TauCeti.fittingIdeal_le_annihilator` in
+  `TauCeti/RingTheory/FittingIdeal`; the Ribet consequences are owned here.
 
 Tau Ceti's `HeckeRing.GL2.Newform.satakeParameters` carries the classical rank-two polynomial
 `X²−a_pX+χ(p)p^(k−1)` over `ℂ`; the rank-two normalisation in Layer IHG.3a only matches coefficient
@@ -98,7 +104,7 @@ Calegari–Geraghty normalisation, `SpinPolynomial`, `SpinPolynomial.reciprocal`
 SR.4, whose `gln-generators` is the hypothesis of the `GLₙ` product formula; the excursion algebra
 of SR.6; the henselian and artinian interfaces
 `IsAdicComplete.henselianRing` and `IsArtinianRing.equivPi`; the invertible top exterior power at
-constant rank (AlgebraicVectorBundles, L0C); conjugacy
+constant rank (PadicMeasuresIwasawaAlgebras, §5.1); conjugacy
 of algebra isomorphisms over a field (Tau Ceti `exists_unit_conj_of_algEquiv`; SemisimpleAlgebras,
 layer 5); arithmetic and geometric Frobenius and the Artin map (ClassFieldTheory, layer 7,
 `geometricArtinMap`, `isArithFrobeniusLift_of_mk_eq_artinMap_uniformizer`); the Hecke polynomial
@@ -436,12 +442,31 @@ inverse conversion (`geometricArtinMap`, `isArithFrobeniusLift_of_mk_eq_artinMap
 reciprocity is consumed from here, not from SR.4. Chebotarev layer 10: density of conjugacy
 classes of unramified Frobenius in every finite quotient of `G_{F,S}`.
 
-### From TauCetiRoadmap.ModularForms and TauCetiRoadmap.AlgebraicVectorBundles
+### From TauCetiRoadmap.ModularForms and TauCetiRoadmap.PadicMeasuresIwasawaAlgebras
 
 ModularForms layer 9: the Hecke polynomial `X²−a_ℓX+ω(ℓ)ℓ^{k−1}` of a normalised eigenform, the
-classical half of the rank-two normalisation of Layer IHG.3a. AlgebraicVectorBundles L0C: the
-invertible top exterior power at constant rank, the library half of the finite projective
-determinant of Layer IHG.0.
+classical half of the rank-two normalisation of Layer IHG.3a.
+[PadicMeasuresIwasawaAlgebras §5.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4c2b687410d8df022e1212fdf22129450963d696/TauCetiRoadmap/PadicMeasuresIwasawaAlgebras/README.md#51-determinant-lines-of-perfect-complexes)
+supplies `projectiveDeterminant`, `projectiveDeterminant_constantRank`,
+`projectiveDeterminant_baseChange` and the exterior-map formula on finite projective modules.
+The degree-`d` multiplicative polynomial law on endomorphisms is the additional construction here.
+AlgebraicVectorBundles L0C consumes that ring-level foundation for sheaf determinants.
+
+[PadicMeasuresIwasawaAlgebras §4.5](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4c2b687410d8df022e1212fdf22129450963d696/TauCetiRoadmap/PadicMeasuresIwasawaAlgebras/README.md#45-the-iwasawa-coordinate-and-the-initial-fitting-ideal)
+supplies `TauCeti.fittingIdeal_le_annihilator` on the existing `TauCeti.fittingIdeal` carrier:
+for a commutative ring `A` and `[Module.Finite A M]`, `fittingIdeal A M 0 ≤ Module.annihilator A M`.
+Its implementation belongs to `TauCeti/RingTheory/FittingIdeal`, without finite-presentation
+hypotheses. This is the common bound consumed by Ribet and Iwasawa theory.
+
+### From TauCetiRoadmap.SchemeAndStackFoundations
+
+[SchemeAndStackFoundations §2.22](https://github.com/TauCetiProject/TauCetiRoadmap/blob/94dae83ded2e18c604ce405d00e059692ea7673b/TauCetiRoadmap/SchemeAndStackFoundations/README.md#222-sheaves-of-algebras-azumaya-algebras-and-the-brauer-group-of-a-scheme)
+owns the affine splitting content of `azumaya_affine_iff` and `azumaya_equivalent_conditions`.
+Its ring-level supplier is `IsAzumaya.exists_etale_matrix_splitting`: for `IsAzumaya A R`,
+`d>0` and `rankAtStalk R=d²`, it returns an étale faithfully flat commutative `A`-algebra `B`
+and `B⊗_A R ≃ₐ[B] M_d(B)`. The same owner combines a finite affine étale splitting cover
+into that single algebra. Both the sheaf equivalence and the reduced-norm construction consume
+this neutral ring-theory result; neither needs an import of the other's whole development.
 
 The matrix action uses `Matrix.toLinAlgEquiv'` in
 `Mathlib/LinearAlgebra/Matrix/ToLin.lean`, followed by `Module.compHom` restriction of
@@ -1110,7 +1135,8 @@ multiplication by `D_ρ(r)`), `Determinant.ofFiniteProjective_basis` (for a fini
 equals `det` of the corresponding matrix representation) and
 `Determinant.ofFiniteProjective_baseChange` (scalar extension of `V` and `ρ` commutes with `D_ρ`)
 ([Chenevier](https://arxiv.org/pdf/0809.0415v2), §1.5 matrix example and its local finite-projective extension,
-p.9). *Needs:* Mathlib `exteriorPower.map`,
+p.9). *Needs:* PadicMeasuresIwasawaAlgebras §5.1 `projectiveDeterminant_constantRank`
+and `projectiveDeterminant_baseChange`, Mathlib `exteriorPower.map`,
 The determinant of a matrix representation.
 
 **Checks.**
@@ -1134,16 +1160,19 @@ splittings differ by an automorphism of a matrix algebra, which preserves the de
 `Determinant.ofAzumaya_unique` (every degree-`d` determinant on `R` equals the reduced norm)
 ([Chenevier](https://arxiv.org/pdf/0809.0415v2), Example 1.7(ii), p.10 and Example 2.5, p.24;
 [Grothendieck](http://www.numdam.org/item/SB_1964-1966__9__199_0.pdf), Théorème 5.1 and §5, pp.208–211, for the étale-local matrix
-splitting and the reduced norm). *Needs:* Faithfully flat matrix splitting of an Azumaya algebra,
+splitting and the reduced norm). *Needs:* SchemeAndStackFoundations §2.22 `IsAzumaya.exists_etale_matrix_splitting`,
 Determinant coordinate ring,
 The determinant of a matrix representation.
 
-`Determinant.exists_etale_matrix_splitting` states the splitting used here explicitly: for
+The supplier `IsAzumaya.exists_etale_matrix_splitting` from SchemeAndStackFoundations §2.22
+states the splitting used here: for
 `IsAzumaya A R`, positive `d`, and constant rank `d²`, there is a faithfully flat étale
 commutative `A`-algebra `B` with `B⊗R ≃ M_d(B)` (Grothendieck, *Le groupe de Brauer I*,
-Theorem 5.1(ii)–(iii), p.210). Finitely many affine étale charts combine into one such algebra.
-Its Checks are the split matrix algebra, `ℂ⊗_ℝ ℍ ≃ M₂(ℂ)`, and the absence of an
-`ℝ`-algebra isomorphism `ℍ ≃ M₂(ℝ)`, all mirrored in Lean.
+Theorem 5.1(ii)–(iii), p.210). The same supplier combines finitely many affine étale charts into one such algebra.
+Its Checks, mirrored by named Lean examples, are the split matrix algebra
+(`exists_etale_matrix_splitting_matrix`), `ℂ⊗_ℝ ℍ ≃ M₂(ℂ)`
+(`exists_etale_matrix_splitting_quaternion_complex`), and the absence of an
+`ℝ`-algebra isomorphism `ℍ ≃ M₂(ℝ)` (`exists_etale_matrix_splitting_quaternion_real`).
 
 **Checks.**
 
@@ -1473,6 +1502,37 @@ uniquely specifies descent for a normal `Δ` contained in the evaluation kernel.
 | `mergeLast` | `(2,3)` gives `(6)` and `(2,3,5)` gives `(2,15)` (`merge_numeric`); for the noncommuting matrix pair in `ordered_products`, reversing the final pair changes the tested trace from `5` to `4`. |
 | Newton and cycle signs | For `M=[[2,3],[4,5]]`, `2det(M)=49−53=−4` (`newton_two`). The two-permutation sum for the identity trace at `(2,3)` is `6−6=0` (`cycle_sign`); starting the swap cycle at opposite matrix units gives `E₀₀` and `E₁₁` (`cycle_order`). |
 
+**Untwisted excursion comparison.** SR.6.3 owns the generic colimit of invariant coordinate
+rings over finite free-group maps, with every word-substitution relation. Its imported API is
+`ExcursionAlgebra.algebra`, `generator`, `generator_words`, `algebra_universal` and
+`comparison_generator` in SmoothRepresentationsOfLocalGroups/Suggested.lean. It also owns
+the finite-Weil-action applications. Here `ReductivePseudocharacter.universalRing` represents
+compatible pseudocharacter evaluations; the common trivial-action specialization is identified
+by `ReductivePseudocharacter.excursionEquiv`. No identification with a nontrivial twisted
+Weil action is asserted. The comparison uses the supplier's `Type` universe; the intrinsic
+pseudocharacter API retains its existing universe generality.
+
+For a commutative base `O`, an affine group Hopf algebra `C`, and `n≥0`, define
+`ReductivePseudocharacter.untwistedFreeCoordinates C n` from `C.ring n` to the gauge-invariant
+coordinate ring of trivial-action `F_n`-cocycles. Prove `untwistedFreeCoordinates_evaluate`:
+over every coefficient algebra `S`, evaluation at a cocycle is tensor evaluation at its free
+basis values. Define `excursionEquiv` for a group `Γ` and the trivial `Γ`-action on `C`;
+`excursionEquiv_generator` sends the excursion indexed by `(n,γ,f)` to the universal
+pseudocharacter's `θ_n(f)(γ)`. `excursionEquiv_evaluate` identifies every map to a coefficient
+algebra with its represented pseudocharacter and commutes with coefficient postcomposition.
+These targets apply the free-group cocycle universal property and the colimit property to
+[Quast §3.6–3.7, Proposition 3.19 and Theorem 3.20, pp.19–20](https://www.julianquast.de/files/Deformations_of_G-valued_Pseudocharacters.pdf) and SR.6.3; no reductivity is needed.
+*Needs:* SR.6.3 `CocycleScheme.points`, `CocycleScheme.invariantPullback`,
+`ExcursionAlgebra.algebra_universal`, `universalRing_equiv_natural`.
+
+**Checks.** For `untwistedFreeCoordinates`, the empty tuple preserves the scalar `7`
+(`untwistedFreeCoordinates_empty`); one coordinate evaluates at the chosen free generator
+(`untwistedFreeCoordinates_single`); swapping two coordinates swaps their actual point values
+(`untwistedFreeCoordinates_swap`). For `excursionEquiv`, coefficients preserve `7`
+(`excursionEquiv_scalar`), the empty scalar excursion is `1` (`excursionEquiv_empty`), and
+the product-word excursion in a two-element tuple maps to the universal singleton evaluation at `gh`
+(`excursionEquiv_product_word`). These six Checks are mirrored by named `example` docstrings.
+
 ### Examples
 
 The checks of this layer return to a small set of objects. The matrix algebra `M_d(A)` with `det`
@@ -1515,7 +1575,7 @@ polynomial-law carrier `PolynomialLaw` with `PolynomialLaw.id`, `PolynomialLaw.c
 `IsOpen`, `HopfAlgebra` and `CategoryTheory.Abelian`. From Tau Ceti it uses `TauCeti.Comodule`,
 `TauCeti.Comodule.fixedSubcomodule` and `TauCeti.Comodule.cofree`. From the roadmaps it uses
 ReductiveGroups layer 9 (the split reductive group schemes and their Hopf algebras) and the
-top exterior power at constant rank from AlgebraicVectorBundles, with Mathlib `IsAzumaya`
+top exterior power at constant rank from PadicMeasuresIwasawaAlgebras §5.1, with Mathlib `IsAzumaya`
 for the reduced-norm input.
 
 ## Layer 3a: Hecke polynomial and multiplier conventions
@@ -2354,7 +2414,8 @@ excursion pseudocharacters, Semisimple reconstruction of field determinants.
 
 **Universal reductive pseudocharacter ring.** For `Γ` and the actual Hopf-coordinate input `H/O`, define
 `ReductivePseudocharacter.universalRing` as `B_H^Γ`, the colimit of `O[H^m]^H` over free-group
-maps `F_m → Γ`, the invariant-word colimit. Prove `ReductivePseudocharacter.universalRing_equiv`
+maps `F_m → Γ`, using SR.6.3’s generic invariant-word colimit and the trivial-action
+`ReductivePseudocharacter.excursionEquiv` above. Prove `ReductivePseudocharacter.universalRing_equiv`
 (`Hom_O(B_H^Γ, A) ≃ PC_H^Γ(A)`: `O`-algebra maps `B_H^Γ → A` are exactly `H`-pseudocharacters
 with values in `A`). The algebraic completion at a supplied ideal `m` is Mathlib
 `AdicCompletion m (ReductivePseudocharacter.universalRing G C)`; no local wrapper is needed. The representing-ring target
@@ -2886,23 +2947,33 @@ characteristic polynomials on group elements determine the law, including its va
 Sources: [Chenevier, Lemma 1.12(ii), p.12 and §2.30, p.37](https://arxiv.org/pdf/0809.0415v2);
 [Scholze, Corollary 5.1.10, p.1037](https://annals.math.princeton.edu/wp-content/uploads/annals-v182-n3-p03-p.pdf).
 
-**Compact coefficient-ring gluing.** `Theorems.compact_determinant_gluing` takes compact `G`,
+**Compact coefficient-ring gluing.** `Theorems.compact_determinant_gluing` takes any group `G` with a topology,
 compact Hausdorff `A`, any family of Hausdorff coefficient rings `B_i`, continuous ring maps
 `φ_i : A → B_i` that are jointly injective, continuous degree-`d` laws `D_i`, and a dense set
 `S ⊆ G`. For every `g ∈ S` and coefficient index `k`, assume there is one `a ∈ A` mapping to
 all the `k`th coefficients. There is a unique continuous law over `A` extending to every `D_i`.
 The family can be infinite or empty; an empty jointly injective family forces `A` to be the
-zero ring. Closedness of the coefficient image and the integral Amitsur formula give descent.
+zero ring. Compactness of `A` makes its continuous injection into the Hausdorff product
+a closed embedding. Density and continuity of the characteristic coefficients then give
+integrality on all of `G`; the integral Amitsur formula gives algebraic descent. These steps
+impose no compactness hypothesis on `G`.
 Source: [Chenevier, Example 2.32 and Corollary 1.14, pp.38 and 14](https://arxiv.org/pdf/0809.0415v2).
 
 **Gluing over an intersection of quotient ideals.** `Theorems.intersection_determinant_gluing`
 specializes this to `A/(I∩J) → A/I × A/J`. Require compact Hausdorff `A/(I∩J)`, Hausdorff
-`A/I,A/J`, continuous canonical maps, compact `G`, continuous laws on the two quotients, and
+`A/I,A/J`, continuous canonical maps, any group `G` with a topology, continuous laws on the two quotients, and
 simultaneous coefficient lifts on a dense subset of `G`. Its unique continuous law reduces to
 both input laws. Agreement after passing to reduced rings is insufficient. The case `I=J`
 recovers the same law; `I=⊤` discards the zero-ring component; comaximal ideals allow arbitrary
 pairs by the Chinese remainder theorem. Source: the preceding gluing result, applied in
 [Scholze, proof of Corollary 5.1.11, p.1038](https://annals.math.princeton.edu/wp-content/uploads/annals-v182-n3-p03-p.pdf).
+
+**Checks.** `compact_determinant_gluing_noncompact` applies the actual gluing theorem to
+`G=ℤ` with its discrete topology and the identity coefficient map on `𝔽₂`; `ℤ` is not compact.
+`determinant_noncompact_witness` applies `CongruenceWitness.determinant` to that same source
+and checks continuity and equality with every classical quotient law. The construction calls
+`compact_determinant_gluing` on the conjugacy-saturated Frobenius set, retaining compact
+Hausdorff coefficients and full polynomial-law descent.
 
 ### 4.2 Finite-quotient witnesses and interpolation
 
@@ -3195,8 +3266,8 @@ group-cohomology functoriality.
 
 ## Layer 6: integral Ribet modules and Fitting ideals
 
-Fitting ideals are Tau Ceti's `TauCeti.fittingIdeal`. The layer proves the annihilator bound
-`Fitt₀_A(M) ⊆ Ann_A(M)` for finite modules from relation minors and the adjugate identity. The layer constructs the cocycle module and its local quotient,
+Fitting ideals are Tau Ceti's `TauCeti.fittingIdeal`. PadicMeasuresIwasawaAlgebras §4.5 supplies
+the general finite-module annihilator bound `Fitt₀_A(M) ⊆ Ann_A(M)`. The layer constructs the cocycle module and its local quotient,
 then proves the weighted Fitting containment through stabilized relation minors. The proof uses
 integral scheme invariants and two explicit relation complexes, with generic regularity providing
 exactness only for the upper-entry complex. The local and global extension theorems are assembled
@@ -3234,16 +3305,17 @@ and `ribet_trivial_group_refutes_global` record this).
 fraction-ring hypothesis were omitted, every assertion about field quotients of that zero ring
 would be vacuous; `¬ IsLocalization (nonZeroDivisors ℤ) (ZMod 1)` excludes this case.
 
-**Fitting annihilator bound.** `Theorems.fitting_zero_le_annihilator` states
+**Fitting annihilator bound.** The supplier `TauCeti.fittingIdeal_le_annihilator`, owned by
+PadicMeasuresIwasawaAlgebras §4.5, states
 `Fitt₀_A(M) ⊆ Ann_A(M)` for a finite module over a commutative ring, without a finite-presentation
-hypothesis ([Stacks](https://stacks.math.columbia.edu/tag/07ZA), Lemma 15.8.4(6), tag 07ZA). Adjugates of finite relation minors give the bound.
-*Needs:* Tau Ceti `fittingIdeal`, Mathlib `Module.annihilator`.
+hypothesis ([Stacks](https://stacks.math.columbia.edu/tag/07ZA), Lemma 15.8.4(6), tag 07ZA). The supplier proves the bound using adjugates of finite relation minors.
+*Needs:* PadicMeasuresIwasawaAlgebras §4.5, Tau Ceti `fittingIdeal`, Mathlib `Module.annihilator`.
 
 **Checks.**
 
-- `Ann_ℤ(ℤ/6)=(6)`.
-- `Fitt₀_ℤ((ℤ/2)²)=(4)` while its annihilator is `(2)`, so equality is not asserted.
-- For the zero module both ideals are the unit ideal.
+- `fittingIdeal_le_annihilator_cyclic`: `Ann_ℤ(ℤ/6)=(6)`.
+- `fittingIdeal_le_annihilator_strict`: `Fitt₀_ℤ((ℤ/2)²)=(4)` while its annihilator is `(2)`.
+- `fittingIdeal_le_annihilator_zero`: for the zero module both ideals are the unit ideal.
 
 ### 6.1 Character differences and the Ribet cocycle
 
@@ -3344,14 +3416,85 @@ is no `v₀` relation and no `y_v`. Prove `IntegralRibet.localCocycle_restrictio
   `N ≅ A y_{v₁}`; the cocycle alone does not generate `N`, so a definition of `N` as the span of
   `κ(G)` alone, or a span lemma without the `y_v`, would fail.
 
-**Finite and continuous Ribet modules.** Under the standing hypotheses of this layer, prove that
-the continuous representation `ρ` of the compact group `G`
-has `Δψ` and `Δχ` contained in a finitely generated `T`-submodule of `M₂(K)`; therefore `Δψ`, `M₀`
-and `N` are finite `T`-modules, and the displayed cocycles are continuous for their quotient adic
-topologies. The proof establishes a finite `T`-lattice by the `T`-valued trace pairing on the
-character algebra and identifies the quotient adic topology; bounded denominators over `T̃` do not
-prove finite generation over `T` when `T̃` is not finite over `T` ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), §2.1,
-p.9). *Needs:* Ribet module with local conditions.
+**Finite and continuous Ribet modules.** For the canonical local construction over a
+noetherian inclusion `T ⊆ T̃`, supply a finite `T`-submodule `Λ ⊆ M₂(K)` containing both
+`Δχ` and `Δψ`. Require that the topology induced from `M₂(K)` on `Λ` equals its
+`m_T`-adic module topology. These are additional inputs to `Theorems.local_ribet_theorem`;
+`T̃` need not be finite over `T`, the residue field need not be finite, and irreducibility
+is over the reduced field factors, including inseparable characteristic-two representations.
+
+Prove `IntegralRibet.modules_finite_of_lattice`: over noetherian `T`, this containment makes
+`Δχ`, `Δψ`, `M₀` and `N` finite. Prove `IntegralRibet.lattice_submodule_topology`: for any ideal
+`m`, a submodule of a finite module with its induced `m`-adic topology has that same topology
+intrinsically, by [Artin–Rees, Stacks Lemma 10.51.2](https://stacks.math.columbia.edu/tag/00IN).
+Prove `IntegralRibet.adic_quotient_topology`: for any module `M`, ideal `m` and submodule `Q`,
+the `m`-adic topology on `M/Q` is the topology coinduced by `M → M/Q` from the `m`-adic
+topology on `M`; the images of `mⁿM` are `mⁿ(M/Q)`
+([Stacks §10.96](https://stacks.math.columbia.edu/tag/00M9)).
+`IntegralRibet.cocycles_continuous_of_lattice` then gives continuity of both canonical cocycles
+for their intrinsic adic topologies, assuming continuous `ρ`, `ψ`, and `T → K`, an adic topology
+on `T`, and a topological ring `K`. This uses the preceding submodule comparison, scalar
+multiplication and the two quotient maps. The algebraic construction is
+[DKSW §2.1, equations (13)–(14), printed pp.8–9](https://arxiv.org/pdf/2310.16396v2).
+*Needs:* Ribet module with local conditions, Mathlib noetherian submodules and quotient modules.
+
+**Finite orders and the global coefficient ring.** `IntegralRibet.differences_le_order` says
+that an `A`-subalgebra `Ω ⊆ M₂(K)` containing `ρ(G)` contains both character difference
+modules. An arithmetic use of a finite coefficient order must establish `Module.Finite A Ω`,
+containment of `ρ(G)`, and equality of the induced and adic topologies on `Ω`; compactness
+alone supplies none of these three inputs over an arbitrary extension.
+
+For the global case `K=Frac(T)` with `T` complete reduced noetherian local, prove
+`Theorems.global_difference_lattice`: if each field-factor representation is irreducible
+and all characteristic polynomials lie in `T[X]`, both difference modules lie in a finite
+`T`-submodule of `M₂(K)`. This is an algebraic boundedness theorem, independent of compactness.
+Its proof decomposes `K` into its finitely many field factors. The image algebra on a
+two-dimensional irreducible factor is either the full matrix algebra or a quadratic field.
+In the matrix case a basis selected from group elements and the nondegenerate matrix trace
+pairing bound the coefficients by a finite trace-dual module. In the field case the image
+elements are integral over the corresponding domain quotient of `T`; finite normalization
+bounds them even for a purely inseparable quadratic field. Prove the required complete-domain
+case as `Theorems.finite_integralClosure_complete`: the integral closure of a complete
+noetherian local domain in any finite extension of its fraction field is finite, using
+[Stacks Lemmas 10.162.2 and 10.162.8](https://stacks.math.columbia.edu/tag/032E).
+This differs from AlgebraicCurves Layer 2's normalization of `k[X]` by its complete-local base.
+The finite product of these bounds contains the original image and its scalar differences.
+This supplies the boundedness step in [DKSW Theorem 1.1, pp.2–3 and §2.1, pp.8–9](https://arxiv.org/pdf/2310.16396v2).
+
+`IntegralRibet.fraction_lattice_topology` proves the topology input for every finite submodule
+of `M₂(Frac(T))`, assuming `T` noetherian local with its adic topology, a topological ring
+structure on `Frac(T)`, and an embedding `T → Frac(T)`. Clear a common regular denominator
+and use Artin–Rees inside a finite free `T`-module. Thus `T̃=T` supplies both inputs to the
+canonical local theorem without changing the global hypotheses. *Needs:* SemisimpleAlgebras
+layers 2–4, `finite_integralClosure_complete`, `lattice_submodule_topology`.
+
+**Checks.** Each named Check is an `example` in Suggested.lean.
+
+- `modules_finite_of_lattice_zero`: scalar data with no local places give the finite zero module.
+- `modules_finite_of_lattice_unipotent`: integral upper-unipotent data give the finite nonzero
+  quotient `M₀ ≃ ℤ`.
+- `modules_finite_of_lattice_finite_extension`: if the matrix coefficients themselves lie in a
+  finite `A`-algebra, the whole matrix module is a valid finite bound for every local datum.
+- `adic_quotient_topology_two`: the `2`-adic topology on `ℤ/(4)` is the quotient of that on `ℤ`.
+- `global_difference_lattice_specialization`: the unchanged global coefficient hypotheses supply
+  both the finite lattice and its topology comparison by applying their actual suppliers.
+- `global_difference_lattice_inseparable_trace`: in characteristic two, `J=[[0,t],[1,0]]`
+  satisfies `J²=tI₂`, and every product in `k[J]` has matrix trace zero. When `t` is nonsquare,
+  this algebra acts irreducibly, so its finite bound uses normalization instead of trace duality.
+  `global_difference_lattice_nonsquare` checks that no nonzero vector is an eigenvector when
+  `t` is nonsquare, retaining ordinary irreducibility in characteristic two.
+- `modules_finite_of_lattice_infinite_residue`: if functionals `ℓᵢ : Δ → T/m` kill `Δ²`
+  and take values `ℓᵢ(δⱼ)=δᵢⱼ`, the empty-local quotient is not finite. In particular take
+  `k=𝔽₂(u₁,u₂,…)`, `k′=k(a₁,a₂,…)`, `aᵢ²=uᵢ`, `T=k[[t]]`, `T̃=k′[[t]]`,
+  `J=[[0,t],[1,0]]`, and the compact group `∏_{i≥0} ℤ₂` acting by `I₂+J` in coordinate zero
+  and `(1+aᵢtⁱ)I₂` in coordinate `i≥1`, with `χ=ψ=1`. Squarefree monomial weights
+  `w(S)=Σ_{i∈S}i` show that extraction of the `aᵢtⁱ` scalar coefficient kills `Δ²` and
+  separates those differences. Also `tΔ⊆Δ²`. The characteristic polynomials are integral
+  and split modulo `t`, while `J` has no invariant line over `k′((t))`.
+- `cocycles_continuous_of_lattice_discrete_obstruction`: an `m`-annihilated module is discrete
+  for its adic topology. Nonzero canonical cocycle values on a sequence tending to the identity
+  therefore exclude continuity. The coordinate generators in the preceding example give such
+  a sequence. Its infinite quotient cannot satisfy the finite-lattice input.
 
 **Every cocycle representative generates.** Let `(T, m)` be local, `M` a finite `T`-module and
 `α : G → Tˣ` with `α(g) ≡ 1` modulo `m`. Prove that if a cocycle `κ` has `T`-span `M`, every
@@ -4158,7 +4301,8 @@ ideal; this is combined with the vanishing of the altered determinant and the we
 determinant identity ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Proposition 3.3, p.21; §§4.4–4.6). *Needs:* The determinant difference in the formal error ideal, Lifting the invariant error across the full ideal, Invariant intersection with the character error ideal,
 Vanishing of the altered determinant.
 
-**Weighted Fitting containment.** Prove `Theorems.weighted_fitting_containment`. Under exactly Theorem 2.1’s hypotheses, including `χ ≡ ψ`
+**Weighted Fitting containment.** Prove `Theorems.weighted_fitting_containment`. Assume
+`Module.Finite T N` for the prescribed local quotient, together with Theorem 2.1’s hypotheses, including `χ ≡ ψ`
 modulo `m`, local triangularizations `diag(η_v, ξ_v)`, `ξ_v ≡ ψ` on `Σ`, `ξ_v ≡ χ` on `I_v` for
 `v ∈ P`, and chosen `σ_v ∈ G_v`, prove that the finite local quotient `N` satisfies
 
@@ -4167,8 +4311,8 @@ modulo `m`, local triangularizations `diag(η_v, ξ_v)`, `ξ_v ≡ ψ` on `Σ`, 
 ```
 
 The containment is in `T̃`; the local factors need not belong to `T` ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf),
-Theorem 2.1, equation (12), pp.7–8). *Needs:* Finite and continuous Ribet modules,
-Formal determinant comparison.
+Theorem 2.1, equation (12), pp.7–8). Finiteness is a premise of this conditional theorem;
+`modules_finite_of_lattice` supplies it when a finite bound is given. *Needs:* Formal determinant comparison.
 
 The proof-plan edges are as follows; each names the result that supplies it.
 
@@ -4209,10 +4353,14 @@ both complete for `m_T`, a proper nonzero `Ĩ ⊆ T̃`, `I = Ĩ ∩ T`, `K = Fra
 local rings with principal maximal ideals and reduced quotient a product of fields, a compact `G`
 and continuous `ρ : G → GL₂(K)`, assume the characteristic polynomials lie in `T[X]` and reduce
 modulo `I` to `(X − χ)(X − ψ)`, that `χ ≡ ψ` modulo `m_T`, and that every reduced field-factor
-representation is irreducible. With the finite triangular local input of the weighted-containment
-theorem, prove that there exist a finite `N`, a continuous `κ` and vectors `y_v` having all its
+representation is irreducible. Supply a finite `T`-submodule `Λ ⊆ M₂(K)` containing `Δχ` and
+`Δψ`, with its induced topology equal to its `m_T`-adic topology. With the finite triangular
+local input, prove that the prescribed `IntegralRibet.localModule` is finite, and its canonical
+cocycle `κ` is continuous, with vectors `y_v` having all its
 prescribed local values, generating `N` together, and satisfying its weighted Fitting containment
-([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Theorem 2.1, pp.7–8). *Needs:* Weighted Fitting containment.
+([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Theorem 2.1, pp.7–8, and §2.1, pp.8–9, with the finite-lattice and topology inputs stated
+explicitly for the canonical construction). *Needs:* `modules_finite_of_lattice`,
+`cocycles_continuous_of_lattice`, Weighted Fitting containment.
 
 **Irreducibility excludes an exact split determinant.** Under the global Ribet hypotheses with
 `T` nonzero, prove that the congruence ideal `I` cannot be zero: otherwise the determinant on
@@ -4231,7 +4379,10 @@ are a finite `T`-module `M` and a continuous class in `H¹(G, M(χψ⁻¹))` for
 representative cocycle generates `M`, and `Fitt₀_T(M) ⊆ I`; residual equality and residue
 characteristic two are allowed. For `I = T` the proof takes the zero module; `I = 0` is excluded
 by irreducibility; for a proper nonzero ideal it separates the coincident-character construction
-from the distinct-character lattice argument, and only the coincident case uses the Nakayama
+from the distinct-character lattice argument. `global_difference_lattice` and
+`fraction_lattice_topology` supply the canonical theorem’s extra inputs when `T̃=T`; the
+distinct-character upper-entry lattice uses the same boundedness and topology results after
+the chosen change of basis. Only the coincident case uses the Nakayama
 every-representative lemma ([DKSW](https://math.iisc.ac.in/~maheshkakde/rl.pdf), Theorem 1.1, pp.2–3). *Needs:* Ribet extension with all local conditions, Every cocycle representative generates,
 Ribet theory for distinct residual characters, Irreducibility excludes an exact split determinant.
 
