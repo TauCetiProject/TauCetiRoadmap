@@ -83,7 +83,9 @@ exact declarations are listed under *Exact supplier contracts*.
   coboundaries and `H¹`; **ModularForms** (layer 9) supplies the classical Hecke polynomial
   `X²−a_ℓX+ω(ℓ)ℓ^{k−1}`; **PadicMeasuresIwasawaAlgebras** (§5.1) supplies the ring-level
   finite-projective determinant-line API; AlgebraicVectorBundles L0C sheafifies it.
-- **SchemeAndStackFoundations** (§2.22) owns affine Azumaya étale splitting and the
+- **SchemeAndStackFoundations** (§0.20) owns `IsJapanese.of_complete_local` and
+  `IsNagata.of_complete_local`, including finite normalization in inseparable extensions;
+  §2.22 owns affine Azumaya étale splitting and the
   finite-cover-to-one-faithfully-flat-étale-algebra adapter in the neutral `IsAzumaya` API.
   The reduced-norm polynomial law is owned here.
 - **PadicMeasuresIwasawaAlgebras** (§4.5) owns `TauCeti.fittingIdeal_le_annihilator` in
@@ -460,12 +462,25 @@ hypotheses. This is the common bound consumed by Ribet and Iwasawa theory.
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 
-[SchemeAndStackFoundations §2.22](https://github.com/TauCetiProject/TauCetiRoadmap/blob/94dae83ded2e18c604ce405d00e059692ea7673b/TauCetiRoadmap/SchemeAndStackFoundations/README.md#222-sheaves-of-algebras-azumaya-algebras-and-the-brauer-group-of-a-scheme)
+[SchemeAndStackFoundations §0.20](https://github.com/TauCetiProject/TauCetiRoadmap/blob/2a5f34f36fd23d27dd9eaa4a2c69a12d857213fe/TauCetiRoadmap/SchemeAndStackFoundations/README.md#020-japanese-and-nagata-rings)
+supplies `Ring.IsJapanese`, `Ring.IsNagata`, `IsJapanese.of_complete_local` and
+`IsNagata.of_complete_local` in the neutral ring-level API. For a complete noetherian local
+domain `A`, the Japanese condition gives `Module.Finite A (integralClosure A E)` for every
+finite extension `E` of its fraction field, including inseparable extensions
+([Stacks Lemma 10.162.8, tag 032W](https://stacks.math.columbia.edu/tag/032W)).
+`Theorems.finite_integralClosure_complete` only specializes `IsJapanese.of_complete_local`
+to the supplied fraction field and scalar tower. The additional result here is
+`Theorems.global_difference_lattice`; together with `IntegralRibet.fraction_lattice_topology`
+it supplies the finite-lattice and topology inputs to `Theorems.local_ribet_theorem`.
+
+[SchemeAndStackFoundations §2.22](https://github.com/TauCetiProject/TauCetiRoadmap/blob/2a5f34f36fd23d27dd9eaa4a2c69a12d857213fe/TauCetiRoadmap/SchemeAndStackFoundations/README.md#222-sheaves-of-algebras-azumaya-algebras-and-the-brauer-group-of-a-scheme)
 owns the affine splitting content of `azumaya_affine_iff` and `azumaya_equivalent_conditions`.
 Its ring-level supplier is `IsAzumaya.exists_etale_matrix_splitting`: for `IsAzumaya A R`,
 `d>0` and `rankAtStalk R=d²`, it returns an étale faithfully flat commutative `A`-algebra `B`
-and `B⊗_A R ≃ₐ[B] M_d(B)`. The same owner combines a finite affine étale splitting cover
-into that single algebra. Both the sheaf equivalence and the reduced-norm construction consume
+and `B⊗_A R ≃ₐ[B] M_d(B)`. Its finite-cover adapter takes affine étale splitting charts
+`Spec Bᵢ → Spec A` with jointly surjective images and uses their finite product `B = ∏ᵢ Bᵢ`.
+It proves `Algebra.Etale A B`, `Module.FaithfullyFlat A B`, and the matrix-splitting
+equivalence over that same `B`. Both the sheaf equivalence and the reduced-norm construction consume
 this neutral ring-theory result; neither needs an import of the other's whole development.
 
 The matrix action uses `Matrix.toLinAlgEquiv'` in
@@ -1168,9 +1183,11 @@ The supplier `IsAzumaya.exists_etale_matrix_splitting` from SchemeAndStackFounda
 states the splitting used here: for
 `IsAzumaya A R`, positive `d`, and constant rank `d²`, there is a faithfully flat étale
 commutative `A`-algebra `B` with `B⊗R ≃ M_d(B)` (Grothendieck, *Le groupe de Brauer I*,
-Theorem 5.1(ii)–(iii), p.210). The same supplier combines finitely many affine étale charts into one such algebra.
+Theorem 5.1(ii)–(iii), p.210). The same supplier takes the product of finitely many jointly
+surjective affine étale splitting charts and proves faithful flatness and splitting over that product.
 Its Checks, mirrored by named Lean examples, are the split matrix algebra
 (`exists_etale_matrix_splitting_matrix`), `ℂ⊗_ℝ ℍ ≃ M₂(ℂ)`
+with `Algebra.Etale ℝ ℂ` and `Module.FaithfullyFlat ℝ ℂ`
 (`exists_etale_matrix_splitting_quaternion_complex`), and the absence of an
 `ℝ`-algebra isomorphism `ℍ ≃ M₂(ℝ)` (`exists_etale_matrix_splitting_quaternion_real`).
 
@@ -1576,7 +1593,8 @@ polynomial-law carrier `PolynomialLaw` with `PolynomialLaw.id`, `PolynomialLaw.c
 `TauCeti.Comodule.fixedSubcomodule` and `TauCeti.Comodule.cofree`. From the roadmaps it uses
 ReductiveGroups layer 9 (the split reductive group schemes and their Hopf algebras) and the
 top exterior power at constant rank from PadicMeasuresIwasawaAlgebras §5.1, with Mathlib `IsAzumaya`
-for the reduced-norm input.
+and SchemeAndStackFoundations §2.22 `IsAzumaya.exists_etale_matrix_splitting`, including its
+finite-cover adapter, for the reduced-norm input.
 
 ## Layer 3a: Hecke polynomial and multiplier conventions
 
@@ -3453,11 +3471,14 @@ two-dimensional irreducible factor is either the full matrix algebra or a quadra
 In the matrix case a basis selected from group elements and the nondegenerate matrix trace
 pairing bound the coefficients by a finite trace-dual module. In the field case the image
 elements are integral over the corresponding domain quotient of `T`; finite normalization
-bounds them even for a purely inseparable quadratic field. Prove the required complete-domain
-case as `Theorems.finite_integralClosure_complete`: the integral closure of a complete
-noetherian local domain in any finite extension of its fraction field is finite, using
-[Stacks Lemmas 10.162.2 and 10.162.8](https://stacks.math.columbia.edu/tag/032E).
-This differs from AlgebraicCurves Layer 2's normalization of `k[X]` by its complete-local base.
+bounds them even for a purely inseparable quadratic field. SchemeAndStackFoundations §0.20
+supplies `IsJapanese.of_complete_local` and `IsNagata.of_complete_local`:
+the integral closure of a complete noetherian local domain in any finite extension of its
+fraction field is finite, including inseparable extensions
+([Stacks Lemma 10.162.8, tag 032W](https://stacks.math.columbia.edu/tag/032W)).
+`Theorems.finite_integralClosure_complete` is only the specialization of that Japanese
+condition to the fraction field and scalar tower used here. Consume these neutral ring-level
+exports for the domain quotients of `T`.
 The finite product of these bounds contains the original image and its scalar differences.
 This supplies the boundedness step in [DKSW Theorem 1.1, pp.2–3 and §2.1, pp.8–9](https://arxiv.org/pdf/2310.16396v2).
 
@@ -3466,7 +3487,9 @@ of `M₂(Frac(T))`, assuming `T` noetherian local with its adic topology, a topo
 structure on `Frac(T)`, and an embedding `T → Frac(T)`. Clear a common regular denominator
 and use Artin–Rees inside a finite free `T`-module. Thus `T̃=T` supplies both inputs to the
 canonical local theorem without changing the global hypotheses. *Needs:* SemisimpleAlgebras
-layers 2–4, `finite_integralClosure_complete`, `lattice_submodule_topology`.
+layers 2–4, SchemeAndStackFoundations §0.20 `IsJapanese.of_complete_local` and
+`IsNagata.of_complete_local` through `finite_integralClosure_complete`,
+`lattice_submodule_topology`.
 
 **Checks.** Each named Check is an `example` in Suggested.lean.
 
@@ -4533,7 +4556,9 @@ Invariant coordinate algebras under conjugation and Rational cohomology of a fla
 cocycles, coboundaries and `H¹`. The annihilator bound is an additional relation-minor argument
 in this layer. From Mathlib: `MonoidAlgebra`, `Matrix`, `Submodule`,
 `ExteriorAlgebra`, `exteriorPower.map`, `RingTheory.Sequence.IsWeaklyRegular`, `MvPolynomial` and
-`IsLocalization.Away`. The sources are DKSW, Buchsbaum and the Stacks Project.
+`IsLocalization.Away`. SchemeAndStackFoundations §0.20 supplies
+`IsJapanese.of_complete_local` and `IsNagata.of_complete_local` for the finite normalization
+used by `global_difference_lattice`. The sources are DKSW, Buchsbaum and the Stacks Project.
 
 ## Downstream consumers
 

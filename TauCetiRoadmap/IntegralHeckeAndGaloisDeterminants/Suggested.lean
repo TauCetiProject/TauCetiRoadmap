@@ -5504,8 +5504,10 @@ example : RingHom.ker (algebraMap ℤ (Module.End ℤ (Fin 0 → ℤ))) = ⊤ �
 
 /-! ## Layer IHG.6 theorems: integral Ribet modules and Fitting ideals -/
 
-/-- Finite normalization in a finite field extension, including inseparable extensions.
-Stacks, Lemmas 10.162.2 and 10.162.8. -/
+/-- Specialization of SchemeAndStackFoundations §0.20 `IsJapanese.of_complete_local`
+(with `IsNagata.of_complete_local`) to the fraction field `K` and scalar tower `A → K → E`.
+The supplied Japanese condition gives finiteness also for inseparable `E`.
+Stacks, Lemma 10.162.8 (032W). -/
 theorem finite_integralClosure_complete {K E : Type u} [Field K] [Field E]
     [IsDomain A] [IsLocalRing A] [IsNoetherianRing A]
     [IsAdicComplete (IsLocalRing.maximalIdeal A) A]
@@ -5514,8 +5516,9 @@ theorem finite_integralClosure_complete {K E : Type u} [Field K] [Field E]
     Module.Finite A (integralClosure A E) := sorry
 
 /-- Bounded differences over the same reduced complete coefficient ring.
-DKSW Theorem 1.1 and §2.1; the inseparable field factors use finite normalization
-(Stacks, Lemmas 10.162.2 and 10.162.8), not the matrix trace pairing. -/
+DKSW Theorem 1.1 and §2.1; the inseparable field factors use
+`finite_integralClosure_complete`, the SchemeAndStackFoundations §0.20 specialization
+(Stacks, Lemma 10.162.8, 032W). -/
 theorem global_difference_lattice {B G : Type u} [CommRing B] [Algebra A B] [Group G]
     [IsLocalization (nonZeroDivisors A) B]
     [IsLocalRing A] [IsNoetherianRing A] [IsReduced A]
@@ -6438,15 +6441,22 @@ end Theorems
 
 namespace Determinant
 variable {A R : Type u} [CommRing A] [Ring R] [Algebra A R]
-/-- SchemeAndStackFoundations §2.22 supplies `IsAzumaya.exists_etale_matrix_splitting`,
-including the finite affine cover adapter, in the neutral ring-theory API.
-These are its determinant-consumer checks (Brauer I, Theorem 5.1, p.210).
-`exists_etale_matrix_splitting_matrix`: split matrices admit the required cover. -/
+/- SchemeAndStackFoundations §2.22 owns the neutral ring-level export
+`IsAzumaya.exists_etale_matrix_splitting`: for native `[IsAzumaya A R]`, `0 < d` and
+`Module.rankAtStalk (R := A) R = d * d`, it supplies one `B : CommAlgCat A` with
+`Algebra.Etale A B`, `Module.FaithfullyFlat A B`, and
+`Nonempty ((B ⊗[A] R) ≃ₐ[B] Matrix (Fin d) (Fin d) B)`.
+Its adapter forms `B` as the finite product of jointly surjective affine étale splitting
+charts and assembles their matrix equivalences over that same `B`.
+Brauer I, Theorem 5.1(ii)–(iii), p.210. -/
+/-- `exists_etale_matrix_splitting_matrix`: split matrices admit the required cover. -/
 example (d : ℕ) (hd : 0 < d) :
     ∃ B : CommAlgCat.{u} A, Algebra.Etale A B ∧ Module.FaithfullyFlat A B ∧
       Nonempty ((B ⊗[A] Matrix (Fin d) (Fin d) A) ≃ₐ[B] Matrix (Fin d) (Fin d) B) := sorry
-/-- `exists_etale_matrix_splitting_quaternion_complex`: extension splits Hamilton quaternions. -/
-example : Nonempty ((ℂ ⊗[ℝ] Quaternion ℝ) ≃ₐ[ℂ] Matrix (Fin 2) (Fin 2) ℂ) := sorry
+/-- `exists_etale_matrix_splitting_quaternion_complex`: the faithfully flat étale algebra
+ℂ splits Hamilton quaternions over ℝ. -/
+example : Algebra.Etale ℝ ℂ ∧ Module.FaithfullyFlat ℝ ℂ ∧
+    Nonempty ((ℂ ⊗[ℝ] Quaternion ℝ) ≃ₐ[ℂ] Matrix (Fin 2) (Fin 2) ℂ) := sorry
 /-- `exists_etale_matrix_splitting_quaternion_real`: splitting need not exist over the base. -/
 example : ¬ Nonempty (Quaternion ℝ ≃ₐ[ℝ] Matrix (Fin 2) (Fin 2) ℝ) := sorry
 end Determinant
