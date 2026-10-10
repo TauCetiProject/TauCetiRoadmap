@@ -37,11 +37,12 @@ The roadmap owns, layer by layer:
   degree of `Ĕ` over `E` in equal characteristic, or a Witt-vector description of `O_Ĕ` for
   `E ≠ ℚ_p`.
 - RG2.0a: restriction of scalars for affine schemes along finite locally free maps and its field
-  specialization, with affine representability only; norm tori and abstract quotients of roots-of-unity
+  specialization, with affine representability, fibre-product preservation, formal smoothness,
+  smoothness and closed immersions; norm tori and abstract quotients of roots-of-unity
   point groups; the Deligne torus. Restriction of scalars for non-affine schemes, general projective
   parameter spaces and algebraic spaces lie outside this roadmap, as do the preservation by
-  restriction of scalars of fibre products, of smooth, étale and surjective maps and of open and
-  closed immersions, its commutation with centres and derived groups, and the multiplicities of the
+  restriction of scalars of étale and surjective maps and of open immersions, its
+  commutation with centres and derived groups, and the multiplicities of the
   relative roots of a Weil-restricted group.
 - RG2.1: valued structure only — valuations of root data, apartments, affine roots, the affine Weyl
   group, `π₁(G)`, z-extensions and the Kottwitz homomorphism. The unvalued relative root system and
@@ -107,7 +108,9 @@ isomorphism theorem (layer 9). The Local fields and ramification roadmap supplie
 and the extension of the valuation (layer 0), the maximal unramified extension with its Frobenius
 (layer 2), and tame ramification (layer 3). The Modular curves roadmap, layer 0F, supplies the
 affine finitely presented Hom scheme along a finite locally free map, which RG2.0a extends to
-arbitrary affine targets; its layer 4D supplies strict henselisation. The Root systems roadmap supplies Coxeter combinatorics for a general Coxeter system
+arbitrary affine targets. On finitely presented targets, identify the representing object
+and point adjunction with that Hom-scheme supplier by Yoneda, compatibly with base change,
+rather than introducing a second Hom-scheme carrier. Its layer 4D supplies strict henselisation. The Root systems roadmap supplies Coxeter combinatorics for a general Coxeter system
 (layer 3) and chambers with the fundamental domain (layer 4). The Profinite and pro-p groups
 roadmap, layer 3, supplies pro-p groups, and the Class field theory roadmap, layer 9, the local Weil
 group for the Weil form of the L-group.
@@ -166,7 +169,9 @@ RG2 owns the shared
 `AlgebraicRelativeRoots` declarations: `Character`, `Cocharacter`, `characterValue`, `adjoint`,
 `weightSpace`, `Root`, `centralizer`, `normalizer`, `centralizerIdeal` and `rootRayPoints`.
 `BruhatTits.GeometricRoots` and AA's `Reduction.GeometricRoots` are abbreviations of these
-carriers and operations. RG2 adds valuations and buildings; AA adds the positive system,
+carriers and operations. Their implementation belongs in an unvalued algebraic-group
+module refining ReductiveGroups layer 7, so adelic users can import it without buildings.
+RG2 adds valuations and buildings; AA adds the positive system,
 `a_P`, logarithms and reduction theory. `RelativeRootData.rootEquiv` is the identity on
 characters between the finite enumeration and the shared subtype of nonzero adjoint weights.
 `Reduction.localModulus_eq_rg2` equates the local factors on the identical `Root S` and
@@ -689,7 +694,7 @@ it is an abbreviation for `TauCeti.maximalUnramifiedFrobenius E
 `fixedPoints_frobenius` (`{x ∈ Ĕ : σ x = x}` is the image of `E`), `residueField_isAlgClosed` (the
 residue field of `Ĕ` is algebraically closed), `isUniformizer_algebraMap` (a uniformizer of `E`
 remains one of `Ĕ`), `isClosedEmbedding_algebraMap` (`E` is a closed subfield of `Ĕ`) and, for `E` of
-any characteristic, `transcendenceDegree_infinite` (`Ĕ` has infinite transcendence degree over `E`).
+characteristic zero, `transcendenceDegree_infinite` (`Ĕ` has infinite transcendence degree over `E`).
 Since the valuation of `Ĕ` restricts to that of `E`, `fixedPoints_frobenius` also gives
 `O_Ĕ^σ = O_E`. Sources: [He 2018], §4.3, p. 12, in the setting of §1.1, p. 5, a nonarchimedean local
 field of any characteristic (the field `Ĕ`, its residue field an algebraic closure of `κ`, the
@@ -946,9 +951,9 @@ Hopf map `Res H'_1 → Res H'_2` induced by a Hopf map, with underlying algebra 
 `mapHopf_apply`), `multiplicativeGroupPoints` (`(Res G_m)(R) = (k' ⊗_k R)^×`), `generalLinearPoints`
 (`(Res GL_n)(R) = GL_n(k' ⊗_k R)`) and `diagonal` (on points, `x ↦ id_{k'} ⊗ x` from `G(R)` to
 `G_{k'}(k' ⊗_k R)`, the `R`-points of `Res_{k'/k}(G_{k'})`); prove `pointsMulEquiv_apply` and
-`pointsMulEquiv_naturality`. Like `Res`, the declarations `ResHopf`, `instHopfAlgebraRes`,
-`pointsMulEquiv` and `mapHopf` carry no finiteness hypothesis, and only their API for `k → k'`
-finite locally free constrains them ([Bruhat–Tits II], 1.5.4, p. 27; [Milne AG], 2.36, p. 50;
+`pointsMulEquiv_naturality`. The Hopf structure, point equivalence and Hopf morphism API
+retain `[Module.Finite k k'] [Module.Projective k k']` as parameters. The underlying
+`ResHopf` carrier alone is unconstrained outside this range ([Bruhat–Tits II], 1.5.4, p. 27; [Milne AG], 2.36, p. 50;
 [Kaletha], §3.1, p. 10, for `Res μ_n`).
 *Needs:* *weil-restriction-representing-algebra*; Tau Ceti `TauCeti.AlgHom.instGroup`,
 `TauCeti.MultiplicativeGroup.pointsMulEquiv`, `TauCeti.GeneralLinear.pointsMulEquiv`; Mathlib
@@ -956,6 +961,13 @@ finite locally free constrains them ([Bruhat–Tits II], 1.5.4, p. 27; [Milne AG
 
 **Checks.**
 
+- `WeilRestriction.pointsMulEquiv_complex` — the representing group equivalence exists over `ℝ → ℂ`.
+- `WeilRestriction.pointsMulEquiv_finiteFreeRing` — it also exists over the finite free ring map
+  `ℤ → ℤ × ℤ`, without a field assumption.
+- `WeilRestriction.pointsMulEquiv_nonflat_rejected` — for prime `p`, `ZMod p` is not projective over `ℤ`;
+  neither the representing point equivalence nor its Hopf instance can be synthesized.
+  For the additive group a supposed unrestricted equivalence would inject its `p` points
+  at `ℤ` into its single point at `ℚ`, since `𝔽_p ⊗_ℤ ℚ = 0`.
 - `res_multiplicative_complex_points` — the `ℝ`-points of `Res_{ℂ/ℝ} G_m` form a group isomorphic to
   `ℂ^×`.
 - `res_trivial_group` — `Res_{k'/k}` of the trivial Hopf algebra `k'` is the trivial Hopf algebra `k`.
@@ -4465,23 +4477,38 @@ necessarily normal, such that every element of `J` is `z^{−1}σ(z)` for some `
 is `σ`-stable, so that `σ` acts on `H/J`, this says that `H^σ/J^σ → (H/J)^σ` is surjective;
 injectivity is formal ([He 2018], proof of Lem. 4.5, arXiv v3 p. 13). *Needs:* Mathlib `MulAut`.
 
-**Frobenius-fixed coset lifting at positive level.** (*frobenius-fixed-coset-lifting*) Let
-`Ĭ ⊂ G(Ĕ)` be the Iwahori of a `σ`-stable alcove `C`, `Ĭ_n := G(Ĕ)_{x_C,n}` for `n ≥ 1`, `I = Ĭ^σ`,
-`I_n = Ĭ_n^σ`, and `g ∈ G(E)`. Then `I_n/(I_n ∩ gI_ng^{−1}) ≅ (Ĭ_n/(Ĭ_n ∩ gĬ_ng^{−1}))^σ`;
-equivalently the `σ`-fixed points of `Ĭ_n g Ĭ_n/Ĭ_n` are `I_n g I_n/I_n` ([He 2018], Lem. 4.5 and
-its proof, arXiv v3 p. 13; Lemma 15, pp. 16–17, in the published version). The proof reduces to
-`Lang.fixedCoset_lift` with `H = Ĭ_n` and the `σ`-stable subgroup `J = Ĭ_n ∩ gĬ_ng^{−1}` once
-`z ↦ z^{−1}σ(z)` is onto `J`. [He 2018] deduces this from `J` being pro-`p`, which alone does not
-suffice (`σ = id` on `ℤ_p`); the surjectivity holds when `J` is the group of `Ŏ`-points of a smooth
-affine group scheme with connected special fibre, by Lang's theorem on the special fibre and smooth
-lifting, the argument of [Haines–Rapoport], Rem. 9, p. 5, for parahoric subgroups and their
-intersections. This is a statement of this section; its Lean content is `Lang.fixedCoset_lift`.
-*Needs:* *fixed-coset-lifting*; *lang-theorem*; *smooth-model-reduction*;
-*positive-depth-filtration-basis*; *parahoric-subgroup*; *unramified-base-change-of-parahorics*;
-*moy-prasad-filtration*.
+**Connected finite-level presentation of an intersection.**
+(*positive-depth-intersection-presentation*) Fix a local field `E`, `L=Ĕ`, its actual
+arithmetic Frobenius `σ`, a `σ`-stable alcove `C`, `n≥1`, and `g∈G(E)`.
+The precise supplier for `J=Ĭ_n∩gĬ_ng⁻¹` consists of a directed inverse system
+`(J_i)` of smooth geometrically connected affine groups of finite type over `𝔽_q`,
+transition homomorphisms over `𝔽_q`, and a group isomorphism
+`J ≅ lim_i J_i(𝔽̄_q)` intertwining `σ` with coordinatewise `q`-power Frobenius.
+The point identification must be proved using the positive-depth root filtrations
+and completeness of `O_L`, including both injectivity and surjectivity; an abstract
+pro-`p` structure does not give this presentation. This is the exact hypothesis of
+the concrete lifting endpoint below. Finite-level construction and connectedness
+are separate geometric inputs, not consequences attributed to the parahoric
+intersection argument of [Haines–Rapoport], Remark 9, p. 5.
+*Needs:* *moy-prasad-filtration*; *positive-depth-filtration-basis*;
+*unramified-base-change-of-parahorics*; *smooth-model-reduction*.
 
-**Reduction of smooth models.** (*smooth-model-reduction*) Over the ring of integers of a
-nonarchimedean local field, a smooth affine model has surjective reduction on points:
+**Frobenius-fixed coset lifting at positive level.** (*frobenius-fixed-coset-lifting*)
+Under *positive-depth-intersection-presentation*, with `I_n=Ĭ_n^σ`, prove
+`I_n/(I_n∩gI_ng⁻¹) ≅ (Ĭ_n/(Ĭ_n∩gĬ_ng⁻¹))^σ`.
+First apply `Lang.lang_proAlgebraic_surjective` to the specified system and transport
+through its Frobenius-equivariant point isomorphism to obtain Lang surjectivity on `J`.
+Then apply `Lang.fixedCoset_lift`. The endpoint is conditional on that presentation;
+no connectedness assertion for a positive-depth intersection is inferred from
+pro-`p` alone. [He 2018], Lemma 4.5 and proof, arXiv v3 p. 13 (published Lemma 15,
+pp. 16–17), gives the fixed-coset endpoint; the additional hypothesis here specifies
+the geometric input to its Lang step.
+*Needs:* *positive-depth-intersection-presentation*; *lang-for-pro-algebraic-groups*;
+*fixed-coset-lifting*; *parahoric-subgroup*.
+
+**Reduction of smooth models.** (*smooth-model-reduction*) Over a complete DVR `O`, including `O_E` and `O_Ĕ`, a smooth affine model has
+surjective reduction on points (`Lang.completeDVR_reduction_surjective`). There is no
+finite-residue-field hypothesis in this lifting theorem. Its specialization
 `Lang.smoothModel_reduction_surjective` states `𝒢(O) ↠ 𝒢(κ)` and is proved from Mathlib
 `Algebra.FormallySmooth.exists_mkₐ_comp_eq_of_isAdicComplete`, `O` being `m`-adically complete (the
 same lifting is used in [Kisin–Pappas], proof of Prop. 1.4.3, Step 3, arXiv v3 p. 23). *Needs:*
@@ -4490,7 +4517,9 @@ RG2.0 *smooth-model-congruence-quotients*.
 ### Examples
 
 The checks of this layer run on `GL_n` at its standard vertex and at the barycentre of its standard
-alcove (Moy–Prasad filtration `1 + ϖ^{⌈r⌉} M_n(O)`, Lie lattices, trace-dual lattices, the
+alcove (Moy–Prasad filtration `G_{x₀,r}=1 + ϖ^{⌈r⌉} M_n(O)` for `r>0` at the
+standard vertex `x₀`; at the alcove barycentre the entrywise thresholds depend on the
+root and the barycentre coordinates; Lie lattices, trace-dual lattices, the
 Iwahori and pro-`p` Iwahori subgroups), on `GL_2` (the scalar `ϖ` outside every fixer, very special
 vertices), on `G_m = GL_1` (unit filtration, jumps, depth, the squaring isogeny), on the ramified
 quadratic norm-one torus (two quasi-parahoric levels, index two, `−1 ∉ 𝒯°(O)`) and on `μ₂` (Lang's
@@ -4688,10 +4717,15 @@ points); [He 2018], §1.1, p. 5). *Needs:* RG2.1 *apartment-action-kernel*; RG2.
 **Structure of the Iwahori–Weyl group.** (*iwahori-weyl-exact-sequences*) Four statements. First,
 the sequence `1 → Z(K)/Z(K)_0 → W̃ → W_0 → 1` is exact and `Z(K)/Z(K)_0` is commutative; over `L`
 (where `T = Z`), the Kottwitz map gives `κ_T : Z(L)/Z(L)_0 ≅ X_*(T)_I`, and over `E` the corresponding
-group is `(X_*(T)_I)^σ`. Second, `W̃ = W_a ⋊ Ω` with `Ω ≅ W̃/W_a`; over `L`, `κ_G : W̃/W_a ≅ π₁(G)_I`, and
+group is `Λ_Z := Z(E)/Z(E)_0 ≅ π₁(Z)_I^σ ≅ X^*(Z(Ẑ))_I^σ`, where `Ẑ` is the
+dual of the minimal Levi. The target `minimalLevi_kottwitz_quotient` identifies this
+quotient by the Kottwitz map of `Z`, including torsion ([Haines–Rostami], Proposition
+1.0.2, p. 3). Only if `Z` is a torus does it specialize to `(X_*(Z)_I)^σ`. Second, `W̃ = W_a ⋊ Ω` with `Ω ≅ W̃/W_a`; over `L`, `κ_G : W̃/W_a ≅ π₁(G)_I`, and
 over `E` the quotient is `(π₁(G)_I)^σ`. Third, a special point `x` splits the sequence,
 `W_0 ≅ (W_a ∩ Stab_W̃(x)) ⊂ W̃`, so that `W̃ ≅ X_*(T)_I ⋊ W_0` over `L`; this splitting is
-`σ`-equivariant only for `σ`-fixed `x`. Fourth, `ker(W̃ → Aff(A)) = Z(K)_b/Z(K)_0` is finite and
+`σ`-equivariant only for `σ`-fixed `x`. Over `E` the splitting is
+`W̃_E ≅ Λ_Z ⋊ W_0(E)`, and rational Cartan classes are `W_0(E)\Λ_Z`;
+Iwasawa parameters likewise use `Λ_Z`. Fourth, `ker(W̃ → Aff(A)) = Z(K)_b/Z(K)_0` is finite and
 consists of translations; over `L` it is `(X_*(T)_I)_tors`, so the action on `A` is faithful iff
 `X_*(T)_I` is torsion-free. The full stabilizer of `x` can contain torsion translations, which is
 why `specialVertex_fixer_bijective` uses its intersection with `W_a`. The translations act via `ν`,
@@ -4703,6 +4737,20 @@ statement), Prop. 13, p. 8, and Lem. 14, p. 9; [Richarz], Lem. 1.3, (1.5) and (1
 p. 2), and Lem. 1.6, p. 120 (arXiv p. 3); [Kisin–Zhou], §2.1.2, (2.1.2.1), p. 6). *Needs:*
 *iwahori-weyl-group*; RG2.1 *kottwitz-homomorphism*; RG2.1 *algebraic-fundamental-group*; RG2.1
 *affine-weyl-group*; Mathlib `Subgroup.IsComplement'`.
+
+**Checks.**
+
+- `minimalLevi_quaternion_quotient` — for a quaternion division algebra `D/E`,
+  `G=PGL₁(D)` has `S=1`, `Z=G`, and a point building. The normalized division
+  valuation identifies `D×/(E× O_D×)` with `ℤ/2`, since `v_D(E×)=2ℤ`.
+  This is the nonzero rational translation quotient `π₁(Z)=ℤ/2`.
+- `minimalLevi_quaternion_displacement` — both elements of this quotient act trivially
+  on the point building. Real displacement loses its nonidentity element.
+- `minimalLevi_quaternion_torus_fixed` — the unramified maximal torus has cocharacters
+  `ℤ` with Frobenius `n ↦ −n`; its fixed subgroup is zero, unlike `Λ_Z=ℤ/2`.
+- `cartan_unramified_normOne` — the unramified quadratic norm-one torus has zero rational
+  quotient; the ramified odd-residue-characteristic norm-one torus retains the index-two
+  quotient of `ramified_compact_parahoric_index_odd`.
 
 **Length and Bruhat order on the Iwahori–Weyl group.** (*length-and-bruhat-order*) Let `(W_a, S̃)` be
 the Coxeter system of the base alcove `C`. The length of `wτ` with `w ∈ W_a` and `τ ∈ Ω` is
@@ -4949,13 +4997,28 @@ maximal `L`-split torus defined over `E` and `T = Z_G(S)`. First, `X_*(T)_I` mod
 in `V = X_*(T)_I ⊗ ℝ = X_*(S) ⊗ ℝ`, which carries the échelonnage system `Σ` (reduced, with Weyl
 group `W_0` and coroot lattice `X_*(T_sc)_I`); a `σ`-stable alcove `C` and a special vertex `x_0` of
 `C̄` fix `Σ^+` and the closed chamber `C^+ = {⟨·, Σ^+⟩ ≥ 0}` at `x_0` containing `C`. For
-`λ ∈ X_*(T)_I` write `t^λ ∈ W̃` for the translation of `A` by the image `λ̄` of `λ` in `V`; by the sign
-convention `⟨χ, v(z)⟩ = −ω(χ(z))`, `t^λ` is the class of `λ(ϖ)^{-1}`, and `κ_T(t^λ) = −λ`. Second,
+`λ ∈ X_*(T)_I` define `t^λ` as the inverse image of `−λ` under the
+Kottwitz isomorphism `T(L)/T(L)_0 ≅ X_*(T)_I`, embedded in `W̃_L`.
+It acts by `λ̄`, but its real displacement does not determine it when there is torsion.
+For an actual split cocharacter `λ : G_m → T`, evaluation gives the representative
+`λ(ϖ)^{-1}`. Evaluation is not defined on an arbitrary inertia-coinvariant class.
+Over `E`, use `λ ∈ Λ_Z` and the same inverse Kottwitz convention, without replacing
+`π₁(Z)_I^σ` by a maximal torus lattice. Second,
 `λ` (or `t^λ`) is dominant if `λ̄ ∈ C^+`, and the orbit `W_0λ` has a unique dominant element `λ_dom`,
 written `λ_w` on the double coset `W_0t^λW_0`. ([Kisin–Zhou] §2.1.3 also takes `C^+` to contain the
 alcove; [He 2021] §2.1 takes the dominant chamber opposite to the alcove instead. The formulas below
-are stated in the orientation pinned by `length_orientation_gl2` and `isDominant_gl_n`.) Third, `λ^♦ = (1/m)Σ_{i<m} σ^i(λ_dom) ∈ V`, with `m` the order of
-`σ`, is `σ`-invariant, lies in `C^+`, and is the Newton point of `t^λ`. Fourth, `λ ≤ λ'` iff
+are stated in the orientation pinned by `length_orientation_gl2` and `isDominant_gl_n`.)
+Third, assume the Frobenius action on the based root datum preserves `C^+` and acts linearly
+with finite order `m` on `V`; alcove stability alone does not give this hypothesis.
+For a dominant Hodge coweight `μ`, define its Hodge average
+`μ^♦ = m⁻¹ Σ_{i<m} σ^i(μ)`, which is dominant and Frobenius fixed.
+For an arbitrary translation class `λ`, the Newton displacement is instead
+`ν_disp(t^λ) = dom(m⁻¹ Σ_{i<m} σ^i(λ̄))`: iterate `(t^λ σ)^m` before taking
+the dominant representative. The target `newton_translation_average` proves this from
+that iterate identity. It agrees with `λ^♦` when `λ` is dominant. In the usual
+valuation normalization our representative has `κ(t^λ) = −λ` and Newton point
+`ν_std(t^λ) = dom(−m⁻¹ Σ σ^i(λ̄)) = −w₀ ν_disp(t^λ)`.
+Thus neither the sign nor dominantization may be suppressed. Fourth, `λ ≤ λ'` iff
 `λ' − λ ∈ ℕΣ^{∨,+} ⊂ X_*(T_sc)_I`, that is, `t^{λ'}(t^λ)^{-1} ∈ W_a` and `λ̄' − λ̄` is a sum of positive
 coroots of `Σ`; this is a partial order, compatible with the Bruhat order on translations of equal
 `Ω`-part and finer than real dominance. Fifth, the Hodge coweight `μ̄ ∈ X_*(T)_I` of a geometric
@@ -4965,8 +5028,7 @@ define `translationVector` as `ν(t)` for `t ∈ Z(K)/Z(K)_0`, `IsDominant` as `
 positive on a regular `v` in the chamber of `C` is nonnegative on `ν(t)`), `dominantRep` as the
 dominant element of the `W̃`-conjugacy orbit, and `dominanceLE` as the fourth statement; prove
 `apartmentAction_translation`, `dominantRep_mem_orbit`, `eq_dominantRep` (uniqueness),
-`dominantRep_of_isDominant`, `dominanceLE_trans` and `dominanceLE_antisymm`. The Frobenius average
-`λ^♦` and the Hodge coweight are statements of this document only ([Haines–Rapoport], Lem. 15 and
+`dominantRep_of_isDominant`, `dominanceLE_trans` and `dominanceLE_antisymm`. The Hodge average, `newton_translation_average`, its normalization conversion, and the Hodge coweight are targets of this document ([Haines–Rapoport], Lem. 15 and
 the preceding discussion, pp. 7–9; [Kisin–Zhou], §2.1.3–2.1.5, p. 7; [He 2021], §2.1, p. 5, and §2.2,
 p. 6 (`λ^♦`, `λ_w` and the order `≥_ℤ`); [Gleason–Lim–Xu], §2, (2.5)–(2.7), pp. 14–15). *Needs:*
 *iwahori-weyl-exact-sequences*; RG2.1 *echelonnage-root-system*; RG2.1 *minuscule-coweight*; RG2.1
@@ -4974,6 +5036,15 @@ p. 6 (`λ^♦`, `λ_w` and the order `≥_ℤ`); [Gleason–Lim–Xu], §2, (2.5
 
 **Checks.**
 
+- `newton_translation_resGL2` — for unramified quadratic restriction of `GL₂`, Frobenius
+  swaps the factors. For `λ=((1,0),(0,1))`, averaging gives `((1/2,1/2),(1/2,1/2))`,
+  whereas averaging `dom λ` gives `((1,0),(1,0))`. The square of the twisted translation
+  displaces by `((1,1),(1,1))`; the Newton displacement is central.
+- `newton_translation_dominant` — for `λ=((2,0),(1,0))`, both averaging operations
+  give the dominant vector `((3/2,0),(3/2,0))`.
+- `newton_translation_split_sign` — split `GL₂`: displacements `(1,0)` and `(2,0)`
+  correspond to valuation vectors `(-1,0)` and `(-2,0)`, whose dominant Newton points
+  are `(0,-1)` and `(0,-2)`; their Kottwitz coordinates are `−1` and `−2`.
 - `isDominant_gl_n` — for `GL_n` with base alcove in the chamber `x_1 ≥ ⋯ ≥ x_n`, `t^λ` is dominant iff
   `λ_1 ≥ ⋯ ≥ λ_n`, and `(0, 1)_dom = (1, 0)`; in Lean, for `GL_2` and `v = (1, 0)`, the class of
   `diag(ϖ^{-1}, 1)` (translation `(1, 0)`) is dominant and that of `diag(1, ϖ^{-1})` is not.
@@ -5002,26 +5073,32 @@ p. 6 (`λ^♦`, `λ_w` and the order `≥_ℤ`); [Gleason–Lim–Xu], §2, (2.5
   ignore the `Ω`-part.
 
 **Length of translations.** (*translation-length-formula*) Let `x ∈ C̄` be special, giving
-`W̃ ≅ X_*(T)_I ⋊ W_0`, `Σ^+` and `2ρ_Σ` (over `L`, or for `W̃_E ⊂ W̃_L`). First,
+`W̃_L ≅ X_*(T)_I ⋊ W_0(L)` over `L`, or `W̃_E ≅ Λ_Z ⋊ W_0(E)` over `E`,
+with the corresponding relative system `Σ^+` and `2ρ_Σ`. First,
 
 ```text
 ℓ(t^λ) = ⟨λ_dom, 2ρ_Σ⟩ = Σ_{a ∈ Σ^+} |⟨λ, a⟩|,
 ```
 
-which vanishes iff `λ` is central and is additive on dominant `λ, λ'`. Second, for `λ` dominant and
+which vanishes iff the real displacement of `λ` is central (in particular on torsion) and is additive on dominant `λ, λ'`. Second, for `λ` dominant and
 `x ∈ W_0`, `ℓ(xt^λ) = ℓ(x) + ℓ(t^λ)`, the base alcove `C` lying in the chamber `C^+` at the special
 vertex: for `SL_2` with `C = (0, α^∨/2)`, `t^{α^∨} = s_0s_1` has length `2 = ⟨α^∨, α⟩`,
 `s_1t^{α^∨} = s_1s_0s_1` has length `3`, while `t^{α^∨}s_1 = s_0` has length `1` (the Lean witness is
-`length_orientation_gl2`); the Newton point of `t^λ` is `λ^♦`; for `G` quasi-split and simple,
-`η_σ(xt^λ) = x`, the element `xt^λ` is cordial, and `ℓ(xt^λ) − ℓ(η_σ(xt^λ)) = ⟨λ^♦, 2ρ⟩`. Third, over
+`length_orientation_gl2`); the Newton displacement of `t^λ` is `λ^♦` under the based, chamber-preserving
+Frobenius hypotheses above. For `G` quasi-split and simple,
+the cordiality target transports [He 2021], Theorem 4.2, through the change of
+chamber and translation sign: `η_σ(xt^λ) = x`, `xt^λ` is cordial, and
+`ℓ(xt^λ) − ℓ(η_σ(xt^λ)) = ⟨λ^♦, 2ρ⟩`. This uses dominant `λ` and the
+Hodge average; it makes no assertion that averaging a dominant representative computes
+the Newton point of every translation. Third, over
 `E`, `ℓ̆(t^λ) = ⟨λ_dom, 2ρ_{Σ_L}⟩`, which in general differs from the `ℓ(t^λ)` computed from `Σ_E`. In
 `BruhatTits.Coinvariants`, prove `length_translation_eq_dominantRep`, `length_translation_mul` and
 `length_mul_translation_of_isDominant` ([Kisin–Zhou], §2.1.5, (2.1.5.1), p. 7; [He 2021], §4.3 (proof
 of Thm 4.2), p. 8; [Richarz], Proposition 1.11, p. 122 (arXiv p. 4)). *Needs:*
 *length-and-bruhat-order*; *dominant-coinvariant-cocharacters*; RG2.1 *echelonnage-root-system*.
 
-**Dominant double-coset normal form.** (*dominant-normal-form*) Write `W̃ = X_*(T)_I ⋊ W_0` via a
-special vertex, let `S` be its simple reflections and `^S W̃` the set of minimal elements of the left
+**Dominant double-coset normal form.** (*dominant-normal-form*) Write `W̃ = Λ ⋊ W_0` via a
+special vertex, with `Λ = X_*(T)_I` over `L` and `Λ = Λ_Z` over `E`, let `S` be its simple reflections and `^S W̃` the set of minimal elements of the left
 `W_0`-cosets. Every `w ∈ W̃` is uniquely `w = xt^λy` with `λ` dominant, `x, y ∈ W_0` and
 `t^λy ∈ ^S W̃`, and then `ℓ(w) = ℓ(x) + ℓ(t^λ) − ℓ(y)`; consequently `W_0\W̃/W_0` corresponds to the
 dominant `λ = λ_w`. In `BruhatTits.Coinvariants`, prove `dominantNormalForm`, with `W_0` realized as
@@ -5203,7 +5280,20 @@ Second, for `P = MN`, define `δ_P(m) = |det(Ad(m)|Lie N)|_E`. On the split toru
 Here `g_a` is the adjoint weight space. For multipliable `a`, `dim U_a` includes the
 `2a` direction and must not replace `dim g_a`. Nor is a relative root automatically a
 character on all of the possibly noncommutative minimal Levi. The determinant definition
-works there. The modular function of `P` is `Δ_P(mn) = δ_P(m)^{-1}` ([Cartier], §4.1, (11), p. 145).
+works there. In Mathlib's right-pushforward convention the modular character is
+`modularCharacter(nm)=δ_P(m)`. Cartier's `Δ` in §4.1, (11), p. 145, is its inverse.
+The target `LocalIntegration.modularCharacter_eq_adjointModulus` proves the absolute
+adjoint-determinant formula for smooth affine groups over every nonarchimedean local
+field, including positive characteristic. `LocalIntegration.adjointModulus` uses
+`TauCeti.normalizedAbsoluteValue` and `Derivation.adjointAction`, not a supplied
+character. For a parabolic, `parabolic_adjointDet_eq_radical` identifies its determinant
+with that on `Lie N`, since the Levi is reductive and `Lie P=Lie M⊕Lie N`.
+The proof uses local analytic coordinates, the inverse determinant for pushforward
+of additive Haar measure, and the semidirect-product integration formula; smooth
+charts over local fields work in either characteristic. RG2 owns this local theorem;
+AA consumes it for finite-place and adelic-product comparisons, and SR consumes it
+for the coefficient-valued modulus under its invertibility assumptions. Square roots
+occur only in SR's normalized functors.
 The character calculation follows from [Platonov–Rapinchuk–Rapinchuk], Theorem 3.71, p. 196, and the
 automorphism-modulus calculation on p. 197. [Casselman], §1.5 and Lemma 1.5.1, p. 16, verify the
 determinant convention and the inverse-modulus double-coset volume for contracting elements and a
@@ -5224,6 +5314,13 @@ Lean file. *Needs:* *iwasawa-decomposition*; Mathlib `MeasureTheory.Measure.haar
 
 **Checks.**
 
+- `adjointModulus_trivial` and `adjointModulus_gm` — the zero Lie algebra and the
+  trivial adjoint action give modulus one.
+- `adjointModulus_q3_upper`, `adjointModulus_f3Laurent_upper` — the upper Borel of
+  `GL₂(ℚ₃)` and `GL₂(𝔽₃((t)))` has both adjoint modulus and modular character `1/3`
+  at `diag(ϖ,1)`.
+- `adjointModulus_q3_opposite`, `adjointModulus_f3Laurent_opposite` — the lower Borel
+  gives `3` on those same matrices, detecting the root and Haar convention.
 - `nonreduced_modulus_uses_weight_spaces` (computation) — in `SU_3` the positive weight
   multiplicities are `2, 1`, so on a cocharacter with `a(λ) = 1` the exponent is `2·1 + 1·2 = 4`;
   using `dim U_a = 3` would give `5`. The Lean example computes both values.
@@ -5275,7 +5372,7 @@ the displayed maps (4.12)–(4.13) in part (II) of its proof, pp. 30–31, and L
   Cartan set is a singleton, although the completed-unramified translation group is infinite.
 
 **Transport of root combinatorics to an unramified comparison group.** (*unramified-combinatorial-comparison*)
-Let `G` be adjoint and simple over `ℚ_p` (or `E`), with `W̃` over `L` and `σ` preserving the base
+Let `G` be quasi-split, adjoint and simple over `ℚ_p` (or `E`), with `W̃` over `L` and `σ` preserving the base
 alcove. First, some unramified adjoint group `G'` over `ℚ_p` has `(W̃', σ') ≅ (W̃, σ)`, matching `Σ`
 with the absolute roots of `G'`, `X_*(T)_I` with `X_*(T')`, `π₁(G)_I` with `π₁(G')`, lengths, Bruhat
 orders, Levi subsets (`σ`-stable sets of simple reflections), and dominant `μ̄` with dominant `μ'`
@@ -5287,6 +5384,15 @@ results for `P^∨` (the adjoint case) or `Q^∨` (the simply connected case) tr
 ([van Hoften], §A.3.2, p. 69; [He 2021], §4.1, footnote 1, p. 7 (a reference to He 2014, §6; not a
 proof); [Haines–Rapoport], Lem. 15, p. 9). *Needs:* *dominant-coinvariant-cocharacters*;
 *translation-length-formula*; *length-and-bruhat-order*; *admissible-set*.
+
+**Checks.**
+
+- `unramifiedComparison_split_A1` — split `PGL₂` compares to itself; the identity on
+  the two affine simple reflections intertwines their trivial Frobenius actions.
+- `unramifiedComparison_inner_A1_rejected` — for quaternionic `PGL₁(D)`, Frobenius
+  interchanges `s₀,s₁`. No bijection of these two reflections intertwines this action
+  with the identity action of split `PGL₂`. Splitting over an unramified extension
+  does not imply the quasi-split hypothesis of this comparison.
 
 **Generation of parahoric and hyperspecial points by root groups and the torus.** (*hyperspecial-generation*)
 First, for every point `x` of the apartment, the parahoric subgroup `𝒢°_x(O)` is generated by

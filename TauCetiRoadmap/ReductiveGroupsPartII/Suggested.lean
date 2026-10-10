@@ -10,7 +10,7 @@ import TauCeti.Algebra.AlgebraicGroup.SplitTorus.Basic
 import TauCeti.Algebra.AlgebraicGroup.MultiplicativeGroup.Basic
 import TauCeti.Algebra.AlgebraicGroup.CommHopfAlgCat.CharacterLattice.Basic
 import TauCeti.Algebra.HopfAlgebra.HopfIdeal.Basic
-import TauCeti.Algebra.AlgebraicGroup.Tangent.Adjoint
+import TauCeti.Algebra.AlgebraicGroup.Tangent.Representation
 import TauCeti.Algebra.AlgebraicGroup.Dynamic.Parabolic
 import TauCeti.Algebra.AlgebraicGroup.HopfIdeal.BaseChange
 import TauCeti.Algebra.AlgebraicGroup.Derived.Basic
@@ -2108,9 +2108,9 @@ theorem isClosedEmbedding_algebraMap : Topology.IsClosedEmbedding (algebraMap E 
 -- Test MaxUnramifiedCompletion.complete
 example : CompleteSpace (Breve E) := inferInstance
 
-/-- `Ĕ` has infinite transcendence degree over `E`: for every `n` there are `n` algebraically
-independent elements. -/
-theorem transcendenceDegree_infinite (n : ℕ) :
+/-- In characteristic zero, `Ĕ` has infinite transcendence degree over `E`.
+Chen, Proposition 2.0.3, pp. 734–735, followed by finite extension of the base field. -/
+theorem transcendenceDegree_infinite [CharZero E] (n : ℕ) :
     ∃ x : Fin n → Breve E, AlgebraicIndependent E x := sorry
 
 -- Test MaxUnramifiedCompletion.padic_witt
@@ -2130,7 +2130,7 @@ example (ϖ : 𝒪[E]) (hϖ : Irreducible ϖ) (x : Breve E) :
     x ^ 2 ≠ algebraMap E (Breve E) ϖ := sorry
 
 -- Test MaxUnramifiedCompletion.not_algebraic
-example : ¬ Algebra.IsAlgebraic E (Breve E) := sorry
+example [CharZero E] : ¬ Algebra.IsAlgebraic E (Breve E) := sorry
 
 -- Test MaxUnramifiedCompletion.frobenius_ne_one
 example : frobenius E ≠ AlgEquiv.refl := sorry
@@ -2722,7 +2722,8 @@ theorem smooth_fixedPoints (O : Type u) [CommRing O] [IsDomain O] [IsDiscreteVal
 /-! ### Weil restriction of group schemes -/
 
 /-- The Weil restriction of a commutative Hopf algebra: the algebra `Res k k' H'`, carrying the
-Hopf structure `instHopfAlgebraRes` for which `homEquiv` is a group isomorphism on points. -/
+Hopf structure `instHopfAlgebraRes` when `k'` is finite projective over `k`, for which
+`homEquiv` is a group isomorphism on points. -/
 def ResHopf (k : Type u) [CommRing k] (k' : Type u) [CommRing k'] [Algebra k k']
     (H' : Type u) [CommRing H'] [HopfAlgebra k' H'] : Type u := Res k k' H'
 
@@ -2733,13 +2734,12 @@ instance (k : Type u) [CommRing k] (k' : Type u) [CommRing k'] [Algebra k k']
 section Hopf
 
 variable (k : Type u) [CommRing k] (k' : Type u) [CommRing k'] [Algebra k k']
-  [Module.Finite k k'] [Module.Projective k k'] (H' : Type u) [CommRing H'] [HopfAlgebra k' H']
+  (H' : Type u) [CommRing H'] [HopfAlgebra k' H']
 
-/-- The Hopf structure on `Res_{k'/k} H'`; its algebra structure is that of `Res`. For `k → k'`
-finite locally free it is fixed by the requirement that `pointsMulEquiv`, whose underlying
-bijection is `homEquiv` (`pointsMulEquiv_apply`), be multiplicative. As for `Res`, no statement of
-this file constrains it when `k'` is not finite projective over `k`. -/
-instance instHopfAlgebraRes : HopfAlgebra k (ResHopf k k' H') :=
+/-- The Hopf structure on the representing algebra for a finite locally free base map.
+Its underlying algebra is `Res` and its point adjunction is `pointsMulEquiv`. -/
+instance instHopfAlgebraRes [Module.Finite k k'] [Module.Projective k k'] :
+    HopfAlgebra k (ResHopf k k' H') :=
   letI : Algebra k (ResHopf k k' H') := inferInstanceAs (Algebra k (Res k k' H'))
   letI : Coalgebra k (ResHopf k k' H') := sorry
   letI : Bialgebra k (ResHopf k k' H') := Bialgebra.mk sorry sorry sorry sorry
@@ -2747,31 +2747,32 @@ instance instHopfAlgebraRes : HopfAlgebra k (ResHopf k k' H') :=
   HopfAlgebra.mk sorry sorry
 
 /-- The underlying algebra of `ResHopf` is `Res`. -/
-def resHopfAlgEquiv : ResHopf k k' H' ≃ₐ[k] Res k k' H' := AlgEquiv.refl
+def resHopfAlgEquiv [Module.Finite k k'] [Module.Projective k k'] : ResHopf k k' H' ≃ₐ[k] Res k k' H' := AlgEquiv.refl
 
-/-- Points of the Weil restriction are points over `k' ⊗_k R`, as groups. For `k → k'` finite
-locally free its underlying bijection is `homEquiv` (`pointsMulEquiv_apply`); like `Res`, the
-declaration itself carries no finiteness hypothesis. -/
-def pointsMulEquiv (R : Type u) [CommRing R] [Algebra k R] :
+/-- Over a finite locally free base map, the point adjunction is a group equivalence. -/
+def pointsMulEquiv [Module.Finite k k'] [Module.Projective k k']
+    (R : Type u) [CommRing R] [Algebra k R] :
     WithConv (ResHopf k k' H' →ₐ[k] R) ≃* WithConv (H' →ₐ[k'] k' ⊗[k] R) := sorry
 
 /-- The underlying bijection of `pointsMulEquiv` is `homEquiv`. -/
-theorem pointsMulEquiv_apply (R : Type u) [CommRing R] [Algebra k R]
+theorem pointsMulEquiv_apply [Module.Finite k k'] [Module.Projective k k'] (R : Type u) [CommRing R] [Algebra k R]
     (x : WithConv (ResHopf k k' H' →ₐ[k] R)) :
     (pointsMulEquiv k k' H' R x).ofConv = homEquiv k k' H' R x.ofConv := sorry
 
-theorem pointsMulEquiv_naturality {R S : Type u} [CommRing R] [Algebra k R] [CommRing S]
+theorem pointsMulEquiv_naturality [Module.Finite k k'] [Module.Projective k k'] {R S : Type u} [CommRing R] [Algebra k R] [CommRing S]
     [Algebra k S] (ψ : R →ₐ[k] S) (x : WithConv (ResHopf k k' H' →ₐ[k] R)) :
     pointsMulEquiv k k' H' S (WithConv.toConv (ψ.comp x.ofConv)) =
       WithConv.toConv ((Algebra.TensorProduct.map (AlgHom.id k' k') ψ).comp
         (pointsMulEquiv k k' H' R x).ofConv) := sorry
 
 /-- Functoriality in Hopf maps. Its underlying algebra map is `map` (`mapHopf_apply`). -/
-def mapHopf {H'' : Type u} [CommRing H''] [HopfAlgebra k' H''] (φ : H'' →ₐc[k'] H') :
+def mapHopf [Module.Finite k k'] [Module.Projective k k'] {H'' : Type u} [CommRing H''] [HopfAlgebra k' H''] (φ : H'' →ₐc[k'] H') :
     ResHopf k k' H'' →ₐc[k] ResHopf k k' H' := sorry
 
-theorem mapHopf_apply {H'' : Type u} [CommRing H''] [HopfAlgebra k' H''] (φ : H'' →ₐc[k'] H')
+theorem mapHopf_apply [Module.Finite k k'] [Module.Projective k k'] {H'' : Type u} [CommRing H''] [HopfAlgebra k' H''] (φ : H'' →ₐc[k'] H')
     (x : ResHopf k k' H'') : mapHopf k k' H' φ x = map k k' H' (φ : H'' →ₐ[k'] H') x := sorry
+
+variable [Module.Finite k k'] [Module.Projective k k']
 
 -- Test WeilRestriction.mapHopf_id
 example : mapHopf k k' H' (BialgHom.id k' H') = BialgHom.id k (ResHopf k k' H') := sorry
@@ -2796,6 +2797,23 @@ def diagonal (H : Type u) [CommRing H] [HopfAlgebra k H] (R : Type u) [CommRing 
 example : Nonempty (ResHopf k k' k' ≃ₐ[k] k) := sorry
 
 end Hopf
+
+-- Test WeilRestriction.pointsMulEquiv_complex
+example : Nonempty (WithConv (ResHopf ℝ ℂ (LaurentPolynomial ℂ) →ₐ[ℝ] ℝ) ≃*
+    WithConv (LaurentPolynomial ℂ →ₐ[ℂ] ℂ ⊗[ℝ] ℝ)) :=
+  ⟨pointsMulEquiv ℝ ℂ _ ℝ⟩
+
+-- Test WeilRestriction.pointsMulEquiv_finiteFreeRing
+example : Nonempty (WithConv (ResHopf ℤ (ℤ × ℤ) (LaurentPolynomial (ℤ × ℤ)) →ₐ[ℤ] ℤ) ≃*
+    WithConv (LaurentPolynomial (ℤ × ℤ) →ₐ[ℤ × ℤ] (ℤ × ℤ) ⊗[ℤ] ℤ)) :=
+  ⟨pointsMulEquiv ℤ (ℤ × ℤ) _ ℤ⟩
+
+-- Test WeilRestriction.pointsMulEquiv_nonflat_rejected
+example (p : ℕ) [Fact p.Prime] : ¬ Module.Projective ℤ (ZMod p) := by
+  fail_if_success have := pointsMulEquiv ℤ (ZMod p) (LaurentPolynomial (ZMod p)) ℚ
+  fail_if_success have : HopfAlgebra ℤ (ResHopf ℤ (ZMod p) (LaurentPolynomial (ZMod p))) :=
+    inferInstance
+  sorry
 
 /-- Points of `Res G_m` are units of `k' ⊗ R`. -/
 def multiplicativeGroupPoints (k : Type u) [CommRing k] (k' : Type u) [CommRing k'] [Algebra k k']
@@ -11066,6 +11084,14 @@ theorem fixedCoset_lift {G : Type*} [Group G] (σ : MulAut G) (J : Subgroup G)
     group
   · simpa using hz
 
+/-- Smooth points lift over any complete DVR, including the integers of the completed
+maximal unramified extension. Mathlib's formally smooth adic lifting theorem. -/
+theorem completeDVR_reduction_surjective (O : Type u) [CommRing O] [IsDomain O]
+    [IsDiscreteValuationRing O] [IsAdicComplete (IsLocalRing.maximalIdeal O) O]
+    (A : Type u) [CommRing A] [Algebra O A] [Algebra.Smooth O A] :
+    Function.Surjective fun g : A →ₐ[O] O =>
+      (IsScalarTower.toAlgHom O O (O ⧸ IsLocalRing.maximalIdeal O)).comp g := sorry
+
 /-- Smooth points lift over the ring of integers of a nonarchimedean local field: reduction
 `𝒢(𝒪) → 𝒢(𝓀)` is surjective (Mathlib `Algebra.FormallySmooth.exists_mkₐ_comp_eq_of_isAdicComplete`,
 `𝒪[K]` being `𝓂[K]`-adically complete). -/
@@ -12268,7 +12294,78 @@ end Decomposition
 /-! ### RG2.4/dominant-coinvariant-cocharacters, translation-length-formula,
 dominant-normal-form, admissible-set -/
 
+-- Test minimalLevi_quaternion_quotient
+/- The normalized division valuation has scalar image 2ℤ and kernel O_D×.
+Its quotient is the rational translation group of the anisotropic PGL₁(D). -/
+example {E D : Type u} [Field E] [ValuativeRel E] [TopologicalSpace E]
+    [IsNonarchimedeanLocalField E] [DivisionRing D] [Algebra E D]
+    [FiniteDimensional E D] (hd : Module.finrank E D = 4)
+    (v : Dˣ →* Multiplicative ℤ) (hv : Function.Surjective v)
+    (hscalar : ∀ a : Eˣ, v (Units.map (algebraMap E D).toMonoidHom a) =
+      (TauCeti.normalizedValuation E a) ^ 2) :
+    Nonempty ((Dˣ ⧸ ((Units.map (algebraMap E D).toMonoidHom).range ⊔ v.ker)) ≃ ZMod 2) :=
+  sorry
+
+-- Test minimalLevi_quaternion_displacement
+example : (1 : ZMod 2) ≠ 0 ∧
+    ∀ (ρ : Multiplicative (ZMod 2) →* Equiv.Perm PUnit) (g : Multiplicative (ZMod 2)),
+      ρ g = 1 := by
+  exact ⟨by decide, fun _ _ => Subsingleton.elim _ _⟩
+
+-- Test minimalLevi_quaternion_torus_fixed
+example : {n : ℤ | -n = n} = {0} ∧ Nat.card (ZMod 2) = 2 := by
+  constructor
+  · ext n
+    simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
+    omega
+  · simp
+
+-- Test unramifiedComparison_split_A1
+example : ∀ i : Fin 2, Equiv.refl (Fin 2) ((1 : Equiv.Perm (Fin 2)) i) =
+    (1 : Equiv.Perm (Fin 2)) (Equiv.refl (Fin 2) i) := by
+  intro i
+  rfl
+
+-- Test unramifiedComparison_inner_A1_rejected
+example : ¬ ∃ e : Equiv.Perm (Fin 2), ∀ i,
+    e (Equiv.swap (0 : Fin 2) 1 i) = (1 : Equiv.Perm (Fin 2)) (e i) := by
+  rintro ⟨e, h⟩
+  have h01 := e.injective (h 0)
+  norm_num at h01
+
 namespace Coinvariants
+
+-- Test newton_translation_resGL2
+example :
+    let lam : Fin 2 → Fin 2 → ℚ := ![![1, 0], ![0, 1]]
+    let σ := fun x : Fin 2 → Fin 2 → ℚ => ![x 1, x 0]
+    let dom := fun x : Fin 2 → Fin 2 → ℚ =>
+      fun i => ![max (x i 0) (x i 1), min (x i 0) (x i 1)]
+    let avg := fun x => (1 / 2 : ℚ) • (x + σ x)
+    lam + σ lam = ![![1, 1], ![1, 1]] ∧
+      dom (avg lam) = ![![1/2, 1/2], ![1/2, 1/2]] ∧
+      avg (dom lam) = ![![1, 0], ![1, 0]] ∧ dom (avg lam) ≠ avg (dom lam) := by
+  sorry
+
+-- Test newton_translation_dominant
+example :
+    let lam : Fin 2 → Fin 2 → ℚ := ![![2, 0], ![1, 0]]
+    let σ := fun x : Fin 2 → Fin 2 → ℚ => ![x 1, x 0]
+    let dom := fun x : Fin 2 → Fin 2 → ℚ =>
+      fun i => ![max (x i 0) (x i 1), min (x i 0) (x i 1)]
+    let avg := fun x => (1 / 2 : ℚ) • (x + σ x)
+    dom (avg lam) = ![![3/2, 0], ![3/2, 0]] ∧ dom (avg lam) = avg (dom lam) := by
+  sorry
+
+-- Test newton_translation_split_sign
+example :
+    let dom := fun x : Fin 2 → ℚ => ![max (x 0) (x 1), min (x 0) (x 1)]
+    dom (-(![1, 0] : Fin 2 → ℚ)) = ![0, -1] ∧
+      dom (-(![2, 0] : Fin 2 → ℚ)) = ![0, -2] ∧
+      (∑ i, (-(![1, 0] : Fin 2 → ℚ)) i) = -1 ∧
+      (∑ i, (-(![2, 0] : Fin 2 → ℚ)) i) = -2 := by
+  sorry
+
 
 open IwahoriWeylGroup
 
@@ -12279,8 +12376,9 @@ section
 variable [GeometricValuation D φ]
 
 /-- The translation vector `ν(t)` of a translation element, read off from the apartment action.
-For `t` the class of `z ∈ Z(K)`, `⟨χ, ν(t)⟩ = -ω(χ(z))`; so the translation `t^λ` by `λ̄` is the
-class of `λ(ϖ)⁻¹`. -/
+For `t` the class of `z ∈ Z(K)`, `⟨χ, ν(t)⟩ = -ω(χ(z))`.
+The Kottwitz quotient retains torsion invisible in this vector. For an actual split
+cocharacter `λ`, `t^λ` is represented by `λ(ϖ)⁻¹`. -/
 def translationVector [Nonempty (Apartment φ)] (t : translations D) : D.V :=
   apartmentAction D φ (t : IwahoriWeylGroup D) (Classical.arbitrary (Apartment φ)) -ᵥ
     Classical.arbitrary (Apartment φ)
@@ -13808,5 +13906,131 @@ example (π : E) (hπ : GLBuilding.ω E π = 1)
 end KottwitzCoset
 
 end
+
+namespace LocalIntegration
+noncomputable section
+open scoped PointTopology Valued NNReal
+
+/-- The normalized absolute determinant of the actual adjoint action on the Lie algebra.
+The normalized absolute value has residue-cardinality normalization in every characteristic. -/
+def adjointModulus (E : Type u) [Field E] [ValuativeRel E] [TopologicalSpace E]
+    [IsNonarchimedeanLocalField E] (H : Type u) [CommRing H] [HopfAlgebra E H]
+    [FiniteDimensional E (TauCeti.Bialgebra.CotangentSpace E H)]
+    (g : WithConv (H →ₐ[E] E)) : ℝ≥0 :=
+  (TauCeti.normalizedAbsoluteValue E
+    (LinearEquiv.det ((Derivation.adjointAction (R := E) (H := H)
+      (CommAlgCat.of E E) g).toLinearEquiv) : E) : ℝ≥0)
+
+/-- For a smooth affine group over a nonarchimedean local field, Mathlib's modular
+character is the absolute adjoint determinant. Cartier, §4.1, pp. 144–145, with the
+right-pushforward convention; the analytic-chart proof works in any characteristic. -/
+theorem modularCharacter_eq_adjointModulus (E : Type u) [Field E] [ValuativeRel E]
+    [TopologicalSpace E] [IsNonarchimedeanLocalField E]
+    (H : Type u) [CommRing H] [HopfAlgebra E H] [Algebra.FiniteType E H]
+    [Algebra.Smooth E H] [FiniteDimensional E (TauCeti.Bialgebra.CotangentSpace E H)]
+    (g : WithConv (H →ₐ[E] E)) :
+    MeasureTheory.Measure.modularCharacter g = adjointModulus E H g := sorry
+
+-- Test adjointModulus_trivial
+example (E : Type u) [Field E] [ValuativeRel E] [TopologicalSpace E]
+    [IsNonarchimedeanLocalField E]
+    [FiniteDimensional E (TauCeti.Bialgebra.CotangentSpace E E)]
+    (g : WithConv (E →ₐ[E] E)) : adjointModulus E E g = 1 := sorry
+
+-- Test adjointModulus_gm
+example (E : Type u) [Field E] [ValuativeRel E] [TopologicalSpace E]
+    [IsNonarchimedeanLocalField E]
+    [FiniteDimensional E (TauCeti.Bialgebra.CotangentSpace E (LaurentPolynomial E))]
+    (g : WithConv (LaurentPolynomial E →ₐ[E] E)) :
+    adjointModulus E (LaurentPolynomial E) g = 1 := sorry
+
+-- Test adjointModulus_q3_upper
+example (π : (ℚ_[3])ˣ)
+    (hπ : TauCeti.normalizedValuation (ℚ_[3]) π = Multiplicative.ofAdd 1) :
+    let E := ℚ_[3]
+    let A := TauCeti.GeneralLinear.coordinateHopfAlgebra E 2
+    let X : A := TauCeti.GeneralLinear.coordinateHopfAlgebraAlgEquiv E 2
+      (TauCeti.GeneralLinear.coordinateRingMap E 2 (MvPolynomial.X (1, 0)))
+    let I : Ideal A := Ideal.span {X}
+    letI : I.IsHopfIdeal E := by sorry
+    letI : Algebra.FiniteType E (A ⧸ I) := by sorry
+    letI : FiniteDimensional E (TauCeti.Bialgebra.CotangentSpace E (A ⧸ I)) := by sorry
+    let m := Matrix.GeneralLinearGroup.mk'' (!![π.val, 0; 0, 1] : Matrix (Fin 2) (Fin 2) E)
+      (by sorry)
+    let f : A →ₐ[E] E := WithConv.ofConv
+      ((TauCeti.GeneralLinear.pointsMulEquiv (R := E) 2).symm m)
+    let g := WithConv.toConv (Ideal.Quotient.liftₐ I f (by sorry))
+    adjointModulus E (A ⧸ I) g = (1 / 3) ∧
+      MeasureTheory.Measure.modularCharacter g = (1 / 3) := by sorry
+
+-- Test adjointModulus_q3_opposite
+example (π : (ℚ_[3])ˣ)
+    (hπ : TauCeti.normalizedValuation (ℚ_[3]) π = Multiplicative.ofAdd 1) :
+    let E := ℚ_[3]
+    let A := TauCeti.GeneralLinear.coordinateHopfAlgebra E 2
+    let X : A := TauCeti.GeneralLinear.coordinateHopfAlgebraAlgEquiv E 2
+      (TauCeti.GeneralLinear.coordinateRingMap E 2 (MvPolynomial.X (0, 1)))
+    let I : Ideal A := Ideal.span {X}
+    letI : I.IsHopfIdeal E := by sorry
+    letI : Algebra.FiniteType E (A ⧸ I) := by sorry
+    letI : FiniteDimensional E (TauCeti.Bialgebra.CotangentSpace E (A ⧸ I)) := by sorry
+    let m := Matrix.GeneralLinearGroup.mk'' (!![π.val, 0; 0, 1] : Matrix (Fin 2) (Fin 2) E)
+      (by sorry)
+    let f : A →ₐ[E] E := WithConv.ofConv
+      ((TauCeti.GeneralLinear.pointsMulEquiv (R := E) 2).symm m)
+    let g := WithConv.toConv (Ideal.Quotient.liftₐ I f (by sorry))
+    adjointModulus E (A ⧸ I) g = 3 ∧
+      MeasureTheory.Measure.modularCharacter g = 3 := by sorry
+
+local instance : ValuativeRel (LaurentSeries (ZMod 3)) :=
+  .ofValuation (LaurentSeries.valued (ZMod 3)).v
+
+local instance : IsNonarchimedeanLocalField (LaurentSeries (ZMod 3)) := by sorry
+
+-- Test adjointModulus_f3Laurent_upper
+example (π : (LaurentSeries (ZMod 3))ˣ)
+    (hπ : TauCeti.normalizedValuation (LaurentSeries (ZMod 3)) π = Multiplicative.ofAdd 1) :
+    let E := LaurentSeries (ZMod 3)
+    let A := TauCeti.GeneralLinear.coordinateHopfAlgebra E 2
+    let X : A := TauCeti.GeneralLinear.coordinateHopfAlgebraAlgEquiv E 2
+      (TauCeti.GeneralLinear.coordinateRingMap E 2 (MvPolynomial.X (1, 0)))
+    let I : Ideal A := Ideal.span {X}
+    letI : I.IsHopfIdeal E := by sorry
+    letI : Algebra.FiniteType E (A ⧸ I) := by sorry
+    letI : FiniteDimensional E (TauCeti.Bialgebra.CotangentSpace E (A ⧸ I)) := by sorry
+    let m := Matrix.GeneralLinearGroup.mk'' (!![π.val, 0; 0, 1] : Matrix (Fin 2) (Fin 2) E)
+      (by sorry)
+    let f : A →ₐ[E] E := WithConv.ofConv
+      ((TauCeti.GeneralLinear.pointsMulEquiv (R := E) 2).symm m)
+    let g := WithConv.toConv (Ideal.Quotient.liftₐ I f (by sorry))
+    adjointModulus E (A ⧸ I) g = (1 / 3) ∧
+      MeasureTheory.Measure.modularCharacter g = (1 / 3) := by sorry
+
+-- Test adjointModulus_f3Laurent_opposite
+example (π : (LaurentSeries (ZMod 3))ˣ)
+    (hπ : TauCeti.normalizedValuation (LaurentSeries (ZMod 3)) π = Multiplicative.ofAdd 1) :
+    let E := LaurentSeries (ZMod 3)
+    let A := TauCeti.GeneralLinear.coordinateHopfAlgebra E 2
+    let X : A := TauCeti.GeneralLinear.coordinateHopfAlgebraAlgEquiv E 2
+      (TauCeti.GeneralLinear.coordinateRingMap E 2 (MvPolynomial.X (0, 1)))
+    let I : Ideal A := Ideal.span {X}
+    letI : I.IsHopfIdeal E := by sorry
+    letI : Algebra.FiniteType E (A ⧸ I) := by sorry
+    letI : FiniteDimensional E (TauCeti.Bialgebra.CotangentSpace E (A ⧸ I)) := by sorry
+    let m := Matrix.GeneralLinearGroup.mk'' (!![π.val, 0; 0, 1] : Matrix (Fin 2) (Fin 2) E)
+      (by sorry)
+    let f : A →ₐ[E] E := WithConv.ofConv
+      ((TauCeti.GeneralLinear.pointsMulEquiv (R := E) 2).symm m)
+    let g := WithConv.toConv (Ideal.Quotient.liftₐ I f (by sorry))
+    adjointModulus E (A ⧸ I) g = 3 ∧
+      MeasureTheory.Measure.modularCharacter g = 3 := by sorry
+
+end
+end LocalIntegration
+
+
+#check @WeilRestriction.pointsMulEquiv
+#check @WeilRestriction.instHopfAlgebraRes
+#check @WeilRestriction.mapHopf
 
 end TauCetiRoadmap.ReductiveGroupsPartII
