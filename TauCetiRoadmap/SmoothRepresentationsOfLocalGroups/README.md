@@ -118,7 +118,8 @@ induction, Frobenius reciprocity, stages and exactness over compact G (SR.2.1);
 `Rep.mackeyDecomposition` for finite G; Mathlib `Representation.Coinvariants` of `charTwist ψ⁻¹ ρ`
 for the twisted coinvariants (SR.2.3, SR.5.1); the Iwahori factorisations, cell products, index
 formula [H : H ∩ zHz⁻¹] = δ_P(z)⁻¹ and Cartan decomposition of ReductiveGroupsPartII, RG2.3–RG2.4,
-and the modulus of a parabolic of AdelicAlgebraicGroups, AA.2.2 (SR.1.4–SR.1.5, SR.2.2, SR.3a.2);
+and its `LocalIntegration.modularCharacter_eq_adjointModulus` and
+`parabolic_adjointDet_eq_radical` in every characteristic (SR.1.4–SR.1.5, SR.2.2, SR.3a.2);
 the central-coset localisation of Modular forms, layer 2 (SR.4.3); the Iwasawa presentation
 Fr s Fr⁻¹ = s^q of Local fields and ramification, layer 4, with Tau Ceti `IsArithFrobeniusLift`,
 `tameQuotientEquiv`, `wildInertiaSubgroup` (SR.6.1); and Mathlib's Fitting decomposition
@@ -364,6 +365,14 @@ compactness of P\G, unimodularity and the modulus δ_P of the minimal parabolic.
 integral dual group over ℤ with its Galois action through a finite quotient and the L-group. These
 are consumed as imported objects; no second topology, parahoric or dual group is defined here.
 
+For SR.2.2, RG2.4 owns `LocalIntegration.modularCharacter_eq_adjointModulus`
+(`Suggested.lean`) and `parabolic_adjointDet_eq_radical` (the README target): the local
+Haar modular character is the absolute adjoint determinant, and for a parabolic this is
+the determinant on Lie N. These hold over every nonarchimedean local
+field, including positive characteristic. SR constructs the coefficient-valued modulus
+when the residue characteristic is invertible in A. AdelicAlgebraicGroups §2.2 consumes
+these RG2 results for finite-place and adelic comparisons.
+
 ### From TauCetiRoadmap.ProfiniteCohomology
 
 Layer 0: discrete modules over profinite groups and their exhaustion by invariants of open normal
@@ -404,11 +413,10 @@ Layer 9: the local Weil group and its Frobenius elements, consumed by the torus-
 dictionary, the finite-wild discretisation and the torus compatibility of the excursion action.
 Local Langlands for tori is an input stated where used.
 
-### From TauCetiRoadmap.LocalFieldsRamification and TauCetiRoadmap.AdelicAlgebraicGroups
+### From TauCetiRoadmap.LocalFieldsRamification
 
 Local fields and ramification, layer 4: the wild and tame filtrations and the Iwasawa
-presentation Fr s Fr⁻¹ = s^q. Adelic algebraic groups, AA.2.2: the modulus of a parabolic, of
-which the ring-valued modulus character of SR.2.2 is the coefficient-safe form.
+presentation Fr s Fr⁻¹ = s^q.
 
 ## How to read the build
 
@@ -1768,7 +1776,14 @@ part of the group data ([Cas95] §1.5 and Lemma 1.5.1, p. 16).
 [BH06] §3.3, p. 29, and 7.6 Proposition, pp. 54–55, use the inverse module:
 δ_B^{BH}(diag(a,d)) = |d/a|_F. Thus our δ_B = (δ_B^{BH})⁻¹; the factor
 (δ_B^{BH})^{−1/2} in [BH06] (9.11.1), p. 69, is our δ_B^{1/2}. *Needs:* *a-valued-haar-measure*,
-*smooth-character*; ReductiveGroups layer 7.
+*smooth-character*; ReductiveGroups layer 7; ReductiveGroupsPartII RG2.4
+`LocalIntegration.modularCharacter_eq_adjointModulus` and
+`parabolic_adjointDet_eq_radical`. SR.2.2 consumes these arbitrary-characteristic local
+results and constructs the coefficient-valued character via the residue exponent when
+the residue characteristic is invertible in A (equivalently, q is a unit). Its merge
+contract includes agreement with that RG2 modulus; square roots are required only for
+the normalised functors. AdelicAlgebraicGroups §2.2 consumes the same RG2 results for
+finite-place and adelic comparison.
 
 **Checks.**
 
@@ -1776,6 +1791,9 @@ part of the group data ([Cas95] §1.5 and Lemma 1.5.1, p. 16).
 - `modulusCharacter_trivial_parabolic`: for P = G (N = 1), δ_P = 1.
 - `modulusCharacter_eq_modularCharacter_test`: for P = B ⊆ GL_2(ℚ_p), δ_B equals Mathlib's modularCharacter of B (as an ℝ≥0-valued character).
 - At diag(ϖ,1), the conjugation modulus is q⁻¹ and the BH module is q; at diag(1,ϖ), these values are q and q⁻¹. These tests use conjugation on the actual upper unipotent subgroup, so interchanging the two characters fails them.
+- Over 𝔽₃((t)), the upper and opposite Borels at diag(t,1) have modulus 1/3 and 3,
+  respectively, as in RG2 `adjointModulus_f3Laurent_upper` and
+  `adjointModulus_f3Laurent_opposite`; coefficient specialization requires 3 ∈ Aˣ.
 
 **The Jacquet module** (*jacquet-module*). Let G be locally profinite, P = M ⋉ N closed subgroups
 of G (N normal in P) and A commutative, with q^{±1/2} ∈ A for r_P. For a smooth P-representation
