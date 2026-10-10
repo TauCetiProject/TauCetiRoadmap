@@ -284,6 +284,20 @@ here for the roadmaps that import them.
 
 ## Exact supplier contracts
 
+- `SheafOfModules`, `SheafOfModules.toSheaf`, and `SheafOfModules.unit`,
+  `Mathlib/Algebra/Category/ModuleCat/Sheaf.lean`: the module carrier, its underlying abelian sheaf,
+  and the structure-sheaf module. §2.9 supplies the big-site section functor on these carriers.
+- `SheafOfModules.free`, `Mathlib/Algebra/Category/ModuleCat/Sheaf/Free.lean`, and
+  `Scheme.Modules.restrictFunctor`, `Mathlib/AlgebraicGeometry/Modules/Sheaf.lean`: finite free
+  terms and open restriction for §0.5's resolutions.
+- `DerivedCategory.Q`, `DerivedCategory.singleFunctor`,
+  `Mathlib/Algebra/Homology/DerivedCategory/Basic.lean`: localization and degree-zero complexes;
+  §2.18's pseudo-coherence criterion is a property of this existing derived category.
+- `AlgebraicGeometry.Scheme.ord`, `Mathlib/AlgebraicGeometry/OrderOfVanishing.lean`: the
+  principal-divisor coefficients in §5.1. Rational equivalence additionally allows locally
+  finite families of integral closed subschemes.
+
+
 - `AlgebraicGeometry.Scheme.Modules.pullbackComp`, `Mathlib/AlgebraicGeometry/Modules/Sheaf.lean`:
   composition of module-sheaf pullback functors; use it for the quasi-coherent restriction.
 
@@ -505,12 +519,19 @@ Define `Module.IsPseudoCoherent A M` for a ring `A` and module `M`: `M` has a re
 `⋯ → A^{a_2} → A^{a_1} → A^{a_0} → M → 0` by finite free modules, that is a chain complex of finite
 free modules in degrees `≥ 0`, exact in positive degrees, with zeroth homology `M` (Stacks,
 Definition 15.66.1 (064Q)). Define `Scheme.Modules.IsPseudoCoherent F` for an `O_X`-module `F` on a
-scheme: on every affine open `U`, `F(U)` is pseudo-coherent over `O(U)`. API: `isPseudoCoherent_iff_finite`
+scheme: around every point there is an open `U` and an exact resolution
+`⋯ → O_U^{a_2} → O_U^{a_1} → O_U^{a_0} → F|_U → 0`, with each `a_i` finite.
+Use the predicates `PseudoCoherence.IsPseudoCoherentModule` and
+`PseudoCoherence.IsPseudoCoherentSheaf`. Prove `isPseudoCoherentSheaf_quasicoherent` and
+`isPseudoCoherentSheaf_iff_affineOpens`: the sheaf predicate is equivalent to quasi-coherence
+**together with** pseudo-coherence of sections on every affine open. A condition on sections
+alone is insufficient. These follow from the local resolutions and the affine comparison
+([Stacks, Lemmas 36.10.1–36.10.2](https://stacks.math.columbia.edu/tag/08E4)). API: `isPseudoCoherent_iff_finite`
 (over a Noetherian ring, pseudo-coherent is finite; Lemma 15.66.17 (066E)),
 `IsPseudoCoherent.finitePresentation` (pseudo-coherent modules are finitely presented; Lemma 15.66.4
 (064T)), `IsPseudoCoherent.baseChange_of_flat` (stability under flat base change),
 `IsPseudoCoherent.of_shortExact` (two-out-of-three in a short exact sequence; Lemma 15.66.14 (066D)),
-`Scheme.Modules.isPseudoCoherent_iff_affineOpens` (affine-local characterisation) and
+`Scheme.Modules.isPseudoCoherent_iff_affineOpens` (the characterization above) and
 `Scheme.Modules.IsPseudoCoherent.pullback` along flat morphisms. Hypotheses: `A` any commutative ring;
 `X` any scheme. *Needs:* Mathlib `Module.FinitePresentation`, `Module.Finite`, `ChainComplex`; Tau
 Ceti `FinitelyPresentedSheaf`; JacobianChallenge Layer B.
@@ -523,6 +544,19 @@ Ceti `FinitelyPresentedSheaf`; JacobianChallenge Layer B.
 - `test_not_finitely_presented`: for `A = k[x_1, x_2, …]` in countably many variables and
   `M = A/(x_1, x_2, …)`, `M` is finite but not finitely presented, hence not pseudo-coherent.
 - `test_noetherian_agrees`: over `ℤ`, a module is pseudo-coherent iff it is finitely generated.
+
+**Checks for the resolution predicates.**
+- `IsPseudoCoherentModule_free`: finite free modules have a resolution concentrated in degree zero.
+- `IsPseudoCoherentModule_zero`: the zero module has the zero resolution.
+- `IsPseudoCoherentModule_not_finitely_presented`: a module that is not finitely presented cannot
+  have such a resolution; apply this to the infinitely generated-ideal quotient above.
+- `IsPseudoCoherentSheaf_free`: `O_X^n` has a finite free resolution concentrated in degree zero.
+- `IsPseudoCoherentSheaf_zero`: the zero sheaf satisfies the local resolution condition.
+- `IsPseudoCoherentSheaf_extension_by_zero`: for a nonfield DVR `R`, fraction field `K`, and the
+  generic open immersion `j`, the sheaf `j_!O` has zero global sections and restriction `O_{Spec K}`,
+  and fails the predicate. These two restrictions determine
+  the sheaf on the two-point space `Spec R`. Its affine section modules `0` and `K` are
+  pseudo-coherent, so they do not detect this failure.
 
 ### 0.6 Reflexive sheaves, reflexive hulls and Hartogs
 
@@ -595,8 +629,11 @@ dense open (Stacks, Lemma 33.20.4 (0B2L)). *Needs:* Mathlib `topologicalKrullDim
 ### 0.8 Flatness over Dedekind bases, spreading out, étale coordinates and quasi-sections
 
 Prove `flat_over_dedekind`: a morphism `X → S` to a Dedekind scheme with `X` reduced and every
-irreducible component of `X` dominating `S` is flat, and its fibres are pure of the expected
-dimension when `X` is of finite type (Stacks, Lemma 15.22.11 (0AUW)). Prove
+irreducible component of `X` dominating `S` is flat. Here a Dedekind scheme is integral, locally Noetherian, normal and of dimension at most
+one; equivalently its nonempty affine opens are spectra of Dedekind domains. The stalk modules
+are torsion-free over the base stalks, hence flat
+([Stacks, Lemma 15.22.11](https://stacks.math.columbia.edu/tag/0AUW)). Pure relative dimension is a
+separate hypothesis in §5.2, including for finite-type morphisms. Prove
 `generic_fibre_spreading`: for `f : X → S` of finite presentation with `S` integral and the generic
 fibre `X_η` geometrically reduced (irreducible, integral, connected, normal, smooth), the same holds
 for the fibres over a dense open of `S`; and `fibre_locus_constructible`: the locus of `s` where `X_s`
@@ -618,6 +655,10 @@ at `s'` maps to `x` (Stacks, Lemmas 37.38.5 (057G), 37.38.6 (055U)). *Needs:* §
 `Smooth`, `SmoothOfRelativeDimension`, `Etale`, `AffineSpace`, `IsProper`, `Geometrically.Integral`.
 
 **Checks.**
+- `flat_over_dedekind_mixed_dimensions`: over `S = Spec k[t]`, the morphism
+  `S ⊔ A¹_S → S` is flat and finite type, its source is reduced, and both components dominate `S`.
+  Every fibre is `Spec κ(s) ⊔ A¹_{κ(s)}`; no single `d` satisfies the native
+  `PureRelativeDimension d f`. This is the negative control for a purity conclusion.
 - `smooth_section_generic_rejected`: the generic point of `𝔸¹_k → Spec k` has residue
   field `k(t)` and is not closed in its fibre. An étale field neighbourhood of `k`
   cannot carry a section through it.
@@ -2314,13 +2355,19 @@ Example 3.9.9, pp. 64–65). *Needs:* §0.18, §2.7.
 
 ### 2.9 Big-site sheaves of quasi-coherent modules and the sheaves `𝔾_a`, `𝔾_m`, `μ_n`
 
-Define `bigSheaf F` for a quasi-coherent `O_S`-module `F`: the sheaf `F^a : (T, h) ↦ Γ(T, h^* F)` on
-the big fpqc site over `S`, hence on every coarser topology, with `bigSheaf_obj`, `bigSheaf_isSheaf`
+Define `bigSheaf F` for a quasi-coherent `O_S`-module `F`: the **module** `F^a : (T, h) ↦ Γ(T, h^* F)` over
+`bigStructureSheaf S : (T, h) ↦ Γ(T, O_T)` on the big fpqc site over `S`, with the natural
+`Γ(T,O_T)`-action. Its carrier is Mathlib's `SheafOfModules (bigStructureSheaf S)`.
+`bigSheafFunctor` sends quasi-coherent modules and their O-linear maps to this module category;
+`bigSheaf F` is its value on `F`. The underlying abelian sheaf is obtained with
+`SheafOfModules.toSheaf` and supplies the cohomology coefficients. The same construction is a
+sheaf on every coarser topology, with `bigSheaf_obj`, `bigSheaf_isSheaf`
 (for Zariski, étale, fppf, fpqc), `bigSheaf_rightExact` (right exact sequences go to right exact sequences
 of sheaves), `bigSheaf_exact_of_flat_quotient` (a short exact sequence stays exact
 when its quotient is flat over `O_S`, so pullback to every test scheme stays exact), `bigSheaf_pullback` (restriction along `S' → S` is
-`(g^* F)^a`), `bigSheaf_structureSheaf` (`(O_S)^a` is the structure sheaf `𝔾_a` as a sheaf of
-rings), `bigSheaf_fullyFaithful` (Stacks, Lemma 35.8.1 (03DT)). Define `Ga S` (`T ↦ Γ(T, O_T)`,
+`(g^* F)^a`), `bigSheaf_structureSheaf` (`(O_S)^a` is the unit module; its underlying abelian sheaf is `𝔾_a`, with the structure-sheaf ring operations), `bigSheaf_fullyFaithful` (bijections on **O-linear** Hom sets;
+[Stacks, Lemma 35.8.8](https://stacks.math.columbia.edu/tag/03DR); fpqc descent of sections is
+Lemma 35.8.1, and the same O-linear Hom comparison applies to the fpqc carrier). Define `Ga S` (`T ↦ Γ(T, O_T)`,
 additive), `Gm S` (`T ↦ Γ(T, O_T)^×`) and `mu S n` for every integer `n ≥ 1` (`T ↦ {t ∈ Γ(T, O)^× :
 t^n = 1}`), sheaves of abelian groups on the big fpqc site over `S`, and their restrictions `GmEtale
 X`, `muEtale X n` to the small étale site (Stacks, Section 59.28 (03PK)). API: `Gm_obj`, `powHom S
@@ -2331,6 +2378,16 @@ is defined for every `n`, as a subsheaf of `𝔾_m` on the fppf site; it is repr
 `fpqcTopology`, `Over`, `rootsOfUnity`; ConstructibleEtale Layer 6 (comparison only).
 
 **Checks.**
+- `bigStructureSheaf_field`: evaluation at `Spec k` over itself is the ring `k`.
+- `bigStructureSheaf_polynomial`: over `Spec k`, evaluation at `Spec k[t]` is `k[t]`.
+- `bigStructureSheaf_empty`: evaluation at the empty test scheme is the zero ring.
+- `bigSheafFunctor_zero`, `bigSheaf_zero`: the zero quasi-coherent module gives the zero big module.
+- `bigSheafFunctor_structure`, `bigSheaf_structure`: `O_S` gives the unit big module.
+- `bigSheafFunctor_hom`, `bigSheaf_hom`: the induced O-linear Hom map is bijective.
+- `bigSheaf_frobenius_additive_not_linear`: over `F_p`, Frobenius is natural and additive on
+  every test algebra, hence acts on the underlying `G_a`. On `F_p[t]` it is not linear over
+  `F_p[t]`: it fixes `1` but sends `t` to `t^p ≠ t`. Thus this endomorphism does not lift to a
+  morphism of big structure-sheaf modules.
 - `bigSheaf_nonflat_pullback`: on `Spec k[t]`, multiplication by `t` is injective
   on `O_S`, but pullback to `t = 0` is the zero map `k → k`. Its quotient
   `k[t]/(t)` is not flat; the left-exact assertion is therefore unavailable.
@@ -2585,6 +2642,15 @@ algebras, for w-contractibility); Mathlib `ProEt.topology`, `Limits`, `Epi`, `De
 
 ### 2.18 Derived categories of quasi-coherent complexes
 
+Define `PseudoCoherence.IsPseudoCoherentComplex K` on the ambient `DerivedCategory X.Modules`:
+locally `K` is represented by a bounded-above complex of finite free module sheaves, without a
+lower bound on the resolution. This is a condition on the complex, not on its section modules.
+Prove `isPseudoCoherentComplex_single_iff` (`F[0]` satisfies it iff §0.5's local-resolution
+predicate holds for `F`) and `isPseudoCoherentComplex_quasicoherent` (all cohomology sheaves are
+quasi-coherent). Prove `isPseudoCoherentComplex_affine_iff`: for `X = Spec A`, it is equivalent
+to being represented by the sheafification of a bounded-above finite-projective `A`-complex
+([Stacks, Lemmas 36.10.1–36.10.2](https://stacks.math.columbia.edu/tag/08E4)).
+
 Define `DQCoh X`: the full triangulated subcategory of Mathlib's `DerivedCategory X.Modules` of
 complexes all of whose cohomology sheaves are quasi-coherent (Stacks, Lemma 36.3.1 (06YZ)); `DCoh X`
 for `X` locally Noetherian (coherent cohomology), with the bounded variants `D⁺_QCoh`, `D^b_Coh`.
@@ -2594,7 +2660,7 @@ is an equivalence `D(ModuleCat A) ≌ DQCoh (Spec A)` compatible with the standa
 Lemmas 36.3.8–36.3.9), `DQCoh.restrict` (restriction to opens), `DQCoh.tStructure`. Define
 `derivedTensor` (`K ⊗^L_{O_X} L`) and `derivedHom` (`RHom_{O_X}(K, L)`) on `D(O_X)`, with
 `derivedTensor_derivedHom_adj`, `derivedTensor_unit`, `derivedTensor_mem_DQCoh`,
-`derivedHom_mem_DQCoh` (for `K` pseudo-coherent, §0.5, and `L ∈ D⁺_QCoh`), `perfect_dual` (for `K`
+`derivedHom_mem_DQCoh` (for `K` satisfying `PseudoCoherence.IsPseudoCoherentComplex` and `L ∈ D⁺_QCoh`), `perfect_dual` (for `K`
 perfect, `RHom(K, L) ≅ RHom(K, O_X) ⊗^L L`) (Stacks, Sections 21.35 (08J7), 21.36 (0B6E)). Define
 `derivedPullback f` (`Lf^*`, restricting to `DQCoh`) and `totalDirectImage f` (`Rf_*`, restricting
 to `DQCoh` for `f` quasi-compact quasi-separated) with `derivedPullback_totalDirectImage_adj`,
@@ -2609,6 +2675,11 @@ square with `g : S' → S` and `f : X → S` Tor-independent (`Tor_i^{O_S}(O_X, 
 `tilde`, `HasExt`; Tau Ceti `Scheme.Modules.Cohomology`; JacobianChallenge Layer B.
 
 **Checks.**
+- `IsPseudoCoherentComplex_free`: `O_X^n[0]` satisfies the local complex criterion.
+- `IsPseudoCoherentComplex_zero`: the zero complex satisfies it.
+- `IsPseudoCoherentComplex_extension_by_zero`: the same `j_!O[0]` from §0.5 fails it, as well as
+  membership in `DQCoh`; its nonzero generic restriction and zero global sections rule out
+  quasi-coherence.
 - `test_DQCoh_structure_sheaf`: `O_X[0] ∈ DQCoh X`.
 - `test_DQCoh_affine_free`: under `affineEquiv` for `Spec ℤ`, `ℤ[0] ↦ O[0]` and `(ℤ/2)[0] ↦ (ℤ/2)~`,
   supported at `(2)`.
@@ -2629,7 +2700,10 @@ Rf_* a_f K → K`), `pushforwardRightAdjoint_comp` (`a_{g∘f} ≅ a_f a_g` comp
 `pushforwardRightAdjoint_boundedBelow` (`a_f` preserves `D⁺_QCoh` when `f` is of finite Tor
 dimension or `Y` is Noetherian), `globalDuality` (`RHom_X(L, a_f K) ≅ RHom_Y(Rf_* L, K)`),
 `pushforwardRightAdjoint_affine_finite` (for `Spec B → Spec A` finite, `a_f(K~) = RHom_A(B, K)~`)
-(Stacks, Lemma 48.3.1, Example 48.3.2, Lemmas 48.3.5–48.3.6, 48.3.10 (0A9D)). Define
+(Stacks, Lemma 48.3.1, Example 48.3.2, Lemmas 48.3.5–48.3.6, 48.3.10 (0A9D)). Define `Coherent.IsLocalCompleteIntersection f` by local factorizations `U ↪ P → Y`, with
+`P → Y` smooth and the closed immersion defined locally by a finite regular sequence.
+Here the schemes are Noetherian, so this is the usual lci condition
+(Stacks, §37.62, as used in Lemma 48.17.11). Define
 `upperShriek f : D⁺_QCoh Y ⥤ D⁺_QCoh X` for `f` separated of finite type between Noetherian
 schemes: choose a compactification `f = f̄ ∘ j` with `j` an open immersion and `f̄` proper
 (CompactSupport Layer 1's Nagata compactification) and set `f^! := j^* ∘ a_{f̄}`;
@@ -2640,15 +2714,28 @@ using CompactSupport Layer 2's common refinements (Stacks, Situation 48.16.1, Le
 `upperShriek_etale` (`f^! ≅ f^*` for étale `f`; Stacks, Lemmas 48.17.1–48.17.2 (0ATZ)),
 `upperShriek_flat_baseChange` (for `g` flat, `g'^* f^! ≅ f'^! g^*`; Lemmas 48.18.1, 48.18.4 (0BZX)),
 `upperShriek_smooth` (for `f` smooth of relative dimension `d`, `f^! K ≅ f^* K ⊗ Ω^d_{X/Y}[d]`;
-Lemmas 48.17.3, 48.17.11), `upperShriek_lci` (for `f` a local complete intersection, `f^! K ≅ f^* K
-⊗^L f^! O_Y` with `f^! O_Y` invertible, and for Gorenstein `f` of relative dimension `d`, `f^! O_Y
-≅ ω_{X/Y}[d]`; Lemma 48.17.11), `upperShriek_unit`, `upperShriek_counit` (the adjunction maps on
+Lemmas 48.17.3, 48.17.11), `upperShriek_lci` (for `f` a local complete intersection,
+`f^! K ≅ Lf^* K ⊗^L f^! O_Y`, using §2.18's **`derivedPullback f`**.
+The object `f^! O_Y` is tensor-invertible in the derived category, locally a shifted line bundle; for Gorenstein `f` of relative dimension `d`, `f^! O_Y
+≅ ω_{X/Y}[d]`; [Stacks, Lemmas 48.17.9(5) and 48.17.11](https://stacks.math.columbia.edu/tag/0ATZ)), `upperShriek_unit`, `upperShriek_counit` (the adjunction maps on
 the proper part). The regime is bounded-below complexes with quasi-coherent cohomology on
 Noetherian schemes, separated finite-type morphisms; nothing is asserted for unbounded complexes or
 non-Noetherian bases. *Needs:* §2.18; CompactSupport Layers 1–2; StableReduction
 Layer 1 (the sheaf of differentials, for `upperShriek_smooth`).
 
 **Checks.**
+- `IsLocalCompleteIntersection_identity`: the identity has an empty regular sequence.
+- `IsLocalCompleteIntersection_closed_point`: `t = 0` in `A¹_k` is cut out by the regular sequence `[t]`.
+- `IsLocalCompleteIntersection_dual_numbers_rejected`: `Spec k → Spec k[ε]/(ε²)` is not lci;
+  its nonzero kernel is generated by a zero-divisor.
+- `upperShriek_lci_self_coefficient`: for `A = k[t]`, `i : Spec k → Spec A` at `t = 0`, and
+  `K = (A/(t))~[0]`, `i^!K = RHom_A(k,k)` has `H^0 = k`, `H^1 = k`, and all other
+  cohomology zero. Applying `Hom_A(−,k)` to `[A --t→ A]` makes the differential zero.
+- `upperShriek_lci_derived_pullback`: for the same coefficient, `Li^*K` has `k` in degrees
+  `−1,0`; tensoring with `i^!O = k[−1]` gives the required degrees `0,1`.
+- `upperShriek_lci_underived_rejected`: ordinary `i^*K = k[0]`, so its tensor product with
+  `k[−1]` has zero `H^0` and cannot be isomorphic to `i^!K`. Ordinary pullback in the adjacent
+  smooth and étale formulas is valid because those maps are flat.
 - `test_rightAdjoint_id`: `a_{𝟙} ≅ 𝟙` with identity trace.
 - `test_rightAdjoint_closed_point`: for `f : Spec k → Spec k[x]`, `a_f(O) = RHom(k, k[x]) = k[−1]`.
 - `test_rightAdjoint_not_upperShriek`: for `f : 𝔸¹_k → Spec k` (not proper), `a_f(k)` is the full
@@ -2661,7 +2748,7 @@ Layer 1 (the sheaf of differentials, for `upperShriek_smooth`).
 
 Let `f : X → S` be flat and locally of finite presentation and `W ⊆ X ×_S X` an open through which
 the diagonal factors as a closed immersion `Δ : X → W`. Define `IsRelativelyPerfect f K` for
-`K ∈ D(O_X)` (`S`-perfect): `K` is pseudo-coherent (§0.5) and of locally finite Tor dimension
+`K ∈ D(O_X)` (`S`-perfect): `K` satisfies `PseudoCoherence.IsPseudoCoherentComplex` (§2.18) and has locally finite Tor dimension
 over `O_S` (Stacks, Chapter 36, the section on relatively perfect objects); this comes before the
 dualising complex, which is defined in terms of it. Define `RelativeDualizingComplex f`: a pair
 `(K, ξ)` with `K ∈ D(O_X)` `S`-perfect and `ξ : Δ_* O_X → L pr_1^* K|_W` in `D(O_W)` inducing an
@@ -3820,15 +3907,26 @@ irreducible component of every fibre in at least three smooth points (de Jong 19
 pp. 69–70). Prove `stable_model_domination`: given the stable pointed model of the generic fibre
 extended over an alteration of `Y` (§4.15), the stable family dominates the strict transform of
 the original family after a modification, with the dominating map an isomorphism over an open (de
-Jong 1996, 4.18–4.21, pp. 72–74). Prove `curve_family_alteration` (de Jong 5.8): for a projective
-family of curves `X → Y` over an integral Noetherian base with smooth geometrically integral
-generic fibre and a closed `Z ⊆ X`, there is an alteration `Y' → Y` and a split prestable family
-`X' → Y'` with an alteration `X' → X` over `Y' → Y`, such that `X'` is regular over the generic
-point and the preimage of `Z` plus the sections is a union of sections (de Jong 1996, §5: 5.1–5.7,
-pp. 76–79; Theorem 5.8, p. 79; proof 5.9–5.17, pp. 79–82). *Needs:* §4.11, §4.13, §4.15, §4.16,
+Jong 1996, 4.18–4.21, pp. 72–74). Prove `curve_family_alteration`: let `f : X → Y` be projective with `X` and `Y` integral
+excellent schemes, all fibres nonempty and equidimensional of dimension one, and the relative
+smooth locus dense in every fibre. For every proper closed subset `Z ⊊ X`, there are alterations
+`ψ : Y' → Y`, `φ : X' → X`, a projective split prestable family `f' : X' → Y'` with smooth generic
+fibre, and `φ ≫ f = f' ≫ ψ`. There are a divisor `D₁ ⊆ Y'` and finitely many mutually disjoint
+sections `σ_i : Y' → X'` lying in the relative smooth locus, with
+`(φ⁻¹Z)_red ⊆ (f'⁻¹D₁)_red ∪ ⋃ᵢ σ_i(Y')`.
+The containment allows both vertical and horizontal boundary components
+([de Jong 1996, Theorem 5.8, printed p. 79](https://www.numdam.org/item/PMIHES_1996__83__51_0.pdf);
+proof §§5.9–5.17). The generic smoothness conclusion in particular gives regular generic fibre. *Needs:* §4.11, §4.13, §4.15, §4.16,
 §4.17; StableReduction Layers 1, 3, 4; Tau Ceti `NodeAlgebra`; Mathlib `Flat`, `IsProper`.
 
 **Checks.**
+- `curve_family_alteration_vertical_fibre`: for `Y = A¹_k`, `X = P¹_Y` and `Z = X_0`, the
+  identity diagram works with `D₁ = {0}` and no sections. No finite union of sections contains
+  `Z`; each section contributes one point to that one-dimensional fibre. Use
+  the native `Proj` model of `P¹_Y` and its structure map.
+- `curve_family_alteration_vertical_after_base_change`: for any commuting diagram above and any
+  `y'` over `0`, the whole fibre over `y'` maps into `Z`. The theorem
+  `curve_family_vertical_boundary` expresses this containment for any base change diagram.
 - `split_twoLines`: `V(xy) ⊆ ℙ²_k` (two lines meeting at a rational point) is split prestable over
   `k`.
 - `not_split_nodalCubic`: the nodal cubic over `k` with its node's branches defined over a
@@ -3848,6 +3946,11 @@ immersion `j : X_1 → X̄_1` into a regular scheme `X̄_1` **projective** over 
 the complement of `j` together with `j(φ⁻¹(Z))` is the support of a strict normal crossings divisor
 (§4.17); when `k` is perfect the alteration can be chosen generically étale (de Jong 1996, Theorem
 4.1 and Remark 4.2, p. 66; proof 4.3–4.28, pp. 66–76). *Needs:* §4.12, §4.13, §4.14, §4.15, §4.16, §4.17, §4.18; StableReduction Layer 2.
+
+The boundary construction retains §4.18's vertical part: apply the induction to the altered
+base together with `D₁`, enlarge it by the discriminant, and resolve the nodal total space while
+retaining the disjoint smooth sections. Both its inverse-image boundary and these horizontal
+sections enter the normal-crossings boundary (de Jong, §§4.22–4.28).
 
 **Checks.**
 - `alteration_test_curve`: for a curve the theorem is resolution by normalisation (§4.13) with
@@ -3921,6 +4024,11 @@ theorem. Its stronger projectivity conclusion is outside this statement; both th
 §4.11, §4.13, §4.15, §4.16, §4.17, §4.18, §4.19; Tau Ceti `FiniteDVRExtension`, `genericFiber`, `specialFiberι`, `Model`;
 StableReduction Layers 0, 2–3; Mathlib `IsDiscreteValuationRing`, `IsAdicComplete`, `Smooth`.
 
+In the curve-family step, apply §4.18 with its fibrewise dimension and smooth-locus hypotheses,
+obtained in de Jong §6.13. Enlarge `D₁` by the discriminant and apply induction to the base pair;
+carry the inverse image of `D₁` and the disjoint smooth sections through the nodal resolution
+(de Jong, §§6.14–6.16, pp. 85–86). The special-fibre boundary remains part of the resulting pair.
+
 **Checks.**
 - `finite_trait_inseparable`: over a perfect field `k` of characteristic `p > 0`,
   `k[[t]] → k[[u]]`, `t ↦ u^p`, is finite free of rank `p` and local, with a purely inseparable
@@ -3982,7 +4090,7 @@ surfaces, which the relative pairing specialises to.
 type over one fixed field `k`, with morphisms over `Spec k`. Properness, separation
 and finite type are added on targets that require them;
 `Z_k(X)` is Mathlib's `AlgebraicCycle X ℤ` graded by dimension; `CH_k(X)` is its quotient by rational
-equivalence; on a smooth variety of pure dimension `n`, `CH^p(X) := CH_{n−p}(X)` and `A(X) = ⊕
+equivalence using locally finite families of supporting integral closed subschemes (§5.1); on a smooth variety of pure dimension `n`, `CH^p(X) := CH_{n−p}(X)` and `A(X) = ⊕
 CH^p(X)`, and the two gradings are never mixed on a singular scheme. Rational coefficients are the
 separate carrier `CH_k(X)_ℚ := CH_k(X) ⊗ ℚ`, named on every target that uses them; nothing proved
 with `ℚ`-coefficients is exported integrally. Degrees of zero-cycles are taken on proper schemes
@@ -4005,16 +4113,26 @@ section are over a field. The input is Tau Ceti's native `PureRelativeDimension 
 `pureRelativeDimension_iff_fiber_components` identifies it with the expanded
 fibre condition for locally finite type `f`.
 
-Define `Chow.RatEquiv κ X k ≤ Z_k(X)`: the subgroup generated by the divisors `div r := Σ_V ord_V(r)
-[V]` of nonzero rational functions `r` on `(k+1)`-dimensional integral closed subschemes `W ⊆ X`,
-with `ord_V` Mathlib's `Scheme.ord` along the codimension-one points of `W`; `CH_k(X) := Z_k(X) /
-RatEquiv κ X k` (Fulton 1998, §1.3; Stacks, Section 42.19 (02RV)). API: `Chow.div`, `div_mul` (`div
-(rs) = div r + div s`), `Chow.cycleClass` (the class of a cycle), `equiv_iff_pone` (`α ∼ 0` iff `α =
-Σ p_*([V_i(0)] − [V_i(∞)])` for subvarieties `V_i ⊆ X × ℙ¹` dominating `ℙ¹`; Fulton, Proposition
-1.6), `CH_top_free` (`CH_n(X)` is free on the `n`-dimensional irreducible components, `n = dim X`),
-`CH_of_isIso`, `CH_coprod` (additivity in disjoint unions), `CH_rat` (the `ℚ`-carrier with `CH_k(X)
-→ CH_k(X)_ℚ`). Hypotheses: `X` separated of finite type over `k`; no smoothness. Prove
-`chow_divisorClass_comparison`: for `X` integral of dimension `n`, Tau Ceti's divisor class group
+Define `Chow.RatEquiv κ X k ≤ Z_k(X)` by the following contract: a cycle is in this subgroup
+iff it is `Σ_j (i_j)_* div(r_j)` for a family of integral closed subschemes
+`i_j : W_j ↪ X` of dimension `k+1`, nonzero rational functions `r_j ∈ κ(W_j)ˣ`, and a **locally
+finite family of closed supports** `|W_j|` in `X`. Thus each point has a neighbourhood meeting
+only finitely many `|W_j|`. Local finiteness of the principal divisors alone is insufficient.
+`ratEquiv_mem_iff` states this contract on the native cycle carrier, with coefficients given by
+Mathlib's `Scheme.ord`. Define `CH_k(X) := Z_k(X) / RatEquiv κ X k`
+([Stacks, Definition 42.19.1 and Remark 42.19.6](https://stacks.math.columbia.edu/tag/02RV)).
+No quasi-compactness or separation is imposed on these two definitions. For quasi-compact `X`,
+the family of nonempty supports is finite, recovering the finite-sum convention.
+API: `Chow.div`, `div_mul` (`div(rs) = div r + div s`), `Chow.cycleClass` (the class of a cycle),
+`equiv_iff_pone` (for separated finite-type `X`, `α ∼ 0` iff
+`α = Σ p_*([V_i(0)] − [V_i(∞)])` for finitely many integral `V_i ⊆ X × P¹` dominating `P¹`;
+Fulton, Proposition 1.6), `CH_top_free` (for finite-type `X` of dimension `n`, `CH_n(X)` is free
+on its `n`-dimensional irreducible components), `CH_of_isIso`, `CH_coprod`
+(`CH_k(∐_i X_i) ≃ ∏_i CH_k(X_i)` for any small family; for a finite family this is also a direct
+sum), and `CH_rat` (the `Q`-carrier with `CH_k(X) → CH_k(X)_Q`). The coproduct comparison follows
+componentwise from the locally finite support contract; it uses a product for infinitely many
+components. All schemes remain locally of finite type over `κ`. Prove
+`chow_divisorClass_comparison`: for `X` integral separated of finite type of dimension `n`, Tau Ceti's divisor class group
 (`SchemeWeilDivisor` modulo principal divisors) is `CH_{n−1}(X)` through
 `SchemeWeilDivisor.toAlgebraicCycle`, and composed with `classGroupToLineBundleClass` it is the
 first Chern class `Pic(X) → CH^1(X)` of §5.3, an isomorphism for `X` locally factorial (Fulton 1998,
@@ -4022,6 +4140,14 @@ first Chern class `Pic(X) → CH^1(X)` of §5.3, an isomorphism for `X` locally 
 `SchemeWeilDivisor`, `classGroupToLineBundleClass`.
 
 **Checks.**
+- `RatEquiv_countable_lines`: on `E = ∐_{n∈N} A¹_κ`, the locally finite cycle
+  `α = Σ_n [0_n]` belongs to `RatEquiv κ E 0`, using the coordinate function on each component,
+  and `cycleClass α = 0`. Indeed `CH_0(E) = ∏_n CH_0(A¹) = 0`.
+- `RatEquiv_supports_not_divisors`: infinitely many copies of one nonempty integral subscheme
+  do not form a locally finite supporting family, even if all functions are `1` and all their
+  divisors vanish. This rejects the weaker support test.
+- `CH_coprod_countable_points`: `CH_0(∐_n Spec κ) ≃ ∏_n Z`, whereas its degree `−1` group is zero.
+  Rank-one homotopy invariance identifies the latter with `CH_0(E)` above.
 - `cycleClass_surjective`: every class has a cycle representative.
 - `cycles_dvr_closed_point`: on a DVR, the closed point has closure dimension zero and height one.
 - `chow_dvr_generic_open_rejected`: for a DVR `R` with fraction field `K`,
@@ -4038,7 +4164,7 @@ first Chern class `Pic(X) → CH^1(X)` of §5.3, an isomorphism for `X` locally 
   composed with the comparison.
 - `test_top_free`: `CH_2(𝔸²) = ℤ`, `CH_1(𝔸²) = 0`.
 
-- `ratEquiv_point`, `ratEquiv_empty`, `ratEquiv_affine_line`: respectively `RatEquiv = 0` for
+- `RatEquiv_point`, `RatEquiv_empty`, `RatEquiv_affine_line`: respectively `RatEquiv = 0` for
   zero-cycles on a field point, `RatEquiv = 0` on the empty scheme in every degree, and
   `RatEquiv = all zero-cycles` on the affine line over a field (Fulton, §1.3).
 - `chow_point`, `chow_empty`, `chow_negative`: `CH₀(Spec K) ≃ ℤ`, all groups of the empty scheme
@@ -4163,7 +4289,7 @@ N_X Y`). Construct `deformationToNormalCone i`: the blow-up `M := Bl_{X × {∞}
 strict transform of `Y × {∞}`, flat over `ℙ¹`, with fibre `Y` over `0` and `C_X Y` over `∞`
 (StableReduction Layer 4's blow-up), and the specialisation `σ : CH_k(Y) → CH_k(C_X Y)`, `α ↦ i_∞^!
 (pr^* α)`, with `specialization_pullback` (compatibility with flat pullback) (Fulton 1998, §5.1,
-§5.2). Prove `homotopy_invariance`: for the total space `p : E → X` (`Chow.totalSpace`) of a finite
+§5.2). Use the locally finite rational equivalence of §5.1 throughout. Prove `homotopy_invariance`: for the total space `p : E → X` (`Chow.totalSpace`) of a finite
 locally free sheaf of rank `r` (`Chow.HasRank`), `p^* : CH_k(X) → CH_{k+r}(E)` is bijective;
 surjectivity by the localisation sequence and the affine case, injectivity through the projective
 completion `ℙ(E ⊕ 1)` and the projective bundle theorem of §5.4, so the inverse is constructed

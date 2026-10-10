@@ -2989,6 +2989,125 @@ theorem quotientCompNatIso_id_left (I : Z.IdealSheafData) (g : Y ⟶ Z) [IsAffin
 
 end IdealPullback
 
+/-! ### Pseudo-coherent sheaves and complexes -/
+
+open _root_.AlgebraicGeometry
+
+noncomputable instance Coherent.instHasDerivedCategoryModules (X : Scheme.{u}) :
+    HasDerivedCategory X.Modules := HasDerivedCategory.standard _
+
+namespace PseudoCoherence
+
+open scoped ZeroObject
+
+/-- A module admitting a resolution by finite free modules in nonnegative chain degrees. -/
+def IsPseudoCoherentModule (A : Type u) [CommRing A] (M : ModuleCat.{u} A) : Prop :=
+  ∃ P : ChainComplex (ModuleCat.{u} A) ℕ,
+    (∀ n, Module.Free A (P.X n) ∧ Module.Finite A (P.X n)) ∧
+    Nonempty (P.homology 0 ≅ M) ∧ ∀ n : ℕ, IsZero (P.homology (n + 1))
+
+/-- Zariski-local resolutions of a module sheaf by finite free module sheaves. -/
+def IsPseudoCoherentSheaf {X : Scheme.{u}} (F : X.Modules) : Prop :=
+  ∀ x : X, ∃ U : X.Opens, x ∈ U ∧
+    ∃ P : ChainComplex U.toScheme.Modules ℕ,
+      (∀ n, ∃ r : ℕ, Nonempty (P.X n ≅
+        (SheafOfModules.free (R := U.toScheme.ringCatSheaf) (ULift.{u} (Fin r))))) ∧
+      Nonempty (P.homology 0 ≅ F.restrict U.ι) ∧
+      ∀ n : ℕ, IsZero (P.homology (n + 1))
+
+/-- A derived object is locally represented by a bounded-above complex of finite free sheaves. -/
+def IsPseudoCoherentComplex {X : Scheme.{u}} (K : DerivedCategory X.Modules) : Prop :=
+  ∃ C : CochainComplex X.Modules ℤ, Nonempty (DerivedCategory.Q.obj C ≅ K) ∧
+    ∀ x : X, ∃ U : X.Opens, x ∈ U ∧
+      ∃ P : CochainComplex U.toScheme.Modules ℤ,
+        (∃ b : ℤ, ∀ n > b, IsZero (P.X n)) ∧
+        (∀ n, ∃ r : ℕ, Nonempty (P.X n ≅
+          (SheafOfModules.free (R := U.toScheme.ringCatSheaf) (ULift.{u} (Fin r))))) ∧
+        Nonempty (DerivedCategory.Q.obj P ≅ DerivedCategory.Q.obj
+          (((Scheme.Modules.restrictFunctor U.ι).mapHomologicalComplex _).obj C))
+
+/-- Local finite free resolutions imply quasi-coherence (Stacks, Lemma 36.10.1). -/
+theorem isPseudoCoherentSheaf_quasicoherent {X : Scheme.{u}} (F : X.Modules)
+    (hF : IsPseudoCoherentSheaf F) : F.IsQuasicoherent := by sorry
+
+/-- The affine section criterion includes quasi-coherence (Stacks, Lemma 36.10.2). -/
+theorem isPseudoCoherentSheaf_iff_affineOpens {X : Scheme.{u}} (F : X.Modules) :
+    IsPseudoCoherentSheaf F ↔ F.IsQuasicoherent ∧
+      ∀ U : X.affineOpens, IsPseudoCoherentModule Γ(X, U.1)
+        (ModuleCat.of Γ(X, U.1) Γ(F, U.1)) := by sorry
+
+/-- The sheaf predicate is the complex predicate in degree zero (Stacks, Lemma 36.10.2). -/
+theorem isPseudoCoherentComplex_single_iff {X : Scheme.{u}} (F : X.Modules) :
+    IsPseudoCoherentComplex ((DerivedCategory.singleFunctor X.Modules 0).obj F) ↔
+      IsPseudoCoherentSheaf F := by sorry
+
+/-- Pseudo-coherent complexes have quasi-coherent cohomology (Stacks, Lemma 36.10.1). -/
+theorem isPseudoCoherentComplex_quasicoherent {X : Scheme.{u}} (K : DerivedCategory X.Modules)
+    (hK : IsPseudoCoherentComplex K) (n : ℤ) :
+    ((DerivedCategory.homologyFunctor X.Modules n).obj K).IsQuasicoherent := by sorry
+
+-- Check `IsPseudoCoherentModule_free`
+example (A : Type u) [CommRing A] (n : ℕ) :
+    IsPseudoCoherentModule A (ModuleCat.of A (Fin n → A)) := by sorry
+-- Check `IsPseudoCoherentModule_zero`
+example (A : Type u) [CommRing A] : IsPseudoCoherentModule A (0 : ModuleCat.{u} A) := by sorry
+-- Check `IsPseudoCoherentModule_not_finitely_presented`
+example (A : Type u) [CommRing A] (M : ModuleCat.{u} A)
+    (hM : ¬ Module.FinitePresentation A M) : ¬ IsPseudoCoherentModule A M := by sorry
+
+-- Check `IsPseudoCoherentSheaf_free`
+example (X : Scheme.{u}) (n : ℕ) :
+    IsPseudoCoherentSheaf (X := X) (SheafOfModules.free (R := X.ringCatSheaf) (ULift.{u} (Fin n))) := by sorry
+-- Check `IsPseudoCoherentSheaf_zero`
+example (X : Scheme.{u}) : IsPseudoCoherentSheaf (0 : X.Modules) := by sorry
+-- Check `IsPseudoCoherentSheaf_extension_by_zero`: the two nonempty opens of a nonfield DVR.
+example (R K : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    [Field K] [Algebra R K] [IsFractionRing R K] :
+    ∃ F : (Spec (.of R)).Modules, IsZero Γ(F, ⊤) ∧
+      Nonempty ((Scheme.Modules.pullback (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj F ≅
+        SheafOfModules.unit (Spec (.of K)).ringCatSheaf) ∧
+      ¬ IsPseudoCoherentSheaf F ∧
+      (∀ U : (Spec (.of R)).affineOpens,
+        IsPseudoCoherentModule Γ(Spec (.of R), U.1)
+          (ModuleCat.of Γ(Spec (.of R), U.1) Γ(F, U.1))) := by sorry
+
+-- Check `IsPseudoCoherentComplex_free`
+example (X : Scheme.{u}) (n : ℕ) : IsPseudoCoherentComplex
+    ((DerivedCategory.singleFunctor X.Modules 0).obj
+      (SheafOfModules.free (R := X.ringCatSheaf) (ULift.{u} (Fin n)))) := by sorry
+-- Check `IsPseudoCoherentComplex_zero`
+example (X : Scheme.{u}) : IsPseudoCoherentComplex (0 : DerivedCategory X.Modules) := by sorry
+-- Check `IsPseudoCoherentComplex_extension_by_zero`; also `test_DQCoh_extension_by_zero_not_qc`.
+example (R K : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    [Field K] [Algebra R K] [IsFractionRing R K] :
+    ∃ F : (Spec (.of R)).Modules, IsZero Γ(F, ⊤) ∧
+      Nonempty ((Scheme.Modules.pullback (Spec.map (CommRingCat.ofHom (algebraMap R K)))).obj F ≅
+        SheafOfModules.unit (Spec (.of K)).ringCatSheaf) ∧
+      ¬ IsPseudoCoherentComplex
+        ((DerivedCategory.singleFunctor (Spec (.of R)).Modules 0).obj F) ∧
+      ¬ F.IsQuasicoherent := by sorry
+
+end PseudoCoherence
+
+/-- Dominating components over a Dedekind scheme give flatness, without a fibre-purity claim.
+The base condition is affine-local. Stacks, Lemma 15.22.11. -/
+theorem flat_over_dedekind {X S : Scheme.{u}} (f : X ⟶ S) [IsReduced X] [IsIntegral S]
+    (hS : ∀ U : S.affineOpens, Nonempty U.1 → IsDedekindDomain Γ(S, U.1))
+    (hdom : ∀ Z ∈ irreducibleComponents X, Dense (f '' Z)) : Flat f := by sorry
+
+-- Check `flat_over_dedekind_mixed_dimensions`
+example (k : Type u) [Field k] :
+    let S := Spec (.of (Polynomial k))
+    let A := Spec (.of (Polynomial (Polynomial k)))
+    let f : S ⨿ A ⟶ S := coprod.desc (𝟙 S)
+      (Spec.map (CommRingCat.ofHom (algebraMap (Polynomial k) (Polynomial (Polynomial k)))))
+    IsReduced (S ⨿ A) ∧ Flat f ∧ LocallyOfFiniteType f ∧ QuasiCompact f ∧
+      (∀ Z ∈ irreducibleComponents (S ⨿ A : Scheme.{u}), Dense (f '' Z)) ∧
+      (∀ y : S, ∃ Z₀ ∈ irreducibleComponents (f.fiber y),
+        ∃ Z₁ ∈ irreducibleComponents (f.fiber y),
+          topologicalKrullDim Z₀ = 0 ∧ topologicalKrullDim Z₁ = 1) ∧
+      ∀ d : ℕ, ¬ TauCeti.AlgebraicGeometry.PureRelativeDimension d f := by sorry
+
 /-! Affine controls for the module and prescribed-point formulas. -/
 section AffineControls
 set_option backward.isDefEq.respectTransparency false
@@ -4854,21 +4973,81 @@ namespace Topologies
 
 open _root_.AlgebraicGeometry _root_.Opposite
 
-/-- The big-site sheaf `F^a`, `(T → S) ↦ Γ(T, h^*F)`, of a quasi-coherent module, on the fpqc
-topology (hence on every coarser one). -/
-noncomputable def bigSheaf {S : Scheme.{u}} (F : S.Modules) [F.IsQuasicoherent] :
-    Sheaf (Scheme.fpqcTopology.over S) AddCommGrpCat.{u} :=
-  sorry
+/-- The structure sheaf on the big fpqc site, with its section ring on each test scheme. -/
+noncomputable def bigStructureSheaf (S : Scheme.{u}) :
+    Sheaf (Scheme.fpqcTopology.over S) RingCat.{u} :=
+  ⟨(Over.forget S).op ⋙ Scheme.Γ ⋙ forget₂ CommRingCat RingCat, by sorry⟩
 
-/- `bigSheaf_obj`: sections over `(T, h)` are `Γ(T, h^*F)`;
-   `bigSheaf_isSheaf`: `F^a` is a sheaf for the Zariski, étale, fppf and fpqc topologies;
+/-- Pullback and global sections, retaining the action of the big structure sheaf. -/
+noncomputable def bigSheafFunctor (S : Scheme.{u}) :
+    Descent.QCohCat S ⥤ SheafOfModules.{u} (bigStructureSheaf S) := sorry
+
+/-- The associated big module `(T → S) ↦ Γ(T, h^*F)`. -/
+noncomputable def bigSheaf {S : Scheme.{u}} (F : S.Modules) [F.IsQuasicoherent] :
+    SheafOfModules.{u} (bigStructureSheaf S) :=
+  (bigSheafFunctor S).obj ⟨F, inferInstance⟩
+
+/-- The underlying sections of the associated module (Stacks, Definition 35.8.2). -/
+theorem bigSheaf_obj {S T : Scheme.{u}} (F : S.Modules) [F.IsQuasicoherent] (h : T ⟶ S) :
+    letI : Module Γ(T, ⊤) ((bigSheaf F).val.obj (op (Over.mk h))) :=
+      ((bigSheaf F).val.obj (op (Over.mk h))).isModule
+    Nonempty (((bigSheaf F).val.obj (op (Over.mk h))) ≃ₗ[Γ(T, ⊤)]
+      Γ((Scheme.Modules.pullback h).obj F, ⊤)) := by sorry
+
+/-- Full faithfulness for O-linear morphisms (Stacks, Lemma 35.8.8). -/
+theorem bigSheaf_fullyFaithful (S : Scheme.{u}) :
+    Nonempty (bigSheafFunctor S).FullyFaithful := by sorry
+
+/- `bigSheaf_isSheaf`: the same section modules are sheaves for each coarser topology;
    `bigSheaf_rightExact`: right exactness on quasi-coherent modules;
    `bigSheaf_exact_of_flat_quotient`: exactness when the quotient is flat;
    `bigSheaf_pullback`: compatibility with pullback along `S' → S`;
-   `bigSheaf_structureSheaf`: `(O_S)^a` is the structure sheaf `G_a`;
-   `bigSheaf_fullyFaithful`: `F ↦ F^a` is fully faithful on quasi-coherent modules.
-   These need the global-sections functor of `Scheme.Modules` and an `Over`-site restriction API;
-   the carrier above fixes the type. -/
+   `bigSheaf_structureSheaf`: `O_S` gives the unit module.
+   Cohomology uses `SheafOfModules.toSheaf (bigStructureSheaf S)`. -/
+
+-- Check `bigStructureSheaf_field`
+example (k : Type u) [Field k] : Nonempty
+    ((bigStructureSheaf (Spec (.of k))).obj.obj (op (Over.mk (𝟙 (Spec (.of k))))) ≃+* k) := by sorry
+-- Check `bigStructureSheaf_polynomial`
+example (k : Type u) [Field k] : Nonempty
+    ((bigStructureSheaf (Spec (.of k))).obj.obj
+      (op (Over.mk (Spec.map (CommRingCat.ofHom (algebraMap k (Polynomial k)))))) ≃+* Polynomial k) := by sorry
+-- Check `bigStructureSheaf_empty`
+example (S : Scheme.{u}) : Subsingleton
+    ((bigStructureSheaf S).obj.obj (op (Over.mk (Scheme.emptyTo S)))) := by sorry
+
+-- Check `bigSheafFunctor_zero`
+example (S : Scheme.{u}) (F : Descent.QCohCat S) (hF : IsZero F.obj) :
+    IsZero ((bigSheafFunctor S).obj F) := by sorry
+-- Check `bigSheafFunctor_structure`
+example (S : Scheme.{u}) (F : Descent.QCohCat S)
+    (hF : Nonempty (F.obj ≅ SheafOfModules.unit S.ringCatSheaf)) :
+    Nonempty ((bigSheafFunctor S).obj F ≅ SheafOfModules.unit (bigStructureSheaf S)) := by sorry
+-- Check `bigSheafFunctor_hom`
+example (S : Scheme.{u}) (F G : Descent.QCohCat S) :
+    Function.Bijective (fun f : F ⟶ G => (bigSheafFunctor S).map f) := by sorry
+
+-- Check `bigSheaf_zero`
+example (S : Scheme.{u}) (F : S.Modules) [F.IsQuasicoherent] (hF : IsZero F) :
+    IsZero (bigSheaf F) := by sorry
+-- Check `bigSheaf_structure`
+example (S : Scheme.{u}) : Nonempty
+    (bigSheaf (SheafOfModules.unit S.ringCatSheaf) ≅ SheafOfModules.unit (bigStructureSheaf S)) := by sorry
+-- Check `bigSheaf_hom`
+example {S : Scheme.{u}} (F G : S.Modules) [F.IsQuasicoherent] [G.IsQuasicoherent] :
+    Function.Bijective (fun f : F ⟶ G =>
+      (bigSheafFunctor S).map (show (⟨F, inferInstance⟩ : Descent.QCohCat S) ⟶
+        ⟨G, inferInstance⟩ from ⟨f⟩)) := by sorry
+
+-- Check `bigSheaf_frobenius_additive_not_linear`
+example (p : ℕ) [Fact p.Prime] :
+    let S := Spec (.of (ZMod p))
+    let O := SheafOfModules.unit (bigStructureSheaf S)
+    let G := (SheafOfModules.toSheaf (bigStructureSheaf S)).obj O
+    (∃ Φ : G ⟶ G, (∀ (T : Scheme.{0}) (h : T ⟶ S) (a : Γ(T, ⊤)),
+      (Φ.hom.app (op (Over.mk h))).hom a = a ^ p) ∧
+      ¬ ∃ Ψ : O ⟶ O, (SheafOfModules.toSheaf (bigStructureSheaf S)).map Ψ = Φ) ∧
+    (Polynomial.X : Polynomial (ZMod p)) ^ p ≠ Polynomial.X := by sorry
 
 -- Check `bigSheaf_nonflat_pullback`: the same multiplication map before and after t = 0.
 example (k : Type u) [Field k] :
@@ -5080,9 +5259,6 @@ namespace Coherent
 
 open _root_.CategoryTheory _root_.AlgebraicGeometry
 
-noncomputable instance instHasDerivedCategoryModules (X : Scheme.{u}) :
-    HasDerivedCategory X.Modules :=
-  HasDerivedCategory.standard _
 
 /-- `D_QCoh(O_X)`: the full subcategory of the derived category of `O_X`-modules on the complexes
 whose cohomology sheaves are all quasi-coherent. -/
@@ -5120,14 +5296,25 @@ noncomputable def DQCoh.affineEquiv (A : CommRingCat.{u}) :
     DerivedCategory (ModuleCat.{u} A) ≌ DQCoh (Spec A) :=
   sorry
 
+/-- On an affine scheme the local criterion is a bounded-above finite-projective resolution.
+Stacks, Lemma 36.10.2. -/
+theorem isPseudoCoherentComplex_affine_iff (A : CommRingCat.{u})
+    (K : DQCoh (Spec A)) :
+    letI := HasDerivedCategory.standard (ModuleCat.{u} A)
+    PseudoCoherence.IsPseudoCoherentComplex K.obj ↔
+      ∃ P : CochainComplex (ModuleCat.{u} A) ℤ,
+        (∃ b : ℤ, ∀ n > b, IsZero (P.X n)) ∧
+        (∀ n, Module.Projective A (P.X n) ∧ Module.Finite A (P.X n)) ∧
+        Nonempty (((DQCoh.affineEquiv A).functor.obj (DerivedCategory.Q.obj P)) ≅ K) := by sorry
+
 -- Check `test_DQCoh_structure_sheaf`
 example (X : Scheme.{u}) (K : DerivedCategory X.Modules)
     (hK : ∀ n : ℤ, ((DerivedCategory.homologyFunctor X.Modules n).obj K).IsQuasicoherent) :
     DQCoh X :=
   ⟨K, hK⟩
 
-/- `DQCoh.isTriangulated`, `DQCoh.hasCoproducts`, `DCoh` and the tests `test_DQCoh_affine_free`,
-`test_DQCoh_extension_by_zero_not_qc` are roadmap items. -/
+/- `DQCoh.isTriangulated` and `DQCoh.hasCoproducts`: closure under shifts, cones and coproducts.
+`DCoh`: coherent cohomology; `test_DQCoh_affine_free`: degree-zero affine sheafification. -/
 
 noncomputable def derivedTensor {X : Scheme.{u}} : DQCoh X ⥤ DQCoh X ⥤ DQCoh X := sorry
 /-- Internal derived Hom in the ambient derived category of module sheaves.
@@ -5184,6 +5371,84 @@ noncomputable def upperShriek_counit {X Y : Scheme.{u}} (f : X ⟶ Y) [IsProper 
     [IsNoetherian Y] :
     upperShriek f ⋙ ObjectProperty.ι _ ⋙ totalDirectImage f ⟶ ObjectProperty.ι _ :=
   sorry
+
+/-- Locally, factor through a regular closed immersion into a smooth scheme over the target.
+The regular-sequence condition is stated on affine neighbourhoods of points of the source. -/
+def IsLocalCompleteIntersection {X Y : Scheme.{u}} (f : X ⟶ Y) : Prop :=
+  ∀ x : X, ∃ (U : X.Opens) (_ : x ∈ U) (P : Scheme.{u})
+    (i : U.toScheme ⟶ P) (p : P ⟶ Y) (_ : IsClosedImmersion i),
+    Smooth p ∧ i ≫ p = U.ι ≫ f ∧
+    ∀ z : U.toScheme, ∃ V : P.affineOpens, i z ∈ V.1 ∧
+      ∃ t : List Γ(P, V.1), RingTheory.Sequence.IsRegular Γ(P, V.1) t ∧
+        Ideal.span {a | a ∈ t} = i.ker.ideal V
+
+-- Check `IsLocalCompleteIntersection_identity`
+example (X : Scheme.{u}) : IsLocalCompleteIntersection (𝟙 X) := by sorry
+-- Check `IsLocalCompleteIntersection_closed_point`
+example (k : Type u) [Field k] : IsLocalCompleteIntersection
+    (Spec.map (CommRingCat.ofHom (Polynomial.evalRingHom (0 : k)))) := by sorry
+-- Check `IsLocalCompleteIntersection_dual_numbers_rejected`
+example (k : Type u) [Field k] : ¬ IsLocalCompleteIntersection
+    (Spec.map (CommRingCat.ofHom ((TrivSqZeroExt.fstHom k k k).toRingHom))) := by sorry
+
+/-- Lci duality uses derived pullback; the relative dualizing object is tensor-invertible.
+Stacks, Lemmas 48.17.9(5) and 48.17.11. -/
+theorem upperShriek_lci {X Y : Scheme.{u}} (f : X ⟶ Y) [IsSeparated f]
+    [LocallyOfFiniteType f] [QuasiCompact f] [IsNoetherian Y]
+    (hf : IsLocalCompleteIntersection f) (K OY : DQCohPlus Y)
+    (hOY : Nonempty (OY.obj.obj ≅ (DerivedCategory.singleFunctor Y.Modules 0).obj
+      (SheafOfModules.unit Y.ringCatSheaf))) :
+    Nonempty (((upperShriek f).obj K).obj ≅
+      (derivedTensor.obj ((derivedPullback f).obj K.obj)).obj ((upperShriek f).obj OY).obj) ∧
+    ∃ L : DQCoh X, Nonempty
+      (((derivedTensor.obj ((upperShriek f).obj OY).obj).obj L).obj ≅
+        (DerivedCategory.singleFunctor X.Modules 0).obj (SheafOfModules.unit X.ringCatSheaf)) := by sorry
+
+-- Check `upperShriek_lci_self_coefficient`: Hom of [A --t→ A] into k has zero differential.
+example (k : Type u) [Field k]
+    (K : DQCohPlus (Spec (.of (Polynomial k))))
+    (hK : Nonempty (K.obj.obj ≅
+      (DerivedCategory.singleFunctor (Spec (.of (Polynomial k))).Modules 0).obj
+        (tilde (ModuleCat.of (Polynomial k)
+          (Polynomial k ⧸ Ideal.span {(Polynomial.X : Polynomial k)}))))) :
+    let i := Spec.map (CommRingCat.ofHom (Polynomial.evalRingHom (0 : k)))
+    letI : IsClosedImmersion i := by sorry
+    let H := fun n : ℤ => (DerivedCategory.homologyFunctor (Spec (.of k)).Modules n).obj
+      (((upperShriek i).obj K).obj.obj)
+    Nonempty (H 0 ≅ SheafOfModules.unit (Spec (.of k)).ringCatSheaf) ∧
+      Nonempty (H 1 ≅ SheafOfModules.unit (Spec (.of k)).ringCatSheaf) ∧
+      ∀ n, n ≠ 0 → n ≠ 1 → IsZero (H n) := by sorry
+
+-- Check `upperShriek_lci_derived_pullback`: Tor occupies degrees -1 and 0.
+example (k : Type u) [Field k]
+    (K : DQCoh (Spec (.of (Polynomial k))))
+    (hK : Nonempty (K.obj ≅
+      (DerivedCategory.singleFunctor (Spec (.of (Polynomial k))).Modules 0).obj
+        (tilde (ModuleCat.of (Polynomial k)
+          (Polynomial k ⧸ Ideal.span {(Polynomial.X : Polynomial k)}))))) :
+    let i := Spec.map (CommRingCat.ofHom (Polynomial.evalRingHom (0 : k)))
+    letI : IsClosedImmersion i := by sorry
+    let H := fun n : ℤ => (DerivedCategory.homologyFunctor (Spec (.of k)).Modules n).obj
+      (((derivedPullback i).obj K).obj)
+    Nonempty (H (-1) ≅ SheafOfModules.unit (Spec (.of k)).ringCatSheaf) ∧
+      Nonempty (H 0 ≅ SheafOfModules.unit (Spec (.of k)).ringCatSheaf) ∧
+      ∀ n, n ≠ -1 → n ≠ 0 → IsZero (H n) := by sorry
+
+-- Check `upperShriek_lci_underived_rejected`: the ordinary factor loses H⁰.
+example (k : Type u) [Field k]
+    (K : DQCohPlus (Spec (.of (Polynomial k))))
+    (hK : Nonempty (K.obj.obj ≅
+      (DerivedCategory.singleFunctor (Spec (.of (Polynomial k))).Modules 0).obj
+        (tilde (ModuleCat.of (Polynomial k)
+          (Polynomial k ⧸ Ideal.span {(Polynomial.X : Polynomial k)}))))) :
+    let i := Spec.map (CommRingCat.ofHom (Polynomial.evalRingHom (0 : k)))
+    letI : IsClosedImmersion i := by sorry
+    let O := SheafOfModules.unit (Spec (.of k)).ringCatSheaf
+    Nonempty ((Scheme.Modules.pullback i).obj
+      (tilde (ModuleCat.of (Polynomial k)
+        (Polynomial k ⧸ Ideal.span {(Polynomial.X : Polynomial k)}))) ≅ O) ∧
+      ¬ Nonempty (((upperShriek i).obj K).obj.obj ≅
+        (DerivedCategory.singleFunctor (Spec (.of k)).Modules 1).obj O) := by sorry
 
 /-- A relative dualizing complex `(K, ξ)` for a flat finitely presented morphism (carrier). -/
 noncomputable def RelativeDualizingComplex {X S : Scheme.{u}} (f : X ⟶ S) [Flat f]
@@ -7466,13 +7731,52 @@ theorem IsStrictSemistablePair.restrict {R : Type u} [CommRing R] [IsDomain R]
    AlgebraicGeometry.DeJong.not_split_nodalCubic, AlgebraicGeometry.DeJong.split_after_extension,
    AlgebraicGeometry.DeJong.split_smooth. Theorems Layer 4 (node local structure),
    Layer 4 (nodal family resolution), Layer 4 (generic projection), Layer 4 (curve fibration),
-   Layer 4 (three point divisor), Layer 4 (stable model domination), Layer 4 (curve family alteration),
+   Layer 4 (three point divisor), Layer 4 (stable model domination),
+   `curve_family_alteration` (de Jong 5.8: projective between integral excellent schemes,
+   nonempty pure one-dimensional fibres with fibrewise dense smooth locus; proper closed Z;
+   alterations with projective split prestable family and smooth generic fibre;
+   preimage of Z contained in the inverse image of a base divisor together with finitely many
+   disjoint sections in the relative smooth locus),
    Layer 4 (nc to snc), Layer 4 (faltings formal smoothness), Layer 4 (bertini smoothness) are stated in the
    roadmap. -/
 
+/-- The vertical boundary pulls back to a whole fibre in a commuting alteration diagram.
+This is the vertical term in de Jong (1996), Theorem 5.8, p. 79. -/
+theorem curve_family_vertical_boundary {X Y X' Y' : Scheme.{u}}
+    (f : X ⟶ Y) (f' : X' ⟶ Y') (φ : X' ⟶ X) (ψ : Y' ⟶ Y)
+    (hcomm : φ ≫ f = f' ≫ ψ) (y : Y) (y' : Y') (hy : ψ y' = y) :
+    f' ⁻¹' {y'} ⊆ φ ⁻¹' (f ⁻¹' {y}) := by sorry
+
+-- Check `curve_family_alteration_vertical_fibre`: P¹ over A¹ and its closed fibre.
+example (k : Type u) [Field k] :
+    let A := Polynomial k
+    let G := MvPolynomial.homogeneousSubmodule (Fin 2) A
+    letI : GradedAlgebra G := MvPolynomial.gradedAlgebra
+    let X := _root_.AlgebraicGeometry.Proj G
+    let Y := Spec (.of A)
+    let f : X ⟶ Y := _root_.AlgebraicGeometry.Proj.toSpecZero G ≫
+      Spec.map (CommRingCat.ofHom (algebraMap A (G 0)))
+    let y : Y := ⟨RingHom.ker (Polynomial.evalRingHom (0 : k)), by sorry⟩
+    let Z : Set X := f ⁻¹' {y}
+    IsClosed Z ∧ Z ≠ Set.univ ∧
+      Z ⊆ f ⁻¹' ({y} : Set Y) ∧
+      ∀ (n : ℕ) (σ : Fin n → (Y ⟶ X)),
+        (∀ i, σ i ≫ f = 𝟙 Y) → ¬ Z ⊆ ⋃ i, Set.range (σ i) := by sorry
+
+-- Check `curve_family_alteration_vertical_after_base_change`
+example {X X' Y' : Scheme.{u}} (k : Type u) [Field k]
+    (f : X ⟶ Spec (.of (Polynomial k))) (f' : X' ⟶ Y')
+    (φ : X' ⟶ X) (ψ : Y' ⟶ Spec (.of (Polynomial k)))
+    (hcomm : φ ≫ f = f' ≫ ψ) (y' : Y')
+    (hy : (ψ y').asIdeal = RingHom.ker (Polynomial.evalRingHom (0 : k))) :
+    f' ⁻¹' {y'} ⊆ φ ⁻¹' (f ⁻¹'
+      {y | y.asIdeal = RingHom.ker (Polynomial.evalRingHom (0 : k))}) := by sorry
+
 /-- de Jong's alteration theorem (de Jong 1996, Theorem 4.1): a regular projective `Xbar₁` with an
 open `X₁` altering `X`, with SNC boundary containing the preimage of `Z`; generically étale over a
-perfect field. The conclusion below uses properness of the compactification. -/
+perfect field. The curve step retains both the inverse image of the base divisor and the
+horizontal sections of Theorem 5.8; induction applies to that base pair.
+The conclusion below uses properness of the compactification. -/
 theorem alteration_theorem (k : Type u) [Field k] {X : Scheme.{u}}
     (f : X ⟶ Spec (CommRingCat.of k)) [IsIntegral X] [IsSeparated f] [LocallyOfFiniteType f]
     [QuasiCompact f] (Z : X.IdealSheafData) (hZ : Z ≠ ⊥) :
@@ -7484,8 +7788,9 @@ theorem alteration_theorem (k : Type u) [Field k] {X : Scheme.{u}}
   sorry
 
 /-- Properness consequence of de Jong (1996), Theorem 6.5 and Diagram 6.6, p. 83.
-The finite trait extension may be inseparable. The boundary contains exactly the preimage of Z
-and the compactification complement. Projectivity is a README target without a native predicate. -/
+The finite trait extension may be inseparable. The curve step uses the vertical divisor and
+disjoint smooth sections of Theorem 5.8, as in de Jong 6.14–6.16. The boundary contains exactly the preimage of Z
+and the compactification complement. The statement records properness of the compactification. -/
 theorem semistable_alteration_theorem (R : Type u) [CommRing R] [IsDomain R]
     [IsDiscreteValuationRing R] [IsTrait R]
     {X : Scheme.{u}} (f : X ⟶ Spec (CommRingCat.of R)) [IsSVariety f]
@@ -7606,8 +7911,38 @@ example (R K : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
       topologicalKrullDim (Spec (.of R)) = 1 ∧ topologicalKrullDim (Spec (.of K)) = 0 := by
   sorry
 
-/-- The subgroup of `k`-cycles rationally equivalent to zero. -/
-def RatEquiv (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) : AddSubgroup (cyclesOfDimension κ X k) := sorry
+attribute [local instance] Classical.propDecidable
+
+/-- Rational equivalence uses locally finite families of integral closed supports, with
+principal-divisor coefficients. Local finiteness is imposed on the subschemes themselves.
+Stacks, Definition 42.19.1. -/
+def RatEquiv (X : Scheme.{u}) [X.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) :
+    AddSubgroup (cyclesOfDimension κ X k) where
+  carrier := {α | ∃ (J : Type u) (W : J → Scheme.{u}) (i : ∀ j, W j ⟶ X)
+    (_ : ∀ j, IsIntegral (W j)) (_ : ∀ j, IsLocallyNoetherian (W j))
+    (r : ∀ j, (W j).functionFieldˣ),
+      (∀ j, IsClosedImmersion (i j)) ∧
+      (∀ j, ∃ n : ℕ, k + 1 = (n : ℤ) ∧ topologicalKrullDim (W j) = n) ∧
+      LocallyFinite (fun j => Set.range (i j)) ∧
+      ∀ x : X, α.val x = ∑ᶠ j, ∑ᶠ w : W j,
+        if (i j) w = x then (W j).ord (r j) w else 0}
+  zero_mem' := by sorry
+  add_mem' := by sorry
+  neg_mem' := by sorry
+
+/-- The locally finite principal-divisor presentation (Stacks, Definition 42.19.1). -/
+theorem ratEquiv_mem_iff (X : Scheme.{u}) [X.Over (Spec (.of κ))]
+    [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) (α : cyclesOfDimension κ X k) :
+    α ∈ RatEquiv κ X k ↔
+      ∃ (J : Type u) (W : J → Scheme.{u}) (i : ∀ j, W j ⟶ X)
+        (_ : ∀ j, IsIntegral (W j)) (_ : ∀ j, IsLocallyNoetherian (W j))
+        (r : ∀ j, (W j).functionFieldˣ),
+        (∀ j, IsClosedImmersion (i j)) ∧
+        (∀ j, ∃ n : ℕ, k + 1 = (n : ℤ) ∧ topologicalKrullDim (W j) = n) ∧
+        LocallyFinite (fun j => Set.range (i j)) ∧
+        ∀ x : X, α.val x = ∑ᶠ j, ∑ᶠ w : W j,
+          if (i j) w = x then (W j).ord (r j) w else 0 := Iff.rfl
 
 /-- `CH_k(X)`, the Chow group of `k`-dimensional cycles modulo rational equivalence. -/
 def ChowGroup (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) : Type u := cyclesOfDimension κ X k ⧸ RatEquiv κ X k
@@ -7623,13 +7958,13 @@ def cycleClass (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X
 example (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) : Function.Surjective (cycleClass κ X k) :=
   QuotientAddGroup.mk'_surjective _
 
--- Check `ratEquiv_point`: a field point has no nonzero rational equivalences of zero-cycles.
+-- Check `RatEquiv_point`: a field point has no nonzero rational equivalences of zero-cycles.
 example : RatEquiv κ (Spec (.of κ)) 0 = ⊥ := sorry
 
--- Check `ratEquiv_empty`: there are no cycles on the empty scheme.
+-- Check `RatEquiv_empty`: there are no cycles on the empty scheme.
 example (k : ℤ) : RatEquiv κ Scheme.empty.{u} k = ⊥ := sorry
 
--- Check `ratEquiv_affine_line`: every zero-cycle on the affine line is principal.
+-- Check `RatEquiv_affine_line`: every zero-cycle on the affine line is principal.
 example : RatEquiv κ (Spec (.of (Polynomial κ))) 0 = ⊤ := sorry
 
 -- Check `chow_point`: the class of a field point has arbitrary integral multiplicity.
@@ -7649,6 +7984,41 @@ example : ¬ Function.Injective (cycleClass κ (Spec (.of (Polynomial κ))) 0) :
 
 -- Check `cycleClass_zero`: quotienting sends the zero cycle to zero.
 example (X : Scheme.{u}) [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] (k : ℤ) : cycleClass κ X k 0 = 0 := (cycleClass κ X k).map_zero
+
+/-- Restriction to open-and-closed components gives a product, including infinite families.
+This follows from the locally finite support presentation, Stacks, Definition 42.19.1. -/
+theorem CH_coprod (I : Type u) (X : I → Scheme.{u})
+    [∀ i, (X i).Over (Spec (.of κ))]
+    [∀ i, LocallyOfFiniteType (X i ↘ Spec (.of κ))] (k : ℤ) :
+    letI : (∐ X).Over (Spec (.of κ)) := ⟨Sigma.desc (fun i => X i ↘ Spec (.of κ))⟩
+    letI : LocallyOfFiniteType ((∐ X) ↘ Spec (.of κ)) := by sorry
+    Nonempty (ChowGroup κ (∐ X) k ≃+ ∀ i, ChowGroup κ (X i) k) := by sorry
+
+-- Check `RatEquiv_countable_lines`: the coefficient at every component's origin is one.
+example :
+    let L := fun _ : ℕ => Spec (.of (Polynomial κ))
+    let E := ∐ L
+    letI : E.Over (Spec (.of κ)) :=
+      ⟨Sigma.desc (fun _ => Spec.map (CommRingCat.ofHom (algebraMap κ (Polynomial κ))))⟩
+    letI : LocallyOfFiniteType (E ↘ Spec (.of κ)) := by sorry
+    let z : Spec (.of (Polynomial κ)) :=
+      ⟨RingHom.ker (Polynomial.evalRingHom (0 : κ)), by sorry⟩
+    (∃ α : cyclesOfDimension κ E 0,
+      (∀ n x, α.val (Sigma.ι L n x) = if x = z then 1 else 0) ∧
+      α ∈ RatEquiv κ E 0 ∧ cycleClass κ E 0 α = 0) ∧
+      Subsingleton (ChowGroup κ E 0) := by sorry
+
+-- Check `RatEquiv_supports_not_divisors`: zero divisors cannot justify repeated supports.
+example (W : Scheme.{u}) [IsIntegral W] [IsLocallyNoetherian W] :
+    (∀ w : W, W.ord (1 : W.functionField) w = 0) ∧
+      ¬ LocallyFinite (fun _ : ℕ => (Set.univ : Set W)) := by sorry
+
+-- Check `CH_coprod_countable_points`
+example :
+    let B := ∐ (fun _ : ℕ => Spec (.of κ))
+    letI : B.Over (Spec (.of κ)) := ⟨Sigma.desc (fun _ => 𝟙 (Spec (.of κ)))⟩
+    letI : LocallyOfFiniteType (B ↘ Spec (.of κ)) := by sorry
+    Nonempty (ChowGroup κ B 0 ≃+ (ℕ → ℤ)) ∧ Subsingleton (ChowGroup κ B (-1)) := by sorry
 
 /-- Proper pushforward `f_* : CH_k(X) → CH_k(Y)`. -/
 def properPushforward {X Y : Scheme.{u}} [X.Over (Spec (.of κ))] [LocallyOfFiniteType (X ↘ Spec (.of κ))] [Y.Over (Spec (.of κ))] [LocallyOfFiniteType (Y ↘ Spec (.of κ))] (f : X ⟶ Y) [f.IsOver (Spec (.of κ))] [IsProper f] (k : ℤ) :
