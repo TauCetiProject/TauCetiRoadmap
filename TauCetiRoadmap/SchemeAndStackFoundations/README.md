@@ -353,6 +353,15 @@ comparison of §4.7.
 `GradedAlgebra`, `Submodule.baseChange`. Everything named is used with its Mathlib meaning and never
 rebuilt.
 
+The local-cohomology supplier is `localCohomology` in
+`Mathlib/Algebra/Homology/LocalCohomology.lean`, with its colimit-of-Ext meaning;
+`localCohomology.isoSelfLERadical` and `localCohomology.isoOfSameRadical` already supply
+the Noetherian radical comparisons. §2.7 supplies comparison with geometric support,
+not another module local-cohomology functor. The affine Ext computations in §3.3 use
+`Ext` from `Mathlib/CategoryTheory/Abelian/Ext.lean`; global sheaf Ext uses
+`CategoryTheory.Abelian.Ext` from
+`Mathlib/Algebra/Homology/DerivedCategory/Ext/Basic.lean`.
+
 **From Tau Ceti** (`a91d3aaf`). `TauCeti.AlgebraicGeometry.QuasicoherentAlgebra`,
 `CategoryTheory.CommMon.relativeSpec`, `CommMon.sectionsPresheaf`,
 `CommMon.isLocalization_basicOpen`; `Scheme.Modules.Cohomology`, `eulerCharBelow`,
@@ -2056,8 +2065,22 @@ Let `k'/k` be Galois with `Γ = Gal(k'/k)` (Krull topology) and `H` a linear alg
 `σ`-semilinear over `k'` and respects the Hopf structure (Kisin 2017, §3.1.1, condition (1),
 pp. 34–35), with `.toPointsAut` (the induced `σ`-semilinear bijection of `H(k')`), `.comp`,
 `.standard` (for `H = H_0 ⊗_k k'` the standard `σ`-action), `.linear_iff` (`σ = 1`). Prove
-`galois_descent_affine`: affine schemes and affine group schemes over `k'` with descent data along
-`Γ` descend to `k`, and descent data are semilinear actions (Stacks, Section 35.6 (0CDQ)). Define `CrossedModule Ht H`: a
+`galois_descent_affine`: for an algebraic Galois extension `k'/k`, fpqc descent
+data on affine `k'`-schemes are equivalent to **continuous semilinear actions** on
+their coordinate algebras. Define `ContinuousSemilinearAction k k' A` by a group
+homomorphism `ρ : Gal(k'/k) → RingAut A`, the scalar identity
+`ρ(σ)(c·a) = σ(c)·ρ(σ)(a)`, and openness of `{σ | ρ(σ)(a) = a}` for each `a : A`.
+Thus the coordinate algebra has the discrete topology. Prove
+`ContinuousSemilinearAction.continuous_iff` (this condition is joint continuity for
+that topology), `.standard` (scalar extension gives such an action), `.finite`
+(every semilinear action for a finite Galois extension satisfies it), and
+`galois_descent_affine`: the invariant `k`-algebra `A₀` has an equivariant
+isomorphism `k' ⊗_k A₀ ≅ A`, functorial in equivariant algebra maps. Prove
+`galois_descent_hopf` with the same continuity condition and Hopf-compatible actions;
+Hopf operations descend with the algebra ([Milne, Algebraic Groups, A.64, pp. 580–581](https://www.jmilne.org/math/Books/iAG2017.pdf)).
+Finite Galois descent agrees with Stacks §35.6 (0CDQ). The open subgroup may depend
+on the algebra element: no single finite quotient is required to carry the whole
+semilinear action, including its scalar action. Define `CrossedModule Ht H`: a
 homomorphism `∂ : H̃ → H` and an action of `H` on `H̃` by automorphisms with `∂(h·x) = h ∂(x) h⁻¹`
 and `∂(x)·y = x y x⁻¹` (Kisin 2017, §3.2.1, pp. 39–40), with `.quotientCategory` (objects `H`,
 morphisms `H̃`), `.isGroupoid`, `.isoClasses` (`coker ∂`), `.aut` (`ker ∂`, central), `.kernel_central`.
@@ -2068,6 +2091,17 @@ morphisms `H̃`), `.isGroupoid`, `.isoClasses` (`coker ∂`), `.aut` (`ker ∂`,
 - `SemilinearAut.test_gm_conjugation` (for `ℂ/ℝ`, `H = 𝔾_m`, complex conjugation on `ℂ[t^{±1}]`),
   `test_identity_not_semilinear` (the identity is not `σ`-semilinear for `σ` conjugation),
   `test_trivial_extension` (for `k' = k`, `SemilinearAut H 1 = Aut H`), `test_standard_points`.
+- `ContinuousSemilinearAction_scalar_extension`: the action
+  `σ(c ⊗ b) = σ(c) ⊗ b` on `k' ⊗_k B` has open stabilizers, since each tensor is
+  a finite sum and its algebraic coefficients lie in a finite extension.
+- `ContinuousSemilinearAction_discontinuous_inversion`: a character
+  `χ : Gal(ℚ̄/ℚ) → {±1}` with non-open kernel acts abstractly on `ℚ̄[t,t⁻¹]` by
+  the field action and `t ↦ t^{χ(σ)}`. Its stabilizer of `t` is `ker χ`, so it
+  cannot define `ContinuousSemilinearAction` or descend equivariantly. Such a
+  character comes from a nonzero linear functional on `(∏ ℤ/2)/(⊕ ℤ/2)` and the
+  infinite multiquadratic quotient; the kernel contains a dense proper subgroup.
+- `ContinuousSemilinearAction_finite`: for a finite Galois extension the Krull
+  topology is discrete, so every semilinear coordinate-algebra action qualifies.
 - `CrossedModule.test_identity` (`∂ = id` with conjugation: the quotient category is the
   indiscrete groupoid on `H`), `test_trivial` (`H̃ = 1`: discrete), `test_center` (`SL_2(ℂ) →
   PGL_2(ℂ)`: isomorphism classes `PGL_2/im = 1`, automorphisms `μ_2`),
@@ -2085,10 +2119,14 @@ the inclusion, and a homeomorphism `N × U ≅ q⁻¹(U)`, `(n, u) ↦ i(n) s(u)
 inside an algebraic closure and `Γ = Gal(k'/k)`, a linear algebraic group `H/k'` and a topological
 extension `1 → H(k') → E → Γ → 1` with discrete kernel, together with the algebraicity condition:
 conjugation by an element of `E` over `σ ∈ Γ` is induced by a `σ`-semilinear algebraic automorphism
-of `H` (§1.24), witnessed on a splitting chart; a bare topological extension is not a gerb (Kisin
+of `H` (§1.24), witnessed on a splitting chart whose induced semilinear action on
+`O(H)` has open stabilizers of individual algebra elements. Descent on every such
+chart uses `ContinuousSemilinearAction`, with Hopf compatibility; a bare topological extension is not a gerb (Kisin
 2017, §3.1.1–3.1.2, pp. 34–36), with `.kernel`, `.local_chart` (every gerb has a local splitting
 chart), `.conjugation` (the semilinear automorphism of `H` induced by an element of `E` over `σ`,
-through §1.24), `neutral H` (the neutral gerb `H(k') ⋊ Γ`), `.base_extension`. Define
+through §1.24), `neutral H` for `H = H₀ ⊗_k k'` (the neutral gerb `H(k') ⋊ Γ`
+with its continuous standard coordinate action), `.base_extension` (preserving open
+coordinate stabilizers). Define
 `GaloisGerbMorphism E E'`: a continuous homomorphism over `𝟙_Γ` together with an algebraic
 `k'`-group homomorphism `H → H'` whose map on points agrees with the extension map on the kernel,
 with `identity`, `comp`, `kernel_points`; `GerbConjugacy f_1 f_2`: there is `h ∈ H'(k')` with
@@ -2096,7 +2134,8 @@ with `identity`, `comp`, `kernel_points`; `GerbConjugacy f_1 f_2`: there is `h �
 quotiented before an application asks). Define `conjugatorScheme f_1 f_2` (the scheme `Isom(f_1,
 f_2)` of §1.24) and `ProGerb`: a compatible projective system of gerbs with continuous extension
 transitions and algebraic kernel transitions, with `.stage`, `.transition`, `.stagewise_conjugate`,
-and pro-morphisms. Prove `conjugator_representability`: for morphisms `f_1, f_2 : E → E'` of Galois
+and pro-morphisms; all chartwise Hopf descent retains the open-stabilizer condition.
+Prove `conjugator_representability`: for morphisms `f_1, f_2 : E → E'` of Galois
 gerbs, `Isom(f_1, f_2)` and `I_f` are represented by closed subschemes of `H'` and are forms of
 centralisers (Kisin 2017, §3.1.1 and Lemma 3.1.2, pp. 35–36). Prove `splitting_field_extension`: for
 `k'' ⊇ k'` Galois over `k`, a `k'/k`-gerb induces a `k''/k`-gerb by pulling back along `Gal(k''/k) →
@@ -2348,12 +2387,31 @@ its `O(X)`-module structure, and `localCohomologySheaf Z F q := R^q H_Z(F)` (Sta
 `cohomologyWithSupport_pullback`. Prove `supports_localization_triangle`: for `Z ⊆ X` closed with
 complement `U`, the distinguished triangle `RΓ_Z(X, K) → RΓ(X, K) → RΓ(U, K) →` and its long exact
 sequence, and the excision isomorphism for `Z ⊆ V` open (Stacks, Lemmas 20.34.5–20.34.7 (0G6Y)).
-Prove `localCohomology_module_comparison`: for `X = Spec A`, `Z = V(I)` and `F = M~`,
-`H^q_Z(X, F) = H^q_I(M)` is Mathlib's `localCohomology` (Stacks, Lemma 47.9.1 (0A6R)). Prove
-`localCohomology_flat_baseChange`: for `A → B` flat, `H^q_I(M) ⊗_A B = H^q_{IB}(M ⊗_A B)`, and flat
-excision (Stacks, Lemma 47.9.3 (0ALZ)). Prove `depth_localCohomology_vanishing`: for `A` Noetherian,
-`M` finite and `I` an ideal, `H^q_I(M) = 0` for `q < depth_I M` and `H^{depth}_I(M) ≠ 0` (Stacks,
-Lemmas 47.11.1, 47.11.3 (0AVY)). *Needs:* §0.17, §2.1, §2.6; Mathlib `localCohomology`.
+Prove `localCohomology_colimit_ext_comparison`: for a Noetherian commutative ring `A`,
+ideal `I`, arbitrary `A`-module `M` and `q : ℕ`, the pinned functor
+`(localCohomology I q).obj M = colim_n Ext_A^q(A/I^n,M)` computes the right-derived
+`I`-power-torsion functor. Construct this natural comparison using an injective resolution and
+exactness of filtered colimits ([Stacks, Lemma 47.8.2, 0954](https://stacks.math.columbia.edu/tag/0954)), then identify derived torsion with
+`RΓ_{V(I)}` (Lemma 47.10.1, [0BJD](https://stacks.math.columbia.edu/tag/0BJD)).
+Prove `localCohomology_module_comparison`: for the same Noetherian `A`, `X = Spec A`,
+`Z = V(I)` and `F = M~`, this bridge induces the natural `A`-linear isomorphism
+`H^q_Z(X,F) ≅ (localCohomology I q).obj M` ([Stacks, Lemma 51.2.1, 0A6T](https://stacks.math.columbia.edu/tag/0A6T)).
+The native colimit-of-Ext definition is retained. No comparison for arbitrary non-Noetherian
+rings is asserted; finite generation of `I` alone does not identify the two derived functors.
+Prove `localCohomology_degreeZero`: for any commutative ring, the native degree-zero group
+is the union of the annihilators of powers of `I` in `M`, directly from `Ext⁰ = Hom`
+and the filtered colimit; compare Stacks, Lemma 47.8.2 in its finitely generated regime.
+Prove `localCohomology_flat_baseChange`: for a flat homomorphism `A → B` of Noetherian
+commutative rings, arbitrary `M` and `q`,
+`B ⊗_A H^q_I(M) ≅ H^q_{IB}(B ⊗_A M)` for the native functors, compatibly with the
+geometric comparison. Prove flat excision in the same regime when `A/I → B/IB` is an
+isomorphism (Stacks, Lemmas 47.10.3, 47.9.7).
+Prove `depth_localCohomology_vanishing`: for `A` Noetherian, `M` finite and `I` an ideal,
+`H^q_I(M) = 0` when `(q : ℕ∞) < depth_I M`; `depth_localCohomology_nonvanishing` asserts
+`H^d_I(M) ≠ 0` only for `d : ℕ` with `depth_I M = d`. The zero module has depth `⊤` and
+all its native local-cohomology groups vanish (Stacks, Lemmas 47.11.1, 47.11.3, 0AVY).
+*Needs:* §0.17, §2.1, §2.6; Mathlib `localCohomology` in
+`Mathlib/Algebra/Homology/LocalCohomology.lean`; the comparison above connects the native functor to geometric support.
 
 **Checks.**
 - `test_support_all`: `H¹_X(X, F) = H¹(X, F)`; `test_support_empty`: `H^q_∅ = 0`.
@@ -2362,21 +2420,41 @@ Lemmas 47.11.1, 47.11.3 (0AVY)). *Needs:* §0.17, §2.1, §2.6; Mathlib `localCo
 - `test_support_not_restriction`: `H⁰_Z(X, F)` is not `F(Z)`: for `𝔸¹`, `Z = {0}`, `F = O`, the
   restriction has sections `k` while `H⁰_Z = 0`.
 - `test_depth_dvr`: for a DVR `R` and `I = m`, `H⁰_m(R) = 0` and `H¹_m(R) = K/R`.
+- `localCohomology_module_comparison_nil_ideal`: for
+  `A = k[x_0,x_1,…]/(x_j^{j+2})` and `I = (x_0,x_1,…)`, `V(I) = Spec A`,
+  geometric `H⁰ = A ≠ 0`, but native `H⁰_I(A) = 0` and `A` is not Noetherian.
+  For any nonzero polynomial class and any `n`, a fresh variable of exponent bound greater
+  than `n` gives a nonzero product with an element of `I^n`.
+- `localCohomology_module_comparison_dvr`: the native Noetherian comparison gives
+  `H⁰_m(R) = 0` and `H¹_m(R) ≅ K/R` for a DVR with fraction field `K`.
+- `depth_localCohomology_zero_guard`: every degree of the zero module vanishes; there is no
+  finite degree of nonvanishing, consistently with `depth_I 0 = ⊤`.
 
 ### 2.8 Cousin complexes
 
-For a filtration `X = Z_0 ⊇ Z_1 ⊇ ⋯` by closed subsets and an `O_X`-module `F`, define
-`relativeSupportCohomology Z i F k := H^k_{Z_i/Z_{i+1}}(F)` (sections supported on `Z_i` modulo
-`Z_{i+1}`, derived) and `cousinComplex Z F`, the complex `⋯ → ⊕ H^i_{Z_i/Z_{i+1}}(F) → ⊕
-H^{i+1}_{Z_{i+1}/Z_{i+2}}(F) → ⋯` with augmentation `F → Cous^0`, with `cousinComplex_d_comp_d`,
-`cousinComplex_isQuasicoherent` (for `X` Noetherian and `F` quasi-coherent), `relativeSupportCohomology_concentration`
-(for the codimension filtration and a maximal Cohen–Macaulay coherent sheaf on a
-Cohen–Macaulay scheme, local cohomology is concentrated in the codimension degree;
-affineness of a stratum alone does not imply this), `cousinComplex_trivial`
-(Boxer–Calegari–Gee–Pilloni 2021, §3.9.5, (3.9.8), pp. 63–64). Prove `kempf_cousin_resolution`: for
-`X` Cohen–Macaulay (§0.18) with the codimension filtration and `F` a maximal Cohen–Macaulay coherent
-sheaf, `F → Cous_Z(F)` is a resolution (Boxer–Calegari–Gee–Pilloni 2021, Theorem 3.9.6, Remark 3.9.7,
-Example 3.9.9, pp. 64–65). *Needs:* §0.18, §2.7.
+Supply a finite descending filtration `X = Z_0 ⊇ ⋯ ⊇ Z_{r+1} = ∅` by closed
+subschemes; extend it by empty terms. The constructor records closedness, inclusions,
+`Z_0 = X` and eventual emptiness. Define `relativeSupportCohomology Z i F k` as the
+`k`-th derived sheaf of `U ↦ Γ_{Z_i ∖ Z_{i+1}}(U ∖ Z_{i+1}, F)` and
+`cousinComplex Z F` with degree `i` equal to `relativeSupportCohomology Z i F i`.
+The boundary maps of the support exact sequences give `cousinComplex_d_comp_d` and
+an augmentation `F → Cous_Z(F)`. Prove `cousinComplex_isQuasicoherent` for `X`
+Noetherian and `F` quasi-coherent, and `cousinComplex_trivial` for `Z_1 = ∅`
+(Boxer–Calegari–Gee–Pilloni, §3.9.5, printed pp. 63–64).
+Prove `relativeSupportCohomology_concentration` and `kempf_cousin_resolution` for
+`X` Noetherian, the supplied closed filtration satisfying `codim_X Z_i ≥ i` and
+**affine morphisms** `Z_i ∖ Z_{i+1} → X`, and `F` a maximal Cohen–Macaulay coherent
+sheaf: the relative support sheaves vanish in degrees different from `i`, and the
+augmentation is a quasi-isomorphism ([BCGP, Theorem 3.9.6](https://www.math.uchicago.edu/~fcale/papers/surfaces.pdf),
+printed p. 64). Here maximal means depth equal to the dimension of the ambient local
+ring at each point where the stalk is nonzero. Affineness alone does not imply degree
+concentration. The target `relativeSupportCohomology_eq_zero_of_affine` is the
+vanishing consequence with all these hypotheses.
+Prove `cousinComplex_acyclic` with the additional hypothesis that each stratum is
+itself affine (BCGP, Remark 3.9.7, p. 64); global sections then compute `RΓ(X,F)`.
+These inputs are chosen closed filtrations, not the sets of all points of codimension
+at least `i`. On `𝔸¹` the latter set for `i = 1` is dense and proper and cannot be
+passed to this constructor. *Needs:* §0.18, §2.7, including its Noetherian comparison.
 
 **Checks.**
 - `test_cousin_trivial_filtration`: for `Z_0 = X`, `Z_1 = ∅` the augmentation is an isomorphism.
@@ -2384,6 +2462,16 @@ Example 3.9.9, pp. 64–65). *Needs:* §0.18, §2.7.
   and the augmentation is a resolution of `R`.
 - `test_cousin_not_resolution`: for `X = Spec k[x, y]/(xy, y²)` (embedded point) with `Z_1` the
   origin, the augmentation is not a quasi-isomorphism.
+- `cousinComplex_affineLine_nonclosed`: over an infinite algebraically closed field,
+  the codimension-one points of `𝔸¹` are exactly its closed points; their set is dense,
+  proper, and not closed.
+- `cousinComplex_affineLine_origin`: the chosen closed filtration
+  `𝔸¹ ⊇ V(t) ⊇ ∅` meets the theorem's hypotheses. Its two terms are
+  `k[t,t⁻¹]~ → (k[t,t⁻¹]/k[t])~`, the differential is the quotient map, and the
+  augmentation is the inclusion of `k[t]~`.
+- `cousinComplex_trivial`, `cousinComplex_dvr`, `cousinComplex_embedded_point`:
+  the preceding trivial, DVR and embedded-point computations apply to the constructor
+  with explicit closedness, descent, initial-term and finite-length witnesses.
 
 ### 2.9 Big-site sheaves of quasi-coherent modules and the sheaves `𝔾_a`, `𝔾_m`, `μ_n`
 
@@ -3141,10 +3229,12 @@ curve `X` over `k` with `H⁰ = k` and `E` locally free of rank `r`, `χ(X, E) =
 (Stacks, Lemmas 0BS5, 0BS6); the rank-one case is Tau Ceti's
 `eulerCharBelow_eq_relativeDegree_add_one_sub_genus` and JacobianChallenge Layer B, and this target
 differs by allowing higher rank and Gorenstein singular curves. Prove `curve_serre_duality`: for a
-proper Cohen–Macaulay curve `X` over `k` with dualising module `ω_X` (§2.20), `Ext^{1+i}(F, ω_X) ≅
+proper equidimensional Cohen–Macaulay curve `X` of dimension one over `k` with dualising module `ω_X` (§2.20), `Ext^{1+i}(F, ω_X) ≅
 H^{−i}(X, F)^∨` for coherent `F` and all `i`, `H^i(X, E^∨ ⊗ ω_X) ≅ H^{1−i}(X, E)^∨` for `E` locally
-free, `Ext¹(U, V) ≅ Hom(V, U ⊗ ω_X)^∨`, and `ω_X ≅ Ω¹_{X/k}` for `X` smooth (Stacks, Lemmas 0BS2,
-0BS3, Remark 0BS4; Lemma 0C1A); the line-bundle smooth case is JacobianChallenge Layer B's and Tau
+free of finite rank. Separately prove `curve_serre_duality_ext_hom`:
+`Ext¹(U, V) ≅ Hom(V, U ⊗ ω_X)^∨` for **finite locally free `U` and coherent `V`**,
+by tensor–Hom adjunction and the dualizing-module formula. Also `ω_X ≅ Ω¹_{X/k}` for `X` smooth (Stacks, Lemmas 0BS2,
+[53.4.2(3)–(4), 0BS3](https://stacks.math.columbia.edu/tag/0BS3), Remark 0BS4; Lemma 0C1A); the line-bundle smooth case is JacobianChallenge Layer B's and Tau
 Ceti's `nonempty_cohomologyOneDualEquivCohomologyZero_tensor_dual`, and this target differs by
 allowing coherent sheaves, the `Ext` form and Cohen–Macaulay singular curves. *Needs:* §2.6, §2.20;
 AlgebraicVectorBundles L0B–L0C; Tau Ceti `eulerCharBelow`,
@@ -3160,6 +3250,20 @@ A–B; StableReduction Layer 2.
 - `riemann_roch_test_nodal`: on the nodal cubic (Gorenstein, `g = 1`) `χ(E) = deg E`.
 - `serre_duality_test_torsion`: for `F = κ(x)` a skyscraper on a smooth curve, `Ext¹(κ(x), ω) ≅
   H⁰(κ(x))^∨ ≅ κ(x)^∨` and `Hom(κ(x), ω) = 0`.
+- `curve_serre_duality_node`: on the projective nodal cubic
+  `y²z = x²(x+z)` over an algebraically closed characteristic-zero field, for the node
+  skyscraper `K`, `dim Ext¹_X(K,K) = 2`, whereas `dim Hom_X(K,K ⊗ ω_X)^∨ = 1`.
+  Compute on the affine chart `A = k[x,y]/(y²-x²(x+1))`, `K = A/(x,y)`;
+  the Ext sheaves have point support, so there is no higher-cohomology correction.
+  The module `K` is not projective over `A` and its sheaf is not locally free.
+- `curve_serre_duality_locally_free`: for finite locally free `U` and coherent `V` on
+  the same proper Cohen–Macaulay curve, tensor–Hom adjunction followed by duality gives
+  the specified Ext–Hom isomorphism. In particular `U = O_X` is admitted even at a node;
+  its Ext¹ against `V` is `H¹(X,V)`.
+- `curve_serre_duality_smooth_torsion`: at a smooth point the general dualizing-module formula applies.
+  On its local affine coordinate `R = k[t]`, `K = R/(t)`, compute
+  `Ext¹_R(K,R) ≅ k` and `Hom_R(K,R) = 0`; this uses the general dualizing-module
+  formula and does not assert that `K` is locally free.
 
 ### 3.4 Picard groups: divisor classes, excision, Picard groupoids
 
@@ -3647,12 +3751,26 @@ Mathlib `AdicCompletion.flat_of_isNoetherian`; this is not a flatness assertion 
 closed-immersion reductions. Prove `formalCompletion_spec` (for `X = Spec A` and `I`
 finitely generated, `X/V(I) ≅ Spf Â`; Lemma 87.14.6 (0GBA)). Define `CoherentFormalModule 𝔛` for an
 adic thickening system: inverse systems `(F_n)` with `F_n` a finitely presented `O_{X_n}`-module and
-isomorphisms `ι_n^* F_{n+1} ≅ F_n`, with `completionFunctor X I M` (`M ↦ (M/I^{n+1} M)_n`),
-`completionFunctor_exact` (exact in the category of coherent formal modules,
-by Artin–Rees; this is not termwise exactness of the reductions: multiplication by `t`
-on `k[[t]]` becomes zero modulo `t`; Lemma 30.23.4 (0881)), `coherentFormalModuleEquivSpec` (coherent formal modules on `Spf Â` are finite `Â`-modules;
-Lemma 30.23.1 (087W)), `completionFunctor_obj_sections`
-(sections of the completion are the completion of sections) (Stacks, Section 30.23 (0EHN), (0880)).
+isomorphisms `ι_n^* F_{n+1} ≅ F_n`. The general system and
+`completionFunctor X I M` (`M ↦ (M/I^{n+1} M)_n`) require `M` finitely presented.
+For **Noetherian `X`**, prove `coherentFormalModule_abelian`: the category on
+`formalCompletion X I`, with compatible families of linear maps as morphisms, is
+abelian (Stacks, Lemma 30.23.2). Prove `completionFunctor_exact` for coherent modules
+on such `X`, exact in this abelian category by Artin–Rees
+([Lemma 30.23.4, 0881](https://stacks.math.columbia.edu/tag/0881)). This does not assert
+termwise exactness: multiplication by `t` on `k[[t]]` becomes zero modulo `t`.
+Prove `coherentFormalModuleEquivSpec` for **Noetherian `A`** and an ideal `I`:
+coherent formal modules on `Spf Â` are equivalent to finite `Â`-modules; the functors
+are inverse limit of sections and reduction modulo `I^{n+1}`
+([Lemma 30.23.1, 087W](https://stacks.math.columbia.edu/tag/087W)). For complete
+Noetherian `A`, `coherentFormalModuleEquivSpec_effective` gives the compatible
+reduction isomorphisms with a finite `A`-module. Finite modules in this regime are
+finitely presented, as are all their reductions. General adic rings retain the
+finitely presented carrier; they do not supply this finite-module equivalence.
+Prove `completionFunctor_obj_sections` on Noetherian affine `X = Spec A` with
+coherent `M`: inverse-limit sections are the `I`-adic completion of `Γ(X,M)`
+(Stacks, §30.23, Lemmas 30.23.1, 30.23.3 (0880)).
+
 *Needs:* §4.7; Mathlib `IdealSheafData.subscheme`, `inclusion`, `AdicCompletion`,
 `AdicCompletion.map_exact`, `AdicCompletion.flat_of_isNoetherian`, `SheafOfModules.IsFinitePresentation`,
 `Scheme.Modules.pullback`.
@@ -3671,6 +3789,16 @@ Lemma 30.23.1 (087W)), `completionFunctor_obj_sections`
 - `completion_torsion`: `ℤ/p^m` is `p`-adically complete.
 - `formalCompletion_flat_test_dvr`: for `X = Spec R` of a DVR and `Z` the closed point, `R → R̂` is
   flat; if `R` is already complete it is an isomorphism.
+- `coherentFormalModuleEquivSpec_zero_ideal_nonfp`: for `A = k[x_0,x_1,…]`,
+  `I = 0` is finitely generated and `A` is `I`-adically complete. The cyclic module
+  `M = A/(x_0,x_1,…)` is finite but not finitely presented; its associated sheaf
+  cannot be level zero of a constant coherent formal module.
+- `coherentFormalModuleEquivSpec_complete_noetherian`: for a complete Noetherian
+  adic ring, every coherent formal module is the compatible reduction system of a
+  finite module, as in `coherentFormalModuleEquivSpec_effective`.
+- `completionFunctor_exact_t_reduction`: multiplication by `t` on `k[[t]]` is
+  injective, but its reduction on `k[[t]]/(t)` is zero and not injective. Exactness
+  in the coherent formal category therefore cannot mean exactness at every level.
 
 ### 4.9 The theorem on formal functions and Stein factorisation
 

@@ -2834,6 +2834,84 @@ end Spaces
 open Topology
 universe gerbU gerbV gerbW
 namespace GaloisGerbs
+section SemilinearDescent
+
+open scoped TensorProduct
+
+/-- A semilinear action on a discrete coordinate algebra, continuous for the Krull topology.
+Milne, Algebraic Groups, A.64, pp. 580–581. -/
+structure ContinuousSemilinearAction (k L A : Type gerbU) [Field k] [Field L]
+    [Algebra k L] [IsGalois k L] [CommRing A] [Algebra L A] where
+  ρ : (L ≃ₐ[k] L) →* RingAut A
+  semilinear : ∀ σ c a, ρ σ (c • a) = σ c • ρ σ a
+  open_stabilizer : ∀ a : A, IsOpen {σ : L ≃ₐ[k] L | ρ σ a = a}
+
+/-- Open stabilizers characterize continuity on the discrete coordinate algebra (Milne A.64). -/
+theorem ContinuousSemilinearAction.continuous_iff
+    (k L A : Type gerbU) [Field k] [Field L] [Algebra k L] [IsGalois k L]
+    [CommRing A] [Algebra L A] [TopologicalSpace A] [DiscreteTopology A]
+    (ρ : (L ≃ₐ[k] L) →* RingAut A) :
+    Continuous (fun p : (L ≃ₐ[k] L) × A => ρ p.1 p.2) ↔
+      ∀ a : A, IsOpen {σ : L ≃ₐ[k] L | ρ σ a = a} := by sorry
+
+/-- Effective semilinear descent, with an equivariant scalar-extension isomorphism.
+Milne A.64. The inverse algebra is the fixed subalgebra, functorially in equivariant maps. -/
+theorem galois_descent_affine (k L A : Type gerbU) [Field k] [Field L]
+    [Algebra k L] [IsGalois k L] [CommRing A] [Algebra L A]
+    (act : ContinuousSemilinearAction k L A) :
+    ∃ (B : Type gerbU) (_ : CommRing B) (_ : Algebra k B)
+      (e : (L ⊗[k] B) ≃ₐ[L] A),
+      ∀ σ c b, act.ρ σ (e (c ⊗ₜ[k] b)) = e (σ c ⊗ₜ[k] b) := by sorry
+
+/-- The scalar-extension action has open element stabilizers (Milne A.64, p. 580). -/
+theorem ContinuousSemilinearAction.standard
+    (k L B : Type gerbU) [Field k] [Field L] [Algebra k L] [IsGalois k L]
+    [CommRing B] [Algebra k B] :
+    ∃ act : ContinuousSemilinearAction k L (L ⊗[k] B),
+      ∀ σ c b, act.ρ σ (c ⊗ₜ[k] b) = σ c ⊗ₜ[k] b := by sorry
+
+/-- Finite Galois groups have discrete Krull topology (Stacks 35.6, 0CDQ). -/
+theorem ContinuousSemilinearAction.finite
+    (k L A : Type gerbU) [Field k] [Field L] [Algebra k L] [IsGalois k L]
+    [FiniteDimensional k L] [CommRing A] [Algebra L A]
+    (ρ : (L ≃ₐ[k] L) →* RingAut A)
+    (hρ : ∀ σ c a, ρ σ (c • a) = σ c • ρ σ a) :
+    ∃ act : ContinuousSemilinearAction k L A, act.ρ = ρ := by sorry
+
+-- Check `ContinuousSemilinearAction_scalar_extension`
+example (k L B : Type gerbU) [Field k] [Field L] [Algebra k L] [IsGalois k L]
+    [CommRing B] [Algebra k B] :
+    ∃ act : ContinuousSemilinearAction k L (L ⊗[k] B),
+      ∀ σ c b, act.ρ σ (c ⊗ₜ[k] b) = σ c ⊗ₜ[k] b :=
+  ContinuousSemilinearAction.standard k L B
+
+-- Check `ContinuousSemilinearAction_discontinuous_inversion`
+example :
+    ∃ χ : (AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ) →* ℤˣ,
+      ¬ IsOpen (χ.ker : Set (AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ)) ∧
+      ∃ ρ : (AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ) →*
+          RingAut (LaurentPolynomial (AlgebraicClosure ℚ)),
+        (∀ σ (c : AlgebraicClosure ℚ) a, ρ σ (c • a) = σ c • ρ σ a) ∧
+        (∀ σ, ρ σ (LaurentPolynomial.T 1) = LaurentPolynomial.T (χ σ : ℤ)) ∧
+        ¬ ∃ act : ContinuousSemilinearAction ℚ (AlgebraicClosure ℚ)
+          (LaurentPolynomial (AlgebraicClosure ℚ)), act.ρ = ρ := by sorry
+
+-- Check `ContinuousSemilinearAction_finite`
+example (k L A : Type gerbU) [Field k] [Field L] [Algebra k L] [IsGalois k L]
+    [FiniteDimensional k L] [CommRing A] [Algebra L A]
+    (ρ : (L ≃ₐ[k] L) →* RingAut A)
+    (hρ : ∀ σ c a, ρ σ (c • a) = σ c • ρ σ a) :
+    ∃ act : ContinuousSemilinearAction k L A, act.ρ = ρ :=
+  ContinuousSemilinearAction.finite k L A ρ hρ
+
+/- `galois_descent_hopf` adds Hopf compatibility to this same continuous action.
+For Galois gerbs the action on the coordinate algebra of the kernel over every
+local splitting chart has open element stabilizers. Neutral gerbs use the standard
+scalar-extension action. Base extension, morphisms, conjugator descent and pro-gerb
+transitions retain this chartwise condition. -/
+
+end SemilinearDescent
+
 variable (N : Type gerbU) (E : Type gerbV) (G : Type gerbW)
 variable [Group N] [Group E] [Group G]
 variable [TopologicalSpace N] [TopologicalSpace E] [TopologicalSpace G]
@@ -3051,7 +3129,7 @@ theorem isPseudoCoherentComplex_quasicoherent {X : Scheme.{u}} (K : DerivedCateg
 example (A : Type u) [CommRing A] (n : ℕ) :
     IsPseudoCoherentModule A (ModuleCat.of A (Fin n → A)) := by sorry
 -- Check `IsPseudoCoherentModule_zero`
-example (A : Type u) [CommRing A] : IsPseudoCoherentModule A (0 : ModuleCat.{u} A) := by sorry
+example (A : Type u) [CommRing A] : IsPseudoCoherentModule A (ModuleCat.of A (⊥ : Submodule A A)) := by sorry
 -- Check `IsPseudoCoherentModule_not_finitely_presented`
 example (A : Type u) [CommRing A] (M : ModuleCat.{u} A)
     (hM : ¬ Module.FinitePresentation A M) : ¬ IsPseudoCoherentModule A M := by sorry
@@ -4757,6 +4835,7 @@ end QCoh
 namespace Supports
 
 open _root_.CategoryTheory _root_.AlgebraicGeometry
+open scoped TensorProduct
 
 /-- Cohomology with supports in a closed subset `Z` of a scheme. -/
 noncomputable def cohomologyWithSupport {X : Scheme.{u}} (Z : Set X) (hZ : IsClosed Z)
@@ -4782,18 +4861,137 @@ example {X : Scheme.{u}} (F : X.Modules) (q : ℕ) :
 -- Check `test_support_not_restriction`
 /- Affine-line computations (statements in the README). -/
 
-/- Roadmap statements, against Mathlib's `localCohomology` for modules on affines. -/
+/-- Degree zero of the native colimit-of-Ext functor is power torsion (Stacks 47.8.2). -/
+theorem localCohomology_degreeZero (A : Type u) [CommRing A] (I : Ideal A)
+    (M : ModuleCat.{u} A) :
+    Nonempty ((localCohomology I 0).obj M ≃
+      {m : M // ∃ n : ℕ, ∀ a ∈ I ^ n, a • m = 0}) := by sorry
 
-/-- The Cousin complex of a filtration of a scheme by closed subsets. -/
-noncomputable def cousinComplex {X : Scheme.{u}} (Z : ℕ → Set X) (F : X.Modules) :
-    CochainComplex X.Modules ℕ :=
-  sorry
+/-- The native colimit of Ext compares with geometric support over Noetherian rings.
+The natural linear comparison factors through derived power torsion: Stacks 47.8.2,
+47.10.1 and 51.2.1. -/
+theorem localCohomology_module_comparison (A : Type u) [CommRing A] [IsNoetherianRing A]
+    (I : Ideal A) (M : ModuleCat.{u} A) (q : ℕ) :
+    Nonempty (cohomologyWithSupport (X := Spec (.of A)) (PrimeSpectrum.zeroLocus (I : Set A))
+      (by exact PrimeSpectrum.isClosed_zeroLocus (R := A) (I : Set A)) (tilde M) q ≃ (localCohomology I q).obj M) := by sorry
 
-/- `relativeSupportCohomology`, `cousinComplex_d_comp_d`, `cousinComplex_isQuasicoherent`,
-`relativeSupportCohomology_eq_zero_of_affine`, `cousinComplex_trivial` are roadmap API items, and
-`test_cousin_trivial_filtration`, `test_cousin_dvr`, `test_cousin_not_resolution` roadmap tests. -/
+/-- Flat base change for the native functors over Noetherian rings (Stacks 47.10.3,
+47.9.3); the comparison with geometric supports commutes with this isomorphism. -/
+theorem localCohomology_flat_baseChange (A B : Type u) [CommRing A] [CommRing B]
+    [Algebra A B] [IsNoetherianRing A] [IsNoetherianRing B] [Module.Flat A B]
+    (I : Ideal A) (M : ModuleCat.{u} A) (q : ℕ) :
+    Nonempty ((B ⊗[A] (localCohomology I q).obj M) ≃ₗ[B]
+      (localCohomology (I.map (algebraMap A B)) q).obj (ModuleCat.of B (B ⊗[A] M))) := by sorry
 
-/- README statement (maximal Cohen–Macaulay sheaves have no carrier at the pins). -/
+-- Check `localCohomology_module_comparison_nil_ideal`
+example (k : Type u) [Field k] :
+    let J : Ideal (MvPolynomial ℕ k) := Ideal.span (Set.range fun j : ℕ =>
+      (MvPolynomial.X j : MvPolynomial ℕ k) ^ (j + 2))
+    let A := MvPolynomial ℕ k ⧸ J
+    let I : Ideal A := (Ideal.span (Set.range (MvPolynomial.X : ℕ → MvPolynomial ℕ k))).map
+      (Ideal.Quotient.mk J)
+    ¬ IsNoetherianRing A ∧ PrimeSpectrum.zeroLocus (I : Set A) = Set.univ ∧
+      Subsingleton ((localCohomology I 0).obj (ModuleCat.of A A)) ∧
+      Nontrivial (cohomologyWithSupport (X := Spec (.of A)) (PrimeSpectrum.zeroLocus (I : Set A))
+        (by exact PrimeSpectrum.isClosed_zeroLocus (R := A) (I : Set A)) (tilde (ModuleCat.of A A)) 0) := by sorry
+
+-- Check `localCohomology_module_comparison_dvr`
+example (R K : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    [Field K] [Algebra R K] [IsFractionRing R K] :
+    Subsingleton ((localCohomology (IsLocalRing.maximalIdeal R) 0).obj (ModuleCat.of R R)) ∧
+    Nonempty ((localCohomology (IsLocalRing.maximalIdeal R) 1).obj (ModuleCat.of R R) ≃ₗ[R]
+      K ⧸ (Algebra.linearMap R K).range) := by sorry
+
+-- Check `depth_localCohomology_zero_guard`
+example (A : Type u) [CommRing A] [IsNoetherianRing A] (I : Ideal A) :
+    (∀ q, Subsingleton ((localCohomology I q).obj (ModuleCat.of A (⊥ : Submodule A A)))) ∧
+    ¬ ∃ d : ℕ, Nontrivial ((localCohomology I d).obj (ModuleCat.of A (⊥ : Submodule A A))) := by sorry
+
+
+/-- The Cousin complex of a finite descending closed filtration, extended by empty terms.
+BCGP §3.9.5, pp. 63–64. -/
+noncomputable def cousinComplex {X : Scheme.{u}} (Z : ℕ → Set X)
+    (hclosed : ∀ i, IsClosed (Z i)) (hdesc : Antitone Z) (hzero : Z 0 = Set.univ)
+    (hfinite : ∃ n, Z n = ∅) (F : X.Modules) : CochainComplex X.Modules ℕ := by sorry
+
+/-- The support boundary maps compose to zero (BCGP §3.9.5, p. 64). -/
+theorem cousinComplex_d_comp_d {X : Scheme.{u}} (Z : ℕ → Set X)
+    (hc : ∀ i, IsClosed (Z i)) (hd : Antitone Z) (hz : Z 0 = Set.univ)
+    (hf : ∃ n, Z n = ∅) (F : X.Modules) (i : ℕ) :
+    (cousinComplex Z hc hd hz hf F).d i (i+1) ≫
+      (cousinComplex Z hc hd hz hf F).d (i+1) (i+2) = 0 := by sorry
+
+/- `relativeSupportCohomology` is the derived sheaf of relative supported sections.
+`relativeSupportCohomology_concentration`, its consequence
+`relativeSupportCohomology_eq_zero_of_affine`, and `kempf_cousin_resolution` use a
+Noetherian scheme, this finite closed filtration with codim Z_i ≥ i and affine
+stratum morphisms to X, and a maximal Cohen–Macaulay coherent sheaf (ambient local
+dimension). BCGP Theorem 3.9.6, p. 64. `cousinComplex_acyclic` additionally requires
+affine strata (Remark 3.9.7). Affineness alone never supplies concentration. -/
+
+-- Check `cousinComplex_affineLine_nonclosed`
+example (k : Type u) [Field k] [IsAlgClosed k] [Infinite k] :
+    let C : Set (PrimeSpectrum (Polynomial k)) := {p | p.asIdeal.IsMaximal}
+    Dense C ∧ C ≠ Set.univ ∧ ¬ IsClosed C := by sorry
+
+-- Check `cousinComplex_trivial` (also `test_cousin_trivial_filtration`)
+example (X : Scheme.{u}) (F : X.Modules) :
+    let Z : ℕ → Set X := fun n => if n = 0 then Set.univ else ∅
+    ∃ (hc : ∀ i, IsClosed (Z i)) (hd : Antitone Z) (hz : Z 0 = Set.univ)
+      (hf : ∃ n, Z n = ∅),
+      Nonempty ((cousinComplex Z hc hd hz hf F).X 0 ≅ F) ∧
+      ∀ n, Limits.IsZero ((cousinComplex Z hc hd hz hf F).X (n+1)) := by sorry
+
+-- Check `cousinComplex_affineLine_origin`
+example (k : Type u) [Field k] :
+    let R := Polynomial k
+    let L := Localization.Away (Polynomial.X : R)
+    let Z : ℕ → Set (Spec (.of R)) := fun n =>
+      if n = 0 then Set.univ else if n = 1 then
+        PrimeSpectrum.zeroLocus (Ideal.span {(Polynomial.X : R)}) else ∅
+    ∃ (hc : ∀ i, IsClosed (Z i)) (hd : Antitone Z) (hz : Z 0 = Set.univ)
+      (hf : ∃ n, Z n = ∅),
+      ∃ (e₀ : (cousinComplex Z hc hd hz hf (tilde (ModuleCat.of R R))).X 0 ≅
+          tilde (ModuleCat.of R L))
+        (e₁ : (cousinComplex Z hc hd hz hf (tilde (ModuleCat.of R R))).X 1 ≅
+          tilde (ModuleCat.of R (L ⧸ (Algebra.linearMap R L).range))),
+        (cousinComplex Z hc hd hz hf (tilde (ModuleCat.of R R))).d 0 1 ≫ e₁.hom =
+          e₀.hom ≫ tilde.map (ModuleCat.ofHom (Algebra.linearMap R L).range.mkQ) ∧
+        Nonempty ((cousinComplex Z hc hd hz hf (tilde (ModuleCat.of R R))).homology 0 ≅
+          tilde (ModuleCat.of R R)) ∧
+        ∀ n, Limits.IsZero ((cousinComplex Z hc hd hz hf (tilde (ModuleCat.of R R))).homology (n+1)) := by sorry
+
+-- Check `cousinComplex_dvr` (also `test_cousin_dvr`)
+example (R K : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    [Field K] [Algebra R K] [IsFractionRing R K] :
+    let Z : ℕ → Set (Spec (.of R)) := fun n =>
+      if n = 0 then Set.univ else if n = 1 then
+        PrimeSpectrum.zeroLocus (IsLocalRing.maximalIdeal R) else ∅
+    ∃ (hc : ∀ i, IsClosed (Z i)) (hd : Antitone Z) (hz : Z 0 = Set.univ)
+      (hf : ∃ n, Z n = ∅),
+      ∃ (e₀ : (cousinComplex Z hc hd hz hf (tilde (ModuleCat.of R R))).X 0 ≅
+          tilde (ModuleCat.of R K))
+        (e₁ : (cousinComplex Z hc hd hz hf (tilde (ModuleCat.of R R))).X 1 ≅
+          tilde (ModuleCat.of R (K ⧸ (Algebra.linearMap R K).range))),
+        (cousinComplex Z hc hd hz hf (tilde (ModuleCat.of R R))).d 0 1 ≫ e₁.hom =
+          e₀.hom ≫ tilde.map (ModuleCat.ofHom (Algebra.linearMap R K).range.mkQ) ∧
+        Nonempty ((cousinComplex Z hc hd hz hf (tilde (ModuleCat.of R R))).homology 0 ≅
+          tilde (ModuleCat.of R R)) ∧
+        ∀ n, Limits.IsZero ((cousinComplex Z hc hd hz hf (tilde (ModuleCat.of R R))).homology (n+1)) := by sorry
+
+-- Check `cousinComplex_embedded_point` (also `test_cousin_not_resolution`)
+example (k : Type u) [Field k] :
+    let x : MvPolynomial (Fin 2) k := MvPolynomial.X 0
+    let y : MvPolynomial (Fin 2) k := MvPolynomial.X 1
+    let J := Ideal.span {x*y, y^2}
+    let R := MvPolynomial (Fin 2) k ⧸ J
+    let m := (Ideal.span {x,y}).map (Ideal.Quotient.mk J)
+    let Z : ℕ → Set (Spec (.of R)) := fun n =>
+      if n = 0 then Set.univ else if n = 1 then PrimeSpectrum.zeroLocus m else ∅
+    ∃ (hc : ∀ i, IsClosed (Z i)) (hd : Antitone Z) (hz : Z 0 = Set.univ)
+      (hf : ∃ n, Z n = ∅),
+      ¬ Nonempty ((cousinComplex Z hc hd hz hf (tilde (ModuleCat.of R R))).homology 0 ≅
+        tilde (ModuleCat.of R R)) := by sorry
 
 end Supports
 
@@ -5949,13 +6147,48 @@ theorem eulerChar_eq_degree_add_rank_mul (X : Scheme.{u}) [X.Over (Spec (.of k))
     (E : X.Modules) (r : ℕ) (hE : isFiniteLocallyFreeOfRank E r) :
     eulerChar k X E = vectorBundleDegree k X E r + r * (1 - (genus k X : ℤ)) := by sorry
 
-/-! ### Curve serre duality
+/-! ### Curve Serre duality
 
-The theorem (`Ext^{1+i}(F, ω_X) ≅ H^{−i}(X, F)^∨` for quasi-coherent `F` on a proper Cohen–Macaulay
-curve, `Hⁱ(E^∨ ⊗ ω) ≅ H^{1−i}(E)^∨`, `Ext¹(U, V) ≅ Hom(V, U ⊗ ω)^∨`, and `ω ≅ Ω¹` in the smooth
-case) needs Ext groups and duals of sheaves of modules, the dualizing module `H^{−1}(f^! k)` of
-Layer 2 and the sheaf of differentials; none is a carrier of the pinned libraries, so it is stated in
-the roadmap document only. A dimension-only Lean form would be false without those carriers. -/
+`curve_serre_duality`: on a proper equidimensional Cohen–Macaulay curve of dimension one,
+`Ext^{1+i}(F, ω_X) ≅ H^{−i}(X,F)^∨` for coherent F and every integer i; the derived
+version holds for quasi-coherent complexes (Stacks 53.4.2(3)–(4), 0BS3).
+`Hⁱ(E^∨ ⊗ ω) ≅ H^{1−i}(E)^∨` requires E finite locally free.
+Separately, `curve_serre_duality_ext_hom` asserts
+`Ext¹(U,V) ≅ Hom(V,U ⊗ ω)^∨` for U finite locally free and V coherent, by
+adjunction and the preceding formula. No smoothness is imposed on these two targets.
+`ω ≅ Ω¹` requires a smooth curve. StableReduction's singular Gorenstein curves and
+JacobianChallenge's smooth line bundles therefore retain their respective dualities.
+-/
+
+open scoped ModuleCat.Algebra in
+-- Check `curve_serre_duality_node`
+example (k : Type u) [Field k] [IsAlgClosed k] [CharZero k] :
+    let x : MvPolynomial (Fin 2) k := MvPolynomial.X 0
+    let y : MvPolynomial (Fin 2) k := MvPolynomial.X 1
+    let J := Ideal.span {y^2-x^2*(x+1)}
+    let A := MvPolynomial (Fin 2) k ⧸ J
+    let m := (Ideal.span {x,y}).map (Ideal.Quotient.mk J)
+    let K := ModuleCat.of A (A ⧸ m)
+    Module.finrank k (((_root_.Ext k (ModuleCat A) 1).obj (Opposite.op K)).obj K) = 2 ∧
+      Module.finrank k (Module.Dual k (K ⟶ K)) = 1 ∧
+      ¬ Module.Projective A K ∧
+      ¬ TauCetiRoadmap.AlgebraicVectorBundles.isFiniteLocallyFree (Spec (.of A)) (tilde K) := by sorry
+
+-- Check `curve_serre_duality_locally_free`: U = O_X is finite locally free even on singular X.
+example (X : Scheme.{u}) (V : X.Modules) :
+    letI : HasExt.{u+1} X.Modules := HasExt.standard X.Modules
+    isFiniteLocallyFreeOfRank (structureModule X) 1 ∧
+      Nonempty (CategoryTheory.Abelian.Ext (structureModule X) V 1 ≃
+        TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology V 1) := by sorry
+
+open scoped ModuleCat.Algebra in
+-- Check `curve_serre_duality_smooth_torsion` (also `serre_duality_test_torsion`)
+example (k : Type u) [Field k] :
+    let R := Polynomial k
+    let K := ModuleCat.of R (R ⧸ Ideal.span {(Polynomial.X : R)})
+    Nonempty ((((_root_.Ext k (ModuleCat R) 1).obj (Opposite.op K)).obj
+      (ModuleCat.of R R)) ≃ₗ[k] k) ∧
+      Subsingleton (K ⟶ ModuleCat.of R R) := by sorry
 
 /-! ### Scheme riemann hurwitz -/
 
@@ -7126,11 +7359,51 @@ def Scheme.completionFunctor (X : Scheme.{u}) (I : X.IdealSheafData)
   fp _ := sorry
   iso _ := sorry
 
-/- AlgebraicGeometry.Scheme.completionFunctor_exact (exactness of F ↦ (F/IⁿF)_n as a functor to
-   inverse systems, Stacks 0881, via Artin–Rees; it is not levelwise exactness) and
-   AlgebraicGeometry.Scheme.coherentFormalModuleEquivSpec (coherent formal modules on Spf Â ≃ finite
-   Â-modules, Stacks 087W) need the abelian category of coherent formal modules; stated in the
-   roadmap. -/
+/- `Scheme.coherentFormalModule_abelian` and `Scheme.completionFunctor_exact`
+require X Noetherian and coherent input modules (Stacks 30.23.2 and 30.23.4).
+Exactness is in the abelian category of compatible formal modules, not levelwise.
+`Scheme.coherentFormalModuleEquivSpec` requires A Noetherian; inverse-limit sections
+and reductions give the equivalence with finite modules over its completion
+(Stacks 30.23.1). The object-level complete-affine consequence is below.
+The general finitely presented `CoherentFormalModule` and `completionFunctor`
+constructors do not require these stronger hypotheses. -/
+
+/-- Compatible formal modules over a complete Noetherian affine ring are effective.
+Stacks 30.23.1 (087W); finite modules and their reductions are finitely presented. -/
+theorem Scheme.coherentFormalModuleEquivSpec_effective (A : AdicRing.{u})
+    [IsNoetherianRing A.carrier] (F : Scheme.CoherentFormalModule (Spf A)) :
+    let q : ∀ n, (Spf A).X n ⟶ Spec (.of A.carrier) := fun n =>
+      Spec.map (CommRingCat.ofHom (Ideal.Quotient.mk (A.ideal ^ (n+1))))
+    ∃ (h : ∀ n, (Spf A).ι n ≫ q (n+1) = q n)
+      (M : ModuleCat.{u} A.carrier), Module.Finite A.carrier M ∧
+      ∃ e : ∀ n, (Scheme.Modules.pullback (q n)).obj (tilde M) ≅ F.F n,
+        ∀ n, (Scheme.Modules.pullback ((Spf A).ι n)).map (e (n+1)).hom ≫ (F.iso n).hom =
+          (Scheme.Modules.pullbackComp ((Spf A).ι n) (q (n+1))).hom.app (tilde M) ≫
+            eqToHom (congrArg (fun f => (Scheme.Modules.pullback f).obj (tilde M)) (h n)) ≫
+              (e n).hom := by sorry
+
+-- Check `coherentFormalModuleEquivSpec_complete_noetherian`
+example (A : AdicRing.{u}) [IsNoetherianRing A.carrier]
+    (F : Scheme.CoherentFormalModule (Spf A)) :
+    ∃ (M : ModuleCat.{u} A.carrier), Module.Finite A.carrier M ∧
+      ∀ n, Nonempty ((Scheme.Modules.pullback (Spec.map (CommRingCat.ofHom
+        (Ideal.Quotient.mk (A.ideal ^ (n+1)))))).obj (tilde M) ≅ F.F n) := by sorry
+
+-- Check `coherentFormalModuleEquivSpec_zero_ideal_nonfp`
+example (k : Type u) [Field k] :
+    let A := MvPolynomial ℕ k
+    let I : Ideal A := Ideal.span (Set.range (MvPolynomial.X : ℕ → A))
+    (⊥ : Ideal A).FG ∧ IsAdicComplete (⊥ : Ideal A) A ∧
+      Module.Finite A (A ⧸ I) ∧ ¬ Module.FinitePresentation A (A ⧸ I) ∧
+      ¬ (tilde (R := CommRingCat.of A) (ModuleCat.of A (A ⧸ I))).IsFinitePresentation := by sorry
+
+-- Check `completionFunctor_exact_t_reduction`
+example (k : Type u) [Field k] :
+    let A := PowerSeries k
+    let I : Ideal A := Ideal.span {(PowerSeries.X : A)}
+    Function.Injective (fun a : A => PowerSeries.X * a) ∧
+      (∀ a : A ⧸ I, Ideal.Quotient.mk I PowerSeries.X * a = 0) ∧
+      ¬ Function.Injective (fun a : A ⧸ I => Ideal.Quotient.mk I PowerSeries.X * a) := by sorry
 
 /- Coherent formal modules here are compatible systems on the chosen infinitesimal thickenings.
    Comparison with modules on a topologically locally ringed formal scheme requires a different
