@@ -177,7 +177,7 @@ statements of Layer 7 Step 5 included.
 | the chosen-root comparison of the cup square with duality | `muNRepEquivZMod`, `muNRep_ρ_eq_self`, `kummerCupPairing`, `kummerCupPairing_bil`, `localSymbol`, `muNRepToTateDual`, `bijective_muNRepToTateDual`, `tateDualityPairing_muNRepToTateDual` |
 | reciprocity and orientation | `artinMap`, `restrictAbsolute`, `artinMap_restrict`, `absoluteGaloisGroupExtend`, `artinMap_norm`, `denseRange_artinMap`, `localArtinMap`, `normResidue`, `unramifiedCoordinate`, `unramifiedCoordinate_artinMap`, `cyclotomicCharacter_artinMap`, `cyclotomicCharacter_artinMap_padic`, `cyclotomicCharacter_artinMap_padic_uniformizer` |
 | class formation and Tate's theorem | `ClassFormation` (Tau Ceti's, re-exported), `tateTheorem`, `artinMap_conj` |
-| cohomological triviality and projective dimension | `TateCohomology.projective_ker_of_isZero_res` |
+| cohomological triviality and projective dimension | `TateCohomology.projective_ker_of_isZero_res`, `TateCohomology.primaryComponent_tateCohomology_eq_bot` |
 | strict cohomological dimension of `G_K` | `scd_p_absoluteGaloisGroup_eq_two` |
 
 The `h2MuEquivZMod_mixed` theorem is the mixed-characteristic result valid at `n = p`; the
@@ -210,8 +210,9 @@ in the proof route of a target, and is cited there by name.
 | trivial coefficients and coefficient maps | `trivialFpEquiv`, `trivialFp_ρ_apply_apply`, `ContinuousCohomology.coeffMap_comp`, `ContinuousCohomology.coeffMap_id` |
 | continuous quotient maps | `ContinuousMonoidHom.quotientMk`, `ContinuousMonoidHom.quotientLift` |
 | free profinite groups and extensions | `freeProfiniteGroup`, `freeProfiniteGroup.lift`, `freeProfiniteGroup.hom_ext`, `freeProfiniteGroup.dense_closure_range_of`, `ProfiniteGroupExtension`, `GroupExtension.contCohomologyClass_factorSet_eq` |
-| class formations | `ClassFieldTheory.ClassFormation.fundamentalClass`, `ClassFieldTheory.ClassFormation.fundamentalClass_generates` |
+| class formations | `ClassFieldTheory.ClassFormation.fundamentalClass`, `ClassFieldTheory.ClassFormation.fundamentalClass_generates`, `ClassFieldTheory.ClassFormation.h1_subgroupLayer`, `ClassFieldTheory.ClassFormation.card_H2_subgroupLayer`, `ClassFieldTheory.ClassFormation.fundamentalClass_restrict_generates` |
 | Tate's cohomological triviality criterion | `TateCohomology.isZero_of_forall_isPGroup` |
+| the splitting module of a degree-two class | `Rep.splittingModule`, `Rep.splittingModuleSES_shortExact`, `Rep.map_splittingModuleIncl_res_eq_zero` |
 | group algebras and cancellation | `MonoidAlgebra.augmentation`, `MonoidAlgebra.ker_augmentation_eq_span`, `exists_equiv_linearEquiv_of_isLocalRing_end` |
 | local fields | `FinitePadicExtension`, `galoisSubgroup`, `galoisSubgroup_index`, `galoisSubgroupEquiv_apply_separableClosureRingEquiv`, `isProP_units_padicInt_two` |
 
@@ -811,20 +812,41 @@ rationalization.
   `μ_{p^∞}(L)` as a `ℤ_p[G]`-module, the same module as the torsion of `A(L)`. The second is the
   arithmetic input of the comparison below: `E¹(M₀) = μ_{p^∞}(L)^∨` with `σ, τ` acting through
   `a⁻¹, b⁻¹`, which is NSW's `M₀ ≃ D(μ_{p^∞}(L)^∨)`.
+- **The cohomology of `A(L)` on the layer** `exists_padicCompletionUnitsRep_class`: there is a
+  class `u ∈ H²(G, A(L))` whose restriction to every subgroup `H` of `G` generates `H²(H, A(L))`,
+  a cyclic group of order the `p`-part of `#H`, and `H¹(H, A(L)) = 0`. Here `A(L)` is read as a
+  representation over `ℤ_p` through its `ℤ_p[G]`-module structure (`padicCompletionUnitsRep`), and
+  `u` is the image of the fundamental class of the local class formation along
+  `padicCompletionUnitsOf : Lˣ → A(L)`. The kernel of `padicCompletionUnitsOf` is the group of roots
+  of unity of order prime to `p`, and its cokernel is `ℤ_p/ℤ` along the normalized valuation, the
+  principal units `U(L,1)` being already `p`-adically complete; multiplication by `p` is bijective
+  on both. So by CFT's `TateCohomology.primaryComponent_tateCohomology_eq_bot` and the long exact
+  sequences, `padicCompletionUnitsOf` induces isomorphisms `Ĥⁱ(H, Lˣ)(p) ≅ Ĥⁱ(H, A(L))`, the right
+  side being its own `p`-primary component because it is a `ℤ_p`-module killed by `#H`. Hilbert 90 and the class-formation
+  axioms for `Lˣ` then give the statement. Mathlib's group cohomology takes the group and the
+  coefficient ring in one universe, so it is stated for `K L : Type`. *Needs:* CFT `ClassFormation`
+  (Tau Ceti's, re-exported), `TateCohomology.primaryComponent_tateCohomology_eq_bot`; TC
+  `ClassFieldTheory.ClassFormation.h1_subgroupLayer`,
+  `ClassFieldTheory.ClassFormation.card_H2_subgroupLayer`,
+  `ClassFieldTheory.ClassFormation.fundamentalClass_restrict_generates`; Step 1's
+  `padicCompletionUnits`, `padicCompletionUnitsOf` and `padicCompletionUnitsModule`, but not the
+  reciprocity identification of Step 1.
 - **The Tate module** `TateModule p L K`: a finitely generated `ℤ_p[G]`-module `Y` of projective
   dimension at most one, an extension `0 → A(L) → Y → I_G → 0` of the augmentation ideal by
-  `A(L)`. This is NSW's `Y = I_{G_K}/I_{G_L} I_{G_K}` ((5.6.5)). `Y` is cohomologically trivial by
-  Tate's criterion (TC `TateCohomology.isZero_of_forall_isPGroup`), the vanishing in two
-  consecutive degrees being Tate's theorem for the fundamental class of the layer carried to `A(L)`
-  along the reciprocity identification of Step 1; projective dimension at most one then follows
-  from the theorem of Nakayama and Rim, CFT's `TateCohomology.projective_ker_of_isZero_res` at
-  `k = ℤ_[p]`. Mathlib's `tateCohomology` takes the group and the coefficient ring in one universe,
-  so both are applied to a copy of `Gal(L/K)` in `Type`. Prove `nonempty_tateModule`.
-  *Needs:* CFT `ClassFormation` (Tau Ceti's, re-exported), `tateTheorem`,
-  `TateCohomology.projective_ker_of_isZero_res`; TC
-  `ClassFieldTheory.ClassFormation.fundamentalClass`,
-  `ClassFieldTheory.ClassFormation.fundamentalClass_generates`,
-  `TateCohomology.isZero_of_forall_isPGroup`; NSW (3.1.5); Step 1.
+  `A(L)`. This is NSW's `Y = I_{G_K}/I_{G_L} I_{G_K}` ((5.6.5)). Take `Y` to be Tau Ceti's
+  splitting module `Rep.splittingModule` of the class `u` of `exists_padicCompletionUnitsRep_class`,
+  with its exact sequence `0 → A(L) → Y → I_G → 0` (`Rep.splittingModuleSES_shortExact`). `Y` is
+  cohomologically trivial by Tate's criterion (TC `TateCohomology.isZero_of_forall_isPGroup`) in
+  degrees `1` and `2`. On a subgroup `H`: `H¹(H, A(L)) = 0`; `Ĥ¹(H, I_G) ≅ Ĥ⁰(H, ℤ_p)` is cyclic of
+  the same order as `H²(H, A(L))`, and its connecting map to `H²(H, A(L))` is onto, because the
+  restriction of `u` generates and dies in `H²(H, Y)` (`Rep.map_splittingModuleIncl_res_eq_zero`), so
+  that map is bijective; and `Ĥ²(H, I_G) ≅ H¹(H, ℤ_p) = 0`. Projective dimension at most one then
+  follows from the theorem of Nakayama and Rim, CFT's `TateCohomology.projective_ker_of_isZero_res`
+  at `k = ℤ_[p]`. Mathlib's `tateCohomology` takes the group and the coefficient ring in one
+  universe, so both are applied to a copy of `Gal(L/K)` in `Type`. Prove `nonempty_tateModule`.
+  *Needs:* `exists_padicCompletionUnitsRep_class`; CFT `TateCohomology.projective_ker_of_isZero_res`;
+  TC `Rep.splittingModule`, `Rep.splittingModuleSES_shortExact`,
+  `Rep.map_splittingModuleIncl_res_eq_zero`, `TateCohomology.isZero_of_forall_isPGroup`.
 - **The integral decomposition** `tateModule_linearEquiv`: `Y ≃ M₀ ⊕ ℤ_p[G]^N` as
   `ℤ_p[G]`-modules, the isomorphism `(∗∗)` in the proof of NSW (7.4.1). This is the theorem the
   cancellation lemmas are applied to: `exists_projective_prod_linearEquiv_of_torsion` gives
