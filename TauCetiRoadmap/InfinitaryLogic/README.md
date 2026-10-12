@@ -240,6 +240,16 @@ Neither source is the specification; the map is "where to look", not "what is co
   work. `Scott/Code.lean` is marked legacy and off-path in the source and is not a migration
   target.
 
+Supplemental proof references at
+[`infinitary-logic@9f82bd5`](https://github.com/cameronfreer/infinitary-logic/tree/9f82bd572af2d79a043c6bc3f1b745f14e0bcaa4)
+include
+[`Scott/OrbitRankStabilization.lean`](https://github.com/cameronfreer/infinitary-logic/blob/9f82bd572af2d79a043c6bc3f1b745f14e0bcaa4/InfinitaryLogic/Scott/OrbitRankStabilization.lean#L71-L91),
+which proves the internal stabilization/orbit-rank comparisons targeted in Layer 3. At that
+checkpoint, the source's `scottSentenceAt` in `Scott/Formula.lean` is only the empty-tuple Scott
+approximation. This roadmap's same-named construction retains that formula **and** the universal
+tuple-upgrade clauses; do not port the source definition as if the two constructions were identical.
+These references supplement the pinned migration map above and do not expand this roadmap's scope.
+
 Credit `cameronfreer/infinitary-logic` in each ported or adapted file, and record when a Tau Ceti file
 intentionally diverges from this source API.
 
