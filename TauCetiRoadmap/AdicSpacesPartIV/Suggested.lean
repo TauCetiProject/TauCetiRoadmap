@@ -1162,9 +1162,9 @@ example (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteS
       washnitzerAlgebra.X 1 K 0 ^ (p - 1) • Omega.d K _ (washnitzerAlgebra.X 1 K 0) := sorry
 
 /-- Pure dimension is not Krull dimension: `K × W₁`, the ring of the smooth space `Sp K ⨿ Sp W₁`,
-is a dagger algebra of Krull dimension `1` with a factor of dimension `0`. That space has
-`H⁰_dR = K²`, `H⁰_{dR,c} = K` and `H²_{dR,c} = K`, so duality with a single shift `2n` needs pure
-dimension. -/
+is a dagger algebra of Krull dimension `1` with a factor of dimension `0`. In characteristic zero
+that space has `H⁰_dR = K²`, `H⁰_{dR,c} = K` and `H²_{dR,c} = K`, so duality with a single shift
+`2n` needs pure dimension. -/
 example (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K] :
     IsDaggerAlgebra K (K × washnitzerAlgebra 1 K) ∧
       ringKrullDim (K × washnitzerAlgebra 1 K) = 1 ∧ ringKrullDim K = 0 := sorry
