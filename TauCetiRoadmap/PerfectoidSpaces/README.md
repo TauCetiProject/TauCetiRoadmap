@@ -713,7 +713,7 @@ proposed name given.
 | --- | --- | --- |
 | Compatible pullback points | P2.16: `pullback_points` (README only); the pullbacks themselves are the Lean `PerfectoidSpace.hasPullbacks` | Apply this to étale maps as well; point surjectivity requires no étaleness hypothesis. |
 | Almost finite étale algebras and slice untilting | `Almost.Algebra.FiniteEtale`, `.toAlmost`, `.elements` (P0.14, P0.8), `Perfectoid.PairCat.sliceUntiltFunctor` (P1.21) (README only) | P3 inverts a pseudouniformiser in almost elements and restricts the concrete Witt-vector slice untilt to finite étale algebras. |
-| Global perfectoid objects and functions | `PerfectoidSpace.Perfd` (P2.10, in `TauCetiRoadmap/PerfectoidSpaces/Suggested.lean`), `.globalSections`, `.globalPlus`, `.globalPullback`, `.globalSharp`, `.sliceTiltFunctor` (P2, README only) | The new sites and sheaves use these carriers and restriction maps. |
+| Global perfectoid objects and functions | `PerfectoidSpace.Perfd` (P2.10, in `TauCetiRoadmap/PerfectoidSpaces/Suggested.lean`); `.globalSections` and `.globalPlus` are abbreviations of the structure-sheaf sections `Γ(X, O_X)`, `Γ(X, O⁺_X)` of the underlying `PreAdicSpace`; `.globalPullback`, `.globalSharp`, `.sliceTiltFunctor` (P2, README only) | The new sites and sheaves use Tau Ceti's structure-sheaf sections as the carriers, with the chart descriptions as comparison lemmas. |
 
 #### P4
 
@@ -6909,10 +6909,18 @@ give the empty space, an isomorphism, and a non-isomorphism. `spa_space_empty`,
 whole subsets and on pullback of a valuation.
 
 The global sharp map uses `PerfectoidSpace.Chart`, an open affinoid chart with its specified
-inclusion. `globalSections` is the subring of the product of the chart rings cut out by all
-restriction equations; `globalPlus` imposes the chart plus-subring conditions.
-`globalSectionsAffinoidEquiv_spec` recovers the affinoid ring by evaluation on its identity
-chart and recovers its exact plus ring. `globalPullback_chart` fixes pullback on chart maps.
+inclusion. The primary carrier of global functions is the structure sheaf of the underlying
+`PreAdicSpace`: `globalSections X` is a reducible abbreviation of `Γ(X, O_X)`, the global sections
+of Tau Ceti's structure presheaf of `X.obj`, and `globalPlus X` of its integral subring
+`Γ(X, O⁺_X)`; the description of `Γ(X, O_X)` as the subring of the product of the chart rings cut
+out by all restriction equations, with the chart plus-subring conditions for `Γ(X, O⁺_X)`, is a
+comparison lemma (`globalSections_eq_compatibleFamilies`), and the family type used to prove it is
+auxiliary. The topology on `Γ(X, O_X)` is the one induced by the chart restriction maps; no second
+ring is introduced to carry it. `globalSectionsAffinoidEquiv_spec` recovers the affinoid ring by
+evaluation on its identity chart and recovers its exact plus ring; for affinoids this comparison
+fixes the supplied `toPresentationLimit` sections, and for arbitrary opens it commutes with
+restriction. The sharp map, pullbacks, integral conditions and the Čech and cohomology statements
+below are stated on these canonical carriers. `globalPullback_chart` fixes pullback on chart maps.
 `tiltChart` uses the tilted inclusion, and `globalSharp_chart` applies sharp to the
 corresponding tilted chart component. `globalSharp_naturality` includes restriction to
 opens, and `globalSharp_plus` gives the integral map.
@@ -7607,11 +7615,15 @@ These conditions apply in every characteristic, including the zero-ring localiza
 - `almostExact_test_nonseparated` — on `ℚ_p`, `(p)=ℚ_p` and `⋂_n p^nℚ_p=ℚ_p`:
   reduction of `[ℚ_p→0]` is zero, but the complex has nonzero degree-zero cohomology.
 
-The structure presheaf is also described by compatible rational sections:
-`Perfectoid.rationalSections U` is the subring of the product of all `O(V)`, rational `V ⊆ U`,
-cut out by restriction compatibility; `rationalIntegralSections U` requires every component
-to belong to `O⁺(V)`. `rationalPresheaf` and `integralPresheaf` use the literal projection of
-such families along an open inclusion. For a perfectoid pair `R` at a prime `p` and any pair
+The structure presheaf is the one supplied by Tau Ceti on the underlying `PreAdicSpace`
+(`presentationLimitPresheafInCommRingCat`, with `presentationLimitPlusPresheaf`); it is also
+described by compatible rational sections, and that description is a comparison, not a second
+carrier: `Perfectoid.rationalSections U`, the subring of the product of all `O(V)`, rational
+`V ⊆ U`, cut out by restriction compatibility, and `rationalIntegralSections U`, requiring every
+component to belong to `O⁺(V)`, are auxiliary family types; `rationalPresheaf` and
+`integralPresheaf`, the presheaves of such families with the literal projection along an open
+inclusion, are identified with the supplied presheaves by the comparisons below and are not used
+downstream in their own right. For a perfectoid pair `R` at a prime `p` and any pair
 of definition `D`, `rationalSectionsEquivPresentationLimit` identifies these ordinary
 sections with `presentationLimitPresheafInCommRingCat D R.pair.plus` on each open.
 `rationalSectionsEquivPresentationLimit_base` sends the family induced by any `a : R`
@@ -8218,10 +8230,17 @@ T ↦ T°a ↦ T°a/ϖ♭ ↦ A ↦ A_*[ϖ⁻¹] =: T♯,
 where the first equivalence is *characteristic-p-almost-purity-equivalence*, the middle equivalence
 is the unique flat deformation of almost finite étale algebras along the `ϖ`-adically complete flat
 `R°a` (layer P0), and the last functor inverts `ϖ` (natural module topology on `T♯`).
-Prove `FiniteEtale.naturalPerfectoid`: for every finite étale algebra `S` over a complete
-Hausdorff perfectoid Tate ring `R`, the supplied `Huber.FiniteEtale R S` with its natural
-module topology is perfectoid ([ECD] Theorem 6.1(i), p. 26). Register this theorem as an
-instance; `untilt_isPerfectoid` is its specialization to `S = T♯`. Prove `tiltUntiltIso`
+Prove `untilt_isPerfectoid` directly for the constructed `T♯`, from layer P1's primitive-ideal
+untilting: `T♯ = W(T⁺)[1/[ϖ♭]]/ξ` is the untilt of the perfectoid ring `T` (of characteristic
+`p`, `T` being finite étale over the perfectoid `R♭`, hence perfectoid as a uniform complete Tate
+ring that is perfect) along the primitive element `ξ`, and untilts of perfectoid rings are
+perfectoid (layer P1); no statement about arbitrary finite étale `R`-algebras is used. The
+general theorem `FiniteEtale.naturalPerfectoid` — for every finite étale algebra `S` over a
+complete Hausdorff perfectoid Tate ring `R`, the supplied `Huber.FiniteEtale R S` with its natural
+module topology is perfectoid ([ECD] Theorem 6.1(i), p. 26) — is NOT a target of this subsection:
+it is the essential-surjectivity milestone of *finite-etale-tilting-equivalence* (P3.9) and is
+exposed, and registered as an instance, only there and in P3.10, after that milestone; nothing in
+P3.5–P3.8 depends on it. Prove `tiltUntiltIso`
 (a canonical isomorphism `(T♯)♭ ≅ T` of `R♭`-algebras, natural in `T`, so that `(−)♯` is inverse to
 tilting on its image and compatible with the untilting of perfectoid algebras of layer P1). Further,
 `T♯` is finite étale over `R`; `(T♯)°a = A` is almost finite étale over `R°a`; the functor is
@@ -8249,9 +8268,12 @@ The split-algebra Checks are `untilt_test_rank_zero`, `untilt_test_rank_one`
 and `untilt_test_rank_two`: the finite étale algebras `R♭⁰`, `R♭` and `R♭²` untilt
 respectively to the zero algebra `R⁰`, `R` and `R²`.
 
-`FiniteEtale.tiltFunctor` has carrier the tilt of the supplied finite-algebra
-module topology, with `tiltFunctor_map_coeff` giving its coordinatewise action
-on algebra homomorphisms. `untilt_isPerfectoid`, `tiltUntiltIso`,
+`FiniteEtale.tiltFunctor`, the geometric tilting functor on all of `FÉt(R)`, has carrier the
+tilt of the supplied finite-algebra module topology, with `tiltFunctor_map_coeff` giving its
+coordinatewise action on algebra homomorphisms; it is defined only on the full subcategory of
+finite étale `R`-algebras that are perfectoid (the essential image of P3.6) until P3.9's
+essential-surjectivity milestone shows that this is all of `FÉt(R)`, and it is never used to
+prove that perfectoidness. `untilt_isPerfectoid`, `tiltUntiltIso`,
 `untiltTiltIso`, and `tiltUntilt_triangle` specify the geometric inverse and
 its triangle identity. `finiteEtaleTiltEquiv_comparison` identifies the
 categorical inverse with this geometric functor. For every perfectoid Tate
@@ -8482,7 +8504,27 @@ elements `R⁺ ⊆ R°` with tilt `R♭⁺` (layer P1), it induces an equivalenc
 morphisms of Huber pairs `(R, R⁺) → (S, S⁺)` and `(R♭, R♭⁺) → (S♭, S♭⁺)` (plus rings the integral
 closures; the finite étale Huber pair of AdicEtaleGeometry A1.2), i.e. between finite étale
 affinoid perfectoid spaces over `Spa(R, R⁺)` and over `Spa(R♭, R♭⁺)` ([ECD] §6, Thm 6.1(ii), p. 26).
-*Needs:* P3.6.
+The content beyond P3.6 is essential surjectivity, stated as its own milestone
+(*finite-etale-untilting-essentially-surjective*): every finite étale `R`-algebra `S` (natural
+module topology) is perfectoid with `S°a` almost finite étale over `R°a`, hence lies in the
+essential image of P3.6. Full faithfulness and the description of the restricted essential image do
+not give this; the proof is local-to-global, with the following inputs, each a named statement:
+(i) the field case — for a perfectoid field `K`, `FÉt(K♭) → FÉt(K)` is essentially surjective
+([Sch12] Thm 3.7 and §7, proof of Thm 7.9, pp. 42–43; P3.7); (ii) the completed-residue-field
+case at a point `x ∈ Spa(R, R⁺)` — `S ⊗_R k(x)^` is in the image, by (i) applied to the perfectoid
+field `k(x)^` (P3.8); (iii) rational-neighbourhood spreading — the untilt `T_x♯ ≅ S ⊗_R k(x)^`
+found in (ii) spreads to a rational neighbourhood `U_x` of `x` with `T_{U_x}♯ ≅ S ⊗_R O(U_x)`, by
+the finite-étale approximation of AdicEtaleGeometry A1 (*finite-etale-approximation*, Henselian
+spreading of finite étale algebras along the filtered colimit `colim_{U ∋ x} O(U) → k(x)^`,
+[Sch12] Lemma 7.5(i)) and the base-change compatibility of P3.5; (iv) overlap compatibility — on
+`U_x ∩ U_y` the two untilts are identified by full faithfulness (P3.6) applied to the tilts of the
+transition isomorphisms; (v) affinoid gluing — the `T_{U_x}` glue to a finite étale `R♭`-algebra
+`T` by finite étale descent on the finite rational cover (A1's *finite-etale-rational-descent*,
+with finite projectivity of the pieces), and `T♯ ≅ S` by the sheaf property. The residue-field
+spreading statement below is (iii). Only after this milestone are `FiniteEtale.naturalPerfectoid`
+(P3.10) and the unrestricted `FiniteEtale.tiltFunctor` (P3.5) exposed as consequences. *Needs:*
+P3.6; P3.7; P3.8; P3.5 (base change); AdicEtaleGeometry A1 (*finite-etale-approximation*,
+*finite-etale-rational-descent*); P2.3.
 
 Use `Perfectoid.finiteEtaleTiltEquiv` for the inverse equivalence to `untilt`.
 **Checks.** `finiteEtaleTiltEquiv_test_rank_zero`, `finiteEtaleTiltEquiv_test_rank_one`
@@ -8527,7 +8569,11 @@ AdicEtaleGeometry A1.2, *finite-etale-affinoid-algebra*), `(S, S⁺)` is a perfe
 the integral closure of `R♭⁺` in `S♭`. Consequently `Spa(S, S⁺) → Spa(R, R⁺)` is a finite étale
 morphism of affinoid perfectoid spaces (AdicEtaleGeometry A1.3). AdicSpacesPartIV R5 uses this as its
 finite étale step downstream ([Berkeley] Thm 7.4.5(1); [HK] Prop. 2.15(a)) ([ECD] §6, Thm 6.1(i), p. 26).
-*Needs:* P3.9; AdicEtaleGeometry A1.2 and A1.3.
+This subsection re-exports P3.9's essential-surjectivity milestone
+(*finite-etale-untilting-essentially-surjective*): `isPerfectoidTateRing_of_finiteEtale` and the
+instance `FiniteEtale.naturalPerfectoid` are that milestone's conclusion, registered here, and are
+not a second proof target; nothing in P3.5–P3.9 depends on them. *Needs:* P3.9
+(*finite-etale-untilting-essentially-surjective*); AdicEtaleGeometry A1.2 and A1.3.
 
 Lean: `isPerfectoidTateRing_of_finiteEtale` (with the finite-module topology, `S` is a complete
 Hausdorff perfectoid Tate ring); the Lean `example` checks the split case `R × R`.
@@ -8887,7 +8933,8 @@ Thus the universal property includes all Yoneda-adic test spaces
 Theorem 6.1 and Definition 6.2, p. 26, give the perfectoid Tate-ring form).
 
 For (d), `globalSections_adicComparison` gives ring equivalences from
-P2’s `globalSections p X` to the global sections of every adic representative
+`globalSections p X = Γ(X, O_X)` (P2, the structure-sheaf sections of the underlying
+`PreAdicSpace`) to the global sections of every adic representative
 `A` with `ofAdicSpace.obj A ≅ X.obj`. They carry `globalPlus p X` exactly to
 `AdicSpace.Oplus A ⊤` and commute with every pair of corresponding morphisms.
 `etaleSheaves_adicComparison` gives an equivalence with the small étale
@@ -10362,19 +10409,38 @@ The composition and base-change declarations are `IsImmersion.comp`, `.baseChang
 `IsOpenImmersion.comp`, `.baseChange`, `IsClosedImmersion.comp`, `.baseChange`;
 `IsClosedImmersion.quasiCompact` gives quasicompactness.
 
-`IsAdicClosedImmersion` expresses the adic local condition on the actual `Perfd`
-morphism: over every affinoid chart the source is an affinoid quotient, with the
-quotient topology and the integral closure of the image as plus ring. The equivalence
-`isAdicClosedImmersion_iff_locally_strong` identifies this with strong Zariski closedness
-on each chart; `isAdicClosedImmersion_iff_strong` is its affinoid specialization.
-`IsAdicClosedImmersion.isClosedImmersion` compares the local quotient condition with
+`IsAdicClosedImmersion` expresses the adic cover-local condition of (b) on the actual `Perfd`
+morphism, with the same quantifier everywhere: there exists an affinoid cover of the target such
+that over each chart of that cover the source is an affinoid quotient, with the quotient topology
+and the integral closure of the image as plus ring. The equivalence
+`isAdicClosedImmersion_iff_locally_strong` identifies this with the existence of an affinoid
+perfectoid cover on whose charts the map is strongly Zariski closed (the statement of (b)); there
+is no `isAdicClosedImmersion_iff_strong`: for an affinoid target the direct comparison is (a),
+whose source is supplied as an affinoid quotient, and the upgrade from a cover-local immersion into
+an affinoid target to a quotient presentation over the whole target is a separate theorem
+(*adic-closed-immersion-affinoid-upgrade*, below) with its own inputs, not a specialisation.
+`IsAdicClosedImmersion.isClosedImmersion` compares the cover-local quotient condition with
 P4's topological closed immersion. Checks `adicClosed_identity`, `adicClosed_empty`,
 `adicClosed_principal` and `adicClosed_annulus_negative` give the identity, empty source,
 a principal perfectoid quotient, and the annulus boundary that fails the quotient
 condition. `isAdicClosedImmersion_iff_adicCharts` uses the complete sheafy charts
 `AdicSpacesPartII.AdicSpace.Chart` and `AdicSpace.Affinoid.map` to express R0's quotient-chart
-condition on adic representatives; all representative isomorphisms commute with the
-morphism being tested. [ECD] Definitions 5.6–5.7 and Theorem 5.8, pp. 24–25,
+condition on adic representatives, again as the existence of a cover by quotient charts; all
+representative isomorphisms commute with the morphism being tested.
+
+**Affinoid upgrade of a cover-local closed immersion.** (*adic-closed-immersion-affinoid-upgrade*)
+Let `X = Spa(R, R⁺)` be affinoid perfectoid and `f : Z → X` an `IsAdicClosedImmersion`, i.e. strongly
+Zariski closed on the charts of some affinoid perfectoid cover `(U_i)` of `X`. Prove that `f` is
+strongly Zariski closed over the whole of `X`: `Z` is quasi-compact (closed immersions are
+quasi-compact, *immersions-base-change-and-composition*), the ideals `J_i = ker(O(U_i) → O(Z ×_X U_i))`
+satisfy `J_i·O(U_i ∩ U_j) = J_j·O(U_i ∩ U_j)` by P4.12/P4.15 (the image over an affinoid perfectoid
+open inside a chart is `V(J·O(W))`), so they glue to a closed ideal `J ⊆ R` by the sheaf property of
+`O` on the finite cover (P2.3) and the Tate acyclicity of the integral structure up to almost
+elements (P2.9), `R/J` is perfectoid by P4.15 (Zariski closed subsets of affinoid perfectoid spaces
+are affinoid perfectoid, applied to `V(J) = f(|Z|)`), and `Z ≅ Spa(Huber.Pair.quotient (R, R⁺) J)`
+over `X` by (a). This is the bridge that a worker must prove before using any affinoid-global form
+of the predicate; it is not assumed anywhere above. *Needs:* P4.12; P4.15; P2.3; P2.9;
+*immersions-base-change-and-composition*; *adicspaces-closed-immersion-comparison*. [ECD] Definitions 5.6–5.7 and Theorem 5.8, pp. 24–25,
 distinguish this condition from P4's broader `IsClosedImmersion`, as does the remark
 after [Berkeley] Definition 17.4.2, p. 155. The affine construction uses the pinned
 quotient-pair suppliers above.
