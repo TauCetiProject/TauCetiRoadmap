@@ -668,10 +668,12 @@ theorem isAffinoidPerfectoid_presentationLimitPreAdicSpace {A : Type u} [CommRin
     ⟨A, inferInstance, inferInstance, inferInstance, inferInstance, inferInstance, inferInstance,
       inferInstance, inferInstance, S, P, hP, rfl⟩
 
-/-- A *perfectoid space* (ECD Definition 3.19, p. 18; Berkeley Definition 7.1.2): every point
-has an open neighbourhood which is affinoid perfectoid. -/
+/-- A *perfectoid space* (ECD Definition 3.19, p. 18; Berkeley Definition 7.1.2): an adic space,
+so a sheafy pre-adic space, in which every point has an open neighbourhood which is affinoid
+perfectoid. Sheafiness is part of the definition: without it the empty pre-adic space with nonzero
+sections over `∅` would qualify. -/
 def isPerfectoidSpace : ObjectProperty PreAdicSpace.{u} := fun X ↦
-  ∀ x : X, ∃ U : TopologicalSpace.Opens X, x ∈ U ∧
+  PreAdicSpace.isSheafy X ∧ ∀ x : X, ∃ U : TopologicalSpace.Opens X, x ∈ U ∧
     isAffinoidPerfectoid p (X.restrict U.isOpenEmbedding)
 
 /-- The category `Perfd` of perfectoid spaces, a full subcategory of pre-adic spaces. -/
@@ -712,8 +714,10 @@ instance hasPullbacks : Limits.HasPullbacks (Perfd.{u} p) := sorry
 Proposition 11.4). -/
 instance hasBinaryProducts_perf : Limits.HasBinaryProducts (Perf.{u} p) := sorry
 
--- Check: the empty pre-adic space is perfectoid.
-example (X : PreAdicSpace.{u}) [IsEmpty X] : isPerfectoidSpace p X := fun x ↦ isEmptyElim x
+-- Check: an empty pre-adic space is perfectoid exactly when it is sheafy (its sections over `∅`
+-- vanish); the chart condition is vacuous.
+example (X : PreAdicSpace.{u}) [IsEmpty X] (hX : PreAdicSpace.isSheafy X) :
+    isPerfectoidSpace p X := ⟨hX, fun x ↦ isEmptyElim x⟩
 
 end PerfectoidSpace
 /-! ## Layer P3: almost purity and the étale site -/

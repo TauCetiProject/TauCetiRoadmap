@@ -1421,8 +1421,9 @@ tilde-limits are unique and functorial ([SW13] Proposition 2.4.5; [Survey] Propo
 
 ### P7.11 Represented functors and finite-level descriptions
 
-**Comparisons.** P7 owns the v-site (a precoverage and topology) for a space functor, coverings by
-finitely many compact open images (Mathlib `IsCompactOpenCovered`; [ECD] Definition 8.1(iii));
+**Comparisons.** The v-site itself (its precoverage and topology) is DiamondsAndVStacks D2.2; P7
+uses coverings by finitely many compact open images (Mathlib `IsCompactOpenCovered`; [ECD]
+Definition 8.1(iii));
 tilde-limits induce limits of represented sheaves; completed direct limits of pairs are tilde-limits
 ([SW13] Proposition 2.4.2); rational subsets come from finite level ([CHJ] proof of Theorem 2.17);
 tilde-limits are invariant under initial reindexing; [HJ]'s hypotheses use R0's finite pair maps.
