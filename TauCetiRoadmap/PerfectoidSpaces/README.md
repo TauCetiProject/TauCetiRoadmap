@@ -10416,9 +10416,9 @@ and the integral closure of the image as plus ring. The equivalence
 `isAdicClosedImmersion_iff_locally_strong` identifies this with the existence of an affinoid
 perfectoid cover on whose charts the map is strongly Zariski closed (the statement of (b)); there
 is no `isAdicClosedImmersion_iff_strong`: for an affinoid target the direct comparison is (a),
-whose source is supplied as an affinoid quotient, and the upgrade from a cover-local immersion into
-an affinoid target to a quotient presentation over the whole target is a separate theorem
-(*adic-closed-immersion-affinoid-upgrade*, below) with its own inputs, not a specialisation.
+whose source is supplied as an affinoid quotient, and no upgrade from a cover-local immersion into
+an affinoid target to a quotient presentation over the whole target is asserted or used (see the
+note after the chart condition below).
 `IsAdicClosedImmersion.isClosedImmersion` compares the cover-local quotient condition with
 P4's topological closed immersion. Checks `adicClosed_identity`, `adicClosed_empty`,
 `adicClosed_principal` and `adicClosed_annulus_negative` give the identity, empty source,
@@ -10428,19 +10428,20 @@ condition. `isAdicClosedImmersion_iff_adicCharts` uses the complete sheafy chart
 condition on adic representatives, again as the existence of a cover by quotient charts; all
 representative isomorphisms commute with the morphism being tested.
 
-**Affinoid upgrade of a cover-local closed immersion.** (*adic-closed-immersion-affinoid-upgrade*)
-Let `X = Spa(R, R⁺)` be affinoid perfectoid and `f : Z → X` an `IsAdicClosedImmersion`, i.e. strongly
-Zariski closed on the charts of some affinoid perfectoid cover `(U_i)` of `X`. Prove that `f` is
-strongly Zariski closed over the whole of `X`: `Z` is quasi-compact (closed immersions are
-quasi-compact, *immersions-base-change-and-composition*), the ideals `J_i = ker(O(U_i) → O(Z ×_X U_i))`
-satisfy `J_i·O(U_i ∩ U_j) = J_j·O(U_i ∩ U_j)` by P4.12/P4.15 (the image over an affinoid perfectoid
-open inside a chart is `V(J·O(W))`), so they glue to a closed ideal `J ⊆ R` by the sheaf property of
-`O` on the finite cover (P2.3) and the Tate acyclicity of the integral structure up to almost
-elements (P2.9), `R/J` is perfectoid by P4.15 (Zariski closed subsets of affinoid perfectoid spaces
-are affinoid perfectoid, applied to `V(J) = f(|Z|)`), and `Z ≅ Spa(Huber.Pair.quotient (R, R⁺) J)`
-over `X` by (a). This is the bridge that a worker must prove before using any affinoid-global form
-of the predicate; it is not assumed anywhere above. *Needs:* P4.12; P4.15; P2.3; P2.9;
-*immersions-base-change-and-composition*; *adicspaces-closed-immersion-comparison*. [ECD] Definitions 5.6–5.7 and Theorem 5.8, pp. 24–25,
+**No local-to-global upgrade is asserted.** No implication from the cover-local predicate to a global
+quotient presentation over an arbitrary affinoid target is used in this roadmap. If a global closed
+ideal `J ⊆ R` with image `V(J)` is supplied, P4.15 identifies the immersion with the universal
+perfectoid quotient, whose kernel is `J^perf` (equal to `J` only when `J` is already perfectoid-saturated,
+as the root-disc example `R/(T)` shows). PerfectoidTowers P8.14 retains its separate every-affinoid
+condition (Hansen–Johansson, Definition 5.4 and the caution following it). Any further upgrade of a
+cover-local immersion into an affinoid target to a global quotient would need an independent
+descent theorem for arbitrary closed ideals — the restricted kernels must be identified with the
+extended ideals after closure and perfectoid saturation, the locally given ideals must descend (the
+obstruction lives in `H^1(X, J)`, not in the acyclicity of `O` or `O⁺`), and `J = J^perf` must be
+shown — and such kernels need not be finitely generated (`ker(K⟨T^{1/p^∞}⟩ → K)` is a nonzero
+idempotent ideal of a domain), so AdicSpacesPartIII R3.5's finite-projective glueing does not
+apply; this is not deduced here from acyclicity, is not a target, and is not used to satisfy any
+downstream contract. [ECD] Definitions 5.6–5.7 and Theorem 5.8, pp. 24–25,
 distinguish this condition from P4's broader `IsClosedImmersion`, as does the remark
 after [Berkeley] Definition 17.4.2, p. 155. The affine construction uses the pinned
 quotient-pair suppliers above.
