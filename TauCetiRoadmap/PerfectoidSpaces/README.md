@@ -2658,8 +2658,10 @@ distinguished triangle `C_!! ⊗_{B_!!} L_{B/A} → L_{C/A} → L_{C/B} → C_!!
 `D(C_!!-Mod)`, hence `C ⊗_B L^a_{B/A} → L^a_{C/A} → L^a_{C/B} →` in `D(C-Mod)`; on `H_0` it extends
 the exact sequence `C ⊗_B Ω_{B/A} → Ω_{C/A} → Ω_{C/B} → 0` ([GR] §2.5, Theorem 2.5.32, p. 35). For
 `A → A[X] → A` (`X ↦ 0`) it gives `L^a_{A/A[X]} ≃ (X)/(X²)[1] ≅ A[1]`, the conormal module in
-homological degree `1`; [Sch12]'s proof of Theorem 5.10 uses it for `A → A_n → A_{n−1}` with base
-change. The local flatness criterion for square-zero thickenings
+homological degree `1`. [Sch12]'s proof of Theorem 5.10 instead tensors `0 → A → A_n → A_{n−1} → 0`
+with `L^a_{A_n/(K°/ϖ^n)^a}` and uses base change ([GR] §2.5, Theorem 2.5.35, pp. 35–36, which [Sch12]
+cites as Theorem 2.5.36) to get
+`L^a_{A/(K°/ϖ)^a} → L^a_{A_n/(K°/ϖ^n)^a} → L^a_{A_{n−1}/(K°/ϖ^{n−1})^a} →`. The local flatness criterion for square-zero thickenings
 (*almost-local-flatness-criterion*): (i) for a ring `R`, an ideal `J ⊆ R` with `J² = 0`, `R' = R/J`
 and an `R`-module `M` with `M' = M/JM`, `M` is `R`-flat iff `M'` is `R'`-flat and
 `u(M) : J ⊗_{R'} M' → JM`, `x ⊗ m' ↦ xm`, is an isomorphism ([GR] §3.2, (3.2.19), p. 44); (ii) for
@@ -2890,13 +2892,14 @@ with a `B ⊗_A B`-linear isomorphism `β : p₂*N ≅ p₁*N` satisfying the co
 stable under base change `A → A'` (universal effective descent) ([GR] §3.4, introduction and
 (3.4.1), p. 55); (iv) under (i) the full subcategories of flat, almost finitely generated, almost
 finitely presented and almost finite projective modules correspond, and under (ii) those of weakly
-étale, étale and finite étale algebras correspond ([GR] §3.4, (3.4.1), pp. 55–56); (v) almost
+étale, étale and finite étale algebras correspond (finite étale: combine étale with almost finitely
+generated projective) ([GR] §3.4, (3.4.1), pp. 55–56); (v) almost
 projectivity descends when `B` is almost finitely presented over `A` (then `B` is almost finite
 projective over `A`, so `B ⊗_A alHom_A(M, N) ≅ alHom_A(M, B ⊗_A N)` by
 *tensor-hom-comparison-almost-projective*, `B ⊗_A I` is `alHom_A(M, −)`-acyclic for `I`
 injective, and `B ⊗_A alExt^i_A(M, N) ≅ alExt^i_B(B ⊗_A M, B ⊗_A N) = 0` for `i > 0`, whence
 `alExt^i_A(M, N) = 0` by faithful flatness); for a general faithfully flat `φ` it is not asserted
-([GR] §3.2, Remark 3.2.26(iii), p. 45). For `M` almost finitely generated no hypothesis on `B` is
+([GR] §3.2, Remark 3.2.26(iii)–(iv), p. 45). For `M` almost finitely generated no hypothesis on `B` is
 needed, since almost finite projective = flat + almost finitely presented descends by (iv). The
 honest case is part of this target: for `V`-algebras `R → R'` with `R'` faithfully flat, (i) and
 (ii) for the classical setup `S = classical V` are Grothendieck's effective descent of modules and
@@ -4458,7 +4461,7 @@ extends to a surjection `W(S♭⁺)[1/[ϖ♭]] → S` with kernel `ξW(S♭⁺)[
 `W(S♭⁺)/(ξ, [ϖ♭]) = S♭⁺/ϖ♭ ≅ S⁺/ϖ♭♯`. If `pS = 0` then `ker θ = (p)` ([ECD] §3, Lemma 3.14(ii) and
 its proof (the auxiliary `f` with `f♯ ≡ p mod pϖR⁺`, reduction to an isomorphism modulo `[ϖ♭]`),
 pp. 17–18; [Berkeley] Lemma 6.2.8, proof, p. 46; [AWS]
-Lemma 2.7.5, p. 67; [KL15] Lemma 3.6.3, p. 88, in characteristic `0`; [Bhatt] Proposition 6.1.8,
+Lemma 2.7.5, p. 67; [KL15] Lemma 3.6.3, p. 88, for `ℚ_p`-algebras; [Bhatt] Proposition 6.1.8,
 p. 43, the field case). For `S = ℂ_p`: `ker θ = (p − [p♭])`, and `Σ_{i<p}[ε]^{i/p}` is another
 generator. *Needs:* P1.17; P1.16; *tilt-integral-subrings* (P1.5); P1.5;
 *rings-of-integral-elements-under-tilting*; *distinguished-element-criterion*;
@@ -4597,8 +4600,8 @@ closed, contained in `A°`), `A°/A⁺` is almost zero, and the identification `
 of *untilt-tilt-identification* extends to an isomorphism of perfectoid Tate pairs
 `(R, R⁺) ≅ (A♭, A♭⁺)` under which `ker θ_A = J` ([AWS] Lemmas 2.6.14 and 2.7.9 and Theorem 2.3.9,
 p. 55; [KL16] Theorem 3.3.8, p. 60; the converse functor of [ECD] Theorem 3.17 (stated before it as
-straightforward to check, p. 18) and of [Berkeley] Theorem 6.2.11 "with its topology and plus
-ring"; [BMS] Lemma 3.21, p. 27). For `R` the completed perfection of `𝔽_p((t))` and
+straightforward to check, p. 18) and of [Berkeley] Theorem 6.2.11,
+`(R, R⁺, J) ↦ (W(R⁺)[[ϖ]⁻¹]/J, W(R⁺)/J)`; [BMS] Lemma 3.21, p. 27). For `R` the completed perfection of `𝔽_p((t))` and
 `J = (p − [t])` this gives `(ℚ_p(p^{1/p^∞})^, ℤ_p[p^{1/p^∞}]^)`; `J = (p)` returns `(R, R⁺)`.
 *Needs:* P1.19; *untilt-tilt-identification*; *perfectoid-tate-ring-from-integral-perfectoid*;
 *quotient-by-primitive-element*; *frobenius-surjectivity-criterion*; P1.1.
@@ -4764,8 +4767,8 @@ injective and a homeomorphism onto its image with the subspace topology (equival
 complete, a topological ring isomorphism onto a closed subring); strictness is a topological
 condition and injectivity alone does not suffice. Let `A` be a perfectoid Tate ring, `ϖ♭ ∈ A♭` with
 compatible roots, `ϖ = ϖ♭♯`, and `f : A → B` continuous. (a) If `B` is a perfectoid Tate ring, `f`
-is a strict inclusion if and only if `f♭ : A♭ → B♭` (P1.6) is ([AWS] Theorem 2.4.2 and its proof,
-p. 57). (b) More generally, let `B` be a complete Hausdorff uniform Tate ring (`p` is topologically
+is a strict inclusion if and only if `f♭ : A♭ → B♭` (P1.6) is ([AWS] Theorem 2.4.3 and its proof
+(completed by Lemma 2.8.1), p. 57). (b) More generally, let `B` be a complete Hausdorff uniform Tate ring (`p` is topologically
 nilpotent in `B` because it is in `A`) and `B♭` its tilt (P1.7; `f(ϖ) = (f♭ϖ♭)♯` has compatible
 roots and `f(ϖ)^p | p` in `B°`). For the spectral gauges `|·|_ϖ`, `|·|_{f(ϖ)}`, `|·|_{ϖ♭}`,
 `|·|_{f♭ϖ♭}`: `f` is a strict inclusion iff `|f(a)| = |a|` for all `a ∈ A`; `f♭` is a strict
@@ -7473,8 +7476,9 @@ every open `U ⊆ X`; (iii) (Mihara) if `X ≅ Spa(A, A⁺)` for a complete Haus
 ring, and `X` is affinoid perfectoid. The analogue of (iii) in characteristic `0` is not asserted:
 whether an affinoid adic space that is a perfectoid space is affinoid perfectoid is recorded as
 unclear in [Bhatt] §9.3, Rem. 9.3.11, printed p. 111 ([Bhatt] §9.3, Ex. 9.3.12 (Mihara), printed
-p. 111, part (iii), proved by gluing `p`-th roots; [AWS] §2.1, Ex. 2.1.2, p. 49, perfect complete
-Tate rings of characteristic `p` are perfectoid, used in (i) and (iii)). For
+p. 111, part (iii), proved by gluing `p`-th roots; [ECD] §3, Proposition 3.5, p. 15, perfect complete
+Tate rings of characteristic `p` are perfectoid (uniformity is automatic); [AWS] §2.1, Ex. 2.1.2,
+p. 49, for uniform pairs, used in (i) and (iii)). For
 `A = 𝔽_p((t^{1/p^∞}))⟨T^{1/p^∞}⟩`, `Spa(A, A⁺)` is a perfectoid space and `A` is perfect; for
 `A = 𝔽_p((t))⟨T⟩` (not perfect), `Spa(A, A°)` is not a perfectoid space, by (iii). *Needs:*
 *perfectoid-space*; *affinoid-perfectoid-space*; *perfectoid-spaces-and-glued-tilting*; layer P1;
@@ -8154,10 +8158,10 @@ uniform complete Tate ring are uniform, and their power-bounded elements are the
 integral closure of `A⁺` — the pair `(B, B⁺)` with its natural module topology is AdicEtaleGeometry
 A1.2 (*finite-etale-affinoid-algebra*, `Huber.Pair.finiteEtale A⁺ B`); what is added is that `B` is
 uniform and that `B°` is the integral closure of `A°` in `B`: for `b_1, …, b_n ∈ B⁺` generating `B`
-over `A`, `B° ⊆ {b : Tr_{B/A}(b b_i) ∈ A°}`, bounded because the trace pairing is perfect; hence
-`B°` is the integral closure of `A°` in `B`, `Tr_{B/A}(B°) ⊆ A°`, and `(B, B⁺)` is a complete
-uniform Tate Huber pair
-([AWS] Lecture 1, §1.10, Lem. 1.10.1, p. 46). The proposed Lean target
+over `A`, `B⁺ ⊆ {b : Tr_{B/A}(b b_i) ∈ A⁺}`, bounded because the trace pairing is perfect, so `B` is
+uniform and `(B, B⁺)` is a complete uniform Tate Huber pair
+([AWS] Lecture 1, §1.10, Lem. 1.10.1 and its proof, p. 46); that `B°` is the integral closure of
+`A°` in `B`, so that `Tr_{B/A}(B°) ⊆ A°`, is proved here. The proposed Lean target
 `Huber.isBounded_powerBoundedSubring_of_finiteEtale` states the boundedness conclusion
 with the induced Tate-ring structure on `B` supplied explicitly.
 
@@ -8432,7 +8436,9 @@ functoriality of tilting) defines an isomorphism of profinite groups
 `Gal(K̄/K) ≅ Gal(K♭^sep/K♭)` (Mathlib `Field.absoluteGaloisGroup` up to the choice of closures),
 compatible with the Galois correspondences (Mathlib
 `InfiniteGalois.IntermediateFieldEquivClosedSubgroup`): finite subextensions of `K̄/K` correspond to
-finite subextensions of `K♭^sep/K♭` with the same degrees ([Sch12] §1, Thm 1.1, p. 2). The
+finite subextensions of `K♭^sep/K♭` with the same degrees ([Sch12] §3, Thm 3.7(ii), p. 17, the
+degree-preserving equivalence of finite extensions; §1, Thm 1.1, p. 2, is the case
+`K = ℚ_p(p^{1/p^∞})^`). The
 direction of the comparison is fixed by the functor: `L ↦ L♭` goes from finite extensions of `K`
 to finite extensions of `K♭`, and its quasi-inverse is the untilt `M ↦ M♯` of P3.5; on Galois groups
 the isomorphism `Gal(K̄/K) → Gal(K♭^sep/K♭)` sends `σ` to the automorphism of `K♭^sep` induced on
@@ -8635,7 +8641,9 @@ that for every `ε ∈ R°°` there are `R°`-linear maps `S° → (R°)ⁿ → 
 `S°a → alHom_{R°a}(S°a, R°a)`; (iv) if `S` is faithfully flat over `R`, `S°a` is almost faithfully
 flat over `R°a`, `Tr_{S/R}(S°°) ⊇ R°°` (up to almost zero), and `R°a → S°a` is almost split. Not
 claimed, and false in general: `S°` finite, flat or étale over `R°`, or `S` free over `R` ([ECD] §6,
-Thm 6.1(iii), p. 26). *Needs:* P3.11.
+Thm 6.1(iii), p. 26, for (i); [Sch12] Thm 5.25 and Thm 7.9(iii), pp. 29, 42, for (ii) over a
+perfectoid field; [GR] §4.1, Theorem 4.1.14 and Corollary 4.1.11, pp. 74–75, for (iii)–(iv)).
+*Needs:* P3.11.
 
 The proposed Lean hypotheses are `f : R ⟶ S` between `PairCat p` objects and
 `Pair.IsFiniteEtale f`, which fixes the finite-module topology and the
@@ -8682,10 +8690,11 @@ arbitrary perfectoid Tate ring.
 
 **The almost purity theorem for perfectoid Tate rings.** (*almost-purity-theorem*) For a perfectoid
 Tate ring `R` ([ECD] Def. 3.1; characteristic `0`, `p`, or neither; no perfectoid base field) with
-tilt `R♭`, the almost purity theorem ([ECD] §6, Thm 6.1, p. 26) is the conjunction of P3.10 (every
+tilt `R♭`, the almost purity theorem ([ECD] §6, Thm 6.1, p. 26) is implied by the conjunction of P3.10 (every
 `S ∈ FÉt(R)` is perfectoid), P3.9 (tilting `S ↦ S♭` is an equivalence `FÉt(R) ≃ FÉt(R♭)` with
 quasi-inverse the untilting functor) and P3.12 (`S°` is almost finite étale and uniformly almost
-finite projective over `R°`, equivalently `S⁺a` over `R⁺a`; categorically P3.11), and is not stated
+finite projective over `R°`, equivalently `S⁺a` over `R⁺a`; categorically P3.11; P3.12's uniform
+almost finite projectivity being [Sch12] Thm 5.25 and Thm 7.9(iii), pp. 29, 42), and is not stated
 again here; for `R = K` a perfectoid field it is P3.7, and its consequence that (finite) étale
 morphisms of perfectoid spaces are strongly (finite) étale is *etale-is-strongly-etale* (P3.17).
 *Needs:* P3.10; P3.9; P3.12.
@@ -9397,8 +9406,8 @@ base obtained by pulling back that split cover.
 **The tilting equivalence of étale sites and the almost acyclicity of `O⁺` on `X_ét`.**
 (*etale-site-tilting-and-etale-almost-acyclicity*) [ECD] §6, Thm 6.3, p. 26 — the equivalence of
 sites `X_ét ≃ X♭_ét`, `Y ↦ Y♭`, for a perfectoid space `X` over an arbitrary perfectoid base, and
-the almost vanishing of `H^i(X_ét, O⁺)` with the vanishing of `H^i(X_ét, O)` for `i > 0` on an
-affinoid perfectoid `X` — is the conjunction of P3.20 and P3.21 (with the sheaf property of `O` on
+the almost vanishing of `H^i(X_ét, O⁺)` for `i > 0` on an affinoid perfectoid `X` (whence
+`H^i(X_ét, O) = 0` by inverting `ϖ`, P3.21(b)) — is the conjunction of P3.20 and P3.21 (with the sheaf property of `O` on
 `X_ét` from P3.18) and is not stated again; on `Spa(K, O_K)` for a perfectoid field `K` the
 equivalence is the Fontaine–Wintenberger identification of P3.8. *Needs:* P3.20; P3.21.
 
@@ -10336,7 +10345,8 @@ semiperfectoid perfectoidization. `completedIntegralQuotientMap` is the canonica
 followed by completion. `zariskiClosedPair_from_perfectoidization` identifies
 `A_perfd[1/ϖ]` with the universal Zariski quotient, fixes the map on `R⁺`, and identifies
 its plus ring with the integral closure of the image. Here `ϖ ∈ R⁺` is a
-pseudouniformizer satisfying `ϖ^p | p`, as in [BS22] Remark 7.5, p. 56.
+pseudouniformizer as in [BS22] Remark 7.5, p. 56, chosen moreover with `ϖ^p | p` (possible since
+`R` is perfectoid).
 Checks `completedIntegralQuotient_zero_ideal`, `completedIntegralQuotient_unit_ideal`
 and `completedIntegralQuotient_can_have_nilpotents` recover `R⁺` at the zero ideal,
 give the zero ring at the unit ideal, and exhibit a nonreduced completed quotient before
@@ -11638,7 +11648,8 @@ specify the pair presentation. The projection identity of the countable-subring 
 fixes the global comparison on all projections. `cofilteredLimit.card_colimit_lt` bounds the uncompleted integral colimit.
 `cofilteredLimit.card_lt` retains one common strong-limit
 stage bound `κ' < κ`; it does not infer such a bound from separate inequalities `|R_i| < κ`
-([ECD] Proposition 6.5, p. 29, and Lemma 4.1, pp. 19–20).
+([ECD] Proposition 6.5, p. 29, for the countable-subring presentation; Proposition 6.4, last clause
+and first paragraph of the proof, p. 27, and Lemma 4.1, pp. 19–20, for the cardinal bounds).
 
 `CategoryTheory.FilteredTwoColimit` uses Mathlib's localization of
 `Pseudofunctor.Grothendieck F` at arrows whose fibre component is invertible.
@@ -15092,9 +15103,10 @@ X_{Γ_0*(p^n)}(ε)_a` for Hilbert modular varieties via relative Frobenius modul
 5.12), restricted from `X*(p^{-∞}ε) ~ lim X*(p^{-n}ε)` to the open modular locus; the finite étale
 `X_{Γ_1*(p^n)} → X_{Γ_0*(p^n)}` pulls back to a tower of finite étale perfectoid spaces whose limit
 is the perfectoid tilde-limit `X_{Γ_1*(p^∞)}(ε)_a`; the `Γ_0`-, `Γ_1`- and `Γ`-towers are distinct
-towers, not cofinal reindexings. [HJ] Lemma 5.11 ([P8](../PerfectoidTowers/README.md#layer-p8-finite-quotients-and-closed-perfectoid-loci-in-towers)): for locally noetherian `X_i` with finite
-transition maps and `lim X_i^◇` perfectoid, rational subsets of the limit are pulled back from
-finite levels.
+towers, not cofinal reindexings. [HJ] Lemma 5.11 and its proof ([P8](../PerfectoidTowers/README.md#layer-p8-finite-quotients-and-closed-perfectoid-loci-in-towers)): for locally noetherian `X_i` with finite
+transition maps and `X = lim X_i^◇` perfectoid, `X` has a basis of affinoid perfectoid opens pulled
+back from finite levels, and for affinoid `X_i` every rational subset of the limit is pulled back
+from a finite level.
 
 The pro-finite-étale and formal examples: the universal pro-finite-étale cover
 `X_∞ = Spa(Â_∞, Â_∞⁺)` of a connected affinoid noetherian `X = Spa(A, A⁺)` over `Spa(Q_p, Z_p)`
