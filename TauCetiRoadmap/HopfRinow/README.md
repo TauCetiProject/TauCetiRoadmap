@@ -18,8 +18,10 @@ is explicitly owned by this roadmap rather than deferred to another roadmap. In 
 roadmap owns the Levi-Civita connection and its regularity, geodesics and their flow, exponential
 maps and their local inverse logarithms, and Hopf--Rinow. The [Geometric Topology
 roadmap](../GeometricTopology/README.md) consumes the connection to build curvature and volume;
-the [Optimal Transport roadmap](../OptimalTransport/README.md) consumes the exponential,
-logarithm, completeness, and minimizing-geodesic APIs and owns the subsequent cut-locus and
+the [differential-geometry roadmap](../DifferentialGeometry/README.md) consumes it to build
+gradient, divergence, Hessian and the Laplace–Beltrami operator; the
+[Optimal Transport roadmap](../OptimalTransport/README.md) consumes the exponential, logarithm,
+completeness, and minimizing-geodesic APIs and owns the subsequent cut-locus and
 transport-specific theory.
 
 The target is do Carmo, *Riemannian Geometry*, Chapter 7 §2, Theorem 2.8 with Corollary 2.9,
