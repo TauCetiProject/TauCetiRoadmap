@@ -266,6 +266,7 @@ and the projective dimension of quotients by regular sequences in noetherian loc
 | `CategoryTheory.PreGaloisCategory.autEmbedding_isClosedEmbedding`, together with the `CompactSpace (Aut F)` and `TotallyDisconnectedSpace (Aut F)` instances | `Mathlib/CategoryTheory/Galois/Topology.lean` | The topology of `fundamentalGroup` directly inherits compactness and total disconnectedness. |
 | `CategoryTheory.Limits.PullbackCone.IsLimit.lift_fst`, `CategoryTheory.Limits.PullbackCone.IsLimit.lift_snd` | `Mathlib/CategoryTheory/Limits/Shapes/Pullback/PullbackCone.lean` | Projection equations for `FibreProduct.lift`, directly from its `isLimit` field. |
 | `CategoryTheory.Limits.IsLimit.conePointUniqueUpToIso`, `CategoryTheory.Limits.IsLimit.conePointUniqueUpToIso_hom_comp` | `Mathlib/CategoryTheory/Limits/IsLimit.lean` | Unique comparison of two `FibreProduct` cones, fixing both projections. |
+| `CategoryTheory.IsPullback`, `CategoryTheory.IsPullback.isLimit`, `CategoryTheory.Limits.LimitCone`, `CategoryTheory.Limits.cospan` | `Mathlib/CategoryTheory/Limits/Shapes/Pullback/IsPullback/Defs.lean`, `Mathlib/CategoryTheory/Limits/HasLimits.lean`, `Mathlib/CategoryTheory/Limits/Shapes/Pullback/Cospan.lean` | `FibreProduct f g` is a `Limits.LimitCone (cospan f g)` with named projections; `⟨P.fst, P.snd, f, g⟩` satisfies Mathlib's `IsPullback`, and `IsPullback.isLimit` recovers `isLimit`. |
 | `CategoryTheory.GrothendieckTopology.Point.isCofiltered`, `Point.initiallySmall`, `Point.presheafFiber`, `Point.isColimitPresheafFiberCocone`, `Point.sheafFiber` | `Mathlib/CategoryTheory/Sites/Point/Basic.lean` | Cofiltered neighbourhoods, existence and value of their stalk colimit, and its restriction to sheaves, applied to `GeometricPoint.point`. |
 | `CategoryTheory.Ind.yoneda.fullyFaithful` | `Mathlib/CategoryTheory/Limits/Indization/Category.lean` | Fullness and faithfulness of `ProEt.const` follow from this embedding, opposites and composition. |
 | `IsModuleTopology.isTopologicalRing` | `Mathlib/Topology/Algebra/Module/ModuleTopology.lean` | Ring topology on the finite algebra synonym; no new theorem. |
@@ -403,8 +404,8 @@ sources need one). The targets of those layers that this roadmap cites by label 
 
 | A2 entry point | Supplier | Contract |
 |---|---|---|
-| Formal generic fibre and analytic-locus comparison (*formal-generic-fibre-analytic-locus*) | `TauCetiRoadmap.AdicSpacesPartIII.FormalScheme.genericFibre`, `FormalScheme.genericFibre_universal`, `FormalScheme.genericFibre_isAnalytic`, `FormalScheme.specialisation`, named in AdicSpacesPartIII's README (*generic-fibre-functor-d*); [Part III R2.3](../AdicSpacesPartIII/README.md#r23-generic-fibres) | R2 owns the functors `t` and `d`, their universal properties and gluing, including `d(𝔛) ≅ t(𝔛)_a` for locally noetherian formal schemes, respecting specialisation, open formal subschemes and adic morphisms. |
-| Power-series and restricted-power-series generic fibres | `TauCetiRoadmap.AdicSpacesPartIII.FormalScheme.ofSpf`, `FormalScheme.genericFibre`, `FormalScheme.genericFibre_universal`, named in AdicSpacesPartIII's README; [Part III R2.3](../AdicSpacesPartIII/README.md#r23-generic-fibres) | A2.9 uses the `(p,T)`-adic topology on `ℤ_p⟦T⟧` and the `p`-adic topology on `ℤ_p⟨T⟩`. The open-disc and closed-disc comparisons are Part III's generic-fibre targets. |
+| Formal generic fibre and analytic-locus comparison (*formal-generic-fibre-analytic-locus*) | `TauCetiRoadmap.AdicSpacesPartIII.FormalScheme.genericFibre`, `FormalScheme.genericFibre.lift`, `FormalScheme.genericFibre.lift_unique`, `FormalScheme.genericFibre_isAnalytic`, `FormalScheme.specialisation`, named in AdicSpacesPartIII's README (*generic-fibre-functor-d*); [Part III R2.3](../AdicSpacesPartIII/README.md#r23-generic-fibres) | R2 owns the functors `t` and `d`, their universal properties and gluing, including `d(𝔛) ≅ t(𝔛)_a` for locally noetherian formal schemes, respecting specialisation, open formal subschemes and adic morphisms. |
+| Power-series and restricted-power-series generic fibres | `TauCetiRoadmap.AdicSpacesPartIII.FormalScheme.ofSpf`, `FormalScheme.genericFibre`, `FormalScheme.genericFibre.lift`, `FormalScheme.genericFibre.lift_unique`, named in AdicSpacesPartIII's README; [Part III R2.3](../AdicSpacesPartIII/README.md#r23-generic-fibres) | A2.9 uses the `(p,T)`-adic topology on `ℤ_p⟦T⟧` and the `p`-adic topology on `ℤ_p⟨T⟩`. The open-disc and closed-disc comparisons are Part III's generic-fibre targets. |
 
 The completed-tensor universal mapping property, compatibility of the two base maps and
 density of elementary tensors are AdicSpacesPartII R0's (*completed-tensor-product*,
@@ -419,11 +420,12 @@ R0's bijectivity of the completed tensor map for a finite algebra (*finite-algeb
 for a finite étale algebra with its module topology (no plus rings, `B` on the left) and adds the
 inverse and the comparison of topologies (R0's comparison of the module and tensor topologies
 treats the uncompleted tensor). R0's plus-ring formula takes the integral closure in
-`B ⊗_A C`; A0's clause (ii) of *supplier-contract-fibre-products* takes it in the completion. The R0 tests
-*not_isAdicHom_padicInt_powerSeries*, *completedTensor_test_not_adic*,
-*Pair.Hom.IsFinite_test_plusNotIntegral*, *completedTensor_test_polydisc*,
-*uniformCompletedTensor_polydisc*, *uniformCompletedTensor_Cp* and *uniformCompletedTensor_galois*
-are cited by A0's Checks and not restated. A4 applies R0's plus ring and boundedness of the
+`B ⊗_A C`; A0's clause (ii) of *supplier-contract-fibre-products* takes it in the completion. R0's
+tests *completedTensor_test_not_adic* and *completedTensor_test_polydisc*, the non-adic
+`ℤ_p → ℤ_p⟦X⟧` of *adic-ring-homomorphism*, the non-finite identity `(A, A⁺) → (A, A'⁺)` of
+*finite-huber-pair-hom*, and the polydisc, `ℂ_p` and Galois cases of
+*uniform-completed-tensor-product* are cited by A0's Checks and not restated. A4 applies R0's
+plus ring and boundedness of the
 uniformisation (*uniformization*) and AdicSpacesPartII's `IsAdicHom.of_isTateRing` to the colimit
 pair of its tower; A2's base change of polydiscs is R0's restricted-power-series case of the
 completed tensor product (*completed-tensor-restricted-power-series*) at weights `1` with the
@@ -465,9 +467,10 @@ layer P5: cofiltered limits and the finite-stage descent of Scholze's Lemma 6.4(
 (*cofiltered-limits-of-affinoid-perfectoid-spaces*, *completed-colimit-is-perfectoid*,
 *spa-of-filtered-colimit-of-tate-pairs*, *descent-of-quasicompact-opens*,
 *limit-restriction-to-rational-subsets*); layer P6: the product of an affinoid perfectoid space with
-a profinite set (*product-with-profinite-set*); layer P9: the finite-group form of faithfully flat
-module descent and Galois towers with perfectoid limit (*finite-galois-descent-of-modules*,
-*profinite-galois-tower*, *cech-descent-datum*, *etale-sheaf-sections-over-galois-tower*).
+a profinite set (*product-with-profinite-set*).
+PerfectoidTowers layer P9: the finite-group form of faithfully flat module descent and Galois
+towers with perfectoid limit (*finite-galois-descent-of-modules*, *profinite-galois-tower*,
+*cech-descent-datum*, *etale-sheaf-sections-over-galois-tower*).
 DiamondsAndVStacks layer D0: pro-categories (*pro-category-of-finite-t0-spaces*), cofiltered limits
 of spectral spaces (*cofiltered-limits-of-spectral-spaces*) and the qcqs vocabulary of algebraic
 topoi (D0.17, *quasicompact-objects-in-a-topos*); layer D6 is the consumer of A4 and is cited only as
@@ -480,8 +483,8 @@ supplier citations in full, retained as named entry points. Their suppliers are 
 PerfectoidSpaces P3 and AdicSpacesPartII R1 and AdicSpacesPartIV R4, in those folders’ `README.md` files. Tilting of
 affinoid étale categories and of cofiltered limits is cited directly from PerfectoidSpaces P3
 (*etale-site-tilting-equivalence*) and P5 (*completed-colimit-is-perfectoid*). Henselianity under filtered
-colimits is owned here: PerfectoidSpaces P3 cites `Ring.DirectLimit.henselianRing`
-(*henselian-pairs-filtered-colimit*, README only) from this folder.
+colimits is owned here: PerfectoidSpaces P3 cites *henselian-pairs-filtered-colimit* from this
+folder, whose proposed name is `Ring.DirectLimit.henselianRing` (README only).
 
 The rational plus subring is `Huber.PairOfDefinition.completedPlusSubring` in
 `TauCeti/RingTheory/Huber/LocalizationTopology/Plus.lean`: the closure of the image of the
@@ -866,10 +869,29 @@ only, including the form of the square in the proposed site `CAff`
   `ℤ_p → ℚ_p` there is no Huber topology on `ℤ_p⟦X⟧ ⊗_{ℤ_p} ℚ_p` making both maps continuous with
   `ℤ_p⟦X⟧` open ([Morel] §II.3.2, Ex. II.3.2.2, p. 77); the fibre product
   `Spa ℤ_p⟦X⟧ ×_{Spa ℤ_p} Spa(ℚ_p, ℤ_p)` is the open unit disc over `ℚ_p`, which is not affinoid
-  (AdicSpacesPartII layer R0, fibre product along a map of finite type). Non-adicness and the
-  absence of such a topology are AdicSpacesPartII's tests *not_isAdicHom_padicInt_powerSeries*
-  and *completedTensor_test_not_adic*; the non-quasi-compactness of the preimage is A0.4's
+  (AdicSpacesPartII layer R0, fibre product along a map of finite type). Non-adicness is the
+  non-example of AdicSpacesPartII's *adic-ring-homomorphism* and the absence of such a topology
+  is its test *completedTensor_test_not_adic*; the non-quasi-compactness of the preimage is A0.4's
   *nonadic_preimage_not_quasicompact*.
+
+**`Huber.IsCompletedPushout`.** The commuting square of Huber pairs with the pushout property
+for morphisms into complete pairs; its existence along adic maps is
+`Huber.exists_isCompletedPushout`. Each Check below is a Lean example.
+
+**Checks.**
+
+- *isCompletedPushout_identity* (computation) — for complete `(C, C⁺)`, pushing
+  `g : (A, A⁺) → (C, C⁺)` out along the identity of `(A, A⁺)` returns `(C, C⁺)`, with
+  coprojections `g` and the identity (Lean example).
+- *isCompletedPushout_zero_factor* (degenerate) — if `(C, C⁺)` is the zero pair, the square
+  `(f, g, i, id)` is a completed pushout for every `i : (B, B⁺) → (C, C⁺)`, since a morphism out of
+  the zero ring has zero target; compare *disjoint_fibres_zero_ring*, where the pushout is zero
+  although neither factor is (Lean example).
+- *isCompletedPushout_fold* (non-example) — for the diagonal
+  `φ : (ℚ_p, ℤ_p) → (ℚ_p × ℚ_p, ℤ_p × ℤ_p)` the fold square `(φ, φ, id, id)` is not a completed
+  pushout: the identity and the swap of `ℚ_p × ℚ_p` agree on `ℚ_p` and differ, whereas the pushout
+  property would make them equal. The Lean example states this for any two distinct morphisms
+  agreeing on `(A, A⁺)` (Lean example, proved).
 
 **Morphisms into affinoids.** (*maps-into-affinoids*) Let `X` be an adic space (AdicSpaces
 layer 5: an object of Huber's `𝒱` covered by affinoids `Spa(B, B⁺)` of sheafy complete pairs) and
@@ -961,18 +983,19 @@ sheafiness of `B ⊗̂ᵘ_A C` and no fibre-product property of its adic spectru
 **Checks.**
 
 - *uniform_polydisc* — `K⟨T⟩ ⊗̂ᵘ_K K⟨S⟩ ≅ K⟨T, S⟩` and `ι` is an isomorphism, the completed tensor
-  product being already uniform (for `K = ℚ_p` AdicSpacesPartII's test
-  *uniformCompletedTensor_polydisc*).
+  product being already uniform (the computation Check of AdicSpacesPartII's
+  *uniform-completed-tensor-product*).
 - *cp_tensor_cp_not_uniform* (non-example) — `ℂ_p ⊗̂_{ℚ_p} ℂ_p → ℂ_p ⊗̂ᵘ_{ℚ_p} ℂ_p` is not an
-  isomorphism: the separated completion is not uniform (AdicSpacesPartII's test
-  *uniformCompletedTensor_Cp*). The trace computation of the witness above is typed here:
+  isomorphism: the separated completion is not uniform (the non-example of AdicSpacesPartII's
+  *uniform-completed-tensor-product*). The trace computation of the witness above is typed here:
   `Tr(O_{K_n}) = p^{n−1}ℤ_p` for `n ≥ 1`, which is all of `ℤ_p` at `n = 1` (including `p = 2`,
   where `K_1 = ℚ_2`) and `pℤ_p` at `n = 2`.
 - *galois_tensor_prod* — for a finite Galois extension `L/K` of complete nonarchimedean fields,
   `L ⊗̂ᵘ_K L ≅ ∏_{σ ∈ Gal(L/K)} L` via `x ⊗ y ↦ (x·σ(y))_σ`, so `inlᵘ(x) = (x)_σ` is the diagonal
   and `inrᵘ(y) = (σ(y))_σ`; `L ⊗_K L` is already complete and uniform (its power-bounded subring
-  is `∏ O_L`), so `ι` is an isomorphism (the existence of the isomorphism is AdicSpacesPartII's
-  test *uniformCompletedTensor_galois*). For `L = ℚ_p(√p)`: `inrᵘ(√p) = (√p, −√p)`; for `L = K`
+  is `∏ O_L`), so `ι` is an isomorphism (the existence of the isomorphism is the Galois
+  characterisation of AdicSpacesPartII's *uniform-completed-tensor-product*). For
+  `L = ℚ_p(√p)`: `inrᵘ(√p) = (√p, −√p)`; for `L = K`
   (trivial group) it is the unit `K ⊗̂ᵘ_K K = K`.
 - *dual_numbers_unit_not_uniform* (non-example) — for `B = ℚ_p[ε]/(ε²)` with `B⁺ = ℤ_p + ℚ_p ε`
   (a Tate ring for the product topology, `B° = B⁺` unbounded) and `C = A = ℚ_p`:
@@ -1231,8 +1254,8 @@ Thus the finite comparison followed by this unit equivalence computes scalar mul
   instance `A⁺ = C⁺ = K⁺ ⊊ K° = B⁺`), every other hypothesis holds,
   `K ⊗̂_K K = K` has plus ring `B⁺`, and `inr` is the identity `(K, C⁺) → (K, B⁺)`, which is
   finite as a ring map but not as a morphism of Huber pairs: `B⁺` is not integral over the
-  integrally closed `C⁺`. For the bare identity this is AdicSpacesPartII's test
-  *Pair.Hom.IsFinite_test_plusNotIntegral*.
+  integrally closed `C⁺`. For the bare identity this is the non-example of AdicSpacesPartII's
+  *finite-huber-pair-hom*.
 - *square_root_over_unit_circle* — for `A = ℚ_p⟨T^{±1}⟩` (the unit circle `|T| = 1`) and
   `B = A[S]/(S² − T)`, which is finite étale for every `p` because `2S` is a unit of `B` (`2` is
   a unit of `ℚ_p` and `S² = T` is a unit of `A`); for `p` odd, over the rational subset
@@ -1539,6 +1562,29 @@ README only.
   [ECD] §15 form a full subcategory on which the adicness hypothesis of (d) is vacuous and every
   morphism restricts.
 
+
+**`AdicSpace.restrict`.** The open subspace of `X` on an open `U`, with the structure of Tau
+Ceti's `PreAdicSpace.restrict`. The first two Checks are Lean examples.
+
+**Checks.**
+
+- *restrict_inter* (computation) — restricting `restrict X U` to the preimage of an open `V` gives
+  `restrict X (U ⊓ V)`, up to isomorphism (Lean example).
+- *restrict_bot* (degenerate) — `restrict X ⊥` has no points (Lean example, proved).
+- *restrict_open_disc* (non-example) — the open unit disc of `DiscChecks`, the restriction of the
+  closed unit disc over `ℚ₂` to `{|T| < 1}`, is not quasi-compact, so the restriction of an
+  affinoid to an open need not be affinoid. README only: the disc fixture is not a carrier of
+  `Suggested.lean`.
+
+**`AdicSpace.ofRestrict`.** The inclusion `restrict X U → X`, Tau Ceti's
+`PreAdicSpace.ofRestrict`. Each Check below is a Lean example.
+
+**Checks.**
+
+- *ofRestrict_range* (computation) — the image of `ofRestrict X U` on points is `U` (Lean example).
+- *ofRestrict_top* (degenerate) — `ofRestrict X ⊤` is an isomorphism (Lean example).
+- *ofRestrict_ne_top* (non-example) — for `U ≠ ⊤` the inclusion is not an isomorphism, its image
+  missing a point (Lean example).
 
 **`AdicSpace.IsAdic`.** Adic morphisms preserve analytic points; mere continuity of a Huber-pair map does not suffice. The predicate is AdicSpacesPartII's, and `AdicSpace.isAdic_iff_mapsTo_analyticPoints` is the Lean form of the first statement; the Checks below are README only (no Lean declaration).
 
@@ -2616,8 +2662,8 @@ locally strongly sheafy, Kedlaya–Liu's site with Yoneda-adic objects is *etale
 - *test_geometric_point* (degenerate) — for `X = Spa(C, C⁺)` with `C` algebraically closed, every
   covering of `X` contains a member admitting a section (*geometric-point-etale-split*).
 - *test_huber* (compatibility) — for `X` locally noetherian, `smallEtaleTopology X` is Huber's
-  étale topology on `Et/X`, AdicSpacesPartIV layer R4's `AdicSpace.etaleTopology X`, with Huber's
-  properties of étale maps available.
+  étale topology on `Et/X`, which AdicSpacesPartIV layer R4 uses on its carriers and constructs no
+  other (*etale-site-on-analytic-carriers*), with Huber's properties of étale maps available.
 - *test_opens* (characterisation) — a family of open immersions `U_i ⊆ U` is a covering of `U` in
   `X_ét` iff it is an open covering of `U`.
 - *test_empty* (degenerate) — the empty family is a covering of `U ∈ X_ét` iff `|U| = ∅`;
@@ -2987,8 +3033,9 @@ locally strongly sheafy analytic with its étale site `X_ét` (*etale-site*; on 
 `X` Huber's `X_et`, [H96] §2.1, p. 109). Define `AdicSpace.GeometricPoint X`: a morphism
 `ξ : Spa(C, C⁺) → X` with `C` an algebraically closed field complete for a nontrivial
 nonarchimedean absolute value and `C⁺ ⊆ C` an open and bounded valuation subring of arbitrary rank
-([H96] §2.5, Definitions 2.5.1 and 2.5.11, pp. 130, 134, using complete algebraically
-closed analytic test fields; [ECD] §14, Proposition 14.3, p. 82, gives the perfectoid/diamond
+([H96] §2.5, Def. 2.5.1, p. 130, which takes `C` separably closed; this roadmap takes `C`
+algebraically closed, which is what [ECD] §14 uses; the strict localisation is Def. 2.5.11,
+p. 134; [ECD] §14, Proposition 14.3, p. 82, gives the perfectoid/diamond
 version, and §19, p. 109, retains higher-rank points),
 with `AdicSpace.GeometricPoint.support` `x = ξ(s)`, `s` the closed point. Prove
 `AdicSpace.exists_geometricPoint`: for every `x ∈ X` there is a geometric point with support `x`
@@ -5699,7 +5746,7 @@ fibre products exist (R0 *fibre-products-existence*; every morphism of analytic 
 adic). Clauses 2 and 3 assume moreover that `f` is locally of +weakly finite type. Then:
 
 1. `f` is separated (R0 `IsSeparated`: the image of `|Δ_f|` is closed in `|X ×_Y X|`, [H96] §1.3,
-   Def. 1.3.1, p. 51) iff `Δ_f` is a closed embedding (R0 `IsSeparated.iff_isClosedImmersion_diagonal`,
+   Def. 1.3.1, p. 51) iff `Δ_f` is a closed embedding (R0 `IsSeparated.iff_closedImmersion_diagonal`,
    *separated-diagonal-closed-embedding*) iff for every valuation ring `(x, A) ∈ X_v` of R0
    *adic-valuation-rings-and-centres* and every `y ∈ Y` there is at most one centre `z` of
    `(x, A)` on `X` with `f(z) = y` (R0 `IsSeparated.iff_valuativeCriterion`,
@@ -5809,7 +5856,8 @@ charts). It comes with `relativePolydisc.proj`, the projection `π : B^n_X → X
 coordinates, where `B⟨T⟩` is the completed ring of restricted power series (Tau Ceti
 `Huber.restrictedMvPowerSeriesCompletion`, Mathlib `MvPolynomial`) and `B⁺⟨T⟩` the series with
 all coefficients in `B⁺` ([Berkeley] Lecture 4, §4.1, the adic closed unit disc, p. 27, the chart
-formula over a field; [ECD] §24, after Prop. 24.4, p. 156, ECD's affinoid ball `B^n_Y`), together
+formula over a field; [ECD] §24, after Prop. 24.4, p. 156, ECD's affinoid ball `B^n_Y`;
+[Berkeley] Lecture 10, Lem. 10.5.8, for the same pair), together
 with `Huber.Pair.isRingOfIntegralElements_polydiscPlus` — for a complete Huber pair `(B, B⁺)`,
 `B⁺⟨T⟩ = {h : v(h) ≤ 1 on Spa(B⟨T⟩, B⁺⟨T⟩)}` is integrally closed in `B⟨T⟩` and is a ring of
 integral elements, being the set of functions bounded by 1 on the adic spectrum (Gauss extensions
@@ -6153,6 +6201,20 @@ an `example`.
   `pᵐ`-th roots of the coordinates has affinoid perfectoid limit `T̃ⁿ`; [ECD] §24, Prop. 24.4,
   uses the `ℤ_p`-torsor `T̃_{ℂ_p} → T_{ℂ_p}`.
 
+**`Huber.Pair.torusLocus`.** The rational subset `R(1/(T₁ ⋯ Tₙ))` of `Spa(A⟨T⟩, A⁺⟨T⟩)`, the
+affinoid relative torus. Each Check below is a Lean example.
+
+**Checks.**
+
+- *torusLocus_unit_coordinates* (computation) — a point of `Spa(A⟨T⟩, A⁺⟨T⟩)` lies in
+  `torusLocus S n` iff `|Tᵢ| = 1` for every `i`, the bound `|Tᵢ| ≤ 1` holding on the whole
+  polydisc; over `(ℚ_p, ℤ_p)` with `n = 1` the point `T ↦ 1` lies in it (Lean example).
+- *torusLocus_zero* (degenerate) — for `n = 0` the empty product is `1` and the torus is the whole
+  one-point polydisc (Lean example).
+- *torusLocus_vanishing_coordinate* (non-example) — a point with some `Tᵢ` in its support, such as
+  the origin `T ↦ 0` of *relativeTorus_test_annulusCover*, is not in the torus, so for `n ≥ 1` the
+  torus is not the whole polydisc (Lean example).
+
 ### A2.4 smooth morphisms by ball charts, and Huber's smooth morphisms
 
 **Smooth morphisms by local étale charts over relative balls.** (*smooth-morphism-ball-charts*)
@@ -6220,6 +6282,38 @@ noetherian analytic spaces); the rest is README only.
   the check computes this geometric input over ℚ₂: the ball-chart predicate and the union of
   the loci `|T| = 1` and `|T − 1| = 1`. The cohomological conclusion is supplied by
   the six-functor roadmap.
+
+**`AdicSpace.IsPolydiscOver`.** The affinoid `D` is `(A⟨T₁, …, Tₙ⟩, A⁺⟨T⟩)` over the affinoid
+`A`, compatibly with `q`. Each Check below is a Lean example.
+
+**Checks.**
+
+- *isPolydiscOver_surjective* (computation) — the closed unit disc
+  `Spa(ℚ_p⟨T⟩, ℤ_p⟨T⟩) → Spa(ℚ_p, ℤ_p)` satisfies it with `n = 1` and `e` the identity, and the
+  origin `T ↦ 0` splits `q`; in general `q` is surjective on points (Lean example, the
+  surjectivity).
+- *isPolydiscOver_zero* (degenerate) — every affinoid is the `0`-dimensional polydisc over itself,
+  with `q` the identity (Lean example).
+- *isPolydiscOver_one_self* (non-example) — a nonzero affinoid is not the `1`-dimensional polydisc
+  over itself through the identity: `e` would be the map `A → A⟨T⟩`, which misses `T` (Lean
+  example).
+
+**`AdicSpace.IsLocallyEtaleOverPolydisc`.** Smoothness by ball charts: both spaces analytic and,
+locally on the source, an étale map to a relative closed polydisc over an affinoid chart of the
+target followed by its projection. Each Check below is a Lean example.
+
+**Checks.**
+
+- *isLocallyEtaleOverPolydisc_proj* (computation) — over a Tate affinoid `A`, every `q` with
+  `IsPolydiscOver A D n q` is smooth by ball charts, with the whole source as `U` and `g` the
+  identity; the bidisc over `ℚ₂` of *isLocallyEtaleOverPolydisc_test_polydisc* is the case `n = 2`
+  (Lean example).
+- *isLocallyEtaleOverPolydisc_identity* (degenerate) — the identity of an analytic space is smooth
+  by ball charts, with `0`-dimensional balls over its Tate charts (Lean example).
+- *isLocallyEtaleOverPolydisc_nonAnalytic* (non-example) — the identity of `Spa(ℤ_p, ℤ_p)` is smooth
+  in Huber's sense but not smooth by ball charts, which requires analytic spaces; this is why
+  `IsLocallyEtaleOverPolydisc.iff_smooth` assumes both spaces locally noetherian analytic (Lean
+  example, proved, for every non-analytic source).
 
 **Huber's smooth morphisms are the morphisms locally étale over a relative ball.**
 (*smooth-local-ball-charts*) For a morphism `f : X → S` of locally noetherian analytic adic
@@ -6699,11 +6793,12 @@ morphisms, their differentials, smooth toric charts); *smooth-local-ball-charts*
 
 **Huber's generic fibre of a noetherian formal scheme is the analytic locus of its adic space.**
 (*formal-generic-fibre-analytic-locus*) **Supplier citation to AdicSpacesPartIII R2.**
-The name `FormalScheme.genericFibreIsoAnalyticLocus` denotes the comparison target
-of [Part III R2.3](../AdicSpacesPartIII/README.md#r23-generic-fibres), including its globalisation.
-Its entry points are AdicSpacesPartIII's `FormalScheme.genericFibre`, `.genericFibre_universal`
-and `.genericFibre_isAnalytic` (named in that roadmap's README, *generic-fibre-functor-d*); the
-comparison has no separate declaration of its own. Use AdicSpacesPartIII's formal schemes, with
+The name `FormalScheme.genericFibreIsoAnalyticLocus` is this README's name for the comparison
+`d(𝔛) ≅ t(𝔛)_a` of [Part III R2.3](../AdicSpacesPartIII/README.md#r23-generic-fibres), including
+its globalisation, built from Part III's `FormalScheme.genericFibre`, `genericFibre.lift`,
+`genericFibre.lift_unique` and `genericFibre_isAnalytic` (named in that roadmap's README,
+*generic-fibre-functor-d*); Part III names no declaration for it. Use AdicSpacesPartIII's formal
+schemes, with
 their local noetherianity (`FormalScheme.IsLocallyNoetherian`), for the comparison with `t`. Formal schemes (AdicSpacesPartIII layer F0), type-(S) and
 admissible formal schemes, Huber's functors `t` and `d`, the specialisation map, tubes,
 admissible blow-ups, Raynaud's theorem, completions of schemes and the comparison maps `σ`, `φ`
@@ -6959,6 +7054,20 @@ Schanuel's lemma) and `Module.IsFPD.isPseudoCoherent`; the rest is README only.
   `2R ≅ R/2R`, which is not projective. Here `2` is a zero-divisor, so the regularity hypothesis of
   *test_quotient_nonZeroDivisor* is needed.
 
+**`Huber.IsPseudoCoherentOver`.** `M` has a resolution by finite free modules exact in degrees
+`≤ m`. Each Check below is a Lean example.
+
+**Checks.**
+
+- *isPseudoCoherentOver_zmod_four* (computation) — over `ℤ/4` the module `ℤ/2` is pseudocoherent,
+  by the periodic resolution with maps `×2`, and is `m`-fpd for no `m`; the Lean form of
+  *test_not_fpd* (Lean example).
+- *isPseudoCoherentOver_zero_module* (degenerate) — the zero module is pseudocoherent, by the zero
+  resolution (Lean example).
+- *isPseudoCoherentOver_not_two* (non-example) — for `R = ℚ[x, y₁, y₂, …]/(x yᵢ)` the module `R/xR`
+  is `1`-pseudocoherent but not `2`-pseudocoherent; the Lean form of *test_not_two* with `k = ℚ`
+  (Lean example).
+
 **Two-out-of-three for pseudocoherent and fpd modules.** (*pseudocoherent-two-out-of-three*) Let
 `0 → M₁ → M → M₂ → 0` be a short exact sequence of modules over a commutative ring `R` and `m ≥ 0`.
 Prove: (a) if `M₁` and `M₂` are m-pseudocoherent, so is `M`; (b) if `M₁` is (m−1)-pseudocoherent and
@@ -7160,6 +7269,50 @@ completed rational localisation `A⟨T/s⟩` as a complete Tate ring and Huber p
   natural topology. When formalised, the witness records that `ℚ` is Tate and Hausdorff, so only completeness
   is dropped.
 
+**`Huber.ratLocCommRing`.** The ring structure of `A⟨T/s⟩ = Huber.ratLoc P T s hden`, that of
+Tau Ceti's completion of `A[1/s]` for the localisation topology. Each Check below is a Lean
+example.
+
+**Checks.**
+
+- *ratLocCommRing_isUnit* (computation) — the image of `s` in `A⟨T/s⟩` is a unit (Lean example).
+- *ratLocCommRing_zero* (degenerate) — for `s = 0` the ring `A⟨T/0⟩` is zero, the coordinate ring
+  of the empty rational subset `R(T/0)`, so `ratLocPair` is the zero pair, as in *rational_empty*
+  (Lean example).
+- *ratLocCommRing_padic_vanishes* (non-example) — `A⟨T/s⟩` is not `A[1/s]`: for `A = ℚ_p`,
+  `T = {1}` and `s = p` the localisation `ℚ_p[1/p] = ℚ_p` is nonzero, but its localisation topology
+  has ring of definition `ℤ_p[1/p] = ℚ_p` and is indiscrete, so `ℚ_p⟨1/p⟩ = 0`, matching
+  `R(1/p) = ∅` in `Spa(ℚ_p, ℤ_p)` (Lean example).
+
+**`Huber.ratLocPair`.** `A⟨T/s⟩` with Tau Ceti's completed plus ring, the closure of the image
+of the integral closure of `A⁺[T/s]`. Each Check below is a Lean example.
+
+**Checks.**
+
+- *ratLocPair_mem_plus* (computation) — each `t/s`, `t ∈ T`, lies in the plus ring; for
+  `A = ℚ_p⟨X⟩`, `T = {X, p}` and `s = p` this puts `X/p` in it, which is not in the closure of the
+  image of `ℤ_p⟨X⟩` (Lean example, the membership).
+- *ratLocPair_one* (degenerate) — over a complete `A`, `T = {1}` and `s = 1` return `(A, A⁺)`:
+  `A → A⟨1/1⟩` is bijective and carries `A⁺` onto the plus ring, as in *Huber.ratLoc_identity*
+  (Lean example).
+- *ratLocPair_ne_powerBounded* (non-example) — the plus ring is not the power-bounded subring in
+  general: for `A⁺ ⊊ A°` the identity localisation has plus ring the image of `A⁺` (Lean example).
+
+**`Huber.IsStablyPseudoCoherent`.** `m`-pseudocoherence together with natural completeness of
+every base change `A⟨T/s⟩ ⊗_A M`. Each Check below is a Lean example.
+
+**Checks.**
+
+- *isStablyPseudoCoherent_projective* (computation) — a finite projective module is stably
+  pseudocoherent, its base changes being finite projective, hence complete (Lean example).
+- *isStablyPseudoCoherent_zero* (degenerate) — the zero module is stably pseudocoherent (Lean
+  example).
+- *isStablyPseudoCoherent_coker* (non-example) — over a complete `A`, the quotient `A/xA` by a
+  non-closed principal ideal is not stably pseudocoherent, its base change to `A⟨1/1⟩ = A` not
+  being Hausdorff. For `A = C(ℤ_p, ℚ_p)` and `x` the identity function this is
+  *test_coker_not_stably*; the Lean example states the general form, `C(ℤ_p, ℚ_p)` not being a
+  carrier of `Suggested.lean` (Lean example).
+
 **Pseudoflat and pro-projective modules over a complete Tate Huber pair.** (*pseudoflat-module*) Let
 `(A, A⁺)` be a complete Tate Huber pair and `m ∈ ℕ ∪ {∞}`. A topological `A`-module `B` (for
 rational localisations, an `A`-algebra) is *m-pseudoflat* if `Tor₁^A(P, B) = 0` for every stably
@@ -7193,7 +7346,7 @@ m-pseudocoherent `Aⁿ/K`, the definition's vanishing of `Tor₁`); the rest is 
 **Checks.**
 
 - *test_flat* (compatibility) — a flat `A`-module (Mathlib `Module.Flat`) is m-pseudoflat for
-  every `m`.
+  every `m` (Lean example).
 - *test_restrictedPowerSeries* (computation) — for every complete Tate pair `(A, A⁺)`, `A⟨T⟩` and
   `A⟨T^{±1}⟩` are pro-projective, hence 2-pseudoflat.
 - *test_quotient_not* (non-example) — for `A = ℚ_p⟨T⟩` and `B = A/TA`: `A/TA` is stably
@@ -7210,6 +7363,20 @@ m-pseudocoherent `Aⁿ/K`, the definition's vanishing of `Tor₁`); the rest is 
   `A`-module `B`, the zero projectors `πₖ = 0` are continuous with finite projective image and
   `πₖ(v) = 0 → v`, yet `B = ℚ_p⟨T⟩/(T)` over `A = ℚ_p⟨T⟩` is not 2-pseudoflat
   (check *test_quotient_not*); so "pro-projective implies 2-pseudoflat" needs the Hausdorff condition.
+
+**`Huber.IsPseudoFlat`.** Injectivity of `K ⊗_A B → Aⁿ ⊗_A B` for every stably
+`m`-pseudocoherent `Aⁿ/K`, the vanishing of `Tor₁`. Each Check below is a Lean example, as is
+*test_flat* above.
+
+**Checks.**
+
+- *isPseudoFlat_tateAlgebra* (computation) — over a complete Tate ring `A`, `A⟨T⟩` is
+  `2`-pseudoflat, being pro-projective; the Lean form of *test_restrictedPowerSeries* for `A⟨T⟩`
+  (Lean example).
+- *isPseudoFlat_zero* (degenerate) — the zero module is `m`-pseudoflat for every `m` (Lean
+  example, proved).
+- *isPseudoFlat_quotient* (non-example) — for `A = ℚ_p⟨T⟩` the quotient `A/TA` is not pseudoflat;
+  the Lean form of *test_quotient_not* (Lean example).
 
 **Restricted power series and Laurent series are pro-projective; `M ⊗_A A⟨T⟩ = M⟨T⟩`.**
 (*restricted-power-series-pro-projective*) Let `(A, A⁺)` be a complete Tate Huber pair. Prove: (a)
@@ -7802,6 +7969,31 @@ completeness of `C` is not a field); the rest is README only.
   ring with a noetherian ring of definition the existence of presentations for rational
   localisations and finite étale algebras is Huber's 1.7.1(ii) (AdicSpacesPartII layer R0,
   *etale-local-structure*).
+
+**`Huber.tateSeries.X`.** The variable `Tᵢ` of `A⟨T₁, …, T_N⟩`. The first and third Checks
+are Lean examples.
+
+**Checks.**
+
+- *tateSeries_X_coe* (computation) — as a power series `Tᵢ` is Mathlib's `MvPowerSeries.X i`
+  (Lean example, proved).
+- *tateSeries_X_no_variable* (degenerate) — for `N = 0` there is no variable `Tᵢ`. README only:
+  this holds by type alone, `Fin 0` being empty.
+- *tateSeries_X_not_isUnit* (non-example) — over a nonzero `A`, `Tᵢ` is not a unit of `A⟨T⟩`, its
+  constant coefficient being `0`; it is invertible only on the torus of
+  *torusLocus_unit_coordinates* (Lean example).
+
+**`Huber.tateSeriesPlus`.** The restricted series all of whose coefficients lie in `A⁺`. Each
+Check below is a Lean example.
+
+**Checks.**
+
+- *tateSeriesPlus_constant* (computation) — over `(ℚ_p, ℤ_p)` the constant `p` lies in `ℤ_p⟨T⟩`
+  (Lean example).
+- *tateSeriesPlus_top* (degenerate) — with `A⁺ = A` every series lies in `tateSeriesPlus N A ⊤`
+  (Lean example).
+- *tateSeriesPlus_inverse_constant* (non-example) — over `(ℚ_p, ℤ_p)` the constant `p⁻¹` lies in
+  `ℚ_p⟨T⟩` but not in `ℤ_p⟨T⟩` (Lean example).
 
 **Rational localisations, finite étale algebras and their composites have standard étale
 presentations.** (*standard-presentation-basic-pieces*) Let `(A, A⁺)` be a complete Tate Huber
@@ -8884,8 +9076,9 @@ completed tensor product, uniform completed tensor product, finite algebras tens
 PerfectoidSpaces layers P1 (perfectoid Tate rings and algebras), P2 (uniform completed tensor
 products of perfectoid rings), P3 (the henselian finite étale comparison in the generality of
 Tate rings without a base field), P5 (cofiltered
-limits of affinoid perfectoid spaces), P6 (products with profinite sets) and P9 (finite Galois
-descent of modules), and the Foundations of adic spaces roadmap (AdicSpaces) for Huber
+limits of affinoid perfectoid spaces) and P6 (products with profinite sets), PerfectoidTowers
+layer P9 (finite Galois descent of modules), and the Foundations of adic spaces roadmap
+(AdicSpaces) for Huber
 pairs, power-bounded subrings, completion and adic spectra, through the declarations named in the
 `*Needs:*` clauses.
 
@@ -9032,7 +9225,7 @@ every prime `p`), `of_surjective` (for `π : G′ ↠ G` surjective and an `A`-a
 fields `K ⊆ L` with `G` acting on `L`, `IsFiniteEtaleTorsor G K L ↔ IsGalois K L ∧ G ≃* (L ≃ₐ[K] L)`
 via the action) ([ECD] §15, Lem. 15.3, p. 90; [Berkeley] Lecture 10, proof of Lem. 10.1.6, p. 75
 (the levels as torsors under an inverse system of finite groups); [ECD] §15, proof of Prop. 15.4,
-p. 91 (the torsor `A → A_i` which D6 turns into a `G_i`-torsor of v-sheaves)). PerfectoidSpaces
+p. 91 (the torsor `A → A_i` which D6 turns into a `G_i`-torsor of v-sheaves)). PerfectoidTowers
 layer P9's *finite-galois-descent-of-modules* works with the unbundled Galois condition (its
 hypotheses are finite étaleness, the injectivity of `A → B` and the bijectivity of
 `galoisTensorMap`, from which it derives faithful flatness and `B^G = A`) and owns the
@@ -10057,9 +10250,9 @@ henselian finite étale comparison for Tate rings without a base field, [Berkele
 Thm. 7.4.8: `FÉt(A) ≅ FÉt(Â)` when a ring of definition is henselian along a pseudouniformizer; [KL I] §2.8, Prop. 2.8.16
 supplies the uniformization case), layer P2 (uniform completed tensor products of perfectoid
 rings over any Tate base), layer P5 (cofiltered limits of affinoid perfectoid spaces, and
-*spa-of-filtered-colimit-of-tate-pairs*, the general form of *spa-of-completed-tower* (i)), layer P6
-(products with profinite sets) and layer P9 (the finite-group form of faithfully flat module
-descent);
+*spa-of-filtered-colimit-of-tate-pairs*, the general form of *spa-of-completed-tower* (i)) and layer
+P6 (products with profinite sets); PerfectoidTowers layer P9 (the finite-group form of faithfully
+flat module descent);
 the Foundations of adic spaces roadmap (AdicSpaces) for Huber pairs, power-bounded subrings,
 completion and adic spectra. Mathlib and Tau Ceti as named in the `*Needs:*` clauses: étale,
 finite, faithfully flat and projective algebras with descent along faithfully flat maps, standard

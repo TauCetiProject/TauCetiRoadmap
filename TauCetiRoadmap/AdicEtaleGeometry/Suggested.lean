@@ -90,10 +90,25 @@ def IsCompletedPushout (f : Pair.Hom S T) (g : Pair.Hom S U) (i : Pair.Hom T W)
 example {f : Pair.Hom S T} {g : Pair.Hom S U} {i : Pair.Hom T W} {j : Pair.Hom U W}
     (h : IsCompletedPushout f g i j) : i.comp f = j.comp g := h.1
 
+/-- *isCompletedPushout_zero_factor* (degenerate): if `(C, C⁺)` is the zero pair, the square
+`(f, g, i, id)` is a completed pushout for every `i`, since a morphism out of the zero ring forces
+its target to be zero. -/
+example {f : Pair.Hom S T} {g : Pair.Hom S U} (i : Pair.Hom T U) [Subsingleton C] :
+    IsCompletedPushout f g i (Pair.Hom.id U) := sorry
+
+/-- *isCompletedPushout_fold* (non-example): two distinct morphisms out of `(B, B⁺)` into a complete
+pair that agree on `(A, A⁺)` show that the fold square `(f, f, id, id)` is not a completed pushout;
+for the diagonal `(ℚ_p, ℤ_p) → (ℚ_p², ℤ_p²)` they are the identity and the swap. -/
+example (f : Pair.Hom S T) {D : Type u} [CommRing D] [UniformSpace D] [IsUniformAddGroup D]
+    [IsTopologicalRing D] [IsHuberRing D] [CompleteSpace D] [T2Space D] {V : Pair D}
+    (a b : Pair.Hom T V) (hab : a.comp f = b.comp f) (hne : a ≠ b) :
+    ¬ IsCompletedPushout f f (Pair.Hom.id T) (Pair.Hom.id T) := fun h ↦
+  hne (by obtain ⟨_, ⟨h₁, h₂⟩, -⟩ := h.2 D V a b hab; exact h₁.symm.trans h₂)
+
 end CompletedPushout
 
-/-- Pushing out along the identity changes nothing: for a complete pair `(C, C⁺)` the square
-`(id, g, g, id)` is a completed pushout. -/
+/-- *isCompletedPushout_identity* (computation): pushing out along the identity changes nothing:
+for a complete pair `(C, C⁺)` the square `(id, g, g, id)` is a completed pushout. -/
 example {A C : Type u} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] [IsHuberRing A]
     [CommRing C] [UniformSpace C] [IsUniformAddGroup C] [IsTopologicalRing C] [IsHuberRing C]
     [CompleteSpace C] [T2Space C] {S : Pair A} {U : Pair C} (g : Pair.Hom S U) :
@@ -129,9 +144,31 @@ def restrict (X : TauCeti.AdicSpace) (U : Opens X.obj) : TauCeti.AdicSpace :=
 def ofRestrict (X : TauCeti.AdicSpace) (U : Opens X.obj) : restrict X U ⟶ X :=
   ObjectProperty.homMk (X.obj.ofRestrict U.isOpenEmbedding)
 
+/-- *restrict_inter* (computation): the open subspace on `V` of the open subspace on `U` is the
+open subspace on `U ⊓ V`. -/
+example (X : TauCeti.AdicSpace) (U V : Opens X.obj) :
+    Nonempty (restrict (restrict X U) ((Opens.map (ofRestrict X U).hom.base).obj V) ≅
+      restrict X (U ⊓ V)) := sorry
+
+/-- *restrict_bot* (degenerate): the open subspace on the empty open is empty. -/
+example (X : TauCeti.AdicSpace) : IsEmpty (restrict X ⊥).obj := ⟨fun x ↦ x.2⟩
+
+/-- *ofRestrict_range* (computation): the inclusion of the open subspace on `U` has image `U`. -/
+example (X : TauCeti.AdicSpace) (U : Opens X.obj) :
+    Set.range (ofRestrict X U).hom.base = U := sorry
+
+/-- *ofRestrict_top* (degenerate): the inclusion of the open subspace on `⊤` is an isomorphism. -/
+example (X : TauCeti.AdicSpace) : IsIso (ofRestrict X ⊤) := sorry
+
+/-- *ofRestrict_ne_top* (non-example): the inclusion of a proper open subspace is not an
+isomorphism. -/
+example (X : TauCeti.AdicSpace) (U : Opens X.obj) (hU : U ≠ ⊤) : ¬ IsIso (ofRestrict X U) := sorry
+
 /-- A fibre product of adic spaces: a pullback cone with its limit property. Fibre products of
 adic spaces do not exist in general; existence is always asserted with hypotheses (Huber 1996,
-Prop. 1.2.2, pp. 47–49). -/
+Prop. 1.2.2, pp. 47–49). `FibreProduct f g` is a `Limits.LimitCone (cospan f g)` with named
+projections; `⟨P.fst, P.snd, f, g⟩` satisfies Mathlib's `IsPullback`, and `IsPullback.isLimit`
+recovers `isLimit`. -/
 structure FibreProduct {X Y Z : TauCeti.AdicSpace} (f : X ⟶ Z) (g : Y ⟶ Z) where
   /-- The fibre product. -/
   space : TauCeti.AdicSpace
@@ -229,8 +266,8 @@ theorem IsStronglySheafy.of_isStablySheafyRing (h : IsStablySheafyRing.{u, u} A)
     IsStronglySheafy A := sorry
 
 /-- Finite étale algebras, with their natural topology, over a strongly sheafy ring are strongly
-sheafy (Hansen–Kedlaya, §1, p. 2; Kedlaya–Liu I, Rem. 8.2.18, p. 162, for why sheafiness alone
-is not enough). -/
+sheafy (Hansen–Kedlaya, Cor. 4.7, p. 13, and the paragraph after Def. 5.7, p. 16; Kedlaya–Liu I,
+Rem. 8.2.18, p. 162, for why sheafiness alone is not enough). -/
 theorem IsStronglySheafy.finiteEtale (h : IsStronglySheafy A) (B : Type*)
     [CommRing B] [UniformSpace B] [IsUniformAddGroup B] [IsTopologicalRing B]
     [IsTateRing B] [CompleteSpace B] [T2Space B] [Algebra A B] [IsModuleTopology A B]
@@ -435,7 +472,8 @@ theorem IsEtaleLocalDescription.of_comp {f : Y ⟶ X} {g : Z ⟶ Y}
     (hgf : IsEtaleLocalDescription (g ≫ f)) : IsEtaleLocalDescription g := sorry
 
 /-- Fibre products along étale maps exist between locally strongly sheafy spaces (Kedlaya–Liu I,
-§8.2, after Def. 8.2.16, p. 162; Huber 1996, Cor. 1.2.3, p. 49). -/
+§8.2, after Def. 8.2.16, p. 162; Huber 1996, Prop. 1.2.2, pp. 47–49, for the locally noetherian
+case). -/
 theorem IsEtaleLocalDescription.exists_fibreProduct {f : Y ⟶ X}
     (hf : IsEtaleLocalDescription f) (g : Z ⟶ X) (hX : IsLocallyStronglySheafy X)
     (hZ : IsLocallyStronglySheafy Z) : Nonempty (FibreProduct f g) := sorry
@@ -477,8 +515,9 @@ theorem IsFiniteEtale.iff_isFinite_and_etale {Y X : TauCeti.AdicSpace} (f : Y �
 
 /-- A *geometric point* of `X`: a morphism `Spa(C, C⁺) → X` where `C` is a complete algebraically
 closed nontrivially valued field (a Tate field all of whose nonconstant polynomials have roots)
-and `C⁺` is an open bounded valuation subring of any rank (Huber 1996, §2.5, Defs. 2.5.1 and
-2.5.11). -/
+and `C⁺` is an open bounded valuation subring of any rank (Huber 1996, §2.5, Def. 2.5.1, which
+takes `C` separably closed; this roadmap takes `C` algebraically closed, which is what [ECD] §14
+uses; the strict localisation is Def. 2.5.11). -/
 structure GeometricPoint (X : TauCeti.AdicSpace) where
   /-- The affinoid `Spa(C, C⁺)`. -/
   affinoid : Affinoid
@@ -532,8 +571,8 @@ def Pair.polydiscPlus (S : Pair A) (n : ℕ) : Subring (restrictedMvPowerSeriesC
     Set.range (Pair.polydiscVar n A))).topologicalClosure
 
 /-- For a complete Huber pair, `A⁺⟨T⟩` is a ring of integral elements of `A⟨T⟩`, equal to the set
-of `h` with `v(h) ≤ 1` on `Spa(A⟨T⟩, A⁺⟨T⟩)` (Berkeley, Lecture 4, §4.1, p. 27; Scholze, ECD,
-§24, after Prop. 24.4, p. 156). -/
+of `h` with `v(h) ≤ 1` on `Spa(A⟨T⟩, A⁺⟨T⟩)` (Scholze, ECD, §24, after Prop. 24.4, p. 156,
+where `B^n_Y := Spa(A⟨T⟩, A⁺⟨T⟩)`; Berkeley, Lemma 10.5.8, for the same pair). -/
 theorem Pair.isRingOfIntegralElements_polydiscPlus [CompleteSpace A] [T2Space A] (S : Pair A)
     (n : ℕ) : IsRingOfIntegralElements (Pair.polydiscPlus S n) ∧
       (Pair.polydiscPlus S n : Set (restrictedMvPowerSeriesCompletion n A)) =
@@ -578,8 +617,22 @@ theorem Pair.mem_torusLocus_iff {C : Type*} [CommRing C] [UniformSpace C] [IsUni
       ∀ i, ∃ u : Cˣ, (u : C) = h.toRingHom (Pair.polydiscVar n A i) ∧
         ((u⁻¹ : Cˣ) : C) ∈ U.plus := sorry
 
-/-- The `0`-dimensional torus is the whole (one-point) polydisc: the empty product is `1`. -/
+/-- *torusLocus_unit_coordinates* (computation): a point of the polydisc lies in the torus exactly
+when every coordinate has absolute value `1`; for `n = 1` over `(ℚ_p, ℤ_p)` the point `T ↦ 1` lies
+in it. -/
+example (S : Pair A) (n : ℕ) (v : ValuationSpectrum (restrictedMvPowerSeriesCompletion n A))
+    (hv : v ∈ spa (Pair.polydiscPlus S n)) :
+    v ∈ Pair.torusLocus S n ↔ ∀ i, v.toValuativeRel.vle 1 (Pair.polydiscVar n A i) := sorry
+
+/-- *torusLocus_zero* (degenerate): the `0`-dimensional torus is the whole (one-point) polydisc:
+the empty product is `1`. -/
 example (S : Pair A) : spa (Pair.polydiscPlus S 0) ⊆ Pair.torusLocus S 0 := sorry
+
+/-- *torusLocus_vanishing_coordinate* (non-example): a point at which some coordinate vanishes, such
+as the origin `T ↦ 0`, is not in the torus. -/
+example (S : Pair A) (n : ℕ) (v : ValuationSpectrum (restrictedMvPowerSeriesCompletion n A))
+    (i : Fin n) (hi : v.toValuativeRel.vle (Pair.polydiscVar n A i) 0) :
+    v ∉ Pair.torusLocus S n := sorry
 
 end Polydisc
 
@@ -635,6 +688,19 @@ def IsPolydiscOver (A D : Affinoid) (n : ℕ) (q : D.spa ⟶ A.spa) : Prop :=
     ∃ φ : Pair.Hom A.pair D.pair, AdicSpacesPartII.AdicSpace.Affinoid.IsInducedBy q φ ∧
       ∀ a, e (φ.toRingHom a) = algebraMap A.ring _ a
 
+/-- *isPolydiscOver_surjective* (computation): the origin `T ↦ 0` gives a section of the structure
+map of a relative polydisc, so it is surjective on points. -/
+example {A D : Affinoid} {n : ℕ} {q : D.spa ⟶ A.spa} (h : IsPolydiscOver A D n q) :
+    Function.Surjective q.hom.base := sorry
+
+/-- *isPolydiscOver_zero* (degenerate): every affinoid is the `0`-dimensional polydisc over
+itself. -/
+example (A : Affinoid) : IsPolydiscOver A A 0 (𝟙 A.spa) := sorry
+
+/-- *isPolydiscOver_one_self* (non-example): a nonzero affinoid is not the `1`-dimensional polydisc
+over itself through the identity, since `A → A⟨T⟩` misses `T`. -/
+example (A : Affinoid) [Nontrivial A.ring] : ¬ IsPolydiscOver A A 1 (𝟙 A.spa) := sorry
+
 /-- `f : Y → X` is *smooth by ball charts*: both spaces are analytic and locally on `Y`, `f` is an
 étale morphism to a relative closed polydisc over an affinoid chart of `X`, followed by the
 projection (Huber 1996, Cor. 1.6.10, p. 80; Scholze, ECD, §24, Prop. 24.4, p. 156). -/
@@ -648,6 +714,20 @@ def IsLocallyEtaleOverPolydisc {Y X : TauCeti.AdicSpace} (f : Y ⟶ X) : Prop :=
 /-- Étale morphisms are smooth by ball charts, with `0`-dimensional balls. -/
 example {Y X : TauCeti.AdicSpace} (f : Y ⟶ X) (hX : IsLocallyStronglySheafy X)
     (hf : IsEtaleLocalDescription f) : IsLocallyEtaleOverPolydisc f := sorry
+
+/-- *isLocallyEtaleOverPolydisc_proj* (computation): over a Tate affinoid, the structure map of a
+relative polydisc is smooth by ball charts, with `g` the identity. -/
+example {A D : Affinoid} {n : ℕ} {q : D.spa ⟶ A.spa} [IsTateRing A.ring]
+    (h : IsPolydiscOver A D n q) : IsLocallyEtaleOverPolydisc q := sorry
+
+/-- *isLocallyEtaleOverPolydisc_identity* (degenerate): the identity of an analytic space is smooth
+by ball charts, with `0`-dimensional balls. -/
+example (X : TauCeti.AdicSpace) (hX : IsAnalytic X) : IsLocallyEtaleOverPolydisc (𝟙 X) := sorry
+
+/-- *isLocallyEtaleOverPolydisc_nonAnalytic* (non-example): ball charts require analytic spaces, so
+the identity of `Spa(ℤ_p, ℤ_p)`, smooth in Huber's sense, is not smooth by ball charts. -/
+example {Y X : TauCeti.AdicSpace} (f : Y ⟶ X) (hY : ¬ IsAnalytic Y) :
+    ¬ IsLocallyEtaleOverPolydisc f := fun h ↦ hY h.2.1
 
 /-- Between locally noetherian analytic spaces, smoothness by ball charts is Huber's smoothness
 (AdicSpacesPartII R0, *smooth-morphism*; Huber 1996, Cor. 1.6.10, p. 80). -/
@@ -712,6 +792,26 @@ end PseudoCoherent
 projective, so not `0`-fpd. -/
 example : IsPseudoCoherentOver ℤ (ZMod 2) ⊤ ∧ Module.IsFPD ℤ (ZMod 2) 1 ∧
     ¬ Module.IsFPD ℤ (ZMod 2) 0 := sorry
+
+/-- *isPseudoCoherentOver_zmod_four* (computation): over `ℤ ⧸ 4` the module `ℤ ⧸ 2` is
+pseudocoherent, by the periodic resolution `⋯ → ℤ ⧸ 4 → ℤ ⧸ 4 → ℤ ⧸ 2` with maps `×2`, but `m`-fpd
+for no `m`, every syzygy being `ℤ ⧸ 2` again. -/
+example : IsPseudoCoherentOver (ZMod 4) (ZMod 4 ⧸ Ideal.span {(2 : ZMod 4)}) ⊤ ∧
+    ∀ m, ¬ Module.IsFPD (ZMod 4) (ZMod 4 ⧸ Ideal.span {(2 : ZMod 4)}) m := sorry
+
+/-- *isPseudoCoherentOver_zero_module* (degenerate): the zero module is pseudocoherent. -/
+example (R M : Type*) [CommRing R] [AddCommGroup M] [Module R M] [Subsingleton M] :
+    IsPseudoCoherentOver R M ⊤ := sorry
+
+/-- *isPseudoCoherentOver_not_two* (non-example): for `R = ℚ[x, y₁, y₂, …]/(x yᵢ)` the module
+`R ⧸ xR` is finitely presented but not `2`-pseudocoherent, since `Ann(x) = (y₁, y₂, …)` is not
+finitely generated. -/
+example :
+    let R := MvPolynomial (Option ℕ) ℚ ⧸ Ideal.span (Set.range fun i : ℕ ↦
+      (MvPolynomial.X none * MvPolynomial.X (some i) : MvPolynomial (Option ℕ) ℚ))
+    let x : R := Ideal.Quotient.mk _ (MvPolynomial.X none)
+    IsPseudoCoherentOver R (R ⧸ Ideal.span {x}) 1 ∧
+      ¬ IsPseudoCoherentOver R (R ⧸ Ideal.span {x}) 2 := sorry
 
 end Huber
 
@@ -800,6 +900,51 @@ def ratLocPair [IsHuberRing A] (Aplus : Pair A) : Pair (ratLoc P T s hden) where
 
 end RatLoc
 
+/-- *ratLocCommRing_isUnit* (computation): `s` becomes a unit in `A⟨T/s⟩`. -/
+example {A : Type*} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
+    (P : PairOfDefinition A) (T : Finset A) (s : A)
+    (hden : P.HasDenominatorPower T s (Localization.Away s)) :
+    IsUnit (algebraMap A (ratLoc P T s hden) s) := sorry
+
+/-- *ratLocCommRing_zero* (degenerate): inverting `0` gives the zero ring, the coordinate ring of
+the empty rational subset `R(T/0)`. -/
+example {A : Type*} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
+    (P : PairOfDefinition A) (T : Finset A)
+    (hden : P.HasDenominatorPower T 0 (Localization.Away (0 : A))) :
+    Subsingleton (ratLoc P T 0 hden) := sorry
+
+/-- *ratLocCommRing_padic_vanishes* (non-example): `A⟨T/s⟩` is not `A[1/s]`: over `ℚ_p` with
+`T = {1}` and `s = p`, `p` is already a unit, but `ℚ_p⟨1/p⟩` is the zero ring, matching
+`R(1/p) = ∅` in `Spa(ℚ_p, ℤ_p)`. -/
+example (p : ℕ) [Fact p.Prime] (P : PairOfDefinition ℚ_[p])
+    (hden : P.HasDenominatorPower {1} (p : ℚ_[p]) (Localization.Away (p : ℚ_[p]))) :
+    Subsingleton (ratLoc P {1} (p : ℚ_[p]) hden) := sorry
+
+/-- *ratLocPair_mem_plus* (computation): every `t/s` with `t ∈ T` lies in the plus ring of
+`A⟨T/s⟩`; for `A = ℚ_p⟨X⟩`, `T = {X, p}` and `s = p` this is `X/p`. -/
+example {A : Type*} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] [IsHuberRing A]
+    (P : PairOfDefinition A) (T : Finset A) (s : A)
+    (hden : P.HasDenominatorPower T s (Localization.Away s)) (S : Pair A) {t : A} (ht : t ∈ T) :
+    ∃ u : (ratLoc P T s hden)ˣ, (u : ratLoc P T s hden) = algebraMap A _ s ∧
+      algebraMap A (ratLoc P T s hden) t * ↑u⁻¹ ∈ (ratLocPair P T s hden S).plus := sorry
+
+/-- *ratLocPair_one* (degenerate): over a complete `A`, the identity localisation `T = {1}`,
+`s = 1` returns `(A, A⁺)`. -/
+example {A : Type*} [CommRing A] [UniformSpace A] [IsUniformAddGroup A] [IsTopologicalRing A]
+    [IsHuberRing A] [CompleteSpace A] [T2Space A] (P : PairOfDefinition A)
+    (hden : P.HasDenominatorPower {1} 1 (Localization.Away (1 : A))) (S : Pair A) :
+    Function.Bijective (algebraMap A (ratLoc P {1} 1 hden)) ∧
+      (ratLocPair P {1} 1 hden S).plus = S.plus.map (algebraMap A (ratLoc P {1} 1 hden)) :=
+  sorry
+
+/-- *ratLocPair_ne_powerBounded* (non-example): the plus ring of `A⟨T/s⟩` is not its power-bounded
+subring in general: for `A⁺ ⊊ A°` and the identity localisation it is the image of `A⁺`. -/
+example {A : Type*} [CommRing A] [UniformSpace A] [IsUniformAddGroup A] [IsTopologicalRing A]
+    [IsHuberRing A] [CompleteSpace A] [T2Space A] (P : PairOfDefinition A)
+    (hden : P.HasDenominatorPower {1} 1 (Localization.Away (1 : A))) (S : Pair A)
+    (hS : S.plus < powerBoundedSubring A) :
+    (ratLocPair P {1} 1 hden S).plus ≠ powerBoundedSubring (ratLoc P {1} 1 hden) := sorry
+
 section StablyPseudoCoherent
 
 variable (A : Type*) [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
@@ -824,9 +969,45 @@ def IsPseudoFlat (B : Type*) [AddCommGroup B] [Module A B] (m : ℕ∞) : Prop :
 
 end StablyPseudoCoherent
 
-/-- Flat modules are pseudoflat for every `m`. -/
+/-- *isStablyPseudoCoherent_projective* (computation): a finite projective module is stably
+pseudocoherent, its base changes being finite projective, hence complete. -/
+example (A : Type*) [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] (M : Type*)
+    [AddCommGroup M] [Module A M] [Module.Finite A M] [Module.Projective A M] :
+    IsStablyPseudoCoherent A M ⊤ := sorry
+
+/-- *isStablyPseudoCoherent_zero* (degenerate): the zero module is stably pseudocoherent. -/
+example (A : Type*) [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] (M : Type*)
+    [AddCommGroup M] [Module A M] [Subsingleton M] : IsStablyPseudoCoherent A M ⊤ := sorry
+
+/-- *isStablyPseudoCoherent_coker* (non-example): over a complete `A`, the quotient by a non-closed
+principal ideal is not stably pseudocoherent, its base change to the identity localisation
+`A⟨1/1⟩ = A` not being Hausdorff. -/
+example {A : Type*} [CommRing A] [UniformSpace A] [IsUniformAddGroup A] [IsTopologicalRing A]
+    [IsHuberRing A] [CompleteSpace A] [T2Space A] (x : A)
+    (hx : ¬ IsClosed ((Ideal.span {x} : Ideal A) : Set A)) :
+    ¬ IsStablyPseudoCoherent A (A ⧸ Ideal.span {x}) ⊤ := sorry
+
+/-- Flat modules are pseudoflat for every `m` (*test_flat*). -/
 example (A : Type*) [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] (B : Type*)
     [AddCommGroup B] [Module A B] [Module.Flat A B] (m : ℕ∞) : IsPseudoFlat A B m := sorry
+
+/-- *isPseudoFlat_tateAlgebra* (computation): over a complete Tate ring, `A⟨T⟩` is
+`2`-pseudoflat, being pro-projective. -/
+example (A : Type*) [CommRing A] [UniformSpace A] [IsUniformAddGroup A] [IsTopologicalRing A]
+    [IsTateRing A] [CompleteSpace A] [T2Space A] :
+    IsPseudoFlat A (restrictedMvPowerSeriesCompletion 1 A) 2 := sorry
+
+/-- *isPseudoFlat_zero* (degenerate): the zero module is pseudoflat. -/
+example (A : Type*) [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] (B : Type*)
+    [AddCommGroup B] [Module A B] [Subsingleton B] (m : ℕ∞) : IsPseudoFlat A B m :=
+  fun _ _ _ ↦ Function.injective_of_subsingleton _
+
+/-- *isPseudoFlat_quotient* (non-example): for `A = ℚ_p⟨T⟩`, the quotient `A ⧸ TA` is not
+pseudoflat, since `Tor₁^A(A ⧸ TA, A ⧸ TA) ≅ A ⧸ TA ≠ 0` and `A ⧸ TA` is stably pseudocoherent. -/
+example (p : ℕ) [Fact p.Prime] :
+    ¬ IsPseudoFlat (restrictedMvPowerSeriesCompletion 1 ℚ_[p])
+      (restrictedMvPowerSeriesCompletion 1 ℚ_[p] ⧸
+        Ideal.span {Pair.polydiscVar 1 ℚ_[p] 0}) ⊤ := sorry
 
 /-! ### A3.1 Acyclicity and Kiehl glueing for stably pseudocoherent modules
 (*rational-localisation-pseudoflat*, *pseudocoherent-tate-acyclicity*, *fpd-local-to-global*,
@@ -909,6 +1090,31 @@ end TateSeries
 example (N : ℕ) (A : Type*) [CommRing A] [TopologicalSpace A] [NonarchimedeanRing A]
     (Aplus : Subring A) (f : tateSeries N A) (hf : f ∈ tateSeriesPlus N A Aplus)
     (ν : Fin N →₀ ℕ) : MvPowerSeries.coeff ν (f : MvPowerSeries (Fin N) A) ∈ Aplus := sorry
+
+/-- *tateSeries_X_coe* (computation): `Tᵢ` is the power series `X i`. -/
+example (N : ℕ) (A : Type*) [CommRing A] [TopologicalSpace A] [NonarchimedeanRing A]
+    (i : Fin N) : (tateSeries.X N A i : MvPowerSeries (Fin N) A) = MvPowerSeries.X i := rfl
+
+/-- *tateSeries_X_not_isUnit* (non-example): over a nonzero ring `Tᵢ` is not a unit of `A⟨T⟩`,
+unlike on the torus. -/
+example (N : ℕ) (A : Type*) [CommRing A] [TopologicalSpace A] [NonarchimedeanRing A]
+    [Nontrivial A] (i : Fin N) : ¬ IsUnit (tateSeries.X N A i) := sorry
+
+/-- *tateSeriesPlus_constant* (computation): over `ℚ_p` with `A⁺ = ℤ_p`, the constant `p` lies in
+`A⁺⟨T⟩`. -/
+example (p : ℕ) [Fact p.Prime] (N : ℕ) :
+    algebraMap ℚ_[p] (tateSeries N ℚ_[p]) p ∈ tateSeriesPlus N ℚ_[p] (PadicInt.subring p) :=
+  sorry
+
+/-- *tateSeriesPlus_top* (degenerate): with `A⁺ = A` every series lies in `A⁺⟨T⟩`. -/
+example (N : ℕ) (A : Type*) [CommRing A] [TopologicalSpace A] [NonarchimedeanRing A] :
+    tateSeriesPlus N A ⊤ = ⊤ := sorry
+
+/-- *tateSeriesPlus_inverse_constant* (non-example): over `ℚ_p` with `A⁺ = ℤ_p`, the constant
+`p⁻¹` does not lie in `A⁺⟨T⟩`. -/
+example (p : ℕ) [Fact p.Prime] (N : ℕ) :
+    algebraMap ℚ_[p] (tateSeries N ℚ_[p]) ((p : ℚ_[p])⁻¹) ∉
+      tateSeriesPlus N ℚ_[p] (PadicInt.subring p) := sorry
 
 /-- A *standard étale presentation* `(N, F, k, π)` of the complete Huber pair `(C, C⁺)` over the
 complete Tate pair `(A, A⁺)` with pseudouniformiser `ϖ`: equations `F ∈ A⁺⟨T₁, …, T_N⟩^N` (as many
