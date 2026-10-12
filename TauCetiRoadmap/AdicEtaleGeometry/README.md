@@ -860,7 +860,7 @@ is not built by base change through `Y_x,proét`).
 
 **Deligne's theorem: coherent topoi have enough points.** (*coherent-topos-enough-points*) A site
 `(C, J)`, `C` essentially `w`-small, whose topos is coherent (SGA 4 VI 2.3: algebraic,
-DiamondsAndVStacks D0 *quasicompact-objects-in-a-topos*, with qcqs terminal object; e.g. finite
+DiamondsAndVStacks D0.17, with qcqs terminal object; e.g. finite
 limits and finite covering subfamilies) has enough points relative to `w` (Mathlib
 `GrothendieckTopology.HasEnoughPoints`): a `w`-small family of points jointly reflecting
 isomorphisms of sheaves of `w`-sets ([SGA 4 VI] Exp. VI, Appendix by P. Deligne, Prop. 9.0, p. 336
