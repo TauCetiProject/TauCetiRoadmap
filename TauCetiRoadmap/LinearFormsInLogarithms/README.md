@@ -471,17 +471,19 @@ Over a number field `K`. *Prerequisites:* Mathlib only.
 - **3.2 Sizes.** If `δ ^ a * α` and `δ ^ b * β` are algebraic integers of house at most `H` and
   `H'`, then `δ ^ (a + b) * (α β)`, `δ ^ a * (α + β)` (for `a = b`), `δ ^ (a * k) * α ^ k` and
   `δ ^ c * α` for `c ≥ a` are algebraic integers with the houses `H H'`, `H + H'`, `H ^ k` and
-  `δ ^ (c - a) H`; integers `x` have exponent `0` and house `|x|`; finite sums follow
-  (`house_sum_le_sum_house`), and so do products over an indexed family
-  (`NumberField.house_prod_le`, for `∏ i ∈ s, f i`; the pinned Mathlib lemma of that name covers
-  only products of the elements of a finite set). **Liouville's inequality for a number of known
-  size:** if `δ ≠ 0` and `δ ^ a * α` is a nonzero algebraic integer of house at most `H`, then
-  `1 ≤ δ ^ a ‖σ α‖ H ^ ([K : ℚ] - 1)` at every embedding
+  `δ ^ (c - a) H`, the last being at most `G ^ (c - a) H` when `δ ≤ G`; integers `x` have exponent
+  `0` and house `|x|`; finite sums follow (`house_sum_le_sum_house`), and so do products over an
+  indexed family (`NumberField.house_prod_le`, for `∏ i ∈ s, f i`; the pinned Mathlib lemma of that
+  name covers only products of the elements of a finite set). **Liouville's inequality for a number
+  of known size:** if `δ ≠ 0` and `δ ^ a * α` is a nonzero algebraic integer of house at most `H`,
+  then `1 ≤ δ ^ a ‖σ α‖ H ^ ([K : ℚ] - 1)` at every embedding
   (`NumberField.one_le_pow_mul_norm_embedding_mul_pow`). *Prerequisites:* 3.1.
 - **3.3 The field of the data.** Finitely many algebraic numbers in a field `L` of characteristic
-  `0` lie in `IntermediateField.adjoin ℚ S`, a number field, with a common denominator `δ` from
-  `exists_integral_multiples` and a common bound for the houses of `δ` times each of them; Layer 5
-  uses it with `L = ℂ` and Layer 8 with `L = ℂ_[p]`.
+  `0` lie in `IntermediateField.adjoin ℚ S`, a number field, with a common denominator `δ ≥ 1`
+  from `exists_integral_multiples` and a common bound `G` for the houses of `δ` times each of them.
+  A number larger than such a bound is again such a bound, so `G` can be taken with `1 ≤ G` and
+  `δ ≤ G`.
+  Layer 5 uses it with `L = ℂ` and `G ≥ 1`, and Layer 8 with `L = ℂ_[p]` and `G ≥ δ` (8.7).
 - **3.4 Thue–Siegel's lemma** (Waldschmidt, Lemmas 4.11 and 4.12). Let `X ≥ 1` be an integer (for
   real forms this follows from the count). For real forms: if `∑ᵢ |u i j| ≤ U` for every `j` and
   `ℓ ^ (card κ) < (X + 1) ^ (card ι)` for a natural number `ℓ ≥ 1`, there is a nonzero `ξ : ι → ℤ`
@@ -724,30 +726,56 @@ inequality taken at the embedding into `ℂ_[p]`. Write `ρ = p ^ (-1 / (p - 1))
   function `∑ P (d, e) z₀ ^ d exp (e_none β₀ z₀) ∏_r exp ((e_r + e_none β_r) ℓ_r z_r)`,
   restricted to the diagonal, is the power series `derivativeSeries ℓ β₀ β L P m`, a sum of the
   exponential polynomials of 8.4 at the frequencies `ψ_e = ∑_o e_o ℓ_o`. The relation gives
-  `D f_m = ∑_o f_{m + e_o}` (`derivative_derivativeSeries`), and at a natural number `l`
-  (`ofScalarsSum_derivativeSeries_natCast`)
+  `D f_m = ∑_o f_{m + e_o}` (`derivative_derivativeSeries`), and nothing else in 8.6 or 8.7 uses
+  it: the series `f_m` are defined for every `ℓ` in the disc and all `β₀`, `β`, and at a natural
+  number `l` (`ofScalarsSum_derivativeSeries_natCast`)
   `f_m (l) = (∏_r ℓ_r ^ {m_r}) ∑_{(d, e)} P (d, e) (∏_r γ_r ^ {m_r})
   expDerivFactor (e_none β₀) m_none (X ^ d) (l) ∏_o exp (ℓ_o) ^ (e_o l)` with
   `γ_r = e_r + e_none β_r`. *Prerequisites:* 8.1, 8.4.
-- **8.7 The arithmetic** (Baker, Lemmas 2, 3 and 6). In the number field `K` of the data (3.3),
-  with embedding `ι₀ : K →+* ℂ_[p]`, `ι₀ (αK o) = exp ℓ_o`, and `δ` times each of `αK o`, `βK r`,
-  `βK₀` an algebraic integer of house at most `G`:
-  (a) **Lemma 3:** for `P` with `δ ^ 0 · P (d, e)` of house at most `H_P`, the sum in 8.6 at `l ≥ 1`
-  is `ι₀` of an element of `K` whose size in the sense of 3.2 has exponent `∑ m + (k + 1) L l` and
-  house at most `(L + 1) ^ (k + 2) H_P (L + 1) l ^ L (2 L G) ^ (∑ m) G ^ ((k + 1) L l)`;
-  (b) **Lemma 2:** 3.5 gives algebraic integers `P`, not all zero, of house at most
-  `C (L + 1) ^ (k + 2) entryBound k L h G` (`entryBound`), with `f_m (l) = 0` for all `m o ≤ h ^ 2`
-  and `1 ≤ l ≤ h`, provided `2 ((h ^ 2 + 1) ^ (k + 1) h) ≤ (L + 1) ^ (k + 2)`; Baker's Lemma 2 asks
-  only `∑ m ≤ h ^ 2`, and solves over `ℤ` rather than over `K`;
-  (c) **Lemma 6:** distinct frequencies are far apart:
+- **8.7 The arithmetic** (Baker, Lemmas 2, 3 and 6). The data are: a number field `K` with an
+  embedding `ι₀ : K →+* ℂ_[p]`; `ℓ` in the disc, `β₀` and `β`, with `αK o`, `βK r` and `βK₀` in `K`
+  such that `ι₀ (αK o) = exp ℓ_o`, `ι₀ (βK r) = β r` and `ι₀ βK₀ = β₀`; and a natural number `δ`
+  and a real number `G` with `1 ≤ δ ≤ G`, such that `δ` times each of `αK o`, `βK r`, `βK₀` is an
+  algebraic integer of house at most `G`. The relation of 8.6 is not assumed. The inequality
+  `δ ≤ G` is a hypothesis of each of (a), (b) and (c), and the house bounds do not imply it: the
+  proofs bring numbers of different exponents to a common exponent, and bound the powers of `δ`
+  that this costs by powers of `G` (3.2). It gives `G ≥ 1`. For `P (d, e)` in `K` write
+  `A_m (l) = ∑_{(d, e)} P (d, e) (∏_r γK_r ^ {m_r})
+  expDerivFactor (e_none βK₀) m_none (X ^ d) (l) ∏_o αK_o ^ (e_o l)` with
+  `γK_r = e_r + e_none βK_r`, an element of `K`; by the formula of 8.6, the series `f_m` with the
+  coefficients `ι₀ (P (d, e))` has `f_m (l) = (∏_r ℓ_r ^ {m_r}) ι₀ (A_m (l))`.
+  (a) **Lemma 3:** if every `P (d, e)` is an algebraic integer (`IsIntegral ℤ (P (d, e))`) with
+  `house (P (d, e)) ≤ H_P`, then for `l ≥ 1` the size of `A_m (l)` in the sense of 3.2 has exponent
+  `∑ m + (k + 1) L l` and house at most
+  `(L + 1) ^ (k + 2) H_P (L + 1) l ^ L (2 L G) ^ (∑ m) G ^ ((k + 1) L l)`. ⚠ Integrality of the
+  `P (d, e)` is needed, and a bound for their houses does not give it: for `K = ℚ`, `δ = 1`,
+  `k = 0`, `L = l = 1`, `m = 0`, `αK = 4`, `βK₀ = 0`, `G = 4` (with `p = 3` and `ℓ` the point of
+  the disc with `exp ℓ = 4`) and `P` zero except for `P (0, 0) = 1 / 2`, the sum is
+  `A_0 (1) = 1 / 2`, and no power of `δ = 1` times it is an algebraic integer;
+  (b) **Lemma 2:** let `L, h ≥ 1` with `2 ((h ^ 2 + 1) ^ (k + 1) h) ≤ (L + 1) ^ (k + 2)`, and let
+  `C` be the constant of 3.5 for `K`. There are `P (d, e)` in `𝓞 K`, not all zero, of house at most
+  `C (L + 1) ^ (k + 2) entryBound k L h G`, with `A_m (l) = 0`, and so `f_m (l) = 0`, for all
+  `m o ≤ h ^ 2` and `1 ≤ l ≤ h`. Here `entryBound k L h G =
+  G ^ a (L + 1) h ^ L (2 L G) ^ ((k + 1) h ^ 2) G ^ ((k + 1) L h)` with
+  `a = (k + 1) h ^ 2 + (k + 1) L h` (`entryBound`): 3.5 is applied to the equations `A_m (l) = 0`
+  multiplied by `δ ^ a`, whose coefficients are algebraic integers by the sizes computed for (a),
+  and `G ^ a` bounds the powers of `δ` that this brings in, by `δ ≤ G`. These `P (d, e)` are
+  algebraic integers, so (a) applies to them, with this bound for their houses as `H_P`. Baker's
+  Lemma 2 asks only `∑ m ≤ h ^ 2`, and solves over `ℤ` rather than over `K`;
+  (c) **Lemma 6:** if `ℓ` is linearly independent over `ℚ`, distinct frequencies are far apart:
   `((2 G ^ ((k + 1) L)) ^ [K : ℚ])⁻¹ ≤ ‖ψ_e - ψ_e'‖` for `e ≠ e'` with entries at most `L`
   (`inv_pow_le_norm_frequency_sub`), by 8.1 and 8.2 applied to `∏ α_o ^ {e_o} - ∏ α_o ^ {e'_o}`.
+  ⚠ `δ ≤ G` is needed: for `p = 3`, `K = ℚ`, `k = 0`, `L = 1`, `αK = 1 / 4`, `βK₀ = 0`, `δ = 4`,
+  `G = 1` and `ℓ` the point of the disc with `exp ℓ = 1 / 4`, so that
+  `‖ℓ‖ = ‖exp ℓ - 1‖ = 1 / 3` (8.1), every other hypothesis holds, and `e = 0`, `e' = 1` would give
+  `1 / 2 ≤ 1 / 3`.
   *Prerequisites:* 3.2, 3.3, 3.5, 8.1, 8.2, 8.6.
 - **8.8 The argument, with the parameters as hypotheses** (Baker, Lemmas 4 and 5 and §5;
-  `false_of_admissible`, with the conditions bundled as `Admissible`). Let `r₀ > 1` with
-  `‖ℓ_o‖ r₀ ≤ ρ`, `B ≥ 1` a bound for the `β`'s, `0 < lmin ≤ ‖ℓ_o‖`, `C` the constant of 3.5 and
-  `D = [K : ℚ]`, and write `E = entryBound k L h G` and `Π = C (L + 1) ^ (k + 2) E`. The
-  conditions on `L, h ≥ 1`, `Kmax` and the sequences `S J`, `R J` are:
+  `false_of_admissible`, with the conditions bundled as `Admissible`). Take the data of 8.7, with
+  `1 ≤ δ ≤ G`, and `ℓ` linearly independent over `ℚ`. Let `r₀ > 1` with `‖ℓ_o‖ r₀ ≤ ρ`, `B ≥ 1` a
+  bound for the `β`'s, `0 < lmin ≤ ‖ℓ_o‖`, `C` the constant of 3.5 and `D = [K : ℚ]`, and write
+  `E = entryBound k L h G` and `Π = C (L + 1) ^ (k + 2) E`. The conditions on `L, h ≥ 1`, `Kmax`
+  and the sequences `S J`, `R J` are:
   1. `2 ((h ^ 2 + 1) ^ (k + 1) h) ≤ (L + 1) ^ (k + 2)` (the count of 8.7(b));
   2. `S 0 ≤ h ^ 2`, `R 0 ≤ h`, and `2 S (J + 1) ≤ S J` for `J < Kmax`;
   3. **extrapolation**, for `J < Kmax`, with `S' = S (J + 1)` and `R' = R (J + 1)`:
@@ -756,13 +784,15 @@ inequality taken at the embedding into `ℂ_[p]`. Write `ρ = p ^ (-1 / (p - 1))
   4. **final:** `Π ^ D p ^ L (2 G ^ ((k + 1) L)) ^ (D (L + 1) ^ (k + 2)) r₀ ^ L <
      r₀ ^ (R Kmax S Kmax)`.
 
-  They are incompatible with the relation of 8.6. The steps: Lemma 2 gives `P`; by induction on
+  They are incompatible with the relation of 8.6. The steps: Lemma 2 gives algebraic integers
+  `P`, not all zero, of house at most `Π`, so that 8.7(a) applies with `H_P = Π`; by induction on
   `J ≤ Kmax`, `f_m (l) = 0` for `∑ m ≤ S J` and `1 ≤ l ≤ R J` (for `J + 1`: by `D f_m` in 8.6 the
   series `f_m` with `∑ m ≤ S (J + 1)` vanish to order `S (J + 1)` at `1, …, R J`, so 8.3 makes
   `f_m (l)` small for `l ≤ R (J + 1)`, and 8.2 with 8.7(a) and (3) makes it zero); at the end
   `f_0` has all coefficients at most `r₀ ^ L r₀ ^ (-(R Kmax · S Kmax))` (8.3), and 8.5 at the
-  points `ψ_e`, separated by Lemma 6, writes some `P t ≠ 0` as a combination of these
-  coefficients, which contradicts 8.2 by (4). *Prerequisites:* 8.2, 8.3, 8.5, 8.7.
+  points `ψ_e`, separated by Lemma 6, writes some `P t ≠ 0`, a nonzero algebraic integer of house
+  at most `Π`, as a combination of these coefficients, which contradicts 8.2 by (4).
+  *Prerequisites:* 8.2, 8.3, 8.5, 8.7.
 - **8.9 The choice of parameters** (`exists_admissible`). For `k + 1` logarithms put
   `Kmax = (2k + 3)(3k + 7)` and, for an integer `t`, `X = 2 ^ t`, `h = X ^ (3k + 7)`,
   `L = X ^ (6k + 11)`, `R J = X ^ (3k + 7 + J)` and `S J = 2 ^ (Kmax - J) X ^ (6k + 13)`. For all
@@ -770,17 +800,24 @@ inequality taken at the embedding into `ℂ_[p]`. Write `ρ = p ^ (-1 / (p - 1))
   inequality compares `r₀ ^ (c Y)` with `r₀ ^ (X Y)` for a `c` independent of `t`. These are not
   Baker's values (`L = [h ^ (2 - 1/(4n))]`, `R J = [h ^ (1 + J/(8n))]`, `S J = [h² / 2 ^ J]`,
   `J ≤ (8n)²`): the `p`-adic gain per zero is the fixed factor `r₀` of 8.3, not a power of `h`.
+  The conditions (1)–(4) contain `G` and not `δ`, and the choice works for every `r₀ > 1`,
+  `B, G, C ≥ 0` and `lmin > 0`, so in particular for a `G` taken with `δ ≤ G` as 8.7 requires.
   *Prerequisites:* the definition `entryBound` of 8.7.
 - **8.10 Baker's theorem over `ℂ_[p]`** (`PadicBaker.eq_zero_of_add_sum_mul_eq_zero`). If
   `ℓ i ∈ ℂ_[p]` have `‖ℓ i‖ < ρ`, algebraic `exp (ℓ i)`, and are linearly independent over `ℚ`, and
   `β₀ + ∑ β i ℓ i = 0` with algebraic `β₀, β i`, then `β₀ = 0` and every `β i = 0`. Hence a linear
   form in such `ℓ i` with algebraic coefficients and some `β i ≠ 0` is transcendental
-  (`PadicBaker.transcendental_add_sum_mul`). The proof divides the relation by a nonzero coefficient
-  inside the number field of the data (3.3), takes `r₀ = ρ / max ‖ℓ i‖`, `B` a bound for the
-  coefficients, `lmin = min ‖ℓ i‖` and `C` from 3.5, and applies 8.8 with 8.9. ⚠ The norm condition
-  is needed (`PadicComplex.exp_one_eq_zero`: with `ℓ = 1`, `-1 + 1 · 1 = 0`). The restriction to the
-  disc loses nothing: every `p`-adic logarithm of an algebraic number has a multiple by a power of
-  `p` in the disc. *Prerequisites:* 3.3, 3.5, 8.8, 8.9.
+  (`PadicBaker.transcendental_add_sum_mul`). The proof takes the number field `K` of the
+  `exp (ℓ i)`, the `β i` and `β₀` (3.3) and divides the relation by a nonzero coefficient `β i₀`
+  inside `K`, which gives the relation of 8.6 for `ℓ i₀`, with the coefficients `-β i / β i₀`
+  (`i ≠ i₀`) and `-β₀ / β i₀`. By 3.3 it takes a common denominator `δ ≥ 1` of the `exp (ℓ i)` and
+  these coefficients, and a bound `G` for the houses of `δ` times each of them, chosen with
+  `δ ≤ G`: a number larger than such a bound is again such a bound, so `δ + 1` plus the sum of
+  these houses will do. These are the data of 8.7. It takes `r₀ = ρ / max ‖ℓ i‖`, `B` a bound for
+  the coefficients, `lmin = min ‖ℓ i‖` and `C` from 3.5, and applies 8.8 with 8.9. ⚠ The norm
+  condition is needed (`PadicComplex.exp_one_eq_zero`: with `ℓ = 1`, `-1 + 1 · 1 = 0`). The
+  restriction to the disc loses nothing: every `p`-adic logarithm of an algebraic number has a
+  multiple by a power of `p` in the disc. *Prerequisites:* 3.3, 3.5, 8.8, 8.9.
 
 ## Worked examples (acceptance criteria, keeping the theory honest)
 

@@ -779,7 +779,7 @@ theorem PowerSeries.norm_coeff_le_of_ofScalarsSum_iterate_derivative_eq_zero {f 
     (hr : 1 < r) (hM : ∀ k, ‖PowerSeries.coeff k f‖ * r ^ k ≤ M) (A : Finset K)
     (hA : ∀ a ∈ A, ‖a‖ ≤ 1) (S : ℕ)
     (hvan : ∀ a ∈ A, ∀ j < S, FormalMultilinearSeries.ofScalarsSum (E := K)
-      (fun k => PowerSeries.coeff k ((⇑(PowerSeries.derivative K))^[j] f)) a = 0) (k : ℕ) :
+      (fun k => PowerSeries.coeff k ((⇑(PowerSeries.derivative (R := K)))^[j] f)) a = 0) (k : ℕ) :
     ‖PowerSeries.coeff k f‖ ≤ M * (r ^ (A.card * S))⁻¹ :=
   sorry
 
@@ -788,7 +788,7 @@ theorem PowerSeries.norm_ofScalarsSum_le_of_ofScalarsSum_iterate_derivative_eq_z
     {f : PowerSeries K} {r M : ℝ} (hr : 1 < r) (hM : ∀ k, ‖PowerSeries.coeff k f‖ * r ^ k ≤ M)
     (A : Finset K) (hA : ∀ a ∈ A, ‖a‖ ≤ 1) (S : ℕ)
     (hvan : ∀ a ∈ A, ∀ j < S, FormalMultilinearSeries.ofScalarsSum (E := K)
-      (fun k => PowerSeries.coeff k ((⇑(PowerSeries.derivative K))^[j] f)) a = 0)
+      (fun k => PowerSeries.coeff k ((⇑(PowerSeries.derivative (R := K)))^[j] f)) a = 0)
     {x : K} (hx : ‖x‖ ≤ 1) :
     ‖FormalMultilinearSeries.ofScalarsSum (E := K) (fun k => PowerSeries.coeff k f) x‖ ≤
       M * (r ^ (A.card * S))⁻¹ :=
@@ -844,7 +844,7 @@ theorem Polynomial.norm_coeff_expDerivFactor_le {K : Type*} [NormedField K] [IsU
 /-- **Layer 8.4, the derivatives of an exponential polynomial.** -/
 theorem PowerSeries.iterate_derivative_coe_mul_rescale_exp {A : Type*} [CommRing A] [Algebra ℚ A]
     (Q : A[X]) (ψ : A) (m : ℕ) :
-    (⇑(PowerSeries.derivative A))^[m]
+    (⇑(PowerSeries.derivative (R := A)))^[m]
         ((Q : PowerSeries A) * PowerSeries.rescale ψ (PowerSeries.exp A)) =
       (Polynomial.expDerivFactor ψ m Q : PowerSeries A) *
         PowerSeries.rescale ψ (PowerSeries.exp A) :=
@@ -891,7 +891,7 @@ noncomputable def derivativeSeries (ℓ : Option (Fin k) → ℂ_[p]) (β₀ : �
 theorem derivative_derivativeSeries {ℓ : Option (Fin k) → ℂ_[p]} {β₀ : ℂ_[p]}
     {β : Fin k → ℂ_[p]} (hrel : ℓ none = β₀ + ∑ r, β r * ℓ (some r)) (L : ℕ)
     (P : Fin (L + 1) × (Option (Fin k) → Fin (L + 1)) → ℂ_[p]) (m : Option (Fin k) → ℕ) :
-    PowerSeries.derivative ℂ_[p] (derivativeSeries ℓ β₀ β L P m) =
+    PowerSeries.derivative (R := ℂ_[p]) (derivativeSeries ℓ β₀ β L P m) =
       ∑ o, derivativeSeries ℓ β₀ β L P (m + (Pi.single o 1 : Option (Fin k) → ℕ)) :=
   sorry
 
