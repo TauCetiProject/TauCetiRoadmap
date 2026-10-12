@@ -5266,11 +5266,13 @@ every quasi-compact admissible open of `V`, Huber96 5.6 as recalled in GK02 1.6)
 functor `Rf_! : D^+ → D^+`; and `f_+M = Rf_!(D_{Y←Z} ⊗^L_{D_Z} M)` for `M ∈ D^−(D_Z)` when `f` is of
 one of the two kinds needed: projections `X × Y → Y` with `X` admissibly covered by finitely many
 opens, each Zariski closed in an open polydisc (so that `R^if_!` vanishes above a fixed degree and
-`Rf_!` extends to `D^−`), and closed immersions. For these, prove `g_+f_+ ≅ (g ∘ f)_+` (GK02
-Prop. 1.7); `DR(f_+M)[dim Y] ≅ Rf_! DR(M)[dim Z]` (GK02 1.9(a)); and, for the projection
+`Rf_!` extends to `D^−`), and closed immersions (for which the local structure of `Z` in `Y` is that of
+*dagger-tubular-neighbourhood* (a)–(b), as in GK02 §1, proof of Prop. 1.7). For these, prove
+`g_+f_+ ≅ (g ∘ f)_+` (GK02 Prop. 1.7); `DR(f_+M)[dim Y] ≅ Rf_! DR(M)[dim Z]` (GK02 1.9(a)); and, for the projection
 `p : X × Y → Y`, `Ω^•_{X×Y/Y} ≅ D_{Y←X×Y} ⊗^L_{D_{X×Y}} O_{X×Y}[−dim X]` (GK02 1.5). No other
 functor of a six-functor formalism is a target. *Needs:* *dagger-d-modules*;
-*dagger-partially-proper*; *dagger-smooth-space*; *dagger-coherent-module*.
+*dagger-partially-proper*; *dagger-smooth-space*; *dagger-coherent-module*;
+*dagger-tubular-neighbourhood*.
 
 **Checks.**
 
@@ -5453,6 +5455,67 @@ pure-dimensional, `s_+RΓ*_Z O_Y ≅ RΓ*_Z O_X[d]`. *Needs:* *dagger-d-modules*
 - Computation: for `Y = {x_1 = 0}` in a polydisc, `R^1Γ*_Y O = O[x_1^{-1}]/O` and the other
   `R^iΓ*_Y O` vanish, as (e) predicts.
 
+**Tubular neighbourhoods of smooth closed immersions, locally on affinoid charts, and the local
+branches of a strict normal crossings divisor.** (*dagger-tubular-neighbourhood*) Let `K` be a
+field complete for a nontrivial nonarchimedean absolute value of rank one and `i : Z → X` a closed
+immersion of smooth `K`-dagger spaces with `Z` of pure codimension `d`. Prove that (a) (Kiehl's
+tubular neighbourhood theorem, chart by chart) there is an admissible affinoid covering
+`(X_j)_j` of `X` and, for every `j` and every `ρ < 1` in `√|K^×|`, an admissible open
+neighbourhood `V_{j,ρ}` of `Z_j := Z ∩ X_j` in `X_j` with an isomorphism
+`V_{j,ρ} ≅ Z_j × D^d(ρ)`, `D^d(ρ) = {|t_1|, …, |t_d| < ρ}` the open polydisc, under which `i|_{Z_j}`
+is the zero section `t = 0` and the projection `V_{j,ρ} → Z_j` restricts to the identity on `Z_j`;
+for `ρ' < ρ` the isomorphisms are compatible with `D^d(ρ') ⊆ D^d(ρ)`; and the `V_{j,ρ}`, `ρ < 1`,
+are cofinal among the admissible open neighbourhoods of `Z_j` in `X_j` with quasi-compact
+complement (Kiehl67 Thm. 1.18, for rigid spaces, transported to dagger spaces along
+*dagger-to-rigid-functor* on the fringe stages; GK02 §1, proof of Prop. 1.7, p. 6, and proof of
+Prop. 1.16(B), p. 12, where the products are used locally on an admissible covering). (b)
+(Refinement on overlaps) on a finite overlap `X_j ∩ X_k` the two neighbourhood systems
+`V_{j,ρ} ∩ X_k` and `V_{k,ρ} ∩ X_j` are mutually cofinal (each contains a member of the other after
+shrinking `ρ`), so that for a sheaf `F` on `X` the colimit `colim_V RΓ(V, F)` over admissible open
+neighbourhoods `V ⊇ Z` with quasi-compact complement is computed by the Čech complex of the
+covering `(X_j)` with the chart-local colimits `colim_ρ RΓ(V_{j,ρ}, F)` on the simplices; this is
+the form in which *compact-support-log-comparison*, *dagger-local-cohomology-comparison* (b) and
+the closed-immersion case of *dagger-d-module-direct-image* consume it (the polydisc factor
+contributes `K` in degree `0` by *dagger-polyannulus-de-rham-cohomology*). (c) (Local branches of
+an SNC divisor) for a strict normal crossings divisor `D ⊆ X` (*dagger-snc-divisor*), on a chart
+`X_j` with `D ∩ X_j = V(x_1 ⋯ x_r)` the branches `B_{j,1} = V(x_1), …, B_{j,r} = V(x_r)` are
+determined by `D` up to order (they are the irreducible components of `D` locally at each point of
+the chart), so on an overlap `X_j ∩ X_k` the branches of the two charts match under a unique
+bijection; the strata `D_I`, `I ⊆ {1, …, r}`, are therefore defined chart by chart as the
+intersections `⋂_{i∈I} B_{j,i}` and glue, for each `s = |I|`, to a smooth dagger space `D^{(s)}`
+of pure codimension `s` with a finite map `ι_s : D^{(s)} → X` (`D^{(1)}` is the normalisation of
+`D`, and `D^{(s)}` the normalisation of the locus of `s`-fold points); the complexes
+`ι_*Ω^•_{D_I}` of *compact-support-localisation-maps* (a) are the chart-local pieces of
+`ι_{s*}Ω^•_{D^{(s)}}`, the descent being along the branch bijections of the overlaps, with the
+sign of the branch permutation. Prove that the resolution of the cokernel of
+`Ω^•_X(log D)(−D) → Ω^•_X` by the `ι_{s*}Ω^•_{D^{(s)}}`, formed chart by chart from the smooth
+branches, glues to a global resolution, and that applying (a)–(b) to the smooth closed immersions
+`D^{(s)} → X` (on the charts, where `D^{(s)}` is a disjoint union of the `D_I`) computes
+`colim_V RΓ(V, Ω^•_X)` over neighbourhoods `V ⊇ D` by the same Čech descent, compatibly with
+the localisation maps. No global product neighbourhood of `Z` in `X` is asserted. *Needs:*
+*dagger-smooth-space*; *dagger-coherent-module*; *dagger-to-rigid-functor*; *dagger-snc-divisor*;
+*dagger-polyannulus-de-rham-cohomology*; *de-rham-cohomology-with-supports*.
+
+**Checks.**
+
+- Degenerate: for the zero section `Z = {t = 0} ⊆ Z × D^d(1)` of a product with an open polydisc,
+  one chart suffices and `V_ρ = Z × D^d(ρ)` with the identity isomorphism.
+- Computation: for a `K`-rational point of the closed dagger disc `D^1`, `V_ρ = {|t| < ρ}`,
+  `colim_ρ RΓ(V_ρ, Ω^•) = K` in degree `0` (*dagger-polyannulus-de-rham-cohomology*), and the
+  supports sequence gives `H^2_{{0}}(D^1, Ω^•) = K`, the Gysin class of the point.
+- Non-example (global product): a hyperplane `H ⊆ (P^n)^†`, `n ≥ 1`, has no admissible open
+  neighbourhood isomorphic to `H × D^1(ρ)` with `H` as the zero section, since such an isomorphism
+  would trivialise the normal bundle `O_H(1)`; the theorem is local on `(P^n)^†` and the charts
+  `X_j` of (a) may be taken to be the standard affinoid charts.
+- Control (local branches): for the analytified nodal cubic `D = V(y^2 − x^2(1 + x))` of
+  *dagger-snc-divisor*, `D` is irreducible and singular, `D^{(1)}` is its normalisation (two
+  branches `y = ±x√(1 + x)` on the chart `|x| < 1` around the node, one branch elsewhere) and
+  `D^{(2)}` is the node; the resolution of the cokernel of `Ω^•(log D)(−D) → Ω^•` is
+  `ι_{1*}Ω^•_{D^{(1)}} → ι_{2*}Ω^•_{D^{(2)}}`, and no globally smooth component is removed first.
+- Control (descent): on an overlap of two charts around a point where exactly two branches meet,
+  swapping the branch labels changes the sign of the map `ι_{1*}Ω^•_{D^{(1)}} → ι_{2*}Ω^•_{D^{(2)}}`
+  and nothing else, which is the only compatibility the glueing needs.
+
 **Local cohomology of the de Rham complex along closed subspaces: algebraic versus topological
 supports, Gysin isomorphism and independence of the embedding.** (*dagger-local-cohomology-comparison*)
 Let `K` be of characteristic 0 (complete, nonarchimedean), `X` a smooth `K`-dagger space and `Y → X` a
@@ -5484,7 +5547,9 @@ naturality; the derived functors give independence of injective resolutions
 (Gysin) if `X` is smooth and pure-dimensional and `Y` is smooth of pure codimension `d` in `X`,
 `H^i_Y(X, Ω^•_X) ≅ H^{i−2d}_dR(Y)` for all
 `i`, from (f) of *dagger-algebraic-local-cohomology* and the compatibility of `DR` with direct
-images (*dagger-d-module-direct-image*; GK02 §1, Prop. 1.10, p. 7). Independence of the embedding and the invariants `h^dR_q` are the
+images (*dagger-d-module-direct-image*; GK02 §1, Prop. 1.10, p. 7), the local computation being
+made on the chart-local tubular neighbourhoods `Y_j × D^d(ρ)` of *dagger-tubular-neighbourhood*
+(a)–(b), the same geometric input as the compact-support comparison. Independence of the embedding and the invariants `h^dR_q` are the
 object of *dagger-hdr-embedding-independence*, because they rest on the trace of
 *dagger-proper-projection-trace*, which itself uses (b). For `Z` a `K`-rational point of the closed
 dagger polydisc `D^n`, `H^{2n}_Z(D^n, Ω^•) ≅ H^0_dR(point) = K` and the other `H^i_Z` vanish (Gysin
@@ -5544,9 +5609,18 @@ spaces). Prove that for closed immersions `g_i : Z → Y_i` (`i = 1, 2`) into sm
 `K`-dagger spaces of pure dimensions `n_i`,
 `RΓ(Y_1, DR(RΓ*_Z O_{Y_1}))[2n_1] ≅ RΓ(Y_2, DR(RΓ*_Z O_{Y_2}))[2n_2]`; consequently, for an affinoid
 `K`-dagger space `Z` and a closed immersion `Z → Y` into a smooth affinoid dagger space of pure
-dimension `n`, `h^dR_q(Z) := dim_K H^{2n−q}(Y, DR(RΓ*_Z O_Y)) = dim_K H^{2n−q}_Z(Y, Ω^•_Y)`
-(*dagger-local-cohomology-comparison* (a)) depends only on `Z` (GK02 §1, Cor. 1.12, p. 10, with the
-trace isomorphism as the key input of its proof; the definition of `h^dR_q` GK02 §1, 1.13, p. 10). For
+dimension `n`, the invariant `h^dR_q(Z) := dim_K H^{2n−q}(Y, DR(RΓ*_Z O_Y))`, defined by algebraic
+supports, depends only on `Z`; its embedding independence uses the algebraic trace theorem and no
+resolution hypothesis (GK02 §1, Cor. 1.12, p. 10, with the trace isomorphism as the key input of
+its proof; the definition of `h^dR_q` GK02 §1, 1.13, p. 10). Separately, under (RES) of F1.11,
+*dagger-local-cohomology-comparison* (a) identifies it with `dim_K H^{2n−q}_Z(Y, Ω^•_Y)`, the
+dimension of de Rham cohomology with topological supports, for arbitrary closed `Z`; for smooth
+`Z` that identification is unconditional. The two statements are kept apart: the definition and
+its invariance never assume (RES), and the topological reading inherits (RES) wherever it is used.
+A finite extension `K'/K` acts on the invariant through base change of the algebraic supports
+(`RΓ*_{Z_{K'}} O_{Y_{K'}} = RΓ*_Z O_Y ⊗_K K'`, as `O_X/J^n ⊗_K K'` is the quotient by the
+extended ideal power), not through the topological comparison, so no (RES) is needed there
+either. For
 `Z` a `K`-rational point, `h^dR_0(Z) = 1` and `h^dR_q(Z) = 0` for `q ≠ 0`, whether `Z` is embedded in
 `D^1` or in `D^2`; `Z = ∅` gives `h^dR_q = 0`; the disc in itself has `h^dR_2 = 1`. *Needs:*
 *dagger-local-cohomology-comparison*; *dagger-proper-projection-trace*;
@@ -6122,9 +6196,13 @@ that (a) restriction of forms gives an exact sequence of complexes
 `0 → Ω^•_X(log D)(−D) → Ω^•_X(log D')(−D') → ι_*Ω^•_{D_1}(log D'_1)(−D'_1) → 0`, hence a long exact
 localisation sequence `… → H^i_dR(X, D)_! → H^i_dR(X, D')_! → H^i_dR(D_1, D'_1)_! → H^{i+1}_dR(X, D)_! → …`
 on the object of *compact-support-log-complex*; for
-`D' = ∅` this is `0 → Ω^•_X(log D_1)(−D_1) → Ω^•_X → ι_*Ω^•_{D_1} → 0`; iterating over the components,
-the cokernel of `Ω^•(log D)(−D) → Ω^•_X` is resolved by the complexes `ι_*Ω^•_{D_I}` of the strata
-`D_I = ⋂_{i∈I} D_i`; and (b) for an admissible open
+`D' = ∅` this is `0 → Ω^•_X(log D_1)(−D_1) → Ω^•_X → ι_*Ω^•_{D_1} → 0`; here `D_1` is a smooth
+branch on a chart of an admissible affinoid covering (*dagger-snc-divisor*), not a global
+irreducible component, which need not be smooth; iterating over the branches of a chart, the
+cokernel of `Ω^•(log D)(−D) → Ω^•_X` is resolved on the chart by the complexes `ι_*Ω^•_{D_I}` of the
+strata `D_I = ⋂_{i∈I} D_i`, and these glue over the charts, by the branch bijections on overlaps
+with the sign of the permutation, to the global resolution by `ι_{s*}Ω^•_{D^{(s)}}` of
+*dagger-tubular-neighbourhood* (c); and (b) for an admissible open
 `U ⊆ X` with complement `Y` and a closed `Z ⊆ Y`, the supports sequence
 `… → H^i_Z(X) → H^i_Y(X) → H^i_{Y−Z}(X − Z) → …` (see *de-rham-cohomology-with-supports*) gives, for
 an affinoid subdomain `U_0 ⊂† X`, the extension-by-zero map `H^i_{dR,c}(U_0) → H^i_{dR,c}(X)` and
@@ -6137,7 +6215,8 @@ GK02 §1, 1.9 (c), p. 7, for local cohomology along intersections of boundary co
 `H_dR(X, {∞})_! = (0, 0, K)` (the affine line has compactly supported cohomology `K` in degree 2):
 the connecting map `H^0_dR({0}) = K → H^1_dR(X, D)_! = K` is an isomorphism.
 *Needs:* *compact-support-log-complex*; *log-de-rham-complex*; *dagger-snc-divisor*;
-*dagger-coherent-module*; *de-rham-cohomology-with-supports*; *compact-support-de-rham*.
+*dagger-tubular-neighbourhood*; *dagger-coherent-module*; *de-rham-cohomology-with-supports*;
+*compact-support-de-rham*.
 
 **Checks.**
 
@@ -6159,13 +6238,19 @@ and with the localisation sequences of *compact-support-localisation-maps*, whic
 quasi-compact, `Rp_{U!}Ω^•_U` is the colimit, over the admissible open neighbourhoods `V ⊇ D` with
 quasi-compact complement, of the cohomology of `X` with supports in `X − V`
 (*de-rham-cohomology-with-supports*, with excision); the cokernel of `Ω^•(log D)(−D) → Ω^•_X` is
-resolved by the complexes `ι_*Ω^•_{D_I}` of the strata (*compact-support-localisation-maps*), and
-the colimit over `V` of `RΓ(V, Ω^•_X)` is computed stratum by stratum on tubular neighbourhoods
-`D_I × (open polydisc)` (Kiehl's tubular neighbourhood theorem, as used in GK02 §1, proof of
-Prop. 1.16(B)), the open polydisc contributing `K` in degree `0` by
-*dagger-polyannulus-de-rham-cohomology*; GK02 §1, 1.6, defines `Rp_!`, and Stacks Tag 0FMU supplies
-the residue resolution. *Needs:* *compact-support-log-complex*; *compact-support-localisation-maps*;
-*compact-support-de-rham*; *dagger-d-module-direct-image*; *de-rham-cohomology-with-supports*;
+resolved by the complexes `ι_{s*}Ω^•_{D^{(s)}}` of the local branches and their intersections
+(*compact-support-localisation-maps* (a), glued as in *dagger-tubular-neighbourhood* (c); the
+global irreducible components of `D` need not be smooth), and the colimit over `V` of
+`RΓ(V, Ω^•_X)` is computed chart by chart on the tubular neighbourhoods `D_I × D^{|I|}(ρ)` of
+*dagger-tubular-neighbourhood* (a), with the Čech descent of (b) on the finite overlaps after
+shrinking `ρ` (GK02 §1, proof of Prop. 1.16(B), where the products are local on an admissible
+covering), the open polydisc contributing `K` in degree `0` by
+*dagger-polyannulus-de-rham-cohomology*; the local identifications of the neighbourhood colimit
+with the boundary quotient glue to the global comparison and commute with the localisation maps
+because both are formed from the same chart-local branch resolution; GK02 §1, 1.6, defines
+`Rp_!`, and Stacks Tag 0FMU supplies the residue resolution. *Needs:* *compact-support-log-complex*;
+*compact-support-localisation-maps*; *dagger-tubular-neighbourhood*; *compact-support-de-rham*;
+*dagger-d-module-direct-image*; *de-rham-cohomology-with-supports*;
 *dagger-polyannulus-de-rham-cohomology*; *partially-proper-dagger-rigid-equivalence*.
 
 **Checks.**
@@ -6718,6 +6803,7 @@ the boundary product as well as the coefficient, so its connection contains the 
 - [Bosch-Lectures] Siegfried Bosch, *Lectures on Formal and Rigid Geometry*, Münster preprint, §2.6, Propositions 4, 6–7, pp. 147–150. https://www.uni-muenster.de/IVV5WS/WebHop/user/weckerm/heft378.pdf
 - [BL I] Siegfried Bosch, Werner Lütkebohmert, *Formal and rigid geometry I. Rigid spaces*, Math. Ann. 295 (1993), 291–317, Proposition 2.1, p. 299. https://gdz.sub.uni-goettingen.de/id/PPN235181684_0295
 - [Kiehl-AB] Reinhardt Kiehl, *Theorem A und Theorem B in der nichtarchimedischen Funktionentheorie*, Invent. Math. 2 (1967), 256–273. https://gdz.sub.uni-goettingen.de/id/PPN356556735_0002
+- [Kiehl67] Reinhardt Kiehl, *Die de Rham Kohomologie algebraischer Mannigfaltigkeiten über einem bewerteten Körper*, Publ. Math. IHÉS 33 (1967), 5–20. http://www.numdam.org/item/PMIHES_1967__33__5_0/
 - [Conrad-IC] Brian Conrad, *Irreducible components of rigid spaces*, Ann. Inst. Fourier 49 (1999); author PDF irredpaper.pdf. https://math.stanford.edu/~conrad/papers/irredpaper.pdf
 - [GK00] Elmar Grosse-Klönne, *Rigid analytic spaces with overconvergent structure sheaf*, arXiv:1408.3329v1 (14 Aug 2014), author's version of J. reine angew. Math. 519 (2000) 73–95, with a footnote to Lemma 4.7 correcting the published hypotheses. https://arxiv.org/abs/1408.3329
 - [Kedlaya06] Kiran S. Kedlaya, *Finiteness of rigid cohomology with coefficients*, arXiv:math/0208027v6 (Duke Math. J. 134 (2006) 15–97), with the author's errata file https://kskedlaya.org/papers/finiteness-errata.txt. https://arxiv.org/abs/math/0208027
