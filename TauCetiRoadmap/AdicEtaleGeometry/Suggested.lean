@@ -14,6 +14,7 @@ import TauCeti.RingTheory.Huber.PowerBounded
 import TauCeti.RingTheory.Huber.StronglyNoetherian
 import TauCeti.RingTheory.Huber.WeightedRestrictedSeries.Completion
 import TauCetiRoadmap.AdicSpacesPartIII.Suggested
+import TauCetiRoadmap.PerfectoidSpaces.Suggested
 
 /-!
 # Analytic adic geometry for diamonds: representative target signatures
@@ -32,7 +33,8 @@ carriers:
 * A3: pseudocoherent and stably pseudocoherent modules, Kedlaya–Liu's acyclicity in its sheafy
   form, standard étale presentations;
 * A4: rings without nonsplit finite étale covers, finite étale torsors and the torsor tower, the
-  ring core of Scholze's Lemma 15.3, and the orbit description of `Spa` of a torsor.
+  ring core of Scholze's Lemma 15.3 (its conclusion is PerfectoidSpaces' perfectoid Tate-ring
+  predicate, the one shared by every roadmap), and the orbit description of `Spa` of a torsor.
 
 The étale, finite étale and pro-étale sites, strict localisations, Yoneda-adic spaces, the
 completed tower and the perfectoid torsor presentation are README targets.
@@ -49,48 +51,6 @@ namespace TauCetiRoadmap.AdicEtaleGeometry
 open TauCeti TauCeti.Huber
 open TauCetiRoadmap.AdicSpacesPartII TauCetiRoadmap.AdicSpacesPartII.Huber
 
-/-! ## Perfectoid Tate rings -/
-
-namespace PerfectoidInput
-
-/-- A perfectoid Tate ring for a prime `p`: a complete Hausdorff uniform Tate ring with a
-pseudouniformiser `ϖ ∈ A°` such that `ϖ ^ p ∣ p` in `A°` and Frobenius is surjective on `A° / p`
-(Scholze, ECD, §3, Def. 3.1, p. 14; the modulo-`p` form of PerfectoidSpaces P1.1). -/
-structure IsPerfectoidTateRing (p : ℕ) (A : Type*) [CommRing A] [TopologicalSpace A]
-    [IsTopologicalRing A] : Prop where
-  /-- The residue parameter is prime. -/
-  prime : p.Prime
-  /-- `A` is complete for its canonical uniformity. -/
-  completeSpace : @CompleteSpace A (IsTopologicalAddGroup.rightUniformSpace A)
-  /-- `A` is Hausdorff. -/
-  t2Space : T2Space A
-  /-- `A` is a Tate ring. -/
-  isTateRing : IsTateRing A
-  /-- `A` is uniform: the power-bounded subring `A°` is bounded. -/
-  isBounded_powerBoundedSubring :
-    haveI := isTateRing
-    IsBounded (powerBoundedSubring A : Set A)
-  /-- There is a pseudouniformiser `ϖ ∈ A°` with `ϖ ^ p ∣ p` in `A°`. -/
-  exists_isPseudoUniformizer_pow_dvd :
-    haveI := isTateRing
-    ∃ ϖ : powerBoundedSubring A, IsPseudoUniformizer (ϖ : A) ∧ ϖ ^ p ∣ (p : powerBoundedSubring A)
-  /-- Frobenius `x ↦ x ^ p` is surjective on `A° / p`. -/
-  surjective_frobenius :
-    haveI := isTateRing
-    Function.Surjective fun x : powerBoundedSubring A ⧸ Ideal.span {(p : powerBoundedSubring A)} ↦
-      x ^ p
-
-/-- `ℚ_p` is not perfectoid: Frobenius on `ℤ_p / p = 𝔽_p` is surjective, but no
-pseudouniformiser `ϖ` of `ℤ_p` has `ϖ ^ p ∣ p`, since `v(ϖ) ≥ 1`. -/
-example (p : ℕ) [Fact p.Prime] : ¬ IsPerfectoidTateRing p ℚ_[p] := sorry
-
-/-- The prime is part of the data: no ring is perfectoid for `p = 4`. -/
-example (A : Type*) [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] :
-    ¬ IsPerfectoidTateRing 4 A := fun h ↦ by
-  have := h.prime
-  norm_num at this
-
-end PerfectoidInput
 
 /-! ## Layer A0: completed tensor products and the fibre products actually used -/
 
@@ -1186,7 +1146,7 @@ topologically nilpotent is perfectoid (Scholze, ECD, Lemma 15.3, p. 90; Berkeley
 p. 75). -/
 theorem isPerfectoid_of_isFiniteEtaleSplit (p : ℕ) [Fact p.Prime]
     (hp : IsTopologicallyNilpotent (p : R)) (hu : IsBounded (powerBoundedSubring R : Set R)) :
-    PerfectoidInput.IsPerfectoidTateRing p R := sorry
+    TauCetiRoadmap.PerfectoidSpaces.Perfectoid.IsPerfectoidTateRing p R := sorry
 
 end SplitTate
 

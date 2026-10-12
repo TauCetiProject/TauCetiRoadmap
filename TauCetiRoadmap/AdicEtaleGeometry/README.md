@@ -1145,7 +1145,7 @@ p. 540). R2 also covers henselian `A` ([H96] §3.2, Ex. 3.2.11, p. 181), complet
 ## Layer A3: the nonnoetherian affinoid étale approximation input
 
 This layer proves [ECD] §6, Prop. 6.4(iv), p. 27: for a cofiltered system of affinoid perfectoid
-spaces `X_i = Spa(R_i, R_i⁺)` (`PerfectoidInput.IsPerfectoidTateRing`) with limit `X`, base change
+spaces `X_i = Spa(R_i, R_i⁺)` (PerfectoidSpaces' `Perfectoid.IsPerfectoidTateRing`) with limit `X`, base change
 gives an equivalence `2-colim_i (X_i)_{ét,aff} → X_{ét,aff}`. Full faithfulness is [ECD] 6.4(ii)
 (PerfectoidSpaces P5); essential surjectivity is built by analytic algebra over perfectoid and
 sousperfectoid bases, with no diamonds and no [ECD] 5.8, 11.30 or 15.6. The Kedlaya–Liu
@@ -1574,7 +1574,7 @@ show both are needed. (*perfectoid-uniform-completion*) So for `A` complete Tate
 topologically nilpotent, any `A⁺` and any tower, `(Â_∞, Â_∞⁺)` is perfectoid with continuous
 `G`-action ([ECD] §15, Lem. 15.3, p. 90, completeness added; [Berkeley] Lecture 10, Lem. 10.1.6,
 p. 75); over non-complete `ℚ_p[T]` this fails (`T` is no `p`-th power mod `p`). Lean:
-`Huber.isPerfectoid_of_isFiniteEtaleSplit` (as `PerfectoidInput.IsPerfectoidTateRing`); rest README.
+`Huber.isPerfectoid_of_isFiniteEtaleSplit` (its conclusion is PerfectoidSpaces' `Perfectoid.IsPerfectoidTateRing`); rest README.
 
 ### A4.7 adic spectra of the tower
 
