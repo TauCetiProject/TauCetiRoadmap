@@ -46,16 +46,22 @@ carriers.
 ```text
 AdicSpacesPartII R0–R1, AdicSpacesPartIII F0/R2 → A0
 A0, AdicSpacesPartII R0, AdicSpacesPartIII R3, DiamondsAndVStacks D0 → A1
-A1, AdicSpacesPartII R0–R1, AdicSpacesPartIII F0/R2 → A2   (A2.6 alone also compares with AdicSpacesPartIV R4's analytification/étale-site statements)
+A1, AdicSpacesPartII R0–R1, AdicSpacesPartIII F0/R2 → A2   (A2.7 alone also compares with AdicSpacesPartIV R4's analytification/étale-site statements)
 A1, AdicSpacesPartII R0, AdicSpacesPartIII R3, AdicSpacesPartIV R5.6–R5.8 (generic stable bases), PerfectoidSpaces P1–P3, P5 (finite-stage inputs) → A3
-A1, A3, AdicSpacesPartII R0, PerfectoidSpaces P1–P3, P5–P6, PerfectoidTowers P9.1–P9.4 → A4 → DiamondsAndVStacks D6
+A4.2 (finite étale torsor algebra, canonical Galois map) → PerfectoidTowers P9.10's algebraic subtarget *finite-galois-descent-of-modules* only → A4.5 (effective descent along the completed tower)
+A1, A3, A4.2, AdicSpacesPartII R0, PerfectoidSpaces P1–P3, P5–P6 → A4 (completed tower, self-product, perfectoid presentation) → PerfectoidTowers P9.4–P9.5 (applications to prescribed towers and their Čech nerves)
+A4.8–A4.9 (analytic presentation interfaces) → DiamondsAndVStacks D6
 ```
 
 The arrows are subsection-level and acyclic: AdicSpacesPartIV R4 and R5.1–R5.5 *consume* A1's
 sites and re-export them, so they are not suppliers of A0 or A1; A3's affinoid-étale
 approximation and assembly interface is consumed by PerfectoidSpaces P6 and by A4; A4's analytic
-torsor presentation precedes DiamondsAndVStacks D6. A whole-folder import in the opposite
-direction never stands in for one of these atomic edges.
+torsor presentation precedes DiamondsAndVStacks D6. PerfectoidTowers P9.4–P9.5 are *consumers* of A4's
+*finite-etale-torsor-tower*, *completed-tower-pair*, *perfectoid-cover-presentation* and
+self-product comparison, not suppliers; the only P9 input of A4 is the algebraic finite-group
+module-descent subtarget of P9.10, which uses A4.2 and nothing later, and its character-sheaf and
+coefficient applications in the same subsection are not prerequisites. A whole-folder import in
+the opposite direction never stands in for one of these atomic edges.
 
 ## Scope and ownership
 
