@@ -5497,15 +5497,17 @@ of the chart, so they are determined by `D` up to order *locally*: branch matchi
 charts is defined after a common refinement, at each point of an overlap, and not as a bijection
 between the full branch lists of the two charts — branches can disappear on an overlap (for
 `D = V(xy)` a chart meeting both axes has two branches, while on the locus `x ≠ 0` only `V(y)`
-survives). The indexing data is therefore the sheaf `E` of local branches of `D` (a locally
-constant sheaf of finite sets on `D`, of stalk the set of branches at a point) and, for each
-`s`, the space `D^{(s)}` of pairs (point, `s`-element subset of the branches through it), a smooth
-dagger space of pure codimension `s` with a finite map `ι_s : D^{(s)} → X` that is *not* a closed
-immersion in general (`D^{(1)}` is the normalisation of `D`, `D^{(2)}` the normalisation of the
-locus of double points); on a chart, `D^{(s)}` is the disjoint union of the strata
-`D_I = ⋂_{i∈I} B_{j,i}`, `|I| = s`, and the tubular neighbourhoods of (a) are applied to each
-local immersion `D_I → X_j`. Let `E_s` be the local system on `D^{(s)}` of the `s` selected branches
-and `ε_s := ⋀^s K^{E_s}` its orientation line, a rank-one local system whose transition under a
+survives). Use the chart-local branch data, with restrictions deleting branches that miss a
+refinement; the full branch set is *not* locally constant on `D` (its cardinality drops from the
+node of `V(xy)` to the nearby points `(a, 0)`, `a ≠ 0`), and no global branch sheaf is asserted.
+For each `s ≥ 1`, construct `D^{(s)}` by glueing the chart-local disjoint unions of the strata
+`D_I = ⋂_{i∈I} B_{j,i}`, `|I| = s`, along the common-refinement branch data: a smooth dagger space
+of pure codimension `s` with a finite map `ι_s : D^{(s)} → X` that is *not* a closed immersion in
+general (`D^{(1)}` is the normalisation of `D`, `D^{(2)}` the normalisation of the locus of double
+points), and the tubular neighbourhoods of (a) are applied to each local immersion `D_I → X_j`.
+Let `E_s` be the rank-`s` local system on `D^{(s)}` of the `s` selected branches (of constant
+cardinality `s`, so genuinely locally constant there) and `ε_s := ⋀^s K^{E_s}` its orientation
+line, a rank-one local system whose transition under a
 relabelling of the branches is the sign of the induced permutation. The chart-local complexes
 `ι_*Ω^•_{D_I}` of *compact-support-localisation-maps* (a) glue to the complexes
 `ι_{s*}(Ω^•_{D^{(s)}} ⊗_K ε_s)` with alternating face maps — signed descent of differential forms
@@ -5555,8 +5557,8 @@ geometric statements (a), (b1)–(b3) and the branch descent hold for every `K`)
   normalisation and `ε_2` the orientation line of the two branches at the node; no globally smooth
   component is removed first, and the nodal example remains in scope.
 - Control (disappearing branch): for `D = V(xy)` in the bidisc, the chart `|x|, |y| ≤ 1` has
-  branches `V(x)`, `V(y)` and the sub-chart `|x| = 1` has the single branch `V(y)`; `E` restricts to
-  the surviving branch and `D^{(2)}` is empty over the sub-chart, so the matching is local and not
+  branches `V(x)`, `V(y)` and the sub-chart `|x| = 1` has the single branch `V(y)`; the chart-local
+  branch data restricts to the surviving branch and `D^{(2)}` is empty over the sub-chart, so the matching is local and not
   a bijection of the two branch lists.
 - Control (two-branch transitions, both degrees): on a chart where exactly two branches `B_1, B_2`
   meet in `B_{12}`, the complex is `O_{B_1} ⊕ O_{B_2} → O_{B_{12}} ⊗ ε_2` and
@@ -5565,7 +5567,8 @@ geometric statements (a), (b1)–(b3) and the branch descent hold for every `K`)
   `e_{12} ↦ e_{21} = −e_{12}` on `ε_2`, and `δ ∘ τ = −δ = (−1) ⊗ δ`, so both squares commute, and
   the exterior derivative `d` commutes with them because `d` is `K`-linear and the transitions are
   restrictions and signs. Composition of two relabellings multiplies the signs, and a refinement
-  to a sub-chart on which a branch disappears restricts `E_s` to the surviving subsets; these are
+  to a sub-chart on which a branch disappears restricts the chart-local branch data, hence `E_s`, to
+  the surviving subsets; these are
   the compatibilities the descent needs.
 
 **Local cohomology of the de Rham complex along closed subspaces: algebraic versus topological
