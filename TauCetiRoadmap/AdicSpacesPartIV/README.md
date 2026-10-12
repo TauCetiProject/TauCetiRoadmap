@@ -11,25 +11,40 @@ boundary — with the restriction of both sites to the boundary complement and t
 localisation, finite étale maps and Tate algebras, uniformity, sheafiness), proves that the product
 of a perfectoid space with a smooth rigid space exists and is sousperfectoid with a tilde-limit
 presentation (Birkbeck–Heuer–Williams, Corollaries 3.4–3.5), and builds the coefficient algebras and
-sheaves `𝒪_X ⊗̂ R` of Chojecki–Hansen–Johansson with Tate acyclicity, localisation, coherence and
-Kiehl's theorem, correcting two of their lemmas. Layer F1 is Grosse-Klönne's dagger geometry:
-overconvergent power series, dagger algebras and their completions, weak completions and algebras of
-Monsky–Washnitzer type, dagger spaces and their comparison with rigid spaces, and overconvergent de
-Rham cohomology with supports and compact supports, ending with Serre and Poincaré duality,
-finiteness for smooth quasi-compact dagger spaces (Theorem A), invariance on semistable tubes
-(Theorem C), Künneth and the logarithmic complexes of smooth pairs.
+sheaves `𝒪_X ⊗̂ R` of Chojecki–Hansen–Johansson with Tate acyclicity, localisation and coherence,
+Kiehl's theorem for finite free coefficient algebras and projectivity of locally projective
+localised modules for every small coefficient algebra, together with counterexamples to two of their
+lemmas for coefficient algebras with an infinite pseudobasis. Layer F1 is Grosse-Klönne's dagger
+geometry: overconvergent power series, dagger algebras and their completions, weak completions and
+algebras of Monsky–Washnitzer type, dagger spaces and their comparison with rigid spaces, the
+differential operators and overconvergent de Rham cohomology with supports and compact supports,
+ending with Serre and Poincaré duality, invariance on semistable tubes (Theorem C), the logarithmic
+complexes of smooth pairs, and finiteness for smooth quasi-compact dagger spaces (Theorem A) with
+Künneth, proved from finiteness of Monsky–Washnitzer cohomology and embedded resolution, which these
+statements carry as hypotheses.
 
 | Layer | Title | What it builds |
 |---|---|---|
 | R4 | Étale and pro-étale sites | the sites of AdicEtaleGeometry A1 on locally noetherian analytic spaces, rigid and algebraic comparisons, smooth pairs, boundary complements |
 | R5 | Families and sousperfectoid spaces | sousperfectoid rings and spaces, perfectoid × smooth, tilde-limits, coefficient algebras and sheaves |
-| F1 | Dagger geometry and overconvergent de Rham complexes | dagger algebras and spaces, weak completions, de Rham cohomology with supports, duality, finiteness |
+| F1 | Dagger geometry and overconvergent de Rham complexes | dagger algebras and spaces, weak completions, differential operators, de Rham cohomology with supports, duality, finiteness relative to Monsky–Washnitzer finiteness |
 
 ```text
 AdicSpacesPartII R0–R1, AdicEtaleGeometry A1, SchemeAndStackFoundations SF.4 → R4
-R4, AdicSpacesPartII R0, AdicSpacesPartIII F0/R2/R3, AdicEtaleGeometry A1 → R5
-AdicSpacesPartII R0–R1, AdicSpacesPartIII R2/R3, R4, SchemeAndStackFoundations SF.0/SF.4 → F1
+R4, AdicSpacesPartII R0, AdicSpacesPartIII F0/R2/R3, AdicEtaleGeometry A1 → R5.6–R5.8
+AdicSpacesPartII R0, AdicSpacesPartIII R3, AdicEtaleGeometry A1, R5.6–R5.8,
+  PerfectoidSpaces P1.1/P1.10/P1.30/P1.31/P2.3/P2.9/P2.10/P3.10 → R5.1–R5.5
+AdicSpacesPartII R0–R1, AdicSpacesPartIII R2/R3, R4, SchemeAndStackFoundations SF.0/SF.4,
+  PerfectoidSpaces P3.1 → F1
 ```
+
+The arrows run between subsections, not whole roadmaps. R5.6–R5.8 (coefficient algebras and
+sheaves, the generic stable-basis results *stable-basis-covering-reduction* and
+*stable-basis-etale-vector-bundles*, tilde-limits) use no PerfectoidSpaces target; PerfectoidSpaces
+P3.19 uses *stable-basis-etale-vector-bundles*, P6 uses R5.4 and P7.1 uses
+*tilde-limits-affinoid-criterion*, and none of the PerfectoidSpaces subsections that R5 uses depends
+on R5. F1 uses only PerfectoidSpaces P3.1 (Elkik's approximation theorem), which uses nothing from
+this roadmap.
 
 ## Scope and ownership
 
@@ -42,22 +57,33 @@ slices, the projection `ν` and geometric points are A1's and are cited. R5 owns
 and spaces, perfectoid frames, the product of a perfectoid space with a smooth rigid space, the
 intrinsic tilde-limit relation of adic spaces, the coefficient algebras of Chojecki–Hansen–Johansson
 (profinite flat modules, small `ℤ_p`-algebras, mixed completed tensor products) and the coefficient
-sheaves on affinoid rigid spaces. F1 owns overconvergent power series, dagger algebras, fringe
-presentations, dagger tensor products and rational localisation, weak completions and algebras of
-Monsky–Washnitzer type, affinoid dagger spaces, dagger spaces with coherent modules and strict
-neighbourhoods, the dagger–rigid comparison, overconvergent differentials and de Rham complexes,
-supports, compact supports and duality, finiteness, the logarithmic complexes of smooth dagger
-pairs, and the Runge factorisation of locally closed immersions of affinoids ([BGR] 7.3.5/1).
+sheaves on affinoid rigid spaces, with Kiehl's theorem for finite free coefficient algebras and
+projectivity of locally projective localised modules. Global generation of coherent coefficient
+sheaves for a coefficient algebra with an infinite pseudobasis (finite generation of `F(X)` and
+`F ≅ Loc(F(X))`, the statement of [CHJ] Thm. 6.20) is not a target of this roadmap. F1 owns
+overconvergent power series, dagger algebras, fringe presentations, dagger tensor products and
+rational localisation, weak completions and algebras of Monsky–Washnitzer type, affinoid dagger
+spaces, dagger spaces with coherent modules and strict neighbourhoods, the dagger–rigid comparison,
+overconvergent differentials and de Rham complexes, the differential operators, derived de Rham
+functor, direct images and algebraic local cohomology that its supported cohomology uses, supports,
+compact supports and duality, the logarithmic complexes of smooth dagger pairs, the Runge
+factorisation of locally closed immersions of affinoids ([BGR] 7.3.5/1), the algebraisation of
+smooth affinoids, and the finiteness theorems in the form "finiteness of Monsky–Washnitzer
+cohomology and embedded resolution imply finiteness". Those two inputs, (MWF) and (RES) of F1.11,
+are not targets of this roadmap: every statement that uses them carries them as hypotheses.
 
 AdicSpaces and AdicSpacesPartII own Huber pairs, adic spaces, completed tensor products, fibre
 products, Huber's morphism classes, rigid spaces and analytification; AdicSpacesPartIII owns adic
 rings, formal schemes, generic fibres, admissible blow-ups, coherent sheaves, Kiehl's theorems and
-GAGA; AdicEtaleGeometry owns the perfectoid Tate-ring predicate, strongly sheafy rings, étale
-morphisms by local description and the étale, pro-étale and finite étale sites; PerfectoidSpaces
-owns perfectoid spaces, almost purity and tilting; SchemeAndStackFoundations owns excellent rings
-(SF.0) and strict normal crossings divisors and de Jong's alteration theorem (SF.4). Derived étale
-cohomology, comparison theorems and rigid cohomology belong to the étale-cohomology and
-rigid-cohomology roadmaps that import this one.
+GAGA; PerfectoidSpaces P1.1 owns the perfectoid Tate-ring predicate
+`Perfectoid.IsPerfectoidTateRing`, which R5 uses unchanged; AdicEtaleGeometry owns strongly sheafy
+rings, étale morphisms by local description and the étale, pro-étale and finite étale sites;
+PerfectoidSpaces owns perfectoid spaces, perfectoid rational localisation, almost purity, tilting
+and Elkik's approximation theorem (P3.1); SchemeAndStackFoundations owns excellent rings (SF.0) and
+strict normal crossings divisors and de Jong's alteration theorem (SF.4). Derived étale cohomology,
+comparison theorems and rigid cohomology belong to the étale-cohomology and rigid-cohomology
+roadmaps that import this one; a proof there of (MWF) that discharges the hypothesis of F1.11 must
+not use F1.11.
 
 ## Conventions
 
@@ -80,6 +106,9 @@ rigid-cohomology roadmaps that import this one.
 8. `Γ* = √|K^×|` is the divisible hull of the value group, `T_n(ρ) = K⟨ρ^{-1}X_1, …, ρ^{-1}X_n⟩`,
    `T_n = T_n(1)`, `W_n = K⟨X_1, …, X_n⟩†`; a dagger algebra `A` has completion `Â` and integral
    subring `A^int`.
+9. A smooth space has pure dimension `n` when `dim O_{X,x} = n` at every point; statements with a
+   fixed degree shift (`n`, `2n`, `d`) or with `ω_X = Ω^n_X` assume pure dimension, and for other
+   smooth spaces hold on each open and closed pure-dimensional part.
 
 ## Exact supplier contracts
 
@@ -96,7 +125,8 @@ rigid-cohomology roadmaps that import this one.
 | Tau Ceti `IsCompactModule`, `MvPowerSeries.IsRestricted.gaussNorm_mul`, `PowerSeries.IsDistinguished`, `PowerSeries.IsDistinguished.existsUnique_mul_add_eq`, `LinearMap.isStrictMap_of_module_finite` | `TauCeti/Topology/Algebra/Module/Compact.lean:294`; `TauCeti/RingTheory/MvPowerSeries/TateAlgebra/Basic.lean:241`; `TauCeti/RingTheory/PowerSeries/GaussNorm.lean:122`; `Weierstrass/Division.lean:485`; `TauCeti/RingTheory/Huber/StrictMorphism.lean:60` | Compact modules, multiplicativity of Gauss norms, Weierstrass division at a fixed radius, strictness of finite maps. |
 | AdicSpacesPartII `AdicSpace.Affinoid`, `Chart`, `Affinoid.IsInducedBy`, `IsAnalytic`, `IsAdic`, `LocallyOfWeaklyFiniteType`, `Smooth`, `Etale`, `Etale_affinoid`, `TateAlgebra.ofMvPolynomial`, `Huber.Affinoid.supNorm` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Affinoid charts, induced morphisms, Huber's morphism classes, the supremum seminorm; completed tensor products, fibre products, rigid spaces and analytification are its README targets, cited by label. |
 | AdicSpacesPartIII `IsAdicRing`, `AdicRing.CompletedTensorProduct`, `LinearMap.projectiveTrace` | `TauCetiRoadmap/AdicSpacesPartIII/Suggested.lean` | Adic rings, their completed tensor products, traces; formal schemes, generic fibres, coherent sheaves and Kiehl's theorems are its README targets. |
-| AdicEtaleGeometry `PerfectoidInput.IsPerfectoidTateRing`, `Huber.IsStronglySheafy`, `Huber.ratLoc`, `AdicSpace.restrict`, `AdicSpace.FibreProduct`, `AdicSpace.IsEtaleLocalDescription`, `AdicSpace.IsLocallyNoetherianAnalytic`, `AdicSpace.GeometricPoint` | `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | The perfectoid predicate, strong sheafiness, completed rational localisation, open subspaces, fibre products, étale morphisms; the sites are its README targets. |
+| PerfectoidSpaces `Perfectoid.IsPerfectoidTateRing` (P1.1) | `TauCetiRoadmap/PerfectoidSpaces/Suggested.lean` | The perfectoid Tate-ring predicate; perfectoid fields (P1.10), perfected Tate algebras (P1.30), `ℚ_p^cycl` (P1.31), rational localisation (P2.3), affinoid perfectoid and perfectoid spaces (P2.9–P2.10), finite étale algebras (P3.10) and Elkik's approximation theorem (P3.1) are cited by subsection. |
+| AdicEtaleGeometry `Huber.IsStronglySheafy`, `Huber.ratLoc`, `AdicSpace.restrict`, `AdicSpace.FibreProduct`, `AdicSpace.IsEtaleLocalDescription`, `AdicSpace.IsLocallyNoetherianAnalytic`, `AdicSpace.GeometricPoint` | `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | Strong sheafiness, completed rational localisation, open subspaces, fibre products, étale morphisms; the sites are its README targets. |
 
 ## How to read the build
 
@@ -363,8 +393,9 @@ pairs are stably uniform, sheafy and strongly sheafy. It defines sousperfectoid 
 étale stability, the stable basis and étale base change along them, constructs the product of a
 perfectoid space with a smooth rigid space with its tilde-limit presentation, and builds the
 coefficient algebras and sheaves of Chojecki–Hansen–Johansson. The perfectoid predicate throughout
-is AdicEtaleGeometry's `PerfectoidInput.IsPerfectoidTateRing` (complete, Hausdorff, uniform, Tate, a
-pseudouniformiser with `ϖ^p ∣ p` in `A°`, Frobenius surjective on `A°/p`).
+is PerfectoidSpaces P1.1's `Perfectoid.IsPerfectoidTateRing`: on a complete Hausdorff Tate ring,
+`A°` is bounded and some pseudouniformiser `ϖ ∈ A°` has `ϖ^p ∣ p` with Frobenius `A°/ϖ → A°/ϖ^p`
+bijective.
 
 ### R5.1 sousperfectoid rings
 
@@ -707,10 +738,13 @@ array at distance `1` from the exponentially bounded arrays) is a Lean `example`
 (*tate-kiehl-affinoid* applied to the underlying `𝒪_X`-module); (b) for any small `R`, if
 `F ≅ Loc(M)` with `M` finitely generated and `F` locally projective, then `M` is projective (full
 faithfulness of `Loc`, finite presentation, descent along the faithfully flat `ℛ(X) → ∏ ℛ(U_i)`;
-[CHJ] proof of Thm. 6.20, p. 53). Global generation of every coherent `F` for an infinite
-pseudobasis is the open question `F(X)` finite and `F ≅ Loc(F(X))`: [CHJ] Thm. 6.20 states it but
-its proof uses the false Lem. 6.19(2). Checks: the zero sheaf; the free sheaf on `ℕ` fails finite
-generation but is not coherent.
+[CHJ] proof of Thm. 6.20, p. 53). For `R` with an infinite pseudobasis, global generation of an
+arbitrary coherent `F` (`F(X)` finite and `F ≅ Loc(F(X))`) is not a target of this roadmap: [CHJ]
+Thm. 6.20 states it with a proof through the false Lem. 6.19(2), and neither the density
+counterexample (*coefficient-sheaf-dense-restriction*) nor the base-change counterexample
+(*coefficient-sheaf-base-change*) decides it; a consumer that needs it carries it as a hypothesis, as PerfectoidTowers P9 does.
+Checks: the zero sheaf; the free sheaf on `ℕ` fails finite generation but is not coherent; for
+`R = ℤ_p`, (a) is AdicSpacesPartIII's Kiehl theorem.
 
 **Base change to `C`.** (*coefficient-sheaf-base-change*) For `K` discretely valued, `C` the
 completed algebraic closure, `f : X_C → X`, `R` small and `M` finitely generated projective over
@@ -804,10 +838,16 @@ rings, *restricted-power-series-adic*, *completed-tensor-product-adic*), R2
 *tate-kiehl-affinoid*, *stably-uniform-sheafy*, *sheafy-cech-acyclicity*,
 *finite-projective-etale-descent*, *affinoid-completed-field-extension*); AdicEtaleGeometry A1
 (local-description étale morphisms, *finite-etale-affinoid-algebra*, *strongly-sheafy-huber-pair*,
-*basis-comparison*, *etale-covering-reduction*, *etale-structure-sheaf*) and the perfectoid
-Tate-ring predicate; PerfectoidSpaces P2 (perfectoid spaces) and P7 (towers); Tau Ceti uniform
-rings, rational localisation and compact modules; Mathlib adic completions, localised modules and
-flatness.
+*basis-comparison*, *etale-covering-reduction*, *etale-structure-sheaf*); Tau Ceti uniform rings,
+rational localisation and compact modules; Mathlib adic completions, localised modules and
+flatness. PerfectoidSpaces, by subsection: R5.1 uses P1.1 (the predicate) and P1.31; R5.2 uses
+P1.30, P1.31, P2.3 and P3.10; R5.4 uses P2.10; R5.5 uses P1.10, P1.30 and P2.9–P2.10. R5.3 uses no
+PerfectoidSpaces target beyond R5.2's, and R5.6–R5.8 use none: in particular
+*stable-basis-covering-reduction*, *stable-basis-etale-vector-bundles* and
+*tilde-limits-affinoid-criterion*, which PerfectoidSpaces P3.19 and P7.1 use, rest only on
+AdicEtaleGeometry A1, AdicSpacesPartII–III and [KL15]. R5.8 names PerfectoidSpaces P7 as a
+specialisation and does not use it, and in *tilde-limit-base-change* the fibre products are
+hypotheses, which *perfectoid-times-smooth-fibre-product* supplies in the BHW case.
 
 ## Layer F1: dagger geometry and overconvergent de Rham complexes
 
@@ -925,15 +965,36 @@ kills the coordinate; completing `W_1/(X²)` keeps a nonzero `X` with `X² = 0`.
 radius; (b) `1 − a` is a unit for `|a|_sup < 1`; (c) `a` is a unit iff its image in `Â` is ([GK00]
 §1, 1.9). Lean: `Dagger.isUnit_iff_isUnit_completion`.
 
-**Finite extensions.** (*dagger-finite-extension*) A finite `A`-algebra `B` is a dagger algebra;
-with `A = W_n/I`, `B = (W_n/J)[X]/(f)`, `B ≅ W_{n+1}/(J + f)` with stages `T_{n+1}(λ)/(J + f)`
-([GK00] §1, Lem. 1.10). Lean: `Dagger.IsDaggerAlgebra.of_finite`.
+**Finite extensions.** (*dagger-finite-extension*) A finite `A`-algebra `B` over a dagger algebra
+`A` is a dagger algebra ([GK00] §1, Lem. 1.10). Construction, in two steps. (i) One generator at a
+time: for generators `b_1, …, b_m` of `B`, each `A_k = A[b_1, …, b_k]` is finite over `A` and
+generated over `A_{k−1}` by one element, integral over `A_{k−1}`, so `A_k` is a quotient of
+`A_{k−1}[X]/(f)` with `f` monic; as quotients of dagger algebras are dagger algebras, it suffices to
+treat `A[X]/(f)` with `f` monic. The induction cannot be skipped: `K[ε, δ]/(ε, δ)²` has dimension
+`3`, while every subalgebra generated by one element has dimension at most `2`. (ii) The monic case,
+with a rescaled generator: write `A = W_n/I`, choose `λ_0 > 1` with `I` generated in `T_n(λ_0)` and
+lift `f = X^d + a_1X^{d−1} + … + a_d` with `a_i ∈ T_n(λ_0)`; pick `c ∈ K^×` with `|c^i a_i| ≤ 1` for
+the residue norm of the stage `A_{λ_0} = T_n(λ_0)/I`. Then `Y = cX` is a root of the monic
+`g(Y) = Y^d + ca_1Y^{d−1} + … + c^d a_d`, whose coefficients have residue norm `≤ 1 ≤ λ^i` at every
+stage `A_λ`, `1 < λ ≤ λ_0`; so `Y` is power-bounded there and division by `g` identifies
+`A_λ[Y]/(g)` with `A_λ⟨λ^{-1}Y⟩/(g) = T_{n+1}(λ)/(I + g)`. In the colimit `λ → 1`,
+`A[X]/(f) ≅ W_{n+1}/(I + g)`, with stages `T_{n+1}(λ)/(I + g)` and generators sent by `X_i ↦ X_i`
+(`i ≤ n`) and `X_{n+1} ↦ cX`. Checks: the rescaling is needed: for `A = K` and `0 < |π| < 1`,
+`K[X]/(X − π^{-1}) ≅ K`, but `X − π^{-1} = −π^{-1}(1 − πX)` is a unit of `W_1` (`Σ π^mX^m` is
+restricted at every radius `ρ < |π|^{-1}`), so the unscaled `W_1/(X − π^{-1})` is `0`; with `c = π`
+the relation becomes `Y − 1` and `W_1/(Y − 1) ≅ K`; for `X − a` with `|a| ≤ 1` the coefficient is
+already power-bounded and evaluation at `a` gives `W_1/(X − a) ≅ K`; `K[ε, δ]/(ε, δ)²` is reached in
+two steps. Lean: `Dagger.IsDaggerAlgebra.of_finite`, with the unscaled relation, the evaluation at a
+power-bounded point and the non-monogenic algebra as `example`s.
 
 **Morphisms are detected on completions.** (*dagger-finite-morphism-comparison*) For `φ : A → B`:
 (a) `φ` is surjective (bijective) iff `φ̂` is; (b) `φ` finite ⟺ `φ̂` finite ⟺ the reduction `Ã → B̃`
-finite (*affinoid-reduction-finite*); (c) for finite `φ`, injectivity is detected on `φ̂`; (d) then
-the norm of `B` is its finite-module norm and `Â ⊗_A B ≅ B̂`; (e) `φ` and `φ̂` are strict ([GK00]
-§1, Thm. 1.12, pp. 7–8; strictness of `φ̂` is Tau Ceti's `LinearMap.isStrictMap_of_module_finite`).
+finite (*affinoid-reduction-finite*); (c) for finite `φ`, injectivity is detected on `φ̂`; (d) for
+finite `φ`, the norm of `B` is its finite-module norm and `Â ⊗_A B ≅ B̂`; (e) for finite `φ`, `φ` and
+`φ̂` are strict ([GK00] §1, Thm. 1.12, pp. 7–8; strictness of the finite `φ̂` comes from Tau Ceti's
+`LinearMap.isStrictMap_of_module_finite`, a statement about finite modules). Checks: finiteness is
+needed in (e): `X ↦ πX` on `W_1`, and on `T_1`, is injective but not strict, the images `π^mX^m` of
+the unit-norm `X^m` tending to `0`; the identity of `W_1` is finite and strict.
 
 **Approximation.** (*dagger-approximation*) Assume `char K = 0` or `[K : K^p] < ∞`. (1) Solutions in
 the unit ball of `Â` of equations from `A⟨Y⟩†` are approximated by solutions in `A`; (2) maps of
@@ -1065,9 +1126,20 @@ is of MW-type iff it is `S† ⊗ K` for smooth `S`, and MW-type algebras with i
 isomorphic ([Kedlaya06] §3.2, after Def. 3.2.1). Checks: `W_n` with `S = O_K[X]`; `K⟨X, X^{-1}⟩†`
 with `S = O_K[X, X^{-1}]`.
 
+**Elkik's lifting and algebraisation.** (*elkik-lifting-algebraisation*) For a noetherian henselian
+pair `(A, J)`, here `(O_K, πO_K)`: (a) every smooth `A/J`-algebra is `B/JB` for a smooth `A`-algebra
+`B` ([Elkik] III.4, Thm. 6, p. 580); (b) if `J = aA` is principal, every topologically finitely
+generated `Â`-algebra that is formally smooth outside `V(J)` is the `J`-adic completion of a
+finitely generated `A`-algebra smooth outside `V(J)` ([Elkik] III.4, Thm. 7, p. 582, whose proof
+uses the approximation theorem [Elkik] Thm. 2 bis, PerfectoidSpaces P3.1). Checks: `k[X]` lifts to
+`O_K[X]` and `k` to `O_K`; `O_K⟨X⟩` is the completion of `O_K[X]`; the graph
+`O_K⟨X, Y⟩/(Y − h)` of a non-polynomial `h ∈ O_K⟨X⟩` is `≅ O_K⟨X⟩`, again a completion of
+`O_K[X]`.
+
 **Existence and uniqueness of lifts.** (*mw-lift-existence-uniqueness*) For mixed characteristic
-`O_K` and smooth `A_0`: a smooth `B` with `B/πB ≅ A_0` exists (Elkik), `B†` is a lift and `B† ⊗ K`
-is of MW-type, and two lifts are isomorphic ([vdP] §2, p. 35, and Thm. (2.4.4)(i), p. 37).
+`O_K` and smooth `A_0`: a smooth `B` with `B/πB ≅ A_0` exists (*elkik-lifting-algebraisation* (a)),
+`B†` is a lift and `B† ⊗ K` is of MW-type, and two lifts are isomorphic ([vdP] §2, p. 35, and Thm.
+(2.4.4)(i), p. 37).
 
 ### F1.6 affinoid dagger spaces
 
@@ -1141,8 +1213,10 @@ neighbourhoods are stable under intersection, enlargement, preimage and transiti
 quasi-compact intermediates, and for a fringe presentation `Sp(T_n(ρ)/I)`, `ρ > 1`, are cofinal
 among strict neighbourhoods of `Sp(T_n/I)` ([GK00] §2, 2.21–2.22, p. 15). Strict neighbourhoods of
 tubes belong to rigid cohomology. Checks: `{|X| ≤ ρ}` around the unit disc; `W` around any
-quasi-compact `U`; for `U = ∅` every `V`, for `U = W` only `W`; the closed unit disc is not a strict
-neighbourhood of itself (the rank-two point `|X| = 1⁺`).
+quasi-compact `U`; for `U = ∅` every `V`, for `U = W` only `W`; inside a larger disc
+`W = {|X| ≤ ρ}`, `ρ > 1`, the closed unit disc `U` is not a strict neighbourhood of itself, since
+`{W − U, U}` misses the rank-two point `|X| = 1⁺` of the closure `Ū` and so is not an admissible
+covering of `W`.
 
 **Overconvergent sections.** (*overconvergent-sections-formula*) For `X = Sp A` with `X' ⊂† Y` of
 fringe type and `F` coherent descended to `G` on `Y`, `Γ(X, F) = colim_V Γ(V, G)` over strict
@@ -1218,10 +1292,19 @@ characteristic `2` the regular curve `Y² = a + X³` (`a` a nonsquare) has non-p
 **Smooth dagger spaces.** (*dagger-smooth-space*) `X` is smooth if `X'` is smooth over `K`
 (*smooth-morphism*), equivalently every affinoid `Sp A` has `A` regular with `Ω¹_A` projective of
 rank the local dimension, equivalently locally étale over dagger polydiscs ([Vezzani] §3, Prop.
-3.6); then `Ω¹_X` is locally free of rank `n` and `ω_X = Ω^n_X`; opens, products, `X^†` for smooth
-`X` and `Sp(S† ⊗ K)` for smooth `S` are smooth ([GK00] §4, 4.1, p. 19; [GK02] §1, 1.2, p. 5).
-Checks: `Sp W_n` is smooth of dimension `n`; `Sp K` and `Sp L`; `Sp(K⟨X, Y⟩†/(XY))` and
-`Sp(W_1/(X²))` are not.
+3.6); then `x ↦ dim O_{X,x}` is locally constant and `Ω¹_X` is locally free of that rank; opens,
+products, `X^†` for smooth `X` and `Sp(S† ⊗ K)` for smooth `S` are smooth ([GK00] §4, 4.1, p. 19;
+[GK02] §1, 1.2, p. 5). `X` has pure dimension `n` if `dim O_{X,x} = n` at every point ([GK02] §0,
+p. 4); disconnected spaces whose pieces all have dimension `n` are allowed, and then
+`ω_X := Ω^n_X`. A smooth `X` is the disjoint union of its open and closed pure-dimensional parts
+`X_n`; every statement below with a fixed shift (`n`, `2n`, `d`) or with `ω_X` is made for pure
+dimension, and for arbitrary smooth `X` it holds on each `X_n`, the cohomology of `X` being the sum.
+Checks: `Sp W_n` is smooth of pure dimension `n`; `Sp K` and `Sp L`; `Sp(K⟨X, Y⟩†/(XY))` and
+`Sp(W_1/(X²))` are not smooth; `Sp(K × W_1) = Sp K ⨿ Sp W_1` is smooth of Krull dimension `1` but not
+pure-dimensional, and for `char K = 0` it has `H^0_dR = K²`, `H^0_{dR,c} = K` (the point) and
+`H^2_{dR,c} = K` (the disc), so no single shift pairs `H^0_dR` with `H^2_{dR,c}`, while the duality
+holds on each part; `Sp W_1 ⨿ Sp W_1` is pure of dimension `1`. Lean: the mixed-dimensional
+algebra `K × W_1` is an `example`.
 
 **The de Rham complex.** (*dagger-de-rham-complex*) For smooth `X` and a coherent module with
 integrable connection `(E, ∇)`, `DR(E) = E ⊗ Ω^•_X`, `H^i_dR(X, E) = H^i(X, DR(E))`; on affinoids
@@ -1232,8 +1315,46 @@ MW-type affinoids this is Monsky–Washnitzer cohomology, [Kedlaya01] §2, p. 3)
 `X`, `L` for `Sp L`). Checks: for the closed dagger disc `H^0 = K`, `H^1 = 0`; for the rigid disc
 over `K ⊇ ℚ_p`, `Σ pⁿX^{pⁿ−1}dX` is not exact and `H^1_dR` is infinite-dimensional; the dagger
 annulus has `H^1 = K·dX/X`; `Sp 0` has `H^0 = 0`; in characteristic `p`, `X^{p−1}dX` gives `H^1 ≠ 0`
-and `X^p` is closed. Lean: `Dagger.Omega.poincare_washnitzer` (degrees `0` and `1` on the polydisc);
-the complex and its cohomology are README only.
+and `X^p` is closed. For `char K = 0` a coherent module with integrable connection is a left
+`D_X`-module and `DR(E)` is the derived de Rham functor of *dagger-d-modules* applied to it; F1.10
+uses that functor on all of `D(D_X)`, whose objects (such as algebraic local cohomology) need not
+be coherent. Lean: `Dagger.Omega.poincare_washnitzer` (degrees `0` and `1` on the polydisc); the
+complex and its cohomology are README only.
+
+**Differential operators and the derived de Rham functor.** (*dagger-d-modules*) For `char K = 0`
+and `X` a smooth dagger (or rigid) space, let `I` be the ideal of the diagonal in `O_{X×X}` and
+`P^m_X = O_{X×X}/I^{m+1}`, an `O_X`-algebra through the first factor; then `D_X = colim_m
+Hom_{O_X}(P^m_X, O_X)` is a sheaf of rings, `O_X` is a left `D_X`-module through the second factor,
+and "`D_X`-module" means left module ([GK02] §1, 1.1). On an affinoid with étale coordinates `x_1,
+…, x_n`, `D_A = ⊕_α A ∂^α` with `∂_i = ∂/∂x_i`, so `D_X` is locally free as a left and as a right
+`O_X`-module, and `D_A` is noetherian of cohomological dimension `dim A` (1.2). (a) For pure
+dimension `n`, `ω_X` is a right `D_X`-module (`ω·∂ = −Lie_∂ ω`), and `M ↦ ω_X ⊗_{O_X} M`, with
+inverse `N ↦ Hom_{O_X}(ω_X, N)`, is an equivalence from left to right `D_X`-modules (1.3). (b) The
+Spencer complex `0 → D_X ⊗ ⋀^n T_X → … → D_X ⊗ T_X → D_X → O_X → 0`, `T_X` the tangent sheaf, is a
+locally free resolution, so `DR(M) := RHom_{D_X}(O_X, M)` on the derived category `D(D_X)` is
+computed by `M ⊗ Ω^•_X`, restricts to *dagger-de-rham-complex* on coherent modules with integrable
+connection, gives `H^r_dR(X) = H^r(X, DR(O_X))`, and for pure dimension `n` satisfies `DR(M) ≅ ω_X
+⊗^L_{D_X} M[−n]` (1.5). Checks: on `Sp W_1` the Spencer complex is `D ·∂→ D` (right multiplication
+by `∂`) with cokernel `O`, and `DR(O)` is `W_1 →d W_1 dX`; the right action gives `(g dX)·∂ = −g′
+dX`, so `ω ⊗_D O = W_1 dX/{g′ dX} = H^1_dR` in degree `1` after the shift; in characteristic `p` the
+operator `∂^p` kills every `X^m` though the divided power `∂^{[p]}` does not, which is why
+characteristic `0` is assumed.
+
+**Transfer bimodules and direct images.** (*dagger-d-module-direct-image*) For `char K = 0` and
+`f : Z → Y` a morphism of smooth pure-dimensional spaces: the transfer bimodules
+`D_{Z→Y} = O_Z ⊗_{f^{-1}O_Y} f^{-1}D_Y` and `D_{Y←Z} = ω_{Z/Y} ⊗_{O_Z} D_{Z→Y}`, with
+`ω_{Z/Y} = ω_Z ⊗ f^*ω_Y^{⊗−1}` ([GK02] §1, 1.1, 1.4); for partially proper `f`, the compactly
+supported direct image `f_!F(V) = Γ_c(f^{-1}V/V, F)` (sections whose support is quasi-compact over
+every quasi-compact admissible open of `V`, [Huber96] 5.6 as recalled in [GK02] 1.6) with its derived
+functor `Rf_! : D^+ → D^+`; and `f_+M = Rf_!(D_{Y←Z} ⊗^L_{D_Z} M)` for `M ∈ D^−(D_Z)` when `f` is of
+one of the two kinds needed: projections `X × Y → Y` with `X` admissibly covered by finitely many
+opens, each Zariski closed in an open polydisc (so that `R^if_!` vanishes above a fixed degree and
+`Rf_!` extends to `D^−`), and closed immersions. For these:
+`g_+f_+ ≅ (g ∘ f)_+` (Prop. 1.7); `DR(f_+M)[dim Y] ≅ Rf_! DR(M)[dim Z]` (1.9(a)); and for the
+projection `p : X × Y → Y`, `Ω^•_{X×Y/Y} ≅ D_{Y←X×Y} ⊗^L_{D_{X×Y}} O_{X×Y}[−dim X]` (1.5). No other
+functor of a six-functor formalism is a target. Checks: for `X = Sp K` the projection gives
+`p_+ = id`; for the origin `s : Sp K → Sp W_1`, `s_+K = D_{X←pt} ≅ D/Dx`, the module `K[∂]·δ` with
+`x·∂^kδ = −k∂^{k−1}δ`, which is supported at the origin and is not a finite `W_1`-module.
 
 **Polyannuli and the relative Poincaré lemma.** (*dagger-polyannulus-de-rham-cohomology*) For
 `char K = 0`, `0 ≤ r ≤ n` and `μ, γ_i, δ_i ∈ Γ*` with `γ_i ≤ δ_i` and `∏_{i≤r} δ_i ≥ μ`, the dagger
@@ -1257,10 +1378,11 @@ compatibility with composition is not claimed ([GK02] §1, Lem. 1.18 and its pro
 Checks: `X ↦ X + a` on the disc.
 
 **Strict differentials.** (*dagger-strict-differentials*) For `K = Frac(R)`, `R` a complete DVR of
-mixed characteristic, and `X` smooth affinoid (or smooth Stein with finite-dimensional de Rham
-cohomology), every `d^i` on global forms is strict with closed image for the fringe (resp. Fréchet)
-topology ([GK00] §4, Lem. 4.7, p. 21, with its footnote). Checks: `d : W_1 → W_1 dX` is surjective;
-on the rigid disc the image of `d` is not closed.
+mixed characteristic, and `X` smooth affinoid or smooth Stein with finite-dimensional de Rham
+cohomology, every `d^i` on global forms is strict with closed image for the fringe (resp. Fréchet)
+topology ([GK00] §4, Lem. 4.7, p. 21, whose footnote imposes the hypotheses so that finiteness is
+available); for affinoid `X` the finiteness is Theorem A under (MWF) and (RES). Checks:
+`d : W_1 → W_1 dX` is surjective; on the rigid disc the image of `d` is not closed.
 
 ### F1.10 supports, compact support and duality
 
@@ -1273,57 +1395,134 @@ p. 21). Checks: for `char K = 0`, the unit disc `Y` in `X_ρ = {|x| ≤ ρ}` has
 `H^2_Y = K·dx/x`, while `H^0_dR(Y) = K`, so `H_Y(X)` is not the cohomology of `Y`; the connecting
 map of the cone convention sends two entries `a, b` to `−a − b`.
 
-**Algebraic local cohomology, Gysin.** (*dagger-local-cohomology-comparison*) For `char K = 0`,
-smooth `X` and a closed `Y` with coherent ideal `J`: (a) with `RΓ*_Y E = colim RHom(O/J^n, E)` on
-`D_X`-modules, `RΓ(X, DR(RΓ*_Y O)) → RΓ_Y(X, Ω^•)` is an isomorphism ([GK02] §1, 1.5, 1.8, Prop.
-1.16(a), pp. 5, 7, 11–12); (b) for `Y` smooth of pure codimension `d`,
-`H^i_Y(X, Ω^•) ≅ H^{i−2d}_dR(Y)` ([GK02] Prop. 1.10, p. 7). Checks: a rational point of `D^n` has
-`H^{2n}_Z = K` and no other.
+**Algebraic local cohomology of `D_X`-modules.** (*dagger-algebraic-local-cohomology*) For
+`char K = 0`, smooth `X`, a closed `Y` with coherent ideal `J` and a `D_X`-module `E`:
+`Γ*_Y(E) = colim_k Hom_{O_X}(O_X/J^k, E)`, the sections killed by a power of `J`, and
+`E(∗Y) = colim_k Hom_{O_X}(J^k, E)` are `D_X`-modules, although no single `Hom_{O_X}(O_X/J^k, E)`
+is: an operator of order `≤ m` maps sections killed by `J^k` to sections killed by `J^{k+m}`, by
+induction on `m` through `[P, f]` for `f ∈ J` ([GK02] §1, 1.8, p. 7). (a) Their derived functors
+on `D(D_X)` give triangles `RΓ*_Y K → K → RK(∗Y) →`; as `D_X` is locally free over `O_X`, injective
+`D_X`-modules are injective `O_X`-modules, so the underlying `O_X`-modules are
+`R^iΓ*_Y E = colim_k Ext^i_{O_X}(O_X/J^k, E)`. With *dagger-d-module-direct-image* ([GK02] 1.9,
+Prop. 1.10): (b) `RΓ*_T(p_+M) ≅ p_+RΓ*_{T_Z}M` for a closed `T ⊆ Y` and `T_Z = T ×_Y Z`; (c)
+`RΓ*_{Y_1}RΓ*_{Y_2} ≅ RΓ*_{Y_1∩Y_2}`, with the Mayer–Vietoris triangle; (d)
+`RΓ*_Y(O_X) ⊗^L_{O_X} M ≅ RΓ*_Y(M)`; (e) for affinoid `X`, `Y` locally a complete intersection of
+pure codimension `d` and `F` a `D_X`-module locally free over `O_X`, `R^iΓ*_Y F = 0` for `i ≠ d`;
+(f) for closed immersions `Z ⊆ Y` and `s : Y → X` of codimension `d`, `X`, `Y` smooth and
+pure-dimensional, `s_+RΓ*_Z O_Y ≅ RΓ*_Z O_X[d]`. Checks: for the origin of `Sp W_1`,
+`R^1Γ*_0 O = W_1[x^{-1}]/W_1`, which is not a finite `W_1`-module (pole orders are unbounded), and
+`[x^{-1}] ↦ δ` identifies it with `s_+K = D/Dx` (`∂^k[x^{-1}] = (−1)^k k![x^{-k−1}]`), which is (f)
+for a point; for `Y = {x_1 = 0}` in a polydisc, `R^1Γ*_Y O = O[x_1^{-1}]/O` and the other
+`R^iΓ*_Y O` vanish, as (e) predicts.
 
-**Trace for `X × Y → Y`.** (*dagger-proper-projection-trace*) For `X` smooth proper of dimension `n`
-and `Y` smooth (rigid: `char K = 0`; dagger: `K = Frac(R)` mixed characteristic), there is a trace
-`p_+ O_Z[n] → O_Y` and traces on supported complexes, isomorphisms when `S → X × T → T` is an
+**Algebraic local cohomology, Gysin.** (*dagger-local-cohomology-comparison*) For `char K = 0`,
+smooth `X` and a closed `Y` with coherent ideal `J`: (a) with `RΓ*_Y` of
+*dagger-algebraic-local-cohomology* and `DR` of *dagger-d-modules*, the canonical map
+`RΓ(X, DR(RΓ*_Y O_X)) → RΓ_Y(X, Ω^•)` is an isomorphism ([GK02] §1, Prop. 1.16(a), pp. 11–12); (b)
+for `X` smooth and pure-dimensional and `Y` smooth of pure codimension `d`,
+`H^i_Y(X, Ω^•) ≅ H^{i−2d}_dR(Y)`, from (f) of that target and the compatibility of `DR` with direct
+images ([GK02] Prop. 1.10, p. 7). Checks: a rational point of `D^n` has `H^{2n}_Z = K` and no other;
+for the origin of the disc the complex `DR(W_1[x^{-1}]/W_1)` sends `[x^{-k}]` to
+`−k[x^{-k−1}] dx`, so its only cohomology is `K·[dx/x]` in degree `2`; for `Y = {x_1 = 0}` in
+`Y × D`, the isomorphism `H^{i−2}_dR(Y) → H^i_Y` sends `η` to the class of `η ∧ dx_1/x_1`, with
+`η` lifted to `Y × D`.
+
+**Trace for `X × Y → Y`.** (*dagger-proper-projection-trace*) For `X` smooth proper of pure
+dimension `n` and `Y` smooth and pure-dimensional (rigid: `char K = 0`; dagger: `K = Frac(R)` mixed
+characteristic), with `Z = X × Y` and `p_+` of *dagger-d-module-direct-image*, there is a trace
+`p_+ O_Z[n] → O_Y`, given by a map `R^n p_! ω_{Z/Y} → O_Y` vanishing on the image of
+`R^n p_! Ω^{n−1}_{Z/Y}`, built on charts `U_J → (D^0)^{n_J}` from the coefficient of
+`T_1^{-1} ⋯ T_{n_J}^{-1} dT_1 ∧ … ∧ dT_{n_J}` and the Gysin map; and for closed `T ⊆ Y`,
+`S ⊆ X × T` traces `p_+RΓ*_S O_Z[n] → RΓ*_T O_Y` and
+`RΓ(Z, DR(RΓ*_S O_Z))[2n] → RΓ(Y, DR(RΓ*_T O_Y))`, isomorphisms when `S → X × T → T` is an
 isomorphism ([GK02] §1, Prop. 1.11 and proof, pp. 8–10). Checks: `X = Sp K` gives the identity; for
-`ℙ¹` the trace on `H^2` is the residue.
+`X = ℙ¹`, `Y = Sp K`, the trace `H^2_dR(ℙ¹) → K` is normalised to send the Čech class of `dz/z` on
+`{|z| = 1}`, for the cover `({|z| ≤ 1}, {|z| ≥ 1})` in this order, to `1 = Res_0(dz/z)`, the
+coefficient of `z^{-1}dz`; through the Gysin map the point `S = {0} × Sp K` gives the identity of
+`K`.
 
 **Independence of the embedding.** (*dagger-hdr-embedding-independence*) For `K = Frac(R)` mixed
-characteristic and closed immersions `Z → Y_i` into smooth affinoids of dimensions `n_i`,
-`RΓ(Y_1, DR(RΓ*_Z O))[2n_1] ≅ RΓ(Y_2, DR(RΓ*_Z O))[2n_2]`, so `h^dR_q(Z) := dim H^{2n−q}_Z(Y, Ω^•)`
+characteristic and closed immersions `Z → Y_i` into smooth affinoids of pure dimensions `n_i`,
+`RΓ(Y_1, DR(RΓ*_Z O))[2n_1] ≅ RΓ(Y_2, DR(RΓ*_Z O))[2n_2]`, so
+`h^dR_q(Z) := dim H^{2n−q}_Z(Y, Ω^•)`, for `Z ⊆ Y` with `Y` smooth affinoid of pure dimension `n`,
 depends only on `Z` ([GK02] §1, Cor. 1.12, 1.13, p. 10). Checks: a rational point has `h_0 = 1`,
 `h_q = 0` otherwise, in `D¹` and in `D²`; `∅` gives `0`; the disc in itself has `h_2 = 1`.
 
 **Compact supports.** (*compact-support-de-rham*) For `X = Sp A` with fringe stages `X_ρ` and `F`
 coherent descended to `F_{ρ_0}`, `H^i_c(X, F) := H^i_X(X_{ρ_0}, F_{ρ_0})` and
 `H^i_{dR,c}(X) := H^i_X(X_ρ, Ω^•)`, independent of choices, with the support long exact sequence,
-extension by zero for `U ⊂† X`, vanishing outside degree `n` for locally free `F` on smooth `X`, a
-topological `A`-module structure, and the colimit version on Stein spaces; for `A = K⟨T⟩†`,
-`H^m_c(ω)` is the negative-exponent series with `η^{-|μ|}|a_μ| → 0` for every `η > 1` ([GK00] §4,
-4.3, 4.8, pp. 19–21; proof of Thm. 4.11, p. 22). Checks: for `char K = 0` the closed dagger disc has
-`H_{dR,c} = (0, 0, K)` (`d` on negative Laurent series misses exactly `dx/x`), while a single rigid
-fringe disc has no dagger Poincaré lemma; `Sp K` has `K` in degree `0`; the annulus has `(0, K, K)`;
-`H_{dR,c}(D) ≠ H_dR(D)`.
+extension by zero for `U ⊂† X`, vanishing outside degree `n` for locally free `F` on smooth `X` of
+pure dimension `n`, a topological `A`-module structure, and the colimit version on Stein spaces; for
+`A = K⟨T⟩†`, `H^m_c(ω)` is the negative-exponent series with `η^{-|μ|}|a_μ| → 0` for every `η > 1`
+([GK00] §4, 4.3, 4.8, pp. 19–21; proof of Thm. 4.9, p. 22, and of Thm. 4.11, p. 22). Checks: for
+`char K = 0` the closed dagger disc has `H_{dR,c} = (0, 0, K)` (`d` on negative Laurent series misses
+exactly `dx/x`), while a single rigid fringe disc has no dagger Poincaré lemma; `Sp K` has `K` in
+degree `0`; the annulus has `(0, K, K)`; `H_{dR,c}(D) ≠ H_dR(D)`; for the mixed-dimensional
+`Sp K ⨿ Sp W_1`, `H^0_c(O) = K` and `H^1_c(O) ≠ 0`, so coherent compact support is not concentrated
+in one degree without pure dimension.
 
 **Serre duality.** (*dagger-serre-duality*) For `K` spherically complete and smooth affinoid `X` of
-dimension `d`, `F` coherent: functorial perfect pairings `Ext^i(F, ω_X) × H^{d−i}_c(X, F) → K` with
-topological isomorphisms to continuous duals ([GK00] §4, Thm. 4.4, p. 20; 4.2, p. 19). Checks: on
-the disc `K⟨T⟩† dT` is dual to `H^1_c(D, O)` by extracting the coefficient of `T^{-1}dT` with
+pure dimension `d`, `F` coherent: functorial perfect pairings `Ext^i(F, ω_X) × H^{d−i}_c(X, F) → K`
+with topological isomorphisms to continuous duals ([GK00] §4, Thm. 4.4, p. 20; 4.2, p. 19). Checks:
+on the disc `K⟨T⟩† dT` is dual to `H^1_c(D, O)` by extracting the coefficient of `T^{-1}dT` with
 positive sign (`b + cT` pairs to `ba_0 + ca_1`); the single pole of growing order tends to zero, the
 constant residue does not; `K` in dimension `0`.
 
-**Poincaré duality.** (*dagger-poincare-duality*) For `K = Frac(R)` mixed characteristic: (a) for
-`X` smooth affinoid of dimension `n`, `H^i_dR(X) ≅ Hom_cont(H^{2n−i}_{dR,c}(X), K)` and conversely,
-a perfect duality of finite-dimensional spaces; (b) the same for smooth Stein `X` with
-finite-dimensional de Rham cohomology ([GK00] §4, Thms. 4.9, 4.11, Lem. 4.6, 4.8, 4.10, pp. 21–22).
-Checks: the disc (`K` against `K` in degree `2`); the annulus (`K·dx/x` against `K`); two cofinal
-Stein exhaustions give the same colimit.
+**Poincaré duality.** (*dagger-poincare-duality*) For `K = Frac(R)` mixed characteristic and `X`
+smooth of pure dimension `n` with finite-dimensional de Rham cohomology, either (a) affinoid or (b)
+Stein: `H^i_dR(X) ≅ Hom_cont(H^{2n−i}_{dR,c}(X), K)` and conversely, a perfect duality of
+finite-dimensional spaces ([GK00] §4, Thms. 4.9, 4.11, Lem. 4.6, 4.8, 4.10, pp. 21–22). The proof
+goes through the strictness of *dagger-strict-differentials*, which uses the finiteness; for affinoid
+`X` the finiteness is Theorem A under (MWF) and (RES). Checks: the disc (`K` against `K` in degree
+`2`); the annulus (`K·dx/x` against `K`), both of known finite cohomology; two cofinal Stein
+exhaustions give the same colimit.
 
 ### F1.11 finiteness
 
-**Resolution.** (*dagger-resolution-lemma*) For `char K = 0` and a nowhere dense closed `Z` in
-smooth affinoid `X`, there is a proper surjective `g : X̃ → X` with `X̃` smooth, `g^{-1}(Z)`
-(reduced) a normal crossings divisor and `g` an isomorphism off `Z` ([GK02] §0, Lem. 0.1, p. 4,
-through Bierstone–Milman). Checks: a rational point of the disc needs `g = id`; `Z = X ≠ ∅` is
-excluded; the thickened origin reduces to the origin.
+Where a statement below refers to `R` it is a complete discrete valuation ring of mixed
+characteristic `(0, p)` with uniformiser `π`, with `K = Frac(R)` and `k = R/πR`; the other
+statements need only `char K = 0`. Two inputs of the finiteness proofs are not targets of this
+roadmap; they appear as hypotheses of exactly the statements that use them, and no statement here
+asserts them.
+
+- **(MWF)**, finiteness of Monsky–Washnitzer cohomology: for `K` and every finite extension `K_1` of
+  `K`, with valuation ring `R_1`, every smooth finitely generated `R_1`-algebra `S` and every `q`,
+  `H^q(Ω^•_{A†/K_1})` is finite-dimensional over `K_1`, where `A† = S† ⊗_{R_1} K_1`
+  (*weak-completion-generic-fibre*, *dagger-differentials*). Its known proofs ([Berthelot97];
+  [Mebkhout97]; [Kedlaya06] Thm. 1.2.1, for any residue field, through rigid cohomology) rest on
+  crystalline comparison, `p`-adic differential modules or Frobenius structures, which this roadmap
+  does not build, and none uses this subsection.
+- **(RES)**, embedded resolution of rigid spaces: for every field `L` of characteristic `0` complete
+  for a nontrivial rank-one absolute value, every smooth affinoid rigid space `V` over `L` and every
+  nowhere dense closed analytic subspace `W ⊆ V`, there is a proper surjective morphism of rigid
+  spaces `h : Ṽ → V` with `Ṽ` smooth, `h^{-1}(W)` with its reduced structure a normal crossings
+  divisor, and `h` an isomorphism over `V − W` ([BM97] Thm. 1.10, as applied in [GK02] §0, proof of
+  Lem. 0.1).
+
+The finiteness chain is: (MWF) → *dagger-semistable-tube-finiteness* →
+*quasi-algebraic-affinoid-finiteness* → (with (RES) through *dagger-resolution-lemma*, and
+*smooth-affinoid-quasi-algebraic*) Theorem A → *dagger-de-rham-kunneth*, and the finiteness
+hypotheses of *dagger-strict-differentials* and *dagger-poincare-duality* for affinoids. The finite
+étale trace, the modification sequence, Theorem C, finite field extensions and the algebraisation of
+smooth affinoids use neither hypothesis.
+
+**Resolution.** (*dagger-resolution-lemma*) Assume (RES). For `char K = 0` and a nowhere dense
+closed `Z` in a smooth affinoid dagger space `X`, there is a proper surjective `g : X̃ → X` with `X̃`
+smooth, `g^{-1}(Z)` (reduced) a normal crossings divisor and `g` an isomorphism off `Z`: descend `X`
+and `Z` to a smooth fringe stage `Z_ρ ⊆ X_ρ = Sp(T_n(ρ)/I_ρ)` (*fringe-presentation*), apply (RES)
+to `Z_ρ ⊆ X_ρ`, restrict over the partially proper interior `⋃_{ρ′<ρ} Sp(T_n(ρ′)/I_ρ)`, where the
+restricted morphism is partially proper and so a morphism of dagger spaces
+(*partially-proper-dagger-rigid-equivalence*), and restrict over `X` ([GK02] §0, Lem. 0.1 and its
+proof, p. 4). Checks: a rational point of the disc needs `g = id`; `Z = X ≠ ∅` is excluded; the
+thickened origin reduces to the origin.
+
+**Smooth affinoids are quasi-algebraic.** (*smooth-affinoid-quasi-algebraic*) Every smooth affinoid
+dagger space over `K` is isomorphic to `Sp(K⟨X⟩†/(f))` with `f_j ∈ R[X]`: by
+*elkik-lifting-algebraisation* (b) for `(R, πR)` the completion is defined by polynomials, and
+dagger algebras with isomorphic completions are isomorphic (*dagger-approximation*) ([GK02] proofs of
+Cor. 3.5 and Thm. 3.6, citing [Elkik] Thm. 7 and [GK00] Lem. 1.15). Checks: `Sp W_n` needs no
+equation; the graph `K⟨X, Y⟩†/(Y − h)` of a non-polynomial `h ∈ W_1` with `|h|_sup ≤ 1` is
+isomorphic to `Sp W_1`.
 
 **Finite étale trace.** (*dagger-finite-etale-trace*) For `char K = 0` and `f : X → Y` finite étale
 surjective of smooth spaces, `Y` irreducible and each component of `X` surjecting, there is
@@ -1334,10 +1533,12 @@ acts by `N` on `dz/z`; the split two-sheeted trace is `(a, b) ↦ a + b`; `∅ �
 
 **Proper modification sequence.** (*dagger-proper-modification-sequence*) For `char K = 0` (dagger:
 `K = Frac(R)` mixed), `f : X' → X` proper and an isomorphism off a closed `Y`, with closed `X → Z`
-smooth and `X' → W'` into smooth proper `W'` of dimension `n`, there is a long exact sequence
-`… → H^i_{Y'}(Z') → H^{i−2n}_Y(Z) ⊕ H^i_{X'}(Z') → H^{i−2n}_X(Z) → …` with maps
-`x ↦ (t_Y x, incl x)` and `(y, x) ↦ incl y − t_X x` ([GK02] §1, Cor. 1.17, p. 13). Checks: the
-identity modification of a point (`s(0, x) = −x`); the blow-up of a point of a surface.
+into a smooth pure-dimensional `Z` and a locally closed `X' → W'` into a smooth proper `W'` of pure
+dimension `n`, there is a long exact sequence
+`… → H^i_{Y'}(Z') → H^{i−2n}_Y(Z) ⊕ H^i_{X'}(Z') → H^{i−2n}_X(Z) → …`, `Z' = W' × Z`, with maps
+`x ↦ (t_Y x, incl x)` and `(y, x) ↦ incl y − t_X x`, `t` the traces of
+*dagger-proper-projection-trace* ([GK02] §1, Cor. 1.17, p. 13). Checks: the identity modification
+of a point (`s(0, x) = −x`); the blow-up of a point of a surface.
 
 **Theorem C.** (*dagger-semistable-tube-invariance*) For `R` mixed characteristic and `𝔛` strictly
 semistable (étale locally over `R⟨X⟩/(X_1 ⋯ X_r − π)`, *admissible-formal-scheme*,
@@ -1346,10 +1547,12 @@ semistable (étale locally over `R⟨X⟩/(X_1 ⋯ X_r − π)`, *admissible-for
 2.4, pp. 17–18; Introduction, Thm. C). Checks: the semistable annulus with both sides
 `(K, K·dlog X_1)`.
 
-**Finiteness on semistable tubes.** (*dagger-semistable-tube-finiteness*) For quasi-compact `𝔛`,
-`H^q_dR(]Y_J[^†)` and `H^q_dR(𝔛^†)` are finite-dimensional, using finiteness of Monsky–Washnitzer
-cohomology (Berthelot, Mebkhout 1997) ([GK02] §2, Thm. 2.5, pp. 20–21). Checks: the semistable
-annulus has `(K, K·dlog X_1)`.
+**Finiteness on semistable tubes.** (*dagger-semistable-tube-finiteness*) Assume (MWF). For
+quasi-compact `𝔛` as in Theorem C, `H^q_dR(]Y_J[^†)` and `H^q_dR(𝔛^†)` are finite-dimensional: by
+Theorem C and a finite cover, `]Y_I[^† ≅ Sp(B) × V` with `B = D† ⊗ K` for a smooth `R`-algebra `D`
+and `V` an open polyannulus, and Künneth with the polyannulus
+(*dagger-polyannulus-de-rham-cohomology*) reduces to (MWF) for `D` ([GK02] §2, Thm. 2.5 and proof,
+pp. 20–21). Checks: the semistable annulus has `(K, K·dlog X_1)`, computed without (MWF).
 
 **Finite field extensions.** (*dagger-de-rham-finite-field-extension*) For `char K = 0`, `K_1/K`
 finite and smooth `X`, `H^i_dR(X_{K_1}/K_1) ≅ H^i_dR(X/K) ⊗_K K_1`, likewise with supports, so
@@ -1357,21 +1560,29 @@ finite and smooth `X`, `H^i_dR(X_{K_1}/K_1) ≅ H^i_dR(X/K) ⊗_K K_1`, likewise
 *dagger-hdr-embedding-independence*) ([GK02] §1, 1.13, p. 10; [GK00] §2, 2.13, p. 12). Checks: the
 annulus over `K_1`.
 
-**Quasi-algebraic affinoids.** (*quasi-algebraic-affinoid-finiteness*) For `R` mixed characteristic
-and `H = Sp(K⟨X⟩†/(f))` with `f_j ∈ R[X]`, `h^dR_q(H) < ∞`, using de Jong's alterations
-(SchemeAndStackFoundations SF.4, *semistable-alteration-theorem*; [de Jong] Thm. 6.5) ([GK02] §3,
-Thms. 3.3–3.4, p. 22). Checks: for odd `p`, `Y² = X³ + X` gives `h_1 = 2`.
+**Quasi-algebraic affinoids.** (*quasi-algebraic-affinoid-finiteness*) Assume (MWF). For
+`H = Sp(K⟨X⟩†/(f))` with `f_j ∈ R[X]`, `h^dR_q(H) < ∞`, by induction on `dim H` through de Jong's
+alterations (SchemeAndStackFoundations SF.4, *semistable-alteration-theorem*; [de Jong] Thm. 6.5,
+after a finite extension of `R`, which is why (MWF) covers finite extensions), the supports
+sequences, *dagger-finite-etale-trace*, *dagger-proper-modification-sequence* and
+*dagger-semistable-tube-finiteness* ([GK02] §3, Thms. 3.3–3.4, pp. 22–24). Checks: for odd `p`,
+`Y² = X³ + X` gives `h_1 = 2`.
 
-**Theorem A.** (*dagger-de-rham-finiteness-and-base-change*) For `R` mixed characteristic, `X`
-smooth quasi-compact, `U` quasi-compact admissible open and `Z` closed, `T = X − (U ∪ Z)` has
-finite-dimensional `H^q_dR(T)` with `H^q_dR(T_{K_1}) = H^q_dR(T) ⊗ K_1` ([GK02] Introduction, Thm.
-A, p. 2; Cor. 3.5, Thm. 3.6, p. 23; [GK00] §4, 4.10, p. 22; through admissible blow-ups,
-*admissible-blow-up*, and de Jong's alterations); finiteness of rigid cohomology of `k`-schemes
-belongs to the rigid-cohomology roadmap. Checks: the closed disc minus `{|x| ≥ |π|}` is the open
+**Theorem A.** (*dagger-de-rham-finiteness-and-base-change*) Assume (MWF) and (RES). For `X` smooth
+quasi-compact, `U` quasi-compact admissible open and `Z` closed, `T = X − (U ∪ Z)` has
+finite-dimensional `H^q_dR(T)`; and, without either hypothesis, `H^q_dR(T_{K_1}) = H^q_dR(T) ⊗ K_1`
+for finite `K_1/K` (*dagger-de-rham-finite-field-extension*) ([GK02] Introduction, Thm. A, p. 2;
+Cor. 3.5, Thm. 3.6, pp. 24–27; [GK00] §4, 4.10, p. 22). The case `U = ∅` uses
+*dagger-resolution-lemma*, *smooth-affinoid-quasi-algebraic*, *quasi-algebraic-affinoid-finiteness*
+and the supports sequence; general `U` adds an induction on dimension with de Jong's alterations,
+admissible blow-ups (*admissible-blow-up*), *dagger-proper-modification-sequence* and
+*dagger-semistable-tube-finiteness*. Finiteness of rigid cohomology of `k`-schemes belongs to the
+rigid-cohomology roadmap. Checks, computed directly: the closed disc minus `{|x| ≥ |π|}` is the open
 disc (`K`, `0`); the punctured disc has `H^1 = K·dx/x`.
 
-**Künneth.** (*dagger-de-rham-kunneth*) For `R` mixed characteristic and `X, Y` quasi-compact
-smooth, `⊕_{p+q=n} H^p_dR(X) ⊗ H^q_dR(Y) → H^n_dR(X × Y)` is an isomorphism ([GK00] §4, Thm. 4.12,
+**Künneth.** (*dagger-de-rham-kunneth*) Assume (MWF) and (RES). For `X, Y` quasi-compact smooth,
+`⊕_{p+q=n} H^p_dR(X) ⊗ H^q_dR(Y) → H^n_dR(X × Y)` is an isomorphism: the proof needs the
+finiteness of Theorem A on affinoid opens and *dagger-strict-differentials* ([GK00] §4, Thm. 4.12,
 pp. 22–23). Checks: two discs give `K`; two annuli give `H^1` of dimension `2` and
 `H^2 = K·dlog X ∧ dlog Y`; for `⨿_ℕ Sp K` the algebraic tensor product misses the identity matrix,
 which is why quasi-compactness is assumed.
@@ -1392,35 +1603,82 @@ free on `dx_1/x_1, …, dx_r/x_r, dx_{r+1}, …, dx_n`; `Ω^•_X(log D)` is a c
 `Ω^• ⊆ Ω^•(log D) ⊆ j_*Ω^•_{X−D}`, residue sequences
 `0 → Ω^•(log D') → Ω^•(log D) → ι_*Ω^•_{D_1}(log D'|_{D_1})[−1] → 0` for a smooth component `D_1`,
 pullbacks and `(Ω^•(log D))' = Ω^•_{X'}(log D')` ([Stacks] Tag 0FMU, Def. 50.15.3, Lem. 50.15.2,
-50.15.4; [GK05] §4.5, Lem. 4.6). Checks: on the polydisc with `D = V(x_1 ⋯ x_r)` the classes
-`dlog x_I`, `I ⊆ {1, …, r}`, form a basis; `D = ∅` gives `Ω^•`; `dx/x²` is not logarithmic;
-`Res(dx/x) = 1` and `H^1(D, log{0}) ≅ K`; [GK05]'s monodromy example on the open bidisc.
+50.15.4; [GK05] §4.5, Lem. 4.6). The construction and the residue sequences hold in every
+characteristic; the cohomology computations below assume `char K = 0`. Checks: for `char K = 0`, on
+the dagger polydisc with `D = V(x_1 ⋯ x_r)` the classes `dlog x_I`, `I ⊆ {1, …, r}`, form a basis of
+`H^*(X, Ω^•_X(log D))` (in one variable `x·f′` runs through all `g` with `g(0) = 0`); in
+characteristic `p` this fails already for `D = ∅`: `X^p` is closed and not constant, and `X^{p−1}dX`
+is closed and not exact; `D = ∅` gives `Ω^•`; `dx/x²` is not logarithmic; `Res(dx/x) = 1` and, for
+`char K = 0`, the disc with `D = {0}` has `H^1 ≅ K·dx/x`; [GK05]'s monodromy example on the open
+bidisc.
 
-**The compact-support logarithmic complex.** (*compact-support-log-complex*)
-`Ω^•_X(log D)(−D) = I_D·Ω^•_X(log D) ⊆ Ω^•_X`, locally free on `x_1 ⋯ x_r dlog x_I ∧ dx_J`, with
-`H^i_{dR,c}(X, D) → H^i_dR(X) → H^i_dR(X, log D)`, restriction `Ω^•_{X−D}` off `D`, pullbacks and
-coefficients in log connections ([Stacks] Tag 0FMU, proof of Lem. 50.15.2; [GK00] §5, 5.2, p. 24).
-Checks: `(ℙ¹)^†` with `D = {0, ∞}` has `(0, K, K)`; `D = ∅` gives `Ω^•`; the naive `I_D·Ω^•` is not
-a complex (`d(x) = dx ∉ xΩ¹`).
+**The logarithmic complex vanishing along the boundary.** (*compact-support-log-complex*) `Ω^•_X(log
+D)(−D) := I_D·Ω^•_X(log D) ⊆ Ω^•_X` is a subcomplex (for `f ∈ I_D`, `df ∈ I_D·Ω¹_X(log D)`: locally
+`d(x_1 ⋯ x_r) = x_1 ⋯ x_r Σ_{i≤r} dlog x_i`), locally free on `x_1 ⋯ x_r dlog x_I ∧ dx_J`, equal to
+`Ω^•_{X−D}` off `D`, with pullbacks along étale maps and coefficients in log connections ([Stacks]
+Tag 0FMU, proof of Lem. 50.15.2). Its hypercohomology (Mathlib's, on the G-topology) is the object
+of this subsection: `H^i_dR(X, D)_! := H^i(X, Ω^•_X(log D)(−D))`, with the maps `H^i_dR(X, D)_! →
+H^i_dR(X) → H^i(X, Ω^•_X(log D))` induced by `Ω^•(log D)(−D) ⊆ Ω^• ⊆ Ω^•(log D)`, and the
+restriction `H^i_dR(X, D)_! → H^i_dR(X − D)`. For non-proper `X` it is not compactly supported
+cohomology of `X − D`: for the closed dagger disc and `D = ∅` it is `H_dR = (K, 0, 0)`, whereas
+`H_{dR,c} = (0, 0, K)` (*compact-support-de-rham*). Checks: `D = ∅` gives `H_dR(X)`; the naive
+`I_D·Ω^•` is not a complex (`d(x) = dx ∉ xΩ¹`), while `x·dlog x = dx` lies in `I_D·Ω¹(log D)`; for
+`(ℙ¹)^†` the complex is `O(−D) → Ω¹`, and Čech cohomology for the cover `({|z| ≤ 1}, {|z| ≥ 1})`
+gives `(0, K, K)` for `D = {0, ∞}` (the classes of `1` in `H^1(O(−D))` and of `dz/z` in `H^1(Ω¹)`,
+with `d(1) = 0`) and `(0, 0, K)` for `D = {∞}`.
 
 **Localisation sequences.** (*compact-support-localisation-maps*) For `D = D_1 + D'` with `D_1`
-smooth, `0 → Ω^•(log D)(−D) → Ω^•(log D')(−D') → ι_*Ω^•_{D_1}(log D'_1)(−D'_1) → 0` is exact, giving
-the long exact sequence of `H_{dR,c}`; and for `U_0 ⊂† X` the supports sequence gives extension by
-zero `H_{dR,c}(U_0) → H_{dR,c}(X)` with its localisation sequence ([Stacks] Tag 0FMU; [GK02] §1,
-1.9(c), Prop. 1.16(b), pp. 7, 11). Checks: `(ℙ¹)^†`, `D_1 = {0}`, `D' = {∞}` against
-`H_c(𝔸¹) = (0, 0, K)`; the split case has zero connecting map.
+smooth, restriction to `D_1` gives an exact sequence of complexes
+`0 → Ω^•(log D)(−D) → Ω^•(log D')(−D') → ι_*Ω^•_{D_1}(log D'_1)(−D'_1) → 0`, `D'_1 = D' ∩ D_1`, and
+hence the long exact sequence
+`… → H^i_dR(X, D)_! → H^i_dR(X, D')_! → H^i_dR(D_1, D'_1)_! → H^{i+1}_dR(X, D)_! → …` on the object
+of *compact-support-log-complex* ([Stacks] Tag 0FMU); iterating over the components, the cokernel of
+`Ω^•(log D)(−D) → Ω^•_X` is resolved by the complexes `ι_*Ω^•_{D_I}` of the strata
+`D_I = ⋂_{i∈I} D_i`. Separately, for `U_0 ⊂† X` affinoid or Stein, the supports sequence gives
+extension by zero `H_{dR,c}(U_0) → H_{dR,c}(X)` for the compact supports of
+*compact-support-de-rham*, with its localisation sequence ([GK02] §1, 1.9(c), Prop. 1.16(b), pp. 7,
+11). Checks: on the disc with `D_1 = {0}`, `D' = ∅` the sequence of complexes is, in degree `0`,
+`0 → xO → O → K → 0` (evaluation at `0`) and, in degree `1`, `O dx = O dx`; for `(ℙ¹)^†`,
+`D_1 = {0}`, `D' = {∞}` the connecting map `H^0_dR({0}) = K → H^1_dR(ℙ¹, D)_! = K` is an
+isomorphism, matching `(0, K, K)` against `(0, 0, K)`.
+
+**Comparison with compact supports for a proper ambient space.** (*compact-support-log-comparison*)
+For `char K = 0`, `K` discretely valued, `X` a smooth proper dagger space (equivalently rigid space,
+*partially-proper-dagger-rigid-equivalence*) of pure dimension `n` and `U = X − D`, partially proper
+over `Sp K` as the complement of a Zariski closed subset: let `H^i_{dR,c}(U) := H^i(Rp_{U!} Ω^•_U)`
+with `p_U : U → Sp K` and `Rp_{U!}` of *dagger-d-module-direct-image*, which agrees with the colimit
+form of *compact-support-de-rham* when `U` is Stein. Then `H^i_dR(X, D)_! ≅ H^i_{dR,c}(U)`,
+compatibly with the maps to `H^i_dR(X)` and with the localisation sequences of
+*compact-support-localisation-maps*, which become those of `H_{dR,c}` for `X − D ⊆ X − D'` with
+closed complement `D_1 − D'`. Proof route: as `X` is quasi-compact, `Rp_{U!}Ω^•_U` is the colimit,
+over the admissible open neighbourhoods `V ⊇ D` with quasi-compact complement, of cohomology of `X`
+with supports in `X − V` (*de-rham-cohomology-with-supports*, with excision); the cokernel of
+`Ω^•(log D)(−D) → Ω^•_X` is resolved by the complexes `ι_*Ω^•_{D_I}` of the strata
+(*compact-support-localisation-maps*), and the colimit over `V` of `RΓ(V, Ω^•_X)` is computed
+stratum by stratum on tubular neighbourhoods `D_I × (open polydisc)` (Kiehl's tubular neighbourhood
+theorem, as used in [GK02] §1, proof of Prop. 1.16(B)), the open polydisc contributing `K` in degree
+`0` by *dagger-polyannulus-de-rham-cohomology*; [GK02] §1, 1.6, defines `Rp_!`, and [Stacks] Tag
+0FMU supplies the residue resolution. Checks: `D = ∅` gives `H_dR(X) = H_{dR,c}(X)`; `(ℙ¹, {0, ∞})`
+gives `(0, K, K) = H_{dR,c}(G_m)` and `(ℙ¹, {∞})` gives `(0, 0, K) = H_{dR,c}(𝔸¹)`, the right sides
+by Poincaré duality on the Stein spaces `G_m` and `𝔸¹` when `K` has mixed characteristic; for a
+proper curve of genus `g` and `m ≥ 1` points both sides are `(0, 2g + m − 1, 1)`; the closed disc
+with `D = ∅` shows that properness is needed.
 
 ### Examples
 
-The running examples are recorded at the targets: `Σ pᵐXᵐ` against the lacunary `Σ pᵐX^{pᵐ}` and
-`Σ pᵐX^{2m}`; the Laurent, polynomial and dual-number dagger algebras; fringe presentations of
-`W_n`, `K` and the annulus and their dependence on the presentation; the naive tensor product; the
-dagger annulus as a rational localisation; weak completions of Laurent and finite algebras; MW-type
-and its non-examples; the closed dagger disc against the rigid disc (`H^1_dR = 0` against
+The running examples are recorded at the targets: `Σ pᵐXᵐ` against the lacunary `Σ pᵐX^{pᵐ}` and `Σ
+pᵐX^{2m}`; the Laurent, polynomial and dual-number dagger algebras; fringe presentations of `W_n`,
+`K` and the annulus and their dependence on the presentation; the naive tensor product; the dagger
+annulus as a rational localisation; weak completions of Laurent and finite algebras; MW-type and its
+non-examples; the closed dagger disc against the rigid disc (`H^1_dR = 0` against
 infinite-dimensional, `K⟨X⟩† ⊊ K⟨X⟩`, the automorphism `X ↦ X + a`); the open disc as Stein;
-`(𝔸¹)^†` and `(ℙ¹)^†`; compact supports and duality on the disc and the annulus; the semistable
-annulus; the affine elliptic curve `Y² = X³ + X`; the log complex of the polydisc and of
-`(ℙ¹, {0, ∞})`.
+`(𝔸¹)^†` and `(ℙ¹)^†`; compact supports and duality on the disc and the annulus; the
+mixed-dimensional `Sp K ⨿ Sp W_1` against pure dimension; the unscaled relation `X − π^{-1}` (a unit
+of `W_1`) against the rescaled `Y − 1` and `X − a` with `|a| ≤ 1`, and the non-monogenic `K[ε,
+δ]/(ε, δ)²`; the delta module `W_1[x^{-1}]/W_1 ≅ D/Dx` at the origin with its class `dx/x` in degree
+`2`; the residue trace on `ℙ¹`; the semistable annulus; the affine elliptic curve `Y² = X³ + X`; the
+log complex of the polydisc and of `(ℙ¹, {0, ∞})`, and the closed disc with `D = ∅` separating
+`H_dR(X, D)_!` from compact supports.
 
 ### Dependencies
 
@@ -1431,23 +1689,35 @@ analytification, `r`, the identity principle); AdicSpacesPartIII R2 (admissible 
 generic fibres, specialisation, *admissible-blow-up*) and R3 (coherent sheaves, Kiehl's theorems,
 quasi-Stein spaces, *sheaf-of-continuous-differentials*, GAGA, traces); R4 (*smooth-pair*);
 SchemeAndStackFoundations SF.0 (*excellent-ring*, *regular-map-completion*) and SF.4
-(*semistable-alteration-theorem*). External inputs taken as stated: finiteness of Monsky–Washnitzer
-cohomology (Berthelot, Mebkhout 1997), Bierstone–Milman resolution, and [BGR] 7.3.5/1.
+(*semistable-alteration-theorem*); PerfectoidSpaces P3.1 (Elkik's approximation theorem, for
+*elkik-lifting-algebraisation*); [Huber96] 5.6 for the compactly supported direct image, defined in
+*dagger-d-module-direct-image*. The Runge factorisation of locally closed immersions ([BGR] 7.3.5/1)
+is this layer's own target *rigid-locally-closed-immersion-runge* (F1.6), proved as in [BGR] §7.3
+from AdicSpacesPartII R1's affinoid subdomains, and *dagger-affinoid-subdomain-completion* uses it.
+The finiteness statements of F1.11 and their consequences (*dagger-de-rham-kunneth*, the affinoid
+cases of *dagger-strict-differentials* and *dagger-poincare-duality*) carry (MWF), and those through
+Theorem A also (RES), as explicit hypotheses, along the chain stated at the head of F1.11: (MWF) →
+finiteness on semistable tubes → finiteness for quasi-algebraic affinoids → with (RES) and the
+algebraisation of smooth affinoids, Theorem A → Künneth and the finite-dimensional dualities.
 
 ## Downstream consumers
 
-PerfectoidSpaces P7 and PerfectoidTowers P9 use R5's sousperfectoid spaces, stable bases
-(*stable-basis-etale-vector-bundles*), tilde-limits (*tilde-limit-base-change*), profinite flat
-modules and mixed completed tensor products; AdicEtaleGeometry cites R5's sousperfectoid rings and
-R4's site applications. The étale-cohomology, Shimura-variety, rigid-cohomology and `p`-adic Hodge
-theory roadmaps use R4's sites, R5's coefficient sheaves and F1's dagger spaces and overconvergent
-de Rham complexes.
+PerfectoidSpaces P3.19 uses *stable-basis-etale-vector-bundles*, P6 uses R5.4 and P7.1 uses
+*tilde-limits-affinoid-criterion*; PerfectoidTowers P9 uses sousperfectoid products, profinite flat
+modules and mixed completed tensor products (`IsProfiniteFlat`, `mixedTensorInt`), and conditions
+its conclusion on the coefficient Kiehl comparison; AdicEtaleGeometry cites R5's sousperfectoid
+rings and R4's site applications. The étale-cohomology, Shimura-variety, rigid-cohomology and
+`p`-adic Hodge theory roadmaps use R4's sites, R5's coefficient sheaves and F1's dagger spaces and
+overconvergent de Rham complexes; a proof of (MWF) there that does not use F1.11 discharges the
+hypothesis of F1.11's finiteness statements.
 
 ## References
 
 - [BGR] S. Bosch, U. Güntzer, R. Remmert, *Non-Archimedean Analysis*, Grundlehren 261, Springer 1984.
 - [Berkeley] P. Scholze, J. Weinstein, *Berkeley Lectures on p-adic Geometry*, Annals of Mathematics Studies 207 (2020). https://people.mpim-bonn.mpg.de/scholze/Berkeley.pdf
+- [Berthelot97] P. Berthelot, *Finitude et pureté cohomologique en cohomologie rigide*, Invent. Math. 128 (1997), 329–377.
 - [BHW] C. Birkbeck, B. Heuer, C. Williams, *Overconvergent Hilbert modular forms via perfectoid modular varieties*, Ann. Inst. Fourier (2023). https://aif.centre-mersenne.org/item/10.5802/aif.3560.pdf
+- [BM97] E. Bierstone, P. D. Milman, *Canonical desingularization in characteristic zero by blowing up the maximum strata of a local invariant*, Invent. Math. 128 (1997), 207–302.
 - [CHJ] P. Chojecki, D. Hansen, C. Johansson, *Overconvergent modular forms and perfectoid Shimura curves*, arXiv:1507.04875v2 (Doc. Math. 22 (2017)); page numbers of the arXiv PDF. https://arxiv.org/abs/1507.04875
 - [Conrad-AWS] B. Conrad, *Several approaches to non-archimedean geometry*, Arizona Winter School 2007 notes.
 - [Conrad-IC] B. Conrad, *Irreducible components of rigid spaces*, Ann. Inst. Fourier 49 (1999). https://math.stanford.edu/~conrad/papers/irredpaper.pdf
@@ -1458,6 +1728,7 @@ de Rham complexes.
 - [DLLZ-RH] H. Diao, K.-W. Lan, R. Liu, X. Zhu, *Logarithmic Riemann–Hilbert correspondences for rigid varieties*, arXiv:1803.05786v4 (J. Amer. Math. Soc. 36 (2023)). https://arxiv.org/abs/1803.05786
 - [EGA IV₂] A. Grothendieck, *Éléments de géométrie algébrique IV, seconde partie*, Publ. Math. IHÉS 24 (1965). http://www.numdam.org/item?id=PMIHES_1965__24__5_0
 - [EGA IV₄] A. Grothendieck, *Éléments de géométrie algébrique IV, quatrième partie*, Publ. Math. IHÉS 32 (1967). http://www.numdam.org/item?id=PMIHES_1967__32__5_0
+- [Elkik] R. Elkik, *Solutions d'équations à coefficients dans un anneau hensélien*, Ann. Sci. ÉNS (4) 6 (1973), 553–603. https://www.numdam.org/item/ASENS_1973_4_6_4_553_0/
 - [GK00] E. Grosse-Klönne, *Rigid analytic spaces with overconvergent structure sheaf*, arXiv:1408.3329v1 (J. reine angew. Math. 519 (2000)). https://arxiv.org/abs/1408.3329
 - [GK02] E. Grosse-Klönne, *Finiteness of de Rham cohomology in rigid analysis*, arXiv:1408.3327v1 (Duke Math. J. 113 (2002)). https://arxiv.org/abs/1408.3327
 - [GK05] E. Grosse-Klönne, *Frobenius and monodromy operators in rigid analysis, and Drinfel'd's symmetric space*, arXiv:1408.3346v1 (J. Algebraic Geom. 14 (2005)). https://arxiv.org/abs/1408.3346
@@ -1467,6 +1738,7 @@ de Rham complexes.
 - [Kedlaya01] K. S. Kedlaya, *Counting points on hyperelliptic curves using Monsky–Washnitzer cohomology*, arXiv:math/0105031v2. https://arxiv.org/abs/math/0105031
 - [Kedlaya06] K. S. Kedlaya, *Finiteness of rigid cohomology with coefficients*, arXiv:math/0208027v6 (Duke Math. J. 134 (2006)), with the author's errata. https://arxiv.org/abs/math/0208027
 - [KL15] K. S. Kedlaya, R. Liu, *Relative p-adic Hodge theory: Foundations*, arXiv:1301.0792v5. https://arxiv.org/abs/1301.0792
+- [Mebkhout97] Z. Mebkhout, *Sur le théorème de finitude de la cohomologie p-adique d'une variété affine non singulière*, Amer. J. Math. 119 (1997), 1027–1081.
 - [RZ] L. Ribes, P. Zalesskii, *Profinite Groups*, 2nd ed., Springer 2010.
 - [Scholze13] P. Scholze, *p-adic Hodge theory for rigid-analytic varieties*, arXiv:1205.3463v2 (Forum Math. Pi 1 (2013)). https://arxiv.org/abs/1205.3463
 - [Scholze-Err] P. Scholze, *Erratum to "p-adic Hodge theory for rigid-analytic varieties"*. https://www.math.uni-bonn.de/people/scholze/pAdicHodgeErratum.pdf

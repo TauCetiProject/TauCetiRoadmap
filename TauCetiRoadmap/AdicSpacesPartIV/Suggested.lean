@@ -8,6 +8,7 @@ import TauCeti.RingTheory.Huber.Uniform
 import TauCeti.RingTheory.Huber.WeightedRestrictedSeries.Completion
 import TauCeti.Topology.Algebra.Module.Compact
 import TauCetiRoadmap.AdicEtaleGeometry.Suggested
+import TauCetiRoadmap.PerfectoidSpaces.Suggested
 
 /-!
 # Foundations of adic spaces, Part IV: representative target signatures
@@ -16,7 +17,7 @@ This file is a set of suggested forms, not an exhaustive checklist: the README i
 
 Huber rings and pairs, adic spectra, rational localisations, Tate algebras and the category
 `TauCeti.AdicSpace` are Tau Ceti's; AdicSpacesPartII supplies affinoid charts and Huber's
-morphism classes, AdicEtaleGeometry the perfectoid Tate-ring predicate, open subspaces, the
+morphism classes, PerfectoidSpaces the perfectoid Tate-ring predicate, AdicEtaleGeometry open subspaces, the
 completed rational localisation `ratLoc`, étale morphisms by local description and fibre
 products. Completeness includes the Hausdorff property. This file states the parts that are a
 few lines over these carriers:
@@ -238,7 +239,7 @@ end SmoothPair
 
 namespace Huber
 
-open TauCeti.Huber TauCetiRoadmap.AdicEtaleGeometry.PerfectoidInput
+open TauCeti.Huber TauCetiRoadmap.PerfectoidSpaces.Perfectoid
 
 universe u v
 
@@ -253,16 +254,21 @@ section Frame
 variable (p : ℕ) (R : Type u) [CommRing R] [TopologicalSpace R] [IsTopologicalRing R]
 
 /-- A *perfectoid frame* `(R̃, ι, σ)` of a topological ring `R`: a perfectoid Tate ring `R̃` for
-`p`, a continuous ring map `ι : R → R̃` and a continuous additive `σ : R̃ → R` that is
+`p` (PerfectoidSpaces' `Perfectoid.IsPerfectoidTateRing`, over its complete Hausdorff uniform
+Tate structure), a continuous ring map `ι : R → R̃` and a continuous additive `σ : R̃ → R` that is
 `R`-linear through `ι` with `σ ∘ ι = id`; `σ` need not be multiplicative (HK, Def. 7.1, p. 25;
 Berkeley, Def. 6.3.1, p. 47). -/
 structure PerfectoidFrame where
   /-- The perfectoid Tate ring `R̃`. -/
   Rt : Type u
   [commRing : CommRing Rt]
-  [topologicalSpace : TopologicalSpace Rt]
+  [uniformSpace : UniformSpace Rt]
+  [isUniformAddGroup : IsUniformAddGroup Rt]
   [isTopologicalRing : IsTopologicalRing Rt]
-  isPerfectoidTateRing : IsPerfectoidTateRing p Rt
+  [isTateRing : IsTateRing Rt]
+  [completeSpace : CompleteSpace Rt]
+  [t2Space : T2Space Rt]
+  [isPerfectoidTateRing : IsPerfectoidTateRing p Rt]
   /-- The embedding `ι : R → R̃`. -/
   ι : R →+* Rt
   continuous_ι : Continuous ι
@@ -272,8 +278,9 @@ structure PerfectoidFrame where
   σ_mul : ∀ (r : R) (x : Rt), σ (ι r * x) = r * σ x
   σ_ι : ∀ r : R, σ (ι r) = r
 
-attribute [instance] PerfectoidFrame.commRing PerfectoidFrame.topologicalSpace
-  PerfectoidFrame.isTopologicalRing
+attribute [instance] PerfectoidFrame.commRing PerfectoidFrame.uniformSpace
+  PerfectoidFrame.isUniformAddGroup PerfectoidFrame.isTopologicalRing PerfectoidFrame.isTateRing
+  PerfectoidFrame.completeSpace PerfectoidFrame.t2Space PerfectoidFrame.isPerfectoidTateRing
 
 /-- `R` is *sousperfectoid* (for `p`): a Tate ring admitting a perfectoid frame. Completeness,
 the Hausdorff property and topological nilpotence of `p` are consequences. -/
@@ -283,25 +290,8 @@ class IsSousperfectoid : Prop where
 
 variable {p R}
 
-/-- The identity frame `(R, id, id)` of a perfectoid Tate ring. -/
-def PerfectoidFrame.refl (h : IsPerfectoidTateRing p R) : PerfectoidFrame p R where
-  Rt := R
-  isPerfectoidTateRing := h
-  ι := RingHom.id R
-  continuous_ι := continuous_id
-  σ := AddMonoidHom.id R
-  continuous_σ := continuous_id
-  σ_mul _ _ := rfl
-  σ_ι _ := rfl
-
-/-- Perfectoid Tate rings are sousperfectoid, with the identity frame (Berkeley, Ex. 6.3.2(1)). -/
-theorem IsSousperfectoid.of_isPerfectoidTateRing (h : IsPerfectoidTateRing p R) :
-    IsSousperfectoid p R :=
-  ⟨h.isTateRing, ⟨PerfectoidFrame.refl h⟩⟩
-
 /-- Power-boundedness is detected in a frame: `R° = ι⁻¹(R̃°)` (HK, Def. 7.1, p. 25). -/
 theorem PerfectoidFrame.powerBoundedSubring_eq_comap [IsTateRing R] (F : PerfectoidFrame p R) :
-    haveI := F.isPerfectoidTateRing.isTateRing
     powerBoundedSubring R = (powerBoundedSubring F.Rt).comap F.ι := sorry
 
 /-- Sousperfectoid rings are uniform (HK, §7, Def. 7.1 and §2, Def. 2.3, p. 3). -/
@@ -311,6 +301,28 @@ theorem IsSousperfectoid.isUniform [IsSousperfectoid p R] : IsUniform R := sorry
 theorem IsSousperfectoid.isReduced [IsSousperfectoid p R] : IsReduced R := sorry
 
 end Frame
+
+section IdentityFrame
+
+variable {p : ℕ} {R : Type u} [CommRing R] [UniformSpace R] [IsUniformAddGroup R]
+  [IsTopologicalRing R] [IsTateRing R] [CompleteSpace R] [T2Space R]
+
+/-- The identity frame `(R, id, id)` of a perfectoid Tate ring. -/
+def PerfectoidFrame.refl [IsPerfectoidTateRing p R] : PerfectoidFrame p R where
+  Rt := R
+  ι := RingHom.id R
+  continuous_ι := continuous_id
+  σ := AddMonoidHom.id R
+  continuous_σ := continuous_id
+  σ_mul _ _ := rfl
+  σ_ι _ := rfl
+
+/-- Perfectoid Tate rings are sousperfectoid, with the identity frame (Berkeley, Ex. 6.3.2(1)). -/
+theorem IsSousperfectoid.of_isPerfectoidTateRing [IsPerfectoidTateRing p R] :
+    IsSousperfectoid p R :=
+  ⟨inferInstance, ⟨PerfectoidFrame.refl⟩⟩
+
+end IdentityFrame
 
 /-- The direction of the splitting: `σ ∘ ι = id_R`, while `ι ∘ σ` is only an idempotent of `R̃`
 and, over a nonzero `R`, is not the identity for every frame. -/
@@ -384,10 +396,9 @@ theorem IsSousperfectoid.of_finite_padic (p : ℕ) [Fact p.Prime] (K : Type) [Fi
 
 /-- For a nonzero perfectoid Tate ring `S` and `n ≥ 1`, `S⟨T₁, …, Tₙ⟩` is not perfectoid
 (BHW, proof of Cor. 3.4, p. 1725). -/
-theorem not_isPerfectoidTateRing_restrictedMvPowerSeries {p : ℕ} (S : Type u) [CommRing S]
-    [TopologicalSpace S] [IsTopologicalRing S] [Nontrivial S] (hS : IsPerfectoidTateRing p S)
-    (n : ℕ) (hn : 0 < n) :
-    haveI := hS.isTateRing
+theorem not_isPerfectoidTateRing_restrictedMvPowerSeries {p : ℕ} [Fact p.Prime] (S : Type u)
+    [CommRing S] [UniformSpace S] [IsUniformAddGroup S] [IsTopologicalRing S] [IsTateRing S]
+    [CompleteSpace S] [T2Space S] [Nontrivial S] [IsPerfectoidTateRing p S] (n : ℕ) (hn : 0 < n) :
     ¬ IsPerfectoidTateRing p (restrictedMvPowerSeriesCompletion n S) := sorry
 
 /-- `ℚ_p⟨T⟩` is sousperfectoid (frame `ℚ_p^cycl⟨T^{1/p^∞}⟩`) but not perfectoid. -/
@@ -399,9 +410,9 @@ example (p : ℕ) [Fact p.Prime] :
 example (p : ℕ) [Fact p.Prime] :
     ¬ IsSousperfectoid p (DualNumber (restrictedMvPowerSeriesCompletion 1 ℚ_[p])) := sorry
 
-/-- The zero ring is perfectoid, hence sousperfectoid; this is why `S ≠ 0` is assumed above. -/
-example (p : ℕ) [Fact p.Prime] [IsTopologicalRing PUnit] :
-    IsPerfectoidTateRing p PUnit ∧ IsSousperfectoid p PUnit := sorry
+/-- The zero ring is perfectoid (every condition is vacuous), hence sousperfectoid; this is why
+`S ≠ 0` is assumed above. -/
+example (p : ℕ) [Fact p.Prime] [IsTopologicalRing PUnit] : IsSousperfectoid p PUnit := sorry
 
 /-- In characteristic `p`, for a uniform complete Tate ring with finite Frobenius, sousperfectoid
 means that Frobenius splits `A`-linearly (HK, Lem. 7.10). -/
@@ -614,7 +625,7 @@ open TauCetiRoadmap.AdicSpacesPartII.AdicSpace (Affinoid Chart IsAdic IsAnalytic
   LocallyOfWeaklyFiniteType Smooth)
 open TauCetiRoadmap.AdicEtaleGeometry.AdicSpace (FibreProduct IsEtaleLocalDescription
   IsLocallyNoetherianAnalytic)
-open TauCetiRoadmap.AdicEtaleGeometry.PerfectoidInput (IsPerfectoidTateRing)
+open TauCetiRoadmap.PerfectoidSpaces.Perfectoid (IsPerfectoidTateRing)
 
 /-- `X` is *sousperfectoid* if every point has an affinoid chart with sousperfectoid coordinate
 ring (BHW, Def. 3.2(3), p. 1724). -/
@@ -655,12 +666,13 @@ example (p : ℕ) (X : TauCeti.AdicSpace) [IsEmpty X.obj] : IsSousperfectoid p X
 a perfectoid space `X` over `L` and a smooth `Y` over `L'`, the fibre product `X ×_L Y` exists and
 is sousperfectoid; it is not perfectoid in general (BHW, Cor. 3.4, pp. 1724–1725). -/
 theorem perfectoidTimesSmooth_exists (p : ℕ) [Fact p.Prime] (L L' : Affinoid)
-    (hL : IsField L.ring) (hL' : IsField L'.ring) (hpL : IsPerfectoidTateRing p L.ring)
-    (hpL' : IsPerfectoidTateRing p L'.ring) (hLplus : L.pair.plus = powerBoundedSubring L.ring)
+    (hL : IsField L.ring) (hL' : IsField L'.ring) [IsTateRing L.ring] [IsTateRing L'.ring]
+    [IsPerfectoidTateRing p L.ring] [IsPerfectoidTateRing p L'.ring]
+    (hLplus : L.pair.plus = powerBoundedSubring L.ring)
     (hLplus' : L'.pair.plus = powerBoundedSubring L'.ring) (σ : L'.spa ⟶ L.spa)
     (X Y : TauCeti.AdicSpace) (f : X ⟶ L.spa) (g : Y ⟶ L'.spa)
-    (hX : ∀ x : X.obj, ∃ c : Chart X, IsPerfectoidTateRing p c.affinoid.ring ∧
-      x ∈ Set.range c.ι.hom.base)
+    (hX : ∀ x : X.obj, ∃ (c : Chart X) (_ : IsTateRing c.affinoid.ring),
+      IsPerfectoidTateRing p c.affinoid.ring ∧ x ∈ Set.range c.ι.hom.base)
     (hg : Smooth g) :
     ∃ P : FibreProduct f (g ≫ σ), IsSousperfectoid p P.space := sorry
 
@@ -932,7 +944,10 @@ theorem completion_isAffinoid :
 /-- `a ∈ A` is a unit iff `τ a` is a unit of `Â` (GK00, §1, 1.9). -/
 theorem isUnit_iff_isUnit_completion (a : A) : IsUnit a ↔ IsUnit (toCompletion K A a) := sorry
 
-/-- Finite algebras over dagger algebras are dagger algebras (GK00, §1, Lem. 1.10). -/
+/-- Finite algebras over dagger algebras are dagger algebras (GK00, §1, Lem. 1.10). The
+construction adjoins one generator at a time and rescales each generator by a scalar so that its
+monic equation has power-bounded coefficients at a fringe stage; the controls below show why both
+steps are needed. -/
 theorem IsDaggerAlgebra.of_finite {B : Type*} [CommRing B] [Algebra K B] [Algebra A B]
     [IsScalarTower K A B] [Module.Finite A B] : IsDaggerAlgebra K B := sorry
 
@@ -961,6 +976,32 @@ example (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] (d : ℕ)
     (φ : washnitzerAlgebra d K →ₐ[K]
       (washnitzerAlgebra 0 K ⧸ (⊤ : Ideal (washnitzerAlgebra 0 K)))) :
     ¬ Function.Injective φ := sorry
+
+/-- The generator must be rescaled in `IsDaggerAlgebra.of_finite`: for `0 < ‖π‖ < 1`,
+`K[X]/(X − π⁻¹) ≅ K`, but `X − π⁻¹ = −π⁻¹(1 − πX)` is a unit of `W₁` (the inverse `∑ πᵐXᵐ` is
+restricted at every radius below `‖π‖⁻¹`), so the unscaled presentation `W₁/(X − π⁻¹)` is zero. -/
+example (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] (π : K) (hπ : 0 < ‖π‖)
+    (hπ' : ‖π‖ < 1) :
+    Nonempty ((Polynomial K ⧸ Ideal.span {Polynomial.X - Polynomial.C π⁻¹}) ≃ₐ[K] K) ∧
+      IsUnit (washnitzerAlgebra.X 1 K 0 - algebraMap K (washnitzerAlgebra 1 K) π⁻¹) :=
+  ⟨⟨Polynomial.quotientSpanXSubCAlgEquiv π⁻¹⟩, sorry⟩
+
+/-- Positive control: for `‖a‖ ≤ 1` the relation `X − a` needs no rescaling, and evaluation at `a`
+identifies `W₁/(X − a)` with `K`; `a = 1` is the relation `Y − 1` obtained from `X − π⁻¹` by the
+rescaling `Y = πX`. -/
+example (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K] (a : K)
+    (ha : ‖a‖ ≤ 1) :
+    ∃ e : (washnitzerAlgebra 1 K ⧸
+        Ideal.span {washnitzerAlgebra.X 1 K 0 - algebraMap K (washnitzerAlgebra 1 K) a}) ≃ₐ[K] K,
+      e (Ideal.Quotient.mk _ (washnitzerAlgebra.X 1 K 0)) = a := sorry
+
+/-- Finite algebras need not be generated by one element, which is why `IsDaggerAlgebra.of_finite`
+adjoins one generator at a time: `K[ε, δ]/(ε, δ)²` has dimension `3`, while the subalgebra generated
+by one element `b` is spanned by `1` and `b`. -/
+example (K : Type*) [Field K] :
+    ¬ ∃ b : MvPolynomial (Fin 2) K ⧸
+        (Ideal.span {MvPolynomial.X 0, MvPolynomial.X 1} : Ideal (MvPolynomial (Fin 2) K)) ^ 2,
+      Algebra.adjoin K {b} = ⊤ := sorry
 
 /-! ### F1.5 Weak completions and Monsky–Washnitzer type
 (*integral-overconvergent-tate-algebra*, *integral-overconvergent-noetherian*, *weak-completion*,
@@ -1119,6 +1160,14 @@ example (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteS
     (p : ℕ) [Fact p.Prime] [CharP K p] :
     ¬ ∃ f, Omega.d K (washnitzerAlgebra 1 K) f =
       washnitzerAlgebra.X 1 K 0 ^ (p - 1) • Omega.d K _ (washnitzerAlgebra.X 1 K 0) := sorry
+
+/-- Pure dimension is not Krull dimension: `K × W₁`, the ring of the smooth space `Sp K ⨿ Sp W₁`,
+is a dagger algebra of Krull dimension `1` with a factor of dimension `0`. That space has
+`H⁰_dR = K²`, `H⁰_{dR,c} = K` and `H²_{dR,c} = K`, so duality with a single shift `2n` needs pure
+dimension. -/
+example (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K] :
+    IsDaggerAlgebra K (K × washnitzerAlgebra 1 K) ∧
+      ringKrullDim (K × washnitzerAlgebra 1 K) = 1 ∧ ringKrullDim K = 0 := sorry
 
 section MWType
 
