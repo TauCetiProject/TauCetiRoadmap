@@ -350,6 +350,33 @@ def IsLocallyNoetherianAnalytic (X : TauCeti.AdicSpace) : Prop :=
 theorem IsLocallyNoetherianAnalytic.isLocallyStronglySheafy {X : TauCeti.AdicSpace}
     (h : IsLocallyNoetherianAnalytic X) : IsLocallyStronglySheafy X := sorry
 
+/-- The bridge to Part II's predicates: `X` is locally noetherian analytic iff it is locally
+noetherian and analytic in the sense of AdicSpacesPartII. Forward: a strongly noetherian Tate
+chart is of noetherian type and Tate. Backward: refine a noetherian-type chart and a Tate chart at
+each point to a common rational subdomain, Tate and of noetherian type, and use
+`IsNoetherianType.isStronglyNoetherian` for Tate rings. -/
+theorem isLocallyNoetherianAnalytic_iff {X : TauCeti.AdicSpace} :
+    IsLocallyNoetherianAnalytic X ↔ IsLocallyNoetherian X ∧ IsAnalytic X := sorry
+
+/-- Forward projection. -/
+theorem IsLocallyNoetherianAnalytic.isLocallyNoetherian {X : TauCeti.AdicSpace}
+    (h : IsLocallyNoetherianAnalytic X) : IsLocallyNoetherian X :=
+  (isLocallyNoetherianAnalytic_iff.mp h).1
+
+/-- Forward projection. -/
+theorem IsLocallyNoetherianAnalytic.isAnalytic {X : TauCeti.AdicSpace}
+    (h : IsLocallyNoetherianAnalytic X) : IsAnalytic X :=
+  (isLocallyNoetherianAnalytic_iff.mp h).2
+
+/-- Backward construction, for consumers holding Part II's two hypotheses. -/
+theorem IsLocallyNoetherianAnalytic.of_isLocallyNoetherian_of_isAnalytic {X : TauCeti.AdicSpace}
+    (hN : IsLocallyNoetherian X) (hA : IsAnalytic X) : IsLocallyNoetherianAnalytic X :=
+  isLocallyNoetherianAnalytic_iff.mpr ⟨hN, hA⟩
+
+/-- An empty space is locally noetherian analytic. -/
+example (X : TauCeti.AdicSpace) [IsEmpty X.obj] : IsLocallyNoetherianAnalytic X :=
+  fun x ↦ isEmptyElim x
+
 /-! ### A1.3 Finite étale and étale morphisms (*finite-etale-morphism*, *etale-morphism*,
 *etale-composition*, *etale-base-change*, *etale-cancellation*, *etale-open-map*) -/
 

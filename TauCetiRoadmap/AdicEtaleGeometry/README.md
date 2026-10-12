@@ -44,11 +44,18 @@ carriers.
 | A4 | Analytic adic presentations for diamondification | uniform completion and étale invariance, the finite étale torsor tower, perfectoidness, the perfectoid cover presentation |
 
 ```text
-AdicSpacesPartII R0–R1, AdicSpacesPartIII F0/R2, AdicSpacesPartIV R4 → A0, A2
-A0, AdicSpacesPartII R0, AdicSpacesPartIII R3, DiamondsAndVStacks D0 → A1 → A2
-A1, AdicSpacesPartII R0, AdicSpacesPartIII R3, AdicSpacesPartIV R5, PerfectoidSpaces P1–P5 → A3
-A1, AdicSpacesPartII R0, PerfectoidSpaces P1–P3, P5–P6, PerfectoidTowers P9  → A4 → DiamondsAndVStacks D6
+AdicSpacesPartII R0–R1, AdicSpacesPartIII F0/R2 → A0
+A0, AdicSpacesPartII R0, AdicSpacesPartIII R3, DiamondsAndVStacks D0 → A1
+A1, AdicSpacesPartII R0–R1, AdicSpacesPartIII F0/R2 → A2   (A2.6 alone also compares with AdicSpacesPartIV R4's analytification/étale-site statements)
+A1, AdicSpacesPartII R0, AdicSpacesPartIII R3, AdicSpacesPartIV R5.6–R5.8 (generic stable bases), PerfectoidSpaces P1–P3, P5 (finite-stage inputs) → A3
+A1, A3, AdicSpacesPartII R0, PerfectoidSpaces P1–P3, P5–P6, PerfectoidTowers P9.1–P9.4 → A4 → DiamondsAndVStacks D6
 ```
+
+The arrows are subsection-level and acyclic: AdicSpacesPartIV R4 and R5.1–R5.5 *consume* A1's
+sites and re-export them, so they are not suppliers of A0 or A1; A3's affinoid-étale
+approximation and assembly interface is consumed by PerfectoidSpaces P6 and by A4; A4's analytic
+torsor presentation precedes DiamondsAndVStacks D6. A whole-folder import in the opposite
+direction never stands in for one of these atomic edges.
 
 ## Scope and ownership
 
@@ -1693,10 +1700,36 @@ is why the class is introduced. *Needs:* Tau Ceti `Huber.IsTateRing`,
 Lean: `Huber.IsStronglySheafy`, `Huber.IsStronglySheafy.isSheafyRing`,
 `Huber.IsStronglySheafy.restrictedMvPowerSeries`, `Huber.IsStronglySheafy.of_isStronglyNoetherian`,
 `Huber.IsStronglySheafy.of_isStablySheafyRing`, `AdicSpace.IsLocallyStronglySheafy` (stated with
-strongly sheafy Tate affinoid charts of AdicSpacesPartII), `AdicSpace.IsLocallyNoetherianAnalytic`
-and `AdicSpace.IsLocallyNoetherianAnalytic.isLocallyStronglySheafy`; the rest is README only.
+strongly sheafy Tate affinoid charts of AdicSpacesPartII), `AdicSpace.IsLocallyNoetherianAnalytic`,
+`AdicSpace.IsLocallyNoetherianAnalytic.isLocallyStronglySheafy`, and the bridge to Part II's
+predicates `AdicSpace.isLocallyNoetherianAnalytic_iff` (`IsLocallyNoetherianAnalytic X ↔
+IsLocallyNoetherian X ∧ IsAnalytic X`, with the projections
+`IsLocallyNoetherianAnalytic.isLocallyNoetherian`, `.isAnalytic` and the constructor
+`.of_isLocallyNoetherian_of_isAnalytic`), so that a consumer holding Part II's two hypotheses
+invokes the A1 comparisons (*etale-morphisms-local-description-and-comparison*,
+*finite-etale-morphism*, the smooth ball-chart comparison and the relative-dimension bound of A2)
+without supplying chart data; the rest is README only. The forward direction is chart by chart (a
+strongly noetherian Tate chart is Tate and of noetherian type); the backward direction refines a
+noetherian-type chart and a Tate chart at each point to a common rational subdomain, which is
+Tate and of noetherian type (both properties pass to rational localisations: Huber 1994 §3,
+Cor. 3.4(ii), as recorded in AdicSpacesPartII *noetherian-type-huber-ring*), and then uses Part II's ring-level
+`IsNoetherianType.isStronglyNoetherian` for Tate rings — recorded as the dependency rather than
+reproved here. Part II's general `IsLocallyNoetherian`, which also covers non-analytic spaces, is
+not replaced.
 
 **Checks.**
+
+- *locallyNoetherianAnalytic_padic* (computation) — `Spa(ℚ_p, ℤ_p)` is locally noetherian
+  analytic by its identity chart (a strongly noetherian Tate ring), and the bridge returns Part
+  II's two predicates for it.
+- *locallyNoetherianAnalytic_restrict* (compatibility) — an open subspace of a locally noetherian
+  analytic space is locally noetherian analytic, on both sides of the bridge.
+- *locallyNoetherianAnalytic_empty* (degenerate) — the empty space satisfies the predicate (a Lean
+  `example`, proved) and both Part II predicates.
+- *locallyNoetherianAnalytic_padicInt* (non-example) — `Spa(ℤ_p, ℤ_p)` is locally noetherian
+  (noetherian ring of definition `ℤ_p`) but not analytic (its closed point has no Tate
+  neighbourhood), so it is not locally noetherian analytic: the bridge does not make a locally
+  noetherian space analytic.
 
 - *test_tateAlgebra* — for `K` a complete nonarchimedean field and `m ≥ 0`,
   `Huber.IsStronglySheafy (K⟨T₁, …, T_m⟩)` (strongly noetherian).
@@ -2701,16 +2734,19 @@ embedding" of [PH] §5, Lem. 5.2, p. 28, and [ECD] §6, proof of Prop. 6.4, pp. 
   `U ×_W V`.
 
 **Reduction of étale coverings and the sheaf criterion.** (*etale-covering-reduction*) Let `X`
-be locally strongly sheafy analytic, `𝓑 = X_ét^aff` the basis of *basis-comparison* (coverings of
-basis objects by basis objects admit finite subcovers, by quasi-compactness), and `P` a property of finite
+be locally strongly sheafy analytic and `𝓑` a cover-dense class of affinoid objects of `X_ét`
+stable under rational embeddings and finite étale maps — by default `𝓑 = X_ét^aff`, the basis of
+*basis-comparison* (coverings of basis objects by basis objects admit finite subcovers, by
+quasi-compactness), and in general any stable basis in this sense — and `P` a property of finite
 coverings in `X_ét` of objects of `𝓑` by objects of `𝓑` such that (a) a covering admitting a
 refinement with `P` has `P`; (b) composites of coverings with `P` have `P`; (c) for `Y ∈ 𝓑` every
 rational covering of `Y` has `P`; (d) for `Y ∈ 𝓑` every surjective finite étale `Y' → Y`, as a
 one-member covering, has `P`. Prove that every finite covering in `X_ét` of an object of `𝓑` by
 objects of `𝓑` has `P` ([KL I] §8.2, Prop. 8.2.20 and its proof, p. 163, after [dJvP] §3.2,
 Prop. 3.2.2, p. 23, by induction on the degree using the complement of the diagonal).
-AdicSpacesPartIV layer R5 (*stable-basis-covering-reduction*) re-exports this reduction for an
-arbitrary stable basis of sheafy affinoid objects of an analytic adic space. Sheaf
+This is the generic theorem, proved once for an arbitrary stable class `𝓑`; AdicSpacesPartIV
+layer R5 (*stable-basis-covering-reduction*) is its wrapper for the class of
+sousperfectoid-stably-adic objects (a consumer, with no second proof). Sheaf
 criterion: a presheaf `F` of sets (or abelian groups) on `X_ét` is a sheaf iff (1) for every
 `U ∈ X_ét` the restriction of `F` to the open subspaces of `U` is a sheaf, and (2) for every
 surjective finite étale `Y' → Y` of objects of `𝓑`, `F(Y) → F(Y') ⇉ F(Y' ×_Y Y')` is an equaliser.
@@ -3099,8 +3135,11 @@ generisations of `x`: for the finite separable extension `k(x)^ → k(ū(s))^` t
 maximal ideal, which contract injectively and surjectively, by incomparability and going up,
 to the overrings of `k(x)^+`), so when `rank(x)` is finite, `|X(ξ)|` has `rank(x)` points, matching the rank of `C_ξ⁺`,
 which equals that of `k(x)^+`; (c) for `X = Spa(K, K⁺)` with `K` a complete nonarchimedean field,
-`O_{X_ét, ξ} = K^sep`, the separable closure of `K` in `C`, and `X(ξ)` is the `Spa` of its
-completion with `C⁺ ∩ (K^sep)^`. For arbitrary `K⁺` the stalk functor on `X_ét` is the colimit of
+`O_{X_ét, ξ} = K^sep`, the separable closure of `K` in `C` (the uncompleted ring of sections of
+the pro-object), and, on underlying spaces, `|X(ξ)| ≅ |Spa((K^sep)^, C⁺ ∩ (K^sep)^)|`, the
+spectrum of the completed geometric field, as in (b); the three objects — the pro-object `X(ξ)`,
+its ring `O_{X_ét, ξ}`, and the affinoid field `(C_ξ, C_ξ⁺)` whose spectrum realises `|X(ξ)|` —
+are kept distinct, and `X(ξ)` is never written as an equality with that spectrum. For arbitrary `K⁺` the stalk functor on `X_ét` is the colimit of
 *strict-localisation* over all pointed étale neighbourhoods, which include pointed rational opens
 inside finite étale covers `Spa(L, L⁺)` (`L⁺` the integral closure of `K⁺` in `L`,
 *finite-etale-morphism*); it retains the prolongation of the valuation selected by `ξ` and
@@ -3130,9 +3169,10 @@ the chosen geometric field. *Needs:* *strict-localisation*; *geometric-point-eta
 - *strictLocalRing_quadratic_not_conjugate* — the germ of `r` is not sent to `−r`;
   composing evaluation with a field automorphism exchanging the quadratic roots fails this Check.
 - *strictLocalization_padic* — for `X = Spa(ℚ_p, ℤ_p)` and `ξ` from `ℚ_p ⊆ ℂ_p`,
-  `O_{X_ét, ξ} = ℚ̄_p` and `X(ξ) = Spa(ℂ_p, O_{ℂ_p})`.
+  `O_{X_ét, ξ} = ℚ̄_p` (the uncompleted stalk) and `|X(ξ)| ≅ |Spa(ℂ_p, O_{ℂ_p})|`, a one-point space;
+  `ℂ_p` is the ring of global sections of that spectrum, not the stalk.
 - *strictLocalization_rank_two* — for `X = Spa(K, K⁺)` with `K⁺` of rank 2 and `ξ` supported at
-  the closed point, `X(ξ) = Spa(C_ξ, C_ξ⁺)` with `C_ξ⁺` of rank 2 (two points).
+  the closed point, `|X(ξ)| ≅ |Spa(C_ξ, C_ξ⁺)|` with `C_ξ⁺` of rank 2 (two points).
 - *strictLocalization_gauss_rank_two* (computation) — for the closed disc `X = Spa(ℚ_p⟨T⟩, ℤ_p⟨T⟩)`,
   `x` the rank-2 specialisation of the Gauss point `η` in the direction `|T| < 1⁺` (`k(x)^+ =
   {f ∈ O_{k(η)^} : f̄ ∈ 𝔽_p[T̄]_{(T̄)}}`) and `ξ` supported at `x`: `|X(ξ)| = {η, x}`, two points;
