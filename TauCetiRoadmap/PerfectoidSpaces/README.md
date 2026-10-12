@@ -94,9 +94,10 @@ every complete Hausdorff uniform Tate ring.
 The glued-tilting construction is `PerfectoidSpace.tiltFunctor` on this roadmap's
 `Perfd` carrier, with the comparisons and slice equivalence specified in P2.11.
 
-The boundaries with the neighbouring roadmaps: AdicEtaleGeometry A1.2–A1.3 and A1.6 supply
-`YonedaAdicSpace.IsFiniteEtale`, `IsEtaleLocalDescription` and `smallEtale`, the finite étale and
-étale morphisms of analytic adic spaces and their sites;
+The boundaries with the neighbouring roadmaps: AdicEtaleGeometry A1.2–A1.3 and A1.6 supply the
+finite étale and étale morphisms of analytic adic spaces and their sites on `TauCeti.AdicSpace`, and
+A1.9 their forms `YonedaAdicSpace.IsFiniteEtale`, `IsEtaleLocalDescription` and `smallEtale` on the
+analytic Yoneda carrier;
 P3 restricts these notions to perfectoid spaces and compares them with its own. P6 constructs pro-étale morphisms
 and the `κ`-small calculus. P7 uses Mathlib's compact-open covering condition
 `IsCompactOpenCovered` directly and builds no site from it.
@@ -218,7 +219,8 @@ External inputs and their applications in the layers:
 - finite étale algebras over an algebraic filtered colimit of rings — AdicEtaleGeometry
   A4.3 (*finite-etale-algebras-filtered-colimit*) (P3.2, P5.9); the general completion
   equivalence is P3.2's `finiteEtale_completedColimit`, and A4.5's
-  `FiniteEtaleTorsorTower.completion_finiteEtale_equivalence` is its torsor-tower specialization,
+  `completion_finiteEtale_equivalence_continuousMap` (*finite-etale-invariance-along-tower*) is its
+  torsor-tower specialization,
   downstream; the finite étale pair `Huber.Pair.finiteEtale` — AdicEtaleGeometry A1.2
   (*finite-etale-affinoid-algebra*) (P3.3, P3.10);
 - composition, base change, cancellation and openness of (finite) étale morphisms of analytic adic
@@ -274,8 +276,8 @@ Rings of integral elements are open, integrally closed and contained in `R°`; c
 Tate pairs complete the colimit of the plus rings `ϖ`-adically and invert `ϖ`. "qcqs" means
 quasicompact and quasiseparated; morphisms of perfectoid spaces are morphisms of adic spaces.
 Tilde-limits carry both the topological condition and the affinoid density condition. Cardinals:
-`κ`-smallness is tested on affinoid covers, and uniformly `κ`-small means `κ`-small with a `κ`-small
-affinoid cover; the cutoff cardinals are strong limits and may be singular.
+`κ`-smallness is tested on affinoid covers, and uniformly `κ`-small means `κ'`-small for a single
+`κ' < κ` (P6.2); the cutoff cardinals are strong limits and may be singular.
 
 Each target below is written with its hypotheses in the sentence, its source locator in parentheses
 (short keys are resolved in the References), its API as named lemmas and its unit tests as `Checks`;
@@ -565,57 +567,58 @@ the modulo-`p` formulation they need is `IsPerfectoidTateRing.iff_frobenius_surj
 
 | Object | Exact supplier and file | Use |
 | --- | --- | --- |
-| Analyticity and affinoid sheafiness | `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace.IsAnalytic`, `TauCetiRoadmap.AdicEtaleGeometry.CAff.Sheafy`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`, A1.16 | P2 and P7 use the supplied Tate-chart analyticity predicate. `AdicSpace.IsHonest` uses `CAff.Sheafy` for its affinoid charts, as do `Perfectoid.FrobeniusTower.isTildeLimit`, `PerfectoidSpace.GoodAffinoid.isUniformCompletion` and `PerfectoidSpace.IsPreperfectoid.closedSubspace`. |
-| Ordinary and Čech acyclicity | `TauCetiRoadmap.AdicSpacesPartIII.AdicSpace.sheafy_structure_acyclic`, `sheafy_isCechAcyclic`, `TauCetiRoadmap/AdicSpacesPartIII/Suggested.lean`, R3.1 | Apply to `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Chart`, with coefficient ring `c.affinoid.ring` and spectrum `c.affinoid.spa`, made sheafy by `Perfectoid.isSheafyRing`, and transport through `rationalPresheaf_iso_presentationLimit`; these supply ordinary acyclicity of `rationalSheaf` and Čech acyclicity of `rationalPresheaf`. |
-| Yoneda-adic carrier and affinoid spectra | `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace`, `YonedaAdicSpace.ofSpaY`, `YonedaAdicSpace.spaYFunctor`, `YonedaAdicSpace.IsOpenImmersion`, `YonedaAdicSpace.space`; `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`, A1.16 | The analytic carrier of the comparisons of P2.9–P2.10; the full perfectoid subcategory itself is cut out of Tau Ceti's `PreAdicSpace` by sheafiness and open perfectoid affinoid covers (P2.10). |
-| Classical adic comparison | `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace.ofAdicSpace`, `ofAdicSpace_full`, `ofAdicSpace_faithful`, `ofAdicSpace_spa`, `ofAdicSpace_space`, `ofAdicSpace_space_naturality`, `ofAdicSpace_isOpenImmersion_iff`; `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`, A1.16 | The comparisons of P2.9 and P2.10 identify the Yoneda forms of the perfectoid predicates with the classical presentations and open covers, which are the Lean definitions. |
-| Maps from arbitrary classical adic spaces | `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace.mapsFromAdicSpaceEquiv`, `mapsFromAdicSpaceEquiv_sheafy`; `TauCetiRoadmap.AdicEtaleGeometry.AdicSpace.Oplus`; `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`, A1.16 | `spaHomEquiv_adic` transports the supplied equivalence to morphisms into the Yoneda spectrum of a perfectoid pair; the supplier supplies the topology of global sections. |
-| Complete affinoid category | `TauCetiRoadmap.AdicEtaleGeometry.CAff`, `CAff.of`, `CAff.ofHom`; `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`, A1.16 | Underlying Huber pairs and their continuous plus-preserving maps. |
-| Topology on completed tensors and spectral rings | `TauCetiRoadmap.AdicSpacesPartII.Huber.CompletedTensor.isUniformAddGroup`, `.isTopologicalRing`, `.isHuberRing`, `Pair.completedTensor.instIsTateRing`, `SpectralTop.isUniformAddGroup`, `.isTopologicalRing`, `.isTateRing`; `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`, R0.3–R0.4 | Register these supplied theorems as instances for the perfectoid tensor statements. |
-| Completed tensors and uniformization | `TauCetiRoadmap.AdicSpacesPartII.Huber.CompletedTensor`, `Uniformization`, `Pair.completedTensor`, `Pair.completedTensor.tmul`, `Pair.completedTensor.inl`, `Pair.completedTensor.inr`, `Pair.uniformCompletedTensor.fromCompletedTensor`; `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`, R0.3–R0.4 | P2 adds perfectoidness, the almost integral comparison and its computed tensor conventions. |
+| Analyticity and affinoid sheafiness | `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace.IsAnalytic`, `TauCetiRoadmap/AdicEtaleGeometry/README.md`, A1.16; the sheafiness predicate `R.Sheafy` of an object `R` of `CAff`, same README, Geometric signatures and Checks | P2 and P7 use the supplied Tate-chart analyticity predicate. `AdicSpace.IsHonest` uses `R.Sheafy` for its affinoid charts, as do `Perfectoid.FrobeniusTower.isTildeLimit`, `PerfectoidSpace.GoodAffinoid.isUniformCompletion` and `PerfectoidSpace.IsPreperfectoid.closedSubspace`. |
+| Ordinary and Čech acyclicity | AdicSpacesPartIII *sheafy-cech-acyclicity* (ordinary and Čech acyclicity of the structure sheaf on sheafy Tate affinoids), `TauCetiRoadmap/AdicSpacesPartIII/README.md`, R3.1 | Apply to `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Chart`, with coefficient ring `c.affinoid.ring` and spectrum `c.affinoid.spa`, made sheafy by `Perfectoid.isSheafyRing`, and transport through `rationalPresheaf_iso_presentationLimit`; these supply ordinary acyclicity of `rationalSheaf` and Čech acyclicity of `rationalPresheaf`. |
+| Yoneda-adic carrier and affinoid spectra | `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace`, `YonedaAdicSpace.ofSpaY`, `YonedaAdicSpace.spaYFunctor`, `YonedaAdicSpace.IsOpenImmersion`, `YonedaAdicSpace.space`; `TauCetiRoadmap/AdicEtaleGeometry/README.md`, A1.16 | The analytic carrier of the comparisons of P2.9–P2.10; the full perfectoid subcategory itself is cut out of Tau Ceti's `PreAdicSpace` by sheafiness and open perfectoid affinoid covers (P2.10). |
+| Classical adic comparison | `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace.ofAdicSpace`, `ofAdicSpace_spa`, `ofAdicSpace_space` (natural in the adic space), and *adic-spaces-in-yoneda-adic-spaces* (`ofAdicSpace` is full and faithful and preserves and reflects open immersions); `TauCetiRoadmap/AdicEtaleGeometry/README.md`, A1.16 | The comparisons of P2.9 and P2.10 identify the Yoneda forms of the perfectoid predicates with the classical presentations and open covers, which are the Lean definitions. |
+| Maps from arbitrary classical adic spaces | `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace.mapsFromAdicSpaceEquiv`, `mapsFromAdicSpaceEquiv_sheafy`, `TauCetiRoadmap/AdicEtaleGeometry/README.md`, A1.16; `TauCetiRoadmap.AdicEtaleGeometry.AdicSpace.Oplus`, same README, Geometric signatures and Checks | `spaHomEquiv_adic` transports the supplied equivalence to morphisms into the Yoneda spectrum of a perfectoid pair; the supplier supplies the topology of global sections. |
+| Complete affinoid category | `TauCetiRoadmap.AdicEtaleGeometry.CAff`, whose morphisms are Tau Ceti's `Huber.Pair.Hom`, and `CAff.of`; `TauCetiRoadmap/AdicEtaleGeometry/README.md`, A1.16 | Underlying Huber pairs and their continuous plus-preserving maps. |
+| Topology on completed tensors and spectral rings | `TauCetiRoadmap.AdicSpacesPartII.Huber.CompletedTensor.isUniformAddGroup`, `.isTopologicalRing`, `.isHuberRing`, `Pair.completedTensor.instIsTateRing`, `SpectralTop.isUniformAddGroup`, `.isTopologicalRing`, `.isTateRing`; `TauCetiRoadmap/AdicSpacesPartII/README.md`, R0.3–R0.4 | Register these supplied theorems as instances for the perfectoid tensor statements. |
+| Completed tensors and uniformization | `TauCetiRoadmap.AdicSpacesPartII.Huber.CompletedTensor`, `Uniformization`, `Pair.completedTensor` with `completedTensor.tmul`, `completedTensor.inl` and `completedTensor.inr` (in `Huber.Pair`), `Pair.uniformCompletedTensor.fromCompletedTensor`; `TauCetiRoadmap/AdicSpacesPartII/README.md`, R0.3–R0.4 | P2 adds perfectoidness, the almost integral comparison and its computed tensor conventions. |
 
 #### P3
 
 | Object | Exact supplier and file | Use |
 | --- | --- | --- |
-| Analytic carrier, affinoid charts and open immersions | `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace`, `.ofSpaY`, `.spaYFunctor`, `.IsOpenImmersion`, `.space`; `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`, A1.16 | P3 compares its perfectoid-chart conditions with A1’s covering-chart predicates on this same carrier. |
-| Analytic finite étale and étale predicates, sites and coverings | `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace.IsFiniteEtale`, `.IsEtaleLocalDescription`, `.smallEtale`, `.smallFiniteEtale`, `.smallEtaleTopology`, `.smallFiniteEtaleTopology`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`, A1.3 and A1.6 | Use these declarations directly on the Yoneda carrier, through `YonedaAdicSpace.ofAdicSpace`. `IsFiniteEtale.iff_adic` and `IsEtale.iff_adic` unfold the restricted predicates; `IsFiniteEtale.iff_forall_affinoidPerfectoid` supplies the perfectoid-chart characterization; `smallEtaleAdicEquiv` and `smallFiniteEtaleAdicEquiv` identify the sites, including arrows and covers. |
-| Strong sheafiness and integral functions | `TauCetiRoadmap.AdicEtaleGeometry.Huber.IsStronglySheafy`, `AdicSpace.IsLocallyStronglySheafy`, `AdicSpace.Oplus`, `AdicSpace.structureSheafEtale`, `AdicSpace.structureSheafPlusEtale`, `YonedaAdicSpace.ofAdicSpace`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`, A1.1, A1.6 and A1.16 | `stronglySheafy` proves the supplied ring predicate. `locallyStronglySheafy` supplies an adic representative of a perfectoid Yoneda space, and `globalSections_adicComparison` identifies functions, integral functions, and pullbacks. |
-| Natural finite-algebra topology and integral closure | `TauCetiRoadmap.AdicEtaleGeometry.Huber.FiniteEtale`, `.Pair.finiteEtale`, `.Pair.finiteEtale.hom`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`, A1.2 | P3 proves perfectoidness and compares the actual geometric tilt and Witt untilt. |
-| Rational vector bundles | `TauCetiRoadmap.AdicSpacesPartIII.AdicSpace.vectorBundleEquivalence`, `TauCetiRoadmap/AdicSpacesPartIII/Suggested.lean`, R3.5 | Apply the equivalence to `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Chart`, with the Tate hypothesis on `c.affinoid.ring` and vector bundles on `c.affinoid.spa`; P3.19 uses this rational-site comparison ([KL15] Theorem 2.7.7, p. 58). |
-| Étale vector bundles | `TauCetiRoadmap.AdicSpacesPartIV.AdicSpace.etaleVectorBundles`, `TauCetiRoadmap/AdicSpacesPartIV/Suggested.lean`, R5.7 | P3.19 uses the equivalence with finite locally free modules on the étale site, with a cover-dense affinoid basis stable under rational localization and finite étale maps; perfectoid affinoids supply this basis ([KL15] Theorem 8.2.22(c)–(d), p. 165; Definition 8.3.1, p. 166). |
+| Analytic carrier, affinoid charts and open immersions | `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace`, `.ofSpaY`, `.spaYFunctor`, `.IsOpenImmersion`, `.space`; `TauCetiRoadmap/AdicEtaleGeometry/README.md`, A1.16 | P3 compares its perfectoid-chart conditions with A1’s covering-chart predicates on this same carrier. |
+| Analytic finite étale and étale predicates, sites and coverings | `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace.IsFiniteEtale`, `.IsEtaleLocalDescription`, `.smallEtale`, `.smallFiniteEtale`, `.smallEtaleTopology`, `.smallFiniteEtaleTopology`, `TauCetiRoadmap/AdicEtaleGeometry/README.md`, A1.9 | Use these predicates and sites directly on the Yoneda carrier, through `YonedaAdicSpace.ofAdicSpace`. `IsFiniteEtale.iff_adic` and `IsEtale.iff_adic` unfold the restricted predicates; `IsFiniteEtale.iff_forall_affinoidPerfectoid` supplies the perfectoid-chart characterization; `smallEtaleAdicEquiv` and `smallFiniteEtaleAdicEquiv` identify the sites, including arrows and covers. |
+| Strong sheafiness and integral functions | `TauCetiRoadmap.AdicEtaleGeometry.Huber.IsStronglySheafy`, `AdicSpace.IsLocallyStronglySheafy`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`, A1.1; `AdicSpace.Oplus` (Geometric signatures and Checks), `AdicSpace.structureSheafEtale`, `AdicSpace.structureSheafPlusEtale` (A1.6), `YonedaAdicSpace.ofAdicSpace` (A1.16), `TauCetiRoadmap/AdicEtaleGeometry/README.md` | `stronglySheafy` proves the supplied ring predicate. `locallyStronglySheafy` supplies an adic representative of a perfectoid Yoneda space, and `globalSections_adicComparison` identifies functions, integral functions, and pullbacks. |
+| Natural finite-algebra topology and integral closure | `TauCetiRoadmap.AdicEtaleGeometry.Huber.FiniteEtale`, `.Pair.finiteEtale`, `.Pair.finiteEtale.hom`, `TauCetiRoadmap/AdicEtaleGeometry/README.md`, A1.2 | P3 proves perfectoidness and compares the actual geometric tilt and Witt untilt. |
+| Rational vector bundles | `TauCetiRoadmap.AdicSpacesPartIII.AdicSpace.vectorBundleEquivalence`, `TauCetiRoadmap/AdicSpacesPartIII/README.md`, R3.5 | Apply the equivalence to `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Chart`, with the Tate hypothesis on `c.affinoid.ring` and vector bundles on `c.affinoid.spa`; P3.19 uses this rational-site comparison ([KL15] Theorem 2.7.7, p. 58). |
+| Étale vector bundles | AdicSpacesPartIV *stable-basis-etale-vector-bundles*, `TauCetiRoadmap/AdicSpacesPartIV/README.md`, R5.7 | P3.19 uses the equivalence with finite locally free modules on the étale site, with a cover-dense affinoid basis stable under rational localization and finite étale maps; perfectoid affinoids supply this basis ([KL15] Theorem 8.2.22(c)–(d), p. 165; Definition 8.3.1, p. 166). |
 
 #### P4
 
 | Object | Exact supplier and file | Use |
 | --- | --- | --- |
 | Adic morphism properties | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.QuasiCompact`, `.IsClosedImmersion`, `.IsSeparated`, `.IsSeparated.iff_valuativeCriterion`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`, R0.6, R0.8 and R0.10 | `quasiCompact_iff_adicCompactOpens`, `isAdicClosedImmersion_iff_adicCharts` and `isSeparated_iff_adicDiagonal` transport the geometric conditions through `YonedaAdicSpace.ofAdicSpace`. R0's separatedness additionally requires local weak finite type and stably sheafy source charts; P4's topological closed immersions are more general than R0's quotient-defined ones. |
-| Quasi-compact étale slices and finite towers; separated rigid quotients | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.QuasiCompact`, `.IsSeparated`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`, R0.6 and R0.10; `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace.IsEtaleLocalDescription`, `.IsFiniteEtale`, `.smallEtale`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`, A1.3 and A1.6 | `qcqsEtale` tests the map and its diagonal using R0 on `toAdicSpace`; `finite_tower_over_perfectoid_tower` uses R0 on the limit map. `analyticQcqsEtale` restricts A1’s site. |
-| Banach tensors over an analytic field | `TauCetiRoadmap.AdicSpacesPartII.Huber.BanachModule.CompletedTensor`, `.injective_tensorProduct_of_field`, `.ker_map_of_field`, `.injective_kerMap_of_field`, `.isStrictMap_map_of_field`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`, R0.5; `BanachModule.productSeminorm` in the same file | Use the completed tensor for the nonarchimedean maximum-cost seminorm and the full kernel theorem without a strictness hypothesis. These are admitted sibling-roadmap suppliers. |
+| Quasi-compact étale slices and finite towers; separated rigid quotients | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.QuasiCompact`, `.IsSeparated`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`, R0.6 and R0.10; `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace.IsEtaleLocalDescription`, `.IsFiniteEtale`, `.smallEtale`, `TauCetiRoadmap/AdicEtaleGeometry/README.md`, A1.9 | `qcqsEtale` tests the map and its diagonal using R0 on `toAdicSpace`; `finite_tower_over_perfectoid_tower` uses R0 on the limit map. `analyticQcqsEtale` restricts A1’s site. |
+| Banach tensors over an analytic field | `TauCetiRoadmap.AdicSpacesPartII.Huber.BanachModule.CompletedTensor`, `.injective_tensorProduct_of_field`, `.ker_map_of_field`, `.injective_kerMap_of_field`, `.isStrictMap_map_of_field`, `TauCetiRoadmap/AdicSpacesPartII/README.md`, R0.5; `BanachModule.productSeminorm`, same README, R0.18 | Use the completed tensor for the nonarchimedean maximum-cost seminorm and the full kernel theorem without a strictness hypothesis. These are admitted sibling-roadmap suppliers. |
 
 #### P6
 
 | Object | Exact supplier and file | Use |
 | --- | --- | --- |
-| Affinoid étale finite-stage descent | `TauCetiRoadmap.AdicEtaleGeometry.Huber.affinoid_etale_finite_stage_essSurj`, `TauCetiRoadmap.AdicEtaleGeometry.Huber.affinoid_etale_hom_colimit_bijective`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`, A3.5 | A3.5 supplies essential surjectivity and the Hom-colimit comparison in ECD 6.4(iv). P6.5 cites both and states the common-stage model comparison and relative structure maps on `Perfd`. |
-| Classical pro-étale objects and étale maps | `TauCetiRoadmap.AdicEtaleGeometry.AdicSpace.ProEtaleSite`, `AdicSpace.ProEtaleSite.forget`, `YonedaAdicSpace.smallEtale`, `YonedaAdicSpace.IsEtaleLocalDescription`, `YonedaAdicSpace.IsFiniteEtale`; `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`, A1.3, A1.6 and A1.12 | P6.14 uses the supplied classical site and the supplied étale predicates. `ScholzeAffinoidTower.isAffinoidProEtale_scholze2013` concerns the completed perfectoid realizations of a cofiltered system of its affinoid presentations. |
-| Complete pair and space carriers | `TauCetiRoadmap.AdicEtaleGeometry.CAff`, `CAff.IsRationalLocalization`, `YonedaAdicSpace`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`, A1.16 | The carriers of the affinoid tower comparison and of the comparison of the global perfectoid objects with the analytic carrier. |
+| Affinoid étale finite-stage descent | AdicEtaleGeometry *affinoid-etale-finite-stage-6-4-iv* (its essential surjectivity, named `affinoid_etale_finite_stage_essSurj` in that README's layer-A3 Examples, and its Hom-colimit bijection), `TauCetiRoadmap/AdicEtaleGeometry/README.md`, A3.5 | A3.5 supplies essential surjectivity and the Hom-colimit comparison in ECD 6.4(iv). P6.5 cites both and states the common-stage model comparison and relative structure maps on `Perfd`. |
+| Classical pro-étale objects and étale maps | `TauCetiRoadmap.AdicEtaleGeometry.AdicSpace.ProEtaleSite`, `AdicSpace.ProEtaleSite.forget`, `YonedaAdicSpace.smallEtale`, `YonedaAdicSpace.IsEtaleLocalDescription`, `YonedaAdicSpace.IsFiniteEtale`; `TauCetiRoadmap/AdicEtaleGeometry/README.md`, A1.9 and A1.12 | P6.14 uses the supplied classical site and the supplied étale predicates. `ScholzeAffinoidTower.isAffinoidProEtale_scholze2013` concerns the completed perfectoid realizations of a cofiltered system of its affinoid presentations. |
+| Complete pair and space carriers | `TauCetiRoadmap.AdicEtaleGeometry.CAff`, `CAff.IsRationalLocalization`, `YonedaAdicSpace`, `TauCetiRoadmap/AdicEtaleGeometry/README.md`, A1.16 | The carriers of the affinoid tower comparison and of the comparison of the global perfectoid objects with the analytic carrier. |
 
 #### P7
 
 | Object | Exact supplier and file | Use |
 | --- | --- | --- |
-| Affinoid tilde-limit comparison | `TauCetiRoadmap.AdicSpacesPartIV.AdicSpace.IsTildeLimit`, `.IsTildeLimit.affinoid`, `.IsTildeLimit.completedAffinoid`, `.IsTildeLimit.baseChange`, `TauCetiRoadmap/AdicSpacesPartIV/Suggested.lean`, R5.7–R5.8 | `AdicSpace.IsTildeLimit.ofAdicSpace_iff` identifies the analytic Yoneda relation with R5 on honest analytic spaces with qcqs transitions. `PerfectoidSpace.IsCompletedColimitOfTower.isTildeLimit_affinoid` applies `.completedAffinoid` with one generator on a cofinal tail of complete sheafy pairs; `PerfectoidSpace.IsTildeLimit_affinoid.isTildeLimit` transports the single-affinoid conditions to the analytic Yoneda diagram; `PerfectoidSpace.IsCompletedColimitOfTower.isTildeLimit` adds a perfectoid apex. The intrinsic tilde-limit theory remains in R5; `PerfectoidSpace.IsTildeLimit.toHuber` compares the analytic Yoneda form with Huber’s arbitrary-open conditions on qcqs spaces. |
-| Finite étale algebras under uniformization | `TauCetiRoadmap.AdicEtaleGeometry.Huber.Pair.uniformization.baseChange_finiteEtale_equivalence`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`, A4.4; [KL15] Proposition 2.8.16(a), p. 64 | P7.4's `GoodAffinoid.finiteEtaleEquiv` composes this comparison with P3.2's `finiteEtale_completedColimit` and the good chart's uniform-completion identification. |
-| Finite-stage étale sites | `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace.smallEtale`, `.IsEtaleLocalDescription`, `.IsFiniteEtale`, `.smallEtaleTopology`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`, A1.3 and A1.6 | P7.15 restricts the supplied site to qcqs structural maps in `analyticQcqsEtale`; `residueEtaleComparison_finite` uses the supplied finite étale predicate on both carriers, and `inseparable_tower_etale_topos` uses the supplied topology with finite-stage analyticity. |
-| Affinoid point carrier | `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace.space_ofSpaY`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`, A1.16 | Choose a family of the supplied homeomorphisms with a naturality equation for every map of pairs; use it to identify the points in the residue-density condition. |
+| Affinoid tilde-limit comparison | `TauCetiRoadmap.AdicSpacesPartIV.AdicSpace.IsTildeLimit`, `.IsTildeLimit.affinoid`, `.IsTildeLimit.baseChange`, `TauCetiRoadmap/AdicSpacesPartIV/Suggested.lean`, R5.7–R5.8; the completed-direct-limit criterion of *tilde-limits-affinoid-criterion*, `TauCetiRoadmap/AdicSpacesPartIV/README.md`, R5.8 | `AdicSpace.IsTildeLimit.ofAdicSpace_iff` identifies the analytic Yoneda relation with R5 on honest analytic spaces with qcqs transitions. `PerfectoidSpace.IsCompletedColimitOfTower.isTildeLimit_affinoid` applies the completed-direct-limit criterion with one generator on a cofinal tail of complete sheafy pairs; `PerfectoidSpace.IsTildeLimit_affinoid.isTildeLimit` transports the single-affinoid conditions to the analytic Yoneda diagram; `PerfectoidSpace.IsCompletedColimitOfTower.isTildeLimit` adds a perfectoid apex. The intrinsic tilde-limit theory remains in R5; `PerfectoidSpace.IsTildeLimit.toHuber` compares the analytic Yoneda form with Huber’s arbitrary-open conditions on qcqs spaces. |
+| Finite étale algebras under uniformization | `TauCetiRoadmap.AdicEtaleGeometry.Huber.Pair.uniformization.baseChange_finiteEtale_equivalence`, `TauCetiRoadmap/AdicEtaleGeometry/README.md`, A4.4; [KL15] Proposition 2.8.16(a), p. 64 | P7.4's `GoodAffinoid.finiteEtaleEquiv` composes this comparison with P3.2's `finiteEtale_completedColimit` and the good chart's uniform-completion identification. |
+| Finite-stage étale sites | `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace.smallEtale`, `.IsEtaleLocalDescription`, `.IsFiniteEtale`, `.smallEtaleTopology`, `TauCetiRoadmap/AdicEtaleGeometry/README.md`, A1.9 | P7.15 restricts the supplied site to qcqs structural maps in `analyticQcqsEtale`; `residueEtaleComparison_finite` uses the supplied finite étale predicate on both carriers, and `inseparable_tower_etale_topos` uses the supplied topology with finite-stage analyticity. |
+| Affinoid point carrier | `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace.space_ofSpaY`, `TauCetiRoadmap/AdicEtaleGeometry/README.md`, A1.16 | Choose a family of the supplied homeomorphisms with a naturality equation for every map of pairs; use it to identify the points in the residue-density condition. |
 
 AdicEtaleGeometry, by subsection: A0 (fibre products of analytic adic spaces) and A1.16 (the
 analytic Yoneda carrier `YonedaAdicSpace`, `CAff`, `ofAdicSpace`, global functions); A1.1–A1.3, A1.5,
 A1.6 and A1.8: strongly sheafy rings, the finite étale pair (*finite-etale-affinoid-algebra*), étale
 and finite étale morphisms of adic spaces with their stability properties (*etale-composition*,
 *etale-base-change*, *etale-diagonal*), the étale site with its structure sheaf and rational descent,
-and the Galois category; A1.12: the corrected pro-étale site (*pro-etale-site-corrected*) with its
+and the Galois category; A1.9: the finite étale and étale predicates and sites on the analytic
+Yoneda carrier (*etale-site-generalized*); A1.12: the corrected pro-étale site (*pro-etale-site-corrected*) with its
 profinite-set objects, for the comparisons of P6; A3.5: affinoid étale approximation at a finite
 stage (*affinoid-etale-finite-stage-6-4-iv*, *etale-descent-to-finite-stage-6-4*); A4.3–A4.5: finite
 étale algebras over algebraic filtered colimits (A4.3), finite étale algebras under uniformization
@@ -661,13 +664,13 @@ roadmap's perfectoid results and represented-functor comparisons.
 
 | Object | Exact supplier and file | Use |
 | --- | --- | --- |
-| Étale ring and almost coefficients | `AdicSpace.structureSheafEtale`, `AdicSpace.structureSheafPlusEtale`, `AdicSpace.smallEtale`, `AdicSpace.smallEtaleTopology` in `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`; `CommRingCat` in `Mathlib/Algebra/Category/Ring/Basic.lean`, `CommAlgCat` in `Mathlib/Algebra/Category/CommAlgCat/Basic.lean`, `CategoryTheory.Presheaf.IsSheaf` in `Mathlib/CategoryTheory/Sites/Sheaf.lean` | `etaleORing` and `etaleOPlusRing` evaluate P2's perfectoid global-section carriers; `etaleRing_forget` and `etaleSheaves_adicComparison` identify the additive realizations. `etaleAdicBaseChange` has a perfectoid Yoneda source and uses the supplied adic target site. `etaleOPlusAlmost` uses the existing almost algebra category. P0 supplies `Almost.Algebra.toAlmost`. |
+| Étale ring and almost coefficients | `AdicSpace.structureSheafEtale`, `AdicSpace.structureSheafPlusEtale`, `AdicSpace.smallEtale`, `AdicSpace.smallEtaleTopology` in `TauCetiRoadmap/AdicEtaleGeometry/README.md`, A1.6; `CommRingCat` in `Mathlib/Algebra/Category/Ring/Basic.lean`, `CommAlgCat` in `Mathlib/Algebra/Category/CommAlgCat/Basic.lean`, `CategoryTheory.Presheaf.IsSheaf` in `Mathlib/CategoryTheory/Sites/Sheaf.lean` | `etaleORing` and `etaleOPlusRing` evaluate P2's perfectoid global-section carriers; `etaleRing_forget` and `etaleSheaves_adicComparison` identify the additive realizations. `etaleAdicBaseChange` has a perfectoid Yoneda source and uses the supplied adic target site. `etaleOPlusAlmost` uses the existing almost algebra category. P0 supplies `Almost.Algebra.toAlmost`. |
 
 #### P4
 
 | Object | Exact supplier and file | Use |
 | --- | --- | --- |
-| Open immersions on adic representatives | `TauCeti.PreAdicSpace.IsOpenImmersion`, `TauCeti/AlgebraicGeometry/AdicSpace/PreAdicSpace/OpenImmersion.lean`; `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace.ofAdicSpace_isOpenImmersion_iff`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | `openImmersion_iff_adic` compares `Perfd` with the Yoneda notion; `openImmersion_iff_preAdic` compares compatible adic representatives. |
+| Open immersions on adic representatives | `TauCeti.PreAdicSpace.IsOpenImmersion`, `TauCeti/AlgebraicGeometry/AdicSpace/PreAdicSpace/OpenImmersion.lean`; `TauCetiRoadmap.AdicEtaleGeometry.YonedaAdicSpace.ofAdicSpace`, which preserves and reflects open immersions (*adic-spaces-in-yoneda-adic-spaces*), `TauCetiRoadmap/AdicEtaleGeometry/README.md`, A1.16 | `openImmersion_iff_adic` compares `Perfd` with the Yoneda notion; `openImmersion_iff_preAdic` compares compatible adic representatives. |
 | Ordinary annulus and Gauss norms | `TauCetiRoadmap.AdicEtaleGeometry.Huber.tateSeries`, `.tateSeries.X`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`; `TauCeti.ValuationSpectrum.gaussPoint`, `.gaussPoint_vle_iff`, `.supp_gaussPoint`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Polydisc/GaussPoint.lean` | The ordinary annulus is a quotient of the supplied restricted-series ring. P4's `gaussPoint` concerns the completed root-polynomial algebra, rather than the supplier's ordinary disc. |
 
 #### P7
@@ -676,7 +679,7 @@ roadmap's perfectoid results and represented-functor comparisons.
 | --- | --- | --- |
 | Algebraic torsor descent | `comonadicExtendScalars`, `Mathlib/Algebra/Category/ModuleCat/Descent.lean`; `Algebra.Etale.of_etale_tensorProduct_of_faithfullyFlat`, `Mathlib/RingTheory/Etale/Descent.lean`; `TauCetiRoadmap.AdicEtaleGeometry.Algebra.galoisTensorMap`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | AEG's finite-group formulation uses the Galois tensor isomorphism over arbitrary commutative rings and faithfully flat descent. It supplies coefficient descent in PerfectoidTowers P9, independently of diamonds. |
 | Compact-open coverings | `IsCompactOpenCovered`, `Mathlib/Topology/Sets/CompactOpenCovered.lean`; `CategoryTheory.Precoverage.toGrothendieck`, `Mathlib/CategoryTheory/Sites/PrecoverageToGrothendieck.lean` | P7 uses only the raw compact-open covering condition `IsCompactOpenCovered`. The precoverage and the topology built from it with `Precoverage.toGrothendieck`, and their specializations to `Perfd p`, belong to DiamondsAndVStacks D2.2, with subcanonicity and v-descent in D2.7; they are not inputs here. |
-| Represented inverse limits | `TauCetiRoadmap.AdicSpacesPartIV.AdicSpace.IsTildeLimit`, `.IsTildeLimit.completedAffinoid`, `.IsTildeLimit.baseChange`, `TauCetiRoadmap/AdicSpacesPartIV/Suggested.lean`, R5.7–R5.8; `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.uniformization`, `.Pair.toUniformization`, `.Pair.uniformization.lift`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`, R0.4; `CategoryTheory.Limits.limit`, `Mathlib/CategoryTheory/Limits/HasLimits.lean`, and limits of functors | P7.11 adds limits of the represented functors `representedFunctor` on perfectoid test spaces, projection-compatible point comparisons, and HJ 5.11 finite-level descriptions; no topology is used. DiamondsAndVStacks D2.7 and D5–D6 consume these comparisons, on its own v-site, to identify them with diamond limits; it is not a supplier to P7.11. |
+| Represented inverse limits | `TauCetiRoadmap.AdicSpacesPartIV.AdicSpace.IsTildeLimit`, `.IsTildeLimit.baseChange`, `TauCetiRoadmap/AdicSpacesPartIV/Suggested.lean`, R5.7–R5.8, with the completed-direct-limit criterion of *tilde-limits-affinoid-criterion*, `TauCetiRoadmap/AdicSpacesPartIV/README.md`, R5.8; `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.uniformization`, `.Pair.toUniformization`, `.Pair.uniformization.lift`, `TauCetiRoadmap/AdicSpacesPartII/README.md`, R0.4; `CategoryTheory.Limits.limit`, `Mathlib/CategoryTheory/Limits/HasLimits.lean`, and limits of functors | P7.11 adds limits of the represented functors `representedFunctor` on perfectoid test spaces, projection-compatible point comparisons, and HJ 5.11 finite-level descriptions; no topology is used. DiamondsAndVStacks D2.7 and D5–D6 consume these comparisons, on its own v-site, to identify them with diamond limits; it is not a supplier to P7.11. |
 | Valued residue completion | `TauCeti.ValuationSpectrum.residueFieldValuation`, `TauCeti/AlgebraicGeometry/AdicSpace/ResidueField/Basic.lean`; `UniformSpace.Completion.coeRingHom`, `Mathlib/Topology/Algebra/UniformRing.lean` | Density of finite-level residue fractions in a geometric cone. |
 | Compact-group cofinality | `Subgroup.exists_le_of_iInf_le_of_directed`, `TauCeti/Topology/Algebra/Group/Profinite/Basic.lean`; `ProfiniteGrp.exist_openNormalSubgroup_sub_open_nhds_of_one`, `ProfiniteGrp.closedSubgroup_eq_sInf_open`, `Mathlib/Topology/Algebra/ClopenNhdofOne.lean` | Construct the chosen indices in `CofinalityWitness`; no new compactness theorem. |
 
@@ -704,7 +707,7 @@ proposed name given.
 | Object | Earlier target | Use |
 | --- | --- | --- |
 | Rational restriction functor | P2.4: `Perfectoid.rationalPairFunctor`, its action on morphisms and the base-coordinate restriction identity (README only) | P2 uses this functor throughout. Its whole and empty values are checked by `rationalPairFunctor_whole` and `rationalPairFunctor_empty`; the base-coordinate restriction identity is checked by evaluating at a ring element. |
-| Glued tilting | P2.11: `PerfectoidSpace.tiltFunctor`, `tiltHomeomorph`, `tiltSpaIso`, `tiltRestrictIso`, `sliceTiltFunctor_isEquivalence` (README only) | P2.11 owns these constructions. The statement `TauCetiRoadmap.AdicSpacesPartIV.AdicSpace.perfectoidTilting_glued` in `TauCetiRoadmap/AdicSpacesPartIV/Suggested.lean` expresses the same mathematics on `TauCeti.AdicSpace`, downstream; transport to that carrier belongs to the consumer. |
+| Glued tilting | P2.11: `PerfectoidSpace.tiltFunctor`, `tiltHomeomorph`, `tiltSpaIso`, `tiltRestrictIso`, `sliceTiltFunctor_isEquivalence` (README only) | P2.11 owns these constructions. AdicSpacesPartIV R5 consumes `PerfectoidSpace.tiltFunctor` directly, downstream. |
 | Absolute-product chart universal property | P2.18: the field `PerfectoidSpace.ProductChart.universal` (README only) | Apply this field to `prodChart p A B ϖ ψ hA hB m n`: maps to a complete Tate pair correspond to maps from both factors whose two bounding ratios lie in the target plus ring. The existence of absolute products is the Lean `PerfectoidSpace.hasBinaryProducts_perf`. |
 
 #### P3
@@ -734,7 +737,7 @@ application in AdicEtaleGeometry A4.
 
 | Application | External consumer and file | Relation to P3 |
 | --- | --- | --- |
-| Finite étale torsor towers | `TauCetiRoadmap.AdicEtaleGeometry.FiniteEtaleTorsorTower.completion_finiteEtale_equivalence`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`, A4 | The torsor specialization of P3.2’s `finiteEtale_completedColimit`; the arbitrary-transition completed-colimit result is owned here. |
+| Finite étale torsor towers | `completion_finiteEtale_equivalence_continuousMap` (*finite-etale-invariance-along-tower*), `TauCetiRoadmap/AdicEtaleGeometry/README.md`, A4.5 | The torsor specialization of P3.2’s `finiteEtale_completedColimit`; the arbitrary-transition completed-colimit result is owned here. |
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 
@@ -3650,9 +3653,9 @@ power-multiplicative (`|x^n| = |x|^n` for `n > 0`, or for all `n` when `R ≠ 0`
 - `roots_padic_empty` (non-example) — `IsEmpty (PseudoUniformizerRoots ℚ_[p])`:
   a pseudo-uniformizer of `ℚ_p` has valuation `k ≥ 1`, not divisible by every `p^n`, so it has no
   compatible system of `p`-power roots; and none satisfies `ϖ^p | p` in `ℤ_p`.
-- `roots_charP_unique` (degenerate) — if `CharP R p`, the compatible
-  roots of a fixed `ϖ` are unique (`R` is perfect), so `PseudoUniformizerRoots` over `ϖ` is a
-  subsingleton.
+- `roots_charP_unique` (degenerate) — if `R` is a perfectoid Tate ring of characteristic `p`
+  (equivalently perfect, P1.2), the compatible roots of a fixed `ϖ` are unique, so
+  `PseudoUniformizerRoots` over `ϖ` is a subsingleton.
 - Characterisation: `⋃_{q>0} ϖ^qR° = R°°`, the
   topologically nilpotent elements (*topologically-nilpotent-elements-as-root-ideal*, P1.9).
 
@@ -4171,8 +4174,8 @@ nonarchimedean Banach ring `A` (complete for a submultiplicative norm `|·|` wit
 `α : A → ℝ_{≥0}` with the topology of pointwise convergence — together with its compactness, its
 nonemptiness for `A ≠ 0` and Berkovich's maximum formula `|f|_sp = max_{α ∈ M(A)} α(f)` for the
 spectral seminorm, is AdicSpacesPartIII R3.9 (*gelfand-spectrum-banach-ring*, API
-`GelfandSpectrum`, `GelfandSpectrum.compactSpace`, `GelfandSpectrum.nonempty_of_nontrivial`,
-`GelfandSpectrum.spectralSeminorm_eq_sup`); it is used
+`GelfandSpectrum`, `GelfandSpectrum.compactSpace_nonempty`, `GelfandSpectrum.smoothingFun_eq_sSup`);
+it is used
 here for arbitrary nonarchimedean Banach rings, with the hypotheses stated there. The one clause
 absent there is this target's content: `f ∈ A` is a unit iff `α(f) ≠ 0` for every `α ∈ M(A)`
 ([KBF] Lemma 2.4, proof, p. 4). For a complete Tate ring the carrier `M(A)` is the Berkovich
@@ -6034,10 +6037,10 @@ ratios, and gives zero on the empty localization. For the relation ideal: the un
 contains `X₀,₀-1`, the denominator `0` (the presentation `1/0`) gives the unit ideal, and `1` is
 excluded in the nonzero unit presentation.
 
-Lean: `isPerfectoidTateRing_rationalLocalization` (the completed rational localisation `R⟨T/s⟩` of
-Tau Ceti, for an admissible presentation, is a perfectoid Tate ring: the first clause, the instance
-`rationalLocalization.isPerfectoidTateRing_affinoid`). The tilt identification and the remaining
-clauses are specified in this README only.
+Lean: the theorem `isPerfectoidTateRing_rationalLocalization` (the completed rational localisation
+`R⟨T/s⟩` of Tau Ceti, for an admissible presentation, is a perfectoid Tate ring: the first clause).
+The bundled instance form `rationalLocalization.isPerfectoidTateRing_affinoid`, the tilt
+identification and the remaining clauses are specified in this README only.
 
 ### P2.4 the presheaf of perfectoid pairs on rational subsets
 
@@ -6241,7 +6244,7 @@ perfectoid hypotheses, without a characteristic or plus-ring restriction
 ([KL16] Cor. 3.3.19, p. 65; [ECD] Thm 3.18, p. 18). Applying it to each
 `rationalPair p R U` supplies sheafiness on rational localizations. The ordinary and Čech
 acyclicity conclusions are applications of AdicSpacesPartIII R3.1
-`sheafy_structure_acyclic` and `sheafy_isCechAcyclic` ([KL15] Thm 2.4.23, p. 46),
+(*sheafy-cech-acyclicity*; [KL15] Thm 2.4.23, p. 46),
 on Part II `AdicSpace.Chart`, using `c.affinoid.ring`, `c.affinoid.spa` and
 the presheaf comparison below.
 
@@ -6691,8 +6694,8 @@ of `PreAdicSpace` on these objects (Mathlib `ObjectProperty.FullSubcategory`):
 morphisms are those of pre-adic spaces. Open immersions are `PreAdicSpace.IsOpenImmersion`; the
 point carrier is the underlying space. Through AdicEtaleGeometry's `YonedaAdicSpace.ofAdicSpace`
 these agree with the analytic carrier's open immersions `YonedaAdicSpace.IsOpenImmersion` and
-points `YonedaAdicSpace.space` (`YonedaAdicSpace.ofAdicSpace_space`,
-`ofAdicSpace_isOpenImmersion_iff`). `Perf ⊆ Perfd` is the full subcategory of perfectoid spaces of characteristic
+points `YonedaAdicSpace.space` (`YonedaAdicSpace.ofAdicSpace_space`, and
+*adic-spaces-in-yoneda-adic-spaces* for open immersions). `Perf ⊆ Perfd` is the full subcategory of perfectoid spaces of characteristic
 `p`, those with `p = 0` in `O_X(X)` (in Lean, `InCharP` asks for `p = 0` in `O_X(U)` for every open
 `U`, equivalent by `mem_perf_iff` below); equivalently, `X` admits a (necessarily unique) morphism to the
 discrete adic space `Spa(𝔽_p, 𝔽_p)`, which is an adic space (AdicSpacesPartII R0.2
@@ -6779,10 +6782,8 @@ Lean: `PerfectoidSpace.isPerfectoidSpace`, `Perfd`, `InCharP`, `Perf`,
 
 P2.11 owns glued tilting on `PerfectoidSpace.Perfd`, including `tiltFunctor`,
 `tiltHomeomorph`, the affinoid and restriction comparisons, and
-`sliceTiltFunctor_isEquivalence`. AdicSpacesPartIV R5 uses this construction downstream;
-its `AdicSpace.perfectoidTilting_glued` restates it on `TauCeti.AdicSpace`, the adic spaces into
-which `Perfd` embeds by `isPerfectoidSpace_le_isAdic`, so the two agree by restriction. That
-transport belongs to the consumer; P2 uses no subsection of AdicSpacesPartIV.
+`sliceTiltFunctor_isEquivalence`. AdicSpacesPartIV R5 consumes `PerfectoidSpace.tiltFunctor`
+directly, downstream; P2 uses no subsection of AdicSpacesPartIV.
 
 **The glued tilt X ↦ X♭ of a perfectoid space.** (*perfectoid-spaces-and-glued-tilting*) For every
 perfectoid space `X` (*perfectoid-space*; any characteristic, no base field) there is a perfectoid
@@ -8746,10 +8747,13 @@ morphisms of perfectoid spaces are strongly (finite) étale is *etale-is-strongl
 of the form `Spa(R, R⁺)`, `R` perfectoid). A morphism `f : Y → X` is finite étale if it is finite
 étale as a morphism of analytic adic spaces (AdicEtaleGeometry A1.3: `X` has a cover by open
 affinoids `V = Spa(A, A⁺)` with `f⁻¹(V) ≅ Spa(B, B⁺)` over `V`, `B ∈ FÉt(A)` with its natural
-topology and `B⁺` the integral closure of `A⁺`). In `PerfectoidSpace`, define `IsFiniteEtale f` as
-AdicEtaleGeometry A1.3's `YonedaAdicSpace.IsFiniteEtale` applied to the image of `f` under
-`YonedaAdicSpace.ofAdicSpace` (perfectoid spaces being adic spaces); `IsFiniteEtale.iff_adic`
-records this identity. Prove `IsFiniteEtale.iff_forall_affinoidPerfectoid` (the defining condition of [ECD]:
+topology and `B⁺` the integral closure of `A⁺`). AdicEtaleGeometry states this
+predicate in Lean on `TauCeti.AdicSpace` (`AdicSpace.IsFiniteEtale`, A1.3) through finite étale
+maps of Huber pairs (`Huber.Pair.Hom.IsFiniteEtale`, A1.2); its form on the analytic Yoneda carrier,
+`YonedaAdicSpace.IsFiniteEtale`, is an A1.9 target specified in its README only. In
+`PerfectoidSpace`, define `IsFiniteEtale f` as `YonedaAdicSpace.IsFiniteEtale` applied to the image
+of `f` under `YonedaAdicSpace.ofAdicSpace` (A1.16; perfectoid spaces being adic spaces);
+`IsFiniteEtale.iff_adic` records this identity. Prove `IsFiniteEtale.iff_forall_affinoidPerfectoid` (the defining condition of [ECD]:
 for every open affinoid perfectoid `U = Spa(R, R⁺) ⊆ X` the preimage `f⁻¹(U) = Spa(S, S⁺)` is
 affinoid perfectoid with `R → S` finite étale and `S⁺` the integral closure of `R⁺` in `S`), which is
 equivalent by *perfectoid-vs-analytic-finite-etale*, as are [Sch12] Def. 7.1(ii) (a cover of `X` by
@@ -8758,7 +8762,7 @@ finite étale over `X` (all `X`-morphisms); for `X = Spa(R, R⁺)` affinoid perf
 give `X_fét ≃ FÉt(R)^op`. Conventions: the plus ring is the integral closure, never `S°` when
 `R⁺ ≠ R°`; `f` need not be surjective; the degree `x ↦ dim_{k(x)}(O_Y ⊗ k(x))` is locally constant
 ([ECD] §6, Def. 6.2(i), p. 26). *Needs:* AdicEtaleGeometry A1.2 and A1.3 (finite étale Huber pairs
-and finite étale morphisms of analytic adic spaces).
+and finite étale morphisms of analytic adic spaces) and A1.9 (their Yoneda form).
 
 **Checks.**
 
@@ -8799,7 +8803,9 @@ AdicEtaleGeometry A1.3 identifies étale with strongly étale, and finite étale
 
 **Étale morphisms of perfectoid spaces.** (*etale-morphism-of-perfectoid-spaces*) A morphism
 `f : Y → X` of perfectoid spaces is étale if it is étale in the local sense of AdicEtaleGeometry
-A1.3 (`YonedaAdicSpace.IsEtaleLocalDescription`): every `y ∈ Y` has an open neighbourhood `V ⊆ Y` such
+A1.3 (`AdicSpace.IsEtaleLocalDescription`, stated in Lean on `TauCeti.AdicSpace`; its Yoneda form
+`YonedaAdicSpace.IsEtaleLocalDescription` is an A1.9 target specified in AdicEtaleGeometry's README
+only): every `y ∈ Y` has an open neighbourhood `V ⊆ Y` such
 that `f|_V` factors as `V ↪ W → U ↪ X` with `V → W` an open immersion, `W → U` finite étale (P3.14)
 and `U ⊆ X` open. `W` is then automatically perfectoid. This is [ECD] Def. 6.2(ii) (whose printed
 condition `y ∈ Y` is read as `y ∈ V`), [Sch12] Def. 7.1(iii) and [Berkeley] Def. 7.5.1(2). Equivalent
@@ -8809,10 +8815,10 @@ with `S ∈ FÉt(O(U))`, and `V` a rational subset of `W` — here `R = O(U)` is
 so étale morphisms are locally composites "rational embedding, finite étale, rational embedding" of
 affinoid perfectoid spaces; they need not be separated or quasi-compact. In `PerfectoidSpace`, define
 `IsEtale f` as `YonedaAdicSpace.IsEtaleLocalDescription` applied to the image of `f` under
-`YonedaAdicSpace.ofAdicSpace`; `IsEtale.iff_adic` records this identity. Prove `IsEtale.of_isOpenImmersion`
+`YonedaAdicSpace.ofAdicSpace` (A1.16); `IsEtale.iff_adic` records this identity. Prove `IsEtale.of_isOpenImmersion`
 (open immersions are étale) and `IsEtale.id` (the identity of any perfectoid space is étale)
 ([ECD] §6, Def. 6.2(ii), p. 26; [Sch12] Definition 7.1(iii), p. 39). *Needs:* AdicEtaleGeometry A1.3
-(étale morphisms by the local description); P3.14; layer P2.
+(étale morphisms by the local description) and A1.9 (its Yoneda form); P3.14; layer P2.
 
 **Checks.**
 
@@ -9199,7 +9205,7 @@ hypotheses ([KL15] Definition 8.2.16 and 8.2.17(c), p. 162).
 `TauCetiRoadmap.AdicSpacesPartIII.AdicSpace.vectorBundleEquivalence`
 supplies rational gluing on Part II `AdicSpace.Chart`, with a Tate coefficient
 ring `c.affinoid.ring` ([KL15] Theorem 2.7.7, p. 58), and
-`TauCetiRoadmap.AdicSpacesPartIV.AdicSpace.etaleVectorBundles` supplies
+AdicSpacesPartIV R5.7's *stable-basis-etale-vector-bundles* supplies
 (c) on the stable basis of affinoid perfectoid objects ([KL15] Definition
 8.3.1, p. 166).
 
@@ -9468,8 +9474,8 @@ AdicEtaleGeometry A4.5, only its generic sub-targets *henselian-pairs-filtered-c
 along a pseudouniformiser; the rest of A4.5 uses P3 and is not used here); P3.2 uses A4.3 (finite
 étale algebras over algebraic filtered colimits, *finite-etale-algebras-filtered-colimit*); P3.3 uses
 A1.2 (finite étale Huber pairs `Huber.Pair.finiteEtale`, *finite-etale-affinoid-algebra*); P3.9,
-P3.10 and P3.14 use A1.2 and A1.3 (finite étale and étale morphisms of analytic adic spaces); P3.15
-uses A1.3; P3.17 uses A1.1 (strongly sheafy rings), A1.3, A1.5 (stability properties) and A1.6 (the
+P3.10 and P3.14 use A1.2 and A1.3 (finite étale and étale morphisms of analytic adic spaces); P3.14
+and P3.15 use A1.9 (their Yoneda forms); P3.15 uses A1.3; P3.17 uses A1.1 (strongly sheafy rings), A1.3, A1.5 (stability properties) and A1.6 (the
 small étale and finite étale sites with their structure sheaves); P3.18 uses A1.5, A1.6 and A1.8 (the
 Galois category); P3.19 uses A1.2 (rational descent of finite étaleness), A1.6, AdicSpacesPartIII R3.5
 (the rational-site form of vector bundles) and AdicSpacesPartIV R5.7 (vector bundles on the étale
@@ -9614,7 +9620,7 @@ Precisely, for `f : Y → X`, adic representatives `A, B`, isomorphisms
 with `ofAdicSpace(g) ≫ eX.hom = eY.hom ≫ f.hom`, it equates `QuasiCompact p f`
 with compactness of `g⁻¹(U)` for every compact open `U` of `B`. These are the
 compact-open tests in R0 and [ECD] §5, p. 25; the comparison uses
-`YonedaAdicSpace.ofAdicSpace_space` and `.ofAdicSpace_space_naturality`.
+`YonedaAdicSpace.ofAdicSpace_space`, which is natural in the adic space (AdicEtaleGeometry A1.16).
 
 **Checks.**
 
@@ -9690,7 +9696,7 @@ series ring by `TU − ϖᵃ`, with the quotient topology and its additive unifo
 `ordinaryAnnulus_not_perfectoid` requires `a > 0` and an affinoid perfectoid field.
 `rootAnnulus` instead rationally localizes the P1 root disc at `|ϖᵃ| ≤ |T|`.
 `rootAnnulus_isPerfectoid` reads the resulting `PairCat.perfectoid` field. The proof
-obligation is P2’s `rationalLocalization.isPerfectoidTateRing_affinoid` on the actual
+obligation is P2’s theorem `isPerfectoidTateRing_rationalLocalization` on the actual
 `RationalLoc` carrier for a presentation whose numerators generate the unit ideal;
 `rationalPair_presentation` identifies the bundled annulus with that localization
 ([ECD] Theorem 3.18, p. 18).
@@ -10104,15 +10110,15 @@ compatible with `f : Y → X` as in P4.2, `openImmersion_iff_preAdic` identifies
 `TauCeti.PreAdicSpace.IsOpenImmersion g.hom` (AdicSpaces §5.1), through
 `YonedaAdicSpace.ofAdicSpace`. On the pre-adic carrier of P2.10 this second identification is
 definitional: open immersions of `Perfd` are `TauCeti.PreAdicSpace.IsOpenImmersion` between
-perfectoid spaces. The supplier's `ofAdicSpace_isOpenImmersion_iff` (AdicEtaleGeometry A1.16)
-relates these two adic formulations. Equivalently, `f` identifies `Y` with the open
+perfectoid spaces. AdicEtaleGeometry A1.16's *adic-spaces-in-yoneda-adic-spaces*, by which `ofAdicSpace` preserves and
+reflects open immersions, relates these two adic formulations. Equivalently, `f` identifies `Y` with the open
 subspace `X|_U`, where `U = f(|Y|)`. Every open subset of `X` has its perfectoid
 restriction (P2), and rational subsets of affinoid perfectoid spaces are affinoid
 perfectoid. Thus open immersions into `X` correspond to its open subsets
 ([ECD] Proposition 5.3(iv), p. 21, and Definition 5.6, p. 24).
 *Needs:* *perfectoid-immersion*; *injection-criteria*; layer P2;
 `TauCeti.PreAdicSpace.IsOpenImmersion`; AdicEtaleGeometry's
-`YonedaAdicSpace.ofAdicSpace_isOpenImmersion_iff`.
+*adic-spaces-in-yoneda-adic-spaces*.
 
 ### P4.12 Zariski closed subsets and Zariski closed immersions
 
@@ -10179,7 +10185,7 @@ definition: it is what makes a strongly Zariski closed map a closed immersion (P
 The algebraic predicate `IsStronglyZariskiClosed_affinoid` is defined for arbitrary Huber pairs
 by these two clauses, without completeness or perfectoidness; its geometric interpretation and
 the base-change theorem here require perfectoid Tate rings. For base change along `(A,A⁺) → (C,C⁺)`,
-the resulting ring map is `C → B ⊗̂_A C`, the supplier’s `Pair.completedTensor.inr`. In `PerfectoidSpace`, define `IsStronglyZariskiClosed`;
+the resulting ring map is `C → B ⊗̂_A C`, the supplier’s `completedTensor.inr` (in `Huber.Pair`). In `PerfectoidSpace`, define `IsStronglyZariskiClosed`;
 prove `stronglyZariskiClosed_affinoid_iff` (the affine predicate supplies both surjectivity
 and the plus-ring equality through its fields), `stronglyZariskiClosed_isClosed_ker`,
 `stronglyZariskiClosed_quotient_comparison` and `stronglyZariskiClosed_iff_zariskiClosed`
@@ -10723,8 +10729,7 @@ and DiamondsAndVStacks D0.17 and D3 consume the morphism properties here. Tau Ce
 `TauCeti.ValuationSpectrum.rationalSubset`; AdicSpacesPartII R0.6, R0.8 and R0.10's
 `AdicSpace.QuasiCompact`, `.IsClosedImmersion`, `.IsSeparated` and
 `.IsSeparated.iff_valuativeCriterion`; AdicEtaleGeometry A1.16's
-`YonedaAdicSpace.ofAdicSpace`, `.ofAdicSpace_isOpenImmersion_iff`,
-`.ofAdicSpace_space`, `.ofAdicSpace_space_naturality`;
+`YonedaAdicSpace.ofAdicSpace` and `.ofAdicSpace_space` (*adic-spaces-in-yoneda-adic-spaces*);
 Mathlib `CompactSpace`, `QuasiSeparatedSpace`,
 `CategoryTheory.Mono`, `CategoryTheory.IsSplitMono`, `CategoryTheory.Limits.pullback.diagonal`,
 `Topology.IsEmbedding`, `IsLocallyClosed`, `AlgebraicGeometry.IsSeparated`.
@@ -11690,7 +11695,8 @@ isomorphisms identifying each stage functor with geometric base change.
 étale slice objects. `finiteStagePullbackIso_fst` fixes the iterated pullback used in the
 fullness formula ([ECD] Proposition 6.4(i)–(iii), pp. 27–28).
 
-**Checks for the constructions and maps.** Each name below labels a Lean `example`.
+**Checks for the constructions and maps.** Each name below is a Check specified in this README
+only, to become a Lean `example`.
 The Checks above also give worked examples of these constructions.
 
 | Construction or map | Check names and discriminating computations |
@@ -12239,11 +12245,11 @@ A3's essential surjectivity recorded in (c); [ECD] §7, proof of Lem. 7.18, p. 3
 AdicEtaleGeometry A3.5; layer P5 (P5.3, P5.12); layer P3 (P3.15, P3.16); layer P2 (P2.16).
 DiamondsAndVStacks consumes this result; its layer D0 is not a prerequisite.
 
-For (a), the Lean citations are
-`TauCetiRoadmap.AdicEtaleGeometry.Huber.affinoid_etale_finite_stage_essSurj` and
-`TauCetiRoadmap.AdicEtaleGeometry.Huber.affinoid_etale_hom_colimit_bijective`, the
-assembly target *affinoid-etale-finite-stage-assembly* of this subsection. These are the supplied affinoid-pair essential
-surjectivity and Hom-colimit statements ([ECD] Proposition 6.4(iv), pp. 27–28).
+For (a), the assembly target *affinoid-etale-finite-stage-assembly* of this subsection cites
+AdicEtaleGeometry A3.5's *affinoid-etale-finite-stage-6-4-iv*, specified in that README only: its
+essential surjectivity (named `affinoid_etale_finite_stage_essSurj` in its layer-A3 Examples) and its
+Hom-colimit bijection are the supplied affinoid-pair statements ([ECD] Proposition 6.4(iv),
+pp. 27–28).
 P5's `finiteStage_surjectivity` supplies (b); surjectivity remains true after
 further base change. `finiteStage_affinoid` retains the eventual affinoidness assertion.
 For (c), `finiteStage_affinoid_model_iso` takes a qcqs étale model `Z_i`, an affinoid étale
@@ -13052,8 +13058,9 @@ followed by `α.app j`. Combined with the preceding isomorphisms, this identifie
 of completed towers with `ρ_X` on morphisms, including identity and composition, rather than
 only identifying their objects ([Sch13] paragraph after Definition 4.3, p. 23;
 [ECD] Proposition 7.10, p. 33). These are limits of perfectoid realizations; comparison with
-the original noetherian stages uses AdicSpacesPartIV R5.7–R5.8's `IsTildeLimit`,
-`IsTildeLimit.completedAffinoid`, and `IsTildeLimit.baseChange`.
+the original noetherian stages uses AdicSpacesPartIV R5.7–R5.8's `IsTildeLimit` and
+`IsTildeLimit.baseChange`, with the completed-direct-limit criterion of
+*tilde-limits-affinoid-criterion*.
 
 **Checks for the cofiltered realization.**
 
@@ -13150,8 +13157,8 @@ of `A_i → A` is dense in `A`. `X ~ lim_i X_i` (`X` is a tilde-limit of the `X_
 Neither `X` nor the `X_i` is required to be quasicompact or locally noetherian; the perfectoid
 tilde-limits of P7.2 are the tilde-limits whose `X` is perfectoid. AdicSpacesPartIV R5.8 owns the
 intrinsic relation `AdicSpace.IsTildeLimit` with its affinoid criterion
-(*tilde-limits-affinoid-criterion*: `AdicSpace.IsTildeLimit.affinoid`,
-`AdicSpace.IsTildeLimit.completedAffinoid`); P7.1 uses only this sub-target. The base change
+(*tilde-limits-affinoid-criterion*: `AdicSpace.IsTildeLimit.affinoid` and the completed-direct-limit
+criterion, the latter specified in R5.8's README only); P7.1 uses only this sub-target. The base change
 `AdicSpace.IsTildeLimit.baseChange` (*tilde-limit-base-change*, which uses R5.5 and P2's fibre
 products) is used in P7.12, not here. R5.8 names P7 as a specialisation and does not use it.
 Here `AdicSpace.IsTildeLimit` expresses its analytic Yoneda form (the
@@ -13253,13 +13260,13 @@ criterion ([SW13] Definition 2.4.1, pp. 19–20).
 The global carrier of this analytic tilde-limit is the Yoneda-adic category supplied by
 AdicEtaleGeometry A1.16, into which perfectoid spaces embed through `YonedaAdicSpace.ofAdicSpace`.
 `YonedaAdicSpace.IsAnalytic` means a cover by Tate affinoids ([Berkeley] Definition 4.3.2,
-printed p. 33). Affinoid sheafiness is AdicEtaleGeometry's `CAff.Sheafy`, namely Tau Ceti's
-`IsSheafyForEveryPresentation` on the plus ring. `AdicSpace.IsHonest` means that every point
-lies in an open affinoid chart satisfying this predicate; the same `CAff.Sheafy` supplies the
+printed p. 33). Affinoid sheafiness is AdicEtaleGeometry's `R.Sheafy` for an object `R` of `CAff`, namely Tau
+Ceti's `IsSheafyForEveryPresentation` on the plus ring. `AdicSpace.IsHonest` means that every point
+lies in an open affinoid chart satisfying this predicate; the same predicate supplies the
 finite-level hypothesis of `Perfectoid.FrobeniusTower.isTildeLimit` and the sheafiness
 hypotheses of `GoodAffinoid.isUniformCompletion` and `IsPreperfectoid.closedSubspace`.
 **Checks.** `IsHonest_empty` holds for an empty point space; `IsHonest_sheafy_affinoid`
-holds for `ofSpaY R` given `CAff.Sheafy R`; `IsHonest_perfectoid` holds for every
+holds for `ofSpaY R` given `R.Sheafy`; `IsHonest_perfectoid` holds for every
 `PerfectoidSpace.Perfd p`, using its sheafy perfectoid charts (P2.6).
 Both the source and the levels of `IsTildeLimit` are analytic and honest. `Qcqs` tests inverse
 images of affinoid open charts for quasicompactness and quasiseparatedness. `chartImage` includes
@@ -14324,7 +14331,8 @@ rings of definition and a common pseudouniformizer. Set
 each limit projection is induced by that composite of pair maps. It also identifies
 `|Spa(U)|` with the compatible finite-level points. If `U.A` is perfectoid, the same
 cone is a perfectoid tilde-limit. The general completed-affinoid tilde-limit theorem
-is `AdicSpacesPartIV.AdicSpace.IsTildeLimit.completedAffinoid`; P7.11 adds its
+is the completed-direct-limit criterion of AdicSpacesPartIV's *tilde-limits-affinoid-criterion*
+(R5.8); P7.11 adds its
 represented-functor comparison, using the uniformization universal property
 ([SW13] Proposition 2.4.2, p. 20; [KL15] Definition 2.8.13, p. 63).
 The diamond interpretation gives `|lim_j X_j^◇| ≅ |Spa(U)|` downstream.
@@ -14409,13 +14417,13 @@ imposes no restriction.
 `IsCompletedColimitOfTower.isTildeLimit_affinoid` is the corollary for a small filtered
 `B : J ⥤ CAff` with cocone `b`, sheafy levels and sheafy apex, and the predicate above
 on `B.map` and `b.ι.app`. Completeness and Hausdorffness come from `CAff`;
-perfectoidness is not assumed. Apply
-`AdicSpacesPartIV.AdicSpace.IsTildeLimit.completedAffinoid` after restricting to the
+perfectoidness is not assumed. Apply the completed-direct-limit criterion of AdicSpacesPartIV's
+*tilde-limits-affinoid-criterion* after restricting to the
 cofinal category under a stage carrying a pseudouniformiser `w` mapping to `ϖ`.
 At each later stage use its image as the sole generator (`m = 1`), and use `ϖ` at
 the apex. The existing rings of definition are retained with these principal ideals.
 Density supplies approximation modulo powers, `exists_dvd_of_dvd` supplies finite-stage
-detection, and `plus_eq` is the supplier's `hplus`, including the topological closure.
+detection, and `plus_eq` supplies the closed integral closure defining the plus ring.
 The supplier gives the point-space homeomorphism; cofinality transports it to the
 original system and `h.dense` supplies the single-affinoid density clause.
 R5.8 supplies the criterion on complete sheafy carriers ([SW13] Proposition 2.4.2, p. 20).
@@ -14428,7 +14436,7 @@ predicate on `B.map`, `b.ι.app`, `B₀` and `ϖ`, with every level sheafy and T
 In particular, this states `Spa(Â, Â⁺) ~ lim_j Spa(A_j, A_j⁺)` on the global carrier;
 sheafiness of the apex follows from perfectoidness (P2.6). It combines
 `IsCompletedColimitOfTower.isTildeLimit_affinoid` with the preceding bridge, as the
-perfectoid specialization of AdicSpacesPartIV R5.8's `IsTildeLimit.completedAffinoid`
+perfectoid specialization of AdicSpacesPartIV R5.8's completed-direct-limit criterion
 ([SW13] Proposition 2.4.2, p. 20).
 
 **Checks for `IsCompletedColimitOfTower`.**
@@ -15152,8 +15160,8 @@ approximation, finite étale and étale morphisms, the étale site and the tilti
 P3.10, P3.15–P3.18, P3.22), P5 (the limit of affinoid perfectoids, qcqs étale descent; P5.2, P5.3,
 P5.12), with [P8.21](../PerfectoidTowers/README.md#layer-p8-finite-quotients-and-closed-perfectoid-loci-in-towers) and [P9.4](../PerfectoidTowers/README.md#layer-p9-continuous-torsor-descent-with-coefficients) as the consumers named above; P5.4’s spectral-limit results.
 Other roadmaps, by subsection: P7.1 uses AdicSpacesPartIV R5.8, only its
-*tilde-limits-affinoid-criterion* (`IsTildeLimit`, `IsTildeLimit.affinoid`,
-`IsTildeLimit.completedAffinoid`; R5.8 names P7 as a specialisation and does not use it), and the
+*tilde-limits-affinoid-criterion* (`IsTildeLimit`, `IsTildeLimit.affinoid` and the
+completed-direct-limit criterion; R5.8 names P7 as a specialisation and does not use it), and the
 analytic adic spaces of AdicSpaces 5; P7.2 uses AdicSpacesPartII R0.1; P7.3 and P7.15 use R0.6; P7.4
 uses R0.4 and AdicEtaleGeometry A4.3 and A4.4; P7.1, P7.2, P7.4, P7.7, P7.8 and P7.11 use
 AdicEtaleGeometry A1.16 (the analytic Yoneda carrier, `CAff` and global functions); P7.9 and P7.11
