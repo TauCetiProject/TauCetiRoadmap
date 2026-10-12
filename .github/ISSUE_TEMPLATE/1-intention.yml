@@ -19,7 +19,6 @@ body:
       description: Which roadmap does this intention sit in?
       options:
         - AdicSpaces
-        - AlgebraicCodingTheory
         - AlgebraicCurves
         - AlgebraicTopology
         - AlgebraicVectorBundles
@@ -32,7 +31,9 @@ body:
         - CombinatorialHeegaardFloer
         - ConformalMapping
         - DGAInfinity
+        - DGFloer
         - DenseGraphLimits
+        - DifferentialGeometry
         - EllipticCurves
         - Exchangeability
         - FuchsianOrbifolds
@@ -41,25 +42,28 @@ body:
         - GlobalQuadraticForms
         - GrothendieckEulerForms
         - HeegaardFloer
-        - HodgeStructures
         - HopfRinow
+        - IntegralLattices
         - JacobianChallenge
         - LocalFieldsRamification
+        - LocalGaloisGroups
+        - ModularCurves
         - ModularForms
-        - Multiquadratic
         - NumberFieldArithmetic
         - OneParameterSemigroups
+        - OperatorTheory
         - OptimalTransport
         - OrthogonalSpinGroups
         - PDE
+        - PeripheralActions
         - PolynomialGaloisGroups
+        - ProfiniteArithmetic
         - ProfiniteCohomology
         - ProfiniteProPGroups
         - QuadraticFormInvariants
         - RealAlgebraicGeometry
         - ReductiveGroups
         - RepresentationTheory
-        - RestrictedProducts
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions

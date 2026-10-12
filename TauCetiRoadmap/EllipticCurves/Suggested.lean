@@ -1125,7 +1125,7 @@ noncomputable def abcQuality (E : WeierstrassCurve ℚ) [E.IsElliptic]
   let c := ((E.j / 1728).den : ℤ)
   let b := c - a
   Real.log (max (max a.natAbs b.natAbs) c.natAbs) /
-    Real.log (UniqueFactorizationMonoid.radical (a * b * c).natAbs)
+    Real.log (UniqueFactorizationMonoid.radical (a * b * c).natAbs : ℕ)
 
 /-- **The integral points** of a Weierstrass model over `ℚ`. ⚠ `[IsIntegral ℤ W]` is **not**
 decoration. Negation is `−(x, y) = (x, −y − a₁x − a₃)`, so on a general rational model the set is
