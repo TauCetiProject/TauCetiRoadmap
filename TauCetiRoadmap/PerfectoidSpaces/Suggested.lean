@@ -99,6 +99,14 @@ def classical (V : Type u) [CommRing V] : BasicSetup V where
   isIdempotentElem := by simp [IsIdempotentElem]
   flat_tilde := flat_tilde_top
 
+/-- The zero setup `(V, 0)`: `m = 0` is idempotent and `m̃ = 0 ⊗ 0 = 0` is flat. Every module is
+almost zero, and `(V^a)_! ≅ m̃ = 0`, so `M ↦ M_!` is not unital into `ModuleCat V` when `V ≠ 0`
+(GR (2.2.20)–(2.2.24), p. 15). -/
+def zero (V : Type u) [CommRing V] : BasicSetup V where
+  ideal := ⊥
+  isIdempotentElem := by simp [IsIdempotentElem]
+  flat_tilde := inferInstance
+
 /-- For the classical setup, almost zero means zero (GR Example 2.1.2(ii)). -/
 theorem isAlmostZero_classical_iff (M : Type*) [AddCommGroup M] [Module V M] :
     (classical V).IsAlmostZero M ↔ Subsingleton M := sorry
@@ -138,6 +146,20 @@ theorem isAlmostIso_iff_isoModSerre {M N : ModuleCat.{u} V} (f : M ⟶ N) :
 def AlmostFG (N : Type*) [AddCommGroup N] [Module V N] : Prop :=
   ∀ m₀ : Ideal V, m₀ ≤ S.ideal → m₀.FG → ∃ (n : ℕ) (φ : (Fin n → V) →ₗ[V] N),
     ∀ ε ∈ m₀, ∀ x : N, ε • x ∈ LinearMap.range φ
+
+/-- `M^a` is *almost finitely presented*: for every finitely generated `m₀ ⊆ m` there is a complex
+`V^r → Vⁿ → N` whose cokernel is killed by `m₀` and whose homology at `Vⁿ` is killed by `m₀`
+(GR Proposition 2.3.10(ii)(c), p. 18). The integers and maps may depend on `m₀`. -/
+def AlmostFP (N : Type*) [AddCommGroup N] [Module V N] : Prop :=
+  ∀ m₀ : Ideal V, m₀ ≤ S.ideal → m₀.FG → ∃ (r n : ℕ) (ψ : (Fin r → V) →ₗ[V] (Fin n → V))
+    (φ : (Fin n → V) →ₗ[V] N), φ ∘ₗ ψ = 0 ∧ (∀ ε ∈ m₀, ∀ x : N, ε • x ∈ LinearMap.range φ) ∧
+      ∀ ε ∈ m₀, ∀ y ∈ LinearMap.ker φ, ε • y ∈ LinearMap.range ψ
+
+/-- Almost finitely presented modules are almost finitely generated (GR Definition 2.3.8). -/
+theorem AlmostFP.almostFG {N : Type*} [AddCommGroup N] [Module V N] (h : S.AlmostFP N) :
+    S.AlmostFG N := fun m₀ hm hfg ↦
+  let ⟨_, n, _, φ, _, hφ, _⟩ := h m₀ hm hfg
+  ⟨n, φ, hφ⟩
 
 /-- `M^a` is *almost finite projective*, in the `ε`-factorisation form: for every `ε ∈ m`,
 `ε • id_M` factors through a finite free module (GR Lemma 2.4.15, p. 25). -/
@@ -222,8 +244,28 @@ theorem padicComplex_maximalIdeal_not_fg (p : ℕ) [Fact p.Prime] :
     ¬ (IsLocalRing.maximalIdeal (PadicComplexInt p)).FG := sorry
 
 -- Check: the zero ideal is a basic setup, and every module is almost zero for it.
-example : ∃ S : BasicSetup V, S.ideal = ⊥ ∧
-    ∀ (M : Type u) [AddCommGroup M] [Module V M], S.IsAlmostZero M := sorry
+example : (zero V).ideal = ⊥ := rfl
+example (M : Type*) [AddCommGroup M] [Module V M] : (zero V).IsAlmostZero M := by
+  intro ε hε x
+  rw [Ideal.mem_bot.mp hε, zero_smul]
+
+-- Check: for the zero setup `m̃ = 0`, so `(V^a)_! ≅ m̃` vanishes.
+example : Subsingleton (zero V).tilde :=
+  inferInstanceAs (Subsingleton ((⊥ : Ideal V) ⊗[V] (⊥ : Ideal V)))
+
+-- Negative control: for `V ≠ 0` and the zero setup, the unit comparison `m̃ → V` of `M ↦ M_!`
+-- is not surjective, so `M ↦ M_!` is not strong monoidal into `ModuleCat V`.
+example [Nontrivial V] : ¬ Function.Surjective (zero V).tildeMul := by
+  intro h
+  obtain ⟨x, hx⟩ := h 1
+  have hx0 : x = 0 :=
+    @Subsingleton.elim _ (inferInstanceAs (Subsingleton ((⊥ : Ideal V) ⊗[V] (⊥ : Ideal V)))) x 0
+  rw [hx0, map_zero] at hx
+  exact zero_ne_one hx
+
+-- Check: classically, almost finite presentation is finite presentation.
+example (M : Type u) [AddCommGroup M] [Module V M] :
+    (classical V).AlmostFP M ↔ Module.FinitePresentation V M := sorry
 
 -- Negative control: the maximal ideal of `ℤ_p` is not idempotent.
 example (p : ℕ) [Fact p.Prime] : ¬ IsIdempotentElem (IsLocalRing.maximalIdeal ℤ_[p]) := sorry
@@ -597,6 +639,13 @@ example (R : Type*) [CommRing R] [UniformSpace R] [IsUniformAddGroup R] [IsTopol
     [IsTateRing R] [CompleteSpace R] [T2Space R] [Subsingleton R] : IsPerfectoidTateRing p R :=
   sorry
 
+-- Negative control for the Frobenius criterion: for `A = ℤ_p[π]` with `π ^ p = p`,
+-- `A/π^p = A/p ≅ 𝔽_p[u]/(u^p)` with `u` the class of `π`, and `u` is not a `p`-th power there; so
+-- neither the relative Frobenius `A/π → A/π^p` nor Frobenius on `A/p` is surjective, although the
+-- Frobenius endomorphism of `A/π ≅ 𝔽_p` is bijective.
+example : ¬ ∃ y : Polynomial (ZMod p) ⧸ Ideal.span {(Polynomial.X : Polynomial (ZMod p)) ^ p},
+    y ^ p = Ideal.Quotient.mk _ Polynomial.X := sorry
+
 end Examples
 
 end Perfectoid
@@ -966,6 +1015,19 @@ def diagram : ℕ ⥤ CommRingCat.{u} :=
   Functor.ofSequence (X := fun n ↦ CommRingCat.of (T.ring n))
     (fun n ↦ CommRingCat.ofHom (T.transition n))
 
+/-- The constant tower on `A` with a chosen parameter `π`. Regularity of `π` is an explicit input:
+it does not follow from `A` being integral perfectoid (`𝔽_p` is integral perfectoid with `π = 0`,
+and has no regular parameter for which it is adically complete). -/
+def const (A : Type u) [CommRing A] (π : A) (hreg : π ∈ nonZeroDivisors A)
+    (hc : IsAdicComplete (Ideal.span {π}) A) (hd : π ^ p ∣ (p : A)) : IntegralTower.{u} p where
+  ring _ := A
+  transition _ := RingHom.id A
+  parameter _ := π
+  parameter_map _ := rfl
+  regular _ := hreg
+  complete _ := hc
+  divides _ := hd
+
 -- Check: the consecutive maps of the system are the transition maps.
 example (n : ℕ) : (T.diagram.map (homOfLE (Nat.le_succ n))).hom = T.transition n := by
   simp [diagram, Functor.ofSequence_map_homOfLE_succ]
@@ -1012,6 +1074,21 @@ example (T : IntegralTower.{u} 2) (n : ℕ) (h : T.parameter n = 2) : Subsinglet
   have hz : ∀ x : T.ring n, x = 0 := fun x ↦
     hH.haus x fun k ↦ by simp [SModEq.zero, Ideal.top_pow]
   exact ⟨fun a b ↦ (hz a).trans (hz b).symm⟩
+
+-- Negative control: no stage of an integral tower is a field. A regular parameter of a field is
+-- nonzero, hence a unit, and adic separatedness for the unit ideal forces the zero ring. So a
+-- perfect field such as `𝔽_p`, integral perfectoid with `π = 0`, has no constant tower.
+example {p : ℕ} (T : IntegralTower.{u} p) (n : ℕ) (hF : IsField (T.ring n)) : False := by
+  obtain ⟨a, b, hab⟩ := hF.exists_pair_ne
+  have hne : T.parameter n ≠ 0 := fun h0 ↦ by
+    have h := (mem_nonZeroDivisors_iff.mp (h0 ▸ T.regular n)).2
+    exact hab ((h a (mul_zero a)).trans (h b (mul_zero b)).symm)
+  obtain ⟨c, hc⟩ := hF.mul_inv_cancel hne
+  have hH := (T.complete n).toIsHausdorff
+  rw [Ideal.span_singleton_eq_top.mpr (IsUnit.of_mul_eq_one (b := c) hc)] at hH
+  have hz : ∀ x : T.ring n, x = 0 := fun x ↦
+    hH.haus x fun k ↦ by simp [SModEq.zero, Ideal.top_pow]
+  exact hab ((hz a).trans (hz b).symm)
 
 end Perfectoid
 

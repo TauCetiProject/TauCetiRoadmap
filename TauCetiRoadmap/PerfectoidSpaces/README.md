@@ -28,18 +28,23 @@ Frobenius-controlled towers. The end results are the tilting equivalence
 
 ## Scope and ownership
 
-The module order is AdicSpacesPartII → AdicSpacesPartIII → AdicEtaleGeometry → AdicSpacesPartIV →
-PerfectoidSpaces → DiamondsAndVStacks → PerfectoidTowers. Everything rests on Tau Ceti's Huber rings
-and adic spaces and on Mathlib's Witt vectors, perfection, `PreTilt` and `fontaineTheta`. The
-tower-quotient and torsor-descent layers P8–P9 form [PerfectoidTowers](../PerfectoidTowers/README.md).
-AdicEtaleGeometry supplies finite étale and étale morphisms of analytic adic spaces and their sites
-(P3 restricts them to perfectoid spaces and compares); AdicSpacesPartII R0 owns completed tensor
-products, fibre products and separatedness of adic spaces; AdicSpacesPartIII R3 the Gel'fand
-spectrum; AdicSpacesPartIV R5 vector bundles on étale sites, sousperfectoid coefficients and the
-intrinsic tilde-limit relation. This roadmap owns the perfectoid theory, the `κ`-small and
-pro-étale calculus (P6) and the v-site construction from compact-open coverings (P7);
-DiamondsAndVStacks owns diamonds and spatiality. Prismatic cohomology and general
-perfectoidisation are not targets: P4 uses only the semiperfectoid case.
+Everything rests on Tau Ceti's Huber rings and adic spaces and on Mathlib's Witt vectors,
+perfection, `PreTilt` and `fontaineTheta`. The tower-quotient and torsor-descent layers P8–P9 form
+[PerfectoidTowers](../PerfectoidTowers/README.md). AdicEtaleGeometry A1.2–A1.3 and A1.6 supply
+finite étale and étale morphisms of analytic adic spaces and their sites (P3 restricts them to
+perfectoid spaces and compares); AdicSpacesPartII owns completed tensor products (R0.3–R0.4), fibre
+products (R0.7), closed immersions (R0.8) and separatedness (R0.10) of adic spaces;
+AdicSpacesPartIII R3.9 the Gel'fand spectrum; AdicSpacesPartIV R5.7 vector bundles on étale sites
+with a stable basis and R5.8 the intrinsic tilde-limit relation. This roadmap owns the perfectoid
+theory and the `κ`-small and pro-étale calculus (P6). It owns no topology on perfectoid spaces: P7
+uses only the raw compact-open covering condition (Mathlib `IsCompactOpenCovered`), while the v-site
+built on that condition belongs to DiamondsAndVStacks: its precoverage and topology to D2.2,
+subcanonicity and v-descent to D2.7; so do diamonds and spatiality. The ordinary cotangent complex
+belongs to the DerivedDeRhamCohomology roadmap and is consumed in P0.19; this roadmap owns only its
+almost counterpart (P0.20). Prismatic cohomology and general perfectoidisation are not targets: P4
+uses only the semiperfectoid case. Each layer's Dependencies paragraph names, subsection by
+subsection, the targets of other roadmaps that it uses; several of those roadmaps also use targets
+of this one, so the dependency relation is between subsections, not between whole roadmaps.
 
 ## Conventions
 
@@ -57,6 +62,7 @@ and may be singular.
 | --- | --- | --- |
 | Serre classes and their isomorphisms | Mathlib `ObjectProperty.IsSerreClass`, `ObjectProperty.isoModSerre` | P0 |
 | Henselian adic completions | Mathlib `IsAdicComplete.henselianRing` | P0, P3 |
+| Finite presentation, low-degree cotangent complex | Mathlib `Module.FinitePresentation`, `Algebra.Extension.cotangentComplex`, `Algebra.H1Cotangent` | P0 |
 | Idempotent lifting | Tau Ceti `HenselianRing.exists_isIdempotentElem_sub_mem`, `IsAdicComplete.exists_isIdempotentElem_eq` | P0 |
 | Tate and Huber rings | Tau Ceti `IsTateRing`, `IsHuberRing`, `IsPseudoUniformizer`, `PairOfDefinition` | P1 |
 | `R°`, `R°°`, boundedness, uniformity | Tau Ceti `powerBoundedSubring`, `topologicallyNilpotentIdeal`, `IsBounded`, `IsUniform`, `IsUniform.isReduced` | P1 |
@@ -92,20 +98,20 @@ the almostification of a `V`-module and `M_*` the almost elements of an almost m
 ### P0.1 Basic setups
 
 **Basic setup.** A basic setup on a commutative ring `V` is an ideal `m` with `m·m = m` and
-`m̃ := m ⊗_V m` flat ([GR] §2.1, (2.1.1), p. 7, and (2.5.14), p. 32). `M` is almost zero if `m·M = 0`;
-a map is an almost isomorphism if its kernel and cokernel are almost zero. The classical setup is
-`m = V`; base change along `V → W` gives `(W, mW)`, flat since `W ⊗_V m̃ ≅ (mW)~` ([GR] Remark
-2.1.4(ii)). Condition (A): `m` is a directed union of principal ideals; (B): `k`-th powers of
+`m̃ := m ⊗_V m` flat ([GR] §2.1, (2.1.1), p. 7, and (2.5.14), p. 32). `M` is almost zero if
+`m·M = 0`; a map is an almost isomorphism if its kernel and cokernel are almost zero. The classical
+setup is `m = V`; base change along `V → W` gives `(W, mW)`, flat since `W ⊗_V m̃ ≅ (mW)~` ([GR]
+Remark 2.1.4(ii)). Condition (A): `m` is a directed union of principal ideals; (B): `k`-th powers of
 elements of `m` generate `m`. For idempotent `m`, (A) implies (B) and flatness of `m̃`; flatness of
 `m̃` alone implies (B) ([GR] (2.1.6), Proposition 2.1.7). A setup is data, not a class. Checks: the
-zero ideal is a setup in which every module is almost zero; the maximal ideal of `ℤ_p` is not
-idempotent and `ℤ/p²` is not killed by `p`, so idempotence is what closes almost zero modules under
-extensions; `(t) ⊆ 𝔽_p[t]` satisfies (A) but not (B); over `(ℤ, ℤ)`, `m̃ → V` sends
+zero ideal is a setup (`m̃ = 0` is flat) in which every module is almost zero; the maximal ideal of
+`ℤ_p` is not idempotent and `ℤ/p²` is not killed by `p`, so idempotence is what closes almost zero
+modules under extensions; `(t) ⊆ 𝔽_p[t]` satisfies (A) but not (B); over `(ℤ, ℤ)`, `m̃ → V` sends
 `2 ⊗ 3 + 5 ⊗ 7` to `41`; classically `2 : ℤ → ℤ` is not an almost isomorphism. Lean:
 `Almost.BasicSetup`, `tilde`, `tildeMul`, `IsAlmostZero`, `almostZero`, `IsAlmostIso`, `classical`,
-`baseChange`, `IsFilteredPrincipal`, `PowersGenerate`, `IsFilteredPrincipal.powersGenerate`,
-`flat_tilde_of_isFilteredPrincipal`, `powersGenerate`, `flat_tilde_top`, `isAlmostZero_classical_iff`,
-`isIdempotentElem_map`, `flat_tilde_map`.
+`zero`, `baseChange`, `IsFilteredPrincipal`, `PowersGenerate`, `IsFilteredPrincipal.powersGenerate`,
+`flat_tilde_of_isFilteredPrincipal`, `powersGenerate`, `flat_tilde_top`,
+`isAlmostZero_classical_iff`, `isIdempotentElem_map`, `flat_tilde_map`.
 
 **Detection by `m̃ ⊗ −`.** `m·M = 0 ⟺ m ⊗_V M = 0 ⟺ m̃ ⊗_V M = 0`; `f` is an almost isomorphism
 iff `m̃ ⊗ f` is bijective; for flat `m`, `m̃ ≅ m`; `m̃ ⊗ m ≅ m̃ ⊗ m̃ ≅ m̃` with `x ⊗ y = y ⊗ x` ([GR]
@@ -168,38 +174,65 @@ of `ℚ_p(p^{1/p^∞})`, `K°/p → ((K°/p)^a)_*` is not surjective ([Sch12] Re
 ### P0.7 The closed symmetric monoidal structure
 
 **Tensor and internal Hom.** The localised monoidal structure has unit `V^a ≅ m^a`,
-`M^a ⊗ N^a ≅ (M ⊗ N)^a`, internal Hom `alHom(M, N) := Hom(M, N)^a`; `(−)_!` is strong and `(−)_*` lax
-monoidal ([Sch12] Proposition 4.5; [GR] (2.2.10)–(2.2.11), Proposition 2.4.35). Check: `m` is not a
-tensor unit in `ModuleCat V` (`m ⊗ V/m = 0`) but `m^a` is.
+`M^a ⊗ N^a ≅ (M ⊗ N)^a`, internal Hom `alHom(M, N) := Hom(M, N)^a`, and `(−)_*` is lax monoidal
+([Sch12] Proposition 4.5; [GR] (2.2.10)–(2.2.11), Proposition 2.4.35).
+
+**The left adjoint is not unital.** Since `N → (N^a)_*` is an almost isomorphism (P0.6) and `m̃ ⊗ −`
+inverts almost isomorphisms (P0.1), `(N^a)_! ≅ m̃ ⊗_V N`; in particular `(V^a)_! ≅ m̃`, not `V`
+([GR] (2.2.20)–(2.2.24), Proposition 2.2.21). As left adjoint of the strong monoidal `(−)^a`, the
+functor `(−)_!` into `ModuleCat V` is oplax monoidal: its tensor comparison
+`(M ⊗ N)_! → M_! ⊗_V N_!` is an isomorphism (from `m̃ ⊗ m̃ ≅ m̃`, P0.1), and its unit comparison is
+`(V^a)_! ≅ m̃ → V`, the multiplication `tildeMul`, which is an isomorphism exactly when `m = V`. No
+strong monoidal functor `Almost.Module S → ModuleCat V` is asserted. The strong monoidal statement
+has a different target: `(−)_!` is a strong monoidal equivalence onto the category of firm modules
+of P0.4 with `⊗_V` and unit `m̃` ([Bhatt] Construction 4.1.5, Proposition 4.1.7). The missing unit
+is why P0.9 needs the unitisation `B_!!`: `B_!` is only a non-unital algebra. Checks: `m` is not a
+tensor unit in `ModuleCat V` (`m ⊗ V/m = 0`) but `m^a` is; for the zero setup `(V, 0)` on a nonzero
+ring such as `ℤ`, `m̃ = 0`, so `(V^a)_! = 0 ≇ V` and the unit comparison `m̃ → V` is not surjective;
+classically `m̃ → V` is bijective and `(−)_!` is strong monoidal into `ModuleCat V`. Lean: `zero`,
+`tildeMul`.
 
 ### P0.8 Almost algebras
 
-**Commutative monoids.** Almost algebras are Mathlib `CommMon` objects of `Almost.Module S`; `A_*` is
-a `V`-algebra, `R ↦ R^a` is left adjoint to `A ↦ A_*`; `A`-modules (Mathlib `Mod`) form a closed
+**Commutative monoids.** Almost algebras are Mathlib `CommMon` objects of `Almost.Module S`; `A_*`
+is a `V`-algebra, `R ↦ R^a` is left adjoint to `A ↦ A_*`; `A`-modules (Mathlib `Mod`) form a closed
 symmetric monoidal abelian category equivalent to almost modules over the base change of `S` to
-`A_*`, with free modules, quotients, products and pushouts computed on almost elements ([Sch12] after
-Proposition 4.6; [Bhatt] Remark 4.2.8; [GR] (2.2.8), Propositions 2.2.13, 2.2.18). Check: classically
-`R ↦ R^a` is an equivalence.
+`A_*` ([Sch12] after Proposition 4.6; [Bhatt] Remark 4.2.8; [GR] (2.2.8), Propositions 2.2.13,
+2.2.18). Limits are computed on almost elements, `(lim D)_* ≅ lim D_*`. Colimits are almostified
+last: `colim D ≅ (colim D_*)^a`, so free modules `(A_*^{(I)})^a`, quotients and pushouts are `(−)^a`
+of the corresponding constructions on almost elements ([GR] Corollary 2.2.15, 2.2.18). The functor
+`(−)_*` preserves neither colimits nor epimorphisms: an almost element of the target of an
+epimorphism lifts only after multiplication by an arbitrary `ε ∈ m` ([GR] Remarks 2.2.14(ii),
+2.2.28(i)), so no exactness or colimit-preservation statement is made for `(−)_*`. Checks:
+classically `R ↦ R^a` is an equivalence; for multiplication by `p` on `(K°)^a`, `K` as in P0.6, the
+cokernel computed on almost elements is `K°/p`, the almost elements of the cokernel are
+`((K°/p)^a)_*`, and the comparison `K°/p → ((K°/p)^a)_*` is not surjective.
 
 ### P0.9 The left adjoint on algebras
 
-**`B_!!`.** `B_!! := (V ⊕ B_!)/(xy − x ⊗ y ⊗ 1)` is a unital `V`-algebra with `(B_!!)^a ≅ B`, left
-adjoint to `R ↦ R^a`, commuting with colimits, with `B_!! → B_*` an almost isomorphism; `B` is exact
-when `0 → m̃ → V ⊕ B_! → B_!! → 0` is, which holds for `m̃ ≅ m` ([GR] Definition 2.2.25 to Remark
-2.2.28). Checks: `(V^a)_!! ≅ V`; for the zero setup `B_!! = V` while `B_* = 0`; the flat
+**`B_!!`.** `B_! = m̃ ⊗ B_*` inherits only a non-unital multiplication, as `(V^a)_! ≅ m̃` (P0.7);
+the unitisation `B_!! := (V ⊕ B_!)/(xy − x ⊗ y ⊗ 1)` is a unital `V`-algebra with `(B_!!)^a ≅ B`,
+left adjoint to `R ↦ R^a`, commuting with colimits, with `B_!! → B_*` an almost isomorphism; `B` is
+exact when `0 → m̃ → V ⊕ B_! → B_!! → 0` is, which holds for `m̃ ≅ m` ([GR] Definition 2.2.25 to
+Remark 2.2.28). Checks: `(V^a)_!! ≅ V`; for the zero setup `B_!! = V` while `B_* = 0`; the flat
 `V^a × V^a → V^a` becomes non-flat after `(−)_!!` ([GR] Remark 3.1.3(ii)).
 
 ### P0.10 Almost finite generation and presentation
 
 **Almost finitely generated and presented.** `N` is almost finitely generated if for each finitely
-generated `m₀ ⊆ m` some `φ : Vⁿ → N` has cokernel killed by `m₀` (uniformly if one `n` serves all),
-almost finitely presented if moreover the kernel is almost finitely generated in the same sense
-([GR] Definition 2.3.8, Proposition 2.3.10). These are almost-isomorphism invariant, stable under
+generated `m₀ ⊆ m` some `φ : Vⁿ → N` has cokernel killed by `m₀` (uniformly if one `n` serves all)
+([GR] Definition 2.3.8, Proposition 2.3.10(i)). `N` is almost finitely presented if for each
+finitely generated `m₀ ⊆ m` there is a complex `V^r —ψ→ Vⁿ —φ→ N` with `m₀ · coker φ = 0` and
+`m₀ · ker φ ⊆ im ψ` ([GR] Proposition 2.3.10(ii)(c)); `r`, `n`, `ψ` and `φ` may depend on `m₀`, and
+no kernel condition uniform in `m₀` is imposed. These are almost-isomorphism invariant, stable under
 extensions and base change; almost finite presentation means `alHom(M, −)` commutes with filtered
 colimits; under (A) they are Scholze's `ε`-forms ([GR] Lemma 2.3.17, Proposition 2.3.15, Remark
-2.3.9; [Sch12] Proposition 4.7(iii)). Checks: for `L = K(√p)` over `K` the completion of
-`ℚ_p(p^{1/p^∞})`, `L°` is uniformly almost finitely generated with bound `2` ([Bhatt] Example 4.2.7);
-`⊕_ℕ K°` is not. Lean: `AlmostFG`.
+2.3.9; [Sch12] Proposition 4.7(iii)). Checks: for odd `p` and `K` the completion of
+`ℚ_p(p^{1/p^∞})`, `L = K(√p)` is quadratic over `K` (`√p` has value `1/2`, outside the value group
+`ℤ[1/p]` of `K`) and `L°` is uniformly almost finitely generated with bound `2` ([Bhatt] Example
+4.2.7); at `p = 2`, `√2 = 2^{1/2} ∈ K` and `L = K`, so this `L` is used for odd `p` only, here and
+in P0.11–P0.17; `⊕_ℕ K°` is not almost finitely generated; classically almost finite presentation is
+`Module.FinitePresentation`. Lean: `AlmostFG`, `AlmostFP`, `AlmostFP.almostFG`.
 
 ### P0.11 Flatness and almost projectivity
 
@@ -209,9 +242,10 @@ categorical projectivity is never used. These are detected by almost vanishing o
 ([GR] (2.4.10); [Sch12] Proposition 4.7(i)); almost projective plus almost finitely generated equals
 flat plus almost finitely presented ([GR] Proposition 2.4.18; [Sch12] Proposition 4.10); and almost
 projectivity of almost finitely generated `M` is the existence of `M → Aⁿ → M` composing to `ε·1`
-for all `ε ∈ m` ([GR] Lemma 2.4.15; [KL15] Definition 5.5.8). Checks: `K°/ϖ` is not flat; classically
-the `ε`-form is `Module.Projective ∧ Module.Finite`; `L° → (K°)² → L°` gives bound `2`. Lean:
-`IsAlmostFiniteProjective`, `IsAlmostFiniteProjective.almostFG`.
+for all `ε ∈ m` ([GR] Lemma 2.4.15; [KL15] Definition 5.5.8). Checks: `K°/ϖ` is not flat;
+classically the `ε`-form is `Module.Projective ∧ Module.Finite`; for the odd-`p` extension `L` of
+P0.10, `L° → (K°)² → L°` gives bound `2`. Lean: `IsAlmostFiniteProjective`,
+`IsAlmostFiniteProjective.almostFG`.
 
 ### P0.12 Duals and traces
 
@@ -219,8 +253,9 @@ the `ε`-form is `Module.Projective ∧ Module.Finite`; `L° → (K°)² → L°
 isomorphism and `tr := ev ∘ ω⁻¹` is cyclic, multiplicative, additive, base-change compatible and
 transitive, with `P ≅ P**`; for `B` almost finite projective over `A`, `Tr_{B/A}`, the trace form
 `t_{B/A}` and `τ : B → B*` are defined ([GR] Definition 4.1.1, Lemmas 2.4.29, 2.4.31, 4.1.2, 4.1.13,
-(4.1.7), (4.1.12)). Mathlib's `LinearMap.trace` is not used. Checks: `Tr_{L°/K°}(1) = 2` with an
-almost perfect trace form; for `A[ε]/ε²` the form `[[2, 0], [0, 0]]` is not perfect.
+(4.1.7), (4.1.12)). Mathlib's `LinearMap.trace` is not used. Checks: for the odd-`p` `L` of P0.10,
+`Tr_{L°/K°}(1) = 2`, a unit, with an almost perfect trace form; for `A[ε]/ε²` the form
+`[[2, 0], [0, 0]]` is not perfect.
 
 ### P0.13 Rank decomposition
 
@@ -231,12 +266,13 @@ non-almost-finitely-generated `⊕ V δ_i ⊆ ∏ k` has `Λ² = 0` and no decom
 
 ### P0.14 Flat, unramified, étale and finite étale morphisms
 
-**Morphism classes.** For `φ : A → B` with `μ : B ⊗_A B → B`: flat, almost finite and so on via
-`B` as `A`-module; (weakly) unramified if `B` is almost projective (flat) over `B ⊗_A B`; (weakly)
-étale if moreover flat; finite étale if étale and almost finitely presented ([GR] Definition 3.1.1;
+**Morphism classes.** For `φ : A → B` with `μ : B ⊗_A B → B`: flat, almost finite and so on via `B`
+as `A`-module; (weakly) unramified if `B` is almost projective (flat) over `B ⊗_A B`; (weakly) étale
+if moreover flat; finite étale if étale and almost finitely presented ([GR] Definition 3.1.1;
 [Sch12] Definition 4.13; [Bhatt] Definition 4.3.1); stable under base change and composition, with
-cancellation ([GR] Lemma 3.1.2). Checks: `L°a/K°a` is finite étale with diagonal idempotent
-`(1 ⊗ √p + √p ⊗ 1)/(2√p ⊗ 1)` not in `L° ⊗ L°`; `ℚ → ℚ[ε]/ε²` is not unramified.
+cancellation ([GR] Lemma 3.1.2). Checks: for the odd-`p` `L` of P0.10, `L°a/K°a` is finite étale
+with diagonal idempotent `(1 ⊗ √p + √p ⊗ 1)/(2√p ⊗ 1)` not in `L° ⊗ L°`; `ℚ → ℚ[ε]/ε²` is not
+unramified.
 
 ### P0.15 The trace-form criterion and the diagonal idempotent
 
@@ -258,8 +294,8 @@ Proposition 8.2.8). For `V → W`, almost `(W, mW)`-modules are `W^a`-modules in
 
 **Honest versus almost.** Mathlib finite étale `R → R'` gives finite étale `R^a → R'^a`, with the
 converse classically; almost finite étale becomes finite étale after inverting `ϖ ∈ m` ([Bhatt]
-Construction 4.3.3; [GR] (3.4.44), Remark 3.1.3(i)). Check: `L°` need not be finitely presented over
-`K°`.
+Construction 4.3.3; [GR] (3.4.44), Remark 3.1.3(i)). Check: the odd-`p` `L°` of P0.10 need not be
+finitely presented over `K°`.
 
 ### P0.18 Almost Kähler differentials
 
@@ -269,19 +305,32 @@ commutes with colimits, almostifies `Ω_{R'/R}`, and vanishes for unramified map
 
 ### P0.19 The cotangent complex of a ring map
 
-**`L_{S/R}`.** The simplicial-resolution cotangent complex ([Stacks] Tag 08PL) with `H_0 = Ω`, `H_1`
-matching Mathlib's `Algebra.H1Cotangent`, transitivity (08QX), Tor-independent base change (08QQ),
-filtered colimits (08S9), `Ext^0 = Der`, `Ext^1 = Exal` (08S3, 08RB), deformation obstructions in
-`Ext^2` (08SP), and the diagonal spectral sequence of simplicial maps ([Illusie] II 1.2.6.2; [GR]
-proof of Proposition 8.1.7). Checks: `L_{R[X]/R} = Ω`; `R → R/(f)` gives `(f)/(f²)[1]`; perfect
-`𝔽_p`-algebras have `L ≃ 0`; `ℤ → ℤ/2` has `H_1 = ℤ/2`.
+**`L_{S/R}`, consumed.** The ordinary cotangent complex (simplicial resolutions, [Stacks] Tag 08PL)
+and its square-zero obstruction class belong to the DerivedDeRhamCohomology roadmap, to which
+SchemeAndStackFoundations §4.6 assigns them; Mathlib's `Algebra.Extension.cotangentComplex` and
+`Algebra.H1Cotangent` cover only the two lowest degrees. This roadmap consumes that carrier and owns
+only the almost construction of P0.20. Used here: `H_0 = Ω`, `H_1` is Mathlib's
+`Algebra.H1Cotangent`, transitivity (08QX), Tor-independent base change (08QQ), filtered colimits
+(08S9), `Ext^0 = Der`, `Ext^1 = Exal` (08S3, 08RB), deformation obstructions in `Ext^2` (08SP), and
+the diagonal spectral sequence of simplicial maps ([Illusie] II 1.2.6.2; [GR] proof of Proposition
+8.1.7). Grading is homological: `H_i(L)` is `H^{−i}(L)` in the cohomological indexing of [Stacks],
+and `M[n]` is `M` placed in homological degree `n`. The obstruction groups of P0.21–P0.23 are `Ext`
+groups of the full complex, never of a two-term truncation. Checks: `L_{R[X]/R} = Ω`; for a
+non-zero-divisor `f ∈ R`, `L_{(R/(f))/R} ≃ (f)/(f²)[1]` ([Stacks] Tag 08SJ), so `ℤ → ℤ/2` has
+`L ≃ ℤ/2[1]`; for an arbitrary ideal `I`, `L_{(R/I)/R}` has `H_0 = 0` and `H_1 = I/I²`, and no more
+holds in general; negative control: for `R = k[ε]/(ε²)` and the zero-divisor `f = ε`, the
+hypersurface presentation `R = k[x]/(x²)` gives `k ⊗ᴸ_R L_{R/k} ≃ [k —0→ k] ≃ k[0] ⊕ k[1]`, and the
+transitivity triangle of `k → R → k` gives `L_{k/R} ≃ k[1] ⊕ k[2]`, whose `H_2 = k` is missing from
+`(ε)/(ε²)[1] = k[1]`; perfect `𝔽_p`-algebras have `L ≃ 0`.
 
 ### P0.20 The almost cotangent complex
 
 **`L^a_{B/A}`.** Defined through `B_!!` and the unitisations `V^a × A`, with `H_0 = Ω_{B/A}`,
-`Ext^0 = Der`, `Ext^1 = Exal`, transitivity, base change, colimits, and `L^a_{S^a/R^a} ≅ (L_{S/R})^a`
-([GR] Definition 2.5.20, Theorems 2.5.32, 2.5.35, Propositions 2.5.33–2.5.34, 8.1.7; [Sch12] §5).
-Check: the naive complex of `A_* → B_*` is wrong (for `m = 0`, `B_!! = V`, `B_* = 0`).
+`Ext^0 = Der`, `Ext^1 = Exal`, transitivity, base change, colimits, and
+`L^a_{S^a/R^a} ≅ (L_{S/R})^a` ([GR] Definition 2.5.20, Theorems 2.5.32, 2.5.35, Propositions
+2.5.33–2.5.34, 8.1.7; [Sch12] §5). This is the construction this roadmap owns; the ordinary complex
+it is compared with is the consumed carrier of P0.19. Check: the naive complex of `A_* → B_*` is
+wrong (for `m = 0`, `B_!! = V`, `B_* = 0`).
 
 ### P0.21 Square-zero extensions and `Ext^1`
 
@@ -353,14 +402,17 @@ criterion. Check: on `S¹` the constant sheaf `K°/K°°` has `H¹ ≠ 0` yet is
 ### Examples
 
 The Lean `example`s use the classical, zero, valuation and root setups, with `ℤ_p`, `(t) ⊆ 𝔽_p[t]`
-and fields as non-examples.
+and fields as non-examples; the zero setup pins `m̃ = 0` and the failure of the unit comparison
+`m̃ → V` (P0.7), and the classical setup pins almost finite presentation as finite presentation.
 
 ### Dependencies
 
-Mathlib `IsIdempotentElem`, `Module.Flat`, `ValuationRing`, `ObjectProperty.IsSerreClass`,
-`isoModSerre`, `CommMon`, `Mod`, `KaehlerDifferential`, `Algebra.H1Cotangent`, `HenselianRing`,
-`IsAdicComplete`; Tau Ceti `HenselianRing.exists_isIdempotentElem_sub_mem`. Consumed by P1–P3 and by
-DiamondsAndVStacks.
+Mathlib `IsIdempotentElem`, `Module.Flat`, `Module.FinitePresentation`, `ValuationRing`,
+`ObjectProperty.IsSerreClass`, `isoModSerre`, `CommMon`, `Mod`, `KaehlerDifferential`,
+`Algebra.H1Cotangent`, `Algebra.Extension.cotangentComplex`, `HenselianRing`, `IsAdicComplete`; Tau
+Ceti `HenselianRing.exists_isIdempotentElem_sub_mem`. Other roadmaps, by subsection: P0.19 uses the
+ordinary cotangent complex of the DerivedDeRhamCohomology roadmap (through P0.19 also P0.20–P0.24).
+No other subsection of P0 uses another roadmap.
 
 ## Layer P1: perfectoid Tate rings, tilts and untilts
 
@@ -398,11 +450,11 @@ Checks: the completed perfection of `𝔽_p((t))` is perfectoid and `𝔽_p((t))
 ### P1.3 Compatible `p`-power roots and the spectral gauge
 
 **Roots.** A pseudouniformiser with compatible roots is `ϖ♭ ∈ Perfection R p` with `ϖ♭^{(0)}` a
-pseudouniformiser in `R°` and `ϖ^p | p`; every perfectoid Tate ring has one ([ECD] Lemma 3.10;
-[BMS] Lemma 3.9). The gauge `|x|_ϖ := inf{2^{−q} : ϖ^{−q}x ∈ R°}` is a power-multiplicative norm
-defining the topology with `R° = {|x| ≤ 1}`, the spectral seminorm of AdicSpacesPartII R0 ([Sch12]
-Remark 3.5; [Berkeley] Lemma 6.2.2). Checks: on `ℂ_p`, `|x| = 2^{−p v_p(x)}`; `ℚ_p` has no roots, so
-the root structure is empty. Lean: `PseudoUniformizerRoots`, `PseudoUniformizerRoots.root`,
+pseudouniformiser in `R°` and `ϖ^p | p`; every perfectoid Tate ring has one ([ECD] Lemma 3.10; [BMS]
+Lemma 3.9). The gauge `|x|_ϖ := inf{2^{−q} : ϖ^{−q}x ∈ R°}` is a power-multiplicative norm defining
+the topology with `R° = {|x| ≤ 1}`, the spectral seminorm of AdicSpacesPartII R0.4 ([Sch12] Remark
+3.5; [Berkeley] Lemma 6.2.2). Checks: on `ℂ_p`, `|x| = 2^{−p v_p(x)}`; `ℚ_p` has no roots, so the
+root structure is empty. Lean: `PseudoUniformizerRoots`, `PseudoUniformizerRoots.root`,
 `PseudoUniformizerRoots.nonempty`.
 
 ### P1.4 The tilt
@@ -419,8 +471,15 @@ perfectoid Tate ring of characteristic `p` with pseudouniformiser `ϖ♭`, `R♭
 **`♯ : R♭ → R`.** `x♯ := x^{(0)}` is continuous, multiplicative, not additive, detects `R♭°` and
 zero, satisfies `(x + y)♯ ≡ x♯ + y♯ mod p`, is surjective modulo `p`, and induces
 `R♭°/ϖ♭^q ≅ R°/ϖ^q` for `0 < q ≤ p` ([ECD] after Lemma 3.10; [BMS] Lemma 3.10). Frobenius criterion:
-surjectivity of `R°/ϖ → R°/ϖ^p`, of Frobenius on `R°/p` and on `R°/ϖp` agree ([BMS] Lemma 3.9;
-[KL15] Remark 3.4.9). Check: for `ℤ_p[p^{1/p}]` the first holds and the second fails.
+for a ring `A` that is `π`-adically complete with `π^p | p`, surjectivity of the relative Frobenius
+`A/π → A/π^p`, `[x] ↦ [x^p]`, of Frobenius on `A/p` and of Frobenius on `A/πp` are equivalent ([BMS]
+Lemma 3.9, p. 22; [KL15] Remark 3.4.9); for `A = R°`, `π = ϖ`. Negative control, separating the
+relative Frobenius from the Frobenius endomorphism of `A/π`: for `A = ℤ_p[π]`, `π^p = p`, with `u`
+the class of `π` in `A/p`, (i) the endomorphism `x ↦ x^p` of `A/π ≅ 𝔽_p` is bijective; (ii) the
+relative Frobenius `A/π ≅ 𝔽_p → A/π^p = A/p ≅ 𝔽_p[u]/(u^p)` has image the constants `𝔽_p`; (iii)
+Frobenius on `A/p ≅ 𝔽_p[u]/(u^p)` also has image `𝔽_p`. So (ii) and (iii) miss `u`, and Frobenius on
+`A/πp` is not surjective either, `A/p` being a quotient of `A/πp`: all three conditions of the
+criterion fail together, and bijectivity of (i) says nothing about perfectoidness.
 
 ### P1.6 Functoriality
 
@@ -468,7 +527,7 @@ Lean: `IsPerfectoidField.iff`.
 ### P1.12 The unit criterion on the Gelfand spectrum
 
 **Units.** In a nonarchimedean Banach ring, `f` is a unit iff no bounded multiplicative seminorm
-kills it ([KBF] proof of Lemma 2.4); the spectrum is AdicSpacesPartIII R3.
+kills it ([KBF] proof of Lemma 2.4); the spectrum is AdicSpacesPartIII R3.9.
 
 ### P1.13 Uniform Banach fields
 
@@ -540,7 +599,12 @@ commutes with base change ([ECD] Theorem 3.17; [KL16] Theorem 3.3.8; [AWS] Remar
 
 **No automorphisms.** Untilts with a marking `(S♭, S♭⁺) ≅ (R, R⁺)` form a discrete category
 equivalent to primitive ideals, pulled back along maps of pairs ([Berkeley] Lemma 6.2.8; [AWS]
-Definition 2.3.13). Check: twisting the marking by Frobenius gives `φ(J) ≠ J`.
+Definition 2.3.13); composing the marking with the Frobenius of `R` replaces `J` by `φ(J)`. Checks:
+for `R = 𝔽_p((t^{1/p^∞}))^` and the mixed-characteristic `J = (p − [t])`, whose untilt is
+`ℚ_p(p^{1/p^∞})^` with `t♯ = p` (P1.19), `φ(J) = (p − [t]^p) ≠ J`, since the untilt map sends
+`p − [t]^p` to `p − p^p ≠ 0`; so the Frobenius-twisted marking is a different marked untilt of the
+same field; the characteristic-`p` ideal `J = (p)` is Frobenius-stable, and its twisted marking is
+isomorphic to the original one through the Frobenius of `R`.
 
 ### P1.23 Strict inclusions and the sharp approximation lemma
 
@@ -610,22 +674,24 @@ fields, `𝔽_p((t))`, `ℂ_p[ε]/ε²`, `R⟨T_1, …, T_n⟩`.
 
 ### P1.33 AdicSpaces' perfect field and `A_inf`
 
-**Compatibility.** AdicSpaces' complete perfect field `F` is perfectoid and its own tilt;
+**Compatibility.** The complete perfect field `F` of AdicSpaces 6.1 is perfectoid and its own tilt;
 `W(𝒪_F)` with the `(p, [ϖ])`-adic topology is the ring of P1.16, matching Tau Ceti's
 `FarguesFontaine.spaY`.
 
 ### Examples
 
 The Lean `example`s cover `ℚ_p` (not perfectoid, no roots), `ℂ_p`, the zero ring, `p` versus `p²`
-and Teichmüller lifts as distinguished elements, and `ℤ_p` versus `𝒪_{ℂ_p}` as integral perfectoid
-rings.
+and Teichmüller lifts as distinguished elements, `ℤ_p` versus `𝒪_{ℂ_p}` as integral perfectoid
+rings, and the ramified control of P1.5 (`u` is not a `p`-th power in `𝔽_p[u]/(u^p)`).
 
 ### Dependencies
 
 P0; Tau Ceti `IsTateRing`, `IsPseudoUniformizer`, `powerBoundedSubring`,
-`topologicallyNilpotentIdeal`, `IsBounded`, `IsUniform`, `Pair`; Mathlib `Perfection`, `PreTilt`,
-`Tilt`, `WittVector`, `fontaineTheta`, `PadicComplex`; AdicEtaleGeometry A4, AdicSpacesPartII R0,
-AdicSpacesPartIII R3.
+`topologicallyNilpotentIdeal`, `IsBounded`, `IsUniform`, `Pair`, `FarguesFontaine.spaY`; Mathlib
+`Perfection`, `PreTilt`, `Tilt`, `WittVector`, `fontaineTheta`, `PadicComplex`. Other roadmaps, by
+subsection: P1.3 uses AdicSpacesPartII R0.4 (the spectral seminorm); P1.12 uses AdicSpacesPartIII
+R3.9 (the Gel'fand spectrum); P1.33 uses AdicSpaces 6.1 (the perfect field and `A_inf`). None of
+these cites this roadmap.
 
 ## Layer P2: rational localisation, the sheaf theorem and perfectoid spaces
 
@@ -680,10 +746,11 @@ model `R°⟨T/ϖ⟩` is not almost equal to `O(U)°`. Lean: `isPerfectoidTateRi
 ### P2.6 Stable uniformity and sheafiness
 
 **Stably uniform and sheafy.** Every `O_X(U)` is uniform, `O_X` and `O_X⁺` are sheaves by the
-Buzzard–Verberkmoes theorem (AdicSpaces layer 4.2), and rational Čech complexes of `O_X` are exact
-(AdicSpacesPartIII R3), depending only on `R` ([KL15] Theorem 3.6.15; [KL16] Corollary 3.3.19;
-[Berkeley] Theorem 6.1.10; [HK] Corollary 3.15). Huber's noetherian theorem does not apply ([AWS]
-Corollary 2.9.3). Lean: `Perfectoid.isStablyUniform`, `Perfectoid.isSheafyRing`.
+Buzzard–Verberkmoes theorem (AdicSpaces 4.2), and rational Čech complexes of `O_X` are exact
+(AdicSpacesPartIII R3.1, sheafy Čech acyclicity), depending only on `R` ([KL15] Theorem 3.6.15;
+[KL16] Corollary 3.3.19; [Berkeley] Theorem 6.1.10; [HK] Corollary 3.15). Huber's noetherian theorem
+does not apply ([AWS] Corollary 2.9.3). Lean: `Perfectoid.isStablyUniform`,
+`Perfectoid.isSheafyRing`.
 
 ### P2.7 Almost acyclicity of `O⁺`
 
@@ -717,14 +784,13 @@ anti-equivalence onto affinoid perfectoid spaces ([Wedhorn] Proposition 8.25; [B
 ### P2.10 Perfectoid spaces
 
 **`Perfd` and `Perf`.** A perfectoid space is a pre-adic space covered by affinoid perfectoid opens
-([ECD] Definition 3.19; [Berkeley] Definition 7.1.2), an adic space by the sheaf theorem; `Perf`
-is the full subcategory with `p = 0` in all sections. Opens of perfectoid spaces are perfectoid and
+([ECD] Definition 3.19; [Berkeley] Definition 7.1.2), an adic space by the sheaf theorem; `Perf` is
+the full subcategory with `p = 0` in all sections. Opens of perfectoid spaces are perfectoid and
 affinoid perfectoid opens form a basis ([Sch12] proof of Proposition 6.17; [Wedhorn] Remark 8.23);
-in characteristic `p`, sections are perfect (Mihara, [Bhatt] Example 9.3.12); perfectoid spaces are
-sousperfectoid (AdicSpacesPartIV R5). Checks: the empty space is perfectoid; `Spa(ℚ_p, ℤ_p)` and the
-discrete `Spa(𝔽_p, 𝔽_p)` are not. Lean: `isPerfectoidSpace`, `Perfd`, `InCharP`, `Perf`,
-`isAffinoidPerfectoid_le_isPerfectoidSpace`, `isPerfectoidSpace_le_isAdic`,
-`isPerfectoidSpace_restrict`, `isBasis_affinoidPerfectoidOpens`.
+in characteristic `p`, sections are perfect (Mihara, [Bhatt] Example 9.3.12). Checks: the empty
+space is perfectoid; `Spa(ℚ_p, ℤ_p)` and the discrete `Spa(𝔽_p, 𝔽_p)` are not. Lean:
+`isPerfectoidSpace`, `Perfd`, `InCharP`, `Perf`, `isAffinoidPerfectoid_le_isPerfectoidSpace`,
+`isPerfectoidSpace_le_isAdic`, `isPerfectoidSpace_restrict`, `isBasis_affinoidPerfectoidOpens`.
 
 ### P2.11 The glued tilt
 
@@ -742,24 +808,24 @@ localisations to rational localisations ([ECD] Theorems 3.13, 3.17; [Sch12] Lemm
 
 ### P2.13 Completed tensor products
 
-**`B ⊗̂_A C`.** The completed tensor product (AdicSpacesPartII R0) of perfectoid pairs is perfectoid,
-the pushout in perfectoid pairs, commuting with tilting, with `D°` almost the completed image of
-`B° ⊗ C°` ([AWS] Theorem 2.4.1; [KL16] Theorem 3.3.13; [Sch12] proof of Proposition 6.18); the
-same in characteristic `p` for perfect rings. Checks: `ℂ_p ⊗̂_{ℚ_p} ℂ_p` is not uniform; for finite
-Galois `L/K`, `L ⊗̂_K L ≅ ∏_G L`.
+**`B ⊗̂_A C`.** The completed tensor product (AdicSpacesPartII R0.3) of perfectoid pairs is
+perfectoid, the pushout in perfectoid pairs, commuting with tilting, with `D°` almost the completed
+image of `B° ⊗ C°` ([AWS] Theorem 2.4.1; [KL16] Theorem 3.3.13; [Sch12] proof of Proposition 6.18);
+the same in characteristic `p` for perfect rings. Checks: `ℂ_p ⊗̂_{ℚ_p} ℂ_p` is not uniform; for
+finite Galois `L/K`, `L ⊗̂_K L ≅ ∏_G L`.
 
 ### P2.14 Uniform completed tensor products and dense images
 
-**Over any Tate base.** `B ⊗̂ᵘ_A C` of perfectoid `B, C` over a complete Tate `A` is perfectoid
-([KL16] Corollary 3.3.21); a complete uniform Tate ring receiving a dense-image map from a
-perfectoid ring is perfectoid ([AWS] Lemma 2.8.4). Check: `K⟨T^{1/p^∞}⟩/(T)` is not reduced ([AWS]
-Example 2.4.9).
+**Over any Tate base.** The uniform completed tensor product `B ⊗̂ᵘ_A C` (AdicSpacesPartII R0.4) of
+perfectoid `B, C` over a complete Tate `A` is perfectoid ([KL16] Corollary 3.3.21); a complete
+uniform Tate ring receiving a dense-image map from a perfectoid ring is perfectoid ([AWS] Lemma
+2.8.4). Check: `K⟨T^{1/p^∞}⟩/(T)` is not reduced ([AWS] Example 2.4.9).
 
 ### P2.15 Affinoid perfectoid fibre products
 
-**`Spa(B ⊗̂_A C)`** is a fibre product in adic spaces, compatible with rational subsets and opens,
-with `|W| → |Y| ×_{|X|} |Z|` surjective, not injective ([Sch12] proof of Proposition 6.18; [ECD]
-Proposition 8.3). Check: `Spa L ×_{Spa K} Spa L` has `|G|` points.
+**`Spa(B ⊗̂_A C)`** is a fibre product in adic spaces (AdicSpacesPartII R0.7), compatible with
+rational subsets and opens, with `|W| → |Y| ×_{|X|} |Z|` surjective, not injective ([Sch12] proof of
+Proposition 6.18; [ECD] Proposition 8.3). Check: `Spa L ×_{Spa K} Spa L` has `|G|` points.
 
 ### P2.16 Fibre products of perfectoid spaces
 
@@ -798,36 +864,43 @@ The Lean `example` checks that the empty pre-adic space is perfectoid.
 
 P0, P1; Tau Ceti `PreAdicSpace` (`restrict`, `isAdic`, `isAffinoid`,
 `presentationLimitPreAdicSpace`), `IsStablyUniform`, `IsSheafyRing`,
-`PairOfDefinition.locUniformSpace`; AdicSpaces layers 3–5; AdicSpacesPartII R0; AdicSpacesPartIII
-R3; AdicSpacesPartIV R5.
+`PairOfDefinition.locUniformSpace`. Other roadmaps, by subsection: P2.6 uses AdicSpaces 4.2 (the
+Buzzard–Verberkmoes theorem) and AdicSpacesPartIII R3.1 (sheafy Čech acyclicity); P2.9–P2.11 use
+AdicSpaces 3.4, 5.1 and 5.3 (pre-adic spaces, open subspaces, gluing); P2.13 uses AdicSpacesPartII
+R0.3; P2.14 and P2.17 use R0.4; P2.15–P2.17 use R0.7. None of these cites this roadmap.
+AdicSpacesPartIV R5 is not used in P2: its R5.4 uses P2.10.
 
 ## Layer P3: almost purity and the étale site
 
 Henselian approximation and the invariance of finite étale algebras under henselian completion and
-completed colimits; almost purity in characteristic `p`; untilting of finite étale algebras;
-finite extensions of perfectoid fields and Fontaine–Wintenberger; the almost purity theorem; finite
-étale and étale morphisms of perfectoid spaces, the comparison with AdicEtaleGeometry A1, and `X_ét`
-with its tilting equivalence and almost acyclicity of `O⁺`. `FÉt(R)` is Mathlib's
+completed colimits; almost purity in characteristic `p`; untilting of finite étale algebras; finite
+extensions of perfectoid fields and Fontaine–Wintenberger; the almost purity theorem; finite étale
+and étale morphisms of perfectoid spaces, the comparison with AdicEtaleGeometry A1.3 and A1.6, and
+`X_ét` with its tilting equivalence and almost acyclicity of `O⁺`. `FÉt(R)` is Mathlib's
 `CommAlgCat.FiniteEtale R`.
 
 ### P3.1 Henselian approximation
 
 **Elkik's theorem.** For a noetherian henselian pair `(A, 𝔍)` and `B` smooth off `V(𝔍)`, a completed
 section lifts to an `A`-section congruent modulo `𝔍ⁿ`; in polynomial form, approximate solutions
-with `J(a⁰) ⊆ 𝔍ⁿ` and Elkik Jacobian `H_B(a⁰) ⊇ 𝔍^h` lift modulo `𝔍^{n−r}` ([Elkik] Théorèmes 2,
-2 bis); over any henselian pair, smooth sections lift ([Stacks] Tag 0H74). Non-noetherian inputs:
-Newton approximation over `tI`-adically complete rings and density of `X(R[1/t])` in
-`X(R^∧[1/t])` for smooth quasi-projective `X` ([GR] Lemma 5.4.8, Propositions 5.4.13, 5.4.30);
-henselian pairs and filtered colimits (AdicEtaleGeometry A4). Checks: `X² − 7` over `ℤ_(p)^h` lifts
-with `r = 0`; over `𝔽_2`, `X² − 1` has zero Jacobian ideal.
+with `J(a⁰) ⊆ 𝔍ⁿ` and Elkik Jacobian `H_B(a⁰) ⊇ 𝔍^h` lift modulo `𝔍^{n−r}` ([Elkik] Théorèmes 2, 2
+bis); over any henselian pair, smooth sections lift ([Stacks] Tag 0H74). Non-noetherian inputs:
+Newton approximation over `tI`-adically complete rings and density of `X(R[1/t])` in `X(R^∧[1/t])`
+for smooth quasi-projective `X` ([GR] Lemma 5.4.8, Propositions 5.4.13, 5.4.30); stability of
+henselian pairs under filtered colimits and henselianity of rings of definition along `ϖ`
+(AdicEtaleGeometry A4.5, only its generic sub-targets *henselian-pairs-filtered-colimit* and
+*power-bounded-henselian-along-pseudouniformizer*, which use nothing from this roadmap). Checks:
+`X² − 7` over `ℤ_(p)^h` lifts with `r = 0`; over `𝔽_2`, `X² − 1` has zero Jacobian ideal.
 
 ### P3.2 Finite étale algebras under henselian completion
 
 **`FÉt(R[1/t]) ≃ FÉt(R^∧[1/t])`** for a nonzerodivisor `t` and henselian `(R, tI)`, compatible with
 tensor products, ranks and splitness ([GR] Proposition 5.4.54, Theorem 5.4.38, Lemmas
 5.4.45–5.4.53); for topologically henselian Tate rings `FÉt(A) ≃ FÉt(Â)` ([Berkeley] Theorem 7.4.8;
-[Sch12] Proposition 7.4); for filtered diagrams of complete Tate rings,
-`2-colim FÉt(A_j) ≃ FÉt(L̂)` ([Sch12] Lemma 7.5(i)). Check: the dual-number law is not étale.
+[Sch12] Proposition 7.4); for filtered diagrams of complete Tate rings, `2-colim FÉt(A_j) ≃ FÉt(L̂)`
+([Sch12] Lemma 7.5(i)), the uncompleted step `2-colim FÉt(A_j) ≃ FÉt(colim A_j)` being
+AdicEtaleGeometry A4.3. P3.1 and P3.2 are classical and use no subsection of this roadmap outside
+P3.1–P3.2. Check: the dual-number law is not étale.
 
 ### P3.3 Almost purity in characteristic `p`
 
@@ -881,8 +954,9 @@ field spread out to a neighbourhood ([Berkeley] Lemma 7.4.6).
 ### P3.10 Finite étale algebras over a perfectoid ring are perfectoid
 
 **Perfectoidness of `S`.** With its finite-module topology, `S ∈ FÉt(R)` is a perfectoid Tate ring,
-`(S, S⁺)` is a perfectoid pair and `Spa(S, S⁺) → Spa(R, R⁺)` is finite étale ([ECD] Theorem 6.1(i);
-[Berkeley] Theorem 7.4.5(1)). Lean: `isPerfectoidTateRing_of_finiteEtale`.
+the pair `(S, S⁺)` of AdicEtaleGeometry A1.2 is a perfectoid pair and `Spa(S, S⁺) → Spa(R, R⁺)` is
+finite étale ([ECD] Theorem 6.1(i); [Berkeley] Theorem 7.4.5(1)). Lean:
+`isPerfectoidTateRing_of_finiteEtale`.
 
 ### P3.11 Almost purity, categorical form
 
@@ -904,10 +978,10 @@ Lean: `exists_uniformlyAlmostFiniteProjective_powerBounded`.
 
 ### P3.14 Finite étale morphisms of perfectoid spaces
 
-**Finite étale maps** are those of AdicEtaleGeometry A1, equivalently `f⁻¹(Spa(R, R⁺)) = Spa(S, S⁺)`
-with `S ∈ FÉt(R)` and `S⁺` the integral closure ([ECD] Definition 6.2(i); [Sch12] Definition
-7.1(ii)). Checks: the Kummer cover of the perfectoid torus is finite étale; `{|T| ≤ |p|} ↪` the disc
-is not.
+**Finite étale maps** are those of AdicEtaleGeometry A1.3, equivalently
+`f⁻¹(Spa(R, R⁺)) = Spa(S, S⁺)` with `S ∈ FÉt(R)` and `S⁺` the integral closure ([ECD] Definition
+6.2(i); [Sch12] Definition 7.1(ii)). Checks: the Kummer cover of the perfectoid torus is finite
+étale; `{|T| ≤ |p|} ↪` the disc is not.
 
 ### P3.15 Étale morphisms of perfectoid spaces
 
@@ -923,22 +997,24 @@ Corollary 7.8).
 
 ### P3.17 Comparison with AdicEtaleGeometry A1
 
-**The definitions agree.** Spaces étale over a perfectoid space are perfectoid; A1's, [ECD] 6.2's,
-[Sch12] 7.1's and [Berkeley] 7.5.1's classes agree; A1's sites, sheaves and affinoid basis apply;
-perfectoid Tate rings are strongly sheafy, every `R⟨T_1, …, T_n⟩` being stably uniform ([Sch12] Lemma
-7.3, Propositions 7.6, 7.10; [Berkeley] Propositions 6.3.3–6.3.4).
+**The definitions agree.** Spaces étale over a perfectoid space are perfectoid; A1.3's, [ECD] 6.2's,
+[Sch12] 7.1's and [Berkeley] 7.5.1's classes agree; A1.6's sites, sheaves and affinoid basis apply;
+perfectoid Tate rings are strongly sheafy in the sense of A1.1, every `R⟨T_1, …, T_n⟩` being stably
+uniform ([Sch12] Lemma 7.3, Propositions 7.6, 7.10; [Berkeley] Propositions 6.3.3–6.3.4).
 
 ### P3.18 The étale site
 
-**`X_ét` and `X_fét`.** The small étale site with affinoid perfectoid basis and finite limits;
-`O`, `O⁺`, `O⁺/ϖ` and `O^{+a}` are sheaves; for connected `X`, `X_fét` is a Galois category; étale
-maps compose, base change, cancel and are open ([ECD] Definition 6.2; [Sch12] Definition 7.11;
-[Berkeley] Proposition 7.5.2). Check: `Spa(C, 𝒪_C)_ét ≃ Set` for algebraically closed `C`.
+**`X_ét` and `X_fét`.** The small étale and finite étale sites of AdicEtaleGeometry A1.6 on a
+perfectoid space, with affinoid perfectoid basis and finite limits; `O`, `O⁺`, `O⁺/ϖ` and `O^{+a}`
+are sheaves; for connected `X`, `X_fét` is a Galois category; étale maps compose, base change,
+cancel and are open ([ECD] Definition 6.2; [Sch12] Definition 7.11; [Berkeley] Proposition 7.5.2).
+Check: `Spa(C, 𝒪_C)_ét ≃ Set` for algebraically closed `C`.
 
 ### P3.19 Étale descent
 
 **Descent on `X_ét`.** Finite étaleness is local, `U ↦ U_fét` is a stack, and finite projective
-`R`-modules are the finite locally free `O_{X_ét}`-modules (AdicSpacesPartIV R5; [KL15] Theorems
+`R`-modules are the finite locally free `O_{X_ét}`-modules (AdicSpacesPartIV R5.7's
+*stable-basis-etale-vector-bundles* for the affinoid perfectoid basis of A1.6; [KL15] Theorems
 1.3.4–1.3.5, 8.2.22).
 
 ### P3.20 Tilting the étale site
@@ -963,8 +1039,15 @@ The Lean `example` checks that `R × R` is perfectoid.
 
 ### Dependencies
 
-P0–P2; AdicEtaleGeometry A1, A4; AdicSpacesPartIV R5; Mathlib `HenselianRing`,
-`CommAlgCat.FiniteEtale`, `Algebra.Etale`, `IsModuleTopology`, `PerfectRing`, `IsAlgClosed`.
+P0–P2, except that P3.1 and P3.2 use no earlier layer; Mathlib `HenselianRing`,
+`CommAlgCat.FiniteEtale`, `Algebra.Etale`, `IsModuleTopology`, `PerfectRing`, `IsAlgClosed`. Other
+roadmaps, by subsection: P3.1 uses AdicEtaleGeometry A4.5, only its generic sub-targets
+*henselian-pairs-filtered-colimit* and *power-bounded-henselian-along-pseudouniformizer* (the rest
+of A4.5 uses P3 and is not used here); P3.2 uses A4.3; P3.10 and P3.14 use A1.2 and A1.3; P3.15 uses
+A1.3; P3.17 uses A1.1, A1.3 and A1.6; P3.18 uses A1.6; P3.19 uses A1.6 and AdicSpacesPartIV R5.7. Of
+this roadmap, AdicEtaleGeometry A1.1–A1.3 use only P3.2 and the Tate-pair statements of P5.4, which
+depend on no subsection of P3.3–P3.22; A1.6 names P3.21 only as a special case of one of its
+statements, not as an input.
 
 ## Layer P4: injections, immersions and separatedness
 
@@ -984,8 +1067,9 @@ with only `K⁺` closed.
 ### P4.2 Quasicompact and quasiseparated morphisms
 
 **qcqs maps**, defined by quasi-compact preimages and quasicompact diagonals, stable under
-composition and base change, agreeing with AdicSpacesPartII R0 ([ECD] after Proposition 5.11).
-Check: the open unit disc in the closed perfectoid disc is not quasicompact.
+composition and base change, quasicompactness agreeing with AdicSpacesPartII R0.6's
+`AdicSpace.QuasiCompact` ([ECD] after Proposition 5.11). Check: the open unit disc in the closed
+perfectoid disc is not quasicompact.
 
 ### P4.3 Injections
 
@@ -1018,9 +1102,19 @@ pro-rational complement maps bijectively onto the closed disc, without being an 
 
 ### P4.7 Characterisations of injections
 
-**By points.** `f` is an injection iff injective on `(K, K⁺)`- or `(C, C⁺)`-points, iff `|f|` is
-injective with isomorphic rank-one residue fields; injections are determined by their image ([ECD]
-Proposition 5.3(iii)–(iv); [Berkeley] Proposition 8.3.3(3)).
+**By points and by the underlying map.** `f : Y → X` is an injection iff it is injective on
+`(K, K⁺)`- or `(C, C⁺)`-points, iff `|f|` is injective with isomorphic rank-one residue fields
+([ECD] Proposition 5.3(i)–(iii); [Berkeley] Proposition 8.3.3(3)). Continuous-factorisation contract
+([ECD] Proposition 5.3(iv)): an injection `f` is final among the maps `g : Z → X` of perfectoid
+spaces for which `|g|` factors through a continuous map `|Z| → |Y|`, continuity being for the
+topology of `|Y|`, which need not be the subspace topology of the image. So, given `X`, an injection
+is determined up to unique isomorphism by the continuous injective map `|Y| → |X|`, not by its image
+set. Only when `|f|` is in addition a topological embedding does the factorisation condition reduce
+to `|g|(|Z|) ⊆ |f|(|Y|)`, so that the injection is determined by its image subset with the subspace
+topology. Checks: the injection of P4.6 from the open disc together with its pro-rational complement
+has the same image as the identity of the closed disc, but the two are not isomorphic over the disc,
+as its `|f|` is a continuous bijection and not a homeomorphism; a rational open immersion is an
+injection whose `|f|` is an open embedding.
 
 ### P4.8 Base change of injections
 
@@ -1033,9 +1127,11 @@ every `Z → X` ([ECD] Corollary 5.5(ii)).
 
 ### P4.10 Immersions
 
-**Immersions** are injections with `|f|` an embedding onto a locally closed subset; closed
-immersions are quasicompact ([ECD] Definition 5.6). Check: the origin of the perfectoid disc is a
-closed immersion.
+**Immersions** are injections with `|f|` a homeomorphism onto a locally closed subset; closed
+immersions are quasicompact ([ECD] Definition 5.6). Neither condition on `|f|` follows from P4.7:
+the injection of P4.6 is a bijection onto the closed set `|X|` but not an embedding, and `i_η` at
+the Gauss point (P4.5) is an injection that is not an immersion. Check: the origin of the perfectoid
+disc is a closed immersion.
 
 ### P4.11 Open immersions agree with AdicSpaces'
 
@@ -1072,9 +1168,20 @@ Lean: `exists_surjective_perfectoidQuotient`.
 
 ### P4.16 Comparison with AdicSpaces' closed immersions
 
-**Quotient immersions.** Strongly Zariski closed maps are Tau Ceti's `Spa(Pair.quotient …) → X` for
-closed `J` with perfectoid `R/J`, and globally AdicSpacesPartII R0's `AdicSpace.IsClosedImmersion` on
-perfectoid spaces ([AWS] Example 2.4.9).
+**Quotient immersions.** Affinoid form: for `X = Spa(R, R⁺)` affinoid perfectoid, the strongly
+Zariski closed immersions into `X` are Tau Ceti's `Spa(Pair.quotient …) → X` for closed `J` with
+`R/J` perfectoid ([AWS] Example 2.4.9). Global form, with its quantifiers: a map `f : Z → X` of
+perfectoid spaces is a closed immersion in the cover-local sense of AdicSpacesPartII R0.8
+(`AdicSpace.IsClosedImmersion`: some affinoid cover of `X` whose preimages are quotient charts) iff
+there exists an open cover of `X` by affinoid perfectoid `U_i` with every `Z ×_X U_i → U_i` strongly
+Zariski closed; then the same holds over every affinoid perfectoid open contained in a chart of the
+given cover. The converse direction uses the open mapping theorem (AdicSpaces 0.6): the surjection
+`O(U_i) → O(Z ×_X U_i)` is open, so the preimage of `U_i` is a quotient chart; the forward direction
+uses P4.12 and P4.15, the image over an affinoid perfectoid `W` inside a chart `Spa(A, A⁺)` with
+ideal `J` being `V(J·O(W))`. This is the only global identification made here. It is not
+PerfectoidTowers P8.14's notion of Zariski-closed embedding, which asks strong Zariski closedness
+over every open affinoid perfectoid of `X`; the two global notions are not identified in this
+roadmap.
 
 ### P4.17 Closed immersions versus Zariski closed immersions
 
@@ -1088,10 +1195,14 @@ immersion that is not Zariski closed ([Berkeley] after Definition 17.4.2).
 
 ### P4.19 Separated morphisms
 
-**Separatedness.** `f` is separated if `Δ_f` is a closed immersion (`MorphismProperty.diagonal`);
-separated maps are quasiseparated, include injections, compose and base change, and agree with
-AdicSpacesPartII R0's `AdicSpace.IsSeparated` ([ECD] Definition 5.10; [HJ] Definition 5.4). Check:
-two discs glued along `{|ϖ| ≤ |T|}` are not separated.
+**Separatedness.** `f` is separated if `Δ_f` is a closed immersion in the sense of P4.10
+(`MorphismProperty.diagonal`); as `Δ_f` is an immersion (P4.18), this says that `|Δ_f|(|X|)` is
+closed in `|X ×_Y X|`. Separated maps are quasiseparated, include injections, compose and base
+change ([ECD] Definition 5.10). For `f` locally of weakly finite type (AdicSpacesPartII R0.6) this
+is AdicSpacesPartII R0.10's `AdicSpace.IsSeparated`, the fibre product being that of P2.16.
+PerfectoidTowers P8.15's analytic separatedness, a diagonal that is a Zariski-closed embedding, is a
+different condition; it and its comparison with this one belong to P8.15 and are not used here.
+Check: two discs glued along `{|ϖ| ≤ |T|}` are not separated.
 
 ### P4.20 The valuative criterion
 
@@ -1110,9 +1221,11 @@ convention of the universal quotient.
 
 ### Dependencies
 
-P1–P3; Tau Ceti `Pair.quotient`, `Pair.Hom.spaComap`, `PreAdicSpace.IsOpenImmersion`;
-AdicSpacesPartII R0; Mathlib `Mono`, `pullback.diagonal`, `IsLocallyClosed`. PerfectoidTowers P8
-owns the global Zariski closed notion; DiamondsAndVStacks D0, D3 consume this layer.
+P1–P3; Tau Ceti `Pair.quotient`, `Pair.Hom.spaComap`, `PreAdicSpace.IsOpenImmersion`; Mathlib
+`Mono`, `pullback.diagonal`, `IsLocallyClosed`. Other roadmaps, by subsection: P4.2 uses
+AdicSpacesPartII R0.6; P4.16 uses AdicSpacesPartII R0.8 and AdicSpaces 0.6; P4.19 uses
+AdicSpacesPartII R0.6 and R0.10. None of these cites this roadmap. PerfectoidTowers P8.14–P8.15 are
+not inputs.
 
 ## Layer P5: cofiltered limits and finite-stage étale descent
 
@@ -1153,7 +1266,9 @@ finite stage ([ECD] Proposition 6.4(o); [Sch12] Lemma 6.13(ii)). Supporting: `Sp
 for Tate pairs, also after completion ([KL15] Remark 2.6.3; [Wedhorn] Proposition 7.48);
 quasi-compact opens, constructible sets and finite covers of spectral limits descend ([Stacks] Tags
 0A30, 0A2Y; [KL15] Remark 2.6.7); restriction to a finite-stage rational subset is the limit of the
-restrictions ([Sch12] Lemma 6.13(iii)). Check: `S ∖ {s}` in the Cantor set descends to no stage.
+restrictions ([Sch12] Lemma 6.13(iii)). The supporting statements for Tate pairs and spectral spaces
+use no perfectoid input and no other subsection of this roadmap. Check: `S ∖ {s}` in the Cantor set
+descends to no stage.
 
 ### P5.5 `ω₁`-cofiltered limits need no completion
 
@@ -1185,9 +1300,9 @@ Tag 05N7).
 
 ### P5.9 Finite étale objects come from a finite stage
 
-**`2-colim (X_i)_fét ≃ X_fét`**, in ring form `2-colim FÉt(R_i) ≃ FÉt(R)` (AdicEtaleGeometry A4 with
-P3.2) ([ECD] Proposition 6.4(i); [Sch12] proof of Lemma 7.5(i)). Check: finitely presented algebras
-need not descend: `C^0(S, K)/(Σ s_k ϖ^k)` is not flat.
+**`2-colim (X_i)_fét ≃ X_fét`**, in ring form `2-colim FÉt(R_i) ≃ FÉt(R)` (AdicEtaleGeometry A4.3
+with P3.2) ([ECD] Proposition 6.4(i); [Sch12] proof of Lemma 7.5(i)). Check: finitely presented
+algebras need not descend: `C^0(S, K)/(Σ s_k ϖ^k)` is not flat.
 
 ### P5.10 Quasicompact quasiseparated étale objects
 
@@ -1211,9 +1326,11 @@ Layer P5 carries no Lean `example`; its Checks are the computations above.
 
 ### Dependencies
 
-P1–P4; AdicEtaleGeometry A1, A3, A4; Tau Ceti `Pair.Hom.spaComap`, `IsProConstructible`; Mathlib
-`AdicCompletion`, `IsAdicComplete`, `IsCardinalFiltered`, `SpectralSpace`, `Pseudofunctor`.
-DiamondsAndVStacks D0–D3 consume these results.
+P5.1–P5.8 use P1 and P2 only, except that P5.7 uses the `κ`-smallness predicate of P6.1, which uses
+only P2; P5.9–P5.12 use P3 and P4. Tau Ceti `Pair.Hom.spaComap`, `IsProConstructible`; Mathlib
+`AdicCompletion`, `IsAdicComplete`, `IsCardinalFiltered`, `SpectralSpace`, `Pseudofunctor`. Other
+roadmaps, by subsection: P5.9 uses AdicEtaleGeometry A4.3, which cites nothing here.
+AdicEtaleGeometry A3 is not an input of P5; its A3.5 uses P5.
 
 ## Layer P6: κ-small perfectoid spaces and pro-étale morphisms
 
@@ -1262,8 +1379,9 @@ Propositions 6.5, 8.2).
 ### P6.5 Affinoid étale objects at a finite stage
 
 **[ECD] Proposition 6.4(iv).** For `X = lim X_i`, `2-colim (X_i)_ét^aff ≃ X_ét^aff`
-(AdicEtaleGeometry A3); étale surjections are surjective at a finite stage, and finite-stage models
-become affinoid ([ECD] proofs of Lemmas 7.11(i), 7.18).
+(AdicEtaleGeometry A3.5, built there on P3.20, P5.2, P5.7 and P5.9–P5.12); étale surjections are
+surjective at a finite stage, and finite-stage models become affinoid ([ECD] proofs of Lemmas
+7.11(i), 7.18).
 
 ### P6.6 Affinoid pro-étale morphisms
 
@@ -1335,24 +1453,25 @@ The Lean `example`s check that no space is `0`-small and that `ProKappa 0` is em
 
 ### Dependencies
 
-P2–P5; AdicEtaleGeometry A1, A3; Mathlib `Cardinal`, `Ind`, `IsCofiltered`, `Profinite`,
-`UniformSpace.Completion`, `FirstCountableTopology`. DiamondsAndVStacks D0–D2, D4, D6 consume this
-layer.
+P2–P5; Mathlib `Cardinal`, `Ind`, `IsCofiltered`, `Profinite`, `UniformSpace.Completion`,
+`FirstCountableTopology`. Other roadmaps, by subsection: P6.5 uses AdicEtaleGeometry A3.5. Its
+inputs from this roadmap are P2.10 (through AdicSpacesPartIV R5.4), P3.2 and P5.4 (through
+AdicEtaleGeometry A1.2), P3.20, P5.2, P5.7 and P5.9–P5.12, none of which depends on P6.2–P6.14.
 
 ## Layer P7: tilde-limits and Frobenius-controlled towers
 
 Tilde-limits `X ~ lim X_i` of analytic adic spaces and their perfectoid and residue-field forms,
 good affinoid perfectoid subsets, Frobenius-controlled towers with the perfectoid Frobenius
-criterion, preperfectoid spaces, cofinality witnesses, uniqueness, locality and base change,
-limits of towers, the étale-topos comparison, and the regular towers of Česnavičius.
-AdicSpacesPartIV R5 owns the intrinsic tilde-limit relation; this layer adds the perfectoid
-specialisations.
+criterion, preperfectoid spaces, cofinality witnesses, uniqueness, locality and base change, limits
+of towers, the étale-topos comparison, and the regular towers of Česnavičius. AdicSpacesPartIV R5.8
+owns the intrinsic tilde-limit relation; this layer adds the perfectoid specialisations.
 
 ### P7.1 Tilde-limits of analytic adic spaces
 
 **`X ~ lim X_i`.** For a cofiltered diagram of analytic adic spaces with qcqs transitions and a cone
 from `X`: `|X| → lim |X_i|` is a homeomorphism, and locally the finite-level affinoid rings have
-dense image ([SW13] Definition 2.4.1); this agrees with R5's relation on analytic spaces. Checks:
+dense image ([SW13] Definition 2.4.1); on analytic spaces this agrees with the relation of
+AdicSpacesPartIV R5.8 (its affinoid criterion *tilde-limits-affinoid-criterion*). Checks:
 `Spa ℂ_p⟨T^{±1/p^∞}⟩ ~ lim Spa ℂ_p⟨T^{±1/pⁿ}⟩`; `Spa ℂ_p → Spa ℚ_p` fails density.
 
 ### P7.2 Perfectoid tilde-limits
@@ -1373,19 +1492,28 @@ Check: `Spa ℂ_p → Spa ℚ_p` fails residue density.
 **Good charts.** An affinoid perfectoid open `W = φ_{i_0}⁻¹(V)`, `V` quasi-compact at level `i_0`,
 with `colim O(V_a)` dense in `O(W)` ([Survey] Definition 2.20; [Torsion] Theorem III.1.2); then
 `|W| ≅ lim |V_a|`, and for affinoid `V_a`, `O(W)` is the uniform completed colimit with
-`FÉt(O(W)) ≃ 2-colim FÉt(O(V_a))` ([KL15] Proposition 2.8.16; [Berkeley] Theorem 7.4.8). Check:
-`Spa ℂ_p` over the constant `Spa ℚ_p` is not good.
+`FÉt(O(W)) ≃ 2-colim FÉt(O(V_a))` ([KL15] Proposition 2.8.16; [Berkeley] Theorem 7.4.8), through
+AdicEtaleGeometry A4.3 and A4.4 with P3.2. Check: `Spa ℂ_p` over the constant `Spa ℚ_p` is not good.
 
 ### P7.5 Frobenius-controlled integral towers
 
 **Towers with eventual Frobenius lifts.** Rings `A_m⁺` with maps `t_m` and a parameter `ϖ`, regular
 and adically complete at every stage with `ϖ^p | p`, and from `m_0` on isomorphisms
-`w_m : A_{m+1}⁺/ϖ ≅ A_m⁺/ϖ^p` with `t_m ∘ w_m = Φ` and `w_{m+1} ∘ t_{m+1} = t_m ∘ w_m` ([Torsion] proof
-of Corollary III.2.19; [BHW] proof of Theorem 5.11). Constructions: constant towers of integral
-perfectoid rings, relative Frobenius towers over a perfect base, morphisms and shifts. Checks: the
-disc tower `R⁺⟨T^{1/p^m}⟩` is Frobenius-controlled, the constant `K°⟨T⟩` is not; no tower has a stage
-`ℤ_2` with parameter `2` (`4 ∤ 2`). Lean: `Perfectoid.IntegralTower`, `IntegralTower.quotient`,
-`IntegralTower.quotientMap`, `IntegralTower.diagram`, `FrobeniusTower`.
+`w_m : A_{m+1}⁺/ϖ ≅ A_m⁺/ϖ^p` with `t_m ∘ w_m = Φ` and `w_{m+1} ∘ t_{m+1} = t_m ∘ w_m` ([Torsion]
+proof of Corollary III.2.19; [BHW] proof of Theorem 5.11). Constructions, each with a chosen regular
+parameter as explicit input: the constant tower on a ring `A` with a non-zero-divisor `π` such that
+`A` is `π`-adically complete and `π^p | p`, Frobenius-controlled exactly when `A/π → A/π^p` is
+bijective, for instance when `A` is integral perfectoid for this `π` (P1.24), as for `R°` with a
+pseudouniformiser of a perfectoid Tate ring; relative Frobenius towers over a perfect base with a
+regular parameter; morphisms and shifts. Regularity is not a consequence of integral perfectoidness,
+and the regularity required at every stage is not weakened: P7.6 uses it for `ϖ`-torsion-freeness of
+the completion. Checks: the disc tower `R⁺⟨T^{1/p^m}⟩` is Frobenius-controlled, the constant `K°⟨T⟩`
+is not; `𝔽_p` is integral perfectoid with `π = 0` but has no regular parameter for which it is
+adically complete (`0` is a zero-divisor, and a nonzero parameter is a unit, for which adic
+separatedness forces the zero ring), so it has no constant tower, and no stage of any tower is a
+field; no tower has a stage `ℤ_2` with parameter `2` (`4 ∤ 2`). Lean: `Perfectoid.IntegralTower`,
+`IntegralTower.const`, `IntegralTower.quotient`, `IntegralTower.quotientMap`,
+`IntegralTower.diagram`, `FrobeniusTower`.
 
 ### P7.6 Completion of a tower
 
@@ -1421,19 +1549,22 @@ tilde-limits are unique and functorial ([SW13] Proposition 2.4.5; [Survey] Propo
 
 ### P7.11 Represented functors and finite-level descriptions
 
-**Comparisons.** The v-site itself (its precoverage and topology) is DiamondsAndVStacks D2.2; P7
-uses coverings by finitely many compact open images (Mathlib `IsCompactOpenCovered`; [ECD]
-Definition 8.1(iii));
-tilde-limits induce limits of represented sheaves; completed direct limits of pairs are tilde-limits
-([SW13] Proposition 2.4.2); rational subsets come from finite level ([CHJ] proof of Theorem 2.17);
-tilde-limits are invariant under initial reindexing; [HJ]'s hypotheses use R0's finite pair maps.
+**Comparisons.** Tilde-limits induce limits of the represented functors `Hom(−, X_i)` on perfectoid
+spaces (P7.10); completed direct limits of pairs are tilde-limits ([SW13] Proposition 2.4.2);
+rational subsets come from finite level ([CHJ] proof of Theorem 2.17); tilde-limits are invariant
+under initial reindexing; [HJ]'s hypotheses use the finite pair maps of AdicSpacesPartII R0.13. P7
+uses no topology on perfectoid spaces: the only covering condition it refers to is the raw one, that
+finitely many quasicompact opens of the sources have images covering a given quasicompact open
+(Mathlib `IsCompactOpenCovered`; [ECD] Definition 8.1(iii)). The v-site built on that condition is
+DiamondsAndVStacks' (precoverage and topology D2.2, subcanonicity and v-descent D2.7) and is not an
+input here.
 
 ### P7.12 Locality, gluing and base change
 
 **Local nature.** Tilde-limits can be checked on an open cover of one finite level, glue by
-uniqueness, restrict to opens, and are stable under finite étale and étale base change with affinoid
-formula `B ⊗_A R` ([SW13] Proposition 2.4.3; [Sch12] Lemma 7.3, Propositions 7.10, 7.16; [Torsion]
-Definition III.3.5).
+uniqueness, restrict to opens, and are stable under finite étale and étale base change (the finite
+étale pairs and étale maps of AdicEtaleGeometry A1.2–A1.3) with affinoid formula `B ⊗_A R` ([SW13]
+Proposition 2.4.3; [Sch12] Lemma 7.3, Propositions 7.10, 7.16; [Torsion] Definition III.3.5).
 
 ### P7.13 The perfectoid Frobenius criterion
 
@@ -1452,10 +1583,11 @@ limit glued from P5.3, a perfectoid tilde-limit with `|X| = lim |X_i|` ([BHW] pr
 
 ### P7.15 Étale topoi along noetherian towers
 
-**[Sch12] Theorem 7.17.** For `X ~′ lim X_i` with qcqs locally noetherian `X_i`, `X_ét^~` is the limit
-of the topoi `X_{i,ét}^~` and `colim H^n(X_{j,ét}, F_j) ≅ H^n(X_ét, F)` ([Sch12] Corollaries
-7.18–7.19; [SW13] Theorem 2.4.7; [Huber96] Proposition 2.4.4). Check: `⊔_{ℤ_p} Spa K` maps bijectively
-onto `lim ⊔_{ℤ/pⁿ} Spa K` without being homeomorphic.
+**[Sch12] Theorem 7.17.** For `X ~′ lim X_i` with qcqs locally noetherian `X_i`, `X_ét^~` is the
+limit of the topoi `X_{i,ét}^~` (AdicEtaleGeometry A1.6's sites, Huber's on locally noetherian
+spaces) and `colim H^n(X_{j,ét}, F_j) ≅ H^n(X_ét, F)` ([Sch12] Corollaries 7.18–7.19; [SW13] Theorem
+2.4.7; [Huber96] Proposition 2.4.4). Check: `⊔_{ℤ_p} Spa K` maps bijectively onto
+`lim ⊔_{ℤ/pⁿ} Spa K` without being homeomorphic.
 
 ### P7.16 Regular towers with algebraically closed residue field
 
@@ -1473,22 +1605,29 @@ consisting of `p`-th powers).
 
 ### Examples
 
-The Lean `example`s check the transition maps of the tower diagram and that at `p = 2` a stage with
-parameter `2` is the zero ring.
+The Lean `example`s check the transition maps of the tower diagram, that at `p = 2` a stage with
+parameter `2` is the zero ring, and that no stage of a tower is a field.
 
 ### Dependencies
 
-P1–P6; AdicSpacesPartIV R5; AdicEtaleGeometry A1, A4; AdicSpacesPartII R0; Tau Ceti
-`Subgroup.exists_le_of_iInf_le_of_directed`; Mathlib `Functor.ofSequence`, `AdicCompletion`,
-`IsAdicComplete`, `ProfiniteGrp`, `IsCompactOpenCovered`. PerfectoidTowers P8–P9 and
-DiamondsAndVStacks D2, D5–D6 consume this layer.
+P1–P6; Tau Ceti `Subgroup.exists_le_of_iInf_le_of_directed`; Mathlib `Functor.ofSequence`,
+`AdicCompletion`, `IsAdicComplete`, `ProfiniteGrp`, `IsCompactOpenCovered`. Other roadmaps, by
+subsection: P7.1 uses AdicSpacesPartIV R5.8, only its *tilde-limits-affinoid-criterion* (R5.8 names
+P7 as a specialisation and does not use it); P7.4 uses AdicEtaleGeometry A4.3 and A4.4; P7.11 uses
+AdicSpacesPartII R0.13; P7.12 uses AdicEtaleGeometry A1.2 and A1.3; P7.15 uses AdicEtaleGeometry
+A1.6. No subsection of DiamondsAndVStacks is an input.
 
 ## Downstream consumers
 
-DiamondsAndVStacks D0–D6 consumes P0–P7: perfectoid spaces, tilting, the pro-étale calculus, the
-completion bound and the v-site; it owns diamonds, spatiality and the comparison of its
-characteristic-`p` diamond functor with P7's untilt test sheaves. PerfectoidTowers P8–P9 imports
-both roadmaps for finite quotients, spatial presentations, closed loci and torsor descent.
+DiamondsAndVStacks imports this roadmap: D0 uses `ProKappa` and `completion_cardinality_bound`
+(P6.10, P6.2), and D1–D6 use perfectoid spaces, tilting, almost purity, finite-stage descent and the
+`κ`-small and pro-étale calculus of P0–P6. It owns the v-site (precoverage and topology in D2.2,
+subcanonicity and v-descent in D2.7), built on the compact-open covering condition that P7 uses
+without any topology, and it owns diamonds and spatiality. PerfectoidTowers P8–P9 imports both
+roadmaps for finite quotients, spatial presentations, closed loci and torsor descent; its P8.14
+(Zariski-closed embeddings over every affinoid perfectoid open) and P8.15 (analytic separatedness)
+are distinct from P4.16 and P4.19. AdicEtaleGeometry A1–A4 and AdicSpacesPartIV R5 use subsections
+of P1–P7 as named there; AdicSpacesPartIV R5.4 proves that perfectoid spaces are sousperfectoid.
 Perfectoid Shimura varieties and period spaces use these foundations.
 
 ## References
