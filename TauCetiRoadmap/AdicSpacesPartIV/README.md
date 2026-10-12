@@ -2976,9 +2976,10 @@ rational embeddings and finite étale maps. Prove that the topology induced on `
 smallest one in which finite jointly surjective families of rational embeddings and single
 surjective finite étale maps are coverings: a topology on `B` contains the induced one if and only
 if it contains these sieves (KL15 §8.2, Props. 8.2.20–8.2.21, pp. 163–164; dJvP §3.2,
-Prop. 3.2.2, p. 23, in the rigid case). This is the argument of AdicEtaleGeometry A1's
-*etale-covering-reduction* for an arbitrary stable class, applied to *sousperfectoid-stably-adic*;
-it uses no PerfectoidSpaces target. *Needs:* AdicEtaleGeometry layer A1 (*etale-site*,
+Prop. 3.2.2, p. 23, in the rigid case). This is a wrapper, not a second theorem: AdicEtaleGeometry
+A1's *etale-covering-reduction* is stated and proved for an arbitrary cover-dense class of affinoid
+objects stable under rational embeddings and finite étale maps, and this target applies it to the
+class of *sousperfectoid-stably-adic* objects; it uses no PerfectoidSpaces target. *Needs:* AdicEtaleGeometry layer A1 (*etale-site*,
 *etale-covering-reduction*, *strongly-sheafy-huber-pair*).
 
 **Vector bundles on the étale site of an affinoid with a stable basis.** (*stable-basis-etale-vector-bundles*) Let `X = Spa(A, A⁺)` with `(A, A⁺)` a complete Tate sheafy
