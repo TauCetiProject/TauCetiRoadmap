@@ -2222,7 +2222,9 @@ alone does not give that of `(B, B⁺)`, *finite-etale-strongly-sheafy*), `AdicS
 locality on the target (finite étale is local on the target), the affinoid preimage property
 (over an open affinoid with strongly sheafy ring the
 preimage is affinoid and finite étale over it, *finite-etale-local-to-global*; this is the "every
-open affinoid" form of [ECD] §6, Def. 6.2(i), p. 26), `AdicSpace.IsFiniteEtale.isFinite` (finite
+open affinoid" form of [ECD] §6, Def. 6.2(i), p. 26, in the perfectoid case ([ECD] §6, after
+Def. 6.2, p. 26; [PS] §7, Prop. 7.6, p. 41); the strongly sheafy case is proved here),
+`AdicSpace.IsFiniteEtale.isFinite` (finite
 étale morphisms are finite in AdicSpacesPartII layer R0's sense),
 `AdicSpace.IsEtaleLocalDescription.of_isFiniteEtale` (finite étale morphisms are étale),
 `AdicSpace.IsFiniteEtale.comp`, `AdicSpace.IsFiniteEtale.baseChange`,
@@ -2261,7 +2263,8 @@ stability and comparison statements carry the `Lean:` notes of A1.4–A1.5; the 
 Let `f : Y → X` be finite étale and `V = Spa(A, A⁺) ⊆ X` an open affinoid with `A` strongly
 sheafy (automatic when `X` is locally strongly sheafy). Prove: (a) `B := O_Y(f⁻¹(V))` is a finite
 étale `A`-algebra, `f⁻¹(V)` is affinoid and `f⁻¹(V) ≅ Spa(Huber.Pair.finiteEtale A⁺ B)` over `V`
-([ECD] §6, after Def. 6.2, p. 26; the perfectoid instance is [PS] §7, Prop. 7.6, p. 41); (b)
+(in the perfectoid case [ECD] §6, after Def. 6.2, p. 26, and [PS] §7, Prop. 7.6, p. 41; the
+strongly sheafy case is proved here); (b)
 consequently, on a locally strongly sheafy `X`, `f` is finite étale iff the preimage of every open
 affinoid is affinoid and finite étale over it (the form of [ECD] Def. 6.2(i)), iff this holds over
 the members of one open cover of `X`; (c) global sections give an equivalence between finite étale
@@ -8127,7 +8130,8 @@ Ceti `TauCeti.ValuationSpectrum.exists_mem_nhds_forall_rationalSubset_eq_of_sub_
 
 - *test_rational_finite_etale_pieces* — rational subsets of `X` and finite étale algebras over
   rational subsets (*standard-presentation-basic-pieces*) give étale affinoid perfectoid spaces,
-  as they must ([ECD] §6, Thm. 6.1(i)).
+  as they must ([ECD] §3, Thm. 3.18 (rational subsets) and §6, Thm. 6.1(i) (finite étale
+  algebras)).
 - *test_frobenius_locus_not_etale* (non-example) — `F = T^p − a` has `J_F = 0` and is not a
   standard étale presentation; when the quotient is nonzero, its locus `Spa(A⟨T⟩/(T^p − a))` is not étale over `X`.
 
