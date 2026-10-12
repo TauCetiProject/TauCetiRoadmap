@@ -16,8 +16,6 @@ uniform completion perfectoid (Scholze's Lemma 15.3) and assembles the perfectoi
 presentation from which DiamondsAndVStacks layer D6 builds the diamond and identifies the étale
 sites (Scholze's Proposition 15.4, Definition 15.5, Lemma 15.6).
 
-| Layer | Title | What it builds |
-
 Scholze's *Étale cohomology of diamonds* builds diamonds out of perfectoid spaces and then compares
 the étale site of an analytic adic space with that of its diamond. Before that comparison can be
 stated, the adic side needs its own étale geometry in a generality beyond Huber's noetherian
@@ -112,7 +110,7 @@ consumes them and re-exports A1's reduction of étale coverings on an arbitrary 
 this roadmap: finite étale algebras over a filtered colimit of rings
 (*finite-etale-algebras-filtered-colimit*), the finite étale Galois torsors with
 `|Spa B|/G ≅ |Spa A|` and their completed towers (*torsor-spa-orbits*, *spa-of-completed-tower*),
-of which its layer P8's quotient theorems are the non-free generalisation, and the compatibility
+of which PerfectoidTowers layer P8's quotient theorems are the non-free generalisation, and the compatibility
 clause of the assembled Proposition 6.4 (*etale-descent-to-finite-stage-6-4*), which its layer P6
 (*affinoid-etale-finite-stage-assembly*) records from its side. PerfectoidSpaces layers P0–P7 and PerfectoidTowers layers P8–P9,
 DiamondsAndVStacks layers D2–D6 and the `p`-adic Hodge theory, adic-coefficient and relative
@@ -748,7 +746,7 @@ roadmap (AdicSpaces), layers 0 (completion of Huber pairs), 2 (analytic points o
 the interfaces of those layers; nothing below depends on a later layer — PerfectoidSpaces layer P2,
 AdicSpacesPartIV layers R4–R5 and AdicEtaleGeometry layer A1 consume this layer and appear only in
 examples and boundaries. Its consumers are AdicEtaleGeometry layer A1, PerfectoidSpaces layer P2
-(fibre products of perfectoid spaces) and layers P8/P9 (quotients and
+(fibre products of perfectoid spaces), PerfectoidTowers layers P8/P9 (quotients and
 scalar extension), and the Fargues–Fontaine roadmaps.
 
 The standing conventions are these. Huber pairs are Tau Ceti `Huber.Pair` on complete Hausdorff
@@ -1579,8 +1577,8 @@ The Foundations of adic spaces roadmap (AdicSpaces), layers 0, 2, 3 and 5: compl
 pairs, analytic points of `Spa`, rational localisation as a complete pair and Huber's category
 `𝒱`, and the category of adic spaces with open subspaces and gluing (maps into affinoids are
 *maps-into-affinoids* above) — the
-adic spaces with their structure presheaf and the category `𝒱` that PerfectoidSpaces layers P0
-and P8 use are AdicSpaces's; its layer 6.1 supplies the comparison with `𝒴` for `A_inf`.
+adic spaces with their structure presheaf and the category `𝒱` that PerfectoidSpaces layer P0
+and PerfectoidTowers layer P8 use are AdicSpaces's; its layer 6.1 supplies the comparison with `𝒴` for `A_inf`.
 Completed tensor products of Banach modules and Banach spaces over a nonarchimedean field (which
 PerfectoidTowers layers P8/P9 use) belong to AdicSpacesPartII layer R0's completed tensors, as its
 completed tensor product of Banach modules. Mathlib and Tau Ceti as listed in the supplier
@@ -3033,8 +3031,12 @@ neighbourhoods `(U, ū)` — `U ∈ X_ét` with a lift `ū` of `ξ`, the categor
 `(fiber ξ).Elements` — and use Mathlib `CategoryTheory.GrothendieckTopology.Point.isCofiltered` (`N(ξ)`
 is cofiltered and essentially small; [dJvP] §3.3, p. 28). Define `AdicSpace.strictLocalization`,
 the cofiltered diagram `N(ξ) ⥤ smallEtale X`, `(U, ū) ↦ U`, regarded as a pro-object `X(ξ) =
-lim U` of `X_ét` with its compatible lift `ξ̃` of `ξ` (the initial pro-étale object with a lift of
-the geometric point, [FS] §IV.2.1, p. 114); `AdicSpace.strictLocalization.eval`,
+lim U` of `X_ét` with its compatible lift `ξ̃` of `ξ`. This is the pointed strict-localisation
+pro-object of `Pro(X_ét)`, initial among pro-objects of `X_ét` equipped with a compatible lift of
+`ξ`; no assertion is made that it belongs to the pro-étale subcategory `X_proét` of
+*pro-etale-site-corrected* (it need not: see *test_shrinking_disc_not_proetale*), and the initial pro-étale
+diamond of [FS] §IV.2.1, p. 114 is a separate, diamond-theoretic comparison in the scope of
+DiamondsAndVStacks D6; `AdicSpace.strictLocalization.eval`,
 `F(X(ξ)) := colim_{N(ξ)ᵒᵖ} F(U)` for a presheaf `F`, with
 Mathlib `CategoryTheory.GrothendieckTopology.Point.sheafFiber` (`F(X(ξ)) ≅ (point ξ).sheafFiber F` for
 sheaves) and `AdicSpace.strictLocalization.openNeighbourhood_final` (opens of `U` containing
@@ -3065,6 +3067,14 @@ is *strict-localisation-analytic*. *Needs:* *etale-site-and-geometric-points*; *
   point.
 - *test_stalk_eq_sheafFiber* (compatibility) — for a sheaf `F`, `F(X(ξ)) ≅ (point ξ).sheafFiber F`
   (Mathlib `GrothendieckTopology.Point.sheafFiber`).
+- *test_shrinking_disc_not_proetale* (non-example) — for the closed disc `X = Spa(ℚ_p⟨T⟩, ℤ_p⟨T⟩)`
+  and `ξ` a geometric point at `T = 0`, every rational subdisc `U_n = {|T| ≤ |p|^n}` is a pointed
+  étale neighbourhood, so the image of `|Spa(C, C⁺)| → lim_{N(ξ)} |U|` in `|X|` lies in
+  `⋂_n U_n = {T = 0}` (a continuous valuation with `|T| ≠ 0` has `|p|^n < |T|` for `n` large) and is
+  the single point `T = 0`, which is not open in `|X|`. The pro-object `X(ξ)` is thus a valid
+  pointed pro-object with a well-defined stalk functor, but it is not an object of `X_proét`
+  (whose objects have open image in `|X|`, *pro-etale-maps-open*); the Checks *test_algClosed* and the
+  split finite covers of *etale-site-and-geometric-points* do not separate the two categories.
 
 **Strict localisations of analytic adic spaces.** (*strict-localisation-analytic*) Let `X` be
 locally noetherian analytic, `ξ : Spa(C, C⁺) → X` a geometric point with support `x` (`C⁺` of
@@ -3075,8 +3085,10 @@ ring are determined by the residue field, [KL I] §1.2, Thm. 1.2.8, p. 15) — w
 closed residue field `κ(ξ)`, and the closure `C_ξ ⊆ C` of the image of `κ(ξ)` is an algebraically
 closed complete field ([dJvP] §3.3, p. 27); (b) with `C_ξ⁺ := C⁺ ∩ C_ξ`, the map
 `|Spa(C, C⁺)| → |X(ξ)| = lim_{N(ξ)} |U|` factors through a homeomorphism
-`|Spa(C_ξ, C_ξ⁺)| ≅ |X(ξ)|` — the strict localisation of an analytic adic space is the spectrum of
-the algebraically closed affinoid field `(C_ξ, C_ξ⁺)` ([H96] §2.5, Prop. 2.5.13(i), pp. 134–135; [FS] §IV.2.1,
+`|Spa(C_ξ, C_ξ⁺)| ≅ |X(ξ)|` — on underlying spaces, the strict localisation of an analytic adic
+space is the spectrum of the algebraically closed affinoid field `(C_ξ, C_ξ⁺)`; this is a
+homeomorphism of spaces, not an identification of the uncompleted ring `O_{X_ét, ξ}` with `C_ξ`
+([H96] §2.5, Prop. 2.5.13(i), pp. 134–135; [FS] §IV.2.1,
 p. 114, in the diamond setting; the cofinality step in the rigid case, [dJvP] §3.3, p. 28) — so
 `F_ξ` depends only on `x` and on the valuation ring `C_ξ⁺`, and `ξ` factors through
 `Spa(C_ξ, C_ξ⁺)`; on points, `|X(ξ)|` is the set of generisations of `x` in `X` (the open
@@ -3087,9 +3099,18 @@ generisations of `x`: for the finite separable extension `k(x)^ → k(ū(s))^` t
 maximal ideal, which contract injectively and surjectively, by incomparability and going up,
 to the overrings of `k(x)^+`), so when `rank(x)` is finite, `|X(ξ)|` has `rank(x)` points, matching the rank of `C_ξ⁺`,
 which equals that of `k(x)^+`; (c) for `X = Spa(K, K⁺)` with `K` a complete nonarchimedean field,
-`O_{X_ét, ξ} = K^sep`, the separable closure of `K` in `C`, `X(ξ)` is the `Spa` of its completion
-with `C⁺ ∩ (K^sep)^`, and the stalk functor on `X_ét` is `F ↦ colim F(Spa(L, L⁺))` over finite
-separable `L ⊆ K^sep`, with its continuous `Gal(K^sep/K)`-action. For locally noetherian analytic spaces, (b) is [H96] §2.5,
+`O_{X_ét, ξ} = K^sep`, the separable closure of `K` in `C`, and `X(ξ)` is the `Spa` of its
+completion with `C⁺ ∩ (K^sep)^`. For arbitrary `K⁺` the stalk functor on `X_ét` is the colimit of
+*strict-localisation* over all pointed étale neighbourhoods, which include pointed rational opens
+inside finite étale covers `Spa(L, L⁺)` (`L⁺` the integral closure of `K⁺` in `L`,
+*finite-etale-morphism*); it retains the prolongation of the valuation selected by `ξ` and
+its decomposition subgroup `D_x` (*fibre-topos-of-a-point*), and no action of the full group
+`Gal(K^sep/K)` on the stalk of an arbitrary étale sheaf is asserted. If `K⁺ = K°`, the pointed
+finite separable extensions `Spa(L, L°)`, `L ⊆ K^sep`, are cofinal in `N(ξ)` (every étale
+neighbourhood of a rank-one point contains a finite étale one, *etale-local-open-finite-etale-factorisation*), and the
+stalk functor is `F ↦ colim F(Spa(L, L°))` with its continuous `Gal(K^sep/K)`-action; on the
+finite étale site of `Spa(K, K⁺)` this description holds for every `K⁺`
+(*finite-etale-site-of-a-field*). For locally noetherian analytic spaces, (b) is [H96] §2.5,
 Prop. 2.5.13(i), pp. 134–135, with the cofinality and limit description in Lem. 2.5.12, p. 134.
 The standing locally noetherian hypothesis is the hypothesis of Huber’s category of analytic
 adic spaces in this statement. The evaluation map `O_{X_ét, ξ} → C` is fixed on each
@@ -3119,6 +3140,19 @@ the chosen geometric field. *Needs:* *strict-localisation*; *geometric-point-eta
   `X² − X − T̄` splits in `𝔽_p⟦T̄⟧` but not in `𝔽_p(T̄)`), so the rank-2 valuation has two
   extensions to the unramified quadratic extension `k(x)^(α)`, `α² − α = T`: the stalk functor
   still sees one chain, because a lift `ū` of `ξ` to `Spa(L, L⁺)` picks one of them.
+- *strictLocalization_rank_two_branch* (non-example) — with `K = k(x)^`, `K⁺ = k(x)^+` of rank 2
+  as in the previous Check, `L = K(α)`, `α² − α = T`, `L⁺` the integral closure of `K⁺` in `L`,
+  and `W ⊊ Spa(L, L⁺)` the rational open `{|α| ≤ |T|}` containing the prolongation `V_1`
+  selected by `ξ` but not `V_2` (the branch of *fibreTopos_rank_two_not_equivariant*): the
+  represented étale sheaf `h_W` has `(h_W)_ξ ≠ ∅`, since `ξ` lifts to `W`, while for every
+  finite separable `M ⊇ K` with `M⁺` the integral closure of `K⁺`, an `X`-map
+  `Spa(M, M⁺) → W ⊆ Spa(L, L⁺)` gives a `K`-embedding `L → M` whose map on finite étale field
+  spectra is surjective (every prolongation to `L` extends to `M`), so it cannot land in the
+  proper open `W`, and `colim_M h_W(Spa(M, M⁺)) = ∅`; finite products of fields do not help,
+  since each nonempty factor would have to land in `W`. Hence the whole finite covers are not
+  cofinal among pointed étale neighbourhoods at higher rank, and the field-extension formula of
+  (c) needs `K⁺ = K°`. Contrast: for `K⁺ = K°` (rank one) `k(x)^+` is henselian, the valuation
+  has one prolongation to each `L`, and `W = Spa(L, L°)`.
 
 
 **`AdicSpace.GeometricPoint.support`.** Support uses the image of the distinguished closed point, retaining the component chosen by the geometric map. README only (no Lean declaration).
@@ -9602,7 +9636,7 @@ as `ValuationSpectrum.spaComap_orbits_of_isFiniteEtaleTorsor` ([ECD] §15, proof
 Prop. 15.4, p. 91; [KL I] §9.1, proof of Lem. 9.1.9, p. 191 (openness for faithfully finite
 étale morphisms); [H94] §3, proof of Lem. 3.9(i), p. 538, whose argument [PS] §7, proof of
 Lem. 7.3, p. 40 uses for surjectivity). For the
-trivial torsor `B = Map(G, A)`, `Spa(B) = G × Spa(A)` and `q` is the projection. PerfectoidSpaces
+trivial torsor `B = Map(G, A)`, `Spa(B) = G × Spa(A)` and `q` is the projection. PerfectoidTowers
 cites this statement; its layer P8's quotient theorems for arbitrary finite group actions are
 the non-free generalisation.
 *Needs:* *finite-etale-galois-torsor*; AdicEtaleGeometry layer A1
