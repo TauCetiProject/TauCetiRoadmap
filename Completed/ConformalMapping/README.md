@@ -2,7 +2,8 @@
 
 The narrative roadmap for the conformal-mapping / geometric-function-theory area of complex
 analysis, with the **Riemann mapping theorem** as its summit; `Suggested.lean` states the
-milestones as `sorry`-goals. Among its applications: the modular-`λ` uniformization
+milestones, each now discharged by the Tau Ceti declaration that realizes it. Among its
+applications: the modular-`λ` uniformization
 `ℍ/Γ(2) ≅ ℂ∖{0,1}` (hence Picard's little theorem and the elliptic/modular uniformization)
 and the boundary regularity of conformal maps — but the area is foundational complex analysis
 in its own right.
@@ -194,3 +195,10 @@ Ahlfors, *Complex Analysis* (Ch. 4–6) and *Conformal Invariants*; Conway, *Fun
 Complex Variable I* (VII–IX); Rudin, *Real and Complex Analysis* (Ch. 14); Stein–Shakarchi,
 *Complex Analysis* (Ch. 2, 8); Remmert, *Classical Topics in Complex Function Theory*. RMT:
 cf. Paulson's Isabelle/HOL `Riemann_Mapping`. New Lean formalization; credit none — original.
+
+---
+
+*Archived: this roadmap was declared complete on 2026-10-08. `Suggested.lean` now states each
+milestone of L0 to L6 against Tau Ceti and closes it with no `sorry`. The heading of the Layers
+section above describes the file as it stood before archiving, when it carried `sorry` goals for
+L0 to L4 only.*
