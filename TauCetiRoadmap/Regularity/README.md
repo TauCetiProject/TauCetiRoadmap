@@ -352,9 +352,17 @@ exceptional-mass bound. Top regularity is at rank `R C.complexity`. The complexi
 the top palette, both schedules, and the requested vertex floor. The theorem returns equitable
 vertex cells satisfying that floor. The order is: choose the error and rank schedules; obtain a
 complexity bound; for a host above that bound, obtain a complex and evaluate the schedules there.
-This follows Rödl–Schacht I, Theorem 2.3, where the rank is a function of lower-complexity data.
+This schedule order follows Rödl–Schacht I, Theorem 2.3, where the rank is a function of
+lower-complexity data; that theorem alone is not the edited-approximation statement.
 The scalar complexity here bounds each component; constructing the corresponding majorant of the
 source's tuple-indexed schedule is part of the Layer 8 proof.
+
+**Approximation proof route.** Rödl–Schacht I, Theorem 2.2 and Lemma 4.2 supply the
+edited-approximation route. The proof must bridge their regularity schedule to the rank-`r`
+subpolyad-union tests required here, choosing the rank-one discrepancy small enough for the
+inclusion–exclusion loss over those unions. Source divisibility conditions must be discharged by
+padding and rebalancing, with the resulting edit and regularity errors included in the parameter
+budget; they are not extra hypotheses of this endpoint.
 
 **Gate.** Compare the two-dimensional shadow of these definitions with Layer 4's graph API.
 
@@ -588,6 +596,16 @@ observable, unordered pair colors, no vertex partition, and rank one in the appr
 The local rank-`r` subtriad tests provide a comparison with Layer 7, not the complete scheduled-rank
 theorem of Layer 8. The regularization recurrence has the form
 `K ↦ K·2^{O(K^{j+1})}`, giving `K ↦ K·2^{O(K³)}` for triples.
+
+For supplemental proof guidance, the later source snapshot
+[`8e24d2db2c11ee6ae9e61ad2d70a6c01c4303c90`](https://github.com/cameronfreer/regularity-lemmata/tree/8e24d2db2c11ee6ae9e61ad2d70a6c01c4303c90)
+provides simultaneous-family strong witnesses in
+[`Graph/FamilyStrong.lean`](https://github.com/cameronfreer/regularity-lemmata/blob/8e24d2db2c11ee6ae9e61ad2d70a6c01c4303c90/RegularityLemmata/Graph/FamilyStrong.lean).
+Its equitable family-regularity theorem does not provide seeded per-parent almost-refinement,
+and its strong witnesses do not provide equitable strong regularity. Its triadic edited
+approximation remains a Boolean rank-one precursor, not the Layer 8 endpoint. These comparisons
+supplement, rather than replace, the historical comparison above; neither source snapshot is a
+dependency or an expansion of this roadmap's scope.
 
 The [`graphon` library](https://github.com/cameronfreer/graphon) is a source for the parallel
 analytic theory. The finite-facing comparisons specified above are proved in Tau Ceti after
