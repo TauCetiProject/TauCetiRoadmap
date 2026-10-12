@@ -5470,52 +5470,103 @@ are cofinal among the admissible open neighbourhoods of `Z_j` in `X_j` with quas
 complement (Kiehl67 Thm. 1.18, for rigid spaces, transported to dagger spaces along
 *dagger-to-rigid-functor* on the fringe stages; GK02 §1, proof of Prop. 1.7, p. 6, and proof of
 Prop. 1.16(B), p. 12, where the products are used locally on an admissible covering). (b)
-(Refinement on overlaps) on a finite overlap `X_j ∩ X_k` the two neighbourhood systems
-`V_{j,ρ} ∩ X_k` and `V_{k,ρ} ∩ X_j` are mutually cofinal (each contains a member of the other after
-shrinking `ρ`), so that for a sheaf `F` on `X` the colimit `colim_V RΓ(V, F)` over admissible open
-neighbourhoods `V ⊇ Z` with quasi-compact complement is computed by the Čech complex of the
-covering `(X_j)` with the chart-local colimits `colim_ρ RΓ(V_{j,ρ}, F)` on the simplices; this is
-the form in which *compact-support-log-comparison*, *dagger-local-cohomology-comparison* (b) and
-the closed-immersion case of *dagger-d-module-direct-image* consume it (the polydisc factor
-contributes `K` in degree `0` by *dagger-polyannulus-de-rham-cohomology*). (c) (Local branches of
-an SNC divisor) for a strict normal crossings divisor `D ⊆ X` (*dagger-snc-divisor*), on a chart
-`X_j` with `D ∩ X_j = V(x_1 ⋯ x_r)` the branches `B_{j,1} = V(x_1), …, B_{j,r} = V(x_r)` are
-determined by `D` up to order (they are the irreducible components of `D` locally at each point of
-the chart), so on an overlap `X_j ∩ X_k` the branches of the two charts match under a unique
-bijection; the strata `D_I`, `I ⊆ {1, …, r}`, are therefore defined chart by chart as the
-intersections `⋂_{i∈I} B_{j,i}` and glue, for each `s = |I|`, to a smooth dagger space `D^{(s)}`
-of pure codimension `s` with a finite map `ι_s : D^{(s)} → X` (`D^{(1)}` is the normalisation of
-`D`, and `D^{(s)}` the normalisation of the locus of `s`-fold points); the complexes
-`ι_*Ω^•_{D_I}` of *compact-support-localisation-maps* (a) are the chart-local pieces of
-`ι_{s*}Ω^•_{D^{(s)}}`, the descent being along the branch bijections of the overlaps, with the
-sign of the branch permutation. Prove that the resolution of the cokernel of
-`Ω^•_X(log D)(−D) → Ω^•_X` by the `ι_{s*}Ω^•_{D^{(s)}}`, formed chart by chart from the smooth
-branches, glues to a global resolution, and that applying (a)–(b) to the smooth closed immersions
-`D^{(s)} → X` (on the charts, where `D^{(s)}` is a disjoint union of the `D_I`) computes
-`colim_V RΓ(V, Ω^•_X)` over neighbourhoods `V ⊇ D` by the same Čech descent, compatibly with
-the localisation maps. No global product neighbourhood of `Z` in `X` is asserted. *Needs:*
+(Local comparison, and its finite global form) (b1) On each chart, for a sheaf `F` on `X`, the
+colimit over admissible open neighbourhoods of `Z_j` in `X_j` with quasi-compact complement of
+`RΓ(V, F)` is `colim_ρ RΓ(V_{j,ρ}, F)`, by the cofinality in (a); on a finite overlap `X_j ∩ X_k`
+the two systems `V_{j,ρ} ∩ X_k` and `V_{k,ρ} ∩ X_j` are mutually cofinal (each contains a member
+of the other after shrinking `ρ`), so these chart-local colimits are independent of the chart data
+and form, with their restriction maps, a well-defined object on the covering. This sheaf-level
+statement holds for every smooth `X` and is what *dagger-local-cohomology-comparison* (b) and the
+closed-immersion case of *dagger-d-module-direct-image* consume. (b2) If `X` is quasi-compact,
+covered by finitely many `X_j` with quasi-compact pairwise intersections, then the global
+colimit `colim_V RΓ(V, F)` over admissible open neighbourhoods `V ⊇ Z` with quasi-compact
+complement is computed by the Čech complex of that finite covering with the chart-local colimits
+of (b1) on the simplices, since a filtered colimit commutes with the finite products of the Čech
+complex and with the cohomology of a bounded-below complex; this finite form is what
+*compact-support-log-comparison* consumes (its ambient `X` is proper). (b3) The finite form does
+not extend to infinite coverings without a further theorem: for `X = ⨿_{n≥0} D_n` a disjoint
+union of closed dagger unit discs over `ℚ_p`, `Z = ⨿_n {0_n}`, and the coherent sheaf `F` with
+`F|_{D_n} = O_{D_n}/(t_n − 1)` (a skyscraper at `w_n = 1`), every chart-local colimit vanishes
+(small tubes around `0_n` miss `w_n`), so the Čech complex of the chart-local colimits is `0`,
+while a neighbourhood `V ⊇ Z` with quasi-compact complement contains all but finitely many of the
+`D_n` entirely, so the global degree-`0` colimit is `(∏_n K)/(⊕_n K) ≠ 0`. (c) (Local branches of
+an SNC divisor and orientation-aware descent) For a strict normal crossings divisor `D ⊆ X`
+(*dagger-snc-divisor*), on a chart `X_j` with `D ∩ X_j = V(x_1 ⋯ x_r)` the branches
+`B_{j,1} = V(x_1), …, B_{j,r} = V(x_r)` are the irreducible components of `D` locally at each point
+of the chart, so they are determined by `D` up to order *locally*: branch matching between two
+charts is defined after a common refinement, at each point of an overlap, and not as a bijection
+between the full branch lists of the two charts — branches can disappear on an overlap (for
+`D = V(xy)` a chart meeting both axes has two branches, while on the locus `x ≠ 0` only `V(y)`
+survives). The indexing data is therefore the sheaf `E` of local branches of `D` (a locally
+constant sheaf of finite sets on `D`, of stalk the set of branches at a point) and, for each
+`s`, the space `D^{(s)}` of pairs (point, `s`-element subset of the branches through it), a smooth
+dagger space of pure codimension `s` with a finite map `ι_s : D^{(s)} → X` that is *not* a closed
+immersion in general (`D^{(1)}` is the normalisation of `D`, `D^{(2)}` the normalisation of the
+locus of double points); on a chart, `D^{(s)}` is the disjoint union of the strata
+`D_I = ⋂_{i∈I} B_{j,i}`, `|I| = s`, and the tubular neighbourhoods of (a) are applied to each
+local immersion `D_I → X_j`. Let `E_s` be the local system on `D^{(s)}` of the `s` selected branches
+and `ε_s := ⋀^s K^{E_s}` its orientation line, a rank-one local system whose transition under a
+relabelling of the branches is the sign of the induced permutation. The chart-local complexes
+`ι_*Ω^•_{D_I}` of *compact-support-localisation-maps* (a) glue to the complexes
+`ι_{s*}(Ω^•_{D^{(s)}} ⊗_K ε_s)` with alternating face maps — signed descent of differential forms
+produces forms with coefficients in the orientation system, not the untwisted sheaf
+`ι_{s*}Ω^•_{D^{(s)}}`: on two branches, `δ(a, b) = b| − a|` on `O_{B_1} ⊕ O_{B_2} → O_{B_{12}}` has
+`δ ∘ τ = −δ` for the swap `τ(a, b) = (b, a)`, so the square commutes only after the target is
+multiplied by `−1`, which is exactly the transition of `ε_2` (Deligne71 §3.1.4–3.1.5, pp. 31–32,
+the orientation local systems on the normalised multiple intersections). Prove that the resolution
+of the cokernel of `Ω^•_X(log D)(−D) → Ω^•_X` by the `ι_{s*}(Ω^•_{D^{(s)}} ⊗ ε_s)`, formed chart by
+chart from the smooth branches, descends to a global resolution; that the exact sequence for
+removing one smooth branch (*compact-support-localisation-maps* (a)) is a chart-level statement,
+a global long exact sequence with `(X, D')` requiring a genuine global decomposition
+`D = D_1 + D'` with `D_1` a globally smooth component; that when the global irreducible components
+are smooth and globally ordered each `ε_s` is trivialised and the untwisted formula is recovered
+(a special case, never imposed on the nodal/self-intersection scope); and that applying (a) and
+(b1) to the local immersions `D_I → X_j`, with (b2) when `X` is quasi-compact, computes the
+neighbourhood colimit of `Ω^•_X` along `D` compatibly with the localisation maps. No global
+product neighbourhood of `Z` in `X` is asserted, and the de Rham assertions of this target and its
+Checks are for `char K = 0`, the hypothesis of *dagger-polyannulus-de-rham-cohomology* (the
+geometric statements (a), (b1)–(b3) and the branch descent hold for every `K`). *Needs:*
 *dagger-smooth-space*; *dagger-coherent-module*; *dagger-to-rigid-functor*; *dagger-snc-divisor*;
 *dagger-polyannulus-de-rham-cohomology*; *de-rham-cohomology-with-supports*.
 
 **Checks.**
 
 - Degenerate: for the zero section `Z = {t = 0} ⊆ Z × D^d(1)` of a product with an open polydisc,
-  one chart suffices and `V_ρ = Z × D^d(ρ)` with the identity isomorphism.
-- Computation: for a `K`-rational point of the closed dagger disc `D^1`, `V_ρ = {|t| < ρ}`,
-  `colim_ρ RΓ(V_ρ, Ω^•) = K` in degree `0` (*dagger-polyannulus-de-rham-cohomology*), and the
-  supports sequence gives `H^2_{{0}}(D^1, Ω^•) = K`, the Gysin class of the point.
-- Non-example (global product): a hyperplane `H ⊆ (P^n)^†`, `n ≥ 1`, has no admissible open
+  a single tubular trivialisation `V_ρ = Z × D^d(ρ)` with the identity isomorphism suffices (the
+  ambient factor is an open polydisc, so this is one trivialisation, not one affinoid chart).
+- Computation (`char K = 0`): for a `K`-rational point of the closed dagger disc `D^1`,
+  `V_ρ = {|t| < ρ}`, `colim_ρ RΓ(V_ρ, Ω^•) = K` in degree `0` (*dagger-polyannulus-de-rham-cohomology*),
+  and the supports sequence gives `H^2_{{0}}(D^1, Ω^•) = K`, the Gysin class of the point. In
+  characteristic `p` this fails: `t^p` is a nonconstant closed germ and `t^{p−1}dt` has no
+  primitive on any smaller disc.
+- Non-example (global product): a hyperplane `H ⊆ (P^n)^†`, `n ≥ 2`, has no admissible open
   neighbourhood isomorphic to `H × D^1(ρ)` with `H` as the zero section, since such an isomorphism
-  would trivialise the normal bundle `O_H(1)`; the theorem is local on `(P^n)^†` and the charts
-  `X_j` of (a) may be taken to be the standard affinoid charts.
+  would trivialise the normal bundle `O_H(1)`, nontrivial for `H = P^{n−1}`, `n ≥ 2` (for `n = 1`
+  the hyperplane is a point, its normal bundle is trivial and a disc neighbourhood exists); the
+  theorem is local on `(P^n)^†` and the charts `X_j` of (a) may be taken to be the standard
+  affinoid charts.
+- Non-example (infinite covering): the disjoint union of discs with the skyscraper sheaf of (b3);
+  (b2) requires the finite covering.
 - Control (local branches): for the analytified nodal cubic `D = V(y^2 − x^2(1 + x))` of
   *dagger-snc-divisor*, `D` is irreducible and singular, `D^{(1)}` is its normalisation (two
-  branches `y = ±x√(1 + x)` on the chart `|x| < 1` around the node, one branch elsewhere) and
-  `D^{(2)}` is the node; the resolution of the cokernel of `Ω^•(log D)(−D) → Ω^•` is
-  `ι_{1*}Ω^•_{D^{(1)}} → ι_{2*}Ω^•_{D^{(2)}}`, and no globally smooth component is removed first.
-- Control (descent): on an overlap of two charts around a point where exactly two branches meet,
-  swapping the branch labels changes the sign of the map `ι_{1*}Ω^•_{D^{(1)}} → ι_{2*}Ω^•_{D^{(2)}}`
-  and nothing else, which is the only compatibility the glueing needs.
+  branches `y = ±x√(1 + x)` on the chart `|x| < 1` around the node, one branch elsewhere),
+  `D^{(2)}` is the node, and the resolution of the cokernel of `Ω^•(log D)(−D) → Ω^•` is
+  `ι_{1*}(Ω^•_{D^{(1)}} ⊗ ε_1) → ι_{2*}(Ω^•_{D^{(2)}} ⊗ ε_2)` with `ε_1` trivial on the
+  normalisation and `ε_2` the orientation line of the two branches at the node; no globally smooth
+  component is removed first, and the nodal example remains in scope.
+- Control (disappearing branch): for `D = V(xy)` in the bidisc, the chart `|x|, |y| ≤ 1` has
+  branches `V(x)`, `V(y)` and the sub-chart `|x| = 1` has the single branch `V(y)`; `E` restricts to
+  the surviving branch and `D^{(2)}` is empty over the sub-chart, so the matching is local and not
+  a bijection of the two branch lists.
+- Control (two-branch transitions, both degrees): on a chart where exactly two branches `B_1, B_2`
+  meet in `B_{12}`, the complex is `O_{B_1} ⊕ O_{B_2} → O_{B_{12}} ⊗ ε_2` and
+  `Ω^1_{B_1} ⊕ Ω^1_{B_2} → Ω^1_{B_{12}} ⊗ ε_2` with `δ(a, b) = (b| − a|) ⊗ e_{12}`, `e_{12}` the
+  orientation of the ordered pair; the relabelling acts by `τ(a, b) = (b, a)` on the sources and by
+  `e_{12} ↦ e_{21} = −e_{12}` on `ε_2`, and `δ ∘ τ = −δ = (−1) ⊗ δ`, so both squares commute, and
+  the exterior derivative `d` commutes with them because `d` is `K`-linear and the transitions are
+  restrictions and signs. Composition of two relabellings multiplies the signs, and a refinement
+  to a sub-chart on which a branch disappears restricts `E_s` to the surviving subsets; these are
+  the compatibilities the descent needs.
 
 **Local cohomology of the de Rham complex along closed subspaces: algebraic versus topological
 supports, Gysin isomorphism and independence of the embedding.** (*dagger-local-cohomology-comparison*)
@@ -6201,9 +6252,11 @@ on the object of *compact-support-log-complex*; for
 branch on a chart of an admissible affinoid covering (*dagger-snc-divisor*), not a global
 irreducible component, which need not be smooth; iterating over the branches of a chart, the
 cokernel of `Ω^•(log D)(−D) → Ω^•_X` is resolved on the chart by the complexes `ι_*Ω^•_{D_I}` of the
-strata `D_I = ⋂_{i∈I} D_i`, and these glue over the charts, by the branch bijections on overlaps
-with the sign of the permutation, to the global resolution by `ι_{s*}Ω^•_{D^{(s)}}` of
-*dagger-tubular-neighbourhood* (c); and (b) for an admissible open
+strata `D_I = ⋂_{i∈I} D_i`, and these descend, by the orientation-aware glueing of
+*dagger-tubular-neighbourhood* (c), to the global resolution by `ι_{s*}(Ω^•_{D^{(s)}} ⊗ ε_s)`,
+`ε_s` the branch-orientation line; the removal sequence is a chart-level statement, and its
+global long exact sequence with `(X, D')` is asserted only for a genuine global decomposition
+`D = D_1 + D'` with `D_1` a globally smooth component; and (b) for an admissible open
 `U ⊆ X` with complement `Y` and a closed `Z ⊆ Y`, the supports sequence
 `… → H^i_Z(X) → H^i_Y(X) → H^i_{Y−Z}(X − Z) → …` (see *de-rham-cohomology-with-supports*) gives, for
 an affinoid subdomain `U_0 ⊂† X`, the extension-by-zero map `H^i_{dR,c}(U_0) → H^i_{dR,c}(X)` and
@@ -6239,13 +6292,14 @@ and with the localisation sequences of *compact-support-localisation-maps*, whic
 quasi-compact, `Rp_{U!}Ω^•_U` is the colimit, over the admissible open neighbourhoods `V ⊇ D` with
 quasi-compact complement, of the cohomology of `X` with supports in `X − V`
 (*de-rham-cohomology-with-supports*, with excision); the cokernel of `Ω^•(log D)(−D) → Ω^•_X` is
-resolved by the complexes `ι_{s*}Ω^•_{D^{(s)}}` of the local branches and their intersections
-(*compact-support-localisation-maps* (a), glued as in *dagger-tubular-neighbourhood* (c); the
-global irreducible components of `D` need not be smooth), and the colimit over `V` of
-`RΓ(V, Ω^•_X)` is computed chart by chart on the tubular neighbourhoods `D_I × D^{|I|}(ρ)` of
-*dagger-tubular-neighbourhood* (a), with the Čech descent of (b) on the finite overlaps after
-shrinking `ρ` (GK02 §1, proof of Prop. 1.16(B), where the products are local on an admissible
-covering), the open polydisc contributing `K` in degree `0` by
+resolved by the complexes `ι_{s*}(Ω^•_{D^{(s)}} ⊗ ε_s)` of the local branches and their
+intersections, with their orientation lines (*compact-support-localisation-maps* (a), descended as
+in *dagger-tubular-neighbourhood* (c); the global irreducible components of `D` need not be
+smooth), and the colimit over `V` of `RΓ(V, Ω^•_X)` is computed chart by chart on the tubular
+neighbourhoods `D_I × D^{|I|}(ρ)` of the local immersions `D_I → X_j` (*dagger-tubular-neighbourhood*
+(a)), assembled by the finite Čech form (b2) — `X` is proper, hence quasi-compact with a finite
+admissible affinoid covering — after shrinking `ρ` on the finite overlaps (GK02 §1, proof of
+Prop. 1.16(B), where the products are local on an admissible covering), the open polydisc contributing `K` in degree `0` by
 *dagger-polyannulus-de-rham-cohomology*; the local identifications of the neighbourhood colimit
 with the boundary quotient glue to the global comparison and commute with the localisation maps
 because both are formed from the same chart-local branch resolution; GK02 §1, 1.6, defines
@@ -6805,6 +6859,7 @@ the boundary product as well as the coefficient, so its connection contains the 
 - [BL I] Siegfried Bosch, Werner Lütkebohmert, *Formal and rigid geometry I. Rigid spaces*, Math. Ann. 295 (1993), 291–317, Proposition 2.1, p. 299. https://gdz.sub.uni-goettingen.de/id/PPN235181684_0295
 - [Kiehl-AB] Reinhardt Kiehl, *Theorem A und Theorem B in der nichtarchimedischen Funktionentheorie*, Invent. Math. 2 (1967), 256–273. https://gdz.sub.uni-goettingen.de/id/PPN356556735_0002
 - [Kiehl67] Reinhardt Kiehl, *Die de Rham Kohomologie algebraischer Mannigfaltigkeiten über einem bewerteten Körper*, Publ. Math. IHÉS 33 (1967), 5–20. http://www.numdam.org/item/PMIHES_1967__33__5_0/
+- [Deligne71] Pierre Deligne, *Théorie de Hodge, II*, Publ. Math. IHÉS 40 (1971), 5–57. http://www.numdam.org/item/PMIHES_1971__40__5_0/
 - [Conrad-IC] Brian Conrad, *Irreducible components of rigid spaces*, Ann. Inst. Fourier 49 (1999); author PDF irredpaper.pdf. https://math.stanford.edu/~conrad/papers/irredpaper.pdf
 - [GK00] Elmar Grosse-Klönne, *Rigid analytic spaces with overconvergent structure sheaf*, arXiv:1408.3329v1 (14 Aug 2014), author's version of J. reine angew. Math. 519 (2000) 73–95, with a footnote to Lemma 4.7 correcting the published hypotheses. https://arxiv.org/abs/1408.3329
 - [Kedlaya06] Kiran S. Kedlaya, *Finiteness of rigid cohomology with coefficients*, arXiv:math/0208027v6 (Duke Math. J. 134 (2006) 15–97), with the author's errata file https://kskedlaya.org/papers/finiteness-errata.txt. https://arxiv.org/abs/math/0208027
