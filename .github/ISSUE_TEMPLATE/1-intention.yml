@@ -37,6 +37,7 @@ body:
         - EllipticCurves
         - Exchangeability
         - FuchsianOrbifolds
+        - GeometricMeasureTheory
         - GeometricTopology
         - GlobalNumberFields
         - GlobalQuadraticForms
@@ -44,6 +45,7 @@ body:
         - HeegaardFloer
         - HopfRinow
         - IntegralLattices
+        - Isoperimetry
         - JacobianChallenge
         - LocalFieldsRamification
         - LocalGaloisGroups

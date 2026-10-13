@@ -9,7 +9,12 @@ in the code repo; review machinery lives in
 
 Tau Ceti is being incubated by the [Lean FRO](https://lean-lang.org/fro/) and the [Mathlib Initiative](https://mathlib-initiative.org/) in partnership with academic and industry groups.
 
-If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUTING.md).
+Roadmap writing and review can involve a mix of human guidance and AI assistance. Humans direct
+the mathematical scope and approve roadmap changes; AI can help survey existing libraries, write
+prose and suggested Lean interfaces, and review the details. If you want to write or review a
+roadmap, start with [Getting started](CONTRIBUTING.md#getting-started) in `CONTRIBUTING.md`,
+then read its guidance on [writing](CONTRIBUTING.md#the-roadmap-writing-process) and
+[reviewing](CONTRIBUTING.md#reviewing-a-roadmap).
 
 ## Roadmaps
 
@@ -28,11 +33,13 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [DG and A-infinity algebras, categories, and modules](TauCetiRoadmap/DGAInfinity/README.md)
 - [Differential geometry — forms, de Rham cohomology, flows, and degree](TauCetiRoadmap/DifferentialGeometry/README.md)
 - [Elliptic curves](TauCetiRoadmap/EllipticCurves/README.md)
+- [Euclidean isoperimetry, sharp inequalities, and rigidity](TauCetiRoadmap/Isoperimetry/README.md)
 - [Exchangeability and de Finetti](TauCetiRoadmap/Exchangeability/README.md)
 - [Foundations of adic spaces](TauCetiRoadmap/AdicSpaces/README.md)
 - [Fuchsian groups and orbifold Riemann surfaces](TauCetiRoadmap/FuchsianOrbifolds/README.md)
 - [Galois groups of polynomials](TauCetiRoadmap/PolynomialGaloisGroups/README.md)
 - [Geodesics, the exponential map, and the Hopf-Rinow theorem](TauCetiRoadmap/HopfRinow/README.md)
+- [Geometric measure theory: rectifiability, BV, and finite perimeter](TauCetiRoadmap/GeometricMeasureTheory/README.md)
 - [Geometric topology and the Kirby-list problems](TauCetiRoadmap/GeometricTopology/README.md)
 - [Global number fields, ray classes, adeles, and Hecke characters](TauCetiRoadmap/GlobalNumberFields/README.md)
 - [Global quadratic forms over number fields](TauCetiRoadmap/GlobalQuadraticForms/README.md)
