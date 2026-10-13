@@ -548,6 +548,17 @@ Fargues–Fontaine input (`TauCeti.FarguesFontaine.spaY`, `frobeniusHomeomorph`,
 (`TauCeti.exists_forall_map_eq_of_compact_t2`), and the uniform-group subring topology
 (`TauCeti.Topology.Algebra.IsUniformGroup.Subring`).
 
+### From other open roadmap pull requests
+
+#### P0
+
+| Object | Exact supplier | Convention/consumer |
+| --- | --- | --- |
+| Categorical duality trace | PivotalSpherical §Layer 2 / Left and right trace, `leftTrace`, `rightTrace`, common spherical `trace` (an open TauCetiRoadmap pull request by kim-em) | P0.12 retains `Almost.Module.trace` as its local internal realization for `Almost.Algebra.trace` and trace-form consumers; prove almost duality and use the supplier's standard symmetric pivotal/spherical structure (§Layer 7), with the tensor-unit/scalar comparison. |
+| Cross-object cyclicity | PivotalSpherical §Layer 2 / Cyclicity, `leftTrace_comm` and common trace cyclicity (an open TauCetiRoadmap pull request by kim-em) | P0.12 transports the supplied law through the internal trace comparison for two almost finite projective objects; translate composition order to Lean's `≫`. |
+| Tensor trace law | PivotalSpherical §Layer 2 / The left trace is monoidal, `leftTrace_tensor` and common trace monoidality (an open TauCetiRoadmap pull request by kim-em) | P0.12 transports the tensor-unit/unitor formula to multiplication in `A` through the chosen internal tensor and dual comparisons. |
+| Classical projective trace comparison | AdicSpacesPartIII §R3.8 / *projective-module-trace*, `LinearMap.projectiveTrace`, `LinearMap.projectiveTrace_eq_trace` | P0.12's `trace_test_free_endomorphism` compares the supplied ordinary finite-projective trace with the local internal trace after almostification; the ordinary carrier belongs to AdicSpacesPartIII, the almost realization to this roadmap. |
+
 ### From TauCetiRoadmap.AdicSpaces
 
 Layers 0–1: Tate rings, pseudouniformisers, bounded sets, pairs of definition, completion,
@@ -1740,32 +1751,67 @@ Lean: `BasicSetup.IsAlmostFiniteProjective`, the `ε`-factorisation of
 ### P0.12 duals and traces
 
 **Duals, traces of endomorphisms and the trace form of an almost finite projective algebra.**
-(*almost-dual-and-trace*) Let `S` be a basic setup and `A` an almost `V`-algebra. For an `A`-module
-`M`, the dual is `M* := alHom_A(M, A)` with evaluation `ev_{M/A} : M ⊗_A M* → A`. For `P` almost
-finite projective, `ω_{P/A} : P ⊗_A P* → End_A(P)^a` is an isomorphism
-by *tensor-hom-comparison-almost-projective*, and the trace is
-`tr_{P/A} := ev_{P/A} ∘ ω_{P/A}⁻¹ : End_A(P)^a → A` ([GR] §4.1, Definition 4.1.1, p. 72). For an
-`A`-algebra `B` which is almost finite projective as an `A`-module, `μ : B → End_A(B)^a` (`b ↦`
+(*almost-dual-and-trace*) Provides the duality trace whose internal almost-module realization is
+used by the algebra-trace and trace-form consumers. Supplied by PivotalSpherical §Layer 2 / Left
+and right trace and the common spherical `trace` (an open TauCetiRoadmap pull request by kim-em).
+Convention gap: this roadmap proves the required almost duality, instantiates the supplier's
+standard symmetric pivotal/spherical structure (§Layer 7), and identifies the internal map
+`End_A(P)^a → A` with its tensor-unit-valued trace on endomorphisms.
+
+Let `S` be a basic setup and `A` an almost `V`-algebra. For an `A`-module `M`, the dual is
+`M* := alHom_A(M, A)` with evaluation `ev_{M/A} : M ⊗_A M* → A`. For `P` almost finite projective,
+`ω_{P/A} : P ⊗_A P* → End_A(P)^a` is an isomorphism by
+*tensor-hom-comparison-almost-projective*. On the full subcategory of almost finite projective
+`A`-modules, prove closure under duals and tensor products and both triangle identities for the
+evaluation and the coevaluation obtained from `ω_{P/A}⁻¹` applied to the identity; these give the
+rigid symmetric category needed by the supplier. Retain `Almost.Module.trace` only as the local
+internal realization `tr_{P/A} := ev_{P/A} ∘ ω_{P/A}⁻¹ : End_A(P)^a → A`. Its comparison with the
+supplied trace is an equality of internal morphisms, natural on maps `L → End_A(P)^a` for every
+test `A`-module `L`, using the corresponding contraction `L ⊗_A P → P`; at `L = A` it recovers
+PivotalSpherical §Layer 2's trace through `alHom_A(A, A) ≅ A`.
+The carrier's docstring is: “Local restatement of PivotalSpherical §Layer 2, to be replaced by the
+import once that roadmap is merged. Internal almost-module carrier of the supplied
+PivotalSpherical trace, retained for `Almost.Algebra.trace` and trace-form consumers; the
+tensor–Hom/evaluation and scalar identifications are proved here, not a second categorical trace
+theory.”
+
+Provides cross-object cyclicity for the almost endomorphism trace through the duality comparison.
+Supplied by PivotalSpherical §Layer 2 / Cyclicity (`leftTrace_comm` and the common spherical trace)
+(an open TauCetiRoadmap pull request by kim-em). Convention gap: both source objects must carry
+the proved almost duality, and this roadmap translates composition between `ψ∘φ` and Lean's
+left-to-right `f ≫ g` before transporting scalar traces through the internal comparison.
+
+Provides tensor multiplicativity for the almost endomorphism trace. Supplied by PivotalSpherical
+§Layer 2 / The left trace is monoidal (`leftTrace_tensor` and the common spherical trace)
+(an open TauCetiRoadmap pull request by kim-em). Convention gap: this roadmap transports the
+supplier's tensor-unit endomorphisms and unitor formula to multiplication in `A`, preserving the
+chosen tensor/dual identifications.
+
+For an `A`-algebra `B` which is almost finite projective as an `A`-module,
+`μ : B → End_A(B)^a` (`b ↦`
 multiplication by `b`, defined on almost elements; [Sch12] §4, Remark 4.15, p. 20) gives the almost
-trace `Tr_{B/A} := tr_{B/A} ∘ μ : B → A` ([GR] §4.1, (4.1.7), p. 74), the trace form
+trace `Tr_{B/A} := tr_{B/A} ∘ μ : B → A` using the internal realization of PivotalSpherical
+§Layer 2 ([GR] §4.1, (4.1.7), p. 74), the trace form
 `t_{B/A} := Tr_{B/A} ∘ μ_{B/A} : B ⊗_A B → A` and `τ_{B/A} : B → B*`; `t_{B/A}` is perfect, by
 definition, iff `τ_{B/A}` is an isomorphism ([GR] §4.1, (4.1.12), p. 75). Properties:
-`tr(ψ∘φ) = tr(φ∘ψ)` ([GR]
-§4.1, Lemma 4.1.2, p. 72); `tr(φ ⊗ ψ) = tr(φ)·tr(ψ)`; additivity on short exact sequences of almost
-finite projective modules; `Tr_{C⊗_A B/C} = 1_C ⊗ Tr_{B/A}`; `Tr_{C/A} = Tr_{B/A} ∘ Tr_{C/B}` ([GR]
+additivity on short exact sequences of almost finite projective modules;
+`Tr_{C⊗_A B/C} = 1_C ⊗ Tr_{B/A}`; `Tr_{C/A} = Tr_{B/A} ∘ Tr_{C/B}` ([GR]
 §4.1, Proposition 4.1.8(ii)-(iii), p. 74); `τ` is `B`-linear and compatible with base change.
 Mathlib's `LinearMap.trace` (defined through a finite basis, and `0` when the module is not finite
-free) is not used for almost finite projective modules; it agrees with `tr` on finite free modules. Define `Almost.Module.dual` (`M*` with its evaluation),
-`Almost.Module.trace` (`tr_{P/A} := ev ∘ ω⁻¹`), `Almost.Algebra.trace` (`Tr_{B/A} : B ⟶ A`),
+free) is not used for almost finite projective modules; it agrees with `tr` on finite free modules
+after almostification via AdicSpacesPartIII §R3.8 / *projective-module-trace*,
+`LinearMap.projectiveTrace_eq_trace` and the internal comparison above.
+Define `Almost.Module.dual` (`M*` with its evaluation), `Almost.Algebra.trace` (`Tr_{B/A} : B ⟶ A`),
 `Almost.Algebra.traceForm` (`t_{B/A}` and `τ_{B/A}`) and `Almost.Algebra.IsPerfectTraceForm`
 (`τ_{B/A}` is an isomorphism); prove `Almost.Module.dualTensorHomIso` (`ω_{P/A} : P ⊗_A P* ≅
-End_A(P)^a` for `P` almost finite projective), `Almost.Module.trace_comp_comm`,
-`Almost.Module.trace_tensor`, `Almost.Module.trace_additive`, `Almost.Module.isReflexive`
+End_A(P)^a` for `P` almost finite projective), `Almost.Module.trace_additive`, `Almost.Module.isReflexive`
 (`P ≅ P**`), `Almost.Algebra.trace_baseChange`, `Almost.Algebra.trace_trans`,
 `Almost.Algebra.trace_of_iso` (simp: if `A → B` is an isomorphism, `Tr_{B/A}` is its inverse) and
 `Almost.Algebra.traceFormDual_baseChange` (`η ∘ (1_C ⊗ τ_{B/A}) = τ_{C⊗B/C}`, where
 `η : C ⊗_A B* → (C ⊗_A B)*` is the dual base-change comparison, [GR] Lemma 4.1.13).
-*Needs:* P0.7; P0.8; P0.11; Mathlib `LinearMap.trace`, `Algebra.trace`, `Algebra.traceForm`.
+*Needs:* P0.7; P0.8; P0.11; PivotalSpherical §Layer 2 (trace, cyclicity and monoidality) and §Layer 7
+(standard symmetric pivotal/spherical structure); AdicSpacesPartIII §R3.8 /
+*projective-module-trace*; Mathlib `LinearMap.trace`, `Algebra.trace`, `Algebra.traceForm`.
 
 Supporting result: `E ⊗ alHom(F, N) → alHom(F, E ⊗ N)` is an isomorphism for almost finite
 projective `E` or `F` (*tensor-hom-comparison-almost-projective*). For a basic setup `S`, an almost
@@ -1982,7 +2028,8 @@ definition). In that case
 presented, `φ` is finite étale iff `B` is flat over `A` and `t_{B/A}` is perfect. For `L°a/K°a`
 (`K = ℚ_p(p^{1/p^∞})^`, `p ≠ 2`, `L = K(√p)`) the trace form is perfect on the almost level (the discriminants `4p^{1/p^n}` of the
 approximations `R_n` tend to a unit up to `m`); in the classical setup with `B` finite free this is
-the criterion "finite free étale iff the discriminant is a unit". *Needs:* P0.12; P0.14.
+the criterion "finite free étale iff the discriminant is a unit". The trace uses P0.12's internal
+realization of PivotalSpherical §Layer 2. *Needs:* P0.12; P0.14.
 
 `Almost.Algebra.diagonalIdempotent_trace` states the identity on the relative module
 `P = Almost.Algebra.relativeModule S φ`. The element `e : A → P ⊗_A P` is specified by
@@ -3393,12 +3440,14 @@ Mathlib as listed in the supplier contracts: `IsIdempotentElem`, `Module.Flat`,
 `CategoryTheory.Pseudofunctor.DescentData`, `CommRingCat.isLimitForkPushoutSelfOfFaithfullyFlat`,
 `HenselianRing`, `Ideal.jacobson`, `IsAdicComplete`, `AdicCompletion`,
 `Submodule.eq_bot_of_le_smul_of_le_jacobson_bot`, `CategoryTheory.Sheaf.H'`,
-`CategoryTheory.cechComplexFunctor` and `CategoryTheory.sheafIsAbelian`. Within this roadmap the
-layer is self-contained; it is consumed by layers P1–P3 (the setups of a perfectoid Tate ring, the
+`CategoryTheory.cechComplexFunctor` and `CategoryTheory.sheafIsAbelian`. The layer
+is consumed by layers P1–P3 (the setups of a perfectoid Tate ring, the
 almost cotangent complex of perfectoid algebras modulo `ϖ`, almost purity). The classical complete-pair case of P0.28 uses `BasicSetup.classical` and
 `Almost.Algebra.classicalEquiv`. Other roadmaps, by subsection: P0.19 uses the ordinary cotangent
 complex of the DerivedDeRhamCohomology roadmap (that roadmap has no subsection labels), and through
-P0.19 so do P0.20–P0.24; no other subsection of P0 uses another roadmap. The DiamondsAndVStacks
+P0.19 so do P0.20–P0.24. P0.12 consumes PivotalSpherical §Layer 2's trace construction, cyclicity
+and tensor law, its §Layer 7 standard symmetric pivotal/spherical structure, and AdicSpacesPartIII
+§R3.8's *projective-module-trace* for the ordinary finite-free comparison. The DiamondsAndVStacks
 layers that use P0 are listed under Downstream consumers. Tau Ceti:
 `TauCeti.HenselianRing.exists_isIdempotentElem_sub_mem` and
 `TauCeti.IsAdicComplete.exists_isIdempotentElem_eq` (the honest case of the idempotent lifting in
