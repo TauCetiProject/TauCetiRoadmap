@@ -123,10 +123,12 @@ and P4.16 with R0.8's cover-local `AdicSpace.IsClosedImmersion`: a map of perfec
 a closed immersion iff some affinoid perfectoid cover of the target has strongly Zariski closed
 restrictions, a local quotient condition, not every topological closed immersion, and not
 PerfectoidTowers P8.14's condition over every affinoid perfectoid open.
-Prismatic cohomology, quasisyntomic rings and the general perfectoidisation of
-animated rings are not targets here: P4 and PerfectoidTowers P8 state exactly the perfectoidisation statements they
-need (initial integral perfectoid rings under semiperfectoid rings and under integral extensions of
-integral perfectoid rings). The locally analytic distribution theory on the coefficient spaces of PerfectoidTowers P9
+P4.15.1–P4.15.5 own the prismatic and quasisyntomic prerequisites for semiperfectoid
+perfectoidization: derived completion and complete flat descent, universal prisms and their
+perfection, the affine Hodge–Tate comparison, and André's root-adjoining cover. Prismatic
+cohomology of general spaces, the general quasisyntomic site and perfectoidization of arbitrary
+animated rings are outside the scope. PerfectoidTowers P8 owns perfectoidization of integral
+extensions of integral perfectoid rings. The locally analytic distribution theory on the coefficient spaces of PerfectoidTowers P9
 and the Shimura-variety applications of P7 and PerfectoidTowers P8–P9 belong to the roadmaps that consume this one.
 
 Tau Ceti already has, and this roadmap uses without restating: Huber rings, Tate rings,
@@ -10290,6 +10292,188 @@ quotient: every root of `T` maps to `1`.
 
 ### P4.15 Zariski closed immersions are strongly Zariski closed
 
+The proof route is [BS22] §7.1–§7.3. The following five subsections own its construction
+inputs; they use P1 and P0.19's supplied ordinary cotangent complex, independently of the
+Zariski-closed theorem in P4.15.6 and of its consumers in P6, PerfectoidTowers and
+DiamondsAndVStacks. The algebraic constructions apply to integral perfectoid rings,
+including rings with p-torsion and the zero ring.
+
+#### P4.15.1 derived completion and complete flat descent
+
+**Derived algebra for the semiperfectoid construction.**
+(*semiperfectoid-derived-completion-descent*) For a commutative ring `B` and a finitely
+generated ideal `J`, construct derived `J`-completion by the derived inverse limit of the
+Koszul complexes on powers of generators. Supply its adjunction, derived Nakayama,
+the completed derived tensor product, and comparison with ordinary completion when the
+higher Koszul homology systems are pro-zero, in particular for a principal ideal and
+bounded power torsion. This subsection owns the polynomial-resolution models of
+derived tensor and exterior powers, homotopy realization and totalization of simplicial
+and cosimplicial commutative algebras, and their complete versions used in P4.15.2–P4.15.3.
+An algebra `B → C` is J-completely flat when `C ⊗_B^L N` is concentrated in degree zero
+for every J-power-torsion B-module `N`; it is J-completely faithfully flat when moreover
+`C ⊗_B^L B/J` is a faithfully flat B/J-module. Prove stability under composition,
+completed base change and completed filtered colimits, and effective descent of derived
+J-complete modules along such covers using their derived completed Čech nerves. Prove
+that p-completely faithfully flat base change reflects surjectivity between discrete
+derived p-complete modules. Also supply right exactness of degree-zero derived completion
+on connective complexes and commutation of completion with `ω₁`-filtered colimits, so
+the transfinite constructions in P4.15.2 and P4.15.4 use no P5 theorem
+([BS22] §1.2, pp. 10–12, including footnote 7; proof of Proposition 7.2, p. 55;
+[Stacks, tag 0920](https://stacks.math.columbia.edu/tag/0920),
+[tag 0G1U](https://stacks.math.columbia.edu/tag/0G1U),
+[tag 0AAJ](https://stacks.math.columbia.edu/tag/0AAJ)). *Needs:* Mathlib's
+`DerivedCategory`, `CategoryTheory.SimplicialObject`, `TensorProduct`, `AdicCompletion`
+and ordinary faithfully flat descent; the ordinary cotangent supplier of P0.19.
+
+**Checks.**
+
+- For `J = (p)` and `B = ℤ_p`, completion fixes `B` in degree zero.
+- The derived p-completion of `ℚ` is zero; `ℚ` is not itself derived p-complete.
+- Over `ℤ_p`, the derived tensor of `𝔽_p` with `𝔽_p` has nonzero first Tor,
+  so `ℤ_p → 𝔽_p` is not p-completely flat despite its flat ordinary reduction.
+
+#### P4.15.2 universal prisms and perfection
+
+**Prisms for semiperfectoid rings.** (*semiperfectoid-universal-prism*) Develop δ-rings,
+free δ-algebras, distinguished elements, and their divided-power comparison as in
+[BS22] §2, restricted to the constructions below. A prism `(B, J)` has `B` a δ-ring,
+`J` a Cartier-divisor ideal, derived `(p, J)`-complete `B`, and `p ∈ J + φ(J)B`;
+bounded means `B/J` has bounded p-power torsion, and perfect means `φ` is invertible.
+Prove rigidity `JB' = J'` for maps of prisms. For a bounded prism `(B,J)` and a
+`(p,J)`-completely flat δ-B-algebra `D`, construct the prismatic envelope of an ideal
+`K ⊇ JD` locally generated by `J` and a `(p,J)`-completely regular sequence relative
+to `B`; prove its complete flatness over `B`, completed base change in bounded prisms
+and compatibility with flat localization in `D`. Prove the equivalence between
+perfect prisms and P1.24's integral perfectoid rings.
+For any prism construct its initial perfect prism by Frobenius colimit and
+`(p, J)`-completion; this construction includes the bounded-torsion comparison that
+makes the completed perfection an ordinary ring ([BS22] §3, Definition 3.2,
+Lemmas 3.5, 3.8–3.9, Theorem 3.10 and Proposition 3.13, pp. 28–35).
+
+For an integral perfectoid `R`, prove that `(A_inf(R), ker θ)` is initial among prisms
+with a map from `R` to their quotient ([BS22] Lemma 4.8, pp. 38–39). For a derived
+p-complete quotient `A = R/K`, construct the initial prism `(Δ_init(A), (d))` with
+`A → Δ_init(A)/d`: freely δ-adjoin `k/d` for lifts of generators of `K`, kill the
+δ-ideal generated by d-power torsion, and iterate degree-zero derived `(p,d)`-completion
+and torsion removal transfinitely until d is regular. Prove independence of the
+presentation by initiality. Perfect this prism and take its quotient to construct
+`semiperfectoidPerfectoidization` and its universal map ([BS22] Proposition 7.2 and
+Corollary 7.3, pp. 55–56). This construction proves initiality without surjectivity.
+*Needs:* P1.16–P1.18 and P1.24; P4.15.1; P0.19's cotangent and lifting API for Lemma 4.8.
+
+**Checks.**
+
+- For a perfect `𝔽_p`-algebra `k`, the corresponding perfect prism is `(W(k), (p))`.
+- For integral perfectoid `A`, the initial prism is `(A_inf(A), ker θ)`, and its
+  perfect-prism quotient recovers `A` with the identity structural map.
+- For `A = 0`, the initial prism, its perfection and its quotient are zero;
+  regularity is interpreted in the zero ring as well.
+
+#### P4.15.3 the affine Hodge–Tate input
+
+**Affine prismatic comparison and quasisyntomic covers.**
+(*semiperfectoid-affine-hodge-tate*) For a bounded oriented prism `(B, (d))` and a
+p-completely smooth B/d-algebra `C`, construct `Δ_{C/B}` with Frobenius by the
+Čech–Alexander complexes of prismatic envelopes. Prove the affine Hodge–Tate comparison
+`H^i(Δ_{C/B} ⊗_B^L B/d) ≅ Ω^i_{C/(B/d)}`, using the orientation to trivialize the
+twists, and completed base change along maps of bounded oriented prisms. This subsection
+owns the characteristic-p polynomial divided-power calculation and the universal
+oriented-prism reduction used to prove that comparison ([BS22] §4.3,
+Construction 4.18 and Lemmas 4.19–4.21; §5, Corollary 5.5; §6, Proposition 6.2 and
+Theorem 6.3, pp. 42–53). No global prismatic-cohomology output is required.
+
+Extend this affine construction by polynomial simplicial resolutions and derived
+completion, as in [BS22] Construction 7.6, pp. 56–57. Prove resolution independence,
+completed base change and preservation of homotopy colimits. The Hodge–Tate reduction
+has an exhaustive conjugate filtration with graded pieces the derived p-completions of
+`∧^i L_{C/(B/d)}[-i]` in cohomological indexing, with twists trivialized by `d`.
+A quasisyntomic B/d-algebra here is p-completely flat over `B/d`, derived p-complete
+with bounded p-power torsion, and has p-complete relative cotangent Tor amplitude
+`[-1,0]`; a cover is also p-completely faithfully flat.
+Construct the covers obtained by adjoining all p-power roots of polynomial generators.
+For bounded-torsion `C` with p-completely flat `L_{C/(B/d)}[-1]`, prove that the
+Hodge–Tate reduction is discrete and p-completely faithfully flat over `C`, and that
+the prismatic complex is discrete with the δ-structure and prism of Lemma 7.7.
+For quasiregular semiperfectoid `A` (bounded p-power torsion and p-completely flat
+`L_{A/ℤ_p}[-1]`), prove that `Δ_{A/A_inf(R)}` and its Hodge–Tate reduction are
+discrete, identify the resulting prism with `Δ_init(A)`, and prove that
+`A → Δ_init(A)/d` is p-completely faithfully flat. Include the regular-quotient envelope
+calculation and the idempotent-retract argument needed for this identification
+([BS22] Lemmas 7.7–7.8, Example 7.9 and Proposition 7.10, pp. 57–60).
+*Needs:* P4.15.1–P4.15.2; P0.19's full cotangent complex with transitivity and filtered
+colimits; P1's perfected polynomial algebras. These prismatic and quasisyntomic inputs
+are owned here, rather than assigned to the cotangent supplier.
+
+**Checks.**
+
+- For `(B,d) = (ℤ_p,p)` and `C = 𝔽_p`, the prismatic complex is `ℤ_p` in degree zero.
+- For `C = 𝔽_p[T]` over that prism, the Hodge–Tate reduction has `H^0 = C`,
+  `H^1 = C dT`, and no higher cohomology.
+- For `A = 𝔽_p[T^{1/p^∞}]/(T)`, the quasiregular comparison applies although `A`
+  is nonreduced: the class of `T^{1/p}` is nonzero with p-th power zero.
+
+#### P4.15.4 André's root-adjoining cover
+
+**Completely faithfully flat perfectoid root cover.** (*semiperfectoid-andre-cover*)
+For every integral perfectoid `R`, construct a p-completely faithfully flat map
+`R → R'` with `R'` integral perfectoid and every monic polynomial over `R'` having
+a root in `R'`. In particular every element of `R'` admits compatible p-power roots.
+Supply Proposition 7.11's input: for a bounded oriented prism `(B,(d))` and a
+quasisyntomic B/d-algebra `C`, construct a prism `(D,dD)` with a p-completely
+faithfully flat map `C → D/dD`. The prism map is completely flat, and is completely
+faithfully flat if `B/d → C` is p-completely faithfully flat; these properties persist
+on perfection when `B` is perfect. Build it using the root-adjoining quasisyntomic cover and the discrete
+Hodge–Tate comparison of P4.15.3. Apply this to adjoining solutions of all monic
+equations, and iterate with completed transfinite colimits to obtain `R'`
+([BS22] Proposition 7.11, p. 60; Theorem 7.14 and its proof, p. 61).
+*Needs:* P4.15.1–P4.15.3; P1.24. No Zariski-closed or tower theorem is an input.
+
+**Checks.**
+
+- For an algebraically closed characteristic-p field, the identity is a cover with
+  the asserted monic-root property.
+- The zero ring admits the identity cover, and its unique element has zero roots.
+- Merely adjoining a single root is insufficient: `𝔽_p[X]/(X^p−1)` has nonzero
+  nilpotent `X−1`, so is not integral perfectoid. The prism and perfection steps
+  supply the perfectoid target of the cover.
+
+#### P4.15.5 rooted quotients and the surjectivity reduction
+
+**Rooted quotient and descent of the perfectoidization map.**
+(*semiperfectoid-rooted-quotient-reduction*) Let `R` be integral perfectoid and
+`r : ℕ → R` satisfy `r(n+1)^p = r(n)`. Put `J = (r(n) | n ∈ ℕ)` and
+`Q = (R/J)^∧_p`. Prove `isIntegralPerfectoid_completedRootQuotient`: `Q` is integral
+perfectoid; also prove `surjective_completedRootQuotientMap` for the canonical
+`R → R/J → Q`. Prove reducedness of integral perfectoid rings using the perfect-prism
+comparison. Hence every map from `R/(r(0))` to an integral perfectoid ring kills `J`.
+Completeness of the target then gives the
+unique factorization through `Q`. Thus `Q` is its perfectoidization, with surjective
+structural map ([BS22] proof of Theorem 7.4, p. 62).
+
+For a p-completely faithfully flat map `R → R'` of integral perfectoid rings and
+a derived p-complete quotient `A` of `R`, let `A' = (A ⊗_R^L R')^∧_p`.
+Prove the flat base-change comparison
+`(A_perfd ⊗_R^L R')^∧_p ≅ A'_perfd`, with the structural maps fixed. This includes
+discreteness of both base changes and integral perfectoidness of the completed tensor
+on the left, using the perfect-prism comparison and flat completed base change of
+P4.15.2–P4.15.3. Descend surjectivity by P4.15.1. Supply the completed filtered-colimit
+reduction to finitely generated defining ideals and the successive-principal-quotient
+reduction, carrying derived p-completeness at each step. Use P4.15.4 to root the
+principal defining element after flat base change and apply the rooted quotient
+calculation. This proves `semiperfectoidPerfectoidization_surjective` from its
+construction, without using the Tate-space application ([BS22] proof of Theorem 7.4,
+p. 62, with the base-change machinery of Construction 7.6(4)–(5), pp. 56–57).
+*Needs:* P4.15.1–P4.15.4; P1.24's integral perfectoid theory.
+
+**Checks.**
+
+- For `r(n) = 0`, `Q = R` and the structural map is the identity.
+- For `r(n) = 1`, `Q = 0` and the structural map is the surjection to zero.
+- For `R = 𝔽_p[T^{1/p^∞}]` and `r(n) = T^{1/p^n}`, `Q = 𝔽_p`. The ordinary
+  quotient `R/(T)` is nonreduced and is not this perfectoid quotient.
+
+#### P4.15.6 the Zariski-closed application
+
 **Zariski closed immersions are strongly Zariski closed.** (*zariski-closed-is-strongly-zariski-closed*)
 Let `X = Spa(R, R⁺)` be an affinoid perfectoid space and `I ⊆ R` an ideal. The universal perfectoid
 space `Z` over the Zariski closed subset `V(I)` (P4.14) is affinoid
@@ -10302,9 +10486,9 @@ ring-level core, the universal perfectoid quotient of `R` killing `I`, is the Le
 `Perfectoid.exists_surjective_perfectoidQuotient`. The input is
 the perfectoidization of semiperfectoid rings, applied to the `ϖ`-adic completion
 `A := (R⁺/(I ∩ R⁺))^∧_ϖ`, as in [BS22] Remark 7.5: the target
-`semiperfectoidPerfectoidization` constructs, for a derived `p`-complete ring `A` that is a
+`semiperfectoidPerfectoidization` of P4.15.2 constructs, for a derived `p`-complete ring `A` that is a
 quotient of an integral perfectoid ring, the initial integral perfectoid ring `A_perfd` under `A`.
-Prove `semiperfectoidPerfectoidization_surjective`; its kernel consists of the elements killed
+P4.15.5 proves `semiperfectoidPerfectoidization_surjective`; its kernel consists of the elements killed
 by every map from `A` to an integral perfectoid ring. Also prove
 `semiperfectoidPerfectoidization_tensor`: for every integral perfectoid `A`-algebra `B`, the
 multiplication map `A_perfd ⊗_A B → B` is an isomorphism. Applied to the completed quotient
@@ -10312,7 +10496,7 @@ above, this gives `S = A_perfd[1/ϖ]` and `S⁺` the integral closure of the ima
 ([BS22] §7, Corollary 7.3, Theorem 7.4 and Remark 7.5, p. 56; proof of Theorem 7.4, p. 62;
 [ECD] §5, Theorem 5.8, p. 25). *Needs:*
 *universal-perfectoid-zariski-closed*; *strongly-zariski-closed-immersion*;
-*zariski-closed-immersion*; P1.24.
+*zariski-closed-immersion*; P1.24; P4.15.1–P4.15.5.
 
 A surjection of perfectoid Tate rings is almost surjective on integral elements
 (*surjective-perfectoid-map-almost-surjective-on-plus-rings*): for a surjective continuous
