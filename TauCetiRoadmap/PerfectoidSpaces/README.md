@@ -50,7 +50,10 @@ roadmap owns no topology on perfectoid spaces: P7 uses only the raw compact-open
 DiamondsAndVStacks, its precoverage and topology to D2.2 and its subcanonicity and v-descent to
 D2.7. The ordinary cotangent complex of a ring map belongs to the DerivedDeRhamCohomology roadmap,
 to which SchemeAndStackFoundations §4.6 assigns it, and is consumed in P0.19; this roadmap owns only
-its almost counterpart (P0.20).
+its almost counterpart (P0.20). DerivedDeRhamCohomology §§0.1–0.4, 0.14 and 1.1–1.9 own
+the generic derived operations, ideal completion and bounded-torsion p-complete module descent.
+P4.15.1 consumes their carriers and maps; its finite-ideal simplicial descent extension and
+transfinite compatibility feed only the prismatic construction of P4.15.2–P4.15.5.
 
 The roadmap owns, layer by layer:
 
@@ -123,9 +126,11 @@ and P4.16 with R0.8's cover-local `AdicSpace.IsClosedImmersion`: a map of perfec
 a closed immersion iff some affinoid perfectoid cover of the target has strongly Zariski closed
 restrictions, a local quotient condition, not every topological closed immersion, and not
 PerfectoidTowers P8.14's condition over every affinoid perfectoid open.
-P4.15.1–P4.15.5 own the prismatic and quasisyntomic prerequisites for semiperfectoid
-perfectoidization: derived completion and complete flat descent, universal prisms and their
-perfection, the affine Hodge–Tate comparison, and André's root-adjoining cover. Prismatic
+P4.15.1 imports derived completion and complete flatness from DerivedDeRhamCohomology
+§§0.1–0.4, 0.14 and 1.1–1.9, with the finite-ideal simplicial descent and transfinite
+compatibilities specified in P4.15.1. P4.15.2–P4.15.5 own the prismatic and quasisyntomic
+prerequisites for semiperfectoid perfectoidization: universal prisms and their perfection,
+the affine Hodge–Tate comparison, and André's root-adjoining cover. Prismatic
 cohomology of general spaces, the general quasisyntomic site and perfectoidization of arbitrary
 animated rings are outside the scope. PerfectoidTowers P8 owns perfectoidization of integral
 extensions of integral perfectoid rings. The locally analytic distribution theory on the coefficient spaces of PerfectoidTowers P9
@@ -2331,12 +2336,25 @@ mean derived tensor products. *Needs:* Mathlib
 - `cotangent_model_test_two_faces` — the degree-one differential on `x + y` is
   `d₀x − d₁x + d₀y − d₁y`; the degreewise faces have no built-in sign.
 - `cotangent_model_test_shift` — homological degrees `0, 1, 2` are placed in cohomological degrees `0, −1, −2`.
+- For the standard resolution of `ℤ → ℤ/2`, `P₀ = ℤ[ℤ/2]` is additively torsion-free.
+  Every additive map `ℤ/2 → P₀` is zero, so no inverse in simplicial abelian groups can
+  induce the identity on `H₀ = ℤ/2`. The set-level contraction supplies no additive contraction.
 
-`CotangentComplex.PolynomialResolution` carries an augmented simplicial commutative
-`R`-algebra, polynomial presentations in each degree, an identification of its augmentation
-with `T`, and an extra degeneracy after forgetting to sets. The resolution comparison uses
-[Stacks, Lemma 92.4.1](https://stacks.math.columbia.edu/tag/08PQ): on underlying simplicial
-abelian groups the augmentation is a degreewise surjective homotopy equivalence, hence a trivial Kan fibration. Its `differentials` have terms
+`CotangentComplex.PolynomialResolution` is the carrier
+`Algebra.CotangentComplex.PolynomialResolution` of DerivedDeRhamCohomology §0.1: an
+augmented simplicial commutative `R`-algebra with polynomial presentations in each degree
+and augmentation to `T` a trivial Kan fibration of underlying simplicial sets. The supplied
+standard resolution has an extra degeneracy after forgetting to sets. Its augmentation is
+therefore a homotopy equivalence of simplicial sets, induces a quasi-isomorphism on the
+associated complexes of abelian groups, and is degreewise surjective; the last two properties
+imply that it is a trivial Kan fibration of underlying simplicial sets
+([Stacks, Lemma 92.4.2, first proof](https://stacks.math.columbia.edu/tag/08PT),
+[Lemma 14.31.9](https://stacks.math.columbia.edu/tag/08P2) and
+[Lemma 14.31.8](https://stacks.math.columbia.edu/tag/08P1)). The supplier's
+`Algebra.CotangentComplex.PolynomialResolution.toQuasiIso` supplies the quasi-isomorphism,
+and `Algebra.CotangentComplex.PolynomialResolution.comparison` uses the trivial-Kan-fibration
+criterion of [Stacks, Lemma 92.4.1](https://stacks.math.columbia.edu/tag/08PS).
+Its `differentials` have terms
 `T ⊗_{P_n} Ω_{P_n/R}`; `termIso` and `face_tmul` pin this identification and its face maps.
 `complex` is Mathlib's alternating face complex. `model` uses a chosen free resolution,
 and `object` extends it to nonpositive cohomological degrees before applying `DerivedCategory.Q`.
@@ -10341,38 +10359,84 @@ quotient: every root of `T` maps to `1`.
 
 ### P4.15 Zariski closed immersions are strongly Zariski closed
 
-The proof route is [BS22] §7.1–§7.3. The following five subsections own its construction
-inputs; they use P1 and P0.19's supplied ordinary cotangent complex, independently of the
+The proof route is [BS22] §7.1–§7.3. P4.15.1 consumes the generic derived-algebra inputs
+and supplies the additional compatibilities specified below; P4.15.2–P4.15.5 own the
+prismatic construction. They use P1 and P0.19's supplied ordinary cotangent complex, independently of the
 Zariski-closed theorem in P4.15.6 and of its consumers in P6, PerfectoidTowers and
 DiamondsAndVStacks. The algebraic constructions apply to integral perfectoid rings,
 including rings with p-torsion and the zero ring.
 
 #### P4.15.1 derived completion and complete flat descent
 
-**Derived algebra for the semiperfectoid construction.**
-(*semiperfectoid-derived-completion-descent*) For a commutative ring `B` and a finitely
-generated ideal `J`, construct derived `J`-completion by the derived inverse limit of the
-Koszul complexes on powers of generators. Supply its adjunction, derived Nakayama,
-the completed derived tensor product, and comparison with ordinary completion when the
-higher Koszul homology systems are pro-zero, in particular for a principal ideal and
-bounded power torsion. This subsection owns the polynomial-resolution models of
-derived tensor and exterior powers, homotopy realization and totalization of simplicial
-and cosimplicial commutative algebras, and their complete versions used in P4.15.2–P4.15.3.
-An algebra `B → C` is J-completely flat when `C ⊗_B^L N` is concentrated in degree zero
-for every J-power-torsion B-module `N`; it is J-completely faithfully flat when moreover
-`C ⊗_B^L B/J` is a faithfully flat B/J-module. Prove stability under composition,
-completed base change and completed filtered colimits, and effective descent of derived
-J-complete modules along such covers using their derived completed Čech nerves. Prove
-that p-completely faithfully flat base change reflects surjectivity between discrete
-derived p-complete modules. Also supply right exactness of degree-zero derived completion
-on connective complexes and commutation of completion with `ω₁`-filtered colimits, so
-the transfinite constructions in P4.15.2 and P4.15.4 use no P5 theorem
-([BS22] §1.2, pp. 10–12, including footnote 7; proof of Proposition 7.2, p. 55;
-[Stacks, tag 0920](https://stacks.math.columbia.edu/tag/0920),
-[tag 0G1U](https://stacks.math.columbia.edu/tag/0G1U),
-[tag 0AAJ](https://stacks.math.columbia.edu/tag/0AAJ)). *Needs:* Mathlib's
-`DerivedCategory`, `CategoryTheory.SimplicialObject`, `TensorProduct`, `AdicCompletion`
-and ordinary faithfully flat descent; the ordinary cotangent supplier of P0.19.
+**Derived algebra for the semiperfectoid construction, consumed and specialized.**
+(*semiperfectoid-derived-completion-descent*) Use DerivedDeRhamCohomology's generic
+carriers and maps in the following table. For a commutative ring `B` write
+`D(B) = DerivedCategory (ModuleCat B)` with cohomological indexing; connective means
+`H^i = 0` for `i > 0`. For finite `J ⊂ B`, `Λ_J` means that supplier's completion
+reflector, with its specified unit.
+
+| Supplier subsection | Imported API and use |
+| --- | --- |
+| §§0.1–0.4 and 0.14 | `Algebra.CotangentComplex.PolynomialResolution`, its `comparison` and `toQuasiIso`, `DerivedDeRham.derivedTensor`, `DerivedDeRham.leftDerivedNonadditive`, `DerivedDeRham.derivedExteriorPower` and the ordinary cotangent complex supply the resolution and power models for P4.15.2–P4.15.3. |
+| §§1.1–1.6 | `DerivedDeRham.derivedLimit`, `DerivedDeRham.derivedCompleteness`, `DerivedDeRham.derivedCompletion`, `DerivedDeRham.completionUnit`, `DerivedDeRham.completionAdjunction`, `DerivedDeRham.completeNakayama`, `DerivedDeRham.koszulCompletionTower`, `DerivedDeRham.ordinaryQuotientCompletion` and `DerivedDeRham.simplicialRingCompletion` supply completion and its algebra unit. |
+| §§1.7–1.9 | `DerivedDeRham.completeFlatness`, its discrete predicate `DerivedDeRham.IsCompletelyFlatModule`, `DerivedDeRham.completeFlatBaseChange`, `DerivedDeRham.boundedTorsionCriterion` and `DerivedDeRham.completeFlatDescent` supply complete flatness and descent for p-complete ordinary rings with bounded p-power torsion. |
+
+Convention: `M` is J-completely flat precisely when `M ⊗_B^L B/J` is a flat
+`B/J`-module in degree zero; complete faithful flatness additionally means that this
+reduction is faithfully flat. Neither predicate includes completeness. The equivalent
+J-power-torsion-module criterion is the supplier's §1.7. A completed tensor is
+`Λ_J(M ⊗_B^L N)`. Realizations use direct-sum totalization of simplicial module models,
+while Čech descent uses product totalization of cosimplicial complexes; completion is
+applied to the resulting derived objects. Retain simplicial algebra models and their
+multiplication through `simplicialRingCompletion`, rather than treating normalization as
+a strictly commutative differential graded algebra. For discrete modules, ordinary
+completion agrees with derived completion when the higher Koszul homology towers are
+pro-zero; in particular a principal ideal and bounded power torsion on the module suffice
+([BS22] §1.2, pp. 10–12, footnotes 5–7;
+[Stacks, tag 0920](https://stacks.math.columbia.edu/tag/0920)).
+
+The additional targets below use these same carriers and units.
+
+- `semiperfectoidFiniteIdealDescent`: for a commutative ring `B`, finite
+  `J = (f₁, …, f_r)` and a J-completely faithfully flat map `E• → F•` of simplicial
+  commutative B-algebras, prove effective descent for derived J-complete modules along
+  its derived J-completed Čech nerve. Thus the complete module category over `E•` is
+  equivalent to the limit of those over that nerve, and a complete module is recovered
+  by product totalization of its completed base changes. Complete flatness is measured
+  after reduction to `π₀(E•)/Jπ₀(E•)`. This is strictly more general than the supplier's
+  §1.9: it permits arbitrary finite ideals and simplicial bases without a bounded-torsion
+  hypothesis. Supply the derived module models over simplicial bases and their coherent
+  descent data, using simplicial resolutions and quasi-isomorphisms on underlying module
+  complexes. Build the adapter to compatible systems over the simplicial Koszul quotients
+  on `(f₁^n, …, f_r^n)` with the supplier's module-limit models. Prove simplicial
+  faithfully flat descent at each Koszul level, then take the inverse limit. On §1.9's domain,
+  identify this equivalence and its augmentation with `DerivedDeRham.completeFlatDescent`
+  ([BS22] §1.2, footnote 7, p. 12). Composition, completed base change and completed
+  filtered colimits preserve complete flatness; complete faithful flatness is preserved
+  for diagrams of covers over a fixed base, as detected by faithfully flat reduction.
+- `semiperfectoidCompletionSurjectivity`: for a p-completely faithfully flat map of
+  ordinary rings `B → C`, and a map `M → N` of discrete derived p-complete B-modules,
+  surjectivity on `H⁰` after derived p-completed base change implies surjectivity of
+  `M → N`. Use the supplier's derived Nakayama and complete-flat reduction on the
+  cokernel. Degree-zero completion is right exact on connective complexes for every
+  finite ideal: completing a triangle of connective complexes gives the right exact
+  sequence on `H⁰` ([BS22] §1.2 and proof of Theorem 7.4, p. 62;
+  [Stacks, tag 0G1U](https://stacks.math.columbia.edu/tag/0G1U) and
+  [tag 0AAJ](https://stacks.math.columbia.edu/tag/0AAJ)).
+- `semiperfectoidCompletionTransfinite`: for a fixed finite ideal of `B`, derived
+  completion commutes with `ω₁`-filtered colimits in `D(B)` and in simplicial B-algebras,
+  compatibly with `completionUnit` and `ringCompletionUnit`. The finite-generator Koszul
+  tower has countably many levels; `ω₁`-filtered colimits commute with the countable
+  products in its derived-limit model. Apply this to `(p,d)` in P4.15.2 and `(p)` in
+  P4.15.4 ([BS22] proof of Proposition 7.2, p. 55).
+
+*Needs:* DerivedDeRhamCohomology §§0.1–0.4, 0.14 and 1.1–1.9 as listed above;
+Mathlib `DerivedCategory`, `CategoryTheory.SimplicialObject` and `TensorProduct`.
+The simplicial module and faithfully flat descent adapters are included in
+`semiperfectoidFiniteIdealDescent` here, as in [BS22] §1.2, footnote 7. The supplier's
+generic prefix has no input from P4.15, P6 or PerfectoidTowers; its perfectoid applications
+consume only the early P1 interfaces. P4.15.2–P4.15.5 consume this subsection, with no P5
+input to the transfinite constructions.
 
 **Checks.**
 
@@ -10380,6 +10444,21 @@ and ordinary faithfully flat descent; the ordinary cotangent supplier of P0.19.
 - The derived p-completion of `ℚ` is zero; `ℚ` is not itself derived p-complete.
 - Over `ℤ_p`, the derived tensor of `𝔽_p` with `𝔽_p` has nonzero first Tor,
   so `ℤ_p → 𝔽_p` is not p-completely flat despite its flat ordinary reduction.
+- Finite-ideal descent along the identity of the simplicial algebra
+  `𝔽_p ⊗^L_ℤ 𝔽_p`, with `J = (p)`, retains its nonzero `H^−1`; descent does not
+  replace a simplicial base by its degree-zero ring.
+- For `J = (p,d)` and `B = ℤ_p[[d]]`, descent along `B → B × B` recovers every
+  complete B-module with its canonical augmentation, using both ideal generators.
+- For nonzero derived p-complete `M`, derived p-completed base change to `B[1/p]`
+  kills `M`, so it cannot reflect surjectivity of `0 → M`; its zero reduction is not
+  faithfully flat when `B/p ≠ 0`.
+- Degree-zero completion sends the surjection `ℤ → ℤ/p` to `ℤ_p → ℤ/p`.
+- A constant `ω₁`-filtered diagram has the identity comparison with completion.
+- In the `ω₁`-filtered union of countable subsets `S` of `ω₁`, the union of the
+  p-completions of `⨁_{s∈S} ℤ` is the p-completion of `⨁_{s<ω₁} ℤ`: every completed
+  element has countable support.
+- Countable filtered colimits alone fail: the union of `ℤ_p^n` under zero-extension
+  is not p-complete; the compatible reductions of `(1,p,p²,…)` are missing.
 
 #### P4.15.2 universal prisms and perfection
 
@@ -10951,7 +11030,10 @@ P4.16 uses R0.8 (`AdicSpace.IsClosedImmersion`) and AdicSpaces 0.6 (the open map
 uses R0.6 and R0.10 (`AdicSpace.IsSeparated`); P4.20 uses R0.10
 (`AdicSpace.IsSeparated.iff_valuativeCriterion`); the carrier comparisons of P4.2, P4.11, P4.16 and
 P4.19 use AdicEtaleGeometry A1.16 (`YonedaAdicSpace.ofAdicSpace` and its point and open-immersion
-comparisons). None of these cites this roadmap. PerfectoidTowers P8.14–P8.15 are not inputs:
+comparisons). P4.15.1 consumes DerivedDeRhamCohomology §§0.1–0.4, 0.14 and 1.1–1.9
+under the imported APIs listed there; P4.15.2–P4.15.5 use its finite-ideal descent and
+transfinite adapters. That generic supplier prefix uses no P4.15, P6 or tower target.
+PerfectoidTowers P8.14–P8.15 are not inputs:
 [P8](../PerfectoidTowers/README.md#layer-p8-finite-quotients-and-closed-perfectoid-loci-in-towers) owns the global Zariski closed notion (P8.14) and analytic separatedness (P8.15),
 and DiamondsAndVStacks D0.17 and D3 consume the morphism properties here. Tau Ceti `TauCeti.Huber.Pair`, `TauCeti.Huber.Pair.quotient`,
 `TauCeti.Huber.Pair.quotient_plus`, `TauCeti.Huber.Pair.Hom.spaComap`,

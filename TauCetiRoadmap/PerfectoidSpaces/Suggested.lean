@@ -32,6 +32,10 @@ universe u v
 
 /-! ## Layer P0: almost mathematics over a basic setup -/
 
+-- P0.19: the standard resolution of `ℤ → ℤ/2` has torsion-free degree zero.
+-- Every additive candidate for an inverse is zero; its extra degeneracy is set-level.
+example {σ : Type u} (f : ZMod 2 →+ MvPolynomial σ ℤ) : f = 0 := sorry
+
 namespace Almost
 
 /-- A *basic setup* `(V, m)`: an ideal `m` of `V` with `m * m = m` such that `m̃ = m ⊗_V m` is
@@ -868,7 +872,9 @@ variable (p : ℕ) [Fact p.Prime] {R : Type u} [CommRing R] [UniformSpace R] [Is
 /-- The universal perfectoid quotient of `R` killing `I`: a surjection onto a perfectoid Tate ring,
 initial among continuous maps to perfectoid Tate rings that kill `I` (ECD Theorem 5.8;
 BS22 Theorem 7.4 and Remark 7.5). Its integral construction and surjectivity use the
-universal-prism, Hodge–Tate, flat root-cover and rooted-quotient targets of README P4.15.1–P4.15.5. -/
+completion and complete-flatness APIs of DerivedDeRhamCohomology §§0.1–0.4, 0.14 and
+1.1–1.9, with the finite-ideal descent and transfinite adapters of README P4.15.1, and the
+universal-prism, Hodge–Tate, flat root-cover and rooted-quotient targets of P4.15.2–P4.15.5. -/
 theorem exists_surjective_perfectoidQuotient [IsPerfectoidTateRing p R] (I : Ideal R) :
     ∃ (S : Type u) (_ : CommRing S) (_ : UniformSpace S) (_ : IsUniformAddGroup S)
       (_ : IsTopologicalRing S) (_ : IsTateRing S) (_ : CompleteSpace S) (_ : T2Space S)
