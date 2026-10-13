@@ -3630,9 +3630,29 @@ automorphism `σ` of `W_n` of the form `Y_i ↦ Y_i + Y_n^{c_i}` (`i < n`), `Y_n
 `m > s` is what makes the degree unique. At a fixed radius the division and preparation are Tau
 Ceti's: `TauCeti.PowerSeries.IsDistinguished` with `IsDistinguished.existsUnique_mul_add_eq` and
 `IsDistinguished.existsUnique_isUnit_isMonicOfDegree_mul_eq` over any complete ultrametric
-`NormedCommRing` with `NormMulClass`, in particular over `T_{n-1}(ρ)`, and `restrictedOptionEquiv`
-iterates the variables at unit radius; what (i)–(iii) add is that distinguishedness of `g ∈ W_n`
-persists to some radius `ρ > 1`, the iteration at radius `ρ`, and the automorphism `σ`. Mathlib's
+`NormedCommRing` with `NormMulClass`, at any radius `c > 0` in the distinguished variable,
+whatever the polyradius of the coefficient ring; `restrictedOptionEquiv` iterates the variables at
+unit radius. Distinguishedness does not persist to a common radius `ρ > 1` (the `Y + X²` Check
+below), so the passage to `W_n` uses unequal radii. Prove further: (iv) (radius selection) if
+`g ∈ W_n` is `Y_n`-distinguished of degree `s` and `f ∈ W_n`, there are a polyradius
+`r' = (r_1, …, r_{n-1})` and a radius `r_n`, all `> 1`, such that `f` and `g` are restricted at
+`(r', r_n)`, `g_s` is a unit of `T_{n-1}(r')`, and `g`, as a series in `Y_n` over `T_{n-1}(r')`
+with the Gauss norm `|·|_{r'}`, is distinguished of degree `s` at radius `r_n`:
+`|g_m|_{r'} r_n^m ≤ |g_s|_{r'} r_n^s` for `m < s`, strictly for `m > s`. For the proof, by the unit criterion of
+*overconvergent-tate-algebra* `g_s = 1 + h` with `|h| < 1` after scaling `g` by a constant; choose
+`r_n > 1` inside the convergence radii of `f` and `g` with `|h|_{r_n} < 1` and
+`|g_m|_{r_n} r_n^{m−s} < 1` for all `m > s` (Gauss norms at the constant radius `r_n`; the Gauss
+norm of a series restricted at some radius `> 1` is continuous in the radius at `1`, and both
+quantities are `< 1` there), then `1 < r_i ≤ r_n` with `|g_m|_{r'} ≤ r_n^{s−m}` for the finitely
+many `m < s`. (v) (iteration) `T_n(r', r_n) ≅ T_{n-1}(r')⟨Y_n/r_n⟩`, isometric for the Gauss norms,
+the polyradius form of `restrictedOptionEquiv`. Division and preparation over `T_{n-1}(r')`
+(complete, with multiplicative Gauss norm, RigidAnalyticGeometry §1.5.1) at radius `r_n` then give
+`q`, `e`, `e^{-1}` restricted at `(r', r_n)` and `r`, `ω` with coefficients in `T_{n-1}(r')`, hence
+all restricted at the common radius `min_i r_i > 1` and so in `W_n`, resp. `W_{n-1}[Y_n]`;
+uniqueness in (i)–(ii), and independence of the chosen radii, follow by comparison with the
+unit-radius division and preparation over `T_{n-1}` through `restrictedOptionEquiv`, since
+`W_n ⊆ T_n`. What (i)–(v) add to the fixed-radius theorems is this radius selection, the
+polyradius iteration, the transport to `W_n`, and the automorphism `σ`. Mathlib's
 `PowerSeries.exists_isWeierstrassDivision` is the complete-local-ring form and does not apply.
 *Needs:* *overconvergent-tate-algebra*; RigidAnalyticGeometry §1.5.1–1.5.2; Tau Ceti
 `TauCeti.PowerSeries.IsDistinguished`, `IsDistinguished.existsUnique_mul_add_eq`,
@@ -3645,6 +3665,14 @@ persists to some radius `ρ > 1`, the iteration at radius `ρ`, and the automorp
 - With the distinguished variable placed at index `0`, as a formal statement does:
   for `Y + X²`, coefficients in `Y` are `g_1 = 1` and `g_0 = X²`. This fixes the permutation
   from the prose convention, which puts `Y` last.
+- Equal radii fail: `g = Y + X² ∈ W_2` is `Y`-distinguished of degree `1` at unit radius, but at
+  every common radius `ρ > 1`, `|g_0|_ρ = |X²|_ρ = ρ² > ρ = |g_1|_ρ ρ`, so there `g` is
+  distinguished of degree `0`, with `g_0 = X²` not a unit of `T_1(ρ)`: no common radius `> 1`
+  carries the fixed-radius division by `g`.
+- Unequal radii work: for `1 < r_X` and `r_X² ≤ r_Y`, `|X²|_{r_X} = r_X² ≤ r_Y = |g_1|_{r_X} r_Y`, so
+  `Y + X²` is distinguished of degree `1` at radius `r_Y` over `T_1(r_X)`, with leading
+  coefficient `1`; dividing `f ∈ W_2` by it gives the remainder `f(X, −X²) ∈ W_1` and a quotient in
+  `W_2`.
 - The zero series is not distinguished of any degree.
 - `1` is distinguished of degree zero.
 - Over `ℚ_p`, `Y+p` has degree one, `1+pY` has degree zero,
@@ -4438,11 +4466,26 @@ them: weakly complete finitely generated `O_K`-algebras, flat over `O_K`, with s
 identifications to commute with the residue map from `O_K`. Then every `k`-algebra homomorphism `f : A_0 → C_0` lifts to an `O_K`-algebra
 homomorphism `F : A → C` (`F mod π = f`). More generally, every `O_K`-algebra homomorphism
 `F̂ : A → Ĉ` into the `π`-adic completion can be approximated: for every `m` there is `F : A → C`
-with `F ≡ F̂ mod π^m` (vdP §2, (2.4.4) (ii), p. 37). The lifts modulo `π^m`, level by level, are
-Mathlib's `Algebra.FormallySmooth.lift` and `Algebra.FormallySmooth.comp_surjective` applied to the
-smooth `A_0`; the passage from them to a lift into the weakly complete `C`, rather than into `Ĉ`,
-is what this target adds. *Needs:* *weak-completion-universal-property*;
-*weak-completion-presentation*; *integral-overconvergent-tate-algebra*; Mathlib
+with `F ≡ F̂ mod π^m` (vdP §2, (2.4.4) (ii), p. 37). The lifts modulo `π^m` are made over the
+truncated bases `O_m = O_K/π^m`, not over `k`: the rings `C/π^mC` are in general not `k`-algebras
+(the `ℤ_p` Check below), so formal smoothness of `A_0` over `k` does not apply to them. For
+`m ≥ 1` write `A_m = A/π^mA` and `C_m = C/π^mC`. Prove that `A_m` is flat over `O_m` (base change of
+the flat `A`) and finitely presented (a quotient of a polynomial ring in finitely many variables over the noetherian
+`O_m`),
+with fibre `k ⊗_{O_m} A_m ≅ A_0` at the only prime `(π)` of `O_m`, compatibly with the scalars
+from `k`; Mathlib's `Algebra.Smooth.of_formallySmooth_fiber` then gives `Algebra.Smooth O_m A_m`
+(vdP p. 37; Stacks Tag 031L, Lem. 10.138.12, gives the same by induction on `m` through the
+square-zero thickenings `O_{m+1} → O_m`). Starting from `φ_1 = f`
+through the identifications `A_1 ≅ A_0` and `C_1 ≅ C_0`, define `φ_{m+1} : A_{m+1} → C_{m+1}` as
+the `O_{m+1}`-algebra lift, by `Algebra.FormallySmooth.lift` for `A_{m+1}` over `O_{m+1}`, of the
+reduction `A_{m+1} → A_m` followed by `φ_m`, along `C_{m+1} → C_m`, whose kernel `π^mC_{m+1}` has
+square zero for `m ≥ 1` (`C_m` is an `O_{m+1}`-algebra through `O_{m+1} → O_m`); prove that
+`φ_{m+1}` reduces to `φ_m` modulo `π^m`, so that the `φ_m` form a compatible system with limit an
+`O_K`-algebra homomorphism `F̂ : A → Ĉ` reducing to `f`. The passage from `F̂` to a lift into the
+weakly complete `C`, rather than into `Ĉ`, is the approximation step (vdP (2.4.3), p. 37), and
+both it and the construction of the `φ_m` are what this target adds. *Needs:*
+*weak-completion-universal-property*; *weak-completion-presentation*;
+*integral-overconvergent-tate-algebra*; Mathlib `Algebra.Smooth.of_formallySmooth_fiber`,
 `Algebra.FormallySmooth.lift`, `Algebra.FormallySmooth.comp_surjective`.
 
 **Checks.**
@@ -4450,6 +4493,12 @@ is what this target adds. *Needs:* *weak-completion-universal-property*;
 - `O_K` lifts `k`, with its canonical scalar-compatible residue map.
 - `O_K⟨X⟩†` lifts `k[X]`.
 - `k` itself does not lift `k`: it has nonzero `π`-torsion.
+- Base and reduction square: for `O_K = ℤ_p`, `A = ℤ_p⟨T⟩†`, `A_0 = 𝔽_p[T]`, `C = ℤ_p` and
+  `f(T) = ā`, the ring `C_2 = ℤ/p²` has no `𝔽_p`-algebra structure (`p·1 ≠ 0`), so formal
+  smoothness of `𝔽_p[T]` over `𝔽_p` cannot produce `φ_2`. Instead `A_2 = (ℤ/p²)[T]` is smooth over
+  `O_2 = ℤ/p²`, and the `O_2`-algebra lifts of the reduction `A_2 → A_1 = 𝔽_p[T]` followed by `f`
+  along `ℤ/p² → 𝔽_p` are
+  `T ↦ a mod p²` for the lifts `a ∈ ℤ_p` of `ā`, each reducing to `f`.
 - Negative control: for a base lift `O` of
   `k ≅ 𝔽₄`, take the residue identification of the lift. It commutes with scalars;
   composing it with Frobenius does not,
@@ -6099,12 +6148,17 @@ with the strict normal crossings divisor `D'`); only this dagger-specific transf
 The intrinsic characterisations — every point has an affinoid neighbourhood `Sp(A)` with elements
 `x_1, …, x_n ∈ A` such that `dx_1, …, dx_n` is a basis of `Ω^1_A` and `D ∩ Sp(A) = V(x_1⋯x_r)` for
 some `r ≤ n` (as a closed subspace); at every point `x ∈ D` the local ring `O_{X,x}` is regular with
-a regular system of parameters `x_1..x_d` such that `D` is cut out by `x_1⋯x_r` — are those of
+a regular system of parameters `x_1..x_d` such that `D` is cut out by `x_1⋯x_r` near `x` and, on a
+neighbourhood of `x`, every partial intersection `V(x_{i_1}, …, x_{i_s})`, `i_1 < … < i_s ≤ r`, is
+smooth over `K` of pure codimension `s` — are those of
 *smooth-pair* (layer R4) for `(X', D')`, transported to `X` along *dagger-to-rigid-functor*, which
-identifies the affinoid charts, the differentials and the local rings. The pair `(X, D)` is then a
+identifies the affinoid charts, the differentials and the local rings. The smoothness clause is
+relative to `K` and is part of the local-ring criterion: Stacks' regular-parameter definition is
+absolute, and over an imperfect `K` a regular parameter can cut out a divisor that is not smooth
+over `K` (the inseparable Check below). The pair `(X, D)` is then a
 smooth dagger pair; `D` is reduced and an effective Cartier divisor, and locally on an admissible
-affinoid covering `D = V(x_1) ∪ … ∪ V(x_r)` with smooth pieces `V(x_i)` whose partial intersections
-are smooth of the expected codimension. As in *smooth-pair* no condition is imposed on the global
+affinoid covering `D = V(x_1) ∪ … ∪ V(x_r)` with pieces `V(x_i)` smooth over `K` whose partial
+intersections are smooth over `K` of the expected codimension. As in *smooth-pair* no condition is imposed on the global
 irreducible components: they need not be smooth (e.g. for residue characteristic `≠ 2` the analytified
 nodal cubic `V(y^2 − x^2(1 + x)) ⊆ Sp(K⟨x, y⟩†)` is a strict normal crossings divisor in this sense —
 at the origin it is `V((y − x√(1+x))(y + x√(1+x)))` with `√(1+x)` analytic on `|x| < 1` — yet it is
@@ -6114,7 +6168,11 @@ subspaces of a smooth dagger space, through the associated rigid pair, the compo
 and an effective Cartier divisor) and the complement `j : X − D → X`; prove
 that `D` is SNC iff `(X', D')` is a smooth pair, the existence of
 local coordinates `x_1, …, x_n ∈ O(Sp A)` with `dx_i` a basis of `Ω^1_A` and `D = V(x_1⋯x_r)` locally,
-that in a chart the intersections `V(x_{i_1}, …, x_{i_s})` of branches are smooth of
+that `D` is SNC iff the local-ring criterion above, with its smoothness clause over `K`, holds at
+every point of `D` (for the converse, the conormal sequence of the stratum `V(x_1, …, x_r)`, smooth
+over `K`, is split exact, so `dx_1, …, dx_r` extend to a basis of `Ω^1` at the point; Stacks Tag
+06A6, Lem. 10.138.10, in the algebraic case),
+that in a chart the intersections `V(x_{i_1}, …, x_{i_s})` of branches are smooth over `K` of
 pure codimension `s` and the remaining branches restrict to a strict normal crossings divisor on
 them, that `I_D` is invertible, locally generated by `x_1⋯x_r`,
 that for an SNC divisor `D` on a smooth `K`-scheme `X`, `D^†` is SNC on
@@ -6132,6 +6190,13 @@ and polydiscs). *Needs:* *dagger-smooth-space*; *dagger-coherent-module*; *dagge
 - Degenerate: `D = ∅` is an SNC divisor on every smooth `X`.
 - Non-example: `V(x_2^2 − x_1^3)` (a cusp), `V(x_1x_2(x_1 − x_2))` (three
   concurrent lines) and `V(x_1^2)` (non-reduced) are not SNC divisors on the dagger bidisc.
+- Non-example (imperfect `K`): for `K = 𝔽_p((t))` and `D = V(T^p − t) ⊆ Sp(K⟨T⟩†)`, `D` is the
+  single point with residue field `K(t^{1/p})` (`|t^{1/p}| < 1`), whose maximal ideal is generated
+  by `T^p − t`; the local ring there is a discrete valuation ring with uniformiser `T^p − t`, so `D`
+  is cut out by a regular system of parameters. Yet `D ≅ Sp K(t^{1/p})` is not smooth over `K` (over
+  `K(t^{1/p})` its equation is `(T − t^{1/p})^p`) and `d(T^p − t) = 0` in `Ω^1`, so `D` is not SNC;
+  the regular-parameter condition without the smoothness clause would accept it. This is the
+  dagger form of the Lean `example` on `V(T^p − a) ⊆ 𝔸¹`.
 - Compatibility: `D ⊆ X` is SNC iff `D' ⊆ X'` is an SNC divisor of the
   smooth rigid space `X'` (see *smooth-pair*).
 
@@ -6142,8 +6207,8 @@ divisor (see *dagger-snc-divisor*), `j : X − D → X`. The sheaf `Ω^1_X(log D
 `dx_1/x_1, …, dx_r/x_r, dx_{r+1}, …, dx_n`; it is locally free of rank `n` and independent of the
 coordinates. `Ω^p_X(log D) := ⋀^p Ω^1_X(log D)`, and the exterior derivative of `j_*Ω^•_{X−D}`
 preserves these subsheaves, giving the logarithmic de Rham complex `Ω^•_X(log D)` with
-`Ω^•_X ⊆ Ω^•_X(log D) ⊆ j_*Ω^•_{X−D}`. For a smooth component `D_1` of `D` (a smooth closed dagger
-subspace which is a union of irreducible components of `D`) with `D = D_1 + D'` — so that `D'|_{D_1}`
+`Ω^•_X ⊆ Ω^•_X(log D) ⊆ j_*Ω^•_{X−D}`. For a smooth component `D_1` of `D` (a closed dagger
+subspace smooth over `K` which is a union of irreducible components of `D`) with `D = D_1 + D'` — so that `D'|_{D_1}`
 is a strict normal crossings divisor on `D_1` — there is a residue map `Res_{D_1}` and an exact sequence
 of complexes `0 → Ω^•_X(log D') → Ω^•_X(log D) → ι_*Ω^•_{D_1}(log D'|_{D_1})[−1] → 0`. Its
 hypercohomology is `H^i_dR(X, log D) := H^i(X, Ω^•_X(log D))`, and
