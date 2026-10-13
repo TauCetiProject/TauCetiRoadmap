@@ -4925,8 +4925,8 @@ of an affinoid `T` with a closed immersion into a polydisc is Stein (GK00 §2, 2
   not partially proper over `Sp(K)`: `D ⊂⊂ D` fails (no `ε < 1` with `D ⊆ {|X| ≤ ε}`);
   correspondingly the rigid closed disc is not partially proper (Vezzani A.2).
 - Compatibility: the dagger analytification of a
-  finite type `K`-scheme is partially proper, and its underlying rigid space is partially proper in
-  Huber's sense.
+  separated finite type `K`-scheme is partially proper, and its underlying rigid space is partially
+  proper in Huber's sense.
 
 ### F1.8 the dagger–rigid comparison
 
@@ -4996,7 +4996,7 @@ whereas for the closed disc (not partially proper) `Γ(D, O†) = K⟨X⟩† �
 restricts to an equivalence between the category of `K`-dagger spaces partially proper over `Sp(K)`
 (see *dagger-partially-proper*) and the category of partially proper rigid spaces over `K`. In particular
 every partially proper rigid space (e.g. every rigid space without boundary, every Stein space, the
-analytification of every finite type `K`-scheme) carries a dagger structure, unique up to unique
+analytification of every separated finite type `K`-scheme) carries a dagger structure, unique up to unique
 isomorphism (GK00 §2, Thm 2.27, p. 16, with essential surjectivity from its proof; Vezzani §2,
 Ex. 2.23). Thus the rigid open unit disc and the rigid affine line `A^{1,an}` have unique dagger
 structures, the open dagger disc `D^0` and the dagger affine line, while the rigid closed disc is not
@@ -5004,6 +5004,13 @@ partially proper and its dagger structures are unique only up to non-canonical i
 (see *dagger-approximation*). *Needs:* *partially-proper-coherent-equivalence*; *dagger-partially-proper*;
 *dagger-to-rigid-functor*; *overconvergent-sections-formula*; *partially-proper-morphism*;
 *rigid-analytic-space*.
+
+**Checks.**
+
+- Degenerate: the equivalence identifies the dagger point `Sp(K)` with the rigid point `Sp(K)`.
+- Computation: the rigid open unit disc has the unique partially proper dagger structure `D^0`.
+- Non-example: the rigid closed unit disc is not an object of the partially proper subcategory;
+  the equivalence does not assert uniqueness of its dagger structure.
 
 **Coherent cohomology of partially proper dagger spaces equals that of the associated rigid space.**
 (*dagger-coherent-cohomology-comparison*) Let `X` be a partially proper, quasi-separated `K`-dagger
@@ -5014,24 +5021,26 @@ Theorem B on the rigid side, *quasi-stein-theorems-a-b*). For `X = D^0` the open
 *dagger-coherent-theorem-b*; *overconvergent-sections-formula*; *dagger-partially-proper*;
 *quasi-stein-theorems-a-b*.
 
-**Dagger analytification of schemes of finite type.** (*dagger-analytification*) Let `K` be a field
+**Dagger analytification of separated schemes of finite type.** (*dagger-analytification*) Let `K` be a field
 complete for a nontrivial nonarchimedean absolute value of rank one (`NontriviallyNormedField K`,
-`IsUltrametricDist K`, `CompleteSpace K`) and `X` a `K`-scheme of finite type. Its dagger
+`IsUltrametricDist K`, `CompleteSpace K`) and `X` a separated `K`-scheme of finite type. Its dagger
 analytification `X^†` is the partially proper `K`-dagger space with `(X^†)' = X^an`, the rigid
 analytification of *rigid-analytification*, which exists and is unique up to unique isomorphism by
 *partially-proper-dagger-rigid-equivalence* because `X^an` is partially proper. `X ↦ X^†` is a functor,
 compatible with open and closed immersions and fibre products; for `X` affine with presentation
 `K[X_1..X_n]/(f)`, `X^† = ⋃_{ρ ∈ Γ*} Sp(K⟨ρ^{-1}X⟩†/(f))`. For `X` proper, coherent cohomology
 satisfies GAGA: `H^i(X, F) ≅ H^i(X^†, F^†)` for coherent `F`. Define
-the dagger analytification `X ↦ X^†` from finite type `K`-schemes (Mathlib `AlgebraicGeometry.Scheme` over
-`Spec K`) to dagger spaces; prove that `(X^†)' ≅ X^an` naturally in `X`,
-that morphisms of schemes induce morphisms of dagger analytifications, compatibly with identities
-and composition, that `X^† → Sp(K)` is partially proper,
+the dagger analytification `X ↦ X^†` from separated finite type `K`-schemes
+(Mathlib `AlgebraicGeometry.Scheme` over `Spec K`) to dagger spaces. Its rigid counterpart is the restriction of Part II's
+*rigid-analytification* to this domain. Prove that `(X^†)' ≅ X^an` naturally in `X`,
+that morphisms between separated finite type `K`-schemes induce morphisms of dagger
+analytifications, compatibly with identities and composition, that `X^† → Sp(K)` is partially proper,
 that `(A^n)^† = ⋃_{ρ∈Γ*} Sp(K⟨ρ^{-1}X_1, …, ρ^{-1}X_n⟩†)`, with
 `Γ((A^n)^†, O†)` the ring of entire series, that
-`(X ×_S Y)^† ≅ X^† ×_{S^†} Y^†`, that open (closed) immersions of
-schemes go to open (closed) immersions of dagger spaces, and GAGA (for `X` proper,
-`F ↦ F^†` is an equivalence of coherent sheaves and `H^i(X, F) ≅ H^i(X^†, F^†)`) (GK00 §3, 3.3, p. 18
+`(X ×_S Y)^† ≅ X^† ×_{S^†} Y^†` for a diagram `X → S ← Y` of separated finite type `K`-schemes,
+that open (closed) immersions between such schemes go to open (closed) immersions of dagger spaces,
+and GAGA (for `X` proper, `F ↦ F^†` is an equivalence of coherent sheaves and
+`H^i(X, F) ≅ H^i(X^†, F^†)`) (GK00 §3, 3.3, p. 18
 (definition, construction through the equivalence 2.27, and GAGA); GK02 §0, p. 3). *Needs:*
 *partially-proper-dagger-rigid-equivalence*; *dagger-coherent-cohomology-comparison*;
 *dagger-partially-proper*; *rigid-analytification*; *rigid-analytic-space*; *proper-gaga*; Mathlib
@@ -5045,6 +5054,12 @@ schemes go to open (closed) immersions of dagger spaces, and GAGA (for `X` prope
   extension `L/K`.
 - Non-example: `(A^1)^†` is not an affinoid dagger space (it is
   not quasi-compact), although `A^1` is affine.
+- Negative control: over `K = ℚ_p`, the smooth finite type scheme
+  `X = A^1_K ⨿_{G_m,K} A^1_K` with doubled origin is not separated. In `X^an`, the two closed
+  unit-disc neighbourhoods of the origins meet in the punctured closed disc, which is not
+  quasi-compact: its covering by `|p|^n ≤ |T| ≤ 1`, `n ≥ 1`, has no finite subcover.
+  Thus `X^an` is not quasi-separated and cannot be the completion of a partially proper dagger
+  space in these categories (Conrad-IC Appendix A.1, p. 32).
 - Compatibility: the underlying rigid space of `(A^1)^†` is the rigid
   analytic affine line `A^{1,an}` of *rigid-analytification*.
 - Characterisation: `H^1((P^1)^†, O(−2))` is one-dimensional, as for the
@@ -6587,14 +6602,16 @@ the disc does not have pure dimension zero.
 The unit ideal is an SNC divisor; so are the two
 coordinate axes; multiplicity two is rejected.
 
-Dagger analytification is a functor, naturally isomorphic to rigid analytification after
-completion, with partially proper image, so that it lies in the category where
+Dagger analytification on separated finite type `K`-schemes is a functor, naturally isomorphic
+after completion to the restriction of Part II's rigid analytification to those schemes,
+with partially proper image, so that it lies in the category where
 completion is fully faithful. These properties characterize the functor through
 GK00 Theorem 2.27; GK00 §3, 3.3, p. 18 constructs it this way.
 
 **Checks.** The analytification of `Spec K` is `Sp K`; that of the empty scheme has
 no points; no affinoid model exists for
-the whole affine line.
+the whole affine line. The smooth affine line with doubled origin is excluded: its rigid
+analytification is not quasi-separated, as in the negative Check of *dagger-analytification*.
 
 The terms and the differential of the de Rham complex are specified on every dagger affinoid
 open. De Rham cohomology is hypercohomology,
@@ -6648,9 +6665,12 @@ Thus the open argument denotes the complement of the support.
 one-forms on a disc. Rigid cohomology with support vanishes for the empty space and for the
 zero sheaf, and is nonzero in degree zero for a point. De Rham cohomology of the point is `K`
 in degree
-zero, that of the empty space vanishes, and that of the disc vanishes in degree one in
-characteristic zero. The map from cohomology with support to ordinary cohomology is bijective
-for full support, zero for empty support, and
+zero, and that of the empty space vanishes. On the closed rigid unit disc over `K = ℚ_p`,
+`ω = (Σ_{r≥1} p^r T^{p^r−1}) dT` gives a nonzero class in `H^1_dR`: its coefficients tend to zero,
+but every formal primitive is `c + Σ_{r≥1} T^{p^r}`, whose coefficients do not tend to zero,
+so no primitive belongs to `ℚ_p⟨T⟩`. The closed dagger disc has `H^1_dR = 0`, as in F1.9
+(*dagger-polyannulus-de-rham-cohomology*). The map from cohomology with support to ordinary
+cohomology is bijective for full support, zero for empty support, and
 nonzero in degree zero for a point.
 
 For a fringe presentation `P` and radius `ρ`, the fringe affinoid retains the
