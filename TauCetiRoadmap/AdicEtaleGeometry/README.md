@@ -627,7 +627,7 @@ forms as well.
 | pro-etale-maps-open | `ProEtale.IsProEtale.isOpenMap` | Noetherian base and pro-étale morphism. | ProMap |
 | pro-etale-surjective-etale-descent | `ProEtale.surjective_etale_descent`, `ProEtale.surjective_finiteEtale_descent` | Noetherian base, pro-étale target and surjective étale or finite étale map; descending square is a pullback. | ProMap, Tower |
 | pro-etale-composition | `ProEtale.proEtale_comp` | Noetherian base; both arrows and the target over the final object are pro-étale. | ProMap |
-| pro-etale-finite-limits | `ProEtaleSite.hasFiniteLimits`, `ProEtaleSite.forget_preservesFiniteLimits` | Noetherian base; finite limits agree with those in the pro-category. | Pullback, ProCover |
+| pro-etale-finite-limits | `ProEtaleSite.hasFiniteLimits`, `ProEtaleSite.forget_preservesPullback_of_isProEtale` | Noetherian base; finite limits exist in the site. The forgetful functor to the pro-category preserves the final object and pullbacks along pro-étale arrows, not equalizers; an equalizer is the subobject on the locus where the two maps agree. | Pullback, ProCover |
 | etale-locally-finitely-many-components | `etale_locallyConnected`, `etale_finite_components` | Noetherian base; quasi-compact source for finite components. | QC |
 | finite-etale-tower | `ProEtale.finiteSurjPullbacks`, `ProEtale.IsFetTower`, `ProEtale.FetTower`, `ProEtale.isFetTower_iff_nonempty` | Opposite transfinite compositions of pullbacks of finite étale surjections from `X_ét`; continuous at limit stages. | Tower |
 | finite-etale-tower-is-pro-etale | `ProEtale.IsFetTower.isProEtale`, `ProEtale.tower_finiteStagePresentation` | Noetherian base; tower has finite étale surjective stages over its target. | Tower |
@@ -641,13 +641,13 @@ forms as well.
 | proetale-slice-open-subspace | `ProEtaleSite.sliceEquiv_open` | The étale structure map is an open immersion; factorisation is equivalent to image containment in the open. | ProMap |
 | profinite-set-objects | `ProEtaleSite.profiniteObj`, `ProEtaleSite.profiniteObj.proj`, `ProEtaleSite.profiniteObj.space`, `ProEtaleSite.profiniteObj.homEquiv` | Noetherian base; all profinite sets. Point map is first projection; Hom formula requires quasi-compact test object. Nonempty gives a split covering; the tower assertion also requires metrizability. | ProfiniteProduct |
 | profinite-galois-cover-is-covering | `ProEtaleSite.GaloisPresentation`, `ProEtaleSite.galoisCover_isFetTower`, `ProEtaleSite.galoisCover_torsorIso`, `ProEtaleSite.galoisCover_descent` | Profinite group, compatible finite quotient torsors, inverse-limit object. `limitAction_stage` and both `torsorIso_fst` and `torsorIso_snd` fix the torsor; section restriction fixes descent. | GaloisCover |
-| pro-finite-etale-site-corrected | `ProFiniteEtaleSite`, `ProFiniteEtaleSite.pretopology`, `ProFiniteEtaleSite.topology` | Noetherian base. Pro-category of `smallFiniteEtale`, same tower-then-étale covering equation. | FiniteCover, ProCover |
+| pro-finite-etale-site-corrected | `ProFiniteEtaleSite`, `ProFiniteEtaleSite.pretopology`, `ProFiniteEtaleSite.topology`, `ProFiniteEtaleSite.isProEtale_of_finite_components` | Noetherian base. Pro-category of `smallFiniteEtale`, same tower-then-étale covering equation; its objects are pro-étale over the base when the base has finitely many connected components. | FiniteCover, ProCover |
 | profinite-etale-galois-sets | `ProFiniteEtaleSite.galoisEquiv`, `ProFiniteEtaleSite.galoisEquiv_continuous`, `ProFiniteEtaleSite.galoisEquiv_const`, `ProFiniteEtaleSite.galoisEquiv_const_action`, `ProFiniteEtaleSite.galoisEquiv_const_naturality` | Connected noetherian base, geometric point, small topological group continuously isomorphic to the fibre-functor automorphism group. | GeometricFiber, ProfiniteProduct |
-| proetale-profinite-etale-morphism-of-sites | `ProFiniteEtaleSite.toProEtale`, `ProFiniteEtaleSite.toProEtale_const`, `ProFiniteEtaleSite.toProEtale_continuous` | Noetherian base; inclusion agrees naturally with constants, preserves their cofiltered limits (`toProEtale_isLimit`), and preserves corrected coverings. | ProMap, FiniteCover |
+| proetale-profinite-etale-morphism-of-sites | `ProFiniteEtaleSite.toProEtale`, `ProFiniteEtaleSite.toProEtale_const`, `ProFiniteEtaleSite.toProEtale_continuous` | Noetherian base with finitely many connected components (`Finite (ConnectedComponents X.obj)`, for instance quasi-compact or connected); inclusion agrees naturally with constants, preserves their cofiltered limits (`toProEtale_isLimit`), fibre products and corrected coverings. | ProMap, FiniteCover |
 | proetale-coherence | `ProEtaleSite.IsCoherentBasisObject`, `ProEtaleSite.coherentBasis_generating`, `ProEtaleSite.coherentBasis_pullback`, `ProEtaleSite.coherentBasis_isQuasiSeparated` | Noetherian base; affinoid pro-presentations factoring through an affinoid open. Pullbacks are over another basis object. | QC |
 | proetale-quasicompactness-detection | `ProEtaleSite.IsQuasiCompact`, `ProEtaleSite.IsQuasiSeparated`, `ProEtaleSite.IsQuasiCompactMap`, `ProEtaleSite.IsQuasiSeparatedMap`, `ProEtaleSite.qc_isDenseSubsite` | Noetherian base; sieve-finite-cover and diagonal equations. `isQuasiCompact_iff`, `isQuasiSeparated_iff`, `isQuasiCompactMap_iff`; dense subsite requires quasi-separated base. | QC |
 | etale-descent-along-algebraic-extension | `FieldBaseChangeSystem`, `FieldBaseChangeSystem.spaceCone_isLimit`, `FieldBaseChangeSystem.homDiagram_map`, `FieldBaseChangeSystem.homEquiv`, `FieldBaseChangeSystem.homEquiv_stage`, `FieldBaseChangeSystem.etale_descends` | Complete field pairs (`Fact (IsField R.A)` uses the pair’s existing ring), finite separable stages with dense union and completed integral closure, space locally of finite type over the base; qcqs objects for descent. Stage maps satisfy `stageMap_spec`; transition morphisms and colimit generators agree with pullback through both prescribed projections. | FieldCompletion |
-| proetale-field-extension-slice | `FieldBaseChangeSystem.proObject`, `FieldBaseChangeSystem.proObjectCone_isLimit`, `FieldBaseChangeSystem.fieldExtensionSlice`, `FieldBaseChangeSystem.fieldExtensionSlice_stage` | The same field data and finite-type hypothesis, without global qcqs; object is the limit of finite base-change stages; the slice comparison is naturally a pullback over each specified stage projection, and both functors are continuous for corrected topologies. | FieldCompletion, ProCover |
+| proetale-field-extension-slice | `FieldBaseChangeSystem.proObject`, `FieldBaseChangeSystem.proObjectCone_isLimit`, `FieldBaseChangeSystem.fieldExtensionSlice`, `FieldBaseChangeSystem.fieldExtensionSlice_stage`, `FieldBaseChangeSystem.fieldExtensionSlice_sheafEquiv` | The same field data and finite-type hypothesis, without global qcqs; object is the limit of finite base-change stages. The comparison is an equivalence between the full subcategories of objects with qcqs stages, identifying induced topologies, and is naturally a pullback over each specified stage projection; both subcategories are dense, giving the equivalence of sheaf topoi. No equivalence of the whole categories and no sheaf property of raw Hom presheaves is asserted. | FieldCompletion, ProCover |
 | proetale-fibre-morphism-of-topoi | `GeometricPoint.decompositionGroup`, `ProEtaleSite.fiberProfinite`, `ProEtaleSite.decompositionAction`, `ProEtaleSite.pointToposPull`, `ProEtaleSite.pointToposAdjunction`, `ProEtaleSite.globalPointToposPush`, `ProEtaleSite.globalPointToposAdjunction` | Noetherian base (affinoid for the qc site construction), geometric field point and dense compatible algebraic-closure embedding. `mem_decompositionGroup`, `fiberProfinite_apply`, `fiberProfinite_map`, `fiberProfinite_action`, `decompositionAction_scalars` pin the valuation stabiliser, limit of discrete lift spaces with its subspace topology, and inverse precomposition; `globalPointToposPush_sections`, naturality in the object and `globalPointToposPush_sections_map` specify the global construction on qc objects. | Decomposition, GeometricFiber |
 | coherent-topos-enough-points | `CoherentSitePresentation`, `coherentTopology_hasEnoughPoints`, `coherentTopos_hasEnoughPoints` | Site small in universe `w`, finite limits and finite covering refinements, or an equivalent sheaf category with that presentation. Points and set-valued sheaves use the same universe. | Deligne |
 | proetale-topos-enough-points | `ProEtaleSite.hasEnoughPoints` | Arbitrary noetherian analytic base; abstract enough points in universe 1, without identification with geometric fibres. | Deligne |
@@ -1892,9 +1892,10 @@ layer R0's *finite-algebra-tensor-complete* for finite projective `B`, the contr
 `Spa(A, A⁺)`, `TauCeti.Huber.Pair.Hom.spaComap_preimage_rationalSubset` — `Spa(ι)⁻¹(U)` is the
 rational subset `R(ι f/ι g)` — and the composite `finiteEtaleEquivTensor ≪≫ rationalLocalizationIso` —
 `O(U) ⊗_A B ≅ B⟨ι f/ι g⟩` as topological rings, compatibly with plus rings. (vi) Comparison:
-if `A` is noetherian (for instance strongly noetherian)
-or has a noetherian ring of definition, `(B, B⁺)` is AdicSpacesPartII layer R0's `Huber.Pair.finiteAlgebra`
-(*finite-algebra-over-affinoid*, whose `homEquiv` and `map` are then (iv)), and
+if `A` is of noetherian type (a noetherian ring of definition, or strongly noetherian Tate;
+AdicSpacesPartII layer R0's *noetherian-type-huber-ring*), `(B, B⁺)` is R0's `Huber.Pair.finiteAlgebra`
+(*finite-algebra-over-affinoid*, whose `homEquiv` and `map` are then (iv)), `B` is again of
+noetherian type, so both spectra are adic spaces, and
 `Spa(B, B⁺) → Spa(A, A⁺)` is finite and étale in Huber's sense ([H96] §1.6, Example 1.6.6(ii);
 R0's *finite-etale-algebra-comparison*).
 Construct `Huber.Pair.finiteEtale.baseChangeIso` with `RingEquiv.ofBijective` from
@@ -2027,8 +2028,8 @@ odd-prime scalar root and derivative computations. The concrete
 étaleness prerequisite of `Pair.finiteEtale`, its fibre at `T = 1` is not reduced, and
 the Artin–Schreier algebra is finite étale.
 
-- *finiteEtale_test_eq_finiteAlgebra* (compatibility) — if `A` is noetherian or has a noetherian
-  ring of definition (in particular if `A` is strongly noetherian), `finiteEtale A⁺ B` is
+- *finiteEtale_test_eq_finiteAlgebra* (compatibility) — if `A` is of noetherian type (a noetherian
+  ring of definition, or strongly noetherian Tate), `finiteEtale A⁺ B` is
   AdicSpacesPartII layer R0's `Huber.Pair.finiteAlgebra` on the same topological ring: the two
   plus rings are the integral closure of the image of `A⁺` (this is clause (vi) itself, to be
   proved from R0's description of its plus ring).
@@ -3628,16 +3629,48 @@ finite étale map to some `X_n` (check *surjDescent_kummer*). *Needs:* *pro-etal
 `Y → X` of the torus is pro-étale over `X` (check *proEtale_comp_kummer*). *Needs:* *pro-etale-morphism*,
 *pro-etale-base-change*, *pro-etale-surjective-etale-descent*; DiamondsAndVStacks layer D0. README only (no Lean declaration).
 
-**Finite limits.** (*pro-etale-finite-limits*) `X_proét` has all finite limits, computed in
-`pro-X_ét`: the final object `X`, fibre products (*pro-etale-base-change* with
-*pro-etale-composition*) and equalizers; if `U → X` is pro-étale and `V ⊂ |U|` is an intersection
-of open and closed subsets, the subobject `V = lim V_i` (`V_i ⊂ U_i` the image of `V`) is pro-étale
-over `X`. The locally finite number of connected components
-(see *etale-locally-finitely-many-components*) makes the `V_i` open and closed and is the nonformal
-part of the lemma ([PH] §3, Lem. 3.10(vii) and its proof, pp. 16–17; [PH] §3, after Lem. 3.10,
-p. 17). The equalizer of the identity and a nontrivial deck transformation `X̃ ⇉ X̃` of the Kummer
-tower is empty (check *equalizer_deck_empty*). *Needs:* *pro-etale-base-change*,
-*pro-etale-composition*, *etale-locally-finitely-many-components*; AdicSpacesPartII layer R0. README only (no Lean declaration).
+**Finite limits.** (*pro-etale-finite-limits*) `X_proét` has all finite limits, constructed as
+follows; only (i) and (ii) are limits of `pro-X_ét`. (i) The final object is `X`. (ii) For a
+pro-étale `U → V` and any `W → V` in `X_proét`, the fibre product `U ×_V W` of `pro-X_ét`
+(*pro-etale-base-change*) lies in `X_proét` (*pro-etale-composition*) and is the fibre product
+there; this covers binary products `U ×_X W` and base change along étale, finite étale and
+pro-étale morphisms, in particular along members of coverings. (iii) For `f, g : U ⇉ W` in
+`X_proét`, let `Z ⊂ |U|` be the set of points whose image under `(f, g)` lies in the image of the
+diagonal of `W`. The equalizer is a subobject `E → U` with `|E| → |U|` a homeomorphism onto `Z`,
+and a morphism `T → U` of `X_proét` factors through `E` iff its composites with `f` and `g` agree.
+To build it, take a pro-étale presentation `W = lim W_j` with finite étale transitions beyond
+`j_0` and replace `U` by its étale subobject `(f, g)^{-1}(W ×_{W_{j_0}} W)`; there `Z` is an
+intersection of open and closed subsets pulled back from stages of `U` (diagonals of finite étale
+maps are open and closed, *etale-diagonal*), and `E = lim E_i` with `E_i ⊂ U_i` the image of `Z`.
+The locally finite number of connected components (see *etale-locally-finitely-many-components*)
+makes the `E_i` open and closed for large `i`, with finite étale surjective transitions; this is
+the nonformal part of the lemma ([PH] §3, Lem. 3.10(vii) and its proof, pp. 16–17; [PH] §3, after
+Lem. 3.10, p. 17). The levelwise equalizer in `pro-X_ét` can have nonempty stages and empty
+underlying space, and then it is not an object of `X_proét`: the inclusion `X_proét ⊂ pro-X_ét`
+preserves the final object and the fibre products of (ii) but not equalizers. *Needs:*
+*pro-etale-base-change*, *pro-etale-composition*, *etale-locally-finitely-many-components*,
+*etale-diagonal*; AdicSpacesPartII layer R0. README only (no Lean declaration).
+
+**Checks.**
+
+- *equalizer_deck_empty* (computation) — for `K ⊇ μ_{p^∞}` and a nontrivial deck transformation
+  `σ` of the Kummer tower `X̃`, the equalizer of `id` and `σ` is empty: from some stage `n` on,
+  `(id, σ_n)` lands in a summand of `X_n ×_X X_n = ⊔_{ζ ∈ μ_{pⁿ}} X_n` other than the diagonal
+  one, so `Z = ∅`; here the levelwise equalizer of `pro-X_ét` is empty as well.
+- *finiteLimits_constant* (degenerate) — for `U, W ∈ X_ét`, `c` sends the product `U ×_X W` and
+  the equalizer of `f, g : U ⇉ W` in `X_ét` (an open subspace of `U`, *etale-diagonal*) to the
+  corresponding limits of `X_proét`, which are also those of `pro-X_ét`.
+- *finiteLimits_equalizer_not_ambient* (non-example) — over `X = S = Spa(ℚ₂, ℤ₂)` let
+  `U = lim_n U_n`, `U_n = ⊔_{m ≥ 1} ⊔_{a ∈ {0,1}^n} S`, the transitions forgetting the last digit
+  of `a` and keeping `m` (finite étale surjective of degree two), and let `g_n` flip digit `m` of
+  `a` on the summands with `m ≤ n` and fix those with `m > n`; the `g_n` are compatible and give
+  `g : U → U`. The levelwise equalizer of `id` and `g` has stages `⊔_{m > n} ⊔_a S`, all nonempty,
+  so by the Hom formula it has no map to `c(∅)` and is not initial; its underlying space is empty,
+  since a compatible point keeps one index `m` and the stage `m` has no summand of index `m`. A
+  pro-étale presentation with empty limit space has empty stages beyond its threshold (fibres of
+  the late projections are inverse limits of nonempty finite sets), so this object is not in
+  `X_proét`. The equalizer in `X_proét` is `c(∅)`, as `(id, g)` misses the diagonal at every
+  point.
 
 **Étale spaces have locally finitely many components.**
 (*etale-locally-finitely-many-components*) For `Y ∈ X_ét`, every point of `Y` has an open affinoid
@@ -4018,10 +4051,11 @@ noetherian analytic with `X_ét` and `X_fét` as above. `X_proét` is the full s
 ```
 
 with `U_{i,0} = W_i` and each `U_{i,μ} → lim_{μ'<μ} U_{i,μ'}` the pullback of a finite étale
-surjection of `X_ét`. `X` is final, finite limits are computed in `pro-X_ét`
-(see *pro-etale-finite-limits*), every `U` has `|U| = lim |U_i|`, quasi-compact opens of `|U|` are
-represented by subobjects (see *pro-etale-quasicompact-opens*),
-and every member of a covering is open.
+surjection of `X_ét`. `X` is final, finite limits exist, and base changes along pro-étale maps,
+in particular along members of coverings, are fibre products of `pro-X_ét`, while equalizers in
+general are not (see *pro-etale-finite-limits*), every `U` has `|U| = lim |U_i|`, quasi-compact
+opens of `|U|` are represented by subobjects (see *pro-etale-quasicompact-opens*), and every
+member of a covering is open.
 The category is Scholze's ([PH] §3, Def. 3.9, p. 15); `J_proét` is coarser than the printed topology
 and strictly coarser as soon as an open surjection of profinite sets without continuous section
 occurs over a geometric point; families of pro-étale maps with countable presentations are coverings
@@ -4116,7 +4150,9 @@ DiamondsAndVStacks layer D0. README only (no Lean declaration).
 **Slices.** (*proetale-slice*) For `V ∈ X_ét` (itself locally noetherian analytic), the functor
 `V_proét → X_proét/c(V)`, `lim V_i ↦ (lim V_i → V)`, is an equivalence under which the corrected
 coverings of `V_proét` correspond to the coverings of the slice topology (Mathlib
-`GrothendieckTopology.over` of `J_proét`); hence `Sh(V_proét) ≃ Sh(X_proét)/h_V`. It is compatible
+`GrothendieckTopology.over` of `J_proét`); hence `Sh(V_proét) ≃ Sh(X_proét)/h_V^♯`, the slice
+over the sheafification of the presheaf `h_V` represented by `c(V)`, which is not itself a sheaf
+in general (check *fieldSlice_raw_hom_not_sheaf*, where `V = S ⊔ S`). It is compatible
 with `ν`: under the étale slice equivalence `V_ét ≃ X_ét/V` (see *slice-site*), `ν_V` is the
 localisation of `ν_X`. For `V ⊂ X` open this is the pro-étale site of an open subspace, which
 AdicSpacesPartIV layer R4 re-exports (*proetale-slice-open-subspace*) ([PH] §3, before Prop. 3.15,
@@ -4130,6 +4166,11 @@ p. 15). *Needs:* *pro-etale-site-corrected*, *proetale-projection-nu*, *slice-si
 - *slice_self* — for `V = X` the equivalence is the identity.
 - *slice_kummer_stage* — for `V = X_n` in the Kummer tower, `(X_n)_proét ≃ X_proét/X_n` and `X̃`
   corresponds to the Kummer tower over `X_n`.
+- *slice_representable_sheafified* — for `V ∈ X_ét`, `h_V^♯ = ν^*(Hom_X(−, V))`: by the Hom
+  formula `h_V` is `U ↦ colim_j Hom_X(U_j, V)`, the presheaf whose sheafification defines `ν^*`
+  in *proetale-projection-nu*. So `h_V^♯(U) = Hom(U, c(V))` for qcqs `U`
+  (*nu-pullback-sections-qcqs*), while for the non-quasi-compact `U` of
+  *fieldSlice_raw_hom_not_sheaf* the two differ.
 
 **Profinite sets.** (*profinite-set-objects*) Let `U ∈ X_proét` and `S = lim_j S_j` profinite (`S_j`
 finite discrete). Put `S × X := lim_j ⊔_{s∈S_j} X ∈ X_proét` (the pullback to `X` of `S` viewed in
@@ -4541,8 +4582,16 @@ and `F_x̄` induces `X_fét ≃` finite continuous `π_1(X, x̄)`-sets (Mathlib
 `PreGaloisCategory.functorToContAction`) ([PH] §3, before Def. 3.4, p. 13).
 
 **The pro-finite-étale site with corrected coverings.** (*pro-finite-etale-site-corrected*)
-`X_profét` is the category `pro-X_fét := Pro(X_fét)`, a full subcategory of `pro-X_ét` and of
-`X_proét`, with `|U| = lim |U_i|`. A family `{f_i : U_i → U}` is a covering if
+`X_profét` is the category `pro-X_fét := Pro(X_fét)`, a full subcategory of `pro-X_ét`, with
+`|U| = lim |U_i|`. If `X` has finitely many connected components (for instance `X`
+quasi-compact, by *etale-locally-finitely-many-components*, or connected), it is also a full
+subcategory of `X_proét`: every `U_i` then has finitely many open and closed subsets, so for each
+`i` the images of the transition maps into `U_i` (open and closed, finite étale maps being open
+and closed) have a smallest member `U_i^∞`, the transitions restrict to finite étale surjections
+`U_{i'}^∞ → U_i^∞`, and `U ≅ lim_i U_i^∞` is a pro-étale presentation over `X`
+(`ProFiniteEtaleSite.isProEtale_of_finite_components`). Without this hypothesis an object of
+`pro-X_fét` can fail to be pro-étale over `X` (check
+*ProFiniteEtaleSite.test_infinitely_many_components*). A family `{f_i : U_i → U}` is a covering if
 `|U| = ⋃ f_i(|U_i|)` and each `f_i` factors as a pro-finite-étale tower `U_i → W_i` (steps pullbacks
 of finite étale surjections of `X_fét`; *finite-etale-tower*) followed by a morphism `W_i → U` that
 is the pullback of a morphism of `X_fét` along some `U → V_0` with `V_0 ∈ X_fét`. These coverings
@@ -4551,11 +4600,13 @@ erratum states the condition with the tower only, which read literally would exc
 of a disjoint union by its summands ([PH] §3, Def. 3.3, p. 13; [PH erratum] item (1), p. 1; [PH]
 §5, proof of Lem. 5.6, p. 31). In `AdicSpace`, define `ProFiniteEtaleSite` (the category),
 `ProFiniteEtaleSite.topology`, `ProFiniteEtaleSite.const` (`X_fét ⥤ X_profét`), `ProFiniteEtaleSite.space` and
-`ProFiniteEtaleSite.toProEtale` (the fully faithful inclusion `X_profét ⥤ X_proét`); prove
-`ProFiniteEtaleSite.isCovering_of_isFetTower` (pro-finite-étale towers cover) and
+`ProFiniteEtaleSite.toProEtale` (for `X` with finitely many connected components, the fully
+faithful inclusion `X_profét ⥤ X_proét`); prove
+`ProFiniteEtaleSite.isProEtale_of_finite_components`, `ProFiniteEtaleSite.isCovering_of_isFetTower` (pro-finite-étale towers cover) and
 `ProFiniteEtaleSite.isCovering_summands` (the summand inclusions of a finite disjoint union cover).
 *Needs:* *finite-etale-site*, *pro-etale-morphism*, *finite-etale-tower*,
-*pro-etale-site-corrected*, *corrected-covers-pretopology*; DiamondsAndVStacks layer D0; Mathlib
+*pro-etale-site-corrected*, *corrected-covers-pretopology*,
+*etale-locally-finitely-many-components*; DiamondsAndVStacks layer D0; Mathlib
 `CategoryTheory.Pretopology`. README only (no Lean declaration).
 
 **Checks.**
@@ -4569,8 +4620,16 @@ of a disjoint union by its summands ([PH] §3, Def. 3.3, p. 13; [PH erratum] ite
 - *ProFiniteEtaleSite.test_summands* (non-example) — the summand inclusions `X → X ⊔ X` form a covering of
   `X_profét`; under the literal reading of the erratum (each covering map a tower, hence surjective)
   they would not, which is why the second factor is allowed.
-- *ProFiniteEtaleSite_topology_inclusion* (compatibility) — every covering of `X_profét` is a covering of
-  `X_proét`: pullbacks of morphisms of `X_fét` are finite étale, hence étale.
+- *ProFiniteEtaleSite_topology_inclusion* (compatibility) — for `X` with finitely many connected
+  components, every covering of `X_profét` is a covering of `X_proét`: pullbacks of morphisms of
+  `X_fét` are finite étale, hence étale.
+- *ProFiniteEtaleSite.test_infinitely_many_components* (non-example) — for `S = Spa(ℚ₂, ℤ₂)`,
+  `X = ⊔_{m ≥ 0} S` and `V_n = ⊔_{m ≥ n} S` (open and closed, so finite étale over `X` of degree
+  `0` or `1` on each summand), `V = lim_n V_n` is an object of `pro-X_fét` with every stage
+  nonempty, hence with no map to `c(∅)` and not initial, while `|V| = ⋂_n V_n = ∅`. A pro-étale
+  presentation with empty limit space has empty stages beyond its threshold, so `V` is not in
+  `X_proét`; the images `U_i^∞` above do not stabilise, as each `V_n` has infinitely many open and
+  closed subsets.
 
 **Pro-finite-étale objects are profinite π_1-sets.** (*profinite-etale-galois-sets*) For `X`
 connected with a geometric point `x̄`, the functor `Y = lim Y_i ↦ S(Y) := lim_i F_x̄(Y_i)` is an
@@ -4581,12 +4640,17 @@ with `K` complete discretely valued, `X_profét ≃ G_K-pfsets` and `Spa(K̂^sep
 *profinite-g-sets-site*; DiamondsAndVStacks layer D0. README only (no Lean declaration).
 
 **Open equals pro-étale on X_profét; the morphism of sites.**
-(*proetale-profinite-etale-morphism-of-sites*) (a) Under the fully faithful inclusion
-`X_profét ⊂ X_proét`, a morphism `f : U → V` of `X_profét` is open on underlying spaces iff it is
-pro-étale. (b) The inclusion preserves fibre products and sends coverings of `X_profét` to
+(*proetale-profinite-etale-morphism-of-sites*) Let `X` have finitely many connected components,
+so that `X_profét ⊂ X_proét` (*pro-finite-etale-site-corrected*). (a) Under this fully faithful
+inclusion, a morphism `f : U → V` of `X_profét` is open on underlying spaces iff it is
+pro-étale. (b) The inclusion preserves fibre products (those of `pro-X_fét` are levelwise, hence
+fibre products of `pro-X_ét` lying in `X_proét`) and sends coverings of `X_profét` to
 coverings of `X_proét`; hence it defines a morphism of sites `X_proét → X_profét` (Mathlib
 `CategoryTheory.Functor.IsContinuous`). The printed consequence "the notions of coverings
 coincide" is not asserted for the corrected coverings and is not used ([PH] §3, Lem. 3.11, p. 17).
+Scholze states the lemma for every locally noetherian `X`; its proof passes through the
+connected comparison of Prop. 3.5, and the hypothesis on components is needed for the inclusion
+itself (check *ProFiniteEtaleSite.test_infinitely_many_components*).
 For `X = Spa(K, O_K)` with `K` `p`-adic, the quasi-compact objects of `X_proét` are exactly the
 objects of `X_profét`: a quasi-compact étale `X`-space is a finite disjoint union of
 `Spa(L_i, O_{L_i})`, hence finite étale, so a pro-étale presentation of a quasi-compact object
@@ -4730,39 +4794,53 @@ p. 19, where the comparison is asserted to be immediate; [H93] §3, Prop. 3.9, p
 **Change of base field.** (*proetale-field-extension-slice*) With `K, K⁺, L/K, L_i` as above and
 `X` locally of finite type over `Spa(K, K⁺)` (not necessarily qcqs), let
 `X_L := lim_i X_{L_i} ∈ X_proét`, a pro-finite-étale object (the `X_{L_i}` are finite étale over
-`X` with finite étale surjective transitions). Then there is an equivalence of sites
-`X_{L̂,proét} ≃ X_proét/X_L` (slice topology, Mathlib `GrothendieckTopology.over`) sending
-`lim_j V_j` (`V_j` qcqs étale over `X_{L̂}`) to `lim_{(i,j)} V_{j,i}` with `V_{j,i} → X_{L_i}`
-the descent of `V_j` (see *etale-descent-along-algebraic-extension*); coverings on both sides are
-the corrected ones and the equivalence is checked on the generating family of quasi-compact objects;
-for `L/K` finite it is *proetale-slice* with `V = X_L`. The hypothesis *locally of finite type over
-K* replaces Scholze's *locally noetherian*, for which `X_{L̂}` need not be locally noetherian
-([PH] §3, before Prop. 3.15 and Prop. 3.15, p. 19). *Needs:*
-*etale-descent-along-algebraic-extension*, *proetale-slice*, *pro-etale-site-corrected*,
-*proetale-coherence*, *pro-finite-etale-site-corrected*; Mathlib
-`CategoryTheory.GrothendieckTopology.over`.
-
-The non-quasi-compact compatibility is the theorem
-`FieldBaseChangeSystem.fieldExtensionSlice_nonqc_descent`: for arbitrary pro-étale objects
-`U,V` over the completed base and every covering presieve `R` of `U`, the presheaf
-`W ↦ Hom(E(W), E(V))`, where `E` is `fieldExtensionSlice.functor`, satisfies the sheaf condition
-for `R`. Thus compatible arrows glue uniquely on arbitrary covering families, including on
-intersections and refinements. Together with the natural comparison `fieldExtensionSlice_stage`,
-this states the compatibility required to pass from finite-stage descent to the full site;
-neither `U` nor `V` is assumed quasi-compact. The source is [PH] Proposition 3.15, printed p. 19,
-in the [3 November 2012 text](https://www.math.uni-bonn.de/people/scholze/pAdicHodgeTheory.pdf). README only (no Lean declaration).
+`X` with finite étale surjective transitions). Let `B_{L̂} ⊂ X_{L̂,proét}` be the full subcategory
+of objects with a pro-étale presentation `lim_j V_j` by qcqs `V_j` étale over `X_{L̂}`, and
+`B_L ⊂ X_proét/X_L` (slice topology, Mathlib `GrothendieckTopology.over`) the full subcategory of
+objects whose underlying object has a pro-étale presentation by qcqs objects of `X_ét`, each with
+the topology induced from its site (Mathlib `Functor.inducedTopology`). Then (a)
+`lim_j V_j ↦ lim_{(i,j)} V_{j,i}`, with `V_{j,i} → X_{L_i}` the descent of `V_j` (see
+*etale-descent-along-algebraic-extension*), is an equivalence `B_{L̂} ≃ B_L` identifying the
+induced topologies: on Hom sets it is the Hom formula for pro-objects combined with the descent of
+morphisms between qcqs étale objects, and on an object `c(V_j)` it is the pullback
+`V_{j,i} ×_{X_{L_i}} X_L` along the stage projection; (b) every object of either site is covered
+by objects with affinoid stages (*proetale-coherence* (ii)), so both inclusions are dense subsites
+(Mathlib `Functor.IsDenseSubsite`), and (a) gives an equivalence of topoi
+`Sh(X_{L̂,proét}) ≃ Sh(X_proét/X_L)`. For `L/K` finite, `X_L` is the constant object of the étale
+`X`-space `X_{L̂}` and the equivalence extends to the whole sites: it is *proetale-slice* with
+`V = X_L`. For infinite `L/K` no equivalence of the underlying categories of the two sites is
+asserted, and non-quasi-compact objects are compared only through their sheaves: representable
+presheaves of pro-objects need not be sheaves, and arrows given on the members of an infinite
+covering need not glue (check *fieldSlice_raw_hom_not_sheaf*). The hypothesis *locally of finite
+type over K* replaces Scholze's *locally noetherian*, for which `X_{L̂}` need not be locally
+noetherian ([PH] §3, before Prop. 3.15 and Prop. 3.15, p. 19; [PH] §3, Prop. 3.2, p. 13, for the
+Hom formula). *Needs:* *etale-descent-along-algebraic-extension*, *proetale-slice*,
+*pro-etale-site-corrected*, *proetale-coherence*, *pro-finite-etale-site-corrected*; Mathlib
+`CategoryTheory.GrothendieckTopology.over`, `CategoryTheory.Functor.inducedTopology`,
+`CategoryTheory.Functor.IsDenseSubsite`. README only (no Lean declaration).
 
 **Checks.**
 
 - *fieldSlice_torus_cyclotomic* — `X = Spa(ℚ_p⟨T^{±1}⟩, ℤ_p⟨T^{±1}⟩)`, `L = ℚ_p(μ_{p^∞})`:
-  `X_{L̂,proét} ≃ X_proét/X_L`, and the Kummer–cyclotomic tower over `X_{L̂}` is `X̃ ×_X X_L`.
+  `B_{L̂} ≃ B_L`, the two topoi agree, and the Kummer–cyclotomic tower over `X_{L̂}` (affinoid
+  stages) corresponds to `X̃ ×_X X_L`.
 - *fieldSlice_unramified* — `X = Spa(ℚ_p⟨T⟩, ℤ_p⟨T⟩)`, `L = ℚ_p^unr` (the maximal unramified
   extension, with `L_i/ℚ_p` the unramified extension of degree `i!`): `L̂` is discretely valued, so not perfectoid, `X_{L̂}` is the disc
   over `ℚ̂_p^unr`, `X_L = lim_i X_{L_i}` is a pro-finite-étale `Ẑ`-torsor over `X`, and
-  `X_{L̂,proét} ≃ X_proét/X_L`; perfectoidness of `L̂` plays no role in the statement.
+  `Sh(X_{L̂,proét}) ≃ Sh(X_proét/X_L)`; perfectoidness of `L̂` plays no role in the statement.
 - *fieldSlice_separable_closure* — `X = Spa(K, K°)`, `K` discretely valued, `L = K^sep`: on
   quasi-compact objects `X_{L̂,proét} ≃ X_proét/X_{K^sep} ≃ (G_K-pfsets)/G_K ≃ Profinite`, matching
   `X_{L̂} = Spa(Ĉ, O_Ĉ)` for `Ĉ` the completed separable closure.
+- *fieldSlice_raw_hom_not_sheaf* (non-example) — take `L = K = ℚ₂`, so that the comparison is the
+  identity of `X_proét`, and `X = S = Spa(ℚ₂, ℤ₂)`. Let `U = lim_n U_n` with
+  `U_n = ⊔_{m ≥ 1} ⊔_{a ∈ {0,1}^n} S`, the transitions forgetting the last digit of `a` and keeping
+  `m` (finite étale surjective of degree two), so `U ∈ X_proét`. Its summands `U^(m)`, pulled back
+  from the `m`-th open and closed piece of `U_0`, form an étale covering of `U` with empty pairwise
+  fibre products. The maps `U^(m) → c(S ⊔ S)` that read digit `m` of `a`, defined from stage `m`
+  on, are a matching family for `W ↦ Hom(W, c(S ⊔ S))` with no amalgamation: by the Hom formula
+  every `U → c(S ⊔ S)` factors through a single `U_n`, and on `U^(m)` with `m > n` it cannot
+  separate two digit strings that differ only in digit `m`. So this representable presheaf is not
+  a sheaf on `X_proét`.
 
 
 **The identity two-adic field system.**
@@ -5652,8 +5730,9 @@ properties of étale maps available. For the pro-étale site: the Kummer tower o
 covering of `X_proét` in both the corrected and the printed sense, and for `X = Spa(C, O_C)` an open
 surjection of profinite sets without section is not a covering; `ν^*` is fully faithful on sheaves
 of sets and `(ν^*F)(X̃) = colim F(X_n)`; `ℤ_p → pt` and every Galois cover `Ũ → U` are coverings,
-with `F(U) = F(Ũ)^G` for sheaves pulled back from the étale site; and `X_{L̂,proét} ≃ X_proét/X_L`
-for `X = Spa(ℚ_p⟨T^{±1}⟩)` and `L = ℚ_p(μ_{p^∞})`. For the Yoneda-adic spaces:
+with `F(U) = F(Ũ)^G` for sheaves pulled back from the étale site; and
+`Sh(X_{L̂,proét}) ≃ Sh(X_proét/X_L)`, through the objects with qcqs stages, for
+`X = Spa(ℚ_p⟨T^{±1}⟩)` and `L = ℚ_p(μ_{p^∞})`. For the Yoneda-adic spaces:
 `Spa^Y(ℚ_p⟨T⟩, ℤ_p⟨T⟩)` is AdicSpaces's closed disc, the open disc is Yoneda-adic and not affinoid,
 and for Rost's pair `Spa^Y` is not faithful. Alongside them stand the non-examples that fix the
 hypotheses: a proper open immersion is not a tower, the Ribes–Zalesskii [RZ] surjection is pro-étale,
