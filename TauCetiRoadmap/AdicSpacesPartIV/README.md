@@ -372,6 +372,16 @@ de Jong's strictly semistable alteration theorem (*semistable-alteration-theorem
 | Supplier target | Exact file | Contract used |
 |---|---|---|
 | RigidAnalyticGeometry §4.4.4, reducedness on affinoid subdomains (no declaration name specified) | W. Coram's roadmap, `PhD/TauCeti/Roadmaps/RigidAnalyticGeometry/README.md` | Rational localisations of reduced `K`-affinoid algebras are reduced; R5.6's *rational-integral-compatibility* proves the comparison with the actual plus ring on this roadmap's side. The roadmap of W. Coram is to be contributed to TauCetiRoadmap ahead of this one. |
+| RigidAnalyticGeometry §1.5.1–1.5.2, polyradius Tate algebras and the affinoid criterion (no declaration names specified) | W. Coram's roadmap, `PhD/TauCeti/Roadmaps/RigidAnalyticGeometry/README.md` | The constant-polyradius specialisation supplies the radius pieces and their multiplicative Banach norms, polynomial density and affinoidness for radii in `Γ*`; §1.3.3 identifies the Banach topology with the algebraic carrier's affinoid topology. The roadmap of W. Coram is to be contributed to TauCetiRoadmap ahead of this one. |
+
+#### Local restatements
+
+- `Dagger.radiusTate` restates RigidAnalyticGeometry §1.5.1 at the constant polyradius as a
+  `K`-subalgebra of formal series; `Dagger.washnitzerAlgebra`, its variables and its Checks use
+  this carrier. The coefficient construction makes sense without completeness of `K`.
+- `Dagger.radiusGaussNorm` restates RigidAnalyticGeometry §1.5.1's Gauss-norm function at the
+  constant polyradius; `Dagger.isUnit_washnitzerAlgebra_iff` uses its value at radius `1`.
+  The norm interpretation is restricted to `T_n(ρ)` for `ρ > 0`.
 
 ### From TauCetiRoadmap.AdicSpacesPartIII
 
@@ -3506,7 +3516,7 @@ complete for a nontrivial nonarchimedean absolute value `|.|` of rank one (in Le
 `NontriviallyNormedField K`, `IsUltrametricDist K`, `CompleteSpace K`), `Γ* = √|K^×|` is the
 divisible hull of its value group, `T_n = K⟨X_1, …, X_n⟩` is the Tate algebra and `W_n` the
 overconvergent Tate algebra; a dagger algebra `A` has completion `Â` and integral subring `A^int`.
-The coefficient constructions `radiusTate`, `gammaStar`, `washnitzerAlgebra` and the integral
+The coefficient constructions `radiusTate`, `washnitzerAlgebra` and the integral
 power series `O_K[[X]]` also make sense without completeness. Presentation quotients and their algebraic
 structure maps are defined under the hypotheses displayed with them; analytic comparison theorems
 use completeness. `Omega`, `Omega.d` and the canonical map from Mathlib's Kähler differentials to
@@ -3518,59 +3528,13 @@ discretely valued); in F1.5 it is the uniformiser of the complete discrete valua
 
 ### F1.1 overconvergent power series
 
-**Tate algebras of polydiscs of radius `ρ`.** (*radius-tate-algebra-affinoid*) Let `K` be a complete
-rank-one nonarchimedean field with nontrivial absolute value, `n ∈ ℕ` and `ρ > 0` real.
-Let `T_n(ρ) = K⟨ρ^{-1}X_1, …, ρ^{-1}X_n⟩ ⊆ K[[X_1, …, X_n]]` be the subring of series
-`f = Σ_ν a_ν X^ν` with `|a_ν| ρ^{|ν|} → 0` as `|ν| = ν_1 + … + ν_n → ∞` (Mathlib's
-`MvPowerSeries.IsRestricted` and Mathlib's `MvPowerSeries.IsRestricted.subring`, with Tau Ceti's
-normed-algebra instances, at the constant tuple `ρ`), with the Gauss norm
-`|f|_ρ = max_ν |a_ν| ρ^{|ν|}`. That `|·|_ρ` is a multiplicative
-`K`-algebra norm for which `T_n(ρ)` is complete is Tau Ceti's `MvPowerSeries.IsRestricted.gaussNorm_mul`
-together with the `NormedRing`, `NormMulClass`, `CompleteSpace` and `NormedAlgebra` instances on
-`MvPowerSeries.IsRestricted.subring` at the constant polyradius, and is not restated. Prove (a)
-that for `ρ ∈ Γ*` the algebra `T_n(ρ)` with the `|·|_ρ`-topology is `K`-affinoid, i.e. `K → T_n(ρ)`
-is strictly topologically of finite type (an open continuous surjection from some
-`K⟨Y_1, …, Y_N⟩` compatible with the `K`-algebra structures), hence `T_n(ρ)` is noetherian (at
-`ρ = 1` Tau Ceti has this for one variable only, `TauCeti.Huber.isNoetherianRing_restrictedMvPowerSeriesCompletion_one`;
-Tau Ceti's weighted restricted series `A⟨X⟩_T` are Wedhorn's subset-weighted algebras, not the
-radius-`ρ` Tate algebras); and (b) that for real `ρ' ≥ ρ > 0` the inclusion `T_n(ρ') ⊆ T_n(ρ)` is
-a continuous injective `K`-algebra map with `|f|_ρ ≤ |f|_{ρ'}` and dense image, polynomials being
-dense in every `T_n(ρ)` (GK00 §1, 1.1); for one variable the inclusion and the norm comparison are
-Tau Ceti's `TauCeti.PowerSeries.isRestricted_of_abs_le` and `isRestrictedSubring_le_of_abs_le`,
-and density of polynomials at radius `1` is `dense_weightedPolynomials` transported along
-`restrictedMvPowerSeriesGaussEquiv`; `n` variables and `ρ ≠ 1` are what (b) adds. The Gauss norm is
-a real supremum, so on a series that is not restricted at `ρ` it may be the junk value `0`
-(Mathlib's `gaussNorm` is `⨆` over `ℝ`); every statement about `|·|_ρ` is made for elements of
-`T_n(ρ)`, where the supremum is a maximum. *Needs:* Mathlib `MvPowerSeries.IsRestricted`,
-`MvPowerSeries.gaussNorm`, `MvPowerSeries.IsRestricted.subring`; Tau Ceti's normed-algebra instances
-on `MvPowerSeries.IsRestricted.subring`, `MvPowerSeries.IsRestricted.gaussNorm_mul`,
-`TauCeti.PowerSeries.isRestricted_of_abs_le`,
-`isRestrictedSubring_le_of_abs_le`, `dense_weightedPolynomials`, `restrictedMvPowerSeriesGaussEquiv`,
-`TauCeti.Huber.isNoetherianRing_restrictedMvPowerSeriesCompletion_one`. Lean: `Dagger.radiusTate`,
-`Dagger.gammaStar`, `Dagger.radiusGaussNorm`, `Dagger.radiusTate_isNoetherianRing` (noetherianity
-for `ρ ∈ Γ*`).
-
-**Checks.**
-
-- `T_0(ρ) = K` and the Gauss norm of a constant is its norm.
-- `Σ p^m X^m` is not restricted at radius `p` over `ℚ_p` (Lean `example`).
-- `1 ∈ Γ*`, witnessed by `c = 1`, exponent `1` (Lean `example`).
-- `√|c| ∈ Γ*` for `c ≠ 0`, witnessed by exponent `2`.
-- `ρ ≤ 0` never belongs to `Γ*`.
-- Degenerate: `T_n(1) = T_n` is the Tate algebra with the usual Gauss norm,
-  and `T_0(ρ) = K` with `|c|_ρ = |c|` for every `ρ > 0`.
-- Computation: for `K = ℚ_p` and `f = Σ_m p^m X^m`: `|f|_1 = 1`,
-  `|f|_ρ = 1` for `1 ≤ ρ < p` (the maximum `p^{-m}ρ^m` is attained at `m = 0`), and `f ∉ T_1(p)`
-  (`p^{-m}p^m = 1 ↛ 0`); the Gauss norm is monotone in `ρ`, `|f|_ρ ≤ |f|_{ρ'}` for `ρ ≤ ρ'`, with
-  strict inequality for `f = X` (`|X|_ρ = ρ`).
-- Non-example: for `ρ ∉ Γ*` (e.g. `ρ` transcendental over `|K^×|`),
-  `T_1(ρ)` is a Banach `K`-algebra but not `K`-affinoid: the supremum of `|X(x)|` over the points
-  `x` of `Max T_1(ρ)` is `ρ`, which is not attained (`|x| ∈ Γ*`), whereas the supremum seminorm of
-  an affinoid algebra is attained (*affinoid-maximum-modulus*, AdicSpacesPartII layer R0). So the hypothesis
-  `ρ ∈ Γ*` in (a) cannot be dropped.
-- Non-example: for `g = Σ_m X^m ∉ T_1(ρ)`, `ρ > 1`, the family
-  `|a_m|ρ^m = ρ^m` is unbounded and Mathlib's `gaussNorm` returns `0`; `|·|_ρ` is only
-  meaningful on `T_n(ρ)`.
+**Tate algebras of polydiscs of radius `ρ`.** (*radius-tate-algebra-affinoid*) The radius pieces
+`T_n(ρ)` for `ρ > 0` are Banach algebras for the multiplicative Gauss norm, with dense polynomials, and are
+`K`-affinoid for `ρ ∈ Γ*`.
+Supplied by RigidAnalyticGeometry §1.5.1–1.5.2 (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one).
+This roadmap specialises the student's polyradius to the constant tuple `ρ` and identifies the
+supplier's algebraic affinoid carrier with its Gauss-norm Banach topology using
+RigidAnalyticGeometry §1.3.3, so a Tate presentation is a strict topological presentation here.
 
 **The Monsky–Washnitzer algebra `W_n = K⟨X_1, …, X_n⟩†` of overconvergent power series.**
 (*overconvergent-tate-algebra*) Let `K` be a field complete for a nontrivial nonarchimedean absolute
@@ -3617,7 +3581,7 @@ that for `char K = 0` the termwise primitive
 characteristic `p` the coefficient `1/(ν_i + 1)` is undefined for `ν_i + 1 = p` and `X^{p−1}` has no
 primitive at all, since `d(Σ b_m X^m) = Σ m b_m X^{m−1}` has zero coefficient at `X^{p−1}`, and
 that `W_{n+1} ≅ W_n⟨X_{n+1}⟩†` (see *dagger-tensor-product*) (GK00 §1, 1.2, p.
-3). *Needs:* *radius-tate-algebra-affinoid*. Lean: `Dagger.washnitzerAlgebra`,
+3). *Needs:* RigidAnalyticGeometry §1.5.1–1.5.2. Lean: `Dagger.washnitzerAlgebra`,
 `Dagger.washnitzerAlgebra.X`, `Dagger.mem_washnitzerAlgebra_iff`,
 `Dagger.isUnit_washnitzerAlgebra_iff`, `Dagger.washnitzerAlgebra_le_weightedRestrictedSubring`,
 `Dagger.washnitzerAlgebra.toTate`.
@@ -3670,7 +3634,7 @@ Ceti's: `TauCeti.PowerSeries.IsDistinguished` with `IsDistinguished.existsUnique
 iterates the variables at unit radius; what (i)–(iii) add is that distinguishedness of `g ∈ W_n`
 persists to some radius `ρ > 1`, the iteration at radius `ρ`, and the automorphism `σ`. Mathlib's
 `PowerSeries.exists_isWeierstrassDivision` is the complete-local-ring form and does not apply.
-*Needs:* *overconvergent-tate-algebra*; *radius-tate-algebra-affinoid*; Tau Ceti
+*Needs:* *overconvergent-tate-algebra*; RigidAnalyticGeometry §1.5.1–1.5.2; Tau Ceti
 `TauCeti.PowerSeries.IsDistinguished`, `IsDistinguished.existsUnique_mul_add_eq`,
 `IsDistinguished.existsUnique_isUnit_isMonicOfDegree_mul_eq`, `restrictedOptionEquiv`.
 
@@ -3720,13 +3684,13 @@ maximal ideal of `W_n` and `W_n/(m ∩ W_n) → T_n/m` is bijective, and `m ↦ 
 `p_1, …, p_n ∈ K[Y_1, …, Y_n]` with `p_i` monic in `Y_i`; (d) `W_n` is a regular ring (Mathlib
 `IsRegularRing`), equidimensional of Krull dimension `n`, and the maps of completed local rings
 `(W_n)^_{m∩W_n} → (T_n)^_m` are isomorphisms (GK00 §1, Prop. 1.5 and its proof). *Needs:*
-*overconvergent-tate-algebra-properties*; *radius-tate-algebra-affinoid*;
+*overconvergent-tate-algebra-properties*; RigidAnalyticGeometry §1.5.1–1.5.2;
 *overconvergent-tate-algebra*. Lean: `Dagger.washnitzerAlgebra.faithfullyFlat`,
 `Dagger.washnitzerAlgebra.existsUnique_isMaximal_comap`, `Dagger.washnitzerAlgebra.isRegularRing`.
 
 ### F1.2 dagger algebras
 
-**Dagger algebras over a complete nonarchimedean field.** (*dagger-algebra*) Let `K` be a complete rank-one nonarchimedean field (as in *radius-tate-algebra-affinoid*). A `K`-dagger algebra is a
+**Dagger algebras over a complete nonarchimedean field.** (*dagger-algebra*) Let `K` be a complete rank-one nonarchimedean field (as in RigidAnalyticGeometry §1.5.1–1.5.2). A `K`-dagger algebra is a
 commutative `K`-algebra `A` for which there exist `n ∈ ℕ` and a surjective `K`-algebra homomorphism
 `W_n → A` (equivalently `A ≅ W_n/I` for an ideal `I`). A morphism of dagger algebras is a
 `K`-algebra homomorphism (no continuity is imposed; it is automatic, see
@@ -3836,7 +3800,7 @@ but not normal, matching the dagger algebra. *Needs:* *overconvergent-faithful-f
 
 **A dagger algebra and its completion: faithful flatness, points, completed local rings, reducedness
 and regularity, supremum norm.** (*dagger-completion-comparison*) Let `K` be a complete rank-one
-nonarchimedean field (as in *radius-tate-algebra-affinoid*) and `A` a `K`-dagger algebra with
+nonarchimedean field (as in RigidAnalyticGeometry §1.5.1–1.5.2) and `A` a `K`-dagger algebra with
 completion `τ : A → Â`. Then: (1) `τ` is faithfully flat and `m ↦ τ^{-1}(m)` is a bijection
 `Max(Â) → Max(A)` with isomorphic residue fields; (2) for corresponding maximal ideals `τ` induces
 isomorphisms of completed local rings `A^_{τ^{-1}m} ≅ Â^_m`; (3) `A` is regular if and only if `Â`
@@ -3871,7 +3835,7 @@ particular every element of `A^int` whose image in `A^int/{|·|_sup < 1}` is `1`
 element `a ∈ A` is a unit iff its image in `Â` is a unit (`isUnit_iff_isUnit_completion`; GK00 §1,
 Thm 1.7(1) (faithful flatness of `τ`, which reflects units); 1.9 for the weak-completeness clauses
 (a)–(b)). *Needs:* *dagger-algebra*;
-*radius-tate-algebra-affinoid*; *dagger-norm-and-continuity*; *dagger-completion-comparison*;
+RigidAnalyticGeometry §1.5.1–1.5.2; *dagger-norm-and-continuity*; *dagger-completion-comparison*;
 *fringe-morphism-factorisation*; *fringe-presentation*. Lean: `Dagger.isUnit_iff_isUnit_completion`.
 
 **Finite algebras over a dagger algebra are dagger algebras.** (*dagger-finite-extension*) Let `A`
@@ -3895,7 +3859,7 @@ the precise statement above — and division by `g` identifies `A_λ[Y]/(g)` wit
 `A_λ⟨λ^{-1}Y⟩/(g) = T_{n+1}(λ)/(I + g)`. In the colimit `λ → 1`, `A[X]/(f) ≅ W_{n+1}/(I + g)`,
 with stages `T_{n+1}(λ)/(I + g)` and generators sent by `X_i ↦ X_i` (`i ≤ n`) and
 `X_{n+1} ↦ cX`. *Needs:* *dagger-algebra*;
-*fringe-presentation*; *radius-tate-algebra-affinoid*. Lean: `Dagger.IsDaggerAlgebra.of_finite`.
+*fringe-presentation*; RigidAnalyticGeometry §1.5.1–1.5.2. Lean: `Dagger.IsDaggerAlgebra.of_finite`.
 
 **Checks.**
 
@@ -3911,7 +3875,7 @@ with stages `T_{n+1}(λ)/(I + g)` and generators sent by `X_i ↦ X_i` (`i ≤ n
 
 **Finiteness, surjectivity, injectivity and strictness of morphisms of dagger algebras are detected
 on completions.** (*dagger-finite-morphism-comparison*) Let `K` be a complete rank-one
-nonarchimedean field (as in *radius-tate-algebra-affinoid*) and `φ : A → B` a morphism of `K`-dagger
+nonarchimedean field (as in RigidAnalyticGeometry §1.5.1–1.5.2) and `φ : A → B` a morphism of `K`-dagger
 algebras with completion `φ̂ : Â → B̂`. Then: (a) `φ` is surjective (resp. bijective) iff `φ̂` is;
 (b) the following are equivalent: (i) `φ` is finite, (ii) `φ̂` is finite, (iii) the map of
 reductions `φ̃ : Ã → B̃` (`R̃ = R°/R°°` for the sup norm) is finite; (c) if `φ` is finite, `φ` is
@@ -3932,7 +3896,7 @@ Ceti's `LinearMap.isStrictMap_of_module_finite` (`Â` a complete Tate ring, `B̂
 
 **Approximation of solutions and of morphisms from the completion (Bosch's rigid Artin
 approximation).** (*dagger-approximation*) Let `K` be a complete rank-one nonarchimedean field (as
-in *radius-tate-algebra-affinoid*). Assume moreover `char K = 0` or `[K : K^p] < ∞`, the hypothesis
+in RigidAnalyticGeometry §1.5.1–1.5.2). Assume moreover `char K = 0` or `[K : K^p] < ∞`, the hypothesis
 under which Vezzani states the morphism form (Vezzani §2, Prop. 2.8); Grosse-Klönne's 1.13 and 1.15
 state none. (1) (Bosch) Let `I ⊆ W_n`, `A = W_n/I ⊆ Â = T_n/IT_n` with a Banach norm `|·|_Â`, and
 let `(f_i)_{i∈Λ}` be elements of `A⟨Y_1, …, Y_m⟩† = W_{n+m}/IW_{n+m}`. If there are
@@ -4001,11 +3965,11 @@ characteristic. The error is measured by a continuous seminorm on the completion
 ### F1.3 fringe presentations and the fringe topology
 
 **Fringe (radius-indexed) presentations of a dagger algebra.** (*fringe-presentation*) Let `K` be a
-complete rank-one nonarchimedean field (as in *radius-tate-algebra-affinoid*) and `A` a `K`-dagger
+complete rank-one nonarchimedean field (as in RigidAnalyticGeometry §1.5.1–1.5.2) and `A` a `K`-dagger
 algebra. A fringe presentation of `A` consists of `n ∈ ℕ`, a radius `ρ_0 ∈ Γ*` with `ρ_0 > 1`,
 elements `f_1, …, f_r ∈ T_n(ρ_0)`, and a `K`-algebra isomorphism `W_n/(f_1, …, f_r)W_n ≅ A`. For
 `ρ ∈ Γ* ∩ (1, ρ_0]` put `A_ρ := T_n(ρ)/(f)T_n(ρ)`, a `K`-affinoid algebra (see
-*radius-tate-algebra-affinoid*), with transition maps `A_{ρ'} → A_ρ` for `ρ ≤ ρ'` induced by
+RigidAnalyticGeometry §1.5.1–1.5.2), with transition maps `A_{ρ'} → A_ρ` for `ρ ≤ ρ'` induced by
 `T_n(ρ') ⊆ T_n(ρ)`, and put `A_1 := T_n/(f)T_n`. Then `A = colim_{ρ → 1+} A_ρ` as `K`-algebras, and
 `A_1 = Â` is the completion. The fringe algebra of the presentation at radius `ρ` is the image
 `B_ρ ⊆ A` of `A_ρ` (equivalently of `T_n(ρ)`); `A_ρ → A` need not be injective. Geometrically,
@@ -4027,7 +3991,7 @@ completion `(Â, Â^+)`, `Â^+` the integral closure of `O_K + Â°°`, and `Spa
 compactification of `Sp Â` and the weak inverse limit of the `Sp(A_ρ)` (Vezzani A.14, A.22), and
 that two fringe presentations give cofinal, hence isomorphic, ind-systems
 of affinoid algebras under `A` (GK00 §1, Lem. 1.8, p. 6). *Needs:* *dagger-algebra*;
-*radius-tate-algebra-affinoid*; *overconvergent-tate-algebra-properties*;
+RigidAnalyticGeometry §1.5.1–1.5.2; *overconvergent-tate-algebra-properties*;
 *overconvergent-tate-algebra*; *dagger-norm-and-continuity*.
 
 **Checks.**
@@ -4061,12 +4025,12 @@ there is `λ' ∈ Γ*` with `λ_B ≥ λ' > 1` such that `A_λ → A → B` fact
 Consequently every fringe algebra of `A` maps into a fringe algebra of `B`; any finitely many fringe
 algebras of `A` (from any presentations) lie in a common fringe algebra; and two fringe
 presentations of the same `A` give mutually cofinal ind-systems of affinoid algebras (GK00 §1, Lem.
-1.8). *Needs:* *fringe-presentation*; *radius-tate-algebra-affinoid*; *dagger-norm-and-continuity*;
+1.8). *Needs:* *fringe-presentation*; RigidAnalyticGeometry §1.5.1–1.5.2; *dagger-norm-and-continuity*;
 *overconvergent-tate-algebra-properties*.
 
 **The fringe (direct limit) topology on dagger algebras and their finite modules.**
 (*fringe-topology*) Let `K` be a complete rank-one nonarchimedean field (as in
-*radius-tate-algebra-affinoid*) and `A` a `K`-dagger algebra. The fringe topology on `A` is the
+RigidAnalyticGeometry §1.5.1–1.5.2) and `A` a `K`-dagger algebra. The fringe topology on `A` is the
 finest locally `K`-convex topology for which every map `A_ρ → A` of a fringe presentation is
 continuous, `A_ρ` carrying its Banach topology; equivalently the direct limit of the intrinsic
 Banach topologies of the fringe algebras of `A`. It does not depend on the fringe presentation, is
@@ -4143,7 +4107,7 @@ identity and composition equations fix the direction of the radius system (GK00 
 ### F1.4 tensor products and rational localisation
 
 **The dagger (overconvergent completed) tensor product `A_1 ⊗†_B A_2`.** (*dagger-tensor-product*)
-Let `K` be a complete rank-one nonarchimedean field (as in *radius-tate-algebra-affinoid*) and let
+Let `K` be a complete rank-one nonarchimedean field (as in RigidAnalyticGeometry §1.5.1–1.5.2) and let
 `α_1 : B → A_1`, `α_2 : B → A_2` be morphisms of `K`-dagger algebras with surjections
 `f_1 : W_{n_1} → A_1`, `f_2 : W_{n_2} → A_2`. Define `A_1 ⊗†_B A_2` as the image of
 `W_{n_1+n_2} = K⟨X, Y⟩†` under the continuous map `T_{n_1+n_2} → Â_1 ⊗̂_{B̂} Â_2` into the completed
@@ -4186,7 +4150,7 @@ his errata) (GK00 §1, 1.16, p. 9). *Needs:* *dagger-algebra*; *dagger-weak-comp
 
 **Rational localisation `A⟨f/g⟩†` of a dagger algebra and its universal property.**
 (*dagger-rational-localisation*) Let `K` be a complete rank-one nonarchimedean field (as in
-*radius-tate-algebra-affinoid*), `A` a `K`-dagger algebra and `g, f_1, …, f_m ∈ A` without common
+RigidAnalyticGeometry §1.5.1–1.5.2), `A` a `K`-dagger algebra and `g, f_1, …, f_m ∈ A` without common
 zero on `Sp(A)` (equivalently generating the unit ideal). Define
 `A⟨f/g⟩† := A⟨X_1, …, X_m⟩†/(gX_i − f_i)_{i≤m}` (`A⟨X⟩†` from *dagger-tensor-product*). The map
 `A → A⟨f/g⟩†` is universal among morphisms of dagger algebras `φ : A → C` such that `Sp(φ)` lands in
@@ -4258,7 +4222,7 @@ generated, e.g. `(π, X)` and `(X − π)` are, and `O_K⟨X⟩†/(X − π) = 
 
 **The integral Monsky–Washnitzer algebra `O_K⟨X_1, …, X_n⟩† = W_n ∩ O_K[[X]]`.**
 (*integral-overconvergent-tate-algebra*) Let `K` be a complete rank-one nonarchimedean field (as in
-*radius-tate-algebra-affinoid*) and `O_K = {a : |a| ≤ 1}`. Define
+RigidAnalyticGeometry §1.5.1–1.5.2) and `O_K = {a : |a| ≤ 1}`. Define
 `O_K⟨X_1, …, X_n⟩† := W_n ∩ O_K[[X_1, …, X_n]]`, the overconvergent power series with coefficients
 in `O_K`; it is `W_n^int` (see *dagger-algebra*). If `O_K` is a discrete valuation ring with
 uniformiser `π`, a series `f ∈ O_K[[X]]` lies in `O_K⟨X⟩†` iff there is `c > 0` with
@@ -4547,7 +4511,7 @@ isomorphic additionally needs that their integral subrings are lifts (see *mw-ty
 ### F1.6 affinoid dagger spaces
 
 **Affinoid subdomains of the maximal spectrum of a dagger algebra.** (*dagger-affinoid-subdomain*)
-Let `K` be a complete rank-one nonarchimedean field (as in *radius-tate-algebra-affinoid*), `A` a
+Let `K` be a complete rank-one nonarchimedean field (as in RigidAnalyticGeometry §1.5.1–1.5.2), `A` a
 `K`-dagger algebra and `X = Sp(A)` its set of maximal ideals. A subset `U ⊆ X` is an affinoid
 subdomain if there are a dagger algebra `B = O_X(U)` and a morphism `ι : A → B` with
 `Sp(ι)(Sp B) ⊆ U` such that for every dagger algebra `D` the map
@@ -4636,7 +4600,7 @@ The affine comparison of (a) is fixed as follows: contraction along
 *rigid-adic-comparison-functor* (AdicSpacesPartII layer R1).
 
 **Tate acyclicity for dagger algebras.** (*dagger-tate-acyclicity*) Let `K` be a complete rank-one
-nonarchimedean field (as in *radius-tate-algebra-affinoid*), `A` a `K`-dagger algebra, `X = Sp(A)`
+nonarchimedean field (as in RigidAnalyticGeometry §1.5.1–1.5.2), `A` a `K`-dagger algebra, `X = Sp(A)`
 and `M` any `A`-module. Every finite covering `X = U_1 ∪ … ∪ U_n` by affinoid subdomains is acyclic
 for the presheaf `U ↦ O_X(U) ⊗_A M`: the augmented Čech complex
 `0 → M → ∏_i O_X(U_i) ⊗_A M → ∏_{i<j} O_X(U_i ∩ U_j) ⊗_A M → …` is exact (GK00 §2, Prop. 2.6, p.
@@ -4672,7 +4636,7 @@ subdomain algebras (GK00 §2.7 and Propositions 2.6 and 2.8, pp. 11–12).
 ### F1.7 dagger spaces, coherent modules and strict neighbourhoods
 
 **Dagger spaces (rigid spaces with overconvergent structure sheaf).** (*dagger-space*) Let `K` be a
-complete rank-one nonarchimedean field (as in *radius-tate-algebra-affinoid*). Rigid spaces are,
+complete rank-one nonarchimedean field (as in RigidAnalyticGeometry §1.5.1–1.5.2). Rigid spaces are,
 throughout, the quasi-separated Tate rigid-analytic spaces over `K` of *rigid-analytic-space* (AdicSpacesPartII layer
 R1) (G-topological spaces locally isomorphic to `Sp(B)` for `K`-affinoid algebras `B`), compared
 with adic spaces locally of finite type over `Spa(K, O_K)` by *rigid-adic-comparison-functor* (AdicSpacesPartII layer
@@ -4813,7 +4777,7 @@ sections and `H^n(X, F) = 0` for all `n ≥ 1` (GK00 §3, Prop. 3.1, p. 17). *Ne
 *dagger-coherent-affinoid-kiehl*; *dagger-tate-acyclicity*; *dagger-g-topology*.
 
 **Strict neighbourhoods of affinoids and the cofinal fringe system.** (*strict-neighbourhood*) Let
-`K` be a complete rank-one nonarchimedean field (as in *radius-tate-algebra-affinoid*), with rigid
+`K` be a complete rank-one nonarchimedean field (as in RigidAnalyticGeometry §1.5.1–1.5.2), with rigid
 spaces and their adic spaces as in *dagger-space* (*rigid-analytic-space* and
 *rigid-adic-comparison-functor*, AdicSpacesPartII layer R1). Let `W` be a rigid space and `U ⊆ W` an admissible open
 for which the complement `W − U` is admissible open (e.g. `U` an affinoid subdomain or a finite

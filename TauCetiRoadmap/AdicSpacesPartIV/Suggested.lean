@@ -749,8 +749,9 @@ section Radius
 
 variable (n : ℕ) (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K]
 
-/-- The Tate algebra `T_n(ρ) = K⟨ρ⁻¹X₁, …, ρ⁻¹Xₙ⟩` of the closed polydisc of radius `ρ`:
-Mathlib's restricted series at the constant radius `ρ` (GK00, §1, 1.1). -/
+/-- Local restatement of RigidAnalyticGeometry §1.5.1, to be replaced by the import once that roadmap is in TauCetiRoadmap.
+The `K`-subalgebra of restricted series at the constant polyradius `ρ`, used to define `W_n`.
+The coefficient construction does not require completeness of `K`. -/
 def radiusTate (ρ : ℝ) : Subalgebra K (MvPowerSeries (Fin n) K) :=
   { MvPowerSeries.IsRestricted.subring (R := K) (fun _ : Fin n ↦ ρ) with
     algebraMap_mem' := fun c ↦ by
@@ -758,30 +759,13 @@ def radiusTate (ρ : ℝ) : Subalgebra K (MvPowerSeries (Fin n) K) :=
       rw [MvPowerSeries.algebraMap_apply, Algebra.algebraMap_self, RingHom.id_apply]
       exact MvPowerSeries.isRestricted_C _ c }
 
-/-- `Γ* = √|K^×|`, the divisible hull of the value group of `K` in `ℝ_{>0}`. -/
-def gammaStar : Set ℝ :=
-  {ρ | 0 < ρ ∧ ∃ (c : K) (s : ℕ), c ≠ 0 ∧ 0 < s ∧ ρ ^ s = ‖c‖}
-
-/-- The `ρ`-Gauss norm `|f|_ρ = max_ν |a_ν| ρ^{|ν|}` (meaningful on `T_n(ρ)`). -/
+/-- Local restatement of RigidAnalyticGeometry §1.5.1, to be replaced by the import once that roadmap is in TauCetiRoadmap.
+The Gauss-norm function at the constant polyradius `ρ`, used at radius `1` in the unit criterion
+for `W_n`; its norm interpretation applies only to series restricted at `ρ > 0`. -/
 def radiusGaussNorm (ρ : ℝ) (f : MvPowerSeries (Fin n) K) : ℝ :=
   MvPowerSeries.gaussNorm (fun a : K ↦ ‖a‖) (fun _ : Fin n ↦ ρ) f
 
-variable {n K}
-
-/-- For `ρ ∈ Γ*` the radius-`ρ` Tate algebra is noetherian (GK00, §1, 1.1). -/
-theorem radiusTate_isNoetherianRing [CompleteSpace K] {ρ : ℝ} (hρ : ρ ∈ gammaStar K) :
-    IsNoetherianRing (radiusTate n K ρ) := sorry
-
 end Radius
-
-/-- `1 ∈ Γ*`. -/
-example (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] : (1 : ℝ) ∈ gammaStar K :=
-  ⟨zero_lt_one, 1, 1, one_ne_zero, Nat.zero_lt_one, by simp⟩
-
-/-- Over `ℚ_p`, `∑ pᵐ Xᵐ` is not restricted at radius `p`. -/
-example (p : ℕ) [Fact p.Prime] :
-    (fun ν : Fin 1 →₀ ℕ ↦ (p : ℚ_[p]) ^ ν 0 : MvPowerSeries (Fin 1) ℚ_[p]) ∉
-      radiusTate 1 ℚ_[p] p := sorry
 
 section Washnitzer
 
