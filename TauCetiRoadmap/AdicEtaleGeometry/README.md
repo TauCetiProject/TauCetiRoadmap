@@ -2134,16 +2134,29 @@ rings, compatible rings of definition and pseudouniformisers, and detection of c
 if a stage element maps into `ϖⁿA₀`, its image at some later stage lies in `ϖⁿA_{j,0}`.
 These conditions distinguish the completion from a dense quotient of a system.
 
-Kedlaya–Liu construct the stages from finite subsets of `A⁺`, as quotients of
-`ℤ((z))⟨S₁, …, S_m⟩`, with `z ↦ ϖ`. The stage norm is the supremum of the quotient norm
-and the subspace norm from `A`, and the stage plus ring is the image of `ℤ⟦z⟧⟨S⟩`
-([KL I] §2.6, Def. 2.6.1 and Lem. 2.6.2, p. 53). Including the subspace norm ensures that
-completion retains the topology and nilpotents of `A`, also when `A⁺` is unbounded.
-For bounded `A⁺`, `Huber.AffinoidSystem.exists_of_bounded_plus` additionally makes the images
-of the stage rings of definition exhaust `A⁺`; boundedness is needed for this stronger
-conclusion, not for existence of an affinoid system. The unit balls for the supremum norms
-map into a fixed ring of definition of `A`. Adjoining a generator `x/ϖⁿ` whenever it lies
-in that ring gives the eventual congruence detection recorded by `detect_small`.
+Kedlaya–Liu construct the stages from finite subsets `S` of `A⁺`, as the quotients `A_S` of
+`ℤ((z))⟨S⟩` by the kernel of the map to `A` with `z ↦ ϖ`. The stage norm is the supremum of the
+quotient norm and the subspace norm from `A` ([KL I] §2.6, Def. 2.6.1 and Lem. 2.6.2, p. 53);
+by the open mapping theorem it defines the quotient topology ([KL I] Thm. 2.2.8, p. 31).
+Including the subspace norm ensures that completion retains the topology and nilpotents of `A`,
+also when `A⁺` is unbounded. Let `R_S` be the image of `ℤ⟦z⟧⟨S⟩` in `A_S`. The stage plus ring
+is the integral closure `A_S⁺` of `R_S` in `A_S`, so that `(ℤ((z))⟨S⟩, ℤ⟦z⟧⟨S⟩) → (A_S, A_S⁺)`
+is a quotient mapping (Tau Ceti `Huber.Pair.quotient`). The proof of [KL I] Lem. 2.6.2 uses
+`R_S` itself, which need not be integrally closed in `A_S` (Check
+*affinoidSystem_plus_unbounded*), while plus rings must be ([KL I] §2.4, Def. 2.4.1, p. 38). As
+`R_S` is an open bounded subring, `A_S⁺` is open, integrally closed in `A_S` and contained in
+`A_S°` (`Huber.Pair.isRingOfIntegralElements_integralClosure`); it may be unbounded. For
+`S ⊆ T` the transition sends generators to generators, hence `R_S` into `R_T` and `A_S⁺` into
+`A_T⁺`. The image of `R_S` in `A` lies in the closure of `ℤ[ϖ][S]`, inside the open, hence
+closed, subring `A⁺`; since `A⁺` is integrally closed in `A`, the map `A_S → A` sends `A_S⁺`
+into `A⁺`. Each `a ∈ A⁺` is the image of the generator of `R_S` for `S = {a}`, so the images of
+the `A_S⁺` exhaust `A⁺`. The rings of definition are not enlarged: the stage rings of
+definition are the unit balls for the supremum norms, which are bounded and map into a fixed
+ring of definition `A₀` of `A`. For bounded `A⁺`, `Huber.AffinoidSystem.exists_of_bounded_plus`
+additionally makes the images of the stage rings of definition exhaust `A⁺`; boundedness is
+needed for this stronger conclusion, not for existence of an affinoid system. Adjoining a
+generator `x/ϖⁿ` whenever it lies in `A₀` gives the eventual congruence detection in the stage
+rings of definition recorded by `detect_small`.
 
 Moreover (a) the
 restriction map `Spa(A, A⁺) → lim_α Spa(A_α, A_α⁺)` is a homeomorphism; every rational subset, and
@@ -2176,7 +2189,7 @@ localization with the compatible families in any such choice of localized stage 
 with the subspace topology from the product. These are [KL I] Lem. 2.6.5(a) and
 Rem. 2.6.7, p. 54. This is how non-noetherian statements are reduced to Huber's
 noetherian theory. *Needs:* *finite-etale-affinoid-algebra*; AdicSpacesPartII layer R0; Tau Ceti
-`Huber.IsTateRing`, `Huber.Pair.isRingOfIntegralElements_integralClosure`,
+`Huber.IsTateRing`, `Huber.Pair.quotient`, `Huber.Pair.isRingOfIntegralElements_integralClosure`,
 `ValuationSpectrum.spa`, `TauCeti.ValuationSpectrum.spa_integralClosure`,
 `ValuationSpectrum.rationalSubset`, `TauCeti.ValuationSpectrum.spaComap_preimage_rationalSubset`. README only (no Lean declaration).
 
@@ -2224,7 +2237,9 @@ noetherian theory. *Needs:* *finite-etale-affinoid-algebra*; AdicSpacesPartII la
   `ℤ_p⟨T⟩ ⊕ ℤ_p⟨T⟩ε`, the ring `A⁺ = A° = ℤ_p⟨T⟩ ⊕ ℚ_p⟨T⟩ε` is unbounded.
   An affinoid system still exists and its stage plus rings exhaust `A⁺`. Its completed
   limit is `A`, with `ε` retained: the supremum norms dominate the subspace norm.
-  The images of the stage rings of definition cannot exhaust `A⁺`.
+  The images of the stage rings of definition cannot exhaust `A⁺`. With `ϖ = p` and
+  `S = {T, ε}`, the stage `A_S` is `A`, the image `R_S` of `ℤ⟦z⟧⟨S⟩` is `ℤ_p⟨T⟩ ⊕ ℤ_p⟨T⟩ε`, and
+  `ε/p ∉ R_S` although `(ε/p)² = 0`; the stage plus ring `A_S⁺` contains `ε/p` and equals `A⁺`.
 - *Huber.affinoidSystem_plus_unbounded_definition* (non-example) — no system whose rings of
   definition map densely into a fixed base ring of definition can have those images exhaust
   an unbounded plus ring.
