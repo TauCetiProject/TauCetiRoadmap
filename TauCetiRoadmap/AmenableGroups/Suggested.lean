@@ -167,15 +167,19 @@ section Foelner
 
 variable (G : Type*) [Group G]
 
+/-- The group has Følner sets: Mathlib's counting-measure Følner filter is nontrivial.
+The local measurable space makes every subset measurable, so this depends only on the group. -/
+abbrev HasFoelnerSets : Prop :=
+  letI : MeasurableSpace G := ⊤
+  NeBot (maxFoelner G (MeasureTheory.Measure.count : MeasureTheory.Measure G))
+
 open scoped Classical
 
 /-- Specialize Mathlib's Følner filter to counting measure on all subsets.
 This finite-test characterization needs neither a topology nor countability. -/
-theorem maxFoelner_count_neBot_iff :
-    (letI : MeasurableSpace G := ⊤
-     NeBot (maxFoelner G (MeasureTheory.Measure.count : MeasureTheory.Measure G))) ↔
-      ∀ K : Finset G, ∀ ε : ℝ, 0 < ε → ∃ F : Finset G, F.Nonempty ∧
-        ∀ g ∈ K, (((g • F) ∆ F).card : ℝ) < ε * (F.card : ℝ) := by
+theorem hasFoelnerSets_iff : HasFoelnerSets G ↔
+    ∀ K : Finset G, ∀ ε : ℝ, 0 < ε → ∃ F : Finset G, F.Nonempty ∧
+      ∀ g ∈ K, (((g • F) ∆ F).card : ℝ) < ε * (F.card : ℝ) := by
   sorry
 
 end Foelner
@@ -191,12 +195,15 @@ theorem amenable_iff_exists_invariantContent :
       m Set.univ = 1 ∧ ∀ (g : G) (A : Set G), m (g • A) = m A := by
   sorry
 
-/-- The primary discrete Følner characterization uses Mathlib's existing filter.
-The local measurable space is `⊤`, so every subset is measurable even for uncountable `G`. -/
+/-- Discrete amenability is equivalent to having Følner sets, using Mathlib's filter. -/
+theorem amenable_iff_hasFoelnerSets : Amenable G ↔ HasFoelnerSets G := by
+  sorry
+
+/-- Unfold the abbreviation to expose the counting-measure filter directly. -/
 theorem amenable_iff_maxFoelner_neBot : Amenable G ↔
     (letI : MeasurableSpace G := ⊤
      NeBot (maxFoelner G (MeasureTheory.Measure.count : MeasureTheory.Measure G))) := by
-  sorry
+  exact amenable_iff_hasFoelnerSets G
 
 open scoped Classical
 
@@ -205,7 +212,7 @@ with no countability assumption. -/
 theorem amenable_iff_exists_finset : Amenable G ↔
     ∀ K : Finset G, ∀ ε : ℝ, 0 < ε → ∃ F : Finset G, F.Nonempty ∧
       ∀ g ∈ K, (((g • F) ∆ F).card : ℝ) < ε * (F.card : ℝ) := by
-  exact (amenable_iff_maxFoelner_neBot G).trans (maxFoelner_count_neBot_iff G)
+  exact (amenable_iff_hasFoelnerSets G).trans (hasFoelnerSets_iff G)
 
 /-- Countability is needed only to replace a general filter by a sequence. -/
 theorem amenable_iff_exists_foelnerSequence [Countable G] : Amenable G ↔

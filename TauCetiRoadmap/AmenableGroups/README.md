@@ -288,26 +288,30 @@ theorem here is for discrete groups.
 
 ## Layer 5: Følner criteria for arbitrary discrete groups
 
-Use Mathlib's `IsFoelner` and `maxFoelner` as the Følner API. For the left regular
-action on `G`, use `Measure.count` with the local measurable space `⊤`, so every
-subset is measurable even when `G` is uncountable. Prove the discrete
-characterization `amenable_iff_maxFoelner_neBot`:
+Use Mathlib's `IsFoelner` and `maxFoelner` as the Følner API. The abbreviation
+`HasFoelnerSets G` directly names `NeBot (maxFoelner G Measure.count)` for the
+left regular action on `G`. It installs the measurable space `⊤` locally, so
+every subset is measurable even when `G` is uncountable. Prove the discrete
+characterization `amenable_iff_hasFoelnerSets`:
 
 ```text
-Amenable G ↔ NeBot (maxFoelner G Measure.count).
+Amenable G ↔ HasFoelnerSets G.
 ```
 
+Obtain the explicit filter characterization `amenable_iff_maxFoelner_neBot`
+by unfolding the abbreviation.
 Here `NeBot` excludes the bottom filter, for which all eventual conditions are
-vacuous. Prove the counting-measure specialization `maxFoelner_count_neBot_iff`
+vacuous. Prove the counting-measure specialization `hasFoelnerSets_iff`
 with only `[Group G]`, without topology or countability hypotheses. For a finite
 set `F` write `gF={g*x | x∈F}`; the specialization states
 
 ```text
-NeBot (maxFoelner G Measure.count) ↔
+HasFoelnerSets G ↔
   ∀ K ⊆ G finite,  ∀ ε > 0,  ∃ F ⊆ G finite,  F ≠ ∅  ∧  ∀ g ∈ K,  |gF △ F| < ε·|F|.
 ```
 
-Derive `amenable_iff_exists_finset` for discrete groups from these two theorems.
+Derive `amenable_iff_exists_finset` for discrete groups by composing
+`amenable_iff_hasFoelnerSets` with `hasFoelnerSets_iff`.
 Cardinalities in inequalities and ratios are coerced to `ℝ`. Use `Finset`, the
 pointwise action and `symmDiff`; prove bridges to finite `Set`s and counting
 measure. Develop preservation under group isomorphisms, monotonicity in the test
