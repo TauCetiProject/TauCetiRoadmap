@@ -5266,7 +5266,7 @@ below); the complex and its cohomology are specified in this README only.
 - Degenerate: `H^0_dR(Sp K) = K` and `H^i_dR(Sp K) = 0` for `i > 0`; for
   `Sp(L)`, `L/K` finite separable, `H^0_dR = L` (connected, not geometrically connected); for
   `A = 0` the complex is zero and `H^0_dR(∅) = 0`.
-- Non-example: for the rigid closed disc `D' = Spa(K⟨X⟩)` with `K ⊇ ℚ_p`,
+- Non-example: for the rigid closed disc `D' = Spa(K⟨X⟩)` over `K = ℚ_p`,
   the form `ω = Σ_n p^n X^{p^n − 1} dX` is not exact (its formal primitive `Σ X^{p^n}` is not in
   `K⟨X⟩`), and `H^1_dR(D')` is infinite-dimensional; `D` and `D'` have the same points, so de Rham
   cohomology is not determined by the underlying point set. A definition `H_dR(X) := H_dR(X')` fails.
@@ -5353,7 +5353,7 @@ the section assumes `K = Frac(R)` for a complete DVR `R` of mixed characteristic
 the proof uses only `char K = 0` through the polynomial growth of `|1/m|`, which justifies the
 characteristic-0 form; Vezzani, Introduction, for why the rigid closed disc behaves differently). Thus
 the closed dagger disc has `H^1_dR = 0`, the dagger annulus `γ ≤ |x| ≤ δ` has `H^1_dR = K·dX/X`, the
-open rigid annulus `γ < |x| < δ` has `H^1_dR = K·dX/X`, while the closed rigid disc has
+open rigid annulus `γ < |x| < δ` has `H^1_dR = K·dX/X`, while the closed rigid disc over `K = ℚ_p` has
 infinite-dimensional `H^1_dR`. In Lean, `Dagger.Omega.poincare_washnitzer` states the case
 `r = 0`, `V = Sp(W_n)`, in degree `0` for every `n` and in degree `1` for `n = 1`, under
 `[CharZero K]` only (no discreteness, no residue
@@ -5377,14 +5377,23 @@ Künneth clause are specified in this README only. *Needs:* *dagger-de-rham-comp
 - Negative control: `n = r = 1`, `γ_1 = 1`, `δ_1 = |π|^{-1}`,
   `μ = |π|^{-2}`: `Π δ_i = |π|^{-1} < μ`, and `V° = {1 < |x| < |π|^{-1}, |x| > |π|^{-2}} = ∅`; with
   `μ = 1 < δ_1` instead, `V°` is the open annulus `1 < |x| < |π|^{-1}` with `H^1_dR = K·dx/x`.
-- Non-example: the rigid closed disc has `H^1_dR` infinite-dimensional, so (a) is false with
-  `K⟨X⟩` in place of `K⟨X⟩†`.
+- Non-example: over `K = ℚ_p`, the rigid closed disc has infinite-dimensional `H^1_dR`, so (a)
+  fails with `K⟨X⟩` in place of `K⟨X⟩†`. For pairwise disjoint infinite subsets `S_j` of the
+  positive integers, the forms `ω_j = Σ_{m∈S_j} p^m X^{p^m−1} dX` belong to `K⟨X⟩dX`.
+  Their formal primitives have coefficient `1` at exponents `p^m`, `m ∈ S_j`. Every nonzero
+  finite linear combination has a fixed nonzero primitive coefficient on one such infinite
+  subset, so its primitive is not restricted. Thus the classes `[ω_j]` are linearly independent.
+- Opposite-field computation: for `K = ℚ((t))` with its `t`-adic absolute value, every nonzero
+  integer has norm `1`. For `f = Σ_{n≥0} a_n X^n ∈ K⟨X⟩`, the primitive
+  `J(f) = Σ_{n≥0} (a_n/(n+1)) X^{n+1}` belongs to `K⟨X⟩` because
+  `|a_n/(n+1)| = |a_n| → 0`. Hence the closed rigid disc has `H^1_dR = 0`, as does the dagger
+  disc; characteristic zero alone does not give the rigid-disc non-example.
 
 **De Rham cohomology of a smooth partially proper dagger space equals that of its rigid space (and
 fails to for affinoids).** (*dagger-rigid-de-rham-comparison*) Let `X` be a smooth partially proper
 `K`-dagger space. Then the natural map `H^i_dR(X) → H^i_dR(X')` is an isomorphism for all `i`. The
-partial properness hypothesis cannot be dropped: for the closed unit disc with `char K = 0` and residue
-characteristic `p`, `H^1_dR(D) = 0` while `H^1_dR(D')` is infinite-dimensional, although `D` and `D'`
+partial properness hypothesis cannot be dropped: for the closed unit disc over `K = ℚ_p`,
+`H^1_dR(D) = 0` while `H^1_dR(D')` is infinite-dimensional, although `D` and `D'`
 have the same underlying points and G-topology (GK00 §3, 3.3, p. 18, statement and proof; GK02 §0,
 p. 3; the non-example GK02, Introduction, p. 1). For `char K = 0`: for `X = D^0` the open unit disc
 (Stein, partially proper), `H^1_dR(D^0) = H^1_dR(D^0') = 0`; for `X = (A^1)^†`, `H^i_dR` agrees with
@@ -5422,7 +5431,8 @@ global sections of a Stein space, resp. the fringe topology (see *fringe-topolog
 a dagger algebra (GK00 §4, Lem. 4.7, p. 21, whose hypotheses are present in the arXiv version and
 missing in the published one; the footnote to Lem. 4.7, p. 21, records that finiteness is used in the
 proof). For `X = Sp(W_1)`, `d : W_1 → W_1 dX` is surjective (see *dagger-polyannulus-de-rham-cohomology*),
-in particular strict with closed image; for the rigid disc, `d : K⟨X⟩ → K⟨X⟩dX` has non-closed image
+in particular strict with closed image; for the rigid disc over `K = ℚ_p`,
+`d : K⟨X⟩ → K⟨X⟩dX` has non-closed image
 (its closure contains `Σ p^n X^{p^n−1}dX`). For regular `A` the statement is made in degree zero
 and, for strictness and closed image, in every
 affinoid degree, on the actual exterior powers of `Ω^1_A`. Both forms assume `[CharZero K]`,
@@ -6245,19 +6255,31 @@ over `K`, is split exact, so `dx_1, …, dx_r` extend to a basis of `Ω^1` at th
 that in a chart the intersections `V(x_{i_1}, …, x_{i_s})` of branches are smooth over `K` of
 pure codimension `s` and the remaining branches restrict to a strict normal crossings divisor on
 them, that `I_D` is invertible, locally generated by `x_1⋯x_r`,
-that for an SNC divisor `D` on a smooth `K`-scheme `X`, `D^†` is SNC on
-`X^†`, and that restriction to an open subspace and pullback along étale
+that for a smooth, separated, finite type `K`-scheme `X` with a divisor `D` that is SNC relative
+to `K` in the sense of *analytification-of-smooth-pair* (local branches and all their partial
+intersections are smooth over `K` of the expected codimensions), `D^†` is SNC on `X^†` under
+*dagger-analytification*, and that restriction to an open subspace and pullback along étale
 morphisms are SNC (Stacks Tag 0BI9, Def. 41.21.1, for the local-ring definition and the local
 equation `x_1⋯x_r`; Stacks Tag 0BIA, Lem. 41.21.2, applied to the smooth branches and their intersections within each chart; the global irreducible components of the dagger divisor are not required to be smooth; GK02 §0,
 Lem. 0.1, p. 4, and GK05, arXiv:1408.3346v1, §4.5 and proof of Lem. 4.6, pp. 23–25, for normal crossings divisors on dagger spaces
 and polydiscs). *Needs:* *dagger-smooth-space*; *dagger-coherent-module*; *dagger-to-rigid-functor*;
-*dagger-approximation*; *smooth-pair*; *rigid-adic-comparison-functor*.
+*dagger-approximation*; *smooth-pair*; *analytification-of-smooth-pair*;
+*dagger-analytification*; *rigid-adic-comparison-functor*.
 
 **Checks.**
 
 - Computation: `V(x_1x_2) ⊆ Sp(K⟨x_1, x_2⟩†)` is SNC with components
   `V(x_1)`, `V(x_2)` meeting transversally in the origin.
 - Degenerate: `D = ∅` is an SNC divisor on every smooth `X`.
+- Algebraic comparison: for every complete nontrivially nonarchimedean `K`, the coordinate
+  hyperplane divisor `D = V(T_1⋯T_r) ⊆ A^n_K`, `0 ≤ r ≤ n`, is SNC relative to `K`; its strata
+  are affine spaces of codimension equal to the number of intersecting branches. The pair is
+  smooth, separated and of finite type, so `(X^†, D^†)` is a smooth dagger pair in every
+  characteristic.
+- Domain control: over `K = ℚ_p`, the affine line with doubled origin
+  `X = A^1_K ⨿_{G_m,K} A^1_K` with empty boundary is an algebraic smooth pair, but is not
+  separated. It is outside the algebraic-to-dagger comparison's domain
+  (*dagger-analytification*).
 - Non-example: `V(x_2^2 − x_1^3)` (a cusp), `V(x_1x_2(x_1 − x_2))` (three
   concurrent lines) and `V(x_1^2)` (non-reduced) are not SNC divisors on the dagger bidisc.
 - Non-example (imperfect `K`): for `K = 𝔽_p((t))` and `D = V(T^p − t) ⊆ Sp(K⟨T⟩†)`, `D` is the
@@ -6266,7 +6288,10 @@ and polydiscs). *Needs:* *dagger-smooth-space*; *dagger-coherent-module*; *dagge
   is cut out by a regular system of parameters. Yet `D ≅ Sp K(t^{1/p})` is not smooth over `K` (over
   `K(t^{1/p})` its equation is `(T − t^{1/p})^p`) and `d(T^p − t) = 0` in `Ω^1`, so `D` is not SNC;
   the regular-parameter condition without the smoothness clause would accept it. This is the
-  dagger form of the Lean `example` on `V(T^p − a) ⊆ 𝔸¹`.
+  dagger form of the Lean `example` on `V(T^p − a) ⊆ 𝔸¹`. The algebraic divisor
+  `V(T^p − t) ⊆ A^1_K` likewise fails the relative SNC hypothesis of the algebraic-to-dagger
+  comparison, although `A^1_K` is smooth, separated and of finite type and the divisor satisfies
+  the absolute regular-parameter condition.
 - Compatibility: `D ⊆ X` is SNC iff `D' ⊆ X'` is an SNC divisor of the
   smooth rigid space `X'` (see *smooth-pair*).
 
@@ -6866,7 +6891,9 @@ which is not partially proper.
 
 On the comparison and de Rham side: the closed dagger disc `D` against the rigid disc `D'` — equal
 points, G-topology and stalks, `K⟨X⟩† ⊊ K⟨X⟩` on global sections, the automorphism `X ↦ X + a`
-that does not preserve `O†`, `H^1_dR(D) = 0` against infinite-dimensional `H^1_dR(D')`; `(A^1)^†` with
+that does not preserve `O†`, and, over `K = ℚ_p`, `H^1_dR(D) = 0` against infinite-dimensional
+`H^1_dR(D')`; over `K = ℚ((t))` with the `t`-adic absolute value both first cohomology groups
+vanish by coefficientwise integration; `(A^1)^†` with
 entire functions as global sections and `(P^1)^†` with GAGA; `Ω^1` of the annulus free on `dX`, the
 series `exp(λ_iX)` showing Mathlib's Kähler differentials of `W_1` are not finite; de Rham cohomology
 of dagger polyannuli with basis the `dlog` forms; supports and compact supports of the closed disc

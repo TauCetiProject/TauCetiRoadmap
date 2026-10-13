@@ -154,7 +154,10 @@ universe u
 
 /-- An algebraic strict normal crossings pair over a field `K`: a scheme smooth over `K` with an
 ideal sheaf `D` admitting a relative chart (`AlgebraicChart`) on an affine open neighbourhood of
-every point, over the `K`-algebra structure induced by the structure morphism. -/
+every point, over the `K`-algebra structure induced by the structure morphism. Its local branches
+and their partial intersections are smooth over `K` of the expected codimensions. For a complete
+nonarchimedean `K`, dagger analytification of this pair requires the structure morphism to be
+separated and of finite type. -/
 structure AlgebraicSmoothPair (K : Type u) [Field K] where
   /-- The underlying scheme. -/
   X : Scheme.{u}
@@ -1143,7 +1146,11 @@ theorem Omega.projective_of_isRegularRing [CharZero K] [IsRegularRing A] :
 
 /-- The dagger Poincaré lemma in degrees `0` and `1` on the polydisc: in characteristic zero a
 function on `Sp W_n` with `d f = 0` is constant, and every `1`-form on the dagger disc `Sp W_1` is
-exact (GK02, §2, Lem. 2.1(a), p. 15). -/
+exact (GK02, §2, Lem. 2.1(a), p. 15, by coefficientwise integration with a smaller radius).
+This holds in residue characteristic zero as well: over `ℚ((t))` with the `t`-adic norm,
+division by a nonzero integer preserves coefficient norms. The rigid closed disc also has
+vanishing first de Rham cohomology over that field; over `ℚ_p` its first cohomology is
+infinite-dimensional. -/
 theorem Omega.poincare_washnitzer [CharZero K] (n : ℕ) :
     (∀ f : washnitzerAlgebra n K, Omega.d K _ f = 0 ↔ f ∈ Set.range (algebraMap K _)) ∧
       ∀ ω : Omega K (washnitzerAlgebra 1 K), ∃ f, Omega.d K _ f = ω := sorry
