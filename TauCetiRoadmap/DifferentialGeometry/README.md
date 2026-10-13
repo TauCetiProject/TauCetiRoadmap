@@ -990,6 +990,31 @@ Each is a tempting mistake with its refutation.
 - **"`Prop`-typed placeholders are acceptable in `Suggested.lean`."** A condition that cannot yet be
   stated is prose in the README, never `def _ : Prop := sorry`.
 
+## Rectifiable curves and geometric measure theory
+
+[GeometricMeasureTheory](../GeometricMeasureTheory/README.md), G1–G2, owns rectifiability,
+arclength, variation–speed identities, and Hausdorff length. Consume those results in
+planar curve calculus rather than building another metric length theory. The flat planar
+Green targets of [layer 5.6](https://github.com/TauCetiProject/TauCetiRoadmap/pull/826)
+own winding numbers, curve integration, and the actual area identity; layers 5.3–5.5
+retain manifold integration and Stokes. In 5.6.1, AC trace-nullity and variation–speed
+are specializations consumed from G1, whose general metric statements are the single
+owned targets; this layer builds their integral and index compatibility.
+
+For continuous BV curves, construct the geometric line integral of a continuous real
+1-form along the trace with its traversal multiplicity, using G1's AC arclength
+factorization. Prove independence of that factorization, invariance under increasing
+continuous onto reparametrizations, and sign reversal under decreasing ones. Prove
+agreement with the existing derivative-based `curveIntegral` when the parameter is AC.
+The original non-AC parameter cannot in general be differentiated to recover the geometric
+line integral. The metric and arclength part of G1 precedes this construction; Green's
+theorem for the AC factorization then supplies its rectifiable-curve area specialization.
+
+GMT G6 owns the finite-perimeter and boundary-normal comparison for rectifiable Jordan
+domains, consuming that AC boundary-integral identity. [Isoperimetry](../Isoperimetry/README.md),
+I3 and I6, owns the sharp curve inequality and circle equality. Neither Green's theorem
+nor the metric length foundations depend on the sharp isoperimetric theorem.
+
 ## Relation to sibling roadmaps
 
 One owner per shared construction, stated identically on both sides.

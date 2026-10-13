@@ -37,6 +37,7 @@ body:
         - EllipticCurves
         - Exchangeability
         - FuchsianOrbifolds
+        - GeometricMeasureTheory
         - GeometricTopology
         - GlobalNumberFields
         - GlobalQuadraticForms
