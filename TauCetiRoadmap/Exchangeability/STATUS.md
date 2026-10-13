@@ -1,5 +1,5 @@
 <!--tauceti-status:v1 {"roadmap":"Exchangeability","to_sha":"a65deaded1cae2fdc20c06b7cd5fef04c8e80d6c","ts":"2026-10-12T15:15:23Z"}-->
-<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","state":"done"},{"id":"Layer 1","state":"done"},{"id":"Layer 2","state":"done"},{"id":"Layer 3","state":"done"},{"id":"Layer 4","state":"done"},{"id":"Layer 5","state":"done"},{"id":"Layer 6","state":"done"},{"id":"Layer 7","state":"done"},{"id":"Layer 8","state":"done"}],"readme_sha":"6983d6da35f29742971c47d02aabd34cfcd2d163c3f205617de9ddeb84748945","roadmap":"Exchangeability","to_sha":"a65deaded1cae2fdc20c06b7cd5fef04c8e80d6c"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","state":"done"},{"id":"Layer 1","state":"done"},{"id":"Layer 2","state":"done"},{"id":"Layer 3","state":"done"},{"id":"Layer 4","state":"done"},{"id":"Layer 5","state":"done"},{"id":"Layer 6","state":"partial"},{"id":"Layer 7","state":"partial"},{"id":"Layer 8","state":"done"}],"readme_sha":"6983d6da35f29742971c47d02aabd34cfcd2d163c3f205617de9ddeb84748945","roadmap":"Exchangeability","to_sha":"a65deaded1cae2fdc20c06b7cd5fef04c8e80d6c"}-->
 # Status: Exchangeability
 
 This file documents the status of the Exchangeability roadmap up until `a65dead` (2026-10-12T15:15:23Z). There may have been subsequent updates.
@@ -9,7 +9,7 @@ https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 ## Where this roadmap stands
 
-**At a glance.** Every layer is done. The de Finetti–Ryll-Nardzewski summit was reached by all three classical routes, and Layer 8 has every representation theorem it names, through Aldous–Hoover for jointly exchangeable arrays. What remains is the README's ongoing goal of moving general infrastructure out of the exchangeability namespace.
+**At a glance.** The de Finetti–Ryll-Nardzewski summit was reached by all three classical routes, and Layer 8 has every representation theorem it names, through Aldous–Hoover for jointly exchangeable arrays. Layers 6 and 7 remain partial against the README revision recorded above: finite-measure directing-witness uniqueness and the named agreement of the Koopman and tail-conditioned witnesses, with its public export, are still missing at `a65dead`. Moving general infrastructure out of the exchangeability namespace remains an ongoing goal.
 
 ### Named results
 
@@ -33,9 +33,13 @@ https://github.com/TauCetiProject/TauCetiProgress for what that means.
 
 ### Roadmap coverage
 
-All nine layers are done. Layers 0–7 cover the finite-marginal and product-kernel foundations, tails and shifts, the L², reverse-martingale and Koopman routes, directing measures and the public sequence API; Layer 4 also has the Lᵖ form of Lévy's downward theorem it listed as a follow-up, and the exchangeable, tail and shift-invariant σ-algebras of a contractable law are identified up to null sets. Layer 8 has every item it names: the finite de Finetti bounds on a shared population-sampling construction, de Finetti for other countable index types, the affine and ergodic decomposition of exchangeable laws, Markov exchangeability through the Diaconis–Freedman theorem, and the Aldous–Hoover representation in both its separate and joint forms.
+Layers 0–5 and 8 are done. Layers 0–5 cover the finite-marginal and product-kernel foundations, tails and shifts, and the L², reverse-martingale and Koopman routes; Layer 4 also has the Lᵖ form of Lévy's downward theorem it listed as a follow-up. Layers 6 and 7 have directing measures and the public sequence API, but not yet the finite-measure uniqueness and witness-coherence requirements listed below. The exchangeable, tail and shift-invariant σ-algebras of a contractable law are identified up to null sets; this does not supply the requested named equality of the two random probability-measure witnesses. Layer 8 has every item it names: the finite de Finetti bounds on a shared population-sampling construction, de Finetti for other countable index types, the affine and ergodic decomposition of exchangeable laws, Markov exchangeability through the Diaconis–Freedman theorem, and the Aldous–Hoover representation in both its separate and joint forms.
 
 ## The frontier
+
+- **Finite-measure directing-witness uniqueness (Layers 6–7).** At `a65dead`, `ConditionallyIIDWith.ae_measure_apply_eq` and `conditionallyIID_ae_unique` still assume `[IsProbabilityMeasure μ]`. The README requires `[IsFiniteMeasure μ]`, including the zero measure.
+
+- **Agreement of the route witnesses and its public export (Layers 6–7).** The README requires `ContractableLaw.invariantConditionalProbabilityMeasure_ae_eq_directingProbabilityMeasure`: under a finite contractable path law, the Koopman and tail-conditioned random probability measures agree almost everywhere. The theorem is not present at `a65dead`, nor is its export through the `DeFinetti` facade. Its implementation must also respect the README's proof-route import boundaries.
 
 - **Moving general infrastructure to general homes.** The README lists this as a parallel ongoing goal. The excursion and recurrence machinery behind Diaconis–Freedman has now moved to general process and recurrence modules, and much martingale, ergodic and kernel material already sits in general files; the supplied material does not establish how much remains under the exchangeability namespace.
 
