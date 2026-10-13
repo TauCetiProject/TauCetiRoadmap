@@ -3667,9 +3667,9 @@ polyradius iteration, the transport to `W_n`, and the automorphism `σ`. Mathlib
   for `Y + X²`, coefficients in `Y` are `g_1 = 1` and `g_0 = X²`. This fixes the permutation
   from the prose convention, which puts `Y` last.
 - Equal radii fail: `g = Y + X² ∈ W_2` is `Y`-distinguished of degree `1` at unit radius, but at
-  every common radius `ρ > 1`, `|g_0|_ρ = |X²|_ρ = ρ² > ρ = |g_1|_ρ ρ`, so there `g` is
-  distinguished of degree `0`, with `g_0 = X²` not a unit of `T_1(ρ)`: no common radius `> 1`
-  carries the fixed-radius division by `g`.
+  every common radius `ρ > 1`, `|g_0|_ρ = |X²|_ρ = ρ² > ρ = |g_1|_ρ ρ`. Its dominant
+  coefficient is `X²`, a nonunit of `T_1(ρ)`, so `g` fails the unit-coefficient condition for
+  distinguishedness used here: no common radius `> 1` carries the fixed-radius division by `g`.
 - Unequal radii work: for `1 < r_X` and `r_X² ≤ r_Y`, `|X²|_{r_X} = r_X² ≤ r_Y = |g_1|_{r_X} r_Y`, so
   `Y + X²` is distinguished of degree `1` at radius `r_Y` over `T_1(r_X)`, with leading
   coefficient `1`; dividing `f ∈ W_2` by it gives the remainder `f(X, −X²) ∈ W_1` and a quotient in
@@ -3851,7 +3851,8 @@ functorial: every morphism `φ : A → B` of dagger algebras extends uniquely to
 `K`-algebra map `φ̂ : Â → B̂`, and `φ ↦ φ̂` is a functor (GK00 §1, Thm 1.7 (1), p. 5). *Needs:*
 *overconvergent-faithful-flatness*; *dagger-norm-and-continuity*; *dagger-algebra*;
 *reduced-affinoid-supremum-norm* (AdicSpacesPartII layer R0); *dagger-algebra-excellent*.
-Lean: `Dagger.completion_isAffinoid` (`Â` is affinoid and `τ` is faithfully flat).
+Lean: `Dagger.completion_isAffinoid` (`Â` is affinoid and `τ` is faithfully flat),
+`Dagger.completion_isReduced` (`char K = 0` and `A` reduced imply `Â` reduced).
 
 **Dagger algebras are weakly complete; elements of `A^int` with reduction `1` are units.**
 (*dagger-weak-completeness*) Let `A` be a `K`-dagger algebra. Prove: (a) `A` is weakly complete: for
@@ -4014,12 +4015,11 @@ that every dagger algebra has one, that
 `T_n/(f)T_n = Dagger.completion K A` under `A`, that
 `Â = A_ρ⟨X_1, …, X_n⟩` (the Tau Ceti rational localisation of `(A_ρ, A_ρ°)` at `T = {X_i}`,
 `s = 1`), that morphisms factor through some `B_{ρ'}` (see
-*fringe-morphism-factorisation*), that for `A` reduced
-`A^+ := colim_ρ (A_ρ)° ⊆ A` is open, bounded and integrally closed, `(A, A^+)` is a Huber pair with
-completion `(Â, Â^+)`, `Â^+` the integral closure of `O_K + Â°°`, and `Spa(Â, Â^+)` is the universal
-compactification of `Sp Â` and the weak inverse limit of the `Sp(A_ρ)` (Vezzani A.14, A.22), and
-that two fringe presentations give cofinal, hence isomorphic, ind-systems
-of affinoid algebras under `A` (GK00 §1, Lem. 1.8, p. 6). *Needs:* *dagger-algebra*;
+*fringe-morphism-factorisation*), and that two fringe presentations give cofinal, hence isomorphic,
+ind-systems of affinoid algebras under `A` (GK00 §1, Lem. 1.8, p. 6;
+Vezzani Appendix A, Prop. A.22(1)–(2), pp. 26–27). The bounded plus-ring and compactification
+statements are *fringe-plus-compactification*, under its reduced-completion hypothesis.
+*Needs:* *dagger-algebra*;
 RigidAnalyticGeometry §1.5.1–1.5.2; *overconvergent-tate-algebra-properties*;
 *overconvergent-tate-algebra*; *dagger-norm-and-continuity*.
 
@@ -4045,6 +4045,45 @@ RigidAnalyticGeometry §1.5.1–1.5.2; *overconvergent-tate-algebra-properties*;
   while `A_ρ = T_1(ρ)/(X − c) ≅ K` (evaluation at `c`) for `|c| ≤ ρ ≤ ρ_0` and `A_ρ = 0` for
   `1 < ρ < |c|` (`X − c` is a unit of `T_1(ρ)`, `|X|_ρ = ρ < |c|`); the stages `K` near `ρ_0` map
   non-injectively to `A = 0`, and `colim_{ρ→1+} A_ρ = 0 = A` as it must.
+
+**The fringe plus ring and compactification for a reduced completion.**
+(*fringe-plus-compactification*) Let `K` be a complete nontrivially valued rank-one
+nonarchimedean field, `A` a `K`-dagger algebra with a fringe presentation, and assume that its
+completion `Â` is reduced. Put `A^+ := ⋃_ρ image((A_ρ)° → A)`, the image of the colimit of the
+stage power-bounded subrings. Prove that `A^+` is open, bounded and integrally closed in `A` for
+the topology induced from `Â`, and that `(A, A^+)` is a Huber pair with completion `(Â, Â^+)`,
+where `Â^+` is the integral closure in `Â` of `O_K + Â°°`. Prove that `Spa(Â, Â^+)` is the universal
+compactification of `Spa(Â, Â°)` over `Spa(K, O_K)` and that
+`Spa(A, A^+) ≅ Spa(Â, Â^+) ∼ lim_ρ Spa(A_ρ, A_ρ°)` in the sense of
+*tilde-limits-affinoid-criterion* (Vezzani Appendix A, Ex. A.4, p. 24, Prop. A.14 and its proof,
+pp. 25–26, and Prop. A.22(3), p. 27). Reducedness of `Â` gives boundedness of `Â°` by
+*reduced-affinoid-supremum-norm*, and the inclusions
+`π(A ∩ Â°) ⊆ A^+ ⊆ A ∩ Â°`, for `0 < |π| < 1`, give the open bounded subring in the proof.
+For `char K = 0` and `A` reduced, *dagger-completion-comparison* supplies the hypothesis on `Â`
+via `Dagger.completion_isReduced`. In every characteristic the package applies whenever `Â`
+is reduced. Its boundedness input is `Dagger.completion_isUniform`, with the explicit hypothesis
+`IsReduced (Dagger.completion K A)`. *Needs:* *fringe-presentation*;
+*dagger-norm-and-continuity*; *dagger-completion-comparison*;
+*reduced-affinoid-supremum-norm* (AdicSpacesPartII layer R0);
+*tilde-limits-affinoid-criterion*; Tau Ceti Huber pairs and their completions.
+
+**Checks.**
+
+- Degenerate: for `A = K` the completion is reduced, `A^+ = O_K = Â^+`, and the
+  compactification is `Spa(K, O_K)`.
+- Computation: for `A = W_1`, `Â = T_1` is reduced and
+  `A^+ = {f ∈ W_1 : |f(0)| ≤ 1, |f − f(0)|_sup < 1}`; its completion is
+  `Â^+ = O_K + T_1°°`. The variable `X` is in `T_1°` but not in `Â^+`, since its reduction is
+  transcendental over the residue field. This also applies over `K = 𝔽_p((t))`, with no
+  characteristic-zero hypothesis.
+- Boundary: for `A = W_1/(X²)`, `Â = T_1/(X²) ≅ K[ε]/(ε²)` is not reduced. Every scalar
+  multiple of `ε` is nilpotent and hence power-bounded at every fringe stage, so
+  `Kε ⊆ A^+` is unbounded. The presentation and colimit statements of *fringe-presentation*
+  still apply, but the bounded-plus-ring conclusion does not.
+- Necessity: a bounded completed plus ring containing `Â°°` makes `Â°` bounded, because
+  `πÂ° ⊆ Â°°` for `0 < |π| < 1`. Thus `Â` is uniform and, being Hausdorff and Tate, reduced
+  by `TauCeti.Huber.IsUniform.isReduced`. A nonzero nilpotent would instead give an unbounded
+  line of power-bounded scalar multiples.
 
 **Morphisms of dagger algebras respect fringe systems (independence of fringe presentations).**
 (*fringe-morphism-factorisation*) Let `ψ : A → B` be a morphism of `K`-dagger algebras and choose

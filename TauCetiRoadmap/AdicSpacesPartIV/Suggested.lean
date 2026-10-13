@@ -938,6 +938,16 @@ theorem completion_isAffinoid :
     Huber.IsStrictlyTopologicallyFiniteType (algebraMap K (completion K A)) ∧
       (letI := (toCompletion K A).toAlgebra; Module.FaithfullyFlat A (completion K A)) := sorry
 
+/-- In characteristic zero, the completion of a reduced dagger algebra is reduced
+(GK00, §1, Thm 1.7(3), using the excellence supplied by `dagger-algebra-excellent`). -/
+theorem completion_isReduced [CharZero K] [IsReduced A] : IsReduced (completion K A) := sorry
+
+/-- A reduced affinoid completion is uniform: its power-bounded subring is bounded. This is
+the boundedness input for `fringe-plus-compactification` (Vezzani, Appendix A, proof of
+Prop. A.14); reducedness of the completion is an explicit hypothesis in every characteristic. -/
+theorem completion_isUniform [IsReduced (completion K A)] :
+    Huber.IsUniform (completion K A) := sorry
+
 /-- `a ∈ A` is a unit iff `τ a` is a unit of `Â` (GK00, §1, Thm 1.7(1): `τ` is faithfully flat,
 which reflects units). -/
 theorem isUnit_iff_isUnit_completion (a : A) : IsUnit a ↔ IsUnit (toCompletion K A a) := sorry
