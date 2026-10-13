@@ -1788,7 +1788,8 @@ bijective.
 
 ### R5.1 sousperfectoid rings
 
-**Sousperfectoid Tate rings and perfectoid frames.** (*sousperfectoid-ring*) Fix a prime `p`. Let
+**Sousperfectoid Tate rings and perfectoid frames.** (*sousperfectoid-ring*) Fix a prime `p`
+(the Lean declarations `PerfectoidFrame` and `IsSousperfectoid` take any `p : ℕ`). Let
 `R` be a complete Hausdorff Tate ring (Tau Ceti `Huber.IsTateRing`) in which `p` is topologically
 nilpotent — equivalently, a Tate ring with a continuous ring map `ℤ_p → R`, that is, a complete Tate
 `ℤ_p`-algebra. A perfectoid frame for `R` is a triple `(R̃, ι, σ)` consisting of a perfectoid Tate
@@ -1857,7 +1858,7 @@ PerfectoidSpaces P1.1 (`Perfectoid.IsPerfectoidTateRing`) and P1.31 (`ℚ_p^cycl
   the identity frame.
 - Characterisation: for a uniform complete Tate ring `A` of
   characteristic `p` whose Frobenius is finite, `A` is sousperfectoid iff Frobenius `A → A` splits as
-  `A`-modules (HK §7, Lem. 7.10); for example `𝔽_p((t))⟨T⟩` is sousperfectoid (Lean `example`).
+  `A`-modules (HK §7, Lem. 7.10) (Lean `example`); for example `𝔽_p((t))⟨T⟩` is sousperfectoid.
 - Degenerate: the zero ring is a perfectoid Tate ring in the sense of
   the P1 structure (`0` is a topologically nilpotent unit, `0^p ∣ p = 0`, Frobenius on `0` is
   surjective), hence sousperfectoid with the identity frame; this is why
@@ -2239,9 +2240,12 @@ AdicEtaleGeometry layer A1 (*finite-etale-affinoid-algebra*);
 **Perfectoid space times a polydisc: sousperfectoid, not perfectoid.** (*perfectoid-times-polydisc*)
 Let `L` be a perfectoid field, `X = Spa(S, S⁺)` an affinoid perfectoid space over `L` and
 `𝔹^n_L = Spa(L⟨T₁, …, Tₙ⟩, 𝒪_L⟨T⟩)`. Prove that the fibre product `X ×_L 𝔹^n_L` exists in adic
-spaces and equals `Spa(S⟨T₁, …, Tₙ⟩, S⁺⟨T₁, …, Tₙ⟩)`, which is a sousperfectoid affinoid adic space,
-and that for `n ≥ 1` and `S ≠ 0`, `S⟨T₁, …, Tₙ⟩` is not perfectoid (BHW §3.1, proof of Cor. 3.4,
-p. 1725 (the perfectoid-times-polydisc step); Berkeley Lecture 6, §6.3, Prop. 6.3.3(3), p. 47).
+spaces and equals `Spa(S⟨T₁, …, Tₙ⟩, S⁺⟨T₁, …, Tₙ⟩)`, which is a sousperfectoid affinoid adic space
+(BHW §3.1, proof of Cor. 3.4, p. 1725 (the perfectoid-times-polydisc step); Berkeley Lecture 6,
+§6.3, Prop. 6.3.3(3), p. 47), and that for `n ≥ 1` and `S ≠ 0`, `S⟨T₁, …, Tₙ⟩` is not perfectoid
+(proved here: `T₁` is not a `p`-th power in `S°⟨T⟩/ϖ` for nonzero `S`, the argument of the
+`ℚ_p⟨T⟩` non-example of *sousperfectoid-ring*; Berkeley Lecture 6, §6.3, Ex. 6.3.2(2), p. 47, for
+`ℚ_p⟨T⟩`).
 Thus `ℚ_p^cycl⟨T⟩` is sousperfectoid and not perfectoid, its perfectoid cover
 `ℚ_p^cycl⟨T^{1/p^∞}⟩` being a frame; and a smooth weight disc times a nonempty perfectoid space is not
 perfectoid. *Needs:* *sousperfectoid-rings*; *sousperfectoid-sheafy*;
@@ -3331,8 +3335,10 @@ by a statement about an arbitrary tensor ring.
 
 The following algebraic controls also specify the boundary of the auxiliary constructions.
 
-- Neither `0` nor `1` is a permitted
-  prime parameter of the perfectoid predicate, even for the zero ring. In
+- The perfectoid predicate is stated for every `p : ℕ`; primality enters only through the
+  `[Fact p.Prime]` hypotheses of the theorems that use it (`of_finite_padic`,
+  `not_isPerfectoidTateRing_restrictedMvPowerSeries`, `perfectoidTimesSmooth_exists`), and for the
+  zero ring the predicate holds for every `p`, including `0` and `1`. In
   `𝔽₂[ε]/(ε²)`, `(a+bε)²=a`, so Frobenius misses `ε`. This is the modulo-`2` obstruction for
   the ramified extension with `π²=2`, where the divisibility condition itself holds.
 - For the diagonal inclusion `R → R×R` and first projection,
@@ -3513,8 +3519,9 @@ discretely valued); in F1.5 it is the uniformiser of the complete discrete valua
 rank-one nonarchimedean field with nontrivial absolute value, `n ∈ ℕ` and `ρ > 0` real.
 Let `T_n(ρ) = K⟨ρ^{-1}X_1, …, ρ^{-1}X_n⟩ ⊆ K[[X_1, …, X_n]]` be the subring of series
 `f = Σ_ν a_ν X^ν` with `|a_ν| ρ^{|ν|} → 0` as `|ν| = ν_1 + … + ν_n → ∞` (Mathlib's
-`MvPowerSeries.IsRestricted` and Tau Ceti's `MvPowerSeries.IsRestricted.subring` at the constant
-tuple `ρ`), with the Gauss norm `|f|_ρ = max_ν |a_ν| ρ^{|ν|}`. That `|·|_ρ` is a multiplicative
+`MvPowerSeries.IsRestricted` and Mathlib's `MvPowerSeries.IsRestricted.subring`, with Tau Ceti's
+normed-algebra instances, at the constant tuple `ρ`), with the Gauss norm
+`|f|_ρ = max_ν |a_ν| ρ^{|ν|}`. That `|·|_ρ` is a multiplicative
 `K`-algebra norm for which `T_n(ρ)` is complete is Tau Ceti's `MvPowerSeries.IsRestricted.gaussNorm_mul`
 together with the `NormedRing`, `NormMulClass`, `CompleteSpace` and `NormedAlgebra` instances on
 `MvPowerSeries.IsRestricted.subring` at the constant polyradius, and is not restated. Prove (a)
@@ -3532,8 +3539,9 @@ and density of polynomials at radius `1` is `dense_weightedPolynomials` transpor
 a real supremum, so on a series that is not restricted at `ρ` it may be the junk value `0`
 (Mathlib's `gaussNorm` is `⨆` over `ℝ`); every statement about `|·|_ρ` is made for elements of
 `T_n(ρ)`, where the supremum is a maximum. *Needs:* Mathlib `MvPowerSeries.IsRestricted`,
-`MvPowerSeries.gaussNorm`; Tau Ceti `MvPowerSeries.IsRestricted.subring`,
-`MvPowerSeries.IsRestricted.gaussNorm_mul`, `TauCeti.PowerSeries.isRestricted_of_abs_le`,
+`MvPowerSeries.gaussNorm`, `MvPowerSeries.IsRestricted.subring`; Tau Ceti's normed-algebra instances
+on `MvPowerSeries.IsRestricted.subring`, `MvPowerSeries.IsRestricted.gaussNorm_mul`,
+`TauCeti.PowerSeries.isRestricted_of_abs_le`,
 `isRestrictedSubring_le_of_abs_le`, `dense_weightedPolynomials`, `restrictedMvPowerSeriesGaussEquiv`,
 `TauCeti.Huber.isNoetherianRing_restrictedMvPowerSeriesCompletion_one`. Lean: `Dagger.radiusTate`,
 `Dagger.gammaStar`, `Dagger.radiusGaussNorm`, `Dagger.radiusTate_isNoetherianRing` (noetherianity
@@ -3575,7 +3583,8 @@ is a `K`-subalgebra of `K[[X]]`; the union may be taken over `ρ ∈ Γ* ∩ (1,
 `ρ ∈ |K^×|`. `W_n ⊆ T_n = T_n(1)`, and `W_n` carries the Gauss norm `|f| = max_ν |a_ν|` restricted
 from `T_n`. Convention: the variables are `X_1, …, X_n`, `|ν| = ν_1 + … + ν_n`, and 'overconvergent'
 always means 'restricted at some radius strictly bigger than 1'. The radius-`ρ` pieces `T_n(ρ)` are
-Tau Ceti's `MvPowerSeries.IsRestricted.subring` for the constant radius; the union over `ρ > 1` is
+Mathlib's `MvPowerSeries.IsRestricted.subring`, with Tau Ceti's normed-algebra instances, for the
+constant radius; the union over `ρ > 1` is
 new. In `Dagger`, define `washnitzerAlgebra` as the `K`-subalgebra
 `⨆_{ρ>1} T_n(ρ)` of `MvPowerSeries (Fin n) K`, `T_n(ρ) = radiusTate n K ρ` being
 `MvPowerSeries.IsRestricted.subring (fun _ ↦ ρ)` (notation
@@ -3857,7 +3866,8 @@ all power-bounded `x_1, …, x_n ∈ A` (equivalently `x_i ∈ A^int`) the `K`-a
 topologically nilpotent (`|a|_sup < 1`) then `1 − a` is a unit of `A` with inverse `Σ_{k≥0} a^k`; in
 particular every element of `A^int` whose image in `A^int/{|·|_sup < 1}` is `1` is a unit; (c) an
 element `a ∈ A` is a unit iff its image in `Â` is a unit (`isUnit_iff_isUnit_completion`; GK00 §1,
-1.9). *Needs:* *dagger-algebra*;
+Thm 1.7(1) (faithful flatness of `τ`, which reflects units); 1.9 for the weak-completeness clauses
+(a)–(b)). *Needs:* *dagger-algebra*;
 *radius-tate-algebra-affinoid*; *dagger-norm-and-continuity*; *dagger-completion-comparison*;
 *fringe-morphism-factorisation*; *fringe-presentation*. Lean: `Dagger.isUnit_iff_isUnit_completion`.
 
@@ -4358,15 +4368,16 @@ for `π` irreducible).
 **Weak completeness and the universal property of the weak completion.**
 (*weak-completion-universal-property*) Let `O_K` be a complete discrete valuation ring with
 uniformiser `π` and fraction field `K` (any characteristic). Call an `O_K`-algebra `B` weakly
-complete finitely generated if `B ≅ O_K⟨Y_1, …, Y_m⟩†/J` for some `m` and ideal `J`. Prove: (a) for
+complete finitely generated if `B ≅ O_K⟨Y_1, …, Y_m⟩†/J` for some `m` and ideal `J` (vdP §2, (2.1)).
+Prove: (a) for
 every finitely generated `O_K`-algebra `S`, `S†` is weakly complete finitely generated, and for all
 `y_1, …, y_r ∈ S†` the map `O_K[Y_1, …, Y_r] → S†`, `Y_i ↦ y_i`, extends uniquely to `O_K⟨Y⟩† → S†`;
 (b) for every weakly complete finitely generated `B` and every `O_K`-algebra homomorphism
 `φ : S → B` there is a unique `O_K`-algebra homomorphism `φ† : S† → B` with `φ†|_S = φ`; (c)
 consequently `S ↦ S†` is a functor from finitely generated `O_K`-algebras to weakly complete
 finitely generated `O_K`-algebras, and restriction along `S → S†` gives the natural bijection
-`Hom_{O_K}(S†, B) ≅ Hom_{O_K}(S, B)` of (b). In particular, if `S` is `π`-adically complete and separated (`S → Ŝ` bijective, e.g.
-`S` finite over `O_K`), then `S† = Ŝ = S` (vdP §2, (2.1)).
+`Hom_{O_K}(S†, B) ≅ Hom_{O_K}(S, B)` of (b) (MW68 §2). In particular, if `S` is `π`-adically
+complete and separated (`S → Ŝ` bijective, e.g. `S` finite over `O_K`), then `S† = Ŝ = S`.
 *Needs:* *weak-completion-presentation*; *weak-completion*; *integral-overconvergent-tate-algebra*;
 *dagger-weak-completeness*. Lean: `Dagger.IsWeaklyCompleteFG`, `Dagger.weakCompletion.existsUnique_lift`.
 
@@ -4403,13 +4414,15 @@ characteristic; `K` carries the `π`-adic absolute value). A `K`-dagger algebra 
 Monsky–Washnitzer type (MW-type) if `A` is a regular ring and the ring `A^int/πA^int` is a smooth
 `k`-algebra (`A^int` = elements of supremum norm `≤ 1`, *dagger-algebra*). Its reduction (special
 fibre) is `A^int/πA^int`. The regularity clause is part of the definition: it does not follow from
-smoothness of `A^int/πA^int`. In `Dagger`, define `IsMWType` as
-`IsRegularRing A ∧ Algebra.Smooth k (k ⊗_O A^int)`, `k ⊗_O A^int = A^int/πA^int` (in Lean `A^int`
-enters as the `O`-algebra generated by `intSubring K A`, which is `A^int` when `O` maps into the
-unit ball of `K`), and the reduction `A^int/πA^int`, a smooth finitely generated `k`-algebra.
+smoothness of `A^int/πA^int`. In `Dagger`, define `IsMWType` by three fields: `hO` (`O` is the unit
+ball of `K`: `‖x‖ ≤ 1` iff `x` lies in the image of `O`), `IsRegularRing A` and
+`Algebra.Smooth k (k ⊗_O A^int)`, `k ⊗_O A^int = A^int/πA^int` (in Lean `A^int` enters as the
+`O`-algebra generated by `intSubring K A`, which is `A^int` because `O` maps into the unit ball of
+`K`), and the reduction `A^int/πA^int`, a smooth finitely generated `k`-algebra.
 The integral subalgebra and reduction also make sense for any bounded
 map from a DVR `O` to `K`; the theorems identifying this reduction with the spectral reduction,
-projectivity, localisation and the Washnitzer example require `IsFractionRing O K`. Prove
+projectivity, localisation and the Washnitzer example require `O` to be the unit ball of `K` (`hO`,
+as in `IsMWType.of_smooth`). Prove
 that `A^int/πA^int` equals the reduction `Ã = A^int/{|·|_sup < 1}` (Kedlaya06
 Def. 3.2.1), `IsMWType.of_smooth` (for `S` a smooth finitely generated `O_K`-algebra, `S† ⊗ K` is of
 MW-type with reduction `S/πS` and integral subring `S†`), that MW-type algebras are
@@ -5088,7 +5101,8 @@ an isomorphism when `A` is finite over
 degree `q` by
 `d(a db_1 ∧ … ∧ db_q) = da ∧ db_1 ∧ … ∧ db_q` in every degree, including `q = 0`.
 This determines the differential and its graded Leibniz convention (GK00 §4, 4.1, p. 19; GK02 §1,
-1.2, p. 5 for regular `A`). *Needs:* *overconvergent-tate-algebra*;
+1.2, p. 5, for the universal property; Kedlaya06 §3.1, after Def. 3.1.2, p. 19, for regular `A`:
+regular ⇒ locally free). *Needs:* *overconvergent-tate-algebra*;
 *overconvergent-tate-algebra-properties*; *dagger-algebra*; *dagger-tensor-product*;
 *dagger-rational-localisation*; *dagger-coherent-module*; *weak-completion-presentation*;
 *continuous-differentials*; *sheaf-of-continuous-differentials*; Mathlib `KaehlerDifferential`,
@@ -6873,6 +6887,7 @@ the boundary product as well as the coefficient, so its connection contains the 
 - [GK05] Elmar Grosse-Klönne, *Frobenius and monodromy operators in rigid analysis, and Drinfel'd's symmetric space*, arXiv:1408.3346v1 (J. Algebraic Geom. 14 (2005) 391–437). https://arxiv.org/abs/1408.3346
 - [Vezzani] Alberto Vezzani, *The Monsky–Washnitzer and the overconvergent realizations*, arXiv:1509.01718v2 (Int. Math. Res. Not. IMRN 2018). https://arxiv.org/abs/1509.01718
 - [Kedlaya01] Kiran S. Kedlaya, *Counting points on hyperelliptic curves using Monsky–Washnitzer cohomology*, arXiv:math/0105031v2 (J. Ramanujan Math. Soc. 16 (2001) 323–338). https://arxiv.org/abs/math/0105031
+- [MW68] Paul Monsky, Gerard Washnitzer, *Formal cohomology: I*, Ann. of Math. (2) 88 (1968), 181–217.
 - [vdP] Marius van der Put, *The cohomology of Monsky and Washnitzer*, Mém. Soc. Math. France (N.S.) 23 (1986) 33–59; Numdam edition. http://www.numdam.org/item/MSMF_1986_2_23__33_0/
 - [de Jong] A. J. de Jong, *Smoothness, semi-stability and alterations*, Publ. Math. IHÉS 83 (1996), 51–93. http://www.numdam.org/item/PMIHES_1996__83__51_0/
 - [Scholze–Weinstein 2013] P. Scholze, J. Weinstein, *Moduli of p-divisible groups*, Camb. J. Math. 1 (2013), 145–237; arXiv:1211.6357v2. https://arxiv.org/abs/1211.6357

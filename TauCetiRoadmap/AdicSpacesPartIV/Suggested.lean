@@ -394,8 +394,9 @@ theorem IsSousperfectoid.of_finite_padic (p : ℕ) [Fact p.Prime] (K : Type) [Fi
     haveI := IsModuleTopology.isTopologicalRing ℚ_[p] K
     IsSousperfectoid p K := sorry
 
-/-- For a nonzero perfectoid Tate ring `S` and `n ≥ 1`, `S⟨T₁, …, Tₙ⟩` is not perfectoid
-(BHW, proof of Cor. 3.4, p. 1725). -/
+/-- For a nonzero perfectoid Tate ring `S` and `n ≥ 1`, `S⟨T₁, …, Tₙ⟩` is not perfectoid (proved
+here: `T₁` is not a `p`-th power in `S°⟨T⟩/ϖ` for nonzero `S`, as for `ℚ_p⟨T⟩` in
+*sousperfectoid-ring*; Berkeley, Ex. 6.3.2(2), p. 47, for `ℚ_p⟨T⟩`). -/
 theorem not_isPerfectoidTateRing_restrictedMvPowerSeries {p : ℕ} [Fact p.Prime] (S : Type u)
     [CommRing S] [UniformSpace S] [IsUniformAddGroup S] [IsTopologicalRing S] [IsTateRing S]
     [CompleteSpace S] [T2Space S] [Nontrivial S] [IsPerfectoidTateRing p S] (n : ℕ) (hn : 0 < n) :
@@ -591,9 +592,10 @@ theorem mixedTensorOfLattice.nonempty_equiv [IsDomain O] [IsDiscreteValuationRin
 end MixedTensor
 
 /-- The array core of the counterexample to CHJ Lemma 6.19(2): for `R = ℤ_p⟦T⟧` the restriction
-from `{|x/p| ≥ 1}` to `{|x/p| = 1}` has image in the bounded arrays with `‖w (n, k)‖ ≤ C pᵏ`
-(positive Laurent coefficients), and the diagonal array of `∑ (x/p)ⁿ Tⁿ` has distance `1` from
-all of them, so restriction is not dense for the supremum norm. -/
+from `{|x/p| ≥ 1}` to `{|x/p| = 1}` has image in the bounded arrays with
+`‖w (n, k)‖ ≤ C ‖p‖ᵏ = C p⁻ᵏ` (positive Laurent coefficients), and the diagonal array of
+`∑ (x/p)ⁿ Tⁿ` has distance `1` from all of them, so restriction is not dense for the supremum
+norm. -/
 example (p : ℕ) [Fact p.Prime] :
     ∃ z : lp (fun _ : ℕ × ℕ ↦ ℚ_[p]) ⊤,
       (∀ n k, z (n, k) = if n = k then 1 else 0) ∧ ‖z‖ = 1 ∧
@@ -941,7 +943,8 @@ theorem completion_isAffinoid :
     Huber.IsStrictlyTopologicallyFiniteType (algebraMap K (completion K A)) ∧
       (letI := (toCompletion K A).toAlgebra; Module.FaithfullyFlat A (completion K A)) := sorry
 
-/-- `a ∈ A` is a unit iff `τ a` is a unit of `Â` (GK00, §1, 1.9). -/
+/-- `a ∈ A` is a unit iff `τ a` is a unit of `Â` (GK00, §1, Thm 1.7(1): `τ` is faithfully flat,
+which reflects units). -/
 theorem isUnit_iff_isUnit_completion (a : A) : IsUnit a ↔ IsUnit (toCompletion K A a) := sorry
 
 /-- Finite algebras over dagger algebras are dagger algebras (GK00, §1, Lem. 1.10). The
@@ -1075,13 +1078,13 @@ theorem weakCompletion.isNoetherianRing [Algebra.FiniteType O S] (hπ : Irreduci
       Nonempty ((weakCompletion π S ⧸ Ideal.span {algebraMap O (weakCompletion π S) π ^ m}) ≃ₐ[O]
         (S ⧸ Ideal.span {algebraMap O S π ^ m})) := sorry
 
-/-- `B` is *weakly complete finitely generated*: `B ≅ O[Y₁, …, Y_m]† / J`. -/
+/-- `B` is *weakly complete finitely generated*: `B ≅ O[Y₁, …, Y_m]† / J` (vdP, §2, (2.1)). -/
 def IsWeaklyCompleteFG (B : Type*) [CommRing B] [Algebra O B] : Prop :=
   ∃ (m : ℕ) (J : Ideal (weakCompletion π (MvPolynomial (Fin m) O))),
     Nonempty (B ≃ₐ[O] (weakCompletion π (MvPolynomial (Fin m) O) ⧸ J))
 
 /-- Universal property: `S†` is weakly complete finitely generated and every `O`-algebra map
-`S → B` into such a `B` extends uniquely to `S†` (vdP, §2, (2.1)). -/
+`S → B` into such a `B` extends uniquely to `S†` (MW68, §2). -/
 theorem weakCompletion.existsUnique_lift [Algebra.FiniteType O S] (hπ : Irreducible π)
     {B : Type*} [CommRing B] [Algebra O B] (hB : IsWeaklyCompleteFG π B) (φ : S →ₐ[O] B) :
     IsWeaklyCompleteFG π (weakCompletion π S) ∧
@@ -1141,7 +1144,8 @@ theorem Omega.washnitzerBasis (n : ℕ) :
     ∃ b : Module.Basis (Fin n) (washnitzerAlgebra n K) (Omega K (washnitzerAlgebra n K)),
       ∀ i, b i = Omega.d K _ (washnitzerAlgebra.X n K i) := sorry
 
-/-- In characteristic zero, `Ω¹_A` is projective for regular `A` (GK02, §1, 1.2, p. 5). -/
+/-- In characteristic zero, `Ω¹_A` is projective for regular `A` (Kedlaya06, §3.1, after
+Def. 3.1.2, p. 19: regular ⇒ locally free; GK02, §1, 1.2, p. 5, for the universal property). -/
 theorem Omega.projective_of_isRegularRing [CharZero K] [IsRegularRing A] :
     Module.Projective A (Omega K A) := sorry
 
@@ -1178,23 +1182,28 @@ variable (O : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
   [NonarchimedeanRing K] [Algebra O K]
   (A : Type*) [CommRing A] [Algebra K A] [IsDaggerAlgebra K A] [Algebra O A] [IsScalarTower O K A]
 
-/-- `A` is of *Monsky–Washnitzer type*: `A` is regular and the reduction `k ⊗_O A^int` is a smooth
-`k`-algebra, `k` the residue field of `O` and `A^int` taken as an `O`-algebra (equal to `A^int`
-when `O` maps into the unit ball of `K`). Regularity is part of the definition (Kedlaya06, §3.2,
-Def. 3.2.1, with its errata). -/
-def IsMWType : Prop :=
-  IsRegularRing A ∧ Algebra.Smooth (IsLocalRing.ResidueField O)
+/-- `A` is of *Monsky–Washnitzer type*: `O` is the unit ball of `K`, `A` is regular and the
+reduction `k ⊗_O A^int` is a smooth `k`-algebra, `k` the residue field of `O` and `A^int` taken as
+an `O`-algebra (equal to `A^int`, `O` mapping into the unit ball of `K`). Regularity is part of the
+definition (Kedlaya06, §3.2, Def. 3.2.1, with its errata). -/
+structure IsMWType : Prop where
+  /-- `O` is the unit ball of `K`. -/
+  hO : ∀ x : K, ‖x‖ ≤ 1 ↔ ∃ a : O, algebraMap O K a = x
+  /-- `A` is a regular ring. -/
+  isRegularRing : IsRegularRing A
+  /-- The reduction `k ⊗_O A^int` is smooth over the residue field `k` of `O`. -/
+  smooth : Algebra.Smooth (IsLocalRing.ResidueField O)
     (IsLocalRing.ResidueField O ⊗[O] Algebra.adjoin O (intSubring K A : Set A))
 
 variable {O K A}
 
 /-- For `A` of MW-type, `Ω¹_A` is finite projective. -/
-theorem IsMWType.projective_differentials [IsFractionRing O K] (h : IsMWType O K A) :
+theorem IsMWType.projective_differentials (h : IsMWType O K A) :
     Module.Projective A (Omega K A) := sorry
 
-/-- For `S` smooth and finitely generated over `O`, `S† ⊗ K` is of MW-type with reduction `S/πS`
-(GK02, Introduction; Kedlaya06, §3.2). -/
-theorem IsMWType.of_smooth [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [IsFractionRing O K]
+/-- For `S` smooth and finitely generated over `O`, with `O` the unit ball of `K`, `S† ⊗ K` is of
+MW-type with reduction `S/πS` (GK02, Introduction; Kedlaya06, §3.2). -/
+theorem IsMWType.of_smooth [IsAdicComplete (IsLocalRing.maximalIdeal O) O]
     (π : O) (hπ : Irreducible π) (hO : ∀ x : K, ‖x‖ ≤ 1 ↔ ∃ a : O, algebraMap O K a = x)
     (S : Type*) [CommRing S] [Algebra O S] [Algebra.FiniteType O S] [Algebra.Smooth O S] :
     haveI := weakCompletion.isDaggerAlgebra_genericFibre π hπ K hO (S := S)
@@ -1206,7 +1215,7 @@ end MWType
 (the nilpotent `X` is divisible by every power of `π` in `A^int`) but is not regular. -/
 example (O : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K]
-    [NonarchimedeanRing K] [Algebra O K] [IsFractionRing O K]
+    [NonarchimedeanRing K] [Algebra O K] (hO : ∀ x : K, ‖x‖ ≤ 1 ↔ ∃ a : O, algebraMap O K a = x)
     (A : Type*) [CommRing A] [Algebra K A] [IsDaggerAlgebra K A] [Algebra O A]
     [IsScalarTower O K A]
     (e : A ≃ₐ[K] washnitzerAlgebra 1 K ⧸ Ideal.span {washnitzerAlgebra.X 1 K 0 ^ 2}) :
