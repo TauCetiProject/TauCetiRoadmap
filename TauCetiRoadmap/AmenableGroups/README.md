@@ -288,12 +288,26 @@ theorem here is for discrete groups.
 
 ## Layer 5: Følner criteria for arbitrary discrete groups
 
-For a finite set `F` write `gF={g*x | x∈F}`. Define the finite-test condition by
+Use Mathlib's `IsFoelner` and `maxFoelner` as the Følner API. For the left regular
+action on `G`, use `Measure.count` with the local measurable space `⊤`, so every
+subset is measurable even when `G` is uncountable. Prove the discrete
+characterization `amenable_iff_maxFoelner_neBot`:
 
 ```text
-∀ K ⊆ G finite,  ∀ ε > 0,  ∃ F ⊆ G finite,  F ≠ ∅  ∧  ∀ g ∈ K,  |gF △ F| < ε·|F|.
+Amenable G ↔ NeBot (maxFoelner G Measure.count).
 ```
 
+Here `NeBot` excludes the bottom filter, for which all eventual conditions are
+vacuous. Prove the counting-measure specialization `maxFoelner_count_neBot_iff`
+with only `[Group G]`, without topology or countability hypotheses. For a finite
+set `F` write `gF={g*x | x∈F}`; the specialization states
+
+```text
+NeBot (maxFoelner G Measure.count) ↔
+  ∀ K ⊆ G finite,  ∀ ε > 0,  ∃ F ⊆ G finite,  F ≠ ∅  ∧  ∀ g ∈ K,  |gF △ F| < ε·|F|.
+```
+
+Derive `amenable_iff_exists_finset` for discrete groups from these two theorems.
 Cardinalities in inequalities and ratios are coerced to `ℝ`. Use `Finset`, the
 pointwise action and `symmDiff`; prove bridges to finite `Set`s and counting
 measure. Develop preservation under group isomorphisms, monotonicity in the test
@@ -329,11 +343,9 @@ Build the following analytic and finite-combinatorial steps.
 
 ### Filters, nets and the converse
 
-Give `G` the measurable space in which every subset is measurable and use
-`Measure.count`. Prove that the finite-test condition is equivalent to
-`NeBot (maxFoelner G Measure.count)`. In particular, prove that finite nonzero
-counting measure means a finite nonempty set, and convert the `ℝ≥0∞` ratios of
-`IsFoelner` to the real ratios above.
+For the counting-measure specialization, prove that finite nonzero counting
+measure means a finite nonempty set, and convert the `ℝ≥0∞` ratios of `IsFoelner`
+to the real ratios above.
 
 As a concrete directed net, index by pairs `(K,n)` with `K : Finset G` and
 `n : ℕ`, ordered by inclusion and the usual order. Choose witnesses with error
@@ -356,8 +368,8 @@ pass finite sums and the boundary estimate to these limits. For finite nonempty
 
 For each fixed ultrafilter refining the Følner filter, prove that the weak-* limit
 of these averaging functionals corresponds to the density-limit content formed
-using that same ultrafilter. Conclude both directions of amenability iff the
-finite-test condition.
+using that same ultrafilter. Conclude the characterization by the nontrivial
+counting-measure Følner filter and its finite-test corollary.
 
 For `[Countable G]`, prove equivalence with a sequence of finite nonempty sets
 `F_n` such that, for every `g`, `|gF_n △ F_n|/|F_n| → 0`. Construct an increasing
