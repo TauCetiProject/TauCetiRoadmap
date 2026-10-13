@@ -367,6 +367,12 @@ de Jong's strictly semistable alteration theorem (*semistable-alteration-theorem
 | R1.7 *rigid-adic-etale-comparison* (smooth, étale and unramified morphisms under `r`) | `TauCetiRoadmap/AdicSpacesPartII/README.md` | Huber96, Proposition 1.7.11(ii), pp. 89–90: smoothness agrees with the admissible affinoid étale-chart definition on rigid spaces. |
 | `TauCetiRoadmap.AdicSpacesPartII.RigidSpace.IsCoordinateRing.injective_algebraMap` (R1.9) | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | for a `K`-affinoid integral domain `A` and a nonempty affinoid subdomain `U ⊆ Max A`, restriction `A → A_U` is injective. |
 
+### From the student roadmaps
+
+| Supplier target | Exact file | Contract used |
+|---|---|---|
+| RigidAnalyticGeometry §4.4.4, reducedness on affinoid subdomains (no declaration name specified) | W. Coram's roadmap, `PhD/TauCeti/Roadmaps/RigidAnalyticGeometry/README.md` | Rational localisations of reduced `K`-affinoid algebras are reduced; R5.6's *rational-integral-compatibility* proves the comparison with the actual plus ring on this roadmap's side. The roadmap of W. Coram is to be contributed to TauCetiRoadmap ahead of this one. |
+
 ### From TauCetiRoadmap.AdicSpacesPartIII
 
 | Supplier target | Exact file | Contract used |
@@ -2564,8 +2570,20 @@ CHJ §6.3, after Lem. 6.13, p. 51 (the unit ball chosen in §6.3)). For `X` the 
 `ℚ_p`, `(ℤ_p⟨T⟩ ⊗̂ ℤ_p[[S]])[1/p] = ℚ_p⟨T⟩ ⊗̂ ℤ_p[[S]]`; for `X = Spa(ℚ_p⟨X, Q⟩/(Q²))`,
 `(𝒪⁺(X) ⊗̂ ℤ_p)[1/p] = ℚ_p⟨X⟩ ≠ 𝒪(X)`, the unbounded-lattice Check of *mixed-completed-tensor*. *Needs:*
 *mixed-completed-tensor*; *mixed-completed-tensor-exactness*;
-*mixed-completed-tensor-product-formula*; *reduced-affinoid-rational-localisation*;
+*mixed-completed-tensor-product-formula*; RigidAnalyticGeometry §4.4.4
+(reducedness on rational subdomains);
 *reduced-affinoid-supremum-norm* (AdicSpacesPartII layer R0); Tau Ceti `Huber.powerBoundedSubring`.
+
+For a rational `U`, put `(B, B⁺) = (𝒪_X(U), 𝒪_X⁺(U))`; the complete rational
+localisation is identified with the rigid subdomain algebra
+(AdicSpacesPartII R1.1 *affinoid-subdomain*), to apply RigidAnalyticGeometry §4.4.4.
+The plus-ring comparison uses Tau Ceti's `completedPlusSubring_le_powerBoundedSubring` for
+`B⁺ ⊆ B°`; prove the reverse inclusion using
+`mem_completedPlusSubring_iff_forall_mem_rationalSubset_vle_one` and the integrality of
+power-bounded elements over the rational plus-ring generators
+(KL15 §2.5, Lemma 2.5.9(d), p. 49).
+**Check:** for `A = K⟨x⟩`, `A⁺ = A°` and `U = {|x| ≤ |a|}` with `0 < |a| < 1`, the
+actual completed plus ring is `B⁺ = O_K⟨x/a⟩ = B°` in `B = K⟨x/a⟩`.
 
 The named general target above uses `E`, `𝒪_E`, and `ϖ` as specified. Its `E = ℚ_p`
 specialization is a linear equivalence in which `V` is a uniform Tate
@@ -3025,27 +3043,12 @@ BHW Corollary 3.5 is the case `Y = X_1 ×_L U` for a smooth `U`
 with the fibre products given as pullback squares and `f` locally of weakly finite type in the sense
 of `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.LocallyOfWeaklyFiniteType`.
 
-**Rational localisations of reduced affinoid algebras are reduced, and preserve `A⁺ = A°`.** (*reduced-affinoid-rational-localisation*) Let `K` be a field complete for a nontrivial
-nonarchimedean absolute value of rank one and `(A, A⁺)` a Huber pair with `A` a `K`-affinoid
-algebra, topologically of finite type (KL15: an adic affinoid algebra over `K`). Let
-`U ⊆ Spa(A, A⁺)` be a rational subset with representing complete pair
-`(B, B⁺) = (𝒪_X(U), 𝒪_X⁺(U))`. Prove (c) that if `A` is reduced then `B` is reduced, and (d) that
-if `A⁺ = A°` then `B⁺ = B°`. Hence for a reduced affinoid rigid space `X = Spa(A, A°)`, every
-`𝒪_X(U)` with `U` rational is a reduced affinoid algebra, so it is uniform
-(*reduced-affinoid-supremum-norm*, AdicSpacesPartII layer R0), and `𝒪_X⁺(U) = 𝒪_X(U)°` is an open bounded subring
-(KL15 §2.5, Lem. 2.5.9, p. 49 (the setting: a rational subspace with representing morphism
-`(A, A⁺) → (B, B⁺)`); KL15 §2.5, Lem. 2.5.9(c),(d), p. 49; KL15 §2.5, proof of Lem. 2.5.9, p. 49
-(reducedness is imported from BGR 7.3.2/10); KL15 §2.5, Hyp. 2.5.1, p. 48 (the hypotheses of the
-lemma)). For a topologically nilpotent `a ∈ K^×`, `A = K⟨x⟩` and `U = {|x| ≤ |a|}` give
-`B = K⟨x/a⟩` reduced with `B° = 𝒪_K⟨x/a⟩ = B⁺`;
-reducedness is not created: `A = K⟨x, q⟩/(q²)` gives non-reduced `B` for every nonempty `U`.
-The inclusion `B⁺ ⊆ B°` in (d) is Tau Ceti's `completedPlusSubring_le_powerBoundedSubring`
-(with `mem_completedPlusSubring_iff_forall_mem_rationalSubset_vle_one`); the reverse inclusion
-and (c) are what this target adds.
-*Needs:* *reduced-affinoid-supremum-norm* (AdicSpacesPartII layer R0); Tau Ceti
-`Huber.PairOfDefinition.completionLocalization`, `Huber.powerBoundedSubring`,
-`completedPlusSubring_le_powerBoundedSubring`,
-`mem_completedPlusSubring_iff_forall_mem_rationalSubset_vle_one`; Mathlib `IsReduced`.
+**Rational localisations of reduced affinoid algebras are reduced, and preserve `A⁺ = A°`.** (*reduced-affinoid-rational-localisation*) Reducedness of a `K`-affinoid algebra
+passes to the algebra of each rational subdomain.
+Supplied by RigidAnalyticGeometry §4.4.4 (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one).
+The supplier states reducedness on rigid affinoid subdomains, so this roadmap identifies their
+algebras with the complete rational localisation and proves `B⁺ = B°` for `A⁺ = A°` in
+*rational-integral-compatibility* (R5.6).
 
 For `R = ℤ_p`, the compatibility Check of *coefficient-sheaf-loc* includes the sheaf condition for
 finite `M` and identifies the local tensors by `a ⊗ m ↦ ε(a) ⊗ m`, where

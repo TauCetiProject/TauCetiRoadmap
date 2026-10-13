@@ -19,8 +19,11 @@ Huber rings and pairs, adic spectra, rational localisations, Tate algebras and t
 `TauCeti.AdicSpace` are Tau Ceti's; AdicSpacesPartII supplies affinoid charts and Huber's
 morphism classes, PerfectoidSpaces the perfectoid Tate-ring predicate, AdicEtaleGeometry open subspaces, the
 completed rational localisation `ratLoc`, étale morphisms by local description and fibre
-products. Completeness includes the Hausdorff property. This file states the parts that are a
-few lines over these carriers:
+products. RigidAnalyticGeometry §4.4.4 (the roadmap of W. Coram, to be contributed to
+TauCetiRoadmap ahead of this one) supplies reducedness of rational affinoid subdomains;
+the plus-ring comparison belongs to R5.6's `rational-integral-compatibility` in the README.
+Completeness includes the Hausdorff property. This file states the parts that are a few lines
+over these carriers:
 
 * R4: strict normal crossings charts of rings, of complete affinoid algebras and of smooth schemes;
 * R5: perfectoid frames and sousperfectoid rings and spaces, BHW's product of a perfectoid space
