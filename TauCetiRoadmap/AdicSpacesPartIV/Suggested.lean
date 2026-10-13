@@ -34,7 +34,12 @@ over these carriers:
 
 The étale and pro-étale sites on these carriers, smooth pairs as global objects, the boundary
 complement functors, coefficient sheaves, dagger spaces, their de Rham cohomology with supports
-and compact supports, duality and finiteness are README targets.
+and compact supports, duality and finiteness are README targets. F1.10's
+*dagger-projection-fringe-comparison* supplies the relative coherent comparison for proper
+product projections and their relative differential sheaves, and constructs the dagger-valued
+trace from rigid traces on larger affinoid bases over a complete discretely valued
+mixed-characteristic field. Its completion and restriction compatibilities supply
+*dagger-proper-projection-trace* and its supported and embedding-independence applications.
 -/
 
 set_option autoImplicit false

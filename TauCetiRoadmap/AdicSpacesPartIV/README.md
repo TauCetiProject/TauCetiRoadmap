@@ -401,6 +401,7 @@ de Jong's strictly semistable alteration theorem (*semistable-alteration-theorem
 | R3.4 *quasi-stein-theorems-a-b* | `TauCetiRoadmap/AdicSpacesPartIII/README.md` | Kiehl's Theorem B for the actual sheaf cohomology of coherent modules. |
 | R3.5 *locally-free-sheaf* (vector bundles on a sheafy Tate affinoid) | `TauCetiRoadmap/AdicSpacesPartIII/README.md` | KL15 2.7.7: finite projective modules are exactly vector bundles on a sheafy Tate affinoid. |
 | R3.6 *sheaf-of-continuous-differentials* | `TauCetiRoadmap/AdicSpacesPartIII/README.md` | The coherent sheaf representing continuous relative derivations, its universal derivation and its comparison with affinoid continuous differentials. |
+| R3.6 *kiehl-proper-mapping-theorem*, *proper-affinoid-cohomology-finite*, *proper-cohomology-affinoid-subdomain* | `TauCetiRoadmap/AdicSpacesPartIII/README.md`; RigidAnalyticGeometry, *Targets requested by the Tau Ceti AdicSpaces roadmaps*, **kiehlProperMapping**, **proper_cohomology_finite**, **proper_cohomology_affinoidSubdomain** | Coherence and finite cohomology for proper rigid maps, and the canonical algebraic tensor comparison for restriction to an affinoid subdomain. F1.10's *dagger-projection-fringe-comparison* uses these on the rigid product stages and owns the passage to dagger cohomology and the overconvergence of the trace. |
 | R3.7 *proper-gaga* (the comparison of coherent higher direct images) and R3.3 *coherent-sheaf-operations* (kernels, cokernels and extensions of coherent sheaves) | `TauCetiRoadmap/AdicSpacesPartIII/README.md` | For proper scheme maps over a strongly noetherian Tate affinoid, the canonical comparison of coherent higher direct images is an isomorphism. |
 
 
@@ -5670,17 +5671,83 @@ with `d = n`). *Needs:* *de-rham-cohomology-with-supports*; *dagger-polyannulus-
 - Computation (codimension one): for `Y = {x_1 = 0}` in `Y × D`, the isomorphism
   `H^{i−2}_dR(Y) → H^i_Y` of (b) sends `η` to the class of `η ∧ dx_1/x_1`, with `η` lifted to `Y × D`.
 
+**Relative coherent fringe comparison and overconvergent trace for proper product projections.**
+(*dagger-projection-fringe-comparison*) Let `K = Frac(R)` for a complete discrete valuation ring
+`R` of mixed characteristic `(0, p)`, `X` a smooth proper `K`-dagger space of pure dimension `n`,
+`Y = Sp(A)` a smooth pure-dimensional dagger affinoid, and `p : Z = X × Y → Y` the projection.
+This roadmap owns the following subtarget of *dagger-proper-projection-trace*, for
+`F^j = Ω^j_{Z/Y}`, `0 ≤ j ≤ n`, with `F^n = ω_{Z/Y}` (GK00 §3, Thm 3.5 and proof, pp. 18–19;
+GK02 §1, proof of Prop. 1.11, p. 9).
+
+Choose a fringe presentation `A = colim_{ρ→1+} A_ρ`, `Y_ρ = Sp(A_ρ)`, `Y' = Sp(Â) ⊂† Y_ρ`.
+After shrinking the initial radius, take the `Y_ρ` smooth; prove the existence of such a
+cofinal system by extending smooth affinoid charts to a fringe stage. Set
+`p_ρ : Z_ρ = X' × Y_ρ → Y_ρ` and `F^j_ρ = Ω^j_{Z_ρ/Y_ρ}`. These proper rigid product maps and
+their sheaves extend `p'` and `(F^j)'` to a larger rigid base, giving the local extension
+hypothesis of GK00 Thm 3.5. Prove, for every `q ≥ 0`, the canonical `A`-linear comparisons
+`M^{q,j} := Γ(Y, R^q p_* F^j) ≅ H^q(Z, F^j) ≅ colim_{ρ→1+} H^q(Z_ρ, F^j_ρ)`.
+For a fixed sufficiently small initial radius `ρ_0`, put
+`M^{q,j}_{ρ_0} = H^q(Z_{ρ_0}, F^j_{ρ_0})`. The rigid proper-cohomology supplier makes this module
+finite over `A_{ρ_0}` and identifies each smaller stage with
+`A_ρ ⊗_{A_{ρ_0}} M^{q,j}_{ρ_0}`. Prove
+`M^{q,j} ≅ A ⊗_{A_{ρ_0}} M^{q,j}_{ρ_0}`, its finiteness over `A`, coherence of `R^q p_* F^j`, and
+the completion comparison
+`M^{q,j} ⊗_A Â ≅ H^q(X' × Y', (F^j)')`, hence
+`(R^q p_* F^j)' ≅ R^q p'_* (F^j)'` as coherent sheaves. In particular `R^q p_* F^j = 0` for
+`q > n`. Establish compatibility with shrinking radii, changing fringe presentations, restriction
+to dagger affinoid subdomains of `Y`, and the relative exterior derivatives
+`F^j → F^{j+1}` as maps linear over the inverse image of `O†_Y`.
+
+For `q = j = n`, construct the rigid stage traces
+`t_ρ : H^n(Z_ρ, ω_{Z_ρ/Y_ρ}) → A_ρ` by the residue and Gysin construction of GK02 Prop. 1.11.
+Prove they commute with shrinking the stage and with base restriction, annihilate the image of
+`H^n(Z_ρ, Ω^{n−1}_{Z_ρ/Y_ρ})`, and commute with differentiation in base coordinates.
+For `n = 0` the preceding relative differential has zero source. Their direct limit defines
+the `A`-valued map `t : M^{n,n} → A`; prove that its scalar extension to `Â` is the rigid trace
+and that it kills the preceding dagger relative differential. The restriction compatibility
+glues these maps over every smooth pure-dimensional dagger base to
+`R^n p_! ω_{Z/Y} = R^n p_* ω_{Z/Y} → O†_Y`, compatible with the base differential operators.
+This is the dagger trace used by *dagger-proper-projection-trace*, including its supported maps,
+*dagger-hdr-embedding-independence*, and *dagger-proper-modification-sequence*.
+*Needs:* *fringe-presentation*; *fringe-morphism-factorisation*; *fringe-module-descent*;
+*overconvergent-sections-formula*; *dagger-coherent-affinoid-kiehl*; *dagger-coherent-theorem-b*;
+*dagger-coherent-module*; *dagger-differentials*; *dagger-smooth-space*; *dagger-partially-proper*;
+*dagger-d-modules*; *dagger-d-module-direct-image*; *dagger-local-cohomology-comparison* (b);
+*kiehl-proper-mapping-theorem*, *proper-affinoid-cohomology-finite*,
+*proper-cohomology-affinoid-subdomain* (AdicSpacesPartIII R3.6, supplied by RigidAnalyticGeometry).
+
+**Checks.**
+
+- Degenerate: for `X = Sp(K)`, the comparisons in degree zero are `A = colim_ρ A_ρ` and
+  `A ⊗_A Â = Â`, and every stage trace and the dagger trace are identities.
+- Computation: for `X = (ℙ¹_K)^†`, `K = ℚ_p`, `A = ℚ_p⟨T⟩†`, the relative residue sends
+  `b(T)[dz/z]` to `b(T)` in `A` for every `b(T) ∈ A`, with the ordered two-chart cover of
+  *dagger-proper-projection-trace*. Completing gives the rigid trace over `Â = ℚ_p⟨T⟩`.
+- Compatibility: restricting the same class to any dagger affinoid subdomain of the base
+  restricts its residue `b(T)`; changing or shrinking a fringe model gives the same `A`-valued map.
+- Boundary: for `X = (ℙ¹_K)^†` and `Y` the closed dagger disc, `p` is proper while `X × Y`
+  is not partially proper over `K`: the closed section `{0} × Y` would otherwise make the
+  closed disc partially proper. The relative comparison applies to this base.
+- Negative control: for `A = ℚ_p⟨T⟩†`, the series `h(T) = Σ_{m≥1} p^m T^{p^m}` lies in `Â` but
+  outside `A`, since `p^{-m}ρ^{p^m}` fails to tend to zero at every `ρ > 1`.
+  Multiplication by `h` on `Â` cannot be the completion of an `A`-linear endomorphism of `A`:
+  its value at `1` is outside `A`. Trace overconvergence is supplied by the stage traces.
+
 **Trace maps for the projection `X × Y → Y` with `X` smooth and proper.**
 (*dagger-proper-projection-trace*) Let `X` be a smooth proper `K`-dagger (resp. rigid) space of pure
 dimension `n`, `Y` a smooth pure-dimensional `K`-dagger (resp. rigid) space and `p : Z = X × Y → Y`
 the projection. For rigid spaces assume `char K = 0`; for dagger spaces assume moreover `K = Frac(R)`
-for a complete discrete valuation ring `R` of mixed characteristic `(0, p)` (the proof uses GK00 §3,
-Thm 3.5, p. 18, which is stated under this hypothesis). Prove that there is a canonical trace map `p_+O_Z[n] → O_Y` of `D_Y`-modules (`D_Y` is the sheaf of differential operators of *dagger-d-modules*, GK02 §1, 1.5, and `p_+` is the direct image of D-modules along the projection of *dagger-d-module-direct-image*, GK02 §1, 1.6), given by a map `R^n p_! ω_{Z/Y} → O_Y` vanishing on the image of `R^n p_! Ω^{n−1}_{Z/Y}` and built on charts `U_J → (D^0)^{n_J}` from the coefficient of `T_1^{-1} ⋯ T_{n_J}^{-1} dT_1 ∧ … ∧ dT_{n_J}` and the Gysin map, and that if moreover `T → Y` and `S → Z ×_Y T = X × T` are closed
+for a complete discrete valuation ring `R` of mixed characteristic `(0, p)` (GK00 §3, Thm 3.5,
+pp. 18–19; the local extension hypothesis is supplied by the product fringe models of
+*dagger-projection-fringe-comparison*). Prove that there is a canonical trace map `p_+O_Z[n] → O_Y` of `D_Y`-modules (`D_Y` is the sheaf of differential operators of *dagger-d-modules*, GK02 §1, 1.5, and `p_+` is the direct image of D-modules along the projection of *dagger-d-module-direct-image*, GK02 §1, 1.6), given by a map `R^n p_! ω_{Z/Y} → O_Y` vanishing on the image of `R^n p_! Ω^{n−1}_{Z/Y}` and built on charts `U_J → (D^0)^{n_J}` from the coefficient of `T_1^{-1} ⋯ T_{n_J}^{-1} dT_1 ∧ … ∧ dT_{n_J}` and the Gysin map, and that if moreover `T → Y` and `S → Z ×_Y T = X × T` are closed
 immersions, there are canonical trace maps `p_+RΓ*_S O_Z[n] → RΓ*_T O_Y` and
 `RΓ(Z, DR(RΓ*_S O_Z))[2n] → RΓ(Y, DR(RΓ*_T O_Y))`, which are isomorphisms if the composite
 `S → X × T → T` is an isomorphism (GK02 §1, Prop. 1.11, p. 8, and its proof, p. 9). For `X = Sp(K)`
 (`n = 0`), `p = id` and the trace is the identity; for `X = P^1` over `Y = Sp(K)`, the trace
 `H^2_dR(P^{1,†}) → K` is the residue isomorphism.
+On dagger affinoid bases the trace is the `A`-valued direct limit of the rigid stage traces of
+*dagger-projection-fringe-comparison*; its restriction and completed-trace compatibilities glue
+the map on `Y` and carry through to the supported trace maps below.
 The traces form a single family over
 complementary opens `U ⊆ Z`, `V ⊆ Y` with `p⁻¹(V) ⊆ U`. For inclusions
 `U₁ ⊆ U₂`, `V₁ ⊆ V₂`, the trace commutes with extension from the smaller
@@ -5692,7 +5759,7 @@ is an isomorphism (GK02 Prop. 1.11 and proof, pp. 8–10).
 *Needs:* *dagger-local-cohomology-comparison*; *dagger-d-module-direct-image*;
 *dagger-algebraic-local-cohomology*;
 *de-rham-cohomology-with-supports*; *dagger-partially-proper*; *dagger-smooth-space*;
-*dagger-coherent-cohomology-comparison*.
+*dagger-projection-fringe-comparison* (for dagger spaces).
 
 **Checks.**
 
@@ -5701,6 +5768,9 @@ is an isomorphism (GK02 Prop. 1.11 and proof, pp. 8–10).
   class of `dz/z` on `{|z| = 1}`, for the cover `({|z| ≤ 1}, {|z| ≥ 1})` in this order, to
   `1 = Res_0(dz/z)`, the coefficient of `z^{-1}dz`.
 - Compatibility: through the Gysin map, the point `S = {0} × Sp K` gives the identity of `K`.
+- Computation over an affinoid base: for `X = (ℙ¹_{ℚ_p})^†` and `Y = Sp(ℚ_p⟨T⟩†)`, the relative
+  trace sends `b(T)[dz/z]` to `b(T) ∈ ℚ_p⟨T⟩†` and completes to the rigid trace, as in
+  *dagger-projection-fringe-comparison*.
 
 **Independence of the embedding for de Rham cohomology with supports, and the invariants `h^dR_q`.**
 (*dagger-hdr-embedding-independence*) Let `K = Frac(R)` for a complete discrete valuation ring `R` of
