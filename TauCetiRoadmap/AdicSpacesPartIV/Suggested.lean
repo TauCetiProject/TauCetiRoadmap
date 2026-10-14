@@ -19,8 +19,9 @@ Huber rings and pairs, adic spectra, rational localisations, Tate algebras and t
 `TauCeti.AdicSpace` are Tau Ceti's; AdicSpacesPartII supplies affinoid charts and Huber's
 morphism classes, PerfectoidSpaces the perfectoid Tate-ring predicate, AdicEtaleGeometry open subspaces, the
 completed rational localisation `ratLoc`, étale morphisms by local description and fibre
-products. RigidAnalyticGeometry §4.4.4 (the roadmap of W. Coram, to be contributed to
-TauCetiRoadmap ahead of this one) supplies reducedness of rational affinoid subdomains;
+products. RigidAnalyticGeometry §4.4 item 4 (W. Coram's roadmap at
+`af8261a42a548ed86a11fff72c486673ef122ae7`, linked in the README supplier table)
+supplies reducedness of rational affinoid subdomains;
 the plus-ring comparison belongs to R5.6's `rational-integral-compatibility` in the README.
 Completeness includes the Hausdorff property. This file states the parts that are a few lines
 over these carriers:
@@ -398,8 +399,19 @@ theorem IsSousperfectoid.isSheafyRing [IsSousperfectoid p R] :
 
 end Stability
 
+/-- A complete isometric field extension of countable type over a complete discretely valued
+field admits a retraction bounded by one (`countable-extension-retraction`, HK Rem. 7.8).
+Compatible bounded functionals on successive finite spans extend over their dense union. -/
+theorem exists_countable_extension_retraction (K : Type*) [NontriviallyNormedField K]
+    [IsUltrametricDist K] [CompleteSpace K] (π : K) (hπ : 0 < ‖π‖ ∧ ‖π‖ < 1)
+    (hdisc : ∀ a : K, a ≠ 0 → ∃ k : ℤ, ‖a‖ = ‖π‖ ^ k)
+    (L : Type*) [NormedField L] [IsUltrametricDist L] [CompleteSpace L] [NormedAlgebra K L]
+    (x : ℕ → L) (hx : Dense (Submodule.span K (Set.range x) : Set L)) :
+    ∃ σ : L →L[K] K, (∀ a : K, σ (algebraMap K L a) = a) ∧ ∀ z : L, ‖σ z‖ ≤ ‖z‖ := sorry
+
 /-- Finite extensions of `ℚ_p` are sousperfectoid: `K → K^cycl` has a continuous `K`-linear
-retraction, `K` being spherically complete (HK, Rem. 7.8, p. 26). -/
+retraction supplied by `exists_countable_extension_retraction`; the finite cyclotomic levels
+span a dense countable union (HK, Rem. 7.8, p. 26). -/
 theorem IsSousperfectoid.of_finite_padic (p : ℕ) [Fact p.Prime] (K : Type) [Field K]
     [Algebra ℚ_[p] K] [FiniteDimensional ℚ_[p] K] [TopologicalSpace K] [IsModuleTopology ℚ_[p] K] :
     haveI := IsModuleTopology.isTopologicalRing ℚ_[p] K
@@ -412,6 +424,17 @@ theorem not_isPerfectoidTateRing_restrictedMvPowerSeries {p : ℕ} [Fact p.Prime
     [CommRing S] [UniformSpace S] [IsUniformAddGroup S] [IsTopologicalRing S] [IsTateRing S]
     [CompleteSpace S] [T2Space S] [Nontrivial S] [IsPerfectoidTateRing p S] (n : ℕ) (hn : 0 < n) :
     ¬ IsPerfectoidTateRing p (restrictedMvPowerSeriesCompletion n S) := sorry
+
+/-- `ℚ_p` fails the perfectoid divisibility condition. -/
+example (p : ℕ) [Fact p.Prime] : ¬ IsPerfectoidTateRing p ℚ_[p] := sorry
+
+/-- A degree-`p` extension with `π^p = p` is not perfectoid: Frobenius misses
+its uniformiser modulo `p`. The valuation topology is represented by the normed Tate field. -/
+example (p : ℕ) [Fact p.Prime] (K : Type) [NontriviallyNormedField K]
+    [IsUltrametricDist K] [CompleteSpace K] [NormedAlgebra ℚ_[p] K]
+    [FiniteDimensional ℚ_[p] K] [IsTateRing K]
+    (π : K) (hπ : π ^ p = algebraMap ℚ_[p] K (p : ℚ_[p]))
+    (hdim : Module.finrank ℚ_[p] K = p) : ¬ IsPerfectoidTateRing p K := sorry
 
 /-- `ℚ_p⟨T⟩` is sousperfectoid (frame `ℚ_p^cycl⟨T^{1/p^∞}⟩`) but not perfectoid. -/
 example (p : ℕ) [Fact p.Prime] :
@@ -562,6 +585,58 @@ def mixedTensorInt.map {X Y : Type*} [AddCommGroup X] [Module O X] [AddCommGroup
       LinearMap.lTensor_comp_rTensor, LinearMap.rTensor_comp_lTensor]⟩
   map_add' z t := by ext N; simp
   map_smul' c z := by ext N; simp
+
+section MixedTensorChecks
+
+variable {X Y Z : Type*} [AddCommGroup X] [Module O X] [AddCommGroup Y] [Module O Y]
+  [AddCommGroup Z] [Module O Z]
+
+/-- A pure tensor has the prescribed component at every open quotient. -/
+example (x : X) (m : M) (N : {N : Submodule O M // IsOpen (N : Set M)}) :
+    (mixedTensorInt.tmul (O := O) x m).1 N = x ⊗ₜ[O] Submodule.mkQ N.1 m := rfl
+
+/-- Zero in either factor gives the zero compatible family. -/
+example (x : X) (m : M) :
+    mixedTensorInt.tmul (O := O) (0 : X) m = 0 ∧ mixedTensorInt.tmul (O := O) x (0 : M) = 0 := by
+  constructor <;> ext N <;> simp [mixedTensorInt.tmul]
+
+/-- Pure tensors are additive in both variables. -/
+example (x y : X) (m n : M) :
+    mixedTensorInt.tmul (O := O) (x + y) m = mixedTensorInt.tmul (O := O) x m + mixedTensorInt.tmul (O := O) y m ∧
+      mixedTensorInt.tmul (O := O) x (m + n) = mixedTensorInt.tmul (O := O) x m + mixedTensorInt.tmul (O := O) x n := by
+  constructor <;> ext N <;> simp [mixedTensorInt.tmul, TensorProduct.add_tmul,
+    TensorProduct.tmul_add]
+
+/-- Scalar balancing holds on every quotient component. -/
+example (a : O) (x : X) (m : M) :
+    mixedTensorInt.tmul (O := O) (a • x) m = mixedTensorInt.tmul (O := O) x (a • m) := by
+  ext N
+  simp [mixedTensorInt.tmul, TensorProduct.smul_tmul, TensorProduct.tmul_smul]
+
+/-- Functoriality acts by the given map on the first tensor factor. -/
+example (f : X →ₗ[O] Y) (x : X) (m : M) :
+    mixedTensorInt.map f (mixedTensorInt.tmul (O := O) x m) = mixedTensorInt.tmul (O := O) (f x) m := by
+  ext N
+  simp [mixedTensorInt.map, mixedTensorInt.tmul]
+
+/-- The zero and identity linear maps act as zero and identity. -/
+example : mixedTensorInt.map (M := M) (0 : X →ₗ[O] Y) = 0 ∧
+    mixedTensorInt.map (M := M) (LinearMap.id : X →ₗ[O] X) = LinearMap.id := by
+  constructor <;> ext z N <;> simp [mixedTensorInt.map]
+
+/-- Componentwise maps are additive and commute with composition on arbitrary families. -/
+example (f g : X →ₗ[O] Y) (h : Y →ₗ[O] Z) :
+    mixedTensorInt.map (M := M) (f + g) = mixedTensorInt.map f + mixedTensorInt.map g ∧
+      mixedTensorInt.map (M := M) (h.comp f) = (mixedTensorInt.map h).comp (mixedTensorInt.map f) :=
+  sorry
+
+/-- Each component of functoriality is the algebraic tensor map, including outside the pure
+ tensor image. -/
+example (f : X →ₗ[O] Y) (z : mixedTensorInt O X M)
+    (N : {N : Submodule O M // IsOpen (N : Set M)}) :
+    (mixedTensorInt.map f z).1 N = f.rTensor (M ⧸ N.1) (z.1 N) := rfl
+
+end MixedTensorChecks
 
 /-- The product formula: for a pseudobasis `e : M ≃ ∏_I O` over a compact Hausdorff DVR, the
 mixed tensor `X ⊗̂ M` is `∏_I X̂` (`X̂` the `𝔪`-adic completion), with `x ⊗ m ↦ (e(m)ᵢ x)ᵢ`
@@ -757,7 +832,8 @@ section Radius
 
 variable (n : ℕ) (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K]
 
-/-- Local restatement of RigidAnalyticGeometry §1.5.1, to be replaced by the import once that roadmap is in TauCetiRoadmap.
+/-- The constant-polyradius carrier of RigidAnalyticGeometry §1.5 item 1 at
+`af8261a42a548ed86a11fff72c486673ef122ae7` (README supplier table).
 The `K`-subalgebra of restricted series at the constant polyradius `ρ`, used to define `W_n`.
 The coefficient construction does not require completeness of `K`. -/
 def radiusTate (ρ : ℝ) : Subalgebra K (MvPowerSeries (Fin n) K) :=
@@ -767,7 +843,8 @@ def radiusTate (ρ : ℝ) : Subalgebra K (MvPowerSeries (Fin n) K) :=
       rw [MvPowerSeries.algebraMap_apply, Algebra.algebraMap_self, RingHom.id_apply]
       exact MvPowerSeries.isRestricted_C _ c }
 
-/-- Local restatement of RigidAnalyticGeometry §1.5.1, to be replaced by the import once that roadmap is in TauCetiRoadmap.
+/-- The constant-polyradius carrier of RigidAnalyticGeometry §1.5 item 1 at
+`af8261a42a548ed86a11fff72c486673ef122ae7` (README supplier table).
 The Gauss-norm function at the constant polyradius `ρ`, used at radius `1` in the unit criterion
 for `W_n`; its norm interpretation applies only to series restricted at `ρ > 0`. -/
 def radiusGaussNorm (ρ : ℝ) (f : MvPowerSeries (Fin n) K) : ℝ :=
@@ -1031,6 +1108,34 @@ theorem intWashnitzerAlgebra.isNoetherianRing [CompleteSpace K] (n : ℕ) (π : 
     (hπ : 0 < ‖π‖ ∧ ‖π‖ < 1) (hdisc : ∀ x : K, x ≠ 0 → ∃ k : ℤ, ‖x‖ = ‖π‖ ^ k) :
     IsNoetherianRing (intWashnitzerAlgebra K n) := sorry
 
+/-- Zero and one are integral overconvergent series. -/
+example (n : ℕ) : (0 : MvPowerSeries (Fin n) K) ∈ intWashnitzerAlgebra K n ∧
+    (1 : MvPowerSeries (Fin n) K) ∈ intWashnitzerAlgebra K n :=
+  ⟨(intWashnitzerAlgebra K n).zero_mem, (intWashnitzerAlgebra K n).one_mem⟩
+
+/-- Constants are integral exactly when they lie in the valuation unit ball. -/
+example (n : ℕ) (c : K) : MvPowerSeries.C (σ := Fin n) c ∈ intWashnitzerAlgebra K n ↔
+    ‖c‖ ≤ 1 := sorry
+
+/-- A scalar of norm strictly between zero and one is integral, while its inverse is excluded. -/
+example (n : ℕ) (π : K) (hπ : 0 < ‖π‖ ∧ ‖π‖ < 1) :
+    MvPowerSeries.C (σ := Fin n) π ∈ intWashnitzerAlgebra K n ∧
+      MvPowerSeries.C (σ := Fin n) π⁻¹ ∉ intWashnitzerAlgebra K n := sorry
+
+/-- In zero variables every integral series is a constant in the unit ball. -/
+example (f : MvPowerSeries (Fin 0) K) : f ∈ intWashnitzerAlgebra K 0 ↔
+    ∃ c : K, ‖c‖ ≤ 1 ∧ f = MvPowerSeries.C c := sorry
+
+/-- The integral geometric series has linear degree growth, while the quadratic-degree series
+is restricted without being overconvergent. -/
+example (π : K) (hπ : 0 < ‖π‖ ∧ ‖π‖ < 1) :
+    (∃ f : MvPowerSeries (Fin 1) K, (∀ m : ℕ, f.coeff (Finsupp.single 0 m) = π ^ m) ∧
+      f ∈ intWashnitzerAlgebra K 1) ∧
+    ∃ g : MvPowerSeries (Fin 1) K,
+      (∀ m : ℕ, g.coeff (Finsupp.single 0 m) =
+        if (Nat.sqrt m) ^ 2 = m then π ^ (Nat.sqrt m) else 0) ∧
+      g ∈ radiusTate 1 K 1 ∧ g ∉ intWashnitzerAlgebra K 1 := sorry
+
 end IntegralWashnitzer
 
 section WeakCompletion
@@ -1050,6 +1155,20 @@ def weakCompletionSet {ι : Type*} [Fintype ι] (x : ι → S) : Set (piAdicComp
   {z | ∃ (c : ℕ) (P : ℕ → MvPolynomial ι O), (∀ j, (P j).totalDegree ≤ c * (j + 1)) ∧
     ∀ k : ℕ, AdicCompletion.eval _ S k z = Submodule.Quotient.mk
       (∑ j ∈ Finset.range k, algebraMap O S π ^ j * MvPolynomial.aeval x (P j))}
+
+/-- Constants belong to the degree-growth set for every finite family, including no variables. -/
+example {ι : Type*} [Fintype ι] (x : ι → S) (c : O) :
+    algebraMap O (piAdicCompletion π S) c ∈ weakCompletionSet π x := sorry
+
+/-- The constant one lies in the weak-completion set of a polynomial ring. -/
+example (n : ℕ) : (1 : piAdicCompletion π (MvPolynomial (Fin n) O)) ∈
+    weakCompletionSet π (MvPolynomial.X : Fin n → MvPolynomial (Fin n) O) := sorry
+
+/-- The polynomial generators have weakly overconvergent geometric inverses. -/
+example (n : ℕ) (i : Fin n) :
+    ∃ z ∈ weakCompletionSet π (MvPolynomial.X : Fin n → MvPolynomial (Fin n) O),
+      (1 - algebraMap O (piAdicCompletion π (MvPolynomial (Fin n) O)) π *
+        algebraMap (MvPolynomial (Fin n) O) _ (MvPolynomial.X i)) * z = 1 := sorry
 
 /-- The weak completion `S† ⊆ Ŝ` of a finitely generated `O`-algebra: generated by
 `weakCompletionSet` for a chosen finite generating set, which is already a subalgebra
@@ -1107,6 +1226,26 @@ theorem weakCompletion.isDaggerAlgebra_genericFibre [Algebra.FiniteType O S] (h�
     (hO : ∀ x : K, ‖x‖ ≤ 1 ↔ ∃ a : O, algebraMap O K a = x) :
     IsDaggerAlgebra K (weakCompletion.genericFibre π S K) := sorry
 
+/-- Over the complete base DVR the weak-completion map is bijective. -/
+example (hπ : Irreducible π) : Function.Bijective (weakCompletion.of π O) := sorry
+
+/-- Inverting the parameter makes the completion zero, so the weak map kills one. -/
+example : weakCompletion.of π (Localization.Away π) 1 = 0 := sorry
+
+/-- The weak generic fibre of the residue field is the zero algebra. -/
+example (hπ : Irreducible π) (K : Type*) [Field K] [Algebra O K]
+    [IsFractionRing O K] :
+    Subsingleton (weakCompletion.genericFibre π (IsLocalRing.ResidueField O) K) := sorry
+
+/-- The weak-completion set does not exhaust the adic completion of the polynomial ring. -/
+example (hπ : Irreducible π) :
+    weakCompletionSet π (MvPolynomial.X : Fin 1 → MvPolynomial (Fin 1) O) ≠ Set.univ := sorry
+
+/-- The unique extension of the identity is the identity on the weak completion. -/
+example [Algebra.FiniteType O S] (hπ : Irreducible π)
+    (f : weakCompletion π S →ₐ[O] weakCompletion π S)
+    (hf : f.comp (weakCompletion.of π S) = weakCompletion.of π S) : f = AlgHom.id O _ := sorry
+
 end WeakCompletion
 
 /-- `O[X]` is not weakly complete: `1 − πX` would be a unit. -/
@@ -1130,6 +1269,14 @@ abbrev Omega : Type _ :=
 /-- The universal derivation `d : A → Ω¹_A`. -/
 def Omega.d : Derivation K A (Omega K A) :=
   (Submodule.mkQ _).compDer (KaehlerDifferential.D K A)
+
+/-- The universal differential kills base scalars, including zero and one. -/
+example (c : K) : Omega.d K A (algebraMap K A c) = 0 := by
+  exact (Omega.d K A).map_algebraMap c
+
+/-- The quadratic differential obeys the Leibniz rule. -/
+example (a : A) : Omega.d K A (a ^ 2) = (2 : A) • (a • Omega.d K A a) := by
+  simp [pow_two, two_smul, Derivation.leibniz]
 
 end Differentials
 
@@ -1164,6 +1311,20 @@ infinite-dimensional. -/
 theorem Omega.poincare_washnitzer [CharZero K] (n : ℕ) :
     (∀ f : washnitzerAlgebra n K, Omega.d K _ f = 0 ↔ f ∈ Set.range (algebraMap K _)) ∧
       ∀ ω : Omega K (washnitzerAlgebra 1 K), ∃ f, Omega.d K _ f = ω := sorry
+
+/-- The finite differential module of the field is zero. -/
+example : Subsingleton (Omega K K) := sorry
+
+/-- The zero derivation and the universal derivation have zero and identity factorisations. -/
+example :
+    (∃! u : Omega K A →ₗ[A] Omega K A, ∀ a, u (Omega.d K A a) = 0) ∧
+      (∃! u : Omega K A →ₗ[A] Omega K A, ∀ a, u (Omega.d K A a) = Omega.d K A a) := sorry
+
+/-- Any universal factorisation of a derivation evaluates the quadratic differential correctly. -/
+example {M : Type*} [AddCommGroup M] [Module A M] [Module K M]
+    [IsScalarTower K A M] (D : Derivation K A M) (u : Omega K A →ₗ[A] M)
+    (hu : ∀ a, u (Omega.d K A a) = D a) (a : A) :
+    u (Omega.d K A (a ^ 2)) = (2 : A) • (a • D a) := sorry
 
 end DaggerDifferentials
 

@@ -36,11 +36,11 @@ sites of [AdicEtaleGeometry](../AdicEtaleGeometry/README.md).
 | F1 | Dagger geometry and overconvergent de Rham complexes | dagger algebras and spaces, weak completions, strict neighbourhoods, differential operators, de Rham complexes and de Rham cohomology with supports, duality, finiteness relative to Monsky–Washnitzer finiteness |
 
 ```text
-AdicSpacesPartII R0–R1, AdicEtaleGeometry A1, SchemeAndStackFoundations SF.4 → R4
+AdicSpacesPartII R0–R1, AdicEtaleGeometry A1, SchemeAndStackFoundations §4.17 → R4
 R4, AdicSpacesPartII R0, AdicSpacesPartIII F0/R2/R3, AdicEtaleGeometry A1 → R5.6–R5.8
 AdicSpacesPartII R0, AdicSpacesPartIII R3, AdicEtaleGeometry A1, R5.6–R5.8,
   PerfectoidSpaces P1.1/P1.10/P1.30/P1.31/P2.3/P2.9/P2.10/P3.10 → R5.1–R5.5
-AdicSpacesPartII R0–R1, AdicSpacesPartIII R2/R3, R4, SchemeAndStackFoundations SF.0/SF.4,
+AdicSpacesPartII R0–R1, AdicSpacesPartIII R2/R3, R4, SchemeAndStackFoundations §0.21/§4.17/§4.20,
   PerfectoidSpaces P3.1 → F1
 ```
 
@@ -87,7 +87,7 @@ The roadmap owns, layer by layer:
   finiteness theorems in the form "finiteness of Monsky–Washnitzer cohomology and embedded resolution
   imply finiteness". Those two inputs, (MWF) and (RES) of F1.11, are not targets of this roadmap:
   every statement that uses them carries them as hypotheses. De Jong's strictly semistable
-  alteration theorem is SchemeAndStackFoundations layer SF.4 (*semistable-alteration-theorem*),
+  alteration theorem is SchemeAndStackFoundations §4.20 (`Formal.DeJong.semistable_alteration_theorem`),
   cited by F1.
 
 
@@ -158,7 +158,9 @@ not use F1.11.
     there, and a Check marked "(Lean `example`)" is an `example` of that file; every other target,
     API statement and Check is specified by this README only, with no Lean declaration. A target's
     label `(*slug*)` is the name by which later targets and the Lean file refer to it.
-14. **Pure dimension.** A smooth space has pure dimension `n` when `dim O_{X,x} = n` at every point;
+14. **Pure dimension.** A smooth rigid or dagger space has pure dimension `n` when every classical stalk has
+    Krull dimension `n`. For a smooth adic space over `Spa K`, use constant relative dimension
+    `n`, equivalently constant rank `n` of the continuous differential sheaf `Ω¹_{X/K}`;
     statements with a fixed degree shift (`n`, `2n`, `d`) or with `ω_X = Ω^n_X` assume pure
     dimension, and for other smooth spaces they hold on each open and closed pure-dimensional
     part.
@@ -308,13 +310,16 @@ API.
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 
-SF.0 supplies *excellent-ring*, *quasi-excellent-ring*, the G-ring definition (*g-ring*)
-and *regular-map-completion* for F1. SF.4 supplies *strict-normal-crossings* for R4 and
-de Jong's strictly semistable alteration theorem (*semistable-alteration-theorem*) for F1.
+[SchemeAndStackFoundations §0.21](../SchemeAndStackFoundations/README.md#021-regular-maps-g-rings-j-2-rings-excellent-rings-and-schemes)
+supplies `Excellence.IsExcellentRing`, `Excellence.IsQuasiExcellentRing`, `Excellence.IsGRing`
+and `regular_map_completion` for F1.
+[§4.17](../SchemeAndStackFoundations/README.md#417-strict-normal-crossings-divisors) supplies
+`Formal.IsStrictNormalCrossings` for R4; [§4.20](../SchemeAndStackFoundations/README.md#420-traits-s-varieties-strict-semistability-and-the-semistable-alteration-theorem)
+supplies `Formal.DeJong.semistable_alteration_theorem` for F1.
 
 | Statement used | Supplier | Contract used |
 |---|---|---|
-| excellence of rings | SchemeAndStackFoundations SF.0, *excellent-ring* | Noetherian G-rings satisfying J-2 and universal catenarity; used unchanged by *dagger-algebra-excellent*. |
+| excellence of rings | SchemeAndStackFoundations §0.21, `Excellence.IsExcellentRing` | Noetherian G-rings satisfying J-2 and universal catenarity; used unchanged by *dagger-algebra-excellent*. |
 
 ### From TauCetiRoadmap.AdicSpacesPartII
 
@@ -369,10 +374,15 @@ de Jong's strictly semistable alteration theorem (*semistable-alteration-theorem
 
 ### From the student roadmaps
 
+RigidAnalyticGeometry is W. Coram's [roadmap at `af8261a42a548ed86a11fff72c486673ef122ae7`](https://github.com/CBirkbeck/PhD/blob/af8261a42a548ed86a11fff72c486673ef122ae7/PhD/TauCeti/Roadmaps/RigidAnalyticGeometry/README.md).
+Its §4.4 item 4 states reducedness on affinoid subdomains; §1.5 items 1–2 state
+the polyradius algebra and affinoid criterion, and §1.3 item 3 fixes the Banach topology.
+The constant-polyradius and rational-localisation carrier bridges below use these contracts.
+
 | Supplier target | Exact file | Contract used |
 |---|---|---|
-| RigidAnalyticGeometry §4.4.4, reducedness on affinoid subdomains (no declaration name specified) | W. Coram's roadmap, `PhD/TauCeti/Roadmaps/RigidAnalyticGeometry/README.md` | Rational localisations of reduced `K`-affinoid algebras are reduced; R5.6's *rational-integral-compatibility* proves the comparison with the actual plus ring on this roadmap's side. The roadmap of W. Coram is to be contributed to TauCetiRoadmap ahead of this one. |
-| RigidAnalyticGeometry §1.5.1–1.5.2, polyradius Tate algebras and the affinoid criterion (no declaration names specified) | W. Coram's roadmap, `PhD/TauCeti/Roadmaps/RigidAnalyticGeometry/README.md` | The constant-polyradius specialisation supplies the radius pieces and their multiplicative Banach norms, polynomial density and affinoidness for radii in `Γ*`; §1.3.3 identifies the Banach topology with the algebraic carrier's affinoid topology. The roadmap of W. Coram is to be contributed to TauCetiRoadmap ahead of this one. |
+| RigidAnalyticGeometry §4.4.4, reducedness on affinoid subdomains (no declaration name specified) | W. Coram's roadmap, `PhD/TauCeti/Roadmaps/RigidAnalyticGeometry/README.md` | Rational localisations of reduced `K`-affinoid algebras are reduced; R5.6's *rational-integral-compatibility* proves the comparison with the actual plus ring on this roadmap's side. |
+| RigidAnalyticGeometry §1.5.1–1.5.2, polyradius Tate algebras and the affinoid criterion (no declaration names specified) | W. Coram's roadmap, `PhD/TauCeti/Roadmaps/RigidAnalyticGeometry/README.md` | The constant-polyradius specialisation supplies the radius pieces and their multiplicative Banach norms, polynomial density and affinoidness for radii in `Γ*`; §1.3.3 identifies the Banach topology with the algebraic carrier's affinoid topology. |
 
 #### Local restatements
 
@@ -434,7 +444,7 @@ limits, open immersions and open covers. The affine representing equivalences
 commute with both formal pullback and rigid precomposition, so the same functor
 identifies overlaps and their iterated intersections.
 
-SchemeAndStackFoundations SF.4's strictly semistable pairs (*semistable-alteration-theorem*)
+SchemeAndStackFoundations §4.20 strictly semistable pairs (`Formal.DeJong.semistable_alteration_theorem`)
 use étale charts over
 `O[T₁,…,Tₙ]/(T₁⋯Tᵣ−π)` and a boundary given by distinct coordinates. The branches
 through each point belong to distinct global irreducible components.
@@ -444,8 +454,9 @@ where the alteration is finite (GK02 §3.1 and Theorem 3.3, p. 22; de Jong 6.5).
 The nonproper varieties in F1 are placed in proper varieties before applying it,
 as in the proof of GK02 Theorem 3.4, pp. 22–23.
 
-**Checks.** The empty scheme with empty boundary is a strictly semistable pair;
-so is the trait with its reduced closed point as boundary;
+**Checks.** The empty scheme is not an S-variety and hence is not a strict semistable pair
+in SchemeAndStackFoundations §4.20. The trait with horizontal boundary `H = ∅` is a pair
+whose total boundary is its special fibre;
 the whole of a nonempty scheme is excluded
 as boundary.
 
@@ -1272,7 +1283,7 @@ schemes locally of finite type, whose part (i) sends étale morphisms to étale 
 crossings pairs). Closed and open immersions analytify to closed and open immersions
 (*analytification-immersions*, AdicSpacesPartII layer R1), and étale and smooth morphisms analytify to étale and
 smooth morphisms (*analytification-etale-smooth*, AdicSpacesPartII layer R1). *Needs:* *smooth-pair*;
-SchemeAndStackFoundations layer SF.4 (*strict-normal-crossings*); *analytification-etale-smooth*,
+SchemeAndStackFoundations §4.17 (`Formal.IsStrictNormalCrossings`); *analytification-etale-smooth*,
 *analytification-immersions*, *analytic-affine-space*, *analytification-functor* (AdicSpacesPartII layer R1); AdicSpacesPartII layer
 R0 (*smooth-morphism*, *closed-adic-subspaces-and-embeddings*). Lean: `SmoothPair.AlgebraicSmoothPair`;
 the analytification statement is specified in this README only.
@@ -2021,29 +2032,63 @@ sousperfectoid, non-perfectoid affinoid. *Needs:* *sousperfectoid-rings*;
 `|S| ≤ 1` is explicit for every valuation of the chosen plus ring. At `(a,b)=(0,1)` rational
 membership is then exactly `|p| ≤ |S| ≤ 1`; reversing the exponents would replace `p` by `1`.
 
+**Bounded retractions for countable extensions of discretely valued fields.**
+(*countable-extension-retraction*) Let `K` be a complete nonarchimedean field with discrete
+nontrivial valuation, and `L/K` a complete isometric nonarchimedean field extension whose
+underlying `K`-vector space is the closure of the span of a countable family. Construct a
+continuous `K`-linear map `σ : L → K` with `σ(a) = a` for `a ∈ K` and `|σ(z)| ≤ |z|`
+(HK §7, Rem. 7.8, p. 26, for the countable-extension splitting; Schneider11 §1, Lem. 1.7(ii),
+pp. 6–7, for spherical completeness of `K`). Prove the bounded extension step: start with
+the identity on `K`, adjoin the countable generators one at a time, and extend a functional
+`f` satisfying `|f(v)| ≤ |v|` by choosing its value `b` on the new vector `z` in the nested
+closed balls `{b ∈ K : |b − f(v)| ≤ |z − v|}`, `v` in the previous span. The ultrametric
+inequality makes these balls nested; spherical completeness gives their intersection.
+The resulting compatible functionals have bound `1` on the dense union; completeness of `K`
+extends them to `L`, giving the cyclotomic retraction in the field application. *Needs:* Mathlib `ContinuousLinearMap`, `Submodule.span`, `Dense`,
+`CompleteSpace`; PerfectoidSpaces P1.31 for the cyclotomic completion used in the application.
+Lean: `Huber.exists_countable_extension_retraction`.
+
+**Checks.**
+
+- For `L = K`, the retraction is the identity and has operator norm `1`.
+- For `K/ℚ_p` finite and `L = K^cycl`, a union of finite cyclotomic levels supplies a
+  countable spanning family and the retraction fixes `1`.
+- An orthonormal basis for the given norm is not needed: `ℚ_p(√p)` contains a vector of
+  norm `p^{-1/2}`, whereas coefficients in an orthonormal `ℚ_p`-basis would give only
+  norms in `p^ℤ`. Weighted orthogonal coordinates are compatible with the construction.
+
 **Finite extensions of `ℚ_p` are sousperfectoid.** (*sousperfectoid-p-adic-field*) Let `K` be a
-finite extension of `ℚ_p` (discretely valued, so orthonormal bases exist) and `K^cycl` the
+finite extension of `ℚ_p` and `K^cycl` the
 completion of `K(μ_{p^∞})`. Prove that `K → K^cycl` admits a continuous `K`-linear retraction, so
 that `(K^cycl, inclusion, retraction)` is a perfectoid frame and `K` is sousperfectoid; more
 generally `K⟨T₁, …, Tₙ⟩` and every rational localisation and finite étale algebra of it are
 sousperfectoid (HK §7, Rem. 7.8, p. 26 (nonarchimedean fields with a perfectoid countable profinite
 étale extension are sousperfectoid); Berkeley Lecture 6, §6.3, Ex. 6.3.2(2), p. 47). The
-retraction exists because `K` is discretely valued, hence spherically complete, so that the
-one-dimensional closed subspace `K ⊆ K^cycl` is complemented (Hahn–Banach; equivalently Tate's
-normalised trace); over a non-spherically complete base field a closed line need not be
-complemented, which is why no general "every complete field is sousperfectoid" is claimed. Thus
+retraction is supplied by *countable-extension-retraction*: the finite cyclotomic levels have
+a countable union dense in `K^cycl`, and the valuation on `K` is discrete. The perfectoidness
+of `K^cycl` follows from PerfectoidSpaces P1.31 and P3.10, since it is a finite extension of
+`ℚ_p^cycl`. Thus
 `K` is sousperfectoid but not perfectoid. Write `p = uπ^e` for a uniformizer `π` of `K`.
 If `e < p`, no topologically nilpotent `ϖ` satisfies `ϖ^p ∣ p`. If `e ≥ p`, that divisibility
 can hold (take `ϖ = π`), but Frobenius on `𝒪_K/p` is not surjective: the class of `π` has
 valuation `1`, whereas a nonzero `p`-th power has valuation divisible by `p`, modulo `π^e`.
 For `K = ℚ_p`, Frobenius on `𝔽_p` is surjective and the divisibility is the obstruction;
 for the totally ramified extension with `π^p = p`, the divisibility holds and Frobenius fails.
-These satisfy the perfectoid input predicate by the Frobenius criterion. Every affinoid algebra of the form `K⟨T⟩⟨f/g⟩`, and every
+Both examples fail the perfectoid input predicate: `ℚ_p` fails the divisibility condition,
+and the extension with `π^p = p` fails Frobenius surjectivity modulo `p`. Every affinoid algebra of the form `K⟨T⟩⟨f/g⟩`, and every
 smooth affinoid over `K` that is étale over a polydisc through a composite of rational localisations
 and finite étale maps, is sousperfectoid. *Needs:* *sousperfectoid-ring*; *sousperfectoid-rings*;
-*sousperfectoid-rational-localisation*; *sousperfectoid-finite-etale*; the Frobenius criterion of PerfectoidSpaces P1.1
-(`Perfectoid.IsPerfectoidTateRing.iff_frobenius_surjective_modP`) and `ℚ_p^cycl` (P1.31).
+*sousperfectoid-rational-localisation*; *sousperfectoid-finite-etale*; *countable-extension-retraction*; the Frobenius criterion of PerfectoidSpaces P1.1
+(`Perfectoid.IsPerfectoidTateRing.iff_frobenius_surjective_modP`) and `ℚ_p^cycl` (P1.31), with finite étale perfectoid extensions (P3.10).
 Lean: `Huber.IsSousperfectoid.of_finite_padic`.
+
+**Checks.**
+
+- `ℚ_p` is sousperfectoid but fails perfectoid divisibility (Lean `example`).
+- The finite extension with `π^p = p` satisfies divisibility and fails Frobenius
+  surjectivity modulo `p` (Lean `example`).
+- `K⟨T⟩` is sousperfectoid; Frobenius on `K°⟨T⟩/p` misses its
+  coordinate `T`, so sousperfectoidness does not imply perfectoidness.
 
 ### R5.3 stable uniformity and sheafiness
 
@@ -2538,6 +2583,11 @@ only.
   the nilpotent component. This kernel distinguishes it from the identity on `V`
   (CHJ Definition 6.6, p. 47; HK Example 6.10, pp. 18–19).
 - Degenerate: `V ⊗̂ 𝒪 = V` canonically (pseudobasis with one element).
+- Componentwise functoriality (Lean `example`s): pure tensors have component
+  `x ⊗ (m mod N)`, vanish when either factor is zero, are additive in each factor and
+  satisfy scalar balancing. The map induced by `f` has component `f ⊗ id`, sends
+  `x ⊗ m` to `f(x) ⊗ m`, and preserves zero, identity, addition and composition on
+  arbitrary compatible families.
 - Compatibility: if `M ≅ 𝒪^n` then
   `V ⊗̂ M ≅ V ⊗_𝒪 M` (Mathlib `TensorProduct`) `≅ V^n`; the equivalence sends
   the pure tensor `v ⊗ m` of `V ⊗̂ M` to the algebraic tensor `v ⊗ m`, including ranks zero,
@@ -3021,17 +3071,27 @@ pair, and let `B` be a stable basis of `X_ét` containing `X` (AdicEtaleGeometry
 projective `A`-module `M`, the presheaf `M̃`, `Y = Spa(C, C⁺) ↦ M ⊗_A C`, is an acyclic sheaf on
 `B`: `H^0(Y, M̃) = M ⊗_A C` and `H^i(Y, M̃) = 0` for `i > 0`, for every `Y ∈ B`; and (d) that
 `M ↦ M̃` is an equivalence from finite projective `A`-modules to finite locally free
-`𝒪_{X_ét}`-modules, with quasi-inverse `E ↦ E(X)`. The sheaf property of `𝒪` and `𝒪⁺` on `X_ét` is AdicEtaleGeometry A1,
-*etale-structure-sheaf*. KL15 Theorem 8.2.22(a) concerns finite projective modules on the
+`𝒪_{X_ét}`-modules, with quasi-inverse `E ↦ E(X)`. Prove the `𝒪`-sheaf assertion on the stable basis here, by taking `M = A` in finite-projective
+rational acyclicity and finite étale faithfully flat descent, then using A1's covering-reduction
+criterion. AdicEtaleGeometry A1 consumes this assertion for non-affinoid gluing and its `𝒪⁺`
+comparison. KL15 Theorem 8.2.22(a) concerns finite projective modules on the
 adic and finite étale sites; it is an input to (c), not a statement about `𝒪⁺`. Only finite projective modules are treated,
 rational localisation not being flat in general (KL15 §8.2, Thm 8.2.22(c), p. 165 (acyclicity of
 `M̃` on a stable basis); KL15 §8.2, Thm 8.2.22(d), p. 165 (étale descent of vector bundles)). For
 `M = A`, `H^i(X_ét, 𝒪) = 0` for `i > 0` (HK Proposition 5.8 for strongly sheafy `A`); for `X` a
 smooth affinoid over a `p`-adic field, vector bundles on `X_ét` are finite projective
 `𝒪(X)`-modules. *Needs:* AdicEtaleGeometry layer A1
-(*etale-covering-reduction*, *basis-comparison*, *etale-structure-sheaf*);
+(*etale-site*, *etale-covering-reduction*, *basis-comparison*);
 *finite-projective-module-acyclicity*, *sheafy-cech-acyclicity*, *finite-projective-etale-descent*,
 *sheafy-tate-acyclicity-and-kiehl-gluing* (AdicSpacesPartIII layer R3); Mathlib `Module.Projective`.
+
+**Checks.**
+
+- For `M = A`, the construction gives the structure sheaf and its vanishing positive
+  cohomology on the basis, before non-affinoid gluing in A1.
+- For a finite Galois extension `L/K`, descent identifies `K` with the equaliser of
+  `L ⇉ L ⊗_K L`.
+- The zero projective module gives the zero sheaf, including on the empty affinoid.
 
 **Tilde-limits are stable under base change along morphisms locally of weakly finite type.** (*tilde-limit-base-change*) Let `I` be a cofiltered category with a final object `j`, `(X_i)_{i∈I}`
 a system of quasi-compact quasi-separated adic spaces with adic transition morphisms, and `X` a
@@ -3056,10 +3116,17 @@ of `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.LocallyOfWeaklyFiniteType`.
 
 **Rational localisations of reduced affinoid algebras are reduced, and preserve `A⁺ = A°`.** (*reduced-affinoid-rational-localisation*) Reducedness of a `K`-affinoid algebra
 passes to the algebra of each rational subdomain.
-Supplied by RigidAnalyticGeometry §4.4.4 (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one).
+Supplied by RigidAnalyticGeometry §4.4.4 (W. Coram's roadmap at `af8261a42a548ed86a11fff72c486673ef122ae7`, linked in the supplier table).
 The supplier states reducedness on rigid affinoid subdomains, so this roadmap identifies their
 algebras with the complete rational localisation and proves `B⁺ = B°` for `A⁺ = A°` in
 *rational-integral-compatibility* (R5.6).
+
+**Checks.**
+
+- The whole rational domain of a reduced affinoid retains its reduced algebra.
+- The empty rational domain has the reduced zero algebra, with zero plus ring.
+- On the disc `A = K⟨T⟩`, the subdisc `|T| ≤ |π|` has reduced algebra `K⟨S⟩`,
+  with `T ↦ πS`; when `A⁺ = A°`, the local plus ring is its power-bounded subring.
 
 For `R = ℤ_p`, the compatibility Check of *coefficient-sheaf-loc* includes the sheaf condition for
 finite `M` and identifies the local tensors by `a ⊗ m ↦ ε(a) ⊗ m`, where
@@ -3532,10 +3599,18 @@ discretely valued); in F1.5 it is the uniformiser of the complete discrete valua
 **Tate algebras of polydiscs of radius `ρ`.** (*radius-tate-algebra-affinoid*) The radius pieces
 `T_n(ρ)` for `ρ > 0` are Banach algebras for the multiplicative Gauss norm, with dense polynomials, and are
 `K`-affinoid for `ρ ∈ Γ*`.
-Supplied by RigidAnalyticGeometry §1.5.1–1.5.2 (the roadmap of W. Coram, to be contributed to TauCetiRoadmap ahead of this one).
+Supplied by RigidAnalyticGeometry §1.5.1–1.5.2 (W. Coram's roadmap at `af8261a42a548ed86a11fff72c486673ef122ae7`, linked in the supplier table).
 This roadmap specialises the student's polyradius to the constant tuple `ρ` and identifies the
 supplier's algebraic affinoid carrier with its Gauss-norm Banach topology using
 RigidAnalyticGeometry §1.3.3, so a Tate presentation is a strict topological presentation here.
+
+**Checks.**
+
+- For `n = 0` and any `ρ > 0`, the constant map identifies `T_0(ρ)` with `K`
+  and its Gauss topology with the field topology.
+- At `ρ = 1`, `T_n(ρ)` is the ordinary Tate algebra with its Gauss norm.
+- For `ρ = |π| < 1`, substitution `X = πS` identifies `T_1(ρ)` with `K⟨S⟩`
+  as topological algebras; the coordinate `X` has Gauss norm `|π|`.
 
 **The Monsky–Washnitzer algebra `W_n = K⟨X_1, …, X_n⟩†` of overconvergent power series.**
 (*overconvergent-tate-algebra*) Let `K` be a field complete for a nontrivial nonarchimedean absolute
@@ -3806,25 +3881,25 @@ carries a canonical topology, the one induced from the finite `Â`-module `M ⊗
 *affinoid-power-bounded-iff-sup* (AdicSpacesPartII layer R0).
 
 **Dagger algebras (and affinoid algebras) are excellent in characteristic 0.**
-(*dagger-algebra-excellent*) Excellence is the notion of SchemeAndStackFoundations layer SF.0
-(*excellent-ring*: a G-ring that is J-2 and whose finite-type algebras are catenary, the G-ring and
-quasi-excellent predicates being SF.0's G-ring definition and *quasi-excellent-ring*), from
-which two consequences are used as SF.0 states them: finite-type algebras over an excellent ring are
+(*dagger-algebra-excellent*) Excellence is the notion of SchemeAndStackFoundations §0.21
+(`Excellence.IsExcellentRing`: a G-ring that is J-2 and whose finite-type algebras are catenary, the G-ring and
+quasi-excellent predicates being §0.21's `Excellence.IsGRing` and `Excellence.IsQuasiExcellentRing`), from
+which two consequences are used as §0.21 states them: finite-type algebras over an excellent ring are
 excellent and, for a local G-ring `A_m`, `A_m` is reduced (resp.
-normal) iff its completion is (*regular-map-completion*). What is new here is the excellence of the
+normal) iff its completion is (`regular_map_completion`). What is new here is the excellence of the
 two base rings. Prove that for `K` a field complete for a nontrivial nonarchimedean absolute value of
 rank one with `char K = 0` (`NontriviallyNormedField K`, `IsUltrametricDist K`, `CompleteSpace K`,
 `CharZero K`), `W_n = K⟨X_1, …, X_n⟩†` and `T_n = K⟨X_1, …, X_n⟩` are excellent rings; consequently
 (finite-type algebras over excellent rings being excellent) every `K`-dagger algebra and every `K`-affinoid algebra is
-excellent, and (by SchemeAndStackFoundations *regular-map-completion*) for `A` a dagger algebra and
+excellent, and (by SchemeAndStackFoundations `regular_map_completion`) for `A` a dagger algebra and
 `m` a maximal ideal the
 local ring `A_m` is reduced (resp. normal) iff its completion is (GK00 §1, proof of Thm 1.7 (3),
 p. 5, which uses excellence without proof; Conrad-IC §1.1, p. 3, for the characteristic-0 route,
 transposed from `T_n` to `W_n`; characteristic `p` (Kiehl) is excluded). For `K = ℚ_p`, `W_1` is
 excellent and the completion of `K⟨X,Y⟩†/(Y^2 − X^3)` at `(X,Y)` is `K[[X,Y]]/(Y^2 − X^3)`, reduced
 but not normal, matching the dagger algebra. *Needs:* *overconvergent-faithful-flatness*;
-*overconvergent-tate-algebra*; *dagger-algebra*; SchemeAndStackFoundations layer SF.0
-(*excellent-ring*, *quasi-excellent-ring*, *regular-map-completion*); Mathlib
+*overconvergent-tate-algebra*; *dagger-algebra*; SchemeAndStackFoundations §0.21
+(`Excellence.IsExcellentRing`, `Excellence.IsQuasiExcellentRing`, `regular_map_completion`); Mathlib
 `IsRegularRing`.
 
 **A dagger algebra and its completion: faithful flatness, points, completed local rings, reducedness
@@ -3911,7 +3986,7 @@ algebras with completion `φ̂ : Â → B̂`. Then: (a) `φ` is surjective (resp
 reductions `φ̃ : Ã → B̃` (`R̃ = R°/R°°` for the sup norm) is finite; (c) if `φ` is finite, `φ` is
 injective iff `φ̂` is; (d) if `φ` is finite, the norm class on `B` from *dagger-norm-and-continuity*
 coincides with the class of `B` as a finite `A`-module, and `Â ⊗_A B → B̂` is an isomorphism; (e) if
-`φ` is finite, `φ` and `φ̂` are strict (GK00 §1, Thm 1.12 (b), p. 7); strictness of `φ̂` is Tau
+`φ` is finite, `φ` and `φ̂` are strict (GK00 §1, Thm 1.12 (e), pp. 7–8); strictness of `φ̂` is Tau
 Ceti's `LinearMap.isStrictMap_of_module_finite` (`Â` a complete Tate ring, `B̂` a finite
 `Â`-module), and strictness of `φ` itself, `A` and `B` being incomplete, is what (e) adds. *Needs:*
 *dagger-finite-extension*; *dagger-completion-comparison*; *dagger-norm-and-continuity*;
@@ -3923,6 +3998,8 @@ Ceti's `LinearMap.isStrictMap_of_module_finite` (`Â` a complete Tate ring, `B̂
 - Non-example (finiteness is needed in (e)): `X ↦ πX` on `W_1`, and on `T_1`, is injective but
   not strict, the images `π^mX^m` of the unit-norm `X^m` tending to `0`.
 - Positive control: the identity of `W_1` is finite and strict.
+
+- Degenerate: a finite map to the zero dagger algebra and its completion are strict.
 
 **Approximation of solutions and of morphisms from the completion (Bosch's rigid Artin
 approximation).** (*dagger-approximation*) Let `K` be a complete rank-one nonarchimedean field (as
@@ -4313,12 +4390,12 @@ that `O_K⟨X⟩† ⊗_{O_K} K ≃ W_n` (vdP §2, p. 35). *Needs:*
 
 **Checks.**
 
-- `0, 1 ∈ O_K`.
+- `0, 1 ∈ O_K`, and their constant series lie in `O_K⟨X⟩†` (Lean `example`).
 - A scalar `π` with `0 < |π| < 1` lies in `O_K`.
 - The same scalar has `π⁻¹ ∉ O_K`.
 - The zero series has integral coefficients.
 - `Σ X^m` has integral coefficients but is not overconvergent.
-- The constant `π⁻¹` fails integrality when `0 < |π| < 1`.
+- The constant `π⁻¹` fails integrality when `0 < |π| < 1` (Lean `example`).
 - Computation: `Σ_{j≥0} π^j X^j ∈ O_K⟨X⟩†` with
   `P_j = X^j` of degree `j ≤ 1·(j+1)`.
 - Degenerate: for `n = 0`, `O_K⟨⟩† = O_K`.
@@ -5183,7 +5260,7 @@ Lean: `Dagger.Omega`, `Dagger.Omega.d`, `Dagger.Omega.existsUnique_lift`, `Dagge
 
 **Checks.**
 
-- Degenerate: `d(c) = 0` for `c ∈ K`.
+- Degenerate: `d(c) = 0` for `c ∈ K` (Lean `example`).
 - Computation: in `W_2`,
   `d(X dY) = dX ∧ dY ≠ 0`; higher differentials cannot all be zero.
 - Convention: `d(Y dX) = −dX ∧ dY`.
@@ -5215,9 +5292,9 @@ nontrivial nonarchimedean absolute value of rank one: `NontriviallyNormedField K
 smooth over `Spa(K, O_K)` in the sense of *smooth-morphism*. Equivalently: for every affinoid
 `Sp(A) ⊆ X`, `A` is regular and `Ω^1_A` is projective of rank equal to the local dimension;
 equivalently `X` is locally étale over a dagger polydisc. For smooth `X` the function
-`x ↦ dim O_{X,x}` is locally constant and `Ω^1_X` is locally free of that rank. `X` has pure
+`x ↦ dim O_{X,x}`, with `x` a classical rigid point, is locally constant and `Ω^1_X` is locally free of that rank. `X` has pure
 dimension `n` if
-`dim O_{X,x} = n` at every point (GK02 §0, p. 4); disconnected spaces whose pieces all have
+`dim O_{X,x} = n` at every classical point (GK02 §0, p. 4); disconnected spaces whose pieces all have
 dimension `n` are allowed, and then `ω_X := Ω^n_X`, which is defined only for pure dimension. A
 smooth `X` is the disjoint union of its open and closed pure-dimensional parts `X_n`; every
 statement below with a fixed shift (`n`, `2n`, `d`) or with `ω_X` is made for pure dimension
@@ -5226,8 +5303,8 @@ assembled from that of the `X_n`: ordinary (de Rham and coherent) cohomology is 
 `∏_n H(X_n)` over the components, and compactly supported cohomology is the direct sum
 `⊕_n H_c(X_n)`; the two agree with the sum when only finitely many dimensions occur, for example
 for quasi-compact `X`. Define smoothness as the
-predicate that the structure morphism of `X'` is smooth, and pure dimension (`dim X = max dim O_{X,x}`;
-`X` is pure dimensional if all local dimensions agree); prove that `X` is smooth
+predicate that the structure morphism of `X'` is smooth, and pure dimension (`dim X = sup_x dim O_{X,x}` over classical points;
+`X` is pure dimensional if all classical local dimensions agree); prove that `X` is smooth
 iff for all affinoid `Sp(A) ⊆ X`, `A` is regular and `Ω^1_A` is projective of rank the local
 dimension, that a smooth `X` is covered by opens étale over dagger polydiscs
 (Vezzani §3, Prop. 3.6), that for smooth `X` of pure dimension `n`, `Ω^1_X` is
@@ -5240,6 +5317,9 @@ DVR, `Sp(S† ⊗ K)` is smooth (GK00 §4, 4.1, p. 19; the equivalence GK02 §1,
 
 **Checks.**
 
+- Boundary control (adic points): on `Spa(K⟨T⟩, K⟨T⟩°)`, the Gauss point has
+  support zero and a field stalk, while the origin has a one-dimensional stalk. Both lie
+  in a smooth adic space of relative dimension `1`, with `Ω¹` of rank `1`.
 - Computation: the dagger polydisc `Sp(W_n)` is smooth of pure dimension `n`,
   with `Ω^1` free on `dX_1..dX_n`.
 - Degenerate: `Sp(K)` is smooth of dimension 0; `Sp(L)` is smooth for `L/K`
@@ -5551,8 +5631,30 @@ pure-dimensional, `s_+RΓ*_Z O_Y ≅ RΓ*_Z O_X[d]`. *Needs:* *dagger-d-modules*
 - Computation: for `Y = {x_1 = 0}` in a polydisc, `R^1Γ*_Y O = O[x_1^{-1}]/O` and the other
   `R^iΓ*_Y O` vanish, as (e) predicts.
 
-**Tubular neighbourhoods of smooth closed immersions, locally on affinoid charts, and the local
-branches of a strict normal crossings divisor.** (*dagger-tubular-neighbourhood*) Let `K` be a
+**Chart-local branch removal for boundary-vanishing log complexes.**
+(*chart-local-branch-removal*) Let `K` be complete, nontrivially valued and nonarchimedean,
+`X_j` a smooth dagger affinoid chart with SNC boundary `D = V(x_1⋯x_r)`, and
+`B_1 = V(x_1)`, `D' = V(x_2⋯x_r)`, `D'_1 = D' ∩ B_1`. Restriction gives the exact sequence
+`0 → Ω^•_{X_j}(log D)(−D) → Ω^•_{X_j}(log D')(−D') → ι_*Ω^•_{B_1}(log D'_1)(−D'_1) → 0`.
+Prove this directly on the coordinate exterior bases: restriction sets `x_1 = dx_1 = 0`;
+its kernel is generated by terms divisible by `x_1` and by terms containing `dx_1`.
+These are exactly the boundary-vanishing log forms for `D`. This kernel is stable under
+`d`, and restriction is surjective degree by degree (Stacks Section 50.15, Tag 0FMU,
+proof of Lem. 50.15.2, for the single-divisor kernel calculation). Iteration gives the
+chart-local stratum resolution of the cokernel of `Ω^•(log D)(−D) → Ω^•` with alternating
+restriction maps. This calculation uses neither tubular descent nor global localisation.
+*Needs:* *compact-support-log-complex*; *log-de-rham-complex*; *dagger-snc-divisor*;
+*dagger-differentials*; *dagger-coherent-module*.
+
+**Checks.**
+
+- On the disc with boundary `x = 0`, degree zero is `0 → xO → O → K → 0`,
+  and the first inclusion in degree one is `O dx = O dx`.
+- For empty boundary the stratum quotient is zero and the boundary-vanishing complex is `Ω^•`.
+- For two branches `x = 0`, `y = 0`, the stratum differential is `δ(a,b) = b| − a|`;
+  swapping branches reverses its sign, so untwisted descent does not preserve the differential.
+
+**Tubular neighbourhoods of smooth closed immersions, locally on affinoid charts.** (*dagger-tubular-neighbourhood*) Let `K` be a
 field complete for a nontrivial nonarchimedean absolute value of rank one and `i : Z → X` a closed
 immersion of smooth `K`-dagger spaces with `Z` of pure codimension `d`. Prove that (a) (Kiehl's
 tubular neighbourhood theorem, chart by chart) there is an admissible affinoid covering
@@ -5584,47 +5686,10 @@ union of closed dagger unit discs over `ℚ_p`, `Z = ⨿_n {0_n}`, and the coher
 `F|_{D_n} = O_{D_n}/(t_n − 1)` (a skyscraper at `w_n = 1`), every chart-local colimit vanishes
 (small tubes around `0_n` miss `w_n`), so the Čech complex of the chart-local colimits is `0`,
 while a neighbourhood `V ⊇ Z` with quasi-compact complement contains all but finitely many of the
-`D_n` entirely, so the global degree-`0` colimit is `(∏_n K)/(⊕_n K) ≠ 0`. (c) (Local branches of
-an SNC divisor and orientation-aware descent) For a strict normal crossings divisor `D ⊆ X`
-(*dagger-snc-divisor*), on a chart `X_j` with `D ∩ X_j = V(x_1 ⋯ x_r)` the branches
-`B_{j,1} = V(x_1), …, B_{j,r} = V(x_r)` are the irreducible components of `D` locally at each point
-of the chart, so they are determined by `D` up to order *locally*: branch matching between two
-charts is defined after a common refinement, at each point of an overlap, and not as a bijection
-between the full branch lists of the two charts — branches can disappear on an overlap (for
-`D = V(xy)` a chart meeting both axes has two branches, while on the locus `x ≠ 0` only `V(y)`
-survives). Use the chart-local branch data, with restrictions deleting branches that miss a
-refinement; the full branch set is *not* locally constant on `D` (its cardinality drops from the
-node of `V(xy)` to the nearby points `(a, 0)`, `a ≠ 0`), and no global branch sheaf is asserted.
-For each `s ≥ 1`, construct `D^{(s)}` by glueing the chart-local disjoint unions of the strata
-`D_I = ⋂_{i∈I} B_{j,i}`, `|I| = s`, along the common-refinement branch data: a smooth dagger space
-of pure codimension `s` with a finite map `ι_s : D^{(s)} → X` that is *not* a closed immersion in
-general (`D^{(1)}` is the normalisation of `D`, `D^{(2)}` the normalisation of the locus of double
-points), and the tubular neighbourhoods of (a) are applied to each local immersion `D_I → X_j`.
-Let `E_s` be the rank-`s` local system on `D^{(s)}` of the `s` selected branches (of constant
-cardinality `s`, so genuinely locally constant there) and `ε_s := ⋀^s K^{E_s}` its orientation
-line, a rank-one local system whose transition under a
-relabelling of the branches is the sign of the induced permutation. The chart-local complexes
-`ι_*Ω^•_{D_I}` of *compact-support-localisation-maps* (a) glue to the complexes
-`ι_{s*}(Ω^•_{D^{(s)}} ⊗_K ε_s)` with alternating face maps — signed descent of differential forms
-produces forms with coefficients in the orientation system, not the untwisted sheaf
-`ι_{s*}Ω^•_{D^{(s)}}`: on two branches, `δ(a, b) = b| − a|` on `O_{B_1} ⊕ O_{B_2} → O_{B_{12}}` has
-`δ ∘ τ = −δ` for the swap `τ(a, b) = (b, a)`, so the square commutes only after the target is
-multiplied by `−1`, which is exactly the transition of `ε_2` (Deligne71 §3.1.4–3.1.5, pp. 31–32,
-the orientation local systems on the normalised multiple intersections). Prove that the resolution
-of the cokernel of `Ω^•_X(log D)(−D) → Ω^•_X` by the `ι_{s*}(Ω^•_{D^{(s)}} ⊗ ε_s)`, formed chart by
-chart from the smooth branches, descends to a global resolution; that the exact sequence for
-removing one smooth branch (*compact-support-localisation-maps* (a)) is a chart-level statement,
-a global long exact sequence with `(X, D')` requiring a genuine global decomposition
-`D = D_1 + D'` with `D_1` a globally smooth component; that when the global irreducible components
-are smooth and globally ordered each `ε_s` is trivialised and the untwisted formula is recovered
-(a special case, never imposed on the nodal/self-intersection scope); and that applying (a) and
-(b1) to the local immersions `D_I → X_j`, with (b2) when `X` is quasi-compact, computes the
-neighbourhood colimit of `Ω^•_X` along `D` compatibly with the localisation maps. No global
-product neighbourhood of `Z` in `X` is asserted, and the de Rham assertions of this target and its
-Checks are for `char K = 0`, the hypothesis of *dagger-polyannulus-de-rham-cohomology* (the
-geometric statements (a), (b1)–(b3) and the branch descent hold for every `K`). *Needs:*
-*dagger-smooth-space*; *dagger-coherent-module*; *dagger-to-rigid-functor*; *dagger-snc-divisor*;
-*dagger-polyannulus-de-rham-cohomology*; *de-rham-cohomology-with-supports*.
+`D_n` entirely, so the global degree-`0` colimit is `(∏_n K)/(⊕_n K) ≠ 0`. No global product neighbourhood is asserted. The geometric statements (a),
+(b1)–(b3) hold for every `K`; their de Rham Checks assume characteristic zero.
+*Needs:* *dagger-smooth-space*; *dagger-coherent-module*; *dagger-to-rigid-functor*;
+*de-rham-cohomology-with-supports*; *dagger-polyannulus-de-rham-cohomology*.
 
 **Checks.**
 
@@ -5644,6 +5709,49 @@ geometric statements (a), (b1)–(b3) and the branch descent hold for every `K`)
   affinoid charts.
 - Non-example (infinite covering): the disjoint union of discs with the skyscraper sheaf of (b3);
   (b2) requires the finite covering.
+
+**Orientation-aware descent of the boundary stratum resolution.**
+(*dagger-branch-descent*) Let `K` be complete, nontrivially valued and nonarchimedean,
+`X` a smooth `K`-dagger space and `D ⊆ X` a strict normal crossings divisor
+(*dagger-snc-divisor*). On a chart `X_j` with `D ∩ X_j = V(x_1 ⋯ x_r)` the branches
+`B_{j,1} = V(x_1), …, B_{j,r} = V(x_r)` are the irreducible components of `D` locally at each point
+of the chart, so they are determined by `D` up to order *locally*: branch matching between two
+charts is defined after a common refinement, at each point of an overlap, and not as a bijection
+between the full branch lists of the two charts — branches can disappear on an overlap (for
+`D = V(xy)` a chart meeting both axes has two branches, while on the locus `x ≠ 0` only `V(y)`
+survives). Use the chart-local branch data, with restrictions deleting branches that miss a
+refinement; the full branch set is *not* locally constant on `D` (its cardinality drops from the
+node of `V(xy)` to the nearby points `(a, 0)`, `a ≠ 0`), and no global branch sheaf is asserted.
+For each `s ≥ 1`, construct `D^{(s)}` by glueing the chart-local disjoint unions of the strata
+`D_I = ⋂_{i∈I} B_{j,i}`, `|I| = s`, along the common-refinement branch data: a smooth dagger space
+of pure codimension `s` with a finite map `ι_s : D^{(s)} → X` that is *not* a closed immersion in
+general (`D^{(1)}` is the normalisation of `D`, `D^{(2)}` the normalisation of the locus of double
+points), and *dagger-tubular-neighbourhood* (a) is applied to each local immersion `D_I → X_j`.
+Let `E_s` be the rank-`s` local system on `D^{(s)}` of the `s` selected branches (of constant
+cardinality `s`, so genuinely locally constant there) and `ε_s := ⋀^s K^{E_s}` its orientation
+line, a rank-one local system whose transition under a
+relabelling of the branches is the sign of the induced permutation. The chart-local complexes
+`ι_*Ω^•_{D_I}` of *chart-local-branch-removal* glue to the complexes
+`ι_{s*}(Ω^•_{D^{(s)}} ⊗_K ε_s)` with alternating face maps — signed descent of differential forms
+produces forms with coefficients in the orientation system, not the untwisted sheaf
+`ι_{s*}Ω^•_{D^{(s)}}`: on two branches, `δ(a, b) = b| − a|` on `O_{B_1} ⊕ O_{B_2} → O_{B_{12}}` has
+`δ ∘ τ = −δ` for the swap `τ(a, b) = (b, a)`, so the square commutes only after the target is
+multiplied by `−1`, which is exactly the transition of `ε_2` (Deligne71 §3.1.4–3.1.5, pp. 31–32,
+the orientation local systems on the normalised multiple intersections). Prove that the resolution
+of the cokernel of `Ω^•_X(log D)(−D) → Ω^•_X` by the `ι_{s*}(Ω^•_{D^{(s)}} ⊗ ε_s)`, formed chart by
+chart from the smooth branches, descends to a global resolution; that the exact sequence for
+removing one smooth branch (*chart-local-branch-removal*) is a chart-level statement,
+a global long exact sequence with `(X, D')` requiring a genuine global decomposition
+`D = D_1 + D'` with `D_1` a globally smooth component; that when the global irreducible components
+are smooth and globally ordered each `ε_s` is trivialised and the untwisted formula is recovered
+(a special case, never imposed on the nodal/self-intersection scope); and that applying *dagger-tubular-neighbourhood* (a) and
+(b1) to the local immersions `D_I → X_j`, with its (b2) when `X` is quasi-compact, computes the
+neighbourhood colimit of `Ω^•_X` along `D` compatibly with the localisation maps. The de Rham neighbourhood-colimit assertion assumes `char K = 0`; the stratum resolution
+and its descent hold in every characteristic. *Needs:* *chart-local-branch-removal*; *dagger-tubular-neighbourhood*;
+*dagger-snc-divisor*; *dagger-coherent-module*; *dagger-polyannulus-de-rham-cohomology*.
+
+**Checks.**
+
 - Control (local branches): for the analytified nodal cubic `D = V(y^2 − x^2(1 + x))` of
   *dagger-snc-divisor*, `D` is irreducible and singular, `D^{(1)}` is its normalisation (two
   branches `y = ±x√(1 + x)` on the chart `|x| < 1` around the node, one branch elsewhere),
@@ -6184,6 +6292,47 @@ p. 10, where the statement is asserted as clear; base change of dagger spaces GK
 *de-rham-cohomology-with-supports*; *dagger-local-cohomology-comparison*;
 *dagger-hdr-embedding-independence*.
 
+**Dense-open isomorphism for a proper birational generic-fibre map.**
+(*proper-birational-dense-open*) Let `g : X → Y` be a proper birational morphism of integral
+schemes of finite type over a field `K`. Prove that there is a dense open `V ⊆ Y` such that
+`g^{-1}(V) → V` is an isomorphism, and that `Y − V` and its inverse image have dimension
+strictly less than `dim Y = dim X` (EGA III₁, Prop. 4.4.1, applied to the first Stein factor;
+GK02 §3, proof of Thm. 3.4, pp. 22–23). For the first Stein factor of a proper generically
+finite map in characteristic zero, prove birationality from the generic fibre: its finite
+reduced algebra is its ring of global sections, so the generic first factor is an isomorphism.
+Apply the dense-open assertion to that factor before passing to dagger analytification.
+*Needs:* SchemeAndStackFoundations §4.9, `stein_factorization`; Mathlib's scheme morphisms,
+properness, function fields and dimension; *dagger-analytification* for its analytic use.
+
+**Checks.**
+
+- The identity admits `V = Y`, with empty exceptional sets.
+- Blowing up the origin of `𝔸²_K` is an isomorphism over `𝔸²_K − {0}`;
+  the exceptional divisor has dimension `1 < 2`.
+- The normalisation of the cusp `y² = x³` in characteristic zero is an isomorphism
+  away from the cusp point, although its target is not normal. Normality is not assumed.
+
+**Smooth dense finite étale locus of a finite generic-fibre map.**
+(*finite-generically-separable-etale-locus*) Let `K` have characteristic zero and
+`h : Y → Z` be finite dominant between integral schemes of finite type over `K`.
+Prove that some dense open `V ⊆ Z` and `h^{-1}(V)` are smooth over `K`, and
+`h^{-1}(V) → V` is finite étale; both complements have dimension less than `dim Z`
+(GK02 §3, proof of Thm. 3.4, p. 23, the choice of `S`; the finite separable extension of
+function fields gives the generic étale locus). Construct the dense open by spreading the finite separable algebra to a finite étale algebra after inverting a
+nonzero denominator, then shrinking away from the nonsmooth loci and their finite images.
+*Needs:* SchemeAndStackFoundations §0.8, `generic_fibre_spreading`, and §0.9 (spreading out);
+Mathlib `Algebra.Etale`, `Algebra.isOpen_etaleLocus` and
+`Algebra.basicOpen_subset_etaleLocus_iff` (`Mathlib/RingTheory/Etale/Locus.lean`),
+`Scheme.Hom.dense_smoothLocus_of_perfectField` (`Mathlib/AlgebraicGeometry/Morphisms/Smooth.lean`),
+finite algebras and localisation; *dagger-analytification*.
+
+**Checks.**
+
+- The identity of a smooth integral `Z` admits `V = Z`.
+- For `𝔸¹_K → 𝔸¹_K`, `t ↦ t²`, take `V = 𝔾_m`; the map is not étale at zero.
+- The identity of the cusp admits its smooth complement as `V`, rather than the
+  entire singular curve; smoothness of the ambient generic fibres requires shrinking.
+
 **Finiteness of the de Rham invariants `h^dR_q` of quasi-algebraic affinoid dagger spaces.**
 (*quasi-algebraic-affinoid-finiteness*) Assume (MWF) and (RES): the proof of GK02 Thm. 3.4 uses
 (MWF) through *dagger-semistable-tube-finiteness* and (RES) through the proper-modification sequence
@@ -6194,19 +6343,34 @@ characteristic `(0, p)` with uniformiser `π`, `K = Frac(R)` and residue field `
 `dim H` through de Jong's alterations, after a finite extension of `R` — which is why (MWF) covers
 finite extensions — the supports sequences, *dagger-finite-etale-trace*,
 *dagger-proper-modification-sequence* and *dagger-semistable-tube-finiteness* (GK02 §3, Thm 3.4,
-pp. 22–24; de Jong's theorem as used there is GK02 §3, Thm 3.3, p. 22, which is de Jong Thm 6.5, stated
-as SchemeAndStackFoundations layer SF.4 (*semistable-alteration-theorem*, with its trait, alteration,
+pp. 22–24). Factor the proper generic-fibre map by SchemeAndStackFoundations §4.9,
+`stein_factorization`. Its first factor is birational and an isomorphism outside a closed
+subset of smaller dimension by *proper-birational-dense-open*; its finite factor is finite
+étale between smooth dense opens by *finite-generically-separable-etale-locus*. Apply the
+proper-modification and finite-étale-trace targets on those opens and induction to their
+closed complements (EGA III₁ 4.4.1; GK02, proof of Thm. 3.4, p. 23). De Jong's theorem as
+used here (GK02 §3, Thm 3.3, p. 22; de Jong Thm 6.5) is stated
+as SchemeAndStackFoundations §4.20 (`Formal.DeJong.semistable_alteration_theorem`, with its trait, alteration,
 strictly semistable scheme and strictly semistable pair) and used here for `X` integral, separated,
 flat and of finite type over the complete discrete valuation ring `R` and `Z ⊊ X` a closed subset
-containing the special fibre; the role of alterations GK02, Introduction, p. 2). For
+containing the special fibre (GK02, Introduction, p. 2, for the role of alterations). For
 `H = Sp(K⟨X, Y⟩†/(Y^2 − X^3 − X))` with `p` odd, `H` is smooth and is the tube of the affine part
 `E_k − {∞}` of the good reduction of the elliptic curve `y^2 = x^3 + x`, so
 `h^dR_1(H) = dim H^1_dR(H) = 2g + 1 − 1 = 2` (Monsky–Washnitzer `H^1` of an affine elliptic curve minus
 one point). *Needs:* (MWF), (RES); *dagger-local-cohomology-comparison*; *de-rham-cohomology-with-supports*;
 *dagger-de-rham-finite-field-extension*; *dagger-finite-etale-trace*;
 *dagger-proper-modification-sequence*; *dagger-semistable-tube-finiteness*;
-*dagger-analytification*; *dagger-hdr-embedding-independence*; SchemeAndStackFoundations layer
-SF.4 (*semistable-alteration-theorem*).
+*dagger-analytification*; *dagger-hdr-embedding-independence*; *proper-birational-dense-open*;
+*finite-generically-separable-etale-locus*; SchemeAndStackFoundations §4.9, `stein_factorization`,
+and §4.20, `Formal.DeJong.semistable_alteration_theorem`.
+
+**Checks.**
+
+- For the good-reduction affine elliptic curve in the target, `h^dR_1 = 2`.
+- The quasi-algebraic point has `h^dR_0 = 1` and the empty affinoid has all invariants zero.
+- In the alteration proof, a blow-up's exceptional divisor belongs to the lower-dimensional
+  induction; a finite ramified map belongs to the trace argument only after removing its
+  branch locus, as in `t ↦ t²` away from zero.
 
 **Finiteness of de Rham cohomology of smooth quasi-compact dagger spaces (Grosse-Klönne's Theorem
 A), and base change to finite extensions.** (*dagger-de-rham-finiteness-and-base-change*) Assume
@@ -6236,7 +6400,7 @@ to the rigid-cohomology roadmap. *Needs:* (MWF), (RES);
 *dagger-finite-etale-trace*; *dagger-proper-modification-sequence*;
 *dagger-semistable-tube-finiteness*; *dagger-approximation*;
 *dagger-de-rham-finite-field-extension*; *dagger-analytification*; *admissible-formal-scheme*;
-*admissible-blow-up*; SchemeAndStackFoundations layer SF.4 (*semistable-alteration-theorem*).
+*admissible-blow-up*; SchemeAndStackFoundations §4.20 (`Formal.DeJong.semistable_alteration_theorem`).
 
 **Künneth formula for de Rham cohomology of smooth dagger spaces.** (*dagger-de-rham-kunneth*) Let
 `K` be the fraction field of a complete discrete valuation ring of mixed characteristic
@@ -6442,19 +6606,12 @@ for compact-support variants of dagger de Rham cohomology). *Needs:* *log-de-rha
 cohomology.** (*compact-support-localisation-maps*) Let `(X, D)` be a smooth `K`-dagger space with a
 strict normal crossings divisor, `D = D_1 + D'` with `D_1` a smooth component and `D'` the union of the
 others; write `ι : D_1 → X` and `D'_1 = D' ∩ D_1` (a strict normal crossings divisor on `D_1`). Prove
-that (a) restriction of forms gives an exact sequence of complexes
-`0 → Ω^•_X(log D)(−D) → Ω^•_X(log D')(−D') → ι_*Ω^•_{D_1}(log D'_1)(−D'_1) → 0`, hence a long exact
-localisation sequence `… → H^i_dR(X, D)_! → H^i_dR(X, D')_! → H^i_dR(D_1, D'_1)_! → H^{i+1}_dR(X, D)_! → …`
-on the object of *compact-support-log-complex*; for
-`D' = ∅` this is `0 → Ω^•_X(log D_1)(−D_1) → Ω^•_X → ι_*Ω^•_{D_1} → 0`; here `D_1` is a smooth
-branch on a chart of an admissible affinoid covering (*dagger-snc-divisor*), not a global
-irreducible component, which need not be smooth; iterating over the branches of a chart, the
-cokernel of `Ω^•(log D)(−D) → Ω^•_X` is resolved on the chart by the complexes `ι_*Ω^•_{D_I}` of the
-strata `D_I = ⋂_{i∈I} D_i`, and these descend, by the orientation-aware glueing of
-*dagger-tubular-neighbourhood* (c), to the global resolution by `ι_{s*}(Ω^•_{D^{(s)}} ⊗ ε_s)`,
-`ε_s` the branch-orientation line; the removal sequence is a chart-level statement, and its
-global long exact sequence with `(X, D')` is asserted only for a genuine global decomposition
-`D = D_1 + D'` with `D_1` a globally smooth component; and (b) for an admissible open
+that (a) the local exact sequences of *chart-local-branch-removal* glue for this genuine
+global decomposition, giving
+`0 → Ω^•_X(log D)(−D) → Ω^•_X(log D')(−D') → ι_*Ω^•_{D_1}(log D'_1)(−D'_1) → 0`
+and its long exact sequence on `H_dR(X,D)_!`. For arbitrary SNC boundary, use the
+orientation-aware global stratum resolution of *dagger-branch-descent*; a global
+branch-removal sequence requires `D_1` globally smooth. Prove (b) that for an admissible open
 `U ⊆ X` with complement `Y` and a closed `Z ⊆ Y`, the supports sequence
 `… → H^i_Z(X) → H^i_Y(X) → H^i_{Y−Z}(X − Z) → …` (see *de-rham-cohomology-with-supports*) gives, for
 an affinoid subdomain `U_0 ⊂† X`, the extension-by-zero map `H^i_{dR,c}(U_0) → H^i_{dR,c}(X)` and
@@ -6467,7 +6624,7 @@ GK02 §1, 1.9 (c), p. 7, for local cohomology along intersections of boundary co
 `H_dR(X, {∞})_! = (0, 0, K)` (the affine line has compactly supported cohomology `K` in degree 2):
 the connecting map `H^0_dR({0}) = K → H^1_dR(X, D)_! = K` is an isomorphism.
 *Needs:* *compact-support-log-complex*; *log-de-rham-complex*; *dagger-snc-divisor*;
-*dagger-tubular-neighbourhood*; *dagger-coherent-module*; *de-rham-cohomology-with-supports*;
+*chart-local-branch-removal*; *dagger-branch-descent*; *dagger-coherent-module*; *de-rham-cohomology-with-supports*;
 *compact-support-de-rham*.
 
 **Checks.**
@@ -6475,6 +6632,9 @@ the connecting map `H^0_dR({0}) = K → H^1_dR(X, D)_! = K` is an isomorphism.
 - Computation (degree by degree on the disc): for `D_1 = {0}`, `D' = ∅`, the sequence of complexes
   is, in degree `0`, `0 → xO → O → K → 0` (evaluation at `0`) and, in degree `1`, `O dx = O dx`.
 - Computation: the `(P^1)^†` sequence above, with its connecting isomorphism.
+
+- Degenerate: with `D = ∅`, the stratum quotient is zero and the identity complex gives
+  the trivial localisation sequence.
 
 **Comparison with compact supports for a proper ambient space.** (*compact-support-log-comparison*)
 This comparison is a construction of this roadmap; GK02 and the Stacks Project are cited only for
@@ -6491,8 +6651,8 @@ quasi-compact, `Rp_{U!}Ω^•_U` is the colimit, over the admissible open neighb
 quasi-compact complement, of the cohomology of `X` with supports in `X − V`
 (*de-rham-cohomology-with-supports*, with excision); the cokernel of `Ω^•(log D)(−D) → Ω^•_X` is
 resolved by the complexes `ι_{s*}(Ω^•_{D^{(s)}} ⊗ ε_s)` of the local branches and their
-intersections, with their orientation lines (*compact-support-localisation-maps* (a), descended as
-in *dagger-tubular-neighbourhood* (c); the global irreducible components of `D` need not be
+intersections, with their orientation lines (*chart-local-branch-removal*, descended by
+*dagger-branch-descent*; the global irreducible components of `D` need not be
 smooth), and the colimit over `V` of `RΓ(V, Ω^•_X)` is computed chart by chart on the tubular
 neighbourhoods `D_I × D^{|I|}(ρ)` of the local immersions `D_I → X_j` (*dagger-tubular-neighbourhood*
 (a)), assembled by the finite Čech form (b2) — `X` is proper, hence quasi-compact with a finite
@@ -6502,7 +6662,8 @@ Prop. 1.16(B), where the products are local on an admissible covering), the open
 with the boundary quotient glue to the global comparison and commute with the localisation maps
 because both are formed from the same chart-local branch resolution; GK02 §1, 1.6, defines
 `Rp_!`, and Stacks Tag 0FMU supplies the residue resolution. *Needs:* *compact-support-log-complex*;
-*compact-support-localisation-maps*; *dagger-tubular-neighbourhood*; *compact-support-de-rham*;
+*compact-support-localisation-maps*; *dagger-branch-descent*;
+*dagger-tubular-neighbourhood*; *compact-support-de-rham*;
 *dagger-d-module-direct-image*; *de-rham-cohomology-with-supports*;
 *dagger-polyannulus-de-rham-cohomology*; *partially-proper-dagger-rigid-equivalence*.
 
@@ -6571,7 +6732,7 @@ numbers, the nilpotent coordinate is nonzero even though every point norm kills 
 - Rational structure map: numerator 1 and denominator 0 give the zero map to the zero algebra.
 - Rational domains: the rational domain with numerator 1 and denominator 0 is empty.
 - `π`-adic completion: the adic completion of the complete DVR at a uniformiser is the DVR itself.
-- The weak-completion set: the constant 1 belongs to the weak-completion set for any finite family, including the empty family.
+- The weak-completion set: every scalar, including `1`, belongs for any finite family, including the empty family (Lean `example`).
 - The weak-completion set: for the polynomial generator X, the weak-completion set contains the geometric inverse of 1−πX.
 - The weak-completion set: for a uniformiser, the single polynomial generator does not generate the entire adic completion under linear degree growth.
 - The weak-completion map: the weak-completion map of the complete base DVR is bijective.
@@ -6714,7 +6875,7 @@ be an admissible covering even though it covers every classical point.
 
 ### F1.15 characteristic equations for properness and cohomology
 
-Excellence (SchemeAndStackFoundations SF.0, *excellent-ring*) uses Mathlib's completion at the
+Excellence (SchemeAndStackFoundations §0.21, `Excellence.IsExcellentRing`) uses Mathlib's completion at the
 maximal ideal of each
 prime localization. Its formal fibres are geometrically regular after every
 finite extension of the residue field, regular loci of finite type algebras are
@@ -6977,9 +7138,9 @@ continuous differentials, proper GAGA and traces (*coherent-sheaf*, *tate-kiehl-
 *quasi-stein-theorems-a-b*, *sheaf-of-continuous-differentials*, *proper-gaga*); from R4 smooth
 pairs *smooth-pair*; from PerfectoidSpaces P3.1 Elkik's approximation theorem, used by
 *elkik-lifting-algebraisation*; from
-SchemeAndStackFoundations layer SF.4 de Jong's strictly semistable alteration theorem
-(*semistable-alteration-theorem*) and from layer SF.0 excellent rings (*excellent-ring*,
-*regular-map-completion*). The rigid-cohomology roadmap is a consumer and compatibility reference
+SchemeAndStackFoundations §4.20 de Jong's strictly semistable alteration theorem
+(`Formal.DeJong.semistable_alteration_theorem`) and from §0.21 excellent rings (`Excellence.IsExcellentRing`,
+`regular_map_completion`). The rigid-cohomology roadmap is a consumer and compatibility reference
 only (strict neighbourhoods of tubes in frames, the compact-support complex of affine space, the
 MW-type trace, finiteness of rigid cohomology). Mathlib supplies `MvPowerSeries.IsRestricted`,
 `Module.Finite`, `Module.Projective`, `Module.Free`, `KaehlerDifferential`, `KaehlerDifferential.D`,
@@ -7044,6 +7205,12 @@ the boundary product as well as the coefficient, so its connection contains the 
 `d(t₁⋯tᵣ)`.
 
 ## References
+
+- [EGA III₁] Alexander Grothendieck, *Éléments de géométrie algébrique III, première partie*,
+  Publ. Math. IHÉS 11 (1961), Proposition 4.4.1, pp. 135–136.
+  https://www.numdam.org/item/PMIHES_1961__11__5_0/
+- [Schneider11] Peter Schneider, *p-Adic Lie Groups*, Springer 2011, §1, Lemma 1.7(ii), pp. 6–7.
+  https://doi.org/10.1007/978-3-642-21147-8
 
 - [EGA IV₂] Alexander Grothendieck, *Éléments de géométrie algébrique IV, seconde partie*, Publ. Math. IHÉS 24 (1965), 5–231; Proposition 5.6.1, pp. 97–98, and Example 5.6.11, pp. 101–102. http://www.numdam.org/item?id=PMIHES_1965__24__5_0
 - [Huber94] Roland Huber, *A generalization of formal schemes and rigid analytic varieties*, Math. Z. 217 (1994), 513–551. https://gdz.sub.uni-goettingen.de/id/PPN266833020_0217
