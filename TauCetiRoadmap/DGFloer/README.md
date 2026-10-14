@@ -111,7 +111,7 @@ This roadmap consumes, and does not rebuild:
 - **[Hamiltonian systems](../HamiltonianSystems/README.md)** (proposed in #480, not yet merged; the link resolves once it is). Layers 1--2: Hamiltonian vector
   fields, the Poisson bracket, conservation of energy, symplectomorphisms and their action on
   Hamiltonian vector fields and integral curves.
-- **[Differential geometry](../DifferentialGeometry/README.md)** (proposed in #178, not yet merged; the link resolves once it is).
+- **[Differential geometry](../DifferentialGeometry/README.md)** (#178).
   - Layers 0--1: smooth differential forms on manifolds, pullback, the exterior derivative
     `mextDeriv`, the Cartan calculus (interior product, Lie derivative, Cartan's formula).
   - Layer 3: flows of vector fields.
