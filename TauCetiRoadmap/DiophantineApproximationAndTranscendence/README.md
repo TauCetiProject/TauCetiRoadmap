@@ -667,12 +667,18 @@ Its API includes `Polynomial.logHeight_nonneg`: h(p)≥0; `Polynomial.logHeight_
 
 **Relative coefficient and entry interfaces.** For arbitrary
 `Height.AdmissibleAbsValues K`, prove the finite-support/finite-tuple dictionary
-first. Mathlib states nothing about `Finsupp.mulHeight` beyond its definition, and
-because that definition is the height of the coercion to a function on the whole
-(possibly infinite) index type, `Polynomial.logHeight_eq_finsupp` and
-`MvPolynomial.logHeight_eq_finsupp` are not definitional. Prove
-`Finsupp.mulHeight_coe_eq`: Height.mulHeight ⇑x=Finsupp.mulHeight x with no
-finiteness on the index type; `Finsupp.mulHeight_eq_mulHeight_comp`: the height
+first. Mathlib's two Finsupp heights are not defined from each other.
+`Finsupp.mulHeight x` is Height.mulHeight of x restricted to the finite type
+x.support. `Finsupp.logHeight x`, declared inside `namespace Height`, elaborates
+to Real.log (Height.mulHeight ⇑x), the height of the coercion to a function on
+the whole (possibly infinite) index type; Mathlib's
+`Finsupp.logHeight_eq_log_mulHeight` records only that unfolding. Neither
+`Polynomial.logHeight_eq_finsupp` nor `MvPolynomial.logHeight_eq_finsupp` is
+therefore definitional. Prove `Finsupp.mulHeight_coe_eq`:
+Height.mulHeight ⇑x=Finsupp.mulHeight x with no finiteness on the index type, and
+derive `Finsupp.logHeight_eq_log_finsuppMulHeight`:
+Finsupp.logHeight x=Real.log (Finsupp.mulHeight x); both polynomial log bridges
+go through this identity. Also prove `Finsupp.mulHeight_eq_mulHeight_comp`: the height
 is Height.mulHeight (x ∘ e) for any injective e:ι→α from a finite ι whose range
 contains the support; and `Finsupp.mulHeight_smul_eq_mulHeight` for c≠0. Then
 prove the dictionary for both polynomial heights, scaling invariance for nonzero scalars, height 1
@@ -685,14 +691,25 @@ of one projective point cost #s^totalWeight(K). Prove its signed form
 from the unsigned bound and Mathlib's Segre relation `Height.mulHeight_fun_mul_eq`
 by doubling the alphabet (the tuple (1,−1) has height 1), and the logarithmic
 forms. The naive two-tuple bound H(x+y)≤C·H(x)H(y) is false for every C, since
-scaling y fixes its right-hand side; state that as a theorem. The global step
+scaling y fixes its right-hand side; state that as a theorem over ℚ: for x=(1,0)
+and y=(0,c), H(x)H(y)=1 while H(x+y)=H(1,c)=mulHeight₁ c is unbounded in c∈ℚ. The global step
 needs that a nonzero tuple has local factor 1 at all but finitely many
 nonarchimedean values, which Mathlib proves only as the private
 `Height.hasFiniteMulSupport_iSup_nonarchAbsVal`; reprove it or reach it with
 `import all`. Prove
-`Polynomial.mulHeight_mul_le`: H(fg)≤(min(deg f,deg g)+1)^totalWeight(K)H(f)H(g),
-by the tuple sum bound applied to the Segre tensor of the two coefficient
-vectors on p.support×q.support; `Height.mulHeight_linearMap_apply_le` charges
+`Polynomial.mulHeight_mul_le`: H(fg)≤N^totalWeight(K)H(f)H(g) with
+N=min(deg f,deg g)+1. The zero case is immediate. For nonzero f, g the number
+of pairs (i,j) with i+j=k varies with k, while the tuple sum bound uses one
+finset s for every coordinate, so pad to N slots. By symmetry let deg f≤deg g
+and take s=range N. Take w on (Fin(deg f+1)×Fin(deg g+1))⊕Unit to be the Segre
+tensor (i,j)↦fᵢgⱼ extended by one zero coordinate, so that H(w)=H(f)H(g) by
+`Height.mulHeight_sumElim_zero_eq`, `Height.mulHeight_fun_mul_eq` and the
+finite-tuple dictionary. Send slot a of coordinate k to (a,k−a) when a≤k and
+k−a≤deg g, and to the zero coordinate otherwise; the slot sum is then the k-th
+coefficient of fg. The padding coordinate must be 0, not 1, since a 1 would add
+spurious summands. (Alternatively, state a corollary of the tuple sum bound for
+coordinates that are sums of at most N terms, and apply that.)
+`Height.mulHeight_linearMap_apply_le` charges
 the cardinality of the whole source index and does not give this constant. The lower Gelfond bound below retains its number-field
 hypotheses. Define `matrixMulHeight A` as Height.mulHeight of the entry tuple on
 m×n for finite m,n, with its logarithm and projective/scaling/reindexing API;
@@ -709,6 +726,7 @@ Polynomial.gaussNorm_mul.)
 **Checks.**
 
 - Over ℚ, X+1 has coefficient height 1 and (X+1)² has height 2, meeting the convolution factor 2; coefficient height is not multiplicative.
+- For f=g=1+X the coefficients 1, 2, 1 of fg are sums over 1, 2, 1 pairs; with N=2 slots, coefficients 0 and 2 each use one zero-padding slot.
 - A one-row matrix (1,2) has relative entry height 2 over ℚ and 4 over ℚ(i); its line has absolute Euclidean height √5. These are different height objects.
 - The zero and empty coefficient or entry tuples have projective height 1. A matrix product with empty inner index is zero; (#n)^totalWeight(K)=0 over ℚ, so the product bound requires n nonempty.
 - The form (1/3,1/3) has projective coefficient height 1; appending a coordinate 1 gives affine height 3. Absolute heights keep these values after field extension.

@@ -576,10 +576,16 @@ open scoped ENNReal
 
 namespace Finsupp
 
-/-- `Finsupp.mulHeight` is the height of the coercion to a function, with no finiteness on the
-index type; this is not definitional. -/
+/-- The height of the coercion to a function on the whole index type, with no finiteness on it,
+equals `Finsupp.mulHeight`, which is defined on the support; this is not definitional. -/
 theorem mulHeight_coe_eq {K α : Type*} [Field K] [Height.AdmissibleAbsValues K] (x : α →₀ K) :
     Height.mulHeight ⇑x = _root_.Finsupp.mulHeight x := by sorry
+
+/-- `Finsupp.logHeight` unfolds to the log of the height of the coercion on the whole index type;
+this bridges it to the log of `Finsupp.mulHeight`, which is defined on the support. -/
+theorem logHeight_eq_log_finsuppMulHeight {K α : Type*} [Field K]
+    [Height.AdmissibleAbsValues K] (x : α →₀ K) :
+    _root_.Finsupp.logHeight x = Real.log (_root_.Finsupp.mulHeight x) := by sorry
 
 /-- The height is computed on any finite reindexing that covers the support. -/
 theorem mulHeight_eq_mulHeight_comp {K α ι : Type*} [Field K] [Height.AdmissibleAbsValues K]
