@@ -43,7 +43,6 @@ mixed-characteristic field. Its completion and restriction compatibilities suppl
 *dagger-proper-projection-trace* and its supported and embedding-independence applications.
 -/
 
-set_option autoImplicit false
 
 noncomputable section
 
