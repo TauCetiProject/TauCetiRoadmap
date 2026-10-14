@@ -10527,8 +10527,14 @@ Corollary 7.3, pp. 55–56). This construction proves initiality without surject
 (*semiperfectoid-affine-hodge-tate*) For a bounded oriented prism `(B, (d))` and a
 p-completely smooth B/d-algebra `C`, construct `Δ_{C/B}` with Frobenius by the
 Čech–Alexander complexes of prismatic envelopes. Prove the affine Hodge–Tate comparison
-`H^i(Δ_{C/B} ⊗_B^L B/d) ≅ Ω^i_{C/(B/d)}`, using the orientation to trivialize the
-twists, and completed base change along maps of bounded oriented prisms. This subsection
+`H^i(Δ_{C/B} ⊗_B^L B/d) ≅ Ω̂^i_{C/(B/d)}`, using the orientation to trivialize the
+twists, and completed base change along maps of bounded oriented prisms. Here
+`Ω̂^i_{C/(B/d)} := H^0(Λ_(p)(L∧^i_C L_{C/(B/d)}))` is the module of continuous
+p-completed differential forms: use the ordinary cotangent complex of P0.19 and
+DerivedDeRhamCohomology's `derivedExteriorPower` and `derivedCompletion`, as supplied
+by P4.15.1. For p-completely smooth `C`, this completed derived exterior power is
+concentrated in degree zero; for `C = (B/d)⟨T⟩`, its degree-one module is `C dT`.
+This subsection
 owns the characteristic-p polynomial divided-power calculation and the universal
 oriented-prism reduction used to prove that comparison ([BS22] §4.3,
 Construction 4.18 and Lemmas 4.19–4.21; §5, Corollary 5.5; §6, Proposition 6.2 and
@@ -10561,6 +10567,11 @@ are owned here, rather than assigned to the cotangent supplier.
 - For `(B,d) = (ℤ_p,p)` and `C = 𝔽_p`, the prismatic complex is `ℤ_p` in degree zero.
 - For `C = 𝔽_p[T]` over that prism, the Hodge–Tate reduction has `H^0 = C`,
   `H^1 = C dT`, and no higher cohomology.
+- For the bounded oriented prism `B = ℤ_p[[u]]`, `d = u-p`, `φ(u) = u^p`,
+  with `B/d = ℤ_p`, and `C = ℤ_p⟨T⟩`, the Hodge–Tate reduction has `H^0 = C`,
+  `H^1 = Ω̂^1_{C/ℤ_p} = C dT`, and no higher cohomology. For `F = exp(p²T) ∈ C`,
+  completion kills `dF − p²F dT`, a nonzero class in ordinary algebraic
+  `Ω^1_{C/ℤ_p}`; thus the ordinary differential module cannot replace `Ω̂^1`.
 - For `A = 𝔽_p[T^{1/p^∞}]/(T)`, the quasiregular comparison applies although `A`
   is nonreduced: the class of `T^{1/p}` is nonzero with p-th power zero.
 
@@ -12413,7 +12424,7 @@ Tate base, with affinoid charts given by the uniform completed tensor product) i
 `X` and `Y` have cardinality `≤ λ` (`λ ≥ ℵ₀`), then `X ×_Z Y` is covered by at most `2^λ` open
 affinoids `U ×_W V` with rings of cardinality `≤ λ^ℵ₀` and has at most `2^{2^λ}` points; in
 particular fibre products of κ-small quasicompact (for instance affinoid) perfectoid spaces are
-κ-small; if the base `Z` is also affinoid, their fibre product is affinoid. Affinoidness is
+κ-small. When `X`, `Y` and `Z` are all affinoid, their fibre product is affinoid. Affinoidness is
 not asserted over an arbitrary base: gluing two copies of a perfectoid closed disc along its
 non-quasicompact open unit disc gives two affinoid charts whose fibre product is that open disc; (d) for `κ` of
 cofinality `ω₁` the unrestricted statement fails: for a perfectoid field `L` of characteristic `p`
@@ -12428,6 +12439,20 @@ Prop. 8.2.5(3), p. 59, for the fibre products whose size (c) bounds). Part (d) s
 *uniformly-kappa-small-perfectoid-space*; *kappa-small-cover-criterion*;
 *adic-spectrum-cardinality*; *complete-tate-ring-cardinality*; layer P2 (P2.16, P2.13); layer P1;
 AdicSpacesPartII R0.4 (*uniform-completed-tensor-product*).
+
+**Checks for small fibre products.**
+
+- For κ-small affinoid perfectoid `X → Z` with affinoid perfectoid `Z`,
+  `X ×_Z Z ≅ X` is κ-small and affinoid.
+- For κ-small affinoid perfectoid `X = Spa(A,A⁺)` and `Y = Spa(B,B⁺)` over
+  affinoid perfectoid `Z = Spa(C,C⁺)`, the completed-tensor presentation of P2.16
+  gives an affinoid κ-small `X ×_Z Y`.
+- Let `K` be a characteristic-p perfectoid field with `#K < κ`. Its perfected
+  projective line `X`, obtained by gluing the perfected closed discs with rings
+  `K⟨T^{1/p^∞}⟩` and `K⟨T^{-1/p^∞}⟩` along the perfected unit annulus, is
+  quasicompact and κ-small. Laurent coefficients give `Γ(X,O) = K`, while zero
+  and infinity are distinct points, so `X` is not affinoid. With
+  `Y = Z = Spa(K,K°)`, the fibre product `X ×_Z Y ≅ X` remains non-affinoid.
 
 **Check: `not_isKappaSmall_gaussField_fibreProduct`.** Under the same strong-limit,
 cofinality, characteristic and variable-cardinality hypotheses as the disc Check,
