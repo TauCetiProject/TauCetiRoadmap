@@ -275,8 +275,16 @@ theorem IsStronglySheafy.finiteEtale (h : IsStronglySheafy A) (B : Type*)
 
 end StrongSheafiness
 
-/-- `ℚ_p` is strongly sheafy (it is strongly noetherian). -/
-example (p : ℕ) [Fact p.Prime] : IsStronglySheafy ℚ_[p] := sorry
+/-- *Huber.test_field_plus_unbounded_positive*: `ℚ_p` and its one-variable Tate algebra are
+strongly sheafy, and every Huber pair on `ℚ_p` has nonempty spectrum. -/
+example (p : ℕ) [Fact p.Prime] (S : Pair ℚ_[p]) :
+    IsStronglySheafy ℚ_[p] ∧ IsStronglySheafy (restrictedMvPowerSeriesCompletion 1 ℚ_[p]) ∧
+      Nonempty (spa S.plus) := sorry
+
+/-- *Huber.test_field_plus_unbounded_negative*: `ℚ_p` is strongly sheafy, but its whole ring
+is not a ring of integral elements. -/
+example (p : ℕ) [Fact p.Prime] :
+    IsStronglySheafy ℚ_[p] ∧ ¬ IsRingOfIntegralElements (⊤ : Subring ℚ_[p]) := sorry
 
 /-! ### A1.2 The Huber pair of a finite étale algebra (*finite-etale-affinoid-algebra*) -/
 
@@ -624,8 +632,8 @@ example (S : Pair A) (n : ℕ) (v : ValuationSpectrum (restrictedMvPowerSeriesCo
     (hv : v ∈ spa (Pair.polydiscPlus S n)) :
     v ∈ Pair.torusLocus S n ↔ ∀ i, v.toValuativeRel.vle 1 (Pair.polydiscVar n A i) := sorry
 
-/-- *torusLocus_zero* (degenerate): the `0`-dimensional torus is the whole (one-point) polydisc:
-the empty product is `1`. -/
+/-- *torusLocus_zero* (degenerate): the `0`-dimensional torus is the whole
+zero-variable polydisc, canonically the base spectrum: the empty product is `1`. -/
 example (S : Pair A) : spa (Pair.polydiscPlus S 0) ⊆ Pair.torusLocus S 0 := sorry
 
 /-- *torusLocus_vanishing_coordinate* (non-example): a point at which some coordinate vanishes, such
@@ -658,6 +666,23 @@ def IsPureRelDim {X Y : Type*} [TopologicalSpace X] (f : X → Y) (d : ℕ) : Pr
 /-- Empty fibres impose nothing: a map from the empty space is of every pure relative dimension. -/
 example {Y : Type*} (f : Empty → Y) (d : ℕ) : IsPureRelDim f d :=
   fun _ ⟨x, _⟩ ↦ x.elim
+
+/-- *dim_test_empty*: the empty space has dimension bottom and every pure dimension. -/
+example (d : ℕ) : topologicalKrullDim Empty = ⊥ ∧ IsPureDim Empty d := sorry
+
+/-- *relDim_test_empty*: the empty-to-singleton map has relative dimension bottom. -/
+example : relDim (Empty.elim : Empty → PUnit) = ⊥ := sorry
+
+/-- *relDim_test_point*: the singleton identity has relative dimension and pure dimension zero,
+and fails pure relative dimension one. -/
+example : relDim (id : PUnit → PUnit) = 0 ∧ IsPureRelDim (id : PUnit → PUnit) 0 ∧
+    ¬ IsPureRelDim (id : PUnit → PUnit) 1 := sorry
+
+/-- *relDim_test_missedPoint*: a singleton mapping to `false` has one empty fibre, relative
+and pure relative dimension zero, and fails pure relative dimension one. -/
+example :
+    let f : PUnit → Bool := fun _ ↦ false
+    relDim f = 0 ∧ IsPureRelDim f 0 ∧ ¬ IsPureRelDim f 1 := sorry
 
 /-- `Spa(K, K⁺)` for a valuation ring `K⁺` of a complete nonarchimedean field is a chain of
 specialisations whose length is one less than the rank of `K⁺` (Hübner, §2, p. 5). -/
@@ -840,6 +865,22 @@ def IsNaturallyComplete (B : Type*) (N : Type*) [CommRing B] [TopologicalSpace B
   letI : UniformSpace N :=
     @IsTopologicalAddGroup.rightUniformSpace N _ _ (IsModuleTopology.isTopologicalAddGroup B N)
   CompleteSpace N ∧ T2Space N
+
+/-- *natural_zero*: a zero module is complete and Hausdorff for its natural topology. -/
+example (A M : Type*) [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
+    [AddCommGroup M] [Module A M] [Subsingleton M] : IsNaturallyComplete A M := sorry
+
+/-- *natural_rank_two*: a rank-two free module over a complete Hausdorff Tate ring is naturally
+complete. -/
+example (A : Type*) [CommRing A] [UniformSpace A] [IsUniformAddGroup A] [IsTopologicalRing A]
+    [IsTateRing A] [CompleteSpace A] [T2Space A] : IsNaturallyComplete A (Fin 2 → A) := sorry
+
+/-- *natural_nonclosed_principal*: the quotient by a nonclosed principal ideal fails natural
+Hausdorff completeness. -/
+example {A : Type*} [CommRing A] [UniformSpace A] [IsUniformAddGroup A] [IsTopologicalRing A]
+    [IsHuberRing A] [CompleteSpace A] [T2Space A] (x : A)
+    (hx : ¬ IsClosed ((Ideal.span {x} : Ideal A) : Set A)) :
+    ¬ IsNaturallyComplete A (A ⧸ Ideal.span {x}) := sorry
 
 section RatLoc
 
