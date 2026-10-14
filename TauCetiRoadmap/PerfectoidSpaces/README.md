@@ -43,10 +43,10 @@ they meet.
 The tower-quotient and torsor-descent layers P8–P9 form the roadmap [PerfectoidTowers](../PerfectoidTowers/README.md).
 Each layer's Dependencies paragraph names its mathematical suppliers by section.
 
-**Dependencies.** DerivedModuleAlgebra §§0.1–0.4, 0.14, 1.1–1.9; AdicSpaces §§0–5;
-AdicSpacesPartII R0.0–R0.20, R1; AdicSpacesPartIII R3.1, R3.5, R3.8, R3.9;
+**Dependencies.** DerivedModuleAlgebra §§0.1–0.11, 0.13–0.14, 0.25, 1.1–1.9; AdicSpaces §§0–5, 6.1;
+AdicSpacesPartII R0.0–R0.20.2, R1; AdicSpacesPartIII R2.4, R3.1, R3.5, R3.8, R3.9;
 AdicEtaleGeometry A0, A1.0–A1.16, A1.2a, A1.6a, A2, A3.1–A3.2, A4.2–A4.5,
-A4.2a, A4.7.
+A4.2a, A4.7; PivotalSpherical Layers 2 and 7.
 
 PerfectoidTowers imports both PerfectoidSpaces and DiamondsAndVStacks; diamond objects,
 spatial presentations, and coefficient descent using diamonds belong to those two roadmaps. The
@@ -54,8 +54,9 @@ v-topology on perfectoid spaces belongs to DiamondsAndVStacks: P7 uses only the 
 covering condition
 (Mathlib `IsCompactOpenCovered`), while the v-site built on that condition belongs to
 DiamondsAndVStacks, its precoverage and topology to D2.2 and its subcanonicity and v-descent to
-D2.7. The ordinary cotangent complex of a ring map belongs to the DerivedModuleAlgebra roadmap,
-to which SchemeAndStackFoundations §4.6 assigns it, and is consumed in P0.19; this roadmap owns only
+D2.7. The ordinary cotangent complex of a ring map and its square-zero deformation theory belong to
+DerivedModuleAlgebra §§0.4–0.11, 0.13 and 0.25, consistently with SchemeAndStackFoundations §4.6,
+and are consumed in P0.19; this roadmap owns only
 its almost counterpart (P0.20). DerivedModuleAlgebra §§0.1–0.4, 0.14 and 1.1–1.9 own
 the generic derived operations, ideal completion and bounded-torsion p-complete module descent.
 P4.15.1 consumes their carriers and maps; its finite-ideal simplicial descent extension and
@@ -328,7 +329,7 @@ Tables are ordered by the consuming layer within each supplier group.
 | Trace on finite free algebras | `Algebra.trace`, `Algebra.trace_eq_zero_of_not_exists_basis`, `Mathlib/RingTheory/Trace/Defs.lean` | P3.12's `Perfectoid.FiniteEtale.trace` is the finite **projective** trace, including algebras of nonconstant rank; P0's almost trace supplies its classical-setup construction. |
 | Descent of ordinary modules | `comonadicExtendScalars`, `Mathlib/Algebra/Category/ModuleCat/Descent.lean`; `CommRingCat.isLimitForkPushoutSelfOfFaithfullyFlat`, `Mathlib/Algebra/Category/Ring/EqualizerPushout.lean` | Identify comonad coalgebras with descent data and extend to almost algebras. |
 | Cotangent exact sequence | `Algebra.Generators.Cotangent.exact`, `Mathlib/RingTheory/Kaehler/JacobiZariski.lean:95` | The exact sequence for composable polynomial presentations underlies P0’s full cotangent-complex comparison. |
-| Polynomial translations and dual numbers | `Polynomial.algEquivAevalXAddC`, `Polynomial.algEquivAevalXAddC_symm`, `Mathlib/Algebra/Polynomial/AlgebraMap.lean`; `TrivSqZeroExt.fstHom`, `Mathlib/Algebra/TrivSqZeroExt/Basic.lean` | P0's `CotangentComplex.polynomialLift_sign` uses these existing automorphisms and quotient maps to compute the deformation sign. |
+| Polynomial translations and dual numbers | `Polynomial.algEquivAevalXAddC`, `Polynomial.algEquivAevalXAddC_symm`, `Mathlib/Algebra/Polynomial/AlgebraMap.lean`; `TrivSqZeroExt.fstHom`, `Mathlib/Algebra/TrivSqZeroExt/Basic.lean` | P0.22 consumes DerivedModuleAlgebra §0.25's `CotangentComplex.polynomialLift_sign`, which uses these automorphisms and quotient maps to compute the deformation sign. |
 
 #### P0/P7
 
@@ -404,11 +405,11 @@ Tables are ordered by the consuming layer within each supplier group.
 | Object | Exact supplier and file | Use |
 | --- | --- | --- |
 | Restricting an equivalence to full subcategories | `CategoryTheory.Equivalence.congrFullSubcategory`, `Mathlib/CategoryTheory/ObjectProperty/Equivalence.lean` | P6's `kappaSmallSliceTilt` applies it to P2's slice tilt using the tilting invariance and the isomorphism invariance of `IsKappaSmall` (P6.4, P6.1). |
-| Pro-category cofiltered limits | Mathlib's `HasFilteredColimits (Ind Cᵒᵖ)` instance in `Mathlib/CategoryTheory/Limits/Indization/Category.lean:131`; `CategoryTheory.Limits.has_cofiltered_limits_op_of_has_filtered_colimits` in `Mathlib/CategoryTheory/Limits/Shapes/Opposites/Filtered.lean:34` | For `C : Type u` with `Category.{v} C` and a small cofiltered `I : Type v`, these supply `HasLimitsOfShape I (Ind Cᵒᵖ)ᵒᵖ` by instance synthesis, a Check specified in this README. P6.12 and DiamondsAndVStacks D0.13 use them directly. All small limits additionally require finite limits in the base category. |
+| Pro-category cofiltered limits | Mathlib's `HasFilteredColimits (Ind Cᵒᵖ)` instance in `Mathlib/CategoryTheory/Limits/Indization/Category.lean:131`; `CategoryTheory.Limits.has_cofiltered_limits_op_of_has_filtered_colimits` in `Mathlib/CategoryTheory/Limits/Shapes/Opposites/Filtered.lean:34` | For `C : Type u` with `Category.{v} C` and a small cofiltered `I : Type v`, these supply `HasLimitsOfShape I (Ind Cᵒᵖ)ᵒᵖ` by instance synthesis, a Check specified in this README. P6.12 uses them directly. All small limits additionally require finite limits in the base category. |
 | Adjunction triangle identities | `CategoryTheory.Adjunction.left_triangle_components`, `.right_triangle_components`, `Mathlib/CategoryTheory/Adjunction/Basic.lean` | `proFlatten_obj` applies both equations to the adjunction supplied by `proFlatten_adjunction` on the opposite Ind carriers. |
-| Bounded pro-objects | `CategoryTheory.Ind.lim`, `CategoryTheory.Ind.yoneda`, `Mathlib/CategoryTheory/Limits/Indization/Category.lean`; `CategoryTheory.ObjectProperty.FullSubcategory`, `Mathlib/CategoryTheory/ObjectProperty/FullSubcategory.lean` | P6.10 owns `PerfectoidSpace.HasKappaSmallPresentation`, `.of_diagram` and `PerfectoidSpace.ProKappa`: an existential bound on the total arrow set of a presentation, on the supplied Ind carrier. DiamondsAndVStacks D0.13 consumes this bounded category. |
-| Cardinal completion | `UniformSpace.Completion`, `Mathlib/Topology/UniformSpace/Completion.lean`; `FirstCountableTopology`, `Mathlib/Topology/Bases.lean`; `IsUniformAddGroup`, `Mathlib/Topology/Algebra/IsUniformGroup/Defs.lean` | P6.2 owns the universe-polymorphic additive-group bound `completion_cardinality_bound`; DiamondsAndVStacks D0.24 adds its strong-limit specialization. |
-| Pro-object flattening | `CategoryTheory.Ind.presentation`, `Mathlib/CategoryTheory/Limits/Indization/Category.lean`; `CategoryTheory.Limits.limit`, `Mathlib/CategoryTheory/Limits/HasLimits.lean` | P6.12 owns `proFlatten`, `proFlatten_adjunction` and `proFlatten_obj`. DiamondsAndVStacks D0.13 uses this functor and its adjunction. |
+| Bounded pro-objects | `CategoryTheory.Ind.lim`, `CategoryTheory.Ind.yoneda`, `Mathlib/CategoryTheory/Limits/Indization/Category.lean`; `CategoryTheory.ObjectProperty.FullSubcategory`, `Mathlib/CategoryTheory/ObjectProperty/FullSubcategory.lean` | P6.10 owns `PerfectoidSpace.HasKappaSmallPresentation`, `.of_diagram` and `PerfectoidSpace.ProKappa`: an existential bound on the total arrow set of a presentation, on the supplied Ind carrier. |
+| Cardinal completion | `UniformSpace.Completion`, `Mathlib/Topology/UniformSpace/Completion.lean`; `FirstCountableTopology`, `Mathlib/Topology/Bases.lean`; `IsUniformAddGroup`, `Mathlib/Topology/Algebra/IsUniformGroup/Defs.lean` | P6.2 owns the universe-polymorphic additive-group bound `completion_cardinality_bound`. |
+| Pro-object flattening | `CategoryTheory.Ind.presentation`, `Mathlib/CategoryTheory/Limits/Indization/Category.lean`; `CategoryTheory.Limits.limit`, `Mathlib/CategoryTheory/Limits/HasLimits.lean` | P6.12 owns `proFlatten`, `proFlatten_adjunction` and `proFlatten_obj`. |
 | Empty and singleton cardinalities | `Cardinal.mk_eq_zero`, `Cardinal.mk_eq_one`, `Mathlib/SetTheory/Cardinal/Defs.lean` | Compute the point set and section ring of the empty affinoid; no new cardinal definitions. |
 | Strong limits and power-set bounds | `Cardinal.IsStrongLimit`, `Cardinal.mk_set`, `Cardinal.mk_le_of_injective`, `Cardinal.power_mul`, `Cardinal.power_le_power_right`, `Mathlib/SetTheory/Cardinal/Order.lean` | Apply to valuative relations and countable completion; the perfectoid size predicate is additional. |
 | Union and cofinality bounds | `Cardinal.mk_iUnion_le`, `Mathlib/SetTheory/Cardinal/Basic.lean`; `Cardinal.iSup_lt_of_lt_cof_ord`, `Mathlib/SetTheory/Cardinal/Cofinality/Ordinal.lean` | The uniform bound in the singular-cardinal cover criterion. |
@@ -703,9 +704,9 @@ roadmap's perfectoid results and represented-functor comparisons.
 
 | Object | Exact supplier and file | Use |
 | --- | --- | --- |
-| Algebraic torsor descent | `comonadicExtendScalars`, `Mathlib/Algebra/Category/ModuleCat/Descent.lean`; `Algebra.Etale.of_etale_tensorProduct_of_faithfullyFlat`, `Mathlib/RingTheory/Etale/Descent.lean`; `TauCetiRoadmap.AdicEtaleGeometry.Algebra.galoisTensorMap`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | AEG's finite-group formulation uses the Galois tensor isomorphism over arbitrary commutative rings and faithfully flat descent. AdicEtaleGeometry A4.2a owns this module descent; PerfectoidTowers P9 consumes it for coefficients. |
-| Compact-open coverings | `IsCompactOpenCovered`, `Mathlib/Topology/Sets/CompactOpenCovered.lean`; `CategoryTheory.Precoverage.toGrothendieck`, `Mathlib/CategoryTheory/Sites/PrecoverageToGrothendieck.lean` | P7 uses only the raw compact-open covering condition `IsCompactOpenCovered`. The precoverage and the topology built from it with `Precoverage.toGrothendieck`, and their specializations to `Perfd p`, belong to DiamondsAndVStacks D2.2, with subcanonicity and v-descent in D2.7; they are not inputs here. |
-| Represented inverse limits | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsTildeLimit`, `.IsTildeLimit.baseChange`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`, R0.20.1–R0.20.2, with the completed-direct-limit criterion of *tilde-limits-affinoid-criterion*, `TauCetiRoadmap/AdicSpacesPartII/README.md`, R0.20.1; `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.uniformization`, `.Pair.toUniformization`, `.Pair.uniformization.lift`, `TauCetiRoadmap/AdicSpacesPartII/README.md`, R0.4; `CategoryTheory.Limits.limit`, `Mathlib/CategoryTheory/Limits/HasLimits.lean`, and limits of functors | P7.11 adds limits of the represented functors `representedFunctor` on perfectoid test spaces, projection-compatible point comparisons, and HJ 5.11 finite-level descriptions; no topology is used. The downstream consumers DiamondsAndVStacks D2.7 and D5–D6 identify these comparisons with diamond limits on their v-site. |
+| Algebraic torsor descent | `comonadicExtendScalars`, `Mathlib/Algebra/Category/ModuleCat/Descent.lean`; `Algebra.Etale.of_etale_tensorProduct_of_faithfullyFlat`, `Mathlib/RingTheory/Etale/Descent.lean`; `TauCetiRoadmap.AdicEtaleGeometry.Algebra.galoisTensorMap`, `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | AEG's finite-group formulation uses the Galois tensor isomorphism over arbitrary commutative rings and faithfully flat descent. AdicEtaleGeometry A4.2a owns this module descent. |
+| Compact-open coverings | `IsCompactOpenCovered`, `Mathlib/Topology/Sets/CompactOpenCovered.lean` | P7 uses the raw compact-open covering condition `IsCompactOpenCovered`. |
+| Represented inverse limits | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsTildeLimit`, `.IsTildeLimit.baseChange`, `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`, R0.20.1–R0.20.2, with the completed-direct-limit criterion of *tilde-limits-affinoid-criterion*, `TauCetiRoadmap/AdicSpacesPartII/README.md`, R0.20.1; `TauCetiRoadmap.AdicSpacesPartII.Huber.Pair.uniformization`, `.Pair.toUniformization`, `.Pair.uniformization.lift`, `TauCetiRoadmap/AdicSpacesPartII/README.md`, R0.4; `CategoryTheory.Limits.limit`, `Mathlib/CategoryTheory/Limits/HasLimits.lean`, and limits of functors | P7.11 adds limits of the represented functors `representedFunctor` on perfectoid test spaces, projection-compatible point comparisons, and HJ 5.11 finite-level descriptions; no topology is used. |
 | Valued residue completion | `TauCeti.ValuationSpectrum.residueFieldValuation`, `TauCeti/AlgebraicGeometry/AdicSpace/ResidueField/Basic.lean`; `UniformSpace.Completion.coeRingHom`, `Mathlib/Topology/Algebra/UniformRing.lean` | Density of finite-level residue fractions in a geometric cone. |
 | Compact-group cofinality | `Subgroup.exists_le_of_iInf_le_of_directed`, `TauCeti/Topology/Algebra/Group/Profinite/Basic.lean`; `ProfiniteGrp.exist_openNormalSubgroup_sub_open_nhds_of_one`, `ProfiniteGrp.closedSubgroup_eq_sInf_open`, `Mathlib/Topology/Algebra/ClopenNhdofOne.lean` | Construct the chosen indices in `CofinalityWitness`; no new compactness theorem. |
 
@@ -747,7 +748,7 @@ proposed name given.
 | Object | Earlier target | Use |
 | --- | --- | --- |
 | Rational restriction functor | P2.4: `Perfectoid.rationalPairFunctor`, its action on morphisms and the base-coordinate restriction identity (README only) | P2 uses this functor throughout. Its whole and empty values are checked by `rationalPairFunctor_whole` and `rationalPairFunctor_empty`; the base-coordinate restriction identity is checked by evaluating at a ring element. |
-| Glued tilting | P2.11: `PerfectoidSpace.tiltFunctor`, `tiltHomeomorph`, `tiltSpaIso`, `tiltRestrictIso`, `sliceTiltFunctor_isEquivalence` (README only) | P2.11 owns these constructions. AdicSpacesPartIV R5 consumes `PerfectoidSpace.tiltFunctor` directly, downstream. |
+| Glued tilting | P2.11: `PerfectoidSpace.tiltFunctor`, `tiltHomeomorph`, `tiltSpaIso`, `tiltRestrictIso`, `sliceTiltFunctor_isEquivalence` (README only) | P2.11 owns these constructions. |
 | Absolute-product chart universal property | P2.18: the field `PerfectoidSpace.ProductChart.universal` (README only) | Apply this field to `prodChart p A B ϖ ψ hA hB m n`: maps to a complete Tate pair correspond to maps from both factors whose two bounding ratios lie in the target plus ring. The existence of absolute products is the Lean `PerfectoidSpace.hasBinaryProducts_perf`. |
 
 #### P3
@@ -779,14 +780,21 @@ does not have, not inputs.
 | Finite étale uniformity and power-bounded integral closure | AdicEtaleGeometry A1.2a | P3's almost-purity development uses `Huber.isBounded_powerBoundedSubring_of_finiteEtale`. |
 | Finite-group algebraic module descent | AdicEtaleGeometry A4.2a | Effective faithfully flat descent for the Galois tensor isomorphism over arbitrary commutative rings. |
 
-### From TauCetiRoadmap.SchemeAndStackFoundations
+### Cotangent and deformation suppliers
+
+| Object | Owner and section | Use |
+| --- | --- | --- |
+| Polynomial resolutions, derived tensor and the full cotangent model | DerivedModuleAlgebra §§0.1–0.2 and 0.4 | P0.19 consumes the ordinary carrier and its functorial models for P0.20's almost construction. |
+| Square-zero extension classes and cotangent calculus | DerivedModuleAlgebra §§0.5–0.11 and 0.13 | P0.19 consumes extension classification, the universal property, low-degree comparisons, transitivity, the simplicial diagonal, base change, filtered colimits and regular-quotient computations. |
+| Square-zero obstruction and deformation laws | DerivedModuleAlgebra §0.25 | P0.19 and P0.22 consume ordinary obstruction classes, flat deformations, morphism lifting, the signed transitivity boundary and the normalized torsor and automorphism comparisons. |
 
 P0.25 constructs descent for almost modules and algebras from `comonadicExtendScalars` and
 `CommRingCat.isLimitForkPushoutSelfOfFaithfullyFlat`; P0.28 constructs finite étale lifting for
 complete almost pairs, including the classical setup. The classical henselian approximation,
 algebra-structure moduli and completion comparisons are supplied by AdicEtaleGeometry A1.0.4–A1.0.5.
 The ordinary cotangent complex of a ring map and its square-zero obstruction class are supplied
-by DerivedModuleAlgebra §§0.1–0.4, consistently with SchemeAndStackFoundations §4.6;
+by DerivedModuleAlgebra §§0.1–0.2, 0.4–0.11, 0.13 and 0.25, consistently with
+SchemeAndStackFoundations §4.6;
 P0.19 consumes them and P0.20 owns the almost cotangent complex.
 
 ## How to read the build
@@ -2296,8 +2304,8 @@ The ordinary module `Almost.Module.homModule` has scalar multiplication
 
 **The cotangent complex of a ring map and its deformation theory, consumed.**
 (*cotangent-complex-of-ring-map*) Ownership: the ordinary cotangent complex (simplicial
-resolutions, [Stacks] Tag 08PL) and its square-zero obstruction class belong to the
-DerivedModuleAlgebra roadmap, to which SchemeAndStackFoundations §4.6 assigns them; Mathlib's
+resolutions, [Stacks] Tag 08PL) and its square-zero obstruction class belong to
+DerivedModuleAlgebra §§0.4 and 0.25, consistently with SchemeAndStackFoundations §4.6; Mathlib's
 `Algebra.Extension.cotangentComplex` and `Algebra.H1Cotangent` cover only the two lowest degrees.
 This roadmap consumes that carrier and owns only the almost construction of P0.20. What follows is
 the contract that P0.20–P0.24 need of the consumed carrier, with its Checks; the names
@@ -2335,7 +2343,8 @@ and `CotangentComplex.diagonalComparison` for (g). Grading is homological: `H_i(
 the cohomological indexing of [Stacks]; `M[n]` places `M` in homological degree `n`, so `M[1]` places
 `M` in homological degree one. The obstruction groups of P0.21–P0.23 are `Ext` groups of the full
 complex, never of a two-term truncation. Tensor products of complexes in the derived category
-mean derived tensor products. *Needs:* Mathlib
+mean derived tensor products. *Needs:* DerivedModuleAlgebra §§0.1–0.2, 0.4–0.11, 0.13 and 0.25;
+Mathlib
 `KaehlerDifferential`, `Algebra.Extension.Cotangent`, `Algebra.H1Cotangent`,
 `Algebra.Generators.Cotangent.exact`, `CategoryTheory.SimplicialObject`.
 
@@ -2397,13 +2406,13 @@ compare with Mathlib's differentials and first cotangent homology.
 - `cotangent_test_quotient` — for `R → R/I`, Mathlib's `H1Cotangent` is zero exactly when `I² = I`;
   this is a test of first homology, not vanishing of the full complex.
 
-The carrier `CotangentComplex.SquareZeroExtension` uses Mathlib's algebra extension,
+DerivedModuleAlgebra §0.5 supplies `CotangentComplex.SquareZeroExtension`, using Mathlib's algebra extension,
 with an injective additive kernel map whose image is the kernel, whose scalar action
 is induced by the quotient, and whose products vanish. `extensionSetoid` identifies
 extensions by algebra isomorphisms preserving the quotient and the kernel map;
 `Exal` is its quotient. `CotangentComplex.extensionClass` assigns the specified
 extension its class, and `CotangentComplex.extOne` asserts that this particular
-map is bijective and sends precisely the split extensions to zero.
+map is bijective and sends precisely the split extensions to zero (DerivedModuleAlgebra §0.6).
 `CotangentComplex.extensionClass_mk` identifies it with
 `CotangentComplex.morphismObstruction` for the identity map. For an arbitrary
 `R`-algebra map `f : T → B`, `morphismObstruction` is the class of the pullback
@@ -2426,6 +2435,7 @@ square-zero element of rational dual numbers, whose extension class is zero;
 `_nonsplit` uses `ℤ/4 → ℤ/2`, which has no ring section and a nonzero class.
 These are the split and nonsplit cases of [Stacks] Tag 08S3.
 
+DerivedModuleAlgebra §§0.4, 0.9 and 0.11 supply the following functorial models.
 The functor `CotangentComplex.arrowFunctor` retains every homological degree and the
 maps induced by commutative squares of rings. `arrowResolution` is the standard
 polynomial resolution, `resolutionRings` forgets its base-algebra structure, and
@@ -2448,7 +2458,7 @@ homology for `ℤ → ℤ/2`. `diagonalModel_constant`, `diagonalModel_identity`
 ordinary differentials.
 
 The chain maps `CotangentComplex.transitivityFirst` and
-`CotangentComplex.transitivitySecond` are induced by the squares
+`CotangentComplex.transitivitySecond` of DerivedModuleAlgebra §0.8 are induced by the squares
 `(A → B) → (A → C)` and `(A → C) → (B → C)`, respectively.
 `CotangentComplex.transitivityFirst_tmul` sends `c ⊗ x` to `c` times the
 image of `x` under `arrowModelMap`; `CotangentComplex.transitivitySecond_apply`
@@ -2727,7 +2737,7 @@ automorphism group of a flat deformation (acting trivially on `C₀` and on `C�
 exists and is unique up to unique isomorphism, which [Sch12] Theorem 5.10 applies over
 `(K°/ϖ^n)^a → (K°/ϖ^{n−1})^a`; in the classical setup, for `A = B = B₀ ⊕ I` trivial and `C₀ = B₀[X]`, the trivial
 deformation `C₀ ⊕ C₀ ⊗ I` exists and deformations form a torsor under `Ext¹(L^a, −) = 0`. *Needs:*
-P0.21; P0.20; P0.18.
+P0.21; P0.20; P0.18; P0.19; DerivedModuleAlgebra §0.25.
 
 **Checks.**
 
@@ -2849,7 +2859,8 @@ statement gives injectivity and the exact Leibniz and base-vanishing conditions 
 3.2.11(iii), p. 42). In particular identity maps to zero and inverses map
 to negative derivations.
 
-The ordinary target `CotangentComplex.flatDeformation`, on the consumed carrier of P0.19, retains the same
+DerivedModuleAlgebra §0.25 supplies the following normalized ordinary deformation laws,
+on the consumed carrier of P0.19. The target `CotangentComplex.flatDeformation` retains the same
 flatness and square-zero hypotheses. Its
 `CotangentComplex.deformationObstruction` is the composite of
 `CotangentComplex.transitivityConnecting` with the shifted
@@ -3495,12 +3506,12 @@ Mathlib as listed in the supplier contracts: `IsIdempotentElem`, `Module.Flat`,
 is consumed by layers P1–P3 (the setups of a perfectoid Tate ring, the
 almost cotangent complex of perfectoid algebras modulo `ϖ`, almost purity). The classical complete-pair case of P0.28 uses `BasicSetup.classical` and
 `Almost.Algebra.classicalEquiv`. Other roadmaps, by subsection: P0.19 uses
-DerivedModuleAlgebra §§0.1–0.2 and 0.4 for polynomial resolutions, derived tensor products and
-the full ordinary cotangent complex; P0.20–P0.24 use this supplier through P0.19.
+DerivedModuleAlgebra §§0.1–0.2, 0.4–0.11, 0.13 and 0.25 for polynomial resolutions,
+derived tensor products, the full ordinary cotangent complex and its square-zero deformation theory;
+P0.20–P0.24 use this supplier through P0.19, with P0.22 using §0.25's normalized laws.
 P0.12 consumes PivotalSpherical §Layer 2's trace construction, cyclicity
 and tensor law, its §Layer 7 standard symmetric pivotal/spherical structure, and AdicSpacesPartIII
-§R3.8's *projective-module-trace* for the ordinary finite-free comparison. The DiamondsAndVStacks
-layers that use P0 are listed under Downstream consumers. Tau Ceti:
+§R3.8's *projective-module-trace* for the ordinary finite-free comparison. Tau Ceti:
 `TauCeti.HenselianRing.exists_isIdempotentElem_sub_mem` and
 `TauCeti.IsAdicComplete.exists_isIdempotentElem_eq` (the honest case of the idempotent lifting in
 P0.26).
@@ -8096,9 +8107,7 @@ uses P2.8, not conversely. Tau Ceti `TauCeti.AdicSpace`,
 `CategoryTheory.Limits.HasBinaryProducts`,
 `CategoryTheory.Over.ConstructProducts.over_binaryProduct_of_pullback` and
 `CategoryTheory.Adjunction.rightAdjoint_preservesLimits`. Within this roadmap the layer is
-consumed by layer P3 (almost purity, the plus ring of completed tensor products); the consumers in
-other roadmaps (PerfectoidTowers [P8](../PerfectoidTowers/README.md#layer-p8-finite-quotients-and-closed-perfectoid-loci-in-towers), analytic separatedness via the diagonal over an
-analytic base; DiamondsAndVStacks, products in `Perf`) are listed under Downstream consumers.
+consumed by layer P3 (almost purity, the plus ring of completed tensor products).
 
 ## Layer P3: almost purity and the étale site
 
@@ -10095,8 +10104,7 @@ through P2. Mathlib `HenselianRing`,
 `InfiniteGalois.IntermediateFieldEquivClosedSubgroup`, `CategoryTheory.Pseudofunctor.IsStack`,
 `CategoryTheory.Equivalence.sheafCongr`, `CategoryTheory.Sheaf.H`; Tau Ceti `Huber.IsTateRing`,
 `Huber.powerBoundedSubring`, `Huber.Pair`, `ValuationSpectrum.spa`, `ValuationSpectrum.rationalSubset`,
-`Huber.restrictedMvPowerSeriesCompletion` and the completion of Huber rings. DiamondsAndVStacks
-layer D3 consumes this layer and is not an input to it.
+`Huber.restrictedMvPowerSeriesCompletion` and the completion of Huber rings.
 
 ## Layer P4: injections, immersions and separatedness
 
@@ -10914,9 +10922,9 @@ reflector, with its specified unit.
 
 | Supplier subsection | Imported API and use |
 | --- | --- |
-| §§0.1–0.4 and 0.14 | `Algebra.CotangentComplex.PolynomialResolution`, its `comparison` and `toQuasiIso`, `DerivedDeRham.derivedTensor`, `DerivedDeRham.leftDerivedNonadditive`, `DerivedDeRham.derivedExteriorPower` and the ordinary cotangent complex supply the resolution and power models for P4.15.2–P4.15.3. |
-| §§1.1–1.6 | `DerivedDeRham.derivedLimit`, `DerivedDeRham.derivedCompleteness`, `DerivedDeRham.derivedCompletion`, `DerivedDeRham.completionUnit`, `DerivedDeRham.completionAdjunction`, `DerivedDeRham.completeNakayama`, `DerivedDeRham.koszulCompletionTower`, `DerivedDeRham.ordinaryQuotientCompletion` and `DerivedDeRham.simplicialRingCompletion` supply completion and its algebra unit. |
-| §§1.7–1.9 | `DerivedDeRham.completeFlatness`, its discrete predicate `DerivedDeRham.IsCompletelyFlatModule`, `DerivedDeRham.completeFlatBaseChange`, `DerivedDeRham.boundedTorsionCriterion` and `DerivedDeRham.completeFlatDescent` supply complete flatness and descent for p-complete ordinary rings with bounded p-power torsion. |
+| DerivedModuleAlgebra §§0.1–0.4 and 0.14 | `Algebra.CotangentComplex.PolynomialResolution`, its `comparison` and `toQuasiIso`, `DerivedDeRham.derivedTensor`, `DerivedDeRham.leftDerivedNonadditive`, `DerivedDeRham.derivedExteriorPower` and the ordinary cotangent complex supply the resolution and power models for P4.15.2–P4.15.3. |
+| DerivedModuleAlgebra §§1.1–1.6 | `DerivedDeRham.derivedLimit`, `DerivedDeRham.derivedCompleteness`, `DerivedDeRham.derivedCompletion`, `DerivedDeRham.completionUnit`, `DerivedDeRham.completionAdjunction`, `DerivedDeRham.completeNakayama`, `DerivedDeRham.koszulCompletionTower`, `DerivedDeRham.ordinaryQuotientCompletion` and `DerivedDeRham.simplicialRingCompletion` supply completion and its algebra unit. |
+| DerivedModuleAlgebra §§1.7–1.9 | `DerivedDeRham.completeFlatness`, its discrete predicate `DerivedDeRham.IsCompletelyFlatModule`, `DerivedDeRham.completeFlatBaseChange`, `DerivedDeRham.boundedTorsionCriterion` and `DerivedDeRham.completeFlatDescent` supply complete flatness and descent for p-complete ordinary rings with bounded p-power torsion. |
 
 Convention: `M` is J-completely flat precisely when `M ⊗_B^L B/J` is a flat
 `B/J`-module in degree zero; complete faithful flatness additionally means that this
@@ -11581,9 +11589,7 @@ P4.19 use AdicEtaleGeometry A1.16 (`YonedaAdicSpace.ofAdicSpace` and its point a
 comparisons). P4.15.1 consumes DerivedModuleAlgebra §§0.1–0.4, 0.14 and 1.1–1.9
 under the imported APIs listed there; P4.15.2–P4.15.5 use its finite-ideal descent and
 transfinite adapters. That generic supplier prefix uses no P4.15, P6 or tower target.
-PerfectoidTowers P8.14–P8.15 are not inputs:
-[P8](../PerfectoidTowers/README.md#layer-p8-finite-quotients-and-closed-perfectoid-loci-in-towers) owns the global Zariski closed notion (P8.14) and analytic separatedness (P8.15),
-and DiamondsAndVStacks D3 consumes the morphism properties here. Tau Ceti `TauCeti.Huber.Pair`, `TauCeti.Huber.Pair.quotient`,
+Tau Ceti `TauCeti.Huber.Pair`, `TauCeti.Huber.Pair.quotient`,
 `TauCeti.Huber.Pair.quotient_plus`, `TauCeti.Huber.Pair.Hom.spaComap`,
 `TauCeti.Huber.Pair.Hom.range_spaComap_quotientHom`,
 `TauCeti.Huber.Pair.Hom.isClosedEmbedding_spaComap_quotientHom`,
@@ -13758,8 +13764,7 @@ colimits and completion; A1.3 supplies local étale descriptions.
 P5.13.1–P5.13.4 use the local sousperfectoid theory of P3.17a, the completed limits and qcqs descent
 of P5.1–P5.12, AdicEtaleGeometry A1–A2 and A3.1–A3.2's generic pseudocoherent, Newton
 and standard-presentation APIs, and AdicSpacesPartII R0 and AdicSpacesPartIII R3's analytic algebra.
-Mathlib's strong-limit cardinal arithmetic is used throughout; DiamondsAndVStacks D0–D5
-consumes the perfectoid bounds and limit comparisons. Mathlib
+Mathlib's strong-limit cardinal arithmetic is used throughout. Mathlib
 `CommRingCat.FilteredColimits.colimit`, `CommRingCat.FilteredColimits.colimitCoconeIsColimit`,
 `AdicCompletion`, `AdicCompletion.isAdicComplete`, `IsAdicComplete`, `IsIntegrallyClosedIn`,
 `CategoryTheory.IsCofiltered`, `CategoryTheory.Over`, `CategoryTheory.Over.initial_forget`,
@@ -15363,7 +15368,6 @@ its profinite-set objects); P6.14 uses AdicSpacesPartII R0.20.1 for the comparis
 noetherian stages; P6.9–P6.12 use AdicSpacesPartII R0.19.9's generic Pro API.
 P6.15–P6.17 use P1.32, P2, P6.8 and AdicEtaleGeometry A4.2–A4.5 and A4.7's
 generic torsor-tower, completion, descent and orbit-spectrum constructions.
-DiamondsAndVStacks layers D0, D1, D2, D4 and D6 are consumers (see Downstream consumers);
 Mathlib `Cardinal`
 (`IsStrongLimit`, `IsRegular`, `iSup_lt_of_lt_cof_ord`, `mk_set`, `mk_iUnion_le`, `power_mul`,
 `power_le_power_right`), `CategoryTheory.Ind`, `CategoryTheory.IsCofiltered`,
@@ -17529,7 +17533,7 @@ Within this roadmap: P1 (perfectoid Tate rings, tilting, uniformity and the almo
 `A⁺ → A°`; P1.1, P1.3, P1.25, P1.27), P2 (perfectoid spaces, affinoid perfectoids, rational
 localisation, open subspaces and fibre products; P2.3, P2.5, P2.6, P2.9, P2.10), P3 (finite étale and étale morphisms, the étale site and the tilting equivalence;
 P3.10, P3.15–P3.18, P3.22), P5 (the limit of affinoid perfectoids, qcqs étale descent; P5.2, P5.3,
-P5.12), with [P8.21](../PerfectoidTowers/README.md#layer-p8-finite-quotients-and-closed-perfectoid-loci-in-towers) and [P9.4](../PerfectoidTowers/README.md#layer-p9-continuous-torsor-descent-with-coefficients) as the consumers named above; AdicSpacesPartII R0.19.5–R0.19.8 and P5.4’s perfectoid limit comparisons.
+P5.12); AdicSpacesPartII R0.19.5–R0.19.8 and P5.4’s perfectoid limit comparisons.
 Other roadmaps, by subsection: P7.1 uses AdicSpacesPartII R0.20.1's intrinsic tilde-limit
 relation and completed-affinoid criterion and AdicSpaces layer 5's analytic adic spaces;
 P7.2 uses AdicSpacesPartII R0.1; P7.3 and P7.15 use R0.6; P7.4 uses R0.4,
@@ -17540,10 +17544,7 @@ P7.11 also uses R0.4 and R0.13. P7.12 uses AdicEtaleGeometry A1.2–A1.3 and
 AdicSpacesPartII R0.20.2's base change along morphisms locally of weakly finite type.
 P7.15 uses AdicEtaleGeometry A1.0.5, A1.3, A1.6 and A4.4; P7.16's rigid pro-étale basis
 uses AdicEtaleGeometry A1.10–A1.12 and local P5.1, P6.14 and P7.1–P7.2.
-No subsection of
-DiamondsAndVStacks is an input; in particular P7 uses none of its v-site (D2.2, D2.7). DiamondsAndVStacks
-layers D0, D5 and D6 are downstream consumers, as are the `p`-adic Hodge theory and Shimura-variety
-applications. Libraries: Mathlib `CategoryTheory.IsCofiltered`,
+Libraries: Mathlib `CategoryTheory.IsCofiltered`,
 `CategoryTheory.Functor.Initial`, `CategoryTheory.Functor.Initial.limitIso`,
 `CategoryTheory.Functor.initial_of_exists_of_isCofiltered`, `CategoryTheory.Limits.limit`,
 `TopCat.limitCone`, `TopCat.Presheaf`, `Dense`, `SpectralSpace`, `IsSpectralMap`, `IsAdicComplete`,

@@ -54,7 +54,8 @@ universe u v
 
 /-! ## Layer P0: almost mathematics over a basic setup -/
 
--- P0.19: the standard resolution of `ℤ → ℤ/2` has torsion-free degree zero.
+-- P0.19 consumes DerivedModuleAlgebra §0.1's polynomial resolution.
+-- The standard resolution of `ℤ → ℤ/2` has torsion-free degree zero.
 -- Every additive candidate for an inverse is zero; its extra degeneracy is set-level.
 example {σ : Type u} (f : ZMod 2 →+ MvPolynomial σ ℤ) : f = 0 := sorry
 
