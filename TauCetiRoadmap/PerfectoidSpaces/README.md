@@ -575,6 +575,9 @@ sheafy), adic spaces, open and closed subspaces, gluing. Layer 6: the perfect fi
 
 ### From TauCetiRoadmap.AdicEtaleGeometry, AdicSpacesPartII–IV
 
+Supplier versions: [AdicSpacesPartII (`ee74c10`)](https://github.com/TauCetiProject/TauCetiRoadmap/tree/ee74c10ea2552c2cd75177bbe7082f3d125b709f/TauCetiRoadmap/AdicSpacesPartII)
+and [AdicSpacesPartIII (`46632e7`)](https://github.com/TauCetiProject/TauCetiRoadmap/tree/46632e784d5f2d0817411fe6eaa03f35ca2d0884/TauCetiRoadmap/AdicSpacesPartIII).
+
 #### P1
 
 P1 uses no declaration of these roadmaps. The perfectoid frame predicate is P1.1's own
@@ -3829,18 +3832,39 @@ uniform Tate ring, `R⁺` a ring of integral elements and `ϖ_0 ∈ R⁺` a pseu
 `p` in `R⁺`. Projection `(x^{(n)})_n ↦ (x^{(n)} mod ϖ_0)_n` is a multiplicative bijection
 `lim_{x↦x^p} R⁺ → lim_Φ R⁺/ϖ_0R⁺` and a homeomorphism for the inverse-limit topologies (`R⁺/ϖ_0`
 discrete); the inverse sends `(x̄_0, x̄_1, …)` to `(x^{(i)})_i` with
-`x^{(i)} = lim_{n→∞} x_{n+i}^{p^n}` for arbitrary lifts `x_j ∈ R⁺`. The same holds for `p` in place
-of `ϖ_0`, and the ring homomorphism `lim_Φ R⁺/p → lim_Φ R⁺/ϖ_0` induced by the quotient map is an
-isomorphism; `R ≠ 0` makes `R⁺/ϖ_0` of characteristic `p`. Both bijections are Mathlib's
+`x^{(i)} = lim_{n→∞} x_{n+i}^{p^n}` for arbitrary lifts `x_j ∈ R⁺`. The multiplicative bijection
+also holds algebraically for `p` in place of `ϖ_0`, and the ring homomorphism
+`lim_Φ R⁺/p → lim_Φ R⁺/ϖ_0` induced by the quotient map is an isomorphism;
+`R ≠ 0` makes `R⁺/ϖ_0` of characteristic `p`. Both bijections are Mathlib's
 `Perfection.quotientMulEquiv p I : Perfection R⁺ p ≃* Perfection (R⁺ ⧸ I) p` for `I = span {ϖ_0}`
 and `I = span {p}` (`R⁺` is `I`-adically complete for both by *integral-elements-adically-complete*
 (a), (c), and `R⁺/I` has characteristic `p`), and `Perfection (ModP R⁺ p) p` is `PreTilt R⁺ p`;
 Mathlib gives multiplicative isomorphisms and the ring structure only on the `Perfection (R⁺/I) p`
-side, and the transported ring structure and topology on `lim_{x↦x^p} R⁺`, with the homeomorphism
-clause, are what is proved here ([ECD] Lemma 3.10, proof, p. 16; [BMS] Lemma
+side. Give `lim_Φ R⁺/p = PreTilt R⁺ p` the topology transported from `lim_Φ R⁺/ϖ_0`
+with discrete `R⁺/ϖ_0` factors. This topology is independent of the choice of `ϖ_0`, makes the
+modulo-`p` comparison a homeomorphism, and preserves the displayed reduction formula on every
+coordinate. It is not defined by making `R⁺/p` discrete: `p` need not be a pseudo-uniformizer
+or a unit of `R`, and may be zero. The transported ring structure and these topological
+comparisons with the subspace topology on `lim_{x↦x^p} R⁺` are proved here ([ECD] Lemma 3.10, proof, p. 16; [BMS] Lemma
 3.2(i), p. 19; [KL15] Remark 3.4.10, p. 82; [Sch12] Lemma 3.4(i), proof, p. 16). For a perfectoid
-field `K` and `R⁺ = K°` this is [Sch12] Lemma 3.4(i); for `R` of characteristic `p` the zeroth
-projection identifies `lim_{x↦x^p} R⁺` with `R⁺`. Every perfectoid Tate ring has a
+field `K` and `R⁺ = K°` this is [Sch12] Lemma 3.4(i). If `R` is also perfect of characteristic `p`,
+the zeroth projection identifies `lim_{x↦x^p} R⁺` with `R⁺` as topological rings. Here `R⁺` is
+perfect because a `p`-th root in `R` of an element of `R⁺` is integral over the integrally closed
+subring `R⁺`. The Lean statement `bijective_coeffZero_integralElements_of_perfectRing` carries
+`CharP R p` and `PerfectRing R p` and states the algebraic bijectivity of this projection.
+
+**Checks for the inverse-limit comparison.**
+
+- For `R = ℚ_p`, `R⁺ = ℤ_p` and `ϖ_0 = p`, both inverse limits are the Teichmüller
+  representatives, with their ring structure identified with `𝔽_p`; perfectoidness is unnecessary.
+- For `K` the completed perfection of `𝔽_p((t))`, the zeroth projection identifies
+  `lim_Frob K°` with `K°` in its valuation topology, as in `uniformTilt_charP`.
+- For `R = 𝔽_p((t))`, `R⁺ = 𝔽_p[[t]]` and `ϖ_0 = t`, the hypotheses hold and
+  `t ∣ p = 0`, but `lim_Frob R⁺ ≅ 𝔽_p`: the support of a series with `p^n`-th roots for every
+  `n` is divisible by every `p^n`, hence contains only exponent zero. The zeroth projection
+  includes the constants and misses `t`, which has valuation one and no `p`-th root.
+
+Every perfectoid Tate ring has a
 pseudo-uniformizer with compatible `p`-power roots (*exists-pseudouniformizer-with-compatible-roots*):
 for `R` perfectoid (the zero ring allowed) and `ϖ_1` a pseudo-uniformizer with `ϖ_1^p | p` in `R°`,
 there is `ϖ♭ ∈ lim_{x↦x^p} R°` with `ϖ := ϖ♭^{(0)} ≡ ϖ_1 mod ϖ_1^pR°`; then `ϖ = ϖ_1·u` with
@@ -3981,7 +4005,9 @@ B°}`; `B♭` is complete and Hausdorff; (b) for every ideal of definition `I �
 instance `I = (p, ϖ)` for a pseudo-uniformizer `ϖ ∈ B⁺`; Kedlaya asks `p ∈ I^p`), reduction
 `x ↦ (x^{(n)} mod I)_n` is an isomorphism of topological rings `B♭⁺ ≅ lim_Φ B⁺/I` (discrete
 factors), and, for `B ≠ 0` (so that `p` is not a unit of `B⁺`, as Mathlib's `PreTilt` requires),
-`B♭⁺ ≅ PreTilt B⁺ p`; (c) if `B` has a pseudo-uniformizer `ϖ` with `ϖ^p | p` in `B°`
+`B♭⁺ ≅ PreTilt B⁺ p` algebraically, with topology on `PreTilt` transported from
+`lim_Φ B⁺/I`, independently of `I`, rather than from discrete `B⁺/p` factors;
+(c) if `B` has a pseudo-uniformizer `ϖ` with `ϖ^p | p` in `B°`
 and compatible `p`-power roots, i.e. `ϖ = ϖ♭♯` for some `ϖ♭ ∈ B♭`, then `ϖ♭` is a pseudo-uniformizer
 of `B♭`, `B♭°` is open and bounded with the `ϖ♭`-adic topology, `B♭ = B♭°[1/ϖ♭]`, the spectral
 gauges satisfy `|x|_{ϖ♭} = |x♯|_ϖ`, and `B♭` is a complete uniform perfect Tate ring of
@@ -4072,9 +4098,14 @@ of integral elements (e.g. `R°`); `R ≠ 0` is needed, as otherwise `p` is a un
 `R⁺` satisfies Mathlib's standing hypotheses `Fact ¬IsUnit (p : R⁺)` and `IsAdicComplete (span {p})
 R⁺` (*integral-elements-adically-complete*, P1.2), and: (a) the subring `R♭⁺ = lim_{x↦x^p} R⁺` of
 `R♭` is isomorphic as a topological ring to Mathlib's `PreTilt R⁺ p = Perfection (ModP R⁺ p) p` via
-`x ↦ (x^{(n)} mod p)_n`: this is the case `ϖ_0 = p` of
-*inverse-limit-of-integral-elements-along-frobenius* (P1.4), i.e. `Perfection.quotientMulEquiv`
-with inverse built from `Perfection.teichmuller`; (b) under this isomorphism `x ↦ x♯` on `R♭⁺` is
+`x ↦ (x^{(n)} mod p)_n`: its algebraic multiplicative equivalence is
+`Perfection.quotientMulEquiv` for `I = (p)`, with inverse built from
+`Perfection.teichmuller`. Choose an actual pseudo-uniformizer `ϖ_0 ∈ R⁺` dividing `p` and give
+`PreTilt R⁺ p` the topology transported along the algebraic comparison
+`PreTilt R⁺ p ≃+* lim_Φ R⁺/ϖ_0`, with discrete `R⁺/ϖ_0` factors, from
+*inverse-limit-of-integral-elements-along-frobenius* (P1.4). This topology is independent of
+`ϖ_0` and makes the displayed map a homeomorphism; no discreteness of `R⁺/p` is assumed.
+(b) Under this isomorphism `x ↦ x♯` on `R♭⁺` is
 Mathlib's `PreTilt.untilt : PreTilt R⁺ p →* R⁺` (which is `Perfection.teichmuller` for `I = (p)`),
 `PreTilt.coeff 0` is `♯ mod p` (`PreTilt.mk_untilt_eq_coeff_zero`), and the root compatibility
 `(x^{1/p^n})♯^{p^n} = x♯` is `PreTilt.untilt_iterate_frobeniusEquiv_symm_pow`; (c) `R♭ ≅ (PreTilt
@@ -4089,6 +4120,19 @@ Mathlib's `Tilt` and `PreTilt.val`, is compared in P1.15) ([BMS] Lemma 3.2(i), p
 (P1.4); P1.5; Mathlib `PreTilt`, `PreTilt.untilt`, `PreTilt.mk_untilt_eq_coeff_zero`,
 `PreTilt.coeff`, `Perfection.quotientMulEquiv`, `Perfection.coeff_zero_symm_quotientMulEquiv`,
 `ModP`, `Localization.Away`.
+
+**Checks.**
+
+- For `R = ℂ_p`, reduction of every coordinate modulo `p` gives the algebraic comparison
+  `PreTilt 𝒪_{ℂ_p} p ≅ (ℂ_p)♭°`; `PreTilt.untilt p♭ = p` and `PreTilt.coeff 0 p♭ = 0`.
+- For `K` the completed perfection of `𝔽_p((t))`, the transported topology identifies
+  `PreTilt K° p` with the nondiscrete valuation ring `K°`: the nonzero sequence `t^n` tends to
+  zero. If instead each factor `K°/p = K°` is discrete, the Frobenius inverse limit is discrete,
+  since its bijective zeroth projection has open singleton fibres. These topologies differ.
+- For a pseudo-uniformizer `ϖ ∈ R⁺` with `ϖ^p ∣ p`, using `ϖ` or `ϖ^p` gives the same
+  transported topology: both inverse-limit comparisons are homeomorphisms with
+  `lim_{x↦x^p} R⁺` in its subspace topology, and the transition induced by
+  `R⁺/ϖ^p → R⁺/ϖ` preserves reduction of every coordinate.
 
 ### P1.9 the almost setup of a perfectoid Tate ring
 

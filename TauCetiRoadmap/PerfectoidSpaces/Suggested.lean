@@ -448,6 +448,24 @@ instance IsPerfectoidTateRing.prod (p : ℕ) [Fact p.Prime] {R S : Type*} [CommR
     [IsTateRing S] [CompleteSpace S] [T2Space S] [IsPerfectoidTateRing p R]
     [IsPerfectoidTateRing p S] : IsPerfectoidTateRing p (R × S) := sorry
 
+/-! ### Frobenius inverse limits of integral elements -/
+
+/-- For a perfect characteristic-`p` complete uniform Tate ring, the zeroth projection identifies
+the Frobenius inverse limit of any ring of integral elements with that ring. Integral closedness
+keeps the unique roots inside the integral subring (ECD Proposition 3.5; README P1.4). -/
+theorem bijective_coeffZero_integralElements_of_perfectRing (p : ℕ) [Fact p.Prime]
+    {R : Type*} [CommRing R] [UniformSpace R] [IsUniformAddGroup R] [IsTopologicalRing R]
+    [IsTateRing R] [CompleteSpace R] [T2Space R] [IsUniform R] [CharP R p]
+    [PerfectRing R p] (P : Pair R) :
+    Function.Bijective (Perfection.coeffMonoidHom P.plus p 0) := sorry
+
+-- The quotient comparison is algebraic; its coordinate formula needs no topology on `A/I`.
+example (p : ℕ) [Fact p.Prime] {A : Type*} [CommRing A] (I : Ideal A)
+    [CharP (A ⧸ I) p] [IsAdicComplete I A] (x : Perfection A p) (n : ℕ) :
+    Perfection.coeff (A ⧸ I) p n (Perfection.quotientMulEquiv p I x) =
+      Ideal.Quotient.mk I (Perfection.coeffMonoidHom A p n x) :=
+  Perfection.coeff_quotientMulEquiv x n
+
 /-! ### Compatible `p`-power roots -/
 
 section Roots
