@@ -311,10 +311,11 @@ against the identity. -/
 def fixedSubgroup {G : Type*} [Group G] (F : G →* G) : Subgroup G :=
   F.eqLocus (MonoidHom.id G)
 
-/-- The points over an algebraic closure of the explicitly pinned simply connected
-Chevalley--Demazure group attached to the valid index `d`. The implementation must expose and use
-the root datum, pinning, base change, points, and root-subgroup maps specified in `README.md`, not a
-group chosen from an existence or classification theorem. -/
+/-- The ambient group attached to the valid index `d`: the points over an algebraic closure of the
+explicitly pinned simply connected Chevalley--Demazure group, or, under the explicit-carrier rule of
+`README.md`, a concrete carrier with named root subgroups that then owes the `L5` agreement with the
+pinned group. Either way the implementation must expose the root-subgroup maps specified in
+`README.md`, and neither may be a group chosen from an existence or classification theorem. -/
 def ValidLieTypeIndex.AmbientGroup (_d : ValidLieTypeIndex) : Type := sorry
 
 /-- The group structure on the algebraic group's points. -/
@@ -332,8 +333,10 @@ example (d : ValidLieTypeIndex) : IsAlgClosed d.Closure := inferInstance
 example (d : ValidLieTypeIndex) : CharP d.Closure d.characteristic := inferInstance
 
 /-- The numbered simple root subgroup `x_{α_i}` of the pinning, as a map from the additive group of
-the algebraic closure. The full root-subgroup family is part of L0's contract; this is the piece the
-equations below are stated against, and the piece a pinning normalizes. -/
+the algebraic closure. The full root-subgroup family is part of the pinned route's contract, and an
+explicit carrier owes the positive and negative simple root subgroups and generation by them, as
+`README.md` states under L0; this is the piece the equations below are stated against, and the piece
+a pinning normalizes. -/
 def ValidLieTypeIndex.simpleRootSubgroup (d : ValidLieTypeIndex) (i : Fin d.rank)
     (t : d.Closure) : d.AmbientGroup := sorry
 
@@ -346,8 +349,8 @@ theorem ValidLieTypeIndex.simpleRootSubgroup_add (d : ValidLieTypeIndex) (i : Fi
 def ValidLieTypeIndex.frobenius (d : ValidLieTypeIndex) : d.AmbientGroup →* d.AmbientGroup := sorry
 
 /-- `Frob_q (x_α(t)) = x_α(t ^ q)` on the numbered simple root subgroups. The corresponding
-statement for the full root-subgroup family is part of L0's contract; this file displays the
-simple-root case because it is what the maps below are pinned against. -/
+statement holds on every root subgroup a carrier names; this file displays the simple-root case
+because it is what the maps below are pinned against. -/
 theorem ValidLieTypeIndex.frobenius_simpleRootSubgroup (d : ValidLieTypeIndex) (i : Fin d.rank)
     (t : d.Closure) :
     d.frobenius (d.simpleRootSubgroup i t) = d.simpleRootSubgroup i (t ^ d.fieldOrder) := sorry

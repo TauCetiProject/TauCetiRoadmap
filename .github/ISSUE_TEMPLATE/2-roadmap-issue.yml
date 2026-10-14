@@ -16,42 +16,61 @@ body:
       options:
         - AdicSpaces
         - AlgebraicCurves
+        - AlgebraicTopology
+        - AlgebraicVectorBundles
         - AnalyticToricGeometry
         - ArithmeticDirichletSeries
         - BelyiMaps
         - CFSGStatement
         - Chebotarev
         - ClassFieldTheory
+        - ClassifyingSpaces
         - CombinatorialHeegaardFloer
         - ConformalMapping
         - DGAInfinity
+        - DGFloer
         - DenseGraphLimits
+        - DifferentialGeometry
+        - DiophantineApproximationAndTranscendence
         - EllipticCurves
         - Exchangeability
+        - FormalLaurentPuiseux
+        - FuchsianOrbifolds
+        - GeometricMeasureTheory
         - GeometricTopology
         - GlobalNumberFields
         - GlobalQuadraticForms
         - GrothendieckEulerForms
         - HeegaardFloer
-        - HodgeStructures
         - HopfRinow
+        - IntegralLattices
+        - Isoperimetry
         - JacobianChallenge
         - LocalFieldsRamification
+        - LocalGaloisGroups
+        - ModularCurves
         - ModularForms
-        - Multiquadratic
         - NumberFieldArithmetic
         - OneParameterSemigroups
+        - OperatorTheory
         - OptimalTransport
+        - OrthogonalSpinGroups
         - PDE
+        - PadicMeasuresIwasawaAlgebras
+        - PeripheralActions
+        - PivotalSpherical
         - PolynomialGaloisGroups
+        - ProfiniteArithmetic
         - ProfiniteCohomology
         - ProfiniteProPGroups
         - QuadraticFormInvariants
+        - RealAlgebraicGeometry
         - ReductiveGroups
         - RepresentationTheory
+        - SchemeAndStackFoundations
+        - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
-        - UniversalCovers
         - ZigzagPreprojective
     validations:
       required: true

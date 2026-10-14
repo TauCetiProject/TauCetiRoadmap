@@ -21,9 +21,18 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
 - [**Induction, restriction, and Mackey theory**](InductionRestriction/README.md) - induced and
   restricted representations, Frobenius reciprocity, the projection formula, induced characters, the
   Mackey decomposition and irreducibility criterion, and Clifford theory.
+- [**Induction theorems in Grothendieck groups of modular representations**](ModularInduction/README.md)
+  - the Grothendieck group `G₀(k[G])` over an arbitrary field as a ring with restriction, induction,
+  and permutation classes, the reduction of `G`-modules modulo `ℓ`, and Artin's induction theorem in
+  `G₀` in every characteristic, including the modular form consumed by the local Euler
+  characteristic formula.
 - [**Root systems, Weyl groups, and the Cartan-Killing classification**](RootSystems/README.md) - the
   shared combinatorial foundation: root systems, the Weyl group as a Coxeter system, positive roots and
   the fundamental domain, and the Dynkin-diagram classification.
+- [**The Ado–Iwasawa theorem and faithful finite-dimensional Lie representations**](AdoIwasawa/README.md)
+  - the arbitrary-field embedding of every finite-dimensional Lie algebra in an endomorphism algebra,
+  built through finite-dimensional enveloping-algebra targets, derivation-stable cofinite ideals in
+  characteristic zero, and central `p`-polynomials with Krull intersection in positive characteristic.
 - [**Semisimple Lie algebras: sl₂, highest weight, and the Weyl character formula**](LieHighestWeight/README.md)
   - sl₂ as the engine case, the root-space decomposition, weights, Verma modules and `L(λ)`, the
   highest-weight classification, Weyl's complete reducibility, the Weyl character and dimension
@@ -64,6 +73,12 @@ primary and Mathlib-native; the analytic and categorical layers are introduced w
   where Schur-Weyl duality and Young symmetrizers connect to the symmetric group. The highest-weight
   roadmap's reductive `gl_n` layer supplies the Lie-algebra half of the classical-groups dictionary,
   matching `DominantWeight n` up to the non-integral central direction.
+- **PBW feeds both Ado–Iwasawa and Lie highest weight.** The highest-weight roadmap owns the concrete PBW
+  project; Ado–Iwasawa consumes its injectivity, ordered-monomial, filtration, domain, and Noetherian
+  consequences, then develops the cofinite-quotient machinery that is independent of highest weights.
+- **Ado–Iwasawa → Lie's third theorem.** The real specialization supplies the matrix embedding used by the
+  Lie-groups roadmap to integrate an arbitrary finite-dimensional real Lie algebra. The full
+  arbitrary-characteristic theorem remains algebraic and does not depend on Lie groups.
 - **Character theory is the finite case of compact groups.** Peter-Weyl, restricted to a finite group,
   recovers the finite-group character theory, and the two share the orthogonality machinery.
 - **Lie groups sit under the Lie-algebra and compact-group theory.** The Lie-group roadmap builds the
@@ -93,11 +108,13 @@ Schur-Weyl roadmap borders [Temperley-Lieb](../TemperleyLieb/README.md).
 Three deliberate exclusions bound this family; they are choices, not omissions, and roadmaps for the
 excluded material are welcome as separate future work.
 
-- **No modular representation theory of finite groups.** Where individual roadmaps work over general
-  fields or rings they say so (the semisimple-algebra and quiver-representation theory is stated over
-  arbitrary fields, and the induction/restriction functorial layer over commutative rings), but the
-  modular theory proper — Brauer characters, decomposition matrices, blocks with defect, the modular
-  representation theory of symmetric groups — is out of scope for every roadmap here.
+- **No modular representation theory proper.** Where individual roadmaps work over general fields
+  or rings they say so (the semisimple-algebra and quiver-representation theory is stated over
+  arbitrary fields, and the induction/restriction functorial layer over commutative rings), and
+  Grothendieck groups of modular representations, with the induction theorems stated in them, are in
+  scope (the [modular-induction roadmap](ModularInduction/README.md)); but the modular theory
+  proper — Brauer characters, decomposition matrices, blocks with defect, the modular representation
+  theory of symmetric groups — is out of scope for every roadmap here.
 - **Finite and compact groups only, on the unitary side.** The analytic representation theory stops at
   compact groups (Peter-Weyl, compact Frobenius-Schur): no infinite-dimensional unitary
   representations of noncompact groups, no Plancherel theory, no tempered spectrum. The *structure*
