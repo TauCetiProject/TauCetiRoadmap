@@ -340,6 +340,11 @@ example : ¬ (classical ℤ).IsAlmostIso (2 • (LinearMap.id : ℤ →ₗ[ℤ] 
 -- Check: `m ↪ V` is an almost isomorphism.
 example : S.IsAlmostIso S.ideal.subtype := sorry
 
+-- Check: every linear map is an almost isomorphism for the zero setup.
+example {M N : Type u} [AddCommGroup M] [Module V M]
+    [AddCommGroup N] [Module V N] (f : M →ₗ[V] N) :
+    (zero V).IsAlmostIso f := sorry
+
 -- Check: the all-one chain gives the classical setup; the all-zero chain gives `m = 0`.
 example (p : ℕ) (hp : 2 ≤ p) :
     ofCompatibleRoots p hp (fun _ ↦ (1 : V)) (fun _ ↦ one_pow p) = classical V := sorry
@@ -530,6 +535,11 @@ theorem almostSetup_isAlmostZero_iff [IsPerfectoidTateRing p R] (M : Type*) [Add
     (almostSetup p R).IsAlmostZero M ↔
       ∀ ϖ : powerBoundedSubring R, IsPseudoUniformizer (ϖ : R) → ∀ x : M, ϖ • x = 0 := sorry
 
+-- Check: every module over a zero perfectoid base is almost zero.
+example [IsPerfectoidTateRing p R] [Subsingleton R]
+    (M : Type*) [AddCommGroup M] [Module (powerBoundedSubring R) M] :
+    (almostSetup p R).IsAlmostZero M := sorry
+
 end AlmostSetup
 
 /-! ### Perfectoid fields -/
@@ -559,6 +569,15 @@ theorem IsPerfectoidField.valueGroup_pDivisible [IsPerfectoidField p K] (x : K) 
 instance isPerfectoidField_padicComplex : IsPerfectoidField p ℂ_[p] := sorry
 
 end Field
+
+-- Checks: the perfectoid almost setup kills the residue field of `ℂ_p`, but not `𝒪/p`.
+example (p : ℕ) [Fact p.Prime] :
+    (almostSetup p ℂ_[p]).IsAlmostZero
+      ((powerBoundedSubring ℂ_[p]) ⧸ topologicallyNilpotentIdeal ℂ_[p]) := sorry
+example (p : ℕ) [Fact p.Prime] :
+    ¬ (almostSetup p ℂ_[p]).IsAlmostZero
+      ((powerBoundedSubring ℂ_[p]) ⧸
+        Ideal.span {(p : powerBoundedSubring ℂ_[p])}) := sorry
 
 /-- Kedlaya's theorem: a perfectoid Tate ring which is a field has its topology defined by a
 nontrivial nonarchimedean absolute value (KBF Theorem 4.2, p. 13; AWS Theorem 2.9.1). -/

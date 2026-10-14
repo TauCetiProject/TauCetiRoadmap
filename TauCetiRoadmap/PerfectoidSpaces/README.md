@@ -44,8 +44,9 @@ Each layer's Dependencies paragraph names, subsection by subsection, the targets
 that it uses; several of those roadmaps (AdicEtaleGeometry, AdicSpacesPartIV) also use targets of
 this one, so the dependency relation is between subsections, and the roadmaps are not ordered as
 wholes. PerfectoidTowers imports both PerfectoidSpaces and DiamondsAndVStacks; diamond objects,
-spatial presentations, and coefficient descent using diamonds belong to those two roadmaps. This
-roadmap owns no topology on perfectoid spaces: P7 uses only the raw compact-open covering condition
+spatial presentations, and coefficient descent using diamonds belong to those two roadmaps. The
+v-topology on perfectoid spaces belongs to DiamondsAndVStacks: P7 uses only the raw compact-open
+covering condition
 (Mathlib `IsCompactOpenCovered`), while the v-site built on that condition belongs to
 DiamondsAndVStacks, its precoverage and topology to D2.2 and its subcanonicity and v-descent to
 D2.7. The ordinary cotangent complex of a ring map belongs to the DerivedDeRhamCohomology roadmap,
@@ -580,7 +581,9 @@ and [AdicSpacesPartIII (`46632e7`)](https://github.com/TauCetiProject/TauCetiRoa
 
 #### P1
 
-P1 uses no declaration of these roadmaps. The perfectoid frame predicate is P1.1's own
+P1 uses AdicSpacesPartII R0.4 for Tate norm data and the spectral seminorm (P1.3), and
+AdicSpacesPartIII R3.9 for the Gel'fand spectrum (P1.12–P1.13). It uses no subsection of
+AdicEtaleGeometry or AdicSpacesPartIV. The perfectoid frame predicate is P1.1's own
 `Perfectoid.IsPerfectoidTateRing`, which AdicEtaleGeometry and AdicSpacesPartIV R5 use directly;
 the modulo-`p` formulation they need is `IsPerfectoidTateRing.iff_frobenius_surjective_modP`.
 
@@ -707,7 +710,7 @@ roadmap's perfectoid results and represented-functor comparisons.
 ## Internal dependencies
 
 These are constructions owned by this roadmap, ordered by the consuming layer. The second column
-names the earlier target; where a construction is a declaration of `Suggested.lean` today, the
+names the earlier target; where a construction is a declaration of `Suggested.lean`, the
 column says so, and otherwise the construction is specified in this README only, under the
 proposed name given.
 
@@ -3819,7 +3822,7 @@ The carrier in the cyclotomic Check is `completedPerfectLaurentFp`: start with
 `t^{1/p^n}`, form its t-adic completion `PerfectLaurentIntegral`, and invert the image
 `perfectLaurentParameter` of t. `perfectLaurentRoot n` is the image of that monomial in
 the localization. `perfectLaurentTopology_basis` specifies the topology by powers of t
-multiplying the integral completion ([ECD] Example 3.4(i), p. 15, and Lemma 3.10, p. 16).
+multiplying the integral completion ([ECD] Example 3.4(ii), p. 15, and Lemma 3.10, p. 16).
 **Checks.** Each of these six constructions has the same three checks, with names
 `<definition>_roots`, `<definition>_parameter`, and `<definition>_characteristic`:
 successive roots have p-th power the preceding root; t is a nonunit in the integral
@@ -4178,7 +4181,7 @@ is almost zero for `i > 0` ([ECD] Theorem 3.24; layer P2). *Needs:*
   basic setup; `ℤ_p/p` is killed by `p` but not by an idempotent ideal containing `p`.
 - `almost_zero_base` (degenerate) — for `R = 0` every module is almost zero.
 - `almost_principal_quotient` (characterisation) — for `K = ℂ_p`, the `𝒪`-module `𝒪/m` is almost
-  zero while `𝒪/p^{1/p}𝒪` is not (`p^{1/p²}` does not kill it).
+  zero while `𝒪/p𝒪` is not (`p^{1/p}` does not kill the class of `1`).
 - `almostModuleEquivPlus_test` (compatibility) — for `K` the completed perfection of
   `𝔽_p(x)((t))` and `K⁺ ⊊ K°` the preimage of the valuation ring `𝔽_p[x]^{perf}_{(x)}` of the
   residue field `𝔽_p(x)^{perf}` (an open valuation subring of rank `2`, with `K°° ⊊ K⁺`),
@@ -14399,6 +14402,10 @@ non-reduced example)). *Needs:* AdicEtaleGeometry A1.16; P1.1; P2.10; Mathlib `A
   `(K, O_K)`.
 - `isPreperfectoid_test_perfectoid` (degenerate) — every perfectoid space is preperfectoid, with
   every affinoid perfectoid its own strong completion.
+- Boundary: the zero-variable formal disc has generic fibre `Spa(ℚ_p, ℤ_p)`, whose strong
+  completion is itself. It fails `IsPreperfectoid` because `ℚ_p` is not perfectoid
+  ([ECD] Remark 3.3, p. 14), although every base change to a characteristic-zero perfectoid
+  field `K` is `Spa(K, K°)`, so it satisfies [SW13] Definition 2.3.9.
 - `isPreperfectoid_test_disc_not` (non-example) — for a perfectoid field `K`, the closed unit disc
   `D = Spa(K⟨T⟩, K°⟨T⟩)` is not preperfectoid: every nonempty open affinoid of `D` is `Spa(A, A⁺)` with `A` a
   reduced one-dimensional `K`-affinoid algebra and `A⁺` bounded, so the strong completion is
@@ -15539,8 +15546,13 @@ and the residue-field sense, has no nonsplit finite étale covers, and
 `Z_p`-algebra, the uniform completion of `colim A_i` is perfectoid,
 `Spd(Â_∞, Â_∞⁺) = lim Spd(A_i, A_i⁺)` and `Spa(Â_∞, Â_∞⁺) ~ lim Spa(A_i, A_i⁺)` ([ECD] Lemma 15.3,
 Proposition 15.4); `T(G)^{ad} ~ lim G[p^n]^{ad}` ([SW13] §3, proof of Proposition 3.3.2); the
-generic fibre of `Spf Z_p⟦X_1^{1/p^∞}, …, X_n^{1/p^∞}⟧` over `Spa(Q_p, Z_p)` is preperfectoid
-([SW13] Proposition 2.3.13); for a perfectoid field `K` the strong completion of
+generic fibre of `Spf Z_p⟦X_1^{1/p^∞}, …, X_n^{1/p^∞}⟧` is preperfectoid relative to
+`Spa(Q_p, Z_p)` in [SW13] Definition 2.3.9: after each base change to a characteristic-zero
+perfectoid field it has perfectoid strong completions locally ([SW13] Example 2.3.12,
+Proposition 2.3.13 and the paragraph following it, p. 19). This relative condition does not
+imply P7.7's `IsPreperfectoid` before base change; the zero-variable case is
+`Spa(Q_p, Z_p)`, which fails that absolute condition. For a perfectoid field `K` the strong
+completion of
 `Spa(K[ε]/(ε²), O_K + Kε)` is `Spa(K, O_K)`, with `Spa(K, O_K) ~ Spa(K[ε]/(ε²), O_K + Kε)` although
 the two spaces differ, while for `X` perfectoid `X̂ = X`; the perfected projective space
 `((P^n)^{ad})^{perf} ~′ lim_φ (P^n)^{ad}` over a perfectoid field of characteristic `p` ([Sch12] Theorem 8.5)
