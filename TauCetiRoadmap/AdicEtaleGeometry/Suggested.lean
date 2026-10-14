@@ -40,8 +40,6 @@ The étale, finite étale and pro-étale sites, strict localisations, Yoneda-adi
 completed tower and the perfectoid torsor presentation are README targets.
 -/
 
-set_option autoImplicit false
-
 open TauCetiRoadmap.AdicSpacesPartII.AdicSpace
   (Chart HomChart Affinoid IsAdic IsAnalytic IsFinite Etale Smooth IsLocallyNoetherian
     LocallyOfWeaklyFiniteType)
@@ -890,15 +888,14 @@ variable {A : Type*} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
 
 /-- The completed rational localisation `A⟨T/s⟩`: Tau Ceti's completion of `A[1/s]` for the
 localisation topology of the pair of definition `P`. -/
-def ratLoc : Type _ :=
+abbrev ratLoc : Type _ :=
   @UniformSpace.Completion (Localization.Away s) (P.locUniformSpace T s _ hden)
 
 instance : UniformSpace (ratLoc P T s hden) :=
   @UniformSpace.Completion.uniformSpace _ (P.locUniformSpace T s _ hden)
 
-set_option warn.classDefReducibility false in
 /-- The ring structure of `A⟨T/s⟩`, that of the completion. -/
-def ratLocCommRing : CommRing (ratLoc P T s hden) :=
+abbrev ratLocCommRing : CommRing (ratLoc P T s hden) :=
   letI := P.locUniformSpace T s (Localization.Away s) hden
   haveI := P.isUniformAddGroup_locUniformSpace T s (Localization.Away s) hden
   haveI := P.isTopologicalRing_locUniformSpace T s (Localization.Away s) hden
@@ -923,7 +920,9 @@ instance : CompleteSpace (ratLoc P T s hden) :=
 
 instance : T2Space (ratLoc P T s hden) :=
   letI := P.locUniformSpace T s (Localization.Away s) hden
-  inferInstanceAs (T2Space (UniformSpace.Completion (Localization.Away s)))
+  @T25Space.t2Space _ _ (@T3Space.t25Space _ _
+    { toT0Space := UniformSpace.Completion.t0Space (Localization.Away s)
+      toRegularSpace := UniformSpace.to_regularSpace })
 
 instance : Algebra A (ratLoc P T s hden) :=
   letI := P.locUniformSpace T s (Localization.Away s) hden
