@@ -4,11 +4,11 @@
 `p`-adic cohomology and families of modular forms are built. Layer R4 places the étale and corrected
 pro-étale sites of AdicEtaleGeometry on locally noetherian analytic adic spaces, proves their
 functoriality and slice descriptions there, compares the étale topos of a rigid analytic variety
-with that of its adic space (Huber's Proposition 2.1.4) and of a scheme of finite type with that of
-its analytification, and defines smooth pairs — a smooth adic space with a strict normal crossings
+with that of its adic space (Huber's Proposition 2.1.4), uses AdicEtaleGeometry A2.6a
+for the morphism of sites of analytification, and defines smooth pairs — a smooth adic space with a strict normal crossings
 boundary — with the restriction of both sites to the boundary complement and the functors `j^{-1}`,
-`j_*`, `j_!`. Layer R5 develops sousperfectoid rings and spaces (stability under rational
-localisation, finite étale maps and Tate algebras, uniformity, sheafiness), proves that the product
+`j_*`, `j_!`. Layer R5 uses PerfectoidSpaces P3.17a–P3.17b for sousperfectoid rings,
+spaces and polydisc products, proves that the product
 of a perfectoid space with a smooth rigid space exists and is sousperfectoid with a tilde-limit
 presentation (Birkbeck–Heuer–Williams, Corollaries 3.4–3.5), and builds the coefficient algebras and
 sheaves `𝒪_X ⊗̂ R` of Chojecki–Hansen–Johansson with Tate acyclicity, localisation and coherence,
@@ -31,26 +31,27 @@ sites of [AdicEtaleGeometry](../AdicEtaleGeometry/README.md).
 
 | Layer | Title | What it builds |
 |---|---|---|
-| R4 | Étale and pro-étale sites | the sites of AdicEtaleGeometry layer A1 on these carriers (locally noetherian analytic spaces), functoriality, rigid and algebraic comparisons, smooth pairs, boundary complements |
-| R5 | Families and sousperfectoid spaces | sousperfectoid rings and spaces, perfectoid × smooth, tilde-limits, coefficient algebras and sheaves |
+| R4 | Étale and pro-étale sites | the sites of AdicEtaleGeometry layer A1 on these carriers (locally noetherian analytic spaces), functoriality, rigid comparison, smooth pairs, boundary complements |
+| R5 | Families and sousperfectoid spaces | perfectoid × smooth and its tilde-limit presentation, coefficient algebras and sheaves |
 | F1 | Dagger geometry and overconvergent de Rham complexes | dagger algebras and spaces, weak completions, strict neighbourhoods, differential operators, de Rham complexes and de Rham cohomology with supports, duality, finiteness relative to Monsky–Washnitzer finiteness |
 
+Dependencies: AdicSpaces §§0–5; AdicSpacesPartII R0, R1; AdicSpacesPartIII F0, R2, R3;
+AdicEtaleGeometry A1.0.4, A1.1–A1.16, A1.6a, A2.6a; PerfectoidSpaces P1, P2, P3.10,
+P3.17a–P3.17b; SchemeAndStackFoundations §§0.21, 4.17, 4.20; RigidAnalyticGeometry §§1–8.
+
 ```text
-AdicSpacesPartII R0–R1, AdicEtaleGeometry A1, SchemeAndStackFoundations §4.17 → R4
-R4, AdicSpacesPartII R0, AdicSpacesPartIII F0/R2/R3, AdicEtaleGeometry A1 → R5.6–R5.8
-AdicSpacesPartII R0, AdicSpacesPartIII R3, AdicEtaleGeometry A1, R5.6–R5.8,
-  PerfectoidSpaces P1.1/P1.10/P1.30/P1.31/P2.3/P2.9/P2.10/P3.10 → R5.1–R5.5
+AdicSpacesPartII R0–R1, AdicEtaleGeometry A1/A2.6a, SchemeAndStackFoundations §4.17 → R4
+R4, AdicSpacesPartII R0/R0.20, AdicSpacesPartIII F0/R2/R3, AdicEtaleGeometry A1/A1.6a → R5.6–R5.11
+AdicSpacesPartII R0/R0.20, PerfectoidSpaces P1/P2/P3.17a–P3.17b → R5.5
 AdicSpacesPartII R0–R1, AdicSpacesPartIII R2/R3, R4, SchemeAndStackFoundations §0.21/§4.17/§4.20,
-  PerfectoidSpaces P3.1 → F1
+  AdicEtaleGeometry A1.0.4 → F1
 ```
 
-The arrows run between subsections, not whole roadmaps. R5.6–R5.8 (coefficient algebras and
-sheaves, the generic stable-basis results *stable-basis-covering-reduction* and
-*stable-basis-etale-vector-bundles*, tilde-limits) use no PerfectoidSpaces target; PerfectoidSpaces
-P3.19 uses *stable-basis-etale-vector-bundles*, P6 uses R5.4 and P7.1 uses
-*tilde-limits-affinoid-criterion*, and none of the PerfectoidSpaces subsections that R5 uses depends
-on R5. F1 uses only PerfectoidSpaces P3.1 (Elkik's approximation theorem), which uses nothing from
-this roadmap.
+AdicSpacesPartII R0.20.1–R0.20.2 supplies the generic tilde-limit relation, its affinoid and
+completed-direct-limit criteria and its base-change theorem. AdicEtaleGeometry A1.6 and A1.6a
+supply covering reduction and vector bundles on stable étale bases. PerfectoidSpaces
+P3.17a–P3.17b supplies the sousperfectoid foundations used by the smooth-product theorem.
+F1 uses AdicEtaleGeometry A1.0.4 for Elkik's approximation theorem.
 
 ## Scope and ownership
 
@@ -61,21 +62,18 @@ The roadmap owns, layer by layer:
   geometric points with their stalk compatibility and Scholze's point morphisms are A1's and are
   cited in one sentence each; R4's own targets are the functoriality of the pro-étale site on these
   carriers, the compatibility of `f_proét` with the point morphisms, the rigid comparison, the
-  analytification morphism `λ_X`, smooth pairs with their intrinsic characterisation, the
+  smooth pairs with their intrinsic characterisation, the
   analytification of strict normal crossings pairs and the restriction to a boundary complement.
   R4 builds no second site.
-- R5: sousperfectoid rings and the stability of the class, stable uniformity and sheafiness,
-  sousperfectoid spaces, products of perfectoid spaces with smooth rigid spaces, coefficient algebras
-  and coefficient sheaves of `p`-adic families, with Kiehl's theorem for finite free coefficient
-  algebras and projectivity of locally projective localised modules. Global generation of coherent
-  coefficient sheaves for a coefficient algebra with an infinite pseudobasis (finite generation of
-  `F(X)` and `F ≅ Loc(F(X))`, the statement of CHJ Theorem 6.20) is not a target of this roadmap.
-  The relation `AdicSpace.IsTildeLimit` and its affinoid and base-change
-  theorems are stated in R5.8. Perfectoid Tate rings use PerfectoidSpaces P1.1's predicate
-  `Perfectoid.IsPerfectoidTateRing` unchanged, and the basis comparison on a stable basis is
-  AdicEtaleGeometry layer A1 (*basis-comparison*); R5 states the covering reduction for an
-  arbitrary stable class of affinoid objects (*stable-basis-covering-reduction*), the argument of
-  A1's *etale-covering-reduction* transported.
+- R5: products of perfectoid spaces with smooth rigid spaces and their tilde-limit presentations,
+  coefficient algebras and coefficient sheaves of `p`-adic families, with Kiehl's theorem for
+  finite free coefficient algebras and projectivity of locally projective localised modules.
+  Global generation of coherent coefficient sheaves for a coefficient algebra with an infinite
+  pseudobasis (finite generation of `F(X)` and `F ≅ Loc(F(X))`, the statement of CHJ Theorem 6.20)
+  is not a target of this roadmap. PerfectoidSpaces P3.17a owns sousperfectoid rings, frames,
+  stability, sheafiness and spaces, and P3.17b owns the polydisc product. AdicSpacesPartII
+  R0.20.1–R0.20.2 owns the generic tilde-limit relation and criteria. AdicEtaleGeometry A1.6
+  owns covering reduction on a stable basis and A1.6a owns its vector-bundle equivalence.
 - F1: overconvergent power series, dagger algebras, fringe presentations and the fringe topology,
   tensor products and rational localisation, weak completions and algebras of Monsky–Washnitzer
   type, affinoid dagger spaces, dagger spaces with coherent modules and strict neighbourhoods, the
@@ -96,13 +94,14 @@ APIs are used directly; cited roadmap suppliers own the contracts below. Tau Cet
 Mathlib's API decisions and builds every needed target here without waiting for upstream work.
 
 AdicSpaces and AdicSpacesPartII own Huber pairs, adic spaces, completed tensor products, fibre
-products, Huber's morphism classes, rigid spaces and analytification; AdicSpacesPartIII owns adic
-rings, formal schemes, generic fibres, admissible blow-ups, coherent sheaves, Kiehl's theorems and
-GAGA; PerfectoidSpaces P1.1 owns the perfectoid Tate-ring predicate
+products, Huber's morphism classes, rigid spaces and analytification; AdicSpacesPartII R0.1a–R0.1b
+owns adic rings and noetherian adic completion; AdicSpacesPartIII owns formal schemes, generic
+fibres, admissible blow-ups, coherent sheaves, Kiehl's theorems and GAGA; PerfectoidSpaces P1.1 owns the perfectoid Tate-ring predicate
 `Perfectoid.IsPerfectoidTateRing`, which R5 uses unchanged; AdicEtaleGeometry owns strongly sheafy
 rings, étale morphisms by local description and the étale, pro-étale and finite étale sites;
-PerfectoidSpaces owns perfectoid spaces, perfectoid rational localisation, almost purity, tilting
-and Elkik's approximation theorem (P3.1); SchemeAndStackFoundations owns excellent rings (SF.0) and
+PerfectoidSpaces owns perfectoid spaces, perfectoid rational localisation, almost purity and
+tilting; AdicEtaleGeometry A1.0.4 owns Elkik's approximation theorem; SchemeAndStackFoundations
+owns excellent rings (SF.0),
 strict normal crossings divisors and de Jong's alteration theorem (SF.4). Derived étale cohomology,
 comparison theorems and rigid cohomology belong to the étale-cohomology and rigid-cohomology
 roadmaps that import this one; a proof there of (MWF) that discharges the hypothesis of F1.11 must
@@ -148,7 +147,7 @@ not use F1.11.
     `AnalyticSites`, `AdicSpace`, `RigidSpace`, `Huber`, `Dagger`, `DaggerSpace` and
     `FormalGeometry`, with coefficient constructions in `RigidSpace.Coefficients`;
     `Suggested.lean` uses `SmoothPair` for the chart-level smooth-pair definitions, `Huber` for
-    R5's rings and coefficient algebras, `AdicSpace` for R5's spaces and `Dagger` for F1. The
+    R5's coefficient algebras, `AdicSpace` for R5's smooth product and `Dagger` for F1. The
     perfectoid Tate-ring predicate is PerfectoidSpaces P1.1's
     `TauCetiRoadmap.PerfectoidSpaces.Perfectoid.IsPerfectoidTateRing`, imported unchanged.
 13. **Targets.** Each target below is a definition, construction, theorem or comparison, written
@@ -179,11 +178,11 @@ not use F1.11.
 | `AlgebraicGeometry.Scheme.IdealSheafData.ofIdealTop`, `subschemeι`; `AlgebraicGeometry.Scheme.basicOpen` | `Mathlib/AlgebraicGeometry/IdealSheaf/Basic.lean`; `Mathlib/AlgebraicGeometry/IdealSheaf/Subscheme.lean`; `Mathlib/AlgebraicGeometry/Scheme.lean` | The origin and two-axis analytification Checks use the actual ideal sheaf, its closed subscheme, and its principal open complement. |
 | `TauCeti.PreAdicSpace.IsOpenImmersion.ofRestrict` | `TauCeti/AlgebraicGeometry/AdicSpace/PreAdicSpace/OpenImmersion.lean:71` | Every open restriction inclusion is an open immersion; R4.7 specialises this instance to the boundary complement `j : U → X`. |
 | AdicSpacesPartII R1 *rigid-analytification*, *rigid-adic-comparison-functor* (the rigid analytification, Huber's functor `r` and the field affinoid `Spa(K, K°)`); AdicEtaleGeometry A0.6 (the comparison of the complete-pair spectrum with the Part II affinoid spectrum, fixing coefficients) | `TauCetiRoadmap/AdicSpacesPartII/README.md`; `TauCetiRoadmap/AdicEtaleGeometry/README.md` | The analytification of an algebraic smooth pair (*analytification-of-smooth-pair*) retains the structure map of these functors over the field affinoid and transports it through the canonical comparison fixing coefficients to the complete-pair presentation of `Spa(K,K°)`. |
-| AdicSpacesPartII R1.2–R1.3 *scheme-fibre-product-analytification*, *analytification-functor* (the relative adic analytification over the stably sheafy field affinoid, on the category of `k`-schemes and its affine schemes) | `TauCetiRoadmap/AdicSpacesPartII/README.md` | R4.5 uses the relative adic analytification over the field affinoid, forgetting only its map to `Spa(k,k°)`. Its scheme category is the category of `k`-schemes of AdicSpacesPartII R1. |
-| `CategoryTheory.MorphismProperty.Over.pullback` | `Mathlib/CategoryTheory/MorphismProperty/OverAdjunction.lean` | Scheme étale base change in the naturality of `λ_X` (R4.5); the adic side uses A1's étale base change (*etale-site*). |
-| AdicEtaleGeometry A1.6 *etale-site* (the small étale category and its topology); `TauCetiRoadmap.AdicEtaleGeometry.AdicSpace.ofRestrict` | `TauCetiRoadmap/AdicEtaleGeometry/README.md`; `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | The target category, its topology, and the open-disc inclusion used by R4.5. |
+| AdicSpacesPartII R1.2–R1.3 *scheme-fibre-product-analytification*, *analytification-functor* (the relative adic analytification over the stably sheafy field affinoid, on the category of `k`-schemes and its affine schemes) | `TauCetiRoadmap/AdicSpacesPartII/README.md` | AdicEtaleGeometry A2.6a uses the relative adic analytification over the field affinoid, forgetting only its map to `Spa(k,k°)`. Its scheme category is the category of `k`-schemes of AdicSpacesPartII R1. |
+| `CategoryTheory.MorphismProperty.Over.pullback` | `Mathlib/CategoryTheory/MorphismProperty/OverAdjunction.lean` | Scheme étale base change in the naturality of `λ_X` (AdicEtaleGeometry A2.6a); the adic side uses A1's étale base change (*etale-site*). |
+| AdicEtaleGeometry A1.6 *etale-site* (the small étale category and its topology); `TauCetiRoadmap.AdicEtaleGeometry.AdicSpace.ofRestrict` | `TauCetiRoadmap/AdicEtaleGeometry/README.md`; `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | The target category, its topology, and the open-disc inclusion used by AdicEtaleGeometry A2.6a. |
 | AdicEtaleGeometry A1.6 *etale-site* (étale base change `V ↦ V ×_Y X`, its projection and pullback square, continuity, preservation of finite limits, and its compatibility with composition) | `TauCetiRoadmap/AdicEtaleGeometry/README.md` | A1 owns étale base change, its limiting cone, continuity, finite-limit preservation and composition compatibility. Source and target are locally strongly sheafy. R4 specialises this construction to its carriers. |
-| AdicEtaleGeometry A1 *pro-etale-site-corrected*, *corrected-covers-pretopology* (the corrected pro-étale site, its topology, the constant embedding, underlying spaces and cofiltered presentations) | `TauCetiRoadmap/AdicEtaleGeometry/README.md` | A1 owns the corrected site, the constant embedding, underlying spaces and cofiltered presentations, including the one-stage presentation. R4's pro-étale base change (*proetale-site-functoriality*) applies A1's étale base change levelwise and adds its composition comparison. |
+| AdicEtaleGeometry A1.10–A1.12 *pro-etale-site-corrected*, *corrected-covers-pretopology* (the corrected pro-étale site, its topology, the constant embedding, underlying spaces and cofiltered presentations) | `TauCetiRoadmap/AdicEtaleGeometry/README.md` | A1 owns the corrected site, the constant embedding, underlying spaces and cofiltered presentations, including the one-stage presentation. R4's pro-étale base change (*proetale-site-functoriality*) applies A1's étale base change levelwise and adds its composition comparison. |
 | AdicEtaleGeometry A1's Check objects over `ℚ₂`: the split finite étale object (*etale-site*) and the constant pro-étale object of `ℚ₂(√2)/ℚ₂` (*pro-etale-site-corrected*) | `TauCetiRoadmap/AdicEtaleGeometry/README.md` | The empty and split finite étale objects over `ℚ₂`, and the constant object for `ℚ₂(√2)/ℚ₂`, supply the base-change Checks. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Etale`, `Smooth`; `TauCetiRoadmap.AdicEtaleGeometry.AdicSpace.restrict`, `AdicSpace.ofRestrict`; AdicEtaleGeometry A0 (the spectrum of a complete pair and its coefficient-to-section maps) | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`; `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`; `TauCetiRoadmap/AdicEtaleGeometry/README.md` | The DLLZ normal crossings predicate of R4.7 and the three analytic chart non-examples use these morphism classes, polydisc carriers and coefficient-to-section maps. The Kummer DLLZ Check and the Gauss-point Check extend the polynomial ideal through the open inclusion's stalk maps. The boundary predicate belongs to Part IV. |
 | `TauCetiRoadmap.AdicEtaleGeometry.AdicSpace.restrict`, `ofRestrict` (same namespace); AdicEtaleGeometry A1.1 *strongly-sheafy-huber-pair* (restriction of local strong sheafiness) and A1's local noetherianity of étale sources | `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`; `TauCetiRoadmap/AdicEtaleGeometry/README.md` | Open subspaces, their inclusions and local hypotheses. Restricting a smooth pair to an open adds the boundary ideal extended through these stalk maps; pulling a smooth pair back along an étale map uses Part II's `AdicSpace.Etale`. |
@@ -195,7 +194,7 @@ not use F1.11.
 | `CategoryTheory.Functor.sheafPullbackConstruction.sheafPullback`, `CategoryTheory.Functor.sheafPullbackConstruction.sheafAdjunctionContinuous` | `Mathlib/CategoryTheory/Sites/Pullback.lean` | Sheafification of the left Kan extension and its adjunction to direct image along a continuous site functor; used for both inverse images in the point comparison. |
 | `CategoryTheory.MorphismProperty.Over` | `Mathlib/CategoryTheory/MorphismProperty/Comma.lean` | Full over category selected by the rigid stalk criterion; no private category of arrows is needed. |
 | `IsLocalRing.ResidueField.map` | `Mathlib/RingTheory/LocalRing/ResidueField/Basic.lean` | The residue-field map induced by the local stalk map; its scalar structure is used for finiteness and separability in the rigid étale criterion. |
-| `TauCetiRoadmap.PerfectoidSpaces.Perfectoid.IsPerfectoidTateRing` (P1.1) | `TauCetiRoadmap/PerfectoidSpaces/Suggested.lean` | The perfectoid target of R5.1's perfectoid frames (`Huber.PerfectoidFrame`: continuous embedding and continuous linear retraction), used throughout R5, including the proper-frame density counterexample and the diagonal/product-frame Check. |
+| `TauCetiRoadmap.PerfectoidSpaces.Perfectoid.IsPerfectoidTateRing` (P1.1) | `TauCetiRoadmap/PerfectoidSpaces/Suggested.lean` | The perfectoid target of PerfectoidSpaces P3.17a.1's perfectoid frames (`TauCetiRoadmap.PerfectoidSpaces.Huber.PerfectoidFrame`: continuous embedding and continuous linear retraction), used throughout R5, including the proper-frame density counterexample and the diagonal/product-frame Check. |
 | `TauCeti.Huber.Pair.Hom`, `TauCeti.Huber.Pair.Hom.id`, `TauCeti.Huber.Pair.powerBounded` | `TauCeti/RingTheory/Huber/Pair.lean` | Analytic charts use continuous maps respecting the integral subrings; the identity map defines the analytic model. |
 | `RingHom.Etale`, `RingHom.Etale.of_bijective`, `RingHom.Etale.iff_flat_and_formallyUnramified` | `Mathlib/RingTheory/RingHom/Etale.lean` | Étale coordinate maps, the identity chart, and flatness. R4 adds the coordinate-product ideal and its radicality. |
 | `Module.Flat.isSMulRegular_of_nonZeroDivisors` | `Mathlib/RingTheory/Flat/TorsionFree.lean` | A regular scalar acts injectively on a flat module; apply to the product of the distinct polynomial coordinates. |
@@ -221,9 +220,9 @@ not use F1.11.
 | R5 supplier | Exact file | Contract used |
 |---|---|---|
 | `Module.Flat.of_flat_tensorProduct`, `Module.Flat.projective_of_finitePresentation` | `Mathlib/RingTheory/Flat/FaithfullyFlat/Basic.lean`; `Mathlib/RingTheory/Flat/EquationalCriterion.lean` | Flatness descends through a faithfully flat algebra, and finitely presented flat modules are projective. The coefficient-specific projectivity statement (b) of *coefficient-sheaf-kiehl* supplies the rational-cover comparison and noetherian finite presentation. |
-| `TauCetiRoadmap.AdicEtaleGeometry.AdicSpace.IsFiniteEtale`; AdicEtaleGeometry A1.6 *etale-site* (étale objects, rational chart maps and the basic objects of *basis-comparison*) and A1.3 *finite-etale-morphism* (affinoid preimages under finite étale maps) | `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`; `TauCetiRoadmap/AdicEtaleGeometry/README.md` | Étale objects, rational maps and finite étale maps, including their affinoid algebra description. R5's identity-generated class `B_X` (*sousperfectoid-stably-adic*) restricts the initial chart to the identity; A1's basic objects also start from arbitrary affinoid open charts, which does not make their rings sousperfectoid. |
+| `TauCetiRoadmap.AdicEtaleGeometry.AdicSpace.IsFiniteEtale`; AdicEtaleGeometry A1.6 *etale-site* (étale objects, rational chart maps and the basic objects of *basis-comparison*) and A1.3 *finite-etale-morphism* (affinoid preimages under finite étale maps) | `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`; `TauCetiRoadmap/AdicEtaleGeometry/README.md` | Étale objects, rational maps and finite étale maps, including their affinoid algebra description. PerfectoidSpaces P3.17a.4's identity-generated class `B_X` ([*sousperfectoid-stably-adic*](../PerfectoidSpaces/README.md#p3-17a-4) (PerfectoidSpaces §P3.17a.4)) restricts the initial chart to the identity; A1's basic objects also start from arbitrary affinoid open charts, which does not make their rings sousperfectoid. |
 | `Function.LeftInverse.isClosedEmbedding` | `Mathlib/Topology/Separation/Hausdorff.lean` | A continuous retraction exhibits its continuous section as a closed embedding when the ambient space is Hausdorff. Applied to a perfectoid frame; no second closed-embedding theorem is needed. |
-| `TauCeti.Huber.IsUniform.isReduced` | `TauCeti/RingTheory/Huber/Uniform.lean` | A Hausdorff uniform Tate ring is reduced. R5 supplies uniformity and Hausdorffness from a frame. |
+| `TauCeti.Huber.IsUniform.isReduced` | `TauCeti/RingTheory/Huber/Uniform.lean` | A Hausdorff uniform Tate ring is reduced. PerfectoidSpaces P3.17a.1–P3.17a.3 supplies uniformity and Hausdorffness from a frame. |
 | `IsLocalizedModule.map`, `LocalizedModule.mk`, `LocalizedModule.mkLinearMap` | `Mathlib/Algebra/Module/LocalizedModule/Basic.lean` | Localize the specified integral maps. R5 fixes every mixed map on arbitrary localized compatible families, including families outside the algebraic tensor image. |
 | `Submodule.mapQ`, `Submodule.liftQ`, `Submodule.Quotient.restrictScalarsEquiv`, `TensorProduct.tensorQuotEquivQuotSMul` | `Mathlib/LinearAlgebra/Quotient/Basic.lean`; `Mathlib/LinearAlgebra/TensorProduct/Quotient.lean` | Induced quotient maps and the canonical identification `X ⊗ (O/J) ≃ X/JX`; R5 uses these directly to specify coefficient covariance and pseudobasis coordinates. |
 | `AdicCompletion.eval`, `AdicCompletion.ofLinearEquiv` | `Mathlib/RingTheory/AdicCompletion/Basic.lean` | Quotient projections of the completion and its canonical equivalence with an adically complete module. The mixed product formula is pinned by these projections. |
@@ -261,25 +260,24 @@ AdicSpaces layers 0–5 own these foundations and the sheafiness and acyclicity 
 
 ### From TauCetiRoadmap.AdicEtaleGeometry
 
-AdicEtaleGeometry A1 owns *etale-site*, *pro-etale-site-corrected*, *slice-site*,
-*proetale-slice*, geometric points (*etale-site-and-geometric-points*) and the local
-comparison (*etale-morphisms-local-description-and-comparison*) consumed by R4.
+AdicEtaleGeometry A1.6 owns *etale-site* and *slice-site*; A1.10–A1.12 supplies
+*pro-etale-site-corrected* and *proetale-slice*. A1.7 supplies geometric points
+(*etale-site-and-geometric-points*) and A1.4 supplies the local comparison
+(*etale-morphisms-local-description-and-comparison*) consumed by R4.
 It also supplies the strongly sheafy predicate (*strongly-sheafy-huber-pair*),
 the structure sheaf (*etale-structure-sheaf*), *basis-comparison* and
 *etale-covering-reduction* consumed by R5.
-The perfectoid input to these signatures is PerfectoidSpaces P1.1's predicate (below);
-AdicEtaleGeometry does not own it, and the same predicate is used by the perfectoid frames
-in R5.
+AdicEtaleGeometry A1.6a supplies [*stable-basis-etale-vector-bundles*](../AdicEtaleGeometry/README.md#a16a-vector-bundles-on-a-stable-étale-basis) (AdicEtaleGeometry §A1.6a) and A2.6a supplies
+[*analytification-etale-site*](../AdicEtaleGeometry/README.md#a26a-analytification-and-the-étale-site) (AdicEtaleGeometry §A2.6a). A1.0.4 supplies Elkik's approximation theorem for F1.
 
 | Supplier | Exact file | Contract used |
 |---|---|---|
 | AdicEtaleGeometry A0.6 (the spectrum of a complete pair, its sheafiness, and its canonical isomorphism with the AdicSpacesPartII affinoid spectrum) | `TauCetiRoadmap/AdicEtaleGeometry/README.md` | The complete-pair spectrum is canonically isomorphic to the Part II affinoid spectrum, fixing valuations and coefficient sections. R4 uses this isomorphism in the scalar-map equations for smooth-pair charts. |
 | `TauCetiRoadmap.AdicEtaleGeometry.AdicSpace.IsEtaleLocalDescription.iff_etale`, `TauCetiRoadmap.AdicEtaleGeometry.AdicSpace.IsLocallyEtaleOverPolydisc.iff_smooth` (A1 *etale-morphisms-local-description-and-comparison*) | `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean` | With separate locally noetherian analytic hypotheses on source and target, the Part II predicates are equivalent to the Tate-chart conditions, including finite type and infinitesimal lifting. |
 
-R5 proves the perfectoid-frame consequences of rational localization and finite étale
-extension directly in `Huber.isSousperfectoid_ratLoc` and
-`Huber.IsSousperfectoid.finiteEtale`, using the ring predicate above. PerfectoidSpaces
-P1–P3 develop the broader perfectoid and almost-purity APIs. PerfectoidSpaces P2.11–P2.12
+PerfectoidSpaces P3.17a supplies perfectoid frames, rational-localization and finite-étale
+stability, uniformity and sheafiness of sousperfectoid rings and spaces.
+PerfectoidSpaces P2.11–P2.12
 supply the global tilting functor
 on locally perfectoid spaces, its natural valuation homeomorphism, and the
 relative equivalence over each space. On every open, the tilted structure sheaf
@@ -293,20 +291,23 @@ open of each tilted space. That ring is subsingleton and satisfies `p·1 = 0`,
 but not `CharP R p` for prime `p`; thus the sheaf clause asserts `p·1 = 0`, including
 on empty opens. The supplied homeomorphism carries the empty
 open to the empty open, and every coordinate of its section-comparison map is zero.
-`AdicSpace.IsTildeLimit`, `AdicSpace.IsTildeLimit.affinoid` and
-`AdicSpace.IsTildeLimit.baseChange`, with the completed-direct-limit criterion of
-*tilde-limits-affinoid-criterion*,
-in R5.8 supply the tilde-limit relation and its affinoid and base-change contracts.
-PerfectoidSpaces P7 applies these contracts to analytic towers.
-AdicEtaleGeometry uses PerfectoidSpaces' perfectoid predicate and states its own
-frame-free conditions, so its Lean module supplies the sites without importing R5's
-API.
+AdicSpacesPartII R0.20.1–R0.20.2 supplies `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsTildeLimit`, its affinoid and
+completed-direct-limit criteria, and `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsTildeLimit.baseChange`.
 
 ### From TauCetiRoadmap.PerfectoidSpaces
 
 | Supplier | Exact file | Contract used |
 |---|---|---|
-| `TauCetiRoadmap.PerfectoidSpaces.Perfectoid.IsPerfectoidTateRing` (P1.1) | `TauCetiRoadmap/PerfectoidSpaces/Suggested.lean` | The perfectoid Tate-ring predicate, used unchanged: on a complete Hausdorff Tate ring, `A°` is bounded and some pseudouniformiser `ϖ ∈ A°` has `ϖ^p ∣ p` with Frobenius `A°/ϖ → A°/ϖ^p` bijective. Perfectoid fields (P1.10), perfected Tate algebras (P1.30), `ℚ_p^cycl` (P1.31), rational localisation of perfectoid pairs (P2.3), affinoid perfectoid and perfectoid spaces (P2.9–P2.10), finite étale algebras over perfectoid rings (P3.10), tilting (P2.11–P2.12) and Elkik's approximation theorem (P3.1) are cited by subsection. |
+| `TauCetiRoadmap.PerfectoidSpaces.Perfectoid.IsPerfectoidTateRing` (P1.1) | `TauCetiRoadmap/PerfectoidSpaces/Suggested.lean` | The perfectoid Tate-ring predicate, used unchanged: on a complete Hausdorff Tate ring, `A°` is bounded and some pseudouniformiser `ϖ ∈ A°` has `ϖ^p ∣ p` with Frobenius `A°/ϖ → A°/ϖ^p` bijective. Perfectoid fields (P1.10), perfected Tate algebras (P1.30), `ℚ_p^cycl` (P1.31), rational localisation of perfectoid pairs (P2.3), affinoid perfectoid and perfectoid spaces (P2.9–P2.10), finite étale algebras over perfectoid rings (P3.10), tilting (P2.11–P2.12) are cited by subsection. P3.17a.1–P3.17a.4 supplies perfectoid frames, sousperfectoid rings, stability, sheafiness and spaces; P3.17b supplies the polydisc product. Elkik's approximation theorem is AdicEtaleGeometry A1.0.4. |
+
+| Geometric supplier | Exact file | Contract used |
+|---|---|---|
+| PerfectoidSpaces P3.17a.1–P3.17a.4, `TauCetiRoadmap.PerfectoidSpaces.Huber.PerfectoidFrame`, `TauCetiRoadmap.PerfectoidSpaces.Huber.IsSousperfectoid`, `TauCetiRoadmap.PerfectoidSpaces.AdicSpace.IsSousperfectoid` | `TauCetiRoadmap/PerfectoidSpaces/README.md`; `TauCetiRoadmap/PerfectoidSpaces/Suggested.lean` | Frames, stability under rational localization and finite étale maps, uniformity, sheafiness and sousperfectoid spaces for R5.5 and its frame examples. |
+| PerfectoidSpaces P3.17b | `TauCetiRoadmap/PerfectoidSpaces/README.md` | The affinoid perfectoid-times-polydisc formula, including its nonperfectoid and zero-ring Checks. |
+| AdicSpacesPartII R0.20.1–R0.20.2, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsTildeLimit`, `.affinoid`, `.baseChange` | `TauCetiRoadmap/AdicSpacesPartII/README.md`; `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | The non-analytic tilde-limit relation, affinoid/completed-direct-limit criteria and base change used in R5.5 and R5.11. |
+| AdicEtaleGeometry A1.6 *etale-covering-reduction*, A1.6a | `TauCetiRoadmap/AdicEtaleGeometry/README.md` | Covering reduction on stable étale bases and their finite-projective vector-bundle equivalence. |
+| AdicEtaleGeometry A2.6a | `TauCetiRoadmap/AdicEtaleGeometry/README.md` | The morphism of sites `λ_X` and its naturality, used by R4. |
+| AdicEtaleGeometry A1.0.4 | `TauCetiRoadmap/AdicEtaleGeometry/README.md` | Elkik's approximation theorem for F1's algebraisation. |
 
 ### From TauCetiRoadmap.SchemeAndStackFoundations
 
@@ -507,7 +508,7 @@ sheaves. Taking the target to be the ground-field point gives cohomological GAGA
 ## How to read the build
 
 R4 places AdicEtaleGeometry A1's sites on the analytic carriers of parts II and III.
-R5 develops sousperfectoid rings and spaces and the coefficient sheaves of `p`-adic families.
+R5 develops smooth products using PerfectoidSpaces P3.17a–P3.17b and the coefficient sheaves of `p`-adic families.
 F1 develops dagger geometry and its de Rham complexes, using the morphism, formal and
 coherent theories of parts II and III and the smooth pairs of R4.
 A target's `*Needs:*` clause names its prerequisites. Within a layer the subsections follow
@@ -516,8 +517,7 @@ last subsections. `Suggested.lean` provides suggested signatures and examples, w
 README is definitive and is not limited to the signatures present in that file.
 `Suggested.lean` states the parts that are a few lines over the pinned carriers: strict
 normal crossings charts of rings, of complete affinoid algebras and of smooth schemes (R4);
-perfectoid frames, sousperfectoid rings and spaces, BHW's product, tilde-limits, profinite
-flat modules, small `ℤ_p`-algebras and the integral mixed completed tensor product (R5);
+BHW's product existence, profinite flat modules, small `ℤ_p`-algebras and the integral mixed completed tensor product (R5);
 `W_n`, dagger algebras and their completions, the integral Monsky–Washnitzer algebra, weak
 completions, algebras of MW-type and the universally finite differentials with the dagger
 Poincaré lemma in low degree (F1). A target carried there ends with a **Lean:** note;
@@ -543,7 +543,7 @@ site with its slices and the projection `ν : X_proét → X_ét`, and geometric
 corrected pro-étale site, the compatibility of Scholze's point morphisms with pullback, Huber's
 equivalence between the étale topos of a rigid analytic variety and that of its adic space,
 with the comparison of strongly surjective rigid families and jointly surjective adic families; the
-morphism of sites `λ_X : X^ad_ét → X_ét` for a scheme locally of finite type; smooth pairs `(X, D)`
+use of AdicEtaleGeometry A2.6a's morphism of sites `λ_X : X^ad_ét → X_ét`; smooth pairs `(X, D)`
 of a smooth adic space with a strict normal crossings divisor, the
 analytification of algebraic strict normal crossings pairs, and the restriction of the étale and
 pro-étale sites of a smooth pair to the complement of its boundary with the functors `j^{-1}`, `j_*`
@@ -577,8 +577,7 @@ which imports Huber's Lemma 2.2.8 from AdicSpacesPartII layer R0 (*etale-local-o
 jointly surjective families are used, not Huber's strongly surjective rigid coverings (Huber96 §2.1,
 p. 109; KL15 §8.2, after Def. 8.2.19, p. 163). For non-noetherian carriers (sousperfectoid,
 perfectoid) the étale site is A1's local-description site and Huber's infinitesimal definition is
-not used; the sousperfectoid case is layer R5's (*sousperfectoid-etale-stability*), which cites
-this remark. *Needs:* *locally-noetherian-adic-space*,
+not used; the sousperfectoid case uses PerfectoidSpaces P3.17a.4 ([*sousperfectoid-etale-stability*](../PerfectoidSpaces/README.md#p3-17a-4) (PerfectoidSpaces §P3.17a.4)). *Needs:* *locally-noetherian-adic-space*,
 *differentials-unramified-smooth-etale*, *etale-local-open-finite-etale-factorisation*,
 *open-embedding-etale* (AdicSpacesPartII layer R0); AdicEtaleGeometry layer A1 (*etale-site*,
 *strongly-sheafy-huber-pair*, *etale-morphisms-local-description-and-comparison*).
@@ -633,7 +632,7 @@ generated by the corrected coverings of the erratum, whose members factor as `U_
 composition of pullbacks of finite étale surjections and the second étale (Scholze13 §3, Def. 3.9, p. 15;
 Scholze-Err item (1), p. 1) — and the projection `ν_X : X_proét → X_ét` defined by the fully
 faithful, finite-limit- and covering-preserving functor `c : X_ét → X_proét` (Scholze13 §3, before
-Lem. 3.16, p. 19) are AdicEtaleGeometry layer A1 (*pro-etale-site-corrected*, with the corrected
+Lem. 3.16, p. 19) are AdicEtaleGeometry A1.10–A1.12 (*pro-etale-site-corrected*, with the corrected
 coverings displayed as A1's pretopology (*corrected-covers-pretopology*), and
 *proetale-projection-nu*); they are used here with `X` locally noetherian analytic, which is the
 hypothesis under which Scholze13 §3 is stated. The pro-étale site of a perfectoid or general
@@ -642,7 +641,7 @@ no arbitrary open surjection of profinite sets is assumed to split. Proposition 
 Corollary 3.8 (Proposition 3.8 in the erratum), in Scholze13 §3, pp. 14 and 15 respectively,
 and the deleted last sentence of Proposition 3.13 are not used. *Needs:*
 *etale-site-on-analytic-carriers*; *locally-noetherian-adic-space* (AdicSpacesPartII layer R0); AdicEtaleGeometry
-layer A1 (*pro-etale-site-corrected*, *corrected-covers-pretopology*, *proetale-projection-nu*).
+A1.10–A1.12 (*pro-etale-site-corrected*, *corrected-covers-pretopology*, *proetale-projection-nu*).
 
 **Functoriality of the corrected pro-étale site and compatibility with `ν`.**
 (*proetale-site-functoriality*) Let `f : X → Y` be a morphism of locally noetherian analytic adic
@@ -679,7 +678,7 @@ This is the contravariant functor form of the displayed composition of site
 morphisms (Scholze13 §3, after Prop. 3.12, p. 18).
 
 *Needs:* *proetale-site-on-analytic-carriers*;
-*etale-site-functoriality*; AdicEtaleGeometry layer A1 (*pro-etale-site-corrected*,
+*etale-site-functoriality*; AdicEtaleGeometry A1.10–A1.12 (*pro-etale-site-corrected*,
 *proetale-projection-nu*); *fibre-product-points*,
 *smooth-etale-base-change*, *finite-morphism* (AdicSpacesPartII layer R0); Mathlib
 `CategoryTheory.Functor.IsContinuous`, `CategoryTheory.CoverPreserving`,
@@ -796,57 +795,6 @@ specified admissible open, so images extending outside that open do not satisfy 
   surjective over `Sp K`, whose nonempty whole space is quasi-compact.
 - Two identity maps to the same rigid space
   form a strongly surjective family; the covering condition does not require disjoint images.
-
-### R4.5 analytification
-
-**The morphism of sites `X^ad_ét → X_ét` for a scheme locally of finite type over `k`.**
-(*analytification-etale-site*) Let `k` be a complete nontrivially normed nonarchimedean field and `X` a scheme locally
-of finite type over `k`, with analytification `X^ad = X ×_{Spec k} Spa(k, k°)`
-(*analytification-functor*, AdicSpacesPartII layer R1; the scheme-adic fibre product is Huber94 §3, Prop. 3.8,
-p. 536, *scheme-fibre-product-analytification*, AdicSpacesPartII layer R1). Schemes are Mathlib schemes and étale is
-taken in Mathlib's sense (Mathlib `AlgebraicGeometry.Etale`); `X^ad` is locally noetherian because
-`Spa(k, k°)` is strongly noetherian. Prove that `X^ad` is locally strongly sheafy
-without an extra hypothesis on `X` (Huber96 §1.1,
-pp. 37–39, and Cor. 1.7.3, pp. 85–86). Here `X^ad` is the value of Part II's
-relative analytification over the stably sheafy field affinoid `Spa(k, k°)`
-(*analytification-functor*), followed by forgetting the map to `Spa(k, k°)`. Define the
-functor on étale objects by applying
-this functor to `U → X` and to each arrow over `X`. The domain scheme `U`
-has structural map the composite `U → X → Spec k`; its local finite type property follows from
-étaleness and that of `X`. Two defining equations give its value on objects, including
-the structure arrow to `X^ad`, and on arrows over `X` (Huber96 Cor. 1.7.3(i), pp. 85–86).
-The functor `(−)^ad : X_ét → X^ad_ét`, from the small étale
-site of `X` (Mathlib `AlgebraicGeometry.Scheme.smallEtaleTopology` on the category Mathlib
-`AlgebraicGeometry.Scheme.Etale` of schemes étale over `X`) to the étale site of
-*etale-site-on-analytic-carriers*, `U ↦ U^ad = U ×_X X^ad`, is well defined — analytification sends
-étale morphisms to étale morphisms (Huber96 §1.7, Cor. 1.7.3(i), pp. 85–86;
-*analytification-etale-smooth*, AdicSpacesPartII layer R1) — preserves the final object and fibre products
-(*analytification-fibre-products*, AdicSpacesPartII layer R1), and sends jointly surjective étale families to jointly
-surjective families, because the points of the scheme-adic fibre product surject onto compatible
-pairs of points (Huber94 §3, Lem. 3.9(ii), p. 537; *analytification-points*, AdicSpacesPartII layer R1; the
-covering families of the small étale site are characterised by Mathlib
-`AlgebraicGeometry.Scheme.ofArrows_mem_smallEtaleTopology_iff`). It therefore defines a morphism of
-sites `λ_X : X^ad_ét → X_ét`; continuity
-and finite-limit preservation are stated for this defined functor (Mathlib `CategoryTheory.Functor.IsContinuous` through
-`CategoryTheory.CoverPreserving`, `CategoryTheory.compatiblePreservingOfFlat`,
-`CategoryTheory.flat_of_preservesFiniteLimits` and
-`CategoryTheory.Functor.isContinuous_of_coverPreserving`, with direct image
-`CategoryTheory.Functor.sheafPushforwardContinuous`), natural in `X` for morphisms of schemes
-locally of finite type over `k` (`λ_Y ∘ f^ad_ét ≅ f_ét ∘ λ_X`).
-The corresponding isomorphism of
-functors `(−)^ad_Y ⋙ (f^ad)* ≅ f* ⋙ (−)^ad_X` holds for every
-`k`-morphism `f : X → Y`, using Mathlib's scheme pullback and A1's adic pullback.
-It follows from the mixed fibre-product universal property; compare Huber96
-(0.7.11), p. 30, and (2.1.3), pp. 110–111. Only the site morphism is
-constructed here; comparison theorems for cohomology along `λ_X` belong to the étale-cohomology
-roadmaps that import this one. *Needs:* *analytification-functor*, *analytification-etale-smooth*,
-*scheme-fibre-product-analytification*, *analytification-fibre-products*, *analytification-points*
-(AdicSpacesPartII layer R1); *etale-site-on-analytic-carriers*; Mathlib `AlgebraicGeometry.Scheme.smallEtaleTopology`,
-`AlgebraicGeometry.Scheme.Etale`, `AlgebraicGeometry.Etale`, `CategoryTheory.Functor.IsContinuous`,
-`CategoryTheory.Functor.sheafPushforwardContinuous`, `CategoryTheory.CoverPreserving`,
-`CategoryTheory.compatiblePreservingOfFlat`, `CategoryTheory.flat_of_preservesFiniteLimits`,
-`CategoryTheory.Functor.isContinuous_of_coverPreserving`,
-`AlgebraicGeometry.Scheme.ofArrows_mem_smallEtaleTopology_iff`.
 
 ### R4.6 geometric points and pullback
 
@@ -1602,24 +1550,7 @@ quadratic field-extension example below, on A1's
 corrected site, using R4's pro-étale base change functor.
 The identity Check also computes the
 concrete functor witnessing the combined existence statement of
-*proetale-site-functoriality*. For the analytification site
-morphism, three Checks compute
-the empty site, the field-point equivalence, and the open-disc failure of essential
-surjectivity below; the field Check also specialises the continuity and finite-limit
-statement of *analytification-etale-site*
-to `Spec k`:
-
-- Empty: for an empty scheme `X`,
-  every image object is empty and its bottom sieve is covering.
-- Field: for `X = Spec k`, the defined
-  functor is an equivalence and induces exactly the scheme small étale topology.
-- Open disc: in the analytification
-  of `Spec k[T]`, choose `ϖ ∈ k` with `0 < ‖ϖ‖ < 1`. The open disc is the union
-  of the rational domains `|T|^(n+1) ≤ |ϖ|`, `n ≥ 0`, where both sections are pulled
-  back along the scheme projection. Its inclusion is an étale object outside the
-  essential image of `(−)^ad`. This union specifies the open disc also
-  at points of higher rank; the condition `|T| < 1` alone would include extra points.
-
+*proetale-site-functoriality*.
 ### Examples
 
 The worked examples of this layer are the checks above together with the following.
@@ -1707,16 +1638,6 @@ maximal ideal `(T−a₀)` and an admissible open immersion with image exactly
 `|a₀−a₀|=0 ≤ |p|` as the numerical calculation supporting this membership
 (Huber96 Def. 2.1.1 and Lem. 2.1.2, pp. 109–110).
 
-For analytification (*analytification-etale-site*): for `X = Spec k` the functor `(−)^ad` is an
-equivalence of sites, both `(Spec k)_ét` and `Spa(k, k°)_ét` being the disjoint unions (not
-necessarily finite) of spectra of finite separable extensions of `k` with the jointly surjective
-coverings, so `λ` is an isomorphism of topoi; the finite étale objects are the finite étale
-`k`-algebras. For `X = G_m` and
-the Kummer cover `U = G_m`, `t ↦ t^n` (`n` invertible in `k`), `U^ad → G_m^ad` is the analytic
-Kummer cover, and the family `{U → G_m}` stays a covering after analytification. `(−)^ad` is not
-essentially surjective onto `X^ad_ét`: for `X = A^1` the open unit disc is an object of `X^ad_ét`
-not isomorphic to `U^ad` for any étale `U → X`.
-
 For geometric points (*geometric-points-pullback*),
 a two-component Check identifies A1's geometric fibre
 (that is, the lifts of the chosen geometric point) of A1's split two-sheeted étale object with
@@ -1785,7 +1706,7 @@ Huber pairs. The adic realization is glued
 on admissible affinoid coverings: it sends admissible opens to opens and admissible
 coverings to coverings (Huber96 §1.1, (1.1.11), pp. 42–43).
 *etale-site-and-rigid-comparison* identifies the induced étale topology and the sheaf
-categories; *analytification-etale-site* states the continuous functor on the
+categories; [*analytification-etale-site*](../AdicEtaleGeometry/README.md#a26a-analytification-and-the-étale-site) (AdicEtaleGeometry §A2.6a) states the continuous functor on the
 small étale sites and its preservation of finite limits.
 
 **Checks.** For the field point, the plus ring is
@@ -1797,526 +1718,18 @@ point set, for both.
 
 ## Layer R5: families and sousperfectoid spaces
 
-This layer builds on layers AdicSpacesPartIII F0, AdicSpacesPartII R0, AdicSpacesPartIII R2 and AdicSpacesPartIII R3, on AdicEtaleGeometry layer A1, and, in R5.1–R5.5 only, on the PerfectoidSpaces subsections listed in the dependency block at the head of this README. It defines sousperfectoid Tate rings
-through perfectoid frames and proves the class
-stable under rational localisation, finite étale extension, faithfully flat finite étale descent,
-Tate and Laurent algebras and annuli, with finite extensions of `ℚ_p` as the basic examples; it
-proves sousperfectoid rings uniform — Tau Ceti's `IsUniform.isReduced` gives the reducedness
-clause — and sousperfectoid pairs stably uniform, sheafy, strongly sheafy and `𝒪`-acyclic; it
-defines sousperfectoid adic spaces, proves that étale spaces over them are sousperfectoid adic
-spaces, that they are stably adic, and that étale maps to locally noetherian spaces base change
-along them; it constructs the product of a perfectoid space with a smooth rigid space, proves it
-sousperfectoid and gives its tilde-limit presentation; and it builds the completed coefficient
-algebras of Chojecki–Hansen–Johansson — profinite flat modules, small `ℤ_p`-algebras, the mixed
-completed tensor product — and the coefficient sheaves `𝒪_X ⊗̂ R` on affinoid rigid spaces with their
-Tate acyclicity, localisation functor, coherent modules, Kiehl theorem for finite free
-coefficient algebras with projectivity of locally projective localised modules, base change and
-dense-restriction properties. The tilde-limit relation and affinoid criterion in R5.8 give the
-tilde-limit presentation of the product. The perfectoid predicate throughout
-is PerfectoidSpaces P1.1's `Perfectoid.IsPerfectoidTateRing`: on a complete Hausdorff Tate ring,
-`A°` is bounded and some pseudouniformiser `ϖ ∈ A°` has `ϖ^p ∣ p` with Frobenius `A°/ϖ → A°/ϖ^p`
-bijective.
-
-### R5.1 sousperfectoid rings
-
-**Sousperfectoid Tate rings and perfectoid frames.** (*sousperfectoid-ring*) Fix a prime `p`
-(the Lean declarations `PerfectoidFrame` and `IsSousperfectoid` take any `p : ℕ`). Let
-`R` be a complete Hausdorff Tate ring (Tau Ceti `Huber.IsTateRing`) in which `p` is topologically
-nilpotent — equivalently, a Tate ring with a continuous ring map `ℤ_p → R`, that is, a complete Tate
-`ℤ_p`-algebra. A perfectoid frame for `R` is a triple `(R̃, ι, σ)` consisting of a perfectoid Tate
-ring `R̃` satisfying PerfectoidSpaces P1.1's `Perfectoid.IsPerfectoidTateRing p R̃`,
-a continuous ring homomorphism `ι : R → R̃`, and a continuous `R`-linear map
-`σ : R̃ → R` (`R̃` an `R`-module through `ι`) with `σ ∘ ι = id_R`.
-The ring predicate, as P1.1 defines it, is a condition on a complete Hausdorff Tate ring:
-`R̃°` is bounded and some pseudouniformiser `ϖ ∈ R̃°` has `ϖ^p ∣ p` with Frobenius
-`R̃°/ϖ → R̃°/ϖ^p` bijective; equivalently it includes completeness, Hausdorffness, uniformity,
-an explicit prime, a pseudouniformizer with the required divisibility, and surjective
-Frobenius modulo `p` (`TauCetiRoadmap.PerfectoidSpaces.Perfectoid.IsPerfectoidTateRing.iff_frobenius_surjective_modP`;
-Berkeley Definition 6.1.1).
-`R` is sousperfectoid if it admits a perfectoid frame; a Huber pair `(R, R⁺)` is
-sousperfectoid if `R` is. Conventions: `ι` is then injective and a homeomorphism onto the closed
-subring `ι(R) = ker(id − ι∘σ)`; `σ` need not be multiplicative and need not map any ring of integral
-elements into `R⁺`; no perfectoid base field is fixed, and `R̃` is not required to contain one;
-characteristic `p` is allowed, and then `R̃` is a perfect complete Tate ring. In `Huber`, define the
-structure `PerfectoidFrame` (a perfectoid frame `(R̃, ι, σ)` for `R`) and the class
-`IsSousperfectoid` (`R` is a Tate ring admitting a perfectoid frame); prove that a perfectoid
-frame makes `R` sousperfectoid, `IsSousperfectoid.of_isPerfectoidTateRing` (perfectoid Tate rings
-are sousperfectoid, with the identity frame `PerfectoidFrame.refl`),
-`PerfectoidFrame.powerBoundedSubring_eq_comap` (`a ∈ R°` iff `ι(a) ∈ R̃°`: power-boundedness is detected in the
-frame, Tau Ceti `Huber.powerBoundedSubring`), `IsSousperfectoid.isUniform` (sousperfectoid rings are
-uniform, *sousperfectoid-uniform*), `IsSousperfectoid.isReduced` (sousperfectoid rings are reduced,
-uniform rings being reduced), invariance under isomorphisms of
-topological rings, base change of a frame along a map `R → S` of
-complete Tate rings whose completed tensor product `R̃ ⊗̂_R S` is perfectoid (R5.2, through
-AdicSpacesPartIII R3.5's *split-injection-completed-base-change*), `isSousperfectoid_ratLoc` (rational
-localisations of sousperfectoid rings are sousperfectoid, *sousperfectoid-rational-localisation*),
-`IsSousperfectoid.finiteEtale` (finite étale algebras over sousperfectoid rings are sousperfectoid,
-*sousperfectoid-finite-etale*), `IsSousperfectoid.restrictedMvPowerSeries` (Tate algebras over
-sousperfectoid rings are sousperfectoid, *sousperfectoid-rings*), `isUniform_ratLoc`
-(sousperfectoid pairs are stably uniform, *sousperfectoid-stably-uniform*) and
-`IsSousperfectoid.isSheafyRing` (sousperfectoid pairs are sheafy and strongly sheafy, *sousperfectoid-sheafy*).
-The closed-embedding assertion is Mathlib `Function.LeftInverse.isClosedEmbedding` applied to
-`σ ∘ ι = id_R` and the continuity of `σ` and of `ι`, using the Hausdorff property of `R̃`
-(Berkeley Lecture 6, §6.3, Def. 6.3.1, p. 47; HK §7, Def. 7.1, p. 25 (perfectoid frames); BHW §3.1,
-Def. 3.2(1), p. 1724; Berkeley Lecture 6, §6.3, Ex. 6.3.2(1), p. 47 (perfectoid rings are
-sousperfectoid with the frame `(R, id, id)`); Berkeley Lecture 6, §6.3, Ex. 6.3.2(2), p. 47
-(`ℚ_p⟨T⟩` is sousperfectoid with frame `ℚ_p^cycl⟨T^{1/p^∞}⟩` but not perfectoid)). *Needs:*
-PerfectoidSpaces P1.1 (`Perfectoid.IsPerfectoidTateRing`) and P1.31 (`ℚ_p^cycl`); Tau Ceti `Huber.IsTateRing`,
-`Huber.IsHuberRing`; Mathlib `ContinuousLinearMap`. Lean: `Huber.PerfectoidFrame`,
-`Huber.PerfectoidFrame.refl`, `Huber.IsSousperfectoid`,
-`Huber.IsSousperfectoid.of_isPerfectoidTateRing`,
-`Huber.PerfectoidFrame.powerBoundedSubring_eq_comap`, `Huber.IsSousperfectoid.isUniform`,
-`Huber.IsSousperfectoid.isReduced`.
-
-**Checks.**
-
-- Computation: `ℚ_p⟨T⟩` is sousperfectoid:
-  `ι : ℚ_p⟨T⟩ → ℚ_p^cycl⟨T^{1/p^∞}⟩` with `σ` = (the retraction `ℚ_p^cycl → ℚ_p`) applied to the
-  coefficients followed by deleting the non-integral exponents is a perfectoid frame (Lean
-  `example`, with the following non-example).
-- Non-example: `ℚ_p⟨T⟩` is not a
-  perfectoid Tate ring: Frobenius on `ℤ_p⟨T⟩/p = 𝔽_p[T]` is not surjective (`T` is not a `p`-th
-  power), so "sousperfectoid" is strictly weaker than "perfectoid".
-- Non-example: `A = ℚ_p⟨X, Q⟩/(Q²)` is strongly noetherian
-  and sheafy (the AdicSpaces layer 4 example) but not sousperfectoid: a sousperfectoid ring is
-  uniform, hence reduced, and `Q ≠ 0` is nilpotent. A definition by "sheafy", or by a splitting of
-  abstract modules into a non-perfectoid ring, fails this test (Lean `example`).
-- Degenerate: `ℚ_p` (the Tate algebra in zero variables) is
-  sousperfectoid, with frame `ℚ_p → ℚ_p^cycl` split by a continuous `ℚ_p`-linear retraction
-  (*sousperfectoid-p-adic-field*).
-- Compatibility: every perfectoid Tate ring in the sense of
-  PerfectoidSpaces layer P1 (for example `ℚ_p^cycl`, or `𝔽_p((t^{1/p^∞}))^∧`) is sousperfectoid via
-  the identity frame.
-- Characterisation: for a uniform complete Tate ring `A` of
-  characteristic `p` whose Frobenius is finite, `A` is sousperfectoid iff Frobenius `A → A` splits as
-  `A`-modules (HK §7, Lem. 7.10) (Lean `example`); for example `𝔽_p((t))⟨T⟩` is sousperfectoid.
-- Degenerate: the zero ring is a perfectoid Tate ring in the sense of
-  the P1 structure (`0` is a topologically nilpotent unit, `0^p ∣ p = 0`, Frobenius on `0` is
-  surjective), hence sousperfectoid with the identity frame; this is why
-  *perfectoid-times-polydisc* needs `S ≠ 0`: `0⟨T⟩ = 0` is perfectoid (Lean `example`).
-- Non-example: the uncompleted field `ℚ_p(ζ_{p^∞})` with its
-  `p`-adic topology is a Tate ring that admits no perfectoid frame at all: a
-  frame `(R̃, ι, σ)` makes `ι` a homeomorphism onto the closed subgroup `ker(id − ι∘σ)` of the
-  complete Hausdorff group `R̃`, so a sousperfectoid ring is complete and Hausdorff, which
-  `ℚ_p(ζ_{p^∞})` is not (Lean `example`: a sousperfectoid ring is Hausdorff and complete). The class
-  `Huber.IsSousperfectoid` therefore omits completeness and
-  the Hausdorff property, and omits the topological nilpotence of `p` (which holds in `R̃` since
-  `ϖ^p ∣ p` there, and descends along the embedding `ι`): all three are consequences, not
-  hypotheses. The same control shows that *split-injection-completed-base-change* cannot produce a
-  frame on a non-complete `S`.
-- Convention: the identity `σ ∘ ι = id_R` is on `R`;
-  on `R̃` the composite `ι ∘ σ` is only an idempotent: for `R = ℚ_p`, `R̃ = ℚ_p^cycl` and
-  `σ` = Tate's normalised trace (a continuous `ℚ_p`-linear retraction, `σ = [K_n : ℚ_p]^{-1} Tr`
-  on `K_n = ℚ_p(ζ_{p^n})`), `ι(σ(ζ_{p²})) = σ(ζ_{p²}) = 0 ≠ ζ_{p²}` (the primitive `p²`-th roots of
-  unity sum to `μ(p²) = 0`), while `σ(ι(1)) = 1`; `ζ_p` is a poorer witness, since for `p = 2`,
-  `ζ_2 = −1 ∈ ℚ_2` and `ι(σ(ζ_2)) = ζ_2`. The assertion that the reversed composite
-  can fail assumes `R ≠ 0` (Lean `example`: `σ ∘ ι = id`, `ι ∘ σ` is idempotent, and over a nonzero
-  `R` it is not the identity for every frame).
-- Negative control: for `R = 0` the unital map
-  `ι : R → R̃` forces `R̃ = 0`, and both composites are identities. A counterexample to
-  the reversed identity cannot be demanded over the zero ring.
-
-### R5.2 stability of the class
-
-**Base change of a frame.** The continuous splitting used here is AdicSpacesPartIII R3.5's
-*split-injection-completed-base-change*, which this roadmap cites and does not restate. For a
-frame `(R̃, ι, σ)` of a Tate ring `R` and a continuous map `R → S` to a complete Tate ring for
-which the completed tensor product `R̃ ⊗̂_R S` (AdicSpacesPartII R0, *completed-tensor-product*)
-is perfectoid, `(R̃ ⊗̂_R S, s ↦ 1 ⊗ s, σ ⊗̂ id)` is a frame of `S`, with embedding `s ↦ 1 ⊗ s`
-and retraction `x ⊗ s ↦ σ(x)s` on pure tensors (HK Rem. 7.2, p. 25). Completeness and
-Hausdorffness of the target are required. Its unit-coefficient, zero-scalar and two-term Checks
-are `σ_S(x ⊗ 1) = σ(x)`, `σ_S(x ⊗ 0) = 0` and `σ_S(x ⊗ s + y ⊗ t) = σ(x)s + σ(y)t`.
-
-**Sousperfectoid rings are uniform.** (*sousperfectoid-uniform*) Let `R` be a complete Tate ring
-that is sousperfectoid with frame `(R̃, ι, σ)`. Prove that `R° = ι^{-1}(R̃°)` and that `R°` is
-bounded, that is, `R` is uniform in the sense of HK Definition 2.3 (AdicSpaces layer 4.2); in
-particular `R` is reduced (HK §7, Def. 7.1, p. 25 (sousperfectoid implies uniform via strictness);
-HK §2, Def. 2.3, p. 3 (uniformity descends along strict inclusions); HK §2, after Def. 2.3, p. 3
-(uniform rings are reduced); Berkeley Lecture 7, introduction, p. 49 (perfectoid Tate rings are
-uniform by definition)). As predicted, `ℚ_p⟨T⟩° = ℤ_p⟨T⟩` is bounded, while `ℚ_p⟨X, Q⟩/(Q²)` has
-the unbounded power-bounded subring `ℤ_p⟨X⟩ + ℚ_p⟨X⟩Q` and so is not sousperfectoid. *Needs:*
-*sousperfectoid-ring*; PerfectoidSpaces P1.1 (`Perfectoid.IsPerfectoidTateRing`); Tau Ceti
-`Huber.powerBoundedSubring`, `Huber.IsBounded`, `Huber.IsPowerBounded`.
-Lean: `Huber.IsSousperfectoid.isUniform`.
-
-**Rational localisations of sousperfectoid rings are sousperfectoid.** (*sousperfectoid-rational-localisation*) Let `(R, R⁺)` be a Huber pair with `R` sousperfectoid,
-`X = Spa(R, R⁺)` and `U = R(T/s) ⊆ X` a rational subset (`T` finite with `T·R = R`). Prove that the
-complete Tate ring `𝒪_X(U) = R⟨T/s⟩` (the completed rational localisation of AdicSpaces, Tau Ceti
-`Huber.PairOfDefinition.completionLocalization`; AdicEtaleGeometry's `Huber.ratLoc` in Lean) is sousperfectoid. Explicitly: for a frame
-`(R̃, ι, σ)` and a ring of integral elements `R̃⁺ ⊆ R̃°` containing `ι(R⁺)` — which can be taken to
-be the integral closure in `R̃` of the subring generated by `ι(R⁺)` and the topologically nilpotent
-elements `R̃°°`, an open subring contained in `R̃°` — the preimage `Ũ` of `U` in `X̃ = Spa(R̃, R̃⁺)`
-is the rational subset `R(ι(T)/ι(s))`, `R̃ ⊗̂_R 𝒪_X(U) ≅ 𝒪_X̃(Ũ) = R̃⟨ι(T)/ι(s)⟩` is perfectoid,
-and `(𝒪_X̃(Ũ), ι ⊗̂ id, σ ⊗̂ id)` is a perfectoid frame for `𝒪_X(U)` (Berkeley Lecture 6, §6.3,
-Prop. 6.3.3(1), p. 47; Berkeley Lecture 6, proof of Prop. 6.3.3, p. 48 (base change of the frame
-along the rational localisation); Berkeley Lecture 6, §6.2, Thm 6.2.6, p. 45 (rational
-localisations of perfectoid Tate rings are perfectoid); HK §3, Prop. 3.8, p. 8 (rational
-localisations of perfectoid rings, with no base field, are perfectoid)). For `R = ℚ_p⟨T⟩` and
-`U = {|T| ≥ 1}`, `𝒪_X(U) = ℚ_p⟨T^{±1}⟩` is sousperfectoid with frame `ℚ_p^cycl⟨T^{±1/p^∞}⟩`; for
-`R` perfectoid the statement reduces to the perfectoid case with the identity frame. *Needs:*
-*sousperfectoid-ring*; *sousperfectoid-uniform*; *split-injection-completed-base-change*;
-*completed-tensor-rational-localisation* (AdicSpacesPartII layer R0); the perfectoid rational-localization argument of PerfectoidSpaces P2.3; Tau Ceti
-`Huber.PairOfDefinition.completionLocalization`,
-`Huber.PairOfDefinition.existsUnique_continuous_ringHom_completion_locTopology`,
-`ValuationSpectrum.spaComap_preimage_rationalSubset`, `ValuationSpectrum.rationalSubset`,
-`Huber.IsRingOfIntegralElements`. Lean: `Huber.isSousperfectoid_ratLoc`.
-
-**Finite étale algebras over sousperfectoid rings are sousperfectoid.** (*sousperfectoid-finite-etale*)
-Let `R` be sousperfectoid and `S` a finite étale `R`-algebra (Mathlib `Algebra.Etale` and
-`Module.Finite`: finite, flat, finitely presented, unramified), with its natural topology as a finite
-`R`-module and `S⁺` the integral closure of `R⁺` in `S` (AdicEtaleGeometry layer A1,
-*finite-etale-affinoid-algebra*). Prove that `S` is a complete Tate ring and is sousperfectoid, with
-frame `S → R̃ ⊗_R S` (`= R̃ ⊗̂_R S`) split by `σ ⊗_R id_S` (Berkeley Lecture 6, §6.3,
-Prop. 6.3.3(2), p. 47; Berkeley Lecture 6, proof of Prop. 6.3.3, p. 48 (through almost purity:
-finite étale over perfectoid is perfectoid); Berkeley Lecture 7, §7.4, Thm 7.4.5(1), p. 53 (the
-almost-purity input); HK §7, Lem. 7.5, p. 25 (finite étale stability and faithfully flat finite
-étale descent); HK §2, Prop. 2.15(a), p. 5 (finite étale algebras over perfectoid rings, with no
-base field, are perfectoid)). For `R = ℚ_p` and `S = ℚ_p(ζ_p)`, `S` is sousperfectoid with frame
-`ℚ_p^cycl ⊗_{ℚ_p} ℚ_p(ζ_p) ≅ (ℚ_p^cycl)^{p−1}`, a finite product of perfectoid fields; for
-`R = ℚ_p⟨T^{±1}⟩` and `S = R[T^{1/n}]` with `n` prime to `p`, `S` is sousperfectoid. *Needs:*
-*sousperfectoid-ring*; *split-injection-completed-base-change*; AdicEtaleGeometry layer A1
-(*finite-etale-affinoid-algebra*); *completed-tensor-product* (AdicSpacesPartII layer R0); the finite étale perfectoid-frame argument of HK Lemma 7.5;
-PerfectoidSpaces P3.10;
-Mathlib `Algebra.Etale`, `Module.Finite`, `Module.Projective`, `Module.Flat`.
-Lean: `Huber.IsSousperfectoid.finiteEtale`.
-
-**Descent of the sousperfectoid property along faithfully flat finite étale maps.** (*sousperfectoid-finite-etale-descent*) Let `R → S` be a finite étale and faithfully flat
-homomorphism of complete Tate rings, `S` with its natural topology. Prove that if `S` is
-sousperfectoid then so is `R`: for a frame `(S̃, ι_S, σ_S)` of `S` and any `R`-linear retraction
-`τ : S → R` of `R → S`, the triple `(S̃, ι_S ∘ (R → S), τ ∘ σ_S)` is a perfectoid frame of `R`
-(HK §7, Lem. 7.5, p. 25; HK §7, proof of Lem. 7.5, p. 26 (compose the frame of `B` with a splitting
-of `A → B`)). Thus if `R → S` is a finite Galois étale cover and `S` is sousperfectoid then `R` is
-sousperfectoid. Faithful flatness is needed: `R = ℚ_p × ℚ_p⟨X, Q⟩/(Q²) → S = ℚ_p`, the projection to
-a direct factor, is finite étale but not faithfully flat, `S` is sousperfectoid, and `R` is not,
-being non-reduced. *Needs:* *sousperfectoid-ring*; *sousperfectoid-finite-etale*; Mathlib
-`Module.Projective`, `Module.Flat`, `Algebra.Etale`. Lean: `Huber.IsSousperfectoid.of_finiteEtale`.
-
-**Tate algebras over sousperfectoid rings are sousperfectoid.** (*sousperfectoid-rings*) Let `R` be
-sousperfectoid and `n ≥ 0`. Prove that `R⟨T₁, …, Tₙ⟩` (Tau Ceti
-`Huber.restrictedMvPowerSeriesCompletion`) is sousperfectoid: for a frame `(R̃, ι, σ)` of `R`, the
-perfectoid Tate ring `R̃⟨T₁^{1/p^∞}, …, Tₙ^{1/p^∞}⟩` — the completion of `R̃[T_i^{1/p^∞}]` for the
-topology in which `R̃°[T_i^{1/p^∞}]` is open with its `ϖ`-adic topology — with
-`ι⟨T⟩(Σ a_α T^α) = Σ ι(a_α) T^α` and
-
-```text
-σ'(Σ_{α ∈ (ℤ[1/p]_{≥0})^n} x_α T^α) = Σ_{α ∈ ℕ^n} σ(x_α) T^α
-```
-
-is a perfectoid frame; the case `n = 0` is trivial (Berkeley Lecture 6, §6.3, Prop. 6.3.3(3), p. 47;
-Berkeley Lecture 6, proof of Prop. 6.3.3, p. 48 (the frame `R⟨T⟩ → R̃⟨T^{1/p^∞}⟩`); HK §7, Lem. 7.3,
-p. 25 (Tate and Laurent algebras over sousperfectoid rings); HK §7, proof of Lem. 7.3, p. 25 (the
-splitting of the frame for `A⟨T⟩`)). Parts (1) and (2) of Berkeley's Proposition 6.3.3 are
-*sousperfectoid-rational-localisation* and *sousperfectoid-finite-etale*, and Proposition 6.3.4 is
-*sousperfectoid-stably-uniform*. Berkeley's Example 6.3.2(2), `ℚ_p⟨T⟩` sousperfectoid with
-`R = ℚ_p` and `R̃ = ℚ_p^cycl`, is the case `n = 1`; for a perfectoid field `L`, `L⟨T₁, …, Tₙ⟩` is
-sousperfectoid, which is the polydisc factor of BHW Corollary 3.4; iterating,
-`R⟨T⟩⟨S⟩ = R⟨T, S⟩` is sousperfectoid, and relative polydiscs `𝔹^n_X` over sousperfectoid `X` are
-sousperfectoid (the ambient spaces of ECD 6.4(iv) in AdicEtaleGeometry layer A3). *Needs:*
-*sousperfectoid-ring*; *completed-tensor-restricted-power-series* (AdicSpacesPartII layer R0); PerfectoidSpaces P1.1 and P1.30 (perfected Tate algebras); Tau Ceti `Huber.restrictedMvPowerSeriesCompletion`;
-Mathlib `ContinuousLinearMap`. Lean: `Huber.IsSousperfectoid.restrictedMvPowerSeries`.
-
-**Laurent algebras and annuli over sousperfectoid rings are sousperfectoid.** (*sousperfectoid-annulus*) Let `R` be sousperfectoid with pseudo-uniformizer `ϖ` and let `a ≤ b` be
-integers, so that the annulus is non-empty when `R ≠ 0`; the radii are integral powers of `|ϖ|`.
-Prove that `R⟨T^{±1}⟩` and the annulus ring `R⟨T/ϖ^a, ϖ^b/T⟩ := 𝒪(W)` for the rational subset
-`W = {|ϖ^b| ≤ |T| ≤ |ϖ^a|}` of `Spa(R⟨S⟩, R⁺⟨S⟩)` with `T = ϖ^a S` are sousperfectoid (HK §7,
-Lem. 7.3, p. 25). In `Spa R⟨S⟩` one has `|S| ≤ 1`, so `|T| ≤ |ϖ^a|` is automatic and `W` is the
-rational subset `R({ϖ^{b−a}}/S) = {|ϖ^{b−a}| ≤ |S|}` (its weight `ϖ^{b−a}` is a unit, so it
-generates the unit ideal and `|S| ≠ 0` is implied). Witness of the convention: for `R = ℚ_p`,
-`ϖ = p`, `a = 0`, `b = 1`, `W = {|p| ≤ |T| ≤ 1}` is the closed annulus with `𝒪(W) = ℚ_p⟨T, p/T⟩`;
-for `a = 1`, `b = 0` the inequalities `|p^0| ≤ |T| ≤ |p|` have no solution and `W = ∅`, whose ring
-`𝒪(∅) = 0` is sousperfectoid for a trivial reason — the hypothesis `a ≤ b` is what makes the
-identification of `W` with `R({ϖ^{b−a}}/S)` correct (a formal statement reading the exponent as
-`(b − a).toNat` would, for `a > b`, describe the Laurent annulus `R({1}/S)` instead of `∅`).
-Over a perfectoid field `L`, the closed annulus `{|ϖ| ≤ |T| ≤ 1}` is a
-sousperfectoid, non-perfectoid affinoid. *Needs:* *sousperfectoid-rings*;
-*sousperfectoid-rational-localisation*; Tau Ceti `ValuationSpectrum.rationalSubset`.
-
-**Check.** The ambient disc condition
-`|S| ≤ 1` is explicit for every valuation of the chosen plus ring. At `(a,b)=(0,1)` rational
-membership is then exactly `|p| ≤ |S| ≤ 1`; reversing the exponents would replace `p` by `1`.
-
-**Bounded retractions for countable extensions of discretely valued fields.**
-(*countable-extension-retraction*) Let `K` be a complete nonarchimedean field with discrete
-nontrivial valuation, and `L/K` a complete isometric nonarchimedean field extension whose
-underlying `K`-vector space is the closure of the span of a countable family. Construct a
-continuous `K`-linear map `σ : L → K` with `σ(a) = a` for `a ∈ K` and `|σ(z)| ≤ |z|`
-(HK §7, Rem. 7.8, p. 26, for the countable-extension splitting; Schneider11 §1, Lem. 1.7(ii),
-pp. 6–7, for spherical completeness of `K`). Prove the bounded extension step: start with
-the identity on `K`, adjoin the countable generators one at a time, and extend a functional
-`f` satisfying `|f(v)| ≤ |v|` by choosing its value `b` on the new vector `z` in the nested
-closed balls `{b ∈ K : |b − f(v)| ≤ |z − v|}`, `v` in the previous span. The ultrametric
-inequality makes these balls nested; spherical completeness gives their intersection.
-The resulting compatible functionals have bound `1` on the dense union; completeness of `K`
-extends them to `L`, giving the cyclotomic retraction in the field application. *Needs:* Mathlib `ContinuousLinearMap`, `Submodule.span`, `Dense`,
-`CompleteSpace`; PerfectoidSpaces P1.31 for the cyclotomic completion used in the application.
-Lean: `Huber.exists_countable_extension_retraction`.
-
-**Checks.**
-
-- For `L = K`, the retraction is the identity and has operator norm `1`.
-- For `K/ℚ_p` finite and `L = K^cycl`, a union of finite cyclotomic levels supplies a
-  countable spanning family and the retraction fixes `1`.
-- An orthonormal basis for the given norm is not needed: `ℚ_p(√p)` contains a vector of
-  norm `p^{-1/2}`, whereas coefficients in an orthonormal `ℚ_p`-basis would give only
-  norms in `p^ℤ`. Weighted orthogonal coordinates are compatible with the construction.
-
-**Finite extensions of `ℚ_p` are sousperfectoid.** (*sousperfectoid-p-adic-field*) Let `K` be a
-finite extension of `ℚ_p` and `K^cycl` the
-completion of `K(μ_{p^∞})`. Prove that `K → K^cycl` admits a continuous `K`-linear retraction, so
-that `(K^cycl, inclusion, retraction)` is a perfectoid frame and `K` is sousperfectoid; more
-generally `K⟨T₁, …, Tₙ⟩` and every rational localisation and finite étale algebra of it are
-sousperfectoid (HK §7, Rem. 7.8, p. 26 (nonarchimedean fields with a perfectoid countable profinite
-étale extension are sousperfectoid); Berkeley Lecture 6, §6.3, Ex. 6.3.2(2), p. 47). The
-retraction is supplied by *countable-extension-retraction*: the finite cyclotomic levels have
-a countable union dense in `K^cycl`, and the valuation on `K` is discrete. The perfectoidness
-of `K^cycl` follows from PerfectoidSpaces P1.31 and P3.10, since it is a finite extension of
-`ℚ_p^cycl`. Thus
-`K` is sousperfectoid but not perfectoid. Write `p = uπ^e` for a uniformizer `π` of `K`.
-If `e < p`, no topologically nilpotent `ϖ` satisfies `ϖ^p ∣ p`. If `e ≥ p`, that divisibility
-can hold (take `ϖ = π`), but Frobenius on `𝒪_K/p` is not surjective: the class of `π` has
-valuation `1`, whereas a nonzero `p`-th power has valuation divisible by `p`, modulo `π^e`.
-For `K = ℚ_p`, Frobenius on `𝔽_p` is surjective and the divisibility is the obstruction;
-for the totally ramified extension with `π^p = p`, the divisibility holds and Frobenius fails.
-Both examples fail the perfectoid input predicate: `ℚ_p` fails the divisibility condition,
-and the extension with `π^p = p` fails Frobenius surjectivity modulo `p`. Every affinoid algebra of the form `K⟨T⟩⟨f/g⟩`, and every
-smooth affinoid over `K` that is étale over a polydisc through a composite of rational localisations
-and finite étale maps, is sousperfectoid. *Needs:* *sousperfectoid-ring*; *sousperfectoid-rings*;
-*sousperfectoid-rational-localisation*; *sousperfectoid-finite-etale*; *countable-extension-retraction*; the Frobenius criterion of PerfectoidSpaces P1.1
-(`Perfectoid.IsPerfectoidTateRing.iff_frobenius_surjective_modP`) and `ℚ_p^cycl` (P1.31), with finite étale perfectoid extensions (P3.10).
-Lean: `Huber.IsSousperfectoid.of_finite_padic`.
-
-**Checks.**
-
-- `ℚ_p` is sousperfectoid but fails perfectoid divisibility (Lean `example`).
-- The finite extension with `π^p = p` satisfies divisibility and fails Frobenius
-  surjectivity modulo `p` (Lean `example`).
-- `K⟨T⟩` is sousperfectoid; Frobenius on `K°⟨T⟩/p` misses its
-  coordinate `T`, so sousperfectoidness does not imply perfectoidness.
-
-### R5.3 stable uniformity and sheafiness
-
-**Sousperfectoid pairs are stably uniform.** (*sousperfectoid-stably-uniform*) Let `(R, R⁺)` be a
-Tate Huber pair with `R` complete Tate and sousperfectoid and `R⁺` any ring of integral elements.
-That `(R, R⁺)` is stably uniform — for every rational subset `U ⊆ Spa(R, R⁺)`, `𝒪(U)` is uniform
-(HK Definition 3.13; AdicSpaces layer 4.2) — is the splitting criterion *stably-uniform-sheafy*
-(AdicSpacesPartIII layer R3; KL15 Rem. 2.8.12) applied to the frame map `ι : R → R̃`, `R̃` perfectoid and hence
-stably uniform by the perfectoid rational-localization argument, with the retraction `σ` (Berkeley Lecture 6, §6.3,
-Prop. 6.3.4, p. 48). BHW's Proposition 3.3 is this statement; on the closed unit disc over `ℚ_p`
-it says that every rational localisation `ℚ_p⟨T⟩⟨f/g⟩` is reduced and uniform. *Needs:*
-*sousperfectoid-rational-localisation*; *sousperfectoid-uniform*; *stably-uniform-sheafy*
-(AdicSpacesPartIII layer R3); the perfectoid rational-localisation argument of PerfectoidSpaces P2.3.
-Lean: `Huber.isUniform_ratLoc`.
-
-**Sousperfectoid pairs are sheafy, strongly sheafy and `𝒪`-acyclic.** (*sousperfectoid-sheafy*) Let
-`(R, R⁺)` be a Tate Huber pair with `R` sousperfectoid, as in *sousperfectoid-stably-uniform*.
-Prove that `(R, R⁺)` is sheafy, so that `Spa(R, R⁺)` is an affinoid adic space in the sense of
-AdicSpaces layer 5, that `H^i(Spa(R, R⁺), 𝒪) = 0` for `i > 0`, and that `R` is strongly sheafy:
-every `R⟨T₁, …, Tₙ⟩` is sheafy — the predicate `Huber.IsStronglySheafy` of AdicEtaleGeometry
-layer A1 (*strongly-sheafy-huber-pair*) (BHW §3.1, Prop. 3.3, p. 1724 (citing Berkeley 6.3.4); HK §7,
-Cor. 7.4, p. 25 (strong sheafiness of sousperfectoid rings); HK §3, Prop. 3.14, p. 9
-(Buzzard–Verberkmoes–Mihara)). By this route `Spa(ℚ_p⟨T⟩, ℤ_p⟨T⟩)` is sheafy without using
-noetherianity. For nonzero perfectoid `S`, `Spa(S⟨T⟩, S⁺⟨T⟩)` is sheafy although
-`S⟨T⟩` is not perfectoid. It can be noetherian: take `S` to be a perfectoid field. *Needs:* *sousperfectoid-stably-uniform*; *sousperfectoid-rings*;
-*stably-uniform-sheafy*, *sheafy-cech-acyclicity* (AdicSpacesPartIII layer R3); AdicEtaleGeometry layer A1
-(*strongly-sheafy-huber-pair*).
-
-The sheafiness statement supplies the affinoid adic space for any
-chosen ring of integral elements, and the strong sheafiness is
-A1's predicate; both are `Huber.IsSousperfectoid.isSheafyRing` in Lean. The acyclicity statement
-asserts vanishing of the ordinary additive structure-sheaf cohomology in positive
-degree, using Mathlib's `Sheaf.H` and its explicit sheafification and Ext assumptions; it is
-specified in this README only.
-
-### R5.4 sousperfectoid spaces
-
-**Sousperfectoid adic spaces.** (*sousperfectoid-adic-space*) An adic space `X` (AdicSpaces layer 5:
-an object of Huber's category `𝒱` covered by affinoid adic spaces) is sousperfectoid if it admits an
-open cover by affinoid adic spaces `Spa(R, R⁺)` with `R` sousperfectoid (*sousperfectoid-ring*);
-such `Spa(R, R⁺)` are adic spaces by *sousperfectoid-sheafy*. Equivalently, the open affinoid
-subspaces `Spa(R, R⁺) ⊆ X` with `R` sousperfectoid form a basis of the topology of `X`. No base is
-fixed; `X` lives over `Spa ℤ_p` because `p` is topologically nilpotent on every chart. A
-sousperfectoid space is analytic, its charts being Tate. A morphism of sousperfectoid spaces is a
-morphism of adic spaces. In `AdicSpace`, define the predicate `IsSousperfectoid` (`X` admits an open
-cover by `Spa(R, R⁺)` with `R` sousperfectoid); prove `IsSousperfectoid.spa` (`Spa(R, R⁺)` is a
-sousperfectoid adic space for `R` sousperfectoid), that
-perfectoid spaces are sousperfectoid, that open subspaces of
-sousperfectoid spaces are sousperfectoid, that the sousperfectoid
-affinoid opens form a basis of the topology of `X`, `IsSousperfectoid.isAnalytic` (every point of a
-sousperfectoid space is analytic), that `𝒪_X(U)` is reduced for
-every open `U`, `IsSousperfectoid.of_etale` (étale over sousperfectoid is sousperfectoid,
-*sousperfectoid-etale-stability*), that relative polydiscs exist
-(`𝔹^n_X = X ×_{Spa ℤ_p} Spa ℤ_p⟨T₁, …, Tₙ⟩` exists and is sousperfectoid, locally `Spa R⟨T⟩`; on a
-chart `Spa(R, R⁺)` the finite-type construction of *fibre-product-along-finite-type*
-with `M = {1}` gives `W_m = Spa R⟨T⟩` for every `m`, since `M_{L,m} = {1} ∪ Lᵐ` includes the
-weight `1`; hence its union is `Spa R⟨T⟩`. This applies also when `p = 0` or when `p` is a
-nonzero nonunit in `R`), that sousperfectoid affinoids are stably adic
-(for a sousperfectoid affinoid `Spa(R, R⁺)`, the composites of
-rational localisations and finite étale maps over `(R, R⁺)` form a stable basis of its étale site in
-the sense of Kedlaya–Liu 8.2.19, so it is stably adic, and `X_ét` is covered by the étale sites of
-these affinoid opens, *sousperfectoid-stably-adic*) and `IsSousperfectoid.exists_fibreProduct_etale` (base
-change of an étale map to a locally noetherian space along a map from a sousperfectoid space exists
-and is sousperfectoid, *sousperfectoid-etale-base-change*) (BHW §3.1, Def. 3.2(3), p. 1724; HK §1,
-Introduction, p. 3; Berkeley Appendix to Lecture 19, §19.5, p. 179 (sousperfectoid adic spaces are
-locally `Spa` of sousperfectoid rings); BHW §3.1, p. 1724 (why the products must exist as adic
-spaces)). Spaces locally admitting charts satisfying the perfectoid input predicate are
-sousperfectoid, and so are smooth rigid spaces over a perfectoid field `L` or over a finite
-extension `K` of `ℚ_p`. *Needs:* *sousperfectoid-ring*; *sousperfectoid-sheafy*;
-*sousperfectoid-rational-localisation*; *affinoid-fibre-product*,
-*fibre-product-along-finite-type*, *completed-tensor-restricted-power-series* (AdicSpacesPartII layer R0);
-PerfectoidSpaces P2.9–P2.10 (affinoid perfectoid and perfectoid spaces); Tau Ceti
-`ValuationSpectrum.spa`. Lean: `AdicSpace.IsSousperfectoid`, `AdicSpace.IsSousperfectoid.spa`,
-`AdicSpace.IsSousperfectoid.isAnalytic`.
-
-**Checks.**
-
-- Computation: the closed unit disc
-  `Spa(ℚ_p⟨T⟩, ℤ_p⟨T⟩)` is a sousperfectoid adic space (Berkeley Lecture 6, §6.3, Ex. 6.3.2(2)).
-- Compatibility: every perfectoid space
-  (PerfectoidSpaces layer P2) is a sousperfectoid adic space, with charts the affinoid perfectoid
-  opens.
-- Non-example: `Spa(ℚ_p⟨X, Q⟩/(Q²))` is an adic
-  space (strongly noetherian) but not sousperfectoid: sections of `𝒪` over any open of a
-  sousperfectoid space are reduced (products and equalizers of reduced rings), while `Q ≠ 0` is
-  nilpotent in the global sections.
-- Degenerate: the empty adic space and
-  `Spa(ℚ_p, ℤ_p)` are sousperfectoid.
-- Characterisation: a rigid space
-  smooth over a perfectoid field `L` is sousperfectoid (*perfectoid-times-smooth-fibre-product* with
-  `X = Spa L`); for example `𝔹¹_L` is sousperfectoid and not perfectoid.
-
-The predicate `AdicSpace.IsSousperfectoid p X` is exactly the existence, at each
-point, of a Part II `AdicSpace.Chart` whose coordinate ring is sousperfectoid
-and whose open immersion contains that point in its image.
-The empty space satisfies this condition (Lean `example`);
-a nonzero nilpotent section on any open excludes it (Lean `example`);
-the closed disc over `ℚ_p` satisfies it.
-Together with the closed-disc and perfectoid Checks above, these distinguish the
-local condition from perfectoidness and from merely being analytic.
-
-**Étale spaces over a sousperfectoid space are sousperfectoid adic spaces.** (*sousperfectoid-etale-stability*) Let `X` be a sousperfectoid adic space and `f : Y → X` étale in
-the local-description sense of AdicEtaleGeometry layer A1 (Kedlaya–Liu Definition 8.2.16: every
-`y ∈ Y` has an open neighbourhood on which `f` factors as an open immersion, a finite étale morphism
-and an open immersion, where finite étale means affinoid-locally on the target
-`Spa(S, S⁺) → Spa(R, R⁺)` with `R → S` finite étale and `S⁺` the integral closure of `R⁺`); for
-locally noetherian targets this is Huber's étale (*differentials-unramified-smooth-etale*, AdicSpacesPartII layer R0;
-the comparison with the local description is AdicEtaleGeometry layer A1,
-*etale-morphisms-local-description-and-comparison*). Prove that `Y` is an adic space (not
-merely a preadic space) and is sousperfectoid. In particular every object of the étale site `X_ét`
-is a sousperfectoid adic space, and for a finite étale `R`-algebra `S` over a sousperfectoid `R` and
-a composite of rational localisations and finite étale maps `R → S'`, the ring `S'` itself is
-sousperfectoid. For a general étale map, sousperfectoidness is a property of the space `Y`, not of a
-global ring: `Y` is covered by sousperfectoid affinoids, while the sousperfectoid property of rings
-is not known to be of local nature (Berkeley Appendix to Lecture 19, §19.5, p. 179 (étale objects
-over a sousperfectoid space are sousperfectoid adic spaces); KL15 §8.2, Def. 8.2.16, p. 162 (étale
-morphisms of (pre)adic spaces by local description); KL15 §8.2, Rem. 8.2.18, p. 162 (why a class
-stable under finite étale maps is needed); HK §5, Def. 5.1, p. 14 (étale in the naive sense:
-locally a composition of rational localisations and finite étale maps); BHW §3.1, proof of
-Cor. 3.4, p. 1725 (the étale step, which BHW attribute to 6.3.3(ii), the finite étale case)). Thus
-any `Y ∈ X_ét` is itself sousperfectoid and in particular an adic space, and BHW's step "algebras
-étale over a sousperfectoid algebra are again sousperfectoid" holds for composites of rational
-localisations and finite étale maps and, for general étale maps, in the space-level form above.
-*Needs:* *sousperfectoid-adic-space*; *sousperfectoid-finite-etale*;
-*sousperfectoid-rational-localisation*; *sousperfectoid-sheafy*; AdicEtaleGeometry layer A1
-(*finite-etale-affinoid-algebra*). Lean: `AdicSpace.IsSousperfectoid.of_etale`.
-
-**Sousperfectoid spaces are stably adic.** (*sousperfectoid-stably-adic*) Let `X = Spa(R, R⁺)` with
-`R` sousperfectoid, with `X_ét` in the local-description sense of AdicEtaleGeometry layer A1, and
-let `B_X` be the class of objects `Y → X` of `X_ét` of the form `Y = Spa(S, S⁺)` with
-`(R, R⁺) → (S, S⁺)` a finite composite of rational localisations and finite étale maps, the plus
-rings being the integral closures. Prove that every such `S` is sousperfectoid (so `Spa(S, S⁺)` is
-an affinoid adic space). Define on A1's small étale category of `X` the class generated by
-the identity: start with the identity object up to isomorphism and close under rational
-embeddings, finite étale maps and isomorphisms over `X`. This is `B_X`.
-Prove that its members are basic objects in the sense of A1's *basis-comparison* for an
-affinoid base. A1's class also starts from arbitrary affinoid open charts; those charts are
-not additional starting objects of `B_X`. Prove,
-for an explicit base `X = Spa(A₀, A₀⁺)` with `A₀` sousperfectoid (`Huber.IsSousperfectoid p A₀`) and
-`U ∈ B_X`: for every sheafy complete affinoid presentation
-`U ≅ Spa(A, A⁺)`, the ring `A` is sousperfectoid. Rational localisation and finite
-étale stability give this assertion (HK Def. 7.1 and Lemma 7.5(a), p. 25); a cover by
-sousperfectoid charts alone does not give it, since locality of the ring property is unknown
-(HK Def. 7.1, p. 25).
-The stable-basis statement says that `B_X` consists of affinoids, covers
-every étale object by open immersions, and admits fibre products over `X` within `B_X`;
-it also names the local strong-sheafiness supplied by *sousperfectoid-sheafy*.
-The constructors include every rational subdomain and finite étale extension of a member.
-Thus `B_X` is a stable basis in the sense of Kedlaya–Liu Definition 8.2.19, p. 163,
-using the identity-generated basis of HK's proof of Proposition 5.5, p. 15. Consequently, by
-*stable-basis-etale-vector-bundles* (Kedlaya–Liu Theorem 8.2.22(c),(d)): for every finite projective
-`R`-module `M`, `M̃` is an acyclic sheaf on `B_X`, in particular `H^i(X_ét, 𝒪) = 0` for `i > 0`; and
-finite projective `R`-modules are equivalent to finite locally free `𝒪_{X_ét}`-modules. For a
-general sousperfectoid adic space these statements hold on every sousperfectoid affinoid open, and
-such opens cover `X`. The class of all affinoid objects `Spa(S, S⁺)` of `X_ét` with `S`
-sousperfectoid is not used as the basis: its closure under fibre products would need
-`S₁ ⊗̂_S S₂` to be sousperfectoid for a general étale `S → S₁`, which is not known. Kedlaya–Liu
-define `X_ét` and stable bases for preadic spaces over an analytic field; here, as in Berkeley
-§19.5, they are used over `ℤ_p`, the proofs of Kedlaya–Liu 8.2.20–8.2.22 not using the base field
-(KL15 §8.2, Def. 8.2.19, p. 163 (stable bases and stably adic spaces); KL15 §8.2, Rem. 8.2.18,
-p. 162; HK §1, Introduction, p. 3 (finite étale covers of sousperfectoid spaces); KL15 §8.2, after
-Def. 8.2.19, p. 163 (a stable basis must be closed under fibre products, which is why the basis is
-the composites of rational localisations and finite étale maps); HK §5, proof of Prop. 5.5, p. 15
-(the basis `B_X`); HK §5, Prop. 5.8, p. 16 (étale `𝒪`-acyclicity for strongly sheafy, in
-particular sousperfectoid, pairs); KL15 §8.2, Thm 8.2.22(c),(d), p. 165). For `X` affinoid
-perfectoid this recovers the stably adic property of perfectoid spaces; as in Berkeley §19.5, vector
-bundles on `X_ét` for sousperfectoid `X` are finite projective modules on affinoids, the input to
-Tannakian `G`-torsors. *Needs:* *sousperfectoid-etale-stability*; *sousperfectoid-finite-etale*;
-*sousperfectoid-rational-localisation*; *sousperfectoid-sheafy*;
-*stable-basis-etale-vector-bundles*; *completed-tensor-rational-localisation* (AdicSpacesPartII layer R0);
-*sheafy-tate-acyclicity-and-kiehl-gluing*, *finite-projective-etale-descent* (AdicSpacesPartIII layer R3);
-AdicEtaleGeometry layer A1 (*basis-comparison*).
-
-**Checks.**
-
-- The identity étale object belongs by the initial
-  constructor, including when the base is empty.
-- The split two-point cover of `Spa(ℚ₂, ℤ₂)` belongs
-  by a finite étale step; it need not be an open immersion.
-- The empty finite étale object over `Spa(ℚ₂, ℤ₂)`
-  belongs; its coordinate ring is the zero ring.
-- The non-quasicompact open unit disc inside the
-  closed unit disc is étale but does not belong, since these basic objects are affinoid.
-- An affinoid presentation with a nonzero
-  nilpotent coordinate cannot belong to `B_X` over a sousperfectoid affinoid base.
-
-**Base change of étale maps to locally noetherian spaces along sousperfectoid spaces.** (*sousperfectoid-etale-base-change*) Let `Z` be a sousperfectoid adic space, possibly non-noetherian. Its charts are stably sheafy; the formula below uses the stably sheafy case of *fibre-products-existence*, rather than requiring the locally noetherian case; let `W` be a locally noetherian analytic adic space (for example a rigid space),
-so that étale maps to `W` have the local open-immersion/finite-étale description (Huber Lemma 2.2.8
-through AdicEtaleGeometry layer A1); let `g : Z → W` be a morphism and `f : Y → W` étale (AdicSpacesPartII layer R0).
-Prove that the fibre product `Z ×_W Y` exists in the category of adic spaces, that the projection
-`Z ×_W Y → Z` is étale in the local-description sense of AdicEtaleGeometry layer A1, and that
-`Z ×_W Y` is sousperfectoid. Affinoid formula: if `Y' ⊆ Y` is open and `f|_{Y'}` factors as an open
-immersion `Y' → Y''` followed by a finite étale morphism `Y'' = Spa(B, B⁺) → W' = Spa(A, A⁺)` onto
-an affinoid open `W' ⊆ W` (`A → B` finite étale, `B⁺` the integral closure of `A⁺`; such
-factorisations exist locally by Huber Lemma 2.2.8), and `Z' = Spa(C, C⁺) ⊆ g^{-1}(W')` is an
-affinoid open with `C` sousperfectoid, then `C ⊗_A B` is sousperfectoid,
-`Z' ×_{W'} Y'' = Spa(C ⊗_A B, integral closure of C⁺ in C ⊗_A B)`, and `Z' ×_W Y'` is its open
-subspace lying over `Y'` (Berkeley Lecture 7, §7.5, after Def. 7.5.1, p. 55 (Huber-étale maps of
-analytic adic spaces are locally an open immersion followed by a finite étale map); KL15 §8.2,
-Def. 8.2.16, p. 162; BHW §3.1, proof of Cor. 3.4, p. 1725 (the étale step)). For `W = 𝔹^n_L`,
-`Z = X ×_L 𝔹^n` with `X` affinoid perfectoid and `Y → 𝔹^n` étale, `Z ×_W Y = X ×_L Y` is the BHW
-product; for `Y = W'` an open subspace of `W`, `Z ×_W Y = g^{-1}(W')`. *Needs:*
-*sousperfectoid-etale-stability*; *sousperfectoid-finite-etale*; *sousperfectoid-sheafy*;
-AdicEtaleGeometry layer A1 (*finite-etale-affinoid-algebra*);
-*completed-tensor-product-universal-property*, *affinoid-fibre-product*,
-*locally-noetherian-adic-space*, *differentials-unramified-smooth-etale* (AdicSpacesPartII layer R0); Mathlib
-`Algebra.Etale`. Lean: `AdicSpace.IsSousperfectoid.exists_fibreProduct_etale`.
+This layer uses PerfectoidSpaces P3.17a–P3.17b for sousperfectoid rings, spaces and
+polydisc products, AdicSpacesPartII R0.20.1–R0.20.2 for tilde-limits, and
+AdicEtaleGeometry A1.6–A1.6a for stable-basis covering reduction and vector bundles.
+It constructs the product of a perfectoid space with a smooth rigid space, proves it
+sousperfectoid and gives its tilde-limit presentation. It builds the completed coefficient
+algebras of Chojecki–Hansen–Johansson — profinite flat modules, small `ℤ_p`-algebras and
+mixed completed tensor products — and the coefficient sheaves `𝒪_X ⊗̂ R` on affinoid rigid
+spaces, with Tate acyclicity, localisation, coherence, Kiehl's theorem for finite free
+coefficient algebras, projectivity of locally projective localised modules, base change
+and dense-restriction properties.
 
 ### R5.5 perfectoid times smooth
-
-**Perfectoid space times a polydisc: sousperfectoid, not perfectoid.** (*perfectoid-times-polydisc*)
-Let `L` be a perfectoid field, `X = Spa(S, S⁺)` an affinoid perfectoid space over `L` and
-`𝔹^n_L = Spa(L⟨T₁, …, Tₙ⟩, 𝒪_L⟨T⟩)`. Prove that the fibre product `X ×_L 𝔹^n_L` exists in adic
-spaces and equals `Spa(S⟨T₁, …, Tₙ⟩, S⁺⟨T₁, …, Tₙ⟩)`, which is a sousperfectoid affinoid adic space
-(BHW §3.1, proof of Cor. 3.4, p. 1725 (the perfectoid-times-polydisc step); Berkeley Lecture 6,
-§6.3, Prop. 6.3.3(3), p. 47), and that for `n ≥ 1` and `S ≠ 0`, `S⟨T₁, …, Tₙ⟩` is not perfectoid
-(proved here: `T₁` is not a `p`-th power in `S°⟨T⟩/ϖ` for nonzero `S`, the argument of the
-`ℚ_p⟨T⟩` non-example of *sousperfectoid-ring*; Berkeley Lecture 6, §6.3, Ex. 6.3.2(2), p. 47, for
-`ℚ_p⟨T⟩`).
-Thus `ℚ_p^cycl⟨T⟩` is sousperfectoid and not perfectoid, its perfectoid cover
-`ℚ_p^cycl⟨T^{1/p^∞}⟩` being a frame; and a smooth weight disc times a nonempty perfectoid space is not
-perfectoid. *Needs:* *sousperfectoid-rings*; *sousperfectoid-sheafy*;
-*completed-tensor-restricted-power-series*, *affinoid-fibre-product* (AdicSpacesPartII layer R0); PerfectoidSpaces P1.1, P1.10 and P2.9; Tau Ceti
-`ValuationSpectrum.mem_iff_forall_vle_one`, `Huber.restrictedMvPowerSeriesCompletion`.
-Lean: `Huber.not_isPerfectoidTateRing_restrictedMvPowerSeries`.
 
 **The product `X ×_L Y` of a perfectoid space and a smooth rigid space.** (*perfectoid-times-smooth-fibre-product*) Let `L` be a perfectoid field, `L'` a perfectoid field
 extension of `L` (complete, with `L → L'` continuous; BHW take `L` a perfectoid extension of
@@ -2339,14 +1752,14 @@ prove that `X ×_L Y` is a sousperfectoid adic space,
 the base change isomorphism `X ×_L Y ≅ (X ×_L Spa L') ×_{L'} Y`,
 the polydisc chart (over affinoid perfectoid `Spa(S, S⁺)` and an étale chart
 `h : V' → 𝔹^n`, the piece is `(Spa S⟨T⟩) ×_{𝔹^n} V'` with the affinoid formula of
-*sousperfectoid-etale-base-change*), functoriality in `X`, for maps of
+[*sousperfectoid-etale-base-change*](../PerfectoidSpaces/README.md#p3-17a-4) (PerfectoidSpaces §P3.17a.4)), functoriality in `X`, for maps of
 perfectoid spaces over `L`, and in `Y`, for maps of smooth rigid spaces over `L'`, with
 compatibility with identities and composition, the restriction isomorphism (for opens `V ⊆ X`,
 `W ⊆ Y`, `V ×_L W` is the open
 subspace `fst^{-1}V ∩ snd^{-1}W`) and the sections over affinoids (for affinoid
 perfectoid `V = Spa(S, S⁺)` and an affinoid open `U' = Spa(B, B⁺) ⊆ Y` that is a chart: `B` obtained by a finite
 composite of rational localisations and finite étale extensions from `L'⟨T₁, …, Tₙ⟩`, so that `S ⊗̂_L B` is sousperfectoid by
-*sousperfectoid-rational-localisation* and *sousperfectoid-finite-etale* — `V ×_L U'` is the
+[*sousperfectoid-rational-localisation*](../PerfectoidSpaces/README.md#p3-17a-2) (PerfectoidSpaces §P3.17a.2) and [*sousperfectoid-finite-etale*](../PerfectoidSpaces/README.md#p3-17a-2) (PerfectoidSpaces §P3.17a.2) — `V ×_L U'` is the
 affinoid `Spa(S ⊗̂_L B)`, `𝒪(V ×_L U') = S ⊗̂_L B`, and the plus ring is the completed integral
 closure; every affinoid open of `Y` is covered by finitely many rational subsets that are charts,
 by Huber 1.6.10 and the local structure of étale maps, and for an affinoid open `U'` that is not a
@@ -2361,20 +1774,23 @@ topologically finite type)). For `Y = Spa L'`, `X ×_L Spa L'` is the perfectoid
 `Y = 𝔹¹_{L'}`, after base extension `X' = X ×_L Spa L'` and restriction to a nonempty
 `Spa(S,S⁺) ⊆ X'`, the product is `Spa(S⟨T⟩)`, sousperfectoid and not perfectoid; and by BHW
 Corollary 3.5, for `U` smooth over `L`, the anticanonical tower `X*_{Γ(p^∞)}(ε)_a` of BHW §3 times `U` exists as a sousperfectoid adic
-space. *Needs:* *perfectoid-times-polydisc*; *sousperfectoid-etale-base-change*;
-*sousperfectoid-adic-space*; *smooth-local-structure*, *smooth-morphism*,
+space. *Needs:* [*perfectoid-times-polydisc*](../PerfectoidSpaces/README.md#p3-17b) (PerfectoidSpaces §P3.17b); [*sousperfectoid-etale-base-change*](../PerfectoidSpaces/README.md#p3-17a-4) (PerfectoidSpaces §P3.17a.4);
+[*sousperfectoid-adic-space*](../PerfectoidSpaces/README.md#p3-17a-4) (PerfectoidSpaces §P3.17a.4); *smooth-local-structure*, *smooth-morphism*,
 *affinoid-fibre-product* (AdicSpacesPartII layer R0); PerfectoidSpaces P1.10 and P2.10; the local completed-tensor and gluing argument of BHW Corollary 3.4.
 Lean: `AdicSpace.perfectoidTimesSmooth_exists`.
 
 **Checks.**
 
+- Characterisation: a rigid space smooth over a perfectoid field `L` is sousperfectoid in
+  the sense of PerfectoidSpaces P3.17a.4 (*perfectoid-times-smooth-fibre-product* with
+  `X = Spa L`); for example `𝔹¹_L` is sousperfectoid and not perfectoid.
 - Degenerate: for `Y = Spa(L', 𝒪_{L'})`, `X ×_L Y` is the
   perfectoid fibre product `X ×_L Spa L'` of PerfectoidSpaces layer P2, and for `L' = L` it is `X`.
 - Computation: for `X = Spa(S, S⁺)` affinoid perfectoid
   over `L` and `Y = 𝔹^n_L`, `X ×_L Y = Spa(S⟨T₁, …, Tₙ⟩, S⁺⟨T⟩)` with `𝒪(X ×_L Y) = S⟨T⟩`.
 - Non-example: for `X = Spa(L, 𝒪_L)` and
   `Y = 𝔹¹_L`, `X ×_L Y = 𝔹¹_L = Spa(L⟨T⟩)` is not a perfectoid space
-  (*perfectoid-times-polydisc*): a definition of the product inside the category of perfectoid
+  ([*perfectoid-times-polydisc*](../PerfectoidSpaces/README.md#p3-17b) (PerfectoidSpaces §P3.17b)): a definition of the product inside the category of perfectoid
   spaces fails.
 - Characterisation: for every affinoid field `(C, C⁺)` over
   `L'`, `(X ×_L Y)(C, C⁺) = X(C, C⁺) ×_{Spa(L)(C, C⁺)} Y(C, C⁺)`: the universal property tested on
@@ -2389,8 +1805,8 @@ Lean: `AdicSpace.perfectoidTimesSmooth_exists`.
 
 `AdicSpace.perfectoidTimesSmooth_exists` states existence as an A1 `FibreProduct`
 (`TauCetiRoadmap.AdicEtaleGeometry.AdicSpace.FibreProduct`),
-whose fields include both projections and the limiting cone, together with the
-sousperfectoid conclusion. It takes the two perfectoid base fields, their continuous
+whose fields include both projections and the limiting cone. The sousperfectoid conclusion
+is specified above using PerfectoidSpaces P3.17a.4's predicate. It takes the two perfectoid base fields, their continuous
 pair homomorphism, a perfectoid affinoid cover of `X`, and the smooth map from `Y`.
 The field-point, empty-factor, and field-valued-point Checks apply to these actual
 fibre-product structures.
@@ -2398,16 +1814,16 @@ fibre-product structures.
 **Products with a smooth space preserve tilde-limits.** (*perfectoid-times-smooth-tilde-limit*)
 For a perfectoid field `L`, an inverse system `(X_n)_{n ≥ 1}` of quasi-compact quasi-separated adic
 spaces over `L` with adic transition maps, a quasi-compact quasi-separated perfectoid space `X_∞`
-over `L` with `X_∞ ∼ lim_n X_n` (*tilde-limits-affinoid-criterion*), and a quasi-compact
+over `L` with `X_∞ ∼ lim_n X_n` ([*tilde-limits-affinoid-criterion*](../AdicSpacesPartII/README.md#r0201-tilde-limits-of-adic-spaces) (AdicSpacesPartII §R0.20.1)), and a quasi-compact
 quasi-separated rigid space `U` smooth over `L` such that each `X_n ×_L U` exists as an adic space,
 the relation `X_∞ ×_L U ∼ lim_n X_n ×_L U` for the product of
-*perfectoid-times-smooth-fibre-product* is the corollary of *tilde-limit-base-change* with
+*perfectoid-times-smooth-fibre-product* is the corollary of [*tilde-limit-base-change*](../AdicSpacesPartII/README.md#r0202-base-change-of-tilde-limits) (AdicSpacesPartII §R0.20.2) with
 `f = X_1 ×_L U → X_1` (locally of weakly finite type, as a base change of the smooth `U → Spa L`,
 *perfectoid-times-smooth-fibre-product*); for `U` not quasi-compact it holds with `U` replaced by
 any quasi-compact open `U' ⊆ U` (BHW §3.1, Cor. 3.5, p. 1725; Huber96 §2.4, Rem. 2.4.3(ii),
 p. 126). BHW Corollary 3.5 is the case `X*_{Γ(p^∞)}(ε)_a ×_L U ∼ lim_n X*_{Γ(p^n)}(ε)_a ×_L U`; for
 `U = Spa L` the statement is the hypothesis. *Needs:* *perfectoid-times-smooth-fibre-product*;
-*tilde-limit-base-change*; *tilde-limits-affinoid-criterion*.
+[*tilde-limit-base-change*](../AdicSpacesPartII/README.md#r0202-base-change-of-tilde-limits) (AdicSpacesPartII §R0.20.2); [*tilde-limits-affinoid-criterion*](../AdicSpacesPartII/README.md#r0201-tilde-limits-of-adic-spaces) (AdicSpacesPartII §R0.20.1).
 
 ### R5.6 coefficient algebras
 
@@ -2861,7 +2277,7 @@ is exact; consequently `ℛ` is a sheaf on the rational site and `H^i(U, ℛ) = 
 unit balls are open bounded lattices compatible with the restriction maps on the finite Čech nerve:
 for reduced `X`, `𝒪_X°(U)`; in general, lattices chosen inductively on the nerve, `𝒪_X°(U)` being
 unbounded when `X` is not reduced (*rational-integral-compatibility*). On the étale site, acyclicity is asserted only on the stable basis of
-*stable-basis-etale-vector-bundles* (KL15 Theorem 8.2.22(c))
+[*stable-basis-etale-vector-bundles*](../AdicEtaleGeometry/README.md#a16a-vector-bundles-on-a-stable-étale-basis) (AdicEtaleGeometry §A1.6a) (KL15 Theorem 8.2.22(c))
 (CHJ §6.3, Prop. 6.15, p. 52; CHJ §6.3, proof of Prop. 6.15, p. 52 (the proof uses the bounded
 torsion of the integral Čech cohomology); CHJ §6.3, Rem. 6.17, p. 52 (the étale-site version)). For
 `X` the closed disc, `R = ℤ_p[[T]]` and the Laurent cover `{|Y| ≤ |p|}`, `{|p| ≤ |Y|}`,
@@ -3053,71 +2469,9 @@ disc `X`, the covers `{U_i × 𝔹¹}` are rational covers of `X × 𝔹¹`, and
 (AdicSpacesPartIII layer R3); *completed-coefficient-sheaf*.
 
 The reduction of étale coverings to rational coverings and surjective finite étale maps is
-AdicEtaleGeometry A1, *etale-covering-reduction* (KL15 §8.2, Props. 8.2.20–8.2.21,
-pp. 163–164), applied to the stable basis of *sousperfectoid-stably-adic* in the following form.
-
-**Covering reduction on a stable basis.** (*stable-basis-covering-reduction*) Let `X` be locally
-strongly sheafy and `B` a class of affinoid objects of `X_ét` that is cover-dense and stable under
-rational embeddings and finite étale maps. Prove that the topology induced on `B` by `X_ét` is the
-smallest one in which finite jointly surjective families of rational embeddings and single
-surjective finite étale maps are coverings: a topology on `B` contains the induced one if and only
-if it contains these sieves (KL15 §8.2, Props. 8.2.20–8.2.21, pp. 163–164; dJvP §3.2,
-Prop. 3.2.2, p. 23, in the rigid case). This is a wrapper, not a second theorem: AdicEtaleGeometry
-A1's *etale-covering-reduction* is stated and proved for an arbitrary cover-dense class of affinoid
-objects stable under rational embeddings and finite étale maps, and this target applies it to the
-class of *sousperfectoid-stably-adic* objects; it uses no PerfectoidSpaces target. *Needs:* AdicEtaleGeometry layer A1 (*etale-site*,
-*etale-covering-reduction*, *strongly-sheafy-huber-pair*).
-
-**Vector bundles on the étale site of an affinoid with a stable basis.** (*stable-basis-etale-vector-bundles*) Let `X = Spa(A, A⁺)` with `(A, A⁺)` a complete strongly sheafy
-Tate pair, and let `B` be a stable basis of A1's small étale site `X_ét` containing `X` (AdicEtaleGeometry A1,
-*basis-comparison*: closed under fibre products, finite étale extensions and rational subdomains). Prove (c) that for every finite
-projective `A`-module `M`, the presheaf `M̃`, `Y = Spa(C, C⁺) ↦ M ⊗_A C`, is an acyclic sheaf on
-`B`: `H^0(Y, M̃) = M ⊗_A C` and `H^i(Y, M̃) = 0` for `i > 0`, for every `Y ∈ B`; and (d) that
-`M ↦ M̃` is an equivalence from finite projective `A`-modules to finite locally free
-`𝒪_{X_ét}`-modules, with quasi-inverse `E ↦ E(X)`. Prove the `𝒪`-sheaf assertion on the stable basis here, by taking `M = A` in finite-projective
-rational acyclicity and finite étale faithfully flat descent, then using A1's covering-reduction
-criterion. AdicEtaleGeometry A1 consumes this assertion for non-affinoid gluing and its `𝒪⁺`
-comparison. KL15 Theorem 8.2.22(a) concerns finite projective modules on the
-adic and finite étale sites; it is an input to (c), not a statement about `𝒪⁺`. Only finite projective modules are treated,
-rational localisation not being flat in general (KL15 §8.2, Thm 8.2.22(c), p. 165 (acyclicity of
-`M̃` on a stable basis); KL15 §8.2, Thm 8.2.22(d), p. 165 (étale descent of vector bundles)). For
-`M = A`, `H^i(X_ét, 𝒪) = 0` for `i > 0` (HK Proposition 5.8 for strongly sheafy `A`); for `X` a
-smooth affinoid over a `p`-adic field, vector bundles on `X_ét` are finite projective
-`𝒪(X)`-modules. Sousperfectoid applications obtain strong sheafiness from
-*sousperfectoid-sheafy*, including the perfectoid case through its identity frame.
-*Needs:* AdicEtaleGeometry layer A1
-(*etale-site*, *etale-covering-reduction*, *basis-comparison*);
-*finite-projective-module-acyclicity*, *sheafy-cech-acyclicity*, *finite-projective-etale-descent*,
-*sheafy-tate-acyclicity-and-kiehl-gluing* (AdicSpacesPartIII layer R3); Mathlib `Module.Projective`.
-
-**Checks.**
-
-- For `M = A`, the construction gives the structure sheaf and its vanishing positive
-  cohomology on the basis, before non-affinoid gluing in A1.
-- For a finite Galois extension `L/K`, descent identifies `K` with the equaliser of
-  `L ⇉ L ⊗_K L`.
-- The zero projective module gives the zero sheaf, including on the empty affinoid.
-
-**Tilde-limits are stable under base change along morphisms locally of weakly finite type.** (*tilde-limit-base-change*) Let `I` be a cofiltered category with a final object `j`, `(X_i)_{i∈I}`
-a system of quasi-compact quasi-separated adic spaces with adic transition morphisms, and `X` a
-quasi-compact quasi-separated adic space with compatible adic morphisms `φ_i : X → X_i` such that
-`X ∼ lim_i X_i` (Huber Definition 2.4.2; `AdicSpace.IsTildeLimit` in R5.8). Let `f : Y → X_j` be
-an adic morphism of quasi-compact quasi-separated adic spaces that is locally of weakly finite type, and
-assume that the fibre products `Y ×_{X_j} X` and `Y ×_{X_j} X_i` exist in adic spaces and are
-affinoid-locally `Spa` of completed tensor products (*affinoid-fibre-product*, AdicSpacesPartII layer R0); the
-existence of the fibre products is a hypothesis, supplied by *fibre-products-existence* (AdicSpacesPartII layer R0)
-in the stably sheafy case and by *perfectoid-times-smooth-fibre-product* for perfectoid `X`. Prove
-that `Y ×_{X_j} X ∼ lim_i Y ×_{X_j} X_i` (Huber96 §2.4, Rem. 2.4.3(ii), p. 126; Huber96 §2.4, (2.4.1), p. 125 (tilde-limits
-are defined for qcqs spaces with adic morphisms)). The case of an étale `f` and a perfectoid
-tilde-limit `X` is PerfectoidSpaces layer P7 (P7.12c, Scholze–Weinstein 2013 Prop. 2.4.3); this
-target is the case of a morphism locally of weakly finite type over quasi-compact quasi-separated
-adic `X`, perfectoid or not. For `Y = X_j` the statement is the hypothesis;
-BHW Corollary 3.5 is the case `Y = X_1 ×_L U` for a smooth `U`
-(*perfectoid-times-smooth-tilde-limit*). *Needs:* `AdicSpace.IsTildeLimit.affinoid`;
-*tilde-limits-affinoid-criterion*; *fibre-products-existence*, *affinoid-fibre-product*,
-*base-change-stability* (AdicSpacesPartII layer R0). Lean: `AdicSpace.IsTildeLimit.baseChange`,
-with the fibre products given as pullback squares and `f` locally of weakly finite type in the sense
-of `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.LocallyOfWeaklyFiniteType`.
+AdicEtaleGeometry A1.6, *etale-covering-reduction* (KL15 §8.2, Props. 8.2.20–8.2.21,
+pp. 163–164), applied to the stable basis of [*sousperfectoid-stably-adic*](../PerfectoidSpaces/README.md#p3-17a-4) (PerfectoidSpaces §P3.17a.4). Vector bundles on this basis
+use AdicEtaleGeometry A1.6a ([*stable-basis-etale-vector-bundles*](../AdicEtaleGeometry/README.md#a16a-vector-bundles-on-a-stable-étale-basis) (AdicEtaleGeometry §A1.6a)).
 
 **Rational localisations of reduced affinoid algebras are reduced, and preserve `A⁺ = A°`.** (*reduced-affinoid-rational-localisation*) Reducedness of a `K`-affinoid algebra
 passes to the algebra of each rational subdomain.
@@ -3139,60 +2493,10 @@ finite `M` and identifies the local tensors by `a ⊗ m ↦ ε(a) ⊗ m`, where
 Together with the value of `Loc` on pure tensors under restriction, this fixes the
 associated-sheaf comparison on restrictions.
 
-### R5.8 tilde-limits of adic spaces
-
-**Tilde-limits and the affinoid criterion.** (*tilde-limits-affinoid-criterion*) Huber's relation
-`X ∼ lim X_i` — `|X| → lim |X_i|` a homeomorphism, and `X` covered by open affinoids `Spa(A, A⁺)`
-in which the colimit of the rings of the affinoid opens of the `X_i` through which they factor is
-dense — the affinoid criterion for it (a compatible direct system of complete Huber pairs
-with sheafy levels and sheafy separated completion gives an adic tilde-limit, under the
-definition-ring hypotheses below), and its stability under open immersions and under fibre products with a
-fixed space over the system are the contracts of this section: the relation `AdicSpace.IsTildeLimit`,
-its affinoid criterion `AdicSpace.IsTildeLimit.affinoid`, the completed-direct-limit criterion
-below, and base change `AdicSpace.IsTildeLimit.baseChange` (*tilde-limit-base-change*, stated in
-R5.7). The spaces are quasi-compact
-and quasi-separated, and transition morphisms are adic; analyticity is not
-required. The affinoid proof uses compatible rings of definition and their
-finitely generated ideals, with density in the completed direct limit
-(Scholze–Weinstein 2013 Definition 2.4.1 and Proposition 2.4.2; Huber96 §2.4,
-Definition 2.4.2). PerfectoidSpaces P7 specializes this relation to analytic
-towers and is not an input. *Needs:* *affinoid-fibre-product*, *fibre-products-existence*,
-*base-change-stability* (AdicSpacesPartII layer R0). Lean: `AdicSpace.IsTildeLimit`,
-`AdicSpace.IsTildeLimit.affinoid` (which keeps the point-space homeomorphism as a hypothesis); the
-completed-direct-limit criterion is specified in this README only.
-
-For the completed-direct-limit criterion, take a filtered direct system of complete Huber
-pairs `(A_i, A_i⁺)` with rings of definition `A_{i,0} ⊆ A_i⁺` preserved by transition maps
-and finitely generated ideals of definition `I_i` with `I_j = I_i A_{j,0}` for `j ≥ i`.
-Fix finite generators at one stage and restrict to its cofinal tail. Put `A = colim_i A_i`,
-`A_0 = im(colim_i A_{i,0} → A)` and `I = I_i A_0`, and require finite-stage detection:
-if the image of `a ∈ A_{i,0}` lies in `I^n`, it lies in `I_j^n` at some `j ≥ i`.
-Give `A` the ring topology with open subring `A_0` and neighbourhoods `I^n`; put
-`A⁺ = integral closure in A of im(colim_i A_i⁺ → A)`. Form the separated completion
-`Â` and let `Â⁺` be the closure of the image of `A⁺` in `Â`.
-Prove that this is a complete Huber pair, that restriction of valuations gives a
-homeomorphism `Spa(Â, Â⁺) ≅ lim_i Spa(A_i, A_i⁺)`, and that the stage-ring images have
-dense union in `Â`. These conclusions concern valuation spectra without assuming sheafiness.
-If every level pair and `(Â, Â⁺)` are sheafy, conclude that the corresponding adic spaces
-form a tilde-limit. Perfectoidness of `Â` supplies the latter hypothesis in perfectoid
-applications (PerfectoidSpaces P3.10, *perfectoid-stably-uniform-and-sheafy*).
-The construction and valuation argument are Scholze–Weinstein 2013 Proposition 2.4.2,
-p. 20; its adic conclusion here uses the sheafy-pair convention of this roadmap.
-
-**Checks.**
-
-- A constant complete sheafy pair gives its own completion and the identity tilde-limit.
-- A constant zero pair gives empty valuation spectra and an empty adic tilde-limit.
-- Sheafiness of the levels alone does not suffice: in HK Example 6.28, pp. 24–25,
-  truncate the displayed generators of the definition ring at `n ≤ N`, complete
-  `X₂`-adically and invert `X₂`. Each stage is noetherian and sheafy, but their
-  completed colimit is the nonsheafy Huber–Rost ring. Its nonzero `X₃` vanishes
-  on both rational domains `|X₁| ≤ 1` and `|X₁| ≥ 1`, so the adic conclusion fails.
-
 ### R5.9 characteristic equations and topology of the auxiliary maps
 
 The characteristic equations below are part of *mixed-completed-tensor* and of the base change
-of frames in R5.2 (which uses AdicSpacesPartIII R3.5's *split-injection-completed-base-change*).
+of frames in PerfectoidSpaces P3.17a.2 (which uses AdicSpacesPartIII R3.5's *split-injection-completed-base-change*).
 For integral tensors, the pure tensor `mixedTensorInt.tmul x m`
 has component `x ⊗ (m mod N)` at each open submodule `N`, and
 the functoriality map `mixedTensorInt.map f` acts by `f ⊗ id` at every such component. The product
@@ -3237,7 +2541,7 @@ on every element; together with the lattice change along an inclusion it fixes c
 through a common sublattice (CHJ Corollary 6.5(2) and Definition 6.6, p. 47).
 
 
-The base-changed frame of R5.2 has the actual carrier `R̃ ⊗̂_R S` and inclusion
+The base-changed frame of PerfectoidSpaces P3.17a.2 has the actual carrier `R̃ ⊗̂_R S` and inclusion
 `s ↦ 1 ⊗ s`; its retraction on pure tensors is
 `x ⊗ s ↦ σ(x)s` (HK Remark 7.2, p. 25). Completeness and Hausdorffness of `S`, continuity
 of `R → S`, and perfectoidness of this completed tensor remain hypotheses.
@@ -3328,7 +2632,7 @@ No density in the Banach topology is needed for these characterizations.
 | module structure over `S` | zero scalar annihilates a pure tensor; the `S`-action of the image of `ϖ` equals the original `O`-action; one scalar acts on each of two first-factor coefficients. |
 | finite projective base change | the zero projective module gives the zero map; for the rank-one module `S`, `1⊗(u⊗m)` maps to `(1⊗u)⊗m`; the two standard basis vectors of `S²` remain in their respective coordinates. |
 
-The space-level Checks in R5.4–R5.5 use `TauCeti.AdicSpace`, its affinoid charts and the
+The space-level Checks in PerfectoidSpaces P3.17a.4 and R5.5 use `TauCeti.AdicSpace`, its affinoid charts and the
 perfectoid-space predicate of PerfectoidSpaces P2. The coefficient-sheaf Checks in R5.7
 use the rational site with its structure sheaf and restriction maps, and sheaves of modules
 over the resulting coefficient presheaf. The integral subsheaf has three further Checks:
@@ -3350,7 +2654,7 @@ domains and their universal coordinate rings. The rational opens are the subsets
 containing a finite family whose union is the domain. In particular, the empty
 family covers the empty domain. This is the classical finite rational site in
 CHJ §6.3, pp. 50–53. Its comparison with the adic rational site uses the AdicSpacesPartII R1
-comparison of rational domains; the global adic-space interfaces in R5.4–R5.8
+comparison of rational domains; the global adic-space interfaces in PerfectoidSpaces P3.17a.4, AdicSpacesPartII R0.20 and R5.5
 retain their separate carriers and hypotheses.
 
 The coefficient sections `ℛ(U)` are literally the mixed tensor of the coordinate ring of `U`
@@ -3444,13 +2748,13 @@ by a statement about an arbitrary tensor ring.
 The following algebraic controls also specify the boundary of the auxiliary constructions.
 
 - The perfectoid predicate is stated for every `p : ℕ`; primality enters only through the
-  `[Fact p.Prime]` hypotheses of the theorems that use it (`of_finite_padic`,
-  `not_isPerfectoidTateRing_restrictedMvPowerSeries`, `perfectoidTimesSmooth_exists`), and for the
+  `[Fact p.Prime]` hypotheses of the theorems that use it (`TauCetiRoadmap.PerfectoidSpaces.Huber.IsSousperfectoid.of_finite_padic`,
+  `TauCetiRoadmap.PerfectoidSpaces.Huber.not_isPerfectoidTateRing_restrictedMvPowerSeries`, `AdicSpace.perfectoidTimesSmooth_exists`), and for the
   zero ring the predicate holds for every `p`, including `0` and `1`. In
   `𝔽₂[ε]/(ε²)`, `(a+bε)²=a`, so Frobenius misses `ε`. This is the modulo-`2` obstruction for
   the ramified extension with `π²=2`, where the divisibility condition itself holds.
 - For the diagonal inclusion `R → R×R` and first projection,
-  build the perfectoid frame `Huber.PerfectoidFrame` over a nonzero perfectoid `R` and evaluate its
+  build the perfectoid frame `TauCetiRoadmap.PerfectoidSpaces.Huber.PerfectoidFrame` over a nonzero perfectoid `R` and evaluate its
   fields: `σ(ι(1))=1`, `ι(σ(1,0))=(1,1)≠(1,0)` and `ι(σ(0,1))=(0,0)`.
   These values pin the direction of the splitting (HK Definition 7.1, p. 25); the reverse
   composite `ι∘σ` is not the identity.
@@ -3519,16 +2823,11 @@ A1 (the étale site in the
 local-description sense, *finite-etale-affinoid-algebra*, *strongly-sheafy-huber-pair*,
 *basis-comparison*, *etale-covering-reduction*, *etale-structure-sheaf*);
 AdicSpacesPartIII layer R3's *cech-double-complex-comparison* (applied to the rational basis).
-PerfectoidSpaces, by subsection: R5.1 uses P1.1 (the predicate `Perfectoid.IsPerfectoidTateRing`)
-and P1.31; R5.2 uses P1.30, P1.31, P2.3 and P3.10; R5.4 uses P2.10; R5.5 uses P1.10, P1.30 and
-P2.9–P2.10. R5.3 uses no PerfectoidSpaces target beyond R5.2's, and R5.6–R5.8 use none: in
-particular *stable-basis-covering-reduction*, *stable-basis-etale-vector-bundles* and
-*tilde-limits-affinoid-criterion*, which PerfectoidSpaces P3.19 and P7.1 use, rest only on
-AdicEtaleGeometry A1, AdicSpacesPartII–III and KL15. R5.8 names PerfectoidSpaces P7 as a
-specialisation and does not use it, and in *tilde-limit-base-change* the fibre products are
-hypotheses, which *perfectoid-times-smooth-fibre-product* supplies in the BHW case.
-The perfectoid-frame stability arguments and tilde-limit contracts are proved in R5;
-PerfectoidSpaces applies them.
+R5.5 uses PerfectoidSpaces P1.10, P2.9–P2.10 and P3.17a–P3.17b, and AdicSpacesPartII
+R0.20.1–R0.20.2 ([*tilde-limits-affinoid-criterion*](../AdicSpacesPartII/README.md#r0201-tilde-limits-of-adic-spaces) (AdicSpacesPartII §R0.20.1), [*tilde-limit-base-change*](../AdicSpacesPartII/README.md#r0202-base-change-of-tilde-limits) (AdicSpacesPartII §R0.20.2)).
+The frame and class examples use PerfectoidSpaces P1.1, P1.30–P1.31 and P3.17a.
+AdicEtaleGeometry A1.6 supplies *etale-covering-reduction* and A1.6a supplies
+[*stable-basis-etale-vector-bundles*](../AdicEtaleGeometry/README.md#a16a-vector-bundles-on-a-stable-étale-basis) (AdicEtaleGeometry §A1.6a) for the sousperfectoid applications.
 AdicSpaces layers 4.2 and 5 (uniformity and affinoid adic spaces); Mathlib and Tau Ceti as listed at
 the targets (`Huber.IsTateRing`, `Huber.IsHuberRing`, `Huber.powerBoundedSubring`,
 `Huber.IsBounded`, `Huber.IsPowerBounded`, `Huber.IsRingOfIntegralElements`,
@@ -3552,12 +2851,12 @@ the targets (`Huber.IsTateRing`, `Huber.IsHuberRing`, `Huber.powerBoundedSubring
 
 Part II’s `AdicSpace.IsAdic` means that every source point has compatible source and
 target affinoid charts whose coordinate homomorphism is adic.
-`IsTildeLimit F c` requires a homeomorphism from `c.pt` to the space of compatible
+AdicSpacesPartII R0.20.1's `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsTildeLimit F c` requires a homeomorphism from `c.pt` to the space of compatible
 points of `F`, taking each projection to `c.π.app i`, and an affinoid covering of
 `c.pt` on which the union of the images of compatible chart homomorphisms is
 dense. These are Huber96 Definition 2.4.2's two conditions. The topology on the
 space of compatible points is the subspace topology from the product.
-`IsTildeLimit.baseChange` states Huber96 Remark 2.4.3(ii), with quasi-compactness,
+AdicSpacesPartII R0.20.2's `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsTildeLimit.baseChange` states Huber96 Remark 2.4.3(ii), with quasi-compactness,
 quasi-separatedness, adic transition maps, local weak finite type, and the actual
 pullback squares explicit. The product statement *perfectoid-times-smooth-tilde-limit*
 specializes this
@@ -3571,10 +2870,10 @@ use these same carriers.
 
 **Checks.** Identities are adic; the
 empty source is included; an affinoid map whose ring map is not
-adic is rejected. A constant diagram with identity projections is a tilde-limit (Lean `example`);
+adic is rejected. A constant diagram with identity projections is a tilde-limit (AdicSpacesPartII R0.20.1);
 so is a diagram of empty spaces; and
 a constant diagram whose proposed
-limit projection identifies distinct points is rejected (Lean `example`).
+limit projection identifies distinct points is rejected (AdicSpacesPartII R0.20.1).
 
 A nondense Check tests density independently of the point-space
 condition (Huber96 Definition 2.4.2, p. 125). For a prime `p`, take a perfectoid
@@ -3594,7 +2893,7 @@ supplies the corresponding nondensity fact.
 ## Layer F1: dagger geometry and overconvergent de Rham complexes
 
 This layer builds on layers AdicSpacesPartII R0–R1, AdicSpacesPartIII R2–R3 and R4 (and, for Elkik's
-approximation theorem only, PerfectoidSpaces P3.1). It develops Grosse-Klönne's rigid spaces with
+approximation theorem only, AdicEtaleGeometry A1.0.4). It develops Grosse-Klönne's rigid spaces with
 overconvergent structure sheaf and their de Rham cohomology. It constructs the overconvergent Tate algebras and their
 Weierstrass theory; dagger algebras with the comparison to their completions, approximation and
 finiteness statements; fringe presentations and the fringe topology; dagger tensor products and
@@ -4159,7 +3458,7 @@ the topology induced from `Â`, and that `(A, A^+)` is a Huber pair with complet
 where `Â^+` is the integral closure in `Â` of `O_K + Â°°`. Prove that `Spa(Â, Â^+)` is the universal
 compactification of `Spa(Â, Â°)` over `Spa(K, O_K)` and that
 `Spa(A, A^+) ≅ Spa(Â, Â^+) ∼ lim_ρ Spa(A_ρ, A_ρ°)` in the sense of
-*tilde-limits-affinoid-criterion* (Vezzani Appendix A, Ex. A.4, p. 24, Prop. A.14 and its proof,
+[*tilde-limits-affinoid-criterion*](../AdicSpacesPartII/README.md#r0201-tilde-limits-of-adic-spaces) (AdicSpacesPartII §R0.20.1) (Vezzani Appendix A, Ex. A.4, p. 24, Prop. A.14 and its proof,
 pp. 25–26, and Prop. A.22(3), p. 27). Reducedness of `Â` gives boundedness of `Â°` by
 *reduced-affinoid-supremum-norm*, and the inclusions
 `π(A ∩ Â°) ⊆ A^+ ⊆ A ∩ Â°`, for `0 < |π| < 1`, give the open bounded subring in the proof.
@@ -4169,7 +3468,7 @@ is reduced. Its boundedness input is `Dagger.completion_isUniform`, with the exp
 `IsReduced (Dagger.completion K A)`. *Needs:* *fringe-presentation*;
 *dagger-norm-and-continuity*; *dagger-completion-comparison*;
 *reduced-affinoid-supremum-norm* (AdicSpacesPartII layer R0);
-*tilde-limits-affinoid-criterion*; Tau Ceti Huber pairs and their completions.
+[*tilde-limits-affinoid-criterion*](../AdicSpacesPartII/README.md#r0201-tilde-limits-of-adic-spaces) (AdicSpacesPartII §R0.20.1); Tau Ceti Huber pairs and their completions.
 
 **Checks.**
 
@@ -4676,9 +3975,9 @@ discrete valuation ring `O_K`. Prove: (a) every smooth `A/J`-algebra is isomorph
 smooth `A`-algebra `B` (Elkik III.4, Thm. 6, p. 580); (b) if `J = aA` is principal, every
 topologically finitely generated `Â`-algebra that is formally smooth outside `V(J)` is the `J`-adic
 completion of a finitely generated `A`-algebra smooth outside `V(J)` (Elkik III.4, Thm. 7, p. 582,
-whose proof uses Elkik's approximation theorem, Thm. 2 bis, which is PerfectoidSpaces P3.1). Part
+whose proof uses Elkik's approximation theorem, Thm. 2 bis, which is AdicEtaleGeometry A1.0.4). Part
 (a) gives the existence clause of *mw-lift-existence-uniqueness*; part (b) gives the algebraisation
-of smooth affinoids, *smooth-affinoid-quasi-algebraic*. *Needs:* PerfectoidSpaces P3.1 (Elkik's
+of smooth affinoids, *smooth-affinoid-quasi-algebraic*. *Needs:* AdicEtaleGeometry A1.0.4 (Elkik's
 approximation theorem); Mathlib `Algebra.Smooth`, `HenselianRing`.
 
 **Checks.**
@@ -7200,7 +6499,7 @@ admissible formal schemes, the generic fibre, the specialisation map and admissi
 from AdicSpacesPartIII R3 coherent sheaves, Kiehl's theorems, quasi-Stein spaces, the sheaf of
 continuous differentials, proper GAGA and traces (*coherent-sheaf*, *tate-kiehl-affinoid*,
 *quasi-stein-theorems-a-b*, *sheaf-of-continuous-differentials*, *proper-gaga*); from R4 smooth
-pairs *smooth-pair*; from PerfectoidSpaces P3.1 Elkik's approximation theorem, used by
+pairs *smooth-pair*; from AdicEtaleGeometry A1.0.4 Elkik's approximation theorem, used by
 *elkik-lifting-algebraisation*; from
 SchemeAndStackFoundations §4.20 de Jong's strictly semistable alteration theorem
 (`Formal.DeJong.semistable_alteration_theorem`) and from §0.21 excellent rings (`Excellence.IsExcellentRing`,
@@ -7233,15 +6532,11 @@ calculation for smooth supports is unconditional.
 
 ## Downstream consumers
 
-PerfectoidSpaces P3.19 uses *stable-basis-etale-vector-bundles*, P6 uses R5.4, and P7 uses the
-sites and tilde-limit results of R4 and R5, including *tilde-limits-affinoid-criterion* (in P7.1)
-and *tilde-limit-base-change*. PerfectoidTowers P9 uses the sites, sousperfectoid products,
-profinite flat modules and mixed completed tensor products of R4 and R5 (`Huber.IsProfiniteFlat`,
-`Huber.mixedTensorInt`), and conditions its conclusion on the coefficient Kiehl comparison
-(*coefficient-sheaf-kiehl*). AdicEtaleGeometry's sousperfectoid hypotheses cite R5's ring theory
-and R4's site applications by target.
+PerfectoidTowers P9 uses the site functoriality, smooth products, profinite flat modules and
+mixed completed tensor products of R4 and R5 (`Huber.IsProfiniteFlat`, `Huber.mixedTensorInt`),
+and conditions its conclusion on the coefficient Kiehl comparison (*coefficient-sheaf-kiehl*).
 The étale-cohomology, Shimura-variety, rigid-cohomology and `p`-adic Hodge theory roadmaps
-use R4's sites, R5's sousperfectoid spaces and coefficient sheaves, and F1's dagger spaces
+use R4's site functoriality, R5's smooth products and coefficient sheaves, and F1's dagger spaces
 and overconvergent de Rham complexes. A proof of (MWF) in the rigid-cohomology roadmap that does
 not use F1.11 discharges the hypothesis of F1.11's finiteness statements.
 
