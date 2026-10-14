@@ -1114,6 +1114,14 @@ end Sheafy
 /-! ### A3.2 Standard étale presentations (*standard-etale-presentation*,
 *standard-presentation-basic-pieces*) -/
 
+/-- *newton_map_mod_eight* (non-example): reduction modulo eight sends `2` to a nonunit,
+and the equation `2x = 0` has the distinct solutions `0` and `4` in the ideal `(4)`.
+These constant roots also lie in `(ℤ/8ℤ)⟦u⟧[1/u]`, so a map of rings of definition alone
+does not preserve the uniqueness conclusion of Newton's theorem. -/
+example : ¬ IsUnit (2 : ZMod 8) ∧ (0 : ZMod 8) ≠ 4 ∧
+    (∀ x ∈ ({0, 4} : Set (ZMod 8)), (2 : ZMod 8) * x = 0 ∧
+      ∃ y : ZMod 8, x = 4 * y) := by decide
+
 section TateSeries
 
 variable (N : ℕ) (A : Type*) [CommRing A] [TopologicalSpace A] [NonarchimedeanRing A]

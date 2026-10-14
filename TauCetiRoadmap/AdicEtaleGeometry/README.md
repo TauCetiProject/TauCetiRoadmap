@@ -7950,9 +7950,12 @@ definition `C₀` containing a pseudouniformiser `ϖ` (Tau Ceti `Huber.PairOfDef
 `F(t*) = 0`; (b) `newton_error_and_inverse_bound`: if `F(t) ∈ ϖ^e·C₀^N` with `e ≥ 2k + 1` then
 `t* − t ∈ ϖ^{e−k}·C₀^N` (the first Newton step is `t₁ − t = −ϖ^{−k}·M·F(t)`, and the later steps
 are smaller), and `J(t*)` is invertible with `ϖᵏJ(t*)^{−1} ∈ M_N(C₀)`; (c) `newton_map`: for every
-continuous ring homomorphism `φ : C₀ → C'₀` between rings of definition of two such rings
-(equivalently a continuous `φ : C → C'` with `φ(C₀) ⊆ C'₀`), `φ(t*)` is a zero of `φF` in
-`φt + φ(ϖ)^{k+1}C'₀^N`, hence the solution attached to `(φF, φt)` by (a); (d) `newton_parameters`:
+continuous ring homomorphism `φ : C → C'` of complete Hausdorff Tate rings with
+`φ(C₀) ⊆ C'₀` for the chosen ring of definition `C'₀`, `φ(t*)` is the unique zero of `φF` in
+`φt + φ(ϖ)^{k+1}C'₀^N`. Here `φ(ϖ)` is a pseudouniformiser by
+`TauCeti.Huber.IsPseudoUniformizer.map`; apply (a) with that pseudouniformiser, the transported
+matrix `φM` and the same exponent `k`. No equality with a separately chosen target
+pseudouniformiser is required; (d) `newton_parameters`:
 if `F ∈ C₀⟨S, T⟩^N` and `t ∈ C₀⟨S⟩^N` depend on further variables `S = (S₁, …, S_M)` with the
 hypotheses holding in `C₀⟨S⟩` (with `ϖ` as a constant series), then `t* ∈ C₀⟨S⟩^N`; this is (a)
 over the Tate ring `C⟨S⟩` with its ring of definition `C₀⟨S⟩` (Tau Ceti
@@ -7990,6 +7993,13 @@ Mathlib `MvPowerSeries.pderiv`, `Polynomial.hasseDeriv`. README only (no Lean de
   by `2` occurs: the Taylor remainder uses Hasse derivatives.
 - *test_linear* — `F = T − a` (`N = 1`, `J = 1`, `k = 0`): `t* = a` for every `t ∈ a + ϖC₀`
   (the Jacobian computations are the checks *jacobian_at_linear* and *series_jacobian_linear*).
+- *test_newton_map_requires_ambient_map* (non-example) — for `C = ℚ₂`, `C₀ = ℤ₂`,
+  `ϖ = 2`, `F = 2T`, `t = 0`, `k = 1`, `M = 1`, the unique root in `4ℤ₂` is zero.
+  Reduction modulo eight gives a continuous map
+  `ℤ₂ → C'₀ = (ℤ/8ℤ)⟦u⟧`, with target Tate ring `C' = C'₀[1/u]` and its `u`-adic topology.
+  The image equation has distinct roots `0` and `4` in `4C'₀`. The image of `2` is nilpotent,
+  so the map does not extend to `ℚ₂ → C'` and does not satisfy (c).
+  The Lean example *newton_map_mod_eight* checks the nonunit and the two roots in `ℤ/8ℤ`.
 - *test_frozen_vs_newton* — `ℚ₃`, `ϖ = 3`, `k = 0`, `F = T² − 4`, `t = 1`, `M = 1/2`: the frozen
   iteration `t_{n+1} = t_n − (t_n² − 4)/2` has `e_n := t_n + 2` with `e_{n+1} = e_n(3 − e_n/2)`, so
   `v₃(F(t_n)) = v₃(e_n) = n + 1`, a linear rate; Newton's `t_{n+1} = t_n − (t_n² − 4)/(2t_n)` has
@@ -8512,6 +8522,102 @@ Ceti `TauCeti.ValuationSpectrum.exists_mem_nhds_forall_rationalSubset_eq_of_sub_
 - *test_frobenius_locus_not_etale* (non-example) — `F = T^p − a` has `J_F = 0` and is not a
   standard étale presentation; when the quotient is nonzero, its locus `Spa(A⟨T⟩/(T^p − a))` is not étale over `X`.
 
+**Comparison of a graph neighbourhood with the original target and its quotient modules.**
+(*graph-neighbourhood-target-comparison*) Let `(A, A⁺)` be a complete sousperfectoid Tate pair
+with pseudouniformiser `ϖ`, `X = Spa(A, A⁺)`, `R ⊆ B^N_X` rational, `B = O(R)`,
+`B⁺ = O⁺(R)`, and `q : (B, B⁺) → (C, C⁺)` a quotient mapping to a complete Huber pair
+over `(A, A⁺)`. Suppose `(C, C⁺)` has a standard
+étale presentation `(n, H, k, π_c)` with **exact** lifts `w ∈ (B⁺)^n`,
+`π_c(v_l) = q(w_l)`. Write `Y = Spa(C, C⁺)`, `g : Y → R`,
+`E = B ⊗̂_A C`, and `p : Spa(E, E⁺) = R ×_X Y → R`; `E⁺` is the completed tensor pair's
+plus ring. The scalar map is `B → E`, `b ↦ b ⊗ 1`, and the graph map on rings is
+`E → C`, `b ⊗ c ↦ q(b)c`. Its equations are
+`h_i = T_i ⊗ 1 − 1 ⊗ q(T_i)` for `1 ≤ i ≤ N`. Prove:
+
+(a) There is a finite rational cover `{U_j}` of `R` such that each member is either disjoint
+from `g(Y)`, or admits a rational `W_j ⊆ Spa(E, E⁺)` containing the graph over
+`Y_j := g⁻¹U_j`, for which `p|_{W_j} : W_j → U_j` is an isomorphism of adic spaces,
+inducing an isomorphism of complete Huber pairs. In particular the induced scalar map
+`B_j := O(U_j) → D_j := O(W_j)` is an isomorphism; this is the scalar map used to transfer
+the graph resolution.
+The neighbourhood `W_j` lies in a graph tube over `C` for the integral equations `h_i`,
+whose Jacobian in the `T` coordinates is the identity. Choose its radius small enough that
+the rational inequalities defining `R ×_X Y` are preserved by translation from the graph.
+
+Construct these comparisons by quantitative Newton iteration, not by restriction of scalars
+along `B → E`. On sufficiently small rational neighbourhoods of `g(Y)`, impose
+`H(w) ∈ ϖ^m O⁺(U_j)^n` and
+`ϖ^k/det J_H(w) ∈ O⁺(U_j)`, with `m ≥ 2k + 1`; take `m` larger as needed for the finitely
+many rational inequalities. These conditions hold on `Y` since `H(qw) = 0` and the standard
+presentation bounds the inverse Jacobian. Newton supplies `r ∈ O⁺(U_j)^n` with `H(r) = 0`
+and `r − w ∈ ϖ^{m−k}O⁺(U_j)^n`, hence a pair map `C → B_j`, `π_c(v) ↦ r`.
+In `p⁻¹U_j`, the rational inequalities
+`|v_l − w_l| ≤ |ϖ^{k+1}|` select this branch: both `v` and the image of `r` solve `H = 0`
+in that congruence class, so *restricted-power-series-newton* identifies them. Thus this
+branch projects isomorphically to `U_j`. Shrink it inside a graph tube, carrying the
+shrinking across this isomorphism to `U_j`. The graph is retained because Newton
+functoriality along the ambient pair map to `O(Y_j)` gives `q(r) = q(w)`.
+The quotient-pair hypothesis identifies `g(Y)` with the closed vanishing set of `ker q`,
+so rational subsets disjoint from it complete the cover. Compactness gives a finite cover.
+
+(b) On every rational `V ⊆ U_j`, transfer the Koszul resolution of the graph equations
+through `O(V) ≅ O((p|_{W_j})⁻¹V)`. Its quotient is
+`C_V := O(g⁻¹V)`, with plus ring the integral closure of the image of `O⁺(V)`.
+The equation ideal is closed, the quotient has its natural Hausdorff complete topology,
+and the transferred resolution and its kernel give stably pseudocoherent modules over
+`B_j`. These identifications commute with rational restriction: restrict `W_j` by the
+inverse image under its isomorphism with `U_j`, use *fs-iv-4-13-regular-sequence* on that
+rational subchart, and identify both quotient maps with the given map to `C_V`.
+For members disjoint from `g(Y)`, the quotient module is zero and the kernel is `B_j`.
+
+(c) Glue these quotient modules and their kernels as sheaves on `R`. Their identifications
+with `g_*O_Y` and `ker(O_R → g_*O_Y)` fix the overlap maps. Apply
+*pseudocoherent-kiehl-gluing* to these locally stably pseudocoherent modules, rather than
+assuming that an algebraic tensor product of `C` is already complete. Global sections
+are `C` and `I := ker q`, so both are stably pseudocoherent **B-modules**. For every rational
+`V ⊆ R`, `B' = O(V)`, prove the algebraic comparisons
+
+```text
+0 → I ⊗_B B' → B' → C ⊗_B B' → 0,
+C ⊗_B B' ≅ C_V = B'/I B' ≅ C ⊗̂_B B'.
+```
+
+The maps are multiplication and restriction, `I ⊗_B B'` identifies with the closed ideal
+`ker(B' → C_V)`, and both algebraic tensor modules are Hausdorff complete for their natural
+`B'`-module topologies. The quotient comparison is a homeomorphism; its plus ring is the
+integral closure of the image of `O⁺(V)`. These assertions follow from gluing and rational
+pseudoflatness after stable pseudocoherence has been obtained, and include the empty preimage.
+
+This target supplies the analytic graph comparison underlying the étale-source case of
+[FS] §IV.4.1, Lem. IV.4.14, p. 137, and Prop. IV.4.19, p. 140, using Newton iteration in place
+of their spreading and differential arguments; the module passage is [KL II] §2.5,
+Thm. 2.5.5 and Cor. 2.5.6, pp. 42–43. It does not require `E` to be finite or pseudocoherent
+over `B`. *Needs:* *restricted-power-series-newton*; *standard-etale-presentation*;
+*standard-etale-locus-sousperfectoid*; *tubular-neighbourhood*;
+*fs-iv-4-13-regular-sequence*; *pseudocoherent-sheaf*; *pseudocoherent-kiehl-gluing*;
+*rational-localisation-pseudoflat*; AdicSpacesPartII layer R0 (completed tensor pairs and
+quotient pairs); AdicSpacesPartIV layer R5 (rational sousperfectoid algebras and balls);
+Tau Ceti `Pair.quotient`, `TauCeti.Huber.Pair.Hom.isClosedEmbedding_spaComap_quotientHom` and rational
+perturbation invariance. README only (no Lean declaration).
+
+**Checks.**
+
+- *test_graph_comparison_nonfinite_ambient* — `K` a perfectoid field, `A = K⟨s⟩`,
+  `C = K⟨s,s⁻¹⟩ = A⟨v⟩/(sv−1)`, `B = A⟨T⟩`, `q(T) = v`, `w = T`:
+  `E = B⟨1/s⟩` is not finite over `B`. Indeed `B → E` is injective and `s` is a nonunit
+  of `B`; integrality of `1/s` would make it a unit. The graph equation `T−v` over `E`
+  has quotient `C`, whereas over `B` the resolution is
+  `0 → B → B → C → 0`, with differential `sT−1`. On
+  `U = {|sT−1| ≤ |ϖ|}`, both `s` and `T` have absolute value one; Newton gives the integral
+  root `r = 1/s` and the branch `|v−T| ≤ |ϖ|` projects isomorphically onto `U`.
+- *test_graph_comparison_section* — `C = A`, `R = B^N_X`, and `q(T_i) = a_i ∈ A⁺`:
+  `E = B`, the projection comparison is the identity on a tube around the section,
+  and the graph Koszul resolution is the one for `T_i−a_i`; it gives the original-base
+  quotient and kernel after every rational restriction.
+- *test_graph_comparison_empty* — on a rational `V` disjoint from `g(Y)`,
+  `C ⊗_B O(V) = C_V = 0` and `I ⊗_B O(V) → O(V)` is an isomorphism;
+  when `N = n = 0`, `C = A`, `R = X` and `q = id`, the comparison instead has zero kernel.
+
 **Local presentations of a closed subspace from integral cut-offs and graphs; pseudocoherence of
 its ideal.** (*integral-cutoff-graph-presentation*) Let `(A, A⁺)` be a complete Tate Huber pair
 with `A` sousperfectoid, so that rational subsets of relative balls are sheafy, `X = Spa(A, A⁺)`,
@@ -8526,15 +8632,22 @@ polynomials `P_l(Z) ∈ O⁺(R)[Z]` and `M ≥ 1` such that (i) `c_l := g*(w_l)`
 `R`, `g` factors through `R''` and `g⁻¹(Q_l) = ∅`; (b) `w_l ∈ O⁺(R'')` for all `l` — a monic
 polynomial with bounded coefficients is large where its argument is; (c) `g* : O(R'') → C` is a
 quotient mapping of complete Huber pairs, and for every rational `R''' ⊆ R''` the induced
-`O(R''') → O(g⁻¹R''') = C ⊗̂_{O(R'')} O(R''')` is again one; (d) `C` is a stably pseudocoherent
-`O(R'')`-module and the kernel of `O(R'') → C` is a stably pseudocoherent ideal: the graph of `g`
-in `R'' ×_X Spa(C, C⁺)`, cut out by the `N` equations `Tᵢ − g*(Tᵢ)` with `g*(T) ∈ (C⁺)^N` and
-identity Jacobian, is handled by the tube theorem over the sousperfectoid base `C`
-(*standard-etale-locus-sousperfectoid*), and pseudocoherence descends along an algebra that is
-itself pseudocoherent as a module ([KL II] §1.1, Rem. 1.1.13, p. 14). The graph of `w` alone does
-not suffice: `O(R'')/closure(F(w))` is an algebra retracting onto `C` through `v ↦ w`, but it is
-larger than `C` when `n < N`, as for `n = 0`, `C = A` and `g` a section of `R → X`, where
-`F(w)` is empty; (e) hence the ideal sheaf
+`O(R''') → O(g⁻¹R''') = C ⊗̂_{O(R'')} O(R''')` is again one. Before substituting the lifts,
+use *perturbation-of-generators* to replace `π_v` by `π_c = π_v ∘ θ`, `π_c(v_l) = c_l`,
+and replace the equations by `H_l = θ⁻¹(F_l)`. The inverse coordinate substitution preserves
+the inverse-Jacobian bound up to an integral unit, so the exponent `k` still works.
+The exact lifts `w_l ∈ O⁺(R'')` of `c_l` then give the quotient mapping in (c):
+`π_c` factors through `O(R'') → C`, and its plus image makes `C⁺` integral over the image
+of `O⁺(R'')`. The transported equations satisfy `g*(H(w)) = 0`.
+(d) Put `B = O(R'')`, `I = ker(B → C)`. Apply *graph-neighbourhood-target-comparison*
+to this quotient and exact-lift presentation. It gives stable pseudocoherence of `C` and `I`
+over `B`, and, for every rational `B → B' = O(R''')`, an exact sequence
+`0 → I ⊗_B B' → B' → C ⊗_B B' → 0` of naturally Hausdorff complete modules,
+with `C ⊗_B B' ≅ O(g⁻¹R''')` and `I ⊗_B B' ≅ ker(B' → O(g⁻¹R'''))`.
+The intermediate quotient `B/closure(H(w))` admits a pair map from `C` by `v ↦ w` and
+a retraction to `C`, but may be larger: for `n = 0`, `C = A` and `g` a section of `R → X`,
+the equation list is empty. The graph comparison supplies the full ideal, including the
+remaining ambient coordinates. (e) Hence the ideal sheaf
 `I := ker(O_R → g_*O_{Spa C})` is a pseudocoherent sheaf on `R`, equal to `O_R` on each `Q_l`.
 The integral cut-off, possible because plus rings of rational localisations are completed integral
 closures ([KL I] §2.4, Lem. 2.4.13(a), p. 42), removes the boundary specialisations (points with
@@ -8546,8 +8659,8 @@ ring (Huber's quotient mappings of affinoid rings; between complete Tate rings o
 from surjectivity by the open mapping theorem, and the notion is the affinoid condition of [FS]
 §IV.4.1, Prop. IV.4.19(i), p. 140). *Needs:* *pseudocoherent-module*; *stably-pseudocoherent-module*;
 *pseudocoherent-sheaf*; *pseudocoherent-kiehl-gluing*; *perturbation-of-generators*;
-*standard-etale-presentation*; *standard-presentation-basic-pieces*; *tubular-neighbourhood*;
-*fs-iv-4-13-regular-sequence*; AdicSpacesPartII layer R0; AdicSpacesPartIV layer R5; Tau Ceti
+*standard-etale-presentation*; *standard-presentation-basic-pieces*;
+*graph-neighbourhood-target-comparison*; AdicSpacesPartII layer R0; AdicSpacesPartIV layer R5; Tau Ceti
 `TauCeti.ValuationSpectrum.mem_iff_forall_vle_one`, `ValuationSpectrum.rationalSubset`.
 
 **Checks.**
@@ -8560,6 +8673,15 @@ from surjectivity by the open mapping theorem, and the notion is the affinoid co
 - *test_surjective_application* — in *fs-iv-4-19-zariski-closed-char-p*: `g* : O(R) → C`
   surjective, `w` lifts of the presentation variables, `P_l` monic equations of `π_v(v_l)` over
   the image of `O⁺(R)`, over which `C⁺` is integral.
+- *test_cutoff_transport_equations* — `A = C = K` a perfectoid field, `F(v) = v`,
+  `π_v(v) = 0`, `R = B¹_K`, `g*(T) = 0`, `w = T+ϖ`, `P(Z) = Z−ϖ`, `M = 2`:
+  `R'' = {|T| ≤ |ϖ|²}` and the original `F(w) = T+ϖ` is a unit there, so its quotient
+  is zero. The exact-coordinate presentation has `π_c(v) = ϖ` and `H(v) = v−ϖ`;
+  `H(w) = T` cuts out `K` with its quotient plus ring and closed principal ideal.
+- *test_cutoff_nonfinite_graph_ambient* — take the data of
+  *test_graph_comparison_nonfinite_ambient*, with `P(Z) = Z−T` and any `M ≥ 1`:
+  `P(w) = 0`, `R'' = R`, and the complementary piece is empty. The conclusion uses the
+  resolution by `sT−1` over `B`, although `B ⊗̂_A C` is not finite over `B`.
 - *quotient_identity*, *quotient_top*, *quotient_ideal* — the identity of a pair, the quotient by
   the unit ideal (zero ring, full plus ring) and every Tau Ceti quotient pair `Pair.quotientHom`
   are quotient mappings; the last is the agreement with Tau Ceti's `Huber.Pair.quotient`.
