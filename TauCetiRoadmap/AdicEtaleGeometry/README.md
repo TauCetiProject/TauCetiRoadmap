@@ -1572,9 +1572,9 @@ Ceti's `PreAdicSpace.restrict`. The first two Checks are Lean examples.
   `restrict X (U ⊓ V)`, up to isomorphism (Lean example).
 - *restrict_bot* (degenerate) — `restrict X ⊥` has no points (Lean example, proved).
 - *restrict_open_disc* (non-example) — the open unit disc of `DiscChecks`, the restriction of the
-  closed unit disc over `ℚ₂` to `{|T| < 1}`, is not quasi-compact, so the restriction of an
-  affinoid to an open need not be affinoid. README only: the disc fixture is not a carrier of
-  `Suggested.lean`.
+  closed unit disc over `ℚ₂` to `⋃_{n ∈ ℕ} DiscChecks.radiusRegion n`, is not quasi-compact, so
+  the restriction of an affinoid to an open need not be affinoid. README only: the disc fixture
+  is not a carrier of `Suggested.lean`.
 
 **`AdicSpace.ofRestrict`.** The inclusion `restrict X U → X`, Tau Ceti's
 `PreAdicSpace.ofRestrict`. Each Check below is a Lean example.
@@ -2797,8 +2797,9 @@ embedding" of [PH] §5, Lem. 5.2, p. 28, and [ECD] §6, proof of Prop. 6.4, pp. 
 - *basis_sheafEquiv* — a sheaf on `X_ét` is determined by its values on basic objects and their
   restriction maps.
 - *basis_nonseparated_fibre_product* (non-example) — for `X` two copies `V`, `V'` of the closed
-  disc `Spa(K⟨T⟩, K°⟨T⟩)` glued along the open unit disc `{|T| < 1}`, `V` and `V'` are basic
-  objects but `V ×_X V' = V ∩ V' = {|T| < 1}` is not quasi-compact, so not affinoid: `X_ét^aff` is
+  disc `Spa(K⟨T⟩, K°⟨T⟩)` over a complete nonarchimedean field `K`, fix a pseudouniformiser `ϖ` and glue
+  along the open unit disc `U = ⋃_{n ≥ 1} {|T|^n ≤ |ϖ|}`. Then `V` and `V'` are basic
+  objects but `V ×_X V' = V ∩ V' = U` is not quasi-compact, so not affinoid: `X_ét^aff` is
   not closed under fibre products in `X_ét`. The map from this glued space to a single
   closed disc is étale; thus a quasi-separated base `X` does not suffice for products
   over arbitrary `W ∈ X_ét`. A quasi-separated `W` gives finite basic coverings of
@@ -5289,9 +5290,23 @@ bijective. For Rost's pair it is not injective. *Needs:* *huber-pair-rational-si
   when `A = 0`, and the initial sheaf is Yoneda-adic (its affinoid open immersions come from zero
   pairs).
 - *YonedaAdicSpace.test_open_disc* (computation) —
-  `D := colim_n Spa^Y(ℚ_p⟨T, T^n/p⟩, ℤ_p⟨T, T^n/p⟩) → Spa^Y(ℚ_p⟨T⟩, ℤ_p⟨T⟩)` is an open immersion
-  with image the open unit disc `{|T| < 1}`; `|D|` is not quasi-compact, so `D` is Yoneda-adic and
-  not isomorphic to any `Spa^Y(A, A⁺)`.
+  `D := colim_{n ≥ 1} Spa^Y(ℚ_p⟨T, T^n/p⟩, ℤ_p⟨T, T^n/p⟩) → Spa^Y(ℚ_p⟨T⟩, ℤ_p⟨T⟩)` is an open
+  immersion with underlying image `U = {x : ∃ n ≥ 1, |T(x)|^n ≤ |p(x)|}` in the full adic
+  spectrum `B = Spa(ℚ_p⟨T⟩, ℤ_p⟨T⟩)` ([Hüb] Ex. 4.4, p. 18; [Berkeley] Lecture 4, p. 28).
+  This is the open unit disc; `|D|` is not quasi-compact, and `D` is Yoneda-adic and not isomorphic
+  to any `Spa^Y(A, A⁺)`. For `p = 2`, `U = ⋃_{m ∈ ℕ} AdicSpace.DiscChecks.radiusRegion m`, with
+  `n = m + 1`; *ofAdicSpace_open_disc* identifies the inclusions of these same rational opens.
+- *YonedaAdicSpace.test_open_disc_rank_two* (non-example) — for a nonzero restricted series
+  `f = Σ a_i T^i` over `ℚ_p`, let `a = min_i v_p(a_i)`, with `v_p(p) = 1`, and set
+  `w(f) = (a, ord_t(overline(p^(-a) f))) ∈ ℤ ×_lex ℤ`, with `w(0) = ∞`. The reduction is a
+  nonzero polynomial in `𝔽_p[t]`. This additive Gauss valuation refined by the `t`-adic order
+  defines a point `v ∈ B`: multiplication follows from multiplication of the reductions,
+  `w(ℤ_p⟨T⟩) ≥ 0`, and the values `w(p^m) = (m, 0)` are cofinal, giving continuity for the Tate
+  topology ([Hüb] Ex. 2.10, pp. 7–8). Since `w(T) = (0, 1) > 0` but
+  `w(T^n) = (0, n) < (1, 0) = w(p)` for every `n ≥ 1`, `|T(v)| < 1` while
+  `|T(v)|^n > |p(v)|`. Thus `v` belongs to the literal strict-inequality locus and to none of
+  the radius regions or the image of `D`; for `p = 2` it is excluded from every
+  `AdicSpace.DiscChecks.radiusRegion m` as well.
 - *yonedaAdic_not_affinoid* (non-example) — some Yoneda-adic sheaf is not `Spa^Y(B, B⁺)` for any
   `(B, B⁺)`: the open disc `D`, or `∐_{n ∈ ℕ} Spa^Y(A, A⁺)` for a nonzero `A`, whose underlying
   space is not quasi-compact.
@@ -5501,7 +5516,9 @@ Foundations of adic spaces roadmap (AdicSpaces), layers 3 and 5. README only (no
 - *ofAdicSpace_closed_disc* — `X` the closed unit disc over `ℚ_p`: `ofAdicSpace X = Spa^Y(ℚ_p⟨T⟩,
   ℤ_p⟨T⟩)`.
 - *ofAdicSpace_open_disc* — `X` the open unit disc: `ofAdicSpace X` is the Yoneda-adic space `D` of
-  *YonedaAdicSpace.test_open_disc*.
+  *YonedaAdicSpace.test_open_disc*. For `p = 2`, take `X = AdicSpace.DiscChecks.openDisc`; this
+  isomorphism is over the Yoneda closed disc and carries the inclusion of `radiusRegion m` to
+  the `n = m + 1` rational chart of `D`.
 - *ofAdicSpace_padic* (computation) — for `(ℚ_p, ℤ_p)`: `Hom((ℚ_p, ℤ_p), (B, B⁺))` is a point if
   `p` is a topologically nilpotent unit of `B` (then `ℤ → B` extends uniquely and continuously
   to `ℤ_p → B⁺` and `ℚ_p → B`, every prime `ℓ ≠ p` being a unit of `ℤ_p`) and empty otherwise, so
