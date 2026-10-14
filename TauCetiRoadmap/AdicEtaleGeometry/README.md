@@ -6482,23 +6482,36 @@ Definition 1.6.5, p. 78, and Corollary 1.6.10, p. 80 (smooth ball charts).
 **Compatible local toric charts for smooth morphisms of smooth rigid spaces.**
 (*relative-toric-charts*) Let `K` be a complete nonarchimedean field (nontrivially valued, rank
 one) with a pseudouniformiser `ϖ`, and `f : X → Y` a smooth morphism (AdicSpacesPartII layer R0)
-between adic spaces smooth over `Spa(K, K°)`, with `X` affinoid. Let `x ∈ X`, `y = f(x)`, and let `V ⊆ Y` be an
-affinoid open containing the closure of `{y}` together with an étale map `h : V → T^m_K`
-(*relative-torus* over `Spa K`) that is a composite of rational embeddings and finite étale maps
-— such `V` exist by AdicSpacesPartII layer R0 (*smooth-toric-chart*, which is the absolute case
-`m = 0` of this statement). Let `d` be the rank of
+between adic spaces smooth over `Spa(K, K°)`, with `X` affinoid. Let `x ∈ X`, `y = f(x)`, and
+suppose an affinoid open `V ⊆ Y` containing `closure_Y {y}` is supplied together with an étale map `h : V → T^m_K`
+(*relative-torus* over `Spa K`) that is a composite of rational embeddings and finite étale maps.
+Let `d` be the rank of
 `Ω_{X/Y}` at `x`. Prove `Smooth.exists_relativeToricChart`: there are an affinoid open
-`U ⊆ f⁻¹(V)` containing the closure of `{x}` (which lies in `f⁻¹(V)`, since `f` is continuous
-and `V` contains the closure of `{y}`) and an étale map `k : U → T^d_V = T^d_K ×_{Spa K} V` over
+`U ⊆ f⁻¹(V)` containing `closure_X {x}` (which lies in `f⁻¹(V)`, since `f` is continuous
+and `V` contains `closure_Y {y}`) and an étale map `k : U → T^d_V = T^d_K ×_{Spa K} V` over
 `V` which is a composite of rational embeddings and finite étale maps
 (*rational-pullback-comparison*, *finite-etale-pullback-comparison*); consequently
 `(id × h) ∘ k : U → T^d_K ×_{Spa K} T^m_K = T^{d+m}_K` is étale, a composite of rational embeddings
 and finite étale maps, and `pr ∘ (id × h) ∘ k = h ∘ f|_U` for the coordinate projection
 `pr : T^{d+m}_K → T^m_K` ([PH] §5, Lem. 5.2, p. 28, the absolute chart `m = 0`; [PH] §5, proof of
-Lem. 5.2, p. 28, the ball-into-torus step). These are compatible local toric charts for `f`; they
-exist around every point of `X`, with refinement inside any given open neighbourhood
-of its closure in `X`, and for `Y = Spa K` (`m = 0`)
-they are the absolute charts of AdicSpacesPartII layer R0. This is the reduction to the
+Lem. 5.2, p. 28, the ball-into-torus step). With these supplied target data, `U` may be refined
+inside any prescribed open neighbourhood `W` of `closure_X {x}` in `X`. For `Y = Spa K`
+(`V = Y`, `m = 0`, `h = id`) this is the absolute chart theorem of AdicSpacesPartII layer R0.
+
+For the local existence consequence, let `f : X → Y` be a smooth morphism between spaces
+smooth over `Spa(K, K°)`, without affinoidness assumptions on `X` or `Y`. Given `x ∈ X` and
+open neighbourhoods `N_X` of `x` and `N_Y` of `y = f(x)`, choose an affinoid neighbourhood
+`V₀ ⊆ N_Y` of `y`. Apply R0's *smooth-toric-chart* to `V₀`: it supplies a toric affinoid
+`V ⊆ V₀` containing `closure_{V₀} {y}`, with a map `h` as above. Choose an affinoid
+neighbourhood `X₀ ⊆ N_X ∩ f⁻¹(V)` of `x` and apply `Smooth.exists_relativeToricChart` to
+`f₀ : X₀ → V`, with target data `V` and `h`. This supplies `U ⊆ X₀` containing
+`closure_{X₀} {x}` and the compatible maps `k` and `(id × h) ∘ k`. For fixed `X₀`, refinement
+requires an open neighbourhood of `closure_{X₀} {x}` in `X₀`; ordinary refinement inside
+`N_X` is obtained by choosing `X₀` there first. The resulting `U` form an open cover of `X`.
+The closure conditions in this consequence are inside `V₀` and `X₀`; they impose no
+containment of `closure_Y {y}` in `V` or of `closure_X {x}` in `U`.
+
+This open-cover consequence gives the reduction to the
 coordinate projection `Tⁿ → T^{n−d}` behind [PH] §8, Prop. 8.5, p. 49 (the relative Poincaré
 lemma): the proof of [PH] §8, Lem. 8.6, p. 50, chooses an open cover of `X` by such charts fitting
 into a commutative square over `Y → T^m` without proving that they exist; their existence is
@@ -6509,11 +6522,14 @@ rank of `Ω_{X/Y}`, smooth toric charts, étale maps as composites of rational e
 finite étale maps); *smooth-local-ball-charts*; *relative-torus*; *relative-closed-polydisc*;
 *rational-pullback-comparison*; *finite-etale-pullback-comparison*.
 
-The signature of `Smooth.exists_relativeToricChart` uses the global `relativeTorus` over
+The interface of the conditional `Smooth.exists_relativeToricChart` uses the global `relativeTorus` over
 `S = (CAff.of (Pair.powerBounded K)).adicSpa hK`. It supplies a basis of the stalk of
 `relativeDifferentials f` indexed by `Fin d`, so the chart dimension is the rank at `x`.
 The affinoid `U` is supplied with an `IsOpenImmersion` into `X`, whose image contains
-`closure {x}` and lies in the prescribed open `W`; its map to `V` commutes with `f`.
+`closure_X {x}` and lies in the prescribed open `W`, with `closure_X {x} ⊆ W` a hypothesis;
+its map to the supplied `V` commutes with `f`. In the local consequence this interface is
+applied to `X₀ → V`: the open immersion is first into `X₀`, its closure condition is
+`closure_{X₀} {x}`, and its inclusion into `X` is the composite with `X₀ ↪ X`.
 Finite composites are expressed by Mathlib's
 [`MorphismProperty.multiplicativeClosure`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/CategoryTheory/MorphismProperty/Composition.lean#L273)
 of A1's `IsRationalChartMap ∨ IsFiniteEtale`. This condition is imposed on `h`, `k`,
@@ -6537,10 +6553,25 @@ and the polydisc map is rational with coordinate `T ↦ 1 + ϖT` and the stated 
   `Spa(K, K⁺)` for a rank-two valuation ring `K⁺`, the open generic point contains `x`
   but omits its specialization `y`. Thus no chart inside that open can contain
   the closure of `x`; the closure-containing refinement needs a neighbourhood of both points.
+- *relativeToricChart_doubled_unit_annulus* (negative control) — glue two copies `D₁`, `D₂`
+  of `D = Spa(ℚ_p⟨T⟩, ℤ_p⟨T⟩)` along the rational open `E = {|T| = 1}` to form
+  `Y = D₁ ∪_E D₂`, and take the smooth open immersion `f : X = D₁ ↪ Y`. This `Y` is smooth
+  and qcqs, and `f` is separated. The common Gauss point `g ∈ E` has distinct specializations
+  `v₁ ∈ D₁ ∖ E`, `v₂ ∈ D₂ ∖ E`. Explicitly, let `L` be the completion of `ℚ_p(T)` for the
+  Gauss norm and set `L⁺ = red⁻¹(𝔽_p[t]_(t)) ⊆ L°`, using `L°/L°° = 𝔽_p(t)`.
+  The two maps `Spa(L, L⁺) → Y` induced by the disc inclusions agree on the generic open
+  `Spa(L, L°)` and send the rank-two closed point to `v₁` and `v₂`, where `|T| < 1`.
+  No affinoid open of `Y` contains `closure_Y {g}`: both maps would factor through it,
+  and their common restriction to `Spa(L, L°)` determines the same underlying ring map
+  into `L`, hence the same morphism by *maps-into-affinoids*, contradicting `v₁ ≠ v₂`.
+  The local consequence does apply with `V₀ = D₁`, `X₀ = D₁`, using the rational toric
+  coordinate `S ↦ 1 + pT` on `V = D₁`.
 - *relativeToricChart_poincare_consumer* (consumer instance) —
   the `p`-adic Hodge theory roadmaps (the
-  relative Poincaré lemma in its local rational form) computes over toric covers of `f` with base
-  coordinates `X₁, …, X_m`.
+  relative Poincaré lemma in its local rational form) compute after restricting to each toric
+  affinoid `V ⊆ V₀ ⊆ Y`, with base coordinates `X₁, …, X_m`, over the compatible toric
+  open cover of `f⁻¹(V)` obtained from affinoid source neighbourhoods `X₀`. The closure
+  conditions used to build this cover are `closure_{V₀} {y}` and `closure_{X₀} {x}`.
 
 ### A2.6 dimension and dimension estimates
 

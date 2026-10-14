@@ -735,6 +735,13 @@ theorem IsLocallyEtaleOverPolydisc.iff_smooth {Y X : TauCeti.AdicSpace} (f : Y �
     (hX : IsLocallyNoetherianAnalytic X) (hY : IsLocallyNoetherianAnalytic Y) :
     IsLocallyEtaleOverPolydisc f ↔ Smooth f := sorry
 
+/-! A2.5 (*relative-toric-charts*) is specified in the README. Its conditional
+`Smooth.exists_relativeToricChart` takes an affinoid source `X` and supplied toric target
+data `V` containing the closure of `f(x)` in `Y`; its refinement takes an open neighbourhood
+of the closure of `x` in `X`. The local open-cover consequence applies this statement to
+`X₀ → V`, after choosing `V₀ ⊆ Y`, a toric `V ⊆ V₀`, and `X₀ ⊆ f⁻¹(V)`. Its closures
+and closure-containing refinement are taken inside `V₀` and `X₀`, respectively. -/
+
 end AdicSpace
 
 end
