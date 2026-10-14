@@ -23,16 +23,25 @@ Huber rings and pairs, adic spectra, rational localisations and the category `Ta
 are Tau Ceti's; AdicSpacesPartII supplies affinoid charts (`AdicSpace.Affinoid`, `Chart`,
 `HomChart`), adic and analytic spaces and Huber's morphism classes. Completeness includes the
 Hausdorff property. This file states the parts of the roadmap that are a few lines over these
-carriers:
+carriers. The README is the definitive specification; these representative signatures are
+suggested forms, not an exhaustive checklist. Classical approximation, completion, uniformity,
+stable-basis vector bundles and the formal and analytification site functors are specified in the
+README. In particular, `Huber.isBounded_powerBoundedSubring_of_finiteEtale` (A1.2a) is a
+README-only boundedness target on the natural topology of a finite étale algebra.
+A1.0.5 specifies the README-only completion equivalences `finiteEtale_completion_tate` and
+`finiteEtale_completedColimit`, with `finiteEtale_completion_tate_complete` and
+`finiteEtale_completion_tate_zero` checking the complete and zero Tate-ring cases.
+
+The represented layers are:
 
 * A0: the completed pushout of complete Huber pairs and the analytic locus of an adic space;
-* A1: strongly sheafy rings, the Huber pair of a finite étale algebra, finite étale and étale
-  morphisms of analytic adic spaces by the Kedlaya–Liu local description, geometric points;
+* A1: rings without nonsplit finite étale covers, power-bounded henselian pairs, strongly sheafy
+  rings, the Huber pair of a finite étale algebra, finite étale and étale morphisms of analytic adic spaces by the Kedlaya–Liu local description, geometric points;
 * A2: relative closed polydiscs and tori over a Huber pair, dimension, smooth morphisms by ball
   charts;
 * A3: pseudocoherent and stably pseudocoherent modules, Kedlaya–Liu's acyclicity in its sheafy
   form, standard étale presentations;
-* A4: rings without nonsplit finite étale covers, finite étale torsors and the torsor tower, the
+* A4: finite étale torsors and the torsor tower, the
   ring core of Scholze's Lemma 15.3 (its conclusion is PerfectoidSpaces' perfectoid Tate-ring
   predicate, the one shared by every roadmap), and the orbit description of `Spa` of a torsor.
 
@@ -230,7 +239,84 @@ noncomputable section
 
 open CategoryTheory CategoryTheory.Limits Opposite TopologicalSpace Topology ValuationSpectrum
 
+universe u
+
+open Polynomial
+
+/-! ### A1.0.0 Rings without nonsplit finite étale covers (*finite-etale-split-ring*) -/
+
+namespace Algebra
+
+/-- `T` is *totally split* over `R` if `T ≃ₐ[R] ∏_{j < m} R ⧸ (1 − e_j)` for finitely many
+idempotents `e_j` (Scholze, ECD, Lemma 15.3, p. 90); over a connected ring this is Mathlib's
+`Algebra.IsFiniteSplit`, over a disconnected ring the rank may vary. -/
+def IsTotallySplit (R T : Type*) [CommRing R] [CommRing T] [_root_.Algebra R T] : Prop :=
+  ∃ (m : ℕ) (e : Fin m → R), (∀ j, IsIdempotentElem (e j)) ∧
+    Nonempty (T ≃ₐ[R] ((j : Fin m) → R ⧸ Ideal.span {1 - e j}))
+
+/-- The zero algebra is totally split (the empty product). -/
+example (R : Type) [CommRing R] : IsTotallySplit R (Fin 0 → R) :=
+  ⟨0, Fin.elim0, fun j ↦ j.elim0, ⟨AlgEquiv.piCongrRight fun j ↦ j.elim0⟩⟩
+
+/-- Ranks one and zero on the two components of `ℚ × ℚ`: totally split, not finite split. -/
+example :
+    let R := ℚ × ℚ
+    let S := R ⧸ Ideal.span {1 - ((1, 0) : R)}
+    IsTotallySplit R S ∧ ¬ _root_.Algebra.IsFiniteSplit R S := sorry
+
+end Algebra
+
+/-- `R` *has no nonsplit finite étale covers* if every finite étale `R`-algebra is totally split
+(the conclusion of Scholze, ECD, Lemma 15.3, p. 90, for the colimit of the tower). -/
+class IsFiniteEtaleSplit (R : Type u) [CommRing R] : Prop where
+  /-- Every finite étale `R`-algebra is totally split. -/
+  isTotallySplit : ∀ (T : Type u) [CommRing T] [_root_.Algebra R T] [_root_.Algebra.Etale R T]
+    [Module.Finite R T], Algebra.IsTotallySplit R T
+
+/-- Equivalently, every finite étale faithfully flat algebra has a section; faithful flatness is
+needed, since the zero algebra has no section over a nonzero ring. -/
+theorem isFiniteEtaleSplit_iff_exists_section (R : Type u) [CommRing R] :
+    IsFiniteEtaleSplit R ↔ ∀ (T : Type u) [CommRing T] [_root_.Algebra R T]
+      [_root_.Algebra.Etale R T] [Module.Finite R T] [Module.FaithfullyFlat R T],
+      Nonempty (T →ₐ[R] R) := sorry
+
+/-- A monic `P` of positive degree whose derivative is a unit modulo `P` has a root (the form in
+which the proof of ECD Lemma 15.3 uses the hypothesis). -/
+theorem IsFiniteEtaleSplit.exists_root {R : Type u} [CommRing R] [IsFiniteEtaleSplit R]
+    {P : R[X]} (hP : P.Monic) (hd : 0 < P.natDegree)
+    (hu : IsUnit (AdjoinRoot.mk P (derivative P))) : ∃ r : R, P.IsRoot r := sorry
+
+/-- A field has no nonsplit finite étale covers iff it is separably closed. -/
+theorem isFiniteEtaleSplit_iff_isSepClosed (K : Type u) [Field K] :
+    IsFiniteEtaleSplit K ↔ IsSepClosed K := sorry
+
+/-- *test_Cp*: the algebraically closed field `ℂ_p` has no nonsplit finite étale covers. -/
+example (p : ℕ) [Fact p.Prime] : IsFiniteEtaleSplit ℂ_[p] := sorry
+
+/-- *test_zero*: every finite étale algebra over the zero ring is the empty product. -/
+example : IsFiniteEtaleSplit (ZMod 1) := sorry
+
+/-- *test_not_rat*: the finite étale algebra `ℚ[X]/(X² − 2)` has no section over `ℚ`. -/
+example : ¬ IsFiniteEtaleSplit ℚ := sorry
+
+/-- `ℚ_p` has nonsplit finite étale covers: `ℚ_p[X]/(X² − p)` has no section (also for `p = 2`). -/
+example (p : ℕ) [Fact p.Prime] : ¬ IsFiniteEtaleSplit ℚ_[p] := sorry
+
+/-- A strictly henselian local ring has none, without being a field: `𝒪_{ℂ_p}` is an instance. -/
+example (R : Type) [CommRing R] [HenselianLocalRing R]
+    [IsSepClosed (IsLocalRing.ResidueField R)] : IsFiniteEtaleSplit R := sorry
+
 namespace Huber
+
+/-! ### A1.0.2 Power-bounded henselian pairs -/
+
+/-- For a complete Tate ring and a pseudouniformiser `ϖ ∈ A°`, the pair `(A°, ϖ A°)` is henselian:
+`A°` is the directed union of the `ϖ`-adically complete rings of definition containing `ϖ`
+(Wedhorn, Cor. 6.4(3), p. 47; Stacks, Tag 0FWT), although it need not be `ϖ`-adically separated. -/
+theorem henselianRing_powerBoundedSubring {A : Type u} [CommRing A] [UniformSpace A]
+    [IsUniformAddGroup A] [IsTopologicalRing A] [IsTateRing A] [CompleteSpace A] [T2Space A]
+    (ϖ : powerBoundedSubring A) (hϖ : IsPseudoUniformizer (ϖ : A)) :
+    HenselianRing (powerBoundedSubring A) (Ideal.span {ϖ}) := sorry
 
 /-! ### A1.1 Strongly sheafy rings (*strongly-sheafy-huber-pair*, *finite-etale-strongly-sheafy*) -/
 
@@ -241,8 +327,6 @@ def IsStronglySheafy (A : Type*) [CommRing A] [UniformSpace A] [IsUniformAddGrou
   ∀ n : ℕ, IsSheafyRing (restrictedMvPowerSeriesCompletion n A)
 
 section StrongSheafiness
-
-universe u
 
 variable {A : Type u} [CommRing A] [UniformSpace A] [IsUniformAddGroup A]
   [IsTopologicalRing A] [IsTateRing A] [CompleteSpace A] [T2Space A]
@@ -1265,69 +1349,6 @@ universe u
 
 open TensorProduct Topology UniformSpace Polynomial
 
-/-! ### A4.1 Rings without nonsplit finite étale covers (*finite-etale-split-ring*) -/
-
-namespace Algebra
-
-/-- `T` is *totally split* over `R` if `T ≃ₐ[R] ∏_{j < m} R ⧸ (1 − e_j)` for finitely many
-idempotents `e_j` (Scholze, ECD, Lemma 15.3, p. 90); over a connected ring this is Mathlib's
-`Algebra.IsFiniteSplit`, over a disconnected ring the rank may vary. -/
-def IsTotallySplit (R T : Type*) [CommRing R] [CommRing T] [_root_.Algebra R T] : Prop :=
-  ∃ (m : ℕ) (e : Fin m → R), (∀ j, IsIdempotentElem (e j)) ∧
-    Nonempty (T ≃ₐ[R] ((j : Fin m) → R ⧸ Ideal.span {1 - e j}))
-
-/-- The zero algebra is totally split (the empty product). -/
-example (R : Type) [CommRing R] : IsTotallySplit R (Fin 0 → R) :=
-  ⟨0, Fin.elim0, fun j ↦ j.elim0, ⟨AlgEquiv.piCongrRight fun j ↦ j.elim0⟩⟩
-
-/-- Ranks one and zero on the two components of `ℚ × ℚ`: totally split, not finite split. -/
-example :
-    let R := ℚ × ℚ
-    let S := R ⧸ Ideal.span {1 - ((1, 0) : R)}
-    IsTotallySplit R S ∧ ¬ _root_.Algebra.IsFiniteSplit R S := sorry
-
-end Algebra
-
-/-- `R` *has no nonsplit finite étale covers* if every finite étale `R`-algebra is totally split
-(the conclusion of Scholze, ECD, Lemma 15.3, p. 90, for the colimit of the tower). -/
-class IsFiniteEtaleSplit (R : Type u) [CommRing R] : Prop where
-  /-- Every finite étale `R`-algebra is totally split. -/
-  isTotallySplit : ∀ (T : Type u) [CommRing T] [_root_.Algebra R T] [_root_.Algebra.Etale R T]
-    [Module.Finite R T], Algebra.IsTotallySplit R T
-
-/-- Equivalently, every finite étale faithfully flat algebra has a section; faithful flatness is
-needed, since the zero algebra has no section over a nonzero ring. -/
-theorem isFiniteEtaleSplit_iff_exists_section (R : Type u) [CommRing R] :
-    IsFiniteEtaleSplit R ↔ ∀ (T : Type u) [CommRing T] [_root_.Algebra R T]
-      [_root_.Algebra.Etale R T] [Module.Finite R T] [Module.FaithfullyFlat R T],
-      Nonempty (T →ₐ[R] R) := sorry
-
-/-- A monic `P` of positive degree whose derivative is a unit modulo `P` has a root (the form in
-which the proof of ECD Lemma 15.3 uses the hypothesis). -/
-theorem IsFiniteEtaleSplit.exists_root {R : Type u} [CommRing R] [IsFiniteEtaleSplit R]
-    {P : R[X]} (hP : P.Monic) (hd : 0 < P.natDegree)
-    (hu : IsUnit (AdjoinRoot.mk P (derivative P))) : ∃ r : R, P.IsRoot r := sorry
-
-/-- A field has no nonsplit finite étale covers iff it is separably closed. -/
-theorem isFiniteEtaleSplit_iff_isSepClosed (K : Type u) [Field K] :
-    IsFiniteEtaleSplit K ↔ IsSepClosed K := sorry
-
-/-- *test_Cp*: the algebraically closed field `ℂ_p` has no nonsplit finite étale covers. -/
-example (p : ℕ) [Fact p.Prime] : IsFiniteEtaleSplit ℂ_[p] := sorry
-
-/-- *test_zero*: every finite étale algebra over the zero ring is the empty product. -/
-example : IsFiniteEtaleSplit (ZMod 1) := sorry
-
-/-- *test_not_rat*: the finite étale algebra `ℚ[X]/(X² − 2)` has no section over `ℚ`. -/
-example : ¬ IsFiniteEtaleSplit ℚ := sorry
-
-/-- `ℚ_p` has nonsplit finite étale covers: `ℚ_p[X]/(X² − p)` has no section (also for `p = 2`). -/
-example (p : ℕ) [Fact p.Prime] : ¬ IsFiniteEtaleSplit ℚ_[p] := sorry
-
-/-- A strictly henselian local ring has none, without being a field: `𝒪_{ℂ_p}` is an instance. -/
-example (R : Type) [CommRing R] [HenselianLocalRing R]
-    [IsSepClosed (IsLocalRing.ResidueField R)] : IsFiniteEtaleSplit R := sorry
-
 /-! ### A4.2 Finite étale torsors (*finite-etale-galois-torsor*,
 *splitting-torsor-of-finite-etale-algebra*) -/
 
@@ -1470,19 +1491,11 @@ theorem exists_level_totallySplit (S : Type u) [CommRing S] [_root_.Algebra A S]
 
 end FiniteEtaleTorsorTower
 
-/-! ### A4.5–A4.6 Henselian property and perfectoidness of split Tate rings
-(*power-bounded-henselian-along-pseudouniformizer*, *pseudouniformizer-dividing-p*,
+/-! ### A4.6 Perfectoidness of split Tate rings
+(*pseudouniformizer-dividing-p*,
 *split-tate-ring-is-perfectoid*) -/
 
 namespace Huber
-
-/-- For a complete Tate ring and a pseudouniformiser `ϖ ∈ A°`, the pair `(A°, ϖ A°)` is henselian:
-`A°` is the directed union of the `ϖ`-adically complete rings of definition containing `ϖ`
-(Wedhorn, Cor. 6.4(3), p. 47; Stacks, Tag 0FWT), although it need not be `ϖ`-adically separated. -/
-theorem henselianRing_powerBoundedSubring {A : Type u} [CommRing A] [UniformSpace A]
-    [IsUniformAddGroup A] [IsTopologicalRing A] [IsTateRing A] [CompleteSpace A] [T2Space A]
-    (ϖ : powerBoundedSubring A) (hϖ : IsPseudoUniformizer (ϖ : A)) :
-    HenselianRing (powerBoundedSubring A) (Ideal.span {ϖ}) := sorry
 
 section SplitTate
 

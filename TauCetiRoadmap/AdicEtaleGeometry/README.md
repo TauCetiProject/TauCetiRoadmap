@@ -4,12 +4,14 @@
 diamond needs, on the adic side, an étale geometry beyond Huber's noetherian setting. This roadmap
 supplies it. Layer A0 fixes how completed tensor products and fibre products of complete Huber
 pairs are used and adds the analytic locus of a non-Tate space. Layer A1 defines finite étale
-algebras over arbitrary complete Tate rings with their Huber pairs, strongly sheafy rings, finite
+algebras over arbitrary complete Tate rings with their Huber pairs, classical henselian
+approximation and finite étale completion, strongly sheafy rings, finite
 étale and étale morphisms by Kedlaya–Liu's local description, and builds the étale, finite étale,
 pro-étale and pro-finite-étale sites with geometric points, strict localisations, the finite étale
 fundamental group and the presentation of non-sheafy spaces as Yoneda-adic spaces. Layer A2 adds
 relative polydiscs and tori, smooth morphisms by ball charts, compatible toric charts and the
-dimension theory of adic spaces. Layer A3 proves the nonnoetherian affinoid étale approximation of
+dimension theory of adic spaces, the analytification morphism of étale sites, and the continuous
+generic-fibre functor on formal étale sites. Layer A3 proves the nonnoetherian affinoid étale approximation of
 Scholze's Proposition 6.4(iv) from pseudocoherent modules and standard étale presentations. Layer A4
 builds the tower of finite étale torsors of an analytic adic space over `Spa ℤ_p`, proves its
 uniform completion perfectoid (Scholze's Lemma 15.3) and assembles the perfectoid torsor
@@ -38,29 +40,28 @@ A2 are the comparison interfaces that identify these theories on the same carrie
 | Layer | Title | What it builds |
 |---|---|---|
 | A0 | Completed tensor products and the fibre products actually used | the contract with AdicSpacesPartII layer R0: completed tensors, uniformisation, analytic pullbacks, analytic loci of non-Tate spaces |
-| A1 | Finite étale and étale geometry | finite étale algebras and morphisms, étale morphisms by local description, the étale, finite étale and pro-étale sites, geometric points, strict localisations, Yoneda-adic presentations |
-| A2 | Separatedness, smooth charts, and classical analytic geometry | the contract with AdicSpacesPartII layers R0–R1 and AdicSpacesPartIII layers F0/R2; relative polydiscs and tori, smooth morphisms by ball charts, dimension of adic spaces |
+| A1 | Finite étale and étale geometry | classical henselian approximation and finite étale completion, finite étale uniformity, finite étale algebras and morphisms, the étale, finite étale and pro-étale sites, stable-basis vector bundles, geometric points, strict localisations, Yoneda-adic presentations |
+| A2 | Separatedness, smooth charts, and classical analytic geometry | the contract with AdicSpacesPartII layers R0–R1 and AdicSpacesPartIII layers F0/R2; relative polydiscs and tori, smooth morphisms by ball charts, dimension, the analytification site morphism and formal generic-fibre site functor |
 | A3 | The nonnoetherian affinoid étale approximation input | pseudocoherent modules, the closed embedding into a relative ball, perturbation lemmas, Scholze's Proposition 6.4(iv) |
-| A4 | Analytic adic presentations for diamondification | uniform completion and étale invariance, the finite étale torsor tower, perfectoidness, the perfectoid cover presentation |
+| A4 | Analytic adic presentations for diamondification | finite Galois module descent, uniform completion and étale invariance, the finite étale torsor tower, perfectoidness, the perfectoid cover presentation |
 
 ```text
 AdicSpacesPartII R0–R1, AdicSpacesPartIII F0/R2 → A0
 A0, AdicSpacesPartII R0, AdicSpacesPartIII R3, DiamondsAndVStacks D0 → A1
-A1, AdicSpacesPartII R0–R1, AdicSpacesPartIII F0/R2 → A2   (A2.7 alone also compares with AdicSpacesPartIV R4's analytification/étale-site statements)
-A1, AdicSpacesPartII R0, AdicSpacesPartIII R3, AdicSpacesPartIV R5.6–R5.8 (generic stable bases), PerfectoidSpaces P1–P3, P5 (finite-stage inputs) → A3
-A4.2 (finite étale torsor algebra, canonical Galois map) → PerfectoidTowers P9.10's algebraic subtarget *finite-galois-descent-of-modules* only → A4.5 (effective descent along the completed tower)
+A1, AdicSpacesPartII R0–R1, AdicSpacesPartIII F0/R2 → A2 (A2.6a: analytification on étale sites; A2.9a: formal generic-fibre site functor)
+A1, AdicSpacesPartII R0, AdicSpacesPartIII R3, A1.6a (vector bundles on generic stable bases), AdicSpacesPartIV R5.6–R5.8 (coefficient and tilde-limit applications), PerfectoidSpaces P1–P3, P5 (finite-stage inputs) → A3
+A4.2 (finite étale torsor algebra, canonical Galois map) → A4.2a (finite Galois module descent) → A4.5 (effective descent along the completed tower)
 A1, A3, A4.2, AdicSpacesPartII R0, PerfectoidSpaces P1–P3, P5–P6 → A4 (completed tower, self-product, perfectoid presentation) → PerfectoidTowers P9.4–P9.5 (applications to prescribed towers and their Čech nerves)
 A4.8–A4.9 (analytic presentation interfaces) → DiamondsAndVStacks D6
 ```
 
-The arrows are subsection-level and acyclic: AdicSpacesPartIV R4 and R5.1–R5.5 *consume* A1's
+The arrows specify subsection-level contracts: AdicSpacesPartIV R4 and R5.1–R5.5 *consume* A1's
 sites and re-export them, so they are not suppliers of A0 or A1; A3's affinoid-étale
 approximation and assembly interface is consumed by PerfectoidSpaces P6 and by A4; A4's analytic
 torsor presentation precedes DiamondsAndVStacks D6. PerfectoidTowers P9.4–P9.5 are *consumers* of A4's
 *finite-etale-torsor-tower*, *completed-tower-pair*, *perfectoid-cover-presentation* and
-self-product comparison, not suppliers; the only P9 input of A4 is the algebraic finite-group
-module-descent subtarget of P9.10, which uses A4.2 and nothing later, and its character-sheaf and
-coefficient applications in the same subsection are not prerequisites. A whole-folder import in
+self-product comparison. The finite-group module-descent theorem is A4.2a, using A4.2;
+PerfectoidTowers P9 applies it to character sheaves and coefficient modules. A whole-folder import in
 the opposite direction never stands in for one of these atomic edges.
 
 ## Scope and ownership
@@ -75,7 +76,8 @@ The roadmap owns, layer by layer:
   independence, associativity, symmetry and unit, the universal property of maps into affinoids,
   and the analytic locus of a non-Tate space with the restriction of morphisms to it. A0 defines
   no new completed tensor product.
-- A1: strongly sheafy Huber pairs; the Huber pair of a finite étale algebra over a complete Tate
+- A1: split-ring vocabulary, henselian pairs, algebraic finite étale colimits, Elkik approximation,
+  henselian finite étale completion and uniformity; vector bundles on stable étale bases; strongly sheafy Huber pairs; the Huber pair of a finite étale algebra over a complete Tate
   ring; finite étale and étale morphisms of analytic adic spaces by Kedlaya–Liu's local description,
   with the comparison to Huber's definitions on locally noetherian spaces and the stability
   properties; the étale and finite étale sites; geometric points (with the completed residue field
@@ -89,13 +91,15 @@ The roadmap owns, layer by layer:
   morphisms, and the few objects that roadmap leaves to this one — relative closed polydiscs,
   relative tori, smooth morphisms by ball charts with the comparison to Huber's smooth morphisms,
   compatible toric charts, the dimension of adic spaces and its estimates, analytification and its
-  compatibility with the étale site of A1, and the formal schemes and generic fibres in the scope of
+  compatibility with the étale site of A1, the continuous generic-fibre functor from formal étale
+  sites, and the formal schemes and generic fibres in the scope of
   the specialisation theory of the étale-cohomology roadmaps.
 - A3: pseudocoherent modules and sheaves over Tate rings, standard étale presentations and the
   implicit function theorem, the Fargues–Scholze specialisations by analytic algebra, the closed
   embedding of an affinoid étale object into a relative ball, finite-stage approximation and
   Scholze's Proposition 6.4(iv).
-- A4: rings without nonsplit finite étale covers, finite étale torsors and the finite étale torsor
+- A4: applications of A1.0's split-ring and completion theory, finite étale torsors, finite Galois
+  module descent and the finite étale torsor
   tower, invariance of spectra and finite étale algebras under uniformisation, the completed tower
   with its finite étale data, perfectoidness of the completed tower, adic spectra of the tower, the
   perfectoid torsor presentation, and the comparison interfaces with diamonds.
@@ -141,7 +145,7 @@ Already stated or built elsewhere, and cited in this roadmap rather than restate
 - the affinoid charts of the glued fibre product and their restriction to rational subsets — R0
   (*fibre-products-existence*, *affinoid-fibre-product*, *completed-tensor-rational-localisation*);
 - finite étale algebras over a completed direct limit of complete Tate rings come from a finite
-  stage — PerfectoidSpaces layer P3 (*finite-etale-completed-direct-limit*);
+  stage — A1.0.5 (*finite-etale-completed-direct-limit*);
 - Huber's smooth morphisms are locally étale over relative polydiscs, with the rank of `Ω` and the
   closure-of-the-point refinement over a field — R0 (*smooth-local-structure*,
   *smooth-differentials-locally-free*, *smooth-toric-chart*);
@@ -347,9 +351,9 @@ continuous sections of profinite groups (`exists_continuous_section`,
 | `TauCeti.Huber.twoSidedRestrictedSubmodule`, `twoSidedRestrictedSubmodule.instCommRing` | `TauCeti/RingTheory/Huber/Restricted/TwoSidedSeries/Basic.lean:109`, `TauCeti/RingTheory/Huber/Restricted/TwoSidedSeries/Ring.lean:183` | The Laurent coefficient carrier is definitionally Mathlib `Filter.zeroAtFilterSubmodule A (Filter.cofinite : Filter ℤ)`, with convolution multiplication over a complete Hausdorff base; `restrictedLaurentSeries` uses quotient coordinates instead. A3's `restrictedLaurentSeriesTensorToNull` uses this coefficient carrier directly. |
 | `TauCeti.Huber.restrictedMvPowerSeriesCompletionFinZeroEquiv`, `TauCeti.Huber.continuous_restrictedMvPowerSeriesCompletionFinZeroEquiv`, `TauCeti.Huber.continuous_restrictedMvPowerSeriesCompletionFinZeroEquiv_symm` | `TauCeti/RingTheory/Huber/WeightedRestrictedSeries/Completion.lean` | A2 zero-variable topological ring equivalence; the new target tracks plus rings. |
 | `TauCetiRoadmap.AdicSpacesPartII.Huber.IsAdicHom.of_isTateRing` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | A continuous map out of a Tate ring is adic; A1 does not restate it. |
-| `Algebra.IsFiniteSplit`, `Algebra.IsFiniteSplit.exists_tensorProduct_of_etale` | `Mathlib/RingTheory/TotallySplit.lean` | A4 retains variable-rank total splitting and strengthens a splitting cover to a finite-group torsor. |
-| `TauCeti.Huber.isPowerBounded_iff_exists_mem_ringOfDefinition` | `TauCeti/RingTheory/Huber/RingOfDefinition.lean` | A4 cites the directed-union description of power-bounded elements. |
-| `IsAdic.isAdicComplete_iff` | `Mathlib/RingTheory/AdicCompletion/Topology.lean` | A4 passes from completeness and the adic subspace topology to adic completeness. |
+| `Algebra.IsFiniteSplit`, `Algebra.IsFiniteSplit.exists_tensorProduct_of_etale` | `Mathlib/RingTheory/TotallySplit.lean` | A1.0.0 retains variable-rank total splitting; A4.3 strengthens a splitting cover to a finite-group torsor. |
+| `TauCeti.Huber.isPowerBounded_iff_exists_mem_ringOfDefinition` | `TauCeti/RingTheory/Huber/RingOfDefinition.lean` | A1.0.2 cites the directed-union description of power-bounded elements. |
+| `IsAdic.isAdicComplete_iff` | `Mathlib/RingTheory/AdicCompletion/Topology.lean` | A1.0.2 passes from completeness and the adic subspace topology to adic completeness. |
 
 The proposed `CAff.IsTopologicallyFiniteType` (README only) uses [H94] 3.5(ii), pp. 534–535: the underlying
 ring map is topologically of finite type, and there is an open subring `C ⊆ B⁺`
@@ -365,6 +369,16 @@ Adicness plus `+`-weak finite type does not replace this condition.
 | `Huber.Pair.polydiscVar`, `Huber.Pair.polydiscPlus`, `Huber.Pair.polydisc` | `Suggested.lean` | A3 uses A2's completed coordinates. A3's coefficient-series ring `Huber.tateSeries` with its plus ring `Huber.tateSeriesPlus` (`Suggested.lean`) has the same plus ring as the polydisc under `restrictedMvPowerSeriesCompletionEquiv`; that comparison is a clause of *standard-etale-presentation* (README only). |
 | strict pseudocoherence (*natural-topology-strict-exactness*, *stably-pseudocoherent-module*; README only), `Huber.IsNaturallyComplete` (`Suggested.lean`) | this README | Natural completeness is the second conjunct of strict pseudocoherence, so a stably pseudocoherent module over a complete Tate ring is naturally complete. |
 | the effective descent of finite étale algebras along the completed tower (*finite-etale-effective-descent-along-tower*; README only) | this README | A4 applies this theorem to the completed tower underlying the perfectoid torsor presentation of a tower (*perfectoid-cover-presentation*); the presentation needs no separate descent theorem. |
+
+| Target | Owner and address | Input contract |
+|---|---|---|
+| Henselian pairs, split rings and algebraic finite étale colimits | A1.0.0–A1.0.3a | Mathlib henselian pairs, finite étale algebras, idempotents and filtered colimits; no site input. |
+| Classical approximation and finite étale henselian completion | A1.0.4–A1.0.5 | A1.0.1–A1.0.3; polynomial approximation, section topologies, projective and algebra-structure moduli. |
+| Uniformity of finite étale algebras | A1.2a | A1.2's natural topology and integral plus ring; AdicSpacesPartIII R3.8's ordinary perfect trace pairing. |
+| Vector bundles on a stable étale basis | A1.6a | A1.6's site, basis and covering reduction; AdicSpacesPartIII R3.1/R3.5's acyclicity and finite-projective descent. |
+| Analytification morphism of étale sites | A2.6a | AdicSpacesPartII R1's analytification, points and fibre products; A1.6's locally noetherian analytic étale site. |
+| Generic-fibre functor from formal étale sites | A2.9a | AdicSpacesPartIII F0/R2.3/R2.9's formal site and site-free generic-fibre facts; A1.6's adic site. |
+| Finite Galois module descent | A4.2a | A4.2's finite torsor Galois map and invariants; Mathlib faithfully flat module descent. |
 
 ### From AdicSpaces and AdicSpacesPartII–IV
 
@@ -398,9 +412,10 @@ sources need one). The targets of those layers that this roadmap cites by label 
 *specialisation-map*; R3 *rational-covering-reduction*, *sheafy-cech-acyclicity*,
 *finite-projective-module-acyclicity*, *sheafy-tate-acyclicity-and-kiehl-gluing*,
 *tate-kiehl-affinoid*, *surjection-small-perturbation*; R4 *etale-site-functoriality*,
-*etale-slice-site*, *proetale-slice-open-subspace*, *analytification-etale-site*; R5
+*etale-slice-site*, *proetale-slice-open-subspace*; R5
 *sousperfectoid-etale-stability*, *sousperfectoid-stably-adic*, *sousperfectoid-annulus*,
-*stable-basis-covering-reduction*, *stable-basis-etale-vector-bundles*.
+*stable-basis-covering-reduction*. A1.6a owns *stable-basis-etale-vector-bundles*; A2.6a owns
+*analytification-etale-site*.
 
 | A2 entry point | Supplier | Contract |
 |---|---|---|
@@ -458,19 +473,17 @@ PerfectoidSpaces layer P1: perfectoid Tate rings and tilting
 *frobenius-surjectivity-criterion*, *integral-elements-adically-complete*); layer P2: perfectoid
 rational localisation, fibre products and the uniform completed tensor product of perfectoid rings
 over any Tate base (*uniform-completed-tensor-of-perfectoid-over-any-base*); layer P3: almost
-purity, the henselian finite étale comparison and its corollaries
-(*henselian-pairs-colimits-and-completions*, *finite-etale-completed-direct-limit*,
-*henselian-finite-etale-approximation*, *approximate-solutions-over-complete-rings*,
-*finite-etale-over-uniform-is-uniform*, *etale-site-tilting-equivalence*,
+purity and its perfectoid applications
+(*etale-site-tilting-equivalence*,
 *etale-almost-acyclicity*);
 layer P5: cofiltered limits and the finite-stage descent of Scholze's Proposition 6.4(o)–(iii)
 (*cofiltered-limits-of-affinoid-perfectoid-spaces*, *completed-colimit-is-perfectoid*,
 *spa-of-filtered-colimit-of-tate-pairs*, *descent-of-quasicompact-opens*,
 *limit-restriction-to-rational-subsets*); layer P6: the product of an affinoid perfectoid space with
 a profinite set (*product-with-profinite-set*).
-PerfectoidTowers layer P9: the finite-group form of faithfully flat module descent and Galois
-towers with perfectoid limit (*finite-galois-descent-of-modules*, *profinite-galois-tower*,
-*cech-descent-datum*, *etale-sheaf-sections-over-galois-tower*).
+A4.2a owns the finite-group form of faithfully flat module descent
+(*finite-galois-descent-of-modules*). PerfectoidTowers P9 applies A4 to prescribed Galois
+towers, their Čech descent data and coefficient sheaves.
 DiamondsAndVStacks layer D0: pro-categories (*pro-category-of-finite-t0-spaces*), cofiltered limits
 of spectral spaces (*cofiltered-limits-of-spectral-spaces*) and the qcqs vocabulary of algebraic
 topoi (D0.17, *quasicompact-objects-in-a-topos*); layer D6 is the consumer of A4 and is cited only as
@@ -480,7 +493,8 @@ resolution condition; its degree-zero and degree-one identifications use Mathlib
 
 The items *finite-etale-approximation* and *analytification-relative-polydisc-comparison* are
 supplier citations in full, retained as named entry points. Their suppliers are respectively
-PerfectoidSpaces P3 and AdicSpacesPartII R1 and AdicSpacesPartIV R4, in those folders’ `README.md` files. Tilting of
+A1.0.5 (*finite-etale-completed-direct-limit*) and AdicSpacesPartII R1 with A2.6a
+(*analytification-etale-site*), respectively. Tilting of
 affinoid étale categories and of cofiltered limits is cited directly from PerfectoidSpaces P3
 (*etale-site-tilting-equivalence*) and P5 (*completed-colimit-is-perfectoid*). Henselianity under filtered
 colimits is owned here: PerfectoidSpaces P3 cites *henselian-pairs-filtered-colimit* from this
@@ -1703,6 +1717,520 @@ is used nowhere else. A family of étale maps is a *covering* when it is jointly
 closed, complete, nontrivially valued and `C⁺ ⊆ C` an open and bounded valuation subring of any
 rank; rank one is a special case, not the definition.
 
+### A1.0.0 rings without nonsplit finite étale covers
+
+**Rings with no nonsplit finite étale covers.** (*finite-etale-split-ring*) Let `R` be a
+commutative ring; the zero ring is allowed. A finite étale `R`-algebra `T` (Mathlib
+`Algebra.Etale R T` with `Module.Finite R T`) is *totally split* if there are finitely many
+idempotents `e_1, …, e_m ∈ R` (`m ≥ 0`, repetitions and zero allowed) and an `R`-algebra
+isomorphism `T ≅ ∏_{j=1}^m R/(1 − e_j)R`, and `R` *has no nonsplit finite étale covers* if every
+finite étale `R`-algebra is totally split. This is the conclusion of [ECD] §15, Lem. 15.3, p. 90,
+for `A_∞`; the proof there that `Â_∞` is perfectoid uses it only for `Â_∞`, to which it transfers
+(*finite-etale-invariance-along-tower* (iii)), and only through `IsFiniteEtaleSplit.exists_root`.
+"Split" means totally split over `R` itself, not after a further faithfully flat extension, the
+zero algebra is totally split (`m = 0`), and no topology is involved. Define the class
+`IsFiniteEtaleSplit R` and the predicate `Algebra.IsTotallySplit R T`
+(`∃ m, ∃ idempotents e : Fin m → R, T ≃ₐ[R] Π j, R ⧸ Ideal.span {1 − e j}`);
+prove `isFiniteEtaleSplit_iff_exists_section` (`R` has no nonsplit covers iff every *faithfully
+flat* finite étale `R`-algebra `T` — for `T` finite étale, faithful flatness says the rank of `T`
+is `≥ 1` at every prime of `R` — admits an `R`-algebra map `T → R`: for `T` faithfully flat and
+totally split, refine the covering idempotents to orthogonal ones; conversely split off a section
+by the idempotent of its graph and induct on the rank; sections are the form in which the proof of
+[ECD] §15, Lem. 15.3, p. 90, uses the hypothesis),
+`IsFiniteEtaleSplit.exists_root` (a monic `P` of degree `d ≥ 1` with `P′` a unit modulo `P`, so
+that `(P, 1)` is a Mathlib `StandardEtalePair`, has a root in `R`, because `R[X]/(P)` is étale and
+free of rank `d`, hence a faithfully flat finite étale `R`-algebra),
+`isFiniteEtaleSplit_iff_isSepClosed` (for a field `K` the condition is `IsSepClosed K`, by Mathlib
+`Algebra.Etale.iff_exists_algEquiv_prod`), invariance under base-change equivalences (if base
+change along `φ : R → R′` is an equivalence `FÉt(R) ≅ FÉt(R′)`, then `R` has no nonsplit covers
+iff `R′` has none: idempotents are the maps `R × R → R`, so faithful flatness is preserved and
+reflected), stability of total splitting (a quotient of a totally split finite
+étale algebra by an idempotent, and a finite étale direct factor of a totally split one, are
+totally split), `IsFiniteEtaleSplit.pi` (a finite product of rings with no nonsplit covers has
+none) and the zero-ring case (the zero ring has none) ([ECD] §15, Lem. 15.3,
+p. 90; [Berkeley] Lecture 10, Lem. 10.1.6, p. 75). *Needs:* Mathlib `Algebra.Etale`, `Module.Finite`,
+`Module.FaithfullyFlat`, `IsIdempotentElem`, `Module.rankAtStalk`, `StandardEtalePair`,
+`StandardEtalePair.homEquiv`, `Algebra.IsStandardEtale`, `AdjoinRoot.powerBasis'`,
+`Algebra.Etale.iff_exists_algEquiv_prod`, `Algebra.IsFiniteSplit`, `IsSepClosed`,
+`IsSepClosed.exists_root`, `HenselianLocalRing`, `PadicComplex`.
+
+Mathlib's `Algebra.IsFiniteSplit` requires constant rank. Here the ranks may vary over
+clopen components: over `ℚ × ℚ`, the quotient by `1 − (1,0)` has ranks `(1,0)`.
+The comparison with the library predicate is part of this target.
+
+Lean: `Algebra.IsTotallySplit`, the class `IsFiniteEtaleSplit`, `isFiniteEtaleSplit_iff_exists_section`,
+`IsFiniteEtaleSplit.exists_root` and `isFiniteEtaleSplit_iff_isSepClosed`; the rest is README only.
+
+**Checks.**
+
+- *test_isSepClosed* (compatibility) — for a field `K`, `IsFiniteEtaleSplit K ↔ IsSepClosed K`.
+- *test_Cp* (computation, Lean example) — `IsFiniteEtaleSplit ℂ_p`
+  (Mathlib `ℂ_[p]`, algebraically closed).
+- *test_not_Qp* (non-example) — `¬ IsFiniteEtaleSplit ℚ_p`, also for `p = 2`: `ℚ_p[X]/(X² − p)`
+  is finite étale and faithfully flat (roots `±√p` distinct) with no `ℚ_p`-algebra map to `ℚ_p`,
+  since `p` has odd valuation. A complete field is not enough; `ℂ_p` passes because it is
+  separably closed.
+- *test_strictlyHenselian* (computation) — a henselian local ring with separably closed residue
+  field has no nonsplit finite étale covers (a finite étale algebra over it is a product of local
+  factors with trivial residue extension, each isomorphic to the ring); `𝒪_{ℂ_p}` and the
+  nonreduced `ℂ_p[ε]/(ε²)` are instances, so the notion is not confined to fields or to reduced
+  rings.
+- *test_zero* (degenerate, Lean example with `ZMod 1`) — the zero ring has no nonsplit finite
+  étale covers: every finite étale algebra over it is the empty product.
+- *test_not_rat* (non-example, Lean example) — `¬ IsFiniteEtaleSplit ℚ`: `ℚ[X]/(X² − 2)` is
+  finite étale and faithfully flat over `ℚ` but has no `ℚ`-algebra map to `ℚ`.
+- *test_zero_algebra_has_no_section* (non-example) — over a nonzero ring `R` with no nonsplit
+  finite étale covers, the zero algebra is finite étale and totally split (`m = 0`) but has no
+  `R`-algebra map to `R`; so the section criterion must be restricted to faithfully flat algebras,
+  and "every finite étale algebra has a section" is the wrong definition.
+- *test_pi* (computation) — for separably closed fields `K_1`, `K_2`, the ring `K_1 × K_2` has no
+  nonsplit finite étale covers.
+- *test_exists_root* (characterisation) — if `IsFiniteEtaleSplit R`, `P ∈ R[X]` is monic of degree
+  `≥ 1` and `P′` is a unit in `R[X]/(P)`, then `∃ r ∈ R, P(r) = 0`; this is the only form in which
+  the proof of [ECD] §15, Lem. 15.3 uses the hypothesis.
+
+### A1.0.1 henselian pairs under filtered colimits
+
+**Henselian pairs are stable under filtered colimits.** (*henselian-pairs-filtered-colimit*) For
+a directed system of pairs `(R_i, I_i)` whose transition maps carry `I_i` into `I_j`, if every
+`(R_i, I_i)` is henselian (Mathlib `HenselianRing`) then so is `(colim R_i, colim I_i)` (Mathlib
+`Ring.DirectLimit`): `Ring.DirectLimit.henselianRing` ([Stacks] Tag 0FWT,
+Lemma 15.11.13), used here for the colimit of the power-bounded subrings `A_i°` of a
+directed system of complete Tate rings along a pseudouniformizer coming from the base.
+The index is nonempty and the transition maps satisfy identity and composition laws.
+PerfectoidSpaces P3 uses this result in *henselian-pairs-colimits-and-completions* (b).
+*Needs:* Mathlib `HenselianRing`, `Ring.DirectLimit`, `DirectedSystem`. README only (no Lean declaration).
+
+**Checks.** *henselian_colimit_constant* gives henselianity for the constant identity system.
+*henselian_colimit_zero_ideal* gives henselianity along zero in the direct limit.
+*henselian_zero_ring* allows the unit ideal in the zero ring, where it equals zero.
+
+### A1.0.2 power-bounded henselian pairs
+
+**Power-bounded elements are henselian along a pseudouniformizer.**
+(*power-bounded-henselian-along-pseudouniformizer*) Let `A` be a complete Tate ring with
+pseudouniformizer `ϖ`. (i) Every ring of definition `A_0` of `A` containing `ϖ` (a ring of
+definition contains some power `ϖ^e`, which may replace `ϖ`) is open, hence closed, in `A`,
+and its subspace topology is the `ϖ`-adic topology ([Wedhorn] §6.2, Prop. 6.14, p. 49); so `A_0`
+is `ϖ`-adically complete and
+separated, and `(A_0, ϖA_0)` is a henselian pair (Mathlib `IsAdicComplete.henselianRing`). (ii)
+`A°` is the directed union of the rings of definition of `A` (for a ring of definition `A_0` and
+`x ∈ A°`, `A_0[x]` is a ring of definition; [Wedhorn] §6.1, Cor. 6.4(3), p. 47), so `(A°, ϖA°)` is
+henselian by *henselian-pairs-filtered-colimit*. (iii) The same holds for every open subring `B`
+of `A°` that contains `ϖ`, with the ideal `ϖB` (an open subring contains the ring of definition
+`ℤ·1 + ϖ^mA_0` for `m` large, so `B` is again the directed union of the rings of definition it
+contains). Prove
+`PairOfDefinition.isAdicComplete_of_completeSpace`, `PairOfDefinition.henselianRing`,
+`powerBoundedSubring.henselianRing` and
+`henselianRing_of_isOpen_subring`. The `ϖ`-adic completeness in (i) is what fails for `A°` itself
+when `A` is not uniform: in `A = ℂ_p⟨T⟩/(T²)` the element `T` lies in `⋂_n ϖ^nA°` (every multiple
+of `T` is nilpotent, hence power-bounded), so `A°` is not `ϖ`-adically separated and Mathlib's
+`IsAdicComplete` does not apply to it directly; the directed-union argument (ii) is needed.
+Clauses (i)–(iii) are owned here: PerfectoidSpaces layer P3 cites them as clause (c) of its
+*henselian-pairs-colimits-and-completions*, whose clause (a) is Mathlib's
+`IsAdicComplete.henselianRing`. The suppliers used are Tau Ceti
+`isPowerBounded_iff_exists_mem_ringOfDefinition` (`A°` is the directed union of the rings of
+definition, [Wedhorn] 6.4(3)) and Mathlib `IsAdicComplete.henselianRing`; the `ϖ`-adic
+completeness of a ring of integral elements of a uniform complete Tate ring is the different
+statement PerfectoidSpaces layer P1 *integral-elements-adically-complete*.
+*Needs:* A1.0.1 (*henselian-pairs-filtered-colimit*); Mathlib `IsAdicComplete.henselianRing`,
+`HenselianRing`; Tau Ceti `Huber.PairOfDefinition`, `Huber.IsPseudoUniformizer`,
+`TauCeti.Huber.isOpen_powerBoundedSubring`.
+
+Lean: `Huber.henselianRing_powerBoundedSubring` ((ii): `(A°, ϖA°)` is henselian for a
+pseudouniformiser `ϖ ∈ A°`); the rest is README only.
+
+**Checks.**
+
+- *henselian_test_Zp* — the simple root zero of `X^p − X − p` modulo `p`
+  lifts to a root in `pℤ_p`.
+- *henselian_test_not_separated* (non-example) — a nilpotent `x` lies in `ϖ^n A°` for every `n`
+  (`ϖ^{-n}x` is nilpotent, hence integral over `A°`); for `x = ε ≠ 0` in `ℚ_p[ε]/(ε²)` this shows
+  that `A°` need not be `ϖ`-adically separated.
+- *henselian_test_not_tate* (non-example) — the complete Huber ring `ℤ_p` (`p`-adic topology), like
+  `ℤ_p⟦T⟧` with the `(p, T)`-adic topology, has no pseudouniformiser (its units have norm `1`), so
+  it is outside the scope of this target, whose statements assume a Tate ring.
+- *henselian_test_incomplete* (non-example) — for `A = ℚ_p[T]` with the `p`-adic topology on
+  `ℤ_p[T]` (not complete), the pair `(ℤ_p[T], p)` is not henselian: for `p` odd, `X² − (1 + pT)`
+  has the simple root `1` modulo `p`, but `√(1 + pT)` is a power series, not a polynomial, so the
+  root does not lift to `ℤ_p[T]`; the finite étale `ℚ_p⟨T⟩`-algebra of
+  *uniform-completion-etale-comparison* is the same phenomenon on finite étale algebras.
+
+### A1.0.3 finite étale algebras under filtered colimits
+
+**Finite étale algebras over a filtered colimit come from a finite level.**
+(*finite-etale-algebras-filtered-colimit*) Let `(R_i)_{i∈I}` be a directed system of commutative
+rings, `I` nonempty and directed and no finiteness or noetherian hypothesis on the `R_i`, with
+colimit `R = colim R_i` (Mathlib `Ring.DirectLimit`). (a) Every finite étale `R`-algebra `S` is
+isomorphic to `S_i ⊗_{R_i} R` for some `i` and some finite étale `R_i`-algebra `S_i`. (b) For
+finite étale `R_i`-algebras `S_i`, `T_i` the natural map
+`colim_{j≥i} Hom_{R_j}(S_i ⊗_{R_i} R_j, T_i ⊗_{R_i} R_j) → Hom_R(S_i ⊗_{R_i} R, T_i ⊗_{R_i} R)`
+is bijective. Hence base change is an equivalence of categories `2-colim_i FÉt(R_i) ≅ FÉt(R)`,
+compatible with tensor products, and a finite étale `R_i`-algebra that becomes faithfully flat,
+acquires an `R`-algebra section, or becomes totally split (*finite-etale-split-ring*) over `R`
+already does so over some `R_j` (the rank-zero idempotent, the section and the splitting
+isomorphism each descend). Prove object descent as `Ring.DirectLimit.finiteEtale_essSurj`, and
+morphism descent and eventual equality for maps from a finite étale algebra into a directed
+colimit of algebras, which gives (b) when applied over `R_i` to the
+system `T_i ⊗_{R_i} R_j`, `j ≥ i` ([KL I] §1.2, Rem. 1.2.9, p. 15). The index set must be
+nonempty: the colimit of the empty system is `ℤ`, and `ℤ × ℤ` comes from no stage. *Needs:*
+Mathlib `Ring.DirectLimit`, `DirectLimit`, `Algebra.Etale`, `Module.Finite`,
+`Module.FaithfullyFlat`; A1.0.0 (*finite-etale-split-ring*). README only (no Lean declaration).
+
+**Checks.**
+
+- For the constant identity system, object and morphism descent are the identity
+  equivalence on `FÉt(R)`.
+- A finite étale algebra that is totally split over the colimit has a splitting
+  isomorphism over a finite stage; its idempotents descend together.
+- The empty index is excluded: `ℤ × ℤ` is a finite étale algebra over the empty
+  colimit `ℤ`, but there is no stage from which it could descend.
+
+### A1.0.3a locally constant functions with separably closed values
+
+**Locally constant functions have no nonsplit finite étale covers.** Let `S` be a profinite
+set and `K` a separably closed field. The ring `LocallyConstant S K` has no nonsplit finite
+étale covers: it is the filtered colimit, over finite clopen partitions of `S`, of finite
+products of `K`. Apply A1.0.0's finite-product statement and A1.0.3's finite étale algebra
+and splitting descent. This is the locally constant case of *finite-etale-split-ring*
+([ECD] §15, Lemma 15.3, p. 90; [Berkeley] Lecture 10, Lemma 10.1.6, p. 75).
+*Needs:* A1.0.0 (*finite-etale-split-ring*); A1.0.3
+(*finite-etale-algebras-filtered-colimit*); Mathlib `LocallyConstant`, `Profinite`.
+README only (no Lean declaration).
+
+**Checks.**
+
+- For a singleton `S`, evaluation identifies the function ring with `K`, and the
+  conclusion agrees with `isFiniteEtaleSplit_iff_isSepClosed`.
+- For empty `S`, the function ring is the zero ring and every finite étale algebra
+  is the empty product.
+- For a two-point discrete `S`, the function ring is `K × K`; total splitting
+  allows different ranks on its two clopen components.
+
+### A1.0.4 Elkik's approximation theorem for noetherian henselian pairs
+
+**Elkik's approximation theorem for noetherian henselian pairs (Théorème 2 bis).**
+(*elkik-noetherian-henselian-approximation*) Let `(A, 𝔍)` be a henselian pair (Mathlib
+`HenselianRing A 𝔍`) with `A` noetherian, `Â` its `𝔍`-adic completion, `B` a finitely generated
+`A`-algebra and `B̂ = B ⊗_A Â`. Let `V ⊆ Spec B` be an open subset smooth over `Spec A` (smoothness is
+Mathlib's `Algebra.Smooth` on affine opens) and `V̂` its preimage in `Spec B̂`. Then for every nonnegative integer
+`n` and every `Â`-section `ε̂ : Spec Â → Spec B̂` whose restriction to `Spec Â ∖ V(𝔍Â)` factors through
+`V̂`, there is an `A`-section `ε : Spec A → Spec B` with `ε ≡ ε̂` modulo `𝔍ⁿ` whose restriction to
+`Spec A ∖ V(𝔍)` factors through `V`. The target is `elkik_section_approximation`
+([Elkik] §II, Théorème 2 bis, printed p. 560, PDF p. 9). In the proposed Lean form, `Â` is
+`AdicCompletion 𝔍 A`, `B̂` is the tensor product `B ⊗[A] Â`, and the completed section is a
+ring map `ε̂ : B̂ →+* Â` whose composite with `Â → B̂` is the identity. The open `V` has
+`AlgebraicGeometry.Smooth` structure morphism to `Spec A`; its inverse image `V̂` is expressed
+by `PrimeSpectrum.comap` along `B → B̂`. Congruence is equality after applying
+`Ideal.Quotient.mk (𝔍 ^ n)` and `AdicCompletion.evalₐ 𝔍 n`, respectively.
+
+**Polynomial approximation (Théorème 2).** Fix a presentation
+`B = A[X_1, …, X_N]/J` with `J = (f_1, …, f_q)` and its Elkik ideal `H_B ⊆ A[X]` (the proposed Lean
+`jacobianIdeal`: `Σ_α Δ_α · ((f_α) : J)` over all subsets `α` of the equations, `Δ_α` generated by
+the `|α| × |α|` minors of the Jacobian of `(f_s)_{s ∈ α}`; the term `α = ∅` is `Ann(J)`, so `H_B`
+is the unit ideal where `J = 0`). Then for every `h ≥ 0` there are integers `n₀, r ≥ 0`, depending only on
+`(A, 𝔍)` and `h`, such that for every finite presentation as above, every `n ≥ n₀`
+and every `a⁰ ∈ A^N` with `J(a⁰) ⊆ 𝔍ⁿ` and `H_B(a⁰) ⊇ 𝔍^h`, there is
+`a ∈ A^N`, `a ≡ a⁰` modulo `𝔍^{n−r}`, with `J(a) = 0`.
+This is `elkik_henselian_approximation`: [Elkik] §II, Théorème 2, printed p. 560
+(PDF p. 9 of the [Numdam scan](https://www.numdam.org/item/ASENS_1973_4_6_4_553_0.pdf)),
+places the bounds before `B`, including for a non-principal ideal `𝔍`. In the degenerate cases: `q = 0`
+(`J = 0`) gives `H_B = A[X]`, every `a⁰` is a solution and `r = 0`; `𝔍 = 0` makes `A` trivially
+henselian and complete, `Â = A`, and the section itself is the lift; `𝔍 = A` forces `A = 0` by the henselian
+convention (`𝔍` lies in the Jacobson radical). This is the noetherian input of the non-noetherian
+approximation ([GR] §5.4, Lem. 5.4.12) ([Elkik] §II, Thm 2 bis, p. 560). The lifting-of-sections
+form from the closed fibre is `henselian_smooth_lifting`: for any henselian pair `(A, 𝔍)`
+and smooth `A`-algebra `B`, each `A`-algebra map `B → A/𝔍` lifts to `B → A`, without a
+noetherian hypothesis ([Stacks] Tag 0H74). A1.0.4 owns this theorem on Mathlib’s
+`HenselianRing` and `Algebra.Smooth` carriers.
+Théorème 2 bis additionally approximates a specified completed section of an algebra that
+need only be smooth on `V`. *Needs:* Mathlib
+`HenselianRing`, `AdicCompletion`, `AlgebraicGeometry.Smooth`, `PrimeSpectrum.comap`.
+
+**Checks.**
+
+- `elkik_test_etale_equation` (computation) — `A = ℤ_(p)^h`, `B = A[X]/(f)`, `f = X² − 7`, `p` odd
+  and `7` a nonzero square modulo `p`: the term `α = ∅` of `H_B` is `Ann(f) = 0`, the term
+  `α = {f}` is `(f') · ((f) : (f)) = (2X)`, so `H_B = (2X)`, and at an approximate root `a⁰` (a
+  unit, as `(a⁰)² ≡ 7`) `H_B(a⁰) = (2a⁰) = (1) ⊇ 𝔍⁰`, so `h = 0`; the approximate root with
+  `(a⁰)² ≡ 7` modulo `pⁿ`, for `n > 0`, lifts to the exact root `a ∈ A` with
+  `a ≡ a⁰` modulo `pⁿ`, and `r = 0`. The lifting is checked by
+  `elkik_test_etale_equation_lifting`, applying `approximateSolution_henselian` with
+  `h = 0` and `I = ⊤` ([GR] §5.4, Prop. 5.4.13, p. 119). Its proposed Lean statement works over
+  any commutative ring `R` with a non-zero-divisor `t`, henselian pair `(R, (t))`,
+  `n > 0`, `IsUnit (2 * a⁰)` and `(a⁰)² − 7 ∈ (t)ⁿ`; it concludes
+  `a² = 7` and `a − a⁰ ∈ (t)ⁿ`. Taking `R = ℤ_(p)^h` and `t = p` gives this Check;
+  positive precision and the nonzero residue root make `2a⁰` a unit.
+- `elkik_test_no_equations` (degenerate) — `q = 0`: `jacobianIdeal` of the empty family is
+  `Ann(0) · (1) = A[X]`, and every `a⁰` is a solution.
+- `elkik_test_derivative_valuation` (computation) — over `ℤ`, for
+  `f_m = X^{p^m} − 1`, evaluate at `1`: `H_{f_m}(1) = (p^m)`. At `m = 0,1,2`
+  the ideals are `(1),(p),(p²)`. Over a `p`-adic DVR, the condition
+  `(p)^h ⊆ (p^m)` requires `h ≥ m`.
+
+- `elkik_section_zero_ideal` (degenerate) — completion along `𝔍 = 0` is `A`, so every
+  completed algebra section comes from an exact section over `A`; both punctured loci are empty.
+- `elkik_section_zero_precision` (degenerate) — congruence at `n = 0` imposes no condition,
+  because `A/𝔍⁰` is the zero ring. The smooth-open conclusion still applies.
+- `elkik_section_empty_open` (non-example) — if the punctured spectrum of `Â` contains a point,
+  it cannot map into the empty open; hence an empty `V` does not supply a formal section
+  satisfying the hypothesis merely by being smooth.
+
+- `elkik_test_characteristic_two` (non-example) — over `𝔽₂`, the two-term equation
+  `X² − 1 = (X − 1)²` has `jacobianIdeal = 0`; the simple-root hypothesis fails.
+- `elkik_test_unit_ideal` (degenerate) — the equation `1 = 0` over `ℤ` has
+  `jacobianIdeal = 0` and no solution, unlike an empty family of equations.
+- `henselian_completion_test_unit_parameter` — the kernel of
+  `HenselianApproximation.completionMap 1 I` is exactly `I`, and every coordinate
+  is the specified residue class. For `henselian_completion_test_distinct_filtrations`,
+  the image of `3` vanishes in `completion 1 (3)` but survives in `completion 3 ⊤`:
+  its coordinates modulo `3` and `9` are zero and nonzero, respectively.
+  These test the actual compatible-sequence completion ([GR] Def. 5.4.10, p. 118).
+
+The henselian-pair inputs (*henselian-pairs-colimits-and-completions*) are supplier citations:
+(a) Mathlib's `IsAdicComplete.henselianRing` gives henselianity of an adically complete pair;
+(b) A1.0.1 (*henselian-pairs-filtered-colimit*) gives henselianity under nonempty directed
+colimits carrying the ideals into one another ([Stacks] Tag 0FWT);
+(c) A1.0.2 (*power-bounded-henselian-along-pseudouniformizer*) gives henselianity along `ϖ`
+for rings of definition and power-bounded subrings of complete Tate rings.
+A Tate ring with a ring of definition `A₀` henselian along a pseudouniformiser `ϖ` is called
+topologically henselian. This property is independent of `A₀`, is equivalent to henselianity
+of `(A⁺, A°°)` for one, equivalently every, ring of integral elements, and passes to filtered
+colimits with the colimit ring of definition by A1.0.1–A1.0.2.
+
+Newton approximation
+(*approximate-solutions-over-complete-rings*): for `t ∈ R` a non-zero-divisor, `I ⊆ R` an ideal,
+`J ⊆ F = R[X_1, …, X_N]` finitely generated with Jacobian ideal `H` and `p_a = (X_i − a_i)`, an
+approximate solution `a ∈ R^N` with `t^h ∈ H + p_a` and `J ⊆ p_a + tⁿIF`, `n > 2h`, improves in one
+step to `b` with `b − a ∈ t^{n−h}I·R^N` and `J ⊆ p_b + (t^{n−h}I)²F`, and over a `tI`-adically complete
+`R` it lifts to a true solution `b` with `J ⊆ p_b` ([GR] §5.4, Lem. 5.4.8 and the paragraph after its
+proof). Approximate solutions over henselian pairs (*henselian-approximate-solutions*): with
+`(R, tI)` henselian in place of complete, and `R` neither noetherian nor complete, the same data
+yield `b ∈ R^N` with `b − a ∈ t^{n−h}I·R^N` and `J ⊆ p_b`, a true solution in `R` itself ([GR] §5.4,
+Prop. 5.4.13). Density of sections (*smooth-sections-dense-over-henselian-pairs*): for `t` a
+non-zero-divisor and `(R, tI)` henselian, `R^∧ = lim_n R/tⁿI` and the `(t, I)`-adic topology on sections of quasi-projective
+`R[t⁻¹]`-schemes (the linear topology with basis `tᵏI·N₀` for a finitely generated `R`-lattice `N₀`,
+independent of the lattice and the embedding), the map `X(R[t⁻¹]) → X(R^∧[t⁻¹])` has dense image for
+every smooth quasi-projective `R[t⁻¹]`-scheme `X`, and a morphism `φ : X → Y` of quasi-projective
+`R[t⁻¹]`-schemes induces a continuous map on sections, open when `φ` is smooth ([GR] §5.4,
+Prop. 5.4.21, pp. 121–122, and Prop. 5.4.30, pp. 122–123). Degenerate cases: for `t = 1` the `(t, I)`-adic neighbourhoods are the constant ideal `I`,
+so its separated completion is `R/I`, whereas the `(tI)`-adic completion is
+`lim R/Iⁿ`; for example `(3) ≠ (9)` in `ℤ`. The henselian hypothesis becomes
+`(R, I)` henselian; for `I = 0` every pair is henselian
+and complete, `R^∧ = R`, and the density statement is an equality; for `t = 0` the hypothesis
+"`t` a non-zero-divisor" fails unless `R = 0`, which is why it is stated (the Newton step divides
+by `t^h`); the filtered-colimit statement needs a nonempty directed index, and for a constant
+system it reduces to the henselianity of the single ring.
+
+*Needs for the Newton, henselian approximation and section-topology targets:* A1.0.1–A1.0.2
+(*henselian-pairs-filtered-colimit*, *power-bounded-henselian-along-pseudouniformizer*);
+the noetherian approximation theorem above; Mathlib `HenselianRing`, `AdicCompletion`,
+`Algebra.Smooth`, `AlgebraicGeometry.Smooth`, `PrimeSpectrum.comap`, `Localization.Away`.
+
+**Section topologies and completion.** `HenselianApproximation.ringTopology t I`
+has neighbourhoods `a + tⁿI`; `localizedTopology t I` has neighbourhoods
+`a + image(tⁿI → R[1/t])`. The latter uses images as additive subgroups, not
+extended ideals (extension would invert `t` and lose the filtration).
+`sectionTopology` is the subspace topology on the solutions of a finite
+polynomial presentation over `R[1/t]`. For a scheme `X` over `Spec A` and a scalar
+map `φ : A → R[1/t]`, `QuasiProjectiveOver.sectionTopology t I X φ` is a topology
+on the actual morphisms `Spec R[1/t] → X` over `φ`. It glues the evaluation
+topologies on all affine opens of the base change of `X`: an affine section is
+sent to its values on every global function, in the product topology of
+`localizedTopology t I`; the maps from these affine section spaces determine
+the final topology ([GR] 5.4.15–19, pp. 120–121). This includes sections whose
+image does not lie in a single standard projective coordinate chart.
+
+For regular `t` and henselian `(R,tI)`, `sections_affineTopology` computes this
+topology using any chosen closed immersion into finite affine space.
+`sections_presentationTopology` identifies it with `sectionTopology` through
+the solution-set equivalence whose coordinates are the pullbacks along that
+immersion. Consequently it is independent of the chosen equations and
+coordinates ([GR] Lemma 5.4.16(i), p. 120). For quasi-projective `X` and `Y`,
+`sections_immersionTopology` says that any immersion `X → Y`, including a
+chosen immersion into finite projective space, induces the same topology on
+sections. `sections_affine_neighborhood` states that every section of a
+quasi-projective scheme over any ring factors through an affine open of that
+scheme ([GR] Lemmas 5.4.16–17 and 5.4.19, pp. 120–121).
+
+With `t` regular and `(R,tI)` henselian, `sections_denseRange` states density
+of `X(R[1/t]) → X(R^∧[1/t])` for `QuasiProjectiveOver` schemes with smooth
+structural map, along `Localization.awayMap (completionMap t I) t` ([GR] Proposition 5.4.21,
+pp. 121–122). On the completed side use `QuasiProjectiveOver.sectionTopology`
+with the image of `t` and the ideal `I^∧ = ker(R^∧ → R/I)`, the closure of `I`;
+use this closure without assuming it is generated by the image of `I`.
+`sections_completion_continuous` asserts continuity of this scalar-extension map for every quasi-projective `X` ([GR] 5.4.15–19,
+pp. 120–121). Under the same ring hypotheses, `sections_map_continuous` states
+continuity for every morphism of quasi-projective schemes, and
+`sections_map_isOpenMap` asserts openness when that morphism is smooth;
+neither requires its source or target to be smooth over the base ([GR]
+Proposition 5.4.30, pp. 122–123). These are the density and openness inputs to
+`groupoid_orbits_completion`.
+
+`completion t I` is the subring of `∏ₙ R/tⁿI` consisting of compatible sequences;
+it is the separated completion even when the original topology is not separated.
+The neighbourhood equations are `ringTopology_nhds` and `localizedTopology_nhds`
+([GR] Definition 5.4.10 and 5.4.11, pp. 118–119).
+
+**Checks.** Each displayed name denotes the corresponding construction, not just its ideal arithmetic.
+
+- `topology_zero_ideal`, `localized_zero_ideal`, `sections_zero_ideal`: with
+  `I = 0`, the ring, localization and affine section spaces are discrete.
+- `topology_unit_parameter`: for `t = 1`, the ring topology is pulled back from
+  the discrete quotient `R/I`. `topology_adic_agreement`: for `I = R`, it is
+  the library's `(t)`-adic topology.
+- `localized_unit_total_ideal`, `sections_unit_total_ideal`: with `t = 1, I = R`,
+  the localization and every affine solution space have the indiscrete topology.
+- `localized_integer_three`: `ℤ` is open in `ℤ[1/3]`, while `{0}` is not.
+  `sections_affine_line_not_discrete`: the affine line over `ℤ[1/3]` is not discrete.
+- `completion_unit_parameter`, `completion_zero_ideal`,
+  `completion_integer_three`: the completions are respectively `R/I`, `R`, and
+  `ℤ₃` for `(R,t,I) = (ℤ,3,ℤ)`.
+- `QuasiProjectiveOver.sectionTopology_zero_ideal`: for `I = 0`, sections of
+  every quasi-projective scheme are discrete.
+- `QuasiProjectiveOver.sectionTopology_empty`: an empty scheme gives the unique
+  topology on its section set, also over the zero ring.
+- `QuasiProjectiveOver.sectionTopology_affine_line`: for regular `t` and
+  henselian `(R,tI)`, evaluation at the single affine coordinate identifies
+  the topology with `localizedTopology t I`.
+
+### A1.0.5 finite étale algebras under henselian completion
+
+Henselian approximation transfers finite étale algebras, unchanged, across a henselian completion.
+
+**Finite étale algebras do not change under henselian completion: `FÉt(R[t⁻¹]) ≃ FÉt(R^∧[t⁻¹])`,
+and `FÉt(A) ≃ FÉt(Â)` for a topologically henselian Tate ring.** (*henselian-finite-etale-approximation*)
+(a) Let `R` be a ring, `t ∈ R` a non-zero-divisor, `I ⊆ R` an ideal with `(R, tI)` henselian, and
+`R^∧` the `(t, I)`-adic completion. Then base change `B ↦ B ⊗_{R[t⁻¹]} R^∧[t⁻¹]` is an equivalence
+of categories `FÉt(R[t⁻¹]) ≃ FÉt(R^∧[t⁻¹])` (Mathlib `CommAlgCat.FiniteEtale`), compatible with
+tensor products; it preserves and reflects ranks, faithful flatness and splitness ([GR] §5.4,
+Prop. 5.4.54 (arXiv v3; Prop. 5.4.53 in the LNM 1800 book), pp. 126–127). (b) (Tate-ring form) Let
+`A` be a Tate ring (Tau Ceti `Huber.IsTateRing`) which is topologically henselian
+(*henselian-pairs-colimits-and-completions* (c): a ring of definition `A₀ ∋ ϖ`, `ϖ` a
+pseudouniformiser, is henselian along `ϖA₀`), and `Â` its completion (Tau Ceti completion of Huber
+rings), with ring of definition the `ϖ`-adic completion `Â₀`. Then `B ↦ B ⊗_A Â` is an equivalence
+`FÉt(A) ≃ FÉt(Â)` (`finiteEtale_completion_tate`). The proposed Lean statement fixes an open
+subring `A₀`, its `ϖ`-adic topology and `HenselianRing A₀ (ϖ)`; it uses
+`UniformSpace.Completion.coeRingHom` as the scalar map and requires neither completeness
+nor separatedness of `A`. This is (a) with `R = A₀`, `t = ϖ`, `I = A₀`, since
+`A = A₀[ϖ⁻¹]` and `Â = Â₀[ϖ⁻¹]` ([Berkeley] Lecture 7, §7.4, Thm 7.4.8, printed p. 54).
+The perfectoid-field specialization is an application in PerfectoidSpaces P3.2
+([PS] §7, Prop. 7.4). Neither (a) nor (b) requires a perfectoid base field or noetherianity;
+`t` is a non-zero-divisor (automatic for `t = ϖ`, a unit of `A` inside `A₀ ⊆ A`).
+*Needs:* A1.0.1–A1.0.2 (*henselian-pairs-filtered-colimit*,
+*power-bounded-henselian-along-pseudouniformizer*); A1.0.3
+(*finite-etale-algebras-filtered-colimit*); A1.0.4 (henselian approximation and section
+ topologies); Mathlib `CommAlgCat.FiniteEtale`, `CommAlgCat.FiniteEtale.baseChange`.
+
+The proof of (a) runs through three lemmas on groupoids of sections, and a fourth lemma passes to
+completed colimits. Isomorphism classes of points of a smooth groupoid do not change from `R[t⁻¹]`
+to `R^∧[t⁻¹]` (*groupoid-orbits-over-henselian-pairs*): under the hypotheses of
+*smooth-sections-dense-over-henselian-pairs*, for a groupoid `(X₀, X₁, s, t, c, ι)` in quasi-projective
+`R[t⁻¹]`-schemes with `X₀` smooth and `(s, t) : X₁ → X₀ × X₀` smooth, the map
+`π₀(X₀(R[t⁻¹])) → π₀(X₀(R^∧[t⁻¹]))` on isomorphism classes of points is bijective (`HenselianApproximation.groupoid_orbits_completion`; [GR] §5.4, 5.4.36
+and Theorem 5.4.38, p. 124). Finitely generated projective modules over `R[t⁻¹]` and over `R^∧[t⁻¹]` correspond
+(*projective-modules-over-henselian-completion*): `M ↦ M ⊗_R R^∧` is a bijection on isomorphism
+classes, obtained from the groupoid of idempotent matrices with its smooth scheme of mutually inverse
+isomorphisms of cokernels ([GR] §5.4, Cor. 5.4.42). The scheme of étale algebra structures on a
+projective module is smooth, and `GL` acts on it étale-ly (*etale-algebra-structure-schemes*): for `P`
+finitely generated projective over `R[t⁻¹]`, the commutative unital algebra structures on `P` are
+represented by an affine `R[t⁻¹]`-scheme `X_P` of finite presentation, the étale ones by the affine
+open `U_P ⊆ X_P` where the discriminant of the trace form is invertible, which is smooth over
+`R[t⁻¹]`, the automorphisms by a group scheme `AlgebraStructureModuli.Aut` locally `GL_n`, and
+`Aut(P) × U_P → U_P × U_P`, `(g, µ) ↦ (µ^g, µ)`, is étale, so that `(U_P, Aut(P) × U_P)` is a groupoid
+to which *groupoid-orbits-over-henselian-pairs* applies, with `π₀` the isomorphism classes of finite
+étale algebras on `P` ([GR] §5.4, Lemmas 5.4.45–5.4.46, p. 125, and 5.4.50–5.4.53, p. 126). Finite étale algebras over a completed filtered colimit
+of complete Tate rings come from a finite level (*finite-etale-completed-direct-limit*).
+A1.0.5 owns the general completion theorem `finiteEtale_completedColimit`: let `J` be a small
+filtered category, `D : J ⥤ CommRingCat` a diagram of complete Hausdorff Tate rings with
+continuous pair maps, and `A₀,j ⊆ A_j⁺` compatible open rings of definition. Choose compatible
+pseudouniformisers `ϖ_j ∈ A₀,j`, with each `A₀,j` carrying its `ϖ_j`-adic topology.
+On `L = colim_j A_j`, let `L₀` be the subring generated by the images of the `A₀,j`, and
+require the neighbourhood basis at zero to be `ϖⁿL₀`. These are the same compatible-ring and
+topology hypotheses as in the Tate-pair spectrum statement of AdicSpacesPartII R0.19.7 (a separate point-set theorem), with complete Hausdorff stages. No injectivity, finite étaleness or torsor hypothesis is imposed on the transition
+maps, and `L` need not be separated. Then base change along the separated completion map
+`L → L̂` gives `FÉt(L) ≃ FÉt(L̂)` (Mathlib `CommAlgCat.FiniteEtale.baseChange`).
+The argument applies `finiteEtale_completion_tate` to the henselian colimit ring of
+definition. Combining it with A1.0.3's algebraic
+*finite-etale-algebras-filtered-colimit* gives `2-colim_j FÉt(A_j) ≃ FÉt(L̂)`.
+AdicEtaleGeometry A4.5's *finite-etale-invariance-along-tower* is the torsor-tower
+specialization, downstream of this result; the arbitrary-transition completion result is supplied here ([Berkeley]
+Lecture 7, Thm 7.4.8 and its following corollary, printed p. 54; [PS] §7, Lem. 7.5(i)
+and proof, pp. 40–41, for complete flat algebras over a perfectoid valuation ring).
+PerfectoidSpaces P5.9 identifies this completion with the limit perfectoid pair and treats plus rings
+and rational localisations. In particular, this theorem applies both to the contracting
+disc tower of PerfectoidSpaces P5.1 and to its countable-subring system in P5.6.
+
+**Checks.** `finiteEtale_completion_tate_complete` gives the equivalence for an already
+complete Hausdorff Tate ring, where the completion map is an isomorphism;
+`finiteEtale_completion_tate_zero` gives the zero-ring case. The nonseparated boundary Check uses the contracting disc system: a nonzero
+coordinate in `L` dies in `L̂`, so an injectivity hypothesis on the completion map would
+exclude this application. PerfectoidSpaces P5's `completedColimit_test_not_injective`
+uses the same completion theorem.
+
+**Algebra-structure moduli.** `AlgebraStructureModuli.Law A P` fixes the additive
+`A`-module `P` and records a bilinear multiplication `µ` and a unit `e`, with
+associativity, commutativity and `µ(e,x)=x`. `Law.operations` identifies the
+resulting ring operations and the scalar map `a ↦ ae`.
+For finite projective `P`, `X A P`, `U A P` and `Aut A P` are affine models,
+recorded by finitely presented coordinate algebras and natural isomorphisms of
+their functors of points: over `B`, their points are laws on `B ⊗_A P`, étale
+laws, and `B`-linear automorphisms of `B ⊗_A P`, respectively. These are module
+automorphisms, not automorphisms of one chosen algebra structure.
+`openCoordinates` is the coordinate map for `U_P → X_P`;
+`openCoordinates_points` makes it forget étaleness. `U_smooth` and
+`U_openImmersion` give the smooth affine open of [GR] 5.4.45–46, p. 125;
+`Aut` uses 5.4.48–50, p. 126. Under `changeBasis g`, the unit becomes `g(e)`
+and multiplication becomes `g(µ(g⁻¹x,g⁻¹y))` ([GR] 5.4.51, p. 126).
+
+**Checks.**
+
+- `laws_rank_zero`, `etale_laws_rank_zero`, `X_rank_zero`, `U_rank_zero`,
+  `Aut_rank_zero`: the zero module has its unique zero algebra law, which is
+  étale; all three representing schemes are `Spec A` in rank zero.
+- `laws_rank_one`, `etale_laws_rank_one`, `X_rank_one`, `U_rank_one`,
+  `Aut_rank_one`: on the fixed module `A`, a law is determined by its unit
+  `e ∈ Aˣ`, with `µ(x,y)=e⁻¹xy`. Thus both law schemes and the automorphism
+  scheme in rank one are `G_m`, although every resulting algebra is isomorphic
+  to `A`.
+- `laws_split_rank_two`, `X_rank_two_distinct`, `U_split_rank_two`: coordinatewise
+  multiplication is étale; over a nonzero base a distinct dual-number law can
+  have the same unit vector. `etale_laws_dual_numbers` excludes that law from
+  the étale locus.
+- `Aut_rank_two`: points over `B` are invertible `2 × 2` matrices over `B`.
+  `change_basis_identity`, `change_basis_unit`, `change_basis_rank_one_scale`
+  fix the transport convention, including multiplication by `e⁻¹` in rank one.
+  `change_basis_swap_product` preserves the split product law;
+  `change_basis_negate` has unit `−1` and multiplication `−xy` after
+  transporting the usual rank-one law by negation.
+
+`autFunctor_map_tmul` fixes extension of module automorphisms on pure tensors.
+`actionGraph_points` identifies the two outputs of `actionGraph` as the
+transported law and the original law; `actionGraph_etale` states étaleness
+of this coordinate map ([GR] 5.4.51–53, p. 126).
+
+`HenselianApproximation.completionMap` sends `a` to the compatible classes
+`a mod tⁿI`. Its Checks are `completionMap_zero_ideal` (a bijection for
+`I = 0`), `completionMap_unit_parameter` (kernel `I` when `t = 1`) and
+`completionMap_integer_three` (the map from `ℤ` to its 3-adic completion
+is injective and not surjective).
+
+`HenselianApproximation.QuasiProjectiveOver` uses an immersion into a finite projective
+space over the indicated base. `QuasiProjectiveOver_affine` includes affine finite-type
+schemes; `QuasiProjectiveOver_empty` includes the empty scheme;
+`QuasiProjectiveOver_nonseparated` excludes nonseparated schemes.
+`Localization.awayMap (completionMap t I) t` is scalar extension on the localized rings;
+`localizedCompletionMap_spec` identifies its composite from any commutative ring `R`
+with the completion map followed by localization ([GR] §5.4.15–21, pp. 120–121).
+The Checks `localizedCompletionMap_zero`, `localizedCompletionMap_one`,
+`localizedCompletionMap_inverse`, and `localizedCompletionMap_zero_ideal` compute four cases.
+Inverting the zero parameter gives the zero ring. With parameter `1` and ideal `R`,
+the nonzero source maps to zero, so `1` maps to `0`. For `R = ℤ`, parameter `3`
+and ideal `ℤ`, the map is the injective, nonsurjective inclusion `ℤ[1/3] → ℚ₃`
+and sends the inverse parameter to `1/3`. With zero ideal the map is bijective.
+These follow directly from the residue-sequence completion in [GR] Proposition 5.4.21,
+p. 121; the arithmetic case does not require a henselian hypothesis.
+
 ### A1.1 strongly sheafy rings
 
 **Strongly sheafy Tate rings and locally strongly sheafy analytic adic spaces.**
@@ -2250,18 +2778,50 @@ noetherian theory. *Needs:* *finite-etale-affinoid-algebra*; AdicSpacesPartII la
 (*finite-etale-approximation*) For an affinoid system `(A_α, A_α⁺)_α` of complete Tate pairs with
 completed direct limit `(A, A⁺)` and `A_∞ := colim_α A_α`, the base change functors
 `2-colim_α FÉt(A_α) → FÉt(A_∞) → FÉt(A)` are tensor equivalences preserving ranks, and the same
-holds over every rational localisation with the induced systems: this is PerfectoidSpaces layer
-P3 (*finite-etale-completed-direct-limit*; [KL I] §2.6, Prop. 2.6.8, p. 55; §1.2, Rem. 1.2.9,
+holds over every rational localisation with the induced systems: this is A1.0.5 (*finite-etale-completed-direct-limit*; [KL I] §2.6, Prop. 2.6.8, p. 55; §1.2, Rem. 1.2.9,
 p. 15), stated for filtered systems of complete Tate rings with compatible rings of definition and
 pseudouniformiser. The structure `Huber.AffinoidSystem` allows noninjective transition and
 structure maps; density does not identify `A_∞` with `A`. For the particular exhaustive
 systems of subrings constructed in *affinoid-system-approximation*, `A_∞ = A`; only in that
 case is the second functor the identity.
-*Needs:* PerfectoidSpaces layer P3 (*finite-etale-completed-direct-limit*).
+*Needs:* A1.0.5 (*finite-etale-completed-direct-limit*).
 
 Outside this subsection and this layer: sheafiness of finite étale extensions of merely sheafy or
 stably uniform rings, and the uniformisation comparison of finite étale algebras, which is
 AdicEtaleGeometry layer A4's. README only (no Lean declaration).
+
+### A1.2a uniformity of finite étale algebras
+
+**Finite étale algebras over complete uniform Tate rings are uniform.**
+(*finite-etale-over-uniform-is-uniform*) For `A` a complete uniform Tate ring (`A°` bounded, Tau Ceti
+`Huber.powerBoundedSubring`), `A⁺ ⊆ A°` a ring of integral elements and `B ∈ FÉt(A)` with `B⁺` the
+integral closure of `A⁺` — the pair `(B, B⁺)` with its natural module topology is AdicEtaleGeometry
+A1.2 (*finite-etale-affinoid-algebra*, `Huber.Pair.finiteEtale A⁺ B`); what is added is that `B` is
+uniform and that `B°` is the integral closure of `A°` in `B`: for `b_1, …, b_n ∈ B⁺` generating `B`
+over `A`, `B⁺ ⊆ {b : Tr_{B/A}(b b_i) ∈ A⁺}`, bounded because the trace pairing is perfect, so `B` is
+uniform and `(B, B⁺)` is a complete uniform Tate Huber pair
+([AWS] Lecture 1, §1.10, Lem. 1.10.1 and its proof, p. 46); that `B°` is the integral closure of
+`A°` in `B`, so that `Tr_{B/A}(B°) ⊆ A°`, is proved here. The proposed Lean target
+`Huber.isBounded_powerBoundedSubring_of_finiteEtale` states the boundedness conclusion
+with the induced Tate-ring structure on `B` supplied explicitly.
+
+*Needs:* A1.2 (*finite-etale-affinoid-algebra*, the natural finite-module topology and
+integral-closure plus ring); AdicSpacesPartIII R3.8 (the ordinary perfect trace pairing);
+Tau Ceti `Huber.powerBoundedSubring` and boundedness of finite-module lattices;
+Mathlib `Algebra.Etale`, `Module.Finite`, `Algebra.trace`, `integralClosure`.
+README only (no Lean declaration).
+
+**Checks.**
+
+- `finite_etale_uniform_test_dual_numbers` uses
+`B = ℂ₂[ε]/(ε²)`: every `aε` is power bounded because its square is zero, but the
+line `ℂ₂ε` is unbounded. Thus `B` is finite over `ℂ₂` and fails both étaleness
+and uniformity; the finite-étale hypothesis in the uniformity theorem is necessary.
+
+- For `B = A`, the finite étale pair and natural topology are the original pair and
+  topology; the integral closure of `A°` is `A°`.
+- For `B = A × A`, the power-bounded subring is `A° × A°`, which is bounded, and
+  the integral plus ring is the corresponding product of integral closures.
 
 ### A1.3 finite étale and étale morphisms
 
@@ -2740,14 +3300,9 @@ resp. of rings); that `O_{X_ét}(U) = O_X(U)` for open `U ⊆ X`, i.e. `λ_{X,*}
 `X_ét`, `A → B ⇉ B ⊗_A B` is an equaliser of topological rings — faithfully flat descent for
 finite étale surjections, via Mathlib's `CommRingCat.isLimitForkPushoutSelfOfFaithfullyFlat`
 ([KL I] §8.2, Thm. 8.2.22(a), p. 165, the sheaf property of `M̃` for the finite étale topology;
-[HK] §5, proof of Prop. 5.5, p. 15; the criterion of [dJvP] §3.2, Prop. 3.2.2, p. 23). For a
-sheafy affinoid with a stable basis the sheaf property of `O` is AdicSpacesPartIV layer R5's
-*stable-basis-etale-vector-bundles* with `M = A`, and for perfectoid `X` PerfectoidSpaces layer
-P3's *etale-almost-acyclicity*; `O⁺`, non-affinoid `X` and `λ_{X,*}O_{X_ét} = O_X` are the content
-here. Only the
-sheaf property is asserted; the vanishing of higher Čech and sheaf cohomology of `O` on the basis
-([KL I] Thm. 8.2.22; [HK] §5, Prop. 5.8, p. 16) is cohomological and belongs to AdicSpacesPartIII
-layer R3 and the étale-cohomology roadmaps. *Needs:* *etale-site*; *basis-comparison*;
+[HK] §5, proof of Prop. 5.5, p. 15; the criterion of [dJvP] §3.2, Prop. 3.2.2, p. 23). Only the sheaf property is asserted here. AdicSpacesPartIII R3 supplies rational and
+finite-étale acyclicity for finite-projective modules ([KL I] Thm. 8.2.22;
+[HK] §5, Prop. 5.8, p. 16). *Needs:* *etale-site*; *basis-comparison*;
 *etale-covering-reduction*; *finite-etale-local-to-global*; *finite-etale-rational-descent*;
 *strongly-sheafy-huber-pair*; Mathlib `CommRingCat.isLimitForkPushoutSelfOfFaithfullyFlat`,
 `Module.FaithfullyFlat`, `CategoryTheory.Presieve.IsSheafFor`, `CategoryTheory.Sheaf`. README only (no Lean declaration).
@@ -3008,6 +3563,40 @@ roadmaps' and AdicSpacesPartIII layer R3's.
 - *AdicSpace_structurePresheafPlusEtale_onOpens_identity_component_zero* (degenerate) — For the identity open immersion, the component-0 idempotent remains component 0.
 
 - *AdicSpace_structurePresheafPlusEtale_onOpens_not_component_two* (non-example) — The component-1 section does not become the component-2 section.
+
+### A1.6a vector bundles on a stable étale basis
+
+**Vector bundles on the étale site of an affinoid with a stable basis.** (*stable-basis-etale-vector-bundles*) Let `X = Spa(A, A⁺)` with `(A, A⁺)` a complete strongly sheafy
+Tate pair, and let `B` be a stable basis of A1's small étale site `X_ét` containing `X` (AdicEtaleGeometry A1,
+*basis-comparison*: closed under fibre products, finite étale extensions and rational subdomains). Prove (a) that for every finite
+projective `A`-module `M`, the presheaf `M̃`, `Y = Spa(C, C⁺) ↦ M ⊗_A C`, is an acyclic sheaf on
+`B`: `H^0(Y, M̃) = M ⊗_A C` and `H^i(Y, M̃) = 0` for `i > 0`, for every `Y ∈ B`; and (b) that
+`M ↦ M̃` is an equivalence from finite projective `A`-modules to finite locally free
+`𝒪_{X_ét}`-modules, with quasi-inverse `E ↦ E(X)`. For `M = A`, this identifies the module sheaf with the structure sheaf constructed in
+A1.6: finite-projective rational acyclicity and finite étale faithfully flat descent, together
+with the covering-reduction criterion, give its vanishing positive cohomology on the basis. [KL I] Theorem 8.2.22(a) concerns finite projective modules on the
+adic and finite étale sites; it is an input to (a), not a statement about `𝒪⁺`. Only finite projective modules are treated,
+rational localisation not being flat in general ([KL I] §8.2, Thm 8.2.22(c), p. 165 (acyclicity of
+`M̃` on a stable basis); [KL I] §8.2, Thm 8.2.22(d), p. 165 (étale descent of vector bundles)). For
+`M = A`, `H^i(X_ét, 𝒪) = 0` for `i > 0` ([HK] Proposition 5.8 for strongly sheafy `A`); for `X` a
+smooth affinoid over a `p`-adic field, vector bundles on `X_ét` are finite projective
+`𝒪(X)`-modules.
+*Needs:* A1.6
+(*etale-site*, *etale-covering-reduction*, *basis-comparison*);
+*finite-projective-module-acyclicity*, *sheafy-cech-acyclicity*, *finite-projective-etale-descent*,
+*sheafy-tate-acyclicity-and-kiehl-gluing* (AdicSpacesPartIII R3.1 and R3.5); Mathlib `Module.Projective`.
+
+**Checks.**
+
+- For `M = A`, the construction gives the structure sheaf and its vanishing positive
+  cohomology on the basis, agreeing with the structure sheaf of A1.6.
+- For a finite Galois extension `L/K`, descent identifies `K` with the equaliser of
+  `L ⇉ L ⊗_K L`.
+- The zero projective module gives the zero sheaf, including on the empty affinoid.
+
+For `M = A`, this stable-basis theorem recovers A1.6's `O`-sheaf assertion. For
+perfectoid `X`, PerfectoidSpaces P3's *etale-almost-acyclicity* gives its integral almost
+cohomological specialization. The `O⁺` comparison and non-affinoid gluing are in A1.6.
 
 ### A1.7 geometric points, enough points, strict localisations
 
@@ -5782,8 +6371,8 @@ point.
 
 Inside AdicEtaleGeometry: layer A0 for pullbacks along rational open immersions and finite étale
 maps (*rational-pullback-comparison*, *finite-etale-pullback-comparison*).
-The finite-stage approximation uses PerfectoidSpaces P3, whose henselian-pair inputs are
-A4's *henselian-pairs-filtered-colimit* and *power-bounded-henselian-along-pseudouniformizer*.
+The finite-stage approximation is A1.0.5's *finite-etale-completed-direct-limit*, using
+A1.0.1–A1.0.4's henselian pairs, algebraic finite étale colimits and classical approximation.
 These algebraic inputs depend on completeness and henselian pairs, independently of the
 étale sites of A1. Within the layer, A1.10–A1.15 use A1.1–A1.9 for `X_ét`, `X_fét`, finite étale and
 étale morphisms, geometric points, the Galois category and the étale slice site, and the Kedlaya–Liu
@@ -5824,7 +6413,7 @@ affinoid-locally, compares Huber's smooth morphisms with the local ball charts o
 compatible toric charts for smooth morphisms and the dimension theory that the dimension estimates
 need, and proves the comparisons of analytification and of generic fibres with these objects and
 with the étale site of AdicEtaleGeometry layer A1. It builds on AdicSpacesPartII layers R0–R1,
-AdicSpacesPartIII layers F0/R2 and AdicSpacesPartIV layer R4, on AdicEtaleGeometry layer A0
+AdicSpacesPartIII layers F0/R2, on AdicEtaleGeometry layer A0
 (analytic loci, rational and finite étale pullbacks)
 and layer A1 (étale morphisms by local description, the étale site), on the Foundations of adic
 spaces roadmap (AdicSpaces), layers 1, 2, 3 and 5, and on Mathlib's `topologicalKrullDim`. Its
@@ -6880,6 +7469,70 @@ be compact, although the relative dimension is one.
 The dimension theory follows [H96] §1.8, pp. 90–95, especially 1.8.4–1.8.9; [Zav] §3, pp. 4–7,
 states the results used here for locally noetherian analytic adic spaces.
 
+### A2.6a analytification and the étale site
+
+**The morphism of sites `X^ad_ét → X_ét` for a scheme locally of finite type over `k`.**
+(*analytification-etale-site*) Let `k` be a complete nontrivially normed nonarchimedean field and `X` a scheme locally
+of finite type over `k`, with analytification `X^ad = X ×_{Spec k} Spa(k, k°)`
+(*analytification-functor*, AdicSpacesPartII layer R1; the scheme-adic fibre product is [H94] §3, Prop. 3.8,
+p. 536, *scheme-fibre-product-analytification*, AdicSpacesPartII layer R1). Schemes are Mathlib schemes and étale is
+taken in Mathlib's sense (Mathlib `AlgebraicGeometry.Etale`); `X^ad` is locally noetherian because
+`Spa(k, k°)` is strongly noetherian. Prove that `X^ad` is locally strongly sheafy
+without an extra hypothesis on `X` ([H96] §1.1,
+pp. 37–39, and Cor. 1.7.3, pp. 85–86). Here `X^ad` is the value of Part II's
+relative analytification over the stably sheafy field affinoid `Spa(k, k°)`
+(*analytification-functor*), followed by forgetting the map to `Spa(k, k°)`. Define the
+functor on étale objects by applying
+this functor to `U → X` and to each arrow over `X`. The domain scheme `U`
+has structural map the composite `U → X → Spec k`; its local finite type property follows from
+étaleness and that of `X`. Two defining equations give its value on objects, including
+the structure arrow to `X^ad`, and on arrows over `X` ([H96] Cor. 1.7.3(i), pp. 85–86).
+The functor `(−)^ad : X_ét → X^ad_ét`, from the small étale
+site of `X` (Mathlib `AlgebraicGeometry.Scheme.smallEtaleTopology` on the category Mathlib
+`AlgebraicGeometry.Scheme.Etale` of schemes étale over `X`) to the étale site of
+A1.6 *etale-site*, `U ↦ U^ad = U ×_X X^ad`, is well defined — analytification sends
+étale morphisms to étale morphisms ([H96] §1.7, Cor. 1.7.3(i), pp. 85–86;
+*analytification-etale-smooth*, AdicSpacesPartII layer R1) — preserves the final object and fibre products
+(*analytification-fibre-products*, AdicSpacesPartII layer R1), and sends jointly surjective étale families to jointly
+surjective families, because the points of the scheme-adic fibre product surject onto compatible
+pairs of points ([H94] §3, Lem. 3.9(ii), p. 537; *analytification-points*, AdicSpacesPartII layer R1; the
+covering families of the small étale site are characterised by Mathlib
+`AlgebraicGeometry.Scheme.ofArrows_mem_smallEtaleTopology_iff`). It therefore defines a morphism of
+sites `λ_X : X^ad_ét → X_ét`; continuity
+and finite-limit preservation are stated for this defined functor (Mathlib `CategoryTheory.Functor.IsContinuous` through
+`CategoryTheory.CoverPreserving`, `CategoryTheory.compatiblePreservingOfFlat`,
+`CategoryTheory.flat_of_preservesFiniteLimits` and
+`CategoryTheory.Functor.isContinuous_of_coverPreserving`, with direct image
+`CategoryTheory.Functor.sheafPushforwardContinuous`), natural in `X` for morphisms of schemes
+locally of finite type over `k` (`λ_Y ∘ f^ad_ét ≅ f_ét ∘ λ_X`).
+The corresponding isomorphism of
+functors `(−)^ad_Y ⋙ (f^ad)* ≅ f* ⋙ (−)^ad_X` holds for every
+`k`-morphism `f : X → Y`, using Mathlib's scheme pullback and A1's adic pullback.
+It follows from the mixed fibre-product universal property; compare [H96]
+(0.7.11), p. 30, and (2.1.3), pp. 110–111. Only the site morphism is
+constructed here; comparison theorems for cohomology along `λ_X` belong to the étale-cohomology
+roadmaps that import this one. *Needs:* *analytification-functor*, *analytification-etale-smooth*,
+*scheme-fibre-product-analytification*, *analytification-fibre-products*, *analytification-points*
+(AdicSpacesPartII layer R1); A1.6 *etale-site*; Mathlib `AlgebraicGeometry.Scheme.smallEtaleTopology`,
+`AlgebraicGeometry.Scheme.Etale`, `AlgebraicGeometry.Etale`, `CategoryTheory.Functor.IsContinuous`,
+`CategoryTheory.Functor.sheafPushforwardContinuous`, `CategoryTheory.CoverPreserving`,
+`CategoryTheory.compatiblePreservingOfFlat`, `CategoryTheory.flat_of_preservesFiniteLimits`,
+`CategoryTheory.Functor.isContinuous_of_coverPreserving`,
+`AlgebraicGeometry.Scheme.ofArrows_mem_smallEtaleTopology_iff`.
+
+**Checks.**
+
+- Empty: for an empty scheme `X`,
+  every image object is empty and its bottom sieve is covering.
+- Field: for `X = Spec k`, the defined
+  functor is an equivalence and induces exactly the scheme small étale topology.
+- Open disc: in the analytification
+  of `Spec k[T]`, choose `ϖ ∈ k` with `0 < ‖ϖ‖ < 1`. The open disc is the union
+  of the rational domains `|T|^(n+1) ≤ |ϖ|`, `n ≥ 0`, where both sections are pulled
+  back along the scheme projection. Its inclusion is an étale object outside the
+  essential image of `(−)^ad`. This union specifies the open disc also
+  at points of higher rank; the condition `|T| < 1` alone would include extra points.
+
 ### A2.7 analytification
 
 **The relative affine space is the union of relative polydiscs.**
@@ -6894,10 +7547,8 @@ open subspace `{|Tᵢ| = 1}` of `(G^n_{m,A})^{ad/S}`: this is AdicSpacesPartII l
 morphisms (separatedness and properness, étaleness and smoothness, continuous differentials) apply
 to the balls and tori of this layer on the same carriers, étale charts `U → A^n_A` of a smooth
 finite-type `A`-scheme analytify to ball charts over `B^n_S` in the sense of
-*smooth-local-ball-charts*, and the étale sites compare through AdicSpacesPartIV layer R4
-(*analytification-etale-site*). *Needs:* AdicSpacesPartII layer R1
-(*affine-chart-analytification*, *analytic-affine-space*); AdicSpacesPartIV layer R4
-(*analytification-etale-site*); *relative-closed-polydisc*; *relative-torus*;
+*smooth-local-ball-charts*, and the étale sites compare through A2.6a (*analytification-etale-site*). *Needs:* AdicSpacesPartII layer R1
+(*affine-chart-analytification*, *analytic-affine-space*); A2.6a (*analytification-etale-site*); *relative-closed-polydisc*; *relative-torus*;
 *smooth-local-ball-charts*. README only (no Lean declaration).
 
 ### A2.8 compatibility with A1's étale site
@@ -7006,6 +7657,42 @@ AdicSpacesPartIII layer F0 (locally noetherian formal schemes); AdicSpacesPartII
   *genericFibre_test_formalAffineLine* and *genericFibre_test_noetherian*) — `𝔛 = Spf ℤ_p⟨T⟩`:
   `d(𝔛) = Spa(ℚ_p⟨T⟩, ℤ_p⟨T⟩)`, the closed unit disc ([Hüb] §9, Ex. 9.4, p. 43).
 
+### A2.9a the generic-fibre functor on formal étale sites
+
+**The generic-fibre functor is continuous on formal étale sites.**
+(*formal-generic-fibre-etale-site*) Let `𝔛` be a formal `O_K`-scheme locally of tf
+presentation, or an adic noetherian formal scheme with an ideal of definition. Use
+AdicSpacesPartIII R2.9's category of formal schemes étale over `𝔛` and its small étale
+topology. The generic fibres of these objects are analytic and locally noetherian.
+The functor `𝔜 ↦ d(𝔜)` sends formal étale objects to étale objects over `d(𝔛)` and
+preserves fibre products by the site-free generic-fibre statements of PartIII R2.3/R2.9.
+Prove that a jointly surjective formal étale covering `(𝔜_i → 𝔛)` gives a jointly
+surjective family `(d(𝔜_i) → d(𝔛))` on all adic points. With the object and arrow maps
+of the supplied generic-fibre functor, this defines a continuous functor
+`𝔛_ét → d(𝔛)_ét` for A1.6's small adic étale site. The morphism of topoi
+`w : d(𝔛)_proét → 𝔛_ét` is an application in the étale-cohomology roadmaps.
+Source: [TT] §2.2, p. 12, the generic-fibre functor on étale formal schemes;
+PartIII R2.9's formal-site construction uses [Stacks] Tag 039R, EGA IV 18.1.2,
+and [Conrad-MR] §3.1, proof of Theorem 3.1.6, p. 17.
+*Needs:* AdicSpacesPartIII F0 (formal schemes, *colimit-of-thickenings*,
+*adic-systems-equivalence-finite-ideal-type*), R2.3 (*generic-fibre-functor-d*,
+*generic-fibre-fibre-products*, *specialisation-map*), R2.9
+(*formal-etale-site-invariance*, the formal category/site and site-free generic-fibre facts);
+AdicSpacesPartII R0 (*differentials-unramified-smooth-etale*, *etale-local-structure*);
+A1.6 (*etale-site*); Mathlib `AlgebraicGeometry.Etale`,
+`CategoryTheory.Functor.IsContinuous`, `CategoryTheory.CoverPreserving`.
+README only (no Lean declaration).
+
+**Checks.**
+
+- For `𝔛 = Spf ℤ_p⟨T⟩`, the formal étale open
+  `Spf ℤ_p⟨T,(T^{p−1} − 1)⁻¹⟩` has special fibre `D(T^{p−1} − 1)` and its
+  generic-fibre map is an open étale object of `d(𝔛)_ét`.
+- The finite étale covering `Spf W(𝔽_{p²}) → Spf ℤ_p` gives
+  `Spa(ℚ_{p²}) → Spa(ℚ_p)`, a surjective finite étale map of degree two.
+- The formal identity covering gives the identity of `d(𝔛)`, preserving the final
+  object and its covering sieve; this includes the empty formal scheme and its empty covering.
+
 ### Examples
 
 The worked examples of this layer are the checks above: the proper projective line
@@ -7040,8 +7727,9 @@ and étale morphisms — and the rank of `Ω`; Huber's Lemma 2.2.8; smooth toric
 AdicSpacesPartII layer R1 (analytification over a field and over a strongly noetherian Tate
 affinoid, with its comparisons of separatedness, properness, étaleness, smoothness and
 differentials); AdicSpacesPartIII layer R2 (formal schemes of type (S), the functors `t` and `d`,
-completions of schemes, generic fibre fibre products); AdicSpacesPartIV layer R4 (the étale site
-on analytic carriers, its base-change functor and the morphism of sites of analytification);
+completions of schemes, generic fibre fibre products and the formal étale category);
+A1.6 (the adic étale site), A2.6a (the morphism of sites of analytification) and A2.9a
+(the formal generic-fibre site functor);
 AdicSpacesPartIII layer F0 (locally noetherian formal schemes); AdicSpacesPartIII layer R3 for the
 coherent sheaf `Ω¹_{X/Y}` of continuous differentials with its exterior powers, of which the
 dimension subsection uses the étale-site version; AdicSpacesPartIV layer R5 for the
@@ -7974,7 +8662,7 @@ bounds here are obtained by Newton iteration; [ECD] §6, proof of Prop. 6.4(iv),
 presupposes a quantitative implicit-function statement of this kind, and [FS] §IV.4.1, proof of
 Lem. IV.4.16, p. 139, reduces a similar local statement to congruences modulo `ϖ`, here done by
 Newton iteration instead of descent. The polynomial form over a `(t, I)`-adically complete ring,
-with Jacobian control and uniqueness up to the stated congruence, is PerfectoidSpaces layer P3's
+with Jacobian control and uniqueness up to the stated congruence, is A1.0.4's
 *approximate-solutions-over-complete-rings* (Gabber–Ramero 5.4.8 and 5.4.14), and the
 one-variable case is Mathlib’s `IsAdicComplete.henselianRing`. The case `k = 0` is Tau Ceti’s
 `IsAdicComplete.existsUnique_eq_zero_of_isUnit_det`
@@ -9442,10 +10130,9 @@ of generalized adic spaces, *finite-etale-site*, *etale-site*, *generalized-adic
 AdicSpacesPartII layer R0 (uniformization, spectral seminorm, spectral topology, Tate ring norm,
 completed tensor product, uniform completed tensor product, finite algebras tensor complete),
 PerfectoidSpaces layers P1 (perfectoid Tate rings and algebras), P2 (uniform completed tensor
-products of perfectoid rings), P3 (the henselian finite étale comparison in the generality of
-Tate rings without a base field), P5 (cofiltered
-limits of affinoid perfectoid spaces) and P6 (products with profinite sets), PerfectoidTowers
-layer P9 (finite Galois descent of modules), and the Foundations of adic spaces roadmap
+products of perfectoid rings), P5 (cofiltered limits of affinoid perfectoid spaces) and P6
+(products with profinite sets); A1.0.5 supplies the henselian finite étale comparison without
+a base field, and A4.2a supplies finite Galois module descent. The Foundations of adic spaces roadmap
 (AdicSpaces) for Huber
 pairs, power-bounded subrings, completion and adic spectra, through the declarations named in the
 `*Needs:*` clauses.
@@ -9485,78 +10172,8 @@ automatically, as for every morphism out of a Tate pair (Tau Ceti
 
 ### A4.1 rings without nonsplit finite étale covers
 
-**Rings with no nonsplit finite étale covers.** (*finite-etale-split-ring*) Let `R` be a
-commutative ring; the zero ring is allowed. A finite étale `R`-algebra `T` (Mathlib
-`Algebra.Etale R T` with `Module.Finite R T`) is *totally split* if there are finitely many
-idempotents `e_1, …, e_m ∈ R` (`m ≥ 0`, repetitions and zero allowed) and an `R`-algebra
-isomorphism `T ≅ ∏_{j=1}^m R/(1 − e_j)R`, and `R` *has no nonsplit finite étale covers* if every
-finite étale `R`-algebra is totally split. This is the conclusion of [ECD] §15, Lem. 15.3, p. 90,
-for `A_∞`; the proof there that `Â_∞` is perfectoid uses it only for `Â_∞`, to which it transfers
-(*finite-etale-invariance-along-tower* (iii)), and only through `IsFiniteEtaleSplit.exists_root`.
-"Split" means totally split over `R` itself, not after a further faithfully flat extension, the
-zero algebra is totally split (`m = 0`), and no topology is involved. Define the class
-`IsFiniteEtaleSplit R` and the predicate `Algebra.IsTotallySplit R T`
-(`∃ m, ∃ idempotents e : Fin m → R, T ≃ₐ[R] Π j, R ⧸ Ideal.span {1 − e j}`);
-prove `isFiniteEtaleSplit_iff_exists_section` (`R` has no nonsplit covers iff every *faithfully
-flat* finite étale `R`-algebra `T` — for `T` finite étale, faithful flatness says the rank of `T`
-is `≥ 1` at every prime of `R` — admits an `R`-algebra map `T → R`: for `T` faithfully flat and
-totally split, refine the covering idempotents to orthogonal ones; conversely split off a section
-by the idempotent of its graph and induct on the rank; sections are the form in which the proof of
-[ECD] §15, Lem. 15.3, p. 90, uses the hypothesis),
-`IsFiniteEtaleSplit.exists_root` (a monic `P` of degree `d ≥ 1` with `P′` a unit modulo `P`, so
-that `(P, 1)` is a Mathlib `StandardEtalePair`, has a root in `R`, because `R[X]/(P)` is étale and
-free of rank `d`, hence a faithfully flat finite étale `R`-algebra),
-`isFiniteEtaleSplit_iff_isSepClosed` (for a field `K` the condition is `IsSepClosed K`, by Mathlib
-`Algebra.Etale.iff_exists_algEquiv_prod`), invariance under base-change equivalences (if base
-change along `φ : R → R′` is an equivalence `FÉt(R) ≅ FÉt(R′)`, then `R` has no nonsplit covers
-iff `R′` has none: idempotents are the maps `R × R → R`, so faithful flatness is preserved and
-reflected), stability of total splitting (a quotient of a totally split finite
-étale algebra by an idempotent, and a finite étale direct factor of a totally split one, are
-totally split), `IsFiniteEtaleSplit.pi` (a finite product of rings with no nonsplit covers has
-none) and the zero-ring case (the zero ring has none) ([ECD] §15, Lem. 15.3,
-p. 90; [Berkeley] Lecture 10, Lem. 10.1.6, p. 75). The locally constant case states
-that the ring of locally constant functions from a profinite set to a separably closed field
-has no nonsplit finite étale covers, being a filtered colimit of finite products of that field
-(*finite-etale-algebras-filtered-colimit*). *Needs:* Mathlib `Algebra.Etale`, `Module.Finite`,
-`Module.FaithfullyFlat`, `IsIdempotentElem`, `Module.rankAtStalk`, `StandardEtalePair`,
-`StandardEtalePair.homEquiv`, `Algebra.IsStandardEtale`, `AdjoinRoot.powerBasis'`,
-`Algebra.Etale.iff_exists_algEquiv_prod`, `Algebra.IsFiniteSplit`, `IsSepClosed`,
-`IsSepClosed.exists_root`, `HenselianLocalRing`, `PadicComplex`.
-
-Mathlib's `Algebra.IsFiniteSplit` requires constant rank. Here the ranks may vary over
-clopen components: over `ℚ × ℚ`, the quotient by `1 − (1,0)` has ranks `(1,0)`.
-The comparison with the library predicate is part of this target.
-
-Lean: `Algebra.IsTotallySplit`, the class `IsFiniteEtaleSplit`, `isFiniteEtaleSplit_iff_exists_section`,
-`IsFiniteEtaleSplit.exists_root` and `isFiniteEtaleSplit_iff_isSepClosed`; the rest is README only.
-
-**Checks.**
-
-- *test_isSepClosed* (compatibility) — for a field `K`, `IsFiniteEtaleSplit K ↔ IsSepClosed K`.
-- *test_Cp* (computation, Lean example) — `IsFiniteEtaleSplit ℂ_p`
-  (Mathlib `ℂ_[p]`, algebraically closed).
-- *test_not_Qp* (non-example) — `¬ IsFiniteEtaleSplit ℚ_p`, also for `p = 2`: `ℚ_p[X]/(X² − p)`
-  is finite étale and faithfully flat (roots `±√p` distinct) with no `ℚ_p`-algebra map to `ℚ_p`,
-  since `p` has odd valuation. A complete field is not enough; `ℂ_p` passes because it is
-  separably closed.
-- *test_strictlyHenselian* (computation) — a henselian local ring with separably closed residue
-  field has no nonsplit finite étale covers (a finite étale algebra over it is a product of local
-  factors with trivial residue extension, each isomorphic to the ring); `𝒪_{ℂ_p}` and the
-  nonreduced `ℂ_p[ε]/(ε²)` are instances, so the notion is not confined to fields or to reduced
-  rings.
-- *test_zero* (degenerate, Lean example with `ZMod 1`) — the zero ring has no nonsplit finite
-  étale covers: every finite étale algebra over it is the empty product.
-- *test_not_rat* (non-example, Lean example) — `¬ IsFiniteEtaleSplit ℚ`: `ℚ[X]/(X² − 2)` is
-  finite étale and faithfully flat over `ℚ` but has no `ℚ`-algebra map to `ℚ`.
-- *test_zero_algebra_has_no_section* (non-example) — over a nonzero ring `R` with no nonsplit
-  finite étale covers, the zero algebra is finite étale and totally split (`m = 0`) but has no
-  `R`-algebra map to `R`; so the section criterion must be restricted to faithfully flat algebras,
-  and "every finite étale algebra has a section" is the wrong definition.
-- *test_pi* (computation) — for separably closed fields `K_1`, `K_2`, the ring `K_1 × K_2` has no
-  nonsplit finite étale covers.
-- *test_exists_root* (characterisation) — if `IsFiniteEtaleSplit R`, `P ∈ R[X]` is monic of degree
-  `≥ 1` and `P′` is a unit in `R[X]/(P)`, then `∃ r ∈ R, P(r) = 0`; this is the only form in which
-  the proof of [ECD] §15, Lem. 15.3 uses the hypothesis.
+The split-ring vocabulary, basic API and Checks are in A1.0.0
+(*finite-etale-split-ring*); A1.0.3a gives its locally constant function application.
 
 ### A4.2 finite étale torsors
 
@@ -9594,13 +10211,13 @@ every prime `p`), `of_surjective` (for `π : G′ ↠ G` surjective and an `A`-a
 fields `K ⊆ L` with `G` acting on `L`, `IsFiniteEtaleTorsor G K L ↔ IsGalois K L ∧ G ≃* (L ≃ₐ[K] L)`
 via the action) ([ECD] §15, Lem. 15.3, p. 90; [Berkeley] Lecture 10, proof of Lem. 10.1.6, p. 75
 (the levels as torsors under an inverse system of finite groups); [ECD] §15, proof of Prop. 15.4,
-p. 91 (the torsor `A → A_i` which D6 turns into a `G_i`-torsor of v-sheaves)). PerfectoidTowers
-layer P9's *finite-galois-descent-of-modules* works with the unbundled Galois condition (its
+p. 91 (the torsor `A → A_i` which D6 turns into a `G_i`-torsor of v-sheaves)).
+A4.2a *finite-galois-descent-of-modules* works with the unbundled Galois condition (its
 hypotheses are finite étaleness, the injectivity of `A → B` and the bijectivity of
 `galoisTensorMap`, from which it derives faithful flatness and `B^G = A`) and owns the
 preservation and reflection of ranks and the descent equivalence between `A`-modules and
 `B`-modules with semilinear `G`-action; PerfectoidSpaces imports this roadmap and cites
-`galoisTensorMap`. `isInvariant` is the bundled-class form of P9's fixed-ring statement, and the
+`galoisTensorMap`. `isInvariant` is the bundled-class fixed-ring statement, and the
 class with `isGaloisGroup`, `of_surjective`, `tensor` and `iterGaloisMap` is the content here.
 *Needs:* Mathlib `Algebra.Etale`, `Module.Finite`, `Module.FaithfullyFlat`, `Module.Projective`,
 `Algebra.TensorProduct.lift`, `MulSemiringAction.toAlgHom`,
@@ -9650,26 +10267,59 @@ flat, bijective Galois map) and `Algebra.IsFiniteEtaleTorsor.iff_isGalois`; the 
   `IsFiniteEtaleTorsor (L ≃ₐ[K] L) K L`, and it implies Mathlib's `IsGaloisGroup (L ≃ₐ[K] L) K L`;
   `B^{⊗2} ≅ Map(G, B)` is the classical `L ⊗_K L ≅ ∏_{σ∈Gal(L/K)} L`.
 
-### A4.3 the finite étale torsor tower
+### A4.2a finite Galois descent of modules
 
-**Finite étale algebras over a filtered colimit come from a finite level.**
-(*finite-etale-algebras-filtered-colimit*) Let `(R_i)_{i∈I}` be a directed system of commutative
-rings, `I` nonempty and directed and no finiteness or noetherian hypothesis on the `R_i`, with
-colimit `R = colim R_i` (Mathlib `Ring.DirectLimit`). (a) Every finite étale `R`-algebra `S` is
-isomorphic to `S_i ⊗_{R_i} R` for some `i` and some finite étale `R_i`-algebra `S_i`. (b) For
-finite étale `R_i`-algebras `S_i`, `T_i` the natural map
-`colim_{j≥i} Hom_{R_j}(S_i ⊗_{R_i} R_j, T_i ⊗_{R_i} R_j) → Hom_R(S_i ⊗_{R_i} R, T_i ⊗_{R_i} R)`
-is bijective. Hence base change is an equivalence of categories `2-colim_i FÉt(R_i) ≅ FÉt(R)`,
-compatible with tensor products, and a finite étale `R_i`-algebra that becomes faithfully flat,
-acquires an `R`-algebra section, or becomes totally split (*finite-etale-split-ring*) over `R`
-already does so over some `R_j` (the rank-zero idempotent, the section and the splitting
-isomorphism each descend). Prove object descent as `Ring.DirectLimit.finiteEtale_essSurj`, and
-morphism descent and eventual equality for maps from a finite étale algebra into a directed
-colimit of algebras, which gives (b) when applied over `R_i` to the
-system `T_i ⊗_{R_i} R_j`, `j ≥ i` ([KL I] §1.2, Rem. 1.2.9, p. 15). The index set must be
-nonempty: the colimit of the empty system is `ℤ`, and `ℤ × ℤ` comes from no stage. *Needs:*
-Mathlib `Ring.DirectLimit`, `DirectLimit`, `Algebra.Etale`, `Module.Finite`,
-`Module.FaithfullyFlat`; *finite-etale-split-ring*. README only (no Lean declaration).
+**Finite Galois descent of modules.** Prove the finite-group form of faithfully flat descent: for `A → B` injective, finite étale and
+Galois with finite group `H` (`B ⊗_A B ≅ ∏_{h∈H} B`), `B` is faithfully flat, `B^H = A`, and
+`M ↦ B ⊗_A M`, `N ↦ N^H` are inverse equivalences between `A`-modules and `B`-modules with
+semilinear `H`-action, preserving finite projectivity and rank, with `N^H = eN` for
+`e = |H|^{-1} Σ_h h` when `|H| ∈ A^×`; injectivity is needed (`A = A₁ × A₂`, `B = B₁ × 0`)
+(*finite-galois-descent-of-modules*) (faithfully flat descent as used in the proof
+of [CHJ] Theorem 2.28, p. 22). In the algebraic statements, `IsGaloisExtension A B H`
+means only bijectivity of A4.2's `Algebra.galoisTensorMap H A B`,
+for any group acting by `A`-algebra automorphisms;
+it differs from `Algebra.IsFiniteEtaleTorsor H A B`, which also bundles finite étaleness
+and faithful flatness. `finite_galois_descent_of_modules_torsor` concludes the
+torsor class: finite étaleness supplies flatness, and finiteness together with injectivity
+makes `Spec B → Spec A` surjective, giving faithful flatness. The fixed-ring conclusion
+`Algebra.IsInvariant A B H` is supplied by A4.2's
+`Algebra.IsFiniteEtaleTorsor.isInvariant`. Check `finite_galois_descent_invariants`
+applies that supplier to the constructed torsor on the same `A`, `B` and `H`.
+All five descent targets explicitly assume `[Fintype H]`, `[FaithfulSMul A B]`,
+`[Algebra.Etale A B]` and `[Module.Finite A B]`, in addition to a finite group acting by
+`A`-algebra automorphisms. No invertibility of `|H|` is required for descent. The effective module comparison assumes an additive group `N` with compatible
+`A`- and `B`-module structures and `IsScalarTower A B N`, and an action `ρ` by additive
+automorphisms satisfying `ρ(h)(b • x) = (h • b) • ρ(h)(x)`.
+Rank reflection is for finite projective modules and `n : ℕ`.
+*Needs:* A4.2 only
+(`Algebra.galoisTensorMap`, `Algebra.IsFiniteEtaleTorsor` and its `isInvariant`);
+Mathlib `Algebra.Etale`, `Module.Finite`, `Algebra.IsIntegral.comap_surjective`,
+`Module.FaithfullyFlat.of_comap_surjective` and
+`Module.Finite.of_finite_tensorProduct_of_faithfullyFlat`.
+Construct the module-descent equivalence and its finite-projectivity reflection
+here on these carriers, using [Stacks Tag 023N](https://stacks.math.columbia.edu/tag/023N)
+and [Stacks Tag 058S](https://stacks.math.columbia.edu/tag/058S), respectively.
+The five targets give faithful flatness and the torsor structure
+(`finite_galois_descent_of_modules_torsor`), identify the fixed ring
+(`finite_galois_descent_invariants`), construct the effective module-descent equivalence,
+reflect finite projectivity, and reflect constant rank `n` for finite projective modules.
+For a semilinear action `ρ` on a `B`-module `N`, the descent comparison is
+`B ⊗_A N^H → N`, `b ⊗ x ↦ bx`; its inverse is natural in equivariant module maps.
+The invariants of `B ⊗_A M` recover `M` by `m ↦ 1 ⊗ m`.
+README only (no Lean declaration).
+
+**Checks.**
+
+- `galois_trivial_group` — for `B = A` and the one-element group, the Galois map
+  is the multiplication isomorphism `A ⊗_A A ≅ A`.
+
+- `galois_zero_ring` — `B = 0` satisfies the Galois-map condition for every finite
+  group, even when `A ≠ 0`; faithfulness must be a separate hypothesis.
+
+- `galois_split_swap` — the swap on `𝔽₂ × 𝔽₂` gives a Galois extension of `𝔽₂`,
+  with diagonal fixed ring. Averaging is unavailable because `2 = 0`.
+
+### A4.3 the finite étale torsor tower
 
 **Every finite étale algebra is split by a finite étale torsor.**
 (*splitting-torsor-of-finite-etale-algebra*) Let `A` be a commutative ring and `S` a finite étale
@@ -9815,10 +10465,8 @@ uniform completion whose finite étale algebras this controls). Kedlaya–Liu pr
 affinoid systems; the same equivalence follows from the topologically henselian comparison,
 since the spectral topology has ring of definition `A°`, which is henselian along `ϖ` when `A` is
 complete (*power-bounded-henselian-along-pseudouniformizer*), with completion `A^u`. By owner: (i)
-is AdicSpacesPartII layer R0's *uniformization* (d); (ii) is the instance of PerfectoidSpaces
-layer P3's *henselian-finite-etale-approximation* (b) for `A` with its spectral topology (whose
-ring of definition `A°` is henselian along `ϖ`, P3's *henselian-pairs-colimits-and-completions*
-(c)), stated here because PerfectoidSpaces imports this roadmap; the uniformity in (iii) is P3's
+is AdicSpacesPartII layer R0's *uniformization* (d); (ii) is the instance of A1.0.5's *henselian-finite-etale-approximation* (b) for `A` with its spectral topology (whose
+ring of definition `A°` is henselian along `ϖ`, A1.0.2); the uniformity in (iii) is A1.2a's
 *finite-etale-over-uniform-is-uniform*; (iv) is the base-change invariance of
 *finite-etale-split-ring* applied to (ii); and that `B ⊗_A A^u` is the uniformization of
 `(B, B⁺)` is the content here. Completeness is essential: the non-complete Tate ring `ℚ_p[T]`
@@ -9833,7 +10481,8 @@ trivial, `ι` being an isomorphism; for `A` not uniform `ι` need not be injecti
 *Needs:* AdicSpacesPartII layer R0 (uniformization, spectral seminorm, spectral topology, Tate
 ring norm); AdicEtaleGeometry layer A1 (*finite-etale-affinoid-algebra*,
 *affinoid-system-approximation*, *finite-etale-approximation*);
-*power-bounded-henselian-along-pseudouniformizer*; PerfectoidSpaces layer P3;
+*power-bounded-henselian-along-pseudouniformizer* (A1.0.2); A1.0.5
+(*henselian-finite-etale-approximation*); A1.2a (*finite-etale-over-uniform-is-uniform*);
 *finite-etale-split-ring*; Tau Ceti `Huber.Pair`, `Huber.IsTateRing`,
 `Huber.powerBoundedSubring`; Mathlib `Algebra.Etale`, `Module.FaithfullyFlat`, `HenselianRing`. README only (no Lean declaration).
 
@@ -9962,69 +10611,6 @@ AdicSpacesPartII R0 (uniform completed tensor product); Mathlib
 - *tower_tensor_trivial* — for a trivial-group tower over a complete uniform split base,
   the tensor-square comparison is `A ⊗̂ᵘ_A A ≅ C^0({1},A) ≅ A`.
 
-**Henselian pairs are stable under filtered colimits.** (*henselian-pairs-filtered-colimit*) For
-a directed system of pairs `(R_i, I_i)` whose transition maps carry `I_i` into `I_j`, if every
-`(R_i, I_i)` is henselian (Mathlib `HenselianRing`) then so is `(colim R_i, colim I_i)` (Mathlib
-`Ring.DirectLimit`): `Ring.DirectLimit.henselianRing` ([Stacks] Tag 0FWT,
-Lemma 15.11.13), used here for the colimit of the power-bounded subrings `A_i°` of a
-directed system of complete Tate rings along a pseudouniformizer coming from the base.
-The index is nonempty and the transition maps satisfy identity and composition laws.
-PerfectoidSpaces P3 uses this result in *henselian-pairs-colimits-and-completions* (b).
-*Needs:* Mathlib `HenselianRing`, `Ring.DirectLimit`, `DirectedSystem`. README only (no Lean declaration).
-
-**Checks.** *henselian_colimit_constant* gives henselianity for the constant identity system.
-*henselian_colimit_zero_ideal* gives henselianity along zero in the direct limit.
-*henselian_zero_ring* allows the unit ideal in the zero ring, where it equals zero.
-
-**Power-bounded elements are henselian along a pseudouniformizer.**
-(*power-bounded-henselian-along-pseudouniformizer*) Let `A` be a complete Tate ring with
-pseudouniformizer `ϖ`. (i) Every ring of definition `A_0` of `A` containing `ϖ` (a ring of
-definition contains some power `ϖ^e`, which may replace `ϖ`) is open, hence closed, in `A`,
-and its subspace topology is the `ϖ`-adic topology ([Wedhorn] §6.2, Prop. 6.14, p. 49); so `A_0`
-is `ϖ`-adically complete and
-separated, and `(A_0, ϖA_0)` is a henselian pair (Mathlib `IsAdicComplete.henselianRing`). (ii)
-`A°` is the directed union of the rings of definition of `A` (for a ring of definition `A_0` and
-`x ∈ A°`, `A_0[x]` is a ring of definition; [Wedhorn] §6.1, Cor. 6.4(3), p. 47), so `(A°, ϖA°)` is
-henselian by *henselian-pairs-filtered-colimit*. (iii) The same holds for every open subring `B`
-of `A°` that contains `ϖ`, with the ideal `ϖB` (an open subring contains the ring of definition
-`ℤ·1 + ϖ^mA_0` for `m` large, so `B` is again the directed union of the rings of definition it
-contains). Prove
-`PairOfDefinition.isAdicComplete_of_completeSpace`, `PairOfDefinition.henselianRing`,
-`powerBoundedSubring.henselianRing` and
-`henselianRing_of_isOpen_subring`. The `ϖ`-adic completeness in (i) is what fails for `A°` itself
-when `A` is not uniform: in `A = ℂ_p⟨T⟩/(T²)` the element `T` lies in `⋂_n ϖ^nA°` (every multiple
-of `T` is nilpotent, hence power-bounded), so `A°` is not `ϖ`-adically separated and Mathlib's
-`IsAdicComplete` does not apply to it directly; the directed-union argument (ii) is needed.
-Clauses (i)–(iii) are owned here: PerfectoidSpaces layer P3 cites them as clause (c) of its
-*henselian-pairs-colimits-and-completions*, whose clause (a) is Mathlib's
-`IsAdicComplete.henselianRing`. The suppliers used are Tau Ceti
-`isPowerBounded_iff_exists_mem_ringOfDefinition` (`A°` is the directed union of the rings of
-definition, [Wedhorn] 6.4(3)) and Mathlib `IsAdicComplete.henselianRing`; the `ϖ`-adic
-completeness of a ring of integral elements of a uniform complete Tate ring is the different
-statement PerfectoidSpaces layer P1 *integral-elements-adically-complete*.
-*Needs:* *henselian-pairs-filtered-colimit*; Mathlib `IsAdicComplete.henselianRing`,
-`HenselianRing`; Tau Ceti `Huber.PairOfDefinition`, `Huber.IsPseudoUniformizer`,
-`TauCeti.Huber.isOpen_powerBoundedSubring`.
-
-Lean: `Huber.henselianRing_powerBoundedSubring` ((ii): `(A°, ϖA°)` is henselian for a
-pseudouniformiser `ϖ ∈ A°`); the rest is README only.
-
-**Checks.**
-
-- *henselian_test_Zp* — the simple root zero of `X^p − X − p` modulo `p`
-  lifts to a root in `pℤ_p`.
-- *henselian_test_not_separated* (non-example) — a nilpotent `x` lies in `ϖ^n A°` for every `n`
-  (`ϖ^{-n}x` is nilpotent, hence integral over `A°`); for `x = ε ≠ 0` in `ℚ_p[ε]/(ε²)` this shows
-  that `A°` need not be `ϖ`-adically separated.
-- *henselian_test_not_tate* (non-example) — the complete Huber ring `ℤ_p` (`p`-adic topology), like
-  `ℤ_p⟦T⟧` with the `(p, T)`-adic topology, has no pseudouniformiser (its units have norm `1`), so
-  it is outside the scope of this target, whose statements assume a Tate ring.
-- *henselian_test_incomplete* (non-example) — for `A = ℚ_p[T]` with the `p`-adic topology on
-  `ℤ_p[T]` (not complete), the pair `(ℤ_p[T], p)` is not henselian: for `p` odd, `X² − (1 + pT)`
-  has the simple root `1` modulo `p`, but `√(1 + pT)` is a power series, not a polynomial, so the
-  root does not lift to `ℤ_p[T]`; the finite étale `ℚ_p⟨T⟩`-algebra of
-  *uniform-completion-etale-comparison* is the same phenomenon on finite étale algebras.
-
 **Finite étale algebras are unchanged along the completed torsor tower.**
 (*finite-etale-invariance-along-tower*) Let `(A, A⁺)` be a Huber pair with `A` complete Hausdorff
 Tate, `T` any finite étale torsor tower over `A` and `(Â_∞, Â_∞⁺)` its completion
@@ -10048,7 +10634,7 @@ Each `A_i°` is henselian along `ϖ` (*power-bounded-henselian-along-pseudounifo
 complete, and `A_i°` is the directed union of its `ϖ`-adically complete rings of definition), so
 are the rings of definition `colim_i A_i°` and `LC(G^k, colim_i A_i°)`
 (*henselian-pairs-filtered-colimit*), and the topologically henselian comparison
-`FÉt(A) ≅ FÉt(Â)` ([Berkeley] Lecture 7, Thm. 7.4.8, p. 54; PerfectoidSpaces layer P3,
+`FÉt(A) ≅ FÉt(Â)` ([Berkeley] Lecture 7, Thm. 7.4.8, p. 54; A1.0.5,
 *henselian-finite-etale-approximation* (b), without a base field) passes from `A_∞` to its
 completion; the first equivalence is *finite-etale-algebras-filtered-colimit* ([Berkeley]
 Lecture 7, after Thm. 7.4.8, p. 54). Apply that henselian comparison directly to the specified colimit topology for (i),
@@ -10057,8 +10643,7 @@ the splitting axiom of *finite-etale-torsor-tower* transported along (i) by
 the base-change invariance of *finite-etale-split-ring*; the item records them
 in the form the diamond comparison uses. The same argument gives `FÉt(colim A_i) ≅ FÉt(Â_∞)` for
 any filtered system of complete Tate rings with compatible rings of definition containing the
-image of `ϖ` ([Berkeley] Lecture 7, after Thm. 7.4.8, p. 54); that general form is PerfectoidSpaces
-layer P3's *finite-etale-completed-direct-limit*, assembled there from P3's
+image of `ϖ` ([Berkeley] Lecture 7, after Thm. 7.4.8, p. 54); that general form is A1.0.5's *finite-etale-completed-direct-limit*, assembled there from its
 *henselian-finite-etale-approximation* (b) and the two henselian statements above, and it is not a
 target of this layer: here the system is a finite étale torsor tower and `A_∞` carries the
 topology of *completed-tower-pair*. Prove the equivalence (i),
@@ -10072,7 +10657,8 @@ p. 91 cites from [PS] §7, Lem. 7.5(i) and its proof, pp. 40–41, there over a 
 *finite-etale-split-ring*; *henselian-pairs-filtered-colimit*;
 *finite-etale-algebras-filtered-colimit*; AdicEtaleGeometry layer A1
 (*finite-etale-affinoid-algebra*); *power-bounded-henselian-along-pseudouniformizer*;
-PerfectoidSpaces layer P3; Mathlib `HenselianRing`, `ContinuousMap`, `LocallyConstant`.
+A1.0.5 (*henselian-finite-etale-approximation*, *finite-etale-completed-direct-limit*);
+Mathlib `HenselianRing`, `ContinuousMap`, `LocallyConstant`.
 
 The comparison `FiniteEtaleTorsorTower.locallyConstantToContinuousMap` sends a function
 `f` to `g ↦ ι(f(g))`, where `ι : A_∞ → Â_∞` is the uniformization map; this is specified by
@@ -10096,7 +10682,7 @@ instead record `(g,gh)`, as specified by `iterGaloisMap_tprod` and checked by *v
 Descent data come from a finite level (*finite-etale-invariance-along-tower*) and are
 effective there by faithfully flat descent along `A → A_i` (Mathlib `comonadicExtendScalars`,
 `Algebra.Etale.of_etale_tensorProduct_of_faithfullyFlat`; in its finite-group form,
-PerfectoidTowers layer P9's *finite-galois-descent-of-modules*); the packaging of the
+A4.2a *finite-galois-descent-of-modules*); the packaging of the
 continuous-`G`-action descent data over `C^0(G, Â_∞)` is the content here. Prove this for
 objects, and `completion_finiteEtale_descent_hom` for the unique descent of equivariant
 homomorphisms.
@@ -10643,14 +11229,10 @@ and the factorisation of a quasi-compact étale map through an open immersion is
 there (by [dJvP] §3.1, Prop. 3.1.7). Other roadmaps:
 AdicSpacesPartII layer R0 (uniformization, spectral seminorm, spectral topology, Tate ring norm,
 completed tensor product, uniform completed tensor product, finite algebra tensor complete);
-PerfectoidSpaces layer P1 (perfectoid Tate rings and algebras), layer P3 (the topologically
-henselian finite étale comparison for Tate rings without a base field, [Berkeley] Lecture 7,
-Thm. 7.4.8: `FÉt(A) ≅ FÉt(Â)` when a ring of definition is henselian along a pseudouniformizer; [KL I] §2.8, Prop. 2.8.16
-supplies the uniformization case), layer P2 (uniform completed tensor products of perfectoid
-rings over any Tate base), layer P5 (cofiltered limits of affinoid perfectoid spaces, and
+PerfectoidSpaces layer P1 (perfectoid Tate rings and algebras), layer P2 (uniform completed
+tensor products of perfectoid rings over any Tate base), layer P5 (cofiltered limits of affinoid perfectoid spaces, and
 *spa-of-filtered-colimit-of-tate-pairs*, the general form of *spa-of-completed-tower* (i)) and layer
-P6 (products with profinite sets); PerfectoidTowers layer P9 (the finite-group form of faithfully
-flat module descent);
+P6 (products with profinite sets); A4.2a (finite-group faithfully flat module descent);
 the Foundations of adic spaces roadmap (AdicSpaces) for Huber pairs, power-bounded subrings,
 completion and adic spectra. Mathlib and Tau Ceti as named in the `*Needs:*` clauses: étale,
 finite, faithfully flat and projective algebras with descent along faithfully flat maps, standard
@@ -10724,3 +11306,11 @@ Page locators refer to the printed pagination of the stated PDF or book edition.
 - [SGA 4 VI] Alexander Grothendieck and Jean-Louis Verdier, Théorie des topos et cohomologie étale
   des schémas, Tome 2, Exposé VI, with the Appendix by Pierre Deligne. Lecture Notes in
   Mathematics 270, Springer, 1972.
+
+- [GR] Ofer Gabber and Lorenzo Ramero, Almost ring theory, LNM 1800 (2003); arXiv:math/0201175v3. https://arxiv.org/abs/math/0201175.
+- [Elkik] Renée Elkik, Solutions d'équations à coefficients dans un anneau hensélien, Ann. Sci. ÉNS 6 (1973), pp. 553–603. [Numdam article](https://www.numdam.org/item/ASENS_1973_4_6_4_553_0/), [original PDF](https://www.numdam.org/item/ASENS_1973_4_6_4_553_0.pdf). §0.2, printed p. 555 (PDF p. 4), defines the Jacobian ideal; §II, Théorèmes 2 and 2 bis, printed p. 560 (PDF p. 9), states polynomial and section approximation.
+- [AWS] Kiran Kedlaya, Sheaves, stacks, and shtukas (Arizona Winter School 2017 notes). https://kskedlaya.org/papers/aws-notes.pdf.
+- [CHJ] Przemysław Chojecki, David Hansen and Christian Johansson, Overconvergent modular forms and perfectoid Shimura curves, Doc. Math. 22 (2017); arXiv:1507.04875. https://arxiv.org/abs/1507.04875.
+- [TT] Fucheng Tan, Jilong Tong, *Crystalline comparison isomorphisms in p-adic Hodge theory: the absolutely unramified case*, arXiv:1510.05543v2. https://arxiv.org/abs/1510.05543v2
+
+- [Conrad-MR] Brian Conrad, *Modular curves and rigid-analytic spaces*, Pure Appl. Math. Q. 2 (2006); author PDF genpaper.pdf. https://math.stanford.edu/~conrad/papers/genpaper.pdf
