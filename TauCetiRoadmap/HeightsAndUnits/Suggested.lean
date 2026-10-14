@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.NumberTheory.EffectiveBounds.Regulator
 import TauCetiRoadmap.DiophantineApproximationAndTranscendence.Suggested
 
 /-!
@@ -15,7 +16,9 @@ directly: `absoluteProjectiveTupleHeight`, `absoluteLogHeightAff`, `matrixMulHei
 `subspaceHeight`. Successive minima and Minkowski's second theorem belong to
 GeometryOfNumbersAndQuadraticArithmetic, an open TauCetiRoadmap pull request; the milestones stated
 against its `successiveMin` (Layer 2.1's minima form, 2.2's geometric half, 3.3's Minkowski step)
-are in the README only, and this file states their lattice-algebra and arithmetic halves.
+are in the README only, and this file states their lattice-algebra and arithmetic halves. The
+rank-zero regulator is Tau Ceti's `NumberField.Units.regulator_eq_one_of_rank_eq_zero`, imported
+and used as a check.
 -/
 
 noncomputable section
@@ -138,6 +141,14 @@ section NorthcottSubspace
 
 variable {K : Type*} [Field K] [NumberField K] {ι : Type*} [Fintype ι] [LinearOrder ι]
 
+/-- The reverse comparison on the Plücker vector, the upper half of
+DiophantineApproximationAndTranscendence's `arakelovMulHeight_sup_comparison`; the binomial
+coefficient counts the Plücker coordinates. It carries Northcott to `relativeSubspaceHeight`. -/
+theorem relativeSubspaceArakelovHeight_le (T : Submodule K (ι → K)) :
+    relativeSubspaceArakelovHeight T ≤
+      ((Fintype.card ι).choose (finrank K T) : ℝ) ^ ((finrank ℚ K : ℝ) / 2) *
+        relativeSubspaceHeight T := by sorry
+
 /-- **Layer 1.2.** Northcott for subspaces, with no rank condition. -/
 instance instNorthcottRelativeSubspaceHeight :
     Northcott (relativeSubspaceHeight (K := K) (ι := ι)) := by sorry
@@ -193,8 +204,13 @@ section MinimaBasis
 
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] {B : Set E}
 
-/-- Absolute homogeneity of the gauge of a symmetric set. -/
-theorem gauge_smul_of_symmetric (hB : ∀ x ∈ B, -x ∈ B) (r : ℝ) (x : E) :
+/-- Over `ℝ` a convex symmetric set is balanced; Mathlib has no lemma saying so. -/
+theorem balanced_of_convex_of_neg_mem (hB₀ : Convex ℝ B) (hB₁ : ∀ x ∈ B, -x ∈ B) :
+    Balanced ℝ B := by sorry
+
+/-- Absolute homogeneity of the gauge of a convex symmetric set: Mathlib's `gauge_smul` after
+`balanced_of_convex_of_neg_mem`. -/
+theorem gauge_smul_of_symmetric (hB₀ : Convex ℝ B) (hB : ∀ x ∈ B, -x ∈ B) (r : ℝ) (x : E) :
     gauge B (r • x) = |r| * gauge B x := by sorry
 
 /-- **Layer 2.1, general form** (Cassels V Lemma 8). Any full independent family of lattice
@@ -239,14 +255,26 @@ theorem sqrt_det_div_minorGcd_unit_mul {U : Matrix (Fin m) (Fin m) ℤ} (hU : Is
     Real.sqrt (((U * A) * (U * A).transpose).det : ℝ) / (minorGcd (U * A) : ℝ) =
       Real.sqrt ((A * A.transpose).det : ℝ) / (minorGcd A : ℝ) := by sorry
 
-/-- **Layer 2.2, Bombieri–Vaaler Theorem 2 over `ℤ`, sup-norm form.** -/
+/-- **Layer 2.2, an integral kernel basis.** A `ℤ`-basis of the whole integral kernel, at the
+cost `k!/2^(k-1)` of Layer 2.1 over the bound for independent vectors. -/
+theorem exists_basis_ker_prod_iSup_abs_le (A : Matrix (Fin m) ι ℤ)
+    (hA : LinearIndependent ℚ fun i j ↦ (A i j : ℚ)) :
+    ∃ b : Module.Basis (Fin (Fintype.card ι - m)) ℤ (LinearMap.ker A.mulVecLin),
+      ∏ l, ((⨆ i, |(b l : ι → ℤ) i| : ℤ) : ℝ) ≤
+        ((Fintype.card ι - m).factorial : ℝ) / 2 ^ (Fintype.card ι - m - 1) *
+          (Real.sqrt ((A * A.transpose).det : ℝ) / (minorGcd A : ℝ)) := by sorry
+
+/-- **Bombieri–Vaaler Theorem 2 over `ℤ`, sup-norm form.** An adapter of
+DiophantineApproximationAndTranscendence's `siegelKernelBasis` at `K = ℚ`: divide each vector by
+its content. The family need not span the integral kernel. -/
 theorem exists_linearIndependent_mulVec_eq_zero_prod_iSup_abs_le (A : Matrix (Fin m) ι ℤ)
     (hA : LinearIndependent ℚ fun i j ↦ (A i j : ℚ)) :
     ∃ x : Fin (Fintype.card ι - m) → ι → ℤ, LinearIndependent ℤ x ∧ (∀ l, A.mulVec (x l) = 0) ∧
+      (∀ l, Finset.univ.gcd (x l) = 1) ∧
       ∏ l, ((⨆ i, |x l i| : ℤ) : ℝ) ≤ Real.sqrt ((A * A.transpose).det : ℝ) / (minorGcd A : ℝ) := by
   sorry
 
-/-- **Bombieri–Vaaler Theorem 1 over `ℤ`.** -/
+/-- **Bombieri–Vaaler Theorem 1 over `ℤ`**, the smallest vector of the previous family. -/
 theorem exists_ne_zero_mulVec_eq_zero_iSup_abs_le (A : Matrix (Fin m) ι ℤ)
     (hA : LinearIndependent ℚ fun i j ↦ (A i j : ℚ)) (hm : m < Fintype.card ι) :
     ∃ x : ι → ℤ, x ≠ 0 ∧ A.mulVec x = 0 ∧
@@ -261,7 +289,20 @@ theorem exists_forall_pow_le_iSup_abs (m : ℕ) (B : ℤ) (hB : 1 ≤ B) :
     ∃ A : Matrix (Fin m) (Fin (m + 1)) ℤ, (∀ i j, |A i j| ≤ B) ∧
       ∀ x : Fin (m + 1) → ℤ, x ≠ 0 → A.mulVec x = 0 → B ^ m ≤ ⨆ i, |x i| := by sorry
 
-/-- The row `(2, 2)`: Gram determinant `8`, minor gcd `2`. -/
+/-- An independent family that is not a basis: for the row `(0, 0, 1)`, `(1, 1, 0)` and
+`(1, -1, 0)` span a sublattice of index two of the integral kernel. -/
+example : ¬ ∃ c : Fin 2 → ℤ,
+    c 0 • ![(1 : ℤ), 1, 0] + c 1 • ![(1 : ℤ), -1, 0] = ![1, 0, 0] := by sorry
+
+/-- A unimodular shear leaves the Gram determinant `3` and the minor gcd `1` unchanged. -/
+example :
+    let A : Matrix (Fin 2) (Fin 3) ℤ := !![1, 0, -1; 0, 1, -1]
+    let U : Matrix (Fin 2) (Fin 2) ℤ := !![1, 1; 0, 1]
+    (A * A.transpose).det = 3 ∧ ((U * A) * (U * A).transpose).det = 3 ∧
+      minorGcd A = 1 ∧ minorGcd (U * A) = 1 := by sorry
+
+/-- The row `(2, 2)`: Gram determinant `8`, minor gcd `2`; a row rescaling, not a unimodular
+change. -/
 example : minorGcd (!![2, 2] : Matrix (Fin 1) (Fin 2) ℤ) = 2 ∧
     ((!![2, 2] : Matrix (Fin 1) (Fin 2) ℤ) * (!![2, 2] : Matrix (Fin 1) (Fin 2) ℤ).transpose).det
       = 8 := by sorry
@@ -335,7 +376,9 @@ theorem exists_fundSystem_prod_absLogHeight₁_le (K : Type*) [Field K] [NumberF
           ((rank K).factorial : ℝ) ^ 2 / (2 ^ (rank K - 1) * (finrank ℚ K : ℝ) ^ rank K) *
             regulator K := by sorry
 
-theorem regulator_eq_one_of_rank_eq_zero (h : rank K = 0) : regulator K = 1 := by sorry
+/-- The rank-zero case is Tau Ceti's, consumed rather than reproved: both bounds above have
+empty products and agree with it. -/
+example (h : rank K = 0) : regulator K = 1 := regulator_eq_one_of_rank_eq_zero K h
 
 end Units
 
@@ -416,6 +459,41 @@ def regulator (S : Finset (HeightOneSpectrum (𝓞 K))) : ℝ :=
   ZLattice.covolume (unitLattice S)
 
 theorem regulator_pos (S : Finset (HeightOneSpectrum (𝓞 K))) : 0 < regulator S := by sorry
+
+/-- The kernel of the `S`-logarithmic embedding is the torsion, the `S`-analogue of Mathlib's
+`logEmbedding_ker`: by the product formula, the height identity and Kronecker's theorem. -/
+theorem logEmbedding_ker (S : Finset (HeightOneSpectrum (𝓞 K))) :
+    (logEmbedding S).ker =
+      (CommGroup.torsion ((S : Set (HeightOneSpectrum (𝓞 K))).unit K)).toAddSubgroup := by
+  sorry
+
+/-- The torsion-free quotient of the `S`-units is the `S`-unit lattice, through the map induced
+by `logEmbedding S`. This connects Layer 4.2's quotient to Layer 4.3's lattice. -/
+theorem exists_quotTorsionEquiv_unitLattice (S : Finset (HeightOneSpectrum (𝓞 K))) :
+    ∃ e : (Additive ((S : Set (HeightOneSpectrum (𝓞 K))).unit K) ⧸
+        Submodule.torsion ℤ (Additive ((S : Set (HeightOneSpectrum (𝓞 K))).unit K))) ≃ₗ[ℤ]
+          unitLattice S,
+      ∀ x, (e (Submodule.Quotient.mk x) : logSpace S) = logEmbedding S x := by sorry
+
+/-- The fundamental systems of `S`-units are exactly the families whose logarithms form a
+`ℤ`-basis of the `S`-unit lattice. -/
+theorem isFundSystem_iff_basis (S : Finset (HeightOneSpectrum (𝓞 K))) {ι : Type*} [Fintype ι]
+    (ε : ι → (S : Set (HeightOneSpectrum (𝓞 K))).unit K) :
+    (Subgroup.closure (Set.range ε) ⊔ CommGroup.torsion _ = ⊤ ∧
+        Fintype.card ι = rank K + S.card) ↔
+      ∃ b : Module.Basis ι ℤ (unitLattice S),
+        ∀ i, (b i : logSpace S) = logEmbedding S (Additive.ofMul (ε i)) := by sorry
+
+/-- The `S`-regulator is the absolute determinant of the weighted logarithms of any fundamental
+system, at the places other than any one omitted infinite place `w'`, in any column order `e`. -/
+theorem regulator_eq_abs_det (S : Finset (HeightOneSpectrum (𝓞 K))) {ι : Type*} [Fintype ι]
+    {ε : ι → (S : Set (HeightOneSpectrum (𝓞 K))).unit K}
+    (hε : Subgroup.closure (Set.range ε) ⊔ CommGroup.torsion _ = ⊤)
+    (w' : InfinitePlace K) (e : ι ≃ ({w : InfinitePlace K // w ≠ w'} ⊕ S)) :
+    regulator S = |(Matrix.of fun i j ↦
+      Sum.elim (fun w : {w : InfinitePlace K // w ≠ w'} ↦
+          (w.1.mult : ℝ) * Real.log (w.1 ((ε i : Kˣ) : K)))
+        (fun v : S ↦ Real.log (FinitePlace.mk v.1 ((ε i : Kˣ) : K))) (e j)).det| := by sorry
 
 /-- At `S = ∅` the `S`-regulator is the regulator; a theorem, not an unfolding. -/
 theorem regulator_empty :

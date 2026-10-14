@@ -11,8 +11,9 @@ theorem, builds the `S`-logarithmic lattice and defines the `S`-regulator.
 
 Two pieces of geometry of numbers are needed on the way, and both are built here. The first is a
 lattice **basis** controlled by the successive minima, not merely an independent family. The
-second is the **sup-norm** form of Bombieri–Vaaler over `ℤ`, which bounds the integral solution
-vectors themselves rather than their heights. The roadmap also owns a small set of height
+second applies it to the kernel of an integer matrix. The result is a `ℤ`-**basis** of the integral
+kernel of bounded sup norm, at the cost `k!/2^{k−1}` over the Bombieri–Vaaler bound for
+independent vectors, with the gcd of the maximal minors. The roadmap also owns a small set of height
 estimates that every consumer of heights needs and that no other roadmap supplies:
 - the affine height of a tuple,
 - bounds for values of linear forms and determinants,
@@ -43,15 +44,18 @@ for Layer 3; and `TauCeti/RingTheory/DedekindDomain/SUnit.lean` with
   logarithms. Also **Kronecker's theorem** in its absolute-height and projective forms, and the
   **height gap** at bounded degree (Layer 1).
 - A **lattice basis from the successive minima**, in a general gauge form and in the form
-  `b i ∈ (max 1 ((i + 1)/2) · λ_i) • K`. Also **Bombieri–Vaaler over `ℤ` in the sup norm**
-  (Theorems 1 and 2 of Bombieri–Vaaler 1983), with the gcd of the maximal minors, its
-  `GL_M(ℤ)` invariance, and the sharpness of Siegel's exponent (Layer 2).
+  `b i ∈ (max 1 ((i + 1)/2) · λ_i) • K`. Also, for an integer matrix, the **gcd of the maximal
+  minors** with its arithmetic identity and `GL_m(ℤ)` invariance, a **`ℤ`-basis of the integral
+  kernel** of bounded sup norm, and the sharpness of Siegel's exponent (Layer 2). The sup-norm
+  forms of Bombieri–Vaaler's Theorems 1 and 2 over `ℤ` are adapters of DAT's
+  `siegelKernelBasis`, not owned results.
 - The **heights of units**: the dictionary with Mathlib's `logEmbedding`, finiteness of units of
   bounded height, and height one ⇔ torsion. Also the **regulator against the heights of a
   fundamental system**, in both directions (Layer 3).
 - The **height of an `S`-integer**, supported on `S` and the infinite places. Also the **`S`-unit
   theorem** for Mathlib's `S.unit K` with a fundamental system, the **`S`-logarithmic lattice**,
-  and the **`S`-regulator** (Layer 4).
+  its identification with the torsion-free quotient of the `S`-units, and the **`S`-regulator**
+  with its determinant formula on any fundamental system (Layer 4).
 
 ### Consumed
 
@@ -62,9 +66,14 @@ for Layer 3; and `TauCeti/RingTheory/DedekindDomain/SUnit.lean` with
   `ZLattice`, `ZLattice.covolume`, `gauge`, `ConvexBody`; Dirichlet's unit theorem as
   `NumberField.Units.logEmbedding`, `unitLattice`, `fundSystem`, `torsion`, `rank`,
   `regOfFamily`, `regulator`, `closure_fundSystem_sup_torsion_eq_top`,
-  `unitLattice_inter_ball_finite`; the `S`-integers and `S`-units `S.integer K` and `S.unit K` of
+  `unitLattice_inter_ball_finite`, `logEmbedding_ker`; the regulator interfaces
+  `regOfFamily_div_regulator` (the index of the subgroup a family generates) and
+  `regulator_eq_det` (any omitted infinite place); the `S`-integers and `S`-units `S.integer K` and `S.unit K` of
   `Mathlib/RingTheory/DedekindDomain/SInteger.lean`; `NumberField.FinitePlace`; finiteness of the
   class group; `Int.Matrix.exists_ne_zero_int_vec_norm_le`.
+- **Tau Ceti.** `NumberField.Units.regulator_eq_one_of_rank_eq_zero`, with
+  `regulator_rat_eq_one` and `regulator_eq_one_of_isTotallyComplex_of_finrank_eq_two`
+  (`TauCeti/NumberTheory/EffectiveBounds/Regulator.lean`).
 - **[DiophantineApproximationAndTranscendence](../DiophantineApproximationAndTranscendence/README.md)**
   (DAT below) owns the height foundation, and every height here that it defines is its, never
   a second one:
@@ -79,7 +88,8 @@ for Layer 3; and `TauCeti/RingTheory/DedekindDomain/SUnit.lean` with
     `relativePluckerPoint`, `relativeSubspaceHeight`, `relativeSubspaceArakelovHeight`,
     `subspaceHeight`, `subspaceHeight_orthogonal`, `finite_subspaceHeight_le`.
   - §2.8: `kernelLattice_covolume`, `siegelProductBallSlice` (the cube slice has volume at least
-    `2^k`), `siegelKernelBasis`.
+    `2^k`), `siegelKernelBasis`, including its one-vector bounds and its `K = ℚ` sup-height
+    product bound for independent kernel vectors.
   - §4.5: the identity `logHeight₁ y = Σ max(0, ℓ) = ½ Σ |ℓ|` for the full vector `ℓ` of
     weighted logarithms of a unit outside a finite `S`, over `S ∪ S_∞` (BG96 (12)).
 - **GeometryOfNumbersAndQuadraticArithmetic** (GoN below; an open TauCetiRoadmap pull request by
@@ -193,9 +203,19 @@ one height. (Hindry–Silverman B.2.3; Bombieri–Gubler 2.4.9 for `ℙⁿ`.)
 `relativeSubspaceHeight`, `relativeSubspaceArakelovHeight` and `subspaceHeight`, and for their
 logarithms, on `Submodule K (ι → K)` with **no rank condition**. Route:
 - **Absolute height.** For `subspaceHeight` this is DAT's `finite_subspaceHeight_le`.
-- **The other two.** On the Plücker vector, DAT's `arakelovMulHeight_sup_comparison` gives
-  `relativeSubspaceHeight ≤ relativeSubspaceArakelovHeight`, and
-  `relativeSubspaceArakelovHeight = subspaceHeight ^ [K : ℚ]`.
+- **Relative Arakelov height.** `relativeSubspaceArakelovHeight = subspaceHeight ^ [K : ℚ]`, so
+  its sublevel sets are those of `subspaceHeight`.
+- **Relative sup height.** This needs the **reverse** comparison, because a bound on the smaller
+  height must bound the larger one. Prove `relativeSubspaceArakelovHeight_le`: for
+  `n = #ι` and `k = finrank K T`,
+  `relativeSubspaceArakelovHeight T ≤ (n.choose k) ^ ([K : ℚ]/2) · relativeSubspaceHeight T`.
+  It is the upper half of DAT's `arakelovMulHeight_sup_comparison` on the Plücker vector, whose
+  index `Set.powersetCard ι k` has `n.choose k` elements and is nonempty because `k ≤ n`. Both
+  heights are invariant under scaling, so the representative `relativePluckerPoint` picks does
+  not matter. Bound `n.choose k ≤ 2 ^ n` uniformly. Then
+  `{T | relativeSubspaceHeight T ≤ B}` lies inside
+  `{T | relativeSubspaceArakelovHeight T ≤ 2 ^ (n [K : ℚ]/2) · B}`, which is finite by the
+  previous item.
 - **Logarithms.** These follow by `Northcott.comp_of_bddAbove` along `Real.log`, as Mathlib
   derives `Northcott (logHeight₁)`.
 
@@ -242,10 +262,10 @@ consequence, not a hypothesis. Route, by induction on `j`, with `V_j = span_ℝ 
 4. Otherwise replace `y` by `y − ∑ round(t_i) • a i`, where `y = c⁻¹ • a j + ∑ t_i • a i`. The
    result still extends the basis, and has gauge at most `½ gauge B (a j) + ½ ∑_{i<j} gauge B (a i)`.
 
-The proof uses `gauge B (r • x) = |r| · gauge B x` for symmetric convex `B`. That is Mathlib's
-`gauge_neg` with `gauge_smul_of_nonneg`, and it is stated as `gauge_smul_of_symmetric`. Mathlib's
-`gauge_smul` asks for a balanced set over an `RCLike` field, which a symmetric convex body need not
-be.
+The proof uses `gauge B (r • x) = |r| · gauge B x` for symmetric convex `B`, stated as
+`gauge_smul_of_symmetric`. Over `ℝ` a convex symmetric set is balanced: for `x ∈ B` and
+`|t| ≤ 1`, `t • x` lies on the segment from `-x` to `x`. Mathlib has no lemma saying so, so state
+it as `balanced_of_convex_of_neg_mem`; then `gauge_smul_of_symmetric` is Mathlib's `gauge_smul`.
 
 *Minima form.* In GoN's vocabulary: for `K : ConvexBody E` symmetric with `0 ∈ interior K` and `L`
 a full lattice, there is a `ℤ`-basis `b` of `L` with
@@ -260,39 +280,52 @@ Further requirements:
 - The general form needs no measure, no closedness and no boundedness. Those enter only in the
   minima form.
 
-**2.2 Bombieri–Vaaler over `ℤ`, sup-norm form** (Bombieri–Vaaler 1983, Theorems 1 and 2;
-Aliev–Henk 2023, §6). For an integer matrix `A : Matrix (Fin m) ι ℤ` whose rows are linearly
-independent over `ℚ`, let `minorGcd A` be the gcd of its `m × m` minors. Prove:
-- **Basis form.** There are `ℤ`-linearly independent `x : Fin (#ι − m) → (ι → ℤ)` with
-  `A *ᵥ x l = 0` and `∏ l, (⨆ i, |x l i|) ≤ √det(A Aᵀ) / minorGcd A`. No hypothesis `m < #ι` is
-  needed. At `m = #ι` both sides are `1`.
-- **One-vector form.** For `m < #ι`, a nonzero `x ∈ ℤ^ι` with `A *ᵥ x = 0` and
-  `⨆ i, |x i| ≤ (√det(A Aᵀ) / minorGcd A)^{1/(#ι − m)}`.
-- **Invariance.** `√det(A Aᵀ) / minorGcd A` is unchanged by `A ↦ U A` for `U ∈ GL_m(ℤ)`
-  (`minorGcd_unit_mul`, `det_mul_transpose_self_unit_mul`). Classical Siegel's bound
-  `(#ι · max |A i j|)^{m/(#ι−m)}` moves under this substitution.
+**2.2 Integral kernel bases and the minor gcd** (Bombieri–Vaaler 1983, Theorems 1 and 2;
+Aliev–Henk 2023, §6; Cassels V Lemma 8). For an integer matrix `A : Matrix (Fin m) ι ℤ` whose rows
+are linearly independent over `ℚ`, let `minorGcd A` be the gcd of its `m × m` minors, and let
+`k = #ι − m` be the rank of the integral kernel `ker A = {x : ι → ℤ | A *ᵥ x = 0}`.
+
+*Owned here.*
 - **The arithmetic identity.**
   `minorGcd A · subspaceHeight (ker A) = √det(A Aᵀ)`, together with
-  `linearIndependent_row_map_rat_iff : rows independent over ℚ ↔ det(A Aᵀ) ≠ 0`, `0 < det(A Aᵀ)`
-  and `1 ≤ minorGcd A`.
+  `linearIndependent_rows_rat_iff : rows independent over ℚ ↔ det(A Aᵀ) ≠ 0`, `0 < det(A Aᵀ)`
+  and `1 ≤ minorGcd A`. This turns DAT §2.8's remark on the `K = ℚ` constant into a theorem.
+- **Invariance.** `√det(A Aᵀ) / minorGcd A` is unchanged by `A ↦ U A` for `U ∈ GL_m(ℤ)`
+  (`sqrt_det_div_minorGcd_unit_mul`, from `minorGcd_unit_mul` and the Gram determinant's
+  `det U ^ 2 = 1`). Classical Siegel's bound `(#ι · max |A i j|)^{m/(#ι−m)}` moves under this
+  substitution.
 - **The geometric half.** For any lattice `L` in a subspace `V` of `EuclideanSpace ℝ ι`, with
   `cubeSlice V` the slice of `[−1, 1]^ι`, `∏ i, successiveMin L (cubeSlice V) i ≤ covolume L`.
   The `2^k` of GoN's `minkowski_second_upper` cancels the `2^k` of DAT's `siegelProductBallSlice`.
+- **An integral kernel basis.** A `Module.Basis (Fin k) ℤ (ker A)`, so a basis of the whole
+  integral kernel and not only of a sublattice of finite index, with
+  `∏ l, (⨆ i, |b l i|) ≤ k!/2^{k−1} · √det(A Aᵀ) / minorGcd A`. At `k = 0` both sides are `1`.
 - **Sharpness of Siegel's exponent.** The `m × (m+1)` system `B x_i = x_{i+1}` has every nonzero
   integer solution of sup norm at least `B^m`, against Siegel's bound `((m+1)B)^m`.
 
-Assembly:
+Assembly of the basis:
 1. The covolume of `ℤ^ι ∩ ker A` in its real span equals `subspaceHeight (ker A)`. This is the
    `K = ℚ` case of DAT's `kernelLattice_covolume`.
-2. DAT's `subspaceHeight_orthogonal` turns that covolume into a statement about the rows.
-3. DAT's `plucker_cauchyBinet` identifies the rows' height with `√det(A Aᵀ) / minorGcd A`.
-4. The geometric half bounds the minima, and GoN's `exists_successiveMin_witnesses` realizes them
-   by integral vectors.
+2. The arithmetic identity rewrites it as `√det(A Aᵀ) / minorGcd A`. Its proof is DAT's
+   `subspaceHeight_orthogonal`, which passes to the row space, and `plucker_cauchyBinet`, which
+   computes the rows' Plücker norm as `√det(A Aᵀ)`.
+3. The geometric half bounds the product of the minima of the cube slice by that covolume.
+4. The minima form of 2.1 converts the minima into a basis. The cube slice's gauge is the sup
+   norm, and the loss is `prod_max_one_add_one_div_two k = k!/2^{k−1}`.
 
-This milestone is strictly stronger than the `K = ℚ` case of DAT's `siegelKernelBasis`. The height
-of an integer tuple is its sup norm divided by its content, and dividing each vector of a basis by
-its content does not keep a basis of the same lattice. State the height form as a corollary
-through `Rat.gcd_mul_mulHeight_intCast`.
+*Adapters of DAT's `siegelKernelBasis`, not owned.* At `K = ℚ` DAT's theorem gives a `ℚ`-basis of
+the kernel in `ℤ^ι` with `∏ Habs(x_l) ≤ H₂(rowSpace A)`. Dividing each vector by its content keeps
+it in the kernel, keeps the family independent, and makes its sup norm equal to its height
+(Mathlib's `Rat.mulHeight_eq_max_abs_of_gcd_eq_one`). With the arithmetic identity this is the
+sup-norm form of Bombieri–Vaaler's Theorem 2: `ℤ`-independent `x : Fin k → (ι → ℤ)`, each primitive, with
+`A *ᵥ x l = 0` and `∏ l, (⨆ i, |x l i|) ≤ √det(A Aᵀ) / minorGcd A`. Theorem 1 is the smallest
+vector of that family: for `m < #ι` a nonzero `x` with
+`⨆ i, |x i| ≤ (√det(A Aᵀ) / minorGcd A)^{1/k}`. State both as corollaries.
+
+The independent family need **not** span `ker A`. For `A = [0, 0, 1]`, the vectors
+`(1, 1, 0)` and `(1, −1, 0)` meet the bound `1`, but they span a sublattice of index `2` that misses
+`(1, 0, 0)`. The basis milestone is therefore a separate statement, and its factor `k!/2^{k−1}` is
+not to be dropped.
 
 ### Layer 3: heights of units and the regulator
 
@@ -336,8 +369,9 @@ owns is the translation to `logEmbedding`, which drops the coordinate at `w₀`:
   and the relative form `regulator K ≤ 2^r · ∏ logHeight₁ (ε i)`. Route: the rows of the
   `logEmbedding` matrix have ℓ¹ norm at most `2 · logHeight₁ = 2d · h` by 3.1, and
   `Matrix.abs_det_le_prod_sum_abs` bounds `|det M|` by the product of the ℓ¹ norms of the rows,
-  over any linearly ordered field. Also prove `regOfFamily ε = regulator K` for a fundamental
-  system, and the positivity of `∏ h(ε i)` for every fundamental system.
+  over any linearly ordered field. For a fundamental system `regOfFamily ε = regulator K` is
+  Mathlib's `regOfFamily_div_regulator` at index one. Also prove the positivity of `∏ h(ε i)` for
+  every fundamental system.
 - *A reduced fundamental system exists*: some fundamental system has
   `∏ i, h(ε i) ≤ (r!)² / (2^{r−1} d^r) · regulator K`, and it can be chosen to satisfy Hadamard's
   bound simultaneously. Route, which is Bugeaud–Győry's and produces exactly this constant:
@@ -354,11 +388,13 @@ owns is the translation to `logEmbedding`, which drops the coordinate at `w₀`:
      spans `unitLattice K`, the whole image of `logEmbedding`
      (`closure_sup_torsion_eq_top_of_span`).
   5. Bound `h(ε i) ≤ (∑ w, |b i w|)/d` by 3.1.
-- *Rank zero.* Both products are empty, so the two bounds give `regulator K = 1`. State it as
-  `regulator_eq_one_of_rank_eq_zero`.
+- *Rank zero, as a check.* Both products are empty, and the two bounds agree with Tau Ceti's
+  `NumberField.Units.regulator_eq_one_of_rank_eq_zero`, which is consumed and not reproved.
 
 The reduced statement is existential and cannot be made for `fundSystem K` or for every fundamental
-system: a unimodular change of basis makes the heights arbitrarily large at fixed regulator. The
+system once `r ≥ 2`: a unimodular change of basis then makes the heights arbitrarily large at fixed
+regulator. In rank one `GL₁(ℤ) = {±1}`: the fundamental systems are `ζ ε^{±1}` with `ζ` torsion, and they
+all have the same height. The
 statement `∃ c₁ c₂ > 0, c₁ R ≤ ∏ h(ε_i) ≤ c₂ R` for a fixed field says nothing, so the constants
 are part of the target.
 
@@ -419,13 +455,42 @@ Build the fundamental system from the quotient of the `ℤ`-module `Additive (S.
     `NumberField.finite_setOfPred_logHeight₁_le` finishes (`SUnit.unitLattice_inter_ball_finite`).
   - **Spanning** is Mathlib's `unitLattice_span_eq_top` for the infinite coordinates together with
     the generators of 4.2 at the places of `S` (`SUnit.unitLattice_span_eq_top`).
+- **The kernel.** `SUnit.logEmbedding_ker`: the kernel of `SUnit.logEmbedding S` is the torsion
+  of `S.unit K`, as `(CommGroup.torsion (S.unit K)).toAddSubgroup`, the `S`-analogue of Mathlib's
+  `logEmbedding_ker`. Route: if the kept coordinates vanish, the product formula makes the
+  coordinate at `w₀` vanish too, so `logHeight₁ x = 0` by the height identity above, and
+  Kronecker (1.3) makes `x` a root of unity. Equivalently, the kernel is the set of `S`-units of
+  height one.
+- **The quotient.** By the first isomorphism theorem, `SUnit.logEmbedding S` induces a `ℤ`-linear
+  equivalence from the torsion-free quotient
+  `Additive (S.unit K) ⧸ Submodule.torsion ℤ (Additive (S.unit K))` onto
+  `SUnit.unitLattice S` (`SUnit.exists_quotTorsionEquiv_unitLattice`, sending the class of `x`
+  to `logEmbedding S x`). It is the bridge from 4.2's quotient to 4.3's lattice.
+- **Fundamental systems are bases.** A family `ε : ι → S.unit K` is a fundamental system, meaning
+  `Subgroup.closure (Set.range ε) ⊔ CommGroup.torsion (S.unit K) = ⊤` with
+  `#ι = rank K + #S`, **iff** `fun i ↦ logEmbedding S (Additive.ofMul (ε i))` is a `ℤ`-basis of
+  `SUnit.unitLattice S` (`SUnit.isFundSystem_iff_basis`). The forward direction transports
+  generation along the quotient equivalence. The converse lifts a basis to `S`-units and uses
+  the kernel statement. In particular 4.2's fundamental system gives a basis.
 - Define `SUnit.regulator S := ZLattice.covolume (SUnit.unitLattice S)` and prove
   `SUnit.regulator_pos`.
+- **The determinant formula.** For a fundamental system `ε : ι → S.unit K`, an omitted infinite
+  place `w'` and any `e : ι ≃ ({w // w ≠ w'} ⊕ S)`, `SUnit.regulator S` is the absolute
+  determinant of the matrix whose row `i` is the weighted logarithms of `ε i` at the places
+  `e`-indexed by its columns: `mult w · log (w (ε i))` at an infinite place and
+  `log (FinitePlace.mk v (ε i))` at `v ∈ S` (`SUnit.regulator_eq_abs_det`). The generic `ι` and
+  `e` carry the compatibility with reindexing. Independence of the basis is the
+  `GL(ℤ)` invariance of `|det|`. Independence of `w'` is the product formula, which makes the
+  columns sum to zero, so deleting any one column gives the same `|det|`. This is the
+  `S`-analogue of Mathlib's `regulator_eq_det`, and it is how `regulator_empty` and the worked
+  example are computed.
 - Prove `SUnit.regulator_empty : SUnit.regulator ∅ = NumberField.Units.regulator K`. This is a
   theorem, not a definitional unfolding: `α ⊕ Empty` is not `α`. Transport the covolume along the
   measure-preserving linear equivalence of the two log spaces.
-- Prove the rank check `finrank ℤ (SUnit.unitLattice S) = rank K + #S` by `ZLattice.rank`. This
-  second route to 4.2's rank does not use 4.2's rank–nullity argument, and the two must agree.
+- **Rank.** `finrank ℤ (SUnit.unitLattice S) = rank K + #S`, from `ZLattice.rank`. Through the
+  quotient equivalence, and because quotienting by torsion keeps the `ℤ`-rank, this is 4.2's
+  `Set.unit_finrank_numberField`. The two routes must agree. `ZLattice.rank` alone computes only
+  the rank of the image. The quotient equivalence is what makes it a statement about `S.unit K`.
 
 ## Worked examples (acceptance criteria)
 
@@ -439,26 +504,38 @@ Build the fundamental system from the quotient of the `ℤ`-module `Additive (S.
   minimum is `1`, attained by `e_0, …, e_4`, which span `ℤ⁵`, a sublattice of index `2`. So the
   minima witnesses are not a basis. 2.1 still produces a basis inside the bounds
   `max 1 ((i+1)/2)`, using `(½,…,½)`, of norm `√5/2 ≤ 5/2`, as its last vector.
-- **Bombieri–Vaaler.** The row `[1, 1]` has `det(AAᵀ) = 2`, `minorGcd = 1`, kernel generator
-  `(1, −1)` of sup norm `1 ≤ √2`. The row `[2, 2]` has `det = 8`, `minorGcd = 2`, the same bound
-  `√2`, illustrating the invariance.
-- **Regulator, sharp at `ℚ(√2)`.** `r = 1`, `d = 2`, `ε = 1 + √2`, `regulator = log(1+√2)`,
+- **Minor gcd.** The row `[1, 1]` has `det(AAᵀ) = 2`, `minorGcd = 1`, kernel generator
+  `(1, −1)` of sup norm `1 ≤ √2`. The row `[2, 2]` has `det = 8`, `minorGcd = 2` and the same bound
+  `√2`. This tests rational rescaling of a row, not a unimodular change.
+- **Unimodular shear.** `A = [[1, 0, −1], [0, 1, −1]]` has Gram determinant `3`, minors `1, −1, 1`
+  and `minorGcd = 1`, so the bound is `√3`. The kernel is generated by `(1, 1, 1)`, of sup norm `1`.
+  The shear `U = [[1, 1], [0, 1]]` gives `U A = [[1, 1, −2], [0, 1, −1]]`, again with Gram
+  determinant `3` and minors `1, −1, 1`. Classical Siegel's bound moves from `3^2 = 9` to
+  `6^2 = 36`.
+- **Independent family against basis.** For `A = [0, 0, 1]`, `(1, 1, 0)` and `(1, −1, 0)` meet
+  the bound `1` and span a sublattice of index `2` in `ker A = ℤ² × 0`. The basis milestone
+  returns `(1, 0, 0), (0, 1, 0)`, inside its bound `2!/2 · 1 = 1`.
+- **Regulator, sharp at `ℚ(√2)`.** `r = 1`, `d = 2`, `ε = 1 + √2`, and
+  `regulator = log(1+√2)` by Mathlib's `regulator_eq_det` at rank one,
   `h(ε) = log(1+√2)/2`. Hadamard: `log(1+√2) ≤ 4 · log(1+√2)/2`. Reduced:
   `log(1+√2)/2 ≤ (1/2) · log(1+√2)`, an **equality**, so the constant `(r!)²/(2^{r−1} d^r)` cannot
   be lowered at `r = 1, d = 2`.
-- **Rank zero.** For `ℚ` and every imaginary quadratic field, `regulator = 1` follows from the two
-  bounds.
+- **Rank zero.** For `ℚ` and every imaginary quadratic field, both bounds of 3.3 have empty
+  products and agree with Tau Ceti's `regulator_rat_eq_one` and
+  `regulator_eq_one_of_isTotallyComplex_of_finrank_eq_two`.
 - **S-units over `ℚ`.** `S = {2}`: rank `0 + 1 = 1`, fundamental system `{2}`, torsion `{±1}`,
-  `SUnit.regulator S = log 2`. The element `1/2` is in `S.unit ℚ`, and its height `2` is carried at
+  `SUnit.regulator S = log 2` by the determinant formula: the `1 × 1` matrix at the place `2`
+  is `log |2|_2 = −log 2`. The element `1/2` is in `S.unit ℚ`, and its height `2` is carried at
   `2`.
 
 ## Ordering
 
 Layer 0 first: 0.1 is used by 0.2, which also uses DAT §1.3's tuple sum bound. Layer 1 needs
-only Layer 0's normalization lemmas and DAT §§0.2–0.3, 2.5. Layer 2 needs GoN §§0.2, 1.2, 1.5 and DAT §§2.5, 2.8; its 2.1 is the
-input to 3.3. Layer 3: 3.1, then 3.2 (which also uses 1.3), then 3.3 (which uses 2.1). Layer 4: 4.1
-needs nothing from Layer 3 except 3.1's `S = ∅` identity as a check; 4.2 needs 4.1; 4.3 needs 4.1,
-4.2 and 3.1. The headline milestones are 3.3, 4.2 and 4.3.
+only Layer 0's normalization lemmas and DAT §§0.2–0.3, 2.5. Layer 2 needs GoN §§0.2, 1.2, 1.5 and
+DAT §§2.5, 2.8; its 2.1 is the input to 2.2's basis and to 3.3. Layer 3: 3.1, then 3.2 (which
+also uses 1.3), then 3.3 (which uses 2.1). Layer 4: 4.1 needs nothing from Layer 3 except 3.1's
+`S = ∅` identity as a check; 4.2 needs 4.1; 4.3 needs 4.1, 4.2, 3.1 and Kronecker (1.3). The
+headline milestones are 3.3, 4.2 and 4.3.
 
 ## Relationship to Mathlib
 
@@ -471,12 +548,14 @@ needs nothing from Layer 3 except 3.1's `S = ∅` identity as a check; 4.2 needs
 
 ## Provenance
 
-Secondary to everything above: the milestones are the specification. Every milestone of this
-roadmap has a sorry-free implementation in
-[`rwst/Subspace-Theorems`](https://github.com/rwst/Subspace-Theorems), directory
-`ArithmeticHeights/`, Apache 2.0, by the author of this roadmap. It was written against a private
-height layer that predates DAT's, so a port restates each statement in DAT's vocabulary rather than
-copying it.
+Secondary to everything above: the milestones are the specification. The milestones have
+sorry-free implementations in
+[`rwst/Subspace-Theorems` at `e443c24`](https://github.com/rwst/Subspace-Theorems/tree/e443c2479e19f7665b31d8e94e2317c8ced1ca06/ArithmeticHeights),
+directory `ArithmeticHeights/`, Apache 2.0, by the author of this roadmap. Two groups are
+exceptions and have none: the integral kernel basis of 2.2, and the kernel, quotient,
+fundamental-system and determinant statements of 4.3. That code was written against a private
+height layer that predates DAT's, so a port restates each statement in DAT's vocabulary rather
+than copying it.
 
 | Milestone | Source file |
 | --- | --- |
