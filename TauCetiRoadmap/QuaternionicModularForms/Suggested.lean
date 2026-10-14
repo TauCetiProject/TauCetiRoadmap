@@ -11,6 +11,8 @@ import Mathlib.RingTheory.PowerSeries.Restricted
 import Mathlib.RingTheory.PowerSeries.Inverse
 import Mathlib.RingTheory.PowerSeries.Derivative
 import Mathlib.Analysis.Normed.Operator.Basic
+import Mathlib.Topology.ContinuousMap.ZeroAtInfty
+import Lean.Elab.Tactic.Omega
 
 /-!
 # Quaternionic modular forms: representative interfaces
@@ -23,7 +25,8 @@ them into this namespace. In particular this file introduces no new Tate algebra
 
 The stabiliser signatures include compact subgroups that need not be open. The other signatures
 pin right actions, invariant-coordinate evaluation, certificate transport,
-normalisation of determinant characters, and the representative constants in theta.
+normalisation of determinant characters, the representative constants in theta, and
+the annular Mahler coordinate change with proved integer row/column estimates.
 -/
 
 namespace TauCetiRoadmap.QuaternionicModularForms
@@ -238,6 +241,57 @@ theorem bol [CharZero K] (a b c : K) (d : Kˣ) (r j : ℕ) :
   sorry
 
 end WeightColumns
+
+section AnnularMahler
+
+open scoped ZeroAtInfty
+
+/-- §4.4 uses the shared null-sequence carrier, with its native supremum norm.
+Its function realization is weighted; it is not an ordinary Tate-disc module. -/
+abbrev AnnularMahlerCoordinates (R : Type*) [NormedCommRing R] := C₀(ℕ, R)
+
+/-- Half-weighting leaves room to prove null columns in the T-gauge. -/
+def mahlerWeight (n : ℕ) : ℕ := n / 2
+
+variable {R : Type*} [NormedCommRing R]
+
+/-- The ordinary Mahler coefficients of a weighted coordinate vector. -/
+def annularMahlerCoefficients (t : Rˣ) (b : AnnularMahlerCoordinates R) (n : ℕ) : R :=
+  (t : R) ^ mahlerWeight n * b n
+
+/-- Output-first matrix under the weighted coordinate change; no p or factorial is inverted. -/
+def annularMahlerMatrix (t : Rˣ) (P : Matrix ℕ ℕ R) : Matrix ℕ ℕ R :=
+  fun m n ↦ ((t⁻¹ : Rˣ) : R) ^ mahlerWeight m * P m n * (t : R) ^ mahlerWeight n
+
+/-- The nonnegative integral exponent for a general monoid element. -/
+theorem mahlerWeight_le (m n : ℕ) :
+    mahlerWeight m ≤ mahlerWeight n + (m - n) := by
+  unfold mahlerWeight
+  omega
+
+/-- For fixed n this lower bound tends to infinity with m; hence weighted columns are null. -/
+theorem mahler_column_exponent (m n : ℕ) :
+    m - m / 2 - n ≤ mahlerWeight n + (m - n) - mahlerWeight m := by
+  unfold mahlerWeight
+  omega
+
+/-- The contracting matrix estimate gives a uniform bound in the output index.
+This is the arithmetic step turning the Mahler divisibility theorem into null rows. -/
+theorem mahler_row_exponent (p m n : ℕ) (hp : 2 ≤ p) :
+    m - m / 2 ≤ mahlerWeight n + (m - n / p) - mahlerWeight m := by
+  have hdiv : n / p ≤ n / 2 := Nat.div_le_div_left hp (by decide)
+  unfold mahlerWeight
+  omega
+
+/-- Finite principal determinants are unchanged under weighted coordinate rescaling.
+Passing to Fredholm series additionally requires the two convergence theorems in §4.4. -/
+theorem annularMahlerMatrix_det (t : Rˣ) (P : Matrix ℕ ℕ R)
+    {ι : Type*} [Fintype ι] [DecidableEq ι] (e : ι → ℕ) :
+    Matrix.det ((annularMahlerMatrix t P).submatrix e e) =
+      Matrix.det (P.submatrix e e) := by
+  sorry
+
+end AnnularMahler
 
 section Theta
 

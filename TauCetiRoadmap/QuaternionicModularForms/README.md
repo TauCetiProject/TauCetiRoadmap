@@ -7,8 +7,9 @@ small-slope classicality over `ℚ`. The organising construction is evaluation o
 finite set of double-coset representatives. It turns forms into a finite product
 of coefficient-module invariants and makes Hecke operators accessible to both
 abstract analysis and certified computation.
-Boundary-of-weight-space slope phenomena provide context for the uniform
-coefficient estimates and annular specialisations below.
+Boundary-of-weight-space slope phenomena motivate the uniform estimates below.
+The full annular family uses a separate weighted Mahler coefficient module;
+ordinary analytic disc stages have weight-dependent admissibility bounds.
 
 This README is the mathematical specification. All targets and checks below are
 required. [Suggested.lean](Suggested.lean) fixes representative interfaces against
@@ -29,7 +30,7 @@ library modules, not another roadmap's prototype.
 | [Modular forms, Layer 2(a)](https://github.com/TauCetiProject/TauCetiRoadmap/tree/main/TauCetiRoadmap/ModularForms) | The abstract Hecke ring built on Mathlib's double-coset definitions | Construct its action on quaternionic forms here, not its convolution ring a second time |
 | [Adelic algebraic groups, PR #792](https://github.com/TauCetiProject/TauCetiRoadmap/pull/792) | General adelic-group comparisons and Hecke-pair finiteness where needed | Its general class-number, reduction, neat-level and volume theorems stay there; it consumes §0.3's quaternionic class-set and stabiliser interfaces |
 | [FLT division-algebra finiteness](https://github.com/ImperialCollegeLondon/FLT/blob/f6c6a2fe9796d6d89cd2a0d24e8a453729d881ff/FLT/DivisionAlgebra/Finiteness.lean) | `units_cocompact` and `finiteDoubleCoset`, after a compatible port | Reuse the division-algebra theorem and prove the carrier/topology comparison; do not develop a second general reduction theory |
-| [AdicSpacesPartII, PR #817](https://github.com/TauCetiProject/TauCetiRoadmap/pull/817), *completed-tensor-banach-module*, and [LocallyAnalyticDistributions, PR #854](https://github.com/TauCetiProject/TauCetiRoadmap/pull/854), §4.2 | Completed Banach-module scalar extension and its `C₀` comparison | Tensor carriers and functoriality stay with Part II; distribution spaces and their locally convex theory stay with LocallyAnalyticDistributions |
+| [AdicSpacesPartII, PR #817](https://github.com/TauCetiProject/TauCetiRoadmap/pull/817), *completed-tensor-banach-module*, and CompactOperators §1.7 | Native completed Banach-module scalar extension and the general `c0_completedBaseChange` comparison | Tensor carriers and functoriality stay with Part II; [LocallyAnalyticDistributions, PR #854](https://github.com/TauCetiProject/TauCetiRoadmap/pull/854), §4.2 consumes the comparison for distributions |
 | Geometric and automorphic roadmaps | The forms and Hecke/Fredholm data constructed here | Weight-space representability, eigenvariety gluing, Jacquet–Langlands and Galois representations are downstream |
 
 The dependence on PR #792 is not circular: its general Hecke machinery can supply
@@ -38,9 +39,13 @@ from quaternionic definiteness and the FLT comparison, independently of that
 volume application. General reductive-group foundations are not new milestones
 of this roadmap. The class-set/stabiliser contract consists of `Dfx`, `unitsIncl`,
 `globalUnits`, `classSet`, `finite_classSet` and `DefiniteQuaternion.finite_stab`.
-These are the interfaces named `OverconvergentForms` in #792; their representative
-signatures are in `TauCetiRoadmap.QuaternionicModularForms`. The comparison also
-conjugates `U ∩ x⁻¹Dˣx` to `Dˣ ∩ xUx⁻¹`. No prototype import is required here.
+These replace the former `OverconvergentForms` supplier name. The reciprocal
+supplier row and AA.5.3 in [#792 at `0f2c303`](https://github.com/TauCetiProject/TauCetiRoadmap/blob/0f2c303908e99d7a682447cc3aa1048092f8ce3c/TauCetiRoadmap/AdelicAlgebraicGroups/README.md)
+now name these six interfaces and §§0.2–0.3. Their representative signatures are
+in `TauCetiRoadmap.QuaternionicModularForms`; implementations use the shared
+library declarations, not imports of that prototype namespace. The comparison
+also conjugates `U ∩ x⁻¹Dˣx` to `Dˣ ∩ xUx⁻¹`. Weighted class numbers, quotient
+measures and volume identities remain with AA.5.3.
 
 [GL2AutomorphicRepresentationsAndTransfer, PR #931](https://github.com/TauCetiProject/TauCetiRoadmap/pull/931),
 Layers R17.1–R17.3, owns quaternionic local/global Jacquet–Langlands,
@@ -79,7 +84,8 @@ constructed here.
    representatives, matrix multiplication and Hecke-ring transport.
 5. The general local weight action, with a separately specified determinant twist, is
    `f |κ γ (z) = n(cz+d) ν(det γ) f((az+b)/(cz+d))`, with the character value
-   interpreted by its analytic expansion. In several variables take the product
+   interpreted by its analytic expansion in Layers 1–3, and pointwise on
+   `ℤ_p` in the separate Mahler construction of §4.4. In several variables take the product
    over embeddings. The extension `ν : F_vˣ → Rˣ` is normalised by `ν(π_v)=1`.
    The single-character constructor takes `ν=1`; over `ℚ`, Jacobs's character
    `κ_J` gives `n(u)=κ_J(u)u⁻²`. Section 1.1 records this dictionary.
@@ -178,9 +184,12 @@ generally do not.
 positive rational number; show it is trivial on compact subgroups and compare
 its value on global elements with the product of archimedean norms. Over `ℚ`,
 definiteness gives
-`c(g)=|nrd(g)|_f det(g_p) ∈ Kˣ`, with `c(Dˣ)=1`, `c(u)=det(u_p)`,
-`c(η_p)=1` and `c(η_ℓ)=ℓ⁻¹` for `η_v=diag(π_v,1)` supported at `v`.
-This particular global character is used only over `ℚ` in Layer 5.
+`c(g)=|nrd(g)|_f det(g_p) ∈ Kˣ`, with `c(Dˣ)=1` and `c(u)=det(u_p)`
+for level units. For `η_v=diag(π_v,1)` supported at `v`, the general value
+is `c(η_p)=π_p/p`; it is one with the standard rational uniformiser `π_p=p`.
+For a prime `ℓ≠p`, `c(η_ℓ)=ℓ⁻¹`, independently of the unit in `π_ℓ`.
+The theta–Hecke scalar `|nrd(η_p)|_f⁻ʳ=pʳ` is independent of the unit in
+`π_p`. This particular global character is used only over `ℚ` in Layer 5.
 
 ### 0.3 Class sets and stabilisers
 
@@ -226,7 +235,8 @@ its comparison with the norm-bound formulation `‖c‖≤ρ<1`. Include the
 this `Σ₁(t)` notation.
 
 For a level with the usual local `U₀(π^t)` or `U₁(π^t)` condition, prove the
-disjoint decomposition of `Uη_vU` into cosets `Ux_α`, where
+disjoint decomposition of `Uη_vU` into right cosets `Ux_α` of `U`
+(representatives of the left quotient `U \ (Uη_vU)`), where
 `x_α=((π,0),(π^t α,1))` and `α` runs over a chosen residue-field section.
 Record the precise level hypotheses; it is not a formula for every compact
 open subgroup contained in an Iwahori. Prove independence of the section and
@@ -312,7 +322,8 @@ gives restrictedness at every radius `r` with `rη<1`; it does **not** give it a
 the endpoint `r=η⁻¹`.
 
 Prove that continuous field-valued characters become analytic on sufficiently
-small principal-unit subgroups, consuming the shared character/logarithm
+small principal-unit subgroups. The depth depends on the character; uniform
+family depths require the bounds in §4.3. Consume the shared character/logarithm
 analysis and PFA §§4.6, 5.4–5.5's scalar expansion bounds. For a general `F_v`,
 supply the arithmetic comparison between a
 `ℤ_p`-basis and the `Σ_v` coordinates; the embedding matrix is invertible but
@@ -606,15 +617,18 @@ and preservation of nilpotent coefficients. Supply these data to the geometric
 roadmaps; representing weight space or gluing a spectral variety is not a
 milestone here.
 
-Also instantiate the explicit-weight construction over PFA §5.6's annular
-Banach–Tate coefficient ring, with its universal unit character and trivial
-determinant twist. Prove restricted automorphy factors at a common sufficiently
-deep wild level and a null row
-majorant for the controlling operator. At trivial stabiliser action this gives
-the forms module and Fredholm series without inverting finite stabiliser
-orders. Specialise through PFA's annular evaluation maps. The coefficient ring,
-its gauge and universal character remain PFA's constructions. Boundary slope
-calculations motivate this example.
+For the universal unit character, construct ordinary analytic families on
+coefficient domains with a specified norm bound `‖T‖≤b<1`, where
+`T=κ(exp(q))−1`, `q=p` for odd `p` and `q=4` for `p=2`. Prove a uniform
+version of PFA §§5.4–5.5 with depth and disc radius depending on `b` and the
+stated coefficient-norm bounds. On closed subannuli also bound `p/T` as needed
+for the coefficient map. Carry the strict logarithm/exponential convergence
+inequalities through the substitution; pointwise bounds without uniform norm
+control do not suffice, especially for nonreduced algebras. Restriction to a
+smaller domain or a deeper disc stage must commute with the action, and its
+Fredholm comparison must use the actual intertwining maps from §4.1.
+There is no common ordinary analytic stage over all `p⁻¹<|T|<1`.
+The full annular construction is the separate target in §4.4.
 
 **Checks.** Scalar extension to a finite splitting field, a family over
 `K⟨w⟩`, a first-order deformation over `K[ε]/(ε²)`, the zero form space,
@@ -634,6 +648,125 @@ trivial on the required lower-right entries at `U₁(9)`. Under the row bound
 `|3|^m`, the lower polygon
 has successive slopes `⌊j/3⌋`; this does not assert a termwise bound on
 the actual slopes.
+
+### 4.4 Integral annular forms in weighted Mahler coordinates
+
+Retain the full annular endpoint over `ℚ`, with `D` split at `p` and trivial
+determinant twist. Let `H`, `R=H[1/T]` and the multiplicative-`T` gauge
+`‖T‖=α∈(0,1)` be PFA §5.6's rings and norm. Include the finite torsion
+factor by `H[Δ]`, `R[Δ]`, with the maximum coefficient norm; write `H_Δ`,
+`R_Δ` for these. At `p=2` retain the group ring, without integral character
+idempotents. PFA owns the rings, universal character, Mahler equivalence and
+Amice analytic bases; the weight action and its estimates below belong here.
+
+**Coefficient module.** Define `w(n)=⌊n/2⌋` and use the native model
+`B=C₀(ℕ,R_Δ)`, with its supremum norm. Its function realization is
+
+```text
+ι(b)(z) = Σ_n T^{w(n)} b_n binom(z,n),       z∈ℤ_p.
+```
+
+Prove uniform convergence and continuity from `‖binom(z,n)‖≤1` in `H_Δ`,
+and injectivity from finite differences and invertibility of `T`. Reuse PFA
+§3.2's binomial functions and finite-difference identities. The structural map
+`ℤ_p→H` is continuous and its image has norm at most one; it need not be
+Lipschitz for the usual `p`-adic norm and an arbitrary `T`-gauge. Use those
+actual bounds in the uniform-sum argument, rather than installing an
+unavailable normed `ℤ_p`-module instance. Transport the norm to the image:
+its integral lattice is the sequences `b_n∈H_Δ` tending to zero in the `T`-gauge. Completion is
+for this coefficient norm, not the subspace supremum norm on continuous
+functions. In particular, no claim that this image is closed in that weaker
+norm is needed. Binomial values are integral continuous functions, so this
+construction does not invert `p` or factorials in the coefficient ring.
+
+This is a weighted Mahler model with room between its weight and the full
+`T^n` divisibility estimate. [Liu–Wan–Xiao](https://arxiv.org/abs/1412.2584v4),
+§5.4, motivates the weighting; here `⌊n/2⌋` is chosen to obtain both null
+columns and an explicit **output-row** bound in the shared `C₀` convention.
+Do not identify it with their endpoint `T^n` model or an ordinary Tate disc.
+
+**Continuous-character action.** For `γ∈Σ₀(v_p(q))`, apply the universal
+character to the actual unit `cz+d` at each `z∈ℤ_p`, and set
+`f|γ(z)=κ_univ(cz+d) f((az+b)/(cz+d))`. First construct this on continuous
+functions and prove the right-action identity there. If `P_{mn}(γ)` is the
+`m`th Mahler coefficient of `κ_univ(cz+d) binom((az+b)/(cz+d),n)`, prove
+by finite differences the two estimates
+
+```text
+P_{mn}(γ) ∈ T^{max(m−n,0)} H_Δ;
+P_{mn}(γ) ∈ T^{max(m−⌊n/p⌋,0)} H_Δ   if a∈pℤ_p.
+```
+
+The inputs are LWX Proposition 3.14 and its `(p,T)` divisibility argument,
+transported to PFA's ring. For `p=2` use `c∈4ℤ₂` and the ideal `(p,T)`,
+not a claim that the full group-ring maximal ideal is generated by `T`.
+The torsion component of `cz+d` is constant as `z` varies. These are
+arithmetic proof targets, not hypotheses supplied by continuity of the weight.
+
+The weighted matrix is `Q_{mn}=T^{w(n)−w(m)}P_{mn}`. From the first estimate
+prove bounded entries and, for each fixed input `n`, convergence `Q_{mn}→0`
+as `m→∞`; the exponent tends to infinity because `m−w(m)→∞`.
+Use the shared bounded-matrix API to extend the action to `B`, prove that
+`ι` intertwines it with the continuous-function action, and obtain the cocycle
+by injectivity of `ι`. For a contracting matrix (`a∈pℤ_p`) prove
+
+```text
+w(n)−w(m)+max(m−⌊n/p⌋,0) ≥ m−w(m) = ⌈m/2⌉,
+‖Q_{mn}‖ ≤ α^{⌈m/2⌉}.
+```
+
+The inequality uses `p≥2` and `⌊n/p⌋≤⌊n/2⌋`; it is independent of the
+input column. Thus the rows are uniformly null. Merely observing decay in
+the input index, or replacing analytic functions by all continuous functions,
+is not a substitute for these two matrix conditions.
+
+**Forms and Fredholm series.** At a fixed level with local `U₀(q)` condition
+and trivial stabiliser action, apply §2.1 to `B`. For `h=#classSet U`, the
+coefficient model is `C₀(Fin h × ℕ,R_Δ)`. Prove from the double-coset
+certificates that every local summand for `U_p` satisfies `a∈pℤ_p`; the
+row bound above passes through finite sums and block reindexing. Consume
+CompactOperators to construct the intrinsic entire series `det(1-XU_p)`.
+Its coefficients lie in `H_Δ`, and the rows in degree-first order have bound
+`α^{⌈⌊j/h⌋/2⌉}`. Keep the zero-class-set case separate. Any extension to
+nontrivial stabiliser actions must supply §2.3's actual bounded projection and
+its norm loss; no finite group order is inverted in the trivial-action case.
+
+For PFA's specializations `T↦t`, `p⁻¹<|t|<1`, and a specified torsion
+character, compare with `C₀(ℕ,K)` carrying the weights `t^{w(n)}`. Choose
+`α=|t|` to obtain a bounded coefficient map and invoke the shared completed
+base-change comparison. For other gauges use the verified continuous map
+and coefficient convergence directly; do not assume it is Lipschitz.
+Compare this module with locally analytic disc stages using PFA's Amice
+coordinates: for example it maps boundedly to stage `s` once
+`v_p(t)/2 > 1/(p^s(p−1))`. Depths depend on `t`, or uniformly on an upper
+weight bound `b<1`, and must also satisfy analytic admissibility for the weight.
+
+Prove equality of the specialized Fredholm series with §4.3's analytic series
+at the **same level and Hecke normalization**. In Mahler coordinates the
+weighted and Amice matrices have the same finite principal determinants,
+since their diagonal scaling factors cancel. Prove convergence on both sides
+before passing to the limit. This does not assert a bounded inverse to an
+infinite diagonal map or an isomorphism with one fixed analytic stage. For
+bounded affinoid coefficient maps prove the corresponding comparison using
+unit scaling factors and actual norm bounds, including nonreduced algebras;
+compatibility is a series identity, not an inference from field-valued points.
+Changing the auxiliary gauge must give the same coefficientwise determinant.
+
+**High-conductor check.** At `p=3`, for every `h≥1` choose `m≥h` and the
+character `ψ_m` trivial on `{±1}` with
+`ψ_m(exp(3))=ζ_{3^m}` primitive. Its conductor is `3^{m+1}` and
+`t_m=ζ_{3^m}−1` has norm `3^{−1/(2·3^{m−1})}`, tending to one. For
+`γ_h=((1,0),(3^h,1))`, prove there is no ordinary restricted series on the
+unit disc equal to `z↦ψ_m(1+3^h z)`: this function equals one on
+`3^{m+1−h}ℤ₃`, but at `(exp(3^h)−1)/3^h` it is
+`ζ_{3^m}^{3^{h−1}}≠1`. Apply the identity theorem from RestrictedPowerSeries.
+The same check after `z=3^s u` rules out every fixed finite disc refinement.
+Nevertheless the universal action of `γ_h` on the constant vector belongs to
+`B` by the null-column estimate above, specializes to this continuous function,
+and becomes analytic at a sufficiently deep stage depending on `m`.
+Also verify the bounded-family overlap comparisons and the `p=2`, `q=4`
+variant. These checks retain the full annular target without claiming a common
+ordinary analytic radius at unbounded conductor.
 
 ## Layer 5: theta and small-slope classicality over ℚ
 
@@ -718,6 +851,7 @@ Completion requires the native-carrier class-set and stabiliser theorems,
 bounded weight actions and classical normalisation comparison, the invariant
 evaluation model, actual Hecke relations and certified matrices, compactness
 for the fully contracting operator, intrinsic Fredholm/base-change theorems,
+the weighted annular model, its high-conductor and analytic comparison checks,
 and the rational theta/classicality results. The Hamilton calculation must run
 from its arithmetic certificates through its classical and analytic matrices.
 All norm, topology, finite-image and coefficient-ring hypotheses must be visible
@@ -732,6 +866,11 @@ package those developments can consume.
 
 ## References
 
+- R. Liu, D. Wan and L. Xiao, [*The eigencurve over the boundary of weight space*](https://arxiv.org/abs/1412.2584v4),
+  Proposition 3.4 (continuous-character evaluation), Proposition 3.14
+  (Mahler matrix estimates), §5.4 (weighted integral models), and
+  Proposition 2.17 (comparison of characteristic series). Example 5.2 and
+  Remark 5.3 explain the limitations of unweighted continuous coefficients.
 - K. Buzzard, [*Eigenvarieties*](https://www.ma.imperial.ac.uk/~buzzard/maths/research/papers/eigenvarieties.pdf),
   §§8–13: analytic coefficients, quaternionic forms, level/radius comparison and
   the compact controlling operator (especially Lemma 12.2).
