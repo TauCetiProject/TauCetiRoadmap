@@ -1,6 +1,10 @@
 import Mathlib.Analysis.Normed.Group.Ultra
 import Mathlib.Analysis.Normed.Operator.Banach
 import Mathlib.Analysis.Normed.Operator.Compact.Basic
+import Mathlib.Analysis.Normed.Operator.Fredholm.Basic
+import Mathlib.Analysis.Normed.Module.Completion
+import Mathlib.LinearAlgebra.TensorProduct.Basic
+import Mathlib.RingTheory.Finiteness.Projective
 import Mathlib.Topology.ContinuousMap.ZeroAtInfty
 import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import Mathlib.Algebra.Polynomial.Reverse
@@ -26,6 +30,11 @@ The ring-level predicate is `IsRowCompact`. Its comparison
 with compactoid image of the unit ball is a field theorem (§0.5); forgetting a coefficient
 algebra to its scalar field need not preserve row compactness. The Banach-space compactoid-set
 predicate below uses finite sums with coefficients in the scalar unit ball.
+
+The tensor signature uses the native algebraic `TensorProduct` and its Hausdorff completion,
+with the product-seminorm formula supplied explicitly. Part II must identify this presentation
+with its single completed-tensor carrier. No placeholder completed tensor type is introduced.
+The good-zero and Riesz predicates have bodies and include order zero.
 
 Only library modules are imported. Production code should not import a roadmap prototype.
 -/
@@ -175,6 +184,46 @@ theorem isCompletelyContinuous_iff_isCompactOperator [LocallyCompactSpace K]
 
 end FieldBridge
 
+/-! ## Pure completed scalar extension (README §1.7)
+
+This tests the general ring-scalar interface independently of determinants. The product-seminorm
+hypothesis describes Part II's normed presentation on the actual algebraic tensor, rather than
+postulating a comparison equivalence or introducing another completed-tensor construction.
+-/
+
+section ScalarExtension
+
+open scoped TensorProduct
+
+variable {R S I : Type*} [NormedCommRing R] [NormedCommRing S]
+    [NormOneClass R] [NormOneClass S] [IsUltrametricDist R] [IsUltrametricDist S]
+    [CompleteSpace R] [CompleteSpace S] [Algebra R S]
+    [TopologicalSpace I] [DiscreteTopology I]
+
+/-- The product-seminorm completion realises ring-scalar `c₀` extension.
+The pure comparison needs no common field, Noetherianity or compact operator.
+The supplied seminorm keeps the native tensor addition and scalar actions. -/
+theorem c0_completedBaseChange {L : ℝ} (hL : 1 ≤ L)
+    (hφ : ∀ r : R, ‖algebraMap R S r‖ ≤ L * ‖r‖)
+    (π : AddGroupSeminorm (S ⊗[R] C₀(I, R)))
+    (hπ : ∀ z : S ⊗[R] C₀(I, R), π z = sInf {c : ℝ | 0 ≤ c ∧
+      ∃ (n : ℕ) (s : Fin n → S) (x : Fin n → C₀(I, R)),
+        z = ∑ i, s i ⊗ₜ[R] x i ∧ ∀ i, ‖s i‖ * ‖x i‖ ≤ c})
+    (hsmul : ∀ (s : S) (z : S ⊗[R] C₀(I, R)), π (s • z) ≤ ‖s‖ * π z) :
+    letI := π.toSeminormedAddCommGroup
+    letI : IsBoundedSMul S (S ⊗[R] C₀(I, R)) :=
+      IsBoundedSMul.of_norm_smul_le hsmul
+    letI : UniformContinuousConstSMul S (S ⊗[R] C₀(I, R)) :=
+      uniformContinuousConstSMul_of_continuousConstSMul S (S ⊗[R] C₀(I, R))
+    ∃ e : UniformSpace.Completion (S ⊗[R] C₀(I, R)) ≃L[S] C₀(I, S),
+      (∀ (s : S) (x : C₀(I, R)) (i : I),
+        e ((s ⊗ₜ[R] x : S ⊗[R] C₀(I, R)) :
+          UniformSpace.Completion (S ⊗[R] C₀(I, R))) i = s * algebraMap R S (x i)) ∧
+      (∀ z, ‖e z‖ ≤ L * ‖z‖) ∧ (∀ y, ‖e.symm y‖ ≤ ‖y‖) := by
+  sorry
+
+end ScalarExtension
+
 /-! ## Layers 1–2 -/
 
 section Fredholm
@@ -231,7 +280,50 @@ theorem isUnit_one_sub_smul_iff {u : C₀(I, R) →L[R] C₀(I, R)}
     IsUnit (1 - a • u) ↔ IsUnit (evalAt a (charPowerSeries u)) := by
   sorry
 
+/-- Supplier Hasse evaluation, with no division by factorials. -/
+def hasseEval (a : R) (F : PowerSeries R) (h : ℕ) : R :=
+  ∑' n, ((n + h).choose h : R) * PowerSeries.coeff (n + h) F * a ^ n
+
+/-- Order zero means the value is a unit. Entireness is a separate hypothesis. -/
+def IsGoodZero (F : PowerSeries R) (a : R) (h : ℕ) : Prop :=
+  (∀ j < h, hasseEval a F j = 0) ∧ IsUnit (hasseEval a F h)
+
+/-- Finite spectral projector, with a bounded inverse on its complementary summand.
+The closure conditions use the ring-scalar operator norm explicitly. -/
+def IsRieszProjection (u : C₀(I, R) →L[R] C₀(I, R)) (a : R) (h : ℕ)
+    (E : C₀(I, R) →L[R] C₀(I, R)) : Prop :=
+  E * E = E ∧ Commute u E ∧ IsOpLimitAeval u E ∧ (1 - a • u) ^ h * E = 0 ∧
+    ∃ w : C₀(I, R) →L[R] C₀(I, R),
+      (1 - a • u) * w = 1 - E ∧ w * (1 - a • u) = 1 - E ∧
+      E * w = 0 ∧ w * E = 0 ∧ IsOpLimitAeval u w
+
+theorem exists_rieszProjection {u : C₀(I, R) →L[R] C₀(I, R)}
+    (hu : IsRowCompact u) {a : R} {h : ℕ}
+    (ha : IsGoodZero (charPowerSeries u) a h) :
+    ∃ E : C₀(I, R) →L[R] C₀(I, R), IsRieszProjection u a h E ∧ IsRowCompact E ∧
+      LinearMap.range (E : C₀(I, R) →ₗ[R] C₀(I, R)) =
+        LinearMap.ker (((1 - a • u) ^ h : C₀(I, R) →L[R] C₀(I, R)).toLinearMap) ∧
+      Module.Finite R (LinearMap.range E.toLinearMap) ∧
+      Module.Projective R (LinearMap.range E.toLinearMap) := by
+  sorry
+
+omit [DiscreteTopology I] [NormOneClass R] [CompleteSpace R] [IsTate R] in
+/-- The projector convention handles the zero-rank summand without extra choices. -/
+theorem IsRieszProjection.eq_zero_of_order_zero
+    {u E : C₀(I, R) →L[R] C₀(I, R)} {a : R}
+    (hE : IsRieszProjection u a 0 E) : E = 0 := by
+  simpa using hE.2.2.2.1
+
 end Fredholm
+
+/-- This native predicate includes strictness, closed range and complemented kernel,
+not only the two dimension conditions (README §3.2). -/
+theorem isFredholm_one_sub_smul {K I : Type*}
+    [NontriviallyNormedField K] [CompleteSpace K] [IsUltrametricDist K]
+    [TopologicalSpace I] [DiscreteTopology I]
+    (u : C₀(I, K) →L[K] C₀(I, K)) (hu : IsRowCompact u) (a : K) :
+    (1 - a • u).IsFredholm := by
+  sorry
 
 /-! ## Layer 3: the finite transform has a specified rank -/
 

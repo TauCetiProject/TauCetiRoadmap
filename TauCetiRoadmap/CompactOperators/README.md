@@ -24,7 +24,8 @@ corresponding native APIs.
 | [P-adic functional analysis][PadicFunctionalAnalysis] ([PR #930](https://github.com/TauCetiProject/TauCetiRoadmap/pull/930)) | Banach–Tate rings, scalar gauges, operator norms, `C₀`, matrix representation, potentially orthonormalisable modules, property (Pr), countable-type bases and bounded finite-module lifting | The general functional-analysis library and the constructions of analytic function spaces |
 | [Restricted power series][RestrictedPowerSeries] ([PR #919](https://github.com/TauCetiProject/TauCetiRoadmap/pull/919)) | Native restricted/entire series, Gauss norms, substitution, evaluation in operator algebras, Hasse derivatives, entire polynomial division, monic entire resultants and distinguished preparation | All of this generic series algebra; no second Tate algebra or entire-series carrier is introduced here |
 | [Newton polygons][NewtonPolygons] ([PR #926](https://github.com/TauCetiProject/TauCetiRoadmap/pull/926)) | Valuation conventions, locally finite slopes, ordered-weight lower polygons, `IsBelow`, coefficient-to-polygon comparisons, product/root dictionaries and polynomial slope factors | Convex geometry, the polygon interpretation of scalar preparation/factorisation, and root counting |
-| [Locally analytic distributions, PR #854](https://github.com/TauCetiProject/TauCetiRoadmap/pull/854), §4.2, and [AdicSpacesPartII, PR #817](https://github.com/TauCetiProject/TauCetiRoadmap/pull/817), *completed-tensor-banach-module* | The completed scalar-extension carrier, functoriality and `c₀` comparison | Banach-module tensor products in Part II; locally convex categories, distribution spaces and finite-slope complexes in LocallyAnalyticDistributions |
+| [AdicSpacesPartII, PR #817](https://github.com/TauCetiProject/TauCetiRoadmap/pull/817), R0.5, *completed-tensor-banach-module* | The completed scalar-extension carrier, its product seminorm, functoriality and split exactness | General completed Banach-module tensor products; the general ring-scalar `c₀` comparison on that carrier is proved in [§1.7](#c0-completed-base-change) here |
+| [Locally analytic distributions, PR #854](https://github.com/TauCetiProject/TauCetiRoadmap/pull/854), §4.2 | Consumer comparison with its Noetherian `K`-Banach-algebra scalar extension | Locally convex categories, distribution spaces and finite-slope complexes; its combined tensor/determinant statement specialises the two separate targets of §1.7 |
 | [Adic spaces III, Tau Ceti PR #813](https://github.com/TauCetiProject/TauCetiRoadmap/pull/813) | Affinoid lattice models to which the comparison in §0.1 applies | Affinoid rings of definition, the `Huber` comparison wrapper, strictly completely continuous maps, restriction to submodules and cohomological applications |
 | Quaternionic modular-form theory and geometric roadmaps | These operator, determinant and spectral interfaces | Hecke actions, their matrix estimates, classicality, weight/spectral spaces and eigenvariety gluing |
 
@@ -46,10 +47,30 @@ The shared interfaces with LocallyAnalyticDistributions are:
 | `polynomialSpectralResultant` | `colemanDBounded` with the prescribed matrix dimension (§3.3) |
 
 AdicSpacesPartIII's `Huber.IsCompletelyContinuous` is compared with §0.1
-through its gauge norm and the Noetherian finite-rank equivalence. Use the shared
+through the compatibly normalised gauge norms of §0.1 and the Noetherian
+finite-rank equivalence. Use the shared
 approximation and ideal laws rather than a second proof of them. Its single-scalar
 strict approximation condition and affinoid/cohomological applications stay there.
 Compatibility aliases must state their scalar ring and preserve these meanings.
+
+<a id="lad-supplier-crosswalk"></a>
+
+**LocallyAnalyticDistributions supplier crosswalk.** The following links identify
+production owners independently of historical section numbering. Use these targets
+in LAD's supplier-table rows and *Needs* clauses.
+
+| LAD contract | Production owner and target |
+| --- | --- |
+| §4.2 entire algebra and `entireEval f a` | [RestrictedPowerSeries §7.2][EntireDivision] and [§2.1][SeriesEvaluation]: `IsEntire`, `evalAt a f`, with the stated argument-order adapter |
+| §4.3 linear and monic division, reciprocal-tail quotient, uniqueness and roots | [RestrictedPowerSeries §7.2][EntireDivision]: `divByMonic`, its coefficient formula, entire quotient/remainder and uniqueness |
+| §4.4 monic entire resultant, Bézout and analytic coprimality | [RestrictedPowerSeries §7.2][EntireDivision]: `entireResultant` and the unit-ideal criterion; the operator-specific Coleman transform stays in [§3.3](#33-colemans-transform-including-entire-functional-input) |
+| §4.5 formal Hasse derivatives | [RestrictedPowerSeries §2.3][SeriesHasse]: `semiringHasseDeriv` and its commutative comparison |
+| §4.12 generic entire Gauss completeness, coefficient extraction and evaluation continuity | [RestrictedPowerSeries §§1.1][SeriesGauss], [2.1][SeriesEvaluation] and [7.2][EntireDivision]; determinant convergence and operator majorants stay in [§§1.2–1.3](#12-principal-minors-and-coefficients) and [§3.3](#33-colemans-transform-including-entire-functional-input) here |
+| §4.2 completed scalar extension of ON modules and determinants | [Pure tensor comparison](#c0-completed-base-change), followed by [coefficientwise determinant base change](#coefficientwise-fredholm-base-change) and transport to retracts |
+
+Forwarding names such as `entireEval` and the entire quotient refer to the
+restricted-series construction. They are notation/compatibility adapters,
+not independent production definitions or new proofs of generic series algebra.
 
 [OperatorTheory/OperatorIdeals](../OperatorTheory/OperatorIdeals/README.md), Part A,
 owns the generic field approximation-number calculus. Compare its finite-rank
@@ -111,8 +132,9 @@ Mathlib supplies `IsCompactOperator` in `Analysis/Normed/Operator/Compact/Basic`
 continuous linear maps, matrix determinants and characteristic polynomials,
 degree-bounded polynomial resultants, restricted series, Gauss norms and `C₀`.
 Its `ContinuousLinearMap.IsFredholm` in `Analysis/Normed/Operator/Fredholm/Basic`
-is the finite-kernel/cokernel notion, distinct from the Fredholm determinant;
-§3.2 supplies the comparison for `1−au`.
+requires strictness, closed range, finite-dimensional kernel and cokernel,
+and a topologically complemented kernel. It is distinct from the Fredholm
+determinant; §3.2 supplies all these conditions for `1−au`.
 
 For the ring-scalar operator norm, follow PFA and
 [Mathlib PR #42865](https://github.com/leanprover-community/mathlib4/pull/42865),
@@ -149,9 +171,32 @@ bounded open `K°`-subalgebra `A₀`, and `M` a Hausdorff complete topological m
 open `A₀`-lattice `M₀`. Use the gauges
 `‖a‖=inf{|c| : c∈K×, a∈cA₀}` and
 `‖m‖=inf{|c| : c∈K×, m∈cM₀}`. Prove they are compatible complete ultrametric
-norms inducing the given topologies, with exact scaling by `K×`, and compare
-them to PFA's chosen-uniformiser gauges by positive constants. Hausdorffness
+norms inducing the given topologies, with exact scaling by `K×`. Hausdorffness
 is needed for definiteness; discreteness of the value group is not required.
+
+**Normalised discrete comparison.** Write `α_A`, `α_M` for these scalar
+lattice norms. Choose a scalar `π∈K×` with `q=|π|<1`, use its image as the
+pseudouniformiser, and take PFA's parameter `a=q⁻¹` for the algebra and every
+module. Thus `g_M(x)=inf{q^n : n∈ℤ, π^(−n)x∈M₀}`, and likewise for `A₀`.
+Prove the discrete-rounding bounds
+
+`α_M(x) ≤ g_M(x) ≤ q⁻¹ α_M(x)` and `α_A(x) ≤ g_A(x) ≤ q⁻¹ α_A(x)`.
+
+For each scalar witness `x∈cM₀`, choose `n` with
+`|c|≤q^n<q⁻¹|c|`; then `cπ^(−n)∈K°` gives `x∈π^nM₀`.
+The reverse bound uses that powers of `π` are scalar witnesses. Pass to
+infima, including `x=0`, after proving the defining sets are nonempty and
+bounded below. This gives uniform multiplicative constants for the source,
+target and induced operator norms. Even this rounded gauge need not scale
+exactly by every element of `K`; the scalar lattice norm does.
+
+For the same scalar `π` and an arbitrary parameter `b>1`, use PFA's separate
+power comparison `g_b=g_(q⁻¹)^θ`, where `θ=log b/log(q⁻¹)>0`, and its
+consequence for the topology. An arbitrary algebra-valued pseudouniformiser
+supplies the compatible topology under PFA's hypotheses, not these scalar
+bounds. Equality of topologies alone is never a multiplicative-constant
+comparison. Use the normalised choice above in the following norm and
+affinoid complete-continuity comparisons.
 
 Identify complete continuity with the following lattice condition: for every
 open target lattice `V`, there are a continuous finite-image `g` and a finitely
@@ -166,6 +211,12 @@ uses an actual continuous approximating map.
 **Checks.** Zero maps and maps into finite modules are completely continuous.
 `diag(ϖ^i)` on `c₀(ℕ,R)` is completely continuous but not finite image. Test the
 lattice comparison on a scalar line, on zero, and after replacing `M₀` by `cM₀`.
+For `K=ℚ_p`, `M₀=ℤ_p`, the unnormalised choice `(π,a)=(p²,p)` gives
+`α(p^(2m))=p^(−2m)` but `g(p^(2m))=p^(−m)` for `m≥0`; the ratio `p^m`
+is unbounded. With the normalised choice `(π,a)=(p²,p²)`,
+`g(p^k)=p^(−2⌊k/2⌋)` for every integer `k`, hence
+`α≤g≤p²α` and `g(p^(2m))=α(p^(2m))`. At `p`, however, `g(p)=1`
+while `α(p)=p⁻¹`: bounded equivalence does not assert equality.
 
 ### 0.2 Row compactness on model spaces
 
@@ -392,14 +443,68 @@ This is a statement about a specified decomposition. It does not assert
 
 ### 1.7 Coefficients and base change
 
-For a bounded homomorphism `R→S` preserving the required Banach–Tate structure,
-prove row compactness after coefficient extension and
-`H_(u_S)=map(R→S)(H_u)`. Begin with the coefficientwise operator on `c₀(I,S)`;
-use LocallyAnalyticDistributions §4.2's `c₀` comparison against the
-`completed-tensor-banach-module` carrier of AdicSpacesPartII for abstract modules,
-then transport through retracts. Generic completed tensor products are not
-constructed here. Include composition of base changes, equivalent coefficient
-and module norms, and compatibility of polynomial factors and projectors.
+Let `φ:R→S` be a bounded unital homomorphism of the complete ultrametric
+norm-one Banach–Tate rings of Convention 1, preserving the Banach–Tate data
+used for module bounds. Fix `L≥1` with `‖φ(r)‖≤L‖r‖`.
+No Noetherian or common-ground-field hypothesis is imposed.
+
+<a id="coefficientwise-fredholm-base-change"></a>
+
+**Coefficientwise Fredholm base change (`charPowerSeries_map`).** First extend
+a bounded matrix on `c₀(I,R)` coefficientwise to `c₀(I,S)`, using PFA's
+matrix representation. Prove `r_i(u_S)≤L r_i(u)`, row compactness and
+`H_(u_S)=PowerSeries.map φ H_u` by the principal-minor coefficient sums.
+This statement precedes, and does not use, abstract tensor determinants.
+
+<a id="c0-completed-base-change"></a>
+
+**Pure tensor comparison (`c0_completedBaseChange`).** On AdicSpacesPartII
+R0.5's *completed-tensor-banach-module* carrier, construct
+
+`Θ_φ : c₀(I,R) ⊗̂_R S ≃L[S] c₀(I,S)`.
+
+Its defining equation is `Θ_φ(x⊗s)_i=φ(x_i)s`. This is a required general
+ring-scalar target here; LAD §4.2's current Noetherian `K`-Banach-algebra
+comparison is its specialisation, not a prerequisite with broader scope.
+Reuse Part II's tensor topology, product seminorm, Hausdorff completion and
+scalar-extension action; construct no second completed tensor product.
+For the product seminorm
+`‖z‖_π=inf{max_j ‖x_j‖‖s_j‖ : z=Σ_j x_j⊗s_j}` (empty maximum zero), prove
+
+`‖Θ_φ(z)‖≤L‖z‖_π`, and `‖Θ_φ⁻¹(y)‖_π≤‖y‖`.
+
+The balanced coefficient map gives the first estimate on every finite tensor
+presentation. On finite-support families define the inverse by
+`y↦Σ_i e_i⊗y_i`; its bound is one since `‖e_i‖=1`.
+Extend by density and completeness. Check the composites on finite-support
+families and on pure tensors, approximating `x∈c₀` by its finite-coordinate
+truncations. This proves the equivalence and the estimates, including after
+the separated quotient. If `φ` is contractive, the two bounds give an
+isometry; a merely bounded map gives a bounded equivalence. The commutor
+identifies the opposite tensor orientation `S⊗̂_R c₀(I,R)` with this one.
+This pure comparison uses neither determinants nor compactness.
+
+**Abstract module transport.** For a bounded operator, identify its tensor
+extension under `Θ_φ` with its coefficientwise extension. For a specified
+(Pr) retract, extend its inclusion and retraction using Part II's functoriality
+and split exactness. Transport the determinant identity just proved, and
+prove independence of the chosen retract by §1.5. Do not assume flatness to
+preserve arbitrary exact sequences. Prove identity and composition laws,
+compatibility with equivalent coefficient/module norms and with polynomial
+factors and spectral projectors. When changing gauge parameters, use PFA's
+explicit topology/power comparisons; multiplicative-constant norm bounds
+require bounded-equivalent normalisations as in §0.1.
+
+**Tensor checks.** Include empty and infinite index sets and identity base
+change. For a prime `p`, take `R=ℚ_p×𝔽_p((t))`,
+`S=𝔽_p((t))`, `φ` the second projection, `‖t‖=p⁻¹`, the maximum norm on
+`R`, and `ϖ_R=(p,t)`, `ϖ_S=t`. These rings have no common ground field
+through unital maps. Test the actual completed tensor for `I=ℕ`, with
+`Θ_φ((x_i,y_i)_i⊗s)=(y_i s)_i` and inverse given by the limit of
+`Σ_{i∈F}e_i⊗s_i`. For the finite projective retract `eRⁿ`, `e=(0,1)`,
+identify its tensor extension with `Sⁿ`; the complementary retract
+`(1−e)Rⁿ` extends to zero. Include `n=0`, identity base change and the
+commuting idempotent diagrams, not just a mapped finite matrix.
 
 **Checks.** For `u=diag(p^i)` over `ℚ_p`,
 
@@ -528,8 +633,12 @@ Its determinant is `(1−a⁻¹T)^h` when `h>0`, with the complementary factor
 obtained by division. Prove rank at every prime algebraically; checking only
 field-valued points must not erase nilpotent coefficient information.
 
-**Check.** For `u=1+N` on a two-dimensional space, `N²=0`, `N≠0`, the root
-`a=1` has order two, `c=1`, `p=0` and `E=1`.
+**Checks.** For `u=1+N` on a two-dimensional space, `N²=0`, `N≠0`, the root
+`a=1` has order two, `c=1`, `p=0` and `E=1`. Include the matrix
+`[[1,ε],[0,1]]` over `K[ε]/(ε²)`, retaining its coefficients rather than
+passing to field-valued points. At order zero (in particular `a=0` since
+`H_u(0)=1`), the spectral projector is zero and its range has rank zero.
+The representative good-zero/projector signature includes this case.
 
 ### 3.2 Field eigenspaces
 
@@ -556,9 +665,14 @@ with `R=K` and `Q=(1−a⁻¹T)^h`: a field is Noetherian, and
 
 Recover uniqueness, functoriality and bounded extension of scalars.
 Use this splitting and §2.5 to prove that every `1−au` is Fredholm in the
-native `ContinuousLinearMap.IsFredholm` sense, with index zero: the finite
-block has equal kernel and cokernel dimensions and the complement is invertible.
-This comparison uses the existing Fredholm and index API. Each
+native `ContinuousLinearMap.IsFredholm` sense. Prove each native condition:
+strictness (the quotient by the kernel is homeomorphic to the image), closed
+range, finite-dimensional kernel and cokernel, and a topologically complemented
+kernel. Split the kernel inside the finite block and combine that finite-dimensional
+complement with the already bounded Riesz complement; no projection of an
+arbitrary finite-dimensional subspace of the ambient Banach space is needed.
+The finite block has equal kernel and cokernel dimensions and the complement
+is invertible, so the index is zero. Use the native Fredholm and index API. Each
 nonzero eigenvalue is isolated and only finitely many, with multiplicities,
 have norm bounded below by a fixed positive number in a complete splitting
 field. Zero may accumulate. Include finite dimension and nilpotent cases,
@@ -807,7 +921,9 @@ Coleman Appendix A and Johansson–Newton §2.2 motivate the applications.
 2. Prove finite-image approximation, row truncation, the ideal properties and
    the comparisons in Layer 0.
 3. Construct principal-minor determinants, their estimates, cyclicity and
-   presentation independence. Establish base change using the supplied tensor API.
+   presentation independence. Prove coefficientwise base change and the pure
+   `c₀` comparison on Part II's tensor carrier separately, then transport the
+   determinant to abstract (Pr) scalar extensions.
 4. Build the resolvent and good-zero projectors. In parallel mathematical order,
    prove the prescribed-rank transform, coefficient convergence and Gauss bounds.
 5. Derive Riesz–Coleman projectors and the finite-slope applications. Import the
@@ -869,3 +985,7 @@ the table is not a claim of completed proofs. Keep the independent import chains
 [EntireDivision]: https://github.com/WilliamCoram/TauCetiRoadmap/blob/fae4b92f3233ec656fb01ae590c2bac0abd5eb42/TauCetiRoadmap/RestrictedPowerSeries/README.md#72-entire-series-and-polynomial-division
 [HodgeComparison]: https://github.com/WilliamCoram/TauCetiRoadmap/blob/5164eb00764fb2ead6baadcc5cb69ff73507c8b5/TauCetiRoadmap/NewtonPolygons/README.md#25-hodge-lower-bounds-and-coefficient-comparisons
 [PhDSources]: https://github.com/WilliamCoram/PhD/tree/eefb3d91f34b27d0bc7822140fa85fecae029884/PhD/Main/TateFredholm
+
+[SeriesEvaluation]: https://github.com/WilliamCoram/TauCetiRoadmap/blob/fae4b92f3233ec656fb01ae590c2bac0abd5eb42/TauCetiRoadmap/RestrictedPowerSeries/README.md#21-evaluation-and-its-universal-property
+[SeriesHasse]: https://github.com/WilliamCoram/TauCetiRoadmap/blob/fae4b92f3233ec656fb01ae590c2bac0abd5eb42/TauCetiRoadmap/RestrictedPowerSeries/README.md#23-derivatives-and-hasse-derivatives
+[SeriesGauss]: https://github.com/WilliamCoram/TauCetiRoadmap/blob/fae4b92f3233ec656fb01ae590c2bac0abd5eb42/TauCetiRoadmap/RestrictedPowerSeries/README.md#11-norms-completeness-and-approximation
