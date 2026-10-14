@@ -19,9 +19,7 @@ Huber rings and pairs, adic spectra, rational localisations, Tate algebras and t
 `TauCeti.AdicSpace` are Tau Ceti's; AdicSpacesPartII supplies affinoid charts and Huber's
 morphism classes, PerfectoidSpaces the perfectoid Tate-ring predicate, AdicEtaleGeometry open subspaces, the
 completed rational localisation `ratLoc`, étale morphisms by local description and fibre
-products. RigidAnalyticGeometry §4.4 item 4 (W. Coram's roadmap at
-`af8261a42a548ed86a11fff72c486673ef122ae7`, linked in the README supplier table)
-supplies reducedness of rational affinoid subdomains;
+products. RigidAnalyticGeometry Layers 3–4 supply reducedness of rational affinoid subdomains;
 the plus-ring comparison belongs to R5.6's `rational-integral-compatibility` in the README.
 Completeness includes the Hausdorff property. This file states the parts that are a few lines
 over these carriers:
@@ -564,8 +562,7 @@ section Radius
 
 variable (n : ℕ) (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K]
 
-/-- The constant-polyradius carrier of RigidAnalyticGeometry §1.5 item 1 at
-`af8261a42a548ed86a11fff72c486673ef122ae7` (README supplier table).
+/-- The constant-polyradius specialisation of RestrictedPowerSeries §0.1 on the native carrier.
 The `K`-subalgebra of restricted series at the constant polyradius `ρ`, used to define `W_n`.
 The coefficient construction does not require completeness of `K`. -/
 def radiusTate (ρ : ℝ) : Subalgebra K (MvPowerSeries (Fin n) K) :=
@@ -575,8 +572,7 @@ def radiusTate (ρ : ℝ) : Subalgebra K (MvPowerSeries (Fin n) K) :=
       rw [MvPowerSeries.algebraMap_apply, Algebra.algebraMap_self, RingHom.id_apply]
       exact MvPowerSeries.isRestricted_C _ c }
 
-/-- The constant-polyradius carrier of RigidAnalyticGeometry §1.5 item 1 at
-`af8261a42a548ed86a11fff72c486673ef122ae7` (README supplier table).
+/-- The constant-polyradius specialisation of RestrictedPowerSeries §1.1's native Gauss norm.
 The Gauss-norm function at the constant polyradius `ρ`, used at radius `1` in the unit criterion
 for `W_n`; its norm interpretation applies only to series restricted at `ρ > 0`. -/
 def radiusGaussNorm (ρ : ℝ) (f : MvPowerSeries (Fin n) K) : ℝ :=

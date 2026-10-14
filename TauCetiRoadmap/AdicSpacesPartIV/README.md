@@ -37,7 +37,7 @@ sites of [AdicEtaleGeometry](../AdicEtaleGeometry/README.md).
 
 Dependencies: AdicSpaces §§0–5; AdicSpacesPartII R0, R1; AdicSpacesPartIII F0, R2, R3;
 AdicEtaleGeometry A1.0.4, A1.1–A1.16, A1.6a, A2.6a; PerfectoidSpaces P1, P2, P3.10,
-P3.17a–P3.17b; SchemeAndStackFoundations §§0.21, 4.17, 4.20; RigidAnalyticGeometry §§1–8.
+P3.17a–P3.17b; SchemeAndStackFoundations §§0.21, 4.17, 4.20; RigidAnalyticGeometry §§1–8; RestrictedPowerSeries §§0.1, 1.1, 5.4.
 
 ```text
 AdicSpacesPartII R0–R1, AdicEtaleGeometry A1/A2.6a, SchemeAndStackFoundations §4.17 → R4
@@ -80,7 +80,7 @@ The roadmap owns, layer by layer:
   dagger–rigid comparison, differentials and the overconvergent de Rham complex, the differential
   operators, derived de Rham functor, direct images and algebraic local cohomology that its
   supported cohomology uses, supports, compact support and duality, the logarithmic and
-  compact-support complexes of smooth pairs, the use of Coram's finite rational Runge covering
+  compact-support complexes of smooth pairs, the finite rational Runge covering
   theorem in the dagger-completion comparison, the algebraisation of smooth affinoids, and the
   finiteness theorems in the form "finiteness of Monsky–Washnitzer cohomology and embedded resolution
   imply finiteness". Those two inputs, (MWF) and (RES) of F1.11, are not targets of this roadmap:
@@ -174,7 +174,7 @@ not use F1.11.
 
 | R4 supplier | Exact file | Contract used |
 |---|---|---|
-| AdicSpacesPartII R1.1 *rigid-analytic-space* (`Sp A`, the bijection of its points with `Max A`, the empty, one-point and polydisc affinoids) and *affinoid-subdomain*, supplied by RigidAnalyticGeometry §4.2.1–4.2.2 (`RigidAnalyticGeometry.rationalDomain`) through AdicSpacesPartII's R0.9 carrier bridge | `TauCetiRoadmap/AdicSpacesPartII/README.md`; W. Coram's roadmap, `PhD/TauCeti/Roadmaps/RigidAnalyticGeometry/README.md` and `Suggested.lean` | The rigid comparison Checks use these empty, field-point and disc affinoids; the bijection of the points of `Sp A` with `Max A` specifies the two rational images in the maximal spectrum. R5 uses the one-dimensional polydisc over `ℚ_p` for its coefficient restriction counterexample. |
+| AdicSpacesPartII R1.1 *rigid-analytic-space* (`Sp A`, the bijection of its points with `Max A`, the empty, one-point and polydisc affinoids) and *affinoid-subdomain*, supplied by RigidAnalyticGeometry Layers 3–4 (rational subdomains) through AdicSpacesPartII's R0.9 carrier bridge | `TauCetiRoadmap/AdicSpacesPartII/README.md`; `TauCetiRoadmap/RigidAnalyticGeometry/README.md` | The rigid comparison Checks use these empty, field-point and disc affinoids; the bijection of the points of `Sp A` with `Max A` specifies the two rational images in the maximal spectrum. R5 uses the one-dimensional polydisc over `ℚ_p` for its coefficient restriction counterexample. |
 | `AlgebraicGeometry.Scheme.IdealSheafData.ofIdealTop`, `subschemeι`; `AlgebraicGeometry.Scheme.basicOpen` | `Mathlib/AlgebraicGeometry/IdealSheaf/Basic.lean`; `Mathlib/AlgebraicGeometry/IdealSheaf/Subscheme.lean`; `Mathlib/AlgebraicGeometry/Scheme.lean` | The origin and two-axis analytification Checks use the actual ideal sheaf, its closed subscheme, and its principal open complement. |
 | `TauCeti.PreAdicSpace.IsOpenImmersion.ofRestrict` | `TauCeti/AlgebraicGeometry/AdicSpace/PreAdicSpace/OpenImmersion.lean:71` | Every open restriction inclusion is an open immersion; R4.7 specialises this instance to the boundary complement `j : U → X`. |
 | AdicSpacesPartII R1 *rigid-analytification*, *rigid-adic-comparison-functor* (the rigid analytification, Huber's functor `r` and the field affinoid `Spa(K, K°)`); AdicEtaleGeometry A0.6 (the comparison of the complete-pair spectrum with the Part II affinoid spectrum, fixing coefficients) | `TauCetiRoadmap/AdicSpacesPartII/README.md`; `TauCetiRoadmap/AdicEtaleGeometry/README.md` | The analytification of an algebraic smooth pair (*analytification-of-smooth-pair*) retains the structure map of these functors over the field affinoid and transports it through the canonical comparison fixing coefficients to the complete-pair presentation of `Spa(K,K°)`. |
@@ -340,9 +340,9 @@ supplies `Formal.DeJong.semistable_alteration_theorem` for F1.
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.exists_pullback_point` and its affinoid core (R0.7 *fibre-product-points*) | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`; `TauCetiRoadmap/AdicSpacesPartII/README.md` | affinoid core: for complete Huber pairs and adic `A → B`, `A → C`, every pair of points of `Spa B`, `Spa C` over the same point of `Spa A` comes from a point of `Spa(B ⊗̂_A C)` (via R0/valuation-amalgamation). |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsAdic.baseChange`; base change of local finite type (R0.6 *finite-type-morphism-classes*) | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`; `TauCetiRoadmap/AdicSpacesPartII/README.md` | Adicness and local finite type are stable under geometric base change. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsClosedImmersion`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.HasStablySheafyCharts` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | AdicSpaces §5.1: a closed immersion is affinoid-locally an open quotient homomorphism, with the quotient plus ring and the entire inverse image as source. |
-| RigidAnalyticGeometry §2.1.1, §2.1.3 (`RigidAnalyticGeometry.evalNorm`, `RigidAnalyticGeometry.supSeminorm`), read through AdicSpacesPartII's R0.9 carrier bridge; `TauCetiRoadmap.AdicSpacesPartII.Huber.TateAlgebra.ofMvPolynomial`; the Gauss norm of the Tate algebra (R0.9 *tate-algebra-gauss-norm-attained*) | W. Coram's roadmap, `PhD/TauCeti/Roadmaps/RigidAnalyticGeometry/README.md` and `Suggested.lean`; `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`; `TauCetiRoadmap/AdicSpacesPartII/README.md` | `∣f(x)∣` for `x ∈ Max A`, the spectral norm of the residue class of `f` in the finite extension `A/x` of `K`. |
-| RigidAnalyticGeometry §2.2.1 (`RigidAnalyticGeometry.exists_evalNorm_eq_supSeminorm`), read through AdicSpacesPartII's R0.9 carrier bridge | W. Coram's roadmap, `PhD/TauCeti/Roadmaps/RigidAnalyticGeometry/README.md` and `Suggested.lean`; `TauCetiRoadmap/AdicSpacesPartII/README.md` | the supremum seminorm is attained at a point of `Max A`. |
-| RigidAnalyticGeometry §2.3.1–2.3.2 (`RigidAnalyticGeometry.isBounded_range_pow_iff`, `RigidAnalyticGeometry.isTopologicallyNilpotent_iff`), read as membership in the power-bounded subring and its topologically nilpotent analogue through AdicSpacesPartII's R0.9 carrier bridge (R0.9 *affinoid-power-bounded-iff-sup*) | W. Coram's roadmap, `PhD/TauCeti/Roadmaps/RigidAnalyticGeometry/README.md` and `Suggested.lean`; `TauCetiRoadmap/AdicSpacesPartII/README.md` | `A° = {∣f∣_sup ≤ 1}`, and `A°° = {∣f∣_sup < 1}`. |
+| RigidAnalyticGeometry §2.1 (pointwise and supremum seminorms), read through AdicSpacesPartII's R0.9 carrier bridge; `TauCetiRoadmap.AdicSpacesPartII.Huber.TateAlgebra.ofMvPolynomial`; the Gauss norm of the Tate algebra (R0.9 *tate-algebra-gauss-norm-attained*) | `TauCetiRoadmap/RigidAnalyticGeometry/README.md`; `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`; `TauCetiRoadmap/AdicSpacesPartII/README.md` | `∣f(x)∣` for `x ∈ Max A`, the spectral norm of the residue class of `f` in the finite extension `A/x` of `K`. |
+| RigidAnalyticGeometry §2.2 (maximum modulus for nonzero affinoids), read through AdicSpacesPartII's R0.9 carrier bridge | `TauCetiRoadmap/RigidAnalyticGeometry/README.md`; `TauCetiRoadmap/AdicSpacesPartII/README.md` | for `A ≠ 0`, the supremum seminorm is attained at a point of `Max A`; the zero algebra has no classical points. |
+| RigidAnalyticGeometry §2.2 (power-bounded and topologically nilpotent elements), read as membership in the power-bounded subring and its topologically nilpotent analogue through AdicSpacesPartII's R0.9 carrier bridge (R0.9 *affinoid-power-bounded-iff-sup*) | `TauCetiRoadmap/RigidAnalyticGeometry/README.md`; `TauCetiRoadmap/AdicSpacesPartII/README.md` | `A° = {∣f∣_sup ≤ 1}`, and `A°° = {∣f∣_sup < 1}`. |
 | R0.9 *reduced-affinoid-supremum-norm* | `TauCetiRoadmap/AdicSpacesPartII/README.md` | on a reduced `K`-affinoid algebra the supremum norm is equivalent to the residue norm of every presentation, so the algebra is uniform. |
 | R0.9 *affinoid-reduction-finite* | `TauCetiRoadmap/AdicSpacesPartII/README.md` | a finite map `φ` of `K`-affinoid algebras maps `A°` into `B°` and `A°°` into `B°°`, and the induced map of reductions `A°/A°° → B°/B°°` is finite (Tau Ceti `topologicallyNilpotentIdeal` is `A°°`). |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsSeparated`; the existence of its diagonal pullback (R0.10 *separated-morphism*) | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`; `TauCetiRoadmap/AdicSpacesPartII/README.md` | Huber 1.3.1: local weak finite type and a closed diagonal, with stably sheafy source charts. |
@@ -357,8 +357,8 @@ supplies `Formal.DeJong.semistable_alteration_theorem` for F1.
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Etale.baseChange`; base change of smooth morphisms (R0.16 *smooth-etale-base-change*) | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`; `TauCetiRoadmap/AdicSpacesPartII/README.md` | Smooth and étale morphisms remain smooth and étale in geometric pullback squares. |
 | R0.17 *smooth-local-structure* | `TauCetiRoadmap/AdicSpacesPartII/README.md` | Huber 1.6.10: locally a smooth map factors étale through a weighted polydisc. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Smooth.isOpenMap` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | A smooth morphism is open on the underlying topological spaces. |
-| RigidAnalyticGeometry §1.4.2–1.4.3, §4.1.1–4.1.4, §4.2.1–4.2.2 (`RigidAnalyticGeometry.AffinoidSubdomain`), read through AdicSpacesPartII's R0.9 carrier bridge (R1.1 *affinoid-subdomain*) | W. Coram's roadmap, `PhD/TauCeti/Roadmaps/RigidAnalyticGeometry/README.md` and `Suggested.lean`; `TauCetiRoadmap/AdicSpacesPartII/README.md` | For a `K`-affinoid algebra `A`, `U ⊆ Max A` is an affinoid subdomain if some `K`-affinoid `A`-algebra `A_U` has `Max A_U → Max A` landing in `U` and represents the `K`-affinoid `A`-algebras `B` with `Max B → Max A` landing in `U`: there is exactly one `A`-algebra map `A_U → B`. |
-| RigidAnalyticGeometry §4.6.3 (`RigidAnalyticGeometry.gerritzenGrauert`), read through AdicSpacesPartII's R0.9 carrier bridge; the rational refinement of R1.1 *gerritzen-grauert* | W. Coram's roadmap, `PhD/TauCeti/Roadmaps/RigidAnalyticGeometry/README.md` and `Suggested.lean`; `TauCetiRoadmap/AdicSpacesPartII/README.md` | for an affinoid subdomain `U`, there is a finite covering of `Max A` by rational subdomains `Vᵢ` such that each `U ∩ Vᵢ` is a rational subdomain of `Max A_{Vᵢ}`. |
+| RigidAnalyticGeometry §1.4 and Layers 3–4 (fraction algebras and affinoid subdomains), read through AdicSpacesPartII's R0.9 carrier bridge (R1.1 *affinoid-subdomain*) | `TauCetiRoadmap/RigidAnalyticGeometry/README.md`; `TauCetiRoadmap/AdicSpacesPartII/README.md` | For a `K`-affinoid algebra `A`, `U ⊆ Max A` is an affinoid subdomain if some `K`-affinoid `A`-algebra `A_U` has `Max A_U → Max A` landing in `U` and represents the `K`-affinoid `A`-algebras `B` with `Max B → Max A` landing in `U`: there is exactly one `A`-algebra map `A_U → B`. |
+| RigidAnalyticGeometry Layers 3–4 (Gerritzen–Grauert and its ambient-cover refinement), read through AdicSpacesPartII's R0.9 carrier bridge; the rational refinement of R1.1 *gerritzen-grauert* | `TauCetiRoadmap/RigidAnalyticGeometry/README.md`; `TauCetiRoadmap/AdicSpacesPartII/README.md` | for an affinoid subdomain `U`, there is a finite covering of `Max A` by rational subdomains `Vᵢ` such that each `U ∩ Vᵢ` is a rational subdomain of `Max A_{Vᵢ}`. |
 | R1.1 *rigid-analytic-space* (rigid spaces, `Sp A` and its locally G-ringed space) | `TauCetiRoadmap/AdicSpacesPartII/README.md` | A rigid space is a locally G-ringed `K`-space with an admissible affinoid atlas. The atlas is a covering sieve, rather than just a covering of its classical points. |
 | R1.1 *rigid-analytification* | `TauCetiRoadmap/AdicSpacesPartII/README.md` | The rigid representing object for morphisms to a scheme locally of finite type over `K`. Conrad, Irreducible Components, Appendix A.1, p. 32. |
 | R1.2 *scheme-fibre-product-analytification* (the mixed fibre product and its functoriality) | `TauCetiRoadmap/AdicSpacesPartII/README.md` | The mixed fibre product represents compatible adic and locally ringed morphisms. Huber 1994, Proposition 3.8. |
@@ -371,29 +371,33 @@ supplies `Formal.DeJong.semistable_alteration_theorem` for F1.
 | R1.7 *rigid-adic-comparison-functor* (Huber's functor `r`, the map `ρ` and sections) | `TauCetiRoadmap/AdicSpacesPartII/README.md` | Huber's functor is characterized by its affinoid charts and their gluings. |
 | R1.7 *proper-separated-comparisons* | `TauCetiRoadmap/AdicSpacesPartII/README.md` | Huber96, Remark 1.3.19, with the discrete-valuation caveat kept in the converse. |
 | R1.7 *rigid-adic-etale-comparison* (smooth, étale and unramified morphisms under `r`) | `TauCetiRoadmap/AdicSpacesPartII/README.md` | Huber96, Proposition 1.7.11(ii), pp. 89–90: smoothness agrees with the admissible affinoid étale-chart definition on rigid spaces. |
-| RigidAnalyticGeometry, *Targets requested by the Tau Ceti AdicSpaces roadmaps*, **AffinoidSubdomain.injective_of_isDomain** (`RigidAnalyticGeometry.AffinoidSubdomain.injective_of_isDomain`), read through AdicSpacesPartII's R0.9 carrier bridge (R1.9) | W. Coram's roadmap, `PhD/TauCeti/Roadmaps/RigidAnalyticGeometry/README.md` and `Suggested.lean`; `TauCetiRoadmap/AdicSpacesPartII/README.md` | for a `K`-affinoid integral domain `A` and a nonempty affinoid subdomain `U ⊆ Max A`, restriction `A → A_U` is injective. |
+| RigidAnalyticGeometry Layers 3–4 (injective restriction for a domain and a nonempty affinoid subdomain), read through AdicSpacesPartII's R0.9 carrier bridge (R1.9) | `TauCetiRoadmap/RigidAnalyticGeometry/README.md`; `TauCetiRoadmap/AdicSpacesPartII/README.md` | for a `K`-affinoid integral domain `A` and a nonempty affinoid subdomain `U ⊆ Max A`, restriction `A → A_U` is injective. |
 
 ### From the student roadmaps
 
-RigidAnalyticGeometry is W. Coram's [roadmap at `af8261a42a548ed86a11fff72c486673ef122ae7`](https://github.com/CBirkbeck/PhD/blob/af8261a42a548ed86a11fff72c486673ef122ae7/PhD/TauCeti/Roadmaps/RigidAnalyticGeometry/README.md).
-Its §4.4 item 4 states reducedness on affinoid subdomains; §1.5 items 1–2 state
-the polyradius algebra and affinoid criterion, and §1.3 item 3 fixes the Banach topology.
-The constant-polyradius and rational-localisation carrier bridges below use these contracts.
-Its §4.5 item 3 supplies Runge immersions and §4.6 item 2 supplies the finite rational Runge
-covering theorem (BGR 7.3.5/1; Bosch 1.8/10). Transport these contracts through
-AdicSpacesPartII's R0.9 carrier bridge for the dagger-completion comparison.
+RigidAnalyticGeometry is W. Coram's [roadmap](https://github.com/WilliamCoram/TauCetiRoadmap/blob/88df2d0/TauCetiRoadmap/RigidAnalyticGeometry/README.md).
+Its Layers 3–4 supply reducedness of rational localisations and the affinoid-subdomain
+contracts. Its §1.5 supplies the strict-affinoid criterion for positive polyradii;
+§1.1 identifies the quotient-norm topology independently of presentation.
+[RestrictedPowerSeries](https://github.com/WilliamCoram/TauCetiRoadmap/blob/fae4b92f3233ec656fb01ae590c2bac0abd5eb42/TauCetiRoadmap/RestrictedPowerSeries/README.md)
+§§0.1, 1.1 and 5.4 supply the native positive-polyradius algebra, its Gauss norm,
+polynomial density and finite monomial presentations. The bridges below specialise
+these contracts to constant polyradii and to the complete rational localisation.
+F1.6 owns *rigid-locally-closed-immersion-runge*, the finite rational Runge covering
+theorem used in the dagger-completion comparison (BGR 7.3.5/1; Bosch 1.8/10).
 
 | Supplier target | Exact file | Contract used |
 |---|---|---|
-| RigidAnalyticGeometry §4.4.4, reducedness on affinoid subdomains (no declaration name specified) | W. Coram's roadmap, `PhD/TauCeti/Roadmaps/RigidAnalyticGeometry/README.md` | Rational localisations of reduced `K`-affinoid algebras are reduced; R5.6's *rational-integral-compatibility* proves the comparison with the actual plus ring on this roadmap's side. |
-| RigidAnalyticGeometry §1.5.1–1.5.2, polyradius Tate algebras and the affinoid criterion (no declaration names specified) | W. Coram's roadmap, `PhD/TauCeti/Roadmaps/RigidAnalyticGeometry/README.md` | The constant-polyradius specialisation supplies the radius pieces and their multiplicative Banach norms, polynomial density and affinoidness for radii in `Γ*`; §1.3.3 identifies the Banach topology with the algebraic carrier's affinoid topology. |
+| RigidAnalyticGeometry Layers 3–4 (rational-local reducedness) | `TauCetiRoadmap/RigidAnalyticGeometry/README.md` | Rational localisations of reduced `K`-affinoid algebras are reduced; R5.6's *rational-integral-compatibility* proves the comparison with the actual plus ring on this roadmap's side. |
+| RestrictedPowerSeries §§0.1, 1.1, 5.4; RigidAnalyticGeometry §§1.1, 1.5 | `TauCetiRoadmap/RestrictedPowerSeries/README.md`; `TauCetiRoadmap/RigidAnalyticGeometry/README.md` | The constant-polyradius specialisation supplies the native radius pieces, multiplicative Banach norms, polynomial density and affinoidness for radii in `Γ*`; §1.1 of RigidAnalyticGeometry identifies the quotient-norm topology with the algebraic carrier's affinoid topology. |
+| RigidAnalyticGeometry §1.2 (affinoid excellence) | `TauCetiRoadmap/RigidAnalyticGeometry/README.md` | Every `K`-affinoid algebra is excellent, in every characteristic; F1.2 owns excellence for dagger algebras in characteristic zero. |
 
 #### Local restatements
 
-- `Dagger.radiusTate` restates RigidAnalyticGeometry §1.5.1 at the constant polyradius as a
+- `Dagger.radiusTate` specialises RestrictedPowerSeries §0.1 at the constant polyradius as a
   `K`-subalgebra of formal series; `Dagger.washnitzerAlgebra`, its variables and its Checks use
   this carrier. The coefficient construction makes sense without completeness of `K`.
-- `Dagger.radiusGaussNorm` restates RigidAnalyticGeometry §1.5.1's Gauss-norm function at the
+- `Dagger.radiusGaussNorm` specialises RestrictedPowerSeries §1.1's Gauss-norm function at the
   constant polyradius; `Dagger.isUnit_washnitzerAlgebra_iff` uses its value at radius `1`.
   The norm interpretation is restricted to `T_n(ρ)` for `ρ > 0`.
 
@@ -415,7 +419,7 @@ AdicSpacesPartII's R0.9 carrier bridge for the dagger-completion comparison.
 | R3.4 *quasi-stein-theorems-a-b* | `TauCetiRoadmap/AdicSpacesPartIII/README.md` | Kiehl's Theorem B for the actual sheaf cohomology of coherent modules. |
 | R3.5 *locally-free-sheaf* (vector bundles on a sheafy Tate affinoid) | `TauCetiRoadmap/AdicSpacesPartIII/README.md` | KL15 2.7.7: finite projective modules are exactly vector bundles on a sheafy Tate affinoid. |
 | R3.6 *sheaf-of-continuous-differentials* | `TauCetiRoadmap/AdicSpacesPartIII/README.md` | The coherent sheaf representing continuous relative derivations, its universal derivation and its comparison with affinoid continuous differentials. |
-| R3.6 *kiehl-proper-mapping-theorem*, *proper-affinoid-cohomology-finite*, *proper-cohomology-affinoid-subdomain* | `TauCetiRoadmap/AdicSpacesPartIII/README.md`; RigidAnalyticGeometry, *Targets requested by the Tau Ceti AdicSpaces roadmaps*, **kiehlProperMapping**, **proper_cohomology_finite**, **proper_cohomology_affinoidSubdomain** | Coherence and finite cohomology for proper rigid maps, and the canonical algebraic tensor comparison for restriction to an affinoid subdomain. F1.10's *dagger-projection-fringe-comparison* uses these on the rigid product stages and owns the passage to dagger cohomology and the overconvergence of the trace. |
+| R3.6 *kiehl-proper-mapping-theorem*, *proper-affinoid-cohomology-finite*, *proper-cohomology-affinoid-subdomain* | `TauCetiRoadmap/AdicSpacesPartIII/README.md`; RigidAnalyticGeometry §7.4 (the classical specialisation of these Part III supplier contracts) | Coherence and finite cohomology for proper rigid maps, and the canonical algebraic tensor comparison for restriction to an affinoid subdomain. F1.10's *dagger-projection-fringe-comparison* uses these on the rigid product stages and owns the passage to dagger cohomology and the overconvergence of the trace. |
 | R3.7 *proper-gaga* (the comparison of coherent higher direct images) and R3.3 *coherent-sheaf-operations* (kernels, cokernels and extensions of coherent sheaves) | `TauCetiRoadmap/AdicSpacesPartIII/README.md` | For proper scheme maps over a strongly noetherian Tate affinoid, the canonical comparison of coherent higher direct images is an isomorphism. |
 
 
@@ -1632,7 +1636,7 @@ p^{−1/2} = |√p|` and `|√p − a| = p^{−1/2}`, and if `|a| = 1` then `|�
 `|√p − a|² = |a² − p| ≥ p^{−1}` in `ℚ_p` itself, since `v_p(a² − p) ∈ {0, 1}`. The computation is
 the same for `p = 2` (`|√2 − a| ≥ 2^{−1/2} > 2^{−1}`). A positive control
 uses Part II's `Sp A`, the bijection of its points with `Max A`, and its rational
-domains (RigidAnalyticGeometry §4.2.1–4.2.2 (`RigidAnalyticGeometry.rationalDomain`), read through AdicSpacesPartII's R0.9 carrier bridge): for every `a₀ ∈ ℤ_p` it supplies the
+domains (RigidAnalyticGeometry Layers 3–4 (rational subdomains), read through AdicSpacesPartII's R0.9 carrier bridge): for every `a₀ ∈ ℤ_p` it supplies the
 maximal ideal `(T−a₀)` and an admissible open immersion with image exactly
 `|T−a₀| ≤ |p|`, and asserts that this rigid point is in that image. It retains
 `|a₀−a₀|=0 ≤ |p|` as the numerical calculation supporting this membership
@@ -2050,13 +2054,13 @@ CHJ §6.3, after Lem. 6.13, p. 51 (the unit ball chosen in §6.3)). For `X` the 
 `ℚ_p`, `(ℤ_p⟨T⟩ ⊗̂ ℤ_p[[S]])[1/p] = ℚ_p⟨T⟩ ⊗̂ ℤ_p[[S]]`; for `X = Spa(ℚ_p⟨X, Q⟩/(Q²))`,
 `(𝒪⁺(X) ⊗̂ ℤ_p)[1/p] = ℚ_p⟨X⟩ ≠ 𝒪(X)`, the unbounded-lattice Check of *mixed-completed-tensor*. *Needs:*
 *mixed-completed-tensor*; *mixed-completed-tensor-exactness*;
-*mixed-completed-tensor-product-formula*; RigidAnalyticGeometry §4.4.4
+*mixed-completed-tensor-product-formula*; RigidAnalyticGeometry Layers 3–4
 (reducedness on rational subdomains);
 *reduced-affinoid-supremum-norm* (AdicSpacesPartII layer R0); Tau Ceti `Huber.powerBoundedSubring`.
 
 For a rational `U`, put `(B, B⁺) = (𝒪_X(U), 𝒪_X⁺(U))`; the complete rational
 localisation is identified with the rigid subdomain algebra
-(AdicSpacesPartII R1.1 *affinoid-subdomain*), to apply RigidAnalyticGeometry §4.4.4.
+(AdicSpacesPartII R1.1 *affinoid-subdomain*), to apply RigidAnalyticGeometry Layers 3–4.
 The plus-ring comparison uses Tau Ceti's `completedPlusSubring_le_powerBoundedSubring` for
 `B⁺ ⊆ B°`; prove the reverse inclusion using
 `mem_completedPlusSubring_iff_forall_mem_rationalSubset_vle_one` and the integrality of
@@ -2475,7 +2479,7 @@ use AdicEtaleGeometry A1.6a ([*stable-basis-etale-vector-bundles*](../AdicEtaleG
 
 **Rational localisations of reduced affinoid algebras are reduced, and preserve `A⁺ = A°`.** (*reduced-affinoid-rational-localisation*) Reducedness of a `K`-affinoid algebra
 passes to the algebra of each rational subdomain.
-Supplied by RigidAnalyticGeometry §4.4.4 (W. Coram's roadmap at `af8261a42a548ed86a11fff72c486673ef122ae7`, linked in the supplier table).
+Supplied by RigidAnalyticGeometry Layers 3–4.
 The supplier states reducedness on rigid affinoid subdomains, so this roadmap identifies their
 algebras with the complete rational localisation and proves `B⁺ = B°` for `A⁺ = A°` in
 *rational-integral-compatibility* (R5.6).
@@ -2925,10 +2929,10 @@ discretely valued); in F1.5 it is the uniformiser of the complete discrete valua
 **Tate algebras of polydiscs of radius `ρ`.** (*radius-tate-algebra-affinoid*) The radius pieces
 `T_n(ρ)` for `ρ > 0` are Banach algebras for the multiplicative Gauss norm, with dense polynomials, and are
 `K`-affinoid for `ρ ∈ Γ*`.
-Supplied by RigidAnalyticGeometry §1.5.1–1.5.2 (W. Coram's roadmap at `af8261a42a548ed86a11fff72c486673ef122ae7`, linked in the supplier table).
+Supplied by RestrictedPowerSeries §§0.1, 1.1, 5.4 and RigidAnalyticGeometry §1.5.
 This roadmap specialises the student's polyradius to the constant tuple `ρ` and identifies the
 supplier's algebraic affinoid carrier with its Gauss-norm Banach topology using
-RigidAnalyticGeometry §1.3.3, so a Tate presentation is a strict topological presentation here.
+RigidAnalyticGeometry §1.1, so a Tate presentation is a strict topological presentation here.
 
 **Checks.**
 
@@ -2983,7 +2987,7 @@ that for `char K = 0` the termwise primitive
 characteristic `p` the coefficient `1/(ν_i + 1)` is undefined for `ν_i + 1 = p` and `X^{p−1}` has no
 primitive at all, since `d(Σ b_m X^m) = Σ m b_m X^{m−1}` has zero coefficient at `X^{p−1}`, and
 that `W_{n+1} ≅ W_n⟨X_{n+1}⟩†` (see *dagger-tensor-product*) (GK00 §1, 1.2, p.
-3). *Needs:* RigidAnalyticGeometry §1.5.1–1.5.2. Lean: `Dagger.washnitzerAlgebra`,
+3). *Needs:* RigidAnalyticGeometry §1.5. Lean: `Dagger.washnitzerAlgebra`,
 `Dagger.washnitzerAlgebra.X`, `Dagger.mem_washnitzerAlgebra_iff`,
 `Dagger.isUnit_washnitzerAlgebra_iff`, `Dagger.washnitzerAlgebra_le_weightedRestrictedSubring`,
 `Dagger.washnitzerAlgebra.toTate`.
@@ -3048,7 +3052,7 @@ norm of a series restricted at some radius `> 1` is continuous in the radius at 
 quantities are `< 1` there), then `1 < r_i ≤ r_n` with `|g_m|_{r'} ≤ r_n^{s−m}` for the finitely
 many `m < s`. (v) (iteration) `T_n(r', r_n) ≅ T_{n-1}(r')⟨Y_n/r_n⟩`, isometric for the Gauss norms,
 the polyradius form of `restrictedOptionEquiv`. Division and preparation over `T_{n-1}(r')`
-(complete, with multiplicative Gauss norm, RigidAnalyticGeometry §1.5.1) at radius `r_n` then give
+(complete, with multiplicative Gauss norm, RestrictedPowerSeries §1.1) at radius `r_n` then give
 `q`, `e`, `e^{-1}` restricted at `(r', r_n)` and `r`, `ω` with coefficients in `T_{n-1}(r')`, hence
 all restricted at the common radius `min_i r_i > 1` and so in `W_n`, resp. `W_{n-1}[Y_n]`;
 uniqueness in (i)–(ii), and independence of the chosen radii, follow by comparison with the
@@ -3056,7 +3060,7 @@ unit-radius division and preparation over `T_{n-1}` through `restrictedOptionEqu
 `W_n ⊆ T_n`. What (i)–(v) add to the fixed-radius theorems is this radius selection, the
 polyradius iteration, the transport to `W_n`, and the automorphism `σ`. Mathlib's
 `PowerSeries.exists_isWeierstrassDivision` is the complete-local-ring form and does not apply.
-*Needs:* *overconvergent-tate-algebra*; RigidAnalyticGeometry §1.5.1–1.5.2; Tau Ceti
+*Needs:* *overconvergent-tate-algebra*; RigidAnalyticGeometry §1.5; Tau Ceti
 `TauCeti.PowerSeries.IsDistinguished`, `IsDistinguished.existsUnique_mul_add_eq`,
 `IsDistinguished.existsUnique_isUnit_isMonicOfDegree_mul_eq`, `restrictedOptionEquiv`.
 
@@ -3114,13 +3118,13 @@ maximal ideal of `W_n` and `W_n/(m ∩ W_n) → T_n/m` is bijective, and `m ↦ 
 `p_1, …, p_n ∈ K[Y_1, …, Y_n]` with `p_i` monic in `Y_i`; (d) `W_n` is a regular ring (Mathlib
 `IsRegularRing`), equidimensional of Krull dimension `n`, and the maps of completed local rings
 `(W_n)^_{m∩W_n} → (T_n)^_m` are isomorphisms (GK00 §1, Prop. 1.5 and its proof). *Needs:*
-*overconvergent-tate-algebra-properties*; RigidAnalyticGeometry §1.5.1–1.5.2;
+*overconvergent-tate-algebra-properties*; RigidAnalyticGeometry §1.5;
 *overconvergent-tate-algebra*. Lean: `Dagger.washnitzerAlgebra.faithfullyFlat`,
 `Dagger.washnitzerAlgebra.existsUnique_isMaximal_comap`, `Dagger.washnitzerAlgebra.isRegularRing`.
 
 ### F1.2 dagger algebras
 
-**Dagger algebras over a complete nonarchimedean field.** (*dagger-algebra*) Let `K` be a complete rank-one nonarchimedean field (as in RigidAnalyticGeometry §1.5.1–1.5.2). A `K`-dagger algebra is a
+**Dagger algebras over a complete nonarchimedean field.** (*dagger-algebra*) Let `K` be a complete rank-one nonarchimedean field (as in RigidAnalyticGeometry §1.5). A `K`-dagger algebra is a
 commutative `K`-algebra `A` for which there exist `n ∈ ℕ` and a surjective `K`-algebra homomorphism
 `W_n → A` (equivalently `A ≅ W_n/I` for an ideal `I`). A morphism of dagger algebras is a
 `K`-algebra homomorphism (no continuity is imposed; it is automatic, see
@@ -3206,22 +3210,22 @@ carries a canonical topology, the one induced from the finite `Â`-module `M ⊗
 *dagger-noether-normalisation*; *overconvergent-tate-algebra*; *dagger-algebra*;
 *affinoid-power-bounded-iff-sup* (AdicSpacesPartII layer R0).
 
-**Dagger algebras (and affinoid algebras) are excellent in characteristic 0.**
+**Dagger algebras are excellent in characteristic 0.**
 (*dagger-algebra-excellent*) Excellence is the notion of SchemeAndStackFoundations §0.21
 (`Excellence.IsExcellentRing`: a G-ring that is J-2 and whose finite-type algebras are catenary, the G-ring and
 quasi-excellent predicates being §0.21's `Excellence.IsGRing` and `Excellence.IsQuasiExcellentRing`), from
 which two consequences are used as §0.21 states them: finite-type algebras over an excellent ring are
 excellent and, for a local G-ring `A_m`, `A_m` is reduced (resp.
-normal) iff its completion is (`regular_map_completion`). What is new here is the excellence of the
-two base rings. Prove that for `K` a field complete for a nontrivial nonarchimedean absolute value of
+normal) iff its completion is (`regular_map_completion`). RigidAnalyticGeometry §1.2 supplies
+excellence of `K`-affinoid algebras in every characteristic. Prove that for `K` a field complete for a nontrivial nonarchimedean absolute value of
 rank one with `char K = 0` (`NontriviallyNormedField K`, `IsUltrametricDist K`, `CompleteSpace K`,
-`CharZero K`), `W_n = K⟨X_1, …, X_n⟩†` and `T_n = K⟨X_1, …, X_n⟩` are excellent rings; consequently
-(finite-type algebras over excellent rings being excellent) every `K`-dagger algebra and every `K`-affinoid algebra is
+`CharZero K`), `W_n = K⟨X_1, …, X_n⟩†` is excellent; consequently
+(finite-type algebras over excellent rings being excellent) every `K`-dagger algebra is
 excellent, and (by SchemeAndStackFoundations `regular_map_completion`) for `A` a dagger algebra and
 `m` a maximal ideal the
 local ring `A_m` is reduced (resp. normal) iff its completion is (GK00 §1, proof of Thm 1.7 (3),
 p. 5, which uses excellence without proof; Conrad-IC §1.1, p. 3, for the characteristic-0 route,
-transposed from `T_n` to `W_n`; characteristic `p` (Kiehl) is excluded). For `K = ℚ_p`, `W_1` is
+transposed from `T_n` to `W_n`; the dagger statement assumes characteristic zero). For `K = ℚ_p`, `W_1` is
 excellent and the completion of `K⟨X,Y⟩†/(Y^2 − X^3)` at `(X,Y)` is `K[[X,Y]]/(Y^2 − X^3)`, reduced
 but not normal, matching the dagger algebra. *Needs:* *overconvergent-faithful-flatness*;
 *overconvergent-tate-algebra*; *dagger-algebra*; SchemeAndStackFoundations §0.21
@@ -3230,7 +3234,7 @@ but not normal, matching the dagger algebra. *Needs:* *overconvergent-faithful-f
 
 **A dagger algebra and its completion: faithful flatness, points, completed local rings, reducedness
 and regularity, supremum norm.** (*dagger-completion-comparison*) Let `K` be a complete rank-one
-nonarchimedean field (as in RigidAnalyticGeometry §1.5.1–1.5.2) and `A` a `K`-dagger algebra with
+nonarchimedean field (as in RigidAnalyticGeometry §1.5) and `A` a `K`-dagger algebra with
 completion `τ : A → Â`. Then: (1) `τ` is faithfully flat and `m ↦ τ^{-1}(m)` is a bijection
 `Max(Â) → Max(A)` with isomorphic residue fields; (2) for corresponding maximal ideals `τ` induces
 isomorphisms of completed local rings `A^_{τ^{-1}m} ≅ Â^_m`; (3) `A` is regular if and only if `Â`
@@ -3266,7 +3270,7 @@ particular every element of `A^int` whose image in `A^int/{|·|_sup < 1}` is `1`
 element `a ∈ A` is a unit iff its image in `Â` is a unit (`isUnit_iff_isUnit_completion`; GK00 §1,
 Thm 1.7(1) (faithful flatness of `τ`, which reflects units); 1.9 for the weak-completeness clauses
 (a)–(b)). *Needs:* *dagger-algebra*;
-RigidAnalyticGeometry §1.5.1–1.5.2; *dagger-norm-and-continuity*; *dagger-completion-comparison*;
+RigidAnalyticGeometry §1.5; *dagger-norm-and-continuity*; *dagger-completion-comparison*;
 *fringe-morphism-factorisation*; *fringe-presentation*. Lean: `Dagger.isUnit_iff_isUnit_completion`.
 
 **Finite algebras over a dagger algebra are dagger algebras.** (*dagger-finite-extension*) Let `A`
@@ -3290,7 +3294,7 @@ the precise statement above — and division by `g` identifies `A_λ[Y]/(g)` wit
 `A_λ⟨λ^{-1}Y⟩/(g) = T_{n+1}(λ)/(I + g)`. In the colimit `λ → 1`, `A[X]/(f) ≅ W_{n+1}/(I + g)`,
 with stages `T_{n+1}(λ)/(I + g)` and generators sent by `X_i ↦ X_i` (`i ≤ n`) and
 `X_{n+1} ↦ cX`. *Needs:* *dagger-algebra*;
-*fringe-presentation*; RigidAnalyticGeometry §1.5.1–1.5.2. Lean: `Dagger.IsDaggerAlgebra.of_finite`.
+*fringe-presentation*; RigidAnalyticGeometry §1.5. Lean: `Dagger.IsDaggerAlgebra.of_finite`.
 
 **Checks.**
 
@@ -3306,7 +3310,7 @@ with stages `T_{n+1}(λ)/(I + g)` and generators sent by `X_i ↦ X_i` (`i ≤ n
 
 **Finiteness, surjectivity, injectivity and strictness of morphisms of dagger algebras are detected
 on completions.** (*dagger-finite-morphism-comparison*) Let `K` be a complete rank-one
-nonarchimedean field (as in RigidAnalyticGeometry §1.5.1–1.5.2) and `φ : A → B` a morphism of `K`-dagger
+nonarchimedean field (as in RigidAnalyticGeometry §1.5) and `φ : A → B` a morphism of `K`-dagger
 algebras with completion `φ̂ : Â → B̂`. Then: (a) `φ` is surjective (resp. bijective) iff `φ̂` is;
 (b) the following are equivalent: (i) `φ` is finite, (ii) `φ̂` is finite, (iii) the map of
 reductions `φ̃ : Ã → B̃` (`R̃ = R°/R°°` for the sup norm) is finite; (c) if `φ` is finite, `φ` is
@@ -3329,7 +3333,7 @@ Ceti's `LinearMap.isStrictMap_of_module_finite` (`Â` a complete Tate ring, `B̂
 
 **Approximation of solutions and of morphisms from the completion (Bosch's rigid Artin
 approximation).** (*dagger-approximation*) Let `K` be a complete rank-one nonarchimedean field (as
-in RigidAnalyticGeometry §1.5.1–1.5.2). Assume moreover `char K = 0` or `[K : K^p] < ∞`, the hypothesis
+in RigidAnalyticGeometry §1.5). Assume moreover `char K = 0` or `[K : K^p] < ∞`, the hypothesis
 under which Vezzani states the morphism form (Vezzani §2, Prop. 2.8); Grosse-Klönne's 1.13 and 1.15
 state none. (1) (Bosch) Let `I ⊆ W_n`, `A = W_n/I ⊆ Â = T_n/IT_n` with a Banach norm `|·|_Â`, and
 let `(f_i)_{i∈Λ}` be elements of `A⟨Y_1, …, Y_m⟩† = W_{n+m}/IW_{n+m}`. If there are
@@ -3398,11 +3402,11 @@ characteristic. The error is measured by a continuous seminorm on the completion
 ### F1.3 fringe presentations and the fringe topology
 
 **Fringe (radius-indexed) presentations of a dagger algebra.** (*fringe-presentation*) Let `K` be a
-complete rank-one nonarchimedean field (as in RigidAnalyticGeometry §1.5.1–1.5.2) and `A` a `K`-dagger
+complete rank-one nonarchimedean field (as in RigidAnalyticGeometry §1.5) and `A` a `K`-dagger
 algebra. A fringe presentation of `A` consists of `n ∈ ℕ`, a radius `ρ_0 ∈ Γ*` with `ρ_0 > 1`,
 elements `f_1, …, f_r ∈ T_n(ρ_0)`, and a `K`-algebra isomorphism `W_n/(f_1, …, f_r)W_n ≅ A`. For
 `ρ ∈ Γ* ∩ (1, ρ_0]` put `A_ρ := T_n(ρ)/(f)T_n(ρ)`, a `K`-affinoid algebra (see
-RigidAnalyticGeometry §1.5.1–1.5.2), with transition maps `A_{ρ'} → A_ρ` for `ρ ≤ ρ'` induced by
+RigidAnalyticGeometry §1.5), with transition maps `A_{ρ'} → A_ρ` for `ρ ≤ ρ'` induced by
 `T_n(ρ') ⊆ T_n(ρ)`, and put `A_1 := T_n/(f)T_n`. Then `A = colim_{ρ → 1+} A_ρ` as `K`-algebras, and
 `A_1 = Â` is the completion. The fringe algebra of the presentation at radius `ρ` is the image
 `B_ρ ⊆ A` of `A_ρ` (equivalently of `T_n(ρ)`); `A_ρ → A` need not be injective. Geometrically,
@@ -3423,7 +3427,7 @@ ind-systems of affinoid algebras under `A` (GK00 §1, Lem. 1.8, p. 6;
 Vezzani Appendix A, Prop. A.22(1)–(2), pp. 26–27). The bounded plus-ring and compactification
 statements are *fringe-plus-compactification*, under its reduced-completion hypothesis.
 *Needs:* *dagger-algebra*;
-RigidAnalyticGeometry §1.5.1–1.5.2; *overconvergent-tate-algebra-properties*;
+RigidAnalyticGeometry §1.5; *overconvergent-tate-algebra-properties*;
 *overconvergent-tate-algebra*; *dagger-norm-and-continuity*.
 
 **Checks.**
@@ -3496,12 +3500,12 @@ there is `λ' ∈ Γ*` with `λ_B ≥ λ' > 1` such that `A_λ → A → B` fact
 Consequently every fringe algebra of `A` maps into a fringe algebra of `B`; any finitely many fringe
 algebras of `A` (from any presentations) lie in a common fringe algebra; and two fringe
 presentations of the same `A` give mutually cofinal ind-systems of affinoid algebras (GK00 §1, Lem.
-1.8). *Needs:* *fringe-presentation*; RigidAnalyticGeometry §1.5.1–1.5.2; *dagger-norm-and-continuity*;
+1.8). *Needs:* *fringe-presentation*; RigidAnalyticGeometry §1.5; *dagger-norm-and-continuity*;
 *overconvergent-tate-algebra-properties*.
 
 **The fringe (direct limit) topology on dagger algebras and their finite modules.**
 (*fringe-topology*) Let `K` be a complete rank-one nonarchimedean field (as in
-RigidAnalyticGeometry §1.5.1–1.5.2) and `A` a `K`-dagger algebra. The fringe topology on `A` is the
+RigidAnalyticGeometry §1.5) and `A` a `K`-dagger algebra. The fringe topology on `A` is the
 finest locally `K`-convex topology for which every map `A_ρ → A` of a fringe presentation is
 continuous, `A_ρ` carrying its Banach topology; equivalently the direct limit of the intrinsic
 Banach topologies of the fringe algebras of `A`. It does not depend on the fringe presentation, is
@@ -3578,7 +3582,7 @@ identity and composition equations fix the direction of the radius system (GK00 
 ### F1.4 tensor products and rational localisation
 
 **The dagger (overconvergent completed) tensor product `A_1 ⊗†_B A_2`.** (*dagger-tensor-product*)
-Let `K` be a complete rank-one nonarchimedean field (as in RigidAnalyticGeometry §1.5.1–1.5.2) and let
+Let `K` be a complete rank-one nonarchimedean field (as in RigidAnalyticGeometry §1.5) and let
 `α_1 : B → A_1`, `α_2 : B → A_2` be morphisms of `K`-dagger algebras with surjections
 `f_1 : W_{n_1} → A_1`, `f_2 : W_{n_2} → A_2`. Define `A_1 ⊗†_B A_2` as the image of
 `W_{n_1+n_2} = K⟨X, Y⟩†` under the continuous map `T_{n_1+n_2} → Â_1 ⊗̂_{B̂} Â_2` into the completed
@@ -3621,7 +3625,7 @@ his errata) (GK00 §1, 1.16, p. 9). *Needs:* *dagger-algebra*; *dagger-weak-comp
 
 **Rational localisation `A⟨f/g⟩†` of a dagger algebra and its universal property.**
 (*dagger-rational-localisation*) Let `K` be a complete rank-one nonarchimedean field (as in
-RigidAnalyticGeometry §1.5.1–1.5.2), `A` a `K`-dagger algebra and `g, f_1, …, f_m ∈ A` without common
+RigidAnalyticGeometry §1.5), `A` a `K`-dagger algebra and `g, f_1, …, f_m ∈ A` without common
 zero on `Sp(A)` (equivalently generating the unit ideal). Define
 `A⟨f/g⟩† := A⟨X_1, …, X_m⟩†/(gX_i − f_i)_{i≤m}` (`A⟨X⟩†` from *dagger-tensor-product*). The map
 `A → A⟨f/g⟩†` is universal among morphisms of dagger algebras `φ : A → C` such that `Sp(φ)` lands in
@@ -3693,7 +3697,7 @@ generated, e.g. `(π, X)` and `(X − π)` are, and `O_K⟨X⟩†/(X − π) = 
 
 **The integral Monsky–Washnitzer algebra `O_K⟨X_1, …, X_n⟩† = W_n ∩ O_K[[X]]`.**
 (*integral-overconvergent-tate-algebra*) Let `K` be a complete rank-one nonarchimedean field (as in
-RigidAnalyticGeometry §1.5.1–1.5.2) and `O_K = {a : |a| ≤ 1}`. Define
+RigidAnalyticGeometry §1.5) and `O_K = {a : |a| ≤ 1}`. Define
 `O_K⟨X_1, …, X_n⟩† := W_n ∩ O_K[[X_1, …, X_n]]`, the overconvergent power series with coefficients
 in `O_K`; it is `W_n^int` (see *dagger-algebra*). If `O_K` is a discrete valuation ring with
 uniformiser `π`, a series `f ∈ O_K[[X]]` lies in `O_K⟨X⟩†` iff there is `c > 0` with
@@ -4003,7 +4007,7 @@ isomorphic additionally needs that their integral subrings are lifts (see *mw-ty
 ### F1.6 affinoid dagger spaces
 
 **Affinoid subdomains of the maximal spectrum of a dagger algebra.** (*dagger-affinoid-subdomain*)
-Let `K` be a complete rank-one nonarchimedean field (as in RigidAnalyticGeometry §1.5.1–1.5.2), `A` a
+Let `K` be a complete rank-one nonarchimedean field (as in RigidAnalyticGeometry §1.5), `A` a
 `K`-dagger algebra and `X = Sp(A)` its set of maximal ideals. A subset `U ⊆ X` is an affinoid
 subdomain if there are a dagger algebra `B = O_X(U)` and a morphism `ι : A → B` with
 `Sp(ι)(Sp B) ⊆ U` such that for every dagger algebra `D` the map
@@ -4051,17 +4055,21 @@ general by *dagger-affinoid-subdomain-completion* and faithful flatness of compl
   `D = A/m^k`, all maximal `m ∈ U` and `k ≥ 1` (the dagger analogue of BGR 7.2.2/1).
 
 **A locally closed immersion of affinoid rigid spaces is Runge over a finite rational covering
-(BGR 7.3.5/1).** (*rigid-locally-closed-immersion-runge*) RigidAnalyticGeometry §4.6 item 2,
-using §4.5 item 3's Runge immersions, supplies the following theorem (BGR 7.3.5/1;
-Bosch 1.8/10), transported through AdicSpacesPartII's R0.9 carrier bridge. For `K` a field complete for a
+(BGR 7.3.5/1).** (*rigid-locally-closed-immersion-runge*) For `K` a field complete for a
 nontrivial nonarchimedean absolute value of rank one and `E → D` a homomorphism of `K`-affinoid
 algebras defining a locally closed immersion `Sp(D) → Sp(E)` (bijective onto its image and surjective
 on all local rings), there are finitely many rational subdomains `W_1, …, W_s` covering `Sp(E)` such
 that each `Sp(D) ×_{Sp E} W_i → W_i` is a Runge immersion, i.e. factors as a closed immersion into a
-Weierstrass domain of `W_i` (GK00 §2, proof of Prop. 2.5, p. 10, as quoted from BGR).
-Part IV uses this theorem in *dagger-affinoid-subdomain-completion*.
+Weierstrass domain of `W_i` (BGR 7.3.5/1; Bosch 1.8/10; GK00 §2, proof of Prop. 2.5,
+p. 10). Construct the Runge-immersion predicate using this factorisation and prove its
+stability under composition and restriction to affinoid subdomains. For an affinoid
+homomorphism `E → D`, prove that it defines a Runge immersion exactly when its image is
+dense in `D` (Bosch 1.8/5–7). The affinoid spaces, Weierstrass domains and immersions
+are supplied by RigidAnalyticGeometry §1.4 and Layers 3–4, through AdicSpacesPartII's
+R0.9 carrier bridge. Part IV owns this Runge theorem and uses it in
+*dagger-affinoid-subdomain-completion*.
 
-**Checks (transport).**
+**Checks.**
 
 - For an identity immersion, the one-member rational covering gives the identity Runge immersion.
 - The inclusion of the Laurent domain `U = {|X| ≥ |π|} ⊆ Y := Sp(K⟨X⟩)` is an open
@@ -4076,7 +4084,7 @@ Part IV uses this theorem in *dagger-affinoid-subdomain-completion*.
   Runge in the disc.
 
 The Gerritzen–Grauert theorem *gerritzen-grauert* (BGR 7.3.5/3) is derived from
-this statement in BGR. *Needs:* RigidAnalyticGeometry §4.5 item 3 and §4.6 item 2;
+this statement in BGR. *Needs:* RigidAnalyticGeometry §1.4 and Layers 3–4;
 AdicSpacesPartII R0.9 carrier bridge and R1 *affinoid-subdomain*.
 
 **Affinoid subdomains, stalks, open immersions and Runge immersions agree with their completions.**
@@ -4086,7 +4094,7 @@ AdicSpacesPartII R0.9 carrier bridge and R1 *affinoid-subdomain*.
 `x ∈ X` put `O_{X,x} = colim O_X(U)` over affinoid subdomains `U ∋ x`; the canonical maps
 `O_{X,x} → O_{X',x}` are isomorphisms, hence a morphism of dagger algebras defines an open (resp.
 locally closed) immersion iff the associated morphism of affinoid algebras does, and it defines a
-Runge immersion (Weierstrass domain followed by a closed immersion) iff its completion does
+Runge immersion (closed immersion followed by a Weierstrass-domain inclusion) iff its completion does
 (GK00 §2.4, p. 10, and the note following Prop. 2.5, p. 11); (c) for
 `Â → D` a locally closed immersion of rigid affinoid spaces, *rigid-locally-closed-immersion-runge*
 applied to `Â` gives a finite covering `X = ⋃ X_i` by rational subdomains
@@ -4103,7 +4111,7 @@ The affine comparison of (a) is fixed as follows: contraction along
 *rigid-adic-comparison-functor* (AdicSpacesPartII layer R1).
 
 **Tate acyclicity for dagger algebras.** (*dagger-tate-acyclicity*) Let `K` be a complete rank-one
-nonarchimedean field (as in RigidAnalyticGeometry §1.5.1–1.5.2), `A` a `K`-dagger algebra, `X = Sp(A)`
+nonarchimedean field (as in RigidAnalyticGeometry §1.5), `A` a `K`-dagger algebra, `X = Sp(A)`
 and `M` any `A`-module. Every finite covering `X = U_1 ∪ … ∪ U_n` by affinoid subdomains is acyclic
 for the presheaf `U ↦ O_X(U) ⊗_A M`: the augmented Čech complex
 `0 → M → ∏_i O_X(U_i) ⊗_A M → ∏_{i<j} O_X(U_i ∩ U_j) ⊗_A M → …` is exact (GK00 §2, Prop. 2.6, p.
@@ -4139,7 +4147,7 @@ subdomain algebras (GK00 §2.7 and Propositions 2.6 and 2.8, pp. 11–12).
 ### F1.7 dagger spaces, coherent modules and strict neighbourhoods
 
 **Dagger spaces (rigid spaces with overconvergent structure sheaf).** (*dagger-space*) Let `K` be a
-complete rank-one nonarchimedean field (as in RigidAnalyticGeometry §1.5.1–1.5.2). Rigid spaces are,
+complete rank-one nonarchimedean field (as in RigidAnalyticGeometry §1.5). Rigid spaces are,
 throughout, the quasi-separated Tate rigid-analytic spaces over `K` of *rigid-analytic-space* (AdicSpacesPartII layer
 R1) (G-topological spaces locally isomorphic to `Sp(B)` for `K`-affinoid algebras `B`), compared
 with adic spaces locally of finite type over `Spa(K, O_K)` by *rigid-adic-comparison-functor* (AdicSpacesPartII layer
@@ -4280,7 +4288,7 @@ sections and `H^n(X, F) = 0` for all `n ≥ 1` (GK00 §3, Prop. 3.1, p. 17). *Ne
 *dagger-coherent-affinoid-kiehl*; *dagger-tate-acyclicity*; *dagger-g-topology*.
 
 **Strict neighbourhoods of affinoids and the cofinal fringe system.** (*strict-neighbourhood*) Let
-`K` be a complete rank-one nonarchimedean field (as in RigidAnalyticGeometry §1.5.1–1.5.2), with rigid
+`K` be a complete rank-one nonarchimedean field (as in RigidAnalyticGeometry §1.5), with rigid
 spaces and their adic spaces as in *dagger-space* (*rigid-analytic-space* and
 *rigid-adic-comparison-functor*, AdicSpacesPartII layer R1). Let `W` be a rigid space and `U ⊆ W` an admissible open
 for which the complement `W − U` is admissible open (e.g. `U` an affinoid subdomain or a finite
@@ -6241,9 +6249,9 @@ maximal ideal of each
 prime localization. Its formal fibres are geometrically regular after every
 finite extension of the residue field, regular loci of finite type algebras are
 open, and saturated finite prime chains with equal endpoints have equal lengths.
-Noetherianity is included. The excellence of `W_n`, of dagger algebras and of rigid affinoid
-algebras carries the characteristic-zero
-hypothesis of *dagger-algebra-excellent*.
+Noetherianity is included. The excellence of `W_n` and of dagger algebras carries the
+characteristic-zero hypothesis of *dagger-algebra-excellent*. Excellence of rigid affinoid
+algebras is supplied in every characteristic by RigidAnalyticGeometry §1.2.
 
 **Checks.** Every field is excellent;
 a nonreduced excellent ring is included; and
@@ -6511,10 +6519,10 @@ MW-type trace, finiteness of rigid cohomology). Mathlib supplies `MvPowerSeries.
 `IsNoetherianRing`, `Algebra.FormallySmooth`, `AlgebraicGeometry.Scheme`. Tau Ceti supplies
 `LinearMap.isStrictMap_of_module_finite`, `restrictedMvPowerSeriesCompletion`, the rational
 localisation and rational subsets of `(K⟨X⟩, K°⟨X⟩)`. Huber96 5.6 supplies the compactly supported
-direct image, defined here in *dagger-d-module-direct-image*. RigidAnalyticGeometry §4.6 item 2
-(BGR 7.3.5/1; Bosch 1.8/10), using §4.5 item 3's Runge immersions, supplies the finite
-rational Runge covering theorem. *rigid-locally-closed-immersion-runge* transports it
-through AdicSpacesPartII's R0.9 carrier bridge; Part IV owns its use in
+direct image, defined here in *dagger-d-module-direct-image*. F1.6 owns the finite
+rational Runge covering theorem *rigid-locally-closed-immersion-runge*
+(BGR 7.3.5/1; Bosch 1.8/10) on the classical affinoid carriers supplied by
+RigidAnalyticGeometry §1.4 and Layers 3–4 through AdicSpacesPartII's R0.9 bridge, and its use in
 *dagger-affinoid-subdomain-completion*.
 
 Two inputs are explicit hypotheses of the statements that use them rather than dependencies:
@@ -6587,7 +6595,7 @@ the boundary product as well as the coefficient, so its connection contains the 
 - [Conrad-MR] Brian Conrad, *Modular curves and rigid-analytic spaces*, Theorem 3.1.5, pp. 16–17. https://math.stanford.edu/~conrad/papers/genpaper.pdf
 - [Conrad-AWS] Brian Conrad, *Several approaches to non-archimedean geometry*, Arizona Winter School 2007 notes, Definition 2.1.2, p. 9, and Exercise 2.4.8, pp. 21–22.
 - [Conrad-RA] Brian Conrad, *Relative ampleness in rigid geometry*, Remark A.1.1, pp. 38–39, including the higher-direct-image comparison (A.1.1). https://math.stanford.edu/~conrad/papers/amplepaperfinal.pdf
-- [Bosch-Lectures] Siegfried Bosch, *Lectures on Formal and Rigid Geometry*, Münster preprint, §2.6, Propositions 4, 6–7, pp. 147–150. https://www.uni-muenster.de/IVV5WS/WebHop/user/weckerm/heft378.pdf
+- [Bosch-Lectures] Siegfried Bosch, *Lectures on Formal and Rigid Geometry*, Münster preprint, §1.8, Definition 5, Remark 6, Proposition 7 and Theorem 10 (Runge immersions); §2.6, Propositions 4, 6–7, pp. 147–150. https://www.uni-muenster.de/IVV5WS/WebHop/user/weckerm/heft378.pdf
 - [BL I] Siegfried Bosch, Werner Lütkebohmert, *Formal and rigid geometry I. Rigid spaces*, Math. Ann. 295 (1993), 291–317, Proposition 2.1, p. 299. https://gdz.sub.uni-goettingen.de/id/PPN235181684_0295
 - [Kiehl-AB] Reinhardt Kiehl, *Theorem A und Theorem B in der nichtarchimedischen Funktionentheorie*, Invent. Math. 2 (1967), 256–273. https://gdz.sub.uni-goettingen.de/id/PPN356556735_0002
 - [Kiehl67] Reinhardt Kiehl, *Die de Rham Kohomologie algebraischer Mannigfaltigkeiten über einem bewerteten Körper*, Publ. Math. IHÉS 33 (1967), 5–20. http://www.numdam.org/item/PMIHES_1967__33__5_0/
