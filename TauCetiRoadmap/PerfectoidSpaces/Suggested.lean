@@ -217,8 +217,9 @@ theorem isIdempotentElem_maximalIdeal_iff (O : Type u) [CommRing O] [IsDomain O]
     [ValuationRing O] (h : IsLocalRing.maximalIdeal O ≠ ⊥) :
     IsIdempotentElem (IsLocalRing.maximalIdeal O) ↔ ¬ (IsLocalRing.maximalIdeal O).FG := sorry
 
-/-- The maximal ideal of a valuation domain is torsion-free, so `m ⊗ m ≅ m` is flat
-(Sch12 Lemma 4.2, p. 18). -/
+/-- The maximal ideal of a valuation domain is torsion-free, hence flat, and its tensor square
+is flat. Multiplication identifies `m ⊗ m` with `m` when `m` is idempotent
+(GR Remark 2.1.4(i), p. 8; Mathlib `Module.Flat.flat_iff_torsion_eq_bot_of_isBezout`). -/
 theorem flat_tilde_maximalIdeal (O : Type u) [CommRing O] [IsDomain O] [ValuationRing O] :
     Module.Flat O (IsLocalRing.maximalIdeal O ⊗[O] IsLocalRing.maximalIdeal O) := sorry
 
@@ -247,6 +248,45 @@ theorem ofValuationRing_eq_ofCompatibleRoots (O : Type u) [CommRing O] [IsDomain
 theorem padicComplex_maximalIdeal_not_fg (p : ℕ) [Fact p.Prime] :
     ¬ (IsLocalRing.maximalIdeal (PadicComplexInt p)).FG := sorry
 
+-- Checks: the object property agrees with almost zero on classical, zero and valuation setups.
+example : ¬ (classical ℤ).almostZero (ModuleCat.of ℤ ℤ) := sorry
+example : (zero ℤ).almostZero (ModuleCat.of ℤ ℤ) := sorry
+example (p : ℕ) [Fact p.Prime] :
+    let V := PadicComplexInt p
+    let S := ofValuationRing V (padicComplex_maximalIdeal_not_fg p)
+    S.almostZero (ModuleCat.of V (IsLocalRing.ResidueField V)) := sorry
+
+-- Checks: base change preserves the classical setup, kills the ideal over `V/m`, and makes
+-- the ideal classical after inverting one of its elements.
+example (W : Type u) [CommRing W] [Algebra V W] :
+    (classical V).baseChange W = classical W := sorry
+example : (S.baseChange (V ⧸ S.ideal)).ideal = ⊥ := sorry
+example : ((classical ℤ).baseChange (Localization.Away (2 : ℤ))).ideal = ⊤ := sorry
+
+-- Checks: classical, zero and compatible-root ideals satisfy condition (A) and condition (B).
+example : (classical V).IsFilteredPrincipal := sorry
+example : (zero V).IsFilteredPrincipal := sorry
+example (p : ℕ) (hp : 2 ≤ p) (r : ℕ → V)
+    (hr : ∀ n, r (n + 1) ^ p = r n) :
+    (ofCompatibleRoots p hp r hr).IsFilteredPrincipal := sorry
+example : (classical V).PowersGenerate := sorry
+example : (zero V).PowersGenerate := sorry
+example (p : ℕ) (hp : 2 ≤ p) (r : ℕ → V)
+    (hr : ∀ n, r (n + 1) ^ p = r n) :
+    (ofCompatibleRoots p hp r hr).PowersGenerate := sorry
+
+-- Checks: rank one is finite in the classical setup; infinite rank is finite only for the
+-- zero setup. These controls apply to generation, presentation and finite projectivity.
+example : (classical ℤ).AlmostFG ℤ := sorry
+example : (zero ℤ).AlmostFG (ℕ →₀ ℤ) := sorry
+example : ¬ (classical ℤ).AlmostFG (ℕ →₀ ℤ) := sorry
+example : (classical ℤ).AlmostFP ℤ := sorry
+example : (zero ℤ).AlmostFP (ℕ →₀ ℤ) := sorry
+example : ¬ (classical ℤ).AlmostFP (ℕ →₀ ℤ) := sorry
+example : (classical ℤ).IsAlmostFiniteProjective ℤ := sorry
+example : (zero ℤ).IsAlmostFiniteProjective (ℕ →₀ ℤ) := sorry
+example : ¬ (classical ℤ).IsAlmostFiniteProjective (ℕ →₀ ℤ) := sorry
+
 -- Check: the zero ideal is a basic setup, and every module is almost zero for it.
 example : (zero V).ideal = ⊥ := rfl
 example (M : Type*) [AddCommGroup M] [Module V M] : (zero V).IsAlmostZero M := by
@@ -273,6 +313,13 @@ example (M : Type u) [AddCommGroup M] [Module V M] :
 
 -- Negative control: the maximal ideal of `ℤ_p` is not idempotent.
 example (p : ℕ) [Fact p.Prime] : ¬ IsIdempotentElem (IsLocalRing.maximalIdeal ℤ_[p]) := sorry
+
+-- Negative control: multiplication from `m ⊗ m` over `ℤ_p` has image `(p²)` and misses `p`.
+example (p : ℕ) [Fact p.Prime] :
+    (p : ℤ_[p]) ∉ LinearMap.range
+      (TensorProduct.lift ((LinearMap.mul ℤ_[p] ℤ_[p]).compl₁₂
+        (IsLocalRing.maximalIdeal ℤ_[p]).subtype
+        (IsLocalRing.maximalIdeal ℤ_[p]).subtype)) := sorry
 
 -- Negative control: `(t) ⊆ 𝔽_p[t]` satisfies (A) but its squares generate `(t²) ≠ (t)`.
 example (p : ℕ) [Fact p.Prime] :
@@ -568,6 +615,22 @@ example {S : Type*} [CommRing S] [CharP S p] [Nontrivial S] :
 example {S : Type*} [CommRing S] [CharP S p] [Nontrivial S] (x : S) :
     ¬ IsDistinguished p (WittVector.teichmuller p x) := sorry
 
+-- Checks: `p` is primitive; `p²` and Teichmüller lifts fail the first-coordinate unit condition.
+example {S : Type*} [CommRing S] [TopologicalSpace S] [CharP S p] :
+    IsPrimitive p (p : WittVector p S) := sorry
+example {S : Type*} [CommRing S] [TopologicalSpace S] [CharP S p] [Nontrivial S] :
+    ¬ IsPrimitive p ((p : WittVector p S) ^ 2) := sorry
+example {S : Type*} [CommRing S] [TopologicalSpace S] [CharP S p] [Nontrivial S] (x : S) :
+    ¬ IsPrimitive p (WittVector.teichmuller p x) := sorry
+
+-- Checks: `(p)` is primitive; every vector in `(p²)` or the zero ideal has first coordinate zero.
+example {S : Type*} [CommRing S] [TopologicalSpace S] [CharP S p] :
+    IsPrimitiveIdeal p (Ideal.span {(p : WittVector p S)}) := sorry
+example {S : Type*} [CommRing S] [TopologicalSpace S] [CharP S p] [Nontrivial S] :
+    ¬ IsPrimitiveIdeal p (Ideal.span {((p : WittVector p S) ^ 2)}) := sorry
+example {S : Type*} [CommRing S] [TopologicalSpace S] [CharP S p] [Nontrivial S] :
+    ¬ IsPrimitiveIdeal p (⊥ : Ideal (WittVector p S)) := sorry
+
 variable {R : Type*} [CommRing R] [UniformSpace R] [IsUniformAddGroup R] [IsTopologicalRing R]
   [IsTateRing R] [CompleteSpace R] [T2Space R]
 
@@ -629,6 +692,20 @@ end IntegralPerfectoid
 section Examples
 
 variable (p : ℕ) [Fact p.Prime]
+
+-- Checks: `ℂ_p` and the completed cyclotomic field are perfectoid fields.
+example : IsPerfectoidField p ℂ_[p] := inferInstance
+example : IsPerfectoidField p (padicCyclotomic p) :=
+  isPerfectoidField_padicCyclotomic p
+
+-- Checks: the zeroth compatible root can be `p^{1/p}` in `ℂ_p`, and cannot be `p`.
+example : ∃ a : PseudoUniformizerRoots p ℂ_[p], (a.root 0) ^ p = (p : ℂ_[p]) := sorry
+example (a : PseudoUniformizerRoots p ℂ_[p]) : a.root 0 ≠ (p : ℂ_[p]) := sorry
+
+-- Check: in a perfect characteristic-`p` ring, the zeroth coordinate determines every root.
+example {R : Type*} [CommRing R] [TopologicalSpace R] [IsTopologicalRing R]
+    [IsTateRing R] [CharP R p] [PerfectRing R p]
+    (a b : PseudoUniformizerRoots p R) (h : a.root 0 = b.root 0) : a = b := sorry
 
 -- Negative control: `ℚ_p` is not perfectoid (no `ϖ` with `ϖ ^ p ∣ p` in `ℤ_p`), and not a
 -- perfectoid field, although Frobenius on `𝔽_p` is bijective.
@@ -981,6 +1058,15 @@ theorem isKappaSmall_presentationLimit_iff {A : Type u} [CommRing A] [UniformSpa
 example (X : Perfd.{u} p) : ¬ IsKappaSmall p 0 X :=
   fun h ↦ absurd h.card_lt (not_lt.mpr zero_le)
 
+-- Checks: the empty space has one section over its empty affinoid open; a nonempty affinoid
+-- open has a nontrivial ring of sections. Thus cutoff `2` accepts exactly the empty spaces.
+example {X : Perfd.{u} p} [IsEmpty X.obj] : IsKappaSmall p 2 X := sorry
+example {X : Perfd.{u} p} [IsEmpty X.obj] : ¬ IsKappaSmall p 1 X := sorry
+example {X : Perfd.{u} p} [Nonempty X.obj] : ¬ IsKappaSmall p 2 X := sorry
+example {X : Perfd.{u} p} [IsEmpty X.obj] : IsUniformlyKappaSmall p 2 X := sorry
+example {X : Perfd.{u} p} [IsEmpty X.obj] : ¬ IsUniformlyKappaSmall p 1 X := sorry
+example {X : Perfd.{u} p} [Nonempty X.obj] : ¬ IsUniformlyKappaSmall p 2 X := sorry
+
 /-- A pro-object of `C`, as an object of Mathlib's `(Ind Cᵒᵖ)ᵒᵖ`, has a *κ-small presentation* if
 it is the limit of a cofiltered diagram with fewer than `κ` arrows (ECD Proposition 7.10). -/
 def HasKappaSmallPresentation {C : Type u} [Category.{v} C] (κ : Cardinal.{v+1})
@@ -1004,6 +1090,14 @@ example (C : Type u) [Category.{v} C] : IsEmpty (ProKappa 0 C) :=
   ⟨fun Z ↦ by
     obtain ⟨_, _, _, _, h, _⟩ := Z.property
     exact absurd h (not_lt.mpr zero_le)⟩
+
+-- Checks: a cofiltered presentation has an identity arrow, while a constant presentation
+-- needs only one arrow. Cutoff `1` is empty, and cutoff `2` contains every constant pro-object.
+example (C : Type v) [SmallCategory C] : IsEmpty (ProKappa 1 C) := sorry
+example (C : Type v) [SmallCategory C] (X : C) : Nonempty (ProKappa 2 C) := sorry
+example (C : Type v) [SmallCategory C] (X : C) :
+    HasKappaSmallPresentation (2 : Cardinal.{v+1})
+      (Opposite.op ((Ind.yoneda (C := Cᵒᵖ)).obj (Opposite.op X))) := sorry
 
 end PerfectoidSpace
 

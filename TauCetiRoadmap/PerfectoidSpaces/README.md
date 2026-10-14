@@ -553,15 +553,15 @@ Fargues–Fontaine input (`TauCeti.FarguesFontaine.spaY`, `frobeniusHomeomorph`,
 (`TauCeti.exists_forall_map_eq_of_compact_t2`), and the uniform-group subring topology
 (`TauCeti.Topology.Algebra.IsUniformGroup.Subring`).
 
-### From other open roadmap pull requests
+### From other roadmaps
 
 #### P0
 
 | Object | Exact supplier | Convention/consumer |
 | --- | --- | --- |
-| Categorical duality trace | PivotalSpherical §Layer 2 / Left and right trace, `leftTrace`, `rightTrace`, common spherical `trace` (an open TauCetiRoadmap pull request by kim-em) | P0.12 retains `Almost.Module.trace` as its local internal realization for `Almost.Algebra.trace` and trace-form consumers; prove almost duality and use the supplier's standard symmetric pivotal/spherical structure (§Layer 7), with the tensor-unit/scalar comparison. |
-| Cross-object cyclicity | PivotalSpherical §Layer 2 / Cyclicity, `leftTrace_comm` and common trace cyclicity (an open TauCetiRoadmap pull request by kim-em) | P0.12 transports the supplied law through the internal trace comparison for two almost finite projective objects; translate composition order to Lean's `≫`. |
-| Tensor trace law | PivotalSpherical §Layer 2 / The left trace is monoidal, `leftTrace_tensor` and common trace monoidality (an open TauCetiRoadmap pull request by kim-em) | P0.12 transports the tensor-unit/unitor formula to multiplication in `A` through the chosen internal tensor and dual comparisons. |
+| Categorical duality trace | PivotalSpherical §Layer 2 / Left and right trace, `leftTrace`, `rightTrace`, common spherical `trace` | P0.12 retains `Almost.Module.trace` as its local internal realization for `Almost.Algebra.trace` and trace-form consumers; prove almost duality and use the supplier's standard symmetric pivotal/spherical structure (§Layer 7), with the tensor-unit/scalar comparison. |
+| Cross-object cyclicity | PivotalSpherical §Layer 2 / Cyclicity, `leftTrace_comm` and common trace cyclicity | P0.12 transports the supplied law through the internal trace comparison for two almost finite projective objects; translate composition order to Lean's `≫`. |
+| Tensor trace law | PivotalSpherical §Layer 2 / The left trace is monoidal, `leftTrace_tensor` and common trace monoidality | P0.12 transports the tensor-unit/unitor formula to multiplication in `A` through the chosen internal tensor and dual comparisons. |
 | Classical projective trace comparison | AdicSpacesPartIII §R3.8 / *projective-module-trace*, `LinearMap.projectiveTrace`, `LinearMap.projectiveTrace_eq_trace` | P0.12's `trace_test_free_endomorphism` compares the supplied ordinary finite-projective trace with the local internal trace after almostification; the ordinary carrier belongs to AdicSpacesPartIII, the almost realization to this roadmap. |
 
 ### From TauCetiRoadmap.AdicSpaces
@@ -779,8 +779,14 @@ the tilting equivalence of rings. P2 turns the ring theory into geometry (the ti
 rational localisation, the sheaf theorem, perfectoid spaces and their fibre products), P3 proves
 almost purity and builds the étale site, P4 the injections, immersions and separatedness, P5 the
 cofiltered limits and finite-stage descent, P6 the `κ`-small calculus and pro-étale morphisms, P7 the
-tilde-limits and Frobenius-controlled towers. Each layer's subsections are in
-dependency order; a target's `*Needs:*` clause names the earlier targets, the subsections of other
+tilde-limits and Frobenius-controlled towers. Build order is by declarations: construct the
+almost-algebra and module categories and the algebra adjunction in P0.8 before P0.16's
+change-of-setup equivalence, then prove P0.8's `moduleEquiv`, its comparisons and the closed
+monoidal structure. Construct P0.9's unitization before P0.25; its faithful-flatness comparison
+uses P0.11 and is proved in P0.25. Construct `uniformTilt` in P1.7 before P1.4's perfectoid
+specialization, and its comparisons with that specialization afterwards. Construct P1.24's
+integral predicate and Frobenius criterion before P1.20's integral-to-Tate criterion.
+A target's `*Needs:*` clause names the prerequisite declarations, the subsections of other
 roadmaps and the library declarations it rests on, and each layer's Dependencies paragraph collects
 the subsections of other roadmaps that the layer uses. P4.4 and the targets built on it use the
 completed direct limit of P5.1–P5.3, which depends only on P1 and P2. Each subsection ends with the
@@ -1006,7 +1012,7 @@ nondiscrete, e.g. `V = K°` for a perfectoid field `K`). No completeness and no 
 needed. Then `(V, m)` is a basic setup: `m·m = m`, `m` is torsion-free hence flat, and `m̃ ≅ m`
 ([GR] §2.1, Example 2.1.2(i), p. 7; [Sch12] §4, Lemma 4.2 and its proof, p. 18). A `V`-module is
 almost zero iff it is killed by `m`, iff it is a vector space over the residue field `k = V/m`; in
-particular `k` is almost zero ([ECD] §3, Example 3.22(i), p. 18). This is the setup of [Sch12] §4.
+particular `k` is almost zero ([ECD] §3, Example 3.22(i), p. 19). This is the setup of [Sch12] §4.
 Define `BasicSetup.ofValuationRing` (for `[ValuationRing V] [IsDomain V]` with
 `¬ (IsLocalRing.maximalIdeal V).FG`, the setup with ideal the maximal ideal); the ideal is `IsLocalRing.maximalIdeal V` by definition. Prove
 `BasicSetup.isIdempotentElem_maximalIdeal_iff` (for a valuation domain which is not a field,
@@ -1030,6 +1036,9 @@ for `ϖ` a unit the root ideal is `V` and for `ϖ = 0` it is `0`, neither the ma
 - Non-example: for `V = ℤ_p` the maximal ideal `pℤ_p` is
   finitely generated and `(pℤ_p)² ≠ pℤ_p`, so `ofValuationRing` does not apply; its hypothesis is
   necessary.
+- For `V = ℤ_p`, multiplication `m ⊗_V m → m` has image `(p²)` and misses `p`.
+  Both `m` and its tensor square are flat; multiplication identifies the tensor square with
+  `m` only when `m² = m`.
 - Degenerate: for `V` a field the maximal ideal is `0`,
   which is finitely generated; the construction does not apply, while the zero setup `(V, 0)` of
   P0.1 is the degenerate basic setup in which every module is almost zero. The ideal `0` is
@@ -1158,7 +1167,7 @@ zero; `f^a` is an isomorphism iff `f` is an almost isomorphism; `V^a-Mod` is abe
 iff `G ∘ (−)^a` is, and an exact functor out of `ModuleCat V` factors (uniquely up to unique
 isomorphism) through `(−)^a` iff it kills almost zero modules. For a perfectoid field `K` and
 `S = (K°, K°°)` this is Scholze's `K°a-mod`; for a perfectoid Tate ring `R`, layer P1 instantiates
-`S` with `(R°, R°°)` and `(R⁺, root ideal)` ([ECD] §3, Definition 3.21, p. 18; [KL15] §5.5,
+`S` with `(R°, R°°)` and `(R⁺, root ideal)` ([ECD] §3, Definition 3.21, p. 19; [KL15] §5.5,
 Definition 5.5.8, p. 132, for uniform Banach algebras with enough topologically nilpotent units). All
 almost-vanishing statements in consumers ("`H^i(X, O⁺)` is almost zero", "`R⁺/ϖ` is almost the
 equalizer") are statements in this category. Define `Almost.Module` (`S.almostZero.isoModSerre.Localization'`
@@ -1433,8 +1442,10 @@ algebra `A/I` with `A → A/I` an epimorphism), `Almost.Algebra.prod` (finite pr
 `Almost.Algebra.homEquiv` (`(A ⟶ B) ≃ (A.elements →ₐ[V] B.elements)`),
 `Almost.Algebra.moduleEquiv` (`A-Mod ≌ Almost.Module (S.baseChange A.elements)`) and
 `Almost.Algebra.monoidalCategory` (the closed symmetric monoidal structure on `A-Mod`). *Needs:*
-P0.7; *change-of-basic-setup* (P0.16); Mathlib `CategoryTheory.CommMon`, `CategoryTheory.Mod`,
-`CategoryTheory.MonObj`, `CategoryTheory.IsCommMonObj`.
+P0.7 for the categories and algebra adjunction; Mathlib `CategoryTheory.CommMon`, `CategoryTheory.Mod`,
+`CategoryTheory.MonObj`, `CategoryTheory.IsCommMonObj`. The declaration `moduleEquiv`, its
+action and forgetful comparisons, and the closed monoidal structure use
+*change-of-basic-setup* (P0.16), whose module categories and algebra adjunction are constructed here.
 
 For every basic setup `S` and almost algebra `A`,
 `Almost.Algebra.moduleEquiv_elements_action` identifies the almost elements of
@@ -1538,9 +1549,10 @@ see *lower-shriek-shriek-faithful-flatness* (P0.25). Define `Almost.Algebra.shri
 `Almost.Algebra.shriekShriekUnitIso` (`B ≅ (B.shriekShriek)^a`), `Almost.Algebra.isExact_of_bijective`
 (if `S.tilde → S.ideal` is bijective, every almost algebra is exact), `Almost.Algebra.isExact_prod`
 (`V^a × B` is exact), `Almost.Algebra.shriekShriek_preservesColimits` (with `shriekShriekTensorIso :
-(B ⊗_A C)_!! ≅ B_!! ⊗_{A_!!} C_!!`) and `Almost.Algebra.shriekShriek_faithfullyFlat_iff` (`φ`
-faithfully flat `↔ φ_!!` faithfully flat). *Needs:* P0.8; P0.11;
-*lower-shriek-shriek-faithful-flatness* (P0.25).
+(B ⊗_A C)_!! ≅ B_!! ⊗_{A_!!} C_!!`). *Needs:* P0.8's categories and algebra adjunction.
+The comparison `Almost.Algebra.shriekShriek_faithfullyFlat_iff` (`φ` faithfully flat
+`↔ φ_!!` faithfully flat) is *lower-shriek-shriek-faithful-flatness* (P0.25), using this
+unitization and P0.11's flatness theory.
 
 **Checks.**
 
@@ -1633,9 +1645,12 @@ and cokernel killed by `ε`). *Needs:* P0.8; Mathlib `Submodule.FG`, `Module.Fin
 - `uniform_test_rank_bound`, `uniform_test_zero_bound` — over a field, the bound for `k^r` is `n` exactly when `r ≤ n`; for any setup the bound zero means almost zero.
 
 - Over any domain, a nonzero element of the setup ideal prevents the countable free module from being almost finitely generated: any finite family misses a basis coordinate on which that element still acts nontrivially.
+- Over `(ℤ, ℤ)`, `ℤ` is almost finitely generated and presented, whereas `ℕ →₀ ℤ` is neither.
+  The same infinite free module satisfies both predicates for the zero setup.
 
 Lean: `BasicSetup.AlmostFG`, `BasicSetup.AlmostFP`, `BasicSetup.AlmostFP.almostFG`; a Lean
-`example` states that for the classical setup `AlmostFP` is `Module.FinitePresentation`.
+`example` states that for the classical setup `AlmostFP` is `Module.FinitePresentation`;
+examples on `ℤ` and `ℕ →₀ ℤ` mirror the classical and zero-setup controls for both predicates.
 
 ### P0.11 flatness and almost projectivity
 
@@ -1758,7 +1773,7 @@ Lean: `BasicSetup.IsAlmostFiniteProjective`, the `ε`-factorisation of
 **Duals, traces of endomorphisms and the trace form of an almost finite projective algebra.**
 (*almost-dual-and-trace*) Provides the duality trace whose internal almost-module realization is
 used by the algebra-trace and trace-form consumers. Supplied by PivotalSpherical §Layer 2 / Left
-and right trace and the common spherical `trace` (an open TauCetiRoadmap pull request by kim-em).
+and right trace and the common spherical `trace`.
 Convention gap: this roadmap proves the required almost duality, instantiates the supplier's
 standard symmetric pivotal/spherical structure (§Layer 7), and identifies the internal map
 `End_A(P)^a → A` with its tensor-unit-valued trace on endomorphisms.
@@ -1774,21 +1789,19 @@ internal realization `tr_{P/A} := ev_{P/A} ∘ ω_{P/A}⁻¹ : End_A(P)^a → A`
 supplied trace is an equality of internal morphisms, natural on maps `L → End_A(P)^a` for every
 test `A`-module `L`, using the corresponding contraction `L ⊗_A P → P`; at `L = A` it recovers
 PivotalSpherical §Layer 2's trace through `alHom_A(A, A) ≅ A`.
-The carrier's docstring is: “Local restatement of PivotalSpherical §Layer 2, to be replaced by the
-import once that roadmap is merged. Internal almost-module carrier of the supplied
-PivotalSpherical trace, retained for `Almost.Algebra.trace` and trace-form consumers; the
-tensor–Hom/evaluation and scalar identifications are proved here, not a second categorical trace
-theory.”
+The carrier's docstring is: “Internal almost-module realization of PivotalSpherical §Layer 2's
+trace for `Almost.Algebra.trace` and trace-form consumers. The tensor–Hom/evaluation and scalar
+identifications are proved here.”
 
 Provides cross-object cyclicity for the almost endomorphism trace through the duality comparison.
-Supplied by PivotalSpherical §Layer 2 / Cyclicity (`leftTrace_comm` and the common spherical trace)
-(an open TauCetiRoadmap pull request by kim-em). Convention gap: both source objects must carry
+Supplied by PivotalSpherical §Layer 2 / Cyclicity (`leftTrace_comm` and the common spherical trace).
+Convention gap: both source objects must carry
 the proved almost duality, and this roadmap translates composition between `ψ∘φ` and Lean's
 left-to-right `f ≫ g` before transporting scalar traces through the internal comparison.
 
 Provides tensor multiplicativity for the almost endomorphism trace. Supplied by PivotalSpherical
-§Layer 2 / The left trace is monoidal (`leftTrace_tensor` and the common spherical trace)
-(an open TauCetiRoadmap pull request by kim-em). Convention gap: this roadmap transports the
+§Layer 2 / The left trace is monoidal (`leftTrace_tensor` and the common spherical trace).
+Convention gap: this roadmap transports the
 supplier's tensor-unit endomorphisms and unitor formula to multiplication in `A`, preserving the
 chosen tensor/dual identifications.
 
@@ -2112,8 +2125,9 @@ turns almost isomorphisms into isomorphisms and almost zero modules into zero mo
 `Almost.BasicSetup.baseChange_away_eq_classical`
 (`S.baseChange (Localization.Away ϖ) = classical (Localization.Away ϖ)`), `Almost.invertMonoidal`
 (with `Almost.Algebra.invert` on almost algebras) and that a complex of `V`-modules with almost
-zero cohomology becomes exact after inverting `ϖ`. *Needs:* P0.5; P0.8
-(modules over `W^a` in *change-of-basic-setup* (i)); Mathlib
+zero cohomology becomes exact after inverting `ϖ`. *Needs:* P0.5 for inversion;
+P0.8's `Almost.Algebra`, `Almost.Algebra.ModuleCat` and algebra adjunction for
+*change-of-basic-setup* (i); Mathlib
 `SerreClassLocalization.essImage_whiskeringLeft`, `LocalizedModule`, `Localization.Away`.
 
 On algebras, `Almost.Algebra.invert` sends `A` to `A_*[1/ε]`; on canonical numerators its map is induced by `elements.map`.
@@ -3461,9 +3475,10 @@ Mathlib as listed in the supplier contracts: `IsIdempotentElem`, `Module.Flat`,
 `CategoryTheory.cechComplexFunctor` and `CategoryTheory.sheafIsAbelian`. The layer
 is consumed by layers P1–P3 (the setups of a perfectoid Tate ring, the
 almost cotangent complex of perfectoid algebras modulo `ϖ`, almost purity). The classical complete-pair case of P0.28 uses `BasicSetup.classical` and
-`Almost.Algebra.classicalEquiv`. Other roadmaps, by subsection: P0.19 uses the ordinary cotangent
-complex of the DerivedDeRhamCohomology roadmap (that roadmap has no subsection labels), and through
-P0.19 so do P0.20–P0.24. P0.12 consumes PivotalSpherical §Layer 2's trace construction, cyclicity
+`Almost.Algebra.classicalEquiv`. Other roadmaps, by subsection: P0.19 uses
+DerivedDeRhamCohomology §§0.1–0.2 and 0.4 for polynomial resolutions, derived tensor products and
+the full ordinary cotangent complex; P0.20–P0.24 use this supplier through P0.19.
+P0.12 consumes PivotalSpherical §Layer 2's trace construction, cyclicity
 and tensor law, its §Layer 7 standard symmetric pivotal/spherical structure, and AdicSpacesPartIII
 §R3.8's *projective-module-trace* for the ordinary finite-free comparison. The DiamondsAndVStacks
 layers that use P0 are listed under Downstream consumers. Tau Ceti:
@@ -3729,7 +3744,9 @@ power-multiplicative (`|x^n| = |x|^n` for `n > 0`, or for all `n` when `R ≠ 0`
   topologically nilpotent elements (*topologically-nilpotent-elements-as-root-ideal*, P1.9).
 
 Lean: `PseudoUniformizerRoots`, `PseudoUniformizerRoots.root`, `PseudoUniformizerRoots.nonempty`;
-a Lean `example` checks that `ℚ_p` has no pseudo-uniformizer with compatible roots. The gauge is
+Lean examples check that `ℚ_p` has no pseudo-uniformizer with compatible roots, that `ℂ_p`
+admits one with `root 0 ^ p = p` but none with `root 0 = p`, and that the zeroth root determines
+the structure in a perfect characteristic-`p` Tate ring. The gauge is
 specified in this README only.
 
 ### P1.4 the tilt of a perfectoid Tate ring
@@ -3770,6 +3787,7 @@ coeff (i + m) y) ^ p ^ m) atTop (𝓝 (coeff i (x + y)))`), `tilt.coeff_zero`
 `tilt.mem_powerBoundedSubring_iff` (`x ∈ (tilt R)° ↔ ∀ n, coeff n x ∈ R° ↔ coeff 0 x ∈ R°`),
 `tilt.equivOfCharP` (for `CharP R p`: `tilt R ≃+* R`, `x ↦ coeff 0 x`, a homeomorphism) and
 `tilt.integralEquivPreTilt` (`(tilt R)° ≃+* PreTilt R° p`, P1.8). *Needs:* P1.1; P1.3; P1.2;
+P1.7's construction of `uniformTilt` and its ring and topology laws for the carrier;
 *inverse-limit-of-integral-elements-along-frobenius*; *exists-pseudouniformizer-with-compatible-roots*;
 Mathlib `Perfection`, `Perfection.coeffMonoidHom`, `Perfection.teichmuller_spec`,
 `Localization.Away`, `PerfectRing`.
@@ -4442,6 +4460,9 @@ primitive iff it is distinguished in the sense of [BMS] Remark 3.11, p. 23 (`IsD
   and neither is `[ϖ♭]`; a definition requiring only `ξ ∈ (p, [ϖ♭])` would accept them.
 - `primitive_p` (degenerate) — `p` is primitive, and the untilt along `(p)` is `(R, R⁺)`
   itself.
+- On any topological commutative ring of characteristic `p`, `(p)` is a primitive ideal.
+  Over a nonzero such ring, `(p²)` and the zero ideal are not: every element of either ideal
+  has first Witt coordinate zero, so neither ideal has a primitive generator.
 - Characterisation: in `W(𝒪_{ℂ_p♭})`, `Σ_{i<p}[ε]^{i/p}` is a
   unit multiple of an element `p + [ϖ♭]α`.
 
@@ -4475,8 +4496,9 @@ One statement, specified in this README only, records `ϖ♭`-adic completeness 
 of `R⁺`, the quotient `W(R⁺)/p ≃ R⁺`, and the three assertions in (c).
 
 Lean: `IsDistinguished`, `IsPrimitive`, `IsPrimitiveIdeal`; the Lean `example`s check that `p` is
-distinguished in characteristic `p` and that, over a nonzero ring of characteristic `p`, `p²` and
-Teichmüller lifts are not.
+distinguished and primitive in characteristic `p` and that, over a nonzero ring of characteristic
+`p`, `p²` and Teichmüller lifts are neither. The ideal examples accept `(p)` and reject `(p²)`
+and the zero ideal over nonzero rings.
 
 ### P1.17 ECD's θ is Mathlib's fontaineTheta
 
@@ -4676,7 +4698,9 @@ straightforward to check, p. 18) and of [Berkeley] Theorem 6.2.11,
 `(R, R⁺, J) ↦ (W(R⁺)[[ϖ]⁻¹]/J, W(R⁺)/J)`; [BMS] Lemma 3.21, p. 27). For `R` the completed perfection of `𝔽_p((t))` and
 `J = (p − [t])` this gives `(ℚ_p(p^{1/p^∞})^, ℤ_p[p^{1/p^∞}]^)`; `J = (p)` returns `(R, R⁺)`.
 *Needs:* P1.19; *untilt-tilt-identification*; *perfectoid-tate-ring-from-integral-perfectoid*;
-*quotient-by-primitive-element*; *frobenius-surjectivity-criterion*; P1.1.
+*quotient-by-primitive-element*; *frobenius-surjectivity-criterion*; P1.1. The supporting
+*perfectoid-tate-ring-from-integral-perfectoid* uses P1.24's `IsIntegralPerfectoid` and
+integral Frobenius criterion, constructed before this supporting result.
 
 Two supporting results. The tilt of `W(R⁺)/J` is `R⁺`, and `θ` for `W(R⁺)/J` is the quotient map
 (*untilt-tilt-identification*): in the situation of P1.19, with `J = ξW(R⁺)` primitive and
@@ -7089,7 +7113,7 @@ the closure of the integral closure of the image of
 `B⁺ ⊗_{A⁺} C⁺`) is defined. Then: (i) `D` is a perfectoid Tate ring; in particular `D` is uniform and
 the uniformisation `D → B ⊗̂ᵘ_A C` (AdicSpacesPartII R0.4 (*uniform-completed-tensor-product*))
 is an isomorphism (the tensor-product norm is the
-spectral norm, [KL16] §3.3, Thm 3.3.13(b), p. 61); (ii) `(D, D⁺)` with `inl, inr` is a pushout of
+spectral norm, [KL16] §3.3, Thm 3.3.13(b), p. 62); (ii) `(D, D⁺)` with `inl, inr` is a pushout of
 `(B, B⁺) ← (A, A⁺) → (C, C⁺)` in the category of complete perfectoid Tate pairs — given (i), this
 is the universal property of AdicSpacesPartII R0.3
 (*completed-tensor-product-universal-property*,
@@ -12171,6 +12195,8 @@ the standing hypothesis on `κ`; [ECD] §8, Def. 8.1, p. 39). *Needs:* layer P2 
   limit, `Spa(C_p, O_{C_p})` is κ-small: it has one point and `#C_p = 2^ℵ₀ < κ`.
 - Degenerate: the empty perfectoid space has zero points and a
   one-element section ring, so it is κ-small exactly when `1 < κ`, including `κ = ℵ₀`.
+- At cutoff `2` the empty perfectoid space is small, and every nonempty perfectoid space is
+  excluded: an affinoid perfectoid neighborhood of a point has at least two sections.
 - Boundary: no affinoid pair
   satisfies the cardinal predicate at `κ = 0` or `κ = 1`; the zero ring satisfies it at `κ = 2`.
 - `not_isKappaSmall_Cp_aleph0` (non-example) — `Spa(C_p, O_{C_p})` is not `ℵ₀`-small.
@@ -12193,7 +12219,8 @@ The global predicates use `Perfd`, its underlying pre-adic space and its affinoi
 subspace, so different presentations of an open do not change the condition. The cardinal `κ`
 lives in the universe `u` of the spaces and their section rings (`κ : Cardinal.{u}`), so no lifting
 of cardinalities is needed. Global versions of the first, second and fourth Checks are stated on
-`Perfd`; the Lean `example` states the strictness boundary that no perfectoid space is `0`-small.
+`Perfd`; Lean examples state the strictness boundary at `0`, the empty-space cutoffs `1` and `2`,
+and the exclusion of nonempty spaces at `2`.
 
 **Checks for the full subcategory.**
 
@@ -12258,7 +12285,10 @@ cutoff of the separating example). *Needs:* *kappa-small-perfectoid-space*;
   uniformly κ-small with `λ = 2^ℵ₀` for every uncountable strong limit `κ`.
 - Degenerate: the empty perfectoid space is uniformly κ-small with
   `λ = 1`: its point set is empty and its ring of sections on the empty affinoid open is the zero
-  ring, whose underlying set has one element.
+  ring, whose underlying set has one element. For arbitrary cutoffs it is uniformly κ-small
+  exactly when `1 < κ`; Lean examples accept it at `2` and reject it at `1`.
+- Every nonempty perfectoid space fails uniform smallness at cutoff `2`, since uniform
+  smallness implies smallness; a Lean example mirrors this boundary.
 - Characterisation: for a quasicompact
   perfectoid space `X`, `IsUniformlyKappaSmall κ X ↔ IsKappaSmall κ X`.
 - `not_isUniformlyKappaSmall_of_cof_omegaOne` (non-example) — for `κ` with `cf κ = ω₁` and
