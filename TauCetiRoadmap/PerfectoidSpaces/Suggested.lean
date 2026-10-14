@@ -11,6 +11,10 @@ import TauCeti.AlgebraicGeometry.AdicSpace.PreAdicSpace.Affinoid
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.StructurePresheaf.SheafyRing
 import TauCeti.RingTheory.Huber.LocalizationTopology.Completion
 
+import TauCeti.RingTheory.Huber.WeightedRestrictedSeries.Completion
+import TauCeti.Topology.Algebra.Module.Compact
+import TauCetiRoadmap.AdicSpacesPartII.Suggested
+
 /-!
 # Perfectoid rings and spaces: representative target signatures
 
@@ -20,6 +24,24 @@ rings and pre-adic spaces, and the end theorems of each layer that can be stated
 Constructions that are themselves formalisation targets (the almost category, the tilt, untilts,
 completed tensor products, the étale and pro-étale sites, tilde-limits) are specified in the
 README only.
+-/
+
+/-!
+The following named interfaces are specified in the README without executable prototypes:
+
+* P2's adic carrier and point comparisons: `AdicSpace.isAdic_iff_image_analyticLocus`,
+  `spa_space_empty`, `spa_space_map_coordinate`, `spa_space_whole`.
+* P3's finite-étale comparison, descent and topology interfaces: `finiteEtale_baseChange`,
+  `finiteEtale_charP_perfectoid`, `finiteEtale_completedColimit`, `finiteEtale_completion_tate`,
+  `finiteEtale_completion_tate_complete`, `finiteEtale_completion_tate_zero`, `finiteEtale_descent`,
+  `finiteEtale_iff_strong`, `finiteEtale_isStack`, `finiteEtale_spa_iff`, `finiteEtale_test_classical`,
+  `finiteEtale_test_swap`. AdicEtaleGeometry supplies
+  `Huber.isBounded_powerBoundedSubring_of_finiteEtale` and
+  `AdicSpace.smallEtaleBasis_openCover`.
+* P5.13 uses AdicEtaleGeometry A3.2's `nonempty_ofExplicitInverse` for the generic
+  explicit-inverse quotient presentation.
+* P6.16's action-groupoid point interfaces: `spa_relation_homeomorph`,
+  `spa_relation_homeomorph_symm`, `spa_relation_source`, `spa_relation_target`.
 -/
 
 noncomputable section
@@ -767,6 +789,48 @@ example : ¬ ∃ y : Polynomial (ZMod p) ⧸ Ideal.span {(Polynomial.X : Polynom
 end Examples
 
 end Perfectoid
+/-! ### P1.32 Split Tate rings
+
+The splitness premise is the section characterization of
+AdicEtaleGeometry A1.0.0's `IsFiniteEtaleSplit`; it is expanded here on ordinary algebras.
+-/
+
+namespace Huber
+open Perfectoid
+
+section SplitTate
+
+variable {R : Type u} [CommRing R] [UniformSpace R] [IsUniformAddGroup R] [IsTopologicalRing R]
+  [IsTateRing R] [CompleteSpace R] [T2Space R] (hsplit : ∀ (T : Type u) [CommRing T] [Algebra R T]
+    [Algebra.Etale R T] [Module.Finite R T] [Module.FaithfullyFlat R T], Nonempty (T →ₐ[R] R))
+
+include hsplit
+
+/-- If `p` is topologically nilpotent in a complete Tate ring without nonsplit finite étale
+covers, there is a pseudouniformiser `ϖ ∈ R°` with `p = ϖ^p y`, `y ∈ R°` topologically nilpotent
+(a root of `X^{p^n} − ϖ₀ X − ϖ₀`; Scholze, ECD, proof of Lemma 15.3, p. 90). -/
+theorem exists_isPseudoUniformizer_pow_dvd_p (p : ℕ) [Fact p.Prime]
+    (hp : IsTopologicallyNilpotent (p : R)) :
+    ∃ ϖ : R, IsPseudoUniformizer ϖ ∧ ϖ ∈ powerBoundedSubring R ∧
+      ∃ y ∈ powerBoundedSubring R, (p : R) = ϖ ^ p * y ∧ IsTopologicallyNilpotent y := sorry
+
+/-- A complete uniform Tate ring without nonsplit finite étale covers in which `p` is
+topologically nilpotent is perfectoid (Scholze, ECD, Lemma 15.3, p. 90; Berkeley, Lemma 10.1.6,
+p. 75). -/
+theorem isPerfectoid_of_isFiniteEtaleSplit (p : ℕ) [Fact p.Prime]
+    (hp : IsTopologicallyNilpotent (p : R)) (hu : IsBounded (powerBoundedSubring R : Set R)) :
+    TauCetiRoadmap.PerfectoidSpaces.Perfectoid.IsPerfectoidTateRing p R := sorry
+
+end SplitTate
+
+
+/-- Equality `p^{n−1} = n` is not enough in the proof of Lemma 15.3: over `ℂ_2`, a root `ϖ` of
+`X⁴ − 4X − 4` has `|ϖ²| = |2|`, so `2/ϖ²` is a unit, not topologically nilpotent. -/
+example (ϖ : ℂ_[2]) (hϖ : ϖ ^ 4 - 4 * ϖ - 4 = 0) :
+    ‖ϖ ^ 2‖ = ‖(2 : ℂ_[2])‖ ∧ IsUnit (2 / ϖ ^ 2) ∧ ¬ IsTopologicallyNilpotent (2 / ϖ ^ 2) := sorry
+
+end Huber
+
 /-! ## Layer P2: rational localisation, the sheaf theorem and perfectoid spaces -/
 
 namespace Perfectoid
@@ -949,6 +1013,309 @@ theorem isPerfectoidField_of_isAlgClosed {K : Type u} [NontriviallyNormedField K
 end Fields
 
 end Perfectoid
+
+/-! ### P3.17a–P3.17b Sousperfectoid rings and polydiscs -/
+
+namespace Huber
+open Perfectoid
+
+/-! *sousperfectoid-finite-etale*, *sousperfectoid-finite-etale-descent*, *sousperfectoid-rings*,
+*sousperfectoid-p-adic-field*, *sousperfectoid-stably-uniform*, *sousperfectoid-sheafy*,
+*perfectoid-times-polydisc*) -/
+
+section Frame
+
+variable (p : ℕ) (R : Type u) [CommRing R] [TopologicalSpace R] [IsTopologicalRing R]
+
+/-- A *perfectoid frame* `(R̃, ι, σ)` of a topological ring `R`: a perfectoid Tate ring `R̃` for
+`p` (P1.1’s `Perfectoid.IsPerfectoidTateRing`, over its complete Hausdorff uniform
+Tate structure), a continuous ring map `ι : R → R̃` and a continuous additive `σ : R̃ → R` that is
+`R`-linear through `ι` with `σ ∘ ι = id`; `σ` need not be multiplicative (HK, Def. 7.1, p. 25;
+Berkeley, Def. 6.3.1, p. 47). -/
+structure PerfectoidFrame where
+  /-- The perfectoid Tate ring `R̃`. -/
+  Rt : Type u
+  [commRing : CommRing Rt]
+  [uniformSpace : UniformSpace Rt]
+  [isUniformAddGroup : IsUniformAddGroup Rt]
+  [isTopologicalRing : IsTopologicalRing Rt]
+  [isTateRing : IsTateRing Rt]
+  [completeSpace : CompleteSpace Rt]
+  [t2Space : T2Space Rt]
+  [isPerfectoidTateRing : IsPerfectoidTateRing p Rt]
+  /-- The embedding `ι : R → R̃`. -/
+  ι : R →+* Rt
+  continuous_ι : Continuous ι
+  /-- The retraction `σ : R̃ → R`. -/
+  σ : Rt →+ R
+  continuous_σ : Continuous σ
+  σ_mul : ∀ (r : R) (x : Rt), σ (ι r * x) = r * σ x
+  σ_ι : ∀ r : R, σ (ι r) = r
+
+attribute [instance] PerfectoidFrame.commRing PerfectoidFrame.uniformSpace
+  PerfectoidFrame.isUniformAddGroup PerfectoidFrame.isTopologicalRing PerfectoidFrame.isTateRing
+  PerfectoidFrame.completeSpace PerfectoidFrame.t2Space PerfectoidFrame.isPerfectoidTateRing
+
+/-- `R` is *sousperfectoid* (for `p`): a Tate ring admitting a perfectoid frame. Completeness,
+the Hausdorff property and topological nilpotence of `p` are consequences. -/
+class IsSousperfectoid : Prop where
+  isTateRing : IsTateRing R
+  nonempty_perfectoidFrame : Nonempty (PerfectoidFrame p R)
+
+variable {p R}
+
+/-- Power-boundedness is detected in a frame: `R° = ι⁻¹(R̃°)` (HK, Def. 7.1, p. 25). -/
+theorem PerfectoidFrame.powerBoundedSubring_eq_comap [IsTateRing R] (F : PerfectoidFrame p R) :
+    powerBoundedSubring R = (powerBoundedSubring F.Rt).comap F.ι := sorry
+
+/-- Sousperfectoid rings are uniform (HK, §7, Def. 7.1 and §2, Def. 2.3, p. 3). -/
+theorem IsSousperfectoid.isUniform [IsSousperfectoid p R] : IsUniform R := sorry
+
+/-- Sousperfectoid rings are reduced, uniform Hausdorff Tate rings being reduced. -/
+theorem IsSousperfectoid.isReduced [IsSousperfectoid p R] : IsReduced R := sorry
+
+end Frame
+
+section IdentityFrame
+
+variable {p : ℕ} {R : Type u} [CommRing R] [UniformSpace R] [IsUniformAddGroup R]
+  [IsTopologicalRing R] [IsTateRing R] [CompleteSpace R] [T2Space R]
+
+/-- The identity frame `(R, id, id)` of a perfectoid Tate ring. -/
+def PerfectoidFrame.refl [IsPerfectoidTateRing p R] : PerfectoidFrame p R where
+  Rt := R
+  ι := RingHom.id R
+  continuous_ι := continuous_id
+  σ := AddMonoidHom.id R
+  continuous_σ := continuous_id
+  σ_mul _ _ := rfl
+  σ_ι _ := rfl
+
+/-- Perfectoid Tate rings are sousperfectoid, with the identity frame (Berkeley, Ex. 6.3.2(1)). -/
+theorem IsSousperfectoid.of_isPerfectoidTateRing [IsPerfectoidTateRing p R] :
+    IsSousperfectoid p R :=
+  ⟨inferInstance, ⟨PerfectoidFrame.refl⟩⟩
+
+end IdentityFrame
+
+/-- The direction of the splitting: `σ ∘ ι = id_R`, while `ι ∘ σ` is only an idempotent of `R̃`
+and, over a nonzero `R`, is not the identity for every frame. -/
+example (p : ℕ) (R : Type u) [CommRing R] [Nontrivial R] [TopologicalSpace R]
+    [IsTopologicalRing R] (F : PerfectoidFrame p R) :
+    (∀ r, F.σ (F.ι r) = r) ∧ (∀ x, F.ι (F.σ (F.ι (F.σ x))) = F.ι (F.σ x)) ∧
+      ¬ (∀ (F' : PerfectoidFrame p R) (x : F'.Rt), F'.ι (F'.σ x) = x) := sorry
+
+/-- A sousperfectoid ring is complete and Hausdorff: `ι` is a homeomorphism onto the closed
+subring `ker (id − ι ∘ σ)` of the complete Hausdorff `R̃`. So `ℚ_p(ζ_{p^∞})`, uncompleted, has no
+frame. -/
+example (p : ℕ) (R : Type u) [CommRing R] [TopologicalSpace R] [IsTopologicalRing R]
+    [IsSousperfectoid p R] :
+    T2Space R ∧ @CompleteSpace R (IsTopologicalAddGroup.rightUniformSpace R) := sorry
+
+section Stability
+
+variable {p : ℕ} {R : Type u} [CommRing R] [UniformSpace R] [IsUniformAddGroup R]
+  [IsTopologicalRing R] [IsTateRing R] [CompleteSpace R] [T2Space R]
+
+
+/-- Completed rational localisations `R⟨T/s⟩` of a sousperfectoid ring are sousperfectoid
+(Berkeley, Prop. 6.3.3(1), p. 47; HK, Prop. 3.8, p. 8). -/
+theorem isSousperfectoid_ratLoc [IsSousperfectoid p R] (P : PairOfDefinition R) (T : Finset R)
+    (s : R) (hden : P.HasDenominatorPower T s (Localization.Away s))
+    (hT : IsOpen ((Ideal.span (T : Set R) : Ideal R) : Set R)) :
+    letI := P.locUniformSpace T s (Localization.Away s) hden
+    letI := P.isUniformAddGroup_locUniformSpace T s (Localization.Away s) hden
+    letI := P.isTopologicalRing_locUniformSpace T s (Localization.Away s) hden
+    IsSousperfectoid p (UniformSpace.Completion (Localization.Away s)) := sorry
+
+/-- Sousperfectoid rings are stably uniform: every `R⟨T/s⟩` is uniform (Berkeley, Prop. 6.3.4,
+p. 48). -/
+theorem isUniform_ratLoc [IsSousperfectoid p R] (P : PairOfDefinition R)
+    (T : Finset R) (s : R) (hden : P.HasDenominatorPower T s (Localization.Away s))
+    (hT : IsOpen ((Ideal.span (T : Set R) : Ideal R) : Set R)) :
+    letI := P.locUniformSpace T s (Localization.Away s) hden
+    letI := P.isUniformAddGroup_locUniformSpace T s (Localization.Away s) hden
+    letI := P.isTopologicalRing_locUniformSpace T s (Localization.Away s) hden
+    letI := P.isHuberRing_completion_locTopology T s (Localization.Away s) hden
+    IsUniform (UniformSpace.Completion (Localization.Away s)) := sorry
+
+/-- A finite étale `R`-algebra with its natural topology is sousperfectoid (Berkeley,
+Prop. 6.3.3(2), p. 47; HK, Lem. 7.5(a), p. 25). -/
+theorem IsSousperfectoid.finiteEtale [IsSousperfectoid p R] (S : Type u) [CommRing S]
+    [Algebra R S] [Algebra.Etale R S] [Module.Finite R S] [TopologicalSpace S]
+    [IsModuleTopology R S] :
+    haveI := IsModuleTopology.isTopologicalRing R S
+    IsSousperfectoid p S := sorry
+
+/-- Descent along faithfully flat finite étale maps: compose a frame of `S` with an `R`-linear
+retraction of `R → S` (HK, Lem. 7.5(b), pp. 25–26). -/
+theorem IsSousperfectoid.of_finiteEtale (S : Type u) [CommRing S] [Algebra R S]
+    [Algebra.Etale R S] [Module.Finite R S] [Module.FaithfullyFlat R S] [TopologicalSpace S]
+    [IsModuleTopology R S]
+    (hS : haveI := IsModuleTopology.isTopologicalRing R S; IsSousperfectoid p S) :
+    IsSousperfectoid p R := sorry
+
+/-- Tate algebras `R⟨T₁, …, Tₙ⟩` over sousperfectoid rings are sousperfectoid, with frame
+`R̃⟨T^{1/p^∞}⟩` (Berkeley, Prop. 6.3.3(3), p. 47; HK, Lem. 7.3, p. 25). -/
+theorem IsSousperfectoid.restrictedMvPowerSeries [IsSousperfectoid p R] (n : ℕ) :
+    IsSousperfectoid p (restrictedMvPowerSeriesCompletion n R) := sorry
+
+/-- Sousperfectoid rings are sheafy and strongly sheafy (BHW, Prop. 3.3, p. 1724; HK, Cor. 7.4,
+p. 25). -/
+theorem IsSousperfectoid.isSheafyRing [IsSousperfectoid p R] :
+    IsSheafyRing R ∧ (∀ n : ℕ, IsSheafyRing (restrictedMvPowerSeriesCompletion n R)) := sorry
+
+end Stability
+
+/-- A complete isometric field extension of countable type over a complete discretely valued
+field admits a retraction bounded by one (`countable-extension-retraction`, HK Rem. 7.8).
+Compatible bounded functionals on successive finite spans extend over their dense union. -/
+theorem exists_countable_extension_retraction (K : Type*) [NontriviallyNormedField K]
+    [IsUltrametricDist K] [CompleteSpace K] (π : K) (hπ : 0 < ‖π‖ ∧ ‖π‖ < 1)
+    (hdisc : ∀ a : K, a ≠ 0 → ∃ k : ℤ, ‖a‖ = ‖π‖ ^ k)
+    (L : Type*) [NormedField L] [IsUltrametricDist L] [CompleteSpace L] [NormedAlgebra K L]
+    (x : ℕ → L) (hx : Dense (Submodule.span K (Set.range x) : Set L)) :
+    ∃ σ : L →L[K] K, (∀ a : K, σ (algebraMap K L a) = a) ∧ ∀ z : L, ‖σ z‖ ≤ ‖z‖ := sorry
+
+/-- Finite extensions of `ℚ_p` are sousperfectoid: `K → K^cycl` has a continuous `K`-linear
+retraction supplied by `exists_countable_extension_retraction`; the finite cyclotomic levels
+span a dense countable union (HK, Rem. 7.8, p. 26). -/
+theorem IsSousperfectoid.of_finite_padic (p : ℕ) [Fact p.Prime] (K : Type) [Field K]
+    [Algebra ℚ_[p] K] [FiniteDimensional ℚ_[p] K] [TopologicalSpace K] [IsModuleTopology ℚ_[p] K] :
+    haveI := IsModuleTopology.isTopologicalRing ℚ_[p] K
+    IsSousperfectoid p K := sorry
+
+/-- For a nonzero perfectoid Tate ring `S` and `n ≥ 1`, `S⟨T₁, …, Tₙ⟩` is not perfectoid (proved
+here: `T₁` is not a `p`-th power in `S°⟨T⟩/ϖ` for nonzero `S`, as for `ℚ_p⟨T⟩` in
+*sousperfectoid-ring*; Berkeley, Ex. 6.3.2(2), p. 47, for `ℚ_p⟨T⟩`). -/
+theorem not_isPerfectoidTateRing_restrictedMvPowerSeries {p : ℕ} [Fact p.Prime] (S : Type u)
+    [CommRing S] [UniformSpace S] [IsUniformAddGroup S] [IsTopologicalRing S] [IsTateRing S]
+    [CompleteSpace S] [T2Space S] [Nontrivial S] [IsPerfectoidTateRing p S] (n : ℕ) (hn : 0 < n) :
+    ¬ IsPerfectoidTateRing p (restrictedMvPowerSeriesCompletion n S) := sorry
+
+/-- `ℚ_p` fails the perfectoid divisibility condition. -/
+example (p : ℕ) [Fact p.Prime] : ¬ IsPerfectoidTateRing p ℚ_[p] := sorry
+
+/-- A degree-`p` extension with `π^p = p` is not perfectoid: Frobenius misses
+its uniformiser modulo `p`. The valuation topology is represented by the normed Tate field. -/
+example (p : ℕ) [Fact p.Prime] (K : Type) [NontriviallyNormedField K]
+    [IsUltrametricDist K] [CompleteSpace K] [NormedAlgebra ℚ_[p] K]
+    [FiniteDimensional ℚ_[p] K] [IsTateRing K]
+    (π : K) (hπ : π ^ p = algebraMap ℚ_[p] K (p : ℚ_[p]))
+    (hdim : Module.finrank ℚ_[p] K = p) : ¬ IsPerfectoidTateRing p K := sorry
+
+/-- `ℚ_p⟨T⟩` is sousperfectoid (frame `ℚ_p^cycl⟨T^{1/p^∞}⟩`) but not perfectoid. -/
+example (p : ℕ) [Fact p.Prime] :
+    IsSousperfectoid p (restrictedMvPowerSeriesCompletion 1 ℚ_[p]) ∧
+      ¬ IsPerfectoidTateRing p (restrictedMvPowerSeriesCompletion 1 ℚ_[p]) := sorry
+
+/-- `ℚ_p⟨X⟩[Q]/(Q²)` is strongly noetherian and sheafy but not sousperfectoid (not reduced). -/
+example (p : ℕ) [Fact p.Prime] :
+    ¬ IsSousperfectoid p (DualNumber (restrictedMvPowerSeriesCompletion 1 ℚ_[p])) := sorry
+
+/-- The zero ring is perfectoid (every condition is vacuous), hence sousperfectoid; this is why
+`S ≠ 0` is assumed above. -/
+example (p : ℕ) [Fact p.Prime] [IsTopologicalRing PUnit] : IsSousperfectoid p PUnit := sorry
+
+/-- In characteristic `p`, for a uniform complete Tate ring with finite Frobenius, sousperfectoid
+means that Frobenius splits `A`-linearly (HK, Lem. 7.10). -/
+example (p : ℕ) [Fact p.Prime] (A : Type) [CommRing A] [UniformSpace A] [IsUniformAddGroup A]
+    [IsTopologicalRing A] [IsTateRing A] [CompleteSpace A] [T2Space A] [CharP A p] [IsUniform A]
+    (hF : (frobenius A p).Finite) :
+    IsSousperfectoid p A ↔
+      ∃ s : A →+ A, (∀ a x : A, s (a ^ p * x) = a * s x) ∧ ∀ a : A, s (a ^ p) = a := sorry
+
+
+end Huber
+
+namespace AdicSpace
+
+open TopologicalSpace
+open TauCetiRoadmap.AdicSpacesPartII.AdicSpace (Affinoid Chart HomChart IsAnalytic IsLocallyNoetherian)
+
+/-- `X` is *sousperfectoid* if every point has an affinoid chart with sousperfectoid coordinate
+ring (BHW, Def. 3.2(3), p. 1724). -/
+def IsSousperfectoid (p : ℕ) (X : TauCeti.AdicSpace) : Prop :=
+  ∀ x : X.obj, ∃ c : Chart X, Huber.IsSousperfectoid p c.affinoid.ring ∧ x ∈ Set.range c.ι.hom.base
+
+/-- `Spa(R, R⁺)` is sousperfectoid for `R` sousperfectoid. -/
+theorem IsSousperfectoid.spa (p : ℕ) (A : Affinoid) [Huber.IsSousperfectoid p A.ring] :
+    IsSousperfectoid p A.spa := sorry
+
+/-- Sousperfectoid spaces are analytic. -/
+theorem IsSousperfectoid.isAnalytic {p : ℕ} {X : TauCeti.AdicSpace} (hX : IsSousperfectoid p X) :
+    IsAnalytic X :=
+  fun x ↦ (hX x).elim fun c hc ↦ ⟨c, hc.2, hc.1.isTateRing⟩
+
+/-- Spaces étale over a sousperfectoid space are sousperfectoid (Berkeley, §19.5, p. 179; KL15,
+Def. 8.2.16, p. 162). -/
+theorem IsSousperfectoid.of_etale {p : ℕ} {X Y : TauCeti.AdicSpace} (f : Y ⟶ X)
+    (hX : IsSousperfectoid p X) (hf : (fun {Y X : TauCeti.AdicSpace} (f : Y ⟶ X) ↦
+  IsAnalytic X ∧ IsAnalytic Y ∧ ∀ y : Y.obj,
+    ∃ (U V W : TauCeti.AdicSpace) (u : U ⟶ Y) (i : V ⟶ X) (j : U ⟶ W) (g : W ⟶ V),
+      PreAdicSpace.IsOpenImmersion u.hom ∧ y ∈ Set.range u.hom.base ∧
+      PreAdicSpace.IsOpenImmersion i.hom ∧ PreAdicSpace.IsOpenImmersion j.hom ∧
+      (IsAnalytic V ∧ IsAnalytic W ∧ ∀ x : V.obj,
+        ∃ c : HomChart g, IsTateRing c.target.affinoid.ring ∧
+          x ∈ Set.range c.target.ι.hom.base ∧
+          Set.range c.source.ι.hom.base = g.hom.base ⁻¹' Set.range c.target.ι.hom.base ∧
+          (letI := c.ringHom.toRingHom.toAlgebra
+           Module.Finite c.target.affinoid.ring c.source.affinoid.ring ∧
+           Algebra.Etale c.target.affinoid.ring c.source.affinoid.ring ∧
+           IsModuleTopology c.target.affinoid.ring c.source.affinoid.ring ∧
+           c.source.affinoid.pair.plus =
+             (integralClosure ↥(c.target.affinoid.pair.plus.map c.ringHom.toRingHom)
+               c.source.affinoid.ring).toSubring)) ∧ u ≫ f = j ≫ g ≫ i) f) : IsSousperfectoid p Y := sorry
+
+/-- Base change of an étale map to a locally noetherian analytic space along a map from a
+sousperfectoid space exists, is étale and sousperfectoid (BHW, proof of Cor. 3.4, p. 1725). -/
+theorem IsSousperfectoid.exists_fibreProduct_etale {p : ℕ} {X Y Z : TauCeti.AdicSpace}
+    (f : Y ⟶ X) (g : Z ⟶ X) (hX : IsLocallyNoetherian X ∧ IsAnalytic X) (hf : (fun {Y X : TauCeti.AdicSpace} (f : Y ⟶ X) ↦
+  IsAnalytic X ∧ IsAnalytic Y ∧ ∀ y : Y.obj,
+    ∃ (U V W : TauCeti.AdicSpace) (u : U ⟶ Y) (i : V ⟶ X) (j : U ⟶ W) (g : W ⟶ V),
+      PreAdicSpace.IsOpenImmersion u.hom ∧ y ∈ Set.range u.hom.base ∧
+      PreAdicSpace.IsOpenImmersion i.hom ∧ PreAdicSpace.IsOpenImmersion j.hom ∧
+      (IsAnalytic V ∧ IsAnalytic W ∧ ∀ x : V.obj,
+        ∃ c : HomChart g, IsTateRing c.target.affinoid.ring ∧
+          x ∈ Set.range c.target.ι.hom.base ∧
+          Set.range c.source.ι.hom.base = g.hom.base ⁻¹' Set.range c.target.ι.hom.base ∧
+          (letI := c.ringHom.toRingHom.toAlgebra
+           Module.Finite c.target.affinoid.ring c.source.affinoid.ring ∧
+           Algebra.Etale c.target.affinoid.ring c.source.affinoid.ring ∧
+           IsModuleTopology c.target.affinoid.ring c.source.affinoid.ring ∧
+           c.source.affinoid.pair.plus =
+             (integralClosure ↥(c.target.affinoid.pair.plus.map c.ringHom.toRingHom)
+               c.source.affinoid.ring).toSubring)) ∧ u ≫ f = j ≫ g ≫ i) f)
+    (hZ : IsSousperfectoid p Z) :
+    ∃ P : Limits.PullbackCone f g, Nonempty (Limits.IsLimit P) ∧
+      IsSousperfectoid p P.pt ∧ (fun {Y X : TauCeti.AdicSpace} (f : Y ⟶ X) ↦
+  IsAnalytic X ∧ IsAnalytic Y ∧ ∀ y : Y.obj,
+    ∃ (U V W : TauCeti.AdicSpace) (u : U ⟶ Y) (i : V ⟶ X) (j : U ⟶ W) (g : W ⟶ V),
+      PreAdicSpace.IsOpenImmersion u.hom ∧ y ∈ Set.range u.hom.base ∧
+      PreAdicSpace.IsOpenImmersion i.hom ∧ PreAdicSpace.IsOpenImmersion j.hom ∧
+      (IsAnalytic V ∧ IsAnalytic W ∧ ∀ x : V.obj,
+        ∃ c : HomChart g, IsTateRing c.target.affinoid.ring ∧
+          x ∈ Set.range c.target.ι.hom.base ∧
+          Set.range c.source.ι.hom.base = g.hom.base ⁻¹' Set.range c.target.ι.hom.base ∧
+          (letI := c.ringHom.toRingHom.toAlgebra
+           Module.Finite c.target.affinoid.ring c.source.affinoid.ring ∧
+           Algebra.Etale c.target.affinoid.ring c.source.affinoid.ring ∧
+           IsModuleTopology c.target.affinoid.ring c.source.affinoid.ring ∧
+           c.source.affinoid.pair.plus =
+             (integralClosure ↥(c.target.affinoid.pair.plus.map c.ringHom.toRingHom)
+               c.source.affinoid.ring).toSubring)) ∧ u ≫ f = j ≫ g ≫ i) P.snd := sorry
+
+/-- A nonzero nilpotent section excludes sousperfectoidness: sections are reduced. -/
+example (p : ℕ) (X : TauCeti.AdicSpace) (U : Opens X.obj)
+    (a : X.obj.toRingPresheafedSpace.presheaf.obj (Opposite.op U)) (ha : IsNilpotent a)
+    (hne : a ≠ 0) : ¬ IsSousperfectoid p X := sorry
+
+/-- The empty adic space is sousperfectoid. -/
+example (p : ℕ) (X : TauCeti.AdicSpace) [IsEmpty X.obj] : IsSousperfectoid p X :=
+  fun x ↦ isEmptyElim x
+
+
+end AdicSpace
 
 /-! ## Layer P4: Zariski closed subsets and immersions -/
 
