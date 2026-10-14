@@ -1151,6 +1151,23 @@ example (N : ℕ) (A : Type*) [CommRing A] [TopologicalSpace A] [NonarchimedeanR
 example (N : ℕ) (A : Type*) [CommRing A] [TopologicalSpace A] [NonarchimedeanRing A]
     (i : Fin N) : (tateSeries.X N A i : MvPowerSeries (Fin N) A) = MvPowerSeries.X i := rfl
 
+/-- *tateSeries_X_own_coefficient*: the coefficient of `T₀` in `T₀` over `ℚ₂` is one. -/
+example : MvPowerSeries.coeff (Finsupp.single (0 : Fin 2) 1)
+    (tateSeries.X 2 ℚ_[2] 0 : MvPowerSeries (Fin 2) ℚ_[2]) = 1 := by
+  simp [tateSeries.X, weightedX]
+
+/-- *tateSeries_X_other_coefficient*: the coefficient of `T₁` in `T₀` over `ℚ₂` is zero. -/
+example : MvPowerSeries.coeff (Finsupp.single (1 : Fin 2) 1)
+    (tateSeries.X 2 ℚ_[2] 0 : MvPowerSeries (Fin 2) ℚ_[2]) = 0 := by
+  simp [tateSeries.X, weightedX, MvPowerSeries.coeff_index_single_X]
+
+/-- *tateSeries_X_sum_constant*: the sum of the two coordinates over `ℚ₂` has zero constant
+coefficient. -/
+example : MvPowerSeries.coeff 0
+    ((tateSeries.X 2 ℚ_[2] 0 + tateSeries.X 2 ℚ_[2] 1 : tateSeries 2 ℚ_[2]) :
+      MvPowerSeries (Fin 2) ℚ_[2]) = 0 := by
+  simp [tateSeries.X, weightedX]
+
 /-- *tateSeries_X_not_isUnit* (non-example): over a nonzero ring `Tᵢ` is not a unit of `A⟨T⟩`,
 unlike on the torus. -/
 example (N : ℕ) (A : Type*) [CommRing A] [TopologicalSpace A] [NonarchimedeanRing A]
@@ -1206,6 +1223,13 @@ section StandardEtale
 
 variable {A : Type*} [CommRing A] [UniformSpace A] [IsUniformAddGroup A] [IsTopologicalRing A]
   [IsTateRing A] [CompleteSpace A] [T2Space A] {Aplus : Pair A} {ϖ : A}
+
+/-- *test_zero*: the identity of a complete Tate pair has a standard étale presentation with
+no variables or equations and exponent zero. The quotient map inverts the constant-series
+identification and the empty Jacobian determinant is one. -/
+example (hϖ : IsPseudoUniformizer ϖ) :
+    ∃ P : StandardEtalePresentation Aplus ϖ Aplus,
+      P.N = 0 ∧ P.k = 0 ∧ ∀ a : A, P.π (algebraMap A (tateSeries P.N A) a) = a := sorry
 
 /-- Rational localisations have standard étale presentations: for `s₁, …, sₙ, t ∈ A⁺` with some
 `sᵢ = ϖ^c`, the equations `t Tᵢ − sᵢ` present `A⟨s/t⟩` with exponent `c n` (Kedlaya–Liu I,
@@ -1289,6 +1313,15 @@ theorem IsFiniteEtaleSplit.exists_root {R : Type u} [CommRing R] [IsFiniteEtaleS
 theorem isFiniteEtaleSplit_iff_isSepClosed (K : Type u) [Field K] :
     IsFiniteEtaleSplit K ↔ IsSepClosed K := sorry
 
+/-- *test_Cp*: the algebraically closed field `ℂ_p` has no nonsplit finite étale covers. -/
+example (p : ℕ) [Fact p.Prime] : IsFiniteEtaleSplit ℂ_[p] := sorry
+
+/-- *test_zero*: every finite étale algebra over the zero ring is the empty product. -/
+example : IsFiniteEtaleSplit (ZMod 1) := sorry
+
+/-- *test_not_rat*: the finite étale algebra `ℚ[X]/(X² − 2)` has no section over `ℚ`. -/
+example : ¬ IsFiniteEtaleSplit ℚ := sorry
+
 /-- `ℚ_p` has nonsplit finite étale covers: `ℚ_p[X]/(X² − p)` has no section (also for `p = 2`). -/
 example (p : ℕ) [Fact p.Prime] : ¬ IsFiniteEtaleSplit ℚ_[p] := sorry
 
@@ -1311,6 +1344,18 @@ def galoisTensorMap : B ⊗[A] B →ₐ[B] (G → B) :=
   _root_.Algebra.TensorProduct.lift (_root_.Algebra.ofId B (G → B))
     (AlgHom.pi fun g ↦ MulSemiringAction.toAlgHom A B g) fun _ _ ↦ Commute.all _ _
 
+/-- *galois_left*: the first tensor factor gives a constant function. -/
+example (b : B) (g : G) : galoisTensorMap G A B (b ⊗ₜ[A] 1) g = b := by
+  simp [galoisTensorMap]
+
+/-- *galois_right*: the second tensor factor gives its orbit function. -/
+example (b : B) (g : G) : galoisTensorMap G A B (1 ⊗ₜ[A] b) g = g • b := by
+  simp [galoisTensorMap]
+
+/-- *galois_identity*: evaluating at the group identity multiplies the two tensor factors. -/
+example (b c : B) : galoisTensorMap G A B (b ⊗ₜ[A] c) 1 = b * c := by
+  simp [galoisTensorMap]
+
 /-- `B` is a *finite étale `G`-torsor* over `A`: finite étale, faithfully flat, with bijective
 Galois map (`Spec B → Spec A` is a torsor under the constant group `G`; Scholze, ECD, §15, proof
 of Prop. 15.4, p. 91). -/
@@ -1321,6 +1366,29 @@ class IsFiniteEtaleTorsor [Finite G] : Prop where
   bijective_galoisTensorMap : Function.Bijective (galoisTensorMap G A B)
 
 end Torsor
+
+/-- *test_swap*: the exchanging action on `A × A` is a two-element torsor over every `A`,
+including characteristic two and the zero ring. -/
+example (A : Type*) [CommRing A]
+    [MulSemiringAction (Multiplicative (ZMod 2)) (A × A)]
+    [SMulCommClass (Multiplicative (ZMod 2)) A (A × A)]
+    (hact : ∀ (g : Multiplicative (ZMod 2)) (b : A × A),
+      g • b = if g = 1 then b else (b.2, b.1)) :
+    IsFiniteEtaleTorsor (Multiplicative (ZMod 2)) A (A × A) := sorry
+
+/-- *test_trivial_action*: the trivial two-element action on `A × A` over a nonzero `A`
+has a Galois map consisting of constant functions, so it is not a torsor. -/
+example (A : Type*) [CommRing A] [Nontrivial A]
+    [MulSemiringAction (Multiplicative (ZMod 2)) (A × A)]
+    [SMulCommClass (Multiplicative (ZMod 2)) A (A × A)]
+    (hact : ∀ (g : Multiplicative (ZMod 2)) (b : A × A), g • b = b) :
+    ¬ IsFiniteEtaleTorsor (Multiplicative (ZMod 2)) A (A × A) := sorry
+
+/-- *test_zero_ring*: the zero algebra over the zero ring is a torsor under every finite
+group, even when the group has more than one element. -/
+example (G A B : Type*) [Group G] [Finite G] [CommRing A] [Subsingleton A]
+    [CommRing B] [Subsingleton B] [_root_.Algebra A B]
+    [MulSemiringAction G B] [SMulCommClass G A B] : IsFiniteEtaleTorsor G A B := sorry
 
 /-- A finite étale `G`-torsor has constant rank `|G|`. -/
 example {G A B : Type*} [Group G] [Finite G] [CommRing A] [CommRing B] [_root_.Algebra A B]

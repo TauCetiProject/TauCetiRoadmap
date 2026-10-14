@@ -24,16 +24,16 @@ local description, the étale, finite étale and pro-étale sites with their poi
 of non-sheafy spaces, the nonnoetherian approximation statement of Scholze's Proposition 6.4(iv), and the
 tower of finite étale torsors whose uniform completion is perfectoid (Scholze's Lemma 15.3).
 These are the targets of this roadmap. It begins after the Foundations of adic spaces roadmap
-(`TauCetiRoadmap/AdicSpaces/README.md`, called AdicSpaces below) and the analytic and formal geometry roadmap
-AdicSpacesPartII; it ends with the analytic input that DiamondsAndVStacks layer D6 consumes: the
-perfectoid torsor presentation of an analytic adic space over `Spa ℤ_p`, from which the
+(`TauCetiRoadmap/AdicSpaces/README.md`, called AdicSpaces below), AdicSpacesPartII
+(analytic geometry) and AdicSpacesPartIII (formal geometry); it ends with the analytic input that
+DiamondsAndVStacks layer D6 consumes: the perfectoid torsor presentation of an analytic adic space over `Spa ℤ_p`, from which the
 diamondification functor and the identification of the étale sites (Scholze's Proposition 15.4,
 Definition 15.5 and Lemma 15.6) are built there.
 
 The ordinary morphism theory (completed tensor products, fibre products, separated, proper,
-finite, smooth and étale morphisms in Huber's sense, analytification and formal models) is
-AdicSpacesPartII's; layers A0 and A2 are the comparison interfaces that identify it on the same
-carriers.
+finite, smooth and étale morphisms in Huber's sense, and analytification) is
+AdicSpacesPartII's. Formal geometry and formal models belong to AdicSpacesPartIII. Layers A0 and
+A2 are the comparison interfaces that identify these theories on the same carriers.
 
 | Layer | Title | What it builds |
 |---|---|---|
@@ -113,7 +113,8 @@ of diamonds and the identification of the étale sites of Scholze's Proposition 
 and Lemma 15.6. A1 owns Deligne's theorem on points of coherent topoi, with its SGA 4 locator.
 Derived étale cohomology of the sites belongs to the étale-cohomology roadmaps that
 import this one: the sites built here are geometric sites, not definitions of derived cohomology;
-the affinoid perfectoid basis of the pro-étale site belongs to the `A_inf`-cohomology roadmap.
+the affinoid perfectoid basis of the pro-étale site over complete nonarchimedean extensions
+of `ℚ_p` belongs to PerfectoidTowers P9.1.
 AdicSpacesPartIV layer R4 re-exports the sites of A1 on its carriers — the étale slice site, the
 pro-étale slice site and the functoriality of the étale site are stated here and re-exported there
 (*etale-slice-site*, *proetale-slice-open-subspace*, *etale-site-functoriality*) — and layer R5
@@ -1726,7 +1727,7 @@ and (iii) vanishing of the higher Čech cohomology of the covering both follow f
 `A`: (i) is the sheaf property, and (iii) follows from the vanishing of higher sheaf cohomology on
 every rational subspace of a sheafy pair, [HK] §3, Prop. 3.10, p. 8, by Leray's comparison. The
 sheafiness of `A` is not dropped: for `A` not assumed sheafy, [HK] §4, Rem. 4.6, p. 13, records that
-the corresponding statement [KL I] Thm. 1.2.22(b) has no complete proof),
+the sheafy descent statement discussed there has an incomplete published proof),
 `Huber.IsStronglySheafy.of_isStronglyNoetherian` (complete strongly
 noetherian Tate rings, in particular affinoid algebras over a complete nonarchimedean field, are
 strongly sheafy) and `Huber.IsStronglySheafy.of_isStablySheafyRing` (complete Tate rings that are
@@ -5790,9 +5791,9 @@ site of an arbitrary analytic adic space (A1.9) uses the Yoneda-adic spaces of A
 roadmaps: AdicSpacesPartII layer R0 (Huber's finite and étale morphisms and finite algebras over
 noetherian affinoids, the étale structure 1.7.1–1.7.2 and openness 1.7.8, the import of Huber's
 Lemma 2.2.8, locally noetherian spaces, fibre products and completed tensor products, valuation
-amalgamation, finite étale algebras 1.6.6(ii), Tate norms) and layer R3 (Čech acyclicity of sheafy
-affinoids, Kiehl's theorem); DiamondsAndVStacks layer D0 (pro-categories, cofiltered limits of
-spectral spaces, qcqs objects, algebraic topoi); the Foundations of adic
+amalgamation, finite étale algebras 1.6.6(ii), Tate norms); AdicSpacesPartIII layer R3
+(Čech acyclicity of sheafy affinoids, Kiehl's theorem); DiamondsAndVStacks layer D0
+(pro-categories, cofiltered limits of spectral spaces, qcqs objects, algebraic topoi); the Foundations of adic
 spaces roadmap (AdicSpaces), layers 0 and 2–5 (completion of Huber pairs and the open mapping
 theorem, analytic points, the rational-subset calculus and rational localisation with its universal
 property and the category `𝒱`, the structure presheaf and sheafiness of strongly noetherian Tate
@@ -5888,8 +5889,9 @@ Huber's definitions are [H96] §1.3, Def. 1.3.1–1.3.3, p. 51 (separated: local
 type with closed diagonal; proper and partially proper: locally of +weakly finite type, separated,
 and universally closed, resp. universally specializing, proper being moreover quasi-compact);
 the valuative criteria are proved there only for analytic spaces ([H96] §1.3, before Def. 1.3.5,
-p. 52), which is why the clauses above are stated for analytic `X` and `Y`. The same notions are the ones AdicSpacesPartII layers
-R1 and R2 compare with analytification and with formal models. Outside these hypotheses the
+p. 52), which is why the clauses above are stated for analytic `X` and `Y`. The same notions are
+the ones AdicSpacesPartII layer R1 and AdicSpacesPartIII layer R2 compare with analytification
+and with formal models. Outside these hypotheses the
 classical notions are not used: the structure map of a nontrivial perfectoid extension of `ℚ_p`
 is not locally of +weakly finite type, although a perfectoid space does have separated morphisms
 in this sense, such as its identity. They are distinct from the notions for small v-stacks
@@ -6200,7 +6202,7 @@ two annuli of [ECD] §24, proof of Prop. 24.4, p. 156. `T^n_X` is the unit polya
 analytified torus `(G_m^n)^{ad}`, which is not quasi-compact over a field. Over `Spa(K, K°)`, `Tⁿ`
 and the embedding `T ↦ 1 + ϖT` of (d) are the objects of AdicSpacesPartII layer R0's
 *smooth-toric-chart* (the step of the proof of [PH] Lem. 5.2 that it follows), and Laurent
-algebras over sousperfectoid rings are layer R5's *sousperfectoid-annulus*; the relative object,
+algebras over sousperfectoid rings are AdicSpacesPartIV layer R5's *sousperfectoid-annulus*; the relative object,
 the group structure (b) and the cover (e) are the content here. *Needs:*
 *relative-closed-polydisc*; AdicSpacesPartII layer R0 (*smooth-toric-chart*; open subspaces and
 rational subsets of
@@ -7624,8 +7626,8 @@ affinoids); Tau Ceti `Huber.restrictedMvPowerSeriesCompletion`,
 (*simple-laurent-cech-exact-two*) In the situation of *simple-laurent-strict-multiplication*,
 let `P` be a stably 2-pseudocoherent `A`-module. Prove that the algebraic tensor sequence
 `0 → P → (P ⊗_A B₁) ⊕ (P ⊗_A B₂) → P ⊗_A B₁₂ → 0` is exact; the maps are the pair of
-restriction maps and their difference, in that order. Its proposed name is
-`simpleLaurent_cech_exact_of_isStablyPseudoCoherent_two`. This is the right column of
+restriction maps and second restriction minus first restriction, respectively. Its proposed
+name is `simpleLaurent_cech_exact_of_isStablyPseudoCoherent_two`. This is the right column of
 [KL II] §2.4, Lem. 2.4.13, diagram (2.4.13.1), pp. 39–40. Build it directly from finite
 presentations, completeness of the rational base changes and the strict Laurent multiplication
 sequences, using [KL II] Cor. 2.4.9 and the finite-module glueing argument of [KL I] §2.7,
@@ -7641,7 +7643,8 @@ README only (no Lean declaration).
 - *simple_cech_two_free* — for `P = A²` this is two copies of the strict ring Čech sequence.
 - *simple_cech_two_zero* — for `P = 0` all three module terms vanish.
 - *simple_cech_two_unit* — for `f = 1` the sequence is
-  `0 → P → P ⊕ P → P → 0`, with `p ↦ (p,p)` and `(p₁,p₂) ↦ p₁ − p₂`.
+  `0 → P → P ⊕ P → P → 0`, with `p ↦ (p,p)` and `(p₁,p₂) ↦ p₂ − p₁`;
+  in particular `(1,0) ↦ −1` for `P = A = ℚ₂`.
 - *simple_cech_two_small* — for a pseudouniformiser `f = ϖ` the pieces are `A,0,0`,
   giving `0 → P → P → 0 → 0`.
 
@@ -7656,7 +7659,9 @@ it, [KL II] §2.4, after the proof of Lem. 2.4.12, p. 39). The diagram chase in 
 *simple-laurent-cech-exact-two* for its right column, with `P` stably 2-pseudocoherent.
 First prove pseudoflatness of `A → B₂` by Lem. 2.4.12; applying it to `f⁻¹` in `B₂` and
 composing gives `A → B₁₂`. The two known tensor rows and the Laurent Čech columns then
-supply injectivity for `A → B₁`. Its proposed Lean form is the sousperfectoid case. *Needs:* *stably-pseudocoherent-module*; *pseudoflat-module*;
+supply injectivity for `A → B₁`; each Čech column uses second restriction minus first
+restriction, so the tensor diagram commutes with the fixed face signs. Its proposed Lean form
+is the sousperfectoid case. *Needs:* *stably-pseudocoherent-module*; *pseudoflat-module*;
 *restricted-power-series-pro-projective*; *simple-laurent-strict-multiplication*;
 *simple-laurent-cech-exact-two*; AdicSpacesPartIII layer R3 (glueing squares). README only (no Lean declaration).
 
@@ -7749,8 +7754,9 @@ derived sheaf cohomology is not. The degree-zero part (injectivity of the augmen
 `cech_injective_of_isStablyPseudoCoherent_sousperfectoid` over a sousperfectoid base.
 The proposed `cech_exact_of_isStablyPseudoCoherent_sheafy` supplies the differentials and full exactness:
 cochains are indexed by all ordered tuples, including repetitions, and the `j`th face omits
-entry `j` with sign `(−1)^j`. The coefficient map is `ratLocRestriction` tensored with the
-identity of `M`. `ratLocRestriction_unique` characterises restriction by continuity and its
+entry `j` with sign `(−1)^j`. On the ordered two-piece overlap this gives second restriction
+minus first restriction, agreeing with *simple-laurent-cech-exact-two*. The coefficient map is
+`ratLocRestriction` tensored with the identity of `M`. `ratLocRestriction_unique` characterises restriction by continuity and its
 value on the base ring; `ratLocRestriction_of_subset` identifies numerator enlargement
 with Tau Ceti `PairOfDefinition.restrictionRingHomOfSubset`. This includes intersections
 whose rational presentations have different denominators. *Needs:* *stably-pseudocoherent-module*; *simple-laurent-pseudoflat*;
@@ -7977,8 +7983,8 @@ Taylor linearisation. The quantitative `ϖ^k` form, error bound (b) and functori
 are the content here. *Needs:* Tau Ceti
 `IsAdicComplete.existsUnique_eq_zero_of_isUnit_det`, `Huber.PairOfDefinition`,
 `Huber.IsPseudoUniformizer`, `Huber.IsTateRing`, `Huber.restrictedMvPowerSeriesCompletion`,
-`Huber.weightedEval` (the value `F(t) = weightedEval (RingHom.id C₀) t F`, a `tsum` that converges
-for restricted `F` and power-bounded `t`; the Jacobian at a point is `mvPowerSeriesJacobianAt`);
+`Huber.weightedEval` (`F(t)` is evaluated using this convergent sum for restricted `F` and
+power-bounded `t`; this target defines `J(t)ᵢⱼ` by applying that evaluation to `∂Fᵢ/∂T_j`);
 Mathlib `MvPowerSeries.pderiv`, `Polynomial.hasseDeriv`. README only (no Lean declaration).
 
 **Checks.**
@@ -8004,8 +8010,8 @@ Mathlib `MvPowerSeries.pderiv`, `Polynomial.hasseDeriv`. README only (no Lean de
   iteration `t_{n+1} = t_n − (t_n² − 4)/2` has `e_n := t_n + 2` with `e_{n+1} = e_n(3 − e_n/2)`, so
   `v₃(F(t_n)) = v₃(e_n) = n + 1`, a linear rate; Newton's `t_{n+1} = t_n − (t_n² − 4)/(2t_n)` has
   `e_{n+1} = e_n²/(2(e_n − 2))`, a quadratic rate; both converge to `t* = −2`, the only zero in
-  `1 + 3ℤ₃` (the other root `2` is not congruent to `1`); when formalised, the check evaluates `mvPowerSeriesJacobianAt` to 2 at the initial
-  point and −4 at the root, and tests the unique restricted-series zero in that residue class.
+  `1 + 3ℤ₃` (the other root `2` is not congruent to `1`); the check evaluates the matrix `J(t)`
+  defined above to 2 at the initial point and −4 at the root, and tests the unique restricted-series zero in that residue class.
 
 **Small perturbations of topological generators: automorphisms of `A⟨X⟩` and transport of
 presentations.** (*perturbation-of-generators*) Let `(A, A⁺)` be a complete Tate Huber pair with
@@ -8032,8 +8038,9 @@ presentation transports to `F ∘ θ_ε^{−1}` with Jacobian changed by a unit 
 noetherian analogue is point (3) of the proof of [H96] §1.7, Prop. 1.7.1, p. 83 (small
 perturbations of topological generators define automorphisms) without the noetherian hypothesis
 recorded there (the noetherian case is AdicSpacesPartII layer R0's *etale-local-structure*, and
-the module-theoretic statement that families close to a generating family generate is layer R3's
-*surjection-small-perturbation*; the non-noetherian automorphism `X ↦ X + ε(X)` of `A⟨X⟩` is the
+the module-theoretic statement that families close to a generating family generate is
+AdicSpacesPartIII layer R3's *surjection-small-perturbation*; the non-noetherian automorphism
+`X ↦ X + ε(X)` of `A⟨X⟩` is the
 content here); [ECD] §6, proof of Prop. 6.4(iv), p. 28, identifies close approximations with `Y`
 through such comparison automorphisms. *Needs:* *restricted-power-series-newton*; Tau Ceti
 `Huber.weightedRestrictedSubring`, `Huber.PairOfDefinition.weightedRingOfDefinition`,
@@ -8142,8 +8149,9 @@ completeness of `C` is not a field); the rest is README only.
   Jacobian is `[[2T,0],[2S,2T]]`, of determinant `(2T)²`. Appending the inverse equation last
   produces a positive square, not its negative.
 - *explicitInverse_quadratic_determinant* — Over Q₂, applying `explicitInverse` to T² − 5 at scale 2 and exponent 1 gives Jacobian 4T².
-- *test_zero* (degenerate) — `N = 0`, `F = ()`, `k = 0`, `π = id` presents `(A, A⁺)` itself;
-  `J = 1`.
+- *test_zero* (degenerate, Lean example) — `N = 0`, `F = ()`, `k = 0` presents `(A, A⁺)`
+  itself; `π` is the inverse of the constant-series identification `A ≅ A⟨T₁, …, T₀⟩`, so
+  `π = id` under that identification and `J = 1`.
 - *test_frobenius_not* (non-example) — over `A = F_p((t^{1/p^∞}))^∧` with `A⁺ = A°` (when formalised,
   over any complete Tate `A` of characteristic `p`), `F = T^p − a` is the equation of no standard
   étale presentation of a nonzero ring, in particular not of `A⟨T⟩/(T^p − a)`:
@@ -8164,15 +8172,20 @@ completeness of `C` is not a field); the rest is README only.
   localisations and finite étale algebras is Huber's 1.7.1(ii) (AdicSpacesPartII layer R0,
   *etale-local-structure*).
 
-**`Huber.tateSeries.X`.** The variable `Tᵢ` of `A⟨T₁, …, T_N⟩`. The first and third Checks
-are Lean examples.
+**`Huber.tateSeries.X`.** The variable `Tᵢ` of `A⟨T₁, …, T_N⟩`
+(Mathlib `MvPowerSeries.X` and `coeff_X`; Tau Ceti `Huber.weightedX`). Each Check is a Lean
+example.
 
 **Checks.**
 
 - *tateSeries_X_coe* (computation) — as a power series `Tᵢ` is Mathlib's `MvPowerSeries.X i`
   (Lean example, proved).
-- *tateSeries_X_no_variable* (degenerate) — for `N = 0` there is no variable `Tᵢ`. README only:
-  this holds by type alone, `Fin 0` being empty.
+- *tateSeries_X_own_coefficient* (computation) — over `ℚ₂` in two variables,
+  `coeff(single 0 1) (X 0) = 1`.
+- *tateSeries_X_other_coefficient* (computation) — on the same carrier,
+  `coeff(single 1 1) (X 0) = 0`, distinguishing the variable indices.
+- *tateSeries_X_sum_constant* (computation) — on the same carrier,
+  `coeff 0 (X 0 + X 1) = 0`, distinguishing the constant term from degree one.
 - *tateSeries_X_not_isUnit* (non-example) — over a nonzero `A`, `Tᵢ` is not a unit of `A⟨T⟩`, its
   constant coefficient being `0`; it is invertible only on the torus of
   *torusLocus_unit_coordinates* (Lean example).
@@ -8279,14 +8292,19 @@ Fargues–Scholze's local statement that smooth spaces are balls near sections (
 Lem. IV.4.14, p. 137; proof of Lem. IV.4.16, p. 139, which establishes the local product
 structure after reduction modulo `ϖ`, here obtained directly by Newton iteration); the
 perturbation argument of [ECD] §6, proof of Prop. 6.4(iv), p. 28, is carried out inside such a
-tube. *Needs:* *restricted-power-series-newton*; AdicSpacesPartIV layer R5 (sousperfectoid rings,
-stably uniform); AdicSpacesPartII layer R0 (completed tensor products, rational localisation,
+tube. Prove clauses (a)–(b) first from Newton's theorem, independently of
+`isWeaklyRegular_tube_sousperfectoid`. Then prove *fs-iv-4-13-regular-sequence* using only those
+two tube clauses and its listed inputs. Finally prove clause (c) from that regular-sequence
+theorem. *Needs for (a)–(b):* *restricted-power-series-newton*; AdicSpacesPartIV layer R5
+(sousperfectoid rings, stably uniform); AdicSpacesPartII layer R0 (completed tensor products, rational localisation,
 continuous differentials); Tau Ceti
 `TauCeti.ValuationSpectrum.exists_mem_nhds_forall_rationalSubset_eq_of_sub_mem`,
 `TauCeti.ValuationSpectrum.existsUnique_continuous_ringHom_of_forall_comap_mem_rationalSubset`,
 `TauCeti.Huber.existsUnique_continuous_ringHom_completion_weightedRestrictedSubring`,
 `Huber.PairOfDefinition.completionLocalization`, `TauCeti.ValuationSpectrum.mem_iff_forall_vle_one`,
-`ValuationSpectrum.rationalSubset`. README only (no Lean declaration).
+`ValuationSpectrum.rationalSubset`. *Needs for (c):* clauses (a)–(b);
+*fs-iv-4-13-regular-sequence*; AdicSpacesPartII layer R0 (rational base change of completed
+quotients). README only (no Lean declaration).
 
 **Checks.**
 
@@ -8429,8 +8447,9 @@ for every rational `W' ⊆ W` except the Koszul complex of (a), which has no Mat
 pin (the stably `N`-fpd clause is its consequence). This is the étale case of [FS]
 §IV.4.1, Lem. IV.4.13, p. 137 (the coordinates of an étale map to a relative ball over a
 sous-perfectoid base are regular with closed ideal), whose printed proof uses the spreading of
-étale maps, a diamond-level input replaced here by the tube theorem. *Needs:* *koszul-regular-sequence-fpd*;
-*stably-pseudocoherent-module*; *tubular-neighbourhood*; Mathlib
+étale maps, a diamond-level input replaced here by tube clauses (a)–(b). This proof uses no
+part of tube clause (c). *Needs:* *koszul-regular-sequence-fpd*;
+*stably-pseudocoherent-module*; *tubular-neighbourhood* (a)–(b) only; Mathlib
 `RingTheory.Sequence.IsWeaklyRegular`. README only (no Lean declaration).
 
 **Checks.**
@@ -8442,8 +8461,8 @@ sous-perfectoid base are regular with closed ideal), whose printed proof uses th
 ### A3.3 the Fargues–Scholze specialisations by analytic algebra
 
 The étale specialisations of [FS] §IV.4.1, pp. 135–141, are reconstructed by analytic algebra.
-The order is: the tube theorem gives regular sequences and finite projective dimension; the
-characteristic-`p` Jacobian criterion supplies the étale parts of IV.4.15 and IV.4.17;
+The order is: tube clauses (a)–(b) give regular sequences and finite projective dimension,
+which then give tube clause (c); the characteristic-`p` Jacobian criterion supplies the étale parts of IV.4.15 and IV.4.17;
 pseudocoherent gluing and the integral cut-off then give the closed-image and conormal statements
 used in IV.4.19. The arguments of IV.4.14, IV.4.16 and IV.4.18 involving diamonds are not inputs.
 The specialisations are exactly those [ECD] 6.4(iv) uses: étale (relative dimension `0`) loci and
@@ -9514,7 +9533,8 @@ Lean: `Algebra.IsTotallySplit`, the class `IsFiniteEtaleSplit`, `isFiniteEtaleSp
 **Checks.**
 
 - *test_isSepClosed* (compatibility) — for a field `K`, `IsFiniteEtaleSplit K ↔ IsSepClosed K`.
-- *test_Cp* (computation) — `IsFiniteEtaleSplit ℂ_p` (Mathlib `ℂ_[p]`, algebraically closed).
+- *test_Cp* (computation, Lean example) — `IsFiniteEtaleSplit ℂ_p`
+  (Mathlib `ℂ_[p]`, algebraically closed).
 - *test_not_Qp* (non-example) — `¬ IsFiniteEtaleSplit ℚ_p`, also for `p = 2`: `ℚ_p[X]/(X² − p)`
   is finite étale and faithfully flat (roots `±√p` distinct) with no `ℚ_p`-algebra map to `ℚ_p`,
   since `p` has odd valuation. A complete field is not enough; `ℂ_p` passes because it is
@@ -9524,10 +9544,10 @@ Lean: `Algebra.IsTotallySplit`, the class `IsFiniteEtaleSplit`, `isFiniteEtaleSp
   factors with trivial residue extension, each isomorphic to the ring); `𝒪_{ℂ_p}` and the
   nonreduced `ℂ_p[ε]/(ε²)` are instances, so the notion is not confined to fields or to reduced
   rings.
-- *test_zero* (degenerate) — the zero ring has no nonsplit finite étale covers: every finite étale
-  algebra over it is the empty product.
-- *test_not_rat* (non-example) — `¬ IsFiniteEtaleSplit ℚ`: `ℚ[X]/(X² − 2)` is finite étale and
-  faithfully flat over `ℚ` but has no `ℚ`-algebra map to `ℚ`.
+- *test_zero* (degenerate, Lean example with `ZMod 1`) — the zero ring has no nonsplit finite
+  étale covers: every finite étale algebra over it is the empty product.
+- *test_not_rat* (non-example, Lean example) — `¬ IsFiniteEtaleSplit ℚ`: `ℚ[X]/(X² − 2)` is
+  finite étale and faithfully flat over `ℚ` but has no `ℚ`-algebra map to `ℚ`.
 - *test_zero_algebra_has_no_section* (non-example) — over a nonzero ring `R` with no nonsplit
   finite étale covers, the zero algebra is finite étale and totally split (`m = 0`) but has no
   `R`-algebra map to `R`; so the section criterion must be restricted to faithfully flat algebras,
@@ -9612,10 +9632,10 @@ flat, bijective Galois map) and `Algebra.IsFiniteEtaleTorsor.iff_isGalois`; the 
   `{(a, b) : a − b ∈ 2ℤ[i]}` and cokernel `ℤ[i]/2ℤ[i]`, of order `4`, reflecting ramification
   at `2` (the fibre at `2` is `𝔽_2[X]/((X + 1)²)`, on which conjugation is trivial); over `ℤ[1/2]`
   the same map is bijective (check *test_gaussian_half*).
-- *test_trivial_action* (non-example) — `A × A` with the trivial action of `ℤ/2` is not a
-  `(ℤ/2)`-torsor over a nonzero `A`: the image of `γ` consists of constant functions.
-- *test_swap* (computation) — `A × A` with `ℤ/2` exchanging the factors is a `(ℤ/2)`-torsor over
-  every `A`, including the zero ring and characteristic `2`: it is the trivial torsor.
+- *test_trivial_action* (non-example, Lean example) — `A × A` with the trivial action of `ℤ/2`
+  is not a `(ℤ/2)`-torsor over a nonzero `A`: the image of `γ` consists of constant functions.
+- *test_swap* (computation, Lean example) — `A × A` with `ℤ/2` exchanging the factors is a
+  `(ℤ/2)`-torsor over every `A`, including the zero ring and characteristic `2`: it is the trivial torsor.
 - *test_sign_rat* (computation) — `X ↦ −X` makes `ℚ[X]/(X² − 1) ≅ ℚ × ℚ` a `(ℤ/2)`-torsor (the
   factors are exchanged).
 - *test_sign_char_two* (non-example) — over `𝔽_2` the same formula is the trivial action on the
@@ -9623,8 +9643,8 @@ flat, bijective Galois map) and `Algebra.IsFiniteEtaleTorsor.iff_isGalois`; the 
   invertible.
 - *test_trivial_group* (degenerate) — for the trivial group, `B` is a torsor over `A` iff `A → B`
   is an isomorphism.
-- *test_zero_ring* (degenerate) — over the zero ring the zero algebra is a `G`-torsor for every
-  finite `G`, and a nontrivial `G` does not act faithfully on it; this is why `isGaloisGroup`
+- *test_zero_ring* (degenerate, Lean example) — over the zero ring the zero algebra is a
+  `G`-torsor for every finite `G`, and a nontrivial `G` does not act faithfully on it; this is why `isGaloisGroup`
   assumes `A` nontrivial.
 - *test_isGalois* (compatibility) — for a finite Galois extension `L/K`,
   `IsFiniteEtaleTorsor (L ≃ₐ[K] L) K L`, and it implies Mathlib's `IsGaloisGroup (L ≃ₐ[K] L) K L`;
@@ -10531,9 +10551,9 @@ definitions in the table, `Algebra.IsTotallySplit`, `IsFiniteEtaleSplit`, `Algeb
 - *totally_split_empty* — the empty product is the zero algebra.
 - *totally_split_idempotent* — a single clopen component is totally split.
 - *totally_split_variable_rank* — ranks one and zero cannot form a constant-rank split algebra.
-- *galois_left* — the first tensor factor is the untwisted scalar factor.
-- *galois_right* — the second factor carries the action.
-- *galois_identity* — evaluation at the group identity is multiplication.
+- *galois_left* (Lean example) — `γ(b ⊗ 1)(g) = b`: the first tensor factor is untwisted.
+- *galois_right* (Lean example) — `γ(1 ⊗ b)(g) = g • b`: the second factor carries the action.
+- *galois_identity* (Lean example) — `γ(b ⊗ c)(1) = b*c`: identity evaluation is multiplication.
 - *colimit_transition* — both canonical maps respect the direction of transition.
 - *colimit_injective* — faithfully flat transitions do not lose a stage element.
 - *colimit_trivial_groups* — a tower of trivial torsors has colimit A.
