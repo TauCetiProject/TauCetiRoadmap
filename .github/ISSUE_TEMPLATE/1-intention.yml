@@ -23,39 +23,47 @@ body:
         - AlgebraicTopology
         - AlgebraicVectorBundles
         - AnalyticToricGeometry
-        - ArithmeticDirichletSeries
         - BelyiMaps
         - CFSGStatement
         - Chebotarev
         - ClassFieldTheory
+        - ClassifyingSpaces
         - CombinatorialHeegaardFloer
         - ConformalMapping
         - DGAInfinity
         - DGFloer
         - DenseGraphLimits
         - DifferentialGeometry
+        - DiophantineApproximationAndTranscendence
         - EllipticCurves
         - Exchangeability
+        - FormalLaurentPuiseux
         - FuchsianOrbifolds
+        - GeometricMeasureTheory
         - GeometricTopology
         - GlobalNumberFields
         - GlobalQuadraticForms
         - GrothendieckEulerForms
         - HeegaardFloer
+        - HeightsAndUnits
         - HopfRinow
         - IntegralLattices
+        - Isoperimetry
         - JacobianChallenge
         - LocalFieldsRamification
         - LocalGaloisGroups
         - ModularCurves
         - ModularForms
+        - NoncommutativeGeometry
         - NumberFieldArithmetic
         - OneParameterSemigroups
         - OperatorTheory
         - OptimalTransport
         - OrthogonalSpinGroups
         - PDE
+        - PadicMeasuresIwasawaAlgebras
         - PeripheralActions
+        - PivotalSpherical
         - PolynomialGaloisGroups
         - ProfiniteArithmetic
         - ProfiniteCohomology
@@ -64,6 +72,7 @@ body:
         - RealAlgebraicGeometry
         - ReductiveGroups
         - RepresentationTheory
+        - SchemeAndStackFoundations
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
