@@ -76,26 +76,14 @@ section ValueBounds
 
 variable {K : Type*} [Field K] [Height.AdmissibleAbsValues K]
 
-/-- **Layer 0.2.** Sums of coordinates of one projective point cost `#s ^ totalWeight K`. -/
-theorem mulHeight_sum_comp_le {ι κ α : Type*} [Finite ι] [Finite κ] {s : Finset α}
-    (hs : s.Nonempty) (f : α → ι → κ) (w : κ → K) :
-    Height.mulHeight (fun i ↦ ∑ a ∈ s, w (f a i)) ≤
-      (#s : ℝ) ^ Height.totalWeight K * Height.mulHeight w := by sorry
-
-/-- The signed form, which the Leibniz expansion of a determinant needs. -/
-theorem mulHeight_sum_sign_comp_le {ι κ α : Type*} [Finite ι] [Finite κ] {s : Finset α}
-    (hs : s.Nonempty) {ε : α → ι → K} (hε : ∀ a i, ε a i = 1 ∨ ε a i = -1)
-    (f : α → ι → κ) (w : κ → K) :
-    Height.mulHeight (fun i ↦ ∑ a ∈ s, ε a i * w (f a i)) ≤
-      (#s : ℝ) ^ Height.totalWeight K * Height.mulHeight w := by sorry
-
-/-- **Layer 0.3.** The value of a linear form, bounded by the affine heights of its coefficients
+/-- **Layer 0.2.** The value of a linear form, bounded by the affine heights of its coefficients
 and of its argument; no bound in the projective heights exists. -/
 theorem mulHeight₁_sum_mul_le {ι : Type*} [Fintype ι] [Nonempty ι] (a x : ι → K) :
     Height.mulHeight₁ (∑ i, a i * x i) ≤
       (Fintype.card ι : ℝ) ^ Height.totalWeight K * (mulHeightAff a * mulHeightAff x) := by sorry
 
-/-- The determinant, columnwise, from the Leibniz expansion. -/
+/-- The determinant, columnwise, from the Leibniz expansion and the signed tuple sum bound of
+DiophantineApproximationAndTranscendence §1.3. -/
 theorem mulHeight₁_det_le {n : Type*} [Fintype n] [DecidableEq n] (A : Matrix n n K) :
     Height.mulHeight₁ A.det ≤
       ((Fintype.card n).factorial : ℝ) ^ Height.totalWeight K *
@@ -103,16 +91,11 @@ theorem mulHeight₁_det_le {n : Type*} [Fintype n] [DecidableEq n] (A : Matrix 
 
 end ValueBounds
 
-/-- The naive two-tuple sum bound fails for every constant. -/
-theorem exists_mulHeight_add_gt (C : ℝ) :
-    ∃ x y : Fin 2 → ℚ, C * Height.mulHeight x * Height.mulHeight y < Height.mulHeight (x + y) := by
-  sorry
-
 /-- No bound on the determinant in the matrix height: a `1 × 1` matrix has height one. -/
 theorem exists_not_mulHeight₁_det_le (c : ℝ) :
     ∃ A : Matrix (Fin 1) (Fin 1) ℚ, ¬ Height.mulHeight₁ A.det ≤ c * matrixMulHeight A := by sorry
 
-/-- **Layer 0.4.** The Arakelov height of the entries is submultiplicative, with constant one and
+/-- **Layer 0.3.** The Arakelov height of the entries is submultiplicative, with constant one and
 no nonemptiness hypothesis. -/
 theorem arakelovMulHeight_entries_mul_le {K : Type*} [Field K] [NumberField K]
     {m n p : Type*} [Fintype m] [Fintype n] [Fintype p] (A : Matrix m n K) (B : Matrix n p K) :
@@ -326,7 +309,7 @@ theorem prod_absLogHeight₁_fundSystem_pos :
     0 < ∏ i, absLogHeight₁ ((fundSystem K i : 𝓞 K) : K) := by sorry
 
 /-- Hadamard's inequality in the ℓ¹ norm of the rows, over any linearly ordered field. -/
-theorem _root_.Matrix.abs_det_le_prod_sum_abs {R : Type*} [Field R] [LinearOrder R]
+theorem Matrix.abs_det_le_prod_sum_abs {R : Type*} [Field R] [LinearOrder R]
     [IsStrictOrderedRing R] {n : Type*} [Fintype n] [DecidableEq n] (M : Matrix n n R) :
     |M.det| ≤ ∏ i, ∑ j, |M i j| := by sorry
 

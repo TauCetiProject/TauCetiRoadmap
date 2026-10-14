@@ -36,9 +36,8 @@ for Layer 3; and `TauCeti/RingTheory/DedekindDomain/SUnit.lean` with
 ### Owned here
 
 - The **affine height** `Height.mulHeightAff` of a tuple over any field with admissible absolute
-  values, and the bounds it makes statable. These are the tuple sum bound, the value of a linear form,
-  the determinant of a matrix, and the Arakelov linear-map and matrix-product bounds with
-  constant `1` (Layer 0).
+  values, and the bounds it makes statable: the value of a linear form and the determinant of a
+  matrix. Also the Arakelov linear-map and matrix-product bounds with constant `1` (Layer 0).
 - The **`Northcott` instances** for `Projectivization.mulHeight` and `Projectivization.logHeight`,
   and for the three subspace heights of DiophantineApproximationAndTranscendence with their
   logarithms. Also **Kronecker's theorem** in its absolute-height and projective forms, and the
@@ -73,13 +72,14 @@ for Layer 3; and `TauCeti/RingTheory/DedekindDomain/SUnit.lean` with
     `absMulHeight₁_eq_absoluteProjectiveTupleHeight`; `mahlerMeasure_eq_one_iff` and
     `mahlerMeasure_eq_absMulHeight₁_pow`.
   - §0.3: bounded-degree Northcott, `finite_setOf_absMulHeight₁_le`.
-  - §1.3: `matrixMulHeight` and `matrixMulHeight_mul_le`.
+  - §1.3: `matrixMulHeight` and `matrixMulHeight_mul_le`; the tuple sum bound
+    `Height.mulHeight_sum_comp_le` and its signed form `Height.mulHeight_sum_sign_comp_le`.
   - §2.4: `absoluteLogHeightAff`.
   - §2.5: `height2`, `arakelovMulHeight`, `arakelovMulHeight_sup_comparison`, `plucker`,
     `relativePluckerPoint`, `relativeSubspaceHeight`, `relativeSubspaceArakelovHeight`,
-    `subspaceHeight`, `subspaceHeight_orthogonal`, `subspaceHeight_rat_eq_covolume`,
-    `finite_subspaceHeight_le`.
-  - §2.8: `siegelProductBallSlice` (the cube slice has volume at least `2^k`), `siegelKernelBasis`.
+    `subspaceHeight`, `subspaceHeight_orthogonal`, `finite_subspaceHeight_le`.
+  - §2.8: `kernelLattice_covolume`, `siegelProductBallSlice` (the cube slice has volume at least
+    `2^k`), `siegelKernelBasis`.
   - §4.5: the identity `logHeight₁ y = Σ max(0, ℓ) = ½ Σ |ℓ|` for the full vector `ℓ` of
     weighted logarithms of a unit outside a finite `S`, over `S ∪ S_∞` (BG96 (12)).
 - **GeometryOfNumbersAndQuadraticArithmetic** (GoN below; an open TauCetiRoadmap pull request by
@@ -146,34 +146,18 @@ alone.
   `1` with `Fin.cons`, and this layer appends it with `Option.elim`; the bridge is a reindexing.
 (Bombieri–Gubler 1.5.)
 
-**0.2 Sums of coordinates.** For `w : κ → K`, a nonempty `s : Finset α` and `f : α → ι → κ`,
-`mulHeight (fun i ↦ ∑ a ∈ s, w (f a i)) ≤ #s ^ totalWeight K · mulHeight w`. That is, sums of
-coordinates of one projective point cost `#s ^ totalWeight K`. Also prove:
-- The variant with a per-coordinate bound `#(s i) ≤ n`.
-- The **signed** variant, with summands multiplied by `ε a i ∈ {1, −1}`. Deduce it from the unsigned
-  bound and `Height.mulHeight_fun_mul_eq` by doubling the alphabet, since the tuple `![1, −1]` has
-  height `1`.
-- The logarithmic forms.
-- The local inequalities behind them: `⨆ i, v (∑ a ∈ s, w (f a i)) ≤ #s · ⨆ k, v (w k)` at an
-  archimedean `v`, and the same without the factor at a nonarchimedean one.
-
-State as a theorem that the naive two-tuple bound
-`mulHeight (x + y) ≤ C · mulHeight x · mulHeight y` is false for every `C`: scaling `y` fixes the
-right-hand side. The sharp case is `w = ![1, 0]` read twice, which gives `![2, 1]` with constant
-attained. (Bombieri–Gubler Prop. 1.5.15 for field elements, which Mathlib has as `mulHeight₁_sum_le`.)
-
-**0.3 Values of linear forms and determinants.** Prove:
+**0.2 Values of linear forms and determinants.** Prove:
 - `mulHeight₁ (∑ i, a i * x i) ≤ #ι ^ totalWeight K · mulHeightAff a · mulHeightAff x` for
   nonempty `ι`, with its logarithmic form. No bound in the projective heights of `a` and `x`
   exists, because `a ↦ c • a` scales the value and fixes `mulHeight a`.
 - `mulHeight₁ A.det ≤ (#n)! ^ totalWeight K · ∏ j, mulHeightAff (fun i ↦ A i j)`, columnwise,
-  from the Leibniz expansion and 0.2's signed bound. Also the corollary
-  `mulHeight₁ A.det ≤ (#n)! ^ totalWeight K · mulHeightAff (entries A) ^ #n`.
+  from the Leibniz expansion and DAT §1.3's signed tuple sum bound
+  `Height.mulHeight_sum_sign_comp_le`. Also the corollary `mulHeight₁ A.det ≤ (#n)! ^ totalWeight K · mulHeightAff (entries A) ^ #n`.
 - The rejection test `exists_not_mulHeight₁_det_le`: a `1 × 1` matrix has `matrixMulHeight A = 1`
   and determinant its entry.
 - Sharpness: `a = x = ![1, 1]` attains the linear-form constant.
 
-**0.4 Arakelov bounds with constant one.** Over a number field, with DAT's `arakelovMulHeight`
+**0.3 Arakelov bounds with constant one.** Over a number field, with DAT's `arakelovMulHeight`
 applied to the tuple of entries `fun p : m × n ↦ A p.1 p.2`, prove:
 - `arakelovMulHeight (fun j ↦ ∑ i, A (j, i) * x i) ≤ arakelovMulHeight A · arakelovMulHeight x`.
 - `arakelovMulHeight (entries (A * B)) ≤ arakelovMulHeight (entries A) · arakelovMulHeight (entries B)`.
@@ -298,7 +282,8 @@ independent over `ℚ`, let `minorGcd A` be the gcd of its `m × m` minors. Prov
   integer solution of sup norm at least `B^m`, against Siegel's bound `((m+1)B)^m`.
 
 Assembly:
-1. DAT's `subspaceHeight_rat_eq_covolume` gives the covolume of `ℤ^ι ∩ ker A`.
+1. The covolume of `ℤ^ι ∩ ker A` in its real span equals `subspaceHeight (ker A)`. This is the
+   `K = ℚ` case of DAT's `kernelLattice_covolume`.
 2. DAT's `subspaceHeight_orthogonal` turns that covolume into a statement about the rows.
 3. DAT's `plucker_cauchyBinet` identifies the rows' height with `√det(A Aᵀ) / minorGcd A`.
 4. The geometric half bounds the minima, and GoN's `exists_successiveMin_witnesses` realizes them
@@ -447,7 +432,6 @@ Build the fundamental system from the quotient of the `ℤ`-module `Additive (S.
 - **Affine height.** `mulHeightAff ![1] = 1` and `mulHeightAff ![2] = 2` over `ℚ`, while
   `mulHeight ![1] = mulHeight ![2] = 1`.
 - **Value bound.** Over `ℚ`, `a = x = ![1, 1]` gives `mulHeight₁ 2 = 2 = 2 ^ totalWeight ℚ · 1 · 1`.
-- **Sum bound.** `w = ![1, 0]` read twice gives `![2, 1]` of height `2 = #s ^ totalWeight ℚ · mulHeight w`.
 - **Kronecker.** `absMulHeight₁ (-1 : ℚ) = 1`, `absMulHeight₁ (2 : ℚ) = 2`; the tuple
   `![1, -1]` has `absoluteProjectiveTupleHeight = 1` and `![1, 2]` has `2`.
 - **Gap.** For every `c > 0` some `2 ^ (1/N)` has `absLogHeight₁` below `c`.
@@ -470,8 +454,8 @@ Build the fundamental system from the quotient of the `ℤ`-module `Additive (S.
 
 ## Ordering
 
-Layer 0 first: 0.1 is used by 0.3, and 0.2 by 0.3. Layer 1 needs only Layer 0's normalization
-lemmas and DAT §§0.2–0.3, 2.5. Layer 2 needs GoN §§0.2, 1.2, 1.5 and DAT §§2.5, 2.8; its 2.1 is the
+Layer 0 first: 0.1 is used by 0.2, which also uses DAT §1.3's tuple sum bound. Layer 1 needs
+only Layer 0's normalization lemmas and DAT §§0.2–0.3, 2.5. Layer 2 needs GoN §§0.2, 1.2, 1.5 and DAT §§2.5, 2.8; its 2.1 is the
 input to 3.3. Layer 3: 3.1, then 3.2 (which also uses 1.3), then 3.3 (which uses 2.1). Layer 4: 4.1
 needs nothing from Layer 3 except 3.1's `S = ∅` identity as a check; 4.2 needs 4.1; 4.3 needs 4.1,
 4.2 and 3.1. The headline milestones are 3.3, 4.2 and 4.3.
@@ -497,7 +481,7 @@ copying it.
 | Milestone | Source file |
 | --- | --- |
 | 0.1 | `Affine.lean` |
-| 0.2, 0.3, 0.4 | `LinearForm.lean`, `Matrix.lean` |
+| 0.2, 0.3 | `LinearForm.lean`, `Matrix.lean` |
 | 1.1 | `Northcott.lean` |
 | 1.2 | `NorthcottSubspace.lean` |
 | 1.3 | `Kronecker.lean`, `LowerBound.lean` |
