@@ -14,7 +14,6 @@ import TauCeti.RingTheory.Huber.PowerBounded
 import TauCeti.RingTheory.Huber.StronglyNoetherian
 import TauCeti.RingTheory.Huber.WeightedRestrictedSeries.Completion
 import TauCetiRoadmap.AdicSpacesPartIII.Suggested
-import TauCetiRoadmap.PerfectoidSpaces.Suggested
 
 /-!
 # Analytic adic geometry for diamonds: representative target signatures
@@ -41,12 +40,10 @@ The represented layers are:
   charts;
 * A3: pseudocoherent and stably pseudocoherent modules, Kedlaya–Liu's acyclicity in its sheafy
   form, standard étale presentations;
-* A4: finite étale torsors and the torsor tower, the
-  ring core of Scholze's Lemma 15.3 (its conclusion is PerfectoidSpaces' perfectoid Tate-ring
-  predicate, the one shared by every roadmap), and the orbit description of `Spa` of a torsor.
+* A4: finite étale torsors, the torsor tower and the orbit description of `Spa` of a torsor.
 
 The étale, finite étale and pro-étale sites, strict localisations, Yoneda-adic spaces, the
-completed tower and the perfectoid torsor presentation are README targets.
+completed tower and its finite étale descent are README targets.
 -/
 
 open TauCetiRoadmap.AdicSpacesPartII.AdicSpace
@@ -1490,41 +1487,6 @@ theorem exists_level_totallySplit (S : Type u) [CommRing S] [_root_.Algebra A S]
     ∃ i, Algebra.IsTotallySplit (T.level i) (T.level i ⊗[A] S) := sorry
 
 end FiniteEtaleTorsorTower
-
-/-! ### A4.6 Perfectoidness of split Tate rings
-(*pseudouniformizer-dividing-p*,
-*split-tate-ring-is-perfectoid*) -/
-
-namespace Huber
-
-section SplitTate
-
-variable {R : Type u} [CommRing R] [UniformSpace R] [IsUniformAddGroup R] [IsTopologicalRing R]
-  [IsTateRing R] [CompleteSpace R] [T2Space R] [IsFiniteEtaleSplit R]
-
-/-- If `p` is topologically nilpotent in a complete Tate ring without nonsplit finite étale
-covers, there is a pseudouniformiser `ϖ ∈ R°` with `p = ϖ^p y`, `y ∈ R°` topologically nilpotent
-(a root of `X^{p^n} − ϖ₀ X − ϖ₀`; Scholze, ECD, proof of Lemma 15.3, p. 90). -/
-theorem exists_isPseudoUniformizer_pow_dvd_p (p : ℕ) [Fact p.Prime]
-    (hp : IsTopologicallyNilpotent (p : R)) :
-    ∃ ϖ : R, IsPseudoUniformizer ϖ ∧ ϖ ∈ powerBoundedSubring R ∧
-      ∃ y ∈ powerBoundedSubring R, (p : R) = ϖ ^ p * y ∧ IsTopologicallyNilpotent y := sorry
-
-/-- A complete uniform Tate ring without nonsplit finite étale covers in which `p` is
-topologically nilpotent is perfectoid (Scholze, ECD, Lemma 15.3, p. 90; Berkeley, Lemma 10.1.6,
-p. 75). -/
-theorem isPerfectoid_of_isFiniteEtaleSplit (p : ℕ) [Fact p.Prime]
-    (hp : IsTopologicallyNilpotent (p : R)) (hu : IsBounded (powerBoundedSubring R : Set R)) :
-    TauCetiRoadmap.PerfectoidSpaces.Perfectoid.IsPerfectoidTateRing p R := sorry
-
-end SplitTate
-
-end Huber
-
-/-- Equality `p^{n−1} = n` is not enough in the proof of Lemma 15.3: over `ℂ_2`, a root `ϖ` of
-`X⁴ − 4X − 4` has `|ϖ²| = |2|`, so `2/ϖ²` is a unit, not topologically nilpotent. -/
-example (ϖ : ℂ_[2]) (hϖ : ϖ ^ 4 - 4 * ϖ - 4 = 0) :
-    ‖ϖ ^ 2‖ = ‖(2 : ℂ_[2])‖ ∧ IsUnit (2 / ϖ ^ 2) ∧ ¬ IsTopologicallyNilpotent (2 / ϖ ^ 2) := sorry
 
 /-! ### A4.7 Adic spectra of a torsor (*torsor-spa-orbits*) -/
 
