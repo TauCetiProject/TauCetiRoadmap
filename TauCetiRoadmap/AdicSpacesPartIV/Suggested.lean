@@ -121,8 +121,9 @@ example (K : Type*) [Field K] (g : MvPolynomial (Fin 2) K) (hg : eval 0 g ≠ 0)
       (Ideal.span {(algebraMap (MvPolynomial (Fin 2) K) (Localization.Away g)
         (X 0 * X 1 * (X 0 - X 1)))})) := sorry
 
-/-- Relative smoothness of the strata is needed: the regular prime divisor `V(T^p − a)` of `𝔸¹`
-over a field of characteristic `p` has no chart near any of its points (EGA IV₄, Cor. 17.11.3). -/
+/-- In characteristic `p`, `V(T^p − a)` has no relative SNC chart near any of its points.
+When `a ∉ K^p` it is a regular prime divisor, exhibiting the need for relative smoothness;
+when `a = 0` it is nonreduced (EGA IV₄, Cor. 17.11.3). -/
 example (K : Type*) [Field K] (p : ℕ) [Fact p.Prime] [CharP K p] (a : K)
     (x : PrimeSpectrum (MvPolynomial (Fin 1) K)) (hx : X 0 ^ p - C a ∈ x.asIdeal)
     (g : MvPolynomial (Fin 1) K) (hg : g ∉ x.asIdeal) :
@@ -818,6 +819,32 @@ example (I : Type) [SmallCategory I] [IsCofiltered I] (X : TauCeti.AdicSpace)
 
 end AdicSpace
 
+/-! ### Cone signs for supported de Rham cohomology
+(*de-rham-cohomology-with-supports*, *compact-support-de-rham*) -/
+
+section ConeSigns
+
+open CategoryTheory CategoryTheory.Limits
+
+variable {C : Type*} [Category C] [Preadditive C] [HasBinaryBiproducts C]
+  {S T : CochainComplex C ℤ} (f : S ⟶ T)
+
+/-- The third cone-triangle arrow kills the target summand, including for the zero map. -/
+example (q : ℤ) :
+    (CochainComplex.mappingCone.inr f).f q ≫
+      (CochainComplex.mappingCone.triangle f).mor₃.f q = 0 :=
+  CochainComplex.mappingCone.inr_f_triangle_mor₃_f f q
+
+/-- On the shifted source summand the third arrow is negative identity through the shift
+identification; for `0 : K[−1] → K[0]` this gives `(a,b) ↦ −a` in degree zero. -/
+example (p q : ℤ) (hpq : p + (-1) = q) :
+    (CochainComplex.mappingCone.inl f).v p q hpq ≫
+      (CochainComplex.mappingCone.triangle f).mor₃.f q =
+        -(S.shiftFunctorObjXIso 1 q p (by rw [← hpq, neg_add_cancel_right])).inv :=
+  CochainComplex.mappingCone.inl_v_triangle_mor₃_f f p q hpq
+
+end ConeSigns
+
 /-! ## Layer F1: dagger algebras and overconvergent differentials -/
 
 namespace Dagger
@@ -1042,6 +1069,32 @@ theorem completion_washnitzerAlgebra (n : ℕ) :
       ∀ f, e (toCompletion K (washnitzerAlgebra n K) f) = washnitzerAlgebra.toTate n K f := sorry
 
 end DaggerAlgebra
+
+section MinimalPresentationChecks
+
+variable (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K]
+
+/-- The field has a zero-variable minimal dagger presentation. -/
+example [IsDaggerAlgebra K K] : presentationDim K K = 0 := sorry
+
+/-- Every chosen minimal presentation of the field is bijective. -/
+example [IsDaggerAlgebra K K] : Function.Bijective (presentation K K) := sorry
+
+/-- The dagger disc needs exactly one presentation variable. -/
+example : presentationDim K (washnitzerAlgebra 1 K) = 1 := sorry
+
+/-- A minimal presentation of the dagger disc is bijective. -/
+example : Function.Bijective (presentation K (washnitzerAlgebra 1 K)) := sorry
+
+/-- The dual numbers need one presentation variable although their Krull dimension is zero. -/
+example : presentationDim K
+    (washnitzerAlgebra 1 K ⧸ Ideal.span {washnitzerAlgebra.X 1 K 0 ^ 2}) = 1 := sorry
+
+/-- A minimal presentation of the dual numbers has a nonzero kernel. -/
+example : ¬ Function.Injective (presentation K
+    (washnitzerAlgebra 1 K ⧸ Ideal.span {washnitzerAlgebra.X 1 K 0 ^ 2})) := sorry
+
+end MinimalPresentationChecks
 
 /-- `K⟨X, X⁻¹⟩† = W_2/(X₁X₂ − 1)` is a dagger algebra in which `X − a` is a unit for `|a| < 1`. -/
 example (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K] :

@@ -82,8 +82,8 @@ The roadmap owns, layer by layer:
   dagger–rigid comparison, differentials and the overconvergent de Rham complex, the differential
   operators, derived de Rham functor, direct images and algebraic local cohomology that its
   supported cohomology uses, supports, compact support and duality, the logarithmic and
-  compact-support complexes of smooth pairs, the Runge factorisation of locally closed immersions of
-  affinoids over a rational covering (BGR 7.3.5/1), the algebraisation of smooth affinoids, and the
+  compact-support complexes of smooth pairs, the use of Coram's finite rational Runge covering
+  theorem in the dagger-completion comparison, the algebraisation of smooth affinoids, and the
   finiteness theorems in the form "finiteness of Monsky–Washnitzer cohomology and embedded resolution
   imply finiteness". Those two inputs, (MWF) and (RES) of F1.11, are not targets of this roadmap:
   every statement that uses them carries them as hypotheses. De Jong's strictly semistable
@@ -378,6 +378,9 @@ RigidAnalyticGeometry is W. Coram's [roadmap at `af8261a42a548ed86a11fff72c48667
 Its §4.4 item 4 states reducedness on affinoid subdomains; §1.5 items 1–2 state
 the polyradius algebra and affinoid criterion, and §1.3 item 3 fixes the Banach topology.
 The constant-polyradius and rational-localisation carrier bridges below use these contracts.
+Its §4.5 item 3 supplies Runge immersions and §4.6 item 2 supplies the finite rational Runge
+covering theorem (BGR 7.3.5/1; Bosch 1.8/10). Transport these contracts through
+AdicSpacesPartII's R0.9 carrier bridge for the dagger-completion comparison.
 
 | Supplier target | Exact file | Contract used |
 |---|---|---|
@@ -3065,8 +3068,8 @@ objects stable under rational embeddings and finite étale maps, and this target
 class of *sousperfectoid-stably-adic* objects; it uses no PerfectoidSpaces target. *Needs:* AdicEtaleGeometry layer A1 (*etale-site*,
 *etale-covering-reduction*, *strongly-sheafy-huber-pair*).
 
-**Vector bundles on the étale site of an affinoid with a stable basis.** (*stable-basis-etale-vector-bundles*) Let `X = Spa(A, A⁺)` with `(A, A⁺)` a complete Tate sheafy
-pair, and let `B` be a stable basis of `X_ét` containing `X` (AdicEtaleGeometry A1,
+**Vector bundles on the étale site of an affinoid with a stable basis.** (*stable-basis-etale-vector-bundles*) Let `X = Spa(A, A⁺)` with `(A, A⁺)` a complete strongly sheafy
+Tate pair, and let `B` be a stable basis of A1's small étale site `X_ét` containing `X` (AdicEtaleGeometry A1,
 *basis-comparison*: closed under fibre products, finite étale extensions and rational subdomains). Prove (c) that for every finite
 projective `A`-module `M`, the presheaf `M̃`, `Y = Spa(C, C⁺) ↦ M ⊗_A C`, is an acyclic sheaf on
 `B`: `H^0(Y, M̃) = M ⊗_A C` and `H^i(Y, M̃) = 0` for `i > 0`, for every `Y ∈ B`; and (d) that
@@ -3080,7 +3083,9 @@ rational localisation not being flat in general (KL15 §8.2, Thm 8.2.22(c), p. 1
 `M̃` on a stable basis); KL15 §8.2, Thm 8.2.22(d), p. 165 (étale descent of vector bundles)). For
 `M = A`, `H^i(X_ét, 𝒪) = 0` for `i > 0` (HK Proposition 5.8 for strongly sheafy `A`); for `X` a
 smooth affinoid over a `p`-adic field, vector bundles on `X_ét` are finite projective
-`𝒪(X)`-modules. *Needs:* AdicEtaleGeometry layer A1
+`𝒪(X)`-modules. Sousperfectoid applications obtain strong sheafiness from
+*sousperfectoid-sheafy*, including the perfectoid case through its identity frame.
+*Needs:* AdicEtaleGeometry layer A1
 (*etale-site*, *etale-covering-reduction*, *basis-comparison*);
 *finite-projective-module-acyclicity*, *sheafy-cech-acyclicity*, *finite-projective-etale-descent*,
 *sheafy-tate-acyclicity-and-kiehl-gluing* (AdicSpacesPartIII layer R3); Mathlib `Module.Projective`.
@@ -3139,9 +3144,9 @@ associated-sheaf comparison on restrictions.
 **Tilde-limits and the affinoid criterion.** (*tilde-limits-affinoid-criterion*) Huber's relation
 `X ∼ lim X_i` — `|X| → lim |X_i|` a homeomorphism, and `X` covered by open affinoids `Spa(A, A⁺)`
 in which the colimit of the rings of the affinoid opens of the `X_i` through which they factor is
-dense — the affinoid criterion for it (a direct system of complete affinoid rings with compatible
-rings and finitely generated ideals of definition has `Spa` of its completed direct limit as the
-tilde-limit of its `Spa`'s), and its stability under open immersions and under fibre products with a
+dense — the affinoid criterion for it (a compatible direct system of complete Huber pairs
+with sheafy levels and sheafy separated completion gives an adic tilde-limit, under the
+definition-ring hypotheses below), and its stability under open immersions and under fibre products with a
 fixed space over the system are the contracts of this section: the relation `AdicSpace.IsTildeLimit`,
 its affinoid criterion `AdicSpace.IsTildeLimit.affinoid`, the completed-direct-limit criterion
 below, and base change `AdicSpace.IsTildeLimit.baseChange` (*tilde-limit-base-change*, stated in
@@ -3156,11 +3161,33 @@ towers and is not an input. *Needs:* *affinoid-fibre-product*, *fibre-products-e
 `AdicSpace.IsTildeLimit.affinoid` (which keeps the point-space homeomorphism as a hypothesis); the
 completed-direct-limit criterion is specified in this README only.
 
-The completed-direct-limit criterion is the nonanalytic one. It fixes compatible finite
-generators of the ideals of definition,
-approximation modulo their powers, finite-stage detection of membership in those
-powers, and the closed integral closure defining the plus ring. Its conclusion
-includes the point-space homeomorphism; that homeomorphism is not an assumption.
+For the completed-direct-limit criterion, take a filtered direct system of complete Huber
+pairs `(A_i, A_i⁺)` with rings of definition `A_{i,0} ⊆ A_i⁺` preserved by transition maps
+and finitely generated ideals of definition `I_i` with `I_j = I_i A_{j,0}` for `j ≥ i`.
+Fix finite generators at one stage and restrict to its cofinal tail. Put `A = colim_i A_i`,
+`A_0 = im(colim_i A_{i,0} → A)` and `I = I_i A_0`, and require finite-stage detection:
+if the image of `a ∈ A_{i,0}` lies in `I^n`, it lies in `I_j^n` at some `j ≥ i`.
+Give `A` the ring topology with open subring `A_0` and neighbourhoods `I^n`; put
+`A⁺ = integral closure in A of im(colim_i A_i⁺ → A)`. Form the separated completion
+`Â` and let `Â⁺` be the closure of the image of `A⁺` in `Â`.
+Prove that this is a complete Huber pair, that restriction of valuations gives a
+homeomorphism `Spa(Â, Â⁺) ≅ lim_i Spa(A_i, A_i⁺)`, and that the stage-ring images have
+dense union in `Â`. These conclusions concern valuation spectra without assuming sheafiness.
+If every level pair and `(Â, Â⁺)` are sheafy, conclude that the corresponding adic spaces
+form a tilde-limit. Perfectoidness of `Â` supplies the latter hypothesis in perfectoid
+applications (PerfectoidSpaces P3.10, *perfectoid-stably-uniform-and-sheafy*).
+The construction and valuation argument are Scholze–Weinstein 2013 Proposition 2.4.2,
+p. 20; its adic conclusion here uses the sheafy-pair convention of this roadmap.
+
+**Checks.**
+
+- A constant complete sheafy pair gives its own completion and the identity tilde-limit.
+- A constant zero pair gives empty valuation spectra and an empty adic tilde-limit.
+- Sheafiness of the levels alone does not suffice: in HK Example 6.28, pp. 24–25,
+  truncate the displayed generators of the definition ring at `n ≤ N`, complete
+  `X₂`-adically and invert `X₂`. Each stage is noetherian and sheafy, but their
+  completed colimit is the nonsheafy Huber–Rost ring. Its nonzero `X₃` vanishes
+  on both rational domains `|X₁| ≤ 1` and `|X₁| ≥ 1`, so the adic conclusion fails.
 
 ### R5.9 characteristic equations and topology of the auxiliary maps
 
@@ -4725,22 +4752,33 @@ general by *dagger-affinoid-subdomain-completion* and faithful flatness of compl
   `D = A/m^k`, all maximal `m ∈ U` and `k ≥ 1` (the dagger analogue of BGR 7.2.2/1).
 
 **A locally closed immersion of affinoid rigid spaces is Runge over a finite rational covering
-(BGR 7.3.5/1).** (*rigid-locally-closed-immersion-runge*) Prove that for `K` a field complete for a
+(BGR 7.3.5/1).** (*rigid-locally-closed-immersion-runge*) RigidAnalyticGeometry §4.6 item 2,
+using §4.5 item 3's Runge immersions, supplies the following theorem (BGR 7.3.5/1;
+Bosch 1.8/10), transported through AdicSpacesPartII's R0.9 carrier bridge. For `K` a field complete for a
 nontrivial nonarchimedean absolute value of rank one and `E → D` a homomorphism of `K`-affinoid
 algebras defining a locally closed immersion `Sp(D) → Sp(E)` (bijective onto its image and surjective
 on all local rings), there are finitely many rational subdomains `W_1, …, W_s` covering `Sp(E)` such
 that each `Sp(D) ×_{Sp E} W_i → W_i` is a Runge immersion, i.e. factors as a closed immersion into a
-Weierstrass domain of `W_i` (GK00 §2, proof of Prop. 2.5, p. 10, as quoted from BGR). The inclusion of
-the Laurent domain `U = {|X| ≥ |π|} ⊆ Y := Sp(K⟨X⟩)` is an open (hence locally closed) immersion
-which is Runge over the rational covering `W_1 = {|X| ≥ |π|^2}`, `W_2 = {|X| ≤ |π|^2}`:
-`U ×_Y W_1 = U` is the
-Weierstrass domain `{|π/X| ≤ 1}` of `W_1` (`X` is invertible on `W_1`), and `U ×_Y W_2 = ∅` is a
-closed immersion. The covering `{|X| ≥ |π|}`, `{|X| ≤ |π|}` does not work: `U ×_Y {|X| ≤ |π|}` is the
-circle `{|X| = |π|}` in the disc `{|X| ≤ |π|} ≅ Sp(K⟨Z⟩)` (`Z = X/π`), and a Weierstrass domain
-`{|f_i| ≤ 1}` of that disc containing the circle is the whole disc (the Gauss norm of `f_i ∈ K⟨Z⟩`
-is its supremum on `|Z| = 1`), while `K⟨Z⟩ → K⟨Z, Z^{-1}⟩` is not surjective, so the circle is not
-Runge in the disc. The Gerritzen–Grauert theorem *gerritzen-grauert* (BGR 7.3.5/3) is derived from
-this statement in BGR, so it is not an input here. *Needs:* *affinoid-subdomain*.
+Weierstrass domain of `W_i` (GK00 §2, proof of Prop. 2.5, p. 10, as quoted from BGR).
+Part IV uses this theorem in *dagger-affinoid-subdomain-completion*.
+
+**Checks (transport).**
+
+- For an identity immersion, the one-member rational covering gives the identity Runge immersion.
+- The inclusion of the Laurent domain `U = {|X| ≥ |π|} ⊆ Y := Sp(K⟨X⟩)` is an open
+  (hence locally closed) immersion which is Runge over the rational covering
+  `W_1 = {|X| ≥ |π|^2}`, `W_2 = {|X| ≤ |π|^2}`: `U ×_Y W_1 = U` is the
+  Weierstrass domain `{|π/X| ≤ 1}` of `W_1` (`X` is invertible on `W_1`), and
+  `U ×_Y W_2 = ∅` is a closed immersion.
+- The covering `{|X| ≥ |π|}`, `{|X| ≤ |π|}` does not work: `U ×_Y {|X| ≤ |π|}` is the
+  circle `{|X| = |π|}` in the disc `{|X| ≤ |π|} ≅ Sp(K⟨Z⟩)` (`Z = X/π`), and a Weierstrass domain
+  `{|f_i| ≤ 1}` of that disc containing the circle is the whole disc (the Gauss norm of `f_i ∈ K⟨Z⟩`
+  is its supremum on `|Z| = 1`), while `K⟨Z⟩ → K⟨Z, Z^{-1}⟩` is not surjective, so the circle is not
+  Runge in the disc.
+
+The Gerritzen–Grauert theorem *gerritzen-grauert* (BGR 7.3.5/3) is derived from
+this statement in BGR. *Needs:* RigidAnalyticGeometry §4.5 item 3 and §4.6 item 2;
+AdicSpacesPartII R0.9 carrier bridge and R1 *affinoid-subdomain*.
 
 **Affinoid subdomains, stalks, open immersions and Runge immersions agree with their completions.**
 (*dagger-affinoid-subdomain-completion*) Let `A` be a `K`-dagger algebra with completion `Â`,
@@ -5425,7 +5463,8 @@ not. *Needs:* *dagger-smooth-space*; *dagger-differentials*; *dagger-de-rham-com
 
 **Transfer bimodules and direct images.** (*dagger-d-module-direct-image*) Let `char K = 0` and
 `f : Z → Y` a morphism of smooth pure-dimensional dagger spaces. Define the transfer bimodules
-`D_{Z→Y} = O_Z ⊗_{f^{-1}O_Y} f^{-1}D_Y` and `D_{Y←Z} = ω_{Z/Y} ⊗_{O_Z} D_{Z→Y}`, with
+`D_{Z→Y} = O_Z ⊗_{f^{-1}O_Y} f^{-1}D_Y`, a `(D_Z, f^{-1}D_Y)`-bimodule, and
+`D_{Y←Z} = ω_{Z/Y} ⊗_{O_Z} D_{Z→Y}`, a `(f^{-1}D_Y, D_Z)`-bimodule, with
 `ω_{Z/Y} = ω_Z ⊗ f^*ω_Y^{⊗−1}` (GK02 §1, 1.1, 1.4); for partially proper `f`, the compactly
 supported direct image `f_!F(V) = Γ_c(f^{-1}V/V, F)` (sections whose support is quasi-compact over
 every quasi-compact admissible open of `V`, Huber96 5.6 as recalled in GK02 1.6) with its derived
@@ -5433,8 +5472,12 @@ functor `Rf_! : D^+ → D^+`; and `f_+M = Rf_!(D_{Y←Z} ⊗^L_{D_Z} M)` for `M 
 one of the two kinds needed: projections `X × Y → Y` with `X` admissibly covered by finitely many
 opens, each Zariski closed in an open polydisc (so that `R^if_!` vanishes above a fixed degree and
 `Rf_!` extends to `D^−`), and closed immersions (for which the local structure of `Z` in `Y` is that of
-*dagger-tubular-neighbourhood* (a)–(b), as in GK02 §1, proof of Prop. 1.7). For these, prove
-`g_+f_+ ≅ (g ∘ f)_+` (GK02 Prop. 1.7); `DR(f_+M)[dim Y] ≅ Rf_! DR(M)[dim Z]` (GK02 1.9(a)); and, for the projection
+*dagger-tubular-neighbourhood* (a)–(b), as in GK02 §1, proof of Prop. 1.7). For composable
+partially proper `f` and `g`, with `g` a projection or a closed immersion and each of
+`f`, `g`, `g ∘ f` in the two classes just specified, prove `g_+f_+ ≅ (g ∘ f)_+`
+(GK02 Prop. 1.7). This ensures that all three derived direct images have the required
+bounded-above extension.
+For either defined class prove `DR(f_+M)[dim Y] ≅ Rf_! DR(M)[dim Z]` (GK02 1.9(a)); and, for the projection
 `p : X × Y → Y`, `Ω^•_{X×Y/Y} ≅ D_{Y←X×Y} ⊗^L_{D_{X×Y}} O_{X×Y}[−dim X]` (GK02 1.5). No other
 functor of a six-functor formalism is a target. *Needs:* *dagger-d-modules*;
 *dagger-partially-proper*; *dagger-smooth-space*; *dagger-coherent-module*;
@@ -5442,10 +5485,22 @@ functor of a six-functor formalism is a target. *Needs:* *dagger-d-modules*;
 
 **Checks.**
 
-- Degenerate: for `X = Sp K` the projection gives `p_+ = id`.
-- Computation: for the origin `s : Sp K → Sp W_1`, `s_+K = D_{X←pt} ≅ D/Dx`, the module
-  `K[∂]·δ` with `x·∂^kδ = −k∂^{k−1}δ`, which is supported at the origin and is not a finite
-  `W_1`-module.
+- For `id_X`, both transfer bimodules are `D_X` with their usual left and right actions,
+  `id_! = id` on sheaves and `id_+ = id` on left `D_X`-modules, with no shift.
+- For the origin `s : pt → D = Sp W_1`, with coordinate `x`,
+  `D_{pt→D} = D/xD` is a `(K,D)`-bimodule and
+  `D_{D←pt} = (K·dx)⁻¹ ⊗_K (D/xD) ≅ D/Dx` is a `(D,K)`-bimodule;
+  the latter identification uses transposition `x ↦ x`, `∂ ↦ −∂`.
+  Thus `s_+K = K[∂]·δ`, with `x∂^kδ = −k∂^{k−1}δ`, in degree zero.
+  Its derivative orders are unbounded, so it is not a finite `W_1`-module.
+- For `p : (ℙ¹_K)^† → pt`, `D_{X→pt} = O_X` with its natural left `D_X`-action
+  and right scalar action, while `D_{pt←X} = ω_X` has left scalar action and
+  right action `(g dx)∂ = −g′ dx`. Properness gives `p_! = p_*`, and
+  `p_+O_X ≅ RΓ(X, Ω^•_X)[1] ≅ K[1] ⊕ K[−1]`: the summands arise from
+  `H^0_dR = K` and `H^2_dR = K`, respectively.
+- A closed immersion followed by a projection need not have its composite in the defined
+  classes: a nonisotrivial smooth Legendre family embedded in `ℙ² × Y` is neither a
+  product projection nor a closed immersion over `Y`.
 
 **De Rham cohomology of dagger polyannuli and the relative Poincaré lemma.**
 (*dagger-polyannulus-de-rham-cohomology*) Let `K` be a field of characteristic 0 complete for a
@@ -5603,13 +5658,16 @@ supported de Rham cohomology as cohomology with supports in `X ⊂ Sp(T_m(ρ)/I)
 - Compatibility: for coherent `F`, `H^i_Y(X, F)` is the local
 cohomology used by GK00 §4, 4.3 for `H^i_c(X, F)`, and for `i = 0` it is the space of sections
   of `F` supported in `Y`.
-- Convention: the connecting map of the cone convention sends two entries `a, b` to `−a − b`.
+- Convention: Mathlib's third cone-triangle arrow is induced by `−mappingCone.fst`: it is
+  negative identity on the shifted source and zero on the target summand, under the
+  standard shift identifications. For `0 : K[−1] → K[0]`, its degree-zero formula is
+  `(a,b) ↦ −a`, so `(0,1)` maps to zero (Lean `example` component equations).
 
 **Algebraic local cohomology of `D_X`-modules.** (*dagger-algebraic-local-cohomology*) Let
 `char K = 0`, `X` a smooth dagger space, `Y ⊆ X` closed with coherent ideal `J`, and `E` a
 `D_X`-module (*dagger-d-modules*). Define `Γ*_Y(E) = colim_k Hom_{O_X}(O_X/J^k, E)`, the sections
 killed by a power of `J`, and `E(∗Y) = colim_k Hom_{O_X}(J^k, E)`. Prove that both are
-`D_X`-modules, although no single `Hom_{O_X}(O_X/J^k, E)` is: an operator of order `≤ m` maps
+`D_X`-modules; an individual `Hom_{O_X}(O_X/J^k, E)` need not be stable under `D_X`: an operator of order `≤ m` maps
 sections killed by `J^k` to sections killed by `J^{k+m}`, by induction on `m` through the
 commutators `[P, f]` for `f ∈ J` (GK02 §1, 1.8, p. 7). Prove further: (a) their derived functors
 on `D(D_X)` give triangles `RΓ*_Y K → K → RK(∗Y) →`; since `D_X` is locally free over `O_X`,
@@ -5630,6 +5688,9 @@ pure-dimensional, `s_+RΓ*_Z O_Y ≅ RΓ*_Z O_X[d]`. *Needs:* *dagger-d-modules*
   `s_+K = D/Dx` (`∂^k[x^{-1}] = (−1)^k k![x^{-k−1}]`), which is (f) for a point.
 - Computation: for `Y = {x_1 = 0}` in a polydisc, `R^1Γ*_Y O = O[x_1^{-1}]/O` and the other
   `R^iΓ*_Y O` vanish, as (e) predicts.
+- For `Y = X`, `J = 0`, every positive finite torsion stage is `E`, already a
+  `D_X`-module, and `E(∗Y) = 0`. For `Y = ∅`, `J = O_X`, every torsion stage
+  is the zero `D_X`-module and `E(∗Y) = E`.
 
 **Chart-local branch removal for boundary-vanishing log complexes.**
 (*chart-local-branch-removal*) Let `K` be complete, nontrivially valued and nonarchimedean,
@@ -6027,8 +6088,9 @@ from degree `q` cohomology on the fringe complement to degree `q+1` coherent
 compact support, for `q ≥ 0`, is specified as coming from the short exact sequence of free
 sheaves on the complement and the whole fringe and their cokernel (GK00 4.3,
 pp. 19–20). **Check:** it fixes the
-Mathlib cone convention: the third triangle map sends two suspended entries
-`a,b` to `−a−b`.
+Mathlib cone convention: the third arrow is induced by `−mappingCone.fst`. For
+`0 : K[−1] → K[0]`, its degree-zero formula is `(a,b) ↦ −a`; it kills the target
+summand (Lean `example` component equations).
 
 **Serre duality for smooth affinoid dagger spaces.** (*dagger-serre-duality*) Let `K` be spherically
 complete (complete, nonarchimedean; e.g. discretely valued). Let `X` be a smooth affinoid `K`-dagger
@@ -6755,9 +6817,9 @@ numbers, the nilpotent coordinate is nonzero even though every point norm kills 
 - Integral subalgebra: every scalar multiple of X in W₁/(X²) belongs to the integral subalgebra.
 - Integral subalgebra: a scalar of absolute value greater than 1 is excluded from the integral subalgebra of K.
 - Reduction of an MW-type algebra: the reduction of the dagger unit annulus is k[x,y]/(xy−1).
-- Minimal presentations: the least presentation dimension of K is 0, and its chosen presentation is bijective.
-- Minimal presentations: the least presentation dimension of W₁ is 1, and every chosen minimal presentation is bijective.
-- Minimal presentations: the dual numbers W₁/(X²) have least presentation dimension 1; their presentation cannot be injective.
+- Minimal presentations: the least presentation dimension of K is 0, and its chosen presentation is bijective (Lean `example`s).
+- Minimal presentations: the least presentation dimension of W₁ is 1, and every chosen minimal presentation is bijective (Lean `example`s).
+- Minimal presentations: the dual numbers W₁/(X²) have least presentation dimension 1; their presentation cannot be injective (Lean `example`s).
 - Tensor relation ideal: for K⊗†_K K, the ideal in the minimal zero-variable presentation is zero.
 - Tensor relation ideal: a zero factor makes the tensor relation ideal the unit ideal.
 - Tensor relation ideal: for W₁⊗†_(W₁)W₁, the ideal in the two-variable minimal presentation is nonzero principal.
@@ -6960,7 +7022,9 @@ carrier, so the open comparison cannot change the restriction map.
 **Checks:** for `U = X` the restriction is the identity;
 for `U = ∅` the restriction is zero.
 The connecting
-arrow of the zero map on two inputs is `−a−b`, fixing Mathlib's cone sign.
+arrow for `0 : K[−1] → K[0]` has degree-zero formula `(a,b) ↦ −a`,
+fixing Mathlib's cone sign: negative identity on the shifted source and zero on
+the target summand (Lean `example` component equations).
 
 **Checks.** The de Rham complex of the point has zero positive terms;
 that of the empty space is zero; the disc has nonzero one-forms.
@@ -7148,10 +7212,11 @@ MW-type trace, finiteness of rigid cohomology). Mathlib supplies `MvPowerSeries.
 `IsNoetherianRing`, `Algebra.FormallySmooth`, `AlgebraicGeometry.Scheme`. Tau Ceti supplies
 `LinearMap.isStrictMap_of_module_finite`, `restrictedMvPowerSeriesCompletion`, the rational
 localisation and rational subsets of `(K⟨X⟩, K°⟨X⟩)`. Huber96 5.6 supplies the compactly supported
-direct image, defined here in *dagger-d-module-direct-image*. The Runge factorisation of locally
-closed immersions (BGR 7.3.5/1) is this layer's own target *rigid-locally-closed-immersion-runge*
-(F1.6), proved as in BGR §7.3 from AdicSpacesPartII R1's affinoid subdomains;
-*dagger-affinoid-subdomain-completion* uses it.
+direct image, defined here in *dagger-d-module-direct-image*. RigidAnalyticGeometry §4.6 item 2
+(BGR 7.3.5/1; Bosch 1.8/10), using §4.5 item 3's Runge immersions, supplies the finite
+rational Runge covering theorem. *rigid-locally-closed-immersion-runge* transports it
+through AdicSpacesPartII's R0.9 carrier bridge; Part IV owns its use in
+*dagger-affinoid-subdomain-completion*.
 
 Two inputs are explicit hypotheses of the statements that use them rather than dependencies:
 (MWF), the finiteness of Monsky–Washnitzer cohomology of smooth affine schemes over the residue
