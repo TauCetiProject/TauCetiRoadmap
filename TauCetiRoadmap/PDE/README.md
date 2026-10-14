@@ -77,6 +77,15 @@ ellipticity is the case that does earn a named definition: its two-sided bound
 
 ## Getting the statements right
 
+[GeometricMeasureTheory](../GeometricMeasureTheory/README.md), G3–G6, extends this roadmap's
+weak-derivative and `W¹,¹` APIs to distributional BV, finite perimeter, scalar coarea, BV
+compactness, and BV traces. Lane A retains ownership of Sobolev spaces, smooth density,
+Sobolev Poincaré and domain trace/extension theory; GMT proves agreement of its BV versions
+with those canonical constructions. [Isoperimetry](../Isoperimetry/README.md), I3 and I5,
+owns sharp periodic Wirtinger with equality, and the sharp whole-space BV Sobolev inequality
+with its extremizers. Lane A's general embedding and nonsharp estimates are independent
+of those sharp results; no second weak-derivative or trace definition is introduced.
+
 A few cross-cutting rules for the *shape* of a PDE statement: which hypotheses it carries
 and which notion it names. These recur across the lanes below, and getting them right at
 statement time is what keeps the formalized API reusable.
@@ -234,6 +243,17 @@ Almost everything downstream waits on this, so do it first and do it right.
    and **Rellich–Kondrachov**: `W^{1,p}(Ω) ↪↪ L^p(Ω)` **compact** for bounded `Ω` (via
    Fréchet–Kolmogorov / Arzelà–Ascoli). This is the keystone for Lane D and the
    eigenvalue theory.
+   This lane owns the common Lipschitz-domain predicate for open Euclidean sets: at each
+   frontier point, after an affine isometry, the domain in an open product cylinder is
+   the region above a Lipschitz graph over a hyperplane. Supply restriction to smaller
+   charts, rigid-coordinate transport, and positive dilation; for bounded domains supply
+   a finite chart cover with explicit Lipschitz constants. Use normalized Euclidean
+   Hausdorff measure `μHE[n−1]` on the frontier. GMT G6 consumes this predicate for BV
+   traces and proves its surface-measure comparisons. The chart-integration formulas for
+   Sobolev traces consume GMT G2's area formula, independently of G6's BV trace comparison.
+   `C¹` domains satisfy it by a
+   proved local-graph comparison; cone conditions are separate hypotheses and do not
+   redefine the Lipschitz predicate.
 7. **Hölder spaces `C^{k,α}(Ω)`** as Banach spaces, the target spaces for Schauder.
 
 ### Lane B: harmonic-analysis estimates

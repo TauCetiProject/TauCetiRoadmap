@@ -9,7 +9,12 @@ in the code repo; review machinery lives in
 
 Tau Ceti is being incubated by the [Lean FRO](https://lean-lang.org/fro/) and the [Mathlib Initiative](https://mathlib-initiative.org/) in partnership with academic and industry groups.
 
-If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUTING.md).
+Roadmap writing and review can involve a mix of human guidance and AI assistance. Humans direct
+the mathematical scope and approve roadmap changes; AI can help survey existing libraries, write
+prose and suggested Lean interfaces, and review the details. If you want to write or review a
+roadmap, start with [Getting started](CONTRIBUTING.md#getting-started) in `CONTRIBUTING.md`,
+then read its guidance on [writing](CONTRIBUTING.md#the-roadmap-writing-process) and
+[reviewing](CONTRIBUTING.md#reviewing-a-roadmap).
 
 ## Roadmaps
 
@@ -18,26 +23,32 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Algebraic topology of spaces and manifolds](TauCetiRoadmap/AlgebraicTopology/README.md)
 - [Algebraic vector bundles](TauCetiRoadmap/AlgebraicVectorBundles/README.md)
 - [Analytic toric geometry](TauCetiRoadmap/AnalyticToricGeometry/README.md)
-- [Arithmetic Dirichlet series and Tauberian methods](TauCetiRoadmap/ArithmeticDirichletSeries/README.md)
 - [Belyi maps, dessins d'enfants, and three-point covers](TauCetiRoadmap/BelyiMaps/README.md)
 - [Class field theory](TauCetiRoadmap/ClassFieldTheory/README.md)
+- [Classifying spaces of discrete groups](TauCetiRoadmap/ClassifyingSpaces/README.md)
 - [Combinatorial Heegaard Floer and grid homology](TauCetiRoadmap/CombinatorialHeegaardFloer/README.md)
 - [Conformal mapping and the geometric theory of holomorphic functions](TauCetiRoadmap/ConformalMapping/README.md)
 - [Continuous cohomology of profinite groups](TauCetiRoadmap/ProfiniteCohomology/README.md)
+- [Cyclic cohomology, spectral triples and noncommutative tori](TauCetiRoadmap/NoncommutativeGeometry/README.md)
 - [Dense graph limits and graphons](TauCetiRoadmap/DenseGraphLimits/README.md)
 - [DG and A-infinity algebras, categories, and modules](TauCetiRoadmap/DGAInfinity/README.md)
 - [Differential geometry — forms, de Rham cohomology, flows, and degree](TauCetiRoadmap/DifferentialGeometry/README.md)
+- [Diophantine approximation and transcendence](TauCetiRoadmap/DiophantineApproximationAndTranscendence/README.md)
 - [Elliptic curves](TauCetiRoadmap/EllipticCurves/README.md)
+- [Euclidean isoperimetry, sharp inequalities, and rigidity](TauCetiRoadmap/Isoperimetry/README.md)
 - [Exchangeability and de Finetti](TauCetiRoadmap/Exchangeability/README.md)
+- [Formal Laurent fields, Puiseux expansions and continuous differential calculus](TauCetiRoadmap/FormalLaurentPuiseux/README.md)
 - [Foundations of adic spaces](TauCetiRoadmap/AdicSpaces/README.md)
 - [Fuchsian groups and orbifold Riemann surfaces](TauCetiRoadmap/FuchsianOrbifolds/README.md)
 - [Galois groups of polynomials](TauCetiRoadmap/PolynomialGaloisGroups/README.md)
 - [Geodesics, the exponential map, and the Hopf-Rinow theorem](TauCetiRoadmap/HopfRinow/README.md)
+- [Geometric measure theory: rectifiability, BV, and finite perimeter](TauCetiRoadmap/GeometricMeasureTheory/README.md)
 - [Geometric topology and the Kirby-list problems](TauCetiRoadmap/GeometricTopology/README.md)
 - [Global number fields, ray classes, adeles, and Hecke characters](TauCetiRoadmap/GlobalNumberFields/README.md)
 - [Global quadratic forms over number fields](TauCetiRoadmap/GlobalQuadraticForms/README.md)
 - [Grothendieck groups, Cartan maps, and Euler forms](TauCetiRoadmap/GrothendieckEulerForms/README.md)
 - [Heegaard Floer homology, analytically](TauCetiRoadmap/HeegaardFloer/README.md)
+- [Heights, units and S-units of number fields](TauCetiRoadmap/HeightsAndUnits/README.md)
 - [Integral quadratic forms and lattices](TauCetiRoadmap/IntegralLattices/README.md)
 - [Local fields and ramification](TauCetiRoadmap/LocalFieldsRamification/README.md)
 - [Local Galois groups of p-adic fields](TauCetiRoadmap/LocalGaloisGroups/README.md)
@@ -49,14 +60,17 @@ If you want to write or review a roadmap, start with [CONTRIBUTING.md](CONTRIBUT
 - [Operator theory](TauCetiRoadmap/OperatorTheory/README.md)
 - [Optimal transport and Wasserstein geometry](TauCetiRoadmap/OptimalTransport/README.md)
 - [Orthogonal and spin groups](TauCetiRoadmap/OrthogonalSpinGroups/README.md)
+- [P-adic measures, completed group algebras, and characteristic ideals](TauCetiRoadmap/PadicMeasuresIwasawaAlgebras/README.md)
 - [Partial differential equations](TauCetiRoadmap/PDE/README.md)
 - [Peripheral actions on free pro-`p` groups](TauCetiRoadmap/PeripheralActions/README.md)
+- [Pivotal and spherical categories](TauCetiRoadmap/PivotalSpherical/README.md)
 - [Profinite and pro-`p` groups](TauCetiRoadmap/ProfiniteProPGroups/README.md)
 - [Profinite integers, profinite powers, and continuous automorphisms](TauCetiRoadmap/ProfiniteArithmetic/README.md)
 - [Quadratic forms and cohomological invariants](TauCetiRoadmap/QuadraticFormInvariants/README.md)
 - [Real algebraic geometry: sign determination and cylindrical decomposition](TauCetiRoadmap/RealAlgebraicGeometry/README.md)
 - [Reductive algebraic groups](TauCetiRoadmap/ReductiveGroups/README.md)
 - [Representation theory (semisimple algebras, character tables, Lie and classical groups, Schur-Weyl, Peter-Weyl)](TauCetiRoadmap/RepresentationTheory/README.md)
+- [Scheme, stack, cohomology and intersection foundations](TauCetiRoadmap/SchemeAndStackFoundations/README.md)
 - [Stable reduction of curves and stable maps](TauCetiRoadmap/StableReduction/README.md)
 - [Stable, periodic, and curved homological algebra](TauCetiRoadmap/StablePeriodicCurved/README.md)
 - [Standard probability distributions and their elementary theory](TauCetiRoadmap/StandardDistributions/README.md)

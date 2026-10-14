@@ -26,7 +26,8 @@ State each hypothesis where it is used; never bake it in.
   `[ChartedSpace H M] [IsManifold I n M]`, everything over `ℝ`. Pointwise theorems at the lowest
   regularity the flat layer needs (`C²` for the `extDeriv` facts, `C³` for the bracket); the global
   theory — the de Rham complex and everything cohomological — fixed at `C^∞`; no analytic
-  refinements.
+  refinements. The flat planar statements of 5.6 use their stated absolute-continuity and
+  directional hypotheses.
 - **Finite dimension** is written `[FiniteDimensional ℝ E]` exactly where it is used: orientations,
   integration, Sard, degree, partitions of unity, 3.3's homogeneity, and all of layer 4. Layers 0–1
   and the rest of 3 stay Banach-general, like `extDeriv` and `IsMIntegralCurve`. Partitions of unity
@@ -134,7 +135,8 @@ Checked against the pin; re-grep before citing anything in code.
 
 ## What Tau Ceti already has (consume)
 
-Each item is imported by `Suggested.lean` and used in a compiled statement there; none is rebuilt.
+The signature file `Suggested.lean` imports the existing APIs
+consumed by these layers; none is rebuilt.
 
 - **Covering-space theory** (universal-covers roadmap): `TauCeti/AlgebraicTopology/UniversalCover/`
   — universal cover, π₁-action, deck groups, the classification, and `π₁(S¹) ≅ ℤ`
@@ -180,6 +182,26 @@ Each item is imported by `Suggested.lean` and used in a compiled statement there
   `Geometry/Manifold/Riemannian/VolumeDensity/` — `TauCeti.riemannianVolume`, glued from the chart
   volumes with density `chartVolumeDensity`, orientation-free, characterized by
   `eq_riemannianVolume_iff`, locally finite; 12.4 connects densities and form integration to it.
+
+- **Planar filled hulls and separation** (conformal-mapping roadmap, L5):
+  `Topology/FilledHull.lean` and `Analysis/Normed/Module/FilledHull.lean` —
+  `TauCeti.filledHull`, `filledHull_subset_closedConvexHull`, `isBounded_filledHull`,
+  `subset_filledHull_of_frontier_subset`, and
+  `connectedComponentIn_compl_eq_of_unbounded_component`. Layer 5.6 uses
+  `filledHull K \ K` for the bounded complementary components of a trace; it introduces
+  no second inside or filled-hull definition.
+- **Scalar contour and index APIs** (completed contour-integration roadmap):
+  `Analysis/Contour/Winding/{Number/Basic,Number/Homotopy,Proximity,UnboundedComponent}.lean`
+  and `Analysis/Contour/Cycle/` — `windingNumber_eq_integral_of_avoidance`,
+  `windingNumber_eq_two_pi_I_inv_mul_curveIntegral`, proximity invariance, vanishing on
+  unbounded components, and `Cycle`. Layer 5.6 extends their regularity theorems to AC curves.
+- **Metric derivatives and rectangle Green formulas**:
+  `MeasureTheory/Function/MetricDerivative.lean` —
+  `HasDerivAt.metricDerivative_eq` and
+  `AbsolutelyContinuousOnInterval.lintegral_metricDerivative_lt_top`; and
+  `MeasureTheory/Integral/DivergenceTheorem.lean` —
+  `ContinuousLinearMap.integral_bilinear_fderiv_sub_prod_Icc`. Layer 5.6 consumes these
+  length and rectangle results and proves agreement with its planar formula.
 
 ## Existing code to refactor
 
@@ -496,8 +518,9 @@ stronger quantifier order.
 - **5.3 Stokes.** `integralTopForm_mextDeriv`: `∫_M dω = ∫_{∂M} ι^*ω` for a compactly supported `C¹`
   `n`-form on an oriented `C^∞` manifold over `𝓡∂ (n+1)`, by partition of unity and the half-space
   case of the flat divergence theorem. Corollaries: `integralTopForm_mextDeriv_eq_zero` on
-  boundaryless `M`, the interval case against `intervalIntegral`, Green's theorem, and agreement
-  with `curveIntegral`.
+  boundaryless `M`, the interval case against `intervalIntegral`, the smooth-boundary
+  specialization of Green's theorem, and agreement with `curveIntegral`. The planar
+  comparison theorem is owned by 5.6.3.
 - **5.4 The homotopy operator.** `homotopyOperator` on `M × Icc 0 1`, with `homotopyOperator_spec`:
   for a `C¹` form `ω` with values in a complete space, `hω` is `C¹` and
   `ι₁^*ω − ι₀^*ω = d(hω) + h(dω)`, proved directly rather than through Stokes, so `M` may have
@@ -508,6 +531,253 @@ stronger quantifier order.
   manifolds with corners through the abstract boundary [Lee, Thm. 16.25], whose faces the
   geometric-topology roadmap consumes. *Acceptance:* `∫_{Icc 0 1} df = f 1 − f 0`;
   `|∫_{S¹} dθ| = 2π` for `circleAngularForm`; Green's theorem on the unit square.
+
+### Layer 5.6: Green's theorem for planar regions and curves
+
+Green's theorem here means the circulation identity
+
+\[
+ \oint_C P\,dx+Q\,dy=\int_D(\partial_x Q-\partial_y P)\,dx\,dy.
+\]
+
+The scope includes **both** statements linked under theorem 21 in
+[Freek Wiedijk's list](https://www.cs.ru.nl/~freek/100/#21). These have different strengths;
+proving the smooth-boundary specialization of 5.3 alone does not discharge this layer.
+
+| Reference | Required specialization |
+| --- | --- |
+| [HOL Light, `GREEN_THEOREM_CURL`](https://www.cs.ru.nl/~freek/100/hol.html#21) | A closed absolutely continuous curve, index one on every bounded component of its complement, and a `C¹` field on a neighbourhood of the curve and those components; integrability of both sides is a conclusion. No simplicity or finite-piece assumption. |
+| [Abdulaziz–Paulson, Isabelle/AFP `Green`](https://isa-afp.org/entries/Green.html) | Finite type-I and type-II divisions, compatible oriented boundary chains, and the directional hypotheses of `analytically_valid`; no full `C¹` assumption on the field. The boundary integrals use Henstock–Kurzweil integration. |
+
+The intrinsic targets below specify the mathematics; the reference statements are also
+acceptance tests. In particular, provide specializations of AFP's
+[`GreenThm_typeI_typeII_divisible_region`,
+`GreenThm_typeI_typeII_divisible_region_finite_holes`, and
+`GreenThm_typeI_typeII_divisible_region_equivallent_boundary`](https://isa-afp.org/browser_info/current/AFP/Green/Green.html),
+whose hypotheses follow from the corresponding AFP hypotheses, with no added regularity
+assumptions. The intrinsic cell and boundary requirements below specify the API; AFP's
+particular encodings of subdivisions are not a required carrier.
+HOL Light writes the field components in the order `(Q,P)`; our convention is always
+`P dx + Q dy` and curl `∂x Q − ∂y P`.
+
+**Conventions and existing inputs.** Use `ℂ` as the oriented real plane, with coordinates
+`Complex.re`, `Complex.im`, positively oriented basis `(1, Complex.I)`, and `volume` as area.
+Real differentiability is `ContDiffOn ℝ 1`, never complex differentiability. On an oriented
+parameter interval `a..b`, the circulation is the existing `intervalIntegral`
+
+```
+∫ t in a..b, P (γ t) * (deriv γ t).re + Q (γ t) * (deriv γ t).im
+```
+
+and its `Path` form is Mathlib's `curveIntegral` of the real continuous linear map
+`v ↦ P z * v.re + Q z * v.im`. Consume
+`curveIntegral_eq_intervalIntegral_deriv` for agreement of `deriv` and `derivWithin`. Use
+[`AbsolutelyContinuousOnInterval`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/MeasureTheory/Function/AbsolutelyContinuous.html#AbsolutelyContinuousOnInterval),
+Mathlib's absolute-continuity FTC, Fubini, change of variables, connected components,
+`BoxIntegral.IntegrationParams.Henstock`, and `IntegrableOn.hasBoxIntegral` for agreement
+with Bochner integrals.
+For points off a curve, use
+[`TauCeti.Contour.windingNumber`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Analysis/Contour/Winding/Number/Basic.lean);
+no second index is defined. On the trace the area-weight function is set to zero, independently
+of the principal-value index there. The signed chain boundary convention is terminal endpoint
+minus initial endpoint; outer boundaries run counterclockwise and hole boundaries clockwise.
+
+**5.6.1 Curves, indices, and planar area.** Extend the existing index API to absolutely
+continuous curves `γ : ℝ → ℂ` on `a..b`, `a < b`, using their a.e. derivative and FTC.
+Prove interval-integrability of `deriv γ` and consume
+`windingNumber_eq_integral_of_avoidance` to obtain the off-trace index integral.
+Extend integrality for closed curves, local constancy off the compact trace
+`K = γ '' uIcc a b`, vanishing on unbounded complementary components, and the existing
+proximity-invariance theorem `windingNumber_eq_of_dist_lt_dist` to AC curves. The proximity
+hypothesis is `∀ t ∈ uIcc a b, dist (γ₁ t) (γ₀ t) < dist (γ₀ t) z` for two closed curves;
+conclude equality of their indices at `z`. Do not apply the existing countable-exception
+integrality and proximity theorems to an arbitrary AC curve: its exceptional set need only
+be null.
+
+Use the existing `TauCeti.filledHull K`; the bounded complementary region is `filledHull K \ K`.
+Consume the filled-hull boundedness and separation API from conformal mapping. Prove the
+remaining facts needed here: this region is open, its frontier lies in `K`, the trace of an
+AC curve has zero area, and adding or deleting that trace preserves area integrals.
+The finite-length assertion is `BoundedVariationOn γ (uIcc a b)`, already supplied by
+`AbsolutelyContinuousOnInterval.boundedVariationOn`. Relate its total variation to
+`∫ t in a..b, ‖deriv γ t‖` using the existing metric-derivative API; do not create a path-length
+carrier.
+
+For a closed curve let `nγ(z)` be the real part of its existing winding number off `K`, and
+zero on `K`. Prove measurability, integrability, and compact support of `nγ`. Its values need
+not be bounded. Supply the kernel estimate
+`∫ z in closedBall c R, ‖z-w‖⁻¹ ≤ 4πR` for `R>0` and `w ∈ closedBall c R`, together with
+integrability of this kernel. Tonelli applied to the off-trace index formula then bounds
+`∫ |nγ|` by `2R` times the curve length when that ball contains the trace; use filled-hull
+containment in the ball to control the support. Prove local `L¹` continuity under translation
+of the complex reciprocal kernel. These are the estimates used in 5.6.3's `L¹` limit passage,
+not an assumed uniform bound on the index.
+
+Prove that the existing `IsPiecewiseC1On` implies absolute continuity, so existing contour
+cycles specialize the new results. Supply restriction, splitting, reversal, concatenation,
+finite integer-weighted sums, and increasing AC reparametrizations onto the parameter
+interval. Prove integral and index invariance for those reparametrizations, sign reversal for
+decreasing ones, and integrability. Raw curves and existing `Path`s remain the carriers.
+Extend the existing raw-curve/`curveIntegral` index agreement to AC curves. The completed
+contour roadmap continues to own cycles, residues, principal values, homological Cauchy,
+and index definitions.
+
+**5.6.2 Directional Green identities and finite divisions.** A vertical (type-I) cell is
+
+\[
+ V=\{x+iy:a\le x\le b,\ \ell(x)\le y\le u(x)\},\qquad a<b,
+\]
+
+with `ℓ ≤ u`, continuous graphs, and graphs `C¹` away from a finite exceptional set.
+A horizontal (type-II) cell is the coordinate-swapped version. Equality of the graphs is
+allowed, including at endpoints. This weaker finite-exception condition is written with
+`ContinuousOn` and `ContDiffOn` on the interval minus the exceptions; it does **not** mean
+Tau Ceti's stronger `IsPiecewiseC1On`, which requires regularity up to breakpoints.
+
+Build their four parameterized edges and signed boundaries, membership formulas, compactness,
+measurability, null boundaries, slicing formulas, and coordinate-swap transport with its
+orientation sign. Establish affine covariance for real `C¹` one-forms. For an affine
+isomorphism `A` with linear part `L`, prove the pullback formula and
+
+\[
+ \operatorname{curl}(A^*\alpha)=\det(L)\,(\operatorname{curl}\alpha)\circ A,
+\]
+
+together with change of area by the absolute determinant and the corresponding
+boundary-orientation formula. The directional Green identities retain
+their separate slice hypotheses; arbitrary affine mixing is not asserted to preserve them.
+
+On `V`, assume only that `P` is continuous, `∂y P` exists at every point (the
+derivative of `y ↦ P (x+iy)`), this derivative is area-integrable on `V`, and the zero-extended
+fiber-integral function is measurable. Prove
+
+\[
+ \oint_{\partial V}P\,dx=-\int_V\partial_yP\,dA.
+\]
+
+On a horizontal cell assume the analogous hypotheses on `Q` and `∂x Q`, and prove
+`∮ Q dy = ∫ ∂x Q dA`. Derivatives are specified through `HasDerivAt` on coordinate slices,
+not through `fderiv` of a field that need not be Fréchet differentiable. In particular, do
+not demand the unused partial derivatives or continuity of the used derivatives. Prove the
+slice FTC and Fubini steps, and derive the fiber measurability premise from area integrability
+where Mathlib's completion and a.e. conventions permit it.
+
+For these identities the boundary integrals are **Henstock–Kurzweil**: develop the oriented
+one-dimensional specialization of `BoxIntegral.HasIntegral` on `Fin 1`, with restriction,
+finite splitting, reversal, linearity, uniqueness, FTC, and graph substitution. Prove the
+named one-dimensional equivalence `hasIntegral_GP_iff_Henstock_fin_one`: `GP` and `Henstock`
+have the same integral for every scalar integrand on a `Box (Fin 1)`. This is needed to consume
+Mathlib's `hasIntegral_GP_pderiv`, which is stated for `GP`, and derive the scalar FTC for
+continuous functions differentiable off a **countable** exceptional set. Finite-exception
+paths are a specialization. Prove its
+agreement with `intervalIntegral` and `curveIntegral` whenever the boundary integrand is
+Bochner integrable. The finite-exception path hypothesis alone does not guarantee this;
+never replace a conditionally integrable boundary expression by Bochner's junk value.
+Graph substitution must permit continuous parametrizations `C¹` away from finitely many
+exceptions, including unbounded speed and backtracking.
+
+A finite division covers its region by such cells with pairwise area-null intersections.
+Use finite integer-weighted sums of parameterized arcs for its boundary, with zero endpoint
+boundary for a cycle. Build the API for arc subdivision, reversal with coefficient negation,
+reparametrization, and cancellation. For the `P dx` identity compare boundaries modulo vertical
+arcs (whose `dx` integral is zero); for `Q dy` compare modulo horizontal arcs. This permits
+different type-I and type-II divisions and different boundary presentations related by common
+subdivision or graph reparametrization, as in AFP; a single shared cell decomposition is not a
+premise. Construct and prove the comparison certificates, rather than assuming that the
+boundary integrals are equal. Sum the component identities to obtain full Green for such
+regions, including finite holes and disconnected regions. Derive integrability of the boundary
+components in the gauge sense, and of `∂x Q − ∂y P` in the area sense. State the Bochner
+specialization with its genuine boundary-integrability assumptions. Consume Mathlib's
+rectangle divergence theorem and Tau Ceti's bilinear rectangle Green formula as existing
+special cases, and prove agreement.
+
+Build the **winding-weighted polygonal identity** for fields `C¹` on all of `ℂ`. For a closed
+polygon with consecutive vertices `vᵢ,vᵢ₊₁` and any base point `c`, use the triangle fan
+`Tᵢ=(c,vᵢ,vᵢ₊₁)`. The oriented boundaries telescope to the polygon because radial segments
+cancel. Prove the explicit index of each triangle boundary: off its three edges it is the
+sign of `det(vᵢ-c,vᵢ₊₁-c)` on the triangle interior and zero outside; degenerate triangles
+have zero index off their trace. Supply the triangular cell divisions and use the existing
+contour homotopy/proximity calculus for the index computation. Additivity gives
+`n_polygon = Σᵢ sign(detᵢ) · 1_{interior Tᵢ}` a.e.; internal triangle edges are area-null.
+Combining triangle Green with that index identity gives
+`∮_polygon P dx + Q dy = ∫ n_polygon · (∂x Q − ∂y P) dA`.
+Self-intersections, repeated vertices and repeated edges require no separate face arrangement.
+Do not require fan triangles to lie in a local field domain; the polygonal statement has
+explicitly global field hypotheses.
+
+**5.6.3 Green for absolutely continuous cycles.** For a closed absolutely continuous curve
+on `a..b`, `a < b`, an open `U` containing the trace, and `P,Q` real `C¹` on `U`, assume the
+existing winding number vanishes outside `U`. Prove the winding-weighted identity
+
+\[
+ \int_a^b[P(\gamma(t))x'(t)+Q(\gamma(t))y'(t)]\,dt
+   =\int_U n_\gamma(z)(\partial_xQ(z)-\partial_yP(z))\,dA(z),
+\]
+
+including integrability of both sides. First prove that the trace and the support of the
+index lie in a compact subset of `U`, using local constancy and vanishing outside `U`.
+Construct a smooth cutoff equal to one near that compact set, supported in `U`, and extend
+the multiplied field by zero to a `C¹` field on all of `ℂ`. Prove preservation of the boundary
+integral and weighted curl integral. This localization precedes applying 5.6.2's global
+polygonal identity, whose fan triangles can leave `U`.
+
+Build closed polygonal approximations with uniform convergence and convergence of derivatives
+in `L¹`. Use 5.6.1's kernel estimates and translation continuity to prove `L¹` convergence of
+the winding weights, and its AC proximity theorem to preserve the index outside `U` for all
+sufficiently close approximants. Apply the polygonal identity to the cutoff field and prove
+convergence of both boundary integrals and weighted area integrals. Prove the finite
+integer-weighted version for finite families of these raw curves, with the vanishing condition
+on the **total** index and localization using its total support and all traces. Specialize to
+`TauCeti.Contour.Cycle` of piecewise-`C¹` closed curves. Simplicity, a finite cell division,
+nonzero speed, finitely many complementary components, and compact support of the original
+field are not hypotheses.
+
+Deduce the HOL Light specialization: `filledHull K ⊆ U`, and the existing winding number is
+`1` at every point of `filledHull K \ K`. The area integral is over `filledHull K \ K`, and
+area and boundary integrability are conclusions. Derive the flux version by replacing
+`(P,Q)` with `(-Y,X)`: the boundary expression is `X dy − Y dx`, and the area expression is
+`∂x X + ∂y Y`, again with both integrability conclusions. This layer owns the comparison
+with smooth manifold boundaries and corners: prove agreement with 5.3–5.5's outward-first
+orientation, `integralTopForm`, coordinate area, and 12.5's Euclidean divergence theorem.
+Those layers own their general manifold theorems and consume this comparison.
+
+**Acceptance examples.** Prove the unit-circle and ellipse area formulas from
+`P=-y/2, Q=x/2`; the annulus formula `π(R²-r²)` for `0<r<R` with a clockwise inner circle;
+the signed shoelace formula for a closed polygonal path, including a self-intersecting path;
+and a twice-traversed circle with weight two. Give the unit-circle boundary a reparametrization
+`θ(t)=2π√t`, `0≤t≤1`, and recover area `π`: this curve is absolutely continuous with unbounded
+speed. Discharge a weak-field example `P(x,y)=|x-1/2|, Q(x,y)=x` on the unit square: only `∂y P=0`
+and `∂x Q=1` are needed, although the field is not `C¹` on a neighbourhood of the square.
+For the gauge FTC, take `h(0)=0` and `h(t)=t² sin(t⁻²)` for `0<t≤1`: prove that the
+Henstock–Kurzweil integral of `h'` is `sin 1`, and that `h'` is not Bochner integrable.
+These supplement the unit-square sign check of 5.5. The area formula for a general cycle is
+**signed area counted with index**, not the area of the union of its bounded complementary
+components.
+
+**Ownership and ordering.** This layer owns the AC and directional planar extensions and
+their comparisons with existing rectangle and manifold results. Layers
+5.3–5.5 retain manifold integration and Stokes; layer 12.5 retains Riemannian divergence and
+Green's integration-by-parts identities. The completed
+[contour integration roadmap](../../Completed/ContourIntegration/README.md) owns the contour
+and index APIs consumed above; [conformal mapping](../ConformalMapping/README.md), L5, owns
+the filled-hull and planar-separation APIs consumed here. [PDE](../PDE/README.md) owns Green functions, boundary-value
+problems, and weak PDE solutions; [modular forms](../ModularForms/README.md) owns its
+Petersson/region-Stokes application and can consume these identities. Sequence 5.6.1's curve
+calculus and 5.6.2's finite divisions before the approximation and limit passage in 5.6.3.
+They use Mathlib's flat calculus and
+integration directly; the manifold comparison uses 5.2–5.5.
+
+Follow Mathlib's existing `curveIntegral` design, including
+[`curveIntegral_eq_intervalIntegral_deriv`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/MeasureTheory/Integral/CurveIntegral/Basic.html#curveIntegral_eq_intervalIntegral_deriv)
+and `HasFDerivWithinAt.curveIntegral_segment_source`, and the community's
+[Stokes discussion](https://leanprover-community.github.io/archive/stream/116395-maths/topic/Stokes'.20theorem.html)
+about gauge integrals. The [Jordan-curve discussion](https://leanprover.zulipchat.com/#narrow/channel/287929-mathlib4/topic/Jordan.20curve.20.2F.20Smooth.20Jordan.20curve/near/569492761)
+likewise favours existing maps and regularity hypotheses over a new smooth-Jordan-curve
+carrier. Build missing compatibility lemmas in Tau Ceti following those APIs; consume
+Mathlib declarations wherever they already express a target.
+[Suggested.lean](Suggested.lean) prototypes the AC specialization, one-dimensional
+`GP`/`Henstock` equivalence, gauge FTC, and agreement with the interval integral; the markdown
+specifies the full layer.
 
 ### Layer 6: the de Rham complex and cohomology
 
@@ -720,6 +990,31 @@ Each is a tempting mistake with its refutation.
 - **"`Prop`-typed placeholders are acceptable in `Suggested.lean`."** A condition that cannot yet be
   stated is prose in the README, never `def _ : Prop := sorry`.
 
+## Rectifiable curves and geometric measure theory
+
+[GeometricMeasureTheory](../GeometricMeasureTheory/README.md), G1–G2, owns rectifiability,
+arclength, variation–speed identities, and Hausdorff length. Consume those results in
+planar curve calculus rather than building another metric length theory. The flat planar
+Green targets of [layer 5.6](https://github.com/TauCetiProject/TauCetiRoadmap/pull/826)
+own winding numbers, curve integration, and the actual area identity; layers 5.3–5.5
+retain manifold integration and Stokes. In 5.6.1, AC trace-nullity and variation–speed
+are specializations consumed from G1, whose general metric statements are the single
+owned targets; this layer builds their integral and index compatibility.
+
+For continuous BV curves, construct the geometric line integral of a continuous real
+1-form along the trace with its traversal multiplicity, using G1's AC arclength
+factorization. Prove independence of that factorization, invariance under increasing
+continuous onto reparametrizations, and sign reversal under decreasing ones. Prove
+agreement with the existing derivative-based `curveIntegral` when the parameter is AC.
+The original non-AC parameter cannot in general be differentiated to recover the geometric
+line integral. The metric and arclength part of G1 precedes this construction; Green's
+theorem for the AC factorization then supplies its rectifiable-curve area specialization.
+
+GMT G6 owns the finite-perimeter and boundary-normal comparison for rectifiable Jordan
+domains, consuming that AC boundary-integral identity. [Isoperimetry](../Isoperimetry/README.md),
+I3 and I6, owns the sharp curve inequality and circle equality. Neither Green's theorem
+nor the metric length foundations depend on the sharp isoperimetric theorem.
+
 ## Relation to sibling roadmaps
 
 One owner per shared construction, stated identically on both sides.
@@ -760,8 +1055,10 @@ One owner per shared construction, stated identically on both sides.
 ## Ordering
 
 Layers 0–1 first. Layers 2, 3 (except the form half of 3.4) and 12.1–12.3 are independent of them; 4
-needs 3 and 1.4; 12.4–12.5 need 0, 2 and 5. The integration track is 5 → {6, 7} → 8 → 9, with 6 and
-most of 7 available once 0–1 land (6.3 needs only 5.4's homotopy identity); 10 needs 2, 5, 7 and
+needs 3 and 1.4; 12.4–12.5 need 0, 2 and 5. The manifold integration track is
+5.1–5.5 → {6, 7} → 8 → 9; 5.6 runs in parallel from Mathlib's flat calculus and integration
+and compares with 5.2–5.5. Layers 6 and
+most of 7 are available once 0–1 land (6.3 needs only 5.4's homotopy identity); 10 needs 2, 5, 7 and
 9.2; 11 needs 10. Start 3.1 and 8.3 early. Claim single numbered items or smaller; the headline
 theorems (5.3, 8.5, 9.3, 10.4, 11.1) are staged claims whose intermediate lemmas land as reusable
 pull requests.

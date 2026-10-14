@@ -38,8 +38,8 @@ Mathlib supplies `Ideal`, `Ideal.absNorm`, unique factorization of nonzero ideal
 asymptotics, interval integration, and `Mathlib/NumberTheory/AbelSummation.lean`. Mathlib master
 also supplies `NumberField.Set.primeIdealZetaSum`, `NumberField.Set.HasDirichletDensity`, and
 `NumberField.Set.dirichletDensity` in
-`Mathlib/NumberTheory/NumberField/DirichletDensity.lean`. The repository pin predates that file;
-updating the pin to a revision containing it is the first task of Layer 7. This roadmap extends
+`Mathlib/NumberTheory/NumberField/DirichletDensity.lean`. (Note at archiving: the repository
+pin now contains that file, and the certificate consumes it directly.) This roadmap extends
 those objects and does not wrap competing series, convolution, Euler-product, Abel-summation, or
 density APIs around them.
 
@@ -182,6 +182,10 @@ statement and the rejection theorem.
 **2.3 Von Mangoldt transform.** Define the ideal von Mangoldt weight and the transform attached to
 a weight. Prove support on prime powers and the exact coefficient identity for the logarithmic
 derivative of an Euler product on its absolute-convergence half-plane.
+*Erratum, corrected at archiving:* absolute convergence of the Euler product is not enough. The
+identity holds for `Re s > σ` when `σ` is a point of absolute convergence and every local power
+series is zero-free on the disc of radius `N(𝔭)^{-σ}`. The product with the single factor
+`1 + 2 · 2^{-s}` converges absolutely everywhere, but its von Mangoldt series diverges at `s = 0`.
 
 ### Layer 3: local factors and Euler products
 
@@ -192,6 +196,10 @@ local series, finite bad set, and hypotheses needed to transport the ideal produ
 `normCoeff`. A bare ideal arithmetic function has no Euler product. Supply extensionality,
 restriction, product, conjugation, and trivial-weight instances without introducing a second
 generic Euler-product framework.
+*Note at archiving:* the realized `EulerProductData` stores only the function and its coprime
+multiplicativity. The local series are derived from the function and the `normCoeff` transport is
+a theorem; it stores no finite bad set, since a bad set with no prescribed shape for the good
+factors would constrain nothing.
 
 **3.2 Finite products first.** Prove the factorization of a coefficient over the prime-power
 factorization of a nonzero ideal and the equality for Euler products over a finite set of primes.
@@ -203,6 +211,12 @@ absolute convergence of the reciprocal product proves it.
 **3.4 Logarithm and derivative.** On a simply connected zero-free region, choose a logarithm and
 prove both the prime-power logarithmic expansion and its derivative. Do not apply the principal
 complex logarithm to an arbitrary Euler product.
+*Erratum, corrected at archiving:* a holomorphic logarithm exists on every simply connected
+zero-free region of absolute convergence, but the prime-power expansion need not converge there.
+It holds for `Re s > σ` when `σ` is a point of absolute convergence and every local power series
+is zero-free on the disc of radius `N(𝔭)^{-σ}`. The product with the single factor
+`1 + 2 · 2^{-s}` converges absolutely everywhere and is zero-free near `s = 0`, but its
+prime-power expansion `∑ (-1)^{k+1} (2 · 2^{-s})^k / k` diverges there.
 
 ### Layer 4: counting carriers and local finiteness
 
@@ -213,6 +227,9 @@ empty small-cutoff cases.
 **4.2 Generic summatory functions.** For nonnegative real weights define inclusive summatory
 functions on ideals, prime ideals, and prime powers. Prove additivity, monotonicity, and invariance
 under modification on a finite set.
+*Erratum, corrected at archiving:* a finite modification does not leave the summatory function
+invariant; it changes it eventually by the constant `∑ (w₁ - w₂)` over the modified set.
+Changing the weight of the unit ideal from `0` to `1` adds `1` to every cutoff sum with `x ≥ 1`.
 
 **4.3 `primeTheta` and `primeCount`.** Define the logarithmically weighted and unweighted counts
 for a set of height-one primes. Prove finite-union and finite-symmetric-difference lemmas.
@@ -295,6 +312,10 @@ Lean-facing bridge. Natural density alone does not silently supply this normaliz
 **7.4 Fibre counts.** If a locally finite map of prime carriers has constant finite fibre size
 away from a density-zero exception, relate the two prime sums and densities. State the variant
 where fibres are counted only after intersecting with residue-degree-one primes.
+*Erratum, corrected at archiving:* the hypotheses are not enough. The map must also preserve
+absolute norms off the exception (and not increase them on it), or constant fibres say nothing
+about prime sums; and the preimage of the exception must be negligible, for instance through a
+uniform bound on the fibres over it, which local finiteness alone does not give.
 
 ### Layer 8: Landau-type positivity
 
@@ -422,3 +443,9 @@ prime-ideal specialization additionally consumes the named external `LFunctions`
   finite-error calculus.
 - Titchmarsh, revised by Heath-Brown, *The Theory of the Riemann Zeta-Function*, Lemma 3.12 for
   the truncated Perron kernel and its endpoint restrictions.
+
+---
+
+*Archived: this roadmap was declared complete on 2026-10-07. `Suggested.lean` now states each
+milestone against Tau Ceti and closes it with no `sorry`. Errata and notes made at archiving are
+marked inline in Layers 2.3, 3.1, 3.4, 4.2 and 7.4 and in the Consumed paragraph.*
