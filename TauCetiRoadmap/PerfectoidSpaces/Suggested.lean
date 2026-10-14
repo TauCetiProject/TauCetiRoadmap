@@ -32,11 +32,11 @@ The following named interfaces are specified in the README without executable pr
 * P2's adic carrier and point comparisons: `AdicSpace.isAdic_iff_image_analyticLocus`,
   `spa_space_empty`, `spa_space_map_coordinate`, `spa_space_whole`.
 * P3's finite-étale comparison, descent and topology interfaces: `finiteEtale_baseChange`,
-  `finiteEtale_charP_perfectoid`, `finiteEtale_completedColimit`, `finiteEtale_completion_tate`,
-  `finiteEtale_completion_tate_complete`, `finiteEtale_completion_tate_zero`, `finiteEtale_descent`,
+  `finiteEtale_charP_perfectoid`, `finiteEtale_descent`,
   `finiteEtale_iff_strong`, `finiteEtale_isStack`, `finiteEtale_spa_iff`, `finiteEtale_test_classical`,
-  `finiteEtale_test_swap`. AdicEtaleGeometry supplies
-  `Huber.isBounded_powerBoundedSubring_of_finiteEtale` and
+  `finiteEtale_test_swap`. AdicEtaleGeometry A1.0.5 supplies `finiteEtale_completedColimit`
+  and `finiteEtale_completion_tate`, with the complete and zero-ring Checks; A1.2a supplies
+  `Huber.isBounded_powerBoundedSubring_of_finiteEtale`, and A1.6 supplies
   `AdicSpace.smallEtaleBasis_openCover`.
 * P5.13 uses AdicEtaleGeometry A3.2's `nonempty_ofExplicitInverse` for the generic
   explicit-inverse quotient presentation.
@@ -1353,7 +1353,7 @@ variable (p : ℕ) [Fact p.Prime] {R : Type u} [CommRing R] [UniformSpace R] [Is
 /-- The universal perfectoid quotient of `R` killing `I`: a surjection onto a perfectoid Tate ring,
 initial among continuous maps to perfectoid Tate rings that kill `I` (ECD Theorem 5.8;
 BS22 Theorem 7.4 and Remark 7.5). Its integral construction and surjectivity use the
-completion and complete-flatness APIs of DerivedDeRhamCohomology §§0.1–0.4, 0.14 and
+completion and complete-flatness APIs of DerivedModuleAlgebra §§0.1–0.4, 0.14 and
 1.1–1.9, with the finite-ideal descent and transfinite adapters of README P4.15.1, and the
 universal-prism, Hodge–Tate, flat root-cover and rooted-quotient targets of P4.15.2–P4.15.5. -/
 theorem exists_surjective_perfectoidQuotient [IsPerfectoidTateRing p R] (I : Ideal R) :
