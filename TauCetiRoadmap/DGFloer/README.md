@@ -342,8 +342,14 @@ None of the following exist in Mathlib, in Tau Ceti, or on another roadmap. They
    - the long exact sequence of a pair;
    - excision;
    - the Künneth theorems;
-   - cubical local coefficients;
-   - the Serre spectral sequence.
+   - cubical local coefficients.
+
+   The Serre spectral sequence is the exception: no simplicial Serre spectral sequence over an
+   arbitrary base exists to transport. It is built directly on cubical chains, as in Serre's
+   original, from Serre's filtration (the cubes whose projection to the base factors through a
+   cube of dimension `≤ s`) and the filtered-complex spectral sequence of Layer 1 item 3. The
+   comparison enters in identifying `E¹` with the chains of the base with coefficients in the
+   homology of the fibre.
 4. Fundamental chains: a compact oriented topological manifold with corners whose boundary is a
    union of products of lower-dimensional ones has a fundamental chain rel boundary in
    `C^□_*`. Its boundary is the signed sum of the cross products of the fundamental chains of the
