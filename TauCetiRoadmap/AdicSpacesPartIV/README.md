@@ -348,7 +348,7 @@ supplies `Formal.DeJong.semistable_alteration_theorem` for F1.
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsSeparated`; the existence of its diagonal pullback (R0.10 *separated-morphism*) | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`; `TauCetiRoadmap/AdicSpacesPartII/README.md` | Huber 1.3.1: local weak finite type and a closed diagonal, with stably sheafy source charts. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsPartiallyProper` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Huber 1.3.3(ii): plus weak finite type, separated, universally specializing. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsFinite` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Target-local finiteness includes that a whole inverse image is one affinoid chart. |
-| R0.15 *continuous-differentials* | `TauCetiRoadmap/AdicSpacesPartII/README.md` | The continuous differential module I/I², with its rational-localization equivalence and the formula d(b) ↦ 1 ⊗ d(b). |
+| R0.15 *continuous-differentials* | `TauCetiRoadmap/AdicSpacesPartII/README.md` | The continuous differential module `I/I²`, with its rational-localization equivalence and the formula `d(b) ↦ 1 ⊗ d(b)`. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Smooth`, `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Smooth_affinoid` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Smooth morphisms are locally of finite presentation and formally smooth on complete affinoid charts. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Etale.of_isOpenImmersion` | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean` | Open immersions are étale. |
 | `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.Etale.comp`; composition of smooth morphisms (R0.16 *etale-smooth-composition*) | `TauCetiRoadmap/AdicSpacesPartII/Suggested.lean`; `TauCetiRoadmap/AdicSpacesPartII/README.md` | Composites of smooth morphisms are smooth, and composites of étale morphisms are étale. |
@@ -624,7 +624,7 @@ layer A1 (*slice-site*); AdicSpacesPartII layer R0 (*etale-smooth-composition*, 
 `CategoryTheory.GrothendieckTopology.over`, `CategoryTheory.GrothendieckTopology.overPullback`,
 `CategoryTheory.Over.iteratedSliceEquiv`.
 
-### R4.3 the pro-étale site and ν
+### R4.3 the pro-étale site and `ν`
 
 **The corrected pro-étale site of AdicEtaleGeometry layer A1 on the analytic carriers, and
 `ν : X_proét → X_ét`.** (*proetale-site-on-analytic-carriers*) Let `X` be a locally noetherian
@@ -1119,8 +1119,7 @@ exclude analytic charts.
   directions over `H(η')`. This proves that `(X_{K'}, D_{K'})` is not a smooth pair.
   The adic statement takes the actual restriction to `R({1}/S)` and identifies
   its point by `T_1 = T_2 = 0` and the Gauss comparisons
-  `|f(S)(x)| ≤ |g(S)(x)| ↔
-  ∀ i ∈ f.support, ∃ k ∈ g.support, ‖f.coeff i‖ ≤ ‖g.coeff k‖`,
+  `|f(S)(x)| ≤ |g(S)(x)| ↔ ∀ i ∈ f.support, ∃ k ∈ g.support, ‖f.coeff i‖ ≤ ‖g.coeff k‖`,
   for all `f, g : K[S]` (Conrad-AWS, Definition 2.1.2, p. 9).
   Empty supports handle zero polynomials; comparisons in both directions fix
   equality of values as well as their order.
@@ -1631,8 +1630,8 @@ images of quasi-compact opens of these discs), and correspondingly its adic imag
 point `η`, for which `|T − a|(η) = 1 > |ϖ|` for every `a ∈ k°`. For `k` not algebraically closed
 the family need not even cover the rigid points: for `k = ℚ_p`, `ϖ = p`, the rigid point
 `T = p^{1/2}` (the maximal ideal `(T² − p)` of `ℚ_p⟨T⟩`, residue field `ℚ_p(√p)`) satisfies
-`|p^{1/2} − a| ≥ p^{−1/2} > p^{−1} = |p|` for all `a ∈ ℤ_p`: if `|a| < 1` then `|a| ≤ p^{−1} <
-p^{−1/2} = |√p|` and `|√p − a| = p^{−1/2}`, and if `|a| = 1` then `|√p − a| = 1`; equivalently
+`|p^{1/2} − a| ≥ p^{−1/2} > p^{−1} = |p|` for all `a ∈ ℤ_p`: if `|a| < 1` then
+`|a| ≤ p^{−1} < p^{−1/2} = |√p|` and `|√p − a| = p^{−1/2}`, and if `|a| = 1` then `|√p − a| = 1`; equivalently
 `|√p − a|² = |a² − p| ≥ p^{−1}` in `ℚ_p` itself, since `v_p(a² − p) ∈ {0, 1}`. The computation is
 the same for `p = 2` (`|√2 − a| ≥ 2^{−1/2} > 2^{−1}`). A positive control
 uses Part II's `Sp A`, the bijection of its points with `Max A`, and its rational
@@ -3688,8 +3687,8 @@ the completed pure tensor, fixing both factor maps (GK00 §1.16, p. 9).
 uniformiser `π` and fraction field `K`, `O_K⟨X_1, …, X_n⟩† = W_n ∩ O_K[[X]]` is a noetherian ring
 (Kedlaya06 §2.4, after Lem. 2.4.1, the Gröbner-basis route, whose termination argument uses that `K`
 is discretely valued; vdP §2, (2.2), p. 36, van der Put's integral Weierstrass theory, from which
-"`R⟨X⟩†` noetherian" is deduced). The noetherianity of a general weak completion `S† ≅
-O_K⟨X⟩†/I·O_K⟨X⟩†` (*weak-completion-presentation* (b)) is deduced from this statement by passing
+"`R⟨X⟩†` noetherian" is deduced). The noetherianity of a general weak completion
+`S† ≅ O_K⟨X⟩†/I·O_K⟨X⟩†` (*weak-completion-presentation* (b)) is deduced from this statement by passing
 to the quotient. For `n = 1`, every ideal of `O_K⟨X⟩†` is finitely
 generated, e.g. `(π, X)` and `(X − π)` are, and `O_K⟨X⟩†/(X − π) = O_K`. *Needs:*
 *overconvergent-tate-algebra*; Mathlib `IsNoetherianRing`. Lean:
@@ -3779,8 +3778,8 @@ induced by
   `char K = 0`; in characteristic `p`, `X^{p−1}dX` is not exact)
   (see *dagger-polyannulus-de-rham-cohomology*).
 - Compatibility: `S† ⊗ K` is a dagger algebra whose
-  completion is `Ŝ ⊗ K`; for `S = O_K[X_1, …, X_n]` this is `W_n ⊆ T_n =
-restrictedMvPowerSeriesCompletion n K`
+  completion is `Ŝ ⊗ K`; for `S = O_K[X_1, …, X_n]` this is
+  `W_n ⊆ T_n = restrictedMvPowerSeriesCompletion n K`
   of Tau Ceti.
 - Negative control: applying the degree-growth
   construction with parameter `0` gives the entire zero-adic completion, namely `S`;
@@ -5377,13 +5376,13 @@ pp. 19–20, for the definition through a fringe presentation and the topology; 
 - Non-example: `H^i_{dR,c}` is not `H^i_dR`: for `char K = 0` and
   the closed dagger disc, `H^0_{dR,c}(D) = 0 ≠ K = H^0_dR(D)`; nor is it the cohomology of `D` with
   supports in `D` inside `D` itself (that is `H_dR(D)`).
-- Compatibility: for `X = Sp(W_n)` with fringe stages `V_ρ =
-  `Sp(T_n(ρ))`, `H^i_c(X, F)` is the cohomology of the mapping fibre
+- Compatibility: for `X = Sp(W_n)` with fringe stages
+  `V_ρ = Sp(T_n(ρ))`, `H^i_c(X, F)` is the cohomology of the mapping fibre
   `Cone(RΓ(V_ρ,F_ρ) → RΓ(V_ρ − X',F_ρ))[−1]`. For locally free `F` it is concentrated in
   degree `n`; the restriction to the complement requires derived sections.
 - Characterisation: for `K` spherically complete (Grosse-Klönne's
-standing hypothesis from GK00 §4, 4.2 on) and `A = K⟨T⟩†`, the residue pairing `A × H^1_c(X, ω) →
-K`,
+standing hypothesis from GK00 §4, 4.2 on) and `A = K⟨T⟩†`, the residue pairing
+`A × H^1_c(X, ω) → K`,
   `(Σ b_α T^α, Σ a_μ T^μ dT) ↦ Σ_{α≥0} b_α a_{−α−1}`, is perfect for the topologies of GK00 §4,
 4.2–4.3 (GK00 §4, Thm 4.4).
 - Non-example (pure dimension): for the mixed-dimensional `X = Sp K ⨿ Sp W_1`,
@@ -5910,8 +5909,8 @@ forms. GK05, arXiv:1408.3346v1, §4.5 and Lem. 4.6, pp. 23–25, for the free ba
 - Degenerate: for `D = ∅`, `Ω^•_X(log D) = Ω^•_X` and
   `H^i_dR(X, log ∅) = H^i_dR(X)`.
 - Non-example: `dx/x^2` is a section of `j_*Ω^1_{X−D}` (and of
-the sheaf `Ω^1_X(∗D)` of forms with arbitrary poles along `D`) but not of `Ω^1_X(log D)` for `D =
-{x = 0}`: the log complex is not the complex of forms
+the sheaf `Ω^1_X(∗D)` of forms with arbitrary poles along `D`) but not of `Ω^1_X(log D)` for
+`D = {x = 0}`: the log complex is not the complex of forms
   with arbitrary poles.
 - Compatibility: in characteristic zero, for the open unit bidisc `U` with `D = V(x_1x_2)` and
   `ω^•_U` the quotient of `Ω^•_U(log D)` by the ideal generated by `dlog(x_1x_2)`, the restriction
@@ -5988,8 +5987,9 @@ its localisation sequence with the cohomology of the fringe annulus `X' − U_0'
 proof of Lem. 50.15.2, for the kernel computation and the surjectivity of the residue/restriction;
 GK02 §1, 1.9 (c), p. 7, for local cohomology along intersections of boundary components, and Prop.
 1.16 (b), p. 11, for the supports localisation sequence used in (b)). For `X = (P^1)^†`,
-`D = {0, ∞}`, `D_1 = {0}`, `D' = {∞}`: `0 → H^0_dR(X, D')_! → H^0(D_1) = K → H^1_dR(X, D)_! → H^1_dR(X, D')_!
-→ 0 → H^2_dR(X, D)_! → H^2_dR(X, D')_! → 0`, consistent with `H_dR(X, D)_! = (0, K, K)` and
+`D = {0, ∞}`, `D_1 = {0}`, `D' = {∞}`:
+`0 → H^0_dR(X, D')_! → H^0(D_1) = K → H^1_dR(X, D)_! → H^1_dR(X, D')_! → 0 → H^2_dR(X, D)_! → H^2_dR(X, D')_! → 0`,
+consistent with `H_dR(X, D)_! = (0, K, K)` and
 `H_dR(X, {∞})_! = (0, 0, K)` (the affine line has compactly supported cohomology `K` in degree 2):
 the connecting map `H^0_dR({0}) = K → H^1_dR(X, D)_! = K` is an isomorphism.
 *Needs:* *compact-support-log-complex*; *log-de-rham-complex*; *dagger-snc-divisor*;
@@ -6057,110 +6057,110 @@ numbers, the nilpotent coordinate is nonzero even though every point norm kills 
 
 - Radius topology: in zero variables the radius topology is the field topology transported by the constant map (any positive radius).
 - The inclusion `W_n → T_n`: the inclusion of overconvergent series into the completed Tate algebra is injective.
-- The inclusion `W_n → T_n`: over ℚ_p the one-variable completion map is not surjective; the lacunary series Σ p^m X^(p^m) witnesses this.
-- Residue norms: for the identity presentation of W₁, the residue norm of X is 1.
-- Residue norms: for W₁/(X²), the residue norm of the nonzero nilpotent X is 1.
-- Residue norms: the quotient presentation of the zero algebra has residue norm 0 on its unique element.
-- Affinoid topology: the canonical affinoid topology on K is its given valuation topology.
-- Affinoid topology: the affinoid topology on W₁/(X²) is Hausdorff although its supremum seminorm kills X.
-- Affinoid topology: the affinoid topology on W₁ is not discrete: nonzero scalar powers tend to zero.
+- The inclusion `W_n → T_n`: over `ℚ_p` the one-variable completion map is not surjective; the lacunary series `Σ p^m X^(p^m)` witnesses this.
+- Residue norms: for the identity presentation of `W₁`, the residue norm of `X` is `1`.
+- Residue norms: for `W₁/(X²)`, the residue norm of the nonzero nilpotent `X` is `1`.
+- Residue norms: the quotient presentation of the zero algebra has residue norm `0` on its unique element.
+- Affinoid topology: the canonical affinoid topology on `K` is its given valuation topology.
+- Affinoid topology: the affinoid topology on `W₁/(X²)` is Hausdorff although its supremum seminorm kills `X`.
+- Affinoid topology: the affinoid topology on `W₁` is not discrete: nonzero scalar powers tend to zero.
 - Point norms: at every maximal point the value of a scalar is its given absolute value.
-- Supremum seminorm: the supremum seminorm of X on the dagger unit disc is 1.
-- Supremum seminorm: on W₁/(X²), the supremum seminorm kills X while its quotient norm remains 1.
-- Integral subring: every scalar multiple of the nilpotent X in W₁/(X²) is integral, even for scalars of absolute value greater than 1.
-- Completion of morphisms: completing the identity of W₁ gives the identity.
-- Completion of morphisms: completing the quotient W₁→W₁/(X) sends the completed coordinate to zero.
-- Completion of morphisms: the completed quotient by X² retains a nonzero X whose square is zero.
-- Presentation topology: every fringe presentation of K induces its valuation topology.
-- Presentation topology: for |π|<1, the scalar sequence π^j tends to zero in every presentation topology.
-- Presentation topology: for W₁ over ℚ_p every presentation topology differs from the affinoid topology.
-- Module fringe topology: the module topology on the rank-one K-module K is its valuation topology.
-- Module fringe topology: on K² the module fringe topology is the product topology.
+- Supremum seminorm: the supremum seminorm of `X` on the dagger unit disc is `1`.
+- Supremum seminorm: on `W₁/(X²)`, the supremum seminorm kills `X` while its quotient norm remains `1`.
+- Integral subring: every scalar multiple of the nilpotent `X` in `W₁/(X²)` is integral, even for scalars of absolute value greater than `1`.
+- Completion of morphisms: completing the identity of `W₁` gives the identity.
+- Completion of morphisms: completing the quotient `W₁→W₁/(X)` sends the completed coordinate to zero.
+- Completion of morphisms: the completed quotient by `X²` retains a nonzero `X` whose square is zero.
+- Presentation topology: every fringe presentation of `K` induces its valuation topology.
+- Presentation topology: for `|π|<1`, the scalar sequence `π^j` tends to zero in every presentation topology.
+- Presentation topology: for `W₁` over `ℚ_p` every presentation topology differs from the affinoid topology.
+- Module fringe topology: the module topology on the rank-one `K`-module `K` is its valuation topology.
+- Module fringe topology: on `K²` the module fringe topology is the product topology.
 - Module fringe topology: the zero module has the unique topology.
-- The overconvergent disc algebra `K⟨λ^{-1}Z⟩†`: radius 1 recovers W_m.
+- The overconvergent disc algebra `K⟨λ^{-1}Z⟩†`: radius `1` recovers `W_m`.
 - The overconvergent disc algebra `K⟨λ^{-1}Z⟩†`: with no variables every formal series belongs, at any radius.
-- The overconvergent disc algebra `K⟨λ^{-1}Z⟩†`: over ℚ_p the geometric series Σ p^j Z^j is excluded at radius p.
-- Its coordinate `Z`: the Gauss norm at a positive radius ρ of the coordinate Z is ρ.
-- Its coordinate `Z`: the coordinate Z vanishes at zero, so is not a unit in a positive-radius disc algebra.
-- Its coordinate `Z`: for |c| r < 1, the geometric denominator 1−cZ is invertible on the overconvergent disc of positive radius r.
-- The relative dagger algebra `A⟨Z⟩†`: adjoining m dagger variables to K gives W_m.
-- The relative dagger algebra `A⟨Z⟩†`: adjoining no variables gives A, and its structure map is bijective.
+- The overconvergent disc algebra `K⟨λ^{-1}Z⟩†`: over `ℚ_p` the geometric series `Σ p^j Z^j` is excluded at radius `p`.
+- Its coordinate `Z`: the Gauss norm at a positive radius `ρ` of the coordinate `Z` is `ρ`.
+- Its coordinate `Z`: the coordinate `Z` vanishes at zero, so is not a unit in a positive-radius disc algebra.
+- Its coordinate `Z`: for `|c| r < 1`, the geometric denominator `1−cZ` is invertible on the overconvergent disc of positive radius `r`.
+- The relative dagger algebra `A⟨Z⟩†`: adjoining `m` dagger variables to `K` gives `W_m`.
+- The relative dagger algebra `A⟨Z⟩†`: adjoining no variables gives `A`, and its structure map is bijective.
 - The relative dagger algebra `A⟨Z⟩†`: adjoining a dagger variable to the zero algebra gives the zero algebra.
-- The structure map `A → A⟨Z⟩†`: the structure map A→A⟨Z⟩† is injective, including when A has nilpotents.
-- The structure map `A → A⟨Z⟩†`: the new variable in K⟨Z⟩† is outside the image of K.
-- The relative coordinate: the relative coordinate over K is not invertible.
-- The relative coordinate: over K, 1−cZ is invertible whenever |c|<1.
+- The structure map `A → A⟨Z⟩†`: the structure map `A→A⟨Z⟩†` is injective, including when `A` has nilpotents.
+- The structure map `A → A⟨Z⟩†`: the new variable in `K⟨Z⟩†` is outside the image of `K`.
+- The relative coordinate: the relative coordinate over `K` is not invertible.
+- The relative coordinate: over `K`, `1−cZ` is invertible whenever `|c|<1`.
 - Rational relation ideal: with no numerators the relation ideal is zero.
-- Rational relation ideal: numerator 1 and denominator 0 generate the unit ideal.
-- Rational relation ideal: numerator 0 and denominator 1 impose Z=0, a proper ideal over K.
+- Rational relation ideal: numerator `1` and denominator `0` generate the unit ideal.
+- Rational relation ideal: numerator `0` and denominator `1` impose `Z=0`, a proper ideal over `K`.
 - Laurent relation ideal: inverting zero imposes the unit ideal.
-- Laurent relation ideal: inverting one imposes Z−1; over K this ideal is proper.
-- Laurent relation ideal: for 0<|π|<1, the relation πZ−1 is invertible and the Laurent domain is empty.
-- Laurent structure map: the Laurent structure map for f=1 is bijective.
-- Laurent structure map: localising K at f=0 sends 1 to 0.
-- Rational structure map: numerator 1 and denominator 0 give the zero map to the zero algebra.
-- Rational domains: the rational domain with numerator 1 and denominator 0 is empty.
+- Laurent relation ideal: inverting one imposes `Z−1`; over `K` this ideal is proper.
+- Laurent relation ideal: for `0<|π|<1`, the relation `πZ−1` is invertible and the Laurent domain is empty.
+- Laurent structure map: the Laurent structure map for `f=1` is bijective.
+- Laurent structure map: localising `K` at `f=0` sends `1` to `0`.
+- Rational structure map: numerator `1` and denominator `0` give the zero map to the zero algebra.
+- Rational domains: the rational domain with numerator `1` and denominator `0` is empty.
 - `π`-adic completion: the adic completion of the complete DVR at a uniformiser is the DVR itself.
 - The weak-completion set: every scalar, including `1`, belongs for any finite family, including the empty family (Lean `example`).
-- The weak-completion set: for the polynomial generator X, the weak-completion set contains the geometric inverse of 1−πX.
+- The weak-completion set: for the polynomial generator `X`, the weak-completion set contains the geometric inverse of `1−πX`.
 - The weak-completion set: for a uniformiser, the single polynomial generator does not generate the entire adic completion under linear degree growth.
 - The weak-completion map: the weak-completion map of the complete base DVR is bijective.
-- The weak-completion map: for S=O[1/π], the weak-completion map sends 1 to 0 although S is nonzero.
-- Functoriality of weak completion: extending the identity of O[X] gives the identity of its weak completion.
-- Functoriality of weak completion: the extended evaluation X↦0 sends the weak coordinate to zero.
-- Functoriality of weak completion: the extended evaluation X↦1 sends the weak coordinate to one.
-- Generic fibre of weak completions: the generic fibre of the weak completion of O is its fraction field.
+- The weak-completion map: for `S=O[1/π]`, the weak-completion map sends `1` to `0` although `S` is nonzero.
+- Functoriality of weak completion: extending the identity of `O[X]` gives the identity of its weak completion.
+- Functoriality of weak completion: the extended evaluation `X↦0` sends the weak coordinate to zero.
+- Functoriality of weak completion: the extended evaluation `X↦1` sends the weak coordinate to one.
+- Generic fibre of weak completions: the generic fibre of the weak completion of `O` is its fraction field.
 - Generic fibre of weak completions: the generic fibre of the weak completion of the residue field is zero.
-- Kähler differentials to `Ω¹`: over K itself, the canonical map from algebraic differentials is bijective between zero modules.
-- Kähler differentials to `Ω¹`: the image of the algebraic differential d(X²) is 2X dX in the finite differential module of W₁.
-- Kähler differentials to `Ω¹`: in mixed characteristic, the map from algebraic differentials of W₁ to the universally finite module is not injective.
-- Functoriality of `Ω¹`: pulling back differentials by the identity of W₁ gives the identity linear map.
-- Functoriality of `Ω¹`: for any dagger-disc endomorphism X↦X², pullback sends dX to 2X dX.
-- Functoriality of `Ω¹`: a map W₁→K sends every differential to zero.
-- Universal property of `Ω¹`: the zero derivation of W₁ lifts to the zero linear map.
-- Universal property of `Ω¹`: lifting the universal derivation of W₁ gives the identity of Ω¹.
-- Universal property of `Ω¹`: a derivation with D(X)=1 evaluates d(X²) as 2X under its universal factorisation.
-- Integral subalgebra: for A=K, the integral subalgebra has exactly the valuation unit ball as underlying set.
-- Integral subalgebra: every scalar multiple of X in W₁/(X²) belongs to the integral subalgebra.
-- Integral subalgebra: a scalar of absolute value greater than 1 is excluded from the integral subalgebra of K.
-- Reduction of an MW-type algebra: the reduction of the dagger unit annulus is k[x,y]/(xy−1).
-- Minimal presentations: the least presentation dimension of K is 0, and its chosen presentation is bijective (Lean `example`s).
-- Minimal presentations: the least presentation dimension of W₁ is 1, and every chosen minimal presentation is bijective (Lean `example`s).
-- Minimal presentations: the dual numbers W₁/(X²) have least presentation dimension 1; their presentation cannot be injective (Lean `example`s).
-- Tensor relation ideal: for K⊗†_K K, the ideal in the minimal zero-variable presentation is zero.
+- Kähler differentials to `Ω¹`: over `K` itself, the canonical map from algebraic differentials is bijective between zero modules.
+- Kähler differentials to `Ω¹`: the image of the algebraic differential `d(X²)` is `2X dX` in the finite differential module of `W₁`.
+- Kähler differentials to `Ω¹`: in mixed characteristic, the map from algebraic differentials of `W₁` to the universally finite module is not injective.
+- Functoriality of `Ω¹`: pulling back differentials by the identity of `W₁` gives the identity linear map.
+- Functoriality of `Ω¹`: for any dagger-disc endomorphism `X↦X²`, pullback sends `dX` to `2X dX`.
+- Functoriality of `Ω¹`: a map `W₁→K` sends every differential to zero.
+- Universal property of `Ω¹`: the zero derivation of `W₁` lifts to the zero linear map.
+- Universal property of `Ω¹`: lifting the universal derivation of `W₁` gives the identity of `Ω¹`.
+- Universal property of `Ω¹`: a derivation with `D(X)=1` evaluates `d(X²)` as `2X` under its universal factorisation.
+- Integral subalgebra: for `A=K`, the integral subalgebra has exactly the valuation unit ball as underlying set.
+- Integral subalgebra: every scalar multiple of `X` in `W₁/(X²)` belongs to the integral subalgebra.
+- Integral subalgebra: a scalar of absolute value greater than `1` is excluded from the integral subalgebra of `K`.
+- Reduction of an MW-type algebra: the reduction of the dagger unit annulus is `k[x,y]/(xy−1)`.
+- Minimal presentations: the least presentation dimension of `K` is `0`, and its chosen presentation is bijective (Lean `example`s).
+- Minimal presentations: the least presentation dimension of `W₁` is `1`, and every chosen minimal presentation is bijective (Lean `example`s).
+- Minimal presentations: the dual numbers `W₁/(X²)` have least presentation dimension `1`; their presentation cannot be injective (Lean `example`s).
+- Tensor relation ideal: for `K⊗†_K K`, the ideal in the minimal zero-variable presentation is zero.
 - Tensor relation ideal: a zero factor makes the tensor relation ideal the unit ideal.
-- Tensor relation ideal: for W₁⊗†_(W₁)W₁, the ideal in the two-variable minimal presentation is nonzero principal.
-- Tensor inclusions: in A⊗†_A A both structure maps are bijective.
-- Tensor inclusions: with a zero opposite factor, the structure map from K sends 1 to 0 on either side.
-- Fringe stages: a presentation with a relation equal to 1 has the zero algebra at every stage.
-- Stage topology: for a zero-variable presentation of K, the stage topology is transported from K along its scalar map.
+- Tensor relation ideal: for `W₁⊗†_(W₁)W₁`, the ideal in the two-variable minimal presentation is nonzero principal.
+- Tensor inclusions: in `A⊗†_A A` both structure maps are bijective.
+- Tensor inclusions: with a zero opposite factor, the structure map from `K` sends `1` to `0` on either side.
+- Fringe stages: a presentation with a relation equal to `1` has the zero algebra at every stage.
+- Stage topology: for a zero-variable presentation of `K`, the stage topology is transported from `K` along its scalar map.
 - Stage topology: a zero stage has the unique topology.
 - Stage topology: a nonzero stage is not discrete over the nontrivially valued field.
-- Transition maps: for a zero-variable presentation of K, every transition is bijective.
-- Transition maps: radius restriction sends the quotient coordinate X_i to the same coordinate at the smaller radius.
-- Transition maps: for the zero dagger algebra, a presentation by X−c with |c|>1 has a noninjective transition from a stage containing c to one excluding it.
+- Transition maps: for a zero-variable presentation of `K`, every transition is bijective.
+- Transition maps: radius restriction sends the quotient coordinate `X_i` to the same coordinate at the smaller radius.
+- Transition maps: for the zero dagger algebra, a presentation by `X−c` with `|c|>1` has a noninjective transition from a stage containing `c` to one excluding it.
 - Stage maps to `A`: the stage coordinate maps to the coordinate class under the specified presentation isomorphism.
-- Stage maps to `A`: for X−c with |c|>1 there is a nonzero stage mapping to the zero dagger algebra.
-- Fringe algebras: in a zero-variable presentation of K, the fringe algebra is all of K.
-- Fringe algebras: for a one-variable relation-free presentation of W₁, each fixed-radius fringe algebra is proper.
-- Affinoid subdomain algebras: the representing algebra of the whole spectrum is A, and its restriction map is bijective.
-- Affinoid subdomain algebras: the empty subdomain is represented by the zero algebra; restriction sends 1 to 0.
-- Affinoid subdomain algebras: on |X|≤|π| in the unit disc, the representing algebra is W₁ with X restricting to πZ.
+- Stage maps to `A`: for `X−c` with `|c|>1` there is a nonzero stage mapping to the zero dagger algebra.
+- Fringe algebras: in a zero-variable presentation of `K`, the fringe algebra is all of `K`.
+- Fringe algebras: for a one-variable relation-free presentation of `W₁`, each fixed-radius fringe algebra is proper.
+- Affinoid subdomain algebras: the representing algebra of the whole spectrum is `A`, and its restriction map is bijective.
+- Affinoid subdomain algebras: the empty subdomain is represented by the zero algebra; restriction sends `1` to `0`.
+- Affinoid subdomain algebras: on `|X|≤|π|` in the unit disc, the representing algebra is `W₁` with `X` restricting to `πZ`.
 - Universal property of affinoid subdomains: factoring the universal restriction through itself gives the identity of its representing algebra.
-- Universal property of affinoid subdomains: the factorisation of id_A through the whole-spectrum representative is inverse to restriction.
-- Universal property of affinoid subdomains: for an empty subdomain, every admissible factorisation lands in a zero algebra and sends 1 to 0.
-- Restriction to an affinoid subdomain: restriction from a subdomain to itself is the identity A-algebra map.
-- Restriction to an affinoid subdomain: restriction to the empty subdomain sends 1 to 0.
-- Restriction to an affinoid subdomain: for nested closed discs of radii |π|² and |π|, restriction sends the outer normalised coordinate to π times the inner one.
-- Universal property of the dagger tensor product: for A⊗†_A A, the lift of the two identity maps is bijective.
-- Universal property of the dagger tensor product: on W₁⊗†_K W₁, evaluating the first coordinate at 0 and the second at 1 sends X−Y to −1.
-- Universal property of the dagger tensor product: the fold W₁⊗†_K W₁→W₁ is not injective: it identifies the two coordinates.
+- Universal property of affinoid subdomains: the factorisation of `id_A` through the whole-spectrum representative is inverse to restriction.
+- Universal property of affinoid subdomains: for an empty subdomain, every admissible factorisation lands in a zero algebra and sends `1` to `0`.
+- Restriction to an affinoid subdomain: restriction from a subdomain to itself is the identity `A`-algebra map.
+- Restriction to an affinoid subdomain: restriction to the empty subdomain sends `1` to `0`.
+- Restriction to an affinoid subdomain: for nested closed discs of radii `|π|²` and `|π|`, restriction sends the outer normalised coordinate to `π` times the inner one.
+- Universal property of the dagger tensor product: for `A⊗†_A A`, the lift of the two identity maps is bijective.
+- Universal property of the dagger tensor product: on `W₁⊗†_K W₁`, evaluating the first coordinate at `0` and the second at `1` sends `X−Y` to `−1`.
+- Universal property of the dagger tensor product: the fold `W₁⊗†_K W₁→W₁` is not injective: it identifies the two coordinates.
 - Functoriality of the dagger tensor product: the identity diagram on the two dagger discs induces the identity tensor map.
-- Functoriality of the dagger tensor product: for two evaluations at 0 and 1, the tensor diagram map sends X−Y to −1.
-- Functoriality of the dagger tensor product: changing the sign of the first disc coordinate changes the sign of X−Y to −X−Y, preserving the second factor.
-- Universal property of rational localisation: for K⟨Z⟩†/(Z), the lift to K sends the quotient coordinate to 0.
-- Universal property of rational localisation: for K⟨Z⟩†/(Z−1), the lift to K sends the quotient coordinate to 1.
-- Universal property of rational localisation: for the map of dagger discs X↦πX and the localisation |X|≤|π|, the factorisation sends Z=X/π to X.
+- Functoriality of the dagger tensor product: for two evaluations at `0` and `1`, the tensor diagram map sends `X−Y` to `−1`.
+- Functoriality of the dagger tensor product: changing the sign of the first disc coordinate changes the sign of `X−Y` to `−X−Y`, preserving the second factor.
+- Universal property of rational localisation: for `K⟨Z⟩†/(Z)`, the lift to `K` sends the quotient coordinate to `0`.
+- Universal property of rational localisation: for `K⟨Z⟩†/(Z−1)`, the lift to `K` sends the quotient coordinate to `1`.
+- Universal property of rational localisation: for the map of dagger discs `X↦πX` and the localisation `|X|≤|π|`, the factorisation sends `Z=X/π` to `X`.
 
 The Hasse-derivative bound of *overconvergent-tate-algebra* reads: for `f ∈ T_n(ρ)`,
 `ρ > 0` and multi-index `μ`, the coefficients of `D^[μ] f` are
