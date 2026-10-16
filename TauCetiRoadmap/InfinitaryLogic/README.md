@@ -232,19 +232,36 @@ Neither source is the specification; the map is "where to look", not "what is co
   (`bfStabilizationOrdinal`, stabilization for arbitrary structures without a bound below `ω₁`).
 * Layer 3: `InfinitaryLogic/Scott/AtomicDiagram.lean` and `Scott/Formula.lean`
   (`realize_scottFormula_iff_BFEquiv`, with the tuple in free variables rather than bound
-  positions); `Scott/OrbitRank.lean` (`orbitRank`, `internalScottRank`, with no comparison to
-  other rank conventions) and `scripts/check_orbit_rank_regressions.lean` (the `K₂ ⊔ K₃`
-  regression). The source's Scott sentence (`Scott/Sentence.lean`, `Scott/RefinementCount.lean`)
-  is indexed by an externally defined ordinal and proved through an internal-to-external transfer;
-  this roadmap's Scott sentence is indexed by internal stabilization instead, so that part is new
-  work. `Scott/Code.lean` is marked legacy and off-path in the source and is not a migration
-  target.
+  positions); `Scott/OrbitRank.lean` (`orbitRank`, `internalScottRank`; at this checkpoint with
+  no comparison to the stabilization ordinal, which the supplemental references below supply) and
+  `scripts/check_orbit_rank_regressions.lean` (the `K₂ ⊔ K₃` regression). The source's Scott
+  sentence (`Scott/Sentence.lean`, `Scott/RefinementCount.lean`) is indexed by an externally
+  defined ordinal and proved through an internal-to-external transfer; this roadmap's Scott
+  sentence is indexed by internal stabilization instead, so that part is new work.
+  `Scott/Code.lean` is marked legacy and off-path in the source and is not a migration target.
 
 Supplemental proof references at
 [`infinitary-logic@9f82bd5`](https://github.com/cameronfreer/infinitary-logic/tree/9f82bd572af2d79a043c6bc3f1b745f14e0bcaa4)
-include
-[`Scott/OrbitRankStabilization.lean`](https://github.com/cameronfreer/infinitary-logic/blob/9f82bd572af2d79a043c6bc3f1b745f14e0bcaa4/InfinitaryLogic/Scott/OrbitRankStabilization.lean#L71-L91),
-which proves the internal stabilization/orbit-rank comparisons targeted in Layer 3. At that
+cover most of the Layer 2–3 stabilization and rank targets. Its `SelfStabilizesCompletely` is the
+roadmap's definition, and it writes `s(M)` inline as the same `sInf` in `Ordinal.{w}`; do not
+confuse it with the source's `stabilizationOrdinal`, which compares against other structures and
+lives in `Ordinal.{0}`. All of the following hold for every language and every `M : Type w`:
+
+* [`Scott/OrbitRankStabilization.lean`](https://github.com/cameronfreer/infinitary-logic/blob/9f82bd572af2d79a043c6bc3f1b745f14e0bcaa4/InfinitaryLogic/Scott/OrbitRankStabilization.lean#L61-L91):
+  `sInf_selfStabilizesCompletely_eq_iSup_orbitRank` is `selfStabilizationOrdinal_eq_iSup_orbitRank`,
+  through `selfStabilizesCompletely_iff_orbitRank_le`; its proof also gives
+  `exists_selfStabilizesCompletely` and the attainment of `s(M)`. With it,
+  `iSup_orbitRank_le_internalScottRank` and `internalScottRank_le_iSup_orbitRank_add_one` give
+  `s(M) ≤ SR(M) ≤ s(M) + 1`;
+* [`Scott/OrbitRank.lean`](https://github.com/cameronfreer/infinitary-logic/blob/9f82bd572af2d79a043c6bc3f1b745f14e0bcaa4/InfinitaryLogic/Scott/OrbitRank.lean#L97-L98): `orbitRank_mem` is
+  `orbitRank_mem_orbitStable`. Its `internalScottRank_pureSet` covers only infinite pure sets; the
+  finite and empty cases follow from `orbitRank_pure_eq_zero` in `Scott/PureSetThreshold.lean`;
+* [`Scott/Sentence.lean`](https://github.com/cameronfreer/infinitary-logic/blob/9f82bd572af2d79a043c6bc3f1b745f14e0bcaa4/InfinitaryLogic/Scott/Sentence.lean#L291-L292): `exists_complete_self_stabilization`
+  is stated in `Ordinal.{0}`; lifting it to `Ordinal.{w}` gives
+  `selfStabilizationOrdinal_lt_omega_one` and, with the comparisons above,
+  `internalScottRank_lt_omega_one`.
+
+The exact value `SR(K₂ ⊔ K₃) = 3` is not in the source, which proves only the lower bound. At that
 checkpoint, the source's `scottSentenceAt` in `Scott/Formula.lean` is only the empty-tuple Scott
 approximation. This roadmap's same-named construction retains that formula **and** the universal
 tuple-upgrade clauses; do not port the source definition as if the two constructions were identical.
