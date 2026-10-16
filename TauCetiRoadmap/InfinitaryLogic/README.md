@@ -258,8 +258,9 @@ notes record the differences that matter.
   `selfStabilizationOrdinal_eq_iSup_orbitRank`; its proof also gives
   `exists_selfStabilizesCompletely` and the attainment of `s(M)`. With it,
   `iSup_orbitRank_le_internalScottRank` and `internalScottRank_le_iSup_orbitRank_add_one` give
-  `s(M) ≤ SR(M) ≤ s(M) + 1`, and with Layer 2's bound, `internalScottRank_lt_omega_one`. All of
-  these hold for every language and every `M : Type w`, in `Ordinal.{w}`. The source's
+  `s(M) ≤ SR(M) ≤ s(M) + 1`. These comparisons hold for every language and every `M : Type w`, in
+  `Ordinal.{w}`. For countable `M`, combining them with Layer 2's bound gives
+  `internalScottRank_lt_omega_one`. The source's
   `internalScottRank_pureSet` covers only infinite pure sets; the finite and empty cases follow
   from `orbitRank_pure_eq_zero` in `Scott/PureSetThreshold.lean`. For `K₂ ⊔ K₃`,
   `scripts/check_orbit_rank_regressions.lean` proves only the lower bound `orbitRank ≥ 2`, so the
