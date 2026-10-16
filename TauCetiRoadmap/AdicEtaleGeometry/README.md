@@ -197,19 +197,19 @@ The `IsLimit`/`IsTerminal` witnesses `ProEtale.ProEt.space_isLimit`, `ProEtale.P
 **Checks.** These checks fix the sign, order and transport conventions used throughout.
 
 - *cech_two_pieces* — The first differential of the augmented Čech complex of
-  *pseudocoherent-tate-acyclicity*, on two copies of the unit rational chart, sends (1,0) to −1 on
+  *pseudocoherent-tate-acyclicity*, on two copies of the unit rational chart, sends `(1,0)` to `−1` on
   their ordered overlap.
-- *koszul_two_equations* — For Q[X₀,X₁]/(X₀,X₁), the two Koszul differentials of
-  *koszul-regular-sequence-fpd* satisfy d₂(1) = (−X₁,X₀),
-  d₁(1,0) = X₀, d₁(0,1) = X₁ and d₁(d₂(1)) = 0. The conormal basis of that target
-  sends the classes of X₀ and X₁ to their
+- *koszul_two_equations* — For `ℚ[X₀,X₁]/(X₀,X₁)`, the two Koszul differentials of
+  *koszul-regular-sequence-fpd* satisfy `d₂(1) = (−X₁,X₀)`,
+  `d₁(1,0) = X₀`, `d₁(0,1) = X₁` and `d₁(d₂(1)) = 0`. The conormal basis of that target
+  sends the classes of `X₀` and `X₁` to their
   respective basis vectors.
-- *inverse_action_three* — For the ring action of ℤ/3 on Q₂³ whose generator is the cyclic
+- *inverse_action_three* — For the ring action of `ℤ/3` on `ℚ₂³` whose generator is the cyclic
   shift `f ↦ (i ↦ f(i + 1))`, transport of valuations by the inverse generator sends the point of
   `Spa(ℚ₂³, ℤ₂³)` at coordinate 0 to the point at coordinate 2. It agrees with the square of the
   `Spa` map of the shift (which moves coordinate `i` to coordinate `i + 1`) on that point and
   differs from the forward geometric map.
-- *galoisTensorMap_inverse_support*: on the regular ℤ/3 torsor, 1 ⊗ δ₂
+- *galoisTensorMap_inverse_support*: on the regular `ℤ/3` torsor, `1 ⊗ δ₂`
   evaluates under `Algebra.galoisTensorMap` to 1 at group coordinate 2 and the identity point,
   and to 0 at group coordinate 1. With `G` acting on points of spectra by transport of structure,
   `(g·v)(b) = v(g⁻¹·b)`, the ring map `b ↦ (g ↦ g·b)` therefore induces `(g,x) ↦ g⁻¹·x` on
@@ -491,17 +491,17 @@ it as its plus ring.
 
 **Checks.**
 
-- *AdicSpace_IsFinite_positive* (computation) — The split two-sheeted Q₂ projection is finite.
-- *AdicSpace_IsFinite_degenerate* (degenerate) — The empty finite cover of Spa(Q₂,Z₂) is finite.
+- *AdicSpace_IsFinite_positive* (computation) — The split two-sheeted `ℚ₂` projection is finite.
+- *AdicSpace_IsFinite_degenerate* (degenerate) — The empty finite cover of `Spa(ℚ₂,ℤ₂)` is finite.
 - *AdicSpace_IsFinite_negative* (non-example) — The open unit disc into the closed unit disc is not finite; being an open immersion is insufficient.
 
 **`AdicSpace.LocallyOfFiniteType`.** Local finite type includes the adic condition on the chart maps (Huber 1996, Definition 1.2.1, p. 46). The predicate is AdicSpacesPartII's; the Checks below are README only (no Lean declaration).
 
 **Checks.**
 
-- *AdicSpace_LocallyOfFiniteType_positive* (computation) — The split two-sheeted cover of Spa(Q₂,Z₂) is locally of finite type.
+- *AdicSpace_LocallyOfFiniteType_positive* (computation) — The split two-sheeted cover of `Spa(ℚ₂,ℤ₂)` is locally of finite type.
 - *AdicSpace_LocallyOfFiniteType_degenerate* (degenerate) — The empty split cover is locally of finite type.
-- *AdicSpace_LocallyOfFiniteType_negative* (non-example) — Spa(Q₂,Z₂) → Spa(Z,Z) is not locally of finite type: its map is not adic. Omitting adicness from topological finite type would admit it.
+- *AdicSpace_LocallyOfFiniteType_negative* (non-example) — `Spa(ℚ₂,ℤ₂) → Spa(ℤ,ℤ)` is not locally of finite type: its map is not adic. Omitting adicness from topological finite type would admit it.
 
 ## How to read the build
 
@@ -1149,7 +1149,7 @@ AdicSpacesPartII layer R0 (*completed-tensor-rational-localisation*,
 
 **Checks.**
 
-- *AdicSpace_IsRationalChartMap_positive* (computation) — The closed rational subdisc |T| ≤ |2| embeds as a rational chart.
+- *AdicSpace_IsRationalChartMap_positive* (computation) — The closed rational subdisc `|T| ≤ |2|` embeds as a rational chart.
 - *AdicSpace_IsRationalChartMap_degenerate* (degenerate) — The identity on the empty affinoid is a rational chart map.
 - *AdicSpace_IsRationalChartMap_negative* (non-example) — The two-sheeted fold is not a rational chart map; finite étale maps cannot replace rational embeddings.
 
@@ -1312,9 +1312,9 @@ and its Checks are README only (no Lean declaration).
 
 **Checks.**
 
-- *AdicSpace_Chart_positive* (computation) — The split two-point affinoid admits its identity chart with coefficient ring Q₂ × Q₂.
+- *AdicSpace_Chart_positive* (computation) — The split two-point affinoid admits its identity chart with coefficient ring `ℚ₂ × ℚ₂`.
 - *AdicSpace_Chart_degenerate* (degenerate) — The empty affinoid admits its identity chart with zero coefficient ring.
-- *AdicSpace_Chart_negative* (non-example) — The two-sheeted fold onto Spa(Q₂,Z₂) cannot be a chart map, even after an isomorphism of its source.
+- *AdicSpace_Chart_negative* (non-example) — The two-sheeted fold onto `Spa(ℚ₂,ℤ₂)` cannot be a chart map, even after an isomorphism of its source.
 
 ### A0.7 associativity, symmetry and unit
 
@@ -1569,9 +1569,9 @@ Ceti's `PreAdicSpace.restrict`. The first two Checks are Lean examples.
 
 **Checks.**
 
-- *AdicSpace_IsAdic_positive* (computation) — The three-cycle of the split Q₂ space is adic.
+- *AdicSpace_IsAdic_positive* (computation) — The three-cycle of the split `ℚ₂` space is adic.
 - *AdicSpace_IsAdic_degenerate* (degenerate) — The identity of the discrete integer spectrum is adic, although the space is not analytic.
-- *AdicSpace_IsAdic_negative* (non-example) — The map from Spa(Q₂,Z₂) to the discrete integer spectrum is continuous but not adic: it sends an analytic point to a nonanalytic point.
+- *AdicSpace_IsAdic_negative* (non-example) — The map from `Spa(ℚ₂,ℤ₂)` to the discrete integer spectrum is continuous but not adic: it sends an analytic point to a nonanalytic point.
 
 **`AdicSpace.IsAdic.analyticLocusMap`.** Restricting both source and target to their analytic loci sends each labelled component along the original adic morphism. README only (no Lean declaration).
 
@@ -2247,8 +2247,7 @@ Lean: `Huber.IsStronglySheafy`, `Huber.IsStronglySheafy.isSheafyRing`,
 `Huber.IsStronglySheafy.of_isStablySheafyRing`, `AdicSpace.IsLocallyStronglySheafy` (stated with
 strongly sheafy Tate affinoid charts of AdicSpacesPartII), `AdicSpace.IsLocallyNoetherianAnalytic`,
 `AdicSpace.IsLocallyNoetherianAnalytic.isLocallyStronglySheafy`, and the bridge to Part II's
-predicates `AdicSpace.isLocallyNoetherianAnalytic_iff` (`IsLocallyNoetherianAnalytic X ↔
-IsLocallyNoetherian X ∧ IsAnalytic X`, with the projections
+predicates `AdicSpace.isLocallyNoetherianAnalytic_iff` (`IsLocallyNoetherianAnalytic X ↔ IsLocallyNoetherian X ∧ IsAnalytic X`, with the projections
 `IsLocallyNoetherianAnalytic.isLocallyNoetherian`, `.isAnalytic` and the constructor
 `.of_isLocallyNoetherian_of_isAnalytic`), so that a consumer holding Part II's two hypotheses
 invokes the A1 comparisons (*etale-morphisms-local-description-and-comparison*,
@@ -2582,8 +2581,7 @@ assumed) and `{U_i}_{i=1}^n` a finite rational covering of `Spa(A, A⁺)`, with 
 localisations `A_i = O(U_i)`, `A_{ij} = O(U_i ∩ U_j)`, `A_{ijk} = O(U_i ∩ U_j ∩ U_k)`. Prove that
 `A → A₁ × ⋯ × A_n` is an effective descent morphism for finite étale algebras: the functor sending
 `B ∈ FÉt(A)` to `((B ⊗_A A_i)_i` with the canonical isomorphisms over the `A_{ij})` is an
-equivalence onto the category of descent data `(B_i ∈ FÉt(A_i), φ_{ij} : B_i ⊗_{A_i} A_{ij} ≅
-B_j ⊗_{A_j} A_{ij})` satisfying the cocycle condition over the `A_{ijk}` ([KL I] §2.6, Thm. 2.6.9,
+equivalence onto the category of descent data `(B_i ∈ FÉt(A_i), φ_{ij} : B_i ⊗_{A_i} A_{ij} ≅ B_j ⊗_{A_j} A_{ij})` satisfying the cocycle condition over the `A_{ijk}` ([KL I] §2.6, Thm. 2.6.9,
 p. 55; its proof reduces to a finite stage of an affinoid system and then glues by Kiehl's theorem
 at the noetherian stage, [KL I] §2.6, proof of Thm. 2.6.9, p. 55). All tensor products are
 uncompleted, the algebras being finite projective (*finite-etale-affinoid-algebra* (v)); the
@@ -2712,13 +2710,13 @@ noetherian theory. *Needs:* *finite-etale-affinoid-algebra*; AdicSpacesPartII la
   so the kernel idempotent survives and is not divisible by `2` in the ring of
   definition. Allowing density alone would admit these data.
 
-- *dense_projection* — In an `AffinoidSystem` over (Q₂,ℤ₂), a stage Q₂ × Q₂
-  mapping by first projection must eventually make its integral kernel idempotent (0,1)
+- *dense_projection* — In an `AffinoidSystem` over `(ℚ₂,ℤ₂)`, a stage `ℚ₂ × ℚ₂`
+  mapping by first projection must eventually make its integral kernel idempotent `(0,1)`
   divisible by each power of the compatible pseudouniformiser, by `detect_small`.
 - *dense_projection_constant* — Such a system cannot have identity transitions under
-  identifications of every stage with Q₂ × Q₂, pseudouniformiser (2,2), and rings of
-  definition contained in ℤ₂ × ℤ₂ and containing (0,1). Applying `detect_small` at
-  exponent 1 gives 1 = 2y₂ with |y₂|₂ ≤ 1, a contradiction. The surjectivity of the
+  identifications of every stage with `ℚ₂ × ℚ₂`, pseudouniformiser `(2,2)`, and rings of
+  definition contained in `ℤ₂ × ℤ₂` and containing `(0,1)`. Applying `detect_small` at
+  exponent 1 gives `1 = 2y₂` with `|y₂|₂ ≤ 1`, a contradiction. The surjectivity of the
   projection does not suffice to make these data an `AffinoidSystem`.
 
 - *affinoidSystem_field* — for `A = K` a complete nonarchimedean extension of `ℚ_p` with `ϖ = p`
@@ -2874,8 +2872,7 @@ Ceti `ValuationSpectrum.rationalSubset`. README only (no Lean declaration).
 
 - *localToGlobal_kummer* — for the annulus `X = Spa(K⟨T, T⁻¹⟩)`, if the Kummer covering is
   defined on the rational covering `{|T − 1| ≤ |p|}`, `{|T − 1| ≥ |p|}` by the descent datum of
-  *finite-etale-rational-descent*, the preimage of `X` is `Spa(K⟨T, T⁻¹⟩[S]/(S² − T)) =
-  Spa(K⟨S, S⁻¹⟩)`.
+  *finite-etale-rational-descent*, the preimage of `X` is `Spa(K⟨T, T⁻¹⟩[S]/(S² − T)) = Spa(K⟨S, S⁻¹⟩)`.
 - *localToGlobal_degree_not_surjective* — for `X = X₁ ⊔ X₂` the inclusion `X₁ → X` is finite
   étale of degree `1` on `X₁` and `0` on `X₂`, not surjective.
 
@@ -3244,8 +3241,7 @@ nonempty `X`, `X_fét` is a Galois category, *finite-etale-galois-category*). *N
 
 **Checks.**
 
-- *test_field* (computation) — for `X = Spa(K, K⁺)`, `smallFiniteEtale X ≌
-  (CommAlgCat.FiniteEtale K)ᵒᵖ ≃` finite continuous `Gal(K^sep/K)`-sets, independently of `K⁺`.
+- *test_field* (computation) — for `X = Spa(K, K⁺)`, `smallFiniteEtale X ≌ (CommAlgCat.FiniteEtale K)ᵒᵖ ≃` finite continuous `Gal(K^sep/K)`-sets, independently of `K⁺`.
 - *test_algClosed* (degenerate) — for `X = Spa(C, C⁺)` with `C` algebraically closed, every
   object of `X_fét` is a finite disjoint union of copies of `X`: `X_fét` is split.
 - *test_open_not_object* (non-example) — the inclusion of a proper nonempty rational subset of a
@@ -3384,7 +3380,7 @@ roadmaps' and AdicSpacesPartIII layer R3's.
 
 **Checks.**
 
-- *AdicSpace_smallEtale_space_positive* (computation) — The split two-sheeted Q₂ cover has exactly two underlying points.
+- *AdicSpace_smallEtale_space_positive* (computation) — The split two-sheeted `ℚ₂` cover has exactly two underlying points.
 - *AdicSpace_smallEtale_space_degenerate* (degenerate) — The zero-sheeted cover has empty underlying space.
 - *AdicSpace_smallEtale_space_negative* (non-example) — The three-cycle sends point 0 to point 1, not point 2; inverse action is excluded.
 
@@ -3392,11 +3388,11 @@ roadmaps' and AdicSpacesPartIII layer R3's.
 
 **Checks.**
 
-- *AdicSpace_smallFiniteEtale_space_positive* (computation) — The split two-sheeted Q₂ cover has exactly two underlying points.
+- *AdicSpace_smallFiniteEtale_space_positive* (computation) — The split two-sheeted `ℚ₂` cover has exactly two underlying points.
 - *AdicSpace_smallFiniteEtale_space_degenerate* (degenerate) — The zero-sheeted cover has empty underlying space.
 - *AdicSpace_smallFiniteEtale_space_negative* (non-example) — The three-cycle sends point 0 to point 1, not point 2; inverse action is excluded.
 
-**`AdicSpace.structurePresheafEtale`.** Before imposing descent, sections on split covers form ordered products of Q₂ and arrows pull back these functions. README only (no Lean declaration).
+**`AdicSpace.structurePresheafEtale`.** Before imposing descent, sections on split covers form ordered products of `ℚ₂` and arrows pull back these functions. README only (no Lean declaration).
 
 **Checks.**
 
@@ -3404,7 +3400,7 @@ roadmaps' and AdicSpacesPartIII layer R3's.
 - *AdicSpace_structurePresheafEtale_degenerate* (degenerate) — Sections on the empty étale object form the zero ring.
 - *AdicSpace_structurePresheafEtale_negative* (non-example) — The same pullback has value 0 on sheet 0, excluding the identity pullback on the three factors.
 
-**`AdicSpace.structureSheafEtale`.** The étale structure sheaf satisfies descent and its section restriction rotates the ordered Q₂ factors on a split cubic cover. README only (no Lean declaration).
+**`AdicSpace.structureSheafEtale`.** The étale structure sheaf satisfies descent and its section restriction rotates the ordered `ℚ₂` factors on a split cubic cover. README only (no Lean declaration).
 
 **Checks.**
 
@@ -3416,7 +3412,7 @@ roadmaps' and AdicSpacesPartIII layer R3's.
 
 **Checks.**
 
-- *AdicSpace_IsBasic_positive* (computation) — The two-sheeted finite étale Q₂ cover is basic.
+- *AdicSpace_IsBasic_positive* (computation) — The two-sheeted finite étale `ℚ₂` cover is basic.
 - *AdicSpace_IsBasic_degenerate* (degenerate) — The zero-sheeted finite étale cover is basic.
 - *AdicSpace_IsBasic_negative* (non-example) — The open unit disc is étale but non-quasi-compact, so it is not basic.
 
@@ -3444,7 +3440,7 @@ roadmaps' and AdicSpacesPartIII layer R3's.
 - *AdicSpace_smallEtaleBasisTopology_degenerate* (degenerate) — The empty sieve covers the empty object.
 - *AdicSpace_smallEtaleBasisTopology_negative* (non-example) — The empty-to-one-sheeted map generates no covering sieve; the topology is not indiscrete.
 
-**`AdicSpace.etaleSheafPushforward`.** Along the split two-sheeted projection, direct image evaluates a sheaf on both source sheets: a constant n-element sheaf has n² global sections. README only (no Lean declaration).
+**`AdicSpace.etaleSheafPushforward`.** Along the split two-sheeted projection, direct image evaluates a sheaf on both source sheets: a constant `n`-element sheaf has `n²` global sections. README only (no Lean declaration).
 
 **Checks.**
 
@@ -3504,11 +3500,11 @@ roadmaps' and AdicSpacesPartIII layer R3's.
 
 **Checks.**
 
-- *AdicSpace_smallFiniteEtale_affinoidEquiv_split_quadratic* (computation) — The algebra Q₂ × Q₂ gives an adic space with two points.
+- *AdicSpace_smallFiniteEtale_affinoidEquiv_split_quadratic* (computation) — The algebra `ℚ₂ × ℚ₂` gives an adic space with two points.
 - *AdicSpace_smallFiniteEtale_affinoidEquiv_zero_algebra* (degenerate) — The zero algebra gives the empty space.
 - *AdicSpace_smallFiniteEtale_affinoidEquiv_cycle_not_square* (non-example) — The cyclic permutation of the three factors and its square induce different geometric arrows.
 
-**The étale structure presheaf on opens.** On the full open of the split three-point Q₂ space, the comparison of the étale structure presheaf `AdicSpace.structurePresheafEtale` with the original one on opens returns the original labelled idempotent section. Pullback to the corresponding étale open supplies the input independently of the comparison. Huber 1996, §1.1, pp. 37–39.
+**The étale structure presheaf on opens.** On the full open of the split three-point `ℚ₂` space, the comparison of the étale structure presheaf `AdicSpace.structurePresheafEtale` with the original one on opens returns the original labelled idempotent section. Pullback to the corresponding étale open supplies the input independently of the comparison. Huber 1996, §1.1, pp. 37–39.
 
 **Checks.**
 
@@ -3518,7 +3514,7 @@ roadmaps' and AdicSpacesPartIII layer R3's.
 
 - *AdicSpace_structurePresheafEtale_onOpens_not_component_two* (non-example) — The component-1 section does not become the component-2 section.
 
-**The integral étale structure presheaf on opens.** On the full open of the split three-point Q₂ space, the comparison of the integral étale structure presheaf `AdicSpace.structurePresheafPlusEtale` with the original one on opens returns the original labelled idempotent section. Each section is integral, so this checks the integral comparison itself. Huber 1996, §1.1, pp. 37–39.
+**The integral étale structure presheaf on opens.** On the full open of the split three-point `ℚ₂` space, the comparison of the integral étale structure presheaf `AdicSpace.structurePresheafPlusEtale` with the original one on opens returns the original labelled idempotent section. Each section is integral, so this checks the integral comparison itself. Huber 1996, §1.1, pp. 37–39.
 
 **Checks.**
 
@@ -3694,8 +3690,7 @@ rank). Define `AdicSpace.GeometricPoint.Neighbourhood`, the category `N(ξ)` of 
 neighbourhoods `(U, ū)` — `U ∈ X_ét` with a lift `ū` of `ξ`, the category of elements
 `(fiber ξ).Elements` — and use Mathlib `CategoryTheory.GrothendieckTopology.Point.isCofiltered` (`N(ξ)`
 is cofiltered and essentially small; [dJvP] §3.3, p. 28). Define `AdicSpace.strictLocalization`,
-the cofiltered diagram `N(ξ) ⥤ smallEtale X`, `(U, ū) ↦ U`, regarded as a pro-object `X(ξ) =
-lim U` of `X_ét` with its compatible lift `ξ̃` of `ξ`. This is the pointed strict-localisation
+the cofiltered diagram `N(ξ) ⥤ smallEtale X`, `(U, ū) ↦ U`, regarded as a pro-object `X(ξ) = lim U` of `X_ét` with its compatible lift `ξ̃` of `ξ`. This is the pointed strict-localisation
 pro-object of `Pro(X_ét)`, initial among pro-objects of `X_ét` equipped with a compatible lift of
 `ξ`; no assertion is made that it belongs to the pro-étale subcategory `X_proét` of
 *pro-etale-site-corrected* (it need not: see *test_shrinking_disc_not_proetale*), and the initial pro-étale
@@ -3804,8 +3799,7 @@ the chosen geometric field. *Needs:* *strict-localisation*; *geometric-point-eta
 - *strictLocalization_rank_two* — for `X = Spa(K, K⁺)` with `K⁺` of rank 2 and `ξ` supported at
   the closed point, `|X(ξ)| ≅ |Spa(C_ξ, C_ξ⁺)|` with `C_ξ⁺` of rank 2 (two points).
 - *strictLocalization_gauss_rank_two* (computation) — for the closed disc `X = Spa(ℚ_p⟨T⟩, ℤ_p⟨T⟩)`,
-  `x` the rank-2 specialisation of the Gauss point `η` in the direction `|T| < 1⁺` (`k(x)^+ =
-  {f ∈ O_{k(η)^} : f̄ ∈ 𝔽_p[T̄]_{(T̄)}}`) and `ξ` supported at `x`: `|X(ξ)| = {η, x}`, two points;
+  `x` the rank-2 specialisation of the Gauss point `η` in the direction `|T| < 1⁺` (`k(x)^+ = {f ∈ O_{k(η)^} : f̄ ∈ 𝔽_p[T̄]_{(T̄)}}`) and `ξ` supported at `x`: `|X(ξ)| = {η, x}`, two points;
   `k(x)^+` is not henselian (its residual valuation on `𝔽_p(T̄)` is the `T̄`-adic one, and
   `X² − X − T̄` splits in `𝔽_p⟦T̄⟧` but not in `𝔽_p(T̄)`), so the rank-2 valuation has two
   extensions to the unramified quadratic extension `k(x)^(α)`, `α² − α = T`: the stalk functor
@@ -3862,7 +3856,7 @@ the chosen geometric field. *Needs:* *strict-localisation*; *geometric-point-eta
 **Checks.**
 
 - *AdicSpace_strictLocalization_positive* (computation) — The neighbourhood consisting of the split two-sheeted cover with lift to sheet 0 has two underlying points.
-- *AdicSpace_strictLocalization_degenerate* (degenerate) — The identity neighbourhood over Spa(Q₂,Z₂) has exactly one point.
+- *AdicSpace_strictLocalization_degenerate* (degenerate) — The identity neighbourhood over `Spa(ℚ₂,ℤ₂)` has exactly one point.
 - *AdicSpace_strictLocalization_negative* (non-example) — A three-sheeted neighbourhood with lift to sheet 1 remains three-sheeted. Replacing each neighbourhood by its selected component fails this check.
 
 **`AdicSpace.strictLocalization.space`.** The topological strict localization is the subspace of compatible tuples in the product of all pointed étale neighbourhoods. Its coordinate projections are the evaluation maps. Huber 1996, §2.5, especially 2.5.9–2.5.13, pp. 132–135. README only (no Lean declaration).
@@ -3878,7 +3872,7 @@ the chosen geometric field. *Needs:* *strict-localisation*; *geometric-point-eta
 **Checks.**
 
 - *AdicSpace_strictLocalization_map_positive* (computation) — Postcomposing sheet 0 with the geometric three-cycle gives coordinate 1 at the identity neighbourhood of the target.
-- *AdicSpace_strictLocalization_map_degenerate* (degenerate) — The identity base map preserves the unique Q₂ coordinate.
+- *AdicSpace_strictLocalization_map_degenerate* (degenerate) — The identity base map preserves the unique `ℚ₂` coordinate.
 - *AdicSpace_strictLocalization_map_negative* (non-example) — The same composite does not give coordinate 2; using the inverse three-cycle violates the map convention.
 
 **Stalk pullback and strict local rings.**
@@ -3902,11 +3896,11 @@ functor, the orientation used for colimits of sections and local rings. This doe
 that opens inside one fixed étale neighbourhood suffice for all étale germs. Huber 1996,
 2.5.9, p. 132, and the proof of 2.5.10, p. 134. README only (no Lean declaration).
 
-**The pullback-stalk comparison at a concrete point.** The pullback-stalk comparison for `AdicSpace.GeometricPoint` respects labelled germs and the pullback adjunction unit, at the concrete C₂ point.
+**The pullback-stalk comparison at a concrete point.** The pullback-stalk comparison for `AdicSpace.GeometricPoint` respects labelled germs and the pullback adjunction unit, at the concrete `ℂ₂` point.
 
 **Checks.**
 
-- *AdicSpace_GeometricPoint_stalk_pullback_iso_label_one_germ* (computation) — The germ of label 1 in the constant three-element sheaf stays label 1 under identity pullback at C₂.
+- *AdicSpace_GeometricPoint_stalk_pullback_iso_label_one_germ* (computation) — The germ of label 1 in the constant three-element sheaf stays label 1 under identity pullback at `ℂ₂`.
 - *AdicSpace_GeometricPoint_stalk_pullback_iso_singleton_germ* (degenerate) — The unique germ of the one-element sheaf is preserved.
 - *AdicSpace_GeometricPoint_stalk_pullback_iso_not_label_two* (non-example) — That germ is not label 2; a permuted stalk comparison fails.
 
@@ -3959,7 +3953,7 @@ for every open and bounded valuation subring `K⁺`. *Needs:* *finite-etale-site
 
 **Checks.**
 
-- *AdicSpace_smallFiniteEtale_fiberFunctor_positive* (computation) — At any geometric point of Spa(Q₂,Z₂), the split two-sheeted cover has fibre of cardinality 2.
+- *AdicSpace_smallFiniteEtale_fiberFunctor_positive* (computation) — At any geometric point of `Spa(ℚ₂,ℤ₂)`, the split two-sheeted cover has fibre of cardinality 2.
 - *AdicSpace_smallFiniteEtale_fiberFunctor_degenerate* (degenerate) — The empty cover has empty geometric fibre.
 - *AdicSpace_smallFiniteEtale_fiberFunctor_negative* (non-example) — The three-cycle fixes no geometric lift, excluding the trivial action on the fibre.
 
@@ -3997,13 +3991,11 @@ every complete Tate pair `(A, A⁺)`, sheafy or not, the functor sending a finit
 to `Spa^Y(B, B⁺)` gives `FÉt(A)^op ≃ Spa^Y(A, A⁺)_fét^Y` ([KL I] §8.2, Lem. 8.2.17(a), p. 162). Its
 inverse uses finite étale descent; identification with global sections requires sheafiness of the
 affinoids involved; (iii) `YonedaAdicSpace.smallEtale_equiv_of_isLocallyStronglySheafy`: if `X` is
-locally strongly sheafy, every object of `X_ét^Y` is (the image of) an adic space and `X_ét^Y ≃
-X_ét`, `X_fét^Y ≃ X_fét` (*etale-site*, *finite-etale-site*); (iv)
+locally strongly sheafy, every object of `X_ét^Y` is (the image of) an adic space and `X_ét^Y ≃ X_ét`, `X_fét^Y ≃ X_fét` (*etale-site*, *finite-etale-site*); (iv)
 `YonedaAdicSpace.hasEnoughPoints_smallEtaleTopology`: geometric points define points of `X_ét^Y`
 and form a conservative family, by the proofs of *etale-site-and-geometric-points* and
 *etale-enough-points* (only `Spa(C, C⁺)`, which is sheafy, is used, together with: every point of
-`|U| = Spa(B, B⁺)` of an affinoid object is the support of a geometric point `Spa(C, C⁺) → Spa^Y(B,
-B⁺)`, given by a morphism of pairs `(B, B⁺) → (k(x)^, k(x)^+) → (C, C⁺)`,
+`|U| = Spa(B, B⁺)` of an affinoid object is the support of a geometric point `Spa(C, C⁺) → Spa^Y(B, B⁺)`, given by a morphism of pairs `(B, B⁺) → (k(x)^, k(x)^+) → (C, C⁺)`,
 *maps-from-adic-spaces-to-yoneda-affinoids*, and coverings are the jointly surjective families on
 `|−|`); (v) this is the site `Y_ét`, `Y_fét` of [ECD] §15, Lem. 15.6, p. 91, for an analytic adic
 space `Y` over `ℤ_p`, the right-hand side of the comparison `Y^◇_ét ≅ Y_ét` owned by
@@ -4027,8 +4019,7 @@ spaces as defined in [SW13, Section 2.1]"). *Needs:* *generalized-adic-presentat
   hypothesis; for `A` sheafy but not known to be strongly sheafy and `B ∈ FÉt(A)`,
   `Spa^Y(B, B⁺) → Spa^Y(A, A⁺)` is an object of `X_fét^Y` although `Spa(B, B⁺)` is not known to
   be an adic space ([KL I] §8.2, Rem. 8.2.18, p. 162).
-- *test_eq_adic* (compatibility) — for `X` locally strongly sheafy, `AdicSpace.smallEtale X ⥤
-  YonedaAdicSpace.smallEtale X^Y` is an equivalence of sites; for `X` locally noetherian,
+- *test_eq_adic* (compatibility) — for `X` locally strongly sheafy, `AdicSpace.smallEtale X ⥤ YonedaAdicSpace.smallEtale X^Y` is an equivalence of sites; for `X` locally noetherian,
   `X_ét^Y` is Huber's `X_et`.
 - *test_opens* (degenerate) — open immersions into `X` are objects of `X_ét^Y` and open coverings
   are coverings.
@@ -4295,7 +4286,7 @@ spaces, finite étale algebras over noetherian affinoids); the Foundations of ad
 
 **Checks.**
 
-- *AdicSpace_ProEtale_ProEt_const_positive* (computation) — There are exactly two arrows from the constant one-sheeted Q₂ cover to the constant two-sheeted cover.
+- *AdicSpace_ProEtale_ProEt_const_positive* (computation) — There are exactly two arrows from the constant one-sheeted `ℚ₂` cover to the constant two-sheeted cover.
 - *AdicSpace_ProEtale_ProEt_const_degenerate* (degenerate) — There is exactly one arrow from the constant empty object to the constant two-sheeted cover.
 - *AdicSpace_ProEtale_ProEt_const_negative* (non-example) — The constant embedding separates the three-cycle from its inverse; collapsing all arrows fails this check.
 
@@ -4303,7 +4294,7 @@ spaces, finite étale algebras over noetherian affinoids); the Foundations of ad
 
 **Checks.**
 
-- *AdicSpace_ProEtale_ProEt_space_positive* (computation) — The constant split two-sheeted Q₂ cover has exactly two points.
+- *AdicSpace_ProEtale_ProEt_space_positive* (computation) — The constant split two-sheeted `ℚ₂` cover has exactly two points.
 - *AdicSpace_ProEtale_ProEt_space_degenerate* (degenerate) — The constant empty object has empty space.
 - *AdicSpace_ProEtale_ProEt_space_negative* (non-example) — The three-cycle moves every point of the constant three-sheeted cover; the constant-map functor fails this check.
 
@@ -4311,7 +4302,7 @@ spaces, finite étale algebras over noetherian affinoids); the Foundations of ad
 
 **Checks.**
 
-- *AdicSpace_ProEtale_IsSurjective_positive* (computation) — The three-cycle on the constant split Q₂ cover is surjective.
+- *AdicSpace_ProEtale_IsSurjective_positive* (computation) — The three-cycle on the constant split `ℚ₂` cover is surjective.
 - *AdicSpace_ProEtale_IsSurjective_degenerate* (degenerate) — The identity on the empty constant object is surjective.
 - *AdicSpace_ProEtale_IsSurjective_negative* (non-example) — The proper open unit disc misses the boundary Gauss point, excluding a predicate that accepts all étale maps.
 
@@ -4335,7 +4326,7 @@ spaces, finite étale algebras over noetherian affinoids); the Foundations of ad
 
 **Checks.**
 
-- *AdicSpace_ProEtale_ProEt_final_positive* (computation) — Over Spa(Q₂,Z₂), the final object has one point.
+- *AdicSpace_ProEtale_ProEt_final_positive* (computation) — Over `Spa(ℚ₂,ℤ₂)`, the final object has one point.
 - *AdicSpace_ProEtale_ProEt_final_degenerate* (degenerate) — Over the empty base the final object has empty space.
 - *AdicSpace_ProEtale_ProEt_final_negative* (non-example) — Over the two-point split base its space has two points, excluding a globally constant one-point object.
 
@@ -4588,7 +4579,7 @@ adopted here: without it open covers would be excluded; with steps from `X_ét`,
 
 **Checks.**
 
-- *AdicSpace_ProEtale_finiteSurjPullbacks_positive* (computation) — The split two-to-one Q₂ cover is a permitted finite surjective step.
+- *AdicSpace_ProEtale_finiteSurjPullbacks_positive* (computation) — The split two-to-one `ℚ₂` cover is a permitted finite surjective step.
 - *AdicSpace_ProEtale_finiteSurjPullbacks_degenerate* (degenerate) — The identity of the empty object is a permitted step.
 - *AdicSpace_ProEtale_finiteSurjPullbacks_negative* (non-example) — The empty-to-one-sheeted finite étale map is not a step; finiteness alone is insufficient.
 
@@ -4874,7 +4865,7 @@ assertion (b) and the general profinite statement are owned here. *Needs:*
 
 **Checks.**
 
-- *AdicSpace_ProEtaleSite_IsCoherentBasisObject_positive* (computation) — The constant split two-sheeted Q₂ cover is an affine coherent basis object.
+- *AdicSpace_ProEtaleSite_IsCoherentBasisObject_positive* (computation) — The constant split two-sheeted `ℚ₂` cover is an affine coherent basis object.
 - *AdicSpace_ProEtaleSite_IsCoherentBasisObject_degenerate* (degenerate) — The empty affine cover is a coherent basis object.
 - *AdicSpace_ProEtaleSite_IsCoherentBasisObject_negative* (non-example) — The constant open unit disc is not a coherent basis object because it is non-quasi-compact.
 
@@ -4890,7 +4881,7 @@ assertion (b) and the general profinite statement are owned here. *Needs:*
 
 **Checks.**
 
-- *AdicSpace_ProEtaleSite_profiniteObj_section_positive* (computation) — The section indexed by true has Boolean coordinate true at the Q₂ point.
+- *AdicSpace_ProEtaleSite_profiniteObj_section_positive* (computation) — The section indexed by true has Boolean coordinate true at the `ℚ₂` point.
 - *AdicSpace_ProEtaleSite_profiniteObj_section_degenerate* (degenerate) — The section for the one-point profinite space preserves the base coordinate.
 - *AdicSpace_ProEtaleSite_profiniteObj_section_negative* (non-example) — The section indexed by true does not have Boolean coordinate false; interchanging the two sections fails.
 
@@ -4975,7 +4966,7 @@ checks the actual valuation comap and its agreement with `threeCycle ≫ threeCy
 - *AdicSpace_ProEtaleSite_galoisCover_descent_identity_section* (degenerate) — For the one-point represented sheaf, the identity section pulls back to the covering map.
 - *AdicSpace_ProEtaleSite_galoisCover_descent_not_sheet_two_section* (non-example) — The descended sheet-1 section is not the sheet-2 map; a permutation of sections fails.
 
-**`AdicSpace.ProEtaleSite.nuPull_sections`.** On the constant one-stage presentation of the Q₂ point, a section of the sheaf represented by the split cubic cover is a labelled sheet. The inverse colimit comparison returns the pullback of that sheet through the adjunction unit. PH Lemma 3.16, pp. 19–20, and Corollary 3.17(i), p. 20. README only (no Lean declaration).
+**`AdicSpace.ProEtaleSite.nuPull_sections`.** On the constant one-stage presentation of the `ℚ₂` point, a section of the sheaf represented by the split cubic cover is a labelled sheet. The inverse colimit comparison returns the pullback of that sheet through the adjunction unit. PH Lemma 3.16, pp. 19–20, and Corollary 3.17(i), p. 20. README only (no Lean declaration).
 
 **Checks.**
 
@@ -5206,7 +5197,7 @@ faithful inclusion `X_profét ⥤ X_proét`); prove
   `X_proét`; the images `U_i^∞` above do not stabilise, as each `V_n` has infinitely many open and
   closed subsets.
 
-**Pro-finite-étale objects are profinite π_1-sets.** (*profinite-etale-galois-sets*) For `X`
+**Pro-finite-étale objects are profinite `π₁`-sets.** (*profinite-etale-galois-sets*) For `X`
 connected with a geometric point `x̄`, the functor `Y = lim Y_i ↦ S(Y) := lim_i F_x̄(Y_i)` is an
 equivalence of sites `X_profét ≃ π_1(X, x̄)-pfsets` for the corrected coverings on both sides
 ([PH] §3, Prop. 3.5 and its proof, p. 14; [PH] §3, before Def. 3.4, p. 13). For `X = Spa(K, O_K)`
@@ -5214,7 +5205,7 @@ with `K` complete discretely valued, `X_profét ≃ G_K-pfsets` and `Spa(K̂^sep
 (check *galoisSets_field*). *Needs:* *finite-etale-galois-category*, *pro-finite-etale-site-corrected*,
 *profinite-g-sets-site*; AdicSpacesPartII R0.19.6 and R0.19.9. README only (no Lean declaration).
 
-**Open equals pro-étale on X_profét; the morphism of sites.**
+**Open equals pro-étale on `X_profét`; the morphism of sites.**
 (*proetale-profinite-etale-morphism-of-sites*) Let `X` have finitely many connected components,
 so that `X_profét ⊂ X_proét` (*pro-finite-etale-site-corrected*). (a) Under this fully faithful
 inclusion, a morphism `f : U → V` of `X_profét` is open on underlying spaces iff it is
@@ -5304,7 +5295,7 @@ space `ℕ` is not compact), so `X_proét ≠ X_profét` as categories (check *m
 - *AdicSpace_ProFiniteEtaleSite_toProEtale_const_one_sheet_point* (degenerate) — The one-sheeted object gives its unique point.
 - *AdicSpace_ProFiniteEtaleSite_toProEtale_const_not_sheet_two* (non-example) — The same comparison does not send sheet 1 to sheet 2.
 
-**`AdicSpace.ProFiniteEtaleSite.IsEtale`.** Étale arrows are pulled back from finite levels. `CantorChecks.comparison` identifies the Boolean-cube inverse limit with the profinite Cantor object over the Q₂ point; PH Definition 3.9, p. 15, and Lemma 3.11, p. 17. README only (no Lean declaration).
+**`AdicSpace.ProFiniteEtaleSite.IsEtale`.** Étale arrows are pulled back from finite levels. `CantorChecks.comparison` identifies the Boolean-cube inverse limit with the profinite Cantor object over the `ℚ₂` point; PH Definition 3.9, p. 15, and Lemma 3.11, p. 17. README only (no Lean declaration).
 
 **Checks.**
 
@@ -5426,27 +5417,27 @@ product is the base space with both projections equal to the identity.
 **Checks.**
 
 - *fieldSystem_identity_extension* (computation) — the extension map is the identity of the two-adic Huber pair.
-- *fieldSystem_identity_completed* (degenerate) — the completed first projection is the identity of Spa(Q₂,Z₂).
+- *fieldSystem_identity_completed* (degenerate) — the completed first projection is the identity of `Spa(ℚ₂,ℤ₂)`.
 - *fieldSystem_identity_stage* (computation) — the only stage projection is the identity.
 
 **`AdicSpace.FieldBaseChangeSystem`: completion of the algebraic closure.**
-`CompletionChecks.system` has base Q₂, complete field C₂, and index category the opposite
-of the finite intermediate fields in the fixed algebraic closure of Q₂. Each stage has the
-finite-module topology and the integral closure of Z₂ as its plus ring. The transition maps
-are inclusions. The map from the completed field spectrum is the actual Spa map of Q₂ → C₂;
+`CompletionChecks.system` has base `ℚ₂`, complete field `ℂ₂`, and index category the opposite
+of the finite intermediate fields in the fixed algebraic closure of `ℚ₂`. Each stage has the
+finite-module topology and the integral closure of `ℤ₂` as its plus ring. The transition maps
+are inclusions. The map from the completed field spectrum is the actual Spa map of `ℚ₂ → ℂ₂`;
 [PH] Proposition 3.15, p. 19. README only (no Lean declaration).
 
 **Checks.**
 
-- *proper_completion_positive* (computation) — The stage Q₂(√2) maps its labelled root to the same root in C₂.
-- *proper_completion_degenerate* (degenerate) — For the one-stage identity field system, the completed pair is Q₂ itself and the stage projection is the identity.
-- *proper_completion_negative* (non-example) — The image of √2 in C₂ is not in the image of Q₂; the identity field system cannot replace this system.
+- *proper_completion_positive* (computation) — The stage `ℚ₂(√2)` maps its labelled root to the same root in `ℂ₂`.
+- *proper_completion_degenerate* (degenerate) — For the one-stage identity field system, the completed pair is `ℚ₂` itself and the stage projection is the identity.
+- *proper_completion_negative* (non-example) — The image of `√2` in `ℂ₂` is not in the image of `ℚ₂`; the identity field system cannot replace this system.
 
 **`AdicSpace.FieldBaseChangeSystem.stageMap`.** Stage maps retain the specified finite-field embeddings into the completion on global functions. README only (no Lean declaration).
 
 **Checks.**
 
-- *AdicSpace_FieldBaseChangeSystem_stageMap_quadratic_root* (computation) — Pulling the labelled square root of 2 from the quadratic stage to C₂ gives that root.
+- *AdicSpace_FieldBaseChangeSystem_stageMap_quadratic_root* (computation) — Pulling the labelled square root of 2 from the quadratic stage to `ℂ₂` gives that root.
 - *AdicSpace_FieldBaseChangeSystem_stageMap_identity_stage* (degenerate) — The one-stage identity field system has identity stage projection.
 - *AdicSpace_FieldBaseChangeSystem_stageMap_not_negative_root* (non-example) — The stage projection does not change the root to its negative; inserting the quadratic automorphism fails.
 
@@ -5462,9 +5453,9 @@ are inclusions. The map from the completed field spectrum is the actual Spa map 
 
 **Checks.**
 
-- *AdicSpace_FieldBaseChangeSystem_proObject_quadratic_lifts* (computation) — The completed algebraic closure has two lifts to the quadratic stage Q₂(√2).
+- *AdicSpace_FieldBaseChangeSystem_proObject_quadratic_lifts* (computation) — The completed algebraic closure has two lifts to the quadratic stage `ℚ₂(√2)`.
 - *AdicSpace_FieldBaseChangeSystem_proObject_identity_split_lifts* (degenerate) — The identity field system has two maps to the split quadratic cover.
-- *AdicSpace_FieldBaseChangeSystem_proObject_identity_no_quadratic_lift* (non-example) — The identity field system has no map to Q₂(√2); replacing every system by the algebraic closure fails.
+- *AdicSpace_FieldBaseChangeSystem_proObject_identity_no_quadratic_lift* (non-example) — The identity field system has no map to `ℚ₂(√2)`; replacing every system by the algebraic closure fails.
 
 **`AdicSpace.FieldBaseChangeSystem.homEquiv`.** The morphism comparison keeps track of labelled finite-stage arrows, including its direction. README only (no Lean declaration).
 
@@ -5595,72 +5586,72 @@ by the erratum and are used nowhere ([PH erratum] item (2), p. 1; [PH] §3, Coro
 
 
 **The decomposition-group valuation swap.**
-Take K = Q((t)) with its t-adic topology and the composite valuation whose residue
-valuation on Q is 5-adic. Thus K⁺ consists of series with no negative powers of t and
-5-integral constant coefficient. In the fixed algebraic closure choose i² = −1 and
-prolong the composite valuation through the branch i ≡ 2 mod 5. Complete this valued
+Take `K = ℚ((t))` with its `t`-adic topology and the composite valuation whose residue
+valuation on `ℚ` is 5-adic. Thus `K⁺` consists of series with no negative powers of `t` and
+5-integral constant coefficient. In the fixed algebraic closure choose `i² = −1` and
+prolong the composite valuation through the branch `i ≡ 2 mod 5`. Complete this valued
 algebraic closure to obtain `ValuationSwapChecks.point`; `embedding_integral` fixes
-its integral elements on the dense algebraic closure. Extend i ↦ −i to the automorphism
-`conjugation`. For a = (i−2)/5, a is integral on the chosen branch, whereas its conjugate
-is not: the two numerators sum to the 5-adic unit −4. The decomposition group is therefore
+its integral elements on the dense algebraic closure. Extend `i ↦ −i` to the automorphism
+`conjugation`. For `a = (i−2)/5`, `a` is integral on the chosen branch, whereas its conjugate
+is not: the two numerators sum to the 5-adic unit `−4`. The decomposition group is therefore
 proper in the absolute Galois group. The underlying prolongation construction is
 Huber 1996, (2.5.2), p. 130; the subgroup is the stabilizer of that chosen valuation.
 
 **Checks.**
 
-- *valuation_swap_positive* (computation) — The chosen branch contains (i−2)/5.
+- *valuation_swap_positive* (computation) — The chosen branch contains `(i−2)/5`.
 - *valuation_swap_degenerate* (degenerate) — The identity automorphism belongs to its decomposition group.
-- *valuation_swap_negative* (non-example) — Conjugation sends (i−2)/5 outside the integral ring and is excluded from the decomposition group; the full absolute Galois group fails this test.
+- *valuation_swap_negative* (non-example) — Conjugation sends `(i−2)/5` outside the integral ring and is excluded from the decomposition group; the full absolute Galois group fails this test.
 
-**`AdicSpace.ProEtaleSite.fiberProfinite`.** The profinite fibre records lifts from the fixed rank-one geometric point defined by C₂. README only (no Lean declaration).
+**`AdicSpace.ProEtaleSite.fiberProfinite`.** The profinite fibre records lifts from the fixed rank-one geometric point defined by `ℂ₂`. README only (no Lean declaration).
 
 **Checks.**
 
-- *AdicSpace_ProEtaleSite_fiberProfinite_quadratic_lifts* (computation) — At the C₂ point the split quadratic object has two geometric lifts.
+- *AdicSpace_ProEtaleSite_fiberProfinite_quadratic_lifts* (computation) — At the `ℂ₂` point the split quadratic object has two geometric lifts.
 - *AdicSpace_ProEtaleSite_fiberProfinite_empty_fibre* (degenerate) — The empty object has empty profinite fibre.
 - *AdicSpace_ProEtaleSite_fiberProfinite_cycle_fixed_point_free* (non-example) — The geometric three-cycle has no fixed lift; the trivial action on geometric arrows fails.
 
-**`AdicSpace.ProEtaleSite.pointToposPush`.** Direct image for the point-site comparison at C₂ retains the nontrivial Galois action on the quadratic cover. README only (no Lean declaration).
+**`AdicSpace.ProEtaleSite.pointToposPush`.** Direct image for the point-site comparison at `ℂ₂` retains the nontrivial Galois action on the quadratic cover. README only (no Lean declaration).
 
 **Checks.**
 
-- *AdicSpace_ProEtaleSite_pointToposPush_quadratic_endomorphisms* (computation) — For the sheaf represented by the quadratic cover Q₂(√2), sections over that quadratic object are its two equivariant endomorphisms.
+- *AdicSpace_ProEtaleSite_pointToposPush_quadratic_endomorphisms* (computation) — For the sheaf represented by the quadratic cover `ℚ₂(√2)`, sections over that quadratic object are its two equivariant endomorphisms.
 - *AdicSpace_ProEtaleSite_pointToposPush_unique_empty_section* (degenerate) — The same sheaf has exactly one section over the empty object.
-- *AdicSpace_ProEtaleSite_pointToposPush_no_base_section* (non-example) — It has no section over the Q₂ point; forgetting the nontrivial Galois action would incorrectly give two.
+- *AdicSpace_ProEtaleSite_pointToposPush_no_base_section* (non-example) — It has no section over the `ℚ₂` point; forgetting the nontrivial Galois action would incorrectly give two.
 
-**`AdicSpace.ProEtaleSite.globalPointToposPush`.** Direct image to the global pro-étale site remembers the quadratic fibre and its Galois action at the C₂ point. README only (no Lean declaration).
+**`AdicSpace.ProEtaleSite.globalPointToposPush`.** Direct image to the global pro-étale site remembers the quadratic fibre and its Galois action at the `ℂ₂` point. README only (no Lean declaration).
 
 **Checks.**
 
-- *AdicSpace_ProEtaleSite_globalPointToposPush_quadratic_endomorphisms* (computation) — For the sheaf represented by the quadratic cover Q₂(√2), sections over that quadratic object are its two equivariant endomorphisms.
+- *AdicSpace_ProEtaleSite_globalPointToposPush_quadratic_endomorphisms* (computation) — For the sheaf represented by the quadratic cover `ℚ₂(√2)`, sections over that quadratic object are its two equivariant endomorphisms.
 - *AdicSpace_ProEtaleSite_globalPointToposPush_unique_empty_section* (degenerate) — The same sheaf has exactly one section over the empty object.
-- *AdicSpace_ProEtaleSite_globalPointToposPush_no_base_section* (non-example) — It has no section over the Q₂ point; forgetting the nontrivial Galois action would incorrectly give two.
+- *AdicSpace_ProEtaleSite_globalPointToposPush_no_base_section* (non-example) — It has no section over the `ℚ₂` point; forgetting the nontrivial Galois action would incorrectly give two.
 
 **`AdicSpace.ProEtaleSite.pointToposPull`.** Inverse image for the point-site comparison sends the quadratic representable to the sheaf represented by its profinite Galois fibre. README only (no Lean declaration).
 
 **Checks.**
 
-- *AdicSpace_ProEtaleSite_pointToposPull_quadratic_endomorphisms* (computation) — For the sheaf represented by the quadratic cover Q₂(√2), sections over that quadratic object are its two equivariant endomorphisms.
+- *AdicSpace_ProEtaleSite_pointToposPull_quadratic_endomorphisms* (computation) — For the sheaf represented by the quadratic cover `ℚ₂(√2)`, sections over that quadratic object are its two equivariant endomorphisms.
 - *AdicSpace_ProEtaleSite_pointToposPull_unique_empty_section* (degenerate) — The same sheaf has exactly one section over the empty object.
-- *AdicSpace_ProEtaleSite_pointToposPull_no_base_section* (non-example) — It has no section over the Q₂ point; forgetting the nontrivial Galois action would incorrectly give two.
+- *AdicSpace_ProEtaleSite_pointToposPull_no_base_section* (non-example) — It has no section over the `ℚ₂` point; forgetting the nontrivial Galois action would incorrectly give two.
 
-**`AdicSpace.ProEtaleSite.globalPointToposPull`.** Inverse image from the global pro-étale site evaluates the quadratic representable at the C₂ point with its full profinite Galois fibre. README only (no Lean declaration).
+**`AdicSpace.ProEtaleSite.globalPointToposPull`.** Inverse image from the global pro-étale site evaluates the quadratic representable at the `ℂ₂` point with its full profinite Galois fibre. README only (no Lean declaration).
 
 **Checks.**
 
-- *AdicSpace_ProEtaleSite_globalPointToposPull_quadratic_endomorphisms* (computation) — For the sheaf represented by the quadratic cover Q₂(√2), sections over that quadratic object are its two equivariant endomorphisms.
+- *AdicSpace_ProEtaleSite_globalPointToposPull_quadratic_endomorphisms* (computation) — For the sheaf represented by the quadratic cover `ℚ₂(√2)`, sections over that quadratic object are its two equivariant endomorphisms.
 - *AdicSpace_ProEtaleSite_globalPointToposPull_unique_empty_section* (degenerate) — The same sheaf has exactly one section over the empty object.
-- *AdicSpace_ProEtaleSite_globalPointToposPull_no_base_section* (non-example) — It has no section over the Q₂ point; forgetting the nontrivial Galois action would incorrectly give two.
+- *AdicSpace_ProEtaleSite_globalPointToposPull_no_base_section* (non-example) — It has no section over the `ℚ₂` point; forgetting the nontrivial Galois action would incorrectly give two.
 
-**`AdicSpace.ProEtaleSite.decompositionAction`.** For Q₂, take a primitive seventh root ζ in the unramified cubic extension and extend its residue Frobenius ζ ↦ ζ² to the algebraic closure. Pullback of functions along the associated geometric action uses the inverse automorphism, hence ζ ↦ ζ⁴. This distinguishes the two action conventions on an extension of degree three; PH Proposition 3.13, pp. 18–19. README only (no Lean declaration).
+**`AdicSpace.ProEtaleSite.decompositionAction`.** For `ℚ₂`, take a primitive seventh root `ζ` in the unramified cubic extension and extend its residue Frobenius `ζ ↦ ζ²` to the algebraic closure. Pullback of functions along the associated geometric action uses the inverse automorphism, hence `ζ ↦ ζ⁴`. This distinguishes the two action conventions on an extension of degree three; PH Proposition 3.13, pp. 18–19. README only (no Lean declaration).
 
 **Checks.**
 
-- *AdicSpace_ProEtaleSite_decompositionAction_inverse_frobenius* (computation) — The geometric Frobenius pulls ζ back to ζ⁴.
+- *AdicSpace_ProEtaleSite_decompositionAction_inverse_frobenius* (computation) — The geometric Frobenius pulls `ζ` back to `ζ⁴`.
 
-- *AdicSpace_ProEtaleSite_decompositionAction_identity_root* (degenerate) — The identity automorphism pulls ζ back to ζ.
+- *AdicSpace_ProEtaleSite_decompositionAction_identity_root* (degenerate) — The identity automorphism pulls `ζ` back to `ζ`.
 
-- *AdicSpace_ProEtaleSite_decompositionAction_not_direct_frobenius* (non-example) — The pullback is not ζ², excluding direct instead of inverse precomposition.
+- *AdicSpace_ProEtaleSite_decompositionAction_not_direct_frobenius* (non-example) — The pullback is not `ζ²`, excluding direct instead of inverse precomposition.
 
 ### A1.16 generalized adic presentations
 
@@ -5999,27 +5990,27 @@ Affinoid charts use continuous maps between the two universes. README only (no L
 - *indRinged_rost* — for Rost's pair, `Spa^ind(A, A⁺)` has global sections the ind-ring `"lim"`
   over rational coverings of the Čech equalizers, in which `X_3` becomes `0`.
 - *indRinged_preadic_split* (computation) — the ind-ringed pre-adic category contains the
-  split two-sheeted spectrum over ℚ₂, with exactly two underlying points.
+  split two-sheeted spectrum over `ℚ₂`, with exactly two underlying points.
 - *indRinged_preadic_closed_disc* (computation) — the closed two-adic disc gives a pre-adic
   space with an infinite compact underlying space.
 - *indRinged_preadic_open_disc* (non-example) — the open two-adic unit disc gives a pre-adic
   space whose underlying space is not compact; admitting affinoid charts does not impose
   global compactness.
 - *indRinged_chart_sheet* (computation) — either single sheet of the split quadratic
-  cover of Spa(ℚ₂, ℤ₂) is a proper ind-ringed affinoid open chart.
-- *indRinged_chart_subdisc* (computation) — the rational region |T| ≤ |2| in the closed
+  cover of `Spa(ℚ₂, ℤ₂)` is a proper ind-ringed affinoid open chart.
+- *indRinged_chart_subdisc* (computation) — the rational region `|T| ≤ |2|` in the closed
   two-adic disc is the image of an ind-ringed affinoid open chart.
 - *indRinged_chart_fold* (non-example) — the finite étale map from the split quadratic
-  cover to Spa(ℚ₂, ℤ₂) is not an ind-ringed open immersion.
+  cover to `Spa(ℚ₂, ℤ₂)` is not an ind-ringed open immersion.
 - *indRinged_coefficients_evaluation* (computation) — the coefficient-enlargement functor
-  sends evaluation of the integral affine-line coordinate at 2 in ℚ₂ to evaluation of the
+  sends evaluation of the integral affine-line coordinate at 2 in `ℚ₂` to evaluation of the
   lifted coordinate at `ULift.up 2`.
 - *indRinged_coefficients_projection* (computation) — after coefficient enlargement the
   second projection from the split two-sheeted ring sends the first idempotent to 0 and the
   second to 1.
-- *indRinged_coefficients_topology* (non-example) — in the enlarged ℚ₂, the sequence
+- *indRinged_coefficients_topology* (non-example) — in the enlarged `ℚ₂`, the sequence
   `ULift.up (2ⁿ)` tends to 0 and the topology is not discrete.
-- *indRinged_two_sheets* (computation) — on the two-sheeted spectrum over ℚ₂, the
+- *indRinged_two_sheets* (computation) — on the two-sheeted spectrum over `ℚ₂`, the
   valuation on ind-sections at the first sheet kills the second idempotent and does not kill
   the first. The unit therefore retains the sheet labels.
 - *indRinged_collapsed_functions* (non-example) — there is a complete Tate pair and two
@@ -6072,8 +6063,7 @@ Foundations of adic spaces roadmap (AdicSpaces), layers 3 and 5. README only (no
 
 **Checks.**
 
-- *ofAdicSpace_closed_disc* — `X` the closed unit disc over `ℚ_p`: `ofAdicSpace X = Spa^Y(ℚ_p⟨T⟩,
-  ℤ_p⟨T⟩)`.
+- *ofAdicSpace_closed_disc* — `X` the closed unit disc over `ℚ_p`: `ofAdicSpace X = Spa^Y(ℚ_p⟨T⟩, ℤ_p⟨T⟩)`.
 - *ofAdicSpace_open_disc* — `X` the open unit disc: `ofAdicSpace X` is the Yoneda-adic space `D` of
   *YonedaAdicSpace.test_open_disc*. For `p = 2`, take `X = AdicSpace.DiscChecks.openDisc`; this
   isomorphism is over the Yoneda closed disc and carries the inclusion of `radiusRegion m` to
@@ -6196,7 +6186,7 @@ of composition.
 
 **Checks.**
 
-- *YonedaAdicSpace_ofAdicSpace_positive* (computation) — The Yoneda space of the two-sheeted Q₂ spectrum has exactly two points.
+- *YonedaAdicSpace_ofAdicSpace_positive* (computation) — The Yoneda space of the two-sheeted `ℚ₂` spectrum has exactly two points.
 - *YonedaAdicSpace_ofAdicSpace_degenerate* (degenerate) — The empty adic spectrum remains empty after the embedding.
 - *YonedaAdicSpace_ofAdicSpace_negative* (non-example) — The embedded three-cycle has no fixed point; the constant terminal embedding is excluded.
 
@@ -6204,7 +6194,7 @@ of composition.
 
 **Checks.**
 
-- *YonedaAdicSpace_IsFiniteEtale_positive* (computation) — The image of the split two-sheeted Q₂ cover is finite étale.
+- *YonedaAdicSpace_IsFiniteEtale_positive* (computation) — The image of the split two-sheeted `ℚ₂` cover is finite étale.
 - *YonedaAdicSpace_IsFiniteEtale_degenerate* (degenerate) — The image of the empty split cover is finite étale.
 - *YonedaAdicSpace_IsFiniteEtale_negative* (non-example) — The image of the open unit disc in the closed unit disc is not finite étale; permitting smaller source charts would incorrectly admit it.
 
@@ -6221,7 +6211,7 @@ of composition.
 **Checks.**
 
 - *YonedaAdicSpace_ofAdicSpace_space_positive* (computation) — The Yoneda image of the section selecting sheet 1 maps to valuation 1.
-- *YonedaAdicSpace_ofAdicSpace_space_degenerate* (degenerate) — The one-point Q₂ spectrum maps to its normalized two-adic valuation.
+- *YonedaAdicSpace_ofAdicSpace_space_degenerate* (degenerate) — The one-point `ℚ₂` spectrum maps to its normalized two-adic valuation.
 - *YonedaAdicSpace_ofAdicSpace_space_negative* (non-example) — The same section cannot map to valuation 2; a separately permuted comparison on the split cover fails.
 
 **`YonedaAdicSpace.mapsFromAdicSpaceEquiv`.** The comparison recovers the coefficient pullback of a map to an affinoid. README only (no Lean declaration).
@@ -6673,7 +6663,7 @@ into complete pairs); the global `relativePolydisc` and the rest are README only
   the whole zero ring and the spectrum is empty for every `n`. In particular, the
   assertion that a positive-dimensional ball over a perfectoid base is not perfectoid
   requires a nonempty base.
-- *relativePolydisc_test_emptyTuple* — The zero-variable Q₂ chart contains the projected scalar 2 in its plus ring and excludes the projected scalar 1/2; evaluation of the empty tuple returns 2 on the former.
+- *relativePolydisc_test_emptyTuple* — The zero-variable `ℚ₂` chart contains the projected scalar 2 in its plus ring and excludes the projected scalar 1/2; evaluation of the empty tuple returns 2 on the former.
 - *relativePolydisc_test_twoCoordinates* (computation) — evaluation at `(0, 1)` sends the
   first coordinate to `0`, the second to `1`, and every projected constant `a` to `a`.
 - *relativePolydisc_test_twoTerm* (computation) — for `T = p` over `ℚ_p`, evaluation sends
@@ -6690,16 +6680,16 @@ into complete pairs); the global `relativePolydisc` and the rest are README only
 **Checks.**
 
 - *AdicSpace_relativePolydisc_zeroIso_positive* (computation) — The empty tuple over sheet 1 of the split three-point base returns point 1.
-- *AdicSpace_relativePolydisc_zeroIso_degenerate* (degenerate) — The empty tuple over the identity of the Q₂ point returns the identity map.
+- *AdicSpace_relativePolydisc_zeroIso_degenerate* (degenerate) — The empty tuple over the identity of the `ℚ₂` point returns the identity map.
 - *AdicSpace_relativePolydisc_zeroIso_negative* (non-example) — The empty tuple over sheet 1 does not return point 2; composing the comparison with a base permutation fails.
 
 **`AdicSpace.relativePolydisc.addIso`.** Additivity splits the ordered tuple: indices `Fin.castAdd n i` give the first factor and `Fin.natAdd m j` the second. The equations `addIso_over` and `addIso_coordinates` fix the comparison through the representing property. README only (no Lean declaration).
 
 **Checks.**
 
-- *AdicSpace_relativePolydisc_addIso_positive* (computation) — For the Q₂-valued point (0,1), the coordinate of the first factor pulls back to 0.
-- *AdicSpace_relativePolydisc_addIso_degenerate* (degenerate) — For dimensions (1,0), the point with coordinate 1 retains coordinate 1 in the first factor.
-- *AdicSpace_relativePolydisc_addIso_negative* (non-example) — For the point (0,1), the first coordinate is not 1. Interchanging the two one-dimensional factors fails.
+- *AdicSpace_relativePolydisc_addIso_positive* (computation) — For the `ℚ₂`-valued point `(0,1)`, the coordinate of the first factor pulls back to 0.
+- *AdicSpace_relativePolydisc_addIso_degenerate* (degenerate) — For dimensions `(1,0)`, the point with coordinate 1 retains coordinate 1 in the first factor.
+- *AdicSpace_relativePolydisc_addIso_negative* (non-example) — For the point `(0,1)`, the first coordinate is not 1. Interchanging the two one-dimensional factors fails.
 
 **`AdicSpace.IsLocallyStablySheafy`.** Stable sheafiness is local on affinoid charts and does not require analyticity. README only (no Lean declaration).
 
@@ -6857,7 +6847,7 @@ an `example`.
   piece being the image of `T¹_X` under `T ↦ T + 1` (`relativeTorus.iSup_translate_eq_polydisc_affinoid`);
   computed instance: the `(ℚ_p, ℤ_p)`-point `T ↦ 0` of `B¹` lies on the translate and off the
   torus, so the torus alone does not cover `B¹`.
-- *relativeTorus_test_translateTwoTerms* — Over Q₂ the point obtained from `homEquiv_affinoid` at T = 1 belongs to the torus and is excluded from its translate by 1.
+- *relativeTorus_test_translateTwoTerms* — Over `ℚ₂` the point obtained from `homEquiv_affinoid` at `T = 1` belongs to the torus and is excluded from its translate by 1.
 - *relativeTorus_test_openImmersion* (compatibility) — the inclusion `T^n_X → B^n_X` is an open
   immersion whose chart over `Spa(B, B⁺)` is the rational localisation
   `B⟨T⟩ → B⟨T⟩⟨1/(T₁⋯Tₙ)⟩ = B⟨T^{±1}⟩`; when formalised, the check is the openness of the rational subset
@@ -6941,23 +6931,23 @@ noetherian analytic spaces); the rest is README only.
 
 - *isLocallyEtaleOverPolydisc_test_polydisc* (computation) — `π : B^n_Y → Y` and `T^n_Y → Y`
   are locally étale over a relative ball, with `g` the identity, resp. the open immersion.
-  When formalised, the instance uses the bidisc over ℚ₂ and every open restriction of it.
+  When formalised, the instance uses the bidisc over `ℚ₂` and every open restriction of it.
 - *isLocallyEtaleOverPolydisc_test_etale* (degenerate) — an étale morphism (layer A1) satisfies
   the definition with `n = 0` (`B⁰_Y = Y`); when formalised, the instance is the two-sheeted
-  projection over ℚ₂, with its global zero-coordinate chart.
+  projection over `ℚ₂`, with its global zero-coordinate chart.
 - *isLocallyEtaleOverPolydisc_test_origin* (non-example) — the closed embedding of the origin
   `Spa(K, K°) → B¹_K` is not locally étale over a relative ball: its image is not open, whereas
   étale maps and projections from balls are open.
 - *isLocallyEtaleOverPolydisc_test_huber* (compatibility) — for morphisms of locally noetherian
   analytic adic spaces the class coincides with the smooth morphisms of AdicSpacesPartII layer R0
-  (*smooth-local-ball-charts*). The closed disc over ℚ₂ satisfies both predicates;
+  (*smooth-local-ball-charts*). The closed disc over `ℚ₂` satisfies both predicates;
   its origin section fails smoothness.
 
 - *isLocallyEtaleOverPolydisc_ecd_consumer* (consumer instance) — [ECD] §24, Prop. 24.4: a
   separated morphism of analytic adic spaces over `Spa ℤ_p` that is locally étale over a relative
-  ball has ℓ-cohomologically smooth diamond (the six-functor roadmap for diamonds), the case
+  ball has `ℓ`-cohomologically smooth diamond (the six-functor roadmap for diamonds), the case
   `n = 1` being reduced to the torus through the cover of `B¹` by two annuli. When formalised,
-  the check computes this geometric input over ℚ₂: the ball-chart predicate and the union of
+  the check computes this geometric input over `ℚ₂`: the ball-chart predicate and the union of
   the loci `|T| = 1` and `|T − 1| = 1`. The cohomological conclusion is supplied by
   the six-functor roadmap.
 
@@ -7041,8 +7031,8 @@ Definition 1.6.5, p. 78, and Corollary 1.6.10, p. 80 (smooth ball charts).
 
 **Checks.**
 
-- *AdicSpace_Smooth_closed_disc* (computation) — The closed one-disc over Q₂ is smooth over its base point.
-- *AdicSpace_Smooth_identity_point* (degenerate) — The identity of Spa(Q₂,Z₂) is smooth.
+- *AdicSpace_Smooth_closed_disc* (computation) — The closed one-disc over `ℚ₂` is smooth over its base point.
+- *AdicSpace_Smooth_identity_point* (degenerate) — The identity of `Spa(ℚ₂,ℤ₂)` is smooth.
 - *AdicSpace_Smooth_origin_not_smooth* (non-example) — The zero section of the one-disc is not smooth; testing only that source and target are smooth spaces fails.
 
 **`AdicSpace.relativeDifferentials`.** The module sheaf and derivation are identified with Part III's `AdicSpace.relativeDifferentials` and `.d` by `relativeDifferentials.continuousIso`, the unique sheaf isomorphism preserving every differential section. Part III's `.affinoidIso` supplies the continuous-differential module on Part II morphism charts. `relativeDifferentials.affinoidIso_D` identifies the affinoid derivation with the continuous universal derivation; `affinoidIso_smul` fixes its coefficient action. Huber 1996, §1.6, pp. 76–78. README only (no Lean declaration).
@@ -7050,16 +7040,16 @@ Definition 1.6.5, p. 78, and Corollary 1.6.10, p. 80 (smooth ball charts).
 **Checks.**
 
 - *AdicSpace_relativeDifferentials_disc_rank_one* (computation) — The differential module on the closed one-disc has rank one over its global section ring.
-- *AdicSpace_relativeDifferentials_identity_zero* (degenerate) — The relative differential module of the identity Q₂ point is zero.
+- *AdicSpace_relativeDifferentials_identity_zero* (degenerate) — The relative differential module of the identity `ℚ₂` point is zero.
 - *AdicSpace_relativeDifferentials_coordinate_nonzero* (non-example) — The differential of the disc coordinate is nonzero; assigning the zero module to every morphism fails.
 
-**`AdicSpace.relativePolydisc.differentials`.** This is an isomorphism from the free structure sheaf on `Fin n` to the relative continuous differential sheaf. `differentials_basis` sends the i-th free section to dTᵢ, fixing the labels. Huber 1996, 1.6.2(i), p. 76, and the relative sheaf construction on p. 78. README only (no Lean declaration).
+**`AdicSpace.relativePolydisc.differentials`.** This is an isomorphism from the free structure sheaf on `Fin n` to the relative continuous differential sheaf. `differentials_basis` sends the i-th free section to `dTᵢ`, fixing the labels. Huber 1996, 1.6.2(i), p. 76, and the relative sheaf construction on p. 78. README only (no Lean declaration).
 
 **Checks.**
 
-- *AdicSpace_relativePolydisc_differentials_second_basis_vector* (computation) — On the two-disc, basis vector 1 maps to dT₁.
+- *AdicSpace_relativePolydisc_differentials_second_basis_vector* (computation) — On the two-disc, basis vector 1 maps to `dT₁`.
 - *AdicSpace_relativePolydisc_differentials_zero_disc* (degenerate) — The zero-disc has zero relative differential module.
-- *AdicSpace_relativePolydisc_differentials_not_first_coordinate* (non-example) — Basis vector 1 does not map to dT₀; permuting the coordinate labels fails.
+- *AdicSpace_relativePolydisc_differentials_not_first_coordinate* (non-example) — Basis vector 1 does not map to `dT₀`; permuting the coordinate labels fails.
 
 ### A2.5 compatible toric charts
 
@@ -7250,7 +7240,7 @@ and maps, as described below), `AdicSpace.topologicalKrullDim_spa_field` and
 - *dim_test_notRingDim* (non-example) — for `K⁺` a valuation ring of rank two,
   `dim Spa(K, K⁺) = 1 ≠ ringKrullDim K = 0`: a definition by the Krull dimension of the global
   sections fails.
-- *dim_test_topologicalKrullDim* — The Q₂ bidisc projection has `AdicSpace.relDim = 2`, and its source satisfies `AdicSpace.IsPureDim 2`.
+- *dim_test_topologicalKrullDim* — The `ℚ₂` bidisc projection has `AdicSpace.relDim = 2`, and its source satisfies `AdicSpace.IsPureDim 2`.
 - *dim_test_Zp* (non-example, non-analytic) — `Spa(ℤ_p, ℤ_p)` has two points, the `p`-adic point
   and the closed non-analytic point (the trivial valuation of `𝔽_p`, support `(p)`), and the first
   specialises to the second (a specialisation that changes the support, which cannot happen in an
@@ -7286,7 +7276,7 @@ structure map to `Spa(K, K°)` is locally of finite type.
   dimension `0`, and does not have pure relative dimension `1`.
 - *relDim_test_missedPoint* (convention) — a point mapping to `false` in `{false, true}` has one point
   fibre and one empty fibre: `sup(0, ⊥) = 0`, pure relative dimension `0`, but not `1`.
-- *dim_test_twoPointChain* — The structural map from Spa(ℤ₂,ℤ₂) to a point has `AdicSpace.relDim = 1` and fails `AdicSpace.IsPureRelDim 1`, since its analytic open has dimension zero.
+- *dim_test_twoPointChain* — The structural map from `Spa(ℤ₂,ℤ₂)` to a point has `AdicSpace.relDim = 1` and fails `AdicSpace.IsPureRelDim 1`, since its analytic open has dimension zero.
 
 **Relative pure dimension is detected on the fibres over rank-one points.**
 (*relative-dimension-rank-one-fibres*) Let `S` be a locally noetherian analytic adic space and
@@ -7588,7 +7578,7 @@ definition. This is the layer's supply of formal schemes and their generic fibre
 that the étale-cohomology roadmaps use, none of it a derived comparison: `d(𝔛)` and
 `λ_𝔛` for type-(S) formal schemes; noetherian formal models, `Spa(A, A)_a` for noetherian `A`
 henselian along `I` ([H96] §3.2, Ex. 3.2.11, p. 181); `d(X̂)` for completions of schemes along closed
-subschemes ([H96] §1.9, 1.9.4–1.9.6; AdicSpacesPartIII layer R2, case (α)); through the same R2
+subschemes ([H96] §1.9, 1.9.4–1.9.6; AdicSpacesPartIII layer R2, case `(α)`); through the same R2
 constructions, the type (S)(b) models (admissible formal schemes over `O_K`, with
 `d(Spf A) = Spa(A[1/ϖ], A⁺)` on affines, `A⁺` the integral closure of the image of `A` in
 `A[1/ϖ]`) and the microbial valuation-ring case `d(Spf A) = Spa(K, A)`, `K = A[1/ϖ]` its
@@ -7739,7 +7729,7 @@ variants.
 **Pseudocoherent and finite-projective-dimension modules over a commutative ring.**
 (*pseudocoherent-module*) Let `R` be a commutative ring, `M` an `R`-module and `m ∈ ℕ ∪ {∞}`. `M` is
 *m-pseudocoherent* if it has a projective resolution `⋯ → P₁ → P₀ → M → 0` with `Pᵢ` finitely
-generated for every `i ≤ m`, and *pseudocoherent* if it is ∞-pseudocoherent; `M` is *m-fpd* if it
+generated for every `i ≤ m`, and *pseudocoherent* if it is `∞`-pseudocoherent; `M` is *m-fpd* if it
 has a resolution `0 → P_m → ⋯ → P₀ → M → 0` of length at most `m` by finitely generated projectives,
 and *fpd* if it is m-fpd for some `m` ([KL II] §1.1, Def. 1.1.1, p. 10). The degree convention:
 m-pseudocoherence is the existence of an exact sequence `F_m → ⋯ → F₁ → F₀ → M → 0` of finite free
@@ -7827,7 +7817,7 @@ Schanuel's lemma) and `Module.IsFPD.isPseudoCoherent`; the rest is README only.
 
 **Two-out-of-three for pseudocoherent and fpd modules.** (*pseudocoherent-two-out-of-three*) Let
 `0 → M₁ → M → M₂ → 0` be a short exact sequence of modules over a commutative ring `R` and `m ≥ 0`.
-Prove: (a) if `M₁` and `M₂` are m-pseudocoherent, so is `M`; (b) if `M₁` is (m−1)-pseudocoherent and
+Prove: (a) if `M₁` and `M₂` are m-pseudocoherent, so is `M`; (b) if `M₁` is (m`−1`)-pseudocoherent and
 `M` is m-pseudocoherent, then `M₂` is m-pseudocoherent; (c) if `M` is m-pseudocoherent and `M₂` is
 (m+1)-pseudocoherent, then `M₁` is m-pseudocoherent (for `m = 0` the hypothesis on `M₁` in (b) is
 empty: a quotient of a finitely generated module is finitely generated; the proposed Lean form requires
@@ -7857,7 +7847,7 @@ finite `m`; the case `m = ∞` follows with `top_iff`) and for `Module.IsFPD`. *
 sequence on `R` (Mathlib `RingTheory.Sequence.IsWeaklyRegular R [f₁, …, f_r]`: each `fᵢ` is a
 non-zero-divisor on `R/(f₁, …, f_{i−1})`; the quotient `R/(f)` may be zero). Prove that the Koszul
 complex `K(f; R)` is a resolution of `R/(f)` by finite free modules of length `r`, so `R/(f)` is
-r-fpd and pseudocoherent, the ideal `(f)` is (r−1)-fpd for `r ≥ 1`, and the conormal module
+r-fpd and pseudocoherent, the ideal `(f)` is (r`−1`)-fpd for `r ≥ 1`, and the conormal module
 `(f)/(f)²` (Mathlib `Ideal.Cotangent`) is a free `R/(f)`-module with basis the classes
 `Ideal.toCotangent fᵢ` of `f₁, …, f_r` ([KL II] §1.1, Rem. 1.1.6, p. 12, the r-fold iteration of
 Kedlaya–Liu's non-zero-divisor example). The proposed Lean form states these conclusions, and a
@@ -7960,7 +7950,7 @@ every rational localisation `(A, A⁺) → (B, B⁺)`, `B = A⟨T/s⟩` the comp
 rational subset `R(T/s) ⊆ Spa(A, A⁺)` (AdicSpaces layer 3; Tau Ceti
 `Huber.PairOfDefinition.completionLocalization`), the algebraic tensor product `M ⊗_A B` is complete
 for its natural topology as a `B`-module ([KL II] §2.4, Def. 2.4.1, p. 35); *stably pseudocoherent*
-means stably ∞-pseudocoherent. The tensor products are algebraic and are asked to be complete
+means stably `∞`-pseudocoherent. The tensor products are algebraic and are asked to be complete
 already, no completed tensor product being formed; the identity localisation is included, so stably
 implies strictly; the plus ring enters only through the set of rational subsets; no sheafiness is
 assumed in the definition. Define `Huber.IsStrictlyPseudoCoherent`, `Huber.IsStablyPseudoCoherent`
@@ -8063,7 +8053,7 @@ every base change `A⟨T/s⟩ ⊗_A M`. Each Check below is a Lean example.
 **Pseudoflat and pro-projective modules over a complete Tate Huber pair.** (*pseudoflat-module*) Let
 `(A, A⁺)` be a complete Tate Huber pair and `m ∈ ℕ ∪ {∞}`. A topological `A`-module `B` (for
 rational localisations, an `A`-algebra) is *m-pseudoflat* if `Tor₁^A(P, B) = 0` for every stably
-m-pseudocoherent `A`-module `P`, and *pseudoflat* if ∞-pseudoflat ([KL II] §2.4, Def. 2.4.4, p. 36).
+m-pseudocoherent `A`-module `P`, and *pseudoflat* if `∞`-pseudoflat ([KL II] §2.4, Def. 2.4.4, p. 36).
 The vanishing of `Tor₁^A(M, B)` for every strictly m-pseudocoherent `M`, equivalently the
 injectivity of `M ⊗_A B → N ⊗_A B` for every short exact `0 → M → N → P → 0` with `N` finite
 projective and `P` strictly m-pseudocoherent, implies m-pseudoflatness ([KL II] §2.4, Rem. 2.4.5,
@@ -8197,8 +8187,7 @@ affinoids); Tau Ceti `Huber.restrictedMvPowerSeriesCompletion`,
 
 **Checks.**
 
-- *test_disc_localisation* — for `A = ℚ_p⟨X⟩` and `f = X/p`: `B₁ = ℚ_p⟨X, T⟩/(T − X/p) =
-  ℚ_p⟨X/p⟩`, the ring of `U₁ = {|X| ≤ |p|}`, and `B₂ = ℚ_p⟨X, T⟩/(1 − XT/p) = ℚ_p⟨X, p/X⟩`, the
+- *test_disc_localisation* — for `A = ℚ_p⟨X⟩` and `f = X/p`: `B₁ = ℚ_p⟨X, T⟩/(T − X/p) = ℚ_p⟨X/p⟩`, the ring of `U₁ = {|X| ≤ |p|}`, and `B₂ = ℚ_p⟨X, T⟩/(1 − XT/p) = ℚ_p⟨X, p/X⟩`, the
   ring of `U₂ = {|X| ≥ |p|}`: on `U₂` the element `T = p/X` is the power-bounded inverse of `f`.
   For `f = 1/p ∈ ℚ_p` (not power-bounded), `T − 1/p = −p^{−1}(1 − pT)` is a unit of `ℚ_p⟨T⟩`, so
   `B₁ = 0 = O(∅)`, as `U₁ = {|1/p| ≤ 1} = ∅`. When formalised, the checks identify `B₁` with the rational
@@ -8515,8 +8504,8 @@ README only.
 **Multivariable Newton–Hensel lemma for restricted power series.**
 (*restricted-power-series-newton*) Let `C` be a complete Hausdorff Tate ring with a ring of
 definition `C₀` containing a pseudouniformiser `ϖ` (Tau Ceti `Huber.PairOfDefinition`,
-`Huber.IsPseudoUniformizer`), so that `C₀` is ϖ-adically complete and `C = C₀[1/ϖ]`. Let
-`F = (F₁, …, F_N)` with `Fᵢ ∈ C₀⟨T₁, …, T_N⟩`, the ϖ-adic completion of `C₀[T]`, let `t ∈ C₀^N`,
+`Huber.IsPseudoUniformizer`), so that `C₀` is `ϖ`-adically complete and `C = C₀[1/ϖ]`. Let
+`F = (F₁, …, F_N)` with `Fᵢ ∈ C₀⟨T₁, …, T_N⟩`, the `ϖ`-adic completion of `C₀[T]`, let `t ∈ C₀^N`,
 `J(t) := (∂Fᵢ/∂T_j(t))ᵢⱼ ∈ M_N(C₀)`, and suppose there are `k ≥ 0` and `M ∈ M_N(C₀)` with
 `M·J(t) = J(t)·M = ϖᵏ·1` and `F(t) ∈ ϖ^{2k+1}C₀^N`. Prove (a)
 `exists_unique_zero_restrictedPowerSeries`: there is exactly one `t* ∈ t + ϖ^{k+1}C₀^N` with
@@ -8578,7 +8567,7 @@ Mathlib `MvPowerSeries.pderiv`, `Polynomial.hasseDeriv`. README only (no Lean de
   `v₃(F(t_n)) = v₃(e_n) = n + 1`, a linear rate; Newton's `t_{n+1} = t_n − (t_n² − 4)/(2t_n)` has
   `e_{n+1} = e_n²/(2(e_n − 2))`, a quadratic rate; both converge to `t* = −2`, the only zero in
   `1 + 3ℤ₃` (the other root `2` is not congruent to `1`); the check evaluates the matrix `J(t)`
-  defined above to 2 at the initial point and −4 at the root, and tests the unique restricted-series zero in that residue class.
+  defined above to 2 at the initial point and `−4` at the root, and tests the unique restricted-series zero in that residue class.
 
 **Small perturbations of topological generators: automorphisms of `A⟨X⟩` and transport of
 presentations.** (*perturbation-of-generators*) Let `(A, A⁺)` be a complete Tate Huber pair with
@@ -8656,8 +8645,7 @@ variables (*standard-presentation-basic-pieces*); no sheafiness is part of the d
 proof of Prop. 6.4(iv), p. 28: the ideal of `Y` in `B^n_X` is generated near `Y` by `n`
 functions; the closure in (i) follows [KL I] §2.4, Lem. 2.4.13(a), p. 42). Define the structure
 `Huber.StandardEtalePresentation Aplus ϖ Cplus`; provide `jacobian` (`J_F`), `isUnit_jacobian`
-(`π(J_F)` a unit of `C` with `ϖᵏπ(J_F)^{−1} ∈ C⁺`), `quotientEquiv` (`(C, C⁺) ≅ Pair.quotient
-(A⟨T⟩, A⁺⟨T⟩) (closure of (F))` over `(A, A⁺)`), `withInverse` (the explicit-inverse form
+(`π(J_F)` a unit of `C` with `ϖᵏπ(J_F)^{−1} ∈ C⁺`), `quotientEquiv` (`(C, C⁺) ≅ Pair.quotient (A⟨T⟩, A⁺⟨T⟩) (closure of (F))` over `(A, A⁺)`), `withInverse` (the explicit-inverse form
 `(N+1, (F, S·J_F − ϖᵏ), 2k, ·)` with the old coordinates sent through `π` and `S` sent to
 `ϖᵏπ(J_F)⁻¹`; `withInverse_π_castSucc` and `withInverse_π_last`; its equations are
 `explicitInverse A ϖ P.F P.k`), `nonempty_ofExplicitInverse`, `ofRational` (the specified
@@ -8694,26 +8682,26 @@ completeness of `C` is not a field); the rest is README only.
   `(n, (tTᵢ − sᵢ)ᵢ, cn, Tᵢ ↦ sᵢ/t)` is a standard étale presentation of the rational localisation
   `A⟨s/t⟩` with its plus ring; `J = tⁿ` and `ϖ^{cn}t^{−n} ∈ A⟨s/t⟩⁺` because `|t| ≥ |ϖ^c|` on
   `R(s/t)`.
-- *inverse_old_equation* — For an old equation Tᵢ² − 5, `withInverse` gives Tᵢ² − 5 in the enlarged coordinate ring, with index `i.castSucc`.
-- *inverse_last_equation* — For the one-variable equation T² − 5 and k = 1, `withInverse` gives 2ST − ϖ as its last equation; the scale and the position of S are both fixed.
+- *inverse_old_equation* — For an old equation `Tᵢ² − 5`, `withInverse` gives `Tᵢ² − 5` in the enlarged coordinate ring, with index `i.castSucc`.
+- *inverse_last_equation* — For the one-variable equation `T² − 5` and `k = 1`, `withInverse` gives `2ST − ϖ` as its last equation; the scale and the position of `S` are both fixed.
 - *inverse_zero_variables* (degenerate) — an empty equation list has `J_F = 1`; the inverse
   presentation has one variable and equation `S − ϖᵏ` (*inverse_system_zero_variables* for
   `explicitInverse`).
-- *rational_equation* — For denominator 1 and numerator ϖ², the `ofRational` quotient map evaluates the selected coordinate to ϖ²; `ofRational_π_X` supplies the general fraction formula.
+- *rational_equation* — For denominator 1 and numerator `ϖ²`, the `ofRational` quotient map evaluates the selected coordinate to `ϖ²`; `ofRational_π_X` supplies the general fraction formula.
 - *rational_jacobian* — the diagonal Jacobian gives `tⁿ`, and the returned exponent is `cn`.
 - *Huber.StandardEtalePresentation.rational_zero_denominator* (degenerate) — `t = 0` gives the zero localisation ring and
   empty adic spectrum; it does not give the identity localisation.
-- *base_change_equation* — For the equation Tᵢ − ϖ, the base-changed quotient map evaluates Tᵢ to the image of ϖ through A → A′ → C ⊗̂_A A′.
-- *base_change_zero* — For N = 0, the base-changed scalar map is bijective and the base-changed Jacobian is 1.
+- *base_change_equation* — For the equation `Tᵢ − ϖ`, the base-changed quotient map evaluates `Tᵢ` to the image of `ϖ` through `A → A′ → C ⊗̂_A A′`.
+- *base_change_zero* — For `N = 0`, the base-changed scalar map is bijective and the base-changed Jacobian is 1.
 - *base_change_jacobian* — the Jacobian of the base-changed equations is the image of `J_F`
   under `A → A'`, so the exponent `k` is kept (the quotient coordinate `inl(π(Tᵢ))` in
   `C ⊗̂_A A'` is the coordinate formula of `baseChange`).
-- *standard_scale_one* — `StandardEtalePresentation` of (Q₂,ℤ₂) over itself with scale 1 is empty, because its scale field requires a topologically nilpotent unit.
+- *standard_scale_one* — `StandardEtalePresentation` of `(ℚ₂,ℤ₂)` over itself with scale 1 is empty, because its scale field requires a topologically nilpotent unit.
 - *jacobian_two_equations* — for equations `T² − a` and `2TS − ϖᵏ` (the proposed
   `explicitInverse A ϖ (T² − a) k`), with rows indexed by equations and columns by `(T,S)`, the
   Jacobian is `[[2T,0],[2S,2T]]`, of determinant `(2T)²`. Appending the inverse equation last
   produces a positive square, not its negative.
-- *explicitInverse_quadratic_determinant* — Over Q₂, applying `explicitInverse` to T² − 5 at scale 2 and exponent 1 gives Jacobian 4T².
+- *explicitInverse_quadratic_determinant* — Over `ℚ₂`, applying `explicitInverse` to `T² − 5` at scale 2 and exponent 1 gives Jacobian `4T²`.
 - *test_zero* (degenerate, Lean example) — `N = 0`, `F = ()`, `k = 0` presents `(A, A⁺)`
   itself; `π` is the inverse of the constant-series identification `A ≅ A⟨T₁, …, T₀⟩`, so
   `π = id` under that identification and `J = 1`.
@@ -8824,15 +8812,15 @@ examples use the complete base and target, quotient map and plus rings stored in
 
 | Check | Computation or boundary case |
 | --- | --- |
-| *inverse_zero_variables* | J of the empty equation list is 1. |
+| *inverse_zero_variables* | `J` of the empty equation list is 1. |
 | *Huber.StandardEtalePresentation.rational_zero_denominator* | inverting zero gives the empty affinoid. |
-| *base_change_zero* | For N = 0, the base-changed scalar map is bijective and the base-changed Jacobian is 1. |
-| *fpd_not_projective* | the torsion module has projective dimension one over ℤ. |
+| *base_change_zero* | For `N = 0`, the base-changed scalar map is bijective and the base-changed Jacobian is 1. |
+| *fpd_not_projective* | the torsion module has projective dimension one over `ℤ`. |
 | *pseudo_zero_boundary* | the quotient needs no finite kernel at level zero. |
-| *koszul_empty* | the empty sequence gives R and a zero conormal module. |
+| *koszul_empty* | the empty sequence gives `R` and a zero conormal module. |
 | *test_transport_direction* | `π ∘ θ` kills the inverse substitute `X − 3` and sends the forward substitute `X + 3` to `6`. |
-| *koszul_two_terms* | The quotient Q[X₀,X₁]/(X₀,X₁) satisfies `Module.IsFPD` in degree 2 and fails it in degree 1. |
-| *cech_two_terms* | The typed Čech differential chosen from the rational-cover exactness theorem sends (0,1) to 1 on the ordered overlap of two unit charts. |
+| *koszul_two_terms* | The quotient `ℚ[X₀,X₁]/(X₀,X₁)` satisfies `Module.IsFPD` in degree 2 and fails it in degree 1. |
+| *cech_two_terms* | The typed Čech differential chosen from the rational-cover exactness theorem sends `(0,1)` to 1 on the ordered overlap of two unit charts. |
 | *natural_zero* | the module of rank zero is separated and complete. |
 | *natural_rank_two* | `A²` is naturally complete over a complete Hausdorff Tate base. |
 | *natural_nonclosed_principal* | Over a complete Hausdorff Huber ring, `A/(x)` for nonclosed `(x)` is not naturally complete: its module topology is not Hausdorff. |
@@ -8850,9 +8838,9 @@ examples use the complete base and target, quotient map and plus rings stored in
 | *laurent_inverse* | the two quotient coordinates multiply to one. |
 | *laurent_nonzero* | Laurent extension preserves a nonzero coefficient ring. |
 | *laurent_zero_base* | the zero coefficient ring has zero Laurent extension. |
-| *simple_zero* | the ≤ piece at zero is A; the ≥ and = pieces are empty. |
-| *simple_one* | all three pieces at the constant unit one are A. |
-| *simple_small* | a topologically nilpotent unit belongs only to the ≤ piece. |
+| *simple_zero* | the `≤` piece at zero is `A`; the `≥` and `=` pieces are empty. |
+| *simple_one* | all three pieces at the constant unit one are `A`. |
+| *simple_small* | a topologically nilpotent unit belongs only to the `≤` piece. |
 | *series_zero_variables* | the zero-variable Tate algebra is the coefficient ring. |
 | *plus_constant* | a constant is integral exactly when its coefficient is. |
 | *plus_coordinate* | each coordinate lies in the specified plus ring. |
@@ -8871,14 +8859,14 @@ examples use the complete base and target, quotient map and plus rings stored in
 | *quotient_plus_too_big* | a strictly larger target plus ring is not a quotient mapping. |
 | *eval_two_terms* | Tau Ceti's `weightedEval` at `t` gives `a+b*t` on `a+b*T`. |
 | *jacobian_at_empty* | the empty Jacobian has determinant one. |
-| *jacobian_at_linear* | the derivative of a+b*T is b. |
+| *jacobian_at_linear* | the derivative of `a+b*T` is `b`. |
 | *jacobian_at_two* | rows are equations; columns are variables. |
 | *quotient_coordinate* | quotientEquiv is induced by the actual presentation map. |
 | *quotient_scalar* | quotientEquiv preserves the specified A-algebra structure. |
 | *quotient_relation* | each defining relation vanishes under quotientEquiv. |
 | *presentation_jacobian_empty* | rank zero has determinant one. |
 | *presentation_jacobian_one* | one equation uses its first derivative. |
-| *presentation_jacobian_two* | the order is ad-bc, with equations as rows. |
+| *presentation_jacobian_two* | the order is `ad-bc`, with equations as rows. |
 | *inverse_system_zero_variables* | with no old variables the explicit-inverse system is `S − ϖᵏ`. |
 | *jacobian_two_equations* | the explicit-inverse system of `T² − a` has Jacobian `(2T)²`. |
 | *finite_etale_jacobian* | `T² − T` has Jacobian `2T − 1`, whose square is `1` modulo the equation. |
@@ -9190,7 +9178,7 @@ Lean: `FiniteEtaleTorsorTower` (the structure; the splitting of the direct limit
 
 **Checks.**
 
-- *limit_group_extra_factor* — If all finite groups of a tower are trivial, its actual `group` has no group equivalence to ℤ/2.
+- *limit_group_extra_factor* — If all finite groups of a tower are trivial, its actual `group` has no group equivalence to `ℤ/2`.
 - *tower_group_no_extra_factor* — A tower with trivial finite groups has no two distinct elements of its actual limit group with the same finite projections.
 - *colimit_action_moves* (non-example for the trivial action) — over a nonzero base, an element
   of `G` whose image in `G_i` is not `1` moves some element of `toColim i (A_i)`, since `G_i` acts
@@ -9587,7 +9575,7 @@ definitions in the table, `Algebra.IsTotallySplit`, `IsFiniteEtaleSplit`, `Algeb
 - *galois_identity* (Lean example) — `γ(b ⊗ c)(1) = b*c`: identity evaluation is multiplication.
 - *colimit_transition* — both canonical maps respect the direction of transition.
 - *colimit_injective* — faithfully flat transitions do not lose a stage element.
-- *colimit_trivial_groups* — a tower of trivial torsors has colimit A.
+- *colimit_trivial_groups* — a tower of trivial torsors has colimit `A`.
 - *limit_trivial_groups* — the limit has no hidden factor.
 - *limit_projection_compatibility* — projections follow the inverse-system direction.
 - *limit_projection_lift* — each finite group element occurs in the limit.
@@ -9598,19 +9586,19 @@ definitions in the table, `Algebra.IsTotallySplit`, `IsFiniteEtaleSplit`, `Algeb
 - *colimit_tensor_right* — right factors become orbit functions.
 - *colimit_tensor_identity* — identity evaluation recovers multiplication.
 - *canonical_zero* — all algebras over the zero base, including the colimit, vanish.
-- *canonical_rat* — the canonical tower over Q cannot have only trivial groups.
-- *canonical_split* — its colimit, even over F2, has no nonsplit finite étale covers. These three
+- *canonical_rat* — the canonical tower over `ℚ` cannot have only trivial groups.
+- *canonical_split* — its colimit, even over `𝔽₂`, has no nonsplit finite étale covers. These three
   hold for every tower. Its additional tensor-product data are specified by
   `FiniteSubsetPresentation` and `canonical_presentation`.
 - *canonical_empty_stage* — the empty finite subset gives the base algebra and trivial group.
 - *canonical_two_factors* — two distinct representatives give the tensor product of their
   singleton torsors and the product of their groups.
-- *canonical_quadratic_stage* — over ℝ, a singleton stage splitting ℂ has even rank and
+- *canonical_quadratic_stage* — over `ℝ`, a singleton stage splitting `ℂ` has even rank and
   contains an element moved by its torsor group.
 - *level_requires_tate* — the discrete algebraic closure of `𝔽_2` has an algebraic torsor
   tower but is not a Tate ring; a Tate-base hypothesis is required for the stage topology.
-- *level_topology_module* — For a level identified algebraically with A², `levelTopology` makes the identification a homeomorphism to the product topology.
-- *level_topology_transition* — A `levelPairTransition` is a closed embedding and keeps the complementary idempotents of a split A² stage distinct over a nonzero base.
+- *level_topology_module* — For a level identified algebraically with `A²`, `levelTopology` makes the identification a homeomorphism to the product topology.
+- *level_topology_transition* — A `levelPairTransition` is a closed embedding and keeps the complementary idempotents of a split `A²` stage distinct over a nonzero base.
 - *level_topology_trivial* — a rank-one torsor has exactly the base topology.
 - *level_integral_elements* — the plus ring is the specified integral closure.
 - *level_identity_transition* — the self-transition is the identity pair map.
@@ -9627,7 +9615,7 @@ definitions in the table, `Algebra.IsTotallySplit`, `IsFiniteEtaleSplit`, `Algeb
 - *completion_base_value* — the structure map agrees with every stage, including 0 and 1.
 - *completion_action_stage* — the action extends the specified stage action.
 - *completion_action_base* — the action fixes the original base pointwise.
-- *completion_action_identity* — For a stage element exchanged with 1 − x, an injective stage inclusion makes the completed action exchange its image with its complement, while the identity fixes it.
+- *completion_action_identity* — For a stage element exchanged with `1 − x`, an injective stage inclusion makes the completed action exchange its image with its complement, while the identity fixes it.
 - *completion_lift_identity* — lifting all completion inclusions gives the identity.
 - *completion_lift_stage* — lifting then restricting recovers any chosen stage.
 - *completion_lift_unique* — the extension is determined by the stage values.
