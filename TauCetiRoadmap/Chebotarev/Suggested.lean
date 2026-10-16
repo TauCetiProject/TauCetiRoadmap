@@ -1,5 +1,5 @@
 import Mathlib
-import TauCetiRoadmap.ArithmeticDirichletSeries.Suggested
+import Completed.ArithmeticDirichletSeries.Suggested
 import TauCetiRoadmap.GlobalNumberFields.Suggested
 import TauCetiRoadmap.NumberFieldArithmetic.Suggested
 

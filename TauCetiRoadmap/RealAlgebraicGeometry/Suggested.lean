@@ -1,5 +1,7 @@
 import Mathlib
 import TauCeti.RingTheory.Polynomial.Resultant.Discriminant
+import TauCeti.Analysis.Analytic.Complexification
+import TauCeti.Analysis.Analytic.Submanifold.Basic
 
 /-!
 # Real algebraic geometry: suggested target signatures
@@ -19,6 +21,13 @@ open scoped BigOperators
 namespace TauCetiRoadmap.RealAlgebraicGeometry
 
 universe u
+
+/-- Strengthen the existing native complexification bound, without constructing a second
+extension or restating the implemented local analytic existence theorem. -/
+theorem norm_complexifyPi_le_two_pow {n k : ℕ}
+    (p : ContinuousMultilinearMap ℝ (fun _ : Fin k => Fin n → ℝ) ℝ) :
+    ‖p.complexifyPi‖ ≤ (2 : ℝ) ^ k * ‖p‖ := by
+  sorry
 
 /-- Every ordered field has an algebraic real closed extension preserving its given order.
 The extension stays in the universe of `K`; algebraicity uses exactly the algebra induced by `ι`.

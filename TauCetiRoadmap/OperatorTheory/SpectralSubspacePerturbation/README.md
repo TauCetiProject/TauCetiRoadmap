@@ -472,20 +472,20 @@ right and left Gram perturbation bounds `PA-B03`–`PA-B06` are consumed from
 
 ## Worked examples (acceptance criteria)
 
-### Part A
+### Part A — the Haagerup–Zsidó kernel and its Fourier transform
 
 The concrete exterior-transform and mass tests specialize `SSP-A23`–`SSP-A26`.
 
-### Part B
+### Part B — Sylvester equations and the Rosenblum theorem
 
 The bounded/partial uniqueness bridge is `SSP-B19`.
 
-### Part C
+### Part C — the Davis–Kahan `sin Θ` theorems
 
 The residual and perturbation `sin Θ` families are `SSP-C17`–`SSP-C24`; the double-angle and
 tangent and quarter-acute theorems are `SSP-C25`–`SSP-C31`.
 
-### Part D
+### Part D — the Yu–Wang–Samworth statistical variant
 
 The symmetric and rectangular population-gap transfers are `SSP-D16`–`SSP-D19`. The
 two-sided-gap comparison uses `SSP-C24`.

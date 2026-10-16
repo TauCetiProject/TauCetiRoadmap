@@ -15,51 +15,70 @@ body:
       label: Roadmap area
       options:
         - AdicSpaces
+        - AdicSpacesPartII
+        - AffineMorseLefschetz
         - AlgebraicCurves
         - AlgebraicTopology
         - AlgebraicVectorBundles
         - AnalyticToricGeometry
-        - ArithmeticDirichletSeries
+        - BanachSpaceTheory
         - BelyiMaps
         - CFSGStatement
         - Chebotarev
         - ClassFieldTheory
+        - ClassifyingSpaces
         - CombinatorialHeegaardFloer
+        - CompactOperators
         - ConformalMapping
         - DGAInfinity
         - DGFloer
         - DenseGraphLimits
         - DifferentialGeometry
+        - DiophantineApproximationAndTranscendence
         - EllipticCurves
         - Exchangeability
+        - FormalLaurentPuiseux
         - FuchsianOrbifolds
+        - GeometricMeasureTheory
         - GeometricTopology
         - GlobalNumberFields
         - GlobalQuadraticForms
         - GrothendieckEulerForms
         - HeegaardFloer
+        - HeightsAndUnits
         - HopfRinow
         - IntegralLattices
+        - Isoperimetry
         - JacobianChallenge
         - LocalFieldsRamification
         - LocalGaloisGroups
         - ModularCurves
         - ModularForms
+        - NewtonPolygons
+        - NoncommutativeGeometry
         - NumberFieldArithmetic
         - OneParameterSemigroups
         - OperatorTheory
         - OptimalTransport
         - OrthogonalSpinGroups
         - PDE
+        - PadicFunctionalAnalysis
+        - PadicMeasuresIwasawaAlgebras
         - PeripheralActions
+        - PivotalSpherical
         - PolynomialGaloisGroups
         - ProfiniteArithmetic
         - ProfiniteCohomology
         - ProfiniteProPGroups
         - QuadraticFormInvariants
+        - QuantumGroups
         - RealAlgebraicGeometry
         - ReductiveGroups
+        - Regularity
         - RepresentationTheory
+        - RestrictedPowerSeries
+        - RigidAnalyticGeometry
+        - SchemeAndStackFoundations
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
