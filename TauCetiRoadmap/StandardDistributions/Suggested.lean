@@ -578,6 +578,18 @@ theorem covariancePseudoInverse_eq_inv {ι : Type*} [Fintype ι] [DecidableEq ι
 theorem measurable_covariancePseudoInverse {ι : Type*} [Fintype ι] [DecidableEq ι] :
     Measurable fun S : ι → ι → ℝ => covariancePseudoInverse (Matrix.of S) := by sorry
 
+theorem Matrix.PosSemidef.ker_toBlocks₂₂_le_ker_toBlocks₁₂
+    {ι κ : Type*} [Fintype ι] [Fintype κ] [DecidableEq κ]
+    {S : Matrix (ι ⊕ κ) (ι ⊕ κ) ℝ} (hS : S.PosSemidef) :
+    LinearMap.ker S.toBlocks₂₂.toEuclideanLin ≤
+      LinearMap.ker S.toBlocks₁₂.toEuclideanLin := by sorry
+
+theorem Matrix.PosSemidef.range_toBlocks₂₁_le_range_toBlocks₂₂
+    {ι κ : Type*} [Fintype ι] [Fintype κ]
+    [DecidableEq ι] [DecidableEq κ] {S : Matrix (ι ⊕ κ) (ι ⊕ κ) ℝ} (hS : S.PosSemidef) :
+    LinearMap.range S.toBlocks₂₁.toEuclideanLin ≤
+      LinearMap.range S.toBlocks₂₂.toEuclideanLin := by sorry
+
 def gaussianCondMean {ι κ : Type*} [Fintype ι] [Fintype κ] [DecidableEq κ]
     (m : EuclideanSpace ℝ (ι ⊕ κ)) (S : Matrix (ι ⊕ κ) (ι ⊕ κ) ℝ)
     (x₂ : EuclideanSpace ℝ κ) : EuclideanSpace ℝ ι :=
@@ -625,6 +637,15 @@ theorem condDistrib_multivariateGaussian
     condDistrib (fun ω => (EuclideanSpace.sumEquivProd (X ω)).1)
         (fun ω => (EuclideanSpace.sumEquivProd (X ω)).2) P
       =ᵐ[P.map (fun ω => (EuclideanSpace.sumEquivProd (X ω)).2)] gaussianCondKernel m S := by sorry
+
+example (a b : ℝ) (ha : b ^ 2 ≤ a) (m : EuclideanSpace ℝ (Fin 1 ⊕ Fin 2))
+    (x₂ : EuclideanSpace ℝ (Fin 2)) :
+    let S : Matrix (Fin 1 ⊕ Fin 2) (Fin 1 ⊕ Fin 2) ℝ :=
+      Matrix.fromBlocks !![a] !![b, 0] !![b; 0] !![1, 0; 0, 0]
+    S.PosSemidef ∧
+      (gaussianCondKernel m S x₂).map (fun x => x 0) =
+        gaussianReal (m (Sum.inl 0) + b * (x₂ 0 - m (Sum.inr 0)))
+          (a - b ^ 2).toNNReal := by sorry
 
 /-! ## Layer 6: Symmetric matrices and Wishart distributions -/
 

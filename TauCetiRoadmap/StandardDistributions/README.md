@@ -637,7 +637,7 @@ Prove PSD, the Moore–Penrose identities $CC^+C=C$, $C^+CC^+=C^+$, and symmetry
 Prove uniqueness among matrices satisfying these four identities, agreement with $C^{-1}$ for $C\succ0$, and Borel measurability in $C$.
 For the latter, use the pointwise limit of $(C^2+\varepsilon I)^{-1}C$ as $\varepsilon\downarrow0$ on the PSD cone and the explicit invalid branch.
 
-For block PSD $S$, prove $\ker S_{22}\subseteq\ker S_{12}$ and $\mathrm{range}\,S_{21}\subseteq\mathrm{range}\,S_{22}$.
+For block PSD $S$, prove $\ker S_{22}\subseteq\ker S_{12}$ and $\mathrm{range}\,S_{21}\subseteq\mathrm{range}\,S_{22}$ as standalone linear-algebra lemmas, assuming only positive semidefiniteness of $S$.
 On the affine support $m_2+\mathrm{range}\,S_{22}$, apply the range inverse to $x_2-m_2$ and prove that the residual $X_1-m_1-S_{12}S_{22}^+(X_2-m_2)$ is independent of $X_2$.
 Deduce the general `gaussianCondKernel` formula
 
@@ -650,6 +650,9 @@ Prove the generalized Schur complement is PSD and establish the joint-law factor
 Use this displayed formula at every ambient $x_2$ to define a measurable Markov kernel, including points outside the affine support; conditional distributions impose no uniqueness there.
 Prove joint parameter measurability on the PSD covariance domain and the preceding ordinary-inverse formula when the observed block is positive definite.
 At $S_{22}=0$, prove $S_{12}=0$ and that the kernel is the unconditional first marginal.
+
+As a check of behavior when the observed covariance changes rank, take $Z\sim N(0,1)$ and the joint Gaussian law of $(Z,tZ)$, with variances $1$ and $t^2$ and covariance $t$.
+Prove that the displayed conditional kernel at observed value zero is $\delta_0$ for $t\ne0$ and $N(0,1)$ for $t=0$.
 
 #### 5.5 Multinomial
 
@@ -751,7 +754,7 @@ Conversely, a Poisson total of rate $\Lambda\ge0$ mixed with multinomial allocat
 Include zero weights/rates; impossible positive totals condition to zero.
 At all-zero rates, conditioning on total zero gives $\delta_0$ without defining normalized weights.
 
-**Checks:** `Fin 1` Gaussian is scalar Gaussian; `Fin 2` multinomial coordinates are binomial; the two-coordinate conditional mean is $m_1+\rho\sqrt{v_1/v_2}(x_2-m_2)$; identical jointly Gaussian coordinates of positive variance condition to a Dirac law; observing $(Z,Z)$ determines $Z$ despite singular observed covariance; a constant observed block leaves the first marginal unchanged; the Gamma–Dirichlet factorization reduces to Gamma–Beta; splitting retains independence for zero-rate categories.
+**Checks:** `Fin 1` Gaussian is scalar Gaussian; `Fin 2` multinomial coordinates are binomial; the two-coordinate conditional mean is $m_1+\rho\sqrt{v_1/v_2}(x_2-m_2)$; identical jointly Gaussian coordinates of positive variance condition to a Dirac law; observing $(Z,Z)$ determines $Z$ despite singular observed covariance; for $S_{11}=(a)$, $S_{12}=S_{21}^{\mathsf T}=(b,0)$, $S_{22}=\mathrm{diag}(1,0)$ with $a\ge b^2$, the joint covariance is PSD and the kernel at $x_2=(u,v)$ is $N(m_1+b(u-m_{2,1}),a-b^2)$, with positive residual variance for $a>b^2$ and a Dirac law for $a=b^2$; a constant observed block leaves the first marginal unchanged; the Gamma–Dirichlet factorization reduces to Gamma–Beta; splitting retains independence for zero-rate categories.
 
 ### Layer 6: symmetric matrices and Wishart distributions
 
@@ -1161,6 +1164,8 @@ Use Gaussian inheritance and Cauchy affine transport.
 Keep the separate GEV shape-zero, t-to-Gaussian, and stable limits in their entries.
 The Dirichlet/Beta concentration limits belong to §5.6 and approach excluded parameter boundaries through valid laws.
 Do not require total-variation continuity at singular boundaries or weak continuity across invalid zero-measure branches or geometric $p=0$ totalization.
+The Gaussian continuity targets concern the laws themselves; conditional kernels require the parameter measurability specified in §5.4.
+As a check, prove that the joint laws of $(Z,tZ)$ from §5.4 vary weakly continuously with $t$, while their specified conditional kernel at observed value zero is discontinuous at $t=0$.
 
 #### 7.12 Weighted laws, size biasing, and power biasing
 
