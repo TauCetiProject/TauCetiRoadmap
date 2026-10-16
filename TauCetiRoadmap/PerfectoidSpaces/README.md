@@ -679,7 +679,7 @@ roadmap's perfectoid results and represented-functor comparisons.
 
 | Object | Exact supplier and file | Use |
 | --- | --- | --- |
-| Characteristic-p A_inf comparison | `WittVector.map`, `WittVector.map_coeff`, `WittVector.map_injective`, `WittVector.map_surjective`, `Mathlib/RingTheory/WittVector/Basic.lean`; `TauCeti.FarguesFontaine.spaY`, `TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/Y.lean`; `TauCeti.FarguesFontaine.windowU`, `TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/Window.lean` | `Perfectoid.tilt.ainfEquiv` applies the Witt functor to the integral restriction of `tilt.equivOfCharP`; it identifies the input rings and their two-generator adic topologies, without redefining the curve or its windows. |
+| Characteristic-p `A_inf` comparison | `WittVector.map`, `WittVector.map_coeff`, `WittVector.map_injective`, `WittVector.map_surjective`, `Mathlib/RingTheory/WittVector/Basic.lean`; `TauCeti.FarguesFontaine.spaY`, `TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/Y.lean`; `TauCeti.FarguesFontaine.windowU`, `TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/Window.lean` | `Perfectoid.tilt.ainfEquiv` applies the Witt functor to the integral restriction of `tilt.equivOfCharP`; it identifies the input rings and their two-generator adic topologies, without redefining the curve or its windows. |
 
 #### P2
 
@@ -866,12 +866,12 @@ descent; tight ideals, henselian pairs and modules over complete almost algebras
 lifting modulo a tight ideal; and almost sheaves with almost sheaf cohomology and almost Čech
 complexes on a site.
 
-### P0.1 basic setup (V, m)
+### P0.1 basic setup `(V, m)`
 
 The layer opens with the basic setup itself, its two standing examples and the firm-module model of
 the almost category.
 
-**Basic setup (V, m): an idempotent ideal with flat m ⊗ m.** (*almost-basic-setup*) Let `V` be a
+**Basic setup `(V, m)`: an idempotent ideal with flat `m ⊗ m`.** (*almost-basic-setup*) Let `V` be a
 commutative ring (`[CommRing V]` in universe `u`) and `m` an ideal of `V`. A basic setup is a pair
 `S = (V, m)` such that (i) `m` is idempotent, `m·m = m` (Mathlib `IsIdempotentElem m` in the
 semiring `Ideal V`), and (ii) the `V`-module `m̃ := m ⊗_V m` is flat. Condition (i) is Gabber–Ramero's
@@ -890,8 +890,7 @@ of principal ideals; condition (B): for every `k ≥ 1` the `k`-th powers of ele
 `m`, which lie in a common principal ideal `(z)`, so each product lies in `(z^k)`; without
 idempotence (A) does not imply (B), as `(t) ⊆ 𝔽_p[t]` shows. (A) together with `m·m = m` implies
 (ii) by *filtered-principal-union-tilde-flat* (P0.2). A basic setup is data, not a type class, because one
-ring carries several setups: for a perfectoid Tate ring `R`, `(R°, R°°)` and `(R⁺, the root ideal of
-a pseudouniformiser)`, compared in layer P1. Bhatt's variant of the setup, with `m` itself flat, is a
+ring carries several setups: for a perfectoid Tate ring `R`, `(R°, R°°)` and `(R⁺, the root ideal of a pseudouniformiser)`, compared in layer P1. Bhatt's variant of the setup, with `m` itself flat, is a
 special case ([Bhatt] §4.1, Assumption 4.1.2, p. 17). In `Almost`, define `BasicSetup` as the
 structure with fields `ideal : Ideal V`, `isIdempotentElem : IsIdempotentElem ideal` and
 `flat_tilde : Module.Flat V (ideal ⊗[V] ideal)`; `BasicSetup.tilde` as the `V`-module
@@ -1029,9 +1028,9 @@ Lean: `BasicSetup.ofCompatibleRoots`, `mem_ofCompatibleRoots_ideal`,
 `flat_tilde_of_isFilteredPrincipal` (*filtered-principal-union-tilde-flat*),
 `isAlmostZero_iff_tensor_eq_zero` (first clause of *almost-zero-iff-tilde-tensor-zero*).
 
-### P0.3 the setup (K°, K°°) of a valuation ring
+### P0.3 the setup `(K°, K°°)` of a valuation ring
 
-**The basic setup (K°, K°°) of a valuation ring with non-principal maximal ideal.**
+**The basic setup `(K°, K°°)` of a valuation ring with non-principal maximal ideal.**
 (*valuation-ring-basic-setup*) Let `V` be a valuation ring (a domain in which the ideals are
 totally ordered; Mathlib `ValuationRing V` with `IsDomain V`) whose maximal ideal `m` is not
 finitely generated (equivalently not principal; for a rank-one valuation: the valuation is
@@ -1180,7 +1179,7 @@ The almost modules themselves come next: the Serre quotient, almost elements and
 monoidal structure, almost algebras and `B_!!`, the finiteness, flatness and projectivity notions,
 duals and traces, and the rank decomposition.
 
-**Almost modules over a basic setup: the Serre quotient V^a-Mod.**
+**Almost modules over a basic setup: the Serre quotient `V^a-Mod`.**
 (*almost-modules-over-perfectoid-base*) For a basic setup `S = (V, m)` (`m·m = m` and `m̃` flat; no
 valuation and no perfectoid field), the category of almost `V`-modules `V^a-Mod := Almost.Module S`
 is the localization of `ModuleCat V` at the almost isomorphisms `S.almostZero.isoModSerre` (maps with
@@ -1251,7 +1250,7 @@ the Serre class `BasicSetup.almostZero_isSerreClass` of P0.4, together with
 
 ### P0.6 almost elements and the left adjoint
 
-**Almost elements M_* and the left adjoint M_! of almostification.** (*almost-hom-and-adjoints*)
+**Almost elements `M_*` and the left adjoint `M_!` of almostification.** (*almost-hom-and-adjoints*)
 For a basic setup `S = (V, m)` (`m̃` flat is used for the exactness of `(−)_!`): (i) the functor of
 almost elements `(−)_* : Almost.Module S → ModuleCat V`, `M_* := Hom_{V^a}(V^a, M)` with its
 `V`-module structure, is right adjoint to `M ↦ M^a`, with counit `(M_*)^a → M` an isomorphism (so
@@ -1437,7 +1436,7 @@ and that `(zero V).tildeMul` is not surjective when `V` is nontrivial. The monoi
 
 ### P0.8 almost algebras
 
-**Almost algebras (commutative monoids in V^a-Mod) and their modules.** (*almost-algebras*) For a
+**Almost algebras (commutative monoids in `V^a-Mod`) and their modules.** (*almost-algebras*) For a
 basic setup `S = (V, m)`, an almost `V`-algebra is a commutative unital monoid object in the
 symmetric monoidal category `Almost.Module S`: `Almost.Algebra S := CommMon (Almost.Module S)`
 (Mathlib), with monoid morphisms ([GR] §2.2, (2.2.5), p. 12). For an almost algebra `A`,
@@ -1550,9 +1549,9 @@ over `V`. The map `homEquiv` is `elements.map`; the hom of `counitIso` is the ad
 - `Almost.Algebra.tensor_zero`: tensoring with the zero algebra gives zero.
 - `Almost.Algebra.tensor_two`: tensoring with two copies of the base gives the product of two copies.
 
-### P0.9 the left adjoint B_!! on algebras
+### P0.9 the left adjoint `B_!!` on algebras
 
-**The left adjoint B ↦ B_!! of almostification on algebras.** (*almost-algebra-lower-shriek-shriek*)
+**The left adjoint `B ↦ B_!!` of almostification on algebras.** (*almost-algebra-lower-shriek-shriek*)
 For a basic setup `S = (V, m)` and an almost `V`-algebra `B`, `B_! = m̃ ⊗_V B_*` is a non-unital
 `V`-algebra: it inherits a multiplication from `B` through `m̃ ⊗ m̃ ≅ m̃`, but no unit, since
 `(V^a)_! ≅ m̃` and the unit comparison `m̃ → V` of the oplax monoidal functor `(−)_!` is not an
@@ -1575,8 +1574,7 @@ see *lower-shriek-shriek-faithful-flatness* (P0.25). Define `Almost.Algebra.shri
 `Almost.Algebra.shriekShriekAdj` (over `A`: `B ↦ B_!!` is left adjoint to `R ↦ R^a`),
 `Almost.Algebra.shriekShriekUnitIso` (`B ≅ (B.shriekShriek)^a`), `Almost.Algebra.isExact_of_bijective`
 (if `S.tilde → S.ideal` is bijective, every almost algebra is exact), `Almost.Algebra.isExact_prod`
-(`V^a × B` is exact), `Almost.Algebra.shriekShriek_preservesColimits` (with `shriekShriekTensorIso :
-(B ⊗_A C)_!! ≅ B_!! ⊗_{A_!!} C_!!`). *Needs:* P0.8's categories and algebra adjunction.
+(`V^a × B` is exact), `Almost.Algebra.shriekShriek_preservesColimits` (with `shriekShriekTensorIso : (B ⊗_A C)_!! ≅ B_!! ⊗_{A_!!} C_!!`). *Needs:* P0.8's categories and algebra adjunction.
 The comparison `Almost.Algebra.shriekShriek_faithfullyFlat_iff` (`φ` faithfully flat
 `↔ φ_!!` faithfully flat) is *lower-shriek-shriek-faithful-flatness* (P0.25), using this
 unitization and P0.11's flatness theory.
@@ -1848,8 +1846,7 @@ after almostification via AdicSpacesPartIII §R3.8 / *projective-module-trace*,
 `LinearMap.projectiveTrace_eq_trace` and the internal comparison above.
 Define `Almost.Module.dual` (`M*` with its evaluation), `Almost.Algebra.trace` (`Tr_{B/A} : B ⟶ A`),
 `Almost.Algebra.traceForm` (`t_{B/A}` and `τ_{B/A}`) and `Almost.Algebra.IsPerfectTraceForm`
-(`τ_{B/A}` is an isomorphism); prove `Almost.Module.dualTensorHomIso` (`ω_{P/A} : P ⊗_A P* ≅
-End_A(P)^a` for `P` almost finite projective), `Almost.Module.trace_additive`, `Almost.Module.isReflexive`
+(`τ_{B/A}` is an isomorphism); prove `Almost.Module.dualTensorHomIso` (`ω_{P/A} : P ⊗_A P* ≅ End_A(P)^a` for `P` almost finite projective), `Almost.Module.trace_additive`, `Almost.Module.isReflexive`
 (`P ≅ P**`), `Almost.Algebra.trace_baseChange`, `Almost.Algebra.trace_trans`,
 `Almost.Algebra.trace_of_iso` (simp: if `A → B` is an isomorphism, `Tr_{B/A}` is its inverse) and
 `Almost.Algebra.traceFormDual_baseChange` (`η ∘ (1_C ⊗ τ_{B/A}) = τ_{C⊗B/C}`, where
@@ -2047,8 +2044,7 @@ Mathlib `Algebra.Etale`, `Algebra.FormallyUnramified`, `Module.Finite`.
   does not lie in `L° ⊗_{K°} L°` (only `p^{1/p^n}e` does, for every `n`): a definition requiring an
   honest idempotent of `B_* ⊗_{A_*} B_*` would reject `L°a/K°a`.
 - `Almost.Algebra.finiteEtale_test_classical` (compatibility) — for `S = classical V` and a
-  `V`-algebra map `R → R'`: `IsFiniteEtale ((toAlmost S).map f) ↔ Algebra.Etale R R' ∧ Module.Finite
-  R R'` (Mathlib).
+  `V`-algebra map `R → R'`: `IsFiniteEtale ((toAlmost S).map f) ↔ Algebra.Etale R R' ∧ Module.Finite R R'` (Mathlib).
 - `Almost.Algebra.IsFiniteEtale_test_trivial` (degenerate) — `𝟙 A`, `A → 0` and the diagonal
   `A → A × A` are finite étale.
 
@@ -2091,12 +2087,10 @@ trace ([GR] Proposition 2.4.18, p. 26, and Theorem 4.1.14, p. 75).
 **Checks.**
 
 - `Almost.Algebra.traceForm_test_product` (computation) — `B = A × A` over `A`: the diagonal
-  idempotent is `e = (1,0) ⊗ (1,0) + (0,1) ⊗ (0,1)`, `μ(e) = 1`, and `t_{B/A}` has matrix `[[1, 0],
-  [0, 1]]`, so both sides of the criterion hold.
+  idempotent is `e = (1,0) ⊗ (1,0) + (0,1) ⊗ (0,1)`, `μ(e) = 1`, and `t_{B/A}` has matrix `[[1, 0], [0, 1]]`, so both sides of the criterion hold.
 - `Almost.Algebra.traceForm_test_dual_numbers` (non-example) — for a nonzero almost algebra `A`,
   `B = A[ε]/(ε²)` is finite free,
-  `t_{B/A}` has matrix `[[2, 0], [0, 0]]` and is not perfect; correspondingly `I_{B/A}/I_{B/A}² =
-  Ω_{B/A} = (B/(2ε))·dε ≠ 0`, so no idempotent `e` with `μ(e) = 1` and `I_{B/A}·e = 0` exists: both
+  `t_{B/A}` has matrix `[[2, 0], [0, 0]]` and is not perfect; correspondingly `I_{B/A}/I_{B/A}² = Ω_{B/A} = (B/(2ε))·dε ≠ 0`, so no idempotent `e` with `μ(e) = 1` and `I_{B/A}·e = 0` exists: both
   sides of the criterion fail. Over `ℚ`, `Ω` has dimension `1`; over `𝔽₂` it has dimension `2`.
 - `Almost.Algebra.traceForm_test_product_diagonal` — in the split product algebra, the displayed
   tensor is idempotent, its multiplication is one, and it annihilates the diagonal ideal.
@@ -2127,9 +2121,9 @@ Its first factor has inherited multiplication and unit `1 − e`; its `D_*`-acti
 and the action on `B_*` is through `μ`. Thus almostification gives the asserted isomorphism of
 `D`-algebras ([GR] Proposition 3.1.4, Remark 3.1.8 and Corollary 3.1.9, p. 40).
 
-### P0.16 inverting an element of m
+### P0.16 inverting an element of `m`
 
-**Inverting an element of m: almost modules become honest modules over V[1/ϖ].**
+**Inverting an element of `m`: almost modules become honest modules over `V[1/ϖ]`.**
 (*almost-inversion-and-completion*) Let `S = (V, m)` be a basic setup and `ϖ ∈ m` (so `ϖ` kills
 almost zero modules; `ϖ` need not be a nonzerodivisor). The localisation `M ↦ M[1/ϖ] = V[1/ϖ] ⊗_V M`
 is exact and kills almost zero modules (`ϖM = 0`), so it factors, uniquely up to unique
@@ -2240,7 +2234,7 @@ P0.16; Mathlib `Algebra.Etale`, `Module.Finite`, `Ideal.isIdempotentElem_iff_of_
 
 ### P0.18 almost Kähler differentials
 
-**Almost Kähler differentials Ω_{B/A} and almost derivations.** (*almost-differentials*) Let `S` be
+**Almost Kähler differentials `Ω_{B/A}` and almost derivations.** (*almost-differentials*) Let `S` be
 a basic setup and `A → B` a morphism of almost algebras, `I_{B/A} = ker(μ_{B/A} : B ⊗_A B → B)`.
 The module of almost differentials is the `B`-module `Ω_{B/A} := I_{B/A}/I_{B/A}²`, with the
 `A`-derivation `δ : B → Ω_{B/A}`, `b ↦ 1 ⊗ b − b ⊗ 1` on almost elements ([GR] §2.5, Definition
@@ -2478,7 +2472,7 @@ homology of `ℤ → ℤ → ℤ/3`.
 
 ### P0.20 the almost cotangent complex
 
-**The almost cotangent complex L_{B/A}.** (*almost-cotangent-complex*) Let `S` be a basic setup
+**The almost cotangent complex `L_{B/A}`.** (*almost-cotangent-complex*) Let `S` be a basic setup
 (`m̃` flat is used in [GR] Proposition 2.5.34 and Theorem 2.5.35) and `A → B` a morphism of almost
 algebras. Put `Ã := V^a × A` and `B̃ := V^a × B` (exact almost algebras). The almost cotangent
 complex is `L_{B/A} := B_!! ⊗_{B̃_!!} L_{B̃_!!/Ã_!!}`, an object of the derived category of
@@ -2610,9 +2604,9 @@ is invertible, `cotangentTransitivitySecond_zero_target` is zero in the derived
 category, and `cotangentTransitivitySecond_regular_quotient` detects the
 nonzero cotangent homology of the classical map `ℤ → ℤ/3`.
 
-### P0.21 square-zero extensions and Ext¹
+### P0.21 square-zero extensions and `Ext¹`
 
-**Square-zero extensions of almost algebras are classified by Ext¹ of the almost cotangent
+**Square-zero extensions of almost algebras are classified by `Ext¹` of the almost cotangent
 complex.** (*almost-exal-ext-comparison*) Let `S` be a basic setup, `A → B` a morphism of almost
 algebras and `M` a `B`-module; `A`-extensions of `B` by `M` are short exact sequences
 `0 → M → E → B → 0` in `A-Mod` with `E` an `A`-algebra and `M` a square-zero ideal with its given
@@ -2748,7 +2742,7 @@ P0.21; P0.20; P0.18; P0.19; DerivedModuleAlgebra §0.25.
   degree `0`, so `Ext² = Ext¹ = 0`: every square-zero `B` admits a flat deformation, unique up to
   isomorphism, with automorphisms `Der_{B₀}(B₀[X], B₀[X] ⊗ I) ≅ B₀[X] ⊗ I` (the value on `X`).
   In a general basic setup, `B₀[X]` is only almost projective as a module over itself:
-  this does not imply vanishing of ordinary Ext¹ or Ext².
+  this does not imply vanishing of ordinary `Ext¹` or `Ext²`.
 - Non-example: flatness of the deformation `C` over `B` is not
   decorative: for `B₀ = k`, `B = k[t]/(t²)`, `C₀ = k`, the `B`-algebra `C = k` (`t ↦ 0`) has
   `C ⊗_B k = k` but is not flat over `B` (`(t) ⊗_B k = k → (t)·k = 0` is the zero map, see
@@ -2843,7 +2837,7 @@ or kernel. Its injectivity requires the square-zero
 extension of the base and identifies the injection in [GR] (3.2.15), p. 43.
 The torsor in `Almost.flatDeformation` is specified by
 `restriction(class([D] −ᵥ [F])) = [D] − [F]` in `Exal_B(C₀,J)`.
-Consequently translation by an Ext¹ class is Baer addition with that class;
+Consequently translation by an `Ext¹` class is Baer addition with that class;
 reversing the difference changes its sign.
 
 The automorphisms fixing the base and reduction form a subgroup of
@@ -2909,7 +2903,7 @@ again a group isomorphism with value `h − id` under
 
 `CotangentComplex.polynomialLift_sign` computes the automorphism convention
 on the flat lift `ℚ[ε]/(ε²)[X]` of `ℚ[X]`. For each `a : ℚ`, translation
-`hₐ(X) = X + aε` has a unique Ext⁰ class satisfying the difference formula;
+`hₐ(X) = X + aε` has a unique `Ext⁰` class satisfying the difference formula;
 its derivation takes `X` to `a` and `X²` to `2aX`. For a polynomial `P`
 over the dual numbers, the kernel inclusion of that derivation at `P mod ε`
 is exactly `hₐ(P) − P`. **Checks** `CotangentComplex.polynomialLift_positive`,
@@ -2944,7 +2938,7 @@ kernel, and `Almost.exalPull` pulls it back along a map of quotient algebras.
 Their representative statements specify
 the resulting classes through maps of extensions that commute with the base,
 quotient, and kernel inclusions ([GR] (2.5.5)–(2.5.7), p. 30, and (3.2.12)–(3.2.15),
-pp. 42–43). `Almost.morphismObstruction` is the Ext¹ class of the unique
+pp. 42–43). `Almost.morphismObstruction` is the `Ext¹` class of the unique
 preimage of `v_*[D₁] − g₀^*[D₂]` under `exalRestriction`.
 Its existence statement supplies the unique preimage,
 and its difference statement states its equality, with the
@@ -3129,8 +3123,7 @@ there are a finitely generated ideal `m₀ ⊆ m` and `n ∈ ℕ` with `Iⁿ ⊆
 (subideals and powers of tight ideals are tight), `Almost.Algebra.Ideal.IsTight.map` (tightness is
 preserved by base change), `Almost.Algebra.le_jacobson_toAlmost_iff`
 (`J^a ≤ rad(R^a) ↔ S.ideal • J ≤ Ideal.jacobson ⊥`),
-`Almost.Algebra.isHenselianPair_toAlmost_iff` (`IsHenselianPair (R^a) (J^a) ↔ HenselianRing R
-(S.ideal • J)`), `Almost.Algebra.isHenselianPair_of_isAdicComplete` and
+`Almost.Algebra.isHenselianPair_toAlmost_iff` (`IsHenselianPair (R^a) (J^a) ↔ HenselianRing R (S.ideal • J)`), `Almost.Algebra.isHenselianPair_of_isAdicComplete` and
 `Almost.Algebra.Ideal.IsTight.elements_le_jacobson` (for `I` tight in `rad(A)`: `I_* ≤ rad(A_*)`, and
 `(A_*, I_*)` is henselian if `(A, I)` is, [GR] Corollary 5.1.16). *Needs:* P0.8; P0.10; P0.11;
 Mathlib `HenselianRing`, `Ideal.jacobson`, `IsAdicComplete`, `Submodule.FG`.
@@ -3311,8 +3304,7 @@ setup version via derived completeness, without torsion-freeness; Mathlib `IsAdi
 `K = ℚ_p(p^{1/p^∞})^`, `ϖ = p`, and
 `M = (K°/ϖ²)^a` (`ϖ`-adically complete, with `M_* = Hom(K°°, K°/ϖ²)` having `ϖ`-torsion),
 `(ϖM)_* = Hom(K°°, ϖK°/ϖ²K°) ≅ Hom(K°°, K°/ϖ)` strictly contains `ϖ·M_*`, which is the image of
-`Hom(K°°, K°/ϖ²) → Hom(K°°, K°/ϖ)`: the non-honest almost element `(c_n)`, `c_n = Σ_{j<n}
-ϖ^{1−1/p^j}`, of `elements_test_not_identity` (P0.6) is not in that image, because any
+`Hom(K°°, K°/ϖ²) → Hom(K°°, K°/ϖ)`: the non-honest almost element `(c_n)`, `c_n = Σ_{j<n} ϖ^{1−1/p^j}`, of `elements_test_not_identity` (P0.6) is not in that image, because any
 `(d_n) ∈ Hom(K°°, K°/ϖ²) = lim K°/ϖ^{2−1/p^n}` has `d_n ≡ d_0 mod ϖ` for all `n`. For
 `M = (K°/ϖ)^a` the two sides of (i) are both `0` and the failure is invisible. Complete torsion-free
 complexes that are almost exact modulo `ϖ` are almost exact, with the `lim¹` term controlled
@@ -3387,16 +3379,13 @@ cohomology); `F` is almost acyclic on `X` if `H^n(X, F)^a = 0` for `n > 0`. For 
 is a complex of `V`-modules with almostification `Č(𝔘, F)^a`, and the augmented complex
 `F(X) → Č(𝔘, F)` is almost exact if its cohomology is almost zero ([Berkeley] Lecture 7, proof of
 Theorem 7.4.4, p. 53). The Čech-to-derived comparison for almost acyclic bases is
-*almost-cech-acyclicity-criterion*. Define `Almost.Sheaf.IsAlmostZero` (`∀ U, S.IsAlmostZero
-(F.val.obj U)`), `Almost.Sheaf` (the Serre localization of `Sheaf J (ModuleCat V)` at almost
+*almost-cech-acyclicity-criterion*. Define `Almost.Sheaf.IsAlmostZero` (`∀ U, S.IsAlmostZero (F.val.obj U)`), `Almost.Sheaf` (the Serre localization of `Sheaf J (ModuleCat V)` at almost
 isomorphisms of sheaves), `Almost.Sheaf.toAlmost` (the exact localization `F ↦ F^a`),
 `Almost.Sheaf.cohomologyModule` (the `V`-module structure on `H^n(X, F)`), `Almost.Sheaf.almostH`
-(`H^n(X, F)^a := (toAlmost S).obj (H^n(X, F))`), `Almost.Sheaf.IsAlmostAcyclic` (`∀ n > 0, IsZero
-(almostH F n X)`) and `Almost.Sheaf.almostCech` (`(toAlmost S).mapHomologicalComplex` of the Čech
+(`H^n(X, F)^a := (toAlmost S).obj (H^n(X, F))`), `Almost.Sheaf.IsAlmostAcyclic` (`∀ n > 0, IsZero (almostH F n X)`) and `Almost.Sheaf.almostCech` (`(toAlmost S).mapHomologicalComplex` of the Čech
 complex); prove that almost zero sheaves form a Serre class, `Almost.Sheaf.almostH_eq_zero_of_isAlmostZero`
 (almost zero sheaves have almost zero cohomology in all degrees; `almostH` factors through
-`toAlmost`) and `Almost.Sheaf.almostH_localization` (for `ϖ ∈ S.ideal`: `almostH F n X ≅ 0 ⇒
-H^n(X, F) ⊗ V[1/ϖ] = 0`, P0.16). *Needs:* P0.5; P0.16; Mathlib `CategoryTheory.Sheaf.H'`,
+`toAlmost`) and `Almost.Sheaf.almostH_localization` (for `ϖ ∈ S.ideal`: `almostH F n X ≅ 0 ⇒ H^n(X, F) ⊗ V[1/ϖ] = 0`, P0.16). *Needs:* P0.5; P0.16; Mathlib `CategoryTheory.Sheaf.H'`,
 `CategoryTheory.Sheaf.H.map`, `CategoryTheory.cechComplexFunctor`, `CategoryTheory.sheafIsAbelian`,
 `SerreClassLocalization.abelian`.
 
@@ -3787,7 +3776,7 @@ The tilt comes next: the ring `R♭ = lim_{x↦x^p} R`, its integral subrings, t
 functoriality of tilting, the tilt of a uniform Tate ring that is not assumed perfectoid, the
 comparison with Mathlib's `PreTilt`, and the almost setup `(R°, R°°)`.
 
-**The tilt R♭ = lim_{x↦x^p} R of a perfectoid Tate ring.** (*tilt-of-perfectoid-tate-ring*) Let `R`
+**The tilt `R♭ = lim_{x↦x^p} R` of a perfectoid Tate ring.** (*tilt-of-perfectoid-tate-ring*) Let `R`
 be a perfectoid Tate ring. Its tilt is `R♭ := lim_{x↦x^p} R`, the multiplicative monoid
 `Perfection R p` of compatible sequences `(x^{(n)})_{n≥0}` with `(x^{(n+1)})^p = x^{(n)}`, with the
 inverse-limit topology (induced from `∏_ℕ R`) and the uniformity of its additive topological group, pointwise multiplication and addition
@@ -3811,8 +3800,7 @@ monoid structure of `Perfection R p`, together with `instTopologicalSpace` induc
 `instIsTopologicalRing`), `tilt.charP` (`CharP (tilt R) p` for `R ≠ 0`; `PerfectRing (tilt R) p` also for `R = 0`),
 `tilt.coeff` (`coeff n : tilt R →* R`, the `n`-th coordinate `Perfection.coeffMonoidHom R p n`, with
 `coeff_pow : coeff (n + 1) x ^ p = coeff n x`), `tilt.sharp` (P1.5), `tilt.map` (P1.6) and
-`Pair.tilt` (the Huber pair `(tilt R, lim_{x↦x^p} R⁺)`); prove extensionality using Mathlib’s `Perfection.extMonoid`, `tilt.coeff_add` (`Tendsto (fun m ↦ (coeff (i + m) x +
-coeff (i + m) y) ^ p ^ m) atTop (𝓝 (coeff i (x + y)))`), `tilt.coeff_zero`
+`Pair.tilt` (the Huber pair `(tilt R, lim_{x↦x^p} R⁺)`); prove extensionality using Mathlib’s `Perfection.extMonoid`, `tilt.coeff_add` (`Tendsto (fun m ↦ (coeff (i + m) x + coeff (i + m) y) ^ p ^ m) atTop (𝓝 (coeff i (x + y)))`), `tilt.coeff_zero`
 (`coeff n 0 = 0`), `tilt.coeff_frobeniusEquiv_symm` (simp:
 `coeff n ((frobeniusEquiv (tilt R) p).symm x) = coeff (n + 1) x`), `tilt.isPerfectoidTateRing`
 (`tilt R` is a perfectoid Tate ring of characteristic `p`, *tilt-is-perfectoid-tate-ring*, P1.14),
@@ -3906,7 +3894,7 @@ multiple of `p^{1/p}` with compatible roots; in characteristic `p`, `ϖ = ϖ_1` 
 
 ### P1.5 the sharp map
 
-**The sharp map ♯: R♭ → R (continuous, multiplicative, not additive).** (*sharp-map*) For a
+**The sharp map `♯: R♭ → R` (continuous, multiplicative, not additive).** (*sharp-map*) For a
 perfectoid Tate ring `R`, the sharp map `♯ : R♭ → R`, `x ↦ x♯ := x^{(0)}` (Mathlib
 `Perfection.coeffMonoidHom R p 0` on the underlying monoid `Perfection R p`) is continuous and
 multiplicative with `0♯ = 0`, and is not additive in general. It satisfies `(x^{1/p^n})♯ = x^{(n)}`;
@@ -3981,7 +3969,7 @@ proof).
 
 ### P1.6 functoriality of tilting
 
-**Functoriality of tilting: f ↦ f♭.** (*tilt-functoriality*) A continuous ring homomorphism
+**Functoriality of tilting: `f ↦ f♭`.** (*tilt-functoriality*) A continuous ring homomorphism
 `f : R → S` between perfectoid Tate rings induces `f♭ : R♭ → S♭`, `(x^{(n)})_n ↦ (f(x^{(n)}))_n`
 (Mathlib `Perfection.mapMonoidHom p f` on the underlying monoids), a continuous ring homomorphism
 with `(f♭x)♯ = f(x♯)`, `f♭(R♭°) ⊆ S♭°`, `id♭ = id` and `(g ∘ f)♭ = g♭ ∘ f♭`; on `R♭°/ϖ♭ ≅ R°/ϖ` it
@@ -3991,13 +3979,11 @@ induces a morphism of the tilt pairs. Hence tilting is a functor from perfectoid
 pairs) to perfectoid Tate rings (resp. pairs) of characteristic `p`, and a perfectoid `R`-algebra
 `S` gives a perfectoid `R♭`-algebra `S♭` ([Berkeley] Theorem 6.2.7, p. 45; [AWS] Definition 2.3.2,
 p. 54; [ECD] Theorem 3.13, p. 17). Define `tilt.map` (`map f : tilt R →+* tilt S` for `f` continuous,
-with underlying monoid hom `Perfection.mapMonoidHom p f`), `Pair.tiltHom` (`Pair.Hom P Q ↦ Pair.Hom
-P.tilt Q.tilt`, compatible with `id` and `comp`), `tilt.mapEquiv` (a ring isomorphism `R ≃+* S` that
+with underlying monoid hom `Perfection.mapMonoidHom p f`), `Pair.tiltHom` (`Pair.Hom P Q ↦ Pair.Hom P.tilt Q.tilt`, compatible with `id` and `comp`), `tilt.mapEquiv` (a ring isomorphism `R ≃+* S` that
 is a homeomorphism induces `tilt R ≃+* tilt S`) and `tiltFunctor` (the functor from perfectoid Tate
 rings with continuous ring homomorphisms to perfectoid Tate rings of characteristic `p`, and its
 slice version from perfectoid `R`-algebras to perfectoid `R♭`-algebras); prove `tilt.coeff_map`
-(simp: `coeff n (map f x) = f (coeff n x)`), `tilt.sharp_map` (simp: `sharp (map f x) = f (sharp
-x)`), `tilt.map_id`, `tilt.map_comp` (`map (g.comp f) = (map g).comp (map f)`),
+(simp: `coeff n (map f x) = f (coeff n x)`), `tilt.sharp_map` (simp: `sharp (map f x) = f (sharp x)`), `tilt.map_id`, `tilt.map_comp` (`map (g.comp f) = (map g).comp (map f)`),
 `tilt.continuous_map`, `tilt.map_mem_powerBoundedSubring` (`x ∈ (tilt R)° → map f x ∈ (tilt S)°`)
 and `tilt.mapQuot_comm` (the square `(tilt R)°/(ϖ♭) ≅ R°/(ϖ) → S°/(f ϖ) ≅ (tilt S)°/(map f ϖ♭)`
 commutes). For `g ∈ Gal(ℚ_p^cycl/ℚ_p)` with cyclotomic character `χ(g)`, `g♭(ε) = ε^{χ(g)}`
@@ -4022,15 +4008,14 @@ the characteristic-p identification by the zeroth coordinate.
 
 ### P1.7 the tilt of a complete uniform Tate ring
 
-**The tilt B♭ = lim_{x↦x^p} B of a complete uniform Tate ring in which p is topologically
+**The tilt `B♭ = lim_{x↦x^p} B` of a complete uniform Tate ring in which `p` is topologically
 nilpotent.** (*tilt-of-uniform-tate-ring*) Let `B` be a complete Hausdorff uniform Tate ring in
 which `p` is topologically nilpotent (`B` is not assumed perfectoid) and `B⁺ ⊆ B°` a ring of
 integral elements. Its tilt is `B♭ := lim_{x↦x^p} B` (Mathlib `Perfection B p`) with the
 inverse-limit topology, pointwise multiplication, `x♯ := x^{(0)}`, and addition
 `(x + y)^{(i)} := lim_{n→∞}(x^{(i+n)} + y^{(i+n)})^{p^n}`. Then: (a) the limit exists and makes `B♭`
 a perfect topological ring of characteristic `p`; `♯` is continuous and multiplicative;
-`B♭⁺ := lim_{x↦x^p} B⁺ = {x : x♯ ∈ B⁺}` is an open subring and `B♭° := lim_{x↦x^p} B° = {x : x♯ ∈
-B°}`; `B♭` is complete and Hausdorff; (b) for every ideal of definition `I ⊆ B⁺` with `p ∈ I` (for
+`B♭⁺ := lim_{x↦x^p} B⁺ = {x : x♯ ∈ B⁺}` is an open subring and `B♭° := lim_{x↦x^p} B° = {x : x♯ ∈ B°}`; `B♭` is complete and Hausdorff; (b) for every ideal of definition `I ⊆ B⁺` with `p ∈ I` (for
 instance `I = (p, ϖ)` for a pseudo-uniformizer `ϖ ∈ B⁺`; Kedlaya asks `p ∈ I^p`), reduction
 `x ↦ (x^{(n)} mod I)_n` is an isomorphism of topological rings `B♭⁺ ≅ lim_Φ B⁺/I` (discrete
 factors), and, for `B ≠ 0` (so that `p` is not a unit of `B⁺`, as Mathlib's `PreTilt` requires),
@@ -4051,23 +4036,13 @@ complete ring `B⁺`, in which `p` is not a unit; for `B = 0` it is the zero map
 natural in `B`: `θ_C ∘ W(g♭) = g ∘ θ_B`; it is not surjective in general; (f) if `B` is perfectoid,
 `B♭` with `♯`, `g♭` and `θ_B` is the tilt of P1.4 with the sharp map, functoriality and `θ` of
 P1.5, P1.6 and P1.18 ([AWS] Lemma 2.7.1 with (b), (c) and its proof, pp. 66–67; [AWS] Hypothesis
-2.7.2, p. 67; [AWS] Lemma 2.8.4, proof, p. 70). Define `uniformTilt` (`uniformTilt B : Type :=
-Perfection B p` with `CommRing` (limiting addition), `TopologicalSpace`, `IsTopologicalRing`,
+2.7.2, p. 67; [AWS] Lemma 2.8.4, proof, p. 70). Define `uniformTilt` (`uniformTilt B : Type := Perfection B p` with `CommRing` (limiting addition), `TopologicalSpace`, `IsTopologicalRing`,
 `PerfectRing`, `CompleteSpace` and `T2Space` instances, and `CharP p` when `B ≠ 0`, for `B` complete Hausdorff
-uniform Tate with `IsTopologicallyNilpotent (p : B)`), `uniformTilt.sharp` (`sharp : uniformTilt B
-→* B := Perfection.coeffMonoidHom B p 0`, continuous, with `sharp (x^{1/p^n})^{p^n} = sharp x`),
+uniform Tate with `IsTopologicallyNilpotent (p : B)`), `uniformTilt.sharp` (`sharp : uniformTilt B →* B := Perfection.coeffMonoidHom B p 0`, continuous, with `sharp (x^{1/p^n})^{p^n} = sharp x`),
 `uniformTilt.map` (`map g : uniformTilt B →+* uniformTilt C` for `g` continuous; continuous;
-`sharp (map g x) = g (sharp x)`; `map_id`, `map_comp`) and `uniformTilt.theta` (`theta B : 𝕎 (lim
-B⁺) →+* B⁺` with `theta [x] = sharp x`, equal to `WittVector.fontaineTheta B⁺ p` under `plusEquiv`;
-`theta C ∘ WittVector.map (map g) = g ∘ theta B`); prove `uniformTilt.coeff_add` (`coeff i (x + y) =
-lim_{n→∞} (coeff (i + n) x + coeff (i + n) y)^{p^n}`, in `Filter.Tendsto` form),
-`uniformTilt.plusEquiv` (for an ideal of definition `I` of `B⁺` with `p ∈ I`: `lim B⁺ ≃+* Perfection
-(B⁺ ⧸ I) p`, a homeomorphism for discrete factors, from `Perfection.quotientMulEquiv`; and `lim B⁺
-≃+* PreTilt B⁺ p`), `uniformTilt.mem_powerBoundedSubring_iff` (`x ∈ (uniformTilt B)° ↔ sharp x ∈
-B°`; likewise `x ∈ lim B⁺ ↔ sharp x ∈ B⁺`), `uniformTilt.isTateRing_of_sharp` (if `ϖ♭ : uniformTilt
-B` has `sharp ϖ♭` a pseudo-uniformizer of `B` with `(sharp ϖ♭)^p ∣ p` in `B°`, then `IsTateRing
-(uniformTilt B)`, `IsBounded (uniformTilt B)°`, `IsPerfectoidTateRing (uniformTilt B)`, and `gauge
-ϖ♭ x = gauge (sharp ϖ♭) (sharp x)`), `uniformTilt.isPerfectoidTateRing_closure` (under
+`sharp (map g x) = g (sharp x)`; `map_id`, `map_comp`) and `uniformTilt.theta` (`theta B : 𝕎 (lim B⁺) →+* B⁺` with `theta [x] = sharp x`, equal to `WittVector.fontaineTheta B⁺ p` under `plusEquiv`;
+`theta C ∘ WittVector.map (map g) = g ∘ theta B`); prove `uniformTilt.coeff_add` (`coeff i (x + y) = lim_{n→∞} (coeff (i + n) x + coeff (i + n) y)^{p^n}`, in `Filter.Tendsto` form),
+`uniformTilt.plusEquiv` (for an ideal of definition `I` of `B⁺` with `p ∈ I`: `lim B⁺ ≃+* Perfection (B⁺ ⧸ I) p`, a homeomorphism for discrete factors, from `Perfection.quotientMulEquiv`; and `lim B⁺ ≃+* PreTilt B⁺ p`), `uniformTilt.mem_powerBoundedSubring_iff` (`x ∈ (uniformTilt B)° ↔ sharp x ∈ B°`; likewise `x ∈ lim B⁺ ↔ sharp x ∈ B⁺`), `uniformTilt.isTateRing_of_sharp` (if `ϖ♭ : uniformTilt B` has `sharp ϖ♭` a pseudo-uniformizer of `B` with `(sharp ϖ♭)^p ∣ p` in `B°`, then `IsTateRing (uniformTilt B)`, `IsBounded (uniformTilt B)°`, `IsPerfectoidTateRing (uniformTilt B)`, and `gauge ϖ♭ x = gauge (sharp ϖ♭) (sharp x)`), `uniformTilt.isPerfectoidTateRing_closure` (under
 `isTateRing_of_sharp`, the closure of the range of a ring homomorphism from a perfect ring whose
 range contains `ϖ♭` and `ϖ♭⁻¹` is a closed subring that is a perfectoid Tate ring of characteristic
 `p`) and `uniformTilt.equivTilt` (for `B` perfectoid, `uniformTilt B ≃+* tilt B`, the identity of
@@ -4121,11 +4096,10 @@ continuous homomorphisms ([AWS] Lemma 2.7.1 and §2.7).
 
 ### P1.8 the integral tilt is Mathlib's PreTilt
 
-**The integral tilt R♭⁺ is Mathlib's PreTilt R⁺ p, and ♯ is PreTilt.untilt.**
+**The integral tilt `R♭⁺` is Mathlib's `PreTilt R⁺ p`, and `♯` is `PreTilt.untilt`.**
 (*tilt-comparison-with-mathlib-pretilt*) Let `R` be a nonzero perfectoid Tate ring and `R⁺` a ring
 of integral elements (e.g. `R°`); `R ≠ 0` is needed, as otherwise `p` is a unit of `R⁺ = 0`. Then
-`R⁺` satisfies Mathlib's standing hypotheses `Fact ¬IsUnit (p : R⁺)` and `IsAdicComplete (span {p})
-R⁺` (*integral-elements-adically-complete*, P1.2), and: (a) the subring `R♭⁺ = lim_{x↦x^p} R⁺` of
+`R⁺` satisfies Mathlib's standing hypotheses `Fact ¬IsUnit (p : R⁺)` and `IsAdicComplete (span {p}) R⁺` (*integral-elements-adically-complete*, P1.2), and: (a) the subring `R♭⁺ = lim_{x↦x^p} R⁺` of
 `R♭` is isomorphic as a topological ring to Mathlib's `PreTilt R⁺ p = Perfection (ModP R⁺ p) p` via
 `x ↦ (x^{(n)} mod p)_n`: its algebraic multiplicative equivalence is
 `Perfection.quotientMulEquiv` for `I = (p)`, with inverse built from
@@ -4137,8 +4111,7 @@ R⁺` (*integral-elements-adically-complete*, P1.2), and: (a) the subring `R♭�
 (b) Under this isomorphism `x ↦ x♯` on `R♭⁺` is
 Mathlib's `PreTilt.untilt : PreTilt R⁺ p →* R⁺` (which is `Perfection.teichmuller` for `I = (p)`),
 `PreTilt.coeff 0` is `♯ mod p` (`PreTilt.mk_untilt_eq_coeff_zero`), and the root compatibility
-`(x^{1/p^n})♯^{p^n} = x♯` is `PreTilt.untilt_iterate_frobeniusEquiv_symm_pow`; (c) `R♭ ≅ (PreTilt
-R⁺ p)[1/ϖ♭]` (`Localization.Away`), the topology on `lim_{x↦x^p} R⁺` and on this localisation being
+`(x^{1/p^n})♯^{p^n} = x♯` is `PreTilt.untilt_iterate_frobeniusEquiv_symm_pow`; (c) `R♭ ≅ (PreTilt R⁺ p)[1/ϖ♭]` (`Localization.Away`), the topology on `lim_{x↦x^p} R⁺` and on this localisation being
 the part Mathlib does not supply.
 Mathlib's `PreTilt` is thus the integral tilt of this layer; Mathlib has no ring structure on
 `lim_{x↦x^p} R` and no tilt of a non-field Tate ring, which this layer supplies (the field case,
@@ -4165,7 +4138,7 @@ Mathlib's `Tilt` and `PreTilt.val`, is compared in P1.15) ([BMS] Lemma 3.2(i), p
 
 ### P1.9 the almost setup of a perfectoid Tate ring
 
-**The almost setup (R°, R°°) of a perfectoid Tate ring.** (*perfectoid-almost-setup*) Let `R` be a
+**The almost setup `(R°, R°°)` of a perfectoid Tate ring.** (*perfectoid-almost-setup*) Let `R` be a
 perfectoid Tate ring. The pair `(R°, R°°)` is a basic setup for almost mathematics (P0.1: `R°°`
 idempotent and `R°° ⊗_{R°} R°° ≅ R°°` flat), and so is `(R⁺, R°°)` for every ring of integral
 elements `R⁺`. For an `R⁺`-module `M` the following are equivalent: (i) `M` is almost zero,
@@ -4177,8 +4150,7 @@ Definition 3.23, p. 19), and restriction of scalars along `R⁺ → R°`, which 
 zero cokernel ([ECD] Example 3.22(ii), p. 19), induces an equivalence `R°a-Mod ≃ R⁺a-Mod` ([ECD]
 after Definition 3.23, p. 19). The construction depends only on `R`. For a perfectoid field `K` it
 is the classical setup `(K°, m_K)`, with `K°/m_K` almost zero and every almost zero `K°`-module a
-`k`-vector space ([ECD] Example 3.22(i), p. 19). Define `almostSetup` (`almostSetup R :
-Almost.BasicSetup` with ring `R°` and ideal `topologicallyNilpotentIdeal R`) and `almostSetupPlus`
+`k`-vector space ([ECD] Example 3.22(i), p. 19). Define `almostSetup` (`almostSetup R : Almost.BasicSetup` with ring `R°` and ideal `topologicallyNilpotentIdeal R`) and `almostSetupPlus`
 (`almostSetupPlus R⁺` with ring `R⁺` and ideal `R°° ∩ R⁺ = R°°`); the ideal of `almostSetup R` is
 `topologicallyNilpotentIdeal R` by definition, its two fields being
 `isIdempotentElem_topologicallyNilpotentIdeal` and `flat_tilde_topologicallyNilpotentIdeal`. Prove
@@ -4266,8 +4238,7 @@ surjective on `K°/p`. Its value group is `p`-divisible (*perfectoid-field-value
 P1.15). In characteristic `p` a perfectoid field is the same as a complete perfect nonarchimedean
 field ([Sch12] §3, after Lemma 3.2, p. 15). A perfectoid Tate ring whose underlying ring is a field
 is automatically a perfectoid field (P1.14); `ℚ_p` and all discretely valued fields are not
-perfectoid. Define `IsPerfectoidField` (`class IsPerfectoidField (K) [NontriviallyNormedField K]
-[IsUltrametricDist K] [CompleteSpace K] : Prop`, extending `IsPerfectoidTateRing p K`) and
+perfectoid. Define `IsPerfectoidField` (`class IsPerfectoidField (K) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K] : Prop`, extending `IsPerfectoidTateRing p K`) and
 `Perfectoid.isTateRing_of_nontriviallyNormedField` (every nontrivially normed
 ultrametric field, without a completeness hypothesis, is a Tate ring with ring of
 definition the closed unit ball, power-bounded subring the closed unit ball and topologically
@@ -4277,10 +4248,8 @@ nilpotent ideal the open unit ball; Tau Ceti has the uniformity and the power-bo
 prove
 `IsPerfectoidField.toIsPerfectoidTateRing`, `IsPerfectoidField.iff` (`IsPerfectoidField K ↔`
 (valuation not discrete, in Lean: norms accumulate at `1`) `∧ ‖p‖ < 1 ∧ Surjective (frobenius (K°/p) p)`, P1.11),
-the bound `‖p‖ < 1`, the existence of `ϖ` with `0 < ‖ϖ‖ < 1 ∧ ‖p‖ ≤
-‖ϖ‖ ^ p`, `IsPerfectoidField.valueGroup_pDivisible` (every element of `|K^×|` has a `p`-th root
-in it), `IsPerfectoidField.iff_perfectRing` (for `CharP K p`: `IsPerfectoidField K ↔ PerfectRing K
-p`, P1.2), the statement that a perfectoid Tate ring which is a field is a perfectoid field (P1.14,
+the bound `‖p‖ < 1`, the existence of `ϖ` with `0 < ‖ϖ‖ < 1 ∧ ‖p‖ ≤ ‖ϖ‖ ^ p`, `IsPerfectoidField.valueGroup_pDivisible` (every element of `|K^×|` has a `p`-th root
+in it), `IsPerfectoidField.iff_perfectRing` (for `CharP K p`: `IsPerfectoidField K ↔ PerfectRing K p`, P1.2), the statement that a perfectoid Tate ring which is a field is a perfectoid field (P1.14,
 from `exists_absoluteValue_of_isField`), `tiltField.instIsPerfectoidField`
 (the tilt of a perfectoid field is a perfectoid field of characteristic `p`, P1.15) and
 `isPerfectoidField_padicComplex` (`ℂ_p`, Mathlib `PadicComplex p`, is a perfectoid field). *Needs:*
@@ -4424,8 +4393,7 @@ satisfies `PreTilt.val x = v(x♯)` for `x ∈ PreTilt O p ≅ K♭°`. Prove
 value), `tiltField.norm_def` (`‖x‖_{K♭} = ‖x♯‖_K`), `tiltField.valueGroup_eq` (`|K♭^×| = |K^×|` as
 subgroups of `ℝ_{>0}`), `tiltField.integerEquiv` (`K♭° ≃+* lim_Φ K°/ϖ` for `ϖ | p`),
 `tiltField.quotEquiv` (`K♭° ⧸ (ϖ♭) ≃+* K° ⧸ (ϖ)`), `tiltField.residueFieldEquiv`,
-`tiltField.equivMathlibTilt` (`tilt K ≃+* Tilt K v O hv p`, restricting to `(tilt K)° ≃+* PreTilt O
-p`), `tiltField.preTiltVal_eq` (`PreTilt.val K v O hv p x = v (PreTilt.untilt x)`),
+`tiltField.equivMathlibTilt` (`tilt K ≃+* Tilt K v O hv p`, restricting to `(tilt K)° ≃+* PreTilt O p`), `tiltField.preTiltVal_eq` (`PreTilt.val K v O hv p x = v (PreTilt.untilt x)`),
 `tiltField.equivSelfOfCharP` (for `CharP K p`, `tilt K ≃+* K` isometrically) and `tiltField.map`
 (a continuous embedding induces a continuous embedding of tilts; it is isometric if the
 original embedding preserves the chosen absolute values, P1.6). For
@@ -4437,12 +4405,10 @@ P1.4; P1.5; P1.8; *tilt-is-perfectoid-tate-ring*; *perfectoid-field-iff-tilt-fie
 
 - `tiltField_padicComplex_pflat` (computation) — in `tilt ℂ_p`, `p♭ = (p^{1/p^n})_n` has
   `‖p♭‖ = ‖p‖` and `‖ε − 1‖ = ‖p‖^{p/(p−1)}`.
-- `tiltField.equivMathlibTilt` (compatibility) — for `K = ℂ_p`: `tilt ℂ_p ≃+* Tilt ℂ_p v
-  𝒪_{ℂ_p} hv p` and `PreTilt.val` corresponds to the absolute value of the tilt.
+- `tiltField.equivMathlibTilt` (compatibility) — for `K = ℂ_p`: `tilt ℂ_p ≃+* Tilt ℂ_p v 𝒪_{ℂ_p} hv p` and `PreTilt.val` corresponds to the absolute value of the tilt.
 - `tiltField.equivSelfOfCharP` (degenerate) — for `K` the completed perfection of `𝔽_p((t))`,
   `tilt K ≃+* K`.
-- `uniformTilt_padic` (non-example) — for `ℚ_p` (not perfectoid), `PreTilt ℤ_p p ≃+*
-  Perfection 𝔽_p p ≃+* 𝔽_p` and Mathlib's `Tilt ℚ_p v ℤ_p hv p ≃+* 𝔽_p` carries the trivial
+- `uniformTilt_padic` (non-example) — for `ℚ_p` (not perfectoid), `PreTilt ℤ_p p ≃+* Perfection 𝔽_p p ≃+* 𝔽_p` and Mathlib's `Tilt ℚ_p v ℤ_p hv p ≃+* 𝔽_p` carries the trivial
   valuation. Here `v : Valuation ℚ_p ℝ≥0`, `hv : v.Integers ℤ_p`, and `v(p) ≠ 1` are Mathlib's
   inputs. The Check specifies the extension of `PreTilt.val` to the fraction field and its
   value `1` at every nonzero element. Thus the tilt lacks a nontrivial absolute value without
@@ -4485,7 +4451,7 @@ whose norm has the prescribed p-th power ([Sch12] Lemmas 3.4 and 5.21).
 
 ### P1.16 primitive elements and ideals of degree one
 
-**Primitive (distinguished) elements and ideals of degree 1 in W(R⁺).**
+**Primitive (distinguished) elements and ideals of degree 1 in `W(R⁺)`.**
 (*primitive-degree-one-ideals*) Let `(R, R⁺)` be a perfectoid Tate pair of characteristic `p`. An
 element `ξ = Σ_{n≥0} p^n[ξ_n] ∈ W(R⁺)` is primitive of degree `1` (distinguished) if `ξ_0` is
 topologically nilpotent and `ξ_1` is a unit of `R⁺`; equivalently `ξ = [ξ_0] + p·u` with
@@ -4501,12 +4467,9 @@ itself; `p²` and `[ϖ♭]` are not primitive when `R ≠ 0`; over the zero ring
 the equivalences and regularity results below concern nonzero characteristic-`p` perfectoid
 pairs (`CharP R p` in Lean) with perfect plus rings as above. The zero coordinate predicates
 are tested separately.
-Define `IsPrimitive` (for `ξ : WittVector p R⁺`: `IsTopologicallyNilpotent (ξ.coeff 0 :
-R) ∧ IsUnit (ξ.coeff 1)`) and `IsPrimitiveIdeal` (`J : Ideal (WittVector p R⁺)` with `∃ ξ,
-IsPrimitive ξ ∧ J = Ideal.span {ξ}`), together with `IsDistinguished` (a Witt vector whose first
+Define `IsPrimitive` (for `ξ : WittVector p R⁺`: `IsTopologicallyNilpotent (ξ.coeff 0 : R) ∧ IsUnit (ξ.coeff 1)`) and `IsPrimitiveIdeal` (`J : Ideal (WittVector p R⁺)` with `∃ ξ, IsPrimitive ξ ∧ J = Ideal.span {ξ}`), together with `IsDistinguished` (a Witt vector whose first
 Witt coordinate is a unit, the notion of [BMS] Remark 3.11, p. 23, used for `ker θ` in P1.18);
-prove the Teichmüller form (`IsPrimitive ξ ↔ ∃ u
-: (W R⁺)ˣ, ξ = teichmuller p (ξ.coeff 0) + p * u ∧ IsTopologicallyNilpotent (ξ.coeff 0)`), that
+prove the Teichmüller form (`IsPrimitive ξ ↔ ∃ u : (W R⁺)ˣ, ξ = teichmuller p (ξ.coeff 0) + p * u ∧ IsTopologicallyNilpotent (ξ.coeff 0)`), that
 `IsPseudoUniformizer ϖ → IsPrimitive (p + teichmuller p ϖ * α)` for every `α`, that every primitive
 `ξ` is associated to such an element (`IsPrimitive ξ → ∃` unit `u`, pseudo-uniformizer `ϖ`, `α`,
 `ξ = u * (p + [ϖ♭] α)`), that associates of primitive elements are primitive, the unit criterion
@@ -4573,9 +4536,9 @@ distinguished and primitive in characteristic `p` and that, over a nonzero ring 
 `p`, `p²` and Teichmüller lifts are neither. The ideal examples accept `(p)` and reject `(p²)`
 and the zero ideal over nonzero rings.
 
-### P1.17 ECD's θ is Mathlib's fontaineTheta
+### P1.17 ECD's `θ` is Mathlib's `fontaineTheta`
 
-**ECD's θ is Mathlib's WittVector.fontaineTheta; surjectivity from surjective_fontaineTheta.**
+**ECD's `θ` is Mathlib's `WittVector.fontaineTheta`; surjectivity from `surjective_fontaineTheta`.**
 (*fontaine-theta-comparison-with-mathlib*) Let `R` be a nonzero perfectoid Tate ring and `R⁺` a
 ring of integral elements. Mathlib's `WittVector.fontaineTheta R⁺ p : 𝕎(PreTilt R⁺ p) →+* R⁺`
 (defined under `[Fact ¬IsUnit (p : R⁺)]` and `[IsAdicComplete (span {p}) R⁺]`, both supplied by
@@ -4610,13 +4573,13 @@ rank `2` (one exists iff the residue field of `K` is not algebraic over `𝔽_p`
 completed perfection of `𝔽_p(x)((t))`; `𝒪_{ℂ_p}` is the only ring of integral elements of `ℂ_p`),
 Frobenius on `K⁺/p` is surjective.
 
-### P1.18 Fontaine's θ: the primitive kernel
+### P1.18 Fontaine's `θ`: the primitive kernel
 
 Fontaine's map `θ` is treated next: its primitive kernel for any perfectoid Tate
 pair, the untilt along a primitive ideal, and the proof that the untilt is a perfectoid Tate pair
 whose tilt is the pair one started from.
 
-**Fontaine's θ: W(S♭⁺) → S⁺ has kernel generated by a primitive nonzerodivisor.**
+**Fontaine's `θ: W(S♭⁺) → S⁺` has kernel generated by a primitive nonzerodivisor.**
 (*fontaine-theta-and-primitive-kernel*) Let `(S, S⁺)` be a perfectoid Tate pair (any
 characteristic, no perfectoid base field) with tilt `(S♭, S♭⁺)`, and `θ : W(S♭⁺) → S⁺`,
 `Σ[r_n]p^n ↦ Σ r_n♯p^n`, Fontaine's ring homomorphism. (a) `θ` is surjective, by Mathlib's
@@ -4686,7 +4649,7 @@ Lean: `ker_fontaineTheta` (the kernel of Mathlib's `WittVector.fontaineTheta` is
 
 ### P1.19 the untilt along a primitive ideal
 
-**The untilt of (R, R⁺) along a primitive ideal J: (W(R⁺)[1/[ϖ]]/J, W(R⁺)/J).**
+**The untilt of `(R, R⁺)` along a primitive ideal `J`: `(W(R⁺)[1/[ϖ]]/J, W(R⁺)/J)`.**
 (*untilt-construction*) Let `(R, R⁺)` be a perfectoid Tate pair of characteristic `p`, `J ⊆ W(R⁺)`
 a primitive ideal of degree `1` and `ϖ ∈ R⁺` a pseudo-uniformizer. The untilt of `(R, R⁺)` along
 `J` is the pair `(A, A⁺)` with `A⁺ := W(R⁺)/J` and `A := A⁺[1/π]`, `π` the image of `[ϖ]`,
@@ -4698,8 +4661,7 @@ construction is functorial for morphisms of pairs `f` with `W(f)(J) ⊆ J'` (the
 `x ∈ R⁺` by `θ_J([x])` (`θ_J` the quotient map followed by localization), and extended by
 inverting a pseudo-uniformizer, with `♯_J(ϖ) = π`. That `(A, A⁺)` is a perfectoid Tate pair with tilt `(R, R⁺)`
 is P1.20 ([ECD] §3, Theorem 3.17, p. 18; [Berkeley] Theorem 6.2.11, p. 47; [AWS] Theorem 2.3.9,
-p. 55, and Remark 2.3.3, p. 54; [Sch12] Remark 5.19, p. 27). Define `untilt` (`untilt (P : Pair R)
-J : Type`, the ring `W(R⁺)[1/[ϖ]] ⧸ J·W(R⁺)[1/[ϖ]]`, with the choice-free description
+p. 55, and Remark 2.3.3, p. 54; [Sch12] Remark 5.19, p. 27). Define `untilt` (`untilt (P : Pair R) J : Type`, the ring `W(R⁺)[1/[ϖ]] ⧸ J·W(R⁺)[1/[ϖ]]`, with the choice-free description
 `W^b(R)/JW^b(R)`), `untiltPlus` (the subring `A⁺`, the image of `W(R⁺) ⧸ J` in `A`),
 `untilt.instIsTateRing` (`IsTateRing`, `CompleteSpace`, `T2Space` and `NonarchimedeanRing`
 instances, with pair of definition `(A⁺, πA⁺)`), the canonical `θ_J : W(R⁺)[1/[ϖ]] →+* untilt P J` from Mathlib’s
@@ -4757,9 +4719,9 @@ to `J` ([ECD] §3, Theorem 3.17, p. 18, with Lemma 3.14, pp. 17–18).
   `ϖ = p♭`: `sharp_J(p♭) = θ_J([p♭]) = p` (as `p − [p♭] ∈ J`) and `untiltPlus = 𝒪_{ℂ_p}`, so
   `untilt.quotEquiv` reads `𝒪_{ℂ_p}/(p) ≃+* 𝒪_{ℂ_p♭}/(p♭)`.
 
-### P1.20 the untilt is a perfectoid Tate pair with tilt (R, R⁺)
+### P1.20 the untilt is a perfectoid Tate pair with tilt `(R, R⁺)`
 
-**The untilt along a primitive ideal is a perfectoid Tate pair with tilt (R, R⁺).**
+**The untilt along a primitive ideal is a perfectoid Tate pair with tilt `(R, R⁺)`.**
 (*untilt-is-perfectoid-pair*) For `(R, R⁺)` a perfectoid Tate pair of characteristic `p` and
 `J ⊆ W(R⁺)` primitive of degree `1`, the untilt `(A, A⁺)` of P1.19 is a perfectoid Tate pair: `A`
 is a perfectoid Tate ring, `A⁺ = W(R⁺)/J` is a ring of integral elements of `A` (open, integrally
@@ -4781,8 +4743,7 @@ Two supporting results. The tilt of `W(R⁺)/J` is `R⁺`, and `θ` for `W(R⁺)
 be the quotient map. Then (a) `A⁺/p ≅ R⁺/ξ_0R⁺` (`ξ_0` the zeroth Witt coordinate), Frobenius on
 `A⁺/p` is surjective, and `x ↦ (θ_J([x^{1/p^n}]))_n` is a multiplicative bijection
 `R⁺ → lim_{x↦x^p} A⁺` whose composite with reduction is a ring isomorphism
-`R⁺ ≅ lim_Φ A⁺/p = PreTilt A⁺ p`; (b) under this identification Mathlib's `WittVector.fontaineTheta
-A⁺ p` is `θ_J`, so `ker θ_{A⁺} = J`; (c) `R = R⁺[1/ϖ] ≅ lim_{x↦x^p} A` as monoids ([KL16] Lemma
+`R⁺ ≅ lim_Φ A⁺/p = PreTilt A⁺ p`; (b) under this identification Mathlib's `WittVector.fontaineTheta A⁺ p` is `θ_J`, so `ker θ_{A⁺} = J`; (c) `R = R⁺[1/ϖ] ≅ lim_{x↦x^p} A` as monoids ([KL16] Lemma
 3.3.7 and Remark 3.3.9, p. 60; [AWS] Definition 2.3.14 and Remark 2.3.16, p. 56; [KL15] Lemma
 3.4.2, p. 79; Mathlib `Perfection.quotientMulEquiv`, `WittVector.fontaineTheta`, `PreTilt`). For
 `J = (p)` the identification is the identity; for `J = (p − [p♭]) ⊆ W(𝒪_{ℂ_p♭})`, `A⁺ = 𝒪_{ℂ_p}`
@@ -5061,7 +5022,7 @@ Lean: `IsIntegralPerfectoid`, with fields `exists_adic_element`, `frobenius_surj
 
 ### P1.25 perfectoid Tate rings and integral perfectoid rings
 
-**R perfectoid Tate ⇔ R⁺ integral perfectoid and bounded.** (*integral-perfectoid-comparison*) Let
+**`R perfectoid Tate ⇔ R⁺ integral perfectoid and bounded`.** (*integral-perfectoid-comparison*) Let
 `R` be a complete Hausdorff Tate ring and `R⁺` a ring of integral elements. If `R` is a perfectoid
 Tate ring, then `R⁺` (and `R°`) is an integral perfectoid ring in the sense of P1.24: `π`-adically
 complete for some `π ∈ R⁺` with `π^p | p` in `R⁺` (exact divisibility, as in P1.24; such a `π`
@@ -5092,9 +5053,9 @@ and its actual ring of integral elements, with boundedness retained on the integ
 
 Lean: `isPerfectoidTateRing_iff_integral`.
 
-### P1.26 flat deformation of perfectoid algebras modulo ϖ
+### P1.26 flat deformation of perfectoid algebras modulo `ϖ`
 
-**Unique flat deformation of perfectoid algebras modulo ϖ over a perfectoid field.**
+**Unique flat deformation of perfectoid algebras modulo `ϖ` over a perfectoid field.**
 (*deformation-lifting-of-perfectoid-mod-varpi-algebras*) Let `K` be a complete nontrivially
 normed ultrametric perfectoid field, and choose a pseudo-uniformizer `ϖ = (ϖ♭)♯` with compatible
 roots and `ϖ^p ∣ p` in `K°`. The element `ϖ` is a nonzerodivisor on `K°`, and
@@ -5161,7 +5122,7 @@ The layer closes with the tilting equivalence over an arbitrary perfectoid base,
 equivalence over a perfectoid field, completed filtered colimits, perfected Tate algebras, the
 cyclotomic field, the standard examples and the compatibility with AdicSpaces' perfect field `F`.
 
-**Tilting equivalence Perf_R ≃ Perf_{R♭} over an arbitrary perfectoid Tate ring, with the explicit
+**Tilting equivalence `Perf_R ≃ Perf_{R♭}` over an arbitrary perfectoid Tate ring, with the explicit
 tilt.** (*tilting-equivalence-and-explicit-tilt*) Let `R` be a perfectoid Tate ring with tilt `R♭`
 and `J_R := ker(θ_R : W(R♭°) → R°)`, a primitive ideal (P1.18). No perfectoid base field is fixed;
 continuous homomorphisms between Tate rings preserve power-bounded elements into uniform targets
@@ -5174,8 +5135,7 @@ functor `S ↦ S♭` (`R♭ → S♭` the tilt of `R → S`, P1.6) is an equival
 independent of choices, extends to pairs `(S, S⁺) ↦ (S♭, S♭⁺)`, and `S` is a perfectoid field iff
 `S♭` is, by *perfectoid-field-iff-tilt-field*. For `R = K` a perfectoid field,
 `T♯ = W(T°) ⊗_{W(K♭°)} K°[1/ϖ]` ([Sch12] Remark 5.19, p. 27; [Bhatt] Remark 6.2.8), and the functor
-agrees with Scholze's chain `K-Perf ≃ K°a-Perf ≃ (K°a/ϖ)-Perf = (K♭°a/ϖ♭)-Perf ≃ K♭°a-Perf ≃
-K♭-Perf` ([ECD] §3, Theorem 3.13 with its proof ("the proof works in general", here supplied by the
+agrees with Scholze's chain `K-Perf ≃ K°a-Perf ≃ (K°a/ϖ)-Perf = (K♭°a/ϖ♭)-Perf ≃ K♭°a-Perf ≃ K♭-Perf` ([ECD] §3, Theorem 3.13 with its proof ("the proof works in general", here supplied by the
 untilt classification) and the text after it, p. 17; [Berkeley] Theorem 6.2.7, p. 45; [AWS] Remark
 2.3.17, p. 56; [Sch12] Theorem 5.2, p. 22, and Proposition 5.17, p. 26, over a perfectoid field).
 The tilt of `R⟨T_1^{1/p^∞}, …, T_n^{1/p^∞}⟩` is `R♭⟨T_1^{1/p^∞}, …, T_n^{1/p^∞}⟩` with `T_i♯ = T_i`
@@ -5189,9 +5149,9 @@ map of the structural morphism, and `sliceUntiltFunctor` uses its localized quot
 counit. Thus its signature applies to all perfectoid pairs, including zero pairs, without
 requiring a pre-existing equivalence as an argument.
 
-### P1.28 the equivalence through the mod-ϖ category
+### P1.28 the equivalence through the mod-`ϖ` category
 
-**Perf_K ≃ K°a-Perf ≃ (K°a/ϖ)-Perf over a perfectoid field.**
+**`Perf_K ≃ K°a-Perf ≃ (K°a/ϖ)-Perf` over a perfectoid field.**
 (*perfectoid-mod-varpi-equivalence*) Let `K` be a complete nontrivially normed ultrametric
 perfectoid field, and choose compatible roots of a pseudo-uniformizer `ϖ` with `ϖ^p ∣ p` in
 `K°`. Use the almost setup `(K°, K°°)`. A perfectoid `K°a`-algebra is a flat, `ϖ`-adically
@@ -5295,8 +5255,7 @@ and `lift_spec` with `hom_ext` fixes the continuous universal property. Prove
 (`tilt (completedFilteredColimit F ϖ♭) ≃+* completedFilteredColimit (F ⋙ tiltFunctor) ϖ♭.toTilt`, a
 homeomorphism commuting with `sharp` and sending `tilt.map (ι j)` to `ι j`),
 `completedFilteredColimit.untiltEquiv` (for `G : J ⥤` perfectoid `R′♭`-algebras: the untilt over
-`R′` of `completedFilteredColimit G` is isomorphic to `completedFilteredColimit (G ⋙ untiltFunctor
-R′)`, naturally in `G`), `completedFilteredColimit.equivOfChoice` (changing `(j₀, ϖ♭)` or
+`R′` of `completedFilteredColimit G` is isomorphic to `completedFilteredColimit (G ⋙ untiltFunctor R′)`, naturally in `G`), `completedFilteredColimit.equivOfChoice` (changing `(j₀, ϖ♭)` or
 restricting along a final functor `J′ ⥤ J` gives canonically isomorphic rings, compatibly with `ι`
 and `lift`; compatible rings of integral elements give the same ring) and
 `completedFilteredColimit.isColimit` (the cocone `(completedFilteredColimit F ϖ♭, ι)` is a colimit
@@ -5385,7 +5344,7 @@ separate comparison from the perfectoid-stage colimit.
 
 ### P1.30 perfected Tate algebras
 
-**Perfected Tate algebras R⟨T_s^{1/p^∞} : s ∈ Σ⟩ in any set of variables over any perfectoid Tate
+**Perfected Tate algebras `R⟨T_s^{1/p^∞} : s ∈ Σ⟩` in any set of variables over any perfectoid Tate
 ring.** (*perfected-tate-algebra*) Let `R` be a perfectoid Tate ring (no base field) with
 pseudo-uniformizer `ϖ` (`ϖ^p | p` in `R°`) and `Σ` an arbitrary set, possibly infinite (`Σ = ∅`
 gives `R`; infinite `Σ` is used by layer P2 with `Σ = C♭°`, [KL16] Corollary 3.3.21, and by [AWS]
@@ -5414,14 +5373,11 @@ which the elements of `C♭°` provide through `♯`; [Sch12] Proposition 5.20, 
 Example 3.4(iii), p. 15). Define `perfectedTateAlgebra` (`perfectedTateAlgebra R Σ : Type` for
 `Σ : Type*`, with `CommRing`, `TopologicalSpace`, `IsTopologicalRing`, `IsTateRing`, `CompleteSpace`,
 `T2Space` instances and an `R`-algebra structure), `perfectedTateAlgebra.X` (`X s a = T_s^a` for
-`s : Σ` and `a ∈ ℤ[1/p]_{≥0}`; `X s (a + b) = X s a * X s b`, `(X s (a/p))^p = X s a`, `X s a ∈
-A°`), `perfectedTateAlgebra.lift` (for a complete Hausdorff uniform Tate `R`-algebra `S` and
+`s : Σ` and `a ∈ ℤ[1/p]_{≥0}`; `X s (a + b) = X s a * X s b`, `(X s (a/p))^p = X s a`, `X s a ∈ A°`), `perfectedTateAlgebra.lift` (for a complete Hausdorff uniform Tate `R`-algebra `S` and
 `t : Σ → Perfection S° p`, the unique continuous `R`-algebra map with `X s (1/p^m) ↦ coeff m (t s)`;
 `perfectedTateAlgebra.lift_spec` and `hom_ext`), `perfectedTateAlgebra.liftTilt` (for `S` perfectoid: continuous
-`R`-algebra maps `perfectedTateAlgebra R Σ → S` correspond to maps `Σ → (tilt S)°`, with `sharp
-(tilt.map (liftTilt x) (X s 1)) = sharp (x s)`), `perfectedTateAlgebra.mapIndex` (for `g : Σ → Σ′`,
-the continuous `R`-algebra map with `X s a ↦ X (g s) a`; `mapIndex id = id`, `mapIndex (g′ ∘ g) =
-mapIndex g′ ∘ mapIndex g`), `perfectedTateAlgebra.restrictedIncl` (for `Σ = Fin n`: the continuous
+`R`-algebra maps `perfectedTateAlgebra R Σ → S` correspond to maps `Σ → (tilt S)°`, with `sharp (tilt.map (liftTilt x) (X s 1)) = sharp (x s)`), `perfectedTateAlgebra.mapIndex` (for `g : Σ → Σ′`,
+the continuous `R`-algebra map with `X s a ↦ X (g s) a`; `mapIndex id = id`, `mapIndex (g′ ∘ g) = mapIndex g′ ∘ mapIndex g`), `perfectedTateAlgebra.restrictedIncl` (for `Σ = Fin n`: the continuous
 injective `R`-algebra map from `TauCeti.Huber.restrictedMvPowerSeriesCompletion n R` (`R⟨T⟩`) with
 closed image, `T_i ↦ X i 1`), `perfectedTateAlgebra.retraction` (for `Σ = Fin n`: the continuous
 `R`-linear `σ` onto integral exponents with `σ ∘ restrictedIncl = id`, the frame that
@@ -5431,8 +5387,7 @@ AdicSpacesPartIV R5 uses downstream), `perfectedTateAlgebra.plus` (for a ring of
 `perfectedTateAlgebra.isPerfectoidTateRing`, `perfectedTateAlgebra.powerBoundedSubring_eq`
 (`(perfectedTateAlgebra R Σ)° = {Σ c_a T^a | c_a ∈ R°, c_a → 0}`), `perfectedTateAlgebra.tiltEquiv`
 (`tilt (perfectedTateAlgebra R Σ) ≃+* perfectedTateAlgebra (tilt R) Σ`, a homeomorphism with
-`sharp (X s a) = X s a`), `perfectedTateAlgebra.equivCompletedColimit` (`perfectedTateAlgebra R Σ
-≃+* completedFilteredColimit (Σ₀ ↦ perfectedTateAlgebra R Σ₀)` over finite subsets `Σ₀ ⊆ Σ`) and
+`sharp (X s a) = X s a`), `perfectedTateAlgebra.equivCompletedColimit` (`perfectedTateAlgebra R Σ ≃+* completedFilteredColimit (Σ₀ ↦ perfectedTateAlgebra R Σ₀)` over finite subsets `Σ₀ ⊆ Σ`) and
 `perfectedTateAlgebra.emptyEquiv` (`perfectedTateAlgebra R PEmpty ≃+* R`). *Needs:* P1.1; P1.5;
 P1.6; P1.29; *rings-of-integral-elements-under-tilting*; Tau Ceti
 `TauCeti.Huber.restrictedMvPowerSeriesCompletion`; Mathlib `AddMonoidAlgebra`, `AdicCompletion`,
@@ -5443,11 +5398,9 @@ P1.6; P1.29; *rings-of-integral-elements-under-tilting*; Tau Ceti
 - `perfectedTateAlgebra.rootX_pow` (computation) — `(X s (1/p^{m+1}))^p = X s (1/p^m)`, and Frobenius
   on `A_0/ϖ` sends the class of `X s (1/p)` to that of `X s 1`; for `Σ = ℕ` the series
   `Σ_k ϖ^k X k 1` converges while, for `R ≠ 0`, `Σ_k X k 1` does not (its terms have norm one).
-- `perfectedTateAlgebra.tilt_cyclotomic` (compatibility) — `tilt (ℚ_p^cycl⟨T^{1/p^∞}⟩) ≃+* (tilt
-  ℚ_p^cycl)⟨T^{1/p^∞}⟩ = 𝔽_p((t^{1/p^∞}))^⟨T^{1/p^∞}⟩` ([ECD] Example 3.4(iii); [AWS] Example
+- `perfectedTateAlgebra.tilt_cyclotomic` (compatibility) — `tilt (ℚ_p^cycl⟨T^{1/p^∞}⟩) ≃+* (tilt ℚ_p^cycl)⟨T^{1/p^∞}⟩ = 𝔽_p((t^{1/p^∞}))^⟨T^{1/p^∞}⟩` ([ECD] Example 3.4(iii); [AWS] Example
   2.3.15).
-- `perfectedTateAlgebra_fin_test` (compatibility) — for `Σ = Fin n`, `perfectedTateAlgebra R (Fin
-  n)` is `R⟨T_1^{1/p^∞}, …, T_n^{1/p^∞}⟩` as AdicSpacesPartII uses it, `restrictedIncl` embeds
+- `perfectedTateAlgebra_fin_test` (compatibility) — for `Σ = Fin n`, `perfectedTateAlgebra R (Fin n)` is `R⟨T_1^{1/p^∞}, …, T_n^{1/p^∞}⟩` as AdicSpacesPartII uses it, `restrictedIncl` embeds
   `TauCeti.Huber.restrictedMvPowerSeriesCompletion n R` with retraction `σ`, and for `Fin n ⊆ ℕ`
   the map `perfectedTateAlgebra R (Fin n) → perfectedTateAlgebra R ℕ` is a strict inclusion
   when `R ≠ 0`. For the zero ring both algebras are zero.
@@ -5485,7 +5438,7 @@ functoriality for noninjective index maps as well as inclusions.
 
 ### P1.31 the completed cyclotomic field
 
-**The completed cyclotomic field ℚ_p^cycl is a perfectoid field; its tilt and primitive ideal.**
+**The completed cyclotomic field `ℚ_p^cycl` is a perfectoid field; its tilt and primitive ideal.**
 (*cyclotomic-perfectoid-field*) For any prime `p` and `ζ_{p^n}` a compatible system of primitive
 `p^n`-th roots of unity, the completion `ℚ_p^cycl` of `ℚ_p(μ_{p^∞})` is a perfectoid field: its
 valuation ring is the `p`-adic completion `ℤ_p^cycl` of `ℤ_p[μ_{p^∞}]`, its value group
@@ -5548,9 +5501,9 @@ not be étale (*frobenius-surjective-for-split-tate-ring*).
 
 **Checks.**
 
-- For P = X − a with a power-bounded, the root is a and the derivative is one.
-- For P = X² − X the roots 0 and 1 are power-bounded and the derivative is a unit in the quotient.
-- For P = X² over a nonzero ring, the derivative-error unit condition fails at the zero root.
+- For `P = X − a` with `a` power-bounded, the root is `a` and the derivative is one.
+- For `P = X² − X` the roots 0 and 1 are power-bounded and the derivative is a unit in the quotient.
+- For `P = X²` over a nonzero ring, the derivative-error unit condition fails at the zero root.
 
 **A pseudouniformizer whose `p`-th power divides `p`.** (*pseudouniformizer-dividing-p*) Let `R`
 be a complete Hausdorff Tate ring in which `p` is topologically nilpotent and which has no nonsplit
@@ -5578,9 +5531,9 @@ Lean: `Huber.exists_isPseudoUniformizer_pow_dvd_p` (a pseudouniformiser `ϖ ∈ 
 - *test_exponent_table* (computation) — `p^{n−1} > n` excludes `n = 1` for every `p` (`p⁰ = 1`),
   and for `p = 2` also `n = 2` (`2 > 2` fails): the admissible exponents are `n ≥ 2` for `p ≥ 3`
   and `n ≥ 3` for `p = 2`; with `ϖ_0 = p` one may take `n = 2` (`p ≥ 3`) or `n = 3` (`p = 2`).
-  When formalised, the computation uses a root of X⁸ − 8X − 8 in C₂: it is a pseudouniformiser v
-  with 2/v² integral and topologically nilpotent. It also checks that the pseudouniformiser
-  chosen by `Huber.exists_isPseudoUniformizer_pow_dvd_p` at p = 2 is neither 2 nor 1.
+  When formalised, the computation uses a root of `X⁸ − 8X − 8` in `C₂`: it is a pseudouniformiser `v`
+  with `2/v²` integral and topologically nilpotent. It also checks that the pseudouniformiser
+  chosen by `Huber.exists_isPseudoUniformizer_pow_dvd_p` at `p = 2` is neither 2 nor 1.
 - *test_tau_nilpotent* (computation) — in a complete split Tate ring, if `x² = ϖ(1+x)`, `ϖ` is topologically nilpotent,
   and `x,c` are power-bounded, then `cx` is topologically nilpotent: its square is a
   topologically nilpotent element times a power-bounded element. This is the quadratic
@@ -5641,9 +5594,9 @@ conclusion is PerfectoidSpaces' `Perfectoid.IsPerfectoidTateRing`); the rest is 
 
 **Checks.**
 
-- The complete algebraically closed field ℂ_p satisfies the splitness hypothesis and is perfectoid.
-- The complete uniform ring ℂ_p⟨T⟩ fails perfectoidness and therefore cannot satisfy finite-étale splitness.
-- The uncompleted algebraic closure of ℚ_p fails the completeness hypothesis.
+- The complete algebraically closed field `ℂ_p` satisfies the splitness hypothesis and is perfectoid.
+- The complete uniform ring `ℂ_p⟨T⟩` fails perfectoidness and therefore cannot satisfy finite-étale splitness.
+- The uncompleted algebraic closure of `ℚ_p` fails the completeness hypothesis.
 
 **Perfectoid uniform completion.** (*perfectoid-uniform-completion*) Let `(A, A⁺)` be a Huber pair
 with `A` a complete Hausdorff Tate ring in which `p` is topologically nilpotent (a complete Tate
@@ -5701,9 +5654,9 @@ p. 14; [Berkeley] Remark 6.1.4, p. 42), `𝔽_p((t))` (not perfect), `ℂ_p[ε]/
 P1.15; P1.30; P1.31; P1.2; Mathlib `PadicComplex`, `Padic`; Tau Ceti `TauCeti.Huber.Padic.isTateRing`,
 `TauCeti.Huber.PadicInt.not_isTateRing`, `TauCeti.Huber.LaurentSeries.isTateRing`.
 
-### P1.33 compatibility with AdicSpaces' perfect field F and A_inf
+### P1.33 compatibility with AdicSpaces' perfect field `F` and `A_inf`
 
-**Compatibility with AdicSpaces' perfect field F and A_inf = W(𝒪_F).**
+**Compatibility with AdicSpaces' perfect field `F` and `A_inf = W(𝒪_F)`.**
 (*adicspaces-layer-6-compatibility*) Let `F` be a complete rank-one nonarchimedean perfect field of
 characteristic `p` with a pseudo-uniformizer `ϖ`, as in the Foundations of adic spaces roadmap
 (AdicSpaces), layer 6.1 (no algebraic closedness). Tau Ceti's Fargues–Fontaine input is more
@@ -5860,57 +5813,57 @@ names a Check specified in this README only.
 
 | Check | Computation or boundary case |
 | --- | --- |
-| `uniformTilt_cyclotomic` | For the compatible primitive roots of unity, sharp of ε is 1 but sharp of ε−1 is nonzero; the perfectoid comparison preserves coordinate 1. |
-| `uniform_zero_integral` | Over the zero base the uniform tilt and its plus ring are zero, and θ is the zero map. |
-| `uniform_charP_theta` | Over a perfect characteristic-p base, the uniform Fontaine kernel is exactly (p). |
-| `uniform_cyclotomic_theta` | The cyclotomic element [ε]−1 lies in ker θ although ε−1 is nonzero in the uniform tilt. |
+| `uniformTilt_cyclotomic` | For the compatible primitive roots of unity, sharp of `ε` is 1 but sharp of `ε−1` is nonzero; the perfectoid comparison preserves coordinate 1. |
+| `uniform_zero_integral` | Over the zero base the uniform tilt and its plus ring are zero, and `θ` is the zero map. |
+| `uniform_charP_theta` | Over a perfect characteristic-p base, the uniform Fontaine kernel is exactly `(p)`. |
+| `uniform_cyclotomic_theta` | The cyclotomic element `[ε]−1` lies in `ker θ` although `ε−1` is nonzero in the uniform tilt. |
 | `uniform_map_two_coordinates` | Applying a continuous ring map to the uniform tilt applies that map to coordinates 0 and 1 separately. |
-| `uniform_map_identity` | The identity map on the base fixes x+1 and x² in the uniform tilt. |
+| `uniform_map_identity` | The identity map on the base fixes `x+1` and `x²` in the uniform tilt. |
 | `uniform_plus_small_inverse` | The inverse of a compatible small unit is outside every tilted plus ring when the base is nonzero. |
-| `exponents_first_two` | The exponent monoid contains 1 and 1/p, and p·(1/p)=1. |
-| `exponents_zero` | Zero is a nonnegative exponent; −1 is excluded. |
-| `exponents_not_thirds` | At p=2, the exponent 1/3 is excluded. |
-| `perfected_empty` | The empty-variable perfected Tate algebra is topologically R, and its comparison fixes coefficients. |
-| `perfected_two_roots` | The first two root monomials satisfy T^(1/p) raised to p equals T, and T^(1/p²) raised to p equals T^(1/p). |
-| `perfected_infinite_series` | Over a nonzero base, the weighted series ∑ϖⁿT_n converges and ∑T_n does not; the proposed Lean form uses a universe lift of ℕ as the variable set. |
+| `exponents_first_two` | The exponent monoid contains `1` and `1/p`, and `p·(1/p)=1`. |
+| `exponents_zero` | Zero is a nonnegative exponent; `−1` is excluded. |
+| `exponents_not_thirds` | At `p=2`, the exponent `1/3` is excluded. |
+| `perfected_empty` | The empty-variable perfected Tate algebra is topologically `R`, and its comparison fixes coefficients. |
+| `perfected_two_roots` | The first two root monomials satisfy `T^(1/p)` raised to p equals T, and `T^(1/p²)` raised to p equals `T^(1/p)`. |
+| `perfected_infinite_series` | Over a nonzero base, the weighted series `∑ϖⁿT_n` converges and `∑T_n` does not; the proposed Lean form uses a universe lift of `ℕ` as the variable set. |
 | `perfected_zero` | Over the zero ring both the integral completion and its localized perfected algebra are zero. |
 | `perfected_plus_roots` | The first and second root monomials belong to the plus ring for any chosen base plus ring. |
 | `perfected_plus_zero` | The perfected plus ring of the zero algebra is the whole ring. |
 | `perfected_plus_inverse` | The inverse base pseudo-uniformizer is outside the perfected plus ring over a nonzero base. |
-| `perfected_tilt_two_roots` | The inverse tilting comparison sends T to a sequence with coordinates T and T^(1/p). |
-| `laurent_exponents_signed` | The Laurent exponent group contains both −1 and 1. |
-| `laurent_exponents_root` | The Laurent exponent group contains 1/p and p·(1/p)=1. |
-| `laurent_exponents_not_thirds` | The Laurent exponent group at p=2 still excludes 1/3. |
-| `laurent_inverse_monomial` | In the Laurent algebra T·T⁻¹=1 and T⁻¹ is power-bounded. |
-| `laurent_empty` | The Laurent algebra with no variables is topologically R. |
+| `perfected_tilt_two_roots` | The inverse tilting comparison sends `T` to a sequence with coordinates `T` and `T^(1/p)`. |
+| `laurent_exponents_signed` | The Laurent exponent group contains both `−1` and 1. |
+| `laurent_exponents_root` | The Laurent exponent group contains `1/p` and `p·(1/p)=1`. |
+| `laurent_exponents_not_thirds` | The Laurent exponent group at `p=2` still excludes `1/3`. |
+| `laurent_inverse_monomial` | In the Laurent algebra `T·T⁻¹=1` and `T⁻¹` is power-bounded. |
+| `laurent_empty` | The Laurent algebra with no variables is topologically `R`. |
 | `laurent_zero` | Both Laurent completion and localization are zero over a zero base. |
-| `laurent_two_roots` | The Laurent root exponents 1/p and 1/p² satisfy the two successive p-th-power equations. |
-| `restricted_two_monomials` | The retraction preserves the ordinary polynomial T+T². |
-| `restricted_fractional_root` | The retraction kills T^(1/p), which has no integral exponent. |
+| `laurent_two_roots` | The Laurent root exponents `1/p` and `1/p²` satisfy the two successive p-th-power equations. |
+| `restricted_two_monomials` | The retraction preserves the ordinary polynomial `T+T²`. |
+| `restricted_fractional_root` | The retraction kills `T^(1/p)`, which has no integral exponent. |
 | `restricted_empty` | With no variables, the ordinary inclusion and the retraction are both bijective. |
-| `restricted_not_surjective` | Over a nonzero base T^(1/p) is outside the ordinary Tate algebra image. |
-| `liftTilt_ones` | Evaluation at the constant root family 1 sends T+T^(1/p) to 2. |
-| `liftTilt_zeroes` | Evaluation at the constant root family 0 sends T+1 to 1. |
-| `liftTilt_small_unit` | Evaluation at the compatible small unit sends T and T^(1/p) to ϖ₀ and ϖ₁. |
-| `marked_self_kernel` | The characteristic-p self untilt has primitive ideal (p). |
+| `restricted_not_surjective` | Over a nonzero base `T^(1/p)` is outside the ordinary Tate algebra image. |
+| `liftTilt_ones` | Evaluation at the constant root family 1 sends `T+T^(1/p)` to 2. |
+| `liftTilt_zeroes` | Evaluation at the constant root family 0 sends `T+1` to 1. |
+| `liftTilt_small_unit` | Evaluation at the compatible small unit sends `T` and `T^(1/p)` to `ϖ₀` and `ϖ₁`. |
+| `marked_self_kernel` | The characteristic-p self untilt has primitive ideal `(p)`. |
 | `marked_automorphism` | A marking-preserving automorphism is the identity. |
 | `marked_distinct_ideals` | Untilts from distinct primitive ideals admit no marked isomorphism. |
 | `marked_zero` | Every marked untilt of a zero pair has zero underlying ring and unit primitive ideal. |
-| `marked_padicComplex_kernel` | For the canonical marking of ℂ_p and sharp(t)=p, the marked ideal is (p−[t]). |
-| `marked_frobenius_twist` | Composing the marking of ℂ_p with Frobenius changes its primitive ideal and destroys marked isomorphism. |
+| `marked_padicComplex_kernel` | For the canonical marking of `ℂ_p` and `sharp(t)=p`, the marked ideal is `(p−[t])`. |
+| `marked_frobenius_twist` | Composing the marking of `ℂ_p` with Frobenius changes its primitive ideal and destroys marked isomorphism. |
 | `pair_zero` | The zero pair admits exactly one morphism from every perfectoid pair. |
 | `pair_tilt_two_coordinates` | The categorical tilted pair map agrees with the base map in coordinates 0 and 1. |
-| `triple_characteristic_p` | Classifying a characteristic-p pair gives the Witt ideal (p). |
+| `triple_characteristic_p` | Classifying a characteristic-p pair gives the Witt ideal `(p)`. |
 | `slice_base` | Tilting the identity algebra over the base gives the identity algebra over its tilt. |
-| `slice_characteristic_p_ideal` | For a characteristic-p base, extending the base Fontaine ideal gives (p) in the target Witt ring. |
+| `slice_characteristic_p_ideal` | For a characteristic-p base, extending the base Fontaine ideal gives `(p)` in the target Witt ring. |
 | `slice_zero_target` | The slice untilting functor sends a zero target to a zero target. |
-| `tiltField_two_powers` | An element with sharp p has norm ‖p‖, and its square has norm ‖p‖². |
+| `tiltField_two_powers` | An element with sharp `p` has norm `‖p‖`, and its square has norm `‖p‖²`. |
 | `tiltField_charP_isometry` | The characteristic-p zeroth-coordinate comparison preserves distances. |
-| `tiltField_cyclotomic_norm` | For the cyclotomic root sequence, ‖ε‖=1 and ‖ε−1‖=‖p‖^(p/(p−1)). |
+| `tiltField_cyclotomic_norm` | For the cyclotomic root sequence, `‖ε‖=1` and `‖ε−1‖=‖p‖^(p/(p−1))`. |
 | `tiltField_zero_and_one` | The field comparison sends zero to zero and the tilted norms of zero and one are 0 and 1. |
-| `tiltField_map_two_terms` | The field map induced by the identity fixes x+1 and x². |
+| `tiltField_map_two_terms` | The field map induced by the identity fixes `x+1` and `x²`. |
 | `tiltField_residue_small` | An integral tilted element of norm less than one has zero image under the residue-field comparison. |
-| `filtered_terminal` | If the indexing category has a terminal stage, its element x+1 is recovered by the completed-colimit comparison. |
+| `filtered_terminal` | If the indexing category has a terminal stage, its element `x+1` is recovered by the completed-colimit comparison. |
 | `filtered_zero_terminal` | A filtered diagram with a zero terminal stage has zero completed colimit, allowing noninjective transition maps. |
 | `filtered_two_roots` | The structural map preserves the first two compatible-root equations after completion. |
 | `tilted_roots_first_two` | Sharp of the first two tilted roots gives the first two original roots. |
@@ -5922,29 +5875,29 @@ names a Check specified in this README only.
 | `almost_frobenius_identity` | The identity ring map is almost bijective for every almost ideal. |
 | `almost_integral_base` | The integral base almost algebra is perfectoid. |
 | `almost_integral_zero` | The zero integral almost algebra is perfectoid. |
-| `almost_integral_dual_numbers` | Dual numbers over K° fail the integral Frobenius condition. |
-| `almost_mod_base` | The reduced base almost algebra is perfectoid over K°/ϖ. |
-| `almost_mod_zero` | The zero reduced almost algebra satisfies the mod-ϖ predicate. |
-| `almost_mod_dual_numbers` | Dual numbers over K°/ϖ fail the reduced Frobenius condition. |
+| `almost_integral_dual_numbers` | Dual numbers over `K°` fail the integral Frobenius condition. |
+| `almost_mod_base` | The reduced base almost algebra is perfectoid over `K°/ϖ`. |
+| `almost_mod_zero` | The zero reduced almost algebra satisfies the mod-`ϖ` predicate. |
+| `almost_mod_dual_numbers` | Dual numbers over `K°/ϖ` fail the reduced Frobenius condition. |
 | `colimit_constant` | Any filtered constant diagram recovers its value, continuously and with every structural map identified. |
 | `colimit_cofinal_coordinates` | The cofinal comparison fixes the images of the first two chosen roots. |
-| `finite_colimit_two_roots` | The finite-variable colimit identifies T and T^(1/p) at every finite stage. |
+| `finite_colimit_two_roots` | The finite-variable colimit identifies T and `T^(1/p)` at every finite stage. |
 | `finite_colimit_zero` | The finite-variable diagram over the zero ring has zero completed colimit. |
 | `variable_collision` | Over a nonzero base, identifying two indices sends their nonzero variable difference to zero. |
-| `variable_index_empty` | The map from no variables sends the element corresponding to r to the constant coefficient r. |
+| `variable_index_empty` | The map from no variables sends the element corresponding to `r` to the constant coefficient `r`. |
 | `variable_index_zero` | Every index map over the zero base sends every element to zero. |
 | `sharp_quotient_generator` | The chosen tilted generator maps to zero in the sharp quotient. |
-| `sharp_quotient_two_terms` | The quotient comparison sends x+y and xy to the sum and product of their sharp residues. |
+| `sharp_quotient_two_terms` | The quotient comparison sends `x+y` and `xy` to the sum and product of their sharp residues. |
 | `sharp_quotient_zero` | For a zero Tate ring the quotient is zero and the comparison sends one to zero. |
-| `adic_presentation_zero` | The zero ring has an admissible presentation with π=0. |
-| `adic_presentation_perfect_charP` | A perfect characteristic-p ring has an admissible presentation with π=0. |
-| `adic_presentation_padic_negative` | No element of ℤ_p gives an integral perfectoid adic presentation. |
-| `adic_presentation_unit_negative` | A nonzero ring admits no presentation with π=1. |
-| `almost_limit_scalar_coordinates` | The first two scalar coordinates are a·x₀ and a^(1/p)·x₁. |
+| `adic_presentation_zero` | The zero ring has an admissible presentation with `π=0`. |
+| `adic_presentation_perfect_charP` | A perfect characteristic-p ring has an admissible presentation with `π=0`. |
+| `adic_presentation_padic_negative` | No element of `ℤ_p` gives an integral perfectoid adic presentation. |
+| `adic_presentation_unit_negative` | A nonzero ring admits no presentation with `π=1`. |
+| `almost_limit_scalar_coordinates` | The first two scalar coordinates are `a·x₀` and `a^(1/p)·x₁`. |
 | `almost_limit_zero` | A zero almost algebra has zero inverse-limit ring. |
-| `almost_limit_base` | The inverse limit for the reduced base recovers K° as a K°-algebra. |
-| `uniform_quotient_padic` | Over ℚ_p the unit has coordinates 1 and 1 after integral quotient comparison; 1−1 maps to zero. |
-| `uniform_quotient_cyclotomic` | The image of ε−1 modulo p has coordinate zero equal to zero and coordinate two nonzero. |
+| `almost_limit_base` | The inverse limit for the reduced base recovers `K°` as a `K°`-algebra. |
+| `uniform_quotient_padic` | Over `ℚ_p` the unit has coordinates 1 and 1 after integral quotient comparison; `1−1` maps to zero. |
+| `uniform_quotient_cyclotomic` | The image of `ε−1` modulo `p` has coordinate zero equal to zero and coordinate two nonzero. |
 | `uniform_quotient_small_root` | For a characteristic-p small root system modulo its zeroth root, coordinate zero vanishes and coordinate one does not. |
 
 | `value_group_unit` | The tilted value group contains a p-th root of the unit value. |
@@ -6018,7 +5971,7 @@ and spaces covered by a set of such charts.
 
 ### P2.1 the tilting map on adic spectra
 
-**The tilting map x ↦ x♭ from Spa(R, R⁺) to Spa(R♭, R♭⁺).** (*tilting-map-of-spectra*) Let
+**The tilting map `x ↦ x♭` from `Spa(R, R⁺)` to `Spa(R♭, R♭⁺)`.** (*tilting-map-of-spectra*) Let
 `(R, R⁺)` be a perfectoid Tate pair with tilt `(R♭, R♭⁺)` and sharp map `♯ : R♭ → R` (continuous
 and multiplicative, not additive), `X = Spa(R, R⁺)`, `X♭ = Spa(R♭, R♭⁺)`; no base field. For
 `x ∈ X` with valuation `v_x : R → Γ_x ∪ {0}`, the composite `v_x ∘ ♯ : R♭ → Γ_x ∪ {0}` is a
@@ -6108,7 +6061,7 @@ for the perfectoid field `K`.
 The tilting map of P2.1 is a homeomorphism matching rational subsets; its two inputs are the
 characteristic-`p` rational localisations and the approximation lemma, proved here.
 
-**The tilting homeomorphism Spa(R, R⁺) ≅ Spa(R♭, R♭⁺) identifies rational subsets.**
+**The tilting homeomorphism `Spa(R, R⁺) ≅ Spa(R♭, R♭⁺)` identifies rational subsets.**
 (*tilting-homeomorphism-and-rational-subsets*) Let `(R, R⁺)` be a perfectoid Tate pair (ECD
 Definition 3.1; characteristic `0`, `p` or mixed, as in ECD Example 3.4(iv); no perfectoid base
 field) with tilt `(R♭, R♭⁺)`. Then the tilting map `τ_R : X = Spa(R, R⁺) → X♭ = Spa(R♭, R♭⁺)`,
@@ -6180,8 +6133,7 @@ Ceti `TauCeti.ValuationSpectrum.existsUnique_continuous_ringHom_of_forall_comap_
 `c ≥ 0` and every `ε ∈ ℤ[1/p]` with `0 < ε < 1` there is `g ∈ R♭` with
 `|f(x) − g♯(x)| ≤ |ϖ^{1−ε}(x)| · max(|f(x)|, |ϖ^c(x)|)` for all `x ∈ X`, so that
 `max(|f(x)|, |ϖ^c(x)|) = max(|g♯(x)|, |ϖ^c(x)|)`; (ii) for `f, h ∈ R` and an integer `c ≥ 0` there
-are `a, b ∈ R♭` with `{x : |f(x)| ≤ |h(x)|, |ϖ^c(x)| ≤ |h(x)|} = {x : |a♯(x)| ≤ |b♯(x)|,
-|ϖ^c(x)| ≤ |b♯(x)|}` ([Sch12] §6, Cor. 6.7(i) with proof, pp. 34–35, the reduction to rank-one
+are `a, b ∈ R♭` with `{x : |f(x)| ≤ |h(x)|, |ϖ^c(x)| ≤ |h(x)|} = {x : |a♯(x)| ≤ |b♯(x)|, |ϖ^c(x)| ≤ |b♯(x)|}` ([Sch12] §6, Cor. 6.7(i) with proof, pp. 34–35, the reduction to rank-one
 points and to the polydisc; [KL16] §3.2, Lem. 3.2.7 (preamble), p. 57, approximation by Euclidean
 division with a Fontaine primitive element, and §3.3, proof of Thm 3.3.16, p. 63, how it moves
 rational subsets across tilting without a base field; [AWS] Lecture 2, §2.6, Lem. 2.6.17 with
@@ -6286,8 +6238,7 @@ presentation), `rootIntegralModel_almost`
 - `naiveModel_smaller_root_nonmember` (non-example) — the naive model `R°⟨f♯/g♯⟩` without
   `p`-power roots is not almost equal to `O_X(U)°`: for `R = ℚ_p^cycl⟨T^{1/p^∞}⟩` and
   `U = {|T| ≤ |ϖ|}`, `O_X(U)° = K°⟨(T/ϖ)^{1/p^∞}⟩` contains `(T/ϖ)^{1/p}`, while
-  `R°⟨T/ϖ⟩ = {Σ_{q ∈ ℤ[1/p]_{≥0}} c_qT^q : |c_q| ≤ |ϖ|^{-⌊q⌋},
-  |c_q| |ϖ|^{⌊q⌋} → 0}` (the weighted coefficients tend to zero outside finite sets) contains `c·T^{1/p}` only
+  `R°⟨T/ϖ⟩ = {Σ_{q ∈ ℤ[1/p]_{≥0}} c_qT^q : |c_q| ≤ |ϖ|^{-⌊q⌋}, |c_q| |ϖ|^{⌊q⌋} → 0}` (the weighted coefficients tend to zero outside finite sets) contains `c·T^{1/p}` only
   for `|c| ≤ 1`; so `ϖ^{1/p²}(T/ϖ)^{1/p} = ϖ^{1/p² − 1/p}T^{1/p} ∉ R°⟨T/ϖ⟩` (whereas
   `ϖ^{1/p}(T/ϖ)^{1/p} = T^{1/p} ∈ R° ⊆ R°⟨T/ϖ⟩`, so the exponent `1/p` is not a witness), and for
   each `k ≥ 1` the element `(T/ϖ)^{1 − 1/p^n}` with `1 − 1/p^n > 1/p^k` is not carried into `R°⟨T/ϖ⟩`
@@ -6594,9 +6545,9 @@ the presheaf comparison below.
 
 Lean: `Perfectoid.isStablyUniform`, `Perfectoid.isSheafyRing`.
 
-### P2.7 almost acyclicity of O⁺ on rational coverings
+### P2.7 almost acyclicity of `O⁺` on rational coverings
 
-**Almost exactness of the integral Čech complex of O⁺ on rational coverings of a perfectoid
+**Almost exactness of the integral Čech complex of `O⁺` on rational coverings of a perfectoid
 affinoid.** (*integral-almost-acyclicity*) Let `(R, R⁺)` be a perfectoid Tate pair (ECD
 Definition 3.1; no base field), `X = Spa(R, R⁺)`. For every rational `U ⊆ X` and every finite
 covering `𝔘 = (U₁, …, U_m)` of `U` by rational subsets (all finite intersections are then rational),
@@ -6622,7 +6573,7 @@ not be exact when `R⁺ ≠ R°`. *Needs:* *perfectoid-stably-uniform-and-sheafy
 *rational-localization-in-characteristic-p*; layer P1; layer P0; Mathlib `frobeniusEquiv`,
 `HomologicalComplex.ExactAt`, `CategoryTheory.Sheaf.H`.
 
-**Almost exactness lifts from reduction modulo ϖ for torsion-free complete complexes.**
+**Almost exactness lifts from reduction modulo `ϖ` for torsion-free complete complexes.**
 (*almost-exactness-from-reduction-mod-pseudouniformizer*) Let `V` be a ring, `m ⊆ V` an ideal with
 `m² = m` (the basic setup of layer P0, P0.1; in the application `V = R⁺` and `m` its ideal of
 topologically nilpotent elements, with `ϖ ∈ m`), `ϖ ∈ V`, and call a `V`-module almost zero if `m`
@@ -6646,7 +6597,7 @@ Mathlib `CategoryTheory.ObjectProperty.IsSerreClass`, `IsAdicComplete`,
 `HomologicalComplex.ExactAt`.
 
 **Integral Čech cohomology of a stably uniform sheafy Tate pair is killed by a bounded power of
-ϖ.** (*integral-cech-cohomology-bounded-torsion*) Let `(A, A⁺)` be a complete Hausdorff Tate Huber
+`ϖ`.** (*integral-cech-cohomology-bounded-torsion*) Let `(A, A⁺)` be a complete Hausdorff Tate Huber
 pair which is stably uniform (every `O_X(V)` uniform) and sheafy, with no perfectoid or noetherian
 hypothesis, `ϖ ∈ A⁺` a pseudouniformiser, `X = Spa(A, A⁺)`, `U ⊆ X` rational and `𝔘 = (U₁, …, U_m)`
 a finite covering of `U` by rational subsets. Let `C⁺` be the augmented alternating Čech complex
@@ -6757,7 +6708,7 @@ identity and the sum of two scalar actions.
 The sheaf theorem collects the sheaf property, the perfectoidness of the rational localisations
 and the (almost) vanishing of cohomology; the `p`-finite route of Scholze is kept alongside it.
 
-**The sheaf theorem: O_X is a sheaf with vanishing higher cohomology and H^i(X, O_X⁺) is almost
+**The sheaf theorem: `O_X` is a sheaf with vanishing higher cohomology and `H^i(X, O_X⁺)` is almost
 zero.** (*sheaf-theorem-and-almost-acyclicity*) Let `(R, R⁺)` be a perfectoid Tate pair (ECD
 Definition 3.1: any perfectoid Tate ring, of characteristic `0`, `p` or mixed, with no perfectoid
 base field) and `X = Spa(R, R⁺)`. Then: (i) `O_X` and `O_X⁺` are sheaves on `X`; (ii) for every
@@ -7129,7 +7080,7 @@ P2.11 owns glued tilting on `PerfectoidSpace.Perfd`, including `tiltFunctor`,
 `sliceTiltFunctor_isEquivalence`. AdicSpacesPartIV R5 consumes `PerfectoidSpace.tiltFunctor`
 directly, downstream; P2 uses no subsection of AdicSpacesPartIV.
 
-**The glued tilt X ↦ X♭ of a perfectoid space.** (*perfectoid-spaces-and-glued-tilting*) For every
+**The glued tilt `X ↦ X♭` of a perfectoid space.** (*perfectoid-spaces-and-glued-tilting*) For every
 perfectoid space `X` (*perfectoid-space*; any characteristic, no base field) there is a perfectoid
 space `X♭` of characteristic `p`, the *tilt* of `X`, with a homeomorphism `|X| ≅ |X♭|`, `x ↦ x♭`,
 constructed by gluing ([ECD] §3, the sentence after Def. 3.19, p. 18; [Berkeley] Lecture 7, §7.1,
@@ -7178,8 +7129,7 @@ layer P1 (P1.5, P1.6); Tau Ceti `TauCeti.ValuationSpectrum.spa`; Mathlib
 
 **Checks.**
 
-- `tilt_spa_cyclotomic` (computation) — `Spa(ℚ_p^cycl, ℤ_p^cycl)♭ ≅
-  Spa(𝔽_p((t^{1/p^∞})), 𝔽_p[[t^{1/p^∞}]])`, `t = (1, ζ_p, ζ_{p²}, …) − 1` (Berkeley Example 6.2.4),
+- `tilt_spa_cyclotomic` (computation) — `Spa(ℚ_p^cycl, ℤ_p^cycl)♭ ≅ Spa(𝔽_p((t^{1/p^∞})), 𝔽_p[[t^{1/p^∞}]])`, `t = (1, ζ_p, ζ_{p²}, …) − 1` (Berkeley Example 6.2.4),
   and the homeomorphism is the identity of the one-point space.
 - `tilt_spa_perfectedDisc` (computation) — for a perfectoid Tate ring `R`:
   `Spa(R⟨T^{1/p^∞}⟩, R⁺⟨T^{1/p^∞}⟩)♭ ≅ Spa(R♭⟨T^{1/p^∞}⟩, R♭⁺⟨T^{1/p^∞}⟩)` with
@@ -7288,7 +7238,7 @@ The tilting equivalence of perfectoid spaces: the slice equivalence over a perfe
 affinoid form, and the completed tensor products and affinoid fibre products that it is compatible
 with.
 
-**Tilting equivalence of perfectoid spaces: Perfd/X ≃ Perf/X♭.** (*tilting-slice-equivalence*) Let
+**Tilting equivalence of perfectoid spaces: `Perfd/X ≃ Perf/X♭`.** (*tilting-slice-equivalence*) Let
 `X` be a perfectoid space with tilt `X♭` (*perfectoid-spaces-and-glued-tilting*; any characteristic,
 no perfectoid base field). (a) The functor `Perfd/X → Perf/X♭ = Perfd/X♭` on slice categories
 (Mathlib `CategoryTheory.Over`), `(f : Y → X) ↦ (f♭ : Y♭ → X♭)`, is an equivalence of categories (a
@@ -7314,7 +7264,7 @@ and `Spa(𝔽_p((t^{1/p^∞})))` itself (with the identity to `X♭`) untilts to
 *open-subspaces-of-perfectoid-spaces*; *affinoid-perfectoid-pairs-tilting-equivalence*; Mathlib
 `CategoryTheory.Over`, `CategoryTheory.Equivalence`.
 
-**Tilting is an equivalence between perfectoid Tate pairs over (A, A⁺) and over (A♭, A♭⁺),
+**Tilting is an equivalence between perfectoid Tate pairs over `(A, A⁺)` and over `(A♭, A♭⁺)`,
 compatible with rational localisation.** (*affinoid-perfectoid-pairs-tilting-equivalence*) Let
 `(A, A⁺)` be a complete perfectoid Tate pair (`A` perfectoid Tate ring, `A⁺ ⊆ A°` a ring of integral
 elements; no perfectoid base field) with tilt `(A♭, A♭⁺)`. Let `Perfd_{(A,A⁺)}` be the category of
@@ -7498,7 +7448,7 @@ identifies ordinary and uniform completion over a perfectoid base.
 
 ### P2.15 affinoid perfectoid fibre products
 
-**Affinoid perfectoid fibre products: Spa(B ⊗̂_A C) is a fibre product in adic spaces, compatible
+**Affinoid perfectoid fibre products: `Spa(B ⊗̂_A C)` is a fibre product in adic spaces, compatible
 with open subspaces.** (*perfectoid-fibre-product-universal-property*) Let `X = Spa(A, A⁺)`,
 `Y = Spa(B, B⁺)`, `Z = Spa(C, C⁺)` be affinoid perfectoid spaces (any characteristic, no base field)
 and `Y → X ← Z` morphisms, corresponding ([Wedhorn] Prop. 8.25) to morphisms of complete perfectoid
@@ -7587,8 +7537,7 @@ AdicSpacesPartII R0.6, R0.7 (*adic-morphism*, *fibre-product-points*); Mathlib
 **Checks.**
 
 - `pullback_perfectedDiscs` (computation) — for a perfectoid Tate ring `R`:
-  `Spa(R⟨T^{1/p^∞}⟩, R⁺⟨T^{1/p^∞}⟩) ×_{Spa(R, R⁺)} Spa(R⟨S^{1/p^∞}⟩, R⁺⟨S^{1/p^∞}⟩) ≅
-  Spa(R⟨T^{1/p^∞}, S^{1/p^∞}⟩, R⁺⟨T^{1/p^∞}, S^{1/p^∞}⟩)` over the two projections.
+  `Spa(R⟨T^{1/p^∞}⟩, R⁺⟨T^{1/p^∞}⟩) ×_{Spa(R, R⁺)} Spa(R⟨S^{1/p^∞}⟩, R⁺⟨S^{1/p^∞}⟩) ≅ Spa(R⟨T^{1/p^∞}, S^{1/p^∞}⟩, R⁺⟨T^{1/p^∞}, S^{1/p^∞}⟩)` over the two projections.
 - `pullback_galois_points` (computation) — for a finite Galois extension `L/K` of perfectoid fields
   with group `G`, `Spa(L, L°) ×_{Spa(K, K°)} Spa(L, L°) ≅ ⊔_{g ∈ G} Spa(L, L°)` has `|G|` points
   while `|Spa L| ×_{|Spa K|} |Spa L|` is one point: the underlying space of a fibre product is not
@@ -7634,8 +7583,7 @@ spaces the tilts of the projections exhibit `(Y ×_X Z)♭` as the fibre product
 pieces, the isomorphism `(B ⊗̂_A C)♭ ≅ B♭ ⊗̂_{A♭} C♭` of P2.13 (iii), glued; more generally the tilting equivalence
 `Perfd/X ≃ Perf/X♭` preserves every limit that exists in `Perfd/X` ([AWS] §2.4, Thm 2.4.1, p. 57,
 the affinoid case; [ECD] §3, Cor. 3.20, p. 19, the equivalence whose limit preservation gives the
-lemma). For `K` perfectoid, `(Spa K⟨T^{1/p^∞}⟩ ×_{Spa K} Spa K⟨S^{1/p^∞}⟩)♭ ≅
-Spa K♭⟨T^{1/p^∞}, S^{1/p^∞}⟩`; for `L/K` finite Galois of perfectoid fields,
+lemma). For `K` perfectoid, `(Spa K⟨T^{1/p^∞}⟩ ×_{Spa K} Spa K⟨S^{1/p^∞}⟩)♭ ≅ Spa K♭⟨T^{1/p^∞}, S^{1/p^∞}⟩`; for `L/K` finite Galois of perfectoid fields,
 `(Spa L ×_{Spa K} Spa L)♭ ≅ Spa L♭ ×_{Spa K♭} Spa L♭`, both `⊔_{g ∈ G}` of the tilt. *Needs:*
 *tilting-slice-equivalence*; *fibre-products-of-perfectoid-spaces*;
 *completed-tensor-of-perfectoid-is-perfectoid*; Mathlib
@@ -7790,8 +7738,7 @@ open unit disc over `𝔽_p((t^{1/p^∞}))`). *Needs:* *perfectoid-space*;
 
 **Checks.**
 
-- Computation: `Spa 𝔽_p((t^{1/p^∞})) × Spa 𝔽_p((s^{1/p^∞})) ≅
-  {0 < |s| < 1} ⊆ Spa 𝔽_p((t^{1/p^∞}))⟨s^{1/p^∞}⟩`, the union of the affinoid perfectoid annuli
+- Computation: `Spa 𝔽_p((t^{1/p^∞})) × Spa 𝔽_p((s^{1/p^∞})) ≅ {0 < |s| < 1} ⊆ Spa 𝔽_p((t^{1/p^∞}))⟨s^{1/p^∞}⟩`, the union of the affinoid perfectoid annuli
   `Spa(C_{m,n}) = {|t|^m ≤ |s| ≤ |t|^{1/n}}`; the absolute product of two perfectoid fields is not
   a point and not quasi-compact.
 - `absolute_product_empty` (degenerate) — `X × ∅ = ∅` for every `X ∈ Perf`.
@@ -7856,7 +7803,7 @@ Lean: `PerfectoidSpace.hasBinaryProducts_perf`.
 ### P2.19 perfectoid spaces over a perfectoid field
 
 **Scholze's perfectoid spaces over a perfectoid field K are the perfectoid spaces over
-Spa(K, K⁺₀).** (*perfectoid-spaces-over-a-perfectoid-field-comparison*) Let `K` be a perfectoid
+`Spa(K, K⁺₀)`.** (*perfectoid-spaces-over-a-perfectoid-field-comparison*) Let `K` be a perfectoid
 field (layer P1), `K°` its valuation ring and `K⁺₀ ⊆ K°` the smallest ring of integral elements of
 `K`, the integral closure of `ℤ·1 + K°°` in `K` ([Wedhorn] §7.3, Rem. 7.15(2), p. 60); `K⁺₀ = K°`
 iff the residue field of `K` is algebraic over `𝔽_p`. (i) Sch12's perfectoid `K`-algebras
@@ -8191,7 +8138,7 @@ are supplied by AdicEtaleGeometry A1.2a (*finite-etale-over-uniform-is-uniform*)
 Lean: `perfectRing_of_etale` (*etale-over-perfect-is-perfect* for étale algebras over a perfect ring
 of characteristic `p`).
 
-### P3.4 characteristic p: inverting ϖ is an equivalence
+### P3.4 characteristic p: inverting `ϖ` is an equivalence
 
 **Characteristic `p`: inverting `ϖ` is an equivalence between almost finite étale `R°a`-algebras and
 finite étale `R`-algebras.** (*characteristic-p-almost-purity-equivalence*) Let `R` be a perfectoid
@@ -8244,10 +8191,7 @@ structures.** (*finite-etale-untilting-functor*) Let `R` be a perfectoid Tate ri
 untilting functor `(−)♯ : FÉt(R♭) → FÉt(R)` (`CommAlgCat.FiniteEtale R♭ ⥤ CommAlgCat.FiniteEtale R`),
 the composite
 
-```text
-FÉt(R♭) ≃ (R♭°a)_afet → (R♭°a/ϖ♭)_afet = (R°a/ϖ)_afet ≃ (R°a)_afet → FÉt(R),
-T ↦ T°a ↦ T°a/ϖ♭ ↦ A ↦ A_*[ϖ⁻¹] =: T♯,
-```
+`FÉt(R♭) ≃ (R♭°a)_afet → (R♭°a/ϖ♭)_afet = (R°a/ϖ)_afet ≃ (R°a)_afet → FÉt(R), T ↦ T°a ↦ T°a/ϖ♭ ↦ A ↦ A_*[ϖ⁻¹] =: T♯,`
 
 where the first equivalence is *characteristic-p-almost-purity-equivalence*, the middle equivalence
 is the unique flat deformation of almost finite étale algebras along the `ϖ`-adically complete flat
@@ -8465,8 +8409,7 @@ AdicEtaleGeometry A1.0.5 (henselian completion); layer P1 (the tilt of a perfect
 
 **Checks.**
 
-- `fontaine_wintenberger_test_kummer_tower` (computation) — `K = ℚ_p(p^{1/p^∞})^`: `K♭ =
-  𝔽_p((t^{1/p^∞}))^` with `t = (p, p^{1/p}, p^{1/p²}, …)`, `t♯ = p`; `K♭^sep` is the separable closure
+- `fontaine_wintenberger_test_kummer_tower` (computation) — `K = ℚ_p(p^{1/p^∞})^`: `K♭ = 𝔽_p((t^{1/p^∞}))^` with `t = (p, p^{1/p}, p^{1/p²}, …)`, `t♯ = p`; `K♭^sep` is the separable closure
   of `𝔽_p((t^{1/p^∞}))^`, and `Gal(K♭^sep/K♭) = Gal(𝔽_p((t))^sep/𝔽_p((t)))` since
   `𝔽_p((t)) ⊂ K♭` is a purely inseparable, then completed, extension, neither of which changes
   finite étale algebras (*finite-etale-under-completed-perfection*, *henselian-finite-etale-approximation*);
@@ -8612,9 +8555,7 @@ categories with quasi-inverse `S ↦ S°a`, identified with `S⁺a` after the
 change of basic setup in (c), compatible with tensor products and base change along
 maps of perfectoid Tate rings; (b) the six categories
 
-```text
-FÉt(R) ≃ (R°a)_afet ≃ (R°a/ϖ)_afet = (R♭°a/ϖ♭)_afet ≃ (R♭°a)_afet ≃ FÉt(R♭)
-```
+`FÉt(R) ≃ (R°a)_afet ≃ (R°a/ϖ)_afet = (R♭°a/ϖ♭)_afet ≃ (R♭°a)_afet ≃ FÉt(R♭)`
 
 of Scholze's diagram are equivalent by the functors of *finite-etale-untilting-functor*, and the
 composite is the tilting equivalence of *finite-etale-tilting-equivalence*; (c)
@@ -9124,9 +9065,9 @@ are `σ_S(x ⊗ 1) = σ(x)`, `σ_S(x ⊗ 0) = 0` and `σ_S(x ⊗ s + y ⊗ t) = 
 
 **Checks.**
 
-- For S = R the pure-tensor formula recovers the original retraction.
+- For `S = R` the pure-tensor formula recovers the original retraction.
 - A tensor with zero second factor is sent to zero.
-- For x⊗s + y⊗t the retraction gives σ(x)s + σ(y)t.
+- For `x⊗s + y⊗t` the retraction gives `σ(x)s + σ(y)t`.
 
 *Needs:* P3.17a.1; AdicSpacesPartIII R3.5 (*split-injection-completed-base-change*);
 AdicSpacesPartII R0.3 (*completed-tensor-product*).
@@ -9147,8 +9088,8 @@ Lean: `Huber.IsSousperfectoid.isUniform`.
 **Checks.**
 
 - For an identity frame the power-bounded-subring equality is the identity.
-- For ℚ_p⟨T⟩ the detected subring is ℤ_p⟨T⟩ and is bounded.
-- The nonzero square-zero element in ℚ_p⟨X,Q⟩/(Q²) prevents uniformity and hence a frame.
+- For `ℚ_p⟨T⟩` the detected subring is `ℤ_p⟨T⟩` and is bounded.
+- The nonzero square-zero element in `ℚ_p⟨X,Q⟩/(Q²)` prevents uniformity and hence a frame.
 
 **Rational localisations of sousperfectoid rings are sousperfectoid.** (*sousperfectoid-rational-localisation*) Let `(R, R⁺)` be a Huber pair with `R` sousperfectoid,
 `X = Spa(R, R⁺)` and `U = R(T/s) ⊆ X` a rational subset (`T` finite with `T·R = R`). Prove that the
@@ -9177,7 +9118,7 @@ localisations of perfectoid rings, with no base field, are perfectoid)). For `R 
 
 - The whole-spectrum localization retains the given frame.
 - The empty rational subset has zero ring and the zero identity frame.
-- For ℚ_p⟨T⟩ and |T| ≥ 1 the localization is ℚ_p⟨T±¹⟩ with the perfected Laurent frame.
+- For `ℚ_p⟨T⟩` and `|T| ≥ 1` the localization is `ℚ_p⟨T±¹⟩` with the perfected Laurent frame.
 
 **Finite étale algebras over sousperfectoid rings are sousperfectoid.** (*sousperfectoid-finite-etale*)
 Let `R` be sousperfectoid and `S` a finite étale `R`-algebra (Mathlib `Algebra.Etale` and
@@ -9201,9 +9142,9 @@ Lean: `Huber.IsSousperfectoid.finiteEtale`.
 
 **Checks.**
 
-- For S = R the tensor frame is the original frame.
-- The split algebra R×R receives the product frame.
-- Over ℚ_p, the finite étale cyclotomic algebra uses a finite product of ℚ_p^cycl in its frame.
+- For `S = R` the tensor frame is the original frame.
+- The split algebra `R×R` receives the product frame.
+- Over `ℚ_p`, the finite étale cyclotomic algebra uses a finite product of `ℚ_p^cycl` in its frame.
 
 **Descent of the sousperfectoid property along faithfully flat finite étale maps.** (*sousperfectoid-finite-etale-descent*) Let `R → S` be a finite étale and faithfully flat
 homomorphism of complete Tate rings, `S` with its natural topology. Prove that if `S` is
@@ -9220,8 +9161,8 @@ being non-reduced. *Needs:* [*sousperfectoid-ring*](#p3-17a-1) (P3.17a.1); [*sou
 **Checks.**
 
 - The identity map descends its frame unchanged.
-- For the diagonal R → R×R, first projection is a module retraction and descends a product frame.
-- The projection ℚ_p×ℚ_p⟨X,Q⟩/(Q²) → ℚ_p is finite étale but fails faithful flatness and the descent conclusion.
+- For the diagonal `R → R×R`, first projection is a module retraction and descends a product frame.
+- The projection `ℚ_p×ℚ_p⟨X,Q⟩/(Q²) → ℚ_p` is finite étale but fails faithful flatness and the descent conclusion.
 
 **Tate algebras over sousperfectoid rings are sousperfectoid.** (*sousperfectoid-rings*) Let `R` be
 sousperfectoid and `n ≥ 0`. Prove that `R⟨T₁, …, Tₙ⟩` (Tau Ceti
@@ -9230,9 +9171,7 @@ perfectoid Tate ring `R̃⟨T₁^{1/p^∞}, …, Tₙ^{1/p^∞}⟩` — the comp
 topology in which `R̃°[T_i^{1/p^∞}]` is open with its `ϖ`-adic topology — with
 `ι⟨T⟩(Σ a_α T^α) = Σ ι(a_α) T^α` and
 
-```text
-σ'(Σ_{α ∈ (ℤ[1/p]_{≥0})^n} x_α T^α) = Σ_{α ∈ ℕ^n} σ(x_α) T^α
-```
+`σ'(Σ_{α ∈ (ℤ[1/p]_{≥0})^n} x_α T^α) = Σ_{α ∈ ℕ^n} σ(x_α) T^α`
 
 is a perfectoid frame; the case `n = 0` is trivial (Berkeley Lecture 6, §6.3, Prop. 6.3.3(3), p. 47;
 Berkeley Lecture 6, proof of Prop. 6.3.3, p. 48 (the frame `R⟨T⟩ → R̃⟨T^{1/p^∞}⟩`); HK §7, Lem. 7.3,
@@ -9250,9 +9189,9 @@ Mathlib `ContinuousLinearMap`. Lean: `Huber.IsSousperfectoid.restrictedMvPowerSe
 
 **Checks.**
 
-- With n = 0 the coefficient retraction is the original σ.
-- With R = ℚ_p and n = 1 the frame is ℚ_p^cycl⟨T^(1/p^∞)⟩.
-- Deleting nonintegral exponents fixes T and kills a monomial of exponent 1/p over a nonzero frame ring.
+- With `n = 0` the coefficient retraction is the original `σ`.
+- With `R = ℚ_p` and `n = 1` the frame is `ℚ_p^cycl⟨T^(1/p^∞)⟩`.
+- Deleting nonintegral exponents fixes `T` and kills a monomial of exponent `1/p` over a nonzero frame ring.
 
 **Laurent algebras and annuli over sousperfectoid rings are sousperfectoid.** (*sousperfectoid-annulus*) Let `R` be sousperfectoid with pseudo-uniformizer `ϖ` and let `a ≤ b` be
 integers, so that the annulus is non-empty when `R ≠ 0`; the radii are integral powers of `|ϖ|`.
@@ -9277,9 +9216,9 @@ membership is then exactly `|p| ≤ |S| ≤ 1`; reversing the exponents would re
 
 **Checks.**
 
-- For R = ℚ_p and (a,b) = (0,1), the section ring is ℚ_p⟨T,p/T⟩.
-- At a = b, the Laurent coordinate has absolute value exactly |ϖ|^a.
-- For (a,b) = (1,0) the annulus is empty; replacing b−a by its truncated natural value would give a nonempty Laurent annulus.
+- For `R = ℚ_p` and `(a,b) = (0,1)`, the section ring is `ℚ_p⟨T,p/T⟩`.
+- At `a = b`, the Laurent coordinate has absolute value exactly `|ϖ|^a`.
+- For `(a,b) = (1,0)` the annulus is empty; replacing `b−a` by its truncated natural value would give a nonempty Laurent annulus.
 
 **Bounded retractions for countable extensions of discretely valued fields.**
 (*countable-extension-retraction*) Let `K` be a complete nonarchimedean field with discrete
@@ -9359,7 +9298,7 @@ Lean: `Huber.isUniform_ratLoc`.
 **Checks.**
 
 - The whole-space rational localization recovers the uniform coefficient ring.
-- The rational annulus ℚ_p⟨T,p/T⟩ is uniform by its localized frame.
+- The rational annulus `ℚ_p⟨T,p/T⟩` is uniform by its localized frame.
 - The empty rational subset has zero section ring and vacuous boundedness.
 
 **Sousperfectoid pairs are sheafy, strongly sheafy and `𝒪`-acyclic.** (*sousperfectoid-sheafy*) Let
@@ -9389,8 +9328,8 @@ specified in this README only.
 
 **Checks.**
 
-- For the closed ℚ_p disc, sheafiness follows without a noetherianity premise.
-- For nonzero perfectoid S the one-variable disc is sheafy although its coordinate is not a p-th power modulo ϖ.
+- For the closed `ℚ_p` disc, sheafiness follows without a noetherianity premise.
+- For nonzero perfectoid `S` the one-variable disc is sheafy although its coordinate is not a p-th power modulo `ϖ`.
 - The empty affinoid has zero structure sheaf and vanishing positive-degree cohomology.
 
 **Sousperfectoid adic spaces.** (*sousperfectoid-adic-space*) An adic space `X` (AdicSpaces layer 5:
@@ -9484,7 +9423,7 @@ localisations and finite étale maps and, for general étale maps, in the space-
 **Checks.**
 
 - An identity étale map retains the same affinoid charts.
-- A rational open in the ℚ_p disc is sousperfectoid by rational stability.
+- A rational open in the `ℚ_p` disc is sousperfectoid by rational stability.
 - The split two-sheeted finite étale cover uses two copies of each sousperfectoid chart.
 
 **Sousperfectoid spaces are stably adic.** (*sousperfectoid-stably-adic*) Let `X = Spa(R, R⁺)` with
@@ -9933,7 +9872,7 @@ supply the perfectoid Tate-ring input to this generality.
 **Tilting identifies the étale sites: `X_ét ≃ X♭_ét`, compatibly with affinoids, fibre products,
 coverings and `O⁺/ϖ`.** (*etale-site-tilting-equivalence*) Let `X` be a perfectoid space with tilt
 `X♭` (layer P2). The tilting functor `Y ↦ Y♭` of the slice equivalence (layer P2: perfectoid spaces
-over `X` ≃ perfectoid spaces over `X♭`) restricts to equivalences of categories `X_ét ≃ X♭_ét` and
+over `X` `≃` perfectoid spaces over `X♭`) restricts to equivalences of categories `X_ét ≃ X♭_ét` and
 `X_fét ≃ X♭_fét` of *etale-site-of-perfectoid-space*. These equivalences preserve and reflect affinoid
 perfectoid objects (with `Spa(S, S⁺)♭ = Spa(S♭, S♭⁺)`), fibre products, and covering families
 (`|Y| ≅ |Y♭|` compatibly with the maps to `|X| ≅ |X♭|`); hence they are equivalences of sites and
@@ -10116,7 +10055,7 @@ the behaviour of all of these under tilting.
 
 ### P4.1 affinoid perfectoid fields and their points
 
-**Affinoid perfectoid fields and (K, K⁺)-valued points of perfectoid spaces.**
+**Affinoid perfectoid fields and `(K, K⁺)`-valued points of perfectoid spaces.**
 (*affinoid-perfectoid-field-points*) An affinoid perfectoid field is a pair `(K, K⁺)` of a
 perfectoid field `K` (a perfectoid Tate ring that is a nonarchimedean field, [ECD] §3,
 Definition 3.6; P1.10) and an open and bounded valuation subring `K⁺ ⊂ K`; equivalently `K⁺` is a
@@ -10542,7 +10481,7 @@ embed the constant field, and make every root monomial a unit.
 
 ### P4.6 the isomorphism criterion for qcqs maps
 
-**Isomorphism criterion for qcqs maps: bijectivity on points and on (C, C⁺)-points.**
+**Isomorphism criterion for qcqs maps: bijectivity on points and on `(C, C⁺)`-points.**
 (*qcqs-isomorphism-criterion*) Let `f : Y → X` be a quasicompact and quasiseparated morphism of
 perfectoid spaces (P4.2). The following are equivalent: (i) `f` is
 an isomorphism; (ii) `|f| : |Y| → |X|` is bijective and for every rank-one point `y ∈ Y` with image
@@ -11007,13 +10946,13 @@ integral perfectoid interfaces.
 
 #### P4.15.2 universal prisms and perfection
 
-**Prisms for semiperfectoid rings.** (*semiperfectoid-universal-prism*) Develop δ-rings,
-free δ-algebras, distinguished elements, and their divided-power comparison as in
-[BS22] §2, restricted to the constructions below. A prism `(B, J)` has `B` a δ-ring,
+**Prisms for semiperfectoid rings.** (*semiperfectoid-universal-prism*) Develop `δ`-rings,
+free `δ`-algebras, distinguished elements, and their divided-power comparison as in
+[BS22] §2, restricted to the constructions below. A prism `(B, J)` has `B` a `δ`-ring,
 `J` a Cartier-divisor ideal, derived `(p, J)`-complete `B`, and `p ∈ J + φ(J)B`;
 bounded means `B/J` has bounded p-power torsion, and perfect means `φ` is invertible.
 Prove rigidity `JB' = J'` for maps of prisms. For a bounded prism `(B,J)` and a
-`(p,J)`-completely flat δ-B-algebra `D`, construct the prismatic envelope of an ideal
+`(p,J)`-completely flat `δ`-`B`-algebra `D`, construct the prismatic envelope of an ideal
 `K ⊇ JD` locally generated by `J` and a `(p,J)`-completely regular sequence relative
 to `B`; prove its complete flatness over `B`, completed base change in bounded prisms
 and compatibility with flat localization in `D`. Prove the equivalence between
@@ -11026,8 +10965,8 @@ Lemmas 3.5, 3.8–3.9, Theorem 3.10 and Proposition 3.13, pp. 28–35).
 For an integral perfectoid `R`, prove that `(A_inf(R), ker θ)` is initial among prisms
 with a map from `R` to their quotient ([BS22] Lemma 4.8, pp. 38–39). For a derived
 p-complete quotient `A = R/K`, construct the initial prism `(Δ_init(A), (d))` with
-`A → Δ_init(A)/d`: freely δ-adjoin `k/d` for lifts of generators of `K`, kill the
-δ-ideal generated by d-power torsion, and iterate degree-zero derived `(p,d)`-completion
+`A → Δ_init(A)/d`: freely `δ`-adjoin `k/d` for lifts of generators of `K`, kill the
+`δ`-ideal generated by d-power torsion, and iterate degree-zero derived `(p,d)`-completion
 and torsion removal transfinitely until d is regular. Prove independence of the
 presentation by initiality. Perfect this prism and take its quotient to construct
 `semiperfectoidPerfectoidization` and its universal map ([BS22] Proposition 7.2 and
@@ -11046,7 +10985,7 @@ Corollary 7.3, pp. 55–56). This construction proves initiality without surject
 
 **Affine prismatic comparison and quasisyntomic covers.**
 (*semiperfectoid-affine-hodge-tate*) For a bounded oriented prism `(B, (d))` and a
-p-completely smooth B/d-algebra `C`, construct `Δ_{C/B}` with Frobenius by the
+p-completely smooth `B/d`-algebra `C`, construct `Δ_{C/B}` with Frobenius by the
 Čech–Alexander complexes of prismatic envelopes. Prove the affine Hodge–Tate comparison
 `H^i(Δ_{C/B} ⊗_B^L B/d) ≅ Ω̂^i_{C/(B/d)}`, using the orientation to trivialize the
 twists, and completed base change along maps of bounded oriented prisms. Here
@@ -11066,13 +11005,13 @@ completion, as in [BS22] Construction 7.6, pp. 56–57. Prove resolution indepen
 completed base change and preservation of homotopy colimits. The Hodge–Tate reduction
 has an exhaustive conjugate filtration with graded pieces the derived p-completions of
 `∧^i L_{C/(B/d)}[-i]` in cohomological indexing, with twists trivialized by `d`.
-A quasisyntomic B/d-algebra here is p-completely flat over `B/d`, derived p-complete
+A quasisyntomic `B/d`-algebra here is p-completely flat over `B/d`, derived p-complete
 with bounded p-power torsion, and has p-complete relative cotangent Tor amplitude
 `[-1,0]`; a cover is also p-completely faithfully flat.
 Construct the covers obtained by adjoining all p-power roots of polynomial generators.
 For bounded-torsion `C` with p-completely flat `L_{C/(B/d)}[-1]`, prove that the
 Hodge–Tate reduction is discrete and p-completely faithfully flat over `C`, and that
-the prismatic complex is discrete with the δ-structure and prism of Lemma 7.7.
+the prismatic complex is discrete with the `δ`-structure and prism of Lemma 7.7.
 For quasiregular semiperfectoid `A` (bounded p-power torsion and p-completely flat
 `L_{A/ℤ_p}[-1]`), prove that `Δ_{A/A_inf(R)}` and its Hodge–Tate reduction are
 discrete, identify the resulting prism with `Δ_init(A)`, and prove that
@@ -11103,7 +11042,7 @@ For every integral perfectoid `R`, construct a p-completely faithfully flat map
 `R → R'` with `R'` integral perfectoid and every monic polynomial over `R'` having
 a root in `R'`. In particular every element of `R'` admits compatible p-power roots.
 Supply Proposition 7.11's input: for a bounded oriented prism `(B,(d))` and a
-quasisyntomic B/d-algebra `C`, construct a prism `(D,dD)` with a p-completely
+quasisyntomic `B/d`-algebra `C`, construct a prism `(D,dD)` with a p-completely
 faithfully flat map `C → D/dD`. The prism map is completely flat, and is completely
 faithfully flat if `B/d → C` is p-completely faithfully flat; these properties persist
 on perfection when `B` is perfect. Build it using the root-adjoining quasisyntomic cover and the discrete
@@ -12010,7 +11949,7 @@ does not change the limit `Spa(K(x), K(x)⁺)`. *Needs:*
 *cofiltered-limits-of-affinoid-perfectoid-spaces*; *limit-underlying-space-homeomorphism*; P2.3,
 P2.4; layer P2; Tau Ceti `TauCeti.Huber.Pair.Hom.spaComap_preimage_rationalSubset`.
 
-### P5.5 ω₁-cofiltered limits need no completion
+### P5.5 `ω₁`-cofiltered limits need no completion
 
 **`ω₁`-cofiltered limits of affinoid perfectoid spaces need no completion.**
 (*omega1-cofiltered-uncompleted-colimit*) In the situation of
@@ -12039,7 +11978,7 @@ and Cor. 8.6) is this theorem applied to `X ↦ O(X)` ([ECD] §6, Prop. 6.5, sta
 
 Lean: `isAdicComplete_colimit_of_isCardinalFiltered`.
 
-### P5.6 every affinoid perfectoid space is an ω₁-cofiltered limit of countably generated ones
+### P5.6 every affinoid perfectoid space is an `ω₁`-cofiltered limit of countably generated ones
 
 The third group makes the `ω₁`-cofiltered case the general one, bounds cardinalities, and sets up
 the 2-colimits of categories used for finite-stage descent.
@@ -12117,9 +12056,7 @@ canonical isomorphism, hence a pseudofunctor): categories `C_j`, functors `F_a :
 2-colimit `2-colim_j C_j` is the category whose objects are pairs `(i, x)` with `x` an object of
 `C_i`, whose morphisms are
 
-```text
-Hom((i, x), (j, y)) := colim_{(k, a: i → k, b: j → k)} Hom_{C_k}(F_a x, F_b y)
-```
+`Hom((i, x), (j, y)) := colim_{(k, a: i → k, b: j → k)} Hom_{C_k}(F_a x, F_b y)`
 
 (a filtered colimit of sets over the category of cospans under `i` and `j`), with composition and
 identities induced from the `C_k`. It carries functors `ι_i : C_i → 2-colim C_j` and isomorphisms
@@ -12379,7 +12316,7 @@ layer P4.
 **Tubular neighbourhoods of standard étale loci: a nonarchimedean implicit function theorem.**
 (*tubular-neighbourhood*) Let `(A, A⁺)` be a complete Tate Huber pair with pseudouniformiser `ϖ`
 and `A` sousperfectoid (P3.17a), so that `A⟨T₁, …, T_N⟩` and its rational
-localisations are sousperfectoid, hence uniform, and `O⁺(W')` is a ϖ-adically complete ring of
+localisations are sousperfectoid, hence uniform, and `O⁺(W')` is a `ϖ`-adically complete ring of
 definition of `O(W')` for every rational `W'`; the Newton arguments below use only this
 uniformity, but the targets are stated, and used, over sousperfectoid bases. Let
 `X = Spa(A, A⁺)`, `e = (e₁, …, e_N) ∈ A⁺⟨T₁, …, T_N⟩^N`, `k ≥ 0` and `m ≥ 2k + 1`, and let
@@ -12397,9 +12334,7 @@ is `exists_section_tube_sousperfectoid`, for a single `R(g/h)`), (b) `tube_produ
 (c) `tube_quotient_baseChange`: (a) there is a unique isomorphism of complete Huber pairs over
 `(A, A⁺)`
 
-```text
-Φ : (C⟨u₁, …, u_N⟩, C⁺⟨u⟩) → (O(W), O⁺(W)),   Φ(uᵢ) = ϖ^{−m}eᵢ,
-```
+`Φ : (C⟨u₁, …, u_N⟩, C⁺⟨u⟩) → (O(W), O⁺(W)),   Φ(uᵢ) = ϖ^{−m}eᵢ,`
 
 such that `Φ` restricted to `C` is a ring section `ρ` of the quotient map `q : O(W) → C` with
 `ρ(q(T)) − T ∈ ϖ^{m−k}O⁺(W)^N`; geometrically `W ≅ (V(e) ∩ W) ×_X B^N_X(|ϖ|^m)` with `e`
@@ -12439,12 +12374,11 @@ quotients). README only (no Lean declaration).
 
 **Checks.**
 
-- *tube_integral_certificate* — For F = 4T over Q₂, `tubeSet` with k = 0 is empty, while k = 2 gives a nonempty tube; the integral Jacobian bound detects the difference.
+- *tube_integral_certificate* — For `F = 4T` over `Q₂`, `tubeSet` with `k = 0` is empty, while `k = 2` gives a nonempty tube; the integral Jacobian bound detects the difference.
 - *test_translation* — `N = 1`, `R = B¹_X`, `e = T − a` with `a ∈ A⁺`, `k = 0`, `m = 1`:
   `W = {|T − a| ≤ |ϖ|}` (the check *tube_linear*, for every radius `|ϖ|^m`), `C = A` and `Φ` is
   the translation `u ↦ ϖ^{−1}(T − a)`.
-- *test_unit_jacobian_product* — for `R = B^N_X`, `k = 0` and `e` with `Δ ≡ 1 modulo
-  (e₁, …, e_N)·A⁺⟨T⟩` (so `|Δ| = 1` on `{|e| ≤ |ϖ|}`), the tube is `W = {|e| ≤ |ϖ|}` and
+- *test_unit_jacobian_product* — for `R = B^N_X`, `k = 0` and `e` with `Δ ≡ 1 modulo (e₁, …, e_N)·A⁺⟨T⟩` (so `|Δ| = 1` on `{|e| ≤ |ϖ|}`), the tube is `W = {|e| ≤ |ϖ|}` and
   `W ≅ V(e) ×_X B^N(|ϖ|)`.
 - *test_small_ball_not_product* (non-example for (b) with arbitrary `W'`) — `A = ℚ_p`, `N = 1`,
   `e = T`, `k = 0`, `m = 1`, `W = {|T| ≤ |p|}`, `C = ℚ_p`, and `W' = {|T| ≤ |p|²} ⊆ W`:
@@ -12525,8 +12459,8 @@ stability for Huber’s affinoid rings; the explicit exponent here is additional
   allowance `ϖ^{m₀−2k} = ϖ²` (when formalised: for any presentation with an equation `T − a`).
 - *perturb_zero* (degenerate) — `G = F` gives `α_{F,F} = quotientEquiv⁻¹`, the identification of
   `C` with its own quotient presentation.
-- *perturb_plus* — For Fᵢ = Tᵢ² − Tᵢ and Gᵢ = (Tᵢ − δ)² − (Tᵢ − δ), where δ = ϖ^(4k+2), the perturbation equivalence sends the old idempotent to the integral idempotent Tᵢ − δ and excludes its complement over a nonzero target.
-- *perturb_coordinate* — For the same shifted idempotent equation, the coordinate error is −δ and differs from 1 − 2Tᵢ + δ, the error obtained by exchanging the two roots.
+- *perturb_plus* — For `Fᵢ = Tᵢ² − Tᵢ` and `Gᵢ = (Tᵢ − δ)² − (Tᵢ − δ)`, where `δ = ϖ^(4k+2)`, the perturbation equivalence sends the old idempotent to the integral idempotent `Tᵢ − δ` and excludes its complement over a nonzero target.
+- *perturb_coordinate* — For the same shifted idempotent equation, the coordinate error is `−δ` and differs from `1 − 2Tᵢ + δ`, the error obtained by exchanging the two roots.
 - *test_perturb_rational* — perturbing `s, t` in `(tT − s)` inside `ϖ^{m₀}` does not change
   `R(s/t)` (Tau Ceti `exists_mem_nhds_forall_rationalSubset_eq_of_sub_mem`), consistent with (b).
 
@@ -12578,7 +12512,7 @@ subset `W' ⊆ W` (`isWeaklyRegular_tube_sousperfectoid`): (a)
 resolution of `O(W')/(e)`; (b) the ideal `e·O(W')` is closed and `O(W')/(e) ≅ O(V(e) ∩ W')`; (c)
 `(e)/(e)²` is a free `O(V(e) ∩ W')`-module with basis the classes of the `eᵢ`; (d) consequently
 `O(W)/(e)` is a stably N-fpd, hence stably pseudocoherent, `O(W)`-module and, for `N ≥ 1`, the ideal `(e)·O(W)`
-is stably (N−1)-fpd; for `N = 0` that ideal is the zero module. The proposed Lean form states (a)–(d)
+is stably `(N−1)`-fpd; for `N = 0` that ideal is the zero module. The proposed Lean form states (a)–(d)
 for every rational `W' ⊆ W` except the Koszul complex of (a), which has no Mathlib carrier at the
 pin (the stably `N`-fpd clause is its consequence). This is the étale case of [FS]
 §IV.4.1, Lem. IV.4.13, p. 137 (the coordinates of an étale map to a relative ball over a
@@ -12597,7 +12531,7 @@ part of tube clause (c). *Needs:* [*koszul-regular-sequence-fpd*](../AdicEtaleGe
 
 **Checks.**
 
-- For N = 0 the equation ideal is zero and the conormal module has rank zero.
+- For `N = 0` the equation ideal is zero and the conormal module has rank zero.
 - On a rational subset disjoint from the zero locus the quotient is zero; the asserted closed ideal is the unit ideal.
 
 
@@ -12635,8 +12569,7 @@ pseudocoherent hypotheses, ordered restriction maps and four strict multiplicati
   `(A, A⁺)` and a non-zero-divisor `f` with `fA` closed, so `A/fA` strictly pseudocoherent, but
   `fB` not closed for some rational localisation `B`, so `A/fA` is not stably pseudocoherent. A
   definition using only completeness of `M` itself fails this test.
-- *test_disc_localisation* — for `A = ℚ_p⟨X⟩` and `f = X/p`: `B₁ = ℚ_p⟨X, T⟩/(T − X/p) =
-  ℚ_p⟨X/p⟩`, the ring of `U₁ = {|X| ≤ |p|}`, and `B₂ = ℚ_p⟨X, T⟩/(1 − XT/p) = ℚ_p⟨X, p/X⟩`, the
+- *test_disc_localisation* — for `A = ℚ_p⟨X⟩` and `f = X/p`: `B₁ = ℚ_p⟨X, T⟩/(T − X/p) = ℚ_p⟨X/p⟩`, the ring of `U₁ = {|X| ≤ |p|}`, and `B₂ = ℚ_p⟨X, T⟩/(1 − XT/p) = ℚ_p⟨X, p/X⟩`, the
   ring of `U₂ = {|X| ≥ |p|}`: on `U₂` the element `T = p/X` is the power-bounded inverse of `f`.
   For `f = 1/p ∈ ℚ_p` (not power-bounded), `T − 1/p = −p^{−1}(1 − pT)` is a unit of `ℚ_p⟨T⟩`, so
   `B₁ = 0 = O(∅)`, as `U₁ = {|1/p| ≤ 1} = ∅`. When formalised, the checks identify `B₁` with the rational
@@ -12790,10 +12723,7 @@ assuming that an algebraic tensor product of `C` is already complete. Global sec
 are `C` and `I := ker q`, so both are stably pseudocoherent **B-modules**. For every rational
 `V ⊆ R`, `B' = O(V)`, prove the algebraic comparisons
 
-```text
-0 → I ⊗_B B' → B' → C ⊗_B B' → 0,
-C ⊗_B B' ≅ C_V = B'/I B' ≅ C ⊗̂_B B'.
-```
+`0 → I ⊗_B B' → B' → C ⊗_B B' → 0, C ⊗_B B' ≅ C_V = B'/I B' ≅ C ⊗̂_B B'.`
 
 The maps are multiplication and restriction, `I ⊗_B B'` identifies with the closed ideal
 `ker(B' → C_V)`, and both algebraic tensor modules are Hausdorff complete for their natural
@@ -12946,7 +12876,7 @@ These are the affine assertions of [FS] IV.4.19, printed p. 140 (PDF page 140). 
 **Checks.**
 
 - The identity embedding into the zero-dimensional relative ball has zero closed ideal.
-- For a rational localization the equations tT_i−s_i keep their coordinate labels and closed equation ideal.
+- For a rational localization the equations `tT_i−s_i` keep their coordinate labels and closed equation ideal.
 
 **Affinoid étale perfectoid spaces have standard rational coverings by standard étale pieces.**
 (*etale-standard-piece-cover*) Let `X = Spa(A, A⁺)` be an affinoid perfectoid space and
@@ -13128,7 +13058,7 @@ rational chart, using the continuous coordinate derivations there. The scalar ri
 **Checks.**
 
 - The identity embedding into the zero-dimensional relative ball has zero closed ideal.
-- For a rational localization the equations tT_i−s_i keep their coordinate labels and closed equation ideal.
+- For a rational localization the equations `tT_i−s_i` keep their coordinate labels and closed equation ideal.
 
 **The ideal of an affinoid étale `Y` in a relative ball is generated by `N` equations with unit
 Jacobian on a rational neighbourhood of `Y`.** (*local-equations-near-closed-subspace*) In the
@@ -13168,7 +13098,7 @@ identifies the quotient with the original pair, including its plus ring.
 **Checks.**
 
 - With no equations the ideal is zero and the determinant is one.
-- For a rational presentation tT−s, the derivative is t and its inverse on the locus fixes the conormal basis.
+- For a rational presentation `tT−s`, the derivative is `t` and its inverse on the locus fixes the conormal basis.
 
 **Huber's standard étale presentation for affinoid étale maps of affinoid perfectoid spaces.**
 (*global-standard-etale-presentation*) Let `(A, A⁺)` be a perfectoid Tate pair,
@@ -13235,9 +13165,8 @@ the approximating data define, over `X`, the same rational subset (Tau Ceti
 perfectoid (automatic in characteristic `p`, [*jacobian-criterion-char-p*](#p5-13-2) (P5.13.2)), then the base change
 `(N, φ_i(F_i), k, ·)` is a standard étale presentation of
 `C_i ⊗̂_{R_i} R = R⟨T⟩/closure(φ_i(F_i))` (`StandardEtalePresentation.baseChange` with its
-coordinate formula, for any morphism of complete Tate pairs), and `Y_i ×_{X_i} X = Spa(R⟨T⟩/closure(φ_i(F_i)),
-integral closure)` as perfectoid spaces, the fibre product with `X` ([ECD] §6, Prop. 6.4
-set-up, p. 27: the inverse limit is formed by ϖ-adically completing the colimit of the integral
+coordinate formula, for any morphism of complete Tate pairs), and `Y_i ×_{X_i} X = Spa(R⟨T⟩/closure(φ_i(F_i)), integral closure)` as perfectoid spaces, the fibre product with `X` ([ECD] §6, Prop. 6.4
+set-up, p. 27: the inverse limit is formed by `ϖ`-adically completing the colimit of the integral
 rings; proof of Prop. 6.5, p. 29: uniformity makes `Spa` of the completed colimit the limit, and
 the same completeness drives the approximation). The identification `R⁺/ϖ^M = colim R_i⁺/ϖ^M` is
 layer P5's [*cofiltered-limits-of-affinoid-perfectoid-spaces*](#p5-3) (P5.3) and the finite-stage
@@ -13249,8 +13178,8 @@ Ceti `TauCeti.ValuationSpectrum.exists_mem_nhds_forall_rationalSubset_eq_of_sub_
 
 **Checks.**
 
-- *approximation_pointwise_union* — For the constant directed system Q₂, the polynomials selected by `exists_approx_restrictedPowerSeries` for the family (1,T) modulo 2 are both nonzero; the first has constant coefficient 1 modulo 2ℤ₂.
-- *approximation_no_common_stage* — The same selected family has nonzero constant coefficient in its first polynomial and nonzero T coefficient in its second, and the two polynomials differ. A construction keeping just one member of the family cannot satisfy the simultaneous approximation.
+- *approximation_pointwise_union* — For the constant directed system `Q₂`, the polynomials selected by `exists_approx_restrictedPowerSeries` for the family `(1,T)` modulo 2 are both nonzero; the first has constant coefficient 1 modulo `2ℤ₂`.
+- *approximation_no_common_stage* — The same selected family has nonzero constant coefficient in its first polynomial and nonzero `T` coefficient in its second, and the two polynomials differ. A construction keeping just one member of the family cannot satisfy the simultaneous approximation.
 - *approximation_directed* — for a directed, monotone family of image subrings, an upper
   bound of the stages containing `a` and `b` contains both; this is the `hmono` hypothesis of
   `exists_approx_restrictedPowerSeries`.
@@ -13349,7 +13278,7 @@ form of the isomorphism detection and full faithfulness in [ECD] 6.4(ii), printe
 **Affinoid étale objects descend to a finite stage of a cofiltered limit of affinoid perfectoid
 spaces.** (*affinoid-etale-finite-stage-6-4-iv*) Let `X_i = Spa(R_i, R_i⁺)`, `i ∈ I`, be a
 cofiltered inverse system of affinoid perfectoid spaces of any characteristic indexed by a small
-category, and `X = Spa(R, R⁺)` its inverse limit: `R⁺` is the ϖ-adic completion of
+category, and `X = Spa(R, R⁺)` its inverse limit: `R⁺` is the `ϖ`-adic completion of
 `colim_i R_i⁺` and `R = R⁺[1/ϖ]` for a compatible choice of pseudouniformisers `ϖ` for large `i`
 (layer P5). For each `i` let `(X_i)_{ét,aff}` be the full subcategory of the
 étale site ([ECD] Def. 6.2; layer P3) of affinoid perfectoid spaces étale over
@@ -13384,7 +13313,7 @@ the stated small cofiltered-category form. The source is [ECD] 6.4(iv), printed 
 
 - *test_rational_finite_etale_composites* — `Y = X(s/t)` comes from `X_i(s_i/t_i)` for
   approximations `s_i, t_i` (Tau Ceti perturbation of rational subsets); finite étale `Y` comes
-  from [ECD] 6.4(i) (layer P5); a composite rational ⊂ finite étale ⊂ rational
+  from [ECD] 6.4(i) (layer P5); a composite rational `⊂` finite étale `⊂` rational
   comes from composing these.
 - *test_ecd_7_18* — in [ECD] §7, proof of Lem. 7.18, p. 37, an affinoid étale cover of an affinoid
   perfectoid space comes from a finite level of the tower constructed there and splits at the
@@ -13397,7 +13326,7 @@ the stated small cofiltered-category form. The source is [ECD] 6.4(iv), printed 
 
 **Scholze's Proposition 6.4 assembled.** (*etale-descent-to-finite-stage-6-4*) For a cofiltered
 system `X_i = Spa(R_i, R_i⁺)` of affinoid perfectoid spaces with limit `X = Spa(R, R⁺)` (`R⁺`
-the ϖ-adic completion of `colim R_i⁺`), under the hypotheses of [ECD] Prop. 6.4 with `κ` as in
+the `ϖ`-adic completion of `colim R_i⁺`), under the hypotheses of [ECD] Prop. 6.4 with `κ` as in
 [ECD] Lem. 4.1: (o) `|X| → lim |X_i|` is a homeomorphism of spectral spaces; (i)
 `2-colim (X_i)_{fét} → X_{fét}`; (ii) `2-colim (X_i)_{ét,qcqs} → X_{ét,qcqs}`; (iii)
 `2-colim (X_i)_{ét,qc,sep} → X_{ét,qc,sep}`; (iv) `2-colim (X_i)_{ét,aff} → X_{ét,aff}` are
@@ -13512,15 +13441,15 @@ for which the tube theorem fails.
 | Check | Computation or boundary case |
 | --- | --- |
 | *perturb_zero* | no perturbation recovers the specified quotient identification. |
-| *perturb_plus* | For Fᵢ = Tᵢ² − Tᵢ and Gᵢ = (Tᵢ − δ)² − (Tᵢ − δ), where δ = ϖ^(4k+2), the perturbation equivalence sends the old idempotent to the integral idempotent Tᵢ − δ and excludes its complement over a nonzero target. |
-| *perturb_coordinate* | For the same shifted idempotent equation, the coordinate error is −δ and differs from 1 − 2Tᵢ + δ, the error obtained by exchanging the two roots. |
+| *perturb_plus* | For `Fᵢ = Tᵢ² − Tᵢ` and `Gᵢ = (Tᵢ − δ)² − (Tᵢ − δ)`, where `δ = ϖ^(4k+2)`, the perturbation equivalence sends the old idempotent to the integral idempotent `Tᵢ − δ` and excludes its complement over a nonzero target. |
+| *perturb_coordinate* | For the same shifted idempotent equation, the coordinate error is `−δ` and differs from `1 − 2Tᵢ + δ`, the error obtained by exchanging the two roots. |
 | *test_perturb_linear_identity* | for `T − a` perturbed to `T − a'` the comparison is the identity of `A` with coordinate error `a − a'`. |
 | *test_identity_cutoff* | the identity is a quotient mapping with zero kernel; there are no cutoff equations. |
-| *approximation_no_common_stage* | The same selected family has nonzero constant coefficient in its first polynomial and nonzero T coefficient in its second, and the two polynomials differ. A construction keeping just one member of the family cannot satisfy the simultaneous approximation. |
+| *approximation_no_common_stage* | The same selected family has nonzero constant coefficient in its first polynomial and nonzero `T` coefficient in its second, and the two polynomials differ. A construction keeping just one member of the family cannot satisfy the simultaneous approximation. |
 | *test_transport_direction* | `π ∘ θ` kills the inverse substitute `X − 3` and sends the forward substitute `X + 3` to `6`. |
 | *tube_empty_variables* | no equations and unit Jacobian give the whole spectrum. |
 | *tube_zero_jacobian* | a positive-dimensional zero equation has no tube. |
-| *tube_linear* | the Jacobian cutoff is automatic for T-a and k=0. |
+| *tube_linear* | the Jacobian cutoff is automatic for `T-a` and `k=0`. |
 | *quotient_identity* | the identity is a quotient mapping. |
 | *quotient_top* | quotient by the unit ideal has the zero target ring and full plus ring. |
 | *quotient_ideal* | the canonical quotient has precisely the integral-image plus ring. |
@@ -13545,7 +13474,7 @@ for which the tube theorem fails.
 | *test_no_tor_independence* | Mathlib's `CategoryTheory.Tor` (`Mathlib/CategoryTheory/Monoidal/Tor.lean`, definition `Tor`) gives `Tor₁^R(R/I,I) ≅ R/I ≠ 0` for the two-variable Tate algebra, although `I/I²` is free of rank two. The example allows any complete algebraically closed nonarchimedean field, including `ℂ_p`. |
 | *test_noetherian_is_huber*, *test_rational_presentation* | Étaleness over a noetherian ring of definition agrees with the standard-presentation criterion; the rational example uses the equations `tTᵢ−sᵢ`. |
 | *test_rational_descends*, *test_finite_etale_descends*, *test_rational_finite_etale_composites* | The completed-system hypotheses of `affinoid_etale_finite_stage_essSurj` yield models of the same morphism classes, with all three factors of a composite at one stage. |
-| *test_constant_system* | The completed tensor of the split two-sheeted Q₂ pair with Q₂ has a unique comparison with that pair fixing both coprojections and the first characteristic idempotent. This tests the actual completed-tensor construction. The four category-level comparisons also require P5's finite étale, qcqs étale and qc separated étale limit equivalences. |
+| *test_constant_system* | The completed tensor of the split two-sheeted `Q₂` pair with `Q₂` has a unique comparison with that pair fixing both coprojections and the first characteristic idempotent. This tests the actual completed-tensor construction. The four category-level comparisons also require P5's finite étale, qcqs étale and qc separated étale limit equivalences. |
 
 
 **Checks.**
@@ -13782,17 +13711,17 @@ Tau Ceti `TauCeti.Huber.Pair`, `TauCeti.Huber.Pair.Hom` with `spaComap`, `contin
 `mem_spa_iff`, `rationalSubset`, `spectralSpace_spa_of_pairOfDefinition`,
 `TauCeti.IsProConstructible` with `isCompact`.
 
-## Layer P6: κ-small perfectoid spaces and pro-étale morphisms
+## Layer P6: `κ`-small perfectoid spaces and pro-étale morphisms
 
 The layer builds the size and the pro-étale notions on which the pro-étale and v-sites of
-DiamondsAndVStacks rest. It defines κ-small and uniformly κ-small perfectoid spaces for an
+DiamondsAndVStacks rest. It defines `κ`-small and uniformly `κ`-small perfectoid spaces for an
 uncountable strong limit cardinal `κ`, proves the cover criterion with its uniform bound for
 singular `κ`, and proves closure under open subspaces, finite disjoint unions and tilting,
-and closure of uniformly κ-small spaces under fibre products. It also
+and closure of uniformly `κ`-small spaces under fibre products. It also
 records the finite-stage form of ECD Proposition 6.4(iv). It then defines affinoid pro-étale
 morphisms as cofiltered limits of affinoid étale ones, pro-étale morphisms as their local form,
 and the product `X × S` of an affinoid perfectoid space with a profinite set; proves that
-`X_proét^aff` is the pro-category of the affinoid étale site, with its κ-bounded refinement; and
+`X_proét^aff` is the pro-category of the affinoid étale site, with its `κ`-bounded refinement; and
 proves the stability of (affinoid) pro-étale morphisms under composition, base change,
 cancellation, sections and small limits, that Zariski closed immersions and diagonals are
 pro-étale, and the comparison with Scholze 2013's affinoid perfectoid objects. Throughout, a
@@ -13801,18 +13730,18 @@ the sense of ECD Definition 3.1, with no perfectoid base field; étale morphisms
 P3 (P3.15, ECD Definition 6.2); cofiltered limits of affinoid perfectoid spaces are those of layer
 P5 (P5.3).
 
-### P6.1 κ-small perfectoid spaces
+### P6.1 `κ`-small perfectoid spaces
 
-The first five subsections concern κ-small perfectoid spaces: the definition, its uniform variant,
+The first five subsections concern `κ`-small perfectoid spaces: the definition, its uniform variant,
 the cover criterion, the closure properties and the finite-stage descent of affinoid étale objects.
 
-**κ-small perfectoid spaces.** (*kappa-small-perfectoid-space*) Fix a cardinal `κ` with `ℵ₀ < κ`
+**`κ`-small perfectoid spaces.** (*kappa-small-perfectoid-space*) Fix a cardinal `κ` with `ℵ₀ < κ`
 that is a strong limit (`2^λ < κ` for every cardinal `λ < κ`); every cutoff cardinal of
 [ECD] Lemma 4.1, pp. 19–20, is one, and since Mathlib's
 `Cardinal.IsStrongLimit` counts `ℵ₀` as a strong limit, `ℵ₀ < κ` is a separate hypothesis. A
 perfectoid space `X` (layer P2 (P2.10): an adic space locally isomorphic to `Spa(R, R⁺)` for a
 perfectoid Tate pair `(R, R⁺)` in the sense of ECD Definition 3.1, with no perfectoid base field)
-is κ-small if (i) its underlying set `|X|` has cardinality `#|X| < κ`, and (ii) for every open
+is `κ`-small if (i) its underlying set `|X|` has cardinality `#|X| < κ`, and (ii) for every open
 affinoid perfectoid subspace `U = Spa(A, A⁺) ⊆ X` (so `A = O_X(U)`) the ring `A` has cardinality
 `#A < κ`. Cardinalities are those of underlying sets; the plus rings carry no condition; clause
 (ii) quantifies over all open affinoid subspaces, of which there are at most `2^{#|X|} < κ`, so no
@@ -13823,10 +13752,10 @@ single bound `λ < κ` being P6.2, and for quasicompact `X` the two agree. In `P
 define `IsKappaSmall` as the structure `IsKappaSmall κ X` with the two clauses, with projections
 `IsKappaSmall.card_lt` (`#|X| < κ`) and `IsKappaSmall.card_sections_lt` (`#O_X(U) < κ` for every
 open affinoid perfectoid `U ⊆ X`); prove transport along `X ≅ Y`,
-`IsKappaSmall.mono` (`κ ≤ κ'` carries κ-small to κ'-small), `IsKappaSmall.restrict` (open subspaces
-of κ-small spaces are κ-small) and `IsKappaSmall.empty`
+`IsKappaSmall.mono` (`κ ≤ κ'` carries `κ`-small to `κ'`-small), `IsKappaSmall.restrict` (open subspaces
+of `κ`-small spaces are `κ`-small) and `IsKappaSmall.empty`
 (for `1 < κ`); define
-`KappaSmall`, the full subcategory of perfectoid spaces on the κ-small objects, with
+`KappaSmall`, the full subcategory of perfectoid spaces on the `κ`-small objects, with
 the instance `KappaSmall.essentiallySmall`; the affinoid form `IsKappaSmall_affinoid κ (R, R⁺)`
 is stated for an arbitrary Huber ring `R` by the three clauses `#Spa(R, R⁺) < κ`, `#R < κ` and
 `#R⟨T/s⟩ < κ` for every presentation with `T` generating the unit ideal. For general Huber
@@ -13834,8 +13763,8 @@ rings this is a cardinal predicate, with no assertion that `R` is the ring of gl
 For perfectoid `R`, such presentations give a rational basis, and for uncountable strong limit `κ`
 these clauses are equivalent to the two clauses above and to `#R < κ` alone (P6.3 (d)). The predicate
 and its monotonicity are meaningful for all cardinals; uncountability and the strong-limit
-condition are hypotheses of the comparison and closure theorems. For κ-small `X`,
-`X_proét,κ` is the category of κ-small perfectoid spaces pro-étale over `X` (ECD Definition 8.1),
+condition are hypotheses of the comparison and closure theorems. For `κ`-small `X`,
+`X_proét,κ` is the category of `κ`-small perfectoid spaces pro-étale over `X` (ECD Definition 8.1),
 on which the sites of
 DiamondsAndVStacks layer D2 live ([ECD] §4, Def. 4.2, p. 20; [ECD] §4, after Def. 4.2, p. 20, for
 the standing hypothesis on `κ`; [ECD] §8, Def. 8.1, p. 39). *Needs:* layer P2 (P2.10, P2.9); layer P1 (P1.1); Mathlib `Cardinal.IsStrongLimit`, `Cardinal.mk`,
@@ -13844,24 +13773,24 @@ the standing hypothesis on `κ`; [ECD] §8, Def. 8.1, p. 39). *Needs:* layer P2 
 **Checks.**
 
 - Computation: for every cardinal `κ` with `ℵ₀ < κ` and `κ` a strong
-  limit, `Spa(C_p, O_{C_p})` is κ-small: it has one point and `#C_p = 2^ℵ₀ < κ`.
+  limit, `Spa(C_p, O_{C_p})` is `κ`-small: it has one point and `#C_p = 2^ℵ₀ < κ`.
 - Degenerate: the empty perfectoid space has zero points and a
-  one-element section ring, so it is κ-small exactly when `1 < κ`, including `κ = ℵ₀`.
+  one-element section ring, so it is `κ`-small exactly when `1 < κ`, including `κ = ℵ₀`.
 - At cutoff `2` the empty perfectoid space is small, and every nonempty perfectoid space is
   excluded: an affinoid perfectoid neighborhood of a point has at least two sections.
 - Boundary: no affinoid pair
   satisfies the cardinal predicate at `κ = 0` or `κ = 1`; the zero ring satisfies it at `κ = 2`.
 - `not_isKappaSmall_Cp_aleph0` (non-example) — `Spa(C_p, O_{C_p})` is not `ℵ₀`-small.
-- Strict boundary: for a Huber pair over `R`, κ-smallness
-  and `κ ≤ κ'` imply κ'-smallness, but the pair is never `#R`-small: equality with
+- Strict boundary: for a Huber pair over `R`, `κ`-smallness
+  and `κ ≤ κ'` imply `κ'`-smallness, but the pair is never `#R`-small: equality with
   the section-ring cardinal is excluded by the strict bound, including for the zero ring.
 - Characterisation: for an affinoid perfectoid space
   `X = Spa(A, A⁺)`, `IsKappaSmall κ X ↔ #A < κ`.
 - `not_isKappaSmall_bigField` (non-example) — for `K` the completion, for the Gauss norm, of the
   perfection of `F_p((t^{1/p^∞}))(x_β : β < κ)`, a perfectoid field with `#K ≥ κ`, `Spa(K, K°)` has
-  one point but is not κ-small: clause (i) does not imply clause (ii).
+  one point but is not `κ`-small: clause (i) does not imply clause (ii).
 - `not_isKappaSmall_sigma` (non-example) — the disjoint union of `κ` copies of `Spa(C_p, O_{C_p})`
-  is not κ-small, although each open affinoid subspace (a finite union of copies) has ring of
+  is not `κ`-small, although each open affinoid subspace (a finite union of copies) has ring of
   cardinality at most `2^ℵ₀` (equal to `1` for the empty open): clause (ii) does not imply
   clause (i).
 
@@ -13876,7 +13805,7 @@ and the exclusion of nonempty spaces at `2`.
 
 **Checks for the full subcategory.**
 
-- `kappaSmall_inherited_maps` — the Hom type between two κ-small objects is exactly the Hom
+- `kappaSmall_inherited_maps` — the Hom type between two `κ`-small objects is exactly the Hom
   type between their underlying perfectoid spaces, including noninvertible maps.
 - `kappaSmall_empty_object` — the empty space is an object precisely above the threshold `1`.
 - `kappaSmall_excludes_Cp_aleph0` — no object at cutoff `ℵ₀` has underlying space `Spa(C_p,O_Cp)`.
@@ -13900,31 +13829,31 @@ p. 20, applied to this dense field).
 Lean: `PerfectoidSpace.IsKappaSmall` (fields `card_lt` and `card_sections_lt`, over the affinoid
 perfectoid opens), `IsKappaSmall.mono`, `IsKappaSmall.restrict`.
 
-### P6.2 uniformly κ-small perfectoid spaces
+### P6.2 uniformly `κ`-small perfectoid spaces
 
-**Uniformly κ-small perfectoid spaces.** (*uniformly-kappa-small-perfectoid-space*) Let `κ` be an
-uncountable strong limit cardinal. A perfectoid space `X` is uniformly κ-small if there is a
+**Uniformly `κ`-small perfectoid spaces.** (*uniformly-kappa-small-perfectoid-space*) Let `κ` be an
+uncountable strong limit cardinal. A perfectoid space `X` is uniformly `κ`-small if there is a
 cardinal `λ < κ` such that `#|X| ≤ λ` and `#O_X(U) ≤ λ` for every open affinoid perfectoid
-subspace `U ⊆ X`; equivalently, `X` is κ'-small (see *kappa-small-perfectoid-space*) for some cardinal
+subspace `U ⊆ X`; equivalently, `X` is `κ'`-small (see *kappa-small-perfectoid-space*) for some cardinal
 `κ' < κ` (take `κ' = λ⁺`, which is `< κ` because `κ` is a limit cardinal). Properties: (a)
-uniformly κ-small implies κ-small; (b) a quasicompact κ-small perfectoid space is uniformly
-κ-small, so the two notions have the same affinoid and the same qcqs objects; (c) if `κ` is regular
+uniformly `κ`-small implies `κ`-small; (b) a quasicompact `κ`-small perfectoid space is uniformly
+`κ`-small, so the two notions have the same affinoid and the same qcqs objects; (c) if `κ` is regular
 (a strongly inaccessible cardinal) the two notions agree; (d) they differ for every singular `κ`
 (take `cf κ` summands), in particular for every `κ` of cofinality `ω₁` such as the cutoff
 cardinals `κ(µ)` with `cf µ = ω₁` constructed in the proof of ECD Lemma 4.1:
 `⊔_{α<ω₁} Spa(K_α, K_α°)`, with perfectoid fields `K_α` whose cardinalities are `< κ` and
 cofinal in `κ` (for infinite `λ < κ` the completed perfection of `𝔽_p((t^{1/p^∞}))(x_β : β < λ)` has
-cardinality between `λ` and `2^λ < κ`), is κ-small (`ℵ₁ ≤ 2^{ℵ₀} < κ` points, finite products of
-the `K_α` as affinoid rings) and not uniformly κ-small. The uniformly κ-small spaces
+cardinality between `λ` and `2^λ < κ`), is `κ`-small (`ℵ₁ ≤ 2^{ℵ₀} < κ` points, finite products of
+the `K_α` as affinoid rings) and not uniformly `κ`-small. The uniformly `κ`-small spaces
 satisfy the cover criterion and the stability under fibre products that ECD Proposition 4.4 states
-for κ-small spaces (P6.3, P6.4); ECD's own set-theoretic statements (Proposition 6.4, Lemma 11.22)
+for `κ`-small spaces (P6.3, P6.4); ECD's own set-theoretic statements (Proposition 6.4, Lemma 11.22)
 are formulated with such a uniform bound `κ' < κ`, and the class is intended for the cutoff
 cardinals of [ECD] Lemma 4.1, pp. 19–20, which are in general singular. In
 `PerfectoidSpace`, define `IsUniformlyKappaSmall` as the predicate
 `∃ λ < κ, #|X| ≤ λ ∧ ∀ U, #O_X(U) ≤ λ`, `U` ranging over the affinoid perfectoid opens; prove the
 reformulation `IsUniformlyKappaSmall κ X ↔ ∃ κ' < κ, IsKappaSmall κ' X`,
-`IsUniformlyKappaSmall.isKappaSmall` (a), and the statements for (b) (quasicompact κ-small spaces
-are uniformly κ-small) and (c) (the two notions agree for regular `κ`), the affinoid criterion
+`IsUniformlyKappaSmall.isKappaSmall` (a), and the statements for (b) (quasicompact `κ`-small spaces
+are uniformly `κ`-small) and (c) (the two notions agree for regular `κ`), the affinoid criterion
 `IsUniformlyKappaSmall κ (Spa(A, A⁺)) ↔ #A < κ`, `IsUniformlyKappaSmall.isOpen` (open subspaces,
 with the same `λ`) and `IsUniformlyKappaSmall.fibreProduct` (P6.4) ([ECD] §6, Prop. 6.4, final
 sentence, p. 27; [ECD] §4, proof of Lem. 4.1, p. 20, for `cf κ(ω₁) = ω₁ < κ(ω₁)`, the singular
@@ -13934,10 +13863,10 @@ cutoff of the separating example). *Needs:* *kappa-small-perfectoid-space*;
 **Checks.**
 
 - Computation: `Spa(C_p⟨T^{1/p^∞}⟩, O_{C_p}⟨T^{1/p^∞}⟩)` is
-  uniformly κ-small with `λ = 2^ℵ₀` for every uncountable strong limit `κ`.
-- Degenerate: the empty perfectoid space is uniformly κ-small with
+  uniformly `κ`-small with `λ = 2^ℵ₀` for every uncountable strong limit `κ`.
+- Degenerate: the empty perfectoid space is uniformly `κ`-small with
   `λ = 1`: its point set is empty and its ring of sections on the empty affinoid open is the zero
-  ring, whose underlying set has one element. For arbitrary cutoffs it is uniformly κ-small
+  ring, whose underlying set has one element. For arbitrary cutoffs it is uniformly `κ`-small
   exactly when `1 < κ`; Lean examples accept it at `2` and reject it at `1`.
 - Every nonempty perfectoid space fails uniform smallness at cutoff `2`, since uniform
   smallness implies smallness; a Lean example mirrors this boundary.
@@ -13945,7 +13874,7 @@ cutoff of the separating example). *Needs:* *kappa-small-perfectoid-space*;
   perfectoid space `X`, `IsUniformlyKappaSmall κ X ↔ IsKappaSmall κ X`.
 - `not_isUniformlyKappaSmall_of_cof_omegaOne` (non-example) — for `κ` with `cf κ = ω₁` and
   perfectoid fields `K_α` (`α < ω₁`) with `#K_α < κ` cofinal in `κ`, `⊔_{α<ω₁} Spa(K_α, K_α°)` is
-  κ-small and not uniformly κ-small.
+  `κ`-small and not uniformly `κ`-small.
 
 **Completion cardinality.** (*first-countable-completion-cardinality*)
 P6.2 owns `completion_cardinality_bound`: for `G : Type u` with `AddGroup G`,
@@ -13967,8 +13896,7 @@ of `A[1/s]` being dense; (b2) a finite étale `A`-algebra `B` with its canonical
 `#B ≤ λ_A`, being a quotient of some `Aⁿ`; (b3) for morphisms of complete Tate pairs `A → B` and
 `A → C`, the completed tensor product `B ⊗̂_A C` (AdicSpacesPartII R0.3
 (*completed-tensor-product*)) and its
-uniformisation (AdicSpacesPartII R0.4 (*uniform-completed-tensor-product*)) have cardinality `≤
-(#B·#C·ℵ₀)^ℵ₀`, the image of `B ⊗_A C` being dense;
+uniformisation (AdicSpacesPartII R0.4 (*uniform-completed-tensor-product*)) have cardinality `≤ (#B·#C·ℵ₀)^ℵ₀`, the image of `B ⊗_A C` being dense;
 (c) if `κ` is an uncountable strong limit, the bound in (a) is `< κ` when `λ < κ`;
 the bounds in (b1)–(b2) are `< κ` when `#A < κ`, and those in (b3) when both `#B < κ`
 and `#C < κ`. The
@@ -13989,33 +13917,33 @@ continuous maps from a Tate base are adic. The finite-algebra bound only require
 Lean: `PerfectoidSpace.IsUniformlyKappaSmall`, `IsUniformlyKappaSmall.isKappaSmall`,
 `completion_cardinality_bound` (*first-countable-completion-cardinality*).
 
-### P6.3 the cover criterion for κ-smallness
+### P6.3 the cover criterion for `κ`-smallness
 
-**Cover criterion for κ-smallness.** (*kappa-small-cover-criterion*) Let `κ` be an uncountable
-strong limit cardinal and `X` a perfectoid space. Prove: (a) if `X` is κ-small, then `X` is
+**Cover criterion for `κ`-smallness.** (*kappa-small-cover-criterion*) Let `κ` be an uncountable
+strong limit cardinal and `X` a perfectoid space. Prove: (a) if `X` is `κ`-small, then `X` is
 covered by fewer than `κ` open affinoid subspaces `Spa(A, A⁺)` with `#A < κ` (namely by all of
 them: there are at most `2^{#|X|} < κ`); (b) if `X` has a cover `{U_j = Spa(A_j, A_j⁺)}_{j∈J}` by
 open affinoid subspaces with `#A_j < κ` for all `j`, then every open affinoid subspace
 `U = Spa(A, A⁺) ⊆ X` has `#A < κ` (the sheaf condition embeds `A` into a finite product
-of rings of rational subspaces of the cover charts), so such an `X` is κ-small as soon as `#|X| < κ`; (c) if moreover
+of rings of rational subspaces of the cover charts), so such an `X` is `κ`-small as soon as `#|X| < κ`; (c) if moreover
 `#J < κ` and `sup_j #A_j < κ` — automatic when `J` is finite, or when `#J < cf κ` — then
-`#|X| < κ`, and `X` is κ-small, indeed uniformly κ-small (see *uniformly-kappa-small-perfectoid-space*);
-(d) in particular an affinoid perfectoid space `Spa(A, A⁺)` is κ-small iff `#A < κ`, and a
-quasicompact perfectoid space is κ-small iff it has a finite cover by open affinoid subspaces whose
+`#|X| < κ`, and `X` is `κ`-small, indeed uniformly `κ`-small (see *uniformly-kappa-small-perfectoid-space*);
+(d) in particular an affinoid perfectoid space `Spa(A, A⁺)` is `κ`-small iff `#A < κ`, and a
+quasicompact perfectoid space is `κ`-small iff it has a finite cover by open affinoid subspaces whose
 rings have cardinality `< κ`; (e) the converse of (a) as printed in ECD Proposition 4.4 — a cover by
 fewer than `κ` open affinoids with rings of cardinality `< κ`, without a uniform bound, implies
-κ-small — holds for regular `κ` and can fail as soon as `cf κ ≤ #J < κ`: for `κ` of cofinality `ω₁` (such
+`κ`-small — holds for regular `κ` and can fail as soon as `cf κ ≤ #J < κ`: for `κ` of cofinality `ω₁` (such
 as the cutoff cardinal `κ(ω₁)` of the proof of ECD Lemma 4.1) and perfectoid fields `K_α`,
 `α < ω₁`, with `#K_α < κ` cofinal in `κ`, the disjoint union of the perfectoid discs
 `Spa(K_α⟨T^{1/p^∞}⟩, K_α°⟨T^{1/p^∞}⟩)` is covered by `ω₁ < κ` open affinoids with rings of
 cardinality `< κ` and has at least `κ` points. Part (c) needs the uniform bound, and (e) records
 exactly where the printed statement needs it. These are the affinoid criterion (in Lean
 `isKappaSmall_presentationLimit_iff`: for uncountable strong limit `κ`, `Spa(A, A⁺)` of a perfectoid
-pair is κ-small iff `#A < κ`) and the cover statement (a cover by open affinoids with `#A_j < κ` and
-`#|X| < κ` gives κ-small) of P6.1 ([ECD] §4, Prop. 4.4, p. 20, the printed statement, whose correct parts are (a)–(d); [ECD]
+pair is `κ`-small iff `#A < κ`) and the cover statement (a cover by open affinoids with `#A_j < κ` and
+`#|X| < κ` gives `κ`-small) of P6.1 ([ECD] §4, Prop. 4.4, p. 20, the printed statement, whose correct parts are (a)–(d); [ECD]
 §4, proof of Prop. 4.4, p. 20, for (b) and for the step that needs `sup_j #A_j < κ`; [ECD] §4,
 proof of Prop. 4.4, p. 21, for the embedding into a finite product in (b)). A countable disjoint
-union of copies of `Spa(C_p, O_{C_p})` is κ-small for every cutoff `κ` by (c) (`#J = ℵ₀ < cf κ`).
+union of copies of `Spa(C_p, O_{C_p})` is `κ`-small for every cutoff `κ` by (c) (`#J = ℵ₀ < cf κ`).
 *Needs:*
 *kappa-small-perfectoid-space*; *uniformly-kappa-small-perfectoid-space*;
 *adic-spectrum-cardinality*; *complete-tate-ring-cardinality*; layer P2 (P2.10, P2.9, P2.8,
@@ -14050,27 +13978,27 @@ This coproduct Check is specified in this README only.
 
 Lean: `isKappaSmall_presentationLimit_iff`.
 
-### P6.4 closure properties of κ-small perfectoid spaces
+### P6.4 closure properties of `κ`-small perfectoid spaces
 
-**Closure properties of κ-small perfectoid spaces: open subspaces, disjoint unions, fibre
+**Closure properties of `κ`-small perfectoid spaces: open subspaces, disjoint unions, fibre
 products.** (*kappa-small-closure*) Let `κ` be an uncountable strong limit cardinal. Prove: (a) an
-open subspace of a κ-small (resp. uniformly κ-small) perfectoid space is κ-small (resp. uniformly
-κ-small) (`IsKappaSmall.isOpen`, `IsUniformlyKappaSmall.isOpen`); (b) a disjoint union
-`⊔_{j∈J} X_j` is uniformly κ-small if `#J < κ` and all `X_j` are κ'-small for one `κ' < κ`; finite
-disjoint unions of κ-small spaces are κ-small; (c) (ECD Proposition 4.4, 'in particular') for
-morphisms `X → Z ← Y` of perfectoid spaces with `X` and `Y` uniformly κ-small (`Z` arbitrary, not
-necessarily κ-small), the fibre product `X ×_Z Y` (layer P2 (P2.16), over a general perfectoid
+open subspace of a `κ`-small (resp. uniformly `κ`-small) perfectoid space is `κ`-small (resp. uniformly
+`κ`-small) (`IsKappaSmall.isOpen`, `IsUniformlyKappaSmall.isOpen`); (b) a disjoint union
+`⊔_{j∈J} X_j` is uniformly `κ`-small if `#J < κ` and all `X_j` are `κ'`-small for one `κ' < κ`; finite
+disjoint unions of `κ`-small spaces are `κ`-small; (c) (ECD Proposition 4.4, 'in particular') for
+morphisms `X → Z ← Y` of perfectoid spaces with `X` and `Y` uniformly `κ`-small (`Z` arbitrary, not
+necessarily `κ`-small), the fibre product `X ×_Z Y` (layer P2 (P2.16), over a general perfectoid
 Tate base, with affinoid charts given by the uniform completed tensor product) is uniformly
-κ-small (`IsUniformlyKappaSmall.fibreProduct`): if `#|X|, #|Y| ≤ λ` and all open affinoid rings of
+`κ`-small (`IsUniformlyKappaSmall.fibreProduct`): if `#|X|, #|Y| ≤ λ` and all open affinoid rings of
 `X` and `Y` have cardinality `≤ λ` (`λ ≥ ℵ₀`), then `X ×_Z Y` is covered by at most `2^λ` open
 affinoids `U ×_W V` with rings of cardinality `≤ λ^ℵ₀` and has at most `2^{2^λ}` points; in
-particular fibre products of κ-small quasicompact (for instance affinoid) perfectoid spaces are
-κ-small. When `X`, `Y` and `Z` are all affinoid, their fibre product is affinoid. Affinoidness is
+particular fibre products of `κ`-small quasicompact (for instance affinoid) perfectoid spaces are
+`κ`-small. When `X`, `Y` and `Z` are all affinoid, their fibre product is affinoid. Affinoidness is
 not asserted over an arbitrary base: gluing two copies of a perfectoid closed disc along its
 non-quasicompact open unit disc gives two affinoid charts whose fibre product is that open disc; (d) for `κ` of
 cofinality `ω₁` the unrestricted statement fails: for a perfectoid field `L` of characteristic `p`
 with `#L < κ`, and perfectoid fields `K_α ⊇ L` (`α < ω₁`) that are completed perfections of
-`L(x_β : β < λ_α)` for the Gauss norm, with infinite `λ_α ≥ #L` cofinal below `κ`, `X := ⊔_α Spa(K_α, K_α°)` is κ-small but
+`L(x_β : β < λ_α)` for the Gauss norm, with infinite `λ_α ≥ #L` cofinal below `κ`, `X := ⊔_α Spa(K_α, K_α°)` is `κ`-small but
 `X ×_{Spa(L, L°)} X` is not, since `Spa(K_α ⊗̂_L K_α)` has at least `λ_α` points: the
 Gauss-isometric automorphisms obtained by permuting the variables give distinct graph points ([ECD] §4,
 Prop. 4.4, p. 20, for (c) with the hypotheses under which it holds; [Berkeley] Lecture 8,
@@ -14083,15 +14011,15 @@ AdicSpacesPartII R0.4 (*uniform-completed-tensor-product*).
 
 **Checks for small fibre products.**
 
-- For κ-small affinoid perfectoid `X → Z` with affinoid perfectoid `Z`,
-  `X ×_Z Z ≅ X` is κ-small and affinoid.
-- For κ-small affinoid perfectoid `X = Spa(A,A⁺)` and `Y = Spa(B,B⁺)` over
+- For `κ`-small affinoid perfectoid `X → Z` with affinoid perfectoid `Z`,
+  `X ×_Z Z ≅ X` is `κ`-small and affinoid.
+- For `κ`-small affinoid perfectoid `X = Spa(A,A⁺)` and `Y = Spa(B,B⁺)` over
   affinoid perfectoid `Z = Spa(C,C⁺)`, the completed-tensor presentation of P2.16
-  gives an affinoid κ-small `X ×_Z Y`.
+  gives an affinoid `κ`-small `X ×_Z Y`.
 - Let `K` be a characteristic-p perfectoid field with `#K < κ`. Its perfected
   projective line `X`, obtained by gluing the perfected closed discs with rings
   `K⟨T^{1/p^∞}⟩` and `K⟨T^{-1/p^∞}⟩` along the perfected unit annulus, is
-  quasicompact and κ-small. Laurent coefficients give `Γ(X,O) = K`, while zero
+  quasicompact and `κ`-small. Laurent coefficients give `Γ(X,O) = K`, while zero
   and infinity are distinct points, so `X` is not affinoid. With
   `Y = Z = Spa(K,K°)`, the fibre product `X ×_Z Y ≅ X` remains non-affinoid.
 
@@ -14099,7 +14027,7 @@ AdicSpacesPartII R0.4 (*uniform-completed-tensor-product*).
 cofinality, characteristic and variable-cardinality hypotheses as the disc Check,
 the theorem constructs the scalar maps from `(L,L°)` into the Gauss field pairs and
 uses their induced coproduct map `f : X → Spa(L,L°)`. The space
-`X = ⊔_{α<ω₁} Spa(K_α,K_α°)` is κ-small, whereas `pullback f f` has at least `κ`
+`X = ⊔_{α<ω₁} Spa(K_α,K_α°)` is `κ`-small, whereas `pullback f f` has at least `κ`
 points and fails `IsKappaSmall`. Permutations of the infinite variable set `J_α`
 give at least `#J_α` distinct graph points in each diagonal component. The scalar
 maps are required to equal the Gauss construction's maps on constants. The Check,
@@ -14107,19 +14035,19 @@ specified in this README only, retains both the small source and its non-small s
 This tests the finite-product assertion of [ECD] Proposition 4.4, p. 20, in the
 slice over `Spa(L,L°)`; it applies also at `p = 2`.
 
-Tilting preserves κ-smallness (*kappa-small-tilting*). For a perfectoid Tate ring `A` with tilt
+Tilting preserves `κ`-smallness (*kappa-small-tilting*). For a perfectoid Tate ring `A` with tilt
 `A♭` (layer P1), prove `#A♭ ≤ (#A)^ℵ₀` and `#A ≤ (#A♭)^ℵ₀·ℵ₀`, the tilt being the inverse limit
 along `x ↦ x^p`. Consequently, for an uncountable strong limit `κ` and a perfectoid space `X` with
-tilt `X♭` (layer P2 (P2.11)), `X` is κ-small iff `X♭` is κ-small (tilting invariance of `IsKappaSmall`), and
-`X` is uniformly κ-small iff `X♭` is; tilting restricts to an equivalence between κ-small perfectoid
-spaces over a perfectoid space `S` and κ-small perfectoid spaces over `S♭`; no base field, any
+tilt `X♭` (layer P2 (P2.11)), `X` is `κ`-small iff `X♭` is `κ`-small (tilting invariance of `IsKappaSmall`), and
+`X` is uniformly `κ`-small iff `X♭` is; tilting restricts to an equivalence between `κ`-small perfectoid
+spaces over a perfectoid space `S` and `κ`-small perfectoid spaces over `S♭`; no base field, any
 characteristic ([ECD] §3, after Lem. 3.10, p. 16); so the diamond `Spd` of DiamondsAndVStacks layer D6
-keeps κ-small objects κ-small. *Needs:* layer P1 (P1.27); layer P2 (P2.11, P2.2); *kappa-small-perfectoid-space*;
+keeps `κ`-small objects `κ`-small. *Needs:* layer P1 (P1.27); layer P2 (P2.11, P2.2); *kappa-small-perfectoid-space*;
 *uniformly-kappa-small-perfectoid-space*; Mathlib `Cardinal.power_le_power_right`.
 
 For every uncountable strong limit `κ` and every `X : Perfd p`,
 `kappaSmallSliceTilt` restricts P2's `sliceTiltFunctor p X` to the full subcategories
-whose source spaces are κ-small; the base `X` need not be κ-small.
+whose source spaces are `κ`-small; the base `X` need not be `κ`-small.
 The tilting invariance of `IsKappaSmall` identifies the object predicates, and its isomorphism
 invariance ensures that the inverse equivalence also preserves them.
 `kappaSmallSliceTilt_obj` identifies its underlying object with
@@ -14130,14 +14058,14 @@ estimate in Remark 4.3, p. 20; Lemma 3.10, p. 16).
 
 **Checks.**
 
-- `kappaSmallSliceTilt_object` sends a specified arrow `Y → X` with κ-small source
+- `kappaSmallSliceTilt_object` sends a specified arrow `Y → X` with `κ`-small source
   to the arrow obtained by applying `tiltFunctor`.
 - `kappaSmallSliceTilt_morphism` sends the map in a commuting triangle to its
   image under `tiltFunctor`, including triangles between distinct objects.
-- `kappaSmallSliceTilt_identity` sends `X → X` to `X♭ → X♭` when `X` is κ-small.
+- `kappaSmallSliceTilt_identity` sends `X → X` to `X♭ → X♭` when `X` is `κ`-small.
 
-Every affinoid perfectoid space is the cofiltered limit of its κ-small perfectoid sub-pairs, the
-κ-bounded form of ECD Proposition 6.5 (*kappa-small-perfectoid-subpairs*). Let `(S, S⁺)` be a
+Every affinoid perfectoid space is the cofiltered limit of its `κ`-small perfectoid sub-pairs, the
+`κ`-bounded form of ECD Proposition 6.5 (*kappa-small-perfectoid-subpairs*). Let `(S, S⁺)` be a
 perfectoid Tate pair (ECD Definition 3.1, no base field) with a pseudouniformiser `ϖ` such that
 `ϖ^p` divides `p` in `S°`, and let `A ⊆ S` be a subset. Prove that there is a closed subring
 `S' ⊆ S` containing `A ∪ {ϖ, ϖ^{-1}}` with `#S' ≤ (#A + ℵ₀)^ℵ₀` such that, with the subspace
@@ -14149,18 +14077,18 @@ of closed subrings `S' ⊆ S` of cardinality `< κ` that contain the image of `R
 every subfamily of cardinality `≤ λ` whose members have cardinality `≤ λ`, for an infinite
 `λ < κ` with `#R ≤ λ`, has an upper bound of cardinality `≤ λ^ℵ₀`. Including `#R` in this
 bound also covers the empty subfamily;
-in particular it is ω₁-directed whenever `cf κ > ω`, as for every cutoff cardinal (ECD
+in particular it is `ω₁`-directed whenever `cf κ > ω`, as for every cutoff cardinal (ECD
 Lemma 4.1 (ii)), but not for `κ = ℶ_ω` when `#S ≥ ℶ_ω`: a countable family of members with
 cardinalities below and cofinal in `ℶ_ω` has no upper bound in `P_κ(Y/X)`; (b) `⋃ S' = S` and
 `⋃ (S' ∩ S⁺) = S⁺`; (c)
 `Y = lim_{S' ∈ P_κ(Y/X)} Spa(S', S' ∩ S⁺)` in perfectoid spaces over `X`, a cofiltered limit of
-κ-small affinoid perfectoid spaces over `X` whose colimit of plus rings is already complete. For
+`κ`-small affinoid perfectoid spaces over `X` whose colimit of plus rings is already complete. For
 countable `A` this is P5.6 (every affinoid perfectoid space is an `ω₁`-cofiltered limit of
-topologically countably generated ones), of which this is the `κ`-bounded form. For singular `κ` and `#S ≥ κ`, `P_κ(Y/X)` is not κ-directed: a family of size `cf κ`
+topologically countably generated ones), of which this is the `κ`-bounded form. For singular `κ` and `#S ≥ κ`, `P_κ(Y/X)` is not `κ`-directed: a family of size `cf κ`
 with sizes cofinal in `κ` has no upper bound. If `#S < κ`, it instead has the largest member `S`.
 The general directedness statement in (a) uses a uniform bound
 ([ECD] §6, proof of Prop. 6.5, p. 29, the countable case, whose sub-pair construction is made
-explicit and bounded by `κ`; [ECD] §8, proof of Prop. 8.2, p. 39, the κ-bounded form used in
+explicit and bounded by `κ`; [ECD] §8, proof of Prop. 8.2, p. 39, the `κ`-bounded form used in
 DiamondsAndVStacks layer D2 for cutoff-independence, where (a) states the directedness that holds).
 *Needs:* layer
 P1 (P1.1); layer P5 (P5.3); *kappa-small-perfectoid-space*; *kappa-small-cofiltered-limits*; Tau
@@ -14366,7 +14294,7 @@ affinoid perfectoid and `f|_V : V → U` is affinoid pro-étale (see *affinoid-p
 `U` can be chosen rational inside any given neighbourhoods of `y` and `f(y)`
 (see *pro-etale-local-shrinking*); `X_proét` denotes the category of perfectoid spaces pro-étale over
 `X` with all `X`-morphisms, which are automatically pro-étale (see *pro-etale-stability-and-limits*),
-and for κ-small `X`, `X_proét,κ` is its full subcategory of κ-small objects. Pro-étale morphisms
+and for `κ`-small `X`, `X_proét,κ` is its full subcategory of `κ`-small objects. Pro-étale morphisms
 need not be open nor locally of finite type; being pro-étale is local on the source and, for open
 covers, on the target, but not local on the target for the pro-étale topology. This is neither
 Mathlib's pro-étale site of a scheme (`AlgebraicGeometry.Scheme.ProEt`, defined by weakly étale
@@ -14400,7 +14328,7 @@ Lecture 8, after Prop. 8.2.5, p. 59, the failure of locality for the pro-étale 
 - `proEtaleOver_identity` and `proEtaleOver_open_disc` — the identity and the open disc
   inclusion are objects of the category, although the second is not an affinoid object.
 - `proEtaleOver_inherited_maps` — all morphisms over the base are retained.
-- `smallProEtale_identity` — the identity is an object whenever its base is κ-small.
+- `smallProEtale_identity` — the identity is an object whenever its base is `κ`-small.
 - `smallProEtale_empty` — for `1<κ`, the empty object lies over every base.
 - `smallProEtale_zero_cutoff` — at cutoff zero the category has no objects.
 
@@ -14410,8 +14338,8 @@ Lecture 8, after Prop. 8.2.5, p. 59, the failure of locality for the pro-étale 
 
 Products with infinite profinite sets supply affinoid pro-étale maps that are not étale.
 
-**The product X × S of an affinoid perfectoid space with a profinite set, and its relative form
-X ×_{S₀} S.** (*product-with-profinite-set*) Let `X` be an affinoid perfectoid space,
+**The product `X × S` of an affinoid perfectoid space with a profinite set, and its relative form
+`X ×_{S₀} S`.** (*product-with-profinite-set*) Let `X` be an affinoid perfectoid space,
 `φ : |X| → S₀` a continuous map to a profinite set and `S → S₀` a continuous map of profinite sets.
 Write `S → S₀` as a cofiltered limit of maps of finite discrete sets `S_k → S₀,k` (`k ∈ K`)
 compatible with `S → S₀` (Mathlib `Profinite.asLimit`, `DiscreteQuotient`). Each
@@ -14501,7 +14429,7 @@ P6.9 owns the perfectoid realization `proEtaleEquivalence` on the carrier
 AdicSpacesPartII R0.19.9 on Mathlib's carrier. P6.10 owns its bounded
 subcategory, and P6.12 owns the cofiltered-limit interface and flattening functor.
 DiamondsAndVStacks D0.13 consumes these constructions. The next four subsections
-identify `X_proét^aff` with this pro-category and give the κ-bounded, Zariski-closed
+identify `X_proét^aff` with this pro-category and give the `κ`-bounded, Zariski-closed
 and limit consequences.
 
 **Affinoid pro-étale spaces over X are the pro-objects of the affinoid étale site.**
@@ -14530,7 +14458,7 @@ affinoid perfectoid space and `μ(X) := (#R + ℵ₀)^ℵ₀`. Prove: (a) every 
 sense of ECD Definition 6.2, layer P3 (P3.15)) has `#O_Y(Y) ≤ μ(X)` and `#|Y| ≤ 2^{μ(X)}`, with no
 size hypothesis on `X`; (b) `X_ét^aff` is essentially small, with at most `2^{μ(X)}` isomorphism
 classes of objects and `#Hom_X(Y, Y') ≤ 2^{μ(X)}`; (c) if `κ` is an uncountable strong limit and
-`X` is κ-small, then every object of `X_ét^aff` is κ-small, `X_ét^aff` has fewer than `κ`
+`X` is `κ`-small, then every object of `X_ét^aff` is `κ`-small, `X_ét^aff` has fewer than `κ`
 isomorphism classes of objects, and all its Hom-sets have fewer than `κ` elements; in particular
 the isomorphism classes of affinoid étale surjections onto `X` form a set of cardinality `< κ`,
 the count in ECD's proof of Lemma 7.18 ([ECD] §7, proof of Lem. 7.18, p. 36, for the bound
@@ -14600,7 +14528,7 @@ limit in perfectoid spaces over `X`.
 `affinoidEtale_objects_cardinality` counts a skeleton, `affinoidEtale_hom_cardinality` bounds
 its Hom sets, and `affinoidEtale_isKappaSmall` gives the strong-limit consequence.
 
-### P6.10 κ-small affinoid pro-étale spaces
+### P6.10 `κ`-small affinoid pro-étale spaces
 
 **Bounded pro-category.** P6.10 owns `PerfectoidSpace.HasKappaSmallPresentation`
 and `PerfectoidSpace.ProKappa`. For `C : Type u` with `Category.{v} C` and
@@ -14616,16 +14544,16 @@ hypothesis is required for this construction ([ECD] §7, Proposition 7.10 and
 the description of `Pro_κ` on p. 33). DiamondsAndVStacks D0.13 uses these same
 carriers; its unlifted cutoff `κ : Cardinal.{v}` corresponds to `Cardinal.lift κ` here.
 
-**κ-small affinoid pro-étale spaces are the pro-objects with fewer than κ indices.**
+**`κ`-small affinoid pro-étale spaces are the pro-objects with fewer than `κ` indices.**
 (*kappa-bounded-pro-etale-presentations*) Let `κ` be an uncountable strong limit cardinal and `X` a
-κ-small affinoid perfectoid space. Prove: (a) an affinoid pro-étale `Y → X` is κ-small iff it
+`κ`-small affinoid perfectoid space. Prove: (a) an affinoid pro-étale `Y → X` is `κ`-small iff it
 admits a pro-étale presentation `Y = lim_{i∈I} Y_i` with `#Mor(I) < κ`; all `Y_i ∈ X_ét^aff` are
-then κ-small (see *affinoid-etale-size-bound*); (b) with `Pro_κ(X_ét^aff)` the full subcategory of
+then `κ`-small (see *affinoid-etale-size-bound*); (b) with `Pro_κ(X_ét^aff)` the full subcategory of
 `Pro(X_ét^aff)` of pro-objects isomorphic to one indexed by a cofiltered category with fewer than
 `κ` morphisms, the realisation `ρ_X` of *pro-etale-pro-category-equivalence* restricts to an
-equivalence `Pro_κ(X_ét^aff) ≃ X_proét,κ^aff` with the full subcategory of κ-small affinoid
+equivalence `Pro_κ(X_ét^aff) ≃ X_proét,κ^aff` with the full subcategory of `κ`-small affinoid
 pro-étale `X`-spaces (ECD states this without proof); (c) every affinoid pro-étale `Y → X` is the
-limit, along a directed poset, of κ-small affinoid pro-étale `Y_J → X`: for a presentation indexed
+limit, along a directed poset, of `κ`-small affinoid pro-étale `Y_J → X`: for a presentation indexed
 by `I`, `J` runs over the cofiltered subcategories (not required to be full) of `I` with fewer than
 `κ` morphisms and `Y_J := lim_{i∈J} Y_i` (the pro-étale form of the first step of ECD's proof of
 Proposition 8.2; for arbitrary affinoid `Y` see *kappa-small-perfectoid-subpairs*). Fullness cannot
@@ -14639,19 +14567,19 @@ p. 33, the meaning of `Pro_κ`; [ECD] §8, proof of Prop. 8.2, p. 39, for (c)). 
 *kappa-small-perfectoid-space*; *kappa-small-perfectoid-subpairs*; AdicSpacesPartII R0.19.5–R0.19.8 and P5.4’s perfectoid limit comparisons;
 [ECD] Lemma 4.1, pp. 19–20 (choice of cardinal); Mathlib `CategoryTheory.IsCofiltered`.
 
-Cofiltered limits of uniformly bounded κ-small affinoid perfectoid spaces are κ-small, the
+Cofiltered limits of uniformly bounded `κ`-small affinoid perfectoid spaces are `κ`-small, the
 set-theoretic clause of ECD Proposition 6.4 (*kappa-small-cofiltered-limits*). Let
 `X_i = Spa(R_i, R_i⁺)`, `i ∈ I`, be a cofiltered system of affinoid perfectoid spaces with limit
 `X = Spa(R, R⁺)` (layer P5 (P5.3)). Prove: (a) if `#Mor(I) ≤ λ` and `#R_i ≤ λ` for all `i`, with
 `λ` infinite, then `#R ≤ λ^ℵ₀` (the ring-level bound `#R ≤ (#Mor(I)·sup_i #R_i)^ℵ₀` of layer P5
-(P5.7)), so for an uncountable strong limit `κ > λ`, `X` is κ-small and uniformly κ-small; (b) if
-`κ` is a cutoff cardinal ([ECD] Lemma 4.1, pp. 19–20), `I` is λ-small for some `λ < κ`
-and all `X_i` are κ′-small for one strong limit `κ′ < κ`, then `X` is κ-small; if `κ′ = κ_λ` is a
-strong limit of cofinality `> λ` (clause (iii) of the cutoff lemma), then `X` is even κ_λ-small, so
+(P5.7)), so for an uncountable strong limit `κ > λ`, `X` is `κ`-small and uniformly `κ`-small; (b) if
+`κ` is a cutoff cardinal ([ECD] Lemma 4.1, pp. 19–20), `I` is `λ`-small for some `λ < κ`
+and all `X_i` are `κ`′-small for one strong limit `κ′ < κ`, then `X` is `κ`-small; if `κ′ = κ_λ` is a
+strong limit of cofinality `> λ` (clause (iii) of the cutoff lemma), then `X` is even `κ_λ`-small, so
 the bound does not grow with the diagram; (c) the uniform bound cannot be dropped: for `κ` of
 cofinality `ω₁` and a tower of perfectoid fields `K_0 ⊆ K_1 ⊆ … ⊆ K_α ⊆ …` (`α < ω₁`) with
-`#K_α < κ` cofinal in `κ`, the `X_α = Spa(K_α, K_α°)` are κ-small, `I = ω₁` has fewer than `κ`
-elements, and the limit (the completed union) is not κ-small ([ECD] §6, Prop. 6.4, final sentence,
+`#K_α < κ` cofinal in `κ`, the `X_α = Spa(K_α, K_α°)` are `κ`-small, `I = ω₁` has fewer than `κ`
+elements, and the limit (the completed union) is not `κ`-small ([ECD] §6, Prop. 6.4, final sentence,
 p. 27, for (b); [ECD] §6, proof of Prop. 6.4, p. 27, including the `κ_λ` refinement). *Needs:* layer P5 (P5.3, P5.7); *kappa-small-perfectoid-space*;
 *uniformly-kappa-small-perfectoid-space*; *complete-tate-ring-cardinality*;
 *first-countable-completion-cardinality*; [ECD] Lemma 4.1, pp. 19–20 (choice of cardinal);
@@ -14666,8 +14594,8 @@ of perfectoid pairs identified at stage `α` with
 `(gaussPerfectoidField p L S_α).field.toPairCat p`. Its maps preserve constants
 and every variable root under `S_α ⊆ S_β`; these are the Gauss-isometric field
 inclusions. The opposite space diagram has fewer than `κ` morphisms and every
-stage is κ-small. Its `cofilteredLimit` has a global section ring of cardinality
-at least `κ`, hence is not κ-small. This Check, specified in this README only, retains the small
+stage is `κ`-small. Its `cofilteredLimit` has a global section ring of cardinality
+at least `κ`, hence is not `κ`-small. This Check, specified in this README only, retains the small
 stages and non-small limit. This distinguishes the stagewise bound from the common
 bound required by [ECD] Proposition 6.4, final sentence and proof, p. 27; the
 completed-union description is that proposition's opening construction.
@@ -14851,7 +14779,7 @@ layer P5 (P5.3).
 
 ### P6.12 limits in the affinoid pro-étale category
 
-**X_proét^aff has all small limits, computed in perfectoid spaces.** (*affinoid-pro-etale-limits*)
+**`X_proét^aff` has all small limits, computed in perfectoid spaces.** (*affinoid-pro-etale-limits*)
 For an affinoid perfectoid space `X`, prove that the category `X_proét^aff` has all small limits,
 and that they are computed in perfectoid spaces over `X`: the final object is `id_X`; fibre
 products `Y ×_Z Y'` of objects of `X_proét^aff` are the fibre products of perfectoid spaces;
@@ -15012,7 +14940,7 @@ of the two-point set.
 
 ### P6.14 comparison with Scholze 2013's affinoid perfectoid objects
 
-**Scholze 2013's affinoid perfectoid objects of X_proét give affinoid pro-étale perfectoid spaces
+**Scholze 2013's affinoid perfectoid objects of `X_proét` give affinoid pro-étale perfectoid spaces
 in the sense of ECD Definition 7.8.** (*scholze-2013-affinoid-perfectoid-comparison*) Let `K` be a
 perfectoid field of characteristic `0` (Scholze 2013's setting), `X` a locally noetherian adic
 space over `Spa(K, K⁺)`, and `X_proét` Scholze's pro-étale site (AdicEtaleGeometry A1.12, on the
@@ -15135,12 +15063,7 @@ is topologically nilpotent in `A`. A *perfectoid torsor presentation* of
 on `(Ã, Ã⁺)` by automorphisms of Huber pairs, and a `G`-invariant morphism of Huber pairs
 `q : (A, A⁺) → (Ã, Ã⁺)`, such that
 
-```text
-(a) Ã ⊗̂ᵘ_A Ã ≅ (C^0(G, Ã), C^0(G, Ã⁺)),  b ⊗ b′ ↦ (g ↦ b·g(b′))   (uniform completed tensor
-    product, AdicSpacesPartII layer R0);
-(b) Spa(q) : Spa(Ã, Ã⁺) → Spa(A, A⁺) is surjective and open with fibres exactly the
-    G-orbits, so |Spa(Ã, Ã⁺)|/G ≅ |Spa(A, A⁺)|.
-```
+`(a) Ã ⊗̂ᵘ_A Ã ≅ (C^0(G, Ã), C^0(G, Ã⁺)),  b ⊗ b′ ↦ (g ↦ b·g(b′))   (uniform completed tensor     product, AdicSpacesPartII layer R0); (b) Spa(q) : Spa(Ã, Ã⁺) → Spa(A, A⁺) is surjective and open with fibres exactly the     G-orbits, so |Spa(Ã, Ã⁺)|/G ≅ |Spa(A, A⁺)|.`
 
 `Spa(q)` is moreover spectral, in particular quasi-compact, for every morphism `q` out of the Tate
 pair `(A, A⁺)` (Tau Ceti `Huber.Pair.Hom.isSpectralMap_spaComap_of_isTateRing` in
@@ -15197,7 +15120,7 @@ P1, P2 and P6; AdicEtaleGeometry layer A1
 
 **Checks.**
 
-- *nonprime_indices* — `PerfectoidTorsorPresentation` over (Q₂,ℤ₂) is empty at parameters 0 and 1 and inhabited at parameter 2.
+- *nonprime_indices* — `PerfectoidTorsorPresentation` over `(Q₂,ℤ₂)` is empty at parameters 0 and 1 and inhabited at parameter 2.
 - *tower_carriers* — `ofTower T` has exactly `T.group` and `Uniformization T.colim`;
   a spurious extra factor in the group cannot satisfy these identities.
 - *tower_integral_elements* — its plus pair is `T.completion P`, with the completed integral
@@ -15260,7 +15183,7 @@ completion, as in the conventions of this layer) and justify nothing here. *Need
 
 **Checks.**
 
-- The analytic presentation of ℚ_p has completed pair (ℂ_p,O_ℂ_p).
+- The analytic presentation of `ℚ_p` has completed pair `(ℂ_p,O_ℂ_p)`.
 - For a perfectoid pair the analytic input uses the original plus ring and trivial group.
 - On the underlying space, a nontrivial stabilizer gives distinct groupoid arrows with the same endpoints; set-level injectivity cannot replace the diamond interpretation.
 
@@ -15331,20 +15254,19 @@ quotient and groupoid maps; their statements are README targets.
   contravariantly (it follows from `spa_relation_target`).
 - *tower_continuousMap_perfectoid* — for `ofTower T`, every `C^0(G^k, Â_∞)` is perfectoid,
   `k = 0` included (it follows from `relation_isPerfectoid`).
-- *action_inverse_three* — On the regular ℤ/3 torsor, `galoisTensorMap` of 1 ⊗ δ₁ has value 1 at group coordinate 1 and the identity point, but value 0 at group coordinate 2.
-- *relation_composition_noncommutative* — For a presentation with group identified with permutations of three letters, `relation.composition` of the function detecting g(0) = 1 gives 1 on ((01),(12)) and 0 in the opposite order.
+- *action_inverse_three* — On the regular `ℤ/3` torsor, `galoisTensorMap` of `1 ⊗ δ₁` has value 1 at group coordinate 1 and the identity point, but value 0 at group coordinate 2.
+- *relation_composition_noncommutative* — For a presentation with group identified with permutations of three letters, `relation.composition` of the function detecting `g(0) = 1` gives 1 on `((01),(12))` and 0 in the opposite order.
 
 ### Examples
 
 The worked examples of this layer are the checks above: `Spa(C_p, O_{C_p})`, the perfectoid disc
-and the empty space as κ-small and uniformly κ-small spaces, with the one-point space over a field
+and the empty space as `κ`-small and uniformly `κ`-small spaces, with the one-point space over a field
 of cardinality `≥ κ`, the disjoint union of `κ` points and the `ω₁`-indexed disjoint unions over
 cofinal fields `K_α` as the non-examples that separate the notions for singular `κ`; rational
 subsets, the identity and the origin of the perfectoid disc as affinoid pro-étale maps, the open
 unit disc as a pro-étale map that is not affinoid pro-étale, and `Spa(K) × {x} ↪ Spa(K) × S` as a
 pro-étale map that is not open; `X × S` for finite `S`, for `S = {pt}`, `∅` and `Z_p`, against
-the disjoint union of `#S` copies; and, in the subsections, `Pro(FinSet) ≃ Profinite ≃
-Spa(C, O_C)_proét^aff`, the origin `Spa(K, K°) = lim_n {|T| ≤ |p|ⁿ}` as a Zariski closed immersion
+the disjoint union of `#S` copies; and, in the subsections, `Pro(FinSet) ≃ Profinite ≃ Spa(C, O_C)_proét^aff`, the origin `Spa(K, K°) = lim_n {|T| ≤ |p|ⁿ}` as a Zariski closed immersion
 that is affinoid pro-étale and not étale, and `R ↠ C⁰(ℤ_p, ℂ_p)` for `I = (T − 1)`.
 
 `doubled_disc_overlap` uses the geometric pushout of two closed discs along the open unit disc.
@@ -15423,10 +15345,7 @@ layer 5; Mathlib `CategoryTheory.IsCofiltered`, `TopCat.limitCone`, `Dense`.
 **Comparison with the intrinsic supplier.** `AdicSpace.IsTildeLimit.ofAdicSpace_iff`
 states, for a small cofiltered diagram `D : I ⥤ TauCeti.AdicSpace` and cone `c`,
 
-```text
-AdicSpace.IsTildeLimit (D ⋙ ofAdicSpace) (ofAdicSpace.mapCone c)
-  ↔ AdicSpacesPartII.AdicSpace.IsTildeLimit D c.
-```
+`AdicSpace.IsTildeLimit (D ⋙ ofAdicSpace) (ofAdicSpace.mapCone c)   ↔ AdicSpacesPartII.AdicSpace.IsTildeLimit D c.`
 
 Its hypotheses are analyticity of `ofAdicSpace.obj c.pt` and of every
 `ofAdicSpace.obj (D.obj i)`, and `AdicSpace.Qcqs (ofAdicSpace.map (D.map a))`
@@ -17252,7 +17171,7 @@ Proposition 4.8, p. 25, Lemma 4.10, final clause, and Remark 4.11, p. 26;
 
 **Checks.**
 
-- The ℂ_p root-torus object has completed pair ℂ_p⟨T±¹/p^∞⟩ with its power-bounded plus ring.
+- The `ℂ_p` root-torus object has completed pair `ℂ_p⟨T±¹/p^∞⟩` with its power-bounded plus ring.
 - The constant disc over a complete discretely valued mixed-characteristic field fails the perfectoid-object predicate.
 - The empty object over an allowed p-adic base has the zero completed pair and satisfies the affinoid-perfectoid condition.
 
@@ -17264,7 +17183,7 @@ apply `AdicEtaleGeometry.AdicSpace.ProEtaleSite.mem_topology_iff` and
 **Checks.**
 
 - The identity family is a covering in the corrected topology.
-- A supplied finite étale surjective tower gives a covering by isCovering_of_isFetTower.
+- A supplied finite étale surjective tower gives a covering by `isCovering_of_isFetTower`.
 - A family omitting a point of the pro-object cannot pass the supplied jointly-surjective covering condition.
 
 *Needs:* AdicEtaleGeometry A1.10–A1.12 (*pro-etale-site-corrected*),
@@ -17477,8 +17396,7 @@ levels `Γ_0(p^m)` have none and their tilde-limit is the `Γ_0(p^∞)`-level; a
 `D_m → X_{Γ_0(p^m)}(ε)_a` pulls back to the perfectoid `D_{mΓ_0(p^∞)}` (§III.2.4). [CHJ] Theorem 2.8:
 `X_∞` is glued from the two good affinoids `V_i = π_HT^{-1}(V_i)` pulled back from level `K(p^N)`,
 indexed by the cofinal `K(p^n)`, and the rational subset `X_{∞,w}` of `V_1` is the preimage of an
-affinoid `S ⊆ X_{K(p^N)}` (proof of Theorem 2.17). [BHW] Theorem 5.11: `X_{Γ_0*(p^∞)}(ε)_a ~ lim_n
-X_{Γ_0*(p^n)}(ε)_a` for Hilbert modular varieties via relative Frobenius modulo `p^{1−δ}` (Lemma
+affinoid `S ⊆ X_{K(p^N)}` (proof of Theorem 2.17). [BHW] Theorem 5.11: `X_{Γ_0*(p^∞)}(ε)_a ~ lim_n X_{Γ_0*(p^n)}(ε)_a` for Hilbert modular varieties via relative Frobenius modulo `p^{1−δ}` (Lemma
 5.12), restricted from `X*(p^{-∞}ε) ~ lim X*(p^{-n}ε)` to the open modular locus; the finite étale
 `X_{Γ_1*(p^n)} → X_{Γ_0*(p^n)}` pulls back to a tower of finite étale perfectoid spaces whose limit
 is the perfectoid tilde-limit `X_{Γ_1*(p^∞)}(ε)_a`; the `Γ_0`-, `Γ_1`- and `Γ`-towers are distinct
