@@ -4049,9 +4049,17 @@ general by *dagger-affinoid-subdomain-completion* and faithful flatness of compl
   The classical valuation restricts to the ordering of the point norm on `A`.
   A further Check identifies its coordinate algebra with
   `A⟨f/g⟩†`, compatibly with the map from `A`.
-- Characterisation: `U ⊆ Sp(A)` is an affinoid subdomain with
-  algebra `B` iff `A → B` is a morphism inducing a bijection `Sp(B) ≅ U` that is universal for
-  `D = A/m^k`, all maximal `m ∈ U` and `k ≥ 1` (the dagger analogue of BGR 7.2.2/1).
+- Infinitesimal consequence: if `ι : A → B` represents the affinoid subdomain `U`, then for
+  every maximal ideal `m ∈ U` and `k ≥ 1`, the quotient map `A → A/m^k` factors uniquely through
+  `ι`. Indeed, `A/m^k` is a dagger algebra with maximal spectrum supported at `m`, so this is an
+  instance of the universal property for all dagger test algebras (GK00 §2.1, p. 9).
+- Negative control: for `K = ℚ_p`, `A = K`, `U = Sp(K)` and
+  `B = K[ε]/(ε²) ≅ W_1/(T²)`, the structural map `ι : K → B` induces a bijection
+  `Sp(B) ≅ U` and passes all these quotient tests: the only maximal ideal of `A` is `0`,
+  so `A/m^k = K`, and the unique `K`-algebra map `B → K` sends `ε` to `0`. Nevertheless,
+  it does not represent `U`: for the dagger test algebra `D = B`, both `id_B` and the
+  composite `B → K → B` factor the structural map `K → D`, and they differ on `ε`.
+  Thus the quotient tests are necessary but do not characterize an affinoid subdomain.
 
 **A locally closed immersion of affinoid rigid spaces is Runge over a finite rational covering
 (BGR 7.3.5/1).** (*rigid-locally-closed-immersion-runge*) For `K` a field complete for a
