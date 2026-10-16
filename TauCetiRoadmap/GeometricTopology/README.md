@@ -193,14 +193,15 @@ and the constructor `Pregroupoid.groupoid` (`Mathlib/Geometry/Manifold/Structure
 `contDiffGroupoid`, `analyticGroupoid`, and `continuousGroupoid`.
 
 **What to build, gluing track.**
-- **Boundary as a manifold.** `I.boundary M` is currently only a set; promote it to a
-  boundaryless `C^n` manifold one dimension lower, with its inclusion a smooth embedding.
-  This is the prerequisite for every gluing below. ⚠ "One dimension lower" hides a model
-  choice: `ModelWithCorners` does not hand you a canonical boundary model. Pin it by starting
-  with the finite-dimensional real half-space model `modelWithCornersEuclideanHalfSpace n`,
-  whose boundary model is `ℝ^(n-1)` (the coordinate hyperplane), and proving chart transitions
-  restrict to it; generalise to other models (and corners, whose boundary is again a
-  manifold-with-corners) only afterwards.
+- **Boundary as a manifold** — in Tau Ceti for the half-space model
+  (`TauCeti/Geometry/Manifold/Boundary/Charts.lean`: `TauCeti.isManifold_boundary`, with the inclusion a
+  closed smooth embedding), consumed here as the prerequisite for every gluing below. ⚠ "One dimension
+  lower" hid a model choice: `ModelWithCorners` does not hand you a canonical boundary model, and the
+  library pins the finite-dimensional real half-space model `modelWithCornersEuclideanHalfSpace n`, whose
+  boundary model is `ℝ^(n-1)` (the coordinate hyperplane). Corners are different: the boundary of a
+  manifold with corners is not a manifold at a corner, and the face-indexed abstract boundary — the
+  faces along which gluing operates, each a manifold with corners one dimension down — is the
+  [differential-geometry roadmap](../DifferentialGeometry/README.md)'s (its 5.5), consumed here.
 - **Collar neighbourhoods.** A boundary component has a neighbourhood diffeomorphic to
   `∂M × [0, 1)` (the collar theorem; Hirsch, *Differential Topology*, GTM 33, Theorem 6.1,
   [extract](references/hirsch-collar.md); Lee, *Introduction to Smooth Manifolds*, GTM 218,
@@ -230,8 +231,8 @@ and the constructor `Pregroupoid.groupoid` (`Mathlib/Geometry/Manifold/Structure
   a connected oriented manifold and inherits well-definedness from that theorem.
 
 ```lean
--- the boundary is a boundaryless manifold one dimension down
--- instance : IsManifold (I.boundaryModel) n (I.boundary M)
+-- the boundary is a boundaryless manifold one dimension down: Tau Ceti's
+-- `TauCeti.isManifold_boundary` (half-space model); faces of corners come from DifferentialGeometry 5.5
 -- gluing along a piece of the boundary (faces A ⊆ ∂M, B ⊆ ∂N); produces corners along ∂A
 -- def glue (M N) (A : Face (I.boundary M)) (B : Face (I.boundary N)) (f : A ≃ₘ⟮…⟯ B) : Manifold …
 -- handle attachment and full-boundary gluing are special cases of `glue`
@@ -628,22 +629,27 @@ disproved smoothly).
 Mathlib's Riemannian library reaches the metric-and-distance level but stops short of
 volume and curvature, which is exactly what the hyperbolic-geometry Kirby problems need. The
 [Hopf--Rinow roadmap](../HopfRinow/README.md), Layer 1, owns the intervening Levi-Civita
-connection; this layer consumes that shared connection rather than constructing a second one. To
-state "the Weeks manifold has the smallest volume" we need a Riemannian volume measure, a notion
-of hyperbolic (complete, constant curvature `−1`) structure, and the resulting volume invariant.
-This is the hardest layer that is still close to existing Mathlib.
+connection; this layer consumes that shared connection rather than constructing a second one. The
+Riemannian volume measure is this layer's and is in Tau Ceti as `TauCeti.riemannianVolume`
+(`TauCeti/Geometry/Manifold/Riemannian/VolumeDensity/`); the
+[differential-geometry roadmap](../DifferentialGeometry/README.md) connects its densities and form
+integration to that same measure (its 12.4) rather than defining another. To state "the Weeks
+manifold has the smallest volume" we need that measure, a notion of hyperbolic (complete, constant
+curvature `−1`) structure, and the resulting volume invariant. This is the hardest layer that is
+still close to existing Mathlib.
 
 **From Mathlib / earlier roadmaps and layers.** `RiemannianBundle` and
 `IsRiemannianManifold`, the induced `riemannianEDist`, and `EMetricSpace.ofRiemannianMetric`
 (`Mathlib/Geometry/Manifold/Riemannian/Basic.lean`); path length in
 `Mathlib/Geometry/Manifold/Riemannian/PathELength.lean`; Mathlib's measure theory and the
-`volume` measure on `ℝⁿ`; the Hopf--Rinow roadmap's Levi-Civita connection; layer 1's manifolds;
-`Matrix.orthogonalGroup` for isometry groups.
+`volume` measure on `ℝⁿ`; the Hopf--Rinow roadmap's Levi-Civita connection; Tau Ceti's
+`TauCeti.riemannianVolume`; layer 1's manifolds; `Matrix.orthogonalGroup` for isometry groups.
 
 **What to build.**
-- The **Riemannian volume measure** from the metric (the density `√det g` in charts,
-  assembled with a partition of unity), and its invariance under isometries; the total
-  **volume** of a closed Riemannian manifold as a real number.
+- The **Riemannian volume measure** from the metric, the density `√det g` in charts glued over the
+  chart sources, with its invariance under isometries: in Tau Ceti as `TauCeti.riemannianVolume`.
+  Then the total **volume** of a closed Riemannian manifold as a real number,
+  `(TauCeti.riemannianVolume I M univ).toReal`.
 - **Curvature**: using the Levi-Civita connection supplied by the Hopf--Rinow roadmap, build the
   Riemann curvature tensor and sectional and Ricci curvature, enough to *state* "constant
   sectional curvature `κ`" (Lee,
@@ -665,10 +671,10 @@ This is the hardest layer that is still close to existing Mathlib.
   *virtually* so (a finite cover is).
 
 ```lean
--- noncomputable def riemannianVolume (M) [IsRiemannianManifold I M] : Measure M := …
--- noncomputable def volume (M) [Closed M] [IsRiemannianManifold I M] : ℝ := (riemannianVolume M) univ
+-- the Riemannian measure is Tau Ceti's `TauCeti.riemannianVolume`; the volume is its total mass
+-- noncomputable def volume (M) [Closed M] [IsRiemannianManifold I M] : ℝ := (TauCeti.riemannianVolume I M univ).toReal
 -- structure HyperbolicMetric (M) where metric : RiemannianMetric M; complete : …; curv : sectionalCurvature metric = -1
--- noncomputable def hypVolumeOfMetric (g : HyperbolicMetric M) : ℝ := riemannianVolume g.metric univ
+-- noncomputable def hypVolumeOfMetric (g : HyperbolicMetric M) : ℝ := (TauCeti.riemannianVolume I M univ).toReal  -- for the metric g
 -- theorem hypVolume_indep (g g' : HyperbolicMetric M) [Closed M] (h : 3 ≤ dim M) : hypVolumeOfMetric g = hypVolumeOfMetric g'  -- Mostow
 -- noncomputable def hypVolume (M) [Closed M] (h : Nonempty (HyperbolicMetric M)) : ℝ := …  -- via hypVolume_indep
 -- theorem weeks_minimal_volume (M) (h : ClosedOrientableHyperbolic3 M) : hypVolume weeksManifold ≤ hypVolume M
@@ -789,11 +795,13 @@ the Euler class as first-class objects.
 Euler class; vector bundles and their (to-be-built) Euler class; layer 1's manifolds.
 
 **What to build.**
-- A **foliation** of `M` as an integrable subbundle of `TM` (a distribution closed under
-  Lie bracket), equivalently a maximal atlas of flat charts; **leaves** as the maximal
-  integral submanifolds; **taut** foliations (a closed transversal through every leaf).
-  Calegari, *Foliations and the Geometry of 3-Manifolds* (freely available online), is the
-  reference.
+- A **foliation** of `M`: the general objects — distributions, involutivity, integral manifolds,
+  flat charts and the leaves of the global Frobenius theorem (`Distribution`, `IsInvolutive`,
+  `IntegralManifold`, `leafThrough`) — are the
+  [differential-geometry roadmap](../DifferentialGeometry/README.md)'s layer 4, consumed here and
+  specialized to codimension one; built here on top: the codimension-one specifics, and **taut**
+  foliations (a closed transversal through every leaf). Calegari, *Foliations and the Geometry of
+  3-Manifolds* (freely available online), is the reference.
 - The **Euler class** of an oriented plane bundle in degree-2 *cohomology* (a small standalone
   layer on top of Mathlib's bundle theory), specialized to the tangent field of a codimension-one
   foliation. ⚠ Be explicit that this is singular *cohomology* `H²(M; ℤ)`, not homology; the
@@ -805,7 +813,7 @@ Euler class; vector bundles and their (to-be-built) Euler class; layer 1's manif
   Define the surface class and the pairing before the inequality.
 
 ```lean
--- structure Foliation (M) where dist : Subbundle (TangentBundle M); integrable : Involutive dist
+-- a codimension-one foliation is an involutive DifferentialGeometry `Distribution` of corank one, with its leaves
 -- def eulerClass (E : OrientedPlaneBundle M) : SingularCohomology 2 M ℤ := …     -- cohomology, not homology
 -- def evalOnSurface (c : SingularCohomology 2 M ℤ) (S : EmbeddedSurface M) : ℤ := ⟨c, fundamentalClass S⟩
 -- def EulerClassBounded (F : Foliation M) : Prop := ∀ S, |evalOnSurface (eulerClass F.dist) S| ≤ -eulerChar S
@@ -842,6 +850,34 @@ groupoid.
   polyhedron `|K|`), with the basic API (faces, the star and **link** of a simplex,
   subdivision), reusing the simplicial-set realization where the indexing allows and the
   geometric `SimplicialComplex.space` otherwise.
+- **Maps, restrictions and compactness for `|K|`.** The continuous map `|f| : |K| → |L|` induced
+  by a simplicial map, with its barycentric-coordinate formula and the identity and composition
+  laws; the restriction of a complex to a subset of its vertices, with the realization of a
+  restriction an embedding (`AbstractSimplicialComplex ι` contains every singleton of `ι`, so a
+  restriction changes the vertex type rather than shrinking the complex over the same one, and
+  `PreAbstractSimplicialComplex` is the singleton-free version if that is awkward); `|K|` is
+  Hausdorff and is the quotient of the disjoint union of its closed simplices; and **every
+  compact subset of `|K|` lies in the realization of a restriction to finitely many vertices**,
+  so that a continuous map out of a compact space factors continuously through such a
+  restriction. The last of these is what makes the weak topology usable, and it is the form
+  every consumer needs: the classifying-space roadmap's contractibility argument, and the
+  finiteness arguments of this layer's own collapse results.
+- **Realized cones and contiguity.** The affine homotopy attached to a pair of contiguous
+  simplicial maps, jointly continuous in the point and the parameter; in particular the
+  realization of the combinatorial cone contracts onto its apex, fixing the apex throughout.
+- **`|K|` as a CW complex.** Fix a map `o : ι → α` into a linear order that is injective on each
+  simplex (a linear order on `ι` itself, or for a join the index of each vertex). A classical
+  `CWComplex (Set.univ : Set |K|)` whose `n`-cells are the `n`-simplices of `K`, the
+  characteristic map of a simplex being a fixed homeomorphism from the closed unit ball of
+  `Fin n → ℝ` onto the standard simplex `stdSimplex ℝ (Fin (n + 1))`, carrying the sphere onto
+  the union of the proper faces, followed by the map to `|K|` that enumerates the vertices of the
+  simplex in increasing order of `o`. Simplicial maps are cellular for it. A simplicial map that
+  is injective on each simplex and preserves the order of `o` on each simplex carries each
+  characteristic map onto a characteristic map, and a simplicial automorphism permutes the cells.
+  The cellular chain complex is the ordered simplicial chain complex: the cellular boundary of an
+  `n`-simplex `[v₀, …, vₙ]`, with `o v₀ < ⋯ < o vₙ`, is `∑ⱼ (-1)ʲ [v₀, …, v̂ⱼ, …, vₙ]`. This is
+  what lets the cellular theory of the algebraic-topology roadmap apply to a realization, and the
+  classifying-space roadmap consumes it for the cellular chains of the countable join.
 - **Triangulation of a space** in the general sense: `IsTriangulable M := ∃ K, Nonempty (|K| ≃ₜ M)`.
   This is the notion in Manolescu's theorem, and it is *weaker* than asking for a
   combinatorial or PL structure. (Moise, *Geometric Topology in Dimensions 2 and 3*, treats

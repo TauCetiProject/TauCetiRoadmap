@@ -123,7 +123,13 @@ way `#33505` does, and delete ours if theirs lands — see
   SW modular-`λ` covering consumes.*
 - **L5 — Carathéodory boundary correspondence.** The concrete L5 milestone is the
   **Jordan-domain case**: the RMT map of a Jordan domain extends to a homeomorphism of
-  closures. Uses L4 (reflection) for analytic boundary arcs. The general **prime-ends**
+  closures. Its topological foundation uses the existing `TauCeti.IsJordanCurve` and
+  `TauCeti.filledHull`: establish that a planar Jordan curve has exactly two complementary
+  components, one bounded and one unbounded, that its inside `filledHull C \ C` is open,
+  bounded and connected, and that the frontier of each component is `C`. Supply the
+  filled-hull containment and separation API consumed by DifferentialGeometry 5.6. These
+  topology results do not require RMT or boundary smoothness. Uses L4 (reflection) for
+  analytic boundary arcs. The general **prime-ends**
   correspondence (Mathlib has no prime-ends definition) is materially heavier and is *not* part
   of the L5 milestone; if pursued it is scoped as its own follow-on target rather than folded
   into L5.
@@ -131,6 +137,14 @@ way `#33505` does, and delete ours if theirs lands — see
   (sequenced last, after the boundary theory it needs).
 
 ## Relation to sibling roadmaps (this entry is the connective layer)
+
+L5 owns Jordan separation and filled-hull topology.
+[GeometricMeasureTheory](../GeometricMeasureTheory/README.md), G1–G2 and G6, owns metric
+rectifiability, arclength, Hausdorff length, and the finite-perimeter comparison for
+rectifiable Jordan domains. [DifferentialGeometry](../DifferentialGeometry/README.md),
+5.6, owns winding and Green's area identity. [Isoperimetry](../Isoperimetry/README.md),
+I6, consumes these to prove the full rectifiable Jordan inequality and circle rigidity.
+None of those geometric comparisons is an additional regularity hypothesis for L5.
 
 This area sits **between two of Chris Birkbeck's roadmaps** and feeds two more, so it is
 deliberately scoped to the conformal-mapping spine that none of them build:

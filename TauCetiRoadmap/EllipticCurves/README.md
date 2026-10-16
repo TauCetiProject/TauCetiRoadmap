@@ -112,9 +112,12 @@ Why this is the right foundation, and a cheap one:
   surjectivity the Layer-0 anchor) yields the induced map `toPointHom : W₁.Point →+ W₂.Point`
   — additive **by construction**: the group law comes along through the *same* algebra that
   proves Mathlib's group law, with no separate rigidity theorem.
-- **The differential calculus is upstream.** The invariant differential is an element of
+- **Use Mathlib's differential vocabulary.** The invariant differential is an element of
   Mathlib's Kähler module `Ω[W.FunctionField⁄K]`, and `φ^*` is `KaehlerDifferential.map` along
-  `pullback`; separability of `φ` is `φ^*ω ≠ 0`.
+  `pullback`; separability of `φ` is `φ^*ω ≠ 0`. Layer 1 consumes
+  AlgebraicCurves' early Weierstrass local-generation milestone for the
+  regular/nonvanishing differential and separable-isogeny unramifiedness.
+  Translation-invariance follows directly from native addition formulas.
 
 The definition itself needs nothing Mathlib lacks — `CoordinateRing`, `FunctionField`, and
 `integralClosure` are upstream, so the structure is **stated verbatim in `Suggested.lean`**,
@@ -349,10 +352,10 @@ alternate, recorded in Layer 1). What consumes this layer: the
 **divisor construction of the Weil pairing** (Layer 2's functions with divisor `N(P) − N(O)`),
 the **equivalence with the literature definition** (the place at `O₁` restricting to the place
 at `O₂` is what the comparison rests on), **ramification bookkeeping** (the
-separable-⟹-unramified milestone in its `e_w = 1` form — equivalently étaleness of the
-intermediate ring), and the **class-group anchor** below. Everything here is commutative
+separable-⟹-unramified milestone in its `e_w = 1` and separable-residue form), and the **class-group anchor** below. Everything here is commutative
 algebra over `Affine.CoordinateRing`; the design is coordinated with Angdinata's in-flight
-upstream work, whose interface this layer follows.
+upstream work. Use AlgebraicCurves' normalized-valuation place interface
+here, with adapters to Angdinata's coordinate-ring and ideal-class interfaces.
 
 - **Places.** The places of `W.FunctionField` over `K` — the valuation-theoretic points of the
   regular proper curve (Stichtenoth I.1; *regular*, not *smooth* — conventions). The affine places are the maximal ideals of the
@@ -360,15 +363,24 @@ upstream work, whose interface this layer follows.
   place, **`W.infinityPlace`**, sits where `x` and `y` have their poles (`ord_∞ x = −2`,
   `ord_∞ y = −3`, residue field `K`). API: `ord_v`, uniformisers, residue fields, the **degree**
   `deg v` (the residue finrank), evaluation of functions away from their poles. The
-  implementation (maximal ideals, valuation subrings, …) is left to the upstream coordination;
-  the interface here is what the later layers consume.
+  constructions are supplied by
+  [AlgebraicCurves Layer 10's early Weierstrass local-ring milestone](../AlgebraicCurves/README.md):
+  consume its smooth affine local DVRs, normalized infinity valuation and
+  classification of every place. This supplier starts after AlgebraicCurves
+  Layer 0 and uses no elliptic genus, isogeny or translation-invariance result.
+  Instantiate its normalized valuation API here; use the single supplied
+  `infinityPlace` throughout the point/place and induced-place dictionaries.
 - **`inducedPlace`.** The place of `F₂` under a place of `F₁`, along a `K`-algebra map
   `F₂ →ₐ[K] F₁`: restriction of the valuation, with ramification index `e` and residue degree
   `f`; functoriality (`id`, `comp`); and the **fundamental identity** `Σ_{w ∣ v} e_w · f_w = [F₁ : F₂]`
-  (Stichtenoth III.1.11) — which counts geometric fibres of isogenies **once Layer 1's
-  separable-⟹-unramified milestone supplies `e_w = 1`**: over a separably closed field the
-  identity alone gives only `Σ e_w = deg`, and a separable extension of function fields can
-  still ramify at individual places (Layers 1–3).
+  (Stichtenoth III.1.11), supplied by
+  [AlgebraicCurves Layer 6](../AlgebraicCurves/README.md) without Riemann–Roch —
+  which counts geometric fibres of isogenies **once Layer 1's
+  separable-⟹-unramified milestone supplies `e_w = 1` and separable residue
+  extensions**: above a rational target place over a separably closed field,
+  this gives `f_w = 1` as well. The identity alone only gives `Σ e_w·f_w = deg`;
+  a separable function-field extension can still ramify at individual places
+  or have inseparable residue extensions (Layers 1–3).
 - **The point–place dictionary.** For elliptic `W`, `W.toAffine.Point` is in bijection with the
   **degree-`1` places**: `O ↦ infinityPlace`, and an affine nonsingular `(x₀, y₀) ↦` the maximal
   ideal `(X − x₀, Y − y₀)`. Every later layer passes through this dictionary. (Stated for elliptic
@@ -394,7 +406,15 @@ being distributed as bookkeeping. Its milestones:
   isogenies, compatible with identity, composition, degree, separability, `MapsInfinity`,
   duals, and induced point maps;
 - Galois actions on coefficients, functions, points, places, divisors, and isogenies;
-- function-field pullbacks of the translations `τ_P`, with the action and composition laws;
+- function-field pullbacks of the translations `τ_Q`, with the action and composition laws.
+  Construct the coordinate-ring map A → W.FunctionField from the native secant
+  formulas for P_gen + Q, with Q constant. Prove its injectivity before extending
+  to the function field: a nonzero kernel would make the image a finite
+  extension L/K; Mathlib's point group law over W.FunctionField, and its
+  compatibility with the point map along L ↪ W.FunctionField, would then put
+  P_gen=(P_gen+Q)−Q in W(L), contradicting x's transcendence. Extend by the
+  fraction-field universal property and prove the inverse is translation by −Q.
+  Transport local rings and places through these automorphisms;
 - the fixed-field theorem for the translation action of a finite kernel (the input to the
   dual-isogeny construction);
 - descent of function-field maps from `Kˢᵉᵖ` to `K` (Galois-equivariance criterion);
@@ -572,16 +592,44 @@ being distributed as bookkeeping. Its milestones:
   milestone (stated in `Suggested.lean`, `smul_surjective`), the counting input to Layer 2.
 - **The invariant differential.** `ω = dx / (2y + a₁x + a₃)` as an element of Mathlib's
   `Ω[W.FunctionField⁄K]` (for elliptic `W` the denominator is nonzero in every characteristic);
-  `Ω[F⁄K]` is `1`-dimensional over `F` with basis `ω`; the pullback `φ^*` is
-  `KaehlerDifferential.map` along `pullback`; translation-invariance (AEC III.5.1); the
+  the pullback `φ^*` is `KaehlerDifferential.map` along `pullback`.
+  For the basis and local regular/nonvanishing results, consume
+  [AlgebraicCurves Layer 10's early local elliptic-differential computation](../AlgebraicCurves/README.md):
+  its free affine Kähler module on ω localizes to the one-dimensional
+  function-field Kähler module with basis ω; its affine/infinity classification
+  and local Kähler injections show ω generates every local image.
+  That milestone defines the same ω directly in Mathlib's Kähler module and
+  constructs its smooth local DVRs after AlgebraicCurves Layer 0, independently
+  of genus, different, completion, and the k-perfect Weil comparison.
+  Translation-invariance uses Layer 0.5's translation pullbacks and native
+  addition formulas directly, independently of those local-generation and
+  exact-constants results. Prove `τ_Q^*ω=ω` (AEC III.5.1) by differentiating
+  those formulas with Q constant in the generic-point function field and
+  using the Weierstrass differential relation. Clear denominators in the
+  universal coefficient identity over ℤ before specialization, including
+  characteristics 2 and 3; use the identity map for Q=O.
+  Then prove the
   **separability criterion** — `φ` separable `↔ φ^*ω ≠ 0` (II.4.2); and **additivity**
   `(φ ∔ ψ)^* ω = φ^* ω + ψ^* ω` (III.5.2), giving `[n]^* ω = n • ω` — the identity forcing `[n]`
   to be separable exactly when `char K ∤ n`. And — the milestone Layer 0's fibre count needs —
-  **separable implies unramified**: a separable isogeny has `e_w = 1` at *every* place
-  (étale, by translation-invariance of the ramification locus), so `#fibre = deg` over a
-  separably closed field; `E[N]` (Layer 2) and the Hasse kernel count (Layer 3) consume
-  exactly this. ⚠ API design: the differential API is pinned to these consumers and
-  nothing more — the separability criterion, `[n]^* ω = n • ω`, the `e_w = 1` milestone, and
+  **separable implies unramified**: at every induced local-ring map O_v→O_w,
+  a separable isogeny has `e_w = 1` and separable residue extension κ(w)/κ(v).
+  Write `φ^*ω=aω` by the function-field basis; the supplied local Kähler
+  generators and local-ring pullback maps show a is regular at every place.
+  Consume AlgebraicCurves Layer 0's `k̃=⋂_P O_P` and the early milestone's
+  exact constants to conclude a ∈ K; separability gives a≠0.
+  Thus `Ω[O_v⁄K] ⊗[O_v] O_w → Ω[O_w⁄K]` is an isomorphism, sending
+  a generator to a unit times a generator. The first fundamental sequence
+  gives `Ω[O_w⁄O_v]=0`. For `Algebra.EssFiniteType O_v O_w`, use the
+  early supplier's affine or infinity chart containing w: O_w is a
+  localization of its finitely generated K-algebra, hence `EssFiniteType K O_w`.
+  Apply `Algebra.EssFiniteType.of_comp` along K→O_v→O_w.
+  Apply the local unramified
+  criterion to deduce m_v·O_w=m_w and κ(w)/κ(v) finite separable, hence e_w=1.
+  Above a rational target place over separably closed K this also gives f_w=1;
+  therefore `#fibre = deg`. `E[N]` (Layer 2) and the Hasse kernel count
+  (Layer 3) consume exactly these two conclusions. ⚠ API design: the differential API is pinned to these consumers and
+  nothing more — the separability criterion, `[n]^* ω = n • ω`, the unramified local-ring/residue milestone, and
   Layer 4's formal-group uses — and its design model is the HasseWeil provenance, whose
   capstone genuinely consumes it: `HasseBound/Separability.lean` imports
   `Foundation/InvariantDifferentialPullback`, and `Foundation/EC/MulByIntUnramified.lean` is
@@ -709,8 +757,9 @@ being distributed as bookkeeping. Its milestones:
   function-field definition these are not a parallel theory to be reconciled across worlds; they
   are the **point-level counterparts** of Layer 1's objects, identified by two named lemmas: the
   Frobenius isogeny induces `(x, y) ↦ (x^q, y^q)` on points (the Layer-0 dictionary applied to
-  `pullback = (· ^ q)`), and kernel cardinality equals `deg` on the **separable** locus (the
-  `Σ e · f` identity with `e ≡ 1` from Layer 1's separable-⟹-unramified milestone) — the
+  `pullback = (· ^ q)`), and kernel cardinality equals `deg` on the **separable** locus
+  after base change to `𝔽̄_q` (the `Σ e · f` identity with `e ≡ f ≡ 1` from
+  Layer 1's separable-⟹-unramified milestone) — the
   only locus where the existing proof counts kernels (its
   coprime-route design; the one inseparable actor, `π_q` itself, never has its kernel counted —
   its degree `q` enters through the Galois `q`-power pairing scaling). Once Layers 0–1 land, the
@@ -1562,6 +1611,15 @@ cross-cutting Layer 0.5 starts early because Layers 1, 2, 4, and 5 all use it. T
 
 1. **Function fields, isogenies, base change, and descent** — Layers 0, 0.5, 1. Layer 0 is
    the foundation; Layer 1 builds on it, on Layer 0.5, and on the division polynomials.
+   Its Layer 0 place/Dedekind/dictionary lane and Layer 1 Kähler basis,
+   regular/nonvanishing and unramifiedness milestones consume AlgebraicCurves
+   Layer 10's early Weierstrass local-ring/local-generation milestone.
+   Layer 0.5's translations and their Layer 1 differential identity use the
+   native addition formulas independently of that supplier.
+   That supplier starts after AlgebraicCurves Layer 0 and uses no genus,
+   different, completion, or later Kähler/Weil comparison. Layer 0's induced-place
+   fundamental identity consumes AlgebraicCurves Layer 6, which follows
+   Layers 0–3 independently of Riemann–Roch.
 2. **Finite fields** — Layer 3 (Hasse, zeta): the Hasse bound is the earliest PR, its
    existing proof self-contained; the zeta strand needs Layer 1's Frobenius identities.
 3. **Formal groups, reduction, and local arithmetic** — Layers 1 (formal group), 4. Layer 4

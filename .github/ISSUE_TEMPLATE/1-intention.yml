@@ -19,50 +19,72 @@ body:
       description: Which roadmap does this intention sit in?
       options:
         - AdicSpaces
-        - AlgebraicCodingTheory
+        - AdicSpacesPartII
+        - AffineMorseLefschetz
         - AlgebraicCurves
         - AlgebraicTopology
         - AlgebraicVectorBundles
         - AnalyticToricGeometry
-        - ArithmeticDirichletSeries
+        - BanachSpaceTheory
         - BelyiMaps
         - CFSGStatement
         - Chebotarev
         - ClassFieldTheory
+        - ClassifyingSpaces
         - CombinatorialHeegaardFloer
+        - CompactOperators
         - ConformalMapping
         - DGAInfinity
+        - DGFloer
         - DenseGraphLimits
+        - DifferentialGeometry
+        - DiophantineApproximationAndTranscendence
         - EllipticCurves
         - Exchangeability
+        - FormalLaurentPuiseux
         - FuchsianOrbifolds
+        - GeometricMeasureTheory
         - GeometricTopology
         - GlobalNumberFields
         - GlobalQuadraticForms
         - GrothendieckEulerForms
         - HeegaardFloer
-        - HodgeStructures
+        - HeightsAndUnits
         - HopfRinow
+        - IntegralLattices
+        - Isoperimetry
         - JacobianChallenge
         - LocalFieldsRamification
+        - LocalGaloisGroups
+        - ModularCurves
         - ModularForms
-        - Multiquadratic
+        - NewtonPolygons
+        - NoncommutativeGeometry
         - NumberFieldArithmetic
         - OneParameterSemigroups
+        - OperatorTheory
         - OptimalTransport
         - OrthogonalSpinGroups
         - PDE
+        - PadicFunctionalAnalysis
+        - PadicMeasuresIwasawaAlgebras
+        - PeripheralActions
+        - PivotalSpherical
         - PolynomialGaloisGroups
+        - ProfiniteArithmetic
         - ProfiniteCohomology
         - ProfiniteProPGroups
         - QuadraticFormInvariants
+        - QuantumGroups
+        - RealAlgebraicGeometry
         - ReductiveGroups
+        - Regularity
         - RepresentationTheory
-        - RestrictedProducts
+        - RigidAnalyticGeometry
+        - SchemeAndStackFoundations
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
-        - UniversalCovers
         - ZigzagPreprojective
     validations:
       required: true
