@@ -256,10 +256,15 @@ lives in `Ordinal.{0}`. All of the following hold for every language and every `
 * [`Scott/OrbitRank.lean`](https://github.com/cameronfreer/infinitary-logic/blob/9f82bd572af2d79a043c6bc3f1b745f14e0bcaa4/InfinitaryLogic/Scott/OrbitRank.lean#L97-L98): `orbitRank_mem` is
   `orbitRank_mem_orbitStable`. Its `internalScottRank_pureSet` covers only infinite pure sets; the
   finite and empty cases follow from `orbitRank_pure_eq_zero` in `Scott/PureSetThreshold.lean`;
-* [`Scott/Sentence.lean`](https://github.com/cameronfreer/infinitary-logic/blob/9f82bd572af2d79a043c6bc3f1b745f14e0bcaa4/InfinitaryLogic/Scott/Sentence.lean#L291-L292): `exists_complete_self_stabilization`
-  is stated in `Ordinal.{0}`; lifting it to `Ordinal.{w}` gives
-  `selfStabilizationOrdinal_lt_omega_one` and, with the comparisons above,
-  `internalScottRank_lt_omega_one`.
+* [`Scott/Sentence.lean`](https://github.com/cameronfreer/infinitary-logic/blob/9f82bd572af2d79a043c6bc3f1b745f14e0bcaa4/InfinitaryLogic/Scott/Sentence.lean#L168-L176): `BFEquiv_upgrade_at_selfStabilization` is
+  `SelfStabilizesCompletely.bfEquiv_of_le`, with no countability or relational hypothesis;
+  `exists_complete_self_stabilization` ([L291](https://github.com/cameronfreer/infinitary-logic/blob/9f82bd572af2d79a043c6bc3f1b745f14e0bcaa4/InfinitaryLogic/Scott/Sentence.lean#L291-L292)) is stated in
+  `Ordinal.{0}`, and lifting it to `Ordinal.{w}` gives `selfStabilizationOrdinal_lt_omega_one` and,
+  with the comparisons above, `internalScottRank_lt_omega_one`;
+* [`Scott/MontalbanSentence.lean`](https://github.com/cameronfreer/infinitary-logic/blob/9f82bd572af2d79a043c6bc3f1b745f14e0bcaa4/InfinitaryLogic/Scott/MontalbanSentence.lean) supplies a related construction from a
+  family of orbit formulas, with explicit atomic-diagram and extension clauses. Under its
+  hypotheses it characterizes the same countable isomorphism class, but it is a different
+  construction from this roadmap's `scottSentenceAt`; use it as a proof reference.
 
 The exact value `SR(K₂ ⊔ K₃) = 3` is not in the source, which proves only the lower bound. At that
 checkpoint, the source's `scottSentenceAt` in `Scott/Formula.lean` is only the empty-tuple Scott
