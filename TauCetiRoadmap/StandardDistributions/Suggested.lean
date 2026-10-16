@@ -18,15 +18,19 @@ import TauCeti.MeasureTheory.Measure.SymmetricMatrix.Determinant
 import TauCeti.MeasureTheory.Measure.SymmetricMatrix.Lebesgue
 import TauCeti.MeasureTheory.Measure.SymmetricMatrix.PosDef
 import TauCeti.Probability.Cdf
+import TauCeti.Probability.Distributions.Bernoulli.Basic
 import TauCeti.Probability.Distributions.Binomial.Tail
-import TauCeti.Probability.Distributions.Cauchy
+import TauCeti.Probability.Distributions.Cauchy.Basic
+import TauCeti.Probability.Distributions.Cauchy.PDF
 import TauCeti.Probability.Distributions.ChiSquared
 import TauCeti.Probability.Distributions.Dirichlet.Basic
 import TauCeti.Probability.Distributions.Dirichlet.Moments
-import TauCeti.Probability.Distributions.Exponential
+import TauCeti.Probability.Distributions.Exponential.Basic
 import TauCeti.Probability.Distributions.Gamma.Basic
 import TauCeti.Probability.Distributions.Gamma.Beta
 import TauCeti.Probability.Distributions.Gamma.Cdf
+import TauCeti.Probability.Distributions.Gamma.Measurability
+import TauCeti.Probability.Distributions.Gamma.PDF
 import TauCeti.Probability.Distributions.Gamma.Poisson
 import TauCeti.Probability.Distributions.Gaussian.Affine
 import TauCeti.Probability.Distributions.Gaussian.Cdf
@@ -34,18 +38,18 @@ import TauCeti.Probability.Distributions.Gaussian.ChiSquared
 import TauCeti.Probability.Distributions.Gaussian.Conditional
 import TauCeti.Probability.Distributions.Gaussian.Density
 import TauCeti.Probability.Distributions.Gaussian.Multivariate
+import TauCeti.Probability.Distributions.Gaussian.PDF
 import TauCeti.Probability.Distributions.Gaussian.Pi
 import TauCeti.Probability.Distributions.Gaussian.QuadraticForm
 import TauCeti.Probability.Distributions.Gaussian.Transforms
-import TauCeti.Probability.Distributions.InverseGamma
+import TauCeti.Probability.Distributions.InverseGamma.Basic
 import TauCeti.Probability.Distributions.Laplace
 import TauCeti.Probability.Distributions.LogNormal
-import TauCeti.Probability.Distributions.Measurability
 import TauCeti.Probability.Distributions.Multinomial.Aggregation
 import TauCeti.Probability.Distributions.Multinomial.Basic
 import TauCeti.Probability.Distributions.Multinomial.Transforms
 import TauCeti.Probability.Distributions.NegativeBinomial.Basic
-import TauCeti.Probability.Distributions.PDFInstances
+import TauCeti.Probability.Distributions.Poisson.Measurability
 import TauCeti.Probability.Distributions.Poisson.Tail
 import TauCeti.Probability.Distributions.StudentT.Basic
 import TauCeti.Probability.Distributions.StudentT.Cdf
@@ -56,7 +60,8 @@ import TauCeti.Probability.Distributions.Wishart.Bartlett
 import TauCeti.Probability.Distributions.Wishart.Basic
 import TauCeti.Probability.Distributions.Wishart.CharFun
 import TauCeti.Probability.Distributions.Wishart.Congruence
-import TauCeti.Probability.Distributions.Wishart.Inverse
+import TauCeti.Probability.Distributions.Wishart.Inverse.Measurability
+import TauCeti.Probability.Distributions.Wishart.Inverse.Moments
 import TauCeti.Probability.Distributions.Wishart.Measurability
 import TauCeti.Probability.Distributions.Wishart.Moments
 import TauCeti.Probability.Distributions.Wishart.Nonsingular
@@ -146,16 +151,16 @@ example {r : ℝ} (hr : 0 < r) :
 
 example {a b r : ℝ} (ha : 0 < a) (hb : 0 < b) (hr : 0 < r) :
     (gammaMeasure a r) ∗ (gammaMeasure b r) = gammaMeasure (a + b) r := by
-  solve_by_elim [TauCeti.gammaMeasure_conv_gammaMeasure]
+  solve_by_elim [TauCeti.Probability.gammaMeasure_conv_gammaMeasure]
 
 example (x₀ : ℝ) (γ : ℝ≥0) (t : ℝ) :
     charFun (cauchyMeasure x₀ γ) t =
       Complex.exp ((t : ℂ) * x₀ * Complex.I - γ * |t|) := by
-  solve_by_elim [TauCeti.charFun_cauchyMeasure]
+  solve_by_elim [TauCeti.Probability.charFun_cauchyMeasure]
 
 example (x₀ : ℝ) (γ : ℝ≥0) (hγ : γ ≠ 0) :
     ¬ Integrable id (cauchyMeasure x₀ γ) := by
-  solve_by_elim [TauCeti.not_integrable_id_cauchyMeasure]
+  solve_by_elim [TauCeti.Probability.not_integrable_id_cauchyMeasure]
 
 /-! ### Probability generating functions -/
 
@@ -215,24 +220,24 @@ abbrev erfc (x : ℝ) : ℝ :=
 
 example {a r : ℝ} (ha : 0 < a) (hr : 0 < r) (x : ℝ) :
     cdf (gammaMeasure a r) x = regularizedGamma a (r * x) := by
-  solve_by_elim [TauCeti.cdf_gammaMeasure_eq]
+  solve_by_elim [TauCeti.Probability.cdf_gammaMeasure_eq]
 
 example {m : ℝ} {v : ℝ≥0} (hv : v ≠ 0) (x : ℝ) :
     cdf (gaussianReal m v) x = (1 + erf ((x - m) / √(2 * v))) / 2 := by
-  solve_by_elim [TauCeti.cdf_gaussianReal_eq]
+  solve_by_elim [TauCeti.Probability.cdf_gaussianReal_eq]
 
 example (m x : ℝ) :
     cdf (gaussianReal m 0) x = if m ≤ x then 1 else 0 := by
-  solve_by_elim [TauCeti.cdf_gaussianReal_zero]
+  solve_by_elim [TauCeti.Probability.cdf_gaussianReal_zero]
 
 example {m n : ℕ} (hmn : m ≤ n) (p : I) :
     (binomial n p).real {k | m ≤ k} =
       regularizedIncompleteBeta m (n - m + 1) (p : ℝ) := by
-  solve_by_elim [TauCeti.binomial_tail_eq_regularizedIncompleteBeta]
+  solve_by_elim [TauCeti.Probability.binomial_tail_eq_regularizedIncompleteBeta]
 
 example (r : ℝ≥0) (n : ℕ) :
     (poissonMeasure r).real {k | n < k} = regularizedGamma (n + 1) (r : ℝ) := by
-  solve_by_elim [TauCeti.poissonMeasure_tail_eq_regularizedGamma]
+  solve_by_elim [TauCeti.Probability.poissonMeasure_tail_eq_regularizedGamma]
 
 example {x : ℝ} (hx : 0 ≤ x) : regularizedGamma 1 x = 1 - rexp (-x) :=
   TauCeti.regularizedGamma_one hx
@@ -354,7 +359,7 @@ example {a b r : ℝ} (ha : 0 < a) (hb : 0 < b) (hr : 0 < r) :
     ((gammaMeasure a r).prod (gammaMeasure b r)).map
         (fun z => (z.1 / (z.1 + z.2), z.1 + z.2)) =
       (betaMeasure a b).prod (gammaMeasure (a + b) r) := by
-  solve_by_elim [TauCeti.map_div_add_prod_gammaMeasure]
+  solve_by_elim [TauCeti.Probability.map_div_add_prod_gammaMeasure]
 
 example {r p : ℝ} (hr : 0 < r) (hp : p ∈ Set.Ioo (0 : ℝ) 1) :
     (gammaMeasure r (p / (1 - p))).bind (fun lam => poissonMeasure (Real.toNNReal lam)) =
@@ -372,7 +377,7 @@ abbrev covMatrix {ι : Type*} [Fintype ι] (μ : Measure (EuclideanSpace ℝ ι)
 example {ι : Type*} [Fintype ι] [DecidableEq ι]
     (m : EuclideanSpace ℝ ι) {S : Matrix ι ι ℝ} (hS : S.PosSemidef) :
     covMatrix (multivariateGaussian m S) = S := by
-  solve_by_elim [TauCeti.covMatrix_multivariateGaussian]
+  solve_by_elim [TauCeti.Probability.covMatrix_multivariateGaussian]
 
 example {ι : Type*} [Fintype ι] [DecidableEq ι]
     (m : EuclideanSpace ℝ ι) (S : Matrix ι ι ℝ) :
@@ -382,13 +387,13 @@ example {ι : Type*} [Fintype ι] [DecidableEq ι]
 example {ι : Type*} [Fintype ι] [DecidableEq ι]
     (m θ : EuclideanSpace ℝ ι) (S : Matrix ι ι ℝ) :
     integrableExpSet (fun x => ⟪θ, x⟫_ℝ) (multivariateGaussian m S) = Set.univ :=
-  TauCeti.integrableExpSet_inner_multivariateGaussian m θ S
+  TauCeti.Probability.integrableExpSet_inner_multivariateGaussian m θ S
 
 example {ι : Type*} [Fintype ι] [DecidableEq ι]
     (m θ : EuclideanSpace ℝ ι) {S : Matrix ι ι ℝ} (hS : S.PosSemidef) (t : ℝ) :
     mgf (fun x => ⟪θ, x⟫_ℝ) (multivariateGaussian m S) t =
       rexp (t * ⟪θ, m⟫_ℝ + t ^ 2 / 2 * ⟪θ, S.toEuclideanLin θ⟫_ℝ) := by
-  solve_by_elim [TauCeti.mgf_inner_multivariateGaussian]
+  solve_by_elim [TauCeti.Probability.mgf_inner_multivariateGaussian]
 
 -- `covarianceBilin` is zero outside `MemLp id 2 μ`; the entrywise matrix need not be.
 example {ι : Type*} [Fintype ι] [DecidableEq ι]
@@ -399,35 +404,35 @@ example {ι : Type*} [Fintype ι] [DecidableEq ι]
 
 abbrev multivariateGaussianPDFReal {ι : Type*} [Fintype ι] [DecidableEq ι]
     (m : EuclideanSpace ℝ ι) (S : Matrix ι ι ℝ) (x : EuclideanSpace ℝ ι) : ℝ :=
-  TauCeti.multivariateGaussianPDFReal m S x
+  TauCeti.Probability.multivariateGaussianPDFReal m S x
 
 abbrev multivariateGaussianPDF {ι : Type*} [Fintype ι] [DecidableEq ι]
     (m : EuclideanSpace ℝ ι) (S : Matrix ι ι ℝ) (x : EuclideanSpace ℝ ι) : ℝ≥0∞ :=
-  TauCeti.multivariateGaussianPDF m S x
+  TauCeti.Probability.multivariateGaussianPDF m S x
 
 example {ι : Type*} [Fintype ι] [DecidableEq ι]
     (m : EuclideanSpace ℝ ι) {S : Matrix ι ι ℝ} (hS : S.PosDef) :
     (multivariateGaussian m S).rnDeriv volume =ᵐ[volume]
       multivariateGaussianPDF m S := by
-  solve_by_elim [TauCeti.rnDeriv_multivariateGaussian]
+  solve_by_elim [TauCeti.Probability.rnDeriv_multivariateGaussian]
 
 example {ι : Type*} [Fintype ι] [DecidableEq ι]
     (m : EuclideanSpace ℝ ι) {S : Matrix ι ι ℝ} (hS : ¬S.PosDef) :
     multivariateGaussian m S ⟂ₘ volume := by
-  solve_by_elim [TauCeti.mutuallySingular_multivariateGaussian_volume]
+  solve_by_elim [TauCeti.Probability.mutuallySingular_multivariateGaussian_volume]
 
 example {Ω ι : Type*} [MeasurableSpace Ω] [Fintype ι]
     [DecidableEq ι] {P : Measure Ω}
     (X : Ω → EuclideanSpace ℝ ι) (m : EuclideanSpace ℝ ι) {S : Matrix ι ι ℝ}
     (hX : HasLaw X (multivariateGaussian m S) P) (hS : S.PosDef) :
-    HasPDF X P := TauCeti.hasPDF_of_hasLaw_multivariateGaussian hS hX
+    HasPDF X P := TauCeti.Probability.hasPDF_of_hasLaw_multivariateGaussian hS hX
 
 example {ι κ : Type*} [Fintype ι] [Fintype κ]
     [DecidableEq ι] [DecidableEq κ] (m : EuclideanSpace ℝ ι) {S : Matrix ι ι ℝ}
     (hS : S.PosSemidef) (L : Matrix κ ι ℝ) (c : EuclideanSpace ℝ κ) :
     (multivariateGaussian m S).map (fun x => L.toEuclideanLin x + c) =
       multivariateGaussian (L.toEuclideanLin m + c) (L * S * Lᵀ) := by
-  solve_by_elim [TauCeti.map_affine_multivariateGaussian]
+  solve_by_elim [TauCeti.Probability.map_affine_multivariateGaussian]
 
 -- The quadratic form `x ↦ ⟪x, Θ x⟫` of a centred Gaussian: exact domain and mgf.
 -- `det (1 - 2t • Θ S) = det (1 - 2t • √S Θ √S)` by `CFC.sqrt_mul_sqrt_self` and
@@ -437,14 +442,15 @@ example {ι : Type*}
     (t : ℝ) :
     t ∈ integrableExpSet (fun x => ⟪x, Θ.toEuclideanLin x⟫_ℝ) (multivariateGaussian 0 S) ↔
       (1 - (2 * t) • (CFC.sqrt S * Θ * CFC.sqrt S)).PosDef := by
-  solve_by_elim [TauCeti.mem_integrableExpSet_inner_toEuclideanLin_multivariateGaussian_iff]
+  solve_by_elim
+    [TauCeti.Probability.mem_integrableExpSet_inner_toEuclideanLin_multivariateGaussian_iff]
 
 example {ι : Type*} [Fintype ι] [DecidableEq ι]
     {S Θ : Matrix ι ι ℝ} (hS : S.PosSemidef) (hΘ : Θ.IsHermitian) {t : ℝ}
     (ht : (1 - (2 * t) • (CFC.sqrt S * Θ * CFC.sqrt S)).PosDef) :
     mgf (fun x => ⟪x, Θ.toEuclideanLin x⟫_ℝ) (multivariateGaussian 0 S) t =
       Real.rpow (Matrix.det (1 - (2 * t) • (Θ * S))) (-1 / 2) := by
-  solve_by_elim [TauCeti.mgf_inner_toEuclideanLin_multivariateGaussian]
+  solve_by_elim [TauCeti.Probability.mgf_inner_toEuclideanLin_multivariateGaussian]
 
 -- State matrix-parameter measurability through the coordinate carrier and `Matrix.of`.
 example {ι : Type*} [Fintype ι] [DecidableEq ι] :
@@ -505,7 +511,7 @@ example {ι : Type*} [Fintype ι] [Nonempty ι] [Nontrivial ι]
   solve_by_elim [TauCeti.Probability.map_eval_dirichletMeasure]
 
 example {ι : Type*} [Fintype ι]
-    [Nonempty ι] [DecidableEq ι] {a : ι → ℝ} (ha : ∀ i, 0 < a i)
+    [Nonempty ι] [DecidableEq ι] {a : ι → ℝ}
     (θ : EuclideanSpace ℝ ι) :
     integrableExpSet (fun x => ⟪θ, x⟫_ℝ) (dirichletMeasure a) = Set.univ := by
   solve_by_elim [TauCeti.Probability.integrableExpSet_inner_dirichletMeasure]
@@ -543,7 +549,7 @@ example {Ω ι κ : Type*} [MeasurableSpace Ω] [Fintype ι] [Fintype κ]
         (fun ω => (EuclideanSpace.sumEquivProd (X ω)).2) P
       =ᵐ[P.map (fun ω => (EuclideanSpace.sumEquivProd (X ω)).2)]
         EuclideanSpace.gaussianCondKernel m S :=
-  TauCeti.condDistrib_multivariateGaussian X m hX hS hS₂₂
+  TauCeti.Probability.condDistrib_multivariateGaussian X m hX hS hS₂₂
 
 /-! ### Conditioning on a possibly singular observed block
 
@@ -841,19 +847,19 @@ open scoped Classical in
 
 abbrev nonsingularWishartPDFReal {p : ℕ} (n : ℝ) (S : Matrix (Fin p) (Fin p) ℝ)
     (A : SymmetricMatrix p) : ℝ :=
-  TauCeti.nonsingularWishartPDFReal n S A
+  TauCeti.Probability.nonsingularWishartPDFReal n S A
 
 open scoped Classical in
 
 abbrev nonsingularWishartMeasure {p : ℕ} (n : ℝ)
     (S : Matrix (Fin p) (Fin p) ℝ) :
     Measure (SymmetricMatrix p) :=
-  TauCeti.nonsingularWishartMeasure n S
+  TauCeti.Probability.nonsingularWishartMeasure n S
 
 example {p : ℕ} {n : ℝ}
     {S : Matrix (Fin p) (Fin p) ℝ} (hS : S.PosDef) (hn : (p : ℝ) - 1 < n) :
     IsProbabilityMeasure (nonsingularWishartMeasure n S) := by
-  solve_by_elim [TauCeti.isProbabilityMeasure_nonsingularWishartMeasure]
+  solve_by_elim [TauCeti.Probability.isProbabilityMeasure_nonsingularWishartMeasure]
 
 noncomputable def posDefToSymmetric {p : ℕ} {S : Matrix (Fin p) (Fin p) ℝ}
     (hS : S.PosDef) : SymmetricMatrix p :=
@@ -862,20 +868,20 @@ noncomputable def posDefToSymmetric {p : ℕ} {S : Matrix (Fin p) (Fin p) ℝ}
 example {p : ℕ} {n : ℝ}
     {S : Matrix (Fin p) (Fin p) ℝ} :
     Integrable id (nonsingularWishartMeasure n S) := by
-  solve_by_elim [TauCeti.integrable_id_nonsingularWishartMeasure]
+  solve_by_elim [TauCeti.Probability.integrable_id_nonsingularWishartMeasure]
 
 example {p : ℕ} {n : ℝ}
     {S : Matrix (Fin p) (Fin p) ℝ}
     (hS : S.PosDef) (hn : (p : ℝ) - 1 < n) :
     ∫ A, A ∂nonsingularWishartMeasure n S = n • posDefToSymmetric hS := by
-  solve_by_elim [TauCeti.integral_id_nonsingularWishartMeasure]
+  solve_by_elim [TauCeti.Probability.integral_id_nonsingularWishartMeasure]
 
 example {p : ℕ} {n : ℝ}
     {S : Matrix (Fin p) (Fin p) ℝ}
     (hS : S.PosDef) (hn : (p : ℝ) - 1 < n) (i j : Fin p) :
     ∫ A, (A : Matrix (Fin p) (Fin p) ℝ) i j ∂nonsingularWishartMeasure n S =
       n * S i j := by
-  solve_by_elim [TauCeti.integral_coe_apply_nonsingularWishartMeasure]
+  solve_by_elim [TauCeti.Probability.integral_coe_apply_nonsingularWishartMeasure]
 
 example {p : ℕ} {n : ℝ}
     {S : Matrix (Fin p) (Fin p) ℝ}
@@ -883,7 +889,7 @@ example {p : ℕ} {n : ℝ}
     cov[fun A : SymmetricMatrix p => (A : Matrix (Fin p) (Fin p) ℝ) i j,
         fun A => (A : Matrix (Fin p) (Fin p) ℝ) k l; nonsingularWishartMeasure n S] =
       n * (S i k * S j l + S i l * S j k) := by
-  solve_by_elim [TauCeti.covariance_coe_apply_nonsingularWishartMeasure]
+  solve_by_elim [TauCeti.Probability.covariance_coe_apply_nonsingularWishartMeasure]
 
 example {p : ℕ} {n t : ℝ}
     {S : Matrix (Fin p) (Fin p) ℝ} (Θ : SymmetricMatrix p)
@@ -894,7 +900,7 @@ example {p : ℕ} {n t : ℝ}
         (nonsingularWishartMeasure n S) ↔
       (1 - (2 * t) •
         (CFC.sqrt S * (Θ : Matrix (Fin p) (Fin p) ℝ) * CFC.sqrt S)).PosDef := by
-  solve_by_elim [TauCeti.mem_integrableExpSet_trace_mul_nonsingularWishartMeasure_iff]
+  solve_by_elim [TauCeti.Probability.mem_integrableExpSet_trace_mul_nonsingularWishartMeasure_iff]
 
 example {p : ℕ} {n t : ℝ}
     {S : Matrix (Fin p) (Fin p) ℝ} (Θ : SymmetricMatrix p)
@@ -906,7 +912,7 @@ example {p : ℕ} {n t : ℝ}
         (nonsingularWishartMeasure n S) t =
       Real.rpow
         (Matrix.det (1 - (2 * t) • ((Θ : Matrix (Fin p) (Fin p) ℝ) * S))) (-n / 2) := by
-  solve_by_elim [TauCeti.mgf_trace_mul_nonsingularWishartMeasure]
+  solve_by_elim [TauCeti.Probability.mgf_trace_mul_nonsingularWishartMeasure]
 
 example {p : ℕ} {n t : ℝ}
     {S : Matrix (Fin p) (Fin p) ℝ} (Θ : SymmetricMatrix p)
@@ -918,7 +924,7 @@ example {p : ℕ} {n t : ℝ}
         (nonsingularWishartMeasure n S) t =
       -n / 2 * Real.log
         (Matrix.det (1 - (2 * t) • ((Θ : Matrix (Fin p) (Fin p) ℝ) * S))) := by
-  solve_by_elim [TauCeti.cgf_trace_mul_nonsingularWishartMeasure]
+  solve_by_elim [TauCeti.Probability.cgf_trace_mul_nonsingularWishartMeasure]
 
 -- The analytic-continuation step shared by both Wishart families, in scalar form: a real statistic
 -- whose mgf is a product of `(1 - 2 t λ)` powers on its natural domain has the eigenvalue-wise
@@ -942,33 +948,33 @@ example {p : ℕ} {n : ℝ}
           (1 - 2 * Complex.I *
             ((Matrix.isHermitian_sqrt_mul_mul_sqrt S
               (selfAdjoint.isHermitian_coe Θ)).eigenvalues j : ℂ))) := by
-  solve_by_elim [TauCeti.charFun_nonsingularWishartMeasure]
+  solve_by_elim [TauCeti.Probability.charFun_nonsingularWishartMeasure]
 
 /-! ### Gaussian-Gram Wishart distributions -/
 
 abbrev sumVecMulVec {p ν : ℕ} (X : Fin ν → EuclideanSpace ℝ (Fin p)) :
-    SymmetricMatrix p := TauCeti.wishartGram X
+    SymmetricMatrix p := TauCeti.Probability.wishartGram X
 
 abbrev wishartGramMeasure {p : ℕ} (ν : ℕ) (S : Matrix (Fin p) (Fin p) ℝ) :
-    Measure (SymmetricMatrix p) := TauCeti.wishartGramMeasure ν S
+    Measure (SymmetricMatrix p) := TauCeti.Probability.wishartGramMeasure ν S
 
 example {p ν : ℕ} (S : Matrix (Fin p) (Fin p) ℝ) :
     IsProbabilityMeasure (wishartGramMeasure ν S) := by infer_instance
 
 example {p ν : ℕ} {S : Matrix (Fin p) (Fin p) ℝ}
     (hS : ¬ S.PosSemidef) : wishartGramMeasure ν S = Measure.dirac 0 := by
-  solve_by_elim [TauCeti.wishartGramMeasure_of_not_posSemidef]
+  solve_by_elim [TauCeti.Probability.wishartGramMeasure_of_not_posSemidef]
 
 example {p : ℕ} (S : Matrix (Fin p) (Fin p) ℝ) :
     wishartGramMeasure 0 S = Measure.dirac 0 := by
-  solve_by_elim [TauCeti.wishartGramMeasure_zero]
+  solve_by_elim [TauCeti.Probability.wishartGramMeasure_zero]
 
 example {Ω : Type*} [MeasurableSpace Ω] {p ν : ℕ}
     {P : Measure Ω} [IsProbabilityMeasure P] (X : Fin ν → Ω → EuclideanSpace ℝ (Fin p))
     (S : Matrix (Fin p) (Fin p) ℝ)
     (hX : ∀ r, HasLaw (X r) (multivariateGaussian 0 S) P) (hIndep : iIndepFun X P) :
     HasLaw (fun ω => sumVecMulVec (fun r => X r ω)) (wishartGramMeasure ν S) P := by
-  solve_by_elim [TauCeti.hasLaw_wishartGram_gaussian]
+  solve_by_elim [TauCeti.Probability.hasLaw_wishartGram_gaussian]
 
 noncomputable def posSemidefToSymmetric {p : ℕ} {S : Matrix (Fin p) (Fin p) ℝ}
     (hS : S.PosSemidef) : SymmetricMatrix p :=
@@ -977,19 +983,19 @@ noncomputable def posSemidefToSymmetric {p : ℕ} {S : Matrix (Fin p) (Fin p) �
 example {p ν : ℕ}
     {S : Matrix (Fin p) (Fin p) ℝ} (hS : S.PosSemidef) :
     ∫ A, A ∂wishartGramMeasure ν S = (ν : ℝ) • posSemidefToSymmetric hS := by
-  solve_by_elim [TauCeti.integral_id_wishartGramMeasure]
+  solve_by_elim [TauCeti.Probability.integral_id_wishartGramMeasure]
 
 example {p ν : ℕ}
     {S : Matrix (Fin p) (Fin p) ℝ} (hS : S.PosSemidef) (i j k l : Fin p) :
     cov[fun A : SymmetricMatrix p => (A : Matrix (Fin p) (Fin p) ℝ) i j,
         fun A => (A : Matrix (Fin p) (Fin p) ℝ) k l; wishartGramMeasure ν S] =
       (ν : ℝ) * (S i k * S j l + S i l * S j k) := by
-  solve_by_elim [TauCeti.covariance_coe_apply_wishartGramMeasure]
+  solve_by_elim [TauCeti.Probability.covariance_coe_apply_wishartGramMeasure]
 
 example {p : ℕ} (ν : ℕ) (S : Matrix (Fin p) (Fin p) ℝ) :
     ∀ᵐ (A : SymmetricMatrix p) ∂wishartGramMeasure ν S,
       (A : Matrix (Fin p) (Fin p) ℝ).PosSemidef :=
-  TauCeti.ae_posSemidef_wishartGramMeasure ν S
+  TauCeti.Probability.ae_posSemidef_wishartGramMeasure ν S
 
 theorem ae_rank_wishartGramMeasure {p ν : ℕ}
     {S : Matrix (Fin p) (Fin p) ℝ} (hS : S.PosSemidef) :
@@ -1000,7 +1006,7 @@ example {p ν : ℕ}
     {S : Matrix (Fin p) (Fin p) ℝ} :
     ∀ᵐ (A : SymmetricMatrix p) ∂wishartGramMeasure ν S,
       Matrix.rank (A : Matrix (Fin p) (Fin p) ℝ) ≤ min ν S.rank := by
-  solve_by_elim [TauCeti.ae_rank_le_wishartGramMeasure]
+  solve_by_elim [TauCeti.Probability.ae_rank_le_wishartGramMeasure]
 
 abbrev rectangularSymmetricCongruence {p q : ℕ}
     (M : Matrix (Fin q) (Fin p) ℝ) : SymmetricMatrix p → SymmetricMatrix q :=
@@ -1013,13 +1019,13 @@ example {p q ν : ℕ}
     (hS : S.PosSemidef) :
     (wishartGramMeasure ν S).map (rectangularSymmetricCongruence M) =
       wishartGramMeasure ν (M * S * Mᵀ) :=
-  TauCeti.map_symmetricCongruenceLinearMap_wishartGramMeasure ν M hS
+  TauCeti.Probability.map_symmetricCongruenceLinearMap_wishartGramMeasure ν M hS
 
 example {p : ℕ} (ν₁ ν₂ : ℕ)
     (S : Matrix (Fin p) (Fin p) ℝ) :
     wishartGramMeasure ν₁ S ∗ wishartGramMeasure ν₂ S =
       wishartGramMeasure (ν₁ + ν₂) S := by
-  solve_by_elim [TauCeti.wishartGramMeasure_conv_wishartGramMeasure]
+  solve_by_elim [TauCeti.Probability.wishartGramMeasure_conv_wishartGramMeasure]
 
 example {p ν : ℕ} {t : ℝ}
     {S : Matrix (Fin p) (Fin p) ℝ} (Θ : SymmetricMatrix p)
@@ -1030,7 +1036,7 @@ example {p ν : ℕ} {t : ℝ}
         (wishartGramMeasure ν S) ↔
       (1 - (2 * t) •
         (CFC.sqrt S * (Θ : Matrix (Fin p) (Fin p) ℝ) * CFC.sqrt S)).PosDef := by
-  solve_by_elim [TauCeti.mem_integrableExpSet_trace_mul_wishartGramMeasure_iff]
+  solve_by_elim [TauCeti.Probability.mem_integrableExpSet_trace_mul_wishartGramMeasure_iff]
 
 -- At `ν = 0` the law is Dirac, so the domain is everything.
 example {p : ℕ}
@@ -1039,21 +1045,21 @@ example {p : ℕ}
         (fun A : SymmetricMatrix p =>
           Matrix.trace ((Θ : Matrix (Fin p) (Fin p) ℝ) * (A : Matrix (Fin p) (Fin p) ℝ)))
         (wishartGramMeasure 0 S) = Set.univ := by
-  solve_by_elim [TauCeti.integrableExpSet_trace_mul_wishartGramMeasure_zero]
+  solve_by_elim [TauCeti.Probability.integrableExpSet_trace_mul_wishartGramMeasure_zero]
 
 example {p : ℕ}
     (S : Matrix (Fin p) (Fin p) ℝ) (Θ : SymmetricMatrix p) (t : ℝ) :
     mgf (fun A : SymmetricMatrix p =>
         Matrix.trace ((Θ : Matrix (Fin p) (Fin p) ℝ) * (A : Matrix (Fin p) (Fin p) ℝ)))
         (wishartGramMeasure 0 S) t = 1 := by
-  solve_by_elim [TauCeti.mgf_trace_mul_wishartGramMeasure_zero]
+  solve_by_elim [TauCeti.Probability.mgf_trace_mul_wishartGramMeasure_zero]
 
 example {p : ℕ}
     (S : Matrix (Fin p) (Fin p) ℝ) (Θ : SymmetricMatrix p) (t : ℝ) :
     cgf (fun A : SymmetricMatrix p =>
         Matrix.trace ((Θ : Matrix (Fin p) (Fin p) ℝ) * (A : Matrix (Fin p) (Fin p) ℝ)))
         (wishartGramMeasure 0 S) t = 0 := by
-  solve_by_elim [TauCeti.cgf_trace_mul_wishartGramMeasure_zero]
+  solve_by_elim [TauCeti.Probability.cgf_trace_mul_wishartGramMeasure_zero]
 
 example {p ν : ℕ} {t : ℝ}
     {S : Matrix (Fin p) (Fin p) ℝ} (Θ : SymmetricMatrix p) (hS : S.PosSemidef)
@@ -1065,7 +1071,7 @@ example {p ν : ℕ} {t : ℝ}
       Real.rpow
         (Matrix.det (1 - (2 * t) • ((Θ : Matrix (Fin p) (Fin p) ℝ) * S)))
         (-(ν : ℝ) / 2) := by
-  solve_by_elim [TauCeti.mgf_trace_mul_wishartGramMeasure]
+  solve_by_elim [TauCeti.Probability.mgf_trace_mul_wishartGramMeasure]
 
 example {p ν : ℕ} {t : ℝ}
     {S : Matrix (Fin p) (Fin p) ℝ} (Θ : SymmetricMatrix p) (hS : S.PosSemidef)
@@ -1076,7 +1082,7 @@ example {p ν : ℕ} {t : ℝ}
         (wishartGramMeasure ν S) t =
       -(ν : ℝ) / 2 * Real.log
         (Matrix.det (1 - (2 * t) • ((Θ : Matrix (Fin p) (Fin p) ℝ) * S))) := by
-  solve_by_elim [TauCeti.cgf_trace_mul_wishartGramMeasure]
+  solve_by_elim [TauCeti.Probability.cgf_trace_mul_wishartGramMeasure]
 
 example {p ν : ℕ} {S : Matrix (Fin p) (Fin p) ℝ}
     (Θ : SymmetricMatrix p) :
@@ -1086,13 +1092,13 @@ example {p ν : ℕ} {S : Matrix (Fin p) (Fin p) ℝ}
           (1 - 2 * Complex.I *
             ((Matrix.isHermitian_sqrt_mul_mul_sqrt S
               (selfAdjoint.isHermitian_coe Θ)).eigenvalues j : ℂ))) := by
-  solve_by_elim [TauCeti.charFun_wishartGramMeasure]
+  solve_by_elim [TauCeti.Probability.charFun_wishartGramMeasure]
 
 -- Both characteristic functions are the same formula, so `Measure.ext_of_charFun` closes this.
 example {p ν : ℕ}
     {S : Matrix (Fin p) (Fin p) ℝ} (hS : S.PosDef) (hpν : p ≤ ν) :
     wishartGramMeasure ν S = nonsingularWishartMeasure (ν : ℝ) S := by
-  solve_by_elim [TauCeti.wishartGramMeasure_eq_nonsingularWishartMeasure]
+  solve_by_elim [TauCeti.Probability.wishartGramMeasure_eq_nonsingularWishartMeasure]
 
 example {Ω : Type*} [MeasurableSpace Ω]
     {p ν : ℕ} {P : Measure Ω} [IsProbabilityMeasure P]
@@ -1101,12 +1107,12 @@ example {Ω : Type*} [MeasurableSpace Ω]
     (hX : ∀ r, HasLaw (X r) (multivariateGaussian 0 S) P) (hIndep : iIndepFun X P) :
     HasLaw (fun ω => sumVecMulVec (fun r => X r ω))
       (nonsingularWishartMeasure (ν : ℝ) S) P := by
-  solve_by_elim [TauCeti.hasLaw_wishartGram_gaussian_nonsingularWishartMeasure]
+  solve_by_elim [TauCeti.Probability.hasLaw_wishartGram_gaussian_nonsingularWishartMeasure]
 
 example {p ν : ℕ}
     {S : Matrix (Fin p) (Fin p) ℝ} (h : min ν S.rank < p) :
     wishartGramMeasure ν S ⟂ₘ symmetricLebesgue p := by
-  solve_by_elim [TauCeti.mutuallySingular_wishartGramMeasure_symmetricLebesgue]
+  solve_by_elim [TauCeti.Probability.mutuallySingular_wishartGramMeasure_symmetricLebesgue]
 
 /-! ### Bartlett decomposition -/
 
@@ -1119,7 +1125,7 @@ example {p : ℕ} {n : ℝ} {Ω : Type*} [MeasurableSpace Ω] {P : Measure Ω}
         (chiSquaredMeasure (n - i.1)) P) ∧
       (∀ i j : Fin p, j < i →
         HasLaw (fun ω => (cholesky (A ω)).1 i j) (gaussianReal 0 1) P) :=
-  TauCeti.bartlett_nonsingularWishartMeasure hn hA
+  TauCeti.Probability.bartlett_nonsingularWishartMeasure hn hA
 
 /-! ### Determinant moments -/
 
@@ -1152,41 +1158,41 @@ example {p : ℕ} :
 
 abbrev inverseWishartMeasure {p : ℕ} (n : ℝ) (S : Matrix (Fin p) (Fin p) ℝ) :
     Measure (SymmetricMatrix p) :=
-  TauCeti.inverseWishartMeasure n S
+  TauCeti.Probability.inverseWishartMeasure n S
 
 example {p : ℕ} {n : ℝ}
     {S : Matrix (Fin p) (Fin p) ℝ} (hS : S.PosDef)
     (hn : (p : ℝ) + 1 < n) :
     Integrable id (inverseWishartMeasure n S) := by
-  solve_by_elim [TauCeti.integrable_id_inverseWishartMeasure]
+  solve_by_elim [TauCeti.Probability.integrable_id_inverseWishartMeasure]
 
 example {p : ℕ} {n : ℝ}
     {S : Matrix (Fin p) (Fin p) ℝ} (hS : S.PosDef)
     (hn : (p : ℝ) + 1 < n) :
     ∫ A, A ∂inverseWishartMeasure n S =
       (n - (p : ℝ) - 1)⁻¹ • posDefToSymmetric hS := by
-  solve_by_elim [TauCeti.integral_id_inverseWishartMeasure]
+  solve_by_elim [TauCeti.Probability.integral_id_inverseWishartMeasure]
 
 example {p : ℕ} {n : ℝ}
     {S : Matrix (Fin p) (Fin p) ℝ} (hp : 0 < p) (hS : S.PosDef)
     (hnValid : (p : ℝ) - 1 < n) (hn : n ≤ (p : ℝ) + 1) :
     ¬Integrable id (inverseWishartMeasure n S) := by
-  solve_by_elim [TauCeti.not_integrable_id_inverseWishartMeasure]
+  solve_by_elim [TauCeti.Probability.not_integrable_id_inverseWishartMeasure]
 
 example {n : ℝ} {S : Matrix (Fin 0) (Fin 0) ℝ}
     (hn : -(1 : ℝ) < n) :
     inverseWishartMeasure n S = Measure.dirac 0 := by
-  solve_by_elim [TauCeti.inverseWishartMeasure_zero]
+  solve_by_elim [TauCeti.Probability.inverseWishartMeasure_zero]
 
 example {n : ℝ} {S : Matrix (Fin 0) (Fin 0) ℝ}
     (hn : -(1 : ℝ) < n) :
     Integrable id (inverseWishartMeasure n S) := by
-  solve_by_elim [TauCeti.integrable_id_inverseWishartMeasure_zero]
+  solve_by_elim [TauCeti.Probability.integrable_id_inverseWishartMeasure_zero]
 
 example {n : ℝ} {S : Matrix (Fin 0) (Fin 0) ℝ}
     (hn : -(1 : ℝ) < n) :
     ∫ A, A ∂inverseWishartMeasure n S = 0 := by
-  solve_by_elim [TauCeti.integral_id_inverseWishartMeasure_zero]
+  solve_by_elim [TauCeti.Probability.integral_id_inverseWishartMeasure_zero]
 
 /-! ### Parameter measurability -/
 
@@ -1194,17 +1200,17 @@ example {n : ℝ} {S : Matrix (Fin 0) (Fin 0) ℝ}
 example (p : ℕ) :
     Measurable fun q : ℝ × (Fin p → Fin p → ℝ) =>
       nonsingularWishartMeasure q.1 (Matrix.of q.2) := by
-  solve_by_elim [TauCeti.measurable_nonsingularWishartMeasure]
+  solve_by_elim [TauCeti.Probability.measurable_nonsingularWishartMeasure]
 
 example (p : ℕ) :
     Measurable fun q : ℕ × (Fin p → Fin p → ℝ) =>
       wishartGramMeasure q.1 (Matrix.of q.2) := by
-  solve_by_elim [TauCeti.measurable_wishartGramMeasure]
+  solve_by_elim [TauCeti.Probability.measurable_wishartGramMeasure]
 
 example (p : ℕ) :
     Measurable fun q : ℝ × (Fin p → Fin p → ℝ) =>
       inverseWishartMeasure q.1 (Matrix.of q.2) := by
-  solve_by_elim [TauCeti.measurable_inverseWishartMeasure]
+  solve_by_elim [TauCeti.Probability.measurable_inverseWishartMeasure]
 
 -- The form a Wishart kernel with a random symmetric scale needs.
 example (p : ℕ) :
