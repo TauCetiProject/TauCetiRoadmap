@@ -328,6 +328,13 @@ likewise hypothesis-free — cross-carrier separation iff is
 `cutDist_eq_zero_iff_forall_homDensity_eq_cross`; the quotient-level form is
 `graphonSpace_ext_homDensity` (`U = W ↔ ∀ F, …` on `GraphonSpaceI`).
 
+*As implemented* (`Separation/Inverse.lean`), the converse is proved from sampling rather than by
+the reduction to `(I, volume)` sketched above: equal hom densities give equal finite sampling laws;
+for large `n` the in-probability sampling lemma of Layer 9c makes each of the events
+`δ□(W_G, U) ≥ ε` and `δ□(W_G, W) ≥ ε` have probability below `1/2` under that common law, so some
+finite graph `G` lies within `ε` of both, and `δ□(U, W) < 2ε`. Separation therefore comes after the
+in-probability half of Layer 9c, which uses no separation.
+
 **Layer 6b — convergence equivalence.** On the canonical fixed carrier `GraphonSpaceI`, a sequence
 converges in `δ□` iff all `t(F, ·)` converge — `δ□(Wₙ, W) → 0 ⟺ ∀ F, t(F,Wₙ) → t(F,W)` — using
 counting (Layer 2) + compactness (Layer 4) + separation (6a). **Pinned** as
@@ -373,9 +380,12 @@ roadmap's canonical `GraphonSpaceI` carrier rather than an abstract existential 
 
 **The proof spine, pinned** — saying the gluing algebra's laws are "expressible" does not make
 their theory a target, so the route from the Layer-8a predicates to the summit is itself a chain of
-named targets, with no jump: reflection positivity → `graphParamMobius_nonneg` (`f† ≥ 0`: the
-fully-labelled connection matrices are PSD, and the Möbius transform is a congruence by an
-invertible `0/1` matrix, so the transformed diagonal is nonnegative) and
+named targets, with no jump: reflection positivity and isomorphism invariance →
+`graphParamMobius_nonneg` (`f† ≥ 0`: the fully-labelled connection matrices are PSD, and the
+Möbius transform is a congruence by an invertible `0/1` matrix, so the transformed diagonal is
+nonnegative; the connection matrix evaluates `f` on glued graphs, whose vertices are renumbered
+through `Fintype.equivFin`, so identifying it with the factorization `C = Z · diag(f†) · Zᵀ` uses
+`IsIsoInvariant f`) and
 `graphParamMobius_sum_eq_one` (`∑ f† = 1`: the double sum telescopes to `f` of the edgeless graph
 `= f(K₁)^n = 1`) → the **Möbius consistency calculus** `graphParamMobius_sum_comap` (each
 level-`k` mass is the total level-`n` mass of its extension event, for every label injection —
@@ -500,7 +510,12 @@ two different answers here — *who owns the API* and *what the proof consumes*:
   theory**: the definite target is adapters to a shared generic law API — the specialization to
   the one-sort symmetric irreflexive binary signature. The adapter is an interface obligation on
   this roadmap, not a build dependency: the graph-specific targets have no dependency on work
-  outside it.
+  outside it. *On archiving*, this obligation is taken as met by the graph–array equivalence
+  `graphLawArrayLawEquiv`: infinite exchangeable graph laws are identified with jointly
+  exchangeable laws on `ℕ × ℕ → Bool` concentrated on symmetric arrays with false diagonal, with
+  both round trips, relabeling compatibility, and compatibility of dissociation and extremality,
+  against the Exchangeability roadmap's array API. A signature-parametric relational-law
+  framework, and the finite graph laws' place in it, are left to that roadmap's generic API.
 - **Proof dependency.** The graphon-mixture representation does **not** depend on the array-level
   Aldous–Hoover representation or its hard functional converse. Its graph-specific proof uses
   empirical graphons, the collision estimate, Layer 4's compactness of `GraphonSpaceI`, and the
@@ -524,13 +539,20 @@ not an `ℕ → ℕ → Bool` subtype carrying a `Symmetric` side condition.)
 
 ### Layer 9c — sampling convergence
 
-The two convergence modes are **deliberately distinct**, with distinct proof routes, and neither
-consumes the other:
+The two convergence modes are **deliberately distinct**, with distinct proof routes. *As
+implemented*, the in-probability statement comes first: Layer 6a's inverse counting uses it, and
+the almost-sure statement uses the Layer-6b convergence equivalence and hence 6a. The order is
+in probability → separation → convergence equivalence → almost surely, with no circularity:
 
 * **in probability** — `sampleGraph_cutDist_tendsto_inProbability`, the second sampling lemma
   `δ□(G(n,W), W) → 0` (LNGL Lemma 10.16), a statement about the marginals alone, via the two-stage
-  first-sampling-lemma decomposition: point sampling (the analytic Azuma step on the weighted
-  sampled graphon) plus Bernoulli edge rounding (a finite union bound over cuts) — with the
+  first-sampling-lemma decomposition: point sampling plus Bernoulli edge rounding (a finite union
+  bound over cuts). *As implemented* (`Sampling/PointSampling.lean`), point sampling is not the
+  analytic Azuma step first prescribed here: `W` is approximated in `L¹` by a step graphon `U`,
+  `E‖H_n(W) − H_n(U)‖₁ ≤ ‖W − U‖₁ + 1/n` with Markov's inequality reduces to `U`, and for `U` the
+  empirical block frequencies converge; general carriers go through a countably generated
+  factorization. This proves the qualitative statement; the bound it gives depends on `W` and is
+  not graphon-uniform. The statement comes with the
   Mathlib-idiomatic joint packaging `infiniteSampleLaw_tendstoInMeasure_cutDist`
   (`TendstoInMeasure` for the graphon-quotient-valued restrictions on the single joint law; the
   marginal family carries no one measure, so the `TendstoInMeasure` form lives on the joint
@@ -539,7 +561,8 @@ consumes the other:
   padded-exposure concentration engine below (tails summable in `n`), Borel–Cantelli per fixed
   `F` at tolerances `1/(m+1)`, a countable intersection, and the Layer-6b convergence equivalence
   upgrading pointwise hom-density convergence to cut-distance convergence. The almost-sure proof
-  does **not** run through the two-stage cut-distance lemma.
+  does **not** run through the two-stage cut-distance lemma directly; it reaches the
+  in-probability lemma only through Layer 6a.
 
 **The concentration engine (padded vertex exposure).** A bounded-differences argument needs a
 product source, and a bare "changing one sampled vertex moves the estimator by `k/n`" claim
@@ -561,8 +584,9 @@ ordinary hom density is the load-bearing estimator; `injHomDensity` keeps its un
 (The `LevyProkhorovMetric` / `Portmanteau` / `IsTightMeasureSet` weak-convergence stack does not
 by itself supply this specification and is not load-bearing here.)
 
-This layer consumes Layer 9a's objects and the Layer-6b convergence equivalence only; it is
-independent of Layer 9b and of the Layer-8b spine, and can land in parallel with both.
+This layer consumes Layer 9a's objects and the Layer-6b convergence equivalence only (and its
+in-probability half is in turn consumed by Layer 6a); it is independent of Layer 9b and of the
+Layer-8b spine, and can land in parallel with both.
 
 ### Reusable beyond graphons — general Tau Ceti homes
 The following prerequisites are graphon-independent and belong in general `TauCeti/` homes; the
@@ -577,8 +601,9 @@ graphon modules consume them:
 
 ## Suggested signatures
 
-The compiled `sorry`-signatures live in [`Suggested.lean`](./Suggested.lean) (globbed by
-`lakefile.toml`, so CI type-checks them). They pin the types — in particular that the cut
+The compiled signatures live in [`Suggested.lean`](./Suggested.lean) (globbed by
+`lakefile.toml`, so CI type-checks them), each now discharged by the Tau Ceti declaration that
+realizes it. They pin the types — in particular that the cut
 norm acts on *kernels* (so `U − W` is well-typed), that `cutDist` is coupling-primary and
 cross-carrier, and that the constant-graphon and sampling targets share the `unitInterval` (`p : I`)
 convention with `SimpleGraph.binomialRandom`. Compiled there: `SymmKernel` / `Graphon`, `cutNorm`
@@ -641,9 +666,9 @@ injectivity, the packaged `mixtureExchangeableLawEquiv` + `_apply`, and
 `graphonMixtureLawEquiv` — a transport of `mixtureExchangeableLawEquiv` along
 the extension — (+ `_dirac` and the mixture-coordinate law `_upperMass`); and the **Layer-8b
 spine** `graphParamMobius`
-(+ `graphParamMobius_nonneg` / `graphParamMobius_sum_eq_one`), the Möbius consistency calculus
+(+ `graphParamMobius_nonneg`, under `IsIsoInvariant f`, / `graphParamMobius_sum_eq_one`), the Möbius consistency calculus
 `graphParamMobius_sum_comap` with its measure packaging `paramGraphLaw`
-(+ `paramGraphLaw_isProbabilityMeasure`, `paramGraphLaw_map_comap`), `paramExchangeableLaw` — assembled from those fields —
+(+ `paramGraphLaw_isProbabilityMeasure`, under `IsIsoInvariant f`, `paramGraphLaw_map_comap`), `paramExchangeableLaw` — assembled from those fields —
 (+ `paramExchangeableLaw_upperMass`, `isDissociated_paramExchangeableLaw`). Described in prose
 rather than pinned (to
 avoid a premature API choice): only the weak-regularity `Finpartition` **adapter** shape, the exact
@@ -672,10 +697,12 @@ not when the file merely compiles.
 ## Ordering
 
 Layers 0–2 and 7 first — they validate the pipeline and give visible checkpoints. The AE view
-(Layer 3) lands next, as the prerequisite for the analytic layers. Then Layer 6a (separation) as the
-highest-leverage self-contained summit, with Layer 4 (compactness) alongside it. Layer 5
-(coupling↔map) runs in parallel, gated on the measure-preserving mod-null equivalence, and must not
-block the others. The representability summit's real build order is
+(Layer 3) lands next, as the prerequisite for the analytic layers, then Layer 4 (compactness).
+Layer 9a's finite sampling and the in-probability half of Layer 9c come before separation (Layer
+6a), which is proved from them. Compactness (Layer 4) and separation (6a) together give the
+convergence equivalence (6b), and 6b together with the concentration argument gives the
+almost-sure half of 9c. Layer 5 (coupling↔map) runs in parallel, gated on the measure-preserving
+mod-null equivalence, and must not block the others. The representability summit's real build order is
 **Layer 8a → Layer 9b (graph-law representation/extremality) → Layer 8b**: the 8b spine consumes
 `ExchangeableGraphLaw`, `upperMass`, `IsDissociated`, and `exists_graphon_of_isDissociated`, so
 Layer 9b precedes 8b. Layer 9b itself consumes Layer 9a's sampling objects, Layer 4's
@@ -684,7 +711,7 @@ descended coordinates that drive limit identification and uniqueness); Layer 9c 
 convergence) is independent of both 9b and 8b and can land in parallel; 8a is independent and can
 land any time after Layer 0.
 
-Layers 4–6 are independent and likely to attract duplicate work, so **register an Intention and
+Layers 4–6 are likely to attract duplicate work, so **register an Intention and
 `claim` the specific target** before a substantial push (see *Coordinating work* in the repository
 README).
 
@@ -859,3 +886,14 @@ The mathematics and proof routes draw on two prior Lean developments,
   graphon-sampling concentration theorems?
 - Do the computed-value backstops hold (`t(K₂, W_{K₄}) = 3/4`, `t(K₃, W_{C₅}) = 0`, `t(F, W_p) = p^{e(F)}`)?
 - Are the source repositories confined to Provenance?
+
+---
+
+*Archived: this roadmap was declared complete on 2026-10-07. `Suggested.lean` now states each
+milestone against Tau Ceti and closes it with no `sorry`. The signature inventory above lists the
+names the file had before archiving; the file's header records where Tau Ceti's names and
+statements differ. The Layer-8b proof spine and the inventory were amended on archiving to name
+the `IsIsoInvariant f` hypothesis of `graphParamMobius_nonneg` and
+`paramGraphLaw_isProbabilityMeasure`. Layers 6a and 9c now record the implemented proof routes
+(point sampling by `L¹` step approximation; inverse counting from the in-probability sampling
+lemma), and Layer 9b records that the graph–array equivalence discharges its interface obligation.*

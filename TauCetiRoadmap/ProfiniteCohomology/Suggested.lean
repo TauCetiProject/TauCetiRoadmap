@@ -630,17 +630,13 @@ noncomputable def explicitMap1Equiv (H : Type*) [Group H] [TopologicalSpace H]
     (TauCeti.ContCohomology.explicitMap1 G M H N φ e.toAddMonoidHom hf hA)
     (TauCeti.ContCohomology.explicitMap1 H N G M φ.symm e.symm.toAddMonoidHom hq hA') ?_ ?_
   · exact (TauCeti.ContCohomology.explicitMap1_comp G M H N φ e.toAddMonoidHom hf hA G M φ.symm
-      e.symm.toAddMonoidHom hq hA'
-      (TauCeti.ContCohomology.comp_apply_smul ((φ : H →ₜ* G) : H →* G)
-        ((φ.symm : G →ₜ* H) : G →* H) e.toAddMonoidHom e.symm.toAddMonoidHom hA hA')).symm.trans
+      e.symm.toAddMonoidHom hq hA').symm.trans
       ((TauCeti.ContCohomology.explicitMap1_congr_of_eq G M G M _ (ContinuousMonoidHom.id G) _
         (AddMonoidHom.id M) (hq := continuous_id) (hψ := fun g m => by simp)
         (ContinuousMonoidHom.ext φ.apply_symm_apply) (AddMonoidHom.ext e.symm_apply_apply)).trans
         (TauCeti.ContCohomology.explicitMap1_id G M _))
   · exact (TauCeti.ContCohomology.explicitMap1_comp H N G M φ.symm e.symm.toAddMonoidHom hq hA'
-      H N φ e.toAddMonoidHom hf hA
-      (TauCeti.ContCohomology.comp_apply_smul ((φ.symm : G →ₜ* H) : G →* H)
-        ((φ : H →ₜ* G) : H →* G) e.symm.toAddMonoidHom e.toAddMonoidHom hA' hA)).symm.trans
+      H N φ e.toAddMonoidHom hf hA).symm.trans
       ((TauCeti.ContCohomology.explicitMap1_congr_of_eq H N H N _ (ContinuousMonoidHom.id H) _
         (AddMonoidHom.id N) (hq := continuous_id) (hψ := fun g m => by simp)
         (ContinuousMonoidHom.ext φ.symm_apply_apply) (AddMonoidHom.ext e.apply_symm_apply)).trans
