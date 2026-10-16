@@ -210,11 +210,13 @@ Every item above is a target in some layer below; nothing is left as a gap to be
 
 A Lean formalization of this theory exists at
 [`cameronfreer/infinitary-logic`](https://github.com/cameronfreer/infinitary-logic); use checkpoint
-[`a739107`](https://github.com/cameronfreer/infinitary-logic/tree/a739107bdbcdfc8c228f3d80ed28b32c6b5e430a)
+[`9f82bd5`](https://github.com/cameronfreer/infinitary-logic/tree/9f82bd572af2d79a043c6bc3f1b745f14e0bcaa4)
 for proof scripts and the map below. It runs on the fixed-carrier syntax, which it imports from a
 Mathlib fork pinned at
-[`cameronfreer/mathlib4@4038001`](https://github.com/cameronfreer/mathlib4/tree/4038001c613926e4d3f3791977380be96a19c192/Mathlib/ModelTheory/Infinitary).
-Neither source is the specification; the map is "where to look", not "what is correct".
+[`cameronfreer/mathlib4@346a4bd`](https://github.com/cameronfreer/mathlib4/tree/346a4bd3f95e8591976c91259badc6d2c300f638/Mathlib/ModelTheory/Infinitary).
+Neither source is the specification; the map is "where to look", not "what is correct". A file or
+declaration named here may differ from the roadmap's target in formulation, and the adaptation
+notes record the differences that matter.
 
 * Layer 0: the fork's five modules `Mathlib/ModelTheory/Infinitary/{Syntax, Semantics, IndexCoding,
   Reindex, QuantifierRank}.lean` (the first two are the content of mathlib4#42758), and
@@ -227,50 +229,44 @@ Neither source is the specification; the map is "where to look", not "what is co
   structure requiring `[L.IsRelational]`; this roadmap's `PotentialIso` is the `FGEquiv`
   presentation, related to it by `potentialIso_iff_exists_isTupleBFSystem`. Its ω-round strategy
   object is a family of unrelated finite-length strategies, not the coherent strategy of Layer 1.
-* Layer 2: `InfinitaryLogic/Scott/Sentence.lean` (`SelfStabilizesCompletely`,
-  `exists_complete_self_stabilization`) and `InfinitaryLogic/Scott/Stabilization.lean`
-  (`bfStabilizationOrdinal`, stabilization for arbitrary structures without a bound below `ω₁`).
-* Layer 3: `InfinitaryLogic/Scott/AtomicDiagram.lean` and `Scott/Formula.lean`
+* Layer 2: [`Scott/Sentence.lean`](https://github.com/cameronfreer/infinitary-logic/blob/9f82bd572af2d79a043c6bc3f1b745f14e0bcaa4/InfinitaryLogic/Scott/Sentence.lean#L164-L176) has `SelfStabilizesCompletely`
+  (the roadmap's definition) and `BFEquiv_upgrade_at_selfStabilization`, which is
+  `SelfStabilizesCompletely.bfEquiv_of_le`, with no countability or relational hypothesis. Its
+  `exists_complete_self_stabilization` ([L291](https://github.com/cameronfreer/infinitary-logic/blob/9f82bd572af2d79a043c6bc3f1b745f14e0bcaa4/InfinitaryLogic/Scott/Sentence.lean#L291-L292)) is stated in
+  `Ordinal.{0}`; lifting it to `Ordinal.{w}` gives `selfStabilizationOrdinal_lt_omega_one`.
+  `Scott/Stabilization.lean` has `bfStabilizationOrdinal`, stabilization for arbitrary structures
+  without a bound below `ω₁`. The source never names `s(M)`; it writes the same `sInf` of one-step
+  stabilizing levels in `Ordinal.{w}` inline. Do not confuse it with the source's
+  `stabilizationOrdinal`, which compares against other structures and lives in `Ordinal.{0}`.
+* Layer 3, formulas and sentences: `Scott/AtomicDiagram.lean` and `Scott/Formula.lean`
   (`realize_scottFormula_iff_BFEquiv`, with the tuple in free variables rather than bound
-  positions); `Scott/OrbitRank.lean` (`orbitRank`, `internalScottRank`; at this checkpoint with
-  no comparison to the stabilization ordinal, which the supplemental references below supply) and
-  `scripts/check_orbit_rank_regressions.lean` (the `K₂ ⊔ K₃` regression). The source's Scott
-  sentence (`Scott/Sentence.lean`, `Scott/RefinementCount.lean`) is indexed by an externally
-  defined ordinal and proved through an internal-to-external transfer; this roadmap's Scott
-  sentence is indexed by internal stabilization instead, so that part is new work.
-  `Scott/Code.lean` is marked legacy and off-path in the source and is not a migration target.
-
-Supplemental proof references at
-[`infinitary-logic@9f82bd5`](https://github.com/cameronfreer/infinitary-logic/tree/9f82bd572af2d79a043c6bc3f1b745f14e0bcaa4)
-cover most of the Layer 2–3 stabilization and rank targets. Its `SelfStabilizesCompletely` is the
-roadmap's definition, and it writes `s(M)` inline as the same `sInf` in `Ordinal.{w}`; do not
-confuse it with the source's `stabilizationOrdinal`, which compares against other structures and
-lives in `Ordinal.{0}`. All of the following hold for every language and every `M : Type w`:
-
-* [`Scott/OrbitRankStabilization.lean`](https://github.com/cameronfreer/infinitary-logic/blob/9f82bd572af2d79a043c6bc3f1b745f14e0bcaa4/InfinitaryLogic/Scott/OrbitRankStabilization.lean#L61-L91):
-  `sInf_selfStabilizesCompletely_eq_iSup_orbitRank` is `selfStabilizationOrdinal_eq_iSup_orbitRank`,
-  through `selfStabilizesCompletely_iff_orbitRank_le`; its proof also gives
+  positions). The source's `scottSentenceAt` in `Scott/Formula.lean` is only the empty-tuple Scott
+  approximation; this roadmap's same-named construction retains that formula **and** the
+  universal tuple-upgrade clauses, so do not port the source definition as if the two were
+  identical. The source's `scottSentence` (`Scott/Sentence.lean`, `Scott/RefinementCount.lean`) is
+  indexed by the external `stabilizationOrdinal` and proved through an internal-to-external
+  transfer. [`Scott/MontalbanSentence.lean`](https://github.com/cameronfreer/infinitary-logic/blob/9f82bd572af2d79a043c6bc3f1b745f14e0bcaa4/InfinitaryLogic/Scott/MontalbanSentence.lean) supplies a related
+  construction from a family of orbit formulas, with explicit atomic-diagram and extension
+  clauses; under its hypotheses it characterizes the same countable isomorphism class, but it is
+  a different construction from this roadmap's `scottSentenceAt`. Use both as proof references:
+  the roadmap's three `scottSentenceAt` theorems are new work. `Scott/Code.lean` is marked legacy
+  and off-path in the source and is not a migration target.
+* Layer 3, rank: [`Scott/OrbitRank.lean`](https://github.com/cameronfreer/infinitary-logic/blob/9f82bd572af2d79a043c6bc3f1b745f14e0bcaa4/InfinitaryLogic/Scott/OrbitRank.lean#L73-L98) has `orbitStable`,
+  `orbitRank`, and `internalScottRank` as the roadmap defines them, and `orbitRank_mem`, which is
+  `orbitRank_mem_orbitStable`. [`Scott/OrbitRankStabilization.lean`](https://github.com/cameronfreer/infinitary-logic/blob/9f82bd572af2d79a043c6bc3f1b745f14e0bcaa4/InfinitaryLogic/Scott/OrbitRankStabilization.lean#L49-L106)
+  has `sInf_selfStabilizesCompletely_eq_iSup_orbitRank`, which is
+  `selfStabilizationOrdinal_eq_iSup_orbitRank`; its proof also gives
   `exists_selfStabilizesCompletely` and the attainment of `s(M)`. With it,
   `iSup_orbitRank_le_internalScottRank` and `internalScottRank_le_iSup_orbitRank_add_one` give
-  `s(M) ≤ SR(M) ≤ s(M) + 1`;
-* [`Scott/OrbitRank.lean`](https://github.com/cameronfreer/infinitary-logic/blob/9f82bd572af2d79a043c6bc3f1b745f14e0bcaa4/InfinitaryLogic/Scott/OrbitRank.lean#L97-L98): `orbitRank_mem` is
-  `orbitRank_mem_orbitStable`. Its `internalScottRank_pureSet` covers only infinite pure sets; the
-  finite and empty cases follow from `orbitRank_pure_eq_zero` in `Scott/PureSetThreshold.lean`;
-* [`Scott/Sentence.lean`](https://github.com/cameronfreer/infinitary-logic/blob/9f82bd572af2d79a043c6bc3f1b745f14e0bcaa4/InfinitaryLogic/Scott/Sentence.lean#L168-L176): `BFEquiv_upgrade_at_selfStabilization` is
-  `SelfStabilizesCompletely.bfEquiv_of_le`, with no countability or relational hypothesis;
-  `exists_complete_self_stabilization` ([L291](https://github.com/cameronfreer/infinitary-logic/blob/9f82bd572af2d79a043c6bc3f1b745f14e0bcaa4/InfinitaryLogic/Scott/Sentence.lean#L291-L292)) is stated in
-  `Ordinal.{0}`, and lifting it to `Ordinal.{w}` gives `selfStabilizationOrdinal_lt_omega_one` and,
-  with the comparisons above, `internalScottRank_lt_omega_one`;
-* [`Scott/MontalbanSentence.lean`](https://github.com/cameronfreer/infinitary-logic/blob/9f82bd572af2d79a043c6bc3f1b745f14e0bcaa4/InfinitaryLogic/Scott/MontalbanSentence.lean) supplies a related construction from a
-  family of orbit formulas, with explicit atomic-diagram and extension clauses. Under its
-  hypotheses it characterizes the same countable isomorphism class, but it is a different
-  construction from this roadmap's `scottSentenceAt`; use it as a proof reference.
-
-The exact value `SR(K₂ ⊔ K₃) = 3` is not in the source, which proves only the lower bound. At that
-checkpoint, the source's `scottSentenceAt` in `Scott/Formula.lean` is only the empty-tuple Scott
-approximation. This roadmap's same-named construction retains that formula **and** the universal
-tuple-upgrade clauses; do not port the source definition as if the two constructions were identical.
-These references supplement the pinned migration map above and do not expand this roadmap's scope.
+  `s(M) ≤ SR(M) ≤ s(M) + 1`, and with Layer 2's bound, `internalScottRank_lt_omega_one`. All of
+  these hold for every language and every `M : Type w`, in `Ordinal.{w}`. The source's
+  `internalScottRank_pureSet` covers only infinite pure sets; the finite and empty cases follow
+  from `orbitRank_pure_eq_zero` in `Scott/PureSetThreshold.lean`. For `K₂ ⊔ K₃`,
+  `scripts/check_orbit_rank_regressions.lean` proves only the lower bound `orbitRank ≥ 2`, so the
+  exact value `SR = 3` is new work; `graph_internalScottRank` in
+  [`scripts/check_rank_comparison_regressions.lean`](https://github.com/cameronfreer/infinitary-logic/blob/9f82bd572af2d79a043c6bc3f1b745f14e0bcaa4/scripts/check_rank_comparison_regressions.lean#L449)
+  computes an exact value (`SR = 2` for an infinite clique beside infinitely many isolated
+  points) and is a template for it.
 
 Credit `cameronfreer/infinitary-logic` in each ported or adapted file, and record when a Tau Ceti file
 intentionally diverges from this source API.
