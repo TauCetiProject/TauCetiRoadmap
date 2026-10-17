@@ -248,13 +248,14 @@ powers is `MvPolynomial.idealOfVars` with its coefficients.
 
 ### 0.4 Algebraic exponential groups
 
-Let `𝔣=FreeLieAlgebra ℚ (Fin 2)` with generators `X, Y`, `γ_{c+1}` Mathlib's 0-based
-`lowerCentralSeries ℚ 𝔣 𝔣 c` (class at most `c` means `lowerCentralSeries c = ⊥`), and
-`U⁺=TauCeti.HopfIdeal.augmentation` in `U(𝔣)`. In `U_c=U(𝔣)/(U⁺)^{c+1}` the images of
-`X` and `Y` are nilpotent, and `ι_c : 𝔣/γ_{c+1} → U_c` is the map induced by
-`𝔣 → U(𝔣)`. For `u` nilpotent in a `ℚ`-algebra, *nilLog*`(1+u)` is the finite series
-`Σ_{j≥1}(−1)^{j+1}u^j/j`. *bchElement c* is the element of `𝔣/γ_{c+1}` whose image
-under `ι_c` is *nilLog*`(exp(X)exp(Y))`.
+Let `𝔣=FreeLieAlgebra ℚ (Fin 2)` with generators `X, Y`, write `lowerCentralSeries c` for
+Mathlib's 0-based `lowerCentralSeries ℚ 𝔣 𝔣 c` (class at most `c` means
+`lowerCentralSeries c = ⊥`), and `U⁺=TauCeti.HopfIdeal.augmentation` in `U(𝔣)`. In
+`U_c=U(𝔣)/(U⁺)^{c+1}` the images of `X` and `Y` are nilpotent, and
+`ι_c : 𝔣/lowerCentralSeries c → U_c` is the map induced by `𝔣 → U(𝔣)`. For `u` nilpotent
+in a `ℚ`-algebra, *nilLog*`(1+u)` is the finite series `Σ_{j≥1}(−1)^{j+1}u^j/j`.
+*bchElement c* is the element of `𝔣/lowerCentralSeries c` whose image under `ι_c` is
+*nilLog*`(exp(X)exp(Y))`.
 Let `R` be a commutative `ℚ`-algebra. For any `R`-Lie algebra `a` of nilpotency class
 at most `c`, *BCHGroup a* has underlying set `a`, identity exponential and logarithm,
 and product obtained by evaluating `bchElement c` at `(x,y)` through
@@ -284,11 +285,12 @@ elements to `1/d!` times the sum of their products in all orders. The supplied
 
 *Targets.*
 - *bchElement c* is defined and unique: `ι_c` is injective, that is
-  `ι⁻¹((U⁺)^{c+1})=γ_{c+1}`; *nilLog*`(exp(X)exp(Y))` lies in the image of `ι_c`; and
+  `ι⁻¹((U⁺)^{c+1})=lowerCentralSeries c`; *nilLog*`(exp(X)exp(Y))` lies in the image of
+  `ι_c`; and
   `exp(X)exp(Y)=exp(ι_c(bchElement c))` in `U_c`. The elements are compatible in `c`, so
   the *BCHGroup* product is independent of the nilpotency bound. Word length is a
   positive grading of `𝔣` over `ℕ⊆ℤ` with `δ=id`, generated in degree one, whose degree
-  ideal `F^{c+1}𝔣` is `γ_{c+1}`. *nilLog* is inverse to `IsNilpotent.exp`.
+  ideal `F^{c+1}𝔣` is `lowerCentralSeries c`. *nilLog* is inverse to `IsNilpotent.exp`.
 - *BCHGroup* is a group with `(exp x)⁻¹=exp(−x)` and `exp(x)^n=exp(n•x)`;
   `exp(x)exp(y)=exp(x+y)` when `[x,y]=0`, and `exp(x)exp(y)=exp(y)exp(z)exp(x)` for
   `[x,y]=z` central. It is a functor to groups along `R`-linear Lie homomorphisms
