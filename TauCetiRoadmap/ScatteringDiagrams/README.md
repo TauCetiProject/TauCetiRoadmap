@@ -70,8 +70,8 @@ scattering-specific carriers to `TauCeti/Geometry/ScatteringDiagram/`.
    be noncommutative; a derivation action means an `R`-linear Lie module action
    satisfying the Leibniz rule. The rational numbers specifying lattice geometry
    in Conventions 1, 3 and 6 are independent of the coefficient ring.
-3. A truncation of order `h` retains degrees at most `h`; `F^a` denotes terms of
-   degree at least `a`, and the truncation is the quotient by `F^{h+1}`. Products
+3. A truncation of order `k` retains degrees at most `k`; `F^a` denotes terms of
+   degree at least `a`, and the truncation is the quotient by `F^{k+1}`. Products
    act on the left: the first crossing is the rightmost factor, and §0.5's ordered
    product places the smallest index leftmost. A wall with coorientation `ν` and
    label `θ` contributes `θ^{-sgn⟨ν,γ'⟩}`. KS walls are cooriented by the positive
@@ -139,21 +139,21 @@ construction prerequisites.
 
 Let `N` be an abelian group (a lattice in every instance). *PositiveDegrees* on `N` is
 an additive submonoid `P ⊆ N` with an additive `δ : N → ℤ` such that `δ(n)>0` for
-nonzero `n∈P` and `{n∈P | δ(n)≤h}` is finite for every `h∈ℕ`; `N⁺=P\{0}`. A
+nonzero `n∈P` and `{n∈P | δ(n)≤k}` is finite for every `k∈ℕ`; `N⁺=P\{0}`. A
 *PositiveDegreeMap* `(N,P,δ) → (N',P',δ')` is an additive `T` with `T(P)⊆P'`,
-`T(N⁺)⊆(N')⁺` and a monotone cutoff modulus `λ : ℕ → ℕ` with `δ(n)>λ(h) ⇒ δ'(Tn)>h`
-for `n∈P`. Degree-preserving means `λ(h)=h`. For a lattice-rational cone `σ`, `σ∩N` is
+`T(N⁺)⊆(N')⁺` and a monotone cutoff modulus `λ : ℕ → ℕ` with `δ(n)>λ(k) ⇒ δ'(Tn)>k`
+for `n∈P`. Degree-preserving means `λ(k)=k`. For a lattice-rational cone `σ`, `σ∩N` is
 its set `latticePoints`. The first instance is `ℕ^r ⊆ ℤ^r` with `δ(n)=Σ n_i`.
 
 *Targets.*
 - For fixed `n∈N`, `{(a,b)∈P² | a+b=n}` is finite, and `P` is sharp: `n,−n∈P` forces
   `n=0`.
-- Positive degree maps form a category: the identity has modulus `λ(h)=h`, and `(T,λ)`
+- Positive degree maps form a category: the identity has modulus `λ(k)=k`, and `(T,λ)`
   followed by `(T',λ')` has modulus `λ∘λ'`. Any modulus becomes monotone by finite
-  maxima. A bound `δ(n)≤c·δ'(Tn)` on `P` gives the modulus `λ(h)=c·h`; for finitely
+  maxima. A bound `δ(n)≤c·δ'(Tn)` on `P` gives the modulus `λ(k)=c·k`; for finitely
   generated `P` with `T(N⁺)⊆(N')⁺`, the maximum `c` of `δ` on the generators gives such
   a bound. An additive `T` injective on `P` with `T(P)⊆P'` is a positive degree map with
-  modulus `λ(h)=max{δ(n) | n∈P, δ'(Tn)≤h}`; in particular a lattice isomorphism carrying
+  modulus `λ(k)=max{δ(n) | n∈P, δ'(Tn)≤k}`; in particular a lattice isomorphism carrying
   `P` onto `P'` has a modulus in each direction.
 - A finitely generated submonoid with an integral functional
   strictly positive on its nonzero elements has finite cutoffs. For a lattice-rational
@@ -163,7 +163,7 @@ its set `latticePoints`. The first instance is `ℕ^r ⊆ ℤ^r` with `δ(n)=Σ 
 
 **Checks.**
 - An upper bound `δ'(Tn)≤c·δ(n)` gives no cutoff modulus: on `P={0}∪{(a,b)∈ℕ² | a≥b≥1}`
-  with `δ(a,b)=a`, `T(a,b)=b` to `(ℤ,ℕ,id)` sends every `(k,1)` to degree one.
+  with `δ(a,b)=a`, `T(a,b)=b` to `(ℤ,ℕ,id)` sends every `(j,1)` to degree one.
 
 *Needs:* `AddSubmonoid`, additive homomorphisms; for the cone targets `PointedCone`,
 `IsIntegralLattice`, `IsLatticeRational`, `IsLatticeRational.fg_dualSemigroup`.
@@ -174,7 +174,7 @@ Sources: BRI §2.1; MAN §2.1.
 Let `R` be a commutative ring. A positively graded Lie algebra is an `R`-Lie algebra `g`
 with a `GradedLieAlgebra` decomposition into `R`-submodules `g_n`, `n∈N`,
 `[g_n,g_m] ⊆ g_{n+m}`, and *IsPositiveGrading*: `g_n=0` for `n∉N⁺`. *degreeIdeal*
-`F^{h+1}g` is the sum of the pieces with `δ(n)>h`; *truncatedLie* `g≤h` is `g/F^{h+1}g`.
+`F^{k+1}g` is the sum of the pieces with `δ(n)>k`; *truncatedLie* `g≤k` is `g/F^{k+1}g`.
 A *GradedLieHom* over a *PositiveDegreeMap* `(T,λ)` is an `R`-linear Lie homomorphism
 with `f(g_n)⊆g'_{Tn}`. For a scalar homomorphism `R→S`, a map to an `S`-Lie algebra is
 represented as an `R`-linear map to its scalar restriction. A Lie subalgebra or ideal
@@ -183,20 +183,20 @@ Heisenberg algebra is `TauCeti.heisenberg R` over `N=ℤ` with `X, Y` in degree 
 `Z` in degree `2`.
 
 *Targets.*
-- `F^{h+1}g` is a graded Lie ideal (*degreeIdeal_isGraded*) and `g≤h` is a nilpotent,
-  positively graded Lie algebra. The kernel of `g≤h+1 → g≤h` is central and is the image
-  of the pieces `g_n` with `δ(n)=h+1`.
+- `F^{k+1}g` is a graded Lie ideal (*degreeIdeal_isGraded*) and `g≤k` is a nilpotent,
+  positively graded Lie algebra. The kernel of `g≤k+1 → g≤k` is central and is the image
+  of the pieces `g_n` with `δ(n)=k+1`.
 - Quotient maps `g/I → g/J` for Lie ideals `I ⊆ J`, in particular the transitions
-  `g≤h' → g≤h` for `h≤h'`, and the maps `g≤λ(h) → g'≤h` induced by a *GradedLieHom* over
+  `g≤k' → g≤k` for `k≤k'`, and the maps `g≤λ(k) → g'≤k` induced by a *GradedLieHom* over
   `(T,λ)`, with evaluation on classes, commutation with the transitions, and identity
-  and composition laws. A same-order map `g≤h → g'≤h` is induced by `f` iff
-  `f(F^{h+1}g) ⊆ F^{h+1}g'`.
+  and composition laws. A same-order map `g≤k → g'≤k` is induced by `f` iff
+  `f(F^{k+1}g) ⊆ F^{k+1}g'`.
 - Graded Lie subalgebras, and quotients by graded Lie ideals, inherit positive gradings
   with their direct-sum decompositions.
 - Scalar change, without freeness, flatness or dimension assumptions: restriction along
   a homomorphism of commutative rings `S→R` preserves the grading and identifies the
   degree ideals and quotients; base change along `R→S` gives the grading on `S⊗_R g` and
-  `(S⊗_R g)≤h ≃ S⊗_R(g≤h)`, the homogeneous pieces and finite cutoffs being direct
+  `(S⊗_R g)≤k ≃ S⊗_R(g≤k)`, the homogeneous pieces and finite cutoffs being direct
   summands.
 
 **Checks.**
@@ -210,21 +210,21 @@ Heisenberg algebra is `TauCeti.heisenberg R` over `N=ℤ` with `X, Y` in degree 
 ### 0.3 Filtered algebras and their completions
 
 Let `A` be an associative ring with a multiplicative decreasing filtration by two-sided
-ideals `I^hA`, `I^0A=A` (*AlgFiltration*). On `ℕᵒᵈ`, the same ideal family
-`F(h)=I^hA`, with `F_lt(h)=I^{h+1}A`, carries Mathlib's
+ideals `I^kA`, `I^0A=A` (*AlgFiltration*). On `ℕᵒᵈ`, the same ideal family
+`F(k)=I^kA`, with `F_lt(k)=I^{k+1}A`, carries Mathlib's
 [`IsRingFiltration`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/RingTheory/FilteredAlgebra/Basic.html#IsRingFiltration);
 two-sidedness is additional data. Its completion *AlgFiltration.completion*
-`Â=lim A/I^{h+1}A` is the compatible-family subring of `∏_h A/I^{h+1}A`; for an
+`Â=lim A/I^{k+1}A` is the compatible-family subring of `∏_k A/I^{k+1}A`; for an
 `R`-algebra `A`, *AlgFiltration.completionSubalgebra* is the same carrier as an
 `R`-algebra. A ring homomorphism `f : A → B` is filtered along a monotone cutoff modulus
-`λ : ℕ → ℕ` as in §0.1 when `f(I^{λ(h)+1}A) ⊆ J^{h+1}B` for every `h`; `λ(h)=h` is the
-filtration-preserving case, and a constant `c≥1` with `f(I^{ch}A) ⊆ J^hB` for every `h` gives
-`λ(h)=c(h+1)−1`. A filtered `R`-module (*ModuleFiltration*) has no multiplication; its
+`λ : ℕ → ℕ` as in §0.1 when `f(I^{λ(k)+1}A) ⊆ J^{k+1}B` for every `k`; `λ(k)=k` is the
+filtration-preserving case, and a constant `c≥1` with `f(I^{ck}A) ⊆ J^kB` for every `k` gives
+`λ(k)=c(k+1)−1`. A filtered `R`-module (*ModuleFiltration*) has no multiplication; its
 decreasing submodule family uses `IsFiltration` on `ℕᵒᵈ`, and `IsModuleFiltration` when
 compatible with a ring filtration. Its completion and filtered module maps are defined
 in the same way. For `R`-algebras `A`,
 `B` with filtrations `I`, `J` over a commutative ring `R`, *tensorFiltration* is
-`F^k(A⊗_R B)=Σ_{a+b≥k} im(I^aA⊗_R J^bB)`, and its completion is the completed tensor
+`F^j(A⊗_R B)=Σ_{a+b≥j} im(I^aA⊗_R J^bB)`, and its completion is the completed tensor
 product `A⊗̂B`. For a commutative ring `R`, a lattice `M` and a finite set `I`,
 `R[M][t_i : i∈I]` is `MvPolynomial I (AddMonoidAlgebra R M)`, and `(t_i)` with its
 powers is `MvPolynomial.idealOfVars` with its coefficients.
@@ -237,16 +237,16 @@ powers is `MvPolynomial.idealOfVars` with its coefficients.
   are `RingHom`, `AlgHom` and `LinearMap`, respectively, equipped with the cutoff-modulus
   condition above.
 - Filtered ring maps and filtered module maps along `λ` induce maps on completions whose
-  order-`h` projection is induced by `A/I^{λ(h)+1}A → B/J^{h+1}B`, unchanged when `λ` is
+  order-`k` projection is induced by `A/I^{λ(k)+1}A → B/J^{k+1}B`, unchanged when `λ` is
   enlarged, with identity and composition laws (`f` along `λ` and then `f'` along `λ'`
   compose along `λ∘λ'`), retaining any specified algebra or linear structure.
-- The `F^k(A⊗_R B)` are two-sided ideals, decreasing and multiplicative, with
+- The `F^j(A⊗_R B)` are two-sided ideals, decreasing and multiplicative, with
   `F^0=A⊗_R B`. The completed product `Â × B̂ → A⊗̂B`, `(x,y)↦x⊗̂y`, is levelwise
-  `x_h⊗y_h` modulo `F^{h+1}`; it is `R`-bilinear, multiplicative and compatible with the
+  `x_k⊗y_k` modulo `F^{k+1}`; it is `R`-bilinear, multiplicative and compatible with the
   projections.
 - *principalCompletionEquiv*: the `(t_i)`-adic completion of `R[M][t_i : i∈I]` is
   `MvPowerSeries I (AddMonoidAlgebra R M)`, preserving all coefficient maps; the
-  order-`h` component of its inverse is `truncTotal (h+1)` followed by the quotient map.
+  order-`k` component of its inverse is `truncTotal (k+1)` followed by the quotient map.
 
 **Checks.**
 - Completion at an ideal containing a Laurent unit is the zero ring, not the principal
@@ -263,25 +263,25 @@ Let `𝔣=FreeLieAlgebra ℚ (Fin 2)` with generators `X, Y`, `γ_{c+1}` Mathlib
 `U⁺=TauCeti.HopfIdeal.augmentation` in `U(𝔣)`. In `U_c=U(𝔣)/(U⁺)^{c+1}` the images of
 `X` and `Y` are nilpotent, and `ι_c : 𝔣/γ_{c+1} → U_c` is the map induced by
 `𝔣 → U(𝔣)`. For `u` nilpotent in a `ℚ`-algebra, *nilLog*`(1+u)` is the finite series
-`Σ_{k≥1}(−1)^{k+1}u^k/k`. *bchElement c* is the element of `𝔣/γ_{c+1}` whose image
+`Σ_{j≥1}(−1)^{j+1}u^j/j`. *bchElement c* is the element of `𝔣/γ_{c+1}` whose image
 under `ι_c` is *nilLog*`(exp(X)exp(Y))`.
 Let `R` be a commutative `ℚ`-algebra. For any `R`-Lie algebra `a` of nilpotency class
 at most `c`, *BCHGroup a* has underlying set `a`, identity exponential and logarithm,
 and product obtained by evaluating `bchElement c` at `(x,y)` through
 `FreeLieAlgebra.lift` on the scalar restriction to `ℚ`. For positively graded `g`,
-*truncatedGroup* `G≤h` is *BCHGroup* of `g≤h`.
+*truncatedGroup* `G≤k` is *BCHGroup* of `g≤k`.
 
 Over any commutative ring `R`, `U_R(g)_n` is the `R`-span of products of homogeneous
-elements whose degrees sum to `n`; *degreeIdealU* is `I^hU=⊕_{δ(n)≥h}U_R(g)_n`; `J` is
+elements whose degrees sum to `n`; *degreeIdealU* is `I^kU=⊕_{δ(n)≥k}U_R(g)_n`; `J` is
 the augmentation ideal; *completedEnveloping* `Û_R(g)` is the §0.3 completion along
-`I^hU`; *completedLie* is `ĝ=lim g≤h`; and *completedLieToU* `ĝ → Û_R(g)` is induced by
-the maps `g≤h → U/I^{h+1}U`. Let `U⊗̂U` be the completion for the §0.3
-*tensorFiltration* `F^h(U⊗_R U)` of `I^hU` with itself. The *completedCoproduct*
+`I^kU`; *completedLie* is `ĝ=lim g≤k`; and *completedLieToU* `ĝ → Û_R(g)` is induced by
+the maps `g≤k → U/I^{k+1}U`. Let `U⊗̂U` be the completion for the §0.3
+*tensorFiltration* `F^k(U⊗_R U)` of `I^kU` with itself. The *completedCoproduct*
 `Δ̂ : Û_R(g) → U⊗̂U` is the filtration-preserving §0.3 completion map of the coproduct `Δ` of
 `instHopfAlgebra`, and the counit induces `ε̂ : Û_R(g) → R`. An element `x` of `Û_R(g)`
 is *IsCompletedGroupLike* when `ε̂(x)=1` and `Δ̂(x)=x⊗̂x`, and *IsCompletedPrimitive*
 when `Δ̂(x)=x⊗̂1+1⊗̂x`, the completed forms of `IsGroupLikeElem` and
-`Bialgebra.IsPrimitiveElem`. The quotients `U/I^{h+1}U` are not quotient coalgebras, so
+`Bialgebra.IsPrimitiveElem`. The quotients `U/I^{k+1}U` are not quotient coalgebras, so
 these predicates are stated in `Û_R(g)`. Over a commutative `ℚ`-algebra, *completedExp*
 on the first term `Î^1` of the induced filtration and *completedLog* on `1+Î^1` are
 levelwise `IsNilpotent.exp` and *nilLog*, with no norm or convergence hypothesis.
@@ -306,26 +306,26 @@ elements to `1/d!` times the sum of their products in all orders. The supplied
   and normal subgroups, and the Lie quotient is the quotient group. Conjugation by
   `exp x` is `exp` of `TauCeti.expAd x`. Restriction along a homomorphism of commutative
   `ℚ`-algebras preserves the group law on the underlying set, and the identity
-  comparison commutes with *BCHGroup.map*, `exp` and `log`. The `G≤h` form a tower under
+  comparison commutes with *BCHGroup.map*, `exp` and `log`. The `G≤k` form a tower under
   the maps induced by the truncation maps.
 - *pbwSymmetrizationEquiv* is a filtered `R`-linear coalgebra equivalence preserving the
   lattice grading.
 - Over any commutative ring: the `U_R(g)_n` give a direct-sum decomposition, by
   descending the tensor-algebra grading through the homogeneous enveloping relations;
-  the `I^hU` are two-sided, decreasing and multiplicative with `I^0U=U`; `J^h⊆I^hU`; and
-  if `g` is generated in degrees at most `B≥1`, then `I^{B(h−1)+1}U⊆J^h` for `h≥1`, so
+  the `I^kU` are two-sided, decreasing and multiplicative with `I^0U=U`; `J^k⊆I^kU`; and
+  if `g` is generated in degrees at most `B≥1`, then `I^{B(k−1)+1}U⊆J^k` for `k≥1`, so
   the two filtrations are cofinal. The Lie algebra on `∏_n g_n` is `ĝ`.
-- `Δ(I^hU)⊆F^h(U⊗_R U)`, and `Δ̂` is an `R`-algebra map whose order-`h` projection is
-  the induced `U/I^{h+1}U → (U⊗_R U)/F^{h+1}`. Over a commutative `ℚ`-algebra,
+- `Δ(I^kU)⊆F^k(U⊗_R U)`, and `Δ̂` is an `R`-algebra map whose order-`k` projection is
+  the induced `U/I^{k+1}U → (U⊗_R U)/F^{k+1}`. Over a commutative `ℚ`-algebra,
   *completedExp* and *completedLog* exchange the *IsCompletedPrimitive* elements of
   `Î^1` and the *IsCompletedGroupLike* elements, and the *IsCompletedPrimitive* elements
   of `Û_R(g)` are the image of `ĝ`.
 
-*Route:* `F^k(U⊗_R U)` is the sum of the `U_R(g)_a⊗U_R(g)_b` with `δ(a)+δ(b)≥k`, so the
+*Route:* `F^j(U⊗_R U)` is the sum of the `U_R(g)_a⊗U_R(g)_b` with `δ(a)+δ(b)≥j`, so the
 homogeneous components of a completed primitive element are primitive in `U_R(g)`; under
 *pbwSymmetrizationEquiv* primitives of symmetric degree `d≥2` vanish, since the
 `(1,d−1)` part of the coproduct multiplies back to `d` times the element. For
-`bchElement`, the grading of `𝔣` gives `I^hU=(U⁺)^h`, so `ι_c` is the order-`c`
+`bchElement`, the grading of `𝔣` gives `I^kU=(U⁺)^k`, so `ι_c` is the order-`c`
 component of *completedLieToU*, and the *completedLog* of the group-like product of the
 completed exponentials of `X` and `Y` lies in the image of `𝔣̂`.
 
@@ -344,47 +344,47 @@ completed exponentials of `X` and `Y` lies in the image of `𝔣̂`.
 
 ### 0.5 Completed groups and changes of filtration
 
-A tower is a family of groups `G_h`, `h∈ℕ`, with transition homomorphisms
-`G_{h+1} → G_h` and functor `F : ℕᵒᵖ ⥤ GrpCat`. *CompletedGroup* is the preimage of
-`GrpCat.sectionsSubgroup F` under the reindexing `(∀h, G_h) ≃ (∀ j:ℕᵒᵖ, F.obj j)`, with
-*projection* to each `G_h` and *degreeFiltration* `F^0G=G`, `F^aG=ker(G→G_{a-1})` for
-`a≥1`. A linearly ordered family has finite support at each order when each `G_h`
+A tower is a family of groups `G_k`, `k∈ℕ`, with transition homomorphisms
+`G_{k+1} → G_k` and functor `F : ℕᵒᵖ ⥤ GrpCat`. *CompletedGroup* is the preimage of
+`GrpCat.sectionsSubgroup F` under the reindexing `(∀k, G_k) ≃ (∀ j:ℕᵒᵖ, F.obj j)`, with
+*projection* to each `G_k` and *degreeFiltration* `F^0G=G`, `F^aG=ker(G→G_{a-1})` for
+`a≥1`. A linearly ordered family has finite support at each order when each `G_k`
 receives finitely many nonidentity projections. A *TowerHom* is a compatible family of
 same-level homomorphisms; a *CofinalTowerHom* is a monotone `λ` with compatible maps
-`G_{λ(h)}→G'_h`. For positively graded `g`, `Ĝ` is the completed group of the tower
-`G≤h`.
+`G_{λ(k)}→G'_k`. For positively graded `g`, `Ĝ` is the completed group of the tower
+`G≤k`.
 
 *Targets.*
 - *CompletedGroup* is isomorphic to the cone point of `GrpCat.limitCone`, with the
   universal property for compatible families of homomorphisms and extensionality by
-  projections. `F^aG` is decreasing and separated, `G/F^{h+1}G ≅ G_h` for surjective
+  projections. `F^aG` is decreasing and separated, `G/F^{k+1}G ≅ G_k` for surjective
   transition maps, and `[F^aĜ,F^bĜ]⊆F^{a+b}Ĝ`. *TowerHom*s and *CofinalTowerHom*s induce
   homomorphisms commuting with the projections, unchanged when the modulus is enlarged.
 - The ordered product of a family with finite support at each order, smallest index
-  leftmost (Convention 3): its order-`h` projection is the ordered product of the
-  finitely many factors nontrivial at order `h`, the empty product being the identity.
+  leftmost (Convention 3): its order-`k` projection is the ordered product of the
+  finitely many factors nontrivial at order `k`, the empty product being the identity.
   It is invariant under deleting identity factors and under order-preserving
   reindexing, and adjacent factors whose projections commute at every order may be
   swapped.
 - *completedMap*: `Ĝ → Ĝ'` for a *GradedLieHom* over `(T,λ)`, levelwise by
-  *BCHGroup.map*, with identity and composition laws, mapping `F^{λ(h)+1}Ĝ` into
-  `F^{h+1}Ĝ'` and preserving convergent ordered products. Scalar restriction induces the
+  *BCHGroup.map*, with identity and composition laws, mapping `F^{λ(k)+1}Ĝ` into
+  `F^{k+1}Ĝ'` and preserving convergent ordered products. Scalar restriction induces the
   levelwise identity comparison of completed groups, commuting with projections and
-  *completedMap*. Completed scalar extension to `S` is defined as `lim_h (S⊗_R g≤h)`;
+  *completedMap*. Completed scalar extension to `S` is defined as `lim_k (S⊗_R g≤k)`;
   by §0.2 it is the completion of `S⊗_R g`. Ordinary tensor product with `ĝ` is not
   completed scalar extension.
 - The *IsCompletedGroupLike* elements of `Û_R(g)` form a subgroup of its units, and `Ĝ`
   is isomorphic to that subgroup, compatibly with the exponential.
 - *changeDegreeEquiv*: for two positive degree functions `δ`, `δ'` on one positive
-  monoid `P`, the identity has the modulus `λ(h)=max{δ(n) | n∈P, δ'(n)≤h}` and its
+  monoid `P`, the identity has the modulus `λ(k)=max{δ(n) | n∈P, δ'(n)≤k}` and its
   reverse (§0.1); the filtrations are cofinal, and the induced isomorphism of completed
   groups commutes with the maps from `g`, with *completedMap* and with ordered products.
 
 **Checks.**
-- From `δ` to `2δ` the identity has modulus `λ(h)=⌊h/2⌋`: the truncations and induced
+- From `δ` to `2δ` the identity has modulus `λ(k)=⌊k/2⌋`: the truncations and induced
   maps change the order, and *changeDegreeEquiv* identifies the completed groups.
 - On `P={(a,b)∈ℕ² | b≤a≤b²}`, *changeDegreeEquiv* from `δ(a,b)=a` to `δ'(a,b)=b` has
-  moduli `λ(h)=h²` and `λ(h)=h`.
+  moduli `λ(k)=k²` and `λ(k)=k`.
 
 *Needs:* §§0.1–0.4; `GrpCat.sectionsSubgroup`, `GrpCat.limitCone`, `Subgroup`
 commutators.
@@ -394,18 +394,18 @@ commutators.
 Let `A` be an `R`-algebra with an *AlgFiltration*, and let `g` be a positively graded
 `R`-Lie algebra acting `R`-linearly on `A`, with the Leibniz rule
 (*IsDerivationAction*). The action is *IsFiltrationRaising* when
-`F^a g · I^bA ⊆ I^{a+b}A`, and is detected by the filtration when every `x ∉ F^{h+1}g`
-has `b` and `m ∈ I^bA` with `x·m ∉ I^{b+h+2}A`.
+`F^a g · I^bA ⊆ I^{a+b}A`, and is detected by the filtration when every `x ∉ F^{k+1}g`
+has `b` and `m ∈ I^bA` with `x·m ∉ I^{b+k+2}A`.
 
 *Targets.*
 - For a filtration-raising action over any commutative `R`, each `x∈g` induces an
-  `R`-linear endomorphism of `A/I^{h+1}A` whose `(h+1)`-st power vanishes. Group
-  homomorphisms `G_h → Aut_R(A/I^{h+1}A)` along a tower of groups `G_h`, compatible with
+  `R`-linear endomorphism of `A/I^{k+1}A` whose `(k+1)`-st power vanishes. Group
+  homomorphisms `G_k → Aut_R(A/I^{k+1}A)` along a tower of groups `G_k`, compatible with
   the truncation maps, induce a group homomorphism from the completed group of the tower
   to `Aut_R(Â)` acting levelwise.
 - *expDerivationAction_exists*: over a commutative `ℚ`-algebra `R`, the levelwise
   exponentials of the §0.4 BCH groups give a group homomorphism `Ĝ → Aut_R(Â)` by
-  `R`-algebra automorphisms, whose order-`h` projection of `γ·u` depends only on those
+  `R`-algebra automorphisms, whose order-`k` projection of `γ·u` depends only on those
   of `γ` and `u`. The action after scalar restriction agrees with the scalar restriction
   of this action. The action is faithful when the Lie action is detected by the
   filtration.
@@ -644,7 +644,7 @@ and order of Convention 3. *pathProduct* is `FreeGroup.lift` of the labels on §
 crossing word. A common admissible path of two diagrams is one vertex list admissible
 for each wall family separately. *Equivalent* diagrams agree on common admissible
 paths; *Consistent* means path products depend only on endpoints. A compatible
-refinement of `D` subdivides its complex, gives walls inside a wall `w` of `D` its label
+refinement of `𝔇` subdivides its complex, gives walls inside a wall `𝔡` of `𝔇` its label
 and a positively proportional coorientation, and others `1`.
 
 *Targets.*
@@ -673,29 +673,29 @@ and a positively proportional coorientation, and others `1`.
 
 For §0.1's `N`, the space `V` is a *KSSpace*: the model of `Hom_ℤ(N,ℝ)` of
 Convention 1, with lattice map `Hom(N,ℤ)→V` satisfying `IsIntegralLattice`. For a
-rational cone `σ⊆V`, `g(σ)=⊕_{n∈N⁺, σ⊆n⊥} g_n`. A *KSComplex h* is a finite rational
-conical complex (§1.1) whose wall `d` has label in `exp(g(d)≤h)` and is cooriented by
-a positive normal `n` with `d⊆n⊥`. A *CompletedDiagram* (Convention 4) is a sequence
-of KS complexes `D_h` with the projection of `D_{h+1}` equivalent to `D_h`; equivalence
+rational cone `σ⊆V`, `g(σ)=⊕_{n∈N⁺, σ⊆n⊥} g_n`. A *KSComplex k* is a finite rational
+conical complex (§1.1) whose wall `𝔡` has label in `exp(g(𝔡)≤k)` and is cooriented by
+a positive normal `n` with `𝔡⊆n⊥`. A *CompletedDiagram* (Convention 4) is a sequence
+of KS complexes `𝔇_k` with the projection of `𝔇_{k+1}` equivalent to `𝔇_k`; equivalence
 and consistency hold order by order. An all-order path is one vertex list admissible
-for every `D_h`; a point is allowed when it lies on no wall of any `D_h`.
+for every `𝔇_k`; a point is allowed when it lies on no wall of any `𝔇_k`.
 
 *Targets.*
 - `δ` as a vector of `V`, by bijectivity of evaluation `N⁎⊗ℝ→V`; `g(σ)` as a Lie
-  subalgebra, and `exp(A≤h)` for a Lie subalgebra `A` as a subgroup of `G≤h` (§0.4).
+  subalgebra, and `exp(A≤k)` for a Lie subalgebra `A` as a subgroup of `G≤k` (§0.4).
 - The complete path product on all-order paths. Two completed diagrams are equivalent
   iff their complete path products agree on all common all-order paths: by §1.2's
-  countable perturbation, every order-`h` test product is computed by a common
-  all-order path with the same order-`h` crossing word, after moving the endpoints
-  within their order-`h` chambers.
+  countable perturbation, every order-`k` test product is computed by a common
+  all-order path with the same order-`k` crossing word, after moving the endpoints
+  within their order-`k` chambers.
 - Transport of a consistent completed diagram between allowed points, built order by
   order, independent of the finite-order paths and equal to the complete path product
   on all-order paths.
 
 **Checks.**
-- For `N=ℤ²`, `P=ℕ²` and `x∈Ĝ` with order-`h` projection in `exp(g(e_2⊥)≤h)`, let the
-  order-`h` complex be cut out by `e_2⊥` for even `h` and by `e_1⊥`, `e_2⊥` for odd
-  `h`, with the projection of `x` on `e_2⊥` or on each of its half-lines and `1` on the
+- For `N=ℤ²`, `P=ℕ²` and `x∈Ĝ` with order-`k` projection in `exp(g(e_2⊥)≤k)`, let the
+  order-`k` complex be cut out by `e_2⊥` for even `k` and by `e_1⊥`, `e_2⊥` for odd
+  `k`, with the projection of `x` on `e_2⊥` or on each of its half-lines and `1` on the
   half-lines of `e_1⊥`: a *CompletedDiagram* whose complexes do not stabilize.
 
 *Needs:* §§0.2, 0.4–0.5, §2.1, conical §1.1 and §1.2's countable perturbation lemma;
@@ -706,23 +706,23 @@ for every `D_h`; a point is allowed when it lies on no wall of any `D_h`.
 For `θ∈V`, `g_+(θ)`, `g_0(θ)`, `g_-(θ)` are the sums of the `g_n`, `n∈N⁺`, with
 `θ(n)` positive, zero and negative, and `G_+(θ)`, `G_0(θ)`, `G_-(θ)` their groups at
 each order and completed. The `±` chambers are `{θ | ∀n∈N⁺, ±θ(n)>0}`.
-*arrangementComplex h* is the conical complex cut out by the `n⊥` with `n∈N⁺`,
-`δ(n)≤h`. `P` is any positive monoid of §0.1; finite generation is assumed only for the
+*arrangementComplex k* is the conical complex cut out by the `n⊥` with `n∈N⁺`,
+`δ(n)≤k`. `P` is any positive monoid of §0.1; finite generation is assumed only for the
 openness of the chambers.
 
 *Targets.*
-- Sign factorization: multiplication `G_+(θ)×G_0(θ)×G_-(θ)→G≤h` is a bijection, and
+- Sign factorization: multiplication `G_+(θ)×G_0(θ)×G_-(θ)→G≤k` is a bijection, and
   so is its completed form onto `Ĝ`; the plus part, middle factor and minus part are
   functions of the product.
 - `±δ` lie in the `±` chambers, which are open for finitely generated `P`; every
   completed diagram has allowed points in both.
-- *reconstruct g*, for `g∈Ĝ`: the completed diagram on *arrangementComplex h* whose
+- *reconstruct g*, for `g∈Ĝ`: the completed diagram on *arrangementComplex k* whose
   walls carry the middle factors of `g` at relative-interior points. It is consistent,
   and its transport from the positive to the negative chamber is `g`.
-- *reconstructionEquiv*: in a consistent completed diagram, the order-`h` label of a
+- *reconstructionEquiv*: in a consistent completed diagram, the order-`k` label of a
   wall is the middle factor of the chamber transport at a relative-interior point of the
-  wall on no other `n⊥` with `δ(n)≤h`. Hence consistent completed diagrams modulo
-  equivalence are `Ĝ`, compatibly with order-`h` projection.
+  wall on no other `n⊥` with `δ(n)≤k`. Hence consistent completed diagrams modulo
+  equivalence are `Ĝ`, compatibly with order-`k` projection.
 
 **Checks.**
 - In rank one, *reconstruct g* for `g` in the completed group of §0.2's graded
@@ -802,78 +802,78 @@ annihilation condition.
 ### 3.2 Directed affine walls and admissibility
 
 A *DirectedWall* is a nonzero normal `m∈L*`, a primitive tangent degree `n∈P` with
-`m(n)=0`, a support `d` that is a nonempty rational affine polyhedron, bounded or not,
+`m(n)=0`, a support `𝔡` that is a nonempty rational affine polyhedron, bounded or not,
 with affine direction `ker(m_ℝ)`, and a label in *wallGroup n m*; its direction is `-n`.
-*Incoming* means `n∈rec(d)` for the recession cone `rec(d)`, that is `d+ℝ_{≥0}n⊆d`;
+*Incoming* means `n∈rec(𝔡)` for the recession cone `rec(𝔡)`, that is `𝔡+ℝ_{≥0}n⊆𝔡`;
 *Outgoing* is its negation. A *DirectedDiagram* is a wall family with finitely many
-walls nontrivial at each order `h`. Its order-`h` path product *levelPathProduct* runs
+walls nontrivial at each order `k`. Its order-`k` path product *levelPathProduct* runs
 over these walls, with crossing factor `θ^{-sgn⟨m,γ'⟩}` (Convention 3), the first
 crossing rightmost and simultaneous crossings contributing the product of their factors;
-order-`h` equivalence, equivalence and consistency are defined by these products. `D'`
-refines `D` when an assignment `ρ` sends each wall `w'` of `D'` with nonidentity label
-to a wall `ρ(w')` of `D` of the same degree, normal and label whose support contains
-that of `w'`, and for each wall `w` of `D` with nonidentity label the supports of the
-walls in `ρ⁻¹(w)` cover that of `w` with pairwise disjoint relative interiors.
-Overlapping and repeated walls of `D` are distinct indexed walls, refined separately.
+order-`k` equivalence, equivalence and consistency are defined by these products. `𝔇'`
+refines `𝔇` when an assignment `ρ` sends each wall `𝔡'` of `𝔇'` with nonidentity label
+to a wall `ρ(𝔡')` of `𝔇` of the same degree, normal and label whose support contains
+that of `𝔡'`, and for each wall `𝔡` of `𝔇` with nonidentity label the supports of the
+walls in `ρ⁻¹(𝔡)` cover that of `𝔡` with pairwise disjoint relative interiors.
+Overlapping and repeated walls of `𝔇` are distinct indexed walls, refined separately.
 
 *Targets.*
-- `rec(d+v)=rec(d)`, so *Incoming* and *Outgoing* are translation invariant; walls
+- `rec(𝔡+v)=rec(𝔡)`, so *Incoming* and *Outgoing* are translation invariant; walls
   whose supports have the same direction have commuting labels.
 - *levelPathProduct* is §2.1's path product on any complex whose walls subdivide the
   active supports, each cell labelled by the product of the signed labels of the active
   walls containing it, signs taken on the positive side of its coorientation. A transverse
   segment meeting only one regular wall germ computes this same combined label,
   independently of the enumeration of coincident walls.
-- Order-`h` equivalence is an equivalence relation (§1.2's path perturbation for wall
+- Order-`k` equivalence is an equivalence relation (§1.2's path perturbation for wall
   families, §2.1's endpoint shift). A refinement preserves these combined wall-germ
   labels and is equivalent to the diagram it refines, so equivalence does not depend on
   the wall presentation.
 
 **Checks.**
-- For `d=[0,∞)⊂ℝ` and `n=1`, both `d` and `d+2` are incoming, while `n∈d` and `n∉d+2`.
+- For `𝔡=[0,∞)⊂ℝ` and `n=1`, both `𝔡` and `𝔡+2` are incoming, while `n∈𝔡` and `n∉𝔡+2`.
 
 *Needs:* §3.1, §§1.1–1.2; §2.1. Sources: MAN Definition 2.2, Remark 2.3 and (8).
 
 ### 3.3 Local scattering and existence of completion
 
-The input `D_in` is a finite family of incoming full affine hyperplanes labelled in
+The input `𝔇_in` is a finite family of incoming full affine hyperplanes labelled in
 §3.1's wall groups, with no transversality or rational-offset hypothesis. An outgoing
-completion is a consistent diagram containing `D_in` whose other walls are outgoing.
+completion is a consistent diagram containing `𝔇_in` whose other walls are outgoing.
 *HasPureBirthLogs*: each noninitial wall has a single homogeneous logarithm in `g_n`,
-with birth order `δ(n)`. For `h≥1`, *IsCorrectionStage h* says that a partial diagram
-contains `D_in`, is consistent through order `h−1`, and has only outgoing noninitial
-walls with pure birth logarithms of orders strictly less than `h`.
+with birth order `δ(n)`. For `k≥1`, *IsCorrectionStage k* says that a partial diagram
+contains `𝔇_in`, is consistent through order `k−1`, and has only outgoing noninitial
+walls with pure birth logarithms of orders strictly less than `k`.
 
-For a diagram consistent through order `h−1`, a *ChamberTrivialization* at order `h`
+For a diagram consistent through order `k−1`, a *ChamberTrivialization* at order `k`
 is a finite ambient complex whose codimension-one cells cover the walls active at order
-`h`, with a base point off its codimension-one skeleton and lifts to `G≤h` of the
-order-`(h−1)` transport from that point, constant on each chamber. The central defect
-`A_h` is the codimension-one *PolyhedralCochain* (§1.4) in `E_h=F^hg/F^{h+1}g` of the
+`k`, with a base point off its codimension-one skeleton and lifts to `G≤k` of the
+order-`(k−1)` transport from that point, constant on each chamber. The central defect
+`A_k` is the codimension-one *PolyhedralCochain* (§1.4) in `E_k=F^kg/F^{k+1}g` of the
 conjugated discrepancies of the lifted wall actions across codimension-one cells; each
-discrepancy is proved to lie in `ker(G≤h→G≤h−1)` before taking the inverse of its
-central exponential. Likewise, `ζ_h` assigns to each codimension-two cell the central
+discrepancy is proved to lie in `ker(G≤k→G≤k−1)` before taking the inverse of its
+central exponential. Likewise, `ζ_k` assigns to each codimension-two cell the central
 logarithm of the path product around its closed meridian, §1.2's small loop around the
-cell, with kernel membership supplied by order-`(h−1)` consistency. *centralStep*
-`b_{h,n}=S_nζ_{h,n}`, for §1.4's sweep `S_n`, is realized by
-walls on the swept cells `d−ℝ_{≥0}n` with tangent degree the primitive generator of `n`,
+cell, with kernel membership supplied by order-`(k−1)` consistency. *centralStep*
+`b_{k,n}=S_nζ_{k,n}`, for §1.4's sweep `S_n`, is realized by
+walls on the swept cells `𝔡−ℝ_{≥0}n` with tangent degree the primitive generator of `n`,
 logarithm the degree-`n` element and label `exp(−c)` for coefficient `c` on the positive
 transverse side.
 
 *Targets.*
-- *exists_outgoingCompletion*: every input `D_in` has an outgoing completion, assembled
-  from finite order-`h` completions compatible in `h`.
-- For every *ChamberTrivialization*, `ζ_h=dA_h`, hence `dζ_h=0`. For an
-  *IsCorrectionStage h* diagram, the degree-`n` part of `ζ_h`, `δ(n)=h`, at a joint of
+- *exists_outgoingCompletion*: every input `𝔇_in` has an outgoing completion, assembled
+  from finite order-`k` completions compatible in `k`.
+- For every *ChamberTrivialization*, `ζ_k=dA_k`, hence `dζ_k=0`. For an
+  *IsCorrectionStage k* diagram, the degree-`n` part of `ζ_k`, `δ(n)=k`, at a joint of
   direction `W` is `0` if `n∈W`, and otherwise lies in the wall space of `Ann(W+ℝn)`.
-- At an *IsCorrectionStage h* diagram, *centralStep* adds only outgoing walls with
-  pure birth logarithms of order `h` and produces an *IsCorrectionStage (h+1)* diagram;
-  `ζ_h+dΣ_n b_{h,n}=0` on a common refinement with the sweep side faces and the new
+- At an *IsCorrectionStage k* diagram, *centralStep* adds only outgoing walls with
+  pure birth logarithms of order `k` and produces an *IsCorrectionStage (k+1)* diagram;
+  `ζ_k+dΣ_n b_{k,n}=0` on a common refinement with the sweep side faces and the new
   intersections.
 
-*Route:* For `n` tangent to a joint, initial linear terms of `ζ_h` cancel, other linear
-terms are born below order `h`, and Lie words of two or more wall-space leaves with
+*Route:* For `n` tangent to a joint, initial linear terms of `ζ_k` cancel, other linear
+terms are born below order `k`, and Lie words of two or more wall-space leaves with
 degree in `W` vanish, since by `μ` every recursive normal annihilates `W` and, unless
-its subword is zero, its own degree. With `dζ_h=0`, §1.4's homotopy `dS_n+S_nd=−id`
+its subword is zero, its own degree. With `dζ_k=0`, §1.4's homotopy `dS_n+S_nd=−id`
 gives the cancellation, and §1.4's strict outgoingness of swept cells makes the walls
 outgoing.
 
@@ -882,7 +882,7 @@ outgoing.
   labelled `exp(t_1x)`, `exp(t_2y)` gain one wall `exp(t_1t_2[x,y])` with normal `μ` on
   the joint swept by `-(n+n')`, and none if `μ=0`; for `n=e_1,m=e_2*,n'=e_2,m'=e_1*` it
   is `−ℝ_{≥0}(1,1)` with normal `e_1*−e_2*`.
-- A correction omitting the sweep side faces fails `ζ_h+dΣ_n b_{h,n}=0`.
+- A correction omitting the sweep side faces fails `ζ_k+dΣ_n b_{k,n}=0`.
 
 *Needs:* §§0.2, 0.4–0.5, 1.2, 1.4, 3.1–3.2; `LieAlgebra.ExtendScalars`,
 `DirectSum.Decomposition.baseChange`. Sources: MAN Theorem 2.6 and Lemma 2.9; GHKK
@@ -890,30 +890,30 @@ Appendices C.1 and C.3.
 
 ### 3.4 Uniqueness and compatibility
 
-*Scat* `D_in` is the equivalence class of an outgoing completion of a §3.3 input,
-bundled with an index type in the universe of *exists_outgoingCompletion*; its order-`h`
-class is taken modulo order-`h` equivalence.
+*Scat* `𝔇_in` is the equivalence class of an outgoing completion of a §3.3 input,
+bundled with an index type in the universe of *exists_outgoingCompletion*; its order-`k`
+class is taken modulo order-`k` equivalence.
 
 *Targets.*
 - *outgoingCompletion_unique*: two outgoing completions of one input are equivalent, so
-  every outgoing completion of `D_in` represents *Scat* `D_in`.
-- The order-`h` class of *Scat* depends only on that of the input, and a completion
-  mapped along `g→g≤h` is a completion of the truncated input; *Scat* commutes with
+  every outgoing completion of `𝔇_in` represents *Scat* `𝔇_in`.
+- The order-`k` class of *Scat* depends only on that of the input, and a completion
+  mapped along `g→g≤k` is a completion of the truncated input; *Scat* commutes with
   §0.5's *completedMap* along the fixed-lattice morphisms of §3.1.
 
 *Route:* Split the central difference at the first differing order into homogeneous
 parts on §1.1's ambient subdivision. Initial walls cancel and the supports lie in
 outgoing correction supports, so each part is a consistent abelian family in one degree
-`n` with `n∉rec(d)` for every support. Each support then lies in a half-space `l≤c`
+`n` with `n∉rec(𝔡)` for every support. Each support then lies in a half-space `l≤c`
 with `l(n)>0`, so a transverse segment and its far translate along `n` bound a rectangle
 with sum `0`, and the part is trivial. Induct on the order.
 
 **Checks.**
-- A nontrivial full hyperplane, with `d−ℝ_{≥0}n⊆d`, is consistent and inequivalent to
+- A nontrivial full hyperplane, with `𝔡−ℝ_{≥0}n⊆𝔡`, is consistent and inequivalent to
   `∅`.
 
 *Needs:* §3.3, §0.2's graded degree ideals, §1.1's ambient subdivision. Sources: MAN
-Theorem 2.6; GHKK Appendix C.1; LMY Definition 1.3 calls a wall with `d−ℝ_{≥0}n⊆d`
+Theorem 2.6; GHKK Appendix C.1; LMY Definition 1.3 calls a wall with `𝔡−ℝ_{≥0}n⊆𝔡`
 outgoing.
 
 ## Layer 4: realizations and specializations
@@ -926,7 +926,7 @@ generators `z^n∂_m` and bracket `[z^n∂_m,z^{n'}∂_{m'}]=z^{n+n'}∂_{m(n')m
 wall space `h_{n,m}` is the `R`-line of `z^n∂_m` when `m(n)=0`, and zero otherwise. A
 *coefficient monoid* is a submonoid `Q` with `P⊆Q⊆L`. The derivations act on `R[Q]` by
 `z^n∂_m(z^q)=m(q)z^{n+q}`, raising the filtration by the ideals spanned by the
-`z^{q+n}`, `q∈Q`, `n∈P`, `δ(n)≥h`; `R[[Q]]` is its §0.3 completion. `Q=P` gives the
+`z^{q+n}`, `q∈Q`, `n∈P`, `δ(n)≥k`; `R[[Q]]` is its §0.3 completion. `Q=P` gives the
 degree completion `R[[P]]`; `Q=L` enters through §5.1's shifted modules. A
 *TropicalPairing* is a *PositiveDegreeMap* `T:L→L'` (§0.1) with `T(P)⊆P'` and a
 `ℚ`-linear map `S:U→ₗ[ℚ](L')*_ℚ` on a subspace `U⊆L*_ℚ` of normals with
@@ -996,10 +996,10 @@ a linear map `p₁*_ℝ:N_ℝ→M°_ℝ` extending `x↦{x,-}`.
   homomorphism over `r` into §4.1's formal algebra of `P_pr`, through which `D_n` is
   §4.1's action on `R[Q_pr]`, `Q_pr=M°⊕P_N`, with `R[[Q_pr]]=R[M°][[t_i]]` by §0.3.
 - After *completedMap* along the regrading from `P_N` to `P_pr` over `r` (identity
-  modulus), the `M°_ℝ`-projection intertwines path products of KS walls `d` and of
-  cylinders `d×(N_uf)_ℝ` with normal `κ(n)ν_n`. Incoming ray-group elements, finite at
+  modulus), the `M°_ℝ`-projection intertwines path products of KS walls `𝔡` and of
+  cylinders `𝔡×(N_uf)_ℝ` with normal `κ(n)ν_n`. Incoming ray-group elements, finite at
   every order and of distinct degrees, have a consistent conical completion, unique up
-  to equivalence, whose KS-incoming cells `w⊆n⊥` (`n` primitive in `N⁺`) carry the
+  to equivalence, whose KS-incoming cells `𝔡⊆n⊥` (`n` primitive in `N⁺`) carry the
   label of `n`; via the principal lift it is §3.4's completion on finite
   full-hyperplane input.
 - For a skew comparison `A=p₁*_ℝ` and a KS cone `σ⊆n⊥`,
@@ -1079,7 +1079,7 @@ multiplication and action are given data. The *graded action condition* is
 `g_n A_p⊆A_{n+p}` (`GradedLieModule`); the *annihilation condition* is `h_{n,m}A_p=0`
 whenever `m(p)=0`. For `p∈L` the *shifted module* is `M_p=⊕_{n∈P}A_{p+n}`, with
 *relative degree* `δ(n)` on `A_{p+n}`; it is completed by relative degree through §0.3's
-filtered-module completion, and its order-`h` quotient retains `δ(n)≤h` (Convention 3).
+filtered-module completion, and its order-`k` quotient retains `δ(n)≤k` (Convention 3).
 The instances are the tropical vertex derivations of §4.1 on `R[L]`, the inner
 derivations of the twisted group algebra of §4.3, and the principal action of §4.2 with
 `L=L_pr`, `P=P_pr`; their Laurent algebras enter only through the `M_p`.
@@ -1105,15 +1105,15 @@ derivations of the twisted group algebra of §4.3, and the principal action of �
 ### 5.2 Decorated broken lines
 
 The carrier needs only a graded module with a linear group action, over any scalar
-semiring. Fix a directed diagram, an order `h`, an initial homogeneous `a∈A_p` with
-`p≠0`, and an endpoint `Q` off the walls nontrivial at order `h`. A broken line is
+semiring. Fix a directed diagram, an order `k`, an initial homogeneous `a∈A_p` with
+`p≠0`, and an endpoint `Q` off the walls nontrivial at order `k`. A broken line is
 finite data: strictly increasing negative bend times, segment degrees `p_i` and nonzero
 decorations `a_i∈A_{p_i}`; its path `(-∞,0]→L_ℝ` has velocity `-p_i` on the `i`-th
-segment and ends at `Q`. Each bend lies on a wall nontrivial at order `h`, and each
+segment and ends at `Q`. Each bend lies on a wall nontrivial at order `k`, and each
 increment `p_{i+1}-p_i` lies in `P∖{0}`. Every wall encounter, bend or straight passage,
 is transverse: the velocities on both sides are nonzero on the normal of every wall
-nontrivial at order `h` met there. The line avoids the singular support of those walls,
-and its final relative degree has `δ≤h`. The first decoration is `a`; at a bend the new
+nontrivial at order `k` met there. The line avoids the singular support of those walls,
+and its final relative degree has `δ≤k`. The first decoration is `a`; at a bend the new
 decoration is the component, in the new degree of §5.1's completed module, of the signed
 wall action (Convention 3) on the old one; at a straight passage it is unchanged.
 Equality of data is equality of broken lines. The *decorated type* of a line is its wall
@@ -1124,7 +1124,7 @@ limit of its finite-order sums.
 - *BrokenLine*: the structure above, with its path, decorated type and signed wall
   action.
 - Every bend strictly increases the relative degree; at a fixed initial decoration and
-  order `h`, at most `h` bends occur and finitely many decorated types are realized. For
+  order `k`, at most `k` bends occur and finitely many decorated types are realized. For
   `p=0` the theta function is the constant `a`, every wall fixing `A_0` under the
   annihilation condition.
 
@@ -1136,37 +1136,37 @@ Definitions 3.1–3.3 and Proposition 3.4.
 
 ### 5.3 Endpoint evaluation and general position
 
-Fix `(a,h)` and a rational presentation of each wall support. By the Route, the *valid
+Fix `(a,k)` and a rational presentation of each wall support. By the Route, the *valid
 endpoint domain* of a decorated type, the set of endpoints of its lines, is a finite
 Boolean combination of affine equalities and strict inequalities in the endpoint. The
-*endpoint discriminant* `Δ(a,h)` is the union of the zero sets of the nonconstant affine
+*endpoint discriminant* `Δ(a,k)` is the union of the zero sets of the nonconstant affine
 functions occurring, over the finitely many types of §5.2, and of the affine spans of
-`σ−ℝ_{≥0}(p+n)`, `δ(n)≤h`, for the cells `σ` of codimension at least two of the singular
+`σ−ℝ_{≥0}(p+n)`, `δ(n)≤k`, for the cells `σ` of codimension at least two of the singular
 support, so that no backward ray of a relevant degree from a generic endpoint meets a
-joint or a wall boundary; `Q` is *generic* when `Q∉Δ(a,h)`. The *incoming germ* `x^-` of
+joint or a wall boundary; `Q` is *generic* when `Q∉Δ(a,k)`. The *incoming germ* `x^-` of
 a point `x` on the backward ray `Q+τq`, `τ>0`, is `x+ε(q+r)` for small `ε>0`, with one
-vector `r` fixed for `(a,h)` such that, for the finitely many relevant `q`, `m(q+r)` has
+vector `r` fixed for `(a,k)` such that, for the finitely many relevant `q`, `m(q+r)` has
 the sign of `m(q)` for every active wall normal `m` with `m(q)≠0`, equivalently
 `m(q+r)m(q)>0`, and `q+r` lies outside the direction of every affine subspace in
-`Δ(a,h)`. Sign preservation and eventual avoidance of `Δ(a,h)` are separate conditions
+`Δ(a,k)`. Sign preservation and eventual avoidance of `Δ(a,k)` are separate conditions
 on the incoming germ.
 
 *Targets.*
-- *BrokenLineFamily a h*: the §1.3 semilinear family with one chart per decorated type
+- *BrokenLineFamily a k*: the §1.3 semilinear family with one chart per decorated type
   and convex piece of its valid endpoint domain, evaluating the endpoint. Each valid
   endpoint domain is a finite disjoint union of *LocallyClosedPolyhedron* sets, and the
   family *IsFiniteBranch*: with no genericity hypothesis, endpoint and type determine a
   valid transverse line.
-- *endpointDiscriminant*: `Δ(a,h)` is a §1.3 *ExceptionalArrangement* containing every
+- *endpointDiscriminant*: `Δ(a,k)` is a §1.3 *ExceptionalArrangement* containing every
   valid-domain frontier and every endpoint where a type degenerates (a zero-length
   segment, or an encounter at a wall boundary, joint or singular point). Under the
   annihilation condition tangent encounters act trivially, so the transversality of §5.2
   loses no contribution.
 - *GenericEndpoint*: every nonempty open set contains generic endpoints; the evaluation
   fiber over a generic endpoint is finite; each generic endpoint has a neighbourhood of
-  generic endpoints with the same realized decorated types. Countably many pairs `(a,h)`
+  generic endpoints with the same realized decorated types. Countably many pairs `(a,k)`
   have a dense common generic locus.
-- *incomingBranchGerm*: every incoming germ eventually avoids `Δ(a,h)`; the same
+- *incomingBranchGerm*: every incoming germ eventually avoids `Δ(a,k)`; the same
   construction works after any finite exceptional-arrangement refinement, choosing
   `r` for that refinement.
 
@@ -1175,13 +1175,13 @@ on the incoming germ.
 an encounter with `m(q)=0` is the equation `m(X)=c`. Substituting segment by segment
 writes the bend points and every condition of §5.2 as affine in `Q`. Each earlier bend
 is the unique intersection of the known segment with its supporting hyperplane. Off
-`Δ(a,h)` every condition has locally constant truth value; §1.3's trivialization and
+`Δ(a,k)` every condition has locally constant truth value; §1.3's trivialization and
 Baire theorem give finiteness, stability and density.
 
 **Checks.**
 - For `{x=0}∪{y=0}` and `p=(−1,−1)`, the diagonal `{x=y>0}` lies in an open chamber and
-  in `Δ(a,h)` (joint incidence).
-- The hyperplanes `{x=1/(k+1)}` of `ℝ` have common generic point `0` and no
+  in `Δ(a,k)` (joint incidence).
+- The hyperplanes `{x=1/(j+1)}` of `ℝ` have common generic point `0` and no
   neighbourhood of `0` generic for all.
 
 *Needs:* §§1.2–1.3 and §5.2. Sources: CPS Proposition 4.4 and Definition 4.6; N23
@@ -1194,7 +1194,7 @@ with pairwise commuting labels for walls containing the same point outside
 *SingularSupport*. A simultaneous crossing uses the combined signed product of these
 labels; reversing it inverts the whole product. For walls of a polyhedral complex
 this commutation condition is automatic, since regular wall germs are disjoint;
-§§5.5 and 6.2 use an order-`h` directed diagram acting on §5.1's order-`h` shifted
+§§5.5 and 6.2 use an order-`k` directed diagram acting on §5.1's order-`k` shifted
 module. On `V∖SingularSupport` (§1.2) the *segment transport* `P_{yz}` of `[y,z]` has a
 factor `θ^{side(y)−side(z)}` for each wall `m=c` met by `[y,z]` (`side=1` where `m>c`,
 else `0`; first crossing rightmost), and *coefficientPathTransport* composes segment
@@ -1206,7 +1206,7 @@ functions `s` with `s(z)=P_{yz}·s(y)` for every segment `[y,z]` in their domain
 
 *Targets.*
 - Local segment cocycle: `P_{zw}P_{yz}=P_{yw}` whenever the convex hull of `y,z,w`
-  misses *SingularSupport*; for an order-`h` directed diagram, `P_{yz}` is §3.2's
+  misses *SingularSupport*; for an order-`k` directed diagram, `P_{yz}` is §3.2's
   *levelPathProduct* of `[y,z]` for endpoints off the walls. *coefficientPathTransport*
   is unchanged by subdividing the path.
 - *CoefficientLocalSystem* is locally constant and compatible with restriction, and its
@@ -1227,65 +1227,65 @@ statement of *facetDescent*.
 
 ### 5.5 Degeneration identities and theta transport
 
-Fix a §3.3 input `D_in`, a representative `D` of *Scat* `D_in` (§3.4) defining §5.2's
-broken lines, an order `h` and `a∈A_p`. The *module probe* is the semidirect sum `g⋉M_p`
+Fix a §3.3 input `𝔇_in`, a representative `𝔇` of *Scat* `𝔇_in` (§3.4) defining §5.2's
+broken lines, an order `k` and `a∈A_p`. The *module probe* is the semidirect sum `g⋉M_p`
 (`LieAlgebra.SemiDirectSum` along the action as `LieDerivation R M_p M_p`), with `M_p`
 an abelian ideal, graded by `L_ext=L⊕ℤe_y⊕ℤe_z`: old degrees `(n,0,0)`, module degrees
-`(p+n,1,0)`, `P_ext={(n+kp,k,0) : n∈P, k∈ℕ}`, `δ_ext(x,k,l)=δ(x)+(1−δ(p))k` and `C_ext`
+`(p+n,1,0)`, `P_ext={(n+cp,c,0) : n∈P, c∈ℕ}`, `δ_ext(x,c,l)=δ(x)+(1−δ(p))c` and `C_ext`
 spanned by `C×0×0` and `(p,1,0)`. Old normals `(m,0,0)` carry the old wall spaces,
 nonzero multiples of `e_z*` carry `A_{p+n}`, and other normals carry zero. *Module
-charge* is the `e_y`-coordinate; charge one through extended order `h+1` is relative
-order `h`. The cylinder over a wall has degree `(n,0,0)`, normal `(m,0,0)` and support
-`d×ℝe_y×ℝe_z`; the *probe wall* is `z=0` with degree `(p,1,0)`, normal `e_z*` and label
+charge* is the `e_y`-coordinate; charge one through extended order `k+1` is relative
+order `k`. The cylinder over a wall has degree `(n,0,0)`, normal `(m,0,0)` and support
+`𝔡×ℝe_y×ℝe_z`; the *probe wall* is `z=0` with degree `(p,1,0)`, normal `e_z*` and label
 `exp(a)`. At a generic endpoint `Q`, `Θ_Q` (*weightedEvaluation*) is the sum of the
-final decorations over §5.3's evaluation fiber at order `h`. A point `(Q,y,0)` is
+final decorations over §5.3's evaluation fiber at order `k`. A point `(Q,y,0)` is
 *vertically regular* when a short upward vertical segment there is admissible at
-extended order `h+1` and meets only module walls.
+extended order `k+1` and meets only module walls.
 
 *Targets.*
 - *moduleProbe*: the probe datum satisfies §3.1, the mixed bracket of `h_{n,m}` with
-  `A_{p+n'}` having normal `m(p+n')e_z*`. Its charge-one part at extended order `h+1` is
-  the order-`h` quotient of `M_p`, on which the charge-zero group acts through §5.1.
+  `A_{p+n'}` having normal `m(p+n')e_z*`. Its charge-one part at extended order `k+1` is
+  the order-`k` quotient of `M_p`, on which the charge-zero group acts through §5.1.
   Cylinder lifts preserve consistency and send incoming and outgoing walls to incoming
   and outgoing walls.
 - *probeCompletion*: a consistent probe diagram whose charge-zero part is the cylinder
-  over `D` and whose other walls are the probe wall and outgoing charge-one walls. The
+  over `𝔇` and whose other walls are the probe wall and outgoing charge-one walls. The
   combined module label at a vertically regular `(Q,y,0)`, cooriented by `e_z*`, is `exp(F(Q))`:
   a wall with normal `c e_z*`, `c≠0`, contributes `θ^{sgn(c)}`, so a short upward
-  vertical crossing has product `exp(−F(Q))`. Here `F(Q)` lies in the order-`h` quotient
+  vertical crossing has product `exp(−F(Q))`. Here `F(Q)` lies in the order-`k` quotient
   of `M_p` and is independent of the regular choice of `y` and the short crossing.
-  A finite exceptional arrangement `Δ_pr(a,h)` refining `Δ(a,h)` makes every endpoint
+  A finite exceptional arrangement `Δ_pr(a,k)` refining `Δ(a,k)` makes every endpoint
   outside it vertically regular for some `y`. For admissible `γ` between such
-  endpoints, `F(Q')=𝔭_{γ,D}·F(Q)`, with `𝔭_{γ,D}` the order-`h`
-  *levelPathProduct* of `γ` in `D` (§3.2). At infinity, for `q=p+n≠0` and all large `T`,
+  endpoints, `F(Q')=𝔭_{γ,𝔇}·F(Q)`, with `𝔭_{γ,𝔇}` the order-`k`
+  *levelPathProduct* of `γ` in `𝔇` (§3.2). At infinity, for `q=p+n≠0` and all large `T`,
   the degree-`q` component `F_q(Q+Tq)` is `a` if `n=0` and `0` otherwise.
-- *probeWall_eq_brokenLineSum*: `F(Q)=Θ_Q` for `Q∉Δ_pr(a,h)`. By §5.3's local
+- *probeWall_eq_brokenLineSum*: `F(Q)=Θ_Q` for `Q∉Δ_pr(a,k)`. By §5.3's local
   constancy of `Θ`, these values extend uniquely over the original generic locus
-  `V∖Δ(a,h)` and equal `Θ` there.
-- *thetaSection*: `Θ` is locally constant off `Δ(a,h)` and satisfies the facet equation
-  across each facet of `Δ(a,h)`: the wall action at a wall crossing, the identity at any
+  `V∖Δ(a,k)` and equal `Θ` there.
+- *thetaSection*: `Θ` is locally constant off `Δ(a,k)` and satisfies the facet equation
+  across each facet of `Δ(a,k)`: the wall action at a wall crossing, the identity at any
   other facet. It extends uniquely by *facetDescent* to a section `ϑ_a` of
   *CoefficientLocalSystem*, compatible with truncation. *theta_transport*:
-  `ϑ_{a,Q'}=𝔭_{γ,D}(ϑ_{a,Q})` for `γ` admissible at every order between generic
+  `ϑ_{a,Q'}=𝔭_{γ,𝔇}(ϑ_{a,Q})` for `γ` admissible at every order between generic
   endpoints.
 - *theta_coeffMap*: on a fixed lattice with the same positive degree data, let `f` be a
   §3.1 wall-space morphism, `φ` a degree-preserving filtered map between §5.1
   coefficient models, linear after restriction along the specified scalar homomorphism
-  and intertwining the actions, and `f_*D` the directed diagram with labels mapped by
-  *completedMap* `f`. Then `φ(ϑ_{D,a,Q})=ϑ_{f_*D,φ(a),Q}` at common generic endpoints,
+  and intertwining the actions, and `f_*𝔇` the directed diagram with labels mapped by
+  *completedMap* `f`. Then `φ(ϑ_{𝔇,a,Q})=ϑ_{f_*𝔇,φ(a),Q}` at common generic endpoints,
   at each finite order and in the inverse limit. This compares weighted sums: zero
   decorations and walls with identity labels are removed after specialization.
 
-*Route:* Apply §3.3's *exists_outgoingCompletion* to the cylinders over `D_in` and the
+*Route:* Apply §3.3's *exists_outgoingCompletion* to the cylinders over `𝔇_in` and the
 probe wall. The charge-zero part of the result is consistent, since `exp(M_p)⋊G→G` kills
-charge one, and is an outgoing completion of the cylinders over `D_in`, hence equivalent
-to the cylinder over `D` (§3.4); replacing it keeps path products, a path splitting at
+charge one, and is an outgoing completion of the cylinders over `𝔇_in`, hence equivalent
+to the cylinder over `𝔇` (§3.4); replacing it keeps path products, a path splitting at
 its charge-one crossings. Flatness is consistency of a rectangle crossing the probe
 twice, with `G exp(v) G⁻¹=exp(G·v)`; the same rectangle at two heights `y`, with sides
 at `z=±ε` meeting no active wall, gives the independence of regular choices of `y`.
-For `Δ_pr(a,h)`, add to `Δ(a,h)` the supporting hyperplanes of old walls active through
-order `h+1` and the sets `π(affineSpan σ)` for boundary strata `σ` of module walls
-supported in `z=0` and active at extended order `h+1`, whenever
+For `Δ_pr(a,k)`, add to `Δ(a,k)` the supporting hyperplanes of old walls active through
+order `k+1` and the sets `π(affineSpan σ)` for boundary strata `σ` of module walls
+supported in `z=0` and active at extended order `k+1`, whenever
 `e_y∈dir(affineSpan σ)`, where `π:V×ℝe_y→V`. These projections are proper affine
 subspaces. Each remaining boundary span meets a vertical `y`-line in at most one
 point, so a regular `y` exists; a sufficiently short vertical crossing also avoids
@@ -1300,8 +1300,8 @@ walls `x` met by the backward ray, `U_x^q` being the signed combined action of t
 coplanar walls at `x`. Deleting the last genuine bend of a line leaves a prefix of
 smaller relative degree ending at the incoming germ `x^-` and a suffix of velocity `−q`,
 so by *incomingBranchGerm* the sums `Θ` satisfy the same recursion, and induction on
-`δ(q−p)` gives `F=Θ` off `Δ_pr(a,h)`. Local constancy from §5.3 extends the equality
-across its extra strata inside `V∖Δ(a,h)`; the transport equation for `F` then gives
+`δ(q−p)` gives `F=Θ` off `Δ_pr(a,k)`. Local constancy from §5.3 extends the equality
+across its extra strata inside `V∖Δ(a,k)`; the transport equation for `F` then gives
 the facet equations for `Θ`, to which §5.4's *facetDescent* applies.
 
 **Checks.**
@@ -1329,7 +1329,7 @@ each finite order before the inverse limit.
   `q=(m,a)`.
 - *theta_eq_monomialBrokenLineSum*: the theta function of §5.5 equals the monomial
   broken-line sum, each decorated line having a unique coefficient-coordinate lift.
-- *theta_presentationInvariant*: two representatives of *Scat* `D_in` have equal theta
+- *theta_presentationInvariant*: two representatives of *Scat* `𝔇_in` have equal theta
   functions, hence equal theta coefficients (*homogeneousComponent*) and monomial sums,
   at every common generic endpoint and every order.
 
@@ -1383,27 +1383,27 @@ normals by the dual inverse (`realCharacter_comp`) and labels by `φ` through
 
 On an integral-affine atlas of `B` (a `ChartedSpace` with transitions in
 *integralAffineGroupoid*), assign local directed diagrams and identifications with a
-model group tower `G≤h`, and fix for each `h` a closed singular locus `Σ_h⊆B` containing
-the chart images of the singular supports of the order-`h` diagrams. Chosen global
+model group tower `G≤k`, and fix for each `k` a closed singular locus `Σ_k⊆B` containing
+the chart images of the singular supports of the order-`k` diagrams. Chosen global
 *DirectedAffineIso*s extending the chart change on each nonempty connected overlap
 component identify the restricted diagrams there, including
 positive-degree data, filtrations and regular loci (the complements of active singular
 supports), intertwine local transport, and satisfy identity and cocycle laws. Let `H`
 act compatibly on the model tower and contain the overlap Lie lifts. Faithfulness allows
-the laws to be checked on these lifts. Use `G≤h ⋊ H`, with `(g,α)(g′,α′)=(g·α(g′),αα′)`,
+the laws to be checked on these lifts. Use `G≤k ⋊ H`, with `(g,α)(g′,α′)=(g·α(g′),αα′)`,
 as the transport group.
 
 *Targets.*
 - Chartwise transport descends to a functor on admissible chart paths in the open set
-  `B∖Σ_h`, recovers single-chart transport and is invariant under path subdivision and
+  `B∖Σ_k`, recovers single-chart transport and is invariant under path subdivision and
   atlas refinement. Trivial holonomy gives endpoint independence.
 - On common regular loci, truncation-compatible local data give truncation-compatible
   descended transport. After the cofinal reindexing allowed by §0.5, it completes to
-  `Ĝ⋊H` through `lim_h(G≤h⋊H) ≅ (lim_h G≤h)⋊H`.
-- Coefficient actions of `G≤h⋊H`, with equivariant transition isomorphisms (§6.1's
+  `Ĝ⋊H` through `lim_k(G≤k⋊H) ≅ (lim_k G≤k)⋊H`.
+- Coefficient actions of `G≤k⋊H`, with equivariant transition isomorphisms (§6.1's
   *CoefficientIso*s) over the chosen overlaps satisfying `ψ_{ii}=id` and the cocycle law
-  `ψ_{jk}∘ψ_{ij}=ψ_{ik}` on triple-overlap components, give descended local systems on
-  `B∖Σ_h`. Transition maps and lattice parts are defined only at points of their
+  `ψ_{jl}∘ψ_{ij}=ψ_{il}` on triple-overlap components, give descended local systems on
+  `B∖Σ_k`. Transition maps and lattice parts are defined only at points of their
   overlaps. For §5.4's system at degree `p`, the lattice parts fix `p`, or one uses the
   direct sum over its orbit. Local theta sections of §5.5 corresponding under the
   transitions descend.
@@ -1460,11 +1460,11 @@ not on Laurent algebras, since the `a_{i,s}` are not units.
   act on the first coordinate, and wall functions `1+Σ_αc_αz^{v_α}`. For a directed
   input over `(L,P,δ)` with cylinder walls over the same walls through a surjection
   `π:L→M`, and an additive `τ:L_E→L` with `π∘τ=pr_M` and `τ(v_α)=n_α∈P∖{0}`, the pair
-  `τ`, `ν∘pr_M↦ν∘π` is a §4.1 *TropicalPairing* of modulus `λ(h)=h`; it maps positive
+  `τ`, `ν∘pr_M↦ν∘π` is a §4.1 *TropicalPairing* of modulus `λ(k)=k`; it maps positive
   graph algebras and §5.1 shifted modules, and carries supports, normal pairings, path
   products and outgoing completions to those of the input with terms `c_αz^{n_α}`, image
-  rays grouped. A degree `Σb_αv_α` with `δ(Σb_αn_α)≤h+1` and `b_α>0` for some `α` with
-  `δ(n_α)≥2` has `δ_E≤h`. For *BLMPolynomialInput*, `E={(i,s)}`, `m_{i,s}=sw_i` on
+  rays grouped. A degree `Σb_αv_α` with `δ(Σb_αn_α)≤k+1` and `b_α>0` for some `α` with
+  `δ(n_α)≥2` has `δ_E≤k`. For *BLMPolynomialInput*, `E={(i,s)}`, `m_{i,s}=sw_i` on
   `e_i⊥` and `c_{i,s}=1`, `z^{v_{i,s}}` standing for `p_{i,s}z^{sw_i}` in BLM's `M⊕ℕ^E`.
 - *polynomialInput_principalComparison*: a *BLMPolynomialInput* with nonempty unfrozen
   part has a normalized principal datum, an adapted §4.2 datum with `N` as `N°`, dual
@@ -1706,7 +1706,7 @@ Definition 9.10, Lemma 9.14 and §9.3.
 ### 7.6 Positive specialization and intrinsic positivity
 
 A positive specialization pairs a semiring map of chosen positive subsemirings with a
-ring map filtered along a monotone modulus `λ`, `f(F^{λ(h)+1})⊆G^{h+1}` as in §0.3, and
+ring map filtered along a monotone modulus `λ`, `f(F^{λ(k)+1})⊆G^{k+1}` as in §0.3, and
 its §0.3 completion map, which commutes with the canonical maps into the completions.
 The carrier is defined for arbitrary associative rings; for scattering and theta
 comparisons the rings are the commutative `ℚ`-algebra models above and the maps
@@ -1736,8 +1736,8 @@ by *principalBLMExtension_principalComparison*; image rays are regrouped by thei
 primitive generators, and §3.4's *outgoingCompletion_unique* identifies the class.
 
 **Checks.**
-- With the `t`-adic filtration, `Σ_ka^kt^k` specializes at `a=1` to `Σ_kt^k`; when `a`
-  is the only filtration variable, `Σ_ka^k` has no filtered specialization at `a=1`.
+- With the `t`-adic filtration, `Σ_ja^jt^j` specializes at `a=1` to `Σ_jt^j`; when `a`
+  is the only filtration variable, `Σ_ja^j` has no filtered specialization at `a=1`.
 
 *Needs:* §0.3, §§0.5–0.6, §3.4, §§4.1–4.2, §5.5, §7.1 and §7.5.
 
