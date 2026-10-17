@@ -77,6 +77,10 @@ pro-`p` quotient.
     - the compatibility lemma for the two uniformities;
     - `IsNonarchimedeanLocalField ℤ_[p]`-facing corollaries, that is `CompactSpace ℤ_[p]` and
       `IsAdicComplete`;
+    - `padicIntegerRingEquiv : 𝒪[ℚ_[p]] ≃+* ℤ_[p]`, characterized as the identity on underlying
+      elements of `ℚ_[p]`, and its uniform-space companion with the same underlying map,
+      compatible with every power of the maximal ideal and with a residue-field equivalence
+      `𝓀[ℚ_[p]] ≃+* ZMod p` pinned by reduction (`PadicInt.toZMod`);
     - the same structure for a finite extension of `ℚ_[p]`, through Layer 0.III.
 - **The normalized valuation.** Define `v_K^× : Kˣ →* Multiplicative ℤ` through
   `valueGroupWithZeroIsoInt` and `WithZero.log`, and extend it across zero with `ℤᵐ⁰`. Prove the
@@ -302,7 +306,10 @@ pro-`p` quotient.
     - the covariant algebra-map contract
       `map_unitFiltration_le K L i : map(K → L)(U(K,i)) ≤ U(L,e(L/K) * i)`;
     - separately, the contravariant norm contract
-      `map_norm_unitFiltration_psiNat_le K L i : N(U(L,ψℕ(i))) ≤ U(K,i)` from Layer 3.
+      `map_norm_unitFiltration_psiNat_le K L i : N(U(L,ψℕ(i))) ≤ U(K,i)` from Layer 3;
+    - for `K = ℚ_p`, `padicUnitEquiv : 𝒪[ℚ_[p]]ˣ ≃* ℤ_[p]ˣ`, induced by `padicIntegerRingEquiv`,
+      and the theorem identifying membership in `U(ℚ_p,i)` with divisibility of `u − 1` by `p^i`.
+      This connects the concrete `ℤ_[2]ˣ` examples of this roadmap to `unitFiltration`.
 - **Graded pieces.** Prove `U(K,0)/U(K,1) ≃* 𝓀[K]ˣ` by reduction, and, for `i ≥ 1`,
   `U(K,i)/U(K,i+1) ≃* 𝓀[K]⁺` through `1 + x ↦ x mod 𝓂^{i+1}`. The counts `q − 1` and `q` are
   corollaries. ⚠ The depth-zero piece is multiplicative and the deeper pieces are additive. The
@@ -468,8 +475,7 @@ pro-`p` quotient.
 
   The name is `isOpen_range_powMonoidHom`. It holds in regime 1 for either characteristic, and in
   regime 2 for every `n`. ⚠ This does **not** follow from the count above. Finiteness of an
-  abstract quotient of a topological group says nothing about the topology of the kernel: the
-  additive group `ℚ_p` with the discrete topology has finite quotients by non-open subgroups. The
+  abstract quotient of a topological group says nothing about the topology of the kernel. The
   proof exhibits an open subgroup inside the range:
   - in regime 1, `U(K,1) ⊆ (Kˣ)^n`, by Hensel's lemma applied to `X^n − u` at the approximate
     root `1`. The derivative `n X^{n−1}` is a unit there, because `n` is a unit in `𝒪[K]`, and
@@ -700,7 +706,9 @@ pro-`p` quotient.
   - *Source:* Serre LF V §2. The proof is surjectivity on each graded piece, plus completeness.
     *False generalization:* for a ramified extension the norm of a unit is a unit, but the image
     is a proper subgroup: at `L = ℚ_2(√2)` the image of `𝒪[L]ˣ` has index `2` in `ℤ_2ˣ`, so the
-    norm-equation criterion is false there in both directions.
+    sufficiency half of the norm-equation criterion is false there. Here `f = 1`, so `f ∣ v_K(x)`
+    holds for every `x` while not every unit is a norm. Necessity survives in every extension:
+    `x = N_{L/K}(y)` gives `v_K(x) = f · v_L(y)`.
 
 ### Layer 3: ramification, the tame and wild cases, and the filtration
 
@@ -826,13 +834,34 @@ pro-`p` quotient.
   the uniformizer. Composed with the graded pieces of Layer 1 this reads `θ_0 : G_0/G_1 ↪ 𝓀[L]ˣ`,
   the tame character, so `G_0/G_1` is cyclic of order prime to `p`; and
   `θ_i : G_i/G_{i+1} ↪ 𝓀[L]⁺` for `i ≥ 1`, by `σ ↦ (σ(π_L) − π_L)/π_L^{i+1}`, so those quotients
-  are elementary abelian `p`-groups. In Tau Ceti the tame character is `TauCeti.tameCharacter`,
-  with `TauCeti.tameCharacterGraded` on `G_0/G_1`, for any group acting on `L` and preserving
-  `𝒪[L]`. Prove the consequences: `G_1` is the unique `p`-Sylow subgroup of `G_0` and is normal,
+  are elementary abelian `p`-groups. In Tau Ceti the unit-quotient embedding is
+  `TauCeti.ramificationGroupGradedToUnitFiltrationGraded` and the tame character is
+  `TauCeti.tameCharacter`, with `TauCeti.tameCharacterGraded` on `G_0/G_1`, for any group acting on
+  `L` and preserving `𝒪[L]`.
+
+  ⚠ Independence of the uniformizer is a theorem about the unit-quotient form at every level and
+  about `θ_0`; it is **false** for the residue form at `i ≥ 1`. That form is the unit-quotient
+  `θ_i` followed by the Layer 1 coordinate attached to `π_L`
+  (`TauCeti.unitFiltrationGradedSuccEquivResidueFieldOfUniformizer`), and replacing `π_L` by
+  `u π_L` multiplies it by `residue(u)^{−i}`. So the residue form `wildRamificationCharacter`
+  takes the uniformizer as an argument, and its representative formula and this change rule are
+  stated targets. Injectivity and the action formula below do not determine it: multiplying a
+  positive-level residue character by a nonzero residue scalar preserves both, but changes the
+  constant `c` of the norm computation below, hence the norm polynomial. Over `k = 𝔽₄`, with
+  `K = k((s))` and `L = K(π)` for `π² + sπ + s = 0` (separable Eisenstein, so totally ramified),
+  the nonidentity automorphism has `σ(π) = π + s`, break one, and `θ_1(σ) = residue(s/π²) = 1`,
+  since `π² = s(π + 1)`. Also `N(π) = s` and, for `y ∈ k`, `N(1 + yπ) = 1 + (y² + y)s`, so in the
+  coordinates of `π` and `N(π)` the graded norm is `y ↦ y² + y`, with kernel `{0, 1}`. Replacing
+  `θ_1` by `ω·θ_1` for `ω ∈ 𝔽₄ \ 𝔽₂` satisfies every condition above but gives `c = ω` and the
+  polynomial `y ↦ y² + ωy`, with kernel `{0, ω}`, which is not the norm.
+
+  Prove the consequences: `G_1` is the unique `p`-Sylow subgroup of `G_0` and is normal,
   which is wild inertia at finite level; and `G_0` has the cyclic tame quotient `G_0/G_1`. Prove
   the action formula: for `σ ∈ G_0` and `τ ∈ G_i`, `θ_i(στσ⁻¹) = θ_0(σ)^i · θ_i(τ)` (Serre LF IV
-  §2, Proposition 9). It describes how the tame quotient acts on the wild graded pieces, and `θ_t`
-  is the constant in the norm computation below. Prove the equivariance of the tame character:
+  §2, Proposition 9), read in the residue form at a fixed `π_L`; both sides scale by the same
+  factor when `π_L` changes. It describes how the tame quotient acts on the wild graded pieces,
+  and the residue form of `θ_t`, nonzero on `G_t \ G_{t+1}` by injectivity, gives the constant in
+  the norm computation below. Prove the equivariance of the tame character:
   for `g ∈ G` and `σ ∈ G_0`, `θ_0(gσg⁻¹) = ḡ(θ_0(σ))`, where `ḡ` is the automorphism of `𝓀[L]`
   induced by `g` (`tameCharacter_conj`). Hence `θ_0(gσg⁻¹) = θ_0(σ)^q` whenever `g` acts on
   `𝓀[L]` as `x ↦ x^q` (`tameCharacter_conj_of_smul_eq_pow`), in particular, with `q = #𝓀[K]`,
@@ -849,8 +878,11 @@ pro-`p` quotient.
     - Tau Ceti: `TauCeti.tameCharacter` and its independence of the uniformizer,
       `TauCeti.tameCharacter_eq_of_irreducible`.
   - *API:*
-    - the embeddings at every level, with injectivity and independence of the uniformizer;
-    - the two composed forms;
+    - the unit-quotient embeddings at every level, with injectivity and independence of the
+      uniformizer;
+    - the two composed forms: `θ_0`, independent of the uniformizer, and the residue form
+      `wildRamificationCharacter` at `i ≥ 1`, with its representative formula
+      `wildRamificationCharacter_mk` and change rule `wildRamificationCharacter_change`;
     - the group-theoretic consequences above;
     - the action formula;
     - `tameCharacter_conj` and `tameCharacter_conj_of_smul_eq_pow`;
@@ -963,9 +995,25 @@ pro-`p` quotient.
        `ℓ`, by `ℓ ∣ q − 1`;
      - `v = 0 < t`, so `ℓ = p`: `y ↦ y^p` on `𝓀ˣ`, the Frobenius of a finite field, bijective;
      - `0 < v < t`, which again forces `ℓ = p`: `y ↦ y^p` on `𝓀⁺`, Frobenius again, bijective;
-     - `v = t > 0`: the additive map `y ↦ y^ℓ − c^{ℓ−1}·y` on `𝓀⁺`, where `c = θ_t(σ) ∈ 𝓀ˣ` is the
-       value at a generator `σ` of `G` of the level-`t` embedding `θ_t` above. The map is
-       `𝔽_ℓ`-linear, with kernel the line `𝔽_ℓ·c` and cokernel of order `ℓ`.
+     - `v = t > 0`: the additive map `y ↦ y^ℓ − c^{ℓ−1}·y` on `𝓀[K]⁺`. Here `c ∈ 𝓀[K]ˣ` is the
+       element whose image under the canonical map `𝓀[K] → 𝓀[L]` of `residueFieldAlgebra`,
+       bijective by total ramification, is the value at a generator `σ` of `G` of the residue
+       form of `θ_t` at `π_L`; it is nonzero because `σ ∉ G_{t+1}`. The map is `𝔽_ℓ`-linear,
+       with kernel the line `𝔽_ℓ·c` and cokernel of order `ℓ`.
+
+     ⚠ Three normalizations are part of this statement. First, the identification of residue
+     fields is the canonical map, not an arbitrary isomorphism `𝓀[K] ≃ 𝓀[L]`: for `𝓀[K] = 𝔽₄`,
+     composing with Frobenius gives another isomorphism of the same type, and pulling back along
+     it changes `c`. Second, the map is stated as an equation in the coordinates,
+     `normGradedMap_at_break_apply`. Kernel and cokernel orders do not pin it down: they are
+     unchanged by rescaling the positive-level character, which is exactly what changes `c`.
+     Third, the two uniformizers are not independent. `c` is computed from `π_L` alone, while
+     the output coordinate is computed from `π_K`, and replacing `π_K` by `π_K·a` multiplies that
+     coordinate by `residue(a)^{−t}` and leaves the polynomial fixed. This is why `π_K` is
+     `N_{L/K}(π_L)` above. For an arbitrary uniformizer `π_K`, write `N_{L/K}(π_L) = π_K·a`; the
+     output coordinate at `π_K` is then `residue(a)^t·(y^ℓ − c^{ℓ−1}·y)`. In the `𝔽₄` example of
+     the quotient embeddings, the base uniformizer `ωs` has `a = ω⁻¹`, and the depth-one output
+     coordinate of `N(1 + yπ)` is `ω⁻¹(y² + y)`, not `y² + y`.
 
      ⚠ The exponent on `c` is not a slip. The element `c` changes when the generator `σ` changes,
      and `c^{ℓ−1}` does not, because `λ^{ℓ−1} = 1` for `λ ∈ 𝔽_ℓˣ`. A version with a bare `c` would
@@ -997,7 +1045,8 @@ pro-`p` quotient.
     examples section refutes.
   - *Lean-facing exports:* `map_norm_unitFiltration_psiNat_le`, `UnitFiltrationGraded`,
     `normGradedMap`, `normGradedMap_tame_break_zero`, `normGradedMap_zero_before_break`,
-    `normGradedMap_positive_before_break`, and `normGradedMap_at_break`.
+    `normGradedMap_positive_before_break`, `normGradedMap_at_break`, and
+    `normGradedMap_at_break_apply`.
 - **Hasse–Arf.** For a finite abelian Galois extension `L/K`, the jumps of the upper-numbering
   filtration are integers. A jump is a `u` with `G^v ≠ G^u` for every `v > u` (Serre LF IV §3),
   defined as `UpperJump K L u` on the upper filtration `upperRamificationGroup` of the preceding
@@ -1374,10 +1423,16 @@ used by no milestone here.
 ## Worked examples
 
 The acceptance suite includes `ℚ_2`, its unramified quadratic extension, the totally ramified
-quadratic extension generated by `√2`, and the dyadic cyclotomic tower generated by `μ_8`.
+quadratic extension generated by `√2`, the dyadic cyclotomic tower generated by `μ_8`, and the
+tame quadratic extension `Q3Sqrt3 = ℚ_3(√3)`, constructed as `AdjoinRoot (X² − 3)`.
 These examples must exercise normalization, norm groups, lower and upper numbering, and the
 tame quotient; they are regression tests for conventions rather than substitutes for the
 generic theorems.
+
+The last field is the counterexample to the unshifted norm inclusion of Layer 3. For the
+base-field unit `u = 4`, total ramification gives `v_L(u − 1) = v_L(3) = 2`, so `u ∈ U(L,2)`,
+while `N_{L/ℚ_3}(u) = 16` and `v_3(16 − 1) = 1`, so the norm is not in `U(ℚ_3,2)`
+(`norm_four_not_mem_unitFiltration_two`).
 
 ## Dependency order
 
