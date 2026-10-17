@@ -48,6 +48,11 @@ The boundary is part of the specification.
   polynomial from the three prescribed reductions. It is not a closed formula, and the roadmap
   does not define a function that names one polynomial per degree. Layer 9 lists all its
   prerequisites.
+- **The characteristic-zero radical criterion.** For every finite Galois extension `E/F` with
+  `CharZero F`, the Galois group is solvable exactly when the image of every element of `E` lies
+  in the radical closure of an algebraic closure of `F`. Layer 10 states this with a chosen
+  embedding and gives the polynomial consequences. The ambient algebraic closure is essential;
+  this does not assert that the radical tower lies inside `E`.
 
 The following subjects are outside this roadmap. They are not later milestones of it.
 
@@ -78,7 +83,7 @@ Two directories, because the two halves have different customers.
 - `TauCeti/GroupTheory/Permutation/` holds Layer 1 and the group-theoretic part of Layer 6.
   That is: the block-stabilizer correspondence, wreath products, imprimitivity, the
   recognition theorems, the classification, and the label predicates on subgroups.
-- `TauCeti/FieldTheory/GaloisGroups/` holds Layers 0, 2 to 6, and 9. That is: the polynomial
+- `TauCeti/FieldTheory/GaloisGroups/` holds Layers 0, 2 to 6, and 9 to 10. That is: the polynomial
   dictionary, discriminants, resolvents, Frobenius specialization, degree-at-most-five labels,
   and the realization of `Sₙ`.
 
@@ -314,10 +319,12 @@ Two properties are in use. They are never given the same name.
   `Mathlib/FieldTheory/AbelRuffini.lean`. The predicate `IsSolvableByRad` is deprecated there
   since 2026-02-28.
 
-Mathlib proves one implication, as `isSolvable_gal_of_irreducible`: if `q` is irreducible and
-some root of `q` lies in `solvableByRad F E`, then `IsSolvable q.Gal`. The converse is not in
-Mathlib and is not a milestone here. No statement below is an equivalence that mentions
-`solvableByRad`.
+Mathlib proves the radical-to-group implication as `isSolvable_gal_of_irreducible`: if `q` is
+irreducible and some root lies in `solvableByRad F E`, then `IsSolvable q.Gal`. Layer 10 owns the
+finite-Galois converse and its polynomial consequences. For every nonzero polynomial in
+characteristic zero, the polynomial criterion uses **all** roots in the chosen algebraic closure;
+for irreducible polynomials it is equivalent to require **some** root. It is false for reducible
+polynomials that one radical root alone should imply solvability of the whole Galois group.
 
 ### Names
 The roadmap introduces these names: `fullCycleType`, `factorDegrees`, `IsGoodPrime`,
@@ -326,9 +333,14 @@ The roadmap introduces these names: `fullCycleType`, `factorDegrees`, `IsGoodPri
 resolvent layer, `universalResolvent`, `esymmSubst`, `vietaHom`, `ResolventSpec` with
 `ResolventSpec.specialize` and `ResolventSpec.IsGoodPrime`, `IsRootEnumeration`,
 `ResolventSeparationEvidence`, `galResolvent`, `resolventCubic`, `resolventSextic`,
-`tschirnhausPolynomial`, and `TschirnhausAdmissible`; and, for the certificates of Layer 6,
+`tschirnhausPolynomial`, and `TschirnhausAdmissible`; for the certificates of Layer 6,
 `HasFactorDegrees`, `HasSexticRoot`, `HasSecondRootInRootField`, and `QuinticCertificate` with
-its `label`, `Verifies` and `check`. `Suggested.lean` fixes their forms.
+its `label`, `Verifies` and `check`; and for Layer 10, `RadicalConverse.exists_normal_prime_index_subgroup` and
+`RadicalConverse.finiteGalois_iff_image_mem_solvableByRad`; `Suggested.lean` also names
+`finiteGalois_solvable_implies_image_mem_solvableByRad`. The helper target has the explicit form
+`theorem exists_normal_prime_index_subgroup {G} [Group G] [Finite G] [Nontrivial G]
+  (hG : Group.IsSolvable G) : ∃ H : Subgroup G, H.Normal ∧ H.index.Prime`.
+`Suggested.lean` fixes forms for selected targets; it is not exhaustive.
 
 ## What Mathlib provides
 
@@ -342,12 +354,43 @@ Each item was checked in the pinned Mathlib.
   `card_of_separable : Nat.card p.Gal = finrank F p.SplittingField` and `prime_degree_dvd_card`.
   `Mathlib/Analysis/Complex/Polynomial/Basic.lean` has
   `Polynomial.Gal.galActionHom_bijective_of_prime_degree` and its primed variant: over `ℚ`, an
-  irreducible polynomial of prime degree with exactly two non-real roots has full Galois group.
+  irreducible polynomial of prime degree satisfying
+  `Fintype.card (p.rootSet ℂ) = Fintype.card (p.rootSet ℝ) + 2` has full Galois group.
 - **Root counts.** `Mathlib/FieldTheory/Separable.lean` has `card_rootSet_eq_natDegree`, for a
   separable polynomial that splits.
 - **Solvability.** `Mathlib/FieldTheory/AbelRuffini.lean` has the intermediate field
-  `solvableByRad`, the theorem `isSolvable_gal_of_irreducible`, and the family of
-  `gal_*_isSolvable` lemmas. `Archive/Wiedijk100Theorems/AbelRuffini.lean` shows that
+  `solvableByRad`, the closure theorem `solvableByRad.rad_mem`, the root-field theorem
+  `isSolvable_gal_minpoly`, the one-way polynomial theorem
+  `isSolvable_gal_of_irreducible`, and the family of `gal_*_isSolvable` lemmas.
+  `Mathlib/FieldTheory/KummerExtension.lean` has `isCyclic_tfae`; its hypotheses include a
+  primitive root of unity of order the extension degree in the base field. The root-of-unity
+  API has `AlgebraicClosure.hasEnoughRootsOfUnity`,
+  `HasEnoughRootsOfUnity.exists_primitiveRoot`, `IsPrimitiveRoot.pow`,
+  `IsPrimitiveRoot.of_map_of_injective`, and `mem_primitiveRoots`.
+  `Mathlib/FieldTheory/Normal/Basic.lean` supplies `Normal.of_isSplittingField`;
+  `Mathlib/FieldTheory/Galois/Basic.lean` supplies `isGalois_iff`, `IsGalois.card_aut_eq_finrank`,
+  `IsGalois.sup_right`, `IsGalois.tower_top_intermediateField`,
+  `IsGalois.intermediateFieldEquivSubgroup`, `IsGalois.of_fixedField_normal_subgroup`,
+  `IsGalois.normalAutEquivQuotient`, `IntermediateField.subgroupEquivAlgEquiv`, and
+  `IntermediateField.restrictRestrictAlgEquivMapHom_injective`.
+  `Mathlib/FieldTheory/IntermediateField/Basic.lean` supplies `IntermediateField.restrict`,
+  `restrictAlgEquiv`, `restrictScalars`, `lift`, `liftAlgEquiv`, and `lift_restrict`.
+  `Mathlib/FieldTheory/IntermediateField/Adjoin/Basic.lean` supplies
+  `IntermediateField.finiteDimensional_sup`, `IntermediateField.adjoin.finiteDimensional`, and
+  `IntermediateField.finrank_eq_one_iff_eq_top`. `Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.lean`
+  supplies `lift_adjoin_simple`, `lift_sup`, `lift_top`, `restrictScalars_adjoin_eq_sup`, and
+  `adjoin_simple_le_iff`. `Mathlib/LinearAlgebra/Dimension/Free.lean` supplies
+  `Module.finrank_mul_finrank`.
+  `Mathlib/FieldTheory/SplittingField/IsSplittingField.lean` supplies `IsSplittingField.lift` and
+  `IsSplittingField.adjoin_rootSet_eq_range`. `Mathlib/GroupTheory/Solvable.lean` supplies
+  `Group.IsSolvable.commutator_lt_top_of_nontrivial`, solvability under subgroups and quotients,
+  `IsSimpleGroup.comm_iff_isSolvable`, and `Equiv.Perm.not_isSolvable`.
+  `Mathlib/Order/Atoms.lean` provides `Finite.to_isCoatomic`;
+  `Mathlib/GroupTheory/Commutator/Basic.lean` has `Subgroup.Normal.of_commutator_le`;
+  `Mathlib/GroupTheory/QuotientGroup/Simple.lean` has `Group.isSimpleGroup_of_isCoatom`;
+  `Mathlib/GroupTheory/SpecificGroups/Cyclic.lean` has `IsSimpleGroup.prime_card`; and
+  `Mathlib/GroupTheory/SpecificGroups/Cyclic/Basic.lean` has `isCyclic_of_prime_card`.
+  `Archive/Wiedijk100Theorems/AbelRuffini.lean` shows that
   `x⁵ − 4x + 2` is not solvable by radicals, through `gal_Phi`, which computes its Galois group
   as `S₅`.
 - **The permutation action library of A. Chambert-Loir.** `GroupAction/Blocks.lean` has
@@ -483,6 +526,23 @@ This layer relates polynomial data to the image subgroup
   Equality of the two cardinalities is a corollary of the bijection.
   *Needs:* the degree bookkeeping above (Layer 0); `minpoly` and its irreducibility (Mathlib);
   `UniqueFactorizationMonoid.normalizedFactors` (Mathlib); `MulAction.orbitRel` (Mathlib).
+
+- **Transport of the root dictionary across a base-field isomorphism.** For
+  `η : F ≃+* F'`, a field extension E/F, integral α∈E and a field extension L/F',
+  give L the F-algebra structure `(algebraMap F' L).comp η.toRingHom`.
+  Construct the equivalence between `F⟮α⟯ →ₐ[F] L` and the roots in L of
+  `(minpoly F α).map η.toRingHom`, by evaluation on the distinguished generator.
+  Prove the generator equation, injectivity of each map, its restriction to F,
+  and compatibility with composition of target embeddings and base isomorphisms.
+  For splitting fields E/F of f and E'/F' of its coefficient transport, construct
+  a ring equivalence Φ:E≃+*E' satisfying
+  `Φ(algebraMap F E a)=algebraMap F' E' (η a)` for every a. Use the pulled-back
+  scalar structure to prove splitting and root generation before applying
+  splitting-field uniqueness. Prove maps are determined by all root images;
+  no unique or canonical equivalence is asserted without specifying those images.
+  *Needs:* `IsAdjoinRoot.liftHom`, `eq_liftHom`,
+  `IntermediateField.adjoinRootEquivAdjoin`, polynomial evaluation under coefficient
+  maps, and `IsSplittingField.algEquiv` (Mathlib).
 
 - **Transitivity and irreducibility.** For separable `p` with `0 < p.natDegree`, the action is
   transitive if and only if `p` is irreducible. Every resolvent argument later uses this,
@@ -1033,9 +1093,10 @@ root-side meaning and coefficient-side computation are kept distinct throughout.
 
     - *Hypotheses:* `f` irreducible and separable, `ringChar F ∉ {2,5}`, and separation evidence
       for the specialized sextic.
-    - *False generalization:* the criterion is about the group. It is not a statement about
-      `solvableByRad`. The implication from a solvable Galois group to a radical expression is
-      absent from Mathlib and is not a milestone here.
+    - *Scope boundary:* this criterion remains a statement about the Galois image and resolvent;
+      it is not itself a statement about `solvableByRad`. The finite-Galois characteristic-zero
+      equivalence with radical membership in the ambient algebraic closure is owned by Layer 10.
+      A radical expression inside the original splitting field is not asserted.
     - *What the sextic does not do:* it separates the solvable labels from `A₅` and `S₅`, and,
       with the discriminant, it separates `5T3` from `5T1` and `5T2`. It does **not** separate
       `5T1` from `5T2`. Layer 6 states that limitation with its witnesses, and no milestone here
@@ -1445,10 +1506,200 @@ soundness theorem. A **search** for such evidence is neither of those, and is no
   of `Aₙ` over `ℚ` for general `n` is outside this roadmap, as the scope section records.
   *Needs:* the discriminant test (Layer 3); the classification (Layer 6).
 
+### Layer 10: finite Galois extensions and radicals
+
+For a characteristic-zero field `F`, a finite Galois extension `E/F`, and an `F`-embedding
+`ι : E →ₐ[F] AlgebraicClosure F`, prove
+
+```text
+Group.IsSolvable (E ≃ₐ[F] E) ↔
+  ∀ x : E, ι x ∈ solvableByRad F (AlgebraicClosure F).
+```
+
+The radical closure is taken in `AlgebraicClosure F`. It cannot in general be replaced by
+`solvableByRad F E`: adjoining roots of unity can require enlarging the original splitting
+field. The statement quantifies over the chosen embedding; do not require a separate comparison
+of embeddings as part of this theorem.
+
+The forward proof uses the following targets and route.
+
+1. **One-step group lemma.** Own
+   `RadicalConverse.exists_normal_prime_index_subgroup`: for `[Finite G] [Nontrivial G]
+   [Group.IsSolvable G]`, produce `H : Subgroup G` with `H.Normal` and prime index. In the
+   proof, `Group.IsSolvable.commutator_lt_top_of_nontrivial` first shows that the commutator
+   subgroup is proper. Then choose a coatom above it using the finite-group `IsCoatomic` instance.
+   `Subgroup.Normal.of_commutator_le` makes this coatom normal;
+   `Group.isSimpleGroup_of_isCoatom` makes its quotient simple. Quotient solvability and
+   `IsSimpleGroup.comm_iff_isSolvable` make the quotient commutative; install the resulting
+   `CommGroup` structure (and its finite instance) before applying `IsSimpleGroup.prime_card`, then
+   `isCyclic_of_prime_card`. The helper is one-step: the subgroup is normal in `G`, so it can be
+   applied afresh to each smaller Galois group in the induction. The finite-group `IsCoatomic`
+   instance, quotient solvability, commutator normality, coatom simplicity, prime-cardinality,
+   cyclicity, and Lagrange divisibility are explicit prerequisites, not an assumed composition-series
+   API.
+
+2. Put `G := E ≃ₐ[F] E` and `N := Nat.card G`. `Finite G` follows from finite-dimensionality
+   of `E/F`; together with `Nonempty G`, this gives `0 < N`. `CharZero F` then gives
+   `NeZero (N : F)`. The algebraic-closure instance
+   `AlgebraicClosure.hasEnoughRootsOfUnity` and
+   `HasEnoughRootsOfUnity.exists_primitiveRoot` give a primitive `N`th root `ζ` in
+   `Ω := AlgebraicClosure F`. Set `F₁ := F⟮ζ⟯` inside `Ω`. The extension `F₁/F` is finite by
+   `IntermediateField.adjoin.finiteDimensional`, since `ζ` is algebraic. It lies in
+   `solvableByRad F Ω`, since `ζ^N = 1` and `solvableByRad.rad_mem` adjoins a root of an element
+   already in that field.
+
+3. Let `E₀ := ι.fieldRange`, and form `L_c := E₀ ⊔ F₁` as an intermediate field of `Ω/F`.
+   Define `ζ_c : L_c` as the element corresponding to `ζ` under the inclusion `F₁ ≤ L_c`; its
+   image under `L_c.val` is `ζ`. The embedding identifies `E` with `E₀`, so `E₀/F` is finite Galois.
+   `IntermediateField.finiteDimensional_sup` makes `L_c/F` finite, hence `L_c/F₁` finite.
+   Regard `E₀` and `F₁` as intermediate fields of `L_c`; prove their supremum is `⊤` using
+   `IntermediateField.restrict` / `restrictAlgEquiv`, `lift_sup`, `lift_restrict`, and `lift_top`
+   (the equality is not definitional). `IsGalois.sup_right` applied to `E₀/F` proves
+   `L_c/F₁` Galois. For any intermediate `K : IntermediateField F₁ L_c`,
+   `IsGalois.tower_top_intermediateField` supplies `IsGalois K L_c`. Restriction gives the native homomorphism
+   `IntermediateField.restrictRestrictAlgEquivMapHom` from `Gal(L_c/F₁)` to `Gal(E₀/F)`;
+   `restrictRestrictAlgEquivMapHom_injective` applies because the supremum in `L_c` is `⊤`.
+   Transport across the embedding's field-range equivalence. Thus `Gal(L_c/F₁)` is finite and
+   solvable. This uses no linear-disjointness assumption and makes no Galois claim for `F₁/F`.
+
+4. **Relative-field induction.** Define
+   `R := (solvableByRad F Ω).comap L_c.val : IntermediateField F L_c`. Prove by strong
+   induction on `finrank K L_c`, for `K : IntermediateField F₁ L_c`, the implication
+   `K.restrictScalars F ≤ R → Group.IsSolvable (L_c ≃ₐ[K] L_c) → ⊤ ≤ R`. The induction
+   parameter is the actual base field of `Gal(L_c/K)`; the containment hypothesis is retained at
+   each induction stage. The initial data are containment of the bottom intermediate field
+   `⊥ : IntermediateField F₁ L_c` (viewed over `F`) in `R`, because `ζ_c ∈ R`, and solvability
+   of `Gal(L_c/F₁)`. If `Gal(L_c/K)` is trivial, `IsGalois.card_aut_eq_finrank` gives
+   `Module.finrank K L_c = 1`; `IntermediateField.finrank_eq_one_iff_eq_top` in
+   `Mathlib/FieldTheory/IntermediateField/Adjoin/Basic.lean` then gives `K = ⊤`, so the containment hypothesis is the goal.
+   Otherwise apply the one-step group lemma to this actual finite solvable group, obtaining a
+   normal subgroup `H` of prime index; write `p := H.index`. Then `p` divides
+   `Nat.card Gal(L_c/K)` by Lagrange. Restriction injects this group into `Gal(L_c/F₁)`, which
+   injects into `Gal(E₀/F) ≃ G`; transitivity of divisibility gives `p ∣ N`. Let
+   `M := IntermediateField.fixedField H : IntermediateField K L_c`. Native fixed-field algebra
+   structure supplies the extension algebra `K → M`; no algebra instance for an arbitrary
+   inclusion of two unrelated `IntermediateField F₁ L_c` values is assumed. The normality
+   instance gives `IsGalois K M`; `normalAutEquivQuotient H` identifies the quotient with
+   `Gal(M/K)`, and `IsGalois.card_aut_eq_finrank` identifies `[M:K]` with that prime. The
+   quotient is cyclic, so
+   `M/K` is cyclic Galois of prime degree. Put `K' := M.restrictScalars F₁`, an intermediate
+   field in the induction's carrier. Since `[M:K]=p>1`, `Module.finrank_mul_finrank` and
+   positivity of the finite extension dimensions give `finrank K' L_c < finrank K L_c`; here
+   `finrank K' L_c` is the same carrier dimension as `finrank M L_c`. The
+   extension `L_c/K'` is Galois. The native `IntermediateField.subgroupEquivAlgEquiv H`
+   identifies `H` with `Gal(L_c/M)`, hence with `Gal(L_c/K')`; its inverse transports
+   solvability from the subgroup `H` to this Galois group.
+
+   For this step's root of unity, use `ζ_c : L_c` from Step 3. Since `K` contains the image
+   of `F₁`, the `N/p` power of `ζ_c` belongs to `K`. First use
+   `IsPrimitiveRoot.pow` with `N = (N/p) * p` to prove that this power is primitive of order
+   `p` in `Ω`, then pull that fact back along the composite injection
+   `L_c.val.toRingHom.comp K.val.toRingHom : K →+* Ω` using `IsPrimitiveRoot.of_map_of_injective` (or
+   `coe_submonoidClass_iff`). The map is the composite inclusion `K ↪ L_c ↪ Ω`; `K.val` alone
+   lands only in `L_c`, and there is no map from `Ω` into `K`. The equality `[M:K]=p` identifies the
+   order with `finrank K M`, so `isCyclic_tfae` from `Mathlib/FieldTheory/KummerExtension.lean` applies to
+   the genuine extension `M/K` with
+   `(primitiveRoots (finrank K M) K).Nonempty`. Its cyclic-Galois-to-radical-generator
+   implication supplies `α : M`, `hgen : K⟮α⟯ = ⊤` inside `M`, and
+   `hpow : α^(finrank K M) ∈ Set.range (algebraMap K M)`.
+
+   To pass the induction's containment hypothesis from `K` to `K'`, map `α` and its power
+   witness through `M.val` and `L_c.val`. The range witness maps into `K`, whose image lies in
+   `solvableByRad F Ω` by `K.restrictScalars F ≤ R`. Apply `solvableByRad.rad_mem` in `Ω` to
+   the image of `α`; unfold `R` as a comap to obtain `(α : L_c) ∈ R`. Then
+   `adjoin_simple_le_iff` gives `F⟮(α : L_c)⟯ ≤ R`. `lift_adjoin_simple` and
+   `restrictScalars_adjoin_eq_sup` express
+   `K'.restrictScalars F = K.restrictScalars F ⊔ F⟮(α : L_c)⟯`; hence `sup_le` proves
+   `K'.restrictScalars F ≤ R`. Apply the induction hypothesis at `K'` with this containment and
+   the solvability of `Gal(L_c/K')`. Applying it to the initial base
+   `K = ⊥ : IntermediateField F₁ L_c` gives `⊤ ≤ R`; thus every
+   element of `E₀ ≤ L_c` lies in the ambient radical closure.
+
+5. For the reverse implication, choose a primitive element of `E/F`. Its minimal polynomial is
+   irreducible, and normality makes `E` its splitting field. Apply
+   `isSolvable_gal_of_irreducible` to the embedded primitive element and transport the polynomial
+   Galois group across the splitting-field algebra equivalence to `E ≃ₐ[F] E`.
+
+For any nonzero `q : F[X]` over a characteristic-zero field, choose a splitting-field model `E`
+and an `F`-embedding `ι : E →ₐ[F] AlgebraicClosure F`. Finite-dimensionality makes
+`E/F` integral; `Algebra.IsSeparable.of_integral` in characteristic zero gives separability
+even when `q` has repeated factors. `Normal.of_isSplittingField` gives normality, and
+`isGalois_iff` then gives `IsGalois F E`. Use `IsSplittingField.lift` for the embedding and
+`IsSplittingField.adjoin_rootSet_eq_range` to identify the algebra generated by all roots with
+`ι.fieldRange`. Thus `Group.IsSolvable q.Gal` holds exactly when **every** root of `q`, mapped
+into the chosen algebraic closure, lies in `solvableByRad F (AlgebraicClosure F)`. This includes
+reducible polynomials because their splitting field is generated by all roots. If `q` is
+irreducible of positive degree, a root exists and `isSolvable_gal_of_irreducible` gives the
+equivalent **some-root** formulation. Do not use a some-root statement for reducible `q`.
+
+For the source's prime-degree criterion, work over `ℚ`, retain irreducibility, and require prime
+natural degree `p ≥ 5`. The two-nonreal-roots hypothesis is the exact native premise
+`Fintype.card (q.rootSet ℂ) = Fintype.card (q.rootSet ℝ) + 2`. Use
+`Polynomial.Gal.galActionHom_bijective_of_prime_degree` to identify the Galois action with
+`S_p`. Separability in characteristic zero and `card_rootSet_eq_natDegree` supply
+`5 ≤ Cardinal.mk (q.rootSet ℂ)`, the permutation-degree bound required by
+`Equiv.Perm.not_isSolvable`; hence the Galois group is nonsolvable. By the contrapositive of
+`isSolvable_gal_of_irreducible`, no root of `q` in `AlgebraicClosure ℚ` lies in
+`solvableByRad ℚ (AlgebraicClosure ℚ)`. Prime degrees 2 and 3 have solvable symmetric groups
+and do not give this conclusion.
+
+*Needs:* `CharZero F`, `IsGalois F E`, and `FiniteDimensional F E` (Mathlib);
+`RadicalConverse.exists_normal_prime_index_subgroup` (Layer 10); finite-group `IsCoatomic`, quotient
+solvability, `Subgroup.Normal.of_commutator_le`, `Group.isSimpleGroup_of_isCoatom`,
+`IsSimpleGroup.comm_iff_isSolvable`, `IsSimpleGroup.prime_card`, and
+`isCyclic_of_prime_card` (Mathlib); Lagrange's theorem (Mathlib);
+`AlgebraicClosure.hasEnoughRootsOfUnity`, `HasEnoughRootsOfUnity.exists_primitiveRoot`,
+`IntermediateField.finiteDimensional_sup`, `IntermediateField.adjoin.finiteDimensional`,
+`IntermediateField.finrank_eq_one_iff_eq_top`, `Module.finrank_mul_finrank`,
+`IsGalois.sup_right`, `IsGalois.tower_top_intermediateField`,
+`IntermediateField.restrict` / `restrictAlgEquiv`, `IntermediateField.lift`, `liftAlgEquiv`,
+`lift_restrict`, `lift_sup`, `lift_top`,
+`IntermediateField.restrictRestrictAlgEquivMapHom_injective`,
+`IsGalois.intermediateFieldEquivSubgroup`, `IsGalois.of_fixedField_normal_subgroup`,
+`IsGalois.normalAutEquivQuotient`, `IsGalois.card_aut_eq_finrank`,
+`IntermediateField.subgroupEquivAlgEquiv`, `IsPrimitiveRoot.pow`,
+`IsPrimitiveRoot.of_map_of_injective`, `mem_primitiveRoots`, `isCyclic_tfae`,
+`lift_adjoin_simple`, `restrictScalars_adjoin_eq_sup`, `adjoin_simple_le_iff`,
+`solvableByRad.rad_mem`, `Algebra.IsSeparable.of_integral`,
+`Normal.of_isSplittingField`, `isGalois_iff`,
+`IsSplittingField.lift`, `IsSplittingField.adjoin_rootSet_eq_range`,
+`card_rootSet_eq_natDegree`, `Polynomial.Gal.galActionHom_bijective_of_prime_degree`,
+`Group.IsSolvable.commutator_lt_top_of_nontrivial`, `Equiv.Perm.not_isSolvable`, and
+`isSolvable_gal_of_irreducible` (Mathlib).
+
 ## Worked examples, as acceptance tests
 
-Each polynomial below was checked with PARI, through `polgalois` and `nfdisc`, and against the
-LMFDB field pages. Each one tests a specific layer.
+For Layer 0's **Conjugate fields** dictionary, construct explicit certificates
+from Mathlib's existing simple-extension, minimal-polynomial and splitting-field
+APIs. For `X²−2`, identify the splitting field with the field generated by a
+chosen square root, prove its two self-embeddings and prove that no ℚ-embedding
+exists into ℚ(√3). For every ℚ-algebra field K in which `X²−2`
+splits, construct an embedding of this splitting field into K, consuming
+`IsSplittingField.lift`. For `X²+3`, prove irreducibility, construct `AdjoinRoot (X²+3)`, and prove that the mapped
+polynomial splits there with roots β and −β, and identify this quotient by
+an explicit ℚ-algebra equivalence with ℚ(s) for a chosen s∈ℂ with s²=−3.
+Prove that ℝ is not a splitting field of `X²−2` over ℚ: containing its
+roots does not imply being generated by them.
+For a real cube root α of 2, prove `[ℚ(α):ℚ]=3`, exactly one self-embedding,
+and irreducibility of `X²+αX+α²` over ℚ(α). Construct `W=AdjoinRoot (X²+αX+α²)` over ℚ(α), with its ℚ-algebra
+structure through the tower, and prove `IsSplittingField ℚ W (X³−2)`.
+Construct the roots α, β, −α−β and their factorization; prove degree six
+by the tower law 3·2. Give the three ℚ-embeddings of ℚ(α) into W by their images of α
+and identify their image fields ℚ(α), ℚ(β), ℚ(−α−β). Give the two quadratic
+self-embeddings explicitly by √2↦±√2. Compare W to Mathlib's chosen
+splitting field by `IsSplittingField.algEquiv`; consume
+`TauCeti.irreducible_X_pow_three_sub_two` and
+`TauCeti.natCard_gal_X_pow_three_sub_two` for the matching degree-six theorem
+on that carrier. State all comparisons with chosen `AlgHom`/`AlgEquiv` maps, rather than
+unqualified inclusions between independently constructed fields. These
+explicit-map and generator-image comparisons are definitive prose acceptance
+criteria; Suggested.lean illustrates the tower and numerical interfaces and
+is not an exhaustive signature list. These certificates exercise existing field foundations; they do not introduce a
+second general field-theory API.
+
+Every polynomial in the following list was checked with PARI,
+through `polgalois` and `nfdisc`, and against the LMFDB field pages. Each tests a
+specific layer.
 
 - **Degree 3, for Layer 3.** `x³ − 3x − 1` has discriminant `81 = 9²` and group `C₃ = 3T1`. The
   LMFDB field is `3.3.81.1`, the cyclic cubic of conductor 9. `x³ − 2` has discriminant `−108`
@@ -1533,9 +1784,10 @@ The layer numbering is a topological order. No layer depends on a later one.
 | 5 | 0, 1, 3, 4, and Number Field Arithmetic 3.10 | the factorization-degree carrier, good primes for a polynomial and for a resolvent, the finite-field orbit lemma, and the membership statement derived from the imported theorem |
 | 6 | 1, 2, 3, 4, 5 | the classification for `n ≤ 5`, the label predicates, and the decision procedures |
 | 9 | 1, 5 | `Sₙ` as a Galois group over `ℚ` |
+| 10 | Mathlib | the finite-Galois characteristic-zero radical criterion and polynomial consequences |
 
 Layers 0 and 1 have no dependency inside the roadmap, so they can start at once and run in
-parallel. Layer 9 needs only Layers 1 and 5, so it can be done before Layer 6.
+parallel. Layer 9 needs only Layers 1 and 5, so it can be done before Layer 6. Layer 10 depends only on Mathlib and can proceed independently of Layers 0–9.
 
 Layer 5 is the only layer with a dependency outside the roadmap, and it is one declaration.
 This roadmap therefore follows Number Field Arithmetic in the merge order. Layers 0 to 4 and 6
