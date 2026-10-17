@@ -38,8 +38,8 @@ the README that is absent here is still required.
 Definitions have real bodies; a theorem closed by `sorry` is a proposed statement. `Ĝ` and the
 wall groups are an abstract group with an order filtration here, because this file does not
 construct the BCH group of README §0.4; theorems that need its BCH structure are stated only in
-the README. The declarations named in the README's `*Lean:*` lines are targets; the others are
-the representation those statements need.
+the README. Each declaration cites the README section whose outcome it prototypes; the file
+prototypes carriers and statements where the design is easiest to get wrong.
 -/
 
 namespace TauCetiRoadmap.ScatteringDiagrams
@@ -168,7 +168,7 @@ def degreeIdeal (h : ℕ) : LieIdeal R g :=
 /-- The truncation `g≤h = g / F^{h+1} g` (`README §0.2`). -/
 abbrev truncatedLie (h : ℕ) : Type _ := g ⧸ degreeIdeal D ℒ h
 
-/-- `README §0.2` *truncatedLie_nilpotent*. -/
+/-- `README §0.2` `truncatedLie_nilpotent`. -/
 instance truncatedLie_nilpotent (h : ℕ) : LieRing.IsNilpotent (truncatedLie D ℒ h) := by
   sorry
 
@@ -191,11 +191,6 @@ def CompletedGroup : Subgroup (∀ h, G h) where
 /-- The projection `Ĝ → G≤h` (`README §0.5`). -/
 def projection (h : ℕ) : CompletedGroup π →* G h :=
   (Pi.evalMonoidHom G h).comp (CompletedGroup π).subtype
-
-/-- Two elements agree iff every projection agrees (`README §0.5`). -/
-theorem projection_ext {x y : CompletedGroup π} :
-    x = y ↔ ∀ h, projection π h x = projection π h y :=
-  ⟨fun e _ => e ▸ rfl, fun e => Subtype.ext (funext e)⟩
 
 end Completed
 
@@ -254,7 +249,7 @@ noncomputable def proj (R : Type*) [CommRing R] [Algebra R A] (h : ℕ) :
 
 variable {B : Type*} [Ring B]
 
-/-- `README §0.3` *AlgFiltration.IsFilteredAlong*: `f(I^{c(h)+1} A) ⊆ J^{h+1} B` for a monotone
+/-- `README §0.3` filtered maps: `f(I^{c(h)+1} A) ⊆ J^{h+1} B` for a monotone
 cutoff modulus `c`, as for `PositiveDegreeMap`; `c = id` is the strict case. -/
 structure IsFilteredAlong (G : AlgFiltration B) (f : A →+* B) (cutoff : ℕ → ℕ) : Prop where
   monotone : Monotone cutoff
@@ -262,7 +257,7 @@ structure IsFilteredAlong (G : AlgFiltration B) (f : A →+* B) (cutoff : ℕ �
 
 variable {F} {G : AlgFiltration B} {f : A →+* B} {c : ℕ → ℕ}
 
-/-- `README §0.3` *IsFilteredAlong.ofLinearBound*: `f(I^{kh}) ⊆ J^h` for a constant `k ≥ 1`
+/-- `README §0.3` linear bound: `f(I^{kh}) ⊆ J^h` for a constant `k ≥ 1`
 gives the modulus `h ↦ k(h+1) − 1`. -/
 theorem IsFilteredAlong.ofLinearBound {k : ℕ} (hk : 0 < k)
     (hf : ∀ h {a : A}, a ∈ F.ideal (k * h) → f a ∈ G.ideal h) :
@@ -276,7 +271,7 @@ noncomputable def IsFilteredAlong.levelMap (hf : F.IsFilteredAlong G f c) (h : �
   Ideal.Quotient.lift _ ((Ideal.Quotient.mk _).comp f) fun _ ha =>
     Ideal.Quotient.eq_zero_iff_mem.2 (hf.map_mem h ha)
 
-/-- `README §0.3` *AlgFiltration.completionMap*: the map of completions whose order-`h`
+/-- `README §0.3` completion map: the map of completions whose order-`h`
 component is the level map applied to the order-`c(h)` component. -/
 noncomputable def IsFilteredAlong.completionMap (hf : F.IsFilteredAlong G f c) :
     F.completion →+* G.completion where
@@ -306,7 +301,7 @@ structure LevelwiseAction where
     Ideal.Quotient.factorₐ R (F.antitone (Nat.le_succ (h + 1))) (act (h + 1) g u) =
       act h (π h g) (Ideal.Quotient.factorₐ R (F.antitone (Nat.le_succ (h + 1))) u)
 
-/-- `README §0.6` *completedAction_exists*: a levelwise action induces a group homomorphism
+/-- `README §0.6`: a levelwise action induces a group homomorphism
 from the completed group of the tower to `Aut_R(Â)`, acting levelwise. *expDerivationAction_exists*
 is the case of the levelwise exponentials of the §0.4 BCH tower. -/
 theorem completedAction_exists (ρ : LevelwiseAction (R := R) F π) :
@@ -367,11 +362,6 @@ variable {N V : Type*} [AddCommGroup N] [NormedAddCommGroup V] [NormedSpace ℝ 
 vectors (`README §1.1`). -/
 def IsRationalFunctional (i : N →+ V) (φ : Module.Dual ℝ V) : Prop :=
   ∀ n : N, ∃ q : ℚ, φ (i n) = q
-
-/-- Extended integral characters are rational (`README §1.1`). -/
-theorem isRationalFunctional_realCharacter {i : N →+ V} (h : TauCeti.Toric.IsIntegralLattice i)
-    (m : N →+ ℤ) : IsRationalFunctional i (h.realCharacter m) :=
-  fun n => ⟨m n, by simp⟩
 
 /-- A presentation `{x | ∀ k, normal k x ≤ offset k}` with rational normals and real offsets
 (`README §1.1`). Rationality belongs to the presentation, not to the set. -/
@@ -437,7 +427,7 @@ variable {V : Type*} [NormedAddCommGroup V] [NormedSpace ℝ V] (E : Exceptional
 /-- Avoiding every exceptional locus (`README §1.3`). -/
 def IsGeneric (q : V) : Prop := ∀ k, q ∉ E.locus k
 
-/-- `README §1.2` *hyperplaneAvoidance* for the loci of an arrangement; not a uniform
+/-- `README §1.2` density of the common complement of an arrangement; not a uniform
 all-degree neighborhood. -/
 theorem generic_dense [FiniteDimensional ℝ V] : Dense {q | E.IsGeneric q} := by
   have := FiniteDimensional.complete ℝ V
@@ -579,8 +569,8 @@ def coboundaryFree : (OrientedCell i k →₀ E) →ₗ[ℤ] (OrientedCell i (k 
       ∑ τ ∈ h.toFinset, Finsupp.lsingle τ
     else 0
 
-/-- The coboundary respects reversal and subdivision (`README §1.4` *coboundary_subdivision*:
-new interior facets cancel in pairs by reversal). -/
+/-- The coboundary respects reversal and subdivision (`README §1.4`: new
+interior facets cancel in pairs by reversal). -/
 theorem coboundaryFree_relations :
     cochainRelations i E k ≤ (cochainRelations i E (k + 1)).comap coboundaryFree := by
   sorry
@@ -590,7 +580,7 @@ def coboundary : PolyhedralCochain i E k →ₗ[ℤ] PolyhedralCochain i E (k + 
   (cochainRelations i E k).mapQ (cochainRelations i E (k + 1)) coboundaryFree
     coboundaryFree_relations
 
-/-- `README §1.4` *coboundary_sq_zero*: the two incidence signs at a codimension-two face
+/-- `README §1.4` `coboundary_sq_zero`: the two incidence signs at a codimension-two face
 cancel, proved in the two-dimensional normal quotient, lineality allowed. -/
 theorem coboundary_sq_zero :
     (coboundary : PolyhedralCochain i E (k + 1) →ₗ[ℤ] PolyhedralCochain i E (k + 2)) ∘ₗ
@@ -636,7 +626,7 @@ noncomputable def intersectionPairing {x : OrientedCell i k →₀ E} (S : Trans
     E :=
   intersectionPairingFree S.vertex x
 
-/-- `README §1.4` *cochain_eq_zero_of_tests* (local detection). No coplanarity hypothesis is
+/-- `README §1.4` `cochain_eq_zero_of_tests` (local detection). No coplanarity hypothesis is
 needed: coincident coplanar contributions are summed by the pairing itself. -/
 theorem cochain_eq_zero_of_tests [FiniteDimensional ℝ V] (x : OrientedCell i k →₀ E)
     (h : ∃ ε > 0, ∀ v : Fin (k + 1) → V, (∀ σ ∈ x.support, IsTransverseSimplex v σ) →
@@ -666,7 +656,7 @@ structure IsGenericCurtain (x : OrientedCell i (k + 1) →₀ E) (v : Fin (k + 2
   side : ∀ (l : Fin (k + 2)) (j : Fin (k + 1)), ∀ σ ∈ x.support,
     IsTransverseSimplex (prismSimplex (v ∘ l.succAbove) n T j) σ
 
-/-- `README §1.4` *intersection_stokes*, summed over the triangulated parameter prism:
+/-- `README §1.4` `intersection_stokes`, summed over the triangulated parameter prism:
 `⟨dC, [0,T] × S⟩ = ⟨C, S_T⟩ − ⟨C, S_0⟩ − ⟨C, [0,T] × ∂S⟩` with `∂S = Σ_l (−1)^l S ∘ δ_l`. -/
 theorem intersection_stokes [FiniteDimensional ℝ V] (x : OrientedCell i (k + 1) →₀ E)
     (v : Fin (k + 2) → V) (n : V) (T : ℝ) (hT : 0 ≤ T) (hgen : IsGenericCurtain x v n T) :
@@ -774,8 +764,8 @@ def TransverseCochain.coboundary {n : V} :
   Submodule.mapQ _ _ (coboundaryFree.restrict fun _ hx => coboundaryFree_transverse hx)
     (fun _ hx => coboundaryFree_relations hx)
 
-/-- Well-definedness of the sweep on transverse classes (`README §1.4` *sweep_subdivision*:
-the swept pieces subdivide the swept support; reversal is compatible with `ι_n`). -/
+/-- Well-definedness of the sweep on transverse classes (`README §1.4`: the
+swept pieces subdivide the swept support; reversal is compatible with `ι_n`). -/
 theorem sweepFree_relations [FiniteDimensional ℝ V] (n₀ : N) :
     (cochainRelations i E (k + 1)).comap (transverseSupported i E (i n₀) (k + 1)).subtype ≤
       LinearMap.ker ((cochainRelations i E k).mkQ ∘ₗ sweepFree n₀ ∘ₗ
@@ -789,8 +779,8 @@ noncomputable def sweep [FiniteDimensional ℝ V] (n₀ : N) :
   Submodule.liftQ _ ((cochainRelations i E k).mkQ ∘ₗ sweepFree n₀ ∘ₗ
     (transverseSupported i E (i n₀) (k + 1)).subtype) (sweepFree_relations n₀)
 
-/-- `README §1.4` *sweep_homotopy* `d S_n C + S_n d C = −C`: apply *intersection_stokes* with
-`T` beyond every hitting time, retaining every side face, then *cochain_eq_zero_of_tests*. -/
+/-- `README §1.4` `sweep_homotopy` `d S_n C + S_n d C = −C`: apply `intersection_stokes` with
+`T` beyond every hitting time, retaining every side face, then `cochain_eq_zero_of_tests`. -/
 theorem sweep_homotopy [FiniteDimensional ℝ V] (n₀ : N)
     (C : TransverseCochain i E (i n₀) (k + 1)) :
     coboundary (sweep n₀ C) + sweep n₀ (TransverseCochain.coboundary C) =
@@ -823,25 +813,6 @@ theorem sweep_strictlyOutgoing [FiniteDimensional ℝ V] (n₀ : N) (σ : Orient
 end Cochains
 
 /-! ## Layer 2: path products and finite wall diagrams -/
-
-/-- A signed algebraic crossing; the geometric path produces this list (`README §2.1`).
-`against` records that the path crosses against the wall's coorientation. -/
-structure Crossing (G : Type*) where
-  label : G
-  against : Bool
-
-/-- The factor of a crossing (Convention 3): the label when crossing against the
-coorientation, its inverse when crossing along it. -/
-def Crossing.factor {G : Type*} [Group G] (c : Crossing G) : G :=
-  if c.against then c.label else c.label⁻¹
-
-/-- Chronological input; the first crossing is the rightmost factor (Convention 3). -/
-def orderedProduct {G : Type*} [Group G] (crossings : List (Crossing G)) : G :=
-  (crossings.map Crossing.factor).reverse.prod
-
-theorem orderedProduct_append {G : Type*} [Group G] (first second : List (Crossing G)) :
-    orderedProduct (first ++ second) = orderedProduct second * orderedProduct first := by
-  simp [orderedProduct, List.prod_append]
 
 /-- A finite complex, a coorientation of each wall, and exactly one label per wall
 (`README §2.1`). The normal vanishes on the wall's direction, so reversing the coorientation
@@ -1141,7 +1112,7 @@ noncomputable def defectValue (w : OrientedCell i 1) : E :=
   κ.log ((T.lift (T.crossPoint w + T.crossVector w))⁻¹ * T.crossing w *
     T.lift (T.crossPoint w - T.crossVector w))
 
-/-- `README §3.3` *centralDefect* `A_h`: the codimension-one cochain with values in `E`. It
+/-- `README §3.3` `centralDefect` `A_h`: the codimension-one cochain with values in `E`. It
 depends on the lifts. -/
 noncomputable def centralDefect : PolyhedralCochain i E 1 :=
   ∑ w ∈ T.walls, PolyhedralCochain.mk w (T.defectValue κ w)
@@ -1156,8 +1127,8 @@ noncomputable def meridianValue (j : OrientedCell i 2) : E :=
 noncomputable def meridianError : PolyhedralCochain i E 2 :=
   ∑ j ∈ T.joints, PolyhedralCochain.mk j (T.meridianValue κ j)
 
-/-- `README §3.3` *centralDefect_eq_coboundary*: `ζ_h = d A_h`, so `d ζ_h = 0` by
-*coboundary_sq_zero*; since `ζ_h` is defined without the lifts, `d A_h` is independent of them. -/
+/-- `README §3.3` `centralDefect_eq_coboundary`: `ζ_h = d A_h`, so `d ζ_h = 0` by
+`coboundary_sq_zero`; since `ζ_h` is defined without the lifts, `d A_h` is independent of them. -/
 theorem centralDefect_eq_coboundary (hc : 𝔇.ConsistentToOrder h) :
     coboundary (T.centralDefect κ) = T.meridianError κ := by
   sorry
@@ -1166,8 +1137,8 @@ variable {E' : Type*} [AddCommGroup E']
 
 open scoped Classical in
 /-- The transverse representative of the degree-`n` component `ζ_{h,n}`, for the component map
-`comp : E → g_n`: the joint cells with `n ∉ dir(j)`. By `README §3.3`
-*centralDefect_wallSpace* the components at the other joints vanish. -/
+`comp : E → g_n`: the joint cells with `n ∉ dir(j)`. By `README §3.3` the
+components at the other joints vanish. -/
 noncomputable def meridianComponentFree (comp : E →ₗ[ℤ] E') (n : L) :
     OrientedCell i 2 →₀ E' :=
   ∑ j ∈ T.joints.filter (fun j => i n ∉ affineDir j.carrier),
@@ -1175,8 +1146,8 @@ noncomputable def meridianComponentFree (comp : E →ₗ[ℤ] E') (n : L) :
 
 /-- `README §3.3` *centralStep* `b_{h,n} = S_n ζ_{h,n}` (`README §1.4`), attached as walls with
 label `exp(−c)` for cochain coefficient `c` on the positive transverse side (Convention 3);
-*centralStep_consistent* `ζ_{h,n} + d b_{h,n} = 0` follows from *sweep_homotopy* and
-`d ζ_h = 0`, and *centralStep_outgoing* from *sweep_strictlyOutgoing*. -/
+`ζ_{h,n} + d b_{h,n} = 0` follows from `sweep_homotopy` and `d ζ_h = 0`, and the
+outgoingness of its walls from `sweep_strictlyOutgoing`. -/
 noncomputable def centralStep (comp : E →ₗ[ℤ] E') (n : L) : PolyhedralCochain i E' 1 :=
   sweep n (TransverseCochain.mk (T.meridianComponentFree κ comp n) (by
     classical
@@ -1366,7 +1337,7 @@ def probeAut : G →* MulAut (Multiplicative A) where
   map_one' := by ext x; simp
   map_mul' g g' := by ext x; simp
 
-/-- The probe group `exp(g ⋉ M_p)` (`README §5.5` *moduleProbeLieAlgebra*), at the group level:
+/-- The probe group `exp(g ⋉ M_p)` (`README §5.5`, the module probe), at the group level:
 the semidirect product of the multiplicative group of the order-`h` coefficient module by `Ĝ`.
 The Lie-algebra form `LieAlgebra.SemiDirectSum` is the README's. -/
 abbrev probeGroup : Type _ := Multiplicative A ⋊[probeAut action] G
@@ -1454,7 +1425,7 @@ abbrev ProbeDiagram (K' : OrderFiltration (probeGroup action)) (ι' : Type*) :=
   DirectedDiagram (probeLattice_isIntegralLattice hi) (probeDegrees D p)
     (probeWallGroup wallGroup 𝒜 action) K' ι'
 
-/-- `w'` is the cylinder lift of `w` (`README §5.5` *cylinderRegrade*): support `d × ℝ²`,
+/-- `w'` is the cylinder lift of `w` (`README §5.5`): support `d × ℝ²`,
 normal `(m, 0, 0)`, degree `(n, 0, 0)`, label in charge zero. -/
 def IsCylinderLiftWall (w : DirectedWall hi D wallGroup)
     (w' : DirectedWall (probeLattice_isIntegralLattice hi) (probeDegrees D p)
@@ -1598,7 +1569,7 @@ variable {B : Type*} [TopologicalSpace B] {ι : Type*} (U : ι → Set B) {R : T
   {L : Type*} [AddCommGroup L] (A : ι → Type*) [∀ i, AddCommGroup (A i)] [∀ i, Module R (A i)]
   (𝒜 : ∀ i, L → Submodule R (A i))
 
-/-- The coefficient part of `README §6.2` *LocalCoefficientData* on charts `U i` with graded
+/-- The coefficient transitions of the `README §6.2` descent data on charts `U i` with graded
 coefficient models `A i`: on each overlap, an `R`-linear *CoefficientIso* over the lattice
 part of the chart change, constant on each connected component of the overlap. Components
 are recorded through their points, so triple-overlap components need no separate index. -/
@@ -1611,8 +1582,9 @@ structure CoefficientTransitions where
 
 variable {U A 𝒜}
 
-/-- `README §6.2` *CoefficientLaws*: `ψ_{ii} = id` and `ψ_{jk} ∘ ψ_{ij} = ψ_{ik}` on triple
-overlaps; they do not follow from the cocycle law of the Lie lifts. -/
+/-- `README §6.2` cocycle laws for the coefficient transitions: `ψ_{ii} = id` and
+`ψ_{jk} ∘ ψ_{ij} = ψ_{ik}` on triple overlaps; they do not follow from the cocycle law of the
+Lie lifts. -/
 def CoefficientLaws (ψ : CoefficientTransitions U A 𝒜) : Prop :=
   (∀ i x, x ∈ U i → ψ.iso i i x = LinearEquiv.refl R (A i)) ∧
     ∀ i j k x, x ∈ U i ∩ U j ∩ U k → (ψ.iso i j x).trans (ψ.iso j k x) = ψ.iso i k x
