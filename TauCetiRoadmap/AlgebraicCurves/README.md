@@ -136,7 +136,13 @@ hypotheses appear constantly and must always be **explicit**, never absorbed:
   inseparable constant extensions can drop the genus); `Algebra.EssFiniteType` on the
   actual algebra carrier used by the Kähler comparison, exactly as the pin's
   `FormallyUnramified.iff_isSeparable` carries
-  them (Layer 9); characteristic-zero (or `p`-bounds) for the Hurwitz automorphism bound
+  them (Layer 9); separable generation of `F/k` for the one-dimensional Kähler
+  module and coefficient-derivative transport (Layer 9); finite separable
+  residue extension `F_P/k` for k-compatible
+  completion charts and local residue transport (Layer 9); perfect `k` for the
+  Kähler/Weil comparison and geometric trace-residue sum (Layer 9), and for the
+  Weil-divisor conclusion of the elliptic differential comparison (Layer 10);
+  characteristic-zero (or `p`-bounds) for the Hurwitz automorphism bound
   (Layer 11). Statements must carry their true hypotheses; every "char 0 for simplicity"
   shortcut in the literature is a trap flagged at its layer.
 
@@ -872,9 +878,10 @@ Stichtenoth's.)
   formal-vocabulary traps, pinned: (i) Stichtenoth *defines* `dt := 0` for
   non-separating `t` inside his 1-dimensional `Δ_F` (Def. 4.1.7), whereas Mathlib's
   `Ω[F⁄k]` is the genuine Kähler module, which **jumps in dimension** for inseparably
-  generated `F/k` — the identification `Δ_F ≅ Ω[F⁄k]` (via the shared universal
-  property 4.1.8(d)) is a theorem **under separable generation**, and the inseparable
-  degeneration is the honesty check; (ii) this is the pin's load-bearing gap
+  generated `F/k`. Use `Ω[F⁄k]` as the carrier throughout; Stichtenoth's `Δ_F`
+  is reference vocabulary for its separably generated specialization, with
+  universal property 4.1.8(d). Require the inseparably generated dimension-jump
+  examples on the genuine Kähler module; (ii) this is the pin's load-bearing gap
   (`KaehlerDifferential` never meets `FieldTheory/`). For separating `x`, consume
   `Algebra.FormallyEtale.of_isSeparable` for `F/k(x)` and
   **`KaehlerDifferential.tensorKaehlerEquivOfFormallyEtale`** to obtain the full
@@ -884,36 +891,59 @@ Stichtenoth's.)
   fundamental sequence is supporting API, not a claim that surjectivity alone gives
   the equivalence. The finite-presentation hypotheses use the correct carrier
   `Algebra.EssFiniteType` wherever the pin's formally-unramified equivalences require it.
-- **Local expansions and residues** (IV.2): starting from Layer 5's general complete-DVR
+- **Local expansions and residues** (IV.2): retain the separably generated F/k
+  hypothesis above (automatic for perfect k). Starting from Layer 5's general complete-DVR
   construction, choose a uniformizer `t`. At a **rational** place, prove the completed
   valuation ring is topologically `k[[T]]` by a recursive coefficient-extraction and
-  completeness argument, extend to an isomorphism of completed fraction fields with
-  `k((T))`, and prove uniqueness of coefficients and change-of-uniformizer formulas.
+  completeness argument with T↦t, extend to an isomorphism of completed fraction fields with
+  `k((T))`, and prove uniqueness of coefficients. Consume
+  [FormalLaurentPuiseux L1–L3](../FormalLaurentPuiseux/README.md) for the coordinate
+  substitution and residue transformation formulas in every characteristic;
+  transport them along these completion isomorphisms.
   The pin's concrete `X`-adic Laurent-series equivalence is the base example, not the
-  general theorem. At a nonrational place the same construction is over `F_P`; define
+  general theorem. At a nonrational place require the finite residue extension
+  `F_P/k` to be separable (in particular this holds for perfect k). Construct
+  the unique k-compatible coefficient-field section `F_P → Ô_P` by Hensel
+  lifting the finite separable residue extension. Prove it is a k-algebra map,
+  splits reduction and gives a topological ring isomorphism
+  `Ô_P ≃ₐ[k] F_P[[T]]`, extending to the completed fraction fields. Prove the
+  uniformizer t is separating: the coefficient-field-killing derivation on
+  `F_P((T))` restricts to a k-derivation F→F_P((T)) sending t to 1. Thus dt
+  is nonzero in the one-dimensional `Ω[F⁄k]` proved above and is a basis.
+  Transitivity for k⊆k(t)⊆F gives `Ω[F⁄k(t)]=0`; F/k(t) is finite, so it
+  is separable. Here t is transcendental over k by its positive valuation
+  and trivial valuation on constants. The coefficient derivative and F's
+  d/dt then agree on k(t), and separability makes their extensions into
+  F_P((T)) unique. This proves continuous extension, vanishing on the
+  coefficient field and correspondence with `LaurentSeries.derivative F_P`.
+  These are the algebraic and differential
+  compatibility targets needed for the transport. Define
   the `F_P`-valued coefficient/residue and compose with `Algebra.trace k F_P` for the
   `k`-valued local component. Then set `res_{P,t}(z) := a₋₁` (Def. 4.2.8) and prove the
-  **transformation formula `res_{P,s}(z) = res_{P,t}(z · ds/dt)`** (Prop. 4.2.9 —
-  well-definedness of `res_P(ω)` on differentials, Def. 4.2.10; ⚠ a theorem in char
-  `p`, not a triviality). These complete-DVR and coefficient milestones are owned here
-  for arbitrary residue fields; they are not delegated to the finite-residue local-field
+  **transformation formula `res_{P,s}(z) = res_{P,t}(z · ds/dt)`** by that
+  coordinate-level transport (Prop. 4.2.9), including characteristic `p`
+  under these separability hypotheses. Define `res_P(z dt) := res_{P,t}(z)`
+  on differentials and prove independence of t (Def. 4.2.10). The
+  general complete-DVR construction is owned by Layer 5; these k-compatible
+  coefficient and geometric residue milestones use finite separable
+  residue extensions and are not delegated to the finite-residue local-field
   roadmap.
-- **The comparison theorem** (IV.3): the derivation `δ(x) := Cotr_{F/k(x)}(η)` into
-  Weil differentials (Def. 4.3.1, with Layer 5's `η`); **`μ : Δ_F ≅ Ω_F` (differentials
-  ≅ Weil differentials), `z dx ↦ z·δ(x)`** (Thm. 4.3.2, `k` perfect; part (d): local
-  components are residues, `(z·δ(x))_P(u) = res_P(uz dx)` at rational `P`, with the
-  general-degree form Rem. 4.3.7(d)); consequences: `(dx)` is a canonical divisor with
-  the explicit formula **`(dx) = −2(x)_∞ + Diff(F/k(x))`** (Rem. 4.3.7(c), eq. (4.37)),
-  `deg (dx) = 2g − 2`; the **residue theorem `∑_P res_P(ω) = 0`** (Cor. 4.3.3 — stated
-  there over algebraically closed `k`; the arbitrary-`k` abstract form is Layer 5's
-  `∑_P ω_P(1) = 0`, and the honest general-`k` residue statement goes through
-  Rem. 4.3.7(d) — pin the exact hypothesis on the milestone).
-- **EllipticCurves compatibility milestone**: for an elliptic `W` over `k`, the
-  invariant differential of the merged [EllipticCurves](../EllipticCurves/README.md)
-  roadmap lives in `Ω[W.FunctionField⁄k]`; under the comparison,
-  its Weil-differential divisor is `0` — i.e. the canonical class of a genus-1 function
-  field is trivial — reconciling its concrete `ω_W` with this roadmap's canonical
-  class.
+- **The comparison theorem** (IV.3): assume k perfect on this milestone,
+  including its geometric residue theorem. Fix one separating x and define
+  `δ(z)=(dz/dx)·Cotr_{F/k(x)}(η_x)` in Weil differentials, with Layer 5's
+  rational η_x. Prove δ is a k-derivation and, for every other separating y,
+  `Cotr_{F/k(y)}(η_y)=(dy/dx)·Cotr_{F/k(x)}(η_x)`; deduce independence
+  of the separating coordinate. Construct `μ : Ω[F⁄k] ≃ₗ[F] Ω_F`,
+  `z dx ↦ z·δ(x)` (Thm. 4.3.2).
+  Prove its local component at every place P is the trace residue
+  `(z·δ(x))_P(u)=Tr_(F_P/k)(res_P(uz dx))`. Perfectness makes each
+  finite residue extension separable, so the preceding completion charts
+  define these components. Deduce the canonical divisor formula
+  `(dx)=−2(x)_∞+Diff(F/k(x))`, degree 2g−2, and
+  `Σ_P Tr_(F_P/k)(res_P(ω))=0`. For algebraically closed k this is
+  the ordinary sum of coefficient residues. Keep Layer 5's abstract
+  Weil-differential sum identity at its stated generality; the geometric
+  trace-residue comparison here has the displayed perfectness hypothesis.
 
 ### Layer 10: model classes — elliptic, hyperelliptic, plane curves
 
@@ -932,20 +962,75 @@ Stichtenoth VI.1–VI.3; Fulton Chs. 5, 8 for the plane-curve computations.
   `P ⊕ Q = R ⟺ P + Q ∼ R + P₀` (Prop. 6.1.6(b), 6.1.7 — the intrinsic group law).
   **Mathlib compatibility milestones** (the general theory meeting
   `Mathlib/AlgebraicGeometry/EllipticCurve/`; each is also a named interface of the
-  merged [EllipticCurves](../EllipticCurves/README.md) roadmap, whose Layer 0 leaves
-  the place implementation "to the upstream coordination"):
+  merged [EllipticCurves](../EllipticCurves/README.md) roadmap, whose Layer 0
+  consumes the early local-ring/place milestone below):
   (i) `genus k W.toAffine.FunctionField = 1` for `[W.IsElliptic]` (all
   characteristics);
   (ii) `W.toAffine.CoordinateRing` is the integral closure of `k[x]` in the function
-  field — hence **`IsDedekindDomain` via Layer 2** (the instance the pin lacks and
-  the EllipticCurves roadmap also wants);
+  field; the elliptic **`IsDedekindDomain`** instance already follows from the
+  early milestone below: A is a Noetherian domain and its maximal-ideal
+  localizations are DVRs, using Mathlib's `isDedekindDomain_iff_isDiscreteValuationRing_atPrime`;
   (iii) the point–place dictionary: `W.toAffine.Point ≃` degree-1 places (the
-  EllipticCurves Layer-0 bridge, supplied here as Prop. 6.1.6's general form);
+  EllipticCurves Layer-0 bridge) follows directly from the early affine/infinity
+  classification below: degree-one affine places are the k-rational maximal
+  ideals, identified with Mathlib's `CoordinateRing.XYIdeal`; Prop. 6.1.6
+  supplies the general genus-one function-field form independently;
   (iv) `Cl⁰(W.FunctionField) ≅ ClassGroup W.CoordinateRing` (Layer 3's affine bridge
   specialized to the one-rational-place-at-infinity case) — which, with Mathlib's
   `Point.toClass` (injective) and the EllipticCurves roadmap's seeded
   `toClass_surjective`, closes the
   triangle `E(k) ≅ Cl⁰` **without this roadmap re-proving the group law**.
+- **Elliptic invariant differential comparison.** In Mathlib's Kähler module
+  define the expression `ω=dx/(2y+a₁x+a₃) ∈ Ω[W.FunctionField⁄k]` and
+  prove its denominator is nonzero for elliptic W. This is the same expression
+  used by EllipticCurves Layer 1. The all-characteristic local computation needs only
+  Layer 0's places and the smooth Weierstrass local-ring constructions specified
+  in this milestone, independently of the genus-one comparison, Layers 7–9
+  and translation-invariance. Layer 9 supplies the k-perfect
+  Weil-differential comparison for the final divisor deduction.
+  Prove in all characteristics that `Ω[O_P⁄k]` maps injectively into
+  Ω[W.FunctionField⁄k] and ω generates its image at each place, including
+  over imperfect k; this is its intrinsic regular/nonvanishing meaning.
+  For the affine coordinate ring A, prove its defining equation and its two
+  partial derivatives generate the unit ideal, using the unit discriminant and
+  nonsingularity over every residue field. Thus A is smooth of dimension one
+  over k, and its Kähler module is free on ω, using the dx and alternate dy
+  charts. Construct the affine places from A's local DVRs A_m. Prove every
+  place with ord_P(x)≥0 has ord_P(y)≥0 by the monic Weierstrass equation,
+  and O_P=A_m for its center m in A; the center is maximal since the place
+  is nontrivial. These arguments include imperfect k.
+  At infinity use the algebraic chart z=−x/y, w=−1/y with equation
+  `f=w−z³−a₁zw−a₂z²w−a₃w²−a₄zw²−a₆w³=0`.
+  Construct `infinityPlace` from the normalized valuation of the localization
+  R of k[z,w]/(f) at (z,w). As a polynomial in z over k[w], −f is monic
+  and Eisenstein at (w): every nonleading coefficient is divisible by w,
+  and its constant coefficient −w(1−a₃w−a₆w²) is not divisible by w².
+  Use `Polynomial.IsEisensteinAt.irreducible`; thus k[z,w]/(f) is a domain
+  integral over k[w]. Its map to the function field by z↦−x/y and w↦−1/y
+  is injective: w is transcendental, since otherwise y and then x would
+  be algebraic over k by the Weierstrass equation, contradicting x's
+  native polynomial-basis independence. The kernel therefore lies over zero
+  in k[w], hence is zero by `Ideal.eq_bot_of_under_eq_bot`.
+  Identify its fraction field and prove R is a DVR
+  since ∂f/∂w(0,0)=1; z is its uniformizer and its residue field is k.
+  Prove uniqueness of the place at infinity: ord_P(x)<0 forces
+  2ord_P(y)=3ord_P(x), so ord_P(z),ord_P(w)>0. Hence O_P dominates R
+  inside their common fraction field, and equality follows from R being a DVR.
+  Together with the affine classification this accounts for every place.
+  Prove the function field has exact constants directly from the rational
+  infinity place: reduction embeds its algebraic constant subfield into k,
+  since every nonzero algebraic constant has valuation zero.
+  Prove its local Kähler module is free on dz since f_w is a unit in R.
+  Prove the algebraic identity `ω=dz/f_w` from `f_z dz+f_w dw=0` and
+  `w f_w+z f_z=w(−2+a₁z+a₃w)` modulo f. Since f_w(0,0)=1,
+  ω/dz lies in O_∞ˣ, including characteristic 2; cancel the nonzero
+  function-field denominator before evaluating at infinity.
+  Deduce the zero Weil divisor assertion under k perfect using Layer 9.
+  In this divisor/genus comparison, consume Layer 7's different theory to
+  prove the affine different over k[x] is generated by `2y+a₁x+a₃`,
+  including wild characteristic 2.
+  This computes the canonical divisor and reconciles the concrete ω_W,
+  without using a tame ramification formula in characteristic 2.
 - **Hyperelliptic function fields** (VI.2). **Definition of record: `g ≥ 2` together
   with a rational subfield `k(x) ⊆ F` with `[F : k(x)] = 2` and `F/k(x)`
   separable** — separability is part of the definition, not a claimed consequence
@@ -1255,9 +1340,20 @@ proceed in parallel with Layers 4–5; Layer 7 (different/Hurwitz) needs Layers 
 5 (the local-component device `η` of Prop. 1.7.4), and 6. Layer 8 (constant extensions)
 needs Layer 6 and touches Layer 7 only for genus
 statements. Layer 9's first subsection (`dim Ω[F⁄k] = 1`) needs Layers 0–3 only and can
-be drafted early; its comparison theorem consumes Layer 7's cotrace (and Layer 5's `η`),
+be drafted early; its coordinate residue transport consumes
+FormalLaurentPuiseux L1–L3, and its comparison theorem consumes Layer 7's cotrace
+(and Layer 5's `η`),
 so **Layer 9 as a whole follows Layer 7**. Layer 10 (models) needs
-Layers 7 and 9 for its genus computations; Layer 11 needs Layers 5–8 and 10; Layer 12
+Layers 7 and 9 for its genus computations. Its local elliptic-differential
+computation starts after Layer 0, constructing smooth affine/infinity local
+DVRs and their place classification directly, with ω expressed in Mathlib's
+Kähler module. It consumes no EllipticCurves milestone.
+The rational infinity place supplies exact constants.
+EllipticCurves' regular/nonvanishing differential and separable-isogeny
+unramifiedness milestones consume this local-generation result. Its
+translation-invariance identity uses native addition formulas independently
+of this supplier; the k-perfect Weil-divisor deduction also consumes Layer 9.
+Layer 11 needs Layers 5–8 and 10; Layer 12
 needs conceptually everything but its *statements* (the contracts) should be drafted as
 soon as Layer 3 exists, so the JacobianChallenge and EllipticCurves maintainers can
 review the interface
@@ -1268,13 +1364,19 @@ end.
 
 | Supplier | Supplied milestone | Consumer |
 |---|---|---|
-| This roadmap, Layers 0–5 | normalized places, residue degrees, `Finsupp` divisors, exact constants, Riemann–Roch, and the genus-one ladder `ℓ(n·[0]) = n` | the merged [EllipticCurves](../EllipticCurves/README.md) roadmap's Layer-0 place/divisor interface instantiates the general theory here; the ladder is a reusable consequence with no further current consumer (any relative base-change upgrade is JacobianChallenge Layer-C territory, not this roadmap's) |
-| This roadmap, Layers 6–8 | function-field extensions, ramification indices/residue degrees, the different, Riemann–Hurwitz, and lower ramification groups | future CurvesOverFiniteFields and the BelyiMaps roadmap; these are consumers, not prerequisites of this roadmap |
-| This roadmap, Layers 9–10 | Kähler/Weil differential comparison and the elliptic function-field/place/class-group dictionary | the merged [EllipticCurves](../EllipticCurves/README.md) roadmap's named comparison interfaces |
+| This roadmap, Layers 0–5 | normalized places, residue degrees, `Finsupp` divisors, exact constants, Riemann–Roch, and the genus-one ladder `ℓ(n·[0]) = n` | the merged [EllipticCurves](../EllipticCurves/README.md) roadmap's Layer-0 general normalized-place/degree/divisor API consumes Layers 0 and 3; Layer 1's unramifiedness milestone also consumes Layer 0's `k̃=⋂_P O_P`. Its elliptic exact-constants and place-classification inputs come from the early Layer-10 milestone below. The RR ladder has no further current consumer (any relative base-change upgrade is JacobianChallenge Layer-C territory, not this roadmap's) |
+| This roadmap, Layers 6–8 | function-field extensions, ramification indices/residue degrees, the different, Riemann–Hurwitz, and lower ramification groups | EllipticCurves Layer 0 consumes Layer 6's induced-place API and fundamental identity; future CurvesOverFiniteFields and the BelyiMaps roadmap consume these extension/ramification results. These are consumers, not prerequisites of this roadmap |
+| This roadmap, Layers 9–10 | Kähler/Weil differential comparison, elliptic genus-one statement (i) and class-group bridge (iv) | the merged [EllipticCurves](../EllipticCurves/README.md) roadmap's named comparison interfaces; the Layer-0 point–place dictionary consumes the early milestone below |
 | This roadmap, Layer 12 plus merged JacobianChallenge Layers A–B | for smooth proper geometrically connected models of separably generated fields: divisors, `H^0 = L(D)`, equality of cohomological and function-field genus, and dualizing-sheaf/canonical-class comparison | both routes; neither re-proves the other's Riemann–Roch theorem |
-| Local Fields and Ramification roadmap, ramification-filtration layer | upper numbering, Herbrand, and Hasse–Arf for completions with finite residue field | the finite-residue specialization of Layer 8; arbitrary-residue complete-DVR and expansion infrastructure is built in Layers 5 and 9 here |
+| FormalLaurentPuiseux L1–L3 | coordinate substitutions, continuous Laurent derivations, all-characteristic residue transformation | Layer 9's k-compatible completion charts at places with finite separable residue extension |
+| This roadmap, Layer 10's early local elliptic-differential computation (after Layer 0) | affine/infinity place classification, exact constants from the rational infinity place, and `ω=dx/(2y+a₁x+a₃)` generating every local Kähler image, in every characteristic | EllipticCurves Layer 0's places/Dedekind instance/point dictionary and Layer 1's Kähler basis, regular/nonvanishing differential and unramifiedness, using the same Mathlib Kähler expression |
+| Local Fields and Ramification roadmap, ramification-filtration layer | upper numbering, Herbrand, and Hasse–Arf for completions with finite residue field | the finite-residue specialization of Layer 8; Layer 5 builds complete-DVR infrastructure for arbitrary residue fields, while Layer 9's k-compatible charts require finite separable residue extension |
 
 The function-field Riemann–Roch chain itself has no sibling-roadmap prerequisite.
+At places with inseparable residue extension over imperfect k, k-compatible
+Laurent coefficient charts and their geometric residue transport are outside
+this roadmap's scope. Layer 5's general valuation/completion and abstract
+Weil-differential theory retain their stated arbitrary-field generality.
 
 ## References
 
@@ -1377,13 +1479,16 @@ This section contains the normative division of labor needed to implement the ro
   deliberately leaves the place/divisor *implementation* "to the upstream coordination";
   this roadmap **is** that coordination point: the conventions table here (normalized
   valuations, `Finsupp` divisors, residue-finrank degrees) is the general theory its
-  interface expects. Named compatibility milestones: the point–place dictionary in
-  general form (Layer 10.iii), `Cl⁰ ≅ ClassGroup CoordinateRing` (Layer 10.iv, closing
+  interface expects. Named compatibility milestones: the early elliptic point–place dictionary
+  (Layer 10.iii), `Cl⁰ ≅ ClassGroup CoordinateRing` (Layer 10.iv, closing
   its `toClass_surjective` triangle without re-proving the group law), the
   `IsDedekindDomain CoordinateRing` instance both roadmaps want (Layer 10.ii), the
   fundamental identity it cites as Stichtenoth 3.1.11 (Layer 6), and the invariant
-  differential in `Ω[FunctionField⁄K]` reconciled with the trivial canonical class
-  (Layer 9). Its "regular, not smooth" convention over imperfect fields is adopted
+  differential in `Ω[FunctionField⁄K]`: the early local-generation computation
+  in Layer 10 constructs its local theory directly on Mathlib's expression,
+  which EllipticCurves' regular/nonvanishing and unramifiedness milestones consume;
+  the zero Weil divisor then uses Layer 9's k-perfect comparison.
+  Its "regular, not smooth" convention over imperfect fields is adopted
   verbatim in Layer 12.
 - **[ModularForms](../ModularForms/README.md)** (merged roadmap) — no interface: its
   Layer 10 builds the genus of `X(Γ)` analytically, with its own internal
@@ -1407,4 +1512,8 @@ This section contains the normative division of labor needed to implement the ro
   Herbrand, and Hasse–Arf are consumed from that roadmap only for finite residue
   fields; no such supplier is claimed for completions such as `ℚ((t))`.
   `Mathlib/RingTheory/LaurentSeries.lean` (de Frutos-Fernández–Nuccio) is the
-  base example for Layer 9's general complete-DVR expansion construction.
+  base example for Layer 5's general complete-DVR construction.
+  [FormalLaurentPuiseux](../FormalLaurentPuiseux/README.md) L1–L3 supplies the
+  coordinate substitutions, continuous derivatives and residue transformation
+  transported through Layer 9's k-compatible charts with finite separable
+  residue extension.
