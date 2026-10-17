@@ -191,7 +191,6 @@ Heisenberg algebra is `TauCeti.heisenberg R` over `N=ℤ` with `X, Y` in degree 
 
 **Checks.**
 - The graded Heisenberg algebra is a `GradedLieAlgebra` with *IsPositiveGrading*.
-- An infinite-dimensional abelian `g_1` satisfies the definition.
 
 *Needs:* §0.1; `GradedLieAlgebra`, `LieIdeal`, `LieIdeal.mkQ`, `LieIdeal.liftQ`,
 `LieIdeal.lieHom_qext`, `LieSubalgebra`, `LieAlgebra.center`, `LieRing.IsNilpotent`,
@@ -237,10 +236,6 @@ powers is `MvPolynomial.idealOfVars` with its coefficients.
 - *principalCompletionEquiv*: the `(t_i)`-adic completion of `R[M][t_i : i∈I]` is
   `MvPowerSeries I (AddMonoidAlgebra R M)`, preserving all coefficient maps; the
   order-`k` component of its inverse is `truncTotal (k+1)` followed by the quotient map.
-
-**Checks.**
-- Completion at an ideal containing a Laurent unit is the zero ring, not the principal
-  completion.
 
 *Needs:* `IsFiltration`, `IsRingFiltration`, `IsModuleFiltration`, `Ideal.Quotient`,
 `AdicCompletion`, `TensorProduct`, `MvPowerSeries`,
@@ -620,8 +615,6 @@ every hitting time, retaining every side face, and the vanishing criterion for t
   leaving it pairs to `−c`.
 - The segment `[0,1]×0` with conormal `dy` has coboundary `(p₀,+dx∧dy)+(p₁,−dx∧dy)`,
   matching the counterclockwise disk pairing.
-- Sweeping a line along a direction parallel to it is not defined, and with `S_n`
-  extended by `0` the identity `dS_nC+S_ndC=−C` fails for it.
 
 *Needs:* §§1.1–1.2.
 
@@ -874,7 +867,6 @@ outgoing.
   labelled `exp(t_1x)`, `exp(t_2y)` gain one wall `exp(t_1t_2[x,y])` with normal `μ` on
   the joint swept by `-(n+n')`, and none if `μ=0`; for `n=e_1,m=e_2*,n'=e_2,m'=e_1*` it
   is `−ℝ_{≥0}(1,1)` with normal `e_1*−e_2*`.
-- A correction omitting the sweep side faces fails `ζ_k+dΣ_n b_{k,n}=0`.
 
 *Needs:* §§0.2, 0.4–0.5, 1.2, 1.4, 3.1–3.2; `LieAlgebra.ExtendScalars`,
 `DirectSum.Decomposition.baseChange`. Sources: MAN Theorem 2.6 and Lemma 2.9; GHKK
@@ -1050,8 +1042,6 @@ ring with specified inverted elements; an input using denominators `q^a−q^(-a)
 **Checks.**
 - For `β(e_1,e_2)=1`, `z^{e_1}z^{e_2}=q z^{e_1+e_2}` and
   `z^{e_2}z^{e_1}=q⁻¹ z^{e_1+e_2}`.
-- The bracket normal `ab·β(n,n')·β(n+n',-)` of normals `aβ(n,-)` and `bβ(n',-)` is
-  eligible for either sign of its proportionality factor.
 - Evaluation `q↦1` is defined on `k[q,q⁻¹]` and gives the untwisted algebra, where the
   unnormalized commutator and its inner action vanish; no ring homomorphism `k(q)→k`
   sends `q` to `1`.
@@ -1086,10 +1076,6 @@ derivations of the twisted group algebra of §4.3, and the principal action of �
   are natural under the morphisms and coordinate changes `(T,φ)` of §3.1, through
   *completedMap* `φ`, together with graded algebra maps `ψ` with `ψ(A_q)⊆A'_{Tq}` and
   `ψ(x·a)=φ(x)·ψ(a)`.
-
-**Checks.**
-- A negative initial exponent is retained at relative order zero, the truncation being
-  in the relative degree `δ(n)`.
 
 *Needs:* §§0.1–0.6, §3.1 and Layer 4; `GradedAlgebra`, `GradedLieModule`. Sources: MAN
 §2.1 and Definition 2.10.
@@ -1329,9 +1315,6 @@ each finite order before the inverse limit.
 replacing the charge-zero part by an equivalent diagram keeps path products; apply
 *probeWall_eq_brokenLineSum* to each representative.
 
-**Checks.**
-- For `{e_1,e_2}=1` and `d=(1,2)`, the normal factor `κ(e_2)=2` appears in the exponent.
-
 *Needs:* §4.2 and §§5.1–5.5. Sources: CPS Proposition 3.2, Proposition 4.4 and Lemmas
 4.7, 4.9 in 2205.07753v2, PDF 11–18; N23 Proposition 7.6, Lemmas 7.7–7.8 and §7, PDF
 96–98.
@@ -1399,10 +1382,6 @@ as the transport group.
   overlaps. For §5.4's system at degree `p`, the lattice parts fix `p`, or one uses the
   direct sum over its orbit. Local theta sections of §5.5 corresponding under the
   transitions descend.
-
-**Checks.**
-- An annulus with nontrivial locally constant holonomy is locally consistent but has
-  endpoint-dependent transport; refinement preserves that holonomy.
 
 *Needs:* §6.1, §2.1's path transport, §0.5's towers and reindexing; §5.4 for coefficient
 systems and §5.5 for theta sections. Use `ChartedSpace` and `SemidirectProduct`.
