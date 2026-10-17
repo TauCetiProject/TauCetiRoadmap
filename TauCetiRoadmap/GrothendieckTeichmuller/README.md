@@ -211,6 +211,12 @@ class has at most one representative of the form `β_{λ,f}` with `f ∈ F̂₂'
 `β_c(x) = x⁻¹`, `β_c(y) = y⁻¹`. For (II) at `c`: `m = −1` and the relation reads
 `z⁻¹ y⁻¹ x⁻¹ = (x y z)⁻¹ = 1`.
 
+  *Check:* `c` is the only parameter `(λ, 1)` with `λ ≡ 3 (mod 4)` satisfying (II). For such `λ`,
+  `m = m_λ` is odd and (II) at `f = 1` reads `z^m y^m x^m = 1`. Sending `x`, `y` to two reflections
+  of the dihedral group of order `2N` whose product is a rotation of order `N` gives
+  `(xy)^{−(m+1)} = 1`, so `m ≡ −1 (mod N)` for every `N`, i.e. `λ = −1`. (Units `λ ≡ 1 (mod 4)`
+  are not covered: `m` is even and the dihedral quotient says nothing.)
+
 **4.4 Finite quotients.** For a finite group `G`, `GT̂₀` acts on the set of continuous surjections
 `F̂₂ → G` modulo `Aut(G)`, by precomposition with `β_p⁻¹`; the action of `p` sends a class with
 `(x, y) ↦ (a, b)` to one with `x ↦` a conjugate of `a^{χ(p)⁻¹}`. *Source:* Guillot 2014, §5, where
@@ -271,8 +277,10 @@ All checked on zbMATH (identifiers given) or arXiv.
 
 Grothendieck's notes contain the « relation des lacets » for automorphisms of the profinite
 fundamental group of the thrice-punctured sphere (Montpellier fonds, folder 142, [from 1978]),
-and an exercise on relation (II) with `f = 1` in finite groups (folder 145, p. 35). The Lean
-appendix of the transcription project (github.com/Commutator-IO/grothendieck-project,
-`lean/Grothendieck/Folder145.lean`) proves that, for odd `p ∈ ẑ`, `z^p y^p x^p = 1` holds in every
-finite group under `x y z = 1` iff `p = 1`; it is a cited source for a check of Layer 4.3, not a
+and an exercise on relation (II) at `f = 1` (folder 145, p. 35: in the free profinite group on
+`l₀, l₁` with `l_∞ l₁ l₀ = 1`, a unit `p` with `l_∞^p l₁^p l₀^p = 1` is `1`; with `x = l₀⁻¹`,
+`y = l₁⁻¹`, this is (II) for `(1 − 2p, 1)`). The Lean appendix of the transcription project
+(github.com/Commutator-IO/grothendieck-project, `lean/Grothendieck/Folder145.lean`, `rel14_iff`)
+proves it for every odd `p ∈ ẑ`, read in all finite quotients: under `z y x = 1`, `z^p y^p x^p = 1`
+holds in every finite group iff `p = 1`. It is the cited source for the Check of Layer 4.3, not a
 specification.

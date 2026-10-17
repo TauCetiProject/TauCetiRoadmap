@@ -261,4 +261,10 @@ theorem isGT_complexConj : IsGT complexConj := by
 theorem complexConj_mul_self : complexConj * complexConj = 1 := by
   sorry
 
+/-- **Layer 4.3, Check.** Among the parameters `(λ, 1)` with `λ ≡ 3 (mod 4)`, only complex
+conjugation satisfies relation (II) (dihedral quotients). -/
+theorem eq_neg_one_of_relII_one {lam : ẑ} (h3 : ∃ k : ẑ, lam = 4 * k + 3) (h : RelII lam 1) :
+    lam = -1 := by
+  sorry
+
 end TauCetiRoadmap.GrothendieckTeichmuller
