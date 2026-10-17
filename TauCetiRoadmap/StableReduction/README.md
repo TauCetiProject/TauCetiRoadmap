@@ -378,8 +378,11 @@ files specified there; Jacobian's smooth duality imports that same construction.
   contributes two. With markings, add the number of markings on `E`.
 - Extend Tau Ceti's invertible-sheaf API with tensor powers, Cartier divisors, pullback,
   degree on components, global generation, and relative ampleness. Build projective
-  morphisms and relative `Proj` of a finitely generated graded quasi-coherent algebra;
-  connect affine-base cases to Mathlib's `Proj`. Given a chosen closed immersion
+  morphisms and relative `Proj` of a finitely generated graded quasi-coherent algebra.
+  Use [AlgebraicVectorBundles L2A](../AlgebraicVectorBundles/README.md)'s
+  `GradedObject`-based quasicoherent algebra and its affine graded-ring,
+  localization and base-change interfaces; connect those affine charts to
+  Mathlib's `Proj`. Given a chosen closed immersion
   `C ↪ ℙ^N_K`, construct a proper model by scheme-theoretic closure in `ℙ^N_R`.
 - Prove that a section through the relative smooth locus is an effective Cartier divisor,
   that a sum of pairwise-disjoint such sections is an effective Cartier divisor, and that
