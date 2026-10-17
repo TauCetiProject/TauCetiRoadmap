@@ -8,6 +8,36 @@ import TauCeti.Topology.Algebra.Group.LowerCentralSeries.Graded.Basic
 import TauCeti.Topology.Algebra.Group.Profinite.ProP.Frattini.Basic
 import TauCeti.Topology.Algebra.Group.Profinite.MaximalProP
 import TauCeti.GroupTheory.SpecificGroups.Heisenberg
+import TauCeti.Topology.Algebra.Group.Heisenberg
+import TauCeti.Topology.Algebra.Group.Profinite.ProP.Heisenberg
+import TauCeti.Topology.Algebra.Group.LowerCentralSeries.Graded.PadicModule
+import TauCeti.Topology.Algebra.Group.LowerCentralSeries.Graded.ClosedSpan
+import TauCeti.Topology.Algebra.Group.Conjugacy
+import TauCeti.Topology.Algebra.Group.ContinuousAut.Basic
+import TauCeti.Topology.Algebra.Group.ContinuousAut.Characteristic
+import TauCeti.Topology.Algebra.Group.ContinuousAut.ClosedQuotient
+import TauCeti.Topology.Algebra.Group.ContinuousAut.ClosedSubgroup
+import TauCeti.Topology.Algebra.Group.ContinuousAut.Congruence
+import TauCeti.Topology.Algebra.Group.ContinuousAut.ConjClasses
+import TauCeti.Topology.Algebra.Group.ContinuousAut.OuterAction
+import TauCeti.Topology.Algebra.Group.ContinuousAut.Profinite
+import TauCeti.Topology.Algebra.Group.ContinuousAut.Quotient
+import TauCeti.Topology.Algebra.Group.LowerCentralSeries.Closed
+import TauCeti.Topology.Algebra.Group.LowerCentralSeries.Graded.Abelianization
+import TauCeti.Topology.Algebra.Group.LowerCentralSeries.Graded.Closed
+import TauCeti.Topology.Algebra.Group.Profinite.Free.LowerCentralSeries
+import TauCeti.Topology.Algebra.Group.Profinite.ProP.LowerCentralSeries
+import TauCeti.Topology.Algebra.Group.Profinite.Procyclic
+import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic
+import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Component
+import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Decomposition
+import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Pow
+import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Ring
+import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Units
+import TauCeti.Topology.Algebra.Group.Profinite.ZHat.ZMod
+import TauCeti.Topology.Algebra.Group.Subgroup
+import TauCeti.Topology.Algebra.Group.ContinuousAut.ProP
+import TauCeti.GroupTheory.Frattini
 
 set_option autoImplicit false
 
@@ -31,14 +61,13 @@ file consumes their Tau Ceti implementations and nothing from that roadmap's `Su
 
 There is one profinite-integers object, `TauCeti.zHat`. Layer 0 puts the ring structure on its
 additive presentation `Additive TauCeti.zHat`, written `ẑ`, and Layer 1 defines the profinite
-power `x ^ᶻ a` as `TauCeti.zHat.lift x a`. Two declarations here are reducible aliases of Tau
-Ceti declarations whose universe Tau Ceti generalizes in place:
-`ProfiniteCompletion.continuousMonoidHomEquiv` and `zHat.lift`. Everything else under the
-`zHat` namespace is new API that belongs in Tau Ceti's `TauCeti.zHat` namespace; this library
-cannot extend that namespace, so it pins the API as `TauCetiRoadmap.ProfiniteArithmetic.zHat`.
-The rest of the file builds the groups `ContinuousAut G` and `ContinuousOut G` with the congruence
-topology, and the `ℤ_p`-linear graded Lie algebra of the closed lower central series with its
-spanning theorem.
+power `x ^ᶻ a` as `TauCeti.zHat.lift x a`. Layer 2 builds the groups `ContinuousAut G` and
+`ContinuousOut G` with the congruence topology, and Layer 3 the `ℤ_p`-linear graded Lie algebra of
+the closed lower central series with its spanning theorem. Tau Ceti implements all four layers in
+the forms pinned here. Every definition below is a reducible alias of a Tau Ceti declaration,
+except `frattiniKernel`, which presents the kernel of Tau Ceti's `MulAut.mapQuotient` by its
+membership condition. Every instance is Tau Ceti's, and every theorem is Tau Ceti's or follows
+from it.
 -/
 
 namespace TauCetiRoadmap.ProfiniteArithmetic
@@ -55,127 +84,79 @@ ring of Layer 0. This is notation, not a new type. Tau Ceti's `zHat` is universe
 this file works with `zHat.{0}`, which needs the notation's precheck switched off. -/
 scoped notation "ẑ" => Additive TauCeti.zHat.{0}
 
-/-- **Layer 0.1, the ring structure.** Multiplication by `a` is the continuous endomorphism of
-`TauCeti.zHat` that sends the generator to `a`, as multiplication by an integer is on `ℤ`; so
-`a * b` is `TauCeti.zHat.lift a b`, read additively. The unit is the generator `TauCeti.zHat.gen`,
-the casts of natural numbers and integers are its powers, and the addition is that of
-`Additive TauCeti.zHat`, commutative because `TauCeti.zHat` is. -/
-noncomputable instance : CommRing ẑ :=
-  { (inferInstance : AddGroup ẑ) with
-    add_comm := fun a b => mul_comm' (Additive.toMul a) (Additive.toMul b)
-    mul := fun a b => Additive.ofMul (TauCeti.zHat.lift (Additive.toMul a) (Additive.toMul b))
-    one := Additive.ofMul TauCeti.zHat.gen
-    natCast := fun n => Additive.ofMul (TauCeti.zHat.gen ^ n)
-    natCast_zero := by simp
-    natCast_succ := fun n => by
-      show Additive.ofMul (TauCeti.zHat.gen ^ (n + 1))
-        = Additive.ofMul (TauCeti.zHat.gen ^ n) + Additive.ofMul TauCeti.zHat.gen
-      rw [pow_succ]
-      rfl
-    intCast := fun n => Additive.ofMul (TauCeti.zHat.gen ^ n)
-    intCast_ofNat := fun n => by
-      show Additive.ofMul (TauCeti.zHat.gen ^ (n : ℤ)) = Additive.ofMul (TauCeti.zHat.gen ^ n)
-      rw [zpow_natCast]
-    intCast_negSucc := fun n => by
-      show Additive.ofMul (TauCeti.zHat.gen ^ (Int.negSucc n))
-        = -Additive.ofMul (TauCeti.zHat.gen ^ (n + 1))
-      rw [zpow_negSucc]
-      rfl
-    mul_assoc := sorry
-    one_mul := sorry
-    mul_one := sorry
-    left_distrib := sorry
-    right_distrib := sorry
-    zero_mul := sorry
-    mul_zero := sorry
-    mul_comm := sorry }
-
-/-- **Layer 0.1.** `ẑ` is a topological ring. The additive topological group structure, compactness
-and total disconnectedness are those of `TauCeti.zHat`; what is proved is the joint continuity of
-the product, which at every finite level `ZMod n` is the product of residues. -/
-instance : IsTopologicalRing ẑ := sorry
+/-! **Layer 0.1, the ring structure.** Tau Ceti's `TauCeti.zHat.instCommRing` makes `ẑ` a
+commutative ring. Multiplication by `a` is the continuous endomorphism of `TauCeti.zHat` that sends
+the generator to `a`, as multiplication by an integer is on `ℤ`; so `a * b` is
+`TauCeti.zHat.lift a b`, read additively (`TauCeti.zHat.toMul_mul`). The unit is the generator
+`TauCeti.zHat.gen` (`TauCeti.zHat.toMul_one`), the casts of natural numbers and integers are its
+powers, and the addition is that of `Additive TauCeti.zHat`. Tau Ceti's `IsTopologicalRing ẑ`
+instance makes it a topological ring: the joint continuity of the product holds at every finite
+level `ZMod n`, where it is the product of residues. -/
 
 namespace zHat
 
-/-- **Layer 0.2.** The projection to `ZMod n`: the continuous homomorphism from `TauCeti.zHat` to
-the finite group `Multiplicative (ZMod n)` sending the generator to `ofAdd 1`, read additively. It
-is a ring homomorphism for the product of 0.1. -/
-noncomputable def toZMod (n : ℕ+) : ẑ →+* ZMod (n : ℕ) where
-  toFun a := Multiplicative.toAdd
-    (TauCeti.zHat.lift (Multiplicative.ofAdd (1 : ZMod (n : ℕ))) (Additive.toMul a))
-  map_one' := by
-    show Multiplicative.toAdd (TauCeti.zHat.lift _ TauCeti.zHat.gen) = 1
-    rw [TauCeti.zHat.lift_gen]
-    rfl
-  map_mul' := sorry
-  map_zero' := by
-    show Multiplicative.toAdd (TauCeti.zHat.lift _ 1) = 0
-    rw [map_one]
-    rfl
-  map_add' a b := by
-    show Multiplicative.toAdd (TauCeti.zHat.lift _ (Additive.toMul a * Additive.toMul b)) = _
-    rw [map_mul]
-    rfl
+/-- **Layer 0.2.** The projection to `ZMod n`: Tau Ceti's `TauCeti.zHat.toZMod`, the continuous
+homomorphism from `TauCeti.zHat` to the finite group `Multiplicative (ZMod n)` sending the
+generator to `ofAdd 1`, read additively. It is a ring homomorphism for the product of 0.1. -/
+noncomputable abbrev toZMod (n : ℕ+) : ẑ →+* ZMod (n : ℕ) :=
+  TauCeti.zHat.toZMod n
 
 /-- **Layer 0.2.** The projections are continuous. -/
 theorem continuous_toZMod (n : ℕ+) : Continuous (toZMod n) :=
-  continuous_toAdd.comp ((TauCeti.zHat.lift _).continuous.comp continuous_toMul)
+  TauCeti.zHat.continuous_toZMod n
 
-/-- **Layer 0.2.** Compatibility of the projections along divisibility. -/
+/-- **Layer 0.2.** Compatibility of the projections along divisibility: Tau Ceti's
+`TauCeti.zHat.cast_toZMod`. -/
 theorem castHom_toZMod (m n : ℕ+) (h : (n : ℕ) ∣ (m : ℕ)) (a : ẑ) :
     ZMod.castHom h (ZMod (n : ℕ)) (toZMod m a) = toZMod n a :=
-  sorry
+  TauCeti.zHat.cast_toZMod h a
 
 /-- **Layer 0.2.** Extensionality: an element of `ẑ` is determined by its projections. -/
 theorem ext_iff_toZMod {a b : ẑ} : a = b ↔ ∀ n : ℕ+, toZMod n a = toZMod n b :=
-  sorry
+  TauCeti.zHat.ext_iff_toZMod
 
 /-- **Layer 0.2, the limit property.** A family of ring homomorphisms into the `ZMod n`, compatible
-with the reduction maps, assembles into one ring homomorphism into `ẑ`. With `ext_iff_toZMod` this
-is the description of `ẑ` as the inverse limit of the `ZMod n`, a characterization of the ring and
-not a second carrier. -/
-noncomputable def ringLift {R : Type u} [Ring R] (f : ∀ n : ℕ+, R →+* ZMod (n : ℕ))
+with the reduction maps, assembles into one ring homomorphism into `ẑ`: Tau Ceti's
+`TauCeti.zHat.ringLift`. With `ext_iff_toZMod` this is the description of `ẑ` as the inverse limit
+of the `ZMod n`, a characterization of the ring and not a second carrier. -/
+noncomputable abbrev ringLift {R : Type u} [Ring R] (f : ∀ n : ℕ+, R →+* ZMod (n : ℕ))
     (hf : ∀ (m n : ℕ+) (h : (n : ℕ) ∣ (m : ℕ)) (r : R),
       ZMod.castHom h (ZMod (n : ℕ)) (f m r) = f n r) :
     R →+* ẑ :=
-  sorry
+  TauCeti.zHat.ringLift f fun m n h ↦ RingHom.ext (hf n m h)
 
 /-- **Layer 0.2.** The computation rule for the lift. -/
 theorem toZMod_ringLift {R : Type u} [Ring R] (f : ∀ n : ℕ+, R →+* ZMod (n : ℕ))
     (hf : ∀ (m n : ℕ+) (h : (n : ℕ) ∣ (m : ℕ)) (r : R),
       ZMod.castHom h (ZMod (n : ℕ)) (f m r) = f n r) (n : ℕ+) (r : R) :
     toZMod n (ringLift f hf r) = f n r :=
-  sorry
+  TauCeti.zHat.toZMod_ringLift f _ n r
 
-/-- **Layer 0.2.** The integers are dense in `ẑ`: Tau Ceti's `TauCeti.zHat.denseRange_ofInt`, read
-additively. -/
+/-- **Layer 0.2.** The integers are dense in `ẑ`: Tau Ceti's `TauCeti.zHat.denseRange_intCast`. -/
 theorem denseRange_intCast : DenseRange (fun k : ℤ => (k : ẑ)) :=
-  sorry
+  TauCeti.zHat.denseRange_intCast
 
-/-- **Layer 0.2.** The integers embed in `ẑ`. -/
+/-- **Layer 0.2.** The integers embed in `ẑ`: Tau Ceti's `CharZero ẑ` instance. -/
 theorem intCast_injective : Function.Injective (fun k : ℤ => (k : ẑ)) :=
-  sorry
+  Int.cast_injective
 
-/-- **Layer 0.3.** The `ℓ`-adic component, a **ring** homomorphism: Mathlib's inverse-limit
-universal property `PadicInt.lift` applied to the projections to the `ZMod (ℓ ^ k)`, which are
-compatible by `castHom_toZMod`. It is characterized by `toZModPow_component` below, uniquely by
-`PadicInt.lift_unique`. -/
-noncomputable def component (ℓ : ℕ) [Fact ℓ.Prime] : ẑ →+* ℤ_[ℓ] :=
-  PadicInt.lift (f := fun k => toZMod ⟨ℓ ^ k, pow_pos (Fact.out : ℓ.Prime).pos k⟩)
-    fun k₁ k₂ hk => RingHom.ext fun a =>
-      castHom_toZMod ⟨ℓ ^ k₂, pow_pos (Fact.out : ℓ.Prime).pos k₂⟩
-        ⟨ℓ ^ k₁, pow_pos (Fact.out : ℓ.Prime).pos k₁⟩ (pow_dvd_pow ℓ hk) a
+/-- **Layer 0.3.** The `ℓ`-adic component, a **ring** homomorphism: Tau Ceti's
+`TauCeti.zHat.component`, Mathlib's inverse-limit universal property `PadicInt.lift` applied to the
+projections to the `ZMod (ℓ ^ k)`, which are compatible by `castHom_toZMod`. It is characterized by
+`toZModPow_component` below, uniquely by `PadicInt.lift_unique`. -/
+noncomputable abbrev component (ℓ : ℕ) [Fact ℓ.Prime] : ẑ →+* ℤ_[ℓ] :=
+  TauCeti.zHat.component ℓ
 
 /-- **Layer 0.3.** The component is continuous. -/
 theorem continuous_component (ℓ : ℕ) [Fact ℓ.Prime] : Continuous (component ℓ) :=
-  sorry
+  TauCeti.zHat.continuous_component ℓ
 
 /-- **Layer 0.3.** The characterizing equation of the component: reducing it modulo `ℓ ^ k` is
 the projection to `ZMod (ℓ ^ k)`. This is `PadicInt.lift_spec`. -/
 theorem toZModPow_component (ℓ : ℕ) [Fact ℓ.Prime] (k : ℕ) (a : ẑ) :
     PadicInt.toZModPow k (component ℓ a)
       = toZMod ⟨ℓ ^ k, pow_pos (Fact.out : ℓ.Prime).pos k⟩ a :=
-  RingHom.congr_fun (PadicInt.lift_spec _ k) a
+  TauCeti.zHat.toZModPow_component ℓ k a
 
 /-- **Layer 0.3, compatibility with Tau Ceti's pro-`ℓ` quotient.** Tau Ceti's identification
 `TauCeti.zHat.maximalProPQuotientEquivPadicInt` of the maximal pro-`ℓ` quotient of `TauCeti.zHat`
@@ -185,55 +166,60 @@ theorem maximalProPQuotientEquivPadicInt_mk_eq_component (ℓ : ℕ) [Fact ℓ.P
     TauCeti.zHat.maximalProPQuotientEquivPadicInt ℓ
         (TauCeti.maximalProPQuotient.mk ℓ TauCeti.zHat.{0} (Additive.toMul a))
       = Multiplicative.ofAdd (component ℓ a) :=
-  sorry
+  TauCeti.zHat.maximalProPQuotientEquivPadicInt_mk_eq_component ℓ a
 
-/-- **Layer 0.3, the product decomposition.** `ẑ ≃ ∏_ℓ ℤ_ℓ` as topological rings. -/
+/-- **Layer 0.3, the product decomposition.** `ẑ ≃ ∏_ℓ ℤ_ℓ` as topological rings: Tau Ceti's
+`TauCeti.zHat.ringEquivPiPadicInt`. -/
 theorem nonempty_ringEquiv_pi :
     ∃ e : ẑ ≃+* (∀ ℓ : Nat.Primes, @PadicInt (ℓ : ℕ) ⟨ℓ.2⟩),
       Continuous e ∧ Continuous e.symm ∧
         ∀ (ℓ : Nat.Primes) (a : ẑ), e a ℓ = @component (ℓ : ℕ) ⟨ℓ.2⟩ a :=
-  sorry
+  ⟨TauCeti.zHat.ringEquivPiPadicInt, TauCeti.zHat.continuous_ringEquivPiPadicInt,
+    TauCeti.zHat.continuous_ringEquivPiPadicInt_symm,
+    fun ℓ a ↦ TauCeti.zHat.ringEquivPiPadicInt_apply a ℓ⟩
 
-/-- **Layer 0.3, idempotents.** `ω_ℓ`, the idempotent of the `ℓ`-adic factor. -/
-noncomputable def idem (ℓ : ℕ) [Fact ℓ.Prime] : ẑ :=
-  sorry
+/-- **Layer 0.3, idempotents.** `ω_ℓ`, the idempotent of the `ℓ`-adic factor: Tau Ceti's
+`TauCeti.zHat.idem`. -/
+noncomputable abbrev idem (ℓ : ℕ) [Fact ℓ.Prime] : ẑ :=
+  TauCeti.zHat.idem ℓ
 
 /-- **Layer 0.3.** `ω_ℓ` has `ℓ`-adic component `1` and every other component `0`. -/
 theorem component_idem (ℓ ℓ' : ℕ) [Fact ℓ.Prime] [Fact ℓ'.Prime] :
     component ℓ' (idem ℓ) = if ℓ' = ℓ then 1 else 0 :=
-  sorry
+  TauCeti.zHat.component_idem ℓ ℓ'
 
 /-- **Layer 0.3.** `ω_ℓ` is idempotent. -/
 theorem idem_mul_idem (ℓ : ℕ) [Fact ℓ.Prime] : idem ℓ * idem ℓ = idem ℓ :=
-  sorry
+  TauCeti.zHat.idem_mul_idem ℓ
 
 /-- **Layer 0.3.** `ẑ` is not a domain: `ω_2 (1 - ω_2) = 0`. -/
 theorem not_isDomain : ¬ IsDomain ẑ :=
-  sorry
+  TauCeti.zHat.not_isDomain
 
 /-- **Layer 0.4.** The unit criterion, at the finite levels and at the components. -/
 theorem isUnit_iff (a : ẑ) : IsUnit a ↔ ∀ n : ℕ+, IsUnit (toZMod n a) :=
-  sorry
+  TauCeti.zHat.isUnit_iff_toZMod a
 
 theorem isUnit_iff_component (a : ẑ) :
     IsUnit a ↔ ∀ (ℓ : ℕ) (_ : Fact ℓ.Prime), IsUnit (component ℓ a) :=
-  sorry
+  TauCeti.zHat.isUnit_iff_component a
 
 /-- **Layer 0.4, assembly of characters.** A compatible system of characters into the `(ZMod n)ˣ`
-assembles into one character into `ẑˣ`. This is the form in which the cyclotomic character of
-`Gal(ℚ̄/ℚ)` is assembled from Mathlib's finite levels by the successor of BelyiMaps. -/
-noncomputable def unitsLift {G : Type u} [Group G] (χ : ∀ n : ℕ+, G →* (ZMod (n : ℕ))ˣ)
+assembles into one character into `ẑˣ`: Tau Ceti's `TauCeti.zHat.unitsLift`. This is the form in
+which the cyclotomic character of `Gal(ℚ̄/ℚ)` is assembled from Mathlib's finite levels by the
+successor of BelyiMaps. -/
+noncomputable abbrev unitsLift {G : Type u} [Group G] (χ : ∀ n : ℕ+, G →* (ZMod (n : ℕ))ˣ)
     (hχ : ∀ (m n : ℕ+) (h : (n : ℕ) ∣ (m : ℕ)) (g : G),
       Units.map (ZMod.castHom h (ZMod (n : ℕ))).toMonoidHom (χ m g) = χ n g) :
     G →* ẑˣ :=
-  sorry
+  TauCeti.zHat.unitsLift χ hχ
 
 theorem map_toZMod_unitsLift {G : Type u} [Group G] (χ : ∀ n : ℕ+, G →* (ZMod (n : ℕ))ˣ)
     (hχ : ∀ (m n : ℕ+) (h : (n : ℕ) ∣ (m : ℕ)) (g : G),
       Units.map (ZMod.castHom h (ZMod (n : ℕ))).toMonoidHom (χ m g) = χ n g)
     (n : ℕ+) (g : G) :
     Units.map (toZMod n).toMonoidHom (unitsLift χ hχ g) = χ n g :=
-  sorry
+  TauCeti.zHat.map_toZMod_unitsLift χ hχ n g
 
 end zHat
 
@@ -301,86 +287,87 @@ section Powers
 variable {G : Type u} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G]
   [TotallyDisconnectedSpace G]
 
-/-- **Layer 1.1.** The profinite power `x ^ᶻ a`: the image of `a` under the lift of `x`. It is
-Tau Ceti's `TauCeti.zHat.lift x`, in the generalized universe of 1.1, applied to `a` read
-multiplicatively; there is no second powering construction. -/
-noncomputable def zpowHat (x : G) (a : ẑ) : G :=
-  zHat.lift x (Additive.toMul a)
+/-- **Layer 1.1.** The profinite power `x ^ᶻ a`: Tau Ceti's `TauCeti.zpowHat`, the image of `a`
+under the lift `TauCeti.zHat.lift x`, in the generalized universe of 1.1, read multiplicatively;
+there is no second powering construction. -/
+noncomputable abbrev zpowHat (x : G) (a : ẑ) : G :=
+  TauCeti.zpowHat x a
 
 @[inherit_doc] scoped infixl:75 " ^ᶻ " => zpowHat
 
 /-- **Layer 1.1.** The pin on the generator. -/
 theorem zpowHat_one (x : G) : x ^ᶻ (1 : ẑ) = x :=
-  zHat.lift_gen x
+  TauCeti.zpowHat_one x
 
 /-- **Layer 1.1.** Agreement with integer powers. -/
-theorem zpowHat_intCast (x : G) (n : ℤ) : x ^ᶻ (n : ẑ) = x ^ n := by
-  show zHat.lift x (TauCeti.zHat.gen ^ n) = x ^ n
-  rw [map_zpow, zHat.lift_gen]
+theorem zpowHat_intCast (x : G) (n : ℤ) : x ^ᶻ (n : ẑ) = x ^ n :=
+  TauCeti.zpowHat_intCast x n
 
 theorem zpowHat_zero (x : G) : x ^ᶻ (0 : ẑ) = 1 :=
-  map_one (zHat.lift x)
+  TauCeti.zpowHat_zero x
 
 theorem one_zpowHat (a : ẑ) : (1 : G) ^ᶻ a = 1 :=
-  sorry
+  TauCeti.one_zpowHat a
 
 /-- **Layer 1.1.** The additive law. -/
 theorem zpowHat_add (x : G) (a b : ẑ) : x ^ᶻ (a + b) = x ^ᶻ a * x ^ᶻ b :=
-  map_mul (zHat.lift x) (Additive.toMul a) (Additive.toMul b)
+  TauCeti.zpowHat_add x a b
 
 theorem zpowHat_neg (x : G) (a : ẑ) : x ^ᶻ (-a) = (x ^ᶻ a)⁻¹ :=
-  map_inv (zHat.lift x) (Additive.toMul a)
+  TauCeti.zpowHat_neg x a
 
 /-- **Layer 1.1.** The multiplicative law, through the ring product of Layer 0. -/
 theorem zpowHat_zpowHat (x : G) (a b : ẑ) : (x ^ᶻ a) ^ᶻ b = x ^ᶻ (a * b) :=
-  sorry
+  (TauCeti.zpowHat_mul x a b).symm
 
 /-- **Layer 1.1, naturality.** The workhorse: every continuous homomorphism commutes with
 profinite powers. -/
 theorem map_zpowHat {H : Type v} [Group H] [TopologicalSpace H] [IsTopologicalGroup H]
     [CompactSpace H] [TotallyDisconnectedSpace H] (f : G →* H) (hf : Continuous f) (x : G)
     (a : ẑ) : f (x ^ᶻ a) = f x ^ᶻ a :=
-  sorry
+  TauCeti.map_zpowHat (⟨f, hf⟩ : G →ₜ* H) x a
 
 /-- **Layer 1.1.** The conjugation instance of naturality. -/
 theorem zpowHat_conj (g x : G) (a : ẑ) : (g * x * g⁻¹) ^ᶻ a = g * (x ^ᶻ a) * g⁻¹ :=
-  sorry
+  TauCeti.conj_zpowHat g x a
 
 theorem inv_zpowHat (x : G) (a : ẑ) : x⁻¹ ^ᶻ a = (x ^ᶻ a)⁻¹ :=
-  sorry
+  TauCeti.inv_zpowHat x a
 
 /-- **Layer 1.1.** Powers of `x` commute with each other, `TauCeti.zHat` being commutative. -/
-theorem zpowHat_comm (x : G) (a b : ẑ) : x ^ᶻ a * x ^ᶻ b = x ^ᶻ b * x ^ᶻ a := by
-  rw [← zpowHat_add, ← zpowHat_add, add_comm]
+theorem zpowHat_comm (x : G) (a b : ẑ) : x ^ᶻ a * x ^ᶻ b = x ^ᶻ b * x ^ᶻ a :=
+  TauCeti.zpowHat_comm x a b
 
 /-- **Layer 1.1.** Continuity in the exponent, and jointly. -/
 theorem continuous_zpowHat (x : G) : Continuous (fun a : ẑ => x ^ᶻ a) :=
-  (zHat.lift x).continuous.comp continuous_toMul
+  TauCeti.continuous_zpowHat x
 
 theorem continuous_zpowHat_prod : Continuous (fun p : G × ẑ => p.1 ^ᶻ p.2) :=
-  sorry
+  TauCeti.continuous_zpowHat_prod
 
-/-- **Layer 1.2.** The closed procyclic subgroup generated by `x`. -/
-def closedZpowers (x : G) : Subgroup G := (Subgroup.zpowers x).topologicalClosure
+/-- **Layer 1.2.** The closed procyclic subgroup generated by `x`: Tau Ceti's
+`TauCeti.closedZpowers`, the closure of `Subgroup.zpowers x`. -/
+abbrev closedZpowers (x : G) : Subgroup G :=
+  TauCeti.closedZpowers x
 
 /-- **Layer 1.2.** The powers of `x` fill out its closed procyclic subgroup. -/
 theorem range_zpowHat (x : G) : Set.range (fun a : ẑ => x ^ᶻ a) = closedZpowers x :=
-  sorry
+  TauCeti.range_zpowHat x
 
 /-- **Layer 1.2, `ℓ`-parts.** The closed subgroup generated by `x ^ᶻ ω_ℓ` is pro-`ℓ`. -/
 theorem isProP_closedZpowers_zpowHat_idem (ℓ : ℕ) [Fact ℓ.Prime] (x : G) :
     TauCeti.IsProP ℓ (closedZpowers (x ^ᶻ zHat.idem ℓ)) :=
-  sorry
+  TauCeti.isProP_closedZpowers_zpowHat_idem ℓ x
 
 /-- **Layer 1.2.** On a pro-`ℓ` group the `ℓ`-idempotent acts as the identity exponent. -/
 theorem zpowHat_idem_of_isProP (ℓ : ℕ) [Fact ℓ.Prime] (hG : TauCeti.IsProP ℓ G) (x : G) :
     x ^ᶻ zHat.idem ℓ = x :=
-  sorry
+  TauCeti.zpowHat_idem_of_isProP hG x
 
 /-- **Layer 1.2.** On a pro-`ℓ` group only the `ℓ`-adic factor of the exponent matters. -/
 theorem zpowHat_idem_mul_of_isProP (ℓ : ℕ) [Fact ℓ.Prime] (hG : TauCeti.IsProP ℓ G) (x : G)
     (a : ẑ) : x ^ᶻ (zHat.idem ℓ * a) = x ^ᶻ a :=
-  sorry
+  TauCeti.zpowHat_idem_mul_of_isProP hG x a
 
 /-- **Layer 1.3.** The `ℤ_ℓ`-power on a pro-`ℓ` group, written `x ^[ℓ] u` in prose: Tau Ceti's
 `TauCeti.IsProP.padicPow`, under an alias that orders the arguments as this roadmap's statements
@@ -392,7 +379,7 @@ noncomputable abbrev padicPow (ℓ : ℕ) [Fact ℓ.Prime] (hG : TauCeti.IsProP 
 /-- **Layer 1.3, the comparison.** The profinite power is the `ℤ_ℓ`-power of the component. -/
 theorem zpowHat_eq_padicPow_component (ℓ : ℕ) [Fact ℓ.Prime] (hG : TauCeti.IsProP ℓ G) (x : G)
     (a : ẑ) : x ^ᶻ a = padicPow ℓ hG x (zHat.component ℓ a) :=
-  sorry
+  TauCeti.zpowHat_eq_padicPow_component hG x a
 
 /-- **Layer 1.3.** The calculus of the `ℤ_ℓ`-power is Tau Ceti's; the next statements apply it. -/
 theorem padicPow_one (ℓ : ℕ) [Fact ℓ.Prime] (hG : TauCeti.IsProP ℓ G) (x : G) :
@@ -421,7 +408,7 @@ theorem map_padicPow (ℓ : ℕ) [Fact ℓ.Prime] {H : Type v} [Group H] [Topolo
 /-- **Layer 1.3.** The conjugation instance of `map_padicPow`, for `MulAut.conj g`. -/
 theorem padicPow_conj (ℓ : ℕ) [Fact ℓ.Prime] (hG : TauCeti.IsProP ℓ G) (g x : G) (u : ℤ_[ℓ]) :
     padicPow ℓ hG (g * x * g⁻¹) u = g * padicPow ℓ hG x u * g⁻¹ :=
-  sorry
+  TauCeti.IsProP.conj_padicPow hG g x u
 
 theorem inv_padicPow (ℓ : ℕ) [Fact ℓ.Prime] (hG : TauCeti.IsProP ℓ G) (x : G) (u : ℤ_[ℓ]) :
     padicPow ℓ hG x⁻¹ u = (padicPow ℓ hG x u)⁻¹ :=
@@ -439,7 +426,7 @@ theorem padicPow_units_inv (ℓ : ℕ) [Fact ℓ.Prime] (hG : TauCeti.IsProP ℓ
 /-- **Layer 1.3.** A unit power generates the same closed procyclic subgroup. -/
 theorem closedZpowers_padicPow_units (ℓ : ℕ) [Fact ℓ.Prime] (hG : TauCeti.IsProP ℓ G) (x : G)
     (u : ℤ_[ℓ]ˣ) : closedZpowers (padicPow ℓ hG x u) = closedZpowers x :=
-  sorry
+  TauCeti.IsProP.closedZpowers_padicPow hG x u
 
 /-- **Layer 1.3.** Unit powers are injective. ⚠ False for a non-unit exponent: `x ↦ x ^ ℓ`
 identifies the elements of order `ℓ` with `1`. -/
@@ -456,18 +443,10 @@ section AutomorphismGroup
 
 variable (G : Type u) [Group G] [TopologicalSpace G]
 
-/-- **Layer 2.1.** The continuous automorphism group. Multiplication is composition of functions,
+/-- **Layer 2.1.** The continuous automorphism group: Tau Ceti's `TauCeti.ContinuousAut`, the
+continuous multiplicative isomorphisms `G ≃ₜ* G`. Multiplication is composition of functions,
 `(φ * ψ) x = φ (ψ x)`, matching Mathlib's `MulAut`. -/
-abbrev ContinuousAut : Type u := G ≃ₜ* G
-
-instance : Group (ContinuousAut G) where
-  mul φ ψ := ψ.trans φ
-  one := ContinuousMulEquiv.refl G
-  inv φ := φ.symm
-  mul_assoc _ _ _ := ContinuousMulEquiv.ext fun _ => rfl
-  one_mul _ := ContinuousMulEquiv.ext fun _ => rfl
-  mul_one _ := ContinuousMulEquiv.ext fun _ => rfl
-  inv_mul_cancel φ := ContinuousMulEquiv.ext fun x => φ.symm_apply_apply x
+abbrev ContinuousAut : Type u := TauCeti.ContinuousAut G
 
 variable {G}
 
@@ -478,13 +457,11 @@ theorem ContinuousAut.one_apply (x : G) : (1 : ContinuousAut G) x = x := rfl
 variable (G)
 
 /-- **Layer 2.1.** The forgetful homomorphism to the abstract automorphism group, injective. -/
-def ContinuousAut.toMulAut : ContinuousAut G →* MulAut G where
-  toFun φ := φ.toMulEquiv
-  map_one' := rfl
-  map_mul' _ _ := rfl
+abbrev ContinuousAut.toMulAut : ContinuousAut G →* MulAut G :=
+  TauCeti.ContinuousAut.toMulAut
 
 theorem ContinuousAut.toMulAut_injective : Function.Injective (ContinuousAut.toMulAut G) :=
-  sorry
+  TauCeti.ContinuousAut.toMulAut_injective
 
 end AutomorphismGroup
 
@@ -493,75 +470,67 @@ section Automorphisms
 variable (G : Type u) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
 
 /-- **Layer 2.1.** Inner automorphisms, `conj g x = g * x * g⁻¹`, lifting `MulAut.conj`. -/
-noncomputable def ContinuousAut.conj : G →* ContinuousAut G :=
-  sorry
+noncomputable abbrev ContinuousAut.conj : G →* ContinuousAut G :=
+  TauCeti.ContinuousAut.conj
 
 theorem ContinuousAut.conj_apply (g x : G) : ContinuousAut.conj G g x = g * x * g⁻¹ :=
-  sorry
+  TauCeti.ContinuousAut.conj_apply g x
 
 theorem ContinuousAut.toMulAut_conj (g : G) :
     ContinuousAut.toMulAut G (ContinuousAut.conj G g) = MulAut.conj g :=
-  sorry
+  TauCeti.ContinuousAut.toMulAut_conj g
 
 /-- **Layer 2.1.** The inner automorphisms form a normal subgroup. -/
 instance ContinuousAut.conj_range_normal : (ContinuousAut.conj G).range.Normal :=
-  sorry
+  TauCeti.ContinuousAut.normal_range_conj
 
 /-- **Layer 2.1.** The continuous outer automorphism group. -/
-abbrev ContinuousOut : Type u := ContinuousAut G ⧸ (ContinuousAut.conj G).range
+abbrev ContinuousOut : Type u := TauCeti.ContinuousOut G
 
 /-- **Layer 2.1.** The quotient map. -/
-noncomputable abbrev ContinuousOut.mk : ContinuousAut G →* ContinuousOut G :=
-  QuotientGroup.mk' _
+abbrev ContinuousOut.mk : ContinuousAut G →* ContinuousOut G :=
+  TauCeti.ContinuousOut.mk
 
 /-- **Layer 2.1, inner is inner.** An automorphism that is inner as an abstract automorphism is
 the continuous inner automorphism. -/
 theorem ContinuousAut.eq_conj_of_toMulAut_eq_conj (φ : ContinuousAut G) (g : G)
     (h : ContinuousAut.toMulAut G φ = MulAut.conj g) : φ = ContinuousAut.conj G g :=
-  sorry
+  TauCeti.ContinuousAut.eq_conj_of_toMulAut_eq_conj h
 
 /-- **Layer 2.2.** A subgroup is topologically characteristic when every *continuous*
 automorphism maps it onto itself. ⚠ Weaker than Mathlib's `Subgroup.Characteristic`, which
 quantifies over abstract automorphisms; this is the notion the closed series of Layer 3 and Tau
 Ceti's `TauCeti.proPKernel` and `TauCeti.proPFrattini` satisfy. -/
-def IsTopCharacteristic (N : Subgroup G) : Prop :=
-  ∀ φ : ContinuousAut G, N.map φ.toMulEquiv.toMonoidHom = N
+abbrev IsTopCharacteristic (N : Subgroup G) : Prop :=
+  TauCeti.IsTopCharacteristic G N
 
 omit [IsTopologicalGroup G] in
 /-- **Layer 2.2.** The pro-`p` Frattini subgroup is topologically characteristic, for every
 topological group and every `p`: Tau Ceti's `ContinuousMulEquiv.map_proPFrattini_eq`. -/
 theorem isTopCharacteristic_proPFrattini (p : ℕ) :
     IsTopCharacteristic G (TauCeti.proPFrattini p G) :=
-  fun φ => ContinuousMulEquiv.map_proPFrattini_eq φ
+  TauCeti.isTopCharacteristic_proPFrattini p
 
 omit [IsTopologicalGroup G] in
 /-- **Layer 2.2.** The pro-`p` kernel is topologically characteristic, for every topological
 group and every `p`: Tau Ceti's `TauCeti.map_proPKernel_eq`. BelyiMaps Layer 13.1 consumes it. -/
 theorem isTopCharacteristic_proPKernel (p : ℕ) : IsTopCharacteristic G (TauCeti.proPKernel p G) :=
-  fun φ => TauCeti.map_proPKernel_eq φ
+  TauCeti.isTopCharacteristic_proPKernel p
 
 /-- **Layer 2.2.** The automorphism of a characteristic quotient induced by a continuous
 automorphism, pinned by `ContinuousAut.mapQuotient_mk`. -/
-noncomputable def ContinuousAut.mapQuotient (N : Subgroup G) [N.Normal]
+noncomputable abbrev ContinuousAut.mapQuotient (N : Subgroup G) [N.Normal]
     (_hN : IsTopCharacteristic G N) : ContinuousAut G →* MulAut (G ⧸ N) :=
-  sorry
+  TauCeti.ContinuousAut.mapQuotient _hN
 
+set_option linter.unusedSectionVars false in
 /-- **Layer 2.2.** The induced automorphism sends the class of `x` to the class of `φ x`. Since
 `QuotientGroup.mk` is surjective, this determines `mapQuotient`, and with it the congruence
 topology below. -/
 theorem ContinuousAut.mapQuotient_mk (N : Subgroup G) [N.Normal] (hN : IsTopCharacteristic G N)
     (φ : ContinuousAut G) (x : G) :
     ContinuousAut.mapQuotient G N hN φ (QuotientGroup.mk x) = QuotientGroup.mk (φ x) :=
-  sorry
-
-/-- **Layer 2.2, the congruence topology.** The initial topology of the maps to the automorphism
-groups of the topologically characteristic open normal quotients, each carrying the discrete
-topology; these groups are finite when `G` is profinite, and not in general. ⚠ In Mathlib's order on topologies `⊥` is the **discrete** topology and `⊤` the
-indiscrete one (`DiscreteTopology α` is `t = ⊥`), so `induced _ ⊥` below is the initial topology
-for discrete targets, as intended; `continuous_mapQuotient` records it. -/
-noncomputable instance : TopologicalSpace (ContinuousAut G) :=
-  ⨅ N : {N : OpenNormalSubgroup G // IsTopCharacteristic G N.1.1},
-    TopologicalSpace.induced (ContinuousAut.mapQuotient G N.1.1 N.2) ⊥
+  TauCeti.ContinuousAut.mapQuotient_mk hN φ x
 
 omit [IsTopologicalGroup G] in
 /-- **Layer 2.2.** Each characteristic quotient map is continuous into the discrete group
@@ -569,12 +538,10 @@ omit [IsTopologicalGroup G] in
 theorem ContinuousAut.continuous_mapQuotient
     (N : {N : OpenNormalSubgroup G // IsTopCharacteristic G N.1.1}) :
     @Continuous _ _ inferInstance ⊥ (ContinuousAut.mapQuotient G N.1.1 N.2) :=
-  continuous_iInf_dom (i := N) continuous_induced_dom
-
-instance : IsTopologicalGroup (ContinuousAut G) := sorry
+  TauCeti.ContinuousAut.continuous_mapQuotient N.1 N.2
 
 theorem ContinuousAut.continuous_conj : Continuous (ContinuousAut.conj G) :=
-  sorry
+  TauCeti.ContinuousAut.continuous_conj
 
 /-- **Layer 2.2, profiniteness.** For a topologically finitely generated profinite group the
 automorphism group is profinite. ⚠ Both hypotheses are needed: for `Multiplicative ℝ`, generated
@@ -582,23 +549,23 @@ topologically by `1` and `√2`, the congruence topology is indiscrete; for the 
 `Multiplicative (ℤ × ℤ)` it is discrete on the infinite group `GL₂(ℤ)`. -/
 theorem ContinuousAut.compactSpace [CompactSpace G] [TotallyDisconnectedSpace G]
     (hfg : TauCeti.IsTopologicallyFinitelyGenerated G) : CompactSpace (ContinuousAut G) :=
-  sorry
+  TauCeti.ContinuousAut.compactSpace hfg
 
 theorem ContinuousAut.t2Space [CompactSpace G] [TotallyDisconnectedSpace G]
     (hfg : TauCeti.IsTopologicallyFinitelyGenerated G) : T2Space (ContinuousAut G) :=
-  sorry
+  TauCeti.ContinuousAut.t2Space hfg
 
 theorem ContinuousAut.totallyDisconnectedSpace [CompactSpace G] [TotallyDisconnectedSpace G]
     (hfg : TauCeti.IsTopologicallyFinitelyGenerated G) : TotallyDisconnectedSpace
     (ContinuousAut G) :=
-  sorry
+  TauCeti.ContinuousAut.totallyDisconnectedSpace hfg
 
 /-- **Layer 2.2.** Evaluation is continuous when `G` is a topologically finitely generated
 profinite group. -/
 theorem ContinuousAut.continuous_eval [CompactSpace G] [TotallyDisconnectedSpace G]
     (hfg : TauCeti.IsTopologicallyFinitelyGenerated G) :
     Continuous (fun p : ContinuousAut G × G => p.1 p.2) :=
-  sorry
+  TauCeti.ContinuousAut.continuous_eval hfg
 
 /-- **Layer 2.2, the conjugacy relation.** In a compact, totally disconnected topological group the
 set of conjugate pairs is closed: it is the image of the compact space `G × G` under
@@ -630,73 +597,61 @@ theorem ContinuousAut.isClosed_isConj [CompactSpace G] [TotallyDisconnectedSpace
       (continuous_id.prodMk (continuous_const : Continuous fun _ : ContinuousAut G => x))).prodMk
       continuous_const)
 
-/-- **Layer 2.3.** The action of the outer group on conjugacy classes. -/
-noncomputable instance : MulAction (ContinuousOut G) (ConjClasses G) :=
-  sorry
-
 theorem ContinuousOut.mk_smul_mk (φ : ContinuousAut G) (x : G) :
     (ContinuousOut.mk G φ) • ConjClasses.mk x = ConjClasses.mk (φ x) :=
-  sorry
+  TauCeti.ContinuousOut.mk_smul_mk φ x
 
 /-- **Layer 2.3, descent to a characteristic quotient.** For a closed normal topologically
 characteristic subgroup `N`, a continuous automorphism of `G` induces one of `G ⧸ N`. This is the
 reusable map for arbitrary closed characteristic quotients; `mapQuotient` of 2.2 is its shadow in
 `MulAut (G ⧸ N)`, used for the congruence topology. -/
-noncomputable def ContinuousAut.mapClosedQuotient (N : Subgroup G) [N.Normal]
+noncomputable abbrev ContinuousAut.mapClosedQuotient (N : Subgroup G) [N.Normal]
     (_hNc : IsClosed (N : Set G)) (_hN : IsTopCharacteristic G N) :
     ContinuousAut G →* ContinuousAut (G ⧸ N) :=
-  sorry
+  TauCeti.ContinuousAut.mapClosedQuotient _hN
 
+set_option linter.unusedSectionVars false in
 /-- **Layer 2.3.** The induced automorphism sends the class of `x` to the class of `φ x`; since
 `QuotientGroup.mk` is surjective, this pins `mapClosedQuotient`. -/
 theorem ContinuousAut.mapClosedQuotient_mk (N : Subgroup G) [N.Normal]
     (hNc : IsClosed (N : Set G)) (hN : IsTopCharacteristic G N) (φ : ContinuousAut G) (x : G) :
     ContinuousAut.mapClosedQuotient G N hNc hN φ (QuotientGroup.mk x) = QuotientGroup.mk (φ x) :=
-  sorry
+  TauCeti.ContinuousAut.mapClosedQuotient_mk hN φ x
 
 /-- **Layer 2.3.** Inner automorphisms go to inner automorphisms: `conj g ↦ conj (g N)`. -/
 theorem ContinuousAut.mapClosedQuotient_conj (N : Subgroup G) [N.Normal]
     (hNc : IsClosed (N : Set G)) (hN : IsTopCharacteristic G N) (g : G) :
     ContinuousAut.mapClosedQuotient G N hNc hN (ContinuousAut.conj G g)
       = ContinuousAut.conj (G ⧸ N) (QuotientGroup.mk g) :=
-  sorry
+  TauCeti.ContinuousAut.mapClosedQuotient_conj hN g
 
+set_option linter.unusedSectionVars false in
 /-- **Layer 2.3.** The descent is continuous for the congruence topologies: the preimage in `G` of
 a topologically characteristic open normal subgroup of `G ⧸ N` is one of `G`. -/
 theorem ContinuousAut.continuous_mapClosedQuotient (N : Subgroup G) [N.Normal]
     (hNc : IsClosed (N : Set G)) (hN : IsTopCharacteristic G N) :
     Continuous (ContinuousAut.mapClosedQuotient G N hNc hN) :=
-  sorry
+  TauCeti.ContinuousAut.continuous_mapClosedQuotient hN
 
 /-- **Layer 2.3.** The induced map of outer automorphism groups, defined from `mapClosedQuotient`,
 which carries inner automorphisms to inner automorphisms (`mapClosedQuotient_conj`). -/
-noncomputable def ContinuousOut.mapClosedQuotient (N : Subgroup G) [N.Normal]
-    (hNc : IsClosed (N : Set G)) (hN : IsTopCharacteristic G N) :
+noncomputable abbrev ContinuousOut.mapClosedQuotient (N : Subgroup G) [N.Normal]
+    (_hNc : IsClosed (N : Set G)) (hN : IsTopCharacteristic G N) :
     ContinuousOut G →* ContinuousOut (G ⧸ N) :=
-  QuotientGroup.map _ _ (ContinuousAut.mapClosedQuotient G N hNc hN) (by
-    rintro _ ⟨g, rfl⟩
-    exact Subgroup.mem_comap.2 (MonoidHom.mem_range.2
-      ⟨QuotientGroup.mk g, (ContinuousAut.mapClosedQuotient_conj G N hNc hN g).symm⟩))
+  TauCeti.ContinuousOut.mapClosedQuotient hN
 
 /-- **Layer 2.3.** The outer map on classes. -/
 theorem ContinuousOut.mapClosedQuotient_mk (N : Subgroup G) [N.Normal]
     (hNc : IsClosed (N : Set G)) (hN : IsTopCharacteristic G N) (φ : ContinuousAut G) :
     ContinuousOut.mapClosedQuotient G N hNc hN (ContinuousOut.mk G φ)
       = ContinuousOut.mk (G ⧸ N) (ContinuousAut.mapClosedQuotient G N hNc hN φ) :=
-  rfl
+  TauCeti.ContinuousOut.mapClosedQuotient_mk hN φ
 
 /-- **Layer 2.3.** The outer map is continuous for the quotient topologies. -/
 theorem ContinuousOut.continuous_mapClosedQuotient (N : Subgroup G) [N.Normal]
     (hNc : IsClosed (N : Set G)) (hN : IsTopCharacteristic G N) :
     Continuous (ContinuousOut.mapClosedQuotient G N hNc hN) :=
-  sorry
-
-/-- **Layer 2.3, closed subgroups.** A continuous automorphism carries a closed subgroup (Mathlib's
-`ClosedSubgroup G`) to its image, which is closed because the automorphism is a homeomorphism. -/
-instance : MulAction (ContinuousAut G) (ClosedSubgroup G) where
-  smul φ H := ⟨H.toSubgroup.map φ.toMulEquiv.toMonoidHom, φ.toHomeomorph.isClosedMap _ H.isClosed'⟩
-  one_smul := sorry
-  mul_smul := sorry
+  TauCeti.ContinuousOut.continuous_mapClosedQuotient hN
 
 omit [IsTopologicalGroup G] in
 /-- **Layer 2.3.** The action on closed subgroups is the image. -/
@@ -704,19 +659,9 @@ theorem ContinuousAut.smul_closedSubgroup_toSubgroup (φ : ContinuousAut G) (H :
     (φ • H).toSubgroup = H.toSubgroup.map φ.toMulEquiv.toMonoidHom :=
   rfl
 
-/-- **Layer 2.3.** `G` acts on its closed subgroups by conjugation, through its inner automorphisms;
-`ConjAct G` is Mathlib's type for that action. -/
-noncomputable instance : MulAction (ConjAct G) (ClosedSubgroup G) :=
-  MulAction.compHom (ClosedSubgroup G) ((ContinuousAut.conj G).comp ConjAct.ofConjAct.toMonoidHom)
-
 /-- **Layer 2.3.** Closed subgroups up to conjugacy: the orbits of the conjugation action. -/
 abbrev ClosedSubgroupConjClasses : Type u :=
-  MulAction.orbitRel.Quotient (ConjAct G) (ClosedSubgroup G)
-
-/-- **Layer 2.3.** The action of the outer group on closed subgroups up to conjugacy: a continuous
-automorphism respects conjugacy of closed subgroups, and inner automorphisms fix every class. -/
-noncomputable instance : MulAction (ContinuousOut G) (ClosedSubgroupConjClasses G) :=
-  sorry
+  TauCeti.ClosedSubgroupConjClasses G
 
 /-- **Layer 2.3.** `ContinuousOut.mk φ` carries the class of `H` to the class of `φ • H`; this pins
 the action. -/
@@ -726,14 +671,15 @@ theorem ContinuousOut.mk_smul_closedSubgroupConjClass (φ : ContinuousAut G)
         (Quotient.mk (MulAction.orbitRel (ConjAct G) (ClosedSubgroup G)) H :
           ClosedSubgroupConjClasses G)
       = Quotient.mk (MulAction.orbitRel (ConjAct G) (ClosedSubgroup G)) (φ • H) :=
-  sorry
+  TauCeti.ContinuousOut.mk_smul_closedSubgroupConjClass φ H
 
 /-- **Layer 2.3, the outer action of an extension.** Conjugation of `E` on a closed normal
 subgroup `N`, descended to `E ⧸ N`. -/
-noncomputable def outerAction {E : Type u} [Group E] [TopologicalSpace E] [IsTopologicalGroup E]
+noncomputable abbrev outerAction {E : Type u} [Group E] [TopologicalSpace E]
+    [IsTopologicalGroup E]
     (N : Subgroup E) [N.Normal] (_hN : IsClosed (N : Set E)) :
     E ⧸ N →* ContinuousOut N :=
-  sorry
+  TauCeti.outerAction N
 
 /-- **Layer 2.3.** The outer action of `e N` is the class of conjugation by `e`. The conjugating
 automorphism `φ` is chosen once, before `n`: with the quantifiers the other way round the
@@ -742,20 +688,29 @@ theorem outerAction_mk {E : Type u} [Group E] [TopologicalSpace E] [IsTopologica
     (N : Subgroup E) [N.Normal] (hN : IsClosed (N : Set E)) (e : E) :
     ∃ φ : ContinuousAut N, ContinuousOut.mk N φ = outerAction N hN (QuotientGroup.mk e) ∧
       ∀ n : N, (φ n : E) = e * n * e⁻¹ :=
-  sorry
+  ⟨TauCeti.ContinuousAut.conjNormal e, (TauCeti.outerAction_mk e).symm,
+    TauCeti.ContinuousAut.conjNormal_apply e⟩
 
 /-- **Layer 2.4, the finite theorem.** The automorphisms of a finite `p`-group acting trivially on
 its Frattini quotient form a `p`-group: they act freely on the generating tuples over a basis of
 the Frattini quotient. The subgroup is stated by its membership condition. -/
-def frattiniKernel (P : Type u) [Group P] : Subgroup (MulAut P) where
-  carrier := {φ | ∀ x : P, (φ x)⁻¹ * x ∈ frattini P}
-  one_mem' := sorry
-  mul_mem' := sorry
-  inv_mem' := sorry
+def frattiniKernel (P : Type u) [Group P] : Subgroup (MulAut P) :=
+  (MulAut.mapQuotient (frattini P)).ker.copy {φ | ∀ x : P, (φ x)⁻¹ * x ∈ frattini P} (by
+    ext φ
+    simp only [Set.mem_ofPred_eq, SetLike.mem_coe, MonoidHom.mem_ker, MulEquiv.ext_iff,
+      MulAut.one_apply]
+    refine ⟨fun h q ↦ ?_, fun h x ↦ ?_⟩
+    · induction q using QuotientGroup.induction_on with
+      | H x => rw [MulAut.mapQuotient_mk]; exact QuotientGroup.eq.2 (h x)
+    · have := h x
+      rw [MulAut.mapQuotient_mk] at this
+      exact QuotientGroup.eq.1 this)
 
 theorem isPGroup_frattiniKernel (p : ℕ) [Fact p.Prime] (P : Type u) [Group P] [Finite P]
     (hP : IsPGroup p P) : IsPGroup p (frattiniKernel P) :=
-  sorry
+  by
+    rw [show frattiniKernel P = _ from Subgroup.copy_eq _ _ _]
+    exact IsPGroup.isPGroup_ker_mapQuotient_frattini hP
 
 /-- **Layer 2.4, the pro-`p` theorem.** For a topologically finitely generated pro-`p` group the
 automorphisms acting trivially on the Frattini quotient form an open pro-`p` subgroup. -/
@@ -767,7 +722,8 @@ theorem isProP_ker_toFrattiniQuotient (p : ℕ) [Fact p.Prime] [CompactSpace G]
       IsOpen ((MonoidHom.ker (ContinuousAut.mapQuotient G (TauCeti.proPFrattini p G)
         (isTopCharacteristic_proPFrattini G p)) :
           Subgroup (ContinuousAut G)) : Set (ContinuousAut G)) :=
-  sorry
+  ⟨hG.isProP_ker_mapQuotient_proPFrattini,
+    TauCeti.ContinuousAut.isOpen_ker_mapQuotient_proPFrattini hfg p⟩
 
 end Automorphisms
 
@@ -776,11 +732,10 @@ end Automorphisms
 The series, its graded pieces and the bracket are Tau Ceti's lower `p`-series at `p = 0`
 (`TauCeti.pLowerCentralSeries 0`, `TauCeti.gradedPiece 0`, `TauCeti.gradedBracket`): the step
 `closure (λᵖ ⬝ [λ, G])` loses its power term when `p = 0`. They are re-exported here under the
-names of this roadmap by reducible aliases, and the laws Tau Ceti already proves are applied, not
-restated as goals. What this layer owns is what Tau Ceti does not have: the `ℤ_p`-linearity of
-the bracket for a pro-`p` group, the spanning theorem, the triviality of `⋂ γ_n` for a pro-`p`
-group, the comparison with the lower `p`-series, and the degree-one piece of a free pro-`p`
-group. -/
+names of this roadmap by reducible aliases, and the laws Tau Ceti proves are applied. Tau Ceti
+also proves the `ℤ_p`-linearity of the bracket for a pro-`p` group, the spanning theorem, the
+triviality of `⋂ γ_n` for a pro-`p` group, the comparison with the lower `p`-series, and the
+degree-zero and degree-one pieces of a free pro-`p` group. -/
 
 section LowerCentral
 
@@ -826,7 +781,7 @@ theorem isTopCharacteristic_closedLowerCentralSeries (n : ℕ) :
 /-- **Layer 3.1.** The closed series is the closure of Mathlib's abstract series. -/
 theorem closedLowerCentralSeries_eq_topologicalClosure (n : ℕ) :
     closedLowerCentralSeries G n = ((⊤ : Subgroup G).lowerCentralSeries n).topologicalClosure :=
-  sorry
+  TauCeti.closedLowerCentralSeries_eq_topologicalClosure n
 
 /-- **Layer 3.1.** Commutators raise the degree: the statement that makes the bracket below well
 defined. -/
@@ -844,7 +799,7 @@ theorem map_closedLowerCentralSeries_le {H : Type v} [Group H] [TopologicalSpace
 /-- **Layer 3.1.** Comparison with the lower `p`-series, for every `p`. -/
 theorem closedLowerCentralSeries_le_pLowerCentralSeries (p : ℕ) (n : ℕ) :
     closedLowerCentralSeries G n ≤ TauCeti.pLowerCentralSeries p G n :=
-  sorry
+  TauCeti.closedLowerCentralSeries_le_pLowerCentralSeries p n
 
 /-- **Layer 3.1.** The series of a pro-`p` group intersects in the identity. ⚠ The terms are
 not open, and the quotients `G ⧸ γ_n` are not finite: this is the closed lower central series,
@@ -852,7 +807,7 @@ not the lower `p`-series. -/
 theorem iInf_closedLowerCentralSeries_eq_bot (p : ℕ) [Fact p.Prime] [CompactSpace G]
     [TotallyDisconnectedSpace G] (hG : TauCeti.IsProP p G) :
     ⨅ n : ℕ, closedLowerCentralSeries G n = ⊥ :=
-  sorry
+  hG.iInf_closedLowerCentralSeries_eq_bot Fact.out
 
 /-- **Layer 3.2.** The graded pieces `gr_n(G) = γ_n(G) ⧸ γ_{n+1}(G)`, written additively: Tau
 Ceti's `TauCeti.gradedPiece 0 G n`. -/
@@ -878,16 +833,16 @@ theorem closedLowerCentralSeries_one :
 /-- **Layer 3.2.** The degree-zero graded piece is Mathlib's topological abelianization:
 `gr_0(G) = γ_0 ⧸ γ_1` with `γ_0 = G` and `γ_1 = closure ⁅G, G⁆` (`closedLowerCentralSeries_one`).
 Tau Ceti's `TauCeti.gradedPieceZeroEquiv` is the algebraic part of this isomorphism. -/
-noncomputable def lcsGradedPieceZeroEquiv :
+noncomputable abbrev lcsGradedPieceZeroEquiv :
     lcsGradedPiece G 0 ≃ₜ+ Additive (TopologicalAbelianization G) :=
-  sorry
+  TauCeti.lcsGradedPieceZeroEquiv
 
 /-- **Layer 3.2.** The comparison on classes. It pins `lcsGradedPieceZeroEquiv`, because
 `lcsGradedMk` is surjective (`TauCeti.gradedMk_surjective`). -/
 theorem lcsGradedPieceZeroEquiv_mk (g : G) :
     lcsGradedPieceZeroEquiv G (lcsGradedMk G 0 ⟨g, TauCeti.mem_pLowerCentralSeries_zero 0 g⟩)
       = Additive.ofMul (QuotientGroup.mk g : TopologicalAbelianization G) :=
-  sorry
+  TauCeti.lcsGradedPieceZeroEquiv_mk g
 
 /-- **Layer 3.1.** A `ℤ_p`-power of an element of `γ_n(G)` stays in `γ_n(G)`, the term being
 closed (Tau Ceti's `TauCeti.IsProP.padicPow_mem`). -/
@@ -930,7 +885,8 @@ theorem lcsBracket_natural {H : Type v} [Group H] [TopologicalSpace H] [IsTopolo
       = lcsGradedMk H (j + k + 1)
           ⟨f ⁅(x : G), (y : G)⁆, map_closedLowerCentralSeries_le G f hf (j + k + 1)
             ⟨⁅(x : G), (y : G)⁆, commutator_mem_closedLowerCentralSeries G j k x.2 y.2, rfl⟩⟩ :=
-  sorry
+  (lcsBracket_mk H j k _ _).trans
+    (congrArg _ (Subtype.ext (map_commutatorElement f (x : G) (y : G)).symm))
 
 /-- **Layer 3.2, `ℤ_p`-linearity in the first variable.** For a pro-`p` group the class of
 `⁅x ^[p] u, y⁆` is the class of `⁅x, y⁆ ^[p] u`. Together with `lcsBracket_mk` this says
@@ -944,7 +900,7 @@ theorem lcsBracket_padicPow_left (p : ℕ) [Fact p.Prime] [CompactSpace G]
     ∃ hxy : padicPow p hG ⁅(x : G), (y : G)⁆ u ∈ closedLowerCentralSeries G (j + k + 1),
       lcsBracket G j k (lcsGradedMk G j ⟨_, hx⟩) (lcsGradedMk G k y)
         = lcsGradedMk G (j + k + 1) ⟨_, hxy⟩ :=
-  sorry
+  ⟨_, _, hG.gradedBracket_padicPow_left x y u⟩
 
 /-- **Layer 3.2, `ℤ_p`-linearity in the second variable.** -/
 theorem lcsBracket_padicPow_right (p : ℕ) [Fact p.Prime] [CompactSpace G]
@@ -955,7 +911,7 @@ theorem lcsBracket_padicPow_right (p : ℕ) [Fact p.Prime] [CompactSpace G]
     ∃ hxy : padicPow p hG ⁅(x : G), (y : G)⁆ u ∈ closedLowerCentralSeries G (j + k + 1),
       lcsBracket G j k (lcsGradedMk G j x) (lcsGradedMk G k ⟨_, hy⟩)
         = lcsGradedMk G (j + k + 1) ⟨_, hxy⟩ :=
-  sorry
+  ⟨_, _, hG.gradedBracket_padicPow_right x y u⟩
 
 /-- **Layer 3.3, the spanning theorem, finite form.** Over a finite topological generating set of
 a compact group, every element of `gr_{n+1}` is a sum of brackets with one term per generator.
@@ -969,7 +925,13 @@ theorem lcsGradedPiece_eq_sum_bracket [CompactSpace G] {ι : Type} [Fintype ι] 
       z = (List.ofFn fun i => lcsBracket G 0 n
         (lcsGradedMk G 0 ⟨s ((Fintype.equivFin ι).symm i),
           TauCeti.mem_pLowerCentralSeries_zero 0 _⟩) (y i)).sum :=
-  sorry
+  by
+  have : CompactSpace (TauCeti.pLowerCentralSeries 0 G n) :=
+    isCompact_iff_compactSpace.mp (TauCeti.isClosed_pLowerCentralSeries n).isCompact
+  obtain ⟨y, hy⟩ := TauCeti.exists_sum_gradedBracket_eq_of_range n s hs z
+  refine ⟨fun i => y ((Fintype.equivFin ι).symm i), ?_⟩
+  rw [← hy, List.sum_ofFn]
+  exact (Equiv.sum_comp (Fintype.equivFin ι).symm _).symm
 
 end LowerCentral
 
@@ -982,33 +944,20 @@ completion of a discrete free nilpotent group is needed. -/
 /-- **Layer 3.4, the detecting group.** Tau Ceti's Heisenberg group over `ℤ_p`,
 `TauCeti.HeisenbergGroup ℤ_[p]`: triples `(x, y, z)` with
 `(x, y, z) (x', y', z') = (x + x', y + y', z + z' + x y')`, with its group law and the commutator
-formula `⁅(x, y, z), (x', y', z')⁆ = (0, 0, x y' - x' y)` (`TauCeti.HeisenbergGroup.commutatorElement_eq`).
-This roadmap adds only the topology and, over `ℤ_p`, the profinite and pro-`p` structure. -/
+formula `⁅(x, y, z), (x', y', z')⁆ = (0, 0, x y' - x' y)`
+(`TauCeti.HeisenbergGroup.commutatorElement_eq`). -/
 abbrev HeisenbergZp (p : ℕ) [Fact p.Prime] : Type := TauCeti.HeisenbergGroup ℤ_[p]
 
-/-- **Layer 3.4.** The topology of `R³` on Tau Ceti's Heisenberg group, through its coordinate
-equivalence `TauCeti.HeisenbergGroup.equivProd`. -/
-noncomputable instance {R : Type*} [TopologicalSpace R] :
-    TopologicalSpace (TauCeti.HeisenbergGroup R) :=
-  TopologicalSpace.induced TauCeti.HeisenbergGroup.equivProd inferInstance
-
-instance {R : Type*} [Ring R] [TopologicalSpace R] [IsTopologicalRing R] :
-    IsTopologicalGroup (TauCeti.HeisenbergGroup R) :=
-  sorry
-
-instance {R : Type*} [TopologicalSpace R] [CompactSpace R] :
-    CompactSpace (TauCeti.HeisenbergGroup R) :=
-  sorry
-
-instance {R : Type*} [TopologicalSpace R] [TotallyDisconnectedSpace R] :
-    TotallyDisconnectedSpace (TauCeti.HeisenbergGroup R) :=
-  sorry
+/-! **Layer 3.4.** Tau Ceti's `TauCeti.HeisenbergGroup.instTopologicalSpace` gives the Heisenberg
+group the topology of `R³` through its coordinate equivalence `TauCeti.HeisenbergGroup.equivProd`,
+and Tau Ceti makes it a compact, totally disconnected topological group when `R` is a compact,
+totally disconnected topological ring. -/
 
 /-- **Layer 3.4.** The Heisenberg group over `ℤ_p` is pro-`p`: the triples with all coordinates in
 `p ^ n ℤ_p` form an open normal subgroup of index `p ^ (3 n)`, and these subgroups form a basis of
 neighbourhoods of `1`. -/
 theorem HeisenbergZp.isProP (p : ℕ) [Fact p.Prime] : TauCeti.IsProP p (HeisenbergZp p) :=
-  sorry
+  TauCeti.HeisenbergGroup.isProP_padicInt p
 
 section FreeGraded
 
@@ -1021,7 +970,7 @@ theorem lcsGradedPiece_zero_freeProP_bijective (p : ℕ) [Fact p.Prime] (r : ℕ
       ∑ i, lcsGradedMk (TauCeti.freeProP p (Fin r)) 0
         ⟨padicPow p (TauCeti.isProP_freeProP p (Fin r)) (TauCeti.freeProP.of i) (a i),
           TauCeti.mem_pLowerCentralSeries_zero 0 _⟩ :=
-  sorry
+  TauCeti.lcsGradedPiece_zero_freeProP_bijective p (Fin r)
 
 /-- **Layer 3.4, detection.** For `i ≠ j` there is a continuous homomorphism from the free pro-`p`
 group to the Heisenberg group with `x_i ↦ (1, 0, 0)`, `x_j ↦ (0, 1, 0)` and every other generator
@@ -1056,7 +1005,7 @@ theorem lcsGradedPiece_one_freeProP_bijective (p : ℕ) [Fact p.Prime] (r : ℕ)
               (TauCeti.mem_pLowerCentralSeries_zero 0 _)
               (TauCeti.mem_pLowerCentralSeries_zero 0 _))
             (c ij)⟩ :=
-  sorry
+  TauCeti.lcsGradedPiece_one_freeProP_bijective p (Fin r)
 
 /-- **Layer 3.4, nonvanishing.** For the free pro-`p` group of rank `r ≥ 2` the bracket of two
 distinct generators is nonzero in `gr_1`: a consequence of `lcsGradedPiece_one_freeProP_bijective`
@@ -1065,7 +1014,7 @@ theorem lcsBracket_freeProP_ne_zero (p : ℕ) [Fact p.Prime] (r : ℕ) (i j : Fi
     lcsBracket (TauCeti.freeProP p (Fin r)) 0 0
         (lcsGradedMk _ 0 ⟨TauCeti.freeProP.of i, TauCeti.mem_pLowerCentralSeries_zero 0 _⟩)
         (lcsGradedMk _ 0 ⟨TauCeti.freeProP.of j, TauCeti.mem_pLowerCentralSeries_zero 0 _⟩) ≠ 0 :=
-  sorry
+  TauCeti.lcsBracket_freeProP_ne_zero hij
 
 end FreeGraded
 
