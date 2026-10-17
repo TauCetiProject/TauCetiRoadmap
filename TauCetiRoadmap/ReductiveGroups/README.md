@@ -75,8 +75,10 @@ subgroup schemes and quotients; the identity component and component group; Jord
 decomposition; diagonalizable / multiplicative-type groups and tori with character
 lattices; unipotent groups and the unipotent radical; reductive/semisimple groups, central
 isogenies and simply-connected/adjoint forms; Borel and parabolic subgroups, root data of
-a group, Bruhat/BN-pairs; the classification; and pinned Chevalley–Demazure group schemes
-over `ℤ` with their root subgroups, base change, and special isogenies.
+a group, Bruhat/BN-pairs; the classification; and split reductive group schemes over `ℤ` with
+their pinnings. The Chevalley–Demazure group schemes themselves are constructed in the
+[Chevalley groups roadmap](../ChevalleyGroups/README.md); this roadmap proves they are split
+reductive.
 
 ---
 
@@ -220,76 +222,56 @@ faithfully-flat descent.
 ### Layer 8: classification and existence (long horizon)
 - The **isomorphism** and **existence theorems**: split reductive groups ↔ root data;
   classification of semisimple groups by Dynkin diagrams; central isogenies and the
-  isogeny theorem; Chevalley existence.
+  isogeny theorem; Chevalley existence. For a simply connected irreducible root datum the
+  existence half is realized by the named group scheme `DynkinType.chevalleyGroupScheme` of the
+  Chevalley groups roadmap, once Layer 9 proves it split reductive; the existence theorem for a
+  general root datum is proved here from that case, through products and central quotients.
 - **Relative theory over a base** and **pseudo-reductive groups**
   (Conrad–Gabber–Prasad), flagged as far-future generalizations.
 
-### Layer 9: pinned Chevalley–Demazure group schemes over `ℤ`
+### Layer 9: split reductive group schemes over `ℤ` and the Chevalley–Demazure schemes
 
-This lane is the exception to the standing "work over a field `k`" hypothesis: its whole
-point is a group scheme over `ℤ` that is then base-changed. It is far narrower than the
-relative theory of Layer 8, since it only ever needs the split case over `ℤ`, and it is a
-prerequisite rather than a generalization, so it should not wait behind pseudo-reductive
-groups.
+This layer is the exception to the standing "work over a field `k`" hypothesis: its objects are
+group schemes over `ℤ`, and over a base ring in general. It needs Layers 6 and 7 over fields and
+nothing from Layer 8.
 
-It exists because a downstream consumer needs it and nothing else here supplies it: the
-CFSG statement roadmap
-([Add CFSG statement roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/pull/156))
-defines the finite groups of Lie type as fixed points of a Steinberg endomorphism on the
-`𝔽̄_p`-points of a pinned simply connected group, or on an explicit carrier that then owes an
-identification with those points (its milestone `L5`), for which Layer 9 is the reference. It
-requires each carrier to be traceable
-to explicit data, so **an existence theorem is not enough**: "Chevalley existence" in Layer
-8 above cannot be `Classical.choose`-d into a carrier without defeating the purpose. The
-root data it starts from are `DynkinType.simplyConnectedRootDatum` in
-[the root-systems roadmap](../RepresentationTheory/RootSystems/README.md).
+The Chevalley–Demazure group schemes are constructed, explicitly and from the pinned root datum
+`DynkinType.simplyConnectedRootDatum t`, in the [Chevalley groups
+roadmap](../ChevalleyGroups/README.md): `DynkinType.chevalleyGroupScheme t ht`, the simply connected
+form, and more generally the group scheme of every Chevalley datum of type `t`, with root subgroups
+for every root, a split torus, flatness, the big cell, smooth geometrically connected fibres, graph
+automorphisms, the exceptional isogenies of `B₂`, `F₄` and `G₂` in characteristics two and three,
+and Chevalley's comparison theorem. That roadmap proves everything that follows from the
+construction. This layer supplies the general notions those schemes instantiate and proves that they
+instantiate them.
 
-- **Split reductive group schemes over a base**, at least over `ℤ`: the definition, with the
-  split maximal torus as part of the data rather than an existence statement.
-- **Pinnings.** A pinning `(G, T, B, {X_α})` of a split reductive group scheme: the torus,
-  a Borel containing it, and a choice of root vector for each simple root. This is what
-  makes "the" graph automorphism well defined, so it is data, not a property.
-- **The Chevalley–Demazure construction.** For each root datum, an explicitly constructed
-  split reductive group scheme over `ℤ` realizing it, via a Chevalley basis and the Kostant
-  `ℤ`-form of the enveloping algebra. Constructed, not asserted to exist.
-- **Base change** along `ℤ → k` for any commutative ring `k`, and the compatibility of the
-  pinning with it.
-- **Root subgroup maps.** `x_α : 𝔾_a → G` for each root `α`, the Chevalley commutator
-  relations they satisfy, and the equations pinning them against the pinning. Downstream
-  work states its conventions against these, so they are part of the interface, not an
-  implementation detail.
-- **Points over an algebraically closed field** as a group, functorially in the field, so
-  that a field endomorphism induces a group endomorphism of the points. The `q`-power
-  Frobenius is the case a consumer asks for first.
-- **The isomorphism theorem for pinned groups**: an isomorphism of root data lifts uniquely
-  to an isomorphism of pinned group schemes. This is what makes a diagram automorphism into
-  a named group automorphism, and it is the source of the uniqueness a consumer needs when
-  it pins `γ` by its action on simple root subgroups.
-- **Special isogenies in characteristics two and three.** For `B₂`/`C₂` and `F₄` in
-  characteristic two and `G₂` in characteristic three, the exceptional isogeny `τ` with
-  `τ² = Frob_p`, together with its action on the long and short root subgroups. This is a
-  statement about group schemes and belongs here rather than in any consumer. On the explicit
-  carriers the CFSG roadmap's carrier plan designates, the three targets are: `τ` on the
-  rank-two symplectic carrier (`TauCeti.SpStd.specialIsogeny`, done); `τ` on the short-root
-  `G₂` carrier over `𝔽₃`, the closed subgroup scheme of `GL₇` generated over `𝔽₃` by the reduced
-  root subgroups and torus of the toral closure of the seven-dimensional module, in characteristic
-  three; and `τ` on the short-root `F₄` carrier over `𝔽₂`, generated the same way inside `GL₂₆`
-  from the toral closure of the twenty-six-dimensional module, in characteristic two. The prime
-  field is the base because the isogeny exists only there and the restriction argument needs the
-  generated subgroup scheme's defining ideal to be maximal over that base; the CFSG roadmap's
-  carrier plan records the reason. The `G₂` and `F₄` maps are explicit polynomial maps on matrices realizing
-  the carrier's action on the quotient of its represented Chevalley Lie algebra by the short-root
-  ideal, read back in the module through a fixed identification; the `Sp₄` map is the analogous
-  action on the subquotient `ker φ ⧸ ⟨ω⟩` of the exterior square. Each comes with the pinning
-  equations on the simple root subgroups and the square relation, proved by computation or
-  structurally; the CFSG roadmap's carrier plan records the construction in detail.
-- **Explicit carriers with numbered symmetries.** The toral-closure carriers the CFSG roadmap
-  designates that do not yet exist: the short-root `G₂` and `F₄` carriers above, and the tripled
-  `D₄` carrier, the toral closure of `8ᵥ ⊕ 8ₛ ⊕ 8꜀` inside `GL₂₄`, carrying triality as a
-  numbered symmetry the way the doubled `E₆` carrier carries its graph automorphism. Each comes
-  with its numbered simple root subgroups, weight torus, pinning equations against
-  `DynkinType.simplyConnectedRootDatum`, Frobenius, and the span statement that its weights
-  generate the full character lattice.
+- **Split reductive group schemes over a base.** For a commutative ring `R`, a split reductive
+  group scheme over `R`: an affine smooth group scheme over `R` whose geometric fibres are
+  reductive in the sense of Layer 6, together with a split torus `D(X) → G` as data that is a
+  maximal torus in every geometric fibre. Its root datum over a connected base, read from the
+  Layer 7 root datum of any geometric fibre, and the proof that it does not depend on the fibre. -
+  **Pinnings.** A pinning of a split reductive group scheme: the split maximal torus, a Borel
+  subgroup containing it in every fibre, and a root vector for each simple root. It is data, not a
+  property, and it is what makes a graph automorphism well defined. - **The Chevalley–Demazure
+  schemes are split reductive.** For every valid Dynkin type `t`, prove that
+  `DynkinType.chevalleyGroupScheme t ht` with the torus of the Chevalley groups roadmap is split
+  reductive over `ℤ`, that the subgroup generated by the torus and the positive root subgroups is
+  a Borel subgroup in every geometric fibre, that the root datum of the pair is
+  `DynkinType.simplyConnectedRootDatum t` with the roots in the fixed enumeration, and that the
+  simple root subgroups give a pinning. Do the same for `DynkinType.adjointGroupScheme t ht`,
+  whose root datum is the adjoint form, `RootPairing.flip` of the dual type's simply connected
+  datum, as the root-systems roadmap's Layer 6 specifies it. - **Simple connectivity and the
+  adjoint form.** For every field `k`, the fibre of `DynkinType.chevalleyGroupScheme t ht` over
+  `k` satisfies `simplyConnectedSemisimpleCommHopfAlgProperty`, and the fibre of
+  `DynkinType.adjointGroupScheme t ht` has trivial scheme-theoretic centre. The homomorphism
+  between them constructed in the Chevalley groups roadmap satisfies
+  `CommHopfAlgCat.IsCentralIsogeny` on every fibre, with kernel the scheme-theoretic centre. -
+  **Maximality and the Weyl group.** In every geometric fibre the split torus is a maximal torus
+  equal to its own centralizer, and its normalizer modulo it is the Weyl group of
+  `DynkinType.simplyConnectedRootDatum t`, compatibly with the Weyl representatives of the
+  Chevalley groups roadmap. - **The exceptional isogenies are isogenies.** The endomorphisms of
+  `G_{𝔽_p}` constructed in the Chevalley groups roadmap for `B₂` and `F₄` with `p = 2` and `G₂`
+  with `p = 3` satisfy `CommHopfAlgCat.IsIsogeny`, with infinitesimal kernel, and are not central.
 
 ---
 
@@ -322,12 +304,11 @@ Buzzard), and FLT. Several of these can start against a **BN-pair** or the dynam
 parabolic API before the full root-data classification exists: another reason to keep the
 three views in sync.
 
-The **finite groups of Lie type** are the consumer of Layer 9: the CFSG statement roadmap
-([Add CFSG statement roadmap](https://github.com/TauCetiProject/TauCetiRoadmap/pull/156))
-builds every such group as the fixed points of a Steinberg endomorphism on the points of a
-pinned Chevalley–Demazure group, or on an explicit carrier that its milestone `L5` identifies
-with those points. That consumer needs constructions rather than existence
-theorems, which is the sharpest constraint any of these place on this roadmap.
+The **finite groups of Lie type** are built, in the [CFSG statement roadmap](../CFSGStatement/README.md),
+as fixed points of Steinberg endomorphisms of the points of the Chevalley–Demazure groups of the
+[Chevalley groups roadmap](../ChevalleyGroups/README.md). Layer 9 is where that construction meets
+the theory here: it certifies that the group those finite groups come from is the split simply
+connected reductive group of the named root datum.
 
 ## References
 
