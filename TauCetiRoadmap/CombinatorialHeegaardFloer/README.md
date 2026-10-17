@@ -55,9 +55,11 @@ applications), plus one combinatorial neighbor:
 3. **Lattice homology** of plumbed 3-manifolds (Némethi
    [arXiv:0709.0841](https://arxiv.org/abs/0709.0841), after Ozsváth–Szabó
    [arXiv:math/0203265](https://arxiv.org/abs/math/0203265)): pure lattice
-   combinatorics, invariance under Neumann moves, and Zemke's theorem
-   ([arXiv:2111.14962](https://arxiv.org/abs/2111.14962)) that it computes `HF⁻` of
-   all plumbed manifolds.
+   combinatorics and invariance under the specified Neumann moves. The
+   analytic roadmap's Reconciliation2 constructs the completed mod2
+   spherical-plumbing-tree comparison and owns the separate integral and
+   broader-graph extension problem; the cited theorem is not an unrestricted
+   uncompleted integral comparison for all plumbed manifolds.
 
 These three are exactly what this roadmap formalizes. The holomorphic theory is
 **on the roadmap, not a non-goal** — it is just the [other half](../HeegaardFloer/README.md),
@@ -75,7 +77,9 @@ roadmap owns (they are analytic-blocked, so they live with the slower track).
 - **Reconciliations (owned by the analytic roadmap).** Each invariant here has a
   "the two definitions agree" theorem matching it to its holomorphic counterpart
   (grid homology = knot Floer homology; `HF̂_st` = stabilized holomorphic `HF̂`;
-  lattice homology = `HF⁻` of plumbed manifolds). These seams wait on the
+  completed mod2 lattice homology = completed `HF⁻` for spherical plumbing
+  trees, with integral and broader-graph comparisons as separately specified
+  problems). These seams wait on the
   analytic tower, which is the long pole, so they are stated and tracked in the
   [analytic roadmap](../HeegaardFloer/README.md), not here.
 
@@ -239,13 +243,28 @@ braid-group program) rather than duplicating them here.
 
 ### Lane L: lattice homology
 
-Plumbing trees/graphs and their lattices; Némethi's lattice (co)homology
-`ℍ⁻`/`ℍ⁰` as a `ℤ[U]`-module from lattice points and weight functions; invariance
-under **Neumann moves**; computations for Seifert-fibered examples; `d`-invariant
-analogues. Entirely finite combinatorics plus bilinear forms; a self-contained
-on-ramp to the *3-manifold* side with no Heegaard diagrams at all, and the cheapest
-lane to start in parallel. Far-future reconciliation: Zemke's `ℍ⁻ ≅ HF⁻` (the
-analytic roadmap names the `HF⁻` side).
+Construct the specified weighted plumbing trees/graphs, vertex surface data,
+intersection lattices and the integral cubical lattice chains with actual
+orientation/face signs. Retain Némethi's cohomological/degree-zero versions,
+but distinguish them from homology of the FULL [K,E] chain complex required
+by the analytic comparison. Prove d²0, nonnegative U exponents, grading and
+characteristic/Spin^c dictionaries, invariance under the stated graph moves,
+Seifert examples and d-type invariants on their declared hypotheses. Do not
+infer graph-move invariance from an unspecified lattice isometry.
+
+Construct chain coefficient change to 𝔽₂ and the actual completed lattice
+carrier used by HeegaardFloer Reconciliation2 for spherical plumbing trees.
+Compare direct-sum/restricted-product/full-product conventions on their stated
+supports and topologies; neither an infinite product nor its homology is
+silently identified with an algebraic tensor or unrestricted U-adic limit.
+Prove the chain reduction and derived/UCT/limit hypotheses before using them.
+Keep the integral and more general graph/surface complexes as independent
+combinatorial targets; their further HF comparison requires the signed and
+higher-arrow/graph-correction constructions explicitly owned by that
+reconciliation. The completed mod2 tree theorem does not itself prove those
+extensions. The analytic owner constructs the surgery hypercube, all higher
+polygon maps and comparison/perturbation; this lane supplies its actual
+lattice complex and naturality inputs, with no return analytic dependency.
 
 ### Lane H: combinatorial HF̂ of 3-manifolds
 
@@ -313,7 +332,8 @@ holomorphic side lives.
   [arXiv:0912.0830](https://arxiv.org/abs/0912.0830) and
   [arXiv:1301.0480](https://arxiv.org/abs/1301.0480): Lane H.
 - A. Némethi, [arXiv:0709.0841](https://arxiv.org/abs/0709.0841): Lane L. (Zemke's
-  `ℍ⁻ ≅ HF⁻` reconciliation is cited and tracked in the analytic roadmap.)
+  completed mod2 spherical-tree reconciliation and the distinct broader
+  comparison problems are specified in the analytic roadmap.)
 - É. Gallais, [arXiv:0706.0089](https://arxiv.org/abs/0706.0089): sign assignments
   and ℤ coefficients for grid homology (G.12).
 - A. Juhász, D. Thurston, I. Zemke,
