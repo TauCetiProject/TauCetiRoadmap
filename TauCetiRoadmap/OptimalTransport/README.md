@@ -905,13 +905,16 @@ connection, interval-aware geodesics, exponential maps and their local inverse l
 normal neighborhoods, Hopf--Rinow, and minimizing geodesics.  The
 [geometric-topology roadmap](../GeometricTopology/README.md), Layer 7, consumes that connection
 and supplies Riemannian volume and curvature.  This layer consumes both roadmaps and owns the
-remaining transport-facing geometry: injectivity radius, squared-distance semiconcavity,
-cut-locus measurability and volume-nullity, and the measurable/a.e. selections used below.  No
+remaining transport-facing geometry: squared-distance semiconcavity and the
+measurable/a.e. selections used below.
+[RiemannianGeometry R4.6](../RiemannianGeometry/README.md#r4-comparison-complete-manifolds-and-space-forms)
+owns injectivity radius, cut-locus measurability and volume-nullity. No
 global single-valued logarithm is introduced across the cut locus.
 
 1. For finite-dimensional boundaryless Riemannian manifolds, consume the Hopf--Rinow roadmap's
-   exponential map, local logarithm, completeness, and minimizing-geodesic APIs.  Build
-   injectivity radius, squared-distance semiconcavity, cut-locus measurability and volume-nullity,
+   exponential map, local logarithm, completeness, and minimizing-geodesic APIs. Consume
+   RiemannianGeometry R2–R3/R4.6 for Jacobi fields, conjugate points, injectivity radius
+   and cut-locus measurability/volume-nullity. Build squared-distance semiconcavity,
    the measurable/a.e. minimizing-initial-velocity selections, and the a.e. differentiability
    facts used by transport.  State connectedness, geodesic completeness, and moment hypotheses
    separately from compactness.
@@ -944,7 +947,8 @@ global single-valued logarithm is introduced across the cut locus.
    map from `m` to `s_#m`, with the `c`-concavity convention `ψᶜᶜ=ψ`.  Prove
    uniqueness of the potential modulo constants, select the representative satisfying
    `∫ ψ dm=0`, and distinguish uniqueness of `u`, `T`, and that representative.
-5. On the open subset of `M×M` where `d²/2` is smooth, away from the cut-locus relation,
+5. On RiemannianGeometry R4.6's open subset of `M×M` where `d²/2` is smooth,
+   away from the cut-locus relation,
    connect the smooth general-cost MTW predicates from Layer 6 to Riemannian squared
    distance.  Every regularity theorem carries a transport-domain/cut-locus-avoidance
    hypothesis strong enough for its derivatives and estimates.  Do not claim that
@@ -1961,7 +1965,8 @@ guardrails.
 * The [Hopf--Rinow roadmap](../HopfRinow/README.md) builds the Levi-Civita connection, geodesic
   flow, exponential and local logarithm maps, completeness and minimizing-geodesic theory, and
   the shared metric length/geodesic-space API.  Layers 7--9 consume these results; Layer 7 retains
-  ownership of injectivity-radius, cut-locus, squared-distance, and transport-specific bridges.
+  ownership of squared-distance semiconcavity and transport-specific bridges;
+  RiemannianGeometry R4.6 owns geometric injectivity-radius and cut-locus theory.
 * The [geometric-topology roadmap](../GeometricTopology/README.md), Layer 7, consumes the
   Levi-Civita connection and builds Riemannian volume, curvature, and related manifold geometry.
   Layers 7 and 14 consume it and supply transport/synthetic-curvature bridges in return.
