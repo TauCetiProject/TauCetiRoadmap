@@ -1,0 +1,35 @@
+<!--tauceti-status:v1 {"roadmap":"ProfiniteArithmetic","to_sha":"65aa70aca528de65d24b3fc2ef2379c24498b560","ts":"2026-10-06T02:50:42Z"}-->
+<!--tauceti-coverage:v1 {"layers":[{"id":"Layer 0","state":"done"},{"id":"Layer 1","state":"done"},{"id":"Layer 2","state":"done"},{"id":"Layer 3","state":"done"}],"readme_sha":"78297dc32e458b1d43b924959623efc38e4d0e7219a95eed3752efd7ef9e3d6e","roadmap":"ProfiniteArithmetic","to_sha":"65aa70aca528de65d24b3fc2ef2379c24498b560"}-->
+# Status: ProfiniteArithmetic
+
+This file documents the status of the ProfiniteArithmetic roadmap up until `65aa70a` (2026-10-06T02:50:42Z). There may have been subsequent updates.
+
+It is generated, and its prose is not security-validated; see
+https://github.com/TauCetiProject/TauCetiProgress for what that means.
+
+## Where this roadmap stands
+
+**At a glance.** All four layers are done. They cover the ring `ẑ` with its decomposition and units, the profinite and `ℓ`-adic powers, continuous automorphisms with the congruence topology and the outer action of an extension, and the graded `ℤ_p`-Lie algebra of the closed lower central series with its free pro-`p` bases. No milestone of the README is left open.
+
+### Named results
+
+- **The pro-`p` automorphism theorem** — for a pro-`p` group `G`, the continuous automorphisms acting trivially on the Frattini quotient [form a pro-`p` group](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/Algebra/Group/ContinuousAut/ProP.html#TauCeti.IsProP.isProP_ker_mapQuotient_proPFrattini), which is [open](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/Algebra/Group/ContinuousAut/ProP.html#TauCeti.ContinuousAut.isOpen_ker_mapQuotient_proPFrattini) when `G` is topologically finitely generated, so `ContinuousAut G` is virtually pro-`p`.
+- **The degree-one basis of a free pro-`p` group** — for the free pro-`p` group on finitely many generators, the brackets `[x̄_i, x̄_j]`, `i < j`, form a `ℤ_p`-basis of `gr_1` of the closed lower central series ([`lcsGradedPiece_one_freeProP_bijective`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/Algebra/Group/Profinite/Free/LowerCentralSeries.html#TauCeti.lcsGradedPiece_one_freeProP_bijective)).
+- **The outer action of an extension** — for a normal subgroup `N` of a topological group `E`, conjugation descends to [`E ⧸ N →* ContinuousOut N`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/Algebra/Group/ContinuousAut/OuterAction.html#TauCeti.outerAction), with kernel the image of `N ⊔ C_E(N)`, and it is [continuous](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/Algebra/Group/ContinuousAut/OuterAction.html#TauCeti.continuous_outerAction) whenever `N` is compact.
+- **The product decomposition of `ẑ`** — the `ℓ`-adic components give an isomorphism of topological rings `ẑ ≃ ∏_ℓ ℤ_ℓ` ([`zHat.ringEquivPiPadicInt`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/Algebra/Group/Profinite/ZHat/Decomposition.html#TauCeti.zHat.ringEquivPiPadicInt)), and on units `ẑˣ ≃ ∏_ℓ ℤ_ℓˣ` ([`zHat.unitsEquivPiPadicInt`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/Algebra/Group/Profinite/ZHat/Units.html#TauCeti.zHat.unitsEquivPiPadicInt)).
+- **`GL_n(𝔽_p)` as automorphisms of a free pro-`p` group** — the action of continuous automorphisms of the free pro-`p` group of rank `n` on its Frattini quotient is an invertible matrix over `𝔽_p`, and [every invertible matrix occurs](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/Algebra/Group/Profinite/Free/GeneralLinear.html#TauCeti.freeProP.continuousAutToGL_surjective).
+
+### Notable definitions and infrastructure
+
+- **The profinite power** — [`zpowHat`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/Algebra/Group/Profinite/ZHat/Pow.html#TauCeti.zpowHat), `x ^ᶻ a`, is defined for a profinite group in any universe. It is multiplicative against the ring product of `ẑ` and [agrees with the `ℓ`-adic power](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/Algebra/Group/Profinite/ZHat/Pow.html#TauCeti.zpowHat_eq_padicPow_component) on a pro-`ℓ` group, which is what downstream Tate-twist and peripheral-power statements need.
+- **The graded Lie algebra** — the direct sum of the graded pieces is a Lie ring with a [functorial Lie homomorphism](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/Algebra/Group/LowerCentralSeries/Graded/LieRing.html#TauCeti.gradedLieHom) for every continuous homomorphism, and for a pro-`ℓ` group it is a [Lie algebra over `ℤ_ℓ`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/Algebra/Group/LowerCentralSeries/Graded/LieRing.html#TauCeti.IsProP.gradedLieAlgebra). This is the object PeripheralActions consumes.
+- **The congruence topology on `ContinuousAut`** — for a topologically finitely generated profinite group it is [compact](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/Algebra/Group/ContinuousAut/Profinite.html#TauCeti.ContinuousAut.compactSpace), Hausdorff and totally disconnected, and `ContinuousOut` is profinite too. `ContinuousOut G` acts on [closed subgroups up to conjugacy](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/Algebra/Group/ContinuousAut/ClosedSubgroup.html#TauCeti.ClosedSubgroupConjClasses), the form BelyiMaps needs. As a check on the topology, `ContinuousAut ℤ_p` is [isomorphic as a topological group to `ℤ_pˣ`](https://taucetiproject.github.io/TauCeti/docs/TauCeti/Topology/Algebra/Group/ContinuousAut/PadicInt.html#TauCeti.PadicInt.continuousAutEquivUnits).
+
+### Roadmap coverage
+
+**Layers 0, 1 and 3 are done**, as previously reported: the ring `ẑ` with its limit description, components, idempotents, units and character assembly; the profinite power with its calculus and the unit-exponent behaviour of the `ℓ`-adic power; and the closed lower central series with its `LieAlgebra ℤ_[p]` structure, spanning theorem, finite generation of the pieces and free pro-`p` bases in degrees zero and one. **Layer 2 is now done.** Its last gap, the outer action of an extension in 2.3 with continuity of `E →* ContinuousAut N`, is in. The continuity is proved for compact `N`, which includes the roadmap's topologically finitely generated profinite case. The worked example `ContinuousAut ℤ_p ≃ ℤ_pˣ` is in as well.
+
+## The frontier
+
+- **Nothing on this roadmap remains open.** Every milestone the README lists for Layers 0 to 3 is proved. The next work belongs to the consumers the README names, PeripheralActions, BelyiMaps, ProfiniteProPGroups and LocalFieldsRamification, which can now take the outer action, the `ẑ`-power and the graded Lie algebra by name.
+- **Worked examples** — the README also lists worked examples, among them `ω_2` computed at the levels `2^k`, `^ᶻ` in `Multiplicative (ZMod 6)`, and `GL_2(𝔽_p)` with `gr_0` and `gr_1` for the free pro-`p` group of rank two. These were not checked one by one here, apart from the `ℤ_p` automorphism example, which is in. They are illustrations, not milestones.
