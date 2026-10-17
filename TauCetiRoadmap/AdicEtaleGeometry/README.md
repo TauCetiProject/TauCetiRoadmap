@@ -463,9 +463,13 @@ and to the torsor-presentation map. Dimension along an open covering is
 The named entry points *finite-etale-approximation* and
 *analytification-relative-polydisc-comparison* cite A1.0.5
 (*finite-etale-completed-direct-limit*) and AdicSpacesPartII R1 with A2.6a
-(*analytification-etale-site*), respectively. A1.0.1 owns filtered-colimit henselianity
-(`Ring.DirectLimit.henselianRing`, README only). SchemeAndStackFoundations §0.5 owns algebraic
-pseudocoherence. A3 extends that shared API to finite degrees through `Huber.IsPseudoCoherentOver`.
+(*analytification-etale-site*), respectively. SchemeAndStackFoundations §0.14 owns generic
+henselian-pair permanence and smooth lifting. A1.0.1 re-exports its filtered-colimit theorem as
+`Ring.DirectLimit.henselianRing` (README only), and A1.0.4 uses its `henselian_smooth_lifting`.
+The power-bounded and topological applications and the stronger Elkik approximation theorems
+belong here. SchemeAndStackFoundations §0.5 owns algebraic pseudocoherence. A3 extends that shared
+API to finite degrees through `Huber.IsPseudoCoherentOver`.
+
 Its `m = ∞` case characterizes the supplied predicate on `ModuleCat.of R M` by
 `Huber.IsPseudoCoherentOver.top_iff_isPseudoCoherentModule`, which identifies it with an augmented
 coordinate resolution. Its degree-zero and degree-one identifications use Mathlib's `Module.Finite` and
@@ -940,16 +944,19 @@ source.
 
 ### A0.2 uniformization, supplied separately
 
-**The uniform completed tensor product is the pushout among uniform Tate pairs.**
+**The uniform completed tensor product represents compatible maps into uniform Tate pairs.**
 (*uniformization-contract*) Let `(A, A⁺)`, `(B, B⁺)`, `(C, C⁺)` be complete Hausdorff Huber pairs
 with `A` a Tate ring and `f : (A, A⁺) → (B, B⁺)`, `g : (A, A⁺) → (C, C⁺)` morphisms of Huber pairs
 (so `f`, `g` are adic and `B`, `C` are Tate). Let `B ⊗̂ᵘ_A C = (B ⊗̂_A C)^u`, with `inlᵘ = ι ∘ inl`
 and `inrᵘ = ι ∘ inr`, be the uniform completed tensor product of AdicSpacesPartII layer R0, where
 `ι : B ⊗̂_A C → (B ⊗̂_A C)^u` is R0's uniformisation morphism. R0’s
-`Huber.Pair.uniformCompletedTensor.lift`, `lift_comp_inl` and `hom_ext` express that the square `(f, g, inlᵘ, inrᵘ)` is a pushout
-(Mathlib `CategoryTheory.IsPushout`) in the full subcategory of complete Hausdorff Huber pairs
-`(R, R⁺)` with `R` a uniform Tate ring (`R°` bounded), not among all complete Huber pairs ([KL I]
-§2.8, Def. 2.8.13, p. 63). Moreover `ι` is the unit of the uniformisation adjunction at
+`Huber.Pair.uniformCompletedTensor.lift`, `lift_comp_inl` and `hom_ext` give a unique map
+`B ⊗̂ᵘ_A C → (R, R⁺)` for every compatible pair of maps from `B` and `C` to a complete Hausdorff
+uniform Tate pair `(R, R⁺)` (`R°` bounded). If `A`, `B` and `C` are uniform, the square
+`(f, g, inlᵘ, inrᵘ)` is a pushout (Mathlib `CategoryTheory.IsPushout`) in the full subcategory of
+such uniform pairs. For arbitrary inputs, the internal pushout is the square on
+`A^u`, `B^u`, `C^u` and `B ⊗̂ᵘ_A C`, with arrows induced by the uniformisation adjunction
+([KL I] §2.8, Def. 2.8.13, p. 63). Moreover `ι` is the unit of the uniformisation adjunction at
 `B ⊗̂_A C`, `Spa(ι)` is a homeomorphism identifying rational subsets ([KL I] §2.8, Def. 2.8.13,
 p. 63), and `ι` is an isomorphism exactly when `B ⊗̂_A C` is uniform — these three clauses are
 R0's (the adjunction of *uniformization*, and `spaHomeomorph` and
@@ -992,8 +999,10 @@ sheafiness of `B ⊗̂ᵘ_A C` and no fibre-product property of its adic spectru
   `B ⊗̂_{ℚ_p} ℚ_p = B` is complete and `ι : B → B ⊗̂ᵘ_{ℚ_p} ℚ_p = (ℚ_p, ℤ_p)` is `a + bε ↦ a`
   (the spectral seminorm is `|a + bε|_sp = |a|`, AdicSpacesPartII layer R0's
   *uniformization_dualNumbers*); `ι` is not injective, so "complete" does not give "uniform" even
-  when one factor is the base, and the pushout among uniform pairs of `B ← ℚ_p → ℚ_p` is `ℚ_p`,
-  not `B`.
+  when one factor is the base. Every compatible pair of maps from `B ← ℚ_p → ℚ_p` into a
+  complete Hausdorff uniform Tate pair factors uniquely through `ℚ_p`. The pushout internal to
+  uniform pairs uses `B^u ← ℚ_p → ℚ_p`, whose three vertices are `ℚ_p`; the original `B` is
+  nonuniform.
 - *split_injection_lost_by_uniformisation* (non-example) — a topologically split injection stays
   split after completed base change but may lose the splitting after uniform completion ([HK] §7,
   Rem. 7.2, p. 25), which PerfectoidSpaces P3.17a uses for sousperfectoid base change; this is
@@ -1770,12 +1779,15 @@ Lean: `Algebra.IsTotallySplit`, the class `IsFiniteEtaleSplit`, `isFiniteEtaleSp
 **Henselian pairs are stable under filtered colimits.** (*henselian-pairs-filtered-colimit*) For
 a directed system of pairs `(R_i, I_i)` whose transition maps carry `I_i` into `I_j`, if every
 `(R_i, I_i)` is henselian (Mathlib `HenselianRing`) then so is `(colim R_i, colim I_i)` (Mathlib
-`Ring.DirectLimit`): `Ring.DirectLimit.henselianRing` ([Stacks] Tag 0FWT,
-Lemma 15.11.13), used here for the colimit of the power-bounded subrings `A_i°` of a
-directed system of complete Tate rings along a pseudouniformizer coming from the base.
-The index is nonempty and the transition maps satisfy identity and composition laws.
-PerfectoidSpaces P3 uses this result in *henselian-pairs-colimits-and-completions* (b).
-*Needs:* Mathlib `HenselianRing`, `Ring.DirectLimit`, `DirectedSystem`. README only (no Lean declaration).
+`Ring.DirectLimit`). This is the filtered-colimit clause of SchemeAndStackFoundations §0.14's
+*henselian_pair_permanence* ([Stacks] Tag 0FWT, Lemma 15.11.13). Its re-export on
+`Ring.DirectLimit` is `Ring.DirectLimit.henselianRing`, used here for the colimit of the
+power-bounded subrings `A_i°` of a directed system of complete Tate rings along a
+pseudouniformizer coming from the base. The index is nonempty and the transition maps satisfy
+identity and composition laws. Downstream PerfectoidSpaces P3 uses this re-export in
+*henselian-pairs-colimits-and-completions* (b).
+*Needs:* SchemeAndStackFoundations §0.14 (*henselian_pair_permanence*); Mathlib
+`HenselianRing`, `Ring.DirectLimit`, `DirectedSystem`. README only (no Lean declaration).
 
 **Checks.** *henselian_colimit_constant* gives henselianity for the constant identity system.
 *henselian_colimit_zero_ideal* gives henselianity along zero in the direct limit.
@@ -1917,11 +1929,14 @@ convention (`𝔍` lies in the Jacobson radical). This is the noetherian input o
 approximation ([GR] §5.4, Lem. 5.4.12) ([Elkik] §II, Thm 2 bis, p. 560). The lifting-of-sections
 form from the closed fibre is `henselian_smooth_lifting`: for any henselian pair `(A, 𝔍)`
 and smooth `A`-algebra `B`, each `A`-algebra map `B → A/𝔍` lifts to `B → A`, without a
-noetherian hypothesis ([Stacks] Tag 0H74). A1.0.4 owns this theorem on Mathlib’s
-`HenselianRing` and `Algebra.Smooth` carriers.
-Théorème 2 bis additionally approximates a specified completed section of an algebra that
-need only be smooth on `V`. *Needs:* Mathlib
-`HenselianRing`, `AdicCompletion`, `AlgebraicGeometry.Smooth`, `PrimeSpectrum.comap`.
+noetherian hypothesis ([Stacks] Tag 0H74). This is supplied by SchemeAndStackFoundations §0.14's
+*henselian_smooth_lifting* on Mathlib's `HenselianRing` and `Algebra.Smooth` carriers.
+For a smooth `R`-algebra `S` and a henselian `R`-algebra pair `(A, 𝔍)`, applying it to
+`A ⊗_R S` also lifts every `R`-algebra map `S → A/𝔍` to `S → A`, the full relative form of
+Tag 0H74. Théorème 2 bis additionally approximates a specified completed section of an algebra
+that need only be smooth on `V`. *Needs:* SchemeAndStackFoundations §0.14
+(*henselian_smooth_lifting*); Mathlib `HenselianRing`, `AdicCompletion`,
+`AlgebraicGeometry.Smooth`, `PrimeSpectrum.comap`.
 
 **Checks.**
 
@@ -1965,8 +1980,9 @@ need only be smooth on `V`. *Needs:* Mathlib
 
 The henselian-pair inputs (*henselian-pairs-colimits-and-completions*) are supplier citations:
 (a) Mathlib's `IsAdicComplete.henselianRing` gives henselianity of an adically complete pair;
-(b) A1.0.1 (*henselian-pairs-filtered-colimit*) gives henselianity under nonempty directed
-colimits carrying the ideals into one another ([Stacks] Tag 0FWT);
+(b) A1.0.1 (*henselian-pairs-filtered-colimit*) re-exports SchemeAndStackFoundations §0.14's
+henselianity under nonempty directed colimits carrying the ideals into one another
+([Stacks] Tag 0FWT);
 (c) A1.0.2 (*power-bounded-henselian-along-pseudouniformizer*) gives henselianity along `ϖ`
 for rings of definition and power-bounded subrings of complete Tate rings.
 A Tate ring with a ring of definition `A₀` henselian along a pseudouniformiser `ϖ` is called
@@ -2665,10 +2681,11 @@ every finite rational covering, of `Spa(A, A⁺)` is the preimage of one of some
 and then the rational localisations of the `A_β` (`β ≥ α`) form an affinoid system whose completed
 direct limit is the rational localisation of `A` ([KL I] §2.6, Rem. 2.6.3, p. 53; Lem. 2.6.5;
 Rem. 2.6.7; the homeomorphism and the finite-stage descent of rational subsets and coverings are
-AdicSpacesPartII R0.19.7's *spa-of-filtered-colimit-of-tate-pairs* and
-*descent-of-quasicompact-opens*, stated for cofiltered systems of Tate pairs with compatible
-rings of definition, while the construction of the system with its Banach-ring estimates is the
-content here); (b) for a finite étale `A_α`-algebra `B_α`, the base changes `B_α ⊗_{A_α} A_β`
+AdicSpacesPartII R0.19.7's *spa-of-filtered-colimit-of-tate-pairs*, especially (c), for Tate
+pairs with compatible rings of definition, together with R0.19.8's
+*quasicompact-opens-in-limits-of-spectral-spaces* for descent and finite-stage detection of
+covering; the construction of the system with its Banach-ring estimates is the content here);
+(b) for a finite étale `A_α`-algebra `B_α`, the base changes `B_α ⊗_{A_α} A_β`
 (`β ≥ α`) with their finite étale pairs form an affinoid system with completed direct limit the
 pair `Huber.Pair.finiteEtale A⁺ (B_α ⊗_{A_α} A)` (no completion needed,
 *finite-etale-affinoid-algebra* (v)), and `Spa(B_α ⊗ A) → Spa(B_α) ×_{Spa(A_α)} Spa(A)` is
@@ -2732,8 +2749,23 @@ noetherian theory. *Needs:* *finite-etale-affinoid-algebra*; AdicSpacesPartII la
 - *affinoidSystem_field* — for `A = K` a complete nonarchimedean extension of `ℚ_p` with `ϖ = p`
   (so `ℤ((z))` maps onto `ℚ_p`), the `A_α` are the images of Tate algebras on finitely many elements of `K⁺`,
   equipped with their quotient topologies (their images need not be closed in `K`), and `|Spa(K, K⁺)| = lim |Spa(A_α, A_α⁺)|`.
-- *affinoidSystem_rationalSubset_finite_stage* — a rational subset `R(f/g)` of `Spa(A, A⁺)` is the
-  preimage of `R(f/g) ⊆ Spa(A_S, A_S⁺)` for any `S` containing `ϖᴺf`, `ϖᴺg` with `N` large.
+- *affinoidSystem_rationalSubset_finite_stage* — for rational data `(f₁, …, f_r; g)` in `A`,
+  choose `N` so that `ϖᴺf_j`, `ϖᴺg ∈ A⁺`. Enlarge `S` to contain these elements and coefficients
+  of a relation `∑ a_j(ϖᴺf_j) + b(ϖᴺg) = ϖᴹ`. Such a relation exists with coefficients in `A⁺`
+  after scaling a unit-ideal relation in `A`. It holds in `A_S`, since `A_S → A` is injective,
+  and makes `{ϖᴺf₁, …, ϖᴺf_r, ϖᴺg}` generate an open ideal at that stage. Including the
+  denominator among the numerators leaves the inequality locus unchanged. This rational subset
+  pulls back to `R(f/g)` and remains rational with the same pullback at every stage `T ⊇ S`
+  ([KL I] Lem. 2.6.5(a), Rem. 2.6.7).
+- *affinoidSystem_rationalSubset_coefficients_insufficient* (non-example) — let `K` be the Gauss
+  completion of `ℚ_p(t,s)`, `A⁺ = K°` and `ϖ = p`. At `S = {t,s}` the canonical stage is
+  `ℚ_p⟨T₁,T₂⟩`, isometrically embedded by `T₁ ↦ t`, `T₂ ↦ s`. The elements `t,s` are units of
+  `K°`, so `R(t/s) = Spa(K,K°)`, but `(T₁,T₂)` is a proper ideal and is not open in the Tate
+  algebra. Its inequality locus `L = {|T₁| ≤ |T₂| ≠ 0}` is not quasi-compact: the rational opens
+  `{|T₁| ≤ |T₂|, |p|ʳ ≤ |T₂|}`, `r ≥ 0`, increase to `L` with no finite subcover, since
+  `T₁ = 0`, `T₂ = p^{r+1}` escapes the `r`th member. Common scaling gives the same failure at
+  `S = {pᴺt,pᴺs}` for every `N ≥ 0`. Enlarging `S` by `s⁻¹ ∈ K°` makes the denominator a unit
+  and gives admissible rational data.
 - *affinoidSystem_plus_unbounded* — for `A = ℚ_p⟨T⟩[ε]/(ε²)` with ring of definition
   `ℤ_p⟨T⟩ ⊕ ℤ_p⟨T⟩ε`, the ring `A⁺ = A° = ℤ_p⟨T⟩ ⊕ ℚ_p⟨T⟩ε` is unbounded.
   An affinoid system still exists and its stage plus rings exhaust `A⁺`. Its completed
@@ -4394,14 +4426,17 @@ p. 1). The explicit form used here follows.
 U_μ  →  U_{<μ} := lim_{μ' < μ} U_{μ'}        (U_{<0} := W)
 ```
 
-is finite étale and surjective, i.e. the pullback along some `U_{<μ} → V_0` of a finite étale
-surjective `V_0' → V_0` of `X_ét`; its composite is `lim_{μ<λ} U_μ → W`. A morphism `t : U → W` is
+is the pullback along some `U_{<μ} → V_0` of a finite étale surjective `V_0' → V_0` of `X_ét`.
+In particular it is finite étale and surjective on underlying spaces; the definition includes
+this finite-stage pullback witness. Its composite is `lim_{μ<λ} U_μ → W`. A morphism `t : U → W` is
 a finite-étale tower if it is isomorphic over `W` to the composite of such a tower. Inside
 `pro-X_fét` one requires `V_0' → V_0` to be a morphism of `X_fét`; this is the pro-finite-étale
 tower of the erratum. Steps are allowed at every ordinal, including limit ordinals (Kerz's
 transfinite compositions); `λ = 1` gives isomorphisms (and so does `λ = 0` with the convention
 `lim_{μ<0} U_μ := U_{<0} = W`; without it the empty limit is the final object `X`), and `λ = 2`
-gives single finite étale surjections.
+gives single pullbacks of finite étale surjections of `X_ét`. For `W ∈ X_proét`, these are
+exactly the finite étale underlying-surjective maps to `W`, by
+*pro-etale-surjective-etale-descent*; for raw `W` the pullback condition is stronger.
 Equivalently, after inserting `U_{<μ}` before `U_μ`, `t` is a tower iff `t.op` lies in Mathlib's
 `MorphismProperty.transfiniteCompositions` of the opposite of the pullbacks of finite étale
 surjections of `X_ét`, computed in `(pro-X_ét)ᵒᵖ` with well-order-continuous shapes. Steps pulled
@@ -4409,15 +4444,18 @@ back from `X_ét`, not only from `X_fét`, are allowed for towers inside `X_pro�
 the countable case unchanged ([PH erratum] item (1), p. 1). In `AdicSpace.ProEtale`, define the
 structure `FetTower` (the ordinal `λ`, the functor with `U_0 = W`, and for each `μ` the finite étale
 surjection of `X_ét` whose pullback is `U_μ → U_{<μ}`), `FetTower.comp` (the composite
-`lim_{μ<λ} U_μ → W`) and the class `IsFetTower`; prove `IsFetTower.of_finiteEtale_surjective` (a
-finite étale surjection is a tower of length `2`, an isomorphism one of length `1`),
-`IsFetTower.comp` (concatenation: a tower of length `λ₁` over the composite of one of length `λ₂`
+`lim_{μ<λ} U_μ → W`) and the class `IsFetTower`; prove `IsFetTower.of_finiteEtale_surjective`
+(for `W ∈ X_proét`, a finite étale underlying-surjective map to `W` is a tower of length `2`,
+using *pro-etale-surjective-etale-descent*). For arbitrary raw `W`, a specified pullback of a
+finite étale surjection of `X_ét` is a tower of length `2`, and an isomorphism one of length `1`;
+prove `IsFetTower.comp` (concatenation: a tower of length `λ₁` over the composite of one of length `λ₂`
 is a tower of length `λ₂ + λ₁`), `IsFetTower.baseChange` (base change along any `W' → W` is a tower
 of the same length, since fibre products commute with cofiltered limits), `IsFetTower.surjective`,
 `isFetTower_iff_transfiniteCompositions`, `IsFetTower.isProEtale` (see
 *finite-etale-tower-is-pro-etale*)
 and `isFetTower_of_countable` (the countable case, which is *finite-etale-tower-is-pro-etale*
-(c)). *Needs:* *pro-etale-morphism*,
+(c), with `V ∈ X_proét` or the finite-stage pullback witnesses stated there).
+*Needs:* *pro-etale-morphism*, *pro-etale-surjective-etale-descent*,
 *pro-etale-base-change*, *finite-etale-site*; AdicSpacesPartII R0.19.6 and R0.19.9; Mathlib
 `CategoryTheory.MorphismProperty.transfiniteCompositions`,
 `CategoryTheory.MorphismProperty.pullbacks`,
@@ -4428,10 +4466,18 @@ and `isFetTower_of_countable` (the countable case, which is *finite-etale-tower-
 - *FetTower.test_kummer* (computation) — the Kummer tower `X̃ = lim_n X_n → X` (`K` of
   characteristic `0`) is a finite-étale tower of length `ω` with steps of degree `p`.
 - *FetTower.test_length_le_one* (degenerate) — a tower of length `1` (or `0`, with
-  `lim_{μ<0} := W`) has composite an isomorphism; a tower of length `2` is exactly a finite étale
-  surjective morphism; a tower of length `ω` is a sequence `⋯ → U_2 → U_1 → U_0 = W` of finite
-  étale surjections with composite `lim_n U_n → W`, and no finite length gives a non-étale
-  morphism (a tower of finite length is a finite étale surjection).
+  `lim_{μ<0} := W`) has composite an isomorphism. A tower of length `2` is a finite étale
+  underlying-surjective morphism; the converse holds for targets in `X_proét`, and for arbitrary
+  raw targets when a finite-stage surjection pullback witness is given. A tower of length `ω`
+  is a sequence `⋯ → U_2 → U_1 → U_0 = W` with such a witness for each step and composite
+  `lim_n U_n → W`; every finite-length tower is finite étale and underlying-surjective.
+- *FetTower.test_disappearing_tails* (non-example) — over `X = Spa(C,O_C)` with `C` complete
+  algebraically closed and `O_C` rank one, let `W_n = ⊔_{m ≥ n} X` with inclusion transitions.
+  Then `|W| = ∅` but `Hom(W,c(∅)) = colim_n Hom_X(W_n,∅) = ∅`. The map `c(∅) → W` is finite
+  étale, as a pullback of `∅ → X`, and underlying-surjective. Every finite étale surjection
+  in `X_ét` splits, since étale spaces over `X` are discrete unions of `X`. Their pullbacks
+  split, and compatible sections through any ordinal tower give a section of its composite.
+  Thus `c(∅) → W` is not a tower of any length; `W ∉ X_proét`.
 - *FetTower.test_open_immersion* (non-example) — for a nonempty open `V ⊊ X`, `c(V) → X` is étale
   but not a tower, since towers are surjective; this is why corrected coverings allow an étale
   factor.
@@ -4449,10 +4495,15 @@ and `isFetTower_of_countable` (the countable case, which is *finite-etale-tower-
 function, finite by König's lemma — and an isomorphism `U ≅ lim_{F∈K} V_F` over `W` with every
 `V_F → W` and every transition `V_{F'} → V_F` (`F ≤ F'`) finite étale and surjective; so `t` is
 pro-étale, and `U ∈ X_proét` whenever `W ∈ X_proét`. (b) `|t|` is surjective with nonempty compact
-fibres. (c) Conversely, a pro-étale presentation `U = lim_{i∈I} U_i → V` with `I` countable has a
-stage `i_0` with `U → U_{i_0}` a tower of length `ω` and `U_{i_0} → V` étale: the countable case is
-unchanged ([PH erratum] item (1), p. 1; [PH] §3, proof of Lem. 3.10(vi), p. 17; [PH] §3, proof of
-Lem. 3.10(i), p. 16). *Needs:* *finite-etale-tower*, *pro-etale-morphism*,
+fibres. (c) Conversely, let `U = lim_{i∈I} U_i → V` be a pro-étale presentation with `I`
+countable and `V ∈ X_proét`. There is a stage `i_0` with `U → U_{i_0}` a tower of length `ω` and
+`U_{i_0} → V` étale. Indeed each `U_i ∈ X_proét`, so *pro-etale-surjective-etale-descent* gives
+finite-stage surjection pullback witnesses for all sufficiently late transitions. A cofinal
+sequence beyond the threshold gives the tower. More generally, the same conclusion holds over
+raw `V` if those transitions along a cofinal late sequence already have such witnesses.
+This is the countable case of [PH erratum] item (1), p. 1, within the unchanged category
+`X_proét` ([PH] §3, Lem. 3.10(v) and proof of (vi), pp. 15–17; proof of (i), p. 16).
+*Needs:* *finite-etale-tower*, *pro-etale-morphism*, *pro-etale-surjective-etale-descent*,
 *pro-etale-base-change*, *pro-etale-etale-composition*, *pro-etale-composition*;
 AdicSpacesPartII R0.19.6 and R0.19.9. README only (no Lean declaration).
 
@@ -4464,6 +4515,16 @@ AdicSpacesPartII R0.19.6 and R0.19.9. README only (no Lean declaration).
   in `ProEtalePresentation.finiteSubsets`: they are `X_0` and `X_1`.
 - *towerProEtale_profinite_group* — for a profinite group `G` with the filtration of
   *profinite-group-tower*, the tower `G → pt` has finite levels `G/N_F` for open normal `N_F`.
+- *towerProEtale_countable_raw_tails* (non-example) — over the geometric point of
+  *FetTower.test_disappearing_tails*, write `cA` for the constant disjoint union of copies of `X`
+  indexed by `A = ℕ_{>0}`. Let `V` be its pro-object of tails, `A_i = 2ⁱℕ_{>0}` and
+  `U_i = V ×_{cA} cA_i`. The inclusions `U_{i+1} → U_i` are finite étale and all underlying
+  spaces are empty, hence these transitions are underlying-surjective. The limit is a
+  countable pro-étale presentation over raw `V`. No projection `lim_j U_j → U_i` is a tower:
+  every tower over this geometric point splits, whereas a section of the projection would give
+  `U_i → U_{i+1}` over `V`, requiring some tail of `A_i` to lie in `A_{i+1}`. Every tail of
+  `A_i` contains elements outside `A_{i+1}`. Thus countability alone does not supply the
+  finite-stage surjection witnesses.
 
 **`AdicSpace.ProEtale.ProEtalePresentation.finiteSubsets`.** Given a diagram
 `D : ℕᵒᵖ ⥤ Over V` with a limiting cone representing `f : U → V`, étale structure maps
@@ -4603,7 +4664,10 @@ adopted here: without it open covers would be excluded; with steps from `X_ét`,
 
 - *AdicSpace_ProEtale_FetTower_comp_not_inverse_cycle* (non-example) — Reversing the three-cycle gives a different composite.
 
-**`AdicSpace.ProEtale.FetTower`.** The tower includes the nonempty well-ordered shape and finite étale surjective successor arrows. README only (no Lean declaration).
+**`AdicSpace.ProEtale.FetTower`.** The tower records its well-ordered shape, base object and,
+for every ordinal step, including limit ordinals, its pullback witness from a finite étale
+surjection in `X_ét` ([PH erratum] item (1), p. 1; *finite-etale-tower*).
+README only (no Lean declaration).
 
 **Checks.**
 
@@ -6391,9 +6455,10 @@ covered by open affinoids with complete stably sheafy rings — in particular lo
 analytic adic spaces (AdicSpacesPartII layer R0, locally noetherian adic spaces), which is Huber's
 scope and the scope of every comparison with Huber's definitions; smooth morphisms of
 non-noetherian analytic spaces ([ECD] §24, Prop. 24.4, p. 156) are defined by ball charts, and
-the closed embedding of an affinoid étale object into a relative ball over an affinoid perfectoid
-base ([ECD] §6, proof of Prop. 6.4(iv), p. 28) belongs to AdicEtaleGeometry layer A3. Separated,
-proper and partially proper are R0's notions ([H96] §1.3, Def. 1.3.1–1.3.3, p. 51), defined for morphisms
+downstream PerfectoidSpaces P5.13.3 uses A3's generic algebraic and topological inputs to
+construct the closed embedding of an affinoid étale object into a relative ball over an affinoid
+perfectoid base ([ECD] §6, proof of Prop. 6.4(iv), p. 28), and P5.13.4 assembles that proposition.
+Separated, proper and partially proper are R0's notions ([H96] §1.3, Def. 1.3.1–1.3.3, p. 51), defined for morphisms
 locally of (+)weakly finite type so that the diagonal and the base changes exist; they are not the
 v-stack notions of DiamondsAndVStacks layers D3 and D6. On locally noetherian spaces, smooth and
 étale are Huber's infinitesimal notions (AdicSpacesPartII layer R0), which agree with the
@@ -6680,8 +6745,9 @@ into complete pairs); the global `relativePolydisc` and the rest are README only
   `1 + pT` to `1 + p²` and the projected constant `p` to `p`, including `p = 2`.
 - *relativePolydisc_test_addOrder* — The equivalence selected by `addIso_affinoid 1 1` sends the first tensor variable to coordinate 0 and the second to coordinate 1.
 - *relativePolydisc_consumers* (consumer instances) — the closed embedding `Y ↪ B^n_X` of [ECD]
-  §6, proof of Prop. 6.4(iv), p. 28, over an affinoid perfectoid `X` (AdicEtaleGeometry layer A3, where `B^n_X`
-  is sousperfectoid in the downstream application PerfectoidSpaces P3.17b), and Huber's relative
+  §6, proof of Prop. 6.4(iv), p. 28, over an affinoid perfectoid `X` is constructed downstream in
+  PerfectoidSpaces P5.13.3 using A3's generic inputs, with Prop. 6.4(iv) assembled in P5.13.4
+  (`B^n_X` is sousperfectoid by PerfectoidSpaces P3.17b); the other consumers are Huber's relative
   balls in [H96] §1.6, Cor. 1.6.10 and in the étale-cohomology roadmaps.
 
 
@@ -7010,7 +7076,9 @@ that predicate, with `n = 0` giving étaleness on both sides (relative pure dime
 does not, *smooth-pure-relative-dimension*, *isPureRelDim_zero_not_etale*), and the composition
 and base change of smooth morphisms correspond on the two sides. The closed embedding of an affinoid
 étale object into a relative ball over a non-noetherian (affinoid perfectoid) base, used in [ECD]
-§6, proof of Prop. 6.4(iv), p. 28, is AdicEtaleGeometry layer A3's. *Needs:* AdicSpacesPartII layer R0
+§6, proof of Prop. 6.4(iv), p. 28, is constructed downstream in PerfectoidSpaces P5.13.3,
+using A3's generic algebraic and topological inputs; P5.13.4 assembles that proposition.
+*Needs:* AdicSpacesPartII layer R0
 (*smooth-local-structure*, *smooth-toric-chart*, *smooth-differentials-locally-free*);
 *smooth-morphism-ball-charts*; *relative-closed-polydisc*;
 *etale-morphisms-local-description-and-comparison*.

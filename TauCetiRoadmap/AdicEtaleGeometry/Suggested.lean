@@ -44,7 +44,15 @@ The represented layers are:
 * A4: finite étale torsors, the torsor tower and the orbit description of `Spa` of a torsor.
 
 The étale, finite étale and pro-étale sites, strict localisations, Yoneda-adic spaces, the
-completed tower and its finite étale descent are README targets.
+completed tower and its finite étale descent are README targets. Finite-étale towers over raw
+pro-objects carry pullback witnesses from finite étale surjections in the étale category.
+The constructor from finite étale underlying-surjective maps assumes the target is pro-étale
+over the base; the countable converse assumes this for the presentation's target or carries
+such witnesses on a cofinal sequence. Rational finite-stage descent includes an open-ideal
+relation at the chosen stage. Uniform completed tensors represent compatible maps into uniform
+targets, and give internal pushouts on uniform inputs or on the uniformizations of all inputs.
+Generic henselian-pair permanence and smooth lifting are supplied by
+SchemeAndStackFoundations §0.14; the Tate-ring applications and Elkik approximation belong here.
 -/
 
 open TauCetiRoadmap.AdicSpacesPartII.AdicSpace
@@ -311,7 +319,8 @@ namespace Huber
 
 /-- For a complete Tate ring and a pseudouniformiser `ϖ ∈ A°`, the pair `(A°, ϖ A°)` is henselian:
 `A°` is the directed union of the `ϖ`-adically complete rings of definition containing `ϖ`
-(Wedhorn, Cor. 6.4(3), p. 47; Stacks, Tag 0FWT), although it need not be `ϖ`-adically separated. -/
+(Wedhorn, Cor. 6.4(3), p. 47), and SchemeAndStackFoundations §0.14's filtered-colimit permanence
+(Stacks, Tag 0FWT) gives henselianity even when `A°` is not `ϖ`-adically separated. -/
 theorem henselianRing_powerBoundedSubring {A : Type u} [CommRing A] [UniformSpace A]
     [IsUniformAddGroup A] [IsTopologicalRing A] [IsTateRing A] [CompleteSpace A] [T2Space A]
     (ϖ : powerBoundedSubring A) (hϖ : IsPseudoUniformizer (ϖ : A)) :
