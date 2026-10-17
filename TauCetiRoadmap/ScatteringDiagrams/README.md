@@ -123,15 +123,6 @@ suppliers are consumed through the public interfaces of their modules.
   `TopCat.Sheaf` with `TopCat.PrelocalPredicate.sheafify` and `TopCat.subsheafToTypes`.
 - Coefficients and combinatorics: `Units`, `RatFunc`, `LaurentPolynomial`, `DyckWord`.
 
-## Ordering
-
-The layer table gives the dependencies; two connections are finer than it shows.
-Layer 2's reconstruction theorem uses neither directed completion nor theta functions.
-In Layer 7, ordinary wall positivity (§§7.1–7.2) uses no part of Layer 5, while
-generalized wall positivity (§§7.3–7.6) uses Layer 5's endpoint transport; only the
-generalized route reaches every adapted §4.2 datum. Each *Needs* line names
-construction prerequisites.
-
 ## Layer 0: positive gradings, completions and actions
 
 ### 0.1 Positive degree data
