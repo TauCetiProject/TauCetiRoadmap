@@ -1,0 +1,1591 @@
+import Mathlib.Algebra.Algebra.Pi
+import Mathlib.Algebra.BigOperators.Finprod
+import Mathlib.Algebra.Group.Subgroup.Lattice
+import Mathlib.Algebra.Lie.Graded
+import Mathlib.Algebra.Lie.Nilpotent
+import Mathlib.Algebra.Lie.Quotient
+import Mathlib.Algebra.Module.Rat
+import Mathlib.Analysis.Convex.Exposed
+import Mathlib.Analysis.Convex.Intrinsic
+import Mathlib.Analysis.Normed.Affine.AddTorsorBases
+import Mathlib.Analysis.Normed.Module.FiniteDimension
+import Mathlib.GroupTheory.Index
+import Mathlib.GroupTheory.QuotientGroup.Defs
+import Mathlib.GroupTheory.SemidirectProduct
+import Mathlib.GroupTheory.Subgroup.Saturated
+import Mathlib.LinearAlgebra.Alternating.Curry
+import Mathlib.LinearAlgebra.Finsupp.Supported
+import Mathlib.LinearAlgebra.Quotient.Basic
+import Mathlib.LinearAlgebra.Ray
+import Mathlib.LinearAlgebra.SesquilinearForm.Basic
+import Mathlib.RingTheory.Ideal.Quotient.Operations
+import Mathlib.RingTheory.Nilpotent.Exp
+import Mathlib.Topology.Baire.CompleteMetrizable
+import Mathlib.Topology.Baire.Lemmas
+import TauCeti.Algebra.Module.Primitive
+import TauCeti.Analysis.Convex.Polyhedron
+import TauCeti.Geometry.Toric.Algebraic.Lattice
+
+/-!
+# Scattering diagrams: suggested Lean forms
+
+**This file is not the roadmap and is not exhaustive.** The definitive specification is
+`README.md`. The declarations below suggest Lean forms for load-bearing carriers and statements,
+so that contributors and reviewers can test the representation and the conventions. Proving every
+declaration here would not by itself complete a layer or the roadmap, and a carrier or theorem of
+the README that is absent here is still required.
+
+Definitions have real bodies; a theorem closed by `sorry` is a proposed statement. No structure
+carries an existence theorem as a field. Carriers that need the BCH group of README §0.3 (`Ĝ`, the
+wall groups) take it as an abstract group here. The broken-line prototype uses a specified
+finite family of actual walls and a linear group action; its crossing components are derived
+from them. The grading and annihilation hypotheses that the README's finiteness and transport
+theorems need are not encoded in this prototype. The declarations that the README names in its
+`*Lean:*` lines are the targets; the other declarations of §§1.4, 3.3 and 5.5 (an abstract order
+filtration in place of the BCH tower, path products along polygons, the trivialization data of
+§3.3, the probe group as a semidirect product with its own abstract filtration) are the
+representation those statements need, not targets.
+-/
+
+namespace TauCetiRoadmap.ScatteringDiagrams
+
+/-! ## Layer 0: positive gradings, completions and actions -/
+
+/-- Positive lattice degrees, before choosing a cone presentation (`README §0.1`). -/
+structure PositiveDegrees (N : Type*) [AddCommGroup N] where
+  monoid : AddSubmonoid N
+  degree : N →+ ℤ
+  degree_pos : ∀ n ∈ monoid, n ≠ 0 → 0 < degree n
+  finite_cutoff : ∀ h : ℕ, {n : N | n ∈ monoid ∧ degree n ≤ (h : ℤ)}.Finite
+
+namespace PositiveDegrees
+
+variable {N : Type*} [AddCommGroup N] (D : PositiveDegrees N)
+
+/-- `N⁺ = P \ {0}` (`README §0.1`). -/
+def positive : Set N := {n | n ∈ D.monoid ∧ n ≠ 0}
+
+/-- The degree-`≤ h` part of `P`; it contains `0` (`README §0.1`). -/
+def cutoff (h : ℕ) : Set N := {n | n ∈ D.monoid ∧ D.degree n ≤ (h : ℤ)}
+
+/-- A fixed `n` has finitely many decompositions `n = a + b` with `a, b ∈ P` (`README §0.1`). -/
+theorem finite_degree_decompositions (n : N) :
+    {p : N × N | p.1 ∈ D.monoid ∧ p.2 ∈ D.monoid ∧ p.1 + p.2 = n}.Finite := by
+  refine ((D.finite_cutoff (D.degree n).toNat).image fun a => (a, n - a)).subset ?_
+  rintro ⟨a, b⟩ ⟨ha, hb, hab⟩
+  refine ⟨a, ⟨ha, ?_⟩, ?_⟩
+  · have hb0 : 0 ≤ D.degree b := by
+      by_cases h0 : b = 0
+      · simp [h0]
+      · exact (D.degree_pos b hb h0).le
+    have : D.degree n = D.degree a + D.degree b := by rw [← hab, map_add]
+    omega
+  · simp only [Prod.mk.injEq, true_and]
+    rw [← hab]; abel
+
+/-- Strict positivity excludes a nonzero line in `P` (`README §0.1`). -/
+theorem sharp_of_positive {n : N} (hn : n ∈ D.monoid) (hneg : -n ∈ D.monoid) : n = 0 := by
+  by_contra h
+  have hp := D.degree_pos n hn h
+  have hm := D.degree_pos (-n) hneg (neg_ne_zero.mpr h)
+  rw [map_neg] at hm
+  omega
+
+end PositiveDegrees
+
+/-- A map of positive degree data with an explicit monotone cutoff modulus (`README §0.1`):
+high source degrees go to high target degrees. -/
+structure PositiveDegreeMap {N N' : Type*} [AddCommGroup N] [AddCommGroup N']
+    (D : PositiveDegrees N) (E : PositiveDegrees N') extends N →+ N' where
+  map_monoid : ∀ ⦃n⦄, n ∈ D.monoid → toAddMonoidHom n ∈ E.monoid
+  map_positive : ∀ ⦃n⦄, n ∈ D.positive → toAddMonoidHom n ∈ E.positive
+  cutoff : ℕ → ℕ
+  monotone_cutoff : Monotone cutoff
+  cutoff_bound : ∀ h ⦃n⦄, n ∈ D.monoid → (cutoff h : ℤ) < D.degree n →
+    (h : ℤ) < E.degree (toAddMonoidHom n)
+
+namespace PositiveDegreeMap
+
+variable {N N' N'' : Type*} [AddCommGroup N] [AddCommGroup N'] [AddCommGroup N'']
+  {D : PositiveDegrees N} {E : PositiveDegrees N'} {F : PositiveDegrees N''}
+
+/-- The identity, with modulus `h ↦ h`. -/
+def id (D : PositiveDegrees N) : PositiveDegreeMap D D where
+  toAddMonoidHom := AddMonoidHom.id N
+  map_monoid := by
+    intro n hn
+    exact hn
+  map_positive := by
+    intro n hn
+    exact hn
+  cutoff := fun h => h
+  monotone_cutoff := monotone_id
+  cutoff_bound := by
+    intro h n hn hdeg
+    exact hdeg
+
+/-- The composite; its modulus is the composite of the moduli. -/
+def comp (g : PositiveDegreeMap E F) (f : PositiveDegreeMap D E) : PositiveDegreeMap D F where
+  toAddMonoidHom := g.toAddMonoidHom.comp f.toAddMonoidHom
+  map_monoid := by
+    intro n hn
+    exact g.map_monoid (f.map_monoid hn)
+  map_positive := by
+    intro n hn
+    exact g.map_positive (f.map_positive hn)
+  cutoff := fun h => f.cutoff (g.cutoff h)
+  monotone_cutoff := f.monotone_cutoff.comp g.monotone_cutoff
+  cutoff_bound := by
+    intro h n hn hdeg
+    exact g.cutoff_bound h (f.map_monoid hn) (f.cutoff_bound (g.cutoff h) hn hdeg)
+
+end PositiveDegreeMap
+
+section GradedLie
+
+variable {R : Type*} [CommRing R]
+  {N : Type*} [AddCommGroup N] [DecidableEq N] (D : PositiveDegrees N)
+  {g : Type*} [LieRing g] [LieAlgebra R g] (ℒ : N → Submodule R g)
+
+/-- Positivity of a grading (`README §0.2`). The grading itself and its bracket condition are
+Mathlib's `GradedLieAlgebra ℒ`, whose index must be a monoid; so `ℒ` is indexed by all of `N`
+and vanishes off `N⁺`. -/
+class IsPositiveGrading : Prop where
+  eq_bot_of_notMem : ∀ n, n ∉ D.positive → ℒ n = ⊥
+
+/-- The sum of the pieces of degree `> h`. -/
+def degreeSubmodule (h : ℕ) : Submodule R g :=
+  ⨆ n, ⨆ (_ : (h : ℤ) < D.degree n), ℒ n
+
+/-- `F^{h+1} g` is stable under bracketing with `g` (`README §0.2`). Proof: by homogeneous
+induction, a bracket with a piece of degree `≥ 1` raises the degree. -/
+theorem degreeIdeal_isLieIdeal [GradedLieAlgebra ℒ] [IsPositiveGrading D ℒ] (h : ℕ) (x m : g)
+    (hm : m ∈ degreeSubmodule D ℒ h) : ⁅x, m⁆ ∈ degreeSubmodule D ℒ h := by
+  sorry
+
+variable [GradedLieAlgebra ℒ] [IsPositiveGrading D ℒ]
+
+/-- `F^{h+1} g`, the pieces of degree at least `h + 1` (`README §0.2`, Convention 3). -/
+def degreeIdeal (h : ℕ) : LieIdeal R g :=
+  { degreeSubmodule D ℒ h with
+    lie_mem := fun {x m} hm => degreeIdeal_isLieIdeal D ℒ h x m hm }
+
+/-- The truncation `g≤h = g / F^{h+1} g` (`README §0.2`). -/
+abbrev truncatedLie (h : ℕ) : Type _ := g ⧸ degreeIdeal D ℒ h
+
+/-- `README §0.2` *truncatedLie_nilpotent*. -/
+instance truncatedLie_nilpotent (h : ℕ) : LieRing.IsNilpotent (truncatedLie D ℒ h) := by
+  sorry
+
+end GradedLie
+
+section Completed
+
+variable {G : ℕ → Type*} [∀ h, Group (G h)] (π : ∀ h, G (h + 1) →* G h)
+
+/-- The completed group of a tower `π h : G (h+1) →* G h`: the compatible-family subgroup of
+`∀ h, G h` (`README §0.4`). Categorically this is `GrpCat.sectionsSubgroup` of the diagram
+`ℕᵒᵖ ⥤ GrpCat`; the direct form avoids building that functor. For the BCH tower `G≤h` of
+README §0.3 this is `Ĝ`. -/
+def CompletedGroup : Subgroup (∀ h, G h) where
+  carrier := {x | ∀ h, π h (x (h + 1)) = x h}
+  mul_mem' := fun hx hy h => by simp only [Pi.mul_apply, map_mul, hx h, hy h]
+  one_mem' := fun _ => map_one _
+  inv_mem' := fun hx h => by simp only [Pi.inv_apply, map_inv, hx h]
+
+/-- The projection `Ĝ → G≤h` (`README §0.4`). -/
+def projection (h : ℕ) : CompletedGroup π →* G h :=
+  (Pi.evalMonoidHom G h).comp (CompletedGroup π).subtype
+
+/-- Two elements agree iff every projection agrees (`README §0.4`). -/
+theorem projection_ext {x y : CompletedGroup π} :
+    x = y ↔ ∀ h, projection π h x = projection π h y :=
+  ⟨fun e _ => e ▸ rfl, fun e => Subtype.ext (funext e)⟩
+
+end Completed
+
+/-- The Leibniz rule for a Lie action on a possibly noncommutative algebra (`README §0.5`,
+Convention 2): Mathlib's `Derivation` needs a commutative algebra. This is the hypothesis shape
+of `Module.End.exp_mul_of_derivation`. -/
+class IsDerivationAction (g A : Type*) [LieRing g] [Ring A] [LieRingModule g A] : Prop where
+  lie_mul : ∀ (x : g) (a b : A), ⁅x, a * b⁆ = a * ⁅x, b⁆ + ⁅x, a⁆ * b
+
+/-- A multiplicative decreasing filtration `I^0 A = A ⊇ I^1 A ⊇ ⋯` by two-sided ideals
+(`README §0.5`). -/
+structure AlgFiltration (A : Type*) [Ring A] where
+  ideal : ℕ → Ideal A
+  isTwoSided : ∀ h, (ideal h).IsTwoSided
+  antitone : Antitone ideal
+  zero_eq_top : ideal 0 = ⊤
+  mul_mem : ∀ {i j : ℕ} {x y : A}, x ∈ ideal i → y ∈ ideal j → x * y ∈ ideal (i + j)
+
+namespace AlgFiltration
+
+variable {A : Type*} [Ring A] (F : AlgFiltration A)
+
+instance (h : ℕ) : (F.ideal h).IsTwoSided := F.isTwoSided h
+
+/-- The separated completion `Â = lim_h A ⧸ I^(h+1) A` as compatible families; level `h` is the
+order-`h` quotient (`README §0.5`, Convention 3). Its carrier and ring structure do not depend
+on a choice of scalar ring. -/
+noncomputable def completion : Subring (∀ h, A ⧸ F.ideal (h + 1)) where
+  carrier := {x | ∀ {i j : ℕ} (hij : i ≤ j),
+    Ideal.Quotient.factor (F.antitone (Nat.add_le_add_right hij 1)) (x j) = x i}
+  mul_mem' := fun hx hy i j hij => by simp only [Pi.mul_apply, map_mul, hx hij, hy hij]
+  one_mem' := fun _ => by simp only [Pi.one_apply, map_one]
+  add_mem' := fun hx hy i j hij => by simp only [Pi.add_apply, map_add, hx hij, hy hij]
+  zero_mem' := fun _ => by simp only [Pi.zero_apply, map_zero]
+  neg_mem' := fun hx i j hij => by simp only [Pi.neg_apply, map_neg, hx hij]
+
+/-- The same compatible-family carrier, retaining any commutative scalar ring `R`
+(`README §0.5`). -/
+noncomputable def completionSubalgebra (R : Type*) [CommRing R] [Algebra R A] :
+    Subalgebra R (∀ h, A ⧸ F.ideal (h + 1)) where
+  toSubsemiring := F.completion.toSubsemiring
+  algebraMap_mem' r {i j} hij := by
+    change (Ideal.Quotient.factorₐ R (F.antitone (Nat.add_le_add_right hij 1)))
+      (algebraMap R (A ⧸ F.ideal (j + 1)) r) = algebraMap R (A ⧸ F.ideal (i + 1)) r
+    exact AlgHom.commutes _ r
+
+/-- The scalar structure on the scalar-independent completion carrier. -/
+noncomputable instance completionAlgebra (R : Type*) [CommRing R] [Algebra R A] :
+    Algebra R F.completion :=
+  (F.completionSubalgebra R).algebra
+
+/-- The projection `Â → A ⧸ I^(h+1) A`, retaining `R`-linearity. -/
+noncomputable def proj (R : Type*) [CommRing R] [Algebra R A] (h : ℕ) :
+    F.completion →ₐ[R] A ⧸ F.ideal (h + 1) :=
+  (Pi.evalAlgHom R _ h).comp (F.completionSubalgebra R).val
+
+end AlgFiltration
+
+section Action
+
+variable {R : Type*} [CommRing R]
+  {N : Type*} [AddCommGroup N] [DecidableEq N] (D : PositiveDegrees N)
+  {g : Type*} [LieRing g] [LieAlgebra R g] (ℒ : N → Submodule R g)
+  [GradedLieAlgebra ℒ] [IsPositiveGrading D ℒ]
+  {A : Type*} [Ring A] [Algebra R A] [LieRingModule g A] [LieModule R g A]
+
+/-- `F^{h+1} g · I^b A ⊆ I^{b+h+1} A` (`README §0.5`). Since `F^1 g = g`, every element raises
+the filtration; a degree-preserving action does not qualify. -/
+class IsFiltrationRaising (F : AlgFiltration A) : Prop where
+  lie_mem : ∀ {h b : ℕ} {x : g} {a : A}, x ∈ degreeIdeal D ℒ h → a ∈ F.ideal b →
+    ⁅x, a⁆ ∈ F.ideal (b + h + 1)
+
+/-- The action of `x` on the order-`h` quotient `A ⧸ I^(h+1) A` exists and is nilpotent
+(`README §0.5`); on the order-zero quotient `A ⧸ I^1 A` it is zero. -/
+theorem quotientAction_exists (F : AlgFiltration A) [IsFiltrationRaising D ℒ F]
+    (x : g) (h : ℕ) :
+    ∃ E : Module.End R (A ⧸ F.ideal (h + 1)),
+      E ^ (h + 1) = 0 ∧
+      ∀ a : A, E (Ideal.Quotient.mk _ a) = Ideal.Quotient.mk _ ⁅x, a⁆ := by
+  sorry
+
+/- Rational scalar structures for exponentiation are the restrictions of the `R`-structures.
+The quotient-action construction above needs no rational scalars. -/
+variable [Algebra ℚ R] [Algebra ℚ A] [IsScalarTower ℚ R A]
+
+/-- The exponential of one element of `g` acting on `Â` (`README §0.5`): at level `h` it is
+`IsNilpotent.exp` of the induced endomorphism `E` of `A ⧸ I^(h+1) A`. *expDerivationAction*
+`Ĝ →* Aut_R(Â)` is this levelwise exponential composed with the logarithm of the §0.3 BCH
+group, which this file does not construct; its homomorphism, projection and continuity laws
+are README targets. -/
+theorem expDerivationAction_exists [IsDerivationAction g A] (F : AlgFiltration A)
+    [IsFiltrationRaising D ℒ F] (x : g) :
+    ∃ Φ : F.completion ≃ₐ[R] F.completion, ∀ (h : ℕ) (E : Module.End R (A ⧸ F.ideal (h + 1))),
+      E ^ (h + 1) = 0 →
+      (∀ a : A, E (Ideal.Quotient.mk _ a) = Ideal.Quotient.mk _ ⁅x, a⁆) →
+      ∀ u, F.proj R h (Φ u) = IsNilpotent.exp E (F.proj R h u) := by
+  sorry
+
+end Action
+
+/-! ## Layer 1: polyhedral geometry -/
+
+section Polyhedra
+
+variable {N V : Type*} [AddCommGroup N] [NormedAddCommGroup V] [NormedSpace ℝ V]
+
+/-- A real functional is rational for the lattice map `i` when it is rational on lattice
+vectors (`README §1.1`). -/
+def IsRationalFunctional (i : N →+ V) (φ : Module.Dual ℝ V) : Prop :=
+  ∀ n : N, ∃ q : ℚ, φ (i n) = q
+
+/-- Extended integral characters are rational (`README §1.1`). -/
+theorem isRationalFunctional_realCharacter {i : N →+ V} (h : TauCeti.Toric.IsIntegralLattice i)
+    (m : N →+ ℤ) : IsRationalFunctional i (h.realCharacter m) :=
+  fun n => ⟨m n, by simp⟩
+
+/-- A presentation `{x | ∀ k, normal k x ≤ offset k}` with rational normals and real offsets
+(`README §1.1`). Rationality belongs to the presentation, not to the set. -/
+structure RationalAffinePolyhedron (i : N →+ V) where
+  numIneq : ℕ
+  normal : Fin numIneq → Module.Dual ℝ V
+  offset : Fin numIneq → ℝ
+  normal_rational : ∀ k, IsRationalFunctional i (normal k)
+
+namespace RationalAffinePolyhedron
+
+variable {i : N →+ V} (P : RationalAffinePolyhedron i)
+
+/-- The solution set. -/
+def carrier : Set V := {x | ∀ k, P.normal k x ≤ P.offset k}
+
+/-- The carrier is a Tau Ceti convex polyhedron: a theorem, not a field (`README §1.1`). -/
+theorem isConvexPolyhedron [FiniteDimensional ℝ V] : TauCeti.IsConvexPolyhedron P.carrier := by
+  convert TauCeti.isConvexPolyhedron_setOf_forall fun k : Fin P.numIneq =>
+    (LinearMap.toContinuousLinearMap (P.normal k)).toContinuousAffineMap
+      - ContinuousAffineMap.const ℝ V (P.offset k) using 1
+  ext x
+  simp [carrier]
+
+end RationalAffinePolyhedron
+
+/-- The set `s` has a rational-normal presentation. -/
+def IsRationalAffinePolyhedron (i : N →+ V) (s : Set V) : Prop :=
+  ∃ P : RationalAffinePolyhedron i, P.carrier = s
+
+/-- Faces of a polyhedron, in the exposed-subset characterization (`README §1.1` defines them
+through the homogenization and `PointedCone.IsFaceOf`, and proves that the nonempty faces are
+exactly the nonempty exposed subsets). -/
+def IsPolyhedralFace (F s : Set V) : Prop := F.Nonempty ∧ IsExposed ℝ s F
+
+/-- Finitely many nonempty rational polyhedra, closed under faces, meeting in common faces
+(`README §1.1`). Unbounded cells and lineality are allowed. -/
+structure FinitePolyhedralComplex (i : N →+ V) where
+  cells : Set (Set V)
+  finite_cells : cells.Finite
+  rational : ∀ ⦃σ⦄, σ ∈ cells → IsRationalAffinePolyhedron i σ
+  nonempty : ∀ ⦃σ⦄, σ ∈ cells → σ.Nonempty
+  face_mem : ∀ ⦃σ τ⦄, σ ∈ cells → IsPolyhedralFace τ σ → τ ∈ cells
+  inter_isFace : ∀ ⦃σ τ⦄, σ ∈ cells → τ ∈ cells → (σ ∩ τ).Nonempty →
+    IsPolyhedralFace (σ ∩ τ) σ
+
+/-- The walls of a complex: its codimension-one cells (`README §1.2`). -/
+def FinitePolyhedralComplex.walls {i : N →+ V} (K : FinitePolyhedralComplex i) : Set (Set V) :=
+  {σ | σ ∈ K.cells ∧ Module.finrank ℝ (affineSpan ℝ σ).direction + 1 = Module.finrank ℝ V}
+
+end Polyhedra
+
+/-- A finite family of proper affine subspaces (`README §1.3`). -/
+structure ExceptionalArrangement (V : Type*) [AddCommGroup V] [Module ℝ V] where
+  count : ℕ
+  locus : Fin count → AffineSubspace ℝ V
+  proper : ∀ k, locus k ≠ ⊤
+
+namespace ExceptionalArrangement
+
+variable {V : Type*} [NormedAddCommGroup V] [NormedSpace ℝ V] (E : ExceptionalArrangement V)
+
+/-- Avoiding every exceptional locus (`README §1.3`). -/
+def IsGeneric (q : V) : Prop := ∀ k, q ∉ E.locus k
+
+/-- Finite-dimensional real genericity (`README §1.3`); not a uniform all-degree neighborhood. -/
+theorem generic_dense [FiniteDimensional ℝ V] : Dense {q | E.IsGeneric q} := by
+  have := FiniteDimensional.complete ℝ V
+  have hset : {q | E.IsGeneric q} = ⋂ k, ((E.locus k : Set V))ᶜ := by
+    ext q; simp [IsGeneric]
+  have hint : ∀ k, interior (E.locus k : Set V) = ∅ := fun k => by
+    by_contra h'
+    have htop := isOpen_interior.affineSpan_eq_top (Set.nonempty_iff_ne_empty.2 h')
+    apply E.proper k
+    rw [eq_top_iff, ← htop]
+    exact (affineSpan_mono ℝ interior_subset).trans (AffineSubspace.affineSpan_coe _).le
+  rw [hset]
+  exact dense_iInter_of_isOpen (fun k => (E.locus k).closed_of_finiteDimensional.isOpen_compl)
+    fun k => interior_eq_empty_iff_dense_compl.mp (hint k)
+
+end ExceptionalArrangement
+
+/-! ### Polyhedral cochains and sweeps (README §1.4) -/
+
+noncomputable section Cochains
+
+variable {N V : Type*} [AddCommGroup N] [NormedAddCommGroup V] [NormedSpace ℝ V]
+
+/-- Alternating real `k`-forms on `V`. -/
+abbrev AltForm (V : Type*) [NormedAddCommGroup V] [NormedSpace ℝ V] (k : ℕ) :=
+  V [⋀^Fin k]→ₗ[ℝ] ℝ
+
+/-- The direction of the affine span of a set. -/
+def affineDir (P : Set V) : Submodule ℝ V := (affineSpan ℝ P).direction
+
+/-- Alternating `k`-forms vanishing when one argument lies in `W`: for `codim W = k` this is
+the conormal determinant line `Λ^k Ann(W) ≅ Λ^k (V/W)^*` (`README §1.4`). -/
+def conormalForms (W : Submodule ℝ V) (k : ℕ) : Submodule ℝ (AltForm V k) where
+  carrier := {α | ∀ (v : Fin k → V) (j : Fin k), v j ∈ W → α v = 0}
+  add_mem' {a b} ha hb v j hv := by simp [ha v j hv, hb v j hv]
+  zero_mem' _ _ _ := rfl
+  smul_mem' c a ha v j hv := by simp [ha v j hv]
+
+/-- A ray of `k`-forms is an orientation of `V/W` when one (equivalently every) representative
+is a conormal form (`README §1.4`). -/
+def IsConormalRay (W : Submodule ℝ V) {k : ℕ} (o : Module.Ray ℝ (AltForm V k)) : Prop :=
+  ∃ α ∈ conormalForms W k, ∃ hα : α ≠ 0, rayOfNeZero ℝ α hα = o
+
+/-- The sign of an orientation on a `k`-tuple of vectors; well defined on rays. -/
+noncomputable def orientationSign {k : ℕ} (o : Module.Ray ℝ (AltForm V k)) (w : Fin k → V) :
+    SignType :=
+  SignType.sign (o.someVector w)
+
+/-- A generator `(P, o)` of codimension `k` (`README §1.4`): `P` a nonempty closed
+rational-normal polyhedron of codimension `k`, `o` an orientation of `V/dir(P)` recorded as a
+conormal ray. -/
+structure OrientedCell (i : N →+ V) (k : ℕ) where
+  carrier : Set V
+  rational : IsRationalAffinePolyhedron i carrier
+  nonempty : carrier.Nonempty
+  codim : Module.finrank ℝ (affineDir carrier) + k = Module.finrank ℝ V
+  orientation : Module.Ray ℝ (AltForm V k)
+  conormal : IsConormalRay (affineDir carrier) orientation
+
+namespace OrientedCell
+
+variable {i : N →+ V} {k : ℕ}
+
+/-- Reversal of the orientation. -/
+def reverse (σ : OrientedCell i k) : OrientedCell i k :=
+  { σ with
+    orientation := -σ.orientation
+    conormal := by
+      obtain ⟨α, hα, h0, he⟩ := σ.conormal
+      exact ⟨-α, neg_mem hα, neg_ne_zero.2 h0, by rw [← he]; exact (neg_rayOfNeZero ℝ α h0).symm⟩ }
+
+end OrientedCell
+
+variable {i : N →+ V} {E : Type*} [AddCommGroup E] {k : ℕ}
+
+/-- A subdivision of the support of an oriented cell into cells of the same codimension and
+the same (induced) orientation: they cover `P` and have pairwise disjoint relative interiors
+(`README §1.4`). A full-dimensional subcell has the same direction, so the induced conormal
+orientation is the same ray. -/
+structure IsOrientedSubdivision (σ : OrientedCell i k) {m : ℕ} (Q : Fin m → OrientedCell i k) :
+    Prop where
+  cover : ⋃ j, (Q j).carrier = σ.carrier
+  disjoint : ∀ j l, j ≠ l →
+    Disjoint (intrinsicInterior ℝ (Q j).carrier) (intrinsicInterior ℝ (Q l).carrier)
+  orientation : ∀ j, (Q j).orientation = σ.orientation
+
+variable (i E k) in
+/-- The submodule generated by the reversal relations `(P, -o, c) + (P, o, c)` and the
+subdivision relations `(P, o, c) - Σ_j (Q_j, o, c)` (`README §1.4`). Additivity in `c` and zero
+coefficients already hold in `OrientedCell i k →₀ E`. -/
+def cochainRelations : Submodule ℤ (OrientedCell i k →₀ E) :=
+  Submodule.span ℤ
+    ({x | ∃ (σ : OrientedCell i k) (c : E),
+        x = Finsupp.single σ.reverse c + Finsupp.single σ c} ∪
+      {x | ∃ (σ : OrientedCell i k) (m : ℕ) (Q : Fin m → OrientedCell i k) (c : E),
+        IsOrientedSubdivision σ Q ∧ x = Finsupp.single σ c - ∑ j, Finsupp.single (Q j) c})
+
+variable (i E k) in
+/-- `README §1.4` *PolyhedralCochain* of codimension `k` with values in `E`: the explicit
+quotient of the direct sum of copies of the abelian group `E` by the cochain relations. -/
+abbrev PolyhedralCochain := (OrientedCell i k →₀ E) ⧸ cochainRelations i E k
+
+namespace PolyhedralCochain
+
+/-- The class of a generator `(P, o, c)`. -/
+def mk (σ : OrientedCell i k) (c : E) : PolyhedralCochain i E k :=
+  Submodule.Quotient.mk (Finsupp.single σ c)
+
+end PolyhedralCochain
+
+/-- `u` points from the facet `F` into the cell `P`: `u ∈ dir(P)`, `u ∉ dir(F)`, and some point
+of `F` is moved into `P` by `u`. -/
+def IsInwardVector (F P : Set V) (u : V) : Prop :=
+  u ∈ affineDir P ∧ u ∉ affineDir F ∧ ∃ x ∈ F, x + u ∈ P
+
+/-- `τ` is a facet of `σ` with the induced orientation (`README §1.4`): contracting a facet
+form `β` with an inward vector `u` gives a positive multiple of the cell form `α`. By Laplace
+expansion this is the README's rule "append an outward conormal of `F` within `dir(P)` to an
+oriented conormal frame of `P` and multiply by `(−1)^{k+1}`", and it is independent of positive
+rescaling of the conormals. Codimensions force `dim τ + 1 = dim σ`. -/
+def IsInducedOrientation (σ : OrientedCell i k) (τ : OrientedCell i (k + 1)) : Prop :=
+  IsPolyhedralFace τ.carrier σ.carrier ∧
+    ∃ (α : AltForm V k) (hα : α ≠ 0) (β : AltForm V (k + 1)) (hβ : β ≠ 0) (u : V) (t : ℝ),
+      rayOfNeZero ℝ α hα = σ.orientation ∧ rayOfNeZero ℝ β hβ = τ.orientation ∧
+      IsInwardVector τ.carrier σ.carrier u ∧ 0 < t ∧ β.curryLeft u = t • α
+
+/-- Finite support of the coboundary of a generator (`README §1.4`). -/
+theorem finite_inducedOrientation [FiniteDimensional ℝ V] (σ : OrientedCell i k) :
+    {τ : OrientedCell i (k + 1) | IsInducedOrientation σ τ}.Finite := by
+  sorry
+
+open scoped Classical in
+/-- The coboundary on the direct sum of coefficient groups: a generator goes to the sum over its facets with the
+induced orientation (`0` if that set were infinite, which `finite_inducedOrientation`
+excludes). -/
+def coboundaryFree : (OrientedCell i k →₀ E) →ₗ[ℤ] (OrientedCell i (k + 1) →₀ E) :=
+  Finsupp.lsum ℤ fun σ =>
+    if h : {τ : OrientedCell i (k + 1) | IsInducedOrientation σ τ}.Finite then
+      ∑ τ ∈ h.toFinset, Finsupp.lsingle τ
+    else 0
+
+/-- The coboundary respects reversal and subdivision (`README §1.4` *coboundary_subdivision*:
+new interior facets cancel in pairs by reversal). -/
+theorem coboundaryFree_relations :
+    cochainRelations i E k ≤ (cochainRelations i E (k + 1)).comap coboundaryFree := by
+  sorry
+
+/-- `README §1.4` *coboundary* `d : C^k → C^{k+1}`. -/
+def coboundary : PolyhedralCochain i E k →ₗ[ℤ] PolyhedralCochain i E (k + 1) :=
+  (cochainRelations i E k).mapQ (cochainRelations i E (k + 1)) coboundaryFree
+    coboundaryFree_relations
+
+/-- `README §1.4` *coboundary_sq_zero*: the two incidence signs at a codimension-two face
+cancel, proved in the two-dimensional normal quotient, lineality allowed. -/
+theorem coboundary_sq_zero :
+    (coboundary : PolyhedralCochain i E (k + 1) →ₗ[ℤ] PolyhedralCochain i E (k + 2)) ∘ₗ
+      (coboundary : PolyhedralCochain i E k →ₗ[ℤ] PolyhedralCochain i E (k + 1)) = 0 := by
+  sorry
+
+/-- The standard `m`-simplex in barycentric coordinates. -/
+def paramSimplex (m : ℕ) : Set (Fin (m + 1) → ℝ) := {t | (∀ j, 0 ≤ t j) ∧ ∑ j, t j = 1}
+
+/-- The affine map of the standard simplex with vertices `v`, `t ↦ Σ t_j v_j`; it need not be
+an embedding. -/
+def simplexMap {m : ℕ} (v : Fin (m + 1) → V) (t : Fin (m + 1) → ℝ) : V := ∑ j, t j • v j
+
+/-- The edge vectors `v_{j+1} - v_0`; their order orients the simplex. -/
+def edgeVectors {m : ℕ} (v : Fin (m + 1) → V) : Fin m → V := fun j => v j.succ - v 0
+
+/-- Stratified general position of a `k`-simplex against a cell of codimension `k`
+(`README §1.4`): the edge vectors surject onto the normal quotient `V/dir(σ)`, the proper faces
+of the simplex miss `σ`, and the simplex misses the relative boundary of `σ`. -/
+structure IsTransverseSimplex (v : Fin (k + 1) → V) (σ : OrientedCell i k) : Prop where
+  span_eq_top : affineDir σ.carrier ⊔ Submodule.span ℝ (Set.range (edgeVectors v)) = ⊤
+  faces_avoid : ∀ t ∈ paramSimplex k, (∃ j, t j = 0) → simplexMap v t ∉ σ.carrier
+  frontier_avoid : ∀ t ∈ paramSimplex k, simplexMap v t ∉ intrinsicFrontier ℝ σ.carrier
+
+/-- `README §1.4` *TransverseAffineTest* for a representative `x`: an affine map of the
+oriented standard `k`-simplex, transverse to every cell in the support of `x`. -/
+structure TransverseAffineTest (x : OrientedCell i k →₀ E) where
+  vertex : Fin (k + 1) → V
+  transverse : ∀ σ ∈ x.support, IsTransverseSimplex vertex σ
+
+/-- The pairing of a test simplex with a representative: for each generator, the orientation
+sign of the normal-quotient map times the number of zero-dimensional preimages (at most one,
+by transversality). No determinant magnitude enters. -/
+noncomputable def intersectionPairingFree (v : Fin (k + 1) → V) :
+    (OrientedCell i k →₀ E) →ₗ[ℤ] E :=
+  Finsupp.lsum ℤ fun σ =>
+    ((orientationSign σ.orientation (edgeVectors v) : ℤ) *
+      (Nat.card {t | t ∈ paramSimplex k ∧ simplexMap v t ∈ σ.carrier} : ℤ)) • LinearMap.id
+
+/-- `README §1.4` *intersectionPairing*. Its invariance under the cochain relations and under
+subdivision of the parameter simplex are README targets. -/
+noncomputable def intersectionPairing {x : OrientedCell i k →₀ E} (S : TransverseAffineTest x) :
+    E :=
+  intersectionPairingFree S.vertex x
+
+/-- `README §1.4` *cochain_eq_zero_of_tests* (local detection). No coplanarity hypothesis is
+needed: coincident coplanar contributions are summed by the pairing itself. -/
+theorem cochain_eq_zero_of_tests [FiniteDimensional ℝ V] (x : OrientedCell i k →₀ E)
+    (h : ∃ ε > 0, ∀ v : Fin (k + 1) → V, (∀ σ ∈ x.support, IsTransverseSimplex v σ) →
+      (∀ j l, dist (v j) (v l) < ε) → intersectionPairingFree v x = 0) :
+    (Submodule.Quotient.mk x : PolyhedralCochain i E k) = 0 := by
+  sorry
+
+/-- The `j`-th simplex `[a_0, …, a_j, b_j, …, b_m]` of the standard triangulation of the prism
+`[0, T] × Δ^m` over the simplex `w`, with `b_l = a_l + T n`; it carries the sign `(−1)^j`. -/
+def prismSimplex {m : ℕ} (w : Fin (m + 1) → V) (n : V) (T : ℝ) (j : Fin (m + 1)) :
+    Fin (m + 2) → V :=
+  fun l => if h : l.val ≤ j.val then w ⟨l.val, by omega⟩ else w ⟨l.val - 1, by omega⟩ + T • n
+
+/-- The pairing with the curtain `H(t, s) = S(s) + t n` on `[0, T] × Δ^m`, computed on the
+triangulated parameter prism; the prism is not an embedded simplex in `V`. -/
+noncomputable def prismPairing {m : ℕ} (x : OrientedCell i (m + 1) →₀ E) (w : Fin (m + 1) → V)
+    (n : V) (T : ℝ) : E :=
+  ∑ j : Fin (m + 1), ((-1 : ℤ) ^ (j : ℕ)) • intersectionPairingFree (prismSimplex w n T j) x
+
+/-- General position of the curtain for `C` and `dC`: the top, bottom, side and prism simplices
+are transverse. -/
+structure IsGenericCurtain (x : OrientedCell i (k + 1) →₀ E) (v : Fin (k + 2) → V) (n : V)
+    (T : ℝ) : Prop where
+  top : ∀ σ ∈ x.support, IsTransverseSimplex (fun j => v j + T • n) σ
+  bottom : ∀ σ ∈ x.support, IsTransverseSimplex v σ
+  prism : ∀ j, ∀ τ ∈ (coboundaryFree x).support, IsTransverseSimplex (prismSimplex v n T j) τ
+  side : ∀ (l : Fin (k + 2)) (j : Fin (k + 1)), ∀ σ ∈ x.support,
+    IsTransverseSimplex (prismSimplex (v ∘ l.succAbove) n T j) σ
+
+/-- `README §1.4` *intersection_stokes*:
+`⟨dC, [0,T] × S⟩ = ⟨C, S_T⟩ − ⟨C, S_0⟩ − ⟨C, [0,T] × ∂S⟩` with `∂S = Σ_l (−1)^l S ∘ δ_l`,
+by triangulating the parameter prism and taking preimages there. -/
+theorem intersection_stokes [FiniteDimensional ℝ V] (x : OrientedCell i (k + 1) →₀ E)
+    (v : Fin (k + 2) → V) (n : V) (T : ℝ) (hT : 0 ≤ T) (hgen : IsGenericCurtain x v n T) :
+    prismPairing (coboundaryFree x) v n T =
+      intersectionPairingFree (fun j => v j + T • n) x - intersectionPairingFree v x -
+        ∑ l : Fin (k + 2), ((-1 : ℤ) ^ (l : ℕ)) • prismPairing x (v ∘ l.succAbove) n T := by
+  sorry
+
+/-- The swept support `P − ℝ_{≥0} n` (`README §1.4`). -/
+def sweepSupport (P : Set V) (n : V) : Set V :=
+  {y | ∃ x ∈ P, ∃ t : ℝ, 0 ≤ t ∧ y = x - t • n}
+
+/-- `README §1.4`: for `n ∉ dir(P)` the swept support of a nonempty rational polyhedron along a
+lattice vector is a nonempty closed rational-normal polyhedron of codimension `k − 1`
+(Fourier–Motzkin for the presentation), with direction `dir(P) + ℝn`. -/
+theorem sweepSupport_isCell [FiniteDimensional ℝ V] {P : Set V}
+    (hP : IsRationalAffinePolyhedron i P) (hne : P.Nonempty) (n₀ : N)
+    (hn : i n₀ ∉ affineDir P) :
+    IsRationalAffinePolyhedron i (sweepSupport P (i n₀)) ∧
+      affineDir (sweepSupport P (i n₀)) = affineDir P ⊔ Submodule.span ℝ {i n₀} ∧
+      Module.finrank ℝ (affineDir (sweepSupport P (i n₀))) =
+        Module.finrank ℝ (affineDir P) + 1 := by
+  sorry
+
+/-- `ι_n α` is a nonzero conormal form of `W + ℝn` when `α` is a nonzero conormal form of `W`,
+`codim W = k + 1` and `n ∉ W` (`README §1.4`). -/
+theorem curryLeft_conormal [FiniteDimensional ℝ V] {W : Submodule ℝ V}
+    {α : AltForm V (k + 1)} (hα : α ∈ conormalForms W (k + 1)) (h0 : α ≠ 0)
+    (hk : Module.finrank ℝ W + (k + 1) = Module.finrank ℝ V) {n : V} (hn : n ∉ W) :
+    α.curryLeft n ∈ conormalForms (W ⊔ Submodule.span ℝ {n}) k ∧ α.curryLeft n ≠ 0 := by
+  sorry
+
+theorem someVector_mem_conormalForms (σ : OrientedCell i k) :
+    σ.orientation.someVector ∈ conormalForms (affineDir σ.carrier) k := by
+  obtain ⟨α, hα, h0, he⟩ := σ.conormal
+  have h := σ.orientation.someVector_ray
+  rw [← he, ray_eq_iff] at h
+  rw [← he]
+  obtain ⟨r₁, r₂, hr₁, -, hr⟩ := h.exists_pos (Module.Ray.someVector_ne_zero _) h0
+  have : (rayOfNeZero ℝ α h0).someVector = (r₁⁻¹ * r₂) • α := by
+    rw [mul_smul, ← hr, smul_smul, inv_mul_cancel₀ hr₁.ne', one_smul]
+  rw [this]
+  exact Submodule.smul_mem _ _ hα
+
+/-- The swept generator `S_n(P, α) = (P − ℝ_{≥0} n, ι_n α)` for `n ∉ dir(P)`
+(`README §1.4`), with `α` the alternating form representing the conormal orientation. -/
+noncomputable def sweepCell [FiniteDimensional ℝ V] (n₀ : N) (σ : OrientedCell i (k + 1))
+    (hn : i n₀ ∉ affineDir σ.carrier) : OrientedCell i k where
+  carrier := sweepSupport σ.carrier (i n₀)
+  rational := (sweepSupport_isCell σ.rational σ.nonempty n₀ hn).1
+  nonempty := σ.nonempty.mono fun x hx => ⟨x, hx, 0, le_rfl, by simp⟩
+  codim := by
+    have := σ.codim
+    rw [(sweepSupport_isCell σ.rational σ.nonempty n₀ hn).2.2]
+    omega
+  orientation := rayOfNeZero ℝ _
+    (curryLeft_conormal (someVector_mem_conormalForms σ) (Module.Ray.someVector_ne_zero _)
+      σ.codim hn).2
+  conormal := ⟨_, by
+    rw [(sweepSupport_isCell σ.rational σ.nonempty n₀ hn).2.1]
+    exact (curryLeft_conormal (someVector_mem_conormalForms σ) (Module.Ray.someVector_ne_zero _)
+      σ.codim hn).1, _, rfl⟩
+
+open scoped Classical in
+/-- The sweep on the direct sum of coefficient groups; `0` on generators with `n ∈ dir(P)`, where the sweep is not
+defined. -/
+noncomputable def sweepFree [FiniteDimensional ℝ V] (n₀ : N) :
+    (OrientedCell i (k + 1) →₀ E) →ₗ[ℤ] (OrientedCell i k →₀ E) :=
+  Finsupp.lsum ℤ fun σ =>
+    if h : i n₀ ∉ affineDir σ.carrier then Finsupp.lsingle (sweepCell n₀ σ h) else 0
+
+variable (i E) in
+/-- Representatives all of whose cells satisfy `n ∉ dir(P)`. -/
+def transverseSupported (n : V) (k : ℕ) : Submodule ℤ (OrientedCell i k →₀ E) :=
+  Finsupp.supported E ℤ {σ | n ∉ affineDir σ.carrier}
+
+variable (i E) in
+/-- Cochains with a representative transverse to `n`, modulo the relations among such
+representatives (the domain of the sweep, `README §1.4`). -/
+abbrev TransverseCochain (n : V) (k : ℕ) :=
+  transverseSupported i E n k ⧸
+    (cochainRelations i E k).comap (transverseSupported i E n k).subtype
+
+/-- The class of a transverse representative. -/
+def TransverseCochain.mk {n : V} (x : OrientedCell i k →₀ E)
+    (hx : x ∈ transverseSupported i E n k) : TransverseCochain i E n k :=
+  Submodule.Quotient.mk ⟨x, hx⟩
+
+/-- The comparison map to all cochains. Its injectivity (every relation is homogeneous for the
+direction of its cells) is a README target. -/
+def TransverseCochain.toCochain {n : V} :
+    TransverseCochain i E n k →ₗ[ℤ] PolyhedralCochain i E k :=
+  Submodule.liftQ _ ((cochainRelations i E k).mkQ ∘ₗ (transverseSupported i E n k).subtype)
+    (fun x hx => by simpa [Submodule.Quotient.mk_eq_zero] using hx)
+
+/-- Facets of a cell transverse to `n` are transverse to `n`. -/
+theorem coboundaryFree_transverse {n : V} {x : OrientedCell i k →₀ E}
+    (hx : x ∈ transverseSupported i E n k) :
+    coboundaryFree x ∈ transverseSupported i E n (k + 1) := by
+  sorry
+
+/-- The coboundary of transverse cochains. -/
+def TransverseCochain.coboundary {n : V} :
+    TransverseCochain i E n k →ₗ[ℤ] TransverseCochain i E n (k + 1) :=
+  Submodule.mapQ _ _ (coboundaryFree.restrict fun _ hx => coboundaryFree_transverse hx)
+    (fun _ hx => coboundaryFree_relations hx)
+
+/-- Well-definedness of the sweep on transverse classes (`README §1.4` *sweep_subdivision*:
+the swept pieces subdivide the swept support; reversal is compatible with `ι_n`). -/
+theorem sweepFree_relations [FiniteDimensional ℝ V] (n₀ : N) :
+    (cochainRelations i E (k + 1)).comap (transverseSupported i E (i n₀) (k + 1)).subtype ≤
+      LinearMap.ker ((cochainRelations i E k).mkQ ∘ₗ sweepFree n₀ ∘ₗ
+        (transverseSupported i E (i n₀) (k + 1)).subtype) := by
+  sorry
+
+/-- `README §1.4` *sweep* `S_n` on cochains with a representative whose cells have
+`n ∉ dir(P)`. -/
+noncomputable def sweep [FiniteDimensional ℝ V] (n₀ : N) :
+    TransverseCochain i E (i n₀) (k + 1) →ₗ[ℤ] PolyhedralCochain i E k :=
+  Submodule.liftQ _ ((cochainRelations i E k).mkQ ∘ₗ sweepFree n₀ ∘ₗ
+    (transverseSupported i E (i n₀) (k + 1)).subtype) (sweepFree_relations n₀)
+
+/-- `README §1.4` *sweep_homotopy* `d S_n C + S_n d C = −C`: apply *intersection_stokes* with
+`T` beyond every hitting time, retaining every side face, then *cochain_eq_zero_of_tests*. -/
+theorem sweep_homotopy [FiniteDimensional ℝ V] (n₀ : N)
+    (C : TransverseCochain i E (i n₀) (k + 1)) :
+    coboundary (sweep n₀ C) + sweep n₀ (TransverseCochain.coboundary C) =
+      -TransverseCochain.toCochain C := by
+  sorry
+
+/-- `README §1.4` *sweep_strictlyOutgoing*: `n ∉ rec(P − ℝ_{≥0} n)`, since `n ∈ rec(P − ℝ_{≥0} n)`
+would give `(1 + t) n ∈ dir(P)`. -/
+theorem sweep_strictlyOutgoing [FiniteDimensional ℝ V] (n₀ : N) (σ : OrientedCell i (k + 1))
+    (hn : i n₀ ∉ affineDir σ.carrier) :
+    ¬ ∀ x ∈ (sweepCell n₀ σ hn).carrier, ∀ t : ℝ, 0 ≤ t →
+      x + t • i n₀ ∈ (sweepCell n₀ σ hn).carrier := by
+  intro h
+  obtain ⟨x, hx⟩ := σ.nonempty
+  obtain ⟨y, hy, t, ht, he⟩ := h x ⟨x, hx, 0, le_rfl, by simp⟩ 1 zero_le_one
+  have hmem : y -ᵥ x ∈ affineDir σ.carrier := by
+    rw [affineDir, direction_affineSpan]
+    exact vsub_mem_vectorSpan ℝ hy hx
+  have hyx : y -ᵥ x = (1 + t) • i n₀ := by
+    rw [vsub_eq_sub, add_smul, one_smul]
+    rw [one_smul] at he
+    rw [eq_sub_iff_add_eq] at he
+    rw [← he]
+    abel
+  rw [hyx] at hmem
+  have h1t : (1 + t) ≠ 0 := by linarith
+  apply hn
+  simpa [h1t] using Submodule.smul_mem _ (1 + t)⁻¹ hmem
+
+end Cochains
+
+/-! ## Layer 2: path products and finite wall diagrams -/
+
+/-- A signed algebraic crossing; the geometric path produces this list (`README §2.1`).
+`against` records that the path crosses against the wall's coorientation. -/
+structure Crossing (G : Type*) where
+  label : G
+  against : Bool
+
+/-- The factor of a crossing (Convention 3): the label when crossing against the
+coorientation, its inverse when crossing along it. -/
+def Crossing.factor {G : Type*} [Group G] (c : Crossing G) : G :=
+  if c.against then c.label else c.label⁻¹
+
+/-- Chronological input; the first crossing is the rightmost factor (Convention 3). -/
+def orderedProduct {G : Type*} [Group G] (crossings : List (Crossing G)) : G :=
+  (crossings.map Crossing.factor).reverse.prod
+
+theorem orderedProduct_append {G : Type*} [Group G] (first second : List (Crossing G)) :
+    orderedProduct (first ++ second) = orderedProduct second * orderedProduct first := by
+  simp [orderedProduct, List.prod_append]
+
+/-- A finite complex, a coorientation of each wall, and exactly one label per wall
+(`README §2.1`). The normal vanishes on the wall's direction, so reversing the coorientation
+inverts the label. -/
+structure FiniteWallDiagram {N V : Type*} [AddCommGroup N] [NormedAddCommGroup V]
+    [NormedSpace ℝ V] (i : N →+ V) (H : Type*) [Group H] where
+  complex : FinitePolyhedralComplex i
+  normal : complex.walls → Module.Dual ℝ V
+  normal_ne_zero : ∀ w, normal w ≠ 0
+  normal_direction : ∀ w : complex.walls, ∀ v ∈ (affineSpan ℝ (w : Set V)).direction,
+    normal w v = 0
+  label : complex.walls → H
+
+/-! ## Layer 3: directed walls -/
+
+section WallSpaces
+
+variable {R : Type*} [CommRing R]
+  {L : Type*} [AddCommGroup L] {g : Type*} [LieRing g] [LieAlgebra R g]
+
+/-- `μ((n,m),(n',m')) = m(n') m' - m'(n) m`, the normal of a bracket (`README §3.1`). -/
+def wallBracketNormal (n n' : L) (m m' : L →+ ℤ) : L →+ ℤ :=
+  m n' • m' - m' n • m
+
+/-- Homogeneous wall spaces `h_{n,m} ⊆ g_n` (`README §3.1`). No condition asks every element
+graded along `m⊥` to centralize `h_{n,m}`. -/
+structure DirectedWallSpaces (ℒ : L → Submodule R g) where
+  wall : L → (L →+ ℤ) → Submodule R g
+  wall_le_piece : ∀ n m, wall n m ≤ ℒ n
+  zero_normal : ∀ n, wall n 0 = ⊥
+  nontangent : ∀ n m, m n ≠ 0 → wall n m = ⊥
+  rescale : ∀ n m (c : ℤ), c ≠ 0 → wall n (c • m) = wall n m
+  bracket_mem : ∀ n n' m m' (x y : g),
+    x ∈ wall n m → y ∈ wall n' m' → ⁅x, y⁆ ∈ wall (n + n') (wallBracketNormal n n' m m')
+
+/-- Wall spaces with the same normal commute (`README §3.1`). No tangency hypothesis is
+needed: a nontangent wall space is zero. -/
+theorem DirectedWallSpaces.sameNormal_lie_eq_zero {ℒ : L → Submodule R g}
+    (W : DirectedWallSpaces ℒ) (n n' : L) (m : L →+ ℤ) (x y : g)
+    (hx : x ∈ W.wall n m) (hy : y ∈ W.wall n' m) : ⁅x, y⁆ = 0 := by
+  by_cases hn : m n = 0
+  · by_cases hn' : m n' = 0
+    · have h := W.bracket_mem n n' m m x y hx hy
+      simpa [wallBracketNormal, hn, hn', W.zero_normal] using h
+    · rw [W.nontangent n' m hn', Submodule.mem_bot] at hy
+      simp [hy]
+  · rw [W.nontangent n m hn, Submodule.mem_bot] at hx
+    simp [hx]
+
+/-- Wall spaces with rationally proportional normals commute (`README §3.1`): a common nonzero
+rescaling reduces this to `sameNormal_lie_eq_zero`. -/
+theorem DirectedWallSpaces.parallelWallSpaces_commute {ℒ : L → Submodule R g}
+    (W : DirectedWallSpaces ℒ) (n n' : L) (m m' : L →+ ℤ) (c d : ℤ)
+    (hc : c ≠ 0) (hd : d ≠ 0) (hparallel : c • m = d • m') (x y : g)
+    (hx : x ∈ W.wall n m) (hy : y ∈ W.wall n' m') : ⁅x, y⁆ = 0 := by
+  apply W.sameNormal_lie_eq_zero n n' (c • m) x y
+  · simpa only [W.rescale n m c hc] using hx
+  · rw [hparallel, W.rescale n' m' d hd]
+    exact hy
+
+end WallSpaces
+
+/-- A directed affine wall (`README §3.2`), for an integral lattice `i : L →+ V`, positive
+degrees on `L`, and the family `wallGroup n m` of completed ray subgroups of `Ĝ` (README §3.1;
+the group is abstract here). The support is a nonempty rational affine polyhedron with
+direction `ker m_ℝ`, not necessarily a cone (README §3.3's corrections at bounded joints are
+not cones); the wall's direction is `-n`. -/
+structure DirectedWall {L V : Type*} [AddCommGroup L] [NormedAddCommGroup V] [NormedSpace ℝ V]
+    {i : L →+ V} (hi : TauCeti.Toric.IsIntegralLattice i) (D : PositiveDegrees L)
+    {G : Type*} [Group G] (wallGroup : L → (L →+ ℤ) → Subgroup G) where
+  normal : L →+ ℤ
+  normal_ne_zero : normal ≠ 0
+  degree : L
+  degree_mem : degree ∈ D.positive
+  degree_primitive : TauCeti.IsPrimitive degree
+  normal_apply_degree : normal degree = 0
+  support : Set V
+  support_rational : IsRationalAffinePolyhedron i support
+  support_nonempty : support.Nonempty
+  support_direction : (affineSpan ℝ support).direction = LinearMap.ker (hi.realCharacter normal)
+  label : wallGroup degree normal
+
+namespace DirectedWall
+
+variable {L V : Type*} [AddCommGroup L] [NormedAddCommGroup V] [NormedSpace ℝ V]
+  {i : L →+ V} {hi : TauCeti.Toric.IsIntegralLattice i} {D : PositiveDegrees L}
+  {G : Type*} [Group G] {wallGroup : L → (L →+ ℤ) → Subgroup G}
+  (w : DirectedWall hi D wallGroup)
+
+/-- `d + ℝ≥0 n ⊆ d` (`README §3.2`); translation invariant, unlike testing `n ∈ d`. -/
+def Incoming : Prop := ∀ x ∈ w.support, ∀ t : ℝ, 0 ≤ t → x + t • i w.degree ∈ w.support
+
+/-- The negation of incoming (`README §3.2`). -/
+def Outgoing : Prop := ¬ w.Incoming
+
+end DirectedWall
+
+/-! ### Local scattering and existence of completion (README §3.3) -/
+
+/-- The order filtration of the abstract completed group `Ĝ` (`README §0.4`): `ker h` is the
+kernel of `Ĝ → G≤h`, so `ker 0 = ⊤` for the BCH tower. -/
+structure OrderFiltration (G : Type*) [Group G] where
+  ker : ℕ → Subgroup G
+  normal : ∀ h, (ker h).Normal
+  antitone : Antitone ker
+
+namespace OrderFiltration
+
+variable {G : Type*} [Group G] (K : OrderFiltration G)
+
+instance (h : ℕ) : (K.ker h).Normal := K.normal h
+
+/-- The projection `Ĝ → G≤h = Ĝ / ker h`. -/
+def proj (h : ℕ) : G →* G ⧸ K.ker h := QuotientGroup.mk' _
+
+/-- The tower map `G≤h+1 → G≤h`. -/
+def step (h : ℕ) : G ⧸ K.ker (h + 1) →* G ⧸ K.ker h :=
+  QuotientGroup.map _ _ (MonoidHom.id G) (K.antitone (Nat.le_succ h))
+
+end OrderFiltration
+
+section Diagrams
+
+variable {L V : Type*} [AddCommGroup L] [NormedAddCommGroup V] [NormedSpace ℝ V]
+  {i : L →+ V} {hi : TauCeti.Toric.IsIntegralLattice i} {D : PositiveDegrees L}
+  {G : Type*} [Group G] {wallGroup : L → (L →+ ℤ) → Subgroup G}
+
+/-- The real normal `m_ℝ` of a directed wall. -/
+noncomputable def DirectedWall.realNormal (w : DirectedWall hi D wallGroup) : Module.Dual ℝ V :=
+  hi.realCharacter w.normal
+
+/-- A full affine hyperplane `{m_ℝ = c}` (`README §3.3`); it is incoming. -/
+def DirectedWall.IsFullHyperplane (w : DirectedWall hi D wallGroup) : Prop :=
+  ∃ c : ℝ, w.support = {x | w.realNormal x = c}
+
+/-- The signed factor of a wall crossed with velocity `v` (Convention 3): the label when
+crossing against the coorientation, its inverse when crossing along it. -/
+noncomputable def DirectedWall.signedFactor (w : DirectedWall hi D wallGroup) (v : V) : G :=
+  if w.realNormal v < 0 then w.label.val else if 0 < w.realNormal v then w.label.val⁻¹ else 1
+
+/-- The crossing parameter of a transverse segment `[a, b]` with a wall: `m_ℝ` is constant on
+the support, so any of its points serves. -/
+noncomputable def DirectedWall.crossTime (w : DirectedWall hi D wallGroup) (a b : V) : ℝ :=
+  (w.realNormal w.support_nonempty.some - w.realNormal a) / w.realNormal (b - a)
+
+variable (hi D wallGroup) in
+/-- A directed diagram (`README §§2.2, 3.2`): an indexed family of directed walls with finitely
+many walls nontrivial at each order of the filtration `K` of the abstract group. Walls are
+indexed, since a set would merge equal walls and lose the product of their labels. -/
+structure DirectedDiagram (K : OrderFiltration G) (ι : Type*) where
+  wall : ι → DirectedWall hi D wallGroup
+  finite_at_order : ∀ h, {k | (wall k).label.val ∉ K.ker h}.Finite
+
+namespace DirectedDiagram
+
+variable {K : OrderFiltration G} {ι : Type*} (𝔇 : DirectedDiagram hi D wallGroup K ι)
+
+/-- The walls nontrivial at order `h`, as a finite family (the chosen indexing is immaterial
+for the derived notions). -/
+noncomputable def activeFamily (h : ℕ) :
+    Fin (𝔇.finite_at_order h).toFinset.card → DirectedWall hi D wallGroup :=
+  fun j => 𝔇.wall ((𝔇.finite_at_order h).toFinset.equivFin.symm j).val
+
+/-- The supports of the walls nontrivial at order `h`. -/
+def activeSupport (h : ℕ) : Set V :=
+  {x | ∃ k, (𝔇.wall k).label.val ∉ K.ker h ∧ x ∈ (𝔇.wall k).support}
+
+open scoped Classical in
+/-- The signed product of the walls active at order `h` through `x`, for velocity `v`
+(Convention 3); off the singular support the incident labels commute (`README §3.1`). -/
+noncomputable def wallProductAt (h : ℕ) (x v : V) : G :=
+  ((𝔇.finite_at_order h).toFinset.toList.map fun k =>
+    if x ∈ (𝔇.wall k).support then (𝔇.wall k).signedFactor v else 1).prod
+
+open scoped Classical in
+/-- The product over one segment `[a, b]` at order `h`: the active walls met by the segment,
+sorted by crossing time, first crossing rightmost. Ties (coplanar walls) commute. -/
+noncomputable def segmentProduct (h : ℕ) (a b : V) : G :=
+  let l := ((𝔇.finite_at_order h).toFinset.filter fun k =>
+    (segment ℝ a b ∩ (𝔇.wall k).support).Nonempty).toList.mergeSort fun k k' =>
+      decide ((𝔇.wall k).crossTime a b ≤ (𝔇.wall k').crossTime a b)
+  (l.map fun k => (𝔇.wall k).signedFactor (b - a)).reverse.prod
+
+/-- The order-`h` path product along the polygon with vertices `v` (the local form of
+`README §2.1`'s path product): first segment rightmost. -/
+noncomputable def polygonProduct (h : ℕ) {m : ℕ} (v : Fin (m + 1) → V) : G :=
+  ((List.finRange m).map fun j => 𝔇.segmentProduct h (v j.castSucc) (v j.succ)).reverse.prod
+
+/-- A polygon admissible at order `h` (`README §1.2`): vertices off the active support, each
+segment transverse to every active wall it meets, and each segment avoiding the relative
+boundaries and nonparallel intersections of the active walls. -/
+structure IsAdmissiblePolygon (h : ℕ) {m : ℕ} (v : Fin (m + 1) → V) : Prop where
+  vertex_off : ∀ j, v j ∉ 𝔇.activeSupport h
+  transverse : ∀ (j : Fin m) k, (𝔇.wall k).label.val ∉ K.ker h →
+    (segment ℝ (v j.castSucc) (v j.succ) ∩ (𝔇.wall k).support).Nonempty →
+    (𝔇.wall k).realNormal (v j.succ - v j.castSucc) ≠ 0
+  avoids_frontier : ∀ (j : Fin m) k, (𝔇.wall k).label.val ∉ K.ker h →
+    Disjoint (segment ℝ (v j.castSucc) (v j.succ)) (intrinsicFrontier ℝ (𝔇.wall k).support)
+  avoids_joints : ∀ (j : Fin m) k k', (𝔇.wall k).label.val ∉ K.ker h →
+    (𝔇.wall k').label.val ∉ K.ker h →
+    affineDir (𝔇.wall k).support ≠ affineDir (𝔇.wall k').support →
+    Disjoint (segment ℝ (v j.castSucc) (v j.succ)) ((𝔇.wall k).support ∩ (𝔇.wall k').support)
+
+/-- Consistency to order `h` (`README §2.2`): admissible closed polygons have trivial product
+in `G≤h`. -/
+def ConsistentToOrder (h : ℕ) : Prop :=
+  ∀ {m : ℕ} (v : Fin (m + 1) → V), 𝔇.IsAdmissiblePolygon h v → v (Fin.last m) = v 0 →
+    𝔇.polygonProduct h v ∈ K.ker h
+
+/-- Consistency at every order. -/
+def Consistent : Prop := ∀ h, 𝔇.ConsistentToOrder h
+
+end DirectedDiagram
+
+variable (K : OrderFiltration G)
+
+/-- `𝔇` is an outgoing completion of the finite family `Din` (`README §3.3`): it contains the
+initial walls, every added wall is outgoing, and it is consistent. -/
+def IsOutgoingCompletion {k : ℕ} (Din : Fin k → DirectedWall hi D wallGroup) {κ : Type*}
+    (𝔇 : DirectedDiagram hi D wallGroup K (Fin k ⊕ κ)) : Prop :=
+  (∀ j, 𝔇.wall (Sum.inl j) = Din j) ∧ (∀ c, (𝔇.wall (Sum.inr c)).Outgoing) ∧ 𝔇.Consistent
+
+/-- `README §3.3` *exists_outgoingCompletion*, for a finite family of incoming full affine
+hyperplanes; no transversality or rational-offset hypothesis. The statement does not mention
+the construction; for the abstract group the README's hypotheses (the BCH filtration of
+§§0.3–0.4 and the wall groups of §3.1) are the content of the proof. -/
+theorem exists_outgoingCompletion [FiniteDimensional ℝ V] {k : ℕ}
+    (Din : Fin k → DirectedWall hi D wallGroup) (hDin : ∀ j, (Din j).IsFullHyperplane) :
+    ∃ (κ : Type) (𝔇 : DirectedDiagram hi D wallGroup K (Fin k ⊕ κ)),
+      IsOutgoingCompletion K Din 𝔇 := by
+  sorry
+
+/-- The central kernel of `G≤h+1 → G≤h` (`README §3.3`): an abelian group `E`, in the BCH
+case `F^{h+1} g / F^{h+2} g`, embedded by `ι` with image the kernel of the tower map and
+central. The Lean step goes from order `h` to `h + 1`, so the README's `E_h`, `A_h`, `ζ_h`,
+`b_{h,n}` are indexed here by the given stage `h`. -/
+structure CentralKernel (h : ℕ) (E : Type*) [AddCommGroup E] where
+  ι : Multiplicative E →* G ⧸ K.ker (h + 1)
+  ι_injective : Function.Injective ι
+  range_ι : ι.range = (K.step h).ker
+  central : ∀ e x, ι e * x = x * ι e
+
+variable {K}
+
+/-- The central logarithm: the element of `E` under `u` when `u` is in the kernel of the tower
+map, and `0` otherwise. -/
+noncomputable def CentralKernel.log {h : ℕ} {E : Type*} [AddCommGroup E]
+    (κ : CentralKernel K h E) (u : G ⧸ K.ker (h + 1)) : E := by
+  classical
+  exact if hu : u ∈ κ.ι.range then Multiplicative.toAdd (MonoidHom.mem_range.1 hu).choose else 0
+
+/-- `README §3.3` trivialization data at order `h + 1` for a diagram consistent to order `h`
+(the choices the README leaves implicit): one oriented generator per codimension-one and
+codimension-two cell of a finite ambient subdivision adapted to the walls active at order
+`h + 1`; the chambers on both sides of each wall cell; lifts `θ̃_c ∈ G≤h+1` of the order-`h`
+chamber trivializations from a base point; the lifted crossing elements `X̃_w`; and a small
+positively oriented transverse triangle around each joint cell, whose boundary is the meridian
+loop. -/
+structure ChamberTrivialization [FiniteDimensional ℝ V] {ι : Type*}
+    (𝔇 : DirectedDiagram hi D wallGroup K ι) (h : ℕ) where
+  walls : Finset (OrientedCell i 1)
+  joints : Finset (OrientedCell i 2)
+  adapted : ∀ k, (𝔇.wall k).label.val ∉ K.ker (h + 1) →
+    ∃ T ⊆ walls, ⋃ w ∈ T, w.carrier = (𝔇.wall k).support
+  posChamber : OrientedCell i 1 → Set V
+  negChamber : OrientedCell i 1 → Set V
+  sides : ∀ w ∈ walls, Disjoint (posChamber w) (𝔇.activeSupport (h + 1)) ∧
+    Disjoint (negChamber w) (𝔇.activeSupport (h + 1)) ∧
+    ∃ y ∈ w.carrier, ∃ v : V, orientationSign w.orientation ![v] = 1 ∧
+      y + v ∈ posChamber w ∧ y - v ∈ negChamber w
+  basePoint : V
+  lift : Set V → G ⧸ K.ker (h + 1)
+  lift_spec : ∀ w ∈ walls, ∀ c ∈ ({posChamber w, negChamber w} : Set (Set V)),
+    ∀ {m : ℕ} (v : Fin (m + 1) → V), 𝔇.IsAdmissiblePolygon h v → v 0 = basePoint →
+      v (Fin.last m) ∈ c → K.step h (lift c) = K.proj h (𝔇.polygonProduct h v)
+  crossing : OrientedCell i 1 → G ⧸ K.ker (h + 1)
+  crossing_spec : ∀ w ∈ walls, ∀ y ∈ intrinsicInterior ℝ w.carrier, ∀ v : V,
+    orientationSign w.orientation ![v] = 1 →
+      crossing w = K.proj (h + 1) (𝔇.wallProductAt (h + 1) y v)
+  meridian : OrientedCell i 2 → Fin 3 → V
+  meridian_spec : ∀ j ∈ joints, IsTransverseSimplex (meridian j) j ∧
+    orientationSign j.orientation (edgeVectors (meridian j)) = 1 ∧
+    𝔇.IsAdmissiblePolygon (h + 1) ![meridian j 0, meridian j 1, meridian j 2, meridian j 0] ∧
+    ∀ k, (𝔇.wall k).label.val ∉ K.ker (h + 1) →
+      (convexHull ℝ (Set.range (meridian j)) ∩ (𝔇.wall k).support).Nonempty →
+      j.carrier ⊆ (𝔇.wall k).support
+
+namespace ChamberTrivialization
+
+variable [FiniteDimensional ℝ V] {ι : Type*} {𝔇 : DirectedDiagram hi D wallGroup K ι} {h : ℕ}
+  (T : ChamberTrivialization 𝔇 h) {E : Type*} [AddCommGroup E]
+  (κ : CentralKernel K h E)
+
+/-- The discrepancy across an oriented wall cell, `log(θ̃₊⁻¹ X̃_w θ̃₋) ∈ E`; it lies in the
+central kernel by consistency at order `h`. -/
+noncomputable def defectValue (w : OrientedCell i 1) : E :=
+  κ.log ((T.lift (T.posChamber w))⁻¹ * T.crossing w * T.lift (T.negChamber w))
+
+/-- `README §3.3` *centralDefect* `A_h`: the codimension-one cochain with values in `E`. It
+depends on the lifts. -/
+noncomputable def centralDefect : PolyhedralCochain i E 1 :=
+  ∑ w ∈ T.walls, PolyhedralCochain.mk w (T.defectValue κ w)
+
+/-- The meridian error at a joint cell: the central logarithm of the product along its meridian
+loop. It involves no lift. -/
+noncomputable def meridianValue (j : OrientedCell i 2) : E :=
+  κ.log (K.proj (h + 1) (𝔇.polygonProduct (h + 1)
+    ![T.meridian j 0, T.meridian j 1, T.meridian j 2, T.meridian j 0]))
+
+/-- The meridian error cochain `ζ_h` (codimension two). -/
+noncomputable def meridianError : PolyhedralCochain i E 2 :=
+  ∑ j ∈ T.joints, PolyhedralCochain.mk j (T.meridianValue κ j)
+
+/-- `README §3.3` *centralDefect_eq_coboundary*: `ζ_h = d A_h`, so `d ζ_h = 0` by
+*coboundary_sq_zero*; since `ζ_h` is defined without the lifts, `d A_h` is independent of them. -/
+theorem centralDefect_eq_coboundary (hc : 𝔇.ConsistentToOrder h) :
+    coboundary (T.centralDefect κ) = T.meridianError κ := by
+  sorry
+
+variable {E' : Type*} [AddCommGroup E']
+
+open scoped Classical in
+/-- The transverse representative of the degree-`n` component `ζ_{h,n}`, for the component map
+`comp : E → g_n`: the joint cells with `n ∉ dir(j)`. By `README §3.3`
+*centralDefect_wallSpace* the components at the other joints vanish. -/
+noncomputable def meridianComponentFree (comp : E →ₗ[ℤ] E') (n : L) :
+    OrientedCell i 2 →₀ E' :=
+  ∑ j ∈ T.joints.filter (fun j => i n ∉ affineDir j.carrier),
+    Finsupp.single j (comp (T.meridianValue κ j))
+
+theorem meridianComponentFree_mem (comp : E →ₗ[ℤ] E') (n : L) :
+    T.meridianComponentFree κ comp n ∈ transverseSupported i E' (i n) 2 := by
+  classical
+  refine Submodule.sum_mem _ fun j hj => ?_
+  exact Finsupp.single_mem_supported ℤ _ (Finset.mem_filter.1 hj).2
+
+/-- `README §3.3` *centralStep* `b_{h,n} = S_n ζ_{h,n}` (`README §1.4`), attached as walls with
+label `exp(−c)` for cochain coefficient `c` on the positive transverse side (Convention 3);
+*centralStep_consistent* `ζ_{h,n} + d b_{h,n} = 0` follows from *sweep_homotopy* and
+`d ζ_h = 0`, and *centralStep_outgoing* from *sweep_strictlyOutgoing*. -/
+noncomputable def centralStep (comp : E →ₗ[ℤ] E') (n : L) : PolyhedralCochain i E' 1 :=
+  sweep n (TransverseCochain.mk _ (T.meridianComponentFree_mem κ comp n))
+
+end ChamberTrivialization
+
+end Diagrams
+
+/-! ## Layer 4: skew lattice data -/
+
+/-- A skew lattice datum (`README §4.2`): saturated `N_uf`, finite-index `N°`, an alternating
+rational form and the two integrality conditions. An adapted basis is extra data. -/
+structure SkewLatticeDatum (N : Type*) [AddCommGroup N] [Module.Free ℤ N] [Module.Finite ℤ N]
+    where
+  unfrozen : Submodule ℤ N
+  unfrozen_saturated : unfrozen.toAddSubgroup.toAddSubmonoid.NSMulSaturated
+  sub : Submodule ℤ N
+  sub_index_ne_zero : sub.toAddSubgroup.index ≠ 0
+  form : N →ₗ[ℤ] N →ₗ[ℤ] ℚ
+  form_alt : form.IsAlt
+  /-- `{N_uf, N°} ⊆ ℤ`. -/
+  integral_unfrozen_sub : ∀ a ∈ unfrozen, ∀ b ∈ sub, ∃ k : ℤ, form a b = k
+  /-- `{N, N_uf ∩ N°} ⊆ ℤ`. -/
+  integral_inter : ∀ a, ∀ b ∈ unfrozen ⊓ sub, ∃ k : ℤ, form a b = k
+
+/-! ## Layer 5: broken lines -/
+
+section BrokenLines
+
+variable {L V : Type*} [AddCommGroup L] [AddCommGroup V] [Module ℝ V]
+
+/-- The derived map `γ(t) = Q + Σ_j |[t,0] ∩ seg_j| • p_j`, `t ≤ 0`, integrating the velocity
+`-p_j` of segment `j` backwards from the endpoint at time zero (`README §5.2`). -/
+def brokenPath (i : L →+ V) {k : ℕ} (Q : V) (T : Fin k → ℝ) (p : Fin (k + 1) → L) (t : ℝ) : V :=
+  Q + ∑ j, max 0 (Fin.snoc (α := fun _ => ℝ) T 0 j -
+    max (Fin.cons (α := fun _ => ℝ) t T j) t) • i (p j)
+
+/-- Interior times of segment `j`; the first segment has no finite left endpoint. -/
+def IsSegmentInterior {k : ℕ} (T : Fin k → ℝ) (j : Fin (k + 1)) (t : ℝ) : Prop :=
+  t < Fin.snoc (α := fun _ => ℝ) T 0 j ∧
+    ∀ b : Fin k, b.val + 1 = j.val → T b < t
+
+end BrokenLines
+
+section FiniteCrossings
+
+variable {L V G : Type*} [AddCommGroup L] [NormedAddCommGroup V] [NormedSpace ℝ V]
+  {i : L →+ V} {hi : TauCeti.Toric.IsIntegralLattice i} {D : PositiveDegrees L}
+  [Group G] {wallGroup : L → (L →+ ℤ) → Subgroup G} {w : ℕ}
+  (walls : Fin w → DirectedWall hi D wallGroup)
+
+/-- The supports of the walls with nonidentity label; identity walls do not restrict endpoints
+(`README §§2.2, 5.2`). -/
+def activeWallSupport : Set V :=
+  {x | ∃ j, (walls j).label.val ≠ 1 ∧ x ∈ (walls j).support}
+
+/-- Relative wall boundaries and nonparallel intersections of the walls with nonidentity label
+(`README §1.2`). -/
+def activeSingularSupport : Set V :=
+  {x | (∃ j, (walls j).label.val ≠ 1 ∧
+      x ∈ intrinsicFrontier ℝ (walls j).support) ∨
+    ∃ j k, (walls j).label.val ≠ 1 ∧ (walls k).label.val ≠ 1 ∧
+      (affineSpan ℝ (walls j).support).direction ≠
+        (affineSpan ℝ (walls k).support).direction ∧
+      x ∈ (walls j).support ∧ x ∈ (walls k).support}
+
+/-- The signed product of the walls met at `x` with velocity `v` (Convention 3). Off the
+singular support the incident normals are parallel, so by `README §3.1` the labels commute and
+the chosen finite indexing is immaterial. -/
+noncomputable def signedWallProduct (x v : V) : G := by
+  classical
+  exact (List.ofFn fun j : Fin w =>
+    if x ∈ (walls j).support then
+      if hi.realCharacter (walls j).normal v < 0 then (walls j).label.val
+      else if 0 < hi.realCharacter (walls j).normal v then (walls j).label.val⁻¹
+      else 1
+    else 1).reverse.prod
+
+end FiniteCrossings
+
+section BrokenLineCarrier
+
+variable {R : Type*} [Semiring R]
+  {L V G A : Type*} [AddCommGroup L] [DecidableEq L]
+  [NormedAddCommGroup V] [NormedSpace ℝ V]
+  {i : L →+ V} (hi : TauCeti.Toric.IsIntegralLattice i) (D : PositiveDegrees L)
+  [Group G] (wallGroup : L → (L →+ ℤ) → Subgroup G)
+  [AddCommGroup A] [Module R A] (𝒜 : L → Submodule R A)
+  [DirectSum.Decomposition 𝒜]
+
+/-- The homogeneous projection supplied by the direct-sum decomposition. -/
+noncomputable def homogeneousComponent (q : L) (a : A) : A :=
+  ((DirectSum.decompose 𝒜 a) q : A)
+
+/-- A broken line at order `h` for a finite family of walls and a group action (`README §5.2`),
+with initial homogeneous `a ∈ A_p`, `p ≠ 0`. `A` is the order-`h` coefficient module with its
+homogeneous decomposition and `action` its group action; the README constructs these from the
+shifted modules. The singular support and the crossing components are derived from the walls.
+Since every bend changes the degree by an element of `P \ {0}`, structure equality is the
+identification of parametrizations; no quotient is needed. -/
+structure BrokenLine {w : ℕ} (walls : Fin w → DirectedWall hi D wallGroup)
+    (action : G →* (A ≃ₗ[R] A)) (h : ℕ) {p : L} (a : A) (ha : a ∈ 𝒜 p) where
+  numBends : ℕ
+  bendTime : Fin numBends → ℝ
+  bendTime_strictMono : StrictMono bendTime
+  bendTime_neg : ∀ j, bendTime j < 0
+  degree : Fin (numBends + 1) → L
+  degree_zero : degree 0 = p
+  degree_ne_zero : ∀ j, degree j ≠ 0
+  decoration : Fin (numBends + 1) → A
+  decoration_zero : decoration 0 = a
+  decoration_mem : ∀ j, decoration j ∈ 𝒜 (degree j)
+  decoration_ne_zero : ∀ j, decoration j ≠ 0
+  endpoint : V
+  endpoint_off : endpoint ∉ activeWallSupport walls
+  increment_positive : ∀ j : Fin numBends,
+    degree j.succ - degree j.castSucc ∈ D.positive
+  order_le : D.degree (degree (Fin.last numBends) - p) ≤ (h : ℤ)
+  avoids : ∀ t ≤ 0,
+    brokenPath i endpoint bendTime degree t ∉ activeSingularSupport walls
+  bend_on_wall : ∀ j : Fin numBends, ∃ k,
+    (walls k).label.val ≠ 1 ∧
+    brokenPath i endpoint bendTime degree (bendTime j) ∈ (walls k).support
+  bend_crosses : ∀ (j : Fin numBends) (k : Fin w), (walls k).label.val ≠ 1 →
+    brokenPath i endpoint bendTime degree (bendTime j) ∈ (walls k).support →
+    0 < hi.realCharacter (walls k).normal (-i (degree j.castSucc)) *
+      hi.realCharacter (walls k).normal (-i (degree j.succ))
+  bend_action : ∀ j : Fin numBends,
+    decoration j.succ = homogeneousComponent 𝒜 (degree j.succ)
+      ((action (signedWallProduct walls
+        (brokenPath i endpoint bendTime degree (bendTime j))
+        (-i (degree j.castSucc)))) (decoration j.castSucc))
+  straight_transverse : ∀ (j : Fin (numBends + 1)) (t : ℝ) (k : Fin w),
+    IsSegmentInterior bendTime j t → (walls k).label.val ≠ 1 →
+    brokenPath i endpoint bendTime degree t ∈ (walls k).support →
+    hi.realCharacter (walls k).normal (-i (degree j)) ≠ 0
+  straight_action : ∀ (j : Fin (numBends + 1)) (t : ℝ),
+    IsSegmentInterior bendTime j t →
+    brokenPath i endpoint bendTime degree t ∈ activeWallSupport walls →
+    decoration j = homogeneousComponent 𝒜 (degree j)
+      ((action (signedWallProduct walls
+        (brokenPath i endpoint bendTime degree t) (-i (degree j)))) (decoration j))
+
+end BrokenLineCarrier
+
+/-! ### Theta functions via the probe Lie algebra (README §5.5) -/
+
+section Probe
+
+variable {R : Type*} [Ring R]
+  {L V G A : Type*} [AddCommGroup L] [DecidableEq L] [NormedAddCommGroup V]
+  [NormedSpace ℝ V] {i : L →+ V} {hi : TauCeti.Toric.IsIntegralLattice i} {D : PositiveDegrees L}
+  [Group G] {wallGroup : L → (L →+ ℤ) → Subgroup G}
+  [AddCommGroup A] [Module R A] {𝒜 : L → Submodule R A} [DirectSum.Decomposition 𝒜]
+  (action : G →* (A ≃ₗ[R] A)) {K : OrderFiltration G} (p : L)
+
+/-- The action of `Ĝ` on the coefficient module as automorphisms of its multiplicative group. -/
+def probeAut : G →* MulAut (Multiplicative A) where
+  toFun g := AddEquiv.toMultiplicative (action g).toAddEquiv
+  map_one' := by ext x; simp
+  map_mul' g g' := by ext x; simp
+
+/-- The probe group `exp(g ⋉ M_p)` (`README §5.5` *moduleProbeLieAlgebra*), at the group level:
+the semidirect product of the multiplicative group of the order-`h` coefficient module by `Ĝ`.
+The Lie-algebra form `LieAlgebra.SemiDirectSum` is the README's. -/
+abbrev probeGroup : Type _ := Multiplicative A ⋊[probeAut action] G
+
+variable (i) in
+/-- The extended lattice `L_ext = L ⊕ ℤe_y ⊕ ℤe_z → V × ℝ²` (`README §5.5`). -/
+noncomputable def probeLattice : L × ℤ × ℤ →+ V × ℝ × ℝ :=
+  AddMonoidHom.prodMap i (AddMonoidHom.prodMap (Int.castAddHom ℝ) (Int.castAddHom ℝ))
+
+omit [DecidableEq L] in
+/-- `README §5.5`: `L_ext → V × ℝ²` is an integral lattice. -/
+theorem probeLattice_isIntegralLattice (h : TauCeti.Toric.IsIntegralLattice i) :
+    TauCeti.Toric.IsIntegralLattice (probeLattice i) := by
+  sorry
+
+variable (L) in
+/-- The module normal `e_z*`. -/
+def zCoord : L × ℤ × ℤ →+ ℤ := (AddMonoidHom.snd ℤ ℤ).comp (AddMonoidHom.snd L (ℤ × ℤ))
+
+variable (D) in
+/-- `δ_ext(x, k, l) = δ(x) + (1 − δ(p)) k`. -/
+def probeDegree : L × ℤ × ℤ →+ ℤ :=
+  D.degree.comp (AddMonoidHom.fst _ _) +
+    (1 - D.degree p) • (AddMonoidHom.fst ℤ ℤ).comp (AddMonoidHom.snd _ _)
+
+omit [DecidableEq L] in
+theorem probeDegree_apply (n : L) (k : ℕ) :
+    probeDegree D p (n + k • p, (k : ℤ), 0) = D.degree n + k := by
+  simp [probeDegree, map_nsmul]
+  ring
+
+variable (D) in
+/-- `README §5.5`: the degree data `(L_ext, P_ext, δ_ext)` with `P_ext = {(n + kp, k, 0)}` and
+`δ_ext = δ(n) + k` on `P_ext`. -/
+def probeDegrees : PositiveDegrees (L × ℤ × ℤ) where
+  monoid :=
+    { carrier := {x | ∃ n ∈ D.monoid, ∃ k : ℕ, x = (n + k • p, (k : ℤ), 0)}
+      zero_mem' := ⟨0, D.monoid.zero_mem, 0, by ext <;> simp⟩
+      add_mem' := by
+        rintro _ _ ⟨n, hn, k, rfl⟩ ⟨n', hn', k', rfl⟩
+        refine ⟨n + n', D.monoid.add_mem hn hn', k + k', ?_⟩
+        ext <;> simp [add_nsmul]
+        abel }
+  degree := probeDegree D p
+  degree_pos := by
+    rintro _ ⟨n, hn, k, rfl⟩ hne
+    rw [probeDegree_apply]
+    have hnn : 0 ≤ D.degree n := by
+      by_cases h0 : n = 0
+      · simp [h0]
+      · exact (D.degree_pos n hn h0).le
+    rcases Nat.eq_zero_or_pos k with hk | hk
+    · subst hk
+      have : n ≠ 0 := fun h0 => hne (by simp [h0])
+      simpa using D.degree_pos n hn this
+    · omega
+  finite_cutoff h := by
+    refine (((D.finite_cutoff h).prod (Set.finite_Iic h)).image
+      fun x : L × ℕ => (x.1 + x.2 • p, (x.2 : ℤ), (0 : ℤ))).subset ?_
+    rintro _ ⟨⟨n, hn, k, rfl⟩, hle⟩
+    rw [probeDegree_apply] at hle
+    have hnn : 0 ≤ D.degree n := by
+      by_cases h0 : n = 0
+      · simp [h0]
+      · exact (D.degree_pos n hn h0).le
+    refine ⟨(n, k), Set.mk_mem_prod ⟨hn, ?_⟩ (Set.mem_Iic.2 (by omega)), rfl⟩
+    omega
+
+variable (wallGroup 𝒜) in
+open scoped Classical in
+/-- The wall groups of the probe (`README §5.5`): at old degrees `(n, 0, 0)` and old normals
+`(m, 0, 0)` the image of `wallGroup n m` in charge zero; at module degrees `(q, 1, 0)` and the
+nonzero multiples of `e_z*` the image of `A_q` in charge one; trivial otherwise. -/
+noncomputable def probeWallGroup (n : L × ℤ × ℤ) (ν : L × ℤ × ℤ →+ ℤ) :
+    Subgroup (probeGroup action) :=
+  if n.2 = (0, 0) ∧ ν (0, 1, 0) = 0 ∧ ν (0, 0, 1) = 0 then
+    (wallGroup n.1 (ν.comp (AddMonoidHom.inl L (ℤ × ℤ)))).map SemidirectProduct.inr
+  else if n.2 = (1, 0) ∧ ν ≠ 0 ∧ ν.comp (AddMonoidHom.inl L (ℤ × ℤ)) = 0 ∧ ν (0, 1, 0) = 0 then
+    (AddSubgroup.toSubgroup (𝒜 n.1).toAddSubgroup).map SemidirectProduct.inl
+  else ⊥
+
+variable (hi D wallGroup 𝒜) in
+/-- A directed diagram over the probe setup. -/
+abbrev ProbeDiagram (K' : OrderFiltration (probeGroup action)) (ι' : Type*) :=
+  DirectedDiagram (probeLattice_isIntegralLattice hi) (probeDegrees D p)
+    (probeWallGroup wallGroup 𝒜 action) K' ι'
+
+/-- `w'` is the cylinder lift of `w` (`README §5.5` *cylinderRegrade*): support `d × ℝ²`,
+normal `(m, 0, 0)`, degree `(n, 0, 0)`, label in charge zero. -/
+def IsCylinderLiftWall (w : DirectedWall hi D wallGroup)
+    (w' : DirectedWall (probeLattice_isIntegralLattice hi) (probeDegrees D p)
+      (probeWallGroup wallGroup 𝒜 action)) : Prop :=
+  w'.support = {x | x.1 ∈ w.support} ∧ w'.normal = w.normal.comp (AddMonoidHom.fst L (ℤ × ℤ)) ∧
+    w'.degree = (w.degree, 0, 0) ∧ w'.label.val = SemidirectProduct.inr w.label.val
+
+variable (hi) in
+/-- `w'` is the probe wall for `a ∈ A_p` (`README §5.5`): the full hyperplane `z = 0`, degree
+`(p, 1, 0)`, normal `e_z*`, label `exp(a)`. -/
+def IsProbeWall (a : A)
+    (w' : DirectedWall (probeLattice_isIntegralLattice hi) (probeDegrees D p)
+      (probeWallGroup wallGroup 𝒜 action)) : Prop :=
+  w'.support = {x | x.2.2 = 0} ∧ w'.normal = zCoord L ∧ w'.degree = (p, 1, 0) ∧
+    w'.label.val = SemidirectProduct.inl (Multiplicative.ofAdd a)
+
+variable (D 𝒜 K) in
+/-- The order filtration of the probe group induced by `K` and the extended degree: charge
+zero at order `h` is `K.ker h`, and `exp(b)` for `b ∈ M_p` has extended order `> h + 1` iff its
+components of relative degree `≤ h` vanish (module charge one through extended order `h + 1`
+is relative order `h`). -/
+def IsProbeFiltration (K' : OrderFiltration (probeGroup action)) : Prop :=
+  (∀ h (g : G), SemidirectProduct.inr g ∈ K'.ker h ↔ g ∈ K.ker h) ∧
+    ∀ h (b : A), (∀ q, q - p ∉ D.monoid → homogeneousComponent 𝒜 q b = 0) →
+      (SemidirectProduct.inl (Multiplicative.ofAdd b) ∈ K'.ker (h + 1) ↔
+        ∀ n ∈ D.cutoff h, homogeneousComponent 𝒜 (p + n) b = 0)
+
+/-- `README §5.5` *probeCompletion*, as a property of a probe diagram indexed by
+`ι ⊕ Unit ⊕ κ`: the cylinder lifts of the walls of `𝔇` itself (the charge-zero part is not
+corrected), the probe wall for `a`, outgoing module-charge-one walls (each produced by §3.3's
+*centralStep* in the construction), and consistency of the whole. -/
+def IsProbeCompletion {ι : Type*} (𝔇 : DirectedDiagram hi D wallGroup K ι) (a : A)
+    {K' : OrderFiltration (probeGroup action)} {κ : Type*}
+    (𝔇' : ProbeDiagram hi D wallGroup 𝒜 action p K' (ι ⊕ Unit ⊕ κ)) : Prop :=
+  (∀ k, IsCylinderLiftWall action p (𝔇.wall k) (𝔇'.wall (Sum.inl k))) ∧
+    IsProbeWall hi action p a (𝔇'.wall (Sum.inr (Sum.inl ()))) ∧
+    (∀ c, (𝔇'.wall (Sum.inr (Sum.inr c))).degree.2 = (1, 0) ∧
+      (𝔇'.wall (Sum.inr (Sum.inr c))).Outgoing) ∧
+    𝔇'.Consistent
+
+/-- `README §5.5`: a probe completion exists for a representative `𝔇` of `Scat(D_in)` from
+§3.3 and `a ∈ A_p`: lift `𝔇` as cylinders, add the probe wall, keep charge zero fixed and
+correct only module charge one by *centralStep* (charge-one corrections never change charge
+zero, since `[M_p, M_p] = 0`). -/
+theorem exists_probeCompletion [FiniteDimensional ℝ V] {k : ℕ}
+    (Din : Fin k → DirectedWall hi D wallGroup) (hDin : ∀ j, (Din j).IsFullHyperplane)
+    {κ : Type*} {𝔇 : DirectedDiagram hi D wallGroup K (Fin k ⊕ κ)}
+    (H : IsOutgoingCompletion K Din 𝔇) {K' : OrderFiltration (probeGroup action)}
+    (hK' : IsProbeFiltration D 𝒜 action K p K') (a : A) (ha : a ∈ 𝒜 p) :
+    ∃ (κ' : Type) (𝔇' : ProbeDiagram hi D wallGroup 𝒜 action p K' ((Fin k ⊕ κ) ⊕ Unit ⊕ κ')),
+      IsProbeCompletion action p 𝔇 a 𝔇' := by
+  sorry
+
+/-- `README §5.5` *probeCompletion*: a choice of probe completion (its data depends on
+*exists_probeCompletion*; the construction is §3.3's). -/
+noncomputable def probeCompletion [FiniteDimensional ℝ V] {k : ℕ}
+    (Din : Fin k → DirectedWall hi D wallGroup) (hDin : ∀ j, (Din j).IsFullHyperplane)
+    {κ : Type*} {𝔇 : DirectedDiagram hi D wallGroup K (Fin k ⊕ κ)}
+    (H : IsOutgoingCompletion K Din 𝔇) {K' : OrderFiltration (probeGroup action)}
+    (hK' : IsProbeFiltration D 𝒜 action K p K') (a : A) (ha : a ∈ 𝒜 p) :
+    ProbeDiagram hi D wallGroup 𝒜 action p K'
+      ((Fin k ⊕ κ) ⊕ Unit ⊕ (exists_probeCompletion action p Din hDin H hK' a ha).choose) :=
+  (exists_probeCompletion action p Din hDin H hK' a ha).choose_spec.choose
+
+/-- `Θ ∈ M_p` represents the module label `F(Q)` at `(Q, y, 0)` at relative order `h`: a short
+upward vertical segment there is admissible at extended order `h + 1`, meets only walls with
+normal `e_z*`, and has product `exp(−Θ)` to that order (crossing along the coorientation gives
+the inverse label), so the label is `exp(Θ)`. -/
+def IsProbeLabelRep {K' : OrderFiltration (probeGroup action)} {ι' : Type*}
+    (𝔇' : ProbeDiagram hi D wallGroup 𝒜 action p K' ι') (h : ℕ) (Q : V) (Θ : A) : Prop :=
+  ∃ y ε : ℝ, 0 < ε ∧ 𝔇'.IsAdmissiblePolygon (h + 1) ![(Q, y, -ε), (Q, y, ε)] ∧
+    (∀ k, (𝔇'.wall k).label.val ∉ K'.ker (h + 1) →
+      (segment ℝ (Q, y, -ε) (Q, y, ε) ∩ (𝔇'.wall k).support).Nonempty →
+      (𝔇'.wall k).normal = zCoord L) ∧
+    𝔇'.polygonProduct (h + 1) ![(Q, y, -ε), (Q, y, ε)] *
+      SemidirectProduct.inl (Multiplicative.ofAdd Θ) ∈ K'.ker (h + 1)
+
+open scoped Classical in
+/-- `README §5.5` `F(Q)`, the module label of the probe completion at relative order `h`, as
+a representative in the coefficient module; `0` if no representative exists (§5.3's generic
+endpoints have one). Its degree-`q` component `F_q(Q)` is `homogeneousComponent 𝒜 q`. -/
+noncomputable def probeLabel {K' : OrderFiltration (probeGroup action)} {ι' : Type*}
+    (𝔇' : ProbeDiagram hi D wallGroup 𝒜 action p K' ι') (h : ℕ) (Q : V) : A :=
+  if hQ : ∃ Θ, IsProbeLabelRep action p 𝔇' h Q Θ then hQ.choose else 0
+
+/-- `README §5.5` *probeFlatness*: for an admissible `γ` from `Q` to `Q'` with representable
+labels at both ends, `F(Q') = G·F(Q)` to relative order `h`, with `G = 𝔭_{γ,D}` the order-`h`
+path product of `𝔇`, by consistency of the rectangle crossing the probe twice and
+`G exp(v) G⁻¹ = exp(G·v)` in the semidirect product. No identification of `F` with a theta sum
+is used. -/
+theorem probeFlatness [FiniteDimensional ℝ V] {ι : Type*} {𝔇 : DirectedDiagram hi D wallGroup K ι}
+    (a : A) {K' : OrderFiltration (probeGroup action)} (hK' : IsProbeFiltration D 𝒜 action K p K')
+    {κ : Type*} {𝔇' : ProbeDiagram hi D wallGroup 𝒜 action p K' (ι ⊕ Unit ⊕ κ)}
+    (hP : IsProbeCompletion action p 𝔇 a 𝔇') (h : ℕ) {m : ℕ} (γ : Fin (m + 1) → V)
+    (hγ : 𝔇.IsAdmissiblePolygon h γ) (hQ : ∃ Θ, IsProbeLabelRep action p 𝔇' h (γ 0) Θ)
+    (hQ' : ∃ Θ, IsProbeLabelRep action p 𝔇' h (γ (Fin.last m)) Θ) :
+    ∀ n ∈ D.cutoff h,
+      homogeneousComponent 𝒜 (p + n) (probeLabel action p 𝔇' h (γ (Fin.last m))) =
+        homogeneousComponent 𝒜 (p + n)
+          (action (𝔇.polygonProduct h γ) (probeLabel action p 𝔇' h (γ 0))) := by
+  sorry
+
+/-- The theta sum `Θ_Q` at order `h` (`README §5.2`): the sum of the final decorations of the
+broken lines for `a` ending at `Q`, over the walls active at order `h`; `0` when the fiber is
+infinite (`README §5.3` proves it finite at generic endpoints). -/
+noncomputable def DirectedDiagram.thetaSum {ι : Type*} (𝔇 : DirectedDiagram hi D wallGroup K ι)
+    (h : ℕ) (a : A) (ha : a ∈ 𝒜 p) (Q : V) : A :=
+  ∑ᶠ b : {b : BrokenLine hi D wallGroup 𝒜 (𝔇.activeFamily h) action h a ha // b.endpoint = Q},
+    b.1.decoration (Fin.last b.1.numBends)
+
+/-- The backward ray `Q + tq` (`t > 0`) through a finite wall family (`README §5.5`): its
+finitely many hit times on active walls and, for each hit `x`, a point `x⁻` on the incoming
+germ just behind `x` (`x + εq` moved along a transverse direction `r`, `README §5.3`'s
+*incomingBranchGerm*). -/
+structure BackwardRay {w : ℕ} (walls : Fin w → DirectedWall hi D wallGroup) (Q : V) (q : L)
+    where
+  hits : Finset ℝ
+  hits_spec : ∀ t, t ∈ hits ↔ 0 < t ∧ Q + t • i q ∈ activeWallSupport walls
+  germ : ℝ → V
+  germ_spec : ∀ t ∈ hits, ∃ ε > 0, ∃ r : V, germ t = Q + (t + ε) • i q + ε • r ∧
+    ∀ s ∈ hits, t < s → t + ε < s
+
+variable (𝒜) in
+open scoped Classical in
+/-- `README §5.5`'s last-transition recursion for a family `Φ Q n ∈ A_{p+n}` of degree
+components at the points satisfying `gen`: for `q = p + n ≠ 0` and every backward ray with
+`gen` germs,
+`Φ_q(Q) = 1_{n=0} a + Σ_x Σ_{δ(n') < δ(n)} pr_q(U_x^q Φ_{p+n'}(x⁻))`, where `U_x^q` is the signed
+combined action of the walls at `x` for velocity `−q`; its diagonal is the identity and its
+off-diagonal entries `r → q` need `q − r ∈ P∖{0}`. -/
+def SatisfiesTransitionRecursion {w : ℕ} (walls : Fin w → DirectedWall hi D wallGroup) (h : ℕ)
+    (a : A) (gen : V → Prop) (Φ : V → L → A) : Prop :=
+  ∀ Q, gen Q → ∀ n ∈ D.cutoff h, p + n ≠ 0 → ∀ R : BackwardRay walls Q (p + n),
+    (∀ t ∈ R.hits, gen (R.germ t)) →
+    Φ Q n = (if n = 0 then a else 0) + ∑ t ∈ R.hits,
+      ∑ n' ∈ (D.finite_cutoff h).toFinset.filter (fun n' => D.degree n' < D.degree n),
+        homogeneousComponent 𝒜 (p + n)
+          (action (signedWallProduct walls (Q + t • i (p + n)) (-i (p + n))) (Φ (R.germ t) n'))
+
+/-- `README §5.5` *probeLastTransitionRecursion*: the components `F_q` of the probe label
+satisfy the last-transition recursion off a finite arrangement of proper affine subspaces
+(consistency of the probe completion on a thin rectangle along the backward ray, with
+*probeFlatness* on the germs). -/
+theorem probeLastTransitionRecursion [FiniteDimensional ℝ V] {ι : Type*}
+    {𝔇 : DirectedDiagram hi D wallGroup K ι} (a : A) (ha : a ∈ 𝒜 p)
+    {K' : OrderFiltration (probeGroup action)} (hK' : IsProbeFiltration D 𝒜 action K p K')
+    {κ : Type*} {𝔇' : ProbeDiagram hi D wallGroup 𝒜 action p K' (ι ⊕ Unit ⊕ κ)}
+    (hP : IsProbeCompletion action p 𝔇 a 𝔇') (h : ℕ) :
+    ∃ Ex : ExceptionalArrangement V, SatisfiesTransitionRecursion 𝒜 action p (𝔇.activeFamily h) h a
+      Ex.IsGeneric fun Q n => homogeneousComponent 𝒜 (p + n) (probeLabel action p 𝔇' h Q) := by
+  sorry
+
+/-- `README §5.5` *lastBend_induction*: deleting the last genuine bend of a broken line gives the
+same recursion for the theta sums `Θ` (prefix of strictly smaller relative degree, suffix with
+velocity `−q`), off a finite arrangement of proper affine subspaces; genericity of `x + εr`
+follows from such an arrangement (an `r`-invariant degeneracy hyperplane equal to the wall
+would force `m(r) = 0`). With *probeLastTransitionRecursion* and induction on `δ(q − p)` this
+gives *probeWall_eq_brokenLineSum* `F = Θ`, hence *theta_transport* from *probeFlatness*. -/
+theorem lastBend_induction [FiniteDimensional ℝ V] {ι : Type*}
+    (𝔇 : DirectedDiagram hi D wallGroup K ι) (h : ℕ) (a : A) (ha : a ∈ 𝒜 p) :
+    ∃ Ex : ExceptionalArrangement V, SatisfiesTransitionRecursion 𝒜 action p (𝔇.activeFamily h) h a
+      Ex.IsGeneric fun Q n => homogeneousComponent 𝒜 (p + n) (𝔇.thetaSum action p h a ha Q) := by
+  sorry
+
+/-- `README §5.5` *probeWall_eq_brokenLineSum*: `F(Q) = Θ_Q` to relative order `h` off a finite
+arrangement of proper affine subspaces, by induction on `δ(q − p)` from
+*probeLastTransitionRecursion* and *lastBend_induction*, the component `q = p` being `a` on
+both sides. -/
+theorem probeWall_eq_brokenLineSum [FiniteDimensional ℝ V] {ι : Type*}
+    {𝔇 : DirectedDiagram hi D wallGroup K ι} (a : A) (ha : a ∈ 𝒜 p)
+    {K' : OrderFiltration (probeGroup action)} (hK' : IsProbeFiltration D 𝒜 action K p K')
+    {κ : Type*} {𝔇' : ProbeDiagram hi D wallGroup 𝒜 action p K' (ι ⊕ Unit ⊕ κ)}
+    (hP : IsProbeCompletion action p 𝔇 a 𝔇') (h : ℕ) :
+    ∃ Ex : ExceptionalArrangement V, ∀ Q, Ex.IsGeneric Q → ∀ n ∈ D.cutoff h,
+      homogeneousComponent 𝒜 (p + n) (probeLabel action p 𝔇' h Q) =
+        homogeneousComponent 𝒜 (p + n) (𝔇.thetaSum action p h a ha Q) := by
+  sorry
+
+/-- `README §5.5` *theta_transport*, at order `h`: for a representative `𝔇` of `Scat(D_in)` and
+an admissible `γ` between endpoints off a finite arrangement of proper affine subspaces,
+`ϑ_{a,Q'} = 𝔭_{γ,D}(ϑ_{a,Q})`. From *probeWall_eq_brokenLineSum* and *probeFlatness*. -/
+theorem theta_transport [FiniteDimensional ℝ V] {k : ℕ} (Din : Fin k → DirectedWall hi D wallGroup)
+    (hDin : ∀ j, (Din j).IsFullHyperplane) {κ : Type*}
+    (𝔇 : DirectedDiagram hi D wallGroup K (Fin k ⊕ κ)) (H : IsOutgoingCompletion K Din 𝔇)
+    (h : ℕ) (a : A) (ha : a ∈ 𝒜 p) :
+    ∃ Ex : ExceptionalArrangement V, ∀ {m : ℕ} (γ : Fin (m + 1) → V),
+      𝔇.IsAdmissiblePolygon h γ → Ex.IsGeneric (γ 0) → Ex.IsGeneric (γ (Fin.last m)) →
+      ∀ n ∈ D.cutoff h,
+        homogeneousComponent 𝒜 (p + n) (𝔇.thetaSum action p h a ha (γ (Fin.last m))) =
+          homogeneousComponent 𝒜 (p + n)
+            (action (𝔇.polygonProduct h γ) (𝔇.thetaSum action p h a ha (γ 0))) := by
+  sorry
+
+end Probe
+
+/-! ## Layer 7: positivity -/
+
+/-- Positivity in a completion `Â` (`README §7.1`): a positive representative at every order,
+for a positive coefficient model `Pos` such as the image of `ℕ[A][Q]`. No coefficient map out of
+`Â` is needed, and it is a subsemiring by construction. -/
+def positiveCompletion {A : Type*} [Ring A] (F : AlgFiltration A)
+    (Pos : Subsemiring A) : Subsemiring F.completion where
+  carrier := {x | ∀ h, ∃ y ∈ Pos, F.proj ℤ h x = Ideal.Quotient.mk _ y}
+  zero_mem' _ := ⟨0, Pos.zero_mem, by rw [map_zero, map_zero]⟩
+  one_mem' _ := ⟨1, Pos.one_mem, by rw [map_one, map_one]⟩
+  add_mem' {x y} hx hy h := by
+    obtain ⟨⟨a, ha, hxa⟩, ⟨b, hb, hyb⟩⟩ := And.intro (hx h) (hy h)
+    exact ⟨a + b, Pos.add_mem ha hb, by rw [map_add, hxa, hyb, map_add]⟩
+  mul_mem' {x y} hx hy h := by
+    obtain ⟨⟨a, ha, hxa⟩, ⟨b, hb, hyb⟩⟩ := And.intro (hx h) (hy h)
+    exact ⟨a * b, Pos.mul_mem ha hb, by rw [map_mul, hxa, hyb, map_mul]⟩
+
+end TauCetiRoadmap.ScatteringDiagrams
