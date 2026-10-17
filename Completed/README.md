@@ -37,3 +37,5 @@ revision against which an earlier version elaborated.
   (declared complete 2026-10-07)
 - [Arithmetic Dirichlet series and Tauberian methods](ArithmeticDirichletSeries/README.md)
   (declared complete 2026-10-07)
+- [Geodesics, the exponential map, and the Hopf-Rinow theorem](HopfRinow/README.md)
+  (declared complete 2026-10-07)
