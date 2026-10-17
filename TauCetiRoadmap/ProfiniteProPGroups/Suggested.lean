@@ -847,8 +847,9 @@ end CompletedAlgebra
 
 These are the statements Labute's §4 arguments run on: the power-series coordinate with its finite
 levels, the evaluation homomorphism at a point of the maximal ideal, and the division criterion
-that produces the basis corrections of Layer 9. `ℤ_p[[T]]` carries the coefficientwise topology
-`PowerSeries.WithPiTopology`, which is compact because `ℤ_p` is. -/
+together with the constant-term computation from which the basis corrections of Layer 9 are
+built. `ℤ_p[[T]]` carries the coefficientwise topology `PowerSeries.WithPiTopology`, which is
+compact because `ℤ_p` is. -/
 
 section ProcyclicCoordinate
 
@@ -914,12 +915,43 @@ example {c : ℤ_[p]} (hc : (p : ℤ_[p]) ∣ c) (a : ℤ_[p]) :
 
 /-- **Layer 9, the division criterion** `(T - c) ∣ ψ ↔ ψ(c) = 0`, for `p ∣ c`, with the explicit
 quotient `PowerSeries.divXSubC`: Tau Ceti's `PadicInt.X_sub_C_dvd_iff_aeval_eq_zero`. This is the
-special case of Weierstrass division that Labute uses in §4.1 (p. 122), and the step that produces
-the basis correction of Layer 9; the general Weierstrass preparation theorem is not a target. -/
+special case of Weierstrass division that Labute uses in §4.1 (p. 122); the general Weierstrass
+preparation theorem is not a target.
+⚠ Division alone is not the basis correction of Layer 9. It produces the quotient series, and
+with it scalar membership of the relator class; what makes the quotient usable as a new
+generator is the constant-term computation `constantCoeff_of_eq_sub_C_mul` below. See
+`not_exists_complement_powerSeries_two_X` for what fails without it. -/
 example {c : ℤ_[p]} (hc : (p : ℤ_[p]) ∣ c) (ψ : PowerSeries ℤ_[p]) :
     (PowerSeries.X - PowerSeries.C c) ∣ ψ ↔
       PowerSeries.aeval (TauCeti.Huber.PadicInt.isTopologicallyNilpotent_iff_dvd.mpr hc) ψ = 0 :=
   PadicInt.X_sub_C_dvd_iff_aeval_eq_zero hc ψ
+
+/-- **Layer 9, the constant term of a quotient by `T - c`**: `ψ(0) = -c · φ(0)` when
+`ψ = (T - c) φ`, so `v_p(φ(0)) = v_p(ψ(0)) - v_p(c)`. This is what turns a division into a
+statement about a corrected generator. In the procyclic correction
+`exists_labuteBasisCorrection_of_range_eq_procyclicClosure`, with `f = v₂(α)` and `g` the exponent
+of the third generator, `c = -(2 + 2^f)` has `v₂(c) = 1`, the first coefficient has
+`ψ₁(0) = 2 + α` with `v₂ = 1`, and the second has `ψ₂(0) = 2^g` with `v₂ = g ≥ 3` (it is `0` when
+`g = ∞`). Hence `φ₁(0)` is a unit and `φ₂(0) ∈ 2ℤ₂`, which is the congruence `z₁ ≡ y₁` modulo
+`Φ(F)` that makes the corrected family a basis (Labute p. 123). -/
+theorem constantCoeff_of_eq_sub_C_mul (ψ φ : PowerSeries ℤ_[p]) (c : ℤ_[p])
+    (h : ψ = (PowerSeries.X - PowerSeries.C c) * φ) :
+    PowerSeries.constantCoeff (R := ℤ_[p]) ψ = -c * PowerSeries.constantCoeff (R := ℤ_[p]) φ :=
+  sorry
+
+/-- **Layer 9, the rejection test that keeps "divide out the common factor" from being read as a
+basis correction.** In `R = ℤ₂[[T]]` the vector `(2, T) ∈ R²` has no nonunit common divisor, yet
+no `w` completes it to a spanning pair: modulo the maximal ideal `(2, T)` the vector becomes zero,
+so the image of the span in `𝔽₂²` is at most one-dimensional. Coefficientwise divisibility of the
+relator class therefore yields some `z` with `r̄ = l z`, and that `z` need not be usable as a
+generator. The corrections `exists_labuteBasisCorrection_of_range_eq_procyclicClosure` and
+`exists_labuteBasisCorrection_of_range_eq_unitsPlusMinus` supply the change of generators, from
+the constant-term computation above, not from divisibility. -/
+theorem not_exists_complement_powerSeries_two_X :
+    ¬ ∃ w : Fin 2 → PowerSeries ℤ_[2],
+      Submodule.span (PowerSeries ℤ_[2])
+        ({![(2 : PowerSeries ℤ_[2]), PowerSeries.X], w} : Set (Fin 2 → PowerSeries ℤ_[2])) = ⊤ :=
+  sorry
 
 end Evaluation
 
@@ -969,7 +1001,10 @@ theorem completedGroupAlgebra.dyadicCoordinate_proj_eq_zero_iff (m : ℕ)
 
 /-- **Layer 9, those levels are cofinal.** Every open normal subgroup of `Γ` contains some `U_m`,
 so with the kernel formula above the dyadic coordinate identifies the inverse-limit topology of `Λ`
-with the topology of `ℤ₂[C₂][[T]]` defined by the ideals `((1 + T)^(2^m) - 1)`. -/
+with the topology of `ℤ₂[C₂][[T]]` whose basic neighbourhoods of `0` are the ideals
+`(2^s, (1 + T)^(2^m) - 1)`. ⚠ The ideals `((1 + T)^(2^m) - 1)` alone do not define it: each finite
+level `ℤ₂[Γ ⧸ U_m]` keeps its `2`-adic topology, and at `m = 0` they would make the coefficient
+ring `ℤ₂[C₂]` discrete, while `Λ` is compact. -/
 theorem completedGroupAlgebra.exists_dyadicLevel_le (V : OpenNormalSubgroup Γ) :
     ∃ m : ℕ, ∀ γ : Γ, (e γ).1 = 1 → (2 ^ m : ℤ_[2]) ∣ Multiplicative.toAdd (e γ).2 →
       γ ∈ V.toSubgroup :=
@@ -986,6 +1021,38 @@ example (x : MonoidAlgebra ℤ_[2] (Multiplicative (ZMod 2))) :
       (IsIdempotentElem x ↔ x = 0 ∨ x = 1) :=
   ⟨⟨TauCeti.monoidAlgebraRatPadicCyclicTwoEquiv⟩,
     TauCeti.monoidAlgebraPadicIntCyclicTwo_isIdempotentElem_iff⟩
+
+/-- The coefficient involution `S = σ ∈ ℤ₂[C₂]`, as a constant power series in the dyadic
+coordinate ring `ℤ₂[C₂][[T]]`. -/
+noncomputable abbrev splitInvolution :
+    PowerSeries (MonoidAlgebra ℤ_[2] (Multiplicative (ZMod 2))) :=
+  PowerSeries.C (MonoidAlgebra.single (Multiplicative.ofAdd (1 : ZMod 2)) (1 : ℤ_[2]))
+
+/-- The inclusion of the base `ℤ₂[[T]]` into the dyadic coordinate ring `ℤ₂[C₂][[T]]`. -/
+noncomputable abbrev splitBase :
+    PowerSeries ℤ_[2] →+* PowerSeries (MonoidAlgebra ℤ_[2] (Multiplicative (ZMod 2))) :=
+  PowerSeries.map (algebraMap ℤ_[2] (MonoidAlgebra ℤ_[2] (Multiplicative (ZMod 2))))
+
+/-- **Layer 9, the dyadic coordinate ring is not a domain.** `(1 - S)(1 + S) = 0` with both
+factors nonzero. This is why the procyclic argument of Labute §4.1, which cancels a common factor
+in the domain `ℤ₂[[T]]`, cannot be rerun in the branch `Im χ = {±1} × U^(f)`, and why
+`exists_labuteBasisCorrection_of_range_eq_unitsPlusMinus` has a separate proof. -/
+theorem splitInvolution_isZeroDivisor :
+    (1 - splitInvolution) * (1 + splitInvolution) = 0 ∧
+      1 - splitInvolution ≠ 0 ∧ 1 + splitInvolution ≠ 0 :=
+  sorry
+
+/-- **Layer 9, the split branch divides in the base.** `ℤ₂[C₂][[T]]` is free of rank two over
+`ℤ₂[[T]]` on `1, S`, and `2^f + T` lies in the base, so divisibility by it is coordinatewise
+divisibility in the domain `ℤ₂[[T]]`, where the division criterion applies. This is the extra
+input of Labute §4.2 (p. 127): after normalizing by the unit `(1 + α)⁻¹` the obstruction is
+`S · h(T)` with `h ∈ ℤ₂[[T]]` and `h(-2^f) = 0`, and the one division happens in the base. -/
+theorem splitBase_dvd_iff (f : ℕ) (ψ₀ ψ₁ : PowerSeries ℤ_[2]) :
+    splitBase (PowerSeries.C ((2 : ℤ_[2]) ^ f) + PowerSeries.X) ∣
+        splitBase ψ₀ + splitInvolution * splitBase ψ₁ ↔
+      (PowerSeries.C ((2 : ℤ_[2]) ^ f) + PowerSeries.X) ∣ ψ₀ ∧
+        (PowerSeries.C ((2 : ℤ_[2]) ^ f) + PowerSeries.X) ∣ ψ₁ :=
+  sorry
 
 end DyadicAlgebra
 
@@ -1178,7 +1245,13 @@ With `E` and `Λ` as above, these are the statements Labute's Theorems 5 and 6 r
 class in a spanning family, and its normalized form in each of the two branches of the image of
 `χ`. The two branch statements carry Labute's hypotheses: `F` free pro-`2` of even rank `n`,
 `r ∈ F²(F, F)` a Demushkin relation with `q = 2`, `χ` its associated character, and the branch of
-`Im χ`. -/
+`Im χ`.
+⚠ The two branch statements are about the element `r̄`: each returns some `z` with `r̄` a multiple
+of it, and says nothing about whether `z` is the class of a member of a basis of `F`. That is a
+separate statement, false for a general coefficient vector
+(`not_exists_complement_powerSeries_two_X`), and it is the one the successive approximation
+consumes: `exists_labuteBasisCorrection_of_range_eq_procyclicClosure` and
+`exists_labuteBasisCorrection_of_range_eq_unitsPlusMinus` in `MarkedNormalForms`. -/
 
 section ModuleStatements
 
@@ -1315,16 +1388,20 @@ def demushkinWordNeTwo {H : Type*} [Group H] (q n : ℕ) (x : ℕ → H) : H :=
   x 0 ^ q * ((List.range (n / 2)).map fun i => labuteComm (x (2 * i)) (x (2 * i + 1))).prod
 
 /-- The `q = 2`, `n` odd normal-form word `x₁²x₂^{2^f}(x₂,x₃)(x₄,x₅)⋯`, on an arbitrary tuple.
-The parameter `f` is finite here; the value `f = ∞` is the separate word with `x₂^{2^f}`
-replaced by `1`. -/
+The parameter `f` is finite here; the word with `f : ℕ∞`, where `f = ∞` replaces `x₂^{2^f}` by
+`1`, is `demushkinWordTwoOddPadic`, which agrees with this one at finite `f`
+(`demushkinWordTwoOddPadic_natCast`). -/
 def demushkinWordTwoOdd {H : Type*} [Group H] (f n : ℕ) (x : ℕ → H) : H :=
   x 0 ^ 2 * x 1 ^ (2 ^ f) *
     ((List.range (n / 2)).map fun i => labuteComm (x (2 * i + 1)) (x (2 * i + 2))).prod
 
-/-- The `q = 2`, `n` even normal-form word `x₁^{2+α}(x₁,x₂)x₃^{2^f}(x₃,x₄)⋯`, on an arbitrary
-tuple, with the exponent `2 + α` given as a `2`-adic exponent through the `ℤ₂`-action on the
-abelianization; here it is written with the natural-number exponent `2 + a` that represents it
-at each finite level. -/
+/-- The `q = 2`, `n` even normal-form word `x₁^{2+a}(x₁,x₂)x₃^{2^f}(x₃,x₄)⋯`, on an arbitrary
+tuple, with natural-number parameters `a` and `f`. These are the values the marked classification
+instantiates, where the image equation pins the parameters and natural representatives exist.
+⚠ A natural number does not stand for a general `α ∈ 4ℤ₂`: the word in the nonabelian group `F`
+depends on the actual exponent, not on its residue at one finite level. The word with genuine
+parameters `α : ℤ_[2]` and `f : ℕ∞` is `demushkinWordTwoEvenPadic`, which agrees with this one at
+natural parameters (`demushkinWordTwoEvenPadic_natCast`). -/
 def demushkinWordTwoEven {H : Type*} [Group H] (a f n : ℕ) (x : ℕ → H) : H :=
   x 0 ^ (2 + a) * labuteComm (x 0) (x 1) * x 2 ^ (2 ^ f) *
     ((List.range (n / 2 - 1)).map fun i =>
@@ -1343,6 +1420,206 @@ third generator is out of range, and the commutator product beyond `(x₁,x₂)`
 theorem demushkinWordTwoEven_two {H : Type*} [Group H] (a f : ℕ) (x : ℕ → H) (hx : x 2 = 1) :
     demushkinWordTwoEven a f 2 x = demushkinWordTwoRankTwo a x := by
   simp [demushkinWordTwoEven, demushkinWordTwoRankTwo, hx]
+
+/-! ### The `q = 2` words with `2`-adic parameters
+
+Layer 8 fixes the parameters of the `q = 2` normal forms as `α ∈ 4ℤ₂` and `f : ℕ∞` with
+`2^∞ = 0`, and the successive approximation produces relators of exactly that shape. Those words
+live in the free pro-`2` group, where Tau Ceti's `TauCeti.IsProP.padicPow` gives the power of an
+element by a `2`-adic integer, with its exponent laws, continuity and naturality; it is a power of
+one element, not a scalar action on the nonabelian group. -/
+
+/-- `2^f` as a `2`-adic integer for `f : ℕ∞`, with `2^∞ = 0`, so that the factor `x^{2^f}` of a
+`q = 2` normal form is `1` at `f = ∞`. -/
+noncomputable def twoPowENat (f : ℕ∞) : ℤ_[2] :=
+  if f = ⊤ then 0 else (2 : ℤ_[2]) ^ f.toNat
+
+/-- Finite values of `twoPowENat` are ordinary powers of two. -/
+theorem twoPowENat_coe (f : ℕ) : twoPowENat (f : ℕ∞) = (2 : ℤ_[2]) ^ f :=
+  sorry
+
+/-- The infinite endpoint is the exponent `0`. -/
+theorem twoPowENat_top : twoPowENat ⊤ = 0 :=
+  sorry
+
+/-- The `q = 2`, odd-rank normal-form word `x₁²x₂^{2^f}(x₂,x₃)(x₄,x₅)⋯` with `f : ℕ∞`, read on a
+family `x` in the free pro-`2` group; at `f = ∞` the factor `x₂^{2^f}` is `1`. -/
+noncomputable def demushkinWordTwoOddPadic (f : ℕ∞) (n : ℕ)
+    [TotallyDisconnectedSpace (freeProP 2 (Fin n))] (x : ℕ → freeProP 2 (Fin n)) :
+    freeProP 2 (Fin n) :=
+  x 0 ^ 2 * TauCeti.IsProP.padicPow (TauCeti.isProP_freeProP 2 (Fin n)) (x 1) (twoPowENat f) *
+    ((List.range (n / 2)).map fun i => labuteComm (x (2 * i + 1)) (x (2 * i + 2))).prod
+
+/-- The `q = 2`, even-rank normal-form word `x₁^{2+α}(x₁,x₂)x₃^{2^f}(x₃,x₄)⋯` with `α : ℤ_[2]`
+and `f : ℕ∞`, read on a family `x` in the free pro-`2` group. Both powers are `2`-adic powers. At
+`f = ∞` it is Labute's `x₁^{2+α}(x₁,x₂)(x₃,x₄)⋯`. -/
+noncomputable def demushkinWordTwoEvenPadic (α : ℤ_[2]) (f : ℕ∞) (n : ℕ)
+    [TotallyDisconnectedSpace (freeProP 2 (Fin n))] (x : ℕ → freeProP 2 (Fin n)) :
+    freeProP 2 (Fin n) :=
+  TauCeti.IsProP.padicPow (TauCeti.isProP_freeProP 2 (Fin n)) (x 0) (2 + α) *
+    labuteComm (x 0) (x 1) *
+      TauCeti.IsProP.padicPow (TauCeti.isProP_freeProP 2 (Fin n)) (x 2) (twoPowENat f) *
+        ((List.range (n / 2 - 1)).map fun i =>
+          labuteComm (x (2 * i + 2)) (x (2 * i + 3))).prod
+
+/-- At finite `f` the odd `2`-adic word is the natural-parameter word, by
+`TauCeti.IsProP.padicPow_natCast`. -/
+theorem demushkinWordTwoOddPadic_natCast (f n : ℕ)
+    [TotallyDisconnectedSpace (freeProP 2 (Fin n))] (x : ℕ → freeProP 2 (Fin n)) :
+    demushkinWordTwoOddPadic (f : ℕ∞) n x = demushkinWordTwoOdd f n x :=
+  sorry
+
+/-- At natural parameters the even `2`-adic word is the natural-parameter word, by
+`TauCeti.IsProP.padicPow_natCast`. -/
+theorem demushkinWordTwoEvenPadic_natCast (a f n : ℕ)
+    [TotallyDisconnectedSpace (freeProP 2 (Fin n))] (x : ℕ → freeProP 2 (Fin n)) :
+    demushkinWordTwoEvenPadic (a : ℤ_[2]) (f : ℕ∞) n x = demushkinWordTwoEven a f n x :=
+  sorry
+
+/-! ### Basis corrections
+
+Labute's §4 arguments replace a basis `y` of `F` by a corrected family `z` and conclude "hence
+`z` is a basis". That conclusion is a hypothesis of the next step, not a consequence of the
+divisibility that produced `z`, so it is stated on its own. A basis of `freeProP p (Fin n)` is
+recorded as an `ℕ`-indexed family `z` together with a continuous automorphism `φ` with
+`φ (freeProPGen p n i) = z i` for every `i`; out-of-range entries are then `1`, matching the
+normal-form words. -/
+
+/-- **Layer 9, the generation criterion for a basis.** An `n`-tuple that topologically generates
+the free pro-`p` group of rank `n` is the image of the standard generators under a continuous
+automorphism. Route: the universal property gives a continuous endomorphism sending each
+`freeProPGen p n i` to `z i`; it is surjective because the `z i` generate, hence bijective by the
+Hopf property (Layer 3), and a continuous bijection of compact Hausdorff groups is a
+homeomorphism. -/
+theorem exists_continuousMulEquiv_freeProPGen_of_generates (p n : ℕ) [Fact p.Prime]
+    [TotallyDisconnectedSpace (freeProP p (Fin n))] (z : ℕ → freeProP p (Fin n))
+    (hgen : (Subgroup.closure {x | ∃ i, i < n ∧ x = z i}).topologicalClosure = ⊤)
+    (htriv : ∀ i, n ≤ i → z i = 1) :
+    ∃ φ : freeProP p (Fin n) ≃ₜ* freeProP p (Fin n), ∀ i, φ (freeProPGen p n i) = z i :=
+  sorry
+
+/-- **Layer 9, the Frattini-congruence criterion for a basis.** A family congruent to the
+standard generators modulo `Φ(F)` is a basis: by Burnside's basis theorem
+(`topologicallyGenerates_iff_frattiniQuotient`) it generates, and the generation criterion
+applies. This is the form Labute uses on p. 123, where the corrected `z₁` differs from `y₁` by an
+element of `Φ(F)` because the divided series has unit constant term
+(`constantCoeff_of_eq_sub_C_mul`). -/
+theorem exists_continuousMulEquiv_freeProPGen_of_inv_mul_mem_proPFrattini (p n : ℕ)
+    [Fact p.Prime] [TotallyDisconnectedSpace (freeProP p (Fin n))] (z : ℕ → freeProP p (Fin n))
+    (hcong : ∀ i, i < n → (freeProPGen p n i)⁻¹ * z i ∈ proPFrattini p (freeProP p (Fin n)))
+    (htriv : ∀ i, n ≤ i → z i = 1) :
+    ∃ φ : freeProP p (Fin n) ≃ₜ* freeProP p (Fin n), ∀ i, φ (freeProPGen p n i) = z i :=
+  sorry
+
+/-- **Layer 9, the basis correction for Labute's Theorem 5** (§4.1, pp. 122–123), the branch
+`Im χ = U^[f]` with `f = v₂(α)`. The relator is the even `2`-adic normal form
+`x₁^{2+α}(x₁,x₂)x₃^{2^g}(x₃,x₄)⋯` in the standard basis, with `2 ≤ f < g ≤ ∞`, and `χ` takes the
+values of Labute's Theorem 4 on that basis. The rank is even and at least two; at rank two the
+fourth generator is `1`, so `hχ3` forces `g = ∞`.
+
+The conclusion is a new basis `z`, congruent to the standard one modulo `Φ(F)`, on which `χ` takes
+the values of the `U^[f]` normal form, in which `r` is `z₁^{2+2^f}(z₁,z₂)(z₃,z₄)⋯` up to an element
+of `(X, X) ∩ F₃` (Labute's `F₃` is `λ₂`), and for which `r̄ = ((1 + 2^f) + γ⁻¹) z̄₁` with `γ` the
+class of `z₂`. In Labute's convention that is `r̄ = (2 + 2^f + T) z̄₁`, `T = γ - 1`, with the
+coefficient pinned to the corrected second generator. The error term is the datum the Layer 8
+comparison schema iterates.
+
+Route: Labute's `y₂ = x₂^{a⁻¹}`, `y₄ = x₄ x₂^{-b}` with `(1 + 2^f)^a = 1 + α` and
+`(1 + α)^b = 1 - 2^g`; the coefficients `ψ₁ = 1 + α + (1 + T)^a` and `ψ₂ = 2^g - 1 + (1 + T)^{ab}`
+of `r̄` vanish at `c = -(2 + 2^f)`, so `ψ_i = (T - c) φ_i`
+(`PadicInt.X_sub_C_dvd_iff_aeval_eq_zero`). The correction is legitimate because of the constant
+terms, not the divisibility: by `constantCoeff_of_eq_sub_C_mul`, `φ₁(0)` is a unit and
+`φ₂(0) ∈ 2ℤ₂`, so `z₁ ≡ y₁` modulo `Φ(F)` and
+`exists_continuousMulEquiv_freeProPGen_of_inv_mul_mem_proPFrattini` applies.
+⚠ The coefficient is indexed by `f = v₂(α)`, the level of the image, and not by the exponent `g`
+of the third generator. At `n = 4`, `α = 4`, `g = ∞`, where `χ(x₂) = -1/5` and `Γ ≅ ℤ₂`, the
+relator is `x₁⁶(x₁,x₂)(x₃,x₄)` and the coefficient is `6 + T`. The `g`-indexed coefficient
+`2 + 2^∞ + T = 1 + γ` is refuted by the map onto the dihedral group of order `16` sending
+`x₁ ↦ t`, `x₂ ↦ s` and `x₃, x₄ ↦ 1`: it induces `ℓ : E → ℤ/8` on which every topological generator
+of `Γ` acts by `-1`, so `ℓ((1 + γ) z) = 0` for all `z`, while `ℓ(r̄) = 4`. The correct coefficient
+passes the same test, since `ℓ((5 + γ) x̄₁) = 4`. -/
+theorem exists_labuteBasisCorrection_of_range_eq_procyclicClosure {n : ℕ} (hn : 2 ≤ n)
+    (heven : Even n) [TotallyDisconnectedSpace (freeProP 2 (Fin n))]
+    (α : ℤ_[2]) {f : ℕ} (hf : 2 ≤ f) (hfα : (2 : ℤ_[2]) ^ f ∣ α)
+    (hfα' : ¬ (2 : ℤ_[2]) ^ (f + 1) ∣ α) {g : ℕ∞} (hfg : (f : ℕ∞) < g)
+    (r : freeProP 2 (Fin n)) (hrw : r = demushkinWordTwoEvenPadic α g n (freeProPGen 2 n))
+    (χ : freeProP 2 (Fin n) →ₜ* ℤ_[2]ˣ) (hrχ : r ∈ χ.toMonoidHom.ker)
+    (hχ1 : ((χ (freeProPGen 2 n 1) : ℤ_[2]ˣ) : ℤ_[2]) * (1 + α) = -1)
+    (hχ3 : ((χ (freeProPGen 2 n 3) : ℤ_[2]ˣ) : ℤ_[2]) * (1 - twoPowENat g) = 1)
+    (hχother : ∀ i : ℕ, i ≠ 1 → i ≠ 3 → i < n → χ (freeProPGen 2 n i) = 1) :
+    haveI : IsClosed (χ.toMonoidHom.ker : Set (freeProP 2 (Fin n))) :=
+      χ.toMonoidHom.coe_ker ▸ isClosed_singleton.preimage χ.continuous
+    letI := (TauCeti.IsProP.topologicalAbelianization (TauCeti.isProP_freeProP 2 (Fin n))
+      χ.toMonoidHom.ker).completedGroupAlgebraModule (freeProP 2 (Fin n) ⧸ χ.toMonoidHom.ker)
+    ∃ z : ℕ → freeProP 2 (Fin n),
+      (∃ φ : freeProP 2 (Fin n) ≃ₜ* freeProP 2 (Fin n), ∀ i, φ (freeProPGen 2 n i) = z i) ∧
+      (∀ i, i < n → (freeProPGen 2 n i)⁻¹ * z i ∈ proPFrattini 2 (freeProP 2 (Fin n))) ∧
+      χ (z 0) = 1 ∧ ((χ (z 1) : ℤ_[2]ˣ) : ℤ_[2]) * (1 + 2 ^ f) = -1 ∧
+      (∀ i : ℕ, i ≠ 1 → i < n → χ (z i) = 1) ∧
+      (∃ e ∈ (⁅χ.toMonoidHom.ker, χ.toMonoidHom.ker⁆ :
+            Subgroup (freeProP 2 (Fin n))).topologicalClosure ⊓
+          pLowerCentralSeries 2 (freeProP 2 (Fin n)) 2,
+        r = demushkinWordTwoEvenPadic ((2 : ℤ_[2]) ^ f) ⊤ n z * e) ∧
+      ∃ hz0 : z 0 ∈ χ.toMonoidHom.ker,
+        labuteRelatorClass χ.toMonoidHom r hrχ =
+          (algebraMap ℤ_[2] (completedGroupAlgebra 2 (freeProP 2 (Fin n) ⧸ χ.toMonoidHom.ker))
+              (1 + 2 ^ f) +
+            TauCeti.completedGroupAlgebra.of ℤ_[2] _
+              (((z 1)⁻¹ : freeProP 2 (Fin n)) : freeProP 2 (Fin n) ⧸ χ.toMonoidHom.ker)) •
+            labuteRelatorClass χ.toMonoidHom (z 0) hz0 :=
+  sorry
+
+/-- **Layer 9, the basis correction for Labute's Theorem 6** (§4.2, pp. 126–128), the branch
+`Im χ = {±1} × U^(f)` with `2 ≤ f < ∞`. The relator is the even `2`-adic normal form
+`x₁^{2+α}(x₁,x₂)x₃^{2^f}(x₃,x₄)⋯` in the standard basis with `2^f ∣ α`, the rank is even and at
+least four, and `χ` takes the values of Labute's Theorem 4 on that basis.
+
+The conclusion is a new basis `z` on which `χ` takes the values of the `α = 0` normal form,
+`χ(z₂) = -1` and `χ(z₄)(1 - 2^f) = 1`, in which `r` is `z₁²(z₁,z₂)z₃^{2^f}(z₃,z₄)⋯` up to an
+element of `(X, X) ∩ F₃`, and for which `r̄ = (1 + σ) z̄₁ + ((2^f - 1) + γ⁻¹) z̄₃` with `σ` the
+class of `z₂` and `γ` the class of `z₄`. In Labute's convention, over `Λ ≅ ℤ₂[S] ⊗ ℤ₂[[T]]`, that
+is `r̄ = (1 + S) z̄₁ + (2^f + T) z̄₃`, with both coefficients pinned to the corrected generators.
+
+Route: this branch does not inherit the procyclic argument, since `ℤ₂[C₂][[T]]` has zero divisors
+(`splitInvolution_isZeroDivisor`). Labute normalizes by the unit `(1 + α)⁻¹`, finds the residual
+obstruction `S · h(T)` with `h ∈ ℤ₂[[T]]` and `h(-2^f) = 0`, and divides once in the base
+(`splitBase_dvd_iff`). The change of basis is lower triangular over `Λ` with unit diagonal, and
+Labute's residual factor, an even `2`-adic power of `(z₁, z₃)`, lies in `(X, X) ∩ F₃` because
+`z₁, z₃ ∈ X`. The corrected family is
+a basis by `exists_continuousMulEquiv_freeProPGen_of_generates`. ⚠ It need not be congruent to the
+standard basis modulo `Φ(F)`: when `f = v₂(α)` the normalization of `χ(z₂)` uses an odd power of
+the fourth generator, which changes the Frattini class of the second. -/
+theorem exists_labuteBasisCorrection_of_range_eq_unitsPlusMinus {n : ℕ} (hn : 4 ≤ n)
+    (heven : Even n) [TotallyDisconnectedSpace (freeProP 2 (Fin n))]
+    (α : ℤ_[2]) {f : ℕ} (hf : 2 ≤ f) (hfα : (2 : ℤ_[2]) ^ f ∣ α)
+    (r : freeProP 2 (Fin n)) (hrw : r = demushkinWordTwoEvenPadic α f n (freeProPGen 2 n))
+    (χ : freeProP 2 (Fin n) →ₜ* ℤ_[2]ˣ) (hrχ : r ∈ χ.toMonoidHom.ker)
+    (hχ1 : ((χ (freeProPGen 2 n 1) : ℤ_[2]ˣ) : ℤ_[2]) * (1 + α) = -1)
+    (hχ3 : ((χ (freeProPGen 2 n 3) : ℤ_[2]ˣ) : ℤ_[2]) * (1 - 2 ^ f) = 1)
+    (hχother : ∀ i : ℕ, i ≠ 1 → i ≠ 3 → i < n → χ (freeProPGen 2 n i) = 1) :
+    haveI : IsClosed (χ.toMonoidHom.ker : Set (freeProP 2 (Fin n))) :=
+      χ.toMonoidHom.coe_ker ▸ isClosed_singleton.preimage χ.continuous
+    letI := (TauCeti.IsProP.topologicalAbelianization (TauCeti.isProP_freeProP 2 (Fin n))
+      χ.toMonoidHom.ker).completedGroupAlgebraModule (freeProP 2 (Fin n) ⧸ χ.toMonoidHom.ker)
+    ∃ z : ℕ → freeProP 2 (Fin n),
+      (∃ φ : freeProP 2 (Fin n) ≃ₜ* freeProP 2 (Fin n), ∀ i, φ (freeProPGen 2 n i) = z i) ∧
+      χ (z 1) = -1 ∧ ((χ (z 3) : ℤ_[2]ˣ) : ℤ_[2]) * (1 - 2 ^ f) = 1 ∧
+      (∀ i : ℕ, i ≠ 1 → i ≠ 3 → i < n → χ (z i) = 1) ∧
+      (∃ e ∈ (⁅χ.toMonoidHom.ker, χ.toMonoidHom.ker⁆ :
+            Subgroup (freeProP 2 (Fin n))).topologicalClosure ⊓
+          pLowerCentralSeries 2 (freeProP 2 (Fin n)) 2,
+        r = demushkinWordTwoEvenPadic 0 f n z * e) ∧
+      ∃ (hz0 : z 0 ∈ χ.toMonoidHom.ker) (hz2 : z 2 ∈ χ.toMonoidHom.ker),
+        labuteRelatorClass χ.toMonoidHom r hrχ =
+          (1 + TauCeti.completedGroupAlgebra.of ℤ_[2] _
+              (z 1 : freeProP 2 (Fin n) ⧸ χ.toMonoidHom.ker)) •
+            labuteRelatorClass χ.toMonoidHom (z 0) hz0 +
+          (algebraMap ℤ_[2] (completedGroupAlgebra 2 (freeProP 2 (Fin n) ⧸ χ.toMonoidHom.ker))
+              (2 ^ f - 1) +
+            TauCeti.completedGroupAlgebra.of ℤ_[2] _
+              (((z 3)⁻¹ : freeProP 2 (Fin n)) : freeProP 2 (Fin n) ⧸ χ.toMonoidHom.ker)) •
+            labuteRelatorClass χ.toMonoidHom (z 2) hz2 :=
+  sorry
 
 variable (p : ℕ) [Fact p.Prime] (G : Type) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
   [CompactSpace G] [TotallyDisconnectedSpace G]
