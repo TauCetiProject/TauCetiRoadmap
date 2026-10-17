@@ -497,8 +497,11 @@ agreement theorem detects.
 **12.1 The regularized boundary function.** Let `L_1` be the series of the trivial character, that
 is the Dedekind zeta function of `K` with the Euler factors at the ramified primes deleted. Prove
 that the deleted factors are finite and nonzero at `s = 1`, so `L_1` inherits the simple pole with
-the same residue; this is the ramified Euler correction, and it is a theorem, not a remark. Define
-the regularization
+the same residue; this is the ramified Euler correction, and it is a theorem, not a remark.
+*Erratum, corrected at archiving:* the residue is not the same. It is
+`Res_{s=1} ζ_K · ∏_{𝔭 ramified} (1 - 𝔑𝔭⁻¹)`, which is nonzero; for `ℚ(ζ_5)/ℚ`, where only `5`
+ramifies, it is `4/5` rather than `1`. The regularization below is unaffected, since the pole of
+`-L_1'/L_1` has residue `1` whatever the residue of `L_1`. Define the regularization
 
 ```text
 G_1(s) = -L_1'(s)/L_1(s) - 1/(s-1)
@@ -741,3 +744,10 @@ not the conclusion of Layer 10: Dirichlet density does not imply natural density
 - J.-P. Serre, *Local Fields*, for arithmetic/geometric Frobenius conventions.
 - L. Washington, *Introduction to Cyclotomic Fields*, Chapter 2, for total ramification of `ℚ(ζ_q)`
   at `q` and the resulting subfield ramification used in 7.2.
+
+---
+
+*Archived: this roadmap was declared complete on 2026-10-07. `Suggested.lean` now states each
+milestone against Tau Ceti and closes it with no `sorry`; its header records where Tau Ceti's
+names and forms differ from the ones requested here, the erratum marked in 12.1, and the
+requested statements it does not yet certify.*
