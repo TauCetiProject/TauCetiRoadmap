@@ -41,11 +41,10 @@ BCH polynomials and algebraic nilpotent BCH groups over commutative `ℚ`-algebr
 owns the Poincaré–Birkhoff–Witt theorem for free modules; §0.4 owns its symmetrization
 form over commutative `ℚ`-algebras for arbitrary Lie algebras.
 
-**Library homes.** General components go to the corresponding Tau Ceti areas
-(`TauCeti/Algebra/Lie/`, `TauCeti/RingTheory/Filtration/`, `TauCeti/GroupTheory/`,
-`TauCeti/Geometry/Convex/Polyhedral/`, `TauCeti/Topology/Sheaf/`,
-`TauCeti/Geometry/IntegralAffine/`, `TauCeti/Combinatorics/`), and the
-scattering-specific carriers to `TauCeti/Geometry/ScatteringDiagram/`.
+**Library homes.** General components belong in the matching general areas of Tau Ceti,
+for example its Lie algebra, filtration, group theory and convex geometry modules, not
+under a scattering-specific directory; the scattering-specific carriers belong in
+`TauCeti/Geometry/ScatteringDiagram/`.
 
 ## Conventions and supplier contracts
 
