@@ -29,6 +29,9 @@ README only.
 /-!
 The following named interfaces are specified in the README without executable prototypes:
 
+* P0.10's `Almost.Module.UniformlyAlmostFG M n` is the invariant membership in `U_n(A)`
+  of GR Definition 2.3.8. `BasicSetup.UniformlyAlmostFG N n` below is the stronger
+  ordinary-module predicate, whose comparison with that bound uses condition (A).
 * P0.27–P0.28 use DerivedModuleAlgebra §1.T.1's ordinary towers
   `ℕᵒᵖ ⥤ ModuleCat V`, `ModuleTower.Product`, `ModuleTower.shift`, `ModuleTower.lim`,
   `ModuleTower.limOne`, `ModuleTower.limMap` and `ModuleTower.limOneMap` directly.
@@ -191,6 +194,21 @@ def AlmostFG (N : Type*) [AddCommGroup N] [Module V N] : Prop :=
   ∀ m₀ : Ideal V, m₀ ≤ S.ideal → m₀.FG → ∃ (n : ℕ) (φ : (Fin n → V) →ₗ[V] N),
     ∀ ε ∈ m₀, ∀ x : N, ε • x ∈ LinearMap.range φ
 
+/-- The ordinary-module uniform bound `n`: every finitely generated subideal of `m`
+annihilates the cokernel of some map `Vⁿ → N`. It implies the invariant bound `U_n`;
+the converse and representative independence hold under condition (A)
+(GR Definition 2.3.8(iii) and Remark 2.3.9, pp. 17–18). -/
+def UniformlyAlmostFG (N : Type*) [AddCommGroup N] [Module V N] (n : ℕ) : Prop :=
+  ∀ m₀ : Ideal V, m₀ ≤ S.ideal → m₀.FG → ∃ φ : (Fin n → V) →ₗ[V] N,
+    ∀ ε ∈ m₀, ∀ x : N, ε • x ∈ LinearMap.range φ
+
+/-- Under condition (A), an almost isomorphism preserves the ordinary-module uniform bound
+with the same `n` (GR Remark 2.3.9, p. 18). -/
+theorem UniformlyAlmostFG.iff_of_isAlmostIso (hS : S.IsFilteredPrincipal)
+    {M N : Type u} [AddCommGroup M] [Module V M] [AddCommGroup N] [Module V N]
+    (f : M →ₗ[V] N) (hf : S.IsAlmostIso f) (n : ℕ) :
+    S.UniformlyAlmostFG M n ↔ S.UniformlyAlmostFG N n := sorry
+
 /-- `M^a` is *almost finitely presented*: for every finitely generated `m₀ ⊆ m` there is a complex
 `V^r → Vⁿ → N` whose cokernel is killed by `m₀` and whose homology at `Vⁿ` is killed by `m₀`
 (GR Proposition 2.3.10(ii)(c), p. 18). The integers and maps may depend on `m₀`. -/
@@ -326,6 +344,13 @@ example : ¬ (classical ℤ).AlmostFP (ℕ →₀ ℤ) := sorry
 example : (classical ℤ).IsAlmostFiniteProjective ℤ := sorry
 example : (zero ℤ).IsAlmostFiniteProjective (ℕ →₀ ℤ) := sorry
 example : ¬ (classical ℤ).IsAlmostFiniteProjective (ℕ →₀ ℤ) := sorry
+
+-- Checks: the ordinary uniform bound accepts rank n, detects almost zero at bound zero,
+-- and rejects rank two at bound one in the classical setup.
+example (n : ℕ) : S.UniformlyAlmostFG (Fin n → V) n := sorry
+example (N : Type*) [AddCommGroup N] [Module V N] :
+    S.UniformlyAlmostFG N 0 ↔ S.IsAlmostZero N := sorry
+example : ¬ (classical ℚ).UniformlyAlmostFG (Fin 2 → ℚ) 1 := sorry
 
 -- Check: the zero ideal is a basic setup, and every module is almost zero for it.
 example : (zero V).ideal = ⊥ := rfl
@@ -481,10 +506,16 @@ instance IsTateRing.instProd {A B : Type*} [CommRing A] [TopologicalSpace A]
     [IsTopologicalRing A] [IsTateRing A] [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
     [IsTateRing B] : IsTateRing (A × B) := sorry
 
+-- Compatibility signature for Tau Ceti's Huber/Normed supplier at dependency pin a91d3aaf.
+-- This declaration has the supplier's exact name; versions containing it use the import.
 /-- A nontrivially normed ultrametric field is a Tate ring, with ring of definition the closed
-unit ball and pseudouniformiser any `0 < ‖ϖ‖ < 1`. -/
-instance isTateRing_of_nontriviallyNormedField (K : Type*) [NontriviallyNormedField K]
-    [IsUltrametricDist K] : IsTateRing K := sorry
+unit ball and pseudouniformiser any `0 < ‖ϖ‖ < 1`, without a completeness hypothesis. -/
+instance _root_.TauCeti.Huber.IsTateRing.of_nontriviallyNormedField (K : Type*)
+    [NontriviallyNormedField K] [IsUltrametricDist K] : IsTateRing K := sorry
+
+-- Check: the Huber/Normed Tate structure requires no completeness hypothesis.
+example (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] : IsTateRing K :=
+  inferInstance
 
 /-- A product of perfectoid Tate rings is perfectoid (ECD Example 3.4). -/
 instance IsPerfectoidTateRing.prod (p : ℕ) [Fact p.Prime] {R S : Type*} [CommRing R]
