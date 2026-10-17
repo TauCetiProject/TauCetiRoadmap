@@ -63,7 +63,7 @@ partitions of unity, sharp finite-dimensional Sard, metrics and Hessians.
 [AlgebraicTopology Stages 2–8](../AlgebraicTopology/README.md) supply relative
 chains, cofibrations, cellular/singular comparison, products, integral duality
 and relative homotopy. M4’s arbitrary-function LS bound consumes the
-categorical-cover/cup-length supplement after AT6.2; that supplement uses
+[categorical-cover/cup-length supplement after AT6.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/77caf227f456d6da938674a1ac50e309d47c476a/TauCetiRoadmap/AlgebraicTopology/README.md); that supplement uses
 only foundational products and native homotopies, not Morse theory or
 manifold duality. [GT Layer 1](../GeometricTopology/README.md) supplies
 normal/tubular geometry, collars, handle gluing and disc bundles; [CharacteristicClasses C2](../CharacteristicClasses/README.md)
@@ -479,7 +479,7 @@ cohomology is torsion-free. Apply the proper-index≤d version of M2 to obtain
 those conclusions for noncompact M.
 
 **Arbitrary-function Lusternik–Schnirelmann inequality.** Consume
-AlgebraicTopology's categorical-cover supplement after Stage 6.2, with its
+[AlgebraicTopology’s categorical-cover supplement after Stage 6.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/77caf227f456d6da938674a1ac50e309d47c476a/TauCetiRoadmap/AlgebraicTopology/README.md), with its
 same `LSCategoricalCover`, `lsCategoryCount`, `normalizedLSCategory` and
 `lsCupLength` carriers. Here construct `lsCriticalPointBound` for **every
 smooth real-valued f on a compact boundaryless finite-dimensional smooth
