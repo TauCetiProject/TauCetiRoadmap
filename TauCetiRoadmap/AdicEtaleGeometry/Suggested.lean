@@ -14,6 +14,7 @@ import TauCeti.RingTheory.Huber.PowerBounded
 import TauCeti.RingTheory.Huber.StronglyNoetherian
 import TauCeti.RingTheory.Huber.WeightedRestrictedSeries.Completion
 import TauCetiRoadmap.AdicSpacesPartIII.Suggested
+import TauCetiRoadmap.SchemeAndStackFoundations.Suggested
 
 /-!
 # Analytic adic geometry for diamonds: representative target signatures
@@ -54,6 +55,7 @@ namespace TauCetiRoadmap.AdicEtaleGeometry
 
 open TauCeti TauCeti.Huber
 open TauCetiRoadmap.AdicSpacesPartII TauCetiRoadmap.AdicSpacesPartII.Huber
+open TauCetiRoadmap.SchemeAndStackFoundations.PseudoCoherence (IsPseudoCoherentModule)
 
 
 /-! ## Layer A0: completed tensor products and the fibre products actually used -/
@@ -858,6 +860,8 @@ open TensorProduct Topology Filter ValuationSpectrum
 
 /-! ### A3.1 Pseudocoherent modules (*pseudocoherent-module*) -/
 
+universe u
+
 namespace Module
 
 /-- `M` is *`m`-fpd* over `R`: it has a resolution `0 → P_m → ⋯ → P₀ → M → 0` by finite projective
@@ -878,10 +882,11 @@ section PseudoCoherent
 
 variable (R : Type*) (M : Type*) [CommRing R] [AddCommGroup M] [Module R M]
 
-/-- `M` is *`m`-pseudocoherent* over `R`, `m : ℕ∞`: there is a resolution by finite free modules
-`⋯ → F₁ → F₀ → M → 0` exact in degrees `≤ m` (Kedlaya–Liu II, Def. 1.1.1, p. 10; the
-`(-m)`-pseudo-coherence of Stacks, Tag 064Q). `0`-pseudocoherent is finite, `1`-pseudocoherent is
-finitely presented. No topology is involved. -/
+/-- The coordinate-resolution presentation of `m`-pseudocoherence, extending the shared
+algebraic API to finite degrees. Its infinite case characterizes SchemeAndStackFoundations'
+`IsPseudoCoherentModule` by `top_iff_isPseudoCoherentModule`. Exactness is at
+`M, F₀, …, F_{m-1}`, so `0` means finite and `1` means finitely presented. No topology is
+involved (Kedlaya–Liu II, Def. 1.1.1, p. 10; Stacks, Tag 064T, with the index negated). -/
 def IsPseudoCoherentOver (m : ℕ∞) : Prop :=
   ∃ (n : ℕ → ℕ) (d : ∀ i, (Fin (n (i + 1)) → R) →ₗ[R] (Fin (n i) → R))
     (ε : (Fin (n 0) → R) →ₗ[R] M),
@@ -898,6 +903,12 @@ theorem IsPseudoCoherentOver.one_iff :
     IsPseudoCoherentOver R M 1 ↔ Module.FinitePresentation R M := sorry
 
 end PseudoCoherent
+
+/-- Choosing finite bases and the zeroth homology isomorphism identifies the shared bundled
+predicate with the infinite augmented coordinate resolution (Stacks, Tag 064T). -/
+theorem IsPseudoCoherentOver.top_iff_isPseudoCoherentModule
+    {R M : Type u} [CommRing R] [AddCommGroup M] [Module R M] :
+    IsPseudoCoherentOver R M ⊤ ↔ IsPseudoCoherentModule R (ModuleCat.of R M) := sorry
 
 /-- Over `ℤ`, the module `ℤ ⧸ 2` is pseudocoherent and `1`-fpd (`0 → ℤ → ℤ → ℤ ⧸ 2 → 0`) but not
 projective, so not `0`-fpd. -/
@@ -926,9 +937,10 @@ example :
 
 end Huber
 
-/-- An fpd module is pseudocoherent (Kedlaya–Liu II, §1.1). -/
-theorem Module.IsFPD.isPseudoCoherent {R M : Type*} [CommRing R] [AddCommGroup M] [Module R M]
-    {m : ℕ} (h : Module.IsFPD R M m) : Huber.IsPseudoCoherentOver R M ⊤ := sorry
+/-- An fpd module satisfies the shared algebraic pseudocoherence predicate on its bundled
+module (Kedlaya–Liu II, §1.1; Stacks, Tag 064T). -/
+theorem Module.IsFPD.isPseudoCoherent {R M : Type u} [CommRing R] [AddCommGroup M] [Module R M]
+    {m : ℕ} (h : Module.IsFPD R M m) : IsPseudoCoherentModule R (ModuleCat.of R M) := sorry
 
 namespace Huber
 
@@ -1080,7 +1092,8 @@ variable (A : Type*) [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
 
 /-- `M` is *stably `m`-pseudocoherent*: it is `m`-pseudocoherent and every base change
 `A⟨T/s⟩ ⊗[A] M` to a rational localisation (`T` generating an open ideal) is complete for its
-natural topology (Kedlaya–Liu II, Def. 2.4.1, p. 35). -/
+natural topology. At `⊤` its algebraic condition is identified with SchemeAndStackFoundations'
+`IsPseudoCoherentModule` (Kedlaya–Liu II, Def. 2.4.1, p. 35). -/
 def IsStablyPseudoCoherent (m : ℕ∞) : Prop :=
   IsPseudoCoherentOver A M m ∧
     ∀ (P : PairOfDefinition A) (T : Finset A) (s : A)
@@ -1096,6 +1109,12 @@ def IsPseudoFlat (B : Type*) [AddCommGroup B] [Module A B] (m : ℕ∞) : Prop :
     IsStablyPseudoCoherent A ((Fin n → A) ⧸ K) m → Function.Injective (K.subtype.rTensor B)
 
 end StablyPseudoCoherent
+
+/-- A stably pseudocoherent module satisfies the shared algebraic pseudocoherence predicate. -/
+theorem IsStablyPseudoCoherent.isPseudoCoherent {A M : Type u} [CommRing A]
+    [TopologicalSpace A] [IsTopologicalRing A] [AddCommGroup M] [Module A M]
+    (h : IsStablyPseudoCoherent A M ⊤) : IsPseudoCoherentModule A (ModuleCat.of A M) :=
+  IsPseudoCoherentOver.top_iff_isPseudoCoherentModule.mp h.1
 
 /-- *isStablyPseudoCoherent_projective* (computation): a finite projective module is stably
 pseudocoherent, its base changes being finite projective, hence complete. -/

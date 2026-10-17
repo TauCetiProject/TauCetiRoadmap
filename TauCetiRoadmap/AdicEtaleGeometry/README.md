@@ -219,7 +219,8 @@ The `IsLimit`/`IsTerminal` witnesses `ProEtale.ProEt.space_isLimit`, `ProEtale.P
 
 `Suggested.lean` imports Mathlib, the Tau Ceti modules whose declarations it uses,
 `TauCetiRoadmap.AdicSpacesPartIII.Suggested` (which brings part II's R0 chart and morphism
-interfaces and part III's interfaces). All statements here use generic Huber-pair,
+interfaces and part III's interfaces), and `TauCetiRoadmap.SchemeAndStackFoundations.Suggested`
+for the shared algebraic pseudocoherence predicate. All statements here use generic Huber-pair,
 sheafy or strongly sheafy Tate-ring hypotheses. Perfectoid and sousperfectoid specializations
 are owned by PerfectoidSpaces P3.17a–P3.17b and P5.13.1.
 
@@ -463,9 +464,18 @@ The named entry points *finite-etale-approximation* and
 *analytification-relative-polydisc-comparison* cite A1.0.5
 (*finite-etale-completed-direct-limit*) and AdicSpacesPartII R1 with A2.6a
 (*analytification-etale-site*), respectively. A1.0.1 owns filtered-colimit henselianity
-(`Ring.DirectLimit.henselianRing`, README only). A3 owns `Huber.IsPseudoCoherentOver`,
-including its `m = ∞` case, as a finite-free resolution condition; its degree-zero and
-degree-one identifications use Mathlib's `Module.Finite` and `Module.FinitePresentation`.
+(`Ring.DirectLimit.henselianRing`, README only). SchemeAndStackFoundations §0.5 owns algebraic
+pseudocoherence. A3 extends that shared API to finite degrees through `Huber.IsPseudoCoherentOver`.
+Its `m = ∞` case characterizes the supplied predicate on `ModuleCat.of R M` by
+`Huber.IsPseudoCoherentOver.top_iff_isPseudoCoherentModule`, which identifies it with an augmented
+coordinate resolution. Its degree-zero and degree-one identifications use Mathlib's `Module.Finite` and
+`Module.FinitePresentation`. Natural completeness, strict and stable pseudocoherence,
+pseudoflatness and the adic module sheaf theory belong to A3.
+
+| Interface | Supplier | A3 contract |
+|---|---|---|
+| `PseudoCoherence.IsPseudoCoherentModule` (the Lean form of `Module.IsPseudoCoherent`) | [SchemeAndStackFoundations §0.5](../SchemeAndStackFoundations/README.md) on main | A nonnegative finite free complex with zeroth homology `M` and vanishing positive homology. A3's `Huber.IsPseudoCoherentOver.top_iff_isPseudoCoherentModule` transports between this predicate on `ModuleCat.of R M` and infinite coordinate resolutions; `Module.IsFPD.isPseudoCoherent` and `Huber.IsStablyPseudoCoherent.isPseudoCoherent` return the supplied predicate. |
+| The linear-functional Koszul complex and weak-regular-sequence finite free resolution | DerivedModuleAlgebra §0.K.1, *Koszul complex of a finite sequence* | Specialize the supplied complex to `φ(v) = ∑ fᵢvᵢ` on `Rʳ`, with its ordered wedge basis and alternating-deletion differential. A3's *koszul-regular-sequence-fpd* supplies the `Module.IsFPD`, shared pseudocoherence and conormal-basis consequences. |
 
 The rational plus subring is `Huber.PairOfDefinition.completedPlusSubring` in
 `TauCeti/RingTheory/Huber/LocalizationTopology/Plus.lean`: the closure of the image of the
@@ -7734,7 +7744,7 @@ has a resolution `0 → P_m → ⋯ → P₀ → M → 0` of length at most `m` 
 and *fpd* if it is m-fpd for some `m` ([KL II] §1.1, Def. 1.1.1, p. 10). The degree convention:
 m-pseudocoherence is the existence of an exact sequence `F_m → ⋯ → F₁ → F₀ → M → 0` of finite free
 modules, so the terms `F₀, …, F_m` enter and exactness is asked at `M, F₀, …, F_{m−1}` ([Stacks]
-Lemma 15.66.4, Tag 064T); this is the form of the Lean definition `Huber.IsPseudoCoherentOver`, and it is the
+Lemma 15.66.4, Tag 064T); this is the coordinate presentation `Huber.IsPseudoCoherentOver`, and it is the
 `(−m)`-pseudo-coherence of SGA 6 and of [Stacks] Def. 15.66.1 (Tag 064Q), with the index negated. It
 is not the different notion that [KL II] §1.1, p. 10, attributes to Bourbaki's *Algèbre
 commutative*, Exercise I.2.11. The notion is a property of the module alone, with no topology;
@@ -7743,11 +7753,18 @@ II] §1.1, Def. 1.1.1, p. 10), and 2-pseudocoherent asks in addition that the ke
 finitely presented; for `m ≥ 2` the condition is strictly stronger than finite presentation over
 rings that are not coherent ([KL II] §1.1, Rem. 1.1.8, p. 12), which perfectoid Tate rings and their
 Tate algebras need not be. Every fpd module is pseudocoherent, and `M` is m-fpd exactly when it is
-pseudocoherent of projective dimension at most `m`. The case `m = ∞` is
-`Huber.IsPseudoCoherentOver R M ⊤`, owned here. Define `Huber.IsPseudoCoherentOver R M m` and
-`Module.IsFPD R M m`; prove `zero_iff` and `one_iff` (the identifications with `Module.Finite` and
+pseudocoherent of projective dimension at most `m`. SchemeAndStackFoundations §0.5 owns the
+infinite case, `PseudoCoherence.IsPseudoCoherentModule R (ModuleCat.of R M)`, the Lean form of its
+`Module.IsPseudoCoherent`. Extend that API by the coordinate-resolution presentation
+`Huber.IsPseudoCoherentOver R M m` at finite degrees, and characterize its infinite case by
+`Huber.IsPseudoCoherentOver.top_iff_isPseudoCoherentModule`: choosing finite bases in the supplied complex
+gives the augmented coordinate resolution, using the isomorphism `H₀ ≅ M` for the augmentation;
+conversely, the exact augmented coordinate sequence gives that complex and its homology
+isomorphism. The comparison also transports along `ModuleCat` isomorphisms and linear
+equivalences. Define `Module.IsFPD R M m`; prove `zero_iff` and `one_iff` (the identifications with `Module.Finite` and
 `Module.FinitePresentation`), `of_projective` (a finitely generated projective module is
-pseudocoherent and 0-fpd), `IsFPD.isPseudoCoherent`, `mono` (m-pseudocoherent implies
+pseudocoherent and 0-fpd), `Module.IsFPD.isPseudoCoherent` (with conclusion in the supplied
+bundled predicate), `mono` (m-pseudocoherent implies
 m'-pseudocoherent for `m' ≤ m`), `top_iff` (pseudocoherent iff m-pseudocoherent for every finite
 `m`; [Stacks] Lemma 15.66.5, Tag 064U), `tensorProduct` (if `M` is flat and `M`, `N` are
 m-pseudocoherent then `M ⊗_R N` is m-pseudocoherent, and with `M` flat an m-fpd `M` and an n-fpd `N`
@@ -7765,12 +7782,14 @@ there that `S ⊗_R M` is pseudocoherent over `S` for `M` pseudocoherent holds f
 change, [Stacks] Lemma 15.66.12, Tag 0650; the underived `S ⊗_R M` needs `Tor^R_i(S, M) = 0` for
 `i > 0`, for instance `S` flat, and fails for `S = R/(g)`, `M = R/(f)` in the domain of
 *test_tensor_not_pseudocoherent*) and `of_isNoetherianRing` (over a noetherian ring every finitely
-generated module is pseudocoherent; [Stacks] Lemma 15.66.17, Tag 066E). *Needs:* Mathlib
+generated module is pseudocoherent; [Stacks] Lemma 15.66.17, Tag 066E). *Needs:*
+SchemeAndStackFoundations §0.5 (algebraic pseudocoherence); Mathlib
 `Module.Finite`, `Module.FinitePresentation`, `Module.FinitePresentation.fg_ker`,
 `Module.Projective`, `Module.Flat`, `TensorProduct`, `CategoryTheory.HasProjectiveDimensionLE`.
 
-Lean: `Huber.IsPseudoCoherentOver` (with `m : ℕ∞`, by finite free resolutions exact in degrees
-`≤ m`), `Huber.IsPseudoCoherentOver.zero_iff`, `Huber.IsPseudoCoherentOver.one_iff`, `Module.IsFPD`
+Lean: `Huber.IsPseudoCoherentOver` (with `m : ℕ∞`, by coordinate resolutions),
+`Huber.IsPseudoCoherentOver.top_iff_isPseudoCoherentModule`, `Huber.IsPseudoCoherentOver.zero_iff`,
+`Huber.IsPseudoCoherentOver.one_iff`, `Module.IsFPD`
 (finite free resolutions whose `m`-th syzygy is projective, equivalent to the definition by
 Schanuel's lemma) and `Module.IsFPD.isPseudoCoherent`; the rest is README only.
 
@@ -7785,6 +7804,9 @@ Schanuel's lemma) and `Module.IsFPD.isPseudoCoherent`; the rest is README only.
   `R/xR` is finitely presented but not 2-pseudocoherent: the kernel `xR ≅ R/Ann(x)` of `R → R/xR`
   is not finitely presented, `Ann(x) = (y₁, y₂, …)` being not finitely generated. A definition
   "pseudocoherent := finitely presented" fails this test.
+- *test_finite_not_one* (boundary) — for a field `k`, `R = k[y₁, y₂, …]` and
+  `I = (y₁, y₂, …)`, the cyclic module `R/I` is 0-pseudocoherent but not 1-pseudocoherent,
+  since `I` is not finitely generated.
 - *test_noetherian* (compatibility) — for `R` noetherian, an `R`-module is pseudocoherent iff it is
   finitely generated (`Module.Finite`).
 - *test_tensor_not_pseudocoherent* (negative control for the flatness hypothesis of
@@ -7801,19 +7823,23 @@ Schanuel's lemma) and `Module.IsFPD.isPseudoCoherent`; the rest is README only.
   `2R ≅ R/2R`, which is not projective. Here `2` is a zero-divisor, so the regularity hypothesis of
   *test_quotient_nonZeroDivisor* is needed.
 
-**`Huber.IsPseudoCoherentOver`.** `M` has a resolution by finite free modules exact in degrees
-`≤ m`. Each Check below is a Lean example.
+**`Huber.IsPseudoCoherentOver`.** The finite-degree extension of the shared algebraic predicate
+is equivalent to an augmented finite free resolution with exactness at
+`M, F₀, …, F_{m−1}` ([Stacks] Lemma 15.66.4, Tag 064T; [KL II] Def. 1.1.1, p. 10).
+At `m = ∞` the comparison theorem identifies the supplied bundled-module predicate with the
+infinite coordinate resolution. Each Check below is a Lean example.
 
 **Checks.**
 
 - *isPseudoCoherentOver_zmod_four* (computation) — over `ℤ/4` the module `ℤ/2` is pseudocoherent,
   by the periodic resolution with maps `×2`, and is `m`-fpd for no `m`; the Lean form of
-  *test_not_fpd* (Lean example).
+  *test_not_fpd*. Bundling the periodic resolution gives the same witness for the supplied
+  predicate under `top_iff_isPseudoCoherentModule` (Lean example).
 - *isPseudoCoherentOver_zero_module* (degenerate) — the zero module is pseudocoherent, by the zero
-  resolution (Lean example).
+  resolution; the comparison sends this to the zero complex (Lean example).
 - *isPseudoCoherentOver_not_two* (non-example) — for `R = ℚ[x, y₁, y₂, …]/(x yᵢ)` the module `R/xR`
   is `1`-pseudocoherent but not `2`-pseudocoherent; the Lean form of *test_not_two* with `k = ℚ`
-  (Lean example).
+  and, by the comparison, not pseudocoherent in the supplied sense (Lean example).
 
 **Two-out-of-three for pseudocoherent and fpd modules.** (*pseudocoherent-two-out-of-three*) Let
 `0 → M₁ → M → M₂ → 0` be a short exact sequence of modules over a commutative ring `R` and `m ≥ 0`.
@@ -7846,31 +7872,47 @@ finite `m`; the case `m = ∞` follows with `top_iff`) and for `Module.IsFPD`. *
 (*koszul-regular-sequence-fpd*) Let `R` be a commutative ring and `f₁, …, f_r ∈ R` a weakly regular
 sequence on `R` (Mathlib `RingTheory.Sequence.IsWeaklyRegular R [f₁, …, f_r]`: each `fᵢ` is a
 non-zero-divisor on `R/(f₁, …, f_{i−1})`; the quotient `R/(f)` may be zero). Prove that the Koszul
-complex `K(f; R)` is a resolution of `R/(f)` by finite free modules of length `r`, so `R/(f)` is
+resolution of DerivedModuleAlgebra §0.K.1, specialized to the linear functional
+`φ : Rʳ → R`, `φ(v) = ∑ fᵢvᵢ`, makes `R/(f)`
 r-fpd and pseudocoherent, the ideal `(f)` is (r`−1`)-fpd for `r ≥ 1`, and the conormal module
 `(f)/(f)²` (Mathlib `Ideal.Cotangent`) is a free `R/(f)`-module with basis the classes
 `Ideal.toCotangent fᵢ` of `f₁, …, f_r` ([KL II] §1.1, Rem. 1.1.6, p. 12, the r-fold iteration of
-Kedlaya–Liu's non-zero-divisor example). The proposed Lean form states these conclusions, and a
-companion supplies the two
-linear differentials `R → R² → R` for a weakly regular pair `(x,y)`, with
+Kedlaya–Liu's non-zero-divisor example; [Stacks] Lemma 15.31.2, Tag 062F).
+The complex, its quotient augmentation and positive-degree acyclicity are supplied by
+DerivedModuleAlgebra; the conversion to `Module.IsFPD`, the shared algebraic pseudocoherence
+predicate of SchemeAndStackFoundations §0.5, and the ordered conormal basis are this target's.
+For the conormal basis, tensor the supplied exact sequence `K₂ → Rʳ → (f) → 0` with `R/(f)`:
+the Koszul differential becomes zero, giving `(R/(f))ʳ ≅ (f)/(f)²`, with the basis vectors sent
+to the classes of the corresponding `fᵢ` ([Stacks] proof of Lemma 15.31.6, Tag 062I).
+Specialize the supplied differentials to `R → R² → R` for a weakly regular pair `(x,y)`, with
 `d₂(r) = (−yr,xr)` and `d₁(a,b) = xa+yb`, injective `d₂`, exactness at `R²`, and
 exactness at `R` for the quotient augmentation `R → R/(x,y)`. This fixes the sign and
-ordered basis of the two-equation resolution tested by *koszul_two_equations*.
-The pinned Mathlib has no general Koszul complex; constructing the finite free resolution
-in every length is part of this target. After a flat base change `R → R'` the sequence stays weakly
+ordered basis of the two-equation resolution tested by *koszul_two_equations*: the degree-two
+generator is `e₁ ∧ e₂` and the degree-one basis is `(e₁,e₂)`.
+After a flat base change `R → R'` the sequence stays weakly
 regular (Mathlib `RingTheory.Sequence.IsWeaklyRegular.of_flat`), so the same conclusions hold over
 `R'`. In a noetherian local ring the projective dimension of the quotient is Mathlib's
 `projectiveDimension_quotient_eq_length` and
-`projectiveDimension_quotient_eq_add_length_of_isWeaklyRegular`; the finite free resolution, the
-freeness of the conormal module and the non-noetherian case are the content here. *Needs:*
+`projectiveDimension_quotient_eq_add_length_of_isWeaklyRegular`. *Needs:*
+DerivedModuleAlgebra §0.K.1 (the linear-functional Koszul complex and weak-regular-sequence
+finite free resolution); SchemeAndStackFoundations §0.5 (algebraic pseudocoherence);
 *pseudocoherent-module*; *pseudocoherent-two-out-of-three*; Mathlib
 `RingTheory.Sequence.IsWeaklyRegular`, `Ideal.Cotangent`, `Module.Flat`. README only (no Lean declaration).
 
 **Checks.**
 
+- *test_empty_regular_sequence* (degenerate) — for `r = 0` the supplied Koszul complex is `R`
+  in degree zero, so `R/(0) = R` is 0-fpd and the conormal module is zero with empty basis.
 - *test_single_nonZeroDivisor* — `r = 1`: `R/fR` is 1-fpd for `f` a non-zero-divisor, and
   `fR/f²R` is free of rank one over `R/fR` on the class of `f` ([KL II] §1.1, Rem. 1.1.6). For
-  `f = 1` both are zero, over the zero ring.
+  `f = 1` the quotient and conormal module are zero; the conormal basis is over the zero ring,
+  while the Koszul complex `R →(×1) R` is a resolution over the original `R`.
+- *koszul_two_equations* (signs) — for `(X₀,X₁)` in `ℚ[X₀,X₁]`, the supplied differential sends
+  `e₀ ∧ e₁` to `X₀e₁ − X₁e₀`, hence `d₂(1) = (−X₁,X₀)` and `d₁d₂ = 0`. The conormal
+  comparison sends the two ordered generator classes to their respective coordinate vectors.
+- *test_nonregular_koszul* (non-example) — over `R = ℤ/4`, `K(2)` has `H₁ = 2R ≅ ℤ/2`, so it
+  is not a resolution. The quotient is pseudocoherent but has no finite projective resolution;
+  the resolution-to-fpd implication requires weak regularity.
 - *test_variables_regular* — for a complete Tate ring `C`, the variables `u₁, …, u_N` are weakly
   regular on `C⟨u₁, …, u_N⟩`, so `C = C⟨u⟩/(u)` is N-fpd over `C⟨u⟩` (used by
   PerfectoidSpaces P5.13.1, *fs-iv-4-13-regular-sequence*).
@@ -7953,10 +7995,14 @@ for its natural topology as a `B`-module ([KL II] §2.4, Def. 2.4.1, p. 35); *st
 means stably `∞`-pseudocoherent. The tensor products are algebraic and are asked to be complete
 already, no completed tensor product being formed; the identity localisation is included, so stably
 implies strictly; the plus ring enters only through the set of rational subsets; no sheafiness is
-assumed in the definition. Define `Huber.IsStrictlyPseudoCoherent`, `Huber.IsStablyPseudoCoherent`
+assumed in the definition. At `m = ∞` the algebraic conjunct of both strict and stable
+pseudocoherence is the supplied `PseudoCoherence.IsPseudoCoherentModule A (ModuleCat.of A M)`;
+the coordinate-resolution comparison of *pseudocoherent-module* transports the syzygy arguments.
+Define `Huber.IsStrictlyPseudoCoherent`, `Huber.IsStablyPseudoCoherent`
 and `Huber.IsStablyFPD`. Natural completeness is the second conjunct of strict
 pseudocoherence; for stable pseudocoherence use `(h.isStrictlyPseudoCoherent).2`.
-Prove `isStrictlyPseudoCoherent` (stably implies strictly),
+Prove `Huber.IsStablyPseudoCoherent.isPseudoCoherent` (with conclusion in that shared predicate),
+`isStrictlyPseudoCoherent` (stably implies strictly),
 `IsStablyFPD.isStablyPseudoCoherent`, `of_projective` (finite projective modules are stably
 pseudocoherent and stably 0-fpd), and the base change
 for `m = 2` (along a 2-pseudoflat rational
@@ -7982,7 +8028,8 @@ Def. 2.4.1, p. 35). *Needs:* *pseudocoherent-module*; *natural-topology-strict-e
 Lean: `Huber.ratLoc` (with its ring structure `Huber.ratLocCommRing`) and `Huber.ratLocPair` (the
 completed rational localisation `A⟨T/s⟩` as a complete Tate ring and Huber pair, from Tau Ceti's completion and completed plus ring) and
 `Huber.IsStablyPseudoCoherent` (m-pseudocoherence together with natural completeness of every
-`A⟨T/s⟩ ⊗_A M`, `T` generating an open ideal); the rest is README only.
+`A⟨T/s⟩ ⊗_A M`, `T` generating an open ideal) and
+`Huber.IsStablyPseudoCoherent.isPseudoCoherent`; the rest is README only.
 
 **Checks.**
 
