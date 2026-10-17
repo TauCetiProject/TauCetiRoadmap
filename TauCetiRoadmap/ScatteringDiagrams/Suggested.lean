@@ -36,15 +36,17 @@ declaration here would not by itself complete a layer or the roadmap, and a carr
 the README that is absent here is still required.
 
 Definitions have real bodies; a theorem closed by `sorry` is a proposed statement. No structure
-carries an existence theorem as a field. Carriers that need the BCH group of README §0.3 (`Ĝ`, the
-wall groups) take it as an abstract group here. The broken-line prototype uses a specified
-finite family of actual walls and a linear group action; its crossing components are derived
-from them. The grading and annihilation hypotheses that the README's finiteness and transport
-theorems need are not encoded in this prototype. The declarations that the README names in its
-`*Lean:*` lines are the targets; the other declarations of §§1.4, 3.3 and 5.5 (an abstract order
-filtration in place of the BCH tower, path products along polygons, the trivialization data of
-§3.3, the probe group as a semidirect product with its own abstract filtration) are the
-representation those statements need, not targets.
+carries an existence theorem as a field. Carriers that need the BCH group of README §0.4 (`Ĝ`, the
+wall groups) take it as an abstract group here, and only carriers are stated over it: a theorem
+whose truth depends on the BCH structure of `Ĝ`, or on the grading, filtration and annihilation
+properties of its action, is a README target and is not stated in this file. This covers the
+existence of outgoing and probe completions, probe flatness, the last-transition recursion and
+theta transport. The broken-line prototype uses a specified finite family of actual walls and a
+linear group action; its crossing components are derived from them. The declarations that the
+README names in its `*Lean:*` lines are the targets; the other declarations of §§1.4, 3.3 and 5.5
+(an abstract order filtration in place of the BCH tower, path products along polygons, the
+trivialization data of §3.3, the probe group as a semidirect product with its own abstract
+filtration) are the representation the README's statements need, not targets.
 -/
 
 namespace TauCetiRoadmap.ScatteringDiagrams
@@ -184,34 +186,34 @@ section Completed
 variable {G : ℕ → Type*} [∀ h, Group (G h)] (π : ∀ h, G (h + 1) →* G h)
 
 /-- The completed group of a tower `π h : G (h+1) →* G h`: the compatible-family subgroup of
-`∀ h, G h` (`README §0.4`). Categorically this is `GrpCat.sectionsSubgroup` of the diagram
+`∀ h, G h` (`README §0.5`). Categorically this is `GrpCat.sectionsSubgroup` of the diagram
 `ℕᵒᵖ ⥤ GrpCat`; the direct form avoids building that functor. For the BCH tower `G≤h` of
-README §0.3 this is `Ĝ`. -/
+README §0.4 this is `Ĝ`. -/
 def CompletedGroup : Subgroup (∀ h, G h) where
   carrier := {x | ∀ h, π h (x (h + 1)) = x h}
   mul_mem' := fun hx hy h => by simp only [Pi.mul_apply, map_mul, hx h, hy h]
   one_mem' := fun _ => map_one _
   inv_mem' := fun hx h => by simp only [Pi.inv_apply, map_inv, hx h]
 
-/-- The projection `Ĝ → G≤h` (`README §0.4`). -/
+/-- The projection `Ĝ → G≤h` (`README §0.5`). -/
 def projection (h : ℕ) : CompletedGroup π →* G h :=
   (Pi.evalMonoidHom G h).comp (CompletedGroup π).subtype
 
-/-- Two elements agree iff every projection agrees (`README §0.4`). -/
+/-- Two elements agree iff every projection agrees (`README §0.5`). -/
 theorem projection_ext {x y : CompletedGroup π} :
     x = y ↔ ∀ h, projection π h x = projection π h y :=
   ⟨fun e _ => e ▸ rfl, fun e => Subtype.ext (funext e)⟩
 
 end Completed
 
-/-- The Leibniz rule for a Lie action on a possibly noncommutative algebra (`README §0.5`,
+/-- The Leibniz rule for a Lie action on a possibly noncommutative algebra (`README §0.6`,
 Convention 2): Mathlib's `Derivation` needs a commutative algebra. This is the hypothesis shape
 of `Module.End.exp_mul_of_derivation`. -/
 class IsDerivationAction (g A : Type*) [LieRing g] [Ring A] [LieRingModule g A] : Prop where
   lie_mul : ∀ (x : g) (a b : A), ⁅x, a * b⁆ = a * ⁅x, b⁆ + ⁅x, a⁆ * b
 
 /-- A multiplicative decreasing filtration `I^0 A = A ⊇ I^1 A ⊇ ⋯` by two-sided ideals
-(`README §0.5`). -/
+(`README §0.3`). -/
 structure AlgFiltration (A : Type*) [Ring A] where
   ideal : ℕ → Ideal A
   isTwoSided : ∀ h, (ideal h).IsTwoSided
@@ -226,7 +228,7 @@ variable {A : Type*} [Ring A] (F : AlgFiltration A)
 instance (h : ℕ) : (F.ideal h).IsTwoSided := F.isTwoSided h
 
 /-- The separated completion `Â = lim_h A ⧸ I^(h+1) A` as compatible families; level `h` is the
-order-`h` quotient (`README §0.5`, Convention 3). Its carrier and ring structure do not depend
+order-`h` quotient (`README §0.3`, Convention 3). Its carrier and ring structure do not depend
 on a choice of scalar ring. -/
 noncomputable def completion : Subring (∀ h, A ⧸ F.ideal (h + 1)) where
   carrier := {x | ∀ {i j : ℕ} (hij : i ≤ j),
@@ -238,7 +240,7 @@ noncomputable def completion : Subring (∀ h, A ⧸ F.ideal (h + 1)) where
   neg_mem' := fun hx i j hij => by simp only [Pi.neg_apply, map_neg, hx hij]
 
 /-- The same compatible-family carrier, retaining any commutative scalar ring `R`
-(`README §0.5`). -/
+(`README §0.3`). -/
 noncomputable def completionSubalgebra (R : Type*) [CommRing R] [Algebra R A] :
     Subalgebra R (∀ h, A ⧸ F.ideal (h + 1)) where
   toSubsemiring := F.completion.toSubsemiring
@@ -267,14 +269,14 @@ variable {R : Type*} [CommRing R]
   [GradedLieAlgebra ℒ] [IsPositiveGrading D ℒ]
   {A : Type*} [Ring A] [Algebra R A] [LieRingModule g A] [LieModule R g A]
 
-/-- `F^{h+1} g · I^b A ⊆ I^{b+h+1} A` (`README §0.5`). Since `F^1 g = g`, every element raises
+/-- `F^{h+1} g · I^b A ⊆ I^{b+h+1} A` (`README §0.6`). Since `F^1 g = g`, every element raises
 the filtration; a degree-preserving action does not qualify. -/
 class IsFiltrationRaising (F : AlgFiltration A) : Prop where
   lie_mem : ∀ {h b : ℕ} {x : g} {a : A}, x ∈ degreeIdeal D ℒ h → a ∈ F.ideal b →
     ⁅x, a⁆ ∈ F.ideal (b + h + 1)
 
 /-- The action of `x` on the order-`h` quotient `A ⧸ I^(h+1) A` exists and is nilpotent
-(`README §0.5`); on the order-zero quotient `A ⧸ I^1 A` it is zero. -/
+(`README §0.6`); on the order-zero quotient `A ⧸ I^1 A` it is zero. -/
 theorem quotientAction_exists (F : AlgFiltration A) [IsFiltrationRaising D ℒ F]
     (x : g) (h : ℕ) :
     ∃ E : Module.End R (A ⧸ F.ideal (h + 1)),
@@ -286,9 +288,9 @@ theorem quotientAction_exists (F : AlgFiltration A) [IsFiltrationRaising D ℒ F
 The quotient-action construction above needs no rational scalars. -/
 variable [Algebra ℚ R] [Algebra ℚ A] [IsScalarTower ℚ R A]
 
-/-- The exponential of one element of `g` acting on `Â` (`README §0.5`): at level `h` it is
+/-- The exponential of one element of `g` acting on `Â` (`README §0.6`): at level `h` it is
 `IsNilpotent.exp` of the induced endomorphism `E` of `A ⧸ I^(h+1) A`. *expDerivationAction*
-`Ĝ →* Aut_R(Â)` is this levelwise exponential composed with the logarithm of the §0.3 BCH
+`Ĝ →* Aut_R(Â)` is this levelwise exponential composed with the logarithm of the §0.4 BCH
 group, which this file does not construct; its homomorphism, projection and continuity laws
 are README targets. -/
 theorem expDerivationAction_exists [IsDerivationAction g A] (F : AlgFiltration A)
@@ -381,7 +383,8 @@ variable {V : Type*} [NormedAddCommGroup V] [NormedSpace ℝ V] (E : Exceptional
 /-- Avoiding every exceptional locus (`README §1.3`). -/
 def IsGeneric (q : V) : Prop := ∀ k, q ∉ E.locus k
 
-/-- Finite-dimensional real genericity (`README §1.3`); not a uniform all-degree neighborhood. -/
+/-- `README §1.2` *hyperplaneAvoidance* for the loci of an arrangement; not a uniform
+all-degree neighborhood. -/
 theorem generic_dense [FiniteDimensional ℝ V] : Dense {q | E.IsGeneric q} := by
   have := FiniteDimensional.complete ℝ V
   have hset : {q | E.IsGeneric q} = ⋂ k, ((E.locus k : Set V))ᶜ := by
@@ -609,9 +612,8 @@ structure IsGenericCurtain (x : OrientedCell i (k + 1) →₀ E) (v : Fin (k + 2
   side : ∀ (l : Fin (k + 2)) (j : Fin (k + 1)), ∀ σ ∈ x.support,
     IsTransverseSimplex (prismSimplex (v ∘ l.succAbove) n T j) σ
 
-/-- `README §1.4` *intersection_stokes*:
-`⟨dC, [0,T] × S⟩ = ⟨C, S_T⟩ − ⟨C, S_0⟩ − ⟨C, [0,T] × ∂S⟩` with `∂S = Σ_l (−1)^l S ∘ δ_l`,
-by triangulating the parameter prism and taking preimages there. -/
+/-- `README §1.4` *intersection_stokes*, summed over the triangulated parameter prism:
+`⟨dC, [0,T] × S⟩ = ⟨C, S_T⟩ − ⟨C, S_0⟩ − ⟨C, [0,T] × ∂S⟩` with `∂S = Σ_l (−1)^l S ∘ δ_l`. -/
 theorem intersection_stokes [FiniteDimensional ℝ V] (x : OrientedCell i (k + 1) →₀ E)
     (v : Fin (k + 2) → V) (n : V) (T : ℝ) (hT : 0 ≤ T) (hgen : IsGenericCurtain x v n T) :
     prismPairing (coboundaryFree x) v n T =
@@ -885,7 +887,7 @@ end DirectedWall
 
 /-! ### Local scattering and existence of completion (README §3.3) -/
 
-/-- The order filtration of the abstract completed group `Ĝ` (`README §0.4`): `ker h` is the
+/-- The order filtration of the abstract completed group `Ĝ` (`README §0.5`): `ker h` is the
 kernel of `Ĝ → G≤h`, so `ker 0 = ⊤` for the BCH tower. -/
 structure OrderFiltration (G : Type*) [Group G] where
   ker : ℕ → Subgroup G
@@ -1007,16 +1009,6 @@ initial walls, every added wall is outgoing, and it is consistent. -/
 def IsOutgoingCompletion {k : ℕ} (Din : Fin k → DirectedWall hi D wallGroup) {κ : Type*}
     (𝔇 : DirectedDiagram hi D wallGroup K (Fin k ⊕ κ)) : Prop :=
   (∀ j, 𝔇.wall (Sum.inl j) = Din j) ∧ (∀ c, (𝔇.wall (Sum.inr c)).Outgoing) ∧ 𝔇.Consistent
-
-/-- `README §3.3` *exists_outgoingCompletion*, for a finite family of incoming full affine
-hyperplanes; no transversality or rational-offset hypothesis. The statement does not mention
-the construction; for the abstract group the README's hypotheses (the BCH filtration of
-§§0.3–0.4 and the wall groups of §3.1) are the content of the proof. -/
-theorem exists_outgoingCompletion [FiniteDimensional ℝ V] {k : ℕ}
-    (Din : Fin k → DirectedWall hi D wallGroup) (hDin : ∀ j, (Din j).IsFullHyperplane) :
-    ∃ (κ : Type) (𝔇 : DirectedDiagram hi D wallGroup K (Fin k ⊕ κ)),
-      IsOutgoingCompletion K Din 𝔇 := by
-  sorry
 
 /-- The central kernel of `G≤h+1 → G≤h` (`README §3.3`): an abelian group `E`, in the BCH
 case `F^{h+1} g / F^{h+2} g`, embedded by `ι` with image the kernel of the tower map and
@@ -1416,30 +1408,6 @@ def IsProbeCompletion {ι : Type*} (𝔇 : DirectedDiagram hi D wallGroup K ι) 
       (𝔇'.wall (Sum.inr (Sum.inr c))).Outgoing) ∧
     𝔇'.Consistent
 
-/-- `README §5.5`: a probe completion exists for a representative `𝔇` of `Scat(D_in)` from
-§3.3 and `a ∈ A_p`: lift `𝔇` as cylinders, add the probe wall, keep charge zero fixed and
-correct only module charge one by *centralStep* (charge-one corrections never change charge
-zero, since `[M_p, M_p] = 0`). -/
-theorem exists_probeCompletion [FiniteDimensional ℝ V] {k : ℕ}
-    (Din : Fin k → DirectedWall hi D wallGroup) (hDin : ∀ j, (Din j).IsFullHyperplane)
-    {κ : Type*} {𝔇 : DirectedDiagram hi D wallGroup K (Fin k ⊕ κ)}
-    (H : IsOutgoingCompletion K Din 𝔇) {K' : OrderFiltration (probeGroup action)}
-    (hK' : IsProbeFiltration D 𝒜 action K p K') (a : A) (ha : a ∈ 𝒜 p) :
-    ∃ (κ' : Type) (𝔇' : ProbeDiagram hi D wallGroup 𝒜 action p K' ((Fin k ⊕ κ) ⊕ Unit ⊕ κ')),
-      IsProbeCompletion action p 𝔇 a 𝔇' := by
-  sorry
-
-/-- `README §5.5` *probeCompletion*: a choice of probe completion (its data depends on
-*exists_probeCompletion*; the construction is §3.3's). -/
-noncomputable def probeCompletion [FiniteDimensional ℝ V] {k : ℕ}
-    (Din : Fin k → DirectedWall hi D wallGroup) (hDin : ∀ j, (Din j).IsFullHyperplane)
-    {κ : Type*} {𝔇 : DirectedDiagram hi D wallGroup K (Fin k ⊕ κ)}
-    (H : IsOutgoingCompletion K Din 𝔇) {K' : OrderFiltration (probeGroup action)}
-    (hK' : IsProbeFiltration D 𝒜 action K p K') (a : A) (ha : a ∈ 𝒜 p) :
-    ProbeDiagram hi D wallGroup 𝒜 action p K'
-      ((Fin k ⊕ κ) ⊕ Unit ⊕ (exists_probeCompletion action p Din hDin H hK' a ha).choose) :=
-  (exists_probeCompletion action p Din hDin H hK' a ha).choose_spec.choose
-
 /-- `Θ ∈ M_p` represents the module label `F(Q)` at `(Q, y, 0)` at relative order `h`: a short
 upward vertical segment there is admissible at extended order `h + 1`, meets only walls with
 normal `e_z*`, and has product `exp(−Θ)` to that order (crossing along the coorientation gives
@@ -1460,23 +1428,6 @@ endpoints have one). Its degree-`q` component `F_q(Q)` is `homogeneousComponent 
 noncomputable def probeLabel {K' : OrderFiltration (probeGroup action)} {ι' : Type*}
     (𝔇' : ProbeDiagram hi D wallGroup 𝒜 action p K' ι') (h : ℕ) (Q : V) : A :=
   if hQ : ∃ Θ, IsProbeLabelRep action p 𝔇' h Q Θ then hQ.choose else 0
-
-/-- `README §5.5` *probeFlatness*: for an admissible `γ` from `Q` to `Q'` with representable
-labels at both ends, `F(Q') = G·F(Q)` to relative order `h`, with `G = 𝔭_{γ,D}` the order-`h`
-path product of `𝔇`, by consistency of the rectangle crossing the probe twice and
-`G exp(v) G⁻¹ = exp(G·v)` in the semidirect product. No identification of `F` with a theta sum
-is used. -/
-theorem probeFlatness [FiniteDimensional ℝ V] {ι : Type*} {𝔇 : DirectedDiagram hi D wallGroup K ι}
-    (a : A) {K' : OrderFiltration (probeGroup action)} (hK' : IsProbeFiltration D 𝒜 action K p K')
-    {κ : Type*} {𝔇' : ProbeDiagram hi D wallGroup 𝒜 action p K' (ι ⊕ Unit ⊕ κ)}
-    (hP : IsProbeCompletion action p 𝔇 a 𝔇') (h : ℕ) {m : ℕ} (γ : Fin (m + 1) → V)
-    (hγ : 𝔇.IsAdmissiblePolygon h γ) (hQ : ∃ Θ, IsProbeLabelRep action p 𝔇' h (γ 0) Θ)
-    (hQ' : ∃ Θ, IsProbeLabelRep action p 𝔇' h (γ (Fin.last m)) Θ) :
-    ∀ n ∈ D.cutoff h,
-      homogeneousComponent 𝒜 (p + n) (probeLabel action p 𝔇' h (γ (Fin.last m))) =
-        homogeneousComponent 𝒜 (p + n)
-          (action (𝔇.polygonProduct h γ) (probeLabel action p 𝔇' h (γ 0))) := by
-  sorry
 
 /-- The theta sum `Θ_Q` at order `h` (`README §5.2`): the sum of the final decorations of the
 broken lines for `a` ending at `Q`, over the walls active at order `h`; `0` when the fiber is
@@ -1514,60 +1465,6 @@ def SatisfiesTransitionRecursion {w : ℕ} (walls : Fin w → DirectedWall hi D 
       ∑ n' ∈ (D.finite_cutoff h).toFinset.filter (fun n' => D.degree n' < D.degree n),
         homogeneousComponent 𝒜 (p + n)
           (action (signedWallProduct walls (Q + t • i (p + n)) (-i (p + n))) (Φ (R.germ t) n'))
-
-/-- `README §5.5` *probeLastTransitionRecursion*: the components `F_q` of the probe label
-satisfy the last-transition recursion off a finite arrangement of proper affine subspaces
-(consistency of the probe completion on a thin rectangle along the backward ray, with
-*probeFlatness* on the germs). -/
-theorem probeLastTransitionRecursion [FiniteDimensional ℝ V] {ι : Type*}
-    {𝔇 : DirectedDiagram hi D wallGroup K ι} (a : A) (ha : a ∈ 𝒜 p)
-    {K' : OrderFiltration (probeGroup action)} (hK' : IsProbeFiltration D 𝒜 action K p K')
-    {κ : Type*} {𝔇' : ProbeDiagram hi D wallGroup 𝒜 action p K' (ι ⊕ Unit ⊕ κ)}
-    (hP : IsProbeCompletion action p 𝔇 a 𝔇') (h : ℕ) :
-    ∃ Ex : ExceptionalArrangement V, SatisfiesTransitionRecursion 𝒜 action p (𝔇.activeFamily h) h a
-      Ex.IsGeneric fun Q n => homogeneousComponent 𝒜 (p + n) (probeLabel action p 𝔇' h Q) := by
-  sorry
-
-/-- `README §5.5` *lastBend_induction*: deleting the last genuine bend of a broken line gives the
-same recursion for the theta sums `Θ` (prefix of strictly smaller relative degree, suffix with
-velocity `−q`), off a finite arrangement of proper affine subspaces; genericity of `x + εr`
-follows from such an arrangement (an `r`-invariant degeneracy hyperplane equal to the wall
-would force `m(r) = 0`). With *probeLastTransitionRecursion* and induction on `δ(q − p)` this
-gives *probeWall_eq_brokenLineSum* `F = Θ`, hence *theta_transport* from *probeFlatness*. -/
-theorem lastBend_induction [FiniteDimensional ℝ V] {ι : Type*}
-    (𝔇 : DirectedDiagram hi D wallGroup K ι) (h : ℕ) (a : A) (ha : a ∈ 𝒜 p) :
-    ∃ Ex : ExceptionalArrangement V, SatisfiesTransitionRecursion 𝒜 action p (𝔇.activeFamily h) h a
-      Ex.IsGeneric fun Q n => homogeneousComponent 𝒜 (p + n) (𝔇.thetaSum action p h a ha Q) := by
-  sorry
-
-/-- `README §5.5` *probeWall_eq_brokenLineSum*: `F(Q) = Θ_Q` to relative order `h` off a finite
-arrangement of proper affine subspaces, by induction on `δ(q − p)` from
-*probeLastTransitionRecursion* and *lastBend_induction*, the component `q = p` being `a` on
-both sides. -/
-theorem probeWall_eq_brokenLineSum [FiniteDimensional ℝ V] {ι : Type*}
-    {𝔇 : DirectedDiagram hi D wallGroup K ι} (a : A) (ha : a ∈ 𝒜 p)
-    {K' : OrderFiltration (probeGroup action)} (hK' : IsProbeFiltration D 𝒜 action K p K')
-    {κ : Type*} {𝔇' : ProbeDiagram hi D wallGroup 𝒜 action p K' (ι ⊕ Unit ⊕ κ)}
-    (hP : IsProbeCompletion action p 𝔇 a 𝔇') (h : ℕ) :
-    ∃ Ex : ExceptionalArrangement V, ∀ Q, Ex.IsGeneric Q → ∀ n ∈ D.cutoff h,
-      homogeneousComponent 𝒜 (p + n) (probeLabel action p 𝔇' h Q) =
-        homogeneousComponent 𝒜 (p + n) (𝔇.thetaSum action p h a ha Q) := by
-  sorry
-
-/-- `README §5.5` *theta_transport*, at order `h`: for a representative `𝔇` of `Scat(D_in)` and
-an admissible `γ` between endpoints off a finite arrangement of proper affine subspaces,
-`ϑ_{a,Q'} = 𝔭_{γ,D}(ϑ_{a,Q})`. From *probeWall_eq_brokenLineSum* and *probeFlatness*. -/
-theorem theta_transport [FiniteDimensional ℝ V] {k : ℕ} (Din : Fin k → DirectedWall hi D wallGroup)
-    (hDin : ∀ j, (Din j).IsFullHyperplane) {κ : Type*}
-    (𝔇 : DirectedDiagram hi D wallGroup K (Fin k ⊕ κ)) (H : IsOutgoingCompletion K Din 𝔇)
-    (h : ℕ) (a : A) (ha : a ∈ 𝒜 p) :
-    ∃ Ex : ExceptionalArrangement V, ∀ {m : ℕ} (γ : Fin (m + 1) → V),
-      𝔇.IsAdmissiblePolygon h γ → Ex.IsGeneric (γ 0) → Ex.IsGeneric (γ (Fin.last m)) →
-      ∀ n ∈ D.cutoff h,
-        homogeneousComponent 𝒜 (p + n) (𝔇.thetaSum action p h a ha (γ (Fin.last m))) =
-          homogeneousComponent 𝒜 (p + n)
-            (action (𝔇.polygonProduct h γ) (𝔇.thetaSum action p h a ha (γ 0))) := by
-  sorry
 
 end Probe
 
