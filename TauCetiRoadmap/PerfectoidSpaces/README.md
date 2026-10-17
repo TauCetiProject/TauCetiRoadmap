@@ -43,7 +43,7 @@ they meet.
 The tower-quotient and torsor-descent layers P8–P9 form the roadmap [PerfectoidTowers](../PerfectoidTowers/README.md).
 Each layer's Dependencies paragraph names its mathematical suppliers by section.
 
-**Dependencies.** DerivedModuleAlgebra §§0.1–0.11, 0.13–0.14, 0.25, 1.1–1.9; AdicSpaces §§0–5, 6.1;
+**Dependencies.** DerivedModuleAlgebra §§0.1–0.11, 0.13–0.14, 0.25, 1.T.1, 1.1–1.9; AdicSpaces §§0–5, 6.1;
 AdicSpacesPartII R0.0–R0.20.2, R1; AdicSpacesPartIII R2.4, R3.1, R3.5, R3.8, R3.9;
 AdicEtaleGeometry A0, A1.0–A1.16, A1.2a, A1.6a, A2, A3.1–A3.2, A4.2–A4.5,
 A4.2a, A4.7; PivotalSpherical Layers 2 and 7.
@@ -59,6 +59,8 @@ DerivedModuleAlgebra §§0.4–0.11, 0.13 and 0.25, consistently with SchemeAndS
 and are consumed in P0.19; this roadmap owns only
 its almost counterpart (P0.20). DerivedModuleAlgebra §§0.1–0.4, 0.14 and 1.1–1.9 own
 the generic derived operations, ideal completion and bounded-torsion p-complete module descent.
+Its §1.T.1 owns ordinary module towers, their product difference map, limits, six-term sequence
+and module Milnor sequence; P0.27–P0.28 use these directly for almost annihilation and completion.
 P4.15.1 consumes their carriers and maps; its finite-ideal simplicial descent extension and
 transfinite compatibility feed only the prismatic construction of P4.15.2–P4.15.5.
 
@@ -202,9 +204,11 @@ External inputs and their applications in the layers:
   `ϖ`-adically complete `R⁺` — `WittVector.isAdicComplete_span_p_teichmuller`,
   `isHausdorff_span_p_teichmuller`, `completeSpace_and_t2Space_adicTopology_span_p_teichmuller`,
   `TauCeti.Huber.WittVector.isHuberRing_adicTopology_span_p_teichmuller` (P1.16, P1.33);
-- the `ϖ`-adic completeness of rings of definition of a complete Tate ring — proved directly in
-  P1.2 (*integral-elements-adically-complete*); the same statement is a generic sub-target of
-  AdicEtaleGeometry A1.0.2 (*power-bounded-henselian-along-pseudouniformizer*), which P1 does not use;
+- the `ϖ`-adic topology and completeness of rings of definition of a complete Tate ring —
+  AdicEtaleGeometry A1.0.2(i), `PairOfDefinition.isAdicComplete_of_completeSpace`
+  (*power-bounded-henselian-along-pseudouniformizer*); P1.2
+  (*integral-elements-adically-complete*) applies it to `R⁺`, using uniformity to make this
+  open bounded subring a ring of definition, and proves complements (b)–(d);
 - the Tate norm datum and the spectral seminorm of a Tate ring — AdicSpacesPartII R0.4
   (*tate-ring-norm* `Huber.TateNormDatum`, *spectral-seminorm* `Huber.spectralSeminorm`), of which
   P1's spectral gauge is
@@ -371,11 +375,11 @@ Tables are ordered by the consuming layer within each supplier group.
 | Equivalences preserve limits | `CategoryTheory.Adjunction.isEquivalencePreservesLimits`, `Mathlib/CategoryTheory/Adjunction/Limits.lean` | `etaleTilt_preservesFiniteLimits` applies this instance to `etaleTiltFunctor_isEquivalence`; P3 supplies the geometric equivalence. |
 | Sheaves under a site equivalence | `CategoryTheory.Equivalence.sheafCongr`, `Mathlib/CategoryTheory/Sites/Equivalence.lean` | `etaleTiltSheafEquiv` applies this construction to `etaleTiltFunctor` with covering equivalence `etaleTilt_covers`. |
 | Finite étale categories, base change and geometric fibre | `CommAlgCat.FiniteEtale`, `CommAlgCat.FiniteEtale.of`, `CommAlgCat.FiniteEtale.ofHom`, `CommAlgCat.FiniteEtale.baseChange`, `CommAlgCat.FiniteEtale.baseChangeSelfIso`, `CommAlgCat.FiniteEtale.fiber`, `CommAlgCat.FiniteEtale.equivOfIsSepClosed`, all in `Mathlib/RingTheory/Etale/Finite.lean` | Untilting and almost purity; the algebraically closed fibre equivalence is used directly. |
-| Complete henselian pairs | `IsAdicComplete.henselianRing`, `Mathlib/RingTheory/Henselian.lean` | P3 owns Elkik approximation and the general completed filtered-colimit comparison; AdicEtaleGeometry A4 uses this result downstream. |
+| Complete henselian pairs | `IsAdicComplete.henselianRing`, `Mathlib/RingTheory/Henselian.lean` | AdicEtaleGeometry A1.0.4–A1.0.5 owns generic henselian/Elkik approximation and the completed filtered-colimit comparison. P3 uses its perfectoid-field specialization; A4 uses A1 directly. |
 | Restriction to power-bounded rings | `RingHom.restrict`, `Mathlib/Algebra/Ring/Subsemiring/Basic.lean` | Apply it with P1's preservation of power-bounded elements and P3's finite-étale uniformity theorem. |
-| Jacobian minors and colon ideals | `MvPolynomial.pderiv`, `Mathlib/Algebra/MvPolynomial/PDeriv.lean`; `Submodule.colon`, `Mathlib/RingTheory/Ideal/Colon.lean` | `jacobianIdeal` combines all minors and colon ideals for arbitrary finite polynomial presentations; it differs from the node-specific `TauCeti.NodeAlgebra.jacobianIdeal` in `TauCeti/RingTheory/Node/Jacobian/Locus.lean`. |
+| Jacobian minors and colon ideals | `MvPolynomial.pderiv`, `Mathlib/Algebra/MvPolynomial/PDeriv.lean`; `Submodule.colon`, `Mathlib/RingTheory/Ideal/Colon.lean` | AdicEtaleGeometry A1.0.4's `jacobianIdeal` combines all minors and colon ideals for arbitrary finite polynomial presentations; P3 uses this supplied approximation theory. |
 | Tensor coherence and product projections | `Algebra.TensorProduct.cancelBaseChange`, `Mathlib/RingTheory/TensorProduct/Maps.lean`; `AlgHom.fst`, `AlgHom.snd`, `AlgHom.prodMap`, `Mathlib/Algebra/Algebra/Prod.lean` | P3.5 uses these canonical maps to characterize untilting comparisons and their identity and composition laws. |
-| Moduli functors and integral completions | `CategoryTheory.coyoneda`, `Mathlib/CategoryTheory/Yoneda.lean`; `Ideal.Quotient.factor`, `Mathlib/RingTheory/Ideal/Quotient/Defs.lean`; `Ideal.adicTopology`, `Mathlib/Topology/Algebra/Nonarchimedean/AdicTopology.lean` | P3 adds algebra laws on a fixed module and the non-adic filtration `tⁿI`; it does not redefine representability or ordinary ideal-adic topology. |
+| Moduli functors and integral completions | `CategoryTheory.coyoneda`, `Mathlib/CategoryTheory/Yoneda.lean`; `Ideal.Quotient.factor`, `Mathlib/RingTheory/Ideal/Quotient/Defs.lean`; `Ideal.adicTopology`, `Mathlib/Topology/Algebra/Nonarchimedean/AdicTopology.lean` | AdicEtaleGeometry A1.0.4 owns the filtration `tⁿI` and its section topologies; A1.0.5 owns algebra laws on a fixed projective module and the smooth groupoid comparison. P3 applies these supplied constructions. |
 | Finite product étaleness and discrete finite sets | `Algebra.FormallyEtale.pi_iff` and the finite-product `Algebra.Etale` instance, `Mathlib/RingTheory/Etale/Pi.lean`; `FintypeCatDiscrete` scoped instances, `Mathlib/Topology/Category/FinTopCat.lean` | Transport product étaleness to binary products; use continuous actions on finite discrete geometric fibres. |
 | Field structure on the original tilt ring | `MulEquiv.isField`, `Mathlib/Algebra/Field/Equiv.lean`; `IsField.toField`, `Mathlib/Algebra/Field/IsField.lean` | Transport the supplied field property while retaining the tilt ring operations for geometric fibres. P1 supplies `Perfectoid.tiltField.toTilt`. |
 | Étale cohomology and effective descent | `CategoryTheory.Sheaf.H`, `Mathlib/CategoryTheory/Sites/SheafCohomology/Basic.lean`; `CategoryTheory.Pseudofunctor.IsStack`, `Mathlib/CategoryTheory/Sites/Descent/IsStack.lean` | P3 supplies the actual perfectoid étale sheaves, their scalar endomorphisms, and the finite étale pullback prestack. |
@@ -569,6 +573,7 @@ Fargues–Fontaine input (`TauCeti.FarguesFontaine.spaY`, `frobeniusHomeomorph`,
 | Cross-object cyclicity | PivotalSpherical §Layer 2 / Cyclicity, `leftTrace_comm` and common trace cyclicity | P0.12 transports the supplied law through the internal trace comparison for two almost finite projective objects; translate composition order to Lean's `≫`. |
 | Tensor trace law | PivotalSpherical §Layer 2 / The left trace is monoidal, `leftTrace_tensor` and common trace monoidality | P0.12 transports the tensor-unit/unitor formula to multiplication in `A` through the chosen internal tensor and dual comparisons. |
 | Classical projective trace comparison | AdicSpacesPartIII §R3.8 / *projective-module-trace*, `LinearMap.projectiveTrace`, `LinearMap.projectiveTrace_eq_trace` | P0.12's `trace_test_free_endomorphism` compares the supplied ordinary finite-projective trace with the local internal trace after almostification; the ordinary carrier belongs to AdicSpacesPartIII, the almost realization to this roadmap. |
+| Ordinary module towers and Milnor maps | DerivedModuleAlgebra §1.T.1 / *lim and lim¹ of a tower*, *The six-term sequence of lim and lim¹*, *The Milnor sequence for towers of complexes* | P0.27 uses `ℕᵒᵖ ⥤ ModuleCat V`, `ModuleTower.Product`, `ModuleTower.shift`, `ModuleTower.lim`, `ModuleTower.limOne`, `ModuleTower.limMap` and `ModuleTower.limOneMap` directly. P0.28 uses the same natural six-term boundary and `V`-linear Milnor injection and projection. |
 
 ### From TauCetiRoadmap.AdicSpaces
 
@@ -586,8 +591,9 @@ and [AdicSpacesPartIII (`46632e7`)](https://github.com/TauCetiProject/TauCetiRoa
 
 #### P1
 
-P1 uses AdicSpacesPartII R0.4 for Tate norm data and the spectral seminorm (P1.3), and
-AdicSpacesPartIII R3.9 for the Gel'fand spectrum (P1.12–P1.13). P1.32 uses
+P1.2 uses AdicEtaleGeometry A1.0.2(i)'s ring-of-definition completeness theorem for its
+integral-elements corollary. P1 uses AdicSpacesPartII R0.4 for Tate norm data and the spectral
+seminorm (P1.3), and AdicSpacesPartIII R3.9 for the Gel'fand spectrum (P1.12–P1.13). P1.32 uses
 AdicEtaleGeometry A1.0.0, A1.0.3a and A4.2–A4.5's split-ring and completion theory. The perfectoid frame predicate is P1.1's own
 `Perfectoid.IsPerfectoidTateRing`, which P3.17a uses directly;
 the modulo-`p` formulation they need is `IsPerfectoidTateRing.iff_frobenius_surjective_modP`.
@@ -3223,7 +3229,18 @@ case of the constant sequence `ε_n = m`). For `S = (𝒪_{ℂ_p}, 𝔪)` and `N
 transition maps multiplication by `t`, `lim N_n = 0` and `lim¹ N_n = k⟦t⟧/k[t]`, which is nonzero
 and almost zero (a `k`-vector space); with zero transition maps `lim¹` would vanish, the map
 `(x_n) ↦ (x_n − φ_n(x_{n+1}))` being the identity, and with identity transition maps too (it is
-`(x_n) ↦ (x_n − x_{n+1})`, surjective via `x_n = −Σ_{j<n} y_j`). 
+`(x_n) ↦ (x_n − x_{n+1})`, surjective via `x_n = −Σ_{j<n} y_j`).
+*Needs:* P0.5; DerivedModuleAlgebra §1.T.1 / *lim and lim¹ of a tower* and
+*The six-term sequence of lim and lim¹*; Mathlib module products, colimits, Tor and Ext.
+
+The ordinary tower is the supplied functor `N : ℕᵒᵖ ⥤ ModuleCat V`, with natural
+transformations as morphisms. Use `ModuleTower.Product N`, `ModuleTower.shift N`,
+`ModuleTower.lim N` and `ModuleTower.limOne N` directly; the displayed difference is
+`ModuleTower.shift`, with the supplier's sign. The almost-isomorphism assertion applies to
+the supplied `ModuleTower.limMap` and `ModuleTower.limOneMap`, using its six-term boundary
+on the kernel, image and cokernel towers. These are ordinary modules before almostification:
+the polynomial example has nonzero ordinary `lim¹` although its almostification is zero.
+
 **Checks.**
 
 - `lim1_test_zero_maps`, `lim1_test_identity_maps` — for zero transitions the difference map is
@@ -3233,8 +3250,7 @@ and almost zero (a `k`-vector space); with zero transition maps `lim¹` would va
 - `lim1_test_polynomial` — transitions `·X` on `k[X]` give a nonsurjective difference map,
   so the `lim¹` term cannot be dropped.
 
-`Almost.Module.Tower` records the modules and transitions. Its `difference` is the
-specified product map; `limit` is its kernel and `lim1` its cokernel.
+The following Checks use the same supplied tower carrier and maps.
 
 - `tower_test_zero_maps` — the difference map is the identity and both limits are zero.
 - `tower_test_identity_maps` — the limit is the constant module and `lim¹` vanishes.
@@ -3323,6 +3339,14 @@ and the `lim¹` term is not discarded: it is almost zero because every `H^{i−1
 `C^0 = V[1/ϖ]` (torsion-free, not `ϖ`-adically separated) and `C^i = 0` otherwise, `C/ϖ = 0` is
 exact but `H^0(C) = V[1/ϖ]` is not almost zero; [ECD] Proposition 8.8 applies the lemma to
 `0 → R⁺ → S⁺ → O⁺(Y ×_X Y) → ⋯` for a v-cover of a totally disconnected `X`.
+Use the native `V`-module Milnor sequence of DerivedModuleAlgebra §1.T.1 on the tower
+`(C^•/ϖ^{n+1})_n`, with its supplied injection from `ModuleTower.limOne` of the
+degree-`i−1` cohomology tower and projection to `ModuleTower.lim` of the degree-`i`
+cohomology tower. The identification `C^• ≅ lim_n C^•/ϖ^{n+1}` respects the canonical
+projections, so these are the same Milnor maps, natural in maps of complete complexes.
+P0.27 supplies their outer terms' almost annihilation.
+*Needs:* P0.27 / *almost-zero-limits-and-colimits*;
+DerivedModuleAlgebra §1.T.1 / *The Milnor sequence for towers of complexes*.
 
 **Checks.**
 
@@ -3498,6 +3522,8 @@ almost cotangent complex of perfectoid algebras modulo `ϖ`, almost purity). The
 DerivedModuleAlgebra §§0.1–0.2, 0.4–0.11, 0.13 and 0.25 for polynomial resolutions,
 derived tensor products, the full ordinary cotangent complex and its square-zero deformation theory;
 P0.20–P0.24 use this supplier through P0.19, with P0.22 using §0.25's normalized laws.
+P0.27–P0.28 use DerivedModuleAlgebra §1.T.1's ordinary module towers, six-term sequence
+and native module Milnor maps for almost annihilation and passage to completion.
 P0.12 consumes PivotalSpherical §Layer 2's trace construction, cyclicity
 and tensor law, its §Layer 7 standard symmetric pivotal/spherical structure, and AdicSpacesPartIII
 §R3.8's *projective-module-trace* for the ordinary finite-free comparison. Tau Ceti:
@@ -3664,21 +3690,37 @@ ring `R` of the prose is the special case once `R` is known to be complete Hausd
 Three supporting results. Rings of integral elements are adically complete
 (*integral-elements-adically-complete*): let `R` be a complete Hausdorff uniform Tate ring,
 `R⁺ ⊆ R°` a ring of integral elements (`TauCeti.Huber.IsRingOfIntegralElements`; `R⁺ = R°` allowed)
-and `ϖ ∈ R⁺` a pseudo-uniformizer. Clause (a), that the subspace topology of `R⁺` is the `ϖ`-adic
-topology and `R⁺` is `ϖ`-adically complete and separated (`IsAdicComplete (span {ϖ}) R⁺`), is the
-statement that every ring of definition of a complete Tate ring is `ϖ`-adically complete and
-separated, proved here directly: a ring of definition is an open subgroup of the complete Hausdorff
-group `R`, hence closed and complete, and the `ϖ^n R⁺` form a basis of neighbourhoods of `0`. It is
-used with the hypothesis that `R` is uniform, under which `R⁺` is bounded, hence a ring of
-definition. The same statement is clause (i) of AdicEtaleGeometry A1.0.2's
-*power-bounded-henselian-along-pseudouniformizer*; P1.2 proves the integral-completeness statement directly.
+and `ϖ ∈ R⁺` a pseudo-uniformizer. Clause (a) states that the subspace topology of `R⁺` is the
+`ϖ`-adic topology and `R⁺` is `ϖ`-adically complete and separated
+(`IsAdicComplete (span {ϖ}) R⁺`). Uniformity makes `R°` bounded; since `R⁺ ⊆ R°` is open,
+it is an open bounded subring, hence a ring of definition by
+`TauCeti.Huber.exists_pairOfDefinition_ringOfDefinition_eq_iff`.
+Apply AdicEtaleGeometry A1.0.2(i)'s `PairOfDefinition.isAdicComplete_of_completeSpace`
+(*power-bounded-henselian-along-pseudouniformizer*) to this ring of definition and `ϖ`.
+The general topology and completeness theorem is supplied there; this corollary uses the
+boundedness/ring-of-definition bridge here.
 The complements proved here: (b) `ϖ` is a nonzerodivisor of `R⁺` and `R = R⁺[1/ϖ]`; (c) if `ϖ | p`
 in `R⁺`, then `R⁺` is `p`-adically complete and separated; (d) if `R ≠ 0` and `p` is topologically
 nilpotent in `R`, then `p` is not a unit of `R⁺`. So for `R ≠ 0` perfectoid, `R⁺` satisfies the
 hypotheses `Fact ¬IsUnit (p : R⁺)` and `IsAdicComplete (span {p}) R⁺` of Mathlib's `PreTilt.untilt`
 and `WittVector.fontaineTheta` ([Stacks] Tag 090T (Lemma 10.96.8); [BMS] §3.1, before Definition
-3.1, p. 19). For `R = ℚ_p`, `R⁺ = ℤ_p`, `ϖ = p`, this is the `p`-adic completeness of `ℤ_p`, with no
-perfectoid hypothesis. Injectivity of Frobenius is automatic and the perfectoid
+3.1, p. 19; [Wedhorn] Proposition 6.14, p. 49).
+*Needs:* AdicEtaleGeometry A1.0.2(i); Tau Ceti
+`IsUniform.isBounded_powerBoundedSubring`,
+`exists_pairOfDefinition_ringOfDefinition_eq_iff`; Mathlib `IsAdicComplete`.
+
+**Checks.**
+
+- For `R = ℚ_p`, `R⁺ = ℤ_p` and `ϖ = p`, clause (a) gives `p`-adic completeness,
+  (b) gives regularity and `ℚ_p = ℤ_p[1/p]`, and (d) excludes `p` as a unit of `ℤ_p`.
+- For the zero ring all completeness and localization assertions hold, while `p` is a unit;
+  clause (d) requires `R ≠ 0`.
+- For the complete nonuniform Tate ring `ℂ_p⟨T⟩/(T²)`, its ring `R°` of integral elements
+  contains every scalar multiple of `T`. Thus `T ∈ ⋂_n ϖⁿR°` for a scalar
+  pseudo-uniformizer `ϖ`, and `R°` is not `ϖ`-adically separated; the boundedness bridge
+  requires uniformity (AdicEtaleGeometry A1.0.2).
+
+Injectivity of Frobenius is automatic and the perfectoid
 condition is independent of the pseudo-uniformizer
 (*perfectoid-condition-independent-of-pseudouniformizer*): for a complete Hausdorff Tate ring `R`,
 (a) for every pseudo-uniformizer `ϖ` with `ϖ^p | p` in `R°`, `Φ : R°/ϖ → R°/ϖ^p` is injective;
@@ -4289,7 +4331,7 @@ Proposition 6.1.9, proof, p. 43). Condition (i) cannot be dropped: `ℚ_p` and i
 extensions satisfy (ii) and (iii) ([ECD] Remark 3.3, p. 14; [Sch12] §3, after Definition 3.1,
 p. 15). Hence [Sch12] Definition 3.1 agrees with [ECD] Definition 3.6, and a nonarchimedean field is
 a perfectoid ring in Kedlaya's sense iff it is a perfectoid field ([AWS] Corollary 2.3.11, p. 55).
-`ℂ_p`, `ℚ_p^cycl` and the completion of `ℚ_p(p^{1/p^∞})` satisfy (i)–(iii) (P1.32). *Needs:* P1.10;
+`ℂ_p`, `ℚ_p^cycl` and the completion of `ℚ_p(p^{1/p^∞})` satisfy (i)–(iii) (P1.32a). *Needs:* P1.10;
 Mathlib `NontriviallyNormedField`, `IsUltrametricDist`.
 
 Lean: `IsPerfectoidField.iff`, with (i) stated as the accumulation of the norms at `1`.
@@ -5632,7 +5674,7 @@ of `A` cannot be omitted: for the non-complete Tate `ℤ_p`-algebra `ℚ_p[T]` (
 
 - For the zero Tate base, all stage and completed rings are zero and the perfectoid conditions are vacuous.
 
-### P1.32 examples and non-examples
+### P1.32a examples and non-examples
 
 **Examples and non-examples of perfectoid Tate rings.** (*perfectoid-examples*) The following are
 perfectoid Tate rings, each a declaration of the library, checked against P1.1 through the criteria
@@ -5712,7 +5754,7 @@ assert that those parameters are pseudouniformizers.
 
 ### Examples
 
-The worked examples of this layer are the checks above together with P1.31 and P1.32: `ℚ_p` as the
+The worked examples of this layer are the checks above together with P1.31 and P1.32a: `ℚ_p` as the
 complete uniform Tate ring with bijective Frobenius on `𝔽_p` that is not perfectoid, and
 `ℂ_p[ε]/(ε²)` as the non-uniform ring a definition without uniformity would accept; `ℂ_p` with
 `ϖ = p^{1/p}` and its gauge `2^{-p v_p(x)}`; the completed perfection of `𝔽_p((t))` equal to its own
@@ -17250,7 +17292,7 @@ to a `p`-adic base; characteristic-`p` perfectoid spaces use the supplied P6 pre
 Lean: README only.
 
 
-### P7.16 finite flat regular towers with algebraically closed residue field
+### P7.16a finite flat regular towers with algebraically closed residue field
 
 **Finite flat regular towers with algebraically closed residue field.**
 (*regular-finite-flat-residue-tower*) Let `(R, m)` be a complete regular local ring (Mathlib

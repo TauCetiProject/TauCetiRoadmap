@@ -29,6 +29,15 @@ README only.
 /-!
 The following named interfaces are specified in the README without executable prototypes:
 
+* P0.27–P0.28 use DerivedModuleAlgebra §1.T.1's ordinary towers
+  `ℕᵒᵖ ⥤ ModuleCat V`, `ModuleTower.Product`, `ModuleTower.shift`, `ModuleTower.lim`,
+  `ModuleTower.limOne`, `ModuleTower.limMap` and `ModuleTower.limOneMap` directly.
+  Their six-term boundary and native module Milnor maps supply the almost annihilation
+  and complete-complex applications.
+* P1.2 applies AdicEtaleGeometry A1.0.2(i)'s
+  `PairOfDefinition.isAdicComplete_of_completeSpace` to the open bounded subring `R⁺`
+  of a complete Hausdorff uniform Tate ring. It retains regularity, localization,
+  `p`-adic completeness and the nonunit-`p` complement with their stated hypotheses.
 * P2's adic carrier and point comparisons: `AdicSpace.isAdic_iff_image_analyticLocus`,
   `spa_space_empty`, `spa_space_map_coordinate`, `spa_space_whole`.
 * P3's finite-étale comparison, descent and topology interfaces: `finiteEtale_baseChange`,
