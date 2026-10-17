@@ -187,9 +187,19 @@ later theorem explicitly names.
 
 - **Schur, assembled.** Consume `Module.End.instDivisionRing` and the `bijective_or_eq_zero` family;
   package `Hom(S, S') = 0` for non-isomorphic simple `S, S'` and `Hom(S, S') ≃ D` in the isomorphic case,
-  and over `[IsAlgClosed k]`, **for a finite-dimensional simple module `S`** (`[FiniteDimensional k S]`,
-  needed by `finrank_endomorphism_simple_eq_one`; an infinite-dimensional simple module can have a larger
-  division endomorphism ring), the collapse `End_k S ≃ₐ[k] k`.
+  and over an algebraically closed field `k`, for a ring `A` equipped with `[Algebra k A]` and an
+  `A`-module `S` that is also a `k`-module with compatible actions (`[AddCommGroup S]`,
+  `[Module k S]`, `[Module A S]`, `[IsScalarTower k A S]`), if `S` is simple as an `A`-module and
+  finite-dimensional over `k`, the
+  collapse of the **`A`-linear** endomorphism algebra `Module.End A S ≃ₐ[k] k`. The scalar map
+  `algebraMap k (Module.End A S)` is bijective by Mathlib's
+  `IsSimpleModule.algebraMap_end_bijective_of_isAlgClosed`; TauCeti's
+  `endAlgEquivSelfOfIsSimpleModule` packages the inverse of the `k`-algebra structure map as this
+  algebra equivalence. The `[IsScalarTower k A S]` hypothesis is what makes the `k`-scalars act
+  compatibly with the `A`-action, so this is a statement about endomorphisms commuting with the
+  `A`-action, not the full ring `Module.End k S` of all `k`-linear endomorphisms. Finite dimensionality
+  over `k` is essential: an infinite-dimensional simple `A`-module can have a larger division
+  endomorphism ring.
 - **The isotypic decomposition as counted data.** Consume `isotypicComponents` and its finiteness; build
   the equivalence between `isotypicComponents R M` and **isomorphism classes of simple submodules of `M`**.
   For `M = R` (the regular module of a semisimple ring) this is the counting spine reused everywhere
