@@ -38,6 +38,14 @@ The following named interfaces are specified in the README without executable pr
   `PairOfDefinition.isAdicComplete_of_completeSpace` to the open bounded subring `R⁺`
   of a complete Hausdorff uniform Tate ring. It retains regularity, localization,
   `p`-adic completeness and the nonunit-`p` complement with their stated hypotheses.
+* P2.3's root integral model is parameter-torsion-free with almost bijective Frobenius;
+  in the perfectoid-field specialization it is perfectoid over `K°a`. These conditions
+  do not assert almost flatness over the original plus ring.
+* P4.15.4's `semiperfectoid-andre-cover` supplies roots of monic polynomials `P` with
+  `0 < P.natDegree`, and compatible p-power roots of elements.
+* P7.16a owns the labelled coefficient carrier `RegularTower.CohenDVR p k` and
+  `RegularTower.exists_cohenDVR` for every prime `p` and field `k` with `CharP k p`,
+  including imperfect residue fields.
 * P2's adic carrier and point comparisons: `AdicSpace.isAdic_iff_image_analyticLocus`,
   `spa_space_empty`, `spa_space_map_coordinate`, `spa_space_whole`.
 * P3's finite-étale comparison, descent and topology interfaces: `finiteEtale_baseChange`,
@@ -1328,6 +1336,13 @@ example (p : ℕ) (X : TauCeti.AdicSpace) [IsEmpty X.obj] : IsSousperfectoid p X
 end AdicSpace
 
 /-! ## Layer P4: Zariski closed subsets and immersions -/
+
+-- Check for P4.15.4: the constant polynomial `1` is monic but has no root in a nonzero ring.
+example {A : Type u} [CommRing A] [Nontrivial A] :
+    Polynomial.Monic (1 : Polynomial A) ∧
+      (1 : Polynomial A).natDegree = 0 ∧
+      ¬ ∃ x : A, Polynomial.eval x (1 : Polynomial A) = 0 := by
+  simp
 
 namespace Perfectoid
 
