@@ -504,8 +504,22 @@ axiomatic theories independently of their G2 spectral representation.
    and vector-action equations, together with the LieGroups sphere fibrations. Pin Spin(4)'s generators by (q_L,q_R):v↦q_L v q_R^−1.
    A determinant-negative component acts on π₁ at k=2 by negation,
    on π₃ at k=4 by swapping these factors, and trivially on the other
-   displayed nonzero higher groups. For n≥1 explicitly identify unbased
-   [S^n,GL_k(ℝ)]≃ℤ/2×π_nSO(k) when k≥1. Prove the stabilization maps: on π₁,
+   displayed nonzero higher groups. For n≥1 and k≥1 identify unbased
+   [S^n,GL_k(ℝ)] with ℤ/2×π_nSO(k) AS SETS. For pointwise multiplication
+   construct its group isomorphism with π_nSO(k)⋊_αℤ/2 instead: split the
+   determinant components by the constant reflection
+   r_k=diag(−1,1,…,1), and let α be conjugation by r_k on the based
+   homotopy group. In the convention (a,ε) represented by h·r_k^ε,
+   prove (a,ε)(b,η)=(a+α^ε(b),ε+η), including identification of
+   pointwise multiplication in the based kernel with the π_n group law.
+   Use the displayed conjugation actions to compute the infinite dihedral
+   group for [S¹,GL_2(ℝ)] and the factor-swap semidirect product
+   (ℤ⊕ℤ)⋊ℤ/2 for [S³,GL_4(ℝ)]; the other displayed higher-group cases
+   have trivial action. Compare choices of reflection and basepoint by
+   their actual homotopies/conjugation maps. For S⁰, pointwise multiplication
+   gives (π₀GL_k(ℝ))², hence four classes for k≥1, whereas unframed
+   clutching over S¹ gives only the two conjugacy classes in π₀GL_k(ℝ).
+   Retain the trivial k=0 case. Prove the stabilization maps: on π₁,
    SO(2)→SO(3) is reduction modulo2; on π₃, SO(3)→SO(4) is the
    diagonal ℤ→ℤ⊕ℤ and SO(4)→SO(5) is addition, with these Spin
    generators. Subsequent displayed stable maps are isomorphisms. Derive the unframed sphere-bundle
