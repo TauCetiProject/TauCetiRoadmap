@@ -36,12 +36,14 @@ sites of [AdicEtaleGeometry](../AdicEtaleGeometry/README.md).
 | F1 | Dagger geometry and overconvergent de Rham complexes | dagger algebras and spaces, weak completions, strict neighbourhoods, differential operators, de Rham complexes and de Rham cohomology with supports, duality, finiteness relative to Monsky–Washnitzer finiteness |
 
 Dependencies: AdicSpaces §§0–5; AdicSpacesPartII R0, R1; AdicSpacesPartIII F0, R2, R3;
+DerivedModuleAlgebra §S.1;
 AdicEtaleGeometry A1.0.4, A1.1–A1.16, A1.6a, A2.6a; PerfectoidSpaces P1, P2, P3.10,
 P3.17a–P3.17b; SchemeAndStackFoundations §§0.21, 4.17, 4.20; RigidAnalyticGeometry §§1–8; RestrictedPowerSeries §§0.1, 1.1, 5.4.
 
 ```text
 AdicSpacesPartII R0–R1, AdicEtaleGeometry A1/A2.6a, SchemeAndStackFoundations §4.17 → R4
-R4, AdicSpacesPartII R0/R0.20, AdicSpacesPartIII F0/R2/R3, AdicEtaleGeometry A1/A1.6a → R5.6–R5.11
+R4, AdicSpacesPartII R0/R0.20, AdicSpacesPartIII F0/R2/R3, DerivedModuleAlgebra §S.1,
+  AdicEtaleGeometry A1/A1.6a → R5.6–R5.11
 AdicSpacesPartII R0/R0.20, PerfectoidSpaces P1/P2/P3.17a–P3.17b → R5.5
 AdicSpacesPartII R0–R1, AdicSpacesPartIII R2/R3, R4, SchemeAndStackFoundations §0.21/§4.17/§4.20,
   AdicEtaleGeometry A1.0.4 → F1
@@ -219,6 +221,7 @@ not use F1.11.
 
 | R5 supplier | Exact file | Contract used |
 |---|---|---|
+| DerivedModuleAlgebra §S.1: `DoubleComplex.totalCohomology_of_exact_rows`, `DoubleComplex.edgeBottom`, `DoubleComplex.edgeLeft`, `DoubleComplex.spectralSequence_map` | `TauCetiRoadmap/DerivedModuleAlgebra/README.md`, §S.1 | Exact rows and, by transposition, exact columns compare total cohomology with the edge complexes, naturally in the double complex. R5 applies these comparisons to a sheaf resolution on the rational basis. |
 | `Module.Flat.of_flat_tensorProduct`, `Module.Flat.projective_of_finitePresentation` | `Mathlib/RingTheory/Flat/FaithfullyFlat/Basic.lean`; `Mathlib/RingTheory/Flat/EquationalCriterion.lean` | Flatness descends through a faithfully flat algebra, and finitely presented flat modules are projective. The coefficient-specific projectivity statement (b) of *coefficient-sheaf-kiehl* supplies the rational-cover comparison and noetherian finite presentation. |
 | `TauCetiRoadmap.AdicEtaleGeometry.AdicSpace.IsFiniteEtale`; AdicEtaleGeometry A1.6 *etale-site* (étale objects, rational chart maps and the basic objects of *basis-comparison*) and A1.3 *finite-etale-morphism* (affinoid preimages under finite étale maps) | `TauCetiRoadmap/AdicEtaleGeometry/Suggested.lean`; `TauCetiRoadmap/AdicEtaleGeometry/README.md` | Étale objects, rational maps and finite étale maps, including their affinoid algebra description. PerfectoidSpaces P3.17a.4's identity-generated class `B_X` ([*sousperfectoid-stably-adic*](../PerfectoidSpaces/README.md#p3-17a-4) (PerfectoidSpaces §P3.17a.4)) restricts the initial chart to the identity; A1's basic objects also start from arbitrary affinoid open charts, which does not make their rings sousperfectoid. |
 | `Function.LeftInverse.isClosedEmbedding` | `Mathlib/Topology/Separation/Hausdorff.lean` | A continuous retraction exhibits its continuous section as a closed embedding when the ambient space is Hausdorff. Applied to a perfectoid frame; no second closed-embedding theorem is needed. |
@@ -1601,10 +1604,20 @@ and `ν_U` starts from `U_proét`). For `f : Spa(L, L°) → Spa(K, K°)` with `
 `f*` sends the pro-finite-étale object `lim_i Spa(K_i, K_i°)` of a tower of finite separable
 extensions `K_i/K` to `lim_i Spa(K_i ⊗_K L, (K_i ⊗_K L)°)`, a pro-object of finite disjoint unions;
 computed
-for `K = ℚ_p`, `L = ℚ_p(√p)`, `K_i = ℚ_p(p^{1/2^i})` (`i ≥ 1`, Eisenstein, every `p` including
-`p = 2`): `K_i ⊗_K L ≅ K_i × K_i` since `L ⊆ K_i`, so
-`f*(lim_i Spa K_i) = (lim_i Spa K_i) ⊔ (lim_i Spa K_i)`, matching Scholze13 §3, Prop. 3.15, p. 19
-(`X_{L̂,proét} ≃ X_proét/X_L`).
+for `K = ℚ_p`, `L = ℚ_p(√p)`, choose compatible roots `a_i = p^{1/2^i}` and
+`K_i = ℚ_p(a_i)` (`i ≥ 1`, Eisenstein, every `p` including `p = 2`). If
+`σ(√p) = −√p`, the splitting `K_i ⊗_K L ≅ K_i × K_i` sends
+`a ⊗ b ↦ (ab, aσ(b))`. The two factors have structural maps
+`ι₊, ι₋ : L → K_i` with `ι₊(√p) = a_1` and `ι₋(√p) = −a_1`. Thus
+`f*(lim_i Spa K_i) = U₊ ⊔ U₋`, where `U₊ = lim_i Spa(K_i, K_i°, ι₊)` and
+`U₋ = lim_i Spa(K_i, K_i°, ι₋)` as pro-objects over `Spa L`, matching Scholze13 §3,
+Prop. 3.15, p. 19 (`X_{L̂,proét} ≃ X_proét/X_L`). Forgetting the `L`-structures gives the same
+underlying tower on each branch.
+Non-example: for `p = 3` the branches are not isomorphic over `L`, even after cofinal
+reindexing. A map `U₊ → U₋` would give, at target stage `2`, an `L`-algebra map
+`(K_2, ι₋) → (K_j, ι₊)` for some `j ≥ 2`. The image `β` of `a_2` would satisfy
+`β² = −a_1`, so `(β/a_2)² = −1`. Every `K_j/ℚ₃` is totally ramified with residue field `𝔽₃`;
+the unit `β/a_2` would reduce to a square root of `−1` in `𝔽₃`, which does not exist.
 
 For the pro-étale slice (*proetale-slice-open-subspace*): for `U = X` the equivalence is the
 identity. Scholze's Proposition 3.15 (`X_{L,proét} ≃ X_proét/X_L` for a separable field extension)
@@ -1802,7 +1815,13 @@ Lean: `AdicSpace.perfectoidTimesSmooth_exists`.
   `V = Spa(S, S⁺) ⊆ X` and a chart `U' = Spa(B, B⁺) ⊆ Y` (`B` finite étale over a rational
   localisation of `L'⟨T⟩`), `V ×_L U'` is affinoid with `𝒪(V ×_L U') = S ⊗̂_L B`, the completed
   tensor product of *completed-tensor-product* (AdicSpacesPartII layer R0); for `B = L'⟨T⟩` this is
-  the polydisc computation above, and for `B = L'⟨T, p/T⟩` it is `S⟨T, p/T⟩`.
+  `(S ⊗̂_L L')⟨T⟩`, and for `B = L'⟨T, p/T⟩` it is `(S ⊗̂_L L')⟨T, p/T⟩`.
+  For `L' = L` these recover the polydisc computation above and `S⟨T, p/T⟩`.
+- Non-example: let `p = 2`, `L` be the completion of `ℚ₂(μ_(2^∞))`, `L' = L(ζ₃)` and
+  `X = V = Spa L`. The residue field of `L` is `𝔽₂`, so `x² + x + 1` has no root in `L` and
+  `L'/L` is a proper finite perfectoid extension. For `B = L'⟨T, 2/T⟩` the product algebra is
+  `L'⟨T, 2/T⟩`. It is not isomorphic over `L` to `L⟨T, 2/T⟩`: composing such an isomorphism
+  with evaluation `T ↦ 1`, `2/T ↦ 2` would give an `L`-algebra map `L' → L`.
 - Degenerate: for `X = ∅` (equivalently `S = 0`),
   `X ×_L Y = ∅`, and for `Y = ∅`, `X ×_L Y = ∅`; both are sousperfectoid (empty cover).
 
@@ -2292,8 +2311,8 @@ torsion of the integral Čech cohomology); CHJ §6.3, Rem. 6.17, p. 52 (the éta
 is exact; for `R = ℤ_p` this is Tate's theorem. *Needs:* *completed-coefficient-sheaf*;
 *mixed-completed-tensor-product-formula*; *tate-acyclicity-finite-modules*,
 *tate-kiehl-affinoid* (AdicSpacesPartIII layer R3); Tau Ceti `Huber.IsTateRing.isStrictMap_of_isClosed_range`;
-the comparison of the edges of a Čech double complex (*cech-double-complex-comparison*,
-AdicSpacesPartIII layer R3), applied to the rational basis.
+DerivedModuleAlgebra §S.1 `DoubleComplex.totalCohomology_of_exact_rows` and its transpose,
+with the canonical edge maps and their naturality, applied to a sheaf resolution on the rational basis.
 
 **Local equalizers for the integral and rational coefficient sheaves.** (*coefficient-sheaf-local-equalizer*) Let `X` be a reduced affinoid rigid space over a complete
 nonarchimedean extension `K` of `ℚ_p` (discreteness is not needed; reducedness is needed for the
@@ -2825,7 +2844,8 @@ AdicSpacesPartIII layer F0 (*restricted-power-series-adic*, *completed-tensor-pr
 A1 (the étale site in the
 local-description sense, *finite-etale-affinoid-algebra*, *strongly-sheafy-huber-pair*,
 *basis-comparison*, *etale-covering-reduction*, *etale-structure-sheaf*);
-AdicSpacesPartIII layer R3's *cech-double-complex-comparison* (applied to the rational basis).
+DerivedModuleAlgebra §S.1 `DoubleComplex.totalCohomology_of_exact_rows` and its transpose,
+with the canonical edge maps and their naturality, applied to a sheaf resolution on the rational basis.
 R5.5 uses PerfectoidSpaces P1.10, P2.9–P2.10 and P3.17a–P3.17b, and AdicSpacesPartII
 R0.20.1–R0.20.2 ([*tilde-limits-affinoid-criterion*](../AdicSpacesPartII/README.md#r0201-tilde-limits-of-adic-spaces) (AdicSpacesPartII §R0.20.1), [*tilde-limit-base-change*](../AdicSpacesPartII/README.md#r0202-base-change-of-tilde-limits) (AdicSpacesPartII §R0.20.2)).
 The frame and class examples use PerfectoidSpaces P1.1, P1.30–P1.31 and P3.17a.
@@ -4304,8 +4324,13 @@ is an admissible covering of `W`; equivalently, in the adic space of `W`, `V` co
 `Ū` of `U` (Vezzani's `U ⋐_W V`). For a fringe presentation, the affinoid `Sp(T_n/IT_n)` is written
 `Sp(C) ⊂† Sp(D)` inside `D = T_n(ρ_0)/I` (Grosse-Klönne 2.21), and for dagger spaces
 `Sp(A) ⊂† Sp(B)` means `Sp(Â) ⊂† Sp(B̂)`. Cofinality: given `ρ_0 ∈ Γ*`, `ρ_0 > 1`, `I ⊆ T_n(ρ_0)`
-and an open immersion `Sp(T_n(ρ_0)/I) → W`, the affinoids `V_ρ = Sp(T_n(ρ)/IT_n(ρ))`,
-`ρ ∈ Γ* ∩ (1, ρ_0]`, form a cofinal system of strict neighbourhoods of `V_1 = Sp(T_n/IT_n)` in `W`.
+and an open immersion `V_{ρ_0} = Sp(T_n(ρ_0)/I) → W`, write
+`V_ρ = Sp(T_n(ρ)/IT_n(ρ))` and `V_1 = Sp(T_n/IT_n)`. Assume that `V_{ρ_0}` is itself a strict
+neighbourhood of `V_1` in `W`, equivalently that the adic closure of `V_1` in `W` lies in
+`V_{ρ_0}`. Then the affinoids `V_ρ`, `ρ ∈ Γ* ∩ (1, ρ_0]`, form a cofinal system of strict
+neighbourhoods of `V_1` in `W`. This hypothesis holds in particular for the fixed affinoid
+ambient `W = V_{ρ_0}`. Cofinality there follows from quasi-compactness; for a strict initial
+chart in `W`, restriction to the chart and refinement of admissible coverings give the assertion in `W`.
 (Strict neighbourhoods of tubes in frames, Berthelot's notion, belong to the rigid-cohomology
 roadmap, not to this one.) Define the strict-neighbourhood relation by `{W − U, V}`
 being an admissible covering of `W`, and the relation `Sp(A) ⊂† Sp(B)` (a
@@ -4313,10 +4338,11 @@ fringe-type open immersion); prove that `V` is a strict neighbourhood iff `Ū �
 space, stability under intersections and under enlarging `V`,
 transitivity through a quasi-compact `V_0` with `Ū ⊆ V_0 ⊆ V`,
 that `f^{-1}(V)` is a strict neighbourhood of `f^{-1}(U)` for
-`f : W' → W`, that each `V_ρ`, `ρ > 1`, is a strict neighbourhood of
+`f : W' → W`, that under the stated strictness hypothesis on `V_{ρ_0}` each `V_ρ`, `ρ > 1`, is a strict neighbourhood of
 `V_1` and every strict neighbourhood contains some `V_ρ`, and that
 `Γ(Sp A, F^†) = colim_V Γ(V, G)` over strict neighbourhoods `V`, for `F` coherent on one (see
-*overconvergent-sections-formula*) (GK00 §2, 2.22, p. 15). *Needs:* *fringe-presentation*;
+*overconvergent-sections-formula*) (GK00 §2, 2.22, p. 15, in the fixed affinoid ambient;
+Vezzani §2, Remark 2.7, p. 4, for adic closure and cofinal fringes). *Needs:* *fringe-presentation*;
 *dagger-space*; *rigid-analytic-space*, *rigid-adic-comparison-functor* (AdicSpacesPartII layer R1).
 
 **Checks.**
@@ -4338,6 +4364,15 @@ that `f^{-1}(V)` is a strict neighbourhood of `f^{-1}(U)` for
   `U ⋐_W V` in Vezzani's notation (the closure of `U` lies in `V`).
 - Characterisation: for `W = {|X| ≤ ρ_0}`, every strict
   neighbourhood of the closed unit disc contains `{|X| ≤ ρ}` for some `ρ > 1`.
+- Non-example: over `K = ℚ_p`, set `R = |p|⁻¹`, `Y = Sp(K⟨pT⟩)` and `U = {|T| ≤ 1}`.
+  Glue two copies `Y_1`, `Y_2` along `U` to obtain the quasi-compact quasi-separated rigid space
+  `W = Y_1 ∪_U Y_2` (Bosch-Lectures §1.12, Proposition 5, pp. 83–84). Its complement `W − U`
+  is admissible: on each chart it is the annulus `1 < |T| ≤ R`. No fringe
+  `V_ρ = {|T| ≤ ρ} ⊆ Y_1`, `1 < ρ ≤ R`, is strict in `W`. Indeed, `V_ρ ∩ Y_2 = U`, so a
+  strict covering would restrict to `{Y_2 − U, U}` on `Y_2`. Gluing the constants `1` and `0`
+  on these disjoint nonempty opens would produce a nontrivial idempotent in the domain
+  `K⟨pT⟩`. Here the initial chart `Y_1` fails the strictness hypothesis, while `W` itself is a
+  strict neighbourhood of `U`.
 
 For the closure comparison, a point of the adic space of `W` is a completely prime filter of
 admissible opens whose primality is tested against every admissible covering sieve.
