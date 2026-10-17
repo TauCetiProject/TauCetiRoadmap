@@ -1,4 +1,12 @@
 import Mathlib
+import TauCeti.Geometry.Lie.Tangent.LieEquiv
+import TauCeti.Geometry.Lie.Exponential.Basic
+import TauCeti.Geometry.Lie.Adjoint.Derivation
+import TauCeti.Geometry.Lie.Adjoint.Exponential.Basic
+import TauCeti.Geometry.Lie.Functor
+import TauCeti.Geometry.Lie.Subgroup.LieAlgebra
+import TauCeti.Geometry.Lie.Exponential.BCH
+import TauCeti.Geometry.Lie.Exponential.Units.Basic
 
 /-!
 # Lie groups and the Lie algebra correspondence: target signatures
@@ -9,20 +17,17 @@ contributors and reviewers converge on names and signatures; discharging all of 
 finishes neither a layer nor the roadmap. `sorry` is allowed in this human-owned roadmap
 library -- these are goals, not proofs.
 
-Mathlib has the *class* of Lie groups (`LieGroup I n G`), the Lie algebra of a Lie group as
-left-invariant derivations (`LeftInvariantDerivation I G`, a `LieAlgebra ℝ`), the abstract adjoint
-`LieAlgebra.ad`, the Banach-algebra and matrix exponentials (`NormedSpace.exp`, `Matrix.exp` lemmas),
-the circle exponential (`Circle.exp`), the concrete matrix groups, and the covering-space and
-enveloping-algebra API (see `README.md` for the file-by-file map). It has **no Lie-group exponential
-map, no one-parameter subgroups, no `Ad`, no closed-subgroup theorem, no Lie functor, no BCH, no
-Frobenius/Lie's-third integration, and none of the compact/reductive structure theory** (maximal tori,
-Weyl integration, complexification, Borel-Weil, Iwasawa).
+Mathlib supplies the `LieGroup` class, `LeftInvariantDerivation`, `GroupLieAlgebra`, `LieAlgebra.ad`,
+Banach/matrix/circle exponentials, concrete matrix groups, and the covering/enveloping APIs. The Tau
+Ceti modules imported above additionally supply the actual derivation-based Lie exponential, adjoint,
+Lie map, subgroup Lie-algebra carrier and local BCH germ. This file states roadmap interfaces and
+remaining constructions; it does not claim those native modules are absent.
 
 The design follows the three deliverables of `README.md`: **A** the Lie functor from groups to algebras
-(`lieExp`, `oneParameterSubgroup`, `Ad`, `IsEmbeddedLieSubgroup`, `lieMap`, `bch`); **B** integrating
+(`TauCeti.lieExp`, `TauCeti.oneParameterSubgroup`, `Ad`, `IsEmbeddedLieSubgroup`, `lieMap`, `bch`); **B** integrating
 algebras to groups (`lieSubalgebraOfSubgroup`, Lie's third theorem, the equivalence of categories,
 simply-connected covers, `UniversalEnvelopingAlgebra`); **C** the structure theory (`IsMaximalTorus`,
-torus exhaustion, `weylGroup`, Weyl integration, `Complexification`, `borelWeilSpace`,
+torus exhaustion, `weylGroup`, Weyl integration, `Complexification`, `holomorphicEquivariantFunctionSpace`,
 `iwasawaDecomposition`). Manifold signatures are kept conservative: because a norm on the abstract Lie
 algebra and a group structure on an as-yet-unbuilt complexification are fragile, the smoothness and
 complexification milestones are stated over matrix/normed groups or as existence statements, matching
@@ -51,51 +56,56 @@ section LieGroup
 variable {E : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
   {H : Type v} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
   {G : Type w} [TopologicalSpace G] [ChartedSpace H G] [IsManifold I ∞ G]
-  [Group G] [LieGroup I ∞ G]
+  [Group G] [LieGroup I ∞ G] [T2Space G] [BoundarylessManifold I G]
 
 /-- The evaluation `LeftInvariantDerivation.evalAt (1 : G)` realizes a left-invariant derivation as a
 point derivation at `1`, a linear map `𝔤 →ₗ[ℝ] PointDerivation I (1 : G)`. This is the first half of the
 identification of `𝔤` with `T₁G`; its inverse builds a left-invariant vector field from a tangent
 vector and checks that its derivation is smooth and left-invariant. -/
 noncomputable def evalAtOne (I : ModelWithCorners ℝ E H) (G : Type w) [TopologicalSpace G]
-    [ChartedSpace H G] [IsManifold I ∞ G] [Group G] [LieGroup I ∞ G] :
-    LeftInvariantDerivation I G →ₗ[ℝ] PointDerivation I (1 : G) := sorry
+    [ChartedSpace H G] [IsManifold I ∞ G] [Group G] [LieGroup I ∞ G] [T2Space G] [BoundarylessManifold I G] :
+    LeftInvariantDerivation I G →ₗ[ℝ] PointDerivation I (1 : G) := LeftInvariantDerivation.evalAt 1
 
 /-- Point derivations at `1` are the tangent space `T₁G`. For a finite-dimensional `C^∞` real manifold
 the derivations at a point coincide with the tangent vectors (`Geometry/Manifold/DerivationBundle.lean`
 records that this fails in general), so this equivalence is where finite-dimensionality enters. -/
 noncomputable def pointDerivationTangentEquiv (I : ModelWithCorners ℝ E H) (G : Type w)
-    [TopologicalSpace G] [ChartedSpace H G] [IsManifold I ∞ G] [Group G] [LieGroup I ∞ G] :
-    PointDerivation I (1 : G) ≃ₗ[ℝ] TangentSpace I (1 : G) := sorry
+    [TopologicalSpace G] [ChartedSpace H G] [IsManifold I ∞ G] [Group G] [LieGroup I ∞ G] [T2Space G] [BoundarylessManifold I G] :
+    PointDerivation I (1 : G) ≃ₗ[ℝ] TangentSpace I (1 : G) :=
+  pointDerivationEquivTangentSpace (I := I) 1 BoundarylessManifold.isInteriorPoint
 
 /-- The Lie algebra `𝔤 = Lie(G)` is Mathlib's `LeftInvariantDerivation I G`; at the identity it is the
 tangent space `T₁G`. The equivalence is `evalAtOne` (into point derivations) followed by
 `pointDerivationTangentEquiv`; the content is that `evalAtOne` is a bijection, so `finrank ℝ 𝔤 =
 finrank ℝ E` is available only after this is established. -/
 noncomputable def lieAlgebraTangentEquiv (I : ModelWithCorners ℝ E H) (G : Type w) [TopologicalSpace G]
-    [ChartedSpace H G] [IsManifold I ∞ G] [Group G] [LieGroup I ∞ G] :
-    LeftInvariantDerivation I G ≃ₗ[ℝ] TangentSpace I (1 : G) := sorry
+    [ChartedSpace H G] [IsManifold I ∞ G] [Group G] [LieGroup I ∞ G] [T2Space G] [BoundarylessManifold I G] :
+    LeftInvariantDerivation I G ≃ₗ[ℝ] TangentSpace I (1 : G) :=
+  leftInvariantDerivationEquivGroupLieAlgebra (I := I) (G := G) BoundarylessManifold.isInteriorPoint
 
-/-- **The exponential map** `lieExp : 𝔤 → G`, the time-one flow of the left-invariant vector field `X`
-(equivalently the unique one-parameter subgroup with velocity `X` at `0`). A **new** object; on `Rˣ`,
-matrix groups, and the circle it must coincide with `NormedSpace.exp`, `Matrix.exp`, `Circle.exp`.
-Its smoothness and local-diffeomorphism-at-`0` property are stated in `README.md` (Layer 0); they
-require a norm on `𝔤`, transported through `lieAlgebraTangentEquiv`, and are not pinned here. -/
-noncomputable def lieExp : LeftInvariantDerivation I G → G := sorry
+/-- The native exponential `lieExp : 𝔤 → G`, defined by the time-one invariant integral curve.
+This wrapper reuses `_root_.lieExp`. Under the same finite-dimensional real `LieGroup I ∞ G`,
+`T2Space` and boundaryless hypotheses, consume `_root_.contMDiff_lieExp` and
+`_root_.isLocalDiffeomorphAt_lieExp_zero`; their native statements already use the canonical
+normed model on the derivation algebra. The matrix/unit/circle comparisons and continuous
+one-parameter-subgroup classification retain their separate README scopes. -/
+noncomputable def lieExp [T2Space G] [BoundarylessManifold I G]
+    (X : LeftInvariantDerivation I G) : G := _root_.lieExp X
 
-theorem lieExp_zero : lieExp (I := I) (0 : LeftInvariantDerivation I G) = (1 : G) := sorry
+theorem lieExp_zero [T2Space G] [BoundarylessManifold I G] :
+    lieExp (I := I) (0 : LeftInvariantDerivation I G) = (1 : G) := _root_.lieExp_zero
 
-/-- **One-parameter subgroup homomorphism law**: `t ↦ lieExp (t • X)` is a homomorphism `(ℝ, +) → G`.
-This is the defining property of `lieExp` and of the one-parameter subgroups. -/
-theorem lieExp_add_smul (X : LeftInvariantDerivation I G) (s t : ℝ) :
-    lieExp ((s + t) • X) = lieExp (s • X) * lieExp (t • X) := sorry
+/-- The native one-parameter subgroup law. -/
+theorem lieExp_add_smul [T2Space G] [BoundarylessManifold I G]
+    (X : LeftInvariantDerivation I G) (s t : ℝ) :
+    lieExp ((s + t) • X) = lieExp (s • X) * lieExp (t • X) := _root_.lieExp_add_smul X s t
 
 /-- **One-parameter subgroups** as smooth homomorphisms `ℝ → G`. Every continuous homomorphism `ℝ → G`
 arises this way for a unique `X`, giving the bijection `Hom_cont(ℝ, G) ≃ 𝔤`. -/
-noncomputable def oneParameterSubgroup (X : LeftInvariantDerivation I G) : ℝ → G :=
-  fun t => lieExp (t • X)
+noncomputable def oneParameterSubgroup [T2Space G] [BoundarylessManifold I G]
+    (X : LeftInvariantDerivation I G) : ℝ → G := fun t => _root_.oneParameterSubgroup X (Multiplicative.ofAdd t)
 
-/-- **One-parameter subgroups** (previously prose-only): every continuous one-parameter subgroup
+/-- **One-parameter subgroups**: every continuous one-parameter subgroup
 `φ : ℝ → G` is `t ↦ lieExp (t • X)` for a unique `X ∈ 𝔤` — the content of the bijection
 `Hom_cont(ℝ, G) ≃ 𝔤`. -/
 theorem oneParameterSubgroup_existsUnique (φ : ℝ → G) (hcont : Continuous φ)
@@ -116,9 +126,13 @@ variable {R : Type u} [NormedRing R] [NormedAlgebra ℝ R] [CompleteSpace R]
 /-- On `Rˣ`, the abstract `lieExp` is `NormedSpace.exp`, which lands in the units. This is the
 coincidence lemma grounding `lieExp`; here the resulting unit is pinned, with `(expUnits x : R)` the
 Banach-algebra exponential. -/
-noncomputable def expUnits (x : R) : Rˣ := sorry
+noncomputable def expUnits (x : R) : Rˣ := by
+  letI : NormedAlgebra ℚ R := NormedAlgebra.restrictScalars ℚ ℝ R
+  exact TauCeti.expUnit x
 
-theorem expUnits_coe (x : R) : (expUnits x : R) = NormedSpace.exp x := sorry
+theorem expUnits_coe (x : R) : (expUnits x : R) = NormedSpace.exp x := by
+  letI : NormedAlgebra ℚ R := NormedAlgebra.restrictScalars ℚ ℝ R
+  exact TauCeti.expUnit_coe x
 
 theorem exp_add_smul (x : R) (s t : ℝ) :
     NormedSpace.exp ((s + t) • x) = NormedSpace.exp (s • x) * NormedSpace.exp (t • x) := sorry
@@ -132,22 +146,25 @@ section Adjoint
 variable {E : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
   {H : Type v} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
   {G : Type w} [TopologicalSpace G] [ChartedSpace H G] [IsManifold I ∞ G]
-  [Group G] [LieGroup I ∞ G]
+  [Group G] [LieGroup I ∞ G] [T2Space G] [BoundarylessManifold I G]
 
 /-- **The group adjoint** `Ad : G → (𝔤 ≃ₗ⁅ℝ⁆ 𝔤)`, the differential at `1` of conjugation `x ↦ g x g⁻¹`;
 a Lie-algebra automorphism, and `Ad : G →* (𝔤 ≃ₗ⁅ℝ⁆ 𝔤)` a smooth representation (the adjoint
 representation). Its differential at `1` is Mathlib's `LieAlgebra.ad ℝ 𝔤` (`ad = d(Ad)`, the geometric
 meaning of the bracket; see `README.md`, Layer 1). On matrix groups `Ad g X = g X g⁻¹`. -/
 noncomputable def Ad (g : G) :
-    LeftInvariantDerivation I G ≃ₗ⁅ℝ⁆ LeftInvariantDerivation I G := sorry
+    LeftInvariantDerivation I G ≃ₗ⁅ℝ⁆ LeftInvariantDerivation I G := TauCeti.Lie.Ad g
 
 /-- `Ad` is a group homomorphism into the Lie-algebra automorphisms. -/
-theorem Ad_mul (g h : G) : (Ad (I := I) (g * h)).toLinearEquiv
-    = (Ad (I := I) h).toLinearEquiv.trans (Ad (I := I) g).toLinearEquiv := sorry
+theorem Ad_mul (g h : G) :
+    Ad (I := I) (g * h) = (Ad (I := I) h).trans (Ad (I := I) g) := by
+  change TauCeti.Lie.Ad (g * h) = (TauCeti.Lie.Ad h).trans (TauCeti.Lie.Ad g)
+  exact TauCeti.Lie.Ad_mul g h
 
 /-- **The conjugation formula** `g · lieExp X · g⁻¹ = lieExp (Ad g X)`. -/
 theorem conj_lieExp (g : G) (X : LeftInvariantDerivation I G) :
-    g * lieExp X * g⁻¹ = lieExp (Ad g X) := sorry
+    g * lieExp X * g⁻¹ = lieExp (Ad g X) := by
+  simpa [lieExp, Ad] using TauCeti.Lie.conj_lieExp g X
 
 end Adjoint
 
@@ -165,11 +182,11 @@ section ClosedSubgroup
 variable {E : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
   {H : Type v} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
   {G : Type w} [TopologicalSpace G] [ChartedSpace H G] [IsManifold I ∞ G]
-  [Group G] [LieGroup I ∞ G]
+  [Group G] [LieGroup I ∞ G] [T2Space G] [BoundarylessManifold I G]
 
-/-- **The Lie subalgebra of a subgroup** `Lie(H) = {X | ∀ t, lieExp (t • X) ∈ H}`, a Lie subalgebra of
-`𝔤` for any subgroup `H`. -/
-def lieSubalgebraOfSubgroup (K : Subgroup G) : LieSubalgebra ℝ (LeftInvariantDerivation I G) := sorry
+/-- The native carrier is the LieSpan generated by directions `X` whose entire one-parameter subgroup lies in `K`. For closed `K`, the closed-subgroup theorem identifies this carrier with the embedded subgroup's Lie algebra. For arbitrary, possibly nonclosed `K`, equality with `{X | ∀ t, lieExp (t • X) ∈ K}` is a separate Layer 4 construction and is not the native definition. -/
+noncomputable def lieSubalgebraOfSubgroup (K : Subgroup G) : LieSubalgebra ℝ (LeftInvariantDerivation I G) :=
+  TauCeti.Lie.lieSubalgebraOfSubgroup K
 
 end ClosedSubgroup
 
@@ -199,7 +216,7 @@ section ClosedSubgroup
 variable {E : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
   {H : Type v} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
   {G : Type w} [TopologicalSpace G] [ChartedSpace H G] [IsManifold I ∞ G]
-  [Group G] [LieGroup I ∞ G]
+  [Group G] [LieGroup I ∞ G] [T2Space G] [BoundarylessManifold I G]
 
 /-- **`IsEmbeddedLieSubgroup K`**: `K` carries a smooth structure making the inclusion a smooth
 embedding and `K` a Lie group. The `Lie(K) = lieSubalgebraOfSubgroup K` identification is the
@@ -231,21 +248,25 @@ section LieFunctor
 variable {E : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
   {H : Type v} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
   {G : Type w} [TopologicalSpace G] [ChartedSpace H G] [IsManifold I ∞ G]
-  [Group G] [LieGroup I ∞ G]
+  [Group G] [LieGroup I ∞ G] [T2Space G] [BoundarylessManifold I G]
   {E' : Type u} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
   {H' : Type v} [TopologicalSpace H'] {I' : ModelWithCorners ℝ E' H'}
   {G' : Type w} [TopologicalSpace G'] [ChartedSpace H' G'] [IsManifold I' ∞ G']
-  [Group G'] [LieGroup I' ∞ G']
+  [Group G'] [LieGroup I' ∞ G'] [T2Space G'] [BoundarylessManifold I' G']
 
 /-- **The Lie functor on morphisms**: `lieMap φ = d(φ)_1`, a Lie-algebra homomorphism, for a smooth
 homomorphism `φ : G →* G'`. -/
 noncomputable def lieMap (φ : G →* G') (hφ : ContMDiff I I' ∞ (φ : G → G')) :
-    LeftInvariantDerivation I G →ₗ⁅ℝ⁆ LeftInvariantDerivation I' G' := sorry
+    LeftInvariantDerivation I G →ₗ⁅ℝ⁆ LeftInvariantDerivation I' G' :=
+  _root_.lieMap ⟨φ, hφ⟩
 
 /-- **Naturality against the exponential**: `φ (lieExp X) = lieExp (lieMap φ X)`. -/
 theorem lieMap_lieExp (φ : G →* G') (hφ : ContMDiff I I' ∞ (φ : G → G'))
     (X : LeftInvariantDerivation I G) :
-    φ (lieExp X) = lieExp (lieMap φ hφ X) := sorry
+    φ (lieExp X) = lieExp (lieMap φ hφ X) := by
+  let h := (⟨φ, hφ⟩ : ContMDiffMonoidMorphism I I' ∞ G G')
+  change φ (_root_.lieExp X) = _root_.lieExp (_root_.lieMap h X)
+  exact _root_.map_lieExp h X
 
 /-- **Faithfulness on connected groups**: two smooth homomorphisms out of a connected `G` with equal
 differentials at `1` are equal. -/
@@ -255,14 +276,14 @@ theorem monoidHom_eq_of_lieMap_eq [ConnectedSpace G] (φ ψ : G →* G')
 
 end LieFunctor
 
-/-- **Baker-Campbell-Hausdorff** over a Banach algebra. `bch x y` is the local logarithm of
-`exp x · exp y` in the exponential chart at `0`: for `x, y` small it is the unique small element whose
-exponential is `exp x · exp y`, expanded as the BCH Lie series `x + y + ½⁅x,y⁆ + ⋯` in the commutator.
-The characterization `exp x · exp y = exp (bch x y)` alone does not determine `bch` without the
-smallness/log-uniqueness that pins it inside the chart, so the endpoint and first-order laws below are
-part of the target. Stated on the normed arena where convergence is concrete; transported to the
+/-- **Baker-Campbell-Hausdorff** over a Banach algebra. This is the function-valued degreewise Dynkin
+Lie series `bch x y`, not the native local BCH germ. Prove convergence on the stated norm neighborhood,
+agreement with the local germ there, the endpoint/associativity laws where defined, and a cubic
+remainder bound. The characterization `exp x · exp y = exp (bch x y)` alone does not pin the series;
+retain the smallness/log-uniqueness and coefficient estimates. Transport the local identification to
 abstract `lieExp` by a chart. -/
-noncomputable def bch {R : Type u} [NormedRing R] [NormedAlgebra ℝ R] [CompleteSpace R] (x y : R) : R :=
+noncomputable def bch {R : Type u} [NormedRing R] [NormedAlgebra ℝ R] [CompleteSpace R] :
+    (x : R) → (y : R) → R := by
   sorry
 
 theorem exp_mul_exp_eq_exp_bch {R : Type u} [NormedRing R] [NormedAlgebra ℝ R] [CompleteSpace R]
@@ -291,7 +312,7 @@ section Integration
 variable {E : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
   {H : Type v} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
   {G : Type w} [TopologicalSpace G] [ChartedSpace H G] [IsManifold I ∞ G]
-  [Group G] [LieGroup I ∞ G]
+  [Group G] [LieGroup I ∞ G] [T2Space G] [BoundarylessManifold I G]
 
 end Integration
 
@@ -324,7 +345,7 @@ section Integration
 variable {E : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
   {H : Type v} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
   {G : Type w} [TopologicalSpace G] [ChartedSpace H G] [IsManifold I ∞ G]
-  [Group G] [LieGroup I ∞ G]
+  [Group G] [LieGroup I ∞ G] [T2Space G] [BoundarylessManifold I G]
 
 /-- **`IsImmersedLieSubgroup K`**: `K` is the image of a connected immersed Lie subgroup. -/
 def IsImmersedLieSubgroup (K : Subgroup G) : Prop :=
@@ -357,11 +378,11 @@ theorem exists_monoidHom_of_lieHom
     {E : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
     {H : Type v} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
     {G : Type w} [TopologicalSpace G] [ChartedSpace H G] [IsManifold I ∞ G]
-    [Group G] [LieGroup I ∞ G] [ConnectedSpace G] [SimplyConnectedSpace G]
+    [Group G] [LieGroup I ∞ G] [T2Space G] [BoundarylessManifold I G] [ConnectedSpace G] [SimplyConnectedSpace G]
     {E' : Type u} [NormedAddCommGroup E'] [NormedSpace ℝ E'] [FiniteDimensional ℝ E']
     {H' : Type v} [TopologicalSpace H'] {I' : ModelWithCorners ℝ E' H'}
     {G' : Type w} [TopologicalSpace G'] [ChartedSpace H' G'] [IsManifold I' ∞ G']
-    [Group G'] [LieGroup I' ∞ G']
+    [Group G'] [LieGroup I' ∞ G'] [T2Space G'] [BoundarylessManifold I' G']
     (f : LeftInvariantDerivation I G →ₗ⁅ℝ⁆ LeftInvariantDerivation I' G') :
     ∃ (φ : G →* G') (hφ : ContMDiff I I' ∞ (φ : G → G')), lieMap φ hφ = f := sorry
 
@@ -373,7 +394,7 @@ theorem exists_universalCover
     {E : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
     {H : Type v} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
     {G : Type w} [TopologicalSpace G] [ChartedSpace H G] [IsManifold I ∞ G]
-    [Group G] [LieGroup I ∞ G] [ConnectedSpace G] :
+    [Group G] [LieGroup I ∞ G] [T2Space G] [BoundarylessManifold I G] [ConnectedSpace G] :
     ∃ (Gt : Type w) (_ : TopologicalSpace Gt) (_ : ChartedSpace H Gt) (_ : IsManifold I ∞ Gt)
       (_ : Group Gt) (_ : LieGroup I ∞ Gt) (p : Gt →* G),
       SimplyConnectedSpace Gt ∧ IsCoveringMap (p : Gt → G) := sorry
@@ -385,7 +406,7 @@ noncomputable example
     {E : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
     {H : Type v} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
     {G : Type w} [TopologicalSpace G] [ChartedSpace H G] [IsManifold I ∞ G]
-    [Group G] [LieGroup I ∞ G] :
+    [Group G] [LieGroup I ∞ G] [T2Space G] [BoundarylessManifold I G] :
     Type _ := UniversalEnvelopingAlgebra ℝ (LeftInvariantDerivation I G)
 
 /-! ## C. The structure of compact and reductive Lie groups -/
@@ -397,11 +418,11 @@ section Structure
 variable {E : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
   {H : Type v} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
   {G : Type w} [TopologicalSpace G] [ChartedSpace H G] [IsManifold I ∞ G]
-  [Group G] [LieGroup I ∞ G]
+  [Group G] [LieGroup I ∞ G] [T2Space G] [BoundarylessManifold I G]
 
 /-- **A torus** is a compact connected abelian subgroup; **`IsMaximalTorus T`** is a torus maximal
 under inclusion. The body is purely topological-group-theoretic: Cartan's closed-subgroup theorem
-(Layer 3) upgrades a maximal torus to an embedded Lie subgroup, so no smooth structure needs to be
+(Layer 2) upgrades a maximal torus to an embedded Lie subgroup, so no smooth structure needs to be
 carried in the predicate. -/
 def IsMaximalTorus (T : Subgroup G) : Prop :=
   (IsCompact (T : Set G) ∧ IsConnected (T : Set G) ∧ ∀ x ∈ T, ∀ y ∈ T, x * y = y * x) ∧
@@ -479,30 +500,30 @@ end Structure
 
 /-! ### Layer 7: complexification and real forms
 
-Because the complexification `G_ℂ` is not yet built, its group and complex-Lie-group structure is
-carried by the existential rather than assumed on an opaque carrier. -/
+The complexification carrier records the group and complex-Lie-group structure as part of its
+existence data, rather than assuming an instance on an unrelated opaque carrier. -/
 
 section Complexification
 
 variable {E : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
   {H : Type v} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
   {G : Type w} [TopologicalSpace G] [ChartedSpace H G] [IsManifold I ∞ G]
-  [Group G] [LieGroup I ∞ G]
+  [Group G] [LieGroup I ∞ G] [T2Space G] [BoundarylessManifold I G]
 
-/-- **The complexification** `G_ℂ` of a compact (or real reductive) Lie group: a complex Lie group with
+/-- **The complexification** `G_ℂ` of a compact connected Lie group: a complex Lie group with
 `Lie(G_ℂ) = 𝔤 ⊗_ℝ ℂ` and `G` a maximal compact subgroup, universal among homomorphisms of `G` into
 complex Lie groups. Stated as existence of a complex Lie group with a continuous homomorphism from `G`.
 On the classical groups `(U(n))_ℂ = GL_n(ℂ)`, `(SU(n))_ℂ = SL_n(ℂ)`. -/
 theorem exists_complexification [CompactSpace G] [ConnectedSpace G] :
     ∃ (Ec : Type u) (_ : NormedAddCommGroup Ec) (_ : NormedSpace ℂ Ec)
-      (Hc : Type v) (_ : TopologicalSpace Hc) (Ic : ModelWithCorners ℂ Ec Hc)
+      (_ : FiniteDimensional ℂ Ec) (Hc : Type v) (_ : TopologicalSpace Hc) (Ic : ModelWithCorners ℂ Ec Hc)
       (Gc : Type w) (_ : TopologicalSpace Gc) (_ : ChartedSpace Hc Gc) (_ : IsManifold Ic ∞ Gc)
       (_ : Group Gc) (_ : LieGroup Ic ∞ Gc) (ι : G →* Gc),
       Continuous (ι : G → Gc) ∧ Function.Injective ι ∧
       -- The universal property: every continuous homomorphism of `G` into a complex Lie group
       -- factors uniquely and smoothly through `ι`. Without it (or the `Lie(G_ℂ) = 𝔤 ⊗ ℂ`
       -- condition) the bare existential is vacuous — the trivial group satisfies it.
-      ∀ (Ec' : Type u) (_ : NormedAddCommGroup Ec') (_ : NormedSpace ℂ Ec')
+      ∀ (Ec' : Type u) (_ : NormedAddCommGroup Ec') (_ : NormedSpace ℂ Ec') (_ : FiniteDimensional ℂ Ec')
         (Hc' : Type v) (_ : TopologicalSpace Hc') (Ic' : ModelWithCorners ℂ Ec' Hc')
         (Gc' : Type w) (_ : TopologicalSpace Gc') (_ : ChartedSpace Hc' Gc')
         (_ : IsManifold Ic' ∞ Gc') (_ : Group Gc') (_ : LieGroup Ic' ∞ Gc')
@@ -516,7 +537,7 @@ Representations land in the invertible operators `GL(V) = (V →L[ℂ] V)ˣ` (a 
 Lie group; the holomorphy of the extension is the accompanying milestone in `README.md`. -/
 theorem exists_holomorphic_extension [CompactSpace G] [ConnectedSpace G]
     {V : Type u} [NormedAddCommGroup V] [NormedSpace ℂ V] [FiniteDimensional ℂ V]
-    {Ec : Type u} [NormedAddCommGroup Ec] [NormedSpace ℂ Ec]
+    {Ec : Type u} [NormedAddCommGroup Ec] [NormedSpace ℂ Ec] [FiniteDimensional ℂ Ec]
     {Hc : Type v} [TopologicalSpace Hc] {Ic : ModelWithCorners ℂ Ec Hc}
     {Gc : Type w} [TopologicalSpace Gc] [ChartedSpace Hc Gc] [IsManifold Ic ∞ Gc]
     [Group Gc] [LieGroup Ic ∞ Gc] (ι : G →* Gc) (hι : Continuous (ι : G → Gc))
@@ -525,7 +546,7 @@ theorem exists_holomorphic_extension [CompactSpace G] [ConnectedSpace G]
     -- (embed `U(1)` in `SL₂(ℂ)`: its weight-one character extends to no holomorphic character of
     -- `SL₂(ℂ)`). The universal property is consumed as a hypothesis, matching the conclusion of
     -- `exists_complexification`.
-    (huniv : ∀ (Ec' : Type u) (_ : NormedAddCommGroup Ec') (_ : NormedSpace ℂ Ec')
+    (huniv : ∀ (Ec' : Type u) (_ : NormedAddCommGroup Ec') (_ : NormedSpace ℂ Ec') (_ : FiniteDimensional ℂ Ec')
       (Hc' : Type v) (_ : TopologicalSpace Hc') (Ic' : ModelWithCorners ℂ Ec' Hc')
       (Gc' : Type w) (_ : TopologicalSpace Gc') (_ : ChartedSpace Hc' Gc')
       (_ : IsManifold Ic' ∞ Gc') (_ : Group Gc') (_ : LieGroup Ic' ∞ Gc')
@@ -592,30 +613,88 @@ theorem bruhat_decomposition {Gc : Type w} [Group Gc] (B T : Subgroup Gc)
       rep w = ((n : ↥(Subgroup.normalizer (T : Set Gc))) : Gc)) :
     ∀ g : Gc, ∃ w : weylGroup T, g ∈ (B : Set Gc) * ({rep w} : Set Gc) * (B : Set Gc) := sorry
 
-/-- **The Borel-Weil theorem**: for a dominant integral weight given by a character `lam : B →* ℂˣ` of
-the Borel, the space of holomorphic sections of the line bundle `L_λ = G_ℂ ×_B ℂ_{-λ}` over `G_ℂ / B`
-is, as a `G_ℂ`-representation, the irreducible `L(λ)` of `../LieHighestWeight/README.md`. The Borel and
-line-bundle conventions are fixed in `README.md`, since the opposite Borel or the character `-λ` realizes
-the dual `L(λ)^*`. `borelWeilSpace lam` is that section space; the milestone (in `README.md`) is its
-isomorphism with `L(λ)`. A new object. -/
-def borelWeilSpace {Gc : Type w} [Group Gc] (B : Subgroup Gc) (lam : B →* ℂˣ) : Type w := sorry
+/-- Input data for the holomorphic equivariant-function model. The carrier is an explicitly embedded
+complex Lie subgroup and the character is holomorphic. This data alone does not certify that the
+subgroup is a Borel subgroup or that the character is dominant integral; those are separate Layer 8
+hypotheses for the nonzero Borel-Weil theorem. -/
+structure HolomorphicSubgroupCharacterInput
+    {Gc : Type w} [Group Gc] [TopologicalSpace Gc]
+    {E : Type u} [NormedAddCommGroup E] [NormedSpace ℂ E] [FiniteDimensional ℂ E]
+    {H : Type v} [TopologicalSpace H] (I : ModelWithCorners ℂ E H)
+    [ChartedSpace H Gc] [IsManifold I ∞ Gc] [LieGroup I ∞ Gc] where
+  B : Type w
+  [groupB : Group B]
+  [topologyB : TopologicalSpace B]
+  EB : Type u
+  [normedEB : NormedAddCommGroup EB]
+  [spaceEB : NormedSpace ℂ EB]
+  [finiteEB : FiniteDimensional ℂ EB]
+  HB : Type v
+  [topologyHB : TopologicalSpace HB]
+  JB : ModelWithCorners ℂ EB HB
+  [chartedB : ChartedSpace HB B]
+  [manifoldB : IsManifold JB ∞ B]
+  [lieGroupB : LieGroup JB ∞ B]
+  inclusion : B →* Gc
+  inclusion_injective : Function.Injective inclusion
+  inclusion_smooth : ContMDiff JB I ∞ (inclusion : B → Gc)
+  inclusion_embedding : Topology.IsEmbedding (inclusion : B → Gc)
+  inclusion_immersion : ∀ b : B, Function.Injective (mfderiv JB I (inclusion : B → Gc) b)
+  inclusion_closed : IsClosed (Set.range inclusion)
+  chi : B →* ℂˣ
+  chi_holomorphic : ContMDiff JB 𝓘(ℂ, ℂ) ∞ (fun b => (chi b : ℂ))
 
-noncomputable instance {Gc : Type w} [Group Gc] (B : Subgroup Gc) (lam : B →* ℂˣ) :
-    AddCommGroup (borelWeilSpace B lam) := sorry
-
-noncomputable instance {Gc : Type w} [Group Gc] (B : Subgroup Gc) (lam : B →* ℂˣ) :
-    Module ℂ (borelWeilSpace B lam) := sorry
+/-- The holomorphic equivariant-function carrier is a subspace cut out by holomorphy and the right
+subgroup-equivariance law. The line-bundle identification is a separate construction target; this
+subspace is not by itself a nonvanishing or classification theorem. -/
+def holomorphicEquivariantFunctionSpace {Gc : Type w} [Group Gc] [TopologicalSpace Gc]
+    {E : Type u} [NormedAddCommGroup E] [NormedSpace ℂ E] [FiniteDimensional ℂ E]
+    {H : Type v} [TopologicalSpace H] {I : ModelWithCorners ℂ E H}
+    [ChartedSpace H Gc] [IsManifold I ∞ Gc] [LieGroup I ∞ Gc]
+    (D : HolomorphicSubgroupCharacterInput (I := I) (Gc := Gc)) : Submodule ℂ (Gc → ℂ) where
+  carrier := {f | ContMDiff I 𝓘(ℂ, ℂ) ∞ f ∧
+    ∀ (g : Gc) (b : D.B), f (g * D.inclusion b) = (((D.chi b)⁻¹ : ℂˣ) : ℂ) * f g}
+  add_mem' := by
+    intro f₁ f₂ h₁ h₂
+    constructor
+    · exact h₁.1.add h₂.1
+    · intro g b
+      change f₁ (g * D.inclusion b) + f₂ (g * D.inclusion b) =
+        (((D.chi b)⁻¹ : ℂˣ) : ℂ) * (f₁ g + f₂ g)
+      rw [h₁.2 g b, h₂.2 g b, mul_add]
+  zero_mem' := by
+    constructor
+    · exact contMDiff_const
+    · intro g b
+      simp
+  smul_mem' := by
+    intro c f hf
+    constructor
+    · exact ContMDiff.const_smul hf.1 c
+    · intro g b
+      change c * f (g * D.inclusion b) =
+        (((D.chi b)⁻¹ : ℂˣ) : ℂ) * (c * f g)
+      rw [hf.2 g b]
+      ring
 
 /-- The `Gc`-action on holomorphic sections by left translation. -/
-noncomputable def borelWeilRep {Gc : Type w} [Group Gc] (B : Subgroup Gc) (lam : B →* ℂˣ) :
-    Representation ℂ Gc (borelWeilSpace B lam) := sorry
+noncomputable def leftTranslationOnEquivariantFunctions {Gc : Type w} [Group Gc] [TopologicalSpace Gc]
+    {E : Type u} [NormedAddCommGroup E] [NormedSpace ℂ E] [FiniteDimensional ℂ E]
+    {H : Type v} [TopologicalSpace H] {I : ModelWithCorners ℂ E H}
+    [ChartedSpace H Gc] [IsManifold I ∞ Gc] [LieGroup I ∞ Gc]
+    (D : HolomorphicSubgroupCharacterInput (I := I) (Gc := Gc)) : Representation ℂ Gc ↥(holomorphicEquivariantFunctionSpace (I := I) (Gc := Gc) D) := by
+  sorry
 
 /-- **The algebraic induced-function model** of the section space (a real definition): the
-`B`-equivariant functions `f (g b) = lam(b)⁻¹ f g`, the space `L_λ`-sections live in once
-holomorphy is imposed. -/
-def borelWeilSpaceAlg {Gc : Type w} [Group Gc] (B : Subgroup Gc) (lam : B →* ℂˣ) :
-    Submodule ℂ (Gc → ℂ) where
-  carrier := {f | ∀ (g : Gc) (b : B), f (g * (b : Gc)) = (((lam b)⁻¹ : ℂˣ) : ℂ) * f g}
+`B`-equivariant functions `f (g b) = chi(b)⁻¹ f g`; holomorphy is imposed in
+`holomorphicEquivariantFunctionSpace`. -/
+def equivariantFunctionSubmodule {Gc : Type w} [Group Gc] [TopologicalSpace Gc]
+    {E : Type u} [NormedAddCommGroup E] [NormedSpace ℂ E] [FiniteDimensional ℂ E]
+    {H : Type v} [TopologicalSpace H] {I : ModelWithCorners ℂ E H}
+    [ChartedSpace H Gc] [IsManifold I ∞ Gc] [LieGroup I ∞ Gc]
+    (D : HolomorphicSubgroupCharacterInput (I := I) (Gc := Gc)) : Submodule ℂ (Gc → ℂ) where
+  carrier := {f | ∀ (g : Gc) (b : D.B),
+    f (g * D.inclusion b) = (((D.chi b)⁻¹ : ℂˣ) : ℂ) * f g}
   add_mem' := by
     intro f₁ f₂ h₁ h₂ g b
     simp [h₁ g b, h₂ g b, mul_add]
@@ -625,19 +704,19 @@ def borelWeilSpaceAlg {Gc : Type w} [Group Gc] (B : Subgroup Gc) (lam : B →* �
     simp only [Pi.smul_apply, hf g b, smul_eq_mul]
     ring
 
-/-- **The Borel-Weil anti-vacuity pin**: `borelWeilSpace` embeds `Gc`-equivariantly into the
-algebraic model, with the translation action `(g · f) x = f (g⁻¹ x)` on the target. This ties the
-opaque holomorphic-section carrier to a concrete space (an opaque carrier alone could be
-discharged by any representation whatsoever). The **summit** — finite-dimensionality,
-irreducibility, and the identification with `../LieHighestWeight`'s `L(λ)` — additionally needs
-`Gc` reductive, `B` a Borel, and `lam` dominant; those hypotheses are not yet expressible here, so
-per the second review pass the summit statements stay in `README.md` rather than being pinned
-falsely over arbitrary `(Gc, B, lam)`. -/
-theorem borelWeilSpace_embeds {Gc : Type w} [Group Gc] (B : Subgroup Gc) (lam : B →* ℂˣ) :
-    ∃ ψ : borelWeilSpace B lam →ₗ[ℂ] ↥(borelWeilSpaceAlg B lam),
+/-- Inclusion into the algebraic equivariant-function model is the concrete compatibility comparison.
+The nonzero highest-weight theorem requires a connected complex reductive group, an actual positive
+Borel, and a dominant integral character of the actual group; it remains a separate target. -/
+theorem holomorphicEquivariantFunctions_embed {Gc : Type w} [Group Gc] [TopologicalSpace Gc]
+    {E : Type u} [NormedAddCommGroup E] [NormedSpace ℂ E] [FiniteDimensional ℂ E]
+    {H : Type v} [TopologicalSpace H] {I : ModelWithCorners ℂ E H}
+    [ChartedSpace H Gc] [IsManifold I ∞ Gc] [LieGroup I ∞ Gc]
+    (D : HolomorphicSubgroupCharacterInput (I := I) (Gc := Gc)) :
+    ∃ ψ : ↥(holomorphicEquivariantFunctionSpace (I := I) (Gc := Gc) D) →ₗ[ℂ] ↥(equivariantFunctionSubmodule (I := I) (Gc := Gc) D),
       Function.Injective ψ ∧
-      ∀ (g : Gc) (f : borelWeilSpace B lam) (x : Gc),
-        (ψ (borelWeilRep B lam g f) : Gc → ℂ) x = (ψ f : Gc → ℂ) (g⁻¹ * x) := sorry
+      ∀ (g : Gc) (f : ↥(holomorphicEquivariantFunctionSpace (I := I) (Gc := Gc) D)) (x : Gc),
+        (ψ (leftTranslationOnEquivariantFunctions (I := I) (Gc := Gc) D g f) : Gc → ℂ) x = (ψ f : Gc → ℂ) (g⁻¹ * x) := by
+  sorry
 
 /-! ### Layer 9: the Cartan, Iwasawa, and KAK decompositions
 
@@ -650,18 +729,43 @@ section RealReductive
 variable {E : Type u} [NormedAddCommGroup E] [NormedSpace ℝ E] [FiniteDimensional ℝ E]
   {H : Type v} [TopologicalSpace H] {I : ModelWithCorners ℝ E H}
   {G : Type w} [TopologicalSpace G] [ChartedSpace H G] [IsManifold I ∞ G]
-  [Group G] [LieGroup I ∞ G]
+  [Group G] [LieGroup I ∞ G] [T2Space G] [BoundarylessManifold I G]
 
-/-- **A Cartan involution datum** for `G`: a smooth involutive automorphism `θ` with compact fixed
-set, **together with the reductivity of `𝔤`** (center and derived algebra complementary, derived
-algebra semisimple). The reductivity fields are essential and not implied by the involution data:
-the Euclidean motion group carries the involution `(v, k) ↦ (−v, k)` with compact fixed group
-`O(n)` yet has a noncentral translation radical. -/
+/-- A global matrix-cover input; no polar/KAK conclusion is a field.
+The finite-dimensional closed subgroup structure, finite covering and
+compatible involution are the global input to the decomposition theorems. -/
+structure FiniteCartanMatrixModel (G : Type w) [TopologicalSpace G] [Group G]
+    (theta : G ≃* G) where
+  n : ℕ
+  H : Subgroup (Matrix.GeneralLinearGroup (Fin n) ℝ)
+  closed : IsClosed (H : Set (Matrix.GeneralLinearGroup (Fin n) ℝ))
+  star_stable : ∀ h ∈ H, star h ∈ H
+  finite_components : Finite (ConnectedComponents H)
+  cover : G →* H
+  continuous_cover : Continuous (cover : G → H)
+  surjective_cover : Function.Surjective cover
+  covering : IsCoveringMap (cover : G → H)
+  finite_kernel : Finite cover.ker
+  compact_preimage_fixed : ∀ g : G,
+    star (((cover g : H) : Matrix.GeneralLinearGroup (Fin n) ℝ)) *
+      (((cover g : H) : Matrix.GeneralLinearGroup (Fin n) ℝ)) = 1 → theta g = g
+  central_kernel : ∀ z ∈ cover.ker, ∀ g : G, z * g = g * z
+  theta_compatible : ∀ g : G,
+    ((cover (theta g) : H) : Matrix.GeneralLinearGroup (Fin n) ℝ) =
+      star ((((cover g : H) : Matrix.GeneralLinearGroup (Fin n) ℝ))⁻¹)
+
+/-- **A Cartan involution datum** for `G`: a smooth involutive automorphism `θ`, a specified global
+finite-cover matrix model, compact fixed subgroup, and explicit reductive Lie-algebra splitting. The
+matrix model is transpose-stable by construction, so the recorded reductivity fields are part of the
+chosen Cartan datum and theorems must prove/consume them from their stated source. Compactness of the
+fixed group alone is not a reductivity criterion: the Euclidean motion example with
+`(v,k) ↦ (−v,k)` has compact fixed `O(n)` and a translation radical. -/
 structure CartanInvolution (I : ModelWithCorners ℝ E H) (G : Type w) [TopologicalSpace G]
-    [ChartedSpace H G] [IsManifold I ∞ G] [Group G] [LieGroup I ∞ G] where
+    [ChartedSpace H G] [IsManifold I ∞ G] [Group G] [LieGroup I ∞ G] [T2Space G] [BoundarylessManifold I G] where
   θ : G ≃* G
   smooth : ContMDiff I I ∞ (θ : G → G)
   involutive : ∀ g : G, θ (θ g) = g
+  global_model : FiniteCartanMatrixModel G θ
   compact_fixed : IsCompact {g : G | θ g = g}
   reductive_compl :
     IsCompl (LieAlgebra.center ℝ (LeftInvariantDerivation I G)).toSubmodule
@@ -672,21 +776,36 @@ structure CartanInvolution (I : ModelWithCorners ℝ E H) (G : Type w) [Topologi
 /-- **`IsRealReductive I G`**: `G` carries a Cartan involution datum (with `𝔤 = 𝔨 ⊕ 𝔭` the
 `±1`-eigenspace decomposition of its differential). -/
 def IsRealReductive (I : ModelWithCorners ℝ E H) (G : Type w) [TopologicalSpace G]
-    [ChartedSpace H G] [IsManifold I ∞ G] [Group G] [LieGroup I ∞ G] : Prop :=
+    [ChartedSpace H G] [IsManifold I ∞ G] [Group G] [LieGroup I ∞ G] [T2Space G] [BoundarylessManifold I G] : Prop :=
   Nonempty (CartanInvolution I G)
 
-/-- **Iwasawa data** for `G`: a Cartan involution, `K` its fixed subgroup, a maximal abelian
-`𝔞 ⊆ 𝔭` (the `−1`-eigenspace of `dθ = lieMap θ`), `A = lieExp 𝔞`, a closed nilpotent `N` normalized
-by `𝔞` completing the Lie-algebra Iwasawa decomposition `𝔤 = 𝔨 ⊕ 𝔞 ⊕ 𝔫`, and the closed positive
-chamber (a cone in `𝔞` recording the positivity choice; its full restricted-root characterization
-is the companion target once the restricted root system is attached). Bundled as a structure —
-none of this is expressible on bare subgroups, which is what left the previous predicates opaque. -/
+/-- Iwasawa data separates the arbitrary closed, connected exponential complement `N` used by KAN from the root-generated subgroup `Nplus` used for the canonical chamber/KAK. Store root spaces, restricted weights and the positive subsystem determining `Nplus` and the chamber; prove `𝔤 = 𝔨 ⊕ 𝔞 ⊕ Lie(Nplus)`, the normalizer orbit, and split-center lineality. Do not force arbitrary `N` to be root-generated. A closed spanning cone without restricted-root data is not a positive chamber. -/
 structure IwasawaData (I : ModelWithCorners ℝ E H) (G : Type w) [TopologicalSpace G]
-    [ChartedSpace H G] [IsManifold I ∞ G] [Group G] [LieGroup I ∞ G] where
+    [ChartedSpace H G] [IsManifold I ∞ G] [Group G] [LieGroup I ∞ G] [T2Space G] [BoundarylessManifold I G] where
   cartan : CartanInvolution I G
   K : Subgroup G
   K_eq_fixed : (K : Set G) = {g : G | cartan.θ g = g}
   𝔞 : Submodule ℝ (LeftInvariantDerivation I G)
+  /-- Actual restricted weights on the selected maximal abelian subspace. -/
+  restrictedRoots : Set (𝔞 →ₗ[ℝ] ℝ)
+  positiveRestrictedRoots : Set (𝔞 →ₗ[ℝ] ℝ)
+  positiveRoots_subset : positiveRestrictedRoots ⊆ restrictedRoots
+  restrictedRoots_neg : ∀ α, α ∈ restrictedRoots ↔ -α ∈ restrictedRoots
+  positiveRoots_nonzero : ∀ α ∈ positiveRestrictedRoots, α ≠ 0
+  positiveRoots_sign_choice : ∀ α ∈ restrictedRoots, α = 0 ∨
+    α ∈ positiveRestrictedRoots ∨ -α ∈ positiveRestrictedRoots
+  positiveRoots_no_opposites : ∀ α ∈ positiveRestrictedRoots,
+    -α ∉ positiveRestrictedRoots
+  positiveRoots_additive : ∀ α ∈ positiveRestrictedRoots, ∀ β ∈ positiveRestrictedRoots,
+    α + β ∈ restrictedRoots → α + β ∈ positiveRestrictedRoots
+  /-- The restricted root space for α is the simultaneous eigenspace of ad(H). -/
+  restrictedRootSpace : (α : 𝔞 →ₗ[ℝ] ℝ) → Submodule ℝ (LeftInvariantDerivation I G)
+  restrictedRootSpace_eq : ∀ α ∈ restrictedRoots,
+    (restrictedRootSpace α : Set (LeftInvariantDerivation I G)) =
+      {X | ∀ H : 𝔞, ⁅(H : LeftInvariantDerivation I G), X⁆ = (α H) • X}
+  restrictedRoots_exact : ∀ α, α ∈ restrictedRoots ↔ α ≠ 0 ∧
+    ∃ X : LeftInvariantDerivation I G, X ≠ 0 ∧
+      ∀ H : 𝔞, ⁅(H : LeftInvariantDerivation I G), X⁆ = (α H) • X
   𝔞_in_p : ∀ X ∈ 𝔞, lieMap cartan.θ.toMonoidHom cartan.smooth X = -X
   𝔞_abelian : ∀ X ∈ 𝔞, ∀ Y ∈ 𝔞, ⁅X, Y⁆ = 0
   𝔞_maximal : ∀ 𝔞' : Submodule ℝ (LeftInvariantDerivation I G),
@@ -711,13 +830,31 @@ structure IwasawaData (I : ModelWithCorners ℝ E H) (G : Type w) [TopologicalSp
     IsCompl ((lieSubalgebraOfSubgroup (I := I) K).toSubmodule ⊔ 𝔞)
       (lieSubalgebraOfSubgroup (I := I) N).toSubmodule
   chamber : Set (LeftInvariantDerivation I G)
+  chamber_root_inequalities : ∀ X (hX : X ∈ (𝔞 : Set (LeftInvariantDerivation I G))),
+    X ∈ chamber ↔ ∀ α ∈ positiveRestrictedRoots, 0 ≤ α ⟨X, hX⟩
+  /-- Canonical root-generated subgroup, distinct from the arbitrary KAN complement `N`. -/
+  Nplus : Subgroup G
+  Nplus_closed : IsClosed (Nplus : Set G)
+  Nplus_connected : IsConnected (Nplus : Set G)
+  Nplus_positiveRootGeneration :
+    (lieSubalgebraOfSubgroup (I := I) Nplus).toSubmodule =
+      Submodule.span ℝ (⋃ α ∈ positiveRestrictedRoots, restrictedRootSpace α)
   chamber_subset : chamber ⊆ (𝔞 : Set (LeftInvariantDerivation I G))
   chamber_cone : ∀ X ∈ chamber, ∀ Y ∈ chamber, X + Y ∈ chamber
   chamber_smul : ∀ X ∈ chamber, ∀ c : ℝ, 0 ≤ c → c • X ∈ chamber
-  /-- The chamber is a **full** cone: it spans `𝔞` (an empty or lower-dimensional cone would
-  trivialize the KAK factorization below). That it also meets every restricted-Weyl orbit is the
-  companion condition, stated once the restricted root system is attached. -/
+  /-- The closed positive restricted-root chamber spans `𝔞`.
+  Normalizer orbit coverage is required separately by `chamber_normalizer_cover`. -/
   chamber_span : Submodule.span ℝ chamber = 𝔞
+  /-- Closed in the canonical tangent-space topology. -/
+  chamber_closed : IsClosed ((lieAlgebraTangentEquiv I G) '' chamber)
+  /-- Derived from the actual restricted-root positive chamber, not an arbitrary cone. -/
+  chamber_normalizer_cover : ∀ X ∈ 𝔞, ∃ k : K,
+    (∀ Y ∈ 𝔞, Ad (I := I) (k : G) Y ∈ 𝔞) ∧
+    Ad (I := I) (k : G) X ∈ chamber
+  /-- The whole split central direction is lineality. -/
+  chamber_split_center : ∀ X ∈ chamber,
+    ∀ Z ∈ (LieAlgebra.center ℝ (LeftInvariantDerivation I G)).toSubmodule,
+      Z ∈ 𝔞 → X + Z ∈ chamber
 
 /-- **`IsIwasawaTriple K A N`**: `(K, A, N)` are the subgroups of some Iwasawa datum. The
 existential wrapper keeps the consuming decomposition theorems' signatures stable. -/
@@ -739,15 +876,14 @@ theorem iwasawaDecomposition (hG : IsRealReductive I G)
 /-- **The KAK (Cartan) decomposition** `G = K · closure(A⁺) · K`: for a real reductive `G`, maximal
 compact `K`, and the positive restricted chamber, every `g` factors as `k₁ a k₂` with `a` in the
 exponential of the chamber — with `K` and the chamber drawn from the **same** Iwasawa datum (with
-independent `K`/`Aplus` arguments the statement would relate unrelated witnesses, and an empty
-chamber would falsify it; `chamber_span` in the datum rules that out). Uniqueness up to the
+independent `K`/`Aplus` arguments would relate unrelated witnesses). The actual normalizer
+coverage and split-center conditions of the same datum are used. Uniqueness up to the
 restricted Weyl group and the restricted root system are in `README.md`. -/
 theorem kakDecomposition (D : IwasawaData I G) :
     ∀ g : G, ∃ (k₁ k₂ : D.K) (a : G),
       a ∈ lieExp (I := I) '' D.chamber ∧ g = (k₁ : G) * a * (k₂ : G) := sorry
 
-/-- **The global Cartan (polar) decomposition** `G = K · exp 𝔭` (summit pin, previously
-README-only): for a Cartan involution datum, every `g` factors uniquely as `k · lieExp X` with
+/-- **The global Cartan (polar) decomposition** `G = K · exp 𝔭`: for a Cartan involution datum, every `g` factors uniquely as `k · lieExp X` with
 `θ k = k` and `X` in the `−1`-eigenspace `𝔭` of `dθ`. -/
 theorem cartan_polar_decomposition (D : CartanInvolution I G) (g : G) :
     ∃! p : {k : G // D.θ k = k} ×
