@@ -378,11 +378,11 @@ supplies `Formal.DeJong.semistable_alteration_theorem` for F1.
 
 ### From the student roadmaps
 
-RigidAnalyticGeometry is W. Coram's [roadmap](https://github.com/WilliamCoram/TauCetiRoadmap/blob/88df2d0/TauCetiRoadmap/RigidAnalyticGeometry/README.md).
+RigidAnalyticGeometry is W. Coram's roadmap.
 Its Layers 3–4 supply reducedness of rational localisations and the affinoid-subdomain
 contracts. Its §1.5 supplies the strict-affinoid criterion for positive polyradii;
 §1.1 identifies the quotient-norm topology independently of presentation.
-[RestrictedPowerSeries](https://github.com/WilliamCoram/TauCetiRoadmap/blob/fae4b92f3233ec656fb01ae590c2bac0abd5eb42/TauCetiRoadmap/RestrictedPowerSeries/README.md)
+RestrictedPowerSeries
 §§0.1, 1.1 and 5.4 supply the native positive-polyradius algebra, its Gauss norm,
 polynomial density and finite monomial presentations. The bridges below specialise
 these contracts to constant polyradii and to the complete rational localisation.
