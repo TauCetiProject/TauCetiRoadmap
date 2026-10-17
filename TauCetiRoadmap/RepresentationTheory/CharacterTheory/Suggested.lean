@@ -166,10 +166,10 @@ theorem char_column_orthogonality (G : Type v) [Group G] [Fintype G] [DecidableE
 
 /-! ### Layer 4: the arithmetic of character values -/
 
-/-- **Character values are algebraic integers** (sums of `e`-th roots of unity in `ℤ[ζ_e]`). Stated over
-`ℂ`, not over an arbitrary `k`. -/
+/-- Consume the native character-integrality theorem. Cyclotomic lifts and embedding
+compatibility remain separate targets in the definitive README. -/
 theorem isIntegral_character {G : Type v} [Group G] [Fintype G] (V : FDRep ℂ G) (g : G) :
-    IsIntegral ℤ (V.character g) := sorry
+    IsIntegral ℤ (V.character g) := FDRep.isIntegral_character V g
 
 /-- **The central character** `ωᵪ : Z(k[G]) → k` (Schur), with `ωᵪ(Kⱼ) = |Cⱼ| χ(gⱼ)/χ(1)`. -/
 noncomputable def centralCharacter {k : Type u} {G : Type v} [Field k] [IsAlgClosed k] [Group G]
@@ -233,10 +233,19 @@ theorem repRingCharacter_injective (k : Type u) (G : Type v) [Field k] [CharZero
     [Group G] [Fintype G] :
     Function.Injective (repRingCharacter k G) := sorry
 
+/-- Coprime conjugacy-class size and irreducible degree give zero character value or scalar action. -/
+theorem character_eq_zero_or_scalar_of_coprime_class_card
+    {G : Type v} [Group G] [Fintype G] {V : Type*} [AddCommGroup V] [Module ℂ V]
+    [FiniteDimensional ℂ V] (ρ : Representation ℂ G V) [ρ.IsIrreducible] (g : G)
+    (hcop : Nat.Coprime (Nat.card (ConjClasses.carrier (ConjClasses.mk g)))
+      (Module.finrank ℂ V)) :
+    ρ.character g = 0 ∨ ∃ a : ℂ, ∀ v : V, ρ g v = a • v := by
+  sorry
+
 /-- **Burnside's `pᵃqᵇ` theorem** (off the critical path; a Layer-4 application). -/
 theorem isSolvable_of_card_eq_prime_pow_mul_prime_pow {G : Type v} [Group G] [Fintype G]
     {p q : ℕ} (hp : p.Prime) (hq : q.Prime) {a b : ℕ} (h : Nat.card G = p ^ a * q ^ b) :
-    IsSolvable G := sorry
+    Group.IsSolvable G := sorry
 
 /-! ## B. The class algebra and the Dixon-Schneider specification -/
 
