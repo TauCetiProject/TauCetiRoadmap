@@ -4,13 +4,15 @@ Mathlib's Riemannian library has the metric-and-distance layer: `RiemannianBundl
 `IsRiemannianManifold`, and `EMetricSpace.ofRiemannianMetric` live in
 `Mathlib/Geometry/Manifold/Riemannian/Basic.lean`, while `Manifold.pathELength` and
 `Manifold.riemannianEDist` live in `Mathlib/Geometry/Manifold/Riemannian/PathELength.lean`.
-Mathlib also has general covariant derivatives and their torsion. The pinned revision predates
-Mathlib's `CovariantDerivative.IsMetricCompatible`; whenever the working Mathlib revision contains
-it, consume that predicate rather than maintaining a local duplicate. The owned Riemannian
-connection-and-geodesic work is existence and uniqueness and `C^∞` regularity of the Levi-Civita
-connection, covariant differentiation along curves, geodesics and their flow, the exponential map,
-and geodesic completeness. Without that layer, Hopf–Rinow — which ties metric completeness of a Riemannian
-manifold to the global existence of its geodesics — cannot yet be stated.
+Mathlib also has general covariant derivatives, torsion, metric compatibility and the
+positive-definite Levi–Civita construction and uniqueness API. Consume
+`CovariantDerivative.IsMetricCompatible` from `CovariantDerivative/Metric.lean` and
+`CovariantDerivative.leviCivitaConnection` from `CovariantDerivative/LeviCivita.lean`.
+Tau Ceti's `CovariantDerivative/LeviCivita/Regularity.lean` supplies smooth regularity
+and Christoffel comparisons for that positive connection. Layer1 additionally owns
+the nondegenerate metric and parameter-family extension below. Its general connection
+interfaces feed covariant differentiation along curves, geodesics, the exponential
+map and completeness; the Riemannian distance theorems retain their positive metric.
 
 Suggested home: `TauCeti/Geometry/Manifold/Riemannian/Geodesic/`. Shared connection and
 local-diffeomorphism prerequisites belong under `TauCeti/Geometry/Manifold/`, but their delivery
@@ -21,8 +23,10 @@ roadmap](../GeometricTopology/README.md) consumes the connection to build curvat
 the [differential-geometry roadmap](../DifferentialGeometry/README.md) consumes it to build
 gradient, divergence, Hessian and the Laplace–Beltrami operator; the
 [Optimal Transport roadmap](../OptimalTransport/README.md) consumes the exponential, logarithm,
-completeness, and minimizing-geodesic APIs and owns the subsequent cut-locus and
-transport-specific theory.
+completeness, and minimizing-geodesic APIs.
+[RiemannianGeometry R4.6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/53915bae39e30b2b78fe08bb697d90d62bce66ef/TauCetiRoadmap/RiemannianGeometry/README.md#r4-comparison-complete-manifolds-and-space-forms)
+owns the cut locus, injectivity radius and volume-nullity theorem;
+OptimalTransport consumes those objects for its transport-specific theory.
 
 The target is do Carmo, *Riemannian Geometry*, Chapter 7 §2, Theorem 2.8 with Corollary 2.9,
 stated under that chapter's standing assumption that `M` is **connected** (do Carmo carries this
@@ -44,7 +48,14 @@ implications the equivalence turns on.
 ## Standing hypotheses
 
 Spell hypotheses out; do not bundle them. Work over a finite-dimensional real model
-(`[FiniteDimensional ℝ E]`) with the following conventions.
+(`[FiniteDimensional ℝ E]`) with the following conventions for the Riemannian,
+geodesic and distance branches. The Layer1 nondegenerate connection/family supplier
+instead uses its explicitly supplied smooth nondegenerate bilinear form and the
+smooth manifold/topology hypotheses needed by its constructions. It assumes neither
+`RiemannianBundle`, `IsRiemannianManifold`, a distance, completeness nor positive
+definiteness. An auxiliary positive norm used for matrix estimates is not its
+geometric metric. The positive-definite specialization compares with the standing
+Riemannian instance by the uniqueness theorem below.
 
 - **Smoothness.** The manifold and its Riemannian metric are `C^∞`: use
   `[IsManifold I ∞ M]`, `[Bundle.RiemannianBundle (fun x : M ↦ TangentSpace I x)]`, and
@@ -84,12 +95,16 @@ Spell hypotheses out; do not bundle them. Work over a finite-dimensional real mo
   (`Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/Basic.lean`), together with the
   torsion tensor and `CovariantDerivative.torsion_eq_zero_iff`
   (`.../CovariantDerivative/Torsion.lean`).
-- **Metric compatibility in newer Mathlib revisions.** Mathlib after mathlib4#36299 provides
-  `CovariantDerivative.IsMetricCompatible` in
-  `Mathlib/Geometry/Manifold/VectorBundle/CovariantDerivative/Metric.lean` (from
-  [mathlib4#36299](https://github.com/leanprover-community/mathlib4/pull/36299)). That file is absent
-  from the pinned revision; use the Mathlib predicate whenever the working dependency contains it
-  rather than defining a lasting duplicate here.
+- **Metric compatibility and positive Levi–Civita.** Consume
+  `CovariantDerivative.IsMetricCompatible` from Mathlib's
+  `Geometry/Manifold/VectorBundle/CovariantDerivative/Metric.lean`, and
+  `leviCivitaConnection`, its Koszul identity, torsion-freeness and
+  differentiability-qualified uniqueness from the adjacent `LeviCivita.lean`.
+  Tau Ceti's matching `LeviCivita/Regularity.lean` provides
+  `contMDiffOn_leviCivitaConnection`,
+  `instContMDiffCovariantDerivativeLeviCivitaConnection` and the smooth local
+  Christoffel API. These positive `RiemannianBundle` interfaces do not assert
+  a nondegenerate indefinite or parameter-family theorem.
 - **Completeness and properness.** `CompleteSpace`, `ProperSpace`, the instances
   `complete_of_proper` and `proper_of_compact`, `Metric.isCompact_iff_isClosed_bounded` (under
   `[T2Space M]`), `IsClosed.completeSpace_coe`, and the Cauchy/total-boundedness API
@@ -99,8 +114,11 @@ Spell hypotheses out; do not bundle them. Work over a finite-dimensional real mo
 - **ODE estimates, local solutions, and local flows.** `Mathlib/Analysis/ODE/` supplies
   Picard–Lindelöf local existence, `ODE_solution_unique*`, Gronwall estimates, and local flows
   with Lipschitz or continuous dependence on initial conditions. It also has a `C¹` vector-field
-  local-flow theorem (`ContDiffAt.exists_eventually_eq_hasDerivAt`). The real gaps for this roadmap
-  are `C^k` dependence on initial data and maximal intervals in the required form.
+  local-flow theorem (`ContDiffAt.exists_eventually_eq_hasDerivAt`). Consume Tau Ceti's
+  `Geometry/Manifold/IntegralCurve/{Extension,Maximal,SmoothDependence,SmoothFlow,Flow}.lean`
+  and `Riemannian/Geodesic/Flow.lean` for the manifold extension/maximal-interval and
+  smooth initial-data interfaces, with the precise hypotheses and domain comparisons
+  stated in Layer 1.
 - **Integral curves on manifolds.** `IsIntegralCurve`, existence and uniqueness, transformation
   lemmas, and a uniform-time theorem for local integral curves
   (`Mathlib/Geometry/Manifold/IntegralCurve/{Basic,ExistUnique,Transform,UniformTime}.lean`). The
@@ -111,21 +129,25 @@ Spell hypotheses out; do not bundle them. Work over a finite-dimensional real mo
 `[Bundle.RiemannianBundle (fun x : M ↦ TangentSpace I x)]` instance from the standing hypotheses;
 do not add a second explicit metric argument to each geodesic definition. Accordingly, the
 canonical names below are `IsGeodesicCurveOn γ s`, `J(p,v)`, `expDomain p`, and `S`, with the
-Riemannian bundle instance implicit. If a future API must support several metrics on the same
-bundle, that is a separate design and must not be mixed into these names.
+Riemannian bundle instance implicit. The nondegenerate connection/family supplier
+carries its metric argument explicitly and proves the positive comparison to this
+instance; it does not change these canonical geodesic-level names.
 
-## What is missing (build here)
+## Owned interfaces and construction targets
 
-Existence, uniqueness, and `C^∞` regularity of the Levi-Civita connection; the pullback connection
-and covariant differentiation along a curve;
-the geodesic spray, its smooth local flow, and maximal intervals of existence; an interval-aware
-geodesic predicate carrying its parameter set and initial data; constant speed; the exponential
-map, openness of its natural domain, and its smooth basic API; the manifold inverse-function
-theorem needed for normal coordinates; normal neighbourhoods and their local inverse logarithms,
-the Gauss lemma, and minimizing geodesic segments; geodesic completeness; and the Hopf–Rinow
-equivalence itself. Open-submanifold metric restriction and metric-level length-space and
-geodesic-space interfaces are also missing. The roadmap must consume the general connection,
-torsion, ODE, and integral-curve APIs above while building these results.
+Consume the native positive Levi–Civita connection and its smooth regularity,
+and build the general nondegenerate connection/family comparison in Layer1.
+The complete target interfaces also include the pullback connection and covariant
+differentiation along a curve; the geodesic spray, smooth local flow and maximal
+intervals; an interval-aware geodesic predicate with its initial data; constant
+speed; the exponential map, its open natural domain and smooth API; the manifold
+inverse-function theorem; normal neighbourhoods and local inverse logarithms;
+the Gauss lemma and minimizing-geodesic segments; geodesic completeness and the
+Hopf–Rinow equivalence; open-submanifold metric restriction; and the compatible
+metric-level length-space and geodesic-space interfaces. Consume implementations
+already present in Mathlib or Tau Ceti with their actual hypotheses, and construct
+any remaining comparison or full-scope interface here. The milestones below give
+the definitive mathematical requirements, including their local-domain bounds.
 
 ## Prior art and coordination
 
@@ -134,9 +156,10 @@ The following Mathlib work establishes API direction for the substrate this road
 - [mathlib4#36036](https://github.com/leanprover-community/mathlib4/pull/36036) coordinates work
   on connections and geodesics, and
   [mathlib4#36845](https://github.com/leanprover-community/mathlib4/pull/36845) develops the
-  Levi-Civita connection on a manifold. The latter constructs the bare `CovariantDerivative` but
-  explicitly leaves its `C^k` regularity to future work, so it does not by itself discharge the
-  regularity milestone below.
+  Levi-Civita connection on a manifold. Follow the current native carriers above;
+  Tau Ceti already supplies the positive connection's smooth regularity. These
+  proposals are design references, not a reason to reconstruct an existing
+  connection or postpone the general metric-family extension.
 - [mathlib4#26413](https://github.com/leanprover-community/mathlib4/pull/26413) develops maximal
   solutions under Picard–Lindelöf hypotheses,
   [mathlib4#26394](https://github.com/leanprover-community/mathlib4/pull/26394) develops local
@@ -219,23 +242,63 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   where the metric-level API already proves a fact, consume it.
 
 ### Layer 1: the geodesic equation, the flow, and the exponential map
-- **The Levi-Civita connection:** use `CovariantDerivative.IsMetricCompatible` from Mathlib's
-  `Metric.lean` whenever the working dependency contains it. At the pinned revision, define only
-  the matching local shim needed to state metric compatibility, and remove that shim when the
-  Mathlib declaration becomes available. Prove existence and uniqueness of the torsion-free,
-  metric-compatible connection, reusing `CovariantDerivative.torsion_eq_zero_iff`.
-  mathlib4#36845 is the design reference: adopt its implementation when available, and otherwise
-  implement the same milestone in Tau Ceti's shared manifold connection namespace. This roadmap
-  owns delivery in either case; the Geometric Topology roadmap consumes the resulting API.
-- **Regularity of the Levi-Civita connection:** under the standing `C^∞` manifold and metric
-  hypotheses, prove `ContMDiffCovariantDerivative ∇ ∞` for the resulting Levi-Civita connection
-  `∇`. In every smooth tangent-bundle chart, define its local Christoffel-symbol map
-  `x ↦ Γ_x` and prove that it is `C^∞` on the chart source, as a map into the continuous bilinear
-  maps on the model space; also expose the corresponding smoothness of its scalar coordinate
-  coefficients. This roadmap owns that proof in Tau Ceti; adopt an equivalent Mathlib regularity
-  API whenever the working dependency supplies one, but do not treat mathlib4#36845 alone as
-  supplying it. This milestone precedes and supplies the regularity input for the geodesic-spray
-  milestone below.
+- **Nondegenerate Levi-Civita supplier.** Build existence, uniqueness and smoothness
+  first for a smooth field g of symmetric nondegenerate real bilinear forms on TM.
+  Its carrier is a native `ContMDiffSection` at order ∞ of
+  `Hom(TM,Hom(TM,ℝ))`, with fibre `T_xM →L[ℝ] T_xM →L[ℝ] ℝ`, symmetry and
+  nondegeneracy of the underlying `LinearMap.BilinForm` at every x.
+  Use native `LinearMap.BilinForm.IsSymm`, `.Nondegenerate` and `.toDual` on each
+  finite-dimensional fibre; prove the resulting musical isomorphisms and their
+  inverses are smooth in bundle charts. Signature is locally constant; fixed
+  signature on each component gives the pseudo-Riemannian specialization.
+  Own the general nondegenerate-form compatibility predicate, with its
+  positive-definite comparison to native `CovariantDerivative.IsMetricCompatible`.
+  Metric compatibility means
+  `X(g(Y,Z))=g(∇_X Y,Z)+g(Y,∇_X Z)` for smooth local vector fields.
+  Construct ∇ by the Koszul identity
+  `2g(∇_X Y,Z)=Xg(Y,Z)+Yg(Z,X)−Zg(X,Y)−g(X,[Y,Z])+g(Y,[Z,X])+g(Z,[X,Y])`.
+  Prove the connection laws, torsion-freeness, compatibility, uniqueness on
+  differentiable local vector fields and
+  agreement of local constructions on overlaps using nondegeneracy.
+  In coordinates prove
+  `Γ^k_ij=(1/2)Σ_l g^(kl)(∂_i g_jl+∂_j g_il−∂_l g_ij)` and smoothness by
+  smooth inversion of the nondegenerate metric matrix. Consume the general
+  covariant-derivative and torsion carriers; expose restriction to open sets,
+  naturality under metric-preserving diffeomorphisms and the along-curve API
+  below in this generality. Work on open chart domains, with Christoffel
+  uniqueness as equality on the domain; no extension to all model space is assumed.
+  For an arbitrary finite-dimensional smooth parameter manifold P, realize a
+  smooth nondegenerate metric family as a smooth section of the pulled-back
+  tangent bilinear-form bundle over P×M. Prove joint smoothness of the
+  connection coefficients in (p,x), with fixed signature on each component.
+  For the variation formula restrict along any smooth parameter curve t↦p(t).
+  For h=∂_t g_t and vector fields
+  independent of t, prove
+  `2g((∂_t∇)_X Y,Z)=(∇_X h)(Y,Z)+(∇_Y h)(X,Z)−(∇_Z h)(X,Y)`.
+  LocalVariationalFieldTheory LVF6 consumes these connection/family/variation
+  targets for Lorentzian metric variation and density divergence.
+  The positive-definite specialization must agree with the Riemannian
+  connection below by uniqueness. All distance, minimizing-geodesic and
+  Hopf–Rinow statements retain the standing positive-definite hypotheses.
+- **The Riemannian Levi-Civita connection:** consume native
+  `CovariantDerivative.leviCivitaConnection`, the proof `CovariantDerivative.isLeviCivitaConnection_leviCivitaConnection`,
+  Koszul equation, torsion-freeness, metric compatibility and uniqueness on
+  differentiable local fields. Prove the positive-definite specialization of
+  the nondegenerate supplier agrees on those fields with this native connection.
+  Geometric Topology and DifferentialGeometry consume this one native carrier;
+  the smooth regularity target below supplies their missing analytic input.
+- **Regularity of the Levi-Civita connection:** under the standing positive
+  `C^∞` manifold/metric hypotheses, consume Tau Ceti's
+  `contMDiffOn_leviCivitaConnection` and
+  `instContMDiffCovariantDerivativeLeviCivitaConnection`, with its
+  `contMDiffOn_christoffelSymbol_leviCivitaConnection` and
+  `contMDiffOn_christoffelMap_leviCivitaConnection` comparisons. The resulting
+  connection is a smooth covariant derivative, with smooth bilinear Christoffel
+  map and scalar coefficients on each chart domain. Prove the nondegenerate
+  supplier's positive specialization agrees there, and prove its own joint
+  parameter/base regularity by the displayed inverse-metric/Koszul construction.
+  Chart-domain smoothness does not assert a smooth extension to all model space.
+  These interfaces precede the geodesic-spray regularity argument below.
 - **Covariant derivative along a curve:** construct the pullback of a covariant derivative along
   `γ` and its action on sections of `γ*TM`. Establish linearity, the Leibniz rule, locality under
   restriction, naturality under reparametrization, agreement with the ambient derivative for a
@@ -263,10 +326,19 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
 - **Local existence and uniqueness** of the geodesic from `(p, v)` on an open interval containing
   `0`: apply Mathlib's manifold integral-curve API to `S` and prove uniqueness on the overlap of
   two such intervals.
-- **Smooth dependence and the local geodesic flow:** prove `C^∞` dependence on time and initial
-  data and package the resulting local flow on `TM`. This is a target, not a theorem available in
-  the pinned ODE library. Use mathlib4#26394 and mathlib4#40062 as design references, implement the
-  target in Tau Ceti, and adopt their APIs whenever the working Mathlib dependency supplies them.
+- **Smooth dependence and the local geodesic flow:** consume
+  `TauCeti.Manifold.exists_contMDiffAt_localGeodesicFlow` from
+  `Riemannian/Geodesic/Flow.lean` for common initial-state/time neighbourhoods
+  and the smooth local spray trajectories. Consume
+  `isOpen_setOfPred_mem_geodesicInterval`,
+  `contMDiffOn_maximalIntegralCurve_geodesicSpray` and
+  `contMDiffOn_maximalGeodesic` in the same namespace for the actual open
+  maximal domain and joint smoothness in time and initial data, with their
+  additional `T2Space M` hypothesis. Compare these native intervals/flows
+  with the roadmap's `J(p,v)` and local-flow package, retaining the initial
+  data, trajectory projection and domain-qualified composition laws.
+  The full smooth-dependence interface is supplied by these implementations
+  and the stated comparisons, rather than a duplicate ODE development.
 - **Constant speed:** on a preconnected parameter set `s`, the Riemannian norm `‖γ'‖` takes the
   same value at every two points of `s` because the connection is metric; without preconnectedness,
   state the conclusion componentwise. Prove in particular the form for the maximal open intervals
@@ -277,12 +349,25 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   `γ_{p,λv}(t) = γ_{p,v}(λt)` only when the corresponding times belong to their maximal intervals,
   together with the precise relation between those domains.
 - **Finite-endpoint extension criterion:** for `z : ℝ → TM` an integral curve on a maximal open
-  interval `J` with finite right endpoint `b`, prove that if `t_n ∈ J`, `t_n → b`, and
-  `z (t_n) → z_b` in `TM`, then local existence at `z_b` and uniqueness on the overlap extend `z`
-  past `b`, contradicting maximality; state the left-endpoint analogue too. This is a named target
-  because the pinned integral-curve API has no maximal-solution extension theorem. Implement it in
-  Tau Ceti, adopting mathlib4#26413's result whenever the working Mathlib dependency supplies the
-  required form.
+  interval `J` with finite right endpoint `b`, if `t_n ∈ J`, `t_n → b`, and
+  `z (t_n) → z_b` in `TM`, local existence at `z_b` and uniqueness on the overlap extend `z`
+  past `b`, contradicting maximality; include the left-endpoint analogue. Consume
+  `IsMIntegralCurveOn.exists_gt_isMIntegralCurveOn_Ioo_of_tendsto` and
+  `IsMIntegralCurveOn.exists_lt_isMIntegralCurveOn_Ioo_of_tendsto` from Tau Ceti's
+  `Geometry/Manifold/IntegralCurve/Extension.lean`. Their general interface assumes a
+  complete real model space, a `C¹` boundaryless Hausdorff manifold, a globally `C¹`
+  autonomous vector field and a genuine solution on a nonempty `Ioo a b`; the sequence
+  is eventually on the endpoint's interior side. For the geodesic spray these conditions
+  follow from the standing finite-dimensional smooth metric hypotheses. Restrict to a
+  finite subinterval adjacent to the endpoint, apply that extension, and use uniqueness
+  to paste it with the original solution on `J`, preserving the old initial data.
+  The stronger cluster-point versions in the same file also apply. Consume the actual
+  geodesic escape lemmas `TauCeti.Manifold.eventually_notMem_nhdsLT_maximalGeodesic`
+  and `TauCeti.Manifold.eventually_notMem_nhdsGT_maximalGeodesic` from
+  `Riemannian/Geodesic/Escape.lean`: a finite `IsLUB`/`IsGLB` of the maximal interval
+  forces eventual escape from every compact subset of M. Their proof combines constant
+  speed with compactness of norm-bounded tangent vectors over a compact base subset;
+  a bound in each fibre alone is not compactness of the velocity lift.
 - **Exponential-map basic API:** define `expDomain p = {v | 1 ∈ J(p,v)}` and
   `exp_p v = γ_{p,v}(1)` there. Prove `0 ∈ expDomain p`, `exp_p 0 = p`, and
   `IsOpen (expDomain p)`. On the open subset of the geodesic-flow domain where time `1` is
@@ -300,13 +385,17 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   `T_0(T_p M) ≃L[ℝ] T_p M` explicit using `NormedSpace.fromTangentSpace`, and prove that
   `mfderiv exp_p 0` is the identity under this identification. Record the corresponding strict
   derivative statement needed by the inverse-function theorem.
-- **The manifold inverse-function theorem:** add the missing shared theorem to
-  `TauCeti/Geometry/Manifold/LocalDiffeomorph.lean`: for `C¹` boundaryless Banach manifolds, a
-  `C¹` map whose `mfderiv` at a point is a continuous linear equivalence induces a
-  `LocalDiffeomorphAt` there. Mathlib's
-  `Geometry/Manifold/LocalDiffeomorph.lean` lists this implication as a TODO, so this roadmap owns
-  it as a prerequisite rather than consuming it. Apply it to the preceding derivative theorem to
-  obtain that `exp_p` is a local diffeomorphism at `0`.
+- **The manifold inverse-function theorem:** consume
+  `TauCeti.isLocalDiffeomorphAt_of_mfderiv_eq` from
+  `TauCeti/Geometry/Manifold/LocalDiffeomorph.lean`. For a `C^n` map on an
+  open source set, it requires a complete source model, `1≤n`, membership
+  of the point in that set, source interiority and a continuous linear
+  equivalence explicitly equal to `mfderiv`. Source interiority is automatic
+  in this boundaryless branch. Use its native `IsLocalDiffeomorphAt` result;
+  specialize to n=1 for the stated Banach-manifold inverse theorem. Apply it
+  to the preceding derivative-at-zero comparison to obtain that `exp_p` is
+  a local diffeomorphism at0, preserving the actual exponential domain and
+  chart identifications. No second local-diffeomorphism predicate is needed.
 - Milestone **(a) at `p`**, written `(a_p)`, is `expDomain p = univ`. Define pointwise geodesic
   completeness `(d_p)` by `∀ v, J(p,v) = univ`, and prove `(a_p) ↔ (d_p)` via domain-aware
   homogeneity. Global milestone **(d)** is `∀ p, (d_p)` and is not inferred in Layer 1 from one
@@ -384,13 +473,20 @@ As each layer makes the next layer's *types* expressible in `TauCeti/`, state it
   existence-of-minimizers `(f_p)` alone. Any narrative must route properness through `(a_p)`.
 
 ### Layer 4: corollaries and downstream theory
-- **Compact ⇒ geodesically complete** (do Carmo, Corollary 2.9): the corollary itself holds
-  without `[ConnectedSpace M]`, but the ordinary-metric proof route does not. Layer 0 exposes a
-  compatible `MetricSpace M` only after global finiteness of `riemannianEDist`, which is proved
-  under `[ConnectedSpace M]`. This roadmap therefore takes the connected proof route here:
-  assume `[ConnectedSpace M]`, then use `proper_of_compact`, `complete_of_proper`, and Layer 3's
-  `(c) ⇒ (d)`. Do not claim that compactness of `M` directly confines the flow on noncompact
-  `TM`; a disconnected version requires a separate componentwise or extended-metric argument.
+- **Compact ⇒ geodesically complete** (do Carmo, Corollary 2.9), with no connectedness
+  assumption: consume `TauCeti.Manifold.isGeodesicallyCompleteAt_of_compactSpace`,
+  `expDomain_eq_univ_of_compactSpace` and
+  `isGeodesicCurveOnFrom_maximalGeodesic_univ_of_compactSpace` from
+  `TauCeti/Geometry/Manifold/Riemannian/Geodesic/Compact.lean`. Their hypotheses are the
+  standing finite-dimensional smooth boundaryless Riemannian structure, `T2Space M`
+  and `CompactSpace M`; they require neither connectedness nor an ordinary metric
+  already installed on M. Compare the native maximal intervals and exponential domain
+  with Layer 1's `J(p,v)` and `expDomain p`. The proof installs
+  `EMetricSpace.ofRiemannianMetric I M`, obtains completeness from compactness, and
+  applies the extended-distance completeness theorem; different components may remain
+  at infinite distance. On a connected manifold this agrees with Layer 3's ordinary-metric
+  route through properness. Compactness of M alone does not confine a flow on noncompact
+  TM; the compact-base, bounded-velocity argument above supplies that needed control.
 - **Metric length-space API:** in `TauCeti/Topology/MetricSpace/Length.lean`, define metric curve
   length as the supremum of finite sums of successive distances, and define a length space by
   equality of `dist x y` with the infimum of lengths of continuous curves from `x` to `y`.
