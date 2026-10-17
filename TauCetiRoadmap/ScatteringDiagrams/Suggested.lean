@@ -5,6 +5,7 @@ import Mathlib.Algebra.Lie.Graded
 import Mathlib.Algebra.Lie.Nilpotent
 import Mathlib.Algebra.Lie.Quotient
 import Mathlib.Algebra.Module.Rat
+import Mathlib.Algebra.MvPolynomial.Eval
 import Mathlib.Analysis.Convex.Exposed
 import Mathlib.Analysis.Convex.Intrinsic
 import Mathlib.Analysis.Normed.Affine.AddTorsorBases
@@ -18,6 +19,7 @@ import Mathlib.LinearAlgebra.Finsupp.Supported
 import Mathlib.LinearAlgebra.Quotient.Basic
 import Mathlib.LinearAlgebra.Ray
 import Mathlib.LinearAlgebra.SesquilinearForm.Basic
+import Mathlib.RingTheory.FilteredAlgebra.Basic
 import Mathlib.RingTheory.Ideal.Quotient.Operations
 import Mathlib.RingTheory.Nilpotent.Exp
 import Mathlib.Topology.Baire.CompleteMetrizable
@@ -215,6 +217,22 @@ variable {A : Type*} [Ring A] (F : AlgFiltration A)
 
 instance (h : ℕ) : (F.ideal h).IsTwoSided := F.isTwoSided h
 
+/-- The same decreasing ideal family is Mathlib's increasing filtration on `ℕᵒᵈ`
+(`README §0.3`); its strict lower step is the next natural-number ideal. -/
+instance isRingFiltration :
+    IsRingFiltration (fun h : ℕᵒᵈ => F.ideal h.ofDual)
+      (fun h : ℕᵒᵈ => F.ideal (h.ofDual + 1)) where
+  mono := by
+    intro a b hab
+    exact F.antitone hab
+  is_le := fun hij => F.antitone (Nat.succ_le_of_lt hij)
+  is_sup := fun B j hB => hB (OrderDual.toDual (j.ofDual + 1)) (Nat.lt_succ_self _)
+  one_mem := by
+    change (1 : A) ∈ F.ideal 0
+    rw [F.zero_eq_top]
+    trivial
+  mul_mem := fun {i j} {x y} hx hy => F.mul_mem (i := i.ofDual) (j := j.ofDual) hx hy
+
 /-- The separated completion `Â = lim_h A ⧸ I^(h+1) A` as compatible families; level `h` is the
 order-`h` quotient (`README §0.3`, Convention 3). Its carrier and ring structure do not depend
 on a choice of scalar ring. -/
@@ -250,7 +268,7 @@ noncomputable def proj (R : Type*) [CommRing R] [Algebra R A] (h : ℕ) :
 variable {B : Type*} [Ring B]
 
 /-- `README §0.3` filtered maps: `f(I^{c(h)+1} A) ⊆ J^{h+1} B` for a monotone
-cutoff modulus `c`, as for `PositiveDegreeMap`; `c = id` is the strict case. -/
+cutoff modulus `c`, as for `PositiveDegreeMap`; `c = id` is the filtration-preserving case. -/
 structure IsFilteredAlong (G : AlgFiltration B) (f : A →+* B) (cutoff : ℕ → ℕ) : Prop where
   monotone : Monotone cutoff
   map_mem : ∀ h {a : A}, a ∈ F.ideal (cutoff h + 1) → f a ∈ G.ideal (h + 1)
@@ -961,10 +979,14 @@ noncomputable def DirectedWall.crossTime (w : DirectedWall hi D wallGroup) (a b 
 variable (hi D wallGroup) in
 /-- A directed diagram (`README §§2.2, 3.2`): an indexed family of directed walls with finitely
 many walls nontrivial at each order of the filtration `K` of the abstract group. Walls are
-indexed, since a set would merge equal walls and lose the product of their labels. -/
+indexed, since a set would merge equal walls and lose the product of their labels. The
+commutation contract is supplied by `DirectedWallSpaces` for the BCH wall groups of §3.1. -/
 structure DirectedDiagram (K : OrderFiltration G) (ι : Type*) where
   wall : ι → DirectedWall hi D wallGroup
   finite_at_order : ∀ h, {k | (wall k).label.val ∉ K.ker h}.Finite
+  parallel_commute : ∀ (n n' : L) (m m' : L →+ ℤ), m ≠ 0 → m' ≠ 0 →
+    ∀ (c d : ℤ), c ≠ 0 → d ≠ 0 → c • m = d • m' →
+      ∀ x ∈ wallGroup n m, ∀ y ∈ wallGroup n' m', Commute x y
 
 namespace DirectedDiagram
 
@@ -1016,6 +1038,15 @@ structure IsAdmissiblePolygon (h : ℕ) {m : ℕ} (v : Fin (m + 1) → V) : Prop
     affineDir (𝔇.wall k).support ≠ affineDir (𝔇.wall k').support →
     Disjoint (segment ℝ (v j.castSucc) (v j.succ)) ((𝔇.wall k).support ∩ (𝔇.wall k').support)
 
+/-- Both product constructions give the same combined label for a single regular crossing
+(`README §3.2`), using `parallel_commute` for all incident wall groups. -/
+theorem segmentProduct_eq_wallProductAt [FiniteDimensional ℝ V] (h : ℕ) (a b x : V)
+    (hx : x ∈ segment ℝ a b) (hadm : 𝔇.IsAdmissiblePolygon h ![a, b])
+    (hcross : ∀ k, (𝔇.wall k).label.val ∉ K.ker h →
+      ∀ y ∈ segment ℝ a b, y ∈ (𝔇.wall k).support → y = x) :
+    𝔇.segmentProduct h a b = 𝔇.wallProductAt h x (b - a) := by
+  sorry
+
 /-- Consistency to order `h` (`README §2.2`): admissible closed polygons have trivial product
 in `G≤h`. -/
 def ConsistentToOrder (h : ℕ) : Prop :=
@@ -1047,12 +1078,24 @@ structure CentralKernel (h : ℕ) (E : Type*) [AddCommGroup E] where
 
 variable {K}
 
-/-- The central logarithm: the element of `E` under `u` when `u` is in the kernel of the tower
-map, and `0` otherwise. -/
+/-- The inverse central exponential, defined on the kernel of the tower map (`README §3.3`).
+Every application must supply the proof that its argument lies in this kernel. -/
 noncomputable def CentralKernel.log {h : ℕ} {E : Type*} [AddCommGroup E]
-    (κ : CentralKernel K h E) (u : G ⧸ K.ker (h + 1)) : E := by
+    (κ : CentralKernel K h E) (u : (K.step h).ker) : E := by
   classical
-  exact if hu : u ∈ κ.ι.range then Multiplicative.toAdd (MonoidHom.mem_range.1 hu).choose else 0
+  have hu : (u : G ⧸ K.ker (h + 1)) ∈ κ.ι.range := by
+    rw [κ.range_ι]
+    exact u.property
+  exact Multiplicative.toAdd (MonoidHom.mem_range.1 hu).choose
+
+/-- The central logarithm returns a preimage of its argument. -/
+theorem CentralKernel.ι_log {h : ℕ} {E : Type*} [AddCommGroup E]
+    (κ : CentralKernel K h E) (u : (K.step h).ker) :
+    κ.ι (Multiplicative.ofAdd (κ.log u)) = (u : G ⧸ K.ker (h + 1)) := by
+  classical
+  exact (MonoidHom.mem_range.1 (show (u : G ⧸ K.ker (h + 1)) ∈ κ.ι.range by
+    rw [κ.range_ι]
+    exact u.property)).choose_spec
 
 /-- `README §3.3` trivialization data at order `h + 1` for a diagram consistent to order `h`
 (the choices the README leaves implicit): a finite ambient complex whose codimension-one cells
@@ -1075,6 +1118,7 @@ structure ChamberTrivialization [FiniteDimensional ℝ V] {ι : Type*}
   adapted : ∀ k, (𝔇.wall k).label.val ∉ K.ker (h + 1) →
     ∃ T ⊆ walls, ⋃ w ∈ T, w.carrier = (𝔇.wall k).support
   basePoint : V
+  basePoint_off : basePoint ∉ ⋃ w ∈ walls, w.carrier
   lift : V → G ⧸ K.ker (h + 1)
   lift_const : ∀ x y, Disjoint (segment ℝ x y) (⋃ w ∈ walls, w.carrier) → lift x = lift y
   lift_spec : ∀ x, x ∉ ⋃ w ∈ walls, w.carrier →
@@ -1106,53 +1150,77 @@ of `w`, for its crossing velocity. -/
 noncomputable def crossing (w : OrientedCell i 1) : G ⧸ K.ker (h + 1) :=
   K.proj (h + 1) (𝔇.wallProductAt (h + 1) (T.crossPoint w) (T.crossVector w))
 
-/-- The discrepancy across an oriented wall cell, `log(θ̃₊⁻¹ X̃_w θ̃₋) ∈ E`; it lies in the
-central kernel by consistency at order `h`. -/
-noncomputable def defectValue (w : OrientedCell i 1) : E :=
-  κ.log ((T.lift (T.crossPoint w + T.crossVector w))⁻¹ * T.crossing w *
-    T.lift (T.crossPoint w - T.crossVector w))
+/-- The discrepancy `θ̃₊⁻¹ X̃_w θ̃₋` across an oriented wall cell. -/
+noncomputable def crossingDiscrepancy (w : OrientedCell i 1) : G ⧸ K.ker (h + 1) :=
+  (T.lift (T.crossPoint w + T.crossVector w))⁻¹ * T.crossing w *
+    T.lift (T.crossPoint w - T.crossVector w)
+
+/-- The lifted transport condition makes every wall-cell discrepancy central. The off-skeleton
+base point supplies admissible paths to the two sides; the regular crossing comparison
+identifies the segment product with `crossing`. -/
+theorem crossingDiscrepancy_mem (w : OrientedCell i 1) (hw : w ∈ T.walls) :
+    T.crossingDiscrepancy w ∈ (K.step h).ker := by
+  sorry
+
+/-- The central logarithm of a wall-cell discrepancy, with its kernel membership explicit. -/
+noncomputable def defectValue (w : OrientedCell i 1) (hw : w ∈ T.walls) : E :=
+  κ.log ⟨T.crossingDiscrepancy w, T.crossingDiscrepancy_mem w hw⟩
 
 /-- `README §3.3` `centralDefect` `A_h`: the codimension-one cochain with values in `E`. It
 depends on the lifts. -/
 noncomputable def centralDefect : PolyhedralCochain i E 1 :=
-  ∑ w ∈ T.walls, PolyhedralCochain.mk w (T.defectValue κ w)
+  ∑ w : T.walls, PolyhedralCochain.mk w.val (T.defectValue κ w.val w.property)
 
-/-- The meridian error at a joint cell: the central logarithm of the product along its meridian
-loop. It involves no lift. -/
-noncomputable def meridianValue (j : OrientedCell i 2) : E :=
-  κ.log (K.proj (h + 1) (𝔇.polygonProduct (h + 1)
-    ![T.meridian j 0, T.meridian j 1, T.meridian j 2, T.meridian j 0]))
+/-- The order-`(h + 1)` product along the chosen meridian of a joint cell. -/
+noncomputable def meridianProduct (j : OrientedCell i 2) : G ⧸ K.ker (h + 1) :=
+  K.proj (h + 1) (𝔇.polygonProduct (h + 1)
+    ![T.meridian j 0, T.meridian j 1, T.meridian j 2, T.meridian j 0])
+
+/-- Order-`h` consistency places the meridian product in the central kernel. -/
+theorem meridianProduct_mem (hc : 𝔇.ConsistentToOrder h) (j : OrientedCell i 2)
+    (hj : j ∈ T.joints) : T.meridianProduct j ∈ (K.step h).ker := by
+  sorry
+
+/-- The central logarithm of the meridian product, independent of the chamber lifts. -/
+noncomputable def meridianValue (hc : 𝔇.ConsistentToOrder h) (j : OrientedCell i 2)
+    (hj : j ∈ T.joints) : E :=
+  κ.log ⟨T.meridianProduct j, T.meridianProduct_mem hc j hj⟩
 
 /-- The meridian error cochain `ζ_h` (codimension two). -/
-noncomputable def meridianError : PolyhedralCochain i E 2 :=
-  ∑ j ∈ T.joints, PolyhedralCochain.mk j (T.meridianValue κ j)
+noncomputable def meridianError (hc : 𝔇.ConsistentToOrder h) : PolyhedralCochain i E 2 :=
+  ∑ j : T.joints, PolyhedralCochain.mk j.val (T.meridianValue κ hc j.val j.property)
 
 /-- `README §3.3` `centralDefect_eq_coboundary`: `ζ_h = d A_h`, so `d ζ_h = 0` by
 `coboundary_sq_zero`; since `ζ_h` is defined without the lifts, `d A_h` is independent of them. -/
 theorem centralDefect_eq_coboundary (hc : 𝔇.ConsistentToOrder h) :
-    coboundary (T.centralDefect κ) = T.meridianError κ := by
+    coboundary (T.centralDefect κ) = T.meridianError κ hc := by
   sorry
 
 variable {E' : Type*} [AddCommGroup E']
 
 open scoped Classical in
-/-- The transverse representative of the degree-`n` component `ζ_{h,n}`, for the component map
-`comp : E → g_n`: the joint cells with `n ∉ dir(j)`. By `README §3.3` the
-components at the other joints vanish. -/
-noncomputable def meridianComponentFree (comp : E →ₗ[ℤ] E') (n : L) :
+/-- The full degree component of the meridian error, before passing to the cochain quotient.
+Transversality is a separate hypothesis for the sweep. -/
+noncomputable def meridianComponentFree (hc : 𝔇.ConsistentToOrder h) (comp : E →ₗ[ℤ] E') :
     OrientedCell i 2 →₀ E' :=
-  ∑ j ∈ T.joints.filter (fun j => i n ∉ affineDir j.carrier),
-    Finsupp.single j (comp (T.meridianValue κ j))
+  ∑ j : T.joints, Finsupp.single j.val (comp (T.meridianValue κ hc j.val j.property))
 
 /-- `README §3.3` *centralStep* `b_{h,n} = S_n ζ_{h,n}` (`README §1.4`), attached as walls with
 label `exp(−c)` for cochain coefficient `c` on the positive transverse side (Convention 3);
 `ζ_{h,n} + d b_{h,n} = 0` follows from `sweep_homotopy` and `d ζ_h = 0`, and the
-outgoingness of its walls from `sweep_strictlyOutgoing`. -/
-noncomputable def centralStep (comp : E →ₗ[ℤ] E') (n : L) : PolyhedralCochain i E' 1 :=
-  sweep n (TransverseCochain.mk (T.meridianComponentFree κ comp n) (by
+outgoingness of its walls from `sweep_strictlyOutgoing`. For a degree-`n` component with
+`δ(n) = h + 1`, §3.3's BCH correction-stage invariant supplies `hvanish`: all noninitial
+wall logarithms are pure and born in orders at most `h`. -/
+noncomputable def centralStep (hc : 𝔇.ConsistentToOrder h) (comp : E →ₗ[ℤ] E') (n : L)
+    (hvanish : ∀ j : T.joints, i n ∈ affineDir j.val.carrier →
+      comp (T.meridianValue κ hc j.val j.property) = 0) : PolyhedralCochain i E' 1 :=
+  sweep n (TransverseCochain.mk (T.meridianComponentFree κ hc comp) (by
     classical
-    exact Submodule.sum_mem _ fun j hj =>
-      Finsupp.single_mem_supported ℤ _ (Finset.mem_filter.1 hj).2))
+    apply Submodule.sum_mem
+    intro j hj
+    by_cases ht : i n ∈ affineDir j.val.carrier
+    · simpa only [hvanish j ht, Finsupp.single_zero] using Submodule.zero_mem _
+    · exact Finsupp.single_mem_supported ℤ _ ht))
 
 end ChamberTrivialization
 
@@ -1165,6 +1233,15 @@ end Diagrams
 structure CoefficientMonoid {L : Type*} [AddCommGroup L] (D : PositiveDegrees L) where
   carrier : AddSubmonoid L
   le : D.monoid ≤ carrier
+
+/-- `README §4.1`: the normal map is rational-linear, including in directions not detected
+by the source positive monoid. Rational normals are `Hom_ℤ(L, ℚ)`. -/
+structure TropicalPairing {L L' : Type*} [AddCommGroup L] [AddCommGroup L']
+    (D : PositiveDegrees L) (E : PositiveDegrees L') (U : Submodule ℚ (L →ₗ[ℤ] ℚ)) where
+  degreeMap : PositiveDegreeMap D E
+  normalMap : U →ₗ[ℚ] (L' →ₗ[ℤ] ℚ)
+  pairing : ∀ (m : U) (p : L), p ∈ D.monoid →
+    normalMap m (degreeMap.toAddMonoidHom p) = m.val p
 
 section TwistedCoeffMap
 
@@ -1471,15 +1548,16 @@ def InShiftedModule (Θ : A) : Prop := ∀ q, q - p ∉ D.monoid → homogeneous
 
 /-- `Θ ∈ M_p` represents the module label `F(Q)` at `(Q, y, 0)` at relative order `h`: a short
 upward vertical segment there is admissible at extended order `h + 1`, meets only walls with
-normal `e_z*`, and has product `exp(−Θ)` to that order (crossing along the coorientation gives
-the inverse label), so the label is `exp(Θ)`. -/
+normal a nonzero integer multiple of `e_z*`, and has product `exp(−Θ)` to that order.
+Thus a wall with normal `c e_z*` contributes its label to the power `sgn(c)` to `exp(Θ)`;
+the extracted label is independent of normal rescaling with the matching coorientation change. -/
 def IsProbeLabelRep {K' : OrderFiltration (probeGroup action)} {ι' : Type*}
     (𝔇' : ProbeDiagram hi D wallGroup 𝒜 action p K' ι') (h : ℕ) (Q : V) (Θ : A) : Prop :=
   InShiftedModule (D := D) (𝒜 := 𝒜) p Θ ∧ ∃ y ε : ℝ, 0 < ε ∧
     𝔇'.IsAdmissiblePolygon (h + 1) ![(Q, y, -ε), (Q, y, ε)] ∧
     (∀ k, (𝔇'.wall k).label.val ∉ K'.ker (h + 1) →
       (segment ℝ (Q, y, -ε) (Q, y, ε) ∩ (𝔇'.wall k).support).Nonempty →
-      (𝔇'.wall k).normal = zCoord L) ∧
+      ∃ c : ℤ, c ≠ 0 ∧ (𝔇'.wall k).normal = c • zCoord L) ∧
     𝔇'.polygonProduct (h + 1) ![(Q, y, -ε), (Q, y, ε)] *
       SemidirectProduct.inl (Multiplicative.ofAdd Θ) ∈ K'.ker (h + 1)
 
@@ -1506,15 +1584,20 @@ theorem probeLabelRep_component_eq {K' : OrderFiltration (probeGroup action)}
   rw [hsub, sub_eq_zero] at this
   exact this.symm
 
-open scoped Classical in
 /-- `README §5.5` `F(Q)`, the module label of the probe completion at relative order `h`, as
-a representative in `M_p`; `0` if no representative exists (§5.3's generic endpoints have
-one). Its degree-`q` component `F_q(Q)` is `homogeneousComponent 𝒜 q`; for `q = p + n` with
+a representative in `M_p`, given a proof that a regular vertical representative exists.
+`README §5.5` supplies this on the refined generic locus `V ∖ Δ_pr(a,h)`.
+Its degree-`q` component `F_q(Q)` is `homogeneousComponent 𝒜 q`; for `q = p + n` with
 `n` in the order-`h` cutoff it does not depend on the representative at a fixed segment
 (`probeLabelRep_component_eq`). -/
 noncomputable def probeLabel {K' : OrderFiltration (probeGroup action)} {ι' : Type*}
-    (𝔇' : ProbeDiagram hi D wallGroup 𝒜 action p K' ι') (h : ℕ) (Q : V) : A :=
-  if hQ : ∃ Θ, IsProbeLabelRep action p 𝔇' h Q Θ then hQ.choose else 0
+    (𝔇' : ProbeDiagram hi D wallGroup 𝒜 action p K' ι') (h : ℕ) (Q : V)
+    (hQ : ∃ Θ, IsProbeLabelRep action p 𝔇' h Q Θ) : A := hQ.choose
+
+theorem probeLabel_spec {K' : OrderFiltration (probeGroup action)} {ι' : Type*}
+    (𝔇' : ProbeDiagram hi D wallGroup 𝒜 action p K' ι') (h : ℕ) (Q : V)
+    (hQ : ∃ Θ, IsProbeLabelRep action p 𝔇' h Q Θ) :
+    IsProbeLabelRep action p 𝔇' h Q (probeLabel action p 𝔇' h Q hQ) := hQ.choose_spec
 
 /-- The theta sum `Θ_Q` at order `h` (`README §5.2`): the sum of the final decorations of the
 broken lines for `a` ending at `Q`, over the walls active at order `h`; `0` when the fiber is
@@ -1526,12 +1609,17 @@ noncomputable def DirectedDiagram.thetaSum {ι : Type*} (𝔇 : DirectedDiagram 
 
 /-- The backward ray `Q + tq` (`t > 0`) through a finite wall family (`README §5.5`): its
 finitely many hit times on active walls, and a fixed perturbation direction `r` that selects
-the incoming germ at each hit (`README §5.3`'s *incomingBranchGerm*). -/
+the incoming side at each transverse hit (`README §5.3`'s *incomingBranchGerm*).
+Eventual genericity of the germ is a separate hypothesis of the recursion. -/
 structure BackwardRay {w : ℕ} (walls : Fin w → DirectedWall hi D wallGroup) (Q : V) (q : L)
     where
   hits : Finset ℝ
   hits_spec : ∀ t, t ∈ hits ↔ 0 < t ∧ Q + t • i q ∈ activeWallSupport walls
   perturb : V
+  perturb_sign : ∀ k : Fin w, (walls k).label.val ≠ 1 →
+    hi.realCharacter (walls k).normal (i q) ≠ 0 →
+    0 < hi.realCharacter (walls k).normal (i q + perturb) *
+      hi.realCharacter (walls k).normal (i q)
 
 /-- The point `x + ε(q + r)` of the incoming germ behind the hit `x = Q + tq` at scale `ε`;
 the recursion below holds for all sufficiently small `ε > 0`, so only the germ matters. -/
@@ -1574,10 +1662,11 @@ coefficient models `A i`: on each overlap, an `R`-linear *CoefficientIso* over t
 part of the chart change, constant on each connected component of the overlap. Components
 are recorded through their points, so triple-overlap components need no separate index. -/
 structure CoefficientTransitions where
-  lattice : ι → ι → B → L ≃+ L
-  iso : ∀ i j, B → A i ≃ₗ[R] A j
-  graded : ∀ i j x, x ∈ U i ∩ U j → ∀ p, ∀ a ∈ 𝒜 i p, iso i j x a ∈ 𝒜 j (lattice i j x p)
-  const : ∀ i j x y, x ∈ U i ∩ U j → y ∈ connectedComponentIn (U i ∩ U j) x →
+  lattice : ∀ i j, ↥(U i ∩ U j) → L ≃+ L
+  iso : ∀ i j, ↥(U i ∩ U j) → A i ≃ₗ[R] A j
+  graded : ∀ i j (x : ↥(U i ∩ U j)) p, ∀ a ∈ 𝒜 i p, iso i j x a ∈ 𝒜 j (lattice i j x p)
+  const : ∀ i j (x y : ↥(U i ∩ U j)),
+    y.val ∈ connectedComponentIn (U i ∩ U j) x.val →
     iso i j y = iso i j x ∧ lattice i j y = lattice i j x
 
 variable {U A 𝒜}
@@ -1586,15 +1675,24 @@ variable {U A 𝒜}
 `ψ_{jk} ∘ ψ_{ij} = ψ_{ik}` on triple overlaps; they do not follow from the cocycle law of the
 Lie lifts. -/
 def CoefficientLaws (ψ : CoefficientTransitions U A 𝒜) : Prop :=
-  (∀ i x, x ∈ U i → ψ.iso i i x = LinearEquiv.refl R (A i)) ∧
-    ∀ i j k x, x ∈ U i ∩ U j ∩ U k → (ψ.iso i j x).trans (ψ.iso j k x) = ψ.iso i k x
+  (∀ i (x : U i), ψ.iso i i ⟨x, x.property, x.property⟩ = LinearEquiv.refl R (A i)) ∧
+    ∀ i j k (x : ↥(U i ∩ U j ∩ U k)),
+      (ψ.iso i j ⟨x, x.property.1⟩).trans
+        (ψ.iso j k ⟨x, x.property.1.2, x.property.2⟩) =
+          ψ.iso i k ⟨x, x.property.1.1, x.property.2⟩
 
 end CoefficientDescent
 
 /-! ## Layer 7: positivity -/
 
+/-- The positive subsemiring of the whole monoid algebra `ℚ[ι][Q]` (`README §7.1`):
+the image of `ℕ[ι][Q]`, retaining the monomial variables as well as coefficient variables. -/
+noncomputable def positiveMonoidAlgebra (ι Q : Type*) [AddCommMonoid Q] :
+    Subsemiring (AddMonoidAlgebra (MvPolynomial ι ℚ) Q) :=
+  (AddMonoidAlgebra.mapRingHom Q (MvPolynomial.map (Nat.castRingHom ℚ))).rangeS
+
 /-- Positivity in a completion `Â` (`README §7.1`): a positive representative at every order,
-for a positive coefficient model `Pos` such as the image of `ℕ[A][Q]`. No coefficient map out of
+for a positive coefficient model `Pos` such as `positiveMonoidAlgebra ι Q`. No coefficient map out of
 `Â` is needed, and it is a subsemiring by construction. -/
 def positiveCompletion {A : Type*} [Ring A] (F : AlgFiltration A)
     (Pos : Subsemiring A) : Subsemiring F.completion where
@@ -1607,5 +1705,11 @@ def positiveCompletion {A : Type*} [Ring A] (F : AlgFiltration A)
   mul_mem' {x y} hx hy h := by
     obtain ⟨⟨a, ha, hxa⟩, ⟨b, hb, hyb⟩⟩ := And.intro (hx h) (hy h)
     exact ⟨a * b, Pos.mul_mem ha hb, by rw [map_mul, hxa, hyb, map_mul]⟩
+
+/-- `README §7.1` positivity for the completed coefficient monoid algebra. -/
+noncomputable abbrev positiveMonoidCompletion {ι Q : Type*} [AddCommMonoid Q]
+    (F : AlgFiltration (AddMonoidAlgebra (MvPolynomial ι ℚ) Q)) :
+    Subsemiring F.completion :=
+  positiveCompletion F (positiveMonoidAlgebra ι Q)
 
 end TauCetiRoadmap.ScatteringDiagrams
