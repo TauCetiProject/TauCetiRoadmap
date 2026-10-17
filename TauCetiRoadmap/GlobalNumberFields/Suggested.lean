@@ -1,5 +1,5 @@
 import Mathlib
-import TauCetiRoadmap.NumberFieldArithmetic.Suggested
+import Completed.NumberFieldArithmetic.Suggested
 
 /-!
 # Global number fields, ray classes, adeles, and Hecke characters: target signatures

@@ -1,6 +1,6 @@
 import Mathlib
 import TauCetiRoadmap.GlobalNumberFields.Suggested
-import TauCetiRoadmap.NumberFieldArithmetic.Suggested
+import Completed.NumberFieldArithmetic.Suggested
 import TauCetiRoadmap.ClassFieldTheory.Suggested
 import TauCetiRoadmap.QuadraticFormInvariants.Suggested
 
