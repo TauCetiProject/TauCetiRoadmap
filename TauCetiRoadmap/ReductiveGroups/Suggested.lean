@@ -1,3 +1,4 @@
+import TauCeti.RepresentationTheory.Induction.FiniteDimensional.Basic
 import Mathlib
 
 /-!
@@ -8,15 +9,16 @@ import Mathlib
 contributors and reviewers converge on names and signatures; discharging all of them
 finishes neither a layer nor the roadmap.
 
-The narrative roadmap (the three synchronized models, the layer-by-layer build plan
-Layers 0–9, the worked examples, and the references) is in `README.md`.
+The three synchronized models, prerequisite order, examples, and references
+are in `README.md`.
 
-This file holds the **Layer 0** targets translating between affine group schemes and
-Hopf algebras (Kevin Buzzard). They elaborate against the pinned Mathlib commit and are
-stated with `sorry` (allowed in this human-owned roadmap library). As later layers
-make their types expressible, their milestones get added here with `sorry`. Next up
-after these: the convolution group structure on the functor of points, and base change
-of Hopf algebras.
+The declarations below are two native signature examples only: the global-sections Hopf
+instance and the group object on `Spec`. They do not prototype the anti-equivalence,
+the `Γ(Spec A) ≃ A` and `Spec Γ(G) ≃ G` identifications, or the third model. Those complete
+Layer 0 targets, including the Yoneda component convention, are specified in `README.md`.
+Mathlib's `hopfSpec.fullyFaithful` and `essImage_hopfSpec` and Tau Ceti's point functors are
+the interfaces to consume. The finite-dimensional induction example remains a specialization,
+not the general coefficient-ring adapter.
 -/
 
 open CategoryTheory AlgebraicGeometry CommRingCat Scheme Opposite Spec
@@ -27,13 +29,37 @@ universe u
 
 variable (R : Type u) [CommRing R]
 
-/-- `Γ(G)` is an `R`-Hopf algebra, for `G` an affine group scheme over `Spec R`. -/
-example (G : Scheme) (φ : G ⟶ Spec (CommRingCat.of R)) [GrpObj (Over.mk φ)] [IsAffine G] :
-    HopfAlgebra R (Γ.obj (op G)) := sorry
+/-- Native global-section Hopf structure of an affine group scheme over Spec R. -/
+noncomputable abbrev globalSectionsHopfAlgebra (G : Scheme.{u})
+    [G.Over (Spec (CommRingCat.of R))]
+    [GrpObj (G.asOver (Spec (CommRingCat.of R)))] [IsAffine G] :
+    HopfAlgebra R Γ(G, ⊤) :=
+  AlgebraicGeometry.instHopfAlgebraCarrierObjOppositeOpensCarrierCarrierCommRingCatPresheafOpOpensTopOfGrpObjOverSchemeSpecAsOverOfIsAffine
+    (R := CommRingCat.of R)
 
-/-- The affine group scheme `Spec A` over `Spec R` associated to a Hopf algebra `A`. -/
-example (A : Type u) [CommRing A] [HopfAlgebra R A] :
-    GrpObj (Over.mk (map (ofHom (algebraMap R A)) :
-      Spec (CommRingCat.of A) ⟶ Spec (CommRingCat.of R))) := sorry
+/-- Native group object on Spec of a commutative Hopf algebra. -/
+noncomputable abbrev specGroupObject (A : Type u) [CommRing A] [HopfAlgebra R A] :
+    GrpObj ((Spec (CommRingCat.of A)).asOver (Spec (CommRingCat.of R))) := inferInstance
 
 end TauCetiRoadmap.ReductiveGroups
+
+universe u₁ v₁ w₁
+
+namespace TauCetiRoadmap.ReductiveGroups.FiniteHC
+
+variable {k : Type u₁} {G : Type v₁} {L : Type w₁}
+variable [Field k] [Group G] [Group L]
+
+/-- Finite-group induction of the inflated L-module along P ≤ G. -/
+noncomputable def indFromProjectedLevi (P : Subgroup G) [P.FiniteIndex]
+    (π : P →* L) (M : FDRep k L) : FDRep k G :=
+  TauCeti.indFDRep (FDRep.of (M.ρ.comp π))
+
+/-- Its dimension is the subgroup index times the dimension of the Levi module. -/
+theorem finrank_indFromProjectedLevi (P : Subgroup G) [P.FiniteIndex]
+    (π : P →* L) (M : FDRep k L) :
+    Module.finrank k (indFromProjectedLevi P π M) = P.index * Module.finrank k M := by
+  change Module.finrank k (TauCeti.indFDRep (FDRep.of (M.ρ.comp π))) = _
+  exact TauCeti.finrank_indFDRep (A := FDRep.of (M.ρ.comp π))
+
+end TauCetiRoadmap.ReductiveGroups.FiniteHC
