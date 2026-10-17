@@ -121,6 +121,9 @@ theory on top, rather than restating it.
   core, self-adjoint resolvent estimates and the Cayley transform.
 * The spectral measure of an unbounded self-adjoint operator, its spectral projections,
   Stone uniqueness, and the imaginary-shift Yosida approximants.
+* Cyclic multiplication models, separable measurable multiplicity and classification
+  for compact-space and nondegenerate C₀ representations (SA-B85), and
+  essentially bounded PVM symbols (SA-B86).
 
 ## The build, in layers
 
@@ -216,7 +219,9 @@ group.
 
 ### Part B — the Borel functional calculus and projection-valued measures
 
-All Part B targets except SA-B63 and SA-B65 depend only on Mathlib.
+Part B uses Mathlib and its preceding targets. SA-B85 additionally consumes
+V4.0.Fields' independent measurable-field/direct-integral construction;
+SA-B86 follows the PVM and multiplication-model lane.
 The bidual/Goldstine comparison SA-B63 and SA-B65 also consumes
 [BanachSpaceTheory B1 and B5](../../BanachSpaceTheory/README.md)'s Goldstine
 theorem and normed regular scalar-measure dual of `C(K)`. These targets
@@ -636,6 +641,93 @@ measure and its half-line form-bound projections.
   native `Measure.ext_of_integral_eq_on_compactlySupported`. This is
   independent of BanachSpaceTheory; B5 consumes it for injectivity.
 
+- **SA-B85 — Cyclic multiplication models and multiplicity.** For a unital
+  π:C(K,ℂ)→⋆ₐ[ℂ]B(H), K compact metrizable with its Borel structure,
+  use SA-B59–60's representation PVM P and finite regular diagonal measures.
+  For nonzero ξ construct the unitary L²(K,μ_ξ)→H_ξ,
+  H_ξ=closure{π(f)ξ:f∈C(K,ℂ)}, from the continuous-function integral norm
+  identity and L² density. Prove it intertwines π(f) with M_f and every
+  P(B) with the indicator multiplier. The cyclic subspace is reducing;
+  orthogonal complements and maximality give H=⨁_j H_(ξ_j) for arbitrary H,
+  using SA-B70–72/80, without countability. In separable H take a countable
+  orthogonal cyclic decomposition with nonzero generators ξ_j and
+  μ_j=μ_(ξ_j). Choose w_j>0 with Σ_j w_j μ_j(K)<∞. Give Ω=⨿_j K
+  measure w_j μ_j on piece j and coordinate z:Ω→K. The unitary
+  ⨁_j L²(K,μ_j)→L²(Ω) sends (f_j) to (w_j^(-1/2)f_j) and
+  intertwines every π(f) with M_(f∘z), for this general compact K.
+  Consume [V4.0.Fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4831498b0ca6b0d69210ef2294ce1c92f028fbde/TauCetiRoadmap/VonNeumannAlgebras/README.md#v4-preduals-normality-and-normal-representations) for its independent measurable-field/direct-integral construction.
+  For μ=Σ_j w_j μ_j choose measurable r_j=dμ_j/dμ and set
+  m(x)=Σ_j 1[r_j(x)>0]∈ℕ∪{∞}, μ-a.e. The RN-fibre unitary has domain
+  ⨁_j L²(K,μ_j) and sends (f_j) to (√r_j(x)f_j(x))_j in
+  ℓ²({j:r_j(x)>0}); its inverse divides by √r_j on active coordinates.
+  Prove norm preservation, surjectivity, measurability of the inverse and
+  enumeration of active coordinates, obtaining standard m(x)-dimensional
+  fibres and intertwining every π(f) with diagonal multiplication by f.
+  For each Borel B, prove μ(B)=0 iff P(B)=0: positive weights give
+  μ_j(B)=‖P(B)ξ_j‖²=0 for all j; SA-B61/B79 give commutation
+  of P(B) with π(C(K)), so it
+  kills every cyclic summand and hence H. The converse follows from SA-B49.
+  If π₂(f)=Vπ₁(f)V⁻¹ for all f, transport its representation PVM by
+  SA-B70; no normal-operator CFC comparison is needed in this general case.
+  Thus V preserves PVM-null sets and the controls are equivalent BEFORE
+  any RN transport. Consume V4.0.Fields' change-of-measure unitary
+  U_(μ→ν):L²(μ;fibres)→L²(ν;fibres), f↦√(dμ/dν)f, for equivalent μ,ν.
+  It transports every spectral indicator multiplier. Uniform essential-norm
+  approximation by simple symbols extends this to L∞. Fields' rectangular
+  decomposable-map criterion and fibrewise unitarity then force equality of
+  multiplicities a.e.; conversely equivalent controls and equal multiplicity
+  construct a unitary from this measure change and active-coordinate maps.
+  This proves classification of representations of the same C(K).
+  Apply it to the identity intertwiner of a fixed representation presented
+  by two sets of choices: its transported PVM gives equivalent controls,
+  and Fields' rectangular/fibrewise-unitary comparison identifies the
+  multiplicities. This derives independence of cyclic decompositions,
+  vectors, positive weights, density versions and enumerations modulo
+  the corresponding null sets.
+  Specialize to cfcHom for normal bounded T, K=σ(T), to intertwine T with
+  M_z. For V T=S V, first transport the CFC representation and its PVM
+  by SA-B70 and SA-B34/B62; regard the controls as measures on ℂ by inclusion
+  and extend m by zero off K. The preceding null-set argument gives equal
+  measure classes on ℂ, and the fibre argument proves that two separable
+  normal operators are unitarily equivalent iff these classes and
+  multiplicities agree a.e. Ω need not be a subset of ℂ: scalar
+  multiplication on ℂ² must retain multiplicity 2.
+  For nondegenerate star-homomorphisms π:C₀(X)→⋆ₙₐ[ℂ]B(H), separable H
+  and fixed second-countable locally compact Hausdorff X, construct compact
+  metrizable X⁺ with its Borel structure and X its open standard-Borel
+  subspace. Prove π⁺(f)=π((f−f(∞))|X)+f(∞)I is a unital star-homomorphism
+  C(X⁺,ℂ)→⋆ₐ[ℂ]B(H), and apply the general compact construction above.
+  Its infinity projection kills π(C₀(X))H, so nondegeneracy gives P({∞})=0.
+  Restrict P, cyclic and control measures and the diagonal model along
+  X↪X⁺. The resulting base is X, with z:Ω→X and π(f)=M_(f∘z).
+  Own the contractive approximate-identity argument showing that C₀(X)-cyclic
+  and C(X⁺)-cyclic subspaces coincide. Classify representations of the same
+  C₀(X) by control measure class and multiplicity, using the preceding
+  PVM-null and unitary-transport argument for π⁺. Transport SA-B79 through
+  π⁺ and the zero-infinity restriction to the full diagonal L∞(X) action.
+  For two such representations use their direct sum and off-diagonal corner;
+  set λ=μ^(1)+μ^(2), where μ^(i) is the ith representation's control.
+  Consume Fields' measure-change/zero-extension equivalence from
+  L²(μ^(i);fibres) ONTO the transported λ-field: multiply by
+  √(dμ^(i)/dλ) and put the fibre equal to zero off the density's support.
+  Apply
+  Fields' rectangular criterion over λ without assuming equivalent controls.
+  V4.0.Decomposition and OperatorAlgebraDynamics D5 consume this diagonal
+  C₀(X) representation. Include H=0, zero operators and empty cyclic sums
+  with zero control/multiplicity. Empty X forces H=0 by nondegeneracy and
+  X⁺={∞} carries the zero representation on H. For arbitrary H retain the
+  actual orthogonal cyclic sum, without a separable multiplicity assertion.
+
+- **SA-B86 — Essentially bounded PVM symbols.** Consume SA-B49's P-nullity by P(B)=0
+  and the quotient of measurable symbols bounded outside a P-null set. Prove
+  independence of bounded representatives, star/algebra laws, completeness and
+  norm equal to the P-essential supremum, using SA-B37's uniform scalar
+  integral bounds and SA-B49's null-ideal calculus. Extend the Borel
+  calculus to this quotient and compare, in SA-B85's separable model, with
+  native L∞ for a control measure. Give the kernel/null-ideal and cyclic/direct-
+  sum comparisons; an arbitrary pointwise Borel function is not a bounded
+  symbol merely because its integral is suggested.
+
 **Milestone B1 — symbols and scalar integration.** SA-B01, SA-B37–39,
 SA-B81–84, SA-B64 and SA-B58, all independent of PVMs.
 
@@ -650,6 +742,9 @@ SA-B54–57 and SA-B73–78, after B3.
 
 **Milestone B5 — bidual comparison.** SA-B63 and SA-B65 after B3, additionally
 consuming BanachSpaceTheory B1/B5.
+
+**Milestone B6 — multiplication models and essential symbols.** SA-B85–86
+after B3–B4, consuming V4.0.Fields' independent measurable-field construction.
 
 ### Part C — closed operators on `LinearPMap`: graphs, constructions, form bounds
 
@@ -1170,7 +1265,9 @@ norm-continuity criterion is `SA-A24`.
 ### Part B — the Borel functional calculus and projection-valued measures
 
 **Acceptance examples.** The multiplication-operator model is `SA-B36`; half-line spectral
-projections and form bounds are `SA-B32`–`SA-B33`.
+projections and form bounds are `SA-B32`–`SA-B33`. SA-B85 retains multiplicity 2
+for scalar multiplication on ℂ² and handles zero H, zero control and empty cyclic
+sums; SA-B86 identifies essential symbols without choosing pointwise values on null sets.
 
 ### Part C — closed operators on `LinearPMap`: graphs, constructions, form bounds
 
@@ -1193,7 +1290,9 @@ generated-group compatibility is `SA-E46`; multiplication-operator spectral proj
 
 ## Ordering
 
-**Internal.** Part B depends only on Mathlib except SA-B63 and SA-B65, which consume
+**Internal.** SA-B85 consumes V4.0.Fields' independent measurable-field
+construction after the representation PVM and normal spectral calculus;
+SA-B86 follows that PVM/multiplication lane. SA-B63 and SA-B65 consume
 BanachSpaceTheory B1/B5 for the bidual/Goldstine comparison. Construct symbols/approximation, then abstract PVM integration, then the
 compact-space representation PVM before specializing it to cfcHom.
 SA-B05 and SA-B30 use that same construction, and SA-B54 is definitional.
@@ -1203,13 +1302,17 @@ resolvent core; its remaining obligations build on that existing API. Part A use
 `OneParameterSemigroups` bridge in `SA-A15`–`SA-A16`. Part C consumes
 [`OrthogonalGeometry`](../OrthogonalGeometry/README.md); its real spectral-separation targets
 `SA-C62`–`SA-C65` also use the shared core `SA-D01`–`SA-D02`. Part E is the confluence
-and needs exactly A + B + D — the Cayley transform and resolvent bounds from D, the Borel
-calculus and `ProjValMeasure` from B, the unitary-group vocabulary, von Neumann criterion and
-Duhamel estimate from A. It does not consume Part C: the shared carrier of C, D and E is
-`LinearPMap` itself. Within Part E the Yosida and maximality material precedes the
+and consumes the Cayley transform and resolvent bounds from D, the Borel
+calculus and `ProjValMeasure` from B, and the unitary-group vocabulary, von Neumann
+criterion and Duhamel estimate from A. Spectral restriction SA-E09 also consumes
+Part C's SA-C12–19 reduced-restriction API, after SA-E06–07 establishes its
+reducing hypotheses. Parts C, D and E share the native `LinearPMap` carrier. Within Part E the Yosida and maximality material precedes the
 construction.
 
-**External.** [`OrthogonalGeometry`](../OrthogonalGeometry/README.md) supplies the
+**External.** [VonNeumannAlgebras V4.0.Fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4831498b0ca6b0d69210ef2294ce1c92f028fbde/TauCetiRoadmap/VonNeumannAlgebras/README.md#v4-preduals-normality-and-normal-representations) supplies
+SA-B85 with independent measurable Hilbert fields, rectangular decomposable maps,
+fibrewise unitarity, and equivalent-measure/zero-extension transport.
+[`OrthogonalGeometry`](../OrthogonalGeometry/README.md) supplies the
 reducing-subspace definition and completeness of projected subspaces. Mathlib supplies invariant
 subspaces and symmetric restrictions for Part C's form bounds.
 
@@ -1222,7 +1325,14 @@ and Stone's theorem. The bridge is `OneParameterUnitaryGroup.toSemigroup` togeth
 for the convention `U t = exp (i t A)`: the semigroup generator is `i A`. The two roadmaps share
 that bridge rather than duplicating semigroup or generator theory.
 
-**Downstream.** `SpectralSubspacePerturbation` consumes Part A's unitary/Stone vocabulary,
+**Downstream.** VonNeumannAlgebras V4.0.Decomposition and
+OperatorAlgebraDynamics D5 consume SA-B85's separable diagonal C₀(X)
+representation, multiplicity and measure-change theorem. VNA's spectral/central
+reduction consumes this theorem rather than rebuilding the C₀ model in Fields.
+NQS applies the general compact model to its own given joint C(K′×K) representation;
+that joint representation, its full-centre generating comparison and parameterized
+joint measurability remain NQS targets. None is a prerequisite for SA-B85.
+`SpectralSubspacePerturbation` consumes Part A's unitary/Stone vocabulary,
 Part C's domain-aware `SylvesterEquation` and form-bound vocabulary, Part D's `LinearPMap`
 resolvent/spectrum API, and Part E's spectral-measure/intertwining results.
 `MatrixSpectralStatistics` consumes Mathlib's Hermitian continuous-functional-calculus
@@ -1273,7 +1383,7 @@ their self-adjoint symmetrization.
 
 ## Acknowledgements
 
-An Apache-2.0 implementation of all five Parts exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
+An Apache-2.0 implementation of much of the material in Parts A–E exists in the [AIQ DKPS formalization](https://github.com/AIQ-Kitware/aiq-dkps-formalization)
 (Kitware, Inc.), in namespaces `TauCeti.*` and `LinearPMap.*`.
 
 Part of the unitary-group material was adapted from the Spectra Formalization Project
