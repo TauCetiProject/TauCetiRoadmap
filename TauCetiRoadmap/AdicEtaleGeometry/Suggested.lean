@@ -839,10 +839,14 @@ example {A D : Affinoid} {n : ℕ} {q : D.spa ⟶ A.spa} [IsTateRing A.ring]
 by ball charts, with `0`-dimensional balls. -/
 example (X : TauCeti.AdicSpace) (hX : IsAnalytic X) : IsLocallyEtaleOverPolydisc (𝟙 X) := sorry
 
-/-- *isLocallyEtaleOverPolydisc_nonAnalytic* (non-example): ball charts require analytic spaces, so
-the identity of `Spa(ℤ_p, ℤ_p)`, smooth in Huber's sense, is not smooth by ball charts. -/
-example {Y X : TauCeti.AdicSpace} (f : Y ⟶ X) (hY : ¬ IsAnalytic Y) :
-    ¬ IsLocallyEtaleOverPolydisc f := fun h ↦ hY h.2.1
+/-- *isLocallyEtaleOverPolydisc_nonAnalytic* (non-example): a nonanalytic source or target
+excludes ball charts. Over `X = Spa(ℤ_p, ℤ_p)`, both zero-dimensional ball and torus projections
+are the identity, smooth in Huber's sense; the residue-field valuation has open support `(p)`,
+so neither projection is smooth by ball charts (Wedhorn, Def. 7.39). -/
+example {Y X : TauCeti.AdicSpace} (f : Y ⟶ X)
+    (hNonAnalytic : ¬ IsAnalytic X ∨ ¬ IsAnalytic Y) :
+    ¬ IsLocallyEtaleOverPolydisc f :=
+  fun h ↦ hNonAnalytic.elim (fun hX ↦ hX h.1) (fun hY ↦ hY h.2.1)
 
 /-- Between locally noetherian analytic spaces, smoothness by ball charts is Huber's smoothness
 (AdicSpacesPartII R0, *smooth-morphism*; Huber 1996, Cor. 1.6.10, p. 80). -/

@@ -4083,7 +4083,8 @@ smooth and finite morphisms, fibre products and completed tensor products come f
 AdicSpacesPartII layer R0, and the small étale and finite étale sites, geometric points and the
 étale slice site from A1.1–A1.9. It proves no derived comparison: Scholze's Lemma 3.16 for
 `i > 0`, Corollary 3.17 and Proposition 3.7(iii) belong to the étale-cohomology roadmaps, the
-affinoid perfectoid basis of [PH] §4 to the `A_inf`-cohomology roadmap, and the pro-étale and
+affinoid perfectoid basis of [PH] §4 over complete nonarchimedean extensions of `ℚ_p` to
+PerfectoidSpaces P7.16, and the pro-étale and
 v-topologies on perfectoid spaces of ECD §8 are a different site, DiamondsAndVStacks layer D2's.
 
 Throughout A1.10–A1.15, `X` is a locally noetherian analytic adic space (AdicSpacesPartII layer
@@ -6636,7 +6637,7 @@ the same kind (the fibre product exists because `π` is of finite type; the affi
 completed tensor product is specified), and `relativePolydisc.addIso` — `B^{m+n}_X ≅ B^m_X ×_X B^n_X`; (d)
 `relativePolydisc.smooth` — for `X` locally noetherian, `π` is smooth in the sense of
 AdicSpacesPartII layer R0 (smooth morphisms, Huber's infinitesimal notion, defined only on locally
-noetherian spaces), with `Ω_{B^n_X/X}` free on `dT₁, …, dTₙ` (for general `X`, `π` is locally
+noetherian spaces), with `Ω_{B^n_X/X}` free on `dT₁, …, dTₙ` (for general analytic `X`, `π` is locally
 étale over a relative ball by `IsLocallyEtaleOverPolydisc.relativePolydisc` of
 *smooth-morphism-ball-charts*), and `relativePolydisc.quasiCompact_proj` —
 `π` is quasi-compact, and `relativePolydisc.separated_proj` — `π` is separated;
@@ -6828,8 +6829,8 @@ plus ring `B⁺⟨T^{±1}⟩` (Mathlib `LaurentPolynomial`); equivalently
 polydisc chart — and then: (a) `relativeTorus.homEquiv` — `Hom_X(Z, T^n_X) ≃ (Fin n → (O⁺_Z(Z))ˣ)`,
 natural in `Z`, the units of `O_Z(Z)` that lie in `O⁺_Z(Z)` with inverse in `O⁺_Z(Z)`, so `T^n_X`
 represents `Z ↦ ((O⁺_Z(Z))^×)ⁿ`; (b) `relativeTorus.smooth` — for locally noetherian `X`, `T^n_X → X` is smooth in Huber’s sense (an open
-subspace of `B^n_X`) with `Ω` free on the `dTᵢ`; in the full scope it has the ball charts
-of A2.4; `relativeTorus.baseChangeIso` —
+subspace of `B^n_X`) with `Ω` free on the `dTᵢ`; over analytic bases in this scope it has the
+ball charts of A2.4; `relativeTorus.baseChangeIso` —
 `T^n_X ×_X X' ≅ T^n_{X'}`; `relativeTorus.addIso` — `T^{m+n}_X ≅ T^m_X ×_X T^n_X`; and
 `relativeTorus.mul`, `relativeTorus.one`, `relativeTorus.inv`, with associativity,
 commutativity, unit and inverse laws — the
@@ -7084,10 +7085,12 @@ target followed by its projection. Each Check below is a Lean example.
   (Lean example).
 - *isLocallyEtaleOverPolydisc_identity* (degenerate) — the identity of an analytic space is smooth
   by ball charts, with `0`-dimensional balls over its Tate charts (Lean example).
-- *isLocallyEtaleOverPolydisc_nonAnalytic* (non-example) — the identity of `Spa(ℤ_p, ℤ_p)` is smooth
-  in Huber's sense but not smooth by ball charts, which requires analytic spaces; this is why
-  `IsLocallyEtaleOverPolydisc.iff_smooth` assumes both spaces locally noetherian analytic (Lean
-  example, proved, for every non-analytic source).
+- *isLocallyEtaleOverPolydisc_nonAnalytic* (non-example) — for `X = Spa(ℤ_p, ℤ_p)`, both
+  `B⁰_X → X` and `T⁰_X → X` identify with `id_X`. The trivial valuation on `𝔽_p` pulls back to
+  a point with open support `(p)`, so `X` is not analytic ([Wedhorn] Def. 7.39). Both projections
+  are smooth in Huber's sense but fail the ball-chart predicate, which requires analytic source
+  and target. `IsLocallyEtaleOverPolydisc.iff_smooth` assumes both spaces locally noetherian
+  analytic (Lean example, proved, for every morphism with a nonanalytic source or target).
 
 **Huber's smooth morphisms are the morphisms locally étale over a relative ball.**
 (*smooth-local-ball-charts*) For a morphism `f : X → S` of locally noetherian analytic adic
