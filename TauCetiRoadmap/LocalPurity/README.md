@@ -29,7 +29,7 @@ codimension one and Abhyankar's lemma for a regular divisor, Stacks 0EYE–0EYH)
 
 ```text
 Mathlib + Tau Ceti → Layer 0 → Layer 1 → Layer 2
-SchemeAndStackFoundations §§0.9, 0.14, 0.17, 2.7, 4.7–4.8, 4.13 ──→ Layers 0, 1, 2
+SchemeAndStackFoundations §§0.6, 0.9, 0.14, 0.17, 2.7, 4.7–4.8, 4.13 ──→ Layers 0, 1, 2
 ```
 
 The end theorems are `IsLocalRing.purityHolds_of_isRegularLocalRing` and
@@ -73,6 +73,8 @@ no second carrier.
   (`henselian_finiteEtale_equivalence`, More on Algebra, Lemma 15.13.2 (09ZL)).
 - *Finitely presented schemes over a limit*: SchemeAndStackFoundations §0.9
   (`finite_presentation_limits`).
+- *Extension of sections across a closed subset of depth `≥ 2`*: SchemeAndStackFoundations §0.6
+  (`coherent_hartogs`, Divisors, Lemma 31.5.11 (0E9I)).
 - *Going down and the dimension formula*: Mathlib `Algebra.HasGoingDown` (`@[stacks 00H8]`) and the
   `@[stacks 00ON]` dimension formula.
 - *Discriminants and trace forms*: Mathlib `Algebra.discr`, `Algebra.traceForm`,
@@ -273,11 +275,18 @@ the limit of its affine open neighbourhoods. Prove `finiteEtale_extend_of_purity
 `IsLocalRing.PurityHolds 𝒪_{X,x}` for every `x ∉ U`, restriction from finite étale schemes over
 `X` to finite étale schemes over `U` is essentially surjective. The proof is Noetherian induction
 on the complement, extending across the generic point of an irreducible component of `X ∖ U` by
-`spread_from_localScheme`. Prove the corollary `finiteEtale_extend_of_regular_codimTwo` (*API*):
-if `𝒪_{X,x}` is a regular local ring of dimension `≥ 2` for every `x ∉ U`, restriction is
-essentially surjective (`purityHolds_of_isRegularLocalRing`).
-*Needs:* §2.1; SchemeAndStackFoundations §0.9; Mathlib `IsNoetherian`, `Scheme.Opens`,
-`IsAffineOpen`.
+`spread_from_localScheme`. Prove `restrictOpen_fullyFaithful_of_depth` (*API*): for a locally
+Noetherian scheme `X` and an open `U` with `IsLocalRing.depth 𝒪_{X,x} ≥ 2` for every `x ∉ U`,
+restriction from finite étale schemes over `X` to finite étale schemes over `U` is fully faithful
+(a finite étale scheme over `X` is the relative spectrum of a finite locally free algebra, whose
+sections extend uniquely across `X ∖ U` by SchemeAndStackFoundations §0.6 `coherent_hartogs`).
+Prove the corollary `finiteEtale_extend_of_regular_codimTwo` (*API*): for a locally Noetherian
+scheme `X` and an open `U` such that `𝒪_{X,x}` is a regular local ring of dimension `≥ 2` for every
+`x ∉ U`, restriction is essentially surjective. On each affine open it is
+`finiteEtale_extend_of_purity` with `purityHolds_of_isRegularLocalRing`, and the local extensions
+glue by `restrictOpen_fullyFaithful_of_depth` (regular local rings of dimension `d` have depth `d`).
+*Needs:* §2.1; SchemeAndStackFoundations §§0.6, 0.9, 0.17; Mathlib `IsNoetherian`,
+`IsLocallyNoetherian`, `Scheme.Opens`, `IsAffineOpen`.
 
 ## Stacks alignment
 
@@ -310,7 +319,7 @@ counterpart.
 | 2.1 | `etale_of_finiteNormal_of_isRegularLocalRing` | 58.21.3 (0BMA) (2) | corrected, affine |
 | 2.2 | `spread_from_localScheme` | 32.20.3 (0BQ5), 32.20.4 (0EY3) | exact |
 | 2.2 | `finiteEtale_extend_of_purity` | 58.21.6 (0EY7) | exact |
-| 2.2 | `finiteEtale_extend_of_regular_codimTwo` | — | API |
+| 2.2 | `restrictOpen_fullyFaithful_of_depth`, `finiteEtale_extend_of_regular_codimTwo` | — | API |
 
 ## Provenance
 
