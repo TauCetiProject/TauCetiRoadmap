@@ -1278,14 +1278,6 @@ theorem isEdgeConnected_two_iff_nonempty_earDecomposition [Finite V] [Nonempty V
     G.IsEdgeConnected 2 ↔ Nonempty (G.EarDecomposition ⊤) := by
   sorry
 
-/-- The form of 2-edge-connectivity Mathlib's edge-connectivity file names as intended.
-`IsBridge` on a non-edge means its endpoints are unreachable, so this includes connectedness.
-A corollary of `Multigraph.isEdgeConnected_two_iff` through `Multigraph.isBridge_ofSimpleGraph`
-and `Multigraph.reachable_ofSimpleGraph`. -/
-theorem isEdgeConnected_two_iff_forall_not_isBridge :
-    G.IsEdgeConnected 2 ↔ ∀ e, ¬ G.IsBridge e := by
-  sorry
-
 /-- Robbins' theorem for simple graphs, in the orientation API owned by ZigzagPreprojective: a
 corollary of `Multigraph.exists_orientation_isStronglyConnected_iff` through
 `Multigraph.orientationOfSimpleGraphEquiv`. -/
