@@ -1,5 +1,5 @@
 import Mathlib
-import TauCeti.Topology.Homotopy.HomotopyGroup.WeakHomotopyEquivalence
+import TauCeti.Topology.Homotopy.HomotopyGroup.Map
 
 set_option autoImplicit false
 
@@ -18,8 +18,10 @@ contractible (2.11); ∞-groupoids of type `C` are presheaves sending globular s
 products (1.8, 2.5). Globular extensions are prototyped with objects indexed by tables (Ara 2013,
 Remark 2.6), which is the case for free ones.
 
-The only Tau Ceti declaration consumed is `ContinuousMap.IsWeakHomotopyEquivalence`, Tau Ceti's
-implementation of the AlgebraicTopology roadmap's weak homotopy equivalences. Definitions have
+The only Tau Ceti declaration consumed is `HomotopyGroup.map`. Weak homotopy equivalences are
+spelled out in `weTop` with the two fields of Tau Ceti's `ContinuousMap.IsWeakHomotopyEquivalence`
+(the AlgebraicTopology roadmap's), which is not yet in the Tau Ceti revision this repository pins;
+`weTop` is to be replaced by that predicate when the pin moves. Definitions have
 real bodies; only theorem statements are `sorry`. The universal property of a globular sum is
 stated directly (unique factorization of compatible families) rather than through Mathlib's
 `IsColimit` on an explicit diagram, which Layer 1.2 builds. Not prototyped: the cellular towers
@@ -201,9 +203,13 @@ abbrev InfinityGroupoid (C : PseudoCoherator) : Type 1 :=
 
 /-! ## Layer 5: spaces and the fundamental ∞-groupoid -/
 
-/-- The weak homotopy equivalences of `TopCat.{0}`, from Tau Ceti. -/
-def weTop : MorphismProperty TopCat.{0} := fun _ _ f =>
-  ContinuousMap.IsWeakHomotopyEquivalence f.hom
+/-- The weak homotopy equivalences of `TopCat.{0}`: surjective on path components and bijective on
+every `π_n(X, x)`. These are the fields of Tau Ceti's `ContinuousMap.IsWeakHomotopyEquivalence`,
+which replaces this body once the pinned Tau Ceti contains it. -/
+def weTop : MorphismProperty TopCat.{0} := fun X Y f =>
+  (∀ y : Y, ∃ x : X, Joined (f.hom x) y) ∧
+    ∀ (n : ℕ) (x : X),
+      Function.Bijective (HomotopyGroup.map (N := Fin n) f.hom (rfl : f.hom x = f.hom x))
 
 /-- **Layer 5.2.** The fundamental ∞-groupoid presheaf `Π_∞^R(X) = TopCat(R(−), X)` for a functor
 `R : C ⥤ TopCat`. -/
