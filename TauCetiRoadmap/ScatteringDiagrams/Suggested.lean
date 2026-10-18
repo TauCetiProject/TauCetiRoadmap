@@ -96,6 +96,35 @@ theorem sharp_of_positive {n : N} (hn : n ∈ D.monoid) (hneg : -n ∈ D.monoid)
   rw [map_neg] at hm
   omega
 
+/-- Actual positive degrees on the ambient ray through `w` (`README §0.1`). -/
+def rayDegrees (w : N) : Set N :=
+  {n | n ∈ D.positive ∧ ∃ a : ℤ, 0 < a ∧ n = a • w}
+
+/-- A primitive ambient ray meeting `P`; its generator need not belong to `P`
+(`README §0.1`). Positivity and truncation apply to the supported multiples. -/
+structure SupportedRay where
+  generator : N
+  primitive : TauCeti.IsPrimitive generator
+  supported : ∃ a : ℤ, 0 < a ∧ a • generator ∈ D.positive
+
+/-- Ray truncation is finite because it retains only actual degrees in `P`. -/
+theorem finite_ray_cutoff (w : N) (k : ℕ) :
+    {n | n ∈ D.rayDegrees w ∧ D.degree n ≤ (k : ℤ)}.Finite :=
+  (D.finite_cutoff k).subset fun _ hn => ⟨hn.1.1.1, hn.2⟩
+
+/-- Primitive normalization uses the ambient lattice, without saturating `P`
+(`README §0.1`). -/
+theorem exists_supportedRay [Module.Free ℤ N] {n : N} (hn : n ∈ D.positive) :
+    ∃ r : D.SupportedRay, n ∈ D.rayDegrees r.generator := by
+  obtain ⟨a, w, ha, hw, hnw⟩ := TauCeti.exists_eq_zsmul_isPrimitive hn.2
+  refine ⟨⟨w, hw, a, ha, ?_⟩, hn, a, ha, hnw⟩
+  simpa only [← hnw] using hn
+
+/-- A nonzero supported degree determines its primitive ray uniquely (`README §0.1`). -/
+theorem supportedRay_unique [Module.Free ℤ N] {r s : D.SupportedRay} {n : N}
+    (hr : n ∈ D.rayDegrees r.generator) (hs : n ∈ D.rayDegrees s.generator) : r = s := by
+  sorry
+
 end PositiveDegrees
 
 /-- A map of positive degree data with an explicit monotone cutoff modulus (`README §0.1`):
@@ -143,6 +172,41 @@ def comp (g : PositiveDegreeMap E F) (f : PositiveDegreeMap D E) : PositiveDegre
   cutoff_bound := by
     intro k n hn hdeg
     exact g.cutoff_bound k (f.map_monoid hn) (f.cutoff_bound (g.cutoff k) hn hdeg)
+
+/-- Image rays are normalized in the target ambient lattice. A supported multiple,
+rather than membership of the primitive generator in `P`, supplies target support. -/
+theorem exists_rayImage [Module.Free ℤ N'] (f : PositiveDegreeMap D E)
+    (r : D.SupportedRay) :
+    ∃ s : E.SupportedRay, ∃ b : ℤ, 0 < b ∧ f.toAddMonoidHom r.generator = b • s.generator := by
+  obtain ⟨a, ha, har⟩ := r.supported
+  have hpos := f.map_positive har
+  have hne : f.toAddMonoidHom r.generator ≠ 0 := by
+    intro hz
+    apply hpos.2
+    simp only [map_zsmul, hz, smul_zero]
+  obtain ⟨b, w, hb, hw, hbw⟩ := TauCeti.exists_eq_zsmul_isPrimitive hne
+  refine ⟨⟨w, hw, a * b, mul_pos ha hb, ?_⟩, b, hb, hbw⟩
+  simpa only [map_zsmul, hbw, smul_smul] using hpos
+
+/-- The primitive image-ray index (`README §§0.1, 4.1`); the degree map itself
+still sends an actual exponent `n` to `f n`. -/
+noncomputable def mapRay [Module.Free ℤ N'] (f : PositiveDegreeMap D E)
+    (r : D.SupportedRay) : E.SupportedRay :=
+  Classical.choose (f.exists_rayImage r)
+
+theorem mapRay_spec [Module.Free ℤ N'] (f : PositiveDegreeMap D E) (r : D.SupportedRay) :
+    ∃ b : ℤ, 0 < b ∧ f.toAddMonoidHom r.generator = b • (f.mapRay r).generator :=
+  Classical.choose_spec (f.exists_rayImage r)
+
+/-- Actual supported degrees map into the reindexed target ray, even when either
+primitive generator is outside its positive monoid (`README §4.1`). -/
+theorem mapRay_mem [Module.Free ℤ N'] (f : PositiveDegreeMap D E) (r : D.SupportedRay)
+    {n : N} (hn : n ∈ D.rayDegrees r.generator) :
+    f.toAddMonoidHom n ∈ E.rayDegrees (f.mapRay r).generator := by
+  obtain ⟨a, ha, han⟩ := hn.2
+  obtain ⟨b, hb, hbw⟩ := f.mapRay_spec r
+  refine ⟨f.map_positive hn.1, a * b, mul_pos ha hb, ?_⟩
+  simp only [han, map_zsmul, hbw, smul_smul]
 
 end PositiveDegreeMap
 
@@ -1111,6 +1175,19 @@ structure DirectedWallSpaces (ρ : L →+ Λ) (ℒ : L → Submodule R g) where
   bracket_mem : ∀ n n' m m' (x y : g),
     x ∈ wall n m → y ∈ wall n' m' → ⁅x, y⁆ ∈ wall (n + n') (wallBracketNormal ρ n n' m m')
 
+/-- The ray submodule sums exactly the supported positive multiples (`README §3.1`). -/
+def DirectedWallSpaces.raySubmodule {ℒ : L → Submodule R g} {ρ : L →+ Λ}
+    (W : DirectedWallSpaces ρ ℒ) {D : PositiveDegrees L} (r : D.SupportedRay)
+    (m : Λ →+ ℤ) : Submodule R g :=
+  ⨆ n, ⨆ (_ : n ∈ D.rayDegrees r.generator), W.wall n m
+
+/-- Each actual homogeneous wall space embeds in its supported ray submodule. -/
+theorem DirectedWallSpaces.wall_le_raySubmodule {ℒ : L → Submodule R g} {ρ : L →+ Λ}
+    (W : DirectedWallSpaces ρ ℒ) {D : PositiveDegrees L} (r : D.SupportedRay)
+    (m : Λ →+ ℤ) {n : L} (hn : n ∈ D.rayDegrees r.generator) :
+    W.wall n m ≤ W.raySubmodule r m :=
+  le_iSup_of_le n (le_iSup_of_le hn le_rfl)
+
 /-- Wall spaces with the same normal commute (`README §3.1`). No tangency hypothesis is
 needed: a nontangent wall space is zero. -/
 theorem DirectedWallSpaces.sameNormal_lie_eq_zero {ℒ : L → Submodule R g}
@@ -1168,24 +1245,23 @@ theorem DirectedWallSpaces.total_projection_zero_lie_eq_zero {ℒ : L → Submod
 end WallSpaces
 
 /-- A directed affine wall (`README §3.2`), for a tangent lattice `i : Λ →+ V`, positive
-degrees on `L` and a projection `ρ : L →+ Λ`, and the family `wallGroup n m` of completed ray subgroups of `Ĝ` (README §3.1;
-the group is abstract here). The support is a nonempty rational affine polyhedron with
+degrees on `L` and a projection `ρ : L →+ Λ`. The family `wallGroup w m` consists of
+the completed supported-ray subgroups of `Ĝ` (`README §3.1`; the group is abstract here).
+The primitive index `w` need not lie in `P`. The support is a nonempty rational affine polyhedron with
 direction `ker m_ℝ`, not necessarily a cone (README §3.3's corrections at bounded joints are
-not cones); the wall's physical direction is `-ρ n`. -/
+not cones); the wall's physical direction is `-ρ w`. -/
 structure DirectedWall {L Λ V : Type*} [AddCommGroup L] [AddCommGroup Λ] [NormedAddCommGroup V] [NormedSpace ℝ V]
     {i : Λ →+ V} (hi : TauCeti.Toric.IsIntegralLattice i) (ρ : L →+ Λ) (D : PositiveDegrees L)
     {G : Type*} [Group G] (wallGroup : L → (Λ →+ ℤ) → Subgroup G) where
   normal : Λ →+ ℤ
   normal_ne_zero : normal ≠ 0
-  degree : L
-  degree_mem : degree ∈ D.positive
-  degree_primitive : TauCeti.IsPrimitive degree
-  normal_apply_degree : normal (ρ degree) = 0
+  ray : D.SupportedRay
+  normal_apply_ray : normal (ρ ray.generator) = 0
   support : Set V
   support_rational : IsRationalAffinePolyhedron i support
   support_nonempty : support.Nonempty
   support_direction : (affineSpan ℝ support).direction = LinearMap.ker (hi.realCharacter normal)
-  label : wallGroup degree normal
+  label : wallGroup ray.generator normal
 
 namespace DirectedWall
 
@@ -1194,15 +1270,16 @@ variable {L Λ V : Type*} [AddCommGroup L] [AddCommGroup Λ] [NormedAddCommGroup
   {G : Type*} [Group G] {wallGroup : L → (Λ →+ ℤ) → Subgroup G}
   (𝔡 : DirectedWall hi ρ D wallGroup)
 
-/-- `𝔡 + ℝ≥0 ρ(n) ⊆ 𝔡` (`README §3.2`); translation invariant, unlike testing `n ∈ 𝔡`. -/
-def Incoming : Prop := ∀ x ∈ 𝔡.support, ∀ t : ℝ, 0 ≤ t → x + t • i (ρ 𝔡.degree) ∈ 𝔡.support
+/-- `𝔡 + ℝ≥0 ρ(w) ⊆ 𝔡` for the primitive ray generator (`README §3.2`). -/
+def Incoming : Prop :=
+  ∀ x ∈ 𝔡.support, ∀ t : ℝ, 0 ≤ t → x + t • i (ρ 𝔡.ray.generator) ∈ 𝔡.support
 
 /-- The negation of incoming (`README §3.2`). -/
 def Outgoing : Prop := ¬ 𝔡.Incoming
 
 /-- A coefficient-only degree is incoming for every support; it cannot produce a nonempty
 outgoing correction by a zero-direction sweep (`README §§1.5, 3.3`). -/
-theorem incoming_of_projection_zero (h : ρ 𝔡.degree = 0) : 𝔡.Incoming := by
+theorem incoming_of_projection_zero (h : ρ 𝔡.ray.generator = 0) : 𝔡.Incoming := by
   intro x hx t ht
   simpa [h] using hx
 
@@ -1678,6 +1755,21 @@ noncomputable def signedWallProduct (x v : V) : G := by
 
 end FiniteCrossings
 
+/-- The discrete affine type (`README §§5.2–5.3`), with a fixed wall presentation.
+The one-chart incoming record is its degree and coefficient. The ordered active-wall sets
+and segment degrees determine the subsequent decorations. This carrier has no spatial
+parameter, endpoint, crossing time or incoming affine offset; chamber subdivisions are made
+in its endpoint charts. General-base types additionally record the README's source cells
+and discrete chart/deck continuation. -/
+structure AffineDecoratedType (L A : Type*) (w : ℕ) where
+  incomingDegree : L
+  incomingCoefficient : A
+  numEvents : ℕ
+  degree : Fin (numEvents + 1) → L
+  degree_zero : degree 0 = incomingDegree
+  eventWalls : Fin numEvents → Finset (Fin w)
+  eventWalls_nonempty : ∀ j, (eventWalls j).Nonempty
+
 section BrokenLineCarrier
 
 variable {R : Type*} [Semiring R]
@@ -1693,7 +1785,9 @@ variable {R : Type*} [Semiring R]
 recorded, including a degree-preserving crossing or a coefficient change with zero projected
 increment. The positive constructor restricts increments to `P`; this is not a condition on
 the README's general varying-stratum carrier. The velocity is `-i (ρ p)` and never zero.
-Compatible invariant sources in `ker ρ` instead define stationary sections below. -/
+Compatible invariant sources in `ker ρ` instead define stationary sections below.
+The endpoint and event times retain the individual incoming affine tail on a realized line;
+`decoratedType` forgets those continuous parameters. -/
 structure AffineBrokenLine {w : ℕ} (walls : Fin w → DirectedWall hi ρ D wallGroup)
     (action : G →* (A ≃ₗ[R] A)) (k : ℕ) {p : L} (a : A) (ha : a ∈ 𝒜 p) where
   numEvents : ℕ
@@ -1730,6 +1824,56 @@ structure AffineBrokenLine {w : ℕ} (walls : Fin w → DirectedWall hi ρ D wal
   all_encounters : ∀ (j : Fin (numEvents + 1)) (t : ℝ),
     IsSegmentInterior eventTime j t →
     brokenPath (i.comp ρ) endpoint eventTime degree t ∉ activeWallSupport walls
+
+variable {hi ρ D wallGroup 𝒜} in
+/-- Forget only geometric realization data, retaining every active encounter, including
+crossings with no change of degree (`README §5.2`). -/
+noncomputable def AffineBrokenLine.decoratedType {w : ℕ}
+    {walls : Fin w → DirectedWall hi ρ D wallGroup}
+    {action : G →* (A ≃ₗ[R] A)} {k : ℕ} {p : L} {a : A} {ha : a ∈ 𝒜 p}
+    (b : AffineBrokenLine hi ρ D wallGroup 𝒜 walls action k a ha) :
+    AffineDecoratedType L A w := by
+  classical
+  exact
+    { incomingDegree := p
+      incomingCoefficient := a
+      numEvents := b.numEvents
+      degree := b.degree
+      degree_zero := b.degree_zero
+      eventWalls := fun j => Finset.univ.filter fun d =>
+        (walls d).label.val ≠ 1 ∧
+          brokenPath (i.comp ρ) b.endpoint b.eventTime b.degree (b.eventTime j) ∈ (walls d).support
+      eventWalls_nonempty := by
+        intro j
+        obtain ⟨d, hd, hx⟩ := b.event_on_wall j
+        exact ⟨d, by simp only [Finset.mem_filter, Finset.mem_univ, true_and]; exact ⟨hd, hx⟩⟩ }
+
+/-- Finite types are discrete types across all endpoints, for fixed initial decoration
+(`README §5.2`). The degree bound limits changes, and a constant-degree segment crosses
+each convex wall at most once. -/
+theorem finite_affineDecoratedTypes {w : ℕ} (walls : Fin w → DirectedWall hi ρ D wallGroup)
+    (action : G →* (A ≃ₗ[R] A)) (k : ℕ) {p : L} (a : A) (ha : a ∈ 𝒜 p) :
+    (Set.range fun b : AffineBrokenLine hi ρ D wallGroup 𝒜 walls action k a ha =>
+      b.decoratedType).Finite := by
+  sorry
+
+/-- Backward propagation recovers the crossing times and actual incoming affine tail from
+the endpoint and discrete type, without a genericity hypothesis (`README §5.3`). -/
+theorem affineBrokenLine_type_endpoint_injective {w : ℕ}
+    (walls : Fin w → DirectedWall hi ρ D wallGroup) (action : G →* (A ≃ₗ[R] A))
+    (k : ℕ) {p : L} (a : A) (ha : a ∈ 𝒜 p) :
+    Function.Injective (fun b : AffineBrokenLine hi ρ D wallGroup 𝒜 walls action k a ha =>
+      (b.decoratedType, b.endpoint)) := by
+  sorry
+
+/-- The empty-diagram check: all endpoints share one discrete type, although their realized
+incoming tails vary, and each endpoint has exactly one line (`README §§5.2–5.3`). -/
+theorem emptyDiagram_one_decoratedType (action : G →* (A ≃ₗ[R] A))
+    (k : ℕ) {p : L} (a : A) (ha : a ∈ 𝒜 p) (ha0 : a ≠ 0) (hp : ρ p ≠ 0) :
+    let B := AffineBrokenLine hi ρ D wallGroup 𝒜 (fun j : Fin 0 => Fin.elim0 j) action k a ha
+    ∃ τ : AffineDecoratedType L A 0,
+      (∀ b : B, b.decoratedType = τ) ∧ ∀ Q : V, ∃! b : B, b.endpoint = Q := by
+  sorry
 
 /-- A stationary homogeneous source for the affine constructor. Its constant section is
 specified by compatibility with the represented labels, not by treating a constant path as a
@@ -1838,16 +1982,19 @@ def probeDegrees : PositiveDegrees (L × ℤ × ℤ) where
     refine ⟨(n, c), Set.mk_mem_prod ⟨hn, ?_⟩ (Set.mem_Iic.2 (by omega)), rfl⟩
     omega
 
-variable (wallGroup 𝒜) in
+variable (D wallGroup 𝒜) in
 open scoped Classical in
 /-- The wall groups of the probe (`README §5.5`): at old degrees `(n, 0, 0)` and old normals
 `(m, 0, 0)` the image of `wallGroup n m` in charge zero; at module degrees `(q, 1, 0)` and the
-nonzero multiples of `e_z*` the image of `A_q` in charge one; trivial otherwise. -/
+nonzero multiples of `e_z*` the image of `A_q` in charge one only when `q - p ∈ P`;
+trivial otherwise. Support through higher multiples of `(q, 1, 0)` does not supply a
+charge-one module piece. -/
 noncomputable def probeWallGroup (n : L × ℤ × ℤ) (ν : Λ × ℤ × ℤ →+ ℤ) :
     Subgroup (probeGroup action) :=
   if n.2 = (0, 0) ∧ ν (0, 1, 0) = 0 ∧ ν (0, 0, 1) = 0 then
     (wallGroup n.1 (ν.comp (AddMonoidHom.inl Λ (ℤ × ℤ)))).map SemidirectProduct.inr
-  else if n.2 = (1, 0) ∧ ν ≠ 0 ∧ ν.comp (AddMonoidHom.inl Λ (ℤ × ℤ)) = 0 ∧ ν (0, 1, 0) = 0 then
+  else if n.2 = (1, 0) ∧ n.1 - p ∈ D.monoid ∧ ν ≠ 0 ∧
+      ν.comp (AddMonoidHom.inl Λ (ℤ × ℤ)) = 0 ∧ ν (0, 1, 0) = 0 then
     (AddSubgroup.toSubgroup (𝒜 n.1).toAddSubgroup).map SemidirectProduct.inl
   else ⊥
 
@@ -1855,23 +2002,23 @@ variable (hi ρ D wallGroup 𝒜) in
 /-- A directed diagram over the probe setup. -/
 abbrev ProbeDiagram (K' : OrderFiltration (probeGroup action)) (ι' : Type*) :=
   DirectedDiagram (probeLattice_isIntegralLattice hi) (probeProjection ρ) (probeDegrees D p)
-    (probeWallGroup wallGroup 𝒜 action) K' ι'
+    (probeWallGroup D wallGroup 𝒜 action p) K' ι'
 
 /-- `𝔡'` is the cylinder lift of `𝔡` (`README §5.5`): support `𝔡 × ℝ²`,
 normal `(m, 0, 0)`, degree `(n, 0, 0)`, label in charge zero. -/
 def IsCylinderLiftWall (𝔡 : DirectedWall hi ρ D wallGroup)
     (𝔡' : DirectedWall (probeLattice_isIntegralLattice hi) (probeProjection ρ) (probeDegrees D p)
-      (probeWallGroup wallGroup 𝒜 action)) : Prop :=
+      (probeWallGroup D wallGroup 𝒜 action p)) : Prop :=
   𝔡'.support = {x | x.1 ∈ 𝔡.support} ∧ 𝔡'.normal = 𝔡.normal.comp (AddMonoidHom.fst Λ (ℤ × ℤ)) ∧
-    𝔡'.degree = (𝔡.degree, 0, 0) ∧ 𝔡'.label.val = SemidirectProduct.inr 𝔡.label.val
+    𝔡'.ray.generator = (𝔡.ray.generator, 0, 0) ∧ 𝔡'.label.val = SemidirectProduct.inr 𝔡.label.val
 
 variable (hi ρ) in
 /-- `𝔡'` is the probe wall for `a ∈ A_p` (`README §5.5`): the full hyperplane `z = 0`, degree
 `(p, 1, 0)`, normal `e_z*`, label `exp(a)`. -/
 def IsProbeWall (a : A)
     (𝔡' : DirectedWall (probeLattice_isIntegralLattice hi) (probeProjection ρ) (probeDegrees D p)
-      (probeWallGroup wallGroup 𝒜 action)) : Prop :=
-  𝔡'.support = {x | x.2.2 = 0} ∧ 𝔡'.normal = zCoord Λ ∧ 𝔡'.degree = (p, 1, 0) ∧
+      (probeWallGroup D wallGroup 𝒜 action p)) : Prop :=
+  𝔡'.support = {x | x.2.2 = 0} ∧ 𝔡'.normal = zCoord Λ ∧ 𝔡'.ray.generator = (p, 1, 0) ∧
     𝔡'.label.val = SemidirectProduct.inl (Multiplicative.ofAdd a)
 
 variable (D 𝒜 K) in
@@ -1894,7 +2041,7 @@ def IsProbeCompletion {ι : Type*} (𝔇 : DirectedDiagram hi ρ D wallGroup K �
     (𝔇' : ProbeDiagram hi ρ D wallGroup 𝒜 action p K' (ι ⊕ Unit ⊕ κ)) : Prop :=
   (∀ k, IsCylinderLiftWall action p (𝔇.wall k) (𝔇'.wall (Sum.inl k))) ∧
     IsProbeWall hi ρ action p a (𝔇'.wall (Sum.inr (Sum.inl ()))) ∧
-    (∀ c, (𝔇'.wall (Sum.inr (Sum.inr c))).degree.2 = (1, 0) ∧
+    (∀ c, (𝔇'.wall (Sum.inr (Sum.inr c))).ray.generator.2 = (1, 0) ∧
       (𝔇'.wall (Sum.inr (Sum.inr c))).Outgoing) ∧
     𝔇'.Consistent
 

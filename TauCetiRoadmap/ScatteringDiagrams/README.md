@@ -73,7 +73,7 @@ under a scattering-specific directory; the scattering-specific carriers belong i
    spatial space is a model `V` of `Hom_ℤ(N,ℝ)` with a bijective evaluation map.
    The directed theory has a degree lattice `Γ`, a tangent lattice `Λ`, and an
    additive `ρ : Γ → Λ`, with `V ≅ Λ ⊗_ℤ ℝ` and normals in
-   `Λ* = Module.Dual ℤ Λ`. Its positive cone and cutoff degree live in `Γ`.
+   `Λ* = Module.Dual ℤ Λ`. Its positive monoid and cutoff degree live in `Γ`.
    The notation `L` in an identity-projection realization means `Γ=Λ=L`, `ρ=id`.
    Layer 4 compares the KS, projected and principal-cylinder realizations for every
    skew datum, including degenerate forms. On a general base these lattices are
@@ -171,6 +171,10 @@ nonzero `n∈P` and `{n∈P | δ(n)≤k}` is finite for every `k∈ℕ`; `N⁺=P
 for `n∈P`. Degree-preserving means `λ(k)=k`. For a lattice-rational cone `σ`, `σ∩N` is
 its set `latticePoints`. The first instance is `ℕ^r ⊆ ℤ^r` with `δ(n)=Σ n_i`.
 
+For a lattice `N`, a *SupportedRay* is a primitive ambient vector `w∈N`
+(`TauCeti.IsPrimitive`) for which `aw∈P\{0}` for some integer `a≥1`. Its
+*rayDegrees* are precisely `{aw∈P\{0} | a≥1}`; `w` itself need not belong to `P`.
+
 *Targets.*
 - For fixed `n∈N`, `{(a,b)∈P² | a+b=n}` is finite, and `P` is sharp: `n,−n∈P` forces
   `n=0`.
@@ -186,12 +190,26 @@ its set `latticePoints`. The first instance is `ℕ^r ⊆ ℤ^r` with `δ(n)=Σ 
   cone `σ`, `σ∩N` is finitely generated, by double duality from `σ^∨∩M`; an integral
   functional strictly positive on the nonzero lattice points of `σ` makes `σ∩N`
   *PositiveDegrees*, and a lattice-rational cone carrying such a functional is salient.
+- Every `n∈P\{0}` lies on a unique *SupportedRay*, with a unique integer
+  `a≥1` such that `n=aw`. At each order only finitely many supported rays meet
+  `{n∈P\{0} | δ(n)≤k}`. For `P=C∩N`, with `C` a lattice-rational cone carrying
+  the positive degree, the supported primitive generators belong to `P`.
+- A *PositiveDegreeMap* `T` maps a supported primitive generator `w` to
+  `T(w)=b w'`, where `b≥1` and `w'` is a unique supported primitive generator
+  in the target lattice. This ray map respects identity and composition and sends
+  an actual degree `aw∈P` to `ab w'∈P'`, with the original cutoff modulus.
 
 **Checks.**
 - An upper bound `δ'(Tn)≤c·δ(n)` gives no cutoff modulus: on `P={0}∪{(a,b)∈ℕ² | a≥b≥1}`
   with `δ(a,b)=a`, `T(a,b)=b` to `(ℤ,ℕ,id)` sends every `(j,1)` to degree one.
+- For `P=2ℕe_1+ℕe_2⊆ℤ²`, the supported ray `e_1` has degrees
+  `2ℕ_{>0}e_1`, although `e_1∉P`. For
+  `P={0}∪{(a,b)∈ℤ² | a≥1, |b|≤a²}`, `δ(a,b)=a` has finite cutoffs,
+  while every `(1,b)` is a supported primitive generator. Finiteness is measured
+  on actual degrees in `P`, not on all primitive generators of bounded `δ`.
 
-*Needs:* `AddSubmonoid`, additive homomorphisms; for the cone targets `PointedCone`,
+*Needs:* `AddSubmonoid`, additive homomorphisms, `TauCeti.IsPrimitive`,
+`TauCeti.exists_eq_zsmul_isPrimitive`; for the cone targets `PointedCone`,
 `IsIntegralLattice`, `IsLatticeRational`, `IsLatticeRational.fg_dualSemigroup`.
 Sources: BRI §2.1; MAN §2.1.
 
@@ -832,12 +850,16 @@ coefficient of degree `γ` and velocity `-ρ(γ)≠0`. Representatives agree aft
 restriction to earlier tails and the specified chart or deck identifications.
 An *IncomingDatum* selects unbounded cells, a parallel degree and homogeneous
 coefficient on each, and their chart, face-end and deck identifications. An admitted
-tail eventually lies in one selected cell and has its prescribed degree and
+tail records a selected cell in which it eventually lies and has its prescribed degree and
 coefficient; its transverse position is unrestricted. The recession condition is
 `ρ(γ)∈rec(cell)`. Identifications at a common tangential end include a common face
 lift with the two prescribed coefficient images. A one-chart input is simply
 `a∈A_p`, with all affine tails of velocity `-ρ(p)` and coefficient `a`; it does
 not fix an affine line. Truncation deletes tails whose decoration becomes zero.
+A tail's *IncomingTypeDatum* records its selected source cell or end, prescribed
+parallel degree and coefficient, and the discrete chart, face-end and deck labels
+identifying that source, modulo the specified identifications. It omits every affine
+anchor and transverse offset; those remain part of the individual *IncomingTail*.
 A *ConstantIncomingSection* is specified separately by a compatible homogeneous
 coefficient section of zero spatial velocity; it supplies constant paths.
 
@@ -856,8 +878,9 @@ coefficient section of zero spatial velocity; it supplies constant paths.
   towers compare presentations without asserting a global invariant positive cone.
 - *incomingTailTransport*: representative independence, restriction and refinement
   of incoming data, chart and deck covariance, transport of homogeneous coefficients,
-  and compatibility with truncation and regrading. Fixing a lift of the endpoint
-  removes deck ambiguity in a lifted path; changing it transports the incoming datum.
+  and compatibility with truncation and regrading. The forgetful map from admitted
+  tails to *IncomingTypeDatum* respects these identifications. Fixing a lift of the
+  endpoint removes deck ambiguity in a lifted path; changing it transports the incoming datum.
   In the empty one-chart diagram, every endpoint has exactly one line for a fixed
   nonzero coefficient `a∈A_p` with nonzero velocity, although their incoming affine
   tails differ. A zero initial coefficient has zero weighted evaluation.
@@ -987,9 +1010,10 @@ properties. Source: BRI Lemmas 3.1–3.2 and Propositions 3.3–3.4.
 
 A *DegreeHom* `f:g→g'` is a degree-preserving Lie homomorphism on the same positive
 lattice (§0.2's graded Lie homomorphism over the identity degree map), injective or
-not. The ray Lie algebra of `n∈N` is `⊕_{j≥1}g_{jn}`; *IsAbelianRays* says it is
-abelian for every `n∈N`. An *IndexedWall* is a rational codimension-one cone in `n⊥`,
-`n∈N⁺`, labelled in the completed group of the ray of `n`; an
+not. The ray Lie algebra of a §0.1 *SupportedRay* `w` is
+`⊕_{a≥1, aw∈P}g_{aw}`; *IsAbelianRays* says it is abelian for every supported
+ray. An *IndexedWall* is a rational codimension-one cone in `w⊥`, labelled in
+the completed group of this supported ray; an
 *IndexedWallPresentation* is a family of indexed walls with finitely many nontrivial at
 each order.
 
@@ -1004,6 +1028,11 @@ each order.
   the `Finset.noncommProd` of the indexed labels containing it; presentations modulo
   equivalence are the KS-complex classes, through merging of coincident supports,
   subdivision and deletion of identity walls.
+- An index `n=aw∈N⁺` with a label in `exp(⊕_{j≥1}g_{jn})` is reindexed by
+  `w` using the inclusion in its supported ray group. Under *IsAbelianRays*,
+  splitting a supported-ray logarithm into its actual homogeneous degrees recovers a
+  presentation indexed in `N⁺`, finite at each order. These operations preserve
+  path products and commute with coefficient maps.
 
 **Checks.**
 - For nontrivial `R`, the quotient of §0.2's Heisenberg algebra by its center sends the
@@ -1011,7 +1040,7 @@ each order.
   Heisenberg computation, to equivalent diagrams: *mapDiagram* does not reflect
   equivalence. The Heisenberg grading fails *IsAbelianRays*.
 - When `2m,3m∈P` and `m∉P`, labels in the ray groups of `2m` and `3m` on one support
-  commute by *IsAbelianRays* at `m`.
+  commute by *IsAbelianRays* on their common supported primitive ray.
 
 *Needs:* §§0.4–0.5 and §§2.1–2.3; `Finset.noncommProd`, `LieAlgebra.center`. Source:
 BRI §§2–3; GHKK §1.1.
@@ -1020,8 +1049,9 @@ BRI §§2–3; GHKK §1.1.
 
 ### 3.1 Homogeneous wall spaces and geometric directions
 
-Let `Γ` be an integral lattice, `C⊆Γ_ℝ` a lattice-rational cone, and `P=C∩Γ`
-with positive degree `δ` (§0.1). Independently fix an integral lattice `i:Λ→V`
+Let `Γ` be an integral lattice with *PositiveDegrees* `(P,δ)` (§0.1).
+The cone case `P=C∩Γ`, for a lattice-rational cone `C` with positive degree,
+is a specialization. Independently fix an integral lattice `i:Λ→V`
 (`IsIntegralLattice`) and an additive homomorphism `ρ:Γ→Λ`. The Lie algebra `g` is
 positively `Γ`-graded over a commutative ring `R` (§0.2). A homogeneous degree `n`
 has geometric direction `ρ(n)`; `ρ` need not be injective, and no positive degree
@@ -1033,8 +1063,10 @@ function on `Λ` is required. The case `Γ=Λ`, `ρ=id` is included.
 `[h_{n,m},h_{n',m'}]⊆h_{n+n',μ}`, where
 `μ=m(ρ(n'))m'−m'(ρ(n))m`. These are the hypotheses on wall spaces; a
 degree in `ker ρ` is permitted. Wall groups and §§3.2–3.4 additionally assume that
-`R` is a `ℚ`-algebra. *wallGroup n m* consists of the `θ∈Ĝ` whose logarithm at
-every order lies in `⊕_{a≥1}h_{an,m}`.
+`R` is a `ℚ`-algebra. For a *SupportedRay* `w`, its *raySubmodule* is
+`⊕_{a≥1, aw∈P}h_{aw,m}`; *wallGroup w m* consists of the `θ∈Ĝ` whose
+logarithm at every order lies in this submodule's image in the truncation.
+All truncations use the actual degrees `aw∈P` and their orders `δ(aw)`.
 
 A fixed-degree morphism is a graded Lie homomorphism preserving the wall spaces.
 A coordinate change consists of lattice isomorphisms `T_Γ`, `T_Λ` with
@@ -1044,14 +1076,17 @@ moduli of §0.1; when `δ'∘T_Γ=δ` they preserve each order.
 
 *Targets.*
 
-- Every `n∈P\{0}` is `a·w` with `a≥1` and `w∈P` primitive
-  (`TauCeti.IsPrimitive`). Wall-ray indices use this primitive generator in `Γ`;
-  its image in `Λ` need not be primitive or nonzero.
-- `[h_{n,m},h_{n',m'}]=0` for `m,m'` proportional over `ℚ`, and
-  `[⊕_{a≥1}h_{an,m},⊕_{b≥1}h_{bn',m'}]⊆⊕_{a,b≥1}h_{an+bn',μ_{a,b}}`,
-  where `μ_{a,b}=b·m(ρ(n'))m'−a·m'(ρ(n))m`. The resulting wall groups for
+- §0.1's supported-ray decomposition indexes the wall groups. Its primitive
+  generator belongs to `Γ`; its image in `Λ` need not be primitive or nonzero.
+  Homogeneous wall spaces embed in their supported ray submodules, which are
+  compatible with truncation and decompose by their actual degrees in `P`.
+- `[h_{n,m},h_{n',m'}]=0` for `m,m'` proportional over `ℚ`. For supported
+  primitive rays `w,w'`,
+  `[⊕_{a≥1, aw∈P}h_{aw,m},⊕_{b≥1, bw'∈P}h_{bw',m'}]`
+  `⊆⊕_{a,b≥1, aw,bw'∈P}h_{aw+bw',μ_{a,b}}`,
+  where `μ_{a,b}=b·m(ρ(w'))m'−a·m'(ρ(w))m`. The resulting wall groups for
   proportional nonzero normals commute elementwise. In particular,
-  *wallGroup n m* is an abelian subgroup of `Ĝ`.
+  *wallGroup w m* is an abelian subgroup of `Ĝ`.
 - *zeroDirectionLieWord*: a Lie word with at least two homogeneous wall-space
   leaves and total degree `n` vanishes if `ρ(n)=0`. More generally, if all leaf
   normals annihilate a linear subspace `W⊆V`, the word vanishes when
@@ -1074,12 +1109,12 @@ condition.
 
 ### 3.2 Directed affine walls and admissibility
 
-A *DirectedWall* has a nonzero normal `m∈Λ*`, a primitive degree `n∈P` with
-`m(ρ(n))=0`, a support `𝔡` that is a nonempty rational-normal affine polyhedron,
-bounded or not, with affine direction `ker(m_ℝ)`, and a label in *wallGroup n m*.
-Its direction is `−i(ρ(n))`. *Incoming* means `i(ρ(n))∈rec(𝔡)`, or
-`𝔡+ℝ_{≥0}i(ρ(n))⊆𝔡`; *Outgoing* is its negation. In particular every wall
-with `ρ(n)=0` is incoming. A *DirectedDiagram* is a wall family with finitely many
+A *DirectedWall* has a nonzero normal `m∈Λ*`, a *SupportedRay* `w` with
+`m(ρ(w))=0`, a support `𝔡` that is a nonempty rational-normal affine polyhedron,
+bounded or not, with affine direction `ker(m_ℝ)`, and a label in *wallGroup w m*.
+Its direction is `−i(ρ(w))`. *Incoming* means `i(ρ(w))∈rec(𝔡)`, or
+`𝔡+ℝ_{≥0}i(ρ(w))⊆𝔡`; *Outgoing* is its negation. In particular every wall
+with `ρ(w)=0` is incoming. A *DirectedDiagram* is a wall family with finitely many
 walls nontrivial at each order `k`.
 
 Its order-`k` path product *levelPathProduct* runs over the active walls, with
@@ -1145,6 +1180,9 @@ For each degree `n` with `δ(n)=k`, *centralStep* uses
 components. It is realized by walls on `𝔡−ℝ_{≥0}i(ρ(n))`, indexed by the
 primitive generator of `n` in `Γ`, with logarithm the degree-`n` coefficient
 and label `exp(−c)` for coefficient `c` on the positive transverse side.
+For `n=aw`, `a≥1`, this generator is a *SupportedRay* and the sweeps along
+`ρ(n)` and `ρ(w)` have the same support and outgoingness. The birth order is
+`δ(n)` throughout.
 
 *Targets.*
 
@@ -1254,6 +1292,12 @@ relative completions of §5.1. A *TropicalPairing* is a *PositiveDegreeMap*
   lattice isomorphisms carrying `P` onto `P'` and finite-index embeddings with
   rational inverse dual are pairings; integral walls keep their primitive normals
   and take the denominators into their labels.
+  On a supported ray, write `T(w)=b w'` by §0.1. Its ray subgroup maps into
+  the target subgroup indexed by `w'`, sending each supported degree `aw` to
+  `ab w'`. Reindexing changes neither these exponents nor the cutoff modulus;
+  the image need not be the whole target ray subgroup. Transport of supports and
+  outgoingness additionally uses a compatible spatial map, as in the coordinate
+  and cylinder comparisons.
 - *tropicalVertexGroup.coeffMap*: change of coefficient ring `φ:R→R'` on a fixed
   lattice. For a *TropicalPairing*, coefficient monoids `Q`, `Q'` with `T(Q)⊆Q'` and
   `S(m)(ρ'(Tq))=m(ρ(q))` for `q∈Q`, `m∈U`, and a monoid homomorphism
@@ -1261,7 +1305,9 @@ relative completions of §5.1. A *TropicalPairing* is a *PositiveDegreeMap*
   map `r z^n∂_m↦φ(r)χ(n)z^{Tn}∂_{S(m)}` is a Lie homomorphism on the span of the
   `z^n∂_m`, `m∈U`, intertwining `r z^q↦φ(r)χ(q)z^{Tq}` from `R[Q]` to `R'[Q']` and on
   completions along the cutoff modulus of `T`. For `Q=Γ` the values of `χ` are
-  units. The action square is the naturality square of *LabelRepresentation*.
+  units. This uses the same supported-ray reindexing as *tropicalVertexGroup.map*;
+  `χ` is evaluated only on actual degrees in `Q`. The action square is the
+  naturality square of *LabelRepresentation*.
 
 **Checks.**
 - In the identity-projection rank-three case, `g_{e_1}` contains the independent `z^{e_1}∂_{e_2*}` and
@@ -1503,8 +1549,9 @@ and coefficient `a`.
 
 A *BrokenLine* consists of a proper continuous path `β:(−∞,0]→B_0`, finitely many
 strictly increasing crossing times, and nonzero homogeneous segment decorations
-`a_i∈M_{u_i,k,p_i}`. Its first segment represents `(s,a)`, it ends at `Q`, and
-its velocity on the `i`-th segment is `−ρ(p_i)` in affine coordinates. Record
+`a_i∈M_{u_i,k,p_i}`. Its first segment determines an individual *IncomingTail*
+admitted by `(s,a)`, it ends at `Q`, and its velocity on the `i`-th segment is
+`−ρ(p_i)` in affine coordinates. Record
 every encounter with an active wall or slab. The open segments miss their supports;
 encounters are transverse to every active normal met there, and the path avoids joints
 and the excluded singular locus. At an encounter from `u` to `u'` the new
@@ -1517,19 +1564,23 @@ nonzero outgoing component. Equality ignores artificial subdivisions that introd
 encounter.
 
 This definition permits `ρ(p_{i+1})=ρ(p_i)`: a crossing can change a coefficient
-without changing the geometric direction. A *decorated type* records the chamber and
-wall itinerary, segment degrees, and incoming representative, including its global
-continuation or deck data; the decorations are obtained by the component maps.
+without changing the geometric direction. A *DecoratedType* records the selected
+*IncomingTypeDatum*, chamber and wall/slab itinerary, segment degrees, and discrete
+chart-continuation and deck history, modulo the specified coordinate identifications
+and artificial subdivisions. Its initial coefficient is fixed by the incoming record;
+subsequent decorations are obtained by the component maps. Endpoints, crossing times
+and affine tail positions belong to realizations and are excluded from type equality.
 
 *Targets.*
 
-- Path evaluation, the decorated-type map, initial and final decorations, and the
+- Path evaluation, the map to *DecoratedType*, initial and final decorations, and the
   component propagation maps, with their subdivision and truncation laws.
 - In §5.1's affine positive-degree instance, every changed homogeneous component has
   increment in `P\{0}` and strictly increases relative degree. There are at most
-  `k` such changes at order `k` and finitely many realized decorated types for a
-  fixed initial decoration. Identity components leave the decoration unchanged.
-  Geometric bends are among these changes; changes in `ker ρ` are recorded too.
+  `k` such changes at order `k` and finitely many realized *DecoratedType*s for a
+  fixed initial decoration, across all endpoints. Identity components leave the
+  decoration unchanged. Geometric bends are among these changes; changes in `ker ρ`
+  are recorded too.
 - A compatible invariant incoming coefficient of zero spatial direction defines the
   constant theta section. In particular `a∈A_p` with `ρ(p)=0` has theta `a`
   in §5.1. This is the constant-source case of the same coefficient construction;
@@ -1541,6 +1592,10 @@ continuation or deck data; the decorations are obtained by the component maps.
 **Checks.**
 
 - Subdividing a straight segment or adding zero components adds no broken lines.
+- In the empty one-chart diagram on `V`, with incoming cell `V`, fixed nonzero
+  `a∈A_p` and `ρ(p)≠0`, the lines `β_Q(t)=Q−t i(ρ(p))` form one
+  *DecoratedType* with endpoint chart `V`. Their individual incoming tails retain
+  their transverse affine positions.
 - For an action `z^m↦z^m(1+t)^{⟨n,m⟩}` with `t` a coefficient of zero
   tangent degree, a transverse crossing can keep the same velocity and change the
   decoration. The component rule records that change.
@@ -1552,8 +1607,8 @@ Proposition 3.4; GHS Definitions 3.1–3.3.
 ### 5.3 Endpoint evaluation, closed families and general position
 
 First take §5.1's affine positive-degree instance and fix `(a,k)` and a
-rational-normal presentation of the wall supports. A decorated type's *valid endpoint
-domain* is the set of endpoints of its lines. Define its *endpoint discriminant*
+rational-normal presentation of the wall supports. A *DecoratedType*'s *valid endpoint
+domain* is the set of endpoints of its realizations. Define its *endpoint discriminant*
 `Δ(a,k)` by the zero sets of the nonconstant affine functions in the backward
 intersection calculation below, over all types, and by the affine spans of
 `σ−ℝ_{≥0}i(ρ(p+n))` for `δ(n)≤k` and singular-support cells `σ` of
@@ -1568,31 +1623,33 @@ Sign preservation and eventual avoidance are separate requirements.
 
 For a general base, a *FiniteClosedTypeFamily* for `(s,a,k)` consists, over
 sufficiently small relatively compact neighborhoods of every regular chamber or
-facet point, of finitely many complete global decorated types and their endpoint
-charts. Each chart is the relative interior of a closed polyhedron whose closed
+facet point, of finitely many complete global *DecoratedType*s and their endpoint
+charts. The incoming record and discrete continuation are fixed by the type; the
+individual incoming tail's affine position varies with the endpoint coordinates.
+Each chart is the relative interior of a closed polyhedron whose closed
 endpoint map is an affine embedding into the closure of its final chamber; the valid
 endpoints lie in that chamber's interior. The closed endpoint map is proper over
 compact subsets of the neighborhood. Boundary points
 parametrize actual finite degenerate paths in `B`, which may meet a joint or the
 excluded singular locus. They retain all finite encounters and the prescribed incoming
-data, allowing its specified identifications between equivalent tail representatives.
-No finite encounter disappears to infinity. The charts exhaust all contributing
+data, including an actual incoming tail modulo its specified chart and deck
+identifications. No finite encounter disappears to infinity. The charts exhaust all contributing
 paths, including every asymptotic and deck history, and their weights are constant
 after the type's coefficient identifications.
 
 The generic codimension-one boundary events are artificial subdivision faces,
 terminal face crossings, finite joint or singular-locus degenerations, and specified
-identifications of incoming representatives, including tangential source faces. The
-remaining degenerations have
-codimension at least two. Pointwise finite endpoint fibers alone are not this
-condition.
+identifications of discrete incoming records at common ends, including tangential
+source faces. The remaining degenerations have codimension at least two. Pointwise
+finite endpoint fibers alone are not this condition.
 
 *Targets.*
 
 - *BrokenLineFamily a k*: in the affine instance, a §1.3 semilinear family with one
-  chart per type and convex piece of its valid endpoint domain. Each domain is a
-  finite disjoint union of *LocallyClosedPolyhedron* sets. The family *IsFiniteBranch*:
-  endpoint and type determine a transverse line, with no genericity hypothesis.
+  chart per *DecoratedType* and convex piece of its valid endpoint domain. Each domain
+  is a finite disjoint union of *LocallyClosedPolyhedron* sets. The family *IsFiniteBranch*:
+  endpoint and type determine a transverse line and its individual incoming tail by
+  backward propagation, with no genericity hypothesis.
 - *endpointDiscriminant*: `Δ(a,k)` is an *ExceptionalArrangement* containing
   all domain frontiers and degenerations: zero-length segments and encounters with
   wall boundaries, joints or singular points. Under the annihilation condition,
@@ -1619,7 +1676,7 @@ condition.
   Admissible propagation has finite homogeneous expansion. Every base-facet crossing
   raises coefficient order, and every ordinary-wall change of tangent direction raises
   it; hence fewer than `r` of each occur. This bounds crossings and winding as
-  well as bends and yields finitely many complete types for each global incoming
+  well as bends and yields finitely many complete *DecoratedType*s for each global incoming
   monomial. Prove the closed-family and degeneration statements for these types.
 - Refining endpoint charts, changing affine coordinates and applying a compatible
   finite-order coefficient map preserve the finite-family and weighted-evaluation
@@ -1630,7 +1687,9 @@ degree `q` from `X(Q)` meets `m=c` at
 `τ=(c−m(X(Q)))/m(i(ρ(q)))`, affine in `Q` with a fixed nonzero integer
 denominator. A tangent encounter gives the equation `m(X)=c`. Substitution
 expresses all encounter points and validity conditions as affine functions of `Q`;
-each preceding encounter is uniquely recovered. Off the discriminant their truth
+each preceding encounter is uniquely recovered. Extending the first segment recovers
+the actual incoming tail, including its affine position, from these same endpoint
+coordinates. Off the discriminant their truth
 values are locally constant. The finite-type bounds, closed polyhedral charts and
 §1.3's Baire theorem give finiteness, properness, stability and density. On a
 polyhedral base apply this calculation along the entire recorded itinerary using the
@@ -1735,8 +1794,8 @@ spatial lattice are
 `ρ_ext(x,c,l)=(ρ(x),c,l)`. Old degrees are `(n,0,0)` and module degrees are
 `(p+n,1,0)`. Set
 `P_ext={(n+cp,c,0):n∈P,c∈ℕ}` and
-`δ_ext(x,c,l)=δ(x)+(1−δ(p))c`; its cone is spanned by `C×0×0` and
-`(p,1,0)` in `Γ_ext,ℝ`. Old normals `(m,0,0)` carry the old wall spaces,
+`δ_ext(x,c,l)=δ(x)+(1−δ(p))c`. When `P=C∩Γ`, its cone is spanned by
+`C×0×0` and `(p,1,0)` in `Γ_ext,ℝ`. Old normals `(m,0,0)` carry the old wall spaces,
 nonzero multiples of `e_z*` carry `A_{p+n}`, and the other wall spaces are zero.
 *Module charge* is the `e_y` degree coordinate; charge one through extended order
 `k+1` is relative order `k`.
@@ -1750,9 +1809,12 @@ meets only module walls. Write `Θ_Q` for *weightedEvaluation* at `Q`.
 *Targets.*
 
 - *moduleProbe*: the datum satisfies §3.1, the mixed bracket of `h_{n,m}` with
-  `A_{p+n'}` having normal `m(ρ(p+n'))e_z*`. Its positive monoid is
-  `C_ext∩Γ_ext`; positivity and finite cutoffs follow from
-  `δ_ext(n+cp,c,0)=δ(n)+c`. Charge one at extended order `k+1` is
+  `A_{p+n'}` having normal `m(ρ(p+n'))e_z*`. Positivity and finite cutoffs of
+  `P_ext` follow from `δ_ext(n+cp,c,0)=δ(n)+c`; in the cone case
+  `P_ext=C_ext∩Γ_ext`. Supported old rays lift by `w↦(w,0,0)`.
+  The ray group at `(q,1,0)` and normal `e_z*` is `exp(A_q)` when
+  `q−p∈P`, and trivial otherwise; its higher multiples have no module piece.
+  Charge one at extended order `k+1` is
   `M_{p,≤k}`, with charge-zero action given by §5.1. Its geometric module
   directions `(ρ(p+n),1,0)` are nonzero even when `ρ(p+n)=0`.
   Cylinder lifts preserve consistency, incomingness and outgoingness.
@@ -2209,13 +2271,16 @@ not on Laurent algebras, since the `a_{i,s}` are not units.
   `M_ℝ` and a finite family `E` of wall terms `c_αz^{m_α}`, `m_α∈M` tangent to the wall
   of `α`, the directed input over `L_E=M⊕ℤ^E` with degrees `v_α=(m_α,e_α)`, saturated
   positive monoid `P_E=⊕_αℕv_α`, total degree `δ_E(v_α)=1`, cylinder walls whose normals
-  act on the first coordinate, and wall functions `1+Σ_αc_αz^{v_α}`. For a directed
-  input over `(L,P,δ)` with cylinder walls over the same walls through a surjection
+  act on the first coordinate, and wall functions `1+Σ_αc_αz^{v_α}`. For
+  *PositiveDegrees* `(L,P,δ)`, cylinder walls over the same walls through a surjection
   `π:L→M`, and an additive `τ:L_E→L` with `π∘τ=pr_M` and `τ(v_α)=n_α∈P∖{0}`, the pair
   `τ`, `ν∘pr_M↦ν∘π` is a §4.1 *TropicalPairing* of modulus `λ(k)=k`; it maps positive
   graph algebras and §5.1 shifted modules, and carries supports, normal pairings, path
   products and outgoing completions to those of the input with terms `c_αz^{n_α}`, image
-  rays grouped. A degree `Σb_αv_α` with `δ(Σb_αn_α)≤k+1` and `b_α>0` for some `α` with
+  rays reindexed by their ambient primitive generators as in §4.1 and grouped.
+  The target ray presentation is obtained by decomposing each logarithm into
+  supported rays; every term retains its degree in `P`.
+  A degree `Σb_αv_α` with `δ(Σb_αn_α)≤k+1` and `b_α>0` for some `α` with
   `δ(n_α)≥2` has `δ_E≤k`. For *BLMPolynomialInput*, `E={(i,s)}`, `m_{i,s}=sw_i` on
   `e_i⊥` and `c_{i,s}=1`, `z^{v_{i,s}}` standing for `p_{i,s}z^{sw_i}` in BLM's `M⊕ℕ^E`.
 - *polynomialInput_principalComparison*: a *BLMPolynomialInput* with nonempty unfrozen
@@ -2243,7 +2308,7 @@ not on Laurent algebras, since the `a_{i,s}` are not units.
   principal realization of the original datum. It preserves grouped wall functions,
   wall actions, path products and incoming and outgoing supports, and satisfies
   `δ_E≤δ_pr≤ℓ_max δ_E` on active graph degrees; image rays are reindexed by their
-  primitive generators and grouped.
+  ambient primitive generators using §0.1 and grouped.
 
 *Route:* Normalization rescales the adapted basis and the form until `p₁*(ε_i)=w_i`. In
 the extension, the diagonal block of the frozen dual directions `c_i` makes
@@ -2394,6 +2459,11 @@ finitely many lines are nontrivial at each order of `δ`, and `(ν,f)`, `(−ν,
 the same wall by Convention 3. Rank-two skew data with nonzero form enter through
 `π:L_pr→M°`; a zero form gives commuting initial walls. Each finite-order restriction
 stays in this class under *finiteAlphabetLift*, with its projected directions unchanged.
+Its directed ray presentation splits `log f` into components `(log f)_w` on
+the supported primitive rays of `L`, with labels
+`exp((log f)_w∂_{ν∘π})`. Every logarithmic degree lies in `P`; the labels
+commute and only finitely many are active at each order. This presentation supplies
+the input for §§3.3–3.4, applied compatibly to the finite-order restrictions.
 
 *Targets.*
 - *rankTwo_latticeChange*: let primitive independent `m_1,m_2∈M` span `M₀` of index
@@ -2426,6 +2496,10 @@ carrying the two-line completion to that of the input (BLM Corollary 9.8); the l
 change reduces to a basis, where *rankTwoWall_coefficientFormula* gives positivity.
 
 **Checks.**
+- For `L=M=ℤ²`, `π=id`, `P=2ℕe_1+ℕe_2` and `δ(a,b)=a+b`, the
+  horizontal incoming line with function `1+c z^{2e_1}` is indexed by the
+  supported primitive ray `e_1`, with logarithm supported on `2ℕ_{>0}e_1`.
+  Its single-wall diagram is its outgoing completion and is a positive representative.
 - For `m_1=(1,0)`, `m_2=(1,2)` (`ℓ=2`) and `m°=(2,2)=2·(1,1)`: `r=2`, `ind(m°)=1`, outer
   power `2`.
 - BLM Example 5.21 has the wall function `Σ_{k≥0}(k+1)x^{2k}y^{2k}=(1−x²y²)^{-2}`,
