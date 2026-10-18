@@ -438,16 +438,58 @@ This layer develops everything the approximation theorem needs, built on Tau Cet
 **Representative formal statements.**
 
 ```lean
-/-- General subdivision, heterogeneous in the vertex types. The eventual API may bundle the subdividing complex instead of exposing these parameters. -/
-def Subdivides {ι' ι : Type*}
-    (K' : AbstractSimplicialComplex ι') (K : AbstractSimplicialComplex ι) : Prop
+/-- A subdivision is data, not a proposition: the placement of the subdividing complex in the
+    realization it refines. One abstract pair admits distinct placements (a path with three
+    vertices subdivides an edge with its middle vertex at `1/3` or at `2/3`), and the maps that
+    realize a function, fix a subcomplex, or carry a smooth structure depend on which placement
+    was chosen, so the witness is kept and every consumer is stated against its `toHomeomorph`.
+    The shape is Tau Ceti's `barycentricSubdivisionRealizationMap`
+    (`AlgebraicTopology/SimplicialComplex/Subdivision/Realization.lean`): a vertex placement,
+    extended affinely over each simplex. Heterogeneous in the vertex types. -/
+structure Subdivision {ι' ι : Type*}
+    (K' : AbstractSimplicialComplex ι') (K : AbstractSimplicialComplex ι) where
+  /-- Where each vertex of `K'` lands in `|K|`. -/
+  vertexImage : ι' → Realization K
+  /-- The affine extension of `vertexImage`, which is a homeomorphism. -/
+  toHomeomorph : Realization K' ≃ₜ Realization K
+  toHomeomorph_vertex : ∀ v, toHomeomorph (vertex K' v) = vertexImage v
+  /-- Each closed simplex of `K'` is carried affinely into a closed simplex of `K`. -/
+  toHomeomorph_affine : ∀ σ : Face K', ∃ τ : Face K,
+    toHomeomorph is affine on the closed simplex of σ with image in the closed simplex of τ   -- schematic
 
-theorem Subdivides.realization_homeomorph (h : Subdivides K' K) :
-    Realization K' ≃ₜ Realization K
+/-- The bare existence predicate, for statements that need some subdivision and no particular one. -/
+abbrev Subdivides (K' : AbstractSimplicialComplex ι') (K : AbstractSimplicialComplex ι) : Prop :=
+  Nonempty (Subdivision K' K)
 
-theorem Subdivides.stellarSubdivision (hσ : σ ∈ K) (hv : ({v} : Finset ι) ∉ K) :
-    Subdivides (stellarSubdivision K σ v) K
-theorem Subdivides.barycentricSubdivision : Subdivides K.barycentricSubdivision K
+def Subdivision.refl (K : AbstractSimplicialComplex ι) : Subdivision K K
+def Subdivision.trans (s : Subdivision K'' K') (t : Subdivision K' K) : Subdivision K'' K
+theorem Subdivision.trans_toHomeomorph (s : Subdivision K'' K') (t : Subdivision K' K) :
+    (s.trans t).toHomeomorph = s.toHomeomorph.trans t.toHomeomorph
+/-- Two subdivisions of one complex have a common refinement, and the two composites to `K` are
+    the same homeomorphism. -/
+theorem Subdivision.exists_common (s : Subdivision K₁ K) (t : Subdivision K₂ K) :
+    ∃ (ι₃ : Type) (K₃ : AbstractSimplicialComplex ι₃) (u : Subdivision K₃ K₁) (v : Subdivision K₃ K₂),
+      (u.trans s).toHomeomorph = (v.trans t).toHomeomorph
+
+/-- Tau Ceti's two subdivisions are instances, with the homeomorphisms Tau Ceti already has.
+    Every singleton is a face of an `AbstractSimplicialComplex`, so the new vertex of a stellar
+    subdivision is `none : Option ι`: `K.stellarAt σ` is Tau Ceti's `stellarSubdivision` of the
+    pre-complex of `K` mapped along `some`, starred at `none`, read back as a complex on `Option ι`. -/
+def Subdivision.stellar (hσ : σ ∈ K) : Subdivision (K.stellarAt σ) K
+def Subdivision.barycentric (K : AbstractSimplicialComplex ι) : Subdivision K.barycentricSubdivision K
+theorem Subdivision.barycentric_toHomeomorph (K : AbstractSimplicialComplex ι) :
+    (Subdivision.barycentric K).toHomeomorph = barycentricSubdivisionRealizationHomeomorph K
+
+/-- The realization of a simplicial map, affine on each closed simplex. Tau Ceti has
+    `SimplicialMap` but not yet its realization. -/
+noncomputable def SimplicialMap.realization (g : SimplicialMap K L) : Realization K → Realization L
+theorem SimplicialMap.continuous_realization (g : SimplicialMap K L) : Continuous g.realization
+theorem SimplicialMap.realization_vertex (g : SimplicialMap K L) (v : ι) :
+    g.realization (vertex K v) = vertex L (g v)
+/-- `g` realizes `f` through two chosen subdivisions: the square `f ∘ s = t ∘ |g|` commutes. -/
+def SimplicialRealizes (s : Subdivision K' K) (t : Subdivision L' L) (g : SimplicialMap K' L')
+    (f : Realization K → Realization L) : Prop :=
+  f ∘ s.toHomeomorph = t.toHomeomorph ∘ g.realization
 
 /-- Realizations of finite complexes are metrized by barycentric coordinates; the metric induces
     the existing topology, and it is what the approximation theorems measure with. -/
@@ -459,18 +501,24 @@ theorem realizationDist_inducesTopology (K : AbstractSimplicialComplex ι) [Fini
 def IsPLMap {K : AbstractSimplicialComplex ι} {L : AbstractSimplicialComplex κ}
     (f : Realization K → Realization L) : Prop :=
   ∃ (ι' κ' : Type) (K' : AbstractSimplicialComplex ι')
-      (L' : AbstractSimplicialComplex κ'),
-      Subdivides K' K ∧ Subdivides L' L ∧
-      ∃ g : SimplicialMap K' L', SimplicialRealizes g f
+      (L' : AbstractSimplicialComplex κ')
+      (s : Subdivision K' K) (t : Subdivision L' L) (g : SimplicialMap K' L'),
+      SimplicialRealizes s t g f
 
 theorem IsPLMap.comp : IsPLMap f → IsPLMap g → IsPLMap (g ∘ f)
+/-- Subdivision homeomorphisms are PL and transport PL-ness, so a statement on `|K|` can be read on
+    any chosen subdivision of `K`. -/
+theorem Subdivision.isPLMap_toHomeomorph (s : Subdivision K' K) : IsPLMap s.toHomeomorph
+theorem IsPLMap.comp_subdivision (s : Subdivision K' K) : IsPLMap f → IsPLMap (f ∘ s.toHomeomorph)
 
-/-- A PL homeomorphism becomes simplicial after subdividing source and target. -/
+/-- A PL homeomorphism becomes a simplicial isomorphism after subdividing source and target, and
+    the isomorphism realizes it through the two chosen subdivisions. -/
 theorem exists_isomorphic_subdivisions
     (h : Realization K ≃ₜ Realization L) (hPL : IsPLMap h) :
     ∃ (ι' κ' : Type) (K' : AbstractSimplicialComplex ι')
-      (L' : AbstractSimplicialComplex κ'),
-      Subdivides K' K ∧ Subdivides L' L ∧ Nonempty (K' ≃ₛ L')
+      (L' : AbstractSimplicialComplex κ')
+      (s : Subdivision K' K) (t : Subdivision L' L) (e : K' ≃ₛ L'),
+      SimplicialRealizes s t e.toSimplicialMap h
 
 /-- Concrete, not an instance of a dimension-general recursion. Every facet is a triangle, which is
     purity in dimension two and admits the empty complex: the empty surface is a surface, and
@@ -509,13 +557,13 @@ theorem isPLMap_iff_isPLOn (e : Realization K ≃ₜ P) (e' : Realization L ≃�
 - A subdivision may introduce vertices, so its vertex type cannot be fixed in advance. The shared API must therefore be heterogeneous or bundle the subdividing complex.  A similar issue affects combinatorial surface move relations, and is solved by bundling index types.
 - The common-subdivision theorem in this layer starts with a **PL** homeomorphism (or, equivalently, two PL triangulations of one polyhedron). Its conclusion is best stated as subdivisions of the two complexes together with a simplicial isomorphism. The two-dimensional Hauptvermutung in layer 5 is the deeper theorem that starts with an arbitrary topological homeomorphism and produces such a PL comparison. Keeping these two statements separate exposes a genuine mathematical distinction which could be hidden by a convenient choice of vertex types.
 - The compatibility theorem with Tau Ceti's `IsCombinatorialManifold K 2` is proved here: a finite complex whose vertex links are circles or arcs is one whose vertex links are stellar equivalent to the boundary of a triangle or to a triangle, and conversely. No dimension-two result depends on it.
-- Tau Ceti already has stellar subdivision with `StellarEquivalent`, and the homeomorphism between the realizations of a complex and its barycentric subdivision. `Subdivides` is the general relation both instantiate, and the realization homeomorphism for a general subdivision is the target.
+- Tau Ceti already has stellar subdivision with `StellarEquivalent`, and the homeomorphism between the realizations of a complex and its barycentric subdivision. `Subdivision` is the general notion both instantiate, and it is data: the realization homeomorphism is a field, fixed by the vertex placement, not something extracted from a proof, because layer 4's relative approximation, layer 8's smoothing, and `SimplicialRealizes` all depend on which placement was chosen. The realization of a simplicial map is a target too; Tau Ceti has the maps but not their realizations.
 - The realization of a finite complex is metrized by its barycentric coordinates. This metric is what layer 4's `ε` and layer 7's small-cell estimates measure with; no metric on realizations exists in Tau Ceti.
 - Combinatorial circles and arcs in dimension one are concrete: a combinatorial circle is a finite connected 1-complex in which every vertex has exactly two neighbours; a combinatorial arc is a finite connected 1-complex in which exactly two vertices have one neighbour and the rest have two. These should not be based on a general sphere-recognition recursion.
 
 **Examples and mathematical checks.** `IsCombinatorialSurface` is **false** for each of: two triangles sharing exactly one vertex; three triangles sharing an edge; the dunce hat; the cone on a theta graph. It is **true** for: the boundary of the tetrahedron; a triangulated disc; a triangulated Möbius band; and the empty complex, the empty surface. Every one of these is a concrete finite complex checked by `decide`. ⚠ This is the layer where vacuity is a risk, because pinch points are possible for abstract complexes.
 
-**Natural intermediate results.** (i) general subdivision and its realization homeomorphism, with stellar and barycentric subdivision as instances; (ii) the metric on a finite realization; (iii) purity, facets, and skeleta; (iv) isomorphic subdivisions for PL-homeomorphic complexes; (v) `IsPLMap` and its closure properties; (vi) combinatorial circles and arcs; (vii) `IsCombinatorialSurface` and the counter-witness battery; (viii) the realization theorem; (ix) the compatibility theorem with `IsCombinatorialManifold`; (x) the comparison of `IsPLOn` with `IsPLMap`.
+**Natural intermediate results.** (i) general subdivision as data with its realization homeomorphism, stellar and barycentric subdivision as instances, composition and common refinement, and the realization of a simplicial map; (ii) the metric on a finite realization; (iii) purity, facets, and skeleta; (iv) isomorphic subdivisions for PL-homeomorphic complexes; (v) `IsPLMap` and its closure properties; (vi) combinatorial circles and arcs; (vii) `IsCombinatorialSurface` and the counter-witness battery; (viii) the realization theorem; (ix) the compatibility theorem with `IsCombinatorialManifold`; (x) the comparison of `IsPLOn` with `IsPLMap`.
 
 **Consequences.** Layers 4, 5, 6. `SurfaceTopology` layer 3.
 
@@ -791,12 +839,16 @@ theorem jordanCurve_neighborhood_dichotomy {J : Set M} (hJ : IsJordanCurve J)
 
 /-- Tameness of finite graphs, in the vocabulary of arcs: finitely many arcs in the interior of a
     surface, meeting pairwise only in common endpoints, are carried by an ambient isotopy onto
-    piecewise-linear arcs of one triangulation. -/
+    piecewise-linear arcs of a subdivision of any given triangulation. The triangulation is given
+    first: quantified after the isotopy, the identity and a triangulation built around the arcs
+    would satisfy the statement and no isotopy would reach a consumer. -/
 theorem exists_ambientIsotopy_pl_of_arcs [CompactSpace M] (A : Fin n → Set M) (hA : ∀ i, IsArc (A i))
     (hmeet : ∀ i j, i ≠ j → A i ∩ A j ⊆ endpoints (A i) ∩ endpoints (A j))
-    (hint : ∀ i, A i ⊆ (𝓡∂ 2).interior M) :
+    (hint : ∀ i, A i ⊆ (𝓡∂ 2).interior M)
+    {K : AbstractSimplicialComplex ι} (hK : IsCombinatorialSurface K) (t : Realization K ≃ₜ M) :
     ∃ e : M ≃ₜ M, Isotopic e (Homeomorph.refl M) ∧
-      ∃ K (hK : IsCombinatorialSurface K) (t : Realization K ≃ₜ M), ∀ i, t ⁻¹' (e '' A i) is a subcomplex
+      ∃ (ι' : Type) (K' : AbstractSimplicialComplex ι') (s : Subdivision K' K),
+        ∀ i, (t ∘ s.toHomeomorph) ⁻¹' (e '' A i) is the carrier of a subcomplex of K'
 ```
 
 **Mathematical route and formalization notes.**
@@ -881,8 +933,8 @@ theorem hasGroupoid_plGroupoid (s : PLStructure M) :
     diffeomorphism to `ℝ²` with open compact image. No boundary condition on `s.e` is needed:
     layer 2's `image_boundary` makes any realization carry the boundary subcomplex onto `∂M`. -/
 def PLStructure.IsCompatible (s : PLStructure M) (σ : ChartedSpace (EuclideanHalfSpace 2) M) : Prop :=
-  ∃ (ι' : Type) (K' : AbstractSimplicialComplex ι') (h : Subdivides K' s.K),
-    ∀ τ : Face K', s.e ∘ h.realization_homeomorph is a smooth embedding with injective differential on τ, for σ   -- schematic
+  ∃ (ι' : Type) (K' : AbstractSimplicialComplex ι') (h : Subdivision K' s.K),
+    ∀ τ : Face K', s.e ∘ h.toHomeomorph is a smooth embedding with injective differential on τ, for σ   -- schematic
 def PLStructure.smoothing (s : PLStructure M) : ChartedSpace (EuclideanHalfSpace 2) M
 theorem PLStructure.smoothing_isManifold (s : PLStructure M) :
     @IsManifold _ _ _ _ _ _ _ (𝓡∂ 2) ∞ M _ s.smoothing

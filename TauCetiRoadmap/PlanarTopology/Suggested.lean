@@ -292,27 +292,42 @@ two corresponding inside regions.
 The following are architectural targets, but they should not be represented here by
 placeholder propositions. Compile them when their actual data is pinned in Tau Ceti:
 
-  def Subdivides {ι' ι : Type*}
-      (K' : AbstractSimplicialComplex ι') (K : AbstractSimplicialComplex ι) : Prop
+  -- A subdivision is data: a vertex placement and its affine-extension homeomorphism, in the
+  -- shape of Tau Ceti's `barycentricSubdivisionRealizationMap` (`Subdivision/Realization.lean`).
+  structure Subdivision {ι' ι : Type*}
+      (K' : AbstractSimplicialComplex ι') (K : AbstractSimplicialComplex ι) where
+    vertexImage : ι' → AbstractSimplicialComplex.Realization K
+    toHomeomorph : AbstractSimplicialComplex.Realization K' ≃ₜ AbstractSimplicialComplex.Realization K
+    toHomeomorph_vertex : ∀ v, toHomeomorph (vertex K' v) = vertexImage v
+    toHomeomorph_affine : ...                       -- affine on each closed simplex of `K'`
+  abbrev Subdivides K' K : Prop := Nonempty (Subdivision K' K)
 
-  theorem Subdivides.realization_homeomorph (h : Subdivides K' K) :
-      AbstractSimplicialComplex.Realization K' ≃ₜ AbstractSimplicialComplex.Realization K
+  -- Tau Ceti's stellar subdivision (`Subdivision/Stellar/Basic.lean`, at a new vertex
+  -- `none : Option ι`) and barycentric subdivision (`Subdivision/Homeomorph.lean`) are the two
+  -- instances; `refl`, `trans`, and a common refinement of two subdivisions of one complex are targets.
+  def Subdivision.stellar ...
+  def Subdivision.barycentric ...
+  theorem Subdivision.barycentric_toHomeomorph ...   -- `= barycentricSubdivisionRealizationHomeomorph K`
 
-  -- Tau Ceti's stellar subdivision (`Subdivision/Stellar/Basic.lean`) and barycentric
-  -- subdivision (`Subdivision/Homeomorph.lean`) are the two instances.
-  theorem Subdivides.stellarSubdivision ...
-  theorem Subdivides.barycentricSubdivision ...
+  -- Tau Ceti has `SimplicialMap` (`SimplicialComplex/Maps.lean`) but not its realization.
+  noncomputable def SimplicialMap.realization (g : SimplicialMap K L) : Realization K → Realization L
+  def SimplicialRealizes (s : Subdivision K' K) (t : Subdivision L' L) (g : SimplicialMap K' L')
+      (f : Realization K → Realization L) : Prop :=
+    f ∘ s.toHomeomorph = t.toHomeomorph ∘ g.realization
 
   -- The metric on the realization of a finite complex, by barycentric coordinates; the
   -- approximation theorems of layer 4 measure with it.
   noncomputable def realizationDist (K : AbstractSimplicialComplex ι) [Finite K.faces] :
       Realization K → Realization K → ℝ
 
-  def IsPLMap ... : Prop
+  def IsPLMap (f : Realization K → Realization L) : Prop :=
+    ∃ K' L' (s : Subdivision K' K) (t : Subdivision L' L) (g : SimplicialMap K' L'), SimplicialRealizes s t g f
   theorem IsPLMap.comp ...
 
+  -- The simplicial isomorphism realizes `h` through the two chosen subdivisions.
   theorem exists_isomorphic_subdivisions
-      (h : Realization K ≃ₜ Realization L) (hPL : IsPLMap h) : ...
+      (h : Realization K ≃ₜ Realization L) (hPL : IsPLMap h) :
+      ∃ K' L' (s : Subdivision K' K) (t : Subdivision L' L) (e : K' ≃ₛ L'), SimplicialRealizes s t e.toSimplicialMap h
 
 `IsCombinatorialSurface` is a particularly important concrete definition. It carries
 finiteness, every facet is a triangle, so the empty complex is the empty surface, and it uses the

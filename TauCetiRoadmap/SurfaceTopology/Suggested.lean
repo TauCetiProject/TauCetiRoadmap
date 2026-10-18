@@ -528,7 +528,13 @@ correspondence needs the equivalence of drawings. Once these are pinned:
   theorem Drawing.exists_isotopic_isPL (D : Drawing Γ M) (hD : D.IsNoncrossing)
       (hint : D.support ⊆ (𝓡∂ 2).interior M) : ∃ D' : Drawing Γ M, D'.IsPL ∧ AmbientIsotopic D D'
 
-  def Drawing.toGMap2 (D : Drawing Γ M) (hb : closed M) (hpl : D.IsPL) (hc : D.IsCellular) : BundledGMap2
+  -- The hypotheses are those of `cellularDrawings_equiv_gmaps`; the laws make it the surface map
+  -- of this drawing: closed surface map, underlying graph `≃ᵍ Γ`, realization `≃ₜ M` carrying
+  -- cells to placements, arcs, and faces, and the round trip with `toDrawing`.
+  def Drawing.toGMap2 (D : Drawing Γ M) (hb : closed M) (hΓ : Γ.Connected) (hE : E(Γ).Nonempty)
+      (hD : D.IsNoncrossing) (hpl : D.IsPL) (hc : D.IsCellular) : BundledGMap2
+  theorem Drawing.isClosedSurfaceGMap_toGMap2 ..., def Drawing.toGMap2_underlyingGraph ...,
+  def Drawing.toGMap2_realization ..., theorem Drawing.card_cell₂_toGMap2 ..., theorem Drawing.toDrawing_toGMap2 ...
   def GMap2.toDrawing (G : GMap2 D) (h : IsSurfaceGMap G) : Drawing G.underlyingGraph G.realization
   def Drawing.faceCount (D : Drawing Γ M) : ℕ := Nat.card (ConnectedComponents D.supportᶜ)
 
@@ -747,8 +753,9 @@ prototype private replacements. Once those types exist, pin simple closed curves
 then the groups and the comparisons:
 
   def SimpleClosedCurve (M : Type*) [TopologicalSpace M] : Type*
+  def Arc (M : Type*) ... : Type*            -- proper: carrier ∩ ∂M = its two ends
   def cutAlong (c : SimpleClosedCurve M) : Type*
-  def cutAlongArc (a : Arc M) (ha : its ends lie on two distinct boundary circles) : Type*
+  def cutAlongArc (a : Arc M) (ha : its two ends lie on distinct boundary circles) : Type*
 
   def MappingClassGroupFull (M) : Type*                        -- homeomorphisms modulo isotopy
   def MappingClassGroupRel (M) : Type*                         -- fixing the boundary pointwise
@@ -768,10 +775,12 @@ then the groups and the comparisons:
   theorem mcg_annulus_rel_boundary : MappingClassGroupRel Annulus ≃* Multiplicative ℤ
   def dehnTwist (o : Surface.Orientation M) (c : SimpleClosedCurve M) (hc : IsTwoSided c) :
       MappingClassGroupPlus M o
-  theorem dehnTwist_conj ..., theorem dehnTwist_eq_of_isotopic ..., theorem change_of_coordinates ...
+  theorem dehnTwist_conj (f) (hb : Set.EqOn f id ∂M) (hf : preserves o) ...,
+  theorem dehnTwist_eq_of_isotopic ..., theorem change_of_coordinates ...
 
-  -- Lickorish's Lemma 2, for curves and proper arcs, the action on `H₁` through layer 7, and the
-  -- torus; `change_of_coordinates` is stated with boundary and boundary-fixing.
+  -- Lickorish's Lemma 2, for curves and proper arcs, with a signed word (`List (curve × ℤˣ)`) and
+  -- the conclusion on a boundary-fixing homeomorphism representing it; the action on `H₁` through
+  -- layer 7, and the torus. `change_of_coordinates` is stated with boundary and boundary-fixing.
   theorem exists_twists_reduce_intersection ...
   def MappingClassGroupFull.actH₁ : MappingClassGroupFull M →* (H₁ M ≃ₗ[ℤ] H₁ M)
   theorem mcg_torus_plus (o : Surface.Orientation Torus) :

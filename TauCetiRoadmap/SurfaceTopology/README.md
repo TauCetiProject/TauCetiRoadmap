@@ -503,7 +503,9 @@ theorem GMap2.cap_eulerChar :
 theorem GMap2.cap_isOrientable : G.cap.IsOrientable ↔ G.IsOrientable
 theorem GMap2.cap_isConnected (hG : G.IsConnected) : G.cap.IsConnected
 
-theorem GMap2.double_eulerChar : G.double.eulerChar = 2 * G.eulerChar
+/-- For surface maps. Without the condition it fails: two darts with `α₀ = swap` and
+    `α₁ = α₂ = id` have `χ = 2`, and their double has `χ = 3`. -/
+theorem GMap2.double_eulerChar (h : IsSurfaceGMap G) : G.double.eulerChar = 2 * G.eulerChar
 ```
 
 **Proof strategy and formalization notes.**
@@ -582,10 +584,32 @@ theorem Drawing.exists_isotopic_isPL (D : Drawing Γ M) (hD : D.IsNoncrossing)
     (hint : D.support ⊆ (𝓡∂ 2).interior M) :
     ∃ D' : Drawing Γ M, D'.IsPL ∧ AmbientIsotopic D D'
 
-/-- The surface map of a cellular PL drawing in a closed surface, and the drawing of a surface
-    map; the second is the only boundary-inclusive direction. -/
-def Drawing.toGMap2 (D : Drawing Γ M) (hb : (𝓡∂ 2).boundary M = ∅) (hpl : D.IsPL) (hc : D.IsCellular) :
-    BundledGMap2
+/-- The surface map of a cellular noncrossing PL drawing of a connected graph with an edge in a
+    closed surface, and the drawing of a surface map; the second is the only boundary-inclusive
+    direction. The hypotheses are those of `cellularDrawings_equiv_gmaps` below, and each is
+    load-bearing. Noncrossing: `C₄` drawn in the sphere with its vertices at `(-1,-1)`, `(1,1)`,
+    `(-1,1)`, `(1,-1)` in cyclic order and straight edges is PL and cellular, but two edges cross,
+    and the surface map of what is drawn has five vertices, six edges, and three faces, not
+    `C₄`'s four and four. The edge: the one-point drawing of `K₁` is cellular and no generalized
+    map has `K₁` as underlying graph. The laws are what make the result the surface map *of this
+    drawing*: its graph is `Γ`, its realization is `M`, and cells go to placements, arcs, and faces. -/
+def Drawing.toGMap2 (D : Drawing Γ M) (hb : (𝓡∂ 2).boundary M = ∅) (hΓ : Γ.Connected)
+    (hE : E(Γ).Nonempty) (hD : D.IsNoncrossing) (hpl : D.IsPL) (hc : D.IsCellular) : BundledGMap2
+theorem Drawing.isClosedSurfaceGMap_toGMap2 : IsClosedSurfaceGMap (D.toGMap2 hb hΓ hE hD hpl hc).map
+/-- Graph isomorphism: vertex cells to vertices, edge cells to edges, respecting incidence. -/
+def Drawing.toGMap2_underlyingGraph : (D.toGMap2 hb hΓ hE hD hpl hc).underlyingGraph ≃ᵍ Γ
+def Drawing.toGMap2_realization : (D.toGMap2 hb hΓ hE hD hpl hc).realization ≃ₜ M
+theorem Drawing.toGMap2_realization_vertex (v : (D.toGMap2 hb hΓ hE hD hpl hc).Cell 0) :
+    D.toGMap2_realization '' (closed cell of v) = {D.vertex (D.toGMap2_underlyingGraph v)}   -- schematic
+theorem Drawing.toGMap2_realization_edge (e : (D.toGMap2 hb hΓ hE hD hpl hc).Cell 1) :
+    D.toGMap2_realization '' (closed cell of e) = D.edgeRange (D.toGMap2_underlyingGraph e)   -- schematic
+theorem Drawing.toGMap2_realization_face :
+    D.toGMap2_realization maps the open 2-cells bijectively onto the components of D.supportᶜ   -- schematic
+theorem Drawing.card_cell₂_toGMap2 : Nat.card ((D.toGMap2 hb hΓ hE hD hpl hc).Cell 2) = D.faceCount
+/-- Round trip: the drawing of the surface map, carried to `M`, is equivalent to `D`. -/
+theorem Drawing.toDrawing_toGMap2 :
+    Drawing.Equiv (transport of ((D.toGMap2 hb hΓ hE hD hpl hc).map.toDrawing _) along
+      toGMap2_realization and toGMap2_underlyingGraph) D   -- schematic
 def GMap2.toDrawing (G : GMap2 D) (h : IsSurfaceGMap G) : Drawing G.underlyingGraph G.realization
 def Drawing.faceCount (D : Drawing Γ M) : ℕ := Nat.card (ConnectedComponents (D.supportᶜ : Set M))
 
@@ -606,9 +630,12 @@ def SignedRotationSystem (Γ : Graph α β) : Type* := ...
 
 /-- `K₁` is excluded: its one-point drawing in the sphere is cellular, and no generalized map has
     it as underlying graph, since an empty dart type has no vertex and a nonempty one an edge. -/
+/-- The identification with `Γ` is data, and the isomorphisms on the right must commute with it:
+    `K₇` has a single cellular torus map up to isomorphism but many labelled drawings up to
+    equivalence. Equivalence of bundled drawings is through a homeomorphism of the two surfaces. -/
 theorem cellularDrawings_equiv_gmaps (hΓ : Γ.Connected) (hE : E(Γ).Nonempty) :
     CellularDrawings Γ / Drawing.Equiv
-      ≃ {G : BundledGMap2 // IsClosedSurfaceGMap G.map ∧ G.underlyingGraph ≃ Γ} / GMap2.Iso
+      ≃ {G : BundledGMap2 // IsClosedSurfaceGMap G.map} × (G.underlyingGraph ≃ᵍ Γ) / GMap2.Iso over Γ   -- schematic
 
 /-- Heffter–Edmonds–Ringel, orientable form: cellular drawings in oriented surfaces, up to
     orientation-preserving equivalence, are rotation systems up to equivalence. -/
@@ -647,7 +674,7 @@ def Graph.nonorientableGenus (Γ : Graph α β) : ℕ
 - Riemann–Hurwitz is Euler's formula twice: a cellular drawing in `Y` whose vertices include the branch values pulls back to a cellular drawing in `X` with `d` times as many cells, except that a branch value with preimages of local degrees `e` has `Σ 1` preimages in place of `d`. `BelyiMaps` consumes it for the genus of a dessin's surface.
 - `Graph.genus` minimises over surfaces and therefore waits on layer 8; the correspondence and Euler's formula do not.
 
-**Examples and mathematical checks.** `K₅` and `K₃,₃` have genus 1 and are drawn cellularly in the torus. `IsCellular` is **false** for `K₄` drawn inside a disc in the torus. Euler's formula is checked on the layer 1 table. Riemann–Hurwitz is checked on `z ↦ zⁿ` on the sphere and on the orientation double cover of the projective plane map, an unbranched cover of degree two. `C₃` as the boundary of a disc and as an equator of the sphere is the check that the correspondences need closed surfaces, and the one-point drawing of `K₁` in the sphere the check that the generalized-map form needs an edge.
+**Examples and mathematical checks.** `K₅` and `K₃,₃` have genus 1 and are drawn cellularly in the torus. `IsCellular` is **false** for `K₄` drawn inside a disc in the torus. Euler's formula is checked on the layer 1 table. Riemann–Hurwitz is checked on `z ↦ zⁿ` on the sphere and on the orientation double cover of the projective plane map, an unbranched cover of degree two. `C₃` as the boundary of a disc and as an equator of the sphere is the check that the correspondences need closed surfaces, the one-point drawing of `K₁` in the sphere the check that the generalized-map form needs an edge, and the crossed `C₄` in the sphere, with five vertices, six edges, and three faces once the crossing is a vertex, the check that `toGMap2` needs noncrossing.
 
 **Natural intermediate results.** (i) degree of finite multigraphs and its comparison with GraphConnectivityAndFlows' incidence counts; (ii) the underlying multigraph; (iii) drawings, cellularity, PL drawings, and the tameness transport; (iv) rotation systems; (v) the orientable correspondence; (vi) the general correspondence; (vii) Euler's formula; (viii) branched covers and Riemann–Hurwitz; (ix) genus, after layer 8.
 
@@ -927,9 +954,12 @@ variable {M : Type*} [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2) M
 
 /-- Simple closed curves are embeddings of the circle into the interior. -/
 def SimpleClosedCurve (M : Type*) [TopologicalSpace M] : Type*
-/-- Arcs are embeddings of the interval, with the endpoints allowed on the boundary. The carrier
-    satisfies `PlanarTopology` layer 0's `IsArc` and its ends are that layer's `endpoints`. -/
-def Arc (M : Type*) [TopologicalSpace M] : Type*
+/-- Proper arcs: embeddings of the interval meeting the boundary exactly in their two ends,
+    `a.carrier ∩ (𝓡∂ 2).boundary M = endpoints a.carrier`. The carrier satisfies `PlanarTopology`
+    layer 0's `IsArc` and its ends are that layer's `endpoints`. Properness is part of the type:
+    an arc whose interior touches a boundary circle is not an `Arc`, so cutting along one and
+    straightening one by twists never meet that case. -/
+def Arc (M : Type*) [TopologicalSpace M] [ChartedSpace (EuclideanHalfSpace 2) M] : Type*
 def IsEssential (c : SimpleClosedCurve M) : Prop
 def IsSeparating (c : SimpleClosedCurve M) : Prop
 def IsTwoSided (c : SimpleClosedCurve M) : Prop
@@ -940,9 +970,9 @@ def cutAlong (c : SimpleClosedCurve M) : Type*
 theorem eulerChar_cutAlong (c : SimpleClosedCurve M) : Surface.eulerChar (cutAlong c) = Surface.eulerChar M
 theorem boundaryComponentCount_cutAlong (c : SimpleClosedCurve M) (h : IsTwoSided c) :
     boundaryComponentCount (cutAlong c) = boundaryComponentCount M + 2
-/-- Cutting along a proper arc whose ends lie on two distinct boundary circles: the two circles and
-    the arc become one boundary circle. -/
-def cutAlongArc (a : Arc M) (ha : the ends of a lie on two distinct components of (𝓡∂ 2).boundary M) : Type*
+/-- Cutting along an arc whose two ends lie on distinct boundary circles: the two circles and the
+    arc become one boundary circle. Properness is already in `Arc`. -/
+def cutAlongArc (a : Arc M) (ha : the two ends of a lie on distinct components of (𝓡∂ 2).boundary M) : Type*
 theorem eulerChar_cutAlongArc (a : Arc M) (ha) : Surface.eulerChar (cutAlongArc a ha) = Surface.eulerChar M + 1
 theorem boundaryComponentCount_cutAlongArc (a : Arc M) (ha) :
     boundaryComponentCount (cutAlongArc a ha) = boundaryComponentCount M - 1
@@ -972,12 +1002,16 @@ theorem MappingClassGroupSmooth.toTop_bijective (s : PLStructure M) (σ) (hσ : 
 theorem mcg_disc_rel_boundary : MappingClassGroupRel Disc ≃* Unit
 theorem mcg_annulus_rel_boundary : MappingClassGroupRel Annulus ≃* Multiplicative ℤ
 theorem mcg_sphere_plus (o : Surface.Orientation Sphere2) : MappingClassGroupPlus Sphere2 o ≃* Unit
-theorem mcg_sphere_full : MappingClassGroupFull Sphere2 ≃* ZMod 2
+theorem mcg_sphere_full : MappingClassGroupFull Sphere2 ≃* Multiplicative (ZMod 2)
 
 /-- The Dehn twist about a two-sided curve, supported in its annular collar. -/
 def dehnTwist (o : Surface.Orientation M) (c : SimpleClosedCurve M) (hc : IsTwoSided c) :
     MappingClassGroupPlus M o
-theorem dehnTwist_conj (f : M ≃ₜ M) (hf : Surface.Orientation.map f o = o) :
+/-- Conjugation by an element of the group: `f` preserves `o` and is the identity on the boundary.
+    The second condition is not implied by the first: `([x], r) ↦ ([-x], 1 - r)` on the annulus
+    preserves orientation, swaps the boundary circles, and has no class rel boundary. -/
+theorem dehnTwist_conj (f : M ≃ₜ M) (hb : Set.EqOn f id ((𝓡∂ 2).boundary M))
+    (hf : Surface.Orientation.map f o = o) :
     ⟦f⟧ * dehnTwist o c hc * ⟦f⟧⁻¹ = dehnTwist o (f • c) (hc.map f)
 theorem dehnTwist_eq_of_isotopic (h : Isotopic c c') : dehnTwist o c hc = dehnTwist o c' hc'
 
@@ -988,13 +1022,22 @@ theorem change_of_coordinates (o : Surface.Orientation M)
     ∃ f : M ≃ₜ M, Set.EqOn f id ((𝓡∂ 2).boundary M) ∧ Surface.Orientation.map f o = o ∧
       f '' c.carrier = d.carrier
 
-/-- Lickorish's Lemma 2, for curves and for proper arcs: twists reduce intersections. A product of
-    twists about curves meeting `q` fewer times carries `p` to a curve or arc meeting `q` at most
-    once, or twice with zero algebraic intersection; for arcs, rel their ends. -/
+/-- Lickorish's Lemma 2, for curves and for proper arcs: twists reduce intersections. A word in
+    twists and inverse twists about two-sided curves, each meeting `q` fewer times than `p` does,
+    carries `p` to a curve or arc meeting `q` at most once, or twice with zero algebraic
+    intersection; arcs are counted at interior points, their ends being fixed. The word is signed,
+    and must be: on the annulus with positive core twist `T`, the arc `T⁴(q)` meets the radial arc
+    `q` at least three times in every representative rel ends, and so does its image under every
+    positive word, which is some `Tᵐ`, so only `T⁻⁴` reduces it. The conclusion concerns
+    embeddings, and a mapping class acts on isotopy classes, so it is stated on a homeomorphism
+    representing the word, the identity on the boundary. -/
 theorem exists_twists_reduce_intersection (o : Surface.Orientation M) (p q : SimpleClosedCurve M ⊕ Arc M)
     (hpq : p meets q finitely often) :
-    ∃ (l : List (SimpleClosedCurve M)) (h : ∀ c ∈ l, c meets q fewer times than p),
-      (l.map (dehnTwist o)).prod • p meets q at most once, or twice with zero algebraic intersection
+    ∃ (l : List ({c : SimpleClosedCurve M // IsTwoSided c} × ℤˣ))
+      (h : ∀ x ∈ l, x.1.1 meets q fewer times than p) (f : M ≃ₜ M),
+      Set.EqOn f id ((𝓡∂ 2).boundary M) ∧ Surface.Orientation.map f o = o ∧
+      ⟦f⟧ = (l.map fun x => dehnTwist o x.1.1 x.1.2 ^ (x.2 : ℤ)).prod ∧
+      f '' p.carrier meets q at most once, or twice with zero algebraic intersection
 
 /-- The action on `H₁`, through layer 7, and the torus. -/
 def MappingClassGroupFull.actH₁ : MappingClassGroupFull M →* (H₁ M ≃ₗ[ℤ] H₁ M)
@@ -1020,7 +1063,7 @@ theorem exists_dehnTwist_generatingSet_card (o : Surface.Orientation M) (hb : (�
 
 - A **Dehn twist** about a two-sided simple closed curve is supported in the annular collar that `PlanarTopology` layer 7 provides for a curve in the interior, rotates once across the annulus, and is the identity outside. The class is independent of the collar, isotopic curves have conjugate twists by isotopy extension for tame curves, and a twist about a curve bounding a disc is trivial.
 - The distinction between `MappingClassGroupPlus`, `MappingClassGroupRel`, and `MappingClassGroupFull` is essential. Dehn twists generate the orientation-preserving group: for the torus this is `SL(2,ℤ)`, whereas the full group is `GL(2,ℤ)`. The disc and annulus base cases require the boundary to be fixed pointwise.
-- **The route is Lickorish's**, in his 1962 and 1964 papers, and it runs in the piecewise-linear category: by `PlanarTopology` layer 8 every mapping class has a PL representative, and PL homeomorphisms are PL isotopic exactly when they are topologically isotopic, so nothing is lost. The steps: isotopic curves have conjugate twists; Lickorish's Lemma 2, by induction on the number of intersection points with a two-case analysis on the orientations of consecutive intersections, each step a twist about a curve made from an arc of `p` and an arc near `q`; every orientation-preserving homeomorphism rel boundary is a product of twists, by a double induction. On genus: twists move the image of a nonseparating curve `a` back onto `a` up to isotopy, the homeomorphism is isotoped rel boundary to fix `a`, and cutting along `a` gives a surface of lower genus with two more boundary circles, where the statement rel boundary applies and whose twists are twists of `M`. On the number of holes, once the genus is zero: a proper arc `a` joining two distinct boundary circles is carried by the homeomorphism to an arc with the same ends, the arc form of Lemma 2 brings that arc back to `a` by twists, the homeomorphism is isotoped rel boundary to fix `a`, and cutting along `a` leaves a sphere with one hole fewer. The disc is the base case by Alexander's trick, and the annulus is the first instance, its group generated by the twist about the core. Repeated handle cuts alone end at a sphere with `2g` holes, where neither base case applies, which is why the second induction is needed. And the `3g − 1` set, by Lickorish's Lemmas 3 to 5 of the 1964 paper as corrected in the 1966 corrigendum, which replaces the case analysis in the first half of its §3: explicit relations among twists on a torus minus two discs verified by tracking a filling system of curves, and his induction on the number of intersections with the standard reference curves. Farb–Margalit chapters 1 to 3 are the reference for the change-of-coordinates principle, intersection numbers, and the Alexander method; their chapter 4 proves finite generation through the curve complex and the Birman exact sequence, both out of scope, and is not the route.
+- **The route is Lickorish's**, in his 1962 and 1964 papers, and it runs in the piecewise-linear category: by `PlanarTopology` layer 8 every mapping class has a PL representative, and PL homeomorphisms are PL isotopic exactly when they are topologically isotopic, so nothing is lost. The steps: isotopic curves have conjugate twists; Lickorish's Lemma 2, by induction on the number of intersection points with a two-case analysis on the orientations of consecutive intersections, each step a twist or an inverse twist, the sign decided by that case, about a curve made from an arc of `p` and an arc near `q`; every orientation-preserving homeomorphism rel boundary is a product of twists, by a double induction. On genus: twists move the image of a nonseparating curve `a` back onto `a` up to isotopy, the homeomorphism is isotoped rel boundary to fix `a`, and cutting along `a` gives a surface of lower genus with two more boundary circles, where the statement rel boundary applies and whose twists are twists of `M`. On the number of holes, once the genus is zero: a proper arc `a` joining two distinct boundary circles is carried by the homeomorphism to an arc with the same ends, the arc form of Lemma 2 brings that arc back to `a` by twists, the homeomorphism is isotoped rel boundary to fix `a`, and cutting along `a` leaves a sphere with one hole fewer. The disc is the base case by Alexander's trick, and the annulus is the first instance, its group generated by the twist about the core. Repeated handle cuts alone end at a sphere with `2g` holes, where neither base case applies, which is why the second induction is needed. And the `3g − 1` set, by Lickorish's Lemmas 3 to 5 of the 1964 paper as corrected in the 1966 corrigendum, which replaces the case analysis in the first half of its §3: explicit relations among twists on a torus minus two discs verified by tracking a filling system of curves, and his induction on the number of intersections with the standard reference curves. Farb–Margalit chapters 1 to 3 are the reference for the change-of-coordinates principle, intersection numbers, and the Alexander method; their chapter 4 proves finite generation through the curve complex and the Birman exact sequence, both out of scope, and is not the route.
 - The torus computation goes through the action on `H₁` from layer 7: the twists about the two standard curves act by the elementary matrices, so the map to `SL(2,ℤ)` is surjective, and it is injective by the Alexander method: a homeomorphism acting trivially on `H₁` fixes the two standard curves up to isotopy, which is proved by straightening arcs on the universal cover `ℝ² → T²`, and after cutting along both it is a homeomorphism of a disc rel boundary, hence isotopic to the identity.
 - Target Lickorish's generating set of `3g − 1` twists. Humphries' minimal `2g + 1` set and its minimality proof are a separate theorem and remain out of scope.
 - Do not write "of finite type" for compact surfaces. In this literature the phrase normally signals punctures as well as boundary components, leading to the Birman exact sequence and point-pushing, which are out of scope.
