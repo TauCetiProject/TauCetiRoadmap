@@ -1343,17 +1343,31 @@ ring with specified inverted elements; an input using denominators `q^a−q^(-a)
   maps. The `h_{n,m}` satisfy §3.1, so §3.4 gives the quantum *Scat*, natural for
   coefficient maps; for a skew datum, `β(n,-)` is `{-,n}` and the eligible normals are
   those of §4.2.
+- *quantumRayAction*: for `n∈P\{0}`, `p∈L`, `G(T)∈1+T R[[T]]` and
+  `r=β(n,p)`, conjugation gives
+  `Ad_{G(z^n)}(z^p)=z^p G(q^{2r}z^n)G(z^n)⁻¹`, as a coefficientwise identity
+  of series supported in `p+ℕn`. If `G(q^{2r}T)G(T)⁻¹=Σ_j h_j T^j`, its
+  degree-`p+jn` component is `q^(-jr)h_j z^{p+jn}`. These identities commute with
+  truncation and coefficient maps; signed crossings use `G` or `G⁻¹` by Convention 3.
+- When all `q^j−q^(-j)`, `j>0`, are units, construct the unique
+  `Ψ_q(T)∈1+T R[[T]]` satisfying `Ψ_q(q²T)=(1+qT)Ψ_q(T)`.
+  For `G=Ψ_q`, the right multiplier in *quantumRayAction* is
+  `∏_{j=1}^r (1+q^{2j−1}z^n)` for `r≥0`, with empty product `1`, and
+  `∏_{j=1}^{−r} (1+q^{−(2j−1)}z^n)⁻¹` for `r<0`.
 
 **Checks.**
 - For `β(e_1,e_2)=1`, `z^{e_1}z^{e_2}=q z^{e_1+e_2}` and
   `z^{e_2}z^{e_1}=q⁻¹ z^{e_1+e_2}`.
+- For `R=ℚ(q)`, `n∈P\{0}` and `β(n,p)=1`, put `θ=Ad_{Ψ_q(z^n)}`.
+  Then `θ(z^p)=z^p+z^{p+n}` and
+  `θ(z^{2p})=z^{2p}+(q+q⁻¹)z^{2p+n}+z^{2p+2n}`.
 - Evaluation `q↦1` is defined on `k[q,q⁻¹]` and gives the untwisted algebra, where the
   unnormalized commutator and its inner action vanish; no ring homomorphism `k(q)→k`
   sends `q` to `1`.
 
 *Needs:* §§0.1, 0.3–0.6, 3.1–3.4, 4.2; units, `AddMonoidAlgebra`, `GradedAlgebra`;
-`RatFunc` and `LaurentPolynomial` for the coefficient instances. Source: MAN
-Example 2.1(iii).
+`PowerSeries`, `PowerSeries.rescale`; `RatFunc` and `LaurentPolynomial` for the coefficient instances. Sources: MAN
+Example 2.1(iii); NQ §2.3, equations (2.14) and (2.21).
 
 ### 4.4 Weight-zero function walls and face algebras
 
@@ -1751,10 +1765,11 @@ Sources: MAN Theorem 2.14 and §3.3.3; LMY §3.
 
 ### 5.6 Monomial presentations and comparison of theta constructions
 
-A *MonomialPresentation* chooses a commutative coefficient ring over which each
-chamber homogeneous piece is free of rank one on `z^q`, and expresses ordinary
-wall action on a monomial as multiplication by a specified power of its wall
-function. A monomial broken line is §5.2's *BrokenLine* in this presentation.
+A *MonomialPresentation* chooses a basis element `z^p` of each nonzero chamber
+homogeneous piece over the specified common commutative scalar ring; each such piece
+is free of rank one. Truncation sends a chosen basis element to its corresponding
+basis element or to zero. A monomial broken line is §5.2's *BrokenLine* written in
+these bases, using the whole homogeneous components of the given propagation maps.
 In the static skew setting of §4.2 the initial polynomials are arbitrary over a
 commutative `ℚ`-algebra `R`.
 
@@ -1763,17 +1778,23 @@ and direction projection `(m,n)↦m`; the fine walls are inverse-image cylinders
 
 *Targets.*
 
-- *MonomialPresentation* holds for §4.2's principal action.
-- *monomial_exponent_dictionary*: GHKK's exponent `|m₀(q)|` is
+- The standard bases of §4.2's principal coefficients and §4.3's quantum coefficients
+  give *MonomialPresentation*s. Their ordinary-wall components are computed by
+  §4.2's wall-function power formula and §4.3's conjugation formula, respectively.
+- *monomial_exponent_dictionary*: for §4.2, GHKK's exponent `|m₀(q)|` is
   `|⟨κ(n)n,m⟩|` for `q=(m,a)`.
-- *cylinderBrokenLineLift*: after specifying a contributing fine exponent history,
-  a coarse path has a unique lift with endpoint `(Q,0)` and initial exponent `(m,0)`,
+- *cylinderBrokenLineLift*: for the principal regrading above and a contributing fine
+  exponent history, a coarse path has a unique lift with endpoint `(Q,0)` and initial exponent `(m,0)`,
   obtained by integrating the forgotten coordinate velocities backwards. It crosses
   exactly the same walls with the corresponding incoming tail, and every contributing
   fine path arises from this lifting. Prove finiteness of the contributing fine refinements of
   each coarse type at every cutoff. Retain zero projected shifts as coefficient
   changes, using §5.2's constant-source convention for zero initial direction.
-- *theta_eq_monomialBrokenLineSum*: §5.5's theta maps to the monomial sum by
+- *theta_eq_monomialBrokenLineSum*: in a *MonomialPresentation* of §5.1's coefficients,
+  §5.5's theta equals the sum of final monomial decorations obtained from the actual
+  signed action components. The equality holds at every finite order, commutes with
+  truncation and hence holds in the inverse limit.
+- *principalTheta_eq_projectedMonomialSum*: §4.2's principal theta maps to the coarse sum by
   `z^{(m,n)}↦t^n z^m`. This is a weighted pushforward: several fine degree
   histories can combine into one coarse homogeneous decoration. Prove equality at
   each finite order, then in the inverse limit.
@@ -1790,7 +1811,7 @@ and direction projection `(m,n)↦m`; the fine walls are inverse-image cylinders
 *probeWall_eq_brokenLineSum*. Regrading groups finite fine histories using linearity
 of the component maps; cylinder lifting supplies the geometric correspondence.
 
-*Needs:* §4.2 and §§5.1–5.5.
+*Needs:* §§4.2–4.3 and §§5.1–5.5.
 Sources: CPS Proposition 3.2, Proposition 4.4 and Lemmas 4.7, 4.9 in
 2205.07753v2, PDF 11–18; N23 Proposition 7.6, Lemmas 7.7–7.8 and §7, PDF 96–98.
 
@@ -1814,8 +1835,9 @@ diagram of §0.8.
   maps, affine coordinate changes, restrictions retaining global incoming histories,
   and finite weighted refinements of path families.
 - *affine_finiteClosedTypeFamily* and *affineLocalResolution* instantiate the theorem
-  for §5.1 and identify its section with §5.5's *thetaSection*, and with §5.6's
-  monomial theta sum under the monomial and cylinder comparisons.
+  for §5.1 and identify its section with §5.5's *thetaSection*. A *MonomialPresentation*
+  gives §5.6's monomial sum; for the principal regrading, apply
+  *principalTheta_eq_projectedMonomialSum*.
 
 *Route:* Along a generic endpoint path, proper closed families reduce changes to the
 finitely many declared codimension-one events. Group types by local germs and use
@@ -2382,9 +2404,9 @@ monomial.
   of *globalThetaSection*. Compatible coefficient maps and finite weighted-history
   comparisons preserving these submonoids preserve both conclusions.
 - *theta_coefficients_nonnegative*: §5.5's formal theta series is a
-  *PositiveThetaSeries*: every *homogeneousComponent* in §5.6's monomial presentation
-  of *ShiftedCoefficients p* is `c·z^{p+n}` with `c∈ℕ[A]`, independent of the
-  diagram representative. Under *principalProjectionComparison* and §5.6's finite
+  *PositiveThetaSeries*: in §5.6's standard principal monomial presentation, every
+  *homogeneousComponent* of *ShiftedCoefficients p* is `c·z^{p+n}` with `c∈ℕ[A]`,
+  independent of the diagram representative. Under *principalProjectionComparison* and §5.6's finite
   weighted cylinder comparison it is §5.7's positive section for the projected
   principal coefficients, including coefficient degrees of zero spatial direction.
 
@@ -2437,6 +2459,8 @@ finite-order systems establish the all-order statements.
   §§3–4, [2205.07753v2](https://arxiv.org/abs/2205.07753v2).
 - **N23:** Nakanishi, *Cluster Algebras and Scattering Diagrams, Part III*,
   §§1–3, §5 and §7, [2111.00800v6](https://arxiv.org/abs/2111.00800v6).
+- **NQ:** Nakanishi, *Pentagon relation in quantum cluster scattering diagrams*,
+  §2.3, [2202.01588v7](https://arxiv.org/abs/2202.01588v7).
 - **BLM:** Burcroff–Lee–Mou, *Positivity of generalized cluster scattering diagrams*,
   §§3, 5.5, 8–9, [2503.03719v1](https://arxiv.org/abs/2503.03719v1).
 - **RUP:** Rupel, *Greedy bases in rank 2 generalized cluster algebras*,
