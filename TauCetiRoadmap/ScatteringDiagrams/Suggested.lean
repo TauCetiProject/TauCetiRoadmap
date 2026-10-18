@@ -2199,14 +2199,15 @@ def CoefficientLaws (ψ : CoefficientTransitions U ρ A 𝒜) : Prop :=
 
 end CoefficientDescent
 
-/-! ### The finite focus-focus coefficient diagram (README §6.3)
+/-! ### Worked example: the finite focus-focus coefficient diagram (README §6.3)
 
-The rings below are the finite stratum rings of the standard focus-focus model. In particular
-`LeftRing` and `RightRing` are not localized at `1+w`, and no overlap inverts the nilpotent
-parameter `t`. Localization is performed only on the common face ring. The displayed ring
-maps and theta identities sample the concrete instance of the same coefficient-diagram and
-regular-face interfaces used above; the global decorated-path construction is specified in
-the README.
+This block prototypes the required worked example applying the general coefficient, slab and
+theta constructions to the standard focus-focus model. The rings below are its finite stratum
+rings. In particular, `LeftRing` and `RightRing` are not localized at `1+w`, and no overlap
+inverts the nilpotent parameter `t`. Localization is performed only on the common face ring.
+The displayed ring maps and theta identities sample the concrete instance of the same
+coefficient-diagram and regular-face interfaces used above; the global decorated-path
+construction is specified in the README.
 -/
 
 namespace FocusFocus

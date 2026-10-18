@@ -11,10 +11,11 @@ produces their theta sections.
 
 The targets include arbitrary nonabelian label groups; BCH and symmetrization PBW for
 Lie algebras over commutative `ℚ`-algebras without freeness assumptions; tropical
-vertex, principal and quantum realizations; integral-affine descent; the focus-focus
-slab algebra and its theta basis; and positivity for every adapted static skew
-polynomial input, including degenerate and zero forms. Comparison theorems identify
-these realizations and their theta constructions through the common interfaces.
+vertex, principal and quantum realizations; integral-affine descent; a worked example
+constructing the slab algebra and theta basis for a focus-focus singularity; and positivity
+for every adapted static skew polynomial input, including degenerate and zero forms.
+Comparison theorems identify these realizations and their theta constructions through
+the common interfaces.
 
 | Layer | Title | What it delivers | Depends on |
 |---|---|---|---|
@@ -24,7 +25,7 @@ these realizations and their theta constructions through the common interfaces.
 | [3](#layer-3-directed-scattering-and-completion) | Directed scattering and completion | homogeneous wall spaces with a separate geometric direction map; existence and uniqueness of consistent outgoing completion, including positive degrees of zero spatial direction | 0–2 |
 | [4](#layer-4-realizations-and-specializations) | Realizations and specializations | tropical vertex, principal and quantum actions and their faithfulness criteria; KS and cylinder comparisons; weight-zero function walls and slab algebras | 0–3 |
 | [5](#layer-5-broken-lines-general-position-and-theta-transport) | Broken lines, general position and theta transport | one decorated-path construction for module actions and face correspondences; finite closed type families and local resolution identities; module probes; global theta sections and weighted monomial comparisons | 0–4 |
-| [6](#layer-6-integral-affine-covariance-descent-and-a-nodal-model) | Integral-affine covariance, descent and a nodal model | descent of coefficient diagrams and invertible transport; global theta covariance; the focus-focus fiber-product algebra, its theta basis and multiplication | 0–5 |
+| [6](#layer-6-integral-affine-covariance-descent-and-a-worked-example) | Integral-affine covariance, descent and a worked example | descent of coefficient diagrams and invertible transport; global theta covariance; a focus-focus worked example computing the slab algebra, theta basis and multiplication | 0–5 |
 | [7](#layer-7-wall-positivity-and-positive-theta-coefficients) | Wall positivity and positive theta coefficients | positive representatives for all adapted static skew polynomial inputs; positive specialization and nonnegative coefficients of the common theta construction | 0–5 |
 
 ## Scope and ownership
@@ -43,8 +44,9 @@ locus. Paths lie in its regular affine complement; finite degenerations hitting 
 locus enter the local resolution identities. The global theorem constructs matching
 theta sections on the regular chambers and facets from finite closed families and
 local certificates. It does not assert extension to unspecified coefficient objects
-at omitted strata. The focus-focus target supplies an explicit slab coefficient
-diagram, proves its certificates and computes its affine nodal algebra and scheme.
+at omitted strata. The focus-focus worked example applies these constructions to an
+explicit slab coefficient diagram, proves its certificates and computes its affine
+nodal algebra and scheme.
 Directed completion on a vector space and static skew positivity retain their stated
 generality; no positivity hypothesis is imposed on the general coefficient theory.
 
@@ -2008,7 +2010,7 @@ component maps and face lifts.
 Sources for the finite-family and local-to-global arguments: GHS §3,
 especially Proposition 3.16 and Theorem 3.19; CPS Lemmas 4.7 and 4.9.
 
-## Layer 6: integral-affine covariance, descent and a nodal model
+## Layer 6: integral-affine covariance, descent and a worked example
 
 ### 6.1 Integral-affine covariance
 
@@ -2106,7 +2108,12 @@ acting compatibly on it, with chart-change lifts in `H`. Its transport group is
 *facetDescent*. The use of noninvertible generizations is descent of coefficient
 diagrams; the local-system conclusion has the invertibility hypothesis above.
 
-### 6.3 The focus-focus slab and its theta basis
+### 6.3 Worked example: the focus-focus slab and its theta basis
+
+This required worked example applies the general slab, descent and theta constructions
+to the standard focus-focus affine singularity (GS §2.2). Construct its coefficient
+diagram and verify the hypotheses of *globalThetaSection* (§5.7). Identify the resulting
+theta sections with an explicit basis of the slab algebra and compute their multiplication.
 
 Use the nodal affine plane `B=ℝ²`, `Δ={(0,0)}`, with left and right chambers
 `u<0` and `u>0`. The chart extensions near the slab `u=0` have transition the
@@ -2624,9 +2631,9 @@ specified finite-order systems establish the all-order statements. The compariso
 targets are part of completion: the abstract group and its representations, the
 identity and projected degree geometries, the ordinary-wall and face-span path
 constructors, the module-probe and global theta sections, and the principal
-positivity construction must agree through their stated maps. The focus-focus
-calculation verifies these interfaces with noninvertible incidence maps and affine
-monodromy.
+positivity construction must agree through their stated maps. The required worked
+example of §6.3 verifies these interfaces with noninvertible incidence maps and affine
+monodromy, including the explicit identification of the resulting algebra and theta basis.
 
 ## References
 
