@@ -191,6 +191,12 @@ theorem Presheaf.isNonsingular_iff_mono {C : Type u} [SmallCategory C] (X : Cᵒ
       ∀ (c : C) (x : X.obj (op c)), Mono (yonedaEquiv.symm x) := by
   sorry
 
+/-- A presheaf with a morphism to a non-singular presheaf is non-singular; in particular every
+subpresheaf of a non-singular presheaf is non-singular. -/
+theorem Presheaf.IsNonsingular.of_hom {X Y : Cᵒᵖ ⥤ Type w} (f : X ⟶ Y)
+    (hY : Presheaf.IsNonsingular Y) : Presheaf.IsNonsingular X := by
+  sorry
+
 /-- A functor `p : E ⥤ C` is a discrete fibration if every morphism into `p.obj e` lifts
 uniquely to a morphism into `e`. -/
 def Functor.IsDiscreteFibration {E : Type*} [Category* E] (p : E ⥤ C) : Prop :=

@@ -190,9 +190,10 @@ morphisms `⦋k⦌□ ⟶ ⦋n⦌□`, summing to `3 ^ n` over `k`.
 3.1 **Non-singular presheaves** (Convention 4), for any category `C`.
 `Presheaf.IsNonsingular X ↔ Quiver.IsThin X.Elements`; for `[SmallCategory C]` and `X : Cᵒᵖ ⥤ Type u`,
 `Presheaf.IsNonsingular X ↔ ∀ c x, Mono (yonedaEquiv.symm x)`. Every representable is non-singular
-iff every morphism of `C` is a monomorphism (cf. Cisinski, 8.2.2). Stability: subpresheaves
-(`Subfunctor`), coproducts, filtered colimits, and pushouts `X ⊔_A Y` along two monomorphisms
-`A ⟶ X`, `A ⟶ Y`.
+iff every morphism of `C` is a monomorphism (cf. Cisinski, 8.2.2). Stability: a presheaf with a
+morphism to a non-singular presheaf is non-singular (`Presheaf.IsNonsingular.of_hom`; in particular
+subpresheaves, `Subfunctor`), coproducts, filtered colimits, and pushouts `X ⊔_A Y` along two
+monomorphisms `A ⟶ X`, `A ⟶ Y`.
 
 3.2 **Face posets.** For `[IsDirect C]` and `X` non-singular, the type `(c : C) × X.obj (op c)` with
 `⟨c', x'⟩ ≤ ⟨c, x⟩ :↔ ∃ u : c' ⟶ c, X.map u.op x = x'` is a partial order (`Presheaf.FacePoset X`),
@@ -200,6 +201,9 @@ iff every morphism of `C` is a monomorphism (cf. Cisinski, 8.2.2). Stability: su
 canonical cocone exhibits `X` as the colimit of the representables over `Presheaf.FacePoset X`.
 For `X : SSet` with `[X.Nonsingular]`, the non-degenerate simplices form a semi-simplicial set
 (by `SSet.nonDegenerate_δ`), it is non-singular, and its face poset is order-isomorphic to `X.N`.
+*Check:* for `C = SemiSimplexCategory` and `X` non-singular, an element `⟨⦋m⦌ₛ, x⟩` has `m + 1`
+pairwise distinct vertices (its faces of dimension `0`), and `e ↦` (vertices of `e`) is an order
+isomorphism from `{e // e ≤ ⟨⦋m⦌ₛ, x⟩}` onto the non-empty subsets of that vertex set.
 
 3.3 **Discrete fibrations.** `Functor.IsDiscreteFibration` and `DiscreteFibration C`
 (Convention 4); the equivalence `(Cᵒᵖ ⥤ Type v) ≌ DiscreteFibration C` for `C : Type v` with
@@ -216,7 +220,11 @@ and conversely a map `τ` from `K` to the objects of `C`, strictly monotone for 
 `c ≤ c' :↔ Nonempty (c ⟶ c')` on objects (antisymmetric because `C` is direct), with such
 compatible isomorphisms `u_ξ` satisfying `u_ξ ∘ u_η = u_{u_ξ η}` comes from a unique discrete
 fibration. The category of non-singular presheaves is thereby equivalent to the category of these
-pinned posets, with type-preserving maps compatible with the pinnings as morphisms.
+pinned posets, with type-preserving maps compatible with the pinnings as morphisms. Directness is
+used only through skeletality and `IsDirect.eq_id_of_endo` (which also give the antisymmetry of
+`c ≤ c'`): state 3.4 for a small skeletal `C` in which every endomorphism is the identity and every
+morphism is a monomorphism, and derive the `[IsDirect C]` form; the ordered set `ℤ` of 1.1 satisfies
+these hypotheses without being direct.
 
 ## Provenance
 
@@ -231,8 +239,16 @@ Existing formalizations to port or consult (cited sources, not specifications):
 - [`lean/Grothendieck/Folder104.lean`](https://github.com/Commutator-IO/grothendieck-project/blob/main/lean/Grothendieck/Folder104.lean)
   (CC0), from a reading of folder 104 of the Grothendieck fonds (Montpellier): `reedyDirecte`,
   `wf_of_degre`, `entiers_relatifs_non_directe` (Layer 1), `DeltaInj` with `δ_comp_δ` and
-  `factorise_face` (2.4), `card_I_cube` and `somme_faces_cube` (2.5), and the pinned-poset
-  statement (3.4).
+  `factorise_face` (2.4), `card_I_cube` and `somme_faces_cube` (2.5); `nonSingulier_of_hom`,
+  `admissible_coproduit` and `admissible_pushout` (3.1, with `admissible_iff` identifying its
+  « admissible » presheaves with the non-singular ones), `mono_iff_injective_versEpingle` (3.3), and
+  the pinned-poset equivalence `equivalence_page13` (3.4), proved for a small skeletal category
+  whose morphisms are monomorphisms and whose endomorphisms are identities, with no
+  well-foundedness hypothesis.
+- [`lean/Grothendieck/Folder76.lean`](https://github.com/Commutator-IO/grothendieck-project/blob/main/lean/Grothendieck/Folder76.lean)
+  (CC0), namespace `Grothendieck.Folder76.Sommets`, for non-singular semi-simplicial sets given
+  explicitly (`NonSingular`): `NonSingular.vertex_inj` and `NonSingular.isFlagGeom`, the Check of
+  3.2.
 
 ## References
 
