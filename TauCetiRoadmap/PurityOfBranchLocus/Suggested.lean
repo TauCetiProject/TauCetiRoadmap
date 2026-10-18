@@ -47,6 +47,27 @@ theorem etaleAt_iff_stalkMap [LocallyOfFinitePresentation f] (x : X) :
       (f.stalkMap x).hom.Flat ∧ (f.stalkMap x).hom.FormallyUnramified := by
   sorry
 
+/-- The **global dimension** of a ring: the supremum of the projective dimensions of its modules.
+Stacks, Definition 10.109.10 (00O6). -/
+@[stacks 00O6]
+def globalDimension (R : Type u) [CommRing R] : WithBot ℕ∞ :=
+  ⨆ M : ModuleCat.{u} R, CategoryTheory.projectiveDimension M
+
+/-- **Serre's theorem.** A Noetherian local ring is regular iff it has finite global dimension, and
+the localization of a regular local ring at a prime is a regular local ring. Stacks, Lemma
+10.110.6 (0AFS). -/
+@[stacks 0AFS]
+theorem isRegularLocalRing_iff_finite_globalDimension (R : Type u) [CommRing R] [IsLocalRing R] [IsNoetherianRing R] :
+    IsRegularLocalRing R ↔ ∃ n : ℕ, globalDimension R ≤ n := by
+  sorry
+
+/-- The localization of a regular local ring at a prime is a regular local ring. Stacks, Lemma
+10.110.6 (0AFS), second sentence. -/
+@[stacks 0AFS "second sentence"]
+theorem isRegularLocalRing_localization (R : Type u) [CommRing R] [IsRegularLocalRing R]
+    (p : Ideal R) [p.IsPrime] : IsRegularLocalRing (Localization.AtPrime p) := by
+  sorry
+
 end Layer0
 
 /-! ## Layer 2: purity of the branch locus -/
