@@ -301,8 +301,9 @@ continuous sections of profinite groups (`exists_continuous_section`,
 (`topologicalKrullDim_eq_iSup_coheight`, `topologicalKrullDim_eq_iSup_of_isOpenEmbedding`,
 `IsPureDimensional`, `isPureDimensional_iff_forall_of_isOpenEmbedding`).
 
-| Declaration | File | A1 use |
+| Declaration | File | Use |
 |---|---|---|
+| `TauCeti.MulSemiringAction.tensorToPi`, `tensorToPi_tmul`, `tensorToPi_apply_one`, `tensorToPi_map_toAlgHom` | [Tau Ceti, `RingTheory/Invariant/Free.lean`, lines 79–109](https://github.com/TauCetiProject/TauCeti/blob/cb5fb39763cbca84862c35ee20e64abb6cc539d8/TauCeti/RingTheory/Invariant/Free.lean#L79-L109) | A4.2 consumes the generic Galois tensor map for arbitrary groups, its pure-tensor and identity formulas, and compatibility with twisting the second factor. `Algebra.galoisTensorMap` is an alias of this map. |
 | Unit-Jacobian Newton | `TauCeti.IsAdicComplete.existsUnique_eq_zero_of_isUnit_det`, `TauCeti/RingTheory/AdicCompletion/Newton.lean` | Supplies the restricted-series Newton case `k = 0` after Taylor linearisation on the ring of definition; the quantitative bounds and functoriality belong to A3. |
 | `TauCeti.Huber.IsSheafyRing`, `IsStablySheafyRing` | `TauCeti/AlgebraicGeometry/AdicSpace/Spa/StructurePresheaf/SheafyRing.lean` | Sheafiness predicates used by the strong-sheafiness targets. |
 | `TauCeti.Huber.isSheafyRing_of_isStronglyNoetherian` | `TauCeti/AlgebraicGeometry/AdicSpace/Spa/StructurePresheaf/StronglyNoetherian.lean` | Strongly noetherian sheafiness; combined with the existing restricted-series instance. |
@@ -9185,8 +9186,11 @@ ring the zero algebra is a torsor under every finite group; and `γ` iterates to
 `B^{⊗(k+1)} ≅ Map(G^k, B)` for `k ≥ 0`, of which `k = 0, 1, 2` give the finite-level rings of the
 cover, its fibre square and its fibre cube used for descent (*finite-etale-invariance-along-tower*
 (ii)). For `A = K` a field and `B` a field, `B` is a `G`-torsor over `K` iff `B/K` is a finite
-Galois extension and `G → Gal(B/K)` is an isomorphism. Define `Algebra.galoisTensorMap G A B` (the
-`B`-algebra map `γ`, for any group action), the class `Algebra.IsFiniteEtaleTorsor G A B`,
+Galois extension and `G → Gal(B/K)` is an isomorphism. Use the library map
+`TauCeti.MulSemiringAction.tensorToPi A B G` as `γ`, with the alias
+`Algebra.galoisTensorMap G A B := TauCeti.MulSemiringAction.tensorToPi A B G` for any group
+acting by `A`-algebra automorphisms; the map requires no finiteness of `G`. Define the class
+`Algebra.IsFiniteEtaleTorsor G A B`,
 `galoisMap` (the `B`-algebra isomorphism `B ⊗[A] B ≃ₐ[B] (G → B)`, `b ⊗ b′ ↦ (g ↦ b * g • b′)`)
 and `iterGaloisMap` (`B^{⊗(k+1)} ≃ₐ (G^k → B)`, specified in vertex coordinates by
 `iterGaloisMap_tprod`: `b₀ ⊗ ⋯ ⊗ b_k ↦ ((g_i) ↦ b₀ ∏ᵢ gᵢ(b_{i+1}))`, which determines its
@@ -9203,8 +9207,11 @@ fields `K ⊆ L` with `G` acting on `L`, `IsFiniteEtaleTorsor G K L ↔ IsGalois
 via the action) ([ECD] §15, Lem. 15.3, p. 90; [Berkeley] Lecture 10, proof of Lem. 10.1.6, p. 75
 (the levels as torsors under an inverse system of finite groups); [ECD] §15, proof of Prop. 15.4,
 p. 91 (the torsor `A → A_i` which D6 turns into a `G_i`-torsor of v-sheaves)).
-This target owns the generic tensor map and torsor class in a shared algebra module, independent
-of analytic geometry. Prove `Algebra.galoisTensorMap_restrictScalars`: restriction of `γ` from
+The generic tensor map and its pure-tensor, identity-component and right-factor-twisting formulas
+are supplied by Tau Ceti's `RingTheory/Invariant/Free.lean` (lines 79–109 at the linked revision
+in the supplier table). This target owns the alias, torsor class, scalar-restriction interface
+and iterated maps in a shared algebra module, independent of analytic geometry.
+Prove `Algebra.galoisTensorMap_restrictScalars`: restriction of `γ` from
 `B`-algebras to `A`-algebras equals the map constructed by `Algebra.TensorProduct.lift` from
 the constant map `B → Map(G, B)` and the orbit map `b ↦ (g ↦ g(b))`. The maps agree on pure
 tensors, so Mathlib `Algebra.TensorProduct.ext'` identifies them. For a field `K` and any
@@ -9229,9 +9236,11 @@ class with `isGaloisGroup`, `of_surjective`, `tensor` and `iterGaloisMap` is the
 `Algebra.TensorProduct.lift`, `MulSemiringAction.toAlgHom`,
 `Module.Finite.of_finite_tensorProduct_of_faithfullyFlat`,
 `Algebra.Etale.of_etale_tensorProduct_of_faithfullyFlat`, `comonadicExtendScalars`,
-`Algebra.IsInvariant`, `IsGaloisGroup`, `PiTensorProduct`.
+`Algebra.IsInvariant`, `IsGaloisGroup`, `PiTensorProduct`;
+Tau Ceti `TauCeti.MulSemiringAction.tensorToPi` and its formulas in `RingTheory/Invariant/Free.lean`.
 
-Lean: `Algebra.galoisTensorMap`, `Algebra.galoisTensorMap_restrictScalars`, the class
+README-only signatures in `Suggested.lean`: the alias `Algebra.galoisTensorMap`,
+`Algebra.galoisTensorMap_restrictScalars`, the class
 `Algebra.IsFiniteEtaleTorsor` (finite étale, faithfully flat, bijective Galois map),
 `Algebra.IsFiniteEtaleTorsor.iff_field` and `Algebra.IsFiniteEtaleTorsor.iff_isGalois`;
 the rest is README only.
@@ -9240,6 +9249,9 @@ the rest is README only.
 
 - *galois_zero* (degenerate) — the zero-fold group product gives `b₀ ↦ b₀`.
 - *galois_one* — `b₀ ⊗ b₁` is the function `g ↦ b₀·g(b₁)`.
+- *galois_infinite_group* (boundary, README-only example signature) — for the trivial action of
+  `G = Multiplicative ℤ` on `B = A = ℤ`, the map is defined and sends `a ⊗ b` to the constant
+  function with value `ab`. It is not surjective: the indicator of the identity is not constant.
 - *galois_two* — vertex coordinates give `b₀ ⊗ b₁ ⊗ b₂ ↦ ((g,h) ↦ b₀·g(b₁)·h(b₂))`;
   the last factor uses `h`, not `gh`. In general `iterGaloisMap_tprod` specifies
   `b₀ ∏ᵢ gᵢ(bᵢ₊₁)` on every pure tensor and hence determines the algebra map.
@@ -9257,18 +9269,18 @@ the rest is README only.
   `{(a, b) : a − b ∈ 2ℤ[i]}` and cokernel `ℤ[i]/2ℤ[i]`, of order `4`, reflecting ramification
   at `2` (the fibre at `2` is `𝔽_2[X]/((X + 1)²)`, on which conjugation is trivial); over `ℤ[1/2]`
   the same map is bijective (check *test_gaussian_half*).
-- *test_trivial_action* (non-example, Lean example) — `A × A` with the trivial action of `ℤ/2`
+- *test_trivial_action* (non-example, README-only example signature) — `A × A` with the trivial action of `ℤ/2`
   is not a `(ℤ/2)`-torsor over a nonzero `A`: the image of `γ` consists of constant functions.
-- *test_swap* (computation, Lean example) — `A × A` with `ℤ/2` exchanging the factors is a
+- *test_swap* (computation, README-only example signature) — `A × A` with `ℤ/2` exchanging the factors is a
   `(ℤ/2)`-torsor over every `A`, including the zero ring and characteristic `2`: it is the trivial torsor.
-- *test_field_split* (compatibility, Lean example) — for every field `K` and finite group `G`,
+- *test_field_split* (compatibility, README-only example signature) — for every field `K` and finite group `G`,
   `Map(G, K)` with `(h·f)(g) = f(gh)` satisfies both the torsor predicate and the nonzero
   finite-étale criterion of `iff_field`; it is disconnected when `|G| > 1`. Restricting the
   tensor map to `K`-algebras preserves its values on pure tensors, including *galois_left*,
   *galois_right* and *galois_identity*.
-- *test_field_char_divides* (boundary, Lean example) — `𝔽₂ × 𝔽₂` with the swapping action of
+- *test_field_char_divides* (boundary, README-only example signature) — `𝔽₂ × 𝔽₂` with the swapping action of
   `ℤ/2` satisfies both formulations of `iff_field`, although the characteristic divides `|G|`.
-- *test_field_zero_algebra* (non-example, Lean example) — over every field `K`, the zero
+- *test_field_zero_algebra* (non-example, README-only example signature) — over every field `K`, the zero
   algebra has a bijective Galois tensor map but is not faithfully flat; both formulations of
   `iff_field` reject it, in contrast to *test_zero_ring* over the zero base.
 - *test_sign_rat* (computation) — `X ↦ −X` makes `ℚ[X]/(X² − 1) ≅ ℚ × ℚ` a `(ℤ/2)`-torsor (the
@@ -9278,7 +9290,7 @@ the rest is README only.
   invertible.
 - *test_trivial_group* (degenerate) — for the trivial group, `B` is a torsor over `A` iff `A → B`
   is an isomorphism.
-- *test_zero_ring* (degenerate, Lean example) — over the zero ring the zero algebra is a
+- *test_zero_ring* (degenerate, README-only example signature) — over the zero ring the zero algebra is a
   `G`-torsor for every finite `G`, and a nontrivial `G` does not act faithfully on it; this is why `isGaloisGroup`
   assumes `A` nontrivial.
 - *test_isGalois* (compatibility) — for a finite Galois extension `L/K`,
@@ -9363,7 +9375,8 @@ because `Spec A` may be disconnected. For `A = ℚ` and `S = ℚ(∛2)`, `n = 3`
 `Algebra.TensorProduct.lmul'`, `Equiv.Perm`, `Algebra.Etale.comp`, `Algebra.Etale.baseChange`,
 `IsIdempotentElem`, `IsSepClosed`.
 
-Lean: `Algebra.exists_isFiniteEtaleTorsor_isTotallySplit` (existence of a finite group `G` and a
+README-only signature in `Suggested.lean`: `Algebra.exists_isFiniteEtaleTorsor_isTotallySplit`
+(existence of a finite group `G` and a
 finite étale `G`-torsor `P` with `S ⊗_A P` totally split); the rest is README only.
 
 **The finite étale torsor tower.** (*finite-etale-torsor-tower*) Let `A` be an arbitrary
@@ -9423,7 +9436,8 @@ acts on the left, `π_{ij}` goes from the larger index to the smaller, and no to
 *splitting-torsor-of-finite-etale-algebra*; Mathlib `Ring.DirectLimit`, `ProfiniteGrp`,
 `LocallyConstant`, `Algebra.Etale.comp`, `Algebra.IsInvariant`.
 
-Lean: `FiniteEtaleTorsorTower` (the structure; the splitting of the direct limit is a field),
+README-only signatures in `Suggested.lean`: `FiniteEtaleTorsorTower`
+(the structure; the splitting of the direct limit is a field),
 `FiniteEtaleTorsorTower.colim`, `FiniteEtaleTorsorTower.nonempty_tower` and
 `FiniteEtaleTorsorTower.exists_level_totallySplit`; the rest is README only.
 
@@ -9550,7 +9564,17 @@ homeomorphism onto its spectral topology), `completion_eq_completion` (the unifo
 `colimPair` is its Hausdorff completion, Mathlib `UniformSpace.Completion` and Tau Ceti
 `IsTateRing.completion`), `completion.lift_comp_toCompletion` (`lift f ∘ toCompletion i = f i`)
 and `completion.hom_ext` (two morphisms out of `(Â_∞, Â_∞⁺)` into a Hausdorff pair that agree
-after every `toCompletion i` are equal). The levels are Tate by A1's `Huber.isTateRing_moduleTopology`
+after every `toCompletion i` are equal).
+The base pair map `completionStructureHom : (A, A⁺) → (Â_∞, Â_∞⁺)` is the common composite
+through every level. Write `j_i := toCompletion i` and `ρ_i := toLevelGroup i`.
+Prove `completionStructureHom_apply`: for every level `i` and `a ∈ A`,
+`completionStructureHom(a) = j_i(algebraMap A A_i a)`.
+The theorem `completionAction_spec` records the continuity of `G × Â_∞ → Â_∞`,
+the equation `g • j_i(x) = j_i(ρ_i(g) • x)` of `completionAction_toCompletion` for every
+`g ∈ G`, level `i` and `x ∈ A_i`, and base invariance
+`g • completionStructureHom(a) = completionStructureHom(a)` for every `g ∈ G` and `a ∈ A`.
+These statements concern the specified action and base map.
+The levels are Tate by A1's `Huber.isTateRing_moduleTopology`
 (`level_isTateRing` registers it for `T.level i` with its natural topology). Three clauses of (c)
 are supplier statements applied to `colimPair` and are cited, not restated: `Â_∞⁺` is the closure
 of the image of `colim A_i⁺` (AdicSpacesPartII `Huber.Pair.uniformization.plus_eq_closure`),
@@ -9746,7 +9770,8 @@ algebra tensor complete); Tau Ceti `ValuationSpectrum.spa`, `ValuationSpectrum.s
 `TauCeti.ValuationSpectrum.continuous_spaComap`, `TauCeti.ValuationSpectrum.spaComap_preimage_rationalSubset`,
 `ValuationSpectrum.rationalSubset`.
 
-Lean: `ValuationSpectrum.spaComap_orbits_of_isFiniteEtaleTorsor` (`q` is surjective and open with
+README-only signature in `Suggested.lean`: `ValuationSpectrum.spaComap_orbits_of_isFiniteEtaleTorsor`
+(`q` is surjective and open with
 fibres the `G`-orbits, from which the homeomorphism follows).
 
 **The adic spectrum of the completed tower.** (*spa-of-completed-tower*) In the situation of
@@ -9782,9 +9807,10 @@ The incomplete ring `ℚ_p[T]` tests the completeness hypothesis in the finite �
 
 **Checks for the constructions.** In the table, unqualified names belong to the namespace
 of the preceding qualified name. The subsequent computations specify the labelled Checks. Of the
-definitions in the table, `Algebra.IsTotallySplit`, `IsFiniteEtaleSplit`, `Algebra.galoisTensorMap`,
-`Algebra.IsFiniteEtaleTorsor`, `FiniteEtaleTorsorTower` and `FiniteEtaleTorsorTower.colim` are in
-`Suggested.lean`; the others are README only.
+definitions in the table, `Algebra.IsTotallySplit` and `IsFiniteEtaleSplit` are elaborated in
+`Suggested.lean`. The alias `Algebra.galoisTensorMap`, `Algebra.IsFiniteEtaleTorsor`,
+`FiniteEtaleTorsorTower` and `FiniteEtaleTorsorTower.colim` have README-only signatures there;
+the other definitions are specified in this README.
 
 | Definition | Checks |
 | --- | --- |
@@ -9812,8 +9838,8 @@ definitions in the table, `Algebra.IsTotallySplit`, `IsFiniteEtaleSplit`, `Algeb
 | `FiniteEtaleTorsorTower.colimPlus`; `colimPair` | *colimit_plus_stage*, *colimit_plus_trivial*, *colimit_plus_zero* |
 | `FiniteEtaleTorsorTower.completion` | *completion_test_Qp*, *completion_test_trivial*, *completion_test_not_colim* |
 | `FiniteEtaleTorsorTower.toColimPair`; `toCompletion` | *completion_transition*, *completion_stage_value*, *completion_base_value* |
-| `FiniteEtaleTorsorTower.completionStructureHom` | *completion_base_value*, *completion_action_base*, *completion_test_uniformization* |
-| `FiniteEtaleTorsorTower.completionAction` | *completion_action_stage*, *completion_action_base*, *completion_action_identity* |
+| `FiniteEtaleTorsorTower.completionStructureHom`; `completionStructureHom_apply` | *completion_base_value*, *completion_action_base*, *completion_test_uniformization* |
+| `FiniteEtaleTorsorTower.completionAction`; `completionAction_toCompletion`; `completionAction_spec` | *completion_action_stage*, *completion_action_base*, *completion_action_identity* |
 | `FiniteEtaleTorsorTower.completion.lift` | *completion_lift_identity*, *completion_lift_stage*, *completion_lift_unique* |
 | `FiniteEtaleTorsorTower.locallyConstantToContinuousMap` | *locally_constant_value*, *locally_constant_zero_factors*, *locally_constant_constants* |
 | `FiniteEtaleTorsorTower.completionAlgebra` | *completion_algebra_stage*, *completion_algebra_nilpotent*, *completion_algebra_injective* |
@@ -9821,9 +9847,9 @@ definitions in the table, `Algebra.IsTotallySplit`, `IsFiniteEtaleSplit`, `Algeb
 - *totally_split_empty* — the empty product is the zero algebra.
 - *totally_split_idempotent* — a single clopen component is totally split.
 - *totally_split_variable_rank* — ranks one and zero cannot form a constant-rank split algebra.
-- *galois_left* (Lean example) — `γ(b ⊗ 1)(g) = b`: the first tensor factor is untwisted.
-- *galois_right* (Lean example) — `γ(1 ⊗ b)(g) = g • b`: the second factor carries the action.
-- *galois_identity* (Lean example) — `γ(b ⊗ c)(1) = b*c`: identity evaluation is multiplication.
+- *galois_left* (README-only example signature) — `γ(b ⊗ 1)(g) = b`: the first tensor factor is untwisted.
+- *galois_right* (README-only example signature) — `γ(1 ⊗ b)(g) = g • b`: the second factor carries the action.
+- *galois_identity* (README-only example signature) — `γ(b ⊗ c)(1) = b*c`: identity evaluation is multiplication.
 - *colimit_transition* — both canonical maps respect the direction of transition.
 - *colimit_injective* — faithfully flat transitions do not lose a stage element.
 - *colimit_trivial_groups* — a tower of trivial torsors has colimit `A`.
@@ -9863,9 +9889,12 @@ definitions in the table, `Algebra.IsTotallySplit`, `IsFiniteEtaleSplit`, `Algeb
 - *colimit_topology_nilpotent* — nilpotents need not be separated before uniform completion.
 - *completion_transition* — both pair maps commute with the transition.
 - *completion_stage_value* — the two maps use the same finite-level element.
-- *completion_base_value* — the structure map agrees with every stage, including 0 and 1.
-- *completion_action_stage* — the action extends the specified stage action.
-- *completion_action_base* — the action fixes the original base pointwise.
+- *completion_base_value* — `completionStructureHom_apply` identifies the structure map with
+  `toCompletion i ∘ algebraMap A A_i` for every `i`, including on `0` and `1`.
+- *completion_action_stage* — the stage equation of `completionAction_spec` is exactly
+  `completionAction_toCompletion`, using `ρ_i(g)` on the stage and `g` on its completed image.
+- *completion_action_base* — `completionAction_spec` fixes the image of every `a ∈ A` under
+  `completionStructureHom`, even when that structure map kills a nonzero nilpotent.
 - *completion_action_identity* — For a stage element exchanged with `1 − x`, an injective stage inclusion makes the completed action exchange its image with its complement, while the identity fixes it.
 - *completion_lift_identity* — lifting all completion inclusions gives the identity.
 - *completion_lift_stage* — lifting then restricting recovers any chosen stage.

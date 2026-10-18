@@ -41,7 +41,8 @@ The represented layers are:
   charts;
 * A3: pseudocoherent and stably pseudocoherent modules, Kedlaya–Liu's acyclicity in its sheafy
   form, standard étale presentations;
-* A4: finite étale torsors, the torsor tower and the orbit description of `Spa` of a torsor.
+* A4: README-only signatures for finite étale torsors, the torsor tower and the orbit description
+  of `Spa` of a torsor, using the library Galois tensor map.
 
 The étale, finite étale, pro-finite-étale and pro-étale sites, strict localisations,
 Yoneda-adic spaces, the completed tower and its finite étale descent are README targets.
@@ -1413,6 +1414,11 @@ end
 
 /-! ## Layer A4: analytic adic presentations for diamondification -/
 
+/-
+README-only signatures using `TauCeti.RingTheory.Invariant.Free`, whose generic Galois tensor
+map is outside the pinned Tau Ceti revision. The alias and every signature depending on it are
+recorded together without elaboration against a substitute map.
+
 noncomputable section
 
 universe u
@@ -1429,11 +1435,10 @@ section Torsor
 variable (G A B : Type*) [Group G] [CommRing A] [CommRing B] [_root_.Algebra A B]
   [MulSemiringAction G B] [SMulCommClass G A B]
 
-/-- The generic algebraic Galois map `B ⊗[A] B → Map(G, B)`,
-`b ⊗ b' ↦ (g ↦ b * g • b')`; its restriction of scalars gives the field-level tensor map. -/
-def galoisTensorMap : B ⊗[A] B →ₐ[B] (G → B) :=
-  _root_.Algebra.TensorProduct.lift (_root_.Algebra.ofId B (G → B))
-    (AlgHom.pi fun g ↦ MulSemiringAction.toAlgHom A B g) fun _ _ ↦ Commute.all _ _
+/-- An alias of Tau Ceti's generic Galois tensor map for an arbitrary group action;
+`b ⊗ b' ↦ (g ↦ b * g • b')`. Restriction of scalars gives the field-level tensor map. -/
+abbrev galoisTensorMap : B ⊗[A] B →ₐ[B] (G → B) :=
+  TauCeti.MulSemiringAction.tensorToPi A B G
 
 /-- Restriction of scalars identifies the Galois map with the `A`-algebra tensor lift of the
 constant and orbit maps, including the field-level Galois-algebra convention. -/
@@ -1457,6 +1462,11 @@ example (b : B) (g : G) : galoisTensorMap G A B (1 ⊗ₜ[A] b) g = g • b := b
 /-- *galois_identity*: evaluating at the group identity multiplies the two tensor factors. -/
 example (b c : B) : galoisTensorMap G A B (b ⊗ₜ[A] c) 1 = b * c := by
   simp [galoisTensorMap]
+
+/-- *galois_infinite_group*: for a trivial action of an infinite group on a nonzero algebra,
+the Galois tensor map has constant values and misses the indicator of the identity. -/
+example [Infinite G] [Nontrivial B] (hact : ∀ (g : G) (b : B), g • b = b) :
+    ¬ Function.Surjective (galoisTensorMap G A B) := sorry
 
 /-- `B` is a *finite étale `G`-torsor* over `A`: finite étale, faithfully flat, with bijective
 Galois map (`Spec B → Spec A` is a torsor under the constant group `G`; Scholze, ECD, §15, proof
@@ -1606,6 +1616,16 @@ theorem exists_level_totallySplit (S : Type u) [CommRing S] [_root_.Algebra A S]
 
 end FiniteEtaleTorsorTower
 
+/-! ### A4.5 The completed tower (*completed-tower-pair*)
+
+The completed pair, its action and its base map are specified in the README.
+`FiniteEtaleTorsorTower.completionAction_spec` states continuity of the action, the stage equation
+`g • toCompletion i x = toCompletion i (toLevelGroup i g • x)` supplied by
+`completionAction_toCompletion`, and pointwise invariance of the image of
+`completionStructureHom`. The theorem `completionStructureHom_apply` states
+`completionStructureHom a = toCompletion i (algebraMap A (T.level i) a)` for every level `i`
+and base element `a`. These are compatibility statements for the same action and pair map. -/
+
 /-! ### A4.7 Adic spectra of a torsor (*torsor-spa-orbits*) -/
 
 namespace ValuationSpectrum
@@ -1631,5 +1651,7 @@ theorem spaComap_orbits_of_isFiniteEtaleTorsor {G A B : Type u} [Group G] [Finit
 end ValuationSpectrum
 
 end
+
+-/
 
 end TauCetiRoadmap.AdicEtaleGeometry
