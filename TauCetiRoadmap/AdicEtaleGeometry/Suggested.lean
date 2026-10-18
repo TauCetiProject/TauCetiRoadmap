@@ -1429,10 +1429,22 @@ section Torsor
 variable (G A B : Type*) [Group G] [CommRing A] [CommRing B] [_root_.Algebra A B]
   [MulSemiringAction G B] [SMulCommClass G A B]
 
-/-- The Galois map `B ⊗[A] B → Map(G, B)`, `b ⊗ b' ↦ (g ↦ b * g • b')`. -/
+/-- The generic algebraic Galois map `B ⊗[A] B → Map(G, B)`,
+`b ⊗ b' ↦ (g ↦ b * g • b')`; its restriction of scalars gives the field-level tensor map. -/
 def galoisTensorMap : B ⊗[A] B →ₐ[B] (G → B) :=
   _root_.Algebra.TensorProduct.lift (_root_.Algebra.ofId B (G → B))
     (AlgHom.pi fun g ↦ MulSemiringAction.toAlgHom A B g) fun _ _ ↦ Commute.all _ _
+
+/-- Restriction of scalars identifies the Galois map with the `A`-algebra tensor lift of the
+constant and orbit maps, including the field-level Galois-algebra convention. -/
+theorem galoisTensorMap_restrictScalars :
+    (galoisTensorMap G A B).restrictScalars A =
+      _root_.Algebra.TensorProduct.lift (Pi.constAlgHom A G B)
+        (AlgHom.pi fun g ↦ MulSemiringAction.toAlgHom A B g) (fun _ _ ↦ Commute.all _ _) := by
+  apply _root_.Algebra.TensorProduct.ext'
+  intro b c
+  funext g
+  rfl
 
 /-- *galois_left*: the first tensor factor gives a constant function. -/
 example (b : B) (g : G) : galoisTensorMap G A B (b ⊗ₜ[A] 1) g = b := by
@@ -1456,6 +1468,39 @@ class IsFiniteEtaleTorsor [Finite G] : Prop where
   bijective_galoisTensorMap : Function.Bijective (galoisTensorMap G A B)
 
 end Torsor
+
+/-- Over a field, finite étale torsors are exactly nonzero finite étale algebras with bijective
+Galois tensor map. The algebra may be disconnected and the characteristic may divide `|G|`. -/
+theorem IsFiniteEtaleTorsor.iff_field (G K B : Type*) [Group G] [Finite G] [Field K]
+    [CommRing B] [_root_.Algebra K B] [MulSemiringAction G B] [SMulCommClass G K B] :
+    IsFiniteEtaleTorsor G K B ↔
+      Nontrivial B ∧ Module.Finite K B ∧ _root_.Algebra.Etale K B ∧
+        Function.Bijective ((galoisTensorMap G K B).restrictScalars K) := sorry
+
+/-- *test_field_split*: the regular function algebra over any field is a torsor, including
+disconnected algebras; `iff_field` gives its nonzero finite-étale formulation. -/
+example (G K : Type*) [Group G] [Finite G] [Field K]
+    [MulSemiringAction G (G → K)] [SMulCommClass G K (G → K)]
+    (hact : ∀ (g : G) (f : G → K) (h : G), (g • f) h = f (h * g)) :
+    IsFiniteEtaleTorsor G K (G → K) := sorry
+
+/-- *test_field_char_divides*: the swapping torsor over every characteristic-two field,
+including `𝔽₂`, satisfies the field criterion although the characteristic divides `|G|`. -/
+example (K : Type*) [Field K] [CharP K 2]
+    [MulSemiringAction (Multiplicative (ZMod 2)) (K × K)]
+    [SMulCommClass (Multiplicative (ZMod 2)) K (K × K)]
+    (hact : ∀ (g : Multiplicative (ZMod 2)) (b : K × K),
+      g • b = if g = 1 then b else (b.2, b.1)) :
+    IsFiniteEtaleTorsor (Multiplicative (ZMod 2)) K (K × K) := sorry
+
+/-- *test_field_zero_algebra*: the zero algebra over a field has bijective tensor map but
+satisfies neither the torsor predicate nor its nonzero finite-étale formulation. -/
+example (G K B : Type*) [Group G] [Finite G] [Field K] [CommRing B] [Subsingleton B]
+    [_root_.Algebra K B] [MulSemiringAction G B] [SMulCommClass G K B] :
+    Function.Bijective ((galoisTensorMap G K B).restrictScalars K) ∧
+      ¬ IsFiniteEtaleTorsor G K B ∧
+      ¬ (Nontrivial B ∧ Module.Finite K B ∧ _root_.Algebra.Etale K B ∧
+        Function.Bijective ((galoisTensorMap G K B).restrictScalars K)) := sorry
 
 /-- *test_swap*: the exchanging action on `A × A` is a two-element torsor over every `A`,
 including characteristic two and the zero ring. -/

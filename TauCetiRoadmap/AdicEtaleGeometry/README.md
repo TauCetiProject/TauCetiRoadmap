@@ -7120,11 +7120,11 @@ noetherian analytic spaces); the rest is README only.
 
 - *isLocallyEtaleOverPolydisc_ecd_consumer* (consumer instance) — [ECD] §24, Prop. 24.4: a
   separated morphism of analytic adic spaces over `Spa ℤ_p` that is locally étale over a relative
-  ball has `ℓ`-cohomologically smooth diamond (the six-functor roadmap for diamonds), the case
-  `n = 1` being reduced to the torus through the cover of `B¹` by two annuli. When formalised,
-  the check computes this geometric input over `ℚ₂`: the ball-chart predicate and the union of
-  the loci `|T| = 1` and `|T − 1| = 1`. The cohomological conclusion is supplied by
-  the six-functor roadmap.
+  ball has an associated diamond morphism that is `ℓ`-cohomologically smooth for every prime
+  `ℓ ≠ p`, with the case `n = 1` reduced to the torus through the cover of `B¹` by two annuli.
+  Over `ℚ₂`, the geometric Check asserts the ball-chart predicate and that the loci `|T| = 1`
+  and `|T − 1| = 1` cover `B¹`. DiamondSixOperations S5.5 consumes these charts and
+  proves the cohomological conclusion; over `ℚ₂`, `ℓ = 3` is an allowed coefficient prime.
 
 **`AdicSpace.IsPolydiscOver`.** The affinoid `D` is `(A⟨T₁, …, Tₙ⟩, A⁺⟨T⟩)` over the affinoid
 `A`, compatibly with `q`. Each Check below is a Lean example.
@@ -9203,6 +9203,21 @@ fields `K ⊆ L` with `G` acting on `L`, `IsFiniteEtaleTorsor G K L ↔ IsGalois
 via the action) ([ECD] §15, Lem. 15.3, p. 90; [Berkeley] Lecture 10, proof of Lem. 10.1.6, p. 75
 (the levels as torsors under an inverse system of finite groups); [ECD] §15, proof of Prop. 15.4,
 p. 91 (the torsor `A → A_i` which D6 turns into a `G_i`-torsor of v-sheaves)).
+This target owns the generic tensor map and torsor class in a shared algebra module, independent
+of analytic geometry. Prove `Algebra.galoisTensorMap_restrictScalars`: restriction of `γ` from
+`B`-algebras to `A`-algebras equals the map constructed by `Algebra.TensorProduct.lift` from
+the constant map `B → Map(G, B)` and the orbit map `b ↦ (g ↦ g(b))`. The maps agree on pure
+tensors, so Mathlib `Algebra.TensorProduct.ext'` identifies them. For a field `K` and any
+commutative `K`-algebra `B`, prove `Algebra.IsFiniteEtaleTorsor.iff_field`:
+`IsFiniteEtaleTorsor G K B ↔ Nontrivial B ∧ Module.Finite K B ∧ Algebra.Etale K B ∧ Function.Bijective ((Algebra.galoisTensorMap G K B).restrictScalars K)`.
+Here every `K`-module is free, and a nonzero free module is faithfully flat; conversely faithful
+flatness makes `K → B` injective ([Stacks] Tag 00HQ; Mathlib `Module.Free.of_divisionRing` and
+`Module.FaithfullyFlat.faithfulSMul`). No connectedness or restriction on `char K` is needed.
+InverseGaloisAndArithmeticFundamentalGroups IG.0.2 is the field-specialization consumer:
+its tensor map is this restriction of scalars, and its predicate `IsGaloisAlgebra K B G`
+abbreviates `Algebra.IsFiniteEtaleTorsor G K B`, with the displayed equivalence exposing its
+nonzero finite-étale formulation. The classification by continuous Galois representations and
+the inverse-Galois applications belong to that consumer.
 A4.2a *finite-galois-descent-of-modules* works with the unbundled Galois condition (its
 hypotheses are finite étaleness, the injectivity of `A → B` and the bijectivity of
 `galoisTensorMap`, from which it derives faithful flatness and `B^G = A`) and owns the
@@ -9216,8 +9231,10 @@ class with `isGaloisGroup`, `of_surjective`, `tensor` and `iterGaloisMap` is the
 `Algebra.Etale.of_etale_tensorProduct_of_faithfullyFlat`, `comonadicExtendScalars`,
 `Algebra.IsInvariant`, `IsGaloisGroup`, `PiTensorProduct`.
 
-Lean: `Algebra.galoisTensorMap`, the class `Algebra.IsFiniteEtaleTorsor` (finite étale, faithfully
-flat, bijective Galois map) and `Algebra.IsFiniteEtaleTorsor.iff_isGalois`; the rest is README only.
+Lean: `Algebra.galoisTensorMap`, `Algebra.galoisTensorMap_restrictScalars`, the class
+`Algebra.IsFiniteEtaleTorsor` (finite étale, faithfully flat, bijective Galois map),
+`Algebra.IsFiniteEtaleTorsor.iff_field` and `Algebra.IsFiniteEtaleTorsor.iff_isGalois`;
+the rest is README only.
 
 **Checks.**
 
@@ -9244,6 +9261,16 @@ flat, bijective Galois map) and `Algebra.IsFiniteEtaleTorsor.iff_isGalois`; the 
   is not a `(ℤ/2)`-torsor over a nonzero `A`: the image of `γ` consists of constant functions.
 - *test_swap* (computation, Lean example) — `A × A` with `ℤ/2` exchanging the factors is a
   `(ℤ/2)`-torsor over every `A`, including the zero ring and characteristic `2`: it is the trivial torsor.
+- *test_field_split* (compatibility, Lean example) — for every field `K` and finite group `G`,
+  `Map(G, K)` with `(h·f)(g) = f(gh)` satisfies both the torsor predicate and the nonzero
+  finite-étale criterion of `iff_field`; it is disconnected when `|G| > 1`. Restricting the
+  tensor map to `K`-algebras preserves its values on pure tensors, including *galois_left*,
+  *galois_right* and *galois_identity*.
+- *test_field_char_divides* (boundary, Lean example) — `𝔽₂ × 𝔽₂` with the swapping action of
+  `ℤ/2` satisfies both formulations of `iff_field`, although the characteristic divides `|G|`.
+- *test_field_zero_algebra* (non-example, Lean example) — over every field `K`, the zero
+  algebra has a bijective Galois tensor map but is not faithfully flat; both formulations of
+  `iff_field` reject it, in contrast to *test_zero_ring* over the zero base.
 - *test_sign_rat* (computation) — `X ↦ −X` makes `ℚ[X]/(X² − 1) ≅ ℚ × ℚ` a `(ℤ/2)`-torsor (the
   factors are exchanged).
 - *test_sign_char_two* (non-example) — over `𝔽_2` the same formula is the trivial action on the
