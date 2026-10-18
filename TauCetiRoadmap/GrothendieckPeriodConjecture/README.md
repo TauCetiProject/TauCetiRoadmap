@@ -347,8 +347,10 @@ and contributors should not work from it now — take targets from Layers 0–6 
   `EllipticPeriodConjecture` and Layer 5's CM theorem.
 - **Full faithfulness.** Grothendieck's 1965 question: full faithfulness of
   `M ↦ (T_dR(M), T_B(M), φ)` over algebraic extensions of `ℚ`, its reduction to `ℚ̄`, and its
-  group form `V^G = V ∩ g(V̄)`; in rank one (Tate motives) it holds, which is the content of
-  `det_periodMatrix`.
+  group form `V^G = V ∩ g(V̄)`; in rank one (the Tate motives `ℚ(n)`) it holds because `π` is
+  transcendental: a de Rham–Betti morphism `ℚ(0) → ℚ(n)` with `n ≠ 0` would make `(2πi)^n`
+  algebraic. `det_periodMatrix` is the elliptic instance of the period it uses: `∧²H¹(E) ≅ ℚ(−1)`
+  has period `−2πi`.
 - **Higher dimension.** Abelian varieties (Wüstholz's analytic subgroup theorem, `GPC¹` for
   abelian varieties, Bost–Charles §3), and André's generalised period conjecture for 1-motives.
 
