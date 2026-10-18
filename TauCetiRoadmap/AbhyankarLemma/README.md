@@ -25,6 +25,8 @@ ramification in codimension one of a cover or Abhyankar's lemma.
 Mathlib + Tau Ceti → Layer 0 → Layer 1 → Layer 2 → Layer 3
 LocalPurity §§2.1–2.2 (0BMA, 0BQ5/0EY3, 0EY7) ──→ Layer 2
 ModularCurves §4D (strict henselisation) ───────→ Layer 3
+SchemeAndStackFoundations §0.14 (henselian finite algebras) ──→ Layer 3
+PurityOfBranchLocus §0.3 (0AFS) ────────────────→ Layer 3 §3.3
 ```
 
 The end theorems are `finiteEtale_extend_of_regular_divisor` (0EYE, §2.2),
@@ -67,17 +69,22 @@ no second carrier.
   `TauCeti.IsRegularLocalRing.quotient_span_singleton` (00NQ for one element);
   [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §4.13 `IsRegular.isNormal`
   (Lemma 10.157.5 (0567)).
+- *Regularity of prime localizations*: [PurityOfBranchLocus](../PurityOfBranchLocus/README.md)
+  §0.3 (Stacks 0AFS), used for normality of the root algebra in §3.3.
 - *Henselization and strict henselisation of a local ring*: SchemeAndStackFoundations §0.12
   (`Henselization.algebra`) and [ModularCurves](../ModularCurves/README.md) §4D, which owns the
   strict henselisation `R → R^{sh}` with respect to a separable closure of the residue field
   (Algebra, Definition 10.155.3 (04GQ)) with the properties of Lemma 10.155.2 (04GP): it is
   strictly henselian, a filtered colimit of étale `R`-algebras, with maximal ideal `𝔪 R^{sh}`.
+- *Finite algebras over henselian local rings*: SchemeAndStackFoundations §0.14
+  (`henselian_local_finite_algebras`), used to show that the finite local root algebra in §3.3 is
+  henselian; its residue field is unchanged, so it is strictly henselian.
 - *Descent of morphisms of finitely presented algebras along filtered colimits*: Mathlib
   `CommRingCat.isFinitelyPresentable_under` (parts (2)–(3) of Algebra, Lemma 10.127.8 (05N9)).
 - *Normalization and étale base change*: Mathlib `Scheme.Hom.normalization` and the
   `@[stacks 03GV]` instance `IsIso (f.normalizationPullback g)` for smooth `g`.
 - *Tame ramification of extensions of nonarchimedean local fields*: Tau Ceti `TauCeti.IsTamelyRamified`
-  ([LocalFieldsRamification](../LocalFieldsRamification/README.md) Layer 3). §0.1 compares.
+  ([LocalFieldsRamification](../LocalFieldsRamification/README.md) Layer 3). §0.3 compares.
 - *Abhyankar's lemma for composita of function fields*: Tau Ceti
   `TauCeti.Place.ramificationIdx_restrict_sup` ([AlgebraicCurves](../AlgebraicCurves/README.md)
   Layer 8). It is a statement about ramification indices of places; §3.3 is the scheme-theoretic
@@ -124,21 +131,12 @@ and `B` the integral closure of `A` in `L`, with maximal ideals `𝔪_1, …, �
 
 For a finite separable `K`-algebra `L = ∏ L_j` the three notions are required of every factor
 `L_j` (Stacks, Section 58.31 (0BSE), last sentence of the definition). API:
-`IsUnramifiedWRT.isTamelyRamifiedWRT`, `isTamelyRamifiedWRT_of_charZero`, and
-`isUnramifiedWRT_iff_etale`: `L` is unramified with respect to `A` iff `B` is étale over `A`. Prove
-`isTamelyRamifiedWRT_iff_exists_kummer` (Stacks, Lemma 15.116.7 (0EXW)), all three clauses: `L` is
-tamely ramified with respect to `A` iff there are `e ≥ 1` invertible in `κ_A` and an extension
-`L'/K[π^{1/e}]` unramified with respect to `A[π^{1/e}]` containing `L`, iff there is `e_0` such that
-this holds with `e = d e_0` for every `d` invertible in `κ_A`. Prove `IsUnramifiedWRT.baseChange` and
-`IsTamelyRamifiedWRT.baseChange` (Stacks, Lemma 15.116.9 (0EXY)): for an extension of discrete
-valuation rings `A ⊂ A'` with fraction fields `K ⊂ K'` and `L/K` finite separable,
-`L ⊗_K K' = ∏ L'_i` is a finite product of fields, and each `L'_i` is unramified, resp. tamely
-ramified, with respect to `A'` when `L` is with respect to `A`. Prove
-`isTamelyRamifiedWRT_iff_isTamelyRamified`: for a finite extension `L/K` of nonarchimedean local
-fields with valuation ring `𝒪_K`, `Algebra.IsTamelyRamifiedWRT 𝒪_K L ↔ TauCeti.IsTamelyRamified K L`.
+`IsUnramifiedWRT.isTamelyRamifiedWRT`, `isTamelyRamifiedWRT_of_charZero` (assuming the **residue
+field** `κ_A` has characteristic zero), and `isUnramifiedWRT_iff_etale`: `L` is unramified with
+respect to `A` iff `B` is étale over `A`.
 *Needs:* Mathlib `IsDiscreteValuationRing`, `integralClosure`, `Ideal.ramificationIdx`,
 `Ideal.sum_ramification_inertia`, `Algebra.IsSeparable`, `Algebra.Etale`; Tau Ceti
-`TauCeti.IsTamelyRamified`, `TauCeti.ramificationIndex`.
+`TauCeti.ramificationIndex`.
 
 **Checks.**
 - `test_gaussian_two`: `ℚ(i)` is not tamely ramified with respect to `ℤ_(2)` (`e = 2`, residue
@@ -165,16 +163,47 @@ integral closure `A_1` of `A` in `K_1` is `A[X]/(X^n − π)`; (3) `A_1` is a di
 
 ### 0.3 Abhyankar's lemma for discrete valuation rings
 
-In the notation of Stacks, Remark 15.116.1: `A ⊂ B` an extension of discrete valuation rings with
-fraction fields `K ⊂ L` and ramification index `e`, `K_1/K` finite, `A_1` the integral closure of
-`A` in `K_1` with maximal ideals `𝔪_i`, `B_1` the integral closure of `B` in `K_1 ⊗_K L` with
-maximal ideals `𝔪_{ij}` over `𝔪_i`. Prove `abhyankar_dvr` (Stacks, Lemma 15.116.4 (0BRM)): if the
-residue characteristic of `A` is `0`, or it is `p` with `p ∤ e` and `κ_B/κ_A` separable, and `e`
-divides the ramification index of `A ⊂ (A_1)_{𝔪_i}`, then `(A_1)_{𝔪_i} ⊂ (B_1)_{𝔪_{ij}}` is formally
-smooth in the `𝔪_{ij}`-adic topology for every `j`. Prove the consequence
-`abhyankar_dvr_unramified` (*API*): under the same hypotheses each `(A_1)_{𝔪_i} → (B_1)_{𝔪_{ij}}` is an
-extension of discrete valuation rings with ramification index one and separable residue extension.
-*Needs:* §§0.1–0.2; Mathlib `Algebra.FormallySmooth`, `IsAdicComplete`, `AdicCompletion`.
+In the notation of Stacks, Remark 15.116.1 (09EM): `A ⊂ B` is an extension of discrete valuation
+rings with fraction fields `K ⊂ L` and ramification index `e`, `K_1/K` is finite, `A_1` is the
+integral closure of `A` in `K_1`, and `L_1 = (L ⊗_K K_1)_red` is a finite product of fields. Let
+`B_1` be the integral closure of `B` in `L_1`, with maximal ideals `𝔪_{ij}` over the maximal
+ideals `𝔪_i` of `A_1`. The reduction is essential when `K_1/K` is inseparable: the unreduced
+tensor product can contain nilpotents and is not a product of fields.
+
+Define the relative `𝔪_B`-adic formal-smoothness predicate for a map of discrete valuation rings
+`A → B` as in Stacks, Definition 15.38.1 (07EA): give `B` its `𝔪_B`-adic topology and `A` the
+discrete topology; for every **discrete** `A`-algebra `C` with square-zero ideal `J` and every
+continuous `A`-algebra map `B → C/J`, require a continuous lift `B → C`. Prove
+`adicFormallySmooth_lift_adic`, the corresponding lifting theorem for a complete adic test ring
+`C` when `J` is closed and some power of `J` lies in an ideal of definition (Stacks, Lemma
+15.38.5 (07EA)); this stronger test-ring form follows
+from, but is not the definition of, adic formal smoothness.
+Prove `adicFormallySmooth_iff_unramified` (Stacks, Lemma 15.113.5 (09E7)): this predicate holds
+iff the ramification index is one and `κ_B/κ_A` is separable, including separable residue
+extensions that are not algebraic. Ordinary `Algebra.FormallySmooth` does not express this adic
+property, and `IsAdicComplete` or `AdicCompletion` alone does not supply the lifting theorem.
+
+Prove `abhyankar_dvr` (Stacks, Lemma 15.116.4 (0BRM)): if the residue characteristic of `A` is
+zero, or it is `p` with `p ∤ e` and `κ_B/κ_A` separable, and `e` divides the ramification index of
+`A ⊂ (A_1)_{𝔪_i}`, then `(A_1)_{𝔪_i} ⊂ (B_1)_{𝔪_{ij}}` is adically formally smooth for every
+`j`. Prove `abhyankar_dvr_unramified` (*API*) from the comparison above: each such extension has
+ramification index one and separable residue extension. Prove
+`isTamelyRamifiedWRT_iff_isTamelyRamified`: for a finite extension `L/K` of nonarchimedean local
+fields with valuation ring `𝒪_K`, `Algebra.IsTamelyRamifiedWRT 𝒪_K L ↔ TauCeti.IsTamelyRamified K L`.
+*Needs:* §§0.1–0.2; Mathlib `IsDiscreteValuationRing`, `Ideal.ramificationIdx`,
+`Algebra.IsSeparable`; Tau Ceti `TauCeti.IsTamelyRamified`.
+
+### 0.4 Kummer characterization and tame base change
+
+Prove `isTamelyRamifiedWRT_iff_exists_kummer` (Stacks, Lemma 15.116.7 (0EXW)), all three clauses:
+`L` is tamely ramified with respect to `A` iff there are `e ≥ 1` invertible in `κ_A` and an
+extension `L'/K[π^{1/e}]` unramified with respect to `A[π^{1/e}]` containing `L`, iff there is
+`e_0` such that this holds with `e = d e_0` for every `d` invertible in `κ_A`. Prove
+`IsUnramifiedWRT.baseChange` and `IsTamelyRamifiedWRT.baseChange` (Stacks, Lemma 15.116.9 (0EXY)):
+for an extension of discrete valuation rings `A ⊂ A'` with fraction fields `K ⊂ K'` and `L/K`
+finite separable, `L ⊗_K K' = ∏ L'_i` is a finite product of fields, and each `L'_i` is
+unramified, resp. tamely ramified, with respect to `A'` when `L` is with respect to `A`.
+*Needs:* §§0.1–0.3; Mathlib `integralClosure`, `Algebra.IsSeparable`.
 
 ## Layer 1: ramification in codimension one
 
@@ -250,11 +279,11 @@ define `standardTameCover A f e := AdjoinRoot (X^e − C f)` (Convention 4) and
 Example 58.31.4 (0EYF): `standardTameCover_free` (free of rank `e`), `standardTameCover_etale_away`
 (étale over `A_f`), `dvr_of_minimal_over` (`A_𝔭` is a discrete valuation ring with uniformizer `f`
 for `𝔭` minimal over `f`) and `standardTameCover_isTamelyRamifiedAlong` (via
-`isTamelyRamifiedWRT_iff_exists_kummer`, §0.1). Prove `standardTameCover_isIntegralClosure`
+`isTamelyRamifiedWRT_iff_exists_kummer`, §0.4). Prove `standardTameCover_isIntegralClosure`
 (*API*, the omitted step of 58.31.6): if `A/fA` is regular, then `standardTameCover A f e` is the
 integral closure of `A` in its localization at `f`, `x` is a nonzerodivisor in it with quotient
 `A/fA`, and its localizations at primes over `(f)` are regular.
-*Needs:* §§0.1–0.2, 1.1, 2.2; Mathlib `AdjoinRoot`,
+*Needs:* §§0.1–0.4, 1.1, 2.2; Mathlib `AdjoinRoot`,
 `Algebra.Etale`, `Module.Free`, `IsIntegralClosure`.
 
 **Checks.**
@@ -290,20 +319,38 @@ union of `Spec (standardTameCover A f e_i)`. Prove its affine form `Algebra.abhy
 for `R` Noetherian, `a ∈ R` a nonzerodivisor with `R/aR` regular, `S` a finite `R`-algebra, étale
 over `R_a`, equal to the integral closure of `R` in `S_a`, with `Algebra.IsTamelyRamifiedAlong R S a`,
 every prime of `R` containing `a` has an étale neighbourhood `R → R'` over which `R' ⊗_R S`
-satisfies `IsFiniteProductOfStandardTameCovers R' (R' ⊗_R S) a`. For `X = Spec R` and `D = V(a)`
-the two forms are equivalent, with `S` the integral closure of `R` in `Γ(V, 𝒪_V)`, by
-`isTamelyRamifiedInCodimOne_spec_iff` (§1.1). The proof follows Stacks: reduce to `𝒪_{X,x}`
+satisfies `IsFiniteProductOfStandardTameCovers R' (R' ⊗_R S) a`. The proof follows Stacks: reduce
+to `𝒪_{X,x}`
 strictly henselian using the strict henselisation of ModularCurves §4D (`A^{sh}/fA^{sh}` is the
 strict henselisation of `A/fA` by `strictHenselization_quotient`, and it is regular by
-`isRegularLocalRing_iff_strictHenselization`, §3.2), `IsTamelyRamifiedInCodimOne.baseChange` (§1.1) and Mathlib's descent
-of morphisms between finitely presented algebras along filtered colimits
+`isRegularLocalRing_iff_strictHenselization`, §3.2),
+`IsTamelyRamifiedInCodimOne.baseChange` (§1.1), and Mathlib's descent of morphisms between
+finitely presented algebras along filtered colimits
 (`CommRingCat.isFinitelyPresentable_under`); then `A` is a regular local domain and `f` is prime;
 with `e` the product of the ramification indices, `A' = A[x]/(x^e − f)` is regular and strictly
-henselian; Abhyankar's lemma for discrete valuation rings (§0.3) makes the base change unramified
-in codimension one; §2.2 extends it to a finite étale, hence split (§3.2), cover of `Spec A'`; and
-`kummer_dvr` (6) (§0.2) identifies the function field of each component with `K[f^{1/n}]` for
-`n ∣ e` invertible in `A`.
-*Needs:* §§0.2, 0.3, 1.1, 2.2, 3.1, 3.2; ModularCurves §4D; Mathlib
+henselian. Its regularity follows by applying §2.2 at the primes over `f`; its strict
+henselianity uses SchemeAndStackFoundations §0.14 for finite algebras over a henselian local ring,
+and the unchanged separably closed residue field. Abhyankar's lemma for discrete valuation rings
+(§0.3) makes the base change unramified in codimension one; §2.2 extends it to a finite étale,
+hence split (§3.2), cover of `Spec A'`; and `kummer_dvr` (6) (§0.2) identifies the function field
+of each component with `K[f^{1/n}]` for `n ∣ e`.
+
+The root-algebra identification needs a separate bridge before asserting `n ∈ Aˣ`. Prove
+`rootAlgebra_regular` and `rootAlgebra_isNormal` in this regular-local setting for every `n ≥ 1`,
+without assuming `n` is a unit: the root `y` is a nonzerodivisor, the quotient by `y` is `A/fA`,
+and every maximal localization is regular by §2.2. Apply PurityOfBranchLocus §0.3 (0AFS) to
+pass regularity to every prime localization, then SchemeAndStackFoundations §4.13 (0567) for
+normality. The resulting finite normal `A`-algebra and the normalization `S` have the same
+localization over `A_f` and the same total ring of fractions,
+so uniqueness of integral closure identifies them. Their localization over `A_f` is étale;
+the monogenic étaleness criterion and derivative `n y^{n-1}` make `n` a unit in the root algebra
+localized at `f`. Its finite free positive-rank map from `A_f` is faithfully flat, so units
+descend and `n ∈ A_fˣ`. Since `f` is prime and `n ∉ (f)` (the tame ramification index is prime
+to the residue characteristic at `(f)`),
+`n ∈ A_fˣ` forces `n ∈ Aˣ`. This establishes the required standard-cover exponent condition,
+rather than assuming it from the DVR classification alone.
+*Needs:* §§0.2–0.4, 1.1, 2.2, 3.1, 3.2; ModularCurves §4D;
+PurityOfBranchLocus §0.3; SchemeAndStackFoundations §§0.14, 4.13; Mathlib
 `CommRingCat.isFinitelyPresentable_under`.
 
 ### 3.4 The normalization
@@ -316,6 +363,11 @@ and `D'` is regular; moreover, étale locally on `X`, `Y' → X` is a finite dis
 `e ≥ 1` invertible in `A`. Normalization commutes with étale base change by Mathlib's `@[stacks 03GV]`
 instance `IsIso (f.normalizationPullback g)` for smooth `g`, and `standardTameCover_isIntegralClosure`
 (§3.1) gives the local model.
+Prove `abhyankar_affine_iff_scheme` (*API*): for `X = Spec R` and `D = V(a)`, the scheme form of
+§3.3 and its affine form are equivalent after identifying the finite normalization with
+`Spec S`, where `S` is the integral closure of `R` in the finite étale algebra of the cover over
+`R_a`. Use `isTamelyRamifiedInCodimOne_spec_iff` (§1.1) and the finiteness and affine
+identification established in this section; §3.3 alone does not supply either of them.
 *Needs:* §§3.1, 3.3; Mathlib `Scheme.Hom.normalization`, `Scheme.Hom.normalizationPullback`,
 `IsIntegralClosure`; Tau Ceti `IsEffectiveCartier`.
 
@@ -335,12 +387,14 @@ equivalence a target. *API*: no Stacks counterpart.
 | § | Target | Stacks | Class |
 | --- | --- | --- | --- |
 | 0.1 | `IsUnramifiedWRT`, `IsTamelyRamifiedWRT`, `IsTotallyRamifiedWRT` | 15.113.7 (09E9) | exact |
-| 0.1 | `isTamelyRamifiedWRT_iff_exists_kummer` | 15.116.7 (0EXW) | exact |
-| 0.1 | `.baseChange` | 15.116.9 (0EXY) | exact |
-| 0.1 | `isUnramifiedWRT_iff_etale`, `isTamelyRamifiedWRT_iff_isTamelyRamified` | — | API (equivalences) |
+| 0.1 | `isUnramifiedWRT_iff_etale` | — | API (equivalence) |
 | 0.2 | `kummer_dvr` | 15.116.2 (09EV) | exact |
+| 0.3 | `adicFormallySmooth`, `adicFormallySmooth_lift_adic` | 15.38.1, 15.38.5 (07EA) | exact |
+| 0.3 | `adicFormallySmooth_iff_unramified` | 15.113.5 (09E7) | exact |
 | 0.3 | `abhyankar_dvr` | 15.116.4 (0BRM) | exact |
-| 0.3 | `abhyankar_dvr_unramified` | — | API |
+| 0.3 | `abhyankar_dvr_unramified`, `isTamelyRamifiedWRT_iff_isTamelyRamified` | — | API |
+| 0.4 | `isTamelyRamifiedWRT_iff_exists_kummer` | 15.116.7 (0EXW) | exact |
+| 0.4 | `.baseChange` | 15.116.9 (0EXY) | exact |
 | 1.1 | `IsUnramifiedInCodimOne`, `IsTamelyRamifiedInCodimOne` | Section 58.31 (0BSE) | exact |
 | 1.1 | `IsTamelyRamifiedAlong`, `isTamelyRamifiedInCodimOne_spec_iff` | Section 58.31 (0BSE) | adapted (affine) + equivalence |
 | 1.1 | `.baseChange` | 58.31.1 (0EYD) | exact |
@@ -355,6 +409,7 @@ equivalence a target. *API*: no Stacks counterpart.
 | 3.3 | `abhyankar_regularDivisor` | 58.31.5 (0EYG) | exact |
 | 3.3 | `Algebra.abhyankar_standardCover` | 58.31.5 (0EYG) | adapted (affine) + equivalence |
 | 3.4 | `abhyankar_normalization` | 58.31.6 (0EYH) | exact |
+| 3.4 | `abhyankar_affine_iff_scheme` | — | API (equivalence) |
 
 ## Provenance
 
