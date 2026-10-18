@@ -5275,23 +5275,50 @@ faithful inclusion `X_profét ⥤ X_proét`); prove
 **Pro-finite-étale objects are profinite `π₁`-sets.** (*profinite-etale-galois-sets*) For `X`
 connected with a geometric point `x̄`, the functor `Y = lim Y_i ↦ S(Y) := lim_i F_x̄(Y_i)` is an
 equivalence of sites `X_profét ≃ π_1(X, x̄)-pfsets` for the corrected coverings on both sides
-([PH] §3, Prop. 3.5 and its proof, p. 14; [PH] §3, before Def. 3.4, p. 13). For `X = Spa(K, O_K)`
+([PH] §3, Prop. 3.5 and its proof, p. 14; [PH] §3, before Def. 3.4, p. 13;
+[PH erratum] item (1), p. 1). Extend the finite-level Galois equivalence to pro-categories:
+it identifies pullbacks of finite étale surjections with pullbacks of surjections of finite
+`π_1`-sets, transfinite towers with towers, and the final finite-level factors with `G`-étale
+maps. For joint surjectivity, identify the fibre functor at each geometric point with `F_x̄`
+using *finite-etale-galois-category*. Compatible lifts of an underlying point exist by
+compactness of the finite lift sets, and lifts of the same underlying point lie in
+one `π_1`-orbit, by the finite-stage Galois action and compactness of `π_1`. Images of equivariant
+maps are invariant, so covering underlying points is equivalent to covering the profinite
+geometric fibre. These identifications transport the corrected covering generators directly.
+For `X = Spa(K, O_K)`
 with `K` complete discretely valued, `X_profét ≃ G_K-pfsets` and `Spa(K̂^sep) ↦ G_K`
 (check *galoisSets_field*). *Needs:* *finite-etale-galois-category*, *pro-finite-etale-site-corrected*,
 *profinite-g-sets-site*; AdicSpacesPartII R0.19.6 and R0.19.9. README only (no Lean declaration).
 
-**Open equals pro-étale on `X_profét`; the morphism of sites.**
+**Checks.**
+
+- *galoisSets_field* (computation) — for `K = ℚ₂` and `L = K(√2)`, the cover
+  `Spa(L, O_L) → Spa(K, ℤ₂)` corresponds to the two embeddings of `L` into `K^sep`, with
+  their transitive `G_K`-action, although its map of underlying spaces is a bijection.
+- *galoisSets_empty* (degenerate) — the empty pro-finite-étale object corresponds to the empty
+  profinite set; the empty family covers it on both sites.
+- *galoisSets_summands* (non-example) — the two summands of `X ⊔ X` correspond to the two
+  inclusions into the trivial two-element `π_1`-set. They cover jointly on both corrected sites,
+  while neither inclusion is a surjective tower.
+
+**Pro-étale morphisms are open on `X_profét`; the morphism of sites.**
 (*proetale-profinite-etale-morphism-of-sites*) Let `X` have finitely many connected components,
 so that `X_profét ⊂ X_proét` (*pro-finite-etale-site-corrected*). (a) Under this fully faithful
-inclusion, a morphism `f : U → V` of `X_profét` is open on underlying spaces iff it is
-pro-étale. (b) The inclusion preserves fibre products (those of `pro-X_fét` are levelwise, hence
+inclusion, a pro-étale morphism `f : U → V` of `X_profét` is open on underlying spaces
+`|U| → |V|`, by *pro-etale-maps-open*. Openness of this map does not imply pro-étaleness
+(check *morphismOfSites_quadratic_tail*). Even for connected `X` with a geometric point `x̄`, `IsOpenMap` for
+`ProFiniteEtaleSite.space.map f` and `IsOpenMap` for the underlying profinite map
+`S(f) : lim_i F_x̄(U_i) → lim_j F_x̄(V_j)` of *profinite-etale-galois-sets* are distinct
+conditions. (b) The inclusion preserves fibre products (those of `pro-X_fét` are levelwise, hence
 fibre products of `pro-X_ét` lying in `X_proét`) and sends coverings of `X_profét` to
 coverings of `X_proét`; hence it defines a morphism of sites `X_proét → X_profét` (Mathlib
-`CategoryTheory.Functor.IsContinuous`). The printed consequence "the notions of coverings
-coincide" is not asserted for the corrected coverings and is not used ([PH] §3, Lem. 3.11, p. 17).
-Scholze states the lemma for every locally noetherian `X`; its proof passes through the
-connected comparison of Prop. 3.5, and the hypothesis on components is needed for the inclusion
-itself (check *ProFiniteEtaleSite.test_infinitely_many_components*).
+`CategoryTheory.Functor.IsContinuous`). For coverings, each tower step is still a pullback
+of a finite étale surjection in `X_ét`, and the final pullback of a morphism of `X_fét` is
+finite étale, hence étale in `pro-X_ét`. Joint surjectivity is unchanged because the inclusion
+uses the same underlying spaces. This proves continuity directly from the corrected generators
+([PH] §3, Lem. 3.10(i),(iv), pp. 15–16; Lem. 3.11, p. 17, the site-morphism conclusion;
+[PH erratum] item (1), p. 1). The hypothesis on components is needed for the inclusion itself
+(check *ProFiniteEtaleSite.test_infinitely_many_components*).
 For `X = Spa(K, O_K)` with `K` `p`-adic, the quasi-compact objects of `X_proét` are exactly the
 objects of `X_profét`: a quasi-compact étale `X`-space is a finite disjoint union of
 `Spa(L_i, O_{L_i})`, hence finite étale, so a pro-étale presentation of a quasi-compact object
@@ -5304,6 +5331,36 @@ space `ℕ` is not compact), so `X_proét ≠ X_profét` as categories (check *m
 *pro-finite-etale-site-corrected*, *pro-etale-site-corrected*, *pro-etale-maps-open*,
 *pro-etale-base-change*, *pro-etale-finite-limits*, *finite-etale-tower*; Mathlib
 `CategoryTheory.Functor.IsContinuous`. README only (no Lean declaration).
+
+**Checks.**
+
+- *morphismOfSites_field* (computation) — for `X = Spa(ℚ₂, ℤ₂)`, the quasi-compact subsite
+  of `X_proét` is `X_profét` with the same corrected generators, and induces the same topos.
+  The singleton quadratic cover `Spa(ℚ₂(√2), O_{ℚ₂(√2)}) → X` covers on both sites.
+- *morphismOfSites_empty* (degenerate) — for `X = ∅`, both sites consist of the empty object;
+  the inclusion preserves the empty covering family.
+- *morphismOfSites_field_coprod* (non-example) — for `X = Spa(ℚ₂, ℤ₂)`, the étale object
+  `⊔_ℕ X` belongs to `X_proét` and has noncompact underlying space `ℕ`, so it is not in
+  `X_profét` even though the inclusion induces an equivalence of topoi.
+- *morphismOfSites_quadratic_tail* (non-example) — let `K = ℚ₂`, `L = K(√2)`,
+  `X = Spa(K, ℤ₂)`, `Y = Spa(L, O_L)` and `q : Y → X`. Define
+  `U_n = (⊔_{i<n} Y_i) ⊔ Y_*` and `V_n = (⊔_{i<n} Y_i) ⊔ X_*`.
+  The transition `U_{n+1} → U_n` fixes the first `n` summands and maps both new `Y_n` and
+  tail `Y_*` identically to the old tail. The transition `V_{n+1} → V_n` fixes the first
+  `n` summands and maps new `Y_n` by `q` and tail `X_*` identically to the old `X_*`.
+  Let `f_n : U_n → V_n` be the identity on the first `n` summands and `q` on the tail.
+  These maps commute with the transitions; every stage is finite étale over `X` and
+  every transition is finite étale surjective. Thus `f : U = lim_n U_n → V = lim_n V_n`
+  is a morphism in `X_profét ⊂ X_proét`. Both underlying spaces are the convergent sequence
+  `S = ℕ ∪ {∞}`, with cofinite neighbourhoods of `∞`, and `|f|` is a homeomorphism.
+  Since `Y ×_X Y ≅ Y ⊔ Y`, base change along `c(Y) → X` gives
+  `|U_Y| = S × {+,−}` and `|V_Y| = (ℕ × {+,−}) ∪ {∞}`, the latter with the one-point
+  compactification topology. The induced map fixes the finite points and merges
+  `(∞,+)` and `(∞,−)`. The clopen subset `S × {+}` has image
+  `(ℕ × {+}) ∪ {∞}`, which is not open because it omits infinitely many negative-sign points.
+  Therefore `f_Y` is not open and `f` is not pro-étale, by *pro-etale-base-change* and
+  *pro-etale-maps-open*. Its map on profinite geometric fibres has the same two-limit-point
+  collapse, so it is not open despite openness of `|f|`.
 
 
 **`AdicSpace.ProFiniteEtaleSite.const`.** The constant pro-finite-étale embedding retains the ordered finite source and its permutations. README only (no Lean declaration).

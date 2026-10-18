@@ -43,8 +43,11 @@ The represented layers are:
   form, standard étale presentations;
 * A4: finite étale torsors, the torsor tower and the orbit description of `Spa` of a torsor.
 
-The étale, finite étale and pro-étale sites, strict localisations, Yoneda-adic spaces, the
-completed tower and its finite étale descent are README targets. Finite-étale towers over raw
+The étale, finite étale, pro-finite-étale and pro-étale sites, strict localisations,
+Yoneda-adic spaces, the completed tower and its finite étale descent are README targets.
+Openness on inverse limits of underlying adic spaces and openness on profinite geometric
+fibres are distinct conditions; pro-étale morphisms give the former. The site comparisons
+preserve the corrected covering generators. Finite-étale towers over raw
 pro-objects carry pullback witnesses from finite étale surjections in the étale category.
 The constructor from finite étale underlying-surjective maps assumes the target is pro-étale
 over the base; the countable converse assumes this for the presentation's target or carries
