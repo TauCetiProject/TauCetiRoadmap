@@ -128,8 +128,13 @@ not use F1.11.
    topology from rings and ideals of definition, plus ring the integral closure of the image of
    `B⁺ ⊗_{A⁺} C⁺`, then completion. They are neither uniform nor sheafy in general; every fibre
    product carries its own existence and sheafiness hypotheses.
-6. **Fibre products** are taken in AdicSpaces' category and exist under Huber's hypotheses (AdicSpacesPartII R0); the
-   map from `|X ×_Z Y|` to the fibre product of the underlying sets is surjective, not injective.
+6. **Fibre products** are taken in AdicSpaces' category under the existence hypotheses of
+   AdicSpacesPartII R0. For `f : X → S` locally of weakly finite type, `g : Y → S` adic and `Y`
+   covered by affinoids with complete stably sheafy coordinate rings, the map
+   `|X ×_S Y| → |X| ×_{|S|} |Y|` is surjective, and not injective in general
+   (AdicSpacesPartII R0, *fibre-product-points*; Huber96, Cor. 1.2.3(iii)(d), p. 49).
+   Over an analytic base `S`, adicness of `g` is automatic (*adic-iff-analytic-locus*,
+   AdicSpacesPartII R0).
 7. **Formal schemes** (AdicSpacesPartIII F0) are locally `Spf A` for `A` complete and separated for an adic topology
    with a finitely generated ideal of definition. Admissible formal `O_K`-schemes (AdicSpacesPartIII R2) are
    topologically finitely presented and `ϖ`-torsion-free, and are not noetherian unless `K` is
@@ -165,6 +170,20 @@ not use F1.11.
     statements with a fixed degree shift (`n`, `2n`, `d`) or with `ω_X = Ω^n_X` assume pure
     dimension, and for other smooth spaces they hold on each open and closed pure-dimensional
     part.
+
+**Checks for fibre-product points.**
+
+- Base change along the identity has exactly one point above each compatible pair.
+- For `L = ℚ_p(√p)`, the self-product of `Spa(L, O_L)` over `Spa(ℚ_p, ℤ_p)` has two points,
+  whereas the compatible pair of points is unique. Thus surjectivity permits nonunique lifts.
+- With discrete `S = Spa(ℤ_p, ℤ_p)` and `X = Spa(ℤ_p[T], ℤ_p[T])`, and `U`-adic
+  `Y = Spa(ℤ_p[[U]], ℤ_p[[U]])`, the map `X → S` is of finite type and `Y → S` is non-adic.
+  Their product exists as `Spa(ℤ_p[[U]]⟨T⟩, ℤ_p[[U]]⟨T⟩)` with the `U`-adic topology
+  (AdicSpacesPartII R0, *fibre-product-points*). The rank-two Gauss valuation on `X`, with
+  lexicographic values `|a| = (1, |a|_p)` on nonzero constants and `|T| = (1/2, 1)`, and the
+  Gauss valuation `|Σ b_j U^j| = max_j |b_j|_p p^(−j/2)` on `Y` agree on `S`.
+  Any common lift would satisfy `|U|^(2n) = |p|^n > |T| > 0` for every `n ≥ 1`, contradicting
+  continuity for the `U`-adic topology. Existence alone therefore does not give point lifting.
 
 ## Exact supplier contracts
 
@@ -943,13 +962,17 @@ boundary complement is the open subspace `U := X ∖ D` with its open immersion 
 "Strict" means that charts exist on an open cover of `X` over `K` itself; the normal crossings
 divisors of Diao–Lan–Liu–Zhu (charts étale-locally on `X`; DLLZ-RH §2.1, Ex. 2.1.2, p. 10;
 DLLZ-A §2.3, Ex. 2.3.17, pp. 16–17) form the weaker class and are not smooth pairs in this sense
-unless charts exist analytic-locally over `K`. The two classes differ even after finite extension
-of `K`: at a point `x` with `k(x)` finite over `K` an étale-local chart becomes an analytic-local
-chart after a finite separable extension `K'/K` containing the residue fields of the étale
-neighbourhood (an étale morphism of analytic adic spaces is an open immersion near a point at
-which the residue field does not extend, *etale-local-open-finite-etale-factorisation*, AdicSpacesPartII layer
-R0), but at a point whose residue field is transcendental over `K` no finite extension of `K`
-suffices (the Gauss-point Check below). `D` is reduced and an effective Cartier
+unless charts exist analytic-locally over `K`. At a point `x` with `k(x)` finite over `K`, choose
+a point `y` over `x` in an étale chart. Then `k(y)/k(x)` is finite separable; choose a finite
+extension `K'/K` containing `k(y)`, allowing inseparability over `K`. At the corresponding
+`K'`-rational lifts `y'` and `x'`, the completed residue-field map is the identity of `K'`.
+The étale neighbourhood map is consequently an open immersion near `y'`, so its chart gives
+an analytic-local chart near `x'` (dJvP, Lem. 3.1.5, pp. 20–21; the rigid–adic comparison and
+*etale-local-open-finite-etale-factorisation*, AdicSpacesPartII R0–R1).
+At points with transcendental residue field, finite constant extensions need not suffice:
+the varying-`S` Gauss-point Check below gives such a pair. Transcendence alone does not
+obstruct an analytic-local chart, as the coordinate and constant-quadratic Checks show.
+`D` is reduced and an effective Cartier
 divisor; `D = X` is impossible unless `X = ∅` (the full-boundary Check below). No
 condition is imposed on irreducible components, and `r` may vary with `x` (DLLZ-RH §2.1, Ex. 2.1.2, p. 10, the
 local charts to the polydisc pulling back the coordinate hyperplanes; DLLZ-A §2.3, Ex. 2.3.16,
@@ -1079,6 +1102,21 @@ exclude analytic charts.
 - Degenerate: for `X` smooth over `K`, `(X, ∅)` is a smooth
   pair (charts with `r = 0` from *smooth-local-structure*, AdicSpacesPartII layer R0), its complement is `X` and `j`
   is the identity.
+- Finite inseparable residue: let `K = 𝔽_p((t))`, `X = B²_K` and `D = V(T₂)`.
+  The point cut out by `(T₁^p − t, T₂)` has residue field `K(t^(1/p))`, which no finite
+  separable extension of `K` contains. Every étale-neighbourhood point over it contains this
+  field. Nevertheless the identity coordinates, with the boundary coordinate placed first,
+  already give a strict chart. Smoothness of `X/K` does not force `k(x)/K` separable.
+- Transcendental residue with a strict chart: on `B²_K × {|S| = 1}`, the coordinate
+  boundary `V(T₁T₂)` has its identity chart at `(0, 0, η)`, where `η` is the annulus Gauss
+  point. No constant extension is needed.
+- Transcendental residue with a splitting constant extension: on
+  `B²_ℚ_p × {|S| = 1}`, the boundary `V(T₁² − pT₂²)` has no strict chart at `(0, 0, η)`.
+  Indeed `|H(η)^×| = |p|^ℤ`, so `p` is not a square in `H(η)` and its two transverse
+  tangent directions do not split. Over `ℚ_p(√p)` the coordinates
+  `(T₁ − √p T₂, T₁ + √p T₂, S)` are bounded and étale, with determinant `2√p ≠ 0`,
+  and their first two coordinates multiply to the boundary equation. They give a strict
+  chart at the lifted Gauss point, including when `p = 2`.
 - Non-example: `(B^2_K, V(T_1 T_2 (T_1 − T_2)))` is not
   a smooth pair, for every `K` (characteristic `2` included: the three linear forms `T_1`, `T_2`,
   `T_1 − T_2` are pairwise non-proportional over every field). At the origin `0`, a `K`-rational
@@ -3123,13 +3161,24 @@ factorisation domain and a Jacobson ring, with `W_n/m` a finite field extension 
 maximal ideal `m`; and that every ideal `I ⊆ W_n` is strictly closed for the Gauss norm: `I` is
 closed and for every `f ∈ W_n` the residue norm `inf_{g∈I} |f − g|` is attained, so that the residue
 seminorm on `W_n/I` is a norm (GK00 §1, 1.4 (1), (3)–(4)). For one variable the ideal theory at any single
-radius — `T_1(ρ)` is a principal ideal ring, noetherian, every ideal generated by a monic polynomial
-— is Tau Ceti's `TauCeti.PowerSeries.isPrincipalIdealRing_isRestricted_subring`, `TauCeti.PowerSeries.isNoetherianRing_isRestricted_subring`
+positive radius — `T_1(ρ)` is a principal ideal ring, noetherian, every nonzero ideal generated by
+a monic polynomial, and the zero ideal generated by zero — is Tau Ceti's
+`TauCeti.PowerSeries.isPrincipalIdealRing_isRestricted_subring`, `TauCeti.PowerSeries.isNoetherianRing_isRestricted_subring`
 and `exists_isMonicOfDegree_span_singleton_eq`; the union `W_n` over radii and `n ≥ 2` are what this
 target adds. *Needs:* *overconvergent-weierstrass-division*; *overconvergent-tate-algebra*; Tau
 Ceti `TauCeti.PowerSeries.isPrincipalIdealRing_isRestricted_subring`, `TauCeti.PowerSeries.isNoetherianRing_isRestricted_subring`,
 `exists_isMonicOfDegree_span_singleton_eq`. Lean: `Dagger.washnitzerAlgebra.isNoetherianRing`
 (noetherian, factorial and Jacobson).
+
+**Checks for ideal theory.**
+
+- At every positive fixed radius, the zero ideal is generated by zero and has no monic
+  polynomial generator over the nonzero field `K`.
+- The unit ideal is generated by the monic polynomial `1`, of degree zero, both at a fixed
+  radius and in `W_n`.
+- At every positive fixed radius the ideal `(Y)` has the monic generator `Y` and quotient `K`.
+  For `n ≥ 1`, the ideal `(Y₁)` of `W_n` likewise has quotient `W_{n−1}`; its Gauss quotient
+  norm is attained by setting `Y₁ = 0`, so this ideal is closed and proper.
 
 **`W_n → T_n` is faithfully flat, bijective on maximal ideals with equal residue fields, and `W_n`
 is regular of dimension `n`.** (*overconvergent-faithful-flatness*) For `n ∈ ℕ` prove: (a) the
