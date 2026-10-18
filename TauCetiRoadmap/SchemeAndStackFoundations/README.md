@@ -680,8 +680,28 @@ free and `(S_2)`, iff `F = j_* j^* F` for some open `j : U → X` with complemen
 on which `F` is finite locally free (Lemma 31.13.13 (0AY6)); and a reflexive sheaf has depth `≥ 2`
 at every point where `O_X` does, so it is `(S_2)` when `X` is (Lemma 31.13.11 (0EBI)). Prove `coherent_hartogs`: for a coherent `F` on a locally Noetherian `X` and a closed `Z`
 such that `depth F_x ≥ 2` at every point of `Z`, restriction `F(X) → F(X ∖ Z)` is an isomorphism
-(Stacks, Lemma 31.5.11 (0E9I)). *Needs:* §0.4, §0.17 (depth); Tau Ceti `SheafOfModules.dual`;
-Mathlib `Module.IsReflexive`, `Module.Dual.eval`.
+(Stacks, Lemma 31.5.11 (0E9I)).
+
+Without integrality: prove `IsReflexive.two_le_depth_stalk`: for a coherent reflexive `F` on a
+locally Noetherian `X` and a point `x` with `depth O_{X,x} ≥ 2`, `depth F_x ≥ 2` (Lemma 31.13.11
+(0EBI), part (1), stated there for integral `X`; `F_x` is `Hom(Hom(F_x, O_{X,x}), O_{X,x})`, so
+§0.17 `depth_hom_ge` applies, and the argument uses no integrality). Prove
+`reflexive_extension_of_depth`: for a locally Noetherian `X` and an open `j : U → X` with
+`depth O_{X,x} ≥ 2` at every `x ∉ U`, `j^*` and `j_*` are inverse equivalences between coherent
+reflexive `O_X`-modules and coherent reflexive `O_U`-modules (Lemma 31.13.12 (0EBJ), stated there
+for integral `X`; reflexive is `Scheme.Modules.IsReflexive` above). The proof is affine-local.
+For a coherent reflexive `F` on `X`, `F → j_* j^* F` is an isomorphism by
+`IsReflexive.two_le_depth_stalk` and `coherent_hartogs`. For a coherent reflexive `G` on `U`,
+extend it to a coherent `F` on `X` (§0.4 `coherent_extension`). Then `F^{∨∨}` restricts to
+`G^{∨∨} = G` and has depth `≥ 2` at every point of `X ∖ U` (§0.17 `depth_hom_ge`), so
+`F^{∨∨} = j_* G` by `coherent_hartogs`, and `j_* G` is coherent. Its evaluation map
+`F^{∨∨} → F^{∨∨∨∨}` is an isomorphism over `U`. At a point of `X ∖ U` both sides have depth
+`≥ 2`, so the target has no associated prime there, and §0.17 `bijective_of_depth` makes the
+map an isomorphism. On a normal `X` the codimension-two hypothesis of
+`reflexive_extension_normal` gives this depth hypothesis. *Needs:* §0.4, §0.17 (depth,
+`depth_hom_ge`, `bijective_of_depth`); Tau Ceti `SheafOfModules.dual`; Mathlib
+`Module.IsReflexive`, `Module.Dual.eval`, `Scheme.Modules.restrictFunctor`,
+`Scheme.Modules.pushforward`.
 
 **Checks.**
 - `reflexive_extension_torsion_rejected`: on `Spec k[t]`, `F = k[t] ⊕ k[t]/(t)`
@@ -694,6 +714,14 @@ Mathlib `Module.IsReflexive`, `Module.Dual.eval`.
   `I^{∨∨} = O_X ≠ I`; a torsion-free sheaf need not be reflexive.
 - `test_hartogs_plane`: `Γ(𝔸² ∖ {0}, O) = k[x, y]` by `coherent_hartogs`; on `𝔸¹`, removing the
   origin gives `k[x, x^{-1}]`, so the depth hypothesis is essential.
+- `reflexive_extension_reducible`: over a field `k`, `X = Spec k[x, y, z, w]/(xw)` is reducible
+  and Cohen–Macaulay of dimension three, so `depth O_{X,0} = 3`; for `U = X ∖ {0}`,
+  `reflexive_extension_of_depth` gives `j_* O_U = O_X`. Lemma 31.13.12 (0EBJ) does not apply, as `X`
+  is not integral.
+- `reflexive_extension_two_planes`: for `X` the union of the planes `V(x, y)` and `V(z, w)` in
+  `𝔸⁴_k`, meeting at the origin, `depth O_{X,0} = 1`, and for `U = X ∖ {0}` the sheaf `j_* O_U` is
+  the direct image of the structure sheaf of the disjoint union of the two planes, not `O_X`; the
+  depth hypothesis of `reflexive_extension_of_depth` is needed.
 
 ### 0.7 Local dimension and dimension theory of schemes of finite type over a field
 
@@ -1136,6 +1164,26 @@ localisations of `M_p` at primes are localisations of `M`). *Needs:* Mathlib
 `RingTheory.Sequence.IsWeaklyRegular`, `IsRegular`, `Module.support`, `Module.supportDim`,
 `Ideal.height`, `IsRegularLocalRing`, `Ext`.
 
+Prove the depth lemmas used to extend modules across a closed subset of depth `≥ 2`. Here `R` is
+Noetherian, modules are finite, and the depth of a localization `M_p` is `IsLocalRing.depth` of
+`LocalizedModule p.primeCompl M` over `Localization.AtPrime p`.
+`depth_shortExact` (Algebra, Lemma 10.72.6 (00LX)): for a short exact sequence
+`0 → N' → N → N'' → 0` of nonzero finite modules over a Noetherian local ring,
+`depth N ≥ min (depth N') (depth N'')`, `depth N'' ≥ min (depth N) (depth N' − 1)` and
+`depth N' ≥ min (depth N) (depth N'' + 1)`. `depth_hom_ge` (More on Algebra, Lemma 15.24.10 (0AV5)):
+over a Noetherian local ring, for `n ≤ 2`, `n ≤ depth N` implies `n ≤ depth (M →ₗ[R] N)`.
+`injective_of_forall_localization` (Lemma 15.24.12 (0AV7)): an `R`-linear map `φ : M → N` is
+injective if at every prime `p` either `φ_p` is injective or `p ∉ associatedPrimes R M`.
+`bijective_of_depth` (Lemma 15.24.13 (0AV8)): an `R`-linear map `φ : M → N` with `M` finite is
+bijective if at every prime `p` either `φ_p` is bijective, or `2 ≤ depth M_p` and
+`p ∉ associatedPrimes R N`. `depth_eq_iInf_localization_maximal` (Algebra, Lemma 10.72.11
+(0AUK)): for a finite ring map `R → S` with `R` Noetherian local and a finite `S`-module `N`,
+`Module.depth (maximalIdeal R) N` is the minimum of `depth N_𝔫` over the finitely many maximal
+ideals `𝔫` of `S`. `depth_eq_add_of_flat` (Lemma 10.163.2 (0337)): for a flat local homomorphism
+`R → S` of Noetherian local rings, `depth S = depth R + depth (S ⧸ (maximalIdeal R).map (algebraMap R S))`.
+*Needs:* the depth API above; Mathlib `associatedPrimes`, `LocalizedModule`, `Module.Flat`,
+`IsLocalHom`, `Module.Finite`.
+
 **Checks.**
 - `IsLocalRing.depth.test_residueField`: for a Noetherian local ring `R` of positive dimension,
   `depth κ = 0`.
@@ -1162,6 +1210,13 @@ localisations of `M_p` at primes are localisations of `M`). *Needs:* Mathlib
   origin is an embedded prime.
 - `Ring.IsCohenMacaulay.test_not_cm`: `k[x, y]/(x², xy)` is not Cohen–Macaulay, by the previous
   check and `isCohenMacaulay_iff_forall_satisfiesSerreS`.
+- `bijective_of_depth.test_maximal_ideal`: for `R = k[x, y]` and the inclusion `𝔪 = (x, y) → R`,
+  the map is bijective at every prime other than `𝔪`, and `depth 𝔪_𝔪 = 1`; it is not surjective,
+  so the bound `2` in `bijective_of_depth` cannot be lowered to `1`.
+- `depth_hom_ge.test_dual_maximal`: for `R = k[x, y]_{(x, y)}`, `Hom_R(𝔪, R) = R`, of depth `2`, as
+  `depth_hom_ge` predicts from `depth R = 2`.
+- `depth_eq_add_of_flat.test_polynomial`: for `R = k[x]_{(x)}` and `S = k[x, y]_{(x, y)}`,
+  `depth S = 2 = depth R + depth (S ⧸ x S)`.
 
 ### 0.18 Scheme-theoretic support and Cohen–Macaulay schemes
 
