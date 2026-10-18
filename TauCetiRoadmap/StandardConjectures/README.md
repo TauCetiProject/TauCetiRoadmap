@@ -107,6 +107,16 @@ in the roadmap for a roadmap.
 `IsGradeProjector`. *Checks:* the cohomology-shaped example `K[ξ]/(ξ^{n+1})` (`ξ^j` in degree `2j`, `L = ξ ·`) is a
 Lefschetz structure of weight `2n`; a graded `H` with `L^n ≠ 0` on `H^0` need not satisfy hard
 Lefschetz in other degrees (give an explicit four-dimensional counterexample with `n = 2`).
+*Check (odd degrees):* for finite-dimensional `V`, `W`, an alternating form `φ` on `V` and a
+symmetric form `Q` on `W`, let `H = K ⊕ V ⊕ (Kξ ⊕ W) ⊕ V̌ ⊕ Kξ²` in degrees `0, …, 4`, with
+`L c = cξ` on `H⁰`, `L x = φ(·, x)` on `H¹`, `L(cξ + w) = cξ²` on `H²` and `L = 0` in degrees `3, 4`
+(multiplication by `ξ` for the product `x y = φ(x, y)ξ + ψ(x, y)`, `w w' = Q(w, w')ξ²` of an
+order-2 « Hodge algebra »; Layer 0 needs only `L`). It is a Lefschetz structure of weight `4` iff
+`φ` is nondegenerate, and then `P² = W`; the pairing `⟨c, dξ²⟩ = cd`, `⟨x, u⟩ = u(x)`,
+`⟨cξ + w, c'ξ + w'⟩ = cc' + Q(w, w')`, extended `(−1)^i`-symmetrically, satisfies
+`⟨L x, y⟩ = ⟨x, L y⟩` and is perfect iff `Q` is nondegenerate (0.4). Unlike `K[ξ]/(ξ^{n+1})`, this
+tests hard Lefschetz in odd degree. (The two criteria are proved in the Lean appendix cited in
+Provenance; `P² = W` and the compatibility with `L` are immediate.)
 
 **0.2 Primitive decomposition.** `H^i = ⊕_{k ≥ 0, i − 2k ≥ 0, i − 2k ≤ n} L^k P^{i−2k}` for every
 `i`, as `DirectSum.IsInternal`; `L^k : P^j → H^{j+2k}` injective for `j + k ≤ n`. Proof through the
@@ -215,5 +225,9 @@ studies Lefschetz operators in graded rings, the pseudo-inverse `Λ` and « Hodg
 Lean appendix of the transcription project (github.com/Commutator-IO/grothendieck-project,
 `lean/Grothendieck/Folder16.lean`) proves the `𝔰𝔩₂` normalization on primitive vectors, the
 Cayley–Hamilton criterion of 1.3 (`inverse_mem_of_charpoly`, `inverse_Lefschetz_algebrique`) and
-the projector statement behind 1.2 (`projecteurs_mem_lefschetz`); it is a cited source, not a
-specification.
+the projector statement behind 1.2 (`projecteurs_mem_lefschetz`), and, for the folder's « algèbres
+de Hodge d'ordre 2 » (pp. 24–28), the two criteria of the odd-degree Check of 0.1
+(`DonneesHodge.lefschetz_iff`: `ξ : H¹ → H³` bijective iff `φ` nondegenerate, `ξ² : H⁰ → H⁴` always;
+`DonneesHodge.poincare_iff`: the pairings perfect iff `Q` nondegenerate) together with associativity
+of the product (`DonneesHodge.assoc_iff`, which needs a quadrilinear identity in `φ, ψ, Q`; Layer 0
+does not use the product); it is a cited source, not a specification.
