@@ -25,7 +25,7 @@ hypotheses.
 
 | Layer | Title | What it delivers |
 |---|---|---|
-| [0](#layer-0-schemes-and-morphisms) | Schemes and morphisms | direct-image algebras and relative Proj, coherent extension and Hartogs, dimension theory and limits, henselization of pairs, catenary, Cohen–Macaulay, Nagata and excellent rings, perfect schemes and universal homeomorphisms, étale topological invariance (§0.23a), scheme Frobenius (§0.29), ideal-sheaf comparisons |
+| [0](#layer-0-schemes-and-morphisms) | Schemes and morphisms | direct-image algebras and relative Proj, coherent extension and Hartogs, dimension theory and limits, henselization of pairs, catenary, Cohen–Macaulay, Nagata and excellent rings, perfect schemes and universal homeomorphisms, étale topological invariance (§0.23a), scheme Frobenius (§0.29), ideal-sheaf comparisons, normal schemes and ramification at a point (§0.30) |
 | [1](#layer-1-descent-algebraic-spaces-and-stacks) | Descent, algebraic spaces and stacks | fpqc/fppf descent, algebraic spaces, group spaces, groupoids, torsors and quotients, algebraic and Deligne–Mumford stacks, moduli spaces, Galois gerbs |
 | [2](#layer-2-sites-and-scheme-cohomology) | Sites and scheme cohomology | site cohomology and torsors, quasi-coherent cohomology and supports, topology comparisons, the Nisnevich site, pro-étale site foundations, coherent duality, Brauer groups, equivariant cohomology |
 | [3](#layer-3-curves-divisors-and-picard-objects) | Curves, divisors and Picard objects | genus checks, degrees and duality for vector bundles on curves, Picard groups, groupoids, norms and torsors, Picard stacks and Abel maps |
@@ -58,6 +58,7 @@ relative Proj and its comparison with the finitely generated case, extension of 
 henselization of pairs, the catenary, Cohen–Macaulay, Nagata and excellent packages, perfect schemes
 and perfection, the universal-homeomorphism equivalence of small étale sites (§0.23a),
 absolute, relative, iterated and finite-field scheme Frobenius with coherent twists (§0.29),
+normal schemes, codimension-one points under finite dominant morphisms and ramification at a point (§0.30),
 the ideal-sheaf comparison API, algebraic spaces with their small étale sites,
 group algebraic spaces, groupoids, torsors and their classes, categorical and geometric quotient predicates,
 projective quotients by finite groups, algebraic stacks, moduli spaces, Galois gerbs, the
@@ -430,6 +431,7 @@ Layers 9–10 (continuous cohomology, Hilbert 90 and Kummer theory for fields).
 | §0.23a / `universalHomeomorphismEtaleEquivalence` | Scheme base change gives the equivalence of small étale sites, preserving and reflecting covers, with coherent composition and arbitrary base change. |
 | §0.29 / `SchemeFrobenius.absoluteFrobenius`, `SchemeFrobenius.schemeFrobeniusTwist`, `SchemeFrobenius.relativeFrobenius`, `SchemeFrobenius.iteratedSchemeFrobenius` | Arbitrary characteristic-`p` schemes have absolute and relative maps with distinct codomains; smooth pure relative dimension `d` gives finite locally free relative Frobenius of rank `p^d`. |
 | §0.29 / `SchemeFrobenius.qPowerFrobenius` | Over a field of order `q = p^a`, the specified absolute iterate is a map over that field. Its base change fixes extension-field scalars and is compared with relative Frobenius. |
+| §0.30 / `NormalSchemes.IsNormalScheme`, `NormalSchemes.codimensionOneMap`, `NormalSchemes.ramificationIdxAt` | Normality is stalkwise (integrally closed domains). Points of coheight one map to points of coheight one under finite dominant morphisms of integral schemes whose target is Noetherian and locally of finite type over a field, or normal; the ramification index at a point is Mathlib's `Ideal.ramificationIdx` of the stalk maximal ideal. |
 
 ### Other supplier contracts
 
@@ -1864,6 +1866,70 @@ Mathlib `FiniteField.frobenius_pow` for the finite-field identity.
 `iteratedRelativeFrobenius_add`,
 `qPowerFrobenius`, `qPowerFrobenius_eq_iterated`, `qPowerFrobenius_over`.
 The zeroth-iterate, quadratic-field and scalar-base-change Checks are `example`s.
+
+### 0.30 Normal schemes, codimension-one points under finite morphisms, ramification at a point
+
+The suggested forms of this subsection are the strand `NormalSchemes` of `Suggested.lean`.
+
+*Normal schemes.* Define the class `IsNormalScheme X`: every local ring `X.presheaf.stalk x` is a
+domain and integrally closed (Stacks, Definition 28.7.1 (033I)). Prove
+`isNormalScheme_iff_forall_affineOpens` and its open-cover form (Lemma 28.7.2 (033J)),
+`IsNormalScheme.of_isOpenImmersion`, `IsNormalScheme.isReduced` (Lemma 28.7.3 (033K)),
+`isNormalScheme_Spec_iff` (for a domain `R`, `Spec R` is normal iff `R` is integrally closed),
+`IsNormalScheme.isIntegrallyClosed_of_isAffineOpen` (on an integral normal scheme the sections over
+a nonempty affine open are integrally closed), and `IsNormalScheme.isDiscreteValuationRing_stalk`:
+on a locally Noetherian normal scheme the stalk at a point of coheight one is a discrete valuation
+ring, hence a regular local ring (Algebra, Lemma 10.119.7 (00PD)). §4.13 *IsRegular.isNormal* is
+the instance `IsNormalScheme.of_isRegular` for this predicate.
+
+*Codimension-one points under finite dominant morphisms.* Let `f : X ⟶ Y` be finite and dominant
+with `X` and `Y` integral. Prove `coheight_eq_one_of_coheight_apply_eq_one`: a point over a point
+of coheight one has coheight one (going up and incomparability). Prove `coheight_apply_eq_one`:
+the image of a point of coheight one has coheight one when `Y` is locally Noetherian with
+Noetherian underlying space and `Y ⟶ Spec k` is locally of finite type for a field `k` (dimension
+formula, Morphisms, Lemma 29.45.9 (0ECG), with §0.7), or when `Y` is normal and locally Noetherian
+(going down). Under either hypothesis define
+`Scheme.Hom.codimensionOneMap f : CodimensionOnePoint X → CodimensionOnePoint Y`, and prove
+`codimensionOneMap_surjective`, `finite_codimensionOneMap_fiber`, `codimensionOneMap_comp` and
+`codimensionOneMap_id`.
+
+*Ramification at a point.* For `f : X ⟶ Y` and `x : X` define `Scheme.Hom.ramificationIdxAt f x`:
+the ramification index (Mathlib `Ideal.ramificationIdx`) of the maximal ideal of
+`X.presheaf.stalk x` over `Y.presheaf.stalk (f x)` along `f.stalkMap x`. Prove
+`ramificationIdxAt_pos` for `f` finite and dominant between integral schemes and `x` of coheight
+one, and `ramificationIdxAt_eq_dvr`: at a point of coheight one of a locally Noetherian normal
+integral `X` with `f x` of coheight one on a locally Noetherian normal integral `Y`, it is the
+ramification index of the extension of discrete valuation rings (More on Algebra, Definition
+15.113.1 (09E4)). Prove `ramificationIdxAt_comp`: for finite dominant `f : X ⟶ Y`, `g : Y ⟶ Z`
+between locally Noetherian normal integral schemes and `x` of coheight one,
+`ramificationIdxAt (f ≫ g) x = ramificationIdxAt f x * ramificationIdxAt g (f x)`.
+
+*Regular quotients of a regular local ring.* Prove
+`IsRegularLocalRing.exists_regularSystem_of_quotient` (Algebra, Lemma 10.106.4 (00NR)): if `R` is a
+regular local ring and `I` an ideal with `R ⧸ I` a regular local ring, then `I` is generated by
+the first `c` members of a minimal generating set `x_1, …, x_d` of the maximal ideal, for some
+`c ≤ d`. Prove its codimension-one case `IsRegularLocalRing.isPrincipal_of_height_eq_one`: a prime
+of height one with regular quotient is generated by one element of `𝔪 ∖ 𝔪²`.
+
+*Needs:* §§0.7, 0.20, 4.13; Mathlib `IsIntegrallyClosed`, `IsDiscreteValuationRing`, `IsReduced`,
+`IsAffineOpen`, `Order.coheight`, `Algebra.HasGoingDown`, `IsFinite`, `IsDominant`,
+`Ideal.ramificationIdx`, `Ideal.ramificationIdx_tower`, `IsRegularLocalRing`, `Ideal.height`;
+Tau Ceti `TauCeti.AlgebraicGeometry.CodimensionOnePoint`, `IsAffineOpen.isIntegrallyClosed`,
+`TauCeti.IsRegularLocalRing.quotient_span_singleton_iff`.
+
+**Checks.**
+
+- `IsNormalScheme.test_cusp`: `Spec k[t², t³]` is integral and not normal; `Spec k[t]` is normal.
+- `codimensionOneMap.test_square`: for `x ↦ x²` on `𝔸¹_k`, `codimensionOneMap` sends the closed
+  point `x = a` to `x = a²`, and the fibre over `x = 0` is one point.
+- `ramificationIdxAt.test_square`: for `x ↦ x²` on `𝔸¹_k` with `2` invertible in `k`, the
+  ramification index is `2` at `x = 0` and `1` at `x = 1`.
+- `exists_regularSystem_of_quotient.test_parabola`: in `k[x, y]_{(x, y)}` the quotient by
+  `y − x²` is regular and `y − x² ∉ 𝔪²`; the quotient by `y² − x³` is not regular.
+
+*Lean:* `NormalSchemes.IsNormalScheme`, `NormalSchemes.coheight_apply_eq_one`,
+`NormalSchemes.codimensionOneMap`, `NormalSchemes.ramificationIdxAt`,
+`NormalSchemes.ramificationIdxAt_comp`, `NormalSchemes.exists_regularSystem_of_quotient`.
 
 ### Examples
 
