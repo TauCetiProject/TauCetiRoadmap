@@ -691,10 +691,11 @@ locally Noetherian `X` and a point `x` with `depth O_{X,x} ≥ 2`, `depth F_x �
 reflexive `O_X`-modules and coherent reflexive `O_U`-modules (Lemma 31.13.12 (0EBJ), stated there
 for integral `X`; reflexive is `Scheme.Modules.IsReflexive` above). The proof is affine-local.
 For a coherent reflexive `F` on `X`, `F → j_* j^* F` is an isomorphism by
-`IsReflexive.two_le_depth_stalk` and `coherent_hartogs`. For a coherent reflexive `G` on `U`,
+`IsReflexive.two_le_depth_stalk` and `coherent_hartogs` applied on every open of `X` (the sheaf
+form of 0E9I). For a coherent reflexive `G` on `U`,
 extend it to a coherent `F` on `X` (§0.4 `coherent_extension`). Then `F^{∨∨}` restricts to
 `G^{∨∨} = G` and has depth `≥ 2` at every point of `X ∖ U` (§0.17 `depth_hom_ge`), so
-`F^{∨∨} = j_* G` by `coherent_hartogs`, and `j_* G` is coherent. Its evaluation map
+`F^{∨∨} = j_* G` by `coherent_hartogs` on every open of `X`, and `j_* G` is coherent. Its evaluation map
 `F^{∨∨} → F^{∨∨∨∨}` is an isomorphism over `U`. At a point of `X ∖ U` both sides have depth
 `≥ 2`, so the target has no associated prime there, and §0.17 `bijective_of_depth` makes the
 map an isomorphism. On a normal `X` the codimension-two hypothesis of
@@ -717,7 +718,9 @@ map an isomorphism. On a normal `X` the codimension-two hypothesis of
 - `reflexive_extension_reducible`: over a field `k`, `X = Spec k[x, y, z, w]/(xw)` is reducible
   and Cohen–Macaulay of dimension three, so `depth O_{X,0} = 3`; for `U = X ∖ {0}`,
   `reflexive_extension_of_depth` gives `j_* O_U = O_X`. Lemma 31.13.12 (0EBJ) does not apply, as `X`
-  is not integral.
+  is not integral. This exercises only the direction `F → j_* j^* F` for `F = O_X`, which is
+  `coherent_hartogs`; the `j_*` direction for a reflexive sheaf on `U` that does not extend as a
+  locally free sheaf is not exercised by a check here.
 - `reflexive_extension_two_planes`: for `X` the union of the planes `V(x, y)` and `V(z, w)` in
   `𝔸⁴_k`, meeting at the origin, `depth O_{X,0} = 1`, and for `U = X ∖ {0}` the sheaf `j_* O_U` is
   the direct image of the structure sheaf of the disjoint union of the two planes, not `O_X`; the
@@ -1165,14 +1168,16 @@ localisations of `M_p` at primes are localisations of `M`). *Needs:* Mathlib
 `Ideal.height`, `IsRegularLocalRing`, `Ext`.
 
 Prove the depth lemmas used to extend modules across a closed subset of depth `≥ 2`. Here `R` is
-Noetherian, modules are finite, and the depth of a localization `M_p` is `IsLocalRing.depth` of
-`LocalizedModule p.primeCompl M` over `Localization.AtPrime p`.
+Noetherian, each lemma states which modules are finite, as in Stacks, and the depth of a
+localization `M_p` is `IsLocalRing.depth` of `LocalizedModule p.primeCompl M` over
+`Localization.AtPrime p`.
 `depth_shortExact` (Algebra, Lemma 10.72.6 (00LX)): for a short exact sequence
 `0 → N' → N → N'' → 0` of nonzero finite modules over a Noetherian local ring,
 `depth N ≥ min (depth N') (depth N'')`, `depth N'' ≥ min (depth N) (depth N' − 1)` and
 `depth N' ≥ min (depth N) (depth N'' + 1)`. `depth_hom_ge` (More on Algebra, Lemma 15.24.10 (0AV5)):
-over a Noetherian local ring, for `n ≤ 2`, `n ≤ depth N` implies `n ≤ depth (M →ₗ[R] N)`.
-`injective_of_forall_localization` (Lemma 15.24.12 (0AV7)): an `R`-linear map `φ : M → N` is
+over a Noetherian local ring and finite modules `M` and `N`, for `n ≤ 2`, `n ≤ depth N` implies
+`n ≤ depth (M →ₗ[R] N)`. `injective_of_forall_localization` (Lemma 15.24.12 (0AV7)): an `R`-linear
+map `φ : M → N`, with no finiteness hypothesis, is
 injective if at every prime `p` either `φ_p` is injective or `p ∉ associatedPrimes R M`.
 `bijective_of_depth` (Lemma 15.24.13 (0AV8)): an `R`-linear map `φ : M → N` with `M` finite is
 bijective if at every prime `p` either `φ_p` is bijective, or `2 ≤ depth M_p` and
@@ -1180,7 +1185,9 @@ bijective if at every prime `p` either `φ_p` is bijective, or `2 ≤ depth M_p`
 (0AUK)): for a finite ring map `R → S` with `R` Noetherian local and a finite `S`-module `N`,
 `Module.depth (maximalIdeal R) N` is the minimum of `depth N_𝔫` over the finitely many maximal
 ideals `𝔫` of `S`. `depth_eq_add_of_flat` (Lemma 10.163.2 (0337)): for a flat local homomorphism
-`R → S` of Noetherian local rings, `depth S = depth R + depth (S ⧸ (maximalIdeal R).map (algebraMap R S))`.
+`R → S` of Noetherian local rings, `depth S = depth R + depth (S ⧸ (maximalIdeal R).map (algebraMap R S))`,
+where the last term is `IsLocalRing.depth` of the quotient as an `S`-module (it equals the depth of
+the quotient local ring over itself).
 *Needs:* the depth API above; Mathlib `associatedPrimes`, `LocalizedModule`, `Module.Flat`,
 `IsLocalHom`, `Module.Finite`.
 
