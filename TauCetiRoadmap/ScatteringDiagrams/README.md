@@ -1,22 +1,24 @@
 # Roadmap: scattering diagrams, wall crossing and theta functions
 
-**Summary.** This roadmap develops scattering diagrams, reconstruction from group
-elements, directed completion, wall crossing and theta functions as reusable library
-components. It includes tropical vertex, principal and quantum realizations,
-integral-affine descent, a focus-focus worked example, and positivity for all adapted
-static skew polynomial inputs. Coefficient diagrams and decorated paths provide
-common interfaces for ordinary walls and slab faces.
+**Summary.** This roadmap develops scattering diagrams and their theta functions:
+consistent diagrams and their reconstruction from a single group element, the consistent
+completion of a finite set of initial walls, broken lines and the theta functions they
+define, and positivity of wall functions and theta coefficients for skew-symmetric
+polynomial inputs. Walls live in vector spaces and on integral-affine manifolds with
+codimension-two singularities, and the focus-focus singularity is worked out as an
+example. The general components it needs (BCH groups, completions, polyhedral complexes)
+are built for reuse outside scattering.
 
 | Layer | Title | What it delivers | Depends on |
 |---|---|---|---|
-| [0](#layer-0-positive-gradings-completions-and-actions) | Positive gradings, completions and actions | nilpotent truncations; BCH, symmetrization PBW and completed actions; coefficient diagrams, label representations and face spans | Mathlib, Tau Ceti |
-| [1](#layer-1-polyhedral-geometry-and-paths) | Polyhedral geometry and paths | polyhedra with lineality, generic paths, semilinear families and sweeps; affine bases and exponent systems | Mathlib, Tau Ceti; 0 for §1.5 |
-| [2](#layer-2-general-scattering-diagrams) | General scattering diagrams | group and groupoid transport; KS reconstruction and abelian-ray presentations | 0, 1 |
-| [3](#layer-3-directed-scattering-and-completion) | Directed scattering and completion | outgoing completion for separate degree and tangent lattices, including zero spatial directions | 0–2 |
-| [4](#layer-4-realizations-and-specializations) | Realizations and specializations | tropical vertex, principal and quantum actions; KS and cylinder comparisons; function walls and slab algebras | 0–3 |
-| [5](#layer-5-broken-lines-general-position-and-theta-transport) | Broken lines, general position and theta transport | decorated paths, finite closed type families and local resolutions; module probes, global theta sections and monomial comparisons | 0–4 |
-| [6](#layer-6-integral-affine-covariance-descent-and-a-worked-example) | Integral-affine covariance, descent and a worked example | coefficient and transport descent; theta covariance; focus-focus slab algebra, theta basis and multiplication | 0–5 |
-| [7](#layer-7-wall-positivity-and-positive-theta-coefficients) | Wall positivity and positive theta coefficients | positive completions of all adapted static skew polynomial inputs; specialization and theta positivity | 0–5 |
+| [0](#layer-0-positive-gradings-completions-and-actions) | Positive gradings, completions and actions | the group of wall labels (the completed BCH group of a positively graded Lie algebra), its PBW description by group-like elements, and the algebras on which labels act | Mathlib, Tau Ceti |
+| [1](#layer-1-polyhedral-geometry-and-paths) | Polyhedral geometry and paths | rational polyhedral complexes, generic paths and their homotopies, and integral-affine manifolds with singularities | Mathlib, Tau Ceti; 0 for §1.5 |
+| [2](#layer-2-general-scattering-diagrams) | General scattering diagrams | path products and consistency; the Kontsevich–Soibelman reconstruction of consistent diagrams from group elements | 0, 1 |
+| [3](#layer-3-directed-scattering-and-completion) | Directed scattering and completion | existence and uniqueness of the consistent completion of initial walls, including exponents with no spatial direction | 0–2 |
+| [4](#layer-4-realizations-and-specializations) | Realizations and specializations | wall crossing on commutative, quantum and slab algebras, and the comparison of the conical and directed descriptions | 0–3 |
+| [5](#layer-5-broken-lines-general-position-and-theta-transport) | Broken lines, general position and theta transport | broken lines, theta functions, their transport across walls, and global theta sections | 0–4 |
+| [6](#layer-6-integral-affine-covariance-descent-and-a-worked-example) | Integral-affine covariance, descent and a worked example | compatibility with integral-affine coordinate changes, gluing over charts, and the focus-focus example | 0–5 |
+| [7](#layer-7-wall-positivity-and-positive-theta-coefficients) | Wall positivity and positive theta coefficients | positivity of wall functions and theta coefficients for skew-symmetric polynomial inputs | 0–5 |
 
 ## Scope and ownership
 
