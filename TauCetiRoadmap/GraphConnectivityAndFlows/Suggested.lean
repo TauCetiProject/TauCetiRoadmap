@@ -125,6 +125,17 @@ noncomputable def excessAt (Q : V → V → Type v) [Fintype V]
     (f : Assignment Q K) (v : V) : K :=
   ∑ w, ∑ e : Q w v, f e - ∑ w, ∑ e : Q v w, f e
 
+noncomputable def excessHom (Q : V → V → Type v) [Fintype V]
+    [∀ v w, Fintype (Q v w)] {K : Type w} [AddCommGroup K] :
+    Assignment Q K →+ (V → K) where
+  toFun := excessAt Q
+  map_zero' := by sorry
+  map_add' := by sorry
+
+@[simp] theorem excessHom_apply (Q : V → V → Type v) [Fintype V]
+    [∀ v w, Fintype (Q v w)] {K : Type w} [AddCommGroup K]
+    (f : Assignment Q K) (v : V) : excessHom Q f v = excessAt Q f v := rfl
+
 theorem excessAt_source_eq_neg_sink (Q : V → V → Type v) [Fintype V]
     [∀ v w, Fintype (Q v w)] {K : Type w} [AddCommGroup K]
     (f : Assignment Q K) {s t : V}
@@ -283,6 +294,10 @@ def Network.positivePart (N : Network C V) : Network C V where
   upper e := N.upper e.val
   lower_le_upper e := N.lower_le_upper e.val
 
+def Network.positivePartInclusion (N : Network C V) :
+    @Prefunctor V ⟨N.positivePart.Hom⟩ V ⟨N.Hom⟩ :=
+  @Prefunctor.mk V ⟨N.positivePart.Hom⟩ V ⟨N.Hom⟩ id (fun {_ _} e => e.val)
+
 variable (N : Network C V) [Fintype V] [∀ v w, Fintype (N.Hom v w)]
 
 noncomputable abbrev Network.excessAt {K : Type w} [AddCommGroup K]
@@ -421,6 +436,63 @@ section Termination
 
 variable (Q : V → V → Type v) [Fintype V] [DecidableEq V] [∀ v w, Fintype (Q v w)]
 variable (cap : Assignment Q K) {s t : V}
+
+structure Flow.AugmentingPath (f : Flow Q cap s t) where
+  path : ArrowWalk (Flow.residual Q cap f).positivePart.Hom s t
+  isPath : path.IsPath
+
+def Flow.AugmentingPath.IsShortest {f : Flow Q cap s t}
+    (p : Flow.AugmentingPath Q cap f) : Prop :=
+  ∀ q : Flow.AugmentingPath Q cap f, p.path.length ≤ q.path.length
+
+noncomputable def Flow.AugmentingPath.bottleneck (hst : s ≠ t) {f : Flow Q cap s t}
+    (p : Flow.AugmentingPath Q cap f) : K := by
+  sorry
+
+theorem Flow.AugmentingPath.bottleneck_spec (hst : s ≠ t) {f : Flow Q cap s t}
+    (p : Flow.AugmentingPath Q cap f) :
+    0 < p.bottleneck Q cap hst ∧
+      (∀ a ∈ p.path.arrows,
+        p.bottleneck Q cap hst ≤ (Flow.residual Q cap f).positivePart.upper a.2.2) ∧
+      ∃ a ∈ p.path.arrows,
+        p.bottleneck Q cap hst = (Flow.residual Q cap f).positivePart.upper a.2.2 := by
+  sorry
+
+noncomputable def Flow.AugmentingPath.augment (hst : s ≠ t) {f : Flow Q cap s t}
+    (p : Flow.AugmentingPath Q cap f) : Flow Q cap s t := by
+  sorry
+
+theorem Flow.AugmentingPath.augment_apply (hst : s ≠ t) {f : Flow Q cap s t}
+    (p : Flow.AugmentingPath Q cap f) {v w} (e : Q v w) :
+    let q := @Prefunctor.mapPath V ⟨(Flow.residual Q cap f).positivePart.Hom⟩
+      V ⟨(Flow.residual Q cap f).Hom⟩ (Flow.residual Q cap f).positivePartInclusion s t p.path
+    (p.augment Q cap hst).toFun e = f.toFun e +
+      walkAssignment (Flow.residual Q cap f).Hom q (p.bottleneck Q cap hst) (Sum.inl e) -
+      walkAssignment (Flow.residual Q cap f).Hom q (p.bottleneck Q cap hst) (Sum.inr e) := by
+  sorry
+
+theorem Flow.AugmentingPath.val_augment (hst : s ≠ t) {f : Flow Q cap s t}
+    (p : Flow.AugmentingPath Q cap f) :
+    (p.augment Q cap hst).val = f.val + p.bottleneck Q cap hst := by
+  sorry
+
+/-- The successor is the first argument, so well-foundedness rules out infinite runs. -/
+def Flow.ShortestAugmentation (hst : s ≠ t) (g f : Flow Q cap s t) : Prop :=
+  ∃ p : Flow.AugmentingPath Q cap f, p.IsShortest Q cap ∧ g = p.augment Q cap hst
+
+theorem Flow.exists_shortestAugmentingPath (hst : s ≠ t) (f : Flow Q cap s t)
+    (hf : Flow.HasAugmentingPath Q cap f) :
+    ∃ p : Flow.AugmentingPath Q cap f, p.IsShortest Q cap := by
+  sorry
+
+theorem Flow.wellFounded_shortestAugmentation (hst : s ≠ t) :
+    WellFounded (Flow.ShortestAugmentation Q cap hst) := by
+  sorry
+
+theorem Flow.no_shortestAugmentation_iff_isMax (hst : s ≠ t) (f : Flow Q cap s t) :
+    (¬ ∃ g, Flow.ShortestAugmentation Q cap hst g f) ↔
+      ∀ g : Flow Q cap s t, g.val ≤ f.val := by
+  sorry
 
 theorem Flow.val_le_sum_source (f : Flow Q cap s t) : f.val ≤ ∑ w, ∑ e : Q s w, cap e := by
   sorry
@@ -966,15 +1038,15 @@ The empty-carrier convention is zero. The predicates remain the primary interfac
 noncomputable def vertexConnectivity : ℕ∞ :=
   ⨆ (k : ℕ) (_ : IsVertexConnected G (k : ℕ∞)), (k : ℕ∞)
 
-/-- On a nonempty finite carrier, numerical vertex connectivity records exactly the valid
+/-- On a nonempty carrier, numerical vertex connectivity records exactly the valid
 thresholds. -/
-theorem isVertexConnected_iff_le_vertexConnectivity [Finite V] [Nonempty V] (k : ℕ) :
+theorem isVertexConnected_iff_le_vertexConnectivity [Nonempty V] (k : ℕ) :
     IsVertexConnected G k ↔ (k : ℕ∞) ≤ vertexConnectivity G := by
   sorry
 
 /-- Numerical edge connectivity records exactly the valid thresholds, including the value `⊤`
 on subsingleton carriers. -/
-theorem isEdgeConnected_iff_le_edgeConnectivity [Finite V] (k : ℕ) :
+theorem isEdgeConnected_iff_le_edgeConnectivity (k : ℕ) :
     G.IsEdgeConnected k ↔ (k : ℕ∞) ≤ edgeConnectivity G := by
   sorry
 
@@ -1152,6 +1224,51 @@ theorem EarDecomposition.subgraphAfter_last {H : G.Subgraph} (d : G.EarDecomposi
 theorem isVertexConnected_two_iff_exists_isOpen_earDecomposition [Fintype V]
     (h3 : 3 ≤ Fintype.card V) :
     IsVertexConnected G 2 ↔ ∃ d : G.EarDecomposition ⊤, d.IsOpen := by
+  sorry
+
+theorem exists_isOpen_earDecomposition_initial_eq [Fintype V]
+    (hG : IsVertexConnected G 2) {v : V} (c : G.Walk v v) (hc : c.IsCycle) :
+    ∃ d : G.EarDecomposition ⊤, d.IsOpen ∧ d.initial = c.toSubgraph := by
+  sorry
+
+structure STNumbering [Fintype V] (s t : V) where
+  numbering : V ≃ Fin (Fintype.card V)
+  source_first : (numbering s).val = 0
+  sink_last : (numbering t).val + 1 = Fintype.card V
+  lower_neighbor : ∀ v, v ≠ s → v ≠ t → ∃ u, G.Adj u v ∧ numbering u < numbering v
+  higher_neighbor : ∀ v, v ≠ s → v ≠ t → ∃ w, G.Adj v w ∧ numbering v < numbering w
+
+theorem nonempty_stNumbering [Fintype V] (hG : IsVertexConnected G 2)
+    {s t : V} (hst : G.Adj s t) : Nonempty (G.STNumbering s t) := by
+  sorry
+
+noncomputable def STNumbering.toOrientation [Fintype V] {s t : V}
+    (n : G.STNumbering s t) : TauCeti.DoubledQuiver.Orientation G := by
+  sorry
+
+theorem STNumbering.mem_toOrientation [Fintype V] {s t : V}
+    (n : G.STNumbering s t) (d : G.Dart) :
+    d ∈ n.toOrientation G ↔ n.numbering d.fst < n.numbering d.snd := by
+  sorry
+
+theorem STNumbering.no_positive_closed_walk [Fintype V] {s t : V}
+    (n : G.STNumbering s t)
+    (v : TauCeti.DoubledQuiver.OrientedQuiver G (n.toOrientation G))
+    (p : Quiver.Path v v) : p.length = 0 := by
+  sorry
+
+theorem STNumbering.reachable_from_source_to_sink [Fintype V] {s t : V}
+    (n : G.STNumbering s t) (hst : G.Adj s t) (v : V) :
+    let vertex := TauCeti.DoubledQuiver.OrientedQuiver.vertexEquiv G (n.toOrientation G)
+    Nonempty (Quiver.Path (vertex s) (vertex v)) ∧
+      Nonempty (Quiver.Path (vertex v) (vertex t)) := by
+  sorry
+
+theorem STNumbering.unique_source_sink [Fintype V] {s t : V}
+    (n : G.STNumbering s t) (hst : G.Adj s t) :
+    let vertex := TauCeti.DoubledQuiver.OrientedQuiver.vertexEquiv G (n.toOrientation G)
+    (∀ v, (∀ u, IsEmpty ((vertex u) ⟶ (vertex v))) ↔ v = s) ∧
+      (∀ v, (∀ w, IsEmpty ((vertex v) ⟶ (vertex w))) ↔ v = t) := by
   sorry
 
 /-- The closed-ear characterization of 2-edge-connectivity: a corollary of
@@ -1398,15 +1515,27 @@ section Algebra
 variable (Q : V → V → Type v) [Fintype V] [∀ v w, Fintype (Q v w)]
 
 /-- No capacity constraints: the signed circulation group is the kernel of excess. -/
-noncomputable def signedCirculations : AddSubgroup (Assignment Q K) where
-  carrier := {f | ∀ v, excessAt Q f v = 0}
-  zero_mem' := by sorry
-  add_mem' := by sorry
-  neg_mem' := by sorry
+noncomputable def signedCirculations : AddSubgroup (Assignment Q K) :=
+  (excessHom (K := K) Q).ker
+
+@[simp] theorem mem_signedCirculations (f : Assignment Q K) :
+    (signedCirculations (K := K) Q).carrier f ↔ ∀ v, excessAt Q f v = 0 := by
+  sorry
 
 theorem sub_mem_signedCirculations_iff (f g : Assignment Q K) :
     (signedCirculations (K := K) Q).carrier (fun {_ _} e => g e - f e) ↔
       ∀ v, excessAt Q g v = excessAt Q f v := by
+  sorry
+
+noncomputable def excessFiberEquivCirculations (h : Assignment Q K) :
+    {f : Assignment Q K // ∀ v, excessAt Q f v = excessAt Q h v} ≃
+      signedCirculations (K := K) Q := by
+  sorry
+
+theorem excessFiberEquivCirculations_apply (h : Assignment Q K)
+    (f : {f : Assignment Q K // ∀ v, excessAt Q f v = excessAt Q h v})
+    {v w : V} (e : Q v w) :
+    (excessFiberEquivCirculations Q h f).val e = f.val e - h e := by
   sorry
 
 end Algebra
@@ -1539,6 +1668,62 @@ theorem Network.exists_boundedFlow_val_iff {s t : V} (hst : s ≠ t)
 theorem Network.boundedFlow_isMax_iff {s t : V} (hst : s ≠ t) (f : N.BoundedFlow s t) :
     (∀ g : N.BoundedFlow s t, g.val ≤ f.val) ↔
       ¬ (N.residual f.toBoundedAssignment).positivePart.Reachable s t := by
+  sorry
+
+def Network.ResidualComponent (f : N.Feasible) : Type u :=
+  @Quiver.StronglyConnectedComponent V ⟨(N.residual f).positivePart.Hom⟩
+
+def Network.residualComponent (f : N.Feasible) (v : V) : N.ResidualComponent f :=
+  @Quiver.StronglyConnectedComponent.mk V ⟨(N.residual f).positivePart.Hom⟩ v
+
+instance Network.residualComponentPartialOrder (f : N.Feasible) :
+    PartialOrder (N.ResidualComponent f) where
+  le C D := ∃ v w, N.residualComponent f v = C ∧ N.residualComponent f w = D ∧
+    (N.residual f).positivePart.Reachable v w
+  le_refl := by sorry
+  le_trans := by sorry
+  le_antisymm := by sorry
+
+instance Network.residualComponentFinite [Finite V] (f : N.Feasible) :
+    Finite (N.ResidualComponent f) := by
+  sorry
+
+theorem Network.residualComponent_le_iff (f : N.Feasible) (v w : V) :
+    N.residualComponent f v ≤ N.residualComponent f w ↔
+      (N.residual f).positivePart.Reachable v w := by
+  sorry
+
+abbrev Network.FreeResidualComponent (f : N.Feasible) (s t : V) :=
+  {C : N.ResidualComponent f // ¬ N.residualComponent f s ≤ C ∧
+    ¬ C ≤ N.residualComponent f t}
+
+noncomputable def Network.minCutOrderIso {s t : V} (hst : s ≠ t)
+    (f : N.BoundedFlow s t) (hf : ∀ g : N.BoundedFlow s t, g.val ≤ f.val) :
+    {S : Finset V // IsMinCutBetween N.cutBound {s} {t} S} ≃o
+      (UpperSet (N.FreeResidualComponent f.toBoundedAssignment s t))ᵒᵈ := by
+  sorry
+
+theorem Network.mem_minCutOrderIso {s t : V} (hst : s ≠ t)
+    (f : N.BoundedFlow s t) (hf : ∀ g : N.BoundedFlow s t, g.val ≤ f.val)
+    (S : {S : Finset V // IsMinCutBetween N.cutBound {s} {t} S})
+    (C : N.FreeResidualComponent f.toBoundedAssignment s t) :
+    C ∈ OrderDual.ofDual (N.minCutOrderIso hst f hf S) ↔
+      ∀ v, N.residualComponent f.toBoundedAssignment v = C.val → v ∈ S.val := by
+  sorry
+
+theorem Network.mem_minCutOrderIso_symm {s t : V} (hst : s ≠ t)
+    (f : N.BoundedFlow s t) (hf : ∀ g : N.BoundedFlow s t, g.val ≤ f.val)
+    (U : (UpperSet (N.FreeResidualComponent f.toBoundedAssignment s t))ᵒᵈ) (v : V) :
+    v ∈ ((N.minCutOrderIso hst f hf).symm U).val ↔
+      N.residualComponent f.toBoundedAssignment s ≤ N.residualComponent f.toBoundedAssignment v ∨
+      ∃ C : N.FreeResidualComponent f.toBoundedAssignment s t,
+        C ∈ OrderDual.ofDual U ∧ N.residualComponent f.toBoundedAssignment v = C.val := by
+  sorry
+
+theorem Network.unique_minCut_iff {s t : V} (hst : s ≠ t)
+    (f : N.BoundedFlow s t) (hf : ∀ g : N.BoundedFlow s t, g.val ≤ f.val) :
+    (∃! S : Finset V, IsMinCutBetween N.cutBound {s} {t} S) ↔
+      IsEmpty (N.FreeResidualComponent f.toBoundedAssignment s t) := by
   sorry
 
 /-- Original vertices are `some v`; `none` is a fresh balancing vertex. -/
@@ -1734,23 +1919,74 @@ noncomputable def edgeConnectivity : ℕ∞ :=
 
 open Classical in
 /-- The bidirected network's arc connectivity is the multigraph's edge connectivity. -/
-theorem arcConnectivity_bidirected [Fintype G.vertexSet] [Fintype G.edgeSet] :
+theorem arcConnectivity_bidirected :
     arcConnectivity (Hom G) = edgeConnectivity G := by
   sorry
 
-/-- A bridge is an actual edge; unlike `SimpleGraph.IsBridge`, this is false on non-edges. -/
-def IsBridge (e : β) : Prop :=
-  ∃ s t, G.IsLink e s t ∧ ¬ Reachable (G.deleteEdges {e}) s t
+theorem isBridge_iff_not_reachable_deleteEdges (e : β) :
+    G.IsBridge e ↔ ∃ s t, G.IsLink e s t ∧ ¬ Reachable (G.deleteEdges {e}) s t := by
+  sorry
+
+theorem isBond_edgeCut_iff (hG : Connected G) {S : Set α}
+    (hS : S ⊆ G.vertexSet) (hne : S.Nonempty) (hproper : S ≠ G.vertexSet) :
+    G.IsBond (G.edgeCut S) ↔ Connected (G.induce S) ∧
+      Connected (G.induce (G.vertexSet \ S)) := by
+  sorry
 
 theorem isBridge_iff_not_mem_cycle (e : G.edgeSet) :
-    IsBridge G e.val ↔ ∀ (s : α) (p : Walk G s s), p.IsCycle → e.val ∉ p.edges := by
+    G.IsBridge e.val ↔ ∀ (s : α) (p : Walk G s s), p.IsCycle → e.val ∉ p.edges := by
   sorry
 
 def IsForest : Prop := ∀ (v : α) (p : Walk G v v), ¬ p.IsCycle
 
 theorem isForest_iff_forall_edge_isBridge :
-    IsForest G ↔ ∀ e ∈ G.edgeSet, IsBridge G e := by
+    IsForest G ↔ ∀ e ∈ G.edgeSet, G.IsBridge e := by
   sorry
+
+section BridgeForest
+
+abbrev BridgeComponent := (G.deleteEdges {e | G.IsBridge e}).toSimpleGraph.ConnectedComponent
+
+noncomputable def bridgeComponent (v : G.vertexSet) : BridgeComponent G :=
+  (G.deleteEdges {e | G.IsBridge e}).toSimpleGraph.connectedComponentMk v
+
+noncomputable def bridgeForest : Graph (BridgeComponent G) β := by
+  sorry
+
+theorem bridgeForest_vertexSet : (bridgeForest G).vertexSet = Set.univ := by
+  sorry
+
+theorem bridgeForest_edgeSet : (bridgeForest G).edgeSet = {e | G.IsBridge e} := by
+  sorry
+
+theorem bridgeForest_isLink_iff (e : β) (C D : BridgeComponent G) :
+    (bridgeForest G).IsLink e C D ↔ G.IsBridge e ∧
+      ∃ u v : G.vertexSet, G.IsLink e u v ∧ bridgeComponent G u = C ∧
+        bridgeComponent G v = D := by
+  sorry
+
+theorem bridgeForest_isForest : IsForest (bridgeForest G) := by
+  sorry
+
+theorem bridgeForest_reachable_iff (u v : G.vertexSet) :
+    Reachable (bridgeForest G) (bridgeComponent G u) (bridgeComponent G v) ↔
+      Reachable G u v := by
+  sorry
+
+theorem bridgeForest_deleteEdges_reachable_iff {e : β} (he : G.IsBridge e)
+    (u v : G.vertexSet) :
+    Reachable ((bridgeForest G).deleteEdges {e}) (bridgeComponent G u) (bridgeComponent G v) ↔
+      Reachable (G.deleteEdges {e}) u v := by
+  sorry
+
+theorem finite_bridges [Finite G.vertexSet] : Set.Finite {e | G.IsBridge e} := by
+  sorry
+
+theorem card_bridgeComponent [Finite G.vertexSet] :
+    Nat.card (BridgeComponent G) = Nat.card {e // G.IsBridge e} + componentCount G := by
+  sorry
+
+end BridgeForest
 
 /-- Edge deletion retains multiplicity; only actual vertices and edges need be finite. -/
 theorem exists_paths_edgeSeparator_card_eq [Finite G.vertexSet] [Finite G.edgeSet]
@@ -1847,10 +2083,10 @@ theorem componentCount_ofSimpleGraph {V : Type*} [Finite V] (H : SimpleGraph V) 
     componentCount (Graph.ofSimpleGraph H) = Nat.card H.ConnectedComponent := by
   sorry
 
-/-- The multigraph bridge predicate agrees with Mathlib's on actual edges; on a non-edge,
-Mathlib's predicate can hold while this one is false. -/
+/-- `Graph.IsBridge` agrees with `SimpleGraph.IsBridge` on actual edges; on a non-edge,
+`SimpleGraph.IsBridge` can hold while `Graph.IsBridge` is false. -/
 theorem isBridge_ofSimpleGraph {V : Type*} (H : SimpleGraph V) (e : Sym2 V) :
-    IsBridge (Graph.ofSimpleGraph H) e ↔ e ∈ H.edgeSet ∧ H.IsBridge e := by
+    (Graph.ofSimpleGraph H).IsBridge e ↔ e ∈ H.edgeSet ∧ H.IsBridge e := by
   sorry
 
 theorem isEdgeConnected_ofSimpleGraph {V : Type*} (H : SimpleGraph V) (k : ℕ) :
@@ -1885,9 +2121,9 @@ theorem exists_orientation_isStronglyConnected_iff [Finite G.vertexSet] [Finite 
   sorry
 
 /-- Pairwise reachability is vacuous on the empty vertex set, as is edge connectivity. -/
-theorem isEdgeConnected_two_iff [Finite G.vertexSet] [Finite G.edgeSet] :
+theorem isEdgeConnected_two_iff :
     IsEdgeConnected G 2 ↔
-      (∀ s t : G.vertexSet, Reachable G s t) ∧ ∀ e ∈ G.edgeSet, ¬ IsBridge G e := by
+      (∀ s t : G.vertexSet, Reachable G s t) ∧ ∀ e ∈ G.edgeSet, ¬ G.IsBridge e := by
   sorry
 
 /-- The graph traced by a walk, with the original ambient vertex and edge types. -/
@@ -1959,7 +2195,7 @@ variable [Fintype G.vertexSet] [Fintype G.edgeSet]
 
 open Classical in
 noncomputable def edgeCutCapacity (c : G.edgeSet → K) (S : Finset G.vertexSet) : K :=
-  ∑ e : G.edgeSet, if ∃ s ∈ S, ∃ t ∉ S, G.IsLink e.val s.val t.val then c e else 0
+  ∑ e : G.edgeSet, if e.val ∈ G.edgeCut (Subtype.val '' (S : Set G.vertexSet)) then c e else 0
 
 open Classical in
 /-- The aggregated pair capacity counts all parallel edges and discards loops. -/

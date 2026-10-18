@@ -1,12 +1,15 @@
 # Finite graph connectivity and network flows
 
 This roadmap develops finite graph connectivity and network flows through two complementary theories: the structure of connected graphs, and the duality between disjoint paths and separating cuts.
-The main results are Menger's theorem, the block–cut forest, ear decompositions, Robbins' strong orientation theorem, max-flow/min-cut with integrality, Hoffman's circulation theorem, and Gomory–Hu cut trees.
+The main results are Menger's theorem, the bridge and block–cut forests, ear decompositions, Robbins' strong orientation theorem, max-flow/min-cut with integrality, the poset of minimum cuts, Hoffman's circulation theorem, and Gomory–Hu cut trees.
 Applications include multiset capacitated Kőnig and Hall theorems, bipartite edge-colouring, and prescribed and bounded indegree orientations.
 The supporting library develops reusable APIs for separators, path families, orientations, residual networks, flow decomposition, and minimum-cut structure, with transport between graph representations.
 
+The roadmap concerns finite graph theory, with results stated at the generality their proofs support.
+When a proof does not use finiteness, its statement should not assume it.
+Developments requiring additional arguments specific to infinite graphs are outside scope.
+
 The undirected theory uses Mathlib's `Graph`, retaining loops and parallel edges, with corollaries in `SimpleGraph`; vertex connectivity is that of the underlying simple graph, and the directed-network and cut-function theories are independent of this choice.
-Walk, isomorphism, deletion, bridge, and block foundations assume no finiteness; extremal and decomposition targets require finitely many actual vertices, with edge-finiteness hypotheses stated per target.
 
 **Suggested homes:** `TauCeti/Combinatorics/Graph/Connectivity/` for multigraph connectivity, `TauCeti/Combinatorics/SimpleGraph/Connectivity/` for simple-graph interfaces, `TauCeti/Combinatorics/Network/` for directed networks and flows, and adjacent modules for bipartite matching, edge-colouring, orientations, and the representation bridges.
 
@@ -17,23 +20,27 @@ Walk, isomorphism, deletion, bridge, and block foundations assume no finiteness;
 | Milestone | Main results | Depends on |
 | --- | --- | --- |
 | 1. Shared foundations | Walks and representation bridges (1.1), cuts and path families (1.2), excess calculus and residual updates (1.3), splitting and auxiliary terminals (1.4), deletion predicates and invariants (1.5) | Existing Mathlib and Tau Ceti APIs |
-| 2. Bridges and blocks | Multigraph bridges; cut-vertex criteria and block–cut forest | 1 |
+| 2. Bridges and blocks | Multigraph bridges and bonds; cut-vertex criteria, block–cut forest, and bridge forest | 1 |
 | 3. Flows | Decomposition, augmentation, max-flow/min-cut, integrality, and termination (3.1), large capacities (3.2), terminal sets and undirected networks (3.3), nonnegative coefficient interfaces (3.4), mixed vertex and arrow capacities (3.5) | 1 |
-| 4. Minimum cuts | Terminal-set cut lattices (4.1), canonical cuts (4.2), and non-crossing lemmas (4.3) | 1 for 4.1 and 4.3; 1, 3 for 4.2 |
-| 5. Menger | Path–separator duality (5.1) and the reductions to max-flow (5.2) | 1, 3, 4 |
-| 6. Connectivity and matching consequences | Whitney inequalities and cycle criteria, preservation lemmas, fans, Dirac's cycle theorem, multiset capacitated Kőnig and Hall, regular bipartite decomposition and edge-colouring | 2, 5 |
-| 7. Ears and orientations | Undirected and directed ear decompositions; Robbins' theorem | 2, 6 |
-| 8. Circulations and bounded flows | Hoffman and infeasibility certificates, exact and interval excess, assignment shifts, residual adjustments, extremal terminal values, integrality, rounding, and prescribed and bounded indegree orientations (8.8) | 3, 4 |
+| 4. Minimum cuts | Terminal-set cut lattices (4.1), canonical cuts (4.2), non-crossing lemmas (4.3), and the residual poset of all minimum cuts (4.4) | 1 and finite minimization for 4.1 and 4.3; 1.3 and 4.1 for 4.2; 4.2 for 4.4; 4.2 and 4.4 assume a maximum assignment is given |
+| 5. Menger | Path–separator duality (5.1) and the reductions to max-flow (5.2) | 1, 3; cut minimization from 4.1, without the lattice, residual-poset, or uncrossing results |
+| 6. Connectivity and matching consequences | Whitney inequalities and cycle criteria, preservation lemmas, fans, Dirac's cycle theorem, multiset capacitated Kőnig and Hall, regular bipartite decomposition and edge-colouring | 1, 5; 2 for the block characterization in 6.3; 6.7–6.9 use 3 and 5 without block theory |
+| 7. Ears and orientations | Undirected and directed ear decompositions, prescribed initial cycles, Robbins' theorem, and `st`-numberings | 1, 2, and vertex path results from 5 or 6; 7.1–7.2 for 7.3–7.4 |
+| 8. Circulations and bounded flows | Hoffman and infeasibility certificates, exact and interval excess, assignment shifts, residual adjustments, extremal terminal values, integrality, rounding, and prescribed and bounded indegree orientations (8.8) | 3, 4.1–4.2 |
 | 9. Cut trees | Gomory–Hu and recovery of minimum cuts; edge-connectivity queries | 4.1, 4.3 for cut trees; 5 for edge-connectivity queries |
 
 Each milestone supplies the **common basic API** needed to use its definitions: constructors, extensionality where appropriate, membership and support lemmas, monotonicity, restriction, and invariance under isomorphism.
 The targets specify additional API and required proved examples.
+There are three independent entry points: graph structure through Target 1.1, network algebra through Target 1.3, and abstract submodularity through Target 4.1.
+Milestone numbers organize the material; they do not require completing every earlier milestone.
 **Why:** explains a design choice; **Suggested proof:** gives nonbinding proof guidance, set as a block quote when longer than one sentence.
 Neither adds requirements.
 
 ## Existing vocabulary and related work
 
 Use Mathlib's `Graph` incidence, subgraph, induced-subgraph, and deletion APIs for multigraphs.
+Use [`Graph.edgeCut`, `Graph.IsEdgeCut`, `Graph.IsBridge`, and `Graph.IsBond`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Graph/Connected/EdgeCut.html) for edge boundaries, cuts, bridges, and bonds.
+Extend these definitions with walk, deletion, and connected-side characterizations.
 Reuse `SimpleGraph` APIs for the underlying simple graph and for simple-graph corollaries: walks and paths, reachability, connected components, cycles, trees, degree, bipartite graphs, and matchings.
 In particular, reuse [`SimpleGraph.IsEdgeConnected`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Connectivity/EdgeConnectivity.html#SimpleGraph.IsEdgeConnected), [`SimpleGraph.IsBridge`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Connectivity/Connected.html#SimpleGraph.IsBridge) with its cycle characterization `isBridge_iff_forall_cycle_notMem`, and [`SimpleGraph.minDegree`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Finite.html#SimpleGraph.minDegree).
 Mathlib also supplies the [`Graph`–`SimpleGraph` conversions](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Graph/Simple.html), [graph versions of Hall's theorem](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Hall.html), and the [finite-family Hall theorem](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Hall/Finite.html).
@@ -51,29 +58,15 @@ Also reuse the following Tau Ceti modules:
 - [`Combinatorics.Quiver.Reorient`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Combinatorics/Quiver/Reorient.lean) for reversing selected arrows while retaining their identities.
   Expose its arrow families through the explicit-quiver interface and extend it with bound and assignment transport.
 
-The following Mathlib proposals and their review discussions are references for interface design and coordination.
-Each entry identifies the part relevant to this roadmap; the conventions and targets below specify the required interfaces and their mathematical scope.
+The following table distinguishes the interfaces used from the work and representation bridges owned here.
+The [interface design references](#interface-design-references) record the related Mathlib proposals and their design discussions.
 
-- [#33355: vertex connectivity](https://github.com/leanprover-community/mathlib4/pull/33355): deletion-based `IsVertexReachable`, `IsVertexPreconnected`, and `IsVertexConnected`.
-- [#42494: numerical edge connectivity](https://github.com/leanprover-community/mathlib4/pull/42494): `edgeReachability`, `edgeConnectivity`, their supremum definitions, and degree bounds.
-- [#36756: shared walks](https://github.com/leanprover-community/mathlib4/pull/36756) and [#39053: the `Graph` instance](https://github.com/leanprover-community/mathlib4/pull/39053): `GraphLike.Walk` with vertex support and darts, following the [HasAdj discussion](https://leanprover.zulipchat.com/#narrow/channel/252551-graph-theory/topic/HasAdj/with/575843445).
-  Mathlib has no walks on `Graph`; these proposals rest on the `GraphLike` hierarchy of [#36743](https://github.com/leanprover-community/mathlib4/pull/36743).
-  The [dart construction in #39053](https://github.com/leanprover-community/mathlib4/blob/455aa1d6e5c7215f1270da70e328056af9607545/Mathlib/Combinatorics/Graph/GraphLike.lean#L22) splits every loop into a forward and a backward dart, so a graph with one vertex and one loop has two length-one walks there; the [loop-dart discussion](https://github.com/leanprover-community/mathlib4/pull/36743#discussion_r3191440123) records the trade-off.
-  This roadmap uses edge-labelled inductive walks with the API of `SimpleGraph.Walk` and records a loop traversal once, as the [`WList` walks](https://github.com/apnelson1/Matroid/tree/main/Matroid/Graph/WList) of the library that `Graph` originates from do; the representation bridges of Target 1.1 connect them to `SimpleGraph.Walk` and `Quiver.Path`.
-  A map forgetting loop directions identifies the two dart walks of a loop with the single walk here; no target of this roadmap depends on the direction of a loop.
-  The general `GraphLike` hierarchy is outside this roadmap's scope.
-- [#43017: network flows](https://github.com/leanprover-community/mathlib4/pull/43017): quivers with capacities and flow assignments indexed by arrows.
-  Arrow indexing retains parallel edges; this roadmap develops finite sums over general coefficients, with nonnegative coefficient interfaces in Target 3.4.
-- [#34028: weak max-flow/min-cut duality](https://github.com/leanprover-community/mathlib4/pull/34028): an undirected flow formulation on simple graphs.
-  Undirected flow applications use the bidirected network, with no separate undirected flow type, so this roadmap takes only the statement shapes from that proposal.
-- [#33032: Kőnig's theorem](https://github.com/leanprover-community/mathlib4/pull/33032): matchings as subgraphs, vertex covers, and the equality between the sizes of maximum matchings and minimum covers.
-- [#33313: edge colourings](https://github.com/leanprover-community/mathlib4/pull/33313): `SimpleGraph.EdgeColoring`, `EdgeColorable`, and `chromaticIndex`, using colourings of the line graph; Target 6.9 supplies the bipartite theorem and transport from multigraph edge identities.
-  See also the related [#43128](https://github.com/leanprover-community/mathlib4/pull/43128).
-  The [edge-colouring discussion](https://leanprover-community.github.io/archive/stream/252551-graph-theory/topic/edge.20coloring.html) also records earlier work; follow the porting policy before reusing it.
-- [#42839: 2-edge-connectivity and bridges](https://github.com/leanprover-community/mathlib4/pull/42839): `G.IsEdgeConnected 2 ↔ ∀ e, ¬ G.IsBridge e`, the simple-graph specialization in Milestone 7.
-- [#37861: connected `Graph`s](https://github.com/leanprover-community/mathlib4/pull/37861): connectivity of Mathlib's multigraph type through connected components as subgraphs, defined without walks; Milestone 1 proves agreement with walk reachability.
-- [#38337: unions of `Graph`s](https://github.com/leanprover-community/mathlib4/pull/38337): compatible unions, used when adding ears.
-  Target 1.1 requires the least-upper-bound interface for compatible graphs; the proposal's choice of incidence for conflicting edge identities is outside scope.
+| Object | Interface used | New work owned here | Required representation bridge |
+| --- | --- | --- | --- |
+| Multigraph cuts, bridges, and bonds | Mathlib `Graph.edgeCut`, `IsEdgeCut`, `IsBridge`, and `IsBond` | Walk and deletion characterizations, connected sides, bridge forest | `Graph.ofSimpleGraph` comparisons |
+| Undirected walks | Mathlib `SimpleGraph.Walk` and `Quiver.Path` | Edge-labelled `Graph` walks with one traversal per loop | Simple-graph walks and the bidirected quiver |
+| Simple-graph orientations | Tau Ceti `DoubledQuiver.Orientation` and `OrientedQuiver` | Strong and acyclic orientations, connectivity, `st`-numberings | Existing `vertexEquiv` and `homEquiv`, and multigraph orientations on `Graph.ofSimpleGraph` |
+| Finite bounded networks | Explicit arrow families and ordered-group assignments specified here | Finite flow, excess, and residual theory | `Digraph`, doubled and oriented quivers, and the `Nonneg K` coefficient interface |
 
 Build all missing prerequisites and results in Tau Ceti, using Mathlib's existing vocabulary and the interfaces specified here.
 Read proposals together with their design discussions; a citation alone does not make every declaration or representation choice in a branch a requirement.
@@ -84,6 +77,10 @@ The [Lean Zulip discussion of max-flow/min-cut](https://leanprover-community.git
 This implementation is a reference, not a dependency.
 Coordinate with authors before integrating existing code, following the repository's porting policy.
 
+For related infinite theory, Mathlib's [`Order.KonigLemma`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Order/KonigLemma.html), [`Combinatorics.Hall.Basic`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Hall/Basic.html), and [`SimpleGraph.Ends.Properties`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/SimpleGraph/Ends/Properties.html) connect finite constructions to compactness, infinite matchings, and graph ends.
+Tau Ceti's [`Topology.Compactness.InverseSystem`](https://github.com/TauCetiProject/TauCeti/blob/main/TauCeti/Topology/Compactness/InverseSystem.lean) exposes finite and compact-Hausdorff inverse-limit existence theorems.
+These references provide context for the separate infinite theories listed under [Scope boundaries](#scope-boundaries).
+
 ## Conventions
 
 ### Assumptions at a glance
@@ -92,23 +89,24 @@ The table summarizes the hypotheses of the milestones; the targets are the norma
 
 | Targets | Vertices | Edges or arrows | Coefficients | Terminals |
 | --- | --- | --- | --- | --- |
-| Walks, isomorphisms, bridges, cuts, separators, path families, deletion predicates, blocks (1.1, structural part of 1.2, 1.5, 2) | none | none | none | none |
-| Multigraph vertex-only targets: vertex connectivity, nonadjacent local vertex Menger, vertex-capacitated Menger, set-to-set vertex Menger, vertex consequences of Milestone 6, component counts of Target 1.1 and Milestone 2 | finite `V(G)` | none | none | distinct terminals, nonadjacent for local vertex Menger; `A, B` may overlap |
-| Multigraph edge targets: edge connectivity, edge Menger, weighted cuts, ears, Robbins (1.2, 1.5, 5, 7) | finite `V(G)` | finite `E(G)` | cancellative monoid for weights | distinct terminals; disjoint `A, B` for edge versions |
+| Walks, isomorphisms, bridges, bonds, cuts, separators, path families, deletion predicates, blocks and block–cut forest (1.1, structural part of 1.2, 1.5, 2.1–2.4) | none | none | none | none |
+| Bridge forest (2.5), except the component-count formula, and bridge criterion (7.2) | none | none | none | none |
+| Undirected threshold equivalences (1.5) | nonempty `V(G)` for the vertex equivalence; none for edge equivalences | none | none | none |
+| Multigraph vertex-only targets, except threshold equivalences: vertex connectivity, nonadjacent local vertex Menger, vertex-capacitated Menger, set-to-set vertex Menger, vertex consequences of Milestone 6, component counts of Targets 1.1 and 2.1–2.5 | finite `V(G)` | none | none | distinct terminals, nonadjacent for local vertex Menger; `A, B` may overlap |
+| Multigraph edge targets, except threshold equivalences and the bridge criterion: edge connectivity, edge Menger, weighted cuts, ears, Robbins (1.2, 1.5, 5, 7) | finite `V(G)` | finite `E(G)` | cancellative monoid for weights | distinct terminals; disjoint `A, B` for edge versions |
 | Directed vertex-only targets: vertex strong connectivity, directed local, vertex-capacitated, and set-to-set vertex Menger (5, 6) | `[Fintype V]` | none | none | no arrow `s → t` for local vertex Menger |
 | Adjacent-terminal vertex Menger (5.1) | finite actual vertices | only the direct terminal edges or arrows must be finite | none | distinct `s, t`; only arrows `s → t` counted in the directed case |
 | Bipartite matching, edge-colouring, indegree orientations (6.7–6.9, 8.8) | finite `V(G)` | finite `E(G)` | natural capacities and indegrees | bipartition for matching and colouring; loops allowed for orientations |
 | Directed flows, arc connectivity, Menger reductions, bipartite network (3, 5.2, 6, 7) | `[Fintype V]` | `[∀ v w, Fintype (N.Hom v w)]` | linearly ordered additive group; `ℤ` for the reductions | distinct `s, t`; `A, B` possibly empty, disjoint for edge versions and terminal-set flows, overlapping allowed for vertex versions |
 | Submodularity and its closure lemmas (4.1) | none | none | addition and order for the definition; stronger assumptions per lemma | none |
 | Minimum cuts and cut trees (4.1, 4.3, 9) | `[Fintype V]`, nonempty for cut trees | none | linearly ordered cancellative additive monoid | disjoint `A, B`, possibly empty; distinct `s, t` |
-| Residual canonical cuts, bounded circulations, rounding (4.2, 8.1–8.7) | `[Fintype V]` | finite arrow types | linearly ordered additive group with finite signed bounds; `FloorRing` for Target 8.7 | distinct `s, t` |
+| Residual canonical cuts and minimum-cut poset, bounded circulations, rounding (4.2, 4.4, 8.1–8.7) | `[Fintype V]` | finite arrow types | linearly ordered additive group with finite signed bounds; `FloorRing` for Target 8.7 | distinct `s, t` |
 
 ### Graphs, networks, and orientations
 
 **Undirected graphs** use `G : Graph α β`, with actual vertices `V(G) ⊆ α` and edges `E(G) ⊆ β`.
 Vertex and edge finiteness are independent hypotheses on these subtypes, not the ambient types; use subtype `Fintype` instances for finite sums.
 A **finite graph** has finite `V(G)` and finite `E(G)`.
-The foundations concerning walks, deletion, membership, and transport use no finiteness unless their statements count or sum over a set.
 Walk endpoints and separators belong to `V(G)`; deleting edges counts identities in `E(G)`, including separate parallel edges.
 Loops are allowed.
 Use `G.toSimpleGraph : SimpleGraph V(G)` for properties insensitive to loops and parallel edges, and `Graph.ofSimpleGraph` to state and prove the simple-graph corollaries.
@@ -269,7 +267,8 @@ Transport the directed connectivity and Menger statements of Milestones 5 and 6 
 ### 1.2. Cuts, separators, and path families
 
 Develop multigraph cuts and separators with complements, restriction to induced subgraphs, and edge and vertex deletion.
-A cut is a subset of the actual vertices; its boundary is the set of actual edges with one endpoint on each side.
+A cut is a subset of the actual vertices; its boundary is Mathlib's `G.edgeCut S`, the set of actual edges with one endpoint on each side.
+Use `G.IsEdgeCut F` when the edge set, rather than the choice of side, is the object of interest.
 Prove symmetry, absence of loops from the boundary, and the cardinality and capacity formulas with parallel edges.
 The cut, separator, boundary, and path-family results assume no finiteness; the cardinality, capacity, and aggregation formulas assume a finite graph.
 For the weighted aggregation defined in the conventions, prove equality of the multigraph and pair-capacity cut functions, hence preservation of minimum-cut values and minimizing partitions.
@@ -282,6 +281,8 @@ Include the directed analogues needed for residual reachability and path decompo
 
 Develop the finite excess calculus on arbitrary signed arrow assignments: additivity, negation, total excess zero, and the identity equating the sum of excesses over a set with its incoming flow minus outgoing flow.
 The algebraic identities require only an additive commutative group of values.
+Bundle excess as an additive homomorphism `excessHom : Assignment Q K →+ (V → K)`, with evaluation equal to `excessAt` and compatibility with assignment transport and additive coefficient maps.
+Identify signed circulations with its kernel, and each nonempty prescribed-excess fibre with a translate of that kernel, without capacity constraints.
 For assignments conserved away from two terminals, derive the opposite-terminal-excess identity.
 Prove that a pseudoflow conserved away from `s,t` with nonpositive excess at `t` gives a `Flow t s` with the same arrow assignment and value equal to minus the original excess at `t`.
 
@@ -339,8 +340,8 @@ Include the local threshold equivalence for `edgeReachability`, its symmetry, it
 For distinct terminals in a finite graph, bound local edge reachability by the number of incident nonloop edges at either terminal.
 Prove agreement of the numerical vertex invariant with that of the underlying simple graph and of the edge invariants with those on `Graph.ofSimpleGraph`.
 Milestone 5 identifies the local edge invariant with unit-capacity multigraph minimum cuts for distinct terminals.
-For every graph with finite nonempty actual vertex set, prove `G.IsVertexConnected k ↔ k ≤ G.vertexConnectivity`.
-Prove `G.IsEdgeConnected k ↔ k ≤ G.edgeConnectivity` for every finite graph, in the sense of the conventions, including the empty graph.
+For each `k : ℕ`, prove `G.IsVertexConnected k ↔ k ≤ G.vertexConnectivity` for every graph with nonempty actual vertex set, without finiteness assumptions.
+Prove `G.IsEdgeConnected k ↔ k ≤ G.edgeConnectivity` for every graph, including the empty graph, again without finiteness assumptions.
 Prove the subsingleton conventions of the [path conventions](#paths-separators-and-connectivity) as lemmas: for finite graphs, edge connectivity is `⊤` exactly when the actual vertex set is subsingleton, whereas vertex connectivity is always finite.
 
 For finite actual edge sets, develop incidence counts using Mathlib's `G.incidenceSet v` and `G.loopSet v`.
@@ -357,16 +358,22 @@ On loopless graphs the two vertex counts agree; Target 6.9 uses this count as de
 - Bounded assignments with negative bounds, and integer assignments carried to real bounds by change of coefficients.
 - A singleton subnetwork inside a network with several vertices, verifying that its own vertex type is a singleton and its connectivity does not quantify over omitted vertices.
 
-## 2. Bridges, cut vertices, and blocks
+## 2. Bridges, bonds, cut vertices, and blocks
 
 ### 2.1. Bridges
 
-For a multigraph, a bridge is an actual edge whose deletion disconnects its endpoints.
+Use Mathlib's `Graph.IsBridge`, defined by `G.IsEdgeCut {e}`, and prove that it holds exactly when `e` is an actual edge whose deletion disconnects its endpoints.
 Prove equivalence with lying on no undirected cycle and with splitting the component of its endpoints into two components, and, for finite `V(G)`, with increasing the number of connected components by exactly one.
 Loops are never bridges, and an edge with a distinct parallel edge is not a bridge.
 Define a multigraph forest by absence of undirected cycles and prove that this is equivalent to every actual edge being a bridge, without finiteness assumptions.
 Recover `SimpleGraph.isAcyclic_iff_forall_isBridge` through the walk and bridge correspondences.
 Prove correspondence on actual edges of `Graph.ofSimpleGraph H` with Mathlib's `SimpleGraph.IsBridge` and its `isBridge_iff_forall_cycle_notMem`; membership matters because the simple-graph predicate can also hold for a non-edge joining different components.
+
+Use Mathlib's `Graph.IsBond` for an inclusion-minimal nonempty edge cut.
+For a connected multigraph and a nonempty proper subset `S` of its actual vertices, prove that `G.edgeCut S` is a bond if and only if both induced graphs on `S` and `V(G) ∖ S` are connected.
+Reuse Mathlib's `Graph.isBond_singleton_iff_isBridge` for singleton bonds.
+Supply restriction to connected components and transport through graph isomorphisms, reusing Mathlib's existing lemmas.
+Minimality is by inclusion, independently of cut cardinality or capacity.
 
 ### 2.2. Cut vertices
 
@@ -389,11 +396,29 @@ A singleton block may carry loops; a loop at a cut vertex lies in every induced 
 Construct the **block–cut incidence graph**, whose two kinds of vertices are blocks and cut vertices, with adjacency given by membership.
 Prove that it is a forest, that its components correspond to the components of the original graph, and that it is a tree when the original graph is connected.
 Include the path correspondence that recovers separation in the original graph from the unique paths in this forest.
+For a finite actual vertex set and a cut vertex `v`, prove that its degree in the block–cut forest is the number of components of its original connected component after deleting `v`.
+Equivalently, the component counts satisfy `componentCount (G.deleteVerts {v}) + 1 = componentCount G + degreeInBlockCutForest v`.
+
+### 2.5. The bridge forest
+
+For a multigraph, delete the set of all its bridges and take the connected components of the remaining graph as vertices of a new graph.
+Its edges are exactly the original bridge identities, with endpoints the components containing their original ends.
+Build the vertex-to-component map and prove that every bridge joins distinct components, that no two bridges join the same pair, and that the resulting graph is a forest.
+Prove that its connected components correspond to those of the original graph; in particular it is a tree when the original graph is connected.
+Supply the endpoint, edge-membership, path-lifting, and path-projection lemmas: a path projects by omitting edges internal to one component, and a forest path lifts to a path between any prescribed original endpoints in its end components.
+For each original bridge, prove that deleting it separates two original vertices exactly when deleting the corresponding forest edge separates their images.
+Prove that each component left after deleting all bridges is connected and has no bridge.
+These structural statements assume no finiteness.
+For finite `V(G)`, prove that the set of bridges is finite and that the number of components left after deleting all bridges equals the number of original bridges plus `G.componentCount`; no finiteness assumption on `E(G)` is needed.
+Include isolated vertices, loops, parallel edges, and disconnected graphs; the empty graph gives the empty forest.
+Construct this specific component graph directly, without requiring a general graph-contraction theory.
 
 **Required examples:**
 
 - Paths and cycles, including their bridges, blocks, and connectivity predicates.
 - Two triangles meeting at one vertex, with its explicit block–cut tree, and a loop at the common vertex demonstrating the vertex-block convention.
+- A bond containing several edges and a bridge forming a singleton bond, with the connected-side characterization checked in each case.
+- Two triangles joined by a bridge, together with an isolated vertex: compute the bridge forest and its component count, and compare with two triangles meeting at one vertex, whose bridge forest has a single vertex.
 
 ## 3. Flows and max-flow/min-cut
 
@@ -421,7 +446,11 @@ Every target in this section concerns ordinary flows, with zero lower bounds and
    **Suggested proof:** repeatedly cancel a support cycle by its minimum arrow value, strictly shrinking support; then use path decomposition to bound each arrow value by the total flow value.
 4. **Max-flow/min-cut.** There exist a feasible flow and a terminal-separating cut with equal value and capacity.
    Prove the equivalent optimality criteria: maximum flow, no augmenting `s–t` path, and existence of a cut attaining equality.
-   **Suggested proof:** augment along shortest augmenting paths; the bound on the number of augmentations depends only on the finite residual graph, independently of coefficient discreteness, Archimedeanness, or completeness, so the procedure terminates over every coefficient group `K`.
+   Develop shortest-path augmentation as a reusable terminating relation on feasible flows: a step chooses any positive-residual `s–t` path of minimum arrow length and augments by its full bottleneck capacity.
+   Prove that the relation is well-founded in the direction of successive augmentations, from any initial feasible flow, and that a flow has no successor exactly when it is maximum.
+   Supply the existence of a shortest augmenting path whenever any augmenting path exists, preservation of feasibility, and strict increase of value at each step.
+   These statements hold over every coefficient group `K` in the conventions; executable path search and complexity bounds are not targets.
+   **Suggested proof:** residual distances do not decrease under shortest-path augmentation, and repeated saturation of a tagged arrow forces progress in those distances; finiteness of the residual graph gives termination independently of coefficient discreteness, Archimedeanness, or completeness.
 5. **Integrality.** Capacities in an additive subgroup `H` of `K` admit a maximum flow whose arrow values are in `H` and whose value equals the minimum cut capacity.
    **Why:** residual capacities and augmentations preserve additive-subgroup membership.
    Natural-number capacities in `ℤ`, `ℚ`, or `ℝ` are the case `H = AddSubgroup.zmultiples 1`; state that case with `ℕ`-casts and give the explicit coercion lemmas between the three coefficient types.
@@ -437,6 +466,11 @@ Every target in this section concerns ordinary flows, with zero lower bounds and
 - A nonnegative assignment with two supply vertices, two demand vertices, and a cycle, verifying arrowwise reconstruction and the supply and demand weight identities.
 - Zero and nonnegative zero-excess assignments, exercising empty decomposition families and loop cycles.
 - The two-path flow of item 3, whose decomposition has no cycle component while its support contains a directed cycle, together with its acyclic flow.
+- On four vertices `s, a, b, t` over lexicographically ordered `ℤ × ℤ`, give `s → a`, `s → b`, `a → t`, and `b → t` capacity `(1, 0)`, and `a → b` capacity `(0, 1)`.
+  Starting from zero, alternate augmentation along `s → a → b → t` and `s → b → a → t`, where the second path uses the reverse residual arrow of `a → b`.
+  Prove by induction that every step has full bottleneck `(0, 1)` and that the value after `n` steps is `(0, n)`; after `2m` steps, all four outer arrows carry `(0, m)` and `a → b` carries zero.
+  Thus this augmentation sequence never terminates, although all vertices and arrows are finite in number.
+  In contrast, prove that shortest augmentation from zero uses the two length-two paths and reaches the maximum value `(2, 0)` in two steps, with the cut `{s}` certifying optimality.
 
 ### 3.2. Large capacities
 
@@ -572,7 +606,29 @@ Two cuts, as bipartitions, **cross** when all four intersections of a side of on
 Prove also the **ultrametric inequality** for the minimum cut values of any `f` and distinct `s, t`, `λ(s,t) ≥ min (λ(s,v), λ(v,t))`, since every `s–t` cut separates `s` from `v` or `v` from `t`.
 The intermediate vertex `v` is arbitrary; define `λ(s,s) = 0` as the diagonal convention.
 These are the interface used by the cut-tree milestone.
-Submodularity, the lattice, and the non-crossing lemmas rest on Milestone 1 alone; Milestone 3 enters this milestone only for the residual characterization of the canonical cuts.
+Abstract submodularity, the lattice, and the non-crossing lemmas need no flow theory; Milestone 1 supplies their graph and network instances.
+
+### 4.4. The poset of all minimum cuts
+
+For a supplied maximum bounded `s–t` assignment `f` with distinct terminals, form the positive-capacity residual quiver of Target 4.2.
+Use Mathlib's [`Quiver.StronglyConnectedComponent`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Combinatorics/Quiver/ConnectedComponent.html#Quiver.StronglyConnectedComponent) for the quotient by mutual reachability.
+Order its components by residual reachability: `C ≤ D` means that a vertex of `C` can reach a vertex of `D`.
+Prove independence of representatives, antisymmetry, and finiteness of the quotient, with the projection and reachability lemmas needed below.
+The components reachable from the source component are forced onto every minimum-cut source side; those that can reach the sink component are forced off every such side.
+Prove that these two sets of components are disjoint, and equip the remaining components with the induced partial order.
+
+Construct an order isomorphism between the minimum-cut source sides under inclusion and the upper sets of this finite poset, ordered by inclusion.
+Use `(UpperSet P)ᵒᵈ` for this inclusion order, since Mathlib orders `UpperSet P` by reverse inclusion.
+An upper set is a set of components closed under passing to a reachable component.
+The forward map takes the free components contained in the source side; the inverse takes their vertices together with all vertices forced onto the source side.
+Prove both round trips and the vertex-membership formula, and show that union and intersection correspond under this isomorphism.
+Recover the smallest and largest cuts by taking the empty and full upper sets, and prove that the minimum cut is unique exactly when there are no free components.
+Give the ordinary-flow specialization; the signed-bound statement follows from the same residual cut-gap identity and does not require nonnegative terminal value.
+This target requires the quotient and its order, not an algorithm for computing strongly connected components or enumerating all cuts.
+
+**Required example:** on four vertices `s, a, b, t`, take the unit-capacity arrows `s → a`, `a → t`, `s → b`, `b → t`, and `a → b`.
+For the maximum flow sending one unit along each two-arrow `s–t` path and zero along `a → b`, compute the two free residual components with `a < b`.
+Verify that the minimum-cut source sides are exactly `{s}`, `{s,b}`, and `{s,a,b}`: choosing `a` forces choosing `b`.
 
 ## 5. Menger's theorem
 
@@ -670,6 +726,7 @@ For an arrow family `Q` on a finite vertex type, define `IsArcReachable k s t` b
 The vertex statements assume nothing about the arrow types; the arrow-counting characterizations through directed edge Menger and the degree bounds assume finite arrow types.
 Define the invariants `arcConnectivity` and `vertexStrongConnectivity` in `ℕ∞` as the suprema of the thresholds, with the same subsingleton conventions as the undirected invariants.
 Supply threshold equivalences, monotonicity in the threshold and the arrow family, deletion lemmas, and the predicate forms through directed Menger.
+The vertex threshold equivalence `IsVertexStrong k ↔ k ≤ vertexStrongConnectivity` assumes a nonempty vertex type; on the empty type the invariant is zero but every `IsVertexStrong k` is false.
 Prove `vertexStrongConnectivity ≤ arcConnectivity`, and the bound of arc connectivity by every out-degree and in-degree when there are at least two vertices.
 Prove that the arc connectivity of the bidirected network of a multigraph is its edge connectivity and that its vertex strong connectivity is the multigraph's vertex connectivity.
 Give the `Digraph` corollaries through the adapter of [Target 1.1](#11-undirected-walks-isomorphisms-and-representation-bridges).
@@ -795,9 +852,11 @@ An open ear decomposition of a simple graph starts from a cycle and has only ope
 Prove three characterizations:
 
 1. A finite simple graph with at least three vertices is 2-vertex-connected if and only if it has an open ear decomposition.
+   Strengthen existence to start from any prescribed cycle: for each cycle `C` in a 2-vertex-connected finite simple graph, supply an open ear decomposition whose initial subgraph is exactly the subgraph traced by `C`.
+   Prove the corresponding prescribed-edge corollary by choosing an initial cycle containing that edge.
    This vertex-connectivity characterization also applies to the underlying simple graph of a multigraph; it does not assert that open ears cover multigraph loops.
 2. A finite multigraph with nonempty actual vertex set is 2-edge-connected if and only if it can be built from one vertex by adding open or closed ears.
-   Prove first that 2-edge-connectivity is equivalent to pairwise reachability of the actual vertices and absence of bridges among the actual edges, including the empty-vertex convention for that equivalence.
+   Without finiteness assumptions, prove first that 2-edge-connectivity is equivalent to pairwise reachability of the actual vertices and absence of bridges among the actual edges, including the empty-vertex convention for that equivalence.
    Derive the simple-graph ear characterization and `H.IsEdgeConnected 2 ↔ ∀ e, ¬ H.IsBridge e` in the shape of [#42839](https://github.com/leanprover-community/mathlib4/pull/42839).
    **Why:** `SimpleGraph.IsBridge` can hold for non-edges between components; multigraph bridges concern only actual edges.
 3. A network `N` with nonempty finite vertex type and finite arrow types is strongly connected (`N.IsStronglyConnected`) if and only if it can be built from one vertex by adding directed open or closed ears, covering every arrow.
@@ -817,10 +876,22 @@ For nonempty connected multigraphs, derive the classical form that a strongly co
 Include the componentwise result: an orientation strongly connected on each connected component exists exactly when no actual edge is a bridge.
 Derive the simple-graph statements through the orientation equivalence of Milestone 1, using `TauCeti.DoubledQuiver.Orientation` in their conclusions.
 
+### 7.4. `st`-numberings and acyclic orientations
+
+For a finite 2-vertex-connected simple graph and a chosen edge with distinct ordered endpoints `s,t`, construct a bijective numbering of its vertices by `Fin |V|`, with `s` numbered zero and `t` numbered `|V| − 1`.
+Every other vertex must have both a lower-numbered neighbour and a higher-numbered neighbour.
+Supply the basic numbering API: injectivity, endpoint extremality, reversal exchanging `s,t`, transport under graph isomorphisms, and preservation on adding edges on the same vertex type.
+Use the existing `TauCeti.DoubledQuiver.Orientation` to orient each edge from its lower-numbered endpoint to its higher-numbered endpoint.
+Prove that this orientation has no positive-length directed closed walk, that `s` is its unique vertex with no incoming arrow, and that `t` is its unique vertex with no outgoing arrow.
+Prove that every vertex is reachable from `s` and can reach `t` in the oriented quiver, and transport the statements through its existing vertex and arrow equivalences.
+This target concerns simple graphs; no planarity assumption or graph-drawing algorithm is required.
+**Suggested proof:** start an open ear decomposition with a cycle containing `st`, order the vertices along the other `s–t` arc, and insert each new ear's internal vertices between its ordered endpoints.
+
 **Required examples:**
 
 - Two vertices joined by two parallel edges: edge connectivity two, a two-edge cycle and closed ear, and a strongly connected orientation, compared with the single-edge simplification.
 - A loop on one vertex: a one-edge cycle and closed ear, no bridge, and no contribution to cuts.
+- A four-cycle with a diagonal: construct open ear decompositions starting from the four-cycle and from a triangle, and give an `st`-numbering and its acyclic orientation for a chosen edge.
 
 ## 8. Bounded circulations, prescribed excess, and indegree orientations
 
@@ -833,7 +904,7 @@ For componentwise feasibility, explicitly recover that the sum of prescribed exc
 
 ### 8.1. Signed circulation algebra and assignment shifts
 
-On a fixed finite quiver, signed assignments with zero excess form an additive subgroup of all arrow assignments.
+On a fixed finite quiver, signed assignments with zero excess form the kernel of the additive homomorphism `excessHom` from Target 1.3.
 Prove that two assignments have the same excess exactly when their difference is a signed circulation, and that adding a signed circulation preserves excess; bounded feasible circulations themselves need not be closed under addition.
 For any reference assignment `h`, construct the equivalence taking `f` to `g = f − h`, replacing the bounds by `ℓ − h, u − h` and prescribed excess by `b − excess h`; no feasibility assumption on `h` is required.
 Its inverse adds `h`; prove the arrowwise identities, the excess formula, both round trips, the identity shift, and composition of shifts by adding their reference assignments.
@@ -1026,28 +1097,60 @@ Develop the weighted-tree API needed for these statements: unique paths, fundame
 **Required examples:**
 
 - A disconnected weighted graph whose cut tree contains zero-weight edges.
+- On `Fin 4`, the natural-valued function `f(S) = min (|S|, 4 − |S|)`: prove symmetry and submodularity, and prove that no nonnegative real pair-capacity function on the same four vertices has this cut function after casting to `ℝ`.
+  Compute every distinct-pair minimum cut value as one, show that a unit-weight path has the correct path-minimum values but its middle edge gives a cut of value two, and exhibit a unit-weight star satisfying both cut-tree properties.
+  **Why:** the example distinguishes numerical pairwise values from actual minimum-cut witnesses and exercises symmetric submodularity beyond graph cut capacities.
 
 ## Scope boundaries
 
 This roadmap owns graph connectivity, components, separators, cuts, flows, and the representation bridges between `Graph`, `SimpleGraph`, orientations, and networks.
 Roadmaps that need `k`-vertex-connectivity for a fixed `k`, such as 3-connectivity in topological graph theory, use `IsVertexConnected k` from here rather than a second connectivity or component theory.
-Incidence counts, indegree and outdegree for orientations, and the matching and edge-colouring API required by the bipartite targets are in scope.
+Incidence counts, indegree and outdegree for orientations, the bridge forest, `st`-numberings, the residual component poset of minimum cuts, and the matching and edge-colouring API required by the bipartite targets are in scope.
 The roadmap does not develop unrestricted multigraph degree or colouring theory.
 
 The following are outside scope:
 
+- Adapters to the proposed `GraphLike.Walk` and `FlowNetwork` APIs.
 - General matching theory beyond the bipartite targets, arbitrary-profit matching, minimum-cost flows and circulations, general-graph edge-colouring, and list edge-colouring.
 - Dilworth's theorem, completion of partial orientations to strong orientations (mixed Robbins), Nash-Williams' orientation theorem for `2k`-edge-connected graphs, Edmonds' disjoint arborescences, and the Nash-Williams–Tutte disjoint spanning tree theorems.
-- Networks with infinite capacities, multicommodity flows, algorithmic complexity bounds, and condensation into strong components.
-- Extremal, flow, and ear-decomposition theory with infinitely many actual vertices, beyond the finiteness-free foundations of Milestones 1 and 2, and edge-counting or flow theories with infinite edge sets.
+- Networks with infinite capacities, multicommodity flows, algorithmic complexity bounds, and algorithms for computing strongly connected components or enumerating cuts.
+- Separate developments of infinite graph theory, including Menger's theorem and other extremal results on infinitely many actual vertices, infinite rays and ends, infinite matching and edge-colouring, infinite ear decompositions, and edge-counting or flow theories with infinite edge sets.
 - General graph contractions, contractible-edge and wheel theorems, treewidth, drawings, planar embeddings, and surface topology.
 
 ## Mathematical references
 
-- Reinhard Diestel, *Graph Theory*, Chapter 3, for connectivity, Menger, blocks, fans, and ears; see the [author's book site](https://diestel-graph-theory.com/).
+- Reinhard Diestel, *Graph Theory*, §1.9 and Chapter 3, for bonds, connectivity, Menger, blocks, fans, and ears; see the [author's book site](https://diestel-graph-theory.com/).
 - Dimitri P. Bertsekas, [*Linear Network Optimization*](https://www.mit.edu/~dimitrib/LNets_Full_Book.pdf), §1.1.3 and Exercises 2.4–2.6 of §1.2, for bound transformations, feasibility, and rounding.
 - Alexander Schrijver, *Combinatorial Optimization: Polyhedra and Efficiency*, Volume A, for flows, cuts, disjoint paths, circulations, and cut trees; see the [author's book page](https://homepages.cwi.nl/~lex/co/).
 - Bernhard Korte and Jens Vygen, *Combinatorial Optimization: Theory and Algorithms*, Section 8.6, for the Gomory–Hu construction and the witness-repair step of its correctness proof.
 - Jørgen Bang-Jensen and Gregory Gutin, *Digraphs: Theory, Algorithms and Applications*, for directed connectivity, directed ears, and network flows; see the [second edition](https://doi.org/10.1007/978-1-84800-998-1).
 - Dan Gusfield, [*Very Simple Methods for All Pairs Network Flow Analysis*](https://doi.org/10.1137/0219009), SIAM Journal on Computing 19 (1990), 143–155, for the contraction-free cut-tree construction.
+- Jean-Claude Picard and Maurice Queyranne, [*On the structure of all minimum cuts in a network and applications*](https://publications.polymtl.ca/5993/), for the residual reachability order and its description of every minimum cut.
+- Shimon Even and Robert Endre Tarjan, [*Computing an st-numbering*](https://doi.org/10.1016/0304-3975(76)90086-4), for `st`-numberings and their relation to acyclic orientations; only the existence and structural consequences are targets here.
 - András Frank and András Gyárfás, [*How to orient the edges of a graph?*](https://www.renyi.hu/~gyarfas/Cikkek/09_FrankGyarfas_HowToOrientTheEdgesOfAGraph.pdf), for orientation degree bounds; loops in Target 8.8 contribute forced units at their vertices.
+
+### Interface design references
+
+The following Mathlib proposals and their review discussions are references for interface design and coordination.
+Each entry identifies the part relevant to this roadmap; the conventions and targets specify the required interfaces and their mathematical scope.
+
+- [#33355: vertex connectivity](https://github.com/leanprover-community/mathlib4/pull/33355): deletion-based `IsVertexReachable`, `IsVertexPreconnected`, and `IsVertexConnected`.
+- [#42494: numerical edge connectivity](https://github.com/leanprover-community/mathlib4/pull/42494): `edgeReachability`, `edgeConnectivity`, their supremum definitions, and degree bounds.
+- [#36756: shared walks](https://github.com/leanprover-community/mathlib4/pull/36756) and [#39053: the `Graph` instance](https://github.com/leanprover-community/mathlib4/pull/39053): `GraphLike.Walk` with vertex support and darts, following the [HasAdj discussion](https://leanprover.zulipchat.com/#narrow/channel/252551-graph-theory/topic/HasAdj/with/575843445).
+  Mathlib has no walks on `Graph`; these proposals rest on the `GraphLike` hierarchy of [#36743](https://github.com/leanprover-community/mathlib4/pull/36743).
+  The [dart construction in #39053](https://github.com/leanprover-community/mathlib4/blob/455aa1d6e5c7215f1270da70e328056af9607545/Mathlib/Combinatorics/Graph/GraphLike.lean#L22) splits every loop into a forward and a backward dart, so a graph with one vertex and one loop has two length-one walks there; the [loop-dart discussion](https://github.com/leanprover-community/mathlib4/pull/36743#discussion_r3191440123) records the trade-off.
+  This roadmap uses edge-labelled inductive walks with the API of `SimpleGraph.Walk` and records a loop traversal once, as the [`WList` walks](https://github.com/apnelson1/Matroid/tree/main/Matroid/Graph/WList) of the library that `Graph` originates from do; the representation bridges of Target 1.1 connect them to `SimpleGraph.Walk` and `Quiver.Path`.
+  A map forgetting loop directions identifies the two dart walks of a loop with the single walk here; no target of this roadmap depends on the direction of a loop.
+  The general `GraphLike` hierarchy is outside this roadmap's scope.
+- [#43017: network flows](https://github.com/leanprover-community/mathlib4/pull/43017): quivers with capacities and flow assignments indexed by arrows.
+  Arrow indexing retains parallel edges; this roadmap develops finite sums over general coefficients, with nonnegative coefficient interfaces in Target 3.4.
+- [#34028: weak max-flow/min-cut duality](https://github.com/leanprover-community/mathlib4/pull/34028): an undirected flow formulation on simple graphs.
+  Undirected flow applications use the bidirected network, with no separate undirected flow type, so this roadmap takes only the statement shapes from that proposal.
+- [#33032: Kőnig's theorem](https://github.com/leanprover-community/mathlib4/pull/33032): matchings as subgraphs, vertex covers, and the equality between the sizes of maximum matchings and minimum covers.
+- [#33313: edge colourings](https://github.com/leanprover-community/mathlib4/pull/33313): `SimpleGraph.EdgeColoring`, `EdgeColorable`, and `chromaticIndex`, using colourings of the line graph; Target 6.9 supplies the bipartite theorem and transport from multigraph edge identities.
+  See also the related [#43128](https://github.com/leanprover-community/mathlib4/pull/43128).
+  The [edge-colouring discussion](https://leanprover-community.github.io/archive/stream/252551-graph-theory/topic/edge.20coloring.html) also records earlier work; follow the porting policy before reusing it.
+- [#42839: 2-edge-connectivity and bridges](https://github.com/leanprover-community/mathlib4/pull/42839): `G.IsEdgeConnected 2 ↔ ∀ e, ¬ G.IsBridge e`, the simple-graph specialization in Milestone 7.
+- [#37861: connected `Graph`s](https://github.com/leanprover-community/mathlib4/pull/37861): connectivity of Mathlib's multigraph type through connected components as subgraphs, defined without walks; Milestone 1 proves agreement with walk reachability.
+- [#38337: unions of `Graph`s](https://github.com/leanprover-community/mathlib4/pull/38337): compatible unions, used when adding ears.
+  Target 1.1 requires the least-upper-bound interface for compatible graphs; the proposal's choice of incidence for conflicting edge identities is outside scope.
