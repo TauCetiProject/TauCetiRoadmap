@@ -4,11 +4,12 @@
 (0BMB); SGA 1, Exposé X, Théorème 3.1): a morphism of locally Noetherian schemes that is
 quasi-finite at a point `x` with normal source stalk and regular target stalk of the same dimension
 `≥ 1`, and unramified at every codimension-one point specializing to `x`, is étale at `x`. Globally:
-a finite dominant morphism from a normal integral scheme to a regular one is étale as soon as it is
-étale in codimension one. The roadmap also defines the ramification locus, the non-étale locus and
-the branch locus of a morphism of schemes, and derives from 0BMB the classical statement that the
-ramification and branch loci are empty or of pure codimension one. The local input is purity for
-regular local rings, from [LocalPurity](../LocalPurity/README.md); this roadmap supplies the
+a finite dominant, generically étale morphism from a normal integral scheme to a regular one is
+étale as soon as it is étale in codimension one. The roadmap also defines the ramification locus,
+the non-étale locus and the branch locus of a morphism of schemes, and derives from 0BMB the
+classical statement that, under §2.3's hypotheses and when the ramification locus is not all of
+the source, the ramification and branch loci are empty or of pure codimension one. The local input
+is purity for regular local rings, from [LocalPurity](../LocalPurity/README.md); this roadmap supplies the
 pointwise vocabulary in stalk form, the permanence of normality under étale homomorphisms of local
 rings, Serre's characterization of regular local rings by finite global dimension and its
 consequence that a localization of a regular local ring is regular (Stacks 0AFS), étale localization
@@ -71,6 +72,9 @@ corollary.
 - *Invariance of regularity and dimension under étale morphisms* (Étale Morphisms, Lemma 41.19.1
   (039S) and Proposition 41.19.4 (025N)): [ModularCurves](../ModularCurves/README.md) §4D, which owns
   the scheme-level API of regular schemes, including its invariance under étale morphisms.
+  Tau Ceti already supplies the local ascent input
+  `TauCeti.IsRegularLocalRing.of_flat_of_formallyUnramified` for a flat, formally unramified,
+  essentially-finite-type local map; reuse it in that scheme-level comparison.
 - *Étaleness is fpqc local on the base* (Descent, Lemma 35.23.31 (02VN)): Mathlib's
   `DescendsAlong @Etale (@Surjective ⊓ @Flat ⊓ @QuasiCompact)`.
 - *Going down and the dimension formula*: Mathlib `Algebra.HasGoingDown` (`@[stacks 00H8]`) and the
@@ -140,13 +144,20 @@ SchemeAndStackFoundations §§0.17, 4.13 (`isCohenMacaulay_iff_forall_satisfiesS
 ### 0.3 Global dimension and localization of regular local rings
 
 Define `globalDimension R : WithBot ℕ∞` as the supremum of `CategoryTheory.projectiveDimension M`
-over `M : ModuleCat R` (Stacks, Definition 10.109.10 (00O6)). Prove, each as its tag states it:
+over `M : ModuleCat R` (Stacks, Definition 10.109.10 (00O6)). Match the supremum interface of
+mathlib4 #29558, while assigning its implementation here until it is available at the pin.
+Prove, each as its tag states it:
 `globalDimension_le_iff` (Lemma 10.109.12 (065T)): `globalDimension R ≤ n` iff every finite
 `R`-module, iff every cyclic `R`-module, has projective dimension `≤ n`;
 `projectiveDimension_localization_le` and `globalDimension_localization_le` (Lemma 10.109.13
-(00O8)): localization does not increase projective or global dimension;
-`Module.free_of_quotSMulTop_free` (Lemma 10.106.5 (00NS)); `IsRegularLocalRing.free_of_isCohenMacaulay`
-(Lemma 10.106.6 (00NT)): a maximal Cohen–Macaulay module over a regular local ring is free;
+(00O8)): localization does not increase projective or global dimension. For the first statement,
+reuse Mathlib's `ModuleCat.projectiveDimension_le_projectiveDimension_of_isLocalizedModule` (and
+its bounded predecessor `localizedModule_hasProjectiveDimensionLE`); the global-dimension
+inequality remains a target. Derive the Noetherian-local form of
+`Module.free_of_quotSMulTop_free` (Lemma 10.106.5 (00NS)) from Mathlib's stronger
+`Module.free_quotSMulTop_iff_free` under finite presentation, Jacobson-radical membership and
+regularity of the element. Prove `IsRegularLocalRing.free_of_isCohenMacaulay` (Lemma 10.106.6
+(00NT)): a **maximal** Cohen–Macaulay module over a regular local ring is free;
 `exists_resolution_maximalCohenMacaulay` (Lemma 10.104.9 (00NG)); and
 `IsRegularLocalRing.globalDimension_le` (Proposition 10.110.1 (00O7)): over a regular local ring of
 dimension `d`, a finite module of depth `e` has a finite free resolution of length `d − e`, so
@@ -164,7 +175,13 @@ dimension, iff `R` is regular, and then `globalDimension R = ringKrullDim R`. Pr
 Noetherian local ring is regular iff it has finite global dimension, and the localization of a
 regular local ring at a prime is a regular local ring; with it, `isRegularRing_of_isRegularLocalRing`
 (*API*): a regular local ring satisfies Mathlib's `IsRegularRing`. Names and shapes follow the
-Mathlib vocabulary for projective dimension.
+Mathlib vocabulary for projective dimension. Before the global-ring theorem, derive the local
+consequence that a regular local ring is Cohen–Macaulay by induction on a regular parameter
+sequence, using `TauCeti.IsRegularLocalRing.quotient_span_singleton` and the §0.17 depth/quotient
+API; this does not assume `IsRegularRing` of every prime localization. Match the localization
+interface proposed in mathlib4 #29802: it has both the concrete `Localization.AtPrime` theorem
+and the form for any `S` with `[IsLocalization.AtPrime S p]`. Implement the target here at the
+pin rather than waiting for that work.
 *Needs:* SchemeAndStackFoundations §0.17 (depth and Cohen–Macaulay API,
 `Ring.IsCohenMacaulay.of_isRegularRing`); Tau Ceti `TauCeti.IsRegularLocalRing.quotient_span_singleton`;
 Mathlib `CategoryTheory.projectiveDimension`, `CategoryTheory.HasProjectiveDimensionLE`, `Ext`,
@@ -294,9 +311,15 @@ morphisms); Tau Ceti
 ### 2.2 The global corollary
 
 Prove `Scheme.Hom.etale_of_etaleAt_codimOne` (*API*): a finite dominant morphism `f : X ⟶ Y` from
-a normal integral locally Noetherian scheme to a regular integral locally Noetherian scheme is
-étale iff `(f.stalkMap x).hom` is formally unramified at every point `x` with
-`ringKrullDim (X.presheaf.stalk x) = 1`.
+a normal integral locally Noetherian scheme to a regular integral locally Noetherian scheme that
+is **generically étale** is étale iff `(f.stalkMap x).hom` is formally unramified at every point
+`x` with `ringKrullDim (X.presheaf.stalk x) = 1`. Generically étale means that the finite extension
+of function fields is separable, equivalently that `f` is étale at the generic point of `X`. It
+handles the local-dimension-zero point, which 0BMB does not cover; §2.1 applies at the remaining
+points after the codimension-one and dimension-equality inputs are supplied. Without this
+hypothesis the statement fails for the purely inseparable extension
+`𝔽_p(t) ⊂ 𝔽_p(t)[u]/(uᵖ - t)`: both spectra are zero-dimensional, so the codimension-one condition
+is vacuous, but the map is not étale.
 *Needs:* §2.1.
 
 ### 2.3 Purity of the ramification and branch loci
