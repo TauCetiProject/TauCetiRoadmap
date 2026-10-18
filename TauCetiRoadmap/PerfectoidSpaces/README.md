@@ -610,6 +610,7 @@ the modulo-`p` formulation they need is `IsPerfectoidTateRing.iff_frobenius_surj
 | Complete affinoid category | `TauCetiRoadmap.AdicEtaleGeometry.CAff`, whose morphisms are Tau Ceti's `Huber.Pair.Hom`, and `CAff.of`; `TauCetiRoadmap/AdicEtaleGeometry/README.md`, A1.16 | Underlying Huber pairs and their continuous plus-preserving maps. |
 | Topology on completed tensors and spectral rings | `TauCetiRoadmap.AdicSpacesPartII.Huber.CompletedTensor.isUniformAddGroup`, `.isTopologicalRing`, `.isHuberRing`, `Pair.completedTensor.instIsTateRing`, `SpectralTop.isUniformAddGroup`, `.isTopologicalRing`, `.isTateRing`; `TauCetiRoadmap/AdicSpacesPartII/README.md`, R0.3–R0.4 | Register these supplied theorems as instances for the perfectoid tensor statements. |
 | Completed tensors and uniformization | `TauCetiRoadmap.AdicSpacesPartII.Huber.CompletedTensor`, `Uniformization`, `Pair.completedTensor` with `completedTensor.tmul`, `completedTensor.inl` and `completedTensor.inr` (in `Huber.Pair`), `Pair.uniformCompletedTensor.fromCompletedTensor`; `TauCetiRoadmap/AdicSpacesPartII/README.md`, R0.3–R0.4 | P2 adds perfectoidness, the almost integral comparison and its computed tensor conventions. |
+| Compatible points over Tate bases | `TauCetiRoadmap.AdicEtaleGeometry.Huber.exists_spaPoint_of_isCompletedPushout`; `TauCetiRoadmap/AdicEtaleGeometry/README.md`, A0.1 (*tate-completed-tensor-points*) | P2.15(d) and P2.16 apply point lifting on complete perfectoid Tate charts; P2.17 applies it on complete Tate charts before uniformization. |
 
 #### P3
 
@@ -7552,8 +7553,8 @@ with its sheafiness hypothesis discharged; (b) for rational subsets `U' ⊆ X`, 
 `Spa(O_Y(U) ⊗̂_{O_X(U')} O_Z(V)) = U ×_{U'} V` (AdicSpacesPartII R0.3
 (*completed-tensor-rational-localisation*)); (c) for arbitrary open subspaces `U ⊆ Y`,
 `V ⊆ Z`, the open subspace `p⁻¹(U) ∩ q⁻¹(V)` with the restricted projections is a fibre product
-`U ×_X V` in adic spaces; (d) the map `|W| → |Y| ×_{|X|} |Z|` is surjective (AdicSpacesPartII layer
-R0 (*fibre-product-points*)) and not
+`U ×_X V` in adic spaces; (d) the map `|W| → |Y| ×_{|X|} |Z|` is surjective (AdicEtaleGeometry
+A0.1 (*tate-completed-tensor-points*)) and not
 injective in general ([Sch12] §6, proof of Prop. 6.18, p. 38, the universal property over a
 perfectoid field; [AWS] §2.4, before Thm 2.4.1, p. 57, why the perfectoid case discharges the
 sheafiness hypothesis; [ECD] §8, Prop. 8.3, p. 41, stability of affinoid perfectoid spaces under
@@ -7562,8 +7563,9 @@ every perfectoid Tate ring `K`, with `{|T| ≤ |ϖ|} × {|S| ≤ |ϖ|}` correspo
 `Spa(K⟨(T/ϖ)^{1/p^∞}, (S/ϖ)^{1/p^∞}⟩)`. *Needs:* *completed-tensor-of-perfectoid-is-perfectoid*;
 *affinoid-perfectoid-space*; *perfectoid-stably-uniform-and-sheafy*;
 *rational-localization-of-perfectoid-affinoids*; AdicSpacesPartII R0.1, R0.3, R0.7
-(*adic-ring-homomorphism*, *completed-tensor-rational-localisation*, *affinoid-fibre-product*,
-*fibre-product-points*); Mathlib `CategoryTheory.IsPullback`; Tau Ceti
+(*adic-ring-homomorphism*, *completed-tensor-rational-localisation*, *affinoid-fibre-product*);
+AdicEtaleGeometry A0.1 (*tate-completed-tensor-points*);
+Mathlib `CategoryTheory.IsPullback`; Tau Ceti
 `TauCeti.Huber.Pair.Hom.spaComap`,
 `TauCeti.Huber.Pair.Hom.spaComap_preimage_rationalSubset`.
 
@@ -7611,14 +7613,16 @@ exists for the same diagram), `pullbackSpaIso`
 (`Spa(B, B⁺) ×_{Spa(A, A⁺)} Spa(C, C⁺) ≅ Spa(B ⊗̂_A C)` over the projections, with R0's plus ring),
 `pullback.isAffinoidPerfectoid` (instance), `pullbackRestrictIso`
 (`p⁻¹(U) ∩ q⁻¹(V) ≅ U ×_X V` for open `U ⊆ Y`, `V ⊆ Z`), `pullback_points`
-(`|Y ×_X Z| → |Y| ×_{|X|} |Z|` surjective, AdicSpacesPartII R0.7 (*fibre-product-points*)),
+(`|Y ×_X Z| → |Y| ×_{|X|} |Z|` surjective, by AdicEtaleGeometry A0.1
+(*tate-completed-tensor-points*) on complete Tate affinoid charts),
 `Perf.hasPullbacks` (`Perf` closed under fibre
 products; `HasPullbacks Perf`), binary products in `Perfd/X` (given by
 fibre products, Mathlib `Over.ConstructProducts.over_binaryProduct_of_pullback`) and
 `pullbackTiltIso` (`(Y ×_X Z)♭ ≅ Y♭ ×_{X♭} Z♭` over the tilted projections,
 *tilting-commutes-with-fibre-products*). *Needs:* *perfectoid-fibre-product-universal-property*;
 *perfectoid-space*; *affinoid-perfectoid-basis*; *completed-tensor-plus-ring-almost-formula*;
-AdicSpacesPartII R0.6, R0.7 (*adic-morphism*, *fibre-product-points*); Mathlib
+AdicSpacesPartII R0.6 (*adic-morphism*); AdicEtaleGeometry A0.1
+(*tate-completed-tensor-points*); Mathlib
 `CategoryTheory.Limits.HasPullbacks`,
 `CategoryTheory.IsPullback`, `CategoryTheory.Over.ConstructProducts.over_binaryProduct_of_pullback`.
 
@@ -7725,13 +7729,13 @@ perfectoid and `S` affinoid with Tate ring), `pullbackOverAnalyticRestrictIso` (
 (`Δ : Y → Y ×_S Y = lift (𝟙 Y) (𝟙 Y)`, used for analytic separatedness in layer [P8](../PerfectoidTowers/README.md#layer-p8-finite-quotients-and-closed-perfectoid-loci-in-towers)) and
 `pullbackOverAnalytic.surjective_points` (`|Y ×_S Z| → |Y| ×_{|S|} |Z|` is surjective: `Spa` of
 the uniformisation is homeomorphic to `Spa` of the completed tensor product, AdicSpacesPartII layer
-R0 (*uniformization*), property (d), and
-valuations amalgamate, AdicSpacesPartII R0.7 (*valuation-amalgamation*)). *Needs:*
+R0 (*uniformization*), property (d), and points lift to the completed tensor by
+AdicEtaleGeometry A0.1 (*tate-completed-tensor-points*)). *Needs:*
 *uniform-completed-tensor-of-perfectoid-over-any-base*;
 *fibre-products-of-perfectoid-spaces*; *completed-tensor-of-perfectoid-is-perfectoid*;
-*perfectoid-fibre-product-universal-property*; *perfectoid-space*; AdicSpacesPartII R0.3, R0.4, R0.6, R0.7
+*perfectoid-fibre-product-universal-property*; *perfectoid-space*; AdicSpacesPartII R0.3, R0.4, R0.6
 (*completed-tensor-rational-localisation*, *uniformization*, *uniform-completed-tensor-product*,
-*adic-iff-analytic-locus*, *valuation-amalgamation*).
+*adic-iff-analytic-locus*); AdicEtaleGeometry A0.1 (*tate-completed-tensor-points*).
 
 **Checks.**
 
@@ -8109,8 +8113,9 @@ R0.6 (*adic-morphism*, *adic-iff-analytic-locus*); P2.13 uses AdicSpacesPartII R
 (*adic-ring-homomorphism*), R0.3 (*completed-tensor-product*,
 *completed-tensor-product-universal-property*) and R0.4 for the uniformisation; P2.14 and P2.17 use
 R0.4 (*uniformization*, *uniform-completed-tensor-product*); P2.15–P2.17 use R0.3
-(*completed-tensor-rational-localisation*) and R0.7 (*valuation-amalgamation*,
-*affinoid-fibre-product*, *fibre-products-existence*, *fibre-product-points*), P2.16 also R0.6
+(*completed-tensor-rational-localisation*) and R0.7
+(*affinoid-fibre-product*, *fibre-products-existence*), and AdicEtaleGeometry A0.1
+(*tate-completed-tensor-points*) supplies their point surjectivity; P2.16 also uses R0.6
 (*adic-morphism*), and P2.17 also R0.6 (analyticity) and AdicSpaces 2.3; the comparisons of
 P2.9–P2.11 and P2.16 with AdicEtaleGeometry's analytic Yoneda carrier use its A1.16 (generalized adic
 presentations: `YonedaAdicSpace`, `ofAdicSpace`, `ofSpaY`, `mapsFromAdicSpaceEquiv`). None of these
