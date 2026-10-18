@@ -396,7 +396,7 @@ so `ξ` is the configuration *other than* the point at `x`, and the Georgii–Ng
 identity reads
 
 ```text
-𝔼 ∫ h(x, erase N x) N(dx) = 𝔼 ∫ h(x, N) λ(x, N) μ(dx)
+𝔼 ∫ h(x, erase N x) N(dx) = 𝔼 ∫ h(x, N) λ(x, N) (μ.restrict W)(dx)
 ```
 
 for nonnegative measurable `h`.  Papangelou intensities are defined only in this
@@ -452,8 +452,12 @@ Consume rather than duplicate:
   `Mathlib/MeasureTheory/Integral/CompactlySupported.lean`.
 * **Signed measures.** `SignedMeasure`, subtraction, total variation, and Jordan/Radon–Nikodym
   infrastructure come from `Mathlib/MeasureTheory/VectorMeasure/Basic.lean` and the
-  `Mathlib/MeasureTheory/VectorMeasure/Decomposition/` subtree; covariance measures use this
-  API rather than pretending that a signed object is a positive `Measure`.
+  `Mathlib/MeasureTheory/VectorMeasure/Decomposition/` subtree.  Mathlib's `SignedMeasure`
+  has globally finite total variation.  Layer 7 builds locally finite signed objects as
+  compatible finite-window `SignedMeasure`s and uses
+  [`VectorMeasure.integral`](https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/MeasureTheory/VectorMeasure/Integral.lean)
+  on each window for compactly supported integration, following the
+  [general vector-measure integration API](https://leanprover-community.github.io/archive/stream/509433-Brownian-motion/topic/Second.20phase.20of.20the.20project.html).
 * **Finite-measure weak topology.** `FiniteMeasure`, the Lévy–Prokhorov metric, and Prokhorov
   compactness are in `Mathlib/MeasureTheory/Measure/FiniteMeasure.lean`,
   `Mathlib/MeasureTheory/Measure/LevyProkhorovMetric.lean`, and
@@ -1304,7 +1308,8 @@ theorem.
   that on every bounded window `W` some `c > 2` has `sup_n 𝔼[c ^ Nₙ(W)] < ∞`, Layer 3's
   local exponential-moment condition uniformly in `n`, and such that for every `k` the
   factorial moment measures `α_k^{(n)}` converge vaguely on `Fin k → S` to the factorial
-  moment measure `α_k` of `N`.  Prove that the laws converge weakly.  The limit inherits
+  moment measure `α_k` of `N`, assumed finite on compact sets for every `k`.  Prove that
+  the laws converge weakly.  The limit inherits
   the condition, since `α_k(W^k) ≤ liminf_n α_k^{(n)}(U^k)` for an open relatively compact
   `U ⊇ W`; expand the generating functional of each process at `v = 1 - h` for
   `h ∈ C_c^+(S)` bounded by one and supported in `W`, dominate the `k`th term uniformly in
@@ -1396,12 +1401,13 @@ theorem tendsto_law_iff_laplaceFunctional {Λₙ : ℕ → Ω → LocallyFiniteM
           atTop (𝓝 (laplaceFunctional P (fun ω => (Λ ω : Measure S)) fun x => (f x : ℝ≥0∞)))
 
 /-- Convergence in law from factorial moment measures.  Under Layer 3's local
-exponential-moment condition, uniformly in `n`, vague convergence of every factorial moment
-measure to that of `N` gives weak convergence of the laws. -/
+exponential-moment condition, uniformly in `n`, and local finiteness of every factorial moment
+measure of `N`, vague convergence to those measures gives weak convergence of the laws. -/
 theorem tendsto_law_of_tendsto_factorialMomentMeasure {Nₙ : ℕ → Ω → PointMeasure S}
     {N : Ω → PointMeasure S} (hₙ : ∀ n, Measurable (Nₙ n)) (h : Measurable N)
     (hexp : ∀ W : Set S, MeasurableSet W → IsCompact (closure W) →
       ∃ c : ℝ≥0∞, 2 < c ∧ (⨆ n, ∫⁻ ω, c ^ ((Nₙ n ω).count W).toNat ∂P) < ∞)
+    (hlocal : ∀ k, IsFiniteMeasureOnCompacts (factorialMomentMeasure P N k))
     (hconv : ∀ (k : ℕ) (g : C_c(Fin k → S, ℝ)),
       Tendsto (fun n => ∫ x, g x ∂(factorialMomentMeasure P (Nₙ n) k)) atTop
         (𝓝 (∫ x, g x ∂(factorialMomentMeasure P N k)))) :
@@ -1486,20 +1492,44 @@ action is nontrivial; the line is `ℝ` itself.
   equivariant factors inherit stationarity, ergodicity, and mixing, that independent
   superposition preserves stationarity and mixing, and that it preserves ergodicity when
   one of the two processes is mixing.
+* Locally finite signed measures on a locally compact Polish space `S`, represented by
+  a family `γ_W : SignedMeasure S` indexed by relatively compact Borel windows `W`.
+  Require `γ_W.restrict W = γ_W` and `γ_V.restrict W = γ_W` whenever `W ⊆ V`.
+  Layer 7 owns this representation and its basic API: extensionality, evaluation on
+  relatively compact Borel sets independently of the containing window, zero, addition,
+  scalar multiplication, restriction, and compatible Jordan parts and total variations.
+  Construct the difference of two locally finite positive measures `μ` and `ν` by
+  `γ_W = (μ.restrict W).toSignedMeasure - (ν.restrict W).toSignedMeasure`, and prove
+  `γ_W.totalVariation ≤ (μ + ν).restrict W`.  For a bounded Borel function `f : S → ℝ`
+  with compact support, define `∫ f dγ` by Mathlib's vector-measure integral against any `γ_W` whose
+  window contains the support.  Prove integrability, independence of the containing
+  window, linearity, restriction compatibility, and the bound
+  `|∫ f dγ| ≤ C * (γ_W.totalVariation W).toReal` when `∀ x ∈ W, |f x| ≤ C` and `0 ≤ C`.
+  For differences, prove agreement with `∫ f dμ - ∫ f dν`.
 * The second factorial moment measure `α₂` and its reduced version `α₂^!` on `E d`,
   defined by `α₂^!(B) = 𝔼 ∫∫ 1_{[0,1)^d}(x) 1_B(y - x) N^{(2)}(d(x,y))`, with the
   disintegration `α₂(A × B) = ∫_A α₂^!(B - x) dx`; local square integrability if and only
   if `α₂^!` is locally finite; the pair correlation function as the density of `α₂^!`
-  against `λ² volume` when it exists.  Define the covariance and reduced covariance as
-  locally finite `SignedMeasure`s with their Jordan bounds on bounded windows.
+  against `λ² volume` when it exists.  Under local second-moment hypotheses, define
+  the covariance on `E d × E d` and reduced factorial covariance on `E d` through the
+  finite-window representation above.  The covariance is the difference of the ordinary
+  second moment measure `𝔼[N ⊗ N] = α₂ + (x ↦ (x, x))_* (λ volume)` and
+  `λ² (volume ⊗ volume)`; prove that it evaluates on bounded Borel rectangles `A × B` as
+  `Cov(N(A), N(B))`.  The reduced factorial covariance is
+  `γ_red = α₂^! - λ² volume`; the reduced ordinary covariance is `λ δ₀ + γ_red`.
+  Prove restriction compatibility and the corresponding
+  total-variation bounds from these differences of positive measures.
 * For a bounded Borel window `W`, the covariogram formula
 
   ```text
   Var N(W) = λ |W| + ∫ |W ∩ (W - x)| γ_red(dx),
   ```
 
-  where `γ_red = α₂^! - λ²·volume`.  This is the exact handoff to a spectral roadmap; no
-  Fourier transform is built here.
+  where `γ_red = α₂^! - λ²·volume` is the finite-window family above and the integral is
+  its compactly supported integral.  The covariogram is supported in
+  `closure W - closure W`; prove that the formula agrees with the difference of positive
+  integrals in `variance_count_eq_covariogram` below.  This is the exact handoff to a
+  spectral roadmap; no Fourier transform is built here.
 * The local approximation: for a simple stationary process and a bounded `B` of positive
   volume, `P(N(rB) ≥ 1) / volume(rB) → λ` and `P(N(rB) = 1) / volume(rB) → λ` as `r → 0`.
 
@@ -1559,7 +1589,10 @@ disintegrates the second factorial moment measure, and the covariogram formula.
 distinct from stationarity of one chosen realization; check that a stationary Poisson
 process has `α₂^! = λ² volume` and covariogram integral zero; and check that two
 independent uniformly shifted copies of the lattice `ℤ^d` are each ergodic while their
-superposition is stationary and not ergodic.
+superposition is stationary and not ergodic.  For the uniformly shifted integer lattice
+on the line, check `γ_red = ∑_{k ∈ ℤ, k ≠ 0} δ_k - volume` on every relatively compact
+Borel window, with finite total variation on each window and no global finiteness
+requirement.
 
 ## Layer 8: stationary Palm distributions, inversion, and stationary renewal processes
 
@@ -1755,8 +1788,18 @@ Ceti.** `Measure.ext_of_forall_integral_exp_neg_natCast_mul_eq` and
 
   for all nonnegative measurable `f`; this is Layer 2's Campbell formula with `Y = Λ`.
 * `N` is almost surely simple if and only if `Λ` is almost surely atomless.
-* Mapping, restriction, marking, thinning with the director thinned by the same density,
-  and superposition of Cox processes with independent directors.
+* Mapping, restriction, marking, and thinning with the director thinned by the same density.
+* Cox superposition with a specified conditional joint law, as the target
+  `isCox_superposition_of_jointLaw`.  For measurable directors `Λ₁, Λ₂` and point
+  processes `N₁, N₂`, put `D = (Λ₁, Λ₂)` and let
+  `K(μ₁, μ₂) = (poissonPointKernel μ₁).prod (poissonPointKernel μ₂)`.
+  Assume the joint law of `(D, (N₁, N₂))` is `(P.map D) ⊗ₘ K`: conditional on both
+  directors, the two processes have the product of their Poisson laws.  Prove that
+  `N₁ + N₂` is Cox directed by `Λ₁ + Λ₂`, using Layer 6's independent Poisson
+  superposition formula within each conditional law.  The directors can be dependent.
+  As the corollary `isCox_superposition_of_indepFun`, derive this joint-law hypothesis
+  from `IsCox P Λ₁ N₁`, `IsCox P Λ₂ N₂`, and independence of the pairs `(Λ₁,N₁)` and
+  `(Λ₂,N₂)`.
 * On `E d`, stationarity, ergodicity, and mixing of `N` are each equivalent to the same
   property of `Λ`; the reverse directions use identifiability.
 * The Palm–Cox theorem: for intensity-a.e. `x`, the reduced Palm law of `N` at `x` is the
@@ -1886,8 +1929,12 @@ general-filtration existence of compensators is not a target.
   A((0,t] × L) = ∑ₙ ∫_{(Tₙ ∧ t, Tₙ₊₁ ∧ t]} G_{n+1}(d(u - Tₙ) × L) / G_{n+1}([u - Tₙ, ∞] × univ).
   ```
 
-  Prove predictability, the compensator identity, and the mark formula
-  `A({Tₙ} × L | 𝓕_{Tₙ-}) = P(Zₙ ∈ L | 𝓕_{Tₙ-})` on the atoms.
+  Prove predictability, the compensator identity, and, for every finite predictable
+  stopping time `τ` and measurable mark set `L` with `N({τ} × L)` integrable, the
+  almost-sure jump identity
+  `A({τ} × L) = 𝔼[N({τ} × L) | 𝓕_{τ-}]`.  Deterministic times are included as a special
+  case.  Where `A({τ} × E) > 0`, normalize by this ground compensator jump to obtain the
+  conditional mark distribution given an event at `τ` and `𝓕_{τ-}`.
 * Stochastic intensities: `HasStochasticIntensity P 𝓕 N Q λ` says
   `A(dt, dz) = λ(t, z) dt Q(dz)` is a compensator for a named σ-finite `Q` and a
   predictable `λ`.  Prove that an intensity exists if and only if the Campbell measure
@@ -1896,8 +1943,10 @@ general-filtration existence of compensators is not a target.
   independent enlargement and any intermediate history containing the internal one, and
   that in the hazard formula with densities `g_{n+1}` it is
   `λ(t, z) = g_{n+1}(t - Tₙ, z) / G_{n+1}([t - Tₙ, ∞] × univ)` on `(Tₙ, Tₙ₊₁]`.
-* Nonexplosion: `N(ℝ≥0 × E) < ∞` almost surely on `{∫₀^∞ ∫ λ dQ dt < ∞}` and
-  `N(ℝ≥0 × E) = ∞` almost surely on the complement.
+* Total activity.  For time-simple `N`, `N(ℝ≥0 × E) < ∞` almost surely on
+  `{∫₀^∞ ∫ λ dQ dt < ∞}` and `N(ℝ≥0 × E) = ∞` almost surely on the complement.
+  This concerns total activity over the whole half-line; local nonexplosion means finite
+  counts on every bounded time interval.
 * Martingales.  For predictable `H` with `𝔼 ∫_{(0,t] × E} |H| dA < ∞` for every `t`, the
   compensated pathwise integral `M_t = ∫_{(0,t] × E} H dN - ∫_{(0,t] × E} H dA` is a
   martingale.  When `N` is time-simple, `A` has no atoms in time, and
@@ -2044,14 +2093,33 @@ intensities, stopping times, and compensated martingales.
   measure and i.i.d. uniforms.
 * Existence and pathwise uniqueness for intensity functionals.  For a causal measurable
   `ψ(t, z, ξ|_{(0,t)})` with the Lipschitz bound
-  `|ψ(t, z, ξ) - ψ(t, z, ξ')| ≤ ∫ h(t - s, z, η) |ξ - ξ'|(ds × dη)` and a kernel `h`
-  satisfying: `∫₀^∞ h(t, z, η) dt = H(z, η) < ∞`, and a positive `Q`-integrable `r` with
-  `∫ H(η, z) r(η) Q(dη) ≤ ρ r(z)` for some `ρ < 1`; and with `ψ(t, z, 0) ≤ C r(z)`: there
-  is a unique `𝓕`-adapted solution of `N = Π(· × [0, ψ(·, ·, N)])` driven by a given
-  adapted `Π`, with bounded mean ground rate.  Construct it by Picard iteration on a
-  deterministic partition `0 = t₀ < t₁ < ⋯` with `∫₀^{tᵢ₊₁ - tᵢ} sup_z h < 1`, and prove
-  uniqueness in law among solutions.  A formula for the intensity is never, by itself, an
-  existence or uniqueness theorem.
+  `|ψ(t, z, ξ) - ψ(t, z, ξ')| ≤ ∫ h(t - s, z, η) |ξ - ξ'|(ds × dη)` and a jointly
+  measurable nonnegative kernel `h` satisfying `∫₀^∞ h(t, z, η) dt = H(z, η) < ∞`,
+  assume a positive measurable `Q`-integrable `r` with
+  `∫ H(z, η) r(η) Q(dη) ≤ ρ r(z)` for some `0 ≤ ρ < 1`, and
+  `ψ(t, z, 0) ≤ C r(z)` for `0 ≤ C < ∞`.  Here `z` is the output mark and `η` is the
+  past mark.  There is a unique `𝓕`-adapted solution of
+  `N = Π(· × [0, ψ(·, ·, N)])` driven by a given adapted `Π`, with mean ground rate at
+  most `C/(1 - ρ) ∫ r dQ`.
+  Construct it by weighted Picard iteration with the same Poisson driver throughout:
+  `λ⁰ = 0`, `Nⁿ = Π(· × [0, λⁿ])`, and `λⁿ⁺¹(t,z) = ψ(t,z,Nⁿ)`.
+  Prove predictability and the mean bounds
+  `𝔼 λⁿ(t,z) ≤ C (∑_{j < n} ρ^j) r(z)`, which make every `Nⁿ` locally finite.
+  The weighted Picard estimate is the named intermediate target
+  `picard_intensity_disagreement_le`: for every `n` and `t`, for `Q`-almost every `z`,
+  `𝔼 |λⁿ⁺¹(t,z) - λⁿ(t,z)| ≤ C ρ^n r(z)`.  Use nonnegative integrals for these
+  expectations, with absolute differences of `ℝ≥0∞` values expressed as the sum of the
+  two truncated subtractions.  Prove the estimate by the common-driver acceptance-region
+  identity, the Lipschitz bound, Tonelli, and the displayed inequality for `H`.
+  Deduce `𝔼 |Nⁿ⁺¹ - Nⁿ|((0,T] × E) ≤ C ρ^n T ∫ r dQ`; summability implies that the
+  configurations eventually agree on each bounded time window almost surely.  Prove
+  that their measurable adapted limit solves the equation, has the stated mean bound,
+  and has stochastic intensity `ψ(t,z,N)`.  Prove pathwise uniqueness among locally
+  finite solutions with the same driver by comparing the first differing occurrence:
+  strict causality gives identical acceptance regions at that time.  Prove measurable
+  dependence on the Poisson driver and hence uniqueness in law among Poisson-driven
+  solutions.  A formula for the intensity is never, by itself, an existence or uniqueness
+  theorem.
 * Residual diagnostics as distributional corollaries: transformed interarrival times are
   i.i.d. `expMeasure 1` and transformed event times are unit Poisson.
 
@@ -2123,14 +2191,16 @@ def LipschitzIntensity (ψ : ℝ≥0 → E → Measure (ℝ≥0 × E) → ℝ≥
   ∀ t z ξ ξ', ψ t z ξ ≤ ψ t z ξ' +
     ∫⁻ q in Set.Iio t ×ˢ Set.univ, h (t - q.1) z q.2 ∂((ξ - ξ') + (ξ' - ξ))
 
-/-- Integrable kernel with a `ρ`-subinvariant positive function `r`. -/
+/-- Jointly measurable integrable kernel with a measurable positive weight `r`, satisfying
+`∫ H(z, η) r(η) Q(dη) ≤ ρ r(z)` with output mark `z` and past mark `η`. -/
 def SubinvariantKernel (h : ℝ≥0 → E → E → ℝ≥0∞) (Q : Measure E) (r : E → ℝ≥0∞) (ρ : ℝ≥0∞) :
     Prop :=
-  (∀ z η, ∫⁻ t, h t z η ∂nnvolume < ∞) ∧ (∀ z, 0 < r z) ∧ ∫⁻ z, r z ∂Q < ∞ ∧
+  Measurable (fun p : ℝ≥0 × E × E => h p.1 p.2.1 p.2.2) ∧ Measurable r ∧
+    (∀ z η, ∫⁻ t, h t z η ∂nnvolume < ∞) ∧ (∀ z, 0 < r z) ∧ ∫⁻ z, r z ∂Q < ∞ ∧
     ∀ z, ∫⁻ η, (∫⁻ t, h t z η ∂nnvolume) * r η ∂Q ≤ ρ * r z
 
 /-- Existence and pathwise uniqueness for a Lipschitz intensity functional, by Poisson embedding
-and Picard iteration on a deterministic partition. -/
+and weighted Picard iteration with summable expected disagreements on bounded time windows. -/
 theorem exists_solution_of_lipschitz {𝓕 : Filtration ℝ≥0 mΩ}
     {M : Ω → Measure (ℝ≥0 × E × ℝ≥0)} {Q : Measure E} [SigmaFinite Q]
     (hM : IsAdaptedPoisson P 𝓕 M (nnvolume.prod (Q.prod nnvolume)))
@@ -2170,7 +2240,8 @@ m = ∫₀^∞ h(s) ds < 1.
 
 Mathlib's predictable σ-field needs an index type with a bottom element, so a whole-line
 stochastic intensity is defined through windows: `N` on `ℝ` **has the Hawkes intensity**
-when for every origin `a : ℝ`, the process `t ↦ N` restricted to `(a, a + t]` has, in the
+when `N` is almost surely simple and, for every origin `a : ℝ`, the process `t ↦ N`
+restricted to `(a, a + t]` has, in the
 `ℝ≥0`-indexed history generated by `N|_{(-∞, a + t]}`, the stochastic intensity
 
 ```text
@@ -2184,30 +2255,71 @@ relative to `volume`.
 * The half-line empty-past equation `λ_t = ν + ∫_{(0,t)} h(t - s) N(ds)` and its strong
   pathwise construction from an adapted Poisson random measure on `ℝ≥0 × ℝ≥0` by Layer
   11's Lipschitz theorem with kernel `h` and `r = 1`, which is where `m < 1` enters.
-  Prove predictability, nonexplosion, pathwise uniqueness among solutions driven by the
-  same `Π`, and uniqueness in law.
+  Prove predictability, nonexplosion, almost-sure simplicity, pathwise uniqueness among
+  solutions driven by the same `Π`, and uniqueness in law.
+* The initial-history adapter, owned by Layer 12.  For an origin `a` and a measurable
+  random history `η : Ω → PointMeasure ℝ`, almost surely simple and supported on
+  `(-∞,a]`, known in the initial
+  σ-field, set
+  `b_η(t) = ν + ∫_{(-∞,a]} h(a + t - s) η(ds)` for `t ≥ 0`.
+  Given an adapted Poisson driver with intensity `dt du` whose future is independent of
+  that initial σ-field, assume `𝔼 ∫₀^L b_η(t) dt < ∞` for every finite `L`.
+  Construct the future process on `(a,∞)` with intensity
+  `b_η(t) + ∫_{(0,t)} h(t-s) N_η(ds)` in coordinates relative to `a`.  Prove measurable
+  dependence on the history and driver, predictability, local finiteness, simplicity,
+  and same-driver pathwise uniqueness.  Use Layer 11's acceptance-region identity and
+  Picard iteration with the local integral estimate
+  `𝔼 ∫₀^L |λⁿ⁺¹(t) - λⁿ(t)| dt ≤ m^n 𝔼 ∫₀^L b_η(t) dt`, starting from `λ⁰ = 0`.
+  This supplies the summable disagreements needed for existence with the random forcing.
+  Prove that any time-simple solution with this history and intensity has this joint law
+  with its history, using Layer 11's Poisson representation and same-driver uniqueness.
 * The Hawkes cluster kernel: the law of the family tree of an ancestor at `x`, generated
   by Poisson offspring at age intensity `h(s) ds`.  Prove that the generation sizes form a
   Galton–Watson process with `poissonMeasure m` offspring, extinction under `m < 1`, mean
-  cluster size `1/(1 - m)`, and the cluster intensity measure `∑ₙ h^{*n}(u) du` on
-  `(0, ∞)`, of total mass `m/(1 - m)`.  This is the minimal branching API and not a
-  branching-process library.
+  cluster size `1/(1 - m)`, and the descendant intensity measure `R(u) du`, where
+  `R = ∑_{n≥1} h^{*n}`, on `(0, ∞)`, of total mass `m/(1 - m)`.
+  This is the minimal branching API and not a branching-process library.
 * The stationary Hawkes law: the Poisson cluster process of Layer 6 with immigrant
   intensity `ν • volume` on `ℝ` and the Hawkes cluster kernel.  Prove local finiteness,
   translation invariance, `intensityDensity = ν/(1 - m)`, and simplicity.
-* Hawkes–Oakes equivalence: the stationary cluster process has the Hawkes intensity in its
-  natural history, and every stationary process with finite intensity that has the Hawkes
-  intensity has the stationary Hawkes law.  The uniqueness direction is Layer 11's
-  Lipschitz theorem applied on each window with the process's own past as initial
-  condition.
-* The mean identity `λ̄ = ν + m λ̄`, hence `λ̄ = ν/(1 - m)`.
+* The stationary cluster process has the Hawkes intensity in its natural history.
+* For any stationary finite-intensity process with the Hawkes intensity, prove the mean
+  identity `λ̄ = ν + m λ̄`, hence `λ̄ = ν/(1 - m)`, directly from its compensator and
+  stationarity.
 * Convergence from the empty past: couple the half-line construction with the stationary
   process through a common immigrant Poisson process on `ℝ` and common clusters; the two
   differ on `(T, T + L]` only through clusters of immigrants in `(-∞, 0]`, whose expected
-  number of points in `(T, T + L]` is at most `ν L ∫_T^∞ ∑ₙ h^{*n}(u) du`, which tends to
-  zero because `∑ₙ h^{*n}` is integrable.  Deduce total-variation convergence of the laws
+  number of points in `(T, T + L]` is at most `ν L ∫_T^∞ R(u) du`, which tends to
+  zero because `R` is integrable.  Deduce total-variation convergence of the laws
   of the restrictions to `(T, T + L]` as `T → ∞` for every `L`, and convergence of the mean
   intensity to `ν/(1 - m)`.
+* Remote-past comparison, as the named intermediate target
+  `hawkes_remote_past_disagreement_le`.  Let `N` be any stationary process with the Hawkes
+  intensity and finite mean rate `λ̄`.  For each `T ≥ 0`, represent its future after
+  `a = -T` by Layer 11's Poisson representation, retaining `N|_{(-∞,-T]}` as the initial
+  history.  The history satisfies the adapter's integrability hypothesis because
+  `𝔼 b_η(t) ≤ ν + λ̄ m`.  On the same extended probability space and with the same
+  future Poisson driver, construct `N^{-T}` with empty history before `-T`.  Prove the
+  common-driver comparison `N^{-T} ≤ N` on `(-T,∞)`.  For every `L > 0`, prove
+
+  ```text
+  P(N|_{(0,L]} ≠ N^{-T}|_{(0,L]})
+    ≤ 𝔼[(N - N^{-T})((0,L])]
+    ≤ λ̄ L ∫_T^∞ R(u) du.
+  ```
+
+  Establish the bound by iterating the causal convolution inequality for the expected
+  intensity difference, whose forcing is
+  `λ̄ ∫_{t+T}^∞ h(u) du` at absolute time `t > -T`; subcriticality makes the remainder
+  vanish, and the sum is bounded by `λ̄ ∫_{t+T}^∞ R(u) du`.  Integrate over `(0,L]`.
+* Stationary uniqueness and Hawkes–Oakes equivalence: every stationary process with finite
+  intensity that has the Hawkes intensity has the stationary cluster law.  Use the
+  remote-past bound to compare its restriction to `(0,L]` with the empty-history law
+  started at `-T`.  By the constructed empty-past convergence above, the latter tends in
+  total variation to the stationary cluster restriction.  Since `R` is integrable, the
+  comparison error tends to zero.  Identify the whole-line laws from all bounded-window
+  restrictions using stationarity and the evaluation σ-field.  This is the stationary
+  uniqueness target `map_eq_stationaryHawkesLaw`.
 * The cluster-Palm decomposition, as Layer 6's cluster-Palm formula: the ordinary Palm law
   is an independent copy of the stationary Hawkes process superposed with an immigrant
   cluster sampled proportionally to its size and shifted so the sampled member sits at
@@ -2231,15 +2343,16 @@ def windowRestrict (ξ : PointMeasure ℝ) (a : ℝ) : TemporalPointMeasure Unit
 /-- The history generated by `N` restricted to `(-∞, a + t]`. -/
 def windowHistory (N : Ω → PointMeasure ℝ) (a : ℝ) : Filtration ℝ≥0 mΩ
 
-/-- `N` has the Hawkes intensity in every half-line window. -/
+/-- `N` is almost surely simple and has the Hawkes intensity in every half-line window. -/
 def HasHawkesIntensity (ν : ℝ) (h : ℝ → ℝ≥0) (N : Ω → PointMeasure ℝ) : Prop :=
-  Measurable N ∧ ∀ a : ℝ,
+  Measurable N ∧ (∀ᵐ ω ∂P, (N ω).IsSimple) ∧ ∀ a : ℝ,
     HasStochasticIntensity P (windowHistory N a) (fun ω => windowRestrict (N ω) a)
       (Measure.dirac ()) fun q => hawkesIntensity ν h (N q.2.1) (a + q.1)
 
-/-- The empty-past Hawkes process on the half line. -/
+/-- The almost surely simple empty-past Hawkes process on the half line. -/
 def IsEmptyPastHawkes (ν : ℝ) (h : ℝ → ℝ≥0) (N : Ω → PointMeasure ℝ) : Prop :=
   (∀ ω, (N ω : Measure ℝ) (Set.Iic 0) = 0) ∧ Measurable N ∧
+    (∀ᵐ ω ∂P, (N ω).IsSimple) ∧
     HasStochasticIntensity P (windowHistory N 0) (fun ω => windowRestrict (N ω) 0)
       (Measure.dirac ()) fun q => hawkesIntensity ν h (N q.2.1) q.1
 
@@ -2271,6 +2384,8 @@ theorem hasHawkesIntensity_stationaryHawkesLaw {ν : ℝ} {h : ℝ → ℝ≥0} 
     (hm : ∫ s, (h s : ℝ) < 1) :
     HasHawkesIntensity (stationaryHawkesLaw ν h) ν h id
 
+/-- Stationary uniqueness, using the remote-past disagreement estimate and convergence of the
+constructed empty-past law to the stationary cluster law. -/
 theorem map_eq_stationaryHawkesLaw {ν : ℝ} {h : ℝ → ℝ≥0} (hν : 0 < ν)
     (hsupp : ∀ s ≤ 0, h s = 0) (hint : Integrable (fun s => (h s : ℝ)))
     (hm : ∫ s, (h s : ℝ) < 1) {N : Ω → PointMeasure ℝ}
@@ -2296,8 +2411,10 @@ together with stationary existence and uniqueness and mean rate `ν/(1 - m)`.
 **Completion checks.** The stationary process lives on `ℝ` and uses its entire past; the
 empty-past process lives on `ℝ≥0` and is not stationary; subcriticality is used both for
 finite clusters and for the Lipschitz contraction; `h = 0` recovers the Poisson process
-with rate `ν` in every theorem; and no multivariate, marked, nonlinear, critical, spectral,
-or inferential Hawkes result is smuggled into this layer.
+with rate `ν` in every theorem; the initial-history adapter handles random forcing, and
+stationary uniqueness uses remote-past comparison with an integrable resolvent, assuming
+only `∫ h < 1` and no first-moment condition on `h`; and no multivariate, marked, nonlinear,
+critical, spectral, or inferential Hawkes result is smuggled into this layer.
 
 ## Cross-layer acceptance tests
 
