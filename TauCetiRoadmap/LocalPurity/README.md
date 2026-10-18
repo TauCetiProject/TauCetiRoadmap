@@ -30,7 +30,12 @@ codimension one and Abhyankar's lemma for a regular divisor, Stacks 0EYE–0EYH)
 ```text
 Mathlib + Tau Ceti → Layer 0 → Layer 1 → Layer 2
 SchemeAndStackFoundations §§0.6, 0.9, 0.14, 0.17, 2.7, 4.7–4.8, 4.13 ──→ Layers 0, 1, 2
+PurityOfBranchLocus §0.3 (0AFS) ─────────────────────────────────────────────→ Layer 2 §2.1
 ```
+
+The §0.3 regular-local localization targets of PurityOfBranchLocus are independent of local
+purity. Their target-level order is §0.3 → this roadmap's §2.1 → PurityOfBranchLocus §2.1;
+the whole-roadmap arrows do not reverse this prerequisite order.
 
 The end theorems are `IsLocalRing.purityHolds_of_isRegularLocalRing` and
 `Algebra.etale_of_finiteNormal_of_isRegularLocalRing` (0BMA, §2.1), and
@@ -60,6 +65,12 @@ no second carrier.
 - *Regular local rings*: Mathlib `IsRegularLocalRing`, `IsRegularRing`; Tau Ceti
   `TauCeti.IsRegularLocalRing.isDomain` (Algebra, Lemma 10.106.2 (00NP)) and
   `TauCeti.IsRegularLocalRing.quotient_span_singleton` (Lemma 10.106.3 (00NQ) for one element).
+- *Regularity of prime localizations of a regular local ring*:
+  [PurityOfBranchLocus](../PurityOfBranchLocus/README.md) §0.3
+  (`IsRegularLocalRing.isRegularLocalRing_localization`, `isRegularRing_of_isRegularLocalRing`,
+  Stacks 0AFS). This is the prerequisite for applying the regular-ring and regular-scheme
+  results below to a regular local base; neither Mathlib's reverse implication nor the
+  regular-ring theorem by itself supplies it.
 - *Depth, Cohen–Macaulay rings, Serre's conditions and criterion*:
   [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §0.17 (`Module.depth`,
   `IsLocalRing.depth`, `Ring.IsCohenMacaulay`, `Ring.IsCohenMacaulay.of_isRegularRing`,
@@ -185,10 +196,17 @@ spectrum of `Γ(π⁻¹ U, 𝒪_Y)`. Prove `extends_iff_sections_finiteEtale` (S
 (0BLK)): for `IsLocalRing.depth A ≥ 2` and `V` finite étale over `U`, `V` is the restriction of a
 finite étale scheme over `X` iff `Γ(V, 𝒪_V)` is finite étale over `A`. Prove `finiteNormalEquiv`
 (Stacks, Lemma 58.20.3 (0BM9), **with the correction of Convention 5**): for `A` a normal local
-domain of dimension `≥ 2`, `V ↦ Γ(V, 𝒪_V)` is an equivalence from finite étale schemes over `U` to
-the category of finite normal `A`-algebras `B` (torsion free) such that `Algebra.IsEtaleAt A 𝔮`
-for every prime `𝔮` of `B` not lying over `𝔪`; and `V` is the restriction of a finite étale scheme
-over `X` iff `Γ(V, 𝒪_V)` is étale over `A`.
+domain of dimension `≥ 2`, let `FiniteNormalPuncturedEtaleAlg A` be the full subcategory of
+`CommAlgCat A` on finite normal, torsion-free `A`-algebras `B` such that
+`Algebra.IsEtaleAt A 𝔮` for every prime `𝔮` of `B` not lying over `𝔪`, with ordinary algebra
+homomorphisms as morphisms. Global sections reverses arrows, so the target is an
+**anti-equivalence** `FEt U ≌ (FiniteNormalPuncturedEtaleAlg A)ᵒᵖ`, not an equivalence to the
+unopposed algebra category. Its quasi-inverse takes the spectrum of an algebra and restricts it
+to `U`; identify both composites with the identity. Moreover, `V` is the restriction of a finite
+étale scheme over `X` iff `Γ(V, 𝒪_V)` is étale over `A`. When replacing the prototype `FEt U`
+by Tau Ceti's newer `FiniteEtaleScheme U` (not at this roadmap's pin), identify the carrier
+equivalence and show that it commutes with restriction and pullback; otherwise the sections
+functor does not transport automatically.
 *Needs:* §1.1; SchemeAndStackFoundations §0.17 (depth), §4.13 (`serre_normality_criterion`);
 Mathlib `integralClosure`, `IsIntegralClosure`, `Algebra.IsEtaleAt`.
 
@@ -212,6 +230,14 @@ a finite étale scheme over `Spec Â`; `restrictHypersurface_fullyFaithful_of_co
 restriction from finite étale schemes over `U` to finite étale schemes over `U_0` is fully
 faithful; and `restrictHypersurface_fullyFaithful` (Lemma 58.19.7 (0BLJ)): the same for
 `IsLocalRing.depth A ≥ 3` and `(A, (f))` a henselian pair.
+For `finite_extend_of_completion`, specialize formal module gluing along `A → Â` and a finite
+principal-open cover of `U` (More on Algebra, Proposition 15.91.16 (05ER)); its monoidal and
+finiteness preservation (Remark 15.91.20 (05EU)) descends the algebra structure and finite
+module. The target here is the finite-morphism specialization, not a second general gluing
+theory. For
+`completion_fullyFaithful_of_localCohomology`, use formal-section comparison (Algebraic and
+Formal Geometry, Lemma 52.12.7 (0EII)) and its finite-locally-free completion criterion
+(Lemma 52.15.1 (0EKP)); the §2.7 local-cohomology API supplies the vanishing hypotheses.
 *Needs:* §1.2; SchemeAndStackFoundations §0.14 (henselian pairs), §0.17 (depth), §2.7
 (`depth_localCohomology_vanishing`, `localCohomology_module_comparison`), §§4.7–4.8 (formal
 completion, `CoherentFormalModule`); Mathlib `AdicCompletion`, `AdicCompletion.flat_of_isNoetherian`,
@@ -238,17 +264,28 @@ regular local of dimension `d ≥ 2`, (1) `IsLocalRing.PurityHolds A`; (2) **wit
 Convention 5**, every finite normal `A`-algebra `B` (torsion free) with `Algebra.IsEtaleAt A 𝔮` for
 every prime `𝔮` of `B` not lying over `𝔪` satisfies `Algebra.Etale A B`. The proof is by induction
 on `d`, as in Stacks: (1) and (2) are equivalent by `finiteNormalEquiv`, since `A` is normal
-(SchemeAndStackFoundations §4.13 `IsRegular.isNormal`). For `d = 2`, `B` is flat over `A` by
-`flat_of_normal_dim_two` at each maximal ideal (§0.1, `Module.flat_of_isLocalized_maximal`), hence
-free (`Module.free_of_flat_of_isLocalRing`); for a basis `b`, if `Algebra.discr A b` were not a unit
+(PurityOfBranchLocus §0.3 gives `IsRegularRing A` from `IsRegularLocalRing A`, then
+SchemeAndStackFoundations §4.13 `IsRegular.isNormal` applies to `Spec A`). For `d = 2`, localize
+at each maximal ideal `𝔮` of `B` and apply the **general** `flat_of_isCohenMacaulay` to
+`A → B_𝔮`, not the finite-local helper: `B_𝔮` need not be finite as an `A`-module. It is a
+normal local domain of dimension two by integrality, going down and the dimension formula; its
+closed fibre over `A` has dimension zero because `B` is finite, and normality gives `(S₂)`,
+hence Cohen–Macaulayness in dimension two. The finite-local `flat_of_normal_dim_two` remains a
+separate corollary, not the localization argument. `Module.flat_of_isLocalized_maximal` now gives
+flatness of `B` over `A`, hence freeness (`Module.free_of_flat_of_isLocalRing`); for a basis `b`,
+if `Algebra.discr A b` were not a unit
 it would lie in a prime `𝔭` minimal over it, of height at most one by Krull's principal ideal
 theorem (`Ideal.height_le_one_of_isPrincipal_of_mem_minimalPrimes`), so `𝔭 ≠ 𝔪`, and
 `Algebra.isUnit_discr_localization_iff` (§0.2) contradicts étaleness over `A_𝔭`; so `B` is étale by
 `Algebra.etale_iff_isUnit_discr`. For `d ≥ 3`, an element `f ∈ 𝔪 ∖ 𝔪²` gives `A ⧸ Ideal.span {f}`
 regular of dimension `d − 1` (Tau Ceti `TauCeti.IsRegularLocalRing.quotient_span_singleton`), and
-`finiteEtale_extend_of_hypersurface` (§1.4) lifts the inductive extension; regular local rings have
-depth `d` (SchemeAndStackFoundations §0.17 `Ring.IsCohenMacaulay.of_isRegularRing`).
-*Needs:* §§0.1, 0.2, 1.2, 1.4; SchemeAndStackFoundations §§0.17, 4.13; Tau Ceti
+`finiteEtale_extend_of_hypersurface` (§1.4) lifts the inductive extension; regular local rings
+have depth `d` by a local parameter induction using
+`TauCeti.IsRegularLocalRing.quotient_span_singleton` and the SchemeAndStackFoundations §0.17
+depth/regular-element API. This local Cohen–Macaulay consequence does not assume
+`IsRegularRing A` before 0AFS is available.
+*Needs:* §§0.1, 0.2, 1.2, 1.4; PurityOfBranchLocus §0.3 (0AFS);
+SchemeAndStackFoundations §§0.17, 4.13; Tau Ceti
 `TauCeti.IsRegularLocalRing.quotient_span_singleton`; Mathlib `Ideal.height_le_one_of_isPrincipal_of_mem_minimalPrimes`,
 `Module.free_of_flat_of_isLocalRing`, `Module.flat_of_isLocalized_maximal`.
 
