@@ -95,6 +95,20 @@ def IsTamelyRamifiedAlong (R S : Type u) [CommRing R] [CommRing S] [Algebra R S]
 
 end Layer1
 
+/-! ## Layer 2: extension across a regular divisor -/
+
+section Layer2
+
+/-- A Noetherian local ring with a nonzerodivisor `x` in the maximal ideal such that `R ⧸ (x)` is
+a regular local ring is a regular local ring. Stacks, Lemma 10.106.7 (00NU), first sentence. -/
+@[stacks 00NU]
+theorem IsRegularLocalRing.of_quotient_nonZeroDivisor (R : Type u) [CommRing R] [IsLocalRing R] [IsNoetherianRing R]
+    {x : R} (hx : x ∈ maximalIdeal R) (hreg : x ∈ nonZeroDivisors R)
+    [IsRegularLocalRing (R ⧸ Ideal.span {x})] : IsRegularLocalRing R := by
+  sorry
+
+end Layer2
+
 /-! ## Layer 3: Abhyankar's lemma -/
 
 section Layer3

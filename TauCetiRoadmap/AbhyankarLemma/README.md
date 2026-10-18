@@ -24,8 +24,7 @@ ramification in codimension one of a cover or Abhyankar's lemma.
 ```text
 Mathlib + Tau Ceti → Layer 0 → Layer 1 → Layer 2 → Layer 3
 LocalPurity §§2.1–2.2 (0BMA, 0BQ5/0EY3, 0EY7) ──→ Layer 2
-SchemeAndStackFoundations §0.17 (00NU) ─────────→ Layers 2, 3
-ModularCurves §4D (strict henselization) ───────→ Layer 3
+ModularCurves §4D (strict henselisation) ───────→ Layer 3
 ```
 
 The end theorems are `finiteEtale_extend_of_regular_divisor` (0EYE, §2.2),
@@ -39,9 +38,12 @@ Kummer extensions and their base change (More on Algebra, Sections 15.113 and 15
 extensions of a discrete valuation ring and Abhyankar's lemma for discrete valuation rings;
 "unramified, resp. tamely ramified, over `X` in codimension one" for a finite étale cover of a dense
 open (Section 58.31) and its base change (Lemma 58.31.1 (0EYD)); the extension results 58.31.2
-(0H2W) and 58.31.3 (0EYE); standard tamely ramified covers (Example 58.31.4 (0EYF)); splitting of
-finite étale covers étale locally (Étale Morphisms, Lemma 41.18.3 (04HN)); and Abhyankar's lemma
-for a regular divisor with the structure of the normalization (0EYG, 0EYH).
+(0H2W) and 58.31.3 (0EYE), with regularity of a local ring from a regular quotient by a
+nonzerodivisor (Algebra, Lemma 10.106.7 (00NU)); standard tamely ramified covers (Example 58.31.4
+(0EYF)); strict henselisation of a quotient and regularity of a strict henselisation (Algebra,
+Lemma 10.156.4 (05WS); More on Algebra, Lemma 15.46.10 (06LN)); splitting of finite étale covers
+étale locally (Étale Morphisms, Lemma 41.18.3 (04HN)); and Abhyankar's lemma for a regular divisor
+with the structure of the normalization (0EYG, 0EYH).
 
 **Owned elsewhere and consumed here.** Each object has one owner; this roadmap uses it and builds
 no second carrier.
@@ -61,15 +63,15 @@ no second carrier.
   A *regular divisor* is an ideal sheaf `I` with `I.IsEffectiveCartier` whose subscheme
   `I.subscheme` has every stalk a regular local ring.
 - *Regular local rings*: Mathlib `IsRegularLocalRing`, `IsRegularRing`; Tau Ceti
-  `TauCeti.IsRegularLocalRing.isDomain` (00NP);
-  [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §0.17
-  `IsRegularLocalRing.of_quotient_nonZeroDivisor` (Algebra, Lemma 10.106.7 (00NU)) and §4.13
-  `IsRegular.isNormal` (Lemma 10.157.5 (0567)).
-- *Strict henselization of a local ring, its quotients and regularity*:
-  [ModularCurves](../ModularCurves/README.md) §4D (`StrictHenselization.algebra R Ω` with
-  `existsUnique_lift`, Algebra, Definition 10.155.3 (04GQ) and Lemma 10.155.9 (04GT);
-  `exists_quotient_equiv`, Lemma 10.156.4 (05WS); `isRegularLocalRing_iff`, More on Algebra, Lemma
-  15.46.10 (06LN)).
+  `TauCeti.IsRegularLocalRing.isDomain` (00NP) and
+  `TauCeti.IsRegularLocalRing.quotient_span_singleton` (00NQ for one element);
+  [SchemeAndStackFoundations](../SchemeAndStackFoundations/README.md) §4.13 `IsRegular.isNormal`
+  (Lemma 10.157.5 (0567)).
+- *Henselization and strict henselisation of a local ring*: SchemeAndStackFoundations §0.12
+  (`Henselization.algebra`) and [ModularCurves](../ModularCurves/README.md) §4D, which owns the
+  strict henselisation `R → R^{sh}` with respect to a separable closure of the residue field
+  (Algebra, Definition 10.155.3 (04GQ)) with the properties of Lemma 10.155.2 (04GP): it is
+  strictly henselian, a filtered colimit of étale `R`-algebras, with maximal ideal `𝔪 R^{sh}`.
 - *Descent of morphisms of finitely presented algebras along filtered colimits*: Mathlib
   `CommRingCat.isFinitelyPresentable_under` (parts (2)–(3) of Algebra, Lemma 10.127.8 (05N9)).
 - *Normalization and étale base change*: Mathlib `Scheme.Hom.normalization` and the
@@ -219,12 +221,23 @@ remaining points, whose local rings are regular of dimension `≥ 2`, by LocalPu
 
 ### 2.2 Extension across a regular divisor
 
-Prove `finiteEtale_extend_of_regular_divisor` (Stacks, Lemma 58.31.3 (0EYE)): for `D` a regular
-divisor (Scope and ownership) on a locally Noetherian `X` and a finite étale scheme `V` over `X ∖ D` unramified
-over `X` in codimension one, `V` is the restriction of a finite étale scheme over `X`; `X ∖ D` is
-dense, and regularity of `𝒪_{X,x}` for `x ∈ D` is SchemeAndStackFoundations §0.17
-`IsRegularLocalRing.of_quotient_nonZeroDivisor` (00NU).
-*Needs:* §2.1; SchemeAndStackFoundations §0.17; Tau Ceti `IsEffectiveCartier`.
+Prove `IsRegularLocalRing.of_quotient_nonZeroDivisor` and its regular-sequence form
+`IsRegularLocalRing.of_quotient_isRegular` (Stacks, Lemma 10.106.7 (00NU)): a Noetherian local
+ring `R` with a nonzerodivisor `x ∈ 𝔪` such that `R ⧸ Ideal.span {x}` is a regular local ring is
+a regular local ring; more generally the same holds for a regular sequence `x_1, …, x_r` in `𝔪`
+(Mathlib `RingTheory.Sequence.IsRegular`) with `R/(x_1, …, x_r)` regular local. The proof: `x`
+and lifts of minimal generators of the maximal ideal of `R/xR` generate `𝔪` with `dim R` elements,
+since `dim R/xR = dim R − 1` for a nonzerodivisor `x ∈ 𝔪`. Prove `finiteEtale_extend_of_regular_divisor` (Stacks, Lemma 58.31.3 (0EYE)): for `D` a regular
+divisor (Scope and ownership) on a locally Noetherian `X` and a finite étale scheme `V` over
+`X ∖ D` unramified over `X` in codimension one, `V` is the restriction of a finite étale scheme
+over `X`; `X ∖ D` is dense, and regularity of `𝒪_{X,x}` for `x ∈ D` is
+`IsRegularLocalRing.of_quotient_nonZeroDivisor`.
+*Needs:* §2.1; Tau Ceti `IsEffectiveCartier`; Mathlib `RingTheory.Sequence.IsRegular`,
+`ringKrullDim`, `IsRegularLocalRing`.
+
+**Checks.**
+- `test_cusp_quotient`: for `R = k⟦x, y⟧/(y² − x³)` and the nonzerodivisor `x`, `R/xR ≅ k[y]/(y²)`
+  is not regular, and `R` is not regular local.
 
 ## Layer 3: Abhyankar's lemma
 
@@ -241,7 +254,7 @@ for `𝔭` minimal over `f`) and `standardTameCover_isTamelyRamifiedAlong` (via
 (*API*, the omitted step of 58.31.6): if `A/fA` is regular, then `standardTameCover A f e` is the
 integral closure of `A` in its localization at `f`, `x` is a nonzerodivisor in it with quotient
 `A/fA`, and its localizations at primes over `(f)` are regular.
-*Needs:* §§0.1–0.2, 1.1; SchemeAndStackFoundations §0.17 (00NU); Mathlib `AdjoinRoot`,
+*Needs:* §§0.1–0.2, 1.1, 2.2; Mathlib `AdjoinRoot`,
 `Algebra.Etale`, `Module.Free`, `IsIntegralClosure`.
 
 **Checks.**
@@ -250,15 +263,21 @@ integral closure of `A` in its localization at `f`, `x` is a nonzerodivisor in i
 - `test_standard_cover_inseparable`: for `A = 𝔽_2[t]`, `f = t`, `e = 2`, the exponent is not
   invertible, and `A_t[x]/(x² − t)` is not étale over `A_t` (the derivative `2x` vanishes).
 
-### 3.2 Splitting of finite étale covers
+### 3.2 Strict henselisation and splitting of finite étale covers
 
+For a local ring `R` and its strict henselisation `R → R^{sh}` (ModularCurves §4D), prove
+`strictHenselization_quotient` (Algebra, Lemma 10.156.4 (05WS)): for an ideal `I ⊆ 𝔪_R`,
+`R^{sh}/IR^{sh}` is a strict henselisation of `R/I`; and `isRegularLocalRing_iff_strictHenselization`
+(More on Algebra, Lemma 15.46.10 (06LN)): for `R` Noetherian, `R` is regular iff its henselisation
+is regular iff its strict henselisation is regular.
 Prove `finiteEtale_split_etaleLocally` (Stacks, Lemma 41.18.3 (04HN)): for `f : X ⟶ S` finite étale
 and `s : S`, there are an étale `φ : U ⟶ S`, `u : U` with `φ u = s`, and a finite decomposition of
 the base change of `X` to `U` into open and closed subschemes each mapping isomorphically to `U`.
 Prove the local form used in §3.3, `finiteEtale_split_of_strictlyHenselian`: over a strictly
 henselian local ring every finite étale algebra is a finite product of copies of the base.
-*Needs:* Tau Ceti `FiniteEtaleScheme`; ModularCurves §4D (strictly henselian local rings); Mathlib
-`HenselianLocalRing`, `IsSepClosed`, `Algebra.Etale`.
+*Needs:* Tau Ceti `FiniteEtaleScheme`; ModularCurves §4D (strict henselisation);
+SchemeAndStackFoundations §0.12 (henselisation); Mathlib `HenselianLocalRing`, `IsSepClosed`,
+`Algebra.Etale`, `IsRegularLocalRing`, `AdicCompletion`.
 
 ### 3.3 Abhyankar's lemma
 
@@ -274,8 +293,9 @@ every prime of `R` containing `a` has an étale neighbourhood `R → R'` over wh
 satisfies `IsFiniteProductOfStandardTameCovers R' (R' ⊗_R S) a`. For `X = Spec R` and `D = V(a)`
 the two forms are equivalent, with `S` the integral closure of `R` in `Γ(V, 𝒪_V)`, by
 `isTamelyRamifiedInCodimOne_spec_iff` (§1.1). The proof follows Stacks: reduce to `𝒪_{X,x}`
-strictly henselian using ModularCurves §4D (`A^{sh}/fA^{sh}` is the strict henselization of `A/fA`,
-05WS; it is regular, 06LN), `IsTamelyRamifiedInCodimOne.baseChange` (§1.1) and Mathlib's descent
+strictly henselian using the strict henselisation of ModularCurves §4D (`A^{sh}/fA^{sh}` is the
+strict henselisation of `A/fA` by `strictHenselization_quotient`, and it is regular by
+`isRegularLocalRing_iff_strictHenselization`, §3.2), `IsTamelyRamifiedInCodimOne.baseChange` (§1.1) and Mathlib's descent
 of morphisms between finitely presented algebras along filtered colimits
 (`CommRingCat.isFinitelyPresentable_under`); then `A` is a regular local domain and `f` is prime;
 with `e` the product of the ramification indices, `A' = A[x]/(x^e − f)` is regular and strictly
@@ -325,9 +345,12 @@ equivalence a target. *API*: no Stacks counterpart.
 | 1.1 | `IsTamelyRamifiedAlong`, `isTamelyRamifiedInCodimOne_spec_iff` | Section 58.31 (0BSE) | adapted (affine) + equivalence |
 | 1.1 | `.baseChange` | 58.31.1 (0EYD) | exact |
 | 2.1 | `finiteEtale_extend_of_regular_complement` | 58.31.2 (0H2W) | exact |
+| 2.2 | `IsRegularLocalRing.of_quotient_nonZeroDivisor`, `of_quotient_isRegular` | 10.106.7 (00NU) | exact |
 | 2.2 | `finiteEtale_extend_of_regular_divisor` | 58.31.3 (0EYE) | exact |
 | 3.1 | `standardTameCover` and its properties | 58.31.4 (0EYF) | exact |
 | 3.1 | `standardTameCover_isIntegralClosure` | — | API (step of 0EYH) |
+| 3.2 | `strictHenselization_quotient` | 10.156.4 (05WS) | exact |
+| 3.2 | `isRegularLocalRing_iff_strictHenselization` | 15.46.10 (06LN) | exact |
 | 3.2 | `finiteEtale_split_etaleLocally` | 41.18.3 (04HN) | exact |
 | 3.3 | `abhyankar_regularDivisor` | 58.31.5 (0EYG) | exact |
 | 3.3 | `Algebra.abhyankar_standardCover` | 58.31.5 (0EYG) | adapted (affine) + equivalence |
@@ -350,7 +373,7 @@ the "PCF all the way down" theorem. Paths are under `lean/Pcf/Stacks/`.
 | 3.1–3.2 | standard covers, `hasSplitCoverAt_of_finite_etale` (04HN, affine) | `Abhyankar/StandardCover*.lean`, `Abhyankar/Scheme/FiniteEtaleSplitting.lean` |
 | 3.3–3.4 | `abhyankarLemma_scheme` (0EYG), `abhyankarLemma_normalization` (0EYH) | `Abhyankar/Scheme/Tag0EYG.lean`, `Abhyankar/Scheme/Tag0EYH.lean` |
 
-Its strict henselization is a colimit model without the universal property of ModularCurves §4D.
+Its strict henselisation is a colimit model of its own.
 
 ## References
 
