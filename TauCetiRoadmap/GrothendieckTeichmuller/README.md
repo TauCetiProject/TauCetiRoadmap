@@ -240,6 +240,12 @@ gives an elementary proof of the weaker statement with `GT̂₀` in place of `GT
 
 - **Ihara's question** (Ihara 1991): is `Gal(ℚ̄/ℚ) → GT̂` an isomorphism? It is open; so is the
   same question for `GT̂₀`.
+- **`GT̂` as outer automorphisms of `π̂₁(M_{0,n})`** (Harbater–Schneps 2000, main theorem): for
+  `n ≥ 5`, `GT̂` is isomorphic to the group `Out♯_n` of outer automorphisms of `π̂₁(M_{0,n})` that
+  preserve the conjugacy classes of the inertia subgroups and commute with the outer automorphisms
+  induced by permuting the marked points. For `n = 5`, `π̂₁(M_{0,5})` is the profinite completion
+  of Layer 3.5's `K(0,5)`; stating the isomorphism needs the inertia subgroups and the `𝔖₅`-action
+  there, which no roadmap owns yet.
 - **What is missing.** The profinite comparison `π₁^{geo}(ℙ¹ ∖ {0,1,∞}) ≃ F̂₂` with the standard
   loops (BelyiMaps 12.6, successor `BelyiArithmeticActions`); the tangential fibre at `01→` and the
   lift of the outer action to an action (InverseGaloisAndArithmeticFundamentalGroups §IG.1.2);
@@ -270,8 +276,11 @@ All checked on zbMATH (identifiers given) or arXiv.
   groups », *J. reine angew. Math.* 358 (1985), 155–161. Zbl 0549.20017.
 - G. V. Belyĭ, « On Galois extensions of a maximal cyclotomic field », *Izv. Akad. Nauk SSSR Ser.
   Mat.* 43 (1979), 267–276. Zbl 0409.12012.
-- A. Minamide, H. Nakamura, « The automorphism groups of the profinite braid groups »,
-  arXiv:1904.06749 (the action of `GT̂` on `B̂_n`, context for Layer 2).
+- A. Minamide, H. Nakamura, « The automorphism groups of the profinite braid groups », *Amer. J.
+  Math.* 144 (2022), no. 5, 1159–1176. Zbl 1554.20077; arXiv:1904.06749 (`Aut(B̂_n)`, `n ≥ 4`,
+  in terms of `GT̂`; context for Layer 2).
+- D. Harbater, L. Schneps, « Fundamental groups of moduli and the Grothendieck–Teichmüller
+  group », *Trans. Amer. Math. Soc.* 352 (2000), no. 7, 3117–3148. Zbl 0956.14013.
 
 ## Provenance
 
