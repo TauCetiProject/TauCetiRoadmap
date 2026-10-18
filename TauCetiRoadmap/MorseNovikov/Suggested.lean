@@ -35,14 +35,21 @@ structure NovikovSeries (R H : Type*) [Zero R] [AddCommGroup H] (N : H →+ ℝ)
   finite_below : ∀ C : ℝ, {h | coeff h ≠ 0 ∧ N h < C}.Finite
 
 namespace NovikovSeries
-variable {R H : Type*} [CommRing R] [AddCommGroup H] {N : H →+ ℝ}
+variable {R H : Type*} [AddCommGroup H] {N : H →+ ℝ}
+
+/-- The admitted ring structure. The carrier sees `R` only through `0`, so the coefficient ring
+is an explicit argument: an instance binder would be introduced before the `sorry`. -/
+@[instance_reducible] def commRingOf : ∀ _ : CommRing R, CommRing (NovikovSeries R H N) := by
+  sorry
+
+variable [CommRing R]
 local instance : DecidableEq H := Classical.decEq H
+
+/-- New ring structure, with coefficient equations specified below. -/
+instance : CommRing (NovikovSeries R H N) := commRingOf inferInstance
 
 @[ext] theorem ext {a b : NovikovSeries R H N} (h : ∀ g, a.coeff g = b.coeff g) : a = b := by
   cases a; cases b; congr; funext g; exact h g
-
-/-- New ring structure, with coefficient equations specified below. -/
-instance : CommRing (NovikovSeries R H N) := by sorry
 
 theorem coeff_zero (h : H) : (0 : NovikovSeries R H N).coeff h = 0 := by sorry
 theorem coeff_add (a b : NovikovSeries R H N) (h : H) :
@@ -77,8 +84,10 @@ def cutoff : ∀ (C : ℝ),
 theorem mem_cutoff (a : NovikovSeries R H N) (C : ℝ) :
     a ∈ cutoff C ↔ ∀ h, N h < C → a.coeff h = 0 := by sorry
 
-def geometricInverse : ∀ (h : H) (hh : 0 < N h),
-    NovikovSeries R H N := by sorry
+/-- The geometric series `Σ (k ≥ 0) e^(k h)`; only its support bound is admitted. -/
+def geometricInverse (h : H) (hh : 0 < N h) : NovikovSeries R H N where
+  coeff := (Set.range fun k : ℕ ↦ k • h).indicator 1
+  finite_below := by sorry
 
 theorem one_sub_monomial_mul_geometricInverse (h : H) (hh : 0 < N h) :
     (1 - (monomial (R := R) (N := N) h : NovikovSeries R H N)) * geometricInverse h hh = 1 := by sorry
@@ -105,6 +114,29 @@ theorem torsionSetoid_rel (x y : TotalQuotient (R := R) (H := H) (N := N)) :
     torsionSetoid.r x y ↔ torsionRel x y := by sorry
 
 abbrev TorsionValue := Quotient (torsionSetoid (R := R) (H := H) (N := N))
+
+/-! `negRing` is `ℤ` with the ring structure transported along `x ↦ -x`. Its zero is `0`, so its
+series carrier is the ordinary one, but its unit is `-1`, so its monomials and geometric series
+have coefficients `-1` where the ordinary ones have `1`. Identifying the two by unfolding would let
+`monomial_coeff` prove `False`. -/
+
+private abbrev negRing : CommRing ℤ := (Equiv.neg ℤ).commRing
+
+private def MonomialsAgree : Prop :=
+  (monomial (R := ℤ) (N := integerPeriod) 0).val.coeff =
+    (letI := negRing; monomial (R := ℤ) (N := integerPeriod) 0).val.coeff
+
+private def GeometricInversesAgree : Prop :=
+  (geometricInverse (R := ℤ) (N := integerPeriod) 1 (by simp)).coeff =
+    (letI := negRing; geometricInverse (R := ℤ) (N := integerPeriod) 1 (by simp)).coeff
+
+example : True := by
+  fail_if_success have : MonomialsAgree := rfl
+  trivial
+
+example : True := by
+  fail_if_success have : GeometricInversesAgree := rfl
+  trivial
 end NovikovSeries
 
 /-- N4 determinant convention: a degree-1 to degree-0 differential a has torsion a⁻¹. -/
