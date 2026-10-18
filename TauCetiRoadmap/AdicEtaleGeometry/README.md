@@ -4178,8 +4178,14 @@ commute with cofiltered limits in each variable ([PH] §3, Lem. 3.10(i) and its 
 
 - *baseChange_kummer_rational* — for `U → V` the Kummer tower and `W → V` a rational subset of
   the torus, `U ×_V W` is the Kummer tower over `W`.
-- *baseChange_geometric_fibre* — at a rank-one point `x` of `X` the geometric-fibre functor turns
-  base change into fibre products of profinite sets.
+- *baseChange_geometric_fibre* — for the Kummer tower `U → X` above and a rational subset
+  `W ⊆ X`, at a rank-one point `x` of `X` the geometric-fibre functor identifies
+  `Φ_x(U ×_X W)` with `Φ_x(U) ×_{Φ_x(X)} Φ_x(W)` in profinite sets. The finite stages and `W`
+  are quasi-compact, as required by the fibre construction in A1.15.
+- *baseChange_infinite_disjoint_union* (non-example) — for `X = Spa(C, O_C)` with `C` complete
+  algebraically closed of rank one, take `U = c(⨿_{n∈ℕ} X)` and `V = W = c(X)`, with `W → V`
+  the identity. Base change fixes `U`, whose geometric fibre is the discrete set `ℕ`, hence
+  not compact and not profinite. The unrestricted base-change theorem still applies.
 
 **Composition of étale maps.** (*pro-etale-etale-composition*) If `U → V → W` are étale (resp.
 finite étale) in `pro-X_ét`, so is `U → W`: writing `V = V_0 ×_{W_0} W` and `U = U_0 ×_{V_0} V`
@@ -6893,16 +6899,18 @@ ball charts of A2.4; `relativeTorus.baseChangeIso` —
 commutativity, unit and inverse laws — the
 commutative group object structure over `X` (coordinatewise multiplication, unit `1`, inverse
 `Tᵢ ↦ Tᵢ⁻¹`, which is defined on `T^n_X` because there each `Tᵢ` is a unit of `O` with
-`|Tᵢ⁻¹| = 1`, so `Tᵢ⁻¹ ∈ O⁺`, and does not extend to `B^n_X`, where `|T| < 1` gives
-`|T⁻¹| > 1`); (c)
+`|Tᵢ⁻¹| = 1`, so `Tᵢ⁻¹ ∈ O⁺`; for `0 < n` and nonempty `X`, inversion does not extend to
+`B^n_X`, since reciprocal coordinates cannot be regular at the origin); (c)
 `relativeTorus_spa_field` — over `Spa(K, K°)` it is Scholze's
 `Tⁿ = Spa(K⟨T^{±1}⟩, K°⟨T^{±1}⟩)` ([PH] §4, Ex. 4.4, p. 23); (d) `relativeTorus.polydiscEmbedding`
 — for a topologically nilpotent unit `ϖ` of `O(X)` (`X` analytic, locally), `Tᵢ ↦ 1 + ϖTᵢ` is an
 isomorphism of `B^n_X` onto the rational subset `{|Tᵢ − 1| ≤ |ϖ|}` of `T^n_X` ([PH] §5, proof of
 Lem. 5.2, p. 28, with `ϖ = p`); (e) `relativeTorus.iSup_translate_eq_polydisc` —
 `B¹_X = T¹_X ∪ (T¹_X + 1)`: `B¹_X` is covered by `T¹_X` and its translate `{|T − 1| = 1}`, the
-two annuli of [ECD] §24, proof of Prop. 24.4, p. 156. `T^n_X` is the unit polyannulus, not the
-analytified torus `(G_m^n)^{ad}`, which is not quasi-compact over a field. Over `Spa(K, K°)`, `Tⁿ`
+two annuli of [ECD] §24, proof of Prop. 24.4, p. 156. `T^n_X` is the unit polyannulus. Over a
+field and for `0 < n`, it differs from the analytified torus `(G_m^n)^{ad}`, which is not
+quasi-compact. In dimension zero `T⁰_X = B⁰_X = X`, inversion extends as the identity, and over
+a field the analytified torus is also `X` (Check *relativeTorus_test_zero*). Over `Spa(K, K°)`, `Tⁿ`
 and the embedding `T ↦ 1 + ϖT` of (d) are the objects of AdicSpacesPartII layer R0's
 *smooth-toric-chart* (the step of the proof of [PH] Lem. 5.2 that it follows), and Laurent
 algebras over sousperfectoid rings are PerfectoidSpaces P3.17a.2's *sousperfectoid-annulus*; the relative object,
@@ -6995,7 +7003,10 @@ an `example`.
   extension-field points are the global `relativeTorus.homEquiv` target.
 - *relativeTorus_test_zero* (degenerate) — over `X = Spa(ℚ₂, ℤ₂)`, `T⁰_X = B⁰_X = X`: the origin
   factors through the identity inclusion, the all-one and all-minus-one sections coincide,
-  inversion is the identity, and multiplication is the first projection under `X ×_X X ≅ X`.
+  inversion extends as the identity, and multiplication is the first projection under
+  `X ×_X X ≅ X`; the analytified zero-dimensional torus is also `X` and is quasi-compact.
+- *relativeTorus_test_empty* (degenerate) — over `X = ∅`, `T^n_X = B^n_X = ∅` for every `n`,
+  and inversion extends uniquely to the polydisc, including in positive dimension.
 - *relativeTorus_test_inverse* (convention, negative control) — the inverse of the group object
   is computed on `(K, K°)`-points by `c ↦ c⁻¹`: `c = 1 ↦ 1`, with `1⁻¹ ∈ K°`; the point `T ↦ ϖ`
   of `B¹` is not on `T¹`, and `ϖ⁻¹ ∉ K°`, so inversion has no extension to `B¹`.
@@ -9044,9 +9055,10 @@ examples use the complete base and target, quotient map and plus rings stored in
 | *null_constant* | a nonzero constant sequence is not null in a Hausdorff ring. |
 | *coordinate_completion* | the series variable maps to the completed variable. |
 | *coordinate_constant* | the variable has constant coefficient zero. |
-| *coordinate_linear* | two distinct variables have distinct unit coefficients. |
-| *completed_coordinate_nonzero* | completion does not kill the variable. |
-| *completed_coordinates_distinct* | completion keeps the two coordinates distinct. |
+| *coordinate_linear* | for `i ≠ j`, the coefficient of `Tᵢ` in `Tᵢ` is `1` and in `Tⱼ` is `0`, over every coefficient ring; these distinguish the variables when `1 ≠ 0`. |
+| *completed_coordinate_nonzero* | with `[Nontrivial A]` and `i : Fin N`, `Huber.Pair.polydiscVar N A i ≠ 0`. |
+| *completed_coordinates_distinct* | with `[Nontrivial A]` and `i j : Fin N` satisfying `i ≠ j`, `Huber.Pair.polydiscVar N A i ≠ Huber.Pair.polydiscVar N A j`. |
+| *completed_coordinates_zero_base* | over `A = ℤ/1ℤ`, every completed coordinate is zero, so even coordinates at distinct indices coincide; the zero ring is a complete Hausdorff Tate ring with pseudouniformiser `0 = 1`. |
 | *laurent_inverse* | the two quotient coordinates multiply to one. |
 | *laurent_nonzero* | Laurent extension preserves a nonzero coefficient ring. |
 | *laurent_zero_base* | the zero coefficient ring has zero Laurent extension. |

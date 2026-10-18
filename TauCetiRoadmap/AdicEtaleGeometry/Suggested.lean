@@ -1266,6 +1266,35 @@ example (N : ℕ) (A : Type*) [CommRing A] [TopologicalSpace A] [NonarchimedeanR
 example (N : ℕ) (A : Type*) [CommRing A] [TopologicalSpace A] [NonarchimedeanRing A]
     (i : Fin N) : (tateSeries.X N A i : MvPowerSeries (Fin N) A) = MvPowerSeries.X i := rfl
 
+/-- *coordinate_linear*: over every coefficient ring, the coefficient of `Tᵢ` in `Tᵢ` is
+one and in `Tⱼ` is zero when `i ≠ j`. These values distinguish the variables when `1 ≠ 0`. -/
+example (N : ℕ) (A : Type*) [CommRing A] [TopologicalSpace A] [NonarchimedeanRing A]
+    (i j : Fin N) (hij : i ≠ j) :
+    MvPowerSeries.coeff (Finsupp.single i 1)
+      (tateSeries.X N A i : MvPowerSeries (Fin N) A) = 1 ∧
+    MvPowerSeries.coeff (Finsupp.single i 1)
+      (tateSeries.X N A j : MvPowerSeries (Fin N) A) = 0 := by
+  simp [tateSeries.X, weightedX, MvPowerSeries.coeff_index_single_X, hij]
+
+/-- *completed_coordinate_nonzero*: over a nonzero complete Hausdorff Tate ring, a coordinate
+remains nonzero in the completed restricted-series ring. -/
+example (N : ℕ) (A : Type*) [CommRing A] [UniformSpace A] [IsUniformAddGroup A]
+    [IsTopologicalRing A] [IsTateRing A] [CompleteSpace A] [T2Space A] [Nontrivial A]
+    (i : Fin N) : Pair.polydiscVar N A i ≠ 0 := sorry
+
+/-- *completed_coordinates_distinct*: over a nonzero complete Hausdorff Tate ring, coordinates
+at distinct indices remain distinct after completion. -/
+example (N : ℕ) (A : Type*) [CommRing A] [UniformSpace A] [IsUniformAddGroup A]
+    [IsTopologicalRing A] [IsTateRing A] [CompleteSpace A] [T2Space A] [Nontrivial A]
+    (i j : Fin N) (hij : i ≠ j) : Pair.polydiscVar N A i ≠ Pair.polydiscVar N A j := sorry
+
+/-- *completed_coordinates_zero_base*: over the zero complete Hausdorff Tate ring, every
+completed coordinate is zero and any two coordinates coincide, including at distinct indices. -/
+example (N : ℕ) (A : Type*) [CommRing A] [UniformSpace A] [IsUniformAddGroup A]
+    [IsTopologicalRing A] [IsTateRing A] [CompleteSpace A] [T2Space A] [Subsingleton A]
+    (i j : Fin N) : Pair.polydiscVar N A i = 0 ∧
+      Pair.polydiscVar N A i = Pair.polydiscVar N A j := sorry
+
 /-- *tateSeries_X_own_coefficient*: the coefficient of `T₀` in `T₀` over `ℚ₂` is one. -/
 example : MvPowerSeries.coeff (Finsupp.single (0 : Fin 2) 1)
     (tateSeries.X 2 ℚ_[2] 0 : MvPowerSeries (Fin 2) ℚ_[2]) = 1 := by
