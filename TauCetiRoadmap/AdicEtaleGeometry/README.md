@@ -67,7 +67,8 @@ The roadmap owns, layer by layer:
 - A0: the comparison interface between AdicSpacesPartII's completed tensor product of complete
   Huber pairs and the pushout and fibre-product shapes that the étale geometry uses — the pushout
   square of complete Huber pairs, uniformisation supplied separately, the tracking of rings of
-  definition, pseudouniformisers and plus rings, the restatement as contract clauses of R0's
+  definition, pseudouniformisers and plus rings, point lifting for completed tensors over Tate
+  bases without sheafiness or finite-type assumptions, the restatement as contract clauses of R0's
   pullbacks along rational open immersions and along finite étale maps and of its chart
   independence, associativity, symmetry and unit, the universal property of maps into affinoids,
   and the analytic locus of a non-Tate space with the restriction of morphisms to it. A0 defines
@@ -309,6 +310,7 @@ continuous sections of profinite groups (`exists_continuous_section`,
 | `TauCeti.Huber.isSheafyRing_of_isStronglyNoetherian` | `TauCeti/AlgebraicGeometry/AdicSpace/Spa/StructurePresheaf/StronglyNoetherian.lean` | Strongly noetherian sheafiness; combined with the existing restricted-series instance. |
 | `TauCeti.AdicSpace`, `PreAdicSpace.IsOpenImmersion`, `PreAdicSpace.isAffinoid`, `ValuationSpectrum.presentationLimitPreAdicSpace`, `TauCeti.ValuationSpectrum.isAdic_presentationLimitPreAdicSpace` | `TauCeti/AlgebraicGeometry/AdicSpace/PreAdicSpace/{Adic,OpenImmersion,Affinoid,PresentationLimit}.lean` | Existing geometric carrier for the named geometric targets of A0.8, A1.3–A1.15, A1.16 (`YonedaAdicSpace.ofAdicSpace`) and A2. |
 | `TauCeti.Huber.Pair.Hom.comp_id`, `TauCeti.Huber.Pair.Hom.id_comp`, `TauCeti.Huber.Pair.Hom.comp_assoc`, `TauCeti.Huber.Pair.Hom.continuous_spaComap`, `TauCeti.Huber.Pair.Hom.spaComap_id`, `TauCeti.Huber.Pair.Hom.spaComap_comp` | `TauCeti/RingTheory/Huber/Pair.lean`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/HuberPair.lean` | Category laws of `CAff` and the functor `CAff.spa`, used directly. |
+| `Valuation.restrictToConvex`, `Valuation.restrictToConvex_le_iff_of_mem`, `TauCeti.Huber.PairOfDefinition.isContinuous_of_forall_cofinalValue`, `TauCeti.ValuationSpectrum.spaCompletionHomeomorph` | `TauCeti/RingTheory/Valuation/RestrictToConvex.lean`, `TauCeti/RingTheory/Huber/Continuous/OfCofinal.lean`, `TauCeti/AlgebraicGeometry/AdicSpace/Spa/Completion/Homeomorph.lean` | A0.1's *tate-completed-tensor-points*: restriction preserving factor valuations of arbitrary rank, continuity for the tensor topology, and extension to the completion. |
 | `TauCeti.Huber.Pair.Hom.isSpectralMap_spaComap_of_isTateRing` | `TauCeti/AlgebraicGeometry/AdicSpace/Spa/MorphismSpectral.lean` | Every morphism out of a Tate pair has spectral `Spa`; A4's presentations need no separate spectrality axiom. |
 | `TauCeti.Huber.Pair.Hom.isSpectralMap_spaComap` | `TauCeti/AlgebraicGeometry/AdicSpace/Spa/MorphismSpectral.lean` | Spectrality when the image of every open ideal is open. |
 | `TauCeti.Huber.existsUnique_continuous_ringHom_completion_weightedRestrictedSubring` | `TauCeti/RingTheory/Huber/WeightedEval/Completion.lean` | Continuous evaluation of the completed weighted series ring under `IsWeightBounded`. |
@@ -438,9 +440,13 @@ plus ring and boundedness of the
 uniformisation (*uniformization*) and AdicSpacesPartII's `IsAdicHom.of_isTateRing` to the colimit
 pair of its tower; A2's base change of polydiscs is R0's restricted-power-series case of the
 completed tensor product (*completed-tensor-restricted-power-series*) at weights `1` with the
-factors exchanged, for an adic structure map (`IsAdicHom`). The affinoid case of the surjectivity on
-points of Yoneda-adic fibre products is R0's *fibre-product-points*, whose global form is
-AdicSpacesPartII's `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.exists_pullback_point`.
+factors exchanged, for an adic structure map (`IsAdicHom`). A0.1's *tate-completed-tensor-points*
+deduces point lifting over arbitrary complete Tate pairs from R0's *valuation-amalgamation*
+and completed tensor construction; A1.16 globalises it to analytic Yoneda-adic spaces.
+R0's geometric *fibre-product-points*,
+`TauCetiRoadmap.AdicSpacesPartII.AdicSpace.exists_pullback_point`, concerns ordinary adic spaces
+with one leg locally of weakly finite type, the other adic, and stably sheafy charts on the second
+factor. It supplies the comparison in that scope.
 
 Pseudouniformisers are carried forward by `TauCeti.Huber.IsPseudoUniformizer.map` in
 `TauCeti/RingTheory/Huber/Basic.lean`. Rational preimages are
@@ -887,6 +893,50 @@ for morphisms into complete pairs; its existence along adic maps is
   pushout: the identity and the swap of `ℚ_p × ℚ_p` agree on `ℚ_p` and differ, whereas the pushout
   property would make them equal. The Lean example states this for any two distinct morphisms
   agreeing on `(A, A⁺)` (Lean example, proved).
+
+**Points lift to completed tensors over Tate bases.** (*tate-completed-tensor-points*) Let
+`f : (A, A⁺) → (B, B⁺)` and `g : (A, A⁺) → (C, C⁺)` be morphisms of complete Hausdorff Huber
+pairs with `A` Tate, and let `(D, D⁺) = (B, B⁺) ⊗̂_{(A, A⁺)} (C, C⁺)` be R0's completed tensor
+with its specified plus ring. For every `x ∈ Spa(B, B⁺)` and `y ∈ Spa(C, C⁺)` satisfying
+`Spa(f)(x) = Spa(g)(y)`, there is `z ∈ Spa(D, D⁺)` restricting to `x` and `y`. This holds for
+valuations of arbitrary rank, without sheafiness or finite-type assumptions, and does not assert
+uniqueness ([H94] §3, proof of Lem. 3.9(i), pp. 537–538, the valuation argument;
+[Berkeley] Lecture 5, Prop. 5.1.5(2) and Rem. 5.1.6, pp. 35–36, the tensor pair and completion).
+The theorem `Huber.exists_spaPoint_of_isCompletedPushout` states this for any complete pair
+with coprojections `i`, `j` satisfying `Huber.IsCompletedPushout f g i j`.
+
+Choose a common pseudouniformiser `ϖ` from `A` and compatible rings of definition inside the
+plus rings. R0's *valuation-amalgamation* supplies a valuation `v` on `B ⊗_A C` with the prescribed
+restrictions. It is bounded by `1` on the tensor-image ring of definition `F`, and
+`B ⊗_A C = F[1/ϖ]`. Thus every attained value is at most `v(ϖ)⁻ⁿ` for some `n`.
+Let `H` be the convex subgroup generated by `v(ϖ)` in the value group. Restriction to `H` by
+`Valuation.restrictToConvex` keeps every nonzero factor value and its order comparisons:
+continuity of the factor valuations bounds each such value below by some `v(ϖ)ⁿ`.
+Only mixed-tensor values smaller than all these powers can be sent to zero. The restricted
+valuation is bounded on the integral closure of the tensor-image plus ring, and `v(ϖ)` is
+cofinal in its value group. Tau Ceti's
+`Huber.PairOfDefinition.isContinuous_of_forall_cofinalValue` gives continuity for the tensor
+topology, and `ValuationSpectrum.spaCompletionHomeomorph` extends the point to the completed
+pair, with its completed plus ring. This yields the full `Spa` conclusion.
+*Needs:* *supplier-contract-fibre-products*; AdicSpacesPartII R0 *valuation-amalgamation*;
+Tau Ceti `Valuation.restrictToConvex`, `Valuation.restrictToConvex_le_iff_of_mem`,
+`Huber.PairOfDefinition.isContinuous_of_forall_cofinalValue`,
+`ValuationSpectrum.spaCompletionHomeomorph`, `TauCeti.ValuationSpectrum.spa_integralClosure`.
+Lean: `Huber.exists_spaPoint_of_isCompletedPushout`; the valuation comparison and Checks are
+README targets.
+
+**Checks.**
+
+- *completedTensor_point_quadratic* (nonuniqueness) — in *plus_ring_ne_image*, the two points of
+  `Spa(L × L, O_L × O_L)` both restrict to the unique points of the two copies of
+  `Spa(L, O_L)`, also for `L = ℚ₂(√2)`. Point lifting does not give injectivity.
+- *completedTensor_point_higher_rank* (rank boundary) — let `K = 𝔽_p((u))((t))` with its
+  `t`-adic topology and `K⁺ = {a ∈ 𝔽_p((u))⟦t⟧ : a mod t ∈ 𝔽_p⟦u⟧}`. The rank-two point
+  with lexicographically ordered values `|t| = (1/2, 1)`, `|u| = (1, 1/2)` lifts through the
+  identity tensor `K ⊗̂_K K = K` as itself. In particular `|u| < 1` survives; its rank-one
+  coarsening, where `|u| = 1`, does not lift this pair of points.
+- *completedTensor_point_zero_factor* (degenerate) — a zero factor gives a zero completed
+  tensor and empty spectrum; there is no compatible pair of points to lift.
 
 **Morphisms into affinoids.** (*maps-into-affinoids*) Let `X` be an adic space (AdicSpaces
 layer 5: an object of Huber's `𝒱` covered by affinoids `Spa(B, B⁺)` of sheafy complete pairs) and
@@ -3052,7 +3102,9 @@ formula: if `V = Spa(A, A⁺) ⊆ X` is open with `f⁻¹(V) = Spa(B, B⁺)`, `B
 plus ring the integral closure of the image of `C⁺ ⊗ B⁺` ([PS] §7, Lem. 7.3(ii), p. 40); for a
 local description `U ⊆ W → V ⊆ X` of an étale `f`, the base change over `g⁻¹(V)` is the open
 subspace of `W ×_V g⁻¹(V)` lying over `U`. Points: `|Y'| → |Y| ×_{|X|} |X'|` is surjective
-([PS] §7, Lem. 7.3(i), p. 40, whose printed indices are permuted; [H96] §1.2, Cor. 1.2.3, p. 49),
+by *tate-completed-tensor-points* on Tate charts
+([PS] §7, Lem. 7.3(i), p. 40, whose printed indices are permuted; in Huber's scope,
+[H96] §1.2, Cor. 1.2.3(iii)(d), p. 49),
 so jointly surjective families of étale maps pull back to jointly surjective families. The same
 conclusions hold for an arbitrary analytic `X'` whenever every algebra `C ⊗_A B` occurring in the
 construction is sheafy; without such sheafiness the fibre product is only formed among Yoneda-adic
@@ -3060,6 +3112,7 @@ spaces (*etale-site-generalized*), and fibre products of adic spaces are not cla
 ([KL I] §8.2, Rem. 8.2.5, p. 160). *Needs:* *finite-etale-morphism*; *etale-morphism*;
 *finite-etale-affinoid-algebra*; *finite-etale-local-to-global*; *strongly-sheafy-huber-pair*;
 AdicSpacesPartII layer R0; *finite-etale-pullback-comparison*; *rational-pullback-comparison*;
+*tate-completed-tensor-points*;
 Mathlib `Algebra.Etale.baseChange`.
 
 Lean: `AdicSpace.IsEtaleLocalDescription.exists_fibreProduct`,
@@ -6284,19 +6337,25 @@ representable presheaves, and sheafification preserves fibre products.
 induced by `b ↦ b ⊗ 1` and `c ↦ 1 ⊗ c`. Consequently analytic Yoneda-adic spaces have fibre
 products, computed in `Sh(CAffᵒᵖ, J_rat)`, and the fibre product of analytic Yoneda-adic spaces is
 analytic (`isYonedaAdic_pullback`); its points surject onto pairs of points with the same image
-(`exists_space_pullback`; the affinoid case is AdicSpacesPartII *fibre-product-points*, stated in
-AdicSpacesPartII's Lean as `TauCetiRoadmap.AdicSpacesPartII.AdicSpace.exists_pullback_point`, as in
-[H96] Cor. 1.2.3(iii)(d), p. 49), not injectively.
+(`exists_space_pullback`, obtained by applying A0.1's *tate-completed-tensor-points* on complete
+Tate charts and gluing). No sheafiness or finite-type condition is imposed on these charts.
+In the ordinary-adic scope of AdicSpacesPartII's *fibre-product-points*, this agrees with
+`TauCetiRoadmap.AdicSpacesPartII.AdicSpace.exists_pullback_point`
+([H96] Cor. 1.2.3(iii)(d), p. 49). The point map need not be injective.
 Beyond the adic case the affinoid formula fails: the non-adic diagram
 `(ℤ_p⟦T⟧, ℤ_p⟦T⟧) ← (ℤ_p, ℤ_p) → (ℚ_p, ℤ_p)` has no pushout of Huber pairs ([Berkeley] Lecture 5,
 Rem. 5.1.7, p. 36; [KL I] §8.2, Rem. 8.2.5, p. 160). *Needs:* *yoneda-adic-analytic-tate-local*,
-*generalized-adic-presentation*, *yoneda-adic-open-immersions*; AdicSpacesPartII layer R0
-(completed tensor products, their plus rings and universal property, affinoid fibre products,
-*fibre-product-points*); Mathlib `CategoryTheory.presheafToSheaf` (which preserves finite limits). README only (no Lean declaration).
+*generalized-adic-presentation*, *yoneda-adic-open-immersions*; *tate-completed-tensor-points*;
+AdicSpacesPartII layer R0 (completed tensor products, their plus rings and universal property);
+Mathlib `CategoryTheory.presheafToSheaf` (which preserves finite limits). README only (no Lean declaration).
 
 **Checks.**
 
 - *fibreProduct_polydisc* — `Spa^Y(ℚ_p⟨T⟩) ×_{Spa^Y(ℚ_p)} Spa^Y(ℚ_p⟨S⟩) ≅ Spa^Y(ℚ_p⟨T, S⟩)`.
+- *fibreProduct_higher_rank* — the two copies of the rank-two point in
+  *completedTensor_point_higher_rank* give a point of `Spa^Y(K, K⁺) ×_{Spa^Y(K, K⁺)} Spa^Y(K, K⁺)`
+  whose two projections are that same rank-two point; its rank-one coarsening has different
+  projections.
 - *fibreProduct_no_pushout* (non-example) — the diagram `(ℤ_p⟦T⟧, ℤ_p⟦T⟧) ← (ℤ_p, ℤ_p) → (ℚ_p, ℤ_p)`
   has no pushout in Huber pairs: in a pushout `D`, `T` is topologically nilpotent and `1/p ∈ D`,
   so `Tⁿ/p ∈ D⁺` for some `n`, which rules out a map to `ℤ_p⟨T, T^{n+1}/p⟩`.

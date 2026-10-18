@@ -34,7 +34,8 @@ A1.0.5 specifies the README-only completion equivalences `finiteEtale_completion
 
 The represented layers are:
 
-* A0: the completed pushout of complete Huber pairs and the analytic locus of an adic space;
+* A0: the completed pushout of complete Huber pairs, point lifting over Tate bases and the
+  analytic locus of an adic space;
 * A1: rings without nonsplit finite étale covers, power-bounded henselian pairs, strongly sheafy
   rings, the Huber pair of a finite étale algebra, finite étale and étale morphisms of analytic adic spaces by the Kedlaya–Liu local description, geometric points;
 * A2: relative closed polydiscs and tori over a Huber pair, dimension, smooth morphisms by ball
@@ -146,6 +147,25 @@ theorem exists_isCompletedPushout {A B C : Type u} [CommRing A] [TopologicalSpac
       (W : Pair E) (i : Pair.Hom T W) (j : Pair.Hom U W),
       IsCompletedPushout f g i j ∧ IsAdicHom i.toRingHom ∧ IsAdicHom j.toRingHom ∧
         Dense (Subring.closure (Set.range i.toRingHom ∪ Set.range j.toRingHom) : Set E) := sorry
+
+/-- Compatible points of complete Huber pairs over a complete Tate pair lift to any completed
+pushout, with their full valuation classes preserved. No sheafiness or finite-type hypothesis is
+required (Huber 1994, proof of Lemma 3.9(i), pp. 537–538; Berkeley Lectures, Proposition 5.1.5(2)
+and Remark 5.1.6; A0.1, *tate-completed-tensor-points*). -/
+theorem exists_spaPoint_of_isCompletedPushout {A B C E : Type u}
+    [CommRing A] [UniformSpace A] [IsUniformAddGroup A] [IsTopologicalRing A] [IsTateRing A]
+    [CompleteSpace A] [T2Space A]
+    [CommRing B] [UniformSpace B] [IsUniformAddGroup B] [IsTopologicalRing B] [IsHuberRing B]
+    [CompleteSpace B] [T2Space B]
+    [CommRing C] [UniformSpace C] [IsUniformAddGroup C] [IsTopologicalRing C] [IsHuberRing C]
+    [CompleteSpace C] [T2Space C]
+    [CommRing E] [UniformSpace E] [IsUniformAddGroup E] [IsTopologicalRing E] [IsHuberRing E]
+    [CompleteSpace E] [T2Space E]
+    {S : Pair A} {T : Pair B} {U : Pair C} {W : Pair E}
+    (f : Pair.Hom S T) (g : Pair.Hom S U) (i : Pair.Hom T W) (j : Pair.Hom U W)
+    (h : IsCompletedPushout f g i j) (x : spa T.plus) (y : spa U.plus)
+    (hxy : f.spaComap x = g.spaComap y) :
+    ∃ z : spa W.plus, i.spaComap z = x ∧ j.spaComap z = y := sorry
 
 end Huber
 
