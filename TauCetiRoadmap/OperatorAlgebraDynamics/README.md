@@ -9,6 +9,8 @@ KMS states, and the thermodynamic limit of quantum spin systems.
 
 ## Scope, conventions, and dependencies
 
+D8 is the single owner of the CCR/CAR and Weyl algebraic relations, their regular representations and their basic field operators. QuantumFoundations QF4 owns the generic Fock/second-quantization API and proves the normalization adapter `Φ_D8(h)=(a(h)+a†(h))/√2` on its specified invariant domain; RQFT consumes D8's Weyl representation and QF4's Fock adapter explicitly.
+
 C*-algebras are complex and may be nonunital. Groups in D1–D4 are arbitrary
 locally compact Hausdorff groups; separability and second countability are not
 standing assumptions there. Groupoids in D5–D6 are second-countable locally
@@ -44,19 +46,27 @@ positive characters: `f̂(χ)=∫ f(g)χ(g) dμ(g)` and
   adjointable operators, interior tensor products, induction, Morita
   equivalence, and linking algebras.
 - [VonNeumannAlgebras V0–V4](../VonNeumannAlgebras/README.md) supplies states,
-  GNS, operator topologies and normal representations. V8 owns discrete von
-  Neumann crossed products; V10–V11 owns modular theory and normal locally
-  compact crossed products. D2 proves the comparison with their regular weak
-  closures. D4 uses V11's harmonic-analysis layer: dual Haar normalization,
-  Plancherel and Pontryagin biduality for locally compact abelian groups,
-  independently of the normal crossed-product theorem.
+  GNS, operator topologies and normal representations. D5 consumes
+  [V4.0.Fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4831498b0ca6b0d69210ef2294ce1c92f028fbde/TauCetiRoadmap/VonNeumannAlgebras/README.md#L316-L339) for independent measurable Hilbert/operator fields,
+  [SA-B85](https://github.com/TauCetiProject/TauCetiRoadmap/blob/bf5d59ef8aa818b8f804da819857832c0fe9f73e/TauCetiRoadmap/OperatorTheory/SelfAdjointSpectralTheory/README.md#L644-L719) for the unit-space diagonal C₀ theorem, then
+  [V4's separable commuting-representation reduction](https://github.com/TauCetiProject/TauCetiRoadmap/blob/290e14ed238433b886724aa3c4f6e329598c0120/TauCetiRoadmap/VonNeumannAlgebras/README.md#L420-L429)
+  (the V4.0.Decomposition contract) for reduction over that given diagonal.
+  V8 owns discrete von Neumann crossed products; V10–V11 owns modular theory
+  and normal locally compact crossed products. D2 proves the comparison
+  with their regular weak closures. D4 uses V11's harmonic-analysis layer:
+  dual Haar normalization, Plancherel and Pontryagin biduality for locally
+  compact abelian groups, independently of the normal crossed-product theorem.
 - [OperatorTheory/SelfAdjointSpectralTheory](../OperatorTheory/SelfAdjointSpectralTheory/README.md)
   and [OneParameterSemigroups](../OneParameterSemigroups/README.md) supply
   self-adjoint generators, their spectral calculus, Part B's PVM carrier,
   integration and representation-PVM API, and strongly continuous
   one-parameter groups. Use their `LinearPMap` domains and graph closures.
+  D5 consumes SA-B85's diagonal theorem for nondegenerate C₀(X)
+  representations on separable Hilbert spaces, X second-countable locally
+  compact Hausdorff. Its order is V4.0.Fields → SA-B85 →
+  V4.0.Decomposition → D5; D5 is not a prerequisite for those suppliers.
 - Use the topological groupoid vocabulary shared with
-  [LieGroupoidsPoisson G0](../LieGroupoidsPoisson/README.md):
+  [LieGroupoidsPoisson G0](https://github.com/TauCetiProject/TauCetiRoadmap/blob/87bef440778a642d5c56abb30ffdbbce83db923f/TauCetiRoadmap/LieGroupoidsPoisson/README.md#L149-L163):
   `CategoryTheory.Groupoid`, topology on the total `Arrow`, and continuous
   composition on composable arrows. Write `gh` for first h, then g
   (`h ≫ g` in category notation). G0 owns the total-arrow and composable-arrow topologies and continuous
@@ -313,13 +323,42 @@ conull sets, the symmetric measure `ν₀=D^(-1/2)ν`, and change of density und
 equivalent base measures. Use Mathlib measures, measurable maps, integrals
 and almost-everywhere equality rather than an independent measure language.
 
-Consume [VonNeumannAlgebras V4](../VonNeumannAlgebras/README.md)'s
-measurable Hilbert fields, square-integrable sections, decomposable
-operators and diagonal C₀ spectral representation. Identify the unit-space
-measure/multiplicity obtained here with that shared direct-integral
-construction, and prove the almost-everywhere transport for equivalent
-base measures. The groupoid action and its disintegration below are
-targets here; continuous Hilbert fields in H5 alone do not supply them.
+For a nondegenerate representation L of C*(G) on separable H, put X=G⁰
+and let `ρ_L(h)=L̃(m(h))` for h∈C₀(G⁰), where m is the nondegenerate
+unit-space multiplier map constructed above and L̃ is L's multiplier extension.
+Prove ρ_L is nondegenerate: choose compactly supported unit-space cutoffs
+h_i with `0≤h_i≤1`, eventually equal to1 on each prescribed compact subset
+of X. For f∈C_c(G), the compact sets r(supp f) and s(supp f) give
+`m(h_i)f→f` and `f m(h_i)→f` in I-norm. The dense span L(C_c(G))H
+and `‖ρ_L(h_i)‖≤1` then give strong convergence `ρ_L(h_i)→I`.
+Consume [V4.0.Fields](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4831498b0ca6b0d69210ef2294ce1c92f028fbde/TauCetiRoadmap/VonNeumannAlgebras/README.md#L316-L339) for measurable Hilbert fields, square-integrable
+sections, rectangular decomposable maps and RN measure-change/zero-extension
+unitaries, and [SelfAdjointSpectralTheory SA-B85](https://github.com/TauCetiProject/TauCetiRoadmap/blob/bf5d59ef8aa818b8f804da819857832c0fe9f73e/TauCetiRoadmap/OperatorTheory/SelfAdjointSpectralTheory/README.md#L644-L719)
+for the diagonal spectral representation of this nondegenerate C₀(G⁰)
+representation. The unit space G⁰ is second-countable locally compact Hausdorff.
+
+For two such representations L₁,L₂ and a bounded intertwiner T, prove
+that multiplier extension makes T intertwine their unit-space representations.
+Use SA-B79/B85 on the direct-sum representation and its off-diagonal corner
+to transport spectral projections and full diagonal L∞ actions; for controls
+μ₁,μ₂ use `λ=μ₁+μ₂` and Fields' onto RN transport to λ-fields with zero
+fibres off each density support. No equivalence of the two controls is
+assumed for a bounded intertwiner. On H₁⊕H₂ the off-diagonal block
+`S(ξ₁,ξ₂)=(0,Tξ₁)`, and S†, commute with the common diagonal. Form the
+separable unital C*-algebra generated by `diag(ρ₁(h),ρ₂(h))`, h∈C₀(G⁰),
+S,S† and I. Apply [V4.0.Decomposition's reduction of a separable C*-representation
+commuting with a given diagonal](https://github.com/TauCetiProject/TauCetiRoadmap/blob/290e14ed238433b886724aa3c4f6e329598c0120/TauCetiRoadmap/VonNeumannAlgebras/README.md#L420-L429) to this auxiliary algebra,
+and Fields' rectangular criterion to recover measurable fibre maps, with
+essential norm, adjoint, composition and fibrewise-unitarity comparisons.
+Here V4.0.Decomposition denotes reduction over the given diagonal supplied
+by SA-B85. The full groupoid representation L is not assumed to commute
+with C₀(G⁰). Identify its unit-space spectral measure class and multiplicity
+with the shared direct-integral construction, and prove almost-everywhere
+transport for equivalent base measures. Include H=0, zero controls/fields
+and the empty unit space, where nondegeneracy forces H=0; keep the onto
+zero-fibre transport in these cases. D5 proves quasi-invariance and constructs
+the inter-fibre unitaries U_γ, saturated conull reduction and disintegration
+below; continuous Hilbert fields in H5 alone do not supply these targets.
 
 A measurable unitary representation consists of such a field and measurable
 unitaries `U_γ:H_s(γ)→H_r(γ)` satisfying the groupoid laws on a saturated
@@ -565,6 +604,12 @@ build the Hilbert completion and norm estimates here. Show that finite
 subspace inclusions give the CAR inductive limit, including separable
 infinite-dimensional h and its matrix stages.
 
+For a complex pre-Hilbert space h, prove that the norm identity extends its antilinear generators uniquely to the Hilbert completion and induces the canonical generator-preserving isomorphism `CAR(h)≃CAR(completion h)`. State represented-family uniqueness for nonzero unital CAR families: universality and simplicity make the map onto the generated C*-algebra an isomorphism. Preserve the source's omitted zero-representation exception. For h=0 the universal unital algebra is ℂ; distinguish this from the nonunital closed algebra generated by only zero operators. Prove `CAR(h)` is separable iff h is separable, using the generator isometry in one direction and countably many star polynomials on dense generators in the other.
+
+For bounded complex-linear U and bounded antilinear V on the complete complex Hilbert carrier h (using its completion in the pre-Hilbert comparison), define the antilinear adjoint by `⟨V* x,y⟩=⟨V y,x⟩` in the second-linear convention. Prove that
+`V*U+U*V=0=UV*+VU*` and `U*U+V*V=1=UU*+VV*`
+are the components of the real-orthogonality identities for `T=U+V`. Under these four relations construct the unique CAR automorphism `γ(a(f))=a(Uf)+a(Vf)*`, with inverse obtained from the real adjoint `T*=U*+V*`. Pin the CAR calculation by `⟨Uf,Ug⟩+⟨Vg,Vf⟩=⟨f,g⟩` and `⟨Uf,Vg⟩+⟨Ug,Vf⟩=0`. The Majorana generators `c(f)=a(f)+a(f)*` give the equivalent real-orthogonal construction `c(f)↦c(Tf)`. QF consumes this universal CAR automorphism and owns its Fock/domain comparison; any criterion for unitary implementation is a separate target.
+
 Construct gauge-invariant quasi-free CAR states for every positive
 contraction S on h. Define them by vanishing of monomials with unequal
 creation and annihilation counts, two-point function
@@ -579,16 +624,15 @@ unique β-KMS state is the gauge-invariant quasi-free state with
 Include negative β, β=0, finite modes, and the occupation-number formula;
 derive the KMS identity on analytic vectors and extend by continuity.
 
-For a real symplectic space `(V,σ)` construct the universal Weyl algebra
-with `W(f)W(g)=exp(−iσ(f,g)/2)W(f+g)` and `W(f)*=W(−f)`.
+For a real symplectic space `(V,σ)` construct the universal unital Weyl
+C*-algebra with `W(0)=1`,
+`W(f)W(g)=exp(−iσ(f,g)/2)W(f+g)` and `W(f)*=W(−f)`.
+Prove `W(f)*W(f)=W(f)W(f)*=1`, so each generator is unitary.
 Develop symplectic functoriality, linear independence of the Weyl
 generators, the canonical trace, and the nondegenerate form's simplicity.
 Distinguish the algebraic symplectic data from continuity: a representation
-is regular if `t↦π(W(tf))` is strongly continuous for each f. Construct
-field operators by Stone's theorem in regular representations, their
-invariant domains and the Weyl-to-commutator relation on those domains.
-Prove `‖W(f)−1‖=2` for nonzero f. A nontrivial continuous one-particle flow
-therefore need not give a point-norm continuous Weyl-algebra action.
+is regular if `t↦π(W(tf))` is strongly continuous for each f. Fix the generator sign by `π(W(tf))=exp(itΦ(f))`. Construct field operators by Stone's theorem in regular representations, their invariant domains and the Weyl-to-commutator relation on those domains.
+Assume the real symplectic form is nondegenerate for this spectrum argument. Prove `‖W(f)−1‖=2` for nonzero f. More generally prove `σ(W(f))=𝕋` for every nonzero `f`: nondegeneracy supplies `g` whose Weyl conjugation rotates `W(f)` by any prescribed unit scalar, and the nonempty unitary spectrum is rotation invariant. Deduce `‖W(f)−z·1‖=2` for `z∈𝕋`, and hence `‖W(f)−W(g)‖=2` whenever `f≠g`. If the real symplectic space is nonzero, choose `f₀≠0`; the family `W(tf₀)`, `t∈ℝ`, is uncountable and uniformly separated, proving that the universal Weyl algebra is nonseparable even for finite-dimensional nonzero symplectic spaces. Keep the zero-space algebra `ℂ` separate. A nontrivial continuous one-particle flow therefore need not give a point-norm continuous Weyl-algebra action.
 
 For `V=h_ℝ`, `σ(f,g)=Im⟨f,g⟩`, construct the symmetric Hilbert Fock
 representation, field operators and vacuum characteristic function
@@ -741,8 +785,9 @@ the on-site model.
   general disintegration, equivalence and ideal hypotheses.
 - [Muhly–Williams, *Renault's Equivalence Theorem for Groupoid Crossed Products*](https://arxiv.org/abs/0707.3566):
   Theorem 5.5, Theorem 7.8 and Appendix B. Use the scalar Hausdorff
-  specialization and build the proof's measurable-field and disintegration
-  prerequisites in D5.
+  specialization. D5 builds the groupoid-specific measurable-representation
+  and disintegration prerequisites over V4.0.Fields, SA-B85 and
+  V4.0.Decomposition in the stated unit-space/auxiliary-algebra order.
 - [Sims–Williams, *Renault's Equivalence Theorem for Reduced Groupoid C*-algebras*](https://arxiv.org/abs/1002.3093):
   Definition 2, Lemmas 3–5 and Theorems 13 and 17 for linking groupoids,
   reduced corner norms and the quotient of the full equivalence module.
