@@ -536,9 +536,8 @@ under scalar change, giving §0.7 coefficient-diagram maps.
   is an additional hypothesis for product formulas.
 
 **Checks.**
-- For the graph span of `θ` and a homogeneous `a`, the possible next coefficients are
-  exactly the nonzero `pr_η(θ(a))`; if `η=γ` this may change the coefficient without
-  changing the degree.
+- For `Γ=ℤ`, `M=ℚ` concentrated in degree `0`, and `θ(a)=2a`, the graph span
+  has `B^{0,0}(1)=2` and `B^{0,η}(1)=0` for every `η≠0`.
 
 *Needs:* §0.7; `DirectSum.Decomposition`, direct sums, linear maps, semilinear maps and
 graded modules. Sources: MAN §2.2; GHS Definitions 3.1–3.3 for the monomial face
@@ -833,6 +832,10 @@ paths; *Consistent* means path products depend only on endpoints. A compatible
 refinement of `𝔇` subdivides its complex, gives walls inside a wall `𝔡` of `𝔇` its label
 and a positively proportional coorientation, and others `1`.
 
+A *GroupoidWallDiagram* assigns chamber objects in §0.7's label groupoid and
+mutually inverse arrows to opposite crossings. The transport of successive
+crossings `ℓ_1,…,ℓ_s` is `ℓ_s∘…∘ℓ_1`.
+
 *Targets.*
 - Path products are unchanged by positive rescaling of coorientations and by reversing
   one with its label inverted; `P` then `Q` gives `pathProduct Q * pathProduct P`,
@@ -846,17 +849,6 @@ and a positively proportional coorientation, and others `1`.
 - A diagram is consistent iff its admissible loops have product `1`, and, on the vector
   space, iff `FreeGroup.lift` of the labels kills §1.2's joint-loop words.
 
-**Checks.**
-- Subdivide the axes of `ℝ²` into four closed half-axes and the origin; label the
-  horizontal half-axes `a`, cooriented by `x₁`, and the vertical ones `b`, cooriented by
-  `x₀`, with `ab≠ba`. The counterclockwise square loop
-  `(1,1)→(−1,1)→(−1,−1)→(1,−1)→(1,1)` crosses `b,a,b⁻¹,a⁻¹`, with product
-  `a⁻¹b⁻¹ab≠1`.
-
-A *GroupoidWallDiagram* assigns chamber objects in §0.7's label groupoid and
-mutually inverse arrows to opposite crossings. The transport of successive
-crossings `ℓ_1,…,ℓ_s` is `ℓ_s∘…∘ℓ_1`.
-
 *Targets for groupoid coefficients.*
 - Path subdivision, reversal, compatible refinement, overlap identifications and
   relabelling are functorial, with the same joint-word relations. Killing local
@@ -866,6 +858,13 @@ crossings `ℓ_1,…,ℓ_s` is `ℓ_s∘…∘ℓ_1`.
   coefficient map, commutes with cutoff and truncation maps, and recovers
   *pathProduct* in the one-object case. Faithful representations reflect equality
   of label products.
+
+**Checks.**
+- Subdivide the axes of `ℝ²` into four closed half-axes and the origin; label the
+  horizontal half-axes `a`, cooriented by `x₁`, and the vertical ones `b`, cooriented by
+  `x₀`, with `ab≠ba`. The counterclockwise square loop
+  `(1,1)→(−1,1)→(−1,−1)→(1,−1)→(1,1)` crosses `b,a,b⁻¹,a⁻¹`, with product
+  `a⁻¹b⁻¹ab≠1`.
 
 *Needs:* §§0.7, 1.1–1.2, 1.5; `Group`, `FreeGroup`, groupoids and functors.
 Source: BRI Definitions 2.1–2.2 for the group case.
@@ -1066,11 +1065,11 @@ refined separately.
 
 **Checks.**
 
-- For `𝔡=[0,∞)⊂ℝ` and direction `1`, both `𝔡` and `𝔡+2` are incoming,
-  while `1∈𝔡` and `1∉𝔡+2`.
+- For `Γ=Λ=ℤ²`, `P=ℕ²`, `ρ=id`, `w=e_1` and `m=e_2*`, both supports
+  `𝔡=ℝ_{≥0}e_1` and `𝔡+2e_1` are incoming, although `e_1∈𝔡` and
+  `e_1∉𝔡+2e_1`.
 - For `Γ=ℤ²`, `P=ℕ²` and `ρ(a,b)=a∈ℤ`, a wall of degree `(0,1)`
-  is incoming, including when its support is a single point of `ℝ`. Its label
-  need not be the identity.
+  is incoming, including when its support is a single point of `ℝ`.
 
 *Needs:* §3.1, §§1.1–1.2, §2.1. Sources: MAN Definition 2.2, Remark 2.3 and (8).
 
@@ -1228,12 +1227,16 @@ relative completions of §5.1. A *TropicalPairing* is a *PositiveDegreeMap*
   naturality square of *LabelRepresentation*.
 
 **Checks.**
-- In the identity-projection rank-three case, `g_{e_1}` contains the independent `z^{e_1}∂_{e_2*}` and
-  `z^{e_1}∂_{e_3*}`, and `[z^{e_1}∂_{e_3*},z^{e_2}∂_{e_1*}]=−z^{e_1+e_2}∂_{e_3*}`
+- For `R=ℚ`, `Γ=Λ=ℤ³`, `P=ℕ³` and `ρ=id`, `g_{e_1}` contains the independent
+  `z^{e_1}∂_{e_2*}` and `z^{e_1}∂_{e_3*}`, and
+  `[z^{e_1}∂_{e_3*},z^{e_2}∂_{e_1*}]=−z^{e_1+e_2}∂_{e_3*}`
   although `e_3*(e_2)=0`.
-- For `P=ℕe_1⊆ℤ²`, the nonzero `z^{e_1}∂_{e_2*}` acts by zero on `R[P]`.
-- For `T:ℤ²→ℤ`, `(a,b)↦a+b`, positive degrees stay positive but no `S` exists, and no
-  derivation of `ℚ[z]` intertwines `yx∂_x` with `x,y↦z`, since `x−y↦0` but `xy↦z²`.
+- For `R=ℚ`, `Γ=Λ=ℤ²`, `P=ℕe_1` and `ρ=id`, the nonzero
+  `z^{e_1}∂_{e_2*}` acts by zero on `R[P]`.
+- With identity projections, `P=ℕ²`, `P'=ℕ` and `U=ℚe_1*`, the map
+  `T:ℤ²→ℤ`, `(a,b)↦a+b`, preserves positive degrees but admits no pairing `S`.
+  No derivation of `ℚ[z]` intertwines `yx∂_x` with `x,y↦z`, since `x−y↦0`
+  but `yx∂_x(x−y)=xy↦z²`.
 - For `T(a,b)=(2a,b)` with `S` the rational inverse dual, *tropicalVertexGroup.map*
   sends `z^{e_2}∂_{e_1*}` to `½·z^{e_2}∂_{e_1*}`.
 
@@ -1296,11 +1299,11 @@ a linear map `p₁*_ℝ:N_ℝ→M°_ℝ` extending `x↦{x,-}`.
 - The zero form has trivial Poisson action and faithful principal action.
 - For `N=ℤ²`, `{e_1,e_2}=1`, `d=(1,2)`, `N°=ℤe_1⊕2ℤe_2`, both integrality conditions
   hold, `κ(e_1)=1`, `κ(e_2)=2`, and `{-,κ(e_2)e_2}` is integral on `N`.
-- For central `n`, brackets of total degree `n` vanish and the inverse-image
-  presentation on `N` has zero normal. The KS and projected principal presentations
-  still carry its incoming wall, with `r(n)≠0`, `ν_n≠0`; the projected spatial
-  direction is zero. Its principal-cylinder presentation has nonzero direction
-  `r(n)` in `L_pr`.
+- For `n∈N⁺` in the radical of `{,}`, prescribe the full KS wall `n⊥`
+  with a nonidentity label in its supported-ray group. Brackets of total degree
+  `n` vanish, and a skew comparison pulls its normal back to zero. The KS and
+  projected principal walls are incoming, with `r(n)≠0` and `ν_n≠0`. The projected
+  and principal-cylinder direction maps send `r(n)` to `0` and `r(n)`, respectively.
 
 *Needs:* §§0.1–0.6, 2.3–2.4, 3.1–3.2, 3.4, 4.1; `Module.Free`, `Module.Finite`,
 `AddSubgroup.index`, `Module.Dual`, `MvPowerSeries`, `AddMonoidAlgebra`. Sources: GHKK
@@ -1485,9 +1488,11 @@ times and affine tail positions belong only to realizations.
   `a∈A_p` and `ρ(p)≠0`, the lines `β_Q(t)=Q−t i(ρ(p))` form one
   *DecoratedType* with endpoint chart `V`. Their individual incoming tails retain
   their transverse affine positions.
-- For an action `z^m↦z^m(1+t)^{⟨n,m⟩}` with `t` a coefficient of zero
-  tangent degree, a transverse crossing can keep the same velocity and change the
-  decoration. The component rule records that change.
+- In `A=ℚ[x,x⁻¹,t]/(t²)`, graded by `Γ=ℤ²` with `deg x=(1,0)`,
+  `deg t=(0,1)` and `ρ(r,s)=r`, give `{0}⊂ℝ` coorientation `u↦u` and
+  label `θ(x)=x(1+t)`, `θ(t)=t`. At a right-to-left crossing with incoming
+  decoration `x`, the possible next decorations are exactly `x` and `tx`,
+  both with velocity `−1`.
 
 *Needs:* §§0.8, 1.1–1.3, 1.5, 3.2 and 5.1.
 Sources: MAN Definition 2.10 and Proposition 2.13; GHKK Definitions 3.1–3.3 and
@@ -1576,8 +1581,6 @@ properness, stability and density.
   `{x=y>0}` lies in an open chamber and in `Δ(a,k)` by joint incidence.
 - The hyperplanes `{x=1/(j+1)}` of `ℝ` have common generic point `0` and
   no neighborhood of `0` generic for all.
-- A degeneration meeting an excluded isolated singular point can define a
-  codimension-one endpoint locus.
 
 *Needs:* §§1.2–1.3, 1.5, 4.4 and 5.2.
 Sources: CPS Proposition 4.4 and Definition 4.6; N23 Definition 7.2 and the proof of
@@ -2014,8 +2017,9 @@ proving the required component-map certificates. Apply §5.7; multiplication use
 `XY=t(1+W)`.
 
 **Checks.**
-- `ϑ_{−1,0}ϑ_{1,0}=tϑ_{0,0}+tϑ_{0,1}`. The two branches of the crossed `X`
-  line have weights `1,1`; of the crossed `X²` line they have weights `1,2,1`.
+- Over `K=ℤ` at `k=2`, `ϑ_{−1,0}ϑ_{1,0}=tϑ_{0,0}+tϑ_{0,1}`.
+  At `Q=(1,1)`, incoming `X` and `X²` from the left have respectively two and
+  three broken lines, with weights `1,1` and `1,2,1`.
 
 *Needs:* §§0.7–0.8, 1.5, 4.4, 5.2–5.4, 5.7 and 6.1–6.2;
 `AddMonoidAlgebra`, `Ideal.Quotient`, `Localization.Away`, `MvPolynomial`,
@@ -2111,8 +2115,8 @@ rescaling gives BLM's integrality conditions.
 **Checks.**
 - For the zero form with `N_uf≠0`, `N_uf∩N°→M` is not injective, and its
   *principalBLMExtension* is a *BLMPolynomialInput*.
-- The terms `p_1x`, `p_2x²` of `1+p_1x+p_2x²` lie on different rays of `P_E`; the ray
-  factorization of this positive grouped function contains the factor `1−p_1p_2x³`.
+- The terms `p_1x`, `p_2x²` of `1+p_1x+p_2x²` lie on different rays of `P_E`.
+  The factor `f_u` on the ray of `u=p_1p_2x³` satisfies `[u]f_u=−1`.
 
 *Needs:* §0.3, §§0.5–0.6, §3.2, §§4.1–4.2 and §5.1; `MvPolynomial`, `AddMonoidAlgebra`.
 Sources: BLM §8.1, PDF 50–53, §9.2 (Step 3) and Corollary 9.8; N23 §1.
