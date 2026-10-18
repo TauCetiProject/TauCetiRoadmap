@@ -1658,11 +1658,11 @@ order `k` and `a∈A_p`. The *module probe* is `g⋉M_p`
 `LieDerivation R M_p M_p`), with `M_p` an abelian ideal. Its degree lattice and
 spatial lattice are
 `Γ_ext=Γ⊕ℤe_y⊕ℤe_z` and `Λ_ext=Λ⊕ℤe_y⊕ℤe_z`, with
-`ρ_ext(x,c,l)=(ρ(x),c,l)`. Old degrees are `(n,0,0)` and module degrees are
-`(p+n,1,0)`. Set
+`ρ_ext(x,c,l)=(ρ(x),c,l)`. The degrees of `g` sit at `(n,0,0)` and those of `M_p`
+at `(p+n,1,0)`. Set
 `P_ext={(n+cp,c,0):n∈P,c∈ℕ}` and
 `δ_ext(x,c,l)=δ(x)+(1−δ(p))c`. When `P=C∩Γ`, its cone is spanned by
-`C×0×0` and `(p,1,0)` in `Γ_ext,ℝ`. Old normals `(m,0,0)` carry the old wall spaces,
+`C×0×0` and `(p,1,0)` in `Γ_ext,ℝ`. Normals `(m,0,0)` carry the wall spaces of `g`,
 nonzero multiples of `e_z*` carry `A_{p+n}`, and the other wall spaces are zero.
 *Module charge* is the `e_y` degree coordinate; charge one through extended order
 `k+1` is relative order `k`.
@@ -1678,7 +1678,7 @@ meets only module walls. Write `Θ_Q` for *weightedEvaluation* at `Q`.
 - *moduleProbe*: the datum satisfies §3.1, the mixed bracket of `h_{n,m}` with
   `A_{p+n'}` having normal `m(ρ(p+n'))e_z*`. Positivity and finite cutoffs of
   `P_ext` follow from `δ_ext(n+cp,c,0)=δ(n)+c`; in the cone case
-  `P_ext=C_ext∩Γ_ext`. Supported old rays lift by `w↦(w,0,0)`.
+  `P_ext=C_ext∩Γ_ext`. Supported rays of `P` lift by `w↦(w,0,0)`.
   The ray group at `(q,1,0)` and normal `e_z*` is `exp(A_q)` when
   `q−p∈P`, and trivial otherwise; its higher multiples have no module piece.
   Charge one at extended order `k+1` is
