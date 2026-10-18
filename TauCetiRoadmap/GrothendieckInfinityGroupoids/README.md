@@ -12,8 +12,8 @@ homotopy hypothesis for Grothendieck ∞-groupoids, that this functor is an equi
 coherator `C` (Ara 2013, Conjecture 8.14), is stated as a `def … : Prop`. The elementary
 expansion theorem (pushouts along the disk inclusions `D_n → D_{n+1}` are weak equivalences
 between cellular ∞-groupoids) is a proved target of Layer 6. Deriving the homotopy hypothesis
-from it is recorded at the end as a roadmap for a roadmap: the published reduction does not yet
-exist in refereed form.
+from it is recorded at the end as a roadmap for a roadmap: a refereed reduction exists only for
+Grothendieck `n`-groupoids with `n < ∞`, conditional on a semi-model structure (Henry–Lanari 2023).
 
 The « yoga » first appears in Grothendieck's notes in a 1975 letter to Breen (Montpellier fonds,
 folder 134-2, p. 42: an `n`-groupoid up to `n`-equivalence is « essentially the same thing » as
@@ -256,7 +256,12 @@ map only in a provenance note.
 **Do not implement this section.** Henry (2016, preprint) reduces the homotopy hypothesis for a
 coherator to the pushout conjecture of Layer 6.2; an OpenAI preprint (24 September 2026, not
 peer-reviewed) announces the pushout conjecture for every coherator, with the Lean proof cited
-above. Once a refereed account of the reduction exists, a successor roadmap would specify: the
+above. For finite `n` a reduction is refereed: Henry and Lanari (2023) prove that if the
+canonical left semi-model structure on Grothendieck `n`-groupoids exists (weak equivalences the
+maps inducing bijections on homotopy groups), it satisfies the homotopy hypothesis, its
+`(∞,1)`-category being that of homotopy `n`-types; their corollary for `n = 3` rests on the
+existence of that structure, proved in a preprint. Once a refereed account of the reduction for
+`n = ∞` exists, a successor roadmap would specify: the
 model structure on `∞-Gpd_C` transferred along `Π_∞`'s left adjoint (Henry's construction), the
 comparison with Kan complexes, and the proof of `HomotopyHypothesis C`. Until then
 `HomotopyHypothesis C` is open in this library and appears only as a hypothesis.
@@ -275,6 +280,8 @@ All checked on zbMATH or arXiv.
   (2013), no. 7, 1237–1278. Zbl 1291.18006; arXiv:1206.2941.
 - S. Henry, « Algebraic models of homotopy types and the homotopy hypothesis », arXiv:1609.04622
   (2016), preprint.
+- S. Henry and E. Lanari, « On the homotopy hypothesis for 3-groupoids », *Theory Appl. Categ.*
+  39 (2023), no. 26, 735–768. Zbl 1533.18017.
 - C. Simpson, « Homotopy types of strict 3-groupoids », arXiv:math/9810059 (1998), preprint
   (strict models fail from dimension `3`; context for the scope).
 - OpenAI, « The Grothendieck homotopy hypothesis via elementary expansions », preprint,
