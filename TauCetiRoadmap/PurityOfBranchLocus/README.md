@@ -191,9 +191,11 @@ For `f : X ⟶ Y`, define three sets, each in the vocabulary of Convention 3:
 *Choice of notions.* A search of the Stacks Project for "branch locus" and "ramification locus"
 finds no definition of these sets; the Project uses the terms in two senses. In Section 58.21
 (Purity of branch locus), the proof of Lemma 58.21.2 (0BJH) works with the discriminant of a finite
-locally free morphism (Discriminants, Section 49.3, Lemma 49.3.1 (0BJF)), a locally principal closed
-subscheme of `Y` whose points are the `y'` over which `f` is ramified (not unramified, Definition
-29.36.1 (02G4)) at some point. In Sections 58.28 and 58.29, "ramification locus" means the
+locally free morphism (Discriminants, Section 49.3), a locally principal closed subscheme of `Y`.
+Lemma 49.3.1 (0BJF) says only that a finite locally free morphism is étale iff its discriminant is
+empty; applied over the opens of `Y`, and with étale equivalent to unramified for flat `f`, it
+shows that the points of the discriminant are the `y'` over which `f` is ramified (not unramified,
+Definition 29.36.1 (02G4)) at some point. In Sections 58.28 and 58.29, "ramification locus" means the
 complement of the étale points: Lemma 58.28.3 (0EA4) assumes étaleness in codimension one, and
 Theorem 58.29.3 (0ECD) concerns "the maximal open subscheme where `f` is étale". SGA 1, Exposé X,
 Théorème 3.1 takes the set of points where `f` is not étale and notes that under its hypotheses this
@@ -355,8 +357,10 @@ generizations of `z` are the primes of the Noetherian local ring `𝒪_{X,z}`, s
 `f.ramificationLocus` there is one, `z₀`, of least dimension; it has no proper generization in the
 ramification locus. Then `f z₀ ⤳ w` and `f z₀ ∈ f.branchLocus`, so `f z₀ = w` by maximality of
 `w`, and `dim 𝒪_{Y,w} = dim 𝒪_{X,z₀} = 1` by `ringKrullDim_stalk_eq_of_locallyQuasiFinite` and the
-previous target. With `isClosed_branchLocus`: for `f` finite, the branch locus is a closed subset
-of `Y` that is empty or of pure codimension one.
+previous target. With `isClosed_branchLocus`: for `f` finite, under the hypotheses of this
+section and `f.ramificationLocus ≠ Set.univ`, the branch locus is a closed subset of `Y` that is
+empty or of pure codimension one. (Without `f.ramificationLocus ≠ Set.univ` this fails: the branch
+locus of the relative Frobenius of `𝔸¹`, `test_ramificationLocus_frobenius`, is all of `𝔸¹`.)
 *Needs:* §§0.1, 0.4, 2.1; Mathlib `IsIntegral`, `IsDominant`, `LocallyQuasiFinite`,
 `LocallyOfFiniteType`, `IsLocallyNoetherian`, `IsRegularLocalRing`, `IsIntegrallyClosed`,
 `ringKrullDim`, `Specializes`, `Algebra.ZariskisMainProperty.of_finiteType`,
