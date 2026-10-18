@@ -727,7 +727,7 @@ zero-variable polydisc, canonically the base spectrum: the empty product is `1`.
 example (S : Pair A) : spa (Pair.polydiscPlus S 0) ⊆ Pair.torusLocus S 0 := sorry
 
 /-- *torusLocus_vanishing_coordinate* (non-example): a point at which some coordinate vanishes, such
-as the origin `T ↦ 0`, is not in the torus. -/
+as the origin `T ↦ 0`, is not in the torus; `i : Fin n` witnesses positive dimension. -/
 example (S : Pair A) (n : ℕ) (v : ValuationSpectrum (restrictedMvPowerSeriesCompletion n A))
     (i : Fin n) (hi : v.toValuativeRel.vle (Pair.polydiscVar n A i) 0) :
     v ∉ Pair.torusLocus S n := sorry
@@ -1275,6 +1275,15 @@ example : MvPowerSeries.coeff 0
     ((tateSeries.X 2 ℚ_[2] 0 + tateSeries.X 2 ℚ_[2] 1 : tateSeries 2 ℚ_[2]) :
       MvPowerSeries (Fin 2) ℚ_[2]) = 0 := by
   simp [tateSeries.X, weightedX]
+
+/-- *perturbX_rectangular_identity* (boundary): the equation killing the first coordinate in
+`ℚ₂⟨X₁, X₂⟩ → ℚ₂⟨X₂⟩` has Jacobian row `(1, 0)`. Identity substitution fixes this rectangular
+matrix; a determinant formula applies only when the numbers of equations and variables agree. -/
+example :
+    (Matrix.of fun (_ : Fin 1) (j : Fin 2) ↦
+      MvPowerSeries.pderiv j (tateSeries.X 2 ℚ_[2] 0 : MvPowerSeries (Fin 2) ℚ_[2])) =
+    Matrix.of (fun (_ : Fin 1) (j : Fin 2) ↦
+      if j = 0 then (1 : MvPowerSeries (Fin 2) ℚ_[2]) else 0) := sorry
 
 /-- *tateSeries_X_not_isUnit* (non-example): over a nonzero ring `Tᵢ` is not a unit of `A⟨T⟩`,
 unlike on the torus. -/

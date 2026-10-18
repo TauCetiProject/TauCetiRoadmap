@@ -5552,15 +5552,27 @@ stabiliser of `C⁺ ∩ k(x)^sep`. Then `D_x` is the closed subgroup of automorp
 `D_x = G_x` exactly when `k(x)^+` is henselian, in particular at every rank-one point. For `X`
 affinoid and `U = lim U_i ∈ X_proét` quasi-compact, presented with quasi-compact `U_i ∈ X_ét`, put
 `Φ_x(U) := lim_i Hom_X(x̄, U_i)`, a profinite set on which `D_x` acts continuously by
-precomposition. Prove: (a) `Φ_x : X_proét^qc → D_x-pfsets` preserves finite limits and sends
-corrected coverings to corrected coverings of *profinite-g-sets-site* (a finite étale surjection
-has nonempty fibre over `x̄`; a tower pulled back to `x̄` splits by *geometric-point-etale-split*
-(ii) and *transfinite-tower-splitting*; an étale map with a point over the closed point of `x̄` has
-a section through it by *geometric-point-etale-split* (iii)), so it is a morphism of sites and
-defines a morphism of topoi `i_x : Sh(D_x-pfsets) → Sh(X_proét^qc) ≃ Sh(X_proét)` whose inverse
-image is the sheafification of `S ↦ colim_{S → Φ_x(U)} F(U)` (Mathlib
-`CategoryTheory.Functor.sheafPullback`); for general `X`, `i_x` is defined through an affinoid
-neighbourhood of `x`, independently of it up to canonical isomorphism; (b) when `k(x)^+` is
+precomposition. Prove: (a) `Φ_x : X_proét^qc → D_x-pfsets` sends corrected coverings to
+corrected coverings of *profinite-g-sets-site* (a finite étale surjection has nonempty fibre over
+`x̄`; a tower pulled back to `x̄` splits by *geometric-point-etale-split* (ii) and
+*transfinite-tower-splitting*; an étale map with a point over the closed point of `x̄` has a section
+through it by *geometric-point-etale-split* (iii)). Prove the intermediate
+*proetale-fibre-flat-basis*: for affinoid `X`, the full affinoid-presentation basis `B_X` of
+*proetale-coherence* is dense in `X_proét^qc`, contains the terminal object `X`, and is closed under
+finite limits computed in `X_proét`. Use A1.14's pullbacks over basis objects, with terminal object `X`,
+to obtain this closure. The restricted functor `Φ_x|B_X` preserves these limits: products are
+computed on finite-stage geometric fibres, and the internal equalizer construction of
+*pro-etale-finite-limits* cuts out the equalizer on fibres by its open-and-closed stage subsets.
+Consequently, for every profinite `D_x`-set `S`, the category of arrows `S → Φ_x(U)` with `U ∈ B_X`
+is cofiltered (Mathlib `CategoryTheory.flat_of_preservesFiniteLimits`); its opposite indexes
+a filtered colimit. Thus sheafified left Kan extension along `Φ_x|B_X` is left exact and gives a
+geometric morphism, transported through `Sh(B_X) ≃ Sh(X_proét^qc) ≃ Sh(X_proét)`.
+The inverse image is also the sheafification of `S ↦ colim_{S → Φ_x(U)} F(U)` over all qc `U`:
+a basis covering of `U` pulls back along `S → Φ_x(U)` to a corrected covering of `S`, so the two
+colimit presheaves have canonically isomorphic sheafifications. This constructs
+`i_x : Sh(D_x-pfsets) → Sh(X_proét^qc) ≃ Sh(X_proét)` ([PH] §3, proof of Prop. 3.13, p. 19;
+Stacks, Tags 00X5–00X6; Mathlib `CategoryTheory.Functor.sheafPullback`); for general `X`, `i_x` is
+defined through an affinoid neighbourhood of `x`, independently of it up to canonical isomorphism; (b) when `k(x)^+` is
 henselian, `D_x = G_x`, `D_x-pfsets ≃ Y_x,profét` (*profinite-etale-galois-sets*), maps
 `S(V) → Φ_x(U)` correspond to maps `V → U` over `Y_x → X` for `V ∈ Y_x,profét`, and so
 `i_x : Sh(Y_x,profét) → Sh(X_proét)` is the morphism of [PH] §3, Prop. 3.13, first sentence, p. 18,
@@ -5579,12 +5591,25 @@ its point, `Y_x = X`, `D_x = G_K`, `Φ_x` is the equivalence `X_proét^qc ≃ G_
 equivalence of topoi (check *fibreTopos_field*). *Needs:* *pro-etale-site-corrected*,
 *corrected-covers-pretopology*, *proetale-quasicompactness-detection*,
 *geometric-point-etale-split*, *etale-site-and-geometric-points*, *transfinite-tower-splitting*,
-*profinite-g-sets-site*, *profinite-etale-galois-sets*, *finite-etale-galois-category*;
+*profinite-g-sets-site*, *profinite-etale-galois-sets*, *finite-etale-galois-category*,
+*proetale-coherence*, *pro-etale-finite-limits*;
 AdicSpacesPartII layer R0; Mathlib `CategoryTheory.Functor.IsContinuous`,
+`CategoryTheory.flat_of_preservesFiniteLimits`, `CategoryTheory.Functor.IsDenseSubsite`,
 `CategoryTheory.Functor.sheafPullback`. README only (no Lean declaration).
 
 **Checks.**
 
+- *fibreTopos_basis_terminal* (degenerate) — for affinoid `X`, the constant presentation of `X`
+  belongs to `B_X` and `Φ_x(X)` is the one-point `D_x`-set, including when `x` has higher rank.
+- *fibreTopos_basis_equalizer* (computation) — over `Spa(ℚ₂, ℤ₂)`, the two inclusions of a sheet
+  into the split two-sheeted cover have empty equalizer in `B_X`; their fibres are the two
+  distinct maps from a singleton to the two-element set, also with empty equalizer.
+- *fibreTopos_qc_not_finite_limit_closed* (non-example) — let `D` be the closed unit disc over
+  `ℚ₂`, `O ⊂ D` the open unit disc, and `W = D ⨿_O D`, étale over `X = D`. The two chart maps
+  `D ⇉ W` have equalizer `O`, which is not quasi-compact, although `D` and `W` are. Thus the full
+  qc subcategory has no such equalizer, and `W` does not belong to the finite-limit-closed basis
+  `B_X`. The comparison through `B_X` supplies left exactness without requiring limits in that
+  full qc subcategory.
 - *fibreTopos_rank_two_not_equivariant* (non-example) — `X = Spa(ℚ_p⟨T⟩, ℤ_p⟨T⟩)`, `x` the rank-2
   specialisation of the Gauss point towards `|T| < 1` (check *strictLocalization_gauss_rank_two*),
   `L = k(x)^(α)` with `α² − α = T`, `x̄` supported at `x`. The rank-2 valuation of `k(x)^` has two
@@ -6876,13 +6901,14 @@ an `example`.
 
 - *relativeTorus_openRegion_unit_section* — the all-one section lands in the open;
   *relativeTorus_openRegion_zero_dimension* — with no coordinates the open is the whole ball;
-  *relativeTorus_openRegion_excludes_origin* — the zero section is disjoint from it.
+  *relativeTorus_openRegion_excludes_origin* — for `0 < n`, the zero section is disjoint from it.
 - *relativeTorus_zero_dimension* — the zero-dimensional projection is an isomorphism;
   *relativeTorus_empty_base* — the two-dimensional torus over the empty base is empty;
   *relativeTorus_coordinate_is_unit* — the restricted coordinate is invertible.
 - *relativeTorus_ι_unit_coordinate* — the included unit section evaluates to one;
   *relativeTorus_ι_zero_dimension* — the zero-dimensional inclusion is an isomorphism;
-  *relativeTorus_ι_excludes_origin* — over a nonempty base the origin does not factor through it.
+  *relativeTorus_ι_excludes_origin* — for `0 < n` over a nonempty base the origin does not factor
+  through it.
 - *relativeTorus_proj_unit_section* — the represented unit section projects to the identity;
   *relativeTorus_proj_zero_dimension* — with no coordinates the point map is bijective;
   *relativeTorus_proj_not_injective* — the one-dimensional torus over the two-adic field has
@@ -6892,14 +6918,16 @@ an `example`.
   *relativeTorus_homEquiv_distinguishes_coordinates* — swapping distinct units changes the map.
 - *relativeTorus_one_coordinate_one* — the identity section evaluates to one;
   *relativeTorus_one_zero_dimension* — in dimension zero it inverts the projection;
-  *relativeTorus_one_not_negative_unit* — over the two-adic field it differs from minus one.
+  *relativeTorus_one_not_negative_unit* — for `0 < n` over the two-adic field it differs from
+  the all-minus-one section.
 - *relativeTorus_inv_evaluates_inverse* — inversion evaluates to the reciprocal unit;
   *relativeTorus_inv_involution* — applying inversion twice gives the identity morphism;
-  *relativeTorus_inv_not_identity* — inversion itself is not the identity over the two-adic field.
+  *relativeTorus_inv_not_identity* — for `0 < n`, inversion is not the identity over the two-adic
+  field: a coordinate equal to `3` is sent to `1/3`.
 - *relativeTorus_mul_two_units* — multiplication evaluates to the product of the two units;
   *relativeTorus_mul_negative_square* — minus one squared is the identity section;
-  *relativeTorus_mul_not_first_projection* — multiplication on the two-adic torus is not its
-  first projection.
+  *relativeTorus_mul_not_first_projection* — for `0 < n`, multiplication on the two-adic torus
+  is not its first projection: multiply the all-one section by the all-minus-one section.
 
 **Checks.**
 
@@ -6907,7 +6935,9 @@ an `example`.
   `T¹ = Spa(K⟨T^{±1}⟩, K°⟨T^{±1}⟩)`, the unit circle `{|T| = 1}` of the closed disc, and
   a `(K, K°)`-point belongs to it exactly when its coordinate has norm `1`;
   extension-field points are the global `relativeTorus.homEquiv` target.
-- *relativeTorus_test_zero* (degenerate) — `T⁰_X = X`.
+- *relativeTorus_test_zero* (degenerate) — over `X = Spa(ℚ₂, ℤ₂)`, `T⁰_X = B⁰_X = X`: the origin
+  factors through the identity inclusion, the all-one and all-minus-one sections coincide,
+  inversion is the identity, and multiplication is the first projection under `X ×_X X ≅ X`.
 - *relativeTorus_test_inverse* (convention, negative control) — the inverse of the group object
   is computed on `(K, K°)`-points by `c ↦ c⁻¹`: `c = 1 ↦ 1`, with `1⁻¹ ∈ K°`; the point `T ↦ ϖ`
   of `B¹` is not on `T¹`, and `ϖ⁻¹ ∉ K°`, so inversion has no extension to `B¹`.
@@ -8700,12 +8730,15 @@ for any lift `ε ∈ ϖA₀⟨X⟩ⁿ` of `c' − π(X)`, is the continuous `A`-
 `ker π' = θ_ε^{−1}(ker π)`; (c) if `ker π` is the closure of `(F₁, …, F_r)` then `ker π'` is the
 closure of the inverse substitutes `(θ_ε^{−1}(F₁), …, θ_ε^{−1}(F_r))`, where
 `θ_ε^{−1}(F) = θ_{ε'}(F) = F(X + ε'(X))` (`perturbX_transport`, for any continuous automorphism
-with continuous inverse), and (`tateSeriesJacobian_perturbX`, the chain rule)
-`det(∂θ_{ε'}(F)/∂X) = θ_{ε'}(det(∂F/∂X))·det(1 + ∂ε'/∂X)`, the second factor of the form
-`1 + ϖe` with `e ∈ A₀⟨X⟩`, a unit congruent to `1` modulo `ϖ`; the forward substitutes
+with continuous inverse), and (`tateSeriesJacobian_perturbX`, the rectangular chain rule)
+`J(θ_{ε'}F) = θ_{ε'}(J F) · (I_n + J ε')`, where `J F = (∂Fᵢ/∂X_j)` has shape `r × n` and
+`J ε'` has shape `n × n`. When `r = n`, taking determinants gives
+`det J(θ_{ε'}F) = θ_{ε'}(det J F) · det(I_n + J ε')`; the second factor is of the form
+`1 + ϖe` with `e ∈ A₀⟨X⟩`, a unit congruent to `1` modulo `ϖ`. The forward substitutes
 `θ_ε(Fᵢ) = Fᵢ(X + ε(X))` generate the closure of `θ_ε(ker π)`, which is in general not `ker π'`.
 Hence a small perturbation of a strong generating system of a quotient pair is again one, and a
-presentation transports to `F ∘ θ_ε^{−1}` with Jacobian changed by a unit `≡ 1 mod ϖ`. The
+presentation transports to `F ∘ θ_ε^{−1}`; in the square case its Jacobian determinant is the inverse
+substitute of the original determinant times a unit `≡ 1 mod ϖ`. The
 noetherian analogue is point (3) of the proof of [H96] §1.7, Prop. 1.7.1, p. 83 (small
 perturbations of topological generators define automorphisms) without the noetherian hypothesis
 recorded there (the noetherian case is AdicSpacesPartII layer R0's *etale-local-structure*, and
@@ -8727,6 +8760,10 @@ through such comparison automorphisms. *Needs:* *restricted-power-series-newton*
   `Σ Xᵐ`, whose coefficients do not tend to `0`, while `X` itself (the image of `ϖ^{−1}X`) and
   every polynomial lie in the image (when formalised, the check, shared with *test_small_ball_not_product*,
   takes `A = ℚ_p`, `ϖ = p` and a continuous `φ` with `φ(X) = pX`).
+- *perturbX_rectangular_identity* (boundary) — over `A = ℚ₂`, the quotient
+  `π : A⟨X₁, X₂⟩ → A⟨X₂⟩` killing `X₁` has closed kernel `(X₁)`. With `ε = 0`, ideal transport
+  fixes this kernel and the chain rule reads `(1, 0) = (1, 0) · I₂`; this `1 × 2` Jacobian has
+  no determinant. The Lean Check computes the row of partial derivatives of `X₁`.
 - *test_transport_direction* — `A = ℚ₃`, `A₀ = ℤ₃`, `ϖ = 3`, `n = 1`, `π` evaluation at `0`,
   `ker π = (X)`, `c' = 3`, `ε = 3`, so `π'(f) = f(3)`: the inverse substitute
   `θ_ε^{−1}(X) = X − 3` generates `ker π' = (X − 3)`; the forward substitute `θ_ε(X) = X + 3` has
