@@ -153,6 +153,23 @@ holds, then `D(A)` holds. Proof: the Lefschetz decomposition restricts to `A`, t
 orthogonal, and the form is definite on each primitive piece. *Source:* Grothendieck 1969;
 Kleiman 1968.
 
+*Check (the positivity is an axiom, not a consequence).* `Hdg` cannot be derived from the
+multiplicative structure; it has to be imposed. The non-example is in the endomorphism form of
+the setting, the one behind Weil's proof of the Riemann hypothesis for curves through the
+positivity of the Rosati involution: a ring `E` (endomorphisms) with an involution `α ↦ α′`
+(Rosati, a `StarRing`), an additive group `N` of classes with an injective `ψ : N → E` onto
+`′`-fixed elements, a pullback `α*η` with `ψ(α*η) = α′ ψ(η) α`, a class `ξ` with `ψ(ξ) = 1`, an
+`r`-linear intersection form `I : N^r → ℤ` with `I(ξ^r) ≠ 0`, and a degree `ν` with
+`I(α*η₁, …, α*η_r) = ν(α) I(η₁, …, η_r)`. In this frame `n ↦ ν(α + n)` is the restriction to `ℤ`
+of a unique monic polynomial of degree `2r` over `ℚ`, which defines `tr α` as its coefficient of
+`n^{2r−1}`, and `tr(α) I(ξ^r) = r I(ξ^{r−1}, (α + 1)*ξ − α*ξ − ξ)` when `I` is
+symmetric; without symmetry this trace formula fails (`N = ℤ²`, `r = 2`, `I(x, y) = x₁y₂`).
+Rosati positivity `tr(α′α) > 0` for `α ≠ 0`, the analogue of `Hdg`, does **not** follow, even if
+`I(ξ^{r−1}, η) > 0` for every nonzero `η` in a positive cone: `E = ℍ[ℤ, 0, 0, 0]` (Mathlib's
+quaternion algebra with all structure constants `0`, so `i² = 0`) with its conjugation, `N = ℤ`,
+`r = 1`, `ξ = 1`, `α*x = (Re α)² x`, has `i ≠ 0` and `tr(i′i) = 0`. It does follow once
+`α ≠ 0 ⇒ α*ξ ≠ 0` is added. (Proved in the Lean appendix cited in Provenance.)
+
 **1.5 Examples.** `𝒜 = End_K H` satisfies `B` and `C`. For `K[ξ]/(ξ^{n+1})` with `n ≥ 1` and
 `𝒜 = F[L]`, both `B` and `C` fail: every element of `F[L]` is `a₀ + a₁L + ⋯` and does not lower
 degree, while `Λ` does, and `π_0` is not of this form. This is the phenomenon of folder 16's
@@ -230,4 +247,12 @@ de Hodge d'ordre 2 » (pp. 24–28), the two criteria of the odd-degree Check of
 (`DonneesHodge.lefschetz_iff`: `ξ : H¹ → H³` bijective iff `φ` nondegenerate, `ξ² : H⁰ → H⁴` always;
 `DonneesHodge.poincare_iff`: the pairings perfect iff `Q` nondegenerate) together with associativity
 of the product (`DonneesHodge.assoc_iff`, which needs a quadrilinear identity in `φ, ψ, Q`; Layer 0
-does not use the product); it is a cited source, not a specification.
+does not use the product). Folder 50 (dated by the inventory from 1965 on) states the axioms of
+an endomorphism frame of this kind; `lean/Grothendieck/Folder50.lean`
+([permalink](https://github.com/Commutator-IO/grothendieck-project/blob/ed6afbc8710735ed36bcaa0f4a323cb000257f96/lean/Grothendieck/Folder50.lean))
+proves the facts of the Check of 1.4: `charPoly_unique`, `natDegree_charPoly` (the monic
+polynomial of degree `2r`), `tr_mul_I` (the trace formula for symmetric `I`),
+`ModelA.not_trace_formula` (its failure without symmetry), `ModelB.tr_star_i_mul_i` and
+`ModelB.nef_pos` (Rosati positivity fails in `ℍ[ℤ, 0, 0, 0]`), and `tr_star_mul_self_pos` (it holds
+with `α ≠ 0 ⇒ α*ξ ≠ 0`); the two counterexamples are the transcription project's, not the
+folder's. These files are cited sources, not specifications.
