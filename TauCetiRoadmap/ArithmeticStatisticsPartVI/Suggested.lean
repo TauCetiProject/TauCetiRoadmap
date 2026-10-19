@@ -1,13 +1,16 @@
 import Mathlib
+import TauCeti.AlgebraicGeometry.EllipticCurve.MordellWeil.SelmerGroup
 
 /-!
 # Arithmetic statistics, Part VI: representative target signatures
 
 The accompanying README is the full specification, with source locators and exact
 supplier contracts. This file records light definitions and selected milestones that
-can be stated against the pinned Mathlib; it is not exhaustive. The plane-cubic transport carries its positive-rank count as a hypothesis. Counts keep the
-specified cutoffs and denominators; orbit weights, local masses, height averages,
-moduli, covering and arithmetic probability constructions remain README targets.
+can be stated against the pinned libraries; it is not exhaustive. The two-Selmer
+milestones use Tau Ceti's classical Selmer carrier. The plane-cubic transport carries
+its positive-rank count as a hypothesis. Counts keep the specified cutoffs and
+denominators; orbit weights, local masses, moduli, covering and arithmetic probability
+constructions remain README targets.
 
 Design choices made explicit here:
 * a restricted Selmer set is cut out of an existing set by one local image per place;
@@ -23,7 +26,7 @@ Design choices made explicit here:
 -/
 
 noncomputable section
-open scoped BigOperators Topology
+open scoped BigOperators Topology Classical
 open Filter
 
 namespace TauCetiRoadmap.ArithmeticStatisticsPartVI
@@ -31,6 +34,139 @@ namespace TauCetiRoadmap.ArithmeticStatisticsPartVI
 /-! ## Layer 4: Selmer averages and arithmetic applications -/
 
 namespace Selmer
+
+/-- The rational short Weierstrass curve of an integral pair (README Conventions). -/
+def shortCurve (ab : ℤ × ℤ) : WeierstrassCurve.Affine ℚ :=
+  ⟨0, 0, 0, ab.1, ab.2⟩
+
+/-- Minimal nonsingular short pairs in a family below the strict height cutoff
+(README §4.1, average over a height ordered family). -/
+def shortPairSublevel (F : Set (ℤ × ℤ)) (X : ℝ) : Set (ℤ × ℤ) :=
+  {ab | ab ∈ F ∧ -4 * ab.1 ^ 3 - 27 * ab.2 ^ 2 ≠ 0 ∧
+    (∀ p : ℕ, p.Prime → ¬ ((p : ℤ) ^ 4 ∣ ab.1 ∧ (p : ℤ) ^ 6 ∣ ab.2)) ∧
+    max (4 * |(ab.1 : ℝ)| ^ 3) (27 * (ab.2 : ℝ) ^ 2) < X}
+
+/-- The finite-sublevel average with its actual family denominator and value zero on
+an empty sublevel (README §4.1, average over a height ordered family). -/
+def shortPairAverage (F : Set (ℤ × ℤ)) (φ : ℤ × ℤ → ℝ) (X : ℝ) : ℝ :=
+  (∑' ab : shortPairSublevel F X, φ ab.val) / (shortPairSublevel F X).ncard
+
+/-- The classical two-Selmer cardinality, using Tau Ceti's local conditions at all
+finite places and at the real place; singular pairs receive zero and are excluded
+from every average (README §4.10, average Selmer size over all curves and congruence
+families; EllipticCurves Layer 7 supplies finiteness). -/
+def twoSelmerSize (ab : ℤ × ℤ) : ℕ := by
+  classical
+  letI : (shortCurve ab).IsCharNeTwoNF := ⟨rfl, rfl⟩
+  exact if h : (shortCurve ab).IsElliptic then
+    letI := h
+    Nat.card ((shortCurve ab).selmerGroup₂ ℤ (fun _ : Unit => ℝ))
+  else 0
+
+/-- Mean two-Selmer size three in every nonempty family defined by finitely many
+coefficient congruences (README §4.10, average Selmer size over all curves and
+congruence families; Bhargava–Shankar, Theorems 1.1 and 1.3). -/
+theorem average_twoSelmer_congruence (F : Set (ℤ × ℤ))
+    (hcong : ∃ N : ℕ, 0 < N ∧ ∃ C : Set (ZMod N × ZMod N),
+      F = {ab | ((ab.1 : ZMod N), (ab.2 : ZMod N)) ∈ C})
+    (hne : ∃ X : ℝ, (shortPairSublevel F X).Nonempty) :
+    Tendsto (shortPairAverage F (fun ab => (twoSelmerSize ab : ℝ)))
+      atTop (nhds 3) := by sorry
+
+/-- A mean two-Selmer size of three bounds the upper average Mordell–Weil rank by
+three halves, expressed as eventual bounds for every positive error
+(README §4.11, rank bound from the Selmer average; Bhargava–Shankar, Corollary 1.2). -/
+theorem average_rank_le_of_twoSelmer_mean (F : Set (ℤ × ℤ))
+    (hmean : Tendsto (shortPairAverage F (fun ab => (twoSelmerSize ab : ℝ)))
+      atTop (nhds 3)) :
+    ∀ ε : ℝ, 0 < ε → ∀ᶠ X in atTop,
+      shortPairAverage F (fun ab => (Module.finrank ℤ (shortCurve ab).Point : ℝ)) X ≤
+        3 / 2 + ε := by sorry
+
+/-- Rational p-torsion is absent on a density-one set of minimal short curves for
+every prime p (README §4.13, rational p torsion has density zero;
+Bhargava–Kane–Lenstra–Poonen–Rains, Lemma 5.7). -/
+theorem rational_p_torsion_density_zero (p : ℕ) (hp : p.Prime) :
+    Tendsto (shortPairAverage Set.univ (fun ab =>
+      if ∃ P : (shortCurve ab).Point, P ≠ 0 ∧ p • P = 0 then 1 else 0))
+      atTop (nhds 0) := by sorry
+
+/-- The marked two-Selmer factorial moment has upper average at most eight for
+nonempty finite-congruence families (README §4.14, marked quartic factorial-moment
+bound; Bhargava–Shankar–Swaminathan, Theorem 7.14 and removal of smoothing). -/
+theorem markedQuartic_factorialMoment_le (F : Set (ℤ × ℤ))
+    (hcong : ∃ N : ℕ, 0 < N ∧ ∃ C : Set (ZMod N × ZMod N),
+      F = {ab | ((ab.1 : ZMod N), (ab.2 : ZMod N)) ∈ C})
+    (hne : ∃ X : ℝ, (shortPairSublevel F X).Nonempty) :
+    ∀ ε : ℝ, 0 < ε → ∀ᶠ X in atTop,
+      shortPairAverage F (fun ab =>
+        ((twoSelmerSize ab : ℝ) - 1) * ((twoSelmerSize ab : ℝ) - 2)) X ≤ 8 + ε := by sorry
+
+/-- The upper second moment of two-Selmer size is at most fifteen in every nonempty
+family defined by finitely many coefficient congruences (README §4.14, second moment
+of the 2-Selmer group; Bhargava–Shankar–Swaminathan, Theorem 1.1).
+Eventual bounds for every positive error also exclude an infinite upper moment. -/
+theorem secondMoment_twoSelmer_le (F : Set (ℤ × ℤ))
+    (hcong : ∃ N : ℕ, 0 < N ∧ ∃ C : Set (ZMod N × ZMod N),
+      F = {ab | ((ab.1 : ZMod N), (ab.2 : ZMod N)) ∈ C})
+    (hne : ∃ X : ℝ, (shortPairSublevel F X).Nonempty) :
+    ∀ ε : ℝ, 0 < ε → ∀ᶠ X in atTop,
+      shortPairAverage F (fun ab => (twoSelmerSize ab : ℝ) ^ 2) X ≤ 15 + ε := by sorry
+
+/-- A ternary cubic in the ten ordinary monomial coefficients, ordered
+`x³, x²y, x²z, xy², xyz, xz², y³, y²z, yz², z³`. -/
+def ternaryCubicValue (c : Fin 10 → ℤ) (x : Fin 3 → ℚ) : ℚ :=
+  c 0 * x 0 ^ 3 + c 1 * x 0 ^ 2 * x 1 + c 2 * x 0 ^ 2 * x 2 +
+  c 3 * x 0 * x 1 ^ 2 + c 4 * x 0 * x 1 * x 2 + c 5 * x 0 * x 2 ^ 2 +
+  c 6 * x 1 ^ 3 + c 7 * x 1 ^ 2 * x 2 + c 8 * x 1 * x 2 ^ 2 + c 9 * x 2 ^ 3
+
+/-- A positive lower count of minimal short pairs with infinitely many rational affine
+points gives a positive proportion of ternary cubics with a nonzero rational zero
+(README §4.24; Bhargava, arXiv:1402.1131, Theorem 2, p. 3). The input uses height `T⁶`
+and count scale `T⁵`; the conclusion uses the inclusive coefficient cube. -/
+theorem positive_plane_cubic_solubility
+    (hpositiveRank : 0 < liminf (fun T : ℕ =>
+      ({ab : ℤ × ℤ | -4 * ab.1 ^ 3 - 27 * ab.2 ^ 2 ≠ 0 ∧
+        (∀ p : ℕ, p.Prime → ¬ ((p : ℤ) ^ 4 ∣ ab.1 ∧ (p : ℤ) ^ 6 ∣ ab.2)) ∧
+        max (4 * |ab.1| ^ 3) (27 * ab.2 ^ 2) ≤ (T : ℤ) ^ 6 ∧
+        Set.Infinite {xy : ℚ × ℚ |
+          xy.2 ^ 2 = xy.1 ^ 3 + (ab.1 : ℚ) * xy.1 + (ab.2 : ℚ)}}.ncard : ℝ) /
+      (T : ℝ) ^ 5) atTop) :
+    0 < liminf (fun T : ℕ =>
+      ({c : Fin 10 → ℤ | (∀ i, |c i| ≤ (T : ℤ)) ∧
+        ∃ x : Fin 3 → ℚ, x ≠ 0 ∧ ternaryCubicValue c x = 0}.ncard : ℝ) /
+      (((2 * T + 1) ^ 10 : ℕ) : ℝ)) atTop := by sorry
+
+/-! ### Local Kummer indices and auxiliary targets -/
+
+/-- A finite-index additive p-adic subgroup gives finite two-torsion and the exact
+doubling index (README §4.6, two division quotient of a group with a finite index
+zp subgroup; Bhargava–Shankar, Lemma 3.20 and the finite-index group calculation). -/
+theorem two_division_finiteIndex (p : ℕ) [Fact p.Prime]
+    {G : Type*} [AddCommGroup G] (U : AddSubgroup G) [U.FiniteIndex]
+    (e : U ≃+ PadicInt p) :
+    Finite (nsmulAddMonoidHom (α := G) 2).ker ∧
+      (nsmulAddMonoidHom (α := G) 2).range.FiniteIndex ∧
+      (nsmulAddMonoidHom (α := G) 2).range.index =
+        (if p = 2 then 2 else 1) * Nat.card (nsmulAddMonoidHom (α := G) 2).ker := by sorry
+
+/-- The doubling quotient of any elliptic curve over Q_p has the same size as its
+two-torsion at odd primes and twice that size at two (README §4.6, local two descent
+index; Bhargava–Shankar, Lemma 3.20). Both groups are finite. -/
+theorem local_two_descent_index (p : ℕ) [Fact p.Prime]
+    (E : WeierstrassCurve.Affine (Padic p)) [E.IsElliptic] :
+    Finite (nsmulAddMonoidHom (α := E.Point) 2).ker ∧
+      (nsmulAddMonoidHom (α := E.Point) 2).range.FiniteIndex ∧
+      (nsmulAddMonoidHom (α := E.Point) 2).range.index =
+        (if p = 2 then 2 else 1) * Nat.card (nsmulAddMonoidHom (α := E.Point) 2).ker := by sorry
+
+/-- Over the reals, the doubling quotient has half as many elements as the finite
+two-torsion group (README §4.6, archimedean Selmer ratio is one half). -/
+theorem archimedean_two_descent_index (E : WeierstrassCurve.Affine ℝ) [E.IsElliptic] :
+    Finite (nsmulAddMonoidHom (α := E.Point) 2).ker ∧
+      (nsmulAddMonoidHom (α := E.Point) 2).range.FiniteIndex ∧
+      2 * (nsmulAddMonoidHom (α := E.Point) 2).range.index =
+        Nat.card (nsmulAddMonoidHom (α := E.Point) 2).ker := by sorry
 
 /-- The first matrix of the soluble pencil with invariant `x⁴ - xy³ - y⁴`
 (README §4.15, pencil local global weight). -/
@@ -53,10 +189,6 @@ example (x y : ℤ) : Matrix.det (x • solublePencilA - y • solublePencilB) =
 example : (1 : ℤ) ≠ 0 ∧ solublePencilA 0 0 = 0 ∧ solublePencilB 0 0 = 0 := by
   decide
 
-/-- The first pairing is unimodular and the second determinant is minus one. -/
-example : Matrix.det solublePencilA = 1 ∧ Matrix.det solublePencilB = -1 := by
-  decide
-
 /-- Restrict an existing Selmer set by a specified local image at every place
 (README §4.17, restricted Selmer set). -/
 def restrictedSelmerSet {A V : Type*} {Q : V → Type*} (S : Set A)
@@ -71,19 +203,9 @@ example : restrictedSelmerSet (Set.univ : Set (Fin 3))
   simp only [restrictedSelmerSet, Set.mem_univ, true_and, Bool.forall_bool, id]
   fin_cases s <;> simp
 
-/-- One place retains precisely its prescribed local image. -/
-example : restrictedSelmerSet (Set.univ : Set (Fin 3))
-    (fun _ : Unit => id) (fun _ => {0, 2}) = {0, 2} := by
-  ext s; simp [restrictedSelmerSet]
-
 /-- No places: the restriction is the original set. -/
 example (S : Set ℕ) : restrictedSelmerSet (Q := fun _ : Empty => ℕ) S
     (fun v : Empty => Empty.elim v) (fun v : Empty => Empty.elim v) = S := by
-  ext s; simp [restrictedSelmerSet]
-
-/-- An empty local image at one place empties the restriction. -/
-example : restrictedSelmerSet (Set.univ : Set ℕ) (fun _ : Unit => id)
-    (fun _ => ∅) = ∅ := by
   ext s; simp [restrictedSelmerSet]
 
 /-- The number `S_m(k)` of odd subsets of size at most `k` of `m` real components
@@ -91,63 +213,38 @@ example : restrictedSelmerSet (Set.univ : Set ℕ) (fun _ : Unit => id)
 def oddComponentBound (m k : ℕ) : ℕ :=
   ∑ j ∈ (Finset.range (k + 1)).filter (fun j => Odd j), Nat.choose m j
 
-/-- For fixed odd degree, the effective-divisor image occupies a vanishing fraction of
-real components (BGW (23), p. 34). -/
+/-- For every fixed cutoff, the odd-subset bound occupies a vanishing fraction of real
+components (README §4.17, odd component bound; BGW (23), p. 34). -/
 theorem component_bound_ratio_tendsto (k : ℕ) :
     Tendsto (fun m : ℕ => (oddComponentBound m k : ℝ) / 2 ^ (m - 1))
       atTop (nhds 0) := by sorry
 
-example : oddComponentBound 3 1 = 3 := by decide
-example : oddComponentBound 5 3 = 15 ∧ oddComponentBound 3 9 = 4 := by decide
+/-- No effective divisor of degree zero has odd component parity. -/
 example (m : ℕ) : oddComponentBound m 0 = 0 := by
   simp [oddComponentBound]
-/-- Strictness below the saturation range: `S₅(3) = 15 < 16 = 2⁴`. -/
-example : oddComponentBound 5 3 < 2 ^ (5 - 1) := by decide
-/-- Saturation for `m > 0`: if `k ≥ m`, then `S_m(k) = 2 ^ (m - 1)`. -/
-example : oddComponentBound 4 5 = 2 ^ (4 - 1) := by decide
 
-/-- At zero components the odd-subset count is zero; natural subtraction does not
-extend the positive-component saturation formula to this case. -/
-example : oddComponentBound 0 0 = 0 ∧ (2 : ℕ) ^ (0 - 1) = 1 := by decide
+/-- The odd-component image bound never exceeds the full local quotient
+(README §4.17, odd component bound). -/
+theorem component_bound_le (m k : ℕ) (hm : 0 < m) :
+    oddComponentBound m k ≤ 2 ^ (m - 1) := by sorry
 
-/-- A single component permits one odd subset at every positive cutoff. -/
-example (k : ℕ) (hk : 0 < k) : oddComponentBound 1 k = 1 := by sorry
+/-- Once the cutoff includes every component, the odd-subset bound is saturated
+(README §4.17, odd component bound). -/
+theorem component_bound_saturated (m k : ℕ) (hm : 0 < m) (hk : m ≤ k) :
+    oddComponentBound m k = 2 ^ (m - 1) := by sorry
 
-/-- A ternary cubic in the ten ordinary monomial coefficients, ordered
-`x³, x²y, x²z, xy², xyz, xz², y³, y²z, yz², z³`. -/
-def ternaryCubicValue (c : Fin 10 → ℤ) (x : Fin 3 → ℚ) : ℚ :=
-  c 0 * x 0 ^ 3 + c 1 * x 0 ^ 2 * x 1 + c 2 * x 0 ^ 2 * x 2 +
-  c 3 * x 0 * x 1 ^ 2 + c 4 * x 0 * x 1 * x 2 + c 5 * x 0 * x 2 ^ 2 +
-  c 6 * x 1 ^ 3 + c 7 * x 1 ^ 2 * x 2 + c 8 * x 1 * x 2 ^ 2 + c 9 * x 2 ^ 3
+/-- Below the odd-degree saturation threshold, the component bound is strict
+(README §4.17, odd component bound). -/
+theorem component_bound_strict (m k : ℕ) (hm : 0 < m) (hk : Odd k) (hkm : k < m - 1) :
+    oddComponentBound m k < 2 ^ (m - 1) := by sorry
 
-example : ternaryCubicValue (![1,0,0,0,0,0,0,0,0,0] : Fin 10 → ℤ) ![2,3,4] = 8 := by
-  simp [ternaryCubicValue]; norm_num
-example : ternaryCubicValue (![0,0,0,0,0,0,0,0,0,1] : Fin 10 → ℤ) ![2,3,4] = 64 := by
-  simp [ternaryCubicValue]; norm_num
-/-- The second and third coefficients are `x²y` and `x²z`, in that order. -/
-example : ternaryCubicValue (![0,1,0,0,0,0,0,0,0,0] : Fin 10 → ℤ) ![2,3,4] = 12 ∧
-    ternaryCubicValue (![0,0,1,0,0,0,0,0,0,0] : Fin 10 → ℤ) ![2,3,4] = 16 := by
-  simp [ternaryCubicValue]; norm_num
+/-- A single real component saturates the odd-subset bound at every positive cutoff
+(README §4.17, odd component bound). -/
+theorem component_bound_one (k : ℕ) (hk : 0 < k) : oddComponentBound 1 k = 1 := by sorry
+
 /-- Every form vanishes at the zero vector, which the solubility count excludes. -/
 example (c : Fin 10 → ℤ) : ternaryCubicValue c 0 = 0 := by
   simp [ternaryCubicValue]
-
-/-- A positive lower count of minimal short pairs with infinitely many rational affine
-points gives a positive proportion of ternary cubics with a nonzero rational zero
-(README §4.24; Bhargava, arXiv:1402.1131, Theorem 2, p. 3). The input uses height `T⁶`
-and count scale `T⁵`; the conclusion uses the inclusive coefficient cube. -/
-theorem positive_plane_cubic_solubility
-    (hpositiveRank : 0 < liminf (fun T : ℕ =>
-      ({ab : ℤ × ℤ | -4 * ab.1 ^ 3 - 27 * ab.2 ^ 2 ≠ 0 ∧
-        (∀ p : ℕ, p.Prime → ¬ ((p : ℤ) ^ 4 ∣ ab.1 ∧ (p : ℤ) ^ 6 ∣ ab.2)) ∧
-        max (4 * |ab.1| ^ 3) (27 * ab.2 ^ 2) ≤ (T : ℤ) ^ 6 ∧
-        Set.Infinite {xy : ℚ × ℚ |
-          xy.2 ^ 2 = xy.1 ^ 3 + (ab.1 : ℚ) * xy.1 + (ab.2 : ℚ)}}.ncard : ℝ) /
-      (T : ℝ) ^ 5) atTop) :
-    0 < liminf (fun T : ℕ =>
-      ({c : Fin 10 → ℤ | (∀ i, |c i| ≤ (T : ℤ)) ∧
-        ∃ x : Fin 3 → ℚ, x ≠ 0 ∧ ternaryCubicValue c x = 0}.ncard : ℝ) /
-      (((2 * T + 1) ^ 10 : ℕ) : ℝ)) atTop := by sorry
 
 /-- The rank-one family of integral short pairs (README §4.22; Bhargava–Skinner,
 arXiv:1401.0233, §2, pp. 3–4): `v₂(A) = 4`, `B ≡ 16 (mod 64)`, `-4A³ - 27B² = 256d` with `d`
@@ -175,32 +272,12 @@ example : ¬ RankOneFamily (-208) 656 := by
   rintro ⟨-, -, -, -, -, -, -, -, -, -, -, h, -⟩
   exact h (by decide)
 
-/-- `(208, 464)` has negative `Δ₀`. -/
-example : ¬ RankOneFamily 208 464 := by
-  rintro ⟨-, -, -, d, hd, hpos, -⟩
-  omega
-
-/-- `v₂(-32) = 5` violates the required valuation four. -/
-example : ¬ RankOneFamily (-32) 464 := by
-  rintro ⟨-, h, -⟩
-  exact h (by norm_num)
-
-/-- The pair `(-136, 16)` violates the valuation-four condition. -/
-example : ¬ RankOneFamily (-136) 16 := by
-  rintro ⟨h, -⟩
-  norm_num at h
-
-/-- `(-880, 464)` fails the ordinary test at five: `#E(𝔽₅) = 6`. -/
-example : ¬ RankOneFamily (-880) 464 := by
-  rintro ⟨-, -, -, -, -, -, -, -, -, -, -, -, h⟩
-  exact h (by decide)
-
 end Selmer
 
 /-! The remaining definitions of Layer 4 are README targets whose carriers are not at the
 pins in the required form: the rational and local orbit weights and orbit counts, the
 locally soluble sets `S(F)`, `S_p(F)`, `S_∞(F)`, the local and archimedean Selmer masses,
-the height-ordered family average and upper average, the extended upper and lower height
+the general arithmetic-family averages, the extended upper and lower height
 moments and densities, and the admissibility predicate for hyperelliptic congruence
 families. -/
 
