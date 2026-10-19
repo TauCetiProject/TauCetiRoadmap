@@ -76,7 +76,7 @@ Construct §5.4's cohomological-induction module and unitarity argument before t
 
 Construct the topology-free prefix of §2.1 independently of Layers 0–1 and before any analytic compact-finiteness theorem. Next prove its Banach density specialization from compact Peter–Weyl and the normed integral; then construct the locally convex integral and extension. The character foundations supplied by ArithmeticGaloisRepresentations §2.7 precede §4.3's compact-quotient Fourier comparison, which precedes the cuspidal GLₙ Whittaker argument.
 
-The arithmetic objects imported above can be used from the beginning. A dependence on their foundational layer does not require the later automorphic comparisons of ArithmeticLocallySymmetricSpaces; those comparisons consume the real and global representation theory developed here. The Lean companion states the light definitions and calculations expressible on existing library carriers. The analytic spaces and representation categories specified in the prose are mathematical construction targets.
+The arithmetic objects imported above can be used from the beginning. A dependence on their foundational layer does not require the later automorphic comparisons of ArithmeticLocallySymmetricSpaces; those comparisons consume the real and global representation theory developed here. The Lean companion states milestone theorems and light definitions expressible on existing library carriers, with proved examples distinguishing their hypotheses. The analytic spaces and representation categories specified in the prose are mathematical construction targets.
 
 ## Layer 0: Smooth adelic functions, growth and convolution
 
@@ -1110,7 +1110,7 @@ For weighted Hecke operators, require the coefficient action to extend to a sele
 
 Separately define Gross's rational coefficient model for an actual algebraic representation `ρ:G→GL(V)` over `E`:
 `F(γg)=ρ(γ)F(g)`, `F(gu)=F(g)`.
-After extension to the selected p-adic coefficient field, the equivalence to the previous model is `f(g)=ρ(g_p)⁻¹F(g)`, with inverse `F(g)=ρ(g_p)f(g)`. It applies to algebraic coefficients whose action extends to these points. It does not identify an arbitrary level representation twisted by an inertial type with a rational algebraic representation. The light predicate `IsAlgebraicModularForm` in the Lean companion is this rational covariance model over an arbitrary commutative scalar ring, before arithmetic finiteness is asserted.
+After extension to the selected p-adic coefficient field, the equivalence to the previous model is `f(g)=ρ(g_p)⁻¹F(g)`, with inverse `F(g)=ρ(g_p)f(g)`. It applies to algebraic coefficients whose action extends to these points. It does not identify an arbitrary level representation twisted by an inertial type with a rational algebraic representation. The light predicate `IsAlgebraicModularForm` in the Lean companion is this rational covariance model over an arbitrary commutative scalar ring, before arithmetic finiteness is asserted. Its comparison `algebraicModularForm_iff_levelCovariant` states the change of values on abstract groups over any commutative scalar ring when the rational coefficient representation is the restriction of a representation of the finite-point group. The inverse change is `F(g)=ρ(g)f(g)`; no finiteness or smallness hypothesis enters this algebraic comparison. (BCGP25, §5.7.2, pp.130–131, for the inverse level covariance; the two identities follow from the representation action law.)
 
 **Checks.**
 

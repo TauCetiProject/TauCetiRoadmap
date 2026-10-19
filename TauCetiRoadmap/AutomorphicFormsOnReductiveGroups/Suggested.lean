@@ -3,11 +3,12 @@ import Mathlib
 /-!
 # Automorphic forms on reductive groups: representative target signatures
 
-The mathematical roadmap is `README.md`. This file records suggested forms for the light definitions and the
-statements that can already be made against the pinned Mathlib and Tau Ceti APIs. It is not an
-exhaustive list of the targets of any layer: the adelic function spaces, the real representation
-theory, the global Hecke module, the coherent cohomology and the algebraic-modular-form carriers
-are specified in the README, and the automorphic-form carrier, constant terms and cusp forms are
+**This file is not the roadmap and is not exhaustive.** The definitive document is `README.md`.
+The statements here suggest Lean forms for targets on pinned Mathlib and Tau Ceti carriers;
+discharging them finishes neither a layer nor the roadmap. `sorry` marks theorem targets.
+Light definitions and proved examples fix conventions on those carriers. The adelic function spaces,
+real representation theory, global Hecke module, coherent cohomology and algebraic-modular-form
+carriers are specified in the README, and the automorphic-form carrier, constant terms and cusp forms are
 those of `ArithmeticLocallySymmetricSpaces` ALS.F.6.
 
 Design choices.
@@ -56,7 +57,8 @@ open scoped Classical
 /-! ## Milestone: compact-finite density -/
 
 /-- Finite-orbit-span vectors are dense in a strongly continuous complex Banach representation
-of a compact Hausdorff group. Continuity in operator norm is not required. -/
+of a compact Hausdorff group (README §2.1, `gFiniteSubmodule_dense`). Continuity in operator
+norm is not required. -/
 theorem gFiniteSubmodule_dense {K E : Type*} [Group K] [TopologicalSpace K]
     [IsTopologicalGroup K] [CompactSpace K] [T2Space K]
     [NormedAddCommGroup E] [NormedSpace ℂ E] [CompleteSpace E]
@@ -144,16 +146,6 @@ theorem levelInvariant_rightTranslate (J : Subgroup G) {f : G → ℂ}
     (hf : IsLevelInvariant J f) (y : G) :
     IsLevelInvariant (J.map (MulAut.conj y).toMonoidHom) (rightTranslate y f) := sorry
 
-/-- In `S₃` the two conjugation directions give different translated levels.
-Here `f(g) = g(2)`, `J` fixes `2`, `y = (0 1 2)` and `j = (0 1)`. -/
-example :
-    let y : Equiv.Perm (Fin 3) := Equiv.swap 0 1 * Equiv.swap 1 2
-    let j : Equiv.Perm (Fin 3) := Equiv.swap 0 1
-    let f : Equiv.Perm (Fin 3) → ℂ := fun g => ((g 2).val : ℂ)
-    rightTranslate y f (y * j * y⁻¹) = rightTranslate y f 1 ∧
-      rightTranslate y f (y⁻¹ * j * y) ≠ rightTranslate y f 1 := by
-  norm_num [rightTranslate, Equiv.Perm.mul_apply, Equiv.swap_apply_def, Fin.ext_iff]
-
 /-- Full left invariance forces constancy. -/
 example {f : G → ℂ} (hf : IsLeftInvariant ⊤ f) : f = fun _ => f 1 := by
   funext g
@@ -171,11 +163,6 @@ example (f : G → ℂ) : IsLevelInvariant ⊥ f := fun u hu g => by
 example {f : G → ℂ} (hf : IsLevelInvariant ⊤ f) : f = fun _ => f 1 := by
   funext g
   simpa using hf g (Subgroup.mem_top g) 1
-
-/-- The identity parameter acts identically. -/
-example (f : G → ℂ) : rightTranslate 1 f = f := by
-  funext g
-  simp [rightTranslate]
 
 end Equivariance
 
@@ -253,14 +240,6 @@ theorem kFinite_subsingleton [Subsingleton K] (ρ : Representation ℂ K V) (v :
 /-- An infinite cyclic regular orbit spans infinitely many independent point masses. -/
 theorem not_kFinite_regular_int : ¬IsKFinite (Representation.leftRegular ℂ (Multiplicative ℤ))
     (MonoidAlgebra.single 1 1) := sorry
-
-/-- Restricting a native continuous representation gives exactly the subgroup orbit span. -/
-example {G E : Type*} [Group G] [NormedAddCommGroup E] [NormedSpace ℂ E]
-    (π : ContRepresentation ℂ G E) (K : Subgroup G) (v : E) :
-    IsKFinite (π.restrict K.subtype).toRepresentation v ↔
-      FiniteDimensional ℂ (Submodule.span ℂ (Set.range fun k : K => π (k : G) v)) :=
-  isGFinite_toRepresentation_iff (π.restrict K.subtype) v
-
 
 end CompactRestriction
 
@@ -347,49 +326,9 @@ def IsCohomologicalWeightZeroGL {n : ℕ} (μ : Fin n → ℂ) : Prop :=
   ∃ w : Equiv.Perm (Fin n), ∀ i,
     μ i = ((n : ℂ) - 1) / 2 - ((w i).val : ℂ)
 
-/-- The unitary discrete series `D₂(0)` has the trivial infinitesimal character. -/
-example : IsCohomologicalWeightZeroGL ![(1 : ℂ) / 2, -1 / 2] := by
-  refine ⟨Equiv.refl _, ?_⟩
-  intro i
-  fin_cases i <;> norm_num
-
-/-- The unitary discrete series `D₁₂(0)` has raw purity weight zero but a different
-infinitesimal character, with Casimir scalar `30`. -/
-example : ¬IsCohomologicalWeightZeroGL ![(11 : ℂ) / 2, -11 / 2] := by
-  rintro ⟨w, hw⟩
-  have h := hw 0
-  have hlt := (w 0).isLt
-  interval_cases hi : (w 0).val <;> norm_num [hi] at h
-
 /-- C-algebraicity is L-algebraicity after the norm twist `|det|^{(n-1)/2}`. -/
 theorem isCAlgebraicGL_iff_twist {n : ℕ} (μ : Fin n → ℂ) :
     IsCAlgebraicGL μ ↔ IsLAlgebraicGL (fun i => μ i + ((n : ℂ) - 1) / 2) := sorry
-
-/-- The trivial representation of `GL₂(ℝ)`, with parameter `(1/2, -1/2)`, is C-algebraic. -/
-example : IsCAlgebraicGL ![(1 : ℂ) / 2, -1 / 2] := by
-  intro i
-  fin_cases i
-  · exact ⟨0, by norm_num⟩
-  · exact ⟨-1, by norm_num⟩
-
-/-- The trivial representation of `GL₂(ℝ)` is not L-algebraic. -/
-example : ¬IsLAlgebraicGL ![(1 : ℂ) / 2, -1 / 2] := by
-  intro h
-  obtain ⟨m, hm⟩ := h 0
-  have h2 : ((1 : ℝ) / 2) = m := by
-    have := congrArg Complex.re hm
-    simpa using this
-  have h3 : (2 * m : ℤ) = 1 := by
-    have : (2 : ℝ) * m = 1 := by linarith
-    exact_mod_cast this
-  omega
-
-/-- The half determinant twist makes the trivial parameter integral: `(1, 0)`. -/
-example : IsLAlgebraicGL ![(1 : ℂ), 0] := by
-  intro i
-  fin_cases i
-  · exact ⟨1, by norm_num⟩
-  · exact ⟨0, by norm_num⟩
 
 end Algebraicity
 
@@ -407,19 +346,6 @@ def q0ResPGL (r₁ r₂ n : ℕ) : ℕ := (symDimResPGL r₁ r₂ n - ell0ResPGL
 /-- The defining relation `2 q₀ + ℓ₀ = dim` holds exactly, without rounding. -/
 theorem two_q0_add_ell0 (r₁ r₂ n : ℕ) :
     2 * q0ResPGL r₁ r₂ n + ell0ResPGL r₁ r₂ n = symDimResPGL r₁ r₂ n := sorry
-
-/-- Rank one gives the trivial group; rank zero is only the numerical zero extension. -/
-example (r₁ r₂ : ℕ) :
-    ell0ResPGL r₁ r₂ 0 = 0 ∧ symDimResPGL r₁ r₂ 0 = 0 ∧
-      q0ResPGL r₁ r₂ 0 = 0 ∧ ell0ResPGL r₁ r₂ 1 = 0 ∧
-      symDimResPGL r₁ r₂ 1 = 0 ∧ q0ResPGL r₁ r₂ 1 = 0 := by
-  simp [ell0ResPGL, symDimResPGL, q0ResPGL]
-
-/-- Real and imaginary-quadratic `PGL₂` have different cohomological ranges;
-real `PGL₃` also has positive defect. -/
-example : (q0ResPGL 1 0 2, ell0ResPGL 1 0 2) = (1, 0) ∧
-    (q0ResPGL 0 1 2, ell0ResPGL 0 1 2) = (1, 1) ∧
-    symDimResPGL 1 0 3 = 5 ∧ (q0ResPGL 1 0 3, ell0ResPGL 1 0 3) = (2, 1) := by decide
 
 end Defect
 
@@ -476,17 +402,6 @@ example {T H Λ : Type*} [CommRing T] [AddCommGroup H] [Module T H]
     IsEmpty (TorsionEigenSystem T H Λ) :=
   ⟨fun e => e.ne_zero (Subsingleton.elim _ _)⟩
 
-/-- A genuine residual scalar eigensystem exists over the field with two elements. -/
-example :
-    letI : CommRing (ZMod 2) := ZMod.commRing 2
-    letI : AddCommGroup (ZMod 2) := (ZMod.commRing 2).toAddCommGroup
-    letI : Module (ZMod 2) (ZMod 2) := Semiring.toModule
-    Nonempty (TorsionEigenSystem (ZMod 2) (ZMod 2) (ZMod 2)) :=
-  ⟨{ sys := RingHom.id _
-     c := 1
-     ne_zero := by decide
-     eigen := fun _ => rfl }⟩
-
 /-- Evaluation at `1` and `-1` gives distinct systems on the same class `4` modulo eight,
 with the polynomial action fixed by evaluation at `1`. -/
 theorem TorsionEigenSystem.same_class_distinct_characters :
@@ -513,22 +428,6 @@ def harishChandraParameter (a b c_T : ℤ) : ℤ × ℤ × ℤ :=
 /-- Contragredience reverses and negates the semisimple coordinates and negates the centre. -/
 def dualParameter (a b c_T : ℤ) : ℤ × ℤ × ℤ := (2 - b, 1 - a, a + b + 2 * c_T)
 
-/-- A nonzero central weight tests the balanced tensor and the sign of the dual. -/
-example : coherentCoefficient 3 2 0 = (-2, -3, 5) ∧
-    harishChandraParameter 3 2 0 = (2, 0, -5) ∧
-    dualParameter 3 2 0 = (0, -2, 5) ∧
-    (coherentCoefficient 3 2 0).2.2 + (harishChandraParameter 3 2 0).2.2 = 0 := by
-  norm_num [coherentCoefficient, harishChandraParameter, dualParameter]
-
-/-- A central twist preserves the semisimple parameter and central cancellation. -/
-example : coherentCoefficient 3 2 1 = (-2, -3, 7) ∧
-    harishChandraParameter 3 2 1 = (2, 0, -7) ∧
-    dualParameter 3 2 1 = (0, -2, 7) ∧
-    (harishChandraParameter 3 2 1).1 = (harishChandraParameter 3 2 0).1 ∧
-    (harishChandraParameter 3 2 1).2.1 = (harishChandraParameter 3 2 0).2.1 ∧
-    (coherentCoefficient 3 2 1).2.2 + (harishChandraParameter 3 2 1).2.2 = 0 := by
-  norm_num [coherentCoefficient, harishChandraParameter, dualParameter]
-
 /-- Positive `C₂` coroot evaluations at the semisimple parameter `(x, y)`.
 The long roots `2e₁, 2e₂` have coroot evaluations `x, y`, without a factor two. -/
 def corootValues (x y : ℝ) : Fin 4 → ℝ := ![x - y, x, x + y, y]
@@ -554,15 +453,6 @@ theorem weight_gaps_of_separated (R : ℝ) (hR : 2 < R) (k l : ℤ)
     (hsep : Separated R (hcParameter k l).1 (hcParameter k l).2) :
     R - 1 < (k : ℝ) - l ∧ (l = 2 ∨ R < (l : ℝ)) := sorry
 
-/-- The weight-two wall remains eligible at large `k`: evaluations `11, 11, 11, 0`. -/
-example : Separated 5 (hcParameter 12 2).1 (hcParameter 12 2).2 := by
-  norm_num [Separated, corootValues, hcParameter, Fin.forall_fin_succ]
-
-/-- The compact wall stays close even when both coordinates are large. -/
-example : ¬Separated 5 (hcParameter 12 12).1 (hcParameter 12 12).2 := by
-  norm_num [Separated, corootValues, hcParameter, Fin.forall_fin_succ]
-
-
 end CoherentWeights
 
 /-! ## Layer 7: Classical and definite-group dictionaries -/
@@ -577,6 +467,16 @@ when the algebraic coefficient action extends to the selected finite points. -/
 def IsAlgebraicModularForm (ι : Γ →* G) (σ : Representation A Γ M)
     (J : Subgroup G) (f : G → M) : Prop :=
   (∀ γ g, f (ι γ * g) = σ γ (f g)) ∧ ∀ g, ∀ u ∈ J, f (g * u) = f g
+
+/-- README §7.4, `algebraicModularForm_iff_levelCovariant`: an extending coefficient
+representation identifies rational covariance with rational invariance and inverse level
+covariance by the change of values `f(g) = ρ(g⁻¹) F(g)`. -/
+theorem algebraicModularForm_iff_levelCovariant (ι : Γ →* G) (ρ : Representation A G M)
+    (J : Subgroup G) (F : G → M) :
+    IsAlgebraicModularForm ι (ρ.comp ι) J F ↔
+      let f : G → M := fun g => ρ g⁻¹ (F g)
+      (∀ γ g, f (ι γ * g) = f g) ∧
+        ∀ g, ∀ u ∈ J, f (g * u) = ρ u⁻¹ (f g) := sorry
 
 /-- Values at double-coset representatives determine a form in Gross's rational covariance model.
 The level-action model uses the common abstract evaluation via coefficient transport;
