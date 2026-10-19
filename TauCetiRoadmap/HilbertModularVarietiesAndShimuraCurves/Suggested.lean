@@ -17,8 +17,9 @@ Design choices made explicit here:
   specialized to Tau Ceti's totally positive integer units;
 * the full-level action is `α ↦ α ∘ adj(γ)`, a left action because adjugation reverses products;
 * the Taylor–Wiles diamond factor is the quotient by `N`-torsion, not by `N`-th powers;
-* the residual Hecke ideal is the kernel of an explicit evaluation, and descent to an acting quotient
-  is a theorem under an explicit relation hypothesis.
+* the residual Hecke ideal specializes the shared universal anemic Hecke presentation of
+  AutomorphicFormsOnReductiveGroups §§5.8, 7.3; descent to an acting quotient is a theorem
+  under an explicit relation hypothesis.
 
 The Hilbert and quaternionic moduli spaces, their integral models, formal Drinfeld spaces,
 adelic quaternionic form spaces and their étale cohomological Galois realizations need carriers
@@ -419,15 +420,17 @@ theorem twDiagonalTorsion_isSquare (a b : ℕ) (h : b < a) :
 
 section ResidualKernel
 
+-- V is the good-place index {v ∉ S} in the shared anemic Hecke presentation (R18.3.15).
 variable {V O k : Type*} [CommRing O] [Field k]
 
-/-- Evaluation of the abstract polynomial Hecke algebra at given traces and determinants;
-`T_v ↦ tr v` and `S_v ↦ q_v⁻¹ det v`. -/
+/-- Residual evaluation on the shared universal anemic Hecke presentation, with good-place
+index `V`: `T_v ↦ tr v` and `S_v ↦ q_v⁻¹ det v` in arithmetic Frobenius normalization. -/
 noncomputable def residualEvaluation (red : O →+* k) (q : V → kˣ) (tr det : V → k) :
     MvPolynomial (V × Fin 2) O →+* k :=
   MvPolynomial.eval₂Hom red (fun i => if i.2 = 0 then tr i.1 else ((q i.1)⁻¹ : kˣ) * det i.1)
 
-/-- The residual Hecke ideal: the kernel of the evaluation. -/
+/-- The residual eigen-ideal in the shared polynomial presentation, before descent to the
+faithful Hecke image of a quaternionic realization (R18.3.15). -/
 noncomputable def ResidualHeckeIdeal (red : O →+* k) (q : V → kˣ) (tr det : V → k) :
     Ideal (MvPolynomial (V × Fin 2) O) :=
   RingHom.ker (residualEvaluation red q tr det)
@@ -437,7 +440,8 @@ theorem ResidualHeckeIdeal.maximal (red : O →+* k) (hred : Function.Surjective
     (q : V → kˣ) (tr det : V → k) : (ResidualHeckeIdeal red q tr det).IsMaximal := by
   sorry
 
-/-- Descent to an acting quotient exists exactly under the explicit relation hypothesis. -/
+/-- The residual eigensystem descends uniquely to an acting quotient of the shared presentation
+when its relations lie in the residual eigen-ideal (R18.3.15). -/
 theorem ResidualHeckeIdeal.actingFactor (red : O →+* k) (q : V → kˣ) (tr det : V → k)
     (I : Ideal (MvPolynomial (V × Fin 2) O)) (hI : I ≤ ResidualHeckeIdeal red q tr det) :
     ∃! f : (MvPolynomial (V × Fin 2) O ⧸ I) →+* k,
@@ -631,8 +635,9 @@ end Saturation
 The remaining targets need carriers that the pins do not provide: the Hilbert and quaternionic
 moduli problems and their integral models (H1–H2, R18.1–R18.2), Hecke correspondences on them (H3),
 the full and integral levels as group schemes (H4), cusps, Hodge lines and weights (H5), the paired
-torsion twists (H6), the analytic and formal Drinfeld spaces and their quotients (R18.5), adelic
-quaternionic forms and the quaternionic transfer (R18.3), and the étale coefficient cohomology of
+torsion twists (H6), the analytic and formal Drinfeld spaces and their quotients (R18.5),
+the definite class-set graph `DefiniteClassSetGraph` (R18.5.17a), the two-place torsion realization
+`ShimuraJacobianTorsionDatum` (R18.5.18), adelic quaternionic forms and the quaternionic transfer (R18.3), and the étale coefficient cohomology of
 the curves with the Ihara lemma (R18.4). They are stated in `README.md` with their intended names. Further README-only APIs are
 `polarizationLattice_rescale` (§H0.3), `mem_rapoportLocus` (§H2.5), the scalar-action checks
 `diagonal_Q`, `diagonal_square`, `diagonal_notLinear` (§H3.3),
