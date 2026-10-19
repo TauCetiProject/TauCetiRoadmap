@@ -118,18 +118,11 @@ variable {C D C' D' : Type u}
     (adj : L ⊣ R) (adj' : L' ⊣ R') (cC : C ⥤ C') (cD : D ⥤ D')
     (comm : L ⋙ cD ≅ cC ⋙ L')
 
-/-- The cutoff comparison is the mate of the pullback square, with no invertibility
-assumption. Its components are adjoint to the extended counit (C2.9). -/
-def vPush_cutoffComparison : R ⋙ cC ⟶ cD ⋙ R' where
-  app A := adj'.homEquiv (cC.obj (R.obj A)) (cD.obj A)
-    ((comm.app (R.obj A)).inv ≫ cD.map (adj.counit.app A))
-  naturality := by sorry
-
 /-- For fully faithful cutoff extensions, the ambient comparison is invertible
 exactly when the larger right-adjoint value lies in the smaller essential image (C2.9). -/
-theorem vPush_cutoffComparison_isIso [cC.Full] [cC.Faithful] [cD.Full] [cD.Faithful]
+theorem mate_isIso_iff_essImage [cC.Full] [cC.Faithful] [cD.Full] [cD.Faithful]
     (A : D) :
-    IsIso ((vPush_cutoffComparison adj adj' cC cD comm).app A) ↔
+    IsIso ((mateEquiv adj adj' (TwoSquare.mk _ _ _ _ comm.inv)).natTrans.app A) ↔
       cC.essImage (R'.obj (cD.obj A)) := by sorry
 
 end CutoffPushforward
@@ -150,9 +143,13 @@ theorem push_coreflectionIso
 section OpenExtension
 variable (Λ : Type u) [Ring Λ]
 
-/-- The open adapter is left adjoint to restriction to the open subspace. -/
-theorem extendByZero_adjunction {X : TopCat.{u}} (U : Opens X) :
-    Nonempty (extendByZero Λ U ⊣ U.sheafRestrict (C := ModuleCat.{u} Λ)) := by sorry
+/-- The slice equivalence and canonical sheaf adjunction provide the open adapter's
+adjunction with restriction to the open subspace. -/
+def extendByZeroAdjunction {X : TopCat.{u}} (U : Opens X) :
+    extendByZero Λ U ⊣ U.sheafRestrict (C := ModuleCat.{u} Λ) :=
+  (U.sheafEquivOver.symm.toAdjunction.comp
+    ((Over.forget U).sheafAdjunctionContinuous (ModuleCat.{u} Λ) _ _)).ofNatIsoRight
+      U.overPullbackSheafEquivOver
 
 /-- Open extension by zero for module sheaves is exact over every ring. -/
 theorem extendByZero_exact {X : TopCat.{u}} (U : Opens X) :
@@ -284,9 +281,11 @@ theorem isConstructibleSheaf_not_qc_open [IsNoetherianRing Λ] [Nontrivial Λ]
 
 /-- Extension by zero from a quasicompact open spectral subspace preserves constructibility (C7.1). -/
 theorem IsConstructibleSheaf.extendByZero_open [IsNoetherianRing Λ] {X : TopCat.{u}}
-    [SpectralSpace X] (U : Opens X) [SpectralSpace U]
-    (F : TopCat.Sheaf (ModuleCat.{u} Λ) (TopCat.of U)) (hF : IsConstructibleSheaf Λ F) :
-    IsConstructibleSheaf Λ ((extendByZero Λ U).obj F) := by sorry
+    [SpectralSpace X] (U : Opens X) (hU : IsCompact (U : Set X)) :
+    letI : CompactSpace U := isCompact_iff_compactSpace.mp hU
+    letI : SpectralSpace U := U.isOpenEmbedding'.spectralSpace
+    ∀ (F : TopCat.Sheaf (ModuleCat.{u} Λ) (TopCat.of U)), IsConstructibleSheaf Λ F →
+      IsConstructibleSheaf Λ ((extendByZero Λ U).obj F) := by sorry
 
 /-- Constructible sheaves have finitely generated stalks at every point (C7.1). -/
 theorem IsConstructibleSheaf.stalk_fg [IsNoetherianRing Λ] {X : TopCat.{u}}
@@ -372,6 +371,17 @@ theorem topologicalTrdeg_padicComplex : topologicalTrdeg ℚ_[p] ℂ_[p] = 0 := 
 theorem topologicalIndependenceDegree_padicComplex : topologicalIndependenceDegree ℚ_[p] ℂ_[p] = 0 := by sorry
 end PadicComplex
 
+section CompleteBaseField
+variable (K L : Type u) [NontriviallyNormedField K] [NontriviallyNormedField L]
+variable [CompleteSpace K] [IsUltrametricDist K] [IsAlgClosed K] [Algebra K L]
+
+/-- Over a complete algebraically closed nonarchimedean base, generating degree zero
+detects surjectivity of an isometric embedding into any normed field (C8.3). -/
+theorem topologicalTrdeg_eq_zero_iff_surjective (hKL : Isometry (algebraMap K L)) :
+    topologicalTrdeg K L = 0 ↔ Function.Surjective (algebraMap K L) := by sorry
+
+end CompleteBaseField
+
 section CompleteFields
 variable (K L M : Type u)
 variable [NontriviallyNormedField K] [NontriviallyNormedField L]
@@ -411,10 +421,6 @@ theorem topologicalIndependenceDegree_mono [Algebra K L] [Algebra L M] [Algebra 
     [IsScalarTower K L M]
     (hKL : Isometry (algebraMap K L)) (hLM : Isometry (algebraMap L M)) :
     topologicalIndependenceDegree K L ≤ topologicalIndependenceDegree K M := by sorry
-
-/-- For complete algebraically closed fields, generating degree zero detects surjectivity (C8.3). -/
-theorem topologicalTrdeg_eq_zero_iff_surjective [Algebra K L] (hKL : Isometry (algebraMap K L)) :
-    topologicalTrdeg K L = 0 ↔ Function.Surjective (algebraMap K L) := by sorry
 
 /-- `DiamondEtaleCohomology:C8/topological-trdeg-finite-monotonicity`.
 ECD's paragraph after Question 21.4, using Temkin 3.2.3 and 2.2.2.
@@ -603,7 +609,7 @@ The README also specifies the valuation-ring comparison in C5.7 and
 IsConstFGOn.iff_exists in C7.1.
 The README specifies additional APIs: C7.1 includes
 IsConstructibleSheaf.iff_compact. C8.2 uses the supplied AdicSpace.relDim;
-relDim_identity is its nonempty identity specialization. C8.3 includes topologicalTrdeg_le_of_dense, topologicalTrdeg_eq_top_iff, topologicalTrdeg_self,
+relDim_id is its nonempty identity specialization. C8.3 includes topologicalTrdeg_le_of_dense, topologicalTrdeg_eq_top_iff, topologicalTrdeg_self,
 topologicalTrdeg_equiv.
 C8.4 includes topologicalIndependenceDegree_le_iff and topologicalIndependenceDegree_self.
 C8.10 includes modifiedTopologicalTrdeg_le and modifiedTopologicalTrdeg_equiv. Their mathematical
