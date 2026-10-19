@@ -12,7 +12,9 @@ truncations), formal Lie groups and dimension, Tate's Hodge–Tate decomposition
 theorem, schematic closures and finite flat models, Raynaud's uniqueness theorem for `e < p − 1`,
 his classification of `F`-vector schemes and his bound on tame inertia, the Oort–Tate classification
 of groups of prime order, gluing over rings of `S`-integers, Raynaud's embedding into abelian
-schemes and flat descent. Layer R07.2 is Dieudonné theory: the classification of finite commutative
+schemes and flat descent. Layer R07.G develops global admissible groups over `ℤ[1/P]`,
+their marked quasi-finite models over `ℤ`, their cohomology, global purity and dyadic amalgams.
+Layer R07.2 is Dieudonné theory: the classification of finite commutative
 `p`-group schemes and `p`-divisible groups over a perfect field, slopes and the Dieudonné–Manin
 classification, the Hasse invariant of a `BT₁`, smoothness of the stacks of truncated Barsotti–Tate
 groups, universal covers, and Dieudonné theory over smooth bases, semiperfect rings and perfect
@@ -40,6 +42,7 @@ Fontaine–Laffaille functor is contravariant with its safe interval `[0, p − 
 | --- | --- | --- |
 | R07.P | Finite-`K` periods and labelled Sen theory | `aCris`, `bCris`, `dCris`, `dDeRham`, `IsCrystalline`, `IsDeRham`, `GaloisRep.deRhamSupplierEquiv` |
 | R07.1 | Finite flat group schemes and `p`-divisible groups | `frobeniusHom`, `etaleGroupEquivContAction`, `multiplicativeTypeRigidity`, `BarsottiTate.tateModule`, `BarsottiTate.connectedEtale_exact`, `TruncatedBT.of_exact`, `FormalLieGroup`, `BarsottiTate.hodgeTate`, `BarsottiTate.extend_genericFibre`, `Prolongation`, `prolongation_unique_of_lt`, `tameInertiaIso`, `FVectorScheme`, `tameInertia_exponents_le`, `oortTate_classification`, `raynaudAbelianEmbedding` |
+| R07.G | Global admissible groups | `admissible-global-models`, `admissible-geometric-lengths`, `admissible-cohomology-bound`, `admissible-rank-one-global`, `admissible-global-purity`, `dyadic-D-model`, `dyadic-finite-flat-amalgam` |
 | R07.2 | Dieudonné theory | `canonicalDecomposition`, `DieudonneRing`, `dieudonneEquivalenceFinite`, `dieudonnePDivisible`, `dieudonneManinClassification`, `isogenyClassification`, `hasseInvariant`, `btStackSmooth`, `BarsottiTate.universalCover`, `deJongDieudonneEquivalence` |
 | R07.3 | Filtered modules and Fontaine–Laffaille theory | `FilteredPhiNModule`, `FilteredPhiNModule.IsWeaklyAdmissible`, `dSt_isWeaklyAdmissible`, `FLModule`, `flExactFaithful`, `flTameInertia`, `flFullFaithfulness`, `flAdmissibility`, `flFiniteFlatDictionary` |
 | R07.4 | Breuil–Kisin modules | `KisinModule`, `kummerFieldOfNorms`, `kedlayaSlopeFiltration`, `kisinCrystallineEmbedding`, `semistableFiniteHeight`, `crystalline01IsBt`, `kisinPDivisibleClassification`, `dyadicClassification`, `bmsKisinFunctor`, `descentDataLatticeClassification` |
@@ -64,7 +67,10 @@ the boundary case `e = p − 1`, `F`-vector schemes and their classification, th
 factors over a strictly henselian base, Raynaud's bounds on tame inertia and on the determinant, the
 Oort–Tate classification over a ring and over rings of integers, the Katz–Mazur groups, orthogonals
 of schematic closures, gluing from a completion and a localisation, and the Mayer–Vietoris sequence
-for `Hom` and `Ext¹`. Raynaud's embedding into abelian schemes, lifting along henselian pairs and flat
+for `Hom` and `Ext¹`. Global admissible groups, their marked quasi-finite models over `ℤ`,
+geometric-fibre lengths and fppf cohomology bound; global rank-one classification, the
+cyclotomic class-group obstruction and global Ext vanishing, odd purity, and the dyadic
+`D`-model and finite-flat amalgams. Raynaud's embedding into abelian schemes, lifting along henselian pairs and flat
 descent of `p`-divisible groups. Dieudonné theory: the canonical decomposition, the
 multiplicative–connected–étale filtration, finite Witt group schemes, the Dieudonné ring and the
 classification of finite commutative `p`-group schemes and of `p`-divisible groups over a perfect
@@ -2608,6 +2614,311 @@ EtaleCohomologyFoundations §F.0.2 (`VanishingCycles.finiteEtaleGaloisCategory`)
 PadicPeriodRings §§1–2; Mathlib's local rings, discrete valuation rings, power series, Kähler
 differentials and continuous cohomology; Mathlib schemes, ringed-space gluing, pullbacks,
 étale and smooth morphisms, ring Frobenius and finite-field Frobenius.
+
+## Layer R07.G: Global admissible groups and dyadic amalgams
+
+Fix distinct primes `P, ℓ`, put `S = Spec ℤ`, `U = Spec ℤ[1/P]`, and let
+`j : U → S`, `i : Spec 𝔽_P → S` be the inclusions. All groups are commutative.
+A μ-type group is the Cartier dual of a finite constant group; being of multiplicative
+type alone does not impose trivial Galois action on its character group. This layer owns
+the global group-scheme constructions and their arithmetic. Saturation inside modular
+Jacobians with Hecke action uses additional hypotheses belonging to the application.
+
+### R07.G1 Admissible groups and their marked global models
+
+<a id="admissible-global-models"></a>
+
+**Admissible global models (`admissible-global-models`).** An admissible group over `U`
+is finite flat, killed by a power of `ℓ`, with a filtration by finite flat closed
+subgroups whose successive quotients are `ℤ/ℓ` or `μ_ℓ`. An admissible model over `S`
+is a separated, quasi-finite, flat group scheme of finite presentation with an
+identified admissible restriction to `U`. Retain the injection
+`H = G(𝔽̄_P) ↪ G(ℚ̄)`, using compatible geometric points; its image is stable under
+the decomposition group at `P` and contained in the inertia invariants. Prove that
+models of a fixed admissible `U`-group correspond to these submodules `H`.
+Construct `admissibleModelMinimal` with `H = 0` and `admissibleModelMaximal` with
+`H = G(ℚ̄)^{I_P}`, including their canonical inclusions around every marked model.
+The minimal model is the group-scheme extension by zero, retaining the identity
+section at `P`. A finite flat extension to `S` exists exactly when `I_P` is trivial,
+and is then the maximal model. These models concern the missing fibre at `P`;
+the finite-flat prolongations at `ℓ` remain those of §R07.1.24.
+
+Construct `admissible_subquotient`: close a generic Galois-stable subgroup in a
+marked model, represent its fppf quotient, and preserve admissibility and the
+specified generic and `P`-fibre exact sequences. On the retained fibre the subgroup
+is the intersection with `H`; its quotient is the corresponding quotient of `H`.
+Give morphisms, exact sequences and restriction to `U`, including their compatibility
+with schematic closures. Sources: Mazur 1977, I §1(a)–(c), (f), pp.43–47,
+including Proposition 1.3; §R07.1.20 supplies the finite-flat closure over `U`.
+
+*Needs:* §§R07.1.2, R07.1.20, R07.1.24, R07.1.34–R07.1.35, R07.1.38;
+ModularCurves Layers 0C–0E; SchemeAndStackFoundations §1.2 (quasi-finite descent).
+
+**Checks.**
+
+- The full constant `ℤ/ℓ` has retained fibre of order `ℓ`; its minimal model has
+  only the identity at `P`, with the same generic Galois module.
+- For a constant generic module its maximal model has the full fibre and is finite
+  flat. For a module with nontrivial `I_P` action the maximal model still omits the
+  noninvariant geometric points and is quasi-finite rather than finite over `S`.
+- The zero group has a single marked model, and closing the zero or whole generic
+  subgroup gives respectively the identity section or the original model.
+
+### R07.G2 Geometric-fibre lengths
+
+<a id="admissible-geometric-lengths"></a>
+
+**Admissible geometric lengths (`admissible-geometric-lengths`).** For a marked
+admissible `G/S` define `length(G) = log_ℓ #G(ℚ̄)`,
+`δ(G) = length(G) − log_ℓ #G(𝔽̄_P)` and `α(G) = log_ℓ #G(𝔽̄_ℓ)`.
+The logarithms are integer lengths of finite `ℓ`-groups. Prove `length_exact`,
+`defect_exact` and additivity of `α` in exact admissible sequences.
+Prove `etaleLength_geometric`: `α` counts the constant factors in an admissible
+filtration after restriction to `ℤ_ℓ`, equivalently the length of the geometric
+étale special fibre. These are geometric point counts; the rank of a group scheme
+at characteristic `ℓ` can be larger. The length depends on the generic module,
+`δ` on the marked fibre at `P`, and `α` on the integral model at `ℓ`.
+Source: Mazur 1977, I §1(f)–(g), pp.47–49.
+
+*Needs:* §R07.G1; §§R07.1.2, R07.1.9; ModularCurves Layer 7E (finite-level
+connected–étale sequences).
+
+**Checks.**
+
+- `ℤ/ℓ` and `μ_ℓ` over `ℤ_ℓ` have geometric étale lengths `1` and `0` respectively,
+  although both have rank `ℓ`. At `ℓ = 2` even their generic characters agree.
+- The full constant model over `S` has `δ = 0`; its extension-by-zero model at `P`
+  has `δ = 1`, with the same length and `α = 1`.
+- A nontrivial unramified one-dimensional character over `ℤ_ℓ` can have only its
+  zero `𝔽_ℓ`-rational point but `ℓ` geometric points. Its geometric étale length
+  is `1`. For the zero group all three invariants are zero.
+
+### R07.G3 The global cohomology bound
+
+<a id="admissible-cohomology-bound"></a>
+
+**Admissible cohomology bound (`admissible-cohomology-bound`).** Prove finiteness of
+`Hⁱ_fppf(S,G)` for `i = 0,1` and every marked admissible `G/S`. Set
+`hⁱ(G) = log_ℓ #Hⁱ_fppf(S,G)`. Prove `cohomology_bound`:
+`h¹(G) − h⁰(G) ≤ δ(G) − α(G)`, with subtraction in `ℤ`.
+There is no congruence hypothesis on `P`. For an exact admissible sequence
+`0 → G₁ → G₂ → G₃ → 0`, prove subadditivity of `h¹ − h⁰` from its long exact
+fppf cohomology sequence. Together with §R07.G2 this reduces the bound to the
+four elementary marked groups, the full and minimal models of `ℤ/ℓ` and `μ_ℓ`.
+Construct the comparison sequence
+`0 → Eᵇ → E → i_* E_{𝔽_P} → 0` for the minimal model of either full elementary
+model `E`, and its cohomology maps. The sheaf supported at `P` uses the finite
+étale fibre, since `P ≠ ℓ`. Compute `H¹(S,ℤ/ℓ) = 0` by global reciprocity and
+`H¹(S,μ_ℓ) = ℤˣ/(ℤˣ)^ℓ` by fppf Kummer theory and `Pic(ℤ) = 0`.
+Source: Mazur 1977, I §1(g), table and Proposition 1.7 with proof, pp.48–49.
+
+*Needs:* §§R07.G1–R07.G2; SchemeAndStackFoundations §§2.1, 2.3, 2.10–2.11
+(site cohomology, torsors, fppf/étale comparison and Kummer theory);
+EtaleCohomologyFoundations §0.7 (étale extension by zero and localization);
+ClassFieldTheory Layers 11–13 (global reciprocity and unramified abelian extensions).
+
+**Checks.**
+
+- For the full constant `ℤ/ℓ`, `(δ,α,h⁰,h¹) = (0,1,1,0)` and both sides are `−1`.
+  Omitting `h⁰` would give a false inequality.
+- For `μ₂`, `(δ,α,h⁰,h¹) = (0,0,1,1)`; its nontrivial torsor is
+  `Spec ℤ[t]/(t²+1)`. For odd `ℓ` the full `μ_ℓ` has all four invariants zero.
+- The minimal constant model has `(δ,α,h⁰,h¹) = (1,1,0,0)`.
+  For the minimal `μ₂` model, `h¹ = 1` when `P ≡ 1 mod 4` and `h¹ = 0` when
+  `P ≡ 3 mod 4`, while `(δ,α,h⁰) = (1,0,0)`. Thus the bound holds in both cases;
+  the congruence controls equality for this elementary group.
+- The zero group has `h⁰ = h¹ = δ = α = 0`.
+
+### R07.G4 Rank-one groups over the global base
+
+<a id="admissible-rank-one-global"></a>
+
+**Global rank-one classification (`admissible-rank-one-global`).** For every finite
+field `k` of characteristic `ℓ`, a finite flat `k`-vector group scheme `V/S` with
+`dim_k V(ℚ̄) = 1` is `k`-linearly isomorphic to
+`(ℤ/ℓ) ⊗_{𝔽_ℓ} k` or `μ_ℓ ⊗_{𝔽_ℓ} k`. Construct these scalar extensions,
+their generic and Cartier-dual comparisons, and `rankOne_constant_or_cyclotomic`.
+The theorem concerns a finite flat group over all of `S`. In particular,
+`FiniteFlat.globalPrimeOrderClassification` says that every finite flat group of
+rank `ℓ` over `ℤ` is `ℤ/ℓ` or `μ_ℓ`; it has a signature in Suggested.lean.
+The generic character is abelian and ramified only at `ℓ`; reciprocity puts its
+values in `𝔽_ℓˣ`, and the order-`ℓ` subgroup classification of §R07.1.35 determines
+the integral model. Source: Mazur 1977, I §1(e), Proposition 1.5 and proof,
+pp.46–47; Oort–Tate 1970, corollary to Theorem 3.
+
+*Needs:* §§R07.1.20, R07.1.34–R07.1.35; Cartier duality and finite constant groups;
+ClassFieldTheory Layers 11–13 (including Kronecker–Weber).
+
+**Checks.**
+
+- For `k = 𝔽_ℓ` these are exactly the two order-`ℓ` groups over `ℤ`.
+  Over `ℤ` the coordinate algebra is free, so its `Module.finrank` is its rank.
+- For `k = 𝔽_{ℓ²}` the two groups have rank `ℓ²`, with respectively `ℓ²` and `1`
+  geometric points in characteristic `ℓ`. Coefficient rank one means rank `#k`, not `ℓ`.
+- At `ℓ = 2` the two generic modules are isomorphic, but the integral groups are
+  distinguished by their geometric special fibres.
+- Over `ℤ[1/5]` the order-three finite étale group with character the quadratic
+  character of `ℚ(√5)` is neither constant nor `μ₃`. Thus restriction to a punctured
+  global base does not give the classification asserted over `S`.
+
+### R07.G5 The cyclotomic class-group input and global Ext vanishing
+
+<a id="admissible-cyclotomic-class-obstruction"></a>
+
+**Cyclotomic class-group obstruction (`admissible-cyclotomic-class-obstruction`).**
+For odd `ℓ`, put `K = ℚ(ζ_ℓ)`, let `Y` be the `ℓ`-primary ideal class group of `K`,
+and let `ω : Gal(K/ℚ) → ℤ_ℓˣ` be the Teichmüller lift of the mod-`ℓ` cyclotomic
+character. Define `Y^(j)` by the natural action on ideals through `ω^j`.
+Prove the Stickelberger annihilator statement: `Y^(1) = 0`, and for odd
+`1 < j < ℓ−1` the integral scalar
+`L_j = (1/ℓ) Σ_{a=1}^{ℓ−1} a ω(a)^(−j)` annihilates `Y^(j)`.
+Deduce Herbrand's implication `B_{ℓ−j} ≢ 0 mod ℓ ⇒ Y^(j) = 0`, and in particular
+`Y^(−1) = 0`. Transport reciprocity equivariantly: the ideal action agrees with
+`x ↦ gxg⁻¹` on the Hilbert-class Galois group. Thus no nonzero everywhere
+unramified cyclic `ℓ`-extension of `K`, Galois over `ℚ`, has that inverse-character
+conjugation action. At `ℓ = 2`, `K = ℚ` has trivial class group.
+This is the class-group input to the Ext theorem below, with its annihilator and
+Bernoulli congruence argument included here. Source: Mazur 1977, I §2,
+Proposition 2.8 and Corollaries 2.9–2.10 with proof, pp.52–54.
+
+*Needs:* ClassFieldTheory Layers 11–13 (Hilbert class fields and reciprocity,
+including equivariance); GlobalNumberFields (ideal classes and cyclotomic fields);
+Mathlib's Bernoulli numbers, `PadicInt` and finite group actions.
+
+**Checks.**
+
+- For `ℓ = 3`, the exponent `−1` equals `1 mod 2`, so the `Y^(1)` statement applies;
+  no integrality claim for `B₂` at `3` is used.
+- For `ℓ ≥ 5`, `j = ℓ−2` gives `B_{ℓ−j} = B₂ = 1/6`, an `ℓ`-adic unit.
+  At `ℓ = 5` the element `2` acts by `3` on an inverse-character cyclic quotient,
+  rather than by `2`; this tests the reciprocity and dual-action convention.
+- For `ℓ = 2`, `Y = 0`; for every odd `ℓ`, use the Teichmüller lift on the entire
+  `ℓ`-primary group, since multiplication by a residue-field scalar alone does not
+  define an action on a group of exponent `ℓ²`.
+
+<a id="admissible-global-ext-vanishing"></a>
+
+**Global Ext vanishing (`admissible-global-ext-vanishing`).** For every prime `ℓ`,
+prove `Ext¹_S(μ_ℓ,ℤ/ℓ) = 0`, for extensions
+`0 → ℤ/ℓ → E → μ_ℓ → 0` of finite flat commutative groups.
+More generally deduce `Ext¹_S(M,C) = 0` for every finite `ℓ`-primary μ-type group
+`M` and constant group `C`, by dévissage in both variables. For every prime `ℓ`,
+construct `admissibleConnectedEtaleFiltration`: every finite flat admissible `G/S`
+has a canonical exact sequence `0 → M → G → C → 0` with `M` μ-type and `C`
+constant. The subgroup is the connected part at `ℓ`, extended globally: Ext
+vanishing reorders an admissible filtration, global reciprocity makes the étale
+quotient constant, and Cartier duality makes the multiplicative subgroup μ-type.
+The sequence need not split at `2`. Reduce the prime-order Ext calculation to
+primitive classes in `H¹_ét(Sch μ_ℓ,ℤ/ℓ)`: multiplication pulls such a
+class back to the sum of its two projections. The cyclotomic component identifies
+these classes with the dual of an inverse-character quotient of the unramified
+cyclotomic class group, and the preceding obstruction makes them vanish.
+Give the comparison with the local/complement extension classes of §R07.1.39;
+that exact sequence supplies gluing, while this arithmetic calculation supplies
+vanishing. Source: Mazur 1977, I Proposition 2.1 and proof, pp.49–54;
+I §4, Step 1 of the proof of Proposition 4.5, pp.59–60 (filtration consequence).
+
+*Needs:* §R07.G5's cyclotomic class-group obstruction; §§R07.1.38–R07.1.39;
+SchemeAndStackFoundations §§2.1, 2.3, 2.10;
+ClassFieldTheory Layers 11–13.
+
+**Checks.**
+
+- Every extension `0 → ℤ/2 → E → μ₂ → 0` over `ℤ` splits, whereas
+  `0 → μ₂ → D → ℤ/2 → 0` of §R07.G7 does not. The Ext variance is essential.
+- The claim has base `ℤ`: over `ℤ[1/P]`, for `P ≡ ±1 mod 8`, there is a nonzero
+  extension of `μ₂` by `ℤ/2` killed by `2` (Mazur I Proposition 5.1, pp.60–61).
+- Taking `M = 0` or `C = 0` gives the zero Ext group; dévissage includes
+  `M = μ_{ℓ²}`, `C = ℤ/ℓ²`, rather than just groups killed by `ℓ`.
+
+### R07.G6 Global purity at odd primes
+
+<a id="admissible-global-purity"></a>
+
+**Odd global purity (`admissible-global-purity`).** For odd `ℓ` and admissible `G/U`,
+prove `odd_purity`: the following are equivalent: `G` is a product of a constant
+and a μ-type group; its generic module is the direct sum of a trivial module and
+the Cartier dual of a trivial module; `I_P` acts trivially; and `G` extends finite
+flat over `S`. Use §R07.G5's all-prime connected–étale filtration over `S`.
+For odd `ℓ`, the reverse mixed Ext group vanishes as well, by
+`ℤˣ/(ℤˣ)^ℓ = 0` and `μ_ℓ(ℤ) = 0`, so the resulting sequence splits.
+Source: Mazur 1977, I Proposition 3.1, p.54; Proposition 4.1, p.58;
+Proposition 4.5 and proof, pp.59–60.
+
+*Needs:* §§R07.G1, R07.G4–R07.G5; §R07.1.30 (odd-prime full faithfulness);
+SchemeAndStackFoundations §2.11; ClassFieldTheory Layers 11–13.
+
+**Checks.**
+
+- `ℤ/ℓ^a × μ_{ℓ^b}` is pure and unramified at every `P ≠ ℓ`, including `a = 0`
+  or `b = 0`, where the corresponding factor is trivial.
+- A nontrivial unipotent two-dimensional `𝔽₃`-representation from the cubic
+  subextension of `ℚ(ζ₇)` gives an admissible finite étale group over `ℤ[1/7]`.
+  Its nontrivial inertia at `7` prevents both purity and a finite flat extension to `S`.
+- `D` of §R07.G7 is unramified at every odd `P` and extends over `S`, but is not
+  pure. The equivalences require `ℓ ≠ 2`.
+
+### R07.G7 The dyadic D-model
+
+<a id="dyadic-D-model"></a>
+
+**Dyadic D-model (`dyadic-D-model`).** Construct `dyadic_D` as `katzMazur 2 (−1)`
+over `S`. It has rank four, is killed by `2`, and represents the unique nonzero
+extension `0 → μ₂ → D → ℤ/2 → 0` over `S` killed by `2`.
+Its generic splitting field is `ℚ(i)`. If `ε_{−1} : G_ℚ → 𝔽₂` is the character
+of this quadratic extension, then `σx − x = ε_{−1}(σ) γ(x)` on `D(ℚ̄)`, where
+`γ` is the map from the order-two quotient to the subgroup `μ₂`.
+Prove integral-model rigidity: for every odd `P`, every finite flat model `D′/U`
+of this generic group, and every specified generic isomorphism `D_ℚ ≅ D′_ℚ`,
+that isomorphism extends uniquely over `U`; also give the version over `S`.
+The connected subgroup over `ℤ₂` is `μ₂`, with constant étale quotient `ℤ/2`.
+Sources: Mazur 1977, I Proposition 4.2, formula 4.3 and Proposition 4.4,
+pp.58–59; §R07.1.36 identifies the explicit model.
+
+*Needs:* §§R07.1.9, R07.1.35–R07.1.36, R07.1.38; §§R07.G1, R07.G4–R07.G5.
+
+**Checks.**
+
+- The torsor above the nonzero quotient section is `Spec ℤ[t]/(t²+1)`;
+  it has no `ℤ`-section, so `D` is nonsplit and its generic points generate `ℚ(i)`.
+- Over `𝔽₂`, `D ≅ μ₂ × ℤ/2` and has two geometric points, although its rank
+  is four. Its connected part has rank two and its étale quotient has rank two.
+- The two other nonzero extension classes of `ℤ/2` by `μ₂` have geometric
+  underlying group cyclic of order four, so the killed-by-two hypothesis singles out `D`.
+- At every odd `P`, `D` is unramified at `P` but is not a product of a constant
+  group with a μ-type group. Odd purity cannot identify this dyadic model.
+
+### R07.G8 Finite-flat dyadic amalgams
+
+<a id="dyadic-finite-flat-amalgam"></a>
+
+**Dyadic finite-flat amalgam (`dyadic-finite-flat-amalgam`).** Let `P` be odd and
+`M/U` a finite flat admissible `2`-group of multiplicative type with a specified
+closed immersion `μ₂ ↪ M`. Construct `dyadic_amalgam`
+`G = M ⊕_{μ₂} D = (M × D)/{(a,−a) : a ∈ μ₂}`.
+Prove the pushout property for commutative fppf sheaves, representability and
+finite flatness, the compatible closed immersions of `M` and `D`, and the exact
+sequence `0 → M → G → ℤ/2 → 0`. Thus `rank G = 2 rank M` and `G` is admissible.
+Give functoriality for maps of `M` preserving its specified `μ₂`, and base change.
+Prove `dyadic_amalgam_connectedEtale`: over `ℤ₂`, `G⁰ = M_{ℤ₂}` and
+`G^ét = ℤ/2`; the same identification holds on the special fibre. Consequently
+its local generic connected subgroup is the restriction of the global subgroup
+`M_ℚ`. No μ-type hypothesis on `M` is required.
+Sources: Mazur 1977, II §17, amalgam definition and Lemma 17.3, pp.130–131;
+ModularCurves Layer 0C supplies the finite-flat quotient used in this construction.
+
+*Needs:* §§R07.G1, R07.G7; §§R07.1.9, R07.1.20; ModularCurves Layers 0B–0C.
+
+**Checks.**
+
+- For `M = μ₂` the pushout is `D`, of rank four. A rank-four `M` gives rank eight,
+  rather than sixteen, since the quotient removes the common rank-two subgroup.
+- At `P = 5`, take the Cartier dual of the rank-four finite étale group whose
+  `𝔽₂²` generic module has the nontrivial unipotent action of `Gal(ℚ(√5)/ℚ)`.
+  It is admissible and multiplicative, contains `μ₂`, and is not μ-type. Its
+  amalgam still has the stated connected subgroup and order-two étale quotient.
+- `M = 0` has no `μ₂` closed subgroup, so it is outside the domain of the pushout.
+  For every allowed `M`, the special geometric étale fibre of `G` has order two.
 
 ## Layer R07.2: Dieudonné theory
 
@@ -8028,6 +8339,9 @@ TauCetiRoadmap.LocalFieldsRamification Layer 3; Mathlib `differentIdeal`, `IsKra
 
 ## References
 
+- **Mazur 1977.** Barry Mazur, *Modular curves and the Eisenstein ideal*, Publ. Math. IHÉS 47,
+  33–186; I §§1–5, pp.43–61, and II §17, pp.130–131.
+  <https://www.numdam.org/item/PMIHES_1977__47__33_0.pdf>
 - **Bloch–Kato 1990.** Spencer Bloch and Kazuya Kato, *L-functions and Tamagawa numbers of motives*, The Grothendieck Festschrift I, 333–400. <https://virtualmath1.stanford.edu/~conrad/BSDseminar/refs/BKTamagawa.pdf>
 - **Fontaine 1994, Le corps des périodes.** *Le corps des périodes p-adiques*, Astérisque 223, 59–111. <https://www.numdam.org/item/AST_1994__223__59_0.pdf>
 - **Fontaine 1994, Représentations semi-stables.** *Représentations p-adiques semi-stables*, Astérisque 223, 113–184. <https://www.numdam.org/item/AST_1994__223__113_0.pdf>

@@ -290,6 +290,15 @@ parameters is a unit, so the group is étale or multiplicative. -/
 theorem isEtale_or_isMultiplicative_of_rank_eq (p : ℕ) [Fact p.Prime] (G : FLF ℤ_[p])
     (hG : rank G = p) : IsEtale G ∨ IsMultiplicative G := sorry
 
+/-- Every finite flat commutative group scheme of prime order over `Spec ℤ` is constant
+or `μ_p` (Oort–Tate, corollary to Theorem 3; Mazur I Proposition 1.5 for `k = 𝔽_p`).
+The coordinate algebra is free over `ℤ`, so its `Module.finrank` is the scheme rank. -/
+theorem globalPrimeOrderClassification (p : ℕ) [Fact p.Prime] (G : FLF ℤ)
+    (hG : Module.finrank ℤ (coord G) = p) :
+    Nonempty (G ≅ ConstantGroup.finiteLocallyFreeGroupScheme ℤ (Multiplicative (ZMod p))) ∨
+      Nonempty (G ≅ DiagonalizableGroup.finiteLocallyFreeGroupScheme ℤ
+        (FGCommGrpCat.of (Multiplicative (ZMod p)))) := sorry
+
 end FiniteFlat
 
 /-! ## Layer R07.2: Dieudonné theory -/
@@ -1247,6 +1256,28 @@ further instances of the statements above.
   `raynaudDeterminantTameDifferent`;
   `oortTate_classification`, `oortTate_numberRing`; `katzMazur`; `orthogonalSchematicClosure`;
   `gluingEquiv`, `mayerVietoris_exact`; `raynaudAbelianEmbedding`; `pCompleteFlatDescent`.
+* Layer R07.G: `admissible-global-models` gives marked quasi-finite S-models of
+  admissible groups over U = Spec ℤ[1/P], for distinct primes P and ℓ, with
+  `admissibleModelMinimal`, `admissibleModelMaximal` and `admissible_subquotient`.
+  `admissible-geometric-lengths` supplies `length_exact`, `defect_exact` and
+  `etaleLength_geometric`, with α = log_ℓ #G(𝔽̄_ℓ) and the marked P-fibre defect δ.
+  `admissible-cohomology-bound` gives `cohomology_bound`: h¹ − h⁰ ≤ δ − α on S.
+  `admissible-rank-one-global` gives `rankOne_constant_or_cyclotomic` for finite
+  flat k-vector groups of k-rank one over ℤ; the prime-order theorem is typed above.
+  `admissible-cyclotomic-class-obstruction` supplies the Stickelberger annihilator,
+  Herbrand implication and inverse-character vanishing on the cyclotomic class group,
+  with reciprocity equivariance; `admissible-global-ext-vanishing` gives
+  Ext¹_ℤ(μ_ℓ, ℤ/ℓ) = 0 for every prime ℓ, its μ-type/constant dévissage and
+  `admissibleConnectedEtaleFiltration` over ℤ, including nonsplit dyadic groups.
+  `admissible-global-purity` gives `odd_purity` for odd ℓ: purity, generic purity,
+  trivial inertia at P and finite flat extension over ℤ are equivalent.
+  `dyadic-D-model` gives `dyadic_D`, the nonsplit rank-four killed-by-two extension
+  of ℤ/2 by μ₂ over ℤ, with splitting field ℚ(i) and integral-model rigidity.
+  `dyadic-finite-flat-amalgam` gives `dyadic_amalgam` and
+  `dyadic_amalgam_connectedEtale` for every admissible multiplicative-type M
+  containing μ₂, without requiring μ-type: rank is 2 rank M, connected part M
+  over ℤ₂, and étale quotient ℤ/2. The marked models, vector-group actions,
+  admissible filtrations, fppf extension groups and amalgams are README targets.
 * Layer R07.2: `canonicalDecomposition`; `multiplicativePartFiltration`;
   `orderPSubgroupTypeDecomposition`; `wittGroup`; `DieudonneRing`; `dieudonneModule` as a named
   functor (finite groups use direct limits along the Witt inclusions), with `dieudonneModule_F`, `dieudonneModule_prod` and the checks
