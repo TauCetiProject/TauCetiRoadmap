@@ -1,7 +1,6 @@
 import Mathlib
 import TauCeti.GroupTheory.SpecificGroups.Affine.Basic
 import TauCeti.Algebra.MonoidAlgebra.Torsion
-import TauCeti.AlgebraicGeometry.Cohomology.Genus
 
 /-!
 # MordellLawrenceVenkatesh: representative target signatures
@@ -11,8 +10,8 @@ exhaustive. They suggest Lean forms for the definitions and theorems of the road
 stated with the pinned Mathlib and Tau Ceti APIs. Families of abelian varieties, period maps,
 surfaces and mapping class groups, Hurwitz spaces and Pryms are specified in the README; their
 construction contracts do not introduce carriers here. The declarations include the linear algebra,
-finite group theory and number theory of the method and the headline finiteness theorem on native
-scheme, genus and rational-point carriers, in the corresponding README layers.
+finite group theory and number theory of the method, in the corresponding README layers. The
+Mordell declaration belongs to HeightsRationalPointsAndObstructions; README 11.6 gives its proof contract.
 
 Design choices made explicit here:
 * the centralizer of a semilinear map is an `F`-subalgebra of `Module.End E V` for a field `F` fixed
@@ -70,6 +69,14 @@ theorem mem_semilinearCentralizer (σ : E →+* E)
 example : semilinearCentralizer F (RingHom.id E) (fun _ => rfl) (LinearMap.id : V →ₗ[E] V) = ⊤ := by
   ext f
   simp [semilinearCentralizer]
+
+/-- Multiplication by a scalar commutes with the semilinear map `σ` on its own field exactly
+when that scalar is fixed by `σ`. README 0.3. -/
+theorem semilinearCentralizer_scalar_mem_iff (σ : E →+* E)
+    (hσ : ∀ a : F, σ (algebraMap F E a) = algebraMap F E a) (a : E) :
+    a • (LinearMap.id : E →ₗ[E] E) ∈ semilinearCentralizer F σ hσ σ.toSemilinearMap ↔
+      σ a = a := by
+  sorry
 
 /-- Dimension of the centralizer (Lawrence–Venkatesh, Lemma 2.1): if `σ` has finite order with
 fixed field exactly `F` and `φ` is bijective, then `dim_F Z(φ) ≤ (dim_E V)²`. README 0.4. -/
@@ -195,6 +202,10 @@ theorem card_generatingTuples (N k : ℕ) (hN : 1 ≤ N) :
       (N : ℚ) ^ k * ∏ ℓ ∈ N.primeFactors, (1 - ((ℓ : ℚ) ^ k)⁻¹) := by
   sorry
 
+/-- There are 24 generating ordered pairs of the composite cyclic group `ℤ/6`. README 0.11. -/
+theorem card_generatingTuples_six_two : Nat.card (generatingTuples 6 2) = 24 := by
+  sorry
+
 /-- At least half of all `k`-tuples generate, for `k ≥ 2`. README 0.11. -/
 theorem two_mul_card_generatingTuples_ge (N k : ℕ) (hN : 1 ≤ N) (hk : 2 ≤ k) :
     N ^ k ≤ 2 * Nat.card (generatingTuples N k) := by
@@ -293,6 +304,16 @@ example (ω : LinearMap.BilinForm k V) (hω : ω.IsAlt) (e f : V) (h : ω e f = 
   change f + (2 * ω e f) • e = f + (2 : k) • e ∧
     e + (2 * ω e e) • e = e
   simp [h, hω e]
+
+/-- On the standard symplectic plane the two transvection matrices have opposite off-diagonal
+signs, over every field. README 0.14. -/
+theorem symplecticTransvection_sl2 (ω : LinearMap.BilinForm k (Fin 2 → k)) (hω : ω.IsAlt)
+    (h : ω ![1, 0] ![0, 1] = 1) (r : k) :
+    LinearMap.toMatrix' (symplecticTransvection ω hω ![1, 0] r).toLinearMap =
+      !![1, r; 0, 1] ∧
+    LinearMap.toMatrix' (symplecticTransvection ω hω ![0, 1] r).toLinearMap =
+      !![1, 0; -r, 1] := by
+  sorry
 
 /-- The symplectic Lie algebra of a nondegenerate alternating form in characteristic zero and
 dimension at least two is simple. README 0.16. -/
@@ -399,7 +420,8 @@ theorem FiniteFiltration.hodgeDegree_eq_of_step_eq [FiniteDimensional k D]
     Fil.hodgeDegree = Fil'.hodgeDegree := by
   sorry
 
-/-- Shifting a filtration by `n` adds `n · dim D` to the Hodge degree. README 1.12. -/
+/-- Reindexing by `F′ i = F (i − n)` adds `n · dim D` to the degree; the supplied twist uses
+`i + n` instead. README 1.12. -/
 theorem FiniteFiltration.hodgeDegree_shift [FiniteDimensional k D] (Fil Fil' : FiniteFiltration k D)
     (n : ℤ) (h : ∀ i, Fil'.step i = Fil.step (i - n)) :
     Fil'.hodgeDegree = Fil.hodgeDegree + n * Module.finrank k D := by
@@ -415,6 +437,16 @@ theorem filtrationWeight_two_step (L : Submodule k (Fin 2 → k)) (hL : Module.f
 theorem filtrationWeight_negative_one (Fil : FiniteFiltration k k) (hlo : ∀ i ≤ -1, Fil.step i = ⊤)
     (hhi : ∀ i ≥ 0, Fil.step i = ⊥) :
     Fil.hodgeDegree = -1 ∧ Fil.filtrationWeight = -1 := by
+  sorry
+
+/-- The direct sum of two lines with jumps `−1` and `+1` has degree and mean weight zero.
+The common steps in degrees zero and one form the positive-jump line. README 1.12. -/
+theorem filtrationWeight_opposite_jumps (L : Submodule k (Fin 2 → k))
+    (hL : Module.finrank k L = 1) (Fil : FiniteFiltration k (Fin 2 → k))
+    (hlo : ∀ i ≤ -1, Fil.step i = ⊤)
+    (hmid : ∀ i, 0 ≤ i → i ≤ 1 → Fil.step i = L)
+    (hhi : ∀ i ≥ 2, Fil.step i = ⊥) :
+    Fil.hodgeDegree = 0 ∧ Fil.filtrationWeight = 0 := by
   sorry
 
 /-- A line of jump zero has degree and mean weight zero. README 1.12. -/
@@ -477,12 +509,6 @@ theorem two_mul_finrank_le_of_isotropic (ω : LinearMap.BilinForm k V) (hω : ω
 theorem isLagrangian_iff_finrank (ω : LinearMap.BilinForm k V) (hω : ω.IsAlt)
     (hnd : ω.Nondegenerate) (L : Submodule k V) (hL : ∀ x ∈ L, ∀ y ∈ L, ω x y = 0) :
     ω.orthogonal L = L ↔ 2 * Module.finrank k L = Module.finrank k V := by
-  sorry
-
-/-- A Lagrangian has a Lagrangian complement in every characteristic. README 3.2. -/
-theorem exists_lagrangian_complement (ω : LinearMap.BilinForm k V) (hω : ω.IsAlt)
-    (hnd : ω.Nondegenerate) (L : Submodule k V) (hL : ω.orthogonal L = L) :
-    ∃ L' : Submodule k V, IsCompl L L' ∧ ω.orthogonal L' = L' := by
   sorry
 
 end Lagrangian
@@ -674,6 +700,11 @@ section Lattices
 def IsPrimitiveVector {r : ℕ} (v : Fin r → ℤ) : Prop :=
   Finset.univ.gcd v = 1
 
+/-- The unique rank-zero integral vector is not primitive, since the empty gcd is zero.
+README 10.3. -/
+theorem not_isPrimitiveVector_empty (v : Fin 0 → ℤ) : ¬ IsPrimitiveVector v := by
+  simp [IsPrimitiveVector]
+
 /-- Choosing one of `±v` for every primitive `v`, the differences of the resulting vectors span `ℚ^r`
 when `r ≥ 2`. README 10.3. -/
 theorem span_sub_signedPrimitive (r : ℕ) (hr : 2 ≤ r) (ε : (Fin r → ℤ) → ℤˣ) :
@@ -689,33 +720,16 @@ theorem exists_primitive_large (r : ℕ) (hr : 2 ≤ r) (ℓ₁ ℓ₂ : (Fin r 
       B < |ℓ₂ (fun i => (v i : ℚ))| := by
   sorry
 
-/-- The vector `(1, 0)` is primitive and `(2, 4)` is not. -/
-example : IsPrimitiveVector ![(1 : ℤ), 0] ∧ ¬ IsPrimitiveVector ![(2 : ℤ), 4] := by
+/-- Coprime coordinates suffice for primitivity even when neither coordinate is a unit.
+README 10.3. -/
+example : IsPrimitiveVector ![(1 : ℤ), 0] ∧ IsPrimitiveVector ![(2 : ℤ), 3] ∧
+    ¬ IsPrimitiveVector ![(2 : ℤ), 4] := by
   unfold IsPrimitiveVector
   decide
 
 end Lattices
 
 /-! ## Layer LV.11: Faltings's theorem -/
-
-section Mordell
-
-open CategoryTheory _root_.AlgebraicGeometry
-
-universe u
-
-/-- Faltings finiteness by the Lawrence–Venkatesh method. README 11.6. -/
-theorem mordell_finite (K : Type u) [Field K] [NumberField K]
-    (C : Scheme.{u}) [C.Over (Spec (.of K))]
-    [Smooth (C ↘ Spec (.of K))] [IsProper (C ↘ Spec (.of K))]
-    [GeometricallyConnected (C ↘ Spec (.of K))]
-    [FiniteDimensional K (TauCeti.AlgebraicGeometry.Scheme.Modules.Cohomology
-      (TauCeti.AlgebraicGeometry.InvertibleSheaf.trivial C).obj 1)]
-    (hdim : topologicalKrullDim C = 1) (hg : 2 ≤ C.genus K) :
-    Finite (Over.mk (𝟙 (Spec (.of K))) ⟶ Over.mk (C ↘ Spec (.of K))) := by
-  sorry
-
-end Mordell
 
 section Auxiliary
 
@@ -748,8 +762,8 @@ end Auxiliary
 /-!
 Other README targets are omitted below: some require geometric or arithmetic carriers that do
 not exist at the pins, and others have no representative signature in this selection. The README
-retains their full statements. The adapted-basis assertion of 3.2 also remains there; the active
-signature above states its complement consequence.
+retains their full statements. The prescribed-basis extension of 3.2 remains there; complements
+and Lagrangian transitivity are supplied by MetaplecticAutomorphicForms 0.9a.
 
 README-only API contracts accompanying the retained definitions:
 * §0.3: `semilinearCentralizer_le_pow`, `units_semilinearCentralizer`,
@@ -759,14 +773,13 @@ README-only API contracts accompanying the retained definitions:
 * §0.7: `affinePermGroup.mem_iff`, `affinePermGroup.mul_apply`,
   `affinePermGroup.stabilizer_zero`, `affinePermGroup.commutator_eq` describe the
   permutation image and the formulas for evaluation, stabilizers and commutators.
-* §0.14: `symplecticTransvection_eq_transvection`, `symplecticTransvection_sl2`
-  identify the library transvection and its matrix on a symplectic plane.
+* §0.14: `symplecticTransvection_eq_transvection` identifies the library transvection.
 * §1.4: `largestCMSubfield_map`, `largestCMSubfield_cyclotomic` give field-isomorphism
   functoriality and the cyclotomic case.
 * §1.12: `filtrationWeight_eq`, `filtrationWeight_det`, `filtrationWeight_directSum`,
   `filtrationWeight_restrictScalars`, `filtrationWeight_sub_quotient`,
-  `filtrationWeight_twist`, `filtrationWeight_example` are adapters on the supplied
-  filtered carrier and mean Hodge weight.
+  `filtrationWeight_twist`, `filtrationWeight_reindex`, `filtrationWeight_example` are adapters on
+  the supplied filtered carrier and mean Hodge weight.
 * §6.4: `legendreCurve.j_one_seven_two_eight` names the special-value check.
 * §7.1: `sizeV_indep`, `sizeV_scheme`, `sizeV_eq_places`, `sizeV_cycle` relate the
   finite-permutation definition to Frobenius, finite etale schemes and local degrees.
@@ -797,7 +810,8 @@ at a friendly place (LV20 Lemma 2.9); 1.14 D_dR of an induced representation at 
 Hodge weights summed over places above a friendly place (LV20 Lemma 2.10); 1.16 The Galois
 representation on H¹ of an abelian variety.
 
-Layer LV.2: 2.1 Abelian-by-finite families (LV20 Definition 5.1); 2.2 Good models over rings of
+Layer LV.2: 2.1 Abelian-by-finite families (LV20 Definition 5.1); 2.1a Integral Gauss–Manin
+connection (`integralGaussManin`); 2.2 Good models over rings of
 S-integers; 2.3 Existence of good models after enlarging S; 2.4 The de Rham bundle of an
 abelian-by-finite family; 2.5 Residue disks and their coordinates; 2.6 Formal horizontal
 sections of an integrable connection with integral coefficients; 2.7 p-adic convergence of
@@ -807,7 +821,7 @@ Complex Gauss–Manin transport and Betti parallel transport (LV20 (3.8)); 2.11 
 Frobenius on the de Rham cohomology of the fibres and its compatibility with Gauss–Manin
 transport (LV20 (3.9)).
 
-Layer LV.3: 3.3 Transitivity on Lagrangian subspaces; 3.4 Symmetric graph charts; 3.5 Arnold
+Layer LV.3: 3.2 Extension of a prescribed Lagrangian basis; 3.4 Symmetric graph charts; 3.5 Arnold
 chart cover; 3.6 The Lagrangian Grassmannian; 3.7 The Lagrangian Grassmannian is smooth,
 projective and geometrically irreducible of dimension d(d+1)/2; 3.8 The Lagrangian period
 variety of a symplectic module over a finite étale algebra; 3.9 Geometry of the period variety;
@@ -836,11 +850,13 @@ intersection form of an oriented surface; 5.7 Annular neighbourhoods and cutting
 simple closed curves; 5.9 The mapping class group; 5.10 Change of coordinates for simple closed
 curves; 5.11 Dehn twists; 5.12 Action of Dehn twists and multitwists on homology; 5.13 Primitive
 homology classes are represented by simple closed curves; 5.14 The homotopy exact sequence of a
-fibre bundle; 5.15 Oriented surfaces other than the sphere are aspherical; 5.16 Surface groups
+fibre bundle; 5.14a Euclidean and hyperbolic closed-surface models
+(`closedSurface_polygonModel`, `closedSurface_cyclicCentralizer`); 5.15 Oriented surfaces other than the sphere are aspherical; 5.16 Surface groups
 of negative Euler characteristic have trivial centre; 5.17 The evaluation fibration of the
 homeomorphism group; 5.18 Contractibility of the identity component (Hamstrom); 5.19 The point-
 pushing homomorphism; 5.20 The Birman exact sequence and pushes of simple loops; 5.21 Capping
-boundary circles and forgetting points are surjective on mapping class groups; 5.22 Surjectivity
+boundary circles and forgetting points are surjective on mapping class groups; 5.21a Integral
+symplectic generation (`integralSymplectic_transvection_generation`); 5.22 Surjectivity
 of the symplectic representation; 5.23 The configuration fibration of a surface and its
 fundamental groups; 5.24 Lifting homeomorphisms to covers; 5.25 Lifting powers of Dehn twists to
 finite coverings; 5.26 Monodromy of families of branched covers over configuration spaces.
@@ -861,7 +877,7 @@ representations really vary in the family (LV20 Lemma 6.2); 7.9 Rational points 
 an abelian-by-finite family (LV20 Proposition 5.3).
 
 Layer LV.8: 8.1 The complex points of a curve form a closed surface of the same genus; 8.3
-Unique extension of the action to an overgroup; 8.4 Normalization, finite covers and
+Unique extension of the action to an overgroup; 8.4 Normalization of finite covers and
 analytification; 8.5 The complex Hurwitz space of G-covers branched at one point (LV20 §7.3);
 8.6 Descent of the Hurwitz covering to K (LV20 Lemma 7.4); 8.7 Hurwitz spaces of G-covers
 branched at one point (LV20 Proposition 7.1); 8.9 The connected kernel of an endomorphism of an
@@ -870,7 +886,8 @@ the Jacobian of a compact Riemann surface; 8.12 Homology of the reduced Prym is 
 homology of the degree-q cover; 8.13 The Kodaira–Parshin family (LV20 Definitions 7.2–7.3); 8.14
 The map from Kodaira–Parshin fibres to H¹(Y, ℤ/(q − 1)) (LV20 (5.5)).
 
-Layer LV.9: 9.1 Aff(q)-covers and singly ramified Aff(q)-covers (LV20 §8.2); 9.2 Primitive
+Layer LV.9: 9.3 Branched transfer and its deck-sum identity (`branchedTransfer_deckSum`);
+9.1 Aff(q)-covers and singly ramified Aff(q)-covers (LV20 §8.2); 9.2 Primitive
 homology of a covering; 9.4 Lifted mapping classes and the monodromy maps Mon (LV20
 (8.2)–(8.5)); 9.5 Classes of the preimage circles (LV20 Lemma 8.2); 9.6 The rank of a lifted
 twist detects the cycle type (LV20 Lemma 8.3); 9.7 Liftable curves and their transvections; 9.8
