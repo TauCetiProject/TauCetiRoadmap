@@ -311,6 +311,15 @@ coefficient point containing the kernel of the Hecke map, and `fullScopeOrdinary
 with that additional hypothesis. Section 2.1 reuses `NearlyOrdinaryEigenpacket.isOrdinary`
 for the full quotient character; `IsSmoothOrdinary` uses only the selected smooth factor,
 and `isOrdinary_iff_smoothOrdinary` also requires all labelled algebraic exponents to vanish.
+Sections 3.32–3.34 consume GlobalGaloisDeformations' `HeckeGaloisDatum` and its
+classifying and point-detection theorems on finite-flat specializations with absolutely
+irreducible residual representation and trace generation. The big ordinary algebra
+retains its weight-space construction. Section 4.20 uses DeformationAndDerivedPatchingAlgebra's
+`patching_surjection_iso` under its scalar-map, equal-variable and positive-rank hypotheses;
+the general Skinner–Wiles datum and numerical criterion remain README targets.
+Sections 5.7 and 5.10 use AlgebraicModularFormsAndSerreWeights' supplied
+`TauCeti.ResidualModularity.ArisesFrom` and `TauCeti.ResidualModularity.IsModular`
+over ℚ, with the selected ordinary quotient as an additional local condition.
 The arithmetic central-character and pseudocharacter comparisons remain README targets. Local tangent
 conditions, the determinant–flag spectrum comparison, arithmetic patching, localized R=T,
 Skinner–Wiles lifting and single-coefficient solvable descent likewise require

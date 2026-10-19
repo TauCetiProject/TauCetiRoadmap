@@ -8,7 +8,7 @@ This roadmap owns the arithmetic comparisons of ordinary Hecke algebras with def
 
 PadicFamilies, Layers 0a, 0, 4 and 5, owns ordinary projectors, towers, control, freeness, weight algebras and the classical big ordinary Galois representation. The comparisons and EPW new-quotient refinements below add arithmetic compatibility. HilbertModularVarietiesAndShimuraCurves §§R18.3.1–R18.3.22 supplies fixed-central-character definite forms, neat levels and integral pairings. GL2AutomorphicRepresentationsAndTransfer §§R17.3.1–R17.3.9, R17.4.8–R17.4.11 and R17.4.16 supplies Jacquet–Langlands, solvable base change/descent and quadratic induction. Sections 1.6, 4.6a and 6.14 specify the additional arithmetic realization, single-coefficient descent and solvable preparation needed here.
 
-LocalGaloisDeformationRings, Layer `F` and Layers 6–8, owns generic deformation functors, Schur representability, local ordinary rings and determinant–flag spectrum comparisons. GlobalGaloisDeformations §§3.4–3.8 owns relative global presentations. DeformationAndDerivedPatchingAlgebra §§3.1–3.2 and 6.6 owns depth and connectedness dimension. The exact characteristic-p patching theorem and numerical criterion used here are targets of §4.20, and §4.3 proves the Cohen–Macaulay intersection bound. Wiles' ordered triples `(a,d,x)` present trace data relative to a fixed normalizing element; IntegralHeckeAndGaloisDeterminants §0.5 supplies their comparison with invariant pseudocharacters and determinants.
+LocalGaloisDeformationRings, Layer `F` and Layers 6–8, owns generic deformation functors, Schur representability, local ordinary rings and determinant–flag spectrum comparisons. GlobalGaloisDeformations §§3.4–3.8 owns relative global presentations, and Layer R04.6 §§6.7–6.8 owns the finite-flat Hecke–Galois datum and its unframed classifying maps. DeformationAndDerivedPatchingAlgebra §§3.1–3.2, 5.5–5.6 and 6.6 owns depth, free-module patching and connectedness dimension. The exact characteristic-p patching theorem and numerical criterion used here are targets of §4.20, and §4.3 proves the Cohen–Macaulay intersection bound. Wiles' ordered triples `(a,d,x)` present trace data relative to a fixed normalizing element; IntegralHeckeAndGaloisDeterminants §0.5 supplies their comparison with invariant pseudocharacters and determinants.
 
 Existing Mathlib quaternion algebras, restricted products, finite fields, power series, local rings and finite/free modules supply the algebraic carriers. For the commutative algebra `𝒪[t]` the ordinary idempotent is the factorial-powers idempotent of TauCetiRoadmap.IntegralHeckeAndGaloisDeterminants, Layer 2; §1.1 only compares Skinner–Wiles' exponent with it. TauCetiRoadmap.LocalGaloisGroups and ProfiniteArithmetic supply the general local/profinite arithmetic boundaries, and TauCeti's classical modular forms supply their existing Hecke and q-expansion infrastructure. Ordinary projection, permissible Eisenstein localization, the nonsplit residual extension conditions and the arithmetic `R = T` comparisons are additional targets here; generic local Galois groups, adèles and classical modular-form spaces are not reconstructed.
 
@@ -66,7 +66,7 @@ Use §R02.4.4 for the global Euler characteristic formula, §R02.5.1 for Selmer 
 
 ### From DeformationAndDerivedPatchingAlgebra
 
-Use §§3.1–3.2 for finite resolutions, depth and Auslander–Buchsbaum, §6.6 for connectedness dimension at its stated bound, and §7.6 for the complete-DVR fraction-quotient dual. The Cohen–Macaulay intersection estimate of §4.3 has the stronger bound of SW99 Appendix A.1–A.2. The exact characteristic-p patching datum and complete-intersection numerical criterion are targets of §4.20; they do not follow from characteristic-zero balanced patching.
+Use §§3.1–3.2 for finite resolutions, depth and Auslander–Buchsbaum, §6.6 for connectedness dimension at its stated bound, and §7.6 for the complete-DVR fraction-quotient dual. The Cohen–Macaulay intersection estimate of §4.3 has the stronger bound of SW99 Appendix A.1–A.2. Use §§5.2–5.4 for compatible cutoff towers and their ring/module actions, §5.5 for the numerical depth comparison, and [§5.6, free-module patching consumer](../DeformationAndDerivedPatchingAlgebra/README.md#patching-surjection-iso), `patching_surjection_iso`, when the arithmetic system supplies its scalar maps, equal variable counts and positive-rank free modules. It permits equal characteristic and residue characteristic two. Section 4.20 retains the Skinner–Wiles characteristic-p datum, whose ring scalars are only `B_N`, and the complete-intersection numerical criterion used by §4.15; neither follows merely from balance. The independent-level patching interface follows the Imperial College London FLT project.
 
 ### From PadicHodgeTheory
 
@@ -82,11 +82,15 @@ Use §§R16.2.1–R16.2.7 for newvectors and local unit-eigenline calculations, 
 
 ### From GlobalGaloisDeformations and LocalGaloisDeformationRings
 
-LocalGaloisDeformationRings §§F.1.3, F.2.1–F.2.2, F.2.5 and F.2.7 supply strict deformations, the Galois finiteness condition, Schur representability and trace generation; IntegralHeckeAndGaloisDeterminants Layer 1 supplies coefficient descent for representation reconstruction. GlobalGaloisDeformations §§3.4–3.8 supply global type representability and the relative framed presentation with tangent and obstruction bounds; §§4.1, 4.4 and 7.4 supply restriction, twists and fixed/variable determinant comparisons; §§5.6–5.7 supply Chebotarev selection detecting finite-field Selmer classes. The characteristic-p DVR counting is proved in §§4.11 and 4.18. Section 3.39 supplies the unframed Schur presentation and variable-character ordered-flag refinements.
+LocalGaloisDeformationRings §§F.1.3, F.2.1–F.2.2, F.2.5 and F.2.7 supply strict deformations, the Galois finiteness condition, Schur representability and trace generation; IntegralHeckeAndGaloisDeterminants Layer 1 supplies coefficient descent for representation reconstruction. GlobalGaloisDeformations §§3.4–3.8 supply global type representability and the relative framed presentation with tangent and obstruction bounds; §§4.1, 4.4 and 7.4 supply restriction, twists and fixed/variable determinant comparisons; §§5.6–5.7 supply Chebotarev selection detecting finite-field Selmer classes. The characteristic-p DVR counting is proved in §§4.11 and 4.18. Section 3.39 supplies the unframed Schur presentation and variable-character ordered-flag refinements. For absolutely irreducible residual representations and finite flat local `𝒪`-algebra Hecke quotients, use Layer R04.6 [§6.7](../GlobalGaloisDeformations/README.md#hecke-galois-datum)'s `HeckeGaloisDatum`, `HeckeGaloisDatum.classifying_surjective` and `HeckeGaloisDatum.classifying_unique`; [§6.8](../GlobalGaloisDeformations/README.md#hecke-galois-points) supplies `HeckeGaloisDatum.ofPoints` and `HeckeGaloisDatum.mem_of_points` for reduced quotients with jointly injective DVR points. Sections 3.32–3.34 supply the ordinary arithmetic realization and selected quotient. Finiteness over weight space alone does not make a big ordinary Hecke algebra finite flat over `𝒪`.
 
 LocalGaloisDeformationRings §§F.1.9–F.1.10 and F.2.11 supply `PseudoDefRing` for the residual determinant of `1⊕χ` on `G_{F,Σ}`, its universal coefficients, Noetherianity under `Φ_p`, coefficient change and the representation-to-determinant map. Section 3.8 identifies its ordered Wiles presentation and imposes the auxiliary-inertia quotient; §3.9 specializes the supplied natural map.
 
 LocalGaloisDeformationRings §6.2 supplies the split p-distinguished nearly ordinary versal ring, §6.3 supplies full-flag deformations with fixed inertial characters under its character-ratio exclusions, and §§7.1–7.6 supply the determinant–flag spectrum comparison. Its §§2.5, 2.26, 4.14, 8.5, 8.12–8.13 and 8.18 supply the indicated Barsotti–Tate, crystalline and semistable quotients, their components and Steinberg lifts. The variable-character ordered-flag condition with nonsplit residual data is specified in §3.39. A spectrum comparison does not identify nonreduced deformation functors.
+
+### From AlgebraicModularFormsAndSerreWeights
+
+Use [S-type and modularity predicates](../AlgebraicModularFormsAndSerreWeights/README.md#target-s-type-arises-from-and-modular) for `TauCeti.ResidualModularity.ArisesFrom` and `TauCeti.ResidualModularity.IsModular` in §§5.7 and 5.10 over `ℚ`. The former uses one coefficient ring map matching both Frobenius coefficients; the latter quantifies over the form with its weight and level. Its integral-model comparison retains absolute irreducibility and the coefficient-place identifications. The χ₂-good ordinary refinement is an additional local requirement here. For a general totally real field retain §5.6's Hilbert automorphic seed. The Eisenstein construction of §5.2 uses its residual characters rather than a cuspidal modularity hypothesis.
 
 ### From PadicFamilies
 
@@ -1299,6 +1303,8 @@ If `ρ_m` is irreducible, the traces lie in `T_∞(U, 𝒪)_m` and Carayol's the
 
 Lemma `3.3(i)` as Skinner–Wiles 1999 Lemma 3.11 (§3.17), with traces in place of the pseudo-representation; `(ii)` from (i) and PadicFamilies Layer 5/hida-freeness.
 
+For a fixed-weight local quotient `T` that is finite flat over `𝒪`, with the specified residue field and Frobenius traces topologically generating `T` over `𝒪`, realize GlobalGaloisDeformations Layer R04.6 §6.7's `HeckeGaloisDatum` using the specialized representation. Its arithmetic coordinates are `t_ℓ=T(ℓ)` and `s_ℓ=S(ℓ)`, so the constant coefficient is `Nm(ℓ)S(ℓ)`. For reduced such `T`, §6.8's `ofPoints` construction applies when the algebraic DVR points are jointly injective and carry the matching residual identifications. The big algebra above is only finite torsion-free over weight space; its integral model uses the supplied Carayol theorem directly.
+
 Provide the following operations and compatibility statements.
 
 - `heckeGaloisRep`: `ρ_{U,m}` over `T_∞(U, 𝒪)_m` when `ρ_m` is irreducible.
@@ -1315,10 +1321,12 @@ Provide the following operations and compatibility statements.
 - `heckeLocal_generated_enlarge`: Enlarging `S` keeps the generation statement (fewer generators, same algebra).
 - `lambda_over_lambda_prime_free`: `Λ_𝒪` is free of rank `p^{Σ r_i}` over `Λ′_𝒪`.
 - Integrality is claimed only when `ρ_m` is irreducible; for residually reducible `m` use §3.15.
+- The datum's finite-flat hypothesis concerns `𝒪`, not `Λ_𝒪`; `𝒪[[Y]]` is not finite over `𝒪`.
+- For `T=𝒪[ε]/(ε²)` all DVR points kill `ε`; they cannot reconstruct the representation by joint injectivity.
 
 ([SW01](<https://www.numdam.org/item/AFST_2001_6_10_1_185_0.pdf>) §3, (H_even), p. 193 (Numdam PDF page 10; printed page `=` PDF page `+ 183`); [SW01](<https://www.numdam.org/item/AFST_2001_6_10_1_185_0.pdf>) §3, before Lemma 3.3, p. 195 (Numdam PDF page 12; printed page `=` PDF page `+ 183`); [SW01](<https://www.numdam.org/item/AFST_2001_6_10_1_185_0.pdf>) §3, Lemma 3.3, p. 195 (Numdam PDF page 12; printed page `=` PDF page `+ 183).`)
 
-*Needs:* §3.14; PadicFamilies:§5.3; §3.17; LocalGaloisDeformationRings:§F.2.7; PadicFamilies:§5.6; PadicFamilies:§5.7.
+*Needs:* §3.14; PadicFamilies:§5.3; §3.17; LocalGaloisDeformationRings:§F.2.7; PadicFamilies:§5.6; PadicFamilies:§5.7; GlobalGaloisDeformations Layer R04.6 §§6.7–6.8.
 
 ### 3.33 Permissible levels `U_{𝒟_Q}, (H_def)` and the Hecke rings `T_{𝒟_Q}`
 
@@ -1369,13 +1377,18 @@ The maps `r_P` : `R_{𝒟_Q} → T_{𝒟_Q}/P` assemble to `r_{𝒟_Q}` : `R_{�
 
 The induced representation into `GL₂(T_{𝒟_Q})` agrees with `ρ^mod_{𝒟_Q}` modulo every minimal prime, so they are equal (`T_{𝒟_Q}` reduced); hence `ρ^mod_{𝒟_Q}` is of type `𝒟_Q`.
 
+At the finite-flat specializations of §3.32, this is the supplied unframed classifying map: GlobalGaloisDeformations' `HeckeGaloisDatum.classifying_surjective` proves surjectivity and `classifying_unique` identifies it by the unramified Frobenius traces. Use `mem_of_points` to factor through the ordinary global problem when the jointly injective DVR points satisfy its coefficient-changed local conditions and the selected residual quotient. For the big algebra, the preceding minimal-prime argument and §3.31 supply this arithmetic refinement directly. The residual absolute irreducibility here excludes the permissible Eisenstein case of §3.16.
+
 **Checks.**
 
 - The surjection is onto the full Hecke ring, not only onto a trace subring; compare §3.17, which in the reducible case goes through pseudo-deformations.
+- Extending a representation from `𝒪` to `𝒪[ε]/(ε²)` with unchanged traces leaves its trace image in `𝒪`; the datum's generation hypothesis fails.
+- Formal framing coordinates can take distinct values with identical traces; the classifying uniqueness statement is unframed.
+- A local ordinary equation vanishing at all points vanishes in `T` only with joint injectivity; testing only one branch of a reducible `T` is insufficient.
 
 ([SW01](<https://www.numdam.org/item/AFST_2001_6_10_1_185_0.pdf>) §3, Proposition 3.2, p. 194 (Numdam PDF page 11; printed page `=` PDF page `+ 183`); [SW01](<https://www.numdam.org/item/AFST_2001_6_10_1_185_0.pdf>) §3, proof of Proposition 3.4, p. 196 (Numdam PDF page 13; printed page `=` PDF page `+ 183`); [SW01](<https://www.numdam.org/item/AFST_2001_6_10_1_185_0.pdf>) §3, end of the proof of Proposition 3.4, p. 197 (Numdam PDF page 14; printed page `=` PDF page `+ 183).`)
 
-*Needs:* §3.33; §3.31; §3.18; §3.6; PadicFamilies:§5.8; AutomorphicGaloisRepresentations:§§4.4, 4.12, 6.4.
+*Needs:* §3.33; §3.31; §3.18; §3.6; PadicFamilies:§5.8; AutomorphicGaloisRepresentations:§§4.4, 4.12, 6.4; GlobalGaloisDeformations Layer R04.6 §§6.7–6.8.
 
 ### 3.35 `T_{𝒟_Q} ≅ T^min_{𝒟_Q} ⊗ 𝒪[N_Σ]` and the trace at auxiliary primes (Lemma 3.5)
 
@@ -1939,6 +1952,10 @@ Proposition `8.2: ψ(𝒟, 𝔭)` is an isomorphism for every `𝒟` by the cong
 
 ### 4.20 Characteristic-p patching and the numerical criterion
 
+Use DeformationAndDerivedPatchingAlgebra §§5.2–5.5 for compatible cutoff extraction, the limit actions and the regular-base depth comparison. Its [§5.6 free-module consumer](../DeformationAndDerivedPatchingAlgebra/README.md#patching-surjection-iso), `patching_surjection_iso`, supplies `R≃T`, module freeness and a complete-intersection presentation when the given surjection and faithful nonzero Hecke module admit that theorem's independent finite-level data: equal numbers of scalar and presentation variables, local scalar lifts into the regular presentation ring, and positive-rank free modules over the specified group-ring quotients with the prescribed augmentation quotient. No transition maps between original auxiliary levels are required. The theorem includes `k[[T]]` coefficients. In the general Skinner–Wiles system below the ring action is only through `B_N` while the module has an `A_N`-action, and the free conclusions occur after inverting `T`. These hypotheses require the separate comparison below rather than an application of the free-module consumer to the original levels.
+
+The numerical criterion applies in §4.15 after its DVR cut, with the compatible augmentations, augmentation ideals and congruence ideal stated below.
+
 Prove [de Smit–Rubin–Schoof, Criterion I](https://www.mat.uniroma2.it/~schoof/ci.pdf) in its full complete-DVR form. Let `C` be a complete DVR and `R↠T` a surjection of complete Noetherian local C-algebras with compatible surjective augmentations to `C`, with `T` finite flat over `C`. Put `H_R=ker(R→C)`, `G_T=Ann_T(ker(T→C))`, `δ:T→C` and `η_T=δ(G_T)`, and assume `η_T≠0`. Then `ℓ_C(H_R/H_R²)≥ℓ_C(C/η_T)`, with equality exactly when `R→T` is an isomorphism between complete intersections over `C`. Thus the opposite weak inequality suffices for the isomorphism. This includes the case with `R` finite and `T` a reduced complete intersection used in the arithmetic argument; the general criterion allows an arbitrary complete Noetherian `R` and finite flat `T`. (Criterion I, Introduction, author PDF p. 1; proof in §3, pp. 10–11; in Modular Forms and Fermat's Last Theorem, Springer, 1997.)
 
 Skinner–Wiles characteristic-p patching over `k[[T]]`, with its data, all axioms `(5.1)–(5.11)`, and the conclusions of Lemma 5.6 and Propositions 5.7–5.9. Let `k` be a finite field of characteristic `p`, `A = k[[T]]` with fraction field `K`, and `𝓛 = {0} ∪ {N_j : j≥1}`, where the `N_j` are strictly increasing positive odd integers, and `n ≥ 1`; Set `A₀=B₀=A`. For each positive odd `N∈𝓛`, define `A_N = A[[s_1, …, s_n]]/(s_i^{N+1})` and `B_N = A[[t_1, …, t_n]]/(t_i^{(N+1)/2}) ⊆ A_N` via `t_i ↦ s_i²/(1+s_i) = (1+s_i)+(1+s_i)⁻¹−2`. A patching datum is: rings `R^{(N)} = A[[x_1, …, x_m]]/𝔞^{(N)}` (`m` independent of `N`) finite free over `A` with `𝔞^{(N)} ⊆ (x_i)`, surjections `R^{(N)} ↠ R^{(0)}`, B_N-algebra structures, and for `a=0` or odd `1≤a≤N`, rings `R^{(N)}_a` with `(5.2)–(5.5)` (`𝔭^{d(a)} = 0` in `R^{(N)}_a, 𝔭/𝔭² ≅ Aⁿ ⊕ Tor` with `Tor` bounded independently of `N` and `a`); trace subrings `R^{tr(N)} = A[[y_1, …, y_m]]/𝔟^{(N)}` with `(5.6)–(5.8)` (the cokernel of `𝔮/𝔮² → 𝔭/𝔭²` bounded independently of `N`); modules `M^{(N)}` free over `A` of rank `r·rank_A A_N`, compatible over `A_N`, with quotients `M^{(N)}_a` satisfying `(5.9)–(5.10)` (in particular `M^{(N)}_a ⊗ K` free over `A_a ⊗ K` with (s_i)-coinvariants `M^{(0)} ⊗ K`, and `z·M^{(0)} ⊆ M^{(N)}_0` for a fixed `z` with `ord_T(z mod 𝔮^{(0)}) ≠ 0`); and `x^{(N)} ∈ R^{tr(N)}` annihilating `ker(M^{(N)}_a/(s_i) ↠ M^{(N)}_0)` with `ord_T(x^{(N)} mod 𝔮^{(N)}) = t` independent of `N` (5.11).
@@ -1952,6 +1969,9 @@ Prove the abstract characteristic-p extraction, freeness and complete-intersecti
 - The modules carry A_N-actions, whereas the deformation rings carry only the displayed B_N-actions; interchanging them adds an unsupported square root.
 - Inverting `T` gives the generic-fibre freeness and complete intersection, and does not assert an integral isomorphism before the numerical criterion.
 - For the identity augmentation `R=T=C`, both lengths in the criterion are zero and the conclusion is the identity. Dropping compatible augmentations leaves `H_R` and `δ(G_T)` undefined.
+- With no auxiliary variables, the supplied free-module consumer gives `R=T=𝒪` and `M=𝒪^s`, `s>0`; rank zero cannot imply faithfulness.
+- The map `𝒪[[x]]↠𝒪`, with `M=𝒪`, has a faithful target action and nonzero kernel. It cannot satisfy the consumer's finite-level hypotheses.
+- The substitution `t=s²/(1+s)` does not provide the scalar lifts or equal-variable regular presentation required by that consumer.
 
 (Source: SW99 §5, `(5.1)–(5.11)`, pp. 80–82, Lemma 5.6 and Propositions 5.7–5.9, pp. 85–88; de Smit–Rubin–Schoof, Criteria for complete intersections, Criterion I and §3, author PDF pp. 1, 10–11, as used in SW99 §8.)
 
@@ -2124,17 +2144,19 @@ Proposition 3.2 (PadicFamilies Layer 5/hida-control-nearly-ordinary) gives `ρ_1
 
 ### 5.7 The irreducible-residual comparison over `ℚ`
 
-ClassicalSerreModularity §I.1 owns ordinary lifting over `ℚ` for absolutely irreducible modular residual representations, including the imaginary-quadratic correction. Here identify the specialization of §5.6 with that contract on its proved scope. Let `p` be odd and `ρ:G_ℚ→GL₂(E)` continuous, odd, irreducible and finitely ramified, with unramified ordinary quotient and determinant `ψε^{k−1}` (`k≥2`, `ψ` finite order). Require the absolutely irreducible modular residual representation to be p-distinguished, with selected quotient matching `ρ`, and not induced from any imaginary quadratic field for this use of §5.6.
+ClassicalSerreModularity §I.1 owns ordinary lifting over `ℚ` for absolutely irreducible modular residual representations, including the imaginary-quadratic correction. Here identify the specialization of §5.6 with that contract on its proved scope. Let `p` be odd and `ρ:G_ℚ→GL₂(E)` continuous, odd, irreducible and finitely ramified, with unramified ordinary quotient and determinant `ψε^{k−1}` (`k≥2`, `ψ` finite order). Require `TauCeti.ResidualModularity.IsModular(ρ̄)` from AlgebraicModularFormsAndSerreWeights, absolute irreducibility, p-distinguishedness with selected quotient matching `ρ`, and noninduction from every imaginary quadratic field for this use of §5.6. The supplied `ArisesFrom.iff_integral_model` comparison identifies the residual modularity witness with a reduction of the attached representation after compatible coefficient extension; it does not choose the ordinary quotient.
 
 SerreWeightAndLevelOptimisation §§3.1–3.6, 4.7–4.8 and the refinement of §5.10 give the χ₂-good nearly ordinary seed in Diamond Theorem 6.4's range (`p≠3` or irreducibility on `G_{ℚ(√−3)}`). The remaining seed cases require the χ₂-good seed as input, as in §5.6. Apply §5.6 with `F=ℚ`, then use AutomorphicGaloisRepresentations §1.5. The full imaginary-quadratic branch, including induction from `ℚ(√−p)` when `p≡3 mod 4`, is supplied by ClassicalSerreModularity §I.1; it is not deduced from the restricted dihedral estimate here.
 
 **Checks.**
 
-- The unramified quotient fixes `χ₂`, and p-distinguishedness must hold on `D_p`.
+- The unramified quotient fixes `χ₂`, and p-distinguishedness must hold on `D_p`. The global `IsModular` predicate alone does not select that quotient.
 - The characteristic-zero representation is required to be irreducible.
 - A projective Klein four image has three inducing fields; the restricted specialization requires all three to be totally real. The full classical contract retains imaginary-quadratic cases.
 
 (Source: SW01 Introduction, pp. 186–187, and Theorem 5.2 and proof, p. 204, PDF p. 21.)
+
+*Needs:* §5.6; §5.10; ClassicalSerreModularity §I.1; AlgebraicModularFormsAndSerreWeights, [S-type and modularity predicates](../AlgebraicModularFormsAndSerreWeights/README.md#target-s-type-arises-from-and-modular).
 
 *Needs:* §5.6; §5.10; SerreWeightAndLevelOptimisation:§§3.1–3.6, 4.7–4.8; AutomorphicGaloisRepresentations:§1.5; ClassicalSerreModularity:§I.1 (full classical export).
 
@@ -2183,20 +2205,20 @@ Since `[K_{n+1}` : `K_n] = ℓ` is prime to `p`, extension of ideal classes foll
 
 ### 5.10 The distinguished nearly ordinary residual seed over `ℚ`
 
-Diamond, The refined conjecture of Serre (1995), Theorem 6.4, in the form Skinner–Wiles 2001 use for their Theorem 5.2: for `p` odd and `ρ̄` : `G_ℚ → GL₂(F̄_p)` irreducible, modular and p-distinguished (`ρ̄|_{D_p} ≅ (χ_1 *`; `0 χ_2), χ_1 ≠ χ_2`), with `p ≠ 3` or `ρ̄|_{G_{ℚ(√−3)}}` irreducible, there is a nearly ordinary cuspidal `π_1` of `GL₂/ℚ` whose p-adic representation is nearly ordinary at `p`, with quotient of finite-order inertia reducing to `χ₂` (a χ₂-good lift). An ordinary lift with unramified quotient is asserted only when `χ₂` is unramified.
+Diamond, The refined conjecture of Serre (1995), Theorem 6.4, in the form Skinner–Wiles 2001 use for their Theorem 5.2: for `p` odd and `ρ̄` : `G_ℚ → GL₂(F̄_p)` irreducible, satisfying AlgebraicModularFormsAndSerreWeights' `TauCeti.ResidualModularity.IsModular`, and p-distinguished (`ρ̄|_{D_p} ≅ (χ_1 *`; `0 χ_2), χ_1 ≠ χ_2`), with `p ≠ 3` or `ρ̄|_{G_{ℚ(√−3)}}` irreducible, there is a nearly ordinary cuspidal `π_1` of `GL₂/ℚ` whose p-adic representation is nearly ordinary at `p`, with quotient of finite-order inertia reducing to `χ₂` (a χ₂-good lift). An ordinary lift with unramified quotient is asserted only when `χ₂` is unramified.
 
-Prove this nearly ordinary seed refinement here with the indicated residual modularity hypothesis; it supplies §5.7. It does not turn the residually reducible route into an application of Serre's conjecture.
+Choose its eigenform witness through the supplied `ArisesFrom` predicate, retaining the coefficient reduction map and residue embedding. Prove this nearly ordinary seed refinement here with that residual modularity hypothesis; it supplies §5.7. It does not turn the residually reducible route into an application of Serre's conjecture.
 
 **Checks.**
 
 - When the residual local characters coincide the stated distinguished seed theorem does not apply.
 - At `p=3` the extra irreducibility on `G_{ℚ(√−3)}` is retained; oddness alone does not imply it.
-- The chosen quotient reduces to `χ₂`; reversing the chosen flag gives a different seed problem even for a split local representation.
+- The chosen quotient reduces to `χ₂`; reversing the chosen flag gives a different seed problem even for a split local representation. Identical global Frobenius polynomials do not distinguish the two flags.
 - For `E=X₀(11)` at `p=7`, `a₂=−2` gives Frobenius discriminant `3` modulo 7 (nonsquare), while `a₇=−2` is a unit. Twisting `E[7]` by `ω₇` gives distinguished inertia characters `ω₇²,ω₇`; the selected quotient `ω₇` is ramified and cannot be the reduction of an unramified character.
 
 (Source: Diamond, The refined conjecture of Serre, Theorem 6.4, as used in SW01 Theorem 5.2, p. 204 (PDF p. 21).)
 
-*Needs:* SerreWeightAndLevelOptimisation §§3.1–3.6, 4.7–4.8; GL2AutomorphicRepresentationsAndTransfer §§R16.6.1–R16.6.5.
+*Needs:* SerreWeightAndLevelOptimisation §§3.1–3.6, 4.7–4.8; GL2AutomorphicRepresentationsAndTransfer §§R16.6.1–R16.6.5; AlgebraicModularFormsAndSerreWeights, S-type and modularity predicates.
 
 ### Examples
 
