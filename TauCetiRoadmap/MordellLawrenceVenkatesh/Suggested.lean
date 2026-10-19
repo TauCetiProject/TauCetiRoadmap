@@ -775,7 +775,7 @@ README-only API contracts accompanying the retained definitions:
 Layer LV.0: 0.1 Splitting of a finite separable extension after base change to a splitting
 field; 0.2 Idempotent decomposition of a module over a split étale algebra; 0.5 The unit group
 of a finite-dimensional algebra as an algebraic group; 0.6 Frobenius centralizers over
-unramified extensions of a p-adic field; 0.10 The commutator-product map on Aff(q)^{2s} (LV20
+unramified extensions of a p-adic field; 0.10 The commutator-product map on `Aff(q)^{2s}` (LV20
 Lemma 2.11); 0.15 Finite-index, normality and connectedness properties of subgroup closures;
 0.17 Centre and geometric normal subgroups of the symplectic group; 0.18 Orbit maps,
 transporters and dimensions of orbit closures; 0.19 The Zariski closure of the powers of a
