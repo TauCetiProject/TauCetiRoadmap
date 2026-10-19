@@ -134,6 +134,8 @@ noncomputable def finiteLocallyFreeToQuasicoherent (X : Scheme.{u}) :
     FiniteLocallyFreeSheaf X ⥤ QuasicoherentSheaf X where
   obj E := ⟨E.obj, by sorry⟩
   map f := ⟨f.hom⟩
+  map_id E := by rfl
+  map_comp f g := by rfl
 
 noncomputable def finiteLocallyFreeToFinitelyPresented (X : Scheme.{u}) :
     FiniteLocallyFreeSheaf X ⥤ TauCeti.AlgebraicGeometry.FinitelyPresentedSheaf X := by
@@ -393,6 +395,12 @@ noncomputable def pullbackQuasicoherentAlgebra {X Y : Scheme.{u}} (f : Y ⟶ X) 
     QuasicoherentAlgebra X ⥤ QuasicoherentAlgebra Y where
   obj A := ⟨(Scheme.Modules.pullback f).mapCommMon.obj A.obj, by sorry⟩
   map a := ⟨(Scheme.Modules.pullback f).mapCommMon.map a.hom⟩
+  map_id A := by
+    apply ObjectProperty.hom_ext
+    exact (Scheme.Modules.pullback f).mapCommMon.map_id A.obj
+  map_comp a b := by
+    apply ObjectProperty.hom_ext
+    exact (Scheme.Modules.pullback f).mapCommMon.map_comp a.hom b.hom
 
 noncomputable def baseChangeAffineSchemeOver {X Y : Scheme.{u}} (f : Y ⟶ X) :
     AffineSchemeOver X ⥤ AffineSchemeOver Y := by
