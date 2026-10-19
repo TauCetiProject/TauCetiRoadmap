@@ -13,6 +13,7 @@ import TauCeti.Algebra.AlgebraicGroup.Connected.CommHopfAlgCat
 import TauCeti.Algebra.AlgebraicGroup.GeometricallyReduced.CommHopfAlgCat
 import TauCeti.Algebra.AlgebraicGroup.Tangent.Cotangent
 import TauCeti.Algebra.Quaternion.NormForm
+import TauCeti.NumberTheory.NumberField.Global.Adeles.LocallyCompact
 import TauCeti.NumberTheory.NumberField.Global.Ideles.Norm.Basic
 import TauCeti.RingTheory.DedekindDomain.FiniteAdeleRing.ClassGroup
 
@@ -392,6 +393,20 @@ namespace Adeles
 open _root_.NumberField IsDedekindDomain
 
 variable (K : Type*) [Field K] [NumberField K]
+
+/-- Multiplication by a unit of the completion scales additive Haar images by its absNorm-normalized
+norm ([Platonov–Rapinchuk–Rapinchuk], §3.5, pp. 186–187). -/
+theorem distribHaarChar_adicCompletion (v : HeightOneSpectrum (𝓞 K))
+    (x : (v.adicCompletion K)ˣ) :
+    distribHaarChar (v.adicCompletion K) x = ‖(x : v.adicCompletion K)‖₊ := by
+  sorry
+
+/-- The additive Haar character of an idele is its product-defined idele norm
+([Platonov–Rapinchuk–Rapinchuk], §3.5, pp. 186–189). -/
+theorem distribHaarChar_adeleRing (x : IdeleGroup (𝓞 K) K) :
+    distribHaarChar (AdeleRing (𝓞 K) K) x =
+      (TauCeti.GlobalNumberFields.ideleNorm x : ℝ≥0) := by
+  sorry
 
 instance instMeasurableSpaceFiniteAdeleRing : MeasurableSpace (FiniteAdeleRing (𝓞 K) K) :=
   borel _
