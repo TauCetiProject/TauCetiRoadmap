@@ -172,7 +172,7 @@ Provide the following operations and compatibility statements.
 
 - `stabiliserCount`: `c_U(x) =` #Stab_Ū(x).
 - `quaternionicPairing`: ⟨f, `g⟩_U = Σ c_U(x)^{−1} f(x)g(x)`.
-- `quaternionicPairing_perfect`: `H⁰ ≅ Hom_R(H⁰, R)` when all `c_U(x)` are units.
+- `quaternionicPairing_perfect`: `H⁰ ≅ Hom_R(H⁰, R)` when all `c_U(x)` are units. On a finite set `X`, Suggested.lean states its full coefficient-ring form: for unit weights `c:X→Rˣ` over any commutative ring and every linear functional `ℓ`, there is a unique `f` with `Σ_x c(x)⁻¹f(x)g(x)=ℓ(g)` for every `g`. Taking the units to be the stabilizer counts gives the arithmetic pairing; over a field this is `quaternionicPairing`.
 - `quaternionicPairing_hecke_adjoint`: ⟨[UgU]f, h⟩ `=` ⟨f, `[Ug^{−1}U]h⟩`.
 - `heckeAdjoint`: `t ↦ t⁺`, an isomorphism `T(U_a, 𝒪) ≅ T⁺(U_a, 𝒪)`.
 - `ordinaryPairing_perfect`: `eH⁰ × eH⁰⁺ → R` is perfect.
@@ -182,7 +182,8 @@ Provide the following operations and compatibility statements.
 **Checks.**
 
 - `quaternionicPairing_free`: If Ū acts freely (all `c_U(x) = 1`), ⟨f, g⟩ `= Σ f(x)g(x)` and the Gram matrix in the basis of point indicators is the identity.
-- `quaternionicPairing_one_point`: `X(U)` one point with stabiliser order `c`: ⟨f, g⟩ `= c^{−1}fg`, perfect `iff c` is a unit in `R`; over `𝒪` with `p | c` the pairing is not defined.
+- On `X(U)` one point with stabiliser order `c`: ⟨f, g⟩ `= c^{−1}fg`, perfect `iff c` is a unit in `R`; over `𝒪` with `p | c` the pairing is not defined.
+- If the count at a point vanishes in the coefficient field, its point indicator is nonzero but pairs to zero with every function. Positive natural-number counts divisible by the characteristic have this defect too.
 - `heckeAdjoint_central`: For central `g = z ∈ A_f^×`, [UzU] is translation by `z` and its adjoint is translation by `z^{−1}`.
 - The pairing is not Hecke-equivariant; only the twisted module `H⁰(·)⁺` is paired.
 - For a free central orbit of two points with unit stabilizers and pulled-back values `f=2,g=3`, `B_X=12=2·6`, whereas the central pairing is 6. If `p` divides `#C`, the scaling identity remains valid but does not permit integral division by `#C`.
@@ -212,10 +213,10 @@ Provide the following operations and compatibility statements.
 
 **Checks.**
 
-- `trace_singleton_two_preimages`: If Y=Fin `2, X` is a singleton and `g=(2,3)`, the trace at the single point is 5; it is a sum, not an average.
-- `trace_empty_fibre`: For π:Unit→Fin 2 with `π(*)=0` and `g(*)=7`, the trace at 1 is 0.
-- `trace_identity`: For `π=id` on a finite type, every fibre is a singleton and the trace is `g`.
-- `trace_empty_source`: An empty source gives the zero function on every finite target.
+- If Y=Fin `2, X` is a singleton and `g=(2,3)`, the trace at the single point is 5; it is a sum, not an average.
+- For π:Unit→Fin 2 with `π(*)=0` and `g(*)=7`, the trace at 1 is 0.
+- `traceAlong_id`: For `π=id` on a finite type, every fibre is a singleton and the trace is `g`.
+- An empty source gives the zero function on every finite target.
 - The traces are the transition maps of `M_∞`; the pullbacks are those of `H_∞`.
 - For one target class of stabilizer order 2 and one source class of order 1, the trace of value 3 is 6, not 3; the weighted target pairing is then `(1/2)·6=3`.
 
@@ -708,7 +709,7 @@ A (2-dimensional) pseudo-representation of `Gal(F̄/F)` into a commutative topol
 
 `p` odd; the complex conjugation `z_1` normalises the basis.
 
-The identities for `{a_σ, d_σ, b_σc_τ}` expand the matrix product (checked by an `example` in Suggested.lean).
+The identities for `{a_σ, d_σ, b_σc_τ}` expand the matrix product, as in `PseudoRep.ofRep`.
 
 The trace a `+ d` is a 2-dimensional pseudocharacter (IntegralHeckeAndGaloisDeterminants §0.5), 2 being invertible.
 
@@ -724,11 +725,11 @@ Provide the following operations and compatibility statements.
 
 **Checks.**
 
-- `pseudoRep_ofRep_identity`: For 2×2 matrices, `b_{στ}c_{αβ} = (a_σb_τ + b_σd_τ)(c_αa_β + d_αc_β)` expands to the fourth identity.
+- For 2×2 matrices, `b_{στ}c_{αβ} = (a_σb_τ + b_σd_τ)(c_αa_β + d_αc_β)` expands to the fourth identity.
 - Directly evaluate `PseudoRep.trace` and `PseudoRep.det` at 1 to obtain `(2,1)`, and on `PseudoRep.residual` at `σ` to obtain `(1+χ(σ),χ(σ))`. On `PseudoRep.ofRep` with matrix `[[2,1],[1,1]]` obtain trace 3, determinant 1 and `x(σ,σ)=1`; neither a negated trace nor a constant determinant passes these tests.
 - `pseudoRep_residual`: `ρ_c` and `ρ_{c′}` have the same pseudo-representation `ρ_0 = {1, χ, 0}`, since `x =` bc vanishes when c-entries are 0.
-- `pseudoRep_det_of_rep`: For `ρ = (a b`; `c d`), det of ofRep `ρ` is `a_σd_σ − b_σc_σ =` det `ρ(σ)`.
-- `pseudoRep_diagonal_conj`: Conjugating by `diag(u, 1)` scales `b` by `u` and `c` by `u^{−1}`, leaving `b_σc_τ` fixed.
+- `pseudoRep_det_of_rep`: For `ρ = (a b`; `c d`), the ordered construction has trace `a_σ+d_σ=trρ(σ)` and determinant `a_σd_σ − b_σc_σ=detρ(σ)`, as stated in Suggested.lean.
+- `PseudoRep.ofRep_conj_diagonal`: Conjugating by `diag(u, 1)` scales `b` by `u` and `c` by `u^{−1}`, leaving `b_σc_τ` fixed.
 - For fixed `z₁` and 2 invertible, `a(σ)=(T(σ)+T(z₁σ))/2`, `d(σ)=(T(σ)−T(z₁σ))/2` and `x(σ,τ)=a(στ)−a(σ)a(τ)`. The normalizer-dependent ordered presentation carries no independent data beyond the trace. `PseudoRep.trace_recovery` gives the doubled equations and the formula for `x` in Suggested.lean.
 - Every `ρ_c, c ∈ H¹(F_Σ/F, k(χ^{−1}))`, has pseudo-representation `ρ_0`: the pseudo-deformation ring forgets `c`.
 
@@ -866,7 +867,7 @@ Provide the following operations and compatibility statements.
 
 **Checks.**
 
-- `pseudoLambda_upper_triangular`: For `ρ = (u *`; `0 w`) on `D_i` and `g` with eigenvalues `α` (upper) and `β` (lower): `(tr(gσ) − α tr σ)/(β − α) = w(σ)` (checked by an `example` in Suggested.lean).
+- `pseudoLambda_upper_triangular`: For `ρ = (u *`; `0 w`) on `D_i` and `g` with eigenvalues `α` (upper) and `β` (lower): `(tr(gσ) − α tr σ)/(β − α) = w(σ)`.
 - `lambdaAlgebra_rank_zero`: If every `r_i = 0`, the `γ_i` themselves generate `I_0`.
 - `lambdaAlgebra_residual`: Modulo `m` every `T_i` and `Y^{(i)}_j` maps to 0.
 - `lambdaAlgebra_gamma_choice`: If some `γ_i` had `χ(γ_i) ≠ 1`, then det `ρ_𝒟(γ_i) − 1 ≡ χ(γ_i) − 1` would be a unit of `R_𝒟`, and `T_i ↦` det `ρ_𝒟(γ_i) − 1` would not define a continuous 𝒪-algebra map from `𝒪[[T_i]]`.
@@ -1512,7 +1513,7 @@ Provide the following operations and compatibility statements.
 - `isProModular_not_representation`: Pro-modularity of `q` says nothing about the extension class of `ρ_𝒟 mod q`; two `ρ_c` with the same traces are both pro-modular or both not.
 - For the coefficient factorization condition take `S=R=k[[t,x]]`, `T=S/(x)`, `π:S↠T` and `S→R` the identity. At `q=(x)` the reduction factors through `T` by the identity.
 - At `q=(t,x)` it factors by evaluation of the remaining variable at zero.
-- At `q=(t)` it does not factor: `x` survives in `k[[x]]` whereas `π(x)=0`. The iterated-polynomial-ring evaluations in Suggested.lean mirror all three quotient maps. These coefficient Checks supplement the arithmetic specialization Checks.
+- At `q=(t)` it does not factor: `x` survives in `k[[x]]` whereas `π(x)=0`. These coefficient Checks supplement the arithmetic specialization Checks.
 
 ([SW99](<https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf>) §4.1, p. 61 (Numdam PDF page 58; printed page `=` PDF page `+ 3`); [SW99](<https://www.numdam.org/item/PMIHES_1999__89__5_0.pdf>) §4.1, p. 62 (Numdam PDF page 59; printed page `=` PDF page `+ 3).`)
 
@@ -1858,7 +1859,7 @@ Provide the following operations and compatibility statements.
 
 **Checks.**
 
-- `isGoodPairIrr_base_change`: `d_L/2 > 2 + 7·#Σ_L` and `d_v > 2 + 7·#Σ_L` imply `(4.1)(i)–(ii)` for `L` (checked by an `example` in Suggested.lean).
+- `isGoodPairIrr_base_change`: `d_L/2 > 2 + 7·#Σ_L` and `d_v > 2 + 7·#Σ_L` imply `(4.1)(i)–(ii)` for `L`.
 - `isNiceIrr_dimension_one`: A prime `𝔭` with `dim(R_𝒟/𝔭)=1` is not maximal; if every irreducible component of Spec `R_𝒟` has dimension at least 2, it is not minimal either. Do not confuse quotient dimension with height.
 - `isNiceIrr_not_dihedral`: A prime whose quotient representation is dihedral is not nice, whatever its dimension.
 - `merelyNice_vs_nice`: For the quotient `R_𝒟 ↠ R_{𝒟₀}`, the inverse image of a merely nice prime of `R_{𝒟₀}` is merely nice in `R_𝒟`, since the quotient rings and their representations agree. A general prime cannot be pushed through a quotient unless it contains its kernel.
@@ -2105,7 +2106,7 @@ Skinner–Wiles state the theorem without (iii); their proof, through Lemma 2.2,
 
 Choose `𝒪, λ, k` with `ρ` valued in `GL₂(𝒪)`, and list every quadratic inducing field of `ρ̄^{ss}` if dihedral: one for projective image of order at least 6, three in the Klein four case. Condition (iii) requires every field in this list to be totally real; after base change apply §3.30 to every remaining constituent. By the main result of Skinner–Wiles, Base change and a problem of Serre, and hypothesis `(ii)`, there is a totally real `L/F` with solvable Galois closure over `F` such that `ρ₀ = ρ̄^{ss}|_{Gal(F̄/L)}` satisfies (2.1) and (H_even), `(H_def)` hold for `L` and `ρ₀`.
 
-Enlarge `L` by a large real subfield of a cyclotomic extension so that `d_L/2 > 2 + 7·#Σ_L` and `d_v > 2 + 7·#Σ_L` for `v | p`; then `(L, ρ₀)` is a good pair and the extra general-level bound of §4.17 holds (checked by an `example` in Suggested.lean).
+Enlarge `L` by a large real subfield of a cyclotomic extension so that `d_L/2 > 2 + 7·#Σ_L` and `d_v > 2 + 7·#Σ_L` for `v | p`; then `(L, ρ₀)` is a good pair and the extra general-level bound of §4.17 holds.
 
 `ρ_1 = ρ|_{Gal(F̄/L)}` is of type `𝒟_L = (𝒪, Σ_L, ∅)`; `(P)` holds by Proposition 8.2 (§4.19), so `ρ_1` is pro-modular by Proposition 4.1 (§4.17), and the homomorphism `T_{𝒟_L} → 𝒪` is algebraic.
 
@@ -2326,7 +2327,7 @@ This example exercises an ordinary weight-two form and its arithmetic specialisa
 
 `a_5 ≡ 1 + 5 ≡ 1`: a unit, so `f` is 5-ordinary; the unramified quotient of `ρ_{f,5}|_{G_{ℚ_5}}` reduces to 1 and the sub to `ω`.
 
-`ω` has order 4 on `I_5`, so the two residual characters differ on `I_5` (checked by an `example` in Suggested.lean).
+`ω` has order 4 on `I_5`, so the two residual characters differ on `I_5`.
 
 `1 ⊕ ε₅` is reducible; cuspidal newforms have irreducible `ρ_{f,λ}` (AutomorphicGaloisRepresentations §1.5).
 

@@ -5,8 +5,8 @@ import Mathlib
 README.md is the roadmap. This file records light definitions and theorem signatures
 statable using the pinned APIs and is not exhaustive. It fixes the finite-set pairing and
 unaveraged trace, Wiles' ordered pseudo-representations with their normalising element, the
-eigenvalue labels in quotient-character recovery, and the numerical controls for dimension
-bounds. The arithmetic towers, Galois deformation conditions and
+eigenvalue labels in quotient-character recovery, and coefficient-point factorization
+under component support. The arithmetic towers, Galois deformation conditions and
 automorphic carriers remain README targets.
 -/
 
@@ -28,6 +28,14 @@ def quaternionicPairing [Field R] (c : X → ℕ) (f g : X → R) : R :=
 def traceAlong [DecidableEq X] [AddCommMonoid R] (π : Y → X) (g : Y → R) : X → R :=
   fun x => ∑ y ∈ Finset.univ.filter (fun y => π y = x), g y
 
+/-- Unit stabilizer weights identify finite functions with their linear dual over any
+commutative coefficient ring (README §1.4, `quaternionicPairing_perfect`). -/
+theorem quaternionicPairing_perfect {S : Type*} [CommRing S]
+    (c : X → Sˣ) (ℓ : (X → S) →ₗ[S] S) :
+    ∃! f : X → S, ∀ g : X → S,
+      ∑ x, (↑((c x)⁻¹) : S) * f x * g x = ℓ g := by
+  sorry
+
 /-- Nondegeneracy of the finite function pairing under its precise field hypothesis.
 This is the coefficient-level milestone underlying the arithmetic perfect pairing. -/
 theorem quaternionicPairing_nondegenerate [Field R] (c : X → ℕ)
@@ -47,44 +55,8 @@ theorem traceAlong_comp [DecidableEq X] [DecidableEq Y] [AddCommMonoid R]
     traceAlong (π ∘ κ) g = traceAlong π (traceAlong κ g) := by
   sorry
 
-/-- `quaternionicPairing_one_point`: a singleton of stabilizer order two has Gram coefficient one half. -/
-example : quaternionicPairing (X := Unit) (R := ℚ) (fun _ => 2)
-    (fun _ => 3) (fun _ => 4) = 6 := by
-  norm_num [quaternionicPairing]
-
-/-- The empty function space contributes zero, with no nonzero vector to detect. -/
-example : quaternionicPairing (X := Fin 0) (R := ℚ) (fun _ => 1)
-    (fun _ => 3) (fun _ => 4) = 0 := by
-  simp [quaternionicPairing]
-
-/-- Zero counts give a degenerate formula, not a perfect pairing. -/
-example : quaternionicPairing (X := Unit) (R := ℚ) (fun _ => 0)
-    (fun _ => 3) (fun _ => 4) = 0 := by
-  simp [quaternionicPairing]
-
-/-- Positive counts may still vanish after casting into a field of characteristic p. -/
-example : quaternionicPairing (X := Unit) (R := ZMod 2) (fun _ => 2)
-    (fun _ => 1) (fun _ => 1) = 0 := by
-  simp only [quaternionicPairing, Fintype.sum_unique, ZMod.natCast_self, inv_zero,
-    zero_mul]
-
-/-- `trace_singleton_two_preimages`: two source points in one fibre contribute their sum. -/
-example : traceAlong (X := Unit) (Y := Fin 2) (fun _ => ())
-    (R := ℚ) ![2, 3] () = 5 := by
-  norm_num [traceAlong, Finset.sum_filter, Fin.sum_univ_two]
-
-/-- `trace_empty_fibre`: a target point outside the image has trace zero. -/
-example : traceAlong (X := Fin 2) (Y := Unit) (fun _ => 0)
-    (R := ℚ) (fun _ => 7) 1 = 0 := by
-  simp [traceAlong]
-
-/-- `trace_empty_source`: an empty source has zero trace. -/
-example : traceAlong (X := Unit) (Y := Fin 0) (fun _ => ())
-    (R := ℚ) (fun _ => 7) () = 0 := by
-  simp [traceAlong]
-
-/-- Identity fibres recover the original finite function (`trace_identity`). -/
-example [DecidableEq X] [AddCommMonoid R] (g : X → R) :
+/-- The identity level map preserves finite functions (README §1.5, `traceAlong_id`). -/
+theorem traceAlong_id [DecidableEq X] [AddCommMonoid R] (g : X → R) :
     traceAlong (id : X → X) g = g := by
   ext x
   simp [traceAlong, Finset.sum_filter]
@@ -94,60 +66,30 @@ example [Field R] (f g : X → R) :
     quaternionicPairing (fun _ => 1) f g = ∑ x, f x * g x := by
   simp [quaternionicPairing]
 
-/-- Two free classes give the value 23. -/
-example : quaternionicPairing (X := Fin 2) (R := ℚ) (fun _ => 1)
-    ![2, 3] ![4, 5] = 23 := by
-  norm_num [quaternionicPairing, Fin.sum_univ_two]
+/-- A count vanishing in the coefficient field makes its point indicator invisible
+to the pairing, even when the natural-number count is positive. -/
+example [DecidableEq X] [Field R] (c : X → ℕ) (x₀ : X)
+    (hc : (c x₀ : R) = 0) :
+    (Function.update (0 : X → R) x₀ 1) ≠ 0 ∧
+      ∀ g : X → R, quaternionicPairing c (Function.update 0 x₀ 1) g = 0 := by
+  constructor
+  · intro h
+    have hx := congrFun h x₀
+    simp at hx
+  · intro g
+    simp [quaternionicPairing, Function.update, hc]
 
-/-- A stabilizer ratio two gives arithmetic trace six and weighted contribution three. -/
-example : (2 / 1 : ℚ) * 3 = 6 ∧ (2 : ℚ)⁻¹ * ((2 / 1) * 3) = 3 := by
-  norm_num
+/-- Collapsing a finite set to one class takes its sum, fixing the unaveraged trace. -/
+example [AddCommMonoid R] (g : Y → R) :
+    traceAlong (X := Unit) (fun _ : Y => ()) g () = ∑ y, g y := by
+  simp [traceAlong]
 
-/-- A central fibre of size two scales the central pairing by two. -/
-example : quaternionicPairing (X := Fin 2) (R := ℚ) (fun _ => 1)
-    (fun _ => 2) (fun _ => 3) = 2 * quaternionicPairing (X := Unit)
-      (fun _ => 1) (fun _ => 2) (fun _ => 3) := by
-  norm_num [quaternionicPairing, Fin.sum_univ_two]
+/-- A class outside the image has zero trace. -/
+example [DecidableEq X] [AddCommMonoid R] (π : Y → X) (g : Y → R)
+    (x : X) (hx : ∀ y, π y ≠ x) : traceAlong π g x = 0 := by
+  simp [traceAlong, hx]
 
 end FiniteFunctions
-
-/-- The unit and nilpotent parts have different ordinary limiting behaviour. -/
-example : (2 : ZMod 25) ^ (5 * 4) = 1 ∧ (5 : ZMod 125) ^ 3 = 0 := by
-  decide
-
-/-- With m=0 the projector exponent vanishes, so a nilpotent is sent to one. -/
-example (n : ℕ) : (5 : ZMod 125) ^ (5 ^ n * (5 ^ 0 - 1)) = 1 := by
-  simp
-
-/-- The Eisenstein congruence sign is distinguishable in odd characteristic. -/
-example : (1 : ZMod 5) ≠ -1 := by
-  decide
-
-/-! ## Layer 2: Permissible localizations, duality and level maps -/
-
-/-- The index exponent one at p=5 gives rank five, rather than rank one. -/
-example : ((Polynomial.X + 1 : Polynomial ℤ) ^ 5 - 1).natDegree = 5 := by
-  compute_degree!
-
-/-- Ramanujan's congruences `τ(2) ≡ 1 + 2¹¹` and `τ(3) ≡ 1 + 3¹¹` modulo 691: the degree-one
-analogue of the Frobenius trace condition of a permissible ideal, which does not by itself
-impose the ordinary quotient eigenvalue. -/
-example : (-24 : ZMod 691) = 1 + 2 ^ 11 ∧ (252 : ZMod 691) = 1 + 3 ^ 11 := by
-  decide
-
-/-- In the rank-five residue algebra of §2.8 the identity has algebra trace zero,
-while the coefficient functional used for integral duality detects the top power. -/
-example : Matrix.trace (1 : Matrix (Fin 5) (Fin 5) (ZMod 5)) = 0 ∧
-    (Polynomial.X ^ 4 : Polynomial (ZMod 5)).coeff 4 = 1 := by
-  constructor
-  · simp only [Matrix.trace_one, Fintype.card_fin, ZMod.natCast_self]
-  · simp
-
-/-- The full quotient character in §2.1 retains the nonzero labelled algebraic exponent
-even when the selected smooth factor is unramified. At p=3 the principal unit is four. -/
-example : (1 : ℚ) * (4 : ℚ) ^ (-1 : ℤ) * (4 : ℚ) ^ (0 : ℤ) = 1 / 4 ∧
-    (1 : ℚ) * (4 : ℚ) ^ (-1 : ℤ) * (4 : ℚ) ^ (0 : ℤ) ≠ 1 := by
-  norm_num
 
 /-! ## Layer 3: Nearly ordinary deformations and Galois–Hecke interfaces -/
 
@@ -233,6 +175,17 @@ def ofRep [IsTopologicalRing A] (z : G)
   x_z_left σ := by simp [hz]
   x_z_right σ := by simp [hz]
 
+/-- Changing a normalized basis by `diag(u, 1)` preserves the entire ordered
+pseudo-representation (README §3.7, `PseudoRep.ofRep_conj_diagonal`). -/
+theorem ofRep_conj_diagonal [IsTopologicalRing A] (u : Aˣ)
+    (ρ ρ' : G →* Matrix (Fin 2) (Fin 2) A)
+    (hρ : Continuous ρ) (hρ' : Continuous ρ')
+    (hz : ρ z = !![1, 0; 0, -1]) (hz' : ρ' z = !![1, 0; 0, -1])
+    (hconj : ∀ σ, ρ' σ = !![(u : A), 0; 0, 1] * ρ σ *
+      !![(↑(u⁻¹) : A), 0; 0, 1]) :
+    ofRep z ρ' hρ' hz' = ofRep z ρ hρ hz := by
+  sorry
+
 end PseudoRep
 
 /-- The residual pseudo-representation `{1, χ, 0}` of `1 ⊕ χ`; every nonsplit `ρ_c` has it,
@@ -259,19 +212,6 @@ def PseudoRep.residual {G A : Type*} [Group G] [TopologicalSpace G] [CommRing A]
   x_z_left _ := rfl
   x_z_right _ := rfl
 
-/-- At the normalising element the trace is `0` and the determinant is `−1`, as for
-`diag(1, −1)`. -/
-example {G A : Type*} [Group G] [TopologicalSpace G] [CommRing A] [TopologicalSpace A]
-    [Invertible (2 : A)] (z : G) (ρ : PseudoRep G A z) :
-    ρ.trace z = 0 ∧ ρ.det z = -1 := by
-  simp [PseudoRep.trace, PseudoRep.det, ρ.a_z, ρ.d_z, ρ.x_z_left]
-
-/-- The identity has trace two and determinant one for every ordered pseudo-representation. -/
-example {G A : Type*} [Group G] [TopologicalSpace G] [CommRing A] [TopologicalSpace A]
-    [Invertible (2 : A)] (z : G) (ρ : PseudoRep G A z) :
-    ρ.trace 1 = 2 ∧ ρ.det 1 = 1 := by
-  norm_num [PseudoRep.trace, PseudoRep.det, ρ.a_one, ρ.d_one, ρ.x_one_left]
-
 /-- The diagonal residual value retains both the trace and the character determinant. -/
 example {G A : Type*} [Group G] [TopologicalSpace G] [CommRing A] [TopologicalSpace A]
     [Invertible (2 : A)] (z : G) (χ : G →* A) (hχ : Continuous χ)
@@ -280,8 +220,9 @@ example {G A : Type*} [Group G] [TopologicalSpace G] [CommRing A] [TopologicalSp
       (PseudoRep.residual z χ hχ hz).det σ = χ σ := by
   simp [PseudoRep.residual, PseudoRep.trace, PseudoRep.det]
 
-/-- The matrix construction gives the actual matrix trace and determinant. -/
-example {G A : Type*} [Group G] [TopologicalSpace G] [CommRing A] [TopologicalSpace A]
+/-- The ordered construction preserves matrix trace and determinant
+(README §3.7, `pseudoRep_det_of_rep`). -/
+theorem pseudoRep_det_of_rep {G A : Type*} [Group G] [TopologicalSpace G] [CommRing A] [TopologicalSpace A]
     [IsTopologicalRing A] [Invertible (2 : A)] (z : G)
     (ρ : G →* Matrix (Fin 2) (Fin 2) A) (hρ : Continuous ρ)
     (hz : ρ z = !![1, 0; 0, -1]) (σ : G) :
@@ -290,37 +231,7 @@ example {G A : Type*} [Group G] [TopologicalSpace G] [CommRing A] [TopologicalSp
   simp [PseudoRep.ofRep, PseudoRep.trace, PseudoRep.det, Matrix.trace,
     Matrix.diag, Fin.sum_univ_two, Matrix.det_fin_two]
 
-/-- An invertible matrix with nonzero off-diagonal product gives trace three and determinant one. -/
-example :
-    let G := (Matrix (Fin 2) (Fin 2) ℚ)ˣ
-    letI : TopologicalSpace G := ⊥
-    let z : G := ⟨!![1, 0; 0, -1], !![1, 0; 0, -1],
-      by ext i j; fin_cases i <;> fin_cases j <;> norm_num [Matrix.mul_apply, Fin.sum_univ_two],
-      by ext i j; fin_cases i <;> fin_cases j <;> norm_num [Matrix.mul_apply, Fin.sum_univ_two]⟩
-    let σ : G := ⟨!![2, 1; 1, 1], !![1, -1; -1, 2],
-      by ext i j; fin_cases i <;> fin_cases j <;> norm_num [Matrix.mul_apply, Fin.sum_univ_two],
-      by ext i j; fin_cases i <;> fin_cases j <;> norm_num [Matrix.mul_apply, Fin.sum_univ_two]⟩
-    let P := PseudoRep.ofRep z (Units.coeHom _) (by fun_prop) rfl
-    P.trace σ = 3 ∧ P.det σ = 1 ∧ P.x σ σ = 1 := by
-  norm_num [PseudoRep.ofRep, PseudoRep.trace, PseudoRep.det]
-
 end PseudoRep
-
-/-- The t² coefficient of the square records the x₁ contribution in §3.8.
-The same coefficients survive modulo t³, while the original diagonal has no t² term. -/
-example :
-    let M : Matrix (Fin 2) (Fin 2) (Polynomial (ZMod 5)) :=
-      !![1, Polynomial.X; Polynomial.X, 1]
-    ((M * M) 0 0).coeff 2 = 1 ∧ (M 0 0).coeff 2 = 0 ∧
-      (M 0 1 * M 1 0).coeff 2 = 1 := by
-  norm_num [Matrix.mul_apply, Fin.sum_univ_two, ← pow_two, Polynomial.coeff_one]
-
-/-- The two involutions anticommute, giving the projective Klein-four control of §3.30. -/
-example :
-    let A : Matrix (Fin 2) (Fin 2) (ZMod 5) := !![1, 0; 0, -1]
-    let B : Matrix (Fin 2) (Fin 2) (ZMod 5) := !![0, 1; 1, 0]
-    A ^ 2 = 1 ∧ B ^ 2 = 1 ∧ A * B = -(B * A) ∧ A * B ≠ B * A := by
-  decide
 
 /-- Quotient recovery in the field coefficient case of §3.17: β labels the sub-character
 and α labels the quotient. The complete-local-ring version requires β−α to be a unit. -/
@@ -328,60 +239,6 @@ theorem quotientCharacter_recovery {K : Type*} [Field K] (α β u v : K)
     (h : β - α ≠ 0) :
     (β - α)⁻¹ * (β * (u + v) - (β * u + α * v)) = v := by
   sorry
-
-/-- The alternate eigenvalue labels in §2.5 give the other recovery formula. -/
-example {K : Type*} [Field K] (α β u v : K) (h : β - α ≠ 0) :
-    (β - α)⁻¹ * ((α * u + β * v) - α * (u + v)) = v := by
-  rw [show (α * u + β * v) - α * (u + v) = (β - α) * v by ring,
-    ← mul_assoc, inv_mul_cancel₀ h, one_mul]
-
-/-- Multiplication by the eigenvalue difference gives four rather than the quotient one. -/
-example : ((3 : ℚ) - 1) * (3 * (5 + 1) - (3 * 5 + 1 * 1)) = 4 := by
-  norm_num
-
-/-- Equal eigenvalues cannot be used for recovery. -/
-example : ((1 : ℚ) - 1)⁻¹ * (1 * (5 + 1) - (1 * 5 + 1 * 1)) = 0 := by
-  norm_num
-
-/-- `pseudoRep_ofRep_identity`: the four-term ordered pseudo-representation identity is matrix multiplication. -/
-example {R : Type*} [CommRing R] (aσ bσ bτ dτ cα dα aβ cβ : R) :
-    (aσ * bτ + bσ * dτ) * (cα * aβ + dα * cβ) =
-      aσ * aβ * (bτ * cα) + aβ * dτ * (bσ * cα) +
-        aσ * dα * (bτ * cβ) + dτ * dα * (bσ * cβ) := by
-  ring
-
-/-- `pseudoRep_det_of_rep`: the ordered determinant agrees with the matrix determinant. -/
-example {R : Type*} [CommRing R] (a b c d : R) :
-    a * d - b * c = Matrix.det (!![a, b; c, d] : Matrix (Fin 2) (Fin 2) R) := by
-  simp [Matrix.det_fin_two]
-
-/-- `pseudoRep_diagonal_conj`: a unit diagonal conjugation fixes both diagonal entries and `x`. -/
-example {R : Type*} [CommRing R] (a b c d bτ cτ : R) (u : Rˣ) :
-    (!![(u : R), 0; 0, 1] * !![a, b; c, d] * !![(↑(u⁻¹) : R), 0; 0, 1] :
-      Matrix (Fin 2) (Fin 2) R) = !![a, ↑u * b; ↑(u⁻¹) * c, d] ∧
-    (↑u * b) * (↑(u⁻¹) * cτ) = b * cτ ∧
-    (↑u * bτ) * (↑(u⁻¹) * c) = bτ * c := by
-  constructor
-  · ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two, mul_assoc, mul_comm]
-  · constructor
-    · calc
-        (↑u * b) * (↑(u⁻¹) * cτ) = ((u : R) * ↑(u⁻¹)) * (b * cτ) := by ring
-        _ = b * cτ := by simp
-    · calc
-        (↑u * bτ) * (↑(u⁻¹) * c) = ((u : R) * ↑(u⁻¹)) * (bτ * c) := by ring
-        _ = bτ * c := by simp
-
-/-- A scalar twist multiplies determinant by the square of the character value. -/
-example {K : Type*} [Field K] (a b c d ψ : K) :
-    Matrix.det (!![ψ * a, ψ * b; ψ * c, ψ * d] : Matrix (Fin 2) (Fin 2) K) =
-      ψ ^ 2 * Matrix.det (!![a, b; c, d] : Matrix (Fin 2) (Fin 2) K) := by
-  simp [Matrix.det_fin_two]
-  ring
-
-/-- A quotient eigenvalue three twisted by two becomes six. -/
-example : (2 : ℚ) * 3 = 6 ∧ (2 : ℚ) * 3 ≠ 3 / 2 := by
-  norm_num
 
 /-- Character specialization of §3.24's tensor map cancels a linear trace twist and a
 quadratic determinant twist, leaving one copy of the same group-factor value. -/
@@ -399,80 +256,7 @@ theorem tensorTwist_characterCheck {A : Type*} [CommRing A] (t s : A) (f n : Aˣ
           s * ((f : A) * (↑(f⁻¹) : A)) ^ 2 * (n : A) := by ring
       _ = s * (n : A) := by rw [h]; simp
 
-/-- CM and totally real quadratic extensions have different minus-unit ranks. -/
-example (d : ℕ) (hd : 1 ≤ d) :
-    (0 + d - 1) - (d + 0 - 1) = 0 ∧
-      (2 * d + 0 - 1) - (d + 0 - 1) = d ∧ d / 2 < d := by
-  omega
-
-/-! ## Layer 4: Pro-modularity and localized R = T -/
-
-/-- Reduction modulo (x) factors through the quotient killing x (§4.1). -/
-example {k : Type*} [Field k] :
-    ∃ θ : Polynomial k →+* Polynomial k,
-      (Polynomial.evalRingHom (0 : Polynomial k)) =
-        θ.comp (Polynomial.evalRingHom (0 : Polynomial k)) := by
-  exact ⟨RingHom.id _, rfl⟩
-
-/-- Reduction modulo (t,x) factors through the same quotient, then evaluation of t. -/
-example {k : Type*} [Field k] :
-    ∃ θ : Polynomial k →+* k,
-      (Polynomial.evalRingHom (0 : k)).comp
-        (Polynomial.evalRingHom (0 : Polynomial k)) =
-        θ.comp (Polynomial.evalRingHom (0 : Polynomial k)) := by
-  exact ⟨Polynomial.evalRingHom 0, rfl⟩
-
-/-- Reduction modulo (t) retains x, so it cannot factor through the quotient killing x. -/
-example {k : Type*} [Field k] :
-    ¬ ∃ θ : Polynomial k →+* Polynomial k,
-      Polynomial.mapRingHom (Polynomial.evalRingHom (0 : k)) =
-        θ.comp (Polynomial.evalRingHom (0 : Polynomial k)) := by
-  rintro ⟨θ, hθ⟩
-  have h := DFunLike.congr_fun hθ (Polynomial.X : Polynomial (Polynomial k))
-  simp at h
-
-/-- The auxiliary patching parameter vanishes at the identity matrix. -/
-example : Matrix.trace (1 : Matrix (Fin 2) (Fin 2) ℚ) - 2 = 0 ∧
-    Matrix.trace ((1 : Matrix (Fin 2) (Fin 2) ℚ) - 2) = -2 := by
-  norm_num [Matrix.trace, Matrix.diag, Fin.sum_univ_two, Matrix.ofNat_apply]
-
-/-- The patching map uses t=s²/(1+s); division needs the displayed nonvanishing. -/
-example {K : Type*} [Field K] (s : K) (h : 1 + s ≠ 0) :
-    (1 + s) + (1 + s)⁻¹ - 2 = s ^ 2 / (1 + s) := by
-  rw [eq_div_iff h, sub_mul, add_mul, inv_mul_cancel₀ h]
-  ring
-
-/-- The identity augmentation has zero cotangent and congruence lengths. -/
-example {C : Type*} [CommRing C] :
-    let H := RingHom.ker (RingHom.id C)
-    let η := ((RingHom.ker (RingHom.id C)).annihilator).map (RingHom.id C)
-    Module.length C (H ⧸ (H • (⊤ : Submodule C H))) = 0 ∧
-      Module.length C (C ⧸ η) = 0 := by
-  have hid : RingHom.ker (RingHom.id C) = ⊥ := by ext x; simp
-  dsimp only
-  rw [hid, Submodule.annihilator_bot, Ideal.map_id]
-  constructor <;> exact Module.length_eq_zero
-
-/-- At s=−1 the inverse-of-zero convention destroys the rational identity. -/
-example : ((1 + (-1 : ℚ)) + (1 + (-1 : ℚ))⁻¹ - 2) ≠
-    (-1 : ℚ) ^ 2 / (1 + (-1 : ℚ)) := by
-  norm_num
-
-/-- The minimal-level good-pair bound alone does not imply the general Σ estimate. -/
-example : 2 + 2 * 1 + 7 * 0 < 40 / 2 ∧ 40 - 7 * 4 - 1 < 40 / 2 + 1 := by
-  decide
-
-/-- The stronger general-level hypothesis gives the component dimension needed in §4.17. -/
-example (d t m u : ℕ) (hmu : m ≤ u) (h : 2 + 2 * t + 7 * u < d / 2) :
-    d / 2 + 1 ≤ d - 2 * t - 3 * m - 4 * u := by
-  omega
-
 /-! ## Layer 5: Ordinary modularity lifting -/
-
-/-- The admissible Kummer example in §5.1a needs residue degree divisible by eight at two. -/
-example : (9 : ZMod 17) ^ 4 = -1 ∧ (9 : ZMod 17) ^ 8 = 1 ∧
-    (2 : ℕ) * 5 * 29 = 1 + 17 ^ 2 := by
-  decide
 
 /-- A surjective Hecke map factors a coefficient point uniquely when its kernel is
 contained in an ideal below that point's kernel. These are the explicit
@@ -492,51 +276,6 @@ theorem componentSupport_factor {O R T A : Type*}
   obtain ⟨a, rfl⟩ := hr t
   rw [AlgHom.liftOfSurjective_apply]
   exact DFunLike.congr_fun hθ a
-
-/-- For a totally real quadratic extension the required half-rank inequality has the
-stated numerical consequence; its p-adic transcendence input is separate. -/
-example (d r : ℕ) (hr : d ≤ 2 * r) : d - r ≤ d / 2 := by
-  omega
-
-/-- The stronger base-change degree choice implies the irreducible good-pair bounds. -/
-example (dL dv t m s : ℕ) (hs : t + m ≤ s)
-    (h1 : 2 + 7 * s < dL / 2) (h2 : 2 + 7 * s < dv) :
-    2 + 2 * t + 7 * m < dL / 2 ∧ 2 + 2 * t + 7 * m < dv := by
-  omega
-
-/-! ## Layer 6: Classical interpolation and ordinary lift constructions -/
-
-/-- The Eisenstein index at X₀(11) is numerator(10/12)=5. -/
-example : (11 - 1) / Nat.gcd (11 - 1) 12 = 5 := by
-  decide
-
-/-- The residual characters at five are distinguished on inertia. -/
-example : (2 : ZMod 5) ^ 2 ≠ 1 ∧ (2 : ZMod 5) ^ 4 = 1 := by
-  decide
-
-/-- Trivial nebentypus in the X₀(11) branch occurs at weights congruent to two modulo four. -/
-example (k : ℕ) (hk : 2 ≤ k) : 4 ∣ k - 2 ↔ k % 4 = 2 := by
-  omega
-
-/-- Higher-weight trivial-character forms new at five cannot have a unit square eigenvalue. -/
-example (k : ℕ) (hk : 3 ≤ k) : 5 ∣ 5 ^ (k - 2) := by
-  exact dvd_pow_self 5 (by omega)
-
-/-- Even weight and odd p make the two inertia characters distinct. -/
-example (p k : ℕ) (hp : Odd p) (hk : Even k) (hk2 : 2 ≤ k) :
-    ¬ (p - 1) ∣ (k - 1) := by
-  intro h
-  have h1 : Even (p - 1) := by
-    obtain ⟨a, rfl⟩ := hp
-    exact ⟨a, by omega⟩
-  have h2 : Odd (k - 1) := by
-    obtain ⟨b, rfl⟩ := hk
-    exact ⟨b - 1, by omega⟩
-  exact (Nat.not_even_iff_odd.mpr h2) (even_iff_two_dvd.mpr (h1.two_dvd.trans h))
-
-/-- The odd quadratic character of discriminant −23 is trivial at three. -/
-example : ((-23 : ℤ) : ZMod 3) = 1 := by
-  decide
 
 /-!
 The README also specifies the heavier definitions: nearly ordinary automorphic
@@ -560,12 +299,11 @@ The heavier API names include `stabiliserCount`, `heckeAdjoint`, `IsVGoodLine`,
 `heckeGaloisRep`, `IsPermissibleIrr`, `levelOfDatum`, `heckeOfDatum`, `heckeModuleOfDatum`,
 `heckeMinOfDatum`, `IsGoodPairIrr`, `IsNiceIrr`, `PropertyP`, and `hidaFamilyRep`.
 Section 1.4 also specifies `quaternionicPairing_central_scaling`,
-`quaternionicPairing_free`, `quaternionicPairing_hecke_adjoint` and
-`quaternionicPairing_perfect` on the arithmetic class sets. Section 1.5 specifies
-`traceAlong_id`, mirrored by the identity-fibre example `trace_identity`. Section 3.7 specifies
+`quaternionicPairing_free` and `quaternionicPairing_hecke_adjoint` on the arithmetic class sets.
+The unit-weight statement `quaternionicPairing_perfect` applies to their finite function
+modules. Section 1.5 specifies `traceAlong_id` for identity level maps. Section 3.7 specifies
 `PseudoRep.ofRep_conj_diagonal`, `PseudoRep.trace_isPseudocharacter`,
-`pseudoRep_det_of_rep` and `pseudoRep_diagonal_conj` for the representation and
-pseudocharacter comparisons. Section 3.8 specifies `orderedPseudoDefEquiv`, identifying
+`pseudoRep_det_of_rep` for the representation and pseudocharacter comparisons. Section 3.8 specifies `orderedPseudoDefEquiv`, identifying
 the ordered functor with the supplied `PseudoDefRing` and its auxiliary-inertia quotient.
 Section 5.1a specifies `abelianOrdinaryPreparation` with the possible Grunwald–Wang doubling
 of global degree. Section 5.8 specifies `CMComponentSupport` by a minimal prime below the
@@ -573,9 +311,7 @@ coefficient point containing the kernel of the Hecke map, and `fullScopeOrdinary
 with that additional hypothesis. Section 2.1 reuses `NearlyOrdinaryEigenpacket.isOrdinary`
 for the full quotient character; `IsSmoothOrdinary` uses only the selected smooth factor,
 and `isOrdinary_iff_smoothOrdinary` also requires all labelled algebraic exponents to vanish.
-The identity, free-pairing, two-point, stabilizer-ratio,
-determinant, diagonal-conjugation and identity-augmentation Checks have coefficient-level examples above. The arithmetic
-central-character and pseudocharacter comparisons remain README targets. Local tangent
+The arithmetic central-character and pseudocharacter comparisons remain README targets. Local tangent
 conditions, the determinant–flag spectrum comparison, arithmetic patching, localized R=T,
 Skinner–Wiles lifting and single-coefficient solvable descent likewise require
 arithmetic carriers beyond these finite-function definitions.
