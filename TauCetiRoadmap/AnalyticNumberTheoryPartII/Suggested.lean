@@ -232,6 +232,14 @@ theorem quadratic_fourth_moment (sig e : ℝ) (hsig : sig ∈ Set.Icc (1 / 2 : �
         C * (Q + (Q * (1 + |t|)) ^ (2 - 2 * sig)) * (Q * (1 + |t|)) ^ e := by
   sorry
 
+/-- The real spherical Fourier integral at `z = 2`, `u = 1` has the standard
+K-Bessel normalization and is finite at the constant-term pole (§5.21g). -/
+theorem wright_real_fourier_at_two_one :
+    (∫ x : ℝ, (1 + (x : ℂ) ^ 2)⁻¹ *
+      Complex.exp (-2 * Real.pi * I * (x : ℂ))) =
+      (Real.pi : ℂ) * Complex.exp (-2 * Real.pi) := by
+  sorry
+
 /-! ## Layer 6: The Bost–Connes system and compact spectral determinants -/
 
 section AN9
