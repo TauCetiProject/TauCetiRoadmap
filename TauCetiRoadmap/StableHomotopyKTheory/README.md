@@ -335,7 +335,7 @@ For a ring R, construct `classifyingSpace_localSystemEquivalence` between local 
 Define `categoryHomology R C M n` from ⊕_(c₀→⋯→cₙ)M(c₀): d₀ applies M(f₁), interior faces compose and the last deletes the final vertex. Normalise the alternating-face complex. Coefficient and categorical maps respect identities/composition at chain level.
 
 - `categoryHomology`: Hₙ of categoryChainComplex(C,M).
-- `categoryChainComplex`: Degree n is ⊕_{σ∈NₙC}M(σ₀), with alternating faces.
+- `categoryChainComplex`: Degree `n` is `⊕_{σ∈NₙC}M(σ₀)`, with alternating faces.
 - `categoryHomology.map`: A coefficient transformation induces Hₙ maps, preserving id/composition.
 - `categoryHomology.mapOfFunctor`: F:C→D gives Hₙ(C,F*M)→Hₙ(D,M), functorially.
 - `categoryHomology.longExactSequence`: A short exact coefficient sequence gives the homology LES.
@@ -728,7 +728,7 @@ Define `SimplicialSpace.IsProper` by closed Hurewicz-cofibration latching inclus
 
 - `isProper_const`: A constant simplicial space at Y is proper: in degree 0 its latching inclusion is ∅ → Y, and in positive degrees it is the identity of Y; both have the homotopy extension property.
 - `isProper_nerve_discrete_category`: The nerve of a category viewed as a discrete simplicial space is proper.
-- `isProper_compat_bisimplicial`: For a bisimplicial set T, the latching subspace of p ↦ |T_{p,•}| in degree n is the realisation of the simplicial subset of degenerate (n, •)-simplices, a subcomplex.
+- `isProper_compat_bisimplicial`: For a bisimplicial set `T`, the latching subspace of `p ↦ |T_{p,•}|` in degree `n` is the realisation of the simplicial subset of degenerate `(n, •)`-simplices, a subcomplex.
 - `not_isProper_bad_degeneracy`: Take X₀=* and X₁={0}∪{1/k:k≥1}, with s₀(*)=0. The point inclusion has no neighbourhood deformation: each 1/k is its own path component. This 1-skeletal simplicial space, and its free extension to a simplicial space, fail properness in degree one.
 
 (NS Appendix C, paragraph before Prop. C.3, p. 161.)
@@ -1541,7 +1541,7 @@ Define `BasedFree R`: objects are rank labels n, automorphisms GLₙR, no arrows
 **Checks.**
 
 - `basedFree_isoClasses`: Skeleton (BasedFree R) ≃* Multiplicative ℕ for every ring R, including the zero ring.
-- `basedFree_braiding_swap`: For R = ℤ the symmetry c_{1,1} is the matrix !![0, 1; 1, 0] ≠ 1.
+- `basedFree_braiding_swap`: For `R = ℤ` the symmetry `c_{1,1}` is the matrix `!![0, 1; 1, 0] ≠ 1`.
 - `basedFree_toProj_not_injective`: For R with R ≅ R² (e.g. End of a countably infinite-dimensional vector space) toProj.obj 1 ≅ toProj.obj 2 although 1 and 2 are not isomorphic in BasedFree R.
 - `basedFree_aut_bijective`: For every n, toProj induces a bijection Aut n → Aut (toProj.obj n).
 
@@ -1668,7 +1668,7 @@ For symmetric monoidal groupoid C, define `coherentSubsetGammaSpace` by coherent
 - `coherentSubset_level_zero`: Unit coherence makes N(C)(0) contractible. If it is omitted, the discrete monoid {1,e}, e²=e, gives two idempotent empty-subset choices and two components.
 - `coherentSubset_vect_pi0`: For C the core of finite free ℤ-modules under ⊕, π₀ N(C)(1) = ℕ (ranks). Equivalently use finite-dimensional vector spaces over any field.
 - `coherentSubset_pic_grouplike`: For C = Pic(R), N(C) is grouplike with π₀ = Pic(R).
-- `coherentSubset_naive_not_functor`: The naive assignment S ↦ N(C)^{S∖{s}} with f ↦ (⊗_{t ∈ f⁻¹(t′)} X_t) is not strictly functorial (Bhatt–Scholze Remark 12.6).
+- `coherentSubset_naive_not_functor`: The naive assignment `S ↦ N(C)^{S∖{s}}` with `f ↦ (⊗_{t ∈ f⁻¹(t′)} X_t)` is not strictly functorial (Bhatt–Scholze Remark 12.6).
 
 **Checks.**
 
@@ -1743,7 +1743,7 @@ Define suspension, strict loops and their adjunction, and (sh X)ₙ=X₁₊ₙ w
 - `loop_trivial`: loop of the trivial spectrum is trivial.
 - `naivePi_shift`: For semistable X, π̂ₖ₊₁(sh X)≅π̂ₖX; F₁S¹ fails the unrestricted comparison.
 - `loop_susp_sphere`: susp sphere ≅ shift sphere ≅ suspensionSpectrum S¹ (Schwede I Example 3.9) and naivePi (susp sphere) 1 ≅ ℤ.
-- `shift_not_susp`: λ_{F₁S¹} : S¹ ∧ F₁S¹ → sh(F₁S¹) is not a π̂_*-isomorphism (it is the inclusion of a wedge summand with non-zero complement, Schwede I Example 8.30), so F₁S¹ is not semistable.
+- `shift_not_susp`: `λ_{F₁S¹} : S¹ ∧ F₁S¹ → sh(F₁S¹)` is not a `π̂_*`-isomorphism (it is the inclusion of a wedge summand with non-zero complement, Schwede I Example 8.30), so `F₁S¹` is not semistable.
 
 (S I, §2.1 and Prop. 2.6, pp. 23–24; S I, Example 3.9, p. 37.)
 
@@ -2358,7 +2358,7 @@ A filtered spectrum is a coherent point-set diagram ℤ→Sp, localised at objec
 **Checks.**
 
 - `filteredSpectrum_const`: The constant filtration X s = X has gr = 0 and is exhaustive but not complete (unless X = 0).
-- `filteredSpectrum_postnikov_gr`: For the Whitehead filtration X_s = τ_{≥−s}X, gr_s ≅ Σ^{−s}H(π_{−s}X).
+- `filteredSpectrum_postnikov_gr`: For the Whitehead filtration `X_s = τ_{≥−s}X`, `gr_s ≅ Σ^{−s}H(π_{−s}X)`.
 - `filteredSpectrum_spectralObject_compat`: toSpectralObject followed by pi_0 (Mathlib mapHomologicalFunctor) is an abelian spectral object whose E₁ terms are pi of gr.
 - `filteredSpectrum_complete_not_exhaustive`: The zero filtration of nonzero E is complete but not exhaustive. The constant E filtration is exhaustive but not complete.
 
