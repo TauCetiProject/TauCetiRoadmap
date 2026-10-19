@@ -941,8 +941,16 @@ discharge its corresponding target.
 
 Use Mathlib's existing and emerging API shape. Coordinate the general existence
 construction with [Gabin Kolly's mathlib Fraïssé-existence PR #18876](https://github.com/leanprover-community/mathlib4/pull/18876)
-and [the prerequisite work #18749](https://github.com/leanprover-community/mathlib4/pull/18749).
+and [the prerequisite work #18749](https://github.com/leanprover-community/mathlib4/pull/18749);
+coordinate the graph characterization of Milestone 4 with his
+[Mathlib #20649](https://github.com/leanprover-community/mathlib4/pull/20649), and the
+theory-level quantifier-elimination endpoint with
+[Mathlib #41113](https://github.com/leanprover-community/mathlib4/pull/41113) and
+[#41115](https://github.com/leanprover-community/mathlib4/pull/41115).
 These are design and provenance references, not assumptions that their code has merged.
+On the Tau Ceti side, the extension predicate and Rado graph come from the InfinitaryLogic
+random-graph worked example ([Tau Ceti #18726](https://github.com/TauCetiProject/TauCeti/pull/18726));
+this roadmap's targets consume those declarations rather than restating them.
 The required mathematics is built in Tau Ceti against its dependencies. Equivalent
 Mathlib declarations replace duplicate Tau Ceti declarations when they become available.
 Opening an upstream PR is not a target of this roadmap.
@@ -989,6 +997,12 @@ work. No unmerged mathlib branch or external formalization is a runtime dependen
   criterion of 11.1. Theorem 4.1 gives the Poisson limit for copies of a fixed strictly
   balanced graph at its threshold, and Corollary 4.9 the cycle case at $`p\sim c/n`$; for
   triangles this is the $`\mathrm{Poisson}(c^3/6)`$ limit of 11.2.
+- W. Hodges, *Model Theory*, Encyclopedia of Mathematics and its Applications 42, Cambridge
+  University Press, 1993. Theorem 7.1.2 is Fraïssé's theorem: a Fraïssé class has a limit of
+  cardinality at most $`\aleph_0`$ with that age, ultrahomogeneous and unique up to
+  isomorphism; Theorem 7.1.7 is its converse. Milestone 2 states existence through
+  representative families and assumes countability of the function symbols only; the
+  construction specified there supplies that variant.
 - P. J. Cameron, [The random graph](https://arxiv.org/abs/1301.7544):
   extension properties, the binary presentation, homogeneity, universality and logical theory.
 - P. Erdős and A. Rényi,
