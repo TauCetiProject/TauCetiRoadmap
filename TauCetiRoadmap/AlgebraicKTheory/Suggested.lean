@@ -1,3 +1,4 @@
+import Mathlib.Algebra.Category.ModuleCat.ChangeOfRings
 import TauCeti.Algebra.Category.ModuleCat.CartanMap.Basic
 import TauCeti.CategoryTheory.GrothendieckGroup.Split
 import Mathlib.Algebra.Colimit.DirectLimit
@@ -129,6 +130,24 @@ theorem boundary_idempotent {A : Type u} {Q : Type v} [Ring A] [Ring Q]
     let e : Matrix (n ⊕ n) (n ⊕ n) A := Matrix.fromBlocks 1 0 0 0
     let p := (X : Matrix (n ⊕ n) (n ⊕ n) A) * e * (↑(X⁻¹) : Matrix (n ⊕ n) (n ⊕ n) A)
     p * p = p ∧ π.mapMatrix p = Matrix.fromBlocks 1 0 0 0 := by
+  sorry
+
+
+/-! The balanced tensor and pure-tensor laws are specified in the README.
+These are honest whole-function construction families over arbitrary rings;
+they do not reassert the commutative native extension as a general construction.
+-/
+open CategoryTheory
+
+noncomputable def noncommutativeExtendScalars :
+    ∀ {R₀ : Type u} {S₀ : Type v} [Ring R₀] [Ring S₀] (f : R₀ →+* S₀),
+      ModuleCat.{max u v w} R₀ ⥤ ModuleCat.{max u v w} S₀ := by
+  sorry
+
+noncomputable def noncommutativeExtendRestrictAdj :
+    ∀ {R₀ : Type u} {S₀ : Type v} [Ring R₀] [Ring S₀] (f : R₀ →+* S₀),
+      noncommutativeExtendScalars.{u, v, w} f ⊣
+        ModuleCat.restrictScalars.{max u v w, u, v} f := by
   sorry
 
 end TauCetiRoadmap.AlgebraicKTheory
