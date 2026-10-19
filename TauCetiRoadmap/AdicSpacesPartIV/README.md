@@ -161,7 +161,7 @@ not use F1.11.
     with its hypotheses in the sentence, its source locator in parentheses (short keys are resolved
     in the References), its API as a list of statements and its unit tests as `Checks`. A target
     whose paragraph carries a **Lean:** note is stated in `Suggested.lean` by the declarations named
-    there, and a Check marked "(Lean `example`)" is an `example` of that file; every other target,
+    there, and every other target,
     API statement and Check is specified by this README only, with no Lean declaration. A target's
     label `(*slug*)` is the name by which later targets and the Lean file refer to it.
 14. **Pure dimension.** A smooth rigid or dagger space has pure dimension `n` when every classical stalk has
@@ -541,11 +541,11 @@ F1 develops dagger geometry and its de Rham complexes, using the morphism, forma
 coherent theories of parts II and III and the smooth pairs of R4.
 A target's `*Needs:*` clause names its prerequisites. Within a layer the subsections follow
 the mathematics; supporting results shared by several targets may occur in that layer's
-last subsections. `Suggested.lean` provides suggested signatures and examples, while this
+last subsections. `Suggested.lean` provides suggested signatures, while this
 README is definitive and is not limited to the signatures present in that file.
 `Suggested.lean` states the parts that are a few lines over the pinned carriers: strict
 normal crossings charts of rings, of complete affinoid algebras and of smooth schemes (R4);
-BHW's product existence, profinite flat modules, small `ℤ_p`-algebras and the integral mixed completed tensor product (R5);
+BHW's sousperfectoid product, profinite flat modules, small `ℤ_p`-algebras and the integral mixed completed tensor product (R5);
 `W_n`, dagger algebras and their completions, the integral Monsky–Washnitzer algebra, weak
 completions, algebras of MW-type and the universally finite differentials with the dagger
 Poincaré lemma in low degree (F1). A target carried there ends with a **Lean:** note;
@@ -1129,7 +1129,7 @@ exclude analytic charts.
   The adic statement specifies the origin by `T_1, T_2` lying in the support of `x`
   and excludes every chart centred there. Its separate algebraic shadow excludes an
   algebraic chart (`SmoothPair.AlgebraicChart`)
-  on each principal Zariski open containing the origin, in every characteristic (Lean `example`).
+  on each principal Zariski open containing the origin, in every characteristic.
   In characteristic two a further Check verifies that
   `T_1 − T_2 = T_1 + T_2`, that the three principal ideals are pairwise distinct,
   and that their product ideal is radical, while no localization `D(g)` containing
@@ -1172,7 +1172,7 @@ exclude analytic charts.
   An algebraic witness makes the analogous
   calculation at `(T_1,T_2)` in `K[T_1,T_2,S]` for every field `K`, including characteristic two.
   The positive Kummer chart requires `2 ≠ 0`: after `S = S'²`, the ideal `(T_1² − S'²T_2²)` has
-  the chart `(T_1 − S'T_2, T_1 + S'T_2, S')` on `D(S')` when `2 ≠ 0` (Lean `example`).
+  the chart `(T_1 − S'T_2, T_1 + S'T_2, S')` on `D(S')` when `2 ≠ 0`.
 
 - Non-example: `(X, X)` is a smooth pair only for
   `X = ∅`: a chart at `x ∈ X` would have `h^*(T_1 ⋯ T_r) = 0` on `V ∋ x`, so `h(V) ⊆ V(T_1 ⋯ T_r)`,
@@ -1192,21 +1192,22 @@ the regular generator; the quotient is étale over the reduced coordinate-hyperp
 These are the algebraic chart calculations underlying DLLZ-A §2.3, Ex. 2.3.17, pp. 16–17.
 They impose no valuation, completeness or characteristic hypothesis on `K`.
 Lean: `SmoothPair.AlgebraicChart`, `SmoothPair.modelAlgebraicChart`,
-`SmoothPair.AlgebraicChart.isCartier`.
+`SmoothPair.AlgebraicChart.isCartier`, `SmoothPair.AlgebraicChart.no_full_boundary`
+(the zero ideal has no chart over a nontrivial ring).
 
 **Checks for algebraic charts and their identity model.**
 
 - For `n = r = 0`,
   the empty product is `1` and its ideal is `⊤`, so the boundary is empty.
 - For `n = r = 1`, the generator is `T_1`, defining the origin.
-- For `n = r = 2`, the generator is `T_1 T_2`, defining both axes (Lean `example`).
+- For `n = r = 2`, the generator is `T_1 T_2`, defining both axes.
 - Over a nontrivial `R` the ideal `0`
-  cannot admit a chart (Lean `example`); in contrast the zero ring has the
+  cannot admit a chart; in contrast the zero ring has the
   chart with `n = r = 0` and `0 = 1`.
 - Kummer coordinates: in the ordered coordinates
   `(x,y) = (u − sv,u + sv)`, `xy = u² − s²v²` and the determinant is `+2s`.
-  With `s ≠ 0` this is invertible precisely when `2 ≠ 0` (Lean `example`, on `D(S')`).
-  In characteristic two, `(u − sv)²` excludes a chart (Lean `example`).
+  With `s ≠ 0` this is invertible precisely when `2 ≠ 0` (on `D(S')`).
+  In characteristic two, `(u − sv)²` excludes a chart.
 
 For a complete nontrivially normed nonarchimedean field `K` with its Tate-ring structure, an affinoid analytic chart
 `SmoothPair.AffinoidChart K S I` uses a complete Hausdorff Huber `K`-algebra `A`, a
@@ -1221,7 +1222,8 @@ Prove `SmoothPair.AffinoidChart.isCartier` (regular generator and radical ideal)
 `SmoothPair.AffinoidChart.mem_complement_iff` (all boundary coordinates have nonzero valuation).
 These local charts are used inside the global charts of *smooth-pair*; their domain is affinoid.
 Lean: `SmoothPair.AffinoidChart`, `SmoothPair.AffinoidChart.isCartier`,
-`SmoothPair.AffinoidChart.mem_complement_iff`.
+`SmoothPair.AffinoidChart.mem_complement_iff`, `SmoothPair.AffinoidChart.no_doubled_origin`
+(the ideal `(T²)` of the closed disc has no chart).
 
 **Checks for analytic affinoid charts and models.**
 
@@ -1229,7 +1231,7 @@ Lean: `SmoothPair.AffinoidChart`, `SmoothPair.AffinoidChart.isCartier`,
   the value `1`; when `r = 0` the complement of the model pair is the whole polydisc,
   in every dimension, with its points identified with the unit-ideal complement in the
   valuation spectrum. In every dimension the identity of the closed polydisc is a chart of
-  `(T_1 ⋯ T_r)` (Lean `example`).
+  `(T_1 ⋯ T_r)`.
 - The one-dimensional identity chart gives `T`;
   membership in the complement of the model pair
   is `v(T) ≠ 0`, which excludes `T=0` and includes `T=1`.
@@ -1241,7 +1243,7 @@ Lean: `SmoothPair.AffinoidChart`, `SmoothPair.AffinoidChart.isCartier`,
 - The zero ideal of a nonzero complete Huber
   `K`-algebra admits no such chart.
 - `(T²)` in `K⟨T⟩` admits no chart, in every
-  characteristic; a set-theoretic replacement by `(T)` would incorrectly admit it (Lean `example`).
+  characteristic; a set-theoretic replacement by `(T)` would incorrectly admit it.
 
 **Analytification of an algebraic strict normal crossings pair is a smooth pair.**
 (*analytification-of-smooth-pair*) Let `K` be a complete nonarchimedean field, `X` a scheme smooth
@@ -1288,14 +1290,14 @@ the analytification statement is specified in this README only.
 **Checks for algebraic smooth pairs.**
 
 - For every smooth `X → Spec K`, the ideal sheaf
-  `⊤` gives an algebraic smooth pair with that same structure morphism (Lean `example`).
+  `⊤` gives an algebraic smooth pair with that same structure morphism.
 - If `X` is empty, the ideal sheaf `⊥ = ⊤` also gives a pair.
 - For a pair with ideal sheaf `⊥`, the scheme is empty;
-  in particular no nonempty smooth scheme has the full boundary (Lean `example`).
+  in particular no nonempty smooth scheme has the full boundary.
 - For any field `K` of prime
   characteristic `p`, any `a ∈ K`, any point `x ∈ V(T^p − a)` and every
   `g ∈ K[T]` with `g ∉ x.asIdeal`, the ideal generated by `T^p − a` in
-  `K[T][1/g]` admits no relative algebraic chart (Lean `example`). These principal opens form
+  `K[T][1/g]` admits no relative algebraic chart. These principal opens form
   a neighbourhood basis, so there is no affine neighbourhood chart at `x`,
   even when the divisor is a regular prime divisor. At `x`, the differential
   of every unit multiple `c(T^p − a)` vanishes; a relative étale coordinate
@@ -1833,7 +1835,8 @@ Corollary 3.5, for `U` smooth over `L`, the anticanonical tower `X*_{Γ(p^∞)}(
 space. *Needs:* [*perfectoid-times-polydisc*](../PerfectoidSpaces/README.md#p3-17b) (PerfectoidSpaces §P3.17b); [*sousperfectoid-etale-base-change*](../PerfectoidSpaces/README.md#p3-17a-4) (PerfectoidSpaces §P3.17a.4);
 [*sousperfectoid-adic-space*](../PerfectoidSpaces/README.md#p3-17a-4) (PerfectoidSpaces §P3.17a.4); *smooth-local-structure*, *smooth-morphism*,
 *affinoid-fibre-product* (AdicSpacesPartII layer R0); PerfectoidSpaces P1.10 and P2.10; the local completed-tensor and gluing argument of BHW Corollary 3.4.
-Lean: `AdicSpace.perfectoidTimesSmooth_exists`.
+Lean: `AdicSpace.perfectoidTimesSmooth_exists` supplies a fibre product together with
+its sousperfectoidness predicate from PerfectoidSpaces P3.17a.4.
 
 **Checks.**
 
@@ -1937,7 +1940,7 @@ product topology)). `∏_{i∈I} 𝒪` with the product topology is profinite fl
 
 - Computation: `ℤ_p[[T₁, …, T_d]]` with its
   `(p, T₁, …, T_d)`-adic topology, which is the coefficientwise topology, is a profinite flat
-  `ℤ_p`-module (Lean `example`).
+  `ℤ_p`-module.
 - Degenerate: `0` and `𝒪` (with the `ϖ`-adic topology) are
   profinite flat `𝒪`-modules.
 - Non-example: `𝒪/ϖ` (finite, discrete) is compact and
@@ -1948,7 +1951,7 @@ product topology)). `∏_{i∈I} 𝒪` with the product topology is profinite fl
 - Non-example: `𝒪` with the indiscrete topology is flat,
   compact and linear-topological (the only neighbourhood of `0` is `𝒪`) but not Hausdorff, so it is
   not profinite flat; it is not isomorphic to `∏_I 𝒪` for any `I`, so a definition without T2 would
-  falsify the pseudobasis theorem (Lean `example` for `𝒪 = ℤ_p`).
+  falsify the pseudobasis theorem (in particular for `𝒪 = ℤ_p`).
 
 **Pseudobases of profinite flat modules.** (*profinite-flat-pseudobasis*) Let `𝒪` be a complete DVR
 with finite residue field. Prove that a topological `𝒪`-module `M` is profinite flat if and only if
@@ -1985,9 +1988,9 @@ and `p`-adically complete), and that
 
 - Computation: `ℤ_p[[ℤ_p^×]]` (the completed group ring) is a
   small `ℤ_p`-algebra, finite over `ℤ_p[[T]]` via `1 + p ↦ 1 + T` for `p` odd.
-- Degenerate: `ℤ_p` is small (`d = 0`; Lean `example`, with the last non-example below).
+- Degenerate: `ℤ_p` is small (`d = 0`; see also the last non-example below).
 - Non-example: `ℤ_p[[T]]/(T²)` is `p`-torsion-free and finite
-  over `ℤ_p[[T]]` but not reduced, so not small (Lean `example`).
+  over `ℤ_p[[T]]` but not reduced, so not small.
 - Non-example: `𝔽_p[[T]]` is reduced and finite over `ℤ_p[[T]]` but
   has `p`-torsion, so not small.
 - Non-example: `ℚ_p` is reduced and `p`-torsion-free but not
@@ -2073,7 +2076,7 @@ only.
   the nilpotent component. This kernel distinguishes it from the identity on `V`
   (CHJ Definition 6.6, p. 47; HK Example 6.10, pp. 18–19).
 - Degenerate: `V ⊗̂ 𝒪 = V` canonically (pseudobasis with one element).
-- Componentwise functoriality (Lean `example`s): pure tensors have component
+- Componentwise functoriality: pure tensors have component
   `x ⊗ (m mod N)`, vanish when either factor is zero, are additive in each factor and
   satisfy scalar balancing. The map induced by `f` has component `f ⊗ id`, sends
   `x ⊗ m` to `f(x) ⊗ m`, and preserves zero, identity, addition and composition on
@@ -2406,7 +2409,7 @@ coefficientwise `(p,T)`-adic topology;
 the section rings have the mixed tensor's Banach topology. The statement also supplies a continuous
 additive map to bounded positive Laurent coefficient arrays, a target section mapping to the
 diagonal array, and the uniform exponential bound on the restriction image.
-The array proof step, a Lean `example`, is that
+The array proof step is that
 the diagonal array has norm one and is at distance at least one from every exponentially
 bounded source array. The inverse image of the open unit ball centered at the diagonal array
 under the continuous coefficient map is a nonempty open subset of the target sections disjoint from
@@ -2506,7 +2509,7 @@ action factoring through `ℤ/p^n`. This is the residue-class form of Mathlib's
 `Metric.totallyBounded_iff` (`Mathlib/Topology/MetricSpace/Pseudo/Basic.lean`).
 Unit coefficients with
 linearly independent residues exist: every nonzero finite `𝔽_p`-linear combination
-has norm one (Lean `example`: such a bounded sequence of units, not totally bounded).
+has norm one (such a bounded sequence of units, not totally bounded).
 Their pairwise distances are one, so the sequence is outside that
 image. Thus the comparison between the completed Banach tensor and the
 mixed coefficient module is injective and not surjective, with its pure-tensor equation and
@@ -3066,12 +3069,11 @@ that `W_{n+1} ≅ W_n⟨X_{n+1}⟩†` (see *dagger-tensor-product*) (GK00 §1, 
   it is restricted at every `ρ < p` (`|p^m| ρ^m = (ρ/p)^m → 0`).
 - Non-example: for `K = ℚ_p`,
   `g = Σ_{m≥0} p^m X^{p^m} ∈ T_1` but `g ∉ W_1`: for every `ρ > 1`,
-  `|p^m| ρ^{p^m} = p^{-m} ρ^{p^m} → ∞`. A definition `W_n := T_n` fails this test (Lean `example`,
-  with the preceding computation).
+  `|p^m| ρ^{p^m} = p^{-m} ρ^{p^m} → ∞`. A definition `W_n := T_n` fails this test.
 - Characterisation: for `K = ℚ_p`,
   `h = Σ_m p^m X^{2m} ∈ W_1` (restricted at every `ρ < p^{1/2}`) but `h ∉ T_1(p)`
   (`|p^m| p^{2m} = p^m → ∞`); so the union over `ρ ∈ |ℚ_p^×| ∩ (1,∞) = {p, p^2, …}` is strictly
-  smaller than `W_1` (Lean `example`).
+  smaller than `W_1`.
 - Degenerate: `W_0 = K`, and `W_n` contains
   `MvPolynomial (Fin n) K`.
 - Compatibility: `W_n ⊆ TauCeti.Huber.restrictedMvPowerSeriesSubring n K`,
@@ -3086,7 +3088,7 @@ that `W_{n+1} ≅ W_n⟨X_{n+1}⟩†` (see *dagger-tensor-product*) (GK00 §1, 
   has no primitive in `K[[X]]` (`d(X^p) = pX^{p−1} = 0`); the primitive statement needs
   `char K = 0`.
 
-The two-term unit criterion is also checked directly (Lean `example`):
+The two-term unit criterion is also checked directly:
 `1+pX` is invertible over `ℚ_p`, while `p+X` has the zero `−p` in the unit disc.
 
 **Weierstrass division and preparation in `W_n`, and distinguishedness after an automorphism.**
@@ -3240,13 +3242,12 @@ Lean: `Dagger.IsDaggerAlgebra`, `Dagger.IsDaggerAlgebra.washnitzerAlgebra`,
 
 - Computation: `A = W_2/(X_1X_2 − 1) = K⟨X, X^{-1}⟩†` is a
   dagger algebra; its completion is `T_2/(X_1X_2 − 1) = K⟨X, X^{-1}⟩`, and `1/(X − a) ∈ A` for
-  every `a ∈ K` with `|a| < 1` (Lean `example`: `A` is a dagger algebra and `X − a` is a unit).
+  every `a ∈ K` with `|a| < 1` (`A` is a dagger algebra and `X − a` is a unit).
 - Degenerate: `K = W_0` and the zero ring `W_0/(1)` are dagger
   algebras; `Sp(K)` is a point.
 - Non-example: `K[X]` is not a dagger algebra: the maximal
   ideals `(X − c)`, `c ∈ K`, give `|X|_sup = ∞`, whereas every dagger algebra has finite supremum
   seminorm. (A definition 'finitely generated `K`-subalgebra of `T_n`' would admit `K[X]`.)
-  (Lean `example`.)
 - Non-example: `W_1` is a dagger algebra that is not
   complete for its norm: `Σ_{m≤N} p^m X^{p^m}` is Cauchy in `W_1` (`K = ℚ_p`) with limit in
   `T_1 ∖ W_1`; so 'dagger algebra = affinoid algebra' is false.
@@ -3266,7 +3267,7 @@ dimension: the dual numbers have Krull dimension zero.
 (*dagger-noether-normalisation*) Let `A` be a `K`-dagger algebra. Prove: (a) if `A ≠ 0` there are
 `d ∈ ℕ` and an injective finite `K`-algebra homomorphism `W_d → A` (for `A = 0`, a dagger algebra,
 no `K`-algebra map `W_d → 0` is injective, so the hypothesis `A ≠ 0`, in Lean `[Nontrivial A]`,
-cannot be dropped; Lean `example`); (b) if the nilradical of an ideal `q ⊆ A` is
+cannot be dropped); (b) if the nilradical of an ideal `q ⊆ A` is
 a maximal ideal, then `A/q` is finite-dimensional over `K`; in particular `A/m` is a finite field
 extension of `K` for every maximal ideal `m` (in Lean part of `IsDaggerAlgebra.isNoetherianRing`); (c) if
 `φ : W_n → B` is a finite morphism of dagger
@@ -3336,7 +3337,9 @@ functorial: every morphism `φ : A → B` of dagger algebras extends uniquely to
 *overconvergent-faithful-flatness*; *dagger-norm-and-continuity*; *dagger-algebra*;
 *reduced-affinoid-supremum-norm* (AdicSpacesPartII layer R0); *dagger-algebra-excellent*.
 Lean: `Dagger.completion_isAffinoid` (`Â` is affinoid and `τ` is faithfully flat),
-`Dagger.completion_isReduced` (`char K = 0` and `A` reduced imply `Â` reduced).
+`Dagger.completion_isReduced` (`char K = 0` and `A` reduced imply `Â` reduced),
+`Dagger.completion_existsUnique_isMaximal_comap` (the maximal-ideal bijection),
+`Dagger.completion_isRegular_iff` (regularity in every characteristic).
 
 **Dagger algebras are weakly complete; elements of `A^int` with reduction `1` are units.**
 (*dagger-weak-completeness*) Let `A` be a `K`-dagger algebra. Prove: (a) `A` is weakly complete: for
@@ -3380,12 +3383,12 @@ with stages `T_{n+1}(λ)/(I + g)` and generators sent by `X_i ↦ X_i` (`i ≤ n
 - Non-example (the rescaling is needed): for `A = K` and `0 < |π| < 1`,
   `K[X]/(X − π^{-1}) ≅ K`, but `X − π^{-1} = −π^{-1}(1 − πX)` is a unit of `W_1` (`Σ π^mX^m` is
   restricted at every radius `ρ < |π|^{-1}`), so the unscaled presentation `W_1/(X − π^{-1})` is
-  `0` (Lean `example`).
+  `0`.
 - Computation: with `c = π` the relation becomes `Y − 1` and `W_1/(Y − 1) ≅ K`.
 - Positive control: for `X − a` with `|a| ≤ 1` the coefficient is already power-bounded and
-  evaluation at `a` gives `W_1/(X − a) ≅ K`, sending `X` to `a` (Lean `example`).
-- Non-example (the induction is needed): `K[ε, δ]/(ε, δ)²` is not generated by one element
-  (Lean `example`); it is reached from `K` in two steps.
+  evaluation at `a` gives `W_1/(X − a) ≅ K`, sending `X` to `a`.
+- Non-example (the induction is needed): `K[ε, δ]/(ε, δ)²` is not generated by one element;
+  it is reached from `K` in two steps.
 
 **Finiteness, surjectivity, injectivity and strictness of morphisms of dagger algebras are detected
 on completions.** (*dagger-finite-morphism-comparison*) Let `K` be a complete rank-one
@@ -3799,12 +3802,12 @@ that `O_K⟨X⟩† ⊗_{O_K} K ≃ W_n` (vdP §2, p. 35). *Needs:*
 
 **Checks.**
 
-- `0, 1 ∈ O_K`, and their constant series lie in `O_K⟨X⟩†` (Lean `example`).
+- `0, 1 ∈ O_K`, and their constant series lie in `O_K⟨X⟩†`.
 - A scalar `π` with `0 < |π| < 1` lies in `O_K`.
 - The same scalar has `π⁻¹ ∉ O_K`.
 - The zero series has integral coefficients.
 - `Σ X^m` has integral coefficients but is not overconvergent.
-- The constant `π⁻¹` fails integrality when `0 < |π| < 1` (Lean `example`).
+- The constant `π⁻¹` fails integrality when `0 < |π| < 1`.
 - Computation: `Σ_{j≥0} π^j X^j ∈ O_K⟨X⟩†` with
   `P_j = X^j` of degree `j ≤ 1·(j+1)`.
 - Degenerate: for `n = 0`, `O_K⟨⟩† = O_K`.
@@ -3907,7 +3910,7 @@ complete and separated (`S → Ŝ` bijective, e.g. `S` finite over `O_K`), then 
 - `O_K` is weakly complete finitely generated (zero variables).
 - `k = O_K/π` is weakly complete finitely generated but not flat.
 - `O_K[X]` is not weakly complete: `1−πX` would have to
-  be a unit, whereas its geometric-series inverse is not a polynomial (Lean `example`).
+  be a unit, whereas its geometric-series inverse is not a polynomial.
 
 **The generic fibre `S† ⊗ K` of a weak completion is a dagger algebra with completion `Ŝ ⊗ K`.**
 (*weak-completion-generic-fibre*) The completion comparison
@@ -3952,7 +3955,8 @@ dimension of the reduction), that if `f ∈ A^int` has non-nilpotent reduction `
 `A⟨f^{-1}⟩†` is of MW-type with reduction `(A^int/π)[1/f̄]`, and that `W_n` is of
 MW-type with reduction `k[X_1, …, X_n]` (Kedlaya06 §3.2, Def. 3.2.1). *Needs:* *dagger-algebra*;
 *weak-completion-generic-fibre*. Lean: `Dagger.IsMWType`, `Dagger.IsMWType.projective_differentials`,
-`Dagger.IsMWType.of_smooth`.
+`Dagger.IsMWType.of_smooth`, `Dagger.IsMWType.not_dualNumbers`
+(the square-zero dagger thickening is not of MW-type).
 
 **Checks.**
 
@@ -3961,7 +3965,7 @@ MW-type with reduction `k[X_1, …, X_n]` (Kedlaya06 §3.2, Def. 3.2.1). *Needs:
 - Degenerate: `K = W_0` is of MW-type with reduction `k`.
 - Non-example: `A = W_1/(X^2)`: `X` is nilpotent so `X/π^m ∈ A^int`
   for all `m`, hence `A^int/πA^int = k` is smooth, but `A` is not regular; the regularity clause
-  (Kedlaya's errata to Definition 3.2.1) excludes it (Lean `example`).
+  (Kedlaya's errata to Definition 3.2.1) excludes it.
 - Non-example: `A = W_1[Y]/(Y^2 − π) = K(√π)⟨X⟩†` is regular and finite
   étale over `W_1` (`char K ≠ 2`, so `Y^2 − π` is separable), but `A^int/πA^int = k[ε, X]/(ε^2)` is
   not reduced, so `A` is not of MW-type over `K`.
@@ -4707,7 +4711,7 @@ Lean: `Dagger.Omega`, `Dagger.Omega.d`, `Dagger.Omega.existsUnique_lift`, `Dagge
 
 **Checks.**
 
-- Degenerate: `d(c) = 0` for `c ∈ K` (Lean `example`).
+- Degenerate: `d(c) = 0` for `c ∈ K`.
 - Computation: in `W_2`,
   `d(X dY) = dX ∧ dY ≠ 0`; higher differentials cannot all be zero.
 - Convention: `d(Y dX) = −dX ∧ dY`.
@@ -4776,7 +4780,7 @@ DVR, `Sp(S† ⊗ K)` is smooth (GK00 §4, 4.1, p. 19; the equivalence GK02 §1,
 - Compatibility: `X` is smooth iff `X'` is smooth over `K` in the sense of
   *smooth-morphism*.
 - Non-example (pure dimension): `Sp(K × W_1) = Sp K ⨿ Sp W_1` is smooth of Krull dimension `1`
-  but not pure-dimensional (Lean `example`: `K × W_1` is a dagger algebra of Krull dimension `1`
+  but not pure-dimensional (`K × W_1` is a dagger algebra of Krull dimension `1`
   with a factor of dimension `0`). For `char K = 0` it has `H^0_dR = K²`, `H^0_{dR,c} = K` (the
   point) and `H^2_{dR,c} = K` (the disc), so no single shift pairs `H^0_dR` with `H^2_{dR,c}`,
   while the duality holds on each part.
@@ -4841,7 +4845,7 @@ below); the complex and its cohomology are specified in this README only.
 - Compatibility: for `S` a smooth finitely generated `O_K`-algebra (`O_K` a complete
   DVR of mixed characteristic), `H^i_dR(Sp(S† ⊗ K)) = H^i(Ω^•_{S†⊗K})`, the Monsky–Washnitzer cohomology of `S/πS` (Kedlaya01 §2, p. 3; vdP §2).
 - Negative control: in characteristic `p`, `X^{p−1}dX` is not exact on the dagger disc and `X^p`
-  is a nonconstant closed function (Lean `example` for the first).
+  is a nonconstant closed function.
 
 **Differential operators and the derived de Rham functor.** (*dagger-d-modules*) Let
 `char K = 0` and `X` a smooth dagger (or rigid) space. Let `I` be the ideal of the diagonal in
@@ -4956,7 +4960,7 @@ Künneth clause are specified in this README only. *Needs:* *dagger-de-rham-comp
   spaces.
 - Negative control: for `char K = p`, `d : W_1 → W_1 dX` has kernel
   containing `K[X^p] ≠ K` and `X^{p−1}dX` is not exact; both `H^0 = K` and `H^1 = 0` fail, and
-  `[CharZero K]` cannot be dropped (Lean `example`).
+  `[CharZero K]` cannot be dropped. Lean: `Dagger.Omega.not_exact_charP`.
 - Negative control: `n = r = 1`, `γ_1 = 1`, `δ_1 = |π|^{-1}`,
   `μ = |π|^{-2}`: `Π δ_i = |π|^{-1} < μ`, and `V° = {1 < |x| < |π|^{-1}, |x| > |π|^{-2}} = ∅`; with
   `μ = 1 < δ_1` instead, `V°` is the open annulus `1 < |x| < |π|^{-1}` with `H^1_dR = K·dx/x`.
@@ -5070,7 +5074,7 @@ cohomology used by GK00 §4, 4.3 for `H^i_c(X, F)`, and for `i = 0` it is the sp
 - Convention: Mathlib's third cone-triangle arrow is induced by `−mappingCone.fst`: it is
   negative identity on the shifted source and zero on the target summand, under the
   standard shift identifications. For `0 : K[−1] → K[0]`, its degree-zero formula is
-  `(a,b) ↦ −a`, so `(0,1)` maps to zero (Lean `example` component equations).
+  `(a,b) ↦ −a`, so `(0,1)` maps to zero.
 
 **Algebraic local cohomology of `D_X`-modules.** (*dagger-algebraic-local-cohomology*) Let
 `char K = 0`, `X` a smooth dagger space, `Y ⊆ X` closed with coherent ideal `J`, and `E` a
@@ -5499,7 +5503,7 @@ sheaves on the complement and the whole fringe and their cokernel (GK00 4.3,
 pp. 19–20). **Check:** it fixes the
 Mathlib cone convention: the third arrow is induced by `−mappingCone.fst`. For
 `0 : K[−1] → K[0]`, its degree-zero formula is `(a,b) ↦ −a`; it kills the target
-summand (Lean `example` component equations).
+summand.
 
 **Serre duality for smooth affinoid dagger spaces.** (*dagger-serre-duality*) Let `K` be spherically
 complete (complete, nonarchimedean; e.g. discretely valued). Let `X` be a smooth affinoid `K`-dagger
@@ -5962,7 +5966,7 @@ and polydiscs). *Needs:* *dagger-smooth-space*; *dagger-coherent-module*; *dagge
   is cut out by a regular system of parameters. Yet `D ≅ Sp K(t^{1/p})` is not smooth over `K` (over
   `K(t^{1/p})` its equation is `(T − t^{1/p})^p`) and `d(T^p − t) = 0` in `Ω^1`, so `D` is not SNC;
   the regular-parameter condition without the smoothness clause would accept it. This is the
-  dagger form of the Lean `example` on `V(T^p − a) ⊆ 𝔸¹`. The algebraic divisor
+  dagger form of the algebraic chart obstruction on `V(T^p − a) ⊆ 𝔸¹`. The algebraic divisor
   `V(T^p − t) ⊆ A^1_K` likewise fails the relative SNC hypothesis of the algebraic-to-dagger
   comparison, although `A^1_K` is smooth, separated and of finite type and the divisor satisfies
   the absolute regular-parameter condition.
@@ -6023,7 +6027,7 @@ the sheaf `Ω^1_X(∗D)` of forms with arbitrary poles along `D`) but not of `Ω
   `0 → Ω^•_D → Ω^•_D(log {0}) → ι_*K[−1] → 0` gives `H^1(D, log {0}) ≅ K` via the residue (using
   `H^1_dR(D) = 0`); in one variable `x·f′` runs through all `g` with `g(0) = 0`.
 - Negative control (characteristic `p`): the computations fail already for `D = ∅`: `X^p` is closed
-  and not constant, and `X^{p−1}dX` is closed and not exact (Lean `example` for the latter).
+  and not constant, and `X^{p−1}dX` is closed and not exact.
 
 **The boundary-vanishing (compact-support) logarithmic de Rham complex `Ω^•_X(log D)(−D)`.**
 (*compact-support-log-complex*) Let `(X, D)` be a smooth `K`-dagger space with a strict normal
@@ -6204,7 +6208,7 @@ numbers, the nilpotent coordinate is nonzero even though every point norm kills 
 - Rational structure map: numerator `1` and denominator `0` give the zero map to the zero algebra.
 - Rational domains: the rational domain with numerator `1` and denominator `0` is empty.
 - `π`-adic completion: the adic completion of the complete DVR at a uniformiser is the DVR itself.
-- The weak-completion set: every scalar, including `1`, belongs for any finite family, including the empty family (Lean `example`).
+- The weak-completion set: every scalar, including `1`, belongs for any finite family, including the empty family.
 - The weak-completion set: for the polynomial generator `X`, the weak-completion set contains the geometric inverse of `1−πX`.
 - The weak-completion set: for a uniformiser, the single polynomial generator does not generate the entire adic completion under linear degree growth.
 - The weak-completion map: the weak-completion map of the complete base DVR is bijective.
@@ -6227,9 +6231,9 @@ numbers, the nilpotent coordinate is nonzero even though every point norm kills 
 - Integral subalgebra: every scalar multiple of `X` in `W₁/(X²)` belongs to the integral subalgebra.
 - Integral subalgebra: a scalar of absolute value greater than `1` is excluded from the integral subalgebra of `K`.
 - Reduction of an MW-type algebra: the reduction of the dagger unit annulus is `k[x,y]/(xy−1)`.
-- Minimal presentations: the least presentation dimension of `K` is `0`, and its chosen presentation is bijective (Lean `example`s).
-- Minimal presentations: the least presentation dimension of `W₁` is `1`, and every chosen minimal presentation is bijective (Lean `example`s).
-- Minimal presentations: the dual numbers `W₁/(X²)` have least presentation dimension `1`; their presentation cannot be injective (Lean `example`s).
+- Minimal presentations: the least presentation dimension of `K` is `0`, and its chosen presentation is bijective.
+- Minimal presentations: the least presentation dimension of `W₁` is `1`, and every chosen minimal presentation is bijective.
+- Minimal presentations: the dual numbers `W₁/(X²)` have least presentation dimension `1`; their presentation cannot be injective.
 - Tensor relation ideal: for `K⊗†_K K`, the ideal in the minimal zero-variable presentation is zero.
 - Tensor relation ideal: a zero factor makes the tensor relation ideal the unit ideal.
 - Tensor relation ideal: for `W₁⊗†_(W₁)W₁`, the ideal in the two-variable minimal presentation is nonzero principal.
@@ -6434,7 +6438,7 @@ for `U = ∅` the restriction is zero.
 The connecting
 arrow for `0 : K[−1] → K[0]` has degree-zero formula `(a,b) ↦ −a`,
 fixing Mathlib's cone sign: negative identity on the shifted source and zero on
-the target summand (Lean `example` component equations).
+the target summand.
 
 **Checks.** The de Rham complex of the point has zero positive terms;
 that of the empty space is zero; the disc has nonzero one-forms.

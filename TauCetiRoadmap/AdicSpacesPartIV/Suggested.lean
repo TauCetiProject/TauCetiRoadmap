@@ -1,6 +1,4 @@
 import Mathlib
-import TauCeti.AlgebraicGeometry.AdicSpace.Spa.StructurePresheaf.SheafyRing
-import TauCeti.RingTheory.Huber.LocalizationTopology.Completion
 import TauCeti.RingTheory.Huber.Pair
 import TauCeti.RingTheory.Huber.PowerBounded
 import TauCeti.RingTheory.Huber.TopologicallyFiniteType
@@ -17,15 +15,13 @@ This file is a set of suggested forms, not an exhaustive checklist: the README i
 
 Huber rings and pairs, adic spectra, rational localisations, Tate algebras and the category
 `TauCeti.AdicSpace` are Tau Ceti's; AdicSpacesPartII supplies affinoid charts and Huber's
-morphism classes, PerfectoidSpaces the perfectoid Tate-ring predicate, AdicEtaleGeometry open subspaces, the
-completed rational localisation `ratLoc`, étale morphisms by local description and fibre
-products. RigidAnalyticGeometry Layers 3–4 supply reducedness of rational affinoid subdomains;
+morphism classes, PerfectoidSpaces the perfectoid Tate-ring predicate, AdicEtaleGeometry open subspaces, the étale morphisms by local description and fibre products. RigidAnalyticGeometry Layers 3–4 supply reducedness of rational affinoid subdomains;
 the plus-ring comparison belongs to R5.6's `rational-integral-compatibility` in the README.
 Completeness includes the Hausdorff property. This file states the parts that are a few lines
 over these carriers:
 
 * R4: strict normal crossings charts of rings, of complete affinoid algebras and of smooth schemes;
-* R5: BHW's product of a perfectoid space with a smooth space, profinite flat modules,
+* R5: BHW's sousperfectoid product of a perfectoid space with a smooth space, profinite flat modules,
   small `ℤ_p`-algebras and the integral mixed completed tensor product;
 * F1: overconvergent power series, dagger algebras and their completions, weak completions,
   algebras of Monsky–Washnitzer type and universally finite differentials.
@@ -40,12 +36,37 @@ mixed-characteristic field. Its completion and restriction compatibilities suppl
 *dagger-proper-projection-trace* and its supported and embedding-independence applications.
 -/
 
-
 noncomputable section
 
 namespace TauCetiRoadmap.AdicSpacesPartIV
 
 open TauCeti
+
+/-! ## Headline R5.5: products with smooth spaces (*perfectoid-times-smooth-fibre-product*) -/
+
+namespace AdicSpace
+
+open CategoryTheory TauCeti.Huber
+open TauCetiRoadmap.AdicSpacesPartII.AdicSpace (Affinoid Chart Smooth)
+open TauCetiRoadmap.AdicEtaleGeometry.AdicSpace (FibreProduct)
+open TauCetiRoadmap.PerfectoidSpaces.Perfectoid (IsPerfectoidTateRing)
+
+/-- BHW's product: for perfectoid fields `L → L'` (as affinoids `Spa(L, O_L)`, `Spa(L', O_{L'})`),
+a perfectoid space `X` over `L` and a smooth `Y` over `L'`, the fibre product `X ×_L Y` exists and
+is sousperfectoid, as in *perfectoid-times-smooth-fibre-product* (BHW, Cor. 3.4, pp. 1724–1725). -/
+theorem perfectoidTimesSmooth_exists (p : ℕ) [Fact p.Prime] (L L' : Affinoid)
+    (hL : IsField L.ring) (hL' : IsField L'.ring) [IsTateRing L.ring] [IsTateRing L'.ring]
+    [IsPerfectoidTateRing p L.ring] [IsPerfectoidTateRing p L'.ring]
+    (hLplus : L.pair.plus = powerBoundedSubring L.ring)
+    (hLplus' : L'.pair.plus = powerBoundedSubring L'.ring) (σ : L'.spa ⟶ L.spa)
+    (X Y : TauCeti.AdicSpace) (f : X ⟶ L.spa) (g : Y ⟶ L'.spa)
+    (hX : ∀ x : X.obj, ∃ (c : Chart X) (_ : IsTateRing c.affinoid.ring),
+      IsPerfectoidTateRing p c.affinoid.ring ∧ x ∈ Set.range c.ι.hom.base)
+    (hg : Smooth g) :
+    ∃ P : FibreProduct f (g ≫ σ),
+      PerfectoidSpaces.AdicSpace.IsSousperfectoid p P.space := sorry
+
+end AdicSpace
 
 /-! ## Layer R4: étale sites, smooth pairs and boundary complements -/
 
@@ -98,51 +119,11 @@ theorem AlgebraicChart.isCartier {R : Type*} [CommRing R] {σ : K →+* R} {I : 
 
 end Algebraic
 
-/-- The two-axis model: for `n = r = 2` the boundary generator is `T₁ T₂`. -/
-example (K : Type*) [Field K] :
-    (modelAlgebraicChart K 2 2 le_rfl).coord (∏ i : Fin 2, X (Fin.castLE le_rfl i)) =
-      (X 0 * X 1 : MvPolynomial (Fin 2) K) := by
-  change (∏ i : Fin 2, (X (Fin.castLE le_rfl i) : MvPolynomial (Fin 2) K)) = X 0 * X 1
-  simp [Fin.prod_univ_two]
-
-/-- The full boundary is impossible: over a nonzero ring the zero ideal has no chart, the
-generator of a chart being a non-zero-divisor. -/
-example (K : Type*) [Field K] {R : Type*} [CommRing R] [Nontrivial R] (σ : K →+* R) :
+/-- The boundary case of *smooth-pair*: the zero ideal has no chart over a
+nonzero ring, the generator of a chart being a non-zero-divisor. -/
+theorem AlgebraicChart.no_full_boundary (K : Type*) [Field K] {R : Type*} [CommRing R]
+    [Nontrivial R] (σ : K →+* R) :
     IsEmpty (AlgebraicChart K σ ⊥) := sorry
-
-/-- Three concurrent lines `T₁ T₂ (T₁ − T₂)` admit no chart on any Zariski neighbourhood `D(g)` of
-the origin of `𝔸²_K`, in every characteristic. -/
-example (K : Type*) [Field K] (g : MvPolynomial (Fin 2) K) (hg : eval 0 g ≠ 0) :
-    IsEmpty (AlgebraicChart K (algebraMap K (Localization.Away g))
-      (Ideal.span {(algebraMap (MvPolynomial (Fin 2) K) (Localization.Away g)
-        (X 0 * X 1 * (X 0 - X 1)))})) := sorry
-
-/-- In characteristic `p`, `V(T^p − a)` has no relative SNC chart near any of its points.
-When `a ∉ K^p` it is a regular prime divisor, exhibiting the need for relative smoothness;
-when `a = 0` it is nonreduced (EGA IV₄, Cor. 17.11.3). -/
-example (K : Type*) [Field K] (p : ℕ) [Fact p.Prime] [CharP K p] (a : K)
-    (x : PrimeSpectrum (MvPolynomial (Fin 1) K)) (hx : X 0 ^ p - C a ∈ x.asIdeal)
-    (g : MvPolynomial (Fin 1) K) (hg : g ∉ x.asIdeal) :
-    IsEmpty (AlgebraicChart K (algebraMap K (Localization.Away g))
-      (Ideal.span {(algebraMap (MvPolynomial (Fin 1) K) (Localization.Away g)
-        (X 0 ^ p - C a))})) := sorry
-
-/-- After the Kummer substitution `S = S'²` the ideal `(T₁² − S'² T₂²)` has the chart
-`(T₁ − S'T₂, T₁ + S'T₂, S')` on `D(S')`, with Jacobian `2S'`, when `2 ≠ 0` in `K`. -/
-example (K : Type*) [Field K] [NeZero (2 : K)] :
-    Nonempty (AlgebraicChart K
-      (algebraMap K (Localization.Away (X 2 : MvPolynomial (Fin 3) K)))
-      (Ideal.span {(algebraMap (MvPolynomial (Fin 3) K)
-        (Localization.Away (X 2 : MvPolynomial (Fin 3) K))
-        (X 0 ^ 2 - X 2 ^ 2 * X 1 ^ 2))})) := sorry
-
-/-- In characteristic two the same substitution gives a doubled line and no chart. -/
-example (K : Type*) [Field K] [CharP K 2] :
-    IsEmpty (AlgebraicChart K
-      (algebraMap K (Localization.Away (X 2 : MvPolynomial (Fin 3) K)))
-      (Ideal.span {(algebraMap (MvPolynomial (Fin 3) K)
-        (Localization.Away (X 2 : MvPolynomial (Fin 3) K))
-        (X 0 ^ 2 - X 2 ^ 2 * X 1 ^ 2))})) := sorry
 
 section SchemePair
 
@@ -168,14 +149,6 @@ structure AlgebraicSmoothPair (K : Type u) [Field K] where
     Nonempty (AlgebraicChart K
       ((Scheme.ΓSpecIso (CommRingCat.of K)).inv ≫ toSpec.appLE ⊤ U.1 (by simp)).hom
       (D.ideal U))
-
-/-- Every smooth `K`-scheme with the unit ideal sheaf (empty boundary) is an algebraic pair. -/
-example (K : Type u) [Field K] (X : Scheme.{u}) (f : X ⟶ Spec (CommRingCat.of K)) [Smooth f] :
-    ∃ P : AlgebraicSmoothPair K, P.X = X ∧ HEq P.toSpec f ∧ HEq P.D (⊤ : X.IdealSheafData) :=
-  sorry
-
-/-- A full boundary (`D = ⊥`) forces the scheme to be empty. -/
-example (K : Type u) [Field K] (P : AlgebraicSmoothPair K) (hD : P.D = ⊥) : IsEmpty P.X := sorry
 
 end SchemePair
 
@@ -227,16 +200,10 @@ theorem AffinoidChart.mem_complement_iff (c : AffinoidChart K S I)
 
 end Affinoid
 
-/-- The identity of the closed polydisc is a chart for its coordinate hyperplanes. -/
-example (K : Type) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K]
-    [NonarchimedeanRing K] [Huber.IsTateRing K] (n r : ℕ) (hr : r ≤ n) :
-    Nonempty (AffinoidChart K
-      (Huber.Pair.powerBounded (Huber.restrictedMvPowerSeriesCompletion n K))
-      (Ideal.span {(AdicSpacesPartII.Huber.TateAlgebra.ofMvPolynomial K n
-        (∏ i : Fin r, X (Fin.castLE hr i)))})) := sorry
-
-/-- A doubled origin `(T²)` in `K⟨T⟩` admits no chart, in every characteristic. -/
-example (K : Type) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K]
+/-- The boundary case of *smooth-pair*: a doubled origin `(T²)` in `K⟨T⟩` admits no
+chart, in every characteristic. -/
+theorem AffinoidChart.no_doubled_origin (K : Type) [NontriviallyNormedField K]
+    [IsUltrametricDist K] [CompleteSpace K]
     [NonarchimedeanRing K] [Huber.IsTateRing K] :
     IsEmpty (AffinoidChart K
       (Huber.Pair.powerBounded (Huber.restrictedMvPowerSeriesCompletion 1 K))
@@ -244,7 +211,7 @@ example (K : Type) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSp
 
 end SmoothPair
 
-/-! ## Layer R5: smooth products and coefficient algebras -/
+/-! ## Layer R5: coefficient algebras -/
 
 namespace Huber
 
@@ -283,15 +250,6 @@ theorem IsProfiniteFlat.isAdicComplete [IsDomain O] [IsDiscreteValuationRing O]
 
 end ProfiniteFlat
 
-/-- `ℤ_p` with the indiscrete topology is flat and compact but not profinite flat (not
-Hausdorff, not of the form `∏_I ℤ_p`). -/
-example (p : ℕ) [Fact p.Prime] : ¬ @IsProfiniteFlat ℤ_[p] _ _ ℤ_[p] _ _ ⊤ := sorry
-
-/-- `ℤ_p⟦T₁, …, T_d⟧` with the coefficientwise topology is profinite flat over `ℤ_p`. -/
-example (p : ℕ) [Fact p.Prime] (d : ℕ) :
-    letI := MvPowerSeries.WithPiTopology.instTopologicalSpace (σ := Fin d) ℤ_[p]
-    IsProfiniteFlat ℤ_[p] (MvPowerSeries (Fin d) ℤ_[p]) := sorry
-
 section Small
 
 variable (p : ℕ) [Fact p.Prime] (R : Type u) [CommRing R] [Algebra ℤ_[p] R]
@@ -319,14 +277,6 @@ theorem IsSmallZpAlgebra.isProfiniteFlat [IsSmallZpAlgebra p R] :
       IsAdicComplete (Ideal.span {(p : R)}) R := sorry
 
 end Small
-
-/-- `ℤ_p` is small (`d = 0`); `ℚ_p` is not (Nakayama: `pℚ_p = ℚ_p`). -/
-example (p : ℕ) [Fact p.Prime] : IsSmallZpAlgebra p ℤ_[p] ∧ ¬ IsSmallZpAlgebra p ℚ_[p] := sorry
-
-/-- `ℤ_p⟦T⟧/(T²)` is `p`-torsion-free and finite over `ℤ_p⟦T⟧` but not reduced, hence not small. -/
-example (p : ℕ) [Fact p.Prime] :
-    ¬ IsSmallZpAlgebra p
-      (PowerSeries ℤ_[p] ⧸ Ideal.span {(PowerSeries.X : PowerSeries ℤ_[p]) ^ 2}) := sorry
 
 section MixedTensor
 
@@ -383,58 +333,6 @@ def mixedTensorInt.map {X Y : Type*} [AddCommGroup X] [Module O X] [AddCommGroup
   map_add' z t := by ext N; simp
   map_smul' c z := by ext N; simp
 
-section MixedTensorChecks
-
-variable {X Y Z : Type*} [AddCommGroup X] [Module O X] [AddCommGroup Y] [Module O Y]
-  [AddCommGroup Z] [Module O Z]
-
-/-- A pure tensor has the prescribed component at every open quotient. -/
-example (x : X) (m : M) (N : {N : Submodule O M // IsOpen (N : Set M)}) :
-    (mixedTensorInt.tmul (O := O) x m).1 N = x ⊗ₜ[O] Submodule.mkQ N.1 m := rfl
-
-/-- Zero in either factor gives the zero compatible family. -/
-example (x : X) (m : M) :
-    mixedTensorInt.tmul (O := O) (0 : X) m = 0 ∧ mixedTensorInt.tmul (O := O) x (0 : M) = 0 := by
-  constructor <;> ext N <;> simp [mixedTensorInt.tmul]
-
-/-- Pure tensors are additive in both variables. -/
-example (x y : X) (m n : M) :
-    mixedTensorInt.tmul (O := O) (x + y) m = mixedTensorInt.tmul (O := O) x m + mixedTensorInt.tmul (O := O) y m ∧
-      mixedTensorInt.tmul (O := O) x (m + n) = mixedTensorInt.tmul (O := O) x m + mixedTensorInt.tmul (O := O) x n := by
-  constructor <;> ext N <;> simp [mixedTensorInt.tmul, TensorProduct.add_tmul,
-    TensorProduct.tmul_add]
-
-/-- Scalar balancing holds on every quotient component. -/
-example (a : O) (x : X) (m : M) :
-    mixedTensorInt.tmul (O := O) (a • x) m = mixedTensorInt.tmul (O := O) x (a • m) := by
-  ext N
-  simp [mixedTensorInt.tmul, TensorProduct.smul_tmul, TensorProduct.tmul_smul]
-
-/-- Functoriality acts by the given map on the first tensor factor. -/
-example (f : X →ₗ[O] Y) (x : X) (m : M) :
-    mixedTensorInt.map f (mixedTensorInt.tmul (O := O) x m) = mixedTensorInt.tmul (O := O) (f x) m := by
-  ext N
-  simp [mixedTensorInt.map, mixedTensorInt.tmul]
-
-/-- The zero and identity linear maps act as zero and identity. -/
-example : mixedTensorInt.map (M := M) (0 : X →ₗ[O] Y) = 0 ∧
-    mixedTensorInt.map (M := M) (LinearMap.id : X →ₗ[O] X) = LinearMap.id := by
-  constructor <;> ext z N <;> simp [mixedTensorInt.map]
-
-/-- Componentwise maps are additive and commute with composition on arbitrary families. -/
-example (f g : X →ₗ[O] Y) (h : Y →ₗ[O] Z) :
-    mixedTensorInt.map (M := M) (f + g) = mixedTensorInt.map f + mixedTensorInt.map g ∧
-      mixedTensorInt.map (M := M) (h.comp f) = (mixedTensorInt.map h).comp (mixedTensorInt.map f) :=
-  sorry
-
-/-- Each component of functoriality is the algebraic tensor map, including outside the pure
- tensor image. -/
-example (f : X →ₗ[O] Y) (z : mixedTensorInt O X M)
-    (N : {N : Submodule O M // IsOpen (N : Set M)}) :
-    (mixedTensorInt.map f z).1 N = f.rTensor (M ⧸ N.1) (z.1 N) := rfl
-
-end MixedTensorChecks
-
 /-- The product formula: for a pseudobasis `e : M ≃ ∏_I O` over a compact Hausdorff DVR, the
 mixed tensor `X ⊗̂ M` is `∏_I X̂` (`X̂` the `𝔪`-adic completion), with `x ⊗ m ↦ (e(m)ᵢ x)ᵢ`
 (CHJ, Prop. 6.4, p. 46). -/
@@ -474,81 +372,7 @@ theorem mixedTensorOfLattice.nonempty_equiv [IsDomain O] [IsDiscreteValuationRin
 
 end MixedTensor
 
-/-- The array core of the counterexample to CHJ Lemma 6.19(2): for `R = ℤ_p⟦T⟧` the restriction
-from `{|x/p| ≥ 1}` to `{|x/p| = 1}` has image in the bounded arrays with
-`‖w (n, k)‖ ≤ C ‖p‖ᵏ = C p⁻ᵏ` (positive Laurent coefficients), and the diagonal array of
-`∑ (x/p)ⁿ Tⁿ` has distance `1` from all of them, so restriction is not dense for the supremum
-norm. -/
-example (p : ℕ) [Fact p.Prime] :
-    ∃ z : lp (fun _ : ℕ × ℕ ↦ ℚ_[p]) ⊤,
-      (∀ n k, z (n, k) = if n = k then 1 else 0) ∧ ‖z‖ = 1 ∧
-      (∀ w : lp (fun _ : ℕ × ℕ ↦ ℚ_[p]) ⊤,
-        (∃ C : ℝ, ∀ n k, ‖w (n, k)‖ ≤ C * ‖(p : ℚ_[p])‖ ^ k) → 1 ≤ ‖z - w‖) := sorry
-
-/-- The core of the counterexample to CHJ Lemma 6.21: in a complete algebraically closed
-extension `C` of `ℚ_p` there is a bounded sequence of units whose residues are `𝔽_p`-linearly
-independent; it is not totally bounded, so `∑ zᵢ Tⁱ` lies in `𝒪_C⟦T⟧[1/p]` but not in the
-completed tensor product `ℤ_p⟦T⟧[1/p] ⊗̂ C`. -/
-example (p : ℕ) [Fact p.Prime] (C : Type) [NontriviallyNormedField C] [IsUltrametricDist C]
-    [CompleteSpace C] [NormedAlgebra ℚ_[p] C] [IsAlgClosed C] :
-    ∃ z : lp (fun _ : ℕ ↦ C) ⊤, (∀ i, ‖z i‖ = 1) ∧
-      (∀ (s : Finset ℕ) (a : ℕ → ℕ), (∀ i ∈ s, a i < p) → (∃ i ∈ s, a i ≠ 0) →
-        ‖∑ i ∈ s, (a i : C) * z i‖ = 1) ∧
-      ¬ TotallyBounded (Set.range fun i : ℕ ↦ z i) := sorry
-
 end Huber
-
-/-! ### R5.5 Products with smooth spaces (*perfectoid-times-smooth-fibre-product*) -/
-
-namespace AdicSpace
-
-open CategoryTheory TauCeti.Huber
-open TauCetiRoadmap.AdicSpacesPartII.AdicSpace (Affinoid Chart Smooth)
-open TauCetiRoadmap.AdicEtaleGeometry.AdicSpace (FibreProduct)
-open TauCetiRoadmap.PerfectoidSpaces.Perfectoid (IsPerfectoidTateRing)
-
-/-- BHW's product: for perfectoid fields `L → L'` (as affinoids `Spa(L, O_L)`, `Spa(L', O_{L'})`),
-a perfectoid space `X` over `L` and a smooth `Y` over `L'`, the fibre product `X ×_L Y` exists and
-is sousperfectoid (BHW, Cor. 3.4, pp. 1724–1725). This signature states product existence;
-the README specifies sousperfectoidness using PerfectoidSpaces P3.17a.4. -/
-theorem perfectoidTimesSmooth_exists (p : ℕ) [Fact p.Prime] (L L' : Affinoid)
-    (hL : IsField L.ring) (hL' : IsField L'.ring) [IsTateRing L.ring] [IsTateRing L'.ring]
-    [IsPerfectoidTateRing p L.ring] [IsPerfectoidTateRing p L'.ring]
-    (hLplus : L.pair.plus = powerBoundedSubring L.ring)
-    (hLplus' : L'.pair.plus = powerBoundedSubring L'.ring) (σ : L'.spa ⟶ L.spa)
-    (X Y : TauCeti.AdicSpace) (f : X ⟶ L.spa) (g : Y ⟶ L'.spa)
-    (hX : ∀ x : X.obj, ∃ (c : Chart X) (_ : IsTateRing c.affinoid.ring),
-      IsPerfectoidTateRing p c.affinoid.ring ∧ x ∈ Set.range c.ι.hom.base)
-    (hg : Smooth g) :
-    Nonempty (FibreProduct f (g ≫ σ)) := sorry
-
-end AdicSpace
-
-/-! ### Cone signs for supported de Rham cohomology
-(*de-rham-cohomology-with-supports*, *compact-support-de-rham*) -/
-
-section ConeSigns
-
-open CategoryTheory CategoryTheory.Limits
-
-variable {C : Type*} [Category C] [Preadditive C] [HasBinaryBiproducts C]
-  {S T : CochainComplex C ℤ} (f : S ⟶ T)
-
-/-- The third cone-triangle arrow kills the target summand, including for the zero map. -/
-example (q : ℤ) :
-    (CochainComplex.mappingCone.inr f).f q ≫
-      (CochainComplex.mappingCone.triangle f).mor₃.f q = 0 :=
-  CochainComplex.mappingCone.inr_f_triangle_mor₃_f f q
-
-/-- On the shifted source summand the third arrow is negative identity through the shift
-identification; for `0 : K[−1] → K[0]` this gives `(a,b) ↦ −a` in degree zero. -/
-example (p q : ℤ) (hpq : p + (-1) = q) :
-    (CochainComplex.mappingCone.inl f).v p q hpq ≫
-      (CochainComplex.mappingCone.triangle f).mor₃.f q =
-        -(S.shiftFunctorObjXIso 1 q p (by rw [← hpq, neg_add_cancel_right])).inv :=
-  CochainComplex.mappingCone.inl_v_triangle_mor₃_f f p q hpq
-
-end ConeSigns
 
 /-! ## Layer F1: dagger algebras and overconvergent differentials -/
 
@@ -650,26 +474,6 @@ theorem washnitzerAlgebra.existsUnique_isMaximal_comap [NonarchimedeanRing K]
 
 end Washnitzer
 
-/-- `∑ pᵐ Xᵐ ∈ W_1`, while the lacunary `∑ pᵐ X^{pᵐ}` is restricted at radius `1` only. -/
-example (p : ℕ) [Fact p.Prime] :
-    (fun ν : Fin 1 →₀ ℕ ↦ (p : ℚ_[p]) ^ ν 0 : MvPowerSeries (Fin 1) ℚ_[p]) ∈
-        washnitzerAlgebra 1 ℚ_[p] ∧
-      (fun ν : Fin 1 →₀ ℕ ↦ if p ^ Nat.log p (ν 0) = ν 0 then (p : ℚ_[p]) ^ Nat.log p (ν 0)
-        else 0 : MvPowerSeries (Fin 1) ℚ_[p]) ∈ radiusTate 1 ℚ_[p] 1 ∧
-      (fun ν : Fin 1 →₀ ℕ ↦ if p ^ Nat.log p (ν 0) = ν 0 then (p : ℚ_[p]) ^ Nat.log p (ν 0)
-        else 0 : MvPowerSeries (Fin 1) ℚ_[p]) ∉ washnitzerAlgebra 1 ℚ_[p] := sorry
-
-/-- Radii in `|K^×|` do not suffice: `∑ pᵐ X^{2m} ∈ W_1` lies in no `T_1(pᵏ)`, `k ≥ 1`. -/
-example (p : ℕ) [Fact p.Prime] :
-    let h : MvPowerSeries (Fin 1) ℚ_[p] := fun ν ↦
-      if Even (ν 0) then (p : ℚ_[p]) ^ (ν 0 / 2) else 0
-    h ∈ washnitzerAlgebra 1 ℚ_[p] ∧ ∀ k : ℕ, 1 ≤ k → h ∉ radiusTate 1 ℚ_[p] ((p : ℝ) ^ k) := sorry
-
-/-- The unit criterion: `1 + pX` is a unit of `W_1` over `ℚ_p`, `p + X` is not. -/
-example (p : ℕ) [Fact p.Prime] :
-    IsUnit (1 + (p : washnitzerAlgebra 1 ℚ_[p]) * washnitzerAlgebra.X 1 ℚ_[p] 0) ∧
-      ¬ IsUnit ((p : washnitzerAlgebra 1 ℚ_[p]) + washnitzerAlgebra.X 1 ℚ_[p] 0) := sorry
-
 /-! ### F1.2 Dagger algebras
 (*dagger-algebra*, *dagger-noether-normalisation*, *dagger-completion-comparison*,
 *dagger-weak-completeness*, *dagger-finite-extension*) -/
@@ -740,10 +544,20 @@ theorem exists_finite_injective_washnitzer [Nontrivial A] :
     ∃ (d : ℕ) (φ : washnitzerAlgebra d K →ₐ[K] A), Function.Injective φ ∧ φ.toRingHom.Finite :=
   sorry
 
-/-- `Â` is `K`-affinoid and `τ : A → Â` is faithfully flat (GK00, §1, Thm 1.7(1)). -/
+/-- The faithful-flatness statement of *dagger-completion-comparison*: `Â` is `K`-affinoid
+and `τ : A → Â` is faithfully flat (GK00, §1, Thm 1.7(1)). -/
 theorem completion_isAffinoid :
     Huber.IsStrictlyTopologicallyFiniteType (algebraMap K (completion K A)) ∧
       (letI := (toCompletion K A).toAlgebra; Module.FaithfullyFlat A (completion K A)) := sorry
+
+/-- The point comparison of *dagger-completion-comparison*: every maximal ideal of a dagger
+algebra is the contraction of exactly one maximal ideal of its completion (GK00, Thm 1.7(1)). -/
+theorem completion_existsUnique_isMaximal_comap (m : Ideal A) (hm : m.IsMaximal) :
+    ∃! m' : Ideal (completion K A), m'.IsMaximal ∧ m'.comap (toCompletion K A) = m := sorry
+
+/-- The regularity comparison of *dagger-completion-comparison*: a dagger algebra is regular
+exactly when its completion is regular, in every characteristic (GK00, Thm 1.7(2)–(3)). -/
+theorem completion_isRegular_iff : IsRegularRing A ↔ IsRegularRing (completion K A) := sorry
 
 /-- In characteristic zero, the completion of a reduced dagger algebra is reduced
 (GK00, §1, Thm 1.7(3), using the excellence supplied by `dagger-algebra-excellent`). -/
@@ -759,10 +573,9 @@ theorem completion_isUniform [IsReduced (completion K A)] :
 which reflects units). -/
 theorem isUnit_iff_isUnit_completion (a : A) : IsUnit a ↔ IsUnit (toCompletion K A a) := sorry
 
-/-- Finite algebras over dagger algebras are dagger algebras (GK00, §1, Lem. 1.10). The
-construction adjoins one generator at a time and rescales each generator by a scalar so that its
-monic equation has power-bounded coefficients at a fringe stage; the controls below show why both
-steps are needed. -/
+/-- Finite algebras over dagger algebras are dagger algebras (GK00, §1, Lem. 1.10). Each
+generator can be rescaled so that its monic equation has power-bounded coefficients at a fringe
+stage. -/
 theorem IsDaggerAlgebra.of_finite {B : Type*} [CommRing B] [Algebra K B] [Algebra A B]
     [IsScalarTower K A B] [Module.Finite A B] : IsDaggerAlgebra K B := sorry
 
@@ -772,77 +585,6 @@ theorem completion_washnitzerAlgebra (n : ℕ) :
       ∀ f, e (toCompletion K (washnitzerAlgebra n K) f) = washnitzerAlgebra.toTate n K f := sorry
 
 end DaggerAlgebra
-
-section MinimalPresentationChecks
-
-variable (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K]
-
-/-- The field has a zero-variable minimal dagger presentation. -/
-example [IsDaggerAlgebra K K] : presentationDim K K = 0 := sorry
-
-/-- Every chosen minimal presentation of the field is bijective. -/
-example [IsDaggerAlgebra K K] : Function.Bijective (presentation K K) := sorry
-
-/-- The dagger disc needs exactly one presentation variable. -/
-example : presentationDim K (washnitzerAlgebra 1 K) = 1 := sorry
-
-/-- A minimal presentation of the dagger disc is bijective. -/
-example : Function.Bijective (presentation K (washnitzerAlgebra 1 K)) := sorry
-
-/-- The dual numbers need one presentation variable although their Krull dimension is zero. -/
-example : presentationDim K
-    (washnitzerAlgebra 1 K ⧸ Ideal.span {washnitzerAlgebra.X 1 K 0 ^ 2}) = 1 := sorry
-
-/-- A minimal presentation of the dual numbers has a nonzero kernel. -/
-example : ¬ Function.Injective (presentation K
-    (washnitzerAlgebra 1 K ⧸ Ideal.span {washnitzerAlgebra.X 1 K 0 ^ 2})) := sorry
-
-end MinimalPresentationChecks
-
-/-- `K⟨X, X⁻¹⟩† = W_2/(X₁X₂ − 1)` is a dagger algebra in which `X − a` is a unit for `|a| < 1`. -/
-example (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K] :
-    IsDaggerAlgebra K (washnitzerAlgebra 2 K ⧸ Ideal.span
-        {washnitzerAlgebra.X 2 K 0 * washnitzerAlgebra.X 2 K 1 - 1}) ∧
-      ∀ a : K, ‖a‖ < 1 →
-        IsUnit (Ideal.Quotient.mk (Ideal.span
-          {washnitzerAlgebra.X 2 K 0 * washnitzerAlgebra.X 2 K 1 - 1})
-          (washnitzerAlgebra.X 2 K 0 - algebraMap K _ a)) := sorry
-
-/-- `K[X]` is not a dagger algebra (`|X|_sup = ∞`). -/
-example (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K] :
-    ¬ IsDaggerAlgebra K (Polynomial K) := sorry
-
-/-- `[Nontrivial A]` is needed in Noether normalisation: no map `W_d → 0` is injective. -/
-example (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] (d : ℕ)
-    (φ : washnitzerAlgebra d K →ₐ[K]
-      (washnitzerAlgebra 0 K ⧸ (⊤ : Ideal (washnitzerAlgebra 0 K)))) :
-    ¬ Function.Injective φ := sorry
-
-/-- The generator must be rescaled in `IsDaggerAlgebra.of_finite`: for `0 < ‖π‖ < 1`,
-`K[X]/(X − π⁻¹) ≅ K`, but `X − π⁻¹ = −π⁻¹(1 − πX)` is a unit of `W₁` (the inverse `∑ πᵐXᵐ` is
-restricted at every radius below `‖π‖⁻¹`), so the unscaled presentation `W₁/(X − π⁻¹)` is zero. -/
-example (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] (π : K) (hπ : 0 < ‖π‖)
-    (hπ' : ‖π‖ < 1) :
-    Nonempty ((Polynomial K ⧸ Ideal.span {Polynomial.X - Polynomial.C π⁻¹}) ≃ₐ[K] K) ∧
-      IsUnit (washnitzerAlgebra.X 1 K 0 - algebraMap K (washnitzerAlgebra 1 K) π⁻¹) :=
-  ⟨⟨Polynomial.quotientSpanXSubCAlgEquiv π⁻¹⟩, sorry⟩
-
-/-- Positive control: for `‖a‖ ≤ 1` the relation `X − a` needs no rescaling, and evaluation at `a`
-identifies `W₁/(X − a)` with `K`; `a = 1` is the relation `Y − 1` obtained from `X − π⁻¹` by the
-rescaling `Y = πX`. -/
-example (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K] (a : K)
-    (ha : ‖a‖ ≤ 1) :
-    ∃ e : (washnitzerAlgebra 1 K ⧸
-        Ideal.span {washnitzerAlgebra.X 1 K 0 - algebraMap K (washnitzerAlgebra 1 K) a}) ≃ₐ[K] K,
-      e (Ideal.Quotient.mk _ (washnitzerAlgebra.X 1 K 0)) = a := sorry
-
-/-- Finite algebras need not be generated by one element, which is why `IsDaggerAlgebra.of_finite`
-adjoins one generator at a time: `K[ε, δ]/(ε, δ)²` has dimension `3`, while the subalgebra generated
-by one element `b` is spanned by `1` and `b`. -/
-example (K : Type*) [Field K] :
-    ¬ ∃ b : MvPolynomial (Fin 2) K ⧸
-        (Ideal.span {MvPolynomial.X 0, MvPolynomial.X 1} : Ideal (MvPolynomial (Fin 2) K)) ^ 2,
-      Algebra.adjoin K {b} = ⊤ := sorry
 
 /-! ### F1.5 Weak completions and Monsky–Washnitzer type
 (*integral-overconvergent-tate-algebra*, *integral-overconvergent-noetherian*, *weak-completion*,
@@ -864,34 +606,6 @@ theorem intWashnitzerAlgebra.isNoetherianRing [CompleteSpace K] (n : ℕ) (π : 
     (hπ : 0 < ‖π‖ ∧ ‖π‖ < 1) (hdisc : ∀ x : K, x ≠ 0 → ∃ k : ℤ, ‖x‖ = ‖π‖ ^ k) :
     IsNoetherianRing (intWashnitzerAlgebra K n) := sorry
 
-/-- Zero and one are integral overconvergent series. -/
-example (n : ℕ) : (0 : MvPowerSeries (Fin n) K) ∈ intWashnitzerAlgebra K n ∧
-    (1 : MvPowerSeries (Fin n) K) ∈ intWashnitzerAlgebra K n :=
-  ⟨(intWashnitzerAlgebra K n).zero_mem, (intWashnitzerAlgebra K n).one_mem⟩
-
-/-- Constants are integral exactly when they lie in the valuation unit ball. -/
-example (n : ℕ) (c : K) : MvPowerSeries.C (σ := Fin n) c ∈ intWashnitzerAlgebra K n ↔
-    ‖c‖ ≤ 1 := sorry
-
-/-- A scalar of norm strictly between zero and one is integral, while its inverse is excluded. -/
-example (n : ℕ) (π : K) (hπ : 0 < ‖π‖ ∧ ‖π‖ < 1) :
-    MvPowerSeries.C (σ := Fin n) π ∈ intWashnitzerAlgebra K n ∧
-      MvPowerSeries.C (σ := Fin n) π⁻¹ ∉ intWashnitzerAlgebra K n := sorry
-
-/-- In zero variables every integral series is a constant in the unit ball. -/
-example (f : MvPowerSeries (Fin 0) K) : f ∈ intWashnitzerAlgebra K 0 ↔
-    ∃ c : K, ‖c‖ ≤ 1 ∧ f = MvPowerSeries.C c := sorry
-
-/-- The integral geometric series has linear degree growth, while the quadratic-degree series
-is restricted without being overconvergent. -/
-example (π : K) (hπ : 0 < ‖π‖ ∧ ‖π‖ < 1) :
-    (∃ f : MvPowerSeries (Fin 1) K, (∀ m : ℕ, f.coeff (Finsupp.single 0 m) = π ^ m) ∧
-      f ∈ intWashnitzerAlgebra K 1) ∧
-    ∃ g : MvPowerSeries (Fin 1) K,
-      (∀ m : ℕ, g.coeff (Finsupp.single 0 m) =
-        if (Nat.sqrt m) ^ 2 = m then π ^ (Nat.sqrt m) else 0) ∧
-      g ∈ radiusTate 1 K 1 ∧ g ∉ intWashnitzerAlgebra K 1 := sorry
-
 end IntegralWashnitzer
 
 section WeakCompletion
@@ -911,20 +625,6 @@ def weakCompletionSet {ι : Type*} [Fintype ι] (x : ι → S) : Set (piAdicComp
   {z | ∃ (c : ℕ) (P : ℕ → MvPolynomial ι O), (∀ j, (P j).totalDegree ≤ c * (j + 1)) ∧
     ∀ k : ℕ, AdicCompletion.eval _ S k z = Submodule.Quotient.mk
       (∑ j ∈ Finset.range k, algebraMap O S π ^ j * MvPolynomial.aeval x (P j))}
-
-/-- Constants belong to the degree-growth set for every finite family, including no variables. -/
-example {ι : Type*} [Fintype ι] (x : ι → S) (c : O) :
-    algebraMap O (piAdicCompletion π S) c ∈ weakCompletionSet π x := sorry
-
-/-- The constant one lies in the weak-completion set of a polynomial ring. -/
-example (n : ℕ) : (1 : piAdicCompletion π (MvPolynomial (Fin n) O)) ∈
-    weakCompletionSet π (MvPolynomial.X : Fin n → MvPolynomial (Fin n) O) := sorry
-
-/-- The polynomial generators have weakly overconvergent geometric inverses. -/
-example (n : ℕ) (i : Fin n) :
-    ∃ z ∈ weakCompletionSet π (MvPolynomial.X : Fin n → MvPolynomial (Fin n) O),
-      (1 - algebraMap O (piAdicCompletion π (MvPolynomial (Fin n) O)) π *
-        algebraMap (MvPolynomial (Fin n) O) _ (MvPolynomial.X i)) * z = 1 := sorry
 
 /-- The weak completion `S† ⊆ Ŝ` of a finitely generated `O`-algebra: generated by
 `weakCompletionSet` for a chosen finite generating set, which is already a subalgebra
@@ -982,32 +682,7 @@ theorem weakCompletion.isDaggerAlgebra_genericFibre [Algebra.FiniteType O S] (h�
     (hO : ∀ x : K, ‖x‖ ≤ 1 ↔ ∃ a : O, algebraMap O K a = x) :
     IsDaggerAlgebra K (weakCompletion.genericFibre π S K) := sorry
 
-/-- Over the complete base DVR the weak-completion map is bijective. -/
-example (hπ : Irreducible π) : Function.Bijective (weakCompletion.of π O) := sorry
-
-/-- Inverting the parameter makes the completion zero, so the weak map kills one. -/
-example : weakCompletion.of π (Localization.Away π) 1 = 0 := sorry
-
-/-- The weak generic fibre of the residue field is the zero algebra. -/
-example (hπ : Irreducible π) (K : Type*) [Field K] [Algebra O K]
-    [IsFractionRing O K] :
-    Subsingleton (weakCompletion.genericFibre π (IsLocalRing.ResidueField O) K) := sorry
-
-/-- The weak-completion set does not exhaust the adic completion of the polynomial ring. -/
-example (hπ : Irreducible π) :
-    weakCompletionSet π (MvPolynomial.X : Fin 1 → MvPolynomial (Fin 1) O) ≠ Set.univ := sorry
-
-/-- The unique extension of the identity is the identity on the weak completion. -/
-example [Algebra.FiniteType O S] (hπ : Irreducible π)
-    (f : weakCompletion π S →ₐ[O] weakCompletion π S)
-    (hf : f.comp (weakCompletion.of π S) = weakCompletion.of π S) : f = AlgHom.id O _ := sorry
-
 end WeakCompletion
-
-/-- `O[X]` is not weakly complete: `1 − πX` would be a unit. -/
-example {O : Type*} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
-    [IsAdicComplete (IsLocalRing.maximalIdeal O) O] (π : O) (hπ : Irreducible π) :
-    ¬ IsWeaklyCompleteFG π (Polynomial O) := sorry
 
 /-! ### F1.9 Differentials (*dagger-differentials*, *dagger-polyannulus-de-rham-cohomology*) -/
 
@@ -1025,14 +700,6 @@ abbrev Omega : Type _ :=
 /-- The universal derivation `d : A → Ω¹_A`. -/
 def Omega.d : Derivation K A (Omega K A) :=
   (Submodule.mkQ _).compDer (KaehlerDifferential.D K A)
-
-/-- The universal differential kills base scalars, including zero and one. -/
-example (c : K) : Omega.d K A (algebraMap K A c) = 0 := by
-  exact (Omega.d K A).map_algebraMap c
-
-/-- The quadratic differential obeys the Leibniz rule. -/
-example (a : A) : Omega.d K A (a ^ 2) = (2 : A) • (a • Omega.d K A a) := by
-  simp [pow_two, two_smul, Derivation.leibniz]
 
 end Differentials
 
@@ -1068,36 +735,15 @@ theorem Omega.poincare_washnitzer [CharZero K] (n : ℕ) :
     (∀ f : washnitzerAlgebra n K, Omega.d K _ f = 0 ↔ f ∈ Set.range (algebraMap K _)) ∧
       ∀ ω : Omega K (washnitzerAlgebra 1 K), ∃ f, Omega.d K _ f = ω := sorry
 
-/-- The finite differential module of the field is zero. -/
-example : Subsingleton (Omega K K) := sorry
-
-/-- The zero derivation and the universal derivation have zero and identity factorisations. -/
-example :
-    (∃! u : Omega K A →ₗ[A] Omega K A, ∀ a, u (Omega.d K A a) = 0) ∧
-      (∃! u : Omega K A →ₗ[A] Omega K A, ∀ a, u (Omega.d K A a) = Omega.d K A a) := sorry
-
-/-- Any universal factorisation of a derivation evaluates the quadratic differential correctly. -/
-example {M : Type*} [AddCommGroup M] [Module A M] [Module K M]
-    [IsScalarTower K A M] (D : Derivation K A M) (u : Omega K A →ₗ[A] M)
-    (hu : ∀ a, u (Omega.d K A a) = D a) (a : A) :
-    u (Omega.d K A (a ^ 2)) = (2 : A) • (a • D a) := sorry
-
 end DaggerDifferentials
 
-/-- `[CharZero K]` cannot be dropped: in characteristic `p`, `X^{p−1} dX` is not exact on the
-dagger disc. -/
-example (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K]
+/-- The boundary case of *dagger-polyannulus-de-rham-cohomology*: `[CharZero K]` cannot be
+dropped: in characteristic `p`, `X^{p−1} dX` is not exact on the dagger disc. -/
+theorem Omega.not_exact_charP (K : Type*) [NontriviallyNormedField K]
+    [IsUltrametricDist K] [CompleteSpace K]
     (p : ℕ) [Fact p.Prime] [CharP K p] :
     ¬ ∃ f, Omega.d K (washnitzerAlgebra 1 K) f =
       washnitzerAlgebra.X 1 K 0 ^ (p - 1) • Omega.d K _ (washnitzerAlgebra.X 1 K 0) := sorry
-
-/-- Pure dimension is not Krull dimension: `K × W₁`, the ring of the smooth space `Sp K ⨿ Sp W₁`,
-is a dagger algebra of Krull dimension `1` with a factor of dimension `0`. In characteristic zero
-that space has `H⁰_dR = K²`, `H⁰_{dR,c} = K` and `H²_{dR,c} = K`, so duality with a single shift
-`2n` needs pure dimension. -/
-example (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K] :
-    IsDaggerAlgebra K (K × washnitzerAlgebra 1 K) ∧
-      ringKrullDim (K × washnitzerAlgebra 1 K) = 1 ∧ ringKrullDim K = 0 := sorry
 
 section MWType
 
@@ -1137,9 +783,10 @@ theorem IsMWType.of_smooth [IsAdicComplete (IsLocalRing.maximalIdeal O) O]
 
 end MWType
 
-/-- The regularity clause is not implied by the reduction: `W_1/(X²)` has smooth reduction `k`
+/-- The boundary case of *mw-type-dagger-algebra*: the regularity clause is not implied by the
+reduction: `W_1/(X²)` has smooth reduction `k`
 (the nilpotent `X` is divisible by every power of `π` in `A^int`) but is not regular. -/
-example (O : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
+theorem IsMWType.not_dualNumbers (O : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K]
     [NonarchimedeanRing K] [Algebra O K] (hO : ∀ x : K, ‖x‖ ≤ 1 ↔ ∃ a : O, algebraMap O K a = x)
     (A : Type*) [CommRing A] [Algebra K A] [IsDaggerAlgebra K A] [Algebra O A]
