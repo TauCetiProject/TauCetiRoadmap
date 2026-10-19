@@ -1,5 +1,6 @@
 import Mathlib
 import TauCeti.Algebra.Category.ModuleCat.CartanMap.Basic
+import TauCeti.RingTheory.Idempotents.Projective
 
 /-! # KTheoryLowDegrees: representative target signatures
 
@@ -13,6 +14,7 @@ are specified in the README.
 namespace TauCetiRoadmap.KTheoryLowDegrees
 
 open CategoryTheory
+open scoped Pointwise
 
 universe u
 
@@ -57,8 +59,9 @@ theorem projectiveClass_free_zero (R : Type u) [Ring R] :
 
 /-! ## Layer 2: locally constant rank and its kernel -/
 
-/-- Projective rank extends to K₀ and admits an additive clopen section.
-No connectedness or nonzero-ring assumption is imposed (Weibel II.2, pp. 71–72). -/
+/-- The additive specialization of SchemeKTheoryOperations §6.2.4's rank section,
+transported through the affine comparison. It applies without connectedness or a
+nonzero-ring assumption (Weibel II.2, pp. 71–72). -/
 theorem rank_exists_split (R : Type u) [CommRing R] :
     ∃ (ρ : RingK0 R →+ LocallyConstant (PrimeSpectrum R) ℤ)
       (σ : LocallyConstant (PrimeSpectrum R) ℤ →+ RingK0 R),
@@ -72,6 +75,25 @@ noncomputable def rankFibres {R : Type u} [CommRing R] (P : FiniteProjectives R)
     Finset ℕ := by
   letI : Module.FinitePresentation R P.obj := Module.finitePresentation_of_projective R P.obj
   exact (Module.isLocallyConstant_rankAtStalk (R := R) (M := P.obj)).range_finite.toFinset
+
+/-- A finite free module has singleton rank-image on every nonempty affine spectrum. -/
+theorem rankFibres_free (R : Type u) [CommRing R] [Nontrivial R] (n : ℕ) :
+    rankFibres (freeProjective R n) = {n} := by
+  sorry
+
+/-- The projective R ⊕ R(0,1) over R = ℚ × ℚ has component ranks one and two. -/
+noncomputable def twoRankProjective : FiniteProjectives (ℚ × ℚ) := by
+  letI : Module.Projective (ℚ × ℚ) (Ideal.span {((0, 1) : ℚ × ℚ)} : Ideal (ℚ × ℚ)) :=
+    (show IsIdempotentElem ((0, 1) : ℚ × ℚ) from by
+      change ((0 : ℚ) * 0, (1 : ℚ) * 1) = (0, 1)
+      norm_num).projective_span_singleton
+  exact ⟨ModuleCat.of (ℚ × ℚ)
+    ((ℚ × ℚ) × (Ideal.span {((0, 1) : ℚ × ℚ)} : Ideal (ℚ × ℚ))),
+    ⟨inferInstance, inferInstance⟩⟩
+
+/-- The concrete disconnected projective realizes two distinct stalk ranks. -/
+theorem rankFibres_twoRanks : rankFibres twoRankProjective = {1, 2} := by
+  sorry
 
 /-- The zero projective has rank-image {0} on every nonempty affine spectrum. -/
 theorem rankFibres_zero_nontrivial (R : Type u) [CommRing R] [Nontrivial R] :
@@ -224,6 +246,18 @@ the only empty matrix has determinant one, whereas −1 is a distinct rational u
 theorem sizeZero_det_not_surjective :
     ¬ Function.Surjective
       (Matrix.GeneralLinearGroup.det : Matrix.GeneralLinearGroup (Fin 0) ℚ →* ℚˣ) := by
+  sorry
+
+/-! ## Layer 11: arithmetic finite generation -/
+
+/-- A finite overlap set for an open translate cover of a connected space gives
+finite generation (Morris, Proposition 4.7.4, pp. 61–62). -/
+theorem coarseFundamentalDomain_finitelyGenerated
+    (G X : Type*) [Group G] [TopologicalSpace X] [ConnectedSpace X]
+    [MulAction G X] [ContinuousConstSMul G X] (U : Set X) (hU : IsOpen U)
+    (hcover : ∀ x : X, ∃ g : G, x ∈ g • U)
+    (hoverlap : Set.Finite {g : G | ((g • U) ∩ U).Nonempty}) :
+    Group.FG G := by
   sorry
 
 /-! ## Layer 14: graded determinants and Witt support -/
