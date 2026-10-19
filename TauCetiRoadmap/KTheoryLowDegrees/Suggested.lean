@@ -5,7 +5,7 @@ import TauCeti.Algebra.Category.ModuleCat.CartanMap.Basic
 
 The roadmap is README.md. This file records definitions and theorem signatures statable
 against the pinned APIs and is not exhaustive. It specializes the existing split
-Grothendieck group, uses native matrix groups, and fixes the projective-line and Koszul
+Grothendieck group, uses native matrix groups, and fixes finite-rank and Koszul
 sign conventions. Coherent K-spaces, determinant groupoids and arithmetic completions
 are specified in the README.
 -/
@@ -42,7 +42,8 @@ theorem exists_projective_sub_free {R : Type u} [Ring R] (x : RingK0 R) :
       x = projectiveClass P - projectiveClass (freeProjective R n) := by
   sorry
 
-/-- Equality of projective classes is stable isomorphism with the same free summand. -/
+/-- The stable-equality criterion of ClassicalArithmeticCompletion §§7.6–7.7 and 7.23,
+specialized to the finite-projective class notation used here. -/
 theorem projectiveClass_eq_iff_stableFreeSum {R : Type u} [Ring R]
     (P Q : FiniteProjectives R) :
     projectiveClass P = projectiveClass Q ↔
@@ -66,6 +67,22 @@ theorem rank_exists_split (R : Type u) [CommRing R] :
       (∀ f, ρ (σ f) = f) := by
   sorry
 
+/-- The finite image of the native stalk-rank function, using compactness of Spec R. -/
+noncomputable def rankFibres {R : Type u} [CommRing R] (P : FiniteProjectives R) :
+    Finset ℕ := by
+  letI : Module.FinitePresentation R P.obj := Module.finitePresentation_of_projective R P.obj
+  exact (Module.isLocallyConstant_rankAtStalk (R := R) (M := P.obj)).range_finite.toFinset
+
+/-- The zero projective has rank-image {0} on every nonempty affine spectrum. -/
+theorem rankFibres_zero_nontrivial (R : Type u) [CommRing R] [Nontrivial R] :
+    rankFibres (freeProjective R 0) = {0} := by
+  sorry
+
+/-- A zero ring has empty spectrum, hence an empty rank-image even for the zero module. -/
+theorem rankFibres_zeroRing (R : Type u) [CommRing R] [Subsingleton R] :
+    rankFibres (freeProjective R 0) = ∅ := by
+  sorry
+
 /-! ## Layer 5: Dedekind domains, ideal classes and transfer -/
 
 /-- An invertible module regarded as an object of the existing projective category. -/
@@ -73,7 +90,8 @@ noncomputable def lineProjective (R : Type u) [CommRing R] (L : CommRing.Pic R) 
     FiniteProjectives R :=
   ⟨ModuleCat.of R L, ⟨inferInstance, inferInstance⟩⟩
 
-/-- Positive-rank projectives over a Dedekind domain are a free summand plus a line.
+/-- The finite-projective-to-lattice comparison transports ClassicalArithmeticCompletion
+§7.0 to positive-rank projectives, identifying the Steinitz line with the determinant.
 The nonzero hypothesis excludes the zero projective (Weibel I.3, pp. 18–20). -/
 theorem steinitz_decomposition {R : Type u} [CommRing R]
     [IsDedekindDomain R] (P : FiniteProjectives R) [Nontrivial P.obj] :
@@ -90,7 +108,8 @@ theorem rank_pic_equiv_exists (R : Type u) [CommRing R]
         e (projectiveClass (lineProjective R L)) = (1, Additive.ofMul L)) := by
   sorry
 
-/-- A projective stabilizer cancels over a Dedekind domain, with no rank restriction. -/
+/-- The supplied lattice rank/class criterion cancels a finite-projective stabilizer
+after the lattice–determinant comparison, including rank zero. -/
 theorem projective_cancellation {R : Type u} [CommRing R]
     [IsDedekindDomain R] (P Q T : FiniteProjectives R)
     (h : Nonempty ((P.obj × T.obj) ≃ₗ[R] (Q.obj × T.obj))) :
@@ -115,12 +134,50 @@ example (R : Type u) [Ring R] : finiteElementaryGroup R 1 = ⊥ := by
     simp
   simp only [finiteElementaryGroup, h, Subgroup.closure_empty]
 
-/-- A genuine off-diagonal transvection belongs to the generated elementary subgroup. -/
-example (R : Type u) [CommRing R] :
-    (Matrix.GeneralLinearGroup.mk'' (Matrix.transvection (0 : Fin 2) 1 (1 : R))
-      (by simp) : Matrix.GeneralLinearGroup (Fin 2) R) ∈ finiteElementaryGroup R 2 := by
-  apply Subgroup.subset_closure
-  exact ⟨0, 1, 1, by decide, rfl⟩
+/-- The integral rank-two elementary group contains a nonidentity transvection. -/
+example : ∃ g ∈ finiteElementaryGroup ℤ 2, g ≠ 1 := by
+  let g : Matrix.GeneralLinearGroup (Fin 2) ℤ :=
+    Matrix.GeneralLinearGroup.mk'' (Matrix.transvection 0 1 1) (by simp)
+  refine ⟨g, Subgroup.subset_closure ⟨0, 1, 1, by decide, rfl⟩, ?_⟩
+  intro h
+  have hentry := congrArg (fun u : Matrix.GeneralLinearGroup (Fin 2) ℤ =>
+    (u : Matrix (Fin 2) (Fin 2) ℤ) 0 1) h
+  norm_num [g, Matrix.transvection] at hentry
+
+/-- Whitehead's block matrix is elementary already in rank 2n, over any unital ring.
+The displayed matrix fixes the contiguous block order (Weibel III.1.3, pp. 182–183). -/
+theorem finite_whitehead_block {R : Type u} [Ring R] (n : ℕ)
+    (g : Matrix.GeneralLinearGroup (Fin n) R) :
+    ∃ h ∈ finiteElementaryGroup R (n + n),
+      (h : Matrix (Fin (n + n)) (Fin (n + n)) R) =
+        Matrix.reindex (finSumFinEquiv) (finSumFinEquiv)
+          (Matrix.fromBlocks (g : Matrix (Fin n) (Fin n) R) 0 0
+            ((g⁻¹ : Matrix.GeneralLinearGroup (Fin n) R) : Matrix (Fin n) (Fin n) R)) := by
+  sorry
+
+/-- The opposite-root commutator retains the negative sign and coefficient order ba
+for arbitrary associative rings (Weibel III.1.3, equation (1.3.1), p. 182). -/
+theorem finiteElementary_commutator {R : Type u} [Ring R] (n : ℕ)
+    (i j k : Fin n) (hij : i ≠ j) (hik : i ≠ k) (hjk : j ≠ k) (a b : R) :
+    (1 + Matrix.single i j a) * (1 + Matrix.single k i b) *
+        (1 - Matrix.single i j a) * (1 - Matrix.single k i b) =
+      (1 + Matrix.single k j (-(b * a)) : Matrix (Fin n) (Fin n) R) := by
+  sorry
+
+/-- Rank zero has no elementary roots, including over the zero ring. -/
+theorem finiteElementaryGroup_zero (R : Type u) [Ring R] :
+    finiteElementaryGroup R 0 = ⊥ := by
+  sorry
+
+/-- Every finite elementary group over a zero ring is trivial. -/
+theorem finiteElementaryGroup_zeroRing (R : Type u) [Ring R] [Subsingleton R] (n : ℕ) :
+    finiteElementaryGroup R n = ⊥ := by
+  sorry
+
+/-- The rank-two elementary group over 𝔽₂ is not perfect, unlike stable E. -/
+theorem finiteElementaryGroup_F2_not_perfect :
+    ¬ Group.IsPerfect (finiteElementaryGroup (ZMod 2) 2) := by
+  sorry
 
 /-! ## Layer 8: determinants, stable range and a nontrivial circle class -/
 
@@ -133,7 +190,8 @@ def HasStableRange (R : Type u) [Ring R] (n : ℕ) : Prop :=
         Ideal.span (Set.range (fun i : Fin r =>
           a i.castSucc + b i * a (Fin.last r))) = ⊤
 
-/-- A commutative semilocal ring has stable range one (BMS §7, pp. 106–107). -/
+/-- SchemeKTheoryOperations §3.6's semilocal shortening theorem gives stable range one
+in the left-column predicate (BMS §7, pp. 106–107). -/
 theorem stableRange_semilocal (R : Type u) [CommRing R] [Finite (MaximalSpectrum R)] :
     HasStableRange R 1 := by
   sorry
@@ -168,28 +226,6 @@ theorem sizeZero_det_not_surjective :
       (Matrix.GeneralLinearGroup.det : Matrix.GeneralLinearGroup (Fin 0) ℚ →* ℚˣ) := by
   sorry
 
-/-! ## Layer 12: regular curves, rank and determinant -/
-
-/-- Change between coefficients in the ordered basis ([O],[O(−1)]) and (rank, degree)
-on K₀ of the projective line; the same formula gives the inverse. -/
-def projectiveLineCoordinates : (ℤ × ℤ) →+ (ℤ × ℤ) where
-  toFun x := (x.1 + x.2, -x.2)
-  map_zero' := by simp
-  map_add' x y := by ext <;> simp <;> ring
-
-/-- Applying the coordinate change twice recovers the input. -/
-theorem projectiveLineCoordinates_involutive :
-    Function.Involutive projectiveLineCoordinates := by
-  sorry
-
-/-- O(1) has rank one and degree one, hence coefficients (2,−1). -/
-example : projectiveLineCoordinates (1, 1) = (2, -1) := by
-  norm_num [projectiveLineCoordinates]
-
-/-- A rational point has class [O]−[O(−1)], of rank zero and degree one. -/
-example : projectiveLineCoordinates (0, 1) = (1, -1) := by
-  norm_num [projectiveLineCoordinates]
-
 /-! ## Layer 14: graded determinants and Witt support -/
 
 /-- The Koszul sign uses integer powers in the unit group, including negative grades. -/
@@ -215,20 +251,13 @@ The README also specifies FreeSummandData, IdempotentPresentation,
 imageIdempotent, StableIdempotent, zeroPad and conjugate;
 matrixRingK0Equiv,
 the opposite-transpose patching comparisons, rank, rankSection, ReducedK0,
-clopenModule, componentwiseFree and rankFibres; lambdaTotal, lambdaOp,
-exteriorExtensionFiltration, PreLambdaRing, PreLambdaHom, LambdaIdeal, line elements,
-binomial and monoid-ring structures, lambdaProductPoly, lambdaComposePoly,
-SpecialLambdaRing, lambdaIdentityPrinciple, ringK0_specialLambda,
-gammaTotal, gammaOp, LambdaAugmentation, gammaFiltration,
-det, picardLocallyConstantPow, RankPic, rankDet, SK0, lambdaNewtonPoly and adamsOp;
-ComoduleExact, ProjectiveUnderlyingComodule, representationG0, representationK0,
-comoduleResolutionEuler, genericRepresentationMap, residueInclusion, eulerReduction,
-decompositionMap, weightPart, formalCharacter, reductiveFormalCharacter, glProductFactor,
-associatedProjective and associatedRepresentationK0;
-picardClassDifference, dedekindRankPicEquiv, coprimeIdealRepresentative,
+clopenModule and componentwiseFree;
+the ordered exterior-sum and determinant comparisons with the supplied
+TauCeti.LambdaRing and TauCeti.RepresentationRing operations;
+picardClassDifference, dedekindRankPicEquiv, projectiveLatticeComparison, projectiveLattice_steinitz_det,
 dedekindK0Localization, dedekindTransferCoordinates, lineMapIndexIdeal and Picard norm;
 finite-representative equality and block-sum class formulas, matrixRingK1Equiv, matrixClass, unitsToK1,
-projectiveAutClass, rightModuleEnd, the Bass automorphism group,
+projectiveAutClass, rightModuleEnd, the supplied Bass presentation comparison,
 projectiveTensorK1Action, transfer comparisons, SpecialK1, DieudonneDet, circleEvaluation
 and specialLinear_QR_deformation;
 RelativeGL, RelativeK1, RelativeUnits and relative K₀ opposite-side comparisons;
@@ -243,7 +272,7 @@ relativeK1PlusEquiv, Steinberg, steinbergProjection, SteinbergK2,
 the normalized inverse lifted-word boundary and double comparisons;
 GradedLine, projectiveGradedDet, projectiveGroupCompletion_spectrumComparison,
 projectiveLoopClass, ringSpectrumDet,
-schemeSpectrumDet and wittSupportedDet.
+schemeSpectrumDet, integerGradedDet_parityComparison and wittSupportedDet.
 
 -/
 
