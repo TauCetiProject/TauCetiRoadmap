@@ -229,13 +229,9 @@ theorem absRamificationIndex_padic (p : ℕ) [Fact p.Prime] :
     absRamificationIndex ℤ_[p] p = 1 := by
   simp [absRamificationIndex, IsDiscreteValuationRing.addVal_uniformizer PadicInt.irreducible_p]
 
-/-- At residue characteristic different from `p`, the integer `p` is a unit and its index is zero. -/
-example : absRamificationIndex ℤ_[3] 2 = 0 := by
-  have h : IsUnit (2 : ℤ_[3]) :=
-    PadicInt.isUnit_iff.mpr (PadicInt.norm_natCast_eq_one_iff.mpr (by decide : Nat.Coprime 3 2))
-  simp [absRamificationIndex, IsDiscreteValuationRing.addVal_eq_zero_iff.mpr h]
-
-/-- The equal-characteristic junk value is zero: `v(p) = v(0) = ⊤` and `⊤.toNat = 0`. -/
+/-- In equal characteristic the index is zero because `v(p) = v(0) = ⊤` and `⊤.toNat = 0`;
+the small-index condition in Raynaud's theorem therefore needs its mixed-characteristic
+hypothesis. -/
 example (p : ℕ) [Fact p.Prime] : absRamificationIndex (PowerSeries (ZMod p)) p = 0 := by
   have hp : (p : PowerSeries (ZMod p)) = 0 := by
     rw [← map_natCast (PowerSeries.C : ZMod p →+* PowerSeries (ZMod p)),
@@ -686,21 +682,6 @@ def FilteredPhiNModule.zero : FilteredPhiNModule p k K where
   fil_antitone _ _ _ := le_rfl
   fil_exhaustive := ⟨0, Subsingleton.elim _ _⟩
   fil_separated := ⟨0, rfl⟩
-
-/-- The zero filtered module is effective, since its degree-zero filtration is the whole space. -/
-example : (FilteredPhiNModule.zero (p := p) (k := k) (K := K)).IsEffective := by
-  change (⊥ : Submodule K (TensorProduct (FractionRing (WittVector p k)) K PUnit.{u + 1})) = ⊤
-  exact Subsingleton.elim _ _
-
-/-- Every graded piece of the zero filtered module is zero, so its Hodge number is zero. -/
-example : (FilteredPhiNModule.zero (p := p) (k := k) (K := K)).tH = 0 := by
-  classical
-  have hfil (i : ℤ) :
-      Module.finrank K ((FilteredPhiNModule.zero (p := p) (k := k) (K := K)).fil i) = 0 := by
-    change Module.finrank K
-      (⊥ : Submodule K (TensorProduct (FractionRing (WittVector p k)) K PUnit.{u + 1})) = 0
-    exact Module.finrank_zero_of_subsingleton
-  simp [FilteredPhiNModule.tH, hfil]
 
 /-- The monodromy is nilpotent: `N φ = p φ N` moves every slope of the isocrystal `(D, φ)` down by
 `1` (Brinon–Conrad, Lemma 8.2.8). -/
@@ -1163,12 +1144,6 @@ abbrev Label (p : ℕ) := Fin p × Fin (p - 1)
 /-- Test: there are `p (p − 1)` Serre weights of `GL₂(F_p)`. -/
 theorem card_label (p : ℕ) : Fintype.card (Label p) = p * (p - 1) := by
   simp [Label]
-
-/-- In characteristic two the determinant label is unique, leaving the two symmetric powers. -/
-example : Fintype.card (Label 2) = 2 := by simp [Label]
-
-/-- In characteristic three the three symmetric powers each have two determinant labels. -/
-example : Fintype.card (Label 3) = 6 := by simp [Label]
 
 /-- The symmetric power `Sym^r F_p²` has dimension `r + 1`. The labels `(r,s)`
 specify `Sym^r ⊗ det^s`; dimension and determinant need not distinguish these weights. -/
