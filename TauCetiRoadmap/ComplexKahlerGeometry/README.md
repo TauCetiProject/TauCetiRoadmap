@@ -1477,6 +1477,50 @@ Prove nonempty closed complex submanifolds of projective space are compact Kähl
 0≤k≤dim from nonzero Kähler powers. These are the geometric inputs to
 GeometricQuantization, whose scaled symplectic forms use k≥1.
 
+**K7.2.RationalQuartic — a section that does not extend.** On K7.1's single
+projective carriers construct the holomorphic map
+`q:ℂP¹→ℂP³`, `[s:t]↦[s⁴:s³t:st³:t⁴]`. Prove representative independence
+from the common degree four and nonvanishing from `s≠0` or `t≠0`. Its two
+source charts map to the ambient charts `x₀≠0` and `x₃≠0`, respectively,
+by `z=t/s↦(z,z³,z⁴)` and `u=s/t↦(u⁴,u³,u)`. Supply the inverse coordinates
+`x₁/x₀` and `x₂/x₃`, the overlap law `u=1/z`, and the graph equations in
+these charts. Prove injectivity and the holomorphic immersion and inverse
+onto the image. Compactness of ℂP¹ and the Hausdorff property of ℂP³ give
+the topological embedding and closed image `M`; the graph charts make M a
+smooth closed complex submanifold. Identify M biholomorphically with ℂP¹.
+
+Construct the actual pullback isomorphism `q*O_(ℂP³)(1)≃O_(ℂP¹)(4)`
+by the homogeneous frames, and compare its transitions and section pullback
+with K7.2's monomial identifications. Under the ordered bases
+`x₀,x₁,x₂,x₃` and `s⁴,s³t,s²t²,st³,t⁴`, prove that the actual restriction
+`H⁰(ℂP³,O(1))→H⁰(M,O(1)|_M)` is `(a,b,c,d)↦(a,b,0,c,d)`.
+Its image has dimension four inside a five-dimensional target, with image
+exactly the vectors whose middle coefficient is zero; the section `s²t²`
+does not extend. Transport the native coefficient map, left inverse and
+image calculation in `RationalQuarticCoordinates.lean` through these
+geometric identifications. The coordinate calculation alone does not
+construct the projective, bundle or section comparisons.
+
+Compute the actual higher-twist restriction maps by multiplying the same
+four degree-four sections. For n=2 the attainable exponents of t are all
+0,…,8, from the pairs `(0,0),(0,1),(1,1),(0,3),(0,4),(1,4),(3,3),(3,4),(4,4)`
+of exponents in `{0,1,3,4}`. Inductively their n-fold sums fill 0,…,4n
+for every n≥2. Prove restriction is therefore surjective for n≥2 and
+`h⁰(M,O(n)|_M)=4n+1` for n≥0. For n=0 the restriction is the identity on
+constants. This gives an explicit low-twist failure and its subsequent
+surjectivity on the same embedding.
+
+For a general closed complex submanifold `i:M↪ℂPᴺ` and `L=i*O(1)`, consume
+[ComplexComparisonPartII C0 and C1.7–C1.8](https://github.com/TauCetiProject/TauCetiRoadmap/pull/848)'s
+analytic twists, coherent closed-embedding pushforward and analytic Serre
+vanishing. Construct the coherent analytic ideal sequence
+`0→I_M(n)→O(n)→i_*Lⁿ→0`, its section restriction and connecting map.
+Vanishing of `H¹(I_M(n))` for sufficiently large n gives eventual
+surjectivity. This analytic argument applies before Chow algebraization.
+The rational quartic supplies the specific nonextension example; its
+higher-twist calculation uses the explicit monomial products above.
+
+
 For a complex torus `ℂⁿ/Λ` with a full real lattice, consume #280's quotient and descent.
 Prove its flat Kähler structure, invariant holomorphic forms, and
 `h^(p,q)=binomial(n,p)binomial(n,q)`. Include the elliptic one-dimensional case and its
@@ -1668,7 +1712,12 @@ and GT Layer11. K7.1 uses K3.0, K1's complex orientation and
 #279 Milestones 1–3 and AT Stage4.6's projective quotient topology, and precedes K2's ℂP¹ acceptance. K7.2's CW
 construction uses K7.1 and AT Stage 4 before AT Stage 7, independently
 of K2–K6; its bundle/forms/Hodge applications use K4–K6. K8 uses K2/K5/K6
-and the generic spectral-sequence machinery. K7.2's torus computations follow
+and the generic spectral-sequence machinery. K7.2.RationalQuartic's embedding uses
+K7.1; its bundle and section comparisons use K7.2's twists and monomial
+section calculation. Its explicit higher-twist surjectivity uses monomial
+products. The general eventual-surjectivity comparison follows
+ComplexComparisonPartII C1.8, whose early CK inputs do not consume this
+example. K7.2's torus computations follow
 #280 Milestone 1 and K5b/K6.1. Its Riemann-surface genus and integral cup
 computations follow K1's realification/complex orientation, the K7 adapter to
 [PlanarTopology](https://github.com/mccorvie/TauCetiRoadmap/blob/7f2099ebe4dd3e6388764fc67b57461e890de13f/TauCetiRoadmap/PlanarTopology/README.md#L108-L120) and
