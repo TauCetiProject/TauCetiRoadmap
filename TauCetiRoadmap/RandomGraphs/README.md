@@ -341,11 +341,21 @@ theorems and do not assume that strengthening as an unstated supplier.
 
 ### 4.1 Combinatorial and syntactic extension
 
-Define the witness predicate, $`\mathrm{EP}_{\le d}`$ and $`\mathrm{EP}`$ by their actual
-finite-set conditions. Give monotonicity in the bound, isomorphism and complement
-transport, restriction of requests, and avoidance of an additional prescribed finite
-set. Prove that full extension supplies arbitrarily many distinct witnesses for every
-request and entails an infinite carrier.
+Define the witness predicate and $`\mathrm{EP}_{\le d}`$ by their actual finite-set
+conditions. Full extension $`\mathrm{EP}`$ is the canonical `SimpleGraph.HasExtensionProperty`.
+That predicate omits the condition that the witness lies outside $`U`$, which adjacency to every
+vertex of $`U`$ already forces in a loopless graph; prove
+$`\mathrm{EP}\iff\forall d,\ \mathrm{EP}_{\le d}`$ against it. Give monotonicity in the bound,
+isomorphism and complement transport, restriction of requests, and avoidance of an additional
+prescribed finite set. Prove that full extension supplies arbitrarily many distinct witnesses
+for every request; infinitude of the carrier is the supplier's `HasExtensionProperty.infinite`.
+
+Prove the adapter between the graph-facing and graph-language forms: under
+`SimpleGraph.structure`, `G.HasExtensionProperty` holds exactly when the graph-language
+extension property holds, stated as `FirstOrder.Language.graph.ExtensionProperty` in
+Mathlib #20649 (a witness outside $`A\cup B`$ related by the adjacency symbol to all of $`A`$
+and none of $`B`$). Transport `FirstOrder.Language.Equiv.toSimpleGraphIso` and
+`SimpleGraph.Iso.toLanguageEquiv` across it.
 
 Construct an actual first-order sentence $`E_{r,s}`$ asserting extension for every
 injectively listed $`(r+s)`$-tuple, with the first $`r`$ entries positive and the last $`s`$
@@ -360,11 +370,16 @@ No probabilistic theorem may take this semantic correspondence as an unproved pa
 ### 4.2 Existence and identification
 
 Prove that the class of all finite simple graph structures is Fraïssé using Milestone 1.
-Construct its limit using Milestone 2 and prove that its extension property is exactly
-$`\mathrm{EP}`$. Conversely, a countable graph with $`\mathrm{EP}`$ has this age and is
-ultrahomogeneous, hence is the same Fraïssé limit.
+Construct its limit using Milestone 2 and prove that it satisfies $`\mathrm{EP}`$. Conversely,
+a countable graph with $`\mathrm{EP}`$ has this age and is ultrahomogeneous, hence is the same
+Fraïssé limit. State this converse as `ExtensionProperty.isFraisseLimit_finite_graphs` of
+Mathlib #20649, together with `ExtensionProperty.embedding_from_countable`, and transfer both
+to `SimpleGraph` through the adapter of 4.1.
 
-Give the explicit binary presentation on $`\mathbb N`$:
+The named graph $`R`$ is the supplier's `SimpleGraph.radoGraph`, defined by
+`SimpleGraph.fromRel fun i j => j.testBit i`, with its extension property
+`hasExtensionProperty_radoGraph`. Prove that it agrees with the explicit binary presentation
+on $`\mathbb N`$ (bit $`i`$ of $`j`$ can be $`1`$ only when $`i\lt j`$):
 
 ```math
 i\sim j
@@ -374,14 +389,14 @@ i\sim j
 (j\lt i\ \text{and bit } j \text{ of } i \text{ is } 1).
 ```
 
-Prove its extension property constructively by prescribing finitely many bits and
-choosing a larger vertex. Identify it with the constructed Fraïssé limit and use this
-presentation as the named graph $`R`$.
+Identify $`R`$ with the constructed Fraïssé limit.
 
-Export the characterization, uniqueness, complement isomorphism, universality for
-countable graphs, rooted universality into any extension-property graph, and extension
-of finite induced isomorphisms to automorphisms. Give explicit finite graph embeddings,
-including complete, empty, path and cycle graphs.
+The supplier provides countable uniqueness (`HasExtensionProperty.nonempty_iso`) and the
+extension-pair bridge. Export, in addition, the characterization of $`R`$ as the Fraïssé limit,
+the complement isomorphism, universality for countable graphs, rooted universality into any
+extension-property graph (from Milestone 3), and extension of finite induced isomorphisms to
+automorphisms. Give explicit finite graph embeddings, including complete, empty, path and
+cycle graphs.
 
 ## Milestone 5 — Finite rank, Rado theory and elimination
 
