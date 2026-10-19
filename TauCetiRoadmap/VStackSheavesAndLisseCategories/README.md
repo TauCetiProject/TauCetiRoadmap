@@ -16,6 +16,7 @@ Use the existing carriers and operations below. This roadmap adds properties, su
 | EnhancedDerivedSheaves E0–E5 | A common stable enhancement, derived tensor/Hom, coherent limits, hyperdescent, adjoints, completion, presentability and compact objects | The geometric categories and their solid/lisse subcategories on that enhancement |
 | RelativeFarguesFontaine §§2.1–2.4, 3.1–3.4 and 4.3–4.7 | Untilts, integral divisor spaces, `Div¹`, the relative curve and its line bundles | The map `Div¹→[*/W_E]`, descent of coefficients and relative section spaces |
 | VectorBundlesAndIsocrystals VB1–VB4 | Bundle cohomology and slope theory, classification, positive and negative Banach–Colmez presentations | Formal smoothness and the Jacobian criterion; coefficient invariance for the connected kernels |
+| PadicHodgeTheory §5.5; ReductiveGroupsPartII §§RG2.1.1 and RG2.1.5 | The minimal `ℚ_p` σ-conjugacy, Newton and Kottwitz invariants; Steinberg vanishing, algebraic fundamental groups, z-extensions and the representative Kottwitz map | Compatible general-local-field invariant theory and its bundle-stack realization |
 | SmoothRepresentationsOfLocalGroups §§SR.0.2, SR.0d.1–SR.0d.2 and SR.2.1 | The smooth representation category, its enhancement, continuous invariants and compact induction | Descent equivalences with classifying-stack sheaves, and their use on `Bun_G` |
 | `AdicCoefficientsAndComparisons L0` | Derived-complete coefficients, reduction tests, completed tensor and inverse-limit categories | Completed ULA and lisse comparisons, including their rational coefficient extension |
 | AdicSpacesPartII R0; ClassicalAdicEtaleCohomology §§4.3–4.4, 5.6, 10.3–10.4, 8.2 and 11.1 | Analytic smoothness/differentials, formal–adic comparison, scheme ULA and correspondence duality in the perfect-constructible noetherian ℓ-power range, annulus cohomology and scheme/analytic comparison | Section-space smoothness, partial-support calculations, the coefficient/locality extension of the scheme ULA interface and ULA analytification |
@@ -23,6 +24,8 @@ Use the existing carriers and operations below. This roadmap adds properties, su
 | ClassFieldTheory Layer 9, “the local Weil group” | The local Weil group, Weil topology, inertia and degree | Its divisor torsor and finite-product coefficient descent |
 
 This roadmap also owns the analytic-measure and analytic-spectrum interfaces of VS2.2, the extension and analytification comparison of the supplied scheme ULA interface in VS1.2, the sousperfectoid section geometry of VS1.3, and the bundle-stack, Newton-stratum and contracting-chart geometry of VS4.0. VS4.2 supplies the compact smooth Bernstein–Zelevinsky and product interfaces used by VS5.
+
+VS4.0 supplies `BunGeometry`, `BunNewtonGeometry`, `BunAutomorphisms` and `BunCharts` to its downstream consumer BunGAndNewtonStrata. That roadmap's bundle-stack, stratum and chart interfaces extend these four constructions on the same carriers. Its Newton-topology, acceptable-class and arithmetic classification targets belong there.
 
 The Hecke and Satake constructions are consumers: their geometry and kernel actions use the coefficient and duality outputs of VS5.4 (FS IX.2). Here the output is the coefficient, adjunction, duality and scalar-extension interface that those actions use. The scheme Verdier formalism is supplied by EtaleCohomologyFoundations F.5–F.6; the enhanced categorical tensor product belongs to EnhancedDerivedSheaves §E5:presentability.2; locally convex realizations of solid topological vector spaces belong to their functional-analysis roadmap. The divisor-to-Weil comparison has the local-field and diamond hypotheses specified in VS1; applications to global shtukas use this comparison as an output.
 
@@ -762,6 +765,7 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 | `IsSolidGeneral.restrict` | Restriction along a ring homomorphism preserves corrected solidity, by composing polynomial test maps. |
 | `IsSolidGeneral.iso` | An isomorphism of condensed `R`-modules preserves the criterion. |
 | `IsSolidGeneral.finiteType` | For finite-type `Z`-algebra `R` the corrected predicate agrees with the pinned finite-type predicate. |
+| `IsSolidGeneral.polynomial` | For `R=ℤ[X]`, corrected solidity implies the pinned polynomial solidity by the identity test. |
 | `SolidECoefficients.category` | The category is the analytic complete modules for topological `E`. |
 | `SolidECoefficients.free` | Its free solid object on `S` is `E⊗solid_Z ℤ[S]_solid`. |
 | `SolidECoefficients.tensorHom` | Derived tensor and internal Hom satisfy the closed adjunction. |
@@ -777,7 +781,7 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 
 - `IsSolidGeneral.integer`: For the universe-lifted integers the corrected predicate is equivalent to pinned integer solidity.
 - `IsSolidGeneral.zero`: The zero condensed module satisfies every polynomial restriction test.
-- `IsSolidGeneral.polynomial`: For `R=ℤ[X]`, the identity ring map is one of the tests, so corrected solidity implies its pinned polynomial solidity.
+- `IsSolidGeneral.dualNumbers`: For every prime `ℓ`, set `R=𝔽_ℓ[X]` and `M=R/(X²)`. Its discrete condensed `R`-module is corrected-solid, while `X` acts nontrivially and its square acts as zero: `X·1≠0` and `X·(X·m)=0` for every `m∈M`. This tests solidity with a nonsemisimple polynomial action, including `ℓ=2`. (CS Theorem 5.8(i), p.36; the polynomial criterion in the pinned `CondensedMod.IsSolid` docstring.)
 - `SolidECoefficients.zero`: The zero topological vector space realizes the zero solid `E`-module.
 - `SolidECoefficients.finite`: For finite `S`, the free object is `E^S`.
 - `SolidECoefficients.smith`: For an infinite product, `(product_I O_E)[1/p]` consists of uniformly bounded denominators and differs from arbitrary `product_I E`; omitting analytic measures gives the wrong Smith generator.
@@ -1104,13 +1108,14 @@ The API includes pullback, identity/composition, change of structure group, prod
 - `G=GL_n` recovers rank-`n` vector bundles and their isomorphisms, and `G=𝔾_m` recovers line bundles.
 - For `G₁×G₂`, arrows consist of a pair of bundle isomorphisms; replacing a groupoid by its isomorphism-class set loses the stabilizers already for a trivial line bundle.
 
-**Newton geometry.** Construct `BunNewtonGeometry`: `B(G)` is the set of σ-conjugacy classes in `G(Ĕ)`, or equivalently isomorphism classes of exact tensor `G`-isocrystals. Construct the Newton point, Kottwitz invariant and partial order, and identify geometric bundle classes with `B(G)`. Prove upper semicontinuity of Newton polygons, local constancy of the Kottwitz invariant, and the locally closed strata. Their semistable union is open. Prove that the relevant quasicompact opens meet finitely many Newton strata and use compatible quasicompact exhaustions for arbitrary opens. Supply tensor functoriality, change of geometric base, the geometric classification comparison and the HN filtration/splitting API. (FS Definition III.2.1, Theorems III.2.2–III.2.3 and III.2.7, pp.89–93; III.2.5, pp.95–96; Theorem III.4.5 and Proposition III.4.7, pp.100–102.)
+**Newton geometry.** Construct `BunNewtonGeometry` using PadicHodgeTheory §5.5's `sigmaConjugacy`, `B(G)`, tensor Newton invariant and `kottwitzInvariant` on their connected-reductive `ℚ_p` domain. Extend these definitions compatibly to every nonarchimedean local field `E`: `B(G)` is the set of σ-conjugacy classes in `G(Ĕ)`, or equivalently isomorphism classes of exact tensor `G`-isocrystals. Here `σ` is arithmetic residue Frobenius. Use ReductiveGroupsPartII §RG2.1.1, `steinberg-quasi-split`, and §RG2.1.5, `algebraic-fundamental-group`, `z-extension-existence` and `kottwitz-homomorphism`, for the reductive inputs. Descend the supplied representative Kottwitz map to `π₁(G)_Γ`, retaining torsion and the normalization `κ(μ(π))=μ^natural` for `E`-rational cocharacters `μ`; construct the tensor Newton point from the supplied isocrystal slopes. Identify these invariants with the supplied `ℚ_p` maps on the common domain. Define the partial order by equality of Kottwitz invariants and dominance of Newton points, and identify geometric bundle classes with `B(G)`. Prove upper semicontinuity of Newton polygons, local constancy of the Kottwitz invariant, and the locally closed strata. Their semistable union is open. Prove that the relevant quasicompact opens meet finitely many Newton strata and use compatible quasicompact exhaustions for arbitrary opens. Supply tensor functoriality, change of geometric base, the geometric classification comparison and the HN filtration/splitting API. (FS Definition III.2.1 and §III.2.2, Theorems III.2.2–III.2.3 and III.2.7, pp.89–93; III.2.5, pp.95–96; Theorem III.4.5 and Proposition III.4.7, pp.100–102.)
 
 **Checks.**
 
 - For `𝔾_m` the strata are integer degrees; the automorphisms of each line remain `Eˣ`.
 - For `GL₂`, `O⊕O(1)` has two distinct HN slopes and is not basic; an isoclinic rank-two bundle lies in the basic locus.
 - Newton variation can occur under specialization; local constancy is required for the Kottwitz invariant, rather than for the whole Newton point.
+- For `G=𝔾_m`, `b=π^m` has isocrystal Newton slope and Kottwitz invariant `m`, and gives the bundle `O(−m)`. This agrees with the supplied `ℚ_p` maps at `π=p` and holds also for `E=𝔽_q((π))`; the degree of the associated line bundle has the opposite sign.
 
 **Full stratum automorphisms.** Construct `BunAutomorphisms` with `Bun_G^b≃[*/tildeJ_b]`. The full automorphism v-group has a split projection to the locally profinite `J_b(E)` and a connected kernel filtered by strictly positive Banach–Colmez groups; identify the graded pieces and their actions from the positive HN pieces of the adjoint bundle. The kernel is cohomologically smooth of dimension `⟨2ρ,ν_b⟩`. For basic `b` it is trivial. Require compatibility of the quotient, splitting, conjugation action, tensor realizations and geometric base change. (FS Proposition III.5.1 and Proposition III.5.3, pp.103–106.)
 
@@ -1130,7 +1135,7 @@ The API includes the section and graded-bundle maps, pullback charts, punctured 
 - For `GL₂` and `O(1)⊕O`, the punctured framed chart is `BC(O(−1)[1])\{0}` with a negative-slope extension direction.
 - In the latter example the absolute punctured chart is quasicompact, whereas its base change to `Spa C` need not be; contraction must use the absolute chart.
 
-*Needs:* VS0.1, VS1.3; RelativeFarguesFontaine §§2.1–2.4, 6.1–6.9 and 7.0; VectorBundlesAndIsocrystals VB0–VB4; ReductiveGroups Layer 1 (Tannakian reconstruction) and Layer 7 (parabolics and flag varieties); DiamondsAndVStacks D3–D5; DiamondSixOperations S4–S5.
+*Needs:* VS0.1, VS1.3; RelativeFarguesFontaine §§2.1–2.4, 6.1–6.9 and 7.0; VectorBundlesAndIsocrystals VB0–VB4; PadicHodgeTheory §5.5 (`sigmaConjugacy`, `B(G)`, tensor Newton invariant and `kottwitzInvariant`); ReductiveGroupsPartII §RG2.1.1, `steinberg-quasi-split`, and §RG2.1.5, `algebraic-fundamental-group`, `z-extension-existence` and `kottwitz-homomorphism`; ReductiveGroups Layer 1 (Tannakian reconstruction) and Layer 7 (parabolics and flag varieties); DiamondsAndVStacks D3–D5; DiamondSixOperations S4–S5.
 
 ### VS4.1. Solid Drinfeld descent and partial-support construction/vanishing
 

@@ -100,6 +100,16 @@ theorem zero {R : Type (u + 1)} [Ring R] :
 theorem polynomial (A : CondensedMod.{u} (Polynomial (ULift.{u + 1} ℤ)))
     (h : IsSolidGeneral A) : A.IsSolid := sorry
 
+/-- The discrete dual-number module is corrected-solid with nonzero square-zero polynomial action
+(CS Theorem 5.8(i), p.36; README VS2.2). -/
+theorem dualNumbers (ℓ : ℕ) [Fact ℓ.Prime] :
+    let R := Polynomial (ULift.{u + 1} (ZMod ℓ))
+    let I : Ideal R := Ideal.span {Polynomial.X ^ 2}
+    IsSolidGeneral ((Condensed.discrete (ModuleCat.{u + 1} R)).obj
+      (ModuleCat.of R (R ⧸ I))) ∧
+      (Polynomial.X : R) • (1 : R ⧸ I) ≠ 0 ∧
+      ∀ m : R ⧸ I, (Polynomial.X : R) • ((Polynomial.X : R) • m) = 0 := sorry
+
 end IsSolidGeneral
 
 namespace CondensedQCQS
