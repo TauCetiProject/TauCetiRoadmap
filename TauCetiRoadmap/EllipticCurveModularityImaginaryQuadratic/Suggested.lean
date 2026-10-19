@@ -8,7 +8,13 @@ These suggested forms are not an exhaustive checklist. They record the
 arithmetic, divisor, rational-function, integral monodromy and normalization signatures
 over the pinned carriers. They suggest statements, with proofs left as `sorry`.
 The covers, relative Jacobians, compatible systems and automorphic realizations
-are README targets, using the supplier carriers named there.
+are README targets, using the supplier carriers named there. Elliptic
+residual actions use ArithmeticGaloisRepresentations §6.1's
+`TateModule.residualRep`; H¹ uses its dual. The rational seed inputs use
+EllipticCurveModularity's exact-conductor forms and its curve-level
+abbreviation of AlgebraicModularFormsAndSerreWeights' `ArisesFrom`.
+Curve/equation and local-minimal-model comparisons use EllipticCurves
+Layer 4.5a. These supplier interfaces are specified in the README.
 
 The divisor calculation uses formal geometric point divisors. The matrices use
 column vectors and the ordered symplectic basis of README §3.3. The complex
