@@ -105,7 +105,14 @@ are private or absent at the pin.
 
 * The exact conductor of `K(μ_m) / K` (Layer 4); see above.
 * The one-sided forms of the logarithmic normalization and of finite insertion and deletion
-  (Layer 3). Tau Ceti has those transfers for exact densities only.
+  (Layer 3). The pin has those transfers for exact densities only. Tau Ceti `main` proves the
+  one-sided forms since revision `df08111`, after this pin:
+  `isLowerDirichletDensityBound_iff_eventually_lt_div_log_one_div_sub_one` and
+  `isUpperDirichletDensityBound_iff_eventually_div_log_one_div_sub_one_lt` in
+  `ArithmeticDirichletSeries/Prime/IdealZetaSum.lean`, and
+  `isLowerDirichletDensityBound_iff_of_finite_symmDiff` with its upper counterpart in
+  `ArithmeticDirichletSeries/DirichletDensity/Negligible.lean`. Citing them here waits for a pin
+  bump that includes them.
 * The ramification data of the `S₃` witness of 8.3: the inertia group, `e(Q/2) = 3` and
   `e(𝔓/2) = 3`, computed inside the proof of the witness but not exported. (`e(Q/𝔓) = 1` is its
   conclusion `P ∉ ramifiedPrimes E L`.)
@@ -114,7 +121,9 @@ are private or absent at the pin.
   `hasDirichletDensity_abelianFrobenius` and `frobeniusPsi_asymptotic_of_mul_comm`.
 * The assembled boundary data `G = F - κ/(s-1)` of 12.1, built inside the proof of
   `frobeniusPsi_asymptotic_of_isCyclotomicExtension`; its ingredients are stated below.
-* The powered fibre count of 12.3; the degree-five example motivating it is stated below.
+* The powered fibre count of 12.3; the degree-five example motivating it is stated below. Tau Ceti
+  `main` proves it since `df08111`, as `fixedField_frobenius_pow_fiber_card` in
+  `Chebotarev/FixedField/FiberCount.lean`; it too waits for that pin bump.
 
 Zero-free regions, explicit formulae and effective Chebotarev bounds are outside this roadmap by its
 own text (they belong to Zeros of L-functions), so every remainder here is qualitative: `o(x)` in
