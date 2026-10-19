@@ -27,7 +27,6 @@ open Polynomial
 section ClassicalPolynomials
 variable {K : Type*} [Field K]
 
-
 /-- The good arithmetic polynomial of a classical eigenform. Its representation
 interpretation requires k≥1, a good prime and a nonzero character value. -/
 noncomputable def arithFrobCharpoly (a ψp p : K) (k : ℕ) : K[X] :=
@@ -38,51 +37,7 @@ cohomological factor when ψp*p^(k−1) is nonzero. -/
 noncomputable def arithFrobCharpolyDual (a ψp p : K) (k : ℕ) : K[X] :=
   X ^ 2 - C (a / (ψp * p ^ (k - 1))) * X + C (1 / (ψp * p ^ (k - 1)))
 
-/-- The weight-two 11a1 polynomial at 3 and its cohomological arithmetic dual
-are computed separately and differ. -/
-example : arithFrobCharpoly (-1 : ℚ) 1 3 2 = X ^ 2 + C 1 * X + C 3 ∧
-    arithFrobCharpolyDual (-1 : ℚ) 1 3 2 = X ^ 2 + C (1 / 3) * X + C (1 / 3) ∧
-    arithFrobCharpolyDual (-1 : ℚ) 1 3 2 ≠ arithFrobCharpoly (-1 : ℚ) 1 3 2 :=
-  sorry
-
-/-- The weight-twelve Δ polynomial at 2 and its same-Frobenius dual retain
-the reciprocal determinant and the scaled trace. -/
-example : arithFrobCharpoly (-24 : ℚ) 1 2 12 = X ^ 2 + C 24 * X + C 2048 ∧
-    arithFrobCharpolyDual (-24 : ℚ) 1 2 12 =
-      X ^ 2 + C (3 / 256) * X + C (1 / 2048) :=
-  sorry
-
-/-- A nonquadratic character distinguishes the nebentypus from its inverse
-in both the arithmetic polynomial and its dual. -/
-example : arithFrobCharpoly (2 : ℂ) Complex.I 3 2 =
-      X ^ 2 - C 2 * X + C (3 * Complex.I) ∧
-    arithFrobCharpolyDual (2 : ℂ) Complex.I 3 2 =
-      X ^ 2 + C ((2 / 3 : ℂ) * Complex.I) * X - C ((1 / 3 : ℂ) * Complex.I) ∧
-    arithFrobCharpoly (2 : ℂ) Complex.I 3 2 ≠
-      arithFrobCharpoly (2 : ℂ) (-Complex.I) 3 2 ∧
-    arithFrobCharpolyDual (2 : ℂ) Complex.I 3 2 ≠
-      arithFrobCharpolyDual (2 : ℂ) (-Complex.I) 3 2 :=
-  sorry
-
-/-- A vanishing trace is allowed; at weight one the exponent is zero. -/
-example : arithFrobCharpoly (0 : ℚ) 1 3 1 = X ^ 2 + C 1 ∧
-    arithFrobCharpolyDual (0 : ℚ) 1 3 1 = X ^ 2 + C 1 := by
-  simp [arithFrobCharpoly, arithFrobCharpolyDual]
-
-/-- At weight one a trace-zero, determinant-minus-one Frobenius and its
-dual both have polynomial X²−1. -/
-example : arithFrobCharpoly (0 : ℚ) (-1) 3 1 = X ^ 2 - C 1 ∧
-    arithFrobCharpolyDual (0 : ℚ) (-1) 3 1 = X ^ 2 - C 1 := by
-  simp [arithFrobCharpoly, arithFrobCharpolyDual, sub_eq_add_neg]
-
 end ClassicalPolynomials
-
-/-- The geometric étale good-characteristic fibre has p+1 lines; characteristic-p
-subgroup-scheme fibres require the separate geometric comparison. -/
-example (p : ℕ) [Fact p.Prime] :
-    Nat.card {W : Submodule (ZMod p) (Fin 2 → ZMod p) //
-      Module.finrank (ZMod p) W = 1} = p + 1 :=
-  sorry
 
 end TauCetiRoadmap.AutomorphicGaloisRepresentations
 
@@ -91,8 +46,8 @@ end TauCetiRoadmap.AutomorphicGaloisRepresentations
 AlgebraicModularFormsAndSerreWeights R15.5A.3 owns these finite-group targets.
 These signatures in TauCeti.ClassicalModularGalois are proposed shapes for its
 finite-image bound and prime-to-order lifting steps; their names are prototypes,
-not exports specified by that supplier. The examples provide polynomial and
-semisimplicity controls for this roadmap's normalization comparisons.
+not exports specified by that supplier. The named theorems state the polynomial-fibre,
+semisimple-image and integral-lifting interfaces of README §§2.4–2.7.
 -/
 
 namespace TauCeti.ClassicalModularGalois
@@ -140,14 +95,21 @@ theorem card_charpoly_fibre (ℓ : ℕ) [Fact ℓ.Prime] (t d : ZMod ℓ) (hd : 
     else ℓ ^ 2 - ℓ :=
   sorry
 
-/-- Deligne–Serre Proposition 7.2: one bound for every coefficient prime
-under semisimplicity and η<1/2. -/
+/-- README §2.4: a subgroup cannot have empty polynomial support when the
+required subset has strictly positive proportion. -/
+theorem not_conditionC_zero (ℓ : ℕ) [Fact ℓ.Prime]
+    (G : Subgroup (GL (Fin 2) (ZMod ℓ))) (η : ℝ) (hη : η < 1) :
+    ¬ ConditionC ℓ G η 0 :=
+  sorry
+
+/-- README §2.5: Deligne–Serre Proposition 7.2 gives one bound for every
+coefficient prime under semisimplicity and η<1/2. -/
 theorem card_le_of_conditionC (η : ℝ) (hη : η < 1 / 2) (M : ℕ) :
     ∃ A : ℕ, ∀ (ℓ : ℕ) [Fact ℓ.Prime] (G : Subgroup (GL (Fin 2) (ZMod ℓ))),
       IsSemisimpleSubgroup ℓ G → ConditionC ℓ G η M → Nat.card G ≤ A :=
   sorry
 
-/-- A finite group of order prime to the finite residue characteristic lifts
+/-- README §2.7: a finite group of order prime to the finite residue characteristic lifts
 over a complete DVR, through the finite congruence stages and their inverse limit. -/
 theorem exists_lift_of_not_dvd_card {O : Type*} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     [IsAdicComplete (IsLocalRing.maximalIdeal O) O] [Finite (IsLocalRing.ResidueField O)] {Γ : Type*} [Group Γ] [Finite Γ]
@@ -156,87 +118,13 @@ theorem exists_lift_of_not_dvd_card {O : Type*} [CommRing O] [IsDomain O] [IsDis
     ∃ ρ : Γ →* GL (Fin n) O, (Matrix.GeneralLinearGroup.map (IsLocalRing.residue O)).comp ρ = ρbar :=
   sorry
 
-/-- The trivial group is semisimple, has one polynomial, and fails a zero
-polynomial bound at exceptional proportion zero. -/
-example (ℓ : ℕ) [Fact ℓ.Prime] :
-    IsSemisimpleSubgroup ℓ ⊥ ∧ ConditionC ℓ ⊥ 0 1 ∧ ¬ ConditionC ℓ ⊥ 0 0 :=
-  sorry
-
-/-- Below exceptional proportion one, a nonempty group cannot have zero
-polynomial support on the required subset. -/
-example (ℓ : ℕ) [Fact ℓ.Prime] (G : Subgroup (GL (Fin 2) (ZMod ℓ)))
-    (η : ℝ) (hη : η < 1) : ¬ ConditionC ℓ G η 0 :=
-  sorry
-
-/-- Full GL₂ has precisely ℓ(ℓ−1) characteristic polynomials, so at zero
-exceptional proportion the support bound is sharp. -/
-example (ℓ : ℕ) [Fact ℓ.Prime] :
-    ConditionC ℓ ⊤ 0 (ℓ * (ℓ - 1)) ∧
-      ∀ M : ℕ, M < ℓ * (ℓ - 1) → ¬ ConditionC ℓ ⊤ 0 M :=
-  sorry
-
-/-- The actual cyclic subgroup generated by diag(2,1) over F₅ has four
-polynomials. Discarding one of its four elements permits three polynomials. -/
-example (g : GL (Fin 2) (ZMod 5))
-    (hg : (g : Matrix (Fin 2) (Fin 2) (ZMod 5)) = !![2, 0; 0, 1]) :
-    IsSemisimpleSubgroup 5 (Subgroup.zpowers g) ∧
-    ¬ ConditionC 5 (Subgroup.zpowers g) 0 3 ∧
-    ConditionC 5 (Subgroup.zpowers g) (1 / 4) 3 :=
-  sorry
-
-/-- The split diagonal Cartan over F₃ has four elements and three
-polynomials. Its two coordinate involutions generate the whole Cartan. -/
-example (g h : GL (Fin 2) (ZMod 3))
-    (hg : (g : Matrix (Fin 2) (Fin 2) (ZMod 3)) = !![-1, 0; 0, 1])
-    (hh : (h : Matrix (Fin 2) (Fin 2) (ZMod 3)) = !![1, 0; 0, -1]) :
-    let G := Subgroup.closure ({g, h} : Set (GL (Fin 2) (ZMod 3)))
-    Nat.card G = 4 ∧ IsSemisimpleSubgroup 3 G ∧
-      ConditionC 3 G 0 3 ∧ ¬ ConditionC 3 G 0 2 :=
-  sorry
-
-/-- The unipotent cyclic group over F₅ has one characteristic polynomial
-and no invariant complement to its fixed line. -/
-example (g : GL (Fin 2) (ZMod 5))
-    (hg : (g : Matrix (Fin 2) (Fin 2) (ZMod 5)) = !![1, 1; 0, 1]) :
-    Nat.card (Subgroup.zpowers g) = 5 ∧
-      ConditionC 5 (Subgroup.zpowers g) 0 1 ∧
-      ¬ IsSemisimpleSubgroup 5 (Subgroup.zpowers g) :=
-  sorry
-
-/-- The split, repeated-root and irreducible quadratic fibres over F₃ have
-sizes 12, 9 and 6, respectively. -/
-example :
-    Nat.card {g : GL (Fin 2) (ZMod 3) //
-      (g : Matrix (Fin 2) (Fin 2) (ZMod 3)).charpoly = X ^ 2 - C 1} = 12 ∧
-    Nat.card {g : GL (Fin 2) (ZMod 3) //
-      (g : Matrix (Fin 2) (Fin 2) (ZMod 3)).charpoly = (X - C 1) ^ 2} = 9 ∧
-    Nat.card {g : GL (Fin 2) (ZMod 3) //
-      (g : Matrix (Fin 2) (Fin 2) (ZMod 3)).charpoly = X ^ 2 + C 1} = 6 :=
-  sorry
-
 end TauCeti.ClassicalModularGalois
 
 namespace TauCetiRoadmap.AutomorphicGaloisRepresentations
 
 open Polynomial
 
-/-! ## Rankin–Selberg supplier normalization -/
-
-/-- At level 23, R_f's Euler factor is the tensor-product
-factor times (1+x)⁻¹, with x=23^(−s). The denominators are nonzero here;
-the meromorphic correction and its extra pole are specified in README AL.3. -/
-example (x : ℂ) (hminus : 1 - x ≠ 0) (hplus : 1 + x ≠ 0) :
-    1 / ((1 - x ^ 2) * (1 - x)) = (1 / (1 - x) ^ 2) / (1 + x) := by
-  have hsq : 1 - x ^ 2 = (1 - x) * (1 + x) := by ring
-  rw [hsq]
-  field_simp [hminus, hplus]
-
 /-! ## Layer 3: Hilbert constructions and their arithmetic properties -/
-
-/-- The finite L-function of the algebraic character |·|⁻⁴ at s=2 is ζ(−2),
-which vanishes. Positive integer nonvanishing requires the finite-order range. -/
-example : riemannZeta (-2) = 0 := by
-  simpa using riemannZeta_neg_two_mul_nat_add_one 0
 
 section HilbertNormalization
 variable {K : Type*} [Field K]
@@ -250,18 +138,6 @@ noncomputable def hilbertGeomCharpoly (t s q : K) : K[X] :=
 The representation dictionary requires s≠0. -/
 noncomputable def carayolGeomCharpoly (t s q : K) : K[X] :=
   X ^ 2 - C (t / s) * X + C (q / s)
-
-/-- Trivial scalar Hecke value makes the two polynomial conventions agree,
-including the zero-trace case; this cannot detect a central-character error. -/
-example : hilbertGeomCharpoly (-1 : ℚ) 1 3 = X ^ 2 + C 1 * X + C 3 ∧
-    hilbertGeomCharpoly (0 : ℚ) 1 1 = carayolGeomCharpoly (0 : ℚ) 1 1 :=
-  sorry
-
-/-- The norm-twisted elliptic data distinguish the two polynomial conventions. -/
-example : hilbertGeomCharpoly (-3 : ℚ) 9 3 = X ^ 2 + C 3 * X + C 27 ∧
-    carayolGeomCharpoly (-3 : ℚ) 9 3 = X ^ 2 + C (1 / 3) * X + C (1 / 3) ∧
-    hilbertGeomCharpoly (-3 : ℚ) 9 3 ≠ carayolGeomCharpoly (-3 : ℚ) 9 3 :=
-  sorry
 
 end HilbertNormalization
 
@@ -279,10 +155,6 @@ theorem hodgeDegrees_normTwist (k w : ℤ) :
     hodgeDegrees k (w + 2) = ((hodgeDegrees k w).1 + 1, (hodgeDegrees k w).2 + 1) :=
   sorry
 
-/-- The elliptic, Δ and norm-twisted elliptic pairs. -/
-example : hodgeDegrees 2 0 = (0, 1) ∧ hodgeDegrees 12 10 = (0, 11) ∧
-    hodgeDegrees 2 2 = (1, 2) := by decide
-
 /-- Normalizing a parallel type to (k,k−2) and twisting the supplied
 arithmetic member by ε^j gives the negative of the geometric degrees. -/
 example (k w : ℤ) (hparity : Even (w - k)) :
@@ -294,20 +166,7 @@ example (k w : ℤ) (hparity : Even (w - k)) :
   · dsimp [hodgeDegrees]
     omega
 
-/-- Incorrect parity gives the wrong sum if the halves are rounded. -/
-example : ¬ Even (1 - 2 : ℤ) ∧
-    (hodgeDegrees 2 1).1 + (hodgeDegrees 2 1).2 ≠ 1 + 1 := by decide
-
 /-! ## Layer 4: Local compatibility and geometric weights -/
-
-/-- A special geometric WD model satisfies FNF⁻¹=q⁻¹N with nonzero N.
-Erasing N leaves the same Frobenius polynomial but changes the parameter. -/
-example :
-    let F : Matrix (Fin 2) (Fin 2) ℚ := !![1, 0; 0, 3]
-    let N : Matrix (Fin 2) (Fin 2) ℚ := !![0, 1; 0, 0]
-    F * N * F⁻¹ = (1 / 3 : ℚ) • N ∧ N ≠ 0 ∧
-      F.charpoly = X ^ 2 - C 4 * X + C 3 :=
-  sorry
 
 section NearlyOrdinaryCoefficients
 variable {ι K : Type*} [Fintype ι] [Field K]
@@ -324,15 +183,6 @@ finite character, including a nontrivial torsion-unit value. -/
 example (finiteValue : K) (embeddingValues : ι → K) :
     nearlyOrdinaryUnitValue finiteValue embeddingValues (fun _ => 0) = finiteValue := by
   simp [nearlyOrdinaryUnitValue]
-
-/-- At weights (2,4) the exponents are (1,0). At p=3, 4 is a principal
-unit. Its algebraic inverse survives; on the torsion unit −1, the
-finite value −1 and the algebraic factor −1 cancel. -/
-example :
-    nearlyOrdinaryUnitValue (1 : ℚ) ![4, 4] ![1, 0] = 1 / 4 ∧
-    nearlyOrdinaryUnitValue (-1 : ℚ) ![-1, -1] ![1, 0] = 1 ∧
-    nearlyOrdinaryUnitValue (1 : ℚ) ![4, 4] ![1, 0] ≠ 1 := by
-  norm_num [nearlyOrdinaryUnitValue, Fin.prod_univ_two]
 
 end NearlyOrdinaryCoefficients
 
@@ -351,13 +201,14 @@ def ordinaryLatticePlus (T : Submodule O V) (Vplus : Submodule K V) : Submodule 
 def ordinaryLatticePlusIn (T : Submodule O V) (Vplus : Submodule K V) : Submodule O T :=
   (Vplus.restrictScalars O).comap T.subtype
 
-/-- Saturation asserts torsion-freeness of the actual quotient. -/
+/-- README §5.1: intersection with a fraction-field subspace gives a
+saturated submodule, expressed by torsion-freeness of the actual quotient. -/
 theorem ordinaryLatticePlus_saturated [IsDomain O] [IsFractionRing O K]
     (T : Submodule O V) (Vplus : Submodule K V) :
     NoZeroSMulDivisors O (T ⧸ ordinaryLatticePlusIn T Vplus) :=
   sorry
 
-/-- A finite full lattice over a DVR has a free rank-one quotient by the
+/-- README §5.1: a finite full lattice over a DVR has a free rank-one quotient by the
 intersection with a specified line in a two-dimensional fraction-field space. -/
 theorem ordinaryLatticeQuotient_free_rank_one [IsDomain O] [IsDiscreteValuationRing O]
     [IsFractionRing O K] [FiniteDimensional K V] (T : Submodule O V)
@@ -378,74 +229,7 @@ example (T : Submodule O V) : ordinaryLatticePlus T (⊤ : Submodule K V) = T �
     ordinaryLatticePlusIn T (⊤ : Submodule K V) = ⊤ := by
   simp [ordinaryLatticePlus, ordinaryLatticePlusIn]
 
-/-- The zero subspace has zero intersection in both presentations. -/
-example (T : Submodule O V) : ordinaryLatticePlus T (⊥ : Submodule K V) = ⊥ ∧
-    ordinaryLatticePlusIn T (⊥ : Submodule K V) = ⊥ := by
-  simp [ordinaryLatticePlus, ordinaryLatticePlusIn]
-
 end OrdinaryLattice
-
-/-- For the standard DVR lattice in K², intersection with Ke₁ is Oe₁.
-The actual quotient is O via the second coordinate. -/
-example {O K : Type*} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
-    [Field K] [Algebra O K] [IsFractionRing O K] :
-    let T : Submodule O (Fin 2 → K) := Submodule.span O {![1, 0], ![0, 1]}
-    let Vplus : Submodule K (Fin 2 → K) := Submodule.span K {![1, 0]}
-    ordinaryLatticePlus T Vplus = Submodule.span O {![1, 0]} ∧
-      ∃ e : (T ⧸ ordinaryLatticePlusIn T Vplus) ≃ₗ[O] O,
-        ∀ x : T, algebraMap O K (e (Submodule.Quotient.mk x)) = (x : Fin 2 → K) 1 :=
-  sorry
-
-/-- A uniformizer multiple of the coordinate line is not saturated: its
-actual quotient has a nonzero uniformizer-torsion element. This also covers
-ramified coefficient fields, where p need not be a uniformizer. -/
-example {O : Type*} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
-    (ϖ : O) (hϖ : Irreducible ϖ) :
-    let L : Submodule O (Fin 2 → O) := Submodule.span O {![ϖ, 0]}
-    let z : (Fin 2 → O) ⧸ L := Submodule.Quotient.mk (p := L) ![1, 0]
-    z ≠ 0 ∧ ϖ • z = 0 :=
-  sorry
-
-/-! ## Layer 6: Integral Hecke families and deformation maps -/
-
-/-- Equal scalar traces in characteristic two do not determine the residual
-determinant or full characteristic polynomial. -/
-example {K : Type*} [Field K] [CharP K 2] (a : K) (ha0 : a ≠ 0) (ha1 : a ≠ 1) :
-    Matrix.trace (!![a, 0; 0, a] : Matrix (Fin 2) (Fin 2) K) =
-      Matrix.trace (1 : Matrix (Fin 2) (Fin 2) K) ∧
-    Matrix.det (!![a, 0; 0, a] : Matrix (Fin 2) (Fin 2) K) ≠
-      Matrix.det (1 : Matrix (Fin 2) (Fin 2) K) ∧
-    (!![a, 0; 0, a] : Matrix (Fin 2) (Fin 2) K).charpoly ≠
-      (1 : Matrix (Fin 2) (Fin 2) K).charpoly :=
-  sorry
-
-/-- The rank-two mixed determinant coefficient is division-free over any
-commutative ring, including characteristic two. -/
-example {A : Type*} [CommRing A] (g h : Matrix (Fin 2) (Fin 2) A) :
-    (g + h).det = g.det + h.det + g.trace * h.trace - (g * h).trace := by
-  simp [Matrix.det_fin_two, Matrix.trace, Matrix.mul_apply, Fin.sum_univ_two]
-  ring
-
-/-- A nonzero determinant change is invisible in the reduced field; these
-are actual matrices and reduction maps over Mathlib's dual numbers. -/
-example :
-    (!![1 + DualNumber.eps, 0; 0, 1] :
-      Matrix (Fin 2) (Fin 2) (DualNumber ℚ)).det = 1 + DualNumber.eps ∧
-    (1 + DualNumber.eps : DualNumber ℚ) ≠ 1 ∧
-    TrivSqZeroExt.fst (1 + DualNumber.eps : DualNumber ℚ) = 1 := by
-  refine ⟨by simp [Matrix.det_fin_two], ?_, by simp⟩
-  intro h
-  have hs := congrArg TrivSqZeroExt.snd h
-  norm_num at hs
-
-/-- The 11a1 oldspace relation at level 88 defines an actual nonreduced
-coefficient algebra: the displayed nonzero class has square zero. -/
-example :
-    let f : ℚ[X] := X ^ 2 + C 2 * X + C 2
-    let R := ℚ[X] ⧸ Ideal.span ({X ^ 2 * f} : Set ℚ[X])
-    let z : R := Ideal.Quotient.mk _ (X * f)
-    z ≠ 0 ∧ z ^ 2 = 0 :=
-  sorry
 
 /-! ## Layer 7: Compatible systems and large images
 
