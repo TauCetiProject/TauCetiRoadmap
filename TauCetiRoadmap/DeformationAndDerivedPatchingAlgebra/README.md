@@ -202,6 +202,10 @@ For `A→C←B` the algebraic pullback with the common residue label is Artinian
 
 For `A∈CoeffCNL`, define the labelled truncation `coeffTrunc A n=A/m_A^(n+1)`, using `n∈N` so that every level is a nonzero Artinian coefficient object. Expose the quotient and transition maps, their surjectivity, the residue and locality equations, and the compatible map `A≅lim_n coeffTrunc A n`. A map from `A` to an Artinian object factors through some such quotient. Maps into a complete object are equivalent to compatible maps into every truncation, with uniqueness and composition preserved (Stacks Formal deformation theory, Lemmas 4.2–4.8, pp. 10–12).
 
+The instances `coeffTrunc_nontrivial` and `coeffTrunc_isLocalRing` supply `Nontrivial` and `IsLocalRing` on the native quotient `A ⧸ maximalIdeal A ^ (n + 1)` for every local ring `A`, without Noetherianity or completeness. The ideal power lies in the proper maximal ideal. Noetherianity supplies Artinianity when forming `coeffTrunc`. The quotient `A→coeffTrunc A n`, transitions `coeffTrunc A (n+1)→coeffTrunc A n`, and maps induced by labelled coefficient morphisms are themselves coefficient morphisms: retain their coefficient and residue equations, locality, and composition squares.
+
+For a functor `F` on labelled complete coefficients, let `D(A)⊆F(A)` be a subfunctor closed under inverse limits of compatible points along separated surjective Artinian towers, and assume `F` identifies points over such a limit with compatible points over the tower. The target `mem_iff_forall_truncate` gives `x∈D(A) ↔ ∀ n, F(A→coeffTrunc A n)(x)∈D(coeffTrunc A n)`. Pushforward gives the forward implication; inverse-limit closure gives the reverse. In particular, for a complete labelled `B`, a closed ideal `J⊆B`, and a coefficient map `f:B→A`, the condition that `f` factors through `B/J` is detected on all truncations: each element of `f(J)` lies in every maximal-ideal power and hence is zero. This is the coefficient interface for deformation problems with these closure properties; the representation-specific problem and its axioms belong to the arithmetic consumers. Source: Stacks Definition 90.4.1, tag [06GW](https://stacks.math.columbia.edu/tag/06GW), Definition 90.7.1, tag [06H3](https://stacks.math.columbia.edu/tag/06H3), and Remark 90.7.11, tag [06HE](https://stacks.math.columbia.edu/tag/06HE); the separated-limit argument just given.
+
 Conversely a surjective tower of Artinian labelled coefficient objects with a uniform finite bound on the dimensions of their relative cotangent spaces has a complete Noetherian local limit: choose bounded compatible generators, evaluate a finite-variable series ring, and use its surjectivity. A uniform bound, rather than finiteness of each level separately, is needed. An ideal quotient of a complete Noetherian local object is complete Noetherian; the unit ideal gives the zero ring outside the nonzero coefficient category. A labelled complete morphism that induces isomorphisms at every truncation is an isomorphism.
 
 **Checks.**
@@ -209,6 +213,8 @@ Conversely a surjective tower of Artinian labelled coefficient objects with a un
 - For `A=O`, level `n=0` is `k`, and the inverse limit of `O/π^(n+1)` is `O`.
 - For `A=k[[X]]`, the dimensions of `m/m²` in the positive truncations are bounded by one; their limit is Noetherian.
 - A tower adding an independent square-zero residue direction at every stage has unbounded tangent dimension; the converse theorem must not declare its limit Noetherian. A quotient by the unit ideal is zero, not a new labelled residue-`k` object.
+- For `A=ℤ₂`, the quotient maps to `ℤ/2^(n+1)` and the transitions preserve the `ℤ₂` coefficient map and the labelled residue `𝔽₂`, including level zero.
+- For `B=A=k[[t]]`, `J=(t²)` and `f=id`, the residue truncation kills `J` but the level-two quotient `k[[t]]/(t³)` does not. Membership cannot be detected from the residue point alone. For `f(t)=0`, all truncations factor through `B/J` and so does `f`.
 
 *Needs:* §§1.5–1.7, inverse limits of surjective coefficient towers and native adic completeness.
 
@@ -472,7 +478,7 @@ Its API gives universal matrices, their entry formulas, the natural evaluation b
 
 ### 2.7 Continuous framed representations
 
-Now let `k` be finite of characteristic `p` and let `Γ` be profinite with a continuous fixed-basis residual representation. For a finite topological generating tuple, form its free profinite presentation. The universal matrices give a continuous representation of that free profinite group by passage to the finite groups over `S/m_S^a`. Quotient by entries of the relations in the closed kernel to obtain the **continuous framed ring**, with its universal continuous representation of `Γ`.
+Now let `k` be finite of characteristic `p` and let `Γ` be profinite with a continuous fixed-basis residual representation. Use `TauCeti.IsTopologicallyFinitelyGenerated` from `TauCeti.Topology.Algebra.Group.Generation` for topological finite generation of a group; a chosen finite generating tuple witnesses that predicate. For such a tuple, form its free profinite presentation. The universal matrices give a continuous representation of that free profinite group by passage to the finite groups over `S/m_S^a`. Quotient by entries of the relations in the closed kernel to obtain the **continuous framed ring**, with its universal continuous representation of `Γ`.
 
 The API includes the natural evaluation equivalence with actual continuous framed lifts, compatibility with the discrete word construction, the tangent bound `dn²`, and uniqueness of the representing pair under a unique isomorphism carrying the universal representation. It also includes reduction to the maximal pro-`p` quotient of the residual kernel: every Artinian lift kills the corresponding pro-`p` kernel, and finite generation of that quotient suffices even when `Γ` itself is not finitely generated. Arithmetic conditions ensuring this finite generation belong to the Galois deformation suppliers.
 
@@ -1088,7 +1094,7 @@ For an `S`-free module use `l=0`. For a square presentation over the domain `S` 
 
 Then `H` is `R`-free. For `H≠0`, the construction gives an `A`-free nonzero `M_∞`, a local scalar lift `ι:S→A`, `ker φ_∞=ι(a)A`, and `R≃A/ι(a)A`. For `H=0`, the conclusion is rank zero without the nonzero cutoffs. In the boundary `q=1`, `A=O`; the dimension computation still uses `dim S=2` and `dim A=1`. No claim here extends the source's stated `p≥3` range merely from the characteristic-two group-ring checks.
 
-The signature uses `PatchingGroupRing O p q n=O[(Z/p^(n+1))^q]` on the native monoid algebra. Its coefficient hypotheses present `O` as a complete DVR finite over `Z_p`, of characteristic zero and with residue characteristic `p`. The map from each module to `H` is surjective with kernel the augmentation submodule, and intertwines the displayed actions; this states the specified augmentation quotient without a separate patch-datum carrier.
+The signature uses `PatchingGroupRing O p q n=O[(Z/p^(n+1))^q]` on the native monoid algebra. Its coefficient hypotheses present `O` as a complete DVR finite over `Z_p`, of characteristic zero and with residue characteristic `p`. The map from each module to `H` is surjective with kernel the augmentation submodule, and intertwines the displayed actions; this states the specified augmentation quotient without a separate patch-datum carrier. The input is one datum for each level; reduction maps between original levels are not hypotheses. Section 5.3 constructs the compatible cutoff tower.
 
 **Checks.**
 
@@ -1118,6 +1124,26 @@ and `m_R^[r]` means the ideal generated by individual `r`th powers, not the ordi
 - The rank-zero module cannot give a faithful patched action and is excluded in this criterion.
 
 **Targets.** Under the finite-level assumptions of §5.7, construct `C↠R_∞`, `S→R_∞↠R` and `M_∞≃S^s`, with augmentation ideal `a=(y₁,…,y_h)`, `R_∞/a≃R`, `M_∞/aM_∞≃M`, and all action compatibilities. These are literal maps and equivalences. Source: Kisin, proof of Proposition 3.3.1, pp. 1157–1159, author PDF pp. 75–77. Needs: §§5.2–5.4 and finite local coefficient bounds.
+
+<a id="patching-surjection-iso"></a>
+
+**Free-module patching consumer (`patching_surjection_iso`).** Let `O` be a complete DVR with finite residue field `k` of characteristic `p`, including `p=2` and equal characteristic. Fix `r≥0`, `s>0`, `S=O[[z₁,…,z_r]]`, `A=O[[x₁,…,x_r]]`, `a=(z₁,…,z_r)` and `J_n=((1+z_i)^(p^(n+1))−1)_i`. Let `R` be a complete Noetherian local labelled `O`-algebra. Let `f:R↠T` be a surjective `O`-algebra map and let `M≠0` be a finite `O`-module with compatible `R`- and `T`-actions, faithful over `T`. For each `n≥0`, supply independently:
+
+- local continuous coefficient maps `ι_n:S→A` and `ψ_n:A↠R` with `ψ_n(ι_n(z_i))=0` for every `i`;
+- a finite `A`-module `N_n`, with scalar action through `ι_n`, together with a specified `S`-linear equivalence `N_n≃(S/J_n)^s`;
+- an `A`-linear equivalence `N_n/aN_n≃M`, where `A` acts on `M` through `ψ_n`.
+
+Then `f` induces an `O`-algebra isomorphism `R≃T`, and `M` is finite free and faithful over both rings. Moreover there are `f₁,…,f_r∈m_A` forming an `A`-regular sequence and an `O`-algebra equivalence `T≃A/(f₁,…,f_r)`. Thus `T` is a finite free complete intersection over `O`, with exactly `r` equations in `r` variables; `M` has `O`-rank `s`. The datum has no maps or compatibility conditions between distinct original levels.
+
+Sections 5.2–5.4 extract a compatible cutoff tower and a nonzero module `N_∞` finite over `A`, free of rank `s` over `S`, with scalar map `ι_∞:S→A`, surjection `ψ_∞:A↠R` and augmentation quotient `M`. The regular-base depth comparison of §5.5 makes `N_∞` free over `A`. Faithfulness then gives `ker ψ_∞=ι_∞(a)A`, so `M` is free and faithful over `R`, and the compatible action through `T` makes `f` injective. Finiteness of `A` over `S` follows from its faithful action on the finite `S`-module `N_∞` (§4.1). The images of `π,z₁,…,z_r` form a parameter sequence in the regular local ring `A`; their regularity, with permutation in this local setting, proves the displayed complete-intersection and `O`-freeness conclusions. Depth is the supplied `Module.depth` of SchemeAndStackFoundations §0.17.
+
+Source: Kisin, proof of Proposition 3.3.1, pp. 1157–1159, specialized to the regular coefficient source; Stacks Lemma 10.104.2, tag [02JN](https://stacks.math.columbia.edu/tag/02JN), for parameter regularity. The independent-level interface and extraction follow the patching argument of [the Imperial College London FLT project](https://github.com/ImperialCollegeLondon/FLT), `FLT/Patching/Algebra.lean`, `FLT/Patching/Module.lean` and `FLT/Patching/REqualsT.lean`. Needs: §§3.1–3.5, 4.1, 5.2–5.5 and SchemeAndStackFoundations §0.17. This is the free-module criterion with equal numbers of scalar and presentation variables; §5.5's balanced criterion has a different dimension count.
+
+**Checks.**
+
+- For `r=0`, take `R=T=O`, `N_n=M=O^s` and all coefficient maps the identity. The conclusion has the empty regular sequence and no auxiliary variables.
+- For `r=1`, take `R=T=O`, `M=O`, `ψ_n(x)=0`, `ι_n(z)=x` and `N_n=A/((1+x)^(p^(n+1))−1)`. The scalar quotient is free of rank one over `S/J_n`, and augmentation gives `O`. This tests `p=2` and also `O=𝔽_p[[π]]`; in equal characteristic the relation is `x^(p^(n+1))`.
+- The surjection `O[[x]]→O` with `M=O` is faithful on the target but has nonzero kernel on the source. It cannot have the displayed finite-level data: a surjection and target faithfulness alone do not imply `R≃T`. A rank-zero datum similarly loses faithfulness and is excluded by `s>0` and `M≠0`.
 
 ### 5.7 Characteristic-zero projectivity criterion
 
@@ -1860,6 +1886,8 @@ Layers 3, 6, 7 and 8; native module support, local cohomology, finite integral d
 ## Downstream consumers
 
 The arithmetic interface for `LocalGaloisDeformationRings` §F.0.1 specializes §§1.12 and 4.6; §F.0.2 specializes §§1.9 and 2.1–2.5; §§F.2.3–F.2.4 use §2.7's representing-pair comparison wherever both finiteness hypotheses hold; §0.1's ungraded canonical-module/type interface specializes §3.9. Completed products retain the joint-completion carrier and inclusions; presentations retain their chosen evaluation maps and relation spaces; framed rings retain their representing pair; canonical modules use the Ext comparison. Arithmetic tangent/obstruction assignments, local conditions and graded canonical-module comparisons are separate targets there. `GlobalGaloisDeformations` uses the generic coefficient/presentation interface with its arithmetic finite-level data. These application interfaces supply no prerequisites to this roadmap.
+
+`LocalGaloisDeformationRings` and `GlobalGaloisDeformations` use §1.8's local nonzero truncations, coefficient morphisms and `mem_iff_forall_truncate`, with the inverse-limit closure of their own deformation problems. `GlobalGaloisDeformations`, `OrdinaryAutomorphicFormsAndModularityLifting` and `GL2ModularityLifting` can apply §5.6's `patching_surjection_iso` when their arithmetic inputs provide its independent finite-level free modules and equal variable counts. They supply the map `R↠T`, its action on `M` and the finite-level data; the abstract criterion supplies the isomorphism, freeness and complete-intersection conclusion.
 
 The common interface for `PadicFamilies` §0a.0 uses §7.3's `IsMinimal` on native complexes and its chosen finite-free retracts; §7.5's `CompleteFlatComplex`, completed direct sum, `completeFlatBasis`, `completeFlatMatrix` and minimal retracts; and §7.8's `finiteDerivedHomCompletion` preserving identity and composition. Application names for these predicates and comparisons are aliases or specializations of this package. A decreasing open-ideal tower cofinal with maximal-ideal powers uses the supplied cofinal-limit comparison to transport §7.8's equivalence, retaining the coefficient projections. Compatible perfect-system effectivity and based models use `DerivedModuleAlgebra` §§1.E.0–1.E.1; applying §7.3 to choose minimal representatives and retaining their given reduction identifications is the extra minimal-model comparison. Ordinary projectors, operator-equivariant comparisons and their coherent coefficient-tower diagrams are application targets.
 

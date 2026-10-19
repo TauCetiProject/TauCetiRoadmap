@@ -194,7 +194,8 @@ theorem paired_support_mod_uniformizer
   sorry
 
 /-!
-Layers 1–2 are specified in README.md, §§1.1–2.8. The small-extension predicate
+Layers 1–2 are specified in README.md, §§1.1–2.8, with the native truncation
+instances below. The small-extension predicate
 is supplied by SchemeAndStackFoundations §4.2; the labelled coefficient,
 relation-obstruction and hull comparisons require their further carriers.
 GroebnerGeometry G4 supplies the ordinary associated-graded direct-sum ring and
@@ -205,6 +206,19 @@ by the unique coefficient isomorphism preserving the actual universal lift.
 -/
 
 /-! ## Layer 1: Formal presentations and flat completion -/
+
+/-- Every positive maximal-ideal truncation of a local ring is nonzero. -/
+instance coeffTrunc_nontrivial [IsLocalRing A] (n : ℕ) :
+    Nontrivial (A ⧸ maximalIdeal A ^ (n + 1)) := by
+  apply Ideal.Quotient.nontrivial_iff.mpr
+  exact ne_top_of_le_ne_top (maximalIdeal.isMaximal A).ne_top
+    (Ideal.pow_le_self (Nat.succ_ne_zero n))
+
+/-- Every positive maximal-ideal truncation carries the quotient local-ring structure. -/
+instance coeffTrunc_isLocalRing [IsLocalRing A] (n : ℕ) :
+    IsLocalRing (A ⧸ maximalIdeal A ^ (n + 1)) :=
+  IsLocalRing.of_surjective' (Ideal.Quotient.mk (maximalIdeal A ^ (n + 1)))
+    Ideal.Quotient.mk_surjective
 
 /-- Cotangent generators and a surjective residue map make the chosen series map surjective. -/
 theorem seriesPresentation_surjective
@@ -630,7 +644,8 @@ README definitions requiring the stated further carriers or substantial construc
 
 Layer 1: ordinary adic Rees quotient and homogeneous module adapters, initial ideal,
 labelled local/Artinian/complete coefficient adapters and Cohen choices and residue actions, nilpotent
-and square-zero extensions, truncation tower, relative coefficient cotangent space,
+and square-zero extensions, labelled truncation tower and mem_iff_forall_truncate
+for inverse-limit-closed subfunctors, relative coefficient cotangent space,
 residue-extension and coefficient-hull choices, complete-local tensor adapter,
 formal smoothness lift adapter, local completion maps and regular-source squares, pro-Hom comparison and parameter quotient system.
 
@@ -653,7 +668,8 @@ comparison for diagonal completions (finite algebraic differential rank), pointe
 geometric component and torsion-free specialization comparisons.
 
 Layer 5: Betti-number balance, finite decorated patch data, cofinal cutoff category,
-limit presentation, simultaneous ring/module patch datum, characteristic-zero
+limit presentation, simultaneous ring/module patch datum and patching_surjection_iso
+with independent finite-level free modules, characteristic-zero
 cotangent patch datum, Sylow projectivity and norm/dual comparisons.
 
 Layer 6: componentwise support, maximal coefficient-flat quotient, connectedness
