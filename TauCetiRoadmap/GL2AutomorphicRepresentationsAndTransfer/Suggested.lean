@@ -61,7 +61,11 @@ normalized twisted distributions, weak isobaric base change, descent, fibres and
 tower operations. R17.2 identifies the rank-two local conventions and six-term
 ledger with those supplied objects. R17.4 strengthens the same weak outputs to
 all-place WD compatibility after the Artin construction. The matrix-power
-definition below represents the supplied rank-two Satake substitution.
+definition and the trace/determinant power-sum recursion below represent the
+same rank-two Satake substitution. The shared eigensystems have coordinates
+T_v = trace(A_v) and S_v = q_v⁻¹ det(A_v); their arithmetic-to-unitary
+conversion is specified in README R16.4.4. The weak cubic output and the
+outside-S converse remain README targets on the supplied automorphic carriers.
 
 QuaternionicModularForms §§1.3, 2.1–2.2 and 3.1 supplies classical coefficient
 conventions, canonical definite form spaces and the opposite-Hecke action.
@@ -390,6 +394,12 @@ theorem sphericalValues_recurrence (α β : ℂ) (m : ℕ) :
 theorem sphericalValues_equal (α : ℂ) (m : ℕ) :
     sphericalValues α α m = (m + 1) * α ^ m := by sorry
 
+/-- The spherical coefficients form the reciprocal of the unramified Hecke polynomial. -/
+theorem sphericalValues_generatingFunction (α β : ℂ) :
+    ((1 : PowerSeries ℂ) - PowerSeries.C (α + β) * PowerSeries.X +
+      PowerSeries.C (α * β) * PowerSeries.X ^ 2) *
+        PowerSeries.mk (sphericalValues α β) = 1 := by sorry
+
 end Spherical
 
 section SupercuspidalProjectivity
@@ -653,6 +663,40 @@ open _root_.Matrix
 section Satake
 variable {K L : Type*} [CommRing K] [CommRing L]
 
+/-- The trace of a rank-two power as a polynomial in the original trace and determinant. -/
+def satakePowerSum (s e : K) : ℕ → K
+  | 0 => 2
+  | 1 => s
+  | n + 2 => s * satakePowerSum s e (n + 1) - e * satakePowerSum s e n
+
+/-- The zeroth power has trace two over every commutative coefficient ring. -/
+theorem satakePowerSum_zero (s e : K) : satakePowerSum s e 0 = 2 := rfl
+
+/-- The first power retains the original trace. -/
+theorem satakePowerSum_one (s e : K) : satakePowerSum s e 1 = s := rfl
+
+/-- The trace power sums satisfy the rank-two characteristic-polynomial recurrence. -/
+theorem satakePowerSum_recurrence (s e : K) (n : ℕ) :
+    satakePowerSum s e (n + 2) =
+      s * satakePowerSum s e (n + 1) - e * satakePowerSum s e n := rfl
+
+/-- Coefficient maps preserve the trace power-sum polynomials. -/
+theorem satakePowerSum_map (φ : K →+* L) (s e : K) (n : ℕ) :
+    φ (satakePowerSum s e n) = satakePowerSum (φ s) (φ e) n := by sorry
+
+/-- For a supplied root pair the trace polynomial is its power sum, including colliding roots. -/
+theorem satakePowerSum_roots (α β : K) (n : ℕ) :
+    satakePowerSum (α + β) (α * β) n = α ^ n + β ^ n := by sorry
+
+/-- Taking a matrix power computes the trace polynomial without choosing eigenvalues. -/
+theorem trace_pow_eq_satakePowerSum (A : Matrix (Fin 2) (Fin 2) K) (n : ℕ) :
+    (A ^ n).trace = satakePowerSum A.trace A.det n := by sorry
+
+/-- Successive residue-degree substitutions multiply the degrees over any commutative ring. -/
+theorem satakePowerSum_tower (s e : K) (f g : ℕ) :
+    satakePowerSum (satakePowerSum s e f) (e ^ f) g =
+      satakePowerSum s e (f * g) := by sorry
+
 /-- A matrix representative for the rank-two Satake substitution supplied by
 AutomorphicSpectralTheory §§7.0b and 7.1, identified by README
 R17.2/cyclic-local-matching: the canonical weak output has class `A ^ f` at an
@@ -751,6 +795,16 @@ open Matrix IsDedekindDomain
 open scoped BigOperators NumberField
 
 /-! ## Layer R17.5: Automorphic induction and solvable Artin representations -/
+
+/-- The quadratic and cubic power traces determine the original trace when the
+projective order is not six. This is the elementwise finite-group comparison
+used by octahedral descent; the equal-determinant hypothesis is essential. -/
+theorem trace_eq_of_square_cube (A B : GeneralLinearGroup (Fin 2) ℂ)
+    (hdet : GeneralLinearGroup.det A = GeneralLinearGroup.det B)
+    (hsq : (A.val ^ 2).trace = (B.val ^ 2).trace)
+    (hcube : (A.val ^ 3).trace = (B.val ^ 3).trace)
+    (horder : orderOf (ProjGenLinGroup.mk A) ≠ 6) :
+    A.val.trace = B.val.trace := by sorry
 
 /-- Fong–Swan with a stable free lattice and the supplied residual module. -/
 theorem solvable_finite_image_integral_lift

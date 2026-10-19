@@ -41,8 +41,8 @@ AutomorphicSpectralTheory's `unitary-hecke-functional-equation` supplies the sca
 functional equation for every unitary idele-class character.
 AutomorphicLFunctionsAndLocalFactors AL.1 `rank-one-local-functional-equation` supplies
 local zeta integrals, their functional equation and the comparison with those character constants.
-AutomorphicLFunctionsAndLocalFactors AL.2 `global-godement-jacquet` at `n = 1`
-supplies global zeta integrals for arbitrary Schwartz–Bruhat test functions.
+AutomorphicLFunctionsAndLocalFactors AL.1 `hecke-l-functional-equation`
+supplies the same character equation as the rank-one case of Godement–Jacquet.
 AutomorphicSpectralTheory, Layers 0, 2, 4 and 6, owns spectral decomposition, truncation,
 trace-class bounds and the generic trace formula. R16.0/local-langlands owns the finite-place
 parameter construction. LocalGaloisDeformationRings §2.26.1 owns nonarchimedean
@@ -221,14 +221,10 @@ AutomorphicLFunctionsAndLocalFactors AL.1
 [rank-one-local-functional-equation](../AutomorphicLFunctionsAndLocalFactors/README.md#rank-one-local-functional-equation)
 supplies local zeta integrals, continuation and the functional equation, identifying its epsilon
 factor with ArithmeticGaloisRepresentations §2.7's `tateLocalConstant`.
-AutomorphicLFunctionsAndLocalFactors AL.2
-[global-godement-jacquet](../AutomorphicLFunctionsAndLocalFactors/README.md#global-godement-jacquet)
-at `n = 1` supplies the global zeta integral, meromorphic continuation and reflected equation
-for arbitrary Schwartz–Bruhat test functions. Its AL.1
+AutomorphicLFunctionsAndLocalFactors AL.1
 [hecke-l-functional-equation](../AutomorphicLFunctionsAndLocalFactors/README.md#hecke-l-functional-equation)
-(the rank-one scalar specialisation)
-supplies the scalar continuation and reflected equation for every unitary idele-class character as the `n = 1`
-case of the matrix theory, including the residue identification of the norm-one idele-class volume with `κ`.
+supplies the scalar continuation and reflected equation for all unitary Hecke characters
+through the rank-one case of Godement–Jacquet.
 AutomorphicLFunctionsAndLocalFactors, AL.0 `local-schwartz-bruhat-space` and its
 vector-space Fourier/Poisson refinements, AL.1 `canonical-archimedean-factor` and
 distribution refinements, AL.2 standard factors and `archimedean-standard-epsilon`,
@@ -332,11 +328,11 @@ After R16.1 construct R17.5/global-weil-group. Within R17.4 first consume
 AutomorphicSpectralTheory §7.1 weak prime-cyclic transfer, descent, cuspidality and fibres;
 compare its rank-two normalizations and split-place components without extraordinary WD compatibility. Construct
 quadratic induction, the metaplectic adjoint input, the Whittaker-type adjoint converse and
-constituent argument, the independent cubic converse transfer and GL₃ applications next. In R17.5 build finite primitive globalization and
+constituent argument, the outside-S GL₂ converse, weak cubic transfer and GL₃ applications next. In R17.5 build finite primitive globalization and
 strong solvable Artin theorem using these weak transfers. Then prove R17.4/local-compatibility,
 including extraordinary components, and strengthen prime-cyclic and solvable transfer to all-place
-WD restriction. The cubic converse construction fixes its components through local LLC and uses
-no extraordinary cyclic comparison. R17.6 compares the supplied classical parabolic summand with the adelic tower and constructs
+WD restriction. The cubic all-place comparison then identifies the weak output with the full-parameter converse construction;
+the weak phase specifies no ramified local Langlands components. R17.6 compares the supplied classical parabolic summand with the adelic tower and constructs
 the correspondence trace inputs before conductor comparison, and determinant-untwist before solvable-dihedral.
 Katz coprime-level descent precedes unramified-katz. The layer numbers group mathematics; this
 order determines which inputs are available to each proof.
@@ -437,7 +433,14 @@ and satisfy the chosen local entry conditions at S. Its compactness
 and openness follow from the supplied local properties and AA.1.5. Compare extension by
 identity at a single place and inclusion under increasing depths with the corresponding
 restricted-product maps. The product with O(2) and U(2) at infinity is the full adelic
-compact subgroup for this level.
+compact subgroup for this level. Use the product-level and local-embedding interfaces of
+AdelicAlgebraicGroups AA.1.5; AA.5.2 gives their rational principal-level specialization.
+There is one local-to-adelic Hecke element `heckeGen v`, the extension by identity of
+`diag(ϖ_v,1)`. Its double coset is independent of the uniformizer. At a maximal compact place compare its
+`q_v+1` right cosets with the coset-system and invariant-space action of
+AutomorphicFormsOnReductiveGroups §0.5. All finite-level Hecke comparisons use this element
+and the supplied K₀/K₁, rather than a second choice of generators or congruence groups.
+The invariant-space Hecke interface follows the design used by the Imperial College London FLT project.
 
 **Checks.**
 - With S empty, or every nᵥ=0, the finite subgroup is ∏ᵥ GL₂(Oᵥ).
@@ -447,10 +450,11 @@ compact subgroup for this level.
   this level from principal congruence; diag(u,1) also belongs for every integral unit u.
   If u−1∉pᵥ, scalar u belongs at a K₀ place but not at a K₁ place; this scalar distinction
   has no witness in residue field F₂, where K₀(pᵥ)=K₁(pᵥ).
+- Away from the level, the coset of `heckeGen v` has `q_v+1` right cosets; at residue size two there are three.
 
 *Needs:* AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors (the local K₀/K₁ subgroup
 package); Mathlib `Matrix.GeneralLinearGroup`; AdelicAlgebraicGroups §§1.1–1.2 and §1.5;
-ReductiveGroupsPartII RG2.0; AutomorphicSpectralTheory §§0.48–0.49.
+ReductiveGroupsPartII RG2.0; AutomorphicSpectralTheory §§0.48–0.49; AutomorphicFormsOnReductiveGroups §0.5; AdelicAlgebraicGroups AA.5.2.
 
 *Source:* [jl70], §2 p. 12, compact-subgroup convention; AdelicAlgebraicGroups AA.1.5
 for the restricted-product topology, specialized to these supplied local levels.
@@ -637,6 +641,17 @@ subgroups directly; R16.1/local-adelic-compact-comparison identifies their finit
 
 Define `sphericalValues (α β : ℂ) (m : ℕ) : ℂ` by `Σ_{i=0}^m α^iβ^{m−i}`. For an unramified generic principal series with unitary-normalized Satake parameters α=χ₁(ϖ), β=χ₂(ϖ), define h₀=1, h₁=α+β and hₘ₊₂=(α+β)hₘ₊₁−αβhₘ. The normalized spherical Whittaker function has `W(diag(ϖᵐ,1))=q^{-m/2}hₘ` for m≥0 and zero for m<0. This polynomial recurrence includes α=β; the expression `(α^{m+1}−β^{m+1})/(α−β)` is used only when α≠β.
 
+Prove spherical Whittaker uniqueness in the following intrinsic form. For ψ of conductor O,
+a function with left ψ-unipotent covariance, right GL₂(O)-invariance, specified central
+character ω and the spherical `heckeGen v` eigenvalue is determined by W(1).
+Iwasawa coordinates reduce it to diagonal values; covariance forces the negative values
+to vanish and the Hecke recurrence determines the nonnegative ones. Denote this target
+`sphericalWhittaker_unique`. In the generic unramified representation the normalized
+function exists and W(1)=1. A zero initial value gives the zero function.
+For `H(Y)=Σ_{m≥0}h_m Y^m`, prove `sphericalValues_generatingFunction` as the formal
+identity `(1 − (α+β)Y + αβY²)H(Y)=1`; analytically the series equals the reciprocal
+polynomial when `|αY|<1` and `|βY|<1`.
+
 Prove the following API.
 - `sphericalValues_zero`: h₀(α,β)=1.
 - `sphericalValues_recurrence`: hₘ₊₂=(α+β)hₘ₊₁−αβhₘ.
@@ -647,10 +662,13 @@ Prove the following API.
 - h₁=α+β.
 - h₂=α²+αβ+β².
 - h₂(1,1)=3, not an undefined quotient.
+- At α=β=1 the generating function is `(1−Y)⁻²`; the coefficient of Y² is three.
+- The zero initial value produces zero everywhere; a determinant character has no nonzero
+  ψ-Whittaker function and cannot supply the normalized generic case.
 
 *Needs:* AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors; SmoothRepresentationsOfLocalGroups SR.4; SmoothRepresentationsOfLocalGroups SR.2.3/whittaker-functionals.
 
-*Source:* [jl70], §3, Proposition 3.5 and proof, pp. 52–54. Expand the two unramified Euler factors in the normalized Mellin transform L(s,χ₁)L(s,χ₂), with W(1)=1; coefficient comparison gives the values and recurrence.
+*Source:* [jl70], §3, Proposition 3.5 and proof, pp. 52–54; Iwasawa coordinates and the same Hecke recurrence give the function-level uniqueness. Expand the two unramified Euler factors in the normalized Mellin transform L(s,χ₁)L(s,χ₂), with W(1)=1; coefficient comparison gives the values and recurrence.
 
 <a id="r16-2-iwahori-oldforms"></a>
 
@@ -841,6 +859,15 @@ self-dual one. An unramified twist by `ν^t` replaces s by s+t and leaves the in
 monodromy and conductor unchanged. For a ramified χ, use the full tensor-parameter
 conductor; `c(π⊗χdet)` is not generally `c(π)+2a(χ)`.
 
+For sufficiently ramified χ, prove the stability formula
+`ε(s,π⊗χdet,ψ)=ω_π(c_χ) ε(s,χ,ψ)²` and vanishing of the twisted L-factors
+of `π⊗χdet` and its contragredient. Here c_χ is chosen with valuation `a(χ)+n(ψ)` and
+`χ(1+x)=ψ(x/c_χ)` on deep units; the conductor threshold depends on π and ψ.
+This is the explicit local constant used in R17.4/outside-s-gl2-converse, and the
+rank-one constants come from AutomorphicLFunctionsAndLocalFactors AL.1 and
+ArithmeticGaloisRepresentations §2.7. No formula for arbitrary low-conductor twists
+is inferred from this stability statement.
+
 **Checks.**
 
 - An unramified generic principal series has trivial inertial type, N=0 and `c=a=0`.
@@ -854,7 +881,7 @@ conductor; `c(π⊗χdet)` is not generally `c(π)+2a(χ)`.
 *Needs:* AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors; R16.3/steinberg-monodromy; R16.3/supercuspidal-parameter; R16.3/tate-unitary-normalization; ArithmeticGaloisRepresentations Layer 3, especially §3.3; AutomorphicLFunctionsAndLocalFactors AL.1/rank-one-local-functional-equation; AutomorphicLFunctionsAndLocalFactors AL.2.
 
 *Source:* [casselman73], p. 307 remark following the Corollary to the Proof;
-[deligne73], §8.12, p.572, conductor and local-constant formulas.
+[deligne73], §8.12, p.572, conductor and local-constant formulas. For highly ramified stability use [cogdell-fields], Lecture 6 §5, pp.50–51.
 
 <a id="r16-3-archimedean-factor-comparison"></a>
 
@@ -970,11 +997,70 @@ Number field F; characteristic-zero automorphic forms; unitary twist when workin
 
 ### R16.4.4 Hecke-data comparison for strong multiplicity one
 
-Consume AutomorphicLFunctionsAndLocalFactors AL.3/strong-multiplicity-one at n=2 and identify its local-equality hypothesis with the GL₂ Hecke dictionary. For cuspidal π,π′, if there is a finite set S of finite places containing their ramification and πv≅π′v for every finite v outside S, then π≅π′ globally, including every v in S and every infinite place. Equality at a density-one subset is not substituted for this cofinite condition. At an unramified place, equality means the unordered Satake pair, equivalently both standard Hecke trace and determinant data, not a single incomplete eigenvalue without central character.
+Use the ring-map component of AutomorphicFormsOnReductiveGroups
+[§5.8](../AutomorphicFormsOnReductiveGroups/README.md#58-residual-and-torsion-hecke-eigenclasses)’s eigensystems,
+with its §7.3 Hecke normalization. For finite S, specialize that generic ring-map interface
+to Mathlib’s polynomial presentation
+`𝕋^S = MvPolynomial ({v ∉ S} × Fin 2) 𝒪`. An eigensystem with values in a commutative
+𝒪-algebra R is an algebra map `𝕋^S → R`; write its two coordinates `t_v,s_v`.
+The polynomial is `X² − t_v X + q_v s_v`. The presentation is not the faithful Hecke
+image in any particular realization. Coefficient maps are composition of algebra maps
+and the eigen-ideal is the kernel, using the supplier’s generic Hecke-ring interface.
+This specialization introduces no parallel eigensystem carrier. Here agreement off a finite set means
+that, after restriction to a common complement and coefficient ring, BOTH coordinates agree.
 
-*Needs:* R16.4/global-multiplicity-one; AutomorphicLFunctionsAndLocalFactors AL.3/strong-multiplicity-one; Tau Ceti `HeckeRing.GL2.Newform.eq_of_forall_notMem_eigenvalue_eq`.
+Construct the following adapters on this supplied ring-map interface.
 
-*Source:* [cogdell-fields], Theorem9.3 and proof, pp.74–75; [casselman73], §2 Theorem 2 and proof, pp. 307–308.
+- `ofNewform`: for a normalized newform of weight k≥1, use its arithmetic roots from
+  `HeckeRing.GL2.Newform.satakeParameters`: `t_p=a_p`, `p s_p=χ(p)p^{k−1}` for p∤N.
+  Thus `s_p=χ(p)p^{k−2}` for k≥2, and `s_p=χ(p)/p` for k=1.
+- `ofGaloisRep`: for a continuous rank-two representation r unramified off S, use
+  `t_v=tr r(Φ_v)`, `s_v=q_v⁻¹ det r(Φ_v)`, with geometric Φ. A classical arithmetic
+  Artin representation ρ is compared through `ofGaloisRep(ρ^∨)`, as in R17.5.5.
+- `ofCharacterPair`: given two Hecke quasicharacters with unramified roots x_v,y_v in the specified
+  normalization, use `(t_v,q_v s_v)=(x_v+y_v,x_v y_v)`.
+- `ofQuadraticInduction`: for K/F quadratic and a character ψ unramified at the places in
+  question, split v gives `(t_v,q_v s_v)=(ψ(Φ_w)+ψ(Φ_w′),ψ(Φ_w)ψ(Φ_w′))`;
+  inert v gives `(0,−ψ(Φ_w))`, since `Φ_w=Φ_v²`. These are geometric character values;
+  an arithmetic inducing character is dualized before this adapter.
+
+Division by q_v requires q_v invertible in R, or a specified divisible determinant with
+its chosen quotient. In particular weight-one Artin data may require localization of the
+integral coefficient ring. The integral pair `(t_v,e_v)`, with `e_v=q_v s_v`, remains
+available without inversion. No square roots of q_v enter these arithmetic constructors.
+Over ℂ, scaling the two roots by z_v changes `(t_v,s_v)` to `(z_v t_v,z_v² s_v)`.
+Name the classical-to-unitary conversion `arithmeticToUnitary`: for weight k take
+`z_v=q_v^{−(k−1)/2}`. For an arbitrary unitary automorphic class π write `unitaryEigensystem π`
+for the data of the roots of rec π, namely `(α_v+β_v,q_v⁻¹α_vβ_v)`; the raw spherical
+operator has eigenvalue `√q_v(α_v+β_v)`, and its scalar coset has eigenvalue
+`α_vβ_v=q_v s_v`. State every cofinite comparison in R17.4 and R17.5 as agreement
+of these shared eigensystems, after the indicated normalization, in both coordinates.
+
+Consume AutomorphicLFunctionsAndLocalFactors AL.3/strong-multiplicity-one at n=2:
+cuspidal π,π′ with agreeing unitary eigensystems off a finite set are globally isomorphic,
+including every omitted finite and infinite component. Unramified Satake classification
+identifies this hypothesis with local isomorphism. For isobaric classes use AL.3's
+isobaric version. Density-one agreement is not the cofinite hypothesis.
+
+**Checks.**
+- At fixed weight and nebentypus, equality of good newform coefficients gives both coordinates.
+- Root pairs `(1,−1)` and `(2,−2)` have trace zero but determinants −1 and −4, so trace alone fails.
+- At an inert quadratic place the determinant is `−ψ(Φ_w)`; the missing minus sign changes the central character.
+- Weight one with χ(p)=1 has `s_p=1/p`; an integral coefficient claim for this coordinate is false.
+- For the trivial rank-two Artin representation, geometric data are `(2,q_v⁻¹)`; the raw
+  spherical operator of its unitary parameter has eigenvalue `2√q_v`.
+
+*Needs:* AutomorphicFormsOnReductiveGroups §§5.8 and 7.3; R16.4/global-multiplicity-one;
+AutomorphicLFunctionsAndLocalFactors AL.3/strong-multiplicity-one and /isobaric-strong-multiplicity-one;
+Tau Ceti `HeckeRing.GL2.Newform.satakeParameters_eq_pair_iff` and
+`HeckeRing.GL2.Newform.eq_of_forall_notMem_eigenvalue_eq`;
+ArithmeticGaloisRepresentations §§2.1–2.2 (places and Frobenius) and Layer 5 (recognition).
+AlgebraicModularFormsAndSerreWeights R15.6 owns the residual `ArisesFrom` witness;
+these characteristic-zero adapters do not replace it.
+
+*Source:* [cogdell-fields], Theorem 9.3 and proof, pp.74–75; [casselman73], §2 Theorem 2,
+pp.307–308; the pinned newform Satake sum/product theorem above. The character adapters
+are the trace and determinant of a direct sum and of the two-coset induced action.
 
 <a id="r16-4-cohomological-rationality"></a>
 
@@ -1194,13 +1280,31 @@ Consumer coefficient field, local level and infinite type fixed; geometric state
 
 ### R16.6.6 Primitive weight-one comparison
 
+For N>0 and χ(−1)=−1, let φ be a nonzero adelic cusp form in the supplied canonical
+cusp space, with the level/central-character transformation of R16.1/finite-level-comparison,
+SO(2)-type one, and simultaneous good Hecke and diamond eigenvalues. Assume its classical
+descent `f(z)=y^{−1/2}φ(g_z)` is holomorphic on ℍ, for the determinant-one section g_z.
+The elementary criterion `weightOne_holomorphicDescent` gives a classical cuspidal
+eigenform in `S₁(Γ₁(N),χ)` with the same good eigensystem; normalize its first coefficient
+when passing to the primitive newform at its exact conductor. The finite newvector condition
+is required to conclude that this conductor is N. Conversely classical cusp forms give these
+holomorphic adelic vectors. This criterion uses the function-level dictionary before the
+classification or globalization of D₁(0).
+
 For N>0 and odd nebentypus χ, the existing primitive normalized weight-one cusp forms at conductor N correspond to cuspidal GL₂(𝔸ℚ) classes of exact conductor N and central character `ω_χ` whose unitary infinite component is the full-O(2) limit D₁(0). Its positive-determinant restriction has holomorphic and antiholomorphic limits of lowest weights ±1. Its real Weil parameter is 1⊕sgn, not an irreducible induction from ℂ×; its standard infinite factor is Γℝ(s)Γℝ(s+1)=Γℂ(s). Specialize AutomorphicFormsOnReductiveGroups §§7.2–7.3 at k=1 through R16.1/finite-level-comparison, then compare its primitive occurrence with the finite newvector normalization and global multiplicity. This comparison does not give a regular algebraic Hilbert coefficient `Sym^{−1}` or a weight-one Galois construction. The Casimir is −1/4 at k=1 in the convention Δ=(H²+2XY+2YX)/4.
 
 N>0; χ(−1)=−1; existing primitive newform carrier with k=1 and exact conductor; chosen AutomorphicSpectralTheory §§0.48–0.49 limit globalization and R16.1/finite-level-comparison dictionary.
 
 *Needs:* AutomorphicFormsOnReductiveGroups §§7.2–7.3; R16.2/archimedean-classification; R16.4/global-multiplicity-one; R16.1/finite-level-comparison; AutomorphicSpectralTheory §§0.48–0.49; AutomorphicLFunctionsAndLocalFactors AL.1; ModularForms Layer 4; AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors.
 
-*Source:* [getz15], §6.4 Lemma 6.19, p. 33, with the AutomorphicSpectralTheory §§0.48–0.49 normalization; §6.5 limit module, p. 34.
+**Checks.**
+- A weight-one classical cusp eigenform returns its own q-expansion after normalized descent.
+- SO(2)-type one alone permits nonholomorphic vectors and does not imply the criterion.
+- An old vector at a multiple of the primitive level does not have that larger conductor.
+- At k=1 no negative symmetric-power coefficient is introduced; the parameter is `1⊕sgn`.
+
+*Source:* [getz15], §6.4 Lemma 6.19 and Remark 6.20, pp.32–33, for descent;
+§6.5, pp.33–34, for the limit module, with the Casimir normalization of R16.2.13.
 
 
 ### Examples
@@ -1296,15 +1400,31 @@ R16.0/local-langlands canonical inner-form correspondence at every finite extens
 
 ### R17.1.5 Swapped quaternion invariants in arithmetic applications
 
+Define `RamifiedExactlyAt D S` for a quaternion algebra D over a number field F and a
+finite set S of all places: `v∈S` iff every nonzero element of `D⊗_F F_v` is invertible.
+Prove `ramifiedExactlyAt_iff_nonsplit`: this is equivalent to
+`v∈S ↔ ¬ Nonempty (D⊗_F F_v ≃ₐ[F_v] M₂(F_v))` at every place.
+These are the two equivalent local division tests; over complex completions neither holds.
+Use `definiteRamifiedExactlyAt D q` over ℚ for support `{q,∞}`, and
+`indefiniteRamifiedExactlyAt D q q′` for support `{q,q′}` with q≠q′ finite.
+The general predicate also applies to arbitrary real ramification sets over totally real F;
+the rational abbreviations introduce no new notion of quaternion algebra or order.
+
 **Ramification realization.** For a number field F, finite sets `S_f,S_∞` of finite/infinite places are the nonsplit places of a quaternion algebra iff `S_∞` is real and `|S_f|+|S_∞|` is even. Produce a,b∈F× and QuaternionAlgebra F a 0 b: weak approximation makes b a uniformizer at `S_f` and negative at `S_∞`; GlobalQuadraticForms §4.4's `exists_hilbertSymbol_eq_neg_one_iff_pair` prescribes `(a,b)_v=−1` precisely on S. QuadraticFormInvariants Layer 2's splitting criterion gives the local algebras. The product formula proves necessity, including real signs.
 
 Two quaternion algebras are F-isomorphic iff their splitting predicates agree at every finite and infinite place. Their local Brauer invariants are 0 or 1/2; ClassFieldTheory Layer 10's `eq_zero_of_localInv_eq_zero` kills the difference of their global classes. RepresentationTheory/SemisimpleAlgebras Layer 6's unique division representative and degree then give an algebra isomorphism: a degree-two algebra is M₂(F) or its quaternion division representative. Choose split identifications separately. Interfaces: `existsQuaternionRamification_iff`, `quaternionAlgEquivOfLocalSplitting`, using actual completions and `Nonempty (D_v ≃ₐ[F_v] M₂(F_v))`. Tests: empty support gives M₂(F); {p,∞} over Q is realized; a singleton finite support with split infinity is impossible. Source: [prr23], §1.5.1, Theorem 1.33 and consequences, pp.42–43.
 
 For totally real F of even degree, D₀ ramifies at all real places and splits at finite places. Swap τ₀ with v₀|p: D ramifies at v₀ and all real places except τ₀, preserving even size. Local algebras agree elsewhere; at changed places use normCharacterSteinberg/realQuaternionic or the specified square-integrable type. Auxiliary primes, small levels and spectra use R17.3/definite-hilbert-exports on supplied levels. Tests: a real quadratic field gives two real places for D₀ and {v₀,τ} for D; adding v₀ alone gives an impossible odd set; F=Q has no all-real D₀.
 
+**Checks.**
+- `M₂(F_v)` contains a nonzero singular matrix, so the division and nonsplit tests both fail.
+- Hamilton quaternions at the real place satisfy both tests; a complex completion is split.
+- Over ℚ the support `{q,∞}` is definite and `{q,q′}` for distinct finite primes is indefinite;
+  the latter splits at infinity. Taking q=q′ would give a forbidden singleton support.
+
 *Needs:* LocalGaloisDeformationRings §2.26.1; R17.1/local-quaternionic-comparison; R17.1/norm-character-steinberg; R17.1/real-quaternionic-comparison; GlobalQuadraticForms §4.4; QuadraticFormInvariants Layers 2, 5–6D; ClassFieldTheory Layer 10; RepresentationTheory/SemisimpleAlgebras Layer 6.
 
-*Source:* [cdn23], §4.1.2 and equation (4.6), pp. 38–39.
+*Source:* [cdn23], §4.1.2 and equation (4.6), pp.38–39; [prr23], §1.5.1, Theorem 1.33, pp.42–43, and the degree-two split/division dichotomy.
 
 
 ### Examples
@@ -1637,11 +1757,39 @@ LocalGaloisDeformationRings §2.26.1; R16.1–R16.6; R17.1–R17.2; ArithmeticLo
 
 ## Layer R17.4: Cyclic, solvable and cubic base change
 
+Every good-place comparison in this layer means agreement off a finite set of the
+R16.4.4 shared eigensystems in both coordinates. Automorphic classes use
+`unitaryEigensystem`; classical and Galois inputs use the specified root scaling before
+comparison. Full local compatibility is a further property of the same global output.
+
 <a id="r17-4-unramified-base-change"></a>
 
 ### R17.4.1 Unramified base-change Satake rule
 
 Use the existing arithmetic Satake conjugacy class `A_v∈GL₂(C)` at an unramified finite v. For an unramified local extension `E_w/F_v` of residue degree f≥1, define its base-change representative to be `A_v^f`; the conjugacy class is independent of the chosen representative. This matrix-power fixture represents the n=2 Satake substitution supplied by AutomorphicSpectralTheory §7.0b and §7.1, via R17.2/cyclic-local-matching; it introduces no new Satake carrier or transfer map. Its determinant is `det(A_v)^f` and its local Euler polynomial is `det(1−A_v^f X)`. For a split global place each local degree is one. The formal degree-zero extension of the matrix-power function is the identity matrix and is not a degree-zero field extension.
+
+Define `satakePowerSum (s e : R) : ℕ → R` over any commutative ring by
+`p₀=2`, `p₁=s`, `p_{n+2}=s p_{n+1}−e p_n`. Prove `trace_pow_eq_satakePowerSum`:
+`tr(Aⁿ)=p_n(tr A,det A)` for every 2×2 matrix A, without invertibility or
+characteristic-zero hypotheses. Cayley–Hamilton gives the recurrence. The API
+`satakePowerSum_zero`, `satakePowerSum_one`, `satakePowerSum_recurrence`,
+`satakePowerSum_map`, `satakePowerSum_roots` and `satakePowerSum_tower` gives the
+initial values, defining recurrence, coefficient maps,
+`p_n(α+β,αβ)=αⁿ+βⁿ`, and `p_g(p_f(s,e),e^f)=p_{fg}(s,e)`.
+On diagonal complex matrices this agrees with AutomorphicSpectralTheory's
+`satake_power_sum`; it extends that diagonal statement to arbitrary coefficient rings
+without choosing roots or a Satake representative.
+
+Define `formalBaseChange` on the shared eigensystems by residue degrees f=f(w/v)≥1:
+`t_w=p_f(t_v,q_v s_v)`, `s_w=s_v^f`.
+Then `q_w s_w=(q_v s_v)^f` because `q_w=q_v^f`. This formula needs no division
+in the coefficient ring. Prove coefficient-map, norm-twist and tower compatibility and
+agreement invariance under enlarging the exceptional set. Using the places and Frobenius
+interface of ArithmeticGaloisRepresentations §§2.1–2.2, prove the restriction identity
+`Φ_w ↦ Φ_v^f` modulo inertia here: the residue-field action `x ↦ x^{q_w}` is the
+f-th power of `x ↦ x^{q_v}`, and invert both for geometric Frobenius. For unramified r
+this proves `ofGaloisRep(r|G_E)=formalBaseChange(ofGaloisRep r)` off the
+common finite set. The arithmetic-dual convention is unchanged by restriction.
 
 Prove the following API.
 - `unramifiedBaseChange_one`: The degree-one rule fixes A.
@@ -1656,10 +1804,15 @@ Prove the following API.
 - For A=diag(2,3)∈GL₂(Q), degree two gives the matrix diag(4,9), trace 13 and determinant 36.
 - For that A, degree two is different from degree one.
 - Residue degrees two then three give diag(64,729), agreeing with degree six.
+- With q=5, `(t,s)=(5,6/5)` has degree-two output `(13,36/25)`;
+  the determinant is 36 and the new residue size is 25. Using 36 as the new S-coordinate
+  would confuse the determinant with its normalized Hecke coordinate.
+- In characteristic two, p₀=0 and `p₂=s²`; the recurrence still computes matrix traces,
+  including the repeated-root and nonsemisimple cases.
 
-*Needs:* AutomorphicSpectralTheory §7.0b and §7.1; Mathlib `Matrix.GeneralLinearGroup`; Mathlib `Matrix.GeneralLinearGroup.det`; Mathlib `Matrix.GeneralLinearGroup.map`; R16.3.
+*Needs:* AutomorphicSpectralTheory §7.0b and §7.1 (`satake_power_sum`); Mathlib `Matrix.GeneralLinearGroup`, `Matrix.charpoly_fin_two` and Cayley–Hamilton; R16.3; R16.4/strong-multiplicity-one; ArithmeticGaloisRepresentations §§2.1–2.2.
 
-*Source:* [ac89], Chapter 3 §1, formula (1.1) and Definition 1.1, p. 199; [langlands80], §2, local lifting criterion (i), p. 9; compare §1 formula (1.1), p. 2.
+*Source:* [ac89], Chapter 3 §1, formula (1.1) and Definition 1.1, p.199; [langlands80], §2, local lifting criterion (i), p.9. The polynomial recurrence follows by taking traces in the rank-two Cayley–Hamilton identity; its companion matrix gives the root-free tower identity.
 
 <a id="r17-4-cyclic-base-change"></a>
 
@@ -1802,6 +1955,71 @@ violates the hypotheses.
 *Needs:* AutomorphicLFunctionsAndLocalFactors AL.3/gln-converse-reduced-rank; AutomorphicLFunctionsAndLocalFactors AL.2 principal-series multiplicativity; AutomorphicLFunctionsAndLocalFactors/archimedean-smooth-representations and /restricted-tensor-realizations; ArithmeticLocallySymmetricSpaces ALS.F.6 twisting; R16.1/full-local-character-prescription; LocalFieldsRamification Layer 1 unit quotients.
 
 *Source:* [gj78], §9.1–2 pp.531–534; [jpss79], Theorem 13.7 pp.243–245 for the unramified-family converse. The filling-and-twisting reduction above supplies the change of twisting family. Tests: T=∅ returns the full GL₃ recognition theorem; for nonempty T the output is only an outside-T match; filling by an unramified scalar parameter without χ₀ leaves nontrivial Euler factors at T and fails the displayed functional equation.
+
+<a id="r17-4-outside-s-gl2-converse"></a>
+
+### R17.4.12a The outside-S GL₂ converse
+
+For a number field F and finite S of finite places, give the shared complex eigensystem
+`(t_v,s_v)` off S in the unitary root normalization of R16.4.4, with nonzero determinant
+`e_v=q_v s_v` and root ratio different from `q_v` and `q_v⁻¹`.
+Supply generic archimedean parameters from AutomorphicLFunctionsAndLocalFactors's
+`archimedean-gln-parameters`, and a unitary Hecke central character ω with
+`ω_v(ϖ_v)=e_v` off S and matching archimedean determinants. Assume the usual uniform
+unramified exponent bound, so standard and dual Euler products converge in a right half-plane.
+Choose at each v∈S an auxiliary irreducible principal series B_v with determinant ω_v,
+and fix a finite-order unit character η_v beyond its stability conductor threshold.
+For every unitary Hecke character χ with `χ_v|O_v×=η_v`, assume entireness and
+finite-strip boundedness of both completed partial products, including the specified
+archimedean factors, and the equation
+
+`Λ^S(s,D⊗χ)=ε^S(s,D⊗χ,ψ) ∏_{v∈S}[ω_v(c_χ) ε(s,χ_v,ψ_v)²] Λ^S(1−s,D^∨⊗χ⁻¹)`.
+
+Here c_χ has valuation `a(χ_v)+n(ψ_v)` and satisfies
+`χ_v(1+x)=ψ_v(x/c_χ)` on the requisite deep units. The thresholds ensure stability
+for the chosen B_v, whose central character is ω_v. The displayed factors, and the conductor and root
+number they specify, are fixed by R16.3.5 and ArithmeticGaloisRepresentations §2.7;
+no arbitrary functional-equation scalar is quantified. The outside-S constants include the
+known unramified-parameter twist constants and the supplied archimedean constants.
+The dual has the reciprocal characters and the same explicit conductor normalization.
+
+Construct an automorphic isobaric GL₂ class agreeing with D off a finite set and with the
+specified infinity type. If D does not agree off a finite set with `ofCharacterPair`
+of any two Hecke quasicharacters, the output is cuspidal. Name the cuspidal conclusion
+`outsideSConverse`. The non-Eisenstein hypothesis is necessary; entireness of only this
+restricted twisting family does not exclude a two-character output.
+
+Prove the ramification-restricted converse at rank two here: Cogdell's Theorem 3.2
+applies at n=2, whereas AL.3's reduced-rank theorem requires n≥3. Its conductor/newvector
+argument only uses the spherical data off S and generic archimedean modules. To reduce the
+fixed-ramification family to its unramified-at-S family, fill at S by the chosen B_v, choose a finite-order χ₀ with unit restrictions
+η_v using R16.1/full-local-character-prescription, and twist by χ₀. Stability makes the
+filled local L-factors one and gives exactly the displayed epsilon constants for all
+χ₀χ′ with χ′ unramified at S. The ramification-restricted converse gives an outside-S
+match, including infinity, and untwisting returns the stated output. The fill is an
+auxiliary principal series, not a prescribed local Langlands value at a bad place.
+Isobaric classification and the character-pair exclusion give the cuspidal clause.
+
+**Checks.**
+- S empty recovers the full rank-two converse with all quasicharacters by norm shifts.
+- For nonempty S, `ofCharacterPair(1,1)` has entire highly ramified twists but is not
+  cuspidal; it violates the character-pair exclusion.
+- Roots with ratio q_v or q_v⁻¹ fail the generic spherical hypothesis.
+- Choosing a low-conductor η_v leaves possible Euler factors at S and invalidates the
+  displayed filling argument; equality of omitted local components is no conclusion.
+
+*Needs:* R16.1/full-local-character-prescription; R16.2/local-classification;
+R16.3/conductor-epsilon-comparison; R16.4/strong-multiplicity-one;
+AutomorphicFormsOnReductiveGroups §§5.8 and 7.3;
+AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors, /archimedean-gln-parameters,
+AL.3/gln-fourier-expansion and /isobaric-strong-multiplicity-one;
+ArithmeticLocallySymmetricSpaces ALS.F.6;
+ArithmeticGaloisRepresentations §2.7 (`local-constant-gauss-sum`, `root-number-product-formula`).
+
+*Source:* [converse], §3 Theorem 3.2 and its conductor argument, pp.8–9, at n=2;
+[jl70], §11 Theorem 11.3, p.186, for the full converse;
+[cogdell-fields], Lecture 6 §5, pp.50–51, for highly ramified stability.
+The fixed-unit-character version is the filling-and-twisting deduction above.
 
 <a id="r17-4-metaplectic-adjoint-input"></a>
 
@@ -1985,6 +2203,18 @@ Prove the following API.
 
 Let K/F be a non-Galois cubic extension of number fields, L its S₃ normal closure and E/F its quadratic resolvent. Let ξ be either order-three Hecke character of E cutting out L/E and put `σ₀=AI_{E/F}(ξ)`. Construct isobaric automorphic `BC_{K/F}(π)` for each cusp GL₂ class π, with `rec(BC π)_w=Res_{W_{K_w}} rec(π_v)` at every w|v (full Frobenius-semisimple WD restriction at finite places). It is cuspidal unless π=σ₀⊗ν for a Hecke quasicharacter ν of F. In that exception it is `(ν∘N_{K/F})⊞(ν∘N_{K/F})η_{L/K}`, with `η_{L/K}` the quadratic character of K. For an isobaric input μ⊞ν use (μ∘N)⊞(ν∘N). Use unitary normalization and extend by norm twists.
 
+Construct `cubicBaseChange_weak` first: without specifying local Langlands components
+at bad places, obtain an isobaric automorphic class whose unitary eigensystem agrees off
+a finite set with `formalBaseChange(unitaryEigensystem π)`. Away from the stated
+σ₀-twist exception it is cuspidal. Use the outside-S converse with S containing the
+ramification of π and K/F and the bad places of the monomial integral. Its twisted
+partial products are the GL₂×GL₃ Rankin–Selberg products below; choose the fixed unit
+characters at S sufficiently ramified for their stability formulas. The exceptional
+isobaric pair is explicit. Exclude other character-pair outputs by the same pole argument
+and quadratic-induction criterion. The converse also preserves the specified
+archimedean parameters. This weak construction and its normalization, twist, centre and
+uniqueness comparisons use no bad-place local Langlands identification.
+
 Prove the following API.
 - `cubicBaseChange_local`: Full WD restriction, including N, and its character-twisted L/ε-factors.
 - `cubicBaseChange_unramified`: Satake class `A_v^{f(w/v)}` at unramified w|v.
@@ -1993,22 +2223,25 @@ Prove the following API.
 - `cubicBaseChange_unique`: Isobaric uniqueness from good Satake powers.
 - `cubicBaseChange_exception`: Non-cuspidality iff π=σ₀⊗ν.
 
-**Checks.** Split places give A,A,A. For A=diag(2,3), splitting type (1,2) gives diag(2,3),diag(4,9), while residue degree three gives diag(8,27); Uniform cubing fails type (1,2). Std(S₃)|C₂=1⊕sgn tests the exception and its quadratic centre. Steinberg keeps N≠0; deleting it changes L.
+**Checks.** The weak phase supplies both Hecke coordinates and infinity without prescribing bad components. Split places give A,A,A. For A=diag(2,3), splitting type (1,2) gives diag(2,3),diag(4,9), while residue degree three gives diag(8,27); Uniform cubing fails type (1,2). Std(S₃)|C₂=1⊕sgn tests the exception and its quadratic centre. Steinberg keeps N≠0; deleting it changes L.
+For a cubic étale local algebra, `λ(K_v/F_v,ψ_v)²=(d_K,−1)_v`, where d_K is the
+local discriminant square class. Over ℝ the value is −1 for `ℝ×ℂ` and +1 for `ℝ³`;
+these signs cannot be discarded locally even though their global product is one.
 
 **Cubic monomial input.** For a unitary Hecke character θ of K, construct `AI^3_{K/F}(θ)` with local parameter `⊕_{w|v}Ind_{W_{K_w}}^{W_{F_v}}θ_w`. If `Ind_{W_K}^{W_F}θ` is irreducible, JPSS Theorem14.2 gives a cusp with all local GL₁-twisted factors. The scalar Hecke completion verifies its hypothesis: θ·(χ∘N) cannot be a norm power. JPSS's p.255 classification says a reducible induction has a character summand μ and a monomial rank-two summand. Frobenius reciprocity forces θ=μ∘N, and the permutation decomposition Ind1=1⊕Std(S₃) identifies the output as μ⊞(μ⊗σ₀). Thus irreducibility is equivalent to not being a norm pullback. Henniart's rank-three uniqueness identifies JPSS's finite components with R16.0/local-langlands's LLC; infinity is JPSS's Langlands component.
 
 Its API is `nonnormalCubicInduction_local`, `_standard` `(Λ_F(s,AI^3 θ)=Λ_K(s,θ))`, `_twist` and `_norm` (the displayed reducible output). Tests: θ=1 gives 1⊞σ₀, not a cusp; θ=μ∘N gives μ⊞μσ₀; a non-norm θ gives a cusp. For θ=1, inert Frobenius gives the three cube roots; a transposition gives 1,1,−1, distinguishing the non-normal and cyclic branches.
 
-**Construction by converse.** Form `Π=⊗′_w LLC_{K_w}(Res rec π_v)`, using R16.0/local-langlands at finite places and AutomorphicSpectralTheory §§0.48–0.49 at infinity. For unitary π they are generic: restriction preserves temperedness, Steinberg N and complementary exponents in (−1/2,1/2). They are spherical almost everywhere with centre `ω_π∘N` and right-half-plane Euler convergence from rank-two bounds and residue-degree powers.
+**All-place comparison.** Form `Π=⊗′_w LLC_{K_w}(Res rec π_v)`, using R16.0/local-langlands at finite places and AutomorphicSpectralTheory §§0.48–0.49 at infinity. For unitary π they are generic: restriction preserves temperedness, Steinberg N and complementary exponents in (−1/2,1/2). They are spherical almost everywhere with centre `ω_π∘N` and right-half-plane Euler convergence from rank-two bounds and residue-degree powers.
 
 For unitary θ, WD tensor-induction and R16.0/local-langlands/AutomorphicLFunctionsAndLocalFactors AL.4 pair compatibility identify `Λ_K(s,Π⊗θ)` with `Λ_F(s,π×AI^3 θ)`, also for the duals. At v, `ε(s,π_v×AI^3 θ_v,ψ_v)=λ(K⊗F_v/F_v,ψ_v)^2∏_{w|v}ε(s,Π_w⊗θ_w,ψ_v∘Tr)`. Keep this factor locally; its global product is1. Apply dimension-zero induction and the global product formula to Ind1, comparing `ζ_K` with `ζ_F`. Deligne's WD invariant-kernel formula extends the local comparison to N≠0.
 
-If `AI^3` θ is cuspidal, AutomorphicLFunctionsAndLocalFactors AL.3's unequal-rank theorem gives entireness and the functional equation; AutomorphicSpectralTheory §3.6a supplies the strip bounds. In the norm case use Λ(s,π⊗μ)Λ(s,π×μσ₀); the first is entire and the second has no poles unless π is a norm twist of σ₀. AutomorphicSpectralTheory §3.6a/rs-vertical-strip-bounds controls both factors. Norm shifts treat every quasicharacter θ. Outside the exception all twists and duals are nice. Apply AutomorphicLFunctionsAndLocalFactors AL.3/gln-converse-full-rank at n=2 with no omitted places: it gives a cusp with every prescribed component. For π=σ₀⊗ν, restrict Std(S₃) to Gal(L/K)≅C₂ and construct the displayed two-character isobaric output directly. Isobaric strong multiplicity one gives uniqueness; restriction gives twist and centre. The construction fixes every bad component before applying the converse.
+If `AI^3` θ is cuspidal, AutomorphicLFunctionsAndLocalFactors AL.3's unequal-rank theorem gives entireness and the functional equation; AutomorphicSpectralTheory §3.6a supplies the strip bounds. In the norm case use Λ(s,π⊗μ)Λ(s,π×μσ₀); the first is entire and the second has no poles unless π is a norm twist of σ₀. AutomorphicSpectralTheory §3.6a/rs-vertical-strip-bounds controls both factors. Norm shifts treat every quasicharacter θ. Outside the exception all twists and duals are nice. Apply AutomorphicLFunctionsAndLocalFactors AL.3/gln-converse-full-rank at n=2 with no omitted places: it gives a cusp with every prescribed component. For π=σ₀⊗ν, restrict Std(S₃) to Gal(L/K)≅C₂ and construct the displayed two-character isobaric output directly. Isobaric strong multiplicity one gives uniqueness; restriction gives twist and centre. This all-place construction fixes every bad component before applying the full converse. Its good eigensystem agrees with `cubicBaseChange_weak`, so isobaric strong multiplicity one identifies the two outputs and proves `cubicBaseChange_local` for that same weak output.
 
 Subsidiary norm-phase calculation (`pureCubicMatrix`, `pureCubicNorm`, `pureCubicQuadratic`, `pureCubicNorm_formula`, `pureCubicQuadratic_formula`, `pureCubicPhase_positive`, `pureCubicPhase_negative`): For K=ℚ[t]/(t³−2), multiplication by a+bt+ct² in (1,t,t²) has matrix M=(a,2c,2b;b,a,2c;c,b,a). Define N=det M and Q=((tr M)²−tr(M²))/2. API: N=a³+2b³+4c³−6abc; Q=3a²−6bc; N(C+a,b,c)−3(C+a)=−2C+CQ(a,b,c)+N(a,b,c) for C=±1. Gram determinant: −27=disc(t³−2)/4. Checks: M(0,1,0)³=2I and M(1,0,0)=I; the (3,2) entry of M(a,b,c) is b, not 2b; N(0,1,0)=2, N(0,0,1)=4, N(1,1,1)=1; Q(1,1,1)=−3, Q(0,1,0)=0, Q(1,0,0)=3. Over ℚ₂ the discriminant has square class −3; its unit residue 5 has no square root modulo 8. The discriminant need not be square; the critical quadratic terms are opposite. Stationary phase is separate.
 
 
-*Needs:* R17.5/global-weil-group for global induction and Frobenius reciprocity in the cubic monomial input; R16.2/local-classification; R16.3–4; R16.5/full-gl2-converse; R17.4/quadratic-induction; R16.0/local-langlands; AutomorphicLFunctionsAndLocalFactors/archimedean-gln-parameters; ArithmeticLocallySymmetricSpaces ALS.F.6; ArithmeticGaloisRepresentations §2.7 (`local-constant-gauss-sum`, `standard-test-function-evaluations`, `hecke-zeta-integral-comparison` and `root-number-product-formula`: arithmetic character constants, standard-function Hecke comparisons and the finite-sum root-number identity); AutomorphicSpectralTheory/unitary-hecke-functional-equation (the scalar Hecke functional equation for every unitary character, extended by norm twists); AutomorphicLFunctionsAndLocalFactors AL.3/rs-global-poles, rs-global-functional-equation, gln-converse-full-rank, isobaric-strong-multiplicity-one; AutomorphicLFunctionsAndLocalFactors AL.4/local-parameter-comparison; AutomorphicSpectralTheory §3.6a/rs-vertical-strip-bounds; ArithmeticGaloisRepresentations §§2.4–2.7; ClassFieldTheory Layers9,11. Use these parameter/factor carriers for tensor-induction and the lambda comparison.
+*Needs:* R17.4/outside-s-gl2-converse for `cubicBaseChange_weak`; R17.5/global-weil-group for global induction and Frobenius reciprocity in the cubic monomial input; R16.2/local-classification; R16.3–4; R16.5/full-gl2-converse; R17.4/quadratic-induction; R16.0/local-langlands; AutomorphicLFunctionsAndLocalFactors/archimedean-gln-parameters; ArithmeticLocallySymmetricSpaces ALS.F.6; ArithmeticGaloisRepresentations §2.7 (`local-constant-gauss-sum`, `standard-test-function-evaluations`, `hecke-zeta-integral-comparison` and `root-number-product-formula`: arithmetic character constants, standard-function Hecke comparisons and the finite-sum root-number identity); AutomorphicSpectralTheory/unitary-hecke-functional-equation (the scalar Hecke functional equation for every unitary character, extended by norm twists); AutomorphicLFunctionsAndLocalFactors AL.3/rs-global-poles, rs-global-functional-equation, gln-converse-full-rank, isobaric-strong-multiplicity-one; AutomorphicLFunctionsAndLocalFactors AL.4/local-parameter-comparison; AutomorphicSpectralTheory §3.6a/rs-vertical-strip-bounds; ArithmeticGaloisRepresentations §§2.4–2.7; ClassFieldTheory Layers9,11. Use these parameter/factor carriers for tensor-induction and the lambda comparison.
 
 *Source:* [jpss79], Theorem14.2 pp.253–254 and monomial remark p.255; [henniart83], Theorem2.10 pp.20–21, Proposition3.2 p.30, §3.5 pp.33–34; [henniart02], Theorem1.5 p.590 and §2 pp.592–596; [deligne73], Proposition3.8 pp.530–531, Theorem4.1 p.535, (5.6.2) p.549, §5.11 p.551, §8.12 p.572; [converse], Theorem3.1 p.6 and Theorem3.3 p.9, application(iv) p.10; [cogdell-fields], Lecture9 §§3–6 pp.71–74. The construction is a deduction from these inputs. [mr00], Theorems1,6 pp.172,195 gives a different weak trace route; §4 pp.185–186 supplies the norm-phase calculation. [carayol86], §12.2.1–3 pp.457–458 states the conductor-comparison interface.
 
@@ -2022,6 +2255,14 @@ For A=diag(2,3), residue degree two gives diag(4,9) with trace 13 and determinan
 R16.1–R16.5; R17.2; GlobalNumberFields Layers 8–9; ArithmeticGaloisRepresentations §2.7 (Global inputs); ClassFieldTheory Layers 9 and 11; AutomorphicLFunctionsAndLocalFactors AL.1–AL.4; AutomorphicSpectralTheory §§0.48–0.50; ArithmeticLocallySymmetricSpaces ALS.F.6; R16.0/local-langlands.
 
 ## Layer R17.5: Automorphic induction and solvable Artin representations
+
+All weak matching, descent selection and good-place comparisons in this layer mean
+cofinite agreement of `unitaryEigensystem π` with `ofGaloisRep(ρ^∨)` in both T and S
+coordinates of R16.4.4, over common coefficient embeddings. Thus they compare trace
+and determinant, with the geometric/arithmetic dual convention retained. The outputs
+here also carry the separately stated infinity comparison before R17.5.5 is applied.
+ModularityAndLanglandsExtensions §1.2 is a downstream consumer of this weak-to-strong
+upgrade; its weak Artin predicate does not supply an input to this layer.
 
 <a id="r17-5-global-weil-group"></a>
 
@@ -2088,11 +2329,11 @@ For a number field F and continuous finite-image `r:G_F→PGL₂(ℂ)`, construc
 
 ### R17.5.5 From weak Artin matching to every finite place
 
-Let `ρ:G_F→GL₂(ℂ)` be continuous, irreducible and finite-image, and π a unitary cuspidal GL₂ representation. Assume π’s unramified Satake parameters agree with the geometric-Frobenius eigenvalues of `ρ^∨` outside a finite set and its archimedean parameters agree with `ρ^∨`. Then `rec(π_v)≅(ρ|W_Fv)^∨` at every finite place, with all twisted L- and ε-factors and conductor exponents equal. The archimedean hypothesis is essential to the following isolation argument.
+Let `ρ:G_F→GL₂(ℂ)` be continuous, irreducible and finite-image, and π a unitary cuspidal GL₂ representation. Assume `unitaryEigensystem π` and `ofGaloisRep(ρ^∨)` agree off a finite set in both coordinates, and its archimedean parameters agree with `ρ^∨`. Then `rec(π_v)≅(ρ|W_Fv)^∨` at every finite place, with all twisted L- and ε-factors and conductor exponents equal. The archimedean hypothesis is essential to the following isolation argument.
 
 Proof: Let `π_v^ρ` be the generic tempered local representation of `ρ^∨|W_Fv` (N=0), using R16.0/local-langlands. Under geometric reciprocity the central character of π corresponds to (detρ)⁻¹; its uniformizer value is detρ at arithmetic Frobenius: their quotient agrees with 1 almost everywhere, hence is 1 by the GL₁ Hecke pole criterion. Brauer induction (RepresentationTheory/InductionRestriction Layer 6) writes ρ as an integral combination of induced finite-order characters. ArithmeticGaloisRepresentations §2.7 (`local-constant-gauss-sum`, `standard-test-function-evaluations`, `hecke-zeta-integral-comparison` and `root-number-product-formula`) supplies the arithmetic character constants, standard-function Hecke comparisons and finite-sum root-number identity. AutomorphicSpectralTheory/unitary-hecke-functional-equation supplies the scalar Hecke equation for every unitary character, extended by norm twists. ArithmeticGaloisRepresentations §2.7 **Global inputs** supplies their Brauer assembly into the completed meromorphic functional equation for every global character twist of ρ, with the product of local epsilon factors. Artin entireness is not used. Transport all character twists through the dual bridge: the geometric datum compared with `π_v⊗χ_v` is `ρ^∨|W_Fv⊗χ_v`. Its factors are the classical arithmetic Artin factors of ρ with the reciprocal scalar twist. Compare the resulting functional equation with the cuspidal equation of π.
 
-Fix a bad finite place v and any unitary local `χ_v`. Prescribe `χ_v` there and sufficiently ramified characters at the other bad finite places. The full-local prescription and its one-place quasi-character variant produce a global χ; extra ramification at good places causes no difficulty because matching parameters give matching factors for every twist. At the other bad places, GL₂ stability gives identical γ-factors for `π_w` and `π_w^ρ`, since their central characters agree, and their twisted L-factors are 1. For supercuspidals stability follows by the finite type Gauss sum; for principal series and special representations it follows from Tate stability and the product formulas. Cancellation of the good, archimedean and other bad factors isolates `γ(s,π_v⊗χ_v,ψ_v)=γ(s,π_v^ρ⊗χ_v,ψ_v)`.
+Fix a bad finite place v and any unitary local `χ_v`. Prescribe `χ_v` there and sufficiently ramified characters at the other bad finite places. The full-local prescription and its one-place quasi-character variant produce a global χ; extra ramification at good places causes no difficulty because matching parameters give matching factors for every twist. At the other bad places, GL₂ stability gives identical γ-factors for `π_w` and `π_w^ρ`, since their central characters agree, and their twisted L-factors are 1. For supercuspidals stability follows by the finite type Gauss sum; for principal series and special representations it follows from the rank-one stability and product formulas supplied by AutomorphicLFunctionsAndLocalFactors AL.1 and ArithmeticGaloisRepresentations §2.7. Cancellation of the good, archimedean and other bad factors isolates `γ(s,π_v⊗χ_v,ψ_v)=γ(s,π_v^ρ⊗χ_v,ψ_v)`.
 
 Recover each L-factor from this identity. For a unitary generic GL₂ representation every pole of its local L-function has real part <1/2; poles of the dual factor at 1−s have real part >1/2. Thus they cannot cancel in γ=εL(1−s,dual)/L(s), and the zeros in the left half-plane determine the polynomial with constant term 1. Equality of γ gives equality of L and then ε. Nonunitary character twists follow by translating s. Rank-two factor recognition now identifies the representations: principal-series factors recover the unordered inducing characters and distinguish special representations; for supercuspidals the twisted ε Gauss sums recover the type character on minimal elements by finite Fourier inversion, then the inducing type and compact induction. This is the GL₂ argument of Bushnell–Henniart §27, including wild dyadic types.
 
@@ -2116,11 +2357,35 @@ For continuous finite-image irreducible `ρ:G_F→GL₂(ℂ)` with projective im
 
 ### R17.5.7 Octahedral Artin automorphy
 
-For continuous finite-image irreducible `ρ:G_F→GL₂(ℂ)` with projective image S₄, Tunnell constructs a unique cusp π whose good Satake roots are the arithmetic-Frobenius roots of ρ, equivalently the geometric roots of `ρ^∨`. Let E/F be its A₄ quadratic field, K/F the Sylow-two cubic field and M=EK. Tetrahedral automorphy and weak quadratic descent give `π₁,π₂=π₁⊗ω_{E/F}`, with the same centre. Exactly one has `BC_K(π_i)=π(ρ_K)`: both outputs are distinct quadratic descents of `π(ρ_M)`, because `ρ_M` is irreducible, and one is the monomial class `π(ρ_K)`. A local cubic degree 1 or 3 then identifies good Satake classes; the alternative would yield order six in S₄. For all-place comparison apply artin-all-place-upgrade. Infinity matches by the independently proved split and ordinary archimedean cyclic comparison; at real-to-complex places ρ(c) has eigenvalues ±1, since its projective image is a transposition. The real parameter of π restricts to 1⊕1 and has determinant sgn, hence is 1⊕sgn. The cubic input here is JPSS transfer. Langlands's earlier restricted octahedral theorems do not replace Tunnell's theorem.
+For continuous finite-image irreducible `ρ:G_F→GL₂(ℂ)` with projective image S₄, Tunnell constructs a unique cusp π whose good Satake roots are the arithmetic-Frobenius roots of ρ, equivalently the geometric roots of `ρ^∨`. Let E/F be its A₄ quadratic field, K/F the Sylow-two cubic field and M=EK. Tetrahedral automorphy and weak quadratic descent give `π₁,π₂=π₁⊗ω_{E/F}`, with the same centre. Exactly one has `BC_K(π_i)=π(ρ_K)`: both outputs are distinct quadratic descents of `π(ρ_M)`, because `ρ_M` is irreducible, and one is the monomial class `π(ρ_K)`. A local cubic degree 1 or 3 then identifies good Satake classes; the alternative would yield order six in S₄. Use only `cubicBaseChange_weak` here, comparing both coordinates by `formalBaseChange`; then apply R17.5/artin-all-place-upgrade for all finite places. Infinity matches by the independently proved split and ordinary archimedean cyclic comparison; at real-to-complex places ρ(c) has eigenvalues ±1, since its projective image is a transposition. The real parameter of π restricts to 1⊕1 and has determinant sgn, hence is 1⊕sgn. The cubic input here is the weak converse transfer, with its JPSS monomial analytic input. Langlands's earlier restricted octahedral theorems do not replace Tunnell's theorem.
 
-*Needs:* R17.5/artin-all-place-upgrade; R17.5/tetrahedral-artin; R17.5/dihedral-artin; R17.4/cyclic-descent-fibers; R17.4/nonnormal-cubic-base-change; R16.5; ArithmeticGaloisRepresentations Layer 4; R17.4/cyclic-descent; R17.4/cuspidality; R16.4; R16.3.
+The finite-group comparison uses `trace_eq_of_square_cube`. For complex invertible 2×2
+matrices A,B with the same determinant, equality of the traces of their squares and cubes
+implies equality of their traces provided the projective order of A is not six.
+Indeed p₂ gives `s′=±s`; the negative alternative in p₃ forces `s=0` or `s²=3e`.
+The former already gives equal traces; the latter gives projective order six.
+For finite-group representations apply this elementwise to the quadratic and cubic
+Frobenius powers, allowing conjugates. Power-degree one already gives equality;
+otherwise the degrees are two and three. The projective S₄ image excludes order six.
+Consequently two rank-two representations of a finite group with equal determinants,
+equal square and cube traces at every element, and no projective order six in the first
+representation have the same character. Conjugation does not change any hypothesis.
+This finite-group target is independent of a choice of Frobenius representative.
 
-*Source:* [tunnell81], p. 173, first paragraph; p. 173, definition of π(ρ); Lemma and its proof, p. 174; Theorem and its proof, pp. 174–175; [langlands80], §3(ii), p. 19.
+**Checks.**
+- With a common determinant and trace agreement on a set whose conjugates and powers
+  cover a finite group, the power-sum recurrence transports both trace and determinant
+  to every element; no sign choice may be made separately at different powers.
+- For the order-48 section `gl2F3_section`, projectivization is
+  `PGL₂(𝔽₃)≅S₄`, with element orders 1,2,3,4. Quadratic residue degrees 1,2 and
+  cubic residue degrees 1,3 therefore determine the required good-place pair.
+- The exclusion is necessary: A=diag(exp(iπ/6),exp(−iπ/6)) and B=−A have determinant
+  one, the same square and cube traces, and opposite nonzero traces; A has projective order six.
+
+
+*Needs:* R17.5/artin-all-place-upgrade; R17.5/tetrahedral-artin; R17.5/dihedral-artin; R17.4/cyclic-descent-fibers; R17.4/nonnormal-cubic-base-change (`cubicBaseChange_weak` only); R16.5; ArithmeticGaloisRepresentations Layer 4; R17.4/cyclic-descent; R17.4/cuspidality; R16.4; R16.3.
+
+*Source:* [tunnell81], p.173, definition of π(ρ); Lemma and proof, p.174; Theorem and proof, pp.174–175; [langlands80], §3(ii), p.19. The finite-group comparison follows from p₂ and p₃ as above; [ddt], Theorem 3.14(a), gives the order-48 section used in its rational Check.
 
 <a id="r17-5-solvable-artin"></a>
 
