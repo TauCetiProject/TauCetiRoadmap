@@ -26,6 +26,9 @@ import TauCeti.RepresentationTheory.Continuous.OrthogonalDecomposition
 contributors and reviewers converge on names and signatures; discharging all of them
 finishes neither a layer nor the roadmap. `sorry` is allowed in this human-owned roadmap
 library -- these are goals, not proofs.
+Layer5N's separate `BanachNonintegrabilityTargets.lean` illustrates its native C¹-loop,
+central-cocycle, quotient-coordinate and actual tangent-Lie obstruction interfaces. It imports
+this file; this file does not import that companion.
 
 Mathlib supplies the `LieGroup` class, `LeftInvariantDerivation`, `GroupLieAlgebra`, `LieAlgebra.ad`,
 Banach/matrix/circle exponentials, concrete matrix groups, and the covering/enveloping APIs. The Tau

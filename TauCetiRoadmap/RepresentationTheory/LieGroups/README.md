@@ -78,11 +78,13 @@ matrix-group engine), mirroring Mathlib's `Geometry/Manifold/Algebra/`.
   is a `C^n` manifold on a `ModelWithCorners I` with `C^n` multiplication and inversion. The default
   throughout is a **real, finite-dimensional, `C^∞`** Lie group: base field `ℝ`, model
   `I : ModelWithCorners ℝ E H` with `E` finite-dimensional, smoothness `n = ∞`, and `[IsManifold I ∞ G]`.
-  Finite-dimensionality (`[FiniteDimensional ℝ E]`) is a **standing hypothesis of the whole general
-  theory**, not an optional extra: `lieExp` is the integral curve of a vector field (ODE existence), the
-  local-diffeomorphism-at-`0` and closed-subgroup theorems are the inverse function theorem, and
-  Frobenius, Lie's third theorem, and the universal cover as a Lie group all fail without it (they would
-  need a Banach-Lie theory over Banach manifolds and Banach ODEs, not developed here). Above that floor,
+  Finite-dimensionality (`[FiniteDimensional ℝ E]`) is the standing hypothesis of Layers0–5
+  and the finite-dimensional structure theory. Layer5N specifies a separate **real Banach-Lie**
+  branch with complete normed models, native identity tangents, Banach ODE/BCH and covering
+  constructions, and an explicit nonintegrability example. That branch does not extend the
+  finite-dimensional derivation–tangent equivalence or the closed-subgroup/Frobenius theorems
+  to arbitrary Banach subgroups or distributions. Finite-dimensional Lie III remains Layer4;
+  local Banach BCH does not imply global Banach integration. Above the finite-dimensional floor,
   state each result at the generality it needs, in the unbundled Zulip house style: the exponential map
   and `Ad` need the finite-dimensional `LieGroup`; the closed-subgroup theorem additionally uses local
   compactness (automatic in finite dimensions); the structure theory of Deliverable C adds
@@ -416,6 +418,202 @@ statements separate from this boundaryless native interface.
   under the actual coefficient and irreducibility hypotheses. For highest-weight
   modules use LHW Layer7's one-dimensional highest-weight-line construction,
   including its possibly infinite-dimensional scope and Casimir comparison.
+
+### Layer 5N: Banach-Lie periods and an explicit nonintegrable algebra
+
+This branch works over **ℝ on complete normed model spaces**, with Hausdorff, boundaryless
+`C^∞` Banach manifolds and native `LieGroup`. An integration of a Banach Lie algebra means a
+Lie group with a **continuous linear Lie equivalence with continuous inverse** from that algebra
+to its identity tangent Lie algebra. It does not mean an abstract algebraic Lie isomorphism with
+no topological compatibility. The counterexample below answers the infinite-dimensional existence
+question in this precise category. It does not assign a category to an unqualified source assertion,
+classify all locally convex groups, or assume that an arbitrary locally convex group is regular.
+
+Use native `GroupLieAlgebra I G`, its `mulInvariantVectorField` and vector-field bracket. Its
+actual complete-space and `LieGroup I (minSmoothness ℝ 3) G` hypotheses apply here. Do not extend
+the finite-dimensional derivation–tangent equivalence to all Banach derivations. The existing
+finite-dimensional Layers0–5 retain their stated generality. Neither Ado, finite-dimensional
+Frobenius, nor a closed-subgroup theorem for arbitrary closed Banach subgroups is a prerequisite
+or consequence of this branch.
+
+**5N.1 Banach local and covering foundations.** Consume BanachSpaceTheory's actual complete normed
+spaces, bounded multilinear maps and function-space completions; native real normed-algebra unit
+charts and exponential; DifferentialGeometry 3.1–3.2 and3.5's
+Banach local ODE/smooth-dependence extensions, 2.3's charts on covering spaces, and native
+manifold derivatives. Build the following group-specific bridges here. Construct complete
+one-parameter invariant flows by repeated translation of a common local time interval, the
+Banach group exponential, its differential at0, the exponential/logarithm chart, and naturality.
+Prove the native tangent bracket is continuous bilinear with a constructed bound C, not an
+assumed norm bound1. Differentiate smooth group homomorphisms at1 to native LieHom, prove
+continuity, identity/composition and exponential compatibility, and compare with existing finite
+lieMap interfaces only under their actual hypotheses.
+Construct convergent local BCH on a Banach Lie algebra with a bounded bilinear bracket, with an
+explicit neighborhood controlled by a bracket bound, associativity on common domains, inverse,
+restriction and continuous Lie-map functoriality. This is a local group for every such algebra,
+not an assertion of global integrability. Compare it with the actual group exponential chart.
+Build the smooth universal-cover group of a connected Banach Lie group by identity-based paths,
+with lifted multiplication, local charts, covering homomorphism, central discrete kernel and
+actual continuous tangent Lie equivalence. Banach manifolds are locally contractible; construct
+path components, covering spaces and lifted charts under those hypotheses rather than infer
+finite-dimensional local compactness. Prove **Banach Lie II**: a continuous Lie homomorphism out
+of the tangent algebra of a simply connected Banach Lie group integrates uniquely to a smooth
+group homomorphism. Construct the local homomorphism by BCH and extend along subdivided paths;
+prove subdivision independence, invariance under based path homotopy, multiplicativity and
+smoothness. This theorem has an already existing simply connected group as its source; it
+asserts no Banach Lie III. All required Banach model, derivative and covering transports belong
+to this phase.
+Consume BanachSpaceTheory B5's scalar C¹ interval space with its complete sup/derivative-sup
+sum norm. Build the needed Banach-valued path-space extension here as the closed value/derivative
+graph in C([0,1],E)², with FTC/evaluation/differentiation and max-versus-sum norm API; identify
+its scalar specialization with B5's actual space and finite-dimensional targets coordinatewise. Before the path construction below, give C¹ paths in an already supplied Banach Lie group
+pointwise exponential charts, smooth product/inverse/superposition, and the fixed-initial-point
+submanifold. Use finite covers of each compact path image for uniform chart estimates. The
+periodic subspace and C¹ SU2 loop group in5N.3 specialize these early interval constructions;
+they are not a prerequisite of this generic path-space floor.
+
+**5N.2 Continuous central cocycles, periods and the integrability criterion.** Use native
+`LieModule.Cohomology.twoCocycle`, `TrivialLieModule ℝ L ℝ` and
+`LieAlgebra.ofTwoCocycle`, with its native inclusion/projection and bracket. Retain its actual
+additive and scalar parents. Transport the product norm and topology along the actual native
+linear coordinate equivalence, prove the coordinate equivalence is isometric and the inherited
+module is a normed space, and transfer completeness. A continuous bilinear cocycle is a native
+cocycle together with continuity of that same bilinear map, not an unrelated chosen extension.
+Prove boundedness, centrality, exactness, changes by continuous coboundaries, pullback, scalar
+pushout, products and their exact coordinate equations.
+
+Let K be a connected, simply connected Banach Lie group, L its actual tangent algebra, and ω a
+continuous real central2-cocycle. Build the smooth closed left-invariant2-form Ω whose value at1
+is ω. Use `Additive` on the native positive-degree cubical `HomotopyGroup` for additive
+notation; define `per_ω : π₂(K,1) →+ ℝ` by integrating the pullback over the **based oriented2-sphere**,
+using smooth representative/homotopy comparison and actual derivative maps. Fix orientation,
+concatenation and basepoint conventions, prove homotopy invariance using Stokes on the finite
+parameter cylinder, additivity, smooth naturality and invariance under coboundary. This requires
+no Banach manifold volume measure: only the pullback forms on finite-dimensional compact domains
+are integrated. Own the relative smooth approximation for maps/homotopies from these compact
+parameter domains into Banach charts, using finite covers and domain partitions; it must preserve
+the designated basepoint/collar and commute with the continuous homotopy carrier. Reuse
+DifferentialGeometry's forms, finite-domain integration/Stokes and degree, and AlgebraicTopology's
+based homotopy maps; the Banach-target and loop-evaluation comparison adapters are built here.
+
+Prove that `ofTwoCocycle ω` is integrable **if and only if** the subgroup `range per_ω` is discrete.
+For necessity start with *any* integration, pass to its smooth simply connected cover and use
+5N.1 LieII to integrate the actual projection to K. Its differential is the split projection;
+prove the resulting homomorphism is a surjective submersion with local smooth sections. Its
+kernel has identity component with Lie algebra ℝ. Use the actual local sections to construct
+path and homotopy lifting, and the low-degree exact sequence
+π₁(K)→π₀(kernel)→π₀(the simply connected covering group). Since the outside terms vanish,
+prove that the full kernel is connected, hence equals its identity component. Prove its
+centrality and that its exponential has a discrete kernel. Construct the associated principal-kernel bundle,
+its connection from the fixed linear splitting, and the curvature/connecting-map identity
+which puts every spherical period in that exponential kernel. No theorem is assumed asserting
+that an arbitrary integration was already supplied as a central extension. For sufficiency,
+construct the extension with kernel ℝ/`range per_ω`: use based paths and path homotopies, identify
+two central coordinates by the integral of Ω over a spanning homotopy, prove independence
+modulo the period subgroup, and build the group law, local smooth trivializations, inverse,
+projection and differentiated bracket. Simple connectedness removes the separate descent/flux
+obstruction; do not assert this sufficiency for a non-simply-connected base without additional
+descent data. Discreteness includes the zero subgroup. Construct the zero-period and cyclic-period
+cases, and prove actual naturality for products and central linear pushouts. This is the reusable
+period theory used in the example, not a certificate postulating the desired obstruction.
+
+**5N.3 Actual C¹ periodic loops and their group.** Let
+`k={A : Matrix (Fin2) (Fin2) ℂ | Aᴴ=−A ∧ trace A=0}`, as a real native Lie subalgebra
+with the inherited finite-dimensional topology. For the normed function-space construction,
+use the topology induced by the actual matrix-submodule norm and prove that the identity map
+identifies it with that inherited matrix-subtype topology. Use the standard matrix `SU(2)` and its actual
+tangent comparison from Layer2; no new su₂ or matrix-group carrier is introduced. Define B to be
+C¹ periodic k-valued functions on ℝ of period1, with norm equivalent to
+`sup_[0,1] ‖f‖ + sup_[0,1] ‖f′‖`. One concrete complete model is the closed submodule of
+`C([0,1],k)²` consisting of `(f,d)` with equal endpoint values for f and d and
+`f(t)=f(0)+∫₀ᵗ d(s)ds`. Prove closedness, completeness, the derivative/restriction/periodic-extension
+bijection, norm equivalence and its inverse, including derivatives at the seam. Use the inherited
+product max norm in this model; it is not literally the sum norm. The bracket is
+`([f,g],[f′,g]+[f,g′])`; prove closure, the native Lie identities in the original addition,
+continuity/bounds, evaluation, constant-loop, differentiation and periodic-translation equations.
+Prove the center is zero by evaluation against every constant su₂ loop.
+The trigonometric loops along a fixed nonzero element prove B is infinite-dimensional.
+
+Construct the actual group `K=C¹(ℝ/ℤ,SU(2))`, with pointwise multiplication/inverse and the C¹
+topology. Give it Banach charts by left-translating pointwise finite-dimensional exponential/log
+charts on a common uniform neighborhood. Prove the superposition, product and inverse estimates,
+chart-transition smoothness, evaluation/constant-loop smoothness, and a continuous tangent Lie
+equivalence `Lie(K)≃B` whose bracket is the preceding pointwise bracket. Own the based-loop
+subgroup and explicit splitting `g↦(g(0), t↦g(0)⁻¹g(t))` as a manifold/topological-space product;
+its group law is semidirect, not silently the direct-product law. Construct compact-parameter
+relative smoothing from continuous loops to C¹ loops and compare it with the existing native
+`HomotopyGroup.pathLoopSpaceMulEquiv` / `loopSpaceMulEquiv` and `prodMulEquiv`,
+including their actual maps on homotopy classes and the oriented sphere generator. Consume Layer2's matrix `SU(2)≃S³`, the native based
+homotopy carriers and AlgebraicTopology's sphere homology/Hurewicz. First prove that K
+is path-connected: a loop in SU(2) is nullhomotopic since π₁SU(2)=0, and the owned relative
+loop smoothing supplies a path through C¹ loops. Thus the π₀ comparison is explicit before
+proving π₁K=0 and calling K simply connected. Prove `π₂K≃π₃SU(2)≃ℤ`. In particular prove π₂S³=0 before using simple connectedness of K.
+No equivalence of C¹ Banach loops with smooth Fréchet, algebraic, formal or Laurent loops is asserted.
+
+**5N.4 Nonzero cyclic seed periods, with an actual transgression calculation.** Fix the real
+invariant symmetric pairing `κ(A,B)=−Re(trace(A*B))` and the cocycle
+`ω(f,g)=∫₀¹ κ(f(t),g′(t))dt`. Prove bilinearity, a norm bound, alternation by integration by
+parts with equal endpoints, and the cocycle identity by trace invariance and the integral of
+`d κ(f,[g,h])`. Package that exact operation as the native central cocycle. On SU(2) define
+the left-invariant3-form `H(X,Y,Z)=½κ(X,[Y,Z])`. Pin the orientation by the ordered matrices
+`E₁=diag(i,−i)`, `E₂=[[0,1],[−1,0]]`, `E₃=[[0,i],[i,0]]` and the quaternionic unit-sphere
+map at1. Compute `[E₂,E₃]=2E₁` cyclically, `κ(E_i,E_j)=2δ_ij` and `H(E₁,E₂,E₃)=2`.
+For the *Euclidean* unit S³, prove these vectors are a positively oriented orthonormal tangent
+frame at1 and translation preserves that metric and orientation. Thus H pulls back to twice
+the oriented standard sphere volume form. Define `d=∫_{SU(2)}H` through that explicit comparison
+and prove d>0; no guessed 2π normalization is needed. If the sphere-volume endpoint is evaluated,
+the same calculation gives d=4π² in these conventions.
+
+For every C¹ loop g write j=g⁻¹∂ₜg as a **continuous** k-valued loop, not necessarily C¹,
+and use the C¹ left logarithmic tangent ξ. Construct this smooth map from K to the C⁰ function
+space with its uniform norm. Define `β_g(ξ)=½∫κ(j,ξ)` and `τH_g(ξ,η)=∫H(j,ξ,η)`. Prove in the C¹ Banach charts that
+`dβ=−Ω+τH`, using `δ_ξj=ξ′+[j,ξ]` and the periodic boundary term. Use smoothing/naturality
+to obtain the identity for spherical periods in the actual C¹ group. With the oriented evaluation
+map from sphere×circle, transgression sends the actual π₂K generator to the oriented π₃SU(2)
+generator. Degree theory then gives `range per_ω=dℤ`. Prove both inclusions: every sphere has an
+integer degree, and the adjunction supplies a generator with period d. The **seed extension is
+integrable**, by5N.2, with central circle ℝ/dℤ. Its nonzero period is the ingredient for the
+counterexample, not a claim that this seed is nonintegrable.
+
+**5N.5 Irrational quotient and nonintegrability.** For each real θ define on B×B
+`ω_θ((f₁,f₂),(g₁,g₂))=ω(f₂,g₂)−θω(f₁,g₁)` and let Eθ be the native central extension with
+this exact cocycle, product topology and norm transported as in5N.2. Define the continuous
+surjective Lie homomorphism from the product of two seed extensions by
+`((f,a),(g,b))↦((f,g),b−θa)`. Its kernel is the closed central line
+`{((0,t),(0,θt)) | t∈ℝ}`. Construct the actual quotient-to-Eθ continuous linear Lie equivalence,
+its inverse on representatives and its norm/topology compatibility. This is a quotient of
+Banach **Lie algebras**, not an assertion that the quotient of integrating groups by a dense
+subgroup is a Hausdorff Lie group.
+
+Use the actual two factor inclusions, projections and the homotopy product map to obtain
+`per_ωθ(m,n)=d(n−θm)` and the exact subgroup `d(ℤ+θℤ)`. The coordinate is b−θa; it sends
+(d,0) to −θd and (0,d) to d. Do not identify class(1,0) with class(0,1) or retain a coefficient
+from a different quotient basis. For irrational θ prove this subgroup is dense in ℝ and has
+nonzero elements tending to0 (pigeonhole approximation suffices), hence is not discrete.
+Apply necessity in5N.2 to exclude **every** Banach Lie group integration of Eθ. Prove Eθ is
+complete, Hausdorff, infinite-dimensional, with a bounded Lie bracket, and that its local BCH
+group nevertheless exists. For rational θ=a/b in lowest terms, b>0, prove its period group
+is `(d/b)ℤ` and construct an integration by sufficiency; θ=0 recovers the seed on the second
+factor times the first loop group. These checks locate the failure in global periods rather
+than local ODE or Jacobi identities. The source-existence corollary can take θ=√2 with the
+actual irrationality theorem; it makes no claim that the source intended this example or category.
+
+**5N.6 Comparisons and usable boundary API.** Prove all projection, inclusion, bracket, norm,
+central kernel, period and quotient equations, functoriality under continuous Lie maps and
+coboundary changes, and compatibility of native identity tangents with the chosen group charts.
+For finite trigonometric loops in the complexification compare with the **existing** native
+`loopAlgebra`, `residuePairing` and `twoCocycleOfBilinear`, not a second affine engine.
+For `f(t)=Σ_m A_m e^(2πimt)`, `g(t)=Σ_n B_n e^(2πint)` the complex-bilinear continuation of κ
+is −trace(AB), so `ω(f,g)=−2πi Σ_n n trace(A_−n B_n)`. This uses differentiation on the
+second argument. Pin the finite-support coefficient map, trace form, reality condition
+`A_−m=−A_mᴴ`, central rescaling −2πi, and the actual commuting bracket square. The Laurent
+sum is finite; no unsupported assertion that the Banach completion is a formal affine algebra
+or that a Lie-algebra isomorphism identifies their global integration problems is made.
+
+Suggested companion `BanachNonintegrabilityTargets.lean` illustrates the actual curve graph,
+cocycle and quotient coordinates and selected final theorem shapes. README remains definitive;
+the companion is not exhaustive. The constructions and period proofs above are commissioned
+mathematics, not existing implementations or assumptions hidden in a period certificate.
+
 
 ## C. The structure of compact and reductive Lie groups
 
@@ -1516,6 +1714,15 @@ handwritten qualifications remain separate from these constructions.
 
 ## Ordering
 
+Layer5N has its own Banach analytic cut: BanachSpaceTheory normed/function-space foundations,
+DifferentialGeometry2.3 and3.1–3.2/3.5, native GroupLieAlgebra, and local Banach BCH precede its
+covering/LieII and central-period constructions. Its C¹ loop charts and relative smoothing are
+owned there; Layer2 SU(2)≃S³ and the early AlgebraicTopology sphere/Hurewicz and DG degree/Stokes
+inputs feed its nonzero-period computation. The seed integration and product/central-pushout
+maps then precede the irrational quotient obstruction. No finite-dimensional Frobenius/Ado,
+compact conjugacy, Peter–Weyl, complexification, affine integrability or VOA is a premise.
+The finite-Fourier/native affine comparison is terminal and does not feed nonintegrability.
+
 Layer6A.1–6A.2 is placed after the initial compact connected abelian theorem of Layer6,
 but before its conjugacy, root and integration applications and before Layer7. Its finite-vector
 multiplication/adjugate construction has no field-classification premise. AT4.6 supplies the
@@ -1584,6 +1791,10 @@ interfaces kept here.
 
 ## References
 
+- K.-H. Neeb, [*Towards a Lie theory of locally convex groups*](https://arxiv.org/html/1501.06269v1),
+  VI.1.1–VI.1.16 — period obstructions, continuous central extensions, and the periodic su₂-loop
+  construction used in Layer5N. The chosen quotient coordinate, matrix orientation and native
+  adapters are fixed in Layer5N itself.
 - A. Kirillov Jr., *An Introduction to Lie Groups and Lie Algebras*, Cambridge Studies in Advanced
   Mathematics 113 (2008) - the exponential map, one-parameter subgroups, `Ad`/`ad`, the closed-subgroup
   theorem, the Lie functor and BCH, and the correspondence with Lie algebras (Chs. 2-3), the structure of
