@@ -250,15 +250,33 @@ GL2AutomorphicRepresentationsAndTransfer R16.4.4 on the dual Artin representatio
 Its rank-two upgrade consumes R17.5.5 with the same witness's archimedean matching hypothesis.
 The adapters preserve the supplied residual, avoidance and local-type hypotheses and transport
 Tate-module realizations to their cohomological duals, with inverse-cyclotomic determinant.
+In §2.29, `switch_three` supplies the mod-3 input and `switch_five` the mod-5 input.
 The README also specifies Conjecture B, twisted modular curves and exceptional-curve arithmetic
 hypotheses; oscillator/theta and
 metaplectic descent, Arthur parameters/packets, Adams–Johnson induction, unitary eigenvarieties
-and trianguline deformation families; Bianchi Fourier/cohomology and Sato–Tate data; general
+and trianguline deformation families. In §4.3, `relativeRobbaModule`, `relativeHerrComplex` and
+`relativeRobba_finiteCoefficients` extend LocalGaloisDeformationRings §0.4's
+`CoefficientRobbaModule`, `CoefficientRobbaModule.etaleEquivalence`, `D_rig`,
+`HerrCohomology` and `HerrCohomology.baseChange` to affinoid families and rigid gluing.
+Their finite-local-coefficient comparisons preserve Frobenius/Gamma, saturated character
+quotients, the Herr differential on full finite Gamma-torsion invariants, derived coefficient
+change, Ext, cup products and the signed trace. The Artinian trianguline deformation and
+noncritical tangent comparisons use these supplied finite-coefficient objects.
+The README also specifies Bianchi Fourier/cohomology and Sato–Tate data; general
 functoriality/reciprocity, comparisons with AutomorphicGaloisRepresentationsPartII AG2.6's
-relative curves, Bun_G/lisse categories, parameter stack and geometric spectral action, and the
-singular-support and canonical Whittaker-adjunction extensions on those supplied objects.
+relative curves, Bun_G/lisse categories, parameter stack and geometric spectral action.
+LanglandsParameterStacks LP1.5, LP1.10 and LP1.13–LP1.15 supply the LCI refinement,
+cotangent comparison, `ParameterSingularities`, `dualNilpotentCone`, `NilpotentSingularSupport`,
+`cotangentToHochschild`, `hochschildSelfExtAction`, finite generation, the perfectness criterion
+and smooth descent. Section 5.8's `parameterCotangent_comparison`,
+`parameterSingularities_comparison` and `parameterSupportAction_comparison` identify this
+package on the same parameter stack, including chart and derived coefficient-change maps.
+Its `perfectQC`, `coherentBoundedQC` and `nilpotentSingularSupport` specialize the supplied
+categories with quasicompact support and per-object finite wild bounds for §5.9's canonical
+Whittaker adjunction.
 The shared objects retain the supplier's general-local-field, reductive-group and coefficient
-hypotheses; §§5.7–5.9 specify their comparisons and the extensions as mathematical targets there.
+hypotheses, and the support comparisons retain the regular-base and bounded-coherence hypotheses.
+The enhanced and analytic carriers for these targets are specified in the README.
 -/
 
 end TauCetiRoadmap.ModularityAndLanglandsExtensions
