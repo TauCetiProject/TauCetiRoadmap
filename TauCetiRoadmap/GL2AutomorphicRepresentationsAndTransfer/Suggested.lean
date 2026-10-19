@@ -35,13 +35,18 @@ Henniart's twisted-factor characterization gives uniqueness of the full correspo
 
 ArithmeticGaloisRepresentations §2.7 supplies local-constant-gauss-sum,
 standard-test-function-evaluations, hecke-zeta-integral-comparison and the
-finite-sum root-number-product-formula. AutomorphicSpectralTheory's
-unitary-hecke-functional-equation supplies the all-unitary scalar Hecke equation.
+finite-sum root-number-product-formula. AutomorphicLFunctionsAndLocalFactors
+AL.1/hecke-l-functional-equation supplies the canonical all-unitary scalar Hecke
+completion and equation. AutomorphicSpectralTheory's unitary-hecke-functional-equation
+identifies its Eisenstein construction with that completion.
 AutomorphicLFunctionsAndLocalFactors AL.1/rank-one-local-functional-equation
 supplies local zeta integrals and their comparison with tateLocalConstant.
 
-AutomorphicFormsOnReductiveGroups §§7.2–7.3 supplies adelization, its inverse,
-raising and Casimir formulas, scalar normalization and Hecke and diamond comparisons.
+AutomorphicFormsOnReductiveGroups §2.6 supplies the full-O(2) discrete and limit
+modules and real/complex unitary classification with exhaustion. R16.2.13 identifies
+its explicit K-type, reducibility and parameter dictionary with that classification.
+Its §§7.2–7.3 supply adelization, its inverse, raising and Casimir formulas, scalar
+normalization and Hecke and diamond comparisons.
 R16.1/finite-level-comparison identifies these with the matrix and level realizations;
 R16.6 compares the supplied primitive occurrence with local newvectors and conductors.
 R17.6.1 and R17.6.4 use the algebraically normalized finite-part coefficient model
