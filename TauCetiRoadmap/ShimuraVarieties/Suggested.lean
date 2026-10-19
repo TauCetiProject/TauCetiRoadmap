@@ -241,44 +241,6 @@ end Artin
 section NativeCategories
 open CategoryTheory CategoryTheory.Limits
 
-namespace CanonicalTower
-
-/-- Supplied objects and transitions satisfying identity and composition assemble into a functor. -/
-def ofLevelMaps {I C : Type*} [Category I] [Category C]
-    (M : I → C) (t : ∀ {i j : I}, (i ⟶ j) → (M i ⟶ M j))
-    (hid : ∀ i, t (𝟙 i) = 𝟙 (M i))
-    (hcomp : ∀ {i j k : I} (f : i ⟶ j) (g : j ⟶ k), t (f ≫ g) = t f ≫ t g) :
-    I ⥤ C where
-  obj := M
-  map := t
-  map_id := hid
-  map_comp := hcomp
-
-variable {I C : Type*} [Category I] [Category C]
-variable (M : I → C) (t : ∀ {i j : I}, (i ⟶ j) → (M i ⟶ M j))
-variable (hid : ∀ i, t (𝟙 i) = 𝟙 (M i))
-variable (hcomp : ∀ {i j k : I} (f : i ⟶ j) (g : j ⟶ k), t (f ≫ g) = t f ≫ t g)
-
-/-- The assembled functor preserves the supplied object. -/
-theorem ofLevelMaps_obj (i : I) : (ofLevelMaps M t hid hcomp).obj i = M i := rfl
-
-/-- The assembled functor evaluates a transition to the supplied morphism. -/
-theorem ofLevelMaps_map {i j : I} (f : i ⟶ j) :
-    (ofLevelMaps M t hid hcomp).map f = t f := rfl
-
--- CanonicalTower.test_preserves_supplied_arrow distinguishes the actual transition.
-example {i j : I} (f : i ⟶ j) (u : M i ⟶ M j) (hu : t f ≠ u) :
-    (ofLevelMaps M t hid hcomp).map f ≠ u := by
-  exact hu
-
--- CanonicalTower.test_identity_level and CanonicalTower.test_nested_levels.
-example {i j k : I} (f : i ⟶ j) (g : j ⟶ k) :
-    (ofLevelMaps M t hid hcomp).map (𝟙 i) = 𝟙 (M i) ∧
-    (ofLevelMaps M t hid hcomp).map (f ≫ g) = t f ≫ t g := by
-  exact ⟨hid i, hcomp f g⟩
-
-end CanonicalTower
-
 namespace CanonicalHecke
 
 variable {C : Type*} [Category C] {L M R A A' : C}
@@ -368,9 +330,10 @@ TauCeti.Shimura.torusModel, TauCeti.Shimura.CMAbelianVariety,
 TauCeti.Shimura.ConnectedTower, TauCeti.Shimura.conjugatedDatum,
 CanonicalTower.ofLevelMaps, CanonicalHecke.span, ZeroDimShimura.shimuraSet.
 The Shimura-specific analytic, arithmetic and canonical-symmetry carriers are
-constructed by the README targets. The native functor and ordered-span laws
-above describe categorical assembly on supplied diagrams.
+constructed by the README targets. The native ordered-span laws above
+describe composition on supplied diagrams.
 README-only laws on actual canonical models:
+CanonicalTower.ofLevelMaps_obj, CanonicalTower.ofLevelMaps_map,
 CanonicalTower.ofLevelMaps_id, CanonicalTower.ofLevelMaps_comp,
 CanonicalTower.ofLevelMaps_baseChange, CanonicalHecke.span_apex,
 CanonicalHecke.span_first, CanonicalHecke.span_second, CanonicalHecke.span_baseChange,
@@ -380,7 +343,9 @@ CanonicalTower.level_map_finite, CanonicalTower.translation_comp,
 CanonicalHecke.test_gl2_Tp_index. The actual schemes and their complex comparisons
 are the inputs to these Shimura-specific specializations.
 Further README-only Checks on canonical models and supplied diagrams:
-CanonicalTower.test_base_change, CanonicalHecke.test_identity,
+CanonicalTower.test_identity_level, CanonicalTower.test_nested_levels,
+CanonicalTower.test_preserves_supplied_arrow, CanonicalTower.test_base_change,
+CanonicalHecke.test_identity,
 CanonicalHecke.test_ordered_nat_legs, CanonicalHecke.test_distinct_legs,
 CanonicalHecke.test_base_change, CanonicalHecke.test_gl2_T2_node.
 
