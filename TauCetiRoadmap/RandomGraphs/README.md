@@ -1,4 +1,4 @@
-# Random graphs, Fraïssé limits, and first-order asymptotic laws
+# Roadmap: random graphs, Fraïssé limits, and first-order asymptotic laws
 
 Develop the classical Fraïssé construction and the probability/model-theory interfaces that
 identify the first-order asymptotic theory of binomial random graphs with the theory of the
