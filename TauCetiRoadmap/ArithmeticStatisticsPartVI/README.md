@@ -778,6 +778,8 @@ Embed x³ + Ax + B ↦ the binary cubic form x³ + Axy² + By³; a `GL_2(Z)`-cla
 
 **Count of curves in a large family.** Let F be a large family of elliptic curves defined by congruence conditions and N(F; X) := #{E ∈ F : H'(E) < X}. Then `N(F; X) = M_∞(F; X)·Π_p M_p(F) + o(X^{5/6})`, and the product converges: `1 − M_p(F) = O(p^{-2})` for all but finitely many p.
 
+The Lean target `shortPair_congruence_count_asymptotic` states the positive-denominator specialization for every nonempty finite union of coefficient residue classes, using `shortPairSublevel` and the height H. It gives a positive limit of `N(F; X)/X^(5/6)`; the general local-mass formula retains its stated hypotheses.
+
 Curves are counted up to Q-isomorphism, through their invariants (I, J) = (−3A, −27B) for the unique minimal pair (A, B) (Layer 0, from Tau Ceti EllipticCurves layer 8). The main term may vanish (if some `M_p(F)` = 0); the statement is still true, and theorems dividing by N(F; X) assume `Π_p` `M_p(F)` > 0.
 
 First incorporate the local minimal-pair conditions and I ∈ 3Z_p, J ∈ 27Z_p into `Σ_p`, obtaining `T_p`. The minimal-pair and divisibility conditions are clopen off Δ = 0. Intersecting them with the given relatively closed, null-boundary `Σ_p` makes `T_p` relatively closed there with null boundary; `T_p` itself need not be clopen. `Inv_p(F)` ⊆ `T_p`. For all sufficiently large p, largeness implies {p² ∤ Δ} ⊆ `Inv_p(F)` ⊆ `T_p`, so `1−μ_p(T_p)=O(p^{-2})`. If `μ_q(T_q)`=0 for some q, then `μ_q`(`Inv_q(F)`)=0. Compact clopen outer neighbourhoods of the closure of `T_q` have arbitrarily small mass (adding Δ=0 costs zero mass). The finite-congruence lattice count bounds `N(F;X)/X^{5/6}` by an arbitrarily small constant, proving the claimed zero main term without any regularity assertion about `Inv_p(F)` at other primes. Otherwise every `μ_p(T_p)`>0. Fix a prime q and a nonempty clopen ball B contained in the interior of `T_q`. CRT counts with finitely many inner clopen approximations to the other `T_p` have positive normalized main term: the infinite product of their masses is positive since `1−μ_p(T_p)=O(p^{-2})`. Choose the approximation errors summably small and the prime cutoff Y large enough that the discriminant-tail bound O(1/Y) is smaller than this main term. Count first as X→∞ with all finite data fixed. At least one resulting global minimal pair lies in B, meets all `T_p` and satisfies the chosen real sign. Repeating inside every subball proves interior(`T_q`) ⊆ `Inv_q(F)`. Thus, in this positive-mass case, interior(`T_p`) ⊆ `Inv_p(F)` ⊆ `T_p` for every p. The difference is supported on ∂`T_p`, so `μ_p`(`Inv_p(F)`)=`μ_p(T_p)`>0 and ∂`Inv_p(F)` is null. This supplies the boundary assertion; it is not inherited merely by taking a closed subset. Finite approximation: for a finite set of primes P and closed-open sets `U_p` ⊆ Z_p² that are finite unions of cosets of p^kZ_p², lattice-points-of-bounded-invariant-height gives `#{(I, J) ∈ Z² : (I, J) ∈ U_p ∀p ∈ P, (I, J) ∈ Inv_∞(F), H < X} = M_∞(F; X)Π_{p∈P} μ_p(U_p) + O_P(X^{1/2})`. Upper bound: in the positive-mass case, since ∂`Inv_p(F)` is null by the preceding CRT/tail argument, choose `U_p` ⊇ `Inv_p(F)` with `μ_p`(`U_p` \ `Inv_p(F)`) small; letting P grow gives `limsup N(F; X)/X^{5/6} ≤ M_∞(F; 1)Π_p M_p(F)`. Lower bound: choose `U_p` ⊆ `Inv_p(F)` for p ≤ Y; a pair in all `U_p` (p ≤ Y) but outside Inv(F) fails `Inv_p(F)` at some p > Y, and for Y beyond the exceptional primes of largeness this forces p² | Δ(I, J); by tail-estimate-for-square-divisors-of-the-discriminant these number `O(X^{5/6}/Y + X^{5/6}/log X)`. Convergence: for p ≥ 5 outside the exceptional set, `Inv_p(F)` ⊇ {p² ∤ Δ}, and `μ_p{p² | Δ(I, J)} ≤ 3p^{-2}` (at most 2 residues of J modulo p² for each unit I, and p² classes with p | I, p | J). Let Y → ∞.
@@ -791,6 +793,8 @@ First incorporate the local minimal-pair conditions and I ∈ 3Z_p, J ∈ 27Z_p 
 - Family of all curves: `N(F; X) ~ 8X^{5/6}/(81ζ(10))`; in terms of H(E) < T this is `(2^{4/3}/(3^{3/2}ζ(10)))T^{5/6}`.
 
 - For a large family with a measure-zero Cantor-type condition at 5 the main term is 0 and `N(F; X) = o(X^{5/6})`.
+
+- For a nonempty finite union of residue classes, split into disjoint classes and add their positive curve-count constants; coupled congruences need not give a product of marginal densities.
 
 ### 4.9 From soluble orbits to Selmer numerators
 
@@ -1076,7 +1080,7 @@ Parametrisation (source §3): 3-Selmer elements of `E_{A,B}` correspond to `PGL_
 
 **Average rank bound from the 3 selmer average.** Over `E_{A,B}`/ℚ ordered by height, the upper average of the 3-Selmer rank `r_3(E)` := `dim_{𝔽_3}` `Sel_3(E)` is at most 7/6; hence the upper average of rank E(ℚ) is at most 7/6 < 1.17. Use the minimal-pair, congruence-family, height and moment conventions above.
 
-The input is that the average of #`Sel_3` is 4 ([average size of the 3 selmer group](#average-size-of-the-3-selmer-group)).
+The input is that the average of #`Sel_3` is 4 ([average size of the 3 selmer group](#average-size-of-the-3-selmer-group)). The Lean target `average_rank_le_seven_sixths` states the Mordell–Weil conclusion on `shortCurve` point groups in every nonempty finite-congruence family, as an eventual bound `7/6+ε` for each ε>0.
 
 For every integer r ≥ 0, 6r − 3 ≤ 3^r (equality at r = 1, 2; convexity). At each nonempty height cutoff, the pointwise inequality gives `6·Avg(r₃)≤Avg(3^{r₃})+3`. Take limsup and use `Avg(3^{r₃})→4` to obtain M⁺₁(r₃)≤7/6. This is an affine inequality at finite cutoffs; an upper moment is not generally linear under sums. rank E(ℚ) ≤ `r_3(E)` since E(ℚ)/3E(ℚ) ↪ `Sel_3(E)` (EllipticCurves Layer 7), the step of [rank bound from the selmer average](#rank-bound-from-the-selmer-average).
 
@@ -1087,6 +1091,10 @@ For every integer r ≥ 0, 6r − 3 ≤ 3^r (equality at r = 1, 2; convexity). A
 **Checks.**
 
 - With 2r ≤ 2^r and the 2-Selmer average 3 the same argument gives the Layer 4 bound 3/2.
+
+- Equality in `6r−3≤3^r` occurs at r=1 and r=2; at r=0 the inequality is strict.
+
+- A residue condition admitting no minimal nonsingular pair is excluded from the Lean statement; its zero empty-family average gives no rank information.
 
 <a id="average-size-of-the-4-selmer-group"></a>
 
@@ -1798,6 +1806,8 @@ Replace the local reduction conditions by their discriminant/c₆ and finite-fie
 
 **Rank one family properties.** F has asymptotic count `c_F` X^(5/6)+o(X^(5/6)), `c_F`>0, in the minimal-short-pair height. Every E∈F is semistable of odd squarefree conductor d, with at least two odd factors; E[5] is irreducible and ramified at every factor of d. For D=−39, 2 and 5 split in Q(√D), seven is inert, and E,E^D have opposite root numbers. The twist short pair is minimal and H(E^D)=39⁶H(E); the original and twisted families are disjoint as isomorphism classes.
 
+The Lean target `rankOneFamily_count_asymptotic` states the positive asymptotic count of `RankOneFamily` through `shortPairSublevel`, with the height H and exponent 5/6.
+
 At two use y²+y=x³+(A/16)x+(B/16−1)/4. Its coefficients are integral and its discriminant is d, so reduction is good. The dyadic residue condition has coefficient Haar mass 1/(32·64); the other finitely imposed local conditions have positive mass, witnessed by (−208,464). For sufficiently large odd primes the excluded square-discriminant locus has mass O(p⁻²), so its convergent Euler product is positive. Apply the discriminant tail to pass from finite CRT densities to the large-family asymptotic. Neither the dyadic density nor the reduction assertion uses the printed valuation-three condition. At odd bad primes the minimal discriminant valuation is one, so the conductor is d and mod-five inertia is nontrivial. A reducible residual semistable ordinary representation would have semisimplification 1⊕ω; its Frobenius eigenvalues contradict nonsplit reduction at seven because 7≠−1 mod 5. Verify the quadratic characters and root-number formula. Squarefreeness with seven dividing d and d square mod 39 excludes conductor seven alone. Apply the imported large-family denominator, with the local positivity witnessed explicitly.
 
 *Needs:* [rank one family](#refinement-rank-one-family), [count of curves in a large family](#count-of-curves-in-a-large-family), ArithmeticGaloisRepresentations §§1.7–1.9, 2.1–2.3, NeronModelsAndSemistableAbelianVarieties Layer 5, SelmerIwasawaCohomology §§2.10–2.12a.
@@ -2088,6 +2098,8 @@ Discard rational 2-torsion using a weighted tail controlled by the second-moment
 <a id="refinement-five-basic-bounds"></a>
 
 **Five basic bounds.** In every large family F with positive local masses and nonempty real sign region of minimal elliptic curves over Q ordered by invariant height, limsup average(`dim_F5` Sel₅)≤21/20 and lower density(dim Sel₅≤1)≥19/24. These hold from mean#Sel₅=6, after controlling rational 5-torsion; Mordell–Weil rank is bounded by the reduced Selmer dimension.
+
+The Lean target `fiveSelmer_basic_rank_bounds` states the Mordell–Weil consequences in every nonempty finite-congruence family, using `shortPairAverage` for the rank and the rank-at-most-one indicator. Its eventual bounds for every ε>0 express upper average rank at most 21/20 and lower proportion at least 19/24.
 
 Use 20r−15≤5^r for every integer r≥0. Use the cost 5^r≥25 on r≥2 and≥1 elsewhere. Apply the mean bound to finite-height inequalities; take limsup or liminf only after the pointwise comparison.
 

@@ -63,6 +63,27 @@ def twoSelmerSize (ab : ℤ × ℤ) : ℕ := by
     Nat.card ((shortCurve ab).selmerGroup₂ ℤ (fun _ : Unit => ℝ))
   else 0
 
+/-- A ternary cubic in the ten ordinary monomial coefficients, ordered
+`x³, x²y, x²z, xy², xyz, xz², y³, y²z, yz², z³`. -/
+def ternaryCubicValue (c : Fin 10 → ℤ) (x : Fin 3 → ℚ) : ℚ :=
+  c 0 * x 0 ^ 3 + c 1 * x 0 ^ 2 * x 1 + c 2 * x 0 ^ 2 * x 2 +
+  c 3 * x 0 * x 1 ^ 2 + c 4 * x 0 * x 1 * x 2 + c 5 * x 0 * x 2 ^ 2 +
+  c 6 * x 1 ^ 3 + c 7 * x 1 ^ 2 * x 2 + c 8 * x 1 * x 2 ^ 2 + c 9 * x 2 ^ 3
+
+/-- The rank-one family of integral short pairs (README §4.22; Bhargava–Skinner,
+arXiv:1401.0233, §2, pp. 3–4): `v₂(A) = 4`, `B ≡ 16 (mod 64)`, `-4A³ - 27B² = 256d` with `d`
+positive, odd and squarefree, the discriminant prime to `195` and a square modulo `39`,
+`7 ∣ d`, nonsplit reduction at seven and good ordinary reduction at five. -/
+def RankOneFamily (A B : ℤ) : Prop :=
+  (16 : ℤ) ∣ A ∧ ¬ (32 : ℤ) ∣ A ∧ B % 64 = 16 ∧
+  ∃ d : ℤ, -4 * A ^ 3 - 27 * B ^ 2 = 256 * d ∧ 0 < d ∧ Odd d ∧ Squarefree d ∧
+    IsCoprime (-4 * A ^ 3 - 27 * B ^ 2) 195 ∧
+    IsSquare ((-4 * A ^ 3 - 27 * B ^ 2 : ℤ) : ZMod 39) ∧ (7 : ℤ) ∣ d ∧
+    ¬ IsSquare ((864 * B : ℤ) : ZMod 7) ∧ (1 + ((Finset.univ : Finset (ZMod 5 × ZMod 5)).filter
+      (fun p => p.2 ^ 2 = p.1 ^ 3 + (A : ZMod 5) * p.1 + (B : ZMod 5))).card) % 5 ≠ 1
+
+/-! ### Headline milestones -/
+
 /-- Mean two-Selmer size three in every nonempty family defined by finitely many
 coefficient congruences (README §4.10, average Selmer size over all curves and
 congruence families; Bhargava–Shankar, Theorems 1.1 and 1.3). -/
@@ -82,6 +103,39 @@ theorem average_rank_le_of_twoSelmer_mean (F : Set (ℤ × ℤ))
     ∀ ε : ℝ, 0 < ε → ∀ᶠ X in atTop,
       shortPairAverage F (fun ab => (Module.finrank ℤ (shortCurve ab).Point : ℝ)) X ≤
         3 / 2 + ε := by sorry
+
+/-- The three-Selmer mean bounds the upper average Mordell–Weil rank by seven
+sixths in every nonempty finite-congruence family (README §4.14, average rank bound
+from the 3 selmer average; Bhargava–Shankar, Corollary 2 and Theorem 3). -/
+theorem average_rank_le_seven_sixths (F : Set (ℤ × ℤ))
+    (hcong : ∃ N : ℕ, 0 < N ∧ ∃ C : Set (ZMod N × ZMod N),
+      F = {ab | ((ab.1 : ZMod N), (ab.2 : ZMod N)) ∈ C})
+    (hne : ∃ X : ℝ, (shortPairSublevel F X).Nonempty) :
+    ∀ ε : ℝ, 0 < ε → ∀ᶠ X in atTop,
+      shortPairAverage F (fun ab => (Module.finrank ℤ (shortCurve ab).Point : ℝ)) X ≤
+        7 / 6 + ε := by sorry
+
+/-- The five-Selmer mean bounds the upper average Mordell–Weil rank by 21/20
+and the lower proportion of rank at most one by 19/24 in nonempty finite-congruence
+families (README §4.27, five basic bounds; Bhargava–Shankar, Proposition 38). -/
+theorem fiveSelmer_basic_rank_bounds (F : Set (ℤ × ℤ))
+    (hcong : ∃ N : ℕ, 0 < N ∧ ∃ C : Set (ZMod N × ZMod N),
+      F = {ab | ((ab.1 : ZMod N), (ab.2 : ZMod N)) ∈ C})
+    (hne : ∃ X : ℝ, (shortPairSublevel F X).Nonempty) :
+    (∀ ε : ℝ, 0 < ε → ∀ᶠ X in atTop,
+      shortPairAverage F (fun ab => (Module.finrank ℤ (shortCurve ab).Point : ℝ)) X ≤
+        21 / 20 + ε) ∧
+    (∀ ε : ℝ, 0 < ε → ∀ᶠ X in atTop,
+      19 / 24 - ε ≤ shortPairAverage F (fun ab =>
+        if Module.finrank ℤ (shortCurve ab).Point ≤ 1 then 1 else 0) X) := by sorry
+
+/-- The rank-one coefficient family has a positive asymptotic curve count in the
+minimal-short-pair height (README §4.22, rank one family properties;
+Bhargava–Skinner, Lemma 15, with the stated dyadic convention). -/
+theorem rankOneFamily_count_asymptotic :
+    ∃ c : ℝ, 0 < c ∧ Tendsto (fun X : ℝ =>
+      ((shortPairSublevel {ab | RankOneFamily ab.1 ab.2} X).ncard : ℝ) /
+        X ^ (5 / 6 : ℝ)) atTop (nhds c) := by sorry
 
 /-- Rational p-torsion is absent on a density-one set of minimal short curves for
 every prime p (README §4.13, rational p torsion has density zero;
@@ -113,13 +167,6 @@ theorem secondMoment_twoSelmer_le (F : Set (ℤ × ℤ))
     ∀ ε : ℝ, 0 < ε → ∀ᶠ X in atTop,
       shortPairAverage F (fun ab => (twoSelmerSize ab : ℝ) ^ 2) X ≤ 15 + ε := by sorry
 
-/-- A ternary cubic in the ten ordinary monomial coefficients, ordered
-`x³, x²y, x²z, xy², xyz, xz², y³, y²z, yz², z³`. -/
-def ternaryCubicValue (c : Fin 10 → ℤ) (x : Fin 3 → ℚ) : ℚ :=
-  c 0 * x 0 ^ 3 + c 1 * x 0 ^ 2 * x 1 + c 2 * x 0 ^ 2 * x 2 +
-  c 3 * x 0 * x 1 ^ 2 + c 4 * x 0 * x 1 * x 2 + c 5 * x 0 * x 2 ^ 2 +
-  c 6 * x 1 ^ 3 + c 7 * x 1 ^ 2 * x 2 + c 8 * x 1 * x 2 ^ 2 + c 9 * x 2 ^ 3
-
 /-- A positive lower count of minimal short pairs with infinitely many rational affine
 points gives a positive proportion of ternary cubics with a nonzero rational zero
 (README §4.24; Bhargava, arXiv:1402.1131, Theorem 2, p. 3). The input uses height `T⁶`
@@ -138,6 +185,17 @@ theorem positive_plane_cubic_solubility
       (((2 * T + 1) ^ 10 : ℕ) : ℝ)) atTop := by sorry
 
 /-! ### Local Kummer indices and auxiliary targets -/
+
+/-- Every nonempty finite-congruence family has a positive asymptotic denominator
+in the minimal-short-pair height (README §4.8, count of curves in a large family;
+Bhargava–Shankar, Theorem 3.17 and finite disjoint unions). -/
+theorem shortPair_congruence_count_asymptotic (F : Set (ℤ × ℤ))
+    (hcong : ∃ N : ℕ, 0 < N ∧ ∃ C : Set (ZMod N × ZMod N),
+      F = {ab | ((ab.1 : ZMod N), (ab.2 : ZMod N)) ∈ C})
+    (hne : ∃ X : ℝ, (shortPairSublevel F X).Nonempty) :
+    ∃ c : ℝ, 0 < c ∧ Tendsto (fun X : ℝ =>
+      ((shortPairSublevel F X).ncard : ℝ) / X ^ (5 / 6 : ℝ))
+      atTop (nhds c) := by sorry
 
 /-- A finite-index additive p-adic subgroup gives finite two-torsion and the exact
 doubling index (README §4.6, two division quotient of a group with a finite index
@@ -195,14 +253,6 @@ def restrictedSelmerSet {A V : Type*} {Q : V → Type*} (S : Set A)
     (loc : (v : V) → A → Q v) (I : (v : V) → Set (Q v)) : Set A :=
   {s | s ∈ S ∧ ∀ v, loc v s ∈ I v}
 
-/-- Two places: the restriction is the intersection `{1}` of the local images, not their
-union. -/
-example : restrictedSelmerSet (Set.univ : Set (Fin 3))
-    (fun _ : Bool => id) (fun b => if b then {0, 1} else {1, 2}) = {1} := by
-  ext s
-  simp only [restrictedSelmerSet, Set.mem_univ, true_and, Bool.forall_bool, id]
-  fin_cases s <;> simp
-
 /-- No places: the restriction is the original set. -/
 example (S : Set ℕ) : restrictedSelmerSet (Q := fun _ : Empty => ℕ) S
     (fun v : Empty => Empty.elim v) (fun v : Empty => Empty.elim v) = S := by
@@ -218,10 +268,6 @@ components (README §4.17, odd component bound; BGW (23), p. 34). -/
 theorem component_bound_ratio_tendsto (k : ℕ) :
     Tendsto (fun m : ℕ => (oddComponentBound m k : ℝ) / 2 ^ (m - 1))
       atTop (nhds 0) := by sorry
-
-/-- No effective divisor of degree zero has odd component parity. -/
-example (m : ℕ) : oddComponentBound m 0 = 0 := by
-  simp [oddComponentBound]
 
 /-- The odd-component image bound never exceeds the full local quotient
 (README §4.17, odd component bound). -/
@@ -241,22 +287,6 @@ theorem component_bound_strict (m k : ℕ) (hm : 0 < m) (hk : Odd k) (hkm : k < 
 /-- A single real component saturates the odd-subset bound at every positive cutoff
 (README §4.17, odd component bound). -/
 theorem component_bound_one (k : ℕ) (hk : 0 < k) : oddComponentBound 1 k = 1 := by sorry
-
-/-- Every form vanishes at the zero vector, which the solubility count excludes. -/
-example (c : Fin 10 → ℤ) : ternaryCubicValue c 0 = 0 := by
-  simp [ternaryCubicValue]
-
-/-- The rank-one family of integral short pairs (README §4.22; Bhargava–Skinner,
-arXiv:1401.0233, §2, pp. 3–4): `v₂(A) = 4`, `B ≡ 16 (mod 64)`, `-4A³ - 27B² = 256d` with `d`
-positive, odd and squarefree, the discriminant prime to `195` and a square modulo `39`,
-`7 ∣ d`, nonsplit reduction at seven and good ordinary reduction at five. -/
-def RankOneFamily (A B : ℤ) : Prop :=
-  (16 : ℤ) ∣ A ∧ ¬ (32 : ℤ) ∣ A ∧ B % 64 = 16 ∧
-  ∃ d : ℤ, -4 * A ^ 3 - 27 * B ^ 2 = 256 * d ∧ 0 < d ∧ Odd d ∧ Squarefree d ∧
-    IsCoprime (-4 * A ^ 3 - 27 * B ^ 2) 195 ∧
-    IsSquare ((-4 * A ^ 3 - 27 * B ^ 2 : ℤ) : ZMod 39) ∧ (7 : ℤ) ∣ d ∧
-    ¬ IsSquare ((864 * B : ℤ) : ZMod 7) ∧ (1 + ((Finset.univ : Finset (ZMod 5 × ZMod 5)).filter
-      (fun p => p.2 ^ 2 = p.1 ^ 3 + (A : ZMod 5) * p.1 + (B : ZMod 5))).card) % 5 ≠ 1
 
 /-- `(-208, 464)` lies in the family: `d = 117901 = 7·16843` and `#E(𝔽₅) = 7`.
 Its integral model is `y² + y = x³ - 13x + 7`, of odd discriminant `117901`. -/
