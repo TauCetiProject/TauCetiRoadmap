@@ -30,7 +30,7 @@ set_option autoImplicit false
 
 universe u v w w' z x
 
-open MeasureTheory ProbabilityTheory Filter FirstOrder FirstOrder.Language
+open MeasureTheory ProbabilityTheory Filter FirstOrder FirstOrder.Language CategoryTheory
 open scoped unitInterval BigOperators Topology
 
 namespace TauCetiRoadmap.RandomGraphs
