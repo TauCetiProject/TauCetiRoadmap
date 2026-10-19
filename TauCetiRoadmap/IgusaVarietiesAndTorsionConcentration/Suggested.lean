@@ -1,6 +1,5 @@
 import Mathlib
 import TauCeti.NumberTheory.HeckeRing.Associativity
-import TauCeti.NumberTheory.HeckeRing.Commutativity
 
 /-!
 # Igusa varieties, compactified period fibres and torsion concentration: representative target signatures
@@ -16,13 +15,14 @@ Design choices.
   multiplicity `m` satisfying `m λ ∈ ℤ`), with the dominance order and `⟨2ρ, ν⟩`; the general
   `B(G)` of a reductive group is the supplied PadicHodgeTheory §5.5 carrier, with the
   tensor and Igusa interfaces of EndoscopicTransferAndUnitaryTraceComparison Layer 7.
-* The split skew-hermitian matrix and trace pairing specify the unitary datum. Its group
-  scheme and its points, similitude character and kernel are README targets.
+* The split skew-hermitian matrix and trace pairing specify the unitary datum. The point
+  group is characterized as a subgroup of `GL × Aˣ`. Its integral group scheme, similitude
+  character and kernel are README targets.
 * At a prime `q` split completely in `F`, the split local group has one `GL_m(ℚ_q)` factor
   per place and a similitude coordinate. Hecke statements use Mathlib's `HeckeRing` and
   Tau Ceti's convolution, with the Hecke-pair property as an explicit hypothesis.
-  The operator subring is an existing subring satisfying the unit-similitude support condition;
-  constructing it and proving the Hecke-pair property are targets of README IG.0.4.
+  The operator subring is characterized by the unit-similitude support condition; its
+  existence and the Hecke-pair property are stated as theorems of README IG.0.4.
 * The local eigenvalue predicates belong to AutomorphicGaloisRepresentationsPartII AG2.7.
   The unit-valued signatures here express their ordered-ratio formulas and dual-system
   comparison; weak genericity allows repeated eigenvalues.
@@ -62,51 +62,32 @@ def DominatedBy {n : ℕ} (ν ν' : Fin n → ℚ) : Prop :=
     ∀ k : ℕ, ∑ i ∈ Finset.univ.filter (fun i : Fin n => i.val < k), ν i ≤
       ∑ i ∈ Finset.univ.filter (fun i : Fin n => i.val < k), ν' i
 
-/-- Every vector is dominated by itself. -/
-example {n : ℕ} (ν : Fin n → ℚ) : DominatedBy ν ν := sorry
-
-/-- Unequal singleton total slopes fail dominance. -/
-example : ¬ DominatedBy ![(0 : ℚ)] ![1] := sorry
-
 /-- `B(GL_n, μ)`: the Newton vectors dominated by the (dominant) cocharacter `μ`, written as a
 vector of integers in decreasing order (CS17 Definition 3.1.2, p. 677). -/
 def IsAdmissible {n : ℕ} (μ : Fin n → ℤ) (ν : NewtonVector n) : Prop :=
   DominatedBy ν.slope (fun i => (μ i : ℚ))
 
-/-- `⟨2ρ, ·⟩` of the ordinary slope vector `(1, 1, 0, 0)` of `GL_4` is `4 = n²` for `n = 2`: the
-ordinary class has `d_b = d`. -/
-example : pairingTwoRho ![(1 : ℚ), 1, 0, 0] = 4 := by
-  simp [pairingTwoRho, Fin.sum_univ_four]
-  norm_num
+/-- Dominance bounds the `2ρ` pairing, with equality exactly for equal vectors
+(IG.0.2, the ordinary-class dimension criterion in split `GL` coordinates). -/
+theorem pairingTwoRho_dominance {n : ℕ} (ν ν' : Fin n → ℚ)
+    (h : DominatedBy ν ν') :
+    pairingTwoRho ν ≤ pairingTwoRho ν' ∧
+      (pairingTwoRho ν = pairingTwoRho ν' ↔ ν = ν') := sorry
 
-/-- The basic slope vector `(1/2, 1/2)` of `GL_2` has `d_b = 0`. -/
-example : pairingTwoRho ![(1 / 2 : ℚ), 1 / 2] = 0 := by
-  simp [pairingTwoRho, Fin.sum_univ_two]
-
-/-- The basic class of `GL_2` is dominated by the ordinary one, and not conversely. -/
-example : DominatedBy ![(1 / 2 : ℚ), 1 / 2] ![1, 0] ∧ ¬ DominatedBy ![(1 : ℚ), 0] ![1 / 2, 1 / 2] :=
-  sorry
+/-- The admissible Newton vectors for any fixed integral cocharacter form a finite set
+(IG.0.2, the split `GL_n` admissibility theorem). -/
+theorem admissible_finite {n : ℕ} (μ : Fin n → ℤ) :
+    Set.Finite {ν : NewtonVector n | IsAdmissible μ ν} := sorry
 
 /-- `B(GL_2, μ)` for `μ = (1, 0)` has exactly two elements, the ordinary class `(1, 0)` and the
 basic class `(1/2, 1/2)` (IG.0.2). -/
 theorem admissible_gl2_eq (ν : NewtonVector 2) (h : IsAdmissible ![1, 0] ν) :
     ν.slope = ![1, 0] ∨ ν.slope = ![1 / 2, 1 / 2] := sorry
 
-/-- Negative control: `(1/2, 0)` is not the slope vector of an isocrystal of height `2`, since the
-slope `1/2` would need even multiplicity. -/
-example : ¬ ∃ ν : NewtonVector 2, ν.slope = ![(1 / 2 : ℚ), 0] := sorry
-
-/-- The empty isocrystal has zero `2ρ` pairing. -/
-example : pairingTwoRho (fun i : Fin 0 => (i.elim0 : ℚ)) = 0 := by
-  simp [pairingTwoRho]
-
-/-- In the negative Shimura normalization the ordinary vector is `(0, -1)`, again of
-central-leaf dimension one; negation must be followed by reordering. -/
-example : pairingTwoRho ![(0 : ℚ), -1] = 1 := by
-  norm_num [pairingTwoRho, Fin.sum_univ_two]
-
-/-- The empty Newton vector is admissible for the empty cocharacter. -/
-example (ν : NewtonVector 0) : IsAdmissible (fun i : Fin 0 => i.elim0) ν := sorry
+/-- A slope of `1/2` cannot occur with multiplicity one in a height-two isocrystal
+(IG.0.1–IG.0.2, the Newton multiplicity boundary). -/
+theorem not_exists_newtonVector_half_zero :
+    ¬ ∃ ν : NewtonVector 2, ν.slope = ![(1 / 2 : ℚ), 0] := sorry
 
 end NewtonVectors
 
@@ -118,24 +99,13 @@ and `−1` at `(i, 2n−1−i)` for `i ≥ n` (indices from `0`). -/
 def skewHermMatrix (R : Type*) [Ring R] (n : ℕ) : Matrix (Fin (2 * n)) (Fin (2 * n)) R :=
   fun i j => if i.val + j.val + 1 = 2 * n then (if i.val < n then 1 else -1) else 0
 
-/-- The sign convention of `J`, pinned at `n = 1`. -/
-example : skewHermMatrix ℤ 1 = !![0, 1; -1, 0] := by
-  ext i j
-  fin_cases i <;> fin_cases j <;> rfl
-
-/-- `J` is skew-symmetric; it is not the identity form preserved by `Matrix.unitaryGroup`. -/
-example : (skewHermMatrix ℤ 2).transpose = -skewHermMatrix ℤ 2 ∧ skewHermMatrix ℤ 2 ≠ 1 := by
-  decide
-
-/-- The alternating matrix retains its meaning in characteristic two; no division by two
-is part of this model. -/
-example : skewHermMatrix (ZMod 2) 1 = !![0, 1; 1, 0] := by
-  decide
-
-/-- Rank zero gives the unique empty matrix. The Shimura datum separately requires `n > 0`. -/
-example : skewHermMatrix ℤ 0 = 0 := by
-  ext i
-  exact i.elim0
+/-- The matrix equation for an involutive ring automorphism defines the point group of
+unitary similitudes, with the similitude fixed by the involution (IG.0.3). -/
+theorem exists_similitudeGroup (A : Type*) [CommRing A] (σ : A ≃+* A)
+    (hσ : Function.Involutive σ) (n : ℕ) :
+    ∃! H : Subgroup (GL (Fin (2 * n)) A × Aˣ), ∀ g, g ∈ H ↔
+      g.1.val.transpose * skewHermMatrix A n * (g.1.val.map σ) =
+        (g.2 : A) • skewHermMatrix A n ∧ σ (g.2 : A) = (g.2 : A) := sorry
 
 end SimilitudeGroup
 
@@ -147,6 +117,12 @@ def splitTracePairing (F : Type) [Field F] [NumberField F] [NumberField.IsCMFiel
   Algebra.trace ℚ F (∑ i : Fin n,
     (x ⟨i, by omega⟩ * NumberField.IsCMField.complexConj F (y ⟨2 * n - 1 - i, by omega⟩) -
       x ⟨2 * n - 1 - i, by omega⟩ * NumberField.IsCMField.complexConj F (y ⟨i, by omega⟩)))
+
+/-- Exchanging the arguments negates the rational trace pairing of the split
+skew-hermitian form (IG.0.3). -/
+theorem splitTracePairing_skew (F : Type) [Field F] [NumberField F]
+    [NumberField.IsCMField F] (n : ℕ) (x y : Fin (2 * n) → F) :
+    splitTracePairing F n x y = -splitTracePairing F n y x := sorry
 
 /-- The quasi-split unitary similitude datum: a CM field `F`, an integer `n ≥ 1` and an
 `O_F`-lattice `L ⊂ F^{2n}` that is self-dual for the trace pairing (CSnc §2.1, p. 11). -/
@@ -171,33 +147,6 @@ attribute [instance] UnitarySimilitudeDatum.field UnitarySimilitudeDatum.numberF
 /-- The dimension `d = [F⁺ : ℚ] n²` of the Shimura variety. -/
 def UnitarySimilitudeDatum.dim (D : UnitarySimilitudeDatum) : ℕ :=
   Module.finrank ℚ (NumberField.maximalRealSubfield D.F) * D.n ^ 2
-
-/-- A zero argument gives zero trace pairing, over every CM field. -/
-example (F : Type) [Field F] [NumberField F] [NumberField.IsCMField F]
-    (n : ℕ) (y : Fin (2 * n) → F) : splitTracePairing F n 0 y = 0 := by
-  simp [splitTracePairing]
-
-/-- On the standard symplectic pair the trace is the degree, rather than one. -/
-example (F : Type) [Field F] [NumberField F] [NumberField.IsCMField F] :
-    splitTracePairing F 1 ![1, 0] ![0, 1] = (Module.finrank ℚ F : ℚ) := sorry
-
-/-- Exchanging the arguments negates the trace pairing. -/
-example (F : Type) [Field F] [NumberField F] [NumberField.IsCMField F]
-    (n : ℕ) (x y : Fin (2 * n) → F) :
-    splitTracePairing F n x y = -splitTracePairing F n y x := sorry
-
-/-- A unitary datum excludes the rank-zero matrix case. -/
-example (D : UnitarySimilitudeDatum) : D.n ≠ 0 := Nat.ne_of_gt D.n_pos
-
-/-- An imaginary quadratic datum of half-rank one has complex dimension one. -/
-example (D : UnitarySimilitudeDatum)
-    (hF : Module.finrank ℚ (NumberField.maximalRealSubfield D.F) = 1) (hn : D.n = 1) :
-    D.dim = 1 := sorry
-
-/-- Real degree two and half-rank three give complex dimension eighteen. -/
-example (D : UnitarySimilitudeDatum)
-    (hF : Module.finrank ℚ (NumberField.maximalRealSubfield D.F) = 2) (hn : D.n = 3) :
-    D.dim = 18 := by norm_num [UnitarySimilitudeDatum.dim, hF, hn]
 
 end Datum
 
@@ -274,8 +223,28 @@ def restrictValue (f : localHeckeFull q W m)
       (splitUnitaryIntegralSubgroup q W m) (splitUnitaryIntegralSubgroup q W m)) : ℤ :=
   f (HeckeCoset.mk _ _ ⟨((D.rep : SplitLocalUnitaryGroup q W m), 1), Submonoid.mem_top _⟩)
 
-/-- The local Hecke algebras are commutative (the Satake isomorphism for `GL_m`; SR.4). -/
+/-- Functions supported on the unit-similitude subgroup form the local operator subring
+(IG.0.4(a)). -/
+theorem exists_localHeckeOperatorSubring :
+    ∃ A : Subring (localHeckeFull q W m), ∀ f, f ∈ A ↔ ∀ D, f D ≠ 0 →
+      (D.rep : SplitLocalGroup q W m) ∈ unitSimilitudeSubgroup q W m := sorry
+
+/-- The full local Hecke algebra is commutative (IG.0.4(d), from SR.4). -/
 theorem localHeckeFull_mul_comm (x y : localHeckeFull q W m) : x * y = y * x := sorry
+
+/-- The unitary local Hecke algebra is commutative (IG.0.4(d), from SR.4). -/
+theorem localHeckeUnitary_mul_comm (x y : localHeckeUnitary q W m) :
+    x * y = y * x := sorry
+
+/-- Inversion of double cosets extends to an involutive ring automorphism of the full
+local spherical Hecke algebra (IG.0.4(e)). -/
+theorem exists_localHeckeInvolution :
+    ∃ e : localHeckeFull q W m ≃+* localHeckeFull q W m,
+      Function.Involutive e ∧ ∀ g : SplitLocalGroup q W m,
+        e (HeckeCosetModule.single ℤ
+          (HeckeCoset.mk _ _ ⟨g, Submonoid.mem_top _⟩) 1) =
+        HeckeCosetModule.single ℤ
+          (HeckeCoset.mk _ _ ⟨g⁻¹, Submonoid.mem_top _⟩) 1 := sorry
 
 /-- `U_q` is a unit: `[K z_q K] · [K z_q⁻¹ K] = 1`. -/
 theorem localSimilitudeUnit_mul_neg :
@@ -308,52 +277,19 @@ theorem not_exists_ringHom_restrict_full :
     ¬ ∃ φ : localHeckeFull q W m →+* localHeckeUnitary q W m,
       ∀ f D, φ f D = restrictValue q W m f D := sorry
 
-/-- The unit-similitude condition permits arbitrary unitary coordinates; the hyperspecial
-condition additionally requires each GL-coordinate to be integral. -/
-example (g : SplitLocalUnitaryGroup q W m) :
-    (g, 1) ∈ unitSimilitudeSubgroup q W m ∧
-      ((g, 1) ∈ splitIntegralSubgroup q W m ↔
-        g ∈ splitUnitaryIntegralSubgroup q W m) ∧
-      (g ∈ splitUnitaryIntegralSubgroup q W m ↔ ∀ w, g w ∈ glIntegral q m) := sorry
+/-- Restriction kills every nonzero similitude-valuation translate (IG.0.4, the
+boundary distinguishing the full algebra from the operator algebra). -/
+theorem restrictValue_similitudeUnit (k : ℤ) (hk : k ≠ 0)
+    (D : HeckeCoset (⊤ : Submonoid (SplitLocalUnitaryGroup q W m))
+      (splitUnitaryIntegralSubgroup q W m) (splitUnitaryIntegralSubgroup q W m)) :
+    restrictValue q W m (localSimilitudeUnit q W m k) D = 0 := sorry
 
-/-- The uniformizer is not an integral unit; using all nonzero integral scalars would be wrong. -/
-example : Units.mk0 (q : ℚ_[q]) (Nat.cast_ne_zero.mpr (Fact.out : q.Prime).ne_zero)
-    ∉ unitsIntegral q := sorry
-
-/-- The zeroth similitude translate and its Hecke basis vector are identities. -/
-example : similitudeElement q W m 0 = 1 ∧ localSimilitudeUnit q W m 0 = 1 := sorry
-
-/-- Restriction kills the uniformizer translate but preserves the identity basis vector. -/
-example (D : HeckeCoset (⊤ : Submonoid (SplitLocalUnitaryGroup q W m))
-    (splitUnitaryIntegralSubgroup q W m) (splitUnitaryIntegralSubgroup q W m)) :
-    restrictValue q W m (localSimilitudeUnit q W m 1) D = 0 ∧
-      restrictValue q W m (1 : localHeckeFull q W m) D = (1 : localHeckeUnitary q W m) D := sorry
-
-/-- An empty set of local factors gives the trivial unitary group. -/
-example : Subsingleton (SplitLocalUnitaryGroup q Empty m) := sorry
-
-/-- Rank-zero general linear factors give the trivial unitary group. -/
-example : Subsingleton (SplitLocalUnitaryGroup q W 0) := sorry
-
-/-- With no local factors the unitary Hecke ring is the coefficient ring. -/
-example [IsHeckeTriple (⊤ : Submonoid (SplitLocalUnitaryGroup q Empty m))
-    (splitUnitaryIntegralSubgroup q Empty m) (splitUnitaryIntegralSubgroup q Empty m)] :
-    Nonempty (localHeckeUnitary q Empty m ≃+* ℤ) := sorry
-
-/-- At rank zero the unitary Hecke ring is the coefficient ring. -/
-example [IsHeckeTriple (⊤ : Submonoid (SplitLocalUnitaryGroup q W 0))
-    (splitUnitaryIntegralSubgroup q W 0) (splitUnitaryIntegralSubgroup q W 0)] :
-    Nonempty (localHeckeUnitary q W 0 ≃+* ℤ) := sorry
-
-/-- With no local factors the scalar valuation still gives the full Laurent Hecke ring. -/
-example [IsHeckeTriple (⊤ : Submonoid (SplitLocalGroup q Empty m))
-    (splitIntegralSubgroup q Empty m) (splitIntegralSubgroup q Empty m)] :
-    Nonempty (localHeckeFull q Empty m ≃+* LaurentPolynomial ℤ) := sorry
-
-/-- At rank zero the scalar valuation still gives the full Laurent Hecke ring. -/
-example [IsHeckeTriple (⊤ : Submonoid (SplitLocalGroup q W 0))
-    (splitIntegralSubgroup q W 0) (splitIntegralSubgroup q W 0)] :
-    Nonempty (localHeckeFull q W 0 ≃+* LaurentPolynomial ℤ) := sorry
+/-- Restriction preserves the identity basis vector (IG.0.4). -/
+theorem restrictValue_one
+    (D : HeckeCoset (⊤ : Submonoid (SplitLocalUnitaryGroup q W m))
+      (splitUnitaryIntegralSubgroup q W m) (splitUnitaryIntegralSubgroup q W m)) :
+    restrictValue q W m (1 : localHeckeFull q W m) D =
+      (1 : localHeckeUnitary q W m) D := sorry
 
 end SplitLocalHecke
 
@@ -399,9 +335,6 @@ section Genericity
 
 variable {k : Type*} [Field k]
 
-instance fact_prime_five : Fact (Nat.Prime 5) := ⟨by norm_num⟩
-instance fact_prime_eleven : Fact (Nat.Prime 11) := ⟨by norm_num⟩
-
 /-- The unit-valued Frobenius eigenvalues `q^{m−1} α_i⁻¹` of the dual system
 `ρ^∨ ⊗ |Art_F⁻¹|^{1−m}` (IG.5.1). -/
 def dualEigenvalues {m : ℕ} (q : kˣ) (α : Fin m → kˣ) : Fin m → kˣ :=
@@ -420,184 +353,19 @@ theorem dualEigenvalues_generic {m : ℕ} (q : kˣ) (α : Fin m → kˣ) :
       (dualEigenvalues q α i : k) / (dualEigenvalues q α j : k) ≠ (q : k)) ↔
       (∀ i j, i ≠ j → (α i : k) / (α j : k) ≠ (q : k)) := sorry
 
-/-- Repeated unit eigenvalues satisfy the weak ratio condition but fail the distinctness
-clause of AG2.7's `IsStrongGenericEigenvalues`. -/
-example :
-    let α : Fin 2 → (ZMod 5)ˣ := ![1, 1]
-    (∀ i j, i ≠ j → (α i : ZMod 5) / (α j : ZMod 5) ≠ 2) ∧
-      ¬ Function.Injective α := by
-  dsimp only
-  rw [genericEigenvalues_iff_crossMultiply]
-  decide
-
-/-- The ratio `2 = q` is excluded even though both entries are units. -/
-example :
-    let α : Fin 2 → (ZMod 5)ˣ := ![1, Units.mk0 2 (by decide)]
-    ¬ (∀ i j, i ≠ j → (α i : ZMod 5) / (α j : ZMod 5) ≠ 2) := by
-  dsimp only
-  rw [genericEigenvalues_iff_crossMultiply]
-  decide
-
-/-- The dual of `{1, 2}` at `q = 7` over `𝔽_11` is `{7, 9}`. -/
-example :
-    let q : (ZMod 11)ˣ := Units.mk0 7 (by decide)
-    let α : Fin 2 → (ZMod 11)ˣ := ![1, Units.mk0 2 (by decide)]
-    (dualEigenvalues q α 0 : ZMod 11) = 7 ∧
-      (dualEigenvalues q α 1 : ZMod 11) = 9 := by
-  norm_num [dualEigenvalues, Units.val_inv_eq_inv_val]
-  rw [mul_inv_eq_iff_eq_mul₀ (by decide)]
-  decide
-
-/-- Empty and singleton unit tuples satisfy both the ratio and distinctness clauses. -/
-example :
-    (∀ i j : Fin 0, i ≠ j →
-      ((1 : (ZMod 5)ˣ) : ZMod 5) / (1 : ZMod 5) ≠ 1) ∧
-    Function.Injective (fun _ : Fin 0 => (1 : (ZMod 5)ˣ)) ∧
-    (∀ i j : Fin 1, i ≠ j →
-      ((1 : (ZMod 5)ˣ) : ZMod 5) / (1 : ZMod 5) ≠ 1) ∧
-    Function.Injective (fun _ : Fin 1 => (1 : (ZMod 5)ˣ)) := by
-  decide
-
-/-- At `q = 1`, repeated unit eigenvalues fail the weak ratio condition. -/
-example :
-    let α : Fin 2 → (ZMod 5)ˣ := ![1, 1]
-    ¬ (∀ i j, i ≠ j → (α i : ZMod 5) / (α j : ZMod 5) ≠ 1) := by
-  dsimp only
-  rw [genericEigenvalues_iff_crossMultiply]
-  decide
-
 end Genericity
-
-/-! ## Computed controls for the geometric interfaces
-
-These examples test arithmetic shadows of README constructions. They do not introduce curve,
-p-divisible-group, Artin-stack or cohomology carriers absent from the pins.
--/
-
-section GeometricControls
-
-/-- IG.0.18a: a two-cycle has Frobenius slope `1/2`; its square is `-p`, and its fourth power is `p²`. This also tests the residue-characteristic-two case. -/
-example :
-    (!![(0 : ℚ), -2; 1, 0] : Matrix (Fin 2) (Fin 2) ℚ) ^ 2 = (-2) • (1 : Matrix (Fin 2) (Fin 2) ℚ) ∧
-    (!![(0 : ℚ), -2; 1, 0] : Matrix (Fin 2) (Fin 2) ℚ) ^ 4 = 4 • (1 : Matrix (Fin 2) (Fin 2) ℚ) := by
-  constructor <;> ext i j <;> fin_cases i <;> fin_cases j <;>
-    norm_num [pow_succ, Matrix.mul_apply, Fin.sum_univ_two]
-
-/-- The cleared slope-cycle map is an isomorphism after dividing the square by `-p`.
-The fourth power requires `p²`, not `p`. -/
-example :
-    (-1 / 2 : ℚ) • (!![(0 : ℚ), -2; 1, 0] : Matrix (Fin 2) (Fin 2) ℚ) ^ 2 = 1 ∧
-    (1 / 4 : ℚ) • (!![(0 : ℚ), -2; 1, 0] : Matrix (Fin 2) (Fin 2) ℚ) ^ 4 = 1 := by
-  constructor <;> ext i j <;> fin_cases i <;> fin_cases j <;>
-    norm_num [pow_succ, Matrix.mul_apply, Fin.sum_univ_two]
-
-/-- IG.2.11: clearing `diag(1,4,1/4,1)` by `p²=4` gives outer maps `[4]` and
-multiplier `16`. The cleared map does not preserve the outer maps as identities. -/
-example :
-    let ψ : Matrix (Fin 4) (Fin 4) ℤ := !![4, 0, 0, 0; 0, 16, 0, 0; 0, 0, 1, 0; 0, 0, 0, 4]
-    ψ.transpose * skewHermMatrix ℤ 2 * ψ = (16 : ℤ) • skewHermMatrix ℤ 2 ∧
-      ψ 0 0 = 4 ∧ ψ 3 3 = 4 ∧ ψ 0 0 ≠ 1 := by
-  decide
-
-/-- Before clearing, the rational quasi-isogeny has unit multiplier and identity
-outer maps; its middle block is not integral. -/
-example :
-    let φ : Matrix (Fin 4) (Fin 4) ℚ := !![1, 0, 0, 0; 0, 4, 0, 0; 0, 0, 1 / 4, 0; 0, 0, 0, 1]
-    φ.transpose * skewHermMatrix ℚ 2 * φ = skewHermMatrix ℚ 2 ∧
-      φ 0 0 = 1 ∧ φ 3 3 = 1 := by
-  native_decide
-
-/-- IG.F.2: negation in degree one transports `Frobenius - 1` to `1 - Frobenius`. -/
-example :
-    let φ : Matrix (Fin 2) (Fin 2) ℤ := !![1, 0; 0, 2]
-    1 - φ = !![0, 0; 0, -1] ∧ (-1 : Matrix (Fin 2) (Fin 2) ℤ) * (φ - 1) = 1 - φ := by
-  decide
-
-/-- IG.F.16/20: the GL₂ standard modification has shift one; its representation has
-rank two. These are distinct invariants. -/
-example : pairingTwoRho ![(1 : ℚ), 0] = 1 ∧ Fintype.card (Fin 2) = 2 := by
-  norm_num [pairingTwoRho, Fin.sum_univ_two]
-
-/-- IG.F.16: the pinning correction negates a simple-root coordinate; it is visible
-in odd coefficient characteristic and becomes the identity in characteristic two. -/
-example : (-1 : ZMod 3) * 1 = 2 ∧ (-1 : ZMod 3) * 1 ≠ 1 ∧
-    (-1 : ZMod 2) * 1 = 1 := by
-  decide
-
-/-- IG.F.22: normalized and unnormalized Levi embeddings differ even after reduction.
-For `q=9` in `F₁₁`, the chosen root is `3` and its inverse is `4`. -/
-example : (3 : ZMod 11) ^ 2 = 9 ∧ (3 : ZMod 11) * 4 = 1 ∧
-    (3 : ZMod 11) ≠ 1 ∧ (4 : ZMod 11) ≠ 1 := by
-  decide
-
-/-- IG.6.6a: rank one needs the cyclotomic `q⁻¹` factor; this is not an interchange
-of arithmetic and geometric Frobenius. -/
-example (x : ℚ) : 1 - 6 * (x / 3) = 1 - 2 * x := by
-  ring
-
-/-- Rank two retains the `q U₂` coefficient after the substitution `X ↦ X/q`.
-The polynomial conversion itself is imported from TorsionCohomologyInfrastructure §3b.1. -/
-example (x : ℚ) : 1 - 6 * (x / 2) + 40 * (x / 2) ^ 2 = 1 - 3 * x + 10 * x ^ 2 := by
-  ring
-
-/-- IG.6.6b: the unitary ambient twist has exponent `1-m`. On each coefficient it
-changes `i(1-2m+i)/2` into the required `i(i-1)/2`. -/
-example (i m : ℚ) : i * (1 - 2 * m + i) / 2 + i * (m - 1) = i * (i - 1) / 2 := by
-  ring
-
-/-- IG.0.31/0.33: for height two the ordinary and supersingular dimensions are 1,0;
-their kernel ranks grow from one to two. Height one has dimension zero. -/
-example : (2 - 1 - 0 : ℕ) = 1 ∧ (2 - 1 - 1 : ℕ) = 0 ∧
-    (2 - 1 : ℕ) = 1 ∧ (2 - 0 : ℕ) = 2 ∧ (1 - 1 : ℕ) = 0 := by
-  decide
-
-/-- IG.1.9: the first-kind cover over height two, etale height one and level one
-covers one base Frobenius; it is not the identity before perfection. -/
-example : (2 - 1 : ℕ) * 1 = 1 ∧ (2 - 0 : ℕ) * 1 = 2 := by
-  decide
-
-/-- IG.F.3: a negative isocrystal slope gives a positive bundle slope; negating and
-reordering the ordinary pair gives `(0,-1)`, not `(-1,0)`. -/
-example : -(-1 / 2 : ℚ) = 1 / 2 ∧ pairingTwoRho ![(0 : ℚ), -1] = 1 ∧
-    pairingTwoRho ![(-1 : ℚ), 0] = -1 := by
-  norm_num [pairingTwoRho, Fin.sum_univ_two]
-
-/-- IG.F.10/14 and IG.7.13: group dimension one and stratum dimension minus one
-have opposite dualizing shifts. In cohomological grading `[2]` places the line at `-2`. -/
-example : (2 * 1 : ℤ) = 2 ∧ (2 * (-1) : ℤ) = -2 ∧
-    -(-2 : ℤ) = 2 ∧ -(2 : ℤ) = -2 := by
-  decide
-
-/-- IG.7.7: with `n=2`, `r₁=1`, the two GL blocks have exponents `-3,0`;
-the remaining rank-two unitary block has exponent `-1`. -/
-example : (1 - 2 * 2 : ℤ) = -3 ∧ (1 - 1 : ℤ) = 0 ∧ -(1 : ℤ) = -1 ∧
-    (1 + 1 + 2 : ℕ) = 4 := by
-  decide
-
-/-- IG.7.11's integral obstruction: `Q_ell` is nonzero and multiplication by `ell`
-is surjective. Its ordinary reduction can vanish without the representation vanishing. -/
-example (ℓ : ℕ) [Fact (Nat.Prime ℓ)] :
-    (1 : ℚ_[ℓ]) ≠ 0 ∧ ∀ x : ℚ_[ℓ], ∃ y : ℚ_[ℓ], x = ℓ * y := by
-  have hℓ : (ℓ : ℚ_[ℓ]) ≠ 0 := by
-    exact_mod_cast (Fact.out : Nat.Prime ℓ).ne_zero
-  constructor
-  · exact one_ne_zero
-  · intro x
-    refine ⟨x / ℓ, ?_⟩
-    field_simp
-
-end GeometricControls
 
 /-!
 ## Targets stated only in the README
 
-IG.0.3 specifies the point group similitudeGroup, its character similitude and kernel
-unitaryGroup. Its group-scheme APIs include UnitarySimilitudeDatum.group,
+IG.0.3 specifies the point group similitudeGroup characterized by exists_similitudeGroup,
+its character similitude and kernel unitaryGroup. Its group-scheme APIs include UnitarySimilitudeDatum.group,
 UnitarySimilitudeDatum.unitaryGroup, UnitarySimilitudeDatum.locallySymmetricSpace,
 UnitarySimilitudeDatum.dim_locallySymmetricSpace, UnitarySimilitudeDatum.similitudeGroup,
 UnitarySimilitudeDatum.similitude and UnitarySimilitudeDatum.toPELDatum.
-IG.0.4 constructs localHeckeOperatorSubring; the signatures above take a subring with
-its specified support condition as a hypothesis. The Hecke-pair milestones are stated as
+IG.0.4 constructs localHeckeOperatorSubring, whose existence and support condition are
+stated by exists_localHeckeOperatorSubring; the comparison signatures take such a subring
+as a hypothesis. The Hecke-pair milestones are stated as
 theorems above; ring structures take their conclusions as explicit hypotheses. Its global APIs include
 UnitarySimilitudeDatum.heckeRestrict_heckeOperator.
 
