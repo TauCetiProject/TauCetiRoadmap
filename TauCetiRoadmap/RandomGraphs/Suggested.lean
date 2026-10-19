@@ -338,11 +338,8 @@ Fin (m + n) makes the first m named vertices available at every index.
 The full conditioned law and finite-pattern-mixture API are specified in the README.
 -/
 
-def firstVertices (m n : ℕ) : Fin m ↪ Fin (m + n) where
-  toFun i := ⟨i.val, lt_of_lt_of_le i.isLt (Nat.le_add_right m n)⟩
-  inj' := by
-    intro i j hij
-    exact Fin.ext (congrArg Fin.val hij)
+def firstVertices (m n : ℕ) : Fin m ↪ Fin (m + n) :=
+  Fin.castAddEmb n
 
 def rootEvent {m n : ℕ} (H : SimpleGraph (Fin m)) :
     Set (SimpleGraph (Fin (m + n))) :=
