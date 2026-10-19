@@ -10,9 +10,10 @@ not exhaustive: it records light definitions and milestones statable against
 the pinned Mathlib and Tau Ceti APIs. New theorem proofs use `sorry`.
 
 The signatures specify realised nerves, endpoint-based homotopy fibres,
-acyclic maps and plus recognition. Spectra, their localisations, coefficient
-objects and filtered constructions are specified in the README. Homotopy fibres
-use GeneralizedCohomology G2.10's real-bodied MappingPathFiber carrier.
+acyclic maps, plus recognition and plus factorization. Spectra, their
+localisations, coefficient objects and filtered constructions are specified in
+the README. Homotopy fibres use GeneralizedCohomology G2.10's real-bodied
+MappingPathFiber carrier.
 -/
 
 noncomputable section
@@ -397,6 +398,19 @@ theorem plus_exists [Topology.CWComplex (Set.univ : Set X)] [PathConnectedSpace 
     ∃ (Y : TopCat.{u}) (_ : Topology.CWComplex (Set.univ : Set Y))
       (_ : PathConnectedSpace Y) (f : X ⟶ Y), IsPlusConstruction f x P := sorry
 
+/-- A map killing the perfect subgroup factors through a plus construction
+uniquely up to homotopy, for connected CW targets (§3.25). -/
+theorem IsPlusConstruction.lift
+    [Topology.CWComplex (Set.univ : Set X)] [Topology.CWComplex (Set.univ : Set Y)]
+    [Topology.CWComplex (Set.univ : Set Z)]
+    [PathConnectedSpace X] [PathConnectedSpace Y] [PathConnectedSpace Z]
+    (f : X ⟶ Y) (x : X) (P : Subgroup (FundamentalGroup X x))
+    [P.Normal] [Group.IsPerfect P] (hf : IsPlusConstruction f x P)
+    (g : X ⟶ Z) (hg : P ≤ (FundamentalGroup.map g.hom x).ker) :
+    ∃ h : Y ⟶ Z, ContinuousMap.Homotopic g.hom (f ≫ h).hom ∧
+      ∀ h' : Y ⟶ Z, ContinuousMap.Homotopic g.hom (f ≫ h').hom →
+        ContinuousMap.Homotopic h.hom h'.hom := sorry
+
 end TauCeti
 
 /-
@@ -410,12 +424,18 @@ IsQuasiFibration, SimplicialSpace.realization, BisimplicialSet.realization,
 IsProper, PiStarKanCondition, SpaceDiagram.hocolim and comma/fibre comparisons.
 Layer 3: perfectRadical, plusConstruction, IsAbelianSpace, SpaceTower.holim,
 postnikovTower, principalFibration_extensionObstruction, twistedExtensionObstruction,
-abelianExtension, UniversalCentralExtension and rationalEMCohomology.
+abelianExtension, UniversalCentralExtension and rationalEMCohomology;
+lift_to_abelian is the abelian-target specialization of IsPlusConstruction.lift.
 Layer 4: Core.monoidalCategory and its component comparison, SInvS,
 FaithfulTranslations, MonoidalActionCategory, MonoidalAction.diag,
 IsHomotopyAssocHSpace, IsHomotopyCommHSpace, pontryaginLocalization,
-IsGroupCompletion, stableGeneralLinearGroup, stableElementaryGroup, BasedFree,
-projectiveFreeComplement, summingFunctors, segalGammaSpace, segalSpaces,
+IsGroupCompletion, spaceMilnorMappingSequence and its unstable mapping-space
+comparison with the supplied integral-module tower algebra;
+stableGeneralLinearGroup and stableElementaryGroup as AlgebraicKTheory A1
+aliases, with opposite-ring, block-sum and classifying-space comparisons;
+BasedFree and projectiveFreeComplement, the latter transported from
+AlgebraicKTheory A0 with its actual finite-projective splitting maps;
+summingFunctors, segalGammaSpace, segalSpaces,
 coherentSubsetGammaSpace using the supplied symmetric coherence,
 topologicalVariant and simplicialRingOfContinuous.
 Layer 5: point-set loop/suspension/shift and cone adapters, injective replacements,
@@ -423,9 +443,17 @@ point-set/derived pairings, operadPositiveModel, operadRectification,
 eilenbergMacLaneRing for associative rings, eilenbergMacLaneModule,
 eilenbergMacLaneComplex, HRModDerivedEquiv, connectiveSphereInduction,
 comparisons with the supplied spectraInfinityCategory and the Picard-spectrum comparison.
-Layer 6: WaldhausenCategory, ExactFunctor, S, K0 and kSpectrum.
-Layer 7: moore, modM, piMod, modTower, abelianTower.difference with its
-kernel/cokernel, multiplicationTower, generalMoore, completionZEquiv,
+Layer 6: WaldhausenCategory, ExactFunctor, S, K0 and kSpectrum, with the
+entrywise S-diagram, source/quotient additivity and relative-S comparisons
+exported to the downstream general algebraic K-theory interfaces.
+Layer 7: moore, modM, piMod, modTower; abelianTower.difference,
+abelianTower.limitKernel, abelianTower.limOneCokernel, abelianTower.sixTermExact
+and abelianTower.limOne_eq_zero_of_ML as aliases/comparisons for
+DerivedModuleAlgebra section 1.T.1 on main (ModuleTower at R = ℤ and
+CompactCoefficients.Tower), retaining the spectral Milnor injection,
+projection and six-term boundary;
+multiplicationTower.limOneEquiv as the sphere-tower specialization of the
+supplied limOne_mul_p; generalMoore, completionZEquiv,
 FilteredSpectrum, ExactCouple and their spectral sequences and convergence.
 
 Additional map, comparison and boundary-check targets from those sections:

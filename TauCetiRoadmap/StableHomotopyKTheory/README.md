@@ -13,9 +13,9 @@ This extends **Algebraic topology of spaces and manifolds**. The following mathe
 - **IntegralLattices**, 0A, supplies integral forms, isometries and orthogonal sums; 0E supplies signatures, 2C supplies orthogonal groups and orthogonal-sum embeddings without a definiteness assumption, and 6A supplies indefinite unimodular classification. **OrthogonalSpinGroups**, 0C, supplies only the bilinear/quadratic base-change comparison. The new targets here are cofinal stabilization and the classifying-space and plus comparison.
 - **BordismFormalGroups**, F6.5, owns Sp∞, symmetric coherence, infinity-operad interfaces and the monoidal model-localization comparison for GeneralizedCohomology's spectra. The comparisons here use those supplied objects.
 
-StableHomotopyKTheory owns generic nerve homotopy, Quillen A/B, acyclic and plus constructions, monoidal group completion, stable GL/E and generic Waldhausen/S foundations, including the Waldhausen structure on each SₙC. GeneralAlgebraicKTheory consumes these interfaces from §§1.1–1.34, 2.31–2.35, 3.1–3.33, 4.3–4.21 and 6.1–6.3, and owns Q-theory, localization, approximation and ring-specific comparisons. Its additional consumer results use these generic constructions with compatible names.
+StableHomotopyKTheory owns generic nerve homotopy, Quillen A/B, acyclic and plus constructions, monoidal group completion and generic Waldhausen/S foundations, including the Waldhausen structure on each SₙC. AlgebraicKTheory A0–A1 owns the arbitrary-ring matrix, elementary-subgroup and projective-complement algebra; §§4.14–4.15 here adapt its objects to classifying spaces and left modules. GeneralAlgebraicKTheory consumes the generic homotopy and Waldhausen interfaces and owns Q-theory, localization, approximation and ring-specific comparisons. The map-level contracts in Downstream consumers identify these constructions and the ring specialization of the general plus factorization.
 
-Local foundations include universal central extensions (Layer 3); stable general-linear groups, elementary perfectness and projective complements (Layer 4); stable and operadic comparisons (Layer 5); Waldhausen categories, S-construction, additivity and relative-S delooping (Layer 6); and countable abelian-tower limits, lim¹ and Mittag-Leffler criteria (Layer 7).
+Local foundations include universal central extensions (Layer 3); stable-linear classifying-space and projective-cofinality adapters (Layer 4); stable and operadic comparisons (Layer 5); Waldhausen categories, S-construction, additivity and relative-S delooping (Layer 6); and the spectral comparison with supplied countable-tower algebra (Layer 7).
 
 Nerves, realisation, local coefficient carriers, universal covers, split K₀, chain cones and abstract spectral-sequence pages retain their supplier objects. Tau Ceti also supplies `TauCeti.HasHomotopyExtensionProperty`, its cylinder-retraction criterion and cross-universe extension theorem in `Topology.Homotopy.Extension.Basic`; these enter as prerequisites, rather than a new HEP theory. The new proper-realisation and gluing targets use this property on closed embedding images.
 
@@ -51,6 +51,14 @@ Compact generation uses `CompactlyGenerated`, `CompactlyGenerated.of`, `compactl
 
 Use `HomotopyGroup.map` and its homomorphism form, `TauCeti.homotopyGroupEquivOfPath`, the fundamental-group action and `HomotopyGroup.loopSpaceMulEquiv`. The path-component/loop comparison is `HomotopyGroup.zerothHomotopyLoopSpaceEquivFundamentalGroup`. Use `TauCeti.LocalCoefficientSystem` with its constant and pullback functors, `TauCeti.CoveringSpace` with its monodromy functor, and `TauCeti.IsEilenbergMacLaneSpaceOne` with its asphericity condition. Comparisons preserve these basepoints, composition and coefficient handedness. Their Lean modules are `TauCeti.Topology.Homotopy.HomotopyGroup.{Map,BasepointChange,FundamentalGroupAction,LoopSpace}`, `TauCeti.AlgebraicTopology.LocalCoefficient`, `TauCeti.Topology.Covering.Monodromy.Basic` and `TauCeti.AlgebraicTopology.EilenbergMacLane.Basic`.
 
+### From AlgebraicKTheory
+
+[AlgebraicKTheory A0–A1](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1142) supplies the finite-projective splitting maps, finite block matrices, stable GL under trailing-identity stabilization, its elementary subgroup, normality, perfectness and equality with the commutator subgroup, for arbitrary associative unital rings including zero. Its projectives are right modules, with matrices acting on columns. For left R-modules use its A0 at Rᵐᵒᵖ, the canonical double-opposite scalar identification and the transpose/opposite adapter of §4.15. The underlying finite-projective category remains Tau Ceti's native category. No higher-K comparison is an input to A0–A1. The topology and plus multiplication on these supplied groups belong to §4.14.
+
+### From DerivedModuleAlgebra on main
+
+[DerivedModuleAlgebra §1.T.1](../DerivedModuleAlgebra/README.md#1t1-towers-lim-and-lim¹) supplies countable tower algebra on `ℕᵒᵖ ⥤ ModuleCat R`. Use it at R=ℤ with its integral abelian-group adapter `CompactCoefficients.Tower`: `ModuleTower.shift`, `ModuleTower.lim`, `ModuleTower.limOne`, their natural maps, the six-term boundary, derived-limit comparison and Mittag–Leffler vanishing. Its `Tower.toModuleFunctor`, `Tower.limComparison` and `Tower.limOneComparison` preserve that boundary and the Milnor maps. Its `limOne_mul_p` supplies the multiplication-by-p integer tower and the convergent-sum identification with ℤₚ/ℤ. Sections 4.11 and 7.9–7.11 add the unstable and spectral identifications with this same algebra. This contract uses the roadmap on main, independently of any revision of that roadmap.
+
 ### From GeneralizedCohomology
 
 Consume [GeneralizedCohomology](../GeneralizedCohomology/README.md) at the following section contracts. All comparisons retain arbitrary integer homotopy degrees, universe lifts, basepoints, units and naturality. No point-set choice is inferred functorial from a choice of triangle cone.
@@ -60,7 +68,7 @@ Consume [GeneralizedCohomology](../GeneralizedCohomology/README.md) at the follo
 - **G2.3–G2.6:** consume the Kan–Quillen and level/stable projective models, positive/flat variants, functorial replacements, injective-independent stable mapping spaces, native stable localization, its locally small additive/triangulated homs, derived closed smash and module models. Stable suspension has integer shifts and `π_k(ΣE)=π_(k−1)E`; rotation is `(g,h,−Σf)`. Derived products have product π-groups. Naïve groups are `colim_n π_(k+n)|E_n|`, with an abelian cofinal range `k+n≥2`, and a stable replacement computes true groups. Consume their semistable comparison, spectral Whitehead, compact sphere generation, connective-cell construction, free spheres, suspension spectra, sequential comparison and Freudenthal. The source-to-level maps include the low-degree set/group branches. For an Ω-spectrum, naïve π_k is π_k of its zero level for k≥0 and π₀ of its level −k for k<0; each level with k+n≥0 gives the corresponding comparison. A positive Ω spectrum computes true groups in sufficiently large positive levels. A naïve π-isomorphism is stable, and the converse holds between semistable spectra. (HSS Thms. 3.4.4 and 4.3.2; S I §§2–3, 6; S II §§1–5.)
 - **G2.4 and G2.8:** consume strict monoid/ring and right-module objects (right modules are left modules over the opposite ring), the module-model free–forgetful adjunction, the Barratt–Eccles machine with full block-substitution laws, and positive-model rectification. Γ-spaces use the skeleton of finite based sets and covariant functors; special means the zero term is contractible and the Segal maps are weak, and very special means also grouplike π₀. Consume prolongation, assembly, all permutation actions, the connective-spectrum equivalence and the group-completion left adjoint, including its unit/counit and the full homological localization property. The broader spectrum-operad transfer theorem below states its precise additional generality. (BS Appendix §12, Def. 12.4, Thm. 12.9 and Prop. 12.10, pp. 56–58; S IV Thm. 1.3, p. 386.)
 - **G2.7 and G3.8:** consume `HA`, its reduced-free-module levels, Dold–Kan/abelian Kan comparison, coefficient maps, Kan Ω status, `π₀HA=A` and all other π zero, the commutative HR and HM actions, unit and ordinary reduced/absolute/relative homology and cohomology comparisons. Consume full mapping-space truncation, `connectiveSpectrumMapsToHA`, connective covers, Postnikov sections, their adjunctions and compatible towers, with heart the abelian groups. A normalised smash-sphere complex is quasi-isomorphic to A[n], and need not be literally A[n]. For connective V and X with π_kX=0 for k≥1, consume [V,X]≅Hom(π₀V,π₀X), even when X has negative homotopy. A spectrum concentrated in degree zero is equivalent to Hπ₀ with the specified identity on π₀. Covers erase only groups below their cutoff, sections erase only groups above it, and the truncation triangle retains its map and boundary. (S I Example 1.14, p. 16; S II Prop. 5.24 and Thm. 5.25, pp. 265–266, Prop. 6.23, p. 279, Thms. 8.1 and 8.3, pp. 295–296; Jardine Lecture 06, Lemmas 14.1 and 14.3.)
-- **G3.4, G3.7–G3.9:** consume coherent spectral telescopes, π commuting with filtered homotopy colimits, the contravariant Milnor sequence for cohomological functors carrying sums to products, model tower replacements, derived products and the homotopy-limit fibre of `1−shift`. Its Milnor sequence is `0→lim¹π_(k+1)E_r→π_k holim E_r→lim π_kE_r→0`. Consume sphere localization, rationalization and prime completion `E^∧_p=holim_(r≥1)E/p^r` with reduction induced by `(p,id)`, the identified function-spectrum model `F(S/p∞,ΣE)`, units, exactness, independence and idempotence. Completeness means the unit invertible, equivalently `F(S[1/p],E)=0`. Its Hom/Ext sequence is `0→Ext¹(ℤ/p∞,π_kE)→π_kE^∧_p→Hom(ℤ/p∞,π_(k−1)E)→0`; degreewise finite generation gives `π_kE^∧_p=π_kE⊗ℤ_p`. Rationalization is the exact coproduct-preserving functor E↦S_ℚ∧ᴸE with π_k(E_ℚ)=π_kE⊗ℚ; its unit is universal into rational spectra, equivalently spectra with uniquely divisible homotopy groups. The abelian difference-map construction used for the explicit comparison is owned below; no unnamed algebraic-tower section is assumed. (S II Lemma 5.6 and Remark 5.9, pp. 257–258, Thm. 8.3, p. 297, Thm. 9.9, pp. 303–304.)
+- **G3.4, G3.7–G3.9:** consume coherent spectral telescopes, π commuting with filtered homotopy colimits, the contravariant Milnor sequence for cohomological functors carrying sums to products, model tower replacements, derived products and the homotopy-limit fibre of `1−shift`. Its Milnor sequence is `0→lim¹π_(k+1)E_r→π_k holim E_r→lim π_kE_r→0`. Consume sphere localization, rationalization and prime completion `E^∧_p=holim_(r≥1)E/p^r` with reduction induced by `(p,id)`, the identified function-spectrum model `F(S/p∞,ΣE)`, units, exactness, independence and idempotence. Completeness means the unit invertible, equivalently `F(S[1/p],E)=0`. Its Hom/Ext sequence is `0→Ext¹(ℤ/p∞,π_kE)→π_kE^∧_p→Hom(ℤ/p∞,π_(k−1)E)→0`; degreewise finite generation gives `π_kE^∧_p=π_kE⊗ℤ_p`. Rationalization is the exact coproduct-preserving functor E↦S_ℚ∧ᴸE with π_k(E_ℚ)=π_kE⊗ℚ; its unit is universal into rational spectra, equivalently spectra with uniquely divisible homotopy groups. Section 7.9 compares its Milnor maps with the supplied integral-module difference map. (S II Lemma 5.6 and Remark 5.9, pp. 257–258, Thm. 8.3, p. 297, Thm. 9.9, pp. 303–304.)
 - **G5.5–G5.6:** consume KU, KO, ku, ko and their specified Bott/unit maps, rational stable-stem vanishing, `S_ℚ≃Hℚ` and the all-degree stable rational Hurewicz comparison. Also consume the filtered-cochain Serre spectral sequence, local tensor-cup pairings, derivation differentials and multiplicative convergence used in its rational EM computation. The unstable rational H-space theorem and the graded rational classification below are additional comparisons. (S II Thm. 9.6, p. 302; H SS §§1.2–1.4, pp. 22–45.)
 
 **Supplier compatibility checks.** These specify which parts of these contracts the comparisons must preserve.
@@ -1207,6 +1215,14 @@ Deduce `hSpaceHomologyWhitehead`: any integral homology isomorphism between path
 
 For connected CW plus f at P and g:X→Z killing P on π₁, prove `IsPlusConstruction.lift`: g factors through f uniquely up to homotopy for any connected CW-type Z. Use twisted relative obstructions; `lift_to_abelian` is the separate abelian-target special case. Prove `plusExtensionObstructionVanish`: the relative cellular complex of the universal quotient cover of the plus pair is the free ℤ[π₁/P] complex with identity differential in degrees 3→2. Its Hom complex is acyclic for every quotient module. Thus all twisted extension obstructions and the relative homotopy obstructions vanish, giving existence and uniqueness. First replace spaces of CW type by CW models.
 
+For the ring specialization, substitute X=BGL(R) and P=E(R) from §4.14, transporting the subgroup through π₁BGL(R)≅GL(R). The factorization retains the homotopy g≃h∘f and is natural under ring maps and the opposite-ring comparison. A pointed map into a disconnected CW-type target factors through its basepoint component, so the connected-target statement gives that version as well.
+
+**Checks.**
+
+- At P=1, f is a homotopy equivalence and lifting is composition with its homotopy inverse.
+- For a field F, the map BGL(F)→B(Fˣ) induced by determinant kills E(F); its lift induces the determinant identification GL(F)/E(F)≅Fˣ on π₁.
+- For the zero ring, stable GL and E are trivial; the pointed factorization is the unique homotopy class from a point, while the rank labels of BasedFree remain distinct.
+
 (W IV Thm. 1.5 and the paragraph before it, p. IV.5; H AT §4.3 Exercise 23, p. 420.)
 
 *Needs:* §3.22, §3.14, §3.7, AlgebraicTopology.
@@ -1498,7 +1514,9 @@ Prove `IsGroupCompletion.of_groupLike` for homotopy-associative/commutative X wi
 
 ### 4.11 Uniqueness of group completions up to phantom maps
 
-If π₀X is countable or has a countable cofinal submonoid, two group completions with CW-type targets have equivalent targets; the comparison triangle is determined only up to phantom maps. Consume GeneralizedCohomology G3.10's unstable mapping-space/Milnor comparison. Construct `spaceMilnorMappingSequence`, extending its restriction-fibration argument to a specified countable exhaustion X=⋃ᵢXᵢ by based finite CW subcomplexes. For a based grouplike homotopy-associative, homotopy-commutative H-space T, identify the restriction kernel of [X,T]_*→limᵢ[Xᵢ,T]_* with lim¹ᵢ[ΣXᵢ,T]_*, including naturality. If this inverse tower is Mittag–Leffler, its lim¹ vanishes and maps agreeing on all stages agree in based homotopy classes. State the no-phantom comparison corollary under precisely this condition.
+If π₀X is countable or has a countable cofinal submonoid, two group completions with CW-type targets have equivalent targets; the comparison triangle is determined only up to phantom maps. Consume GeneralizedCohomology G3.10's unstable mapping-space/Milnor comparison. Construct `spaceMilnorMappingSequence`, extending its restriction-fibration argument to a specified countable exhaustion X=⋃ᵢXᵢ by based finite CW subcomplexes. Each inclusion is a closed CW cofibration; HEP gives the convenient based mapping-space restriction fibrations and identifies Map_*(X,T) with their homotopy limit. The countability condition on π₀X does not itself provide this finite-subcomplex exhaustion.
+
+For a based grouplike homotopy-associative, homotopy-commutative H-space T of CW type, the pointwise operation and loop concatenation make π₁Map_*(Xᵢ,T)=[ΣXᵢ,T]_* abelian by interchange. Transport G3.10's orbit-set lim¹ through the integral tower adapter of §7.9 to the supplied cokernel of δ(x)ᵢ=xᵢ−rᵢxᵢ₊₁. Identify its injection with the phantom kernel of [X,T]_*→limᵢ[Xᵢ,T]_*, and its projection with restriction. Preserve the connecting maps and naturality for maps of filtrations and based H-maps of targets. The supplied Mittag–Leffler vanishing then implies that maps agreeing on all stages agree in based homotopy classes. State the no-phantom comparison corollary under precisely this condition.
 
 **Checks.**
 
@@ -1508,7 +1526,7 @@ If π₀X is countable or has a countable cofinal submonoid, two group completio
 
 (W IV Phantom maps paragraph and Thm. 4.4.3, p. IV.39.)
 
-*Needs:* §4.6, §4.10, GeneralizedCohomology G3.10; `spaceMilnorMappingSequence` is the exhaustion extension constructed in this section.
+*Needs:* §4.6, §4.10, GeneralizedCohomology G3.10, DerivedModuleAlgebra §1.T.1 on main; `spaceMilnorMappingSequence` is the exhaustion extension constructed in this section.
 
 ### 4.12 The fibration S⁻¹S → S⁻¹X → ⟨S, X⟩
 
@@ -1534,23 +1552,24 @@ For connected CW-type plus maps at P,Q, prove their k-product is plus at P×Q. I
 
 ### 4.14 Stable linear groups and their plus H-space
 
-Construct `stableGeneralLinearGroup R` by trailing-identity stabilisation g↦diag(g,1) and `stableElementaryGroup R`, for every unital ring including zero. Prove normality, perfectness and the stable Whitehead lemma using a third matrix index. Define `finiteGLBlockSum R m n : GL_m(R)×GL_n(R)→GL_(m+n)(R)`, retaining both sizes. Stabilizing either input commutes with block sum up to specified permutation conjugation. Realize these conjugations as homotopies coherent under successive stabilizations, and prove equality on GL/E. Use the comparisons to construct the coherent H-space multiplication on BGL(R)⁺, so ℤ×BGL(R)⁺ completes ⊔BGLₙ(R).
+Use AlgebraicKTheory A1's stable GL and elementary subgroup, for every associative unital ring including zero. The names `stableGeneralLinearGroup R` and `stableElementaryGroup R` are aliases for those supplied objects, with their trailing-identity stabilization g↦diag(g,1). Likewise `finiteGLBlockSum R m n : GL_m(R)×GL_n(R)→GL_(m+n)(R)` is its finite block map, retaining both sizes and the supplied permutation conjugations when either input is stabilized. Realize those conjugations as homotopies coherent under successive stabilizations. Use them and the supplied equality on GL/E to construct the coherent H-space multiplication on BGL(R)⁺, so ℤ×BGL(R)⁺ completes ⊔BGLₙ(R).
 
-Prove E(R) equal to the stable commutator subgroup, with naturality for ring homomorphisms. **API:** `stableGeneralLinearGroup.of`, `stableGeneralLinearGroup.of_stabilise`, `finiteGLBlockSum`, `stableElementaryGroup.perfect`, `stableElementaryGroup.eq_commutator`. **Checks.**
+The comparison of stable groups is the unique group isomorphism carrying each finite-stage matrix to the same matrix; it identifies the elementary subgroups and commutes with all unital ring maps. On classifying spaces it preserves the identity vertex and the labelled edges. Transpose with entrywise opposite identifies GLₙ(Rᵐᵒᵖ) with GLₙ(R)ᵐᵒᵖ; inverse transpose gives the group isomorphism into GLₙ(Rᵐᵒᵖ) whose (i,j)-entry is op((g⁻¹)ⱼᵢ). It commutes with stabilization and block sum and carries E to E. Compare its realized map with §1.7's opposite-space homeomorphism using the entrywise-inverse nerve convention, and descend it through plus. **Supplied API aliases:** `stableGeneralLinearGroup.of`, `stableGeneralLinearGroup.of_stabilise`, `finiteGLBlockSum`, `stableElementaryGroup.perfect`, `stableElementaryGroup.eq_commutator`. **Checks.**
 
 - `stable_gl_rank_zero`: rank zero contributes the identity.
 - `finite_block_sum_stabilization`: over ℤ, block(I₁,−1) stabilized is diag(1,−1,1), whereas block(I₂,−1)=diag(1,1,−1). These remain distinct stably but are conjugate by exchanging the last two coordinates; ordinary block sum therefore does not descend to the chosen stable group.
 - `stable_gl_field`: over a field the stable determinant quotient is its unit group.
 - `elementary_two_not_perfect`: E₂(𝔽₂) is not perfect, so stable perfectness does not apply at rank two.
+- On eᵢⱼ(a), the inverse-transpose/opposite map gives eⱼᵢ(−aᵐᵒᵖ); for R=M₂(ℤ), transpose without the opposite coefficient ring fails multiplicativity.
  (W III, Lem. 1.3.2 and Whitehead Lem. 1.3.3, p. 4.)
 
 (W IV Exercise 1.11, p. IV.15; Exercise 4.9, p. IV.46.)
 
-*Needs:* §3.25, §3.28, §1.31, §4.6, §4.13, §3.12, §1.17, §3.15, §3.27, M.
+*Needs:* AlgebraicKTheory A1, §3.25, §3.28, §1.31, §4.6, §4.13, §3.12, §1.17, §3.15, §3.27, M.
 
 ### 4.15 Based free modules and projective complements
 
-Define `BasedFree R`: objects are rank labels n, automorphisms GLₙR, no arrows between labels; tensor is block sum with permutation symmetry. Row action gives Aut(n)≅GLₙRᵐᵒᵖ. Construct `toModuleCore`, its finite-projective lift and entrywise base change. Labels remain ℕ without IBN.
+Define `BasedFree R`: objects are rank labels n, automorphisms GLₙR, no arrows between labels; tensor is block sum with permutation symmetry. Row action gives Aut(n)≅GLₙRᵐᵒᵖ. Construct `toModuleCore`, its finite-projective lift and entrywise base change. Labels remain ℕ without IBN. Apply AlgebraicKTheory A0 to Rᵐᵒᵖ and identify right Rᵐᵒᵖ-modules with left R-modules by the double-opposite scalar map. On free modules the coordinate identification sends a column with opposite-ring entries to its unop row, and a matrix A to Aᵀ with entrywise unop. This identifies the supplied column action with the row action here, respecting composition, direct sums, permutations and base change.
 
 - `BasedFree`: The groupoid with objects ranks and matrices as isomorphisms; direct sum supplies the symmetric tensor.
 - `BasedFree.autEquiv`: Aut(n)≅GLₙ(R)ᵐᵒᵖ; inversion compares its classifying space with BGLₙ(R).
@@ -1568,7 +1587,7 @@ Define `BasedFree R`: objects are rank labels n, automorphisms GLₙR, no arrows
 
 (W IV Example 4.1.1(c), p. IV.36.)
 
-*Needs:* §4.1, M. First construct `projectiveFreeComplement`: for a finitely generated projective P over a unital ring, a finite Q and n with P⊕Q≅Rⁿ, from a split finite free surjection. Q is projective, not necessarily free. Then use it for `BasedFree.cofinal`. (W IV Example 4.1.1(c), p. IV.36.)
+*Needs:* AlgebraicKTheory A0, §4.1, M. The name `projectiveFreeComplement` is the supplied finite-projective complement transported through the Rᵐᵒᵖ adapter: for finite projective P it gives finite projective Q, n and an actual isomorphism P⊕Q≅Rⁿ. Retain its inclusion and retraction maps, whose composite on P is the identity, and use this same splitting for `BasedFree.cofinal`. Q is projective, not necessarily free. (W IV Example 4.1.1(c), p. IV.36; Mathlib `Module.Finite.exists_comp_eq_id_of_projective`.)
 
 **Checks.**
 
@@ -2245,29 +2264,39 @@ Form S/p∞ as the telescope of the inclusions, and identify its degree-zero hom
 
 ### 7.9 Countable abelian towers and comparison with spectral limits
 
-Build the countable abelian-tower limit and lim¹ as kernel and cokernel of 1−shift on the product. Prove the six-term exact sequence and agreement with derived inverse limit, plus lim¹ vanishing for Mittag-Leffler towers, in particular surjective towers or towers of finite groups. Compare these algebraic targets with GeneralizedCohomology G3.8’s sequence `0→lim¹πₖ₊₁Xᵣ→πₖholim X→limπₖXᵣ→0`, identifying its kernel, cokernel and connecting arrows with this difference-map model. Naturality is for maps of defining triangles, or for coherent point-set maps and the functorial construction. This algebraic foundation is local and precedes completion. **Foundation API:** `abelianTower.difference` sends (xᵣ) to (xᵣ−fᵣxᵣ₊₁); `abelianTower.limitKernel`, `abelianTower.limOneCokernel`, `abelianTower.sixTermExact`, `abelianTower.limOne_eq_zero_of_ML`. (Boardman, Eq. (1.3) and Thm. 1.4, p. 5.)
+Use DerivedModuleAlgebra §1.T.1 on main at R=ℤ for the countable tower limit, lim¹, natural six-term sequence, derived-limit comparison and Mittag–Leffler vanishing. For a coherent tower of spectra X, its integer homotopy groups form towers of integral modules. The map on πₖ of GeneralizedCohomology G3.8's derived-product difference map is the supplied `ModuleTower.shift`, namely δ(x)ᵣ=xᵣ−fᵣxᵣ₊₁. Identify its fibre long exact sequence with `0→lim¹πₖ₊₁Xᵣ→πₖholim X→limπₖXᵣ→0`. The injection is induced by the fibre triangle's boundary after passing to coker δ, and the projection is the compatible family of evaluation maps into ker δ. These identifications preserve the six-term connecting arrows for levelwise short exact sequences of homotopy-group towers; use the supplied integral-module/abelian-group comparisons throughout. Naturality is for coherent point-set maps or maps of the specified defining triangles.
+
+**Comparison API:** `abelianTower.difference` is an alias for `ModuleTower.shift` at R=ℤ, with `CompactCoefficients.Tower.shift` as its abelian-group presentation. `abelianTower.limitKernel` and `abelianTower.limOneCokernel` are the supplied `Tower.limComparison` and `Tower.limOneComparison`, together with the spectral injection/projection identifications above. `abelianTower.sixTermExact` and `abelianTower.limOne_eq_zero_of_ML` are aliases for the supplied natural six-term sequence and Mittag–Leffler vanishing. They carry no independent tower carrier or algebraic construction. (Stacks, More on Algebra, Lemma 15.88.1, tag 07KW; Algebra, Lemma 10.86.4, tag 0598.)
 
 **Checks.**
 
 - `tower_identity`: the identity tower has limit A and lim¹=0.
 - `tower_zero_maps`: zero transition maps make the difference identity, so both groups are zero.
 - `tower_surjective`: surjectivity lets one solve the difference equation recursively and gives lim¹=0; multiplication by p on ℤ fails this hypothesis.
+- For `0→pʳℤ→ℤ→ℤ/pʳ→0` with inclusion, identity and reduction transitions, the supplied connecting map ℤₚ→lim¹pʳℤ is surjective with kernel ℤ. The spectral and completion comparisons retain that map with its supplied normalization.
+- The ℤ/p tower with zero transitions is Mittag–Leffler despite nonsurjective transitions; both its limit and lim¹ vanish, using the same supplied maps.
 
 (S II, proof of Thm. 8.3, p. 297; S II, Lemma 5.6 and Remark 5.9, pp. 257–258; W IV 2.9 The ℓ-adic completion, p. IV.22.)
 
-*Needs:* GeneralizedCohomology G3.8, GeneralizedCohomology G2.6, GeneralizedCohomology G3.8, M. Construct the difference-map abelian-tower algebra first, then apply the holimit triangle.
+*Needs:* DerivedModuleAlgebra §1.T.1 on main, GeneralizedCohomology G3.8 and G2.6, M. Apply the supplied tower algebra to the homotopy-limit triangle.
 
 ### 7.10 A tower with nonzero lim¹
 
-For prime p, the sphere tower with transition p·id has lim π₀=0 and lim¹π₀=ℤₚ/ℤ, hence π₋₁holim=ℤₚ/ℤ although every term has π₋₁=0. Define `multiplicationTower.limOneEquiv` by (xₙ)↦∑pⁿxₙ mod ℤ. The series converges p-adically; on xₙ=yₙ−pyₙ₊₁ it telescopes to y₀. Digits prove surjectivity. If the sum is z∈ℤ, y₀=z and yₙ₊₁=(yₙ−xₙ)/p are integers by the partial-sum congruences and solve the difference equation. Infinite p-divisibility forces the inverse limit to zero. At p=2, 1/3 gives a nonzero coset.
+For prime p, identify the π₀ tower of the sphere tower with transition p·id with DerivedModuleAlgebra §1.T.1's `mulTower p`. Specialize its `limOne_mul_p`: lim π₀=0 and lim¹π₀≅ℤₚ/ℤ, with (xₙ) sent to the class of ∑pⁿxₙ. The name `multiplicationTower.limOneEquiv` denotes this supplied equivalence transported through the π₀ identification. Section 7.9's spectral Milnor comparison gives π₋₁holim≅ℤₚ/ℤ although every sphere term has π₋₁=0; no second convergent-sum construction is needed.
+
+**Checks.**
+
+- The π₀ identification sends the sphere unit to 1∈ℤ and the transition p·id to multiplication by p, fixing the sum normalization.
+- At p=2, the nonintegral 2-adic number 1/3 gives a nonzero class in π₋₁holim; stagewise vanishing in degree −1 does not imply vanishing for holim.
+- The identity of the sphere tower fixes every class in ℤₚ/ℤ. At p=3, levelwise multiplication by two induces multiplication by two and kills the nonzero class of 1/2∈ℤ₃, in agreement with the supplied natural lim¹ maps.
 
 (S II, Remark 5.9, p. 258.)
 
-*Needs:* §7.9, M.
+*Needs:* §7.9, DerivedModuleAlgebra §1.T.1 on main (`limOne_mul_p`), M.
 
 ### 7.11 The completion extension and Tate module
 
-Apply Milnor to the reduction tower, retaining the lim¹ term in πₙ(E∧ₚ). Taking the inverse limit of the coefficient short exact sequences gives 0→lim πₙE/pʳ→lim πₙ(E/pʳ)→Tₚπₙ₋₁E→0; the quotient tower is surjective and has zero lim¹. If the degree-(n+1) coefficient groups are finite, the Milnor lim¹ term also vanishes. This identifies the Tate-module contribution and states exactly which finiteness hypothesis removes which derived-limit term.
+Apply Milnor to the reduction tower, retaining the lim¹ term in πₙ(E∧ₚ). Taking the inverse limit of the coefficient short exact sequences gives 0→lim πₙE/pʳ→lim πₙ(E/pʳ)→Tₚπₙ₋₁E→0; the quotient tower is surjective and has zero lim¹. Use §7.9's supplied natural six-term boundary and its Milnor injection/projection comparison for these very coefficient maps. If the degree-(n+1) coefficient groups are finite, the Milnor lim¹ term also vanishes. This identifies the Tate-module contribution and states exactly which finiteness hypothesis removes which derived-limit term.
 
 (W IV 2.9 The ℓ-adic completion, p. IV.22.)
 
@@ -2522,11 +2551,22 @@ For E = Hℤ, E/p has π₀ = ℤ/p and no extra degree-zero summand. For E = H(
 
 ### Dependencies
 
-Layers 3 and 5–6, abelian/spectral-object APIs and local tower/Ext foundations; prime, finiteness and convergence conditions remain explicit.
+Layers 3 and 5–6, abelian/spectral-object APIs, the supplied countable-tower algebra and the local Ext comparison; prime, finiteness and convergence conditions remain explicit.
 
 ## Downstream consumers
 
-General algebraic K-theory uses these category constructions, plus comparisons, K-theory spectra, products and coefficients. Low-degree K-theory and regulators use the central-extension comparisons. Étale and motivic K-theory use coherent spectra and filtered convergence: the filtered-diagram, exact-couple, functorial-page and convergence interfaces are §§7.21–7.26, including the hypotheses of the convergence theorems. Abstract derived-sheaf theory uses the concrete stable presentation and operadic comparisons; arithmetic-duality developments use the countable-tower algebra. Each consumer imports these interfaces with the connectivity, prime and finiteness conditions.
+General algebraic K-theory uses these category constructions, plus comparisons, K-theory spectra, products and coefficients. Low-degree K-theory and regulators use the central-extension comparisons. Étale and motivic K-theory use coherent spectra and filtered convergence: the filtered-diagram, exact-couple, functorial-page and convergence interfaces are §§7.21–7.26, including the hypotheses of the convergence theorems. Abstract derived-sheaf theory uses the concrete stable presentation and operadic comparisons; arithmetic-duality developments use §7.9's spectral comparison with the shared tower algebra. Each consumer imports these interfaces with the connectivity, prime and finiteness conditions.
+
+The following contracts export the general constructions here. GeneralAlgebraicKTheory and GeometryOfNumbersAndQuadraticArithmetic are downstream consumers, not prerequisites.
+
+| Consumer interface | Owner and identifying maps |
+| --- | --- |
+| GeneralAlgebraicKTheory §§1.1–1.4 | §§1.1–1.34 and 2.31–2.35 here own realized nerves and Quillen A/B. Its classifying space and functor map are aliases for the same realized nerve and nerve map, with the same vertices. Comma comparisons commute up to the specified homotopy with projection to BC after reversing its paths b→f(a) to the paths f(a)→b used here. Opposite comparisons reverse the arrow strings and simplex coordinates; product comparisons use the realized projections. Retain the corresponding local coefficient transport. |
+| GeneralAlgebraicKTheory §1.5 | §§3.1–3.28 here own acyclic plus maps, uniqueness and functoriality, including §3.25's arbitrary-target factorization. Its plus object carries the same source map and subgroup kernel; comparison with a chosen model is the unique homotopy equivalence under X, preserving every pulled-back local coefficient system. |
+| GeneralAlgebraicKTheory §1.6 | §§4.3–4.21 here own the monoidal localizations and group completion. Identify objects (s,x) and stabilized morphism classes directly, so inclusion, translation and component difference [a]−[b] agree. The action-fibre comparison retains its chosen x₀ and composite nullhomotopy. |
+| GeneralAlgebraicKTheory §§3.3–3.4 and 3.13 | AlgebraicKTheory A0–A1 supplies the matrix/projective algebra to both roadmaps. The finite-stage identity maps of §4.14 identify its stable GL and E with the aliases here; the Rᵐᵒᵖ/row adapter of §4.15 identifies the complement and splitting maps. The classifying-space/plus multiplication is the one constructed here. |
+| GeneralAlgebraicKTheory §§5.1–5.7 and 5.10–5.11 | §§6.1–6.2 here own Waldhausen structures, S, additivity and relative-S delooping. Identify S-diagrams by their entries Aᵢⱼ, their quotient pushout squares, objectwise weak maps and relative latching cofibrations. Faces and degeneracies are the same index restrictions. The comparison carries source/quotient to source/quotient in additivity and the relative-S path object to the same pullback with its extra degeneracy. Its connective Ω-model is §6.1's corrected level-zero model; the sequential/symmetric comparison preserves the positive structure maps and sends each object loop to its K₀ generator. Its §§5.8–5.9 retain the exact-category S/Q comparison as additional consumer results. |
+| GeometryOfNumbersAndQuadraticArithmetic §6.10, `plusConstructionComparison` | Its ordinary ring plus/Q comparison uses GeneralAlgebraicKTheory's Q-theory. Its arbitrary-target factorization and H-space recognition are the specializations of §§3.25 and 3.28 here to X=BGL(R), P=E(R). Transport along the under-BGL plus equivalence and §4.15's right/left-module adapter; preserve the factorization homotopy, quotient on π₁, ring maps, stabilization and opposite rings. No separate generic factorization or S/Q engine belongs to this consumer. |
 
 ## References
 
