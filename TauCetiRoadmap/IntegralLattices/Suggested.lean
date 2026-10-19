@@ -21,9 +21,10 @@ finishes neither a layer nor the roadmap.
 The narrative roadmap is in `README.md`: Layers 0 to 9, together with Layer B for binary
 lattices, the convention table, the worked examples and the references. Mathlib has quadratic maps over semirings, symmetric
 bilinear forms with Gram matrices and base change, `ZLattice` covolumes, Smith normal form
-with the index-equals-determinant theorems, and a dual-submodule construction, but no
-integral-lattice arithmetic: no even/odd theory, no discriminant groups or forms, no
-genus, no local densities, no Nikulin embedding theory. We build that in `TauCeti/`.
+with the index-equals-determinant theorems and a dual-submodule construction. Tau Ceti's
+native integral-lattice foundation already provides even/unimodular predicates, discriminant
+and gluing constructions and concrete root-lattice maps. The remaining genus, local-density
+and Nikulin targets extend that foundation in `TauCeti/`.
 
 The carrier is not defined here. The foundation merged as upstream PR #200 — a full
 `Submodule ℤ V` in a rational ambient space, Mathlib's `dualSubmodule`, an actual quotient for
@@ -41,7 +42,7 @@ The second section checks the exact declarations imported from the six final sup
 roadmaps. Every name there is one the supplier actually exports in its own accepted scope:
 there are no private supplier structures or substitute carriers here, and no `#check` of a
 declaration a supplier has said it will not export. Generic Tamagawa normalization, strong
-approximation for `Spin`, the orthogonal volume theorem and Cho's smooth affine group scheme
+approximation for `Spin`, the orthogonal Tamagawa volume theorem and Cho's smooth affine group scheme
 over `ℤ₂` are not README milestones of this
 roadmap at all: they belong to the successor `OrthogonalTamagawaAndLatticeMass`, together with
 the mass formula and the dyadic local density they assemble (`README.md`, §*Scope*). The same
@@ -89,7 +90,7 @@ written out rather than described.
 
 Two boundaries are enforced by types rather than by prose, because prose has proved not to be
 enough. Completeness of a stored class list is not a field of `StoredGenusCertificate`: it is
-a theorem of a separate record whose hypothesis field is the imported mass, and there is no
+a theorem of a separate record whose hypothesis field is a proved genus mass, and there is no
 `class_number` beside the semantic columns. And the ring class field of a binary discriminant is
 reached only through `binaryRingClassField`, whose type carries `¬ IsSquare Δ`; the split
 algebra `ℚ × ℚ` is not a field, so it is the `K` of no `NumberFieldOrder K` and cannot be
@@ -234,13 +235,21 @@ of finite quadratic modules is the successor `FiniteQuadraticModuleWittTheory`'s
 def IsMetabolic (A : FiniteQuadraticModule) : Prop :=
   ∃ H : AddSubgroup A, A.IsLagrangian H
 
-/-- The three families of nondegenerate primary generators in Nikulin's classification. -/
+/-- Formal parameters for the three primary generator families. Nondegenerate generator
+classification uses the admissible parameters below. -/
 inductive NikulinGenerator where
   | cyclic (p k : ℕ) (hp : p.Prime) (θ : ℤ)
   | evenU (k : ℕ)
   | evenV (k : ℕ)
 
-/-- The finite quadratic module represented by one named generator. -/
+/-- Positive exponent and unit parameter for a nondegenerate primary generator. -/
+def NikulinGenerator.IsAdmissible : NikulinGenerator → Prop
+  | .cyclic p k _ θ => 0 < k ∧ ¬ (p : ℤ) ∣ θ
+  | .evenU k => 0 < k
+  | .evenV k => 0 < k
+
+/-- The finite quadratic module represented by one named generator; the classification theorem
+exports admissibility separately rather than attributing nondegeneracy to arbitrary parameters. -/
 noncomputable def NikulinGenerator.toFiniteQuadraticModule
     (g : NikulinGenerator) : FiniteQuadraticModule := sorry
 
@@ -251,6 +260,7 @@ noncomputable def orthogonalSumNikulinGenerators
 /-- Concrete classification output: a list of generators together with an actual isometry. -/
 structure NikulinDecomposition (A : FiniteQuadraticModule) where
   generators : List NikulinGenerator
+  admissible : ∀ g ∈ generators, g.IsAdmissible
   isometry : A.Isometry (orthogonalSumNikulinGenerators generators)
 
 /-- Nikulin's generator classification applies to nondegenerate finite quadratic modules.
@@ -300,7 +310,8 @@ theorem gaussSum_eq (A : FiniteQuadraticModule) [Fintype A] (hA : A.IsNondegener
       (Real.sqrt (Nat.card A : ℝ) : ℂ) *
         Complex.exp (2 * (π : ℂ) * Complex.I * (A.gaussSign.val : ℂ) / 8) := sorry
 
-theorem gaussSign_orthogonalSum (A B : FiniteQuadraticModule) :
+theorem gaussSign_orthogonalSum (A B : FiniteQuadraticModule)
+    (hA : A.IsNondegenerate) (hB : B.IsNondegenerate) :
     (A.orthogonalSum B).gaussSign = A.gaussSign + B.gaussSign := sorry
 
 /-- **Layer 1H, the Gauss sign of a metabolic module vanishes.** With `H` Lagrangian, summing
@@ -351,7 +362,7 @@ theorem padicDiscriminant_of_minGenerators_eq_zero (A : FiniteQuadraticModule) (
 predicate and not an unstated side condition. -/
 def HasCyclicTwoSummand (A : FiniteQuadraticModule.{u}) : Prop :=
   ∃ (θ : ℤ) (A' : FiniteQuadraticModule.{u}),
-    Nonempty (A.Isometry
+    Odd θ ∧ Nonempty (A.Isometry
       (orthogonalSum
         (NikulinGenerator.toFiniteQuadraticModule.{u}
           (NikulinGenerator.cyclic 2 1 Nat.prime_two θ))
@@ -866,8 +877,9 @@ structure NikulinExistenceConditions (tp tm : ℕ) (q : FiniteQuadraticModule) :
   minGenerators_le : minGenerators q ≤ tp + tm
   /-- (3) At every **odd** prime where the rank meets `l(A_{q_p})` exactly, the determinant
   square class is pinned, with the sign `(−1)^{t₋}`. The existential says both that the number
-  is a `p`-adic unit — which it is, because `v_p(det K(q_p)) = v_p(|A_q|)` — and that its square
-  class is `discr K(q_p)`. -/
+   is nonzero in `ℚ_p` (a unit of the FIELD, not necessarily of `ℤ_p`) and has square class
+   `discr K(q_p)`. Its exact valuation equals `v_p(|A_q|)`; at that fixed valuation, the ratio
+   comparison is a unit-square test. -/
   odd_boundary : ∀ (p : ℕ) [Fact p.Prime], p ≠ 2 →
     tp + tm = minGenerators (q.primaryComponent p) →
     ∃ u : ℚ_[p]ˣ, (u : ℚ_[p]) = (((-1) ^ tm * (Nat.card q : ℤ) : ℤ) : ℚ_[p]) ∧
@@ -1071,7 +1083,8 @@ with the real signature.
 pairwise non-isometric lattices in one genus is not thereby the whole genus; 2G gives finiteness
 of the class set, which is a different statement from identifying it. Putting `class_number`
 beside the semantic columns would make every certificate assert exhaustiveness, which is exactly
-what this roadmap cannot prove. -/
+not supplied by the semantic record alone. Actual classifications or certified enumerations
+can establish it, just as exact mass and connectivity routes can. -/
 structure StoredGenusCertificate where
   /-- The label component `dim`, and the size of the stored Gram matrix. -/
   dim : ℕ
@@ -1142,21 +1155,16 @@ def IsGenusMass {n : ℕ} (G : Matrix (Fin n) (Fin n) ℤ) (m : ℚ) : Prop :=
           m = ∑ H ∈ S,
             (1 : ℚ) / (Nat.card {P : Matrix (Fin n) (Fin n) ℤ // P.transpose * H * P = H} : ℚ)
 
-/-- **Layer 9B, the completeness certificate.** This is the record the `class_number` column
-belongs to, and it is separate from 9A on purpose: exhaustiveness of a stored list is not
-provable from anything in Layers 0 to 7.
-
-The import is a **named hypothesis field**. `mass` is a rational number, `mass_isGenusMass`
-assumes that it is the mass of the genus in the sense of 7A, and `reps_exhaust_mass` is the
-finite check that the stored representatives already account for all of it. The only routes to
-`mass_isGenusMass` leave this roadmap: an exact mass, which is the successor's 7H, or a proved
-neighbour-graph connectivity theorem in the exact regime, which 4G explicitly does not claim.
-A consumer that has imported neither cannot build this record at all, which is the intended
-behaviour. -/
+/-- **Layer 9B, the mass-route completeness certificate.** Exhaustiveness of a stored list
+is separate from its semantic columns. `mass_isGenusMass` supplies a proved mass identity and
+`reps_exhaust_mass` checks that the listed classes account for it. The exact identity can come
+from the successor's mass formula, a direct low-rank calculation, or an exhaustive classification
+or certified enumeration via `IsGenusMass`. A neighbour-connectivity route must include an
+exhaustive search; 4G's edge relation alone is not such a theorem. -/
 structure StoredClassNumberCertificate extends StoredGenusCertificate where
-  /-- The rational number an imported exact mass theorem supplies for this genus. -/
+  /-- The rational number an exact mass identity supplies for this genus. -/
   mass : ℚ
-  /-- **The imported hypothesis, not proved here.** -/
+  /-- **The exact mass identity, required as data rather than inferred from a list.** -/
   mass_isGenusMass : IsGenusMass toStoredGenusCertificate.gram mass
   /-- The finite check: the listed representatives already carry the whole mass. -/
   reps_exhaust_mass :
@@ -1229,6 +1237,7 @@ variable {K : Type} [Field K] [NumberField K]
 hypotheses identify the supplied number field with the quadratic field of `Δ`; the explicit
 `¬ IsSquare Δ` hypothesis prevents this declaration from being instantiated by `ℚ × ℚ`. -/
 noncomputable def orderOfNonsquareBinaryDiscriminant (Δ : ℤ) (hΔ : ¬ IsSquare Δ)
+    (hdisc : Δ % 4 = 0 ∨ Δ % 4 = 1)
     (sqrtΔ : K) (hsqrtΔ : sqrtΔ ^ 2 = (Δ : K))
     (hquadratic : Module.finrank ℚ K = 2) : NumberFieldOrder K := sorry
 
@@ -1275,23 +1284,25 @@ milestone: the ring class field of a binary discriminant *is* Class Field Theory
 B1's order. The point of naming it is the type — `¬ IsSquare Δ` is a parameter, so a square
 discriminant cannot reach a ring class field through this roadmap at all. -/
 noncomputable def binaryRingClassField (Δ : ℤ) (hΔ : ¬ IsSquare Δ)
+    (hdisc : Δ % 4 = 0 ∨ Δ % 4 = 1)
     (sqrtΔ : K) (hsqrtΔ : sqrtΔ ^ 2 = (Δ : K)) (hquadratic : Module.finrank ℚ K = 2) :
     IntermediateField K (SeparableClosure K) :=
   ClassFieldTheory.ringClassField K
-    (orderOfNonsquareBinaryDiscriminant Δ hΔ sqrtΔ hsqrtΔ hquadratic) hquadratic
+    (orderOfNonsquareBinaryDiscriminant Δ hΔ hdisc sqrtΔ hsqrtΔ hquadratic) hquadratic
 
 /-- **B3, the composite this roadmap proves**, at the level of the two consumed theorems: the
 Galois group of the binary ring class field is the supplier's `Pic` of B1's order, which B2
 identifies with the proper classes of primitive forms of discriminant `Δ`. This roadmap proves
 the composite and neither half. -/
 theorem gal_binaryRingClassField_equiv_pic (Δ : ℤ) (hΔ : ¬ IsSquare Δ)
+    (hdisc : Δ % 4 = 0 ∨ Δ % 4 = 1)
     (sqrtΔ : K) (hsqrtΔ : sqrtΔ ^ 2 = (Δ : K)) (hquadratic : Module.finrank ℚ K = 2) :
     Nonempty
-      ((binaryRingClassField Δ hΔ sqrtΔ hsqrtΔ hquadratic
-          ≃ₐ[K] binaryRingClassField Δ hΔ sqrtΔ hsqrtΔ hquadratic)
-        ≃* Pic (orderOfNonsquareBinaryDiscriminant Δ hΔ sqrtΔ hsqrtΔ hquadratic)) :=
+      ((binaryRingClassField Δ hΔ hdisc sqrtΔ hsqrtΔ hquadratic
+          ≃ₐ[K] binaryRingClassField Δ hΔ hdisc sqrtΔ hsqrtΔ hquadratic)
+        ≃* Pic (orderOfNonsquareBinaryDiscriminant Δ hΔ hdisc sqrtΔ hsqrtΔ hquadratic)) :=
   ClassFieldTheory.gal_ringClassField_equiv_pic K
-    (orderOfNonsquareBinaryDiscriminant Δ hΔ sqrtΔ hsqrtΔ hquadratic) hquadratic
+    (orderOfNonsquareBinaryDiscriminant Δ hΔ hdisc sqrtΔ hsqrtΔ hquadratic) hquadratic
 
 end LayerBContract
 
@@ -1300,8 +1311,10 @@ section LayerBSplitContract
 /-- The split quadratic algebra `ℚ[t]/(t² − Δ) ≃ ℚ × ℚ` of a square discriminant. -/
 abbrev SplitQuadraticAlgebra := ℚ × ℚ
 
-/-- The order in the split quadratic algebra.  This is deliberately an elementary product
-ring, not a `GlobalNumberFields.NumberFieldOrder`. -/
+/-- The maximal split order, the discriminant-one example. A square discriminant `f²` of
+conductor `f > 0` instead uses `{(a,b) ∈ ℤ² | a ≡ b mod f}`, of index `f` and discriminant
+`f²`. Those variable-conductor orders remain Layer B targets, not aliases of this product.
+Neither branch is a `GlobalNumberFields.NumberFieldOrder`. -/
 abbrev SplitQuadraticOrder := ℤ × ℤ
 
 /-- **The rejection test that makes the split ring class field unaskable.** `ℚ × ℚ` is not a
@@ -1312,7 +1325,7 @@ mathematics and not about the Lean elaborator: there is no ring class field of `
 name. -/
 theorem not_isField_splitQuadraticAlgebra : ¬ IsField SplitQuadraticAlgebra := sorry
 
-/-- The split order has four units, independently of the field-only Picard API. -/
+/-- The maximal split order has four units, independently of the field-only Picard API. -/
 example : Nat.card (Units SplitQuadraticOrder) = 4 := sorry
 
 /-- `U` is the mandatory square-discriminant example: its primitive discriminant is `1`
