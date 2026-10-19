@@ -1,9 +1,10 @@
 import Mathlib
 import TauCeti.LinearAlgebra.IntegralLattice.Discriminant.Quadratic
-import TauCeti.LinearAlgebra.IntegralLattice.OrthogonalSum
+import TauCeti.LinearAlgebra.IntegralLattice.Orthogonal.Sum
 import TauCeti.LinearAlgebra.IntegralLattice.Overlattice.Index
 import TauCeti.LinearAlgebra.IntegralLattice.Rationalization
-import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeA
+import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeA.Basic
+import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeA.ZeroSum
 import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeD.Basic
 import TauCeti.LinearAlgebra.IntegralLattice.RootLattice.TypeE
 import TauCeti.NumberTheory.ModularForms.DiamondOperators
