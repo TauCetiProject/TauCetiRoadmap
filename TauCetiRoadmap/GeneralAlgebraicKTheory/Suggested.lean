@@ -6,10 +6,14 @@ import TauCeti.CategoryTheory.GrothendieckGroup.Triangulated
 
 The roadmap is README.md. This file records light definitions and theorem signatures
 statable against the pinned APIs and is not exhaustive. Classifying spaces use the
-existing nerve and realization. The other definitions record the arithmetic conventions
-for sphere interchange, relative differences, boundaries, projective-line twists and
-finite Euler classes. The categorical K-theory constructions and their full interfaces
-are targets in the README and are named in the closing comment.
+existing nerve and realization, with the generic homotopy theorems supplied by
+StableHomotopyKTheory §§1–2. Their local names state the same results on those
+carriers. The finite-poset criterion is an additional local target. The other
+definitions record the arithmetic conventions for sphere interchange, relative differences, boundaries, projective-line twists and
+finite Euler classes. The categorical K-theory interfaces use
+StableHomotopyKTheory's supplied plus, group-completion and Waldhausen/S
+constructions, compared with exact-category Q-theory here. Their aliases and
+comparison targets are specified in the README and named in the closing comment.
 -/
 
 noncomputable section
@@ -23,33 +27,33 @@ open scoped ContinuousMap
 
 /- ## Layer 1: Categorical homotopy tools -/
 
-/-- The classifying space is the realization of Mathlib's category nerve (§1.1). -/
+/-- The supplied classifying space uses Mathlib's realized category nerve (§1.1). -/
 abbrev classifyingSpace (C : Type u) [Category.{v} C] : TopCat.{max u v} :=
   SSet.toTop.obj (CategoryTheory.nerve C)
 
-/-- The continuous map obtained by realizing the existing nerve map (§1.1). -/
+/-- The supplied functor map is the continuous map realizing Mathlib's nerve map (§1.1). -/
 abbrev classifyingSpaceMap {C D : Type u} [Category.{v} C] [Category.{v} D]
     (F : C ⥤ D) : C(classifyingSpace C, classifyingSpace D) :=
   (SSet.toTop.map (CategoryTheory.nerveMap F)).hom
 
 /- ## Categorical homotopy milestones -/
 
-/-- Contractible under-comma realizations make the realized functor a homotopy equivalence
-(§1.4, QuillenA). -/
+/-- The supplied dual Quillen A criterion gives the realized functor as a homotopy
+equivalence from contractible under-comma realizations (§1.4, QuillenA). -/
 theorem QuillenA {C D : Type u} [Category.{u} C] [Category.{u} D]
     (F : C ⥤ D) (h : ∀ d : D, ContractibleSpace (classifyingSpace (StructuredArrow d F))) :
     ∃ e : classifyingSpace C ≃ₕ classifyingSpace D,
       e.toFun = classifyingSpaceMap F := sorry
 
-/-- Contractible over-comma realizations give the dual homotopy equivalence criterion
-(§1.4, QuillenA_dual). -/
+/-- The supplied Quillen A criterion gives the realized functor as a homotopy equivalence
+from contractible over-comma realizations (§1.4, QuillenA_dual). -/
 theorem QuillenA_dual {C D : Type u} [Category.{u} C] [Category.{u} D]
     (F : C ⥤ D) (h : ∀ d : D, ContractibleSpace (classifyingSpace (CostructuredArrow F d))) :
     ∃ e : classifyingSpace C ≃ₕ classifyingSpace D,
       e.toFun = classifyingSpaceMap F := sorry
 
-/-- Realization of a product is the compactly generated product, with the realized projections
-as its coordinates (§1.1, classifyingSpace_product). -/
+/-- The supplied product comparison identifies the realized projections with the coordinates
+of the compactly generated product (§1.1, classifyingSpace_product). -/
 theorem classifyingSpace_product (C D : Type u) [Category.{u} C] [Category.{u} D] :
     letI : TopologicalSpace (classifyingSpace C × classifyingSpace D) :=
       TopologicalSpace.compactlyGenerated.{u} (classifyingSpace C × classifyingSpace D)
@@ -57,7 +61,7 @@ theorem classifyingSpace_product (C D : Type u) [Category.{u} C] [Category.{u} D
       ∀ x, e x = (classifyingSpaceMap (CategoryTheory.Prod.fst C D) x,
         classifyingSpaceMap (CategoryTheory.Prod.snd C D) x) := sorry
 
-/-- Reversing the simplices identifies a category's realization with that of its opposite
+/-- The supplied opposite comparison reverses arrow strings and simplex coordinates
 (§1.1, classifyingSpace_op). -/
 theorem classifyingSpace_op (C : Type u) [Category.{u} C] :
     Nonempty (classifyingSpace Cᵒᵖ ≃ₜ classifyingSpace C) := sorry
@@ -94,20 +98,21 @@ end DenseSubcategories
 
 /- ## Layer 1: Functor homotopies and boundary cases -/
 
-/-- A natural transformation gives a homotopy, including when it is not invertible (§1.1). -/
+/-- The supplied natural-transformation homotopy applies to noninvertible components (§1.1). -/
 theorem classifyingSpace_natTrans {C D : Type u} [Category.{u} C] [Category.{u} D]
     {F G : C ⥤ D} (α : F ⟶ G) :
     Nonempty (ContinuousMap.Homotopy (classifyingSpaceMap F) (classifyingSpaceMap G)) := sorry
 
-/-- An equivalence realizes to a homotopy equivalence (§1.1). -/
+/-- The supplied equivalence comparison gives a homotopy equivalence of realizations (§1.1). -/
 theorem classifyingSpace_equivalence {C D : Type u} [Category.{u} C] [Category.{u} D]
     (e : C ≌ D) : Nonempty (classifyingSpace C ≃ₕ classifyingSpace D) := sorry
 
-/-- Filteredness includes nonemptiness; the empty category is excluded (§1.1). -/
+/-- The supplied filtered-category contraction uses filteredness including nonemptiness (§1.1). -/
 theorem classifyingSpace_filtered (C : Type u) [Category.{u} C] [IsFiltered C] :
     ContractibleSpace (classifyingSpace C) := sorry
 
-/-- Finite-poset detection requires a nonempty target category (§1.1; Schlichting A.10). -/
+/-- Nullhomotopies of all finite-poset diagrams detect contractibility of a nonempty
+category's realization (§1.1; Schlichting A.10). -/
 theorem classifyingSpace_finitePosetDetection (C : Type u) [Category.{u} C] [Nonempty C]
     (h : ∀ (P : Type u) [PartialOrder P] [Finite P] (F : P ⥤ C),
       (classifyingSpaceMap F).Nullhomotopic) :
@@ -212,13 +217,29 @@ def twoTermEuler {A : Type*} [AddCommGroup A] (degreeZero degreeOne : A) : A :=
 def cornerUnitizationSecond (z c : ℤ) : Matrix (Fin 2) (Fin 2) ℤ := !![c,0;0,z]
 
 /-
-Full interfaces specified in README.md, using constructions developed there:
+Full interfaces specified in README.md, using the following supplied aliases and
+local comparisons. Generic plus, group-completion and Waldhausen/S carriers are
+StableHomotopyKTheory's; Q-theory and the exact-category S/Q comparisons are local.
+Supplier spellings for the realized-nerve aliases include
+classifyingSpace_prodHomeomorph_k, classifyingSpace_opHomeomorph,
+classifyingSpace_contractible_of_filtered, classifyingSpace_filteredColimit_pi,
+NatTrans.classifyingSpaceHomotopic and Adjunction.classifyingSpaceHomotopyEquiv;
+QuillenA/QuillenA_dual and QuillenB/QuillenB_dual compare quillenTheoremA/B and their duals.
 Layer 1: classifyingSpace_filteredColimit_pi;
 HomotopyFibre as a supplied-carrier alias, with pathReversal/map/boundary/exact adapters;
 bisimplicialRealization,
 edgewiseSubdivision/homeomorph, isomorphismDoubleNerve, QuillenB and QuillenB_dual,
-PlusConstruction/pi1/localHomology/map, MonoidalLocalization/action/pi0/cofinality,
-MonoidalLocalization.actionFibration with its chosen object and pointed-action naturality,
+PlusConstruction/pi1/localHomology/map/lift compare IsPlusConstruction,
+plus_exists, IsPlusConstruction.pi1_quotient, IsPlusConstruction.homology_iso,
+IsPlusConstruction.lift, IsPlusConstruction.unique, IsPlusConstruction.map and
+plusFunctorialModel under the source space.
+MonoidalLocalization/action/pi0/cofinality compare SInvS,
+MonoidalActionCategory.loc, SInvS.pi0Equiv, quillenGroupCompletion,
+cofinality_action and cofinality;
+MonoidalLocalization.actionFibration compares SInvS.fibration with its chosen
+object, nullhomotopy and pointed-action naturality.
+bisimplicialRealization uses BisimplicialSet.realization and
+diagonalRealizationIso; edgewiseSubdivision and isomorphismDoubleNerve are local.
 kTheorySequentialComparison and kTheoryPairingComparison in the supplied stable category.
 Layer 2: QSpan, qSpanSetoid, QCat/lift/op, qCategory, SmallExactModel,
 qConstruction, kSpace, kGroup, kGroupAddCommGroup, twoEdgeLoop, pi1QEquivExactK0.
@@ -227,7 +248,10 @@ projBaseChange_comm are left-projective adapters to AlgebraicKTheory's supplied
 scalar extension. StableGL/stabilizeMatrix/stableElementaryMatrix/map,
 stableElementary/stableElementary_perfect/stableElementary_eq_commutator,
 classicalK1/unit and finiteGLBlockSum use its A1–A2 carriers and maps;
-the finite block conjugations acquire coherent realization homotopies here.
+StableHomotopyKTheory's stableGeneralLinearGroup/stableElementaryGroup identify
+these same groups by finite-stage matrices. Its finite block conjugations supply
+the coherent realization homotopies and plus multiplication; its
+projectiveFreeComplement retains the supplied finite-projective splitting maps.
 RingKSpace/ringKMap, ringKGroup/map/zeroEquiv/oneEquiv retain the native exact K0
 and compare to the supplied classical K1, with the classwise transpose adapter.
 idempotentBaseChange, ExtQ/ExtCat/ExtFibre with actions and cartesian lifts,
@@ -236,9 +260,20 @@ Layer 4: conflationExactStructure and its evaluation exactness,
 additivity, resolutionSubcategory, resolution, devissage, LocalizationModel and serreLocalization,
 RelativeTriple, ClassicalRelativeK0/difference/naturality,
 ClassicalAdditiveK1/map/quillenEquiv/boundary, the relative five-term sequence.
-Layers 5–6: WaldhausenCategory/ofExact, SConstruction/restrict/simplicial,
-standardTwoStepFlag, KSpace/KGroup, iteratedS, AdditivityFibre, edgewiseQ,
-relative S, CylinderFunctor, CofibrantPosetDiagram, IteratedCylinder,
+Layer 5 supplied aliases/comparisons: WaldhausenCategory, CategoryWithCofibrations,
+SConstruction/restrict/simplicial/cofibration/face/degeneracy/two_eq_ext identify
+ExactFunctor, S.obj, S.waldhausenStructure, S.face, S.degeneracy, S.oneEquiv and
+S.twoEquiv. WaldhausenCategory.K0/KSpace/KGroup/pi1_eq_K0/KSpace_map/hSpace/iteratedS
+compare WaldhausenCategory.kSpectrum, kSpectrum.pi0K0Equiv,
+WaldhausenCategory.kSpectrum.map and its corrected connective zero space.
+WaldhausenCategory.additivity, relativeS/relativeS_delooping/iteratedS_spectrum
+compare the supplied source/quotient additivity, relative-S extra degeneracy and
+WaldhausenCategory.kSpectrum.sequentialComparison/isPositiveOmega/isSemistable.
+Local Layer 5 targets: WaldhausenCategory.ofExact, IsSaturated, HasExtensionAxiom,
+CylinderFunctor, standardTwoStepFlag, SConstruction.natIso_homotopy,
+AdditivityFibre/quotient/lastVertexSection/quotient_section/pushout_contraction,
+SConstruction.object_additivity and the exact-category edgewiseQ/sEqualsQ comparisons.
+Layer 6: CofibrantPosetDiagram, IteratedCylinder,
 classWeak and the approximation/fibration/cofinality comparisons;
 ExactStructure.yonedaExactEmbedding, ExactStructure.k0CofinalCompletion,
 gilletWaldhausen_general with intrinsic homotopy-acyclic weak maps and both cofibration classes.
@@ -257,6 +292,9 @@ Layer 10: IsFlasqueRing, IsInfiniteSumRing, coneRing, contraction, IsAcyclic,
 IsContracted, negativeK, NegativeKTheory, bassTheory, deloop, bassSpectrum;
 noetherianRing_G0_polynomial, regularRing_K0_polynomial,
 noetherianRing_G0_laurent and regularRing_K0_laurent with mixed-extension regularity.
+Generic tower comparisons retain StableHomotopyKTheory section 7.9's
+abelianTower.difference/limitKernel/limOneCokernel and the supplied
+DerivedModuleAlgebra section 1.T.1 on main carriers and spectral Milnor maps.
 Layer 11: FrobeniusPair/derived/map/ofExact/waldhausen, DenseClasses stable quotient with zero_iff/euler/quotientEquiv,
 countableEnvelope, enlarge/suspension/setup/IK, IsExactSequence,
 NegativeKSetup, IK0/negativeIK, FrobeniusReplacement and spectrum localization.
