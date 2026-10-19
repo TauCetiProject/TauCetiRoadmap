@@ -998,11 +998,16 @@ work. No unmerged mathlib branch or external formalization is a runtime dependen
   balanced graph at its threshold, and Corollary 4.9 the cycle case at $`p\sim c/n`$; for
   triangles this is the $`\mathrm{Poisson}(c^3/6)`$ limit of 11.2.
 - W. Hodges, *Model Theory*, Encyclopedia of Mathematics and its Applications 42, Cambridge
-  University Press, 1993. Theorem 7.1.2 is Fraïssé's theorem: a Fraïssé class has a limit of
-  cardinality at most $`\aleph_0`$ with that age, ultrahomogeneous and unique up to
-  isomorphism; Theorem 7.1.7 is its converse. Milestone 2 states existence through
-  representative families and assumes countability of the function symbols only; the
-  construction specified there supplies that variant.
+  University Press, 1993, §7.1. Theorem 7.1.2 (p. 326) is Fraïssé's theorem: for a countable
+  signature, a nonempty finite or countable set of finitely generated structures with HP, JEP
+  and AP has a limit of cardinality at most $`\aleph_0`$ with that age, ultrahomogeneous and
+  unique up to isomorphism; Theorem 7.1.7 (p. 329) is its converse. Lemma 7.1.6 and the chain
+  construction (1.8) (pp. 328–329) correspond to Milestone 2. Lemmas 7.1.3–7.1.4
+  (pp. 326–327) extend a prescribed embedding of a finitely generated substructure to an
+  embedding or isomorphism, the rooted statements of Milestone 3, for structures that are at
+  most countable. Milestones 2 and 3 assume less: existence uses countability of the function
+  symbols only and proceeds through representative families, and the rooted embedding allows a
+  target of any cardinality; the constructions specified there supply these variants.
 - P. J. Cameron, [The random graph](https://arxiv.org/abs/1301.7544):
   extension properties, the binary presentation, homogeneity, universality and logical theory.
 - P. Erdős and A. Rényi,
