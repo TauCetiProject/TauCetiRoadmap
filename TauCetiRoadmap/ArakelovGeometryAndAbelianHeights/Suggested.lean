@@ -26,21 +26,6 @@ noncomputable section
 
 variable (K : Type*) [Field K] [NumberField K]
 
-/-- A nonzero rational function on a disconnected regular scheme need not be a rational unit
-(README §1.8). Principal Cartier divisors require the latter. -/
-example : ((1, 0) : ℚ × ℚ) ≠ 0 ∧ ¬IsUnit ((1, 0) : ℚ × ℚ) := by
-  simp [Prod.isUnit_iff, Prod.ext_iff]
-
-/-- Nonvanishing on both components gives a rational unit (README §1.8). -/
-example : IsUnit ((2, 1) : ℚ × ℚ) := by
-  norm_num [Prod.isUnit_iff]
-
-/-- The equation `t` pulled back along the sections `t=0` and `t=1` is nonzero but annihilates a
-nonzero element. It cannot define a Cartier divisor on their disjoint union (README §1.9). -/
-example : ((0, 1) : ℤ × ℤ) ≠ 0 ∧ ((1, 0) : ℤ × ℤ) ≠ 0 ∧
-    ((0, 1) : ℤ × ℤ) * (1, 0) = 0 := by
-  norm_num [Prod.ext_iff]
-
 /-- An Arakelov divisor is an invertible fractional ideal and one real coefficient per infinite
 place. Addition multiplies the ideals and adds the coefficients (README §1.7). -/
 abbrev ArakelovDivisor : Type _ :=
@@ -68,19 +53,6 @@ def principal (f : Kˣ) : ArakelovDivisor K :=
       (FractionalIdeal.spanSingleton_ne_zero_iff.mpr f.ne_zero)),
     fun v => -((v.mult : ℕ) : ℝ) * Real.log (v (f : K)))
 
-/-- The zero divisor has unit finite ideal and zero infinite coefficients. -/
-example : finitePart (0 : ArakelovDivisor K) = 1 ∧
-    ∀ v, infinitePart (0 : ArakelovDivisor K) v = 0 := by
-  exact ⟨rfl, fun _ => rfl⟩
-
-/-- The finite projection of a principal divisor is the principal fractional ideal. -/
-example (f : Kˣ) :
-    finitePart (principal f) = FractionalIdeal.spanSingleton (𝓞 K)⁰ (f : K) := rfl
-
-/-- The infinite projection retains the multiplicity. -/
-example (f : Kˣ) (v : InfinitePlace K) :
-    infinitePart (principal f) v = -(v.mult : ℝ) * Real.log (v (f : K)) := rfl
-
 /-- Degree is an additive function on divisors (README §1.7). -/
 theorem degree_add (D D' : ArakelovDivisor K) : degree (D + D') = degree D + degree D' :=
   sorry
@@ -88,15 +60,21 @@ theorem degree_add (D D' : ArakelovDivisor K) : degree (D + D') = degree D + deg
 /-- The product formula gives degree zero for every principal divisor (README §§1.4, 1.7). -/
 theorem degree_principal (f : Kˣ) : degree (principal f) = 0 := sorry
 
-/-- The unit line has degree zero. -/
-example : degree (0 : ArakelovDivisor K) = 0 := sorry
+/-- The zero divisor has degree zero (README §1.7). -/
+theorem degree_zero : degree (0 : ArakelovDivisor K) = 0 := sorry
 
-/-- Over `ℚ` the two contributions to `(2)` cancel. -/
-example : degree (principal (Units.mk0 (2 : ℚ) two_ne_zero)) = 0 :=
-  degree_principal _
+/-- The principal divisors generate the subgroup used for the compactified Picard quotient
+(README §1.7). -/
+def principalSubgroup : AddSubgroup (ArakelovDivisor K) :=
+  AddSubgroup.closure (Set.range (principal (K := K)))
 
-/-- In an imaginary quadratic field, forgetting multiplicity leaves `log 2` rather than zero. -/
-example (L : Type*) [Field L] [NumberField L] (hL : Module.finrank ℚ L = 2)
+/-- Degree is constant on divisor classes modulo principal divisors (README §1.7). -/
+theorem degree_eq_of_sub_mem (D D' : ArakelovDivisor K)
+    (h : D - D' ∈ principalSubgroup (K := K)) : degree D = degree D' := sorry
+
+/-- Forgetting the complex-place multiplicity in an imaginary quadratic field leaves
+`log 2` rather than zero (README §1.7). -/
+theorem mult_nonexample (L : Type*) [Field L] [NumberField L] (hL : Module.finrank ℚ L = 2)
     (v : InfinitePlace L) (hv : v.IsComplex) (h1 : ∀ w : InfinitePlace L, w = v) :
     degree ((principal (Units.mk0 (2 : L) two_ne_zero)).1,
       fun w => -Real.log (w (2 : L))) = Real.log 2 := sorry
@@ -122,27 +100,9 @@ theorem degree_ofTuple (x : ι → K) (hx : x ≠ 0) : degree (ofTuple x hx) = H
 theorem ofTuple_smul (x : ι → K) (hx : x ≠ 0) (c : Kˣ) :
     ofTuple ((c : K) • x) (smul_ne_zero c.ne_zero hx) = ofTuple x hx - principal c := sorry
 
-/-- Coprime integral coordinates recover the maximum absolute value. -/
-example (a b : ℤ) (hab : Int.gcd a b = 1) (h : ![(a : ℚ), b] ≠ 0) :
+/-- Coprime integral coordinates recover the classical projective height (README §1.14). -/
+theorem ofTuple_coprime (a b : ℤ) (hab : Int.gcd a b = 1) (h : ![(a : ℚ), b] ≠ 0) :
     degree (ofTuple ![(a : ℚ), b] h) = Real.log (max |(a : ℝ)| |(b : ℝ)|) := sorry
-
-/-- `[1:1]` has sup height zero; its FS height in the README is instead `½ log 2`. -/
-example (h : ![(1 : ℚ), 1] ≠ 0) : degree (ofTuple ![(1 : ℚ), 1] h) = 0 := sorry
-
-/-- Nonprimitive coordinates have the same sup degree as `[1:1]` (README §1.14). -/
-example (h₂ : ![(2 : ℚ), 2] ≠ 0) : degree (ofTuple ![(2 : ℚ), 2] h₂) = 0 := sorry
-
-/-- Doubling both coordinates subtracts the principal divisor of two (README §1.14). -/
-example (h₂ : ![(2 : ℚ), 2] ≠ 0) (h₁ : ![(1 : ℚ), 1] ≠ 0) :
-    ofTuple ![(2 : ℚ), 2] h₂ =
-      ofTuple ![(1 : ℚ), 1] h₁ - principal (Units.mk0 (2 : ℚ) two_ne_zero) := sorry
-
-/-- At `[1:1]` the Fubini–Study degree exceeds the sup degree by half log two
-(README §1.14). -/
-example : Real.log (Real.sqrt ((1 : ℝ)^2 + 1^2)) -
-    Real.log (max |(1 : ℝ)| |1|) = (1 / 2 : ℝ) * Real.log 2 := by
-  norm_num [Real.log_sqrt]
-  ring
 
 end ArakelovDivisor
 
@@ -156,23 +116,10 @@ Its codimension-one extension uses the trait degeneration and reflexive-sheaf su
 open UpperHalfPlane
 open scoped MatrixGroups
 
-/-- The unit-norm frame on the square torus uses Mathlib's conjugate-linear first argument
-(README §2.1); the integral pairing has the same mixed values. -/
-example : inner ℂ (Complex.I : ℂ) (1 : ℂ) = -Complex.I ∧
-    inner ℂ (1 : ℂ) (Complex.I : ℂ) = Complex.I := by
-  simp
-
 /-- The standard period lattice has covolume `Im τ` (README §2.2), for the standard Lebesgue
 measure on `ℂ`. Its identification with the Faltings norm of `dz` is stated in the README. -/
 theorem covolume_periodLattice (τ : ℍ) :
     ZLattice.covolume (Submodule.span ℤ {(1 : ℂ), (τ : ℂ)}) = τ.im := sorry
-
-/-- The square lattice has unit covolume. -/
-example : ZLattice.covolume (Submodule.span ℤ {(1 : ℂ), Complex.I}) = 1 := sorry
-
-/-- The rectangular lattice generated by 1 and `2i` has covolume two (README §2.2). -/
-example : ZLattice.covolume (Submodule.span ℤ {(1 : ℂ), 2 * Complex.I}) = 2 := by
-  simpa using covolume_periodLattice ⟨2 * Complex.I, by norm_num⟩
 
 /-- The positive invariant elliptic term, using `Δ=η²⁴` rather than `(2π)^12Δ` (README §2.9). -/
 def EllipticCurve.faltingsArchimedeanTerm (τ : ℍ) : ℝ :=
@@ -193,11 +140,6 @@ example (τ : ℍ) :
       EllipticCurve.faltingsArchimedeanTerm τ :=
   EllipticCurve.faltingsArchimedeanTerm_smul _ _
 
-/-- Mixing normalized and lattice discriminants contributes precisely `12 log(2π)`. -/
-example (τ : ℍ) :
-    Real.log (((2 * Real.pi) ^ 12) * EllipticCurve.faltingsArchimedeanTerm τ) =
-      12 * Real.log (2 * Real.pi) + Real.log (EllipticCurve.faltingsArchimedeanTerm τ) := sorry
-
 /-! ## Layer 3: Relative and stable Faltings heights
 
 The metrized Néron Hodge line and its height are the README's arithmetic targets.
@@ -216,21 +158,6 @@ extension. `Isogeny.localCokernel_asymptotic` is the uniform `Lie`-filtration es
 
 open Filter Topology
 
-/-- The rational orthogonal matrix in README §5.7 sends `(1,0)` to `(3/5,−4/5)`. -/
-example : (!![(3 / 5 : ℚ), 4 / 5; -4 / 5, 3 / 5]).mulVec ![1, 0] =
-    ![(3 / 5 : ℚ), -4 / 5] := by
-  ext i
-  fin_cases i <;> norm_num [Matrix.mulVec, dotProduct, Fin.sum_univ_two]
-
-/-- The same matrix preserves the real squared Euclidean norm (README §5.7). -/
-example (x y : ℝ) : ((3*x + 4*y)/5)^2 + ((-4*x + 3*y)/5)^2 = x^2 + y^2 := by
-  ring
-
-/-- Primitive integral representatives have FS values zero and log five (README §5.7). -/
-example : Real.log (Real.sqrt ((1 : ℝ)^2 + 0^2)) = 0 ∧
-    Real.log (Real.sqrt ((3 : ℝ)^2 + (-4)^2)) = Real.log 5 := by
-  norm_num
-
 /-- A positive frame norm has logarithmic growth on a punctured neighbourhood of zero.
 The condition is local and requires no compact ambient space. The boundary extension and frame
 are fixed; the value at zero itself is irrelevant (README §5.1).
@@ -244,6 +171,12 @@ theorem HermitianMetric.LogSingularAtZero.pow {f : ℂ → ℝ}
     (hf : HermitianMetric.LogSingularAtZero f) (k : ℕ) :
     HermitianMetric.LogSingularAtZero (fun q => f q ^ k) := sorry
 
+/-- Inverting a frame norm preserves logarithmic growth on the fixed dual extension
+(README §5.1). -/
+theorem HermitianMetric.LogSingularAtZero.inv {f : ℂ → ℝ}
+    (hf : HermitianMetric.LogSingularAtZero f) :
+    HermitianMetric.LogSingularAtZero (fun q => (f q)⁻¹) := sorry
+
 /-- Logarithmic growth of a fixed frame norm is equivalent to growth after the finite ramified
 map `u ↦ u^e` for `e > 0`. The frame upstairs belongs to the pullback of the same boundary extension
 (README §5.1). -/
@@ -252,16 +185,6 @@ theorem HermitianMetric.LogSingularAtZero.comp_pow_iff {f : ℂ → ℝ} {e : �
     HermitianMetric.LogSingularAtZero (fun u => f (u ^ e)) ↔
       HermitianMetric.LogSingularAtZero f := sorry
 
-/-- The ramification exponent rescales the logarithmic boundary parameter (README §5.1). -/
-example (u : ℂ) (e : ℕ) : Real.log ‖u ^ e‖ = (e : ℝ) * Real.log ‖u‖ := by
-  simp [norm_pow, Real.log_pow]
-
-/-- A degree-two disc cover detects logarithmic growth of the pulled-back frame (README §5.1). -/
-example (f : ℂ → ℝ) :
-    HermitianMetric.LogSingularAtZero (fun u => f (u ^ (2 : ℕ))) ↔
-      HermitianMetric.LogSingularAtZero f :=
-  HermitianMetric.LogSingularAtZero.comp_pow_iff (by decide)
-
 /-- The constant unit frame norm satisfies the local condition on the affine line
 (README §§5.1, 5.3). -/
 example : HermitianMetric.LogSingularAtZero (fun _ => 1) := by
@@ -269,23 +192,21 @@ example : HermitianMetric.LogSingularAtZero (fun _ => 1) := by
   intro q
   norm_num
 
-/-- The cusp Hodge squared norm has logarithmic growth. -/
-example : HermitianMetric.LogSingularAtZero
+/-- The cusp Hodge squared norm has logarithmic growth for the fixed trivial extension
+(README §5.1). -/
+theorem HermitianMetric.logSing_cusp : HermitianMetric.LogSingularAtZero
     (fun q => -(1 / (2 * Real.pi)) * Real.log ‖q‖) := sorry
 
-/-- The reciprocal cusp norm satisfies the logarithmic condition for the fixed dual extension
+/-- A power pole violates logarithmic growth for the fixed trivial extension (README §5.1). -/
+theorem HermitianMetric.logSing_polynomial_nonexample :
+    ¬ HermitianMetric.LogSingularAtZero (fun q => ‖q‖ ^ (-(1 / 2 : ℝ))) := sorry
+
+/-- Eventual strict positivity excludes the zero function even with a total inverse
 (README §5.1). -/
-example : HermitianMetric.LogSingularAtZero
-    (fun q => (-(1 / (2 * Real.pi)) * Real.log ‖q‖)⁻¹) := sorry
-
-/-- A power pole grows faster than every logarithmic bound. -/
-example : ¬ HermitianMetric.LogSingularAtZero (fun q => ‖q‖ ^ (-(1 / 2 : ℝ))) := sorry
-
-/-- A vanishing function is not a positive frame norm. -/
-example : ¬ HermitianMetric.LogSingularAtZero (fun _ => 0) := sorry
-
-/-- A negative constant is not a positive frame norm. -/
-example : ¬ HermitianMetric.LogSingularAtZero (fun _ => -1) := sorry
+example : ¬ HermitianMetric.LogSingularAtZero (fun _ => 0) := by
+  rintro ⟨C, hC, n, h⟩
+  obtain ⟨q, hq⟩ := h.exists
+  exact (lt_irrefl (0 : ℝ)) hq.1
 
 /-! ## Layer 6: Finiteness and uniform height bounds
 

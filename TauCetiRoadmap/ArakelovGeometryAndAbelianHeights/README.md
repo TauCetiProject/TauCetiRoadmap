@@ -1387,6 +1387,7 @@ Provide the following maps and identities.
 - `HermitianMetric.hasLogSingularities_tensor`: Closed under tensor products and duals.
 - `HermitianMetric.hasLogSingularities_of_continuous`: A continuous metric on `L` over all of `X̄` has logarithmic singularities along every `Z`.
 - `HermitianMetric.LogSingularAtZero`: One-variable local model: a positive frame norm `f` on a punctured disc has a logarithmic singularity at 0 iff `max(f, f^{−1}) ≤ C(1 + |log|q||)^n` near 0.
+- `HermitianMetric.LogSingularAtZero.inv`: The reciprocal frame norm has logarithmic growth on the fixed dual extension.
 - `HermitianMetric.LogSingularAtZero.pow`: The local model is stable under natural-number powers, including the unit power. Negative integral powers use the dual extension.
 - `HermitianMetric.LogSingularAtZero.comp_pow_iff`: For `f : ℂ → ℝ` and a natural number `e ≥ 1`, the local condition for `f` is equivalent to that for `u ↦ f(u^e)`, with the pulled-back frame of the fixed extension.
 
@@ -1406,7 +1407,7 @@ The source identifications are [Faltings–Chai](https://doi.org/10.1007/978-3-6
 
 **Checks.**
 
-- `HermitianMetric.logSing_cusp`: On the disc with coordinate `q` and `L` trivial, `‖1‖ = −log|q|` near 0 has logarithmic singularities along `q = 0`.
+- `HermitianMetric.logSing_cusp`: On the disc with coordinate `q` and the fixed trivial extension, the cusp Hodge squared norm `f(q) = −(1/(2π))log|q|` satisfies the local logarithmic condition. Multiplication by `2π` gives the frame norm `−log|q|` with the same property.
 - `HermitianMetric.logSing_polynomial_nonexample`: `‖1‖ = |q|^{−1/2}` does not have logarithmic singularities along `q = 0` (it grows faster than any power of `log`).
 - `HermitianMetric.logSing_empty_boundary`: With `Z = ∅` every continuous metric qualifies.
 - On `X̄ = 𝔸¹_ℂ` with `Z = {0}`, the constant unit metric on `O` has logarithmic singularities. This noncompact example and the disc examples use the local predicate.
