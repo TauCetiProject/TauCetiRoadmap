@@ -31,7 +31,7 @@ one to another by notation.
 | R04.3 | Local conditions and global presentations | `TFramedDef`, `R^{□T}_𝒮`, `Rloc`/`locToGlobal`, the relative tangent space, the presentation, the dimension bound |
 | R04.4 | Restriction, twists and changes of problem | `resRing`, finiteness of restriction, enlarging `S`, twisting isomorphisms, `DiagGroup`, free quotients, truncated actions, `RdetOnS`/`detMap`, `twistAction`, freeness, the determinant torsor |
 | R04.5 | Taylor–Wiles data at auxiliary primes | `TaylorWilesDatum`, image hypotheses, dyadic Kummer disjointness, dyadic generator counts, the `Δ_Q`-structure, the shared selection theorem, auxiliary primes in Gee's setting, generator counts |
-| R04.6 | Finite-level deformation data for patching | `KWDeformationData`, the trace subring, factorization through local conditions, `TWSystem`, the numerical coincidence, `DyadicPatchingDatum` |
+| R04.6 | Finite-level deformation data for patching | `KWDeformationData`, the trace subring, factorization through local conditions, `TWSystem`, the numerical coincidence, `DyadicPatchingDatum`, `HeckeGaloisDatum` |
 | G8 | Variable-determinant global problems | `GlobalDeformationProblem`, representability and framing, the presentation, fixed against variable determinant |
 | G7 | Polarized problems and arbitrary-rank Taylor–Wiles data | `PolarizedDeformationProblem`, representability, tangent and obstruction spaces, the presentation, rank-`n` Taylor–Wiles places, enormous-image primes, the ACC presentation |
 
@@ -45,8 +45,9 @@ the relative tangent identification, presentations and dimension bounds; restric
 of the ramification set, twisting, formal diagonalizable groups, free quotients and the dyadic
 twisting torsor; Taylor–Wiles data as deformation data with their diamond structures, the shared
 Chebotarev selection theorem for Selmer detection and the generator counts at auxiliary levels;
-the finite-level ring systems of rank-two patching; and the variable-determinant and polarized
-global problems with their arbitrary-rank Taylor–Wiles presentations.
+the finite-level ring systems of rank-two patching and the abstract Hecke–Galois classifying maps;
+and the variable-determinant and polarized global problems with their arbitrary-rank Taylor–Wiles
+presentations.
 
 It does not own, and cites instead:
 
@@ -80,7 +81,13 @@ It does not own, and cites instead:
   torsors); `IntegralHeckeAndGaloisDeterminants`, Layers 0–1 (Chenevier determinants, characteristic
   polynomials, Cayley–Hamilton quotients, henselian reconstruction
   `Determinant.exists_ofMatrix_eq_of_henselian`, and absolutely irreducible coefficient descent
-  `coefficient_descent`, CHT Lemma 2.1.10).
+  `coefficient_descent`, CHT Lemma 2.1.10), and §4.1 (compact coefficient-ring gluing
+  `Determinant.existsUnique_isCoefficientChange_of_compact`).
+- **AutomorphicFormsOnReductiveGroups**, [§5.8](../AutomorphicFormsOnReductiveGroups/README.md#residual-and-torsion-hecke-eigenclasses)
+  and [§7.3](../AutomorphicFormsOnReductiveGroups/README.md#hecke-and-diamond-normalization-for-gl₂),
+  owns the Hecke eigensystem interface and the arithmetic normalization used in 6.7, including
+  its two-coordinate arithmetic generators `T_v`, `S_v`. Each consumer supplies its faithful Hecke
+  image and the realization of these operators.
 - **ArithmeticGaloisRepresentations.** Layer 1 (continuous representations and their integral
   theory); Layer 4 (residual images: `GaloisRep.IsBadDihedral` and the cyclotomic criterion of §4.6,
   the restriction lemmas of §4.7 and `GL2Subgroup.sl2_submodules_charTwo` for nonsolvable dyadic
@@ -175,8 +182,9 @@ the anchor by which other roadmaps cite it.
 Constructing automorphic forms, Hecke modules and patched complexes, and comparing them with the
 rings built here, belongs to GL2ModularityLifting, OrdinaryAutomorphicFormsAndModularityLifting and
 PotentialAutomorphyInfrastructure. Those consumers apply abstract patching to the finite-level inputs.
-No `R → T` map, no automorphy lifting theorem and no finiteness of a deformation ring over `𝒪` is
-asserted here.
+The abstract classifying maps `R → T` are constructed in 6.7–6.8 from a supplied Hecke–Galois
+datum. Arithmetic realizations of that datum belong to those consumers; automorphy lifting and
+finiteness of deformation rings over `𝒪` belong there as well.
 
 ## Conventions
 
@@ -372,7 +380,8 @@ uses for its Taylor–Wiles presentation alongside the polarized branch. The unr
 simultaneous framed quotient is supplied by LocalGaloisDeformationRings §F.2.6.
 Define the finite group `G_V` before 4.8. In R04.5 build the preliminary rank-two local
 construction, then 5.2, 5.3, 5.1 and 5.4; the remaining targets follow in order. In R04.6 build 6.1–6.4, then 6.6, then 6.5, so the dyadic source
-exists before its dimension is computed.
+exists before its dimension is computed. Targets 6.7–6.8 use the unframed
+representability and local-condition quotients of R04.3 and LocalGaloisDeformationRings Layer F.
 
 `README.md` is normative. `Suggested.lean`, in the namespace
 `TauCetiRoadmap.GlobalGaloisDeformations`, records the light definitions whose carriers exist at the
@@ -1121,8 +1130,9 @@ with a selected eigenvalue `α_v` at each `v ∈ Q`, such that `v ∤ p`, `Nv �
 unramified at `v` and `ρ̄(Frob_v)` has two distinct eigenvalues in `k`, one of which is `α_v`. Put
 `Δ_v` for the maximal `p`-power quotient of `k(v)ˣ` and `Δ_Q = ∏_{v∈Q} Δ_v`. The augmented problem
 `𝒮_Q` allows unrestricted ramification at `Q`, with local tangent condition `H¹` and dual condition
-zero. Construct the quotient `Δ_Q/pᴺΔ_Q ≅ (ℤ/pᴺ)^{|Q|}`. In the dyadic construction also impose the
-splitting condition in the Kummer extension of 5.3. A congruence condition alone does not select an
+zero. Construct the quotient `Δ_Q/pᴺΔ_Q ≅ (ℤ/pᴺ)^{|Q|}`. All constructions at a chosen auxiliary
+level take this `TaylorWilesDatum`, retaining its selected eigenvalues and coefficient field. In the
+dyadic construction also impose the splitting condition in the Kummer extension of 5.3. A congruence condition alone does not select an
 eigenline (Gee, §5.6, p. 33; KW final, Lemma 5.3, p. 47).
 
 The API:
@@ -1131,9 +1141,19 @@ The API:
 - `TaylorWilesDatum.delta`: `Δ_Q = ∏_{v∈Q} (k(v)ˣ)_p`.
 - `TaylorWilesDatum.deformationType`: `𝒮_Q`, with no condition at the places of `Q`.
 - `TaylorWilesDatum.delta_quotient`: `Δ_Q/pᴺ ≅ (ℤ/pᴺ)^{#Q}`.
+- `TaylorWilesDatum.exists_extension_split`: for a continuous residual representation of any finite
+  rank over finite `k`, there is a finite unramified coefficient-DVR extension `𝒪 → 𝒪′`, with
+  residue inclusion `k → k′`, such that every element of the residual image has split
+  characteristic polynomial over `k′`. This preparation precedes the choice of a datum.
+  A common splitting field for the finitely many characteristic polynomials is finite over `k`;
+  lift it to `𝒪′` by the henselian finite étale equivalence
+  ([Stacks, Tag 04GK](https://stacks.math.columbia.edu/tag/04GK)). Transport the residual representation,
+  local problems and representing rings by LocalGaloisDeformationRings §F.2.10.
+  Splitting preserves multiplicities; a scalar Frobenius still fails the distinct-eigenvalue condition.
 
 *Needs:* [3.3](#global-deformation-type); [5.3](#dyadic-linear-disjointness) in the dyadic
-case; [rank-two local diagonalization](#rank-two-taylor-wiles-local).
+case; [rank-two local diagonalization](#rank-two-taylor-wiles-local);
+[LocalGaloisDeformationRings §F.2.10](../LocalGaloisDeformationRings/README.md#change-of-residue-field).
 
 **Checks.**
 
@@ -1144,7 +1164,8 @@ case; [rank-two local diagonalization](#rank-two-taylor-wiles-local).
   Frobenius has determinant one. The only distinct pair in `𝔽₃ˣ` is `(1,−1)`,
   whose product is `−1`, so rational distinct eigenvalues are impossible.
   The determinant-one matrix `[[0,−1],[1,0]]` has characteristic polynomial `X²+1`;
-  over `𝔽₉` its roots `i,−i` are distinct and have product one.
+  over `𝔽₉` its roots `i,−i` are distinct and have product one. The unramified quadratic
+  coefficient extension realizes this residue extension and splits every quadratic over `𝔽₃`.
 - **twDatum_scalar_excluded.** if `ρ̄(Frob_v)` is scalar, `v` is not a Taylor–Wiles place: `ad⁰ρ̄(Frob_v)`
   has only the eigenvalue `1`. There are many eigenlines in the original two-dimensional space,
   but none is distinguished by a choice between distinct eigenvalues, as the datum requires.
@@ -1274,14 +1295,25 @@ is (5). Substituting (4) and (7) gives (8) as an identity in `ℤ`.
 
 ### 5.5 Inertia at Taylor–Wiles places and the `Δ_Q`-module structure
 
-**Construction.** Apply the [rank-two local diagonalization](#rank-two-taylor-wiles-local),
-valid for every prime `p`, with the selected `α_v` at each `v ∈ Q_N`. For globally fixed
+**Construction.** For a `TaylorWilesDatum` of level `N`, apply the
+[rank-two local diagonalization](#rank-two-taylor-wiles-local), valid for every prime `p`,
+with its selected `α_v` at each `v ∈ Q_N`. For globally fixed
 unramified determinant the two characters have inverse inertia restrictions, and the selected
 one factors through `Δ_v`. Construct
 the `𝒪[Δ_Q]`-algebra structure on the framed and the trace rings. Quotienting by the augmentation
 ideal recovers the problem without `Q`. In the dyadic case, for the fixed-determinant twisting
 automorphism `a_χ` and a diamond element `δ`, prove `a_χ ∘ δ = χ(δ)·(δ ∘ a_χ)`. The global augmentation
 statement uses the inertia quotient of 4.3 (KW final, §5.6, Proposition 5.11 and Lemma 5.12, p. 53).
+
+The API on the same datum:
+
+- `TaylorWilesDatum.deltaAlgebraMap`: the map `𝒪[Δ_Q] → R_{𝒮_Q}` sending a group element to
+  its selected universal inertia character, with its compatible map to the simultaneously framed ring.
+- `TaylorWilesDatum.ker_eq_augmentation`: for the natural surjection `π_Q : R_{𝒮_Q} ↠ R_𝒮`,
+  `ker π_Q = (deltaAlgebraMap(δ) − 1 : δ ∈ Δ_Q)`, the extended augmentation ideal.
+  The same equality holds with the original framing set fixed and after imposing the original local
+  conditions. Both maps are continuous `𝒪`-algebra maps; in these Noetherian complete local rings
+  the displayed ideal is closed.
 
 *Needs:* [5.1](#taylor-wiles-datum); [rank-two local diagonalization](#rank-two-taylor-wiles-local);
 [4.3](#enlarging-ramification); [4.9](#twisting-action).
@@ -1294,6 +1326,9 @@ statement uses the inertia quotient of 4.3 (KW final, §5.6, Proposition 5.11 an
 - **eigenline_selects_character.** with `Frob_v = diag(α, β)`, conjugation acts on `E₁₂` by `α/β ≠ 1`, so
   the two characters are distinguished by the selected eigenvalue; without the selection the
   `Δ_v`-action is defined only up to inversion.
+- **augmentation_not_square.** for `Δ_Q = C₃`, the algebra
+  `ℤ₃⟦z⟧/((1+z)³−1)` has augmentation kernel `(z)`. Its quotient by `(z²)` still has
+  a nonzero class `z` with `3z=0`, so `(z²)` cannot replace that kernel.
 
 <a id="chebotarev-selmer-selection"></a>
 
@@ -1367,13 +1402,31 @@ ArithmeticGaloisRepresentations Layer 4.
 
 ### 5.8 Generator counts at Taylor–Wiles levels
 
-**Theorem.** After dual Selmer vanishing, the relative tangent formula of 3.6 gives counts independent
-of `N`. In the Khare–Wintenberger convention, with infinity in `S` and framing at every place of `S`,
+**Theorem.** For a family of `TaylorWilesDatum` of level `N` with constant cardinality,
+after dual Selmer vanishing the relative tangent formula of 3.6 gives counts independent of `N`.
+In the Khare–Wintenberger convention, with infinity in `S` and framing at every place of `S`,
 `R^{□,ψ}_{S∪Q_N}` has `|Q_N| + |S| − 1` generators over `R^{□,loc,ψ}_S` (ArithmeticGaloisDuality R02.6).
 In Gee's finite-place convention, framing at `T`, `R^□_{Q_N}` is generated over `R^loc` by
 `|T| − 1 − [F : ℚ] + r` elements, and likewise with the primed fixed-determinant rings. The correct
 local ring and archimedean convention are used in each application; the two numbers are not
 identified by notation (KW final, Proposition 5.5, p. 48; Gee, Proposition 5.10, last bullet, p. 38).
+
+Apply ArithmeticGaloisDuality §R02.5.1 (*The Greenberg–Wiles formula*) and §D7.7's
+perfect dual local conditions in `k`-dimensions. For finite `k` of odd characteristic,
+a finite-dimensional continuous module `M` unramified outside a finite set, and `k`-linear local
+conditions `L_v` unramified almost everywhere, put `M* = Hom_k(M,k)(1)`. They give
+`h¹_L(M) ≤ h¹_{L^⊥}(M*) + h⁰(M) − h⁰(M*) + Σ_v (dim_k L_v − h⁰(G_v,M))`,
+with equality for exact annihilators. Use `L_v = 0` at the finite framing set `T`,
+`L_v = H¹(G_v,M)` at `Q_N`, and the original conditions elsewhere. The dual conditions are
+relaxed at `T` and strict at `Q_N`. For the odd rank-two problem take `M = ad⁰ρ̄` and use its
+trace-pairing dual; the scalar frame contribution of 3.6 is added separately.
+All dimensions are over `k`, including after a finite residue extension.
+
+- `TaylorWilesDatum.generatorCount`: under the respective hypotheses of 5.7 and dual Selmer
+  vanishing, a continuous surjection from the appropriate local ring with the above number of
+  formal variables onto the simultaneously framed ring at `𝒮_Q`. After fixing a finite
+  power-series presentation of the local ring over `𝒪`, this also gives an absolute presentation
+  with a number of variables independent of `N`.
 
 *Proof sketch* (Gee's count). By 3.6 with `T` framed and `Q_N` relaxed, the relative tangent space has
 dimension `|T| + |Q_N| − 1 − [F : ℚ] + h¹_{Q_N}(G_{F,T}, (ad⁰ρ̄)(1))`, since each `v ∈ Q_N` contributes
@@ -1391,6 +1444,10 @@ group zero this is `|T| − 1 − [F : ℚ] + r`.
 - **count_independent_of_N.** both counts depend only on `|Q_N|`, which is constant in `N`.
 - **count_integer_first.** Gee's count `|T| − 1 − [F : ℚ] + r` is nonnegative because
   `r ≥ 1 + [F : ℚ] − |T|`; the nonnegativity is proved before the count indexes variables.
+- **count_strict_relaxed.** changing the tangent condition at one Taylor–Wiles place from
+  unramified to full increases `dim L_v − h⁰(G_v,ad⁰)` by one (`2 − 1` instead of `1 − 1`).
+  Its dual condition changes from unramified to zero. Over `𝔽₂₅` the contribution is still one
+  in `k`-dimension, although it has dimension two over `𝔽₅`.
 
 ### Examples
 
@@ -1519,8 +1576,9 @@ pp. 80–81; Definition 2.4, p. 10).
 ### 6.4 The Taylor–Wiles system of deformation rings
 
 **Construction.** For `p` odd write `B` for the condition-specific local tensor ring, `d = 3|S|`, `h` for
-the original dual Selmer dimension and `j = 4|S| − 1`. Choose the constant-size sets `Q_n` (5.7) and
-generators `δ_i` of their `h` diamond factors. Construct compatible surjections
+the original dual Selmer dimension and `j = 4|S| − 1`. Choose the constant-size `TaylorWilesDatum`
+at each level `n` from 5.7, writing `Q_n` for its places, and choose generators `δ_i` of its `h`
+diamond factors. Construct compatible surjections
 `B⟦x₁, …, x_{h+j−d}⟧ ↠ R̄^{□,ψ}_{S∪Q_n} ↠ R̄^{□,ψ}_S`. Make the middle ring an `𝒪⟦y₁, …, y_{h+j}⟧`-algebra: the
 first `h` variables map to `δ_i − 1` and the remaining `j` are frame coordinates. Killing the first `h`
 recovers the base framed ring; killing all of them recovers `R̄^ψ_S`. The completed diamond-group
@@ -1531,8 +1589,11 @@ Proposition 5.10, p. 39).
 
 The API:
 
-- `TWSystem`: for each `n`, `R̄^{□,ψ}_{S∪Q_n}` with its `B⟦x⟧`-presentation and `𝒪⟦y⟧`-algebra structure.
-- `TWSystem.quot_y_eq`: `R̄^{□,ψ}_{S∪Q_n}/(y₁, …, y_h) ≅ R̄^{□,ψ}_S`.
+- `TWSystem`: for each `n`, a `TaylorWilesDatum` and `R̄^{□,ψ}_{S∪Q_n}` with its
+  `B⟦x⟧`-presentation and `𝒪⟦y⟧`-algebra structure. The diamond map is its
+  `TaylorWilesDatum.deltaAlgebraMap`; the presentation uses `TaylorWilesDatum.generatorCount`.
+- `TWSystem.quot_y_eq`: `R̄^{□,ψ}_{S∪Q_n}/(y₁, …, y_h) ≅ R̄^{□,ψ}_S`, from
+  `TaylorWilesDatum.ker_eq_augmentation`.
 - `TWSystem.quot_all_eq`: `R̄^{□,ψ}_{S∪Q_n}/(y₁, …, y_{h+j}) ≅ R̄^ψ_S`.
 - `TWSystem.numVars_const`: the number `h + j − d` of `x`-variables is independent of `n`.
 
@@ -1615,6 +1676,116 @@ The API:
   untruncated coordinate rings and determinant fibres differ.
 - **dyadic_not_fixed_det.** the fixed-determinant rings `R_n` alone carry only the `2`-torsion
   `G*_{n,2}`-action, not a torus action (4.7, **chunks_not_untruncated**).
+
+<a id="hecke-galois-datum"></a>
+
+### 6.7 Hecke–Galois data and the classifying surjection
+
+**Definition and comparison theorems.** Fix a number field `F`, a finite ramification set `S`
+containing the places above `p`, and a continuous absolutely irreducible
+`ρ̄ : G_{F,S} → GL₂(k)`. A `HeckeGaloisDatum` consists of a finite flat local `𝒪`-algebra `T`
+with residue identification `T/𝔪_T ≅ k` compatible with `𝒪 → T`, a supplied Hecke eigensystem
+with values `t_v`, `s_v` of the arithmetic operators `T_v`, `S_v` for finite `v ∉ S`, and a
+continuous lift `ρ_T : G_{F,S} → GL₂(T)` of `ρ̄` satisfying
+`charpoly ρ_T(Frob_v) = X² − t_v X + Nv · s_v`.
+Require the closed `𝒪`-subalgebra generated by the `t_v` to be `T`. The eigensystem and operator
+normalization are those of AutomorphicFormsOnReductiveGroups §§5.8, 7.3; its arithmetic realization
+is input. Finite flatness makes `T` a complete coefficient object. No reducedness is needed here.
+
+Construct the continuous local classifying map from the unrestricted unframed ring
+`R_{ρ̄,S} → T`. If `ρ_T` satisfies a global deformation problem `𝒮`, it factors through
+`R_𝒮 → T`; for a fixed-determinant problem include `det ρ_T = χ_T` among these conditions.
+The API is:
+
+- `HeckeGaloisDatum.classifying_surjective`: each of these unframed classifying maps is surjective.
+- `HeckeGaloisDatum.classifying_unique`: a continuous local `𝒪`-algebra map from the same
+  unframed ring to `T` carrying universal Frobenius traces to `t_v` for all finite `v ∉ S`
+  is the classifying map.
+
+*Proof sketch.* LocalGaloisDeformationRings §§F.2.5, F.2.7 supply unframed representability and
+trace generation. Chebotarev supplies density of the conjugacy-saturated Frobenius set; traces are
+conjugation invariant. Thus Frobenius traces determine the map. Its image is closed, since the
+source is compact and `T` is Hausdorff, and contains every `t_v`, hence equals `T`.
+This universal-property interface uses prior art from the Imperial College London FLT project
+through the deformation functors of LocalGaloisDeformationRings Layer F.
+Sources: KW final, Lemma 9.1 and proof, pp. 80–81; Chenevier, §3.1, Example 3.4, p. 42.
+
+*Needs:* [3.4](#global-framed-ring);
+[LocalGaloisDeformationRings §F.2.5](../LocalGaloisDeformationRings/README.md#universal-deformation-ring),
+[§F.2.7](../LocalGaloisDeformationRings/README.md#carayol-trace-theorem);
+`Chebotarev` Layer 10;
+[AutomorphicFormsOnReductiveGroups §5.8](../AutomorphicFormsOnReductiveGroups/README.md#residual-and-torsion-hecke-eigenclasses)
+and [§7.3](../AutomorphicFormsOnReductiveGroups/README.md#hecke-and-diamond-normalization-for-gl₂).
+
+**Checks.**
+
+- **hecke_galois_normalization.** at a place with `Nv = 11` and determinant one,
+  `s_v = 11⁻¹`, so the constant coefficient is one. Setting `s_v = 1` instead gives eleven.
+  Here `p ≠ 11`, since `v ∉ S`.
+- **hecke_galois_generation.** extend the fixed-sign `S₃` lift of 6.2 from `ℤ₅` to
+  `T = ℤ₅[ε]/(ε²)`. Its traces stay in `ℤ₅`; the classifying image is `ℤ₅`, so the map
+  is not surjective. This fails exactly the trace-generation requirement on the datum.
+- **hecke_galois_unframed_unique.** with a nonempty framing set and `T = 𝒪`, a formal frame
+  coordinate can map to zero or to a uniformizer. Both maps have the same Frobenius traces;
+  the uniqueness assertion concerns the unframed ring.
+
+<a id="hecke-galois-points"></a>
+
+### 6.8 Constructing Hecke–Galois data from points
+
+**Construction and local-condition detection.** Fix the coefficient algebra, eigensystem and
+trace-generation data of 6.7. Assume `T` reduced and give continuous local `𝒪`-algebra maps
+`φ_i : T → 𝒪_i`, where each `𝒪_i` is the complete DVR of a finite coefficient-field extension,
+with their induced residue inclusions `k → k_i`. Require joint injectivity:
+`⋂_i ker φ_i = 0`. At each point give a continuous representation
+`ρ_i : G_{F,S} → GL₂(𝒪_i)` whose reduction is identified with `ρ̄ ⊗_k k_i`, and require
+`charpoly ρ_i(Frob_v) = X² − φ_i(t_v) X + Nv · φ_i(s_v)` for every finite `v ∉ S`.
+Then `HeckeGaloisDatum.ofPoints` constructs a lift `ρ_T` with the stated Frobenius polynomials,
+whose base change along each `φ_i` is strictly conjugate to `ρ_i` after the residual
+identifications. The resulting strict class is unique.
+
+Apply the compact coefficient-ring gluing theorem
+`Determinant.existsUnique_isCoefficientChange_of_compact` of
+IntegralHeckeAndGaloisDeterminants §4.1 to the determinant laws of the `ρ_i`.
+The conjugacy-saturated Frobenius set is dense, and both characteristic coefficients have common
+lifts in `T`. The descended law reduces to the determinant law of `ρ̄` by the specified
+residual identifications and Chebotarev. Henselian reconstruction
+`Determinant.exists_ofMatrix_eq_of_henselian`, together with the continuous determinant/deformation
+comparison of LocalGaloisDeformationRings §F.2.8, yields the continuous lift and its strict class.
+Sources: Chenevier, Example 2.32 and Corollary 1.14, pp. 38 and 14; Theorem 2.22(i), p. 34;
+§3.1, Example 3.4, p. 42. Both Frobenius coefficients and residual absolute irreducibility
+are hypotheses of this construction.
+
+`HeckeGaloisDatum.mem_of_points` states that this lift satisfies the prescribed global problem
+once every `ρ_i` satisfies its coefficient-changed local conditions, and its determinant condition
+when one is prescribed. Use LocalGaloisDeformationRings §§F.3.1–F.3.2's invariant defining ideals
+and §F.2.10's residue-extension comparisons: each defining equation maps to zero under every
+`φ_i`, and joint injectivity makes it zero in `T`. Strict-conjugacy stability allows the point
+representations to be used. This specializes the same point-detection argument as 6.3
+(KW final, Lemma 9.1 and proof, pp. 80–81).
+
+*Needs:* [6.7](#hecke-galois-datum); [6.3](#factorization-through-local-conditions);
+[IntegralHeckeAndGaloisDeterminants §4.1](../IntegralHeckeAndGaloisDeterminants/README.md#uniqueness-and-gluing-of-continuous-determinants)
+and §1.3;
+[LocalGaloisDeformationRings §F.2.8](../LocalGaloisDeformationRings/README.md#determinant-comparison-isomorphism),
+[§F.2.10](../LocalGaloisDeformationRings/README.md#change-of-residue-field),
+[§F.3.1](../LocalGaloisDeformationRings/README.md#local-deformation-problem),
+[§F.3.2](../LocalGaloisDeformationRings/README.md#deformation-problem-ideal);
+`Chebotarev` Layer 10.
+
+**Checks.**
+
+- **hecke_points_one.** for `T = 𝒪` and its identity point, reconstruction returns the given
+  representation up to strict conjugacy, with its original local conditions.
+- **hecke_points_joint.** for `T = {(a,b) ∈ 𝒪² : a ≡ b mod λ}`, the two projections to `𝒪`
+  are jointly injective, although neither is injective. A defining local equation vanishing
+  under both projections is zero in `T`; testing only one projection is insufficient.
+- **hecke_points_nilpotents.** every DVR point of `𝒪[ε]/(ε²)` kills `ε`, so these points are
+  not jointly injective. The equation `x = 0` can hold at all points of a map `x ↦ ε`
+  without holding in this algebra, as in 6.3.
+- **hecke_points_residue.** the residual identifications force the glued law to be the split
+  absolutely irreducible residual law. Without them, henselian reconstruction as a lift of
+  the specified `ρ̄` has no such conclusion.
 
 ### Examples
 
@@ -2091,6 +2262,10 @@ R02.4, D7 and D8.1; SelmerIwasawaCohomology §2A.3; LocalGaloisDeformationRings 
   representability from LocalGaloisDeformationRings Layer F, the global restriction and twisting
   maps of Layers R04.3–R04.4 and the presentations of
   R04.3, G8 and G7.
+- **ClassicalSerreModularity**, **OrdinaryAutomorphicFormsAndModularityLifting** and
+  **GL2ModularityLifting** receive `HeckeGaloisDatum`, its classifying surjection and uniqueness
+  from 6.7, and its point construction and local-condition detection from 6.8. Each consumer
+  supplies its arithmetic Hecke realization and the point representations.
 
 ## References
 

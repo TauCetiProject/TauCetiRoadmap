@@ -8,7 +8,9 @@ The roadmap is `README.md`. This file records representative signatures for glob
 and scalar frame directions, together with the formal-torus truncation relation, against the
 pinned Mathlib and Tau Ceti, and proved tests of the local definitions; it is not exhaustive. Global deformation types, universal global rings,
 Taylor–Wiles data and the finite-level patching systems use the coefficient categories and
-arithmetic suppliers named in the README.
+arithmetic suppliers named in the README. The Hecke–Galois classifying maps and point
+construction of §§6.7–6.8 use those same suppliers and the Hecke eigensystem interface of
+AutomorphicFormsOnReductiveGroups; their targets remain in the README.
 
 LocalGaloisDeformationRings §§F.1.1–F.1.10, F.2.1–F.2.11 and F.3.1–F.3.2 supply the generic
 lifts, strict-class functors, representability and local-condition interface. Layer F
@@ -167,7 +169,14 @@ Definitions specified in the README using the arithmetic and coefficient-categor
 `DeformationType`, `TFramedDef`, `Rloc`, `locToGlobal`, `resRing`, `DiagGroup`, `RdetOnS`,
 `detMap`, `twistAction`, `TaylorWilesDatum`, `IsCyclotomicAbsIrred`, `HasBigImage`,
 `HasNonsolvableImage`, `KWDeformationData`, `TWSystem`, `DyadicPatchingDatum`,
-`GlobalDeformationProblem`, `PolarizedDeformationProblem`.
+`GlobalDeformationProblem`, `PolarizedDeformationProblem`, `HeckeGaloisDatum`.
+The Taylor–Wiles interface has `TaylorWilesDatum.deltaAlgebraMap`,
+`TaylorWilesDatum.ker_eq_augmentation`, `TaylorWilesDatum.generatorCount` and
+`TaylorWilesDatum.exists_extension_split`; `TWSystem` uses this same datum at every level.
+The Hecke–Galois targets are `HeckeGaloisDatum.classifying_surjective`,
+`HeckeGaloisDatum.classifying_unique`, `HeckeGaloisDatum.ofPoints` and
+`HeckeGaloisDatum.mem_of_points`. Their statements use unframed deformation rings,
+compatible residual identifications and the invariant local-condition ideals.
 
 LocalGaloisDeformationRings Layer F supplies `Lift`, `Def`, `ModDef`, `ModDefFramed`, `DetDef`,
 `PseudoDefRing`, `univLift`, `DeformationProblem`, `TFramedLift`, `UnrestrictedTFramedDef`,
