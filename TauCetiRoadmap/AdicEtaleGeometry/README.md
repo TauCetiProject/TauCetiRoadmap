@@ -542,12 +542,13 @@ site of A1.9 on the Yoneda-adic spaces of A1.16, for instance); a target's `*Nee
 names the targets, the layers of other roadmaps and the library declarations it rests on.
 
 `Suggested.lean` states the parts of this roadmap that are a few lines over the pinned carriers:
-the completed pushout and the analytic locus (A0); strongly sheafy rings, finite étale Huber pairs,
+the completed pushout and the analytic locus (A0); finite étale henselian completion,
+split rings, strongly sheafy rings, finite étale Huber pairs,
 finite étale and étale morphisms with their stability and comparison theorems, geometric points
 (A1); polydiscs and tori over a Huber pair, dimension, smooth morphisms by ball charts (A2);
-pseudocoherence, Kedlaya–Liu's acyclicity in its sheafy form and standard étale presentations (A3);
-split rings, finite étale torsors, the torsor tower and the orbit description of `Spa`
-of a torsor (A4). The sites, Yoneda-adic spaces, completed tower and its descent are README targets. A target with Lean declarations ends with a
+pseudocoherence, Kedlaya–Liu's acyclicity in its sheafy form and standard étale presentations (A3).
+Finite étale torsors, the torsor tower and its spectra (A4), the sites, Yoneda-adic spaces,
+and the completed tower and its descent are README targets. A target with Lean declarations ends with a
 `Lean:` note naming them, and the clauses that note leaves out are README only; every other
 target ends with the note "README only (no Lean declaration)".
 
@@ -2204,6 +2205,12 @@ and proof, pp. 40–41, for complete flat algebras over a perfectoid valuation r
 PerfectoidSpaces P5.9 identifies this completion with the limit perfectoid pair and treats plus rings
 and rational localisations. In particular, this theorem applies both to the contracting
 disc tower of PerfectoidSpaces P5.1 and to its countable-subring system in P5.6.
+
+Lean: `Huber.finiteEtale_completion_tate` ((b), as `IsEquivalence` for Mathlib's
+`CommAlgCat.FiniteEtale.baseChange` along `UniformSpace.Completion.coeRingHom`, with an open
+subring `A₀`, its `ϖ`-adic topology, a pseudouniformiser `ϖ ∈ A₀` and
+`HenselianRing A₀ (ϖ)`). Clause (a), the completed-colimit comparison, the moduli constructions
+and the Checks are README only.
 
 **Checks.** `finiteEtale_completion_tate_complete` gives the equivalence for an already
 complete Hausdorff Tate ring, where the completion map is an isomorphism;

@@ -28,9 +28,10 @@ suggested forms, not an exhaustive checklist. Classical approximation, completio
 stable-basis vector bundles and the formal and analytification site functors are specified in the
 README. `Huber.isBounded_powerBoundedSubring_of_finiteEtale` (A1.2a) states finite étale
 uniformity on the natural topology of a finite étale algebra.
-A1.0.5 specifies the README-only completion equivalences `finiteEtale_completion_tate` and
-`finiteEtale_completedColimit`, with `finiteEtale_completion_tate_complete` and
-`finiteEtale_completion_tate_zero` checking the complete and zero Tate-ring cases.
+A1.0.5's `Huber.finiteEtale_completion_tate` states the completion equivalence for topologically
+henselian Tate rings. The completed-colimit comparison `finiteEtale_completedColimit` and the
+Checks `finiteEtale_completion_tate_complete` and `finiteEtale_completion_tate_zero` are
+specified in the README.
 
 The represented layers are:
 
@@ -69,6 +70,25 @@ namespace TauCetiRoadmap.AdicEtaleGeometry
 open TauCeti TauCeti.Huber
 open TauCetiRoadmap.AdicSpacesPartII TauCetiRoadmap.AdicSpacesPartII.Huber
 open TauCetiRoadmap.SchemeAndStackFoundations.PseudoCoherence (IsPseudoCoherentModule)
+
+/-! ## Finite étale completion (*henselian-finite-etale-approximation*, A1.0.5) -/
+
+section Completion
+
+universe u
+
+/-- Base change to the separated completion of a topologically henselian Tate ring is an
+equivalence on finite étale algebras (A1.0.5, *henselian-finite-etale-approximation* (b);
+Berkeley Lectures, Theorem 7.4.8). The open ring of definition has its `ϖ`-adic topology and
+is henselian along `(ϖ)`; the Tate ring need not be separated or complete. -/
+theorem Huber.finiteEtale_completion_tate {A : Type u} [CommRing A] [UniformSpace A]
+    [IsUniformAddGroup A] [IsTopologicalRing A] [IsTateRing A]
+    (A₀ : Subring A) (hopen : IsOpen (A₀ : Set A)) (ϖ : A₀)
+    (hϖ : IsPseudoUniformizer (ϖ : A)) (hadic : _root_.IsAdic (Ideal.span {ϖ}))
+    [HenselianRing A₀ (Ideal.span {ϖ})] :
+    (CommAlgCat.FiniteEtale.baseChange.{u} A (UniformSpace.Completion A)).IsEquivalence := sorry
+
+end Completion
 
 /-! ## Layer A0: completed tensor products and the fibre products actually used -/
 
