@@ -42,7 +42,10 @@ the semisimple setting. An equality about complex points is not an equality
 of schemes or an assertion about arbitrary nonreduced coefficient rings.
 In particular, a matrix being nilpotent over such a ring does not by itself
 make all of its characteristic coefficients zero. Carry the defining
-invariant equations through every functor-of-points statement.
+invariant equations through every functor-of-points statement. N5 defines the
+unipotent variety as a reduced closed subscheme over ℂ, independently of a
+faithful representation. Every test-algebra comparison base-changes that fixed
+scheme; taking a new reduction after base change would change the functor.
 
 ## Prerequisites and ownership
 
@@ -81,7 +84,10 @@ For a geometric foundation invoked below that is not yet implemented, construct
 the named specialization at its indicated phase. In particular N1 owns the
 flag-incidence and associated-bundle constructions, N2 the orbit-openness and
 characteristic arguments, N7 the resolution and cone local-ring calculations,
-and N8 the surface divisors and intersection pairing. A reference to a flag,
+and N8 the surface divisors and intersection pairing. N5.0 constructs the
+zero-fiber reducedness and complete-intersection prerequisites before the
+exponential factors through coordinate ideals; N7 consumes these results for
+normality and resolution geometry. A reference to a flag,
 cotangent bundle, smooth source or root diagram does not supply those maps.
 
 ## N0. Internal Jordan decomposition and adjoint orbits
@@ -129,7 +135,7 @@ cotangent bundle, smooth source or root diagram does not supply those maps.
    closedness, G-equivariance, scalar action and base-change equations.
    On complex points prove x∈𝒩 iff ad(x) is nilpotent, using N0 and
    invariant separation of semisimple orbits. Retain the scheme structure;
-   reducedness is proved in N7.
+   reducedness and the complete-intersection structure are proved in N5.0.
 2. Construct the flag variety ℬ=G/B as the actual quotient parametrizing
    Borel subgroups and Lie Borel subalgebras, with their universal subbundle
    and nilradical subbundle. Prove properness and smoothness of ℬ and the
@@ -230,26 +236,135 @@ and set-level claims separately.
 
 ## N5. Polynomial exponential and genuine unipotents
 
-For a faithful closed complex representation with an established uniform
-nilpotency bound N, construct exp(X)=Σₖ₌₀ᴺ⁻¹Xᵏ/k! and
-log(1+Z)=Σₖ₌₁ᴺ⁻¹(−1)ᵏ⁺¹Zᵏ/k on the actual nilpotent and unipotent
-coordinate schemes. Prove the image lies in G and its Lie algebra,
-respectively, using RG's characteristic-zero unipotent/Lie comparison
-and the explicit one-parameter equations. Prove the two inverse polynomial
-identities, conjugation equivariance and representation independence.
-Upgrade them to inverse regular morphisms 𝒩≃𝒰, with their actual
-coordinate-ring pullbacks and base changes over complex algebras. An
-analytic exponential or an equality of complex point sets is insufficient.
+### N5.0. Reduced zero fiber before polynomial factorization
 
-Compare central isogenies on these schemes and show the unipotent lift
-is unique, distinguishing the full preimage that can include central
-semisimple factors. In adjoint semisimple G, compare genuine unipotence
-with Ad-unipotence. In a general connected reductive G retain the genuine
-unipotent target and the zero central coordinate in 𝒩. In SL₂, −I
-has trivial adjoint action but is not unipotent; include this explicit
-boundary. Supply the exp/log formulas on root subgroups and nilradicals
-and their compatibility with N1's universal nilradical bundle and N4's
-Jordan blocks.
+Prove that N1's specified zero-fiber scheme is reduced and a complete
+intersection before using reducedness to factor any polynomial map. Choose
+homogeneous positive-degree polynomial generators f1,...,fr of the invariant
+algebra, retaining the independent degree-one central coordinates in the
+reductive case. Their augmentation ideal defines the same zero fiber; give
+change-of-generator comparisons without asserting a canonical generator choice.
+Use N1's irreducibility and N2's dimension dim 𝔤−r to prove height r of the
+ideal (f1,...,fr). Apply the regular-sequence criterion in the polynomial
+coordinate ring to obtain the complete-intersection and Cohen–Macaulay
+properties and absence of embedded associated primes. Supply the polynomial-
+quotient regular-sequence, associated-prime and generic-reduced comparison
+lemmas used here, consuming native commutative algebra where available. From F4.3's actual finite
+Kostant section, prove that dχ is surjective on the regular nilpotent orbit,
+with its G-transport and the central-coordinate projection. The zero fiber is
+therefore generically smooth and generically reduced. Deduce reducedness from
+these commutative-algebra statements, with the actual ideal-radical equality.
+Include products, the reductive center and the rank-zero point. This proof
+uses no slice, Springer resolution or N7 normality theorem.
+
+### N5.1. The fixed unipotent scheme and its defining ideal
+
+For a faithful closed representation ρ:G→GL(V), let Jρ⊂O(G) be generated by
+the coefficients of det(TI−ρ(g))−(T−1)^dim(V). Construct the closed subscheme
+𝒰_G with defining ideal I_U=√Jρ. Prove that its complex points are exactly
+the genuinely unipotent elements. Use the characteristic-zero Jordan and
+representation dictionary and the affine Nullstellensatz to prove √Jρ is
+independent of ρ. Use native `Ideal.radical` and
+`MvPolynomial.vanishingIdeal_zeroLocus_eq_radical` after a finite polynomial
+presentation of O(G); construct the quotient and point-evaluation adapters
+for this presentation. Thus 𝒰_G is the reduced closed subscheme supported on
+these points, with its specified embedding into G. Construct conjugation and
+inversion, comparisons for products of groups, central-isogeny and change-
+of-representation maps on these fixed schemes, including their equations
+on coordinate rings.
+
+For each complex algebra A, use the base change (𝒰_G)_A and retain the whole
+ideal I_U in its A-point equations. Neither the equations Jρ alone nor the
+condition that ρ(g)−I has some vanishing power defines this A-point functor.
+As a required test take G=G_m. The representation into GL1 gives Jρ=(t−1),
+whereas diag(t,t^−1) gives Jρ=((t−1)^2); their radicals agree. Over
+A=ℂ[ε]/(ε²), the latter unsaturated equations admit t=1+ε, whose matrix
+logarithm has nonzero central coordinate. The fixed 𝒰_G is the identity
+scheme and excludes that A-point, matching the zero-central-coordinate cone.
+Prove these ideal and test-point equations explicitly. The reduced-variety
+convention and exponential comparison are recorded in
+[Bertoloni Meli–Imai–Youcis, §2.1, Proposition 2.3](https://arxiv.org/html/2203.01768v3#S2.SS1).
+
+### N5.2. Polynomial maps, ideal factorization and inverse laws
+
+Choose a positive uniform bound N for a faithful representation. Derive the
+bound on the universal nilpotent matrix from its characteristic coefficients:
+they are positive-degree invariant functions in N1's augmentation ideal, so
+Cayley–Hamilton gives X^N=0 in the actual coordinate ring. On 𝒰_G the
+characteristic equations lie in I_U and similarly give (U−I)^N=0. Enlarge a
+zero-dimensional representation by a trivial line when a positive bound is
+needed; retain the rank-zero group. Construct the regular matrix polynomials
+exp_N(X)=Σ_(k<N) X^k/k! and
+log_N(U)=Σ_(1≤k<N) (−1)^(k+1)(U−I)^k/k over ℚ-algebras.
+
+Consume Mathlib's existing `IsNilpotent.exp`, `exp_eq_sum`, `map_exp` and
+unit/inverse laws. Prove exp_N equals that native exponential under the
+stated vanishing-power hypothesis; export bound independence and ring-map
+naturality. Use TauCeti's `RingTheory/Nilpotent/Exp` unit and divided-power
+comparisons on their actual ℚ-algebra carriers. When comparing RG's integral
+root-subgroup models, consume `RingTheory/Nilpotent/BaseChangeAction` only
+with its supplied stable lattice, divided-power preservation and parameter-
+ring algebra hypotheses; it is not a general unipotent-scheme constructor.
+The polynomial logarithm and its inverse-series identities remain targets.
+
+First prove on complex points that exp_N(X) lies in G and is genuinely
+unipotent, by the following same-carrier construction owned here. Apply
+F2.4/F4.3's lower dictionary in
+[FormalConnectionsOpers](../FormalConnectionsOpers/README.md) to H=G(ℂ), on its
+fixed native Hopf point carrier, with its finite-dimensional Hausdorff complex
+Lie-group atlas. Let θ_G identify the algebraic counit-derivation Lie algebra
+with H's analytic `GroupLieAlgebra`, using the inverse of that dictionary's
+tangent comparison. Transport the faithful closed representation and its
+algebraic differential through the actual point and tangent comparisons;
+prove its point map ρ(ℂ) is a holomorphic group homomorphism and its analytic
+differential is the transported dρ. Consume
+[LieGroups Layers0 and3](../RepresentationTheory/LieGroups/README.md#layer-0-the-exponential-map-and-one-parameter-subgroups)
+and the generic pre-compact-form Layer7 realification/global-exponential
+interfaces, with their finite-dimensional, smooth, Hausdorff and boundaryless
+real-model hypotheses. For E_G(X)=exp_H(θ_G X), their homomorphism naturality and
+matrix/unit comparison give the actual equation
+ρ(ℂ)(E_G(X))=exp_matrix(dρ(X)).
+
+Prove this matrix value equals exp_N(dρ(X)): use native
+`NormedSpace.exp_eq_tsum_rat`, the vanishing of every power of degree at least N,
+and the finite-support sum comparison, on the finite-dimensional complex
+matrix algebra and its rational scalar restriction. Compare with
+`IsNilpotent.exp_eq_sum` and consume
+`IsNilpotent.isNilpotent_exp_sub_one` to obtain genuine unipotence. Thus the
+polynomial matrix is the faithful image of the displayed actual G(ℂ)-point,
+and lies in N5.1's fixed unipotent scheme on complex points. Retain the point,
+faithful-image equation, tangent/naturality diagrams, change-of-representation
+comparisons and conjugation equations as outputs of this construction. This
+pointwise bridge uses generic Lie-group exponential theory; no exponential
+isomorphism for a noncommutative Borel radical is assumed.
+For unipotent u construct the polynomial curve
+c_u(t)=Σ_(j<N) binomial(t,j)(u−I)^j. Prove c_u(m)=u^m for nonnegative
+integers m, its determinant is1, and c_u(t+s)=c_u(t)c_u(s). The integer
+points are Zariski dense, so the closed embedding of G makes c_u a group
+morphism G_a→G. Compute its derivative at0 as log_N(u); the tangent
+map puts this logarithm in Lie G, and the Jordan/representation dictionary
+puts it in the zero-central-coordinate cone. Retain the actual maps and
+the differential equations, not just the existence of a one-parameter group.
+Then use N5.0's reduced source and I_U's radical definition to prove
+actual pullback ideal containments for both maps. Give the induced coordinate-
+ring homomorphisms, not only point-set factorizations. Reducedness here is available before it is used.
+
+Prove the two truncated formal-series identities in these universal quotient
+rings. Use the faithful closed embedding and its injective differential to
+obtain inverse scheme morphisms 𝒩≃𝒰_G. Export their conjugation equivariance,
+bound and representation independence and compatibility with every complex-
+algebra base change. The all-A statement follows by base-changing these fixed
+morphisms and ideals, without replacing either scheme by a new A-point
+nilpotence condition. An analytic exponential alone does not supply this step.
+
+Compare central isogenies on these schemes and show the genuine unipotent
+lift is unique, distinguishing the full preimage that can include central
+semisimple factors. In adjoint semisimple G compare genuine unipotence with
+Ad-unipotence. In a connected reductive G retain the genuine target and zero
+central coordinate. In SL₂, −I has trivial adjoint action but is not
+unipotent; include this boundary. Supply the exp/log formulas on root
+subgroups and nilradicals and their compatibility with N1's universal
+nilradical bundle and N4's Jordan blocks.
 
 ## N6. Slodowy slices and transverse geometry
 
@@ -284,13 +399,14 @@ morphism: in sl₂ the fiber over zero is ℙ¹ while regular fibers are points.
 Construct every Springer fiber as the actual scheme-theoretic fiber and
 compare its reduced complex-point description with containing Borels.
 
-Prove reducedness of the zero fiber defining 𝒩, its complete-intersection
-and normality statements in this characteristic-zero semisimple scope.
-Supply the invariant regular-sequence/flatness and local-ring calculations,
-the dense smooth regular locus and codimension-two complement needed
-for the commutative-algebra criteria. These results identify the initially
-specified scheme with the reduced nilpotent variety; they are not assumed
-from the set-level incidence image. Retain products and the rank-zero point.
+Consume N5.0's actual reduced zero-fiber and complete-intersection theorems.
+Prove flatness of the invariant quotient and normality of 𝒩 in the stated
+characteristic-zero semisimple scope. Supply the local-ring calculations,
+the Cohen–Macaulay/S2 consequence and the smooth regular locus with its
+codimension-two complement required for Serre's normality criterion.
+Compare with the original quotient-ideal scheme, retaining products and
+the rank-zero point; the earlier reducedness is not inferred from a
+set-level incidence image or from this resolution.
 
 Pull μ back to the chosen slice. Prove the resulting total space is smooth,
 the map to S∩𝒩 proper and birational, and in the subregular case a
@@ -344,9 +460,11 @@ component set and construct the effective finite diagram action, with its
 kernel, orbit maps and central-isogeny/change-of-triple comparisons.
 
 Identify the full effective action rather than choosing a generator from
-the picture. In the D₄ geometry distinguish the full S₃ component action
-from an order-three triality subgroup, constructing both and their actual
-permutations when used. The relevant centralizer action on Dynkin curves
+the picture. For the G₂ subregular surface of type D₄, distinguish the
+full S₃ component action from an order-three triality subgroup, constructing
+both and their actual permutations when used. The same underlying D₄ curve
+occurs for C₃ with S₂ action and for type D₄ with trivial effective component
+action; keep the input Lie type and its actual action in every comparison. The relevant centralizer action on Dynkin curves
 is studied in [Goodwin–Hille–Röhrle](https://arxiv.org/abs/math/0608579);
 the action and its comparison maps are construction targets here.
 
@@ -382,8 +500,10 @@ incidence/irreducibility. FCO retains its finite principal/regular theorem;
 any shared Jordan/centralizer calculation can use the independent N0 lower
 phase. Only after that finite export does N2.3 compare N0's independently defined
 regular locus; N2 constructs the general triples/finiteness/dense regular orbit.
-Continue with N3/N4/N5 → N6 slices → N7 birational resolution/local rings →
-N8 exceptional curves → N9 actions and RG folding comparison. N1 uses no
+Continue with N3/N4, then N5.0 zero-fiber reducedness/complete intersection →
+N5.1 fixed reduced unipotent scheme → N5.2 polynomial ideal factorizations →
+N6 slices → N7 birational resolution/normality/local rings → N8 exceptional
+curves → N9 actions and RG folding comparison. N1 uses no
 N7 birationality for its image or irreducibility. No later FCO affine/oper/
 quantum-center, LG exceptional/G2/flag, compact BG/transgression or cameral
 fundamental-group theorem feeds back into this finite prerequisite chain.

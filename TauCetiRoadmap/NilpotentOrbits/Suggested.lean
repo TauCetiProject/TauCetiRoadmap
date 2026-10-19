@@ -149,25 +149,37 @@ theorem regularBlock_nilpotent (n : ℕ) : IsNilpotent (regularBlock K n) := sor
 
 theorem subregularBlock_nilpotent (m : ℕ) : IsNilpotent (subregularBlock K m) := sorry
 
-/-- Uniform polynomial formula; the scheme-level image and quotient comparisons
-specified in N5 are additional targets beyond these matrix identities. -/
-def truncatedExp {n : ℕ} (N : ℕ) (X : Matrix (Fin n) (Fin n) K) :
-    Matrix (Fin n) (Fin n) K :=
-  ∑ k ∈ Finset.range N, ((Nat.factorial k : K)⁻¹) • X ^ k
+end MatrixPolynomials
 
-def truncatedLog {n : ℕ} (N : ℕ) (U : Matrix (Fin n) (Fin n) K) :
-    Matrix (Fin n) (Fin n) K :=
+section MatrixPolynomialsOverQAlgebra
+
+variable (A : Type*) [CommRing A] [Algebra ℚ A]
+
+/-- Uniform polynomial over every coefficient ℚ-algebra. N5 separately
+constructs the fixed schemes and the required pullback ideal containments. -/
+def truncatedExp {n : ℕ} (N : ℕ) (X : Matrix (Fin n) (Fin n) A) :
+    Matrix (Fin n) (Fin n) A :=
+  ∑ k ∈ Finset.range N, ((Nat.factorial k : ℚ)⁻¹) • X ^ k
+
+/-- The finite polynomial agrees with the existing native exponential. -/
+theorem truncatedExp_eq_native {n : ℕ} (N : ℕ)
+    (X : Matrix (Fin n) (Fin n) A) (hX : X ^ N = 0) :
+    truncatedExp A N X = IsNilpotent.exp X :=
+  (IsNilpotent.exp_eq_sum hX).symm
+
+def truncatedLog {n : ℕ} (N : ℕ) (U : Matrix (Fin n) (Fin n) A) :
+    Matrix (Fin n) (Fin n) A :=
   ∑ k ∈ Finset.range N,
-    if k = 0 then 0 else (((-1 : K) ^ (k + 1)) / (k : K)) • (U - 1) ^ k
+    if k = 0 then 0 else (((-1 : ℚ) ^ (k + 1)) / (k : ℚ)) • (U - 1) ^ k
 
 theorem truncatedLog_exp {n : ℕ} (N : ℕ) (hN : 0 < N)
-    (X : Matrix (Fin n) (Fin n) K) (hX : X ^ N = 0) :
-    truncatedLog K N (truncatedExp K N X) = X := sorry
+    (X : Matrix (Fin n) (Fin n) A) (hX : X ^ N = 0) :
+    truncatedLog A N (truncatedExp A N X) = X := sorry
 
 theorem truncatedExp_log {n : ℕ} (N : ℕ) (hN : 0 < N)
-    (U : Matrix (Fin n) (Fin n) K) (hU : (U - 1) ^ N = 0) :
-    truncatedExp K N (truncatedLog K N U) = U := sorry
+    (U : Matrix (Fin n) (Fin n) A) (hU : (U - 1) ^ N = 0) :
+    truncatedExp A N (truncatedLog A N U) = U := sorry
 
-end MatrixPolynomials
+end MatrixPolynomialsOverQAlgebra
 
 end TauCetiRoadmap.NilpotentOrbits
