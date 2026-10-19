@@ -41,6 +41,11 @@ Design choices.
   The coefficient promise in `galoisConjugate_cuspidal` uses the connected predicate.
 * Local coefficient lattices use `Submodule.IsLattice`; characteristic-zero integral models
   are supplied by EtaleCohomologyFoundations F.4.0.
+* Universal anemic eigensystems in README §5.8 are algebra maps from a two-generator-per-place
+  polynomial presentation; the acting Hecke image carries its own relations. The arithmetic
+  coordinates are primary, with a named complex unitary conversion in §7.3.
+* The shared `IsAdelicLift` predicate of §7.2 retains the level character: right invariance is
+  its trivial-character case, and uniqueness uses the stated adelic decomposition.
 * GSp₄ coherent weights use the four positive `C₂` coroot evaluations `(x - y, x, x + y, y)`.
   Their full parameters have infinitesimal central weight opposite to the coefficient.
 * Algebraic modular forms use Gross's rational covariance `F(γ g) = ρ(γ) F(g)`, `F(g u) = F(g)`.
@@ -555,6 +560,14 @@ and chambers, component induction and extensions, `coherentChambers` and scalar
 holomorphic series; `adelize`, the common-carrier specialization `LevelAlgebraicModularForm`,
 its central submodule `CentralCharacterAlgebraicModularForm`, `inverseActionHeckeEquiv`,
 and `automorphicEquiv` with the coefficient-Hom multiplicities `occurrenceMultiplicity`.
+The invariants operators `invariantsHecke` and `invariantsHeckeOpposite` distinguish the
+ordinary left action from its inverse-coset opposite action. `IsCosetSystem` and
+`cosetSystem_volume` identify finite-coset counts with Haar volumes. Section 5.8 specifies
+`AnemicHeckePresentation`, `AnemicEigenSystem`, `anemicRealization`, `eigenIdeal`,
+`AgreesAwayFromFinite` and `galoisAnemicEigenSystem`, including the relation-kernel condition
+for passage to the acting image and the comparison with `TorsionEigenSystem`.
+Section 7.2 specifies `IsAdelicLift`, `adelize_isAdelicLift` and `IsAdelicLift.unique` on the
+adelic function carrier; §7.3 specifies `arithmeticHeckeSystem` and `unitaryHeckeSystem`.
 Their constructions and comparisons, including
 van Est, `recGL`, Flath factorization and the GL₂ dictionary, are specified in the README.
 -/
