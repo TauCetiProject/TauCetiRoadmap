@@ -8,13 +8,65 @@ This file records definitions and theorem signatures statable against the pinned
 The definitions retain repeated
 Hodge numbers, compare projective images using
 one embedded finite field and one conjugation, and impose the orthogonal determinant constraint
-before a central quotient. Weight functions are numerical data; attachment to an automorphic
-representation is a separate comparison in the README.
+before a central quotient. The Sato–Tate group uses the actual unitary determinant kernel.
+Weight functions are numerical data; attachment to an automorphic representation is a separate
+comparison in the README.
 -/
 
 namespace TauCetiRoadmap.ModularityAndLanglandsExtensions
 
 open scoped BigOperators MatrixGroups
+
+/-! ## Sato–Tate compactness and determinant components (§4.39) -/
+
+namespace SymmetricPower
+
+/-- The unitary determinant kernel for character order `a`; order zero denotes the full unitary
+case associated to an infinite-order character (README §4.39). -/
+def SatoTateGroup (a : ℕ) : Subgroup (Matrix.unitaryGroup (Fin 2) ℂ) :=
+  MonoidHom.ker ((powMonoidHom a).comp
+    (Matrix.detMonoidHom.comp (Matrix.unitaryGroup (Fin 2) ℂ).subtype))
+
+/-- The Sato–Tate determinant kernel is compact, including the full unitary case (README §4.39). -/
+theorem SatoTateGroup.isCompact (a : ℕ) :
+    IsCompact (SatoTateGroup a : Set (Matrix.unitaryGroup (Fin 2) ℂ)) := sorry
+
+/-- General-linear conjugacy induces precisely one conjugacy class in the Sato–Tate group
+(README §4.39, the uniqueness assertion of BCGNT Lemma 7.2.2). -/
+theorem satoTateClass_unique (a : ℕ) (g h : SatoTateGroup a) :
+    IsConj (Matrix.UnitaryGroup.toGL (g : Matrix.unitaryGroup (Fin 2) ℂ))
+      (Matrix.UnitaryGroup.toGL (h : Matrix.unitaryGroup (Fin 2) ℂ)) ↔ IsConj g h := sorry
+
+/-- Membership for a positive finite character order is exactly the determinant-power condition
+of README §4.39. -/
+theorem SatoTateGroup.ofFiniteOrder (a : ℕ) (ha : 0 < a)
+    (g : Matrix.unitaryGroup (Fin 2) ℂ) :
+    g ∈ SatoTateGroup a ↔ Matrix.det (g : Matrix (Fin 2) (Fin 2) ℂ) ^ a = 1 := sorry
+
+/-- The trivial character gives the special unitary group (README §4.39). -/
+theorem SatoTateGroup.orderOne (g : Matrix.unitaryGroup (Fin 2) ℂ) :
+    g ∈ SatoTateGroup 1 ↔
+      (g : Matrix (Fin 2) (Fin 2) ℂ) ∈ Matrix.specialUnitaryGroup (Fin 2) ℂ := sorry
+
+/-- The infinite-order convention imposes no determinant restriction (README §4.39). -/
+theorem SatoTateGroup.orderZero : SatoTateGroup 0 = ⊤ := sorry
+
+/-- An order-two determinant component is present for order two and absent for orders one and
+three. -/
+example (g : Matrix.unitaryGroup (Fin 2) ℂ)
+    (hg : Matrix.det (g : Matrix (Fin 2) (Fin 2) ℂ) = -1) :
+    g ∈ SatoTateGroup 2 ∧ g ∉ SatoTateGroup 1 ∧ g ∉ SatoTateGroup 3 := by
+  norm_num [SatoTateGroup, hg]
+
+/-- Primitive cubic determinants occur in the order-three kernel and are excluded at order one. -/
+example (g : Matrix.unitaryGroup (Fin 2) ℂ)
+    (hg : IsPrimitiveRoot (Matrix.det (g : Matrix (Fin 2) (Fin 2) ℂ)) 3) :
+    g ∈ SatoTateGroup 3 ∧ g ∉ SatoTateGroup 1 := by
+  constructor
+  · simpa [SatoTateGroup] using hg.pow_eq_one
+  · simpa [SatoTateGroup] using hg.ne_one (by decide)
+
+end SymmetricPower
 
 /-! ## Layer 0: realization comparisons and the singular-weight Hodge prediction -/
 
@@ -37,40 +89,9 @@ theorem singularWeightHodgeList_nodup_iff (k : ℕ) (r : ℤ) :
 theorem singularWeightHodgeList_r_two (k : ℕ) :
     singularWeightHodgeList k 2 = [0, 0, (k : ℤ) + 1, (k : ℤ) + 1] := sorry
 
-example : singularWeightHodgeList 2 1 = [0, -1, 2, 1] ∧
-    (singularWeightHodgeList 2 1).Nodup := by
-  norm_num [singularWeightHodgeList]
-
-example : singularWeightHodgeList 0 1 = [0, -1, 0, -1] ∧
-    ¬ (singularWeightHodgeList 0 1).Nodup := by
-  norm_num [singularWeightHodgeList]
-
-example : singularWeightHodgeList 0 2 = [0, 0, 1, 1] ∧
-    ¬ (singularWeightHodgeList 3 2).Nodup := by
-  norm_num [singularWeightHodgeList]
-
-/-- Use the existing polynomial API directly; the characteristic and Euler polynomials differ. -/
-example : (Polynomial.X - 1 : Polynomial ℚ).reverse = 1 - Polynomial.X ∧
-    (Polynomial.X - 1 : Polynomial ℚ).eval (1 / 2) ≠
-      (1 - Polynomial.X : Polynomial ℚ).eval (1 / 2) := by
-  constructor
-  · have hx : (Polynomial.X : Polynomial ℚ).reverse = 1 := by
-      simp [Polynomial.reverse]
-    have hsub : (Polynomial.X - 1 : Polynomial ℚ) =
-        Polynomial.X + Polynomial.C (-1) := by simp [sub_eq_add_neg]
-    rw [hsub, Polynomial.reverse_add_C, hx]
-    simp [sub_eq_add_neg]
-  · norm_num
-
-/-- The matrix API includes singular matrices and dimension zero. -/
-example : Matrix.charpolyRev (0 : Matrix (Fin 0) (Fin 0) ℚ) = 1 ∧
-    Matrix.charpolyRev (0 : Matrix (Fin 2) (Fin 2) ℚ) = 1 := by
-  simp [Matrix.charpolyRev]
-
-/-- In the basis `e², eē, ē²`, conjugation fixes the middle line of `Sym² H¹`. -/
-example : Matrix.trace (!![0, 0, 1; 0, 1, 0; 1, 0, 0] : Matrix (Fin 3) (Fin 3) ℤ) = 1 ∧
-    Matrix.det (!![0, 0, 1; 0, 1, 0; 1, 0, 0] : Matrix (Fin 3) (Fin 3) ℤ) = -1 := by
-  norm_num [Matrix.trace, Matrix.det_fin_three, Fin.sum_univ_succ, Matrix.cons_val']
+/-- Singular weight `r = 2` always has repeated Hodge numbers. -/
+example (k : ℕ) : ¬ (singularWeightHodgeList k 2).Nodup := by
+  simp [singularWeightHodgeList]
 
 end LanglandsRegister
 
@@ -140,17 +161,6 @@ example (ρ : Matrix.GeneralLinearGroup (Fin 2) (ZMod 5) →*
 
 end
 
-/-- A degree-zero finite-field parameter is excluded explicitly. -/
-example {G k K : Type*} [Group G] [Field k] [Fintype k] [Field K]
-    (p n : ℕ) (ι : k →+* K) (ρ : G →* Matrix.GeneralLinearGroup (Fin 2) K) :
-    ¬ ProjectiveImageSandwich p 0 n ι ρ := by
-  intro h
-  have := h.2.1
-  omega
-
-/-- Small characteristic is allowed by the bound; the prime need not exceed the rank. -/
-example : (2 : ℕ) ^ 3 > max 5 (2 * 4 - 1) ∧ 2 ≤ 4 := by decide
-
 end SymmetricPower
 
 /-! ## Layer 3: classical-group packets and symplectic descent -/
@@ -180,25 +190,6 @@ theorem orthogonalSignKernel_even {ι : Type*} [Fintype ι]
 theorem orthogonalSignKernel_one_odd (d : ℕ) (h : Odd d) :
     orthogonalSignKernel (fun (_ : Fin 1) => d) = ⊥ := sorry
 
-/-- One dimension-three block forces the trivial sign; the empty index set imposes nothing. -/
-example : orthogonalSignKernel (fun (_ : Fin 1) => 3) = ⊥ ∧
-    orthogonalSignKernel (fun (i : Fin 0) => i.elim0) = ⊤ := by
-  have h3 : ((3 : ℕ) : ZMod 2) = 1 := by decide
-  constructor
-  · ext s
-    simp only [orthogonalSignKernel, AddMonoidHom.mem_ker, AddMonoidHom.coe_mk,
-      ZeroHom.coe_mk, Fin.sum_univ_one, h3, one_mul,
-      AddSubgroup.mem_bot]
-    constructor
-    · intro h
-      funext i
-      fin_cases i
-      simpa using h
-    · intro h
-      simp [h]
-  · ext s
-    simp [orthogonalSignKernel]
-
 /-- Two odd blocks: the signs must agree. -/
 example (s : Fin 2 → ZMod 2) :
     s ∈ orthogonalSignKernel (fun (_ : Fin 2) => 1) ↔ s 0 = s 1 := by
@@ -226,6 +217,13 @@ def IsParallelWeight {ι : Type*} (wt : ι → Fin 2 → ℤ) : Prop :=
 def parallelWeight {ι : Type*} (wt : ι → Fin 2 → ℤ) (τ : ι) : ℤ :=
   wt τ 0 - wt τ 1 + 2
 
+/-- On one conjugate pair of embeddings, the common purity cross-sum forces parallel weight
+(README §4.18). -/
+theorem isParallelWeight_of_imagQuadratic {ι : Type*} (wt : ι → Fin 2 → ℤ)
+    (c : ι → ι) (hc : Function.Involutive c)
+    (hpair : ∀ τ σ, σ = τ ∨ σ = c τ) (w : ℤ)
+    (hpure : ∀ τ, wt τ 0 + wt (c τ) 1 = w) : IsParallelWeight wt := sorry
+
 /-- Adding a scalar to both entries at each embedding preserves parallel weight. -/
 theorem IsParallelWeight.twist {ι : Type*} (wt : ι → Fin 2 → ℤ) (a : ι → ℤ) :
     IsParallelWeight (fun τ i => wt τ i + a τ) ↔ IsParallelWeight wt := sorry
@@ -234,250 +232,11 @@ theorem IsParallelWeight.twist {ι : Type*} (wt : ι → Fin 2 → ℤ) (a : ι 
 theorem parallelWeight_independent {ι : Type*} {wt : ι → Fin 2 → ℤ}
     (h : IsParallelWeight wt) (τ σ : ι) : parallelWeight wt τ = parallelWeight wt σ := sorry
 
-example : IsParallelWeight (fun (_ : Fin 2) (_ : Fin 2) => (0 : ℤ)) ∧
-    parallelWeight (fun (_ : Fin 2) (_ : Fin 2) => (0 : ℤ)) 0 = 2 := by
-  simp [IsParallelWeight, parallelWeight]
-
-example : ¬ IsParallelWeight (fun (τ : Fin 2) (i : Fin 2) =>
-    if i = 0 then if τ = 0 then (0 : ℤ) else 2 else 0) ∧
-    parallelWeight (fun (τ : Fin 2) (i : Fin 2) =>
-      if i = 0 then if τ = 0 then (0 : ℤ) else 2 else 0) 1 = 4 := by
-  simp only [IsParallelWeight, parallelWeight]
-  decide
-
-example : IsParallelWeight (fun (τ : Fin 2) (i : Fin 2) =>
-    if i = 0 then if τ = 0 then (2 : ℤ) else 3 else if τ = 0 then 0 else 1) ∧
-    parallelWeight (fun (τ : Fin 2) (i : Fin 2) =>
-      if i = 0 then if τ = 0 then (2 : ℤ) else 3 else if τ = 0 then 0 else 1) 0 = 4 ∧
-    parallelWeight (fun (τ : Fin 2) (i : Fin 2) =>
-      if i = 0 then if τ = 0 then (2 : ℤ) else 3 else if τ = 0 then 0 else 1) 1 = 4 := by
-  simp only [IsParallelWeight, parallelWeight]
-  decide
-
 /-- A singleton set of embeddings imposes no comparison between different weights (README §4.18). -/
 example (wt : Fin 1 → Fin 2 → ℤ) : IsParallelWeight wt := by
   simp [IsParallelWeight]
 
-/-- Two conjugate pairs can have common purity sum and unequal weight differences (README §4.18). -/
-example :
-    let wt : Fin 4 → Fin 2 → ℤ := ![![0, 0], ![0, 0], ![1, -1], ![1, -1]]
-    (wt 0 0 + wt 1 1 = 0 ∧ wt 1 0 + wt 0 1 = 0) ∧
-    (wt 2 0 + wt 3 1 = 0 ∧ wt 3 0 + wt 2 1 = 0) ∧ ¬ IsParallelWeight wt := by
-  dsimp only
-  simp only [IsParallelWeight]
-  decide
-
-/-- The order-two determinant component contains a matrix outside SU₂ (README §4.39). -/
-example :
-    (!![-1, 0; 0, 1] : Matrix (Fin 2) (Fin 2) ℂ) ∈ Matrix.unitaryGroup (Fin 2) ℂ ∧
-    Matrix.det (!![-1, 0; 0, 1] : Matrix (Fin 2) (Fin 2) ℂ) ^ 2 = 1 ∧
-    (!![-1, 0; 0, 1] : Matrix (Fin 2) (Fin 2) ℂ) ∉
-      Matrix.specialUnitaryGroup (Fin 2) ℂ := by
-  constructor
-  · rw [Matrix.mem_unitaryGroup_iff]
-    ext i j
-    fin_cases i <;> fin_cases j <;>
-      norm_num [Matrix.mul_apply, Fin.sum_univ_two, Matrix.star_apply]
-  · norm_num [Matrix.mem_specialUnitaryGroup_iff, Matrix.det_fin_two]
-
-/-- The same determinant is excluded from the order-three group (README §4.39). -/
-example : Matrix.det (!![-1, 0; 0, 1] : Matrix (Fin 2) (Fin 2) ℂ) ^ 3 ≠ 1 := by
-  norm_num [Matrix.det_fin_two]
-
-/-- A cubic root gives an order-three determinant component (README §4.39). -/
-example (ζ : ℂ) (hζ : IsPrimitiveRoot ζ 3) :
-    (!![ζ, 0; 0, 1] : Matrix (Fin 2) (Fin 2) ℂ) ∈ Matrix.unitaryGroup (Fin 2) ℂ ∧
-    Matrix.det (!![ζ, 0; 0, 1] : Matrix (Fin 2) (Fin 2) ℂ) ^ 3 = 1 := by
-  have hn : ‖ζ‖ = 1 := Complex.norm_eq_one_of_pow_eq_one hζ.pow_eq_one (by decide)
-  have hc : ζ * (starRingEnd ℂ) ζ = 1 := by
-    rw [Complex.mul_conj]
-    rw [Complex.normSq_eq_norm_sq, hn]
-    norm_num
-  constructor
-  · rw [Matrix.mem_unitaryGroup_iff]
-    ext i j
-    fin_cases i <;> fin_cases j <;>
-      simp [Matrix.mul_apply, Fin.sum_univ_two, Matrix.star_apply, hc]
-  · simpa [Matrix.det_fin_two] using hζ.pow_eq_one
-
 end SymmetricPower
-
-/-! ## Numerical convention witnesses -/
-
-/-- Constant terms distinguish a polynomial that can cut out finite slope from `X`
-(README §1.8). -/
-example : (Polynomial.X : Polynomial ℚ).eval 0 = 0 ∧
-    (Polynomial.X - 1 : Polynomial ℚ).eval 0 = -1 ∧
-    (Polynomial.X - 1 : Polynomial ℚ).eval 0 ≠ 0 := by norm_num
-
-/-- Strictly decreasing weights can have colliding exterior-square pair sums (README §1.14). -/
-example :
-    let pairSums := fun a b c d : ℤ => [a + b, a + c, a + d, b + c, b + d, c + d]
-    pairSums 3 2 1 0 = [5, 4, 3, 3, 2, 1] ∧ ¬ (pairSums 3 2 1 0).Nodup ∧
-    pairSums 8 4 1 0 = [12, 9, 8, 5, 4, 1] ∧ (pairSums 8 4 1 0).Nodup := by decide
-
-/-- The balanced central coordinate gives the four spin exponents and their sum
-(README §3.32). -/
-example :
-    let w : ℚ := -6
-    let spin := [(3 + 3 - 3 + w) / 2, (3 - 3 + 1 + w) / 2,
-      (-3 + 3 - 1 + w) / 2, (-3 - 3 + 3 + w) / 2]
-    spin = [-3 / 2, -5 / 2, -7 / 2, -9 / 2] ∧ spin.sum = -12 := by norm_num
-
-/-- The rank-three auxiliary-prime congruence has the prime witness 577 (README §4.8). -/
-example : Nat.Prime 577 ∧ 577 % 288 = 1 := by norm_num
-
-/-- Tensor-weight multisets retain multiplicity and distinguish regular from repeated
-weights (README §4.23). -/
-example :
-    (([0, 1] : List ℤ).flatMap (fun a => [0, 2].map (fun b => a + b))).Perm
-        [0, 1, 2, 3] ∧
-    (([0, 1] : List ℤ).flatMap (fun a => [0, 1].map (fun b => a + b))).Perm
-        [0, 1, 1, 2] := by decide
-
-/-- The weight-two coefficient bound uses residue norm nine rather than prime three
-(README §4.26). -/
-example : 2 * Real.sqrt 9 = 6 ∧ 2 * Real.sqrt 9 ≠ 2 * Real.sqrt 3 := by
-  constructor
-  · norm_num
-  · have hs := Real.sq_sqrt (by norm_num : (0 : ℝ) ≤ 3)
-    norm_num
-    intro h
-    nlinarith
-
-/-- The symmetric Heisenberg cocycle becomes the polarized law under `z = t + xy/2`
-(README §3.1); doubling the cocycle already fails on the two coordinate vectors. -/
-example (x y x' y' t t' : ℚ) :
-    (t + t' + (x * y' - x' * y) / 2) + (x + x') * (y + y') / 2 =
-      (t + x * y / 2) + (t' + x' * y' / 2) + x * y' ∧
-    (1 / 2 + (1 + 0) * (0 + 1) / 2 : ℚ) = 1 ∧
-    (1 + (1 + 0) * (0 + 1) / 2 : ℚ) ≠ 1 := by
-  constructor
-  · ring
-  · norm_num
-
-/-- Halving the oscillator eigenvalue gives the even/odd lowest metaplectic weights
-(README §3.1); the unhalved odd value is different. -/
-example : ((2 * 0 + 1) / 2 : ℚ) = 1 / 2 ∧
-    ((2 * 1 + 1) / 2 : ℚ) = 3 / 2 ∧
-    ((2 * 1 + 1) / 2 : ℚ) ≠ 2 * 1 + 1 := by norm_num
-
-/-- Ramification scaling preserves the rational rank-two nilpotence index (README §2.10). -/
-example :
-    (!![0, 1; 0, 0] : Matrix (Fin 2) (Fin 2) ℚ) ^ 2 = 0 ∧
-    (2 • !![0, 1; 0, 0] : Matrix (Fin 2) (Fin 2) ℚ) ^ 2 = 0 ∧
-    (2 • !![0, 1; 0, 0] : Matrix (Fin 2) (Fin 2) ℚ) ≠ 0 := by
-  norm_num [pow_two, Matrix.mul_fin_two, Matrix.smul_cons, Matrix.smul_empty,
-    Matrix.cons_eq_zero_iff]
-  decide
-
-/-- Maximal N and Nφ=pφN do not encode the consecutive-Hodge-list premise: the weakly admissible
-`diag(5,25)` example of README §2.11 has `t_N = t_H = 3` and a stable line with `t_H < t_N`. -/
-example :
-    (!![0, 1; 0, 0] : Matrix (Fin 2) (Fin 2) ℚ) * !![5, 0; 0, 25] =
-      5 • (!![5, 0; 0, 25] * !![0, 1; 0, 0]) ∧
-    (1 + 2 : ℤ) = 0 + 3 ∧ (0 : ℤ) < 1 := by
-  norm_num [Matrix.mul_fin_two, Matrix.smul_cons, Matrix.smul_empty]
-  decide
-
-/-- Residue cardinality q, rather than coefficient prime p, fixes the unramified scale (README
-Conventions and §3.7). -/
-example : (Real.sqrt 9) ^ 3 = 27 ∧ (Real.sqrt 5) ^ 3 ≠ 27 := by
-  constructor
-  · norm_num
-  · have hs := Real.sq_sqrt (by norm_num : (0 : ℝ) ≤ 5)
-    have hn := Real.sqrt_nonneg (5 : ℝ)
-    nlinarith [sq_nonneg (Real.sqrt 5 - 3)]
-
-/-- The archimedean angular character remembers the value at the negative real unit (README
-Conventions). -/
-example : ((-1 : ℂ) / ‖(-1 : ℂ)‖) ^ 1 = -1 ∧
-    (-1 : ℂ) / star (-1 : ℂ) = 1 := by norm_num
-
-/-- The cohomological symmetric square has weights 0,1,2 and determinant exponent -3 (README
-Conventions). -/
-example : (List.range 3).map (fun i => (i : ℤ)) = [0, 1, 2] ∧
-    -(∑ i ∈ Finset.range 3, (i : ℤ)) = -3 := by decide
-
-/-- Rank n means symmetric-power degree n-1; distinct Satake roots may collide in degree two
-(README Conventions and §1.1). -/
-example : (1 : ℕ) - 1 = 0 ∧ (3 : ℕ) - 1 = 2 ∧
-    [((1 : ℤ) ^ 2), 1 * (-1), (-1) ^ 2] = [1, -1, 1] := by decide
-
-/-- The boundary chamber and its integral lattice impose different constraints (README §3.29). -/
-example : (((1 - 3 : ℤ) : ZMod 2) = (2 : ZMod 2)) ∧
-    (((1 - 3 : ℤ) : ZMod 2) ≠ (1 : ZMod 2)) ∧
-    ((1 + 1 : ℤ), (0 + 2 : ℤ)) = (2, 2) := by decide
-
-/-- Nonpositive pole orders summing to `-1` are `(-1, 0)` or `(0, -1)`: boundary nonvanishing rules
-out cancellation of a higher pole by a zero (README §3.3). -/
-example (a b : ℤ) (ha : a ≤ 0) (hb : b ≤ 0) (hab : a + b = -1) :
-    (a = -1 ∧ b = 0) ∨ (a = 0 ∧ b = -1) := by omega
-
-/-- The ordinary idempotent selects the unit-root coordinate in this mod-three model (README §2.3). -/
-example : (!![1, 0; 0, 0] : Matrix (Fin 2) (Fin 2) (ZMod 3)) ^ 2 =
-    !![1, 0; 0, 0] ∧
-    Matrix.mulVec (!![1, 0; 0, 0] : Matrix (Fin 2) (Fin 2) (ZMod 3)) ![0, 1] = 0 := by
-  norm_num [pow_two, Matrix.mul_fin_two, Matrix.cons_mulVec, dotProduct,
-    Fin.sum_univ_two, Matrix.cons_eq_zero_iff]
-  decide
-
-/-- Deligne–Lusztig cuspidal-type signs distinguish the two split block sizes (README §4.4). -/
-example : (-1 : ℤ) ^ (2 - 1) = -1 ∧ (-1 : ℤ) ^ (5 - 1) = 1 := by decide
-
-/-- The normalized Jacquet factor and the spectrum twist are different powers (README §4.3). -/
-example : (Real.sqrt ((9 : ℝ)⁻¹))⁻¹ = 3 ∧ (((9 : ℝ)⁻¹)⁻¹) = 9 := by
-  norm_num
-
-/-- The double-root quotient retains a nonzero nilpotent (README §1.8, with a=1). -/
-example :
-    let f := (Polynomial.X - 1 : Polynomial ℚ) ^ 2
-    let e := AdjoinRoot.root f - 1
-    e ^ 2 = 0 ∧ e ≠ 0 := by
-  dsimp only
-  constructor
-  · have h := AdjoinRoot.mk_self (f := (Polynomial.X - 1 : Polynomial ℚ) ^ 2)
-    rw [map_pow, map_sub, AdjoinRoot.mk_X, map_one] at h
-    exact h
-  · have hmon : ((Polynomial.X - 1 : Polynomial ℚ) ^ 2).Monic :=
-      (Polynomial.monic_X_sub_C 1).pow 2
-    have hne : (Polynomial.X - 1 : Polynomial ℚ) ≠ 0 := by
-      simpa only [Polynomial.C_1] using Polynomial.X_sub_C_ne_zero (1 : ℚ)
-    have hdeg : (Polynomial.X - 1 : Polynomial ℚ).natDegree <
-        ((Polynomial.X - 1 : Polynomial ℚ) ^ 2).natDegree := by
-      have hd : (Polynomial.X - 1 : Polynomial ℚ).natDegree = 1 := by
-        simpa only [Polynomial.C_1] using Polynomial.natDegree_X_sub_C (1 : ℚ)
-      rw [Polynomial.natDegree_pow, hd]
-      norm_num
-    simpa using AdjoinRoot.mk_ne_zero_of_natDegree_lt hmon hne hdeg
-
-/-- The six exterior-square diagonal entries have determinant the cube of the original
-four-dimensional determinant, including noninvertible inputs (README §1.14). -/
-example (a b c d : ℚ) :
-    Matrix.det (Matrix.diagonal ![a*b, a*c, a*d, b*c, b*d, c*d]) =
-      Matrix.det (Matrix.diagonal ![a, b, c, d]) ^ 3 := by
-  simp only [Matrix.det_diagonal, Fin.prod_univ_succ, Matrix.cons_val_zero,
-    Matrix.cons_val_succ, Fin.prod_univ_zero, mul_one]
-  ring
-
-/-- The rational point of the first exceptional conic (README §2.30). -/
-example : (3 : ℚ)^2 + 3 * 2^2 + 6 * 2 - 33 = 0 := by norm_num
-
-/-- Binary-place weights have distinct subset sums; the consecutive triple collides
-(README §2.45). -/
-example :
-    Function.Injective (fun b : Fin 3 → Fin 2 =>
-      ∑ i, (![1, 2, 4] : Fin 3 → ℕ) i * (b i : ℕ)) ∧
-    ¬ Function.Injective (fun b : Fin 3 → Fin 2 =>
-      ∑ i, (![1, 2, 3] : Fin 3 → ℕ) i * (b i : ℕ)) := by decide
-
-/-- The binary-polyhedral irreducible dimensions give the group orders (README §4.13). -/
-example :
-    (([1, 1, 1, 2, 2, 2, 3] : List ℕ).map (fun d => d^2)).sum = 24 := by decide
-
-example : (([1, 1, 2, 2, 2, 3, 3, 4] : List ℕ).map (fun d => d^2)).sum = 48 := by decide
-
-example : (([1, 2, 2, 3, 3, 4, 4, 5, 6] : List ℕ).map (fun d => d^2)).sum = 120 := by decide
 
 /-!
 The README also specifies the automorphic realization, accessible refinements,

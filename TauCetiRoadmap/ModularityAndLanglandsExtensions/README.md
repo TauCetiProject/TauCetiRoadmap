@@ -2950,7 +2950,7 @@ For number field F,RA `GL₂` `π` with dominant `λ_τ=(λ_{τ,1},λ_{τ,2})`,p
 - `TauCeti.SymmetricPower.parallelWeight`: `k=λ_{τ,1}−λ_{τ,2}+2`,`≥2` for dominant `λ`,embedding-independent when parallel.
 - `TauCeti.SymmetricPower.IsParallelWeight.twist`: adding `a_τ` to both coordinates preserves/reflexively characterizes parallelity.
 - Import AF §5.5’s purity identity.
-- `TauCeti.SymmetricPower.isParallelWeight_of_imagQuadratic`: its imaginary-quadratic cuspidal RA consequence.
+- `TauCeti.SymmetricPower.isParallelWeight_of_imagQuadratic`: for weights indexed by an involution c with every embedding equal to τ or cτ, the identities `λ_{τ,1}+λ_{cτ,2}=w` force parallel weight. Apply AF §5.5 to obtain these identities for imaginary-quadratic cuspidal RA representations.
 - `TauCeti.SymmetricPower.parallelWeight_independent`: equal computed k at `τ`,`σ`.
 
 Proof route: Clozel Lemme 4.9 pp.144–145 (also p.112 before 3.13; AF §5.5). Subtract the two CM cross-sum identities: weight differences agree within each conjugate pair, hence globally for imaginary quadratic F. The motivic weight is `w+1`; finite-place purity requires [§4.19].
@@ -3293,11 +3293,13 @@ Proof route: Clozel’s cross-sums and parallel differences give an algebraic we
 
 For CM F,non-CM cuspidal RA `GL₂` `π` of weight `λ` with `λ_{τ,1}+λ_{τc,2}=w`,`ω_π=|·|^{−w}ψ`,unitary type-`A₀` `ψ`,define `ST(π)={g∈U₂(ℝ):det(g)^a=1}` if `ψ` has finite order a,and `U₂(ℝ)` otherwise. This is compact in `GL₂(ℂ)`;for unramified essentially tempered `π_v`,the class of `q_v^{−w/2}rec(π_v)(Frob_v)` meets it in a unique ST-conjugacy class `[π_v]` (7.2.2).
 
-- `TauCeti.SymmetricPower.SatoTateGroup`: `ST(π) ⊂ GL₂(ℂ)`.
-- `TauCeti.SymmetricPower.SatoTateGroup.isCompact`: `ST(π)` is compact.
-- `TauCeti.SymmetricPower.SatoTateGroup.ofFiniteOrder`: `ψ` of finite order `a ⇒ ST(π) = {g ∈ U₂(ℝ) : det(g)^a = 1}`.
+- `TauCeti.SymmetricPower.SatoTateGroup`: the subgroup of `Matrix.unitaryGroup (Fin 2) ℂ` cut out by `det(g)^a=1`, for `a∈ℕ`. Use the order of ψ when finite and `a=0` when infinite; its image in `GL₂(ℂ)` is `ST(π)`.
+- `TauCeti.SymmetricPower.SatoTateGroup.isCompact`: this determinant kernel is compact for every a, including zero.
+- `TauCeti.SymmetricPower.SatoTateGroup.ofFiniteOrder`: for `a>0`, membership is exactly `det(g)^a=1` inside `U₂`.
+- `TauCeti.SymmetricPower.SatoTateGroup.orderOne`: membership at `a=1` is membership in `SU₂`.
+- `TauCeti.SymmetricPower.SatoTateGroup.orderZero`: the kernel at `a=0` is the full unitary group.
 - `TauCeti.SymmetricPower.satoTateClass`: `[π_v] ∈ ST(π)`/conjugacy for `π_v` unramified and essentially tempered.
-- `TauCeti.SymmetricPower.satoTateClass_unique`: The class `[π_v]` is unique (Lemma 7.2.2).
+- `TauCeti.SymmetricPower.satoTateClass_unique`: for every a, two elements of the determinant kernel are conjugate in `GL₂(ℂ)` iff conjugate in that kernel. In particular `[π_v]` is unique (Lemma 7.2.2).
 
 Proof route: the determinant condition is closed in `U₂`, hence compact. Essential temperedness gives unit-modulus normalized eigenvalues with product `ψ(ϖ_v)`; `GL₂`-conjugate unitary elements are `SU₂`-conjugate. Parallel-weight temperedness is supplied by [§4.38]; arbitrary-weight local class construction retains it as a hypothesis.
 
