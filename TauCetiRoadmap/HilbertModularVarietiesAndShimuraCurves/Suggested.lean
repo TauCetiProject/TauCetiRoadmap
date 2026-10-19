@@ -26,6 +26,14 @@ adelic quaternionic form spaces and their étale cohomological Galois realizatio
 beyond those at the pins; their theorems are README targets. In particular,
 the Hilbert quotient-stack/free-locus torsors, coefficient extension groups and finite-level
 Kodaira–Spencer determinant descent are specified in the README, not by stand-in propositions here.
+README H1.0's `HilbertSerreTensor` is the specialization of
+AbelianSchemesAndArithmeticModuli A1.3a's `relativeSerreTensor` to a unital `O_F`-action on an
+abelian scheme over any base and a finite projective `O_F`-module. Its maps, sums and arbitrary
+base change come from that supplier. A4.7a's `relativeSerreTensor-lie-tate` supplies Lie comparison
+over any base and the lisse Tate comparison for a prime invertible on the base. H1.0 retains
+invertible-module duality, ordered polarization transport and finite-flat torsion comparisons
+for noninvertible torsion orders outside A4.7a's domains. These are README targets on the supplied
+relative abelian-scheme carrier.
 -/
 
 open scoped NumberField nonZeroDivisors
