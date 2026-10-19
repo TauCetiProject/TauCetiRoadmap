@@ -1,15 +1,11 @@
 import Mathlib
-import TauCeti.NumberTheory.NumberField.Global.Approximation.Weak
-import TauCeti.LinearAlgebra.Matrix.GeneralLinearGroup.UpperTriangular.Solvable
-import TauCeti.NumberTheory.Multiquadratic.Prime.Discriminant.Basic
-import TauCeti.NumberTheory.Multiquadratic.Cyclotomic.GaussSum
 
 /-!
 # GL₂ modularity lifting: representative target signatures
 
 These signatures are suggested forms, not an exhaustive checklist. `README.md` is the definitive
 specification. This file records the light definitions and the
-statements that can already be made against the pinned Mathlib and Tau Ceti APIs. It is not an
+statements that can already be made against the pinned Mathlib APIs. It is not an
 exhaustive list of the targets of any layer: the Hecke algebras of definite quaternionic forms,
 the deformation rings, the patched modules and every lifting theorem need carriers (Galois
 representations of number fields with their local conditions, Hilbert modular forms, local
@@ -20,8 +16,7 @@ Design choices.
   of Kisin's patching datum; the cutoff ideals themselves belong to the patching algebra.
 * Oddness is a condition on the characteristic-zero determinant. Over a domain `R` with a ring
   map to a field `k` of characteristic different from two it can be read on the reduction
-  (`odd_det_of_odd_reduction`); in characteristic two it cannot, and the examples of Layer 6 pin
-  this.
+  (`odd_det_of_odd_reduction`); README §6.2 specifies the dyadic boundary cases.
 * The signed prime `p* = (-1) ^ ((p - 1) / 2) * p` is Tau Ceti's
   `TauCeti.Multiquadratic.oddPrimeDiscriminant`, used only for odd primes `p`; Tau Ceti already
   proves `p* ≡ 1 (mod 4)` and that a primitive `p`-th root of unity yields a square root of `p*`.
@@ -42,14 +37,6 @@ Design choices.
 
 namespace TauCetiRoadmap.GL2ModularityLifting
 
-/-! ## Layer 1: Minimal deformation-to-Hecke maps
-
-The minimal-level data, the deformation-to-Hecke map and the framed objects need the definite
-quaternionic Hecke algebras and the global deformation rings; they are README targets. The
-square classes prescribed in the allowable base changes of §1.8 use weak approximation. -/
-
-#check @TauCeti.GlobalNumberFields.weakApproximation_denseRange
-
 /-! ## Layer 3: Arithmetic patching -/
 
 /-- The patching radius `r_m = s · m · p ^ (m · (h + j))` of the level-`m` patching datum
@@ -63,57 +50,23 @@ theorem patchingRadius_mono_level (s p hj : ℕ) (hp : 1 ≤ p) (m : ℕ) :
     patchingRadius s m p hj ≤ patchingRadius s (m + 1) p hj := by
   sorry
 
-/-- The worked value of §3.1: `s = 1`, `p = 3`, `m = 2`, `h + j = 1` give `r_m = 18`. -/
-example : patchingRadius 1 2 3 1 = 18 := by decide
+/-! ## Layer 7: Statement table and normalisations over ℚ -/
 
-/-- With no patching variables the radius is `s · m`, not `0` or `s`. -/
-example : patchingRadius 2 3 5 0 = 6 := by decide
+/-- README §7.5(i): a rank-two representation over a field with
+nonsolvable image is irreducible. -/
+theorem irreducible_of_nonsolvable_image {G k : Type*} [Group G] [Field k]
+    (ρ : Representation k G (Fin 2 → k)) (hρ : ¬ Group.IsSolvable ρ.asGroupHom.range) :
+    Representation.IsIrreducible ρ := by
+  sorry
 
-/-- The rank enters linearly: doubling `s` doubles the radius. -/
-example : patchingRadius 2 2 3 1 = 2 * patchingRadius 1 2 3 1 := by decide
-
-/-! ## Layer 6: Dyadic lifting and Hypothesis (H)
-
-In characteristic two the residual determinant cannot detect oddness: both `1` and
-`diag(1, −1)` reduce to the identity, and the even lift `−1` reduces to it as well. -/
-
-/-- `diag(1, −1)` is odd in characteristic zero. -/
-example : Matrix.det !![(1 : ℤ), 0; 0, -1] = -1 := by
-  simp [Matrix.det_fin_two]
-
-/-- The same matrix reduces to a determinant-one matrix modulo two. -/
-example : Matrix.det !![(1 : ZMod 2), 0; 0, -1] = 1 := by
-  norm_num [Matrix.det_fin_two]
-  decide
-
-/-- The even lift `−1` has determinant `1` but the same reduction as an odd lift. -/
-example : Matrix.det (-1 : Matrix (Fin 2) (Fin 2) ℤ) = 1 := by
-  simp [Matrix.det_fin_two]
-
-/-- An odd integral involution can reduce to a nonidentity unipotent involution modulo two. -/
-example :
-    let c : Matrix (Fin 2) (Fin 2) ℤ := !![1, 1; 0, -1]
-    c * c = 1 ∧ c.det = -1 ∧
-      c.map (Int.castRingHom (ZMod 2)) = !![1, 1; 0, 1] ∧
-      c.map (Int.castRingHom (ZMod 2)) ≠ 1 := by
-  decide
-
-/-! ## Layer 7: Statement table and normalisations over ℚ
-
-The signed prime `p*` of the residual hypothesis over `ℚ(√p*)` is Tau Ceti's
-`oddPrimeDiscriminant`; the examples pin its sign convention. -/
-
-#check @TauCeti.Multiquadratic.oddPrimeDiscriminant_mod_four_eq_one
-#check @TauCeti.Multiquadratic.exists_mem_sq_eq_oddPrimeDiscriminant
-
-/-- `3* = −3`, so the residual hypothesis at `p = 3` is over `ℚ(√−3) = ℚ(ζ₃)`. -/
-example : TauCeti.Multiquadratic.oddPrimeDiscriminant 3 = -3 := by decide
-
-/-- `5* = 5`: the sign is not always negative. -/
-example : TauCeti.Multiquadratic.oddPrimeDiscriminant 5 = 5 := by decide
-
-/-- At `p = 2` the definition gives `−2`, not `(−1)^0 · 2 = 2`; it is used only for odd `p`. -/
-example : TauCeti.Multiquadratic.oddPrimeDiscriminant 2 = -2 := by decide
+/-- README §7.5(ii): restriction to a normal subgroup with solvable quotient preserves
+nonsolvable image and irreducibility in rank two over a field. -/
+theorem nonsolvable_image_restriction {G k : Type*} [Group G] [Field k]
+    (ρ : Representation k G (Fin 2 → k)) (hρ : ¬ Group.IsSolvable ρ.asGroupHom.range)
+    (N : Subgroup G) [N.Normal] [Group.IsSolvable (G ⧸ N)] :
+    ¬ Group.IsSolvable (ρ.asGroupHom.comp N.subtype).range ∧
+      Representation.IsIrreducible (ρ.comp N.subtype) := by
+  sorry
 
 /-- The normalised weight `k = b − a + 1` of a representation with Hodge–Tate weights `a < b`
 (§7.6): twisting by `ε^{−a}` moves the weights to `{0, k − 1}`. -/
@@ -128,18 +81,6 @@ theorem normalizedWeight_shift (a b n : ℤ) :
 theorem two_le_normalizedWeight {a b : ℤ} (h : a < b) : 2 ≤ normalizedWeight a b := by
   sorry
 
-example : normalizedWeight 3 7 = 5 := by norm_num [normalizedWeight]
-/-- The weights `{3+n, 7+n}` normalize to weight five for every common shift. -/
-example (n : ℤ) : normalizedWeight (3 + n) (7 + n) = 5 := by
-  rw [normalizedWeight_shift]
-  norm_num [normalizedWeight]
-example : normalizedWeight 0 1 = 2 := by norm_num [normalizedWeight]
-/-- The crystalline twist with weights `{6,7}` in §§8.6 and 10.5 normalizes to weight two;
-its unnormalized weights do not give an exact classical newform attachment. -/
-example : normalizedWeight 6 7 = 2 := by norm_num [normalizedWeight]
-/-- Equal weights (a weight-one form) give `k = 1`, outside the lifting theorems. -/
-example : normalizedWeight 4 4 = 1 := by norm_num [normalizedWeight]
-
 /-- The oddness bridge of §7.10: over a domain, an involution whose reduction to a field of
 characteristic different from two has determinant `−1` has determinant `−1`. -/
 theorem odd_det_of_odd_reduction {R k : Type*} [CommRing R] [IsDomain R] [Field k]
@@ -147,49 +88,7 @@ theorem odd_det_of_odd_reduction {R k : Type*} [CommRing R] [IsDomain R] [Field 
     (hres : (c.map φ).det = -1) (h2 : (2 : k) ≠ 0) : c.det = -1 := by
   sorry
 
-/-- At odd residue characteristic the two signs stay distinct. -/
-example : (-1 : ZMod 3) ≠ 1 := by decide
-
-/-- Over a product ring an involution can have mixed determinant signs, with odd reduction
-under the first projection modulo three (§7.10). -/
-example :
-    let c : Matrix (Fin 2) (Fin 2) (ℤ × ℤ) := !![(1, 1), 0; 0, (-1, 1)]
-    c * c = 1 ∧ c.det = (-1, 1) ∧ c.det ≠ -1 ∧
-      (c.map ((Int.castRingHom (ZMod 3)).comp (RingHom.fst ℤ ℤ))).det = -1 := by
-  decide
-
-/-- Rank-two twisting by a scalar `a` multiplies the determinant by `a ^ 2`. -/
-example {R : Type*} [CommRing R] (a : R) (M : Matrix (Fin 2) (Fin 2) R) :
-    (a • M).det = a ^ 2 * M.det := by
-  rw [Matrix.det_smul, Fintype.card_fin]
-
-/-! Nonsolvable residual image is used through solvability of the Borel subgroup of `GL₂`. -/
-
-#check @TauCeti.UpperTriangularGroup.instIsSolvable
-
 /-! ## Layer 10: Pan's residually reducible theorem -/
-
-/-- Over `𝔽₃[[X]]`, a nonconstant unipotent has order three and identity reduction
-(§10.1); finite image does not force the constant residual lift. -/
-example :
-    let U : Matrix (Fin 2) (Fin 2) (PowerSeries (ZMod 3)) :=
-      !![1, PowerSeries.X; 0, 1]
-    U ^ 3 = 1 ∧ U ≠ 1 ∧ U.map PowerSeries.constantCoeff = 1 := by
-  dsimp
-  refine ⟨?_, ?_, ?_⟩
-  · have h3 : (3 : ZMod 3) = 0 := by decide
-    ext i j
-    fin_cases i <;> fin_cases j <;>
-      simp [pow_succ, Matrix.mul_apply, Fin.sum_univ_two]
-    ring_nf
-    simp [h3]
-  · intro h
-    have hx : (PowerSeries.X : PowerSeries (ZMod 3)) = 0 := by
-      simpa using congrArg (fun M : Matrix (Fin 2) (Fin 2) (PowerSeries (ZMod 3)) =>
-        M 0 1) h
-    exact PowerSeries.X_ne_zero hx
-  · ext i j
-    fin_cases i <;> fin_cases j <;> simp [Matrix.map_apply]
 
 section GoodComponents
 
@@ -204,6 +103,14 @@ def panGoodComponent (components : I → Set X) (nice seed : Set X) (i : I) : Pr
   ∃ j : I, (∃ x ∈ nice, x ∈ seed ∧ x ∈ components j) ∧
     Relation.ReflTransGen
       (fun a b : I => ∃ x ∈ nice, x ∈ components a ∧ x ∈ components b) j i
+
+/-- README §10.3: goodness is seeded reachability through potentially nice common points. -/
+theorem panGoodComponent_iff (components : I → Set X) (nice seed : Set X) (i : I) :
+    panGoodComponent components nice seed i ↔
+      ∃ j : I, (∃ x ∈ nice, x ∈ seed ∧ x ∈ components j) ∧
+        Relation.ReflTransGen
+          (fun a b : I => ∃ x ∈ nice, x ∈ components a ∧ x ∈ components b) j i := by
+  sorry
 
 /-- A component containing a potentially nice seed point is good. -/
 theorem panGoodComponent_seed (components : I → Set X) (nice seed : Set X) (i : I) (x : X)
@@ -225,9 +132,12 @@ theorem panGoodComponent_mono (components : I → Set X) {nice nice' seed seed' 
     panGoodComponent components nice' seed' i := by
   sorry
 
-/-- A single component consisting of a potentially nice seed point is good. -/
-example : panGoodComponent (fun _ : Unit => ({()} : Set Unit)) {()} {()} () :=
-  panGoodComponent_seed _ _ _ () () (by simp) (by simp) (by simp)
+/-- README §10.3: equality of the component subsets and point sets preserves goodness. -/
+theorem panGoodComponent_congr {components components' : I → Set X}
+    {nice nice' seed seed' : Set X} (hc : ∀ i, components i = components' i)
+    (hn : nice = nice') (hs : seed = seed') (i : I) :
+    panGoodComponent components nice seed i ↔ panGoodComponent components' nice' seed' i := by
+  sorry
 
 /-- With no seed points no component is good. -/
 example (components : I → Set X) (nice : Set X) (i : I) :
@@ -248,23 +158,6 @@ example : ∀ i : Fin 3,
   · exact ⟨1, ⟨0, by simp, by simp, by simp⟩,
       Relation.ReflTransGen.single ⟨1, by simp, by simp, by simp⟩⟩
 
-/-- A shared point that is not potentially nice does not propagate goodness: `{0, 1}` and
-`{1, 2}` meet only in `1`, which is not nice, so the second component is not good. -/
-example :
-    panGoodComponent (fun b : Bool => if b then ({1, 2} : Set ℕ) else {0, 1}) {0} {0} false ∧
-      ¬ panGoodComponent (fun b : Bool => if b then ({1, 2} : Set ℕ) else {0, 1}) {0} {0}
-        true := by
-  refine ⟨⟨false, ⟨0, by simp, by simp, by simp⟩, Relation.ReflTransGen.refl⟩, ?_⟩
-  rintro ⟨j, ⟨x, hxn, -, hxj⟩, hrel⟩
-  rcases Relation.ReflTransGen.cases_tail hrel with h | ⟨c, -, y, hyn, -, hyt⟩
-  · subst h
-    simp only [Set.mem_singleton_iff] at hxn
-    subst hxn
-    simp at hxj
-  · simp only [Set.mem_singleton_iff] at hyn
-    subst hyn
-    simp at hyt
-
 end GoodComponents
 
 section ExtensionComponents
@@ -276,6 +169,18 @@ variable {A B : Type*} [CommRing A] [CommRing B]
 pseudodeformation ring to the deformation ring of a nonsplit extension (§10.4). -/
 def panExtensionComponents (f : A →+* B) : Set (PrimeSpectrum A) :=
   {P | P.asIdeal ∈ minimalPrimes A ∧ P ∈ Set.range (PrimeSpectrum.comap f)}
+
+/-- README §10.4: a detected component is a minimal prime point lifted from the target spectrum. -/
+theorem panExtensionComponents_mem_iff (f : A →+* B) (P : PrimeSpectrum A) :
+    P ∈ panExtensionComponents f ↔
+      P.asIdeal ∈ minimalPrimes A ∧ ∃ Q : PrimeSpectrum B, P = PrimeSpectrum.comap f Q := by
+  sorry
+
+/-- README §10.4: the closure of each detected generic point is an irreducible component. -/
+theorem panExtensionComponents_minimal (f : A →+* B) {P : PrimeSpectrum A}
+    (hP : P ∈ panExtensionComponents f) :
+    closure ({P} : Set (PrimeSpectrum A)) ∈ irreducibleComponents (PrimeSpectrum A) := by
+  sorry
 
 /-- An extension component contains the kernel of the map. -/
 theorem panExtensionComponents_kernel_le (f : A →+* B) {P : PrimeSpectrum A}
@@ -292,30 +197,16 @@ theorem panExtensionComponents_comp_subset {C : Type*} [CommRing C] (f : A →+*
     panExtensionComponents (g.comp f) ⊆ panExtensionComponents f := by
   sorry
 
-/-- The identity map detects precisely all minimal-prime points. -/
-example :
-    panExtensionComponents (RingHom.id A) = {P : PrimeSpectrum A | P.asIdeal ∈ minimalPrimes A} :=
-  panExtensionComponents_id
-
 /-- A zero target detects no component. -/
 example [Subsingleton B] (f : A →+* B) : panExtensionComponents f = ∅ := by
   refine Set.eq_empty_iff_forall_notMem.2 fun P hP => ?_
   obtain ⟨Q, -⟩ := hP.2
   exact Q.isPrime.ne_top (Subsingleton.elim _ _)
 
-/-- A minimal prime not containing the kernel is not detected. -/
-example (f : A →+* B) (P : PrimeSpectrum A) (hker : ¬ RingHom.ker f ≤ P.asIdeal) :
-    P ∉ panExtensionComponents f :=
-  fun hP => hker (panExtensionComponents_kernel_le f hP)
-
 end ExtensionComponents
 
 /-!
 ## Targets stated in the README only
-
-The further API targets `panGoodComponent_iff`, `panGoodComponent_congr`,
-`panExtensionComponents_mem_iff` and `panExtensionComponents_minimal` are specified in
-README §§10.3–10.4.
 
 The higher arithmetic targets use carriers (Galois representations of number fields with local conditions, Hilbert and
 quaternionic eigenforms, global and local deformation rings, patched modules, completed

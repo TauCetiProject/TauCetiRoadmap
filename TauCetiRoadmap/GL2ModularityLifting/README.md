@@ -2049,10 +2049,16 @@ Solvability is Mathlib's `Group.IsSolvable`. Subgroups and extensions: `Group.is
 
 A reducible subgroup preserves a line; in an adapted basis it is contained in Tau Ceti’s upper-triangular subgroup, whose solvability is already proved by UpperTriangularGroup.instIsSolvable. Solvability passes to subgroups and conjugates, giving (i). `Im(ρ̄|G_K)` is normal in Im `ρ̄`, with quotient a quotient of `Gal(K/ℚ)`. If it were solvable, Im `ρ̄` would be solvable. Then apply (i) to `ρ̄|G_K`; this gives (ii). `ℚ(ζ_{p^n})/ℚ` is abelian, and `ℚ(√p*) ⊂ ℚ(ζ_p)` (`TauCeti.Multiquadratic.exists_mem_sq_eq_oddPrimeDiscriminant`); this gives (iii).
 
+The algebraic statements hold for any group G and field k, using Mathlib’s [Representation.IsIrreducible](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RepresentationTheory/Irreducible.lean):
+
+- `irreducible_of_nonsolvable_image`: For `ρ : Representation k G (Fin 2 → k)`, nonsolvability of the range of `ρ.asGroupHom` implies irreducibility.
+- `nonsolvable_image_restriction`: If N is normal in G and `G/N` is solvable, the restriction to N retains nonsolvable image and is irreducible. Specializing to `k = 𝔽̄_p` gives the absolute irreducibility in (i)–(ii).
+
 **Checks.**
 
 - `p = 2: GL₂(𝔽₂) ≅ S₃` is solvable, so statement (b) excludes it, while `SL₂(𝔽₄) ≅ A₅` is not solvable.
 - The converse fails: an absolutely irreducible dihedral `ρ̄` has solvable image.
+- For `N = G`, the quotient is trivial and restriction retains the original nonsolvable image; for `N = {1}`, a solvable quotient G would force every image of G to be solvable, contradicting the hypothesis.
 
 ([DP](<https://arxiv.org/pdf/2108.07577v2>) Theorem 1.5, p. 4 (arXiv v2); [DP](<https://arxiv.org/pdf/2108.07577v2>) Proof of Theorem 1.5, p. 4 (arXiv v2).)
 
