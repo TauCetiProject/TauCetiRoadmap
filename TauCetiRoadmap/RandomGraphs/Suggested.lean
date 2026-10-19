@@ -4,7 +4,7 @@ import TauCeti.Combinatorics.DenseGraphLimits.Sampling.Infinite
 import TauCeti.Combinatorics.DenseGraphLimits.Sampling.AlmostSure.Basic
 
 /-!
-# Random graphs, Fraïssé limits, and first-order asymptotic laws
+# Random graphs, Fraïssé limits, and first-order asymptotic laws: suggested signatures
 
 **This file is not the roadmap and is not exhaustive.** The definitive document is README.md.
 These declarations suggest Lean forms for selected definitions and milestones. Discharging every
