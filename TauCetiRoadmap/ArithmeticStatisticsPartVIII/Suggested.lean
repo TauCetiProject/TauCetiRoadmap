@@ -7,7 +7,8 @@ The accompanying README is the full specification, with source locators and exac
 supplier contracts. This file records light definitions and selected milestones that
 can be stated against the pinned Mathlib; it is not exhaustive. Hurwitz schemes,
 monodromy representations and the arithmetic counts remain README
-targets.
+targets. The relative hyperelliptic Jacobian uses JacobianChallengePartII §§1.2–1.4
+in positive genus and the trivial principally polarized abelian scheme in genus zero.
 
 Design choices made explicit here: the Kolmogorov distance lives on Mathlib's
 `ProbabilityMeasure ℝ` and its CDFs; the trace estimate is stated for real `q > 1`,
