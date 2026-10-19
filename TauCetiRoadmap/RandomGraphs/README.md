@@ -60,7 +60,7 @@ The finite probability model here is the native labeled binomial model.
 2. **Probability.** Use `SimpleGraph.binomialRandom V p` with `p : unitInterval`.
    Probability-law identities on a general carrier assume it is countable. The finite
    carrier is `Fin n`, including `n = 0`; the infinite carrier is `ℕ`.
-   Keep the full parameter interval for the law and elementary identities. Assume $`0<p<1`$
+   Keep the full parameter interval for the law and elementary identities. Assume $`0\lt p\lt 1`$
    precisely for the dense random-graph conclusions that need it.
 3. **Logic.** Use `FirstOrder.Language.graph`, `SimpleGraph.structure`,
    `FirstOrder.Language.Theory.simpleGraph`, and Mathlib's actual bounded formulas,
@@ -305,7 +305,7 @@ two Fraïssé limits, and finite-tuple versions with exact evaluation equations.
 
 1. Recover the `Fin m` limits and extend prescribed injections/bijections over finite roots.
 2. Instantiate the new representative and rooted APIs for finite linear orders and
-   $`(\mathbb Q,<)`$. Compare with Mathlib's existing
+   $`(\mathbb Q,\lt )`$. Compare with Mathlib's existing
    `isFraisse_finite_linear_order` and `isFraisseLimit_of_countable_nonempty_dlo`.
 3. Use an arbitrary finite induced graph as a prescribed root in the Rado applications
    of Milestones 4, 5 and 8.
@@ -346,10 +346,9 @@ Give the explicit binary presentation on $`\mathbb N`$:
 ```math
 i\sim j
 \quad\Longleftrightarrow\quad
-(i<j\ \text{and the $`i`$th binary bit of $`j`$ is $`1`$})
-\ \lor\
-(j<i\ \text{and the $`j`$th binary bit of $`i`$ is $`1`$}).
-
+(i\lt j\ \text{and bit } i \text{ of } j \text{ is } 1)
+\ \lor\;
+(j\lt i\ \text{and bit } j \text{ of } i \text{ is } 1).
 ```
 
 Prove its extension property constructively by prescribing finitely many bits and
@@ -491,8 +490,8 @@ B_d(n,p)\le
 ```
 
 Supply nonnegativity, complement symmetry, finite-union bounds and limits. For fixed
-$`0<p<1`$, prove summability in $`n`$ of the failure probabilities and an explicit
-$`C_{d,p} n^d e^{-c_{d,p}n}`$ bound for sufficiently large $`n`$, with $`c_{d,p}>0`$.
+$`0\lt p\lt 1`$, prove summability in $`n`$ of the failure probabilities and an explicit
+$`C_{d,p} n^d e^{-c_{d,p}n}`$ bound for sufficiently large $`n`$, with $`c_{d,p}\gt 0`$.
 The empty request and the absence of candidates are required boundary checks.
 
 ## Milestone 7 — FO asymptotics and almost-sure stabilization
@@ -538,7 +537,7 @@ Rank at most $`1`$ is treated directly.
 For the all-rank theorem, the concrete sufficient condition is
 
 ```math
-\forall a>0,\qquad n^a\delta_n\longrightarrow+\infty.
+\forall a\gt 0,\qquad n^a\delta_n\longrightarrow+\infty.
 
 ```
 
@@ -554,7 +553,7 @@ additional summability estimate.
 
 ### 7.3 Joint almost-sure statements
 
-Fix $`0<p<1`$. Let $`(\Omega,\mu)`$ be a probability space and let measurable
+Fix $`0\lt p\lt 1`$. Let $`(\Omega,\mu)`$ be a probability space and let measurable
 $`X_n:\Omega\to\mathrm{SimpleGraph}(\mathrm{Fin}\ n)`$ have the native $`G(n,p)`$ law.
 Without any independence assumption between sample sizes, prove
 
@@ -572,7 +571,7 @@ and therefore
 \forall^\mu\omega,\quad
 \forall d,\quad
 \forall^\infty n,\quad
-\forall\varphi\
+\forall\varphi\;
 (\mathrm{qr}(\varphi)\le d+1),\quad
 \bigl(X_n(\omega)\models\varphi\iff R\models\varphi\bigr).
 
@@ -591,7 +590,7 @@ Instantiate it on the nested initial windows of the native infinite binomial gra
 ### 8.1 Finite named roots
 
 For a fixed graph $`H`$ on `Fin m`, condition $`G(n,p)`$ on inducing $`H`$ on the first
-$`m`$ vertices, for $`n\ge m`$ and $`0<p<1`$. Prove positivity and the exact probability of
+$`m`$ vertices, for $`n\ge m`$ and $`0\lt p\lt 1`$. Prove positivity and the exact probability of
 this event, and identify the conditional law of the remaining independent edges.
 
 Choose an induced copy of $`H`$ in $`R`$ using rooted universality. For every formula
@@ -650,7 +649,7 @@ event of having no witness has probability $`0`$. Take the countable intersectio
 requests and derive
 
 ```math
-\Pr(G(\mathbb N,p)\cong R)=1,\qquad 0<p<1.
+\Pr(G(\mathbb N,p)\cong R)=1,\qquad 0\lt p\lt 1.
 
 ```
 
@@ -666,7 +665,7 @@ Derive the infinite-law equality by the existing cylinder/finite-window measure
 extensionality theorem when necessary.
 
 For a graphon $`W`$ on a probability space with
-$`0<W<1`$ almost everywhere with respect to the product measure, prove that its infinite
+$`0\lt W\lt 1`$ almost everywhere with respect to the product measure, prove that its infinite
 sample is almost surely Rado. For almost every fixed root tuple the conditional
 extension probability is positive; infinitely many independent outside candidates
 then supply a witness. Handle the exceptional root sets by product-measure/Fubini
@@ -674,7 +673,7 @@ arguments, not a pointwise assertion about an arbitrary representative.
 
 For the stronger hypothesis
 $`\varepsilon\le W\le1-\varepsilon`$ almost everywhere, with
-$`0<\varepsilon\le1/2`$, prove
+$`0\lt \varepsilon\le1/2`$, prove
 
 ```math
 \Pr(\neg\mathrm{EP}_{\le d}(G(n,W)))
@@ -736,7 +735,7 @@ Use the existing $`L_{\omega_1,\omega}`$ syntax, native FO embedding and realiza
 Construct both of the following sentences and prove their stated semantics.
 
 1. $`\Theta_R=\bigwedge_{r,s\in\mathbb N}E_{r,s}`$ has probability $`1`$ under
-   $`G(\mathbb N,p)`$ for $`0<p<1`$, and probability $`0`$ on every finite carrier.
+   $`G(\mathbb N,p)`$ for $`0\lt p\lt 1`$, and probability $`0`$ on every finite carrier.
    This refutes extending the Rado-truth identification to arbitrary infinitary
    sentences. Its finite probabilities do converge to a zero–one value, namely $`0`$.
 2. Construct first-order $`\mathrm{CardEq}(m)`$, including $`m=0`$, and
@@ -798,7 +797,7 @@ and the overlap contribution tends to zero. Make this finite classification/coun
 explicit lemma, not a probabilistic independence assumption for overlapping copies.
 
 Construct the actual rank-$`3`$ triangle sentence and identify its satisfaction with
-$`T_n>0`$. Derive
+$`T_n\gt 0`$. Derive
 
 ```math
 \Pr(G(n,p_n)\text{ contains a triangle})
@@ -806,7 +805,7 @@ $`T_n>0`$. Derive
 
 ```
 
-For $`c>0`$ this lies strictly between $`0`$ and $`1`$. Instantiate an everywhere-valid
+For $`c\gt 0`$ this lies strictly between $`0`$ and $`1`$. Instantiate an everywhere-valid
 parameter sequence, for example $`p_n=\min(1,c/(n+1))`$, and state its asymptotic
 equivalence to the usual $`c/n`$ regime.
 
@@ -827,7 +826,7 @@ Ground this in the exact factorial-moment formula, for $`n\ge k`$,
 \mathbb E[(Z_n)_k]
 =(n)_k
 \int_{[0,1]^k}
-\left(\prod_{i<j}(1-x_ix_j)\right)
+\left(\prod_{i\lt j}(1-x_ix_j)\right)
 \left(\int_0^1\prod_{i=1}^k(1-x_i y)\,dy\right)^{n-k}
 \,d\bar x.
 
