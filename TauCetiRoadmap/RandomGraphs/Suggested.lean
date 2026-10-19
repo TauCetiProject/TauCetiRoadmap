@@ -31,7 +31,7 @@ set_option autoImplicit false
 universe u v w w' z x
 
 open MeasureTheory ProbabilityTheory Filter FirstOrder FirstOrder.Language CategoryTheory
-open scoped unitInterval BigOperators Topology
+open scoped unitInterval BigOperators Topology NNReal
 
 namespace TauCetiRoadmap.RandomGraphs
 
