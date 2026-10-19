@@ -141,6 +141,10 @@ def HasExtensionUpTo (G : SimpleGraph V) (d : ℕ) : Prop :=
   ∀ U Z : Finset V, Disjoint U Z → U.card + Z.card ≤ d →
     ∃ x, IsExtensionWitness G U Z x
 
+/-- Stand-in for the canonical `SimpleGraph.HasExtensionProperty` of the InfinitaryLogic
+random-graph worked example (Tau Ceti #18726), which is not at this file's Tau Ceti pin.
+That predicate omits `x ∉ U`, which adjacency to every vertex of `U` forces in a loopless
+graph; the two agree, and implementations use the canonical one. -/
 def HasExtensionProperty (G : SimpleGraph V) : Prop :=
   ∀ U Z : Finset V, Disjoint U Z → ∃ x, IsExtensionWitness G U Z x
 
@@ -175,9 +179,10 @@ theorem model_radoAxioms_iff (G : SimpleGraph V) :
      V ⊨ radoAxioms) ↔ HasExtensionProperty G := by
   sorry
 
-/-- The bit presentation has an actual adjacency relation. -/
+/-- Stand-in for `SimpleGraph.radoGraph` of the same supplier, with its definition;
+`radoGraph_adj` is the bridge to the ordered binary presentation. -/
 def radoGraph : SimpleGraph ℕ :=
-  SimpleGraph.fromRel (fun i j => i < j ∧ Nat.testBit j i = true)
+  SimpleGraph.fromRel fun i j => j.testBit i
 
 theorem radoGraph_adj (i j : ℕ) :
     radoGraph.Adj i j ↔
@@ -221,7 +226,8 @@ theorem formula_iff_of_extension {m q : ℕ}
     SatisfiesFormula G φ a ↔ SatisfiesFormula H φ b := by
   sorry
 
-/-- Implement a terminating syntactic procedure, including equality cases. -/
+/-- Implement a terminating syntactic procedure, including equality cases. Its correctness
+yields the theory-level `HasQuantifierElimination` of Mathlib #41113 for `radoAxioms`. -/
 def eliminateQuantifiers {m : ℕ} (φ : Language.graph.Formula (Fin m)) :
     Language.graph.Formula (Fin m) := by
   sorry
