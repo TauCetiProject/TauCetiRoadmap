@@ -565,6 +565,61 @@ consuming existing covariant-derivative curvature and torsion APIs and translati
 conventions. These include the dual and tensor-connection exercises as specializations of
 B3 rather than new connection objects.
 
+### K4.P. Holomorphic Picard groups and the exponential comparison
+
+On K1–K3's complex manifolds, construct the sheaf of units 𝒪× of the actual
+holomorphic-function sheaf, its multiplicative group operations, restriction and
+local logarithms. Use native sheaves of abelian groups (applying `Additive` to
+𝒪× for cohomology), native sheaf cohomology and its connecting maps. This is
+the sheaf Picard construction; `CommRing.Pic` alone classifies invertible
+modules over a ring and does not identify line bundles on an arbitrary space.
+
+Define Pic_hol(M) as holomorphic isomorphism classes of K4's rank-one locally
+free 𝒪-modules, equivalently holomorphic line bundles. Construct the frame
+𝒪×-torsor and its inverse by gluing trivial lines, including the actual
+overlap cocycles, coboundary changes of frames and refinement maps. Prove the
+group isomorphism Pic_hol(M)≃H¹(M,𝒪×), with tensor, dual, trivial line and
+pullback laws. Relate this construction to K4's kernel-of-∂̄ sheaf and to
+SmoothBundlesConnections B1/B6's underlying smooth line, unit-circle reduction,
+connection and Čech constructions; do not introduce a second bundle carrier.
+
+Prove exactness, including stalkwise surjectivity by a local holomorphic
+logarithm, of 0→ℤ→𝒪→𝒪×→1, with f↦exp(2πif) and ℤ the constant sheaf.
+Construct its long exact sequence using the native `Sheaf.H.δ` API and prove
+naturality. In particular retain the complete segment
+
+H¹(M,ℤ)→H¹(M,𝒪)→Pic_hol(M)→H²(M,ℤ)→H²(M,𝒪).
+
+Identify the middle connecting map with the integral first Chern class of
+the underlying smooth line, through the explicit exponential/Čech and
+sheaf/singular comparison maps on manifolds. Fix the frame convention
+e_j=e_i g_ij and check the signs against B6's dual associated line and its
+principal-circle transitions, rather than equating a frame cocycle with its
+inverse. Verify on K7's positively oriented ℂP¹ that O(1) has Chern number1
+and that the Chern connection has c₁=[iF/(2π)]. Construct compatibility with
+curvature and the real de Rham comparison, including torsion invisible to
+curvature, tensor powers and conjugate/dual signs.
+
+Prove that H¹(M,𝒪)=H²(M,𝒪)=0 makes c₁:Pic_hol(M)→H²(M,ℤ) an isomorphism.
+Combine it with SBC B2/B6's smooth complex-line classification to give each
+topological line-bundle isomorphism class exactly one holomorphic isomorphism
+class. This asserts neither a unique literal Dolbeault operator on a fixed
+smooth bundle nor a lift of a specified group action. Without the vanishing
+hypotheses retain the exact sequence, its kernel and image, instead of an
+unrestricted Picard–H² identification. For compact connected M prove that
+global holomorphic units are constants; identify automorphisms of a
+holomorphic line with those units. Give the disconnected componentwise
+version without replacing componentwise constants by one global scalar.
+
+This generic construction uses K2's local ∂̄/Dolbeault resolution, K3's
+function sheaf, K4's line bundles, SBC's Čech/curvature comparisons and
+AlgebraicTopology's sheaf/singular comparison. These are its explicit lower
+inputs. Its conditional Picard isomorphism uses supplied vanishing and does
+not assume Borel–Weil, Kodaira embedding, flag cohomology or K7's section
+dimension calculations. SchubertGeometry S3P constructs the flag-specific
+vanishing by K5/K6 harmonic theory and the actual isotropy weights.
+
+
 ## K5. Compact Hermitian elliptic theory and Serre duality
 
 **K5a. Real and complex-coefficient analysis on real manifolds.** This shared
