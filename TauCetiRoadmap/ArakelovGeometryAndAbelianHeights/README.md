@@ -102,7 +102,7 @@ The following supplier comparisons are used with their stated generalities. On a
 - The invariant-differential bundle from `invariant_differentials` is `ω_G = e^*Ω¹_{G/S}`, locally free of `rank g`.
 - Its determinant, using `determinantObj` (and `NeronDifferentials.det` for a Néron model), is `ω̄_G = det ω_G = e^*Ω^g_{G/S}`.
 - Base-change comparison, specialized by `AbelianHodgeLine.baseChange` on abelian schemes: `ω̄_{G_{S′}} ≅ (S′ → S)^*ω̄_G`, compatible with composition of base changes.
-- `invariant_differentials`: `ω̄_{G⁰} = ω̄_G` for an open subgroup containing the unit section.
+- Open subgroups: `ω̄_{G⁰} ≅ ω̄_G` for an open subgroup `G⁰ ⊂ G` containing `e(S)`, because restriction of `Ω¹_{G/S}` to this neighbourhood of `e(S)` leaves `e^*Ω¹_{G/S}` and its determinant unchanged.
 - Pullback of invariant differentials and its determinant (`NeronDifferentials.pullback` on Néron models): `φ^* : ω̄_H → ω̄_G` for a homomorphism of equal relative dimension; `(ψφ)^* = φ^*ψ^*`.
 - The determinant product comparison (`AbelianHodgeLine.product` on abelian schemes): `ω̄_{G×H} ≅ ω̄_G ⊗ ω̄_H`.
 - The proper pushforward identity from `relativeInvariantForms`: for an abelian scheme `p_*Ω^g ≅ ω̄_G`, and `ω̄_G` is the Hodge determinant `λ_H` of AbelianSchemesAndArithmeticModuli §A6.38.
@@ -138,7 +138,7 @@ The source identifications are [Faltings, Endlichkeitssätze](https://gdz.sub.un
 
 ### From elliptic curves and Siegel moduli
 
-**EllipticCurves**, Layer 4.5a, supplies `minimalDiscriminantIdeal`, its local minimal-equation convention and `Δ_(uω) = u^(−12)Δ_ω`. **NeronModelsAndSemistableAbelianVarieties** §6.9 supplies the comparison with the minimal Néron differential lattice. Section 2.9 uses this lattice, rather than the discriminant from an arbitrary Weierstrass equation, together with Mathlib’s normalized analytic `Δ`.
+**EllipticCurves**, Layer 4.5a, supplies `minimalDiscriminantIdeal` and its local minimal-equation convention; Layer 4.5b supplies the scaling rule `Δ_(uω) = u^(−12)Δ_ω` (`Δ' = Δ(W)/u¹²`), also recorded in **NeronModelsAndSemistableAbelianVarieties** §6.9 together with the comparison with the minimal Néron differential lattice. Section 2.9 uses this lattice, rather than the discriminant from an arbitrary Weierstrass equation, together with Mathlib’s normalized analytic `Δ`.
 
 **PELModuli** §§M3.9 and M5.2 supplies Siegel uniformization and fine level spaces. Sections M6.3, M6.5–M6.6 and M6.8–M6.10 supplies `siegelStack` over `ℤ`, `coarseModuli`, `fieldOfModuli`, `boundedFieldOfDefinition`, `PELModuli.hodgeLine` and `PELModuli.hodgeLine_classify`. In particular a polarized object of dimension `g` has a model over an extension of its field of moduli of degree at most `2·3^(4g²)`.
 
@@ -378,7 +378,7 @@ The source identifications are [Szpiro](https://www.numdam.org/item/AST_1985__12
 
 Let `X` be a regular scheme, flat, separated and of finite type over `B = Spec O_K` or over `B_S = Spec O_K ∖ S` for a finite set `S` of nonzero primes, with smooth generic fibre; `X` need not be proper. For `σ ∈ Σ_K` write `X_σ(ℂ)` for the complex manifold of `X ⊗_σ ℂ`, and `F_∞` for complex conjugation acting on `⊔_σ X_σ(ℂ)`. An arithmetic divisor is a pair `D̂ = (D, g)` with `D` a Cartier divisor on `X` (`ℚ`-coefficients allowed) and `g = (g_σ)` a Green function for `D: g_σ` is a smooth real function on `X_σ(ℂ) ∖ D_σ(ℂ), F_∞`-invariant across `σ`, such that for every local equation `f` of `D` the function `g_σ + log|f|²` extends smoothly. `Div^(X)` is the group of arithmetic divisors; the principal arithmetic divisor of an invertible rational function `f ∈ K(X)^×` is `d̂iv(f) = (div f, (−log|f|²_σ)_σ)`; `ĈH¹(X) = Div^(X)/{principal}`. The classes supported over `S, ĈH¹_{|S|}(X)`, are those `(D, 0)` with `D` supported in fibres over primes of `S`; for `X` over `O_K` and `X_S = X ×_B B_S` restriction induces `ĈH¹(X)/ĈH¹_{|S|}(X) ≅ ĈH¹(X_S)`.
 
-`X` regular, flat and separated of finite type over `B` or `B_S`, with smooth generic fibre; Cartier divisors and Weil divisors agree on the regular `X` (SchemeAndStackFoundations §§3.4–3.5: `classGroup_picard_locallyFactorial` in §3.4). Green functions are smooth Green currents of logarithmic type in Gillet–Soulé's sense for divisors; no `log`-`log` growth is allowed in this result. `ℚ`-coefficients: `ĈH¹(X)_ℚ = ĈH¹(X) ⊗ ℚ` is the group used by Zhang's localized pairing.
+`X` regular, flat and separated of finite type over `B` or `B_S`, with smooth generic fibre; Cartier divisors and Weil divisors agree on `X`: under these hypotheses `X` is Noetherian and regular, hence locally factorial, and its connected components are integral. Apply **SchemeAndStackFoundations** §§3.4–3.5, in particular §3.4's `classGroup_picard_locallyFactorial`, on each component. Green functions are smooth Green currents of logarithmic type in Gillet–Soulé's sense for divisors; no `log`-`log` growth is allowed in this result. `ℚ`-coefficients: `ĈH¹(X)_ℚ = ĈH¹(X) ⊗ ℚ` is the group used by Zhang's localized pairing.
 
 Provide the following maps and identities.
 
@@ -407,7 +407,7 @@ The source identifications are [Gillet–Soulé](https://www.numdam.org/item/PMI
 - `ArithmeticChow1.vertical_fibre_Z`: For `X = Spec ℤ` and `p` prime, `([p], 0)` and `(0, 2 log p)` define the same class, both of degree `log p`.
 - `ArithmeticDivisor.green_nonexample`: For `X = ℙ¹_ℤ` and `D = [0]`, the pair `(D, 0)` is not an arithmetic divisor: `0 + log|z|²` does not extend smoothly across `z = 0`.
 - `ArithmeticDivisor.principal_green_sign`: On `ℂ` with coordinate `z, dd^c(−log|z|²) = −δ₀`, so its sum with the divisor current is zero. The positive sign fails the Green-current identity.
-- `ArithmeticDivisor.rational_unit_nonexample`: On `Spec ℤ ⊔ Spec ℤ`, the rational function `(1,0)` is nonzero but not invertible in `ℚ × ℚ`; it has no principal Cartier divisor. The function `(2,1)` is invertible and defines one.
+- `ArithmeticDivisor.rational_unit_nonexample`: On `Spec ℤ ⊔ Spec ℤ`, the rational function `(1,0)` is nonzero but not invertible in `ℚ × ℚ`; it has no principal Cartier divisor. The function `(2,1)` is invertible and defines one: its Cartier and Weil divisors both consist of the prime 2 on the first component and zero on the second, by the componentwise comparison.
 - `ArithmeticChow1.empty_divisor`: `a(0) = 0` and `a(φ)` for constant `φ = c` is the pullback of `(0, c)` from the base.
 - The relation `(V_p, 0) ≡ (0, 2 log p)` over `ℤ`; on `Spec O_K` the definition recovers Szpiro's compactified divisors.
 
@@ -909,7 +909,7 @@ Sum: `12 deg^ = 12 log #(ω̄/O_K ω) − 12 Σ_σ log ‖ω‖_σ`, and `Σ_σ 
 
 The source identifications are [Gaudron–Rémond, Périodes](https://arxiv.org/abs/1105.1230v1), §7.6, proof of Lemme 7.9, p. 33 (arXiv v1); [Deligne](https://www.numdam.org/item/SB_1983-1984__26__25_0/), Exemple 1.4, p. 28; [Faltings, Endlichkeitssätze](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0073/LOG_0026.pdf), §3, p. 354.
 
-*Needs:* §2.4; §2.2; §1.3; Mathlib `ModularForm.discriminant`; Mathlib `ModularForm.discriminant_eq_q_prod`; Mathlib `UpperHalfPlane`; **EllipticCurves**, Layer 4.5a (minimal discriminants).
+*Needs:* §2.4; §2.2; §1.3; Mathlib `ModularForm.discriminant`; Mathlib `ModularForm.discriminant_eq_q_prod`; Mathlib `UpperHalfPlane`; **EllipticCurves**, Layers 4.5a–4.5b (minimal discriminants and the `u^(−12)` scaling).
 
 **Checks.**
 
@@ -1177,7 +1177,7 @@ Prove the local milestone `Isogeny.cartierDual_length`: for a finite flat commut
 
 For semistable models, apply §2.6 to `u`: the identity `deg(u) p_B = u^{t*}p_Au^*` gives the equality of determinant ideals directly, including toric reduction.
 
-For arbitrary reduction over number fields, take the local abelian-variety pairing and the mutually dual isogeny sequences from **ArithmeticGaloisDuality** §D7.6, with the topology and normalization in the supplier contract above. For `F` a finite extension of `ℚ_p, M = ker(u)` and every finite unramified extension `F_r/F`, specialize these supplied sequences to obtain `Isogeny.localKummer_exact`: `0 → coker(A(F_r) → B(F_r)) → H¹(F_r,M) → Hom(coker(B^t(F_r) → A^t(F_r)), ℚ/ℤ) → 0`. The right map is restriction under the supplied pairing; its exactness is the supplied adjunction of Kummer maps. Both cokernels are finite, so their continuous and abstract character groups coincide. This corollary applies to every isogeny over `F`, including degree divisible by `p` (Raynaud §2.3 and Remark 2.4.1, pp. 211–212).
+For arbitrary reduction over number fields, take the local abelian-variety pairing and the mutually dual isogeny sequences from **ArithmeticGaloisDuality** §D7.6, with the topology and normalization in the supplier contract above. For `F` a finite extension of `ℚ_p, M = ker(u)` and every finite unramified extension `F_r/F`, specialize these supplied sequences to obtain `Isogeny.localKummer_exact`: `0 → coker(A(F_r) → B(F_r)) → H¹(F_r,M) → Hom(coker(B^t(F_r) → A^t(F_r)), ℚ/ℤ) → 0`. The right map is restriction under the supplied pairing; its exactness is the supplied adjunction of Kummer maps. Both cokernels are finite, so their continuous and abstract character groups coincide. This corollary applies to every isogeny over `F`, including degree divisible by `p` (Raynaud §2.3, pp. 209–210, and §2.4 with Remarque 2.4.1, pp. 210–212).
 
 Let `q` be the residue cardinality of `F` and `v_F` its integral valuation. Prove `log_q #coker(u(F_r)) = r v_F(𝔡_u) + O(1)`, with the constant independent of `r`, by comparing the analytic `Lie` filtrations of Néron models and their finite component groups. Finite-module Tate duality and the local Euler characteristic give `log_q #H¹(F_r,M) = r v_F(d) + O(1): #H⁰` and `#H²` are bounded by `d` while `r` varies. The preceding exact sequence then identifies the linear coefficients and proves `v_F(𝔡_u)+v_F(𝔡_{u^t})=v_F(d)`. This finite-residue-field proof supplies exactly the local fields of number-field Néron models.
 
@@ -1187,7 +1187,7 @@ Globalize the equality of local ideals. Add the two isogeny formulas: `½log d�
 
 For a polarization `u : A → A^t, u=u^t` and `𝔡_u²=(d)`. The squared pullback map divided by `d` identifies `ω̄_A^{⊗2}` and `ω̄_{A^t}^{⊗2}` integrally; its archimedean norm is 1 by §2.3. This proves the isometry of squared metrized Hodge lines for arbitrary reduction and equality of their degrees (Raynaud Corollary 2.1.3, pp. 207–208).
 
-The source identifications are [Raynaud](https://www.numdam.org/item/AST_1985__127__199_0/), Théorème 2.1.1 and Remarque 2.1.2, p. 207; §2.4 and Remark 2.4.1, pp. 211–212; Corollary 2.1.3, pp. 207–208; [Faltings–Chai](https://doi.org/10.1007/978-3-662-02632-8), V, Lemma 3.4, p. 166.
+The source identifications are [Raynaud](https://www.numdam.org/item/AST_1985__127__199_0/), Théorème 2.1.1 and Remarque 2.1.2, p. 207; §2.3, pp. 209–210; §2.4 and Remarque 2.4.1, pp. 210–212; Corollary 2.1.3, pp. 207–208; [Faltings–Chai](https://doi.org/10.1007/978-3-662-02632-8), V, Lemma 3.4, p. 166.
 
 *Needs:* §4.1; **AbelianSchemesAndArithmeticModuli** §A3.5 (`dualIsogenyCartierKernel`); **FiniteFlatGroupsAndIntegralPadicHodgeTheory** §R07.1.17 (`invariantDifferentialsAndAbsoluteDifferent`); **FiniteFlatGroupsAndIntegralPadicHodgeTheory** §§R07.1.5–R07.1.17; §2.6; §2.3; §4.2; **ArithmeticGaloisDuality** §D7.6 (“Local abelian-variety duality and gerbe evaluation” and “Self-dual isogenies and their local index,” for the pairing and dual isogeny sequences); **ClassFieldTheory**, Layer 5 (finite-module local duality and Euler characteristic).
 
@@ -1297,7 +1297,7 @@ Finite: under local freeness the cokernel of `det f^*` on `W(·, τ)` has the le
 
 Self-dual kernels: `ker f^t ≅ (ker f)^D O_E`-linearly (AbelianSchemesAndArithmeticModuli §A3.5), and the `τ`- and `τ^c`-lengths match under the hypotheses.
 
-The source identifications are [Yuan–Zhang](https://arxiv.org/abs/1507.06903v3), §2.2, proof of Theorem 2.2, pp. 12–13 (arXiv v3); [Yuan–Zhang](https://arxiv.org/abs/1507.06903v3), Erratum appended to arXiv v3, §2.1 (November 2021).
+The source identifications are [Yuan–Zhang](https://arxiv.org/abs/1507.06903v3), §2.2, Theorem 2.2 and its proof, pp. 13–14 (arXiv v3); [Yuan–Zhang](https://arxiv.org/abs/1507.06903v3), Erratum appended to arXiv v3, §2.1 (November 2021).
 
 *Needs:* §4.6; §2.10; **AbelianSchemesAndArithmeticModuli** §A3.5 (`dualIsogenyCartierKernel`); **FiniteFlatGroupsAndIntegralPadicHodgeTheory** §R07.1.17 (`invariantDifferentialsAndAbsoluteDifferent`); §1.5.
 
@@ -1454,7 +1454,7 @@ The period Gram matrix has a bounded regular abelian block as well as the toric 
 
 Bound the eigenvalues above by `C(1+Σ_j |log|x_j||)`; bound the full Gram determinant below using the preceding abelian block and the positive toric directions. Its determinant and reciprocal are then bounded by powers of `1+|log|x₁⋯x_a||`. This is the logarithmic condition for the fixed extension of the Hodge line.
 
-One-variable version (Deligne Lemma 1.18): over a punctured disc the lattice `Λ_z` contains the monodromy-invariant sublattice `Λ⁰` extending across 0, and the volume of `ℂ^g/Λ_z` grows like `|log|z||^{2g−r}`.
+One-variable version (Deligne Lemma 1.18): over a punctured disc the lattice `Λ_z` contains the monodromy-invariant sublattice `Λ⁰` of rank `r` extending across 0, and the volume of `ℂ^g/Λ_z` grows like `|log|z||^{2g−r}`. The exponent `2g−r` is the toric rank of the degeneration.
 
 The source identifications are [Faltings–Chai](https://doi.org/10.1007/978-3-662-02632-8), Ch. V, Proposition 4.5 and its proof, pp. 168–169; [Deligne](https://www.numdam.org/item/SB_1983-1984__26__25_0/), Proposition 1.11, p. 31, and Lemme 1.18 with its proof, pp. 33–34; [Faltings, Endlichkeitssätze](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0073/LOG_0026.pdf), §3, p. 355 (statement and proof sketch); [Faltings, Arakelov’s theorem](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0073/LOG_0025.pdf), §2 (end), pp. 339–340; [Szpiro](https://www.numdam.org/item/AST_1985__127__11_0/), Exposé I, §3, Théorème 3.2 and Lemme 3.2.1, p. 26.
 
@@ -1463,8 +1463,8 @@ The source identifications are [Faltings–Chai](https://doi.org/10.1007/978-3-6
 **Checks.**
 
 - For `g = 1` near the cusp `q = 0` of the `j`-line, `‖dz‖² = Im τ = −(1/2π)log|q|`.
-- For a product of a degenerating elliptic curve and a fixed elliptic curve, the logarithmic part has rank one while the full Hodge determinant is positive and proportional to `Im τ`. Dropping the fixed elliptic block would give determinant zero, contradicting positivity.
-- For a fixed complex elliptic curve `E`, the constant family `E × 𝔸¹_ℂ` over `𝔸¹_ℂ` with `D = {0}` has a constant positive Hodge frame norm. Its logarithmic bound has exponent zero despite the noncompact base.
+- For a product of a degenerating elliptic curve and a fixed elliptic curve, `g = 2`, `r = 3` and `2g−r = 1`: the logarithmic part has rank one while the full Hodge determinant is positive and proportional to `Im τ`. Dropping the fixed elliptic block would give determinant zero, contradicting positivity.
+- For a fixed complex elliptic curve `E`, the constant family `E × 𝔸¹_ℂ` over `𝔸¹_ℂ` with `D = {0}` has a constant positive Hodge frame norm. Here `g = 1`, `r = 2` and `2g−r = 0`, so its logarithmic bound has exponent zero despite the noncompact base.
 
 ### 5.4 The Hodge-metrized modular line bundle on the minimal compactification
 
@@ -1579,7 +1579,7 @@ The source identifications are [Pazuki](https://arxiv.org/abs/0907.1458v2), §2.
 
 ### 5.8 Comparison of theta height and stable Faltings height
 
-Let `(A, L)` be a principally polarized abelian variety of dimension `g ≥ 1` over `ℚ̄` with `L` symmetric, `r ≥ 2` even, `K` a number field of definition and `τ_σ ∈` Siegel's fundamental domain with `A_σ(ℂ) ≅ ℂ^g/(ℤ^g + τ_σℤ^g)`. In Deligne's normalisation `h_F = h_st,Del: m(r, g) ≤ h_Θ(A, L) − ½h_F(A) − (1/(4[K:ℚ]))Σ_σ log det(Im τ_σ) ≤ M(r, g)` with `m(r, g) = g(¼ log(4π) − ½ r^{2g} log r)` and `M(r,g) = (g/4)log(4π) + g log r + (g/2)log(2 + 2^{1+3g/4}/3^{1/4})`. Consequently, with `h_Θ⁺ = max(h_Θ, 1)` and `h_F⁺ = max(h_F, 1): |h_Θ(A, L) − ½h_F(A)| ≤ C₁(g, r) log(h_Θ⁺ + 2)` and `|h_Θ⁺ − ½h_F⁺| ≤ C₂(g, r) log(min(h_Θ⁺, h_F⁺) + 2)`, with `C₁ = 6r^{2g} log(r^{2g}), C₂ = 1000 r^{2g}(log r^{2g})^5`. In particular a bound `h_F(A) ≤ H` (Deligne's normalisation; `h_F = h_st,Fal + (g/2) log π`) gives `h_Θ ≤ B/2 + C₂ log(B + 2)` with `B = max(H, 1)`. The matrix bound is `[K:ℚ]^{−1}Σ_σ |log det(Im τ_σ)| ≤ C(g) log(max(h_Θ,1)+2)`, with `C(g) = (8g/π)(1+2g² log(4g))`. Replacing the logarithm in the first comparison by `log(max(h_Θ⁺,h_F⁺)+2)` gives a weaker bound with the same `C₁`. All these heights use the same fixed even `r` and the Deligne normalization.
+Let `(A, L)` be a principally polarized abelian variety of dimension `g ≥ 1` over `ℚ̄` with `L` symmetric, `r ≥ 2` even, `K` a number field of definition and `τ_σ ∈` Siegel's fundamental domain with `A_σ(ℂ) ≅ ℂ^g/(ℤ^g + τ_σℤ^g)`. In Deligne's normalisation `h_F = h_st,Del: m(r, g) ≤ h_Θ(A, L) − ½h_F(A) − (1/(4[K:ℚ]))Σ_σ log det(Im τ_σ) ≤ M(r, g)` with `m(r, g) = g(¼ log(4π) − ½ r^{2g} log r)` and `M(r,g) = (g/4)log(4π) + g log r + (g/2)log(2 + 2^{1+g³/4}/3^{1/4})`. Consequently, with `h_Θ⁺ = max(h_Θ, 1)` and `h_F⁺ = max(h_F, 1): |h_Θ(A, L) − ½h_F(A)| ≤ C₁(g, r) log(h_Θ⁺ + 2)` and `|h_Θ⁺ − ½h_F⁺| ≤ C₂(g, r) log(min(h_Θ⁺, h_F⁺) + 2)`, with `C₁ = 6r^{2g} log(r^{2g}), C₂ = 1000 r^{2g}(log r^{2g})^5`. In particular a bound `h_F(A) ≤ H` (Deligne's normalisation; `h_F = h_st,Fal + (g/2) log π`) gives `h_Θ ≤ B/2 + C₂ log(B + 2)` with `B = max(H, 1)`. The matrix bound is `[K:ℚ]^{−1}Σ_σ |log det(Im τ_σ)| ≤ C(g) log(max(h_Θ,1)+2)`, with `C(g) = (8g/π)(1+2g² log(4g))`. Replacing the logarithm in the first comparison by `log(max(h_Θ⁺,h_F⁺)+2)` gives a weaker bound with the same `C₁`. All these heights use the same fixed even `r` and the Deligne normalization.
 
 Principal polarization by a symmetric `L`; constants depend only on `(g, r)`. The bound on `Σ_σ |log det Im τ_σ|` by `C(g) log(max(h_Θ, 1) + 2)` is Masser's matrix lemma, made explicit by David–Philippon (Pazuki Remark 1.2).
 
@@ -1594,7 +1594,7 @@ For `F` and `E` define their base-point ideals by the images of evaluation, `β_
     + (Σ_𝔭 β_𝔭 log N𝔭 + Σ_σ β_σ)/[K:ℚ].
 ```
 
-Prove the finite-place estimates of Proposition `5.3: β_𝔭(E,0)=0` and `0 ≤ [K:ℚ]^{−1}Σ_𝔭 β_𝔭(F,0) log N𝔭 ≤ (g/2)r^{2g}log r`. Prove Lemma 5.4's expression for `β_σ` as a sum of squared normalized theta values over `(1/r)Λ/Λ`. Prove Proposition 5.5's lower and upper estimates on this sum, with `c(g) = (2+2^{1+3g/4}/3^{1/4})^g`. Substitution in the origin identity gives precisely the displayed `m(r,g)` and `M(r,g)`.
+Prove the finite-place estimates of Proposition `5.3: β_𝔭(E,0)=0` and `0 ≤ [K:ℚ]^{−1}Σ_𝔭 β_𝔭(F,0) log N𝔭 ≤ (g/2)r^{2g}log r`. Prove Lemma 5.4's expression for `β_σ` as a sum of squared normalized theta values over `(1/r)Λ/Λ`. Prove Proposition 5.5's lower and upper estimates on this sum, with `c(g) = (2+2^{1+g³/4}/3^{1/4})^g`. Substitution in the origin identity gives precisely the displayed `m(r,g)` and `M(r,g)`.
 
 Prove the explicit matrix lemma bound of Remark 1.2 with the displayed `C(g)`, then combine it with Theorem 1.1 to get Corollary 1.3 with the displayed `C₁` and `C₂`.
 
@@ -1602,12 +1602,13 @@ Translate normalisations with §2.7 (Pazuki uses `(2π)^{−g}i^{g²}`).
 
 Prove `AbelianVariety.thetaHeight_northcott` after these comparisons: for fixed `(g,r)`, bounded `h_Θ` and bounded degree of a field of definition give finitely many geometric classes of `(A,L)`. Corollary 1.3(1) bounds `h_st,Del` above, and §5.6 gives finitely many principally polarized geometric classes. For a fixed principal polarization, its symmetric representing lines form a finite `A[2]`-torsor over `ℚ̄`. This proof uses only the construction and choice-invariance from §5.7 as inputs to the comparison.
 
-The source identifications are [Pazuki](https://arxiv.org/abs/0907.1458v2), Theorem 1.1, Remark 1.2, Corollary 1.3, pp. 2–3; Definition 3.1 and Theorem 3.4, §§3.1–3.2, pp. 10–13; Propositions 4.1–4.2, pp. 13–16; §5.1, Proposition 5.1 and Lemma 5.2, pp. 16–18; §5.2, Propositions 5.3 and 5.5, Lemma 5.4 and §5.2.1, pp. 18–20 (arXiv v2); §2.2, pp. 6–7.
+The source identifications are [Pazuki](https://arxiv.org/abs/0907.1458v2), Theorem 1.1, Remark 1.2, Corollary 1.3, pp. 2–3; Definition 3.1 and Theorem 3.4, §§3.1–3.2, pp. 10–13; Propositions 4.1–4.2, pp. 13–16; §5.1, Proposition 5.1 and Lemma 5.2, pp. 16–18; §5.2, Propositions 5.3 and 5.5, Lemma 5.4 and §5.2.1, pp. 17–19 (arXiv v2); §2.2, pp. 6–7.
 
 *Needs:* §5.7 (theta construction and choice-invariance); §3.4; §2.7; §2.2; §2.0; §§1.1–1.6; §1.14; §5.2; §5.6 (for theta Northcott only); **AbelianSchemesAndArithmeticModuli** §§A1.5 and A3.6 (`ThetaGroup`); **NeronModelsAndSemistableAbelianVarieties** §3.10 (semistable reduction after finite extension).
 
 **Checks.**
 
+- For `g = 2`, the constant is `c(2) = (2 + 8/3^{1/4})²`, and `M(r,2) = ½ log(4π) + 2 log r + log(2 + 8/3^{1/4})`. Replacing `g³` by `3g` would instead give the smaller numerator `2^{5/2}` in place of 8.
 - Pazuki's Remark 1.4 deduces `h_F(A) ≥ −C(g) log C(g) − M(r, g)`; Bost's explicit linear bound is `h_F ≥ −(g/2) log(2π)` in this normalisation.
 - On a Moret–Bailly model the zero-section pullback of `ℒ` is integrally isometric to the unit line, so the left side of the origin identity is exactly zero. Generation by `E` at zero gives `β_𝔭(E,0)=0`; replacing `F` by `E` without its lattice index would lose the upper bound `(g/2)r^{2g}log r`.
 - After a finite extension `K′/K`, the degrees and the total weighted evaluation terms multiply by `[K′:K]`, while the normalized identities and constants `m, M, C₁` and `C₂` stay unchanged.
