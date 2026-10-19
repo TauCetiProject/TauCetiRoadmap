@@ -5,6 +5,8 @@ import TauCeti.Algebra.Lie.GeneralLinear.Basic
 import TauCeti.Algebra.Lie.GeneralLinear.TraceForm
 import TauCeti.FieldTheory.GaloisCohomology.Coefficients
 import TauCeti.RingTheory.DedekindDomain.SInteger.Unit
+import TauCeti.RingTheory.DedekindDomain.FiniteAdeleRing.ClassGroup
+import TauCeti.NumberTheory.ClassFieldTheory.Local.Duality.FiniteModule
 
 /-!
 # Compact coefficients and arithmetic duality: target signatures
@@ -68,9 +70,9 @@ Design choices made explicit here:
   R02.3.2 supplies their equal-characteristic coefficient, cohomology and invariant comparisons.
 * Localization kernels and restricted products are stated generically, for given localization
   maps; the arithmetic local Galois groups are supplied by the caller.
-* The adjoint coefficients of the first-order calculations are Tau Ceti's trace pairing
-  `TauCeti.traceBilinForm` on `Matrix n n k` and its trace-zero ideal `TauCeti.slIdeal k n`;
-  nothing divides by `n`.
+* First-order lifts take values in units of `DualNumber A` for any ring `A`, hence any
+  associative `k`-algebra. The matrix corollaries use Tau Ceti's trace pairing
+  `TauCeti.traceBilinForm` and trace-zero ideal `TauCeti.slIdeal k n`; nothing divides by `n`.
 -/
 
 noncomputable section
@@ -274,6 +276,47 @@ theorem isGalois_maxUnramifiedOutside [IsSepClosed Ω] [Algebra.IsAlgebraic K Ω
 theorem maxUnramifiedOutside_mono (S T : Set (HeightOneSpectrum (𝓞 K))) (h : S ⊆ T) :
     maxUnramifiedOutside K Ω S ≤ maxUnramifiedOutside K Ω T := sorry
 
+/-- The bottom field is unramified at every finite place. -/
+theorem unramifiedOutside_bot (S : Set (HeightOneSpectrum (𝓞 K))) :
+    ∀ v ∉ S, Algebra.IsUnramifiedIn (𝓞 (⊥ : IntermediateField K Ω)) v.asIdeal := sorry
+
+/-- Composita of finite subextensions unramified outside `S` remain unramified outside `S`. -/
+theorem unramifiedOutside_sup (S : Set (HeightOneSpectrum (𝓞 K)))
+    (L F : IntermediateField K Ω) [FiniteDimensional K L] [FiniteDimensional K F]
+    (hL : ∀ v ∉ S, Algebra.IsUnramifiedIn (𝓞 L) v.asIdeal)
+    (hF : ∀ v ∉ S, Algebra.IsUnramifiedIn (𝓞 F) v.asIdeal) :
+    ∀ v ∉ S, Algebra.IsUnramifiedIn (𝓞 ↥(L ⊔ F)) v.asIdeal := sorry
+
+/-- Unramifiedness outside `S` passes to finite subextensions. -/
+theorem unramifiedOutside_of_le (S : Set (HeightOneSpectrum (𝓞 K)))
+    (L F : IntermediateField K Ω) [FiniteDimensional K L] [FiniteDimensional K F]
+    (h : L ≤ F) (hF : ∀ v ∉ S, Algebra.IsUnramifiedIn (𝓞 F) v.asIdeal) :
+    ∀ v ∉ S, Algebra.IsUnramifiedIn (𝓞 L) v.asIdeal := sorry
+
+/-- The normal closure of a finite subextension introduces no new ramified finite places. -/
+theorem unramifiedOutside_normalClosure [IsSepClosed Ω] [Algebra.IsAlgebraic K Ω]
+    (S : Set (HeightOneSpectrum (𝓞 K))) (L : IntermediateField K Ω) [FiniteDimensional K L]
+    (hL : ∀ v ∉ S, Algebra.IsUnramifiedIn (𝓞 L) v.asIdeal) :
+    ∀ v ∉ S, Algebra.IsUnramifiedIn (𝓞 (IntermediateField.normalClosure K L Ω)) v.asIdeal := sorry
+
+/-- Every element of `K_S` lies in a finite subextension unramified outside `S`. -/
+theorem mem_maxUnramifiedOutside_iff_exists (S : Set (HeightOneSpectrum (𝓞 K))) (x : Ω) :
+    x ∈ maxUnramifiedOutside K Ω S ↔ ∃ L : IntermediateField K Ω,
+      FiniteDimensional K L ∧ (∀ v ∉ S, Algebra.IsUnramifiedIn (𝓞 L) v.asIdeal) ∧ x ∈ L := sorry
+
+/-- Roots of unity of any positive order lie in `K_S` when every place dividing that order
+belongs to `S`. -/
+theorem rootsOfUnity_mem_maxUnramifiedOutside (S : Set (HeightOneSpectrum (𝓞 K)))
+    (n : ℕ) (hn : 0 < n) (hS : ∀ v : HeightOneSpectrum (𝓞 K),
+      (n : 𝓞 K) ∈ v.asIdeal → v ∈ S) (x : Ω) (hx : x ^ n = 1) :
+    x ∈ maxUnramifiedOutside K Ω S := sorry
+
+/-- Adjoining an `n`-th root of an S-unit is unramified outside `S` and the places dividing `n`. -/
+theorem sUnit_root_mem_maxUnramifiedOutside (S : Set (HeightOneSpectrum (𝓞 K)))
+    (n : ℕ) (hn : 0 < n) (a : S.unit K) (x : Ω)
+    (hx : x ^ n = algebraMap K Ω ((a : Kˣ) : K)) :
+    x ∈ maxUnramifiedOutside K Ω (S ∪ {v | (n : 𝓞 K) ∈ v.asIdeal}) := sorry
+
 /-- If `S` contains every place above `p`, all `pⁿ`-th roots of unity of `Ω` lie in `K_S`. -/
 theorem cyclotomic_le_maxUnramifiedOutside (S : Set (HeightOneSpectrum (𝓞 K)))
     (p : ℕ) [Fact p.Prime] (hS : ∀ v : HeightOneSpectrum (𝓞 K),
@@ -332,7 +375,85 @@ theorem subsingleton_cohomology_galoisGroupS_of_two_lt
     Subsingleton (continuousCohomology r
       (TauCeti.ofDiscreteModule ℤ (galoisGroupS K Ω S) M)) := sorry
 
+/-- Finite ideles with valuation one outside `S`; their components at places in `S` are unrestricted. -/
+def integralUnitsOutside (S : Set (HeightOneSpectrum (𝓞 K))) :
+    Subgroup (FiniteAdeleRing (𝓞 K) K)ˣ where
+  carrier := {x | ∀ v ∉ S, Valued.v ((x : FiniteAdeleRing (𝓞 K) K) v) = 1}
+  one_mem' v _ := by simp
+  mul_mem' hx hy v hv := by
+    rw [Units.val_mul, FiniteAdeleRing.mul_apply, map_mul, hx v hv, hy v hv, one_mul]
+  inv_mem' hx v hv := by
+    rw [FiniteAdeleRing.valued_coe_units_inv_apply, hx v hv, inv_one]
+
+/-- Membership in the group of finite ideles integral and invertible outside `S`. -/
+theorem mem_integralUnitsOutside_iff (S : Set (HeightOneSpectrum (𝓞 K)))
+    (x : (FiniteAdeleRing (𝓞 K) K)ˣ) :
+    x ∈ integralUnitsOutside K S ↔
+      ∀ v ∉ S, Valued.v ((x : FiniteAdeleRing (𝓞 K) K) v) = 1 := Iff.rfl
+
+/-- With no excluded places, the group is Tau Ceti's everywhere-integral finite idele units. -/
+theorem integralUnitsOutside_empty :
+    integralUnitsOutside K ∅ = FiniteAdeleRing.integralUnits (𝓞 K) K := by
+  ext x
+  simp [integralUnitsOutside, FiniteAdeleRing.mem_integralUnits_iff]
+
+/-- Enlarging `S` removes integrality conditions and enlarges the group. -/
+theorem integralUnitsOutside_mono {S T : Set (HeightOneSpectrum (𝓞 K))} (h : S ⊆ T) :
+    integralUnitsOutside K S ≤ integralUnitsOutside K T := by
+  intro x hx v hv
+  exact hx v (fun hvS => hv (h hvS))
+
+/-- Excluding every finite place gives the full finite idele group. -/
+theorem integralUnitsOutside_univ : integralUnitsOutside K Set.univ = ⊤ := by
+  ext x
+  simp [integralUnitsOutside]
+
 end RestrictedRamification
+
+namespace LocalDuality
+
+open TauCeti TauCeti.ContCohomology
+
+variable (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
+    [IsNonarchimedeanLocalField K] {n : ℕ}
+
+/-- The normalized local invariant on explicit `H²(G_K, μ_n)`, with values in `ℤ/n`. -/
+def invariant (hn : IsUnit (n : K)) :
+    H2 (AbsoluteGaloisGroup K) (KummerCoeff K n) →+ ZMod n :=
+  (ClassFieldTheory.h2MuEquivZMod K hn).toAddMonoidHom.comp
+    (ClassFieldTheory.muNRepH2Equiv n K).toAddMonoidHom
+
+variable (hn : IsUnit (n : K)) (M : Type) [AddCommGroup M] [TopologicalSpace M]
+    [DiscreteTopology M] [Finite M] [DistribMulAction (AbsoluteGaloisGroup K) M]
+    [ContinuousSMul (AbsoluteGaloisGroup K) M]
+
+/-- The dual-first local Tate pairing, defined by the evaluation cup and the local invariant. -/
+def localTatePairing :
+    H1 (AbsoluteGaloisGroup K) (InternalHom (AbsoluteGaloisGroup K) M (KummerCoeff K n)) →+
+      H1 (AbsoluteGaloisGroup K) M →+ ZMod n :=
+  (invariant K hn).compHom.comp
+    (explicitDualityPairing11 (AbsoluteGaloisGroup K) M (KummerCoeff K n))
+
+/-- Local Tate duality identifies each argument with the additive dual of the other. -/
+theorem localTatePairing_perfect (hM : ∀ x : M, n • x = 0) :
+    Function.Bijective (localTatePairing K hn M) ∧
+      Function.Bijective (localTatePairing K hn M).flip := sorry
+
+/-- On continuous cocycles, the local pairing is the invariant of
+`(g,h) ↦ a(g)(g • b(h))`. -/
+theorem localTatePairing_mk
+    (a : Z1 (AbsoluteGaloisGroup K)
+      (InternalHom (AbsoluteGaloisGroup K) M (KummerCoeff K n)))
+    (b : Z1 (AbsoluteGaloisGroup K) M) :
+    localTatePairing K hn M (a : H1 _ _) (b : H1 _ _) =
+      invariant K hn ((⟨fun q : AbsoluteGaloisGroup K × AbsoluteGaloisGroup K =>
+        InternalHom.evalPairing (AbsoluteGaloisGroup K)
+          ((a : _ → InternalHom _ M (KummerCoeff K n)) q.1) (q.1 • (b : _ → M) q.2),
+        cup11_mem_Z2 _ _ _ _ (InternalHom.evalPairing (AbsoluteGaloisGroup K))
+          continuous_of_discreteTopology (InternalHom.evalPairing_equivariant (G := AbsoluteGaloisGroup K))
+          a.2 b.2⟩ : Z2 _ _) : H2 _ _) := sorry
+
+end LocalDuality
 
 namespace ArithmeticDuality
 
@@ -611,6 +732,18 @@ section Orthogonal
 variable {R : Type*} [CommRing R] {X X' Y : Type*} [AddCommGroup X] [Module R X]
   [AddCommGroup X'] [Module R X'] [AddCommGroup Y] [Module R Y]
 
+/-- A vector is in the orthogonal submodule exactly when it pairs to zero with that submodule. -/
+theorem mem_orthogonal_iff (b : X →ₗ[R] X' →ₗ[R] Y) (F : Submodule R X) (y : X') :
+    y ∈ Submodule.orthogonalBilin b F ↔ ∀ x ∈ F, b x y = 0 :=
+  Submodule.mem_orthogonalBilin
+
+/-- Enlarging a submodule shrinks its orthogonal submodule. -/
+theorem orthogonal_anti (b : X →ₗ[R] X' →ₗ[R] Y) :
+    Antitone (fun F : Submodule R X => Submodule.orthogonalBilin b F) := by
+  intro F H h y hy
+  rw [Submodule.mem_orthogonalBilin] at hy ⊢
+  exact fun x hx => hy x (h hx)
+
 /-- §D7.7.1: the image rule for adjoint `R`-linear maps, `(π F)^⊥ = ι^{-1}(F^⊥)`.
 It uses Mathlib's `Submodule.orthogonalBilin_map`.
 For rational pairings `R` is the coefficient field and `F` is a subspace over that field. -/
@@ -672,35 +805,63 @@ theorem det_one_add_eps (X : Matrix n n k) :
   rw [Matrix.det_one_add_smul]
   simp [pow_two, DualNumber.eps_mul_eps, mul_comm, Matrix.trace]
 
-variable {k n} {G : Type*} [Group G]
+variable {k n} {G : Type*} [Group G] {A : Type*} [Ring A]
 
-/-- The first-order lift `g ↦ (1 + ε c(g)) ρ(g)` of `ρ` with matrix-valued cochain `c`. -/
-def firstOrderLift (ρ : G →* (Matrix n n k)ˣ) (c : G → Matrix n n k) :
-    G → Matrix n n (DualNumber k) :=
-  fun g => (1 + (DualNumber.eps : DualNumber k) • (c g).map (algebraMap k (DualNumber k))) *
-    (ρ g : Matrix n n k).map (algebraMap k (DualNumber k))
+/-- The first-order unit `(1 + ε c(g))ρ(g)` for a ring-valued representation, in particular
+for a representation valued in an associative `k`-algebra. -/
+def firstOrderLift (ρ : G →* Aˣ) (c : G → A) : G → (DualNumber A)ˣ := fun g =>
+  { val := ⟨(ρ g : A), c g * (ρ g : A)⟩
+    inv := ⟨((ρ g)⁻¹ : Aˣ), -(((ρ g)⁻¹ : Aˣ) : A) * c g⟩
+    val_inv := by
+      apply TrivSqZeroExt.ext
+      · change (ρ g : A) * ((ρ g)⁻¹ : Aˣ) = 1
+        simp
+      · change (ρ g : A) * (-(((ρ g)⁻¹ : Aˣ) : A) * c g) +
+          (c g * (ρ g : A)) * ((ρ g)⁻¹ : Aˣ) = 0
+        simp [mul_assoc]
+    inv_val := by
+      apply TrivSqZeroExt.ext
+      · change (((ρ g)⁻¹ : Aˣ) : A) * (ρ g : A) = 1
+        simp
+      · change (((ρ g)⁻¹ : Aˣ) : A) * (c g * (ρ g : A)) +
+          (-(((ρ g)⁻¹ : Aˣ) : A) * c g) * (ρ g : A) = 0
+        simp [mul_assoc] }
+
+/-- Reducing a first-order lift modulo `ε` recovers the original representation. -/
+theorem firstOrderLift_fst (ρ : G →* Aˣ) (c : G → A) (g : G) :
+    (firstOrderLift ρ c g).val.fst = (ρ g : A) := rfl
 
 /-- **First-order cocycle comparison**: the first-order lift is multiplicative exactly when `c`
 is a `1`-cocycle for the conjugation action on `ad ρ`. -/
-theorem firstOrderLift_mul_iff (ρ : G →* (Matrix n n k)ˣ) (c : G → Matrix n n k) :
+theorem firstOrderLift_mul_iff (ρ : G →* Aˣ) (c : G → A) :
     (∀ g h, firstOrderLift ρ c (g * h) = firstOrderLift ρ c g * firstOrderLift ρ c h) ↔
-      ∀ g h, c (g * h) = c g + (ρ g : Matrix n n k) * c h * ((ρ g)⁻¹ : (Matrix n n k)ˣ) :=
-  sorry
+      ∀ g h, c (g * h) = c g + (ρ g : A) * c h * ((ρ g)⁻¹ : Aˣ) := sorry
 
-/-- The zero cochain gives the trivial lift. -/
-example (ρ : G →* (Matrix n n k)ˣ) (g : G) :
-    firstOrderLift ρ 0 g = (ρ g : Matrix n n k).map (algebraMap k (DualNumber k)) := by
-  simp only [firstOrderLift, Pi.zero_apply]
-  rw [Matrix.map_zero _ (map_zero _), smul_zero, add_zero, one_mul]
+/-- Every dual-number representation reducing to `ρ` comes from a unique adjoint cocycle. -/
+theorem firstOrderLift_existsUnique (ρ : G →* Aˣ) (r : G →* (DualNumber A)ˣ)
+    (hr : ∀ g, (r g).val.fst = (ρ g : A)) :
+    ∃! c : G → A, (∀ g h, c (g * h) = c g + (ρ g : A) * c h * ((ρ g)⁻¹ : Aˣ)) ∧
+      ∀ g, firstOrderLift ρ c g = r g := sorry
 
-/-- Conjugating the trivial lift by `1 + εX` produces the coboundary `X − ρ(g)Xρ(g)⁻¹`;
-its inverse matrix is `1 − εX`. -/
-theorem firstOrderLift_conjugation (ρ : G →* (Matrix n n k)ˣ) (X : Matrix n n k) (g : G) :
-    firstOrderLift ρ (fun h => X - (ρ h : Matrix n n k) * X *
-      ((ρ h)⁻¹ : (Matrix n n k)ˣ)) g =
-    (1 + (DualNumber.eps : DualNumber k) • X.map (algebraMap k (DualNumber k))) *
-      (ρ g : Matrix n n k).map (algebraMap k (DualNumber k)) *
-      (1 - (DualNumber.eps : DualNumber k) • X.map (algebraMap k (DualNumber k))) := sorry
+/-- For discrete coefficients, the first-order lift is continuous exactly when its cochain is. -/
+theorem continuous_firstOrderLift_iff [TopologicalSpace G] [TopologicalSpace A] [DiscreteTopology A]
+    (ρ : G →* Aˣ) (hρ : Continuous ρ) (c : G → A) :
+    Continuous (firstOrderLift ρ c) ↔ Continuous c := sorry
+
+/-- The zero cocycle gives the constant-coefficient lift into dual-number units. -/
+example (ρ : G →* Aˣ) (g : G) :
+    firstOrderLift ρ 0 g = Units.map (TrivSqZeroExt.inlHom A A) (ρ g) := by
+  apply Units.ext
+  apply TrivSqZeroExt.ext
+  · rfl
+  · simp [firstOrderLift]
+
+/-- Conjugating the constant-coefficient lift by `1 + εX` produces the coboundary
+`X − ρ(g)Xρ(g)⁻¹`; its inverse is `1 − εX`. -/
+theorem firstOrderLift_conjugation (ρ : G →* Aˣ) (X : A) (g : G) :
+    (firstOrderLift ρ (fun h => X - (ρ h : A) * X * ((ρ h)⁻¹ : Aˣ)) g).val =
+      (1 + TrivSqZeroExt.inr X : DualNumber A) *
+        TrivSqZeroExt.inl (ρ g : A) * (1 - TrivSqZeroExt.inr X) := sorry
 
 /-! ## Layer R02.6: auxiliary primes and patching numerics -/
 
@@ -792,6 +953,8 @@ declared here.
 * `HochschildSerre`: `spectralSequence`, `abutmentIso`, `edgeBottom_eq_inflation`,
   `edgeLeft_eq_restriction`, `map`, `res`, `cor`, `cup`.
 * `RestrictedRamification`: `toGaloisGroupS_surjective`, `maxUnramifiedOutside_of_le`,
+  `IsUnramifiedOutside`, `inertia_le_fixingSubgroup_iff`, `isUnramifiedOutside_iff_factors`,
+  `semilocalUnits_coinduced`, `semilocalIntegralUnits_coinduced`,
   `localCohomology`, `locMap`, `locMap_indep`, `locMap_delta`, `locMap_eq_restriction`,
   `unramifiedSubgroup`, `unramifiedH1Equiv`, `unramifiedSubgroup_two_eq_bot`, `sIdeles`, `sUnits`,
   `sIdeleClasses`, `limitModules`, `sIdeleClasses_exact`, `pic_eq_bot_of_cofinite`,
@@ -805,6 +968,7 @@ declared here.
 * `PoitouTate`: `compactSpace_P0`, `locallyCompactSpace_P1`, `restrictedProductCohomology_eq_sum`,
   `sha_map`.
 * `ArithmeticDuality`: `quotientFactoringCochains`, `unbalancedProduct`,
+  `continuousToAbstract`, `continuousToAbstract_injective`, `mem_range_continuousToAbstract_one`,
   `unbalancedProduct_leibniz`, `unbalancedProduct_zeroDegree`, `factoringDifferential`,
   `productTensorIso`, `unbalancedProduct_one`, `relativeSha`, `finiteCompactCochains`,
   `finiteCompactCohomology`, `finiteCompact_exact`, `finiteCompact_map`, `hilbertSamuelPolynomial`,
@@ -812,6 +976,10 @@ declared here.
   `hilbertSamuelEuler_exact`,
   `algebraicContinuousCochains`, `algebraicContinuousCohomology`, `algebraicCohomology_compare`,
   `continuousCochains_d_squared`.
+* `LocalDuality.localTatePairingField` is the field-valued pairing after scalar extension of
+  the normalized invariant. `LocalConditions`: `unramifiedClasses`, `strict`, `relaxed`,
+  `relaxAt`, `strictAt`. `SelmerDimensions`: `greenbergWiles`, `greenbergWiles_le`,
+  `strict_relaxed`, `strict_relaxed_le`, on the Selmer carrier of EllipticCurves Layer 7.
 * `GaloisCohomology`: `dualizingHom`, `localDualityMap`, `localDualityMap'`, `localDualityPairing`,
   `localDualityMap_indep`, `compactCochains_embedding`, `compactCochains_finite`,
   `compactCochains_diff`, `compactCupLeft`, `compactCupRight`, `compactCupLeft_leibniz`,
