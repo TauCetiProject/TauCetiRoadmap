@@ -9,9 +9,11 @@ statable against the pinned Mathlib and Tau Ceti APIs and is not exhaustive. In 
 it keeps native analytic functions, measures and the upper half-plane; the adelic spaces,
 trace distributions and relative cohomology belong to the README. Measurable Hilbert fields,
 direct-integral carriers and measure transport are supplied by VonNeumannAlgebras V4.0.Fields;
-generic complex traces are supplied by V4.Core. README §0.7 constructs the spectral
-representation with measurable multiplicity. OperatorTheory/UnboundedOperators UO-A01–UO-A02
-supplies the generic unbounded integral and exact domain used by the automorphic
+generic complex traces are supplied by V4.Core. OperatorTheory/SelfAdjointSpectralTheory
+SA-B85 on main supplies the spectral representation with measurable multiplicity,
+including the nondegenerate C₀(X) model. README §0.7 identifies its fields, measure
+transports and PVM with the automorphic spectral conventions.
+OperatorTheory/UnboundedOperators UO-A01–UO-A02 supplies the generic unbounded integral and exact domain used by the automorphic
 realization and resolvent-convention transport in §0.6.
 AutomorphicFormsOnReductiveGroups supplies the test-function topology, real representation
 constructions, smooth globalizations, algebraic restricted tensors and constant-term
@@ -21,13 +23,14 @@ Its §3.2 supplies the minimal cuspidal Eisenstein family, meromorphic continuat
 finite-block denominators and constant terms. README §§1.2–1.5 identify that family
 with the chamber construction; §§2.4–2.4a extend it to discrete and smooth inducing data.
 README §§1.15a–1.15c provide the general reductive Fredholm continuation route,
-the GL₂ scattering ratio and the Eisenstein construction of the all-unitary Hecke
-functional equation. The last uses ArithmeticGaloisRepresentations §2.7's finite-sum
-root-number product and AutomorphicLFunctionsAndLocalFactors AL.1's rank-one local
-functional equation, and identifies its completion with that supplier's canonical
-Hecke endpoint by agreement of the full initial products. README §3.6a proves the
-global Eisenstein/intertwining strip estimates for AL.3's canonical completed
-Rankin–Selberg function; the local test realization is supplied by AL.3.
+the GL₂ scattering ratio and its comparison with the all-unitary Hecke functional
+equation supplied by AutomorphicLFunctionsAndLocalFactors AL.1. The comparison uses
+ArithmeticGaloisRepresentations §2.7's finite-sum root-number product and AL.1's
+rank-one local functional equation, with scalar equality fixed by the full initial
+products. README §3.6a consumes AL.3's all-rank scalar strip bounds and niceness
+outside the contragredient norm-twist pole case, and proves additional global
+Eisenstein/intertwining estimates and their scalar comparison; the local test
+realization is also supplied by AL.3.
 
 Complex inner products conjugate the first slot. Positive real powers use the real logarithm.
 The modular Laplacian has the positive spectral sign. Integrals and sums denote analytic
@@ -580,10 +583,11 @@ at S, in the normalized induction with exponents s/2 and -s/2. Scalar extraction
 a nonzero local matrix-coefficient germ, with a nonzero holomorphic value in Re s > 0.
 Its Whittaker comparison uses AL.1's
 rank-one local functional equation with the arithmetic Tate constant.
-unitaryHeckeFunctionalEquation constructs the primitive conductor-balanced completion
-from Eisenstein scattering for every unitary idele-class character of every number
-field, derives its inverse-character equation with the Gauss-sum root number, and
-identifies it with AL.1's canonical Hecke continuation. Agreement uses the full
+unitaryHeckeFunctionalEquation identifies the Eisenstein scattering/Whittaker
+equation with AL.1's supplied primitive conductor-balanced Hecke completion and
+inverse-character equation for every unitary idele-class character of every number
+field. The identity eisensteinHecke_eq_canonical identifies the auxiliary
+Eisenstein scalar with this single canonical function. Agreement uses the full
 primitive Euler product, archimedean factors and conductor power on Re u > 1;
 scattering ratios alone do not fix the normalization. The comparison identifies
 polar principal parts: only pure imaginary norm characters have poles, simple at
@@ -592,11 +596,16 @@ TauCeti.GlobalNumberFields.HeckeCharacter with the explicit unitary hypothesis.
 The adelic inducing, intertwining and completed Hecke-function carriers are
 specified in the README.
 
-README §3.6a consumes AL.3's canonical completed Rankin–Selberg endpoint for every
-positive rank pair. Its global Eisenstein/intertwining strip estimates use the
-continued families, truncation and local normalizing-factor comparison. Agreement
+README §3.6a consumes AL.3's canonical completed Rankin–Selberg endpoint,
+completed-function strip bounds for every positive rank pair, and scalar niceness
+outside the contragredient norm-twist pole case.
+The rankinSelbergEisenstein_stripEstimates target gives additional global
+Eisenstein/intertwining, Whittaker-coefficient and truncated-inner-product estimates
+on fixed finite-level/compact-type blocks. These use the continued families,
+truncation and local normalizing-factor comparison. Agreement
 of the full initial products, including ramified and archimedean factors, identifies
-the spectral scalar with the supplied continuation and all polar principal parts.
+the spectral scalar with the supplied continuation and all polar principal parts
+in rankinSelbergEisenstein_eq_canonical.
 The local realization is AL.3's: finite K-finite tests for equal or adjacent ranks,
 and smooth completed projective tensors for arbitrary gaps. These local bounds
 are separate from the global strip estimates constructed here.
@@ -657,8 +666,13 @@ integral kernel is q²(q - 1); this distinguishes the two constructions even in 
 The normalized V* family and continued W, Green and modular Eisenstein kernels are
 separate continuation targets. The measurable Hilbert fields, direct integrals, decomposable
 operators and measure transport are supplied by VonNeumannAlgebras V4.0.Fields; V4.Core
-supplies complex trace on OperatorTheory/OperatorIdeals carriers. The spectral_representation
-target constructs the representation-to-multiplicity model and its PVM compatibility in §0.7.
+supplies complex trace on OperatorTheory/OperatorIdeals carriers.
+OperatorTheory/SelfAdjointSpectralTheory SA-B85 on main supplies the generic
+representation-to-multiplicity model, PVM-null equivalence and independence of choices,
+including zero spaces and empty bases. The spectral_representation adapter in §0.7
+identifies its field and density transport with §§0.1–0.3 and the automorphic spectral
+normalization. The comparison with the Eisenstein spectral map uses §4.3's separate
+surjectivity theorem and preserves the Weyl and orbit/stabilizer measure factors.
 OperatorTheory/UnboundedOperators UO-A01–UO-A02 supplies the generic unbounded integral,
 exact domain and self-adjoint recovery. The unbounded_selfadjoint_spectral target applies
 that contract to automorphic realizations, transporting domains and the negative of the
