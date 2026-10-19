@@ -10,7 +10,10 @@ This extends **Algebraic topology of spaces and manifolds**. The following mathe
 - **GeneralizedCohomology**, G2, G3 and G5.5–G5.6, owns the symmetric-sphere-module model, its stable and monoidal homotopy theory, Γ-machine, ordinary coefficients, derived spectral limits, localization and completion, Bott spectra and rational stable comparison. The additional point-set, algebraic K-theory, coefficient and convergence comparisons are specified here.
 - **UniversalCovers**, stages 2–4, owns cover classification, covering-induced homotopy isomorphisms, basepoint change and recognition of aspherical spaces. Group-nerve and bar comparisons are local; the classifier itself is supplied by ClassifyingSpaces Stages 1–4.
 - **GrothendieckEulerForms**, layer 2, and Tau Ceti's `TauCeti.SplitK0.grothendieckAddGroupEquiv` own algebraic split K₀. Mathlib owns algebraic group completion. This roadmap constructs a space and identifies its components with those groups.
-- **IntegralLattices**, Layer 1, and **OrthogonalSpinGroups**, Layer 0, supply their stated form carriers, orthogonal sums and isometry-group interfaces for the classical orthogonal-sum example. The new target here is its classifying-space and plus comparison.
+- **IntegralLattices**, 0A, supplies integral forms, isometries and orthogonal sums; 0E supplies signatures, 2C supplies orthogonal groups and orthogonal-sum embeddings without a definiteness assumption, and 6A supplies indefinite unimodular classification. **OrthogonalSpinGroups**, 0C, supplies only the bilinear/quadratic base-change comparison. The new targets here are cofinal stabilization and the classifying-space and plus comparison.
+- **BordismFormalGroups**, F6.5, owns Sp∞, symmetric coherence, infinity-operad interfaces and the monoidal model-localization comparison for GeneralizedCohomology's spectra. The comparisons here use those supplied objects.
+
+StableHomotopyKTheory owns generic nerve homotopy, Quillen A/B, acyclic and plus constructions, monoidal group completion, stable GL/E and generic Waldhausen/S foundations, including the Waldhausen structure on each SₙC. GeneralAlgebraicKTheory consumes these interfaces from §§1.1–1.34, 2.31–2.35, 3.1–3.33, 4.3–4.21 and 6.1–6.3, and owns Q-theory, localization, approximation and ring-specific comparisons. Its additional consumer results use these generic constructions with compatible names.
 
 Local foundations include universal central extensions (Layer 3); stable general-linear groups, elementary perfectness and projective complements (Layer 4); stable and operadic comparisons (Layer 5); Waldhausen categories, S-construction, additivity and relative-S delooping (Layer 6); and countable abelian-tower limits, lim¹ and Mittag-Leffler criteria (Layer 7).
 
@@ -81,7 +84,7 @@ Consume [GeneralizedCohomology](../GeneralizedCohomology/README.md) at the follo
 
 [DGFloer](../DGFloer/README.md), Layer 1 items 1–4, supplies degree-one Hurewicz, CW approximation, weak-equivalence invariance with local coefficients, Serre classes and simply connected Hurewicz modulo a class, and functorial CW K(A,n) from the abelian bar/Dold–Kan models, n≥1, with discrete A at n=0. Retain the trivial-group contraction, the circle comparison for K(ℤ,1), the comparison K(A,1)≃BA, and `H₃(K(ℤ/2,1);ℤ)=ℤ/2`, distinguishing it from the Moore space RP² with zero H₃. The map-classification and ordinary representability comparison is specified below. (H AT Prop. 4.30, pp. 365–366; §4.3, Thm. 4.57, p. 393.)
 
-[GrothendieckEulerForms](../GrothendieckEulerForms/README.md), Layer 2, supplies algebraic split K₀ and its universal additive invariant, with the pinned `TauCeti.SplitK0.grothendieckAddGroupEquiv` in `TauCeti.CategoryTheory.GrothendieckGroup.Split`. Mathlib supplies the algebraic component completion `Algebra.GrothendieckGroup`, the iso-class monoids `Skeleton.instMonoid`, `Skeleton.instCommMonoid`, and maps `Skeleton.monoidHom` and `Skeleton.mulEquiv` in `CategoryTheory.Monoidal.Skeleton`. The space-level component comparisons are new here. [IntegralLattices](../../Completed/IntegralLattices/README.md), Layer 1, and [OrthogonalSpinGroups](../OrthogonalSpinGroups/README.md), Layer 0, supply the form, orthogonal-sum and isometry-group interfaces for the classical example.
+[GrothendieckEulerForms](../GrothendieckEulerForms/README.md), Layer 2, supplies algebraic split K₀ and its universal additive invariant, with the pinned `TauCeti.SplitK0.grothendieckAddGroupEquiv` in `TauCeti.CategoryTheory.GrothendieckGroup.Split`. Mathlib supplies the algebraic component completion `Algebra.GrothendieckGroup`, the iso-class monoids `Skeleton.instMonoid`, `Skeleton.instCommMonoid`, and maps `Skeleton.monoidHom` and `Skeleton.mulEquiv` in `CategoryTheory.Monoidal.Skeleton`. The space-level component comparisons are new here. [IntegralLattices](../IntegralLattices/README.md), 0A, supplies integral forms, isometries and orthogonal sums; 0E supplies signatures, 2C supplies O(L), SO(L) and orthogonal-sum embeddings on arbitrary integral forms, and 6A supplies indefinite unimodular classification. Use `TauCeti.BilinForm.isometryGroup` from `TauCeti.LinearAlgebra.BilinearForm.Isometry` on the restricted integral bilinear form. [OrthogonalSpinGroups](../OrthogonalSpinGroups/README.md), 0C, supplies the bilinear/quadratic base-change comparison. [BordismFormalGroups](../BordismFormalGroups/README.md), F6.5, supplies Sp∞, symmetric coherence, infinity-operads and the monoidal localization comparison; `spectraInfinityCategory` denotes this supplied carrier.
 
 ## How to read the build
 
@@ -116,8 +119,8 @@ For small C,D in fixed object/morphism universes, define `classifyingSpace C=|N 
 - `classifyingSpace_empty` and `classifyingSpace_point_vertex`: classifyingSpace of the empty category is the empty space, and of the one-object one-morphism category is a single point; its canonical vertex is that point.
 - `classifyingSpace_distinct_vertices`, `classifyingSpace_discrete_vertices_ne` and `classifyingSpace_ordinal_vertices_ne`: the two Boolean objects of a discrete category give distinct vertices. The ordinal [1] also has distinct endpoint vertices, although its realisation is contractible.
 - `classifyingSpace_discrete`: For a set S viewed as a discrete category, classifyingSpace S is homeomorphic to S with the discrete topology.
-- The identity functor on `[1]` realizes to the identity on every interval point, whereas either constant endofunctor collapses the interval to its chosen endpoint. The two maps on vertices and the edge distinguish identity from a constant map.
-- For endpoint inclusion `*→[1]` followed by the terminal functor `[1]→*`, realizing the composite is the identity of the point. In the opposite order the composite is the endpoint-constant interval map. These tests fix composition order for `classifyingSpaceMap` and `classifyingSpaceFunctor`; the Lean examples prove their identity and composition laws from the actual nerve-realization composite.
+- `classifyingSpaceMap_ordinal_id_ne_endpointConst`: for either endpoint of `[1]`, the realized identity differs from the realized endpoint-constant endofunctor, as detected at the other vertex.
+- `classifyingSpaceMap_endpoint_composite_order`: endpoint inclusion `*→[1]` followed by the terminal functor `[1]→*` realizes to the point identity. The reverse composite realizes to the endpoint-constant interval map. These equalities fix composition order on the actual interval and point carriers.
 - `classifyingSpaceMap_not_full`: There is a continuous map classifyingSpace (Fin 2) ⟶ classifyingSpace (Fin 2) (the reflection of the interval) that is not classifyingSpaceMap of any functor: B is faithful but not full.
 
 (Q §1, LNM p. 89; W IV Characterization 3.1, Recipe 3.1.1 and Def. 3.1.4, pp. IV.24–25.)
@@ -442,6 +445,7 @@ Construct the coefficient-preserving `groupNerve_barChainIso` by inverting each 
 
 - `bar_boundary_low_degree`: The bar boundaries are d₁[g,a]=g⁻¹a−a and d₂[g,h,a]=[h,g⁻¹a]−[gh,a]+[g,a].
 - `bar_composition_noncommuting`: For g=(01), h=(12) on Fin 3, (gh)(2)=0 and (hg)(2)=1.
+- `bar_inversion_order_three`: on ℤ² let g act by T=((0,−1),(1,−1)), of order three. At e₁ the category boundary is (−1,1), equal to the pinned bar boundary at g⁻¹; the bar boundary at g instead gives (−2,−1).
 
 (W IV Application 3.4.2 and (3.5), p. IV.28.)
 
@@ -499,7 +503,7 @@ Define `IsWeakHomotopyEquivalence f` on native continuous maps by bijective π�
 
 Extend relative homotopy to arbitrary fibre pairs. For Serre p and b=p(e), prove `serreFibration_relativeHomotopy_bijective`: πₙ(E,p⁻¹b,e)→πₙ(B,b) bijective for n≥1, with group compatibility where defined, by disk lifting without an NDR hypothesis.
 
-Construct `relativeDiskLift` using the pair-homeomorphism from a cylinder with bottom and side boundary to a disk cylinder with its bottom. This promotes the Serre disk HLP to relative disk lifting and proves the relative-group comparison even when the fibre inclusion is not NDR. (H AT, Prop. 4.48, pp. 376–377.)
+Construct `relativeDiskLift` using the pair-homeomorphism from a cylinder with bottom and side boundary to a disk cylinder with its bottom. This promotes the Serre disk HLP to relative disk lifting and proves the relative-group comparison even when the fibre inclusion is not NDR. (H AT, proof of Theorem 4.41, pp. 376–377.)
 
 (H AT §4.2, Thm. 4.41 and proof, p. 376.)
 
@@ -922,7 +926,8 @@ Define `IsAcyclicSpace F`: F is nonempty and path-connected, with Hₙ(F;ℤ)=0 
 - `isAcyclicSpace_point`: A one-point space is acyclic.
 - `not_isAcyclicSpace_empty`: The empty space is not acyclic (H₀ = 0 ≠ ℤ in reduced homology convention: reduced H₋₁ ≠ 0).
 - `not_isAcyclicSpace_circle`: The circle is not acyclic: H₁(S¹; ℤ) = ℤ.
-- `isAcyclicSpace_poincare_sphere_minus_point`: The Poincaré homology 3-sphere minus a point is acyclic but has nontrivial perfect π₁ ≅ the binary icosahedral group SL₂(F₅).
+- `exists_acyclicSpace_nontrivial_pi1`: there exists an acyclic space with nontrivial fundamental group, the existential Lean milestone.
+- `puncturedPoincareSphere`: construct a selected Poincaré homology 3-sphere and puncture carrier, prove that the puncture is acyclic, and identify its fundamental group with the binary icosahedral group SL₂(𝔽₅).
 - `isAcyclicSpace_contractible_compat`: IsAcyclicSpace F holds whenever ContractibleSpace F (Mathlib).
 
 (W IV Def. 1.3, p. IV.4.)
@@ -1447,6 +1452,9 @@ Define `IsHomotopyAssocHSpace`, `IsHomotopyCommHSpace`, `pontryaginLocalization`
 
 **Checks.**
 
+- `hSpaceLaws_discrete_abelian`: a discrete abelian group satisfies both homotopy associativity and homotopy commutativity.
+- `hSpaceLaws_discrete_S3`: discrete S₃ is homotopy associative and fails homotopy commutativity; (01)(12)≠(12)(01).
+- `hSpaceLaws_commutative_nonassociative`: the discrete commutative magma {0,1,2}, with unit 0, 1·1=2 and 1·2=2·2=0, satisfies commutativity but fails associativity: (1·1)·2=0 and 1·(1·2)=1. On a discrete space homotopies cannot repair this inequality.
 - `isGroupCompletion_id_groupLike`: For a homotopy-commutative group-like H-space G (for example an abelian topological group), the identity of G is a group completion.
 - `isGroupCompletion_N_to_Z`: The inclusion ℕ → ℤ of discrete monoids is a group completion.
 - `isGroupCompletion_pi0_compat`: For a group completion, π₀ f agrees with Algebra.GrothendieckGroup.of under the identification π₀(Y) ≃ Algebra.GrothendieckGroup π₀(X).
@@ -1490,15 +1498,27 @@ Prove `IsGroupCompletion.of_groupLike` for homotopy-associative/commutative X wi
 
 ### 4.11 Uniqueness of group completions up to phantom maps
 
-If π₀X is countable or has a countable cofinal submonoid, two group completions with CW-type targets have equivalent targets; the comparison triangle is determined only up to phantom maps. For a based presentation X≃hocolim X_i by finite CW subcomplexes, require the inverse tower [ΣX_i,T]_* to be Mittag–Leffler for each grouplike comparison target T. GeneralizedCohomology G3.6’s Milnor sequence then kills its lim¹ phantom kernel, so maps agreeing on all finite stages agree in based homotopy classes. State the corresponding no-phantom comparison corollary under precisely this condition.
+If π₀X is countable or has a countable cofinal submonoid, two group completions with CW-type targets have equivalent targets; the comparison triangle is determined only up to phantom maps. Consume GeneralizedCohomology G3.10's unstable mapping-space/Milnor comparison. Construct `spaceMilnorMappingSequence`, extending its restriction-fibration argument to a specified countable exhaustion X=⋃ᵢXᵢ by based finite CW subcomplexes. For a based grouplike homotopy-associative, homotopy-commutative H-space T, identify the restriction kernel of [X,T]_*→limᵢ[Xᵢ,T]_* with lim¹ᵢ[ΣXᵢ,T]_*, including naturality. If this inverse tower is Mittag–Leffler, its lim¹ vanishes and maps agreeing on all stages agree in based homotopy classes. State the no-phantom comparison corollary under precisely this condition.
+
+**Checks.**
+
+- `spaceMilnor_constant_exhaustion`: an eventually constant finite-CW exhaustion has zero lim¹ and recovers [X,T]_*.
+- `spaceMilnor_circle`: for the eventual exhaustion of S¹ and T=S¹, restriction retains [S¹,S¹]_*≅ℤ, rather than making every map null.
+- `spaceMilnor_point_target`: T=* gives singleton mapping classes and zero restriction kernel for every such exhaustion.
 
 (W IV Phantom maps paragraph and Thm. 4.4.3, p. IV.39.)
 
-*Needs:* §4.6, §4.10.
+*Needs:* §4.6, §4.10, GeneralizedCohomology G3.10; `spaceMilnorMappingSequence` is the exhaustion extension constructed in this section.
 
 ### 4.12 The fibration S⁻¹S → S⁻¹X → ⟨S, X⟩
 
-For symmetric monoidal groupoid S with faithful translations acting on X, assume every X-arrow monic and Aut_S(s)→Aut_X(s⊙x) injective for all s,x. Prove `SInvS.fibration`: S⁻¹S→S⁻¹X→⟨S,X⟩ is a homotopy-fibre sequence; contractible ⟨S,X⟩ gives an equivalence.
+For symmetric monoidal groupoid S with faithful translations acting on X, assume every X-arrow monic and Aut_S(s)→Aut_X(s⊙x) injective for all s,x. Fix x₀∈X. The functor (a,b)↦(a,b⊙x₀) defines S⁻¹S→S⁻¹X. Prove `SInvS.fibration`: its realization is the homotopy fibre of B(S⁻¹X)→B⟨S,X⟩ over the vertex x₀, with its specified composite nullhomotopy. Retain x₀ and its preservation comparison in equivariant naturality; contractible ⟨S,X⟩ gives an equivalence.
+
+**Checks.**
+
+- `action_fibration_terminal`: terminal S acting on a pointed discrete X gives a point as the fibre of id_X at x₀.
+- `action_fibration_empty`: terminal S acting on empty X satisfies the action hypotheses but has no x₀; there is no map from B(S⁻¹S)=* to B(S⁻¹X)=∅.
+- `action_fibration_self`: the action of S on itself with x₀ the tensor unit recovers the equivalence over the contractible B⟨S,S⟩.
 
 (W IV Exercise 4.7, p. IV.46.)
 
@@ -1514,11 +1534,12 @@ For connected CW-type plus maps at P,Q, prove their k-product is plus at P×Q. I
 
 ### 4.14 Stable linear groups and their plus H-space
 
-Construct `stableGeneralLinearGroup R` by block-identity stabilisation and `stableElementaryGroup R`, for every unital ring including zero. Prove normality, perfectness and the stable Whitehead lemma using a third matrix index. Block sum gives BGL(R)⁺ its coherent H-space and ℤ×BGL(R)⁺ completes ⊔BGLₙ(R).
+Construct `stableGeneralLinearGroup R` by trailing-identity stabilisation g↦diag(g,1) and `stableElementaryGroup R`, for every unital ring including zero. Prove normality, perfectness and the stable Whitehead lemma using a third matrix index. Define `finiteGLBlockSum R m n : GL_m(R)×GL_n(R)→GL_(m+n)(R)`, retaining both sizes. Stabilizing either input commutes with block sum up to specified permutation conjugation. Realize these conjugations as homotopies coherent under successive stabilizations, and prove equality on GL/E. Use the comparisons to construct the coherent H-space multiplication on BGL(R)⁺, so ℤ×BGL(R)⁺ completes ⊔BGLₙ(R).
 
-Prove E(R) equal to the stable commutator subgroup, with naturality for ring homomorphisms. **API:** `stableGeneralLinearGroup.of`, `stableGeneralLinearGroup.of_stabilise`, `stableGeneralLinearGroup.blockSum`, `stableElementaryGroup.perfect`, `stableElementaryGroup.eq_commutator`. **Checks.**
+Prove E(R) equal to the stable commutator subgroup, with naturality for ring homomorphisms. **API:** `stableGeneralLinearGroup.of`, `stableGeneralLinearGroup.of_stabilise`, `finiteGLBlockSum`, `stableElementaryGroup.perfect`, `stableElementaryGroup.eq_commutator`. **Checks.**
 
 - `stable_gl_rank_zero`: rank zero contributes the identity.
+- `finite_block_sum_stabilization`: over ℤ, block(I₁,−1) stabilized is diag(1,−1,1), whereas block(I₂,−1)=diag(1,1,−1). These remain distinct stably but are conjugate by exchanging the last two coordinates; ordinary block sum therefore does not descend to the chosen stable group.
 - `stable_gl_field`: over a field the stable determinant quotient is its unit group.
 - `elementary_two_not_perfect`: E₂(𝔽₂) is not perfect, so stable perfectness does not apply at rank two.
  (W III, Lem. 1.3.2 and Whitehead Lem. 1.3.3, p. 4.)
@@ -1622,7 +1643,7 @@ Consume GeneralizedCohomology G2.8’s tensor-word strictification and its stron
 - `strictification_symmetry`: for finite sets, swapping two singleton words evaluates to the nontrivial permutation of their two-element sum; erasing symmetry would fail this check.
 - `strictification_equivalence_inverse`: evaluation followed by singleton words is naturally equivalent to identity, including the empty word.
 
-(C §1.2, discussion following Example 6, printed p. 10; the map invariance follows from the strong monoidal inverse and §1.10. W IV Exercise 4.4 concerns S and its opposite, not strictification.)
+(C §1.2, final paragraph, printed p. 10; the map invariance follows from the strong monoidal inverse and §1.10. W IV Exercise 4.4 concerns S and its opposite, not strictification.)
 
 *Needs:* GeneralizedCohomology G2.8, §4.3, §4.25 (symmetric coherence), §1.10, M.
 
@@ -1655,7 +1676,7 @@ For small C with zero object and finite sums, define `summingFunctors` as cohere
 
 ### 4.25 The Segal E∞-monoid N(C) of a symmetric monoidal groupoid
 
-For symmetric monoidal groupoid C, define `coherentSubsetGammaSpace` by coherent subset tensor diagrams, including empty-subset unit laws. It is special with N(C)(1)≃nerve C; strong braided functors give its Γ-maps. Establish `symmetricTensorCoherence`: two composites of associators, unitors and symmetries between parenthesised finite tensor lists agree when they induce the same permutation, with naturality. This supplies the subset-diagram equations; it concerns the symmetric structure beyond Mathlib’s monoidal coherence.
+For symmetric monoidal groupoid C, define `coherentSubsetGammaSpace` by coherent subset tensor diagrams, including empty-subset unit laws. It is special with N(C)(1)≃nerve C; strong braided functors give its Γ-maps. Consume BordismFormalGroups F6.5's symmetric coherence: structural composites with the same permutation agree, naturally. Use it to prove the subset-diagram equations and compare this concrete Γ-model with the supplied coherent commutative-monoid interface.
 
 - `coherentSubsetGammaSpace`: The coherent-subset Γ-model N(C).
 - `coherentSubsetGammaSpace.isSpecial`: N(C) is special.
@@ -1678,7 +1699,7 @@ For symmetric monoidal groupoid C, define `coherentSubsetGammaSpace` by coherent
 
 (BS Appendix §12, Construction 12.5 and Remark 12.6, pp. 56–57.)
 
-*Needs:* GeneralizedCohomology G2.8, §4.1, §1.34, §1.33.
+*Needs:* GeneralizedCohomology G2.8, BordismFormalGroups F6.5, §4.1, §1.34, §1.33.
 
 ### 4.26 Picard groupoids are exactly the grouplike N(C)
 
@@ -1690,11 +1711,17 @@ Prove `coherentSubsetGammaSpace.isVerySpecial_iff_picard`: every object is tenso
 
 ### 4.27 Classical Grothendieck–Witt plus spaces
 
-Construct `classicalGrothendieckWittComparison` for symmetric unimodular ℤ-forms under orthogonal sum, identifying the completed groupoid space with stable orthogonal plus components. Consume the form/isometry suppliers; retain odd/even and 2-primary distinctions and this classical convention.
+Construct `classicalGrothendieckWittComparison` for symmetric unimodular ℤ-forms under orthogonal sum. Put J=⟨1⟩⊥⟨−1⟩ and O∞=colimₙ Aut(Jⁿ), with transition g↦g⊥id_J, using the integral bilinear isometry groups. Prove `unimodularForm_cofinal_J`: every such L is an orthogonal summand of some Jⁿ. Indeed L⊥(−L)⊥J is odd, indefinite and unimodular of signature (r+1,r+1), where r=rank L, so IntegralLattices 6A identifies it with J^(r+1). Prove the stable commutator is perfect, identify the completed component group with ℤ² by positive and negative signatures, and identify its unit component with BO∞⁺ at that commutator. Retain odd/even and 2-primary distinctions and this classical convention.
+
+**Checks.**
+
+- `unimodular_cofinal_zero`: the zero form is a summand of J⁰; its signature pair is (0,0).
+- `unimodular_cofinal_lines`: ⟨1⟩ and ⟨−1⟩ are summands of J and give the two generators (1,0) and (0,1) of the completed component group.
+- `unimodular_cofinal_even`: even E₈ has the explicit complement (−E₈)⊥J in J⁹. Positive powers of the even hyperbolic plane alone cannot contain an odd line as an orthogonal summand, so that stabilization would miss forms in this groupoid.
 
 (HK III Section 3.2, pp. 54–55, cases (1)-symmetric through (−1)-quadratic.)
 
-*Needs:* §4.18, §4.5.
+*Needs:* §4.18, §4.5, IntegralLattices 0A, 0E, 2C and 6A, TC (`TauCeti.BilinForm.isometryGroup`), OrthogonalSpinGroups 0C for bilinear/quadratic base change; `unimodularForm_cofinal_J` is constructed here.
 
 ### 4.28 Topological variants of functors on rings via simplicial rings
 
@@ -1891,7 +1918,7 @@ For (k−1)-connected X and (l−1)-connected Y, prove X∧ᴸY (k+l−1)-connec
 
 ### 5.13 Operads and E∞-algebras in symmetric spectra
 
-Define operads of symmetric spectra with right symmetric-group actions, unit S→O(1), substitution, and all associativity, unit, block permutation and equivariance equations. Define O-algebras by the action maps and equations. Include simplicial E∞ operads and their spectrum realisation, Com-algebras as commutative ring spectra, and the positive-model comparison between E∞ algebras and commutative symmetric ring spectra. For spectra of pointed simplicial sets, use the stable positive model structure: every spectrum-valued operad is admissible, and an aritywise stable equivalence induces an extension–restriction Quillen equivalence. No Σ-cofibrancy hypothesis is imposed in this positive statement. Derived functors use cofibrant algebra replacements; it does not assert that their underlying spectra are positively cofibrant. Thus Σ∞₊EΣₙ→Com rectifies E∞ rings. Name `operadPositiveModel` and `operadRectification`. (Pavlov–Scholbach, Thms. 4.1 and 4.6, Ex. 4.7, pp. 17–18.) Construct the abstract Eₙ-algebra interfaces and the comparison to concrete spectra for the quotient theorems of Layer 7; a sequence without substitution and its laws is not an operad.
+Define operads of symmetric spectra with right symmetric-group actions, unit S→O(1), substitution, and all associativity, unit, block permutation and equivariance equations. Define O-algebras by the action maps and equations. Reuse GeneralizedCohomology G2.8's Barratt–Eccles algebra and positive rectification API, extending it to all spectrum-valued operads. Include simplicial E∞ operads and their spectrum realisation and Com-algebras as commutative ring spectra. For spectra of pointed simplicial sets, use the stable positive model structure: every spectrum-valued operad is admissible, and an aritywise stable equivalence induces an extension–restriction Quillen equivalence. No Σ-cofibrancy hypothesis is imposed in this positive statement. Derived functors use cofibrant algebra replacements; it does not assert that their underlying spectra are positively cofibrant. Thus Σ∞₊EΣₙ→Com rectifies E∞ rings. Name `operadPositiveModel` and `operadRectification`. (Pavlov–Scholbach, Thms. 4.1 and 4.6, Ex. 4.7, pp. 17–18.) Consume BordismFormalGroups F6.5's generic infinity-operad interfaces to define the abstract Eₙ-algebra interfaces. For every simplicial operad O, construct `operadInfinityComparison`: localization of O-algebras in concrete spectra is equivalent to algebras over the supplied operadic nerve of O in Sp∞, including derived mapping spaces. Apply this to Eₙ for Layer 7 (Pavlov–Scholbach, Thm. 4.9, p. 19).
 
 - `Operad`: Spectrum-valued operads with all equivariant unit/composition axioms.
 - `Operad.Algebra`: Full operad actions on spectra.
@@ -1918,7 +1945,7 @@ Define operads of symmetric spectra with right symmetric-group actions, unit S�
 
 (S III, Definitions 5.3–5.4 and Examples 5.9–5.12, pp. 368–370.)
 
-*Needs:* GeneralizedCohomology G2.2, GeneralizedCohomology G2.4, GeneralizedCohomology G2.1–G2.4.
+*Needs:* GeneralizedCohomology G2.2, GeneralizedCohomology G2.4, GeneralizedCohomology G2.8, GeneralizedCohomology G2.1–G2.4, BordismFormalGroups F6.5.
 
 ### 5.14 HR as a ring spectrum and HR-modules
 
@@ -1936,7 +1963,7 @@ Extend GeneralizedCohomology G2.7’s commutative HR construction to every unita
 - `eilenbergMacLaneRing_zero`: eilenbergMacLaneRing of the zero ring is the trivial ring spectrum.
 - `eilenbergMacLaneRing_unit_compat`: The unit S → HR induces ℤ → R on π₀, the canonical ring map.
 - `eilenbergMacLaneRing_smash_not_self`: HF₂ ∧ᴸ HF₂ is not HF₂: its π₁ is nonzero (the dual Steenrod algebra has ξ₁ in degree 1), so HR ∧ᴸ HR ≠ HR in general.
-- `eilenbergMacLaneModule_carrier`: The underlying spectrum of eilenbergMacLaneModule R M is canonically HM.
+- `eilenbergMacLaneModule_pi0_action`: for M=ℤ as a right ℤ-module, HM has π₀=ℤ with its usual right multiplication and zero homotopy in every other degree; both the nonzero carrier and its action are retained.
 - `eilenbergMacLaneModule_zero`: The zero right R-module gives a stably zero HR-module spectrum.
 - `eilenbergMacLaneModule_right_order`: The regular right action over M₂(ℤ) sends (e₁₂,e₂₁) to e₁₁. The reversed product is e₂₂.
 
@@ -1965,7 +1992,7 @@ Construct the unbounded cochain-to-HR-module functor and its underlying spectrum
 - `complex_model_acyclic`: ℤ→¹ℤ gives a contractible spectrum.
 - `complex_model_unbounded`: arbitrary negative cochain degrees are retained, including ℤ in degree −2 with π₂=ℤ.
 
-(Sh §2, p. 6; Cor. 2.15; Sh GeneralizedCohomology G2.10, p. 5.)
+(Sh §2, p. 6; Cor. 2.15; Sh Theorem 2.5, p. 5.)
 
 *Needs:* §5.14, GeneralizedCohomology G2.7, GeneralizedCohomology G2.4, GeneralizedCohomology G2.4, M.
 
@@ -1991,7 +2018,7 @@ Let T be triangulated with arbitrary sums, C a set of compact objects, and E:T�
 
 ### 5.18 Connective spectra are sequences of deloopings
 
-Use GeneralizedCohomology G2.5’s sequential/symmetric Quillen equivalence, including its replaced unit/counit, stable π comparison and Kan Ω models. Compare connective Ω-spectra with deloopings whose ith space has πⱼ=0 for j<i. Construct `spectraInfinityCategory` by monoidal localisation, identifying its homotopy category with SHC, its tensor with derived smash, and its coherent finite limits with finite colimits.
+Use GeneralizedCohomology G2.5’s sequential/symmetric Quillen equivalence, including its replaced unit/counit, stable π comparison and Kan Ω models. Compare connective Ω-spectra with deloopings whose ith space has πⱼ=0 for j<i. Here `spectraInfinityCategory` denotes BordismFormalGroups F6.5's supplied monoidal stable Sp∞, with its SHC and derived-smash comparisons. The additional target compares connective sequential Ω-models with the connective objects of that carrier, preserving suspension, zero objects, cofibre sequences and those ambient fibre sequences whose fibre is connective.
 
 **Checks.**
 
@@ -2001,7 +2028,7 @@ Use GeneralizedCohomology G2.5’s sequential/symmetric Quillen equivalence, inc
 
 (BS Appendix §12, Def. 12.8 and footnote 29, p. 57; HSS Thm. 4.3.2, p. 42.)
 
-*Needs:* GeneralizedCohomology G2.3 and G2.6, GeneralizedCohomology G2.1–G2.4, GeneralizedCohomology G2.4–G2.6, GeneralizedCohomology G2.4, §5.10, GeneralizedCohomology G3.8.
+*Needs:* GeneralizedCohomology G2.3 and G2.6, GeneralizedCohomology G2.1–G2.4, GeneralizedCohomology G2.4–G2.6, GeneralizedCohomology G2.4, §5.10, GeneralizedCohomology G3.8, BordismFormalGroups F6.5.
 
 ### 5.19 Picard groupoids are 1-truncated connective spectra
 
@@ -2029,7 +2056,7 @@ Layers 1–4 and Mathlib’s model, monoidal, derived and triangulated APIs; the
 
 ### 6.1 The K-theory symmetric spectrum of a Waldhausen category
 
-Build the Waldhausen inputs locally before the spectrum assembly. A Waldhausen category has a zero object, subcategories of cofibrations and weak equivalences containing all isomorphisms, zero-to-object cofibrations, closure of cofibrations under pushout along arbitrary maps, and the weak-equivalence gluing axiom for pushout squares. Define exact functors preserving this data, the cofibration-sequence category, SₙC as functors Ar[n]→C with zero diagonal and the specified cofibration/pushout quotient squares, and the iterated multisimplicial construction. Face and degeneracy functors must preserve every square and quotient. Define simplicial-set levels K(C)ₙ by diagonal nerves of wS⁽ⁿ⁾C, with realisation |wS⁽ⁿ⁾C| with Σₙ acting by permutation of directions, construct structure maps and prove iterated equivariance. This unreplaced spectrum has zeroth simplicial level nerve(wC); define its connective Ω-model by the positive delooping and Ω|wS.C| in level zero.
+Build the Waldhausen inputs locally before the spectrum assembly. A Waldhausen category has a zero object, subcategories of cofibrations and weak equivalences containing all isomorphisms, zero-to-object cofibrations, closure of cofibrations under pushout along arbitrary maps, and the weak-equivalence gluing axiom for pushout squares. Define exact functors preserving this data, the cofibration-sequence category, and SₙC as functors Ar[n]→C with zero diagonal and the specified cofibration/pushout quotient squares. Construct `S.waldhausenStructure` before iterating S: weak equivalences are objectwise, and A→B is a cofibration precisely when `B₀ᵢ ⊔_{A₀ᵢ} A₀ⱼ → B₀ⱼ` is a cofibration for every 0≤i≤j≤n. Prove pushout stability and gluing and that every face and degeneracy is exact, preserving the quotient squares. Then form the iterated multisimplicial construction. Define simplicial-set levels K(C)ₙ by diagonal nerves of wS⁽ⁿ⁾C, with realisation |wS⁽ⁿ⁾C| with Σₙ acting by permutation of directions, construct structure maps and prove iterated equivariance. This unreplaced spectrum has zeroth simplicial level nerve(wC); define its connective Ω-model by the positive delooping and Ω|wS.C| in level zero.
 
 - `WaldhausenCategory.kSpectrum`: The iterated-S symmetric spectrum, levels |wS⁽ⁿ⁾C|, using the full local Waldhausen axioms.
 - `WaldhausenCategory.kSpectrum.map`: Exact functors give spectrum maps preserving identities/composition.
@@ -2059,10 +2086,13 @@ The weak-equivalence subcategory need not satisfy an extra extension axiom. **AP
 - `waldhausen_zero`: the zero category has terminal Sₙ.
 - `s_zero_one`: S₀C is terminal and S₁C recovers C.
 - `s_two_quotient`: S₂C records a cofibration and its specified quotient; a composable pair without the pushout quotient square fails.
+- `s_cofibration_one`: under S₁C≃C the latching condition is exactly the original cofibration condition.
+- `s_cofibration_filtrationwise_failure`: over a field k, the map (0⊂0⊂k)→(0⊂k⊂k), identity on the final k, is injective at each underlying filtration stage, but its relative latching map k⊕k→k is the fold and is not injective. It is not a cofibration in S₂C; its quotient component k→0 is also not injective.
+- `s_cofibration_zero`: the zero diagram maps by a cofibration to every Sₙ-object because its latching maps are the object's prescribed filtration cofibrations.
 - `exact_composition`: identity and composite exact functors preserve every axiom.
 - `exact_not_cofibrations`: a zero-preserving functor that fails to preserve cofibrations is not exact.
 
-(S I, Example 3.50, pp. 55–57; W IV Infinite Loop Structure 8.5.5, p. IV.69; Waldhausen, §§1.1–1.3, pp. 318–330.)
+(S I, Example 3.50, pp. 55–57; W IV §8.3, the Waldhausen-structure paragraphs before Definition 8.3.1, pp. IV.67–68, and Infinite Loop Structure 8.5.5, p. IV.69; Waldhausen, §§1.1–1.3, pp. 318–330.)
 
 *Needs:* GeneralizedCohomology G2.2, §2.17, §2.18, M. Build the category, exact functors, S-diagrams and K₀ presentation first, then the iterated spectrum and its component presentation. The positive Ω-model comparison is supplied by §6.2, not assumed when defining the unreplaced spectrum.
 
@@ -2386,7 +2416,7 @@ Define a bigraded exact couple in any abelian category: D→iD→jE→kD, of deg
 - `exactCouple_not_complex`: The constant tuple couple i(x,y)=(x,0), j(x,y)=(y,0), k(x,y)=(0,y) is exact. (j∘k)(x,y)=(y,0), so (j∘k)(0,1)=(1,0)≠0 while (j∘k)²=0; i²=i and i²(1,0)=(1,0). The exactness composites j∘i, k∘j and i∘k do vanish.
 - `exact_idempotent`: For i(x,y)=(x,0), j(x,y)=(y,0), k(x,y)=(0,y), the couple is exact and i²(1,0)=(1,0).
 
-(HA §1.2.2, Construction 1.2.2.6 and Prop. 1.2.2.7, p. 49.)
+(Boardman §0, pp. 2–4: unrolled exact couples and derived pages. Extend the abelian-group argument to an arbitrary abelian category using kernels, images and cokernels; compare it with the spectral-object construction in §7.23.)
 
 *Needs:* AlgebraicTopology, M.
 
@@ -2408,7 +2438,7 @@ Construct the filtration spectral object and apply the homological π-functor to
 - `spectralSequence_compat_exactCouple`: The spectral sequence agrees with that of the exact couple (§7.22).
 - `spectralSequence_E2_not_abutment`: The constant nonzero filtration has E¹=0 and nonzero colimit π. It is exhaustive but not bounded below, so its zero pages do not compute the abutment.
 
-(HA §1.2.2, Def. 1.2.2.9, p. 52; W IV Exercise 3.7, p. IV.34.)
+(HA §1.2.2, Construction 1.2.2.6 and Proposition 1.2.2.7, p. 49, and Definition 1.2.2.9, p. 52; W IV Exercise 3.7, p. IV.34.)
 
 *Needs:* §7.21, §7.22, GeneralizedCohomology G2.4, GeneralizedCohomology G2.4, M.
 
@@ -2496,7 +2526,7 @@ Layers 3 and 5–6, abelian/spectral-object APIs and local tower/Ext foundations
 
 ## Downstream consumers
 
-General algebraic K-theory uses these category constructions, plus comparisons, K-theory spectra, products and coefficients. Low-degree K-theory and regulators use the central-extension comparisons. Étale and motivic K-theory use coherent spectra and filtered convergence. Abstract derived-sheaf theory uses the concrete stable presentation and operadic comparisons; arithmetic-duality developments use the countable-tower algebra. Each consumer imports these interfaces with the connectivity, prime and finiteness conditions.
+General algebraic K-theory uses these category constructions, plus comparisons, K-theory spectra, products and coefficients. Low-degree K-theory and regulators use the central-extension comparisons. Étale and motivic K-theory use coherent spectra and filtered convergence: the filtered-diagram, exact-couple, functorial-page and convergence interfaces are §§7.21–7.26, including the hypotheses of the convergence theorems. Abstract derived-sheaf theory uses the concrete stable presentation and operadic comparisons; arithmetic-duality developments use the countable-tower algebra. Each consumer imports these interfaces with the connectivity, prime and finiteness conditions.
 
 ## References
 
@@ -2513,14 +2543,14 @@ General algebraic K-theory uses these category constructions, plus comparisons, 
 - Robert Burklund, [Multiplicative structures on Moore spectra](https://arxiv.org/abs/2203.14787), arXiv:2203.14787, 20-page version; manuscript pages.
 - Jacob Lurie, [Higher Algebra](https://www.math.ias.edu/~lurie/papers/HA.pdf), September 2017 author’s edition; printed pages.
 - Allen Hatcher, [Spectral Sequences (Chapter 1 of the book project 'Spectral Sequences in Algebraic Topology')](https://pi.math.cornell.edu/~hatcher/SSAT/SSch1.pdf), author’s SSch1.pdf, 67-page version; chapter pages.
-- Bruno Kahn, [Towards a functorial construction of Quillen's rank spectral sequence (rank spectral sequence note)](https://arxiv.org/abs/1108.2441v3), arXiv:1108.2441v3; manuscript pages.
+- Bruno Kahn, [Around Quillen's Theorem A](https://arxiv.org/abs/1108.2441v3), arXiv:1108.2441v3; manuscript pages.
 - Brooke Shipley, [HZ-algebra spectra are differential graded algebras](https://arxiv.org/abs/math/0209215), arXiv:math/0209215, 22-page version; manuscript pages.
 - A. K. Bousfield and E. M. Friedlander, [Homotopy theory of Γ-spaces, spectra, and bisimplicial sets](https://ncatlab.org/nlab/files/BousfieldFriedlanderSpectra.pdf), Lecture Notes in Mathematics 658 (1978), pp. 80–130; printed pages.
 - J. P. May, [Weak equivalences and quasifibrations](https://math.uchicago.edu/~may/PAPERS/67.pdf), 1990, pp. 91–101.
 - O. Randal-Williams, [Group-completion, local coefficient systems and perfection](https://www.dpmms.cam.ac.uk/~or257/notes/GCrem.pdf), 2013.
 - F. Waldhausen, [Algebraic K-theory of spaces](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/kspaces.pdf), 1985, §§1.1–1.5.
-- C. Weibel, [The K-book, Chapter III](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.III.pdf), §1.3 and §GeneralizedCohomology G2.6–5.4.
-- J. M. Boardman, [Conditionally convergent spectral sequences](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/boardman-SS.pdf), 1999, Def. 5.10 and Thms. 7.1, 8.2.
+- C. Weibel, [The K-book, Chapter III](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.III.pdf), §1.3 and §§5.3–5.4.
+- J. M. Boardman, [Conditionally convergent spectral sequences](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/boardman-SS.pdf), 1999, §0, pp. 2–4, Def. 5.10 and Thms. 7.1, 8.2.
 - D. Pavlov and J. Scholbach, [Symmetric operads in abstract symmetric spectra](https://arxiv.org/abs/1410.5699), 2018 manuscript, Thms. 4.1, 4.6 and 4.9, pp. 17–19.
 
 - J. F. Jardine, [Lectures on Homotopy Theory, Lecture 06: Simplicial groups and simplicial modules](https://www.math.uwo.ca/faculty/jardine/courses/homth/homth-lecture006a.pdf), §§14–16, Lemmas 14.1 and 14.3, pp. 1–5.

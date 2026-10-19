@@ -44,18 +44,6 @@ theorem classifyingSpaceMap_comp (F : C ⥤ D) (G : D ⥤ E) :
 /-- `B` as a functor `Cat ⥤ TopCat`. -/
 def classifyingSpaceFunctor : Cat.{v, u} ⥤ TopCat.{max u v} := nerveFunctor ⋙ SSet.toTop
 
-/-- Realizing an identity fixes the whole space, including its nonvertex points. -/
-example : classifyingSpaceMap (𝟭 C) = 𝟙 (classifyingSpace C) := by
-  change classifyingSpaceFunctor.map (𝟙 (Cat.of C)) = _
-  exact classifyingSpaceFunctor.map_id (Cat.of C)
-
-/-- Functor composition keeps its order after realization. -/
-example (F : Cat.of C ⟶ Cat.of D) (G : Cat.of D ⟶ Cat.of E) :
-    classifyingSpaceMap (F.toFunctor ⋙ G.toFunctor) =
-      classifyingSpaceMap F.toFunctor ≫ classifyingSpaceMap G.toFunctor := by
-  change classifyingSpaceFunctor.map (F ≫ G) = _
-  exact classifyingSpaceFunctor.map_comp F G
-
 /-- The vertex is the adjunction unit evaluated on the object zero-simplex. -/
 def classifyingSpace_vertex (X : C) : classifyingSpace C :=
   TopCat.toSSetObjEquiv (classifyingSpace C) (Opposite.op ⦋0⦌)
@@ -76,6 +64,22 @@ theorem classifyingSpace_zerothHomotopy :
 theorem classifyingSpace_fin_two_homeomorph_unitInterval : ∃ e : classifyingSpace (Fin 2) ≃ₜ unitInterval,
     e (classifyingSpace_vertex (0 : Fin 2)) = 0 ∧
     e (classifyingSpace_vertex (1 : Fin 2)) = 1 := sorry
+
+/-- Either endpoint-constant map of the realized ordinal differs from its identity. -/
+theorem classifyingSpaceMap_ordinal_id_ne_endpointConst (e : Fin 2) :
+    classifyingSpaceMap (𝟭 (Fin 2)) ≠
+      classifyingSpaceMap ((Functor.const (Fin 2)).obj e) := sorry
+
+/-- The endpoint inclusion and terminal functor realize to the point identity in one
+order and the endpoint-constant interval map in the other, with the selected vertex. -/
+theorem classifyingSpaceMap_endpoint_composite_order (e : Fin 2) :
+    let i : Discrete PUnit.{1} ⥤ Fin 2 := Functor.fromPUnit e
+    let t : Fin 2 ⥤ Discrete PUnit.{1} := Functor.star (Fin 2)
+    classifyingSpaceMap (i ⋙ t) = 𝟙 (classifyingSpace (Discrete PUnit.{1})) ∧
+      classifyingSpaceMap (t ⋙ i) =
+        classifyingSpaceMap ((Functor.const (Fin 2)).obj e) ∧
+      (classifyingSpaceMap i).hom (classifyingSpace_vertex (Discrete.mk PUnit.unit)) =
+        classifyingSpace_vertex e := sorry
 
 /-- `classifyingSpace_empty`: classifyingSpace of the empty category is the empty space, and of the one-object one-morphism category is a single point. -/
 theorem classifyingSpace_empty : IsEmpty (classifyingSpace (Discrete PEmpty.{1})) ∧
@@ -200,6 +204,43 @@ def IsWeakHomotopyEquivalence {X Y : Type*} [TopologicalSpace X] [TopologicalSpa
     ∀ (x : X) (n : ℕ), Function.Bijective
       (HomotopyGroup.map (N := Fin (n + 1)) (x := x) f rfl)
 
+/-- The identity of every space is a weak homotopy equivalence. -/
+theorem isWeakHomotopyEquivalence_id (X : Type u) [TopologicalSpace X] :
+    IsWeakHomotopyEquivalence (ContinuousMap.id X) := sorry
+
+/-- Every continuous map between contractible spaces is a weak homotopy equivalence. -/
+theorem isWeakHomotopyEquivalence_contractible {X : Type u} {Y : Type v}
+    [TopologicalSpace X] [TopologicalSpace Y] [ContractibleSpace X] [ContractibleSpace Y]
+    (f : C(X, Y)) : IsWeakHomotopyEquivalence f := sorry
+
+/-- A point misses one component of a discrete two-point space, despite inducing
+bijections on every positive homotopy group at its source basepoint. -/
+theorem isWeakHomotopyEquivalence_not_pi0 :
+    ¬ IsWeakHomotopyEquivalence (ContinuousMap.const PUnit.{1} false) ∧
+      ∀ n : ℕ, Function.Bijective
+        (HomotopyGroup.map (N := Fin (n + 1)) (x := PUnit.unit)
+          (ContinuousMap.const PUnit.{1} false) rfl) := sorry
+
+/-- Between CW complexes, weak homotopy equivalence is equivalent to admitting
+a homotopy inverse for the given continuous map. -/
+theorem isWeakHomotopyEquivalence_iff_homotopyEquiv_cw {X : Type u} {Y : Type v}
+    [TopologicalSpace X] [TopologicalSpace Y]
+    [Topology.CWComplex (Set.univ : Set X)] [Topology.CWComplex (Set.univ : Set Y)]
+    (f : C(X, Y)) : IsWeakHomotopyEquivalence f ↔
+      ∃ e : ContinuousMap.HomotopyEquiv X Y, e.toFun = f := sorry
+
+/-- Collapsing the circle and the isolated point to distinct points is bijective
+on components and correct at the isolated basepoint, but fails weak equivalence. -/
+theorem isWeakHomotopyEquivalence_not_all_basepoints :
+    let f : C(Circle ⊕ PUnit.{1}, Bool) :=
+      ⟨Sum.elim (fun _ => false) (fun _ => true),
+        continuous_const.sumElim continuous_const⟩
+    Function.Bijective (ZerothHomotopy.lift (fun x => ZerothHomotopy.mk (f x))
+      (fun {_ _} p => ZerothHomotopy.sound (p.map f.continuous))) ∧
+      (∀ n : ℕ, Function.Bijective
+        (HomotopyGroup.map (N := Fin (n + 1)) (x := Sum.inr PUnit.unit) f rfl)) ∧
+      ¬ IsWeakHomotopyEquivalence f := sorry
+
 /-- Vanishing positive homotopy at all source basepoints does not suffice:
 the empty space misses the component of a point (§2.1). -/
 example : ¬ IsWeakHomotopyEquivalence
@@ -280,8 +321,9 @@ example : ¬ IsAcyclicSpace (TopCat.of PEmpty.{u + 1}) := by
 /-- `not_isAcyclicSpace_circle`: The circle is not acyclic: H₁(S¹; ℤ) = ℤ. -/
 theorem not_isAcyclicSpace_circle : ¬ IsAcyclicSpace (TopCat.of (Circle)) := sorry
 
-/-- `isAcyclicSpace_poincare_sphere_minus_point`: The Poincaré homology 3-sphere minus a point is acyclic but has nontrivial perfect π₁ ≅ the binary icosahedral group SL₂(F₅). -/
-theorem isAcyclicSpace_poincare_sphere_minus_point : ∃ F : TopCat.{0}, IsAcyclicSpace F ∧ ∃ x : F, Nontrivial (FundamentalGroup F x) := sorry
+/-- There exists an acyclic space with nontrivial fundamental group. -/
+theorem exists_acyclicSpace_nontrivial_pi1 :
+    ∃ F : TopCat.{0}, IsAcyclicSpace F ∧ ∃ x : F, Nontrivial (FundamentalGroup F x) := sorry
 
 /-- An acyclic CW space has superperfect fundamental group. -/
 theorem IsAcyclicSpace.perfect_and_H2 {F : TopCat.{u}} [Topology.CWComplex (Set.univ : Set F)]
@@ -342,6 +384,13 @@ theorem not_isPlusConstruction_nonperfect (f : X ⟶ Y) (x : X) (P : Subgroup (F
 /-- The identity is plus relative to the trivial subgroup. -/
 theorem isPlusConstruction_id (x : X) : IsPlusConstruction (𝟙 X) x ⊥ := sorry
 
+/-- On connected CW complexes, plus recognition at the trivial subgroup is
+equivalent to weak homotopy equivalence of the given map. -/
+theorem isPlusConstruction_trivial_iff
+    [Topology.CWComplex (Set.univ : Set X)] [Topology.CWComplex (Set.univ : Set Y)]
+    [PathConnectedSpace X] [PathConnectedSpace Y] (f : X ⟶ Y) (x : X) :
+    IsPlusConstruction f x ⊥ ↔ IsWeakHomotopyEquivalence f.hom := sorry
+
 /-- Plus existence at every perfect normal subgroup of a connected CW space (§3.10). -/
 theorem plus_exists [Topology.CWComplex (Set.univ : Set X)] [PathConnectedSpace X]
     (x : X) (P : Subgroup (FundamentalGroup X x)) [P.Normal] [Group.IsPerfect P] :
@@ -367,13 +416,13 @@ FaithfulTranslations, MonoidalActionCategory, MonoidalAction.diag,
 IsHomotopyAssocHSpace, IsHomotopyCommHSpace, pontryaginLocalization,
 IsGroupCompletion, stableGeneralLinearGroup, stableElementaryGroup, BasedFree,
 projectiveFreeComplement, summingFunctors, segalGammaSpace, segalSpaces,
-coherentSubsetGammaSpace, symmetricTensorCoherence, topologicalVariant and
-simplicialRingOfContinuous.
+coherentSubsetGammaSpace using the supplied symmetric coherence,
+topologicalVariant and simplicialRingOfContinuous.
 Layer 5: point-set loop/suspension/shift and cone adapters, injective replacements,
 point-set/derived pairings, operadPositiveModel, operadRectification,
 eilenbergMacLaneRing for associative rings, eilenbergMacLaneModule,
 eilenbergMacLaneComplex, HRModDerivedEquiv, connectiveSphereInduction,
-spectraInfinityCategory and the Picard-spectrum comparison.
+comparisons with the supplied spectraInfinityCategory and the Picard-spectrum comparison.
 Layer 6: WaldhausenCategory, ExactFunctor, S, K0 and kSpectrum.
 Layer 7: moore, modM, piMod, modTower, abelianTower.difference with its
 kernel/cokernel, multiplicationTower, generalMoore, completionZEquiv,
@@ -400,9 +449,6 @@ classifyingSpace_pi1Presentation, classifyingSpace_prodHomeomorph_k.
 classifyingSpace_prodMap, classifyingSpace_sigma.
 classifyingSpace_treeLoop, classifyingSpace_treePath.
 classifyingSpace_twistedCellularChainIso, isAcyclicSpace_contractible_compat.
-isPlusConstruction_trivial_iff, isWeakHomotopyEquivalence_contractible.
-isWeakHomotopyEquivalence_id, isWeakHomotopyEquivalence_iff_homotopyEquiv_cw.
-isWeakHomotopyEquivalence_not_all_basepoints, isWeakHomotopyEquivalence_not_pi0.
 quillenTheoremA_prefibred, quillenTheoremB_prefibred.
 -/
 
