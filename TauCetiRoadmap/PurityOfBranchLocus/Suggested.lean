@@ -132,6 +132,13 @@ Stacks, Definition 10.109.10 (00O6). -/
 def globalDimension (R : Type u) [CommRing R] : WithBot ℕ∞ :=
   ⨆ M : ModuleCat.{u} R, CategoryTheory.projectiveDimension M
 
+/-- The supremum definition of global dimension agrees with Mathlib's pointwise projective
+dimension bound. EnhancedDerivedSheaves E1.6 consumes this comparison. -/
+theorem globalDimension_le_iff_hasProjectiveDimensionLE (R : Type u) [CommRing R] (n : ℕ) :
+    globalDimension R ≤ n ↔
+      ∀ M : ModuleCat.{u} R, CategoryTheory.HasProjectiveDimensionLE M n := by
+  sorry
+
 /-- **Serre's theorem.** A Noetherian local ring is regular iff it has finite global dimension, and
 the localization of a regular local ring at a prime is a regular local ring. Stacks, Lemma
 10.110.6 (0AFS). -/
@@ -158,7 +165,7 @@ variable {X Y : Scheme.{u}}
 /-- **Purity of the branch locus.** Stacks, Lemma 58.21.4 (0BMB), in Mathlib's vocabulary: for
 `f` locally of finite type between locally Noetherian schemes, a normal source stalk, a regular
 target stalk, `f` quasi-finite at `x`, equal dimensions `≥ 1`, and formal unramifiedness of the
-stalk maps at the codimension-one specializations of `x` imply that `f` is étale on a
+stalk maps at the codimension-one generizations of `x` imply that `f` is étale on a
 neighbourhood of `x`. This is the target. -/
 @[stacks 0BMB]
 theorem exists_etale_of_formallyUnramified_stalk_codimOne [IsLocallyNoetherian X]

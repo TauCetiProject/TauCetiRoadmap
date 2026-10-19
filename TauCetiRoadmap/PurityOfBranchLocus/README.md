@@ -54,6 +54,18 @@ point (More on Morphisms, Lemma 37.41.1 (02LK)); étaleness is étale local on t
 Lemma 35.31.1 (036W)); and purity of the branch locus (Lemma 58.21.4 (0BMB)) with its global
 corollary.
 
+**Ordinary-algebra boundary with [EnhancedDerivedSheaves E1.6](https://github.com/TauCetiProject/TauCetiRoadmap/pull/908).**
+The two roadmaps share the local-ring domain of 00O7, 00OC and 065T. This §0.3
+owns the ordinary local proof chain, including the finite-projective-dimension residue-field
+criterion and its equality with the dimension, and the comparison between `globalDimension` and
+Mathlib's pointwise `CategoryTheory.HasProjectiveDimensionLE`. E1.6 consumes those results; it
+retains the additional bound for **all** modules over a finite-dimensional regular ring (00OE),
+and its perfect-algebra and enhanced-derived applications. In particular, E1.6's current
+`isRegularLocalRing_of_projectiveDimension_residueField` target is to be supplied by the §0.3
+criterion, not independently reproved. The order is ordinary local algebra here, then
+LocalPurity §2.1, then branch purity here; E1.6's consumers follow the local algebra without
+becoming prerequisites of LocalPurity.
+
 **Owned elsewhere and consumed here.**
 
 - *Purity for regular local rings*: [LocalPurity](../LocalPurity/README.md) §2.1
@@ -149,6 +161,9 @@ mathlib4 #29558, while assigning its implementation here until it is available a
 Prove, each as its tag states it:
 `globalDimension_le_iff` (Lemma 10.109.12 (065T)): `globalDimension R ≤ n` iff every finite
 `R`-module, iff every cyclic `R`-module, has projective dimension `≤ n`;
+`globalDimension_le_iff_hasProjectiveDimensionLE`: `globalDimension R ≤ n` iff every
+`M : ModuleCat R` satisfies `CategoryTheory.HasProjectiveDimensionLE M n`. This is the
+comparison interface for E1.6's pointwise global-ring bound, not a second dimension notion;
 `projectiveDimension_localization_le` and `globalDimension_localization_le` (Lemma 10.109.13
 (00O8)): localization does not increase projective or global dimension. For the first statement,
 reuse Mathlib's `ModuleCat.projectiveDimension_le_projectiveDimension_of_isLocalizedModule` (and
@@ -410,6 +425,7 @@ restatement of a target. *API*: no Stacks counterpart.
 | 0.2 | `isNormalDomain_iff_of_etale` | 41.19.7 (025P) | exact |
 | 0.3 | `globalDimension` | 10.109.10 (00O6) | exact |
 | 0.3 | `globalDimension_le_iff` | 10.109.12 (065T) | exact |
+| 0.3 | `globalDimension_le_iff_hasProjectiveDimensionLE` | 10.109.10 (00O6) | comparison API for #908 E1.6 |
 | 0.3 | `projectiveDimension_localization_le`, `globalDimension_localization_le` | 10.109.13 (00O8) | exact |
 | 0.3 | `Module.free_of_quotSMulTop_free` | 10.106.5 (00NS) | exact |
 | 0.3 | `IsRegularLocalRing.free_of_isCohenMacaulay` | 10.106.6 (00NT) | exact |
