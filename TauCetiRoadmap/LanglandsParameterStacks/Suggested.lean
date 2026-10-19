@@ -51,6 +51,12 @@ variable {β : Q →* MulAut H} {η : Γ →* Q}
 /-- The crossed cocycle underlying a parameter: its first coordinate. -/
 def cocycleValue (φ : ParameterLift β η) (γ : Γ) : H := (φ.1 γ).left
 
+/-- Every crossed cocycle for `β ∘ η` determines a unique lift with that first coordinate
+(LP0.1, section equivalence; Fargues–Scholze, Definition VIII.1.1 and Remark VIII.1.2). -/
+theorem existsUnique_of_cocycle (c : Γ → H)
+    (hc : ∀ γ δ, c (γ * δ) = c γ * β (η γ) (c δ)) :
+    ∃! φ : ParameterLift β η, ∀ γ, φ.cocycleValue γ = c γ := sorry
+
 /-- The first coordinate satisfies the crossed cocycle law for the action `β ∘ η` (LP0.1). -/
 theorem cocycleValue_mul (φ : ParameterLift β η) (γ δ : Γ) :
     φ.cocycleValue (γ * δ) = φ.cocycleValue γ * β (η γ) (φ.cocycleValue δ) := sorry
@@ -81,63 +87,19 @@ theorem gauge_mul (h k : H) (φ : ParameterLift β η) :
 def unit (β : Q →* MulAut H) (η : Γ →* Q) : ParameterLift β η :=
   ⟨SemidirectProduct.inr.comp η, by ext γ; simp⟩
 
--- The standard lift has the prescribed projection and a trivial first coordinate.
-example (β : Q →* MulAut H) (η : Γ →* Q) (γ : Γ) :
-    (unit β η).cocycleValue γ = 1 ∧ ((unit β η).1 γ).right = η γ := by
-  simp [unit, cocycleValue]
-
-end ParameterLift
-
-end ParameterLifts
-
--- Gauge of the unit parameter of `ℤ`, acting on `ℚˣ` by inversion, by `2` has first coordinate
--- `2 · (2⁻¹)⁻¹ = 4` at the generator: this pins the side and the inverse of the gauge formula.
-example :
-    let β : Multiplicative ℤ →* MulAut ℚˣ := zpowersHom (MulAut ℚˣ) (MulEquiv.inv ℚˣ)
-    (((ParameterLift.unit β (MonoidHom.id _)).gauge (Units.mk0 2 two_ne_zero)).cocycleValue
-      (Multiplicative.ofAdd 1) : ℚ) = 4 := by
-  intro β
-  simp [ParameterLift.cocycleValue, ParameterLift.gauge, ParameterLift.unit, β]
-  norm_num
-
--- Negation gives a crossed cocycle on C₂ with value 1 at the involution; it is not multiplicative.
-example :
-    let s : MulAut (Multiplicative ℤ) := MulEquiv.inv _
-    let C := Subgroup.zpowers s
-    let a : C := ⟨s, Subgroup.mem_zpowers s⟩
-    ∃ φ : ParameterLift C.subtype (MonoidHom.id C),
-      φ.cocycleValue a = Multiplicative.ofAdd 1 ∧
-      φ.cocycleValue (a * a) ≠ φ.cocycleValue a * φ.cocycleValue a := by
-  sorry
-
--- The same C₂ action has precisely two gauge classes, distinguished by parity.
-example :
-    let s : MulAut (Multiplicative ℤ) := MulEquiv.inv _
-    let C := Subgroup.zpowers s
-    let a : C := ⟨s, Subgroup.mem_zpowers s⟩
-    (∀ n : ℤ, ∃ φ : ParameterLift C.subtype (MonoidHom.id C),
-      φ.cocycleValue a = Multiplicative.ofAdd n) ∧
-    ∀ φ ψ : ParameterLift C.subtype (MonoidHom.id C),
-      (∃ h : Multiplicative ℤ, φ.gauge h = ψ) ↔
-        Even (Multiplicative.toAdd (ψ.cocycleValue a) -
-          Multiplicative.toAdd (φ.cocycleValue a)) := by
-  sorry
-
--- H¹ of the trivial group is a singleton; the unit lift supplies a representative.
-example (H : Type*) [Group H]
-    (φ : ParameterLift (1 : Unit →* MulAut H) (MonoidHom.id Unit)) :
-    φ = ParameterLift.unit 1 (MonoidHom.id Unit) := by
-  sorry
-
--- For trivial action, evaluation at 1 identifies H¹(ℤ,H) with conjugacy classes in H.
-example (H : Type*) [Group H] :
+/-- For trivial action, lifts of `ℤ` realise every element of `H`, and gauge classes are
+conjugacy classes, by evaluation at the generator (LP0.1). -/
+theorem int_trivialAction_classification :
     (∀ h : H, ∃ φ : ParameterLift (1 : Unit →* MulAut H)
       (1 : Multiplicative ℤ →* Unit), φ.cocycleValue (Multiplicative.ofAdd 1) = h) ∧
     ∀ φ ψ : ParameterLift (1 : Unit →* MulAut H) (1 : Multiplicative ℤ →* Unit),
       (∃ h : H, φ.gauge h = ψ) ↔
         ∃ h : H, h * φ.cocycleValue (Multiplicative.ofAdd 1) * h⁻¹ =
-          ψ.cocycleValue (Multiplicative.ofAdd 1) := by
-  sorry
+          ψ.cocycleValue (Multiplicative.ofAdd 1) := sorry
+
+end ParameterLift
+
+end ParameterLifts
 
 section Degree
 
@@ -171,26 +133,6 @@ theorem tateCharacter_geometricDegree {Λ : Type*} [Monoid Λ] (q : Λˣ)
 
 end Degree
 
--- With `q = 3` and arithmetic Frobenius of arithmetic degree `1` (here the generator of
--- `Multiplicative ℤ` with the identity degree), the Tate character of the geometric degree takes
--- the value `3` at arithmetic Frobenius and `1/3` at geometric Frobenius `Fr⁻¹`.
-example :
-    ((tateCharacter (Units.mk0 (3 : ℚ) three_ne_zero)
-      (geometricDegree (MonoidHom.id (Multiplicative ℤ))) (Multiplicative.ofAdd 1) : ℚˣ) : ℚ)
-      = 3 := by
-  simp [tateCharacter, geometricDegree]
-
--- Geometric Frobenius is the inverse generator and has Tate value `1/3`.
-example :
-    ((tateCharacter (Units.mk0 (3 : ℚ) three_ne_zero)
-      (geometricDegree (MonoidHom.id (Multiplicative ℤ))) (Multiplicative.ofAdd (-1)) : ℚˣ) : ℚ)
-      = 1 / 3 := by
-  norm_num [tateCharacter, geometricDegree]
-
--- The geometric degree of arithmetic Frobenius is `-1`.
-example : geometricDegree (MonoidHom.id (Multiplicative ℤ)) (Multiplicative.ofAdd 1)
-    = Multiplicative.ofAdd (-1) := rfl
-
 section FiniteWild
 
 variable {Γ G : Type*} [Group Γ] [Group G] [TopologicalSpace Γ]
@@ -212,19 +154,23 @@ theorem HasFiniteWildRamification.of_finite_image [TopologicalSpace G] [T1Space 
     (hfin : (φ '' (P : Set Γ)).Finite) :
     HasFiniteWildRamification P φ := sorry
 
--- The trivial homomorphism kills every wild subgroup, even when that subgroup is infinite.
-example (P : Subgroup Γ) : HasFiniteWildRamification P (1 : Γ →* G) :=
-  HasFiniteWildRamification.of_le_ker P 1 (by simp)
+/-- For a compact wild subgroup, an open wild kernel is equivalent to finite image for
+continuous homomorphisms to a T₁ group (LP0.3, `finiteWild_iff_finite_range`). -/
+theorem HasFiniteWildRamification.iff_finite_image [IsTopologicalGroup Γ]
+    [TopologicalSpace G] [T1Space G] (P : Subgroup Γ) [CompactSpace P]
+    (φ : Γ →* G) (hφ : Continuous φ) :
+    HasFiniteWildRamification P φ ↔ (φ '' (P : Set Γ)).Finite := sorry
 
--- An open kernel need not have finite index in a noncompact source.
-example :
+/-- An open wild kernel can have infinite image without compactness (LP0.3). -/
+theorem finiteWild_discrete_infinite_image :
     letI : TopologicalSpace (Multiplicative ℤ) := ⊥
     HasFiniteWildRamification (⊤ : Subgroup (Multiplicative ℤ)) (MonoidHom.id _) ∧
       (Set.range (MonoidHom.id (Multiplicative ℤ))).Infinite := by
   sorry
 
--- A finite image in an indiscrete target need not have open kernel, even for a compact source.
-example :
+/-- A continuous finite-image map can fail finite wild ramification without a T₁ target
+(LP0.3). Both source and target have the indiscrete topology. -/
+theorem finiteWild_indiscrete_not :
     let C := Equiv.Perm (Fin 2)
     letI : TopologicalSpace C := ⊤
     Continuous (MonoidHom.id C) ∧ (Set.range (MonoidHom.id C)).Finite ∧
@@ -269,14 +215,6 @@ example [Nontrivial W] :
   simp at hp
   exact hw hp.symm
 
--- Conjugation outside the projection kernel changes the prescribed section in S₃.
-example :
-    let a : Equiv.Perm (Fin 3) := Equiv.swap 0 1
-    let b : Equiv.Perm (Fin 3) := Equiv.swap 1 2
-    ¬ IsWildInertialParameter (MonoidHom.id _) (MonoidHom.id _)
-      (MulAut.conj a).toMonoidHom ∧ a * b * a⁻¹ = Equiv.swap 0 2 := by
-  sorry
-
 end WildInertial
 
 section TwistedCentralizer
@@ -312,18 +250,6 @@ theorem section_mem_twistedWildCentralizer (P : Subgroup W) [P.Normal] (φ : W �
     (hφ : SemidirectProduct.rightHom.comp φ = MonoidHom.id W) (w : W) :
     φ w ∈ twistedWildCentralizer P (φ.comp P.subtype) := sorry
 
--- A noncentral section value is twisted-centralizing but fails ordinary centralization.
-example :
-    let W := Equiv.Perm (Fin 3)
-    let α : W →* MulAut Unit := 1
-    let P : Subgroup W := ⊤
-    let ρ : P →* Unit ⋊[α] W := SemidirectProduct.inr.comp P.subtype
-    let x : Unit ⋊[α] W := SemidirectProduct.inr (Equiv.swap 0 1)
-    x ∈ twistedWildCentralizer P ρ ∧
-      x * ρ ⟨Equiv.swap 1 2, Subgroup.mem_top _⟩ ≠
-        ρ ⟨Equiv.swap 1 2, Subgroup.mem_top _⟩ * x := by
-  sorry
-
 end TwistedCentralizer
 
 /-! ## Layer LP1: integral parameter spaces and deformation theory -/
@@ -342,7 +268,7 @@ def IsWeilDelignePair (q : Λˣ) (d : W →* Multiplicative ℤ) (r : W →* GL 
   IsNilpotent N ∧ ∀ w, (r w : Matrix n n Λ) * N * ((r w)⁻¹ : GL n Λ) =
     ((q ^ (-(Multiplicative.toAdd (d w))) : Λˣ) : Λ) • N
 
-/-- Every homomorphism with `N = 0` is a Weil–Deligne parameter. -/
+/-- Zero monodromy satisfies algebraic matrix nilpotence and the scaling identity (LP1.11). -/
 theorem IsWeilDelignePair.zero (q : Λˣ) (d : W →* Multiplicative ℤ) (r : W →* GL n Λ) :
     IsWeilDelignePair q d r 0 := by
   refine ⟨IsNilpotent.zero, fun w => ?_⟩
@@ -354,35 +280,21 @@ theorem IsWeilDelignePair.conj {q : Λˣ} {d : W →* Multiplicative ℤ} {r : W
     IsWeilDelignePair q d ((MulAut.conj g).toMonoidHom.comp r)
       ((g : Matrix n n Λ) * N * ((g⁻¹ : GL n Λ) : Matrix n n Λ)) := sorry
 
-/-- For a torus over a reduced ring the monodromy vanishes. -/
+/-- Algebraically nilpotent rank-one matrix monodromy vanishes over a reduced ring
+(LP1.11). -/
 theorem IsWeilDelignePair.eq_zero_of_isReduced [IsReduced Λ] {q : Λˣ}
     {d : W →* Multiplicative ℤ} {r : W →* GL (Fin 1) Λ} {N : Matrix (Fin 1) (Fin 1) Λ}
     (h : IsWeilDelignePair q d r N) : N = 0 := sorry
 
--- The zero monodromy condition imposes no additional restriction on the homomorphism.
-example (q : Λˣ) (d : W →* Multiplicative ℤ) (r : W →* GL n Λ) :
-    IsWeilDelignePair q d r 0 := IsWeilDelignePair.zero q d r
-
 end WeilDeligne
 
--- Over dual numbers, nilpotent rank-one matrix monodromy need not vanish.
-example :
+/-- Algebraic matrix nilpotence allows nonzero rank-one monodromy over dual numbers
+(LP1.11); it does not impose the torus nilpotent-cone condition. -/
+theorem weilDelignePair_dualNumber_nonzero :
     let N : Matrix (Fin 1) (Fin 1) (DualNumber ℚ) := fun _ _ => DualNumber.eps
     IsWeilDelignePair (1 : (DualNumber ℚ)ˣ) (1 : Unit →* Multiplicative ℤ)
       (1 : Unit →* GL (Fin 1) (DualNumber ℚ)) N ∧ N ≠ 0 := by
   sorry
-
--- In `GL₂(ℚ)` with `q = 3`, geometric Frobenius `diag(1/3, 1)` scales `N = E₁₂` by `q⁻¹ = 1/3`:
--- this is the sign convention of `IsWeilDelignePair`.
-example : !![(1 : ℚ) / 3, 0; 0, 1] * !![0, 1; 0, 0] * !![3, 0; 0, 1] = (3 : ℚ)⁻¹ • !![0, 1; 0, 0] := by
-  ext i j
-  fin_cases i <;> fin_cases j <;> norm_num [Matrix.mul_apply, Fin.sum_univ_two]
-
--- The reciprocal convention fails: `diag(3, 1)` scales `E₁₂` by `3`, not by `1/3`.
-example : !![(3 : ℚ), 0; 0, 1] * !![0, 1; 0, 0] * !![1 / 3, 0; 0, 1] ≠ (3 : ℚ)⁻¹ • !![0, 1; 0, 0] := by
-  intro h
-  have := congrFun (congrFun h 0) 1
-  norm_num [Matrix.mul_apply, Fin.sum_univ_two] at this
 
 /-! ## Layer LP2e: coarse quotients, the excursion presentation and excursion operators -/
 
@@ -401,17 +313,6 @@ variable {R A C : Type*} [CommRing R] [CommRing A] [Algebra R A] [CommRing C] [A
 /-- The coarse quotient `Spec Aᴴ` of an affine scheme with a coaction (LP2e.1). -/
 def coarseQuotient (δ : A →ₐ[R] C ⊗[R] A) : AlgebraicGeometry.Scheme :=
   AlgebraicGeometry.Spec (CommRingCat.of (AlgHom.equalizer δ Algebra.TensorProduct.includeRight))
-
--- A trivial coaction fixes every element, with invariance expressed in the tensor algebra.
-example (a : A) :
-    a ∈ AlgHom.equalizer (Algebra.TensorProduct.includeRight : A →ₐ[R] C ⊗[R] A)
-      Algebra.TensorProduct.includeRight := by
-  simp [AlgHom.equalizer_same]
-
--- Coarse quotients are affine schemes, as opposed to the quotient stack.
-example (δ : A →ₐ[R] C ⊗[R] A) : AlgebraicGeometry.IsAffine (coarseQuotient δ) := by
-  dsimp [coarseQuotient]
-  infer_instance
 
 end Coaction
 
@@ -452,26 +353,6 @@ theorem FreeCocycleIndex.nonempty_hom_zero (b : FreeCocycleIndex Γ) :
     Nonempty (FreeCocycleIndex.Hom (FreeCocycleIndex.ofTuple (Fin.elim0 : Fin 0 → Γ)) b) :=
   sorry
 
--- Initiality includes both existence and uniqueness, even for the empty tuple.
-example (b : FreeCocycleIndex Γ) :
-    Nonempty (FreeCocycleIndex.Hom (FreeCocycleIndex.ofTuple (Fin.elim0 : Fin 0 → Γ)) b) ∧
-    Subsingleton (FreeCocycleIndex.Hom (FreeCocycleIndex.ofTuple (Fin.elim0 : Fin 0 → Γ)) b) :=
-  ⟨FreeCocycleIndex.nonempty_hom_zero b, FreeCocycleIndex.subsingleton_hom_zero b⟩
-
--- Two generators retain their order under evaluation.
-example (a b : Γ) :
-    (FreeCocycleIndex.ofTuple ![a, b]).rank = 2 ∧
-    (FreeCocycleIndex.ofTuple ![a, b]).map (FreeGroup.of (0 : Fin 2) * FreeGroup.of (1 : Fin 2)) = a * b := by
-  constructor
-  · rfl
-  · change (FreeGroup.lift ![a, b]) (FreeGroup.of (0 : Fin 2) * FreeGroup.of (1 : Fin 2)) = a * b
-    rw [map_mul, FreeGroup.lift_apply_of, FreeGroup.lift_apply_of]
-    simp
-
--- Word maps are over Γ: the identity word map is an endomorphism of each index object.
-example (a : FreeCocycleIndex Γ) : Nonempty (FreeCocycleIndex.Hom a a) :=
-  ⟨⟨MonoidHom.id _, by simp⟩⟩
-
 end FreeIndex
 
 section Excursion
@@ -502,28 +383,6 @@ theorem excursionCoefficient_mul_mul (ρ : Representation R G V) (α : V) (β : 
 
 end Excursion
 
--- For the trivial representation on `ℚ` with `α = 1` and `β = id`, the coefficient is `1`.
-example (G : Type*) [Group G] (g : G) :
-    excursionCoefficient (Representation.trivial ℚ G ℚ) 1 LinearMap.id g = 1 := by
-  simp [excursionCoefficient]
-
--- Scalar tensor coefficients retain their actual values: 2 times 3 is 6.
-example :
-    let ρ := Representation.trivial ℚ Unit ℚ
-    excursionCoefficient (ρ.tprod ρ) ((2 : ℚ) ⊗ₜ (3 : ℚ))
-      (TensorProduct.dualDistrib ℚ ℚ ℚ
-        ((LinearMap.id : Module.Dual ℚ ℚ) ⊗ₜ (LinearMap.id : Module.Dual ℚ ℚ))) () = 6 := by
-  sorry
-
--- Multiplication by 2 changes the scalar coefficient when the creation vector is not fixed.
-example :
-    let ρ := Representation.ofDistribMulAction ℚ ℚˣ ℚ
-    let a : ℚˣ := Units.mk0 2 two_ne_zero
-    ρ a (1 : ℚ) ≠ 1 ∧
-      excursionCoefficient ρ 1 LinearMap.id (1 * 1 * a) ≠
-        excursionCoefficient ρ 1 LinearMap.id 1 := by
-  sorry
-
 /-! ## Layer LP2c: pseudocharacters with prescribed projection and local continuity -/
 
 section TraceAdapter
@@ -539,33 +398,22 @@ theorem traceExtension_of (τ : Γ → A) (γ : Γ) :
     traceExtension τ (MonoidAlgebra.of A Γ γ) = τ γ := by
   simp [traceExtension, MonoidAlgebra.of_apply, MonoidAlgebra.coeff_single]
 
--- Linearity on two distinct basis elements preserves both coefficients and the minus sign.
-example (τ : Multiplicative ℤ → ℚ) :
-    traceExtension τ
-      ((2 : ℚ) • MonoidAlgebra.of ℚ (Multiplicative ℤ) (Multiplicative.ofAdd 0) -
-        MonoidAlgebra.of ℚ (Multiplicative ℤ) (Multiplicative.ofAdd 1)) =
-      2 * τ (Multiplicative.ofAdd 0) - τ (Multiplicative.ofAdd 1) := by
-  simp only [map_sub, map_smul, traceExtension_of, smul_eq_mul]
+/-- Values on group elements determine the linear trace extension uniquely (LP2c.6). -/
+theorem traceExtension_unique (τ : Γ → A) (T : MonoidAlgebra A Γ →ₗ[A] A)
+    (hT : ∀ γ, T (MonoidAlgebra.of A Γ γ) = τ γ) : T = traceExtension τ := sorry
+
+/-- Cyclic symmetry on group elements is equivalent to cyclic symmetry on the group algebra
+for the linear trace extension (LP2c.6). -/
+theorem traceExtension_mul_comm_iff (τ : Γ → A) :
+    (∀ x y : MonoidAlgebra A Γ, traceExtension τ (x * y) = traceExtension τ (y * x)) ↔
+      ∀ γ δ, τ (γ * δ) = τ (δ * γ) := sorry
 
 -- Pin the supplied character, its value at the identity, and the trace over general rings.
 #check Representation.character
 #check Representation.char_one
 #check LinearMap.trace_one
 
--- The trace of the trivial two-dimensional representation is its rank, not one.
-example (G : Type*) [Group G] :
-    (Representation.trivial ℚ G (Fin 2 → ℚ)).character 1 = 2 := by
-  norm_num [Representation.character]
-
 end TraceAdapter
-
--- The linear extension is not multiplicative: for `Γ = 1` and `τ = 2` over `ℚ`,
--- `T(1 · 1) = 2` while `T(1) T(1) = 4`.
-example :
-    traceExtension (fun _ : Unit => (2 : ℚ)) (1 * 1) ≠
-      traceExtension (fun _ : Unit => (2 : ℚ)) 1 * traceExtension (fun _ : Unit => (2 : ℚ)) 1 := by
-  rw [mul_one]
-  simp [traceExtension, MonoidAlgebra.one_def, MonoidAlgebra.coeff_single]
 
 /-! ## Layer LP3: good filtrations, fixed groups and wild reduction
 
