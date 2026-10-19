@@ -10,6 +10,11 @@ ULA and Satake categories, fusion, relative reconstruction and the Satake equiva
 README targets: their geometric carriers and hypotheses are part of those constructions.
 The equal-characteristic Schubert models and affine stratifications of Demazure fibres are
 also geometric README targets; the lattice carrier below accommodates either coefficient ring.
+The geometric GS3–GS4 targets use a fixed algebraic closure k of the residue field, with all
+divisor spaces and modification stacks pulled to Perf_k and products relative to Spd k.
+Their empty-leg category is finite projective coefficient modules. The Drinfeld realization
+and its arithmetic-base boundary tests require the geometric local-system carriers specified
+in the README; the pointwise disjointness and sign definitions below are independent of a site.
 In particular, the numerical trace identities below specify the sign convention; the geometric
 trace comparison also requires Frobenius descent and the bounded sheaf correspondences.
 -/
@@ -207,7 +212,9 @@ theorem flat_perverse_nonflat_point :
 /-! ## Layer GS3: cross-block disjointness and the fusion sign -/
 
 /-- Points of the disjoint-block locus; internal block collisions are allowed
-(FS VI.9, pp. 226–227). The geometric open subfunctor is specified in the README. -/
+(FS VI.9, pp. 226–227). In the geometric application X is the degree-one divisor
+space over Perf_k for k an algebraic closure of the residue field; the open
+subfunctor and all its products are relative to Spd k as specified in the README. -/
 def disjointLegLocus {I : Type u} {K : Type v} {X : Type w} (b : I → K) : Set (I → X) :=
   {x | ∀ i j, b i ≠ b j → x i ≠ x j}
 

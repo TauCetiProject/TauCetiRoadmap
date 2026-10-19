@@ -23,8 +23,17 @@ not depend on the characteristic-two integral rank-one argument.
 
 ## Scope and ownership
 
-This roadmap owns the applications to local modification spaces, their Satake
-sheaves and the resulting dual group identification. The following layers specify the general theories used in those applications; the table also identifies the additional general targets owned here. A reference to one of these
+This roadmap supplies the common construction of local modification spaces,
+their flat-perverse ULA Satake categories, weight and fibre functors,
+convolution, coherent fusion, relative reconstruction and the pinned dual
+equivalence. GS0–GS4 own these foundations together with their coefficient,
+finite-set, Weil and Cartan-duality comparisons. Applications use these same
+carriers and tensor comparisons. Geometric Hecke actions on bundle-stack
+cohomology and Igusa-variety torsion-concentration results belong to their
+respective application roadmaps.
+
+The following layers specify the general theories used in these constructions;
+the table also identifies the additional general targets owned here. A reference to one of these
 layers includes the precise contract stated here and in the relevant result
 below; merely having its abstract carrier is insufficient.
 
@@ -36,7 +45,7 @@ below; merely having its abstract carrier is insufficient.
 | ReductiveGroups, layers 3, 6, 7 and 9 | Components; finite-type characteristic-zero reductivity; integral pinned Chevalley–Demazure groups and classification by based root datum. High-Frobenius reduced images and the subgroup/normalizer calculations in `SL₂` are owned by [rank-one subgroup geometry](#rank-one-subgroup-geometry). Import the existing absolute theory before its relative extensions. |
 | AlgebraicVectorBundles, L0A–L0C | Tensor and pullback for module sheaves, finite locally free sheaves and their rank-one identification with `InvertibleSheaf`, and exterior-power determinants. Import these operations; the Witt-resolution descent and positivity arguments are the applications constructed here. |
 | SchemeAndStackFoundations §§0.9, 0.24–0.26; §§1.5–1.6, 1.13–1.17; §§4.9, 4.14 | Finite models and direct-colimit perfection; perfectly finitely presented/smooth schemes and Witt schemes; effective quotient presentations, torsors and contracted products; Stein factorization and Hilbert/Quot schemes. General Witt-bundle descent, connected-fibre descent, finite boundary pushouts and Keel positivity used below are targets here, rather than consequences of these scheme carriers. |
-| VStackSheavesAndLisseCategories §§VS0–VS1, VS3; DiamondSixOperations §§S2–S6 | Enhanced Artin quotient descent and bounded proper correspondences; ULA and hyperbolic localization with monodromicity and coefficient hypotheses; complete congruence filtrations and ordinary-cohomology continuity; perfect locally constant Drinfeld realization with its Tate character; relative duality and enhanced coefficient comparison. Representable diamond operations alone do not cover quotient-stack maps. |
+| VStackSheavesAndLisseCategories §§VS0–VS1, VS3; DiamondSixOperations §§S2–S6 | Enhanced Artin quotient descent and bounded proper correspondences; ULA and hyperbolic localization with monodromicity and coefficient hypotheses; complete congruence filtrations and ordinary-cohomology continuity; VS1.5 perfect locally constant Drinfeld realization over `Perf_k`, `k=overline(𝔽_q)`, with its Tate character; relative duality and enhanced coefficient comparison. Representable diamond operations alone do not cover quotient-stack maps. |
 | EnhancedDerivedSheaves §§E3.1–E3.4, E5:presentability.1–E5:presentability.2 | Coherent composition of pull–push kernels and filtered support extension; the generated Ind t-structure with accessibility and small generators. Pairwise associators in a homotopy category do not give this coherence. |
 | EtaleDualityAndPerverseSheaves §§2.1–2.4, 2.7, 2.10, 2.12; §§3.1–3.3; §§5.3, 5.5–5.6 | Perverse hearts, recollement, affine Artin vanishing, intersection complexes and semismall pushforward; ramified adic coefficient reduction; rational purity, geometric semisimplicity and proper decomposition on the stated finite models. The last three results enter only the rational and torsion-bound arguments. |
 | This roadmap, GS4, [relative reconstruction](#relative-reconstruction) | Bounded representability, dual finite-piece coalgebras, tensor multiplication, rigidity antipodes, neutral reconstruction, and finite-type/connectedness recognition. These are general mathematical targets here; the pinned known-Hopf comparison is used only after reconstruction. |
@@ -63,6 +72,10 @@ relative spaces `Y` or `X`; the integral space is `𝒴`. Use a split reductive 
 only in results whose hypotheses specify one. Ramified generic groups are
 treated by finite splitting-field descent. Integral parahoric statements use
 their specified smooth affine models, not an inferred reductive `O_E`-model.
+GS3–GS4 use the geometric coefficient-base extension to `Perf_k`,
+`k=overline(𝔽_q)`, of these divisor and modification spaces, as specified at the
+start of GS3. Finite-field Frobenius traces require the additional descent
+structure specified in the classical comparison.
 
 In Witt geometry `p` is prime, `R` is a perfect commutative `𝔽_p`-algebra, and `k` denotes a perfect field of characteristic `p` when a finite-type model is required. The finite rank is `n`; bounds written `(N,0,…,0)` require `n≥1`, `N≥0`, and a jet depth `h>N`. The ramified coefficient versions retain their specified `O_E`-model. The rank-zero lattice test concerns the algebraic lattice carrier and does not extend the notation `(N,0,…,0)` to an empty tuple.
 
@@ -293,6 +306,9 @@ Use the affine quotient `H/G` and the closed condition that its punctured sectio
 **Ordered legs and divisor base change** (`orderedLegCollision`). For finite `I`, pull back `Gr_G` and `Hck_G` along `(Div¹_𝒴)^I→Div^{|I|}_𝒴` given by addition of Cartier divisors. Formation commutes with base change. Over disjoint divisors the completed rings split as products and Gr factors as the product of the individual Grassmannians. Equal untilts are counted once in the product, but their cocharacters add in the bound.
 
 Split integral model; restrict to generic `Y/X` for a general `G/E`.
+Products are relative to the specified coefficient base. For `I=∅`, use the
+unit modification over that base. In GS3–GS4 first pull these spaces to
+`Perf_k`, `k=overline(𝔽_q)`; their empty product is then `Spd k`.
 
 Import divisor addition, disjointness and completion base change from RelativeFarguesFontaine §§3.4–3.9.
 
@@ -303,6 +319,7 @@ Provide `orderedLegCollision_baseChange`, `orderedLegCollision_disjointProduct` 
 - A single leg recovers the original degree-one Grassmannian and unit section.
 - Two distinct degree-one divisors give the product of their completed-ring modification functors, with two independent lattice factors.
 - Two equal `G_m` legs of weights `a,b` give a single local lattice of weight `a+b`, with Cartier multiplicity retained in the ring and no extra multiplication of that weight.
+- With no legs, the unit modification is over `Spd 𝔽_q` before coefficient-base extension and over `Spd k` after it; the empty product retains its base.
 
 ([FS](#source-fs), VI.2.6 and preceding discussion, pp. 199–200.)
 
@@ -1536,13 +1553,27 @@ GS0–GS1; EnhancedDerivedSheaves E3, E5; VStackSheavesAndLisseCategories VS0–
 
 The following standing hypotheses apply throughout GS3 and GS4. `E` is a nonarchimedean local field with residue field `F_q` of characteristic `p`; `G/E` is connected reductive. For torsion coefficients `Λ` is killed by an integer prime to p. The `ℓ`-adic extension uses a fixed prime `ℓ ≠ p` and its compatible reductions. Satake objects have bounded support, are universally locally acyclic over the leg base, and are flat perverse; representation objects have finite projective coefficient modules.
 
+Fix `k=overline(𝔽_q)` with its coefficient embedding and work on `Perf_k`.
+Pull the generic divisor spaces, ordered divisor products, Grassmannians and
+Hecke stacks of GS0–GS2 to this site, and form their Satake categories there.
+Throughout GS3–GS4, `Div¹_X` and `Div¹` denote this pullback; every product,
+diagonal and disjoint-leg locus is relative to `Spd k`, including
+`(Div¹_X)^∅=Spd k`. For no legs the Grassmannian and Hecke stack are the unit
+modification over `Spd k`, and `Sat^∅_G(Λ)` is finite projective `Λ`-modules.
+Use the geometric branch of RelativeFarguesFontaine §4.7:
+`Div¹≃Spd Ĕ/φ^ℤ`, `Ĕ=W_OE(k)[1/π]`, and the divisor-to-Weil map of
+VStackSheavesAndLisseCategories VS1.5 on this same base. Its Frobenius-twisted
+Weil action is over `k`; the resulting `W_E`-action is retained. Frobenius
+descent to a finite-field model is additional data in the trace comparison.
+([FS](#source-fs), opening of VI.9, p. 226; IV.7, pp. 164–166.)
+
 ### Disjoint blocks, extension and the parity sign
 
 Restriction away from cross-block collisions is fully faithful on the stated categories. This determines fusion comparisons uniquely, while the component parity corrects the graded cohomological flip.
 
 <a id="disjoint-leg-locus"></a>
 
-**Disjoint-leg locus** (`disjointLegLocus`). For a finite set `I` partitioned by `b:I→K`, define `U_b ⊂ (Div¹_X)^I` by `x_i ≠ x_j` whenever b(i) `≠` b(j). It allows coincidences inside one block. Pull the existing local Hecke stack and Satake category back to `U_b`; denote restriction by `j_b*`. On `U_b`, completion along the union of block divisors is the product of the block completions, giving the factorization of Grassmannians and local Hecke stacks.
+**Disjoint-leg locus** (`disjointLegLocus`). For a finite set `I` partitioned by `b:I→K`, define `U_b ⊂ (Div¹_X)^I` over `Spd k` by `x_i ≠ x_j` whenever b(i) `≠` b(j). It allows coincidences inside one block. Pull the local Hecke stack and Satake category over `Perf_k` back to `U_b`; denote restriction by `j_b*`. On `U_b`, completion along the union of block divisors is the product of the block completions, giving the factorization of Grassmannians and local Hecke stacks.
 
 Use the divisor product equation and invertibility of distinct divisor ideals to split the completed rings, then the loop quotient and torsor descriptions.
 
@@ -1558,6 +1589,7 @@ Provide the following API.
 - `test_disjoint_oneBlock`: A constant block map gives `U_b=X^I`.
 - `test_disjoint_twoSingletons`: For two singleton blocks, `U_b={(x,y):x≠y}`.
 - `test_disjoint_internalCollision`: For blocks {1,2},{3}, (x,x,y) with `x≠y` is allowed.
+- For `I=∅`, the condition is vacuous and `U_b=Spd k`.
 
 
 ([FS](#source-fs), VI.9 pp226–227; VI.0 p189.)
@@ -1669,15 +1701,23 @@ Provide the following API.
 
 <a id="drinfeld-fibre-realization"></a>
 
-**Weil realization of total cohomology** (`drinfeldFibreRealization`). For every finite `I`, finite projective local systems on `(Div¹_X)^I` are equivalent to continuous finite projective `Λ`-representations of `W_E^I`. Under this equivalence `F^I` is total cohomology on the Grassmannian over its leg base. It is faithful and conservative and has the inherited split-exact behaviour of VI.7.10, is symmetric monoidal for corrected fusion, and has the collision/permutation coherences. The Drinfeld statement is for locally constant perfect complexes, not all étale complexes or an assertion that fundamental groups commute with products.
+**Weil realization of total cohomology** (`drinfeldFibreRealization`). Over `Perf_k`, `k=overline(𝔽_q)`, for every finite `I`, finite projective local systems on the relative product `(Div¹_X)^I` are equivalent to continuous finite projective `Λ`-representations of `W_E^I`. Under this equivalence `F^I` is total cohomology on the Grassmannian over its geometric leg base. It is faithful and conservative and has the inherited split-exact behaviour of VI.7.10, is symmetric monoidal for corrected fusion, and has the collision/permutation coherences. The Drinfeld statement is for locally constant perfect complexes, not all étale complexes or an assertion that fundamental groups commute with products.
 
-Import IV.7.3 in its DLc form. Restrict to finite-projective local systems in degree zero to obtain VI.9.2.
+Import VStackSheavesAndLisseCategories VS1.5, `PerfectLocalSystem.drinfeld`,
+the IV.7.3 equivalence in its `D_lc` form, with `X=Spd k` and the geometric
+divisor presentation of RelativeFarguesFontaine §4.7. Restrict to
+finite-projective local systems in degree zero to obtain VI.9.2. Apply
+compatible coefficient limits for the stated adic extension.
 
-**Checks.** For `I=∅` the target is finite projective `Λ`-modules. For singleton `I` the action is the local Weil action, and for multiple legs the source is `W_E^I`, not its diagonal copy.
+**Checks.**
+
+- `test_drinfeld_emptyGeometricBase`: For `I=∅`, the source is finite projective local systems on `Spd k` and the target is finite projective `Λ`-modules, since `W_E^∅=1`.
+- `test_drinfeld_emptyArithmeticBase`: For `E=ℚ₅`, `Λ=𝔽₃`, `G=1` and no legs over `Perf_𝔽₅`, the constant rank-one local system and the rank-one system with arithmetic Frobenius `−1` are nonisomorphic. The latter descends along `𝔽₂₅/𝔽₅` using its sign character. Both are flat perverse ULA for the identity base map. Their pullbacks to `Perf_k` are isomorphic constant systems; this pullback forgets their distinct Frobenius descent structures.
+- For singleton `I` the action is the local Weil action; for two legs it is `W_E²`, with two independent actions rather than one diagonal action.
 
 ([FS](#source-fs), Proposition VI.9.2 p226; Proposition IV.7.3 pp165–166 (full faithfulness begins p164).)
 
-*Needs:* [Satake category](#satake-category-and-fibre-functor); [Fusion product and ordinary symmetry](#fusion-product-and-sign-rule); [CoCartesian finite-set functoriality](#finite-set-functoriality-and-constant-terms); VStackSheavesAndLisseCategories VS1; ClassFieldTheory Layer 9, “the local Weil group”; RelativeFarguesFontaine §4.7; `Representation`; `Module.Projective`; [Cohomology](#satake-fibre-functor).
+*Needs:* [Satake category](#satake-category-and-fibre-functor); [Fusion product and ordinary symmetry](#fusion-product-and-sign-rule); [CoCartesian finite-set functoriality](#finite-set-functoriality-and-constant-terms); VStackSheavesAndLisseCategories VS1.5, `PerfectLocalSystem.drinfeld`; ClassFieldTheory Layer 9, “the local Weil group”; RelativeFarguesFontaine §4.7 (geometric coefficient-base comparison); `Representation`; `Module.Projective`; [Cohomology](#satake-fibre-functor).
 
 <a id="symmetric-constant-term"></a>
 
@@ -1970,7 +2010,7 @@ The generic root datum result identifies the root datum of the Tannakian group o
 
 <a id="normalized-satake-equivalence"></a>
 
-**Normalized integral Satake equivalence** (`normalizedSatakeEquivalence`). Choose `r∈Λ×` with `r²=q` and the associated half Tate local system. Let `χ_Tate` be the Weil character of the geometric root line `Λ(1)` under IV.7.3 and `κ` its chosen square root. The half twist on a sheaf stalk has geometric Frobenius eigenvalue `r^{-1}`; identifying that stalk convention with `κ` under Drinfeld realization requires the explicit convention comparison. Put `t_G(w)=(2ρ̂_G)(κ(w))` in `Ĝ` (projected to `Ĝ_ad` for conjugation). The geometric action is `Ad(t_G(w))` composed with the usual pinned action. The semidirect comparison `(g,w)↦(g t_G(w),w)` identifies the geometrically twisted semidirect group with the pinned one. Combining it with reconstruction gives `Sat^I_G(Λ)≃Rep^{fp,cont}_Λ((Ĝ⋊W_E)^I)`. Equivalently an algebraic representation of `(Ĝ⋊Q)^I`, for a finite quotient `Q` through which the pinned action factors, gives its normalized Satake object; `Q` is not substituted for all continuous Weil representations.
+**Normalized integral Satake equivalence** (`normalizedSatakeEquivalence`). Work with the Satake categories over `Perf_k`, `k=overline(𝔽_q)`, and products relative to `Spd k`. Choose `r∈Λ×` with `r²=q` and the associated half Tate local system. Let `χ_Tate` be the Weil character of the geometric root line `Λ(1)` under IV.7.3 and `κ` its chosen square root. The half twist on a sheaf stalk has geometric Frobenius eigenvalue `r^{-1}`; identifying that stalk convention with `κ` under Drinfeld realization requires the explicit convention comparison. Put `t_G(w)=(2ρ̂_G)(κ(w))` in `Ĝ` (projected to `Ĝ_ad` for conjugation). The geometric action is `Ad(t_G(w))` composed with the usual pinned action. The semidirect comparison `(g,w)↦(g t_G(w),w)` identifies the geometrically twisted semidirect group with the pinned one. Combining it with reconstruction gives `Sat^I_G(Λ)≃Rep^{fp,cont}_Λ((Ĝ⋊W_E)^I)`. Equivalently an algebraic representation of `(Ĝ⋊Q)^I`, for a finite quotient `Q` through which the pinned action factors, gives its normalized Satake object; `Q` is not substituted for all continuous Weil representations.
 
 Use the root-line action in VI.11.1 to express geometric versus pinned action through the adjoint cocharacter `2ρ̂`, without requiring `ρ̂` itself to be a cocharacter of `Ĝ`. The identity `t(wv)=t(w)·w(t(v))` verifies the semidirect multiplication comparison. Tensor and dual compatibility follow from the Hopf comparison and corrected fusion. Transport the chosen half twist and Frobenius convention through the Drinfeld equivalence. The Drinfeld realization comparison must identify this stalk-action and parameter-action orientation.
 
@@ -1988,6 +2028,7 @@ Provide the following API.
 - `test_normalized_torus`: For `T=G_m`, weight `n` is the point object on component `n`, with no `ρ` twist.
 - `test_normalized_pgl2`: The `SL₂` standard representation gives `Λ[1](1/2)` on the `PGL₂` minuscule `P¹`, with eigenvalues `r⁻¹,r`.
 - `test_normalized_rootChoice`: Replacing `r` by −r changes odd-component half twists by −1.
+- For `G=1`, `E=ℚ₅`, `Λ=𝔽₉` and `I=∅`, both sides are finite projective `𝔽₉`-modules over the geometric base. Before base change, the Frobenius `+1` and `−1` rank-one systems remain distinct despite `q=5` having a square root in `𝔽₉`.
 
 
 ([FS](#source-fs), Theorem VI.0.2 p190; VI.11.1 p235; IX.2 p321.)
@@ -2183,6 +2224,16 @@ GS0–GS3 and the normalized GS4 equivalence; SmoothRepresentationsOfLocalGroups
 ## Downstream consumers
 
 The local Grassmannian and finite-loop geometry feeds HeckeStacksAndLocalShtukas, local modification spaces, and BunGAndNewtonStrata, local bundle modifications. The normalized multileg and perfect-complex functors feed ExcursionOperatorsAndSpectralAction, Hecke action. Those constructions use the full finite-set coherence and normalized Weil action specified here.
+
+The Satake input to IgusaVarietiesAndTorsionConcentration's geometric Hecke
+action is the common GS1–GS4 package: `satakeCategory`, `heckeConvolution`,
+`fusionProduct`, `drinfeldFibreRealization` and `normalizedSatakeEquivalence`.
+Its geometric single-divisor version is the restriction of this package to
+that fibre. Application names for these categories and equivalences denote
+the same constructions, with the coefficient, collision, Weil and inner
+Cartan comparisons transported together. The Witt determinant and
+projectivity arguments and integral rank-one calculations here supply the
+geometric proofs used by this common package.
 
 ## Sources and editions
 
