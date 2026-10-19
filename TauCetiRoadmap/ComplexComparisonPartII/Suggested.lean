@@ -58,7 +58,8 @@ C−1.1 owns the general scheme analytification used by FormalConnectionsOpers F
 fixed-model manifold and curve applications. C0.4 and C5.1–C5.2 supply its coherent,
 differential-operator and connection adapters without proper GAGA. Ordinary algebraic
 operators and all-order principal parts belong to FormalConnectionsOpers F2.2;
-`commutatorWith` and `IsDifferentialOperator` below use that supplier's namespace.
+`commutatorWith` and `IsDifferentialOperator` below are local prototypes of that supplier's
+canonical algebraic declarations.
 C5.4's `analyticSetLocalFiniteMass` globalizes K6.1's chart-local Lelong estimates,
 with restriction and compact-local metric comparisons. C6 uses TopologicalSheafCohomology
 TS3.1–TS3.3's extension by zero and compact supports and identifies TS3.7's common CW
@@ -199,10 +200,10 @@ theorem schwartzFiniteness {E F : Type*}
     IsClosed (LinearMap.range ((g + h : E →L[ℂ] F) : E →ₗ[ℂ] F) : Set F) ∧
       FiniteDimensional ℂ (F ⧸ LinearMap.range ((g + h : E →L[ℂ] F) : E →ₗ[ℂ] F)) := sorry
 
-/-- **C5.1, `sheafSingularComparison`.** Constant-sheaf cohomology and singular cohomology
-with arbitrary abelian coefficients are additively isomorphic on a semilocally contractible
-space, without Hausdorff or paracompactness assumptions. The coefficient `ULift ℤ` is the
-free rank-one integral module in the space's universe. -/
+/-- **C5.1, `sheafSingularComparison`.** Existence of an additive isomorphism between
+constant-sheaf cohomology and singular cohomology with arbitrary abelian coefficients on a
+semilocally contractible space, without Hausdorff or paracompactness assumptions. The coefficient
+`ULift ℤ` is the free rank-one integral module in the space's universe. -/
 theorem sheafSingularComparison (T : TopCat.{u}) (hT : LocallyContractibleSpace T)
     (A : AddCommGrpCat.{u}) (q : ℕ) :
     Nonempty
@@ -283,7 +284,9 @@ RealAnalyticGeometry R3.2's coherent module category: all finitely presented nat
 with all module morphisms. Its supplied `CoherentAnalyticModule.presentation_iff` identifies
 this with native coherence when the structure sheaf is coherent. C0 descends that category
 on complex analytic quotient charts and compares its restrictions and manifold transports.
-The displayed full subcategory is defined over any locally ringed space. -/
+The displayed full subcategory is defined over any locally ringed space. On the locally ringed
+space of a scheme `X` it is the pinned `TauCeti.AlgebraicGeometry.FinitelyPresentedSheaf X`;
+the abbreviation extends that category to C−1.1's analytic spaces. -/
 abbrev CoherentAnalyticModule (X : LocallyRingedSpace.{u}) : Type _ :=
   ObjectProperty.FullSubcategory
     (SheafOfModules.isFinitePresentation (TauCeti.SheafOfModules.ringCatSheaf X.sheaf))
@@ -368,12 +371,6 @@ end C4
 
 /-! ### C5.1 Differential operators -/
 
-end
-
-end TauCetiRoadmap.ComplexComparisonPartII
-
-namespace TauCetiRoadmap.FormalConnectionsOpers
-
 section DifferentialOperators
 
 variable (k : Type*) {A M N : Type*} [CommRing k] [CommRing A] [Algebra k A]
@@ -381,30 +378,20 @@ variable (k : Type*) {A M N : Type*} [CommRing k] [CommRing A] [Algebra k A]
   [AddCommGroup N] [Module A N] [Module k N] [IsScalarTower k A N]
 
 /-- The commutator `[D, a] = D ∘ (a ·) − a · D` of a `k`-linear map with multiplication by
-`a ∈ A`. -/
+`a ∈ A`, modelling FormalConnectionsOpers F2.2's canonical algebraic commutator. -/
 def commutatorWith (a : A) (D : M →ₗ[k] N) : M →ₗ[k] N :=
   D ∘ₗ (a • LinearMap.id) - a • D
 
 /-- **F2.2, `IsDifferentialOperator`** (Grothendieck). A `k`-linear map has order `≤ 0` if it is
 `A`-linear, and order `≤ m + 1` if all its commutators with multiplication by elements of `A` have
 order `≤ m`. This characteristic-free predicate supplies C5.1's
-`DifferentialOperatorAnalytification` through the all-order principal-parts factorization. -/
+`DifferentialOperatorAnalytification` through the all-order principal-parts factorization.
+It models FormalConnectionsOpers F2.2's canonical algebraic order predicate. -/
 def IsDifferentialOperator : ℕ → (M →ₗ[k] N) → Prop
   | 0, D => ∀ (a : A) (x : M), D (a • x) = a • D x
   | m + 1, D => ∀ a : A, IsDifferentialOperator m (commutatorWith k a D)
 
 end DifferentialOperators
-
-end TauCetiRoadmap.FormalConnectionsOpers
-
-namespace TauCetiRoadmap.ComplexComparisonPartII
-
-open CategoryTheory AlgebraicGeometry
-open scoped TensorProduct ContDiff Manifold Topology ZeroObject
-
-universe u
-
-noncomputable section
 
 /-! ### C5.4 Positivity and the Chern normalisation -/
 

@@ -425,9 +425,8 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
   send non-units to `0` (the standard log point `ℕ → ℂ`, `1 ↦ 0`). "Fine" means integral and
   finitely generated; saturation is a separate condition and is never assumed silently.
 - **Lean.** Declarations live in `TauCetiRoadmap.ComplexComparisonPartII`; the names below are
-  relative to it except for the shared algebraic operator prototypes
-  `TauCetiRoadmap.FormalConnectionsOpers.commutatorWith` and
-  `TauCetiRoadmap.FormalConnectionsOpers.IsDifferentialOperator`, which use F2.2's namespace.
+  relative to it. The local prototypes `commutatorWith` and `IsDifferentialOperator`
+  model FormalConnectionsOpers F2.2's canonical algebraic declarations.
   Targets whose carriers are not in Mathlib or Tau Ceti at the pins (complex
   analytic spaces, analytification, algebraic spaces, compact manifolds with forms) are specified in
   this README only; `Suggested.lean` records the light definitions and the statements that can be
@@ -604,7 +603,8 @@ normalisation of modular curves (ModularCurvesPartII, R12.5).
   sheaves, base change, rigidification and infinitesimal lifting. §7.2 supplies perfect-complex
   rank loci; §§7.6.1–7.8 supply `spaceDQCoh`, `spacePerfect`, the ringed étale carriers and `properSpaceCompletionEquivalence`. §7.9 supplies
   `spaceSectionComponentCriterion`; §8.3 supplies generic parameter transport and the two
-  framed-completion equivalences. §§9.1–9.7 supply algebraic resolution and SNC geometry.
+  framed-completion equivalences. ResolutionOfSingularitiesCharacteristicZero Layers 1–6
+  supply algebraic resolution and SNC compactification.
   The analytic local models are §§C−1.1–C−1.4, coherent GAGA is §C1.9, and derived limits,
   coherent/Picard algebraicity and components are §§C3.2a–C3.2g here.
 - **DerivedModuleAlgebra §1.E.1 and EnhancedDerivedSheaves E1.9.**
@@ -789,7 +789,7 @@ none of these constructions uses proper GAGA.
 
 ### C−1.2 Complex analytic quotients and completed stalks
 
-Use the category and scheme analytification built in §`ℂ`−1.1, including singularities, nilpotents and possibly non-Hausdorff underlying spaces. Its open-immersion, fibre-product and étale-local-isomorphism comparisons are prerequisites of this quotient. The new definition `complexSpaceAnalytification X` applies to a locally separated algebraic space of finite type over `ℂ`. Choose an étale atlas `U→X` that is a finite disjoint union of affine schemes, and its scheme equivalence relation `R=U×_X U`. The affine choice makes the individual scheme analytic charts Hausdorff; it does not force the quotient to be Hausdorff. Analytify both schemes using the scheme functor and take the quotient of `U^an` by `R^an`. The quotient's ring sheaf is the sheaf obtained by gluing `O_(U^an)` along the local biholomorphisms of this relation. It retains the nilpotent ideals, rather than attaching the reduced function sheaf to the point quotient. The API `complexSpaceAnalytification.chart`, `complexSpaceAnalytification.atlasIndependence`, `complexSpaceAnalytification.map`, `complexSpaceAnalytification.mapId`, `complexSpaceAnalytification.mapComp`, `complexSpaceAnalytification.fibreProduct`, `complexSpaceAnalytification.etaleLocalIso`, `complexSpaceAnalytification.separatedHausdorff` consists of the chart maps, comparison isomorphisms and functoriality and base-change equations. The final Hausdorff assertion requires separated `X`.
+Use the category and scheme analytification built in §C−1.1, including singularities, nilpotents and possibly non-Hausdorff underlying spaces. Its open-immersion, fibre-product and étale-local-isomorphism comparisons are prerequisites of this quotient. The new definition `complexSpaceAnalytification X` applies to a locally separated algebraic space of finite type over `ℂ`. Choose an étale atlas `U→X` that is a finite disjoint union of affine schemes, and its scheme equivalence relation `R=U×_X U`. The affine choice makes the individual scheme analytic charts Hausdorff; it does not force the quotient to be Hausdorff. Analytify both schemes using the scheme functor and take the quotient of `U^an` by `R^an`. The quotient's ring sheaf is the sheaf obtained by gluing `O_(U^an)` along the local biholomorphisms of this relation. It retains the nilpotent ideals, rather than attaching the reduced function sheaf to the point quotient. The API `complexSpaceAnalytification.chart`, `complexSpaceAnalytification.atlasIndependence`, `complexSpaceAnalytification.map`, `complexSpaceAnalytification.mapId`, `complexSpaceAnalytification.mapComp`, `complexSpaceAnalytification.fibreProduct`, `complexSpaceAnalytification.etaleLocalIso`, `complexSpaceAnalytification.separatedHausdorff` consists of the chart maps, comparison isomorphisms and functoriality and base-change equations. The final Hausdorff assertion requires separated `X`.
 
 Prove `analyticRelationLocalChart`, the point at which local separatedness is used. For `u ∈ U(ℂ)`, the diagonal `U→R` is an open immersion because `U→X` is étale. The relation `R→U×U` is an immersion because `X` is locally separated. Near `(u,u)`, the diagonal open in `R` is therefore the intersection of `R` with an ambient open neighbourhood of `(u,u)`. Choose a sufficiently small product neighbourhood `V×V` inside it. Only identity arrows of `R` then have both endpoints in `V`. The quotient map restricted to `V` is injective. The saturation of every open of `V` is open, since the source and target maps of `R^an` are local biholomorphisms; the restricted quotient is thus a homeomorphism onto an open in the quotient. On two such chart images, the unique relation arrow gives the local biholomorphism identifying the analytic sheaves, with the triple equation supplied by composition in `R`. Gluing the local analytic subspace models gives the analytic space. A common refinement `U×_X U′` proves independence of the atlas. The same construction on common refinements defines maps and verifies their identity, composition and fibre-product comparisons.  For separated `X`, the relation is closed in the Hausdorff scheme chart products; its open quotient is Hausdorff. (Conrad–Temkin, §1.1, p. 1, identifies the complex local-separatedness boundary; the local relation argument here proves the stated extension from the scheme analytification construction.)
 
@@ -815,7 +815,7 @@ Define `completedAnalyticStalkComparison` for a finite-type complex scheme `X` a
 
 Define `SpaceAnalytification`. For a complex algebraic space `X` locally of finite type with locally separated diagonal, take an étale scheme presentation `R⇉U` and construct `X^an` as the analytic quotient of `R^an⇉U^an`. The local-isomorphism relation glues analytic structure, including nilpotents. Its quotient sheaf is represented, and `U^an→X^an` is an étale cover with `R^an≅U^an×_{X^an}U^an`.
 
-Complex scheme analytification and its analytic ring sheaf are those of §`ℂ`−1.1; the quotient construction is §`ℂ`−1.2. For a locally finite-type space, glue these finite-type constructions on open subspaces.
+Complex scheme analytification and its analytic ring sheaf are those of §C−1.1; the quotient construction is §C−1.2. For a locally finite-type space, glue these finite-type constructions on open subspaces.
 
 ([Grothendieck et al.](https://arxiv.org/abs/math/0206203), Exposé XII, Theorem and Definition 1.1 and Proposition 1.2, retyped pp. 239–241 (original pp. 312–315); Proposition 1.3.1, retyped p. 242).
 
@@ -875,7 +875,7 @@ Do not define a new analytic inverse-function theorem. At the Mathlib pin, `Anal
 
 Define `sncPolydiscChart` for a smooth finite-type complex scheme or locally separated space `M`, a finite ordered SNC divisor `E`, a point `x`, and the `b` distinct components of `E` through `x`. Its data are an analytic neighbourhood of `x`, positive radii `r_i`, and a biholomorphism to a polydisc in `ℂⁿ` taking `x` to zero and the labelled boundary components to `z₁=0,…,z_b=0`. In particular `b≤n`. The API `sncPolydiscChart.boundary`, `sncPolydiscChart.complement`, `sncPolydiscChart.restrict`, `sncPolydiscChart.permuteLabels`, `sncPolydiscChart.etalePullback` states equality of the reduced boundary, the complement isomorphism, restriction to smaller positive radii, equivariance under relabelling, and transport along an étale chart. Define the punctured polydisc using the product of open metric balls and the inequalities `z_i≠0` for `i<b`. No separate competing notion of a complex manifold or polydisc is introduced.
 
-Prove `snc_exists_polydiscChart`: ResolutionOfSingularitiesCharacteristicZero §6.4's `sncCoordinates` supplies, on an étale chart, regular parameters whose first `b` entries define the labelled components. Their Jacobian at `x` is invertible. Analytification and the analytic inverse theorem produce local holomorphic coordinates; shrink the target neighbourhood to a product of discs with positive radii, avoiding every boundary component not through `x`. Its inverse image is the desired chart, and the vanishing equations identify `E`. Restricting the same biholomorphism identifies the complement with `(Δ*)^b×Δ^(n−b)`. This argument includes dimension zero and empty boundary. For a space, first use the local analytic quotient chart from §`ℂ`−1.2. The existence assertion is local and assumes no compactness. For smooth quasi-projective varieties, the compactification is supplied by that roadmap's §6.2 `sncCompactification` and retains the given smooth open unchanged. (Deligne, Théorie de Hodge II, (3.1.2), p. 31, the proof of (3.1.9), pp. 33–34, and (3.2.1), pp. 34–35; Mathlib's analytic inverse APIs just cited.)
+Prove `snc_exists_polydiscChart`: ResolutionOfSingularitiesCharacteristicZero §6.4's `sncCoordinates` supplies, on an étale chart, regular parameters whose first `b` entries define the labelled components. Their Jacobian at `x` is invertible. Analytification and the analytic inverse theorem produce local holomorphic coordinates; shrink the target neighbourhood to a product of discs with positive radii, avoiding every boundary component not through `x`. Its inverse image is the desired chart, and the vanishing equations identify `E`. Restricting the same biholomorphism identifies the complement with `(Δ*)^b×Δ^(n−b)`. This argument includes dimension zero and empty boundary. For a space, first use the local analytic quotient chart from §C−1.2. The existence assertion is local and assumes no compactness. For smooth quasi-projective varieties, the compactification is supplied by that roadmap's §6.2 `sncCompactification` and retains the given smooth open unchanged. (Deligne, Théorie de Hodge II, (3.1.2), p. 31, the proof of (3.1.9), pp. 33–34, and (3.2.1), pp. 34–35; Mathlib's analytic inverse APIs just cited.)
 
 **Checks.**
 
@@ -913,6 +913,9 @@ descended category: restrictions to an open cover determine a morphism.
 `Suggested.lean` records the finite-presentation form over any locally ringed space
 using `TauCeti.SheafOfModules.ringCatSheaf`; it represents coherent modules when the
 structure sheaf is coherent (Demailly, II.3.11–3.16, pp. 87–88; II §9.4, p. 124).
+For the locally ringed space underlying a scheme `X`, this is the pinned
+`TauCeti.AlgebraicGeometry.FinitelyPresentedSheaf X`. The abbreviation extends that
+category to every locally ringed space, including C−1.1's analytic spaces.
 *Needs:* RealAnalyticGeometry R3.2 item 0 (predicate, `presentation_iff` and manifold
 calculus); Mathlib `SheafOfModules.IsFinitePresentation`;
 §C−1.1 `ComplexAnalyticSpace.coherentStructure`.
@@ -2398,9 +2401,10 @@ Use FormalConnectionsOpers F2.2's ordinary algebraic foundation. For arbitrary c
 `k`, a commutative `k`-algebra `A`, arbitrary `A`-modules `M`, `N` and a `k`-linear map
 `D : M → N`, `IsDifferentialOperator k m D` means order at most `m`: order zero is
 `A`-linearity, and order at most `m+1` means every commutator
-`commutatorWith k a D = D ∘ (a·) − a·D` has order at most `m`. The prototype uses
-`TauCetiRoadmap.FormalConnectionsOpers.IsDifferentialOperator` and
-`TauCetiRoadmap.FormalConnectionsOpers.commutatorWith`, the shared supplier namespace.
+`commutatorWith k a D = D ∘ (a·) − a·D` has order at most `m`. The local prototypes
+`TauCetiRoadmap.ComplexComparisonPartII.IsDifferentialOperator` and
+`TauCetiRoadmap.ComplexComparisonPartII.commutatorWith` model F2.2's canonical
+algebraic declarations.
 F2.2 owns additivity in `D` and `a`, the commuting criterion, the order-zero equivalence,
 monotonicity, sums at a common order, the composition bound and localization/sheafification.
 This elementary interface has no characteristic, smoothness or projectivity hypothesis.
@@ -2535,8 +2539,10 @@ Prove `sheafSingularComparison`: for a space `T` in which every neighbourhood of
 smaller neighbourhood whose inclusion is null-homotopic (semilocal contractibility, which is Mathlib's
 `LocallyContractibleSpace`; manifolds satisfy it through coordinate balls, and C6.0 supplies it
 for finite-type complex schemes), and for every abelian group `A`, the canonical map
-`Sheaf.H(T, A) → H^q_sing(T, A)` is an isomorphism in every degree, natural in `T` and `A`. No
-Hausdorff assumption on `T` and no finiteness assumption on `A` is made. The small cochains are a
+`Sheaf.H(T, A) → H^q_sing(T, A)` is an isomorphism in every degree, natural in `T` and `A`.
+`Suggested.lean` states the existence of an additive isomorphism; the canonical map and its
+naturality are specified here. No Hausdorff assumption on `T` and no finiteness assumption on `A`
+is made. The small cochains are a
 flasque resolution of the constant sheaf (`TauCeti.Topology.subsingleton_H_succ_of_isFlasque` makes
 it acyclic), and their global sections are quasi-isomorphic to the singular cochains (Sella, the
 Theorem, p. 2, and Lemma 0.1, pp. 2–4; the subdivision construction and proof, pp. 6–19). This is additive;
@@ -2982,7 +2988,8 @@ printed p. 120). Pullback is compatible with the algebraic filtrations, and the 
 Hodge structure of `Y^an` restricts (Deligne 1968, Proposition 5.3, printed pp. 121–123). The completed HodgeStructures roadmap
 supplies only the linear algebra; no geometric theorem is attributed to it. *Needs:*
 `kaehlerHodgeDecomposition`; `properDeRhamBetti`; `multiplicativePeriodInterface` (trace);
-AlgebraicModuliForArithmeticGeometry Layer 2 (`devissageViaChow`) and Layer 9 (resolution);
+AlgebraicModuliForArithmeticGeometry Layer 2 (`devissageViaChow`);
+ResolutionOfSingularitiesCharacteristicZero Layers 1–6 (resolution and SNC compactification);
 SchemeAndStackFoundations §§2.19–2.20 (coherent duality, trace and Serre duality), §4.12
 (Chow's lemma); Tau Ceti `TauCeti.Hodge.HodgeStructureOn`.
 
@@ -3627,8 +3634,8 @@ API is `DivisorialLog.chart` (at an `r`-fold crossing the chart is `ℕʳ`), `Di
 (trivial on `U`) and `DivisorialLog.changeEquation` (multiplying a local equation by a unit gives the
 same structure) (Kato, §1.5(1), printed p. 194, and Example 2.5(1), pp. 197–198). *Needs:*
 CrystallineCohomology CR.5:log-algebra.4, “Divisorial log structures”
-(`LogCrystalline.divisorialLog`); `FineLogChart`; AlgebraicModuliForArithmeticGeometry
-Layer 9 (`sncCompactification`, SNC boundaries).
+(`LogCrystalline.divisorialLog`); `FineLogChart`;
+ResolutionOfSingularitiesCharacteristicZero §6.2 (`sncCompactification`, SNC boundaries).
 
 **Checks.**
 
@@ -3799,7 +3806,7 @@ open), `RegularSingular.pullback` (pullback along morphisms of smooth varieties)
 and II.5.1–5.9, pp. 91–98, with the replacement proof of II.4.1 in the author's 1971 erratum,
 pp. 1–3). *Needs:* the curve-condition `RegularSingular` definition; `CanonicalLogExtension`;
 `analyticFlatConnectionLocalSystem`; `DifferentialOperatorAnalytification`;
-AlgebraicModuliForArithmeticGeometry §9.5 (`sncCompactification`) and
+ResolutionOfSingularitiesCharacteristicZero §6.2 (`sncCompactification`) and
 §C1.9 (`properSchemeGagaEquivalence`).
 
 The residue-strip functions also have an elementary API. For `a ∈ ℂ`,
@@ -3839,7 +3846,7 @@ cohomology of compact unitary Shimura varieties*, arXiv:1511.02418v1, §2.3, PDF
 on a Hodge-type Shimura variety to make horizontal Hodge tensors algebraic).
 *Needs:* `CanonicalLogExtension`; `analyticFlatConnectionLocalSystem`; `relativePoincare`;
 `DifferentialOperatorAnalytification`;
-§C1.9 `properSchemeGagaEquivalence`; AlgebraicModuliForArithmeticGeometry §9.5 `sncCompactification`;
+§C1.9 `properSchemeGagaEquivalence`; ResolutionOfSingularitiesCharacteristicZero §6.2 `sncCompactification`;
 SchemeAndStackFoundations Layer 1.
 
 Prove `regularSingularDeRhamComparison`: for a smooth variety `U` of finite type over `ℂ` and a regular
@@ -3958,7 +3965,8 @@ claimed (Qian, arXiv:2103.00106, Theorem 1.8, pp. 3–4, and Proposition 3.6 and
 
 ### Dependencies
 
-C0–C4; §§C−1.1–C−1.4/C1.9; AlgebraicModuliForArithmeticGeometry Layers 1–3 and algebraic Layer 9;
+C0–C4; §§C−1.1–C−1.4/C1.9; AlgebraicModuliForArithmeticGeometry Layers 1–3;
+ResolutionOfSingularitiesCharacteristicZero Layers 1–6 (resolution and SNC compactification);
 SchemeAndStackFoundations (Layer 1, Layer 2 including §§2.19–2.20, §4.12, Layer 5); TauCetiRoadmap.DifferentialGeometry (Layers 0–3,
 5, 6, 8, 9 and 12); TauCetiRoadmap.AlgebraicTopology (Stages 6 and 8); TauCetiRoadmap.PDE (Lanes A,
 D and E); TauCetiRoadmap.AlgebraicVectorBundles (L0C); SmoothBundlesConnections B1.5, B2–B4, B6.1–B6.4;
