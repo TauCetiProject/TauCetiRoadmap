@@ -70,6 +70,35 @@ theorem RiemannForm.homological {Λ Vℂ : Type*} [AddCommGroup Λ]
 
 /-! ## Layer A0: The carrier and its boundaries -/
 
+/-!
+For a group object `G : Over S`, its points are the existing Hom groups and its group-valued
+presheaf is Mathlib's `yonedaGrpObj G`. `GrpObj.ofRepresentableBy` and
+`yonedaGrpObjIsoOfRepresentableBy` construct the group object from a represented group presheaf;
+`yonedaGrpFullyFaithful` and `isCommMonObj_iff_isMulCommutative` test morphisms and commutativity
+on all test objects (README A0.1).
+-/
+
+open scoped CategoryTheory.MonObj
+
+/-- A morphism of schemes over an arbitrary base is a group-scheme homomorphism exactly when
+postcomposition preserves the unit and multiplication on every group of points (README A0.1).
+Inversion is then preserved by the group laws. -/
+theorem groupPointsHom_iff {S : Scheme.{u}} {G H : Over S} [GrpObj G] [GrpObj H]
+    (f : G ⟶ H) :
+    IsMonHom f ↔ ∀ T : Over S,
+      (1 : T ⟶ G) ≫ f = 1 ∧
+      ∀ x y : T ⟶ G, (x * y) ≫ f = (x ≫ f) * (y ≫ f) := by
+  sorry
+
+/-- Pullback identifies group-valued points over an arbitrary base with points over the original
+base. The isomorphism composes with the projection to the original group scheme (README A0.1). -/
+theorem groupPointsBaseChange {S S' : Scheme.{u}} (b : S' ⟶ S)
+    (G : Over S) [GrpObj G] (T : Over S') :
+    letI : GrpObj ((Over.pullback b).obj G) := Functor.grpObjObj
+    ∃ e : (T ⟶ (Over.pullback b).obj G) ≃* ((Over.map b).obj T ⟶ G),
+      ∀ x, (e x).left = x.left ≫ pullback.fst G.hom b := by
+  sorry
+
 /-- An **abelian scheme** over a scheme `S`: a group object in `Over S` whose structure morphism
 is proper and smooth with geometrically connected fibres. No commutativity, dimension or ample line
 bundle is part of the data (README A0.1). Over `Spec K` it agrees with Tau Ceti's

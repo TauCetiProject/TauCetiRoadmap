@@ -322,7 +322,10 @@ its additional carriers are used in the README statements.
   `Scheme.Hom.isLocallyConstant_finrank`, and equal to `1` exactly for isomorphisms,
   `Scheme.Hom.isIso_iff_finrank_eq`, under the finite, flat and locally finitely presented hypotheses), `Scheme.functionField`, `Over.pullback`.
 - Group objects: `CategoryTheory.GrpObj`, `IsCommMonObj`, `IsMonHom`, `Functor.grpObjObj`, the group
-  structure on morphisms into a group object, `isCommMonObj_of_isProper_of_geometricallyIntegral`,
+  structure on morphisms into a group object (`CategoryTheory.Hom.group`),
+  `yonedaGrpObj`, `GrpObj.ofRepresentableBy`, `yonedaGrpObjIsoOfRepresentableBy`,
+  `yonedaGrpFullyFaithful`, `isCommMonObj_iff_isMulCommutative`, `Over.mapPullbackAdj`,
+  `isCommMonObj_of_isProper_of_geometricallyIntegral`,
   `smooth_of_grpObj`.
 - Algebra: `TensorProduct`, `Algebra.TensorProduct`, `IsSemisimpleRing`,
   `isSemisimpleRing_iff_pi_matrix_divisionRing`, `Module.Free`, `Module.Finite`,
@@ -599,6 +602,37 @@ abelian schemes are morphisms of `Over S` satisfying `IsMonHom`; by A1.2 a zero-
 is automatically one. *Needs:* Mathlib `GrpObj`, `IsProper`, `Smooth`, `GeometricallyConnected`,
 `GeometricallyIntegral`, `Over.pullback`, `Functor.grpObjObj`; Tau Ceti `AbelianVariety`.
 
+Use the following points API for every `G : Over S` with `GrpObj G`, over an arbitrary scheme
+`S`. Its `T`-points are exactly `T ⟶ G` in `Over S`, with Mathlib's `Hom.group`: the unit is
+`toUnit T ≫ η[G]`, multiplication is `lift x y ≫ μ[G]`, and inversion is `x ≫ ι[G]`.
+The group-valued presheaf is `yonedaGrpObj G`; restriction along `h : T′ ⟶ T` is
+`x ↦ h ≫ x`, preserving the unit, multiplication and inversion. Given
+`F : (Over S)ᵒᵖ ⥤ GrpCat` and a representation of its underlying set-valued presheaf by
+`G`, use `GrpObj.ofRepresentableBy` and `yonedaGrpObjIsoOfRepresentableBy` to recover the
+unique group-object structure inducing those operations under that representation.
+The round trip recovers the original structure, and `yonedaGrpFullyFaithful` identifies
+natural transformations of group-valued presheaves with group-scheme homomorphisms.
+These are Mathlib's constructions, with no additional points-law carrier.
+
+Prove `groupPointsHom_iff`: for `G, H : Over S` with group structures and `f : G ⟶ H`,
+`IsMonHom f` holds exactly when postcomposition by `f` preserves the unit and multiplication
+on `T`-points for every `T : Over S`. Inversion then follows from the group laws.
+Use `isCommMonObj_iff_isMulCommutative` to test commutativity on all `T`-point groups.
+Prove `groupPointsBaseChange`: for `b : S′ ⟶ S` and `T : Over S′`, the pullback group
+structure gives a group isomorphism
+`(T ⟶ (Over.pullback b).obj G) ≃* ((Over.map b).obj T ⟶ G)`.
+Its forward map composes the underlying scheme morphism with the projection to `G.left`;
+its inverse is the pullback lift with second component `T.hom`. Retain naturality in `T`
+and in group-scheme homomorphisms, and compatibility with identity and iterated base change.
+Apply this API to `A.toOver` for abelian schemes. The points interface follows the needs of
+the Imperial College London FLT project, using the existing categorical carriers
+(Mathlib `CategoryTheory/Monoidal/Cartesian/Grp.lean`, `Hom.group`,
+`GrpObj.ofRepresentableBy`, `yonedaGrpFullyFaithful`;
+`CategoryTheory/Monoidal/Cartesian/Mon.lean`, `isCommMonObj_iff_isMulCommutative`;
+`CategoryTheory/Comma/Over/Pullback.lean`, `Over.mapPullbackAdj`).
+*Needs:* Mathlib's cartesian monoidal structure on `Over S`, group-valued Yoneda constructions
+and pullback adjunction.
+
 **Checks.**
 
 - `AbelianScheme.identity`: the identity `Spec K → Spec K` is the dimension-zero abelian scheme;
@@ -612,6 +646,18 @@ is automatically one. *Needs:* Mathlib `GrpObj`, `IsProper`, `Smooth`, `Geometri
   scheme, because its fibres are not connected.
 - `AbelianScheme.nonsmooth`: `μ_p` over `𝔽_p` is proper and geometrically connected but not smooth,
   so it is excluded; a definition asking only for flatness accepts it.
+- For `S = ℙ¹_k` and a constant elliptic scheme `E × S`, restriction to the two standard
+  affine opens and their intersection preserves the point groups. The base-change comparison
+  uses the same `Over S` carrier although `S` is nonaffine.
+- For `G = μ_p` over `𝔽_p`, every geometric point is the unit, but
+  `1 + ε` is a nonidentity point over `T = Spec 𝔽_p[ε]/(ε²)`. The points API includes this
+  nonsmooth group scheme; testing only geometric points would identify its identity and zero
+  endomorphisms incorrectly.
+- For the constant group scheme attached to the permutation group on three letters,
+  the point group over the base is noncommutative, and the commutativity criterion rejects it.
+  The points API does not assume the automatic commutativity special to abelian schemes.
+- Over the identity group scheme `S ⟶ S`, every point group is trivial, and
+  `groupPointsBaseChange` is the unique isomorphism of trivial groups for every base change.
 
 ### A0.2 Field and elliptic boundaries
 
@@ -3583,6 +3629,10 @@ semisimplicity and `p`-adic libraries.
 
 ## Downstream consumers
 
+- The A0.1 points API supplies **NeronModelsAndSemistableAbelianVarieties** §§1.5, 1.8, 1.10
+  with point groups and pullback comparisons of the underlying group schemes, and **ModularCurvesPartII** with
+  homomorphisms on relative elliptic-curve points. **RelativeJacobiansAndIntegralCurveModels**
+  uses the same interface for relative Jacobians and reduction on points.
 - **PELModuli**, **ShimuraVarieties**, **ShimuraCompactifications**, **HilbertModularVarietiesAndShimuraCurves**,
   **AutomorphicBundles** and **AlgebraicModularFormsAndSerreWeights** use polarizations and their graph
   bundles (A2.5–A2.6), full level structures and level rigidity (A3.8, A6.18), the Siegel family (A5.8),
