@@ -32,7 +32,7 @@ below; merely having its abstract carrier is insufficient.
 | RelativeFarguesFontaine §§0.1–0.10, 3.1–3.9, 4.7–4.13 | Ramified Witt coefficients, integral untilt Cartier divisors, ordered divisor moduli and collision products, completed divisor rings, finite-thickening descent and completed-system algebraization, geometric DVR factors, closed support maps and completion base change. |
 | RelativeFarguesFontaine §§6.5–6.10, 6.16, 7.0–7.6 | Beauville–Laszlo gluing, exact tensor comparison and change of legs/groups, punctured Witt-spectrum bundle algebraicity, and effective v-descent and étale-local triviality of reductive torsors on completed divisor rings. Use §3.8 for completed finite projectives. The rank-one constant-position fibre-detection argument is part of GS1 here. |
 | ReductiveGroupsPartII §§RG2.0, RG2.0a, RG2.1, RG2.3–RG2.5 | Integral-point topology and lattice preservation over the completed maximal unramified coefficient DVR; Weil restriction; relative Lie weights; integral and parahoric models, Greenberg jets and smooth lifting; affine Weyl, Cartan, Iwasawa and rank-one convolution data; pinned integral dual groups, central maps and finite pinned Weil action. The closed-immersion theorem of Prasad–Yu belongs to RG2.3 with its exact characteristic-two exception. |
-| ReductiveGroups, layers 3, 6, 7 and 9 | Components and sufficiently high Frobenius images; finite-type characteristic-zero reductivity; subgroups and normalizers of `SL₂`; integral pinned Chevalley–Demazure groups and classification by based root datum. Import the existing absolute theory before its relative extensions. |
+| ReductiveGroups, layers 3, 6, 7 and 9 | Components; finite-type characteristic-zero reductivity; integral pinned Chevalley–Demazure groups and classification by based root datum. High-Frobenius reduced images and the subgroup/normalizer calculations in `SL₂` are owned by [rank-one subgroup geometry](#rank-one-subgroup-geometry). Import the existing absolute theory before its relative extensions. |
 | AlgebraicVectorBundles, L0A–L0C | Tensor and pullback for module sheaves, finite locally free sheaves and their rank-one identification with `InvertibleSheaf`, and exterior-power determinants. Import these operations; the Witt-resolution descent and positivity arguments are the applications constructed here. |
 | SchemeAndStackFoundations §§0.9, 0.24–0.26; §§1.5–1.6, 1.13–1.17; §§4.9, 4.14 | Finite models and direct-colimit perfection; perfectly finitely presented/smooth schemes and Witt schemes; effective quotient presentations, torsors and contracted products; Stein factorization and Hilbert/Quot schemes. General Witt-bundle descent, connected-fibre descent, finite boundary pushouts and Keel positivity used below are targets here, rather than consequences of these scheme carriers. |
 | VStackSheavesAndLisseCategories §§VS0–VS1, VS3; DiamondSixOperations §§S2–S6 | Enhanced Artin quotient descent and bounded proper correspondences; ULA and hyperbolic localization with monodromicity and coefficient hypotheses; complete congruence filtrations and ordinary-cohomology continuity; perfect locally constant Drinfeld realization with its Tate character; relative duality and enhanced coefficient comparison. Representable diamond operations alone do not cover quotient-stack maps. |
@@ -189,7 +189,7 @@ The following abbreviations denote the full lists of supplier results:
 
 ## How to read the build
 
-GS0 constructs loop/modification moduli and finite Schubert bounds, then Witt resolutions, determinant descent and projectivity. Complete the Witt flag construction before comparing affine flags over the integral untilt base. GS1 uses these spaces for semicontinuity, hyperbolic localization, ULA recognition and relative perversity. GS2 proves convolution closure and rigidity before GS3 constructs corrected symmetric fusion. GS4 supplies relative reconstruction, identifies the generic and integral dual groups, normalizes the Weil action and extends to perfect representation complexes. Classical trace comparison follows both Satake equivalences and the independent spherical transform.
+GS0 constructs loop/modification moduli and finite Schubert bounds, then Witt resolutions, determinant descent and projectivity. Complete the Witt flag construction before comparing affine flags over the integral untilt base. Build `wittFiltration` before `zhuBoundPresentation`. Build `rationalWeightsFinite` before `mvCycleDimension` and the equidimensionality assertions for semi-infinite intersections; the affine-intersection construction precedes concentration. Construct finite admissible unions in GS0, and complete their local-model special-fibre identification and functoriality after GS4 generic Satake, using the nearby-cycle construction specified with that target. GS1 uses these spaces for semicontinuity, hyperbolic localization, ULA recognition and relative perversity. GS2 proves convolution closure and rigidity before GS3 constructs corrected symmetric fusion. GS4 supplies relative reconstruction, identifies the generic and integral dual groups, normalizes the Weil action and extends to perfect representation complexes. Classical trace comparison follows both Satake equivalences and the independent spherical transform.
 
 ## Layer GS0: modification spaces and Schubert geometry
 
@@ -263,13 +263,29 @@ Provide the following API.
 
 **Checks.**
 
-- `grassmannian_zero`: The unit section is the coset of the identity full loop.
-- `grassmannian_all_subgroup`: When `H=G`, the local quotient has exactly one point.
-- `grassmannian_non_normal`: Use Mathlib `G/H` for arbitrary `H`, without normality.
+- `grassmannian_gm_components`: On a one-leg geometric fibre, the split `G_m` Grassmannian is discrete with components indexed by `ℤ`.
+- `grassmannian_gl2_minuscule`: The generic `GL₂` bound `(1,0)` is the projective-line diamond; its Witt special fibre is the perfected projective line.
+- `grassmannian_identity_inertia`: A punctured trivialization forces every automorphism of the unit modification to be the identity; the corresponding object of Hck has diagonal positive-loop inertia.
 
-([FS](#source-fs), VI.1.8–VI.1.9, pp. 193–194.)
+([FS](#source-fs), VI.1.8–VI.1.9, pp. 193–194; VI.2.2–VI.2.3 and VI.2.6, pp. 196–200; [SW](#source-sw), 21.1.3, pp. 191–192.)
 
 *Needs:* [Local Hecke stack](#local-hecke-stack); RelativeFarguesFontaine §§7.0–7.6; AdicCoefficientsAndComparisons L1, `char-p-scheme-diamond-and-comparison-functor`; DiamondsAndVStacks D6, `pre-adic-topological-comparison`.
+
+<a id="generic-grassmannian-closed-immersion"></a>
+
+**Generic change of group and closed immersions** (`grassmannianClosedImmersion`). For a homomorphism `G→H` of connected reductive `E`-groups, extension of structure group defines the map of generic `B⁺_dR` Grassmannians over the divisor base. Construct its identity, composition and divisor-base-pullback comparisons. If `G→H` is a closed immersion, this map is a closed immersion, including its restriction to each bounded support. No splitness hypothesis is imposed.
+
+Use the affine quotient `H/G` and the closed condition that its punctured section extends over the completed divisor ring. Prove the statement after a geometric splitting extension and descend the closed immersion. This supplies the Grassmannian contract of RelativeFarguesFontaine §7.4; its gluing/change-of-group comparison is the input on torsors.
+
+**Checks.**
+
+- `grassmannian_closed_identity`: The identity homomorphism gives the identity closed immersion.
+- `grassmannian_closed_trivial`: The trivial subgroup gives the closed unit section in `Gr_H`.
+- `grassmannian_closed_nonsplit_torus`: The norm-one torus of a separable quadratic extension embeds in `SL₂` through its regular representation; the resulting Grassmannian map is closed before splitting the torus.
+
+([SW](#source-sw), Lemma 19.1.5, printed p. 171; its proof over a geometric base and descent give the stated `E`-group version.)
+
+*Needs:* [Beilinson–Drinfeld Grassmannian](#grassmannian); RelativeFarguesFontaine §7.4; ReductiveGroups Layer 3; DiamondsAndVStacks D6.
 
 <a id="ordered-leg-base-change"></a>
 
@@ -503,7 +519,7 @@ The embedded-module projection is the supplied `Subtype.val`. Provide the follow
 
 **Checks.**
 
-- `lattice_rank_zero`: There is only one rank-zero lattice.
+- `lattice_rank_zero`: There is only one rank-zero lattice; `WittLattice_rank_zero_exists` also supplies its existence over every coefficient algebra.
 - `lattice_standard_field`: Over `B=K` the standard lattice agrees with the top Submodule of `K^n`.
 - `lattice_span`: Exclude the zero rank-one submodule over a nonzero field.
 
@@ -754,13 +770,17 @@ Use inertia coinvariants for geometric component labels and retain residual Frob
 
 <a id="parahoric-ind-projectivity"></a>
 
-**Witt affine flags and components** (`parahoricGeometricComponents`). For a smooth affine `O_E`-model `𝓖` of a reductive generic fibre, the Witt affine Grassmannian is an ind-pfp perfect space with locally closed embedding into a `GL_n` Grassmannian and ind-quasiprojective bounds. If `𝓖` is parahoric its bounds are projective. Over `k̄` its components are `π₁(G)_I` via Kottwitz, with residual Frobenius action retained. For an Iwahori, Schubert cells have dimension `ℓ(w)`, closures are the Bruhat unions and reduced-word Demazure spaces are iterated perfected `P¹`-bundles.
+**Witt affine flags and components** (`parahoricGeometricComponents`). For a smooth affine `O_E`-model `𝓖` of a reductive generic fibre, the Witt affine Grassmannian is an ind-pfp perfect space with locally closed embedding into a `GL_n` Grassmannian and ind-quasiprojective bounds. If `𝓖°` is parahoric its bounds are projective. For a connected parahoric model, geometric components are `π₁(G)_I` via Kottwitz, with residual Frobenius action retained. If only `𝓖°` is parahoric, they are `π₁(G)_I/π₀(𝓖_k̄)`; retain the Kottwitz embedding of the denominator and the residual Frobenius action. For an Iwahori, Schubert cells have dimension `ℓ(w)`, closures are the Bruhat unions and reduced-word Demazure spaces are iterated perfected `P¹`-bundles.
 
 `Parahoric/Iwahori` notions supplied by RG2.3; inertia `I`, not the full absolute Galois group, labels geometric components.
 
 Use the faithful representation with quasi-affine quotient and Zhu 1.20.
 
-**Checks.** For a torus the geometric flag space is the discrete inertia-coinvariant coweight scheme with Frobenius action.
+**Checks.**
+
+- `parahoric_torus_connected`: For the connected parahoric torus model, the geometric flag space is the discrete inertia-coinvariant coweight scheme, with Frobenius action.
+- `parahoric_torus_disconnected`: For the norm-one torus of `ℚ₃(√3)/ℚ₃`, the smooth model `x²−3y²=1` has two special-fibre components. Its Witt flag is a point, while the connected parahoric model gives `π₁(T)_I=ℤ/2`; the denominator removes precisely this difference.
+- `parahoric_split_gl2`: For the connected hyperspecial `GL₂` model, the component label is the determinant valuation in `ℤ`, with no component-group quotient.
 
 ([SW](#source-sw), 21.1.1–21.1.4, pp. 191–192.)
 
@@ -828,11 +848,11 @@ Normalization removes the standard-lattice determinant factor. Section growth an
 
 <a id="sl-determinant-normalization"></a>
 
-**Normalized determinant on `SL_n` lattices** (`normalizedDeterminant`). On `Gr_SL_n` over the ramified Witt coefficient ring, lattices have determinant trivialization. For a≪0 define `L_M` as `det̃(p^aW_{O_E}(R)^n/M)⊗det̃(p^aW_{O_E}(R)^n/W_{O_E}(R)^n)⁻¹`, independent of a. It is ample on every proper bound. Translations differ from `L` only by a line on the base, giving a `G_m-central` extension of the loop group acting on `L`.
+**Normalized determinant on `SL_n` lattices** (`normalizedDeterminant`). Assume `E` is a finite extension of `ℚ_p`. On `Gr_SL_n` over the ramified Witt coefficient ring, lattices have determinant trivialization. For a≪0 define `L_M` as `det̃(p^aW_{O_E}(R)^n/M)⊗det̃(p^aW_{O_E}(R)^n/W_{O_E}(R)^n)⁻¹`, independent of a. It is ample on every proper bound. Translations differ from `L` only by a line on the base, giving a `G_m-central` extension of the loop group acting on `L`.
 
 The ordinary geometric determinant on filtered torsion modules agrees with the imported determinant calculus; the normalization factor is retained. This does not assert an honest LG-linearization.
 
-Reduce the ramified coefficient module to `W(R)^{ne}` using a fixed coefficient basis, then use the `GL_{ne}` bound and determinant line.
+For `n=0,1`, use the trivial-group identification and the unit line. For `n≥2`, apply BS §10: the ramified Witt ring is finite free over `W(R)` of rank `e=[E:W(𝔽_q)[1/p]]` through a fixed coefficient basis. Restrict scalars to `W(R)^{ne}`, then use the `GL_{ne}` bound and determinant line. All displayed p-power truncations and this normalization use these mixed-characteristic hypotheses.
 
 Provide the following API.
 
@@ -843,6 +863,7 @@ Provide the following API.
 **Checks.**
 
 - `normalized_standard`: The standard lattice has normalized determinant `R`.
+- `normalized_equal_characteristic_boundary`: For `E=𝔽_p((t))` and `R=𝔽_p`, the coefficient ring is `𝔽_p[[t]]`, killed by p; it is not finite free over `W(R)=ℤ_p`, and negative p-powers cannot define these truncations.
 - `normalized_zero_quotient`: Two zero truncation quotients have the unit determinant.
 - `normalized_tensor_carrier`: Enlarge both truncation quotients by the same filtered quotient `T`. The tensor/dual formula cancels `det(T)` with its inverse and leaves the normalized line unchanged; retaining only the numerator fails this comparison.
 
@@ -853,11 +874,17 @@ Provide the following API.
 
 <a id="sections-on-witt-bounds"></a>
 
-**Sections of the Witt determinant line** (`determinantSectionsRestriction`). For the ample determinant line on `Gr_SL_n`, restriction of global sections to any proper closed bound is surjective, and the global section space is infinite dimensional whenever the Grassmannian has positive-dimensional bounds.
+**Sections of the Witt determinant line** (`determinantSectionsRestriction`). Assume `E/ℚ_p` finite, with the coefficient basis and normalization of `normalizedDeterminant`. For the ample determinant line on `Gr_SL_n`, restriction of global sections to any proper closed bound is surjective, and the global section space is infinite dimensional whenever the Grassmannian has positive-dimensional bounds.
 
 Pass to fixed finite models and arbitrarily large Frobenius powers of their ample lines. This gives no answer to BS Question 10.6 about canonical modules or embeddings.
 
 Prove and use the Frobenius-model section-colimit description of line bundles on perfections.
+
+**Checks.**
+
+- `sections_trivial_rank`: For `n=0,1` the Grassmannian is a point, its line is trivial and its section space is one-dimensional.
+- `sections_positive_bound`: For `n≥2`, a positive-dimensional perfected projective bound has infinitely many independent sections in the Frobenius colimit.
+- `sections_standard_point`: Restriction to the standard-lattice point is onto its one-dimensional determinant fibre.
 
 ([BS](#source-bs), 10.5 and 10.6, pp. 39–40.)
 
@@ -865,27 +892,27 @@ Prove and use the Frobenius-model section-colimit description of line bundles on
 
 <a id="bounded-admissible-flags"></a>
 
-**Bounded admissible affine flag loci** (`admissibleFlagLocus`). For a parahoric 𝓚 and a dominant cocharacter class `μ`, the admissible locus `A_{𝓚,μ}` is the finite closed union of affine Schubert strata labelled by the parahoric image of `Adm(μ)`. Its reduced perfect structure is determined by geometric points. Under a morphism of parahoric models `f:𝓚₁→𝓚₂` sending `μ₁` to `μ₂`, the map of affine flags carries `A_{𝓚₁,μ₁}` into `A_{𝓚₂,μ₂}`.
+**Bounded admissible affine flag loci** (`admissibleFlagLocus`). For a parahoric 𝓚 and a dominant cocharacter class `μ`, the admissible locus `A_{𝓚,μ}` is the finite closed union of affine Schubert strata labelled by the parahoric image of `Adm(μ)`. Its reduced perfect structure is determined by geometric points. For the local-model functoriality assume `E/ℚ_p` finite, connected parahoric `O_E`-models of connected reductive groups, and a model morphism `f:𝓚₁→𝓚₂` taking the geometric conjugacy class `μ₁` to `μ₂`. After a common reflex-field base change, the flag map factors through `A_{𝓚₂,μ₂}` on `A_{𝓚₁,μ₁}`; no minuscule or tame-ramification hypothesis is imposed.
 
-Admissible sets and affine Bruhat order from RG2.4; integral v-sheaf local-model existence/functoriality is an imported refinement, not inferred from Satake. Use the connected parahoric/local-model hypotheses of GLX §3.2 and §3.3 (Lemmas 3.3–3.4) and van Hoften §2.2.6–§2.2.15. Van Hoften §2.2.15 states the perfect local-model interpretation for minuscule `μ`; GLX §3.2 supplies the non-minuscule extension. A generic group homomorphism without an integral parahoric model morphism is not covered.
-
-Use finite Bruhat unions and the representable flag spaces.
+Admissible sets and affine Bruhat order come from RG2.4. This target owns the integral v-sheaf local models: construct `𝓜_{𝓚,μ}` as the v-closure of the generic Schubert bound in the integral Grassmannian, its map under `f`, and the identification of its reduced special fibre with `A_{𝓚,μ}`. Construct the bounded nearby-cycle comparison on these models, its constant-term compatibility and its support calculation from generic Satake, as in AGLR §§6.1–6.5; these identify the special fibre and yield the factorization. The finite Bruhat-union construction itself applies under the standing flag hypotheses. The v-sheaf local-model construction here uses mixed characteristic.
 
 Provide the following API.
 
 - `admissibleFlagLocus_mem`: A flag lies in the admissible locus precisely when it is in one of the finitely many admissible Schubert strata.
 - `admissibleFlagLocus_mono`: Inclusion of admissible bounds induces the closed inclusion of their reduced perfect flag loci, compatible with the Schubert stratification and base change.
-- `admissibleFlagLocus_map`: An ambient flag morphism whose local-model comparison sends all admissible strata into the target locus restricts to the admissible locus.
+- `admissibleFlagLocus_functoriality`: For the specified parahoric-model morphisms, construct `𝓜_{𝓚₁,μ₁}→𝓜_{𝓚₂,μ₂}`, identify both reduced special fibres with their admissible loci and deduce `A_{𝓚₁,μ₁}→A_{𝓚₂,μ₂}`. The factorization is a conclusion, with identity, composition and common-reflex-field base-change comparisons.
 
 **Checks.**
 
 - `admissible_empty`: The empty label set gives the empty locus.
 - `admissible_singleton`: A singleton label gives exactly its Schubert stratum.
 - `admissible_nonlabel`: Exclude points in no admissible stratum, including wrong components.
+- `admissible_parahoric_projection`: An Iwahori-to-parahoric model morphism takes the full Iwahori admissible union into its parahoric image, including non-minuscule bounds.
+- `admissible_model_identity`: For the identity model morphism, both the local-model map and its special-fibre factorization are identities.
 
-([GLX](#source-glx), §3.2 and §3.3, Lemmas 3.3–3.4, pp. 822–823; [vH](#source-vh), §2.2.14–§2.2.15, pp. 15–16.)
+([AGLR](#source-aglr), Definition 4.11, pp. 25–26, Proposition 4.16, pp. 27–28, and Theorem 6.16, p. 36; [GLX](#source-glx), §3.2 and §3.3, Lemmas 3.3–3.4, pp. 822–823; [vH](#source-vh), §2.2.14–§2.2.15, pp. 15–16.)
 
-*Needs:* [Witt affine flags and components](#parahoric-ind-projectivity); ReductiveGroupsPartII RG2.4; SchemeAndStackFoundations §§4.7–4.8, 4.14.
+*Needs:* [Witt affine flags and components](#parahoric-ind-projectivity); [Integral parahoric ind-properness](#integral-parahoric-properness); [Normalized equivalence](#normalized-satake-equivalence); VStackSheavesAndLisseCategories VS1; DiamondSixOperations §§S2–S5; ReductiveGroupsPartII RG2.4; SchemeAndStackFoundations §§4.7–4.8, 4.14.
 
 <a id="flag-incidence-correspondences"></a>
 
@@ -985,7 +1012,7 @@ Provide the following API.
 **Checks.**
 
 - `ct_torus`: For `G=T` with identity correspondence, constant term is the identity functor.
-- `ct_point_evaluation`: The plus formula evaluates to p-shriek of q-star on every object.
+- `ct_pgl2_minuscule`: For split `PGL₂` on a one-leg geometric fibre and the minuscule object `Λ[1]`, shifted Borel constant terms have rank one in degree zero at the two extremal coweights and vanish at every other coweight. ([FS](#source-fs), VI.7.4, pp. 217–219; [Zhu](#source-zhu), Lemma 2.11, pp. 436–437.)
 - `ct_order`: In a two-distinct-support fibre, the torus label is the sum of the local labels; two coincident `G_m` legs labelled `(1,0)` have total label one although the product Cartier equation is `t²`. Multiplying by the support multiplicity a second time gives two and fails.
 
 
@@ -1061,10 +1088,11 @@ Provide the following API.
 
 - `ulaHeckeCategory_finite_action`: Present bounded ULA Hecke objects by smooth finite-jet equivariant descent on the Grassmannian chart, compatibly with changing the sufficiently deep jet level. Discrete equivariant objects alone do not specify this descent category.
 - `ulaHeckeCategory_forget`: Forget positive-loop equivariance to the underlying ULA object, keeping its intertwining morphisms.
-- `ulaHeckeCategory_trivial_action`: A ULA object has the trivial finite-jet action whenever this is the desired equivariance.
+- `ulaHeckeCategory_trivial_action`: When the geometric finite-jet action on the chart is trivial, pullback from the chart supplies trivial equivariant descent for a ULA object. For a nontrivial chart action require a descent isomorphism `a* A≅pr₂* A` with unit and cocycle laws.
 
 **Checks.**
 
+- `ula_moving_support`: On the minuscule `PGL₂` chart `ℙ¹` over a geometric point, a nonzero point skyscraper with perfect stalk is ULA but has no descent for the transitive finite-jet action: its support is not invariant.
 - `ula_trivial_group`: For the trivial geometric group the relative modification space is the base. Its bounded ULA complexes are perfect local systems, and the trivial action introduces no automorphism labels.
 - `ula_intertwining`: Maps intertwine all finite-jet descent arrows; for a trivial chart with two distinct rank-one characters an underlying nonzero linear map does not descend, while its zero map does.
 - `ula_action_identity`: The identity descent arrow acts identically. Even with this action, a torus coefficient sheaf supported on a proper closed subset of a connected leg base, with a rank jump at the boundary, is not ULA; equivariance alone cannot define this category.
@@ -1125,7 +1153,7 @@ Provide the following API.
 **Checks.**
 
 - `perverse_torus`: For a torus, normalized CT is identity and relative perversity is ordinary perversity.
-- `perverse_zero`: The zero object belongs to the relative perverse heart.
+- `perverse_wrong_shift`: For nonzero `Λ` on a nonempty smooth d-cell, `Λ[d−1]` is outside the perverse heart: its restriction is in ordinary degree `1−d`, violating the nonpositive bound. ([FS](#source-fs), VI.7.1 and VI.7.4, pp. 215, 217–219.)
 - `perverse_shifted_cell`: A smooth d-cell uses `Λ[d]`; normalized torus constant term is in degree zero.
 
 ([FS](#source-fs), VI.7.1–VI.7.4, pp. 215–219.)
@@ -1160,7 +1188,7 @@ On the one-point torus, identify geometric coefficient flatness with the supplie
 
 **Checks.**
 
-- `flat_perverse_zero`: The zero object is flat perverse when coefficient tensors preserve zero.
+- `flat_perverse_nonflat_point`: For `Λ=ℤ/4`, `p≠2`, the degree-zero point sheaf `Λ/(2)` is perverse but is not coefficient-flat: tensoring the injection `(2)↪Λ` with `Λ/(2)` kills a nonzero source. The elementary Lean target states `¬Module.Flat Λ (Λ/(2))`. This module is also not perfect, so this test makes no ULA assertion. ([FS](#source-fs), VI.7.7, pp. 220–221.)
 - `flat_module_field`: Every vector space over a coefficient field is flat.
 - `flat_module_integral_nonexample`: `ℤ/2` is not flat over `ℤ`, despite concentration in degree zero.
 
@@ -1256,7 +1284,7 @@ Provide the following API.
 
 **Checks.**
 
-- `satake_zero`: A zero ULA object whose underlying object is zero belongs to Satake.
+- `satake_nonflat_point`: Over `Λ=ℤ/4` with `p≠2`, the degree-zero point object `Λ/(2)` is excluded from Satake by coefficient nonflatness; it also fails ULA perfection. Perversity alone does not imply Satake membership. ([FS](#source-fs), VI.7.7–VI.7.8, pp. 220–221.)
 - `satake_inclusion_fully_faithful`: For the trivial group and the unit over a geometric base, its endomorphism ring in Satake and in ULA is the coefficient ring. Passing to isomorphism classes would destroy these morphisms and fail full faithfulness.
 - `satake_wrong_degree`: A ULA object outside the relative perverse heart is excluded from Satake.
 
@@ -1506,13 +1534,23 @@ Provide the following API.
 - `supportParity`: The degree sum reduced modulo two, equivalently the dimension parity on each component.
 - `supportParity_dominance`: Comparable dominant Schubert tuples have equal parity.
 - `supportParity_union`: Parity on a disjoint union is the sum of the two parities in Z/2.
-- `fusionSign`: For `e,f∈Z/2`, the correction is `(-1)^{ef}`; it is a bicharacter.
+- `fusionSign`: For `e,f∈Z/2`, the integer correction is `(-1)^{ef}`; it is a bicharacter.
+- `fusionSign_unit`: Both signs involving zero are one.
+- `fusionSign_add_left`: `fusionSign(e+f,g)=fusionSign(e,g)·fusionSign(f,g)`.
+- `fusionSign_add_right`: `fusionSign(e,f+g)=fusionSign(e,f)·fusionSign(e,g)`.
 
-**Checks.**
+**Checks for support parity.**
 
-- `test_parity_unit`: The zero-cocharacter unit has parity zero.
-- `test_sign_oddOdd`: The correction on two odd summands is -1.
-- `test_sign_evenOdd`: `Even/odd` correction is +1; in characteristic two the two signs coincide.
+- `test_parity_unit`: The zero-cocharacter unit has parity zero, for every finite leg set.
+- `test_parity_oneLeg`: A one-leg tuple retains its integer dimension modulo two.
+- `test_parity_twoOdd`: Two odd-dimensional legs have even total parity.
+
+**Checks for the fusion sign.**
+
+- `fusionSign_unit`: The unit has trivial correction in both tensor slots.
+- `fusionSign_add_left`: Addition in the first parity slot gives the tensor-coherence law in that slot.
+- `fusionSign_add_right`: Addition in the second parity slot gives the other tensor-coherence law.
+- `fusionSign_char_two`: In any coefficient field of characteristic two, the scalar image of every integer correction is one, including the odd/odd case.
 
 
 ([FS](#source-fs), VI.9 pp228–229.)
@@ -1750,7 +1788,13 @@ Choose finite generators for dominant weights, and use the highest-weight consti
 
 `E` is a finite extension of `Q_p` with residue field `F_q`; `k` is an algebraic closure of `F_q`; `O =` `W(k)` `⊗_{W(F_q)} O_E`, the integers of the completed maximal unramified extension of `E`, which is totally ramified over `W(k)`. `G` is a split connected reductive group over `O_E`, and also denotes its base change to `O`. `ℓ ≠ p`, and `Q̄_ℓ` is the union of the finite extensions of `Q_ℓ`. Zhu allows any algebraically closed `k` and any finite totally ramified `F` over `W(k)`[1/p]. For `k` an algebraic closure of `F_p` every such `F` is the completed maximal unramified extension of a finite extension `E` of `Q_p` (finite extensions of the completion of the henselian field `Q_p^ur` come from finite extensions of `Q_p^ur)`, and every reductive group over the strictly henselian ring `O` is split, so the comparison route covers Zhu's setting for this `k`. For larger algebraically closed `k`, use GeometricSatakeAndFusionPartII, rational Witt comparison; the equivalence here has the stated finite-residue-field base.
 
-Zhu's ring `W_O(R) =` `W(R)` `⊗_{W(k)} O` equals `W(R)` `⊗_{W(F_q)} O_E`, so his `Gr_G` is the Witt vector affine Grassmannian of `G` over `k`. Over Spd `k` the local Hecke stack has the Witt Grassmannian as its underlying diamond, and Scholze's full embedding of étale sheaves on perfect schemes identifies its perverse objects with Zhu's `L⁺G`-equivariant perverse sheaves (FS p219). Compatibility with convolution, the unit and duals comes from the one-leg comparison result, and with total cohomology from the Satake cohomology functor.
+Zhu's ring `W_O(R) =` `W(R)` `⊗_{W(k)} O` equals `W(R)` `⊗_{W(F_q)} O_E`, so his `Gr_G` is the Witt vector affine Grassmannian of `G` over `k`. Over Spd `k` the Grassmannian chart is the diamond associated with the Witt Grassmannian. The local Hecke stack is its positive-loop quotient. Equivariant descent and the scheme-to-diamond sheaf comparison identify the corresponding perverse categories (FS p219). Compatibility with convolution, the unit and duals comes from the one-leg comparison result, and with total cohomology from the Satake cohomology functor.
+
+**Checks.**
+
+- `witt_comparison_identity_inertia`: For `G_m`, the identity in Hck has positive-loop automorphisms, while the Grassmannian chart has trivial inertia.
+- `witt_comparison_torus_weights`: The torus weight-point sheaves correspond to one-dimensional character representations, compatibly with their tensor sum.
+- `witt_comparison_unit`: The unit sheaf corresponds to the trivial representation and its total cohomology is `Q̄_ℓ` in degree zero.
 
 ([Zhu](#source-zhu), §2 opening p429; §2.1.1 p430; §2.5 p454, first paragraph; [FS](#source-fs), VI.7 p219 after the proof of Proposition VI.7.4; Remark I.2.14 p17.)
 
@@ -1783,6 +1827,22 @@ The torus calculation is the character grading and group-algebra Hopf computatio
 
 *Needs:* [Symmetric constant terms](#symmetric-constant-term); [Fusion and Verdier duality](#fusion-verdier-duality); [Coefficient reconstruction](#multileg-and-coefficient-reconstruction); [Reductivity of the generic Satake group](#generic-fibre-reductivity); ReductiveGroupsPartII RG2.5; ReductiveGroups Layer 9; `RootPairing`.
 
+<a id="rank-one-subgroup-geometry"></a>
+
+**Frobenius images and rank-one subgroups** (`frobeniusImageEventuallyReduced`, `sl2SubgroupContainingTorus`). Over an algebraically closed field `k` of characteristic `ℓ>0`, the scheme-theoretic image of a finite-type group scheme under a sufficiently high relative Frobenius is reduced, hence smooth. Construct the image in the appropriate Frobenius twist and its quotient map. For a smooth connected closed subgroup of `SL₂/k` containing the diagonal torus `T`, prove that it is `T`, either of the two Borels containing `T`, or `SL₂`. For smooth subgroups not assumed connected, determine the possible extensions of these identity components using their normalizers.
+
+Compute `N(T)/T` as the constant group of order two, its action by inversion on torus weights, and its irreducible representations. In odd characteristic its sign character is distinct from the trivial representation. In characteristic two the two characters coincide; irreducibles have a single highest weight in each nonnegative integer, so that test alone does not exclude `N(T)`. Supply Frobenius pullback and tensor-invariant comparisons used in integral rank-one identification.
+
+**Checks.**
+
+- `frobenius_infinitesimal_torus`: The r-th Frobenius image of `μ_{ℓ^r}` is trivial and reduced; the original group scheme need not be reduced.
+- `sl2_connected_cases`: `T`, the upper and lower Borels, and `SL₂` realize all four connected cases; `N(T)` demonstrates why connectedness is required.
+- `sl2_normalizer_two`: In characteristic two, the normalizer has three invariants in the fourth tensor power of the standard module, whereas `SL₂` has two; in odd characteristic the two highest-weight-zero characters already separate the normalizer case.
+
+([FS](#source-fs), proof of Lemma VI.11.2, p. 237, for the Frobenius reduction and connected subgroup classification; the stated normalizer calculation retains the characteristic-two distinction.)
+
+*Needs:* ReductiveGroups Layers 1–3, 7; LanglandsParameterStacks §LP3.0.
+
 <a id="rank-one-integral-identification"></a>
 
 **Integral rank-one identification** (`rankOneIntegralIdentification`). For `G = PGL₂` and every `ℓ ≠ p`, the representation on the fibre `Z_ℓ⊕Z_ℓ(-1)` of the minuscule object is an isomorphism `G^∨_{Z_ℓ} ≅ SL(Z_ℓ⊕Z_ℓ(-1))`. Its special fibre `G^∨_{F_ℓ} → SL₂` is surjective. The image `H` contains the diagonal torus `T` and its irreducibles are separated by highest weights in `Z≥0`; for `ℓ` odd this forces `H = SL₂` (VI.11.2). For `ℓ =` 2 these properties leave the case that the reduced subgroup of `H` is the normalizer N(T), with `H` inside a Frobenius preimage of N(T). That case is excluded because `Hom(1`, `B₁^{⋆n})` over `F₂` has the characteristic-zero dimension for every `n`, while a Frobenius preimage of N(T) has more invariants in a suitable `V^{⊗n}`. For a split `G` of semisimple rank one the integral identification follows through `G → G_ad ≅ PGL₂` and the component grading. The characteristic-two invariant-count route is a specified replacement: it uses the strengthened tilting and modular convolution targets here, and its geometric identification is proved by the modular convolution and tilting targets in this section.
@@ -1793,7 +1853,7 @@ Reduce `G^∨` modulo `ℓ` and work after faithfully flat extension to an algeb
 
 ([FS](#source-fs), VI.11.1 proof pp236–237; Lemmas VI.11.2–VI.11.3 p237; [DH](#source-dh), §1, Lemma 1.1 p3 and Lemma 1.4 p4; §5 p18, Steinberg-square discussion; [Zhu](#source-zhu), Proposition 2.3 and Remark 2.4 p432; §2.1 pp431–432.)
 
-*Needs:* [Torus and rank one](#torus-and-rank-one-identification); [Coefficient reconstruction](#multileg-and-coefficient-reconstruction); [Coordinate Hopf algebra](#geometric-coordinate-hopf-algebra); [Fusion product and ordinary symmetry](#fusion-product-and-sign-rule); [Ambient Hecke convolution](#convolution-diagram); ReductiveGroups Layer 3; ReductiveGroups Layer 7; LanglandsParameterStacks §LP3.0; `Module.Flat`; [modular rank-one convolution](#modular-rank-one-convolution); [One-leg Satake equivalence](#one-leg-satake-comparison).
+*Needs:* [Torus and rank one](#torus-and-rank-one-identification); [Coefficient reconstruction](#multileg-and-coefficient-reconstruction); [Coordinate Hopf algebra](#geometric-coordinate-hopf-algebra); [Fusion product and ordinary symmetry](#fusion-product-and-sign-rule); [Ambient Hecke convolution](#convolution-diagram); [Frobenius images and rank-one subgroups](#rank-one-subgroup-geometry); LanglandsParameterStacks §LP3.0; `Module.Flat`; [modular rank-one convolution](#modular-rank-one-convolution); [One-leg Satake equivalence](#one-leg-satake-comparison).
 
 <a id="generic-root-datum"></a>
 
@@ -2096,6 +2156,10 @@ CS. Ana Caraiani, Peter Scholze, [On the generic part of the cohomology of compa
 <a id="source-glx"></a>
 
 GLX. Ian Gleason, Dong Gyu Lim, Yujie Xu, [The connected components of affine Deligne–Lusztig varieties](https://link.springer.com/content/pdf/10.1007/s00222-025-01386-1.pdf). Published Inventiones 243 (2026), pp. 805–861; PDF page `=` printed page − 804.
+
+<a id="source-aglr"></a>
+
+AGLR. Johannes Anschütz, Ian Gleason, João Lourenço, Timo Richarz, [On the p-adic theory of local models](https://arxiv.org/abs/2201.01234v1). arXiv:2201.01234v1, 53-page PDF; printed and PDF pages agree.
 
 <a id="source-vh"></a>
 

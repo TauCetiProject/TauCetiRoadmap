@@ -40,6 +40,12 @@ theorem localHeckeAction_unit_stabilizer (G : Type u) [Group G] (H : Subgroup G)
     (h : H × H) :
     @SMul.smul (H × H) G (localHeckeAction G H).toSMul h 1 = 1 ↔ h.1 = h.2 := sorry
 
+/-- For a trivial group, the modification and every automorphism label are unique. -/
+theorem hecke_trivial_group (G : Type u) [Group G] [Subsingleton G] (H : Subgroup G) :
+    (∀ g : G, g = 1) ∧ (∀ h : H × H, h = 1) ∧
+      ∀ (h : H × H) (g : G),
+        @SMul.smul (H × H) G (localHeckeAction G H).toSMul h g = g := sorry
+
 -- The two trivializations have opposite signs.
 example (G : Type u) [Group G] (h : (⊤ : Subgroup G)) :
     @SMul.smul ((⊤ : Subgroup G) × (⊤ : Subgroup G)) G
@@ -73,6 +79,10 @@ theorem dominanceBound_iff_simpleCoroots {n : ℕ} (ν μ : Fin (n + 1) → ℤ)
       μ - ν = ∑ i : Fin n, (c i : ℤ) •
         (Pi.single i.castSucc (1 : ℤ) - Pi.single i.succ (1 : ℤ)) := sorry
 
+/-- On the rank-one torus the integral coroot order is equality of weights. -/
+theorem bound_zero_component (a b : ℤ) :
+    dominanceBound (fun _ : Fin 1 => a) (fun _ : Fin 1 => b) ↔ a = b := sorry
+
 -- Equal degree permits this degeneration inside a GL₂ component.
 example : dominanceBound (![1, 1] : Fin 2 → ℤ) ![2, 0] := by
   constructor
@@ -100,6 +110,15 @@ def wittTypeBound_columns {n : ℕ} (lam : Fin n → ℕ) (i : ℕ) : ℕ :=
 theorem wittTypeBound_zero {n : ℕ} (lam : Fin n → ℕ) :
     wittTypeBound lam 0 ↔ lam = 0 := sorry
 
+/-- The zero quotient type has no columns, in every rank and degree. -/
+theorem witt_columns_zero (n i : ℕ) :
+    wittTypeBound_columns (0 : Fin n → ℕ) i = 0 := sorry
+
+/-- A tuple of ones gives one column of full rank and no later columns. -/
+theorem witt_columns_one (n : ℕ) :
+    wittTypeBound_columns (fun _ : Fin n => 1) 0 = n ∧
+      ∀ i : ℕ, wittTypeBound_columns (fun _ : Fin n => 1) (i + 1) = 0 := sorry
+
 -- A quotient of length one cannot lie in this length-three component.
 example : ¬ wittTypeBound (![1, 0, 0] : Fin 3 → ℕ) ![2, 1, 0] := by
   simp [wittTypeBound, dominanceBound, Fin.sum_univ_succ]
@@ -119,6 +138,10 @@ def WittLattice (B K : Type u) [CommRing B] [CommRing K] [Algebra B K] (n : ℕ)
 /-- Rank zero has no lattice moduli, including over a general coefficient algebra. -/
 theorem WittLattice_rank_zero (B K : Type u) [CommRing B] [CommRing K] [Algebra B K] :
     Subsingleton (WittLattice B K 0) := sorry
+
+/-- The rank-zero lattice exists over every coefficient algebra. -/
+theorem WittLattice_rank_zero_exists (B K : Type u) [CommRing B] [CommRing K]
+    [Algebra B K] : Nonempty (WittLattice B K 0) := sorry
 
 -- With no localization, the standard full module is a lattice.
 example (K : Type u) [Field K] (n : ℕ) :
@@ -150,6 +173,10 @@ theorem jetDeterminantLocus_ring_map (B C : Type u) [CommRing B] [CommRing C]
     A ∈ jetDeterminantLocus B n π N →
       A.map f ∈ jetDeterminantLocus C n (f π) N := sorry
 
+/-- A zero rank-one matrix cannot have unit determinant over a coefficient field. -/
+theorem jet_zero_excluded (K : Type u) [Field K] (π : K) :
+    (0 : Matrix (Fin 1) (Fin 1) K) ∉ jetDeterminantLocus K 1 π 0 := sorry
+
 -- The zero bound contains the identity in every rank.
 example (B : Type u) [CommRing B] (n : ℕ) (π : B) :
     (1 : Matrix (Fin n) (Fin n) B) ∈ jetDeterminantLocus B n π 0 := by
@@ -166,6 +193,13 @@ example :
   · norm_num [Matrix.det_fin_two]
   · decide
 
+/-! ## Layer GS1: coefficient flatness at a point -/
+
+/-- The degree-zero point module over ℤ/4 fails the coefficient-flatness test
+(FS VI.7.7). Its associated point sheaf is perverse but is also not ULA-perfect. -/
+theorem flat_perverse_nonflat_point :
+    ¬ Module.Flat (ZMod 4) ((ZMod 4) ⧸ Ideal.span ({2} : Set (ZMod 4))) := sorry
+
 /-! ## Layer GS3: cross-block disjointness and the fusion sign -/
 
 /-- Points of the disjoint-block locus; internal block collisions are allowed
@@ -177,6 +211,10 @@ def disjointLegLocus {I : Type u} {K : Type v} {X : Type w} (b : I → K) : Set 
 theorem disjointLegLocus_reindex {I J : Type u} {K : Type v} {X : Type w}
     (e : J ≃ I) (b : I → K) (x : I → X) :
     x ∈ disjointLegLocus b ↔ (x ∘ e) ∈ disjointLegLocus (b ∘ e) := sorry
+
+/-- Two singleton blocks exclude exactly the collision diagonal. -/
+theorem test_disjoint_twoSingletons {X : Type u} (x : Fin 2 → X) :
+    x ∈ disjointLegLocus (id : Fin 2 → Fin 2) ↔ x 0 ≠ x 1 := sorry
 
 -- A single block permits every collision.
 example {I : Type u} {X : Type w} :
@@ -206,6 +244,10 @@ theorem supportParity_union {I J : Type u} [Fintype I] [Fintype J]
     (d : I → ℤ) (e : J → ℤ) :
     supportParity (Sum.elim d e) = supportParity d + supportParity e := sorry
 
+/-- The unit has parity zero for every finite family of zero dimensions. -/
+theorem test_parity_unit {I : Type u} [Fintype I] :
+    supportParity (0 : I → ℤ) = 0 := sorry
+
 -- One leg retains its dimension parity.
 example (d : ℤ) : supportParity (fun _ : Fin 1 => d) = (d : ZMod 2) := by
   simp [supportParity]
@@ -217,9 +259,34 @@ example : supportParity (![1, 1] : Fin 2 → ℤ) = 0 := by
 /-- Component correction which turns the graded flip into the ordinary flip. -/
 def fusionSign (e f : ZMod 2) : ℤ := if e = 1 ∧ f = 1 then -1 else 1
 
-example : fusionSign 1 1 = -1 := by norm_num [fusionSign]
+/-- The correction is trivial in either tensor slot containing the unit. -/
+theorem fusionSign_unit (e : ZMod 2) :
+    fusionSign 0 e = 1 ∧ fusionSign e 0 = 1 := by
+  fin_cases e <;> decide
 
-example : fusionSign 0 1 = 1 := by norm_num [fusionSign]
+/-- Tensoring in the first slot multiplies correction scalars. -/
+theorem fusionSign_add_left (e f g : ZMod 2) :
+    fusionSign (e + f) g = fusionSign e g * fusionSign f g := by
+  fin_cases e <;> fin_cases f <;> fin_cases g <;> decide
+
+/-- Tensoring in the second slot multiplies correction scalars. -/
+theorem fusionSign_add_right (e f g : ZMod 2) :
+    fusionSign e (f + g) = fusionSign e f * fusionSign e g := by
+  fin_cases e <;> fin_cases f <;> fin_cases g <;> decide
+
+/-- In characteristic two every correction scalar acts as the identity. -/
+theorem fusionSign_char_two {Λ : Type u} [Field Λ] [CharP Λ 2] (e f : ZMod 2) :
+    (fusionSign e f : Λ) = 1 := sorry
+
+-- The two associations of three homogeneous tensor factors give the same sign.
+example (e f g : ZMod 2) :
+    fusionSign e f * fusionSign (e + f) g =
+      fusionSign f g * fusionSign e (f + g) := by
+  fin_cases e <;> fin_cases f <;> fin_cases g <;> decide
+
+-- Reduction to characteristic two erases even the odd/odd correction.
+example (e f : ZMod 2) : (fusionSign e f : ZMod 2) = 1 := by
+  fin_cases e <;> fin_cases f <;> decide
 
 /-! ## Layer GS4: integral recovery and trace normalization -/
 
@@ -258,6 +325,14 @@ theorem normalizedTrace_minuscule {Λ : Type u} {G : Type v} [Field Λ]
     normalizedTraceFunction (fun _ => (d : ZMod 2))
       (fun g => (-1 : Λ) ^ d * (↑(r⁻¹) : Λ) ^ d * c g) =
       fun g => (↑(r⁻¹) : Λ) ^ d * c g := sorry
+
+/-- With canonical unit descent the parity correction preserves the subgroup
+indicator and its coefficient one (README, normalized Frobenius function). -/
+theorem test_trace_unit {Λ : Type u} {G : Type v} [Field Λ] [Group G]
+    (K : Subgroup G) :
+    normalizedTraceFunction (fun _ : G => 0)
+      ((K : Set G).indicator (fun _ => (1 : Λ))) =
+      (K : Set G).indicator (fun _ => (1 : Λ)) := sorry
 
 -- A torus weight has no rho sign correction.
 example {Λ : Type u} [Field Λ] (n : ℤ) :
