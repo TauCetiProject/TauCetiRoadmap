@@ -221,8 +221,12 @@ The API:
 
 - `Lift`: `Lift ρ̄ : Art_𝒪 ⥤ Type`, `A ↦` continuous lifts of `ρ̄` to `GLₙ(A)`.
 - `Lift.map`: a coefficient morphism `f` induces `Lift(A) → Lift(B)`, `ρ ↦ GLₙ(f) ∘ ρ`, with
-  `map_id` and `map_comp`.
+  `Lift.map_id` and `Lift.map_comp`. Composition is entrywise coefficient composition.
 - `Lift.reduce`: every lift reduces to `ρ̄` modulo `𝔪_A`.
+- `Lift.reduce_map`: reduction after pushforward along `f : A → B` is reduction along
+  `π_B ∘ f`; the coefficient morphism equation `π_B ∘ f = π_A` identifies it with `ρ̄`.
+- `Lift.charpoly_map`, `Lift.trace_map`, `Lift.det_map`: characteristic polynomial, trace
+  and determinant commute with coefficient pushforward, including nonreduced coefficients.
 - `Lift.conj`: `Γ̂ₙ(A)` acts on `Lift(A)` by conjugation.
 - `Lift.limEquiv`: for `A ∈ C_𝒪`, `Lift(A) ≃ limₖ Lift(A/𝔪_Aᵏ)`.
 
@@ -231,7 +235,8 @@ Mathlib `Matrix.GeneralLinearGroup`, `Matrix.GeneralLinearGroup.map`, `IsArtinia
 `IsLocalRing`, `ContinuousMonoidHom`.
 
 *Lean:* `strictKernel`, `Lift`, `Lift.conj`, `Lift.conj_apply`, `Lift.map`, `Lift.map_apply`,
-`Lift.map_id`, `Lift.map_comp`, the `MulAction` instance of `strictKernel` on `Lift`, the proved residue-field `example`, and `productDualCharacter`.
+`Lift.map_id`, `Lift.map_comp`, `Lift.reduce_map`, `Lift.charpoly_map`, `Lift.trace_map`,
+`Lift.det_map`, the `MulAction` instance of `strictKernel` on `Lift`, the proved residue-field `example`, and `productDualCharacter`.
 
 **Checks.**
 
@@ -246,6 +251,10 @@ Mathlib `Matrix.GeneralLinearGroup`, `Matrix.GeneralLinearGroup.map`, `IsArtinia
   `G → 1 + εk ≅ k` given by an `𝔽_p`-linear functional that vanishes on no open subgroup is not in
   `Lift(A)`; a definition forgetting continuity would accept it.
 - **lift_functorial.** `Lift.map (g ∘ f) = Lift.map g ∘ Lift.map f`, checked on matrix entries.
+- **lift_nonreduced_coefficients.** Over `k[ε]/(ε²)`, the rank-one lift of the trivial
+  character of `ℤ_p` sending `1` to `1+ε` has characteristic polynomial `X−(1+ε)`.
+  Reduction gives `X−1`, trace and determinant `1`; coefficient change before reduction
+  gives the same result. Replacing the original polynomial by `X−1` loses the deformation.
 
 <a id="module-deformation-functor"></a>
 
@@ -325,8 +334,25 @@ lifting `β`; conversely a strict conjugator induces such an isomorphism. Check 
 chosen lifted basis and compatibility with coefficient morphisms ([KisinNotes], Lecture 1,
 Remark (1.1.2)(1), p. 1).
 
+Use the continuous representations and frames of
+[ArithmeticGaloisRepresentations §1.2](../ArithmeticGaloisRepresentations/README.md#12-frames-coefficient-extension-operations-tate-twists)
+and its [§1.9 residual marking interface](../ArithmeticGaloisRepresentations/README.md#19-reduction-and-the-residual-representation),
+written `IsLiftOf ρ ρ̄ ι`:
+`ι : k ⊗_A M ≃ₗ[k] kⁿ` identifies the reduced action with `ρ̄`, without
+semisimplification. This marking belongs to that supplier. For a finite free `M`, a basis
+`b` lifting the fixed residual basis gives `toLift (ρ, ι, b) : Lift_ρ̄(A)`.
+Conversely `ofLift` uses the supplier's `ofFramed` on `Aⁿ`, with its standard basis and
+residual marking. These adapters are inverse on representations with the specified basis;
+forgetting that basis gives the strict-class comparison above. Changing a compatible basis
+changes the lift by strict conjugation, rather than by an arbitrary residual conjugacy.
+Provide the adapter identities, naturality under coefficient morphisms and simp identities
+for characteristic polynomial, trace, determinant and reduction. The matrix formulas are
+`Lift.charpoly_map`, `Lift.trace_map`, `Lift.det_map` and `Lift.reduce_map` of F.1.1;
+the module formulas use the supplier's base-change and reduction comparisons.
+
 *Needs:* [F.1.1](#lifting-functor); [F.1.2](#module-deformation-functor);
-[F.1.3](#strict-deformation-functor).
+[F.1.3](#strict-deformation-functor); `ArithmeticGaloisRepresentations`, §§1.2 and 1.9
+(frames, coefficient change and residual markings).
 
 **Checks.**
 
@@ -687,9 +713,43 @@ Proposition (1.2.1)(2), p. 2; [Gee22], Lemma 3.5, p. 12).
 the gluing condition holds because, for Schur `ρ̄`, the stabiliser of a lift in `Γ̂ₙ(A)` is the
 scalars `1 + 𝔪_A`, which surject along small extensions (F.1.5). After proving Schur representability, construct a chosen continuous universal representative by the inverse-limit argument of F.2.4, choosing compatible representatives along the Artinian tower.
 
+Package a representing pair as `UniversalDeformation 𝒪 ρ̄ D`, where `D` is a
+strict-conjugation-stable subfunctor of lifts on `C_𝒪`. Its data are `R_D ∈ C_𝒪`, a
+continuous lift `ρ_D ∈ D(R_D)` and the universal property of its strict class. Write
+`Defᴰ(A)` for the strict classes of `D(A)`. Provide
+`UniversalDeformation.defEquivHom : Defᴰ(A) ≃ Hom_{C_𝒪}(R_D,A)` for every `A ∈ C_𝒪`;
+its inverse sends `f` to `[f_*ρ_D]`, and pushforward along `A → B` corresponds to
+postcomposition. This includes complete non-Artinian objects and their truncations.
+The unrestricted existence theorem is the one above; F.3.2 supplies the condition quotients.
+The representing-pair interface follows the Imperial College London FLT project.
+Category instances for coefficient objects remain scoped to `C_𝒪`; representability
+uses the stated `Φ_p` and Schur hypotheses on this same category.
+
+The consumer API on these pairs includes the following results.
+
+- `UniversalDeformation.hom_ext`: for `f,g : R_D → A` in `C_𝒪`, `f=g` iff
+  `f_*ρ_D` and `g_*ρ_D` have the same strict class.
+- `UniversalDeformation.mapOfLE`: an inclusion `D ≤ D′` induces
+  `R_{D′} → R_D`, classifying the strict class of `ρ_D` in `D′(R_D)`. The maps
+  respect identity inclusions and compose in this direction.
+- `UniversalDeformation.mapOfLE_surjective`: this map is surjective. The inclusion
+  gives an injection on tangent spaces, hence a surjection on relative cotangent spaces;
+  complete Nakayama gives surjectivity on these complete Noetherian rings with residue `k`.
+- `UniversalDeformation.surjective_of_traces`: for any such representing pair, if
+  `ρ_A ∈ D(A)` has traces on a dense subset of `G` that topologically generate `A`
+  over `𝒪`, its classifying map `R_D → A` is surjective. Apply the same complete
+  cotangent criterion to the images of the centred traces. F.2.7 supplies trace
+  generation of the universal ring in the absolutely irreducible case.
+
+The map and surjectivity assertions use the relative cotangent and complete presentation
+criterion of `DeformationAndDerivedPatchingAlgebra`, §1.9, specialized in F.0.2.
+Universality identifies strict classes, so equality of chosen matrix representatives is
+not required for `hom_ext`.
+
 *Needs:* [F.2.1](#phi-p-condition); [F.1.3](#strict-deformation-functor);
 [F.1.5](#strict-vs-full-conjugacy); `ArithmeticGaloisDuality`, `D8`.1, *First-order Galois cocycle comparison* and *Trace-zero adjoint duality without division by `n*`;
-[F.2.3](#universal-lifting-ring); [F.2.4](#universal-continuous-lift); [F.0.2](#minimal-relative-presentations); SchemeAndStackFoundations §§4.3–4.4.
+[F.2.3](#universal-lifting-ring); [F.2.4](#universal-continuous-lift); [F.0.2](#minimal-relative-presentations); SchemeAndStackFoundations §§4.3–4.4;
+`DeformationAndDerivedPatchingAlgebra`, §§1.8–1.9 (truncations and the complete cotangent criterion).
 
 **Checks.**
 
@@ -704,6 +764,16 @@ scalars `1 + 𝔪_A`, which surject along small extensions (F.1.5). After provin
   by `𝒪`, despite the same non-Schur residual representation.
 - **univDefRing_tangent.** `Hom(R_ρ̄, k[ε]) = H¹(G, ad ρ̄)`, of dimension `h¹(G, ad ρ̄)`, which differs
   from the framed count by `n² − h⁰ = n² − 1` for Schur `ρ̄`.
+- **univDefRing_complete_naturality.** For `G=ℤ_p`, `n=1`, `ρ̄=1` and
+  `A=𝒪⟦U⟧`, the character with value `1+U` corresponds to `T↦U` from
+  `𝒪⟦T⟧`. Its reductions correspond to that same map modulo every positive power
+  of `𝔪_A`; no single Artinian quotient represents this character over `A`.
+- **univDefRing_condition_direction.** For the same residual character, the trivial-character
+  condition is contained in the unrestricted condition. Its ring map is the surjection
+  `𝒪⟦T⟧→𝒪`, `T↦0`; reversing this arrow would not classify the stricter condition.
+- **univDefRing_trace_generation_needed.** The trivial character over `𝒪⟦U⟧` has
+  classifying map `T↦0`, which misses `U`. Absolute irreducibility alone does not make
+  a classifying map surjective; generation of the target by its traces is needed.
 
 <a id="framed-unframed-comparison"></a>
 
@@ -815,6 +885,13 @@ ArithmeticGaloisRepresentations §5.10.
 `R^□_ρ̄ ≅ R^□_{ρ̄,χ} ⊗̂_𝒪 𝒪⟦G^{ab,(p)}⟧`, and similarly unframed. For another compatible `χ′`,
 twisting by the unique `n`-th root of `χ′χ⁻¹` identifies the fixed-determinant rings. The hypothesis
 `p ∤ n` stays on the root and on the product assertions ([Gee22], §3.18 and Exercise 3.19, p. 15).
+
+For Schur `ρ̄`, package the fixed-determinant representing pair using the same
+`UniversalDeformation` interface with `D=LiftDet_χ`. Its `defEquivHom` is natural on all
+of `C_𝒪` and sends the quotient universal lift to the identity map. The determinant
+quotient map is `mapOfLE` for `LiftDet_χ ≤ Lift`, and is surjective. For a further
+condition use `D ∩ LiftDet_χ`, as in F.3.2. None of these universal properties requires
+`p ∤ n`; that hypothesis belongs only to the root and twisting decompositions.
 
 *Needs:* [F.1.7](#fixed-determinant-functors); [F.2.3](#universal-lifting-ring);
 [F.2.5](#universal-deformation-ring); [F.2.4](#universal-continuous-lift); [F.2.1](#phi-p-condition); Mathlib
@@ -936,8 +1013,45 @@ The API:
 - `DeformationProblem.unrestricted`: all lifts.
 - `DeformationProblem.mem_map`: closure under pushforward.
 - `DeformationProblem.conj_mem`: stability under `Γ̂ₙ`-conjugation.
+- `DeformationProblem.ofPredicate P`: restrict a predicate on the supplier's continuous
+  finite free representations to lifts using F.1.4. The hypotheses are `P(ρ̄_v)` and
+  the five closure properties: invariance under marked isomorphisms (or strict
+  conjugation on lifts), coefficient pushforward, descent along injective coefficient
+  morphisms, gluing over the fibre products in the definition, and detection along
+  decreasing separated filtrations of closed ideals. All coefficient objects and maps
+  belong to the same `C_𝒪`; the limit is required to belong to it. Expose each
+  hypothesis as a closure theorem for each instance, including its specialization
+  `truncationLimit` to all `A/𝔪_A^(r+1)`, `r≥0`.
+- `DeformationProblem.mem_iff_jointlyInjective`: for a nonempty finite family of
+  coefficient morphisms `f_i : A → B_i` whose kernels have intersection zero,
+  `ρ ∈ D(A)` iff every `(f_i)_*ρ ∈ D(B_i)`. This does not regard `∏ B_i` as a local
+  coefficient object. By F.3.2, the classifying map kills the condition ideal iff all
+  its composites kill it; equivalently glue the image quotients and use injective descent.
+- `DeformationProblem.mem_iff_truncations`: for `A ∈ C_𝒪`, `ρ ∈ D(A)` iff
+  every reduction in `Lift(A/𝔪_A^(r+1))` belongs to the same problem. Use the labelled
+  truncations, residue identifications and complete limit of
+  [DeformationAndDerivedPatchingAlgebra §1.8](../DeformationAndDerivedPatchingAlgebra/README.md#18-truncations-and-complete-towers).
+  The forward implication is coefficient
+  pushforward; the reverse is the separated-limit axiom.
 
-*Needs:* [F.1.1](#lifting-functor); [F.1.6](#restriction-of-deformations).
+The instances are unramified lifts in [2.2](#t2-2), the Steinberg flat-closure
+condition in [2.5](#t2-5), ordinary lifts with the fixed residual filtration and character
+hypotheses in [6.3](#t6-3), and the flat condition in [4.1](#t4-1) from
+`FiniteFlatGroupsAndIntegralPadicHodgeTheory`, §R07.6.7. The finite-flat condition
+interface applies for every `p` and every ramification index; the geometric assertions
+of Layer 4 retain their own odd-prime hypotheses. Each instance supplies these five closure
+theorems and the residual point; the two detection theorems then apply without new
+condition-specific finiteness assumptions. No nonvanishing-monodromy condition is imposed
+on the Steinberg boundary, and an ordinary flag image without unique flags is not
+asserted to satisfy injective descent. Finiteness for Noetherian representing rings
+comes from `Φ_p(G_v)`.
+
+*Needs:* [F.1.1](#lifting-functor); [F.1.4](#module-deformations-are-strict-classes);
+[F.1.6](#restriction-of-deformations); `DeformationAndDerivedPatchingAlgebra`, §1.8;
+`ArithmeticGaloisRepresentations`, §§1.2 and 1.9 (continuous representations and markings).
+
+(Sources for the constructor and detection API: [CHT08], Definition 2.2.2 and
+Lemma 2.2.3, pp. 18–19; the factor-through-ideal criterion of F.3.2.)
 
 **Checks.**
 
@@ -949,6 +1063,13 @@ The API:
   entry, so the condition "upper triangular in this basis" is not stable under strict conjugation and
   is not a deformation problem. A central prescribed matrix such as `1` gives no such
   counterexample.
+- **defProblem_jointly_not_individually_injective.** For
+  `A=k[x,y]/(x,y)²`, the two maps to `A/(x)` and `A/(y)` are jointly injective, but
+  neither is injective. The detection theorem applies to this family without requiring
+  either individual map to be injective.
+- **defProblem_all_truncations.** For the trivial-character condition on lifts of
+  `ρ̄=1` of `ℤ_p` to `A=k⟦T⟧`, the value `1+T` is trivial modulo `𝔪_A` but
+  not modulo `𝔪_A²`. Checking only the residue field cannot replace all truncations.
 
 <a id="deformation-problem-ideal"></a>
 
@@ -967,6 +1088,14 @@ strict conjugator `b ∈ Γ̂ₙ(A)`, the classifying map of `bρ_αb⁻¹` also
 non-radical invariant ideals. Properness supplies the residual point; it does not imply invariance,
 even for `I = 𝔪`. The radical case of [Gee22]’s converse is a special case of the general correspondence of
 [CHT08] Lemma 2.2.3 ([Gee22], Lemma 3.17, p. 14; [CHT08], Lemma 2.2.3, p. 19).
+
+Under the Schur hypothesis, apply the same condition to the universal strict class to
+construct its closed quotient of `R_ρ̄` and its `UniversalDeformation 𝒪 ρ̄ D` pair.
+Its continuous representative is obtained by reducing the chosen universal representative;
+strict-conjugacy stability makes the condition independent of that choice.
+The quotient represents `Defᴰ` on every object of `C_𝒪`, and satisfies the
+`defEquivHom`, `hom_ext` and inclusion-map API of F.2.5. The framed quotient remains
+available without Schur.
 
 For a compatible determinant lift `χ_v`, pull `D_v` back along `LiftDet_{χ_v} → Lift` and write
 `D_v^χ(A) = D_v(A) ∩ LiftDet_{χ_v}(A)`. If `q_χ : R^□_ρ̄_v ↠ R^□_{ρ̄_v,χ_v}` is the determinant
@@ -1611,6 +1740,22 @@ Away from `p`, `P=ker(I_K→ℤ_p)` has prime-to-`p` finite quotients. After spl
 
 If `ρ̄` is unramified, unramified lifts are determined by an arbitrary Frobenius matrix lifting `ρ̄(Frob)`. Their ring is formally smooth over `𝒪` of relative dimension `d²`; for a compatible fixed unramified determinant its relative dimension is `d²−1`. Unramified residual data alone does not force every lift to be unramified.
 
+Construct `DeformationProblem.unramified` using F.3.1's predicate constructor. Provide
+the five closure theorems: conjugation preserves trivial inertia; coefficient change
+preserves it; injective maps detect it; the fibre-product projections jointly detect
+it; and separated quotient maps detect it, including all maximal-ideal truncations.
+These statements concern arbitrary rank and all coefficient objects in `C_𝒪`.
+
+**Checks.**
+
+- For the trivial rank-one residual character, the universal unramified character has
+  Frobenius value `1+T` over `𝒪⟦T⟧` and trivial inertia.
+- If `q≡1 mod p`, the coefficient-`p` tame quotient admits over `k[ε]/(ε²)` a
+  character with tame generator `1+ε` and Frobenius `1`: its residual character is
+  unramified but the lift is ramified.
+- The same ramified character becomes unramified modulo `ε`; this coefficient map
+  is not injective, so injective descent does not apply.
+
 *Needs:* [2.1](#t2-1); [1.1](#t1-1); [F.3.1](#local-deformation-problem); [F.3.2](#deformation-problem-ideal); `MvPowerSeries` (Mathlib).
 
 (Sources: [Gee22], Definition 3.36(1) and Theorem 3.38(2), p. 21; [CHT08], §2.4.4, remark after Definition 2.4.14, p. 43.)
@@ -1665,6 +1810,13 @@ The construction provides the following API.
 - `steinberg_le_unipotentInertia`: `D^Stein ⊆ D^{(1,…,1)}`.
 - `steinberg_n_two`: For `n = 2`, the relation `q(tr ρ(φ))² = (1 + q)² det ρ(φ)`.
 - `SteinbergLifts.baseChange`: The `q`-chain and unipotence equations, and the resulting flat-closure point, commute with coefficient maps.
+- `DeformationProblem.steinberg`: For the stated trivial residual data and `q≡1 mod p`,
+  the flat-closure predicate is factorization through the reduced `𝒪`-flat Steinberg
+  quotient. Its invariant closed ideal gives the five closure theorems of F.3.1:
+  strict conjugation, coefficient change, injective descent, fibre-product gluing and
+  separated-limit detection, including `truncationLimit`. This predicate is defined on
+  every `C_𝒪` object by factorization; it does not require the target coefficient ring
+  itself to be reduced or flat.
 
 **Checks.**
 
@@ -2466,6 +2618,12 @@ The construction provides the following API.
 - `flatLiftingRing_points`: An `𝒪_E`-point is flat iff it is the Tate module of a `p`-divisible group.
 - `flatDeformationRing`: `R^fl` when `End V_𝔽 = 𝔽`.
 - `flatLiftingRing.universal`: `Hom_cont`,`𝒪`(`R^{fl,□}`,`A`) identifies naturally with finite-flat framed `A`-lifts; integral points satisfy the `p`-divisible-group criterion.
+- `DeformationProblem.flat`: Apply F.3.1's predicate constructor to finite-flatness on
+  every Artinian truncation, using §R07.6.7's closure under finite sums, submodules and
+  quotients. Supply invariance under marked isomorphisms, coefficient change,
+  injective descent, fibre-product gluing and separated-limit detection, with
+  `truncationLimit` on the same labelled quotients. The finite-flat models and their
+  closure theory remain with that supplier; this target constructs their lifting-condition adapter.
 
 **Checks.**
 
@@ -2954,6 +3112,13 @@ The construction provides the following API.
 - `OrdinaryFixedInertia.filtration_unique`: Lemma 2.4.6(1).
 - `OrdinaryFixedInertia.filtration_baseChange`: Lemma 2.4.6(2).
 - `OrdinaryFixedInertia.isLocalDeformationProblem`: Lemma 2.4.6(3).
+- `OrdinaryFixedInertia.ofPredicate`: Apply F.3.1's constructor with the stated residual
+  filtration and character hypotheses. Expose the five closure theorems: invariance
+  under strict conjugation by transporting the flag, coefficient change, injective
+  descent of the unique flag, fibre-product gluing of the matching flags and detection
+  along separated quotient limits, including `truncationLimit`. Freeness and the
+  direct-summand property are retained in each comparison. This instance concerns the
+  condition with fixed inertial characters in arbitrary rank.
 - `OrdinaryFixedInertia.graded_character`: Inertia `σ` acts on `gr^i` by `χ_{v,i}(σ)`; in the decreasing flag `gr^{d−1}` is the stable subrepresentation.
 
 **Checks.**
@@ -4060,6 +4225,11 @@ Uses the selected conditions and geometry of Layers 1–7, the coefficient-algeb
 ## Downstream consumers
 
 `GlobalGaloisDeformations:G7,R04.6` consumes polarized local conditions and selected quotients for global presentations. `PotentialAutomorphyInfrastructure:PA.3` and `PotentialModularityAndCompatibleSystems:R24.2` consume local component and nonemptiness results, including the scoped `GL₃` interface of 6.30. `GL2ModularityLifting:R32` consumes the KW conditions of Layer 8. `PadicLocalLanglandsForGL2Qp:R30.5` consumes the local block/type-ring interface of 3.8. These directions do not supply prerequisites upward to this package.
+
+`GlobalGaloisDeformations`, R04.6, uses the `UniversalDeformation` pair and `hom_ext`,
+`mapOfLE`, `mapOfLE_surjective` and `surjective_of_traces` of F.2.5 for its classifying
+maps. Its local-condition comparisons use F.3.1's jointly injective and truncation
+detection theorems. The fixed-determinant interfaces are those of F.2.9 and F.3.2.
 
 ## References and numbering
 

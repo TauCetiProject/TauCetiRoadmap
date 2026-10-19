@@ -244,7 +244,45 @@ theorem Lift.map_comp (f : A →+* B) (hf : Continuous f) (hπf : πB.comp f = �
     (ρ.map n ρbar πA πB f hf hπf).map n ρbar πB πC g hg hπg =
       ρ.map n ρbar πA πC (g.comp f) (hg.comp hf)
         (by rw [← RingHom.comp_assoc, hπg, hπf]) :=
-  Lift.ext rfl
+  rfl
+
+omit [IsTopologicalRing A] [IsTopologicalRing B] in
+/-- Reduction of a coefficient pushforward is reduction along the composite residue map
+(README F.1.1). -/
+@[simp]
+theorem Lift.reduce_map (f : A →+* B) (hf : Continuous f) (hπ : πB.comp f = πA)
+    (ρ : Lift n ρbar πA) :
+    (Matrix.GeneralLinearGroup.map πB).comp (ρ.map n ρbar πA πB f hf hπ).toHom =
+      (Matrix.GeneralLinearGroup.map (πB.comp f)).comp ρ.toHom :=
+  rfl
+
+omit [IsTopologicalRing A] [IsTopologicalRing B] in
+/-- Characteristic polynomials of lifts commute with coefficient pushforward
+(README F.1.1). -/
+@[simp]
+theorem Lift.charpoly_map (f : A →+* B) (hf : Continuous f) (hπ : πB.comp f = πA)
+    (ρ : Lift n ρbar πA) (g : G) :
+    Matrix.charpoly ((ρ.map n ρbar πA πB f hf hπ).toHom g : Matrix (Fin n) (Fin n) B) =
+      (Matrix.charpoly (ρ.toHom g : Matrix (Fin n) (Fin n) A)).map f := by
+  exact Matrix.charpoly_map (ρ.toHom g : Matrix (Fin n) (Fin n) A) f
+
+omit [IsTopologicalRing A] [IsTopologicalRing B] in
+/-- Traces of lifts commute with coefficient pushforward (README F.1.1). -/
+@[simp]
+theorem Lift.trace_map (f : A →+* B) (hf : Continuous f) (hπ : πB.comp f = πA)
+    (ρ : Lift n ρbar πA) (g : G) :
+    Matrix.trace ((ρ.map n ρbar πA πB f hf hπ).toHom g : Matrix (Fin n) (Fin n) B) =
+      f (Matrix.trace (ρ.toHom g : Matrix (Fin n) (Fin n) A)) := by
+  exact (AddMonoidHom.map_trace f (ρ.toHom g : Matrix (Fin n) (Fin n) A)).symm
+
+omit [IsTopologicalRing A] [IsTopologicalRing B] in
+/-- Determinants of lifts commute with coefficient pushforward (README F.1.1). -/
+@[simp]
+theorem Lift.det_map (f : A →+* B) (hf : Continuous f) (hπ : πB.comp f = πA)
+    (ρ : Lift n ρbar πA) (g : G) :
+    Matrix.GeneralLinearGroup.det ((ρ.map n ρbar πA πB f hf hπ).toHom g) =
+      Units.map f (Matrix.GeneralLinearGroup.det (ρ.toHom g)) := by
+  exact Matrix.GeneralLinearGroup.map_det f (ρ.toHom g)
 
 /-- Pushforward descends to strict classes. -/
 def Def.map (f : A →+* B) (hf : Continuous f) (hπ : πB.comp f = πA) :
