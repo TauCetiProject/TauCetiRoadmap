@@ -398,8 +398,8 @@ theorem plus_exists [Topology.CWComplex (Set.univ : Set X)] [PathConnectedSpace 
     ∃ (Y : TopCat.{u}) (_ : Topology.CWComplex (Set.univ : Set Y))
       (_ : PathConnectedSpace Y) (f : X ⟶ Y), IsPlusConstruction f x P := sorry
 
-/-- A map killing the perfect subgroup factors through a plus construction
-uniquely up to homotopy, for connected CW targets (§3.25). -/
+/-- A map killing the perfect subgroup factors uniquely up to homotopy through
+any connected CW plus map, with no restriction on its cellular presentation (§3.25). -/
 theorem IsPlusConstruction.lift
     [Topology.CWComplex (Set.univ : Set X)] [Topology.CWComplex (Set.univ : Set Y)]
     [Topology.CWComplex (Set.univ : Set Z)]
@@ -422,7 +422,8 @@ Layer 2: IsHomotopyFiberSequence, IsHomotopyFiberSequenceOfHomotopy,
 homotopyPullback, IsHomotopyCartesian, IsHomotopyCartesianOfHomotopy,
 IsQuasiFibration, SimplicialSpace.realization, BisimplicialSet.realization,
 IsProper, PiStarKanCondition, SpaceDiagram.hocolim and comma/fibre comparisons.
-Layer 3: perfectRadical, plusConstruction, IsAbelianSpace, SpaceTower.holim,
+Layer 3: perfectRadical, plusConstruction, plusExtensionObstructionVanish,
+plusExtension_disk_four, IsAbelianSpace, SpaceTower.holim,
 postnikovTower, principalFibration_extensionObstruction, twistedExtensionObstruction,
 abelianExtension, UniversalCentralExtension and rationalEMCohomology;
 lift_to_abelian is the abelian-target specialization of IsPlusConstruction.lift.
@@ -443,9 +444,12 @@ point-set/derived pairings, operadPositiveModel, operadRectification,
 eilenbergMacLaneRing for associative rings, eilenbergMacLaneModule,
 eilenbergMacLaneComplex, HRModDerivedEquiv, connectiveSphereInduction,
 comparisons with the supplied spectraInfinityCategory and the Picard-spectrum comparison.
-Layer 6: WaldhausenCategory, ExactFunctor, S, K0 and kSpectrum, with the
-entrywise S-diagram, source/quotient additivity and relative-S comparisons
-exported to the downstream general algebraic K-theory interfaces.
+Layer 6: WaldhausenCategory, ExactFunctor, S, K0, kSpectrum and
+WaldhausenCategory.kSpectrumLevelFibrant, with the entrywise S-diagram,
+source/quotient additivity, relative-S and Kan-replacement comparisons;
+WaldhausenCategory.kSpectrumLevelFibrant_isPositiveOmega and the boundary targets
+kSpectrum_finiteSets_not_Kan, kSpectrum_levelFibrant_finiteSets_components and
+kSpectrum_levelFibrant_zero are specified on those construction carriers in README.md.
 Layer 7: moore, modM, piMod, modTower; abelianTower.difference,
 abelianTower.limitKernel, abelianTower.limOneCokernel, abelianTower.sixTermExact
 and abelianTower.limOne_eq_zero_of_ML as aliases/comparisons for

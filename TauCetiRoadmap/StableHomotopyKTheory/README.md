@@ -57,7 +57,7 @@ Use `HomotopyGroup.map` and its homomorphism form, `TauCeti.homotopyGroupEquivOf
 
 ### From DerivedModuleAlgebra on main
 
-[DerivedModuleAlgebra §1.T.1](../DerivedModuleAlgebra/README.md#1t1-towers-lim-and-lim¹) supplies countable tower algebra on `ℕᵒᵖ ⥤ ModuleCat R`. Use it at R=ℤ with its integral abelian-group adapter `CompactCoefficients.Tower`: `ModuleTower.shift`, `ModuleTower.lim`, `ModuleTower.limOne`, their natural maps, the six-term boundary, derived-limit comparison and Mittag–Leffler vanishing. Its `Tower.toModuleFunctor`, `Tower.limComparison` and `Tower.limOneComparison` preserve that boundary and the Milnor maps. Its `limOne_mul_p` supplies the multiplication-by-p integer tower and the convergent-sum identification with ℤₚ/ℤ. Sections 4.11 and 7.9–7.11 add the unstable and spectral identifications with this same algebra. This contract uses the roadmap on main, independently of any revision of that roadmap.
+[DerivedModuleAlgebra §1.T.1](../DerivedModuleAlgebra/README.md#1t1-towers-lim-and-lim¹) supplies countable tower algebra on `ℕᵒᵖ ⥤ ModuleCat R`. Use it at R=ℤ with its integral abelian-group adapter `CompactCoefficients.Tower`: `ModuleTower.shift`, `ModuleTower.lim`, `ModuleTower.limOne`, their natural maps, the six-term boundary, derived-limit comparison and Mittag–Leffler vanishing. Its `Tower.toModuleFunctor`, `Tower.limComparison` and `Tower.limOneComparison` preserve that boundary and the Milnor maps. Its `limOne_mul_p` supplies the multiplication-by-p integer tower and the convergent-sum identification with ℤₚ/ℤ. Sections 4.11 and 7.9–7.11 add the unstable and spectral identifications with this same algebra.
 
 ### From GeneralizedCohomology
 
@@ -212,7 +212,7 @@ The projections give a continuous bijection `classifyingSpace_prodMap`: B(C×D)�
 
 Construct `classifyingSpace_prodHomeomorph_k` for arbitrary small C,D using the compactly generated product. The ordinary product agrees when both categories have countably many arrows.
 
-Use Mathlib’s compactly generated carrier to construct the full subcategory `CGWH` cut out by: every compact Hausdorff image is closed. Its product is k(X×Y), and its mapping object is the k-ified compact-open space. Construct `CGWH.cartesianClosed`, `CGWH.limits` and closed-embedding pushouts `CGWH.closedPushout`; the latter agree with ordinary pushouts. These are category/closure extensions of the carrier. (S, App. A, Def. 2.3 and Props. 2.4–2.5, pp. 421–423; NS, Constr. B.6 and Prop. C.1, pp. 157–160.)
+Use Mathlib’s compactly generated carrier to construct the full subcategory `CGWH` cut out by: every compact Hausdorff image is closed. Its product is k(X×Y), and its mapping object is the k-ified compact-open space. Construct `CGWH.cartesianClosed`, `CGWH.limits` and closed-embedding pushouts `CGWH.closedPushout`; the latter agree with ordinary pushouts. These are category/closure extensions of the carrier. (S, App. A, Def. 2.3 and Props. 2.4–2.5, pp. 421–423; NS, Construction B.6, p. 148, and Proposition C.1, p. 160.)
 
 **Checks.**
 
@@ -935,12 +935,12 @@ Define `IsAcyclicSpace F`: F is nonempty and path-connected, with Hₙ(F;ℤ)=0 
 - `not_isAcyclicSpace_empty`: The empty space is not acyclic (H₀ = 0 ≠ ℤ in reduced homology convention: reduced H₋₁ ≠ 0).
 - `not_isAcyclicSpace_circle`: The circle is not acyclic: H₁(S¹; ℤ) = ℤ.
 - `exists_acyclicSpace_nontrivial_pi1`: there exists an acyclic space with nontrivial fundamental group, the existential Lean milestone.
-- `puncturedPoincareSphere`: construct a selected Poincaré homology 3-sphere and puncture carrier, prove that the puncture is acyclic, and identify its fundamental group with the binary icosahedral group SL₂(𝔽₅).
+- `puncturedPoincareSphere`: construct the binary icosahedral subgroup Γ⊂SU(2), identify Γ≅SL₂(𝔽₅), and use SU(2)≅S³ to obtain its free left action. Its image in SO(3) is A₅. Form the oriented quotient manifold S³/Γ and prove that it is a homology 3-sphere. For a selected point, construct the puncture carrier; excision and the local orientation class prove acyclicity, and van Kampen preserves π₁≅Γ. (W IV Exercise 1.1, p. IV.14; H AT §1.3, p. 75, for the free unit-quaternion action and binary polyhedral subgroups.)
 - `isAcyclicSpace_contractible_compat`: IsAcyclicSpace F holds whenever ContractibleSpace F (Mathlib).
 
 (W IV Def. 1.3, p. IV.4.)
 
-*Needs:* M.
+*Needs:* M; for the homology-sphere and puncture construction, AlgebraicTopology Stage 1's van Kampen, Stage 3's excision and Stage 6's local orientation classes and manifold duality, and UniversalCovers' quotient-cover and deck-group comparisons.
 
 ### 3.2 An acyclic space has perfect π₁ with vanishing H₂
 
@@ -1007,7 +1007,7 @@ Prove `IsAcyclicMap.iff_homology` for connected CW spaces. The forward Serre seq
 
 ### 3.8 Plus constructions as acyclic maps
 
-Define the recognition predicate `IsPlusConstruction f x P` on based maps by acyclicity and ker(π₁f)=P. This predicate can be evaluated on arbitrary spaces; the geometric construction and uniqueness targets use the standing connected CW-type hypotheses. Identify the quotient and local-homology maps under these hypotheses. Construct `perfectRadical G`, the largest perfect subgroup, prove normality/maximality and preservation under homomorphisms. Its API includes `perfectRadical_isPerfect`, `perfectRadical_normal`, `le_perfectRadical` for every perfect subgroup, `perfectRadical_map_le` for homomorphisms, and `perfectRadical_idempotent`.
+Define the recognition predicate `IsPlusConstruction f x P` on based maps by acyclicity and ker(π₁f)=P. This predicate can be evaluated on arbitrary spaces; the geometric construction and uniqueness targets use the standing connected CW-type hypotheses. Identify the quotient and local-homology maps under these hypotheses. Construct `perfectRadical G`, the largest perfect subgroup, prove normality/maximality and preservation under homomorphisms. Its API includes `perfectRadical_isPerfect`, `perfectRadical_normal`, `le_perfectRadical` for every perfect subgroup, `perfectRadical_map_le` for homomorphisms, and `perfectRadical_idempotent`. Derive homomorphism functoriality by applying maximality to the perfect image of the radical.
 
 - `IsPlusConstruction`: Acyclic f with ker(π₁f)=P.
 - `perfectRadical`: The subgroup generated by all perfect subgroups is perfect and normal.
@@ -1024,7 +1024,7 @@ Define the recognition predicate `IsPlusConstruction f x P` on based maps by acy
 - `perfectRadical_product`: for A₅×ℤ the radical is A₅×{0}; the nonperfect factor must survive the quotient.
 - `not_isPlusConstruction_nonperfect`: No map is a plus construction relative to a non-perfect subgroup: the kernel of an acyclic map on π₁ is perfect.
 
-(W IV Def. 1.4.1, p. IV.5.)
+(W IV Def. 1.4.1, p. IV.5, for plus recognition; Remark 1.5.1, p. IV.5, and Exercise 1.5, Perfect Radicals, p. IV.14, for the radical and its basic API.)
 
 *Needs:* §3.3, M.
 
@@ -1213,7 +1213,9 @@ Deduce `hSpaceHomologyWhitehead`: any integral homology isomorphism between path
 
 ### 3.25 Universal property of the plus construction
 
-For connected CW plus f at P and g:X→Z killing P on π₁, prove `IsPlusConstruction.lift`: g factors through f uniquely up to homotopy for any connected CW-type Z. Use twisted relative obstructions; `lift_to_abelian` is the separate abelian-target special case. Prove `plusExtensionObstructionVanish`: the relative cellular complex of the universal quotient cover of the plus pair is the free ℤ[π₁/P] complex with identity differential in degrees 3→2. Its Hom complex is acyclic for every quotient module. Thus all twisted extension obstructions and the relative homotopy obstructions vanish, giving existence and uniqueness. First replace spaces of CW type by CW models.
+For connected CW plus f at P and g:X→Z killing P on π₁, prove `IsPlusConstruction.lift`: g factors through f uniquely up to homotopy for any connected CW-type Z. Use twisted relative obstructions; `lift_to_abelian` is the separate abelian-target special case. First prove extension and uniqueness for §3.10's selected attachment model `plusConstruction`. The relative cellular complex of its universal quotient cover is free over ℤ[π₁/P], with identity differential in degrees 3→2. Applying Hom into any quotient module gives an acyclic cochain complex, so the twisted extension and relative homotopy obstructions vanish.
+
+For an arbitrary connected CW plus map f, apply this selected-model extension to f itself to obtain a comparison from `plusConstruction` to its target under X. The comparison induces the identity on the quotient π₁ and isomorphisms on homology with every pulled-back local system. Sections 3.7 and 3.9 therefore make it a homotopy equivalence. Transport extension and uniqueness through this comparison. For general f, `plusExtensionObstructionVanish` asserts vanishing of relative cohomology with every ℤ[π₁/P]-module, using the mapping-cylinder pair; it specifies no particular cellular presentation. Replace spaces of CW type by CW models before applying these arguments.
 
 For the ring specialization, substitute X=BGL(R) and P=E(R) from §4.14, transporting the subgroup through π₁BGL(R)≅GL(R). The factorization retains the homotopy g≃h∘f and is natural under ring maps and the opposite-ring comparison. A pointed map into a disconnected CW-type target factors through its basepoint component, so the connected-target statement gives that version as well.
 
@@ -1222,10 +1224,11 @@ For the ring specialization, substitute X=BGL(R) and P=E(R) from §4.14, transpo
 - At P=1, f is a homotopy equivalence and lifting is composition with its homotopy inverse.
 - For a field F, the map BGL(F)→B(Fˣ) induced by determinant kills E(F); its lift induces the determinant identification GL(F)/E(F)≅Fˣ on π₁.
 - For the zero ring, stable GL and E are trivial; the pointed factorization is the unique homotopy class from a point, while the rank labels of BasedFree remain distinct.
+- `plusExtension_disk_four`: the inclusion *→D⁴ is plus at P=1. With the boundary S³ given its 0- and 3-cell structure and the 4-cell attached by degree one, the relative complex is ℤ→¹ℤ in degrees 4→3. Every relative cohomology group vanishes, and factorization holds independently of this cellular presentation.
 
 (W IV Thm. 1.5 and the paragraph before it, p. IV.5; H AT §4.3 Exercise 23, p. 420.)
 
-*Needs:* §3.22, §3.14, §3.7, AlgebraicTopology.
+*Needs:* §3.22, §3.14, §3.7, §3.10, §3.9, AlgebraicTopology.
 
 ### 3.26 Uniqueness of the plus construction up to homotopy under X
 
@@ -1265,7 +1268,7 @@ Build `UniversalCentralExtension` as a surjective homomorphism with central kern
 - `uce_trivial`: the trivial group has the trivial extension.
 - `uce_nonperfect`: a nonperfect cyclic group has no universal central extension.
 - `uce_superperfect`: a central extension with superperfect source satisfies the universal property.
- (W III, Def. 5.3.1 and Thm. 5.4, pp. 37–38; H AT, §4.2, Hopf formula.)
+ (W III, Definition 5.3.1, Example 5.3.4, equation (5.3.5), and Recognition Theorem 5.4, p. III.37.)
 
 (W IV Prop. 1.7 with proof and Cor. 1.7.1, p. IV.6.)
 
@@ -2075,9 +2078,9 @@ Layers 1–4 and Mathlib’s model, monoidal, derived and triangulated APIs; the
 
 ### 6.1 The K-theory symmetric spectrum of a Waldhausen category
 
-Build the Waldhausen inputs locally before the spectrum assembly. A Waldhausen category has a zero object, subcategories of cofibrations and weak equivalences containing all isomorphisms, zero-to-object cofibrations, closure of cofibrations under pushout along arbitrary maps, and the weak-equivalence gluing axiom for pushout squares. Define exact functors preserving this data, the cofibration-sequence category, and SₙC as functors Ar[n]→C with zero diagonal and the specified cofibration/pushout quotient squares. Construct `S.waldhausenStructure` before iterating S: weak equivalences are objectwise, and A→B is a cofibration precisely when `B₀ᵢ ⊔_{A₀ᵢ} A₀ⱼ → B₀ⱼ` is a cofibration for every 0≤i≤j≤n. Prove pushout stability and gluing and that every face and degeneracy is exact, preserving the quotient squares. Then form the iterated multisimplicial construction. Define simplicial-set levels K(C)ₙ by diagonal nerves of wS⁽ⁿ⁾C, with realisation |wS⁽ⁿ⁾C| with Σₙ acting by permutation of directions, construct structure maps and prove iterated equivariance. This unreplaced spectrum has zeroth simplicial level nerve(wC); define its connective Ω-model by the positive delooping and Ω|wS.C| in level zero.
+Build the Waldhausen inputs locally before the spectrum assembly. A Waldhausen category has a zero object, subcategories of cofibrations and weak equivalences containing all isomorphisms, zero-to-object cofibrations, closure of cofibrations under pushout along arbitrary maps, and the weak-equivalence gluing axiom for pushout squares. Define exact functors preserving this data, the cofibration-sequence category, and SₙC as functors Ar[n]→C with zero diagonal and the specified cofibration/pushout quotient squares. Construct `S.waldhausenStructure` before iterating S: weak equivalences are objectwise, and A→B is a cofibration precisely when `B₀ᵢ ⊔_{A₀ᵢ} A₀ⱼ → B₀ⱼ` is a cofibration for every 0≤i≤j≤n. Prove pushout stability and gluing and that every face and degeneracy is exact, preserving the quotient squares. Then form the iterated multisimplicial construction. Define simplicial-set levels K(C)ₙ by diagonal nerves of wS⁽ⁿ⁾C, with realisation |wS⁽ⁿ⁾C| with Σₙ acting by permutation of directions, construct structure maps and prove iterated equivariance. This unreplaced spectrum has zeroth simplicial level nerve(wC). Section 6.2 constructs a levelwise Kan replacement and a connective Ω-model whose realised zero space is weakly equivalent to Ω|wS.C|.
 
-- `WaldhausenCategory.kSpectrum`: The iterated-S symmetric spectrum, levels |wS⁽ⁿ⁾C|, using the full local Waldhausen axioms.
+- `WaldhausenCategory.kSpectrum`: The iterated-S symmetric spectrum, with pointed simplicial-set levels diag N(wS⁽ⁿ⁾C) realising to |wS⁽ⁿ⁾C|, using the full local Waldhausen axioms.
 - `WaldhausenCategory.kSpectrum.map`: Exact functors give spectrum maps preserving identities/composition.
 - `WaldhausenCategory.kSpectrum.level_zero`: Level zero is nerve(wC).
 - `WaldhausenCategory.kSpectrum.sequentialComparison`: Compare with Ω|wS•C|, |wS•C|, |wS•S•C|,… using the specified shift and replacement.
@@ -2087,7 +2090,7 @@ Build the Waldhausen inputs locally before the spectrum assembly. A Waldhausen c
 - `kSpectrum_zero_category`: kSpectrum of the trivial Waldhausen category (one object) is the trivial spectrum.
 - `kSpectrum_finiteSets_sphere`: kSpectrum of finite pointed sets is stably equivalent to the sphere spectrum (quoted Barratt–Priddy–Quillen–Segal).
 - `kSpectrum_pi0_K0`: pi (kSpectrum C) 0 ≅ WaldhausenCategory.K0 C via the local generators-and-relations comparison below. The group for a non-split exact category imposes all cofibration-sequence relations, rather than just split ones.
-- `kSpectrum_level_zero_not_groupCompleted`: level 0 of kSpectrum (finite projective R-modules) is |w C|, not Ω|wS.C|: its π₀ is the monoid of iso classes, not K₀(R); only from level 1 on is it an Ω-spectrum.
+- `kSpectrum_level_zero_not_groupCompleted`: for finite projective R-modules with isomorphisms as weak equivalences, the unreplaced level zero is nerve(wC), whose realisation has the object-isomorphism monoid as π₀. The connective Ω-model has zero space weakly equivalent to Ω|wS.C| and π₀=K₀(R). Positive Ω-fibrancy belongs to §6.2's levelwise Kan replacement.
 
 Before assembly, define `WaldhausenCategory.K0 C` as the abelian group on object classes with [0]=0, [A]=[B] for every weak equivalence A→B, and [B]=[A]+[B/A] for every cofibration sequence. Define `K0.map` for exact functors and `K0.universal` for additive invariants satisfying these relations. Prove `kSpectrum.pi0K0Equiv`, with the class of an object sent to its loop in |wS.C|, using the one- and two-simplex presentation. This is a local topological comparison; the split-projective specialisation consumes the existing split-K₀ supplier.
 
@@ -2113,18 +2116,26 @@ The weak-equivalence subcategory need not satisfy an extra extension axiom. **AP
 
 (S I, Example 3.50, pp. 55–57; W IV §8.3, the Waldhausen-structure paragraphs before Definition 8.3.1, pp. IV.67–68, and Infinite Loop Structure 8.5.5, p. IV.69; Waldhausen, §§1.1–1.3, pp. 318–330.)
 
-*Needs:* GeneralizedCohomology G2.2, §2.17, §2.18, M. Build the category, exact functors, S-diagrams and K₀ presentation first, then the iterated spectrum and its component presentation. The positive Ω-model comparison is supplied by §6.2, not assumed when defining the unreplaced spectrum.
+*Needs:* GeneralizedCohomology G2.2, §2.17, §2.18, M. Build the category, exact functors, S-diagrams and K₀ presentation first, then the iterated spectrum and its component presentation. Section 6.2 supplies the positive delooping and Kan-replacement comparisons.
 
 ### 6.2 The iterated S.-construction is a connective Ω-spectrum
 
-Prove Waldhausen additivity |wS•E(C)|≃|wS•C|×|wS•C| by source/quotient. Construct the relative S-construction and its contraction/fibre sequence to deduce |wS⁽ⁿ⁾C|≃Ω|wS⁽ⁿ⁺¹⁾C| for n≥1. Assemble the connective Ω model with zero space Ω|wS•C| and compare the positive model.
+Prove Waldhausen additivity |wS•E(C)|≃|wS•C|×|wS•C| by source/quotient. Construct the relative S-construction and its contraction/fibre sequence to prove that the realised adjoint structure maps |wS⁽ⁿ⁾C|→Ω|wS⁽ⁿ⁺¹⁾C| are weak equivalences for n≥1. Define `WaldhausenCategory.kSpectrumLevelFibrant C` by GeneralizedCohomology G2.3's functorial level-fibrant replacement of the symmetric spectrum, retaining the replacement spectrum map. Its levels are Kan, and the positive delooping comparisons imply positive Ω-fibrancy. The raw diagonal nerves need not be Kan.
 
-- `WaldhausenCategory.kSpectrum.isPositiveOmega`: The positive adjoint structure maps are weak by relative-S delooping.
-- `WaldhausenCategory.kSpectrum.isSemistable`: The resulting spectrum is semistable.
+- `WaldhausenCategory.kSpectrumLevelFibrant_isPositiveOmega`: The levelwise Kan replacement is a positive Ω-spectrum, with its positive deloopings compared through the replacement maps.
+- `WaldhausenCategory.kSpectrum.isSemistable`: The unreplaced spectrum is semistable, by stabilisation of its realised positive-level homotopy groups.
+
+Apply the supplied stable Ω-replacement to obtain the connective Ω-model. Compare its positive levels with `WaldhausenCategory.kSpectrumLevelFibrant C` and its realised zero space with Ω|wS•C|. The level-fibrant replacement map at zero is a weak equivalence from nerve(wC); the exact nerve description applies to the unreplaced spectrum.
+
+**Checks.**
+
+- `kSpectrum_finiteSets_not_Kan`: for finite pointed sets with injections and bijections, the raw first level has a Λ²₀ horn whose d₂ edge is the identity of a set A with one non-basepoint and whose d₁ edge is the identity of the zero object. All vertices are the zero vertex. A filler would contain a filtration A↣0, which is impossible.
+- `kSpectrum_levelFibrant_finiteSets_components`: the replacement's zero level retains π₀=ℕ from nerve(wFinSet*), whereas its connective Ω-model has π₀=ℤ. The positive replacement comparison preserves the generator represented by the two-point set.
+- `kSpectrum_levelFibrant_zero`: for the zero Waldhausen category every replacement level is weakly contractible, and the comparison with the zero spectrum is a level weak equivalence.
 
 (W IV Prop. 8.4 with proof, Def. 8.5, 8.5.3–8.5.5, pp. IV.68–69; W V Prop. 1.7 and Remark 1.7.1, p. V.8; S I, Prop. 8.26(i) and Example 8.27, pp. 182–183; Waldhausen, Thm. 1.4.2, p. 336, and Prop. 1.5.3, p. 342.)
 
-*Needs:* §6.1 (Waldhausen/S foundations and unreplaced spectrum), GeneralizedCohomology G2.3 and G2.6, GeneralizedCohomology G2.6, §5.4. Prove additivity before the relative-S fibre sequence and the positive delooping comparison.
+*Needs:* §6.1 (Waldhausen/S foundations and unreplaced spectrum), GeneralizedCohomology G2.3 and G2.6, §5.4. Prove additivity before the relative-S fibre sequence, realised positive delooping and Kan-replacement comparisons.
 
 ### 6.3 Functoriality and homotopy invariance of the K-theory spectrum
 
@@ -2565,8 +2576,8 @@ The following contracts export the general constructions here. GeneralAlgebraicK
 | GeneralAlgebraicKTheory §1.5 | §§3.1–3.28 here own acyclic plus maps, uniqueness and functoriality, including §3.25's arbitrary-target factorization. Its plus object carries the same source map and subgroup kernel; comparison with a chosen model is the unique homotopy equivalence under X, preserving every pulled-back local coefficient system. |
 | GeneralAlgebraicKTheory §1.6 | §§4.3–4.21 here own the monoidal localizations and group completion. Identify objects (s,x) and stabilized morphism classes directly, so inclusion, translation and component difference [a]−[b] agree. The action-fibre comparison retains its chosen x₀ and composite nullhomotopy. |
 | GeneralAlgebraicKTheory §§3.3–3.4 and 3.13 | AlgebraicKTheory A0–A1 supplies the matrix/projective algebra to both roadmaps. The finite-stage identity maps of §4.14 identify its stable GL and E with the aliases here; the Rᵐᵒᵖ/row adapter of §4.15 identifies the complement and splitting maps. The classifying-space/plus multiplication is the one constructed here. |
-| GeneralAlgebraicKTheory §§5.1–5.7 and 5.10–5.11 | §§6.1–6.2 here own Waldhausen structures, S, additivity and relative-S delooping. Identify S-diagrams by their entries Aᵢⱼ, their quotient pushout squares, objectwise weak maps and relative latching cofibrations. Faces and degeneracies are the same index restrictions. The comparison carries source/quotient to source/quotient in additivity and the relative-S path object to the same pullback with its extra degeneracy. Its connective Ω-model is §6.1's corrected level-zero model; the sequential/symmetric comparison preserves the positive structure maps and sends each object loop to its K₀ generator. Its §§5.8–5.9 retain the exact-category S/Q comparison as additional consumer results. |
-| GeometryOfNumbersAndQuadraticArithmetic §6.10, `plusConstructionComparison` | Its ordinary ring plus/Q comparison uses GeneralAlgebraicKTheory's Q-theory. Its arbitrary-target factorization and H-space recognition are the specializations of §§3.25 and 3.28 here to X=BGL(R), P=E(R). Transport along the under-BGL plus equivalence and §4.15's right/left-module adapter; preserve the factorization homotopy, quotient on π₁, ring maps, stabilization and opposite rings. No separate generic factorization or S/Q engine belongs to this consumer. |
+| GeneralAlgebraicKTheory §§5.1–5.7 and 5.10–5.11 | §§6.1–6.2 here own Waldhausen structures, S, additivity and relative-S delooping. Identify S-diagrams by their entries Aᵢⱼ, their quotient pushout squares, objectwise weak maps and relative latching cofibrations. Faces and degeneracies are the same index restrictions. The comparison carries source/quotient to source/quotient in additivity and the relative-S path object to the same pullback with its extra degeneracy. Its connective Ω-model is the model of §§6.1–6.2 with zero space weakly equivalent to Ω|wS•C|; the sequential/symmetric comparison retains the Kan-replacement maps and positive structure maps and sends each object loop to its K₀ generator. Its §§5.8–5.9 retain the exact-category S/Q comparison as additional consumer results. |
+| GeometryOfNumbersAndQuadraticArithmetic §6.10, `plusConstructionComparison` | Its ordinary ring plus/Q comparison uses GeneralAlgebraicKTheory's Q-theory. It consumes §3.25 `IsPlusConstruction.lift` and §3.28 `IsPlusConstruction.recognition_hSpace`, specialized to X=BGL(R), P=E(R), with the supplied plus map. Its §6.1.7 right-projective/common-spectrum adapter transports these statements through the under-BGL plus equivalence and the right/left-module comparison of §4.15 here; preserve the factorization homotopy, quotient on π₁, ring maps, stabilization and opposite rings. No separate generic factorization or S/Q engine belongs to this consumer. |
 
 ## References
 
