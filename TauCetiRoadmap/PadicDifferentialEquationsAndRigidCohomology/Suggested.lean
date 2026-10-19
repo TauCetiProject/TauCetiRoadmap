@@ -3,6 +3,7 @@ import TauCeti.Algebra.AlgebraicGroup.Representation.Tannaka.GroupFunctor
 import TauCeti.Algebra.Coalgebra.Comodule.Finite.Rigid
 import TauCeti.Algebra.Coalgebra.Comodule.Finite.Symmetric
 import TauCeti.AlgebraicGeometry.EllipticCurve.PointCount
+import TauCeti.NumberTheory.LocalField.Herbrand.Basic
 import TauCeti.RepresentationTheory.GaloisDescent.Injective
 import TauCeti.RepresentationTheory.GaloisDescent.Span
 
@@ -74,6 +75,19 @@ when the shear parameter has norm strictly between zero and one (README RD.0.47)
 theorem valuationBasis_bad_change (π : K) (hπ0 : 0 < ‖π‖) (hπ1 : ‖π‖ < 1)
     (b : Module.Basis (Fin 2) K (Fin 2 → K)) (h0 : b 0 = ![1, 0]) (h1 : b 1 = ![1, π]) :
     ¬ IsValuationBasis b := by
+  sorry
+
+/-- Every basis with empty index set is a valuation basis of the zero space. -/
+theorem valuationBasis_zero [IsEmpty ι] (b : Module.Basis ι K V) : IsValuationBasis b := by
+  sorry
+
+/-- The basis consisting of one nonzero vector in a line is a valuation basis. -/
+theorem valuationBasis_singleton (b : Module.Basis Unit K V) : IsValuationBasis b := by
+  sorry
+
+/-- The Euclidean norm on the real plane fails the weighted-maximum condition. -/
+theorem valuationBasis_archimedean :
+    ¬ IsValuationBasis (EuclideanSpace.basisFun (Fin 2) ℝ).toBasis := by
   sorry
 
 end ValuationBasis
@@ -188,6 +202,21 @@ theorem katzCandidate_naturality {W : Type*} [AddCommGroup W] [Module K W]
     f (katzCandidate D e n x) = katzCandidate E (fun i => f (e i)) n x := by
   sorry
 
+/-- The rank-zero Katz candidate is the zero vector. -/
+theorem katzCandidate_zero_rank (D : V → V) (e : ℕ → V) (x : K) :
+    katzCandidate D e 0 x = 0 := by
+  simp [katzCandidate]
+
+/-- In rank one, the candidate is the first basis vector for every parameter. -/
+theorem katzCandidate_rank_one (D : V → V) (e : ℕ → V) (x : K) :
+    katzCandidate D e 1 x = e 0 := by
+  simp [katzCandidate]
+
+/-- A horizontal pair gives the positive-sign candidate `e₀ + x e₁`. -/
+theorem katzCandidate_horizontal_two (D : V → V) (e : ℕ → V) (x : K)
+    (h0 : D (e 0) = 0) : katzCandidate D e 2 x = e 0 + x • e 1 := by
+  simp [katzCandidate, Finset.sum_range_succ, h0]
+
 section CharacteristicZero
 
 variable [CharZero K] [Algebra ℚ K] [Module ℚ V] [IsScalarTower ℚ K V]
@@ -230,6 +259,17 @@ theorem IsRationalType.add_const (D : Derivation ℚ F F) (u c : F)
     (h : IsRationalType D u) (hc : D c = 0) (hcu : ‖c‖ ≤ ‖u‖) :
     IsRationalType D (u + c) := by
   sorry
+
+/-- Rational parameters differ exactly by constants of norm at most that of the first. -/
+theorem IsRationalType.parameter_iff (D : Derivation ℚ F F) (u u' : F)
+    (h : IsRationalType D u) :
+    IsRationalType D u' ↔ D (u - u') = 0 ∧ ‖u - u'‖ ≤ ‖u‖ := by
+  sorry
+
+omit [IsUltrametricDist F] in
+/-- The zero derivation has no rational parameter. -/
+theorem zero_not_rationalType (u : F) : ¬ IsRationalType (0 : Derivation ℚ F F) u := by
+  simp [IsRationalType]
 
 end RationalType
 end
@@ -336,6 +376,24 @@ theorem artinSchreierHerbrand_apply_inv (p d β : ℝ) (hp : 1 < p) (hβ : d ≤
     artinSchreierHerbrand p d (p * β - (p - 1) * d) = β := by
   sorry
 
+/-- The two affine branches of the Herbrand profile meet at the break. -/
+theorem artinSchreierHerbrand_at_break (p d : ℝ) : artinSchreierHerbrand p d d = d := by
+  simp [artinSchreierHerbrand]
+
+/-- A degree-`p` single-break ramification profile gives the Artin–Schreier formula for the
+pinned Herbrand function, including its domain `[-1, ∞)` (README RD.2.44). -/
+theorem artinSchreierHerbrand_eq_herbrand
+    (K L : Type*) [Field K] [ValuativeRel K] [TopologicalSpace K]
+    [IsNonarchimedeanLocalField K] [Field L] [ValuativeRel L] [TopologicalSpace L]
+    [IsNonarchimedeanLocalField L] [Algebra K L] [ValuativeExtension K L]
+    [Module.Finite K L] [IsGalois K L] (p d : ℕ) (hp : p.Prime) (hd : 0 < d)
+    (hgroups : ∀ i : ℕ, Nat.card (TauCeti.LocalFieldsRamification.lowerRamificationGroup
+      K L (i : ℤ)) = if i ≤ d then p else 1)
+    (u : TauCeti.LocalFieldsRamification.RamificationIndexDomain) :
+    artinSchreierHerbrand p d (u : ℝ) =
+      (TauCeti.LocalFieldsRamification.herbrand K L u : ℝ) := by
+  sorry
+
 open PowerSeries in
 /-- Horizontal homomorphisms into formal power series are constant and vanish on `range N`. -/
 theorem horizontal_formal_solutions {K V : Type*} [Field K] [CharZero K] [AddCommGroup V]
@@ -374,19 +432,22 @@ variable {K : Type*} [NormedField K]
 /-- The coefficients of a one-variable power series `∑ aₙ tⁿ` converging on the closed unit disc,
 i.e. of an element of the Tate algebra `K⟨t⟩`: the norms tend to zero. These are the functions on
 the tube `]A¹[` of the affine line in the frame `(A¹, P¹, P̂¹)`. -/
-def IsConvergentCoeffs (a : ℕ → K) : Prop :=
-  Tendsto (fun n => ‖a n‖) atTop (𝓝 0)
+abbrev IsConvergentCoeffs (a : ℕ → K) : Prop :=
+  PowerSeries.IsRestricted (1 : ℝ) (PowerSeries.mk a)
 
 /-- The coefficients of an overconvergent power series, i.e. of an element of `K⟨t⟩†`: the series
 converges on a disc of some radius `ρ > 1` (Berthelot 96-03 (2.1.2.2), (2.1.2.3)). These are the
 global sections of `j†O` on the frame `(A¹, P¹, P̂¹)`. -/
 def IsOverconvergentCoeffs (a : ℕ → K) : Prop :=
-  ∃ ρ : ℝ, 1 < ρ ∧ Tendsto (fun n => ‖a n‖ * ρ ^ n) atTop (𝓝 0)
+  ∃ ρ : ℝ, 1 < ρ ∧ PowerSeries.IsRestricted ρ (PowerSeries.mk a)
 
 /-- Overconvergent series converge on the closed unit disc: `K⟨t⟩† ⊆ K⟨t⟩`. -/
 theorem IsOverconvergentCoeffs.isConvergentCoeffs {a : ℕ → K} (h : IsOverconvergentCoeffs a) :
     IsConvergentCoeffs a := by
   obtain ⟨ρ, hρ, h⟩ := h
+  change PowerSeries.IsRestricted (1 : ℝ) (PowerSeries.mk a)
+  rw [PowerSeries.isRestricted_iff'] at h ⊢
+  simp only [PowerSeries.coeff_mk, one_pow, mul_one] at h ⊢
   refine squeeze_zero (fun n => norm_nonneg _) (fun n => ?_) h
   calc ‖a n‖ = ‖a n‖ * 1 := (mul_one _).symm
     _ ≤ ‖a n‖ * ρ ^ n := mul_le_mul_of_nonneg_left (one_le_pow₀ hρ.le) (norm_nonneg _)
@@ -448,6 +509,13 @@ as the exponential has radius p^(−1/(p−1)) < 1 (README RD.3.33). -/
 theorem exponential_not_convergent : ¬ IsConvergentOperator (LinearMap.id : ℚ_[p] →ₗ[ℚ_[p]] ℚ_[p]) := by
   sorry
 
+/-- The scalar Taylor operator converges up to the Dwork exponential radius; for `p = 2`
+the scalar `2` attains the boundary, whereas the identity fails convergence. -/
+theorem small_scalar_convergent (a : ℚ_[p])
+    (ha : ‖a‖ ≤ (p : ℝ) ^ (-(1 / ((p : ℝ) - 1)))) :
+    IsConvergentOperator (a • (LinearMap.id : ℚ_[p] →ₗ[ℚ_[p]] ℚ_[p])) := by
+  sorry
+
 end PadicTaylor
 
 section UnitRoot
@@ -471,6 +539,10 @@ def IsUnitRootIsocrystal (V : Type*) [AddCommGroup V] [Isocrystal p k V] : Prop 
 /-- The standard slope-one Witt isocrystal has no Frobenius-stable lattice
 on which Frobenius is bijective (README RD.3.47). -/
 theorem slopeOne_not_unitRoot : ¬ IsUnitRootIsocrystal p k (StandardOneDimIsocrystal p k 1) := by
+  sorry
+
+/-- The standard slope-zero isocrystal has the unit-root lattice `W(k)`. -/
+theorem slopeZero_unitRoot : IsUnitRootIsocrystal p k (StandardOneDimIsocrystal p k 0) := by
   sorry
 
 #check WittVector.isocrystal_classification
@@ -510,6 +582,16 @@ theorem tateTwistedFrobenius_add (q : K) (hq : q ≠ 0) (m n : ℤ)
       TateTwistedFrobenius q (m + n) φ := by
   unfold TateTwistedFrobenius
   rw [smul_smul, ← zpow_add₀ hq, neg_add, add_comm]
+
+/-- The weight-zero twist fixes the Frobenius operator. -/
+example (q : K) (φ : V →ₗ[K] V) : TateTwistedFrobenius q 0 φ = φ := by
+  simp [TateTwistedFrobenius]
+
+/-- A Tate twist and its inverse cancel with the `q^(−n)` convention. -/
+example (q : K) (hq : q ≠ 0) (φ : V →ₗ[K] V) :
+    TateTwistedFrobenius q 1 (TateTwistedFrobenius q (-1) φ) = φ := by
+  rw [tateTwistedFrobenius_add q hq]
+  simp [TateTwistedFrobenius]
 
 end Twists
 
@@ -619,6 +701,17 @@ theorem affineCurve_index_identity (g d : ℕ) (hd : 1 ≤ d) :
     (1 : ℤ) - affineCurveH1Dim g d = (1 - g) + (-(d : ℤ)) - ((g : ℤ) - 1) := by
   sorry
 
+/-- A projective line with `d ≥ 1` geometric punctures has first cohomology dimension `d−1`. -/
+theorem affineCurveH1Dim_punctured_line (d : ℕ) (_hd : 1 ≤ d) :
+    affineCurveH1Dim 0 d = d - 1 := by
+  simp [affineCurveH1Dim]
+
+/-- An elliptic curve with `d ≥ 1` geometric punctures has first cohomology dimension `d+1`. -/
+theorem affineCurveH1Dim_punctured_elliptic (d : ℕ) (hd : 1 ≤ d) :
+    affineCurveH1Dim 1 d = d + 1 := by
+  dsimp [affineCurveH1Dim]
+  omega
+
 section Residues
 
 /-- The residue `1/2` at a quadratic boundary point contributes `1` to the global
@@ -638,6 +731,17 @@ is unipotent (semistable reduction of a Kummer isocrystal). -/
 theorem rankOneResidueUnipotent_pullback (a : ℚ) (m : ℕ) (hm : 0 < m)
     (ha : ∃ n : ℤ, a = n / m) : RankOneResidueUnipotent (m * a) := by
   sorry
+
+/-- Integral residues are removed by an integral power of the boundary parameter. -/
+example (n : ℤ) : RankOneResidueUnipotent (n : ℚ) := ⟨n, rfl⟩
+
+/-- The quadratic Kummer residue is not unipotent before the ramified pullback. -/
+example : ¬ RankOneResidueUnipotent (1 / 2) := by
+  rintro ⟨n, hn⟩
+  have h := hn
+  have : (2 : ℚ) * n = 1 := by linarith
+  have hi : (2 : ℤ) * n = 1 := by exact_mod_cast this
+  omega
 
 variable {K V : Type*} [Field K] [CharZero K] [AddCommGroup V] [Module K V]
   [FiniteDimensional K V]
@@ -678,6 +782,19 @@ end DividedPowers
 /-- The degree-`n` dimension of a tensor product of graded spaces with dimensions `a`, `b`. -/
 def gradedTensorDim (a b : ℕ → ℕ) (n : ℕ) : ℕ :=
   ∑ i ∈ Finset.range (n + 1), a i * b (n - i)
+
+/-- The tensor dimensions of tori satisfy Vandermonde's identity in every degree. -/
+theorem gradedTensorDim_torus (r s n : ℕ) :
+    gradedTensorDim (Nat.choose r) (Nat.choose s) n = Nat.choose (r + s) n := by
+  sorry
+
+/-- Künneth gives two degree-one classes on the product of two multiplicative groups. -/
+example : gradedTensorDim (Nat.choose 1) (Nat.choose 1) 1 = 2 := by
+  decide
+
+/-- Their two logarithmic classes give one degree-two class on that product. -/
+example : gradedTensorDim (Nat.choose 1) (Nat.choose 1) 2 = 1 := by
+  decide
 
 end
 
@@ -731,6 +848,21 @@ example : ¬ HasPureSpectrum 2 0 (0 : Matrix (Fin 1) (Fin 1) ℂ) := by
   intro h
   apply zero_not_pure 2 0 (by norm_num)
   exact h 0 (by simp [Polynomial.IsRoot, Matrix.charpoly_zero])
+
+/-- The unit Frobenius has weight zero and fails a positive-weight test. -/
+example : ¬ HasPureSpectrum 2 1 (1 : Matrix (Fin 1) (Fin 1) ℂ) := by
+  intro h
+  have h1 := h 1 (by simp [Polynomial.IsRoot, Matrix.charpoly_one])
+  have hlt : (1 : ℝ) < 2 ^ (1 / 2 : ℝ) :=
+    Real.one_lt_rpow (by norm_num) (by norm_num)
+  have heq : (1 : ℝ) = 2 ^ (1 / 2 : ℝ) := by simpa [HasIotaWeight] using h1
+  linarith
+
+/-- The one-dimensional Tate Frobenius `q^(−n)` has weight `−2n`. -/
+theorem tateLine_hasPureSpectrum (q : ℝ) (hq : 1 < q) (n : ℤ) :
+    HasPureSpectrum q (-2 * (n : ℝ))
+      ((q : ℂ) ^ (-n) • (1 : Matrix (Fin 1) (Fin 1) ℂ)) := by
+  sorry
 
 namespace RD6
 
@@ -885,9 +1017,9 @@ open Polynomial
 
 section WeightSeparation
 
-/-- The local Fatou specialization of DeligneWeightsAndPurity §4.4 gives integrality of the
-coprime normalized numerator and denominator of an `ℓ`-adically integral rational series
-(README RD.7.4; Milne, Lemma 27.10, with `≤ 1` at the boundary). -/
+/-- Local Fatou, proved here after Milne, Lemma 27.10: the coprime normalized numerator and
+denominator of an `ℓ`-adically integral rational series have integral coefficients, including
+the norm-one boundary (README RD.7.4(b)). DeligneWeightsAndPurity §4.4 supplies global extraction. -/
 theorem fatou_local (ℓ : ℕ) [Fact ℓ.Prime] (f : PowerSeries ℤ_[ℓ])
     (hf : PowerSeries.constantCoeff f = 1) (G H : ℚ_[ℓ][X]) (hcop : IsCoprime G H)
     (hG : G.coeff 0 = 1) (hH : H.coeff 0 = 1)
@@ -1003,6 +1135,14 @@ theorem ellipticWeilFactor_natDegree (W : WeierstrassCurve F) :
     (ellipticWeilFactor W).natDegree = 2 := by
   sorry
 
+local instance : Fact (Nat.Prime 7) := ⟨by decide⟩
+
+/-- The ordinary curve `y²=x³+x+1` over `𝔽₇` has trace three and the indicated Weil factor. -/
+theorem ellipticWeilFactor_ordinary_seven :
+    ellipticWeilFactor (⟨0, 0, 0, 1, 1⟩ : WeierstrassCurve (ZMod 7)) =
+      1 - C 3 * X + C 7 * X ^ 2 := by
+  sorry
+
 end Elliptic
 
 section DenominatorBounds
@@ -1028,6 +1168,70 @@ noncomputable def tuitmanReconstructionPrecision (p g n : ℕ) : ℕ :=
   (Finset.Icc 1 g).sup fun i =>
     (⌊Real.logb p ((4 * g).choose i) + ((n * i : ℕ) : ℝ) / 2⌋).toNat + 1
 
+/-- The negative-reduction exponent is the exact logarithmic denominator threshold. -/
+theorem kedlayaNegativeExponent_spec (p m : ℕ) (hp : 1 < p) :
+    p ^ kedlayaNegativeExponent p m ≤ 2 * m + 1 ∧
+      2 * m + 1 < p ^ (kedlayaNegativeExponent p m + 1) := by
+  sorry
+
+/-- Increasing the negative pole order cannot lower the denominator budget. -/
+theorem kedlayaNegativeExponent_mono (p : ℕ) (hp : 1 < p) :
+    Monotone (kedlayaNegativeExponent p) := by
+  sorry
+
+/-- Negative reduction is integral exactly below its first prime threshold. -/
+theorem kedlayaNegativeExponent_eq_zero_iff (p m : ℕ) (hp : 1 < p) :
+    kedlayaNegativeExponent p m = 0 ↔ 2 * m + 1 < p := by
+  sorry
+
+/-- The positive-reduction exponent is the exact threshold for its larger degree bound. -/
+theorem kedlayaPositiveExponent_spec (p g m : ℕ) (hp : 1 < p) :
+    p ^ kedlayaPositiveExponent p g m ≤ (2 * g + 1) * (2 * m + 3) ∧
+      (2 * g + 1) * (2 * m + 3) < p ^ (kedlayaPositiveExponent p g m + 1) := by
+  sorry
+
+/-- Increasing the positive pole order cannot lower the denominator budget. -/
+theorem kedlayaPositiveExponent_mono (p g : ℕ) (hp : 1 < p) :
+    Monotone (kedlayaPositiveExponent p g) := by
+  sorry
+
+/-- Positive reduction is integral exactly below its first prime threshold. -/
+theorem kedlayaPositiveExponent_eq_zero_iff (p g m : ℕ) (hp : 1 < p) :
+    kedlayaPositiveExponent p g m = 0 ↔ (2 * g + 1) * (2 * m + 3) < p := by
+  sorry
+
+/-- The lattice defect is bounded by the exact power-of-`p` interval containing `2g−1`. -/
+theorem latticeDefectExponent_spec (p g : ℕ) (hp : 1 < p) (hg : 1 ≤ g) :
+    p ^ latticeDefectExponent p g ≤ 2 * g - 1 ∧
+      2 * g - 1 < p ^ (latticeDefectExponent p g + 1) := by
+  sorry
+
+/-- No lattice defect occurs exactly when `p > 2g−1`. -/
+theorem latticeDefectExponent_eq_zero_iff (p g : ℕ) (hp : 1 < p) :
+    latticeDefectExponent p g = 0 ↔ 2 * g - 1 < p := by
+  sorry
+
+/-- In genus one the monomial basis has no crystalline lattice defect. -/
+theorem latticeDefectExponent_elliptic (p : ℕ) : latticeDefectExponent p 1 = 0 := by
+  simp [latticeDefectExponent]
+
+/-- Tuitman's precision exceeds every coefficient-size bound used for reconstruction. -/
+theorem tuitmanReconstructionPrecision_spec (p g n : ℕ) (hp : 1 < p)
+    (i : ℕ) (hi : i ∈ Finset.Icc 1 g) :
+    (((4 * g).choose i : ℕ) : ℝ) * (p : ℝ) ^ (((n * i : ℕ) : ℝ) / 2) <
+      (p : ℝ) ^ tuitmanReconstructionPrecision p g n := by
+  sorry
+
+/-- The genus-zero first cohomology has no coefficients requiring reconstruction. -/
+theorem tuitmanReconstructionPrecision_genus_zero (p n : ℕ) :
+    tuitmanReconstructionPrecision p 0 n = 0 := by
+  simp [tuitmanReconstructionPrecision]
+
+/-- Increasing the finite-field extension degree cannot reduce reconstruction precision. -/
+theorem tuitmanReconstructionPrecision_mono (p g : ℕ) (hp : 1 < p) :
+    Monotone (tuitmanReconstructionPrecision p g) := by
+  sorry
+
 end DenominatorBounds
 
 end RD7
@@ -1035,11 +1239,10 @@ end RD7
 /-!
 ## Further API targets in the README
 
-RD.1.3 specifies `katzCandidate_basis_coordinates`, `katzCandidate_jet`,
-`katzCandidate_rank_one` and `katzCandidate_zero_rank` for the cyclic-vector development.
+RD.1.3 specifies `katzCandidate_basis_coordinates` and `katzCandidate_jet` for the cyclic-vector development.
 RD.2.25a specifies `IsCConstant.iff_galois` after the Fontaine–Katz equivalence.
 RD.5.116 specifies `AbelianVariety.zarhin_dim` for the relative dimension and base-change API.
-RD.1.48 specifies `IsRationalType.iff_spectralNorm` and `IsRationalType.parameter_iff`
+RD.1.48 specifies `IsRationalType.iff_spectralNorm`
 for the operator-norm and spectral-norm comparisons.
 RD.5.23 specifies `NearIsomorphism.of_bijective`, `NearIsomorphism.of_finiteDimensional`,
 `NearIsomorphism.two_of_three`, `NearIsomorphism.of_square`,
