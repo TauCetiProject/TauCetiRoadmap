@@ -7,7 +7,11 @@ The README is the definitive specification. These are suggested forms for a subs
 mathematics, not an exhaustive checklist. The definitions below bundle existing algebraic and
 categorical data; the statements fix the Frobenius, degree and cohomological conventions.
 The relative curve, standard blocks, integral models, geometric cohomology, tilted coherent
-heart and Banach–Colmez realizations are specified in the README.
+heart and Banach–Colmez realizations are specified in the README. The absolute curve, coherent
+and bundle GAGA, and extended-Robba equivalences use PrismaticCohomologyPartIII §7.0's
+`FilteredBundle.schemeCurve`, `FilteredBundle.analyticEquivalence`,
+`FilteredBundle.robbaEquivalence` and `FilteredBundle.untiltCompletion`; the README specifies
+their general-coefficient and relative extensions.
 -/
 
 noncomputable section
@@ -111,9 +115,11 @@ theorem dieudonneManinIsocrystals
 
 /-! ## Layer VB1: algebraic Frobenius modules and cohomology -/
 
-/-- This interface is parameterized by the actual ring and its automorphism.
-Finite projectivity and an invertible semilinear map express the invertible
-Frobenius linearization. The LF topology is not silently added to this carrier. -/
+/-- Finite projective Frobenius modules over a specified ring and automorphism.
+The absolute geometric specialization is the finite projective source of
+PrismaticCohomologyPartIII §7.0's `FilteredBundle.robbaEquivalence`; this interface also
+carries general coefficients and integral models. Its semilinear equivalence expresses
+invertible Frobenius linearization; annular topologies are specified in the README. -/
 structure RobbaPhiModule (R : Type u) [CommRing R] (φ : R ≃+* R) where
   M : Type u
   [addCommGroup : AddCommGroup M]

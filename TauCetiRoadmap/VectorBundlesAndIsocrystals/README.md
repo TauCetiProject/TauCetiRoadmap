@@ -6,12 +6,13 @@ The geometric classification is a bijection on isomorphism classes of finite iso
 
 ## Scope and ownership
 
-This roadmap owns the finite-isocrystal comparison with the supplied mixed-characteristic classification, the equal-characteristic blocks and classification, and the curve-specific endomorphism invariant comparison (VB0), the relative coefficient and analytic curve extensions in `VB−1`, curve-specific annular descent and geometric slope theory (VB1), positive generation and GAGA (VB2), Banach–Colmez geometry and its classical category (VB3), and variation, pure models and local systems (VB4). The construction order below separates the early geometry from the properness and smoothness applications.
+This roadmap owns the finite-isocrystal comparison with the supplied mixed-characteristic classification, the equal-characteristic blocks and classification, and the curve-specific endomorphism invariant comparison (VB0), the relative coefficient and analytic curve extensions in `VB−1`, general-coefficient annular descent and geometric slope theory (VB1), positive generation and relative GAGA (VB2), Banach–Colmez geometry and its classical category (VB3), and variation, pure models and local systems (VB4). The absolute `ℚ_p` schematic curve, coherent and bundle GAGA, and geometric Robba comparison are supplied by PrismaticCohomologyPartIII §7.0 in its stated domain. The construction order below separates the early geometry from the properness and smoothness applications.
 
 The following are suppliers, with their exact contracts recorded below.
 
 - CrystallineCohomology §CR.4.7 supplies all-rank ordinary Witt blocks, classification and perfect-field slope descent. PadicDifferentialEquationsAndRigidCohomology §§RD.1.27 and RD.1.32 supplies the ramified mixed-characteristic and q-Frobenius blocks and classification. VB0 transports these through the finite-isocrystal comparisons and proves the equal-characteristic extension.
 - AdicSpaces §6 supplies the fixed-field `E = ℚ_p` annuli and analytic quotient. The corresponding `spaY`, Frobenius windows and topological `spaX` are supplied in Tau Ceti. PadicHodgeTheory §§7.5–7.6 supplies the p-typical relative rings, chartwise curves, untilt completions and derived comparisons. `VB−1` reuses these carriers and maps and constructs their general-`E` and equal-characteristic extensions; VB1–VB4 supplies the additional global curve geometry. FarguesFontaineDiamonds Layer F4 supplies the fixed-field analytic Cartier comparison.
+- PrismaticCohomologyPartIII §7.0, `layer-7-absolute-ff`, supplies the absolute homogeneous section ring and Proj curve, coherent and bundle GAGA, extended-Robba comparison and untilt completion. The exact contracts below identify its carriers and maps with the absolute specializations of VB−1–VB2. Its filtered prismatic modification has a separate role in Part III.
 - PerfectoidSpaces P1–P3 supplies tilting, marked untilts, affinoid approximation and finite étale comparison. DiamondsAndVStacks D2–D6 supplies the v/pro-étale sites, ordinary bundle descent, locally profinite torsors, relative representability and analytic diamondification. DiamondEtaleCohomology C4 and DiamondSixOperations S4–S5 supply the cohomological geometry used by VB3.
 - FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.2.25–R07.2.28 supplies universal covers and crystalline Dieudonné full faithfulness with its actual base hypotheses. The Lubin–Tate `𝒪_E` normalization and the comparison with the explicit eigenfunction series are proved in VB3. PadicPeriodRings §1.5 and PadicHodgeTheory §§0.2–0.5 and 7.5–7.6 supply the field-valued and p-typical relative period rings and completions; the general-coefficient extensions and sympathetic-algebra realizations are targets here. PadicHodgeTheory §3.5 supplies the semistable admissibility input.
 - SchemeAndStackFoundations §§0.3–0.4, 1.1, 1.24, 2.2, 2.5, 2.18 and 3.3–3.4 supplies Proj, coherent extensions, effective descent, site cohomology, derived coherent categories and the generic degree/Picard vocabulary. The curve-specific coherent heart, torsion pair and tilt are targets in VB3. AdicSpacesPartIII §§R3.1–R3.5 supplies coherent sheaves, acyclicity and Kiehl gluing; §R3.8 supplies trace pairings. DiamondsAndVStacks D6.9 supplies `Rigid.diamond_hom_bijective` in mixed characteristic. The equal-characteristic affine-line comparison uses PerfectoidSpaces P1 perfected Tate algebras and Yoneda; the additive-series calculation is part of key-extension-lemma. PadicDifferentialEquationsAndRigidCohomology §§RD.2.3–RD.2.4 supplies the special/generic polygon comparisons over perfect analytic residue fields.
@@ -38,7 +39,16 @@ For the classical sympathetic-algebra category, take `E=ℚ_p`, choose C as the 
 
 ## Exact supplier contracts
 
-Use Mathlib at `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti at `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. The following infrastructure supplies the carriers and generic operations; the curve-specific results are the targets of this roadmap.
+Use Mathlib at `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti at `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`. The following infrastructure supplies the carriers and generic operations; the additional curve-specific results are the targets of this roadmap.
+
+The supplied absolute specialization means `E=ℚ_p`, `π=p`, `S=Spa(F,𝒪_F)` with `F=C₀^♭`, where `C₀` is the completion of an algebraic closure of a characteristic-zero complete discretely valued field with perfect residue field, as in PrismaticCohomologyPartIII's Conventions. Use the following interfaces from its [§7.0 absolute package](../PrismaticCohomologyPartIII/README.md#layer-7-absolute-ff), independently of its filtered modification. The general coefficient fields, arbitrary geometric perfectoid fields and relative bases specified below remain in scope here.
+
+| Supplier target | Used in | Required interface |
+| --- | --- | --- |
+| PrismaticCohomologyPartIII §7.0, `layer-7-absolute-ff`, `FilteredBundle.schemeCurve` | VB−1, VB1, VB2 | The graded ring `⊕ B^{φ=p^n}`, its identification with `⊕ H⁰(X_F,𝒪(n))`, homogeneous localizations and the regular noetherian one-dimensional Proj curve. Extend this same construction to the coefficients and bases of VB−1. |
+| PrismaticCohomologyPartIII §7.0, `layer-7-absolute-ff`, `FilteredBundle.analyticEquivalence` | VB1, VB2 | Coherent GAGA and its restriction to finite locally free sheaves, with the same chart maps, twists, tensor products and duals. The relative extension below concerns bundles. |
+| PrismaticCohomologyPartIII §7.0, `layer-7-absolute-ff`, `FilteredBundle.robbaEquivalence` | VB1, VB2 | Annular restriction and Frobenius gluing on AInfCohomology §AI.2.3's extended Robba coefficients; finitely presented Frobenius modules for coherent sheaves and finite projective ones for bundles. Retain the annular coordinate and topology comparison. |
+| PrismaticCohomologyPartIII §7.0, `layer-7-absolute-ff`, `FilteredBundle.untiltCompletion` | VB−1, VB1 | The completion at the marked untilt is `B_dR⁺(C₀)`, compatible with the schematic and analytic local maps and Cartier thickenings. |
 
 - [`WittVector.FractionRing.frobenius`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/WittVector/Isocrystal.lean), [`WittVector.Isocrystal`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/WittVector/Isocrystal.lean), [`WittVector.IsocrystalHom`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/WittVector/Isocrystal.lean) and [`WittVector.IsocrystalEquiv`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/WittVector/Isocrystal.lean) supply the p-Frobenius coefficient automorphism and intertwining maps over Witt fraction fields. `WittVector.Isocrystal` itself imposes no finite-dimensionality condition. [`WittVector.StandardOneDimIsocrystal`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/WittVector/Isocrystal.lean) has Frobenius `p^mσ`, and [`WittVector.isocrystal_classification`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/WittVector/Isocrystal.lean) assumes `finrank=1` over an algebraically closed characteristic-p field. CrystallineCohomology §CR.4.7, “Slope decomposition on the existing isocrystal carrier”, supplies the higher-rank Witt blocks, classification, distinct-slope Hom vanishing and perfect-field descent. Transport them through `FiniteIsocrystal.toWitt` and `FiniteIsocrystal.ofWitt`. PadicDifferentialEquationsAndRigidCohomology §§RD.1.27 and RD.1.32 supplies the mixed-characteristic ramified-coefficient and q-Frobenius blocks, classification, slope decomposition and distinct-slope Hom vanishing. The [mixed-characteristic supplier comparison](#mixed-characteristic-isocrystal-comparison) identifies its coefficient field and finite Frobenius-module category with those here, preserving cyclic bases, tensor products, duals and slopes normalized by `v(π)=1`. VB0 proves the equal-characteristic extension and the curve-specific endomorphism invariant comparison.
 - [`AlgebraicGeometry.Scheme.Modules`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/AlgebraicGeometry/Modules/Sheaf.lean) and [`SheafOfModules.LocalGeneratorsData.IsLocallyFreeData`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/Category/ModuleCat/Sheaf/LocallyFree.lean) supply module sheaves and local free presentations. [`SheafOfModules.LocalGeneratorsData.IsFiniteType`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/Algebra/Category/ModuleCat/Sheaf/Generators.lean) makes each generator index finite. Tau Ceti's [`SheafOfModules.LocalGeneratorsData.IsLocallyFreeData.isFinitePresentation`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/Category/ModuleCat/Sheaf/FinitePresentation.lean) uses both conditions on the same family. [`TauCeti.AlgebraicGeometry.InvertibleSheaf`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/AlgebraicGeometry/LineBundle/Basic.lean) is the invertible-sheaf category; [`TauCeti.AlgebraicGeometry.LineBundleClass`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/AlgebraicGeometry/LineBundle/Class.lean) has a tensor-product commutative group of isomorphism classes, with inverse induced by duality (`LineBundleClass.inv_mk`). [`CommRing.Pic`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/RingTheory/PicardGroup.lean) is the Picard group of a ring, not the Picard computation for this curve.
@@ -64,9 +74,9 @@ LocalFieldsRamification Layer 2 supplies the local-field unramified tower. Reduc
 
 The displayed layers organize the exports. Within them, the dependency order is finer:
 
-1. Construct the relative and general-coefficient foundations of `VB−1`, finite isocrystals, the analytic bundle carrier, annular descent, the Frobenius cohomology complex and v-descent.
+1. Consume Part III's absolute curve and Robba package. Extend the relative and general-coefficient foundations of `VB−1`, and construct finite isocrystals, the analytic bundle carrier, the additional annular descent comparisons, the Frobenius cohomology complex and v-descent.
 2. Construct the basic Lubin–Tate cover, the degree-one untilt sequence and the section/divisor identification in VB3. Use them for standard twist cohomology and the independent geometric chart-cover argument in VB1. The divisor/Weil reciprocity comparison consumes this geometric identification and ClassFieldTheory's arithmetic map.
-3. Establish the regular geometric curve, Picard degree and geometric HN theory. Prove positive generation, the global Proj map and relative GAGA, then geometric classification. The geometric chart-cover proof precedes general GAGA; ordinary Banach–Colmez properness uses positive generation without classification.
+3. Extend the supplied regular geometric curve and its bundle comparison to the stated generality, and establish Picard degree and geometric HN theory. Prove positive generation and extend the global Proj map and bundle GAGA to relative bases, then prove geometric classification. The general-coefficient geometric chart-cover proof precedes relative GAGA; ordinary Banach–Colmez properness uses positive generation without classification.
 4. Prove ordinary projectivized properness, then family HN semicontinuity and pro-étale splitting in VB4. These supply the positive presentations and relative cohomology needed for general two-term Banach–Colmez geometry in VB3.
 5. Develop integral/pure model comparisons, relative ampleness and the classical Banach–Colmez category with its coherent-heart equivalence and curvature calculus.
 
@@ -161,7 +171,7 @@ Construct the v-descent, pullback and addition of ordinary closed relative Carti
 
 For each marked untilt divisor complete the local chart ring along its regular ideal, retaining the quotient topology at every finite thickening. Define `relativeDeRhamPlus` and its localization by the Cartier parameter, prove independence of its local equation, and identify restrictions, finite thickenings and changes of coefficient field. For a geometric point `C` and a point `x` with untilt `C_x^♯`, prove that the completion is a complete discrete valuation ring with residue field `C_x^♯`; for `E = ℚ_p` identify it with `B_dR⁺(C_x^♯)`. In equal characteristic the construction is the intrinsic Cartier completion. In ramified mixed characteristic retain the specified embedding or factor of the coefficient tensor product. The filtration is by powers of the Cartier ideal, with associated graded its symmetric powers. (SW §12.2; CN arXiv §3.2.1, p. 14; PadicHodgeTheory §§0.2–0.3 for the p-typical comparison.)
 
-The API includes completion maps, quotient identifications, filtered coefficient comparison, flat restriction where proved on the actual charts, and parameter-change isomorphisms. The finite-`K` topological period rings are supplied by PadicPeriodRings §1.5. PadicHodgeTheory §7.5 supplies the p-typical relative chart completion; this target constructs its general-`E` and equal-characteristic extensions.
+The API includes completion maps, quotient identifications, filtered coefficient comparison, flat restriction where proved on the actual charts, and parameter-change isomorphisms. The finite-`K` topological period rings are supplied by PadicPeriodRings §1.5. PadicHodgeTheory §7.5 supplies the p-typical relative chart completion; in the supplied absolute specialization consume PrismaticCohomologyPartIII §7.0's `FilteredBundle.untiltCompletion`. This target constructs the general-`E` and equal-characteristic extensions and their compatible completion maps.
 
 **Checks.**
 
@@ -169,7 +179,7 @@ The API includes completion maps, quotient identifications, filtered coefficient
 - Multiplying a parameter by a unit leaves the filtration unchanged and transports each finite thickening isomorphically.
 - The length of `B_dR⁺/t^m` is `m`, including zero for `m = 0`. The localized ring has `t` invertible and cannot be used as the integral DVR.
 
-*Needs:* PadicHodgeTheory §7.5 for the p-typical relative carriers and comparison maps; the preceding Cartier divisors; AdicSpacesPartII §R0.1a for completion; PadicPeriodRings §1.5; PadicHodgeTheory §§0.2–0.3.
+*Needs:* PrismaticCohomologyPartIII §7.0 / layer-7-absolute-ff for the supplied absolute specialization; PadicHodgeTheory §7.5 for the p-typical relative carriers and comparison maps; the preceding Cartier divisors; AdicSpacesPartII §R0.1a for completion; PadicPeriodRings §1.5; PadicHodgeTheory §§0.2–0.3.
 
 <a id="relative-twists"></a>
 
@@ -189,9 +199,9 @@ For each integer `n`, descend the free rank-one module on `Y_S` with Frobenius `
 
 ### Homogeneous section ring and partial schematic charts
 
-For affinoid perfectoid `S`, form the graded `E`-algebra `P_S = ⊕_{n≥0} H⁰(X_S,𝒪(n))`, with multiplication from the preceding tensor isomorphisms, and define `X_S^alg = Proj P_S`. On a homogeneous section `f` of positive degree use degree-zero localization to define its partial schematic chart and the comparison on its analytic nonvanishing locus. Prove compatibility on overlaps, with powers of `f`, rational restriction on the base and the twists. No covering assertion is included in this partial-chart construction: the geometric chart-cover argument is VB1, and global algebraization and GAGA are VB2. (FS Proposition II.2.7 and its proof, pp. 66–67; KL §6.3 and §8.7.)
+Use PrismaticCohomologyPartIII §7.0's homogeneous ring, Proj curve and chart maps in the supplied absolute specialization. Extend them to affinoid perfectoid `S/𝔽_q` and arbitrary E: `P_S = ⊕_{n≥0} H⁰(X_S,𝒪(n))`, with multiplication from the preceding tensor isomorphisms, and `X_S^alg = Proj P_S`. On a homogeneous section `f` of positive degree use degree-zero localization for its partial schematic chart and the comparison on its analytic nonvanishing locus. Prove compatibility on overlaps, with powers of `f`, rational restriction on the base and the twists. For these extensions, covering is the geometric chart-cover target in VB1 and the relative global-map target in VB2. (FS Proposition II.2.7 and its proof, pp. 66–67; KL §6.3 and §8.7.)
 
-The `relativeHomogeneousRing` API comprises its grading, unit and multiplication, the Frobenius-eigenfunction description of each graded piece, homogeneous localization and overlap maps. Use SchemeAndStackFoundations §0.3's relative Proj, rather than a second Proj construction.
+The `relativeHomogeneousRing` API comprises its grading, unit and multiplication, the Frobenius-eigenfunction description of each graded piece, homogeneous localization and overlap maps. In the supplied absolute specialization identify these with `FilteredBundle.schemeCurve`'s defining graded ring and charts, preserving their maps. Use SchemeAndStackFoundations §0.3's relative Proj.
 
 **Checks.**
 
@@ -199,7 +209,7 @@ The `relativeHomogeneousRing` API comprises its grading, unit and multiplication
 - The charts from `f` and from a positive power `f^a` have the same nonvanishing locus and canonically identified degree-zero localizations.
 - A single partial chart is not an isomorphism from the entire analytic curve to an affine scheme. The empty nonvanishing locus contributes no point to a chart cover.
 
-*Needs:* PadicHodgeTheory §7.5 for the p-typical relative carriers and comparison maps; the preceding twists and annular cohomology; SchemeAndStackFoundations §0.3; AdicSpacesPartIII §§R3.1–R3.5.
+*Needs:* PrismaticCohomologyPartIII §7.0 / layer-7-absolute-ff for the supplied absolute specialization; PadicHodgeTheory §7.5 for the p-typical relative carriers and comparison maps; the preceding twists and annular cohomology; SchemeAndStackFoundations §0.3; AdicSpacesPartIII §§R3.1–R3.5.
 
 ### Examples
 
@@ -207,7 +217,7 @@ For `E = ℚ_p` and a geometric perfectoid field, all fixed-field annular and to
 
 ### Dependencies
 
-*Needs:* AdicSpaces §6; AdicSpacesPartII R0; AdicSpacesPartIII R3; PerfectoidSpaces P1–P3; DiamondsAndVStacks D2–D4; FarguesFontaineDiamonds F4; LocalFieldsRamification Layer 2; ReductiveGroupsPartII §RG2.0.4; PadicPeriodRings §1.5; PadicHodgeTheory §§0.2–0.3; SchemeAndStackFoundations §§0.3, 2.2 and 2.5.
+*Needs:* PrismaticCohomologyPartIII §7.0 / layer-7-absolute-ff; AdicSpaces §6; AdicSpacesPartII R0; AdicSpacesPartIII R3; PerfectoidSpaces P1–P3; DiamondsAndVStacks D2–D4; FarguesFontaineDiamonds F4; LocalFieldsRamification Layer 2; ReductiveGroupsPartII §RG2.0.4; PadicPeriodRings §1.5; PadicHodgeTheory §§0.2–0.3; SchemeAndStackFoundations §§0.3, 2.2 and 2.5.
 
 ## Layer VB0 — Finite isocrystals and division algebras
 
@@ -402,13 +412,13 @@ The rank-one Witt object uses Mathlib's Frobenius convention. The block `D(2,2)`
 
 ### Bundles, annuli and derived cohomology
 
-Start with finite local trivializations and Frobenius descent. The analytic equivalence is constructed on annuli before Proj; a global étale integral model is stronger than purity at every geometric point.
+Use the supplied absolute annular and schematic comparisons. Extend the analytic equivalence by finite local trivializations and Frobenius descent before relative Proj; a global étale integral model is stronger than purity at every geometric point.
 
 <a id="finite-locally-free-bundles"></a>
 
 #### Finite locally free bundles on the curve
 
-For `X_S` constructed in `VB−1`, `Bun(X_S)` is the category of structure-sheaf modules admitting a covering with finite free trivializations. The same local generator data must be finite and locally free. Schematic bundles specialize Tau Ceti's `FiniteLocallyFreeSheaf` to the schematic curve; the native finite local-basis characterization supplies the paired witness. Analytic bundles use the R3 coherent-sheaf carrier. Pullback, tensor, dual, determinants and exact sequences are transported from these suppliers. Finite rank is required even though the locally free predicate alone allows infinite ranks. The new obligations are the analytic FF specialization and its comparison with this existing schematic category.
+For `X_S` constructed in `VB−1`, `Bun(X_S)` is the category of structure-sheaf modules admitting a covering with finite free trivializations. The same local generator data must be finite and locally free. Schematic bundles specialize Tau Ceti's `FiniteLocallyFreeSheaf` to the schematic curve; the native finite local-basis characterization supplies the paired witness. Analytic bundles use the R3 coherent-sheaf carrier. Pullback, tensor, dual, determinants and exact sequences are transported from these suppliers. Finite rank is required even though the locally free predicate alone allows infinite ranks. Use PrismaticCohomologyPartIII §7.0's bundle restriction of `FilteredBundle.analyticEquivalence` in the supplied absolute specialization; the additional obligations here are the general-coefficient and relative analytic carriers and their schematic comparisons.
 
 **API.**
 
@@ -428,23 +438,25 @@ For `X_S` constructed in `VB−1`, `Bun(X_S)` is the category of structure-sheaf
 
 ([FS][FS], II.2 preamble and Proposition II.2.1, pp. 57–58.)
 
-*Needs:* [Relative analytic quotient](#relative-period-curve); AdicSpacesPartIII §R3.5; AdicSpacesPartIII §§R3.1–R3.4; SchemeAndStackFoundations §§0.3–0.4, 2.18 and 3.3–3.4; AlgebraicVectorBundles L0A–L0C and the supplied `FiniteLocallyFreeSheaf` interface; `AlgebraicGeometry.Scheme.Modules`; `SheafOfModules.LocalGeneratorsData.IsLocallyFreeData`; `SheafOfModules.LocalGeneratorsData.IsFiniteType`; `SheafOfModules.LocalGeneratorsData.IsLocallyFreeData.isFinitePresentation`.
+*Needs:* PrismaticCohomologyPartIII §7.0 / layer-7-absolute-ff for the supplied absolute specialization; [Relative analytic quotient](#relative-period-curve); AdicSpacesPartIII §R3.5; AdicSpacesPartIII §§R3.1–R3.4; SchemeAndStackFoundations §§0.3–0.4, 2.18 and 3.3–3.4; AlgebraicVectorBundles L0A–L0C and the supplied `FiniteLocallyFreeSheaf` interface; `AlgebraicGeometry.Scheme.Modules`; `SheafOfModules.LocalGeneratorsData.IsLocallyFreeData`; `SheafOfModules.LocalGeneratorsData.IsFiniteType`; `SheafOfModules.LocalGeneratorsData.IsLocallyFreeData.isFinitePresentation`.
 
 <a id="annular-frobenius-descent"></a>
 
 #### Annular Frobenius descent for bundles
 
-For affinoid perfectoid S of characteristic p over `𝔽_q`, finite locally free bundles on `X_S` are equivalent, exactly and tensorially, to finite projective bundles on the `VB−1` closed annuli with compatible overlap identifications and bijective Frobenius identification under radius rescaling. Restriction to a fundamental annular range and Frobenius translates gives the inverse. Cohomology on `Y_S` is acyclic in positive degrees by sousperfectoid annular acyclicity and dense restriction maps.
+For affinoid perfectoid S of characteristic p over `𝔽_q`, finite locally free bundles on `X_S` are equivalent, exactly and tensorially, to finite projective bundles on the `VB−1` closed annuli with compatible overlap identifications and bijective Frobenius identification under radius rescaling. In the supplied absolute specialization use the annular restriction and gluing of PrismaticCohomologyPartIII §7.0, `FilteredBundle.robbaEquivalence`. Extend these maps to general E and S; restriction to a fundamental annular range and Frobenius translates gives the inverse. Cohomology on `Y_S` is acyclic in positive degrees by sousperfectoid annular acyclicity and dense restriction maps.
 
 ([FS][FS], II.2 preamble, p. 57; [CS][CS], 3.3.4, p. 683.)
 
-*Needs:* PadicHodgeTheory §7.5 for the p-typical relative interfaces; [Finite locally free bundles on the curve](#finite-locally-free-bundles); [Ramified coefficient rings](#relative-coefficients); [Relative annuli](#relative-annuli); [Relative analytic quotient](#relative-period-curve); AdicSpacesPartIII §R3.5; AdicSpacesPartIII §§R3.1–R3.4; SchemeAndStackFoundations §§2.2 and 2.5; [Annular quasi-Stein cohomology](#relative-annuli).
+*Needs:* PrismaticCohomologyPartIII §7.0 / layer-7-absolute-ff for the supplied absolute specialization; PadicHodgeTheory §7.5 for the p-typical relative interfaces; [Finite locally free bundles on the curve](#finite-locally-free-bundles); [Ramified coefficient rings](#relative-coefficients); [Relative annuli](#relative-annuli); [Relative analytic quotient](#relative-period-curve); AdicSpacesPartIII §R3.5; AdicSpacesPartIII §§R3.1–R3.4; SchemeAndStackFoundations §§2.2 and 2.5; [Annular quasi-Stein cohomology](#relative-annuli).
 
 <a id="tilted-robba-ring"></a>
 
 #### Relative tilted Robba ring from curve annuli
 
-For perfectoid affinoid `S=Spa(R,R⁺)` in characteristic p, define the relative tilted Robba ring `R̃_R` as `colim_{r>0} lim_{s→0} Γ(Y_{S,[s,r]},O)`. At fixed r the inverse limit has its Fréchet seminorms, and the union carries the corresponding LF topology. Frobenius rescales radii by q. For `E=ℚ_p` its absolute specialization agrees with CS17 3.2.10, and its relative form is the supplied PadicHodgeTheory §7.5 carrier used in 3.3.4; general E extends it using the coefficient-compatible annuli of `VB−1`. Absolute field R gives a Bézout ring; no such assertion is made for every affinoid R.
+Use the absolute extended Robba coefficients in PrismaticCohomologyPartIII §7.0's `FilteredBundle.robbaEquivalence` and the p-typical relative carrier of PadicHodgeTheory §7.5. Extend them through the coefficient-compatible annuli of `VB−1` to general E and perfectoid affinoid `S=Spa(R,R⁺)` in characteristic p. The resulting `R̃_R` has the presentation `colim_{r>0} lim_{s→0} Γ(Y_{S,[s,r]},O)`. At fixed r the inverse limit has its Fréchet seminorms, and the union carries the corresponding LF topology. Frobenius rescales radii by q. In the supplied absolute specialization identify this presentation, its topology and Frobenius with Part III's coefficients and CS17 3.2.10. Absolute field R gives a Bézout ring; no such assertion is made for every affinoid R.
+
+For `E=ℚ_p`, a positive exponent η in the `VB−1` norm corresponds to Part III's geometric norm parameter `ρ=p^(−1/η)`: the geometric norm is the `1/η` power of the `VB−1` norm. Thus `η→0` gives `ρ→0`, or `−log_pρ→∞`. This identifies the Robba end and the cofinal annular seminorms, including the reciprocal conversion to the supplied `κ`-windows. (SW Definition 13.4.3, pp. 111–112; Part III §7.0's annulus dictionary.)
 
 **API.**
 
@@ -452,7 +464,7 @@ For perfectoid affinoid `S=Spa(R,R⁺)` in characteristic p, define the relative
 - `TiltedRobba.restrict`: Cofinal radius restriction maps, compatible with composition.
 - `TiltedRobba.frobenius`: Coefficient-semilinear ring automorphism with radius rescaling q.
 - `TiltedRobba.seminorm`: The family of annular seminorms on fixed-radius Fréchet pieces.
-- `TiltedRobba.compareCS`: For `E=ℚ_p` identify the ring, Frobenius and topology with CS17 3.2.10.
+- `TiltedRobba.compareCS`: For `E=ℚ_p` identify the ring, Frobenius and topology with CS17 3.2.10, and in the supplied absolute specialization with Part III's extended Robba coefficients.
 
 **Checks.**
 
@@ -463,13 +475,13 @@ For perfectoid affinoid `S=Spa(R,R⁺)` in characteristic p, define the relative
 
 ([CS][CS], Definition 3.2.10 and Theorems 3.2.13, 3.3.4, pp. 681–683.)
 
-*Needs:* PadicHodgeTheory §7.5 for the p-typical relative carriers and comparison maps; [Ramified coefficient rings](#relative-coefficients); [Relative annuli](#relative-annuli); [Annular Frobenius descent for bundles](#annular-frobenius-descent).
+*Needs:* PrismaticCohomologyPartIII §7.0 / layer-7-absolute-ff for the supplied absolute specialization; PadicHodgeTheory §7.5 for the p-typical relative carriers and comparison maps; [Ramified coefficient rings](#relative-coefficients); [Relative annuli](#relative-annuli); [Annular Frobenius descent for bundles](#annular-frobenius-descent).
 
 <a id="robba-frobenius-modules"></a>
 
 #### Finite projective Frobenius modules and integral models
 
-A Robba Frobenius module is a finite projective `R̃_R`-module M with a semilinear Frobenius whose linearization `φ*M→M` is an isomorphism. A globally étale model is a finite locally free module over the integral Robba ring whose linearized Frobenius is invertible and whose scalar extension is M. This defines the global model predicate needed in KL 8.8.7; equivalence with pointwise purity or local systems is not included here and remains VB4-owned.
+A Robba Frobenius module is a finite projective `R̃_R`-module M with a semilinear Frobenius whose linearization `φ*M→M` is an isomorphism. In the supplied absolute specialization use the finite projective source category of PrismaticCohomologyPartIII §7.0, `FilteredBundle.robbaEquivalence`; the interface here also carries general coefficients, relative bases and integral models. A globally étale model is a finite locally free module over the integral Robba ring whose linearized Frobenius is invertible and whose scalar extension is M. This defines the global model predicate needed in KL 8.8.7; equivalence with pointwise purity or local systems is not included here and remains VB4-owned.
 
 **API.**
 
@@ -490,17 +502,23 @@ For a coefficient map `A → R` with compatible automorphisms `φ_A, φ_R` and f
 
 ([CS][CS], Definition before Theorem 3.3.4, p. 683 (absolute case before 3.2.13, p. 681); [KL][KL], 7.3.4–7.3.5, pp. 148–149.)
 
-*Needs:* [Relative tilted Robba ring from curve annuli](#tilted-robba-ring); AdicSpacesPartIII §R3.5; AdicSpacesPartIII §§R3.1–R3.4.
+*Needs:* PrismaticCohomologyPartIII §7.0 / layer-7-absolute-ff for the supplied absolute specialization; [Relative tilted Robba ring from curve annuli](#tilted-robba-ring); AdicSpacesPartIII §R3.5; AdicSpacesPartIII §§R3.1–R3.4.
 
 <a id="robba-bundle-equivalence"></a>
 
 #### Exact tensor equivalence of Robba modules and curve bundles
 
-For affinoid perfectoid characteristic-p S, `RobbaPhiModule(R̃_S)≃Bun(X_S)` is an exact tensor equivalence, commuting with base change and duals. Spread a finite presentation to sufficiently small annuli, extend across Frobenius translates, then descend to `X_S`. Its inverse takes compatible annular sections. For `ℚ_p` reuse PadicHodgeTheory §7.5’s equivalence and maps (CS17 3.3.4). The general-E extension and coefficient comparison requires the normalized `VB−1` coefficient interface; this analytic equivalence does not require Proj/GAGA.
+For affinoid perfectoid characteristic-p S, `RobbaPhiModule(R̃_S)≃Bun(X_S)` is an exact tensor equivalence, commuting with base change and duals. Its supplied absolute specialization is PrismaticCohomologyPartIII §7.0's `FilteredBundle.robbaEquivalence`, followed by `FilteredBundle.analyticEquivalence` on bundles. For p-typical relative S reuse PadicHodgeTheory §7.5's equivalence and maps (CS17 3.3.4), identifying their absolute specialization with those supplied maps. Extend to general E by spreading a finite presentation to sufficiently small annuli, extending across Frobenius translates and descending to `X_S`; the inverse takes compatible annular sections. This extension uses the normalized `VB−1` coefficient interface and precedes relative Proj/GAGA.
+
+**Checks.**
+
+- The zero module and unit module give the zero bundle and structure sheaf under both supplied and extended comparisons.
+- At `E=ℚ_p`, the rank-one multiplier `p⁻¹` gives `𝒪(1)` and section equation `φ(f)=pf`.
+- Restricting to a different Frobenius-covering annular window gives canonically the same bundle and comparison on morphisms.
 
 ([CS][CS], Theorem 3.3.4, p. 683; [KL][KL], 6.3.12, p. 141.)
 
-*Needs:* PadicHodgeTheory §7.5 for the p-typical relative carriers and comparison maps; [Finite projective Frobenius modules and integral models](#robba-frobenius-modules); [Annular Frobenius descent for bundles](#annular-frobenius-descent).
+*Needs:* PrismaticCohomologyPartIII §7.0 / layer-7-absolute-ff for the supplied absolute specialization; PadicHodgeTheory §7.5 for the p-typical relative carriers and comparison maps; [Finite projective Frobenius modules and integral models](#robba-frobenius-modules); [Annular Frobenius descent for bundles](#annular-frobenius-descent).
 
 <a id="frobenius-two-term-cohomology"></a>
 
@@ -593,7 +611,7 @@ For `λ<0`, `H⁰(X_S,O(λ))=0` and the v-sheaf `H¹(O(λ))` is locally spatial,
 
 ### The geometric curve and its local rings
 
-At a geometric point, prove coverage by homogeneous opens directly: classical points are untilts, and degree-one Lubin–Tate sections produce the necessary divisors. Use two distinct divisor points to cover the curve. Only then pass to the regular schematic curve; general relative GAGA is not an input to this argument.
+At a geometric point, use Part III's absolute curve and bundle comparison in its supplied specialization. Extend them to the arbitrary E and geometric C of this roadmap: classical points are untilts, and degree-one Lubin–Tate sections produce the divisors giving homogeneous chart coverage. Use two distinct divisor points to cover the curve. This extension precedes general relative GAGA.
 
 <a id="classical-points-and-principal-ideal-domains"></a>
 
@@ -615,11 +633,11 @@ For complete algebraically closed perfectoid `C/𝔽_q` and a connected affinoid
 
 #### Elementary algebraization at a geometric point
 
-For complete algebraically closed perfectoid C, `VB−1` supplies `P_C=⊕_{n≥0}Γ(X_C,O(n))` and chart maps on nonvanishing loci. Prove these loci cover `X_C` using the classical-point description and the Lubin–Tate degree-one divisor sections, then glue a global locally ringed spectral map `α_C:X_C→Proj(P_C)`. It identifies finite locally free bundles on the geometric curve with their schematic counterparts by chartwise finite-projective comparison. This geometric-point construction precedes the general-S ampleness/GAGA theorem; it is not imported from that theorem.
+For complete algebraically closed perfectoid C, `VB−1` supplies `P_C=⊕_{n≥0}Γ(X_C,O(n))` and chart maps on nonvanishing loci. In the supplied absolute specialization use PrismaticCohomologyPartIII §7.0's `FilteredBundle.schemeCurve` and the bundle restriction of `FilteredBundle.analyticEquivalence`. Extend their map `α_C:X_C→Proj(P_C)` and exact tensor bundle comparison to arbitrary E and C by the classical-point description, Lubin–Tate degree-one divisor sections and chartwise finite-projective comparison. Identify the extended map and equivalence with the supplied ones on every homogeneous chart. The extension precedes the general-S ampleness/GAGA theorem.
 
 **API.**
 
-- `geometricCurveMap`: The global map `α_C` formed from the proved geometric-point covering.
+- `geometricCurveMap`: The supplied absolute global map `α_C` and its general-coefficient geometric extension.
 - `geometricCurveMap.chart`: On `D(f)`, the map is the `VB−1` map to `D_+(f)`.
 - `geometricCurveMap.compatible`: The chart maps agree on `D(fg)` under homogeneous localization.
 - `geometricBundleAlgebraization`: Exact tensor equivalence of analytic and schematic finite locally free bundles at C.
@@ -633,27 +651,27 @@ For complete algebraically closed perfectoid C, `VB−1` supplies `P_C=⊕_{n≥
 
 ([FS][FS], Proof of Proposition II.2.9, p. 68; [FS][FS], Proposition II.2.7, pp. 66–67.)
 
-*Needs:* [Classical points and annular Dedekind rings](#classical-points-and-principal-ideal-domains); [Rank-one Frobenius twists](#relative-twists); [Homogeneous section ring](#relative-graded-ring); [Slope-sensitive cohomology of standard bundles](#cohomology-of-twists); [Lubin–Tate universal cover and sections of O(1)](#lubin-tate-universal-cover); AdicSpacesPartIII §R3.5; AdicSpacesPartIII §§R3.1–R3.4; SchemeAndStackFoundations §§0.3–0.4, 2.18 and 3.3–3.4.
+*Needs:* PrismaticCohomologyPartIII §7.0 / layer-7-absolute-ff for the supplied absolute specialization; [Classical points and annular Dedekind rings](#classical-points-and-principal-ideal-domains); [Rank-one Frobenius twists](#relative-twists); [Homogeneous section ring](#relative-graded-ring); [Slope-sensitive cohomology of standard bundles](#cohomology-of-twists); [Lubin–Tate universal cover and sections of O(1)](#lubin-tate-universal-cover); AdicSpacesPartIII §R3.5; AdicSpacesPartIII §§R3.1–R3.4; SchemeAndStackFoundations §§0.3–0.4, 2.18 and 3.3–3.4.
 
 <a id="schematic-curve-at-a-geometric-point"></a>
 
 #### Regular noetherian geometric curve and PID complements
 
-For complete algebraically closed perfectoid C, `X_C^alg=Proj(P_C)` is connected, regular, noetherian and one-dimensional. Classical points correspond bijectively to its closed points; for every classical x the complement of x in `X_C^alg` is affine with PID coordinate ring. Degree-one untilt divisor sections cut out `Spec(C♯)` and their nonvanishing complements give these charts.
+For complete algebraically closed perfectoid C, `X_C^alg=Proj(P_C)` is connected, regular, noetherian and one-dimensional. Consume PrismaticCohomologyPartIII §7.0's `FilteredBundle.schemeCurve` for the supplied absolute specialization and extend these properties to arbitrary E and C. Classical points correspond bijectively to its closed points; for every classical x the complement of x in `X_C^alg` is affine with PID coordinate ring. Degree-one untilt divisor sections cut out `Spec(C♯)` and their nonvanishing complements give these charts.
 
 ([FS][FS], Proposition II.2.9 and proof, p. 68.)
 
-*Needs:* [Elementary algebraization at a geometric point](#geometric-point-chart-cover); [Classical points and annular Dedekind rings](#classical-points-and-principal-ideal-domains); [Slope-sensitive cohomology of standard bundles](#cohomology-of-twists); SchemeAndStackFoundations §§0.3–0.4, 2.18 and 3.3–3.4.
+*Needs:* PrismaticCohomologyPartIII §7.0 / layer-7-absolute-ff for the supplied absolute specialization; [Elementary algebraization at a geometric point](#geometric-point-chart-cover); [Classical points and annular Dedekind rings](#classical-points-and-principal-ideal-domains); [Slope-sensitive cohomology of standard bundles](#cohomology-of-twists); SchemeAndStackFoundations §§0.3–0.4, 2.18 and 3.3–3.4.
 
 <a id="completed-local-ring-comparison"></a>
 
 #### Untilts and completed local rings
 
-At a classical point x of the geometric curve, identify the completed local ring with the `VB−1` untilt period DVR, whose residue field is `C_x♯`. At `E=ℚ_p` this is `B_dR⁺(C_x♯)`. A uniformizer `t_x` depends on a choice of generator; neither its equality with a global t nor the equality of every untilt with a fixed `C♯` is asserted.
+At a classical point x of the geometric curve, identify the completed local ring with the `VB−1` untilt period DVR, whose residue field is `C_x♯`. Use PrismaticCohomologyPartIII §7.0's `FilteredBundle.untiltCompletion` at its marked absolute untilt and extend the comparison to arbitrary E, C and x. At `E=ℚ_p` the ring is `B_dR⁺(C_x♯)`. A uniformizer `t_x` depends on a choice of generator; neither its equality with a global t nor the equality of every untilt with a fixed `C♯` is asserted.
 
 ([CN (arXiv)][CN-arXiv], §3.2.1, p. 14.)
 
-*Needs:* [Regular noetherian geometric curve and PID complements](#schematic-curve-at-a-geometric-point); [Completed local period rings](#relative-period-completions).
+*Needs:* PrismaticCohomologyPartIII §7.0 / layer-7-absolute-ff for the supplied absolute specialization; [Regular noetherian geometric curve and PID complements](#schematic-curve-at-a-geometric-point); [Completed local period rings](#relative-period-completions).
 
 <a id="picard-degree"></a>
 
@@ -805,13 +823,13 @@ The zero bundle has the empty filtration and polygon endpoint `(0,0)`. The bundl
 
 ### Dependencies
 
-*Needs:* VB−1 relative geometry and VB0; AdicSpacesPartIII §§R3.1–R3.5; SchemeAndStackFoundations §§0.3–0.4, 2.2, 2.5 and 3.3–3.4; PerfectoidSpaces P1–P3; DiamondsAndVStacks D2–D3; the Lubin–Tate and untilt-sequence targets in VB3, in the construction order stated above.
+*Needs:* PrismaticCohomologyPartIII §7.0 / layer-7-absolute-ff; VB−1 relative geometry and VB0; AdicSpacesPartIII §§R3.1–R3.5; SchemeAndStackFoundations §§0.3–0.4, 2.2, 2.5 and 3.3–3.4; PerfectoidSpaces P1–P3; DiamondsAndVStacks D2–D3; the Lubin–Tate and untilt-sequence targets in VB3, in the construction order stated above.
 
 ## Layer VB2 — Positive generation and algebraization
 
 ### Positive twists and the global schematic comparison
 
-The generation proof separates the two half-annuli and uses the corrected contraction bounds of KL §§6.2.2–6.2.4. A general-E proof transports these bounds through the normalized `π/q` coefficient comparison. Construct invertible large-degree shifts first, then recover the degree-one line from consecutive powers. These inputs give the global map and the bundle GAGA equivalence.
+Use Part III's absolute Proj and GAGA maps. For their relative and general-coefficient extensions, the generation proof separates the two half-annuli and uses the corrected contraction bounds of KL §§6.2.2–6.2.4. A general-E proof transports these bounds through the normalized `π/q` coefficient comparison. Construct invertible large-degree shifts first, then recover the degree-one line from consecutive powers. These inputs extend the global map and bundle GAGA equivalence.
 
 <a id="quantitative-global-generation"></a>
 
@@ -827,7 +845,7 @@ For affinoid perfectoid `S/𝔽_q` and `V∈Bun(X_S)`, there is `n_0` such that 
 
 #### Global Proj map and compatible schematic twists
 
-For affinoid perfectoid S, set `X_S^alg=Proj(P_S)` using the `VB−1` graded ring. Apply GG to prove the homogeneous nonvanishing loci cover `X_S`, then glue the `VB−1` chart maps to `α_S:X_S→X_S^alg`. For sufficiently large positive m, construct invertible `O_alg(m)` with pullback `O(m)` and compatible multiplication; use consecutive large powers to define `O_alg(1)` and all integer tensor powers. Do not assume the naive Proj shift sheaf in degree one is already invertible for an arbitrary graded ring.
+For affinoid perfectoid S, set `X_S^alg=Proj(P_S)` using the `VB−1` graded ring. Extend the global map and twists of PrismaticCohomologyPartIII §7.0's `FilteredBundle.schemeCurve` and `FilteredBundle.analyticEquivalence` from the supplied absolute specialization to general E and S. Apply GG to prove the homogeneous nonvanishing loci cover `X_S`, then glue the `VB−1` chart maps to `α_S:X_S→X_S^alg`, with the supplied absolute map on specialization. For sufficiently large positive m, construct invertible `O_alg(m)` with pullback `O(m)` and compatible multiplication; use consecutive large powers to define `O_alg(1)` and all integer tensor powers. Do not assume the naive Proj shift sheaf in degree one is already invertible for an arbitrary graded ring.
 
 **API.**
 
@@ -847,17 +865,17 @@ For affinoid perfectoid S, set `X_S^alg=Proj(P_S)` using the `VB−1` graded rin
 
 ([FS][FS], Proposition II.2.7, pp. 66–67.)
 
-*Needs:* [Global generation and vanishing after positive twists](#quantitative-global-generation); [Rank-one Frobenius twists](#relative-twists); [Homogeneous section ring](#relative-graded-ring); SchemeAndStackFoundations §§0.3–0.4, 2.18 and 3.3–3.4; [Finite locally free bundles on the curve](#finite-locally-free-bundles).
+*Needs:* PrismaticCohomologyPartIII §7.0 / layer-7-absolute-ff for the supplied absolute specialization; [Global generation and vanishing after positive twists](#quantitative-global-generation); [Rank-one Frobenius twists](#relative-twists); [Homogeneous section ring](#relative-graded-ring); SchemeAndStackFoundations §§0.3–0.4, 2.18 and 3.3–3.4; [Finite locally free bundles on the curve](#finite-locally-free-bundles).
 
 <a id="gaga-equivalence"></a>
 
 #### GAGA for the relative schematic curve
 
-Let X be a locally ringed spectral space with line bundle `O(1)` such that every finite locally free V has `V(n)` globally generated and `H^i(X,V(n))=0` for all `i>0` and all sufficiently large n. The homogeneous chart maps define a global `α:X→Proj⊕Γ(X,O(n))`; pullback gives an exact tensor equivalence of finite locally free bundles and comparison isomorphisms on all bundle cohomology. Apply this to `X_S` for affinoid perfectoid S via GG and GMap. No coherent-sheaf equivalence on arbitrary nonnoetherian S is inferred from this bundle statement.
+Consume PrismaticCohomologyPartIII §7.0's `FilteredBundle.analyticEquivalence` in the supplied absolute specialization. Extend its bundle restriction by the following general criterion. Let X be a locally ringed spectral space with line bundle `O(1)` such that every finite locally free V has `V(n)` globally generated and `H^i(X,V(n))=0` for all `i>0` and all sufficiently large n. The homogeneous chart maps define a global `α:X→Proj⊕Γ(X,O(n))`; pullback gives an exact tensor equivalence of finite locally free bundles and comparison isomorphisms on all bundle cohomology. Apply this to `X_S` for affinoid perfectoid S and arbitrary E via GG and GMap, identifying the absolute specialization with the supplied pullback functor on objects and morphisms. No coherent-sheaf equivalence on arbitrary nonnoetherian S is inferred from this bundle statement.
 
 ([FS][FS], Proposition II.2.7 and proof, pp. 66–67.)
 
-*Needs:* [Global generation and vanishing after positive twists](#quantitative-global-generation); [Global Proj map and compatible schematic twists](#global-proj-map-and-twists); [Finite locally free bundles on the curve](#finite-locally-free-bundles); SchemeAndStackFoundations §§0.3–0.4, 2.18 and 3.3–3.4; SchemeAndStackFoundations §§2.2 and 2.5.
+*Needs:* PrismaticCohomologyPartIII §7.0 / layer-7-absolute-ff for the supplied absolute specialization; [Global generation and vanishing after positive twists](#quantitative-global-generation); [Global Proj map and compatible schematic twists](#global-proj-map-and-twists); [Finite locally free bundles on the curve](#finite-locally-free-bundles); SchemeAndStackFoundations §§0.3–0.4, 2.18 and 3.3–3.4; SchemeAndStackFoundations §§2.2 and 2.5.
 
 <a id="independence-of-positive-twist"></a>
 
@@ -875,17 +893,18 @@ Two line bundles satisfying the axiomatic generation/vanishing hypotheses on the
 
 #### Prüfer charts and coherent Frobenius correspondence
 
-For an absolute analytic characteristic-p field F in the KL setting and every nonzero homogeneous `f∈P_d` with `d>0`, the chart ring `P_F[f⁻¹]_0` is a Prüfer domain. The zero section gives the empty chart and the zero ring, to which the domain assertion does not apply. Coherent sheaves on `Proj(P_F)` correspond to finitely presented `R̃_F`-modules with invertible Frobenius linearization. Finite locally free objects correspond to finite projective Frobenius modules. The claim is absolute; Prüfer or Bézout hypotheses are not silently imposed on arbitrary relative bases.
+For an absolute analytic characteristic-p field F in the KL setting and every nonzero homogeneous `f∈P_d` with `d>0`, the chart ring `P_F[f⁻¹]_0` is a Prüfer domain. The zero section gives the empty chart and the zero ring, to which the domain assertion does not apply. In the supplied absolute specialization consume the coherent comparisons of PrismaticCohomologyPartIII §7.0, `FilteredBundle.analyticEquivalence` and `FilteredBundle.robbaEquivalence`, including torsion objects. Extend the correspondence to the analytic fields of the KL setting: coherent sheaves on `Proj(P_F)` correspond to finitely presented `R̃_F`-modules with invertible Frobenius linearization, and finite locally free objects correspond to finite projective Frobenius modules. The claim is absolute; Prüfer or Bézout hypotheses are not silently imposed on arbitrary relative bases.
 
 **Checks.**
 
 - A nonzero homogeneous f gives an integral domain satisfying the finitely generated torsion-free projectivity criterion.
 - Replacing f by a positive power preserves the chart ring and its Prüfer property.
 - At `f=0`, localization is the zero ring and the chart is empty; it is not a Prüfer domain.
+- At the marked absolute untilt, the skyscraper with completed stalk `B_dR⁺/t` stays nonzero under the supplied coherent comparison and is excluded from its bundle restriction.
 
 ([KL][KL], Definition 6.3.5, Lemma 6.3.6 and Theorem 6.3.14, pp. 138–142 (Theorem 6.3.14 printed p. 142).)
 
-*Needs:* [Relative tilted Robba ring from curve annuli](#tilted-robba-ring); [Finite projective Frobenius modules and integral models](#robba-frobenius-modules); [GAGA for the relative schematic curve](#gaga-equivalence); [Ramified coefficient rings](#relative-coefficients); [Relative annuli](#relative-annuli); SchemeAndStackFoundations §§0.3–0.4, 2.18 and 3.3–3.4.
+*Needs:* PrismaticCohomologyPartIII §7.0 / layer-7-absolute-ff for the supplied absolute specialization; [Relative tilted Robba ring from curve annuli](#tilted-robba-ring); [Finite projective Frobenius modules and integral models](#robba-frobenius-modules); [GAGA for the relative schematic curve](#gaga-equivalence); [Ramified coefficient rings](#relative-coefficients); [Relative annuli](#relative-annuli); SchemeAndStackFoundations §§0.3–0.4, 2.18 and 3.3–3.4.
 
 <a id="norms-on-twisted-invariants"></a>
 
@@ -1150,7 +1169,7 @@ For complete algebraically closed perfectoid C, every finite étale `O_{X_C}`-al
 
 ### Dependencies
 
-*Needs:* VB0, VB1 and VB2 positive generation/GAGA; the geometric cohomology of twists and the Picard-degree convention.
+*Needs:* PrismaticCohomologyPartIII §7.0 / layer-7-absolute-ff; VB0, VB1 and VB2 positive generation/relative GAGA; the geometric cohomology of twists and the Picard-degree convention.
 
 ## Layer VB3 — Banach–Colmez spaces
 
