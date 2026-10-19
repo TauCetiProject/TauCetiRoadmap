@@ -414,13 +414,15 @@ Prove `vector_phragmen_lindelof`. Let `V` be a Hausdorff quasi-complete complex 
 
 In a normed specialization, `StripOrder(f,d,C)` is the displayed bound for every `d′>d` and every `C<a≤b`. `FiniteStripOrder(f,C)` asserts some positive `d`. Prove `StripOrder.mono_order`, `StripOrder.add` (with order the larger of the two positive orders), and `FiniteStripOrder.postcomp`.
 
+For scalar functions, consume `BoundedOnStrips` from AutomorphicLFunctionsAndLocalFactors AL.3, [Boundedness on finite vertical strips](../AutomorphicLFunctionsAndLocalFactors/README.md#bounded-on-strips). Its bound implies `FiniteStripOrder(f,C)` for every real `C`: take `d=1` and use `exp(−|s|^d′)≤1`. Finite strip order alone gives no uniform bound on the original function along a strip. The scalar boundedness interface follows the Imperial College London FLT project; the vector-valued growth conditions here retain their separate meaning.
+
 **Checks.**
 
 - A constant normed-valued function has strip order one on every right half-plane; the zero function permits the bound `M=0`.
-- The entire scalar family `exp(z²)` has finite strip order although it need not have polynomial growth in every direction. The definition controls vertical strips, rather than requiring a polynomial bound on `ℂ`.
+- The entire scalar family `exp(z²)` satisfies the supplied strip bound, since its modulus is `exp((Re z)²−(Im z)²)`, and hence has finite strip order. It need not have polynomial growth on `ℂ`.
 - On a strip through the imaginary axis, `exp(exp(−iz))` is not of finite strip order (`not_finiteStripOrder_double_exp`): at `z=it` its norm is `exp(exp(t))`, exceeding every bound `exp(|t|^d′)M`.
 
-*Needs:* §0.12; §0.15.
+*Needs:* §0.12; §0.15; AutomorphicLFunctionsAndLocalFactors AL.3, [Boundedness on finite vertical strips](../AutomorphicLFunctionsAndLocalFactors/README.md#bounded-on-strips), for the scalar boundedness predicate.
 
 
 ### 0.19 Cycle coordinates for the spectral character cover
@@ -3708,6 +3710,8 @@ where `TO_(δ,σ)(φ)=∫_(H_(δ,σ)(K_v)\H(K_v))φ(x⁻¹δσ(x))dx`. Require `
 For `E_v/K_v` unramified, prove matching of spherical units and of `φ` with `b_(E_v/K_v)(φ)`, where `b` is the spherical Hecke homomorphism whose Satake transform substitutes `X_i↦X_i^f`, `f` the residue degree. At a split place transfer an elementary tensor by convolution of its `l` factors. For irreducible tempered `π` of `GLₙ(K_v)` construct its `σ`-stable tempered lift `Π` and prove `Θ_(Π,σ)(φ)=tr π(f)` for matching tests, with the Whittaker-normalized `A_Π`. Extend this identity to essentially tempered representations by a common determinant-character twist, using `χ_E=χ_K∘N`. Normalized induction of matching Levi characters gives an identity for the whole finite-length induced representations, with the induced `σ`-operator. For an identity on irreducible products require both `π₁×⋯×π_r` and `Π₁×⋯×Π_r` to be irreducible and every factor pair to satisfy the Shintani relation; then identify the induced operator with the normalized operator. Duals and common norm twists preserve these identities.
 
 For general irreducible local data define Langlands base change by lifting the essentially tempered inducing data, reordering the exponents and taking the unique irreducible Langlands quotient. At finite places carry SR.3.3's Harish–Chandra tempered-support hypothesis: every irreducible tempered representation is a summand of unitary induction from square-integrable data, unique up to conjugacy. This construction, and its compatibility with duals and norm twists, carries no assertion of a Shintani identity for that quotient. The permitted constituent identities are exactly those for essentially tempered representations, irreducible unitary representations and their common determinant-character twists, together with products satisfying the two irreducibility hypotheses above. The unitary class includes the local residual quotients `u(γ,k)` below. Any subquotient used as an individual Shintani character must belong to these classes; additivity for a whole standard module does not select its quotient's character. The scalar norm-pushforward case of the character identity is `norm_transfer_character`, with the measure identity carried as a hypothesis; `satake_power_sum` records the unramified power substitution on roots.
+
+The consumer [GL2AutomorphicRepresentationsAndTransfer R17.4.1](../GL2AutomorphicRepresentationsAndTransfer/README.md#r17-4-unramified-base-change) uses `satake_power_sum` to compare its trace-and-determinant recurrence with the diagonal complex Satake formula. The identity holds for all `n,f : ℕ`; `f=0` gives the identity matrix and trace `n`, while a residue degree has `f≥1`.
 
 **Checks.**
 

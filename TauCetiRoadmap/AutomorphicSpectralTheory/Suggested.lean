@@ -78,7 +78,9 @@ def StripOrder (f : ℂ → V) (d C : ℝ) : Prop :=
     ∃ M : ℝ, ∀ s : ℂ, a ≤ s.re → s.re ≤ b →
       Real.exp (-(‖s‖ ^ d')) * ‖f s‖ ≤ M
 
-/-- An order exponent is common to all strips, while their bounding constants may differ. -/
+/-- An order exponent is common to all strips, while their bounding constants may differ.
+For scalar functions, AutomorphicLFunctionsAndLocalFactors AL.3's `BoundedOnStrips`
+implies this growth condition on every right half-plane. -/
 def FiniteStripOrder (f : ℂ → V) (C : ℝ) : Prop :=
   ∃ d : ℝ, 0 < d ∧ StripOrder f d C
 
@@ -459,7 +461,9 @@ theorem norm_transfer_character {G H : Type*} [Group G] [Group H]
     (∫ x, f (N x) * (χ (N x) : ℂ) ∂μ) =
       ∫ x, f x * (χ x : ℂ) ∂ν := by sorry
 
-/-- The unramified trace after residue degree f is the power sum of the Satake roots. -/
+/-- The unramified trace after residue degree f is the power sum of the Satake roots.
+GL2AutomorphicRepresentationsAndTransfer R17.4.1 uses the diagonal complex specialization
+to compare its trace-and-determinant recurrence. At f = 0 the trace is n. -/
 theorem satake_power_sum {n : ℕ} (α : Fin n → ℂ) (f : ℕ) :
     Matrix.trace ((Matrix.diagonal α) ^ f) = ∑ i, (α i) ^ f := by sorry
 
