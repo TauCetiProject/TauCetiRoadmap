@@ -750,6 +750,11 @@ Handle $\lambda=0$.
 This convergence criterion is a target here. Defining the Poisson law in
 StandardDistributions does not discharge it. Use native `Nat.descFactorial`,
 `ProbabilityTheory.poissonMeasure`, integration and convergence notions.
+State it in a general probability module for laws on $\mathbb N$, not in a random-graph
+namespace; 11.2 and 11.3 are its consumers here. Point-process convergence theorems that
+assume uniform exponential moments, or Grigelionis-type theorems for arrays of independent
+point processes, do not discharge it: the hypothesis here is only convergence of each
+factorial moment.
 
 ### 11.2 Sparse triangles
 
