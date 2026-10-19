@@ -417,9 +417,11 @@ end PhiP
 
 section NthRoot
 
-/-- The `n`-th root used to split off the determinant when `p ∤ n` (README F.2.9): over an Artinian
-local ring with residue characteristic `p`, a unit with residue `1` has a unique `n`-th root with
-residue `1`. -/
+/-- A unit of residue one over an Artinian local ring of residue characteristic `p` has a unique
+residue-one `n`-th root when `p ∤ n` (README F.2.9). Existence follows from
+`TauCeti.HenselianLocalRing.exists_pow_eq_of_residue_pow_eq` at `x₀ = 1`, using
+`TauCeti.IsAdicComplete.henselianLocalRing`. This statement adds uniqueness and derives
+`IsUnit (n : A)` from `p ∤ n`. -/
 theorem exists_unique_nthRoot_of_residue_eq_one {A : Type*} [CommRing A] [IsLocalRing A]
     [IsArtinianRing A] (p : ℕ) [Fact p.Prime] [CharP (IsLocalRing.ResidueField A) p] {n : ℕ}
     (hn : ¬ p ∣ n) (u : Aˣ) (hu : IsLocalRing.residue A (u : A) = 1) :
@@ -482,52 +484,6 @@ example : ¬ IsSchur 2 (1 : G →* GL (Fin 2) k) := by
   exact one_ne_zero (h0.trans h1.symm)
 
 end FoundationExamples
-
-section FoundationBoundaryCarriers
-
-/-- The infinitesimal scalar character attached to a linear functional on the product group. -/
-def productDualCharacter (f : (ℕ → ZMod 3) →ₗ[ZMod 3] ZMod 3) :
-    Multiplicative (ℕ → ZMod 3) →* GL (Fin 1) (DualNumber (ZMod 3)) where
-  toFun g := Matrix.GeneralLinearGroup.scalar (Fin 1)
-    ⟨1 + TrivSqZeroExt.inr (f (Multiplicative.toAdd g)),
-      1 - TrivSqZeroExt.inr (f (Multiplicative.toAdd g)), by sorry, by sorry⟩
-  map_one' := by sorry
-  map_mul' := by sorry
-
-/-- The involution acts on the product of cyclic groups by inversion. -/
-def inversionAction : Multiplicative (ZMod 2) →* MulAut (Multiplicative (ℕ → ZMod 3)) where
-  toFun c := if c = 1 then MulEquiv.refl _ else
-    { toFun := fun x => x⁻¹
-      invFun := fun x => x⁻¹
-      left_inv := inv_inv
-      right_inv := inv_inv
-      map_mul' := by intros; exact mul_inv _ _ }
-  map_one' := by
-    simp only [ite_true]
-    rfl
-  map_mul' := by sorry
-
-/-- The inversion semidirect product used to test the open-subgroup quantifier in Φ_p. -/
-abbrev InversionSemidirect :=
-  SemidirectProduct (Multiplicative (ℕ → ZMod 3)) (Multiplicative (ZMod 2)) inversionAction
-
-/-- The semidirect product has the product topology through its coordinate equivalence. -/
-instance : TopologicalSpace InversionSemidirect :=
-  TopologicalSpace.induced SemidirectProduct.equivProd
-    (inferInstanceAs (TopologicalSpace
-      (Multiplicative (ℕ → ZMod 3) × Multiplicative (ZMod 2))))
-
-/-- The ideal defining the truncated polynomial coefficient ring in the square-lifting test. -/
-noncomputable def truncatedIdeal (n : ℕ) : Ideal (Polynomial (ZMod 3)) :=
-  Ideal.span {Polynomial.X ^ n}
-
-/-- Reduction from the cubic truncation to the quadratic truncation. -/
-noncomputable def truncateCubeToSquare :
-    (Polynomial (ZMod 3) ⧸ truncatedIdeal 3) →+*
-      (Polynomial (ZMod 3) ⧸ truncatedIdeal 2) :=
-  Ideal.Quotient.factor (by sorry)
-
-end FoundationBoundaryCarriers
 
 end GenericFoundations
 
@@ -623,14 +579,6 @@ theorem modified_exp_pow (q : ℕ) (N : Matrix (Fin 4) (Fin 4) A) (hN : N ^ 4 = 
     modifiedExp N ^ q = modifiedExp
       ((q : A) • N + (modifiedPowerCoefficient q : A) • N ^ 3) := by
   sorry
-
-/-- The square-zero corner matrix used by the rank-four logarithm controls. -/
-def cornerNilpotent : Matrix (Fin 4) (Fin 4) A :=
-  Matrix.of fun i j => if i = 0 ∧ j = 3 then 1 else 0
-
-/-- The regular rank-four Jordan nilpotent retains its nonzero square and cube. -/
-def regularJordan : Matrix (Fin 4) (Fin 4) ℚ :=
-  Matrix.of fun i j => if i.val + 1 = j.val then 1 else 0
 
 end ModifiedNilpotent
 
@@ -749,9 +697,9 @@ theorem laurent_height_factor_isUnit_of_nilpotent (a : R) (ha : IsNilpotent a) :
     IsUnit (HahnSeries.single (1 : ℤ) (1 : R) + HahnSeries.C a : LaurentSeries R) := by
   sorry
 
-/-- A height factor with constant coefficient in the coefficient ideal is a unit
-in the completed étale carrier. The completion uses that ideal, not the series variable. -/
-theorem etale_height_factor_isUnit (I : Ideal R) (hI : I.FG) (a : R) (ha : a ∈ I) :
+/-- A height factor with constant coefficient in any coefficient ideal is a unit
+in the completed étale carrier, completed at the extension of that ideal. -/
+theorem etale_height_factor_isUnit (I : Ideal R) (a : R) (ha : a ∈ I) :
     IsUnit (AdicCompletion.of (I.map (algebraMap R (LaurentSeries R))) (LaurentSeries R)
       (HahnSeries.single (1 : ℤ) (1 : R) + HahnSeries.C a)) := by
   sorry
@@ -828,10 +776,10 @@ def HasOrderedTriangularization (ρ : G →* GL (Fin n) A) (χ : Fin n → G →
         ((χ i g : Aˣ) : A))
 
 /-- With pairwise distinct characters over a field, the full equations characterize the ordered flag.
-Distinct character functions are enough; no one group element need separate all their values. -/
+This includes rank zero; distinct character functions need not have simultaneously distinct values. -/
 theorem det_ordinary_iff_ordered_triangularization {F : Type*} [Field F]
     (ρ : G →* GL (Fin n) F) (χ : Fin n → G →* Fˣ)
-    (hn : 0 < n) (hχ : Function.Injective χ) :
+    (hχ : Function.Injective χ) :
     IsDetOrdinary ρ χ ↔ HasOrderedTriangularization ρ χ := by
   sorry
 
@@ -839,30 +787,6 @@ theorem det_ordinary_iff_ordered_triangularization {F : Type*} [Field F]
 def controlMatrixUnit (M N : Matrix (Fin 2) (Fin 2) A)
     (hMN : M * N = 1) (hNM : N * M = 1) : GL (Fin 2) A :=
   ⟨M, N, hMN, hNM⟩
-
-/-- The diagonal rank-two representation of the product of unit groups. -/
-def diagonalControlRep : (Aˣ × Aˣ) →* GL (Fin 2) A where
-  toFun g := controlMatrixUnit !![(g.1 : A), 0; 0, (g.2 : A)]
-    !![(↑g.1⁻¹ : A), 0; 0, (↑g.2⁻¹ : A)] (by sorry) (by sorry)
-  map_one' := by sorry
-  map_mul' := by sorry
-
-/-- The two diagonal characters in their specified order. -/
-def diagonalControlCharacters : Fin 2 → (Aˣ × Aˣ) →* Aˣ :=
-  ![MonoidHom.fst Aˣ Aˣ, MonoidHom.snd Aˣ Aˣ]
-
-/-- Generators of a nonsplit rank-two extension over Q: diagonal(2,1) and a unipotent. -/
-def orderedExtensionGenerators : Fin 2 → GL (Fin 2) ℚ :=
-  ![controlMatrixUnit !![2, 0; 0, 1] !![1 / 2, 0; 0, 1] (by sorry) (by sorry),
-    controlMatrixUnit !![1, 1; 0, 1] !![1, -1; 0, 1] (by sorry) (by sorry)]
-
-/-- The nonsplit extension as a representation of the free group on the two generators. -/
-def orderedExtensionRep : FreeGroup (Fin 2) →* GL (Fin 2) ℚ :=
-  FreeGroup.lift orderedExtensionGenerators
-
-/-- The extension's diagonal character followed by its trivial quotient character. -/
-def orderedExtensionCharacters : Fin 2 → FreeGroup (Fin 2) →* ℚˣ :=
-  ![FreeGroup.lift ![⟨2, 1 / 2, by norm_num, by norm_num⟩, 1], 1]
 
 /-- Nilpotently shifted reciprocal characters of the cyclic free group over Z/9. -/
 def nilpotentShiftCharacters : Fin 2 → FreeGroup Unit →* (ZMod 9)ˣ :=
@@ -924,9 +848,9 @@ noncomputable def nodalIdeal (π u : A) : Ideal (MvPowerSeries (Fin 2) A) :=
 /-- Its ring retains the node equation, rather than only its number of variables. -/
 abbrev NodalRing (π u : A) := MvPowerSeries (Fin 2) A ⧸ nodalIdeal A π u
 
-/-- The integral node over a DVR is a flat domain when its constant term is nonzero and nonunit. -/
+/-- The integral node over any DVR is a flat domain when its constant term is nonzero and nonunit. -/
 theorem nodal_ring_flat_domain [IsDomain A] [IsDiscreteValuationRing A]
-    [IsAdicComplete (IsLocalRing.maximalIdeal A) A] (π u : A)
+    (π u : A)
     (hπ : π ≠ 0) (hπnonunit : ¬ IsUnit π) (hu : IsUnit u) :
     IsDomain (NodalRing A π u) ∧ Module.Flat A (NodalRing A π u) := by
   sorry
@@ -939,7 +863,7 @@ The README also specifies the following constructions with their full geometric 
 Layer F: `ModDef`, `ModDefFramed`, `DetDef`, `PseudoDefRing`, `univLift`,
 `DeformationProblem` and inertia-rigid deformation rings. Empty type quotients are excluded
 from `DeformationProblem`. Their README-only APIs include
-`isSchur_baseChange` (F.1.8) and `phiP_iff_fg` (F.2.1).
+`phiP_iff_fg` (F.2.1).
 The names `univLift`, `univLift_reduce`, `liftEquivHom` and `univLift_continuous` in
 F.2.4 specialize the common continuous framed pair of DeformationAndDerivedPatchingAlgebra
 §2.7, under Φ_p and with the specified residue basis and maximal-ideal topology.
