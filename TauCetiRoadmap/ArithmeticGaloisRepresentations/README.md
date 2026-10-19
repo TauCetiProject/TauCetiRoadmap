@@ -130,8 +130,12 @@ character constants defined by finite Gauss sums, the standard-test-function eva
 algebraic Hecke zeta-integral comparison and the finite-sum root-number product formula. Its
 finite-order Hecke functional equation is the supplied Layer 5 interface. The downstream
 AutomorphicLFunctionsAndLocalFactors AL.1 owns `rank-one-local-functional-equation`, including
-the comparison of its analytic constant with `tateLocalConstant`; the downstream
-AutomorphicSpectralTheory owns `unitary-hecke-functional-equation` via Eisenstein continuation.
+the comparison of its analytic constant with `tateLocalConstant`, and
+`hecke-l-functional-equation`, the scalar endpoint for all continuous unitary Hecke characters
+from AL.2's `global-godement-jacquet` at `n = 1`. The downstream
+AutomorphicSpectralTheory §1.15c owns `unitary-hecke-functional-equation` via Eisenstein
+continuation. With the same primitive conductor and archimedean factors, the two constructions
+agree on `Re(s) > 1` and hence as meromorphic germs, with the same root number `W_H`.
 AdelicAlgebraicGroups AA.2.4 supplies
 finite-image Artin factors, induction and meromorphic assembly; §2.5a owns their comparison with
 the geometric-Frobenius local polynomials on the dual ℓ-adic representation, and §2.7 proves their
@@ -2091,7 +2095,9 @@ GlobalNumberFields Layers 4–6's discrete diagonal and compact quotient. Thus `
 `F`-vector space, so it vanishes. These scalar foundations use local fields, traces, adeles
 and harmonic analysis, without automorphic hypotheses. AutomorphicFormsOnReductiveGroups §4.3
 consumes them for its compact-quotient character adapter and Fourier expansion.
-(Kudla, *Tate's Thesis*, §3, pp. 122–124, and §4, pp. 127–128, with positive archimedean sign.)
+(Definitions and conventions: Kudla, *Tate's Thesis*, §3, pp. 122–124, and §4, pp. 127–128,
+for the standard additive characters, self-dual measures and Fourier transforms, with positive
+archimedean sign.)
 
 Construct the Schwartz–Bruhat space on the adeles, its restricted-product and tensor-product
 API, the self-dual Fourier transform and Poisson summation for a nontrivial additive character
@@ -2142,9 +2148,9 @@ For `ψ(z) = exp(2πi(z+z̄))`, self-dual additive measure `2 dx dy` and
 `z_v(f_{a,b},ω,s) = Γ_ℂ(s+t+|k|/2)` and
 `z_v(f̂_{a,b},ω⁻¹,1−s) = i^|k| Γ_ℂ(1−s−t+|k|/2)`.
 These are evaluations of the specified functions by geometric series, Gauss sums and Gaussian
-Mellin integrals. (Tate §2.5; Kudla §3, (3.7), (3.17), Proposition 3.5 and
-Proposition 3.8 (i)–(iv), pp. 118–125; Deligne 1973, 3.2–3.4, pp. 526–528,
-and 5.5–5.7, pp. 548–550.)
+Mellin integrals. (Source: Deligne 1973, 3.2–3.4, pp. 526–528, and 5.5–5.7, pp. 548–550,
+for factors and constants; Mathlib `fourier_gaussian_pi` and `Complex.Gamma_eq_integral`
+for the Gaussian Fourier and Mellin calculations.)
 *Needs:* the local Fourier and measure foundations above; [Arithmetic character constants](#local-constant-gauss-sum);
 ClassFieldTheory layer 7; Mathlib Haar integration, Fourier transform and gamma integrals.
 
@@ -2257,8 +2263,11 @@ For finite-order `ω`, identify `W_H(ω)` with the root number supplied by
 `χ = χ₀ |·|_𝔸^t` the product is `W(χ₀) A^(1/2−s−t+σ)`.
 For checks on completions, write `Λ_H(ω,u) = A^(u/2) L_∞(ω,u) L_f(ω,u)` initially in
 `Re u > 1`, with factors `Γ_ℝ(u+i r_v+b_v)` and `Γ_ℂ(u+i r_v+|k_v|/2)`.
-The downstream AutomorphicSpectralTheory target `unitary-hecke-functional-equation` identifies
-`W_H(ω)` with its functional-equation constant for all unitary `ω`.
+The downstream AutomorphicLFunctionsAndLocalFactors AL.1 target `hecke-l-functional-equation`
+identifies `W_H(ω)` with the scalar functional-equation constant for every continuous unitary `ω`,
+using AL.2's `global-godement-jacquet` at `n = 1`. AutomorphicSpectralTheory §1.15c's
+`unitary-hecke-functional-equation` constructs the same conductor-balanced completion from
+Eisenstein theory: equality on `Re(u) > 1` identifies their meromorphic germs and root numbers.
 (Source: Neukirch VII (7.4)–(7.7), pp. 488–490, and (8.5)–(8.6), pp. 502–503;
 Tate, *Number theoretic background*, (3.2.6), pp. 13–14; Deligne 1973, 3.11–3.12 and 5.5.)
 *Needs:* [Arithmetic character constants](#local-constant-gauss-sum);
@@ -5053,10 +5062,18 @@ the local zeta integral and functional equation, and identifies its constant wit
 [`hecke-zeta-integral-comparison`](#hecke-zeta-integral-comparison),
 [`finite-order-hecke-functional-equation`](#finite-order-hecke-functional-equation) and the
 finite-sum [`root-number-product-formula`](#root-number-product-formula).
-AutomorphicSpectralTheory owns
+AutomorphicLFunctionsAndLocalFactors AL.1 also owns
+[`hecke-l-functional-equation`](../AutomorphicLFunctionsAndLocalFactors/README.md#hecke-l-functional-equation),
+the all-unitary scalar continuation and functional equation obtained from AL.2's
+[`global-godement-jacquet`](../AutomorphicLFunctionsAndLocalFactors/README.md#global-godement-jacquet)
+at `n = 1`. AutomorphicSpectralTheory §1.15c owns
 [`unitary-hecke-functional-equation`](../AutomorphicSpectralTheory/README.md#unitary-hecke-functional-equation)
-via Eisenstein continuation, identifying its constant with `W_H` for all unitary characters.
-These analytic targets consume the arithmetic constants; they are not inputs to their construction.
+via Eisenstein continuation. For the same primitive conductor and archimedean factors, both
+constructions give `Λ_H(ω,s) = A^(s/2) L_∞(ω,s) L_f(ω,s)` on `Re(s) > 1`, so their
+meromorphic continuations agree and their functional-equation constant is §2.7's `W_H(ω)`.
+These downstream analytic targets consume the arithmetic constants; §2.7 constructs its
+constants and finite-image Artin equation from finite Gauss sums and LFunctions' finite-order
+Hecke equation.
 
 ## References
 

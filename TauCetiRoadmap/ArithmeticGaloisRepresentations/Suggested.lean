@@ -62,8 +62,11 @@ Design choices made explicit here.
   targets and do not appear here.
   Section 2.7 defines character constants and root numbers by finite Gauss sums, restates the
   supplied finite-order Hecke equation, and constructs local constants through finite-order
-  globalisation and Brauer induction. The general unitary Hecke equation belongs to
-  AutomorphicSpectralTheory.
+  globalisation and Brauer induction. AutomorphicLFunctionsAndLocalFactors AL.1's
+  `hecke-l-functional-equation` is the all-unitary scalar endpoint from AL.2's Godement–Jacquet
+  theorem at rank one. AutomorphicSpectralTheory §1.15c's `unitary-hecke-functional-equation`
+  gives its Eisenstein construction; their conductor-balanced completions agree on the
+  convergence half-plane and hence as meromorphic germs, with §2.7's Gauss-sum root number.
 -/
 
 noncomputable section
