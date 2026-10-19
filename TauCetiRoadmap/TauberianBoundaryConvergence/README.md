@@ -103,7 +103,9 @@ the normalized branches agree. Glue them with `F` to obtain a holomorphic
 extension on an open neighborhood of `Re s≥1`. No principal-log identity for
 the whole product and no uniform zero-free strip are asserted.
 
-### Ordered endpoint and finite deletions Apply N2’s
+### Ordered endpoint and finite deletions
+
+Apply N2’s
 `boundedDirichlet_tendsto_ordered_at_one` to obtain the limit of
 `Σ_(1≤n≤N) aχ(n)/n`. The higher prime powers converge absolutely, since
 `Σ_(p prime,k≥2) |χ(p)^k/(k p^k)| ≤ Σ_(m≥2) 1/(m(m−1))=1`.
