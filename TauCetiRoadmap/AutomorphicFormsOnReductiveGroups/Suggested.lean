@@ -24,7 +24,7 @@ Design choices.
   `IsKFinite` abbreviates that predicate on `(π.restrict K.subtype).toRepresentation`.
   `isGFinite_toRepresentation_iff` identifies it with the actual continuous-representation orbit span.
   The generic Banach theorem `gFiniteSubmodule_dense` states density of this same subset
-  directly through the native orbit span; its proof uses the algebraic prefix before the
+  as density of `gFiniteSubmodule π.toRepresentation`; it uses the algebraic prefix before the
   complete locally convex extension and the additional Hilbert comparisons.
 * Lie tests and Banach smooth vectors use SmoothBanachRepresentations SB1–SB4. The smooth
   carrier has the supplied derivative topology, with its separate continuous inclusion;
@@ -58,18 +58,6 @@ namespace TauCetiRoadmap.AutomorphicFormsOnReductiveGroups
 noncomputable section
 
 open scoped Classical
-
-/-! ## Milestone: compact-finite density -/
-
-/-- Finite-orbit-span vectors are dense in a strongly continuous complex Banach representation
-of a compact Hausdorff group (README §2.1, `gFiniteSubmodule_dense`). Continuity in operator
-norm is not required. -/
-theorem gFiniteSubmodule_dense {K E : Type*} [Group K] [TopologicalSpace K]
-    [IsTopologicalGroup K] [CompactSpace K] [T2Space K]
-    [NormedAddCommGroup E] [NormedSpace ℂ E] [CompleteSpace E]
-    (π : ContRepresentation ℂ K E) (hπ : ∀ v : E, Continuous fun k : K => π k v) :
-    Dense {v : E | FiniteDimensional ℂ
-      (Submodule.span ℂ (Set.range fun k : K => π k v))} := sorry
 
 /-! ## Layer 0: Smooth adelic functions, growth and convolution -/
 
@@ -217,6 +205,17 @@ theorem gFinite_map {W : Type*} [AddCommGroup W] [Module 𝕜 W]
 
 end CompactOrbits
 
+/-! ## Milestone: compact-finite density on the shared submodule -/
+
+/-- The shared finite-orbit-span submodule is dense in a strongly continuous complex Banach
+representation of a compact Hausdorff group (README §2.1, `gFiniteSubmodule_dense`).
+Continuity in operator norm is not required. -/
+theorem gFiniteSubmodule_dense {K E : Type*} [Group K] [TopologicalSpace K]
+    [IsTopologicalGroup K] [CompactSpace K] [T2Space K]
+    [NormedAddCommGroup E] [NormedSpace ℂ E] [CompleteSpace E]
+    (π : ContRepresentation ℂ K E) (hπ : ∀ v : E, Continuous fun k : K => π k v) :
+    Dense (gFiniteSubmodule π.toRepresentation : Set E) := sorry
+
 section CompactRestriction
 
 variable {K V : Type*} [Group K] [AddCommGroup V] [Module ℂ V]
@@ -252,14 +251,25 @@ section InductionInversion
 
 variable {G : Type*} [Group G]
 
-/-- Inversion turns left covariance by a character into right covariance by its inverse.
+/-- Inversion identifies left covariance by a character with right covariance by its inverse.
 For normalized induction the character includes the half-modulus. -/
-theorem induction_inversion_covariance (P : Subgroup G) (χ : P →* ℂˣ) (f : G → ℂ)
-    (hf : ∀ (p : P) (g : G), f ((p : G) * g) = (χ p : ℂ) * f g)
-    (g : G) (p : P) :
-    f ((g * (p : G))⁻¹) = (χ p : ℂ)⁻¹ * f (g⁻¹) := by
-  simpa only [mul_inv_rev, Subgroup.coe_inv, map_inv, Units.val_inv_eq_inv_val] using
-    hf (p⁻¹) (g⁻¹)
+theorem induction_inversion_covariance (P : Subgroup G) (χ : P →* ℂˣ) (f : G → ℂ) :
+    (∀ (p : P) (g : G), f ((p : G) * g) = (χ p : ℂ) * f g) ↔
+      ∀ (g : G) (p : P), f ((g * (p : G))⁻¹) = (χ p : ℂ)⁻¹ * f (g⁻¹) := by
+  constructor
+  · intro hf g p
+    simpa only [mul_inv_rev, Subgroup.coe_inv, map_inv, Units.val_inv_eq_inv_val] using
+      hf (p⁻¹) (g⁻¹)
+  · intro hf p g
+    simpa only [mul_inv_rev, Subgroup.coe_inv, inv_inv, map_inv,
+      Units.val_inv_eq_inv_val] using hf (g⁻¹) (p⁻¹)
+
+/-- Applying the induction convention adapter twice recovers the original function. -/
+theorem induction_inversion_involutive :
+    Function.Involutive (fun f : G → ℂ => fun g => f (g⁻¹)) := by
+  intro f
+  funext g
+  simp
 
 /-- Inversion intertwines right translation with the left action by the inverse parameter. -/
 theorem induction_inversion_rightTranslate (f : G → ℂ) (y g : G) :
