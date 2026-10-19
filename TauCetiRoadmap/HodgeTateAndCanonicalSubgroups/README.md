@@ -158,7 +158,7 @@ Within Layer 2 build 2.14, then 2.11, before 2.8–2.10. Within Layer 3 build 3.
 
 ## Suggested signatures
 
-README.md specifies the mathematics; Suggested.lean records representative signatures against the pinned APIs. `HodgeTate.CompactOpenSubgroup` and `CompactOpenSubgroup.isCofiltered` record 2.1's index. `hasseValuation`, `canonicalSum`, `WeakCanonicalRange`, `StrongCanonicalRange`, `bhwConstant`, `BHWPositionRange` and `weakCanonicalRange_of_strong` encode 3.1, 3.4 and 4.6; their rational Checks test the real inequalities. `autFactor`, `coordAction`, `autFactor_mul`, `coordAction_eq_smul`, `coordAction_mul` and `aipExponent` record 4.4 and 5.8. The coordinate action agrees with Mathlib's `OnePoint` action where its denominator is invertible.
+README.md specifies the mathematics; Suggested.lean records representative signatures against the pinned APIs. `HodgeTate.CompactOpenSubgroup` and `CompactOpenSubgroup.isCofiltered` record 2.1's index. `hasseValuation`, `canonicalSum`, `WeakCanonicalRange`, `StrongCanonicalRange`, `bhwConstant`, `BHWPositionRange` and `weakCanonicalRange_of_strong` encode the scalar inequalities of 3.1, 3.4 and 4.6. Subgroup existence, degree formulas and period inclusions are the geometric targets of those sections. `autFactor`, `coordAction`, `autFactor_mul`, `coordAction_eq_smul`, `coordAction_mul` and `aipExponent` record 4.4 and 5.8. The coordinate action agrees with Mathlib's `OnePoint` action where its denominator is invertible.
 
 ## Layer 0: p-divisible groups and integral differentials
 
@@ -1441,6 +1441,7 @@ Uses `OnePoint.instGLAction`, `OnePoint.smul_some_eq_ite`.
 - `TauCeti.HodgeTate.automorphyFactor_cocycle_test`: For `γ = (1 0; c 1)`, `δ = (1 0; c′ 1)`: `j(γδ, x) = (c + c′)z + 1 = j(γ, δ⋅x)·j(δ, x)`.
 - `TauCeti.HodgeTate.automorphyFactor_not_rightAction`: For noncommuting upper/lower unipotents g,h, `(gh)^∨=h^∨g^∨` and `g⋅(h⋅x)=T_{h^∨g^∨}(x)=(gh)⋅x`. The right translations instead satisfy `T_{gh}=T_h∘T_g`; treating `αγ^∨` as a right frame law reverses the order.
 - For `F = ℚ` and `γ = (1 0; c 1)`, `z(γ⋅x) = z/(cz + 1)`.
+- For the Weyl matrix `γ = (0 −1; 1 0)`, the chart action is `−1/z` for `z ≠ 0`, while `z = 0` maps to infinity; the nonzero-denominator hypothesis is necessary.
 
 Sources: [BHW], §5.1, Def. 5.7 and Rem. 5.8, pp.19–20; §2, Def. 2.3, p. 8; §3.3, Lem. 3.19, p. 13.
 
