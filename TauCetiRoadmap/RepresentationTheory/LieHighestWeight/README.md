@@ -348,6 +348,121 @@ Built first and completely, because it is what the later reductions invoke, not 
 - **Clebsch-Gordan.** `V(m) ⊗ V(n) ≅ ⨁_{k} V(m+n-2k)` for `0 ≤ k ≤ min m n`. The decomposition of
   tensor products, a check on the character theory of Layer 6 in the rank-one case.
 
+#### Layer 0T: concrete polynomial tensor strings and their Hermitian orthogonality
+
+Construct the concrete rank-one tensor comparison here, alongside Layer 0. It consumes
+native symmetric powers and their standard `GL₂(ℂ)`/`SU(2)` actions, the elementary
+single-module ladder above, and finite-dimensional tensor linear algebra. It does not
+consume Layer 6's character formula, general compact Haar theory, either existence or
+orthogonality of an abstract Clebsch–Gordan decomposition, or the later reductive `gl_n`
+classification. The resulting
+concrete decomposition is a comparison with the preceding abstract Clebsch–Gordan target.
+The illustrative [Sl2TensorOrthogonalityTargets.lean](Sl2TensorOrthogonalityTargets.lean)
+suggests native carriers and formulas; this README is definitive and that file is not exhaustive.
+
+1. **Polynomial, symmetric-tensor and action dictionaries.** Let
+   `P_d = MvPolynomial.homogeneousSubmodule (Fin 2) ℂ d`, and put
+   `e_i^d = x^(d-i)y^i` for `0≤i≤d`, zero outside this range. Construct its monomial
+   basis and a linear equivalence to the existing `Sym[ℂ]^d (Fin 2 → ℂ)` that sends
+   `e_i^d` to the pure symmetric tensor with `d-i` copies of the first standard vector
+   and `i` copies of the second. Supply both inverse formulas, coordinates, zero-degree
+   unit, addition/scalars, multiplication between degrees, and the tensor-product
+   comparison with the bihomogeneous polynomials in two pairs of variables. Prove
+   naturality for the actual native `TauCeti.symPowerRep ℂ 2 d` and its restriction
+   `TauCeti.SU2.symPower d`. Here `x,y` denote standard *vectors*: a matrix
+   `[[a,b],[c,d]]` substitutes `x↦a x+c y`, `y↦b x+d y`.
+   These are not the contragredient polynomial functions of ReductiveGroups10C;
+   provide the dual/action dictionary when comparing with that model rather than
+   identifying their Borel and sign conventions silently. On diagonal matrices the
+   weight of `e_i^d` is `(d-i,i)`.
+
+2. **Actual operators and vectors.** Define on these polynomials
+   `E=x∂_y`, `F=y∂_x`, `H=EF-FE`, prove preservation of degree and all linear-map
+   laws, and identify them with differentiation of the actual upper/lower unipotent
+   and diagonal actions. Prove the group exponential formulas (finite sums for E,F),
+   their tensor Leibniz laws and `H=[E,F]`, `[H,E]=2E`, `[H,F]=-2F`.
+   In particular `E e_i=i e_(i-1)`, `F e_i=(d-i)e_(i+1)` and
+   `H e_i=(d-2i)e_i`, with zero endpoints. On `P_m⊗P_n` use the actual
+   `E_tot=E⊗1+1⊗E`, `F_tot=F⊗1+1⊗F`, and `H_tot`.
+   For every `0≤r≤min(m,n)` define the nonzero vector
+
+   `v_r=(x₁y₂-y₁x₂)^r x₁^(m-r)x₂^(n-r)
+       =Σ_(j=0)^r (-1)^j binom(r,j) e_j^m⊗e_(r-j)^n`.
+
+   Prove equality of these two actual constructions under the bihomogeneous
+   comparison, annihilation by E, invariance under the upper unipotent subgroup,
+   GL₂ highest weight `(m+n-r,r)`, and SL₂ highest weight `N_r=m+n-2r`.
+   Prove that the simultaneous E-kernel and fixed weight line is spanned by this
+   vector; the completed string basis in item4 then proves that the whole
+   E-kernel is the direct sum of these lines.
+   Construct every `F_tot^k v_r`, its finite binomial/Leibniz coefficient formula,
+   weight `(m+n-r-k,r+k)`, and the ladder identities
+   `E_tot F_tot^k v_r=k(N_r-k+1)F_tot^(k-1)v_r`,
+   `F_tot^(N_r+1)v_r=0`, with nonvanishing for `0≤k≤N_r`.
+   Exponents and bounds must be stated before using natural-number subtraction.
+
+3. **The invariant Hermitian form and normalization.** Use the form conjugate-linear
+   in the first variable with `⟨e_i^d,e_j^d⟩=δ_ij/binom(d,i)` and tensor-product
+   form on `P_m⊗P_n`. Construct its sesquilinearity, conjugate symmetry, strict
+   positivity, and compatible norm/inner-product structure retaining the existing
+   additive and complex scalar parents; give the pure-tensor product and coordinate
+   formulas. Prove invariance under the actual `U(2)` action and hence SU₂ restriction,
+   with `E†=F` and `H†=H`. Build this using the explicit averaged symmetrization
+   `(1/d!)·SymmetricPower.toTensorPower` into the tensor power with its product
+   Hermitian form. The native `toTensorPower` sums **all permutations**, including
+   repeated words. Its value on `e_i` is `i!(d-i)!` times the sum `u_i` of the
+   `binom(d,i)` distinct words; the averaged image is `u_i/binom(d,i)`.
+   Prove injectivity, naturality, isometry and each counting identity, including d=0.
+   Thus `‖u_i‖²=binom(d,i)` and `‖e_i‖²=1/binom(d,i)`.
+   The orthonormal polynomial basis is `sqrt(binom(d,i)) e_i`, whereas
+   `u_i/sqrt(binom(d,i))` is the same orthonormal tensor basis. Neither formula
+   licenses silently replacing one dictionary with the other.
+
+4. **Orthogonality before decomposition.** Prove directly from the adjoint identities
+   that `⟨F_tot^k v_r,F_tot^l v_s⟩=0` whenever r≠s (all k,l), and that different
+   H-weights are orthogonal. For equal weights and r<s, `k-l=s-r>0`; move the
+   lowering operators across the form to a positive power of E on `v_s`, which is
+   zero. Compute
+
+   `‖v_r‖²=Σ_j binom(r,j)^2/[binom(m,j)binom(n,r-j)]
+     =r!(m-r)!(n-r)!(m+n-r+1)!/[m!n!(m+n-2r+1)!]`,
+
+   `‖F_tot^k v_r‖²=k! N_r!/(N_r-k)! · ‖v_r‖²` for `0≤k≤N_r`.
+   Prove the finite-sum/factorial identity and all denominator positivity claims.
+   This gives explicit normalized strings. Prove their linear independence and
+   spanning by the dimension identity `Σ_r(N_r+1)=(m+1)(n+1)`; construct the actual
+   basis, inverse coordinate/projection maps and mutually orthogonal invariant
+   summands. Construct the GL₂ intertwiners
+   `det^r⊗Sym^(N_r)(ℂ²) → Sym^m(ℂ²)⊗Sym^n(ℂ²)` sending the highest monomial
+   to `v_r`; on its i-th monomial use `(N_r-i)!/N_r! · F_tot^i v_r`.
+   Check intertwining on the actual torus and both unipotent subgroups by the
+   polynomial formulas; use elementary matrix generation of GL₂, rather than
+   infer group equivariance from an unspecified differentiation comparison.
+   Supply injectivity, image, the direct-sum intertwining equivalence and its inverse,
+   SU₂ restriction and the comparison with Layer 0's abstract decomposition.
+   On each common SU₂ weight of two strings prove the corresponding orthogonality;
+   one uniform choice is `ε=(m+n) mod 2`, reached at `k=(N_r-ε)/2`.
+   Lowering preserves the invariant **summands**, and moves between weight spaces.
+
+5. **Symmetric-square calculation and all boundaries.** For n≥2 set
+   `A=y²⊗x^n`, `B=xy⊗x^(n-1)y`, `C=x²⊗x^(n-2)y²`.
+   With `w₁=v_0`, `w₂=-v_1`, `w₃=v_2`, prove
+
+   `F²w₁=2A+4nB+n(n-1)C`,
+   `Fw₂=A+(n-2)B-(n-1)C`, `w₃=A-2B+C`.
+
+   The A,B,C Gram matrix is diagonal with entries `1,1/(2n),2/[n(n-1)]`.
+   Prove the three cross-inner-products are zero by these actual vectors and this
+   form, and give their positive norms and unit normalizations. The three highest
+   weights are `(n+2,0),(n+1,1),(n,2)`; retain the determinant twists in the GL₂/U₂
+   decomposition. For n=0 there is only r=0; for n=1 only r=0,1. Treat m=0,
+   n=0, r=0, the trivial representation, empty lowering ranges and every zero
+   endpoint explicitly, without assigning meaning to a negative symmetric power.
+   The source's undefined p49 operator and overwritten p172 scalar expressions are
+   separate source-reading questions; the specified E and the proved formulas here
+   give precise mathematical targets without authenticating those glyphs.
+
+
 ### Layer 1: Cartan subalgebras and the root-space decomposition
 
 Mostly an assembly of Mathlib, made into the working vocabulary for the module theory.
