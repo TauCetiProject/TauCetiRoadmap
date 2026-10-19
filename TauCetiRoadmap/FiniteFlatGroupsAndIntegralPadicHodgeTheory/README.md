@@ -698,6 +698,41 @@ henselian case.)
 - `finitePart_points`: for that group over `ℤ_p`, `𝒢^f(K̄) = 0` while `𝒢(K̄) = ℤ/p`: the nonzero
   generic points do not extend to `𝒪_L`-points, matching the description of `𝒢^f(K̄)`.
 
+**Special-fibre types and the ordinary counting identity.** For a finite flat commutative
+`p`-group `G` over a henselian local ring `R` of residue characteristic `p`, define
+`FiniteFlat.IsUnipotent G := IsConnectedLocal (cartierDual G)`. Prove that
+`IsConnectedLocal`, `IsUnipotent`, `IsEtale` and `IsMultiplicative` can each be tested on
+the special fibre. Here connectedness and unipotence refer to the integral group and its
+special fibre; the characteristic-zero generic fibre is étale. Over an algebraically closed
+residue field, the unipotent simple groups are `ℤ/p` and `α_p`, whereas `μ_p` is not
+unipotent. Use the connected–étale sequence and its Cartier dual (Stix 2012,
+§§8.1–8.4, Propositions 37, 40 and 44, pp.38–42; §8.5, Theorem 54, p.46).
+
+Prove `card_points_quot_multiplicativePart`. Let `R` be a complete mixed-characteristic
+DVR with perfect residue field `k`, fraction field `K`, and `e < p−1`. Let `G/R` be finite
+flat, killed by `p^n`, put `M=G(K̄)`, and let `W⊆M` be Galois stable. Assume inertia acts
+on `W` by the `p^n`-cyclotomic character and acts trivially on `M/W`. The second
+assumption means `σx−x∈W` for every `σ∈I_K` and `x∈M`. Then the closure of `W` is `G⁰`, is of
+multiplicative type, and `[M:W]=#G_k(k̄)`. Indeed `W` has a multiplicative model and
+`M/W` an étale model, by the unramified character dictionary; Raynaud full faithfulness
+identifies these with the closed subgroup and quotient of `G`. The connected–étale
+sequence then identifies the reduction kernel with `W`. Sources: Stix 2012, Proposition
+37 and Corollary 43, pp.38–41; Raynaud 1974, Corollaire 3.3.6, p.268;
+§§R07.1.9, R07.1.20 and R07.1.30. The identity supplies the ordinary finite-flat
+point-counting input for the downstream Mazur-principle and weight arguments.
+
+**Checks.**
+
+- Over `𝔽_p`, `ℤ/p` is étale and unipotent, `μ_p` is connected and multiplicative,
+  and `α_p` and its dual are connected. These distinguish all four tests.
+- For `G=μ_{p^n}×ℤ/p^m` and `W=μ_{p^n}(K̄)`, the quotient and the geometric
+  special-fibre points both have `p^m` elements; the pure factors give indices `1` and `p^m`.
+- For supersingular `E/W(𝔽̄_p)`, `E[p]` has no multiplicative part and only one
+  special-fibre point, but `p²` generic points. The counting identity requires the
+  unramified-quotient hypothesis; it does not hold for an arbitrary multiplicative part.
+- At `p=2` over `ℤ₂`, `μ₂` and `ℤ/2` have the same generic module and respectively
+  one and two geometric special-fibre points. The strict ramification bound is essential.
+
 ### R07.1.4 Rigidity: homomorphisms into étale groups and out of multiplicative groups lift uniquely
 
 Prove `multiplicativeTypeRigidity`. Let `S` be a scheme or a `p`-adic formal scheme. `(i)` If `T ⊂ T′` is a
@@ -804,6 +839,18 @@ The API:
   AbelianSchemesAndArithmeticModuli's `BarsottiTate.baseChange`.
 - `BarsottiTate.muPInfty`: `μ_{p^∞} = (μ_{p^v})_v`, of height `1`.
 - `BarsottiTate.constQpZp`: `ℚ_p/ℤ_p = (p^{−v}ℤ/ℤ)_v`, constant, of height `1`.
+- `BarsottiTate.ofHopfTower`: over `Spec R`, construct the supplied `BarsottiTate` carrier
+  from finite locally free bicommutative Hopf algebras `A_v` of rank `p^{hv}` and
+  compatible surjective Hopf maps `A_{v+1}→A_v`. Require the induced closed immersion
+  `Spec A_v→Spec A_{v+1}` to identify its source with the kernel of `[p^v]`, and
+  require the exact level sequences of §R07.1.5. This is an affine constructor for
+  the same group, with levelwise base change and morphisms (Stix 2012, §9.1, pp.54–55).
+- `BarsottiTate.points G L`: the direct limit of `FiniteFlat.points G_v L` along
+  the level inclusions, functorial in the `R`-algebra `L`. For a geometric generic
+  field it carries postcomposition Galois action. The level inclusion identifies
+  `G_v(L)` with the `p^v`-torsion in this direct limit. The Tate module is the
+  inverse limit along multiplication by `p`, as in §R07.1.8, with continuous
+  representation `BarsottiTate.tateModuleRep`; these are different limits.
 
 *Needs:* AbelianSchemesAndArithmeticModuli §A4.5 (`BarsottiTate`); Tau Ceti
 `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat`; TauCetiRoadmap.ModularCurves Layers 0B and `0E`;
@@ -1071,6 +1118,19 @@ The API:
 - `FormalLieGroup.mulP`: `[p]` : the `p`-fold sum, an endomorphism.
 - `FormalLieGroup.IsPDivisible`: `[p]^*` makes `Λ⟦X⟧` free of finite rank over itself.
 - `FormalLieGroup.height`: `log_p` of the rank of `[p]^*`, for a `p`-divisible formal Lie group.
+- `FormalLieGroup.Hom` and `FormalLieGroup.End`: law-preserving tuples with zero
+  constant term, with composition, extensionality, pointwise formal-group addition and
+  additive inverses; the endomorphisms form a ring. The linear terms give the Lie
+  functor and the ring map `FormalLieGroup.linearPartHom : End F →+* Matrix (Fin n) (Fin n) Λ`.
+- `FormalLieGroup.Points F S J`: for a `Λ`-algebra `S` complete and separated for an
+  ideal `J`, the tuples in `J.radical`, with addition obtained by convergent adic
+  evaluation of the law. A formal homomorphism induces an additive map on these
+  points, functorial under continuous algebra maps carrying the ideals into one another.
+  `FormalLieGroup.evalPoints` is evaluation of a formal homomorphism on this group.
+- `FormalLieGroup.ofFormalGroup`: the dimension-one comparison with Mathlib's
+  commutative `FormalGroup`; `FormalLieGroup.nthSeries` is the integer multiplication
+  series, whose linear term is `n·id`. These interfaces use formal substitution and
+  the chain rule (Stix 2012, §§10.2.2 and 11.3.1, pp.59, 70–71).
 
 *Needs:* Mathlib `MvPowerSeries`; Mathlib `IsAdicComplete`; Mathlib `IsNoetherianRing`; Mathlib
 `IsLocalRing`.
@@ -1083,6 +1143,12 @@ The API:
 - `FormalLieGroup.dim_zero`: The zero-dimensional formal Lie group is `Spf Λ`, of height `0`.
 - `FormalLieGroup.height_elliptic`: For `E` over `W(𝔽̄_p), Ê` has dimension `1` and height `1` (ordinary) or
   `2` (supersingular) (ModularCurves Layer 7E (PD-`5`)).
+- For `Ĝ_m`, `nthSeries n=(1+X)^n−1` has linear term `nX`; its points on
+  a complete local ring identify with `1+m`, with multiplication as the group law.
+- On square-zero ideals all quadratic terms vanish: the point functor becomes the
+  additive tangent space and `evalPoints` is the linear part.
+- Over `𝔽_p`, `[p]` on `Ĝ_m` is `X^p`, a nonzero series with zero linear part.
+  Thus the Lie functor need not be faithful.
 
 ### R07.1.13 Connected `p`-divisible groups are `p`-divisible formal Lie groups
 
@@ -1584,6 +1650,14 @@ flat closed subgroup is representable and finite flat (ModularCurves Layer 0C). 
 `R`-flat subgroup `𝒳 ⊆ 𝒢` is the closure of `𝒳_K`, since its ring embeds in its generic ring. (Raynaud
 1974, §2.1, pp. 259–260: the statement and proof.)
 
+The subgroup closure uses contraction of the generic Hopf ideal, or equivalently
+removal of scalar torsion from an integral quotient presentation.
+`TauCeti.HopfIdeal.scalarTorsion` removes scalar torsion from a coordinate Hopf algebra
+and hence closes that algebra's entire generic group; applied to the already flat
+coordinate algebra of `𝒢` it is zero. A generic sub-Hopf algebra instead describes
+a quotient group: its intersection with the integral coordinate algebra constructs
+a quotient Hopf order, rather than the closed subgroup `ℋ` in this target.
+
 *Needs:* TauCetiRoadmap.ModularCurves Layer 0C; Mathlib `IsDiscreteValuationRing`; Tau Ceti
 `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat`.
 
@@ -1769,6 +1843,15 @@ The API:
 - `Prolongation.inf`: The infimum, by Cartier duality.
 - `Prolongation.exists_max_min`: If `char K = 0` and a prolongation exists, a maximal and a minimal
   prolongation exist.
+- `HopfOrder R A`: for a finite-dimensional bicommutative `K`-Hopf algebra `A`, a
+  finite projective `R`-subalgebra spanning `A` over `K`, stable under counit and
+  antipode, with comultiplication landing in its tensor square. Its induced Hopf
+  algebra `HopfOrder.toHopfAlgebra` and `HopfOrder.baseChangeEquiv` identify
+  `K⊗_R H` with `A`. Relative `Spec` identifies these orders with prolongations of
+  `Spec A`, reversing inclusions. `HopfOrder.dual` uses the integral linear dual
+  and the generic Cartier pairing. Intersection with a specified completed order
+  is the order supplied by §R07.1.38. Sources: Raynaud 1974, §2.2, pp.260–261,
+  and Stix 2012, §3.2, pp.9–12 (finite locally free Hopf duality).
 
 *Needs:* §R07.1.20; Tau Ceti `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDuality`;
 Mathlib `IsDiscreteValuationRing`.
@@ -1784,6 +1867,60 @@ Mathlib `IsDiscreteValuationRing`.
   `p = 2`.
 - `Prolongation.self`: Every prolongation dominates itself, and the dominating morphism is the
   identity.
+- The coordinate orders of `ℤ/p` and `μ_p` over `ℤ_p[ζ_p]` span the same generic
+  Hopf algebra; their unequal integral inclusions correspond to domination.
+- The dual order of the constant group is the diagonalizable group's order, and
+  integral biduality returns the starting order. For the trivial group the order is `R⊂K`.
+
+### R07.1.24a Points and finite flat models of Galois modules
+
+Construct `FiniteFlat.points G L`, for `G : FLF R` and a commutative `R`-algebra `L`,
+as the additive convolution group of algebra maps `coord G →ₐ[R] L`. Its zero is
+the counit followed by `R→L`, addition uses comultiplication and multiplication in
+`L`, and negation uses the antipode. Prove functoriality in group morphisms and in
+`L`, compatibility with products and scalar extension, and agreement with the
+relative-`Spec` functor of points. If `L` is a `K`-algebra and `R→K→L` is a scalar
+tower, `L ≃ₐ[K] L` acts by postcomposition: `(σ • x)(a)=σ(x(a))`. This action
+commutes with group homomorphisms and the additive law. Sources: Stix 2012,
+§§1.1–1.2 and 3.1, pp.1–4, 8–9 (affine groups and Hopf algebras).
+
+For a DVR `R` with fraction field `K` of characteristic zero, a chosen separable
+closure `L/K`, and a finite discrete abelian group `M` with continuous `Gal(L/K)`
+action, define `GaloisModel R L M` to consist of a model `G : FLF R` and a
+Galois-equivariant additive equivalence `FiniteFlat.points G L ≃+ M`. Equivariance
+uses the postcomposition action. Define
+`HasFiniteFlatModel R L M := Nonempty (GaloisModel R L M)`. The primary arithmetic
+case is `R=O_K` for a finite extension `K/ℚ_p`. With a coefficient ring acting
+on `M`, a coefficient model also carries the corresponding ring action by group
+endomorphisms and the points equivalence is coefficient-linear.
+
+Prove `galoisModelEquivProlongation`: the category of such models is equivalent
+to `Prolongation R K (etaleGroupOf M)` from §R07.1.24, where the finite étale
+generic group is supplied by §R07.1.2. Morphisms commute with the specified
+identifications. In characteristic zero every finite group scheme here is étale
+on the generic fibre, so geometric points recover that fibre and all its maps.
+This comparison is an equivalence of model categories, and induces a bijection on
+isomorphism classes; it does not identify distinct choices of presentation as data.
+Sources: Stix 2012, Theorem 33, p.35; Raynaud 1974, Définition 2.2.1, p.260.
+
+The points API also identifies precomposition by `[n]^*` with `n • x`, and points
+of a Hopf-ideal quotient with points vanishing on that ideal. In particular the
+ideal of `[n]`-torsion is generated by `[n]^*(a)−ε(a)`; it differs from the
+scalar-torsion ideal of §R07.1.20.
+
+*Needs:* §R07.1.2; §R07.1.24; Tau Ceti's coordinate Hopf algebra and base-change
+functor; Mathlib `WithConv`, `AlgHom` and `Field.absoluteGaloisGroup`.
+
+**Checks.**
+
+- Over `K̄`, the constant group has points `M` with trivial Galois action; `μ_{p^n}` has
+  points `(ℤ/p^n)(1)`. Their zero points are the identity sections.
+- Over `ℤ_p[ζ_p]`, the two prolongations `ℤ/p` and `μ_p` give models of the same
+  Galois module. `HasFiniteFlatModel` asserts existence and retains no uniqueness claim.
+- Over `𝔽_p`, `α_p(𝔽̄_p)=0` despite rank `p`; the prolongation comparison needs
+  characteristic zero (or an explicit finite étale generic-fibre restriction).
+- For `G=ℤ/p²`, the kernel of `[p]` has rank `p`, whereas scalar torsion of
+  `coord G` over `ℤ_p` is zero. The two quotient constructions are different.
 
 ### R07.1.25 A generic `p`-divisible group whose levels extend has a `p`-divisible extension
 
@@ -1916,6 +2053,11 @@ The API:
 - `FVectorScheme.of_generic_char_zero`: Over an integral base with fraction field of characteristic
   `0`, an `F`-action on a finite locally free `G` of rank `q` satisfies `(**)`.
 
+On coordinate Hopf algebras the `F`-action is by Hopf endomorphisms: scalar
+addition is convolution and scalar multiplication is composition. This is the
+coordinate form of the ring map to group endomorphisms, with its contravariant
+direction fixed by relative `Spec`.
+
 *Needs:* Tau Ceti `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat`; TauCetiRoadmap.ModularCurves
 Layer 0B.
 
@@ -1950,6 +2092,12 @@ isomorphic because `u_{i+1}` can be solved from `u_i^{q−1} =` (unit) by hensel
 
 *Needs:* §R07.1.27; TauCetiRoadmap.ModularCurves Layer 0E.
 
+Over a mixed-characteristic DVR with `v(p)=e`, package the local equations as
+`FVectorScheme.normalForm`, recording the cyclic eigenlines, `γ_iδ_i=w`,
+valuations `n_i∈[0,e]` and the tame character of §R07.1.32.
+Changing eigenline generators changes the coefficients by the stated units;
+the valuation tuple is invariant under this change, with its cyclic labels retained.
+
 **Checks.**
 
 - `FVectorScheme.classification_order_p`: `r = 1` recovers the Oort–Tate classification (§R07.1.34).
@@ -1979,6 +2127,12 @@ analysis of Proposition 3.3.2, to every prolongation of a simple `F`-vector sche
 
 *Needs:* §R07.1.27; §R07.1.20; §R07.1.24.
 
+Express the existence of this filtration as `HasFVectorDevissage`: the zero group
+has the property, and an exact sequence with a previously filtered subgroup and
+an `F`-vector-scheme quotient extends it. Prove invariance under isomorphism and
+compatibility with the composition series above; a filtration is a witness to a
+property rather than additional structure on every finite flat group.
+
 **Checks.**
 
 - `exists_fVector_composition_elliptic`: for `E[p]` with supersingular reduction over `W(𝔽̄_p)`, the
@@ -1986,6 +2140,8 @@ analysis of Proposition 3.3.2, to every prolongation of a simple `F`-vector sche
 - `exists_fVector_composition_cyclic`: for `ℤ/p²` the series `0 ⊂ ℤ/p ⊂ ℤ/p²` has both factors
   `ℤ/p`, which are `F_p`-vector schemes; `ℤ/p²` itself is not an `F`-vector scheme for any `F`,
   since it is not killed by `p`.
+- The zero group has the empty dévissage. Its product with `μ_p` has the
+  one-factor dévissage of `μ_p`, with no extra zero composition factor.
 
 ### R07.1.30 Raynaud's theorem: uniqueness of finite flat models and full faithfulness when `e < p − 1`
 
@@ -2082,6 +2238,20 @@ flat `R`-group by schematic closure of the corresponding subquotient (§R07.1.20
 
 *Needs:* §R07.1.27; §R07.1.28; §R07.1.29; Mathlib `Field.absoluteGaloisGroup`; §R07.1.20.
 
+Export `finiteFlat_inertia_eigencharacter` over an unramified finite extension
+`K/ℚ_p` of residue degree `f`, for odd `p` and a nonzero finite-dimensional
+finite-flat `k[G_K]`-module `V` killed by `p`, with finite coefficient field `k`.
+After extending coefficients, `V` has an inertia eigenline whose character is a
+product of level-`r` fundamental characters with digits in `{0,1}`, where
+`r≤f·dim_k V`. Indeed wild inertia has nonzero invariants and tame inertia is
+diagonalizable there; Frobenius permutes the eigencharacters in orbits of length
+at most `dim_k V`, with `p^f`-power conjugation. Raynaud bounds the digits of
+these constituents. In particular, for `K=ℚ_p` and `dim_k V=2`, an eigencharacter
+is `ψ₂^{a+pb}` with `a,b∈{0,1}`; a level-one character uses equal digits.
+This is the rank-two specialization of the full bound, not a level-two assertion
+for representations of arbitrary rank or residue degree (Raynaud 1974,
+Corollaire 3.4.4, p.270; Serre 1987, §2.8, pp.189–190).
+
 **Checks.**
 
 - `tameInertia_exponents_muP`: for `μ_p` over `ℤ_p (e = 1, r = 1, n = 1)` inertia acts by `ψ = ω`, the
@@ -2094,6 +2264,13 @@ flat `R`-group by schematic closure of the corresponding subquotient (§R07.1.20
 - At level `r = 3`, valuations `(v(δ₀), v(δ₁), v(δ₂)) = (1, 0, 0)` give `ψ = ψ₀`
   and `χ₀ ∘ ψ = θ^{p²}`, since eliminating the other coordinates gives
   `v(a₀) = p²`. The unshifted choice `χ₀⁻¹ ∘ θ` would instead give `θ`.
+- Over `ℚ_p`, an unramified rank-two module gives `a=b=0`, and the
+  supersingular elliptic example gives `(a,b)=(1,0)` or `(0,1)`.
+- A supersingular elliptic `p`-torsion module stays rank two after coefficient
+  extension, while its two eigenlines need not be defined over the original field.
+- A simple niveau-three finite-flat representation over `ℚ_p` has dimension
+  three and can have character `ψ₃`; it is covered by the general bound and
+  excluded from the level-two specialization.
 
 ### R07.1.33 Raynaud: the determinant of a finite flat group killed by `p` is the tame character of its different
 
@@ -2293,12 +2470,35 @@ Lemma 15.92.19: the module-level gluing on which the proof rests.)
 *Needs:* Tau Ceti `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat`; Mathlib `IsNoetherianRing`;
 Mathlib `IsAdicComplete`; Mathlib `Localization.Away`.
 
+Deduce `exists_model_localization_of_completion`. For a Dedekind domain `R`
+with characteristic-zero fraction field `K` and nonzero prime `𝔭`, write
+`R_𝔭` for the local DVR and `R̂_𝔭` for its completion, with fraction field `K_𝔭`.
+A finite-dimensional bicommutative `K`-Hopf algebra `A`, a finite flat
+`R̂_𝔭`-Hopf model, and a specified Hopf isomorphism of its generic fibre with
+`K_𝔭⊗_K A` glue to a Hopf order over `R_𝔭`. The order inside `A` is the
+inverse image of the completed order under `A→K_𝔭⊗_K A`; its extension to
+`R̂_𝔭` is the chosen order. This uses `gluingEquiv` for the local DVR, with
+its uniformizer as gluing element (Stacks Tags 0BP2 and 0BP6).
+
+Deduce `hasFiniteFlatModel_localization_iff_completion`: for a finite continuous
+`G_K`-module and a chosen embedding `K^sep→K_𝔭^sep`, existence of a model
+over `R_𝔭` is equivalent to existence of a model of the restricted representation
+over `R̂_𝔭`. Use §R07.1.24a's finite étale generic group to obtain the specified
+generic Hopf isomorphism. The local predicate remains the definition of finite
+flatness. Sources: Schoof 2003, Proposition 2.3, p.419; Stacks Tags 0BP2 and 0BP6.
+
 **Checks.**
 
 - `gluingEquiv_Z_l`: for `R = ℤ[1/l]` and `p ≠ l`: a finite flat `p`-group scheme over `ℤ[1/l]` is a
   `G_ℚ`-module unramified outside `pl∞` together with a finite flat model over `ℤ_p` of its restriction to
   `G_{ℚ_p}`.
 - `gluingEquiv_unit`: with `p` a unit in `R, R̂ = 0` and the triples are just `R`-groups.
+- At `R_𝔭=ℤ_(p)`, a `ℤ_p`-model with its identified rational generic fibre
+  produces a `ℤ_(p)`-model; the generic representation remains the original one.
+- For `μ_p` the intersection order is `ℤ_(p)[T]/(T^p−1)` inside
+  `ℚ[T]/(T^p−1)`; for a constant group it is the product of copies of `ℤ_(p)`.
+- At `p=2` the two completed models `μ₂` and `ℤ/2` glue separately to
+  nonisomorphic localized models. The existence equivalence does not assert uniqueness.
 
 ### R07.1.39 The Mayer–Vietoris sequence for `Hom` and `Ext¹` of finite flat groups
 
@@ -2606,6 +2806,16 @@ The API:
 - `dualModule`: `N* = Hom_{W(k)}(N, W(k)[1/p]/W(k))` with the twisted `F, V`.
 - `dieudonneModule_F`: `F` on `M(G)` is induced by `F_G`, and `V` by `V_G`.
 - `dieudonneModule_prod`: `M(G × H) ≅ M(G) ⊕ M(H)`.
+- `wittPrimitiveHom G n`: the subgroup of `W_n(coord G)` whose elements define
+  homomorphisms `G→W_n`: the counit gives zero and comultiplication agrees with
+  the Witt addition polynomials. Identify it with `Hom(G,W_n)`, functorially in
+  `G`, with the Frobenius, Verschiebung and the `σ^{−n}` scalar action of
+  §R07.2.4. For the unipotent summand `G_rl⊕G_ll`, its colimit along
+  Verschiebung is the module constructed above. Retain Cartier duality for
+  `G_lr`, then assemble the three summands by (28.1); the primitive colimit
+  alone does not give the Dieudonné module of multiplicative groups.
+  Sources: Pink 2005, §23, Proposition 23.1, p.54; §27, Theorem 27.1,
+  pp.69–71; §28, (28.1), p.72.
 
 *Needs:* §R07.2.1; §R07.2.4; §R07.2.5; Tau Ceti
 `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDuality`.
@@ -2622,6 +2832,11 @@ The API:
 - `dieudonneModule_not_covariant`: `M` is contravariant: the inclusion `μ_p ↪ μ_{p²}` induces the
   surjection `M(μ_{p²}) ↠ M(μ_p)`, not an injection.
 - `dieudonneModule_cyclic`: `M(ℤ/p^nℤ) = W_n(k)` with `F = σ`.
+- For `α_p`, the first Witt coordinate `X` is primitive and gives the
+  one-dimensional module; precomposition by `X↦aX` multiplies the first
+  Witt-coordinate coefficient by `a`, with the stated twisted scalar action.
+- `Hom(μ_p,W_n)=0` for every `n`, although `M(μ_p)=k`. This separates the
+  primitive construction on the unipotent summand from its Cartier-dual extension.
 
 ### R07.2.7 Base change and Galois descent for Dieudonné modules
 
@@ -6565,6 +6780,53 @@ Proposition 13, pp. 276–277: Proposition 13; Serre 1972, §1.12, p. 277: the c
 - For the Tate curve over `ℚ_p` with `v(q) = 1`, wild inertia acts nontrivially
   on the extension while the full-inertia semisimplification is `1 ⊕ θ_{p−1}`.
 
+**Tate parameters for multiplicative curves.** Prove `multiplicativeTateParameter`.
+For a finite extension `K/ℚ_p` and an elliptic curve with multiplicative reduction,
+there is a unique `q∈K×` with `v(q)>0` and `j(E_q)=j(E)`, and
+`v(q)=−v(j(E))`. There is an unramified quadratic character `η`, possibly
+trivial, identifying `E` with the corresponding twist of `E_q`, and identifying
+their torsion Galois modules by that twist. Construct `q` by inversion of the
+integral series `j(q)⁻¹=q+⋯`, and use multiplicative reduction to identify the
+splitting character. This target uses EllipticCurves Layer 4's integral Tate
+series and uniformisation and Layer 5's Galois-equivariant quadratic-twist
+comparison; ArithmeticGaloisRepresentations §6.1 supplies the residual
+elliptic-representation adapter. Sources: Serre 1972, §1.12, Proposition 13
+and footnote 3, pp.276–277; Silverman, *Advanced Topics*, V.5.3.
+
+**Checks.**
+
+- For `E_q`, the parameter recovered from `j(E_q)` is `q` and `η=1`.
+- For nonsplit multiplicative reduction the splitting character is the
+  nontrivial unramified quadratic character; its restriction to inertia is trivial.
+- `v(j)≥0` is outside this target: the inverse series must be evaluated at
+  an element of positive valuation. No Tate parameter is asserted for good reduction.
+
+**The multiplicative finite-flat criterion.** Prove
+`torsion_hasFiniteFlatModel_iff_dvd_valuation`. For any prime `p`, a finite
+unramified extension `K/ℚ_p`, and an elliptic curve `E/K` with multiplicative
+reduction and Tate parameter `q`,
+`HasFiniteFlatModel O_K K̄ E[p] ↔ p ∣ v(q)`, equivalently `p ∣ −v(j(E))`.
+The criterion concerns the actual torsion Galois module, including its extension
+class. If the valuation is divisible by `p`, removing a `p`-th power from `q`
+leaves a unit-Kummer class; §R07.5.6 constructs its model and §R07.6.8 removes
+the unramified twist. Conversely, for odd `p`, uniqueness of models and
+§R07.5.6 force the Kummer class to be a unit. For `p=2`, apply the
+order-two subgroup/quotient argument of §R07.5.8 after strict henselisation
+and use unramified descent. No coefficient-field descent at `p=2` is used.
+Sources: Serre 1972, §1.12, pp.276–277; Serre 1987, §2.8, proof of
+Proposition 4, pp.189–190, and §2.6, p.188; §§R07.5.6 and R07.5.8.
+
+**Checks.**
+
+- For `q=π^p u` with `u` a unit and `v(π)=1`, the unit-Kummer model gives
+  finite flatness even when the extension is nonsplit.
+- For `q=π`, the valuation is `1`, so `E_q[p]` has no model. Its
+  semisimplification `μ_p⊕ℤ/p` does have a model.
+- Twisting either example by the unramified quadratic character preserves
+  the answer and `j`; split multiplicative reduction is not required.
+- At `p=2` over `ℚ₂`, `q=−4` gives the unit square class `−1` and a
+  finite-flat nonsplit module, while `q=2` gives the nonfinite class of `2`.
+
 ### R07.5.5 Peu ramifiée and très ramifiée representations
 
 Define `IsPeuRamifiee` and `IsTresRamifiee`. Let `ρ : G_p = Gal(ℚ̄_p/ℚ_p) → GL(V) = GL₂(F̄_p)` with
@@ -6656,7 +6918,8 @@ class; Serre 1987, §2.8, proof of Proposition 4, p. 190: part `(a)`.)
 For a continuous representation on a finite-dimensional `𝔽̄_p`-space, import
 ArithmeticGaloisRepresentations §1.4's `residual_descent_finite_field` to choose a finite
 field `k/𝔽_p` and a model `V_k`. Define `IsFiniteFlatResidual` by existence of a finite
-flat commutative `ℤ_p`-group scheme with `k`-action whose generic points are `V_k`.
+flat model `HasFiniteFlatModel ℤ_p ℚ̄_p V_k` from §R07.1.24a, with `k`-action
+and a coefficient-linear points identification.
 Here `p>2`. Prove independence of the chosen model and invariance in both directions
 under finite coefficient extension. Raynaud full faithfulness (`e=1<p−1`) extends every
 scalar endomorphism and its algebra relations uniquely to the model. Coefficient enlargement
@@ -6690,7 +6953,7 @@ extension and unramified descent. That consumer owns the all-prime shape-specifi
 peu-ramifiée equivalence, including the dyadic maximal-model argument, agreement with this
 API at odd primes, and the local-weight application.
 
-*Needs:* ArithmeticGaloisRepresentations §1.4; §R07.1.30; §R07.5.6;
+*Needs:* ArithmeticGaloisRepresentations §1.4; §R07.1.24a; §R07.1.30; §R07.5.6;
 TauCetiRoadmap.ModularCurves Layer 0E (effective descent).
 
 **Checks.**
@@ -7493,7 +7756,50 @@ flat subfunctor; Ramakrishna 1993, §3, Lemmas 3.1–3.2 and Theorem 3.1, pp. 27
 Lemmas 4.3–4.4, Theorem 4.2 and Corollary 4.1, pp. 279–281: the tangent space via Fontaine–Laffaille
 modules and the flat deformation rings `W(F_q)⟦T₁, T₂⟧`.)
 
-*Needs:* §R07.1.20; §R07.1.24; §R07.3.11; §R07.3.4; §R07.3.18; §R07.5.7.
+The closure interface uses `HasFiniteFlatModel` from §R07.1.24a. State the
+following named targets for finite discrete `p`-primary `G_K`-modules, using
+equivariant additive maps throughout:
+
+- `HasFiniteFlatModel.of_addEquiv`: transport a model along an equivariant
+  additive equivalence.
+- `HasFiniteFlatModel.prod`: products of models give models of finite products.
+- `HasFiniteFlatModel.of_injective`: an injection into a module with a model
+  gives a model by schematic closure of the generic subgroup.
+- `HasFiniteFlatModel.of_surjective`: a surjective image of a module with a
+  model has the quotient by the closure of the generic kernel as a model.
+- `HasFiniteFlatModel.of_jointlyInjective`: if a finite family of equivariant
+  maps from `M` into modules with models has zero common kernel, then `M` has
+  a model; embed it into the product. This includes coefficient fibre products.
+- `HasFiniteFlatModel.of_forall_quotient_pow`: for a complete noetherian local
+  `ℤ_p`-algebra `A` with finite residue field of characteristic `p` and a finite free continuous
+  `A[G_K]`-module `T`, requiring models for `T/m_A^n T` for every `n≥1`
+  is equivalent to requiring models for `T/IT` for every open ideal `I`.
+  Each open `I` contains a power of `m_A`, so use the quotient target. This is
+  an adic condition on finite quotients; it does not give a finite group scheme
+  whose points are the infinite module `T`.
+
+These targets have no ramification bound. When coefficient actions are part of
+the models, maps and kernels retain those actions. Sources: Ramakrishna 1993,
+§1, Proposition 1.1 and Theorem 1.1, pp.270–272; §2, Lemma 2.1, p.272;
+§R07.1.20 and ModularCurves Layer 0C for closure and finite flat quotients.
+
+Prove `flatTangent_finrank_le` without a scalar-endomorphism hypothesis. Over
+`ℚ_p`, `p>2`, let `V` be a finite-flat `k`-representation, `k` a finite field
+of characteristic `p`, and let `M` be its coefficient Fontaine–Laffaille module
+with weights in `{0,1}`. Define `H¹_f(ad V)` as the classes in continuous
+`H¹(G_{ℚ_p},End_k V)` whose dual-number lifts have coefficient finite flat
+models. Identify it with the killed-by-`p`, coefficient-linear `Ext¹(M,M)`.
+Writing `n=dim_k M` and `d=dim_k Fil¹ M`, the matrix-extension calculation gives
+`dim_k H¹_f(ad V)=h⁰(ad V)+d(n−d)`: filtration-preserving endomorphisms have
+dimension `n²−d(n−d)` and the kernel of the change-of-splitting map is
+`End(M)=End_{G_{ℚ_p}}(V)`. Thus in rank two,
+`dim_k H¹_f(ad V)≤h⁰(ad V)+1`, with equality for filtration type `(0,1)`.
+This bounds the local condition even when an unframed deformation functor has
+no representing ring. Sources: Ramakrishna 1993, Lemmas 3.1–3.2 and 4.3–4.4,
+pp.274–275, 280, applied without replacing the endomorphism kernel by scalars;
+§§R07.3.11 and R07.3.18.
+
+*Needs:* §R07.1.20; §R07.1.24; §R07.1.24a; §R07.3.11; §R07.3.4; §R07.3.18; §R07.5.7.
 
 **Checks.**
 
@@ -7501,29 +7807,45 @@ modules and the flat deformation rings `W(F_q)⟦T₁, T₂⟧`.)
   irreducible (inertia acts through the two level-`2` fundamental characters), finite flat with `det = χ̄` and `End = F_p`, so `R^fl(ρ̄) = ℤ_p⟦T₁, T₂⟧` while `R(ρ̄) = ℤ_p⟦T₁, …, T₅⟧`.
 - `flatDeformation_range`: for `p = 2` or for `e ≥ p − 1` the Fontaine–Laffaille computation is
   unavailable (part `(ii)` is not claimed), although part `(i)` still holds.
+- The zero module and the identity equivalence satisfy the closure targets.
+  The diagonal `M→M×M` tests injections; projection `M×N→M` tests quotients.
+- For `A=k[ε]/(ε²)` the maximal-ideal quotients stop at `n=2`: the residual
+  model alone is insufficient. The target includes the actual dual-number lift.
+- For `V=k(1)⊕k`, `h⁰=2` and the flat tangent space has dimension `3`;
+  scalar endomorphisms cannot be assumed. For a Schur module of type `(0,1)`
+  the dimension is `2`, recovering part `(ii)`.
+- For trivial `V=k²`, `d=0` and both `h⁰` and the flat tangent dimension are
+  `4`. For `V=k(1)²⊕k²`, `d=2`, so the excess over `h⁰` is `4`;
+  the bound with excess `1` is specific to rank two.
 
 ### R07.6.8 Finite flatness under unramified base change, finite extension and twisting
 
 Prove `finiteFlatBaseChangeTwist`. Let `K/ℚ_p` be finite with ring of integers `O_K` and `V` a finite
 discrete `ℤ_p[G_K]`-module (a finite étale `K`-group scheme). `(i)` If `K′/K` is unramified (possibly
 infinite, e.g. `K′` the completion of `K^nr`), `V` is finite flat over `O_K` if and only if `V|_{G_{K′}}` is
-finite flat over `O_{K′}`; flatness at `p` therefore depends only on `V|_{I_K}` together with descent of
-the model. `(ii)` If `V` is finite flat over `O_K`, then `V|_{G_{L}}` is finite flat over `O_L` for every
+finite flat over `O_{K′}`; existence of a model can therefore be tested after
+restriction to inertia and completion of the maximal unramified extension.
+`(ii)` If `V` is finite flat over `O_K`, then `V|_{G_{L}}` is finite flat over `O_L` for every
 finite `L/K`. (iii) Twisting by an unramified character preserves finite flatness; twisting by a
 ramified character need not. `(iv)` When `e(K/ℚ_p) < p − 1` the model is unique (§R07.1.30), so the
-descent in `(i)` is automatic and the flat deformation condition is stable under unramified base
-change; when `e ≥ p − 1` the descent from `O_{K^nr}` to `O_K` can fail to be unique (two models for `e = p − 1`) and must be checked.
+generic descent datum extends uniquely to that model. When `e ≥ p − 1`,
+individual models can differ (already at `e=p−1`), while a canonical maximal
+model supplies descent of existence in `(i)`.
 
-Here "finite flat" means that `V` is the generic fibre of a finite flat group scheme over the ring
-of integers (§R07.1.24).
+Here "finite flat" means `HasFiniteFlatModel O_K K̄ V` (§R07.1.24a).
+In `(i)` the unramified extension is algebraic, or the completion of an algebraic
+unramified extension, with the natural map on absolute Galois groups.
 
 *Proof sketch.* `(ii)` Base change of a finite flat `O_K`-model along `O_K → O_L` is a finite flat model
-of `V|_{G_L}`. `(i)` ⇐: for `K′/K` finite unramified, `O_K → O_{K′}` is finite étale Galois, and a model
-over `O_{K′}` with the Galois descent datum descends (fpqc descent, TauCetiRoadmap.ModularCurves Layer
-0E); the descent datum on the generic fibre extends to the model by full faithfulness of the generic
-fibre functor on models up to the order of §R07.1.24: take the maximal (or minimal) model, which is
-canonical and hence Galois-stable. For the completion of `K^nr` use that a finite flat model is
-defined over a finite unramified extension. (iii) An unramified character is the generic fibre of an
+of `V|_{G_L}`. `(i)` ⇐: for `K′/K` finite unramified Galois, use the
+maximal model of §R07.1.24. Its conjugates are maximal models of the same generic
+group, so the unique generic-identity isomorphisms supply an effective cocycle;
+fpqc descent is ModularCurves Layer 0E. Pass to a Galois closure for a general
+finite unramified extension. For an algebraic unramified extension, finite
+presentation descends the model and its generic identification to a finite stage.
+For its completion, first apply §R07.1.38 over the uncompleted unramified DVR
+to glue the completed model to the given generic group, then descend to a finite
+stage. `(iii)` An unramified character is the generic fibre of an
 étale group scheme (§R07.1.2), and tensoring with it is a descent twist of the model; a ramified
 character of order prime to `p` twists `ℤ/p` into a non-finite-flat module when its inertial exponent is
 not in `[0, e]` (§R07.1.32). `(iv)` By §R07.1.30 and §R07.1.31. (Raynaud 1974, §2.2, Proposition 2.2.2
@@ -7532,8 +7854,23 @@ used for Galois descent of a canonical model; Raynaud 1974, §3.3, Théorème 3.
 3.3.6, p. 268; §3.4, Théorème 3.4.3, p. 270: uniqueness for `e < p − 1` and the inertial exponents of
 finite flat `F`-vector schemes.)
 
-*Needs:* §R07.1.24; §R07.1.30; §R07.1.31; §R07.1.32; §R07.1.2; TauCetiRoadmap.ModularCurves Layer
-0E.
+State `HasFiniteFlatModel.of_isUnramified`: a finite `p`-primary module with
+trivial inertia has the finite étale model of the residue-field Galois module.
+State `HasFiniteFlatModel.twist_unramified` for a finite coefficient module
+with a model and a continuous unramified scalar character valued in its
+coefficient units: split the character over a finite unramified extension and
+descend a model with the twisted descent datum. State
+`HasFiniteFlatModel.coeff_baseChange` and `HasFiniteFlatModel.coeff_descent`
+for finite fields `k⊂k′` of characteristic `p>2` over `ℤ_p`, using
+coefficient models: `V` has a model iff `k′⊗_k V` does. The extension is a
+finite direct-sum construction; descent uses restriction of scalars and a
+coefficient-linear projection onto `V`, extended and split on models by
+Raynaud full faithfulness. These are §R07.5.6a's coefficient invariance in
+named form. Sources: Stix 2012, Theorem 33, p.35; Raynaud 1974,
+Corollaires 2.2.3 and 3.3.6, pp.261, 268; Serre 1987, §2.8, pp.189–190.
+
+*Needs:* §R07.1.24; §R07.1.24a; §R07.1.30; §R07.1.31; §R07.1.32;
+§R07.1.38; §R07.1.2; §R07.5.6a; TauCetiRoadmap.ModularCurves Layer 0E.
 
 **Checks.**
 
@@ -7542,6 +7879,13 @@ finite flat `F`-vector schemes.)
 - `finiteFlatTwist_ramified`: over `ℚ_p (e = 1 < p − 1)` the character `ω²` (second power of the mod-`p`
   cyclotomic character) on `F_p` is not finite flat when `p > 3`, since Raynaud's exponents for `e = 1`
   are `0` or `1` (§R07.1.32), although `ω²` is a twist of the finite flat `ω`.
+- A trivial-inertia module with nontrivial Frobenius has a finite étale model;
+  the unramified-model target does not require a trivial whole Galois action.
+- Extending a nonzero uniformizer-Kummer class from `𝔽_p` to `𝔽_{p²}`
+  does not make it finite flat; unit classes are finite flat over both fields.
+- Over `ℤ₂` the two models of the constant order-two generic group remain
+  distinct after unramified base change. Descent of existence uses a canonical
+  model, and does not assert uniqueness of every model.
 
 ### R07.6.9 Raynaud: the determinant of the Tate module of a `p`-divisible group is `χ^d`
 
@@ -7648,6 +7992,14 @@ TauCetiRoadmap.LocalFieldsRamification Layer 3; Mathlib `differentIdeal`, `IsKra
 - **LocalGaloisDeformationRings** uses Fontaine–Laffaille modules
   (R07.3), Kisin modules with coefficients, finite-height lattices and Kisin's full faithfulness
   (R07.4), and the flat deformation condition and its tangent space (§R07.6.7).
+  Its Layer 4 uses `GaloisModel`, `HasFiniteFlatModel` (§R07.1.24a), the named
+  closure targets and the endomorphism-sensitive bound `flatTangent_finrank_le`.
+- **SerreWeightAndLevelOptimisation** §§2.9 and 3.3 uses
+  `card_points_quot_multiplicativePart` (§R07.1.3) with its cyclotomic-subgroup
+  and unramified-quotient hypotheses, and the local-model interface of §R07.1.24a.
+- **EllipticCurveModularity** and **ClassicalSerreModularity** use
+  `HasFiniteFlatModel` through `IsFiniteFlatResidual`, the gluing equivalence
+  (§R07.1.38) and `torsion_hasFiniteFlatModel_iff_dvd_valuation` (§R07.5.4).
 - **AlgebraicModularFormsAndSerreWeights** imports `IsFiniteFlatResidual` and
   `finiteFlatKummerCoefficients` (§R07.5.6a) for its odd-prime coefficient Kummer and
   unramified-descent input. Its all-prime finite-flat/peu-ramifiée equivalence, including

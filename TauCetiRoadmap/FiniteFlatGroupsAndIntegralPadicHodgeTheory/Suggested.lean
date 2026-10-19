@@ -32,6 +32,10 @@ The design choices made explicit here:
   the flat-affine extension of §R07.1.1, preserving naturality, base change and `VF = [p] = FV`.
 * A finite flat model of a generic group is a `Prolongation`: a model together with an isomorphism
   of its generic fibre, ordered by domination.
+  The README's `FiniteFlat.points` carries convolution addition and postcomposition Galois
+  action; `GaloisModel` identifies it equivariantly with a finite Galois module, and
+  `HasFiniteFlatModel` asserts existence. These point-functor interfaces and their comparison
+  with `Prolongation` are README targets.
 * Dieudonné modules are contravariant: a Dieudonné module over a perfect field `k` is a
   `W(k)`-module with a `σ`-linear `F` and a `σ⁻¹`-linear `V` such that `FV = VF = p`, and
   `M(ℚ_p/ℤ_p) = (W(k), F = σ)`, `M(μ_{p^∞}) = (W(k), F = pσ)`.
@@ -1418,6 +1422,15 @@ further instances of the statements above.
   `illusieObstructionHomomorphisms` uses the cone of the map of Lie complexes ℓ̌_H → ℓ̌_G.
   For the identity this cone is zero; for G = 0 it is ℓ̌_H[1], giving an Ext² obstruction;
   `flatDeformationTangentSpace`; `finiteFlatBaseChangeTwist`;
+  `HasFiniteFlatModel.of_addEquiv`, `HasFiniteFlatModel.prod`,
+  `HasFiniteFlatModel.of_injective`, `HasFiniteFlatModel.of_surjective`,
+  `HasFiniteFlatModel.of_forall_quotient_pow` (the adic condition on finite quotients),
+  `HasFiniteFlatModel.of_jointlyInjective`, `HasFiniteFlatModel.of_isUnramified`,
+  `HasFiniteFlatModel.twist_unramified`, `HasFiniteFlatModel.coeff_baseChange`,
+  `HasFiniteFlatModel.coeff_descent` (finite fields over ℤ_p with p odd);
+  `flatTangent_finrank_le` gives h⁰+d(n−d) over ℚ_p, hence h⁰+1 in rank two,
+  without a scalar-endomorphism hypothesis. Unramified descent of existence uses
+  canonical maximal models; it does not assert uniqueness of every model.
   `raynaudDetTateModule`; `cyclotomicImageStability`.
 -/
 
