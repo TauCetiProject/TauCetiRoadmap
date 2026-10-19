@@ -59,7 +59,8 @@ def divisorCoprimeError (D : ℕ) (x : ℝ) : ℝ :=
 def divisorRemainderIntegral (D : ℕ) (T σ : ℝ) : ℝ :=
   ∫ u : ℝ in (1 : ℝ)..T, divisorCoprimeError D u * u ^ (-σ)
 
-/-- Exact finite divisor and integral inequalities used in the BBR analytic estimates. -/
+/-- Finite divisor and integral inequalities for the BBR estimates, with the scaled
+`7/4` tail bound starting at `T = 2`. -/
 def BBRFiniteInput : Prop :=
   let κ₇ : ℝ := (riemannZeta (3 / 4)).re ^ 2 / (3 / 4) +
     8 * Real.eulerMascheroniConstant - 20
@@ -75,7 +76,7 @@ def BBRFiniteInput : Prop :=
   (∀ x : ℝ, 1 ≤ x → x ≤ (10 : ℝ) ^ 7 →
     |divisorCoprimeError 2 x| ≤ 0.883 * Real.sqrt x ∧
     |divisorCoprimeError 6 x| ≤ 0.927 * Real.sqrt x) ∧
-  (∀ T : ℝ, 1 ≤ T → T ≤ (10 : ℝ) ^ 5 →
+  (∀ T : ℝ, 2 ≤ T → T ≤ (10 : ℝ) ^ 5 →
     T ^ (1 / 4 : ℝ) * |divisorRemainderIntegral 1 T (7 / 4) - κ₇| ≤ 0.302) ∧
   (∀ T : ℝ, 1260 ≤ T → T ≤ (10 : ℝ) ^ 7 →
     T ^ (1 / 4 : ℝ) * |divisorRemainderIntegral 1 T (7 / 4) - κ₇| ≤ 0.00979) ∧
@@ -692,6 +693,30 @@ theorem BeurlingPrimeSystem.pnt_iff_integerCount (P : BeurlingPrimeSystem)
 
 /-- The inclusive divisor average has a square-root remainder. -/
 theorem divisorError_isBigO : divisorError =O[atTop] (fun x : ℝ => Real.sqrt x) := by
+  sorry
+
+/-- The integrated coprime-divisor error vanishes at its lower endpoint. -/
+theorem divisorRemainderIntegral_one (D : ℕ) (σ : ℝ) :
+    divisorRemainderIntegral D 1 σ = 0 := by
+  simp [divisorRemainderIntegral]
+
+/-- The limiting `7/4` divisor integral lies strictly between `0.400` and `0.415`. -/
+theorem divisorRemainderIntegral_kappa7_bounds :
+    let κ₇ : ℝ := (riemannZeta (3 / 4)).re ^ 2 / (3 / 4) +
+      8 * Real.eulerMascheroniConstant - 20
+    0.400 < κ₇ ∧ κ₇ < 0.415 := by
+  sorry
+
+/-- On the first unit interval the exact divisor integral gives a scaled tail bound
+of one half, independently of the finite BBR input. -/
+theorem divisorRemainderIntegral_initial {T : ℝ} (hT : 1 ≤ T) (hT₂ : T ≤ 2) :
+    let κ₇ : ℝ := (riemannZeta (3 / 4)).re ^ 2 / (3 / 4) +
+      8 * Real.eulerMascheroniConstant - 20
+    divisorRemainderIntegral 1 T (7 / 4) =
+      (4 / 3 : ℝ) * (1 - T ^ (-3 / 4 : ℝ)) -
+        4 * T ^ (1 / 4 : ℝ) * (Real.log T + 2 * Real.eulerMascheroniConstant - 5) +
+        8 * Real.eulerMascheroniConstant - 20 ∧
+      T ^ (1 / 4 : ℝ) * |divisorRemainderIntegral 1 T (7 / 4) - κ₇| ≤ 1 / 2 := by
   sorry
 
 /-- The explicit square-root divisor bound combines the finite input with its analytic tail. -/

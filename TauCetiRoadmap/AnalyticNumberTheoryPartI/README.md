@@ -2554,15 +2554,29 @@ Use `divisorCoprimeError D t = Σ_(δ|D)μ(δ)Δ(t/δ²)` for `D>0`, and `diviso
 
 - For every real `1≤x≤10^10`, `|Δ(x)|≤0.961√x`; for `9995≤x≤10^10`, `|Δ(x)|≤0.764x^(1/3)log x`; for `3≤x≤10^6`, `|Δ(x)|≤1.146x^(1/3)log x`; for `4033≤x≤10^10`, `|Δ(x)|≤0.475√x`.
 - For `1≤x≤10^7`, `|divisorCoprimeError 2 x|≤0.883√x` and `|divisorCoprimeError 6 x|≤0.927√x`.
-- For `1≤T≤10^5`, `T^(1/4)|I_1(T,7/4)−κ₇|≤0.302`; for `1260≤T≤10^7`, the same expression is at most0.00979.
+- For `2≤T≤10^5`, `T^(1/4)|I_1(T,7/4)−κ₇|≤0.302`; for `1260≤T≤10^7`, the same expression is at most0.00979.
 - For `1≤T≤10^7`, `|I_1(T,7/4)|≤0.4077`, `|I_1(T,3/2)|≤κ₃`, `|I_2(T,7/4)|≤0.902`, `|I_6(T,7/4)|≤0.0945`, `|I_6(T,3/2)|≤0.131`.
 - `|I_6(10^7,3/2)+0.056667|≤10^−6`.
+
+The initial interval has unconditional targets. The signature `divisorRemainderIntegral_one` gives `I_D(1,σ)=0` for every D and σ. The signature `divisorRemainderIntegral_kappa7_bounds` gives `0.400<κ₇<0.415`, using the convergent alternating eta series for `ζ(3/4)` and the Euler-sequence bounds for γ. The signature `divisorRemainderIntegral_initial` gives, for `1≤T≤2`, both
+
+`I_1(T,7/4)=(4/3)(1−T^(−3/4))−4T^(1/4)(log T+2γ−5)+8γ−20`
+
+and `T^(1/4)|I_1(T,7/4)−κ₇|≤1/2`. Here `D(u)=1` almost everywhere on `[1,2]`; direct integration gives the formula, including T=2 ([BBR], (4.8), (8.1)–(8.2), (8.4)–(8.5), pp.1030,1037–1038). On `[1,2)`, `Δ(u)=1−u(log u+2γ−1)` is strictly decreasing. Its unique sign change makes I increase and then decrease, so its minimum is an endpoint value; `I_1(1,7/4)=0` and `0.15378<I_1(2,7/4)<0.15379`. Also `I_1(T,7/4)≤(4/3)(2−2γ)(1−2^(−3/4))<0.458<2κ₇`. Consequently `|I_1(T,7/4)−κ₇|≤κ₇` and `T^(1/4)κ₇<1.19·0.415<1/2`.
 
 The coefficient API is finite Möbius inversion, specialization at D=1 and evaluation of each finite divisor sum. Checks: `divisorCoprimeError 1 x=Δ(x)`; `divisorCoprimeError 2 x=Δ(x)−Δ(x/4)`; at `x=0` every summand is0. The integral API is its defining interval integral, reversal of endpoints, and additivity on positive compact intervals. Checks: `I_D(1,σ)=0`; `I_1(T,σ)=∫_1^T Δ(u)u^(−σ)du`; for positive `S,T`, `I_D(T,σ)−I_D(S,σ)=∫_S^T divisorCoprimeError D u·u^(−σ)du`, including `S=T` and reversed endpoints. Local integrability follows from finitely many divisor jumps on compact positive intervals.
 
 These aggregate finite bounds are supplied as hypotheses, not as floating-point certificates. Their source is [BBR], §§6–7 pp.1034–1037, Lemmas8.3,8.6,8.9 pp.1040–1041, Lemmas9.1,9.4 p.1042 and Lemmas10.1,10.3 pp.1042–1043. The real intervals include all integer right values and, by taking left limits, their left values; between integers the smooth main term is retained. Prove the analytic tails by BBR §§8–10, including (10.1)–(10.2), with the finite bounds substituted only at the indicated split points. In particular the global square-root and cubic bounds, all literal bounds in §§3.23a–g that use them, `zetaSecondMoment.atkinson_remainder_budget`, `zetaSecondMoment.atkinson_bound` and `zetaSecondMoment.mean_square` carry the same `BBRFiniteInput`. The qualitative divisor and moment-error identities require no such input.
 
+For the split-point estimates put `R₇(T)=T^(1/4)|I_1(T,7/4)−κ₇|`. The initial estimate and the overlapping finite ranges give `R₇≤1/2` on `[1,10^7]`. Before using any cubic bound, the hyperbola inequality `|Δ(u)|≤√u+1/2` gives `R₇(T)≤4+2/(3√T)` by integration from T to ∞. For `T≥10^7`, this yields `|I_1(T,7/4)|<0.479`; [BBR], Lemma8.2 gives `|I_1(T,3/2)|≤κ₃+4+7/(6√T)+(9/2)T^(−0.72)<4.71`. Together with the finite absolute-integral bounds these are the global inputs of §9. Its detailed estimate and the finite divisor bounds give `|Δ(u)|≤0.475√u` for `u≥4033`. Hence `R₇≤1.90` there by tail integration, and on `[1,4033]` by the finite estimate. Lemma8.2 now gives `|I_1(T,3/2)|<2.61` for `T≥10^7`; the finite interval supplies the rest. Thus §10 retains the constants0.953,0.163 for the two coprime `7/4` integrals and3.91,5.98 for the two coprime `3/2` integrals. In (10.1) every scaled argument has `T/δ²≥10^7/36>4033`; in the `3/2` comparison it exceeds1, so the global `R₇≤1.90` applies. These estimates give the same cubic divisor bound and the same Atkinson budget in §3.23g.
+
 Checks of the input: `x=1` uses the inclusive `Δ(1)=2−2γ`; the cubic interval includes9995; `I_D(1,σ)=0` for every positive D, while `T=10^7` is included in each applicable integral bound. No assertion at0 is part of this contract.
+
+**Checks of the initial integral.**
+
+- At `T=1`, the scaled tail is `κ₇>0.400>0.302`, and is below1/2.
+- At `T=2`, the scaled tail lies between0.30190 and0.30191. The initial formula and both applicable bounds include this endpoint; the divisor jump contributes no mass to the integral.
+- At `T=3/2`, the exact formula gives `0.19574<I_1(T,7/4)<0.19575`. This interior value uses the smooth main term throughout the interval.
 
 The explicit divisor-bound signatures are `divisorError_sqrt_bound` and `divisorError_cubic_bound`, both carrying `BBRFiniteInput`.
 
