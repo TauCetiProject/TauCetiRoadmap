@@ -64,14 +64,14 @@ Mathlib's `CategoryTheory.ObjectProperty.FullSubcategory.mk`, `.obj` and `.prope
 The following contracts specify the consumed mathematics. The carrier and operation hypotheses remain those of each named section; the layers below construct the additional comparisons on the same enhancement.
 
 - **Enhanced descent and compactness (EnhancedDerivedSheaves §§E2.6, E3.3–E3.4 and E5:presentability.1–E5:presentability.2).** Smooth atlas comparison needs coherent bisimplicial descent of the unbounded categories without assuming every stack site has enough points. The ULA internal-Hom argument needs the compactness criterion of FS Lemma IV.2.20, p.122: for an exact adjunction between compactly generated stable categories, the left adjoint preserves compact objects exactly when the right adjoint preserves sums. A ringed-topos comparison with an enough-points hypothesis alone does not supply these statements. The product theorem needs the `Λ`-linear presentable stable categorical tensor product, characterized by the bilinear colimit-preserving exterior product; its compact generators are the tensor products of compact generators of the factors.
-- **Untilts and curve geometry (RelativeFarguesFontaine §§2.1–2.4, 3.1–3.4 and 4.3–4.7).** The curve and divisor inputs include the untilt/Frobenius presentation and the inertia-surjective Gauss point of §§4.3–4.7. VS1.5 constructs the continuous twisted Weil torsor and its relation from them. Integral formal smoothness needs the ramified primitive-untilt equation and étale-local lifting of its coefficients over a Zariski closed perfectoid subspace. Use the formal integral `Spd O_E` and its special fibre; no Tate-affinoid assumption on `O_E` is inserted. Section spaces use the relative curve over the stated local field E, with its line bundles and projective embeddings.
+- **Untilts and curve geometry (RelativeFarguesFontaine §§2.1–2.4, 3.1–3.4 and 4.3–4.7).** The curve and divisor inputs include the untilt/Frobenius presentation and the inertia-surjective Gauss point of §§4.3–4.7. VS1.5 constructs the continuous twisted Weil torsor and its relation from them. Integral formal smoothness needs the ramified primitive-untilt equation and étale-local lifting of its coefficients over a Zariski closed perfectoid subspace. Use the formal integral `Spd O_E` and its special fibre; no Tate-affinoid assumption on `O_E` is inserted. Section spaces use the relative curve over the stated local field `E`, with its line bundles and projective embeddings.
 - **Bundle and sousperfectoid geometry (VectorBundlesAndIsocrystals VB1–VB3, AdicSpacesPartII R0 (analytic smoothness and differentials); VS1.3, sousperfectoid geometry).** Supply positive-slope resolutions, quantitative global generation and the positive/negative Banach–Colmez presentations over the general local field. The smoothness examples and section-space criterion use étale-local smooth ball presentations, the tangent bundle and relative differentials on sousperfectoid charts, and deformation to the normal cone for Zariski closed embeddings. The successive Frobenius correction, étale retraction and stabilization estimates are those of FS IV.4.22–IV.4.30, pp.142–151; the bundle slope theory alone does not give these estimates.
 - **Compact-Hausdorff cohomology.** VS2.1 constructs the following source results. CS Theorems 3.2–3.3, pp.20–23, and Corollary 4.8, p.26, require the condensed/sheaf/Čech comparison, cofiltered continuity, homotopy invariance for torus powers, Tietze extension and finite partitions of unity. On a profinite hypercover the real-valued cocycle primitive must satisfy the `(1+ε)` norm estimate for every `ε>0`, including the augmented degree. The ordinary `CompHaus` and `Sheaf` carriers do not themselves assert these cohomology results.
 - **Finite-power homological resolution (StableHomotopyKTheory §§5.1–5.18; EnhancedDerivedSheaves §§E0.6 and E1.1–E1.4; VS2.1, finite-power resolution).** The Breen–Deligne proof uses uniform stable-range finiteness and pseudo-coherence for iterated Eilenberg–Mac Lane homology, giving finite multiplicities in every resolution degree. Relate the iterated bar constructions and simplicial free resolutions to the common Dold–Kan/derived enhancement. An arbitrary infinite free resolution or a Serre-class finiteness statement without the functorial stable-range bound does not replace this input. The exact source is CS Appendix to Lecture IV, Theorems 4.14 and 4.16 and Proposition 4.17, pp.30–32.
-- **Analytic coefficient interface.** VS2.2 constructs the theory of measures, Dirac maps and derived-Hom analytic-ring axiom, with the distinction between `R_solid` and the `(R,ℤ)`-solid structure. For topological E, use measures `E⊗solid_ℤ ℤ[S]_solid` and the corresponding complete tensor/Hom. For discrete A, use the underlying-integer-solid modules and the !-topology's gluing, excision and formal-complement description. Compare these analytic module constructions across the regular-cardinal, universe-small and light sites, including free objects and derived tensor/Hom, before identifying their realizations.
-- **Smooth representation enhancement (SmoothRepresentationsOfLocalGroups §§SR.0.2, SR.0d.1–SR.0d.2 and SR.2.1, and VS4.2, compact smooth duality).** Start with `TauCeti.SmoothDiscreteTopRep`. The abelian interface needs kernels, cokernels, sums and exact invariants for open pro-p subgroups under the prime-to-p coefficient hypothesis; the derived interface needs continuous invariants and torsor descent. Compact induction needs Frobenius reciprocity, exactness, product compatibility and coefficient change. Section SR.0d.2 supplies compact-induction generation and the full-complex perfect-invariant smooth-dual tests. VS4.2 constructs the compact derived Bernstein–Zelevinsky involution and the product-Hom comparison on that category. Do not introduce a separate representation category to state the geometric equivalences.
+- **Analytic coefficient interface.** VS2.2 constructs the theory of measures, Dirac maps and derived-Hom analytic-ring axiom, with the distinction between `R_solid` and the `(R,ℤ)`-solid structure. For topological `E`, use measures `E⊗solid_ℤ ℤ[S]_solid` and the corresponding complete tensor/Hom. For discrete `A`, use the underlying-integer-solid modules and the !-topology's gluing, excision and formal-complement description. Compare these analytic module constructions across the regular-cardinal, universe-small and light sites, including free objects and derived tensor/Hom, before identifying their realizations.
+- **Smooth representation enhancement (SmoothRepresentationsOfLocalGroups §§SR.0.2, SR.0d.1–SR.0d.2 and SR.2.1, and VS4.2, compact smooth duality).** Start with `TauCeti.SmoothDiscreteTopRep`. The abelian interface needs kernels, cokernels, sums and exact invariants for open pro-`p` subgroups under the prime-to-`p` coefficient hypothesis; the derived interface needs continuous invariants and torsor descent. Compact induction needs Frobenius reciprocity, exactness, product compatibility and coefficient change. Section SR.0d.2 supplies compact-induction generation and the full-complex perfect-invariant smooth-dual tests. VS4.2 constructs the compact derived Bernstein–Zelevinsky involution and the product-Hom comparison on that category. Do not introduce a separate representation category to state the geometric equivalences.
 - **Formal-neighborhood and algebraic ULA comparison (ClassicalAdicEtaleCohomology §§4.3–4.4, 8.2 and 11.1, VS1.2, scheme ULA kernel criterion).** The strict-local chart application uses the actual defining ideal, completion, special-fibre support and punctured generic fibre of FS Remark V.4.3, p.178. The analytification theorem needs the algebraic relative-kernel adjoint criterion for ULA as well as comparison of operations, especially open-immersion `Rj_*`. Scheme Verdier duality by itself is not the relative ULA criterion, and a perverse-only category is not its carrier.
-- **Global dualizing normalization in VS5.1.** For the torsion `Bun_G` dualizing object, implement the complement/purity extension of the Haar-normalized local system from the semistable locus in the proof of FS Theorem V.5.1, pp.180–181. Preserve the prime-to-p coefficient conditions and the dependence of the displayed trivialization on the Haar choices. The homology adjunction itself is independent of those choices.
+- **Global dualizing normalization in VS5.1.** For the torsion `Bun_G` dualizing object, implement the complement/purity extension of the Haar-normalized local system from the semistable locus in the proof of FS Theorem V.5.1, pp.180–181. Preserve the prime-to-`p` coefficient conditions and the dependence of the displayed trivialization on the Haar choices. The homology adjunction itself is independent of those choices.
 - **Connected-kernel homology in VS4.2.** In the stratum comparison, calculate the unit homology of the nonproper Banach–Colmez fibres integrally. Use the eligible nonproper torsion comparison of FS Proposition VII.5.2 and the ball trace; justify unit detection using the required bounded finitely presented cone or derived-completion hypothesis, then extend by solid scalar extension. Proper smooth Poincaré duality cannot be applied to these nonproper fibres, and `mod-ℓ` reductions alone do not detect an arbitrary rational solid object. This is the precise integral-to-solid interface used in the proof of FS Proposition VII.7.1, pp.271–272.
 - **Coefficient descent (EnhancedDerivedSheaves §§E1.4 and E4.4–E4.5).** The coefficient-change targets below assert preservation. A converse based on faithfully flat scalar extension additionally requires descent of perfect derived complexes with a uniform finite Tor-amplitude bound. Finite generation of an ordinary module does not establish that converse.
 
@@ -90,15 +90,15 @@ Compare two atlases through their fibre product and use representability to stay
 
 <a id="artin-v-stack-definition"></a>
 
-**Artin v-stacks.** (`ArtinVStack`) Define an Artin v-stack to be a small v-stack X whose diagonal is representable in locally spatial diamonds and for which a locally spatial diamond U admits a separated, surjective, cohomologically smooth map `U→X`. Use the separated representable cohomological-smoothness predicate, tested on strictly totally disconnected perfectoid base changes. The property is invariant under equivalence. It forces the diagonal to be quasiseparated, without forcing X to be quasiseparated.
+**Artin v-stacks.** (`ArtinVStack`) Define an Artin v-stack to be a small v-stack `X` whose diagonal is representable in locally spatial diamonds and for which a locally spatial diamond `U` admits a separated, surjective, cohomologically smooth map `U→X`. Use the separated representable cohomological-smoothness predicate, tested on strictly totally disconnected perfectoid base changes. The property is invariant under equivalence. It forces the diagonal to be quasiseparated, without forcing `X` to be quasiseparated.
 
-Throughout this target, X is a small v-stack. The diagonal `X→X×X` is representable in locally spatial diamonds. There is a surjective map `U→X` from a locally spatial diamond that is separated and cohomologically smooth (`ℓ`-cohomologically smooth for the primes `ℓ≠p` in play). (FS, Definition IV.1.1; Remarks IV.1.2–IV.1.6, pp.107–109; Example IV.1.9(iv), p.110.)
+Throughout this target, `X` is a small v-stack. The diagonal `X→X×X` is representable in locally spatial diamonds. There is a surjective map `U→X` from a locally spatial diamond that is separated and cohomologically smooth (`ℓ`-cohomologically smooth for the primes `ℓ≠p` in play). (FS, Definition IV.1.1; Remarks IV.1.2–IV.1.6, pp.107–109; Example IV.1.9(iv), p.110.)
 
 *Needs:* DiamondsAndVStacks D4/small-v-sheaves-and-small-v-stacks, DiamondsAndVStacks D5/relative-representability, DiamondSixOperations §S4.2.
 
 <a id="stability-under-fibre-products-and-representable-maps"></a>
 
-**Stability of Artin v-stacks.** (`ArtinVStack.fibreProduct`) (i) If X,Y,Z are Artin v-stacks then `X ×_Z Y` is Artin. (ii) If `S→*` is a pro-étale surjective, separated, cohomologically smooth map of v-sheaves representable in locally spatial diamonds, then a small v-stack X is Artin iff `X×S` is Artin; in particular the Artin property may be tested after base change to `Spd E` or to `Spa 𝔽_q((t^(1/p^∞)))`. (iii) If `f:X→Y` is representable in locally spatial diamonds and Y is Artin, then X is Artin: pull back an atlas of Y and use the representable diagonal; in particular locally closed substacks of Artin v-stacks are Artin. Cohomological smoothness of maps of Artin v-stacks, defined through separated smooth charts, does not depend on the chart and is smooth-local on the source, with the separation and eligibility conditions retained.
+**Stability of Artin v-stacks.** (`ArtinVStack.fibreProduct`) (i) If `X,Y,Z` are Artin v-stacks then `X ×_Z Y` is Artin. (ii) If `S→*` is a pro-étale surjective, separated, cohomologically smooth map of v-sheaves representable in locally spatial diamonds, then a small v-stack `X` is Artin iff `X×S` is Artin; in particular the Artin property may be tested after base change to `Spd E` or to `Spa 𝔽_q((t^(1/p^∞)))`. (iii) If `f:X→Y` is representable in locally spatial diamonds and `Y` is Artin, then `X` is Artin: pull back an atlas of `Y` and use the representable diagonal; in particular locally closed substacks of Artin v-stacks are Artin. Cohomological smoothness of maps of Artin v-stacks, defined through separated smooth charts, does not depend on the chart and is smooth-local on the source, with the separation and eligibility conditions retained.
 
 Throughout this target, all stacks are small v-stacks. In (i) all three stacks, including the base of the fibre product, are Artin. In (ii) `S→*` is pro-étale surjective, separated, cohomologically smooth and representable in locally spatial diamonds. In (iii) the map to the Artin v-stack is representable in locally spatial diamonds. (FS, Proposition IV.1.8; Example IV.1.9(i)–(iii); Definition IV.1.11; Convention IV.1.12, pp.109–111.)
 
@@ -119,7 +119,7 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 
 - `ArtinVStack.diamond`: Every locally spatial diamond is Artin via the identity atlas.
 - `ArtinVStack.empty`: The empty locally spatial diamond is Artin, with empty atlas and diagonal.
-- `ArtinVStack.classifying_nonquasiseparated`: For `H=E×`, closed in `GL_1(E)`, `[*/H]` is Artin while its noncompact diagonal fibre H is not quasicompact. Requiring X itself to be quasiseparated would exclude this example.
+- `ArtinVStack.classifying_nonquasiseparated`: For `H=E×`, closed in `GL_1(E)`, `[*/H]` is Artin while its noncompact diagonal fibre `H` is not quasicompact. Requiring `X` itself to be quasiseparated would exclude this example.
 
 ### VS0.2. Enhanced smooth descent and eligible normalized exceptional operations
 
@@ -127,25 +127,25 @@ Compute descent on the Čech nerve with coherent ordinary pullbacks. In the exce
 
 <a id="enhanced-smooth-descent"></a>
 
-**Enhanced smooth atlas descent.** (`ArtinVStack.smoothDescent`) For a separated cohomologically smooth atlas `U→X` of an Artin v-stack, reconstruct `D_et(X,Λ)` as the enhanced limit of `D_et(U_n,Λ)` along ordinary pullback on the Čech nerve. For prime-to-p torsion `Λ` this is the existing small-v-stack étale category. Comparison on common refinements identifies different atlases coherently. Normalize the exceptional transition presentation by the invertible smooth dualizing objects to recover this ordinary-pullback presentation.
+**Enhanced smooth atlas descent.** (`ArtinVStack.smoothDescent`) For a separated cohomologically smooth atlas `U→X` of an Artin v-stack, reconstruct `D_et(X,Λ)` as the enhanced limit of `D_et(U_n,Λ)` along ordinary pullback on the Čech nerve. For prime-to-`p` torsion `Λ` this is the existing small-v-stack étale category. Comparison on common refinements identifies different atlases coherently. Normalize the exceptional transition presentation by the invertible smooth dualizing objects to recover this ordinary-pullback presentation.
 
-Throughout this target, X is an Artin v-stack and `U→X` a separated cohomologically smooth surjection from a locally spatial diamond. `Λ` is a ring killed by an integer n prime to p. The enhancement of `D_et` and its hyperdescent are imported from EnhancedDerivedSheaves. (FS, Convention IV.1.12; Definitions IV.1.13–IV.1.15, pp.110–111.)
+Throughout this target, `X` is an Artin v-stack and `U→X` a separated cohomologically smooth surjection from a locally spatial diamond. `Λ` is a ring killed by an integer `n` prime to `p`. The enhancement of `D_et` and its hyperdescent are imported from EnhancedDerivedSheaves. (FS, Convention IV.1.12; Definitions IV.1.13–IV.1.15, pp.110–111.)
 
 *Needs:* [VS0/artin-v-stack-definition](#artin-v-stack-definition), EnhancedDerivedSheaves §E1.3, EnhancedDerivedSheaves §E2.6, EnhancedDerivedSheaves §E3.4, DiamondSixOperations §§S2.2–S2.4, DiamondSixOperations §S2.4, DiamondSixOperations §S4.3.
 
 <a id="shriek-pullback-for-smooth-stacky-maps"></a>
 
-**Exceptional pullback for smooth stacky maps.** (`ArtinVStack.smoothExceptionalPullback`) Construct exceptional pullback for a cohomologically smooth Artin morphism `f:X→Y` using charts `g:U→X` for which both g and fg are separated. On a chart, impose `g!f!≃(fg)!`; cancelling the chart dualizing object produces `f!A≃ω_f⊗f*A` with `ω_f` invertible. Descent supplies coherent composition, base change and the stacky left adjoint on this smooth class. On separated representable eligible maps it recovers the existing operation. This construction does not assert exceptional operations for arbitrary locally finite-dimensional Artin maps.
+**Exceptional pullback for smooth stacky maps.** (`ArtinVStack.smoothExceptionalPullback`) Construct exceptional pullback for a cohomologically smooth Artin morphism `f:X→Y` using charts `g:U→X` for which both `g` and `fg` are separated. On a chart, impose `g!f!≃(fg)!`; cancelling the chart dualizing object produces `f!A≃ω_f⊗f*A` with `ω_f` invertible. Descent supplies coherent composition, base change and the stacky left adjoint on this smooth class. On separated representable eligible maps it recovers the existing operation. This construction does not assert exceptional operations for arbitrary locally finite-dimensional Artin maps.
 
-Throughout this target, `f:Y→X` is a cohomologically smooth map of Artin v-stacks in the sense of Convention IV.1.12: some separated smooth surjection `g:V→Y` from a locally spatial diamond has f∘g separated. `Λ` is a ring killed by an integer n prime to p (or, where the source allows it, an adic ring in the sense of ECD §26). (FS, IV.1.11–IV.1.16, pp.110–112, including Remark IV.1.16.)
+Throughout this target, `f:Y→X` is a cohomologically smooth map of Artin v-stacks in the sense of Convention IV.1.12: some separated smooth surjection `g:V→Y` from a locally spatial diamond has `f∘g` separated. `Λ` is a ring killed by an integer `n` prime to `p` (or, where the source allows it, an adic ring in the sense of ECD §26). (FS, IV.1.11–IV.1.16, pp.110–112, including Remark IV.1.16.)
 
 *Needs:* [VS0/enhanced-smooth-descent](#enhanced-smooth-descent), DiamondSixOperations §S3.1, DiamondSixOperations §S3.4, DiamondSixOperations §§S3.3–S3.4, DiamondSixOperations §S4.2, DiamondSixOperations §S4.4.
 
 <a id="point-to-classifying-stack-not-smooth"></a>
 
-**Point maps to classifying stacks.** (`ArtinVStack.pointAtlasSmooth`) Let H be a locally profinite group admitting a closed embedding into `GL_n(E)`, with `ℓ≠p`. If H contains an infinite compact open subgroup K, the point map `*→[*/H]` is not `ℓ`-cohomologically smooth: on K its exceptional dualizing sheaf is the noninvertible sheaf of `𝔽_ℓ-valued` distributions. If H is discrete, the point map is separated étale and cohomologically smooth, including infinite discrete H.
+**Point maps to classifying stacks.** (`ArtinVStack.pointAtlasSmooth`) Let `H` be a locally profinite group admitting a closed embedding into `GL_n(E)`, with `ℓ≠p`. If `H` contains an infinite compact open subgroup `K`, the point map `*→[*/H]` is not `ℓ`-cohomologically smooth: on `K` its exceptional dualizing sheaf is the noninvertible sheaf of `𝔽_ℓ-valued` distributions. If `H` is discrete, the point map is separated étale and cohomologically smooth, including infinite discrete `H`.
 
-Throughout this target, H is a locally profinite group with a closed embedding into `GL_n(E)`. `ℓ≠p`. (FS, Remark IV.1.10, p.110.)
+Throughout this target, `H` is a locally profinite group with a closed embedding into `GL_n(E)`. `ℓ≠p`. (FS, Remark IV.1.10, p.110.)
 
 *Needs:* [VS0/artin-v-stack-definition](#artin-v-stack-definition), DiamondSixOperations §S5.3, DiamondSixOperations §§S3.3 and S4.2.
 
@@ -158,21 +158,21 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 | `ArtinVStack.smoothDescent.equivalence` | Restriction and gluing give the stated equivalence with the existing ECD category. |
 | `ArtinVStack.smoothDescent.refine` | Refinement commutes with restriction, and identity/composition refinements have coherent unit/composition equivalences. |
 | `ArtinVStack.smoothDescent.normalized` | Ordinary and exceptional smooth transition presentations correspond after tensoring with the smooth dualizing objects. |
-| `ArtinVStack.smoothExceptionalPullback.chart` | On a permitted chart, g!f! is canonically (f∘g)!. |
+| `ArtinVStack.smoothExceptionalPullback.chart` | On a permitted chart, `g!f!` is canonically `(f∘g)!`. |
 | `ArtinVStack.smoothExceptionalPullback.dualizing` | `ω_f=f!Λ` is invertible and `f!A=ω_f⊗f*A`. |
 | `ArtinVStack.smoothExceptionalPullback.adjoint` | The smooth stacky left adjoint f_! satisfies `Map(f_!B,A)=Map(B,f!A)`. |
 | `ArtinVStack.smoothExceptionalPullback.id` | Identity exceptional pullback and its dualizing object are normalized to id and `Λ`. |
 | `ArtinVStack.smoothExceptionalPullback.comp` | For composable maps in this smooth chartwise class, `(f∘g)!≃g!f!` coherently. |
-| `ArtinVStack.smoothExceptionalPullback.baseChange` | Pullback of `ω_f` and the smooth f! formula agrees after any permitted Cartesian base change. |
+| `ArtinVStack.smoothExceptionalPullback.baseChange` | Pullback of `ω_f` and the smooth `f!` formula agrees after any permitted Cartesian base change. |
 
 **Checks.**
 
 - `ArtinVStack.smoothDescent.identity`: The identity atlas recovers the original coefficient category and identity restriction.
 - `ArtinVStack.smoothDescent.empty`: The category for the empty stack is the zero stable category.
-- `ArtinVStack.smoothDescent.torsor`: For finite H, the smooth atlas `*→[*/H]` gives continuous H-torsor descent data. For `H=ℤ_p` this point map is not smooth and cannot be used as a smooth atlas. Infinite discrete H instead gives an étale point map.
+- `ArtinVStack.smoothDescent.torsor`: For finite `H`, the smooth atlas `*→[*/H]` gives continuous `H`-torsor descent data. For `H=ℤ_p` this point map is not smooth and cannot be used as a smooth atlas. Infinite discrete `H` instead gives an étale point map.
 - `ArtinVStack.smoothExceptionalPullback.identity`: The identity has `ω=Λ` and identity left/right adjoints.
 - `ArtinVStack.smoothExceptionalPullback.etale`: A separated étale map has `ω=Λ` and `f!=f*`.
-- `ArtinVStack.smoothExceptionalPullback.smoothDiamond`: A smooth diamond map of pure dimension d with oriented dualizing object has `ω=Λ(d)[2d]`, not `Λ[-2d]`.
+- `ArtinVStack.smoothExceptionalPullback.smoothDiamond`: A smooth diamond map of pure dimension `d` with oriented dualizing object has `ω=Λ(d)[2d]`, not `Λ[-2d]`.
 
 ### VS0.3. Partial compact support with its actual annular scope and vanishing
 
@@ -180,17 +180,17 @@ Fix the annuli by `|u|^b ≤ |t| ≤ |u|^a`, for rational `0<a≤b<∞`. Their t
 
 <a id="partial-compact-support"></a>
 
-**Partial compact-support functors.** (`PartialSupport`) Let k be algebraically closed of characteristic p, X a spatial diamond partially proper over `Spd` k with finite transcendence dimension, and S a spatial diamond over k. For `α:X×k S→X` and `β:X×k S→S`, take universally open quasi-pro-étale affinoid covers and pseudouniformizers t,u. Use the annular systems fixed above to define `Rβ_!+C=colim_a Rβ_*j_a!(C`|`U_a)` and `Rβ_!−C=colim_b Rβ_*j_b!(C`|`U_b)`. The extension-by-zero counits give the transition maps. Common cofinal systems compare the choices. The construction is a pair of partial-support functors; the colimit itself does not assert a general adjunction or an unrestricted exceptional pushforward.
+**Partial compact-support functors.** (`PartialSupport`) Let `k` be algebraically closed of characteristic `p`, `X` a spatial diamond partially proper over `Spd k` with finite transcendence dimension, and `S` a spatial diamond over `k`. For `α:X×k S→X` and `β:X×k S→S`, take universally open quasi-pro-étale affinoid covers and pseudouniformizers `t,u`. Use the annular systems fixed above to define `Rβ_!+C=colim_a Rβ_*j_a!(C|U_a)` and `Rβ_!−C=colim_b Rβ_*j_b!(C|U_b)`. The extension-by-zero counits give the transition maps. Common cofinal systems compare the choices. The construction is a pair of partial-support functors; the colimit itself does not assert a general adjunction or an unrestricted exceptional pushforward.
 
-Throughout this target, k is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. X is a spatial diamond with `X→Spd` k partially proper and dim.trg finite. S is a spatial diamond over k. `Λ` is a ring killed by an integer n prime to p. (FS, IV.5, construction after Lemma IV.5.1; Definition IV.5.2, pp.152–153.)
+Throughout this target, `k` is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `X` is a spatial diamond with `X→Spd k` partially proper and dim.trg finite. `S` is a spatial diamond over `k`. `Λ` is a ring killed by an integer `n` prime to `p`. (FS, IV.5, construction after Lemma IV.5.1; Definition IV.5.2, pp.152–153.)
 
 *Needs:* DiamondSixOperations §S1.2, DiamondSixOperations §S1.3, DiamondSixOperations §§S2.2–S2.4, DiamondSixOperations §S2.4, DiamondsAndVStacks D5/limits-and-finite-stage-comparisons.
 
 <a id="partial-compactly-supported-vanishing"></a>
 
-**Vanishing at both partial-support ends.** (`PartialSupport.vanish`) For X and S in the preceding IV.5 partially proper finite-dimensional setup, `A∈D_et(X,Λ)` and `B∈D_et(S,Λ)`, with `Λ` prime-to-p torsion, both `Rβ_!+(α*A⊗β*B)` and `Rβ_!-(α*A⊗β*B)` vanish. The theorem concerns exterior pullbacks of this form; it is not vanishing for every sheaf on `X×U`.
+**Vanishing at both partial-support ends.** (`PartialSupport.vanish`) For `X` and `S` in the preceding IV.5 partially proper finite-dimensional setup, `A∈D_et(X,Λ)` and `B∈D_et(S,Λ)`, with `Λ` prime-to-`p` torsion, both `Rβ_!+(α*A⊗β*B)` and `Rβ_!-(α*A⊗β*B)` vanish. The theorem concerns exterior pullbacks of this form; it is not vanishing for every sheaf on `X×U`.
 
-Throughout this target, the setup of Definition IV.5.2: k algebraically closed over `𝔽_q`, X spatial, partially proper over `Spd` k with dim.trg finite, S spatial. `C=α*A⊗ᴸβ*B` with `A∈D_et(X,Λ)` and `B∈D_et(S,Λ)`. `Λ` is a ring killed by an integer n prime to p. (FS, Theorem IV.5.3, pp.153–155.)
+Throughout this target, the setup of Definition IV.5.2: `k` algebraically closed over `𝔽_q`, `X` spatial, partially proper over `Spd k` with dim.trg finite, `S` spatial. `C=α*A⊗ᴸβ*B` with `A∈D_et(X,Λ)` and `B∈D_et(S,Λ)`. `Λ` is a ring killed by an integer `n` prime to `p`. (FS, Theorem IV.5.3, pp.153–155.)
 
 *Needs:* [VS0/partial-compact-support](#partial-compact-support), DiamondSixOperations §S1.2, DiamondSixOperations §S1.3, DiamondSixOperations §S3.1, DiamondSixOperations §S3.4, DiamondSixOperations §§S3.3–S3.4, EnhancedDerivedSheaves §E2.6.
 
@@ -207,10 +207,10 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 
 **Checks.**
 
-- `PartialSupport.empty`: If X is empty, both functors take every object to zero.
+- `PartialSupport.empty`: If `X` is empty, both functors take every object to zero.
 - `PartialSupport.zero`: Both functors send the zero complex to zero.
 - `PartialSupport.cofinalAnnuli`: Replacing an annular system by a cofinal subsequence gives the same functor; reversing the support direction is not that replacement.
-- `PartialSupport.properBand`: For nonzero `Λ` and `S=Spa(C,O_C)`, suppose a section `i:S→X×k` S of `β` is a proper closed immersion whose image lies in one finite annular band U_{a,b}. For `i_*Λ`, both partial-support functors are canonically `Λ`: sufficiently large supports contain the graph, and `β∘i=id`. In particular neither functor is identically zero.
+- `PartialSupport.properBand`: For nonzero `Λ` and `S=Spa(C,O_C)`, suppose a section `i:S→X×k S` of `β` is a proper closed immersion whose image lies in one finite annular band `U_{a,b}`. For `i_*Λ`, both partial-support functors are canonically `Λ`: sufficiently large supports contain the graph, and `β∘i=id`. In particular neither functor is identically zero.
 
 ### Examples
 
@@ -230,57 +230,57 @@ Build the strict-local and constructibility clauses first. The relative kernel c
 
 <a id="ula-definition-with-constructibility"></a>
 
-**Local acyclicity and universal local acyclicity.** (`IsULA`) For a compactifiable map `f:X→S` of locally spatial diamonds with locally finite transcendence dimension, define local acyclicity of `A∈D_et(X,Λ)` by two conditions. First, for every geometric x over s and every generization t of s, the strict-local map `RΓ(X_x,A)→RΓ(X_x×S_s S_t,A)` is an equivalence. Second, whenever `j:U→X` is separated étale and fj is quasicompact, R(fj)_!(A|U) is perfect-constructible. Define ULA by requiring both conditions after every locally spatial base change. For a compactifiable representable map of small v-stacks with the same local dimension hypothesis, test local acyclicity on the pullback to every locally spatial diamond over S. Use the supplied strict localizations and perfect-constructible subcategory.
+**Local acyclicity and universal local acyclicity.** (`IsULA`) For a compactifiable map `f:X→S` of locally spatial diamonds with locally finite transcendence dimension, define local acyclicity of `A∈D_et(X,Λ)` by two conditions. First, for every geometric `x` over `s` and every generization `t` of `s`, the strict-local map `RΓ(X_x,A)→RΓ(X_x×S_s S_t,A)` is an equivalence. Second, whenever `j:U→X` is separated étale and `fj` is quasicompact, `R(fj)_!(A|U)` is perfect-constructible. Define ULA by requiring both conditions after every locally spatial base change. For a compactifiable representable map of small v-stacks with the same local dimension hypothesis, test local acyclicity on the pullback to every locally spatial diamond over `S`. Use the supplied strict localizations and perfect-constructible subcategory.
 
-Throughout this target, `f:X→S` is a compactifiable map of locally spatial diamonds with locally finite dim.trg; in the extension, a compactifiable map of small v-stacks representable in locally spatial diamonds with locally finite dim.trg. `A∈D_et(X,Λ)`. `Λ` is a ring killed by an integer n prime to p. (FS, Definition IV.2.1; Remarks IV.2.2–IV.2.3, pp.114–115; Definition IV.2.22, p.123.)
+Throughout this target, `f:X→S` is a compactifiable map of locally spatial diamonds with locally finite dim.trg; in the extension, a compactifiable map of small v-stacks representable in locally spatial diamonds with locally finite dim.trg. `A∈D_et(X,Λ)`. `Λ` is a ring killed by an integer `n` prime to `p`. (FS, Definition IV.2.1; Remarks IV.2.2–IV.2.3, pp.114–115; Definition IV.2.22, p.123.)
 
 *Needs:* DiamondSixOperations §S0.4, DiamondSixOperations §S1.2, DiamondSixOperations §S1.3, DiamondSixOperations §S3.1, DiamondSixOperations §S3.4, DiamondSixOperations §§S3.3–S3.4, DiamondsAndVStacks D4/small-v-sheaves-and-small-v-stacks, EnhancedDerivedSheaves §E1.3.
 
 <a id="ula-descent-and-smooth-locality"></a>
 
-**ULA locality and proper pushforward.** (`IsULA.descent`) Clause (a) of local acyclicity holds after every base change iff A is overconvergent. Local acyclicity descends along v-covers of the base. On a spatial diamond a constructible sheaf is locally constant iff it is overconvergent, and a perfect-constructible complex is overconvergent iff it is locally a constant perfect complex; hence for f the identity, A is locally acyclic iff it is locally constant with perfect fibres. For separated f that is `ℓ`-cohomologically smooth for every `ℓ` dividing n, locally constant complexes with perfect fibres are f-ULA. For a proper map `g:Y→X` and compactifiable `f:X→S`, both of locally finite transcendence dimension, Rg_* carries complexes that are LA (respectively ULA) for f∘g to complexes that are LA (respectively ULA) for f; in particular for proper f, Rf_* of an f-LA complex is locally a constant perfect complex. For a separated map `g:Y→X` that is `ℓ`-cohomologically smooth for every `ℓ` dividing n, g* preserves LA and ULA, and detects them when g is surjective. The non-universal local acyclicity statements for smooth g assume that S is spatial with a uniform bound on the étale cohomological dimension of quasicompact separated étale `U→S`; the ULA statements require no extra uniform bound on the base.
+**ULA locality and proper pushforward.** (`IsULA.descent`) Clause (a) of local acyclicity holds after every base change iff `A` is overconvergent. Local acyclicity descends along v-covers of the base. On a spatial diamond a constructible sheaf is locally constant iff it is overconvergent, and a perfect-constructible complex is overconvergent iff it is locally a constant perfect complex; hence for `f` the identity, `A` is locally acyclic iff it is locally constant with perfect fibres. For separated `f` that is `ℓ`-cohomologically smooth for every `ℓ` dividing `n`, locally constant complexes with perfect fibres are `f`-ULA. For a proper map `g:Y→X` and compactifiable `f:X→S`, both of locally finite transcendence dimension, `Rg_*` carries complexes that are LA (respectively ULA) for `f∘g` to complexes that are LA (respectively ULA) for `f`; in particular for proper `f`, `Rf_*` of an `f`-LA complex is locally a constant perfect complex. For a separated map `g:Y→X` that is `ℓ`-cohomologically smooth for every `ℓ` dividing `n`, `g*` preserves LA and ULA, and detects them when `g` is surjective. The non-universal local acyclicity statements for smooth `g` assume that `S` is spatial with a uniform bound on the étale cohomological dimension of quasicompact separated étale `U→S`; the ULA statements require no extra uniform bound on the base.
 
-Throughout this target, `f:X→S` is a compactifiable map of locally spatial diamonds with locally finite dim.trg. In IV.2.11, `g:Y→X` is proper with dim.trg finite; in IV.2.13, g is separated and `ℓ`-cohomologically smooth for every `ℓ` dividing n, and surjective for the converse. The non-universal statements of IV.2.13 assume S spatial with a uniform bound on the étale cohomological dimension of quasicompact separated étale `U→S`. `Λ` is a ring killed by an integer n prime to p. (FS, Propositions IV.2.4–IV.2.6, IV.2.9–IV.2.11, IV.2.13; Corollary IV.2.12; Lemma IV.2.14, pp.115–119.)
+Throughout this target, `f:X→S` is a compactifiable map of locally spatial diamonds with locally finite dim.trg. In IV.2.11, `g:Y→X` is proper with dim.trg finite; in IV.2.13, `g` is separated and `ℓ`-cohomologically smooth for every `ℓ` dividing `n`, and surjective for the converse. The non-universal statements of IV.2.13 assume `S` spatial with a uniform bound on the étale cohomological dimension of quasicompact separated étale `U→S`. `Λ` is a ring killed by an integer `n` prime to `p`. (FS, Propositions IV.2.4–IV.2.6, IV.2.9–IV.2.11, IV.2.13; Corollary IV.2.12; Lemma IV.2.14, pp.115–119.)
 
 *Needs:* [VS1/ula-definition-with-constructibility](#ula-definition-with-constructibility), DiamondSixOperations §S4.2, DiamondSixOperations §S4.4, DiamondSixOperations §S1.2, DiamondSixOperations §S1.3.
 
 <a id="perfect-local-systems"></a>
 
-**Perfect locally constant complexes.** (`PerfectLocalSystem`) On a small v-stack Y, form the full subcategory `D_lc(Y,Λ)` of complexes that become constant perfect derived `Λ`-complexes v-locally. Its objects are exactly the tensor-dualizable étale complexes. For spatial Y the local trivializations can be étale. Perfection includes a bounded complex and finite Tor amplitude; finite-dimensional cohomology separately in each degree does not characterize this category.
+**Perfect locally constant complexes.** (`PerfectLocalSystem`) On a small v-stack `Y`, form the full subcategory `D_lc(Y,Λ)` of complexes that become constant perfect derived `Λ`-complexes v-locally. Its objects are exactly the tensor-dualizable étale complexes. For spatial `Y` the local trivializations can be étale. Perfection includes a bounded complex and finite Tor amplitude; finite-dimensional cohomology separately in each degree does not characterize this category.
 
-Throughout this target, Y is a small v-stack. `Λ` is a ring killed by an integer n prime to p. (FS, IV.7, definition of `D_lc` before Proposition IV.7.3, p.165; Proposition IV.2.6, p.116.)
+Throughout this target, `Y` is a small v-stack. `Λ` is a ring killed by an integer `n` prime to `p`. (FS, IV.7, definition of `D_lc` before Proposition IV.7.3, p.165; Proposition IV.2.6, p.116.)
 
 *Needs:* EnhancedDerivedSheaves §E5:abstract.1, EnhancedDerivedSheaves §§E1.4 and E5:presentability.1, [VS1/ula-descent-and-smooth-locality](#ula-descent-and-smooth-locality).
 
 <a id="perfect-rhom-and-la-characterisation"></a>
 
-**Perfect internal Hom and local acyclicity.** (`IsULA.perfectRHom`) For a spatial diamond X, perfect-constructible A and any small-v-stack map `g:Y→X`, `g*RHom(A,B)→RHom(g*A,g*B)` is an isomorphism for all B, and `RHom(A,Λ)` is overconvergent. For an eligible `f:X→S` and f-ULA A, the formation of `RHom(A,f!B)`, and in particular of the relative Verdier dual `D_X/S(A)`, commutes with every base change `S′→S` of locally spatial diamonds. For such A, `D_X/S(A)⊗f*B≃RHom(A,f!B)`. Conversely this formula, together with overconvergence, characterizes LA under the local uniform bound on the cohomological dimension of separated qc étale neighborhoods of X. Universally on S it characterizes ULA with overconvergence retained. Affinoid perfectoid maps to spatial S admit the cofinal relative-ball neighborhoods of IV.2.16 used to prove the formula.
+**Perfect internal Hom and local acyclicity.** (`IsULA.perfectRHom`) For a spatial diamond `X`, perfect-constructible `A` and any small-v-stack map `g:Y→X`, `g*RHom(A,B)→RHom(g*A,g*B)` is an isomorphism for all `B`, and `RHom(A,Λ)` is overconvergent. For an eligible `f:X→S` and `f`-ULA `A`, the formation of `RHom(A,f!B)`, and in particular of the relative Verdier dual `D_X/S(A)`, commutes with every base change `S′→S` of locally spatial diamonds. For such `A`, `D_X/S(A)⊗f*B≃RHom(A,f!B)`. Conversely this formula, together with overconvergence, characterizes LA under the local uniform bound on the cohomological dimension of separated qc étale neighborhoods of `X`. Universally on `S` it characterizes ULA with overconvergence retained. Affinoid perfectoid maps to spatial `S` admit the cofinal relative-ball neighborhoods of IV.2.16 used to prove the formula.
 
-Throughout this target, `f:X→S` is a compactifiable map of locally spatial diamonds with locally finite dim.trg. In IV.2.17–IV.2.18, X is spatial and A perfect-constructible. In IV.2.15 and IV.2.19, A is f-universally locally acyclic. In Remark IV.2.21(i), locally on X the étale cohomological dimension of quasicompact separated étale `U→X` is uniformly bounded. `Λ` is a ring killed by an integer n prime to p. (FS, Proposition IV.2.15; Lemmas IV.2.16–IV.2.18; Proposition IV.2.19; Lemma IV.2.20; Remark IV.2.21, pp.119–123.)
+Throughout this target, `f:X→S` is a compactifiable map of locally spatial diamonds with locally finite dim.trg. In IV.2.17–IV.2.18, `X` is spatial and `A` perfect-constructible. In IV.2.15 and IV.2.19, `A` is `f`-universally locally acyclic. In Remark IV.2.21(i), locally on `X` the étale cohomological dimension of quasicompact separated étale `U→X` is uniformly bounded. `Λ` is a ring killed by an integer `n` prime to `p`. (FS, Proposition IV.2.15; Lemmas IV.2.16–IV.2.18; Proposition IV.2.19; Lemma IV.2.20; Remark IV.2.21, pp.119–123.)
 
 *Needs:* [VS1/ula-definition-with-constructibility](#ula-definition-with-constructibility), DiamondSixOperations §§S2.2–S2.4, DiamondSixOperations §S2.4, DiamondSixOperations §S3.1, DiamondSixOperations §S3.4, DiamondSixOperations §§S3.3–S3.4, EnhancedDerivedSheaves §E3.2, DiamondsAndVStacks D5/limits-and-finite-stage-comparisons.
 
 <a id="kernel-correspondence-category"></a>
 
-**The category of cohomological kernels.** (`KernelCategory`) Over a small v-stack S, construct the kernel 2-category `C_S`. Objects are compactifiable maps `X→S` representable in locally spatial diamonds, of locally finite transcendence dimension. Set `Hom(X,Y)=D_et(X×S Y,Λ)`. For A on `X ×_S Y` and B on `Y ×_S Z`, composition is `Rπ13!(π12*A⊗π23*B)`; the identity on X is `Δ!Λ`. The eligible operations and their coherent exchange laws give the associator and units. Relative Verdier duality is `RHom(A,Rf!Λ)`. The relevant dualizability is possession of an adjoint as a kernel.
+**The category of cohomological kernels.** (`KernelCategory`) Over a small v-stack `S`, construct the kernel 2-category `C_S`. Objects are compactifiable maps `X→S` representable in locally spatial diamonds, of locally finite transcendence dimension. Set `Hom(X,Y)=D_et(X×S Y,Λ)`. For `A` on `X ×_S Y` and `B` on `Y ×_S Z`, composition is `Rπ13!(π12*A⊗π23*B)`; the identity on `X` is `Δ!Λ`. The eligible operations and their coherent exchange laws give the associator and units. Relative Verdier duality is `RHom(A,Rf!Λ)`. The relevant dualizability is possession of an adjoint as a kernel.
 
-Throughout this target, S is a small v-stack. Objects are maps `X→S` that are compactifiable, representable in locally spatial diamonds, with locally finite dim.trg. `Λ` is a ring killed by an integer n prime to p. (FS, IV.2.3.3, construction before Theorem IV.2.23, p.124.)
+Throughout this target, `S` is a small v-stack. Objects are maps `X→S` that are compactifiable, representable in locally spatial diamonds, with locally finite dim.trg. `Λ` is a ring killed by an integer `n` prime to `p`. (FS, IV.2.3.3, construction before Theorem IV.2.23, p.124.)
 
 *Needs:* [VS0/enhanced-smooth-descent](#enhanced-smooth-descent), DiamondSixOperations §S3.1, DiamondSixOperations §S3.4, DiamondSixOperations §§S3.3–S3.4, EnhancedDerivedSheaves §E3.4.
 
 <a id="ula-dualizability-criterion"></a>
 
-**ULA as a kernel adjoint.** (`IsULA.iffKernelAdjoint`) For `X→S` in `C_S` and `A∈D_et(X,Λ)`, A is ULA iff `p1*D_X/S(A)⊗p2*A→RHom(p1*A,p2!A)` is an equivalence, iff `A∈Hom_C_S(X,S)` has a right adjoint. That adjoint is `D_X/S(A)`. ULA relative duals are ULA and the bidual map is an equivalence; exterior products of ULA objects obey relative duality and ULA with the eligible hypotheses.
+**ULA as a kernel adjoint.** (`IsULA.iffKernelAdjoint`) For `X→S` in `C_S` and `A∈D_et(X,Λ)`, `A` is ULA iff `p1*D_X/S(A)⊗p2*A→RHom(p1*A,p2!A)` is an equivalence, iff `A∈Hom_C_S(X,S)` has a right adjoint. That adjoint is `D_X/S(A)`. ULA relative duals are ULA and the bidual map is an equivalence; exterior products of ULA objects obey relative duality and ULA with the eligible hypotheses.
 
-Throughout this target, S is a small v-stack and `X→S` an object of `C_S`: compactifiable, representable in locally spatial diamonds, locally finite dim.trg. `A∈D_et(X,Λ)`. `Λ` is a ring killed by an integer n prime to p. (FS, Theorem IV.2.23; Proposition IV.2.24; Corollary IV.2.25, pp.124–126.)
+Throughout this target, `S` is a small v-stack and `X→S` an object of `C_S`: compactifiable, representable in locally spatial diamonds, locally finite dim.trg. `A∈D_et(X,Λ)`. `Λ` is a ring killed by an integer `n` prime to `p`. (FS, Theorem IV.2.23; Proposition IV.2.24; Corollary IV.2.25, pp.124–126.)
 
 *Needs:* [VS1/kernel-correspondence-category](#kernel-correspondence-category), [VS1/ula-descent-and-smooth-locality](#ula-descent-and-smooth-locality), DiamondSixOperations §S3.1, DiamondSixOperations §S3.4, DiamondSixOperations §§S3.3–S3.4, [VS1/perfect-rhom-and-la-characterisation](#perfect-rhom-and-la-characterisation).
 
 <a id="ula-relative-adjoints-and-calculus"></a>
 
-**Relative adjoints and ULA calculus.** (`IsULA.calculus`) In `C_S`, a p₂-ULA kernel `A:X→Y` is a left adjoint when `Y→S` is proper; its right adjoint is the switched relative dual. ULA is preserved by relative duality with biduality, exterior products and eligible composition `g*A⊗B`, with the corresponding dual formulas. If f is a retract over S of eligible g and `Λ` is g-ULA, then `Λ` is f-ULA. For proper quasi-pro-étale `g:Y→X` and eligible `f:X→S`, A is (fg)-ULA iff Rg*A is f-ULA. ULA base change gives `f*Rg*A⊗B≃Rĝ*(f′*A⊗ĝ*B)` for f-ULA B and arbitrary base map g.
+**Relative adjoints and ULA calculus.** (`IsULA.calculus`) In `C_S`, a `p₂`-ULA kernel `A:X→Y` is a left adjoint when `Y→S` is proper; its right adjoint is the switched relative dual. ULA is preserved by relative duality with biduality, exterior products and eligible composition `g*A⊗B`, with the corresponding dual formulas. If `f` is a retract over `S` of eligible `g` and `Λ` is `g`-ULA, then `Λ` is `f`-ULA. For proper quasi-pro-étale `g:Y→X` and eligible `f:X→S`, `A` is `(fg)`-ULA iff `Rg*A` is `f`-ULA. ULA base change gives `f*Rg*A⊗B≃Rĝ*(f′*A⊗ĝ*B)` for `f`-ULA `B` and arbitrary base map `g`.
 
-Throughout this target, S is a small v-stack; all maps are compactifiable, representable in locally spatial diamonds, with locally finite dim.trg. In IV.2.24, `Y→S` is proper. In IV.2.28, g is proper and quasi-pro-étale and the spaces are locally spatial diamonds. `Λ` is a ring killed by an integer n prime to p. (FS, Proposition IV.2.24; Corollary IV.2.25; Proposition IV.2.26; Corollary IV.2.27; Proposition IV.2.28; Corollary IV.2.29, pp.125–128.)
+Throughout this target, `S` is a small v-stack; all maps are compactifiable, representable in locally spatial diamonds, with locally finite dim.trg. In IV.2.24, `Y→S` is proper. In IV.2.28, `g` is proper and quasi-pro-étale and the spaces are locally spatial diamonds. `Λ` is a ring killed by an integer `n` prime to `p`. (FS, Proposition IV.2.24; Corollary IV.2.25; Proposition IV.2.26; Corollary IV.2.27; Proposition IV.2.28; Corollary IV.2.29, pp.125–128.)
 
 *Needs:* [VS1/ula-dualizability-criterion](#ula-dualizability-criterion), [VS1/kernel-correspondence-category](#kernel-correspondence-category), [VS1/perfect-rhom-and-la-characterisation](#perfect-rhom-and-la-characterisation), DiamondSixOperations §S3.1, DiamondSixOperations §S3.4, DiamondSixOperations §§S3.3–S3.4.
 
@@ -289,11 +289,11 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 | Name | Required statement |
 | --- | --- |
 | `IsULA.generization` | ULA implies the stated strict-local generization map is an equivalence after any base change. |
-| `IsULA.compactDirectImage` | Every separated étale j with f∘j quasicompact has perfect-constructible supported direct image. |
+| `IsULA.compactDirectImage` | Every separated étale `j` with `f∘j` quasicompact has perfect-constructible supported direct image. |
 | `IsULA.iff` | ULA is precisely the conjunction of these two clauses after every locally spatial base change. |
 | `IsULA.baseChange` | Pullback of a ULA object is ULA for the pulled-back map. |
 | `IsULA.iso` | Isomorphic complexes have the same ULA property. |
-| `IsULA.schemes` | For separated finite-type K-schemes and bounded constructible torsion complexes, ULA agrees with scheme ULA after analytification, using IV.2.30 and the supplied comparison operations. |
+| `IsULA.schemes` | For separated finite-type `K`-schemes and bounded constructible torsion complexes, ULA agrees with scheme ULA after analytification, using IV.2.30 and the supplied comparison operations. |
 | `IsULA.overVStack` | Over a base that is a small v-stack, ULA is local acyclicity after pullback to every locally spatial diamond over the base; for a locally spatial base this is the direct definition. |
 | `PerfectLocalSystem.constant` | A perfect `Λ`-complex gives a constant object of `D_lc`. |
 | `PerfectLocalSystem.fibre` | Every geometric fibre is perfect. |
@@ -310,9 +310,9 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 
 **Checks.**
 
-- `IsULA.zero`: The zero complex is ULA for every eligible f.
-- `IsULA.point_perfect`: On `Spa C→Spa` C with C algebraically closed, a bounded finite-dimensional `𝔽_ℓ` complex is ULA.
-- `IsULA.point_infinite`: An infinite-dimensional `𝔽_ℓ` vector space in degree zero over `Spa` C satisfies the generization clause but is not ULA, because clause (b) for `j=id` demands perfection.
+- `IsULA.zero`: The zero complex is ULA for every eligible `f`.
+- `IsULA.point_perfect`: On `Spa C→Spa C` with `C` algebraically closed, a bounded finite-dimensional `𝔽_ℓ` complex is ULA.
+- `IsULA.point_infinite`: An infinite-dimensional `𝔽_ℓ` vector space in degree zero over `Spa C` satisfies the generization clause but is not ULA, because clause (`b`) for `j=id` demands perfection.
 - `PerfectLocalSystem.unit`: The constant tensor unit is a perfect local system.
 - `PerfectLocalSystem.zero`: The zero complex is a perfect local system.
 - `PerfectLocalSystem.unbounded`: Over a field, a complex with one nonzero copy of the field in every nonnegative degree is not perfect although each cohomology group is finite-dimensional.
@@ -339,33 +339,33 @@ For an Artin morphism choose a chart for which the composite satisfies compactif
 
 <a id="ula-for-artin-v-stacks"></a>
 
-**ULA on Artin v-stacks.** (`IsArtinULA`) For `f:X→S` between Artin v-stacks require a separated, representable, cohomologically smooth surjection `g:U→X` from a locally spatial diamond with fg compactifiable and of locally finite transcendence dimension. Define A to be f-ULA when g*A is (fg)-ULA. Common chart refinements and smooth locality make this independent of g. Extend operation and relative-dual formulas through these charts only in the classes where the corresponding operations exist.
+**ULA on Artin v-stacks.** (`IsArtinULA`) For `f:X→S` between Artin v-stacks require a separated, representable, cohomologically smooth surjection `g:U→X` from a locally spatial diamond with `fg` compactifiable and of locally finite transcendence dimension. Define `A` to be `f`-ULA when `g*A` is `(fg)`-ULA. Common chart refinements and smooth locality make this independent of `g`. Extend operation and relative-dual formulas through these charts only in the classes where the corresponding operations exist.
 
-Throughout this target, `f:X→S` is a map of Artin v-stacks. There is a separated, cohomologically smooth surjection `g:U→X` from a locally spatial diamond, representable in locally spatial diamonds, with f∘g compactifiable of locally finite dim.trg. `Λ` is a ring killed by an integer n prime to p. (FS, Definition IV.2.31, p.129.)
+Throughout this target, `f:X→S` is a map of Artin v-stacks. There is a separated, cohomologically smooth surjection `g:U→X` from a locally spatial diamond, representable in locally spatial diamonds, with `f∘g` compactifiable of locally finite dim.trg. `Λ` is a ring killed by an integer `n` prime to `p`. (FS, Definition IV.2.31, p.129.)
 
 *Needs:* [VS0/artin-v-stack-definition](#artin-v-stack-definition), [VS0/enhanced-smooth-descent](#enhanced-smooth-descent), [VS1/ula-descent-and-smooth-locality](#ula-descent-and-smooth-locality).
 
 <a id="smooth-ula-criterion"></a>
 
-**Smoothness and duality criteria.** (`IsArtinULA.smoothCriterion`) For smooth `f:X→S` of Artin v-stacks, A is ULA iff `p1*RHom(A,Λ)⊗p2*A→RHom(p1*A,p2*A)` is an equivalence. For a compactifiable representable diamond map of locally finite dimension, f is `ℓ`-cohomologically smooth iff `𝔽_ℓ` is f-ULA and `Rf!𝔽_ℓ` is invertible.
+**Smoothness and duality criteria.** (`IsArtinULA.smoothCriterion`) For smooth `f:X→S` of Artin v-stacks, `A` is ULA iff `p1*RHom(A,Λ)⊗p2*A→RHom(p1*A,p2*A)` is an equivalence. For a compactifiable representable diamond map of locally finite dimension, `f` is `ℓ`-cohomologically smooth iff `𝔽_ℓ` is `f`-ULA and `Rf!𝔽_ℓ` is invertible.
 
-Throughout this target, in IV.2.32, `f:X→S` is a cohomologically smooth map of Artin v-stacks and `A∈D_et(X,Λ)`. In IV.2.33, f is a compactifiable map of v-stacks, representable in locally spatial diamonds, with locally finite dim.trg; `ℓ≠p`. `Λ` is a ring killed by an integer n prime to p. (FS, Propositions IV.2.32–IV.2.33, p.129.)
+Throughout this target, in IV.2.32, `f:X→S` is a cohomologically smooth map of Artin v-stacks and `A∈D_et(X,Λ)`. In IV.2.33, `f` is a compactifiable map of v-stacks, representable in locally spatial diamonds, with locally finite dim.trg; `ℓ≠p`. `Λ` is a ring killed by an integer `n` prime to `p`. (FS, Propositions IV.2.32–IV.2.33, p.129.)
 
 *Needs:* [VS1/ula-for-artin-v-stacks](#ula-for-artin-v-stacks), [VS1/ula-dualizability-criterion](#ula-dualizability-criterion), [VS0/shriek-pullback-for-smooth-stacky-maps](#shriek-pullback-for-smooth-stacky-maps), DiamondSixOperations §S4.2, DiamondSixOperations §S4.4.
 
 <a id="smooth-spd-oe"></a>
 
-**Cohomological smoothness of `Spd O_E`.** (`SpdOE.cohomologicallySmooth`) For a nonarchimedean local field E with residue `𝔽_q` and `ℓ≠p`, `Spd O_E→Spd 𝔽_q` is `ℓ`-cohomologically smooth, and its dualizing object is `𝔽_ℓ(1)[2]`. The integral special fibre is included; smoothness of the generic fibre alone does not establish this.
+**Cohomological smoothness of `Spd O_E`.** (`SpdOE.cohomologicallySmooth`) For a nonarchimedean local field `E` with residue `𝔽_q` and `ℓ≠p`, `Spd O_E→Spd 𝔽_q` is `ℓ`-cohomologically smooth, and its dualizing object is `𝔽_ℓ(1)[2]`. The integral special fibre is included; smoothness of the generic fibre alone does not establish this.
 
-Throughout this target, E is a nonarchimedean local field with residue field `𝔽_q`. `ℓ≠p`. (FS, Corollary IV.2.34, p.130.)
+Throughout this target, `E` is a nonarchimedean local field with residue field `𝔽_q`. `ℓ≠p`. (FS, Corollary IV.2.34, p.130.)
 
 *Needs:* [VS1/smooth-ula-criterion](#smooth-ula-criterion), DiamondSixOperations §S5.5, DiamondSixOperations §S5.4, RelativeFarguesFontaine §§3.1–3.4, ClassicalAdicEtaleCohomology §§10.3–10.4 (annular Kummer class and cohomology).
 
 <a id="ula-analytification"></a>
 
-**ULA and analytification.** (`IsULA.analytification`) For a complete nonarchimedean field K of residue characteristic p, separated locally finite-type K-scheme map `f:X→S` and `A∈D_c^b(X,Λ)`, algebraic f-ULA is equivalent to diamond ULA of the analytification `A_ad` for `f_ad,diamond`. The bounded constructible range and all prime-to-p coefficient assumptions are retained.
+**ULA and analytification.** (`IsULA.analytification`) For a complete nonarchimedean field `K` of residue characteristic `p`, separated locally finite-type `K`-scheme map `f:X→S` and `A∈D_c^b(X,Λ)`, algebraic `f`-ULA is equivalent to diamond ULA of the analytification `A_ad` for `f_ad,diamond`. The bounded constructible range and all prime-to-`p` coefficient assumptions are retained.
 
-Throughout this target, K is a complete nonarchimedean field with residue characteristic p. `f:X→S` is a separated morphism of K-schemes locally of finite type. `A∈D^b_c(X,Λ)`. `Λ` is a ring killed by an integer n prime to p. (FS, Proposition IV.2.30 and footnote 2, p.128.)
+Throughout this target, `K` is a complete nonarchimedean field with residue characteristic `p`. `f:X→S` is a separated morphism of `K`-schemes locally of finite type. `A∈D^b_c(X,Λ)`. `Λ` is a ring killed by an integer `n` prime to `p`. (FS, Proposition IV.2.30 and footnote 2, p.128.)
 
 *Needs:* [VS1/ula-dualizability-criterion](#ula-dualizability-criterion), [scheme ULA kernel criterion](#scheme-ula-kernel-criterion), ClassicalAdicEtaleCohomology §§8.2 and 11.1, DiamondsAndVStacks D6/etale-site-comparison, `EtaleCohomologyFoundations F.5–F.6`.
 
@@ -383,7 +383,7 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 
 - `IsArtinULA.diamond_test`: Identity charts recover the two diamond ULA clauses.
 - `IsArtinULA.zero`: The zero complex is ULA whenever a permitted chart exists.
-- `IsArtinULA.classifying_perfect`: For a finite p-group H and `𝔽_ℓ` with `ℓ≠p`, a finite-dimensional representation on `[*/H]` is ULA over the point.
+- `IsArtinULA.classifying_perfect`: For a finite `p`-group `H` and `𝔽_ℓ` with `ℓ≠p`, a finite-dimensional representation on `[*/H]` is ULA over the point.
 
 ### VS1.3. Formal smoothness, positive tangent section spaces and Jacobian criterion
 
@@ -404,9 +404,9 @@ Formal smoothness tests Zariski closed perfectoid subspaces. Its positive-slope 
 
 <a id="formal-smoothness"></a>
 
-**Formal smoothness of v-stacks.** (`IsFormallySmooth`) A v-stack map `f:X→Y` is formally smooth if every compatible square consisting of a characteristic-p affinoid perfectoid S, a Zariski closed `S0⊂S`, a map `S→Y` and a map `S0→X` admits the following lift. There is an étale `S′→S` whose image contains |S0| and a map `S′→X` over Y that agrees with `S0→X` on `S′×S` S0. The test concerns Zariski closed perfectoid subspaces, rather than the scheme infinitesimal lifting test.
+**Formal smoothness of v-stacks.** (`IsFormallySmooth`) A v-stack map `f:X→Y` is formally smooth if every compatible square consisting of a characteristic-`p` affinoid perfectoid `S`, a Zariski closed `S0⊂S`, a map `S→Y` and a map `S0→X` admits the following lift. There is an étale `S′→S` whose image contains `|S0|` and a map `S′→X` over `Y` that agrees with `S0→X` on `S′×S S0`. The test concerns Zariski closed perfectoid subspaces, rather than the scheme infinitesimal lifting test.
 
-Throughout this target, f is a map of v-stacks. Test objects: S affinoid perfectoid of characteristic p, `S_0⊂S` Zariski closed, with compatible maps `S_0→source` and `S→target`. (FS, Definition IV.3.1, p.130.)
+Throughout this target, `f` is a map of v-stacks. Test objects: `S` affinoid perfectoid of characteristic `p`, `S_0⊂S` Zariski closed, with compatible maps `S_0→source` and `S→target`. (FS, Definition IV.3.1, p.130.)
 
 *Needs:* DiamondsAndVStacks D4/small-v-sheaves-and-small-v-stacks, DiamondsAndVStacks D1/strictly-totally-disconnected, DiamondsAndVStacks D1/universally-open-std-cover, DiamondSixOperations §S4.2, DiamondSixOperations §S4.4.
 
@@ -420,25 +420,25 @@ Throughout this target, the maps are maps of v-stacks; locality on source and ta
 
 <a id="formal-smoothness-examples"></a>
 
-**Formally smooth diamonds and Banach–Colmez spaces.** (`IsFormallySmooth.examples`) On perfectoid spaces of characteristic p, the v-sheaves `B=O⁺` and `A¹=O` are formally smooth over the point, and so is `Spd O_E` for a nonarchimedean local field E. If `f:Y→X` is a smooth morphism of analytic adic spaces over `ℤ_p`, then the associated map of diamonds is formally smooth. For a perfectoid space S and a map `[E₁→E₀]` of vector bundles on `X_S` with E₀ everywhere of positive and E₁ everywhere of negative Harder–Narasimhan slopes, `BC([E₁→E₀])→S` is formally smooth.
+**Formally smooth diamonds and Banach–Colmez spaces.** (`IsFormallySmooth.examples`) On perfectoid spaces of characteristic `p`, the v-sheaves `B=O⁺` and `A¹=O` are formally smooth over the point, and so is `Spd O_E` for a nonarchimedean local field `E`. If `f:Y→X` is a smooth morphism of analytic adic spaces over `ℤ_p`, then the associated map of diamonds is formally smooth. For a perfectoid space `S` and a map `[E₁→E₀]` of vector bundles on `X_S` with `E₀` everywhere of positive and `E₁` everywhere of negative Harder–Narasimhan slopes, `BC([E₁→E₀])→S` is formally smooth.
 
-Throughout this target, in IV.3.3 the base is the point, on perfectoid spaces of characteristic p; E is a nonarchimedean local field. In IV.3.4, f is a smooth morphism of analytic adic spaces over `ℤ_p`. In IV.3.8, S is a perfectoid space and `[E_1→E_0]` a map of vector bundles on `X_S` with `E_0` everywhere of positive and `E_1` everywhere of negative Harder–Narasimhan slopes. (FS, Propositions IV.3.3 and IV.3.8; Corollary IV.3.4, pp.131–133; used in the proof of Lemma IV.4.28, pp.147–148.)
+Throughout this target, in IV.3.3 the base is the point, on perfectoid spaces of characteristic `p`; `E` is a nonarchimedean local field. In IV.3.4, `f` is a smooth morphism of analytic adic spaces over `ℤ_p`. In IV.3.8, `S` is a perfectoid space and `[E_1→E_0]` a map of vector bundles on `X_S` with `E_0` everywhere of positive and `E_1` everywhere of negative Harder–Narasimhan slopes. (FS, Propositions IV.3.3 and IV.3.8; Corollary IV.3.4, pp.131–133; used in the proof of Lemma IV.4.28, pp.147–148.)
 
 *Needs:* [VS1/formal-smoothness](#formal-smoothness), [VS1/formal-smoothness-calculus](#formal-smoothness-calculus), RelativeFarguesFontaine §3.1, RelativeFarguesFontaine §§3.1–3.4, VectorBundlesAndIsocrystals VB1/cohomology-of-twists, VectorBundlesAndIsocrystals VB2:ampleness/quantitative-global-generation, VectorBundlesAndIsocrystals VB3:general-BC/families-of-banach-colmez-spaces, VectorBundlesAndIsocrystals VB3:general-BC/strict-positive-etale-presentations, VectorBundlesAndIsocrystals VB4/relative-cohomology-vanishing, AdicSpacesPartII R0 (analytic smoothness and differentials); VS1.3, sousperfectoid geometry.
 
 <a id="section-functor-and-positive-tangent"></a>
 
-**Relative section spaces and positive tangent locus.** (`SectionSpace`) For perfectoid `S/𝔽_q` and a smooth sousperfectoid map `Z→X_S` over the relative Fargues–Fontaine curve, define `M_Z(T)` to be sections of `Z_T→X_T`. Assume locally on S that Z is Zariski closed in an open subset of adic projective space, with closed immersion in the sense of FS IV.4.20. Define `M_Z^sm` by requiring all geometric slopes of `s*T_Z/X_S` to be strictly positive. The candidate tangent/obstruction cohomology is `RΓ(X_T,s*T_Z/X_S)`: its H¹ vanishes on this locus and its H⁰ is the positive Banach–Colmez space. The normal-cone construction identifies the zero-section fibre with `BC(s*T_Z/X_S)`. It is this fibre comparison, rather than a direct infinitesimal deformation theorem for `M_Z`, that is used.
+**Relative section spaces and positive tangent locus.** (`SectionSpace`) For perfectoid `S/𝔽_q` and a smooth sousperfectoid map `Z→X_S` over the relative Fargues–Fontaine curve, define `M_Z(T)` to be sections of `Z_T→X_T`. Assume locally on `S` that `Z` is Zariski closed in an open subset of adic projective space, with closed immersion in the sense of FS IV.4.20. Define `M_Z^sm` by requiring all geometric slopes of `s*T_Z/X_S` to be strictly positive. The candidate tangent/obstruction cohomology is `RΓ(X_T,s*T_Z/X_S)`: its `H¹` vanishes on this locus and its `H⁰` is the positive Banach–Colmez space. The normal-cone construction identifies the zero-section fibre with `BC(s*T_Z/X_S)`. It is this fibre comparison, rather than a direct infinitesimal deformation theorem for `M_Z`, that is used.
 
-Throughout this target, S is a perfectoid space over `𝔽_q`. `Z→X_S` is a smooth map of sous-perfectoid adic spaces. Locally on S, Z admits a Zariski closed immersion into an open subset of the adic projective space over `X_S`. (FS, IV.4 preamble, p.133–134; Definition IV.4.1; Theorem IV.4.2; Remark IV.4.6; Example IV.4.7, pp.134–135; Definition IV.4.20, p.141.)
+Throughout this target, `S` is a perfectoid space over `𝔽_q`. `Z→X_S` is a smooth map of sous-perfectoid adic spaces. Locally on `S`, `Z` admits a Zariski closed immersion into an open subset of the adic projective space over `X_S`. (FS, IV.4 preamble, p.133–134; Definition IV.4.1; Theorem IV.4.2; Remark IV.4.6; Example IV.4.7, pp.134–135; Definition IV.4.20, p.141.)
 
 *Needs:* RelativeFarguesFontaine §§4.3–4.7, RelativeFarguesFontaine §§2.1–2.4 and 5.1–5.6, VectorBundlesAndIsocrystals VB1/finite-locally-free-bundles, VectorBundlesAndIsocrystals VB1/frobenius-two-term-cohomology, VectorBundlesAndIsocrystals VB1/v-descent-for-bundles-and-cohomology, VectorBundlesAndIsocrystals VB1/degree-rank-slope-and-HN-formalism, VectorBundlesAndIsocrystals VB1/harder-narasimhan-filtration, VectorBundlesAndIsocrystals VB3:general-BC/families-of-banach-colmez-spaces, VectorBundlesAndIsocrystals VB3:general-BC/positive-slope-resolution, VS1.3, sousperfectoid geometry, [VS1/formal-smoothness](#formal-smoothness).
 
 <a id="jacobian-criterion"></a>
 
-**Jacobian criterion for cohomological smoothness.** (`SectionSpace.jacobian`) Under the preceding smooth/quasiprojective section hypotheses, `M_Z` is a locally spatial diamond, compactifiable over S, and `M_Z^sm` is an open subfunctor cohomologically smooth over S. At a geometric section its `ℓ`-dimension is `deg(s*T_Z/X_S)`, locally finite. No global dimension bound is assumed. Strictly positive slopes are essential to this criterion.
+**Jacobian criterion for cohomological smoothness.** (`SectionSpace.jacobian`) Under the preceding smooth/quasiprojective section hypotheses, `M_Z` is a locally spatial diamond, compactifiable over `S`, and `M_Z^sm` is an open subfunctor cohomologically smooth over `S`. At a geometric section its `ℓ`-dimension is `deg(s*T_Z/X_S)`, locally finite. No global dimension bound is assumed. Strictly positive slopes are essential to this criterion.
 
-Throughout this target, S is a perfectoid space over `𝔽_q`. `Z→X_S` is a smooth map of sous-perfectoid adic spaces. Z admits a Zariski closed immersion into an open subset of the adic projective space `P^n` over `X_S` for some n. `ℓ≠p`. (FS, Theorem IV.4.2, p.134; Propositions IV.4.21–IV.4.22, IV.4.24, IV.4.27, IV.4.29 with Lemmas IV.4.23, IV.4.25–IV.4.26, IV.4.28, IV.4.30, pp.141–151.)
+Throughout this target, `S` is a perfectoid space over `𝔽_q`. `Z→X_S` is a smooth map of sous-perfectoid adic spaces. `Z` admits a Zariski closed immersion into an open subset of the adic projective space `P^n` over `X_S` for some `n`. `ℓ≠p`. (FS, Theorem IV.4.2, p.134; Propositions IV.4.21–IV.4.22, IV.4.24, IV.4.27, IV.4.29 with Lemmas IV.4.23, IV.4.25–IV.4.26, IV.4.28, IV.4.30, pp.141–151.)
 
 *Needs:* [VS1/section-functor-and-positive-tangent](#section-functor-and-positive-tangent), [VS1/formal-smoothness-calculus](#formal-smoothness-calculus), [VS1/ula-dualizability-criterion](#ula-dualizability-criterion), [VS1/smooth-ula-criterion](#smooth-ula-criterion), VectorBundlesAndIsocrystals VB3:general-BC/families-of-banach-colmez-spaces, VectorBundlesAndIsocrystals VB3:general-BC/positive-slope-resolution, AdicSpacesPartII R0 (analytic smoothness and differentials); VS1.3, sousperfectoid geometry, [VS1/formal-smoothness-examples](#formal-smoothness-examples).
 
@@ -452,19 +452,19 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 | `IsFormallySmooth.etale` | Étale maps of perfectoid spaces are formally smooth. |
 | `IsFormallySmooth.local` | The property is étale-local on source and target. |
 | `IsFormallySmooth.open` | A formally smooth map is universally open; a formally smooth v-surjection has sections étale-locally. |
-| `SectionSpace.section` | A section of `Z_T→X_T` defines a T-point of `M_Z`. |
-| `SectionSpace.ext` | Two T-points agree iff their sections agree as maps over `X_T`. |
+| `SectionSpace.section` | A section of `Z_T→X_T` defines a `T`-point of `M_Z`. |
+| `SectionSpace.ext` | Two `T`-points agree iff their sections agree as maps over `X_T`. |
 | `SectionSpace.baseChange` | Pullback along `T′→T` pulls back sections, and obeys identity/composition. |
 | `SectionSpace.positive` | Membership in `M_Z^sm` is precisely strict positivity of every geometric pulled-back tangent bundle. |
-| `SectionSpace.tangent` | The candidate tangent/obstruction cohomology is `RΓ(X_T,s*T_Z/X_S)`, with H⁰ and H¹ and the normal-cone zero-section fibre `BC(s*T_Z/X_S)`. No direct infinitesimal deformation theorem for `M_Z` is asserted. |
-| `SectionSpace.vectorBundle` | Sections of a vector bundle V give the existing `BC(V)`, not a new bundle-cohomology construction. |
-| `SectionSpace.quotient` | For the Quot example a surjection `E→F` is in the smooth locus when max slope(ker)<min slope(F), because its tangent is `Hom(ker,F)`. |
+| `SectionSpace.tangent` | The candidate tangent/obstruction cohomology is `RΓ(X_T,s*T_Z/X_S)`, with `H⁰` and `H¹` and the normal-cone zero-section fibre `BC(s*T_Z/X_S)`. No direct infinitesimal deformation theorem for `M_Z` is asserted. |
+| `SectionSpace.vectorBundle` | Sections of a vector bundle `V` give the existing `BC(V)`, not a new bundle-cohomology construction. |
+| `SectionSpace.quotient` | For the Quot example a surjection `E→F` is in the smooth locus when `max slope(ker)<min slope(F)`, because its tangent is `Hom(ker,F)`. |
 
 **Checks.**
 
 - `IsFormallySmooth.identity`: The identity morphism is formally smooth using the specified map `S→X`.
 - `IsFormallySmooth.etale_test`: An étale map satisfies this definition with étale neighbourhood lifting.
-- `IsFormallySmooth.closed_origin`: The origin inclusion into the perfectoid affine line is not formally smooth: a coordinate on a characteristic-p perfectoid disc vanishes on its closed origin but cannot vanish on an étale neighbourhood of that origin.
+- `IsFormallySmooth.closed_origin`: The origin inclusion into the perfectoid affine line is not formally smooth: a coordinate on a characteristic-`p` perfectoid disc vanishes on its closed origin but cannot vanish on an étale neighbourhood of that origin.
 - `SectionSpace.identity`: `Z=X_S` gives `M_Z=M_Z^sm=S` and zero tangent.
 - `SectionSpace.positive_bundle`: For `V=O(1)`, `M_V=BC(O(1))`, `H¹=0` and the smooth locus is all of `M_V`.
 - `SectionSpace.zero_slope`: For `V=O`, `M_V=E` as a locally profinite sheaf, but `M_V^sm` is empty: slope zero is not strictly positive. The criterion is sufficient and does not detect every cohomologically smooth section space.
@@ -475,25 +475,25 @@ The intrinsic attracting and repelling correspondences give the two functors and
 
 <a id="hyperbolic-localization"></a>
 
-**Hyperbolic localization and monodromic sheaves.** (`HyperbolicLocalization`) For proper `f:X→S` representable in spatial diamonds with finite relative transcendence dimension, impose Hypothesis IV.6.1 on the `𝔾_m-action`: finitely many open-and-closed fixed pieces `X_i^0` and locally closed attracting/repelling pieces `X_i^±` covering X, with the action extending over (A¹)^±. Set `X^±=⊔X_i^±`, with `q±:X±→X` and `p±:X±→X0`. Identify them intrinsically by equivariant maps `(A¹)^±→X` so that they do not depend on the decomposition. Define `L+=Rp+!q+*` and `L−=Rp−*q−!`, and construct `L−→L+`. Monodromic objects are the finite-colimit/retract closure of the pullback image of `D_et(X/𝔾_m,Λ)`.
+**Hyperbolic localization and monodromic sheaves.** (`HyperbolicLocalization`) For proper `f:X→S` representable in spatial diamonds with finite relative transcendence dimension, impose Hypothesis IV.6.1 on the `𝔾_m-action`: finitely many open-and-closed fixed pieces `X_i^0` and locally closed attracting/repelling pieces `X_i^±` covering `X`, with the action extending over `(A¹)^±`. Set `X^±=⊔X_i^±`, with `q±:X±→X` and `p±:X±→X0`. Identify them intrinsically by equivariant maps `(A¹)^±→X` so that they do not depend on the decomposition. Define `L+=Rp+!q+*` and `L−=Rp−*q−!`, and construct `L−→L+`. Monodromic objects are the finite-colimit/retract closure of the pullback image of `D_et(X/𝔾_m,Λ)`.
 
-Throughout this target, S is a small v-stack; `f:X→S` is proper, representable in spatial diamonds, with dim.trg finite. X/S carries a `𝔾_m-action` satisfying Hypothesis IV.6.1. `Λ` is a ring killed by an integer n prime to p. (FS, Hypothesis IV.6.1; Proposition IV.6.2; Lemma IV.6.3; Definition IV.6.4; Definition IV.6.11, pp.155–157,162.)
+Throughout this target, `S` is a small v-stack; `f:X→S` is proper, representable in spatial diamonds, with dim.trg finite. `X/S` carries a `𝔾_m-action` satisfying Hypothesis IV.6.1. `Λ` is a ring killed by an integer `n` prime to `p`. (FS, Hypothesis IV.6.1; Proposition IV.6.2; Lemma IV.6.3; Definition IV.6.4; Definition IV.6.11, pp.155–157,162.)
 
 *Needs:* [VS0/artin-v-stack-definition](#artin-v-stack-definition), [VS0/shriek-pullback-for-smooth-stacky-maps](#shriek-pullback-for-smooth-stacky-maps), DiamondSixOperations §S3.1, DiamondSixOperations §S3.4, DiamondSixOperations §§S3.3–S3.4.
 
 <a id="braden-theorem"></a>
 
-**Braden’s theorem for diamonds.** (`HyperbolicLocalization.braden`) In the preceding proper finite-dimensional setup, for every `A∈D_et(X/𝔾_m,Λ)`, pulled back to X, the canonical map `L−A→L+A` is an equivalence; hence it is an equivalence for every monodromic A. More precisely, for `A⁺∈D_et(X⁺/𝔾_m,Λ)` the map `R(i⁺)!A⁺→R(p⁺)_!A⁺`, and for `A⁻∈D_et(X⁻/𝔾_m,Λ)` the map `R(p⁻)_*A⁻→(i⁻)*A⁻`, are equivalences, so that `L−A≃(i⁻)*R(q⁻)!A≃R(i⁺)!(q⁺)*A≃L+A`. For the more general compactifiable local setup of IV.6.9 the source requires bounded-below A, unless finite relative dimension is imposed. The global finite-dimensional theorem has no additional bounded-below restriction.
+**Braden’s theorem for diamonds.** (`HyperbolicLocalization.braden`) In the preceding proper finite-dimensional setup, for every `A∈D_et(X/𝔾_m,Λ)`, pulled back to `X`, the canonical map `L−A→L+A` is an equivalence; hence it is an equivalence for every monodromic `A`. More precisely, for `A⁺∈D_et(X⁺/𝔾_m,Λ)` the map `R(i⁺)!A⁺→R(p⁺)_!A⁺`, and for `A⁻∈D_et(X⁻/𝔾_m,Λ)` the map `R(p⁻)_*A⁻→(i⁻)*A⁻`, are equivalences, so that `L−A≃(i⁻)*R(q⁻)!A≃R(i⁺)!(q⁺)*A≃L+A`. For the more general compactifiable local setup of IV.6.9 the source requires bounded-below `A`, unless finite relative dimension is imposed. The global finite-dimensional theorem has no additional bounded-below restriction.
 
-Throughout this target, S is a small v-stack and `f:X→S` is proper, representable in spatial diamonds, with dim.trg finite, and carries a `𝔾_m-action` satisfying Hypothesis IV.6.1. A comes from `D_et(X/𝔾_m,Λ)`, or is monodromic in the sense of Definition IV.6.11. `Λ` is a ring killed by an integer n prime to p. (FS, Theorem IV.6.5; Proposition IV.6.6; Remark IV.6.7; Lemma IV.6.8; Proposition IV.6.9; Lemma IV.6.10, pp.158–162.)
+Throughout this target, `S` is a small v-stack and `f:X→S` is proper, representable in spatial diamonds, with dim.trg finite, and carries a `𝔾_m-action` satisfying Hypothesis IV.6.1. `A` comes from `D_et(X/𝔾_m,Λ)`, or is monodromic in the sense of Definition IV.6.11. `Λ` is a ring killed by an integer `n` prime to `p`. (FS, Theorem IV.6.5; Proposition IV.6.6; Remark IV.6.7; Lemma IV.6.8; Proposition IV.6.9; Lemma IV.6.10, pp.158–162.)
 
 *Needs:* [VS1/hyperbolic-localization](#hyperbolic-localization), [VS0/partial-compactly-supported-vanishing](#partial-compactly-supported-vanishing), DiamondSixOperations §S3.1, DiamondSixOperations §S3.4, DiamondSixOperations §§S3.3–S3.4, EnhancedDerivedSheaves §E2.6.
 
 <a id="hyperbolic-base-change-duality-and-ula"></a>
 
-**Hyperbolic base change, duality and ULA.** (`HyperbolicLocalization.compatibilities`) For the proper finite-dimensional hyperbolic setup and monodromic objects, L commutes with base pullback and ordinary base pushforward. It commutes with supported pushforward and exceptional base pullback when the base map is compactifiable representable locally spatial of finite relative dimension. Relative Verdier duality exchanges L for an action with L for the inverse action. If A is f-ULA, LA is f0-ULA.
+**Hyperbolic base change, duality and ULA.** (`HyperbolicLocalization.compatibilities`) For the proper finite-dimensional hyperbolic setup and monodromic objects, `L` commutes with base pullback and ordinary base pushforward. It commutes with supported pushforward and exceptional base pullback when the base map is compactifiable representable locally spatial of finite relative dimension. Relative Verdier duality exchanges `L` for an action with `L` for the inverse action. If `A` is `f`-ULA, `LA` is `f0`-ULA.
 
-Throughout this target, the setup of Definition IV.6.11: `f:X→S` proper, representable in spatial diamonds, dim.trg finite, with a `𝔾_m-action` satisfying Hypothesis IV.6.1. A is monodromic. For the two exceptional commutations the base change is compactifiable, representable in locally spatial diamonds, with dim.trg finite. `Λ` is a ring killed by an integer n prime to p. (FS, Propositions IV.6.12–IV.6.14, p.163.)
+Throughout this target, the setup of Definition IV.6.11: `f:X→S` proper, representable in spatial diamonds, dim.trg finite, with a `𝔾_m-action` satisfying Hypothesis IV.6.1. `A` is monodromic. For the two exceptional commutations the base change is compactifiable, representable in locally spatial diamonds, with dim.trg finite. `Λ` is a ring killed by an integer `n` prime to `p`. (FS, Propositions IV.6.12–IV.6.14, p.163.)
 
 *Needs:* [VS1/braden-theorem](#braden-theorem), [VS1/ula-dualizability-criterion](#ula-dualizability-criterion), [VS1/ula-descent-and-smooth-locality](#ula-descent-and-smooth-locality), [VS1/perfect-rhom-and-la-characterisation](#perfect-rhom-and-la-characterisation).
 
@@ -501,8 +501,8 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 
 | Name | Required statement |
 | --- | --- |
-| `HyperbolicLocalization.attractor` | X+ represents `𝔾_m-equivariant` maps from (A¹)+ to X, with `q+=evaluation` at 1 and `p+=evaluation` at 0. |
-| `HyperbolicLocalization.repeller` | The same characterization with inverse action gives X−. |
+| `HyperbolicLocalization.attractor` | `X+` represents `𝔾_m-equivariant` maps from `(A¹)+` to `X`, with `q+=evaluation` at `1` and `p+=evaluation` at `0`. |
+| `HyperbolicLocalization.repeller` | The same characterization with inverse action gives `X−`. |
 | `HyperbolicLocalization.plus` | `L+=Rp+!q+*` with the specified supported operation. |
 | `HyperbolicLocalization.minus` | `L−=Rp−*q−!` with the specified exceptional operation. |
 | `HyperbolicLocalization.comparison` | The Cartesian fixed square and adjunctions define a canonical map `L−→L+`. |
@@ -512,8 +512,8 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 **Checks.**
 
 - `HyperbolicLocalization.trivial_action`: For the trivial action, `X0=X+=X−=X` and both localization functors and the comparison are identities.
-- `HyperbolicLocalization.empty`: For X empty all three spaces and both output categories are empty/zero.
-- `HyperbolicLocalization.projective_line`: For P¹ over a geometric base with scaling action, the 0-attractor is A¹ and the opposite 0-repeller is the point; the two correspondences are not identical before taking the Braden comparison.
+- `HyperbolicLocalization.empty`: For `X` empty all three spaces and both output categories are empty/zero.
+- `HyperbolicLocalization.projective_line`: For `P¹` over a geometric base with scaling action, the 0-attractor is A¹ and the opposite 0-repeller is the point; the two correspondences are not identical before taking the Braden comparison.
 
 ### VS1.5. Weil/divisor map, geometric finite-étale input and Drinfeld descent
 
@@ -521,33 +521,33 @@ Twist the Weil action by inverse Frobenius to obtain a map over the residue-fiel
 
 <a id="divisor-weil-map"></a>
 
-**The divisor-to-Weil classifying map.** (`DivisorWeilMap`) Let E have residue field `𝔽_q`, put `k=overline(𝔽_q)`, and work on `Perf_k`. Import the divisor presentation `Div¹≃Spd Ĕ/φ^ℤ≃[Spd C/W_E]` with C a completed algebraic closure of E. An element τ of `W_E` acts on `Spd C` by `τ∘Frob^(−deg` τ), so that the action is over k. The resulting torsor defines `ψ:Div¹→[*/W_E]`. For any finite I and small v-stack X form `ψ_X^I:X×(Div¹)^I→X×[*/W_E^I]`. Use the imported Weil topology and degree, without reconstructing the Weil group.
+**The divisor-to-Weil classifying map.** (`DivisorWeilMap`) Let `E` have residue field `𝔽_q`, put `k=overline(𝔽_q)`, and work on `Perf_k`. Import the divisor presentation `Div¹≃Spd Ĕ/φ^ℤ≃[Spd C/W_E]` with `C` a completed algebraic closure of `E`. An element `τ` of `W_E` acts on `Spd C` by `τ∘Frob^(−deg τ)`, so that the action is over `k`. The resulting torsor defines `ψ:Div¹→[*/W_E]`. For any finite `I` and small v-stack `X` form `ψ_X^I:X×(Div¹)^I→X×[*/W_E^I]`. Use the imported Weil topology and degree, without reconstructing the Weil group.
 
-Throughout this target, E is a nonarchimedean local field with residue field `𝔽_q`; k is the algebraic closure of `𝔽_q`; everything is over `Perf_k`. `W_E` is the Weil group of E with its Weil topology and degree map, imported from the Tau Ceti ClassFieldTheory roadmap. `Div¹` and its presentation are imported from RelativeFarguesFontaine. (FS, IV.7, construction before Proposition IV.7.1, p.164.)
+Throughout this target, `E` is a nonarchimedean local field with residue field `𝔽_q`; `k` is the algebraic closure of `𝔽_q`; everything is over `Perf_k`. `W_E` is the Weil group of `E` with its Weil topology and degree map, imported from the Tau Ceti ClassFieldTheory roadmap. `Div¹` and its presentation are imported from RelativeFarguesFontaine. (FS, IV.7, construction before Proposition IV.7.1, p.164.)
 
 *Needs:* RelativeFarguesFontaine §§4.3–4.7, ClassFieldTheory Layer 9, “the local Weil group”, DiamondsAndVStacks D4/small-v-sheaves-and-small-v-stacks.
 
 <a id="geometric-divisor-finite-etale"></a>
 
-**Geometric finite étale descent for divisors.** (`DivisorWeilMap.finiteEtale`) For E a nonarchimedean local field and C0 an algebraically closed characteristic-p perfectoid field over k, finite étale covers of `Spa C0×Div¹` come by pullback from `Div¹`. The geometric curve input is the exact supplier theorem that every finite étale `O_X-algebra` on the absolute Fargues–Fontaine curve over an algebraically closed point equals `O_X⊗E` A with A finite étale over E. In SW20 the displayed field is `ℚ_p`; the proof works in this E-generality using the supplied E-bundle classification and finite étale adic/diamond comparison.
+**Geometric finite étale descent for divisors.** (`DivisorWeilMap.finiteEtale`) For `E` a nonarchimedean local field and `C0` an algebraically closed characteristic-`p` perfectoid field over `k`, finite étale covers of `Spa C0×Div¹` come by pullback from `Div¹`. The geometric curve input is the exact supplier theorem that every finite étale `O_X-algebra` on the absolute Fargues–Fontaine curve over an algebraically closed point equals `O_X⊗E A` with `A` finite étale over `E`. In SW20 the displayed field is `ℚ_p`; the proof works in this `E`-generality using the supplied `E`-bundle classification and finite étale adic/diamond comparison.
 
-Throughout this target, E is a nonarchimedean local field; `C_0` is an algebraically closed nonarchimedean field of characteristic p over k. The printed lemma is for `E=ℚ_p`; the E-generality rests on the supplier's finite étale theorem for the curve of E. (SW, Lemma 16.3.2 and the paragraph after it, p.144; Theorem 13.5.7, p.114; FS, Proof of Proposition IV.7.3, p.166.)
+Throughout this target, `E` is a nonarchimedean local field; `C_0` is an algebraically closed nonarchimedean field of characteristic `p` over `k`. The printed lemma is for `E=ℚ_p`; the `E`-generality rests on the supplier's finite étale theorem for the curve of `E`. (SW, Lemma 16.3.2 and the paragraph after it, p.144; Theorem 13.5.7, p.114; FS, Proof of Proposition IV.7.3, p.166.)
 
 *Needs:* VectorBundlesAndIsocrystals VB2:classification/finite-etale-constant-algebras, DiamondsAndVStacks D5/limits-and-finite-stage-comparisons, DiamondsAndVStacks D6/etale-site-comparison, RelativeFarguesFontaine §§4.3–4.7, [VS1/divisor-weil-map](#divisor-weil-map).
 
 <a id="drinfeld-pullback"></a>
 
-**Fully faithful divisor descent.** (`DivisorWeilMap.fullyFaithful`) For every small v-stack X and prime-to-p torsion `Λ`, `ψ_X*` is fully faithful on `D_et`. It is an equivalence if `D_et(X,Λ)→D_et(X×Spd C,Λ)` is an equivalence. For every finite I, `ψ_X^I*` remains fully faithful. Essential surjectivity of the full category is conditional; this is not a general product formula for fundamental groups.
+**Fully faithful divisor descent.** (`DivisorWeilMap.fullyFaithful`) For every small v-stack `X` and prime-to-`p` torsion `Λ`, `ψ_X*` is fully faithful on `D_et`. It is an equivalence if `D_et(X,Λ)→D_et(X×Spd C,Λ)` is an equivalence. For every finite `I`, `ψ_X^I*` remains fully faithful. Essential surjectivity of the full category is conditional; this is not a general product formula for fundamental groups.
 
-Throughout this target, X is a small v-stack over k; I is a finite set. `Λ` is a ring killed by an integer n prime to p. (FS, Proposition IV.7.1; Corollary IV.7.2, pp.164–165.)
+Throughout this target, `X` is a small v-stack over `k`; `I` is a finite set. `Λ` is a ring killed by an integer `n` prime to `p`. (FS, Proposition IV.7.1; Corollary IV.7.2, pp.164–165.)
 
 *Needs:* [VS1/divisor-weil-map](#divisor-weil-map), DiamondSixOperations §§S2.2–S2.4, DiamondSixOperations §S2.4, EnhancedDerivedSheaves §E2.6.
 
 <a id="drinfeld-local-systems"></a>
 
-**Drinfeld’s lemma for perfect local systems.** (`PerfectLocalSystem.drinfeld`) For every finite I, small v-stack X, and prime-to-p torsion `Λ`, `ψ_X^I*` gives `D_lc(X×[*/W_E^I],Λ)≃D_lc(X×(Div¹)^I,Λ)`. This is the locally constant perfect formulation, not an unrestricted assertion `π1((Div¹)^I)=W_E^I` for a conventional profinite fundamental group.
+**Drinfeld’s lemma for perfect local systems.** (`PerfectLocalSystem.drinfeld`) For every finite `I`, small v-stack `X`, and prime-to-`p` torsion `Λ`, `ψ_X^I*` gives `D_lc(X×[*/W_E^I],Λ)≃D_lc(X×(Div¹)^I,Λ)`. This is the locally constant perfect formulation, not an unrestricted assertion `π1((Div¹)^I)=W_E^I` for a conventional profinite fundamental group.
 
-Throughout this target, I is a finite set and X a small v-stack over k (the algebraic closure of `𝔽_q)`. `Λ` is a ring killed by an integer n prime to p. (FS, Proposition IV.7.3, pp.165–166.)
+Throughout this target, `I` is a finite set and `X` a small v-stack over `k` (the algebraic closure of `𝔽_q`). `Λ` is a ring killed by an integer `n` prime to `p`. (FS, Proposition IV.7.3, pp.165–166.)
 
 *Needs:* [VS1/perfect-local-systems](#perfect-local-systems), [VS1/drinfeld-pullback](#drinfeld-pullback), [VS1/geometric-divisor-finite-etale](#geometric-divisor-finite-etale), RelativeFarguesFontaine §§4.3–4.7.
 
@@ -555,17 +555,17 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 
 | Name | Required statement |
 | --- | --- |
-| `DivisorWeilMap.action` | The action is `τ∘Frob^(−deg` τ); it is a map over `Spd` k. |
-| `DivisorWeilMap.torsor` | `Spd C→Div¹` has relation `W_E×Spd` C and realizes the displayed quotient. |
+| `DivisorWeilMap.action` | The action is `τ∘Frob^(−deg τ)`; it is a map over `Spd k`. |
+| `DivisorWeilMap.torsor` | `Spd C→Div¹` has relation `W_E×Spd C` and realizes the displayed quotient. |
 | `DivisorWeilMap.classify` | The quotient torsor gives `ψ` to the existing Weil classifying stack. |
 | `DivisorWeilMap.product` | Finite-set products and maps of indices induce `ψ_X^I`, compatibly with composition. |
-| `DivisorWeilMap.inertia` | For τ in inertia the twisting Frobenius factor is the identity. |
+| `DivisorWeilMap.inertia` | For `τ` in inertia the twisting Frobenius factor is the identity. |
 
 **Checks.**
 
 - `DivisorWeilMap.degree_zero`: A degree-zero inertia element acts on `Spd C` by its usual action.
-- `DivisorWeilMap.empty_indices`: For I empty, `ψ_X^I` is the identity of X.
-- `DivisorWeilMap.frobenius_sign`: For degree-one τ the correction is Frob^−1, so its action is over `Spd` k; omitting it does not cancel the induced Frobenius on k.
+- `DivisorWeilMap.empty_indices`: For `I` empty, `ψ_X^I` is the identity of `X`.
+- `DivisorWeilMap.frobenius_sign`: For degree-one `τ` the correction is `Frob^−1`, so its action is over `Spd k`; omitting it does not cancel the induced Frobenius on `k`.
 
 ### Examples
 
@@ -585,9 +585,9 @@ Topological cohomology and the finite-power Breen–Deligne resolution calculate
 
 <a id="condensed-cohomology"></a>
 
-**Cohomology of compact condensed spaces.** (`CondensedCohomology.compact`) For compact Hausdorff S, condensed cohomology with discrete integer coefficients agrees with ordinary sheaf/Čech cohomology. Profinite S has `H^i(S,Z)=0` for i>0. For the topological condensed reals, `H^i(S,R)=0` for i>0 and `H⁰=C(S,R)`. A profinite hypercover computes the latter by the augmented complex `0→C(S,R)→C(S0,R)→C(S1,R)→⋯`; for `i≥0`, a cocycle in `C(S_i,R)` admits a primitive in the preceding augmented term (C(S,R) when `i=0)` of norm at most (1+ε) times its norm for each ε>0.
+**Cohomology of compact condensed spaces.** (`CondensedCohomology.compact`) For compact Hausdorff `S`, condensed cohomology with discrete integer coefficients agrees with ordinary sheaf/Čech cohomology. Profinite `S` has `H^i(S,Z)=0` for `i>0`. For the topological condensed reals, `H^i(S,R)=0` for `i>0` and `H⁰=C(S,R)`. A profinite hypercover computes the latter by the augmented complex `0→C(S,R)→C(S0,R)→C(S1,R)→⋯`; for `i≥0`, a cocycle in `C(S_i,R)` admits a primitive in the preceding augmented term (`C(S,R)` when `i=0`) of norm at most `(1+ε)` times its norm for each `ε>0`.
 
-Throughout this target, S is a compact Hausdorff space. R is the condensed group of the topological reals. (CS, Theorems 3.2–3.3, pp.20–23.)
+Throughout this target, `S` is a compact Hausdorff space. `R` is the condensed group of the topological reals. (CS, Theorems 3.2–3.3, pp.20–23.)
 
 *Needs:* `Condensed`, `CompHaus`, `CondensedSet.fullyFaithfulCompactlyGeneratedToCondensedSet`, EnhancedDerivedSheaves §E1.3, EnhancedDerivedSheaves §E2.6.
 
@@ -605,31 +605,31 @@ The API gives naturality in group homomorphisms, degreewise finiteness, exact au
 
 <a id="breen-deligne-resolution"></a>
 
-**Breen–Deligne resolution.** (`BreenDeligne.resolution`) There is a functorial resolution of every abelian group A by terms finite direct sums of `Z[A^r]`, with augmentation `Z[A]→A`. Its differentials are universal finite integral combinations of maps induced by integer matrices, so it applies after sheafification in any topos. The natural scalar n action and the action induced by `A→A`, a↦na, are chain homotopic. Applied to condensed groups it gives the finite-power RHom spectral sequence used for solidification and sheaf solidity.
+**Breen–Deligne resolution.** (`BreenDeligne.resolution`) There is a functorial resolution of every abelian group `A` by terms finite direct sums of `Z[A^r]`, with augmentation `Z[A]→A`. Its differentials are universal finite integral combinations of maps induced by integer matrices, so it applies after sheafification in any topos. The natural scalar `n` action and the action induced by `A→A`, `a↦na`, are chain homotopic. Applied to condensed groups it gives the finite-power RHom spectral sequence used for solidification and sheaf solidity.
 
-Throughout this target, A is an abelian group, or an abelian group object of a topos by functoriality. (CS, Theorem 4.5 and Remarks 4.6–4.7, pp.25–26; Appendix to Lecture IV: Theorem 4.10, Proposition 4.12, Theorem 4.14, Lemma 4.15, Theorem 4.16, Proposition 4.17, pp.29–32.)
+Throughout this target, `A` is an abelian group, or an abelian group object of a topos by functoriality. (CS, Theorem 4.5 and Remarks 4.6–4.7, pp.25–26; Appendix to Lecture IV: Theorem 4.10, Proposition 4.12, Theorem 4.14, Lemma 4.15, Theorem 4.16, Proposition 4.17, pp.29–32.)
 
 *Needs:* EnhancedDerivedSheaves §§0.2 and E1.2, EnhancedDerivedSheaves §E0.6 (dg nerve), with Mathlib Dold–Kan, `CondensedAb`.
 
 <a id="condensed-lca-rhom"></a>
 
-**Derived Hom against reals and tori.** (`CondensedLCA.rhom`) For A a product of copies of `ℝ/ℤ` over any set, `RHom(A,ℝ)=0` in condensed groups; the source’s argument uses only that A is a compact Hausdorff abelian group, and gives the same vanishing for every such A. For a discrete abelian group M and a set I, `RHom(∏_I(ℝ/ℤ),M)≃directSum_I` M[-1]. In particular `RHom(ℝ,ℤ)=0` and `RHom(∏_I ℤ,Z)≃⊕_I ℤ`, via `0→∏ ℤ→∏ ℝ→∏(ℝ/ℤ)→0`. These are condensed derived Hom statements, not ordinary abstract-group Hom computations.
+**Derived Hom against reals and tori.** (`CondensedLCA.rhom`) For `A` a product of copies of `ℝ/ℤ` over any set, `RHom(A,ℝ)=0` in condensed groups; the source’s argument uses only that `A` is a compact Hausdorff abelian group, and gives the same vanishing for every such `A`. For a discrete abelian group `M` and a set `I`, `RHom(∏_I(ℝ/ℤ),M)≃directSum_I M[-1]`. In particular `RHom(ℝ,ℤ)=0` and `RHom(∏_I ℤ,Z)≃⊕_I ℤ`, via `0→∏ ℤ→∏ ℝ→∏(ℝ/ℤ)→0`. These are condensed derived Hom statements, not ordinary abstract-group Hom computations.
 
-Throughout this target, A is a product of copies of `ℝ/ℤ` over an arbitrary set (for the vanishing into R, any compact Hausdorff abelian group, by the same proof). M is a discrete abelian group. (CS, Theorem 4.3, p.25, with its proof, pp.26–27; Corollary 4.8, p.26; proof of Proposition 5.7, p.35.)
+Throughout this target, `A` is a product of copies of `ℝ/ℤ` over an arbitrary set (for the vanishing into `R`, any compact Hausdorff abelian group, by the same proof). `M` is a discrete abelian group. (CS, Theorem 4.3, p.25, with its proof, pp.26–27; Corollary 4.8, p.26; proof of Proposition 5.7, p.35.)
 
 *Needs:* [VS2/breen-deligne-resolution](#breen-deligne-resolution), [VS2/condensed-cohomology](#condensed-cohomology), EnhancedDerivedSheaves §E1.3.
 
 <a id="solid-free-structure"></a>
 
-**Solidity of profinite free solid groups.** For profinite S, the pinned `ℤ[S]_solid` is `Hom(C(S,Z),Z)`, hence a product of copies of Z by Nöbeling’s theorem already in Mathlib. It is solid as a condensed group and as a complex. A profinite hypercover gives an exact augmented complex of these free solid objects. The pinned solidification map is an isomorphism for finite S (`SolidAb.freeStructure` and `SolidAb.freeStructure_finite`).
+**Solidity of profinite free solid groups.** For profinite `S`, the pinned `ℤ[S]_solid` is `Hom(C(S,Z),Z)`, hence a product of copies of `Z` by Nöbeling’s theorem already in Mathlib. It is solid as a condensed group and as a complex. A profinite hypercover gives an exact augmented complex of these free solid objects. The pinned solidification map is an isomorphism for finite `S` (`SolidAb.freeStructure` and `SolidAb.freeStructure_finite`).
 
-Throughout this target, S is a profinite set. Nöbeling's theorem is the pinned Mathlib instance. (CS, Corollary 5.5; Propositions 5.6–5.7, pp.34–35.)
+Throughout this target, `S` is a profinite set. Nöbeling's theorem is the pinned Mathlib instance. (CS, Corollary 5.5; Propositions 5.6–5.7, pp.34–35.)
 
 *Needs:* `Condensed.profiniteSolid`, `Condensed.profiniteSolidification`, `LocallyConstant.freeOfProfinite`, [VS2/condensed-cohomology](#condensed-cohomology), [VS2/condensed-lca-rhom](#condensed-lca-rhom).
 
 <a id="solid-abelian-groups"></a>
 
-**The abelian category of solid groups.** Take the existing CondensedAb and its integer predicate CondensedMod.IsSolid. Define SolidAb as the full subcategory on that property. Prove that its fully faithful inclusion creates kernels, cokernels and all small limits and colimits, and that solid objects are closed under extensions. This makes SolidAb abelian (`SolidAb.abelian`); `SolidAb.createsLimits` and `SolidAb.createsColimits` state the creation results, and `SolidAb.zero_isSolid` states solidity of zero. Products of discrete copies of `ℤ` are compact projective generators in this category. Use the site/cutoff comparison when transporting the source formulation.
+**The abelian category of solid groups.** Take the existing `CondensedAb` and its integer predicate `CondensedMod.IsSolid`. Define `SolidAb` as the full subcategory on that property. Prove that its fully faithful inclusion creates kernels, cokernels and all small limits and colimits, and that solid objects are closed under extensions. This makes `SolidAb` abelian (`SolidAb.abelian`); `SolidAb.createsLimits` and `SolidAb.createsColimits` state the creation results, and `SolidAb.zero_isSolid` states solidity of zero. Products of discrete copies of `ℤ` are compact projective generators in this category. Use the site/cutoff comparison when transporting the source formulation.
 
 Throughout this target, solidity is the pinned predicate over the universe-lifted integers. Use the regular-cardinal/site comparison of the conventions above. (CS, Theorem 5.8(i); proof in Lecture VI, pp.35–41.)
 
@@ -637,7 +637,7 @@ Throughout this target, solidity is the pinned predicate over the universe-lifte
 
 <a id="solidification"></a>
 
-**Solidification as a reflection.** Construct the reflection `L:CondensedAb→SolidAb` as the colimit-preserving extension of the existing maps `ℤ[S]→ℤ[S]_solid` on profinite compact-projective generators. The existence milestone is `SolidAb.inclusion_isRightAdjoint`. The intended construction signatures are `solidification : CondensedAb ⥤ SolidAb` and `solidificationAdjunction : solidification ⊣ i`, where `i` is the native full-subcategory inclusion. For profinite `S`, `solidification_freeIso S` has source `i(L(ℤ[S]))` and target `ℤ[S]_solid`; composing its forward map with the unit is exactly `Condensed.profiniteSolidification.app S`. Its unit gives `Hom(LA,B)≃Hom(A,iB)` for solid B; its counit is invertible. On the common enhancement the inclusion `D(SolidAb)→D(CondensedAb)` is fully faithful, with image those complexes whose cohomology groups are solid. Its left adjoint is the left derived reflection `L^L`, which need not preserve concentration in degree zero.
+**Solidification as a reflection.** Construct the reflection `L:CondensedAb→SolidAb` as the colimit-preserving extension of the existing maps `ℤ[S]→ℤ[S]_solid` on profinite compact-projective generators. The existence milestone is `SolidAb.inclusion_isRightAdjoint`. The intended construction signatures are `solidification : CondensedAb ⥤ SolidAb` and `solidificationAdjunction : solidification ⊣ i`, where `i` is the native full-subcategory inclusion. For profinite `S`, `solidification_freeIso S` has source `i(L(ℤ[S]))` and target `ℤ[S]_solid`; composing its forward map with the unit is exactly `Condensed.profiniteSolidification.app S`. Its unit gives `Hom(LA,B)≃Hom(A,iB)` for solid `B`; its counit is invertible. On the common enhancement the inclusion `D(SolidAb)→D(CondensedAb)` is fully faithful, with image those complexes whose cohomology groups are solid. Its left adjoint is the left derived reflection `L^L`, which need not preserve concentration in degree zero.
 
 Throughout this target, solidity is the pinned predicate over the integers. The derived statements use the common enhancement. (CS, Theorem 5.8; Lemmas 5.9–5.10; Theorem 6.2, pp.35–38,43.)
 
@@ -645,7 +645,7 @@ Throughout this target, solidity is the pinned predicate over the integers. The 
 
 <a id="derived-solid-tensor"></a>
 
-**Solid tensor and internal Hom.** (`SolidTensor`) Equip SolidAb with the unique closed symmetric monoidal structure for which solidification is symmetric monoidal. Derive it on D(SolidAb) using the common enhancement, preserving colimits in each variable. The unit is discrete `ℤ` and the internal Hom satisfies the tensor-Hom adjunction, with its ambient condensed derived-Hom comparison. For sets I,J the solid tensor of `∏_I ℤ` and `∏_J ℤ` is `∏_(I×J) ℤ`, also in the derived calculation. Derived solidification is monoidal.
+**Solid tensor and internal Hom.** (`SolidTensor`) Equip `SolidAb` with the unique closed symmetric monoidal structure for which solidification is symmetric monoidal. Derive it on `D(SolidAb)` using the common enhancement, preserving colimits in each variable. The unit is discrete `ℤ` and the internal Hom satisfies the tensor-Hom adjunction, with its ambient condensed derived-Hom comparison. For sets `I,J` the solid tensor of `∏_I ℤ` and `∏_J ℤ` is `∏_(I×J) ℤ`, also in the derived calculation. Derived solidification is monoidal.
 
 Throughout this target, solid abelian groups in the sense of the pinned predicate over the integers. The derived statements use the common enhancement. (CS, Theorem 6.2; Proposition 6.3; Examples 6.4, pp.43–44.)
 
@@ -655,19 +655,19 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 
 | Name | Required statement |
 | --- | --- |
-| `SolidAb.abelian` | SolidAb is abelian, and its inclusion creates kernels and cokernels. |
+| `SolidAb.abelian` | `SolidAb` is abelian, and its inclusion creates kernels and cokernels. |
 | `SolidAb.limits` | All small limits and colimits exist and are created by the inclusion. |
-| `SolidAb.extensions` | In a short exact sequence in CondensedAb with solid end terms, the middle term is solid. |
-| `SolidAb.generators` | The integer products form compact projective generators in SolidAb. |
+| `SolidAb.extensions` | In a short exact sequence in `CondensedAb` with solid end terms, the middle term is solid. |
+| `SolidAb.generators` | The integer products form compact projective generators in `SolidAb`. |
 | `solidification` | The reflection functor `L:CondensedAb→SolidAb`. |
-| `solidificationAdjunction` | L is left adjoint to the actual full-subcategory inclusion. |
+| `solidificationAdjunction` | `L` is left adjoint to the actual full-subcategory inclusion. |
 | `solidification_unit` | The unit `A→iLA` is universal for maps to solid objects. |
 | `solidification_homEquiv` | Composition with the unit bijects `Hom(LA,B)` and `Hom(A,iB)`. |
-| `solidification_counit` | The counit `LiB→B` is an isomorphism for solid B. |
+| `solidification_counit` | The counit `LiB→B` is an isomorphism for solid `B`. |
 | `solidification_free` | On a profinite free group, `iLℤ[S]` is canonically `ℤ[S]_solid` and its unit is the pinned solidification map. |
-| `solidification_derived` | The derived reflection has image characterized by solid cohomology and agrees with left derived L. |
+| `solidification_derived` | The derived reflection has image characterized by solid cohomology and agrees with left derived `L`. |
 | `SolidTensor.tensor` | Solid tensor is the solidification of ambient condensed tensor; the derived tensor uses its left derived form. |
-| `SolidTensor.unit` | The integer-solid Z is the tensor unit. |
+| `SolidTensor.unit` | The integer-solid `Z` is the tensor unit. |
 | `SolidTensor.product` | Tensor of integer products is the product on the Cartesian index set. |
 | `SolidTensor.hom` | `Map(A⊗solid B,C)≃Map(A,RHomsolid(B,C))`. |
 | `SolidTensor.changeCoefficients` | Solid algebra scalar extension is derived solid tensor, with coherent identity/composition. |
@@ -675,9 +675,9 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 
 **Checks.**
 
-- `SolidAb.zero`: The zero condensed group is integer-solid and gives the zero object of SolidAb.
+- `SolidAb.zero`: The zero condensed group is integer-solid and gives the zero object of `SolidAb`.
 - `SolidAb.freeProfinite`: The pinned integer profiniteSolid object is solid for every profinite set and lies in this category.
-- `SolidAb.finiteSet`: For a finite profinite set S, the pinned solidification map `ℤ[S]→ℤ[S]_solid` is an isomorphism, hence the two free objects agree.
+- `SolidAb.finiteSet`: For a finite profinite set `S`, the pinned solidification map `ℤ[S]→ℤ[S]_solid` is an isomorphism, hence the two free objects agree.
 - `solidification_zero`: Solidification sends the zero condensed group to a zero solid group.
 - `solidification_solid`: The unit of an integer-solid group is an isomorphism.
 - `solidification_finite`: The unit of the free condensed group on a finite profinite set is an isomorphism.
@@ -716,33 +716,33 @@ Use analytic measures when the coefficient field carries its nonarchimedean topo
 
 <a id="general-ring-solidity"></a>
 
-**Correct solidity for general discrete rings.** For a discrete ring R and `M∈CondensedMod` R, define general-ring solidity by testing every ring homomorphism `ℤ[X]→R`: the restricted module must satisfy the existing finite-type integer-algebra solidity predicate. Thus one tests every `r∈R` by sending X to r. For R finitely generated over `ℤ` this agrees with that existing predicate (`IsSolidGeneral.finiteType`); `IsSolidGeneral.integer`, `IsSolidGeneral.zero` and `IsSolidGeneral.polynomial` state the integer, zero and polynomial cases. For general R it is not replaced by inversion of all R-profinite-solid maps. This predicate does not supply analytic measures for an arbitrary condensed ring.
+**Correct solidity for general discrete rings.** For a discrete ring `R` and `M∈CondensedMod R`, define general-ring solidity by testing every ring homomorphism `ℤ[X]→R`: the restricted module must satisfy the existing finite-type integer-algebra solidity predicate. Thus one tests every `r∈R` by sending `X` to `r`. For `R` finitely generated over `ℤ` this agrees with that existing predicate (`IsSolidGeneral.finiteType`); `IsSolidGeneral.integer`, `IsSolidGeneral.zero` and `IsSolidGeneral.polynomial` state the integer, zero and polynomial cases. For general `R` it is not replaced by inversion of all `R`-profinite-solid maps. This predicate does not supply analytic measures for an arbitrary condensed ring.
 
-Throughout this target, R is a ring and M a condensed R-module. The test is over all ring maps `ℤ[X]→R`, using the pinned predicate over `ℤ[X]`. (CS, Lecture VII: Definition 7.1; Examples 7.3(iii)–(iv) with footnote 14; Proposition 7.8; Remark 7.9, pp.45–48; the docstring of CondensedMod.IsSolid in the pinned Mathlib/Condensed/Solid.lean.)
+Throughout this target, `R` is a ring and `M` a condensed `R`-module. The test is over all ring maps `ℤ[X]→R`, using the pinned predicate over `ℤ[X]`. (CS, Lecture VII: Definition 7.1; Examples 7.3(iii)–(iv) with footnote 14; Proposition 7.8; Remark 7.9, pp.45–48; the docstring of `CondensedMod.IsSolid` in the pinned `Mathlib/Condensed/Solid.lean`.)
 
 *Needs:* `CondensedMod`, `CondensedMod.IsSolid`, `ModuleCat.restrictScalars`, `CategoryTheory.sheafCompose`.
 
 <a id="nonarchimedean-solid-coefficients"></a>
 
-**Solid nonarchimedean coefficients.** (`SolidECoefficients`) Give a finite extension `E/ℚ_p` its p-adic condensed topology and analytic solid structure constructed in this section. The free complete object on S is `E⊗solid_ℤ ℤ[S]_solid`. Its complete modules form the abelian category `Mod_E^solid`, with closed solid tensor, derived internal Hom and analytic scalar extension. Taking the same abstract E as a discrete ring with underlying-integer solidity defines a different coefficient construction. The comparison with classical locally convex spaces belongs to the functional-analysis consumer.
+**Solid nonarchimedean coefficients.** (`SolidECoefficients`) Give a finite extension `E/ℚ_p` its `p`-adic condensed topology and analytic solid structure constructed in this section. The free complete object on `S` is `E⊗solid_ℤ ℤ[S]_solid`. Its complete modules form the abelian category `Mod_E^solid`, with closed solid tensor, derived internal Hom and analytic scalar extension. Taking the same abstract `E` as a discrete ring with underlying-integer solidity defines a different coefficient construction. The comparison with classical locally convex spaces belongs to the functional-analysis consumer.
 
-Throughout this target, E is a finite extension of `ℚ_p` with its p-adic topology. The analytic ring formalism is constructed in VS2.2. (BCGP, §2.2.1, pp.18–20, solid E-vector spaces.)
+Throughout this target, `E` is a finite extension of `ℚ_p` with its `p`-adic topology. The analytic ring formalism is constructed in VS2.2. (BCGP, §2.2.1, pp.18–20, solid `E`-vector spaces.)
 
 *Needs:* [VS2.2, analytic measures](#analytic-measures), [VS2/derived-solid-tensor](#derived-solid-tensor), [VS2.2, analytic measures](#analytic-measures).
 
 <a id="z-solid-analytification"></a>
 
-**Z-solid analytification of schemes.** (`ZSolidAnalytification`) For discrete commutative A define `Mod_Zsolid(A)` as the full subcategory of condensed A-modules whose underlying condensed integer group is solid. Specialize the analytic spectrum of this section to `AnSpec(A,Mod_Zsolid(A))`, and glue these affine stacks along Zariski charts to obtain `X↦X_tilde` for schemes. The affine coefficient category is enhanced `D(Mod_Zsolid(A))`. Use the AnSpec and !-gluing interfaces of VS2.2, analytic spectra and the compatible regular-cutoff/light-site coefficient comparison.
+**`Z`-solid analytification of schemes.** (`ZSolidAnalytification`) For discrete commutative `A` define `Mod_Zsolid(A)` as the full subcategory of condensed `A`-modules whose underlying condensed integer group is solid. Specialize the analytic spectrum of this section to `AnSpec(A,Mod_Zsolid(A))`, and glue these affine stacks along Zariski charts to obtain `X↦X_tilde` for schemes. The affine coefficient category is enhanced `D(Mod_Zsolid(A))`. Use the `AnSpec` and !-gluing interfaces of VS2.2, analytic spectra and the compatible regular-cutoff/light-site coefficient comparison.
 
-Throughout this target, A is a discrete commutative ring. AnSpec and gluing are constructed in VS2.2; analytic rings from VS2.2, analytic measures. (BCGP, Remark 2.4.1, pp.30–31.)
+Throughout this target, `A` is a discrete commutative ring. `AnSpec` and gluing are constructed in VS2.2; analytic rings from VS2.2, analytic measures. (BCGP, Remark 2.4.1, pp.30–31.)
 
 *Needs:* [VS2/solid-abelian-groups](#solid-abelian-groups), [VS2/derived-solid-tensor](#derived-solid-tensor), EnhancedDerivedSheaves §E5:abstract.2, EnhancedDerivedSheaves §E3.4, [VS2.2, analytic measures](#analytic-measures), [VS2.2, analytic spectra](#analytic-spectra).
 
 <a id="principal-localization-and-formal-complement"></a>
 
-**Analytic localization and formal complements.** (`ZSolidAnalytification.formalComplement`) For a discrete commutative A and `f∈A`, `AnSpec(A[1/f],Mod_Zsolid(A[1/f]))→AnSpec(A,Mod_Zsolid(A))` is proper and behaves as a closed immersion in the analytic-stack formalism. Its open complement has module category the derived f-complete subcategory, characterized by lim_(multiplication by f) `M=0`. The latter limit is derived. For SL₂ over discrete E, the closed-cell analytic coefficient ring is E[[T⁻¹]] with derived T⁻¹-complete modules, whereas the big cell uses E[T] with underlying-Z solid modules.
+**Analytic localization and formal complements.** (`ZSolidAnalytification.formalComplement`) For a discrete commutative `A` and `f∈A`, `AnSpec(A[1/f],Mod_Zsolid(A[1/f]))→AnSpec(A,Mod_Zsolid(A))` is proper and behaves as a closed immersion in the analytic-stack formalism. Its open complement has module category the derived `f`-complete subcategory, characterized by `lim_(multiplication by f) M=0`. The latter limit is derived. For `SL₂` over discrete `E`, the closed-cell analytic coefficient ring is `E[[T⁻¹]]` with derived `T⁻¹`-complete modules, whereas the big cell uses `E[T]` with underlying-`Z` solid modules.
 
-Throughout this target, A is a discrete commutative ring and `f∈A`. Modules are condensed A-modules whose underlying group is solid. The analytic-stack formalism is constructed in VS2.2. (BCGP, Remark 2.4.1; Example 2.4.2, pp.30–31.)
+Throughout this target, `A` is a discrete commutative ring and `f∈A`. Modules are condensed `A`-modules whose underlying group is solid. The analytic-stack formalism is constructed in VS2.2. (BCGP, Remark 2.4.1; Example 2.4.2, pp.30–31.)
 
 *Needs:* [VS2/z-solid-analytification](#z-solid-analytification), EnhancedDerivedSheaves §E4.1, [VS2.2, analytic spectra](#analytic-spectra).
 
@@ -752,17 +752,17 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 | --- | --- |
 | `IsSolidGeneral` | Corrected solidity is exactly the stated universal polynomial restriction criterion. |
 | `IsSolidGeneral.restrict` | Restriction along a ring homomorphism preserves corrected solidity, by composing polynomial test maps. |
-| `IsSolidGeneral.iso` | An isomorphism of condensed R-modules preserves the criterion. |
-| `IsSolidGeneral.finiteType` | For finite-type Z-algebra R the corrected predicate agrees with the pinned finite-type predicate. |
-| `SolidECoefficients.category` | The category is the analytic complete modules for topological E. |
-| `SolidECoefficients.free` | Its free solid object on S is `E⊗solid_Z ℤ[S]_solid`. |
+| `IsSolidGeneral.iso` | An isomorphism of condensed `R`-modules preserves the criterion. |
+| `IsSolidGeneral.finiteType` | For finite-type `Z`-algebra `R` the corrected predicate agrees with the pinned finite-type predicate. |
+| `SolidECoefficients.category` | The category is the analytic complete modules for topological `E`. |
+| `SolidECoefficients.free` | Its free solid object on `S` is `E⊗solid_Z ℤ[S]_solid`. |
 | `SolidECoefficients.tensorHom` | Derived tensor and internal Hom satisfy the closed adjunction. |
 | `SolidECoefficients.scalarExtension` | Analytic coefficient extension along a continuous field embedding uses derived complete tensor with coherent identity/composition. |
-| `SolidECoefficients.topological` | The underlying coefficient object is the condensed module for the p-adic topology of E; its inclusion respects the imported analytic measures. The classical locally convex comparison is an outgoing application. |
-| `ZSolidAnalytification.modules` | Construct the actual full subcategory of condensed A-modules with underlying integer solidity. |
-| `ZSolidAnalytification.affine` | AnSpec uses the pair `(A,Mod_Zsolid(A))`, including its analytic module data. |
+| `SolidECoefficients.topological` | The underlying coefficient object is the condensed module for the `p`-adic topology of `E`; its inclusion respects the imported analytic measures. The classical locally convex comparison is an outgoing application. |
+| `ZSolidAnalytification.modules` | Construct the actual full subcategory of condensed `A`-modules with underlying integer solidity. |
+| `ZSolidAnalytification.affine` | `AnSpec` uses the pair `(A,Mod_Zsolid(A))`, including its analytic module data. |
 | `ZSolidAnalytification.glue` | Affine Zariski gluing yields the scheme functor and coherent morphism composition. |
-| `ZSolidAnalytification.pullback` | Module pullback is the derived Z-solid scalar extension. |
+| `ZSolidAnalytification.pullback` | Module pullback is the derived `Z`-solid scalar extension. |
 | `ZSolidAnalytification.affineCategory` | Quasi-coherent coefficients on the affine analytic stack are enhanced `D(Mod_Zsolid(A))`. |
 
 **Checks.**
@@ -770,12 +770,12 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 - `IsSolidGeneral.integer`: For the universe-lifted integers the corrected predicate is equivalent to pinned integer solidity.
 - `IsSolidGeneral.zero`: The zero condensed module satisfies every polynomial restriction test.
 - `IsSolidGeneral.polynomial`: For `R=ℤ[X]`, the identity ring map is one of the tests, so corrected solidity implies its pinned polynomial solidity.
-- `SolidECoefficients.zero`: The zero topological vector space realizes the zero solid E-module.
-- `SolidECoefficients.finite`: For finite S, the free object is `E^S`.
-- `SolidECoefficients.smith`: For an infinite product, `(product_I O_E)[1/p]` consists of uniformly bounded denominators and differs from arbitrary `product_I` E; omitting analytic measures gives the wrong Smith generator.
-- `ZSolidAnalytification.integer`: For `A=Z` the coefficient category is SolidAb with its actual inclusion.
+- `SolidECoefficients.zero`: The zero topological vector space realizes the zero solid `E`-module.
+- `SolidECoefficients.finite`: For finite `S`, the free object is `E^S`.
+- `SolidECoefficients.smith`: For an infinite product, `(product_I O_E)[1/p]` consists of uniformly bounded denominators and differs from arbitrary `product_I E`; omitting analytic measures gives the wrong Smith generator.
+- `ZSolidAnalytification.integer`: For `A=Z` the coefficient category is `SolidAb` with its actual inclusion.
 - `ZSolidAnalytification.zero`: The zero ring has zero module category and empty analytic spectrum.
-- `ZSolidAnalytification.discreteField`: For `A=E` taken discretely the definition tests underlying Z-solidity; replacing A by its p-adic condensed topology changes the construction.
+- `ZSolidAnalytification.discreteField`: For `A=E` taken discretely the definition tests underlying `Z`-solidity; replacing `A` by its `p`-adic condensed topology changes the construction.
 
 ### VS2.3. QCQS foundations and corrected affine condensed points
 
@@ -783,15 +783,15 @@ Work on the existing condensed-set sheaf site. Profinite tests define relative q
 
 <a id="qcqs-condensed-sets"></a>
 
-**Quasicompact and quasiseparated condensed sets.** For X on the existing CondensedSet carrier, call X quasicompact if some profinite condensed set maps epimorphically to X. A morphism is quasicompact when its pullback to every profinite source is quasicompact. Define quasiseparatedness by quasicompactness of the diagonal, equivalently of `S ×_X T` for each pair of maps from profinite S,T. These are properties of a sheaf and its fibre products, rather than properties of its abstract point set.
+**Quasicompact and quasiseparated condensed sets.** For `X` on the existing `CondensedSet` carrier, call `X` quasicompact if some profinite condensed set maps epimorphically to `X`. A morphism is quasicompact when its pullback to every profinite source is quasicompact. Define quasiseparatedness by quasicompactness of the diagonal, equivalently of `S ×_X T` for each pair of maps from profinite `S,T`. These are properties of a sheaf and its fibre products, rather than properties of its abstract point set.
 
-Throughout this target, X is a condensed set, on the pinned carrier. (PQ, Appendix A, opening discussion and Lemmas A.3–A.4, pp.88–90.)
+Throughout this target, `X` is a condensed set, on the pinned carrier. (PQ, Appendix A, opening discussion and Lemmas A.3–A.4, pp.88–90.)
 
 *Needs:* `CondensedSet`, `Profinite`, `CondensedSet.fullyFaithfulCompactlyGeneratedToCondensedSet`, `profiniteToCondensed`, `TopCat.toCondensedSet`.
 
 <a id="condensed-epis-and-colimits"></a>
 
-**Profinite evaluation and quasiseparated colimits.** For a profinite condensed set S, evaluation at S commutes with filtered colimits because compact Hom and finite sheaf limits do. Filtered colimits of qcqs condensed sets along injections with quasicompact transition maps are quasiseparated. For quasiseparated X and profinite S, a morphism `S→X` is determined by its values on points; quasiseparated subobjects retain this point-detection property.
+**Profinite evaluation and quasiseparated colimits.** For a profinite condensed set `S`, evaluation at `S` commutes with filtered colimits because compact Hom and finite sheaf limits do. Filtered colimits of qcqs condensed sets along injections with quasicompact transition maps are quasiseparated. For quasiseparated `X` and profinite `S`, a morphism `S→X` is determined by its values on points; quasiseparated subobjects retain this point-detection property.
 
 Throughout this target, in A.5 the diagram is filtered, its objects are quasi-compact and quasi-separated and its transition maps are quasi-compact injections. In A.7 the target is quasi-separated and the source profinite. (PQ, Appendix A, Lemmas A.1–A.2,A.5–A.7, pp.88–90.)
 
@@ -799,17 +799,17 @@ Throughout this target, in A.5 the diagram is filtered, its objects are quasi-co
 
 <a id="affine-condensed-points"></a>
 
-**Condensed affine points.** (`AffineCondensedPoints`) Given a commutative base ring R, an affine R-scheme Spec B and a condensed commutative R-algebra A, define the condensed points by `S↦Hom_Ralg(B,A(S))` with the induced restrictions. This represented functor preserves limits, so the displayed presheaf already satisfies descent; sheafification gives the same object. Finite presentation gives its polynomial product/equalizer description and filtered-colimit compatibility. Accessibility alone for an arbitrary functor does not imply the products or equalizers required of a condensed set.
+**Condensed affine points.** (`AffineCondensedPoints`) Given a commutative base ring `R`, an affine `R`-scheme `Spec B` and a condensed commutative `R`-algebra `A`, define the condensed points by `S↦Hom_Ralg(B,A(S))` with the induced restrictions. This represented functor preserves limits, so the displayed presheaf already satisfies descent; sheafification gives the same object. Finite presentation gives its polynomial product/equalizer description and filtered-colimit compatibility. Accessibility alone for an arbitrary functor does not imply the products or equalizers required of a condensed set.
 
-Throughout this target, R is a commutative ring, B a commutative R-algebra and A a condensed commutative R-algebra. The scheme is affine; no statement is made for arbitrary accessible functors. (PQ, Appendix A.1, opening paragraph, p.90; Lemma A.8, p.91.)
+Throughout this target, `R` is a commutative ring, `B` a commutative `R`-algebra and `A` a condensed commutative `R`-algebra. The scheme is affine; no statement is made for arbitrary accessible functors. (PQ, Appendix A.1, opening paragraph, p.90; Lemma A.8, p.91.)
 
 *Needs:* `CondensedSet`, `Condensed`, [VS2/condensed-epis-and-colimits](#condensed-epis-and-colimits), [VS2/qcqs-condensed-sets](#qcqs-condensed-sets).
 
 <a id="closed-affine-points-quasicompact"></a>
 
-**Quasicompactness of closed affine points.** (`AffineCondensedPoints.closedQC`) For a quasiseparated condensed commutative ring A and a closed immersion `X→A_R^n`, `X(A)→A^n` is a quasicompact monomorphism, hence X(A) is quasiseparated. With finitely many equations this is a pullback of a point along `A^n→A^r`. For arbitrarily many equations, on every profinite source the simultaneous zero set is an intersection of closed compact subsets, hence remains compact and represents the fibre. The finiteness of n is retained.
+**Quasicompactness of closed affine points.** (`AffineCondensedPoints.closedQC`) For a quasiseparated condensed commutative ring `A` and a closed immersion `X→A_R^n`, `X(A)→A^n` is a quasicompact monomorphism, hence `X(A)` is quasiseparated. With finitely many equations this is a pullback of a point along `A^n→A^r`. For arbitrarily many equations, on every profinite source the simultaneous zero set is an intersection of closed compact subsets, hence remains compact and represents the fibre. The finiteness of `n` is retained.
 
-Throughout this target, R is a commutative ring and `X→A^n_R` a closed immersion, with n finite. A is a quasi-separated condensed R-algebra. (PQ, Appendix A, Lemma A.8 and proof, p.91.)
+Throughout this target, `R` is a commutative ring and `X→A^n_R` a closed immersion, with `n` finite. `A` is a quasi-separated condensed `R`-algebra. (PQ, Appendix A, Lemma A.8 and proof, p.91.)
 
 *Needs:* [VS2/affine-condensed-points](#affine-condensed-points), [VS2/qcqs-condensed-sets](#qcqs-condensed-sets), [VS2/condensed-epis-and-colimits](#condensed-epis-and-colimits), `CompHaus`.
 
@@ -824,10 +824,10 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 | `CondensedQCQS.profinite` | The pinned profinite realization satisfies both properties. |
 | `AffineCondensedPoints.evaluate` | Sections are `Hom_Ralg(B,A(S))` with their restriction maps. |
 | `AffineCondensedPoints.sheaf` | The represented functor preserves the products and equalizers required by sheaf descent. |
-| `AffineCondensedPoints.map` | Ring maps in B act contravariantly and maps in A covariantly, respecting identity/composition. |
+| `AffineCondensedPoints.map` | Ring maps in `B` act contravariantly and maps in `A` covariantly, respecting identity/composition. |
 | `AffineCondensedPoints.product` | Products of affine schemes give products of condensed points. |
 | `AffineCondensedPoints.equations` | A polynomial presentation gives the equalizer defined by its equations. |
-| `AffineCondensedPoints.accessible` | For finitely presented B the points functor commutes with filtered colimits of coefficient algebras. |
+| `AffineCondensedPoints.accessible` | For finitely presented `B` the points functor commutes with filtered colimits of coefficient algebras. |
 
 **Checks.**
 
@@ -839,7 +839,7 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 - For `CondensedQCQS.IsQuasiseparated`, fibre products of two profinite sources over a profinite target are closed compact subspaces of their product; over a discrete target the equalizer is still closed; this remains true for infinite discrete targets even though they fail quasicompactness.
 - `CondensedQCQS` requires both properties: empty and finite sets satisfy both, and infinite discrete sets fail exactly its first conjunct.
 - `AffineCondensedPoints.affineZero`: Affine zero-space is the terminal condensed set.
-- `AffineCondensedPoints.affineLine`: Affine one-space has condensed points the underlying condensed set of A.
+- `AffineCondensedPoints.affineLine`: Affine one-space has condensed points the underlying condensed set of `A`.
 - `AffineCondensedPoints.polynomial`: For `R[x₁,…,x_n]` the points are `A^n`, preserving sheaf products; the constant two-element accessible functor fails even the empty-cover sheaf condition.
 
 ### VS2.4. Solid sheaf category, cutoff structure, four operations and relative homology
@@ -848,33 +848,33 @@ The free pro-étale chart objects define sheaf solidity. Constructible inverse-l
 
 <a id="solid-sheaves-on-v-stacks"></a>
 
-**Solid sheaves on small v-stacks.** (`SolidSheaf`) For spatial X and a pro-étale map `j:U→X` presented as a cofiltered limit of qcqs étale `j_i`, set `j♯ℤhat=lim_i j_i!ℤhat` and use its tautological section over U. A pro-étale sheaf F is solid if `Hom(j♯ℤhat,F)→F(U)` is an isomorphism for every such chart. On a small v-stack test this on each spatial v-chart. Define `D_solid(X,ℤhat^p)` as the full enhanced subcategory with solid cohomology. For a solid algebra object `Λ` use its module category, keeping the underlying `ℤhat^p-complex` solid. This coefficient convention is distinct from an arbitrary analytic `Λ`-solid category.
+**Solid sheaves on small v-stacks.** (`SolidSheaf`) For spatial `X` and a pro-étale map `j:U→X` presented as a cofiltered limit of qcqs étale `j_i`, set `j♯ℤhat=lim_i j_i!ℤhat` and use its tautological section over `U`. A pro-étale sheaf `F` is solid if `Hom(j♯ℤhat,F)→F(U)` is an isomorphism for every such chart. On a small v-stack test this on each spatial v-chart. Define `D_solid(X,ℤhat^p)` as the full enhanced subcategory with solid cohomology. For a solid algebra object `Λ` use its module category, keeping the underlying `ℤhat^p-complex` solid. This coefficient convention is distinct from an arbitrary analytic `Λ`-solid category.
 
-Throughout this target, X is a spatial diamond for the sheaf-level definition, a small v-stack in general. Coefficients are Ẑ, then a solid Ẑ-algebra (a solid Ẑ^p-algebra from VII.2 on). (FS, Definition VII.1.1; Proposition VII.1.8; Definitions VII.1.9–VII.1.10 and VII.1.17; Remark VII.1.18, pp.245,249,252.)
+Throughout this target, `X` is a spatial diamond for the sheaf-level definition, a small v-stack in general. Coefficients are `Ẑ`, then a solid `Ẑ`-algebra (a solid `Ẑ^p`-algebra from VII.2 on). (FS, Definition VII.1.1; Proposition VII.1.8; Definitions VII.1.9–VII.1.10 and VII.1.17; Remark VII.1.18, pp.245,249,252.)
 
 *Needs:* [VS2/solid-abelian-groups](#solid-abelian-groups), [VS2/breen-deligne-resolution](#breen-deligne-resolution), DiamondsAndVStacks D6/etale-site-comparison, EnhancedDerivedSheaves §E1.3, EnhancedDerivedSheaves §E5:abstract.2.
 
 <a id="solid-sheaf-structure-and-completion"></a>
 
-**Solid sheaf structure and completion.** (`SolidSheaf.structure`) On spatial X solid Ẑ-sheaves form an abelian full subcategory closed under all limits, colimits and extensions. Its finitely presented objects are exactly cofiltered limits of constructible torsion étale sheaves, forming their Pro-category; all solid sheaves form its Ind-category. Higher inverse limits of those torsion constructible systems vanish. Derived solidity is the derived Hom extension criterion; the derived inclusion is fully faithful and admits solidification with tensor-ideal kernel. Cutoffs supply the compatible presentable categories, without global presentability of the unrestricted site.
+**Solid sheaf structure and completion.** (`SolidSheaf.structure`) On spatial `X` solid `Ẑ`-sheaves form an abelian full subcategory closed under all limits, colimits and extensions. Its finitely presented objects are exactly cofiltered limits of constructible torsion étale sheaves, forming their Pro-category; all solid sheaves form its Ind-category. Higher inverse limits of those torsion constructible systems vanish. Derived solidity is the derived Hom extension criterion; the derived inclusion is fully faithful and admits solidification with tensor-ideal kernel. Cutoffs supply the compatible presentable categories, without global presentability of the unrestricted site.
 
-Throughout this target, X is a spatial diamond (a diamond for VII.1.15). Coefficients are Ẑ. (FS, Theorem VII.1.3; Question VII.1.4; Proposition VII.1.6; Propositions VII.1.12–VII.1.15, pp.245–251.)
+Throughout this target, `X` is a spatial diamond (a diamond for VII.1.15). Coefficients are `Ẑ`. (FS, Theorem VII.1.3; Question VII.1.4; Proposition VII.1.6; Propositions VII.1.12–VII.1.15, pp.245–251.)
 
 *Needs:* [VS2/solid-sheaves-on-v-stacks](#solid-sheaves-on-v-stacks), [VS2/breen-deligne-resolution](#breen-deligne-resolution), [VS2/solidification](#solidification), EnhancedDerivedSheaves §E5:presentability.1, EnhancedDerivedSheaves §E3.2, DiamondsAndVStacks D6/etale-site-comparison.
 
 <a id="solid-four-operations"></a>
 
-**Four operations for solid sheaves.** (`SolidOperations`) For every map `f:Y→X` of small v-stacks and solid Ẑ^p-algebra `Λ`, f*, Rf*, closed derived solid tensor and internal RHom preserve the respective solid categories. Solid tensor is the solidification of ambient derived tensor. Internal Hom is already solid; pullback preserves it and tensor, and commutes with Rf* in arbitrary Cartesian base change in the solid formalism. For `Λ=Ẑ^p` the solid tensor of two objects concentrated in degree 0 lies in degrees −1 and 0, and for finitely presented solid sheaves `F=lim F_i` and `G=lim G_j` it is the derived limit of the `F_i⊗ᴸG_j`. The formalism is constructed at adequate compatible cutoffs. Properness alone does not give the pushforward projection formula.
+**Four operations for solid sheaves.** (`SolidOperations`) For every map `f:Y→X` of small v-stacks and solid `Ẑ^p`-algebra `Λ`, `f*`, `Rf*`, closed derived solid tensor and internal RHom preserve the respective solid categories. Solid tensor is the solidification of ambient derived tensor. Internal Hom is already solid; pullback preserves it and tensor, and commutes with `Rf*` in arbitrary Cartesian base change in the solid formalism. For `Λ=Ẑ^p` the solid tensor of two objects concentrated in degree 0 lies in degrees −1 and 0, and for finitely presented solid sheaves `F=lim F_i` and `G=lim G_j` it is the derived limit of the `F_i⊗ᴸG_j`. The formalism is constructed at adequate compatible cutoffs. Properness alone does not give the pushforward projection formula.
 
-Throughout this target, `f:Y→X` is any map of small v-stacks. `Λ` is a solid Ẑ^p-algebra; categories are formed at compatible, sufficiently large cutoffs. (FS, Propositions VII.2.1–VII.2.4; Warning VII.2.5, pp.252–255.)
+Throughout this target, `f:Y→X` is any map of small v-stacks. `Λ` is a solid `Ẑ^p`-algebra; categories are formed at compatible, sufficiently large cutoffs. (FS, Propositions VII.2.1–VII.2.4; Warning VII.2.5, pp.252–255.)
 
 *Needs:* [VS2/solid-sheaf-structure-and-completion](#solid-sheaf-structure-and-completion), [VS2/derived-solid-tensor](#derived-solid-tensor), EnhancedDerivedSheaves §E3.2, EnhancedDerivedSheaves §E3.4.
 
 <a id="relative-solid-homology"></a>
 
-**Relative solid homology.** (`SolidHomology`) For any morphism `f:Y→X` of small v-stacks construct f♯ left adjoint to solid ordinary pullback. Require coherent composition and arbitrary Cartesian base change, the projection identity `f♯(A⊗solid f*B)≃f♯A⊗solid` B, and `RHom(f♯A,B)≃Rf_*RHom(A,f*B)`. Coefficient extension and restriction have the associated adjoint-compatible comparisons. This construction applies to all small-v-stack maps, with the solid coefficient and cutoff hypotheses, rather than just the eligible maps supporting torsion exceptional operations.
+**Relative solid homology.** (`SolidHomology`) For any morphism `f:Y→X` of small v-stacks construct `f♯` left adjoint to solid ordinary pullback. Require coherent composition and arbitrary Cartesian base change, the projection identity `f♯(A⊗solid f*B)≃f♯A⊗solid B`, and `RHom(f♯A,B)≃Rf_*RHom(A,f*B)`. Coefficient extension and restriction have the associated adjoint-compatible comparisons. This construction applies to all small-v-stack maps, with the solid coefficient and cutoff hypotheses, rather than just the eligible maps supporting torsion exceptional operations.
 
-Throughout this target, `f:Y→X` is any map of small v-stacks. `Λ` is a solid Ẑ^p-algebra; categories are formed at compatible, sufficiently large cutoffs. (FS, Proposition VII.3.1, pp.257–258.)
+Throughout this target, `f:Y→X` is any map of small v-stacks. `Λ` is a solid `Ẑ^p`-algebra; categories are formed at compatible, sufficiently large cutoffs. (FS, Proposition VII.3.1, pp.257–258.)
 
 *Needs:* [VS2/solid-four-operations](#solid-four-operations), EnhancedDerivedSheaves §E3.2.
 
@@ -882,34 +882,34 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 
 | Name | Required statement |
 | --- | --- |
-| `SolidSheaf.free` | A qcqs pro-étale chart gives j♯ Ẑ and a tautological section. |
+| `SolidSheaf.free` | A qcqs pro-étale chart gives `j♯ Ẑ` and a tautological section. |
 | `SolidSheaf.criterion` | Sections extend uniquely to Hom from every free solid chart object. |
 | `SolidSheaf.vLocal` | Solidity can be checked on a spatial v-cover. |
 | `SolidSheaf.derived` | Derived solidity is equivalent to solidity of all cohomology sheaves. |
-| `SolidSheaf.modules` | For `Λ` an algebra object, coefficients are `Λ`-module objects with solid underlying Ẑ^p-complex. |
+| `SolidSheaf.modules` | For `Λ` an algebra object, coefficients are `Λ`-module objects with solid underlying `Ẑ^p`-complex. |
 | `SolidSheaf.point` | On a geometric point the construction agrees with condensed solid modules in this coefficient convention. |
 | `SolidOperations.pullback` | All small-v-stack maps have coherent solid pullbacks, respecting identity and composition. |
-| `SolidOperations.pushforward` | Rf* is right adjoint to f*. |
+| `SolidOperations.pushforward` | `Rf*` is right adjoint to `f*`. |
 | `SolidOperations.tensor` | Relative derived solid tensor is closed symmetric monoidal. |
 | `SolidOperations.hom` | `Map(A⊗solid B,C)≃Map(A,RHom(B,C))`. |
 | `SolidOperations.baseChange` | For every Cartesian square `g*Rf*≃Rf′*g′*` in the solid formalism. |
 | `SolidOperations.homPullback` | `g*RHom(A,B)≃RHom(g*A,g*B)`. |
-| `SolidHomology.functor` | Construct f♯ for every map of small v-stacks. |
+| `SolidHomology.functor` | Construct `f♯` for every map of small v-stacks. |
 | `SolidHomology.adjunction` | `Map(f♯A,B)≃Map(A,f*B)`. |
 | `SolidHomology.id` | Identity homology is identity. |
 | `SolidHomology.comp` | `(fg)♯≃f♯g♯` with coherent associativity. |
 | `SolidHomology.baseChange` | Cartesian base change gives `g*f♯≃f′♯g′*`. |
-| `SolidHomology.projection` | `f♯(A⊗solid f*B)≃f♯A⊗solid` B. |
-| `SolidHomology.coefficients` | Derived solid coefficient extension intertwines f♯, with restriction comparisons given by adjunction. |
+| `SolidHomology.projection` | `f♯(A⊗solid f*B)≃f♯A⊗solid B`. |
+| `SolidHomology.coefficients` | Derived solid coefficient extension intertwines `f♯`, with restriction comparisons given by adjunction. |
 
 **Checks.**
 
 - `SolidSheaf.zero`: The zero sheaf meets every extension test.
-- `SolidSheaf.torsion`: Every étale `ℤ/n-sheaf` with n prime to p gives a solid sheaf.
-- `SolidSheaf.etaleChart`: For a single qcqs étale j the free object is j! Ẑ and the extension criterion reduces to the usual section adjunction.
+- `SolidSheaf.torsion`: Every étale `ℤ/n-sheaf` with `n` prime to `p` gives a solid sheaf.
+- `SolidSheaf.etaleChart`: For a single qcqs étale `j` the free object is `j! Ẑ` and the extension criterion reduces to the usual section adjunction.
 - `SolidOperations.identity`: Identity pullback and pushforward are identity.
 - `SolidOperations.point`: On a point solid tensor agrees with the condensed solid tensor.
-- `SolidOperations.properProjectionFailure`: For the inclusion j of a point `Spa` C in a perfectoid ball over C, which is proper and quasi-pro-étale, the projection map for `A=j♯Ẑ^p` and `B=Ẑ^p` is `j♯Ẑ^p→Rj_*Ẑ^p`; on global sections its source is Ẑ^p[-2] and its target Ẑ^p, so it is not an isomorphism.
+- `SolidOperations.properProjectionFailure`: For the inclusion `j` of a point `Spa C` in a perfectoid ball over `C`, which is proper and quasi-pro-étale, the projection map for `A=j♯Ẑ^p` and `B=Ẑ^p` is `j♯Ẑ^p→Rj_*Ẑ^p`; on global sections its source is `Ẑ^p[-2]` and its target `Ẑ^p`, so it is not an isomorphism.
 - `SolidHomology.empty`: Homology from the empty stack is the zero functor.
 - `SolidHomology.identity`: Identity homology and its adjunction recover identity.
 - `SolidHomology.etale`: For separated étale maps the torsion comparison gives the existing extension-by-zero functor.
@@ -920,9 +920,9 @@ Distinguish the naive covariant torsion realization from the contravariant solid
 
 <a id="torsion-solid-comparisons"></a>
 
-**Torsion embeddings into solid categories.** (`SolidSheaf.torsionComparison`) For `Λ=ℤ/n` with n prime to p, the naive `D_et(X,Λ)→D_solid(X,Λ)` is fully faithful, monoidal and pullback-compatible, with right adjoint `R_Xet`. It matches Rf* for qcqs f on bounded-below objects, or qcqs f of finite cohomological dimension. On overconvergent objects the solid dual `A∨=RHom_solid(A,Λ)` gives a fully faithful t-exact contravariant embedding with solid biduality and pullback compatibility. Its tensor comparison is an equivalence when one input has finite Tor amplitude. For proper spatial finite-dimensional f, `(Rf*A)∨≃f♯A∨` on the overconvergent range.
+**Torsion embeddings into solid categories.** (`SolidSheaf.torsionComparison`) For `Λ=ℤ/n` with `n` prime to `p`, the naive `D_et(X,Λ)→D_solid(X,Λ)` is fully faithful, monoidal and pullback-compatible, with right adjoint `R_Xet`. It matches `Rf*` for qcqs `f` on bounded-below objects, or qcqs `f` of finite cohomological dimension. On overconvergent objects the solid dual `A∨=RHom_solid(A,Λ)` gives a fully faithful `t`-exact contravariant embedding with solid biduality and pullback compatibility. Its tensor comparison is an equivalence when one input has finite Tor amplitude. For proper spatial finite-dimensional `f`, `(Rf*A)∨≃f♯A∨` on the overconvergent range.
 
-Throughout this target, `Λ=ℤ/n` with n prime to p for the dual embedding; `Λ` discrete with `nΛ=0` for the naive one. The dual embedding is on overconvergent objects; the tensor comparison needs finite Tor-amplitude of one factor. In VII.4.3, f is proper, representable in spatial diamonds, with dim.trg finite. (FS, VII.4 opening comparison; Propositions VII.4.1–VII.4.3, pp.261–264.)
+Throughout this target, `Λ=ℤ/n` with `n` prime to `p` for the dual embedding; `Λ` discrete with `nΛ=0` for the naive one. The dual embedding is on overconvergent objects; the tensor comparison needs finite Tor-amplitude of one factor. In VII.4.3, `f` is proper, representable in spatial diamonds, with dim.trg finite. (FS, VII.4 opening comparison; Propositions VII.4.1–VII.4.3, pp.261–264.)
 
 *Needs:* [VS2/solid-four-operations](#solid-four-operations), [VS2/relative-solid-homology](#relative-solid-homology), [VS2/breen-deligne-resolution](#breen-deligne-resolution), DiamondSixOperations §§S2.2–S2.4, DiamondSixOperations §S2.4, [VS2/solid-sheaf-structure-and-completion](#solid-sheaf-structure-and-completion).
 
@@ -932,17 +932,17 @@ Geometric field-extension full faithfulness follows by reduction to the correspo
 
 <a id="solid-geometric-base-change"></a>
 
-**Solid geometric field-extension invariance.** (`SolidSheaf.geometricBaseChange`) For a small v-stack X and a solid Ẑ^p-algebra `Λ`, solid pullback is fully faithful in each of three cases: (i) X is over an algebraically closed discrete field k of characteristic p and k′/k is an algebraically closed discrete extension; (ii) X is over such k and base change is to `Spa(C,C⁺)`, with C/k complete algebraically closed nonarchimedean and C⁺ an open bounded valuation subring containing k; (iii) X is over `Spa(C,C⁺)`, and base change is along a surjective map `Spa(C′,C′⁺)→Spa(C,C⁺)`, with C′/C complete algebraically closed nonarchimedean and C′⁺ an open bounded valuation subring containing C⁺. The coefficient and site cutoffs must be compatible and large enough for these spaces.
+**Solid geometric field-extension invariance.** (`SolidSheaf.geometricBaseChange`) For a small v-stack `X` and a solid `Ẑ^p`-algebra `Λ`, solid pullback is fully faithful in each of three cases: (i) `X` is over an algebraically closed discrete field `k` of characteristic `p` and `k′/k` is an algebraically closed discrete extension; (ii) `X` is over such `k` and base change is to `Spa(C,C⁺)`, with `C/k` complete algebraically closed nonarchimedean and `C⁺` an open bounded valuation subring containing `k`; (iii) `X` is over `Spa(C,C⁺)`, and base change is along a surjective map `Spa(C′,C′⁺)→Spa(C,C⁺)`, with `C′/C` complete algebraically closed nonarchimedean and `C′⁺` an open bounded valuation subring containing `C⁺`. The coefficient and site cutoffs must be compatible and large enough for these spaces.
 
-Throughout this target, X is a small v-stack. Case (i): X over a discrete algebraically closed field k of characteristic p, k′/k discrete algebraically closed. Case (ii): X over k, C/k complete algebraically closed nonarchimedean, C⁺ an open bounded valuation subring containing k. Case (iii): X over `Spa(C,C⁺)`, C′/C complete algebraically closed, C′⁺ containing C⁺, `Spa(C′,C′⁺)→Spa(C,C⁺)` surjective. `Λ` is a solid Ẑ^p-algebra; categories are formed at compatible, sufficiently large cutoffs. (FS, Proposition VII.2.6 and proof, pp.255–256.)
+Throughout this target, `X` is a small v-stack. Case (i): `X` over a discrete algebraically closed field `k` of characteristic `p`, `k′/k` discrete algebraically closed. Case (ii): `X` over `k`, `C/k` complete algebraically closed nonarchimedean, `C⁺` an open bounded valuation subring containing `k`. Case (iii): `X` over `Spa(C,C⁺)`, `C′/C` complete algebraically closed, `C′⁺` containing `C⁺`, `Spa(C′,C′⁺)→Spa(C,C⁺)` surjective. `Λ` is a solid `Ẑ^p`-algebra; categories are formed at compatible, sufficiently large cutoffs. (FS, Proposition VII.2.6 and proof, pp.255–256.)
 
 *Needs:* [VS2/solid-four-operations](#solid-four-operations), [VS2/solid-sheaf-structure-and-completion](#solid-sheaf-structure-and-completion), DiamondEtaleCohomology C6, discrete algebraically closed extensions, DiamondEtaleCohomology C6, discrete-to-complete extensions, DiamondEtaleCohomology C6, complete algebraically closed extensions.
 
 <a id="proper-smooth-solid-poincare"></a>
 
-**Proper smooth solid Poincaré duality.** (`SolidHomology.poincare`) For `f:Y→X` proper, representable in spatial diamonds, finite transcendence dimension and cohomologically smooth, Rf* has finite cohomological dimension, commutes with sums and satisfies the solid projection formula. It commutes with arbitrary base-change homology as in VII.3.4. If `Δ` is the relative diagonal and `π₁` the first projection, `Rπ₁*Δ♯Λ` is invertible with inverse `f!Λ=lim_n f!ℤ/n⊗solid_Zhat^p Λ`. Consequently `f♯A≃Rf*(A⊗solid f!Λ)`. All these conclusions retain both properness and smoothness.
+**Proper smooth solid Poincaré duality.** (`SolidHomology.poincare`) For `f:Y→X` proper, representable in spatial diamonds, finite transcendence dimension and cohomologically smooth, `Rf*` has finite cohomological dimension, commutes with sums and satisfies the solid projection formula. It commutes with arbitrary base-change homology as in VII.3.4. If `Δ` is the relative diagonal and `π₁` the first projection, `Rπ₁*Δ♯Λ` is invertible with inverse `f!Λ=lim_n f!ℤ/n⊗solid_Zhat^p Λ`. Consequently `f♯A≃Rf*(A⊗solid f!Λ)`. All these conclusions retain both properness and smoothness.
 
-Throughout this target, `f:Y→X` is a proper map of small v-stacks, representable in spatial diamonds, with dim.trg finite, and `ℓ`-cohomologically smooth for all relevant `ℓ≠p`. `Λ` is a solid Ẑ^p-algebra; categories are formed at compatible, sufficiently large cutoffs. (FS, Propositions VII.3.2–VII.3.5, pp.258–261.)
+Throughout this target, `f:Y→X` is a proper map of small v-stacks, representable in spatial diamonds, with dim.trg finite, and `ℓ`-cohomologically smooth for all relevant `ℓ≠p`. `Λ` is a solid `Ẑ^p`-algebra; categories are formed at compatible, sufficiently large cutoffs. (FS, Propositions VII.3.2–VII.3.5, pp.258–261.)
 
 *Needs:* [VS2/relative-solid-homology](#relative-solid-homology), [VS2/solid-sheaf-structure-and-completion](#solid-sheaf-structure-and-completion), DiamondSixOperations §S4.2, DiamondSixOperations §S4.4, [VS2/torsion-solid-comparisons](#torsion-solid-comparisons).
 
@@ -964,17 +964,17 @@ Construct these comparisons from the torsion ULA kernel identities and solid bid
 
 <a id="completed-ula-solid-duality"></a>
 
-**Completed ULA and solid kernel duality.** (`SolidSheaf.ulaDuality`) For `Λ=lim_n ℤ/n` over a specified system of integers prime to p and eligible `f:X→S`, `D_ULA(X/S,Λ)` consists of derived-complete compatible torsion reductions that are f-ULA. Write `A∨=RHom_solid(A,Λ)`. For A of bounded Tor amplitude, `B∈D_et(X,ℤ/n)`, Proposition VII.5.2 gives `f♯(D_X/S(A)∨⊗solid B)≃Rf_!(A_n⊗ᴸ` B). If f is proper, representable in spatial diamonds and of finite transcendence dimension, then for every solid B, `f♯(D_X/S(A)∨⊗solid B)≃Rf*RHom_solid(A∨,B)`. On proper spatial finite-dimensional finite-Tor kernels, `A↦A∨` reverses 2-morphisms and transports !-convolution to ♯-convolution. In particular `A∨` is right adjoint to `D_X/S(A)∨` in the solid kernel category. Both solid duals and the properness hypothesis in the second formula are essential.
+**Completed ULA and solid kernel duality.** (`SolidSheaf.ulaDuality`) For `Λ=lim_n ℤ/n` over a specified system of integers prime to `p` and eligible `f:X→S`, `D_ULA(X/S,Λ)` consists of derived-complete compatible torsion reductions that are `f`-ULA. Write `A∨=RHom_solid(A,Λ)`. For `A` of bounded Tor amplitude, `B∈D_et(X,ℤ/n)`, Proposition VII.5.2 gives `f♯(D_X/S(A)∨⊗solid B)≃Rf_!(A_n⊗ᴸ B)`. If `f` is proper, representable in spatial diamonds and of finite transcendence dimension, then for every solid `B`, `f♯(D_X/S(A)∨⊗solid B)≃Rf*RHom_solid(A∨,B)`. On proper spatial finite-dimensional finite-Tor kernels, `A↦A∨` reverses 2-morphisms and transports `!`-convolution to `♯`-convolution. In particular `A∨` is right adjoint to `D_X/S(A)∨` in the solid kernel category. Both solid duals and the properness hypothesis in the second formula are essential.
 
-Throughout this target, `Λ` is a quotient of Ẑ^p of the form `lim_n ℤ/n` over a set of integers prime to p. `f:X→S` is a compactifiable map of small v-stacks, representable in locally spatial diamonds, with locally finite dim.trg; proper and representable in spatial diamonds with dim.trg finite for VII.5.3–VII.5.4. `A∈D_ULA(X/S,Λ)` has bounded Tor-amplitude. (FS, VII.5, Propositions VII.5.2–VII.5.3; Corollary VII.5.4, pp.264–268.)
+Throughout this target, `Λ` is a quotient of `Ẑ^p` of the form `lim_n ℤ/n` over a set of integers prime to `p`. `f:X→S` is a compactifiable map of small v-stacks, representable in locally spatial diamonds, with locally finite dim.trg; proper and representable in spatial diamonds with dim.trg finite for VII.5.3–VII.5.4. `A∈D_ULA(X/S,Λ)` has bounded Tor-amplitude. (FS, VII.5, Propositions VII.5.2–VII.5.3; Corollary VII.5.4, pp.264–268.)
 
 *Needs:* [VS2/torsion-solid-comparisons](#torsion-solid-comparisons), [VS2/relative-solid-homology](#relative-solid-homology), [VS1/ula-dualizability-criterion](#ula-dualizability-criterion), [VS1/kernel-correspondence-category](#kernel-correspondence-category), `AdicCoefficientsAndComparisons L0/adic-coefficient-limit`, [VS1/perfect-rhom-and-la-characterisation](#perfect-rhom-and-la-characterisation).
 
 <a id="constructible-and-geometric-langlands-embedding"></a>
 
-**Solid embedding of constructible coefficients.** (`SolidSheaf.constructibleEmbedding`) For the analytification diamond X of a separated finite-type C-scheme over an algebraically closed nonarchimedean C and `ℓ≠p`, algebraic Verdier duality followed by solid duality yields a fully faithful covariant embedding `D_c^b(X_alg,ℤ_ℓ)→D_ULA(X/Spa C,ℤ_ℓ)→D_solid(X,ℤ_ℓ)`. Its image consists of compact bounded objects with finitely presented solid cohomology, so it extends to Ind `D_c^b(X_alg,ℤ_ℓ)`. The map sends `i_*ℤ_ℓ` at a C-point to `i♯ℤ_ℓ` and intertwines algebraic exceptional pullback with solid ordinary pullback. Thus the inverse limit of these scheme categories over finite-type charts `X_alg→Y`, with exceptional transition maps, embeds into `D_solid(Y◇,ℤ_ℓ)` as in Example VII.5.1(b), using separated charts and descent. Torsion analogues require finite Tor amplitude over `Z/ℓ^m` for the compact-image/Ind assertion; arbitrary bounded constructible torsion complexes are not asserted compact.
+**Solid embedding of constructible coefficients.** (`SolidSheaf.constructibleEmbedding`) For the analytification diamond `X` of a separated finite-type `C`-scheme over an algebraically closed nonarchimedean `C` and `ℓ≠p`, algebraic Verdier duality followed by solid duality yields a fully faithful covariant embedding `D_c^b(X_alg,ℤ_ℓ)→D_ULA(X/Spa C,ℤ_ℓ)→D_solid(X,ℤ_ℓ)`. Its image consists of compact bounded objects with finitely presented solid cohomology, so it extends to Ind `D_c^b(X_alg,ℤ_ℓ)`. The map sends `i_*ℤ_ℓ` at a `C`-point to `i♯ℤ_ℓ` and intertwines algebraic exceptional pullback with solid ordinary pullback. Thus the inverse limit of these scheme categories over finite-type charts `X_alg→Y`, with exceptional transition maps, embeds into `D_solid(Y◇,ℤ_ℓ)` as in Example VII.5.1(`b`), using separated charts and descent. Torsion analogues require finite Tor amplitude over `Z/ℓ^m` for the compact-image/Ind assertion; arbitrary bounded constructible torsion complexes are not asserted compact.
 
-Throughout this target, C is a complete algebraically closed nonarchimedean field and `ℓ≠p`. X is the analytification of a separated scheme of finite type over C. (FS, Example VII.5.1(a)–(b), pp.264–265.)
+Throughout this target, `C` is a complete algebraically closed nonarchimedean field and `ℓ≠p`. `X` is the analytification of a separated scheme of finite type over `C`. (FS, Example VII.5.1(a)–(`b`), pp.264–265.)
 
 *Needs:* [VS2/torsion-solid-comparisons](#torsion-solid-comparisons), [VS3/completed-ula-solid-duality](#completed-ula-solid-duality), EnhancedDerivedSheaves §E5:presentability.1, [VS1/ula-analytification](#ula-analytification), `EtaleCohomologyFoundations F.5–F.6`, `EtaleCohomologyFoundations F.5–F.6`.
 
@@ -984,17 +984,17 @@ Generate the lisse category under sums and stable operations, and glue its right
 
 <a id="lisse-category-definition"></a>
 
-**Lisse coefficient categories.** (`LisseCategory`) For an Artin v-stack X and the relative-discrete coefficient `Λ` of the conventions, define `D_lis(X,Λ)` as the smallest stable full subcategory of `D_solid(X,Λ)` closed under all sums and containing `f♯Λ` whenever `f:Y→X` is separated, representable in locally spatial diamonds and `ℓ`-cohomologically smooth. Do not add an absolute-diamond restriction on Y. The definition uses these smooth generators; it does not require locally constant perfect fibres.
+**Lisse coefficient categories.** (`LisseCategory`) For an Artin v-stack `X` and the relative-discrete coefficient `Λ` of the conventions, define `D_lis(X,Λ)` as the smallest stable full subcategory of `D_solid(X,Λ)` closed under all sums and containing `f♯Λ` whenever `f:Y→X` is separated, representable in locally spatial diamonds and `ℓ`-cohomologically smooth. Do not add an absolute-diamond restriction on `Y`. The definition uses these smooth generators; it does not require locally constant perfect fibres.
 
-Throughout this target, X is an Artin v-stack. `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras)`. (FS, Definition VII.6.1; Proposition VII.6.2, pp.268–269.)
+Throughout this target, `X` is an Artin v-stack. `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras`). (FS, Definition VII.6.1; Proposition VII.6.2, pp.268–269.)
 
 *Needs:* [VS0/artin-v-stack-definition](#artin-v-stack-definition), [VS2/relative-solid-homology](#relative-solid-homology), [VS2/solid-four-operations](#solid-four-operations), EnhancedDerivedSheaves §§E0.4 and E5:abstract.4, `AdicCoefficientsAndComparisons L0/adic-coefficient-limit`.
 
 <a id="lisse-adjoints-and-operations"></a>
 
-**Lisse adjoints and operations.** (`LisseOperations`) Construct the right adjoint `(−)_lis` to the full lisse inclusion by compatible adjoints at sufficiently large cutoffs. Its kernel consists of solid objects whose sections vanish on every separated representable `ℓ`-smooth chart. For lisse A,B set `RHom_lis(A,B)=(RHom_solid(A,B))_lis`; for a map f use `Rf_lis*=(Rf*)_lis`. These are right adjoints to the restricted tensor and pullback. The construction uses cutoff presentability, without asserting presentability of the unrestricted solid category.
+**Lisse adjoints and operations.** (`LisseOperations`) Construct the right adjoint `(−)_lis` to the full lisse inclusion by compatible adjoints at sufficiently large cutoffs. Its kernel consists of solid objects whose sections vanish on every separated representable `ℓ`-smooth chart. For lisse `A`,`B` set `RHom_lis(A,B)=(RHom_solid(A,B))_lis`; for a map `f` use `Rf_lis*=(Rf*)_lis`. These are right adjoints to the restricted tensor and pullback. The construction uses cutoff presentability, without asserting presentability of the unrestricted solid category.
 
-Throughout this target, X is an Artin v-stack. `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras)`. (FS, Proposition VII.6.3 and subsequent constructions, p.269.)
+Throughout this target, `X` is an Artin v-stack. `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras`). (FS, Proposition VII.6.3 and subsequent constructions, p.269.)
 
 *Needs:* [VS3/lisse-category-definition](#lisse-category-definition), [VS2/solid-four-operations](#solid-four-operations), EnhancedDerivedSheaves §E3.2.
 
@@ -1002,7 +1002,7 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 
 | Name | Required statement |
 | --- | --- |
-| `LisseCategory.generator` | Each permitted f gives the object `f♯Λ` of `D_lis`. |
+| `LisseCategory.generator` | Each permitted `f` gives the object `f♯Λ` of `D_lis`. |
 | `LisseCategory.inclusion` | There is the actual full stable inclusion into `D_solid`. |
 | `LisseCategory.localizing` | Objects form the smallest stable sum-closed full subcategory containing these generators. |
 | `LisseCategory.tensor` | Solid tensor restricts to `D_lis`. |
@@ -1010,7 +1010,7 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 | `LisseCategory.point` | The geometric-point category identifies with `D(Λ_disc)` via relative-discrete realization. |
 | `LisseOperations.projector` | Construct the right adjoint `(−)_lis` of the inclusion. |
 | `LisseOperations.adjunction` | `Map(iA,B)≃Map(A,B_lis)`. |
-| `LisseOperations.counit` | The counit `iA_lis→A` is an isomorphism when A is lisse. |
+| `LisseOperations.counit` | The counit `iA_lis→A` is an isomorphism when `A` is lisse. |
 | `LisseOperations.kernel` | The chart-section vanishing criterion describes the kernel. |
 | `LisseOperations.internalHom` | `RHom_lis` is right adjoint to the lisse tensor. |
 | `LisseOperations.pushforward` | `Rf_lis*` is right adjoint to lisse pullback, with coherent composition. |
@@ -1030,9 +1030,9 @@ Use the [completed ULA comparison in VS3.1](#completed-ula-solid-duality) before
 
 <a id="lisse-comparisons"></a>
 
-**Discrete and torsion lisse comparisons.** (`LisseCategory.comparisons`) For any condensed ring A with underlying A(point), derived relative-discrete extension `D(A(point))→D(A)` is fully faithful. For a geometric point C, `D_lis(Spa C,Λ)≃D(Λ_disc)`. If `Λ` is killed by a power of `ℓ`, `D_lis(X,Λ)` is contained in the naive image of `D_et(X,Λ)`. Equality requires a separated `ℓ`-smooth atlas `U→X` whose étale site has a basis of bounded `ℓ`-cohomological dimension. Completed torsion/adically complete comparisons use compatible reductions; rational lisse coefficients are the constructed `Λ_disc[1/ℓ]` coefficient category.
+**Discrete and torsion lisse comparisons.** (`LisseCategory.comparisons`) For any condensed ring `A` with underlying `A(point)`, derived relative-discrete extension `D(A(point))→D(A)` is fully faithful. For a geometric point `C`, `D_lis(Spa C,Λ)≃D(Λ_disc)`. If `Λ` is killed by a power of `ℓ`, `D_lis(X,Λ)` is contained in the naive image of `D_et(X,Λ)`. Equality requires a separated `ℓ`-smooth atlas `U→X` whose étale site has a basis of bounded `ℓ`-cohomological dimension. Completed torsion/adically complete comparisons use compatible reductions; rational lisse coefficients are the constructed `Λ_disc[1/ℓ]` coefficient category.
 
-Throughout this target, X is an Artin v-stack; C is a complete algebraically closed nonarchimedean field. `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras)`. For VII.6.6, `Λ` is killed by a power of `ℓ`. (FS, Propositions VII.6.4–VII.6.6, pp.269–270.)
+Throughout this target, `X` is an Artin v-stack; `C` is a complete algebraically closed nonarchimedean field. `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras`). For VII.6.6, `Λ` is killed by a power of `ℓ`. (FS, Propositions VII.6.4–VII.6.6, pp.269–270.)
 
 *Needs:* [VS3/lisse-category-definition](#lisse-category-definition), [VS2/torsion-solid-comparisons](#torsion-solid-comparisons), [VS3/completed-ula-solid-duality](#completed-ula-solid-duality), [VS2/proper-smooth-solid-poincare](#proper-smooth-solid-poincare), `AdicCoefficientsAndComparisons L0/derived-I-complete-etale-category`, `AdicCoefficientsAndComparisons L0/adic-coefficient-limit`.
 
@@ -1050,9 +1050,9 @@ The localization is proved in the specified acyclic-neighborhood situation. The 
 
 <a id="lisse-point-semiorthogonal-decomposition"></a>
 
-**Lisse decomposition at a geometric point.** (`LisseCategory.pointDecomposition`) Let X be locally spatial and `Z=Spa` C a representable closed geometric-point subdiamond, with C algebraically closed nonarchimedean. Assume Z is a cofiltered intersection of qcqs open neighborhoods V with `RΓ(V,𝔽_ℓ)≃𝔽_ℓ`. For `j:X\Z→X`, `D_lis(X,Λ)` has the semiorthogonal decomposition into `j♯D_lis(X\Z,Λ)` and `D_lis(Z,Λ)≃D(Λ_disc)`, with the source’s localization triangle. Arbitrary solid stratifications are not asserted to have this decomposition.
+**Lisse decomposition at a geometric point.** (`LisseCategory.pointDecomposition`) Let `X` be locally spatial and `Z=Spa C` a representable closed geometric-point subdiamond, with `C` algebraically closed nonarchimedean. Assume `Z` is a cofiltered intersection of qcqs open neighborhoods `V` with `RΓ(V,𝔽_ℓ)≃𝔽_ℓ`. For `j:X\Z→X`, `D_lis(X,Λ)` has the semiorthogonal decomposition into `j♯D_lis(X\Z,Λ)` and `D_lis(Z,Λ)≃D(Λ_disc)`, with the source’s localization triangle. Arbitrary solid stratifications are not asserted to have this decomposition.
 
-Throughout this target, X is a locally spatial diamond with a closed point giving `Z=Spa` C, C an algebraically closed nonarchimedean field. Z is a cofiltered intersection of qcqs open neighbourhoods V with `RΓ(V,𝔽_ℓ)≅𝔽_ℓ`. `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras)`. (FS, Proposition VII.6.7, pp.270–271.)
+Throughout this target, `X` is a locally spatial diamond with a closed point giving `Z=Spa C`, `C` an algebraically closed nonarchimedean field. `Z` is a cofiltered intersection of qcqs open neighbourhoods `V` with `RΓ(V,𝔽_ℓ)≅𝔽_ℓ`. `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras`). (FS, Proposition VII.6.7, pp.270–271.)
 
 *Needs:* [VS3/lisse-adjoints-and-operations](#lisse-adjoints-and-operations), [VS3/lisse-comparisons](#lisse-comparisons), [VS2/relative-solid-homology](#relative-solid-homology).
 
@@ -1100,7 +1100,7 @@ The API includes pullback, identity/composition, change of structure group, prod
 
 **Filtered charts and contraction.** Define `BunCharts` by the rationally filtered bundle moduli of FS Definition V.3.2: the associated graded has weight-`λ` part semistable of slope `λ`, with the filtration opposite to the HN filtration in the `GL_n` case. For each `b` construct `π_b:M_b→Bun_G`, `q_b:M_b→[*/J_b(E)]` and the framed fibre `tildeM_b`. Prove that `q_b` is partially proper, representable in locally spatial diamonds and cohomologically smooth of dimension `⟨2ρ,ν_b⟩`, with successive negative Banach–Colmez torsor fibres. Its canonical section has spatial finite-dimensional punctured framed complement. For sufficiently divisible `N` the cocharacter action `ν_b^N(π)` contracts the framed chart to its section and has proper quotient on that complement. Prove that `π_b` is partially proper, representable in locally spatial diamonds and cohomologically smooth of the same dimension, with open image the generalizations of `b`. These charts make `Bun_G` a cohomologically smooth Artin v-stack. (FS Definition V.3.2, Propositions V.3.5–V.3.6 and Theorem V.3.7, pp.173–177; Example IV.1.9, p.110.)
 
-The API includes the section and graded-bundle maps, pullback charts, punctured complements, contracting action and its Frobenius comparison, dimensional bounds locally on charts, and quotients by open pro-p subgroups. The smoothness proof uses the positive tangent section criterion of VS1.3 and the general reductive flag variety; no split or basic restriction is imposed.
+The API includes the section and graded-bundle maps, pullback charts, punctured complements, contracting action and its Frobenius comparison, dimensional bounds locally on charts, and quotients by open pro-`p` subgroups. The smoothness proof uses the positive tangent section criterion of VS1.3 and the general reductive flag variety; no split or basic restriction is imposed.
 
 **Checks.**
 
@@ -1116,25 +1116,25 @@ Divisor descent is a solid application of the Weil torsor and geometric invarian
 
 <a id="solid-geometric-base-change-and-drinfeld"></a>
 
-**Solid Drinfeld descent.** (`SolidSheaf.drinfeld`) Fix an algebraically closed field k over `𝔽_q` and the divisor-to-Weil map `ψ:Div¹→[*/W_E]`. For a small v-stack X over k and a solid Ẑ^p-algebra `Λ` at compatible adequate cutoffs, `ψ_X*` : `D_solid(X×[*/W_E],Λ)→D_solid(X×Div¹,Λ)` is fully faithful. It is an equivalence if the separate geometric pullback `D_solid(X,Λ)→D_solid(X×Spd Ē,Λ)` is an equivalence, where Ē is the completed algebraic closure used in the Weil-torsor presentation. For each finite index set I, the corresponding product pullback `ψ_X^I*` is fully faithful.
+**Solid Drinfeld descent.** (`SolidSheaf.drinfeld`) Fix an algebraically closed field `k` over `𝔽_q` and the divisor-to-Weil map `ψ:Div¹→[*/W_E]`. For a small v-stack `X` over `k` and a solid `Ẑ^p`-algebra `Λ` at compatible adequate cutoffs, `ψ_X*` : `D_solid(X×[*/W_E],Λ)→D_solid(X×Div¹,Λ)` is fully faithful. It is an equivalence if the separate geometric pullback `D_solid(X,Λ)→D_solid(X×Spd Ē,Λ)` is an equivalence, where `Ē` is the completed algebraic closure used in the Weil-torsor presentation. For each finite index set `I`, the corresponding product pullback `ψ_X^I*` is fully faithful.
 
-Throughout this target, k is an algebraically closed field over `𝔽_q`; X is a small v-stack over k; I is a finite set. `Λ` is a solid Ẑ^p-algebra; categories are formed at compatible, sufficiently large cutoffs. (FS, Corollaries VII.2.7–VII.2.8, p.256.)
+Throughout this target, `k` is an algebraically closed field over `𝔽_q`; `X` is a small v-stack over `k`; `I` is a finite set. `Λ` is a solid `Ẑ^p`-algebra; categories are formed at compatible, sufficiently large cutoffs. (FS, Corollaries VII.2.7–VII.2.8, p.256.)
 
 *Needs:* [VS2/solid-geometric-base-change](#solid-geometric-base-change), [VS2/solid-four-operations](#solid-four-operations), [VS1/divisor-weil-map](#divisor-weil-map), [VS1/drinfeld-pullback](#drinfeld-pullback).
 
 <a id="solid-partial-support"></a>
 
-**Solid partial compact support.** (`SolidPartialSupport`) Assume X is spatial and proper over `Spd` k, k algebraically closed of characteristic p, with finite transcendence dimension, and S spatial. The same annular systems as in VS0 define `Rβ_!+C=colim_a Rβ_*j_a!(C`|`U_a)` and `Rβ_!−C=colim_b Rβ_*j_b!(C`|`U_b)` with solid coefficients. Here j_! is the left adjoint of open pullback. Keep the two ends and counit transitions fixed; cofinal annular presentations yield equivalent functors.
+**Solid partial compact support.** (`SolidPartialSupport`) Assume `X` is spatial and proper over `Spd k`, `k` algebraically closed of characteristic `p`, with finite transcendence dimension, and `S` spatial. The same annular systems as in VS0 define `Rβ_!+C=colim_a Rβ_*j_a!(C|U_a)` and `Rβ_!−C=colim_b Rβ_*j_b!(C|U_b)` with solid coefficients. Here `j_!` is the left adjoint of open pullback. Keep the two ends and counit transitions fixed; cofinal annular presentations yield equivalent functors.
 
-Throughout this target, k is an algebraically closed field over `𝔽_q`. X is a spatial diamond with `X→Spd` k proper and dim.trg finite; S is a spatial diamond. `Λ` is a solid Ẑ^p-algebra; categories are formed at compatible, sufficiently large cutoffs. (FS, Definition VII.2.9, p.256.)
+Throughout this target, `k` is an algebraically closed field over `𝔽_q`. `X` is a spatial diamond with `X→Spd k` proper and dim.trg finite; `S` is a spatial diamond. `Λ` is a solid `Ẑ^p`-algebra; categories are formed at compatible, sufficiently large cutoffs. (FS, Definition VII.2.9, p.256.)
 
 *Needs:* [VS0/partial-compact-support](#partial-compact-support), [VS2/solid-four-operations](#solid-four-operations), [VS2/relative-solid-homology](#relative-solid-homology).
 
 <a id="solid-partial-supported-vanishing"></a>
 
-**Solid partial-support vanishing.** (`SolidPartialSupport.vanish`) Under the proper finite-dimensional spatial X and spatial S hypotheses of VII.2.9, let `α:X×k S→X` and `C=α*A`. If A is bounded below, or `X→Spd` k is cohomologically smooth, then `Rβ_!+C=0=Rβ_!−C` in solid coefficients. This is the restricted solid theorem: it does not claim IV.5.3’s arbitrary exterior-product input for all solid complexes.
+**Solid partial-support vanishing.** (`SolidPartialSupport.vanish`) Under the proper finite-dimensional spatial `X` and spatial `S` hypotheses of VII.2.9, let `α:X×k S→X` and `C=α*A`. If `A` is bounded below, or `X→Spd k` is cohomologically smooth, then `Rβ_!+C=0=Rβ_!−C` in solid coefficients. This is the restricted solid theorem: it does not claim IV.5.3’s arbitrary exterior-product input for all solid complexes.
 
-Throughout this target, the setup of Definition VII.2.9. `C=α*A` with `A∈D_solid(X,Λ)`. Either A is bounded below or `X→Spd` k is cohomologically smooth. `Λ` is a solid Ẑ^p-algebra; categories are formed at compatible, sufficiently large cutoffs. (FS, Theorem VII.2.10, pp.256–257.)
+Throughout this target, the setup of Definition VII.2.9. `C=α*A` with `A∈D_solid(X,Λ)`. Either `A` is bounded below or `X→Spd k` is cohomologically smooth. `Λ` is a solid `Ẑ^p`-algebra; categories are formed at compatible, sufficiently large cutoffs. (FS, Theorem VII.2.10, pp.256–257.)
 
 *Needs:* [VS4/solid-partial-support](#solid-partial-support), [VS0/partial-compactly-supported-vanishing](#partial-compactly-supported-vanishing), [VS2/solid-sheaf-structure-and-completion](#solid-sheaf-structure-and-completion), DiamondSixOperations §S4.2, DiamondSixOperations §S4.4.
 
@@ -1143,7 +1143,7 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 | Name | Required statement |
 | --- | --- |
 | `SolidPartialSupport.plus` | The plus end is the a-indexed supported pushforward colimit. |
-| `SolidPartialSupport.minus` | The minus end is the b-indexed supported pushforward colimit. |
+| `SolidPartialSupport.minus` | The minus end is the `b`-indexed supported pushforward colimit. |
 | `SolidPartialSupport.transition` | Annular inclusions give the specified extension-by-zero counit transitions. |
 | `SolidPartialSupport.cofinal` | Cofinal replacements induce canonical equivalences. |
 | `SolidPartialSupport.baseChange` | The solid supported colimits commute with the permitted base changes of this setup. |
@@ -1151,9 +1151,9 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 **Checks.**
 
 - `SolidPartialSupport.zero`: Both end functors send zero to zero.
-- `SolidPartialSupport.empty`: If X is empty both functors are zero.
+- `SolidPartialSupport.empty`: If `X` is empty both functors are zero.
 - `SolidPartialSupport.torsion`: On torsion pullback coefficients the resulting vanishing agrees with IV.5 after the solid comparison.
-- `SolidPartialSupport.properBand`: In the VII.2.9 setup, let `S=Spa(C,O_C)` and suppose a section `i:S→X×k` S of `β` is a proper closed immersion contained in a finite annular band. For the nonzero solid coefficient unit `Λ`, both end functors send `i_*Λ` to `Λ`. Extension by zero is eventually constant on this support and `β∘i=id`, so the zero functor fails this test.
+- `SolidPartialSupport.properBand`: In the VII.2.9 setup, let `S=Spa(C,O_C)` and suppose a section `i:S→X×k S` of `β` is a proper closed immersion contained in a finite annular band. For the nonzero solid coefficient unit `Λ`, both end functors send `i_*Λ` to `Λ`. Extension by zero is eventually constant on this support and `β∘i=id`, so the zero functor fails this test.
 
 ### VS4.2. Continuous classifying-stack equivalence and connected-kernel invariance
 
@@ -1161,7 +1161,7 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 
 **Compact smooth duality and products.** On the enhanced smooth representation category of SmoothRepresentationsOfLocalGroups §SR.0d.2, construct `SmoothCompactDuality` for reductive local groups `H=J_b(E)` and prime-to-`p` torsion coefficients, or discrete `ℤ_ℓ`-algebras with `ℓ≠p`. The smooth Bernstein–Zelevinsky dual is the derived Hom into the compactly supported smooth regular representation, with the residual action converted by inversion. State its coherent functoriality, normalization under Haar choices, compact-object anti-equivalence and bidual map; compare it with the basic-stratum pairing of VS5. The full derived invariants, rather than individual finite-dimensional cohomology groups, test perfectness and smooth Verdier reflexivity. Prove the exterior-product Hom comparison for compact pairs and arbitrary targets in the smooth categories of `H₁,H₂`, and compatibility with derived coefficient change. (FS proof of Theorem V.5.1, pp.180–181; Theorem V.6.2, pp.182–183; Proposition V.7.2, pp.183–184; Proposition VII.7.6, pp.274–275.)
 
-The API includes the regular bimodule, inversion convention, compact induction comparison, evaluation/biduality, the pairing and product map. Compact generation, exact pro-p invariants and compact induction themselves are supplied by SmoothRepresentationsOfLocalGroups §§SR.0.3, SR.0d.2 and SR.2.1.
+The API includes the regular bimodule, inversion convention, compact induction comparison, evaluation/biduality, the pairing and product map. Compact generation, exact pro-`p` invariants and compact induction themselves are supplied by SmoothRepresentationsOfLocalGroups §§SR.0.3, SR.0d.2 and SR.2.1.
 
 **Checks.**
 
@@ -1174,37 +1174,37 @@ Torsor descent identifies classifying-stack coefficients with the imported enhan
 
 <a id="classifying-stack-equivalence"></a>
 
-**Sheaves and smooth representations.** (`ClassifyingSheaves.equivalence`) For H locally pro-p and a ring `Λ` killed by an integer prime to p, there is a symmetric monoidal equivalence `D_sm(H,Λ)≃D_et([*/H],Λ)`. Pullback along `*→[*/H]` is forgetting the action; structural pushforward is derived continuous invariants and internal `RHom(−,Λ)` is the imported derived smooth dual. The same category is obtained on `[Spa` C/H] for complete algebraically closed C/k. In particular `D_et(*,Λ)=D(Λ)`. Smooth representation categories and their enhancement are imported from SR.
+**Sheaves and smooth representations.** (`ClassifyingSheaves.equivalence`) For `H` locally pro-`p` and a ring `Λ` killed by an integer prime to `p`, there is a symmetric monoidal equivalence `D_sm(H,Λ)≃D_et([*/H],Λ)`. Pullback along `*→[*/H]` is forgetting the action; structural pushforward is derived continuous invariants and internal `RHom(−,Λ)` is the imported derived smooth dual. The same category is obtained on `[Spa C/H]` for complete algebraically closed `C/k`. In particular `D_et(*,Λ)=D(Λ)`. Smooth representation categories and their enhancement are imported from SR.
 
-Throughout this target, G is a locally pro-p group. `Λ` is a ring killed by an integer n prime to p. C is a complete algebraically closed nonarchimedean field over k. (FS, Theorem V.1.1; Lemmas V.1.2–V.1.3; Corollary V.1.4, pp.168–171.)
+Throughout this target, `G` is a locally pro-`p` group. `Λ` is a ring killed by an integer `n` prime to `p`. `C` is a complete algebraically closed nonarchimedean field over `k`. (FS, Theorem V.1.1; Lemmas V.1.2–V.1.3; Corollary V.1.4, pp.168–171.)
 
 *Needs:* SmoothRepresentationsOfLocalGroups §SR.0.2, SmoothRepresentationsOfLocalGroups §§SR.0d.1–SR.0d.2, `TauCeti.SmoothDiscreteTopRep`, `TauCeti.IsSmoothDiscrete`, DiamondsAndVStacks D6/etale-site-comparison, EnhancedDerivedSheaves §E2.6, DiamondsAndVStacks D4/small-v-sheaves-and-small-v-stacks.
 
 <a id="contractibility-of-connected-banach-colmez-torsors"></a>
 
-**Banach–Colmez torsor invariance.** (`ClassifyingSheaves.bcInvariance`) For a torsor `f:S′→S` under `BC(E)` with E everywhere strictly positive, or under `BC(E[1])` with E everywhere strictly negative, torsion étale pullback f* is fully faithful. This is invariance of Hom, not essential surjectivity for every torsor. The solid/lisse homology of the connected-kernel fibres used in VII.7.1 is the tensor unit.
+**Banach–Colmez torsor invariance.** (`ClassifyingSheaves.bcInvariance`) For a torsor `f:S′→S` under `BC(E)` with `E` everywhere strictly positive, or under `BC(E[1])` with `E` everywhere strictly negative, torsion étale pullback `f*` is fully faithful. This is invariance of Hom, not essential surjectivity for every torsor. The solid/lisse homology of the connected-kernel fibres used in VII.7.1 is the tensor unit.
 
-Throughout this target, `f:S′→S` is a torsor under `BC(E)`, E everywhere of positive slopes, or under `BC(E[1])`, E everywhere of negative slopes. `Λ` is a ring killed by an integer n prime to p. The solid statement is for the fibres occurring in VII.7.1. (FS, Proposition V.2.1, p.171; proof of Proposition VII.7.1, p.271.)
+Throughout this target, `f:S′→S` is a torsor under `BC(E)`, `E` everywhere of positive slopes, or under `BC(E[1])`, `E` everywhere of negative slopes. `Λ` is a ring killed by an integer `n` prime to `p`. The solid statement is for the fibres occurring in VII.7.1. (FS, Proposition V.2.1, p.171; proof of Proposition VII.7.1, p.271.)
 
 *Needs:* VectorBundlesAndIsocrystals VB3:general-BC/families-of-banach-colmez-spaces, VectorBundlesAndIsocrystals VB3:general-BC/positive-slope-resolution, DiamondSixOperations §S4.2, DiamondSixOperations §S4.4, [VS2/relative-solid-homology](#relative-solid-homology), [VS3/completed-ula-solid-duality](#completed-ula-solid-duality), [VS2/solid-sheaf-structure-and-completion](#solid-sheaf-structure-and-completion).
 
 <a id="strata-are-classifying-stacks"></a>
 
-**Coefficients on Newton strata.** (`BunStratum.coefficients`) Use `Bun_G^b≃[*/tildeJ_b]` and its split projection to `[*/J_b(E)]` with positive Banach–Colmez kernel from VS4.0. Pullback gives `D_et(Bun_G^b,Λ)≃D_sm(J_b(E),Λ)` for prime-to-p torsion coefficients. For the relative-discrete `ℤ_ℓ-algebra` convention of VS3 the corresponding `D_lis` equivalences hold, also after base change to `Spa` C. The connected kernel is retained in the geometry; its sheaf invariance is proved here rather than replacing the nonbasic stack by a locally profinite classifying stack.
+**Coefficients on Newton strata.** (`BunStratum.coefficients`) Use `Bun_G^b≃[*/tildeJ_b]` and its split projection to `[*/J_b(E)]` with positive Banach–Colmez kernel from VS4.0. Pullback gives `D_et(Bun_G^b,Λ)≃D_sm(J_b(E),Λ)` for prime-to-`p` torsion coefficients. For the relative-discrete `ℤ_ℓ-algebra` convention of VS3 the corresponding `D_lis` equivalences hold, also after base change to `Spa C`. The connected kernel is retained in the geometry; its sheaf invariance is proved here rather than replacing the nonbasic stack by a locally profinite classifying stack.
 
-Throughout this target, E is a nonarchimedean local field with residue field `𝔽_q`, G is a reductive group over E, and k is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `b∈B(G)`. Torsion statement: `Λ` is a ring killed by an integer n prime to p. Lisse statement: `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras)`. (FS, Proposition V.2.2; Proposition VII.7.1, pp.172,271–272.)
+Throughout this target, `E` is a nonarchimedean local field with residue field `𝔽_q`, `G` is a reductive group over `E`, and `k` is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `b∈B(G)`. Torsion statement: `Λ` is a ring killed by an integer `n` prime to `p`. Lisse statement: `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras`). (FS, Proposition V.2.2; Proposition VII.7.1, pp.172,271–272.)
 
 *Needs:* [VS4/classifying-stack-equivalence](#classifying-stack-equivalence), [VS4/contractibility-of-connected-banach-colmez-torsors](#contractibility-of-connected-banach-colmez-torsors), [VS3/lisse-comparisons](#lisse-comparisons), [VS2/solid-geometric-base-change](#solid-geometric-base-change), [VS2/relative-solid-homology](#relative-solid-homology), [VS4.0, bundle-stack geometry](#bundle-stack-geometry), SmoothRepresentationsOfLocalGroups §§SR.0d.2 and SR.2.1.
 
 ### VS4.3. Strict chart cohomology, formal-neighborhood comparison and stratum extension
 
-The contracting action on the framed chart reduces torsion sections to the origin. Exact pro-p invariants then identify the quotient-chart sections. In lisse coefficients combine the bundle chart homology with its stratum pullback to construct the left adjoint.
+The contracting action on the framed chart reduces torsion sections to the origin. Exact pro-`p` invariants then identify the quotient-chart sections. In lisse coefficients combine the bundle chart homology with its stratum pullback to construct the left adjoint.
 
 <a id="strict-locality-of-the-chart"></a>
 
-**Strict locality of the bundle chart.** (`BunChart.strictLocality`) For the framed chart `tildeM_b` constructed in VS4.0 and torsion A, `RΓ(tildeM_b,A)→A_origin` is an isomorphism, and sections commute with all sums. For open pro-p `K⊂J_b(E)`, `RΓ(tildeM_b/K,A)≃RΓ([*/K],A_origin)`, hence exact K-invariants. The punctured absolute chart is spatial finite-dimensional, while its `Spa` C-base-change need not be quasicompact. The localization/gluing formula identifies the boundary stalk of Rj*A with sections on the punctured chart. The formal-scheme instance of V.4.3 uses its I-adic special-fibre setup.
+**Strict locality of the bundle chart.** (`BunChart.strictLocality`) For the framed chart `tildeM_b` constructed in VS4.0 and torsion `A`, `RΓ(tildeM_b,A)→A_origin` is an isomorphism, and sections commute with all sums. For open pro-`p` `K⊂J_b(E)`, `RΓ(tildeM_b/K,A)≃RΓ([*/K],A_origin)`, hence exact `K`-invariants. The punctured absolute chart is spatial finite-dimensional, while its `Spa C`-base-change need not be quasicompact. The localization/gluing formula identifies the boundary stalk of `Rj*A` with sections on the punctured chart. The formal-scheme instance of V.4.3 uses its `I`-adic special-fibre setup.
 
-Throughout this target, E is a nonarchimedean local field with residue field `𝔽_q`, G is a reductive group over E, and k is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `b∈B(G)`, `K⊂G_b(E)` an open pro-p subgroup; the charts are constructed in VS4.0. `Λ` is a ring killed by an integer n prime to p. (FS, Proposition V.4.2; Remarks V.4.3 and V.4.5; Corollary V.4.4, pp.178–179.)
+Throughout this target, `E` is a nonarchimedean local field with residue field `𝔽_q`, `G` is a reductive group over `E`, and `k` is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `b∈B(G)`, `K⊂G_b(E)` an open pro-`p` subgroup; the charts are constructed in VS4.0. `Λ` is a ring killed by an integer `n` prime to `p`. (FS, Proposition V.4.2; Remarks V.4.3 and V.4.5; Corollary V.4.4, pp.178–179.)
 
 *Needs:* [VS0/partial-compactly-supported-vanishing](#partial-compactly-supported-vanishing), [VS4.0, bundle-stack geometry](#bundle-stack-geometry), SmoothRepresentationsOfLocalGroups §§SR.0d.1–SR.0d.2, ClassicalAdicEtaleCohomology §§4.3–4.4.
 
@@ -1212,7 +1212,7 @@ Throughout this target, E is a nonarchimedean local field with residue field `�
 
 **Lisse stratum extension.** (`LisseStratumExtension`) Use the bundle chart `π_b:M_b→Bun_G` and `q_b:M_b→[*/J_b(E)]` and the lisse stratum equivalence. For `i_b:Bun_G^b→Bun_G` define `L_b=π_b♯q_b*`. It is a fully faithful left adjoint to `i_b*`, with invertible unit `M→i_b*L_bM`. This chart-based extension produces the lisse compact generators and the Bernstein–Zelevinsky pairing. Its definition does not assert an ordinary torsion `i_b!` on every solid object.
 
-Throughout this target, E is a nonarchimedean local field with residue field `𝔽_q`, G is a reductive group over E, and k is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `b∈B(G)`, with the chart `π_b:M_b→Bun_G` and `q_b:M_b→[*/G_b(E)]` constructed in VS4.0. `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras)`. (FS, Proposition VII.7.2, pp.272–273.)
+Throughout this target, `E` is a nonarchimedean local field with residue field `𝔽_q`, `G` is a reductive group over `E`, and `k` is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `b∈B(G)`, with the chart `π_b:M_b→Bun_G` and `q_b:M_b→[*/G_b(E)]` constructed in VS4.0. `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras`). (FS, Proposition VII.7.2, pp.272–273.)
 
 *Needs:* [VS4/strata-are-classifying-stacks](#strata-are-classifying-stacks), [VS4/solid-partial-supported-vanishing](#solid-partial-supported-vanishing), [VS3/lisse-point-semiorthogonal-decomposition](#lisse-point-semiorthogonal-decomposition), [VS2/relative-solid-homology](#relative-solid-homology), [VS4.0, bundle-stack geometry](#bundle-stack-geometry), SmoothRepresentationsOfLocalGroups §§SR.0d.2 and SR.2.1.
 
@@ -1239,17 +1239,17 @@ Order the finite HN pieces of a quasicompact open and use their restriction/exte
 
 <a id="hn-localization-and-geometric-invariance"></a>
 
-**HN localization and geometric invariance.** (`BunCoefficients.localization`) For qc open `U⊂Bun_G` the finite HN stratification gives a semiorthogonal decomposition of its lisse category into `D_sm(J_b(E),Λ)`; each stratum piece uses `L_b` and its restriction adjunction. For arbitrary open U the `Spa` C-base-change functor is an equivalence, by a justified qc open exhaustion. In torsion coefficients the equivalence holds for any locally closed U as in V.2.3. The infinite stratification is expressed by these compatible exhaustions, not an unspecified infinite direct product.
+**HN localization and geometric invariance.** (`BunCoefficients.localization`) For qc open `U⊂Bun_G` the finite HN stratification gives a semiorthogonal decomposition of its lisse category into `D_sm(J_b(E),Λ)`; each stratum piece uses `L_b` and its restriction adjunction. For arbitrary open `U` the `Spa C`-base-change functor is an equivalence, by a justified qc open exhaustion. In torsion coefficients the equivalence holds for any locally closed `U` as in V.2.3. The infinite stratification is expressed by these compatible exhaustions, not an unspecified infinite direct product.
 
-Throughout this target, E is a nonarchimedean local field with residue field `𝔽_q`, G is a reductive group over E, and k is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. C is a complete algebraically closed nonarchimedean field over k. Torsion statement: `Λ` is a ring killed by an integer n prime to p. Lisse statement: `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras)`. (FS, Corollary V.2.3; Proposition VII.7.3, pp.172,273.)
+Throughout this target, `E` is a nonarchimedean local field with residue field `𝔽_q`, `G` is a reductive group over `E`, and `k` is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `C` is a complete algebraically closed nonarchimedean field over `k`. Torsion statement: `Λ` is a ring killed by an integer `n` prime to `p`. Lisse statement: `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras`). (FS, Corollary V.2.3; Proposition VII.7.3, pp.172,273.)
 
 *Needs:* [VS4/lisse-stratum-left-adjoint](#lisse-stratum-left-adjoint), [VS4/strata-are-classifying-stacks](#strata-are-classifying-stacks), [VS2/solid-geometric-base-change](#solid-geometric-base-change), [VS3/lisse-point-semiorthogonal-decomposition](#lisse-point-semiorthogonal-decomposition), [VS4.0, bundle-stack geometry](#bundle-stack-geometry), DiamondSixOperations §§S2.2–S2.4, DiamondSixOperations §S2.4.
 
 <a id="compact-generation-and-compact-objects"></a>
 
-**Compact generation of `Bun_G` coefficients.** (`BunCoefficients.compactGeneration`) Torsion `D_et(U,Λ)`, for locally closed `U⊂Bun_G`, and lisse `D_lis(Bun_G,Λ)` are compactly generated. An object is compact iff only finitely many HN restrictions are nonzero and every restriction is compact in `D_sm(J_b(E),Λ)`, equivalently in the thick subcategory generated by the imported `c-Ind_K Λ` for open pro-p K. Torsion generators are `Rf_K!f_K!Λ`, and lisse generators are `f_K♯Λ`. The compactness proof includes finite cohomological dimension and sum preservation of the punctured chart’s solid sections.
+**Compact generation of `Bun_G` coefficients.** (`BunCoefficients.compactGeneration`) Torsion `D_et(U,Λ)`, for locally closed `U⊂Bun_G`, and lisse `D_lis(Bun_G,Λ)` are compactly generated. An object is compact iff only finitely many HN restrictions are nonzero and every restriction is compact in `D_sm(J_b(E),Λ)`, equivalently in the thick subcategory generated by the imported `c-Ind_K Λ` for open pro-`p` `K`. Torsion generators are `Rf_K!f_K!Λ`, and lisse generators are `f_K♯Λ`. The compactness proof includes finite cohomological dimension and sum preservation of the punctured chart’s solid sections.
 
-Throughout this target, E is a nonarchimedean local field with residue field `𝔽_q`, G is a reductive group over E, and k is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. Torsion statements: `Λ` is a ring killed by an integer n prime to p. Lisse statements: `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras)`. (FS, Theorem V.4.1; Proposition VII.7.4; Lemma VII.7.5, pp.177–179,273–274.)
+Throughout this target, `E` is a nonarchimedean local field with residue field `𝔽_q`, `G` is a reductive group over `E`, and `k` is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. Torsion statements: `Λ` is a ring killed by an integer `n` prime to `p`. Lisse statements: `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras`). (FS, Theorem V.4.1; Proposition VII.7.4; Lemma VII.7.5, pp.177–179,273–274.)
 
 *Needs:* [VS4/strict-locality-of-the-chart](#strict-locality-of-the-chart), [VS4/hn-localization-and-geometric-invariance](#hn-localization-and-geometric-invariance), [VS4/lisse-stratum-left-adjoint](#lisse-stratum-left-adjoint), [VS4/solid-partial-supported-vanishing](#solid-partial-supported-vanishing), [VS2/solid-sheaf-structure-and-completion](#solid-sheaf-structure-and-completion), [VS4.0, bundle-stack geometry](#bundle-stack-geometry), SmoothRepresentationsOfLocalGroups §§SR.0d.2 and SR.2.1, EnhancedDerivedSheaves §E5:presentability.1, [VS0/partial-compactly-supported-vanishing](#partial-compactly-supported-vanishing).
 
@@ -1273,23 +1273,23 @@ The torsion homology pairing on compact objects is representable. Chart generato
 
 **`Bun_G` torsion homology and dualizing normalization.** (`BunTorsionHomology`) For `π:Bun_G→*`, the torsion smooth-stack operation defines `π♯A=Rπ_!(A⊗π!Λ)`, left adjoint to `π*`. The dualizing object `π!Λ` is locally `Λ[0]`. Choosing Haar measures on `J_b(E)` for the basic strata trivializes it globally, giving `π!Λ≃Λ` and `π♯≃Rπ_!`. The homology adjunction is canonical; the displayed trivialization depends on these choices and is not an arbitrary extension of eligible ECD `Rπ_!`.
 
-Throughout this target, E is a nonarchimedean local field with residue field `𝔽_q`, G is a reductive group over E, and k is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `Λ` is a ring killed by an integer n prime to p. (FS, V.5 preceding Theorem V.5.1, with footnote 3, p.180; first paragraph of the proof, p.181.)
+Throughout this target, `E` is a nonarchimedean local field with residue field `𝔽_q`, `G` is a reductive group over `E`, and `k` is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `Λ` is a ring killed by an integer `n` prime to `p`. (FS, V.5 preceding Theorem V.5.1, with footnote 3, p.180; first paragraph of the proof, p.181.)
 
 *Needs:* [VS0/shriek-pullback-for-smooth-stacky-maps](#shriek-pullback-for-smooth-stacky-maps), [VS4/compact-generation-and-compact-objects](#compact-generation-and-compact-objects), [VS4.0, bundle-stack geometry](#bundle-stack-geometry), SmoothRepresentationsOfLocalGroups §§SR.0d.2 and SR.2.1.
 
 <a id="bernstein-zelevinsky-duality"></a>
 
-**Torsion Bernstein–Zelevinsky duality.** (`TorsionBZ`) For compact `A∈D_et(Bun_G,Λ)` with prime-to-p torsion coefficients, construct the unique compact representative `D_BZ` A of `B↦π♯(A⊗B)`: `RHom(D_BZ A,B)≃π♯(A⊗B)`, naturally in B. Representability gives contravariant functoriality. Prove that it is an autoequivalence of compact objects with `D_BZ²≃id`, preserves open support, and on an open basic stratum agrees with the compact smooth Bernstein–Zelevinsky involution of VS4.2.
+**Torsion Bernstein–Zelevinsky duality.** (`TorsionBZ`) For compact `A∈D_et(Bun_G,Λ)` with prime-to-`p` torsion coefficients, construct the unique compact representative `D_BZ A` of `B↦π♯(A⊗B)`: `RHom(D_BZ A,B)≃π♯(A⊗B)`, naturally in `B`. Representability gives contravariant functoriality. Prove that it is an autoequivalence of compact objects with `D_BZ²≃id`, preserves open support, and on an open basic stratum agrees with the compact smooth Bernstein–Zelevinsky involution of VS4.2.
 
-Throughout this target, E is a nonarchimedean local field with residue field `𝔽_q`, G is a reductive group over E, and k is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `Λ` is a ring killed by an integer n prime to p. A is a compact object. (FS, Theorem V.5.1, pp.180–181.)
+Throughout this target, `E` is a nonarchimedean local field with residue field `𝔽_q`, `G` is a reductive group over `E`, and `k` is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `Λ` is a ring killed by an integer `n` prime to `p`. `A` is a compact object. (FS, Theorem V.5.1, pp.180–181.)
 
 *Needs:* [VS5/torsion-bun-homology-and-haar-dualizing](#torsion-bun-homology-and-haar-dualizing), [VS4/compact-generation-and-compact-objects](#compact-generation-and-compact-objects), [VS4/strict-locality-of-the-chart](#strict-locality-of-the-chart), [VS0/partial-compactly-supported-vanishing](#partial-compactly-supported-vanishing), SmoothRepresentationsOfLocalGroups §§SR.0d.2 and SR.2.1.
 
 <a id="verdier-biduality-and-reflexivity"></a>
 
-**Torsion Verdier exchange and reflexivity.** (`BunVerdier.reflexivity`) For open `j:V→U` between open `Bun_G` substacks and every torsion `A∈D_et(V,Λ)`, `j!RHom(A,Λ)≃RHom(Rj*A,Λ)`. With `D_U=π_U!Λ`, an object is Verdier-reflexive iff for every stratum b in U and every open pro-p `K⊂J_b(E)`, the full derived K-invariants complex is reflexive in `D(Λ)`. The biduality map is the canonical evaluation; the condition is not separate finite-dimensionality in each degree.
+**Torsion Verdier exchange and reflexivity.** (`BunVerdier.reflexivity`) For open `j:V→U` between open `Bun_G` substacks and every torsion `A∈D_et(V,Λ)`, `j!RHom(A,Λ)≃RHom(Rj*A,Λ)`. With `D_U=π_U!Λ`, an object is Verdier-reflexive iff for every stratum `b` in `U` and every open pro-`p` `K⊂J_b(E)`, the full derived `K`-invariants complex is reflexive in `D(Λ)`. The biduality map is the canonical evaluation; the condition is not separate finite-dimensionality in each degree.
 
-Throughout this target, E is a nonarchimedean local field with residue field `𝔽_q`, G is a reductive group over E, and k is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `Λ` is a ring killed by an integer n prime to p. `j:V→U` is an open immersion of open substacks of `Bun_G`. (FS, Theorems V.6.1–V.6.2; Lemma V.6.3, pp.182–183.)
+Throughout this target, `E` is a nonarchimedean local field with residue field `𝔽_q`, `G` is a reductive group over `E`, and `k` is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `Λ` is a ring killed by an integer `n` prime to `p`. `j:V→U` is an open immersion of open substacks of `Bun_G`. (FS, Theorems V.6.1–V.6.2; Lemma V.6.3, pp.182–183.)
 
 *Needs:* [VS5/bernstein-zelevinsky-duality](#bernstein-zelevinsky-duality), [VS5/torsion-bun-homology-and-haar-dualizing](#torsion-bun-homology-and-haar-dualizing), [VS4/hn-localization-and-geometric-invariance](#hn-localization-and-geometric-invariance), [VS4/classifying-stack-equivalence](#classifying-stack-equivalence), SmoothRepresentationsOfLocalGroups §§SR.0d.1–SR.0d.2.
 
@@ -1302,9 +1302,9 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 | `BunTorsionHomology.dualizing` | `π!Λ` is the degree-zero invertible local system. |
 | `BunTorsionHomology.haar` | Chosen Haar measures induce the global trivialization and the comparison with `Rπ_!`. |
 | `BunTorsionHomology.projection` | `π♯(A⊗π*M)≃π♯A⊗M` in the allowed smooth-stack class. |
-| `TorsionBZ.object` | Assign the compact representative `D_BZ` A. |
-| `TorsionBZ.pairing` | `RHom(D_BZ A,B)≃π♯(A⊗B)`, naturally in B. |
-| `TorsionBZ.map` | A morphism `A→A′` induces `D_BZ A′→D_BZ` A with contravariant identity/composition. |
+| `TorsionBZ.object` | Assign the compact representative `D_BZ A`. |
+| `TorsionBZ.pairing` | `RHom(D_BZ A,B)≃π♯(A⊗B)`, naturally in `B`. |
+| `TorsionBZ.map` | A morphism `A→A′` induces `D_BZ A′→D_BZ A` with contravariant identity/composition. |
 | `TorsionBZ.bidual` | The canonical `D_BZ²A→A` is an equivalence. |
 | `TorsionBZ.openSupport` | Open support is preserved. |
 | `TorsionBZ.basic` | On a basic stratum this is the compact smooth Bernstein–Zelevinsky involution of VS4.2. |
@@ -1320,21 +1320,21 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 
 ### VS5.2. Torsion ULA, perfect invariant admissibility and Künneth
 
-Prove the exterior-product Hom comparison on compact induction generators and extend it by compact generation. The ULA comparison is then detected stratum by stratum by perfect pro-p invariants. The product of categories here is the presentable stable categorical tensor product.
+Prove the exterior-product Hom comparison on compact induction generators and extend it by compact generation. The ULA comparison is then detected stratum by stratum by perfect pro-`p` invariants. The product of categories here is the presentable stable categorical tensor product.
 
 <a id="torsion-kunneth"></a>
 
-**`Bun_G` torsion Künneth formula.** (`BunCoefficients.torsionKunneth`) For reductive G₁,G₂ over E, `Bun_(G₁×G₂)=Bun_G₁×Bun_G₂`. Exterior products of compact torsion objects are compact generators, and for compact `A_i` and arbitrary `B_i`, `RHom(A₁,B₁)⊗ᴸ_Λ RHom(A₂,B₂)≃RHom(A₁⊠A₂,B₁⊠B₂)`. Consequently the `Λ`-linear presentable stable categorical tensor product of the two categories is `D_et(Bun_(G₁×G₂),Λ)`, with the categorical tensor input imported from EDS.
+**`Bun_G` torsion Künneth formula.** (`BunCoefficients.torsionKunneth`) For reductive `G₁,G₂` over `E`, `Bun_(G₁×G₂)=Bun_G₁×Bun_G₂`. Exterior products of compact torsion objects are compact generators, and for compact `A_i` and arbitrary `B_i`, `RHom(A₁,B₁)⊗ᴸ_Λ RHom(A₂,B₂)≃RHom(A₁⊠A₂,B₁⊠B₂)`. Consequently the `Λ`-linear presentable stable categorical tensor product of the two categories is `D_et(Bun_(G₁×G₂),Λ)`, with the categorical tensor input imported from EDS.
 
-Throughout this target, E is a nonarchimedean local field with residue field `𝔽_q`, G is a reductive group over E, and k is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `G=G_1×G_2` with `G_1,G_2` reductive over E. `Λ` is a ring killed by an integer n prime to p. `A_1,A_2` are compact. (FS, Proposition V.7.2; Remark V.7.3, pp.183–184.)
+Throughout this target, `E` is a nonarchimedean local field with residue field `𝔽_q`, `G` is a reductive group over `E`, and `k` is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `G=G_1×G_2` with `G_1,G_2` reductive over `E`. `Λ` is a ring killed by an integer `n` prime to `p`. `A_1,A_2` are compact. (FS, Proposition V.7.2; Remark V.7.3, pp.183–184.)
 
 *Needs:* [VS4/compact-generation-and-compact-objects](#compact-generation-and-compact-objects), [VS4/strict-locality-of-the-chart](#strict-locality-of-the-chart), EnhancedDerivedSheaves §§E5:presentability.1–E5:presentability.2, [VS4.0, bundle-stack geometry](#bundle-stack-geometry), SmoothRepresentationsOfLocalGroups §§SR.0d.2 and SR.2.1.
 
 <a id="ula-equals-admissibility"></a>
 
-**Torsion ULA and perfect invariants.** (`BunULA.torsionAdmissibility`) For `A∈D_et(Bun_G,Λ)` with prime-to-p torsion coefficients, A is ULA for `Bun_G→*` iff every restriction `M_b` has perfect derived K-invariants over `Λ` for every open pro-p `K⊂J_b(E)`. This characterizes admissibility of complexes by perfection, including bounded Tor amplitude.
+**Torsion ULA and perfect invariants.** (`BunULA.torsionAdmissibility`) For `A∈D_et(Bun_G,Λ)` with prime-to-`p` torsion coefficients, `A` is ULA for `Bun_G→*` iff every restriction `M_b` has perfect derived `K`-invariants over `Λ` for every open pro-`p` `K⊂J_b(E)`. This characterizes admissibility of complexes by perfection, including bounded Tor amplitude.
 
-Throughout this target, E is a nonarchimedean local field with residue field `𝔽_q`, G is a reductive group over E, and k is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `Λ` is a ring killed by an integer n prime to p. (FS, Theorem V.7.1, pp.183–185.)
+Throughout this target, `E` is a nonarchimedean local field with residue field `𝔽_q`, `G` is a reductive group over `E`, and `k` is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `Λ` is a ring killed by an integer `n` prime to `p`. (FS, Theorem V.7.1, pp.183–185.)
 
 *Needs:* [VS1/smooth-ula-criterion](#smooth-ula-criterion), [VS5/torsion-kunneth](#torsion-kunneth), [VS5/bernstein-zelevinsky-duality](#bernstein-zelevinsky-duality), [VS4/strata-are-classifying-stacks](#strata-are-classifying-stacks), SmoothRepresentationsOfLocalGroups §§SR.0d.2 and SR.2.1.
 
@@ -1344,9 +1344,9 @@ Repeat the compact homology-pairing construction with solid tensor and the lisse
 
 <a id="lisse-bernstein-zelevinsky-duality"></a>
 
-**Lisse Bernstein–Zelevinsky duality.** (`LisseBZ`) For compact `A∈D_lis(Bun_G,Λ)` in the relative-discrete coefficient convention, represent the solid homology pairing by a unique compact `D_BZ,lis` A, with `RHom(D_BZ,lis A,B)≃π♯(A⊗solid` B) for every lisse B. Give this construction its contravariant functoriality and bidual equivalence on compact objects. It preserves open support and agrees with the derived smooth Bernstein–Zelevinsky involution on basic strata, for both integral and rational coefficients.
+**Lisse Bernstein–Zelevinsky duality.** (`LisseBZ`) For compact `A∈D_lis(Bun_G,Λ)` in the relative-discrete coefficient convention, represent the solid homology pairing by a unique compact `D_BZ,lis A`, with `RHom(D_BZ,lis A,B)≃π♯(A⊗solid B)` for every lisse `B`. Give this construction its contravariant functoriality and bidual equivalence on compact objects. It preserves open support and agrees with the derived smooth Bernstein–Zelevinsky involution on basic strata, for both integral and rational coefficients.
 
-Throughout this target, E is a nonarchimedean local field with residue field `𝔽_q`, G is a reductive group over E, and k is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras)`. A is a compact object. (FS, Proposition VII.7.6, pp.274–275.)
+Throughout this target, `E` is a nonarchimedean local field with residue field `𝔽_q`, `G` is a reductive group over `E`, and `k` is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras`). `A` is a compact object. (FS, Proposition VII.7.6, pp.274–275.)
 
 *Needs:* [VS4/lisse-stratum-left-adjoint](#lisse-stratum-left-adjoint), [VS4/compact-generation-and-compact-objects](#compact-generation-and-compact-objects), [VS4/solid-partial-supported-vanishing](#solid-partial-supported-vanishing), [VS2/relative-solid-homology](#relative-solid-homology), [VS3/lisse-adjoints-and-operations](#lisse-adjoints-and-operations), SmoothRepresentationsOfLocalGroups §§SR.0d.2 and SR.2.1.
 
@@ -1354,15 +1354,15 @@ Throughout this target, E is a nonarchimedean local field with residue field `�
 
 **Lisse Verdier exchange.** (`BunVerdier.lisseExchange`) For open `j:V→U` of open `Bun_G` substacks and all `A∈D_lis(V,Λ)`, `j♯RHom_lis(A,Λ)≃RHom_lis(Rj_lis*A,Λ)`. The opposite exchange follows from adjunction.
 
-Throughout this target, E is a nonarchimedean local field with residue field `𝔽_q`, G is a reductive group over E, and k is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras)`. `j:V→U` is an open immersion of open substacks of `Bun_G`. (FS, Proposition VII.7.7, p.275; Theorem V.6.1 and proof, p.182.)
+Throughout this target, `E` is a nonarchimedean local field with residue field `𝔽_q`, `G` is a reductive group over `E`, and `k` is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras`). `j:V→U` is an open immersion of open substacks of `Bun_G`. (FS, Proposition VII.7.7, p.275; Theorem V.6.1 and proof, p.182.)
 
 *Needs:* [VS5/lisse-bernstein-zelevinsky-duality](#lisse-bernstein-zelevinsky-duality), [VS3/lisse-adjoints-and-operations](#lisse-adjoints-and-operations), [VS4/hn-localization-and-geometric-invariance](#hn-localization-and-geometric-invariance), [VS4/lisse-stratum-left-adjoint](#lisse-stratum-left-adjoint), [VS4/strata-are-classifying-stacks](#strata-are-classifying-stacks).
 
 <a id="lisse-kunneth"></a>
 
-**Lisse `Bun_G` Künneth formula.** (`BunCoefficients.lisseKunneth`) For reductive G₁,G₂ over E, the lisse exterior product for `Bun_(G₁×G₂)` carries compact pairs to compact objects that generate the lisse category. For compact `A_i` and arbitrary lisse `B_i`, `RHom(A₁,B₁)⊗ᴸ_Λ RHom(A₂,B₂)≃RHom(A₁⊠A₂,B₁⊠B₂)`. The target of the compactness statement is `D_lis` in both the integral and rational coefficient ranges.
+**Lisse `Bun_G` Künneth formula.** (`BunCoefficients.lisseKunneth`) For reductive `G₁,G₂` over `E`, the lisse exterior product for `Bun_(G₁×G₂)` carries compact pairs to compact objects that generate the lisse category. For compact `A_i` and arbitrary lisse `B_i`, `RHom(A₁,B₁)⊗ᴸ_Λ RHom(A₂,B₂)≃RHom(A₁⊠A₂,B₁⊠B₂)`. The target of the compactness statement is `D_lis` in both the integral and rational coefficient ranges.
 
-Throughout this target, E is a nonarchimedean local field with residue field `𝔽_q`, G is a reductive group over E, and k is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `G=G_1×G_2` with `G_1,G_2` reductive over E. `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras)`. `A_1,A_2` are compact. (FS, Proposition VII.7.10, p.276.)
+Throughout this target, `E` is a nonarchimedean local field with residue field `𝔽_q`, `G` is a reductive group over `E`, and `k` is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `G=G_1×G_2` with `G_1,G_2` reductive over `E`. `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras`). `A_1,A_2` are compact. (FS, Proposition VII.7.10, p.276.)
 
 *Needs:* [VS4/compact-generation-and-compact-objects](#compact-generation-and-compact-objects), [VS4/lisse-stratum-left-adjoint](#lisse-stratum-left-adjoint), [VS5/torsion-kunneth](#torsion-kunneth), [VS3/lisse-adjoints-and-operations](#lisse-adjoints-and-operations), SmoothRepresentationsOfLocalGroups §§SR.0d.2 and SR.2.1.
 
@@ -1370,15 +1370,15 @@ Throughout this target, E is a nonarchimedean local field with residue field `�
 
 **ULA for lisse `Bun_G` sheaves.** (`IsLisseBunULA`) For `A∈D_lis(Bun_G,Λ)`, define ULA for `Bun_G→*` by requiring the canonical map `p₁*RHom_lis(A,Λ)⊗solid p₂*A→RHom_lis(p₁*A,p₂*A)` on `Bun_G×Bun_G` to be invertible. This explicit definition uses the lisse internal Hom and the two projections. It does not assume a general definition of lisse ULA on every Artin morphism.
 
-Throughout this target, E is a nonarchimedean local field with residue field `𝔽_q`, G is a reductive group over E, and k is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras)`. (FS, Definition VII.7.8, p.275.)
+Throughout this target, `E` is a nonarchimedean local field with residue field `𝔽_q`, `G` is a reductive group over `E`, and `k` is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras`). (FS, Definition VII.7.8, p.275.)
 
 *Needs:* [VS3/lisse-category-definition](#lisse-category-definition), [VS3/lisse-adjoints-and-operations](#lisse-adjoints-and-operations), [VS1/smooth-ula-criterion](#smooth-ula-criterion).
 
 <a id="lisse-ula-equals-admissibility"></a>
 
-**Lisse ULA and perfect invariants.** (`BunULA.lisseAdmissibility`) For `A∈D_lis(Bun_G,Λ)`, the VII.7.8 comparison is invertible iff, on every HN stratum b, the corresponding smooth representation complex `M_b` has perfect derived K-invariants over `Λ_disc` for every open pro-p `K⊂J_b(E)`. This applies to discrete `ℤ_ℓ-algebras` and their rational localizations interpreted relatively discretely.
+**Lisse ULA and perfect invariants.** (`BunULA.lisseAdmissibility`) For `A∈D_lis(Bun_G,Λ)`, the VII.7.8 comparison is invertible iff, on every HN stratum `b`, the corresponding smooth representation complex `M_b` has perfect derived `K`-invariants over `Λ_disc` for every open pro-`p` `K⊂J_b(E)`. This applies to discrete `ℤ_ℓ-algebras` and their rational localizations interpreted relatively discretely.
 
-Throughout this target, E is a nonarchimedean local field with residue field `𝔽_q`, G is a reductive group over E, and k is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras)`. (FS, Proposition VII.7.9, pp.275–276.)
+Throughout this target, `E` is a nonarchimedean local field with residue field `𝔽_q`, `G` is a reductive group over `E`, and `k` is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `ℓ≠p`; `Λ=ℤ_ℓ⊗_(ℤ_ℓ,disc)Λ_disc` for a discrete `ℤ_ℓ-algebra Λ_disc` (this includes `ℚ_ℓ-algebras`). (FS, Proposition VII.7.9, pp.275–276.)
 
 *Needs:* [VS5/lisse-ula-definition](#lisse-ula-definition), [VS5/lisse-kunneth](#lisse-kunneth), [VS5/lisse-bernstein-zelevinsky-duality](#lisse-bernstein-zelevinsky-duality), [VS4/strata-are-classifying-stacks](#strata-are-classifying-stacks), [VS4/lisse-stratum-left-adjoint](#lisse-stratum-left-adjoint), SmoothRepresentationsOfLocalGroups §§SR.0d.2 and SR.2.1.
 
@@ -1386,8 +1386,8 @@ The API has the following interfaces, with the hypotheses of the definitions abo
 
 | Name | Required statement |
 | --- | --- |
-| `LisseBZ.object` | Assign the unique compact representative `D_BZ,lis` A. |
-| `LisseBZ.pairing` | `RHom(D_BZ,lis A,B)≃π♯(A⊗solid` B). |
+| `LisseBZ.object` | Assign the unique compact representative `D_BZ,lis A`. |
+| `LisseBZ.pairing` | `RHom(D_BZ,lis A,B)≃π♯(A⊗solid B)`. |
 | `LisseBZ.map` | The representative is contravariantly functorial with coherent identity/composition. |
 | `LisseBZ.bidual` | `D_BZ,lis²≃id` on compact lisse objects. |
 | `LisseBZ.openSupport` | The functor preserves open support. |
@@ -1415,7 +1415,7 @@ The lisse exterior product respects compact generators. Derived scalar extension
 
 **Coefficient change for duality and admissibility.** (`BunCoefficients.dualityScalarChange`) For any map `Λ_disc→Λ′_disc`, derived solid scalar extension commutes with compact lisse Bernstein–Zelevinsky duality and preserves lisse ULA, equivalently perfect-invariant admissibility. For ULA objects it also identifies the lisse internal dual with the scalar extension of the original dual. Use derived tensor for nonflat maps. These are preservation statements. Their Hecke duality and coefficient-change applications use the Hecke consumer contract of VS5.4.
 
-Throughout this target, E is a nonarchimedean local field with residue field `𝔽_q`, G is a reductive group over E, and k is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `Λ_disc→Λ′_disc` is a map of discrete `ℤ_ℓ-algebras`, `ℓ≠p`. The converse requires faithfully flat perfect-complex descent with a uniform finite Tor-amplitude bound and is not a target of this coefficient-change statement. (FS, Proposition VII.3.1(ii), pp.257–258; Propositions VII.7.4, VII.7.6 and VII.7.9, pp.273–276; consumer: Theorem IX.2.2 and proof, pp.322–323.)
+Throughout this target, `E` is a nonarchimedean local field with residue field `𝔽_q`, `G` is a reductive group over `E`, and `k` is an algebraically closed field over `𝔽_q`; everything is over `Perf_k`. `Λ_disc→Λ′_disc` is a map of discrete `ℤ_ℓ-algebras`, `ℓ≠p`. The converse requires faithfully flat perfect-complex descent with a uniform finite Tor-amplitude bound and is not a target of this coefficient-change statement. (FS, Proposition VII.3.1(ii), pp.257–258; Propositions VII.7.4, VII.7.6 and VII.7.9, pp.273–276; consumer: Theorem IX.2.2 and proof, pp.322–323.)
 
 *Needs:* [VS3/lisse-coefficient-change](#lisse-coefficient-change), [VS5/lisse-ula-equals-admissibility](#lisse-ula-equals-admissibility), [VS5/lisse-bernstein-zelevinsky-duality](#lisse-bernstein-zelevinsky-duality), SmoothRepresentationsOfLocalGroups §§SR.0d.2 and SR.2.1, EnhancedDerivedSheaves §§E1.4 and E4.4–E4.5.
 
