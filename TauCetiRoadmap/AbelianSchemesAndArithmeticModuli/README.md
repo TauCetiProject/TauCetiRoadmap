@@ -29,7 +29,7 @@ Hodge structure.
 | Layer | Title | Headline targets |
 | --- | --- | --- |
 | A0 | The carrier and its boundaries | `AbelianScheme`, `fieldAndEllipticBoundary`, `abelianPicardInputs` |
-| A1 | Rigidity, normalized line bundles and relative extension | `relativeProductsAndDimension`, `relativeRigidity`, `relativeInvariantForms`, `relativeSeesaw`, `relativeCube`, `relativeEllipticEquivalence`, `torsionRestriction`, `weilExtension` |
+| A1 | Rigidity, Serre tensor, normalized line bundles and relative extension | `relativeProductsAndDimension`, `relativeRigidity`, `relativeInvariantForms`, `relativeSerreTensor`, `relativeSeesaw`, `relativeCube`, `relativeEllipticEquivalence`, `torsionRestriction`, `weilExtension` |
 | A2 | Duality, polarizations and ample classes | `raynaudRepresentability`, `AbelianScheme.dual`, `mumfordMap`, `Polarization`, `Polarization.graphBundle`, `ampleCohomologyAndDegree`, `projectivePresentation`, `nefNormalizedLines`, `AbelianNS` |
 | A3 | Isogenies, finite-flat quotients, torsion and pairings | `IsAbelianIsogeny`, `multiplicationAndDensity`, `AbelianQuotient`, `torsionDivisibility`, `dualIsogenyCartierKernel`, `ThetaGroup`, `polarizedWeilPairing`, `FullLevel`, `Polarization.rosati`, `principalQuotient`, `symmetricHomRealization` |
 | A4 | Realizations and deformations | `AbelianTate`, `AbelianVectorExtension`, `AbelianH1dR`, `exteriorCohomology`, `BarsottiTate`, `AbelianPD`, `LogCrystalline.dieudonneEvaluation.evaluate`, `grothendieckMessing`, `serreTate`, `SerreTate.q`, `oddPrimeLifting`, `dyadicOrdinaryLifting` |
@@ -41,6 +41,8 @@ Hodge structure.
 **Owned here.** The relative carrier `AbelianScheme S` and its comparison with Tau Ceti's field
 carrier and with the elliptic curves of ModularCurves. Products, base change and relative
 dimension; rigidity over nonreduced bases and automatic commutativity; invariant differentials;
+Serre tensor for arbitrary ring actions and finite projective right modules, with functoriality,
+independence of projective splittings, arbitrary base change and realization comparisons;
 the relative seesaw, cube and multiplication-pullback formulas for rigidified line bundles; the
 relative elliptic equivalence; torsion restrictions of rigidified line bundles; extension from
 the generic fibre of every smooth test scheme over a connected Dedekind base. Raynaud's theorem
@@ -775,6 +777,87 @@ proof, p. 31, for the lattice of differentials over a discrete valuation ring). 
 `ω_A` is free of rank `g` and restricts to the invariant differentials of both fibres; for `g = 0` it
 is zero. *Needs:* A0.1, A0.3; SchemeAndStackFoundations Layer 3 §3.8 (`invariant_differentials`);
 AlgebraicModuli Layer 1; AlgebraicVectorBundles L0B.
+
+### A1.3a Serre tensor over an arbitrary base
+
+<a id="relativeSerreTensor"></a>
+
+**The relative Serre tensor** (`relativeSerreTensor`). Let `S` be any scheme, `A/S` an abelian
+scheme, `R` an associative ring with identity, `R → End_S(A)` a unital ring homomorphism, and `M`
+a finitely generated projective right `R`-module. Write the commutative point groups of `A`
+additively, with the induced left `R`-action. The presheaf `T ↦ M ⊗_R A(T)` on `S`-schemes is an
+fppf sheaf and is represented by an abelian scheme `M ⊗_R A`, with its universal balanced map on
+points. Its representing pair is unique up to unique isomorphism. No commutativity, constant-rank
+or finiteness assumption on `R`, and no reducedness or Noetherian assumption on `S`, is required.
+
+Develop the balanced tensor product of right and left modules with its universal property,
+maps and finite direct sums. For finite projective `M`, prove
+`M ⊗_R A(T) ≅ Hom_R(M*, A(T))`, where `M* = Hom_{Rᵒᵖ}(M, R)` is a left `R`-module. A splitting
+`M ⊕ N ≅ Rⁿ` gives a projector `e` on `Aⁿ`; its scheme-theoretic kernel `ker(1 − e)` represents
+the tensor. This is a closed retract of `Aⁿ`, hence proper and smooth, with geometrically
+connected fibres. On points it is a direct summand of the fppf sheaf `Aⁿ`, proving the sheaf
+assertion without changing its values by sheafification. (Conrad, *Gross–Zagier revisited*, §7,
+Theorem 7.2 and its proof, pp. 101–102, and Theorem 7.5, p. 103; Chai–Conrad–Oort, §1.7.4.)
+*Needs:* A0.1, A1.1–A1.2; finite projective modules and their splittings; Tau Ceti
+`GroupScheme/Kernel`; Mathlib's subcanonical fppf topology.
+
+**Checks.**
+
+- For `M = R_R`, the map `r ⊗ a ↦ r(a)` gives the original `A`.
+- For `M = 0`, the representing scheme is `AbelianScheme.identity S`.
+- For `M = Rⁿ`, the tensor is `Aⁿ`, including `n = 0`.
+- Let `R = ℤ[√−5]` and `I = (2, 1 + √−5)`, an invertible nonprincipal ideal. For the complex
+  elliptic curve with lattice `R` and its multiplication action, `I ⊗_R A` has lattice `I`.
+  It exists without a basis of `I`; it is not isomorphic to `A`, since such an isomorphism would
+  make `I` principal.
+- For `R = M₂(ℤ)`, acting on `B²` by matrices, and `M = e₁₁R`, the tensor is `B`.
+  This finite projective right module is covered without treating `R` as commutative.
+
+<a id="relativeSerreTensor-functoriality"></a>
+
+**Functoriality and projective splittings** (`relativeSerreTensor-functoriality`). For the same
+`S` and `R`, a right-module map `f : M → N` between finite projective modules and an `R`-linear
+homomorphism `u : A → B` of abelian schemes with `R`-action induce `f ⊗ u`, characterized on points by
+`m ⊗ a ↦ f(m) ⊗ u(a)`. Prove the identity and composition laws, additivity in maps, and the
+canonical comparison `(M ⊕ N) ⊗_R A ≅ (M ⊗_R A) ×_S (N ⊗_R A)`, including the empty sum.
+Likewise tensoring `A ×_S B` gives the product of the tensors of `A` and `B`.
+Any two projective splittings, with any complements, give canonically isomorphic representing
+abelian schemes. The isomorphism preserves the universal balanced maps, is natural in `M` and
+`A`, and satisfies the cocycle identity for three choices. These assertions follow from the
+tensor universal property and Yoneda applied to the construction of Conrad, §7, Theorem 7.2,
+pp. 101–102; see also Chai–Conrad–Oort, §1.7.4. *Needs:* A1.3a `relativeSerreTensor`.
+
+**Checks.**
+
+- For `M = R`, multiplication by an integer `n` induces `[n]` on `A`; the zero module map
+  induces the zero homomorphism.
+- The two inclusions and projections of `R²` induce the product inclusions and projections of
+  `A²`; their composites satisfy the biproduct identities.
+- If `M ⊕ N ≅ Rⁿ`, using `N` or `N ⊕ R` as the complement, in `Rⁿ` or `Rⁿ⁺¹` respectively,
+  gives the same tensor and universal map. This also applies to the nonfree ideal `I` above.
+- Changing a splitting twice gives the same isomorphism as changing it directly; a choice of
+  complement cannot introduce an automorphism of the represented tensor functor.
+
+<a id="relativeSerreTensor-base-change"></a>
+
+**Arbitrary base change** (`relativeSerreTensor-base-change`). For the data of
+`relativeSerreTensor` and every morphism `b : S′ → S`, prove the canonical group-scheme
+isomorphism `(M ⊗_R A)_{S′} ≅ M ⊗_R A_{S′}`, using the pulled-back `R`-action on `A_{S′}`.
+It respects universal balanced maps, module maps, `R`-linear homomorphisms and finite sums,
+and satisfies identity and iterated-pullback coherence. Both point functors agree on every
+`S′`-scheme, or equivalently the split projector and its kernel pull back. (Conrad, §7,
+Theorem 7.2 and its proof, pp. 101–102; Chai–Conrad–Oort, §1.7.4.)
+*Needs:* A0.1 `groupPointsBaseChange`; A1.3a `relativeSerreTensor-functoriality`;
+Tau Ceti's kernel base-change comparison.
+
+**Checks.**
+
+- Pullback along `Spec k[ε]/(ε²) → Spec k` preserves the entire tensor scheme and its
+  infinitesimal points, including the tangent vectors at zero.
+- For a constant elliptic scheme over `ℙ¹_k`, the two affine charts and their overlap give
+  the same tensor and gluing maps; the base need not be affine.
+- For composable `S″ → S′ → S`, the direct comparison equals the two successive comparisons;
+  for the identity base map it is the identity comparison.
 
 ### A1.4 The seesaw principle with rigidification
 
@@ -2108,6 +2191,57 @@ A4.7 (*Grothendieck–Messing for abelian schemes*).
   Hodge inclusion and quotient together; the filtration equivalence commutes with this pullback.
 - The canonical divided powers on `(2) ⊂ ℤ/4ℤ` are not locally nilpotent (A4.6's dyadic
   Check), so a square-zero ideal alone does not meet the deformation theorem's hypotheses.
+
+### A4.7a Realizations of the Serre tensor
+
+<a id="relativeSerreTensor-lie-tate"></a>
+
+**Lie, Tate, de Rham and crystalline comparisons** (`relativeSerreTensor-lie-tate`). For an
+abelian scheme `A/S`, a unital action of an associative ring `R`, and a finite projective right
+`R`-module `M`, put `B = M ⊗_R A` as in A1.3a. Prove the natural isomorphism of `O_S`-modules
+`Lie(B/S) ≅ M ⊗_R Lie(A/S)`, where the left `R`-action on `Lie(A/S)` is differentiated from
+the action on `A` and commutes with `O_S`. For a prime `ℓ` invertible on `S`, prove
+`T_ℓ B ≅ M ⊗_R T_ℓ A` as lisse `ℤ_ℓ`-sheaves, with the `R`-action induced at every torsion
+level. Retain the comparisons `B[ℓʳ] ≅ M ⊗_R A[ℓʳ]` and all transition maps. The tensor on
+the right is already a direct summand of a finite power of `T_ℓ A`; it requires no additional
+completion. Over a field these isomorphisms are Galois equivariant.
+
+For the contravariant degree-one realizations, give the corresponding right `R`-action by
+`x · r = r* x`, with `r*` denoting pullback. Prove the isomorphism
+`H¹_dR(B/S) ≅ Hom_{Rᵒᵖ}(M, H¹_dR(A/S))` of `O_S`-module sheaves, respecting the Hodge
+filtration and, when `S` is smooth over a field, the Gauss–Manin connection. Here Hom means the
+sheaf of homomorphisms of right `R`-modules from the constant module `M`. Equivalently the
+dual, covariant realization satisfies `H₁,dR(B/S) ≅ M ⊗_R H₁,dR(A/S)`. For a prime `p`
+locally nilpotent on `S`, prove `B[p^∞] ≅ M ⊗_R A[p^∞]` level by level and
+`D(B[p^∞]) ≅ Hom_{Rᵒᵖ}(M, D(A[p^∞]))` as finite locally free crystals on the site of
+A4.CR.7.2. Retain evaluation and PD pullback, the Hodge filtration on the locally PD-nilpotent
+thickenings of A4.6, and `F, V` when `S` has characteristic `p`. All comparisons are natural
+in module maps and `R`-linear homomorphisms and commute with arbitrary base change within their
+stated domains. Contravariant comparisons reverse these maps; no polarization or Tate twist is
+inserted to change their variance.
+
+Apply each additive realization to the split projector defining `B`. Covariant realizations
+give its tensor summand; contravariant ones give the Hom summand. This deduces the comparisons
+from Conrad, §7, the splitting proof of Theorem 7.2, pp. 101–102, and the realization theories of
+A1.3, A4.1–A4.3 and A4.CR.7.2 with their source locators. *Needs:* A1.3, A1.3a;
+A4.1–A4.3 for the Tate and de Rham comparisons; A4.5–A4.6 and A4.CR.7.2 for the crystalline
+comparison, with CrystallineCohomology CR.1 and CR.7.1 supplying its site and coefficient calculus.
+
+**Checks.**
+
+- For `M = R`, every comparison is the identity realization comparison of `A`; for `M = 0`,
+  every realization is zero.
+- For `M = Rⁿ`, Lie and Tate modules are the direct sums of `n` copies, as are degree-one
+  de Rham cohomology and the Dieudonné crystal, with their filtrations and operators.
+- For `R = ℤ` and the module map `ℤ → ℤ²`, `1 ↦ (1, 2)`, the induced morphism is
+  `A → A²`, `a ↦ (a, [2]a)`. Its de Rham pullback sends `(x, y)` to `x + 2y`, testing the
+  transpose and the contravariant Hom formula.
+- For a supersingular elliptic curve over an algebraically closed field of characteristic
+  `p`, the geometric-point `p`-adic Tate module is zero. The lisse rank-two comparison is
+  restricted to `ℓ ≠ p`; the characteristic-`p` realization uses the height-two crystal.
+- Finite projectivity is essential: for `R = ℤ`, `M = ℤ/p` and a positive-dimensional
+  abelian variety in characteristic `p`, the fppf tensor sheaf `M ⊗_ℤ A` is zero since `[p]`
+  is fppf surjective, whereas `M ⊗_ℤ Lie(A) = Lie(A)` is nonzero.
 
 ### A4.8 Effectivity of polarized formal lifts
 
@@ -3689,6 +3823,11 @@ semisimplicity and `p`-adic libraries.
   <https://math.stanford.edu/~conrad/vigregroup/vigre04/polarization.pdf>.
 - [Conrad–Feng] B. Conrad, *Abelian Varieties*, course notes by T. Feng, 2015,
   <https://math.berkeley.edu/~fengt/249C.pdf>.
+- [Conrad, *Gross–Zagier revisited*] B. Conrad, *Gross–Zagier revisited*, in *Heegner Points and
+  Rankin L-Series*, MSRI Publications 49 (2004), 67–163, §7, Theorems 7.2 and 7.5, pp. 101–103,
+  <https://library.slmath.org/books/Book49/files/05conrad.pdf>. Printed pages.
+- [Chai–Conrad–Oort] C.-L. Chai, B. Conrad and F. Oort, *Complex Multiplication and Lifting
+  Problems*, Mathematical Surveys and Monographs 195, AMS, 2014, §1.7.4, Serre's tensor construction.
 - [Stanford VIGRE notes] *Complex theory of abelian varieties*, Stanford VIGRE seminar notes, 2004,
   <https://math.stanford.edu/~conrad/vigregroup/vigre04/abvaran.pdf>.
 - [Kass] J. L. Kass, *Notes on abelian schemes*, <https://people.ucsc.edu/~jelkass/files/AbelianSchemes.pdf>.

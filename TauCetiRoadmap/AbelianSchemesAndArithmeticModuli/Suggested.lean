@@ -869,6 +869,14 @@ choice of representative, with restriction and arbitrary-base-change compatibili
   `cmIsotypic`.
 * **Products and boundaries over a base**: `relativeProductsAndDimension` (beyond the
   dimension-zero case above), `fieldAndEllipticBoundary`.
+* **Serre tensor over a base** (README A1.3a): `relativeSerreTensor`,
+  `relativeSerreTensor-functoriality`, `relativeSerreTensor-base-change` represent
+  `T ↦ M ⊗_R A(T)` for a unital action of an arbitrary associative ring `R` on `A/S` and
+  a finite projective right `R`-module `M`, with maps, finite sums, independence of projective
+  splittings and arbitrary base change. README A4.7a's `relativeSerreTensor-lie-tate` supplies
+  the covariant Lie and prime-to-characteristic Tate comparisons and the contravariant
+  de Rham and crystalline comparisons. The latter use right-module Hom, with right action
+  given by pullback; the crystalline comparison has prime `p` locally nilpotent on `S`.
 * **Algebraic spaces and relative Hom**: `relativeEllipticEquivalence`, `relativeHom`,
   `CoefficientIsog`, `AbelianTwist`, `twistRealizations`, `weilRestriction`,
   `weilRestrictionSplits`, `weilRestrictionAbelian`, `QuadraticAbelianTwist`, `CurveGenerated`.
