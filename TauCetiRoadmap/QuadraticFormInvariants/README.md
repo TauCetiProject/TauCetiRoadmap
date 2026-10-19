@@ -412,7 +412,7 @@ improvement through their own review rather than duplicating them.
   given ambient field.
 - **`TauCeti/NumberTheory/Multiquadratic/SquareClass/{Basic,Independence}.lean`**:
   square-class descent in towers, that is `sqrtTower` and `squareClass_of_sq_mem`. The
-  [multiquadratic roadmap](../Multiquadratic/README.md) owns multi-root towers. This
+  [multiquadratic roadmap](../../Completed/Multiquadratic/README.md) owns multi-root towers. This
   roadmap owns the form theory of one quadratic step, and the shared language is the
   square-class group above.
 - **`TauCeti/NumberTheory/LegendreSymbol/SquareClass.lean`**: `legendreSym_mul_sq` and
@@ -480,7 +480,7 @@ improvement through their own review rather than duplicating them.
   - the quotient API for `Brauer.CSA_Setoid`;
   - the theorem that every central simple `K`-algebra is split by a finite separable
     extension.
-- The [multiquadratic roadmap](../Multiquadratic/README.md) for the square-class
+- The [multiquadratic roadmap](../../Completed/Multiquadratic/README.md) for the square-class
   language of Layer 0, through the landed files listed above.
 
 Where this roadmap and the semisimple-algebras roadmap name the same fact, the
@@ -3113,7 +3113,7 @@ subject matter belongs and built where its prerequisites are ready.
   the quaternion case, the Clifford case, and the 2-torsion package. Layer 7B takes the
   crossed-product comparison. Where both roadmaps name the same fact, the
   semisimple-algebras statement is the statement of record.
-- The [multiquadratic roadmap](../Multiquadratic/README.md) owns multi-root towers of
+- The [multiquadratic roadmap](../../Completed/Multiquadratic/README.md) owns multi-root towers of
   quadratic extensions. This roadmap owns the form theory of one quadratic step. The
   shared language is `TauCeti.SquareClassGroup`.
 - The [local-fields-ramification

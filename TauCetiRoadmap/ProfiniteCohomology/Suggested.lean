@@ -1,6 +1,6 @@
 import Mathlib
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Additive
-import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologicalDimension
+import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologicalDimension.Basic
 import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologyComparison
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Coinduced.Functor
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Coinduced.PreservesExactness
@@ -22,8 +22,8 @@ import TauCeti.RepresentationTheory.Homological.ContCohomology.Inflation.Connect
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Inflation.Comparison
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Invariants
 import TauCeti.RepresentationTheory.Homological.ContCohomology.ProjectionFormula
-import TauCeti.RepresentationTheory.Homological.ContCohomology.Shapiro
-import TauCeti.RepresentationTheory.Homological.ContCohomology.SmoothDiscrete
+import TauCeti.RepresentationTheory.Homological.ContCohomology.Shapiro.Basic
+import TauCeti.RepresentationTheory.Homological.ContCohomology.SmoothDiscrete.Basic
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Transgression
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Cup.ConnectingMap
 import TauCeti.RepresentationTheory.Homological.ContCohomology.TrivialF2
@@ -39,8 +39,7 @@ import TauCeti.Topology.Algebra.Group.Profinite.Section
 import TauCeti.Topology.Algebra.Group.Quotient.Basic
 import TauCeti.Topology.Algebra.Group.TopologicalAbelianization
 import TauCeti.Topology.Algebra.GroupAction.Discrete
-import TauCeti.Topology.Algebra.GroupAction.InternalHom
-
+import TauCeti.Topology.Algebra.GroupAction.InternalHom.Basic
 /-!
 # Continuous cohomology of profinite groups: target signatures
 

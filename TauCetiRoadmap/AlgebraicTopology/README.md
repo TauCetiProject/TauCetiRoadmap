@@ -28,7 +28,10 @@ stated coefficient generality.
    additivity axioms.
 3. Mathlib's `CWComplex` and `RelCWComplex` structures have cellular chain complexes whose
    homology is naturally isomorphic to singular homology.  Cofibration, mapping-cylinder,
-   cellular-approximation, and skeletal-induction APIs make those comparisons usable.
+   cellular-approximation, and skeletal-induction APIs make those comparisons usable, and
+   Mathlib's categorical and classical CW structures are compared (in the Hausdorff setting for
+   the classical-to-categorical direction), so that a complex built by attaching cells is one
+   the rest of the theory applies to.
 4. Mapping tori, finite covers, finite open covers, and fibre bundles have reusable chain-level
    tools: Wang and transfer sequences, coefficient-sensitive Kunneth theorems, Cartan--Leray and
    Serre spectral sequences, torus calculations, and a finite-open-cover Čech double complex.
@@ -54,9 +57,16 @@ groups.  Those theories consume this roadmap's chain, CW, duality, and homotopy 
   and geometric surgery.  This roadmap owns algebraic topology of CW pairs and proves results
   about any space of CW type.  A theorem that compact smooth manifolds have finite CW type
   consumes geometric topology's smooth-triangulation result.
-- The [Heegaard Floer roadmap](../HeegaardFloer/README.md) owns the Mathlib-compatible manifold
-  orientation and degree API.  This roadmap consumes it to construct integral fundamental
-  classes and owns the chain-level proof and consequences of manifold duality.
+- The [differential-geometry roadmap](../DifferentialGeometry/README.md) owns the
+  Mathlib-compatible manifold orientation and degree API (its layers 2 and 10), which the
+  [Heegaard Floer roadmap](../HeegaardFloer/README.md) also consumes.  This roadmap consumes it to
+  construct integral fundamental classes and owns the chain-level proof and consequences of
+  manifold duality.
+- The differential-geometry roadmap consumes this roadmap's singular chains and cochains, relative
+  cohomology, subdivision and small chains (Stages 2, 3 and 6), and needs Stage 6's universal
+  coefficients, cup product and cochain Mayer--Vietoris sequence for the de Rham theorem.  It owns
+  smooth singular chains, integration over them, and the de Rham comparison, and constructs no
+  second singular theory.
 - The [profinite-cohomology roadmap](../ProfiniteCohomology/README.md) owns continuous
   cohomology of profinite groups.  The singular cohomology here is cohomology of topological
   spaces; neither development introduces a second version of the other's objects.
@@ -234,7 +244,42 @@ This stage consumes Stages 2 and 3.
 5. Prove that relative CW inclusions are closed cofibrations with the homotopy extension
    property.  Construct mapping cylinders, cellular approximation, and skeletal induction.
    Prove that a cofibration which is a homotopy equivalence is a strong deformation retract.
-6. Calculate projective spaces in their cellular ranges and a two-cell complex whose attaching
+6. Compare Mathlib's two CW structures.  `Mathlib/Topology/CWComplex/Abstract/Basic.lean` builds a
+   relative complex `c : TopCat.RelativeCWComplex f`, for a morphism `f : X ⟶ Y`, as the colimit
+   `Y` of an expanding sequence `c.F.obj n` of spaces starting at `X`, each obtained from the last
+   by attaching `n`-disks, and `Mathlib/Topology/CWComplex/Classical/Basic.lean` recognizes a CW
+   structure `RelCWComplex C D` on a subspace through explicit cells and characteristic maps.
+   Mathlib records the equivalence of the two as a `TODO` and does not prove it.  Prove it here,
+   in both directions, with these hypotheses:
+   - *Categorical to classical, with no separation hypothesis.*  For `c : RelativeCWComplex f`,
+     prove that `f` is a closed embedding and construct
+     `RelCWComplex (Set.univ : Set Y) (Set.range f)`.  Its `n`-cells are the cells of `c`
+     attached at step `n`, each characteristic map being the cell inclusion `Cells.ι` composed
+     with a fixed radial homeomorphism from the max-norm unit ball of `Fin n → ℝ` onto `𝔻 n`
+     (Euclidean unit ball) carrying sphere to sphere, and the image of `c.F.obj n` in `Y` is
+     `Set.range f` together with the closed cells of dimension `< n`.  If `X` is Hausdorff then
+     so is `Y` (Hatcher, Appendix, Proposition A.3), so a complex built by attaching cells to a
+     Hausdorff space satisfies the standing hypothesis of the classical theory.
+   - *Classical to categorical, in a Hausdorff ambient space.*  For `[T2Space X]` and
+     `[RelCWComplex C D]`, construct a `RelativeCWComplex` structure on the inclusion of `D` into
+     `C` (both with the subspace topology), whose cells attached at step `n` are `cell C n` and
+     whose `n`th space `F.obj n` is homeomorphic over `C` to `skeletonLT C n`.  The
+     Hausdorff hypothesis cannot be dropped: the two-point indiscrete space with two 0-cells
+     satisfies every axiom of `CWComplex`, because each nonempty subset meets some 0-cell in a
+     non-closed singleton, so the premise of `closed'` fails; but attaching two 0-cells to the
+     empty space gives the two-point discrete space.  Hausdorffness makes each characteristic map
+     a closed map from a compact disk, which is what identifies `closed'` with the colimit
+     topology (Hatcher, Appendix, Proposition A.2).
+
+   When the base is Hausdorff the two constructions are mutually inverse: going around either
+   way returns the same cells in each dimension, with characteristic maps agreeing on
+   `closedBall 0 1` after transport along the inclusion `C ⊆ X`, respectively along the
+   identification of `Y` with the colimit, and the `n`th space `c.F.obj n` corresponds to
+   `skeletonLT C n` for every `n`.  Without this comparison a complex *built* by attaching cells
+   cannot use any theorem of this stage, and no construction that produces a space cell by cell
+   -- a mapping cone, a presentation complex, a space with prescribed homotopy groups -- can be
+   fed to the rest of the library.
+7. Calculate projective spaces in their cellular ranges and a two-cell complex whose attaching
    map has degree `m`; its cellular differential must be multiplication by `m`.
 
 Hatcher, Sections 0.4 and 2.2, supplies CW pairs, cellular approximation, and cellular homology.
@@ -307,7 +352,7 @@ follows Hatcher Section 3.G, and the bundle filtration follows Serre's skeletal 
 ## Stage 6: cohomology, products, and manifold duality
 
 This stage consumes Stage 2 and the product maps of Stage 5.  Its manifold statements also
-consume the orientation-and-degree API owned by Heegaard Floer and the boundary/collar
+consume the orientation-and-degree API owned by differential geometry and the boundary/collar
 conventions owned by geometric topology.
 
 Every manifold theorem in this stage uses a finite-dimensional Mathlib manifold carrier with
@@ -317,7 +362,8 @@ homology with one copy of the coefficient ring also assumes connectedness.
 
 1. Define absolute and relative singular cochains by applying `Hom` to singular chains.  Extend
    the construction to Stage 2's local coefficient systems and their duals.  Prove functoriality,
-   the long exact sequence, homotopy invariance, additivity, and constant-system comparison.  For
+   the long exact sequence, homotopy invariance, additivity, the Mayer--Vietoris sequence of a
+   binary open cover (dual to Stage 3's), and constant-system comparison.  For
    integral coefficients, and more generally over a PID or hereditary ring, prove the natural
    short exact sequence
    `0 -> Ext^1_R(H_(n-1)(X;R),M) -> H^n(X;M) -> Hom_R(H_n(X;R),M) -> 0`; prove that it splits and

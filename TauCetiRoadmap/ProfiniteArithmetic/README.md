@@ -114,10 +114,10 @@ Two targets change existing Tau Ceti declarations instead of adding new ones.
   it instead of saying that the ring structure is not treated. Nothing in the existing
   `TauCeti.zHat` API changes.
 
-`Suggested.lean` cannot change or extend Tau Ceti, so it pins the generalized declarations and the
-new ring API under this roadmap's namespace (`ProfiniteCompletion.continuousMonoidHomEquiv`,
-`zHat.lift`, `zHat.toZMod`, …). The theorem `zHat.lift_eq_tauCeti` records that on targets in
-`Type` the generalized lift is the existing one.
+`Suggested.lean` names the generalized declarations through reducible aliases
+(`ProfiniteCompletion.continuousMonoidHomEquiv`, `zHat.lift`) and pins the ring API under this
+roadmap's namespace (`zHat.toZMod`, …). The theorem `zHat.lift_eq_tauCeti` records that on targets
+in `Type` the generalized lift is the one into the universe of `TauCeti.zHat`.
 
 ## Conventions
 

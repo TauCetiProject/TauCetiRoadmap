@@ -61,9 +61,9 @@ The roadmap is complete when Tau Ceti supplies all of the following.
 - **Tau Ceti implements the cone-to-fan algebraic supplier.** `TauCeti/Geometry/Toric/Algebraic/`
   supplies integral lattices, toric cones, rays and primitive generators, regular cones, finite
   fans with subfans, products and subdivisions, fan morphisms, dual semigroups, affine toric
-  schemes, face localizations, and the toric scheme of a regular fan with its toric maps. Layer 0
-  names the declarations that every later layer uses and states the remaining algebraic targets
-  on them. No layer restates them.
+  schemes, face localizations, and the toric scheme of every finite fan with its toric maps.
+  Layer 0 names the declarations that every later layer uses and states the remaining algebraic
+  targets on them. No layer restates them.
 - **Matching external declarations are consumed immediately.** Before implementing a remaining
   Layer 0 target, search Mathlib, Tau Ceti, and active pull requests, and compare with the Toric
   project. If the exact object and laws exist in Mathlib or Tau Ceti, import them instead.
@@ -168,8 +168,8 @@ At the dependency pin, the following anchors already exist.
 This layer closes the algebraic prerequisite chain. Tau Ceti implements it in
 `TauCeti/Geometry/Toric/Algebraic/`, and every later layer states its targets on the declarations
 named here. Each item gives the specification, then Tau Ceti's declarations for it, then the
-targets that remain. The remaining targets are the general toric case of what Tau Ceti proves
-for regular cones and regular fans, and `Suggested.lean` states them on Tau Ceti's objects.
+targets that remain. The remaining targets are the algebraic torus actions of items 7 and 9 and
+the fan scheme of a product.
 
 1. **Integral lattices.** The integral-lattice predicate is an `R`-linear equivalence
    `R tensor[Z] N ≃ N_R` whose restriction to `1 tensor N` is the chosen lattice map, with
@@ -184,8 +184,8 @@ for regular cones and regular fans, and `Suggested.lean` states them on Tau Ceti
    integral maps, and lattice equivalences. Tau Ceti: `IsLatticeRational` and `IsToricCone`, whose
    fields are lattice rationality and salience, with finite generation derived as
    `IsToricCone.fg`; `IsToricCone.of_isFaceOf`, `IsToricCone.prod`, `IsToricCone.map` and
-   `isToricCone_map_equiv_iff`. The remaining target: for an integral lattice, the intersection of
-   two toric cones is a toric cone. The integral-lattice hypothesis is necessary, by
+   `isToricCone_map_equiv_iff`; and, for an integral lattice, closure under intersections,
+   `IsToricCone.inf`. The integral-lattice hypothesis is necessary, by
    `not_isToricCone_sqrtTwoCone_inf`.
 3. **Rays.** Rays are one-dimensional Mathlib faces, each with a unique primitive generator. The
    ray type is finite, the primitive rays generate the cone, and primitive generators are natural
@@ -211,8 +211,8 @@ for regular cones and regular fans, and `Suggested.lean` states them on Tau Ceti
    nonnegative on a cone, with finite generation, face-localization, functoriality, and the
    regular-coordinate equivalence with `N^k x Z^(n-k)`. Tau Ceti: `dualSemigroup`, the face
    formula `dualSemigroup_inf_ker_eq_sup`, `dualSemigroupMap`, `regularDualSemigroupEquiv`, and
-   finite generation for regular cones, `IsRegularCone.fg_dualSemigroup`. The remaining target is
-   Gordan's lemma: the dual semigroup of every toric cone is finitely generated.
+   Gordan's lemma, the finite generation of the dual semigroup of every toric cone,
+   `IsToricCone.fg_dualSemigroup`.
 7. **Affine toric schemes.** The affine toric scheme is the spectrum of the complex monoid
    algebra, with its dense torus and torus action. Tau Ceti: `affineCoordinateRing`,
    `affineToricScheme`, `affineToricSchemeMap` with its identity and composition laws, and the
@@ -223,27 +223,27 @@ for regular cones and regular fans, and `Suggested.lean` states them on Tau Ceti
    composition laws; for a face cut out by a character, the localization
    `isLocalization_away_affineCoordinateRingMap_inf_ker` and the open immersion
    `isOpenImmersion_affineToricSchemeMap_inf_ker`; the overlaps `Fan.affineToricOverlapLeft` and
-   `Fan.affineToricOverlapRight`; and, for every face of a regular cone,
-   `IsRegularCone.isOpenImmersion_faceAffineToricSchemeMap`. The remaining target is the
-   separation lemma, that every face of a toric cone is cut out by a character of its dual
-   semigroup, which makes every face morphism of a toric cone an open immersion.
+   `Fan.affineToricOverlapRight`; the separation lemma, that every face of a lattice-rational cone
+   is cut out by a character of its dual semigroup,
+   `IsLatticeRational.exists_mem_dualSemigroup_inf_ker_eq`; and so the open immersion of every
+   face, `IsLatticeRational.isOpenImmersion_faceAffineToricSchemeMap`.
 9. **The fan scheme.** The affine schemes of a finite fan glue along these open immersions, with
    the torus action, cone opens, algebraic toric maps, and, for a nonempty fan, the global dense
    torus, satisfying identity, composition, products, open-subfan restriction, and naturality of
-   the affine inclusions. Tau Ceti, for a regular fan: the chart diagram
-   `Fan.affineToricDiagram` and its colimit `Fan.algebraicRealization`; the open chart inclusions
+   the affine inclusions. Tau Ceti, for every finite fan: the chart diagram
+   `Fan.affineToricDiagram`, locally directed by `Fan.isLocallyDirected_affineToricDiagram`, and
+   its colimit `Fan.algebraicRealization`; the open chart inclusions
    `Fan.affineToricChartι`, whose ranges are the cone opens, with the gluing relation
    `Fan.affineToricChartι_eq_affineToricChartι_iff`; the dense torus of a nonempty fan,
    `Fan.denseTorusι`; the toric maps `FanHom.algebraicMap` with `FanHom.algebraicMap_id`,
    `FanHom.algebraicMap_comp` and the chart formula
    `FanHom.affineToricChartι_comp_algebraicMap`; and the open subscheme of a subfan,
    `Fan.isOpenImmersion_subfanInclusion_algebraicMap` with
-   `Fan.range_subfanInclusion_algebraicMap`. The remaining targets are four. The fan scheme is a
-   scheme over `Spec C`, by descending the structure morphisms of its affine charts, and the
-   chart inclusions and the toric maps are morphisms over `Spec C`. By the separation lemma, the
-   chart diagram of every finite fan is locally directed, which extends the fan scheme and its
-   toric maps to every finite fan. The affine torus actions glue to the global torus action. The
-   fan scheme of `Fan.prod` is the fibre product over `Spec C` of the two fan schemes.
+   `Fan.range_subfanInclusion_algebraicMap`; and the structure over `Spec C`,
+   `Fan.algebraicRealizationOver`, with the chart inclusions and the toric maps morphisms over
+   `Spec C`, `Fan.isOver_affineToricChartι` and `FanHom.isOver_algebraicMap`. The remaining targets
+   are two. The affine torus actions glue to the global torus action. The fan scheme of `Fan.prod`
+   is the fibre product over `Spec C` of the two fan schemes.
 
 **Source spine:** Cox--Little--Schenck, Chapters 1 and 3; Fulton, Chapter 1 and §2.1; and, as prior
 work, the Toric project.
