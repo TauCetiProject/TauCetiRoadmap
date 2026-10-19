@@ -4,7 +4,7 @@
 
 ## Scope and ownership
 
-This roadmap owns ordinary Q/S K-theory, the ring plus/Q comparison, the Bass/Schlichting comparison and the ordinary finite-field calculation needed by the Artin example. It includes the categorical homotopy tools, K-theory adapters to the supplied spectrum category, stable general linear group, elementary subgroup and projective patching used in its proofs. These are shared foundations: consumers use these constructions with their stated hypotheses. The ordinary interfaces supplied here for GeometryOfNumbersAndQuadraticArithmetic are §§1.1–1.6, §§2.1–2.6, §§5.2–5.11 and §§11.5–11.16 for its §§6.1.1–6.1.5; §§3.1–3.5, §§10.10–10.11 and §12.10 for its §6.1.7; §3.12 for its §6.10.3 plus/Q adapter; and §§13.8a–13.8c for its ordinary finite-field input. Under this consumer contract its local ordinary names are aliases for the supplied interfaces; its hermitian and shared-spectrum adapters and finite-field hermitian applications remain separate. With the same ordered charts, its first-to-second Milnor clutching parameter u corresponds to α=u⁻¹ in §8.4, so its boundary at u is the boundary here at u⁻¹, the negative of the boundary here at u.
+This roadmap owns ordinary Q/S K-theory, the ring plus/Q comparison, the Bass/Schlichting comparison and the ordinary finite-field calculation needed by the Artin example. It includes the categorical homotopy tools and K-theory adapters to the supplied spectrum category. AlgebraicKTheory supplies associative scalar extension, stable GL/E, classical ring K₁ and finite-projective Milnor patching with its low-degree exact sequence; §§3.1, 3.3–3.4 and 8.4–8.6 expose these inputs through convention adapters. The higher comparisons and relative homotopy-fibre comparisons belong here. The ordinary interfaces supplied here for GeometryOfNumbersAndQuadraticArithmetic are §§1.1–1.6, §§2.1–2.6, §§5.2–5.11 and §§11.5–11.16 for its §§6.1.1–6.1.5; §§3.1–3.5, §§10.10–10.11 and §12.10 for its §6.1.7; §3.12 for its §6.10.3 plus/Q adapter; and §§13.8a–13.8c for its ordinary finite-field input. Under this consumer contract its local ordinary names are aliases for the supplied interfaces; its hermitian and shared-spectrum adapters and finite-field hermitian applications remain separate. With the same ordered charts, its first-to-second Milnor clutching parameter u corresponds to α=u⁻¹ in §8.4, so its boundary at u is the boundary here at u⁻¹, the negative of the boundary here at u.
 
 Exact structures, conflations, admissible maps, exact functors, projective and injective objects, and Frobenius exact categories belong to Tau Ceti. Its exact Grothendieck groups, finite-projective exact categories and Cartan map are inputs here. The new conflation-category target equips the supplied category of conflations with its componentwise exact structure; it does not construct that underlying category again. GrothendieckEulerForms Layers 2–3 supply the algebraic degree-zero Euler and finite-resolution comparisons; the resolution theorem here adds the homotopy equivalence and all higher groups.
 
@@ -38,7 +38,7 @@ Use `ShortComplex`, kernels, cokernels, pullbacks, pushouts, biproducts and addi
 
 For a Serre object property P, use `P.isoModSerre.Localization` and its functor `P.isoModSerre.Q`. In `CategoryTheory.ObjectProperty.SerreClassLocalization`, use `abelian`, `isZero_obj_iff`, `isIso_map_iff`, `preservesFiniteLimits`, `preservesFiniteColimits` and `exactFunctor_comp_iff`: the quotient is abelian, kills precisely P, inverts precisely the maps with P-kernel and P-cokernel, and has the exact-functor universal property. The calculus-of-fractions hypotheses come from `P.IsSerreClass`.
 
-For rings and modules use `ModuleCat`, finite generation and projectivity, finite `Matrix.GeneralLinearGroup`, elementary matrix algebra, `RingHom.pullback`, `TwoSidedIdeal.ringCon`, `RingCon.Quotient` and `RingCon.mk'` for two-sided quotient rings and their quotient maps, `Polynomial`, `LaurentPolynomial`, `IsNilpotent`, tensor products and `Unitization ℤ I`. Commutative `ModuleCat.extendScalars` is used in its actual commutative scope; Layer 3 supplies the general associative bimodule extension. Use `MoritaEquivalence` for an R-linear module equivalence over a commutative base semiring R, and `ModuleCat.matrixEquivalence` for rings and a finite nonempty matrix index. Stable GL and its Whitehead subgroup theorem are new.
+For rings and modules use `ModuleCat`, finite generation and projectivity, finite `Matrix.GeneralLinearGroup`, elementary matrix algebra, `RingHom.pullback`, `TwoSidedIdeal.ringCon`, `RingCon.Quotient` and `RingCon.mk'` for two-sided quotient rings and their quotient maps, `Polynomial`, `LaurentPolynomial`, `IsNilpotent`, tensor products and `Unitization ℤ I`. Commutative `ModuleCat.extendScalars` is used in its actual commutative scope; AlgebraicKTheory supplies the general associative bimodule extension. Use `MoritaEquivalence` for an R-linear module equivalence over a commutative base semiring R, and `ModuleCat.matrixEquivalence` for rings and a finite nonempty matrix index. Stable GL and its Whitehead subgroup theorem are supplied by AlgebraicKTheory A1.
 
 `Module.Finite.exists_comp_eq_id_of_projective` supplies the finite-free retraction for a finite projective module. `Module.finrank_mul_finrank` supplies the tower dimension identity for free scalar extensions; the finite-field degree-zero transfer calculation uses that identity rather than introducing another dimension theorem.
 
@@ -57,6 +57,10 @@ From `TauCeti.CategoryTheory.Exact.Frobenius` and `TauCeti.CategoryTheory.Exact.
 From `TauCeti.Algebra.Category.ModuleCat.CartanMap.Morita`, use `CategoryTheory.Equivalence.finiteProjectiveModulesEquivalence` and `isConflationExact_finiteProjectiveModulesEquivalence_functor` for Morita restriction and its exactness; `finiteProjectiveModulesK0Equiv` supplies its degree-zero map. From `TauCeti.RingTheory.Morita.Corner`, `IsIdempotentElem.cornerEquivalence` supplies the module equivalence for a full idempotent, with fullness `TwoSidedIdeal.span {e}=⊤`. The new corner results compare higher and negative K-maps; the general nonunital functor also allows non-full h(1).
 
 ### From TauCetiRoadmap
+
+[AlgebraicKTheory](../AlgebraicKTheory/README.md#conventions-dependencies-and-ownership), conventions and A0, supplies balanced tensor products for arbitrary associative rings, the all-module extension/restriction adjunction, its unit, counit, triangle identities and universe transport, and restriction of extension to finite projectives. A1–A2 supply stable GL, its elementary perfect commutator subgroup, classical K₁ and its projective-automorphism presentation. A6 supplies the patching equivalence, boundary and four-interior-term sequence for a pullback with at least one surjective leg. These are algebraic inputs, independent of Q/S, plus constructions and higher spectra.
+
+Use its right-projective category over Rᵒᵖ as `P(R)`, with the native `finiteProjectiveModules R` carrier and split exact structure. Its split K₀ over Rᵒᵖ is identified with `TauCeti.ExactK0 (TauCeti.finiteProjectiveModulesExactStructure R)` by `ExactK0.fromSplitEquiv`; generators and scalar-extension maps agree. This change of module convention is distinct from the contravariant duality `P↦Hom_R(P,R)`. For classical K₁ use the matrix and projective-automorphism adapters of §3.14; for patching use the inverse-parameter adapter of §8.4. The section names retained here denote these supplied constructions and their comparisons, not additional low-degree ring groups.
 
 [AlgebraicTopology Stage 2](../AlgebraicTopology/README.md#stage-2-relative-singular-chains-and-homology) supplies local coefficient chain complexes and their homology, [Stage 4](../AlgebraicTopology/README.md#stage-4-cw-pairs-cellular-homology-and-cofibrations) the CW constructions and replacements, and [Stage 8](../AlgebraicTopology/README.md#stage-8-relative-homotopy-hurewicz-and-whitehead) relative homotopy exactness, Hurewicz and simply connected Whitehead. [UniversalCovers Stages 0–3](../../Completed/UniversalCovers/README.md#stage-0-port-the-foundations-into-tauceti) supply universal covers, the subgroup/cover correspondence and covering invariance of higher homotopy groups for connected, locally path-connected, semilocally simply connected spaces; connected CW realizations satisfy these hypotheses. Plus uniqueness with a nontrivial fundamental group is proved here using those covers and pulled-back local coefficients, rather than being inferred from ordinary integral homology alone.
 
@@ -396,19 +400,19 @@ Layer 1 categorical homotopy and the supplied exact structure and exact `K₀`.
 
 ### 3.1 Scalar extension as an exact functor of finitely generated projectives, without a flatness hypothesis
 
-For a unital map `f:A→B` of associative rings, construct extension of scalars on modules as the left adjoint of restriction of scalars. Restrict it to finite projectives and prove preservation of finite generation, projectivity and split conflations. On left modules it is `B⊗_A P`; on right modules it is `P⊗_A B`. The identity and composite tensor isomorphisms satisfy the pseudofunctor coherence and induce functorial K-maps. This general-ring construction extends the commutative scalar-extension API; exactness on finite projectives requires no flatness.
+For a unital map `f:A→B` of associative rings, use AlgebraicKTheory's all-module extension/restriction adjunction and A0's finite-projective restriction of extension. Transport its right-projective functor along `fᵒᵖ` to the native left-projective categories here: `P⊗_{Aᵒᵖ}Bᵒᵖ≅B⊗_A P`, with pure tensors `p⊗bᵒᵖ↦b⊗p`. Prove that this adapter respects the supplied identity and composite tensor isomorphisms, their coherence, the split/exact K₀ comparison and the commutative scalar-extension comparison. These induce the Q-theory maps of §3.2.
 
-Use unital ring maps and essentially small split-exact projective categories; extension on all modules need not be exact.
+Use unital ring maps and essentially small split-exact projective categories, with the supplier's universe transport. Extension on all modules need not be exact; restriction of scalars along an arbitrary map need not preserve finite projectivity.
 
 (Weibel, II.2.2–2.4, pp.70–73;IV.6.3.2, p.319;III.1.1.1, p.180.)
 
 Use:
 
-- `projBaseChange`: Unital associative scalar extension on finite projectives.
-- `projBaseChange_exact`: Additivity preserves split conflations.
-- `projBaseChange_id`: The tensor-unit natural isomorphism.
-- `projBaseChange_comp`: The tensor-associativity natural isomorphism.
-- `projBaseChange_comm`: Agreement with commutative ModuleCat.extendScalars.
+- `projBaseChange`: left-projective alias of the supplied scalar extension along fᵒᵖ.
+- `projBaseChange_exact`: transport of its preservation of split conflations.
+- `projBaseChange_id`: transported tensor-unit natural isomorphism.
+- `projBaseChange_comp`: transported tensor-associativity natural isomorphism, with coherence.
+- `projBaseChange_comm`: agreement with the supplier's native commutative comparison.
 
 **Checks.**
 
@@ -418,7 +422,7 @@ Use:
 - Tensoring `ℤ --2→ ℤ` with `ℤ/2` gives the zero map, showing failure of monic preservation on all modules.
 - For `k→M₂(k)`, k extends to `M₂(k)`, of Morita rank 2; the induced `K₀` map is `×2`.
 
-*Needs:* the `K₀` contract; `ModuleCat.extendScalars`; `ExactStructure.isConflationExact_split`; `ExactStructure`; `finiteProjectiveModules`; `finiteProjectiveModulesExactStructure`; `finiteProjectiveModulesExactStructure_eq_split`; `finiteProjectiveModulesExactStructure_conflation_iff`.
+*Needs:* AlgebraicKTheory conventions and A0; the `K₀` contract; `ModuleCat.extendScalars`; `ExactStructure.isConflationExact_split`; `ExactStructure`; `finiteProjectiveModules`; `finiteProjectiveModulesExactStructure`; `finiteProjectiveModulesExactStructure_eq_split`; `finiteProjectiveModulesExactStructure_conflation_iff`.
 
 ### 3.2 The early ring model: functorial connective K-theory of unital rings
 
@@ -452,17 +456,19 @@ Use:
 
 ### 3.3 Stable matrices and elementary transformations
 
-Starting from the finite general linear groups, form `GL(R)=colim_n GL_n(R)` under `g↦diag(g,1)`. Define `e_ij(a)=1+aE_ij` for `i≠j` and `E(R)` as the subgroup generated by their stabilized images. Define block sum `GL_m(R)×GL_n(R)→GL_{m+n}(R)` with both sizes retained. Stabilizing either input agrees with stabilizing the output up to a specified permutation conjugation; realize these conjugations as homotopies, coherently under successive stabilizations, and prove equality on GL/E using §3.4. Ordinary finite block sum does not define `StableGL×StableGL→StableGL`. Construct ring-map functoriality. Prove `e_ij(a)e_ij(b)=e_ij(a+b)`, `e_ij(a)⁻¹=e_ij(−a)`, and `[e_ij(a),e_jk(b)]=e_ik(ab)` for pairwise distinct indices, with `[g,h]=ghg⁻¹h⁻¹`. Define the classical additive `K₁` as `Additive(GL(R)/E(R))`, after the normality theorem below.
+Use AlgebraicKTheory A1's `GL(R)=colim_n GL_n(R)` under `g↦diag(g,1)`, its elementary subgroup E(R), coefficient maps and finite block sums. A2 supplies classical K₁ as the abelianization with its canonical additive GL/E comparison. The local names below are aliases of those carriers and maps. Retain `e_ij(a)=1+aE_ij`, `i≠j`, and `[g,h]=ghg⁻¹h⁻¹`; the supplier's distinct-index identity is `[e_ij(a),e_jk(b)]=e_ik(ab)`.
+
+For the plus comparison, realize the supplied permutation conjugations comparing stabilization of either finite block-sum input with stabilization of the output. Construct their homotopies coherently under successive stabilizations. Equality in GL/E follows from the supplied Whitehead theorem. Both finite input sizes remain explicit: ordinary finite block sum does not define `StableGL×StableGL→StableGL`.
 
 (Weibel III, D 1.1–1.2, equation (1.3.1), pp.III.1–4.)
 
 Use:
 
-- `StableGL`: diagonal-stabilized group colimit.
-- `stableElementary`: subgroup generated by stable elementary matrices.
-- `finiteGLBlockSum`: finite block sum, with its two input sizes and permutation-conjugacy stabilization comparisons.
-- `StableGL.map`: group map of a unital ring homomorphism.
-- `classicalK1`: quotient abelian group after Whitehead normality.
+- `StableGL`: alias of A1's diagonal-stabilized group colimit.
+- `stableElementary`: alias of A1's stable elementary subgroup.
+- `finiteGLBlockSum`: supplied finite block sum, with its permutation-conjugacy comparisons realized as coherent homotopies.
+- `StableGL.map`: alias of A1's group map for a unital ring homomorphism.
+- `classicalK1`: A2's additive classical K₁, through its canonical GL/E identification.
 
 **Checks.**
 
@@ -472,19 +478,19 @@ Use:
 - Over `ℤ` in rank 3, `[e₁₂(1),e₂₃(1)]=e₁₃(1)`, with the displayed commutator order, sign and entry.
 - Over `𝔽₂`, `GL₂` has order 6 and its elementary subgroup is not perfect; the third distinct index is necessary for the commutator proof.
 
-*Needs:* Mathlib Matrix.GeneralLinearGroup and finite matrix algebra; group colimits and subgroup closure.
+*Needs:* AlgebraicKTheory A1–A2; §1.1 for realization of conjugations.
 
 ### 3.4 Whitehead’s stable commutator theorem
 
-Prove `E(R)` is perfect and equals `[GL(R),GL(R)]`. The elementary commutator identity supplies perfection after adjoining a third index. For the reverse inclusion, express a stabilized commutator as a product of elementary block matrices using `diag(g,g⁻¹)∈E(R)`. `E(R)` is normal, GL/E is abelian, and any homomorphism from GL into an abelian group factors uniquely through it. These are the precise subgroup inputs for the plus construction.
+Use AlgebraicKTheory A1's theorem that `E(R)` is perfect and equals `[GL(R),GL(R)]`, including normality and the abelian quotient universal property. Its proof uses a third index and the elementary factorization of `diag(g,g⁻¹)`. Transport these statements through the §3.3 aliases as the subgroup hypotheses for the plus construction; A2 supplies the unit-class map. No second stable commutator theorem or classical K₁ carrier is constructed here.
 
 (Weibel III, L 1.3.2, Whitehead L 1.3.3 and equation (1.3.4), p.III.4.)
 
 Use:
 
-- `stableElementary_perfect`: `E(R)` equals its own commutator subgroup.
-- `stableElementary_eq_commutator`: `E(R)` is the stable GL commutator subgroup.
-- `classicalK1.unit`: Unit classes by `GL₁` stabilization.
+- `stableElementary_perfect`: supplied perfection theorem on the aliased subgroup.
+- `stableElementary_eq_commutator`: supplied stable GL commutator theorem on that subgroup.
+- `classicalK1.unit`: supplied unit classes by `GL₁` stabilization.
 
 **Checks.**
 
@@ -492,7 +498,7 @@ Use:
 - Over `ℤ`, the class of `−1` has order 2; it is not annihilated by quotienting to zero.
 - At finite rank 2 over `𝔽₂`, `E₂≅S₃` is not perfect. Stabilization is essential.
 
-*Needs:* §3.3; group commutators.
+*Needs:* §3.3; AlgebraicKTheory A1–A2.
 
 ### 3.5 Idempotent extension for nonunital maps
 
@@ -623,7 +629,7 @@ The inflation category has zero as initial object. Use subdivision and the actio
 
 ### 3.12 The plus-equals-Q theorem
 
-For a small split exact category A, prove `ΩBQA≃B(S⁻¹S)`, where `S=Core(A)` with direct sum. Localize the Q-extension fibres by the S-action, prove the base-change equivalences, and use Theorem B together with contractibility of the localized total category. For `P(R)`, identify the zero component with `BGL(R)⁺` and obtain the plus/Q comparison in every positive degree. After choices of component translations this gives `K(R)≃K₀(R)_discrete×BGL(R)⁺` as spaces.
+For a small split exact category A, prove `ΩBQA≃B(S⁻¹S)`, where `S=Core(A)` with direct sum. Localize the Q-extension fibres by the S-action, prove the base-change equivalences, and use Theorem B together with contractibility of the localized total category. For `P(R)`, first identify the zero component using the supplied right-projective model over Rᵒᵖ. Use §3.14's inverse-transpose and grouplike-inverse normalization to compare with `BGL(R)⁺`, giving the plus/Q comparison in every positive degree. After choices of component translations this gives `K(R)≃K₀(R)_discrete×BGL(R)⁺` as spaces.
 
 The named targets are `plusEqualsQ`, `stableGL_plus_comparison` with the hypotheses and conclusions above.
 
@@ -647,7 +653,9 @@ The subgroupoid on finite free modules is full, and finite extensions split. No 
 
 ### 3.14 Early absolute K0/K1 comparison for rings
 
-Prove natural comparison `π₀K(R)≃ExactK₀(P(R))` and the zero-component comparison `π₁K(R)≃GL(R)/E(R)`. The latter sends a stabilized projective automorphism to its loop under the group-completion and plus/Q comparisons. Check block-sum compatibility and functoriality for scalar extension. This supplies the low-degree adapter needed by relative triples and Laurent-unit multiplication; it makes no Bloch-group assertion.
+Prove natural comparison `π₀K(R)≃ExactK₀(P(R))` and the zero-component comparison `π₁K(R)≃classicalK1(R)` with AlgebraicKTheory A2's group. The latter identifies its supplied projective-automorphism class with the loop under group completion and plus/Q. For the right-projective convention it sends `[P,g]` to that same automorphism loop; the left-projective convention uses the following matrix transport. Check block sums, scalar-extension naturality and the supplied complement-independent automorphism presentation. In the ring specialization of §4.16 that presentation is this same group.
+
+Write `τ(g)=(gᵗ)ᵒᵖ∈GL_n(Rᵒᵖ)`. Transposition reverses multiplication: `τ(gh)=τ(h)τ(g)`. It therefore gives an additive isomorphism on the supplied abelian K₁ quotients, preserving unit classes, whereas `g↦τ(g⁻¹)` is the actual group isomorphism between stable GL models. On the plus spaces compose the latter comparison with additive inversion in the grouplike zero component. Its degree-one map is the classwise transpose adapter. Thus the left-linear row automorphism `x↦xg` has class `[g]∈classicalK1(R)`; using inverse transpose alone would give `−[g]`. Transport elementary subgroups, stabilization and projective complements along these maps. This normalization also fixes the Laurent unit used in §9.17.
 
 The named targets are `ringKGroup.zeroEquiv`, `ringKGroup.oneEquiv` with the hypotheses and conclusions above.
 
@@ -655,7 +663,14 @@ GL is the stable colimit under diagonal stabilization, E the stable elementary s
 
 (Weibel IV, D 1.1–1.1.2, pp.IV.2–3;T 7.1, C 7.2 and E 7.9, pp.IV.61–65.)
 
-*Needs:* §2.4; §3.12; §3.13; the `K₀` contract; Layer 1.
+**Checks.**
+
+- Over a commutative field, multiplication by a unit a represents a under determinant, including a of order greater than two; the uncorrected inverse-transpose map would give a⁻¹.
+- A right projective P and its scalar extension have the same classes in the supplied split K₀ and the native exact K₀ comparison; in left convention use the supplier at Rᵒᵖ.
+- Adjoining the identity on two different complements of P gives the same supplied K₁ class and the same Q-loop.
+- Over `ℤ`, the automorphism −1 retains its nonzero order-two class; an elementary shear represents zero.
+
+*Needs:* §2.4; §3.12; §3.13; AlgebraicKTheory conventions and A0–A2; the `K₀` contract; Layer 1.
 
 ### 3.15 What the product description does not say
 
@@ -681,7 +696,7 @@ The unital map `k→M₂(k)` sends the rank-one free module to the whole matrix 
 
 ### Dependencies
 
-Layers 1–2, finite-projective exact categories, tensor products and finite matrix groups.
+Layers 1–2; AlgebraicKTheory conventions and A0–A2; supplied finite-projective exact categories.
 
 ## Layer 4: Exact additivity, resolution and abelian localization
 
@@ -943,7 +958,7 @@ Use:
 
 ### 4.16 Stable automorphism boundary
 
-Define `ClassicalAdditiveK1 C` for small additive C by the abelian presentation with generators `(X,α)`, `α∈Aut(X)`, modulo composition, direct-sum and isomorphism-conjugacy relations. An additive functor induces a map. Identify this group with `K₁` of C equipped with the split exact structure, and with `GL(R)/E(R)` for `C=P(R)`. If every D-object is a direct summand of some `T(P)`, define `δ:K₁^cl(D)→K₀^cl(T)`. For `α∈Aut(X)`, choose `X⊕Y≅T(P)`, extend `α` by `id_Y`, and take `[P,α⊕id_Y,P]`. Prove independence of complements and transport, preservation of composition and direct sum, and naturality in cofinal squares of additive functors.
+Define `ClassicalAdditiveK1 C` for small additive C by the abelian presentation with generators `(X,α)`, `α∈Aut(X)`, modulo composition, direct-sum and isomorphism-conjugacy relations. An additive functor induces a map. Identify this group with `K₁` of C equipped with the split exact structure. For `C=P(R)` identify it with AlgebraicKTheory A2's supplied projective-automorphism group through §3.14, including its complement and matrix class maps. If every D-object is a direct summand of some `T(P)`, define `δ:K₁^cl(D)→K₀^cl(T)`. For `α∈Aut(X)`, choose `X⊕Y≅T(P)`, extend `α` by `id_Y`, and take `[P,α⊕id_Y,P]`. Prove independence of complements and transport, preservation of composition and direct sum, and naturality in cofinal squares of additive functors.
 
 Density means summand density. Use the split groups of §4.15 with consistent completions.
 
@@ -1748,50 +1763,65 @@ Use:
 
 ### 8.4 Projective patching and its clutching boundary
 
-For `R=R₁×_S R₂` with `R₂→S` surjective, patch right finite-projective `P₁,P₂` and an isomorphism `α:P₂⊗S≅P₁⊗S` by the kernel of `(x,y)↦x̄−α(ȳ)`. Prove patched module is finite projective, its two base changes recover `P₁,P₂`, and every finite projective R-module is recovered this way. For `g∈GL_n(S)`, define `∂[g]=[Patch(R₁ⁿ,R₂ⁿ,g)]−[Rⁿ]`. If g lifts to either chart it patches to `Rⁿ` and has zero boundary. Patching along g and `g⁻¹` gives a free direct sum of rank 2n, ensuring additive inverses and independence of stabilization. The orientation uses `α` from the second chart to the first, so a matrix a imposes `x̄=a ȳ`.
+For `R=R₁×_S R₂` with at least one map to S surjective, use AlgebraicKTheory A6's right finite-projective patching equivalence. Its triple has first-to-second isomorphism u and equation `u x̄=ȳ`. Define the local alias with second-to-first isomorphism `α:P₂⊗S≅P₁⊗S` by passing `u=α⁻¹` to that equivalence; its module is the kernel of `(x,y)↦x̄−α(ȳ)`. Transport the supplied base-change and reconstruction isomorphisms and their naturality under maps of squares. Use A6's symmetric formulation when only the other leg is onto.
+
+On free triples the local boundary is `∂[g]=[Patch(R₁ⁿ,R₂ⁿ,g)]−[Rⁿ]=δ_A6([g⁻¹])=−δ_A6([g])`. Its degree-zero carrier is the supplied right-projective split K₀, identified with native exact K₀; left-projective applications use the opposite square and §3.14. Transport A6's lift vanishing, elementary invariance, additivity and inverse-patching free sum through this parameter change. For the same ordered charts, `δ_A6([u])=∂[u⁻¹]=−∂[u]`. These are boundary adapters to the supplied low-degree sequence, not a higher-excision claim.
 
 (Weibel, Milnor Patching T I.2.7, pp.13–14;E I.2.8, p.16;T II.2.9, pp.78–79;Weibel III, T 2.6, p.III.15.)
 
 Use:
 
-- `MilnorPatch`: compatible-pair kernel module.
-- `MilnorPatch.baseChange`: two finite-projective base-change isomorphisms.
-- `MilnorPatch.reconstruct`: Recovery of any finite projective over the pullback.
-- `MilnorPatch.boundary`: clutching class on stabilized matrices.
-- `MilnorPatch.inverse`: direct sum for g and `g⁻¹` is free.
+- `MilnorPatch`: alias of A6's patched module at the inverse parameter.
+- `MilnorPatch.baseChange`: transported finite-projective base-change isomorphisms.
+- `MilnorPatch.reconstruct`: transported recovery of a projective over the pullback.
+- `MilnorPatch.boundary`: supplied clutching boundary precomposed with inversion.
+- `MilnorPatch.inverse`: supplied free direct sum for g and `g⁻¹`.
 
 **Checks.**
 
 - For `g=1` the patched module is `Rⁿ` and the boundary is zero, including `n=0`.
 - For `g=[[1,1],[0,1]]` over `ℤ` and `y=(0,1)`, `x=g y=(1,1)`; `g⁻¹y=(−1,1)` fails the patch equation.
 - With the same ordered charts, a first-to-second parameter u imposes `u x̄=ȳ`, hence corresponds to `α=u⁻¹` here. Its boundary class is `∂[u⁻¹]=−∂[u]`; the inverse shear above tests this change of convention.
+- For `𝔽₅[t]→𝔽₅[t]/(t²)←𝔽₅`, only the polynomial quotient is onto; patching and its boundary still apply. Swapping the charts tests the other one-surjective-leg case and reverses the boundary.
 - Over the cusp `k[x²,x³]⊂k[x]`, its conductor square has a nontrivial clutching class from 1+x in `k[x]/x²`; projective patching cannot be replaced by ignoring `α`.
 
-*Needs:* §3.1–3.5; Mathlib RingHom.pullback and finite-projective image modules; supplied projective `K₀`.
+*Needs:* AlgebraicKTheory A6; §3.1–3.5; §3.14 for the higher K₁ comparison; Mathlib RingHom.pullback; supplied projective `K₀`.
 
 ### 8.5 Milnor's sequence is exact at the pair of `K₁`-groups
 
-For `B=S×_C T` with `φ:S→C` onto, prove exactness of `K₁(B)→K₁(S)⊕K₁(T)→K₁(C)` at the middle term. The maps are the two projections and `(x,y)↦φ_*x−ψ_*y`. Stabilize representatives so their images agree, lift the required elementary correction through `φ`, and patch the matching invertible matrices to B. Use the stable GL/E model and its Q comparison.
+For `B=S×_C T` with at least one map to C onto, transport AlgebraicKTheory A6's exactness of `K₁(B)→K₁(S)⊕K₁(T)→K₁(C)` at the middle term through §3.14. The maps are the two projections and `(x,y)↦φ_*x−ψ_*y`. Identify these with the Q-induced maps by naturality of the stable GL/E and projective-automorphism comparisons. The supplied proof uses common-stage representatives and elementary lifts through the surjective leg.
 
 The named targets are `milnorK1_exact` with the hypotheses and conclusions above.
 
-Only `φ` must be onto. Equality in stable `K₁` requires stabilization, not equality of finite matrices.
+Either leg may be onto. Equality in stable `K₁` requires stabilization, not equality of finite matrices.
 
 (Weibel III, Proof of T 2.6, the last step, p.III.15.)
 
-*Needs:* §3.1–3.5, §8.4; `RingHom.pullback`; `RingHom.pullback_comm_sq`.
+**Checks.**
+
+- For an identity leg, a matching pair of stable classes is the image of the class on the other chart under the canonical pullback identification.
+- Representatives differing by a quotient elementary shear are aligned by lifting its coefficient through the surjective leg; an arbitrary invertible matrix need not lift.
+- The one-surjective-leg square of §8.4 satisfies this exactness in both chart orders.
+
+*Needs:* AlgebraicKTheory A6; §3.14; §3.1–3.5, §8.4; `RingHom.pullback`; `RingHom.pullback_comm_sq`.
 
 ### 8.6 Milnor Mayer–Vietoris
 
-Prove natural exact sequence `K₁(B)→K₁(S)⊕K₁(T)→K₁(C)→K₀(B)→K₀(S)⊕K₀(T)→K₀(C)` at its four interior positions. The middle boundary sends a gluing matrix a to `[FreePatch(a)]−n[B]`, with `φ(s)=aψ(t)` as the patch convention. Both difference maps use the S-image minus the T-image. Prove representative independence, elementary invariance and additivity of the boundary using projective patching; then prove the remaining exactness with stabilization. Neither exactness to the left of `K₁(B)` nor surjectivity onto `K₀(C)` is asserted.
+Transport AlgebraicKTheory A6's natural exact sequence `K₁(B)→K₁(S)⊕K₁(T)→K₁(C)→K₀(B)→K₀(S)⊕K₀(T)→K₀(C)` at its four interior positions through the K₀ and K₁ comparisons. Use the local boundary `[FreePatch(a)]−n[B]`, with `φ(s)=aψ(t)`, which is the negative of A6's boundary at a. Keep both difference maps as the S-image minus the T-image. Negating the boundary preserves its kernel and image, so exactness follows from the supplied sequence; its naturality follows from the inverse-parameter adapter. Neither exactness to the left of `K₁(B)` nor surjectivity onto `K₀(C)` is asserted.
 
 The named targets are `milnorMayerVietoris` with the hypotheses and conclusions above.
 
-The square is a pullback of unital associative rings with one map onto C. Use projective patching in §8.4, the stable `K₁` adapter in §3.14, and the compatible-pair exact functors.
+The square is a pullback of unital associative rings with at least one map onto C. The ring constructions, representative independence and exactness are supplied by A6; the Q-theory and convention comparisons are the targets here.
 
 (Weibel III, T 2.6 (Mayer–Vietoris);its proof, p.III.15;Remark 2.2.1 and E 2.3, pp.III.13 and III.16;T 5.8, p.III.41.)
 
-*Needs:* §8.5; §3.2; §3.1–3.5, §8.4; `RingHom.pullback`.
+**Checks.**
+
+- An identity leg gives zero clutching boundary; exactness retains its four specified interior positions.
+- For the same ordered charts, `δ_A6([u])=∂[u⁻¹]=−∂[u]`; swapping the charts changes the boundary sign again.
+- The cusp conductor square of §8.4 retains its nontrivial clutching class, while the square with only one surjective leg retains exactness without adding a second surjectivity hypothesis.
+
+*Needs:* AlgebraicKTheory A6; §8.5; §3.14; §3.2; §3.1–3.5, §8.4; `RingHom.pullback`.
 
 ### 8.7 Relative projective triples are components of the K-fibre
 
@@ -2966,9 +2996,20 @@ The named targets are `KaroubiNegative_eq_negativeIK` with the hypotheses and co
 
 At later suspensions retain the idempotent-completion convention. For non-idempotent-complete A the degree-zero term is completion-corrected.
 
-(Schlichting 2003, T 7.1;proof, pp.14–15;Cárdenas–Pedersen, §7.1–7.9, pp.18–24.)
+For every associative unital ring R, set `F(R)=IK(P(R))`, using the bounded-complex Frobenius model of §11.16. Construct the natural spectrum map `bassToFrobenius R:Kᴮ(R)→F(R)`. Start with the connective comparison `η:K(R)→F(R)`. Apply §11.15 to the Frobenius models of Layer 9's projective-line and Laurent localization diagrams, with their exact tensor functors, to obtain natural Bass delooping equivalences `β_F:F≃ΛF`. Retain the section induced by the t-class in the first factor. Iteration gives compatible maps `ΛʳK→ΛʳF≃F`, with specified homotopies for the Λ-tower transitions. Their homotopy-colimit map is `bassToFrobenius`.
 
-*Needs:* §12.9; §12.3; §11.15; §11.8; §12.4.
+Prove `bassToFrobenius_equivalence`: this actual map is an equivalence in the supplied stable category. In nonnegative degrees identify its homotopy maps with the common connective comparison; in negative degrees identify them with the cone–Bass–Frobenius comparisons above. Use the all-integer homotopy-group criterion for equivalence. Prove `bassToFrobenius_compatibility`: naturality for all unital ring maps and commutation, with the chosen homotopies, with polynomial inclusions and evaluation, Laurent inclusions, the t-class sections, Λ transitions and cone/Frobenius suspension equivalences. For the localization diagrams used to construct these maps, compare the fibre/cofibre triangles including their nullhomotopies and boundaries; the normalization is `∂{[t],x}=x`, in particular `∂[t]=[R]`. This supplies spectrum diagrams, not only abstract group isomorphisms.
+
+(Schlichting 2003, T 7.1 and proof, pp.14–15, for negative groups; §§11.7, 11.10 and 11.13, pp.21–22, for IK spectra, localization and the connective comparison; Weibel IV, D 10.1, T 10.2, C 10.3, D 10.4 and Variant 10.4.1, pp.IV.79–80, for the Λ tower and spectrum comparison; Cárdenas–Pedersen, §7.1–7.9, pp.18–24, for the cone comparison.)
+
+**Checks.**
+
+- For the zero ring, `bassToFrobenius` is an equivalence between zero spectra, with zero boundaries.
+- For `R=ℤ`, both spectra have vanishing negative groups and the compared Laurent triangles send `[t]` to `+[ℤ]`; replacing t by t⁻¹ negates this boundary.
+- For `R=k[ε]/ε²`, the class of `1+εt` in `NK₁(R)` is retained on both sides of the Laurent diagram. The equivalence supplies neither polynomial invariance nor vanishing of Nil terms.
+- At the first Λ stage the newly exposed degree minus one maps by the cone–Frobenius comparison, while the connective stage has zero negative homotopy; passage to the tower is essential.
+
+*Needs:* §12.9; §12.3; §12.4; §§10.10–10.11; §§11.14–11.16; §11.8; Layer 9's projective-line and Laurent diagrams; §7.4's exact tensor pairings; §1.7 and GeneralizedCohomology G2.6 for the supplied stable equivalence criterion and telescopes.
 
 ### 12.10a The unbounded derived category of an exact category
 
@@ -2989,7 +3030,7 @@ Construct bounded-above, bounded-below and bounded versions with the same weak c
 
 ### 12.11 Agreement and vanishing
 
-Complete the natural comparison among the Bass, controlled-cone and Frobenius negative groups for rings, and between the cone and Frobenius groups for additive categories. For a small exact E, use §12.10a's `ExactStructure.unboundedDerivedCategory` to present `IK₋₁(E)` as the direct-sum monoid of idempotents in D(E), modulo those that split; prove `IK₋₁(E)=0` exactly when D(E) is idempotent complete. Prove `IK₋₁=0` for every small abelian category, and `IK_{−n}=0` for every `n≥1` for a small noetherian abelian category. Regular noetherian rings in the finite-global-dimension scope have zero negative groups. General abelian all-negative vanishing is false: Neeman gives an abelian category with nonzero `K₋₂`.
+Complete the natural comparison among the Bass, controlled-cone and Frobenius negative groups for rings, and between the cone and Frobenius groups for additive categories. For rings these are the negative homotopy maps of §12.10's `bassToFrobenius`, with its boundary and suspension compatibility. For a small exact E, use §12.10a's `ExactStructure.unboundedDerivedCategory` to present `IK₋₁(E)` as the direct-sum monoid of idempotents in D(E), modulo those that split; prove `IK₋₁(E)=0` exactly when D(E) is idempotent complete. Prove `IK₋₁=0` for every small abelian category, and `IK_{−n}=0` for every `n≥1` for a small noetherian abelian category. Regular noetherian rings in the finite-global-dimension scope have zero negative groups. General abelian all-negative vanishing is false: Neeman gives an abelian category with nonzero `K₋₂`.
 
 The named targets are `negativeK_comparisons`, `negativeIK_idempotentObstruction`, `negativeIK_abelian_vanishing` with the hypotheses and conclusions above.
 
@@ -3243,7 +3284,7 @@ Layers 3, 7–8 and 10–12; the DGAInfinity perfect-model and enhanced Morita s
 
 ## Downstream consumers
 
-The consumer contract for GeometryOfNumbersAndQuadraticArithmetic supplies the ordinary Q/S, ring plus/Q and Bass/Schlichting interfaces and `finiteFieldKGroups`; its local ordinary aliases retain these contracts, while its hermitian adapters and applications have separate scope. Scheme and arithmetic K-theory use resolution, localization, transfers and the Fundamental Theorem. Consumers of perfect complexes use enhanced derived invariance with a model map. Stable homotopy and homological invariants can consume the spectrum pairing and exactness interface without identifying a bare triangulated category with its K-theory.
+The consumer contract for GeometryOfNumbersAndQuadraticArithmetic supplies the ordinary Q/S and ring plus/Q interfaces, the natural spectrum equivalence `bassToFrobenius` of §12.10 with its polynomial, Laurent, suspension and boundary diagrams, and `finiteFieldKGroups`; its local ordinary aliases retain these contracts, while its hermitian adapters and applications have separate scope. The low-degree ring engines are AlgebraicKTheory's inputs through §§3.1, 3.3–3.4 and 8.4–8.6, with the inverse Milnor parameter and native K₀/K₁ comparisons specified here. Scheme and arithmetic K-theory use resolution, localization, transfers and the Fundamental Theorem. Consumers of perfect complexes use enhanced derived invariance with a model map. Stable homotopy and homological invariants can consume the spectrum pairing and exactness interface without identifying a bare triangulated category with its K-theory.
 
 ## References
 

@@ -222,8 +222,14 @@ MonoidalLocalization.actionFibration with its chosen object and pointed-action n
 kTheorySequentialComparison and kTheoryPairingComparison in the supplied stable category.
 Layer 2: QSpan, qSpanSetoid, QCat/lift/op, qCategory, SmallExactModel,
 qConstruction, kSpace, kGroup, kGroupAddCommGroup, twoEdgeLoop, pi1QEquivExactK0.
-Layer 3: projBaseChange/idIso/compIso, RingKSpace/ringKMap, ringKGroup/map,
-StableGL/stabilizeMatrix/stableElementaryMatrix/map, finiteGLBlockSum, stableE,
+Layer 3: projBaseChange/projBaseChange_exact/projBaseChange_id/projBaseChange_comp/
+projBaseChange_comm are left-projective adapters to AlgebraicKTheory's supplied
+scalar extension. StableGL/stabilizeMatrix/stableElementaryMatrix/map,
+stableElementary/stableElementary_perfect/stableElementary_eq_commutator,
+classicalK1/unit and finiteGLBlockSum use its A1–A2 carriers and maps;
+the finite block conjugations acquire coherent realization homotopies here.
+RingKSpace/ringKMap, ringKGroup/map/zeroEquiv/oneEquiv retain the native exact K0
+and compare to the supplied classical K1, with the classwise transpose adapter.
 idempotentBaseChange, ExtQ/ExtCat/ExtFibre with actions and cartesian lifts,
 plusEqualsQ, cofinalFreeComparison, k0Equiv/k1Equiv.
 Layer 4: conflationExactStructure and its evaluation exactness,
@@ -239,7 +245,10 @@ gilletWaldhausen_general with intrinsic homotopy-acyclic weak maps and both cofi
 Layer 7: BiexactSGrid, stable biexact pairings and coherence,
 transfer and its Artin base-change formula.
 Layer 8: relativeK/group/les/ofPair/waldhausen, nonunitalK/map/compare,
-MilnorPatch/baseChange/clutching, ideal K0 excision, AbsoluteExcision, TorUnital and the Tor criterion.
+MilnorPatch/baseChange/reconstruct/boundary/inverse transport AlgebraicKTheory A6
+by the inverse clutching parameter, with at least one surjective leg;
+milnorK1_exact and milnorMayerVietoris compare its sequence with Q-theory.
+Ideal K0 excision, AbsoluteExcision, TorUnital and the Tor criterion.
 Layer 9: ProjectiveLine.Module/VectorBundle/KSpace/twist/u/koszul/map/directImage,
 ProjectiveLine.IsRegular, P1.T0/Z0/T1/canonicalResolution/localisationModels/bundleLattices,
 laurentTSection, NilCat/forget/zero,
@@ -253,7 +262,10 @@ countableEnvelope, enlarge/suspension/setup/IK, IsExactSequence,
 NegativeKSetup, IK0/negativeIK, FrobeniusReplacement and spectrum localization.
 Layer 12: KaroubiFiltration/finiteIdeal/quotient, KaroubiCone/Suspension/Negative,
 FiniteChainDomination, FiniteDomination.idempotent/finiteModel/modelEquivalence/euler,
-restricted completion and cone–Frobenius comparison;
+restricted completion and KaroubiNegative_eq_negativeIK;
+bassToFrobenius/bassToFrobenius_equivalence/bassToFrobenius_compatibility are the
+natural Bass-to-Frobenius spectrum map, its equivalence and its polynomial,
+Laurent, suspension and localization-boundary diagrams, with positive t boundary;
 ExactStructure.unboundedDerivedCategory with its boundedness and Frobenius comparisons.
 Layer 13: NonunitalBass/map/unitalEquiv, ArtinStableModel and its Cartan K-fibration,
 enhanced derived invariance and integer-graded relative/transfer products;
