@@ -538,6 +538,39 @@ assertion from a hive coefficient formula.
 
 ## Worked examples (acceptance criteria)
 
+- **Ordinary endomorphism-monoid functors and their extension.** Let X be a vector
+  space over a field k in a fixed adequate universe, and let C_X be the native
+  `SingleObj (End X)`. Its inclusion J into all vector spaces has one object X
+  and every linear endomorphism; it is full and faithful. For every ordinary
+  functor F:C_X→Vec construct its pointwise left Kan extension E to all Vec,
+  with the natural isomorphism F≅J⋙E. Consume native ModuleCat colimits,
+  SingleObj.functor and pointwise Kan-extension/unit APIs, rather than adding
+  another Kan-extension engine. The same construction works for all modules
+  over any unital ring. Separate scalar and module universes; for X=k^n in a
+  larger module universe use the actual ULift comparison, including its
+  endomorphism-monoid isomorphism. Over a commutative field identify End(k^n)
+  with the native matrix monoid by the actual basis/linear-map dictionary.
+  `EndomorphismKanExtension.lean` gives the native inclusion, colimit extension,
+  unit, full-faithful restriction isomorphism and explicit lifted free-module
+  specialization, without admissions.
+
+  Give the ordinary coend model: E(V) is the quotient of the direct sum of
+  copies of F(X) indexed by linear maps f:X→V, with relations
+  `[f∘a,w]=[f,F(a)w]` for a∈End(X). Each indexed copy is k-linear in w;
+  do not impose additivity in f, since F is an ordinary functor and need not
+  be additive on source hom-sets. Construct the maps from this quotient to
+  the native CostructuredArrow colimit and back, with their inverse/naturality
+  laws. At V=X the inverse to w↦[id,w] is [f,w]↦F(f)w. Prove it agrees
+  with the native unit isomorphism. For n=0 the extension can be the constant
+  functor F(0), with every arrow acting as identity. Outputs of a pointwise
+  Kan extension can be infinite-dimensional even on finite-dimensional inputs;
+  no finite-output or polynomial property is asserted. A finite-dimensional
+  polynomial Schur-functor extension, and extension of a rational GL_n module
+  across singular matrices, retain their separate hypotheses and constructions
+  in Layers1–3. An unrestricted functor on the abstract GL_n group is not
+  silently assumed rational, and a torus-weight criterion is not asserted for
+  such a functor. This ordinary extension comparison has no Specht, Weyl
+  character, highest-weight classification or finite polynomial-extension premise.
 - **`V^{⊗2} = Sym²V ⊕ ⋀²V`.** The isomorphism `tensorPowerRep n 2 ≅ symPowerRep n 2 ⊞ extPowerRep n 2` of
   `FDRep ℂ (GL n ℂ)` (Layer 1), checked on characters:
   `(trace g)² = char(Sym²) g + char(⋀²) g`, i.e. at a diagonal `x`, `(∑ xᵢ)² = h₂(x) + e₂(x)` with
@@ -568,6 +601,10 @@ assertion from a hive coefficient formula.
   them. This exercises the rational branch of `gtBasis`, which the polynomial `(2,1,0)` example does not.
 
 ## Ordering
+
+The ordinary endomorphism-monoid extension example uses only native all-module
+colimits and pointwise Kan extensions; none of Layers1–6 is its prerequisite.
+Its existence statement supplies no finite-dimensional polynomial extension.
 
 Layer 0 (the groups and the standard representation) is the foundation and comes first; its rational/
 polynomial distinction and complete reducibility are used everywhere. Layer 1 (tensor, symmetric, exterior
