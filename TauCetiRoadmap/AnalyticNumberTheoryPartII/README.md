@@ -38,11 +38,11 @@ Mathlib `HeckeCoset`, `HeckeCosetModule` and `IsHeckeTriple.of_diagonal` supply 
 
 ### From AnalyticNumberTheoryPartI
 
-Consume [AnalyticNumberTheoryPartI, Exact supplier contracts](../AnalyticNumberTheoryPartI/README.md#exact-supplier-contracts) for arithmetic Dirichlet series, Hecke and Dedekind functions, GlobalNumberFields, Tate integrals, class fields and contours. Its Layer 0 supplies quantitative prime estimates, §0.23a the normalized slit-plane Gamma logarithm and Stieltjes remainder with its derivatives, §2.5 Dedekind continuation, §2.15 bounded-degree residue estimates, §3.1 divisor subpower bounds, §3.23 the second moment under its `BBRFiniteInput` hypothesis, and §3.24 the unconditional fourth moment. These are specified analytic interfaces with their stated uniformity, not arbitrary function-valued data.
+Consume [AnalyticNumberTheoryPartI, Exact supplier contracts](../AnalyticNumberTheoryPartI/README.md#exact-supplier-contracts) for arithmetic Dirichlet series, Hecke and Dedekind functions, GlobalNumberFields, class fields and contours. Its Layer 0 supplies quantitative prime estimates, §0.23a the normalized slit-plane Gamma logarithm and Stieltjes remainder with its derivatives, §2.5 Dedekind continuation, §2.15 bounded-degree residue estimates, §3.1 divisor subpower bounds, §3.23 the second moment under its `BBRFiniteInput` hypothesis, and §3.24 the unconditional fourth moment. These are specified analytic interfaces with their stated uniformity, not arbitrary function-valued data.
 
 ### From AutomorphicLFunctionsAndLocalFactors
 
-Consume [AutomorphicLFunctionsAndLocalFactors AL.0–AL.1](../AutomorphicLFunctionsAndLocalFactors/README.md#layer-al0-local-and-adelic-fourier-analysis), with the measure and continuation contracts in AnalyticNumberTheoryPartI, Exact supplier contracts. The additional unbounded-coordinate estimate needed for cubic convergence is [§5.3a][R130].
+Consume [AutomorphicLFunctionsAndLocalFactors AL.0–AL.1](../AutomorphicLFunctionsAndLocalFactors/README.md#layer-al0-local-and-adelic-fourier-analysis), with the measure and continuation contracts in AnalyticNumberTheoryPartI, Exact supplier contracts. The additional unbounded-coordinate estimate needed for cubic convergence is [§5.3a][R130]. Consume [Hecke continuation and functional equation](../AutomorphicLFunctionsAndLocalFactors/README.md#hecke-l-functional-equation) and [The global standard L-function](../AutomorphicLFunctionsAndLocalFactors/README.md#global-godement-jacquet) at `n=1` for the arbitrary-test-function Hecke families and their residues. Finite-order and algebraic normalizations use ArithmeticGaloisRepresentations §2.7’s [Hecke zeta-integral comparison](../ArithmeticGaloisRepresentations/README.md#hecke-zeta-integral-comparison), supplied there from LFunctions.
 
 Consume the same AL.0 vector-space comparison for the Fourier transform and Poisson formula on `F⁴`, including completed archimedean tensors and continuity on finite-place levels. Change the coordinate pairing to the binary-cubic alternating pairing by its explicit invertible matrix and the self-dual measure comparison below. Singular-orbit distributions and unbounded positive-coordinate estimates belong to Layer 5; compact-uniform Poisson alone does not supply them.
 
@@ -64,7 +64,7 @@ See [Helffer][R126], §7.6, p.56 (Friedrichs realization, `H²` domain and compa
 
 ### Further input from AutomorphicSpectralTheory
 
-Consume [AutomorphicSpectralTheory, §§1.2–1.5][R34]: general connected reductive groups over number fields, convergent chamber, Weyl intertwiners and constant terms with compatible measures. Its classical level-one specialization is not the general-number-field Fourier bound used here. The [§5.21g](#s5-21g) supplies that extra calculation, from the imported general Eisenstein construction, AL.0 Fourier and Tate integrals. It fixes `t(g)=|t₁/t₂|_A^(1/2)`, so the constant term is `t(g)^z+t(g)^(2−z)Z_F(z−1)/Z_F(z)`. No extension of AS is presumed.
+Consume [AutomorphicSpectralTheory, §§1.2–1.5][R34]: general connected reductive groups over number fields, convergent chamber, Weyl intertwiners and constant terms with compatible measures. Its classical level-one specialization is not the general-number-field Fourier bound used here. The [§5.21g](#s5-21g) supplies that extra calculation, from the imported general Eisenstein construction, AL.0 Fourier and the supplied rank-one Hecke families. It fixes `t(g)=|t₁/t₂|_A^(1/2)`, so the constant term is `t(g)^z+t(g)^(2−z)Z_F(z−1)/Z_F(z)`. No extension of AS is presumed.
 
 ### From UniversalCovers
 
@@ -163,7 +163,7 @@ Start with absolutely convergent Lerch and complex-Hurwitz series, then specify 
 
 ### 4.1 Lerch transcendent
 
-For `|z|<1`, `Re c>0` and `s∈C`, `Φ(z,s,c)=Σ_{n≥0}z^n exp(−s Log(n+c))`, using the principal logarithm. This series defines a jointly holomorphic function on that domain. At `z=1` the separate Hurwitz series requires `Re s>1`. The representative convergent series is `lerchSeries`; `expZeta_eq_lerchSeries` records the `c=1` exponential-zeta comparison.
+For `|z|<1`, `Re c>0` and `s∈C`, `Φ(z,s,c)=Σ_{n≥0}z^n exp(−s Log(n+c))`, using the principal logarithm. This series defines a jointly holomorphic function on that domain. At `z=1` the separate Hurwitz series requires `Re s>1`. The representative convergent series is `lerchSeries`; `lerchSeries_holomorphic` and `lerchSeries_summable` state its joint holomorphy and absolute convergence. `expZeta_eq_lerchSeries` records the `c=1` exponential-zeta comparison.
 
 On `|z|<1`, `Re c>0` use `exp(−sLog(n+c))`; the half-plane excludes zero/cuts. Keep `n=0` even at `z=0 (z⁰=1)`. The compact-series lemma proves absolute convergence and joint holomorphy for arbitrary `s`. Reindex for the c shift and periodic/polylog prefactor. For `Im a>0` compare the a-series directly. Outside this domain the totalized sum specifies no continuation.
 
@@ -190,7 +190,7 @@ See [94][R94], Introduction (1.1); §3.3 pp.24–25; Theorem5.1 proof p.36.
 
 ### 4.2 Complex-parameter Hurwitz series
 
-For `Re c>0` and `Re s>1`, `ζ_H(s,c)=Σ_{n≥0}exp(−sLog(n+c))`, with the principal logarithm. It is the `z=1` series, not an unqualified value of the general Lerch continuation on its omitted `z=1` stratum. The representative series is `complexHurwitzSeries`; `complexHurwitzSeries_one` gives the Riemann specialization and `complexHurwitzSeries_ofReal` gives the real circle-parameter comparison.
+For `Re c>0` and `Re s>1`, `ζ_H(s,c)=Σ_{n≥0}exp(−sLog(n+c))`, with the principal logarithm. It is the `z=1` series, not an unqualified value of the general Lerch continuation on its omitted `z=1` stratum. The representative series is `complexHurwitzSeries`; `complexHurwitzSeries_summable` and `complexHurwitzSeries_shift` state its absolute convergence and shift. `complexHurwitzSeries_one` gives the Riemann specialization and `complexHurwitzSeries_ofReal` gives the real circle-parameter comparison.
 
 On `Re c>0`, `Re s>1` the compact-uniform p-series majorant proves convergence. Reindex for the c shift; real `0<c≤1` gives circle Hurwitz, with its endpoint representative.
 
@@ -225,7 +225,8 @@ The product factors are `1+O(|z|³/k²)` on compacts, giving an entire G with th
 - `barnesG_one`: `G(1) = 1`.
 - `barnesG_natCast`: `G(n) = Π_{k=1}^{n−2} k!` for `n ≥ 2`.
 - `differentiable_barnesG`: G is entire.
-- `barnesG_eq_zero_iff`: `G(z) = 0` iff `z = −n` for some `n ≥ 0`, and the zero there has order `n + 1`.
+- `barnesG_eq_zero_iff`: `G(z) = 0` iff `z = −n` for some `n ≥ 0`.
+- `barnesG_order_neg_nat`: The zero at `−n` has order `n + 1` for every `n ∈ ℕ`.
 - `logDeriv_barnesG_add_one`: For z not a nonpositive integer, `G′(z + 1)/G(z + 1) = ln(2π)/2 + 1/2 − z + z ψ(z)`, where `ψ = Γ′/Γ`. At `z = 0` the removable extension has value `G′(1)/G(1) = ln(2π)/2 − 1/2`; substituting the totalized `ψ(0)` into the first formula is invalid.
 - `barnesG_asymptotic`: For every integer `N≥1` and `0<δ<π`, truncate the displayed sum at `k=N−1`. The remainder `R_N` is analytic on `|arg z|<π` and is `O_(N,δ)(|z|^(−2N))` uniformly as `|z|→∞` in `|arg z|≤π−δ`, for the normalized analytic logarithms. Its derivative is `O_(N,δ)(|z|^(−2N−1))` on each such closed sector.
 - `barnesG_remainder_bound`: `|R_N(z)|≤|B_(2N+2)| sec(arg(z)/2)^(2N+1) / [2N(2N+1)(2N+2)|z|^(2N)]` for `N≥1`, `z≠0`, `|arg z|<π`.
@@ -276,7 +277,7 @@ See [AnalyticNumberTheoryPartI §0.23a](../AnalyticNumberTheoryPartI/README.md#s
 
 ### 4.4 Lerch differential equation
 
-`(z∂_z+c)∂_cΦ(z,s,c)=−sΦ(z,s,c)` on the initial domain and each matched continued branch. The right-hand side has a minus sign.
+`(z∂_z+c)∂_cΦ(z,s,c)=−sΦ(z,s,c)` on the initial domain and each matched continued branch. The right-hand side has a minus sign. `lerchSeries_pde` states the initial-domain identity.
 
 Apply the lowering relation with s+1 to the raising relation. Both derivative identities retain the same branch.
 
@@ -294,7 +295,7 @@ See [95][R95], §2 p.4 (2.1) and §5 pp.20–22 termwise derivative proof.
 
 <a id="s4-4b"></a>
 
-**§4.4b Lerch lowering relation.** On the initial domain, `z∂_zΦ(z,s,c)+cΦ(z,s,c)=Φ(z,s−1,c)`. For an already constructed continuation it transports along matching lifted paths by uniqueness.
+**§4.4b Lerch lowering relation.** `lerchSeries_lowering` states the initial-domain identity. On that domain, `z∂_zΦ(z,s,c)+cΦ(z,s,c)=Φ(z,s−1,c)`. For an already constructed continuation it transports along matching lifted paths by uniqueness.
 
 Differentiate termwise using compact uniform convergence. Combine n+c in the numerator, then continue the identity with its `s−1` path.
 
@@ -302,7 +303,7 @@ See [94][R94], Theorem2.3 p.13 (2.3), §4 Theorem4.1 and proof p.33.
 
 <a id="s4-4c"></a>
 
-**§4.4c Lerch raising relation.** On the initial domain, `∂_cΦ(z,s,c)=−sΦ(z,s+1,c)`, For an already constructed continuation the identity transports along the matching s+1 path by uniqueness.
+**§4.4c Lerch raising relation.** `lerchSeries_raising` states the initial-domain derivative. On that domain, `∂_cΦ(z,s,c)=−sΦ(z,s+1,c)`, For an already constructed continuation the identity transports along the matching s+1 path by uniqueness.
 
 Differentiate `exp(−sLog(n+c))` termwise under compact convergence. Use the same branch for n+c in the s and s+1 terms.
 
@@ -324,7 +325,7 @@ See [94][R94], Theorems2.1–2.2 p.12; complete selected §3.2–§3.5 pp.21–3
 
 <a id="s4-5a"></a>
 
-**§4.5a Lerch shift identity.** On the initial convergence domain, `Φ(z,s,c)=c^−s+zΦ(z,s,c+1)`. For an already constructed analytic continuation it transports along matching lifted paths, including the shifted c path, by uniqueness.
+**§4.5a Lerch shift identity.** `lerchSeries_shift` states the initial-domain identity. On the initial convergence domain, `Φ(z,s,c)=c^−s+zΦ(z,s,c+1)`. For an already constructed analytic continuation it transports along matching lifted paths, including the shifted c path, by uniqueness.
 
 Separate `n=0` and reindex `n≥1` in the absolutely convergent series. Continue both sides along the same lifted c shift, keeping its branch data.
 
@@ -397,7 +398,7 @@ See [95][R95], Theorem4.5 (4.11) pp.13–14, negative-imaginary cut convention; 
 
 ### 4.6 Nonpositive Lerch special values
 
-For `m≥0`, `Φ(z,−m,c)=(z∂_z+c)^m(1/(1−z))`, a rational function of z,c with poles only at `z=1`. It extends in c across all integers and has zero monodromy. For `m=1` it equals `c/(1−z)+z/(1−z)²`.
+For `m≥0`, `Φ(z,−m,c)=(z∂_z+c)^m(1/(1−z))`, a rational function of z,c with poles only at `z=1`. It extends in c across all integers and has zero monodromy. For `m=1` it equals `c/(1−z)+z/(1−z)²`; `lerchSeries_order_neg_one` states this on the initial domain.
 
 Use the lowering relation repeatedly from `s=0` on `|z|<1`. Inductively differentiate the rational function, then continue it as a single-valued function; no limit `z→1` is asserted.
 
@@ -409,7 +410,7 @@ See [94][R94], §5 Theorem5.1 and complete recurrence proof p.36, (5.2)–(5.5).
 
 <a id="s4-6a"></a>
 
-**§4.6a Lerch at order zero.** `Φ(z,0,c)=1/(1−z)` for `|z|<1`, `Re c>0`.
+**§4.6a Lerch at order zero.** `lerchSeries_order_zero` states `Φ(z,0,c)=1/(1−z)` for `|z|<1`, `Re c>0`.
 
 Unfold the stated definition and apply the finite algebraic, positivity or convergent geometric-series computation.
 
@@ -496,7 +497,7 @@ See [95][R95], Theorem2.1 (2.7)–(2.10) p.5; complete §3 pp.8–10, Lemma3.1 a
 
 ### 4.11 Lerch boundary degeneration
 
-For `Re c>0` and `Re s>1`, the principal radial limit `Φ(r,s,c)` as r↑1 equals the convergent Hurwitz series. This limit is not an analytic continuation theorem across the entire `z=1` stratum for all `s`; for `s=0`, `Φ(r,0,c)=1/(1−r)` diverges.
+For `Re c>0` and `Re s>1`, the principal radial limit `Φ(r,s,c)` as r↑1 equals the convergent Hurwitz series, as stated by `lerchSeries_radial_limit`. This limit is not an analytic continuation theorem across the entire `z=1` stratum for all `s`; for `s=0`, `Φ(r,0,c)=1/(1−r)` diverges.
 
 For `Re c>0`, `Re s>1`, bounded principal arguments and `|n+c|≥n+Re c` give a summable `C(n+1)^−Re s` majorant. `Since0≤r^n≤1` and `r^n→1`, counting-measure dominated convergence gives Hurwitz. At `s=0,1/(1−r)→∞` excludes unrestricted degeneration.
 
@@ -1275,7 +1276,7 @@ at a complex place,
 `K_C(z,u)=(2π)^z Γ(z)^(−1)|u|^(z−1) K_(z−1)(4π|u|)`.
 Here the complex `|u|` in the Bessel expression is ordinary magnitude; the local adelic norm is its square. Evaluate these integrals first in the chamber by Gamma–Laplace and Fourier, then continue in `Re z>1`. Repeated integration by parts in the archimedean Fourier integrals bounds `K_∞` by `|u|_∞^(−ℓ)(1+|z|)^ℓ`. For each fixed strip `1<Re z≤M`, the finite Euler factors give `|1/ζ_F(z)|≤ζ_F(Re z)≤1+C_F/(Re z−1)≤C_(F,M)/(Re z−1)`. The last constant depends on `M`; it is not a valid field-only bound on the full half-plane. Regroup the rational frequency sum by integral ideals, using the different and `|v|_A=|v|_∞/N(id(v))`. The remaining sum is `ζ_F(Re z−1+ℓ)ζ_F(ℓ)≤ζ_F(ℓ)²`. This proves the precise t exponent and the bound on each such vertical strip, which is the stated form. A constant uniform as `Re z→∞` cannot be obtained this way, since `ζ_F(σ)≪1/(σ−1)` fails for large `σ`; no consumer needs it. Compare Wright Lemma6.2 and the proof of Lemma6.3, pp.525–526; the constant term, residue and Bessel normalizations are Lemma6.1, pp.523–525.
 
-API: `wrightE.constant_term`, `.nonconstant_fourier`, `.residue_two`, `.fourier_decay`, `.smoothed_weight_bound`. Checks: for the same torus input `t₁=2,t₂=1/2`, `sqrt(|t₁/t₂|)=2`, its square is 4, and squaring the raw ratio gives 16; mirror this with the adelic `t(g)` adapter. At `t=2,z=2` the first constant-term monomial is4, not2; writing `r=|t₁/t₂|` gives `r^(z/2)`, since `r=t²`. Over Q the Bessel argument `is2π|u|`; a complex place `has4π|u|`. For `ℓ=2` and `Re z>1` the ideal sum converges; `ℓ=1` is excluded. The pole at `z=2` is in the constant term, while `E′` stays holomorphic. *Needs:* AutomorphicSpectralTheory §§1.2–1.5; AL.0 local Fourier and AL.1 Tate integrals; [§5.3b](#s5-3b); [§5.3a][R130]; [§4.5c][R327].
+API: `wrightE.constant_term`, `.nonconstant_fourier`, `.residue_two`, `.fourier_decay`, `.smoothed_weight_bound`. Checks: for the same torus input `t₁=2,t₂=1/2`, `sqrt(|t₁/t₂|)=2`, its square is 4, and squaring the raw ratio gives 16; mirror this with the adelic `t(g)` adapter. At `t=2,z=2` the first constant-term monomial is4, not2; writing `r=|t₁/t₂|` gives `r^(z/2)`, since `r=t²`. Over Q the Bessel argument `is2π|u|`; a complex place `has4π|u|`. For `ℓ=2` and `Re z>1` the ideal sum converges; `ℓ=1` is excluded. The pole at `z=2` is in the constant term, while `E′` stays holomorphic. *Needs:* AutomorphicSpectralTheory §§1.2–1.5; AL.0 local Fourier and AL.2 rank-one Hecke theory; [§5.3b](#s5-3b); [§5.3a][R130]; [§4.5c][R327].
 
 <a id="s5-21h"></a>
 
@@ -1295,29 +1296,35 @@ See [103][R103], Lemma 5.1, p.521.
 
 <a id="s5-21j"></a>
 
-**§5.21j Singular distributions from Tate integrals.** `T1Φ(t)=Φ(0,0,0,t)`, `T2Φ(t)=integral_A Φ(0,0,t,u)du` are Schwartz–Bruhat functions. Their Tate zeta integrals converge normally for `Re z>1`, continue with simple poles at 0,1, and have residues `−Φ(0)`, integral `Φ(0,0,0,u)du` for `T1` and `−integral Φ(0,0,0,u)du`, integral `Φ(0,0,t,u)dtdu` for `T2`. Apply this to `MωΦ` with twists `ω~` inverse and `ω~` to obtain `Σ1(ω,Φ,z)`, `Σ2(ω,Φ,z)`. The residue distributions used globally are `Σ1` at `z=2/3` and `Σ2` at `z=−1`.
+**§5.21j Singular restrictions and Hecke comparisons.** Construct the Schwartz–Bruhat restrictions `T1Φ(t)=Φ(0,0,0,t)` and `T2Φ(t)=integral_A Φ(0,0,t,u)du`. Apply the supplied rank-one Hecke families to `T1(MωΦ)` and `T2(MωΦ)`, with twists `ω~` inverse and `ω~`, to define `Σ1(ω,Φ,z)` and `Σ2(ω,Φ,z)`. The cubic residue distributions use `Σ1` at `z=2/3` and `Σ2` at `z=−1`. Prove the two partial-transform identities of Wright Proposition 5.2 for the binary-cubic alternating pairing.
 
-Partial evaluation and partial integration preserve the Schwartz class. Use the Tate continuation/residue supplier, rather than a new one-dimensional zeta theory. Fourier inversion on the alternating pairing supplies the two partial-transform identities of Proposition `5.2`.
+Partial evaluation and partial integration preserve the Schwartz class. The continuation and residues of the one-dimensional families are consumed from AutomorphicLFunctionsAndLocalFactors AL.2's `n=1` Godement–Jacquet contract, with the Hecke normalizations in Exact supplier contracts. Fourier inversion on the alternating pairing supplies the local comparison identities.
 
-See [103][R103], Propositions 5.1–5.3 and Lemma 5.2, pp.520–522.
+**Checks.**
+
+- For `Φ(x)=φ1(x1)φ2(x2)φ3(x3)φ4(x4)`, `T1Φ(t)=φ1(0)φ2(0)φ3(0)φ4(t)`; restriction retains the third coordinate's value at zero.
+- On the same tensor, `T2Φ(t)=φ1(0)φ2(0)φ3(t) integral_A φ4(u)du`; the fourth coordinate contributes its integral rather than its value at zero.
+- If `φ1(0)=0`, both restrictions vanish. If only `integral_A φ4=0`, `T2Φ` vanishes while `T1Φ` need not vanish.
+
+See [103][R103], Propositions 5.1–5.3 and Lemma 5.2, pp.520–522. *Needs:* AutomorphicLFunctionsAndLocalFactors AL.0 and AL.2 at `n=1`; [§5.21i](#s5-21i).
 
 <a id="s5-21k"></a>
 
-**§5.21k Unfold the triple-root orbit.** The nonzero triple-root locus is parametrized by cosets in GL2(F)/B(F) together with a nonzero scalar `α` on the line represented by `(0,0,0,α)`. The Borel preserves that line but is not the stabilizer of each fixed nonzero vector. Summing over `α` makes the expression independent of the coset representatives. On the determinant-one quotient its smoothed integral unfolds to the idele/Tate expression in `Σ1(ω,Φ,(z+1)/3)` and `Σ1(ω,Φ,(3−z)/3)`, with the factor `1/3` from the cubic torus map. Compact averaging and rational reindexing preserve the chosen measures.
+**§5.21k Unfold the triple-root orbit.** The nonzero triple-root locus is parametrized by cosets in GL2(F)/B(F) together with a nonzero scalar `α` on the line represented by `(0,0,0,α)`. The Borel preserves that line but is not the stabilizer of each fixed nonzero vector. Summing over `α` makes the expression independent of the coset representatives. On the determinant-one quotient its smoothed integral unfolds to the rank-one Hecke expression in `Σ1(ω,Φ,(z+1)/3)` and `Σ1(ω,Φ,(3−z)/3)`, with the factor `1/3` from the cubic torus map. Compact averaging and rational reindexing preserve the chosen measures.
 
-Parametrize triple-root lines by GL2(F)/B(F) and sum all nonzero rational scalars on each line. Borel rescaling permutes this scalar sum; it does not fix each vector. Unfold the rational orbit, telescope the `F×` sum against the idele quotient and substitute the cubic torus variable. The two Eisenstein constant terms give the two displayed Tate parameters.
+Parametrize triple-root lines by GL2(F)/B(F) and sum all nonzero rational scalars on each line. Borel rescaling permutes this scalar sum; it does not fix each vector. Unfold the rational orbit, telescope the `F×` sum against the idele quotient and substitute the cubic torus variable. The two Eisenstein constant terms give the two displayed Hecke parameters.
 
 See [103][R103], Proposition 6.4 and proof, pp.528–530.
 
 <a id="s5-21l"></a>
 
-**§5.21l Triple-root contour residues.** Modulo a function holomorphic for `Rew>1`, the principal-character triple-root smoothed term is `ρ0ψ(2)Σ1(Φ)/[3(w−2)] + φ_F(3)ψ(3) integral(MΦ)(0,0,0,t)dt/(w−3)`. The `Σ1` symbol denotes the continued Tate restriction at `2/3`. Vertical contour bounds are those of the Tate and rank-one smoothing inputs.
+**§5.21l Triple-root contour residues.** Modulo a function holomorphic for `Rew>1`, the principal-character triple-root smoothed term is `ρ0ψ(2)Σ1(Φ)/[3(w−2)] + φ_F(3)ψ(3) integral(MΦ)(0,0,0,t)dt/(w−3)`. The `Σ1` symbol denotes the supplied Hecke family evaluated at `2/3`. Vertical contour bounds are those of the rank-one Hecke and smoothing inputs.
 
-Move each Tate-parameter contour into the strip where its only crossed poles are known. Collect the `z=2` Eisenstein residue and `z=3` Tate residue; retain the cubic Jacobian `1/3`.
+Move each Hecke-parameter contour into the strip where its only crossed poles are known. Collect the `z=2` Eisenstein residue and `z=3` Hecke-family residue; retain the cubic Jacobian `1/3`.
 
 <a id="s5-21m"></a>
 
-**§5.21m Unfold the double-root orbit.** The double-root orbit is represented by `(0,0,α,0)`. After unfolding and a Schwartz lattice majorant, the nonconstant Eisenstein contribution is holomorphic for `Rew>1`. The remaining two contours have Tate parameters `−1−z` and `z−3`, exactly as in the last display of p.531.
+**§5.21m Unfold the double-root orbit.** The double-root orbit is represented by `(0,0,α,0)`. After unfolding and a Schwartz lattice majorant, the nonconstant Eisenstein contribution is holomorphic for `Rew>1`. The remaining two contours have Hecke parameters `−1−z` and `z−3`, exactly as in the last display of p.531.
 
 Unfold the Borel orbit and its two determinant-one idele variables. Use Lemma `6.3` with decay exponent `N>1` and the Schwartz bound with `A>N[F:Q]` to dominate the nonconstant contribution. Telescope the rational `α` sum and substitute the remaining additive coordinate.
 
@@ -1327,7 +1334,7 @@ See [103][R103], Proposition 6.5 and proof, pp.530–532.
 
 **§5.21n Double-root contour residues.** Modulo a function holomorphic for `Rew>1`, the principal double-root term is `ρ0ψ(2)Σ2(Φ)/(w−2) − φ_F(3)ψ(3)integral(MΦ)(0,0,0,t)dt/(w−3) + φ_F(4)ψ(4)integral(MΦ)(0,0,t,u)dtdu/(w−4)`. Here `Σ2` is evaluated at `−1`; these three residues use the same normalized measures as the triple-root term.
 
-Shift the two unfolded Tate contours and collect the poles at the displayed parameters. The first residue uses Sigma2(-1); the remaining residues are the one- and two-variable restriction integrals. Preserve the signs from opposite contour shifts and the common compact average.
+Shift the two unfolded Hecke contours and collect the poles at the displayed parameters. The first residue uses Sigma2(-1); the remaining residues are the one- and two-variable restriction integrals. Preserve the signs from opposite contour shifts and the common compact average.
 
 See [103][R103], Proposition 6.5 conclusion, p.532.
 
@@ -1926,7 +1933,7 @@ See [114][R114], Neshveyev 2000 product-density formula, p.2.
 
 ### 6.3 Eisenstein recurrence polynomials
 
-Define `P0=0`, `P1=X` and `Pk+1=(X²−1/4)P′k/k` for `k≥1` in Q[X]. For `k≥1`, Pk is monic of degree `k`. The derivative recurrence comes from the normalized cotangent identity; Pk(0) is the prescribed value at a degenerate lattice.
+Define `P0=0`, `P1=X` and `Pk+1=(X²−1/4)P′k/k` for `k≥1` in Q[X]. For `k≥1`, Pk is monic of degree `k`. The representative family is `arithmeticEisensteinPolynomial`; `arithmeticEisensteinPolynomial_recurrence`, `arithmeticEisensteinPolynomial_monic` and `arithmeticEisensteinPolynomial_degree` state these properties. The derivative recurrence comes from the normalized cotangent identity; Pk(0) is the prescribed value at a degenerate lattice.
 
 Define recursively in Q[X]. The leading derivative coefficient k cancels division by `k`, preserving monicity while increasing the degree by one.
 
@@ -3401,7 +3408,7 @@ The completed zero-temperature comparison is built after the core Gibbs construc
 
 ### 6.39 The partition function is the Riemann zeta function
 
-For `β>1`, the diagonal sum of `e^(−βH)` in the positive-integer basis is `Σ k^(−β)=ζ(β)`. The positive scalar series diverges for `β≤1`. The state-classification theorem, rather than this scalar identity alone, establishes the phase transition at `β=1`.
+For `β>1`, the diagonal sum of `e^(−βH)` in the positive-integer basis is `Σ k^(−β)=ζ(β)`. The scalar series comparison is `spectralZetaSeries_nat` at `s=β`. The positive scalar series diverges for `β≤1`. The state-classification theorem, rather than this scalar identity alone, establishes the phase transition at `β=1`.
 
 Assume `β ∈ ℝ`; use the diagonal sum in the specified basis `(ε_k)`.
 
