@@ -926,7 +926,8 @@ work. No unmerged mathlib branch or external formalization is a runtime dependen
   designated vertices for the rooted form. Theorems 9.1.3–9.1.4 are the dense
   varying-parameter laws: the fixed-rank condition of 7.2 sharpens the hypothesis of
   Theorem 9.1.3, and the all-rank condition is that of Theorem 9.1.4.
-- B. Bollobás, *Random Graphs*, 2nd ed., Cambridge University Press, 2001.
+- B. Bollobás, *Random Graphs*, 2nd ed., Cambridge Studies in Advanced Mathematics 73,
+  Cambridge University Press, 2001.
   Theorems 1.21–1.22 give Poisson convergence from convergence of factorial moments, the
   criterion of 11.1. Theorem 4.1 gives the Poisson limit for copies of a fixed strictly
   balanced graph at its threshold, and Corollary 4.9 the cycle case at $`p\sim c/n`$; for
