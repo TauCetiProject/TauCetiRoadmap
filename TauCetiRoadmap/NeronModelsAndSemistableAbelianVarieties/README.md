@@ -724,7 +724,9 @@ exactly one isomorphism `e : M.model ≅ N.model` in `Over S` with
 (Bosch–Lütkebohmert–Raynaud, §1.2, Proposition 2(a), p. 13). The proof extends each marking to the
 other model by 1.3, uses `extend_inverse_model` for the inverse identities and `hom_ext` for
 uniqueness. Changing either marking changes the compatibility equation, so an unmarked statement
-"any two Néron models are isomorphic" is weaker and is not what later layers use. For models over
+"any two Néron models are isomorphic" is weaker. The graph and torsion interfaces of
+Layer 4 use extension of homomorphisms from 1.3 and 1.5 directly; they impose no separate
+marked-uniqueness hypothesis on their consumers. For models over
 `Spec R` of a discrete valuation ring, Tau Ceti's `TauCeti.Model.subsingleton_iso` gives the
 uniqueness half for any separated model; the existence half is new. *Needs:* 1.3.
 
@@ -2035,6 +2037,93 @@ truncated natural subtraction; they also imply `#V ≤ #E + #components`.
 - The empty graph has both ranks and component count zero. Its general formula is `0 = 0`;
   vacuous pairwise reachability does not give the connected formula `0 = 1`.
 
+<a id="weighted-graph"></a>
+
+**Weighted graphs and their discriminant groups.** Define `WeightedGraph V E` for finite
+vertex and edge types, with endpoint maps `src, tgt : E → V` and positive integral
+`thickness : E → ℕ+`. Its `WeightedGraph.H1` is `DualGraph.cycleLattice src tgt`;
+`WeightedGraph.gram` is the restriction of `DualGraph.edgeForm thickness` to this lattice,
+and `WeightedGraph.componentGroup` is `Module.Dual ℤ H1 ⧸ LinearMap.range gram`.
+Prove `WeightedGraph.gram_positive`, strict positivity on nonzero cycles,
+`WeightedGraph.gram_injective` and `WeightedGraph.componentGroup_finite`, including empty
+and disconnected graphs. These are geometry-free objects; their geometric identification
+is 4.4–4.5 (Hatcher, §2.2, pp. 140–141 and Chapter 3, p. 187; SGA 7 I, Exposé IX,
+12.4–12.5, pp. 473–475).
+
+Define `WeightedGraph.bipartiteDouble` using vertices `V ⊕ V`, the same edges and
+thicknesses, and endpoints `inl ∘ src`, `inr ∘ tgt`. Prove
+`WeightedGraph.mem_bipartiteDouble_H1`: an edge assignment belongs to its cycle lattice
+exactly when both endpoint pushforwards vanish separately. This is an application of
+signed incidence on the disjoint vertex sets, not an identification with `H1` of the
+original graph. The double is used when the geometric fibre has two labelled families
+of components; a graph identification with that fibre is required. This interface follows
+the geometry-free graph and torsion organization of the Imperial College London FLT project.
+
+**Checks.**
+
+- One vertex and one loop of thickness `n > 0` have `H1 = ℤ`, Gram map `[n]` and
+  component group `ℤ/n`; the bipartite double has one edge between two distinct vertices
+  and zero cycle lattice (`WeightedGraph.bipartiteDouble_single_loop`). The two
+  constructions cannot be interchanged.
+- Two parallel edges from one vertex to another, of thicknesses `a,b`, give Gram map
+  `[a+b]`; two endpoint maps to a singleton give the same augmentation kernel in the double.
+- A tree, or a graph with no vertices and no edges, has zero `H1` and trivial component
+  group. Disjoint unions give direct sums of lattices and component groups.
+- Three cyclically oriented edges forming a triangle have ordinary cycle `(1,1,1)`;
+  neither endpoint pushforward vanishes. Positivity of thickness is essential to finite
+  cokernel: a zero-weight loop would give the infinite quotient `ℤ`.
+
+<a id="hecke-family"></a>
+
+**Hecke families and adjoint functoriality.** Define `HeckeFamily` on a weighted graph:
+for an index type of places, commuting integral endomorphisms of the edge module and of
+the vertex module, together with a finite exceptional set `S`. Away from `S`, the
+endomorphisms commute with signed incidence. In the bipartite presentation require
+commutation with each endpoint pushforward and its corresponding vertex endomorphism.
+The induced endomorphisms on `H1` consequently commute. At exceptional indices an action
+on `H1` requires an explicit stability law; no action is supplied by a zero default.
+
+For weighted graphs `G,H` and lattice maps `a : G.H1 → H.H1`, `b : H.H1 → G.H1`
+satisfying `gram_H(a x,y) = gram_G(x,b y)`, prove
+`WeightedGraph.gram_adjoint_range`: `b.dualMap` carries `range gram_G` into
+`range gram_H`. It therefore induces a map `G.componentGroup → H.componentGroup`;
+prove its identity, composition and quotient-projection formulas. This supplies the
+component action from an operator together with its adjoint, including the transpose
+Hecke action, rather than presuming self-adjointness. The algebra is the adjunction
+identity; its geometric instances use SGA 7 I, Exposé IX, 10.2.6–10.2.8, p. 441,
+and 4.3, 4.6, 6.1. No automorphic Hecke algebra is defined here.
+
+**Checks.**
+
+- If both endpoint pushforwards of `c` vanish and each intertwines the edge operator,
+  both pushforwards of its image vanish; commuting edge operators give commuting restrictions.
+- For rank-one forms `[n]` and `[mn]`, the pair `a = 1`, `b = m` is adjoint and the
+  induced component map is multiplication by `m` from `ℤ/n` to `ℤ/(mn)`.
+- A commuting edge operator alone need not preserve cycles: on two parallel edges,
+  `diag(1,2)` takes `(1,−1)` to `(1,−2)`. Stability at an exceptional index is substantive.
+
+<a id="graph-matching"></a>
+
+**Matchings.** Define `Matching` between two `HeckeFamily` objects to consist of edge
+and vertex bijections preserving both endpoints and thickness, with the induced coordinate
+maps intertwining the edge and vertex actions outside a specified finite set containing
+the two exceptional sets. In a bipartite presentation preserve each labelled vertex family.
+Prove that it gives integral isometries of `H1`, hence isomorphisms of component groups,
+intertwining the induced Hecke actions wherever the adjoint families also match.
+Prove identity, inverse and composition with exceptional sets enlarged by union. At an
+excluded index no intertwining is inferred. These are reindexing and quotient consequences
+of the weighted form and the preceding adjunction identity (Hatcher, §2.2, pp. 140–141;
+SGA 7 I, Exposé IX, 10.2.6–10.2.8 and 12.5).
+
+**Checks.**
+
+- Swapping two parallel edges of equal thickness gives an isometry, acting by `−1` on
+  their rank-one cycle lattice and component group.
+- A bijection changing thickness `2` to `3` on a loop is not a matching: its discriminant
+  groups have different orders.
+- Matching actions away from one place gives no comparison at that place; composing
+  matchings retains the union of their exceptional sets.
+
 ### 4.3 The integral monodromy pairing
 
 Let `R` be henselian and `A` semistable, with toric character lattices `X_A := X^*(T_A)` and
@@ -2209,7 +2298,12 @@ sign of both coordinates and preserves the form (SGA 7 I, Exposé IX, 12.4–12.
 For a stable model whose node is `xy = π^m` with `m > 1` the regular resolution replaces the
 node by a chain of `m − 1` rational curves, and the formula holds with edge length `m`; this
 weighted form is derived through the subdivision comparison with the regular model
-(StableReduction Layer 4). In Lean the weighted form is `DualGraph.edgeForm len`, with
+(StableReduction Layer 4). The weighted graph of 4.2 packages these endpoints and positive
+thicknesses; the formula
+identifies its `WeightedGraph.gram` on its ordinary `H1` with `u`. For a supplied bipartite
+fibre identification the same statement uses the double and its joint kernel. Integral
+`Matching` isometries and adjoint pairs transport this identification with their induced
+component maps. In Lean the ambient weighted form is `DualGraph.edgeForm len`, with
 `edgeForm_symm` and `edgeForm_neg_coord`. *Needs:* 4.2, 3.9, 4.3; StableReduction Layer 4.
 
 **Checks.**
@@ -2231,7 +2325,10 @@ Galois module, hence `Φ_A` as a finite étale `k`-group; for every prime `ℓ` 
 is the cokernel of `u♯ ⊗ ℤ_ℓ`, with the `p`-divisible-group description at the residue prime
 (SGA 7 I, Exposé IX, Theorem 11.5, Remark 11.5.2(b) and the opening of 11.6, pp. 455–456). The
 integral statement is the target; a rational isomorphism of lattices says nothing about `Φ`.
-*Needs:* 2.2, 4.3.
+For a Jacobian with the graph identification of 4.4 this identifies `Φ_J(k̄)` with
+`WeightedGraph.componentGroup`, including its adjoint-induced endomorphisms. A bipartite
+double computes this group only with an identification of that double with the geometric
+fibre graph. *Needs:* 2.2, 4.3; 4.2–4.4 for the graph specialization.
 
 **Checks.**
 
@@ -2307,7 +2404,10 @@ components `C_v` with multiplicities `m_v` of greatest common divisor `1`, and i
 `I`. Prove `IntersectionComponentQuotient`: the component group `Φ_J(k)` of the Jacobian is the
 finite group `ker(d : ℤ^V → ℤ) / im(I)` with `d(a) = Σ_v m_v a_v` (SGA 7 I, Exposé IX,
 Theorem 12.1(a)–(d), pp. 465–467, with `d = d^t = 1` from the hypotheses), and that for reduced
-nodal fibres this is the discriminant group of 4.4. The numerical side is StableReduction
+nodal fibres this is `WeightedGraph.componentGroup` of the graph in 4.4, compatibly
+with its adjoint-induced maps. Passing to a bipartite double requires a geometric graph
+identification; arbitrary intersection graphs are retained as ordinary weighted graphs.
+The numerical side is StableReduction
 Layer 6's numerical Picard group `TauCeti.NumericalType.Pic` with its degree map
 `TauCeti.NumericalType.degree` (the quotient by the rows `a_{ij}/w_j` of the weighted
 intersection matrix): the target is the comparison of the kernel of the degree map with `Φ_J(k)`,
@@ -2479,6 +2579,142 @@ ComplexComparisonPartII §C3.2d.2 and §§C3.2f.1–C3.2f.2; StableReduction Lay
 - Over a point with a one-node irreducible fibre the fibre of `Pic⁰_{X/S}` has toric rank `1`;
   a smoothing can have generic toric rank `0`, refuting a definition requiring a global torus
   of constant rank.
+
+### 4.14 Semistable torsion with commuting coefficient actions
+
+<a id="semistable-torsion-datum"></a>
+
+**The torsion datum and specialization laws.** Define `SemistableTorsionDatum` over an
+arbitrary commutative ring `𝕋`, a prime `ℓ`, a henselian discrete valuation field `K`
+of residue characteristic different from `ℓ`, and a finite weighted graph `G` as in 4.2.
+Its data are a finite `𝔽_ℓ`-module `T`, a ring action `𝕋 →+* End_𝔽_ℓ(T)`, a continuous
+Galois action factoring through a finite Galois extension and commuting with `𝕋`,
+`𝕋`-stable subgroups `Tᵗ ⊆ T⁰ ⊆ Tᶠ ⊆ T`, a finite `𝔽_ℓ`-module `U` with
+commuting coefficient and residue-Galois actions, an `𝔽_ℓ`-linear map `T⁰ → U`, an isomorphism
+`Tᵗ ≅ Hom_ℤ(G.H1, μ_ℓ(K̄))`, and an additive specialization homomorphism
+`sp : T^I → G.componentGroup`. Include a residue-Galois action on `G.H1` preserving
+its Gram form, and commuting coefficient actions on the character lattice and its
+adjoint-induced component quotient; the displayed isomorphism carries
+the corresponding contragredient character action. The toric identification is naturally
+twisted: a chosen primitive root identifies its underlying group with
+`Hom_ℤ(G.H1, 𝔽_ℓ)`, but the cyclotomic Galois action remains. The ordinary graph, or a
+geometrically identified bipartite presentation, is part of the datum's parameters.
+
+Define a separate Prop structure `SemistableTorsionLaws` asserting that `Tᶠ = T^I`,
+`ker sp = T⁰`, `image sp = (G.componentGroup)[ℓ]`, and `sp` is Hecke- and
+residue-Galois-equivariant. Its toric isomorphism is decomposition-equivariant and
+`0 → Tᵗ → T⁰ → U → 0` is exact and equivariant for the decomposition group and
+coefficient action. The geometric realization identifies `U` with the `ℓ`-torsion of
+the abelian quotient of the identity fibre. Thus `0 → T⁰ → T^I → Φ[ℓ] → 0` is exact,
+with `Φ = G.componentGroup`.
+Here `Tᶠ` refers to the finite part of the full Néron torsion kernel; `T⁰` is the
+finite part of identity-model torsion constructed in 3.5. At finite level the two
+can differ by `Φ[ℓ]`. Prove functoriality for homomorphisms with the corresponding
+monodromy adjoints and compatibility with changing the finite extension through which
+the action factors. These targets use Conrad, §5, exact sequence (5.1), Lemma 5.2,
+Remark 5.3 and the finite flat subgroups preceding Lemma 5.4, pp. 17–18, and
+SGA 7 I, Exposé IX, §§9.6, 11.5–11.6. *Needs:* 2.1–2.4, 3.5–3.6, 4.2–4.5;
+ArithmeticGaloisRepresentations §§2.1–2.1a, 6.1 for Galois and inertia actions;
+AbelianSchemesAndArithmeticModuli A3 for torsion and quotient group schemes.
+
+**Checks.**
+
+- For good reduction of a positive-dimensional Jacobian, `G.H1 = Φ = Tᵗ = 0` and
+  `T⁰ = Tᶠ = T`. Hence the kernel of `sp` is all of `T`, not the toric subgroup.
+- For a split Tate curve with valuation `n > 0`, `Tᵗ = T⁰ = μ_ℓ`, while
+  `Tᶠ/T⁰ = (ℤ/n)[ℓ]`. If `ℓ ∣ n`, the invariant finite-level torsion has order `ℓ²`;
+  if `ℓ ∤ n`, it has order `ℓ`. Reduction of invariant Tate modules alone misses this jump.
+- For toric rank `1` and abelian rank `1`, `dim Tᵗ = 1`, `dim T⁰ = 3` and `dim T = 4`.
+  The toric subgroup cannot be the specialization kernel in this mixed case.
+- At the residue prime, geometric points and scheme ranks differ already for `μ_p`;
+  this point-module datum requires `ℓ ≠ char k`, whereas 3.5 retains finite flat group schemes.
+
+<a id="semistable-torsion-frobenius"></a>
+
+**Frobenius and good-place laws.** Over finite residue field of cardinality `q_r`,
+with a distinguished element `t_r ∈ 𝕋`, define the separate Prop structure
+`SemistableTorsionFrobeniusLaws`: arithmetic Frobenius acts by `q_r t_r` on `Tᵗ`
+and by `t_r` on `T/Tᵗ`. Its geometric realization requires totally toric reduction,
+the identified action of `t_r` on the character and period lattices, and the equality
+of the character-dual and period actions giving these two formulas. Under those
+hypotheses derive the formulas from the torus twist and the Raynaud lattice quotient
+of 3.13–3.14. They are extra operator comparisons, not consequences of semistability
+for an arbitrary coefficient action. On `T^I/Tᵗ` the quotient formula follows by
+restriction. The source for the modular comparison is Ribet–Stein, §3.9, Lemma 3.17,
+pp. 46–47; the general torus and period description is Conrad, §5, Theorem 5.5,
+pp. 18–20, and SGA 7 I, Exposé IX, §§9.6, 10.2.
+
+For a global datum over a number field, define `SemistableTorsionGoodPlaceLaws` for
+a finite set `S` containing the bad-reduction places and all places above `ℓ`,
+relative to specified integral polynomials `P_v` at `v ∉ S`. The laws assert that
+inertia is trivial and `P_v(F_v) = 0` on `T`; the geometric realization identifies
+`P_v` with the actual good-fibre characteristic polynomial of 5.0b–5.0c. In a weight-two Hecke realization with
+specified `t_v,s_v ∈ 𝕋` and the compatible geometric correspondence identity, its
+Eichler–Shimura specialization is `F_v² − t_v F_v + N(v)s_v = 0` on `T`.
+Trivial determinant character gives `s_v = 1`; it is not imposed on general coefficient
+rings or characters. No Hecke realization or quadratic identity is inferred from a
+bare ring action. The geometric correspondence comparison is supplied by each producer;
+the good-reduction representation comparison is 5.0a–5.0c here (Ribet–Stein,
+Chapter 5 by B. Conrad, Theorem 5.12, p. 73, and §5.3, Theorem 5.16,
+pp. 74–75, for the Hecke normalization). *Needs:* 3.13–3.14,
+4.14 specialization laws, 5.0a–5.0c; ArithmeticGaloisRepresentations §§2.1–2.2.
+
+**Checks.**
+
+- On split Tate torsion with `t_r = 1`, arithmetic Frobenius is `q_r` on `μ_ℓ`
+  and `1` on the period quotient; geometric Frobenius gives the inverse factors.
+- Choosing `t_r = 0` in the coefficient ring acting on nonzero toric torsion cannot
+  satisfy the Frobenius laws: Frobenius is invertible. A bare action supplies no such laws.
+- For good reduction, the specialization kernel can be nonzero with no torus;
+  the general characteristic polynomial remains valid, while a quadratic Hecke polynomial
+  requires a Hecke realization. A nontrivial diamond action retains `s_v`.
+- A place above `ℓ` is excluded even when reduction is good; good reduction alone
+  does not make the residual `ℓ`-torsion representation unramified there.
+
+<a id="semistable-jacobian-torsion"></a>
+
+**Jacobian realization and two places.** Prove `SemistableJacobianTorsion`: for the
+Jacobian of a proper regular semistable curve over a henselian DVR, with `ℓ ≠ char k`
+and a commutative ring acting by endomorphisms defined over `K`, its geometric `ℓ`-torsion gives
+`SemistableTorsionDatum` satisfying `SemistableTorsionLaws`. Use 4.4–4.5 to identify
+its graph discriminant group, and the finite flat subgroups of 3.5 together with
+the finite part of the full torsion kernel to produce
+`Tᵗ ⊆ T⁰ ⊆ Tᶠ = T^I ⊆ T`. The geometric reduction map and the surjectivity of
+multiplication by `ℓ` on the semi-abelian identity fibre give the specialization
+sequence. Preserve the filtration under the coefficient action and the component
+pairing and adjoints of 4.6. For a nonregular nodal model use its regular resolution
+and the weighted subdivision comparison of 4.4. The Frobenius and good-place laws
+hold with the additional operator hypotheses just specified. Sources: Conrad,
+§5, (5.1), Remark 5.3, Lemma 5.4, pp. 17–18; SGA 7 I, Exposé IX, §§11.5–12.5.
+
+Define `TwoPlaceSemistableTorsionDatum` for a number field and two distinct finite
+places of residue characteristics different from `ℓ`: one global `T`, one coefficient
+ring action and one finite-level Galois action, with the two local graphs, filtrations,
+toric identifications and specialization maps. The separate Prop structure
+`TwoPlaceSemistableTorsionLaws` requires the specialization laws at both places and
+the shared global good-place laws relative to the specified `P_v`. Keep the local
+Frobenius-law structures as additional hypotheses in the totally toric specialization
+with the specified compatible operators. Prove `TwoPlaceSemistableJacobianTorsion` for one Jacobian
+semistable at both places, by restricting its single global torsion representation.
+The two projections recover the same `T` and actions, not merely isomorphic copies.
+*Needs:* the preceding targets, 4.4–4.6, 5.0a–5.0c.
+
+**Checks.**
+
+- The same split Tate calculation gives `ker sp = Tᵗ` precisely in the totally toric
+  case; a positive-dimensional abelian quotient contributes `2a` further kernel dimensions.
+- At two good places both graph lattices vanish while the single global `T` remains;
+  the two specialization maps are zero on their invariant groups.
+- Ramification multiplying a graph pairing by `e` may change `Φ[ℓ]`; the new local
+  datum uses the new cokernel and inertia group, while its underlying geometric torsion
+  is the restriction of the same representation.
+
+The producers are ModularCurvesPartII §12 (modular graph, with §13's actual Hecke
+correspondences) and HilbertModularVarietiesAndShimuraCurves R18.5.17–R18.5.18
+(quaternionic graph and monodromy). Their geometric and operator comparisons instantiate
+these general targets. SerreWeightAndLevelOptimisation §§2.6–2.10 consumes the one-place
+and two-place interfaces. These are downstream realizations and applications; this
+roadmap takes none of them as a prerequisite.
 
 ### Examples
 
@@ -3802,14 +4038,18 @@ Mathlib's Weierstrass reduction predicates and `IsPGroup` fixed-point theorems.
   distinction of 2.1–2.2 and the elliptic comparisons of 2.6 and 6.8.
 - **ModularCurvesPartII** (Jacobians and integral Hecke actions): the Picard–Néron identity
   comparison 3.9, the character lattices 4.2 and the degeneracy functoriality 6.1–6.2 for
-  modular Jacobians.
+  modular Jacobians, and the graph and semistable torsion interfaces of 4.2 and 4.14
+  (produced by its §12 with the §13 Hecke correspondences).
 - **GrossZagierAndArithmeticHeights** (admissible pairings on arithmetic surfaces; local
   arithmetic identities): the monodromy pairing 4.3–4.4, the component pairing 4.6 and the
   intersection-matrix description 4.7.
 - **RankZeroOneBSD** (arithmetic invariants; the Heegner index formula): the Tamagawa numbers of
   6.8 and the component groups of Layer 4.
 - **SerreWeightAndLevelOptimisation** (level-changing algebra): the character exact sequences
-  and monodromy adjoints of 6.1–6.2 and the component cokernel 4.5.
+  and monodromy adjoints of 6.1–6.2, the component cokernel 4.5 and the one-place and
+  two-place torsion laws of 4.14 for its §§2.6–2.10.
+- **HilbertModularVarietiesAndShimuraCurves** R18.5.17–R18.5.18: produces the
+  quaternionic graph and semistable Jacobian realizations of 4.2 and 4.14.
 - **SmallRamificationAndAbelianVarietyBaseCases** (Schoof's semistable small-prime theorem):
   the semistable reduction predicate 3.1, the full-level criterion 3.12 and the conductor
   formula 5.5.
@@ -3833,6 +4073,12 @@ Mathlib's Weierstrass reduction predicates and `IsPGroup` fixed-point theorems.
   unramified-`3`-torsion example of 3.12.
 
 ## References
+
+- K. A. Ribet and W. A. Stein, *Lectures on Serre's conjectures*,
+  [author text](https://wstein.org/papers/serre/ribet-stein.pdf): §3.9, (3.1) and
+  Lemma 3.17, pp. 45–47; B. Conrad's Chapter 5 in the same text, Theorem 5.12,
+  p. 73, and §5.3, Theorem 5.16, pp. 74–75, for the geometric Hecke and
+  Frobenius comparisons instantiated in 4.14.
 
 - A. Hatcher, *Algebraic Topology*, Cambridge University Press, 2002;
   [author text](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf): §1.A, Proposition 1A.1 and

@@ -429,6 +429,77 @@ theorem edgeForm_neg_coord (len : E → ℕ) (e₀ : E) (c d : E →₀ ℤ) :
 
 end DualGraph
 
+/-- A graph with retained edge identities, two endpoint maps and positive integral thicknesses.
+Its ordinary cycle lattice is distinct from the cycle lattice of its bipartite double
+(README §4.2). -/
+structure WeightedGraph (V E : Type*) where
+  src : E → V
+  tgt : E → V
+  thickness : E → ℕ+
+
+namespace WeightedGraph
+
+variable {V E : Type*}
+
+/-- The bipartite graph on two disjoint copies of the vertex set, retaining every edge and
+its thickness. It has its own cycle lattice (README §4.2). -/
+def bipartiteDouble (G : WeightedGraph V E) : WeightedGraph (V ⊕ V) E where
+  src := Sum.inl ∘ G.src
+  tgt := Sum.inr ∘ G.tgt
+  thickness := G.thickness
+
+variable [Fintype V] [Fintype E] [DecidableEq V] [DecidableEq E]
+
+/-- Integral cycles of the ordinary weighted graph, with signed incidence `target - source`.
+The weights enter the Gram form rather than the incidence map (README §4.2). -/
+noncomputable def H1 (G : WeightedGraph V E) : Submodule ℤ (E →₀ ℤ) :=
+  DualGraph.cycleLattice G.src G.tgt
+
+/-- Cycles in the bipartite double have separately vanishing endpoint pushforwards.
+This joint kernel need not be the ordinary cycle lattice (README §4.2). -/
+theorem mem_bipartiteDouble_H1 (G : WeightedGraph V E) (c : E →₀ ℤ) :
+    c ∈ G.bipartiteDouble.H1 ↔
+      Finsupp.lmapDomain ℤ ℤ G.src c = 0 ∧ Finsupp.lmapDomain ℤ ℤ G.tgt c = 0 := by
+  sorry
+
+/-- Positive thicknesses give the integral edge pairing on the cycle lattice
+(SGA 7 I, Exposé IX, §§12.4–12.5; README §4.4). -/
+noncomputable def gram (G : WeightedGraph V E) : G.H1 →ₗ[ℤ] Module.Dual ℤ G.H1 :=
+  (DualGraph.edgeForm (fun e => (G.thickness e : ℕ))).domRestrict₁₂ G.H1 G.H1
+
+/-- The discriminant group of the weighted cycle lattice (README §§4.2, 4.5). -/
+abbrev componentGroup (G : WeightedGraph V E) :=
+  Module.Dual ℤ G.H1 ⧸ LinearMap.range G.gram
+
+/-- A nonzero integral cycle has strictly positive weighted self-pairing. -/
+theorem gram_positive (G : WeightedGraph V E) (c : G.H1) (hc : c ≠ 0) :
+    0 < G.gram c c := by sorry
+
+/-- Positive thicknesses make the integral Gram map injective. -/
+theorem gram_injective (G : WeightedGraph V E) : Function.Injective G.gram := by sorry
+
+/-- The positive weighted cycle form has finite integral discriminant group, including
+empty and disconnected graphs (README §4.2). -/
+theorem componentGroup_finite (G : WeightedGraph V E) : Finite G.componentGroup := by sorry
+
+/-- For adjoint cycle maps the dual of the reverse map preserves the Gram images, giving
+covariant functoriality of the discriminant groups (README §4.2). -/
+theorem gram_adjoint_range {W F : Type*}
+    [Fintype W] [Fintype F] [DecidableEq W] [DecidableEq F]
+    (G : WeightedGraph V E) (H : WeightedGraph W F)
+    (a : G.H1 →ₗ[ℤ] H.H1) (b : H.H1 →ₗ[ℤ] G.H1)
+    (hadj : ∀ x y, H.gram (a x) y = G.gram x (b y)) :
+    (LinearMap.range G.gram).map b.dualMap ≤ LinearMap.range H.gram := by sorry
+
+/-- A loop is a nonzero ordinary cycle, whereas its bipartite double is a single edge
+between distinct vertices and does not contain that cycle (README §4.2). -/
+theorem bipartiteDouble_single_loop (n : ℕ+) :
+    let G : WeightedGraph Unit Unit := ⟨fun _ => (), fun _ => (), fun _ => n⟩
+    Finsupp.single () (1 : ℤ) ∈ G.H1 ∧
+      Finsupp.single () (1 : ℤ) ∉ G.bipartiteDouble.H1 := by sorry
+
+end WeightedGraph
+
 namespace LatticePairing
 
 variable {X Y : Type*} [AddCommGroup X] [AddCommGroup Y] [Module ℤ X] [Module ℤ Y]
@@ -566,9 +637,16 @@ the geometric `ComponentGroup`, `Chevalley`, `ToricCharacter`,
 `RigidUniformisation`, `RaynaudOneMotive`, `PicardZero`,
 `IntegralMonodromyPairing`, `ComponentPairing`, `RegularPicardNeronQuotient`,
 `BgwSmoothHyperellipticModel`, `BgwNodalPinch`, `BgwGeneralizedJacobian`, `BgwOddFactorTorsors`,
-`StableFamilyPicard`,
+`StableFamilyPicard`, `HeckeFamily`, `Matching`, `SemistableTorsionDatum`,
+`SemistableTorsionLaws`, `SemistableTorsionFrobeniusLaws`, `SemistableTorsionGoodPlaceLaws`,
+`SemistableJacobianTorsion`, `TwoPlaceSemistableTorsionDatum`,
+`TwoPlaceSemistableTorsionLaws`, `TwoPlaceSemistableJacobianTorsion`,
 `AbelianVariety.deRham`, and `SemistableOrdinaryAdapter`.
-Their geometric Checks are likewise in README.md.
+Their geometric Checks are likewise in README.md. The torsion targets of §4.14 use
+prime-to-residue-characteristic torsion and the ordinary weighted graph, or an identified
+bipartite presentation. Their specialization kernel is identity-component torsion; it is
+toric for totally toric reduction. The additional Frobenius and Eichler–Shimura laws carry
+the specified geometric operator comparisons.
 
 `IdentityComponent` in README 2.1 specializes the field-level neutral-component construction
 of AlgebraicModuliForArithmeticGeometry §7.9 `spaceSectionComponentCriterion`; its relative open
