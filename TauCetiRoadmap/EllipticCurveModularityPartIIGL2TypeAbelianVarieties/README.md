@@ -26,7 +26,7 @@ Fix an algebraic closure ℚ̄ and write `G_K` for the absolute Galois group wit
 V_ℓ(A) = ⊕_{λ | ℓ} V_λ(A),   dim_{E_λ} V_λ(A) = 2.
 ```
 
-The representation `ρ_λ` is the action on that component. The symbols `a_p`, `d_p` and ε acquire their meaning in GT.2. A residual representation means the action on the actual λ-torsion of an integral model, and its semisimplification is compared with reduction of the rational representation. Residue fields are embedded into one algebraic closure before two residual representations are compared. Residue degree one does not imply `E_λ = ℚ_ℓ` unless ramification is also excluded.
+The representation `ρ_λ` is the action on that component. The symbols `a_p`, `d_p` and ε acquire their meaning in GT.2. A residual representation means the action on the actual λ-torsion of an integral model, supplied by ArithmeticGaloisRepresentations §6.4, and its semisimplification is compared with reduction of the rational representation. In dimension one, use that owner's §6.1 `TateModule.residualRep` on geometric elliptic torsion; its matrix form requires a basis. Residue fields are embedded into one algebraic closure before two residual representations are compared. Residue degree one does not imply `E_λ = ℚ_ℓ` unless ramification is also excluded.
 
 All modular levels are positive. Modularity of level N means a surjective ℚ-homomorphism `J₁(N) → A`; Γ₀ modularity uses `J₀(N)`. A level in this definition need not be the least level. The exact-level theorem assumes ℚ-simplicity: for powers, the availability of enough oldform copies is an additional requirement.
 
@@ -62,7 +62,8 @@ These interfaces describe the inputs to the targets. Each is attached to its own
 | AbelianSchemesAndArithmeticModuli §§A3.3–A3.4 and A6.3 | Image abelian subvarieties and finite-subgroup quotients, including the effect on Tate lattices needed to saturate the endomorphism order. |
 | AbelianSchemesAndArithmeticModuli §§A6.4–A6.8, A6.12, A6.22, A6.26 and A6.30–A6.34 | `End⁰` and `Hom⁰`, rational inverses of isogenies, compatible field structures, matrix-product actions, derivative action, faithful geometric base change, non-CM scalar endomorphisms, and finite étale Weil restriction with its product decomposition. Base change of native Hom and End is already available; the rationalized functoriality and elliptic comparison must respect those maps. |
 | AbelianSchemesAndArithmeticModuli §§A5.1–A5.7 | Complex uniformization and Betti–Tate comparison equivariant for endomorphisms and complex conjugation. Real Frobenius interchanges the two Hodge summands; this is the input for oddness. |
-| ArithmeticGaloisRepresentations Layers 1–6; SmallRamificationAndAbelianVarietyBaseCases §5.1 | Continuous representations, characters, conductors, oddness, recognition by Frobenius polynomials, and the actual Tate components `TateModule.lambdaTateModule` and λ-torsion with coefficient embeddings and isogeny transport. |
+| ArithmeticGaloisRepresentations Layers 1–6; SmallRamificationAndAbelianVarietyBaseCases §5.1 | Continuous representations, characters, conductors, oddness, recognition by Frobenius polynomials, and the actual Tate components `TateModule.lambdaTateModule` and λ-torsion with coefficient embeddings and isogeny transport (§6.4). The dimension-one comparison uses §6.1, [Basis-free elliptic residual representation](../ArithmeticGaloisRepresentations/README.md#elliptic-residual-representation), including `TateModule.residualRep` and its trace, determinant and change-of-basis laws. |
+| EllipticCurves Layers 3–4 and 4.5a, “Invariant theory over a Dedekind domain” | Elliptic model bridges: on an integral equation minimal at ℓ, good reduction is equivalent to `ℓ ∤ Δ`; the reduced projective point count gives `a_ℓ = ℓ + 1 − #Ẽ(𝔽_ℓ)`; for a semistable curve the conductor has exponent zero at good primes and one at multiplicative primes. Use local minimal models and the curve-level semistability predicate of Layer 4.5a. The comparison with the Artin conductor is consumed through EllipticCurveModularity R29.4. |
 | NeronModelsAndSemistableAbelianVarieties §§5.0b–5.1, 5.4–5.7 and 6.10 | Good reduction, the integral conductor and local Euler polynomials, and their independence of the auxiliary coefficient prime. |
 | FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.1.19, R07.4.19 and R07.6.1; AlgebraicModularFormsAndSerreWeights R15.4 | The crystalline comparison, Hodge–Tate weights and finite-flat weight-two recipe. |
 | ModularCurvesPartII Layers 3–6, 13, 16 and §17.3; JacobianChallenge Layer F | Native `X₁(N)`, `X₀(N)`, `J₁(N)`, `J₀(N)`, degeneracy maps, `A_f`, coefficient-field and Hecke actions, rational cusps and the generating pointed Abel–Jacobi map. Include all positive low levels used in the zero-Jacobian tests. |
@@ -70,6 +71,7 @@ These interfaces describe the inputs to the targets. Each is attached to its own
 | RepresentationTheory, SemisimpleAlgebras Layers 1–3 | The simple-module/block dictionary, invariant Wedderburn multiplicities and centralizers. The Mathlib Wedderburn and Schur declarations in the next table are used directly. |
 | ModularForms Layers 3–5 and 8 | The old/new decomposition with multiplicity `d(N/M)`, finiteness of normalized newforms of bounded positive level, cross-level strong multiplicity one, coefficient fields and their conjugates. The native newform and character-space direct sum already exist. |
 | ClassicalSerreModularity R27.6 | Residual modularity at Serre's prescribed weight and prime-to-ℓ level; neither its proof nor the compatible-system classification is repeated here. |
+| AlgebraicModularFormsAndSerreWeights R15.6, [S-type and modularity predicates](../AlgebraicModularFormsAndSerreWeights/README.md#target-s-type-arises-from-and-modular) | The shared `TauCeti.ResidualModularity.ArisesFrom` predicate, with one coefficient reduction giving both Frobenius traces and determinants. Its `ArisesFrom.iff_integral_model` comparison identifies semisimple residual representations after compatible coefficient extension; absolute irreducibility identifies the given representation itself. GT.3/serre-witnesses consumes this interface; existence comes from ClassicalSerreModularity R27.6. |
 | FaltingsFinitenessAndIsogenyTheorems §§R28.4.5–R28.4.7 and R28.6.7 | Semisimplicity, Tate–Hom comparison, almost-all residual comparison, and the rational Tate-module isogeny criterion over number fields. |
 | AutomorphicGaloisRepresentations §§1.5, 4.4–4.9, 6.1–6.4 and 7.3; AutomorphicGaloisRepresentationsPartII AG2.P | Newform realizations, Tate decomposition, local factors and conductors, coefficient-prime compatibility, and compatible-system reindexing after finite coefficient extension. |
 | ModularForms Layers 6–7 | Normalized Fricke companion and pseudo-eigenvalue, Euler products including bad primes, and the completed functional equation. Entire analytic extension of the native cusp-form coefficient Dirichlet series is a library input. |
@@ -77,7 +79,7 @@ These interfaces describe the inputs to the targets. Each is attached to its own
 | ArithmeticGaloisRepresentations §7.6, “Projective lifting” | Tate's vanishing for trivial-action ℚ/ℤ coefficients, from which the ℚ̄ˣ version follows. |
 | GL2AutomorphicRepresentationsAndTransfer §§R17.4.3–R17.4.9 and R17.6.17–R17.6.18; ClassFieldTheory Layer 11 | Solvable base change, rank-two finite quotient character extraction, finite character twists, local compatibility, coherent algebraic characters across auxiliary coefficient primes, and global Artin reciprocity. GT.6/twisting-lemma owns the extension of character extraction to arbitrary positive finite rank. |
 | AbelianSchemesAndArithmeticModuli §§A5.1–A5.3; EllipticCurves Layer 1, “Isogenies, the dual, the invariant differential, and formal groups” | Complex lattice uniformization, algebraicity of analytic homomorphisms and geometric endomorphism actions. GT.5/q-curve proves its CM conjugate-isogeny consequence. |
-| EllipticCurveModularity R29.3, R29.5–R29.6 | Infinite congruence-to-equality arguments and the dimension-one modularity and pointed parametrisation with which GT.4 compares its choices. |
+| EllipticCurveModularity R29.3–R29.6 | Infinite congruence-to-equality arguments; R29.3's `newformOf` at the exact conductor; R29.4's `IsNewformOf.level_eq_conductor` and [Conductor and its semistable comparison](../EllipticCurveModularity/README.md#elliptic-conductor-comparison); and the dimension-one modularity and pointed parametrisation with which GT.4 compares its choices. The general conductor includes additive and wild reduction; the squarefree bad-prime product requires semistability. |
 
 ### From Mathlib and Tau Ceti
 
@@ -408,15 +410,15 @@ the integral model, independently of the determinant character.
 
 Construct the following data. Choose an E-equivariant ℚ-isogeny `A → A′` such that `End_ℚ(A′)` identifies with `𝒪_E`. Such an A′ exists. For every maximal ideal λ of `𝒪_E` the actual group `A′[λ]` is a two-dimensional vector space over `𝔽_λ` with continuous `G_ℚ`-action. Its semisimplification is the semisimplified reduction of `ρ_λ` and is independent of the integral model.
 
-the residual representation of ArithmeticGaloisRepresentations §6.4, Endomorphism coefficients, requires `𝒪_E ⊆ End_ℚ(A′)`; this node supplies such an A′.
+The residual representation of ArithmeticGaloisRepresentations §6.4, Endomorphism coefficients, requires `𝒪_E ⊆ End_ℚ(A′)`; this node supplies such an A′. The `GL2Type.residualRep` notation below specializes that supplied action to this model. For an elliptic curve it is compared with `TateModule.residualRep` of ArithmeticGaloisRepresentations §6.1, rather than constructing another elliptic torsion action.
 
 The light bundle `GL2Type.IntegralModel A ι` records the native `variety = A′`,
 a native isogeny `A → A′`, its isogeny proof, an intertwining rational `E`-action,
 and a ring equivalence `𝓞 E ≃+* End A′` whose image under `integralEnd` agrees
 with that rational action on each algebraic integer. The milestone
 `GL2Type.integralModel` asserts `Nonempty (IntegralModel A ι)` for simple `A`
-and `[E:ℚ] = dim A`; choosing a model and the residual representations are the
-full mathematical targets here. An arbitrary isogenous variety without the
+and `[E:ℚ] = dim A`; constructing the model and its compatibility with the supplied
+residual representations are the mathematical targets here. An arbitrary isogenous variety without the
 integral-action compatibility is not an integral model in this sense.
 
 The API consists of the following maps and laws.
@@ -430,7 +432,7 @@ The API consists of the following maps and laws.
 
 **Checks.**
 
-- `GL2Type.residualRep_elliptic`: For an elliptic curve E₀ over ℚ, `ρ̄_ℓ` is the action on `E₀[ℓ]` of ArithmeticGaloisRepresentations §§6.1–6.4.
+- `GL2Type.residualRep_elliptic`: For an elliptic curve E₀ over ℚ, choose the integral model to be E₀ itself. The geometric-point comparison of ArithmeticGaloisRepresentations §6.1 then identifies `ρ̄_ℓ` with its `TateModule.residualRep E₀ ℓ`, equivariantly and compatibly with trace and determinant, before any choice of basis. An arbitrary isogenous integral model gives the same semisimplification.
 - `GL2Type.residualRep_det` (computation): `det ρ̄_λ = ε̄ · χ̄_ℓ`, the reduction of GT.2/determinant-character.
 - Let `B = X₀(11)`, `A = B × B`, and let `E = ℚ(√2)` act by regular matrices.
   Although `𝒪_E = ℤ[√2]` acts integrally, `End_ℚ(A) = M₂(ℤ)` is noncommutative,
@@ -634,8 +636,9 @@ The proof uses the following steps.
 
 - For an elliptic curve E₀ over ℚ, `N(ρ̄_{E₀,p}) | N_{E₀}` (EllipticCurveModularity R29.1).
 - `f_p(A) = 0` for `p ∉ S`.
+- In the semistable elliptic case, EllipticCurves Layers 4 and 4.5a give the squarefree bad-prime product, identified with `N_{E₀}` by EllipticCurveModularity R29.4. The curve `y² = x³ − x` has conductor 32 and bad-prime product 2: its additive reduction at 2 excludes this formula.
 
-*Needs:* `NeronModelsAndSemistableAbelianVarieties §§5.4–5.7`; `NeronModelsAndSemistableAbelianVarieties §6.10`; `ArithmeticGaloisRepresentations §§3.1–3.6`; `ArithmeticGaloisRepresentations §§6.1–6.4`.
+*Needs:* `NeronModelsAndSemistableAbelianVarieties §§5.4–5.7`; `NeronModelsAndSemistableAbelianVarieties §6.10`; `ArithmeticGaloisRepresentations §§3.1–3.6`; `ArithmeticGaloisRepresentations §§6.1–6.4`; EllipticCurves Layers 4 and 4.5a; EllipticCurveModularity R29.4.
 
 Sources: [Ribet92](#references), proof of Lemma 4.1, p. 8.
 
@@ -713,13 +716,15 @@ Sources: [KW-I](#references), §10.2, p. 21; [Ribet92](#references), §1, p. 2.
 
 ### GT.3/serre-witnesses — Residual Serre witnesses of weight two at bounded level
 
-Prove the following. Choose an integral model A′. There are infinitely many maximal ideals λ of `𝒪_E` with residue degree one above odd good primes ℓ that are unramified in E and for which `ρ̄_λ` is absolutely irreducible. For each such λ, obtain a normalized weight-two newform `g_λ` of level `N_λ` dividing `cond(A)` and a prime λ′ of `K_{g_λ}` above ℓ. After embedding both residue fields into `𝔽̄_ℓ`, their residual representations are isomorphic. Thus the traces `a_p(g_λ)` and `a_p(A)` agree in that field for every p outside `S ∪ {ℓ}`. The nebentypus is allowed to depend on λ.
+Prove the following. Choose an integral model A′. There are infinitely many maximal ideals λ of `𝒪_E` with residue degree one above odd good primes ℓ that are unramified in E and for which `ρ̄_λ` is absolutely irreducible. For each such λ, obtain a normalized weight-two newform `g_λ` of level `N_λ` dividing `cond(A)` with `TauCeti.ResidualModularity.ArisesFrom(ρ̄_λ ⊗ 𝔽̄_ℓ, g_λ)`, using AlgebraicModularFormsAndSerreWeights R15.6. Its coefficient-place comparison supplies a prime λ′ of `K_{g_λ}` above ℓ and compatible residue embeddings. The integral-model comparison identifies the semisimple reduction of the newform representation with `ρ̄_λ ⊗ 𝔽̄_ℓ`. Thus both Frobenius traces and determinants agree for every p outside `S ∪ {ℓ}`. The nebentypus is allowed to depend on λ.
+
+The shared residual attachment interface draws on the API design of the Imperial College London FLT project. GT.3 uses the coefficient reduction and integral-model comparison supplied by AlgebraicModularFormsAndSerreWeights R15.6.
 
 The proof uses the following steps.
 
 1. Λ is infinite: infinitely many primes split completely in E (Chebotarev), and only finitely many λ are excluded by GT.2/residual-irreducibility.
 2. For `λ ∈ Λ`, `ρ̄_λ : G_ℚ → GL₂(𝔽_ℓ)` is odd (GT.2/odd), absolutely irreducible, finite at ℓ with `det ρ̄_λ|_{I_ℓ} = χ̄_ℓ` (GT.2/crystalline-at-good-primes; ε is unramified at `ℓ ∉ S`), so Serre's weight is `k(ρ̄_λ) = 2` (AlgebraicModularFormsAndSerreWeights R15.4) and its level `N(ρ̄_λ)` divides `cond(A)` (GT.2/conductor-bound).
-3. The strong form of Serre's conjecture (ClassicalSerreModularity R27.6) gives `g_λ` of weight `k(ρ̄_λ) = 2` and level `N(ρ̄_λ)`; compare traces of Frobenius (NeronModelsAndSemistableAbelianVarieties §5.0b, Good reduction, AutomorphicGaloisRepresentations §1.5). The comparison is over a common algebraic closure `𝔽̄_ℓ`; Serre does not assert that the newform’s residue field is already `𝔽_ℓ`.
+3. The strong form of Serre's conjecture (ClassicalSerreModularity R27.6) gives `g_λ` of weight `k(ρ̄_λ) = 2` and level `N(ρ̄_λ)`, with the shared `ArisesFrom` attachment of AlgebraicModularFormsAndSerreWeights R15.6. Use that owner's `ArisesFrom.iff_integral_model` under the absolute-irreducibility hypothesis, and compare good Frobenius polynomials using GT.2/frobenius-polynomial and AutomorphicGaloisRepresentations §1.5. The comparison is over a common algebraic closure `𝔽̄_ℓ`; Serre does not assert that the newform’s residue field is already `𝔽_ℓ`.
 
 **Checks.**
 
@@ -727,8 +732,9 @@ The proof uses the following steps.
 - For `J₀(23)` and λ above ℓ ≡ `±1` mod 5, `g_λ` can be taken to be the newform of level 23.
 - The prime `λ = 5` for `X₀(11)` is excluded: its rational point of order 5
   makes the residual representation reducible, despite good reduction at 5.
+- A nonsplit residual extension and its semisimplification have the same good Frobenius polynomials. The shared attachment predicate cannot distinguish them; absolute irreducibility is what makes its integral-model comparison an isomorphism with `ρ̄_λ` itself.
 
-*Needs:* `GT.2/residual-irreducibility`; `GT.2/odd`; `GT.2/crystalline-at-good-primes`; `GT.2/conductor-bound`; `GT.2/frobenius-polynomial`; `ClassicalSerreModularity R27.6`; `AlgebraicModularFormsAndSerreWeights R15.4`; `Chebotarev Layer 10`; `AutomorphicGaloisRepresentations §1.5`; `GT.2/integral-model`; `GT.2/determinant-character`; `NeronModelsAndSemistableAbelianVarieties §5.0b`.
+*Needs:* `GT.2/residual-irreducibility`; `GT.2/odd`; `GT.2/crystalline-at-good-primes`; `GT.2/conductor-bound`; `GT.2/frobenius-polynomial`; `ClassicalSerreModularity R27.6`; `AlgebraicModularFormsAndSerreWeights R15.4`; AlgebraicModularFormsAndSerreWeights R15.6, [S-type and modularity predicates](../AlgebraicModularFormsAndSerreWeights/README.md#target-s-type-arises-from-and-modular); `Chebotarev Layer 10`; `AutomorphicGaloisRepresentations §1.5`; `GT.2/integral-model`; `GT.2/determinant-character`; `NeronModelsAndSemistableAbelianVarieties §5.0b`.
 
 Sources: [Ribet92](#references), Lemma 4.1 and Lemma 4.2, p. 8; [Ribet92](#references), proof of Theorem 4.4, p. 8.
 
@@ -960,7 +966,7 @@ A simple dimension-one variety has the elliptic theorem and the same pointed quo
 
 ### Dependencies
 
-*Needs:* GT.1–GT.2; ClassicalSerreModularity §R27.6; ModularForms Layers 3–5 and 8; ModularCurvesPartII §§13.1, 16.1–16.8 and 17.3; AutomorphicGaloisRepresentations §§1.5 and 6.1–6.4; FaltingsFinitenessAndIsogenyTheorems §R28.4; JacobianChallenge Layer F; EllipticCurveModularity Layers R29.3 and R29.5–R29.6.
+*Needs:* GT.1–GT.2; ClassicalSerreModularity §R27.6; AlgebraicModularFormsAndSerreWeights R15.4 and R15.6; ModularForms Layers 3–5 and 8; ModularCurvesPartII §§13.1, 16.1–16.8 and 17.3; AutomorphicGaloisRepresentations §§1.5 and 6.1–6.4; FaltingsFinitenessAndIsogenyTheorems §R28.4; JacobianChallenge Layer F; EllipticCurveModularity Layers R29.3 and R29.5–R29.6.
 
 ## Layer GT.4: Conductors, exact level and L-functions
 
@@ -1057,22 +1063,26 @@ Sources: [Carayol86](#references), Théorème (A), §§0.6–0.7, pp. 410–411,
 
 ### GT.4/parent-compatibility — Compatibility with the parent in dimension one
 
-Let E₀/ℚ be elliptic, with conductor `N_{E₀}`. The dimension-one specialization has endomorphism field ℚ, `ε = 1`, `K_f = ℚ`, and `f = F_{E₀}` at level `N_{E₀}`. Compare the isogeny and the pointed `X₀(N_{E₀})` parametrisation with EllipticCurveModularity R29.5–R29.6 using the same quotient `q : J₀(N_{E₀}) → E₀` and the same `AJ_∞`. In both constructions the curve map is `q ∘ AJ_∞`. This is a compatibility of chosen data; arbitrary isogenies and parametrisations are not required to be unique.
+Let E₀/ℚ be elliptic, with conductor `N_{E₀}`. The dimension-one specialization has endomorphism field ℚ, `ε = 1`, `K_f = ℚ`, and `f = F_{E₀}` at level `N_{E₀}`. Here `F_{E₀}` is `newformOf E₀` of EllipticCurveModularity R29.3, whose level is pinned by R29.4's `IsNewformOf.level_eq_conductor`. Compare the isogeny and the pointed `X₀(N_{E₀})` parametrisation with EllipticCurveModularity R29.5–R29.6 using the same quotient `q : J₀(N_{E₀}) → E₀` and the same `AJ_∞`. In both constructions the curve map is `q ∘ AJ_∞`. This is a compatibility of chosen data; arbitrary isogenies and parametrisations are not required to be unique.
+
+Use the elliptic model bridges of EllipticCurves Layers 3–4 and 4.5a for the good-prime comparison: on an integral model minimal at ℓ, `ℓ ∤ Δ` characterizes good reduction, and the full projective point count of its reduction gives `a_ℓ = ℓ + 1 − #Ẽ(𝔽_ℓ)`. EllipticCurveModularity R29.4 identifies the elliptic conductor with the Artin conductor used here. Its semistable comparison gives the squarefree product of bad primes only for a semistable curve; the dimension-one specialization itself allows arbitrary reduction.
 
 The proof uses the following steps.
 
 1. `E = End⁰_ℚ(E₀) = ℚ` (R29.1), so `ε = 1` (GT.2/determinant-character, E totally real) and the newform of GT.3/modularity-theorem has trivial character and rational coefficients.
-2. By GT.4/exact-level its level is `cond(E₀) = N_{E₀}`; by strong multiplicity one it is `F_{E₀}` of EllipticCurveModularity Layer R29.3, and GT.3/trivial-character gives the quotient of `J₀(N_{E₀})`.
+2. Its trivial character and exact good coefficients satisfy the parent's `IsNewformOf` predicate. EllipticCurveModularity R29.4's `IsNewformOf.level_eq_conductor` gives its level `cond(E₀) = N_{E₀}`, agreeing with GT.4/exact-level; attachment uniqueness identifies it with R29.3's `newformOf E₀`. GT.3/trivial-character gives the quotient of `J₀(N_{E₀})`.
 3. Choose the R29.5 isogeny and quotient q when specializing the Part II construction. Both curve maps are `q ∘ AJ_∞` on `X₀(N_{E₀})`, so their equality and value 0 at ∞ follow from this common construction. Precompose with `X₁(N_{E₀}) → X₀(N_{E₀})` for the Γ₁ comparison; this supplies the curve-morphism comparison, not merely equality of newforms.
 
 **Checks.**
 
 - `X₀(11)`: the Part II statements return `J₀(11) → X₀(11)`, the identity.
 - The Part II route uses the strong Serre theorem with nontrivial characters only when E is CM, never in dimension one.
+- The minimal model `X0_11_model` has `Δ = −11⁵`, good reduction at 2 and five projective points over `𝔽₂`, giving `a₂ = −2`. Its semistable conductor is 11, not `|Δ|`.
+- An integral rescaling of this model with coefficients multiplied by `2ⁱ` in degree i has discriminant `2¹²(−11⁵)` and defines the same rational curve. Divisibility of that discriminant by 2 does not detect bad reduction: the equation is not minimal at 2.
 
-*Needs:* `GT.3/modularity-theorem`; `GT.3/trivial-character`; `GT.3/modular-parametrisation`; `GT.4/exact-level`; `EllipticCurveModularity R29.6`; `EllipticCurveModularity R29.3`; `EllipticCurveModularity R29.5`.
+*Needs:* `GT.3/modularity-theorem`; `GT.3/trivial-character`; `GT.3/modular-parametrisation`; `GT.4/exact-level`; EllipticCurves Layers 3–4 and 4.5a; EllipticCurveModularity R29.3–R29.6.
 
-Sources: [KW-I](#references), §10.2, p. 21.
+Sources: [KW-I](#references), §10.2, p. 21; [Carayol86](#references), Corollaire (0.8), p. 411; Darmon–Diamond–Taylor, §1.1, pp. 18–19, and §2.2, Propositions 2.11–2.12, pp. 56–57, for the elliptic model and conductor comparisons.
 
 
 ### Examples

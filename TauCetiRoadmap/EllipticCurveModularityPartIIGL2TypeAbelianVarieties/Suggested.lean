@@ -473,6 +473,11 @@ GT.2: integralModel_end, residualRep, residualRep_finrank, residualRep_charpoly,
 residualRep_ss_indep, frobeniusPolynomial, determinantCharacter, odd,
 absoluteIrreducibility, coefficientConjugation, coefficientsGenerate, innerTwistField,
 residualIrreducibility, conductorBound, crystallineAtGoodPrimes.
+The residualRep notation specializes ArithmeticGaloisRepresentations §6.4's actual
+λ-torsion action to IntegralModel.variety. In residualRep_elliptic the integral
+model is the original elliptic curve; the comparison is with that owner's §6.1
+TateModule.residualRep on geometric torsion, before a basis is chosen. Changing
+the integral model preserves the semisimplification.
 GT.3: AbelianVariety.IsModularOfLevel, AbelianVariety.IsModular,
 AbelianVariety.IsModularOfLevel.mono, AbelianVariety.IsModular.of_isogeny,
 AbelianVariety.IsModular.quotient, AbelianVariety.isModular_iff,
@@ -480,7 +485,18 @@ AbelianVariety.IsModularOfLevel.gamma0, AbelianVariety.IsModular.elliptic;
 serreWitnesses, fixedNewform,
 modularityEquivalences, simpleQuotientsCharacterisation,
 modularParametrisation.
+serreWitnesses uses AlgebraicModularFormsAndSerreWeights R15.6's shared
+TauCeti.ResidualModularity.ArisesFrom and ArisesFrom.iff_integral_model after
+extension to a common algebraic residue field. Absolute irreducibility identifies
+the given residual representation with the semisimple reduction. Witness existence
+is supplied by ClassicalSerreModularity R27.6.
 GT.4: conductorOfGl2Type, exactLevel, strictCompatibility, lFunction, parentCompatibility.
+parentCompatibility uses EllipticCurves Layers 3–4 and 4.5a for minimal-model
+discriminants, projective point counts and the semistable conductor. The elliptic
+conductor comparison and IsNewformOf.level_eq_conductor are supplied by
+EllipticCurveModularity R29.4; its R29.3 newformOf has that exact level. The
+squarefree bad-prime formula requires semistability, whereas parentCompatibility
+allows arbitrary elliptic reduction.
 GT.5: EllipticCurve.IsQCurve.of_cm, IsQCurve.not_of_squared_traces;
 QCurve.cocycle, QCurve.cocycle_isCocycle, QCurve.cocycleClass, QCurve.cocycleClass_indep,
 QCurve.cocycle_sq, QCurve.cocycleClass_of_rat, QCurve.cocycle_rational,
