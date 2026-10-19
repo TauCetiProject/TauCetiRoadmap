@@ -110,19 +110,19 @@ The coefficient components have the following API and checks. They specialize th
 | `Ainf O p` | Witt coordinates, Teichmüller representatives and scalar maps inherited from `WittVector p (PreTilt O p)` | The zeroth coordinate of `[x]` is `x`; `[xy]=[x][y]`; the tilt's characteristic `p` does not force `p=0` in its Witt ring. |
 | `ainfFrobenius` | Forward and inverse action on Witt coordinates and Teichmüller representatives | `φ[x]=[x^p]`; `φ⁻¹[x]=[x^{1/p}]`; `φ` fixes `p` rather than taking it to `p^p`. |
 | `epsRoot` | Inverse Frobenius, multiplicativity and compatibility with untilt | `(ε^{1/p})^p=ε`; the root of 1 is 1; for a primitive system its untilt is `ζ_p≠1`. |
-| `IsPrimitiveRootSystem` | Primitive `p^n`-th roots under iterated inverse Frobenius, and compatibility under transition | A primitive system exists under the `IntegersOfC` hypotheses of Suggested.lean; the trivial system fails; from a primitive `ε`, the constructed delayed system `ε′=ε^p` satisfies `epsRoot ε′=ε` and fails the first-root condition, while `untilt(epsRoot(epsRoot ε′))≠1`. |
+| `IsPrimitiveRootSystem` | Primitive `p^n`-th roots under iterated inverse Frobenius, and compatibility under transition | `exists_primitiveRootSystem` supplies a primitive system under the `IntegersOfC` hypotheses of Suggested.lean; the trivial system fails; from a primitive `ε`, the constructed delayed system `ε′=ε^p` satisfies `epsRoot ε′=ε` and fails the first-root condition, while `untilt(epsRoot(epsRoot ε′))≠1`. |
 | `muOf` | Teichmüller formula, `θ` and Witt reduction, and geometric-sum factorization | At `ε=1` its value is zero; `θ(μ)=0` for a primitive system; `μ=ξφ⁻¹(μ)`, detecting the wrong choice `μ=ξ`. |
 | `xiOf` | Geometric-sum formula, kernel generator and `θ/Witt` values | At `ε=1` its value is `p`; at a primitive system `θ(ξ)=0`; Witt reduction is `p`, distinguishing it from `μ`. |
 | `xiTildeOf` | Frobenius transport of `ξ` and generator of `ker θ̃` | At `ε=1` its value is `p`; `θ̃(ξ̃)=0`; `φ⁻¹(ξ̃)=ξ` rather than `φ(ξ̃)=ξ`. |
 | `fontaineThetaTilde` | `θ∘φ⁻¹` and its principal-kernel normalization | Applied to `φ(a)` it gives `θ(a)`; it kills `ξ̃`; its kernel is `(ξ̃)`, whereas `θ` has kernel `(ξ)`. |
 | `residueOfTilt` | Zeroth coordinate modulo `p` followed by the residue quotient; functoriality in local ring maps | A primitive `ε` reduces to 1; `ε^{1/p}` also reduces to 1 although its untilt is not 1 in `O`; an element whose untilt is a unit with nontrivial residue keeps that residue (at odd `p`, the tilt element `−1` has residue `−1≠1`). |
 | `wittReduction` | Witt functor of `residueOfTilt`, Teichmüller images and Frobenius compatibility | `w(μ)=0`; `w(ξ)=p`; `wφ=Fw`, with `F` acting on coefficients rather than fixed pointwise. |
-| `ainfToBdRPlus` | Canonical localization/completion map and equality with the `A_cris` composite | Both composites agree on each `[x]`; `p` becomes invertible; `ξ` reduces to zero under `θ` but maps to a nonzero irreducible element of the actual `BDeRhamPlus` in the `O_C` range, hence a uniformizer in the supplied complete DVR. |
+| `ainfToBdRPlus` | Canonical localization/completion map and equality with the `A_cris` composite | Both composites agree on each `[x]`; `p` becomes invertible; a primitive system's `ξ` reduces to zero under `θ`, while `ainfToBdRPlus_xiOf_irreducible` gives its nonzero irreducible image in the actual `BDeRhamPlus` in the `O_C` range, hence a uniformizer in the supplied complete DVR. |
 | `SpecializationDictionary.xiTilde` | `φ(ξ)`, specialization and inverse transport | `θ̃(ξ̃)=0` for normalized data; `φ⁻¹(ξ̃)=ξ`; the standard value equals `xiTildeOf`. |
 | `SpecializationDictionary.IsNormalized` | The nine displayed equations and the projection API above | Standard primitive data satisfies it; replacing `w` by `θ` violates `w(ξ)=p`; reversing `φ` in `θ̃` changes the required kernel. |
 | `SpecializationDictionary.standard` | Identification of each entry with the actual supplied coefficient map and the normalization theorem | Its `θ` is `WittVector.fontaineTheta`; its `μ` at `ε=1` is zero; with primitive `ε` the two arrows to `B_dR⁺` agree by the stated `A_cris` restriction hypothesis. |
 
-(Bhatt–Morrow–Scholze, §3.1, p.20, for `θ_r=θ̃_rφ^r`; Lemma 3.12, p.23; Example 3.16, p.25; Definition 3.22, p.27; §4.3, p.40.)
+(Bhatt–Morrow–Scholze, §1.2 for primitive root systems and the `B_dR⁺` uniformizer; §3.1, p.20, for `θ_r=θ̃_rφ^r`; Lemma 3.12, p.23; Example 3.16, p.25; Definition 3.22, p.27; §4.3, p.40.)
 
 *Needs:* AInfCohomology `AI.0:integral`; PadicPeriodRings §3; DerivedDeRhamCohomology PD; PadicPeriodRings §§1.5, 3, 4.1–4.3; Mathlib `WittVector.fontaineTheta`; Mathlib `BDeRhamPlus`; Mathlib `WittVector.frobeniusEquiv`; Mathlib `PreTilt.untilt`; Mathlib `WittVector.map`; AInfCohomology `AI.0:period-comparison`; PadicPeriodRings §4.1.
 
@@ -347,7 +347,7 @@ Use AInfCohomology §AI.6.5’s very-small-affinoid basis and enlarged Laurent p
 
 Use AInfCohomology §AI.6.5’s infinitesimal envelope `D_Σ(R)` and `AInf.bdr_infinitesimal_envelope` coordinate, universal-map, enlargement and derivation API. Its presentation is `P_Σ=lim_n(B_dR⁺/ξ^n)⟨X_u^{±1}⟩`, and its completion is along the whole kernel of `e:P_Σ→R`, including the coordinate relations.
 
-The light algebraic interface in `Suggested.lean` abbreviates the supplied completion by `InfinitesimalEnvelope e = AdicCompletion (RingHom.ker e) P`. `InfinitesimalEnvelope.exists_map` expresses the supplied refinement map for `e′∘g=e`. `InfinitesimalEnvelope.existsUnique_lift` expresses its universal extension to a `P`-algebra `S` complete for an ideal `J` containing the image of `ker e`, with `ker e` finitely generated. Finite generation makes extensions automatically continuous. These signatures describe the supplier's envelope, rather than a second analytic construction. The projection and extensionality API is Mathlib's `AdicCompletion.evalₐ`, `AdicCompletion.evalₐ_of`, `AdicCompletion.ext_evalₐ` and `AdicCompletion.isAdicComplete`.
+The light algebraic interface in `Suggested.lean` abbreviates the supplied completion by `InfinitesimalEnvelope e = AdicCompletion (RingHom.ker e) P`. `InfinitesimalEnvelope.exists_map` expresses the supplied refinement map for `e′∘g=e`. `InfinitesimalEnvelope.existsUnique_lift` expresses its universal extension to a `P`-algebra `S` complete for an ideal `J` containing the image of `ker e`, with `ker e` finitely generated. Finite generation makes extensions automatically continuous. The boundary target `InfinitesimalEnvelope.coordinate_survives_second_projection` states that for `ℚ[X]→ℚ`, `X↦0`, the completed coordinate has zero first projection and nonzero second projection. These signatures describe the supplier's envelope, rather than a second analytic construction. The projection and extensionality API is Mathlib's `AdicCompletion.evalₐ`, `AdicCompletion.evalₐ_of`, `AdicCompletion.ext_evalₐ` and `AdicCompletion.isAdicComplete`.
 
 **Checks.**
 
@@ -1076,7 +1076,7 @@ Take a sufficiently ample smooth hypersurface and use weak Lefschetz and the cry
 
 ### 5.12 Degenerating torsion counterexample
 
-Use CrystallineCohomology §CR.3.5, “Proper smooth tests and a crystalline torsion surface”, for the smooth projective surface `H/O_C`, its geometric quotient/torsor construction and its groups `H²_ét(H_C,ℤ_p)_tor≃ℤ/p²` and `H²_crys(H_k/W(k))_tor≃k⊕k`. Compute their truncated torsion lengths and deduce that generic torsion is not a subquotient of special torsion.
+Use CrystallineCohomology §CR.3.5, “Proper smooth tests and a crystalline torsion surface”, for the smooth projective surface `H/O_C`, its geometric quotient/torsor construction and its groups `H²_ét(H_C,ℤ_p)_tor≃ℤ/p²` and `H²_crys(H_k/W(k))_tor≃k⊕k`. Compute their truncated torsion lengths and deduce that generic torsion is not a subquotient of special torsion. The algebraic boundary target `truncatedTorsionLength_cyclic_vs_split` states the lengths at `n=1,2` for `ℤ/p²` and `(ℤ/p)²`, as `ℤ`-modules, distinguishing equal total length from equal exponent.
 
 **Checks.**
 

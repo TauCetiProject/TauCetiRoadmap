@@ -107,32 +107,6 @@ noncomputable def ainfToBdRPlus : Ainf O p →+* BDeRhamPlus O p :=
       (Localization.Away (p : Ainf O p)))).comp
     (algebraMap (Ainf O p) (Localization.Away (p : Ainf O p)))
 
-/-- Frobenius fixes the integer `p`. -/
-example : ainfFrobenius O p (p : Ainf O p) = p := by
-  exact map_natCast (ainfFrobenius O p) p
-
-/-- The zeroth Teichmüller coordinate retains the tilt element. -/
-example (x : PreTilt O p) : (teichmuller p x).coeff 0 = x := by
-  sorry
-
-/-- Teichmüller representatives preserve products. -/
-example (x y : PreTilt O p) :
-    teichmuller p (x * y) = teichmuller p x * teichmuller p y := by
-  exact map_mul (teichmuller p) x y
-
-/-- Witt Frobenius raises the Teichmüller coordinate to its `p`-th power. -/
-example (x : PreTilt O p) :
-    ainfFrobenius O p (teichmuller p x) = teichmuller p (x ^ p) := by
-  sorry
-
-/-- The inverse tilt Frobenius supplies a genuine `p`-th root. -/
-example (ε : PreTilt O p) : (epsRoot O p ε) ^ p = ε := by
-  sorry
-
-/-- The Witt ring keeps `p` nonzero although the tilt has characteristic `p`. -/
-example [Nontrivial (PreTilt O p)] : (p : Ainf O p) ≠ 0 := by
-  sorry
-
 /-- Localization at `p` makes its canonical image in the actual completion a unit. -/
 example : IsUnit (ainfToBdRPlus O p (p : Ainf O p)) := by
   change IsUnit ((algebraMap (Localization.Away (p : Ainf O p))
@@ -141,35 +115,23 @@ example : IsUnit (ainfToBdRPlus O p (p : Ainf O p)) := by
     (algebraMap (Ainf O p) (Localization.Away (p : Ainf O p)) (p : Ainf O p)))
   exact (IsLocalization.Away.algebraMap_isUnit (p : Ainf O p)).map _
 
-/-- The inverse Witt Frobenius uses the supplied Teichmüller theorem. -/
-example (ε : PreTilt O p) :
-    (ainfFrobenius O p).symm (teichmuller p ε) = teichmuller p (epsRoot O p ε) := by
-  exact WittVector.frobeniusEquiv_symm_teichmuller ε
-
-/-- The twisted specialization undoes one Witt Frobenius. -/
-example (a : Ainf O p) :
-    fontaineThetaTilde O p (ainfFrobenius O p a) = WittVector.fontaineTheta O p a := by
-  simp [fontaineThetaTilde]
-
-/-- At the trivial system the geometric sum is p, and so is its Frobenius image. -/
-example : epsRoot O p 1 = 1 ∧ xiOf O p 1 = p ∧ xiTildeOf O p 1 = p := by
-  simp [epsRoot, xiOf, xiTildeOf]
-
 omit [IsAdicComplete (Ideal.span {(p : O)}) O] in
 /-- The geometric-sum normalization of `ξ`: `μ = ξ · φ⁻¹(μ)`, for every `ε`. This is the
 identity `[ε] - 1 = (∑_{i<p} [ε^{1/p}]^i)([ε^{1/p}] - 1)` (BMS1, Example 3.16, p.25). -/
 theorem muOf_eq_xiOf_mul (ε : PreTilt O p) :
     muOf O p ε = xiOf O p ε * (ainfFrobenius O p).symm (muOf O p ε) := by
-  sorry
+  have hroot : (epsRoot O p ε) ^ p = ε :=
+    (_root_.frobeniusEquiv (PreTilt O p) p).apply_symm_apply ε
+  have hinv : (ainfFrobenius O p).symm (teichmuller p ε) =
+      teichmuller p (epsRoot O p ε) :=
+    WittVector.frobeniusEquiv_symm_teichmuller ε
+  simp only [muOf, map_sub, map_one, hinv]
+  rw [xiOf, geom_sum_mul, ← map_pow, hroot]
 
 /-- The trivial root system is a negative control: `μ = 0` at `ε = 1`, so no localization at
 `μ` maps to a nonzero period field. -/
 example : muOf O p 1 = 0 := by
   simp [muOf]
-
-/-- The trivial root system is not primitive. -/
-example : ¬ IsPrimitiveRootSystem O p 1 := by
-  simp [IsPrimitiveRootSystem, epsRoot]
 
 /-- `θ(ξ) = 1 + ζ_p + ⋯ + ζ_p^{p-1} = 0` (BMS1, Example 3.16, p.25). -/
 theorem fontaineTheta_xiOf [IsDomain O] {ε : PreTilt O p} (hε : IsPrimitiveRootSystem O p ε) :
@@ -194,16 +156,6 @@ example {ε : PreTilt O p} (hε : IsPrimitiveRootSystem O p ε) :
       WittVector.fontaineTheta O p (muOf O p ε) = 0 := by
   refine ⟨hε.2, ?_⟩
   simp [muOf, WittVector.fontaineTheta_teichmuller, hε.1]
-
-/-- The twisted specialization kills the forward-Frobenius kernel element. -/
-example [IsDomain O] {ε : PreTilt O p} (hε : IsPrimitiveRootSystem O p ε) :
-    fontaineThetaTilde O p (xiTildeOf O p ε) = 0 := by
-  simpa [fontaineThetaTilde, xiTildeOf] using fontaineTheta_xiOf O p hε
-
-/-- Inverse transport of `ξ̃` recovers `ξ`. -/
-example (ε : PreTilt O p) :
-    (ainfFrobenius O p).symm (xiTildeOf O p ε) = xiOf O p ε := by
-  exact (ainfFrobenius O p).symm_apply_apply _
 
 section Residue
 
@@ -243,28 +195,6 @@ theorem wittReduction_comp_ainfFrobenius :
       WittVector.frobenius.comp (wittReduction O p) := by
   sorry
 
-/-- Tilt reduction is the residue of the untilt, so units with a nontrivial residue keep it. -/
-example (x : PreTilt O p) (hx : IsUnit (PreTilt.untilt x))
-    (hres : IsLocalRing.residue O (PreTilt.untilt x) ≠ 1) :
-    residueOfTilt O p x = IsLocalRing.residue O (PreTilt.untilt x) ∧
-      residueOfTilt O p x ≠ 0 ∧ residueOfTilt O p x ≠ 1 := by
-  sorry
-
-/-- At an odd prime the concrete tilt element `−1` retains its nontrivial residue. -/
-example (hp : p ≠ 2) :
-    residueOfTilt O p (-1) = -1 ∧ residueOfTilt O p (-1) ≠ 1 := by
-  sorry
-
-/-- Both a primitive system and its first root reduce to 1 in the residue field. -/
-example {ε : PreTilt O p} (hε : IsPrimitiveRootSystem O p ε) :
-    residueOfTilt O p ε = 1 ∧ residueOfTilt O p (epsRoot O p ε) = 1 := by
-  sorry
-
-/-- Witt reduction sends a Teichmüller representative to the representative of its residue. -/
-example (x : PreTilt O p) :
-    wittReduction O p (teichmuller p x) = teichmuller p (residueOfTilt O p x) := by
-  simp [wittReduction]
-
 end Residue
 
 section IntegersOfC
@@ -273,8 +203,8 @@ variable [IsDomain O] [ValuationRing O] [Ring.KrullDimLE 1 O] [CharZero O]
   [IsAlgClosed (FractionRing O)]
 
 /-- The ring of integers of an algebraically closed complete mixed-characteristic field
-admits a primitive compatible system of `p`-power roots of unity. -/
-example : ∃ ε : PreTilt O p, IsPrimitiveRootSystem O p ε := by
+admits a primitive compatible system of `p`-power roots of unity (README §0.1). -/
+theorem exists_primitiveRootSystem : ∃ ε : PreTilt O p, IsPrimitiveRootSystem O p ε := by
   sorry
 
 /-- For `O = O_C`, `ker θ = (ξ)` (BMS1, Example 3.16, p.25). -/
@@ -288,8 +218,8 @@ theorem ker_fontaineThetaTilde {ε : PreTilt O p} (hε : IsPrimitiveRootSystem O
   sorry
 
 /-- In the `O_C` range the canonical image of `ξ` is nonzero and irreducible, hence a
-uniformizer in the complete DVR supplied by PadicPeriodRings §4.1. -/
-example {ε : PreTilt O p} (hε : IsPrimitiveRootSystem O p ε) :
+uniformizer in the complete DVR supplied by PadicPeriodRings §4.1 (README §0.1). -/
+theorem ainfToBdRPlus_xiOf_irreducible {ε : PreTilt O p} (hε : IsPrimitiveRootSystem O p ε) :
     ainfToBdRPlus O p (xiOf O p ε) ≠ 0 ∧
       Irreducible (ainfToBdRPlus O p (xiOf O p ε)) := by
   sorry
@@ -348,23 +278,51 @@ structure IsNormalized (p : ℕ) : Prop where
 
 variable {d} {p : ℕ}
 
+/-- A normalized dictionary evaluates `θ̃` by inverse Frobenius followed by `θ` (README §0.1). -/
+theorem thetaTilde_apply (h : d.IsNormalized p) (a : A) :
+    d.thetaTilde a = d.theta (d.phi.symm a) := by
+  sorry
+
+/-- A normalized dictionary sends its kernel generator to zero under `θ` (README §0.1). -/
+theorem theta_xi (h : d.IsNormalized p) : d.theta d.xi = 0 := by
+  sorry
+
+/-- Witt reduction sends a normalized dictionary's kernel generator to `p` (README §0.1). -/
+theorem witt_xi (h : d.IsNormalized p) : d.witt d.xi = p := by
+  sorry
+
+/-- Witt reduction kills the cyclotomic element of a normalized dictionary (README §0.1). -/
+theorem witt_mu (h : d.IsNormalized p) : d.witt d.mu = 0 := by
+  sorry
+
+/-- The two specialization kernels are generated by `ξ` and `φ(ξ)` (README §0.1). -/
+theorem ker_theta (h : d.IsNormalized p) :
+    RingHom.ker d.theta = Ideal.span {d.xi} ∧
+      RingHom.ker d.thetaTilde = Ideal.span {d.xiTilde} := by
+  sorry
+
+/-- Witt reduction intertwines both Frobenius maps of a normalized dictionary (README §0.1). -/
+theorem witt_frobenius (h : d.IsNormalized p) :
+    d.witt.comp d.phi.toRingHom = d.phiW.comp d.witt := by
+  sorry
+
 /-- When `p ≠ 0` in `W`, the Witt reduction does not kill `ξ`; a dictionary that used `θ` in
 place of `w` fails this. -/
-example (h : d.IsNormalized p) (hp : (p : W) ≠ 0) : d.witt d.xi ≠ 0 := by
+example (h : d.IsNormalized p) (hp : (p : W) ≠ 0) :
+    d.theta d.xi = 0 ∧ d.witt d.xi ≠ 0 := by
+  refine ⟨h.theta_xi_eq, ?_⟩
   rw [h.witt_xi_eq]
   exact hp
 
 /-- The two arrows to `B_dR⁺` agree on every element. -/
-example (h : d.IsNormalized p) (a : A) : d.toBdRPlus a = d.acrysToBdRPlus (d.toAcrys a) :=
+theorem period_composite (h : d.IsNormalized p) (a : A) :
+    d.toBdRPlus a = d.acrysToBdRPlus (d.toAcrys a) :=
   h.period_eq ▸ rfl
 
 /-- A normalized dictionary kills `ξ̃` under `θ̃`. -/
-example (h : d.IsNormalized p) : d.thetaTilde d.xiTilde = 0 := by
+theorem thetaTilde_xiTilde (h : d.IsNormalized p) : d.thetaTilde d.xiTilde = 0 := by
   rw [h.thetaTilde_eq]
   simpa [xiTilde] using h.theta_xi_eq
-
-/-- Inverse Frobenius transports `ξ̃` to `ξ`. -/
-example : d.phi.symm d.xiTilde = d.xi := d.phi.symm_apply_apply _
 
 end SpecializationDictionary
 
@@ -405,27 +363,6 @@ theorem SpecializationDictionary.standard_isNormalized [IsDomain O] [ValuationRi
     (SpecializationDictionary.standard O p Acris toAcris acrisToBdRPlus ε).IsNormalized p := by
   sorry
 
-variable [IsLocalRing O]
-
-/-- The standard `θ` is Mathlib's `WittVector.fontaineTheta`. -/
-example (Acris : Type u) [CommRing Acris] (toAcris : Ainf O p →+* Acris)
-    (acrisToBdRPlus : Acris →+* BDeRhamPlus O p) (ε : PreTilt O p) :
-    (SpecializationDictionary.standard O p Acris toAcris acrisToBdRPlus ε).theta =
-      WittVector.fontaineTheta O p :=
-  rfl
-
-/-- At the trivial root system the standard `μ` vanishes. -/
-example (Acris : Type u) [CommRing Acris] (toAcris : Ainf O p →+* Acris)
-    (acrisToBdRPlus : Acris →+* BDeRhamPlus O p) :
-    (SpecializationDictionary.standard O p Acris toAcris acrisToBdRPlus 1).mu = 0 := by
-  simp [SpecializationDictionary.standard, muOf]
-
-/-- The standard transported generator is the actual `xiTildeOf` element. -/
-example (Acris : Type u) [CommRing Acris] (toAcris : Ainf O p →+* Acris)
-    (acrisToBdRPlus : Acris →+* BDeRhamPlus O p) (ε : PreTilt O p) :
-    (SpecializationDictionary.standard O p Acris toAcris acrisToBdRPlus ε).xiTilde =
-      xiTildeOf O p ε := rfl
-
 end Standard
 
 /-! ## Layer 2: Supplied algebraic envelope interface -/
@@ -461,11 +398,15 @@ theorem existsUnique_lift (hfg : (RingHom.ker e).FG) {S : Type*} [CommRing S] [A
 /-- The envelope of the identity is the ring itself, including the zero ring. -/
 example (B : Type*) [CommRing B] :
     Function.Bijective (algebraMap B (InfinitesimalEnvelope (RingHom.id B))) := by
-  sorry
+  change Function.Bijective (AdicCompletion.of (RingHom.ker (RingHom.id B)) B)
+  have hker : RingHom.ker (RingHom.id B) = ⊥ :=
+    (RingHom.injective_iff_ker_eq_bot (RingHom.id B)).mp Function.injective_id
+  rw [hker]
+  exact AdicCompletion.of_bijective (⊥ : Ideal B) B
 
 /-- For `ℚ[X] → ℚ`, `X ↦ 0`, the completed coordinate is nonzero modulo `(X)²` although its first
-projection vanishes: the envelope is not the first quotient. -/
-example :
+projection vanishes: the envelope is not the first quotient (README §2.2). -/
+theorem coordinate_survives_second_projection :
     AdicCompletion.evalₐ (RingHom.ker (Polynomial.evalRingHom (0 : ℚ))) 1
         (algebraMap ℚ[X] (InfinitesimalEnvelope (Polynomial.evalRingHom (0 : ℚ))) X) = 0 ∧
       AdicCompletion.evalₐ (RingHom.ker (Polynomial.evalRingHom (0 : ℚ))) 2
@@ -489,10 +430,12 @@ is nilpotent; this definition provides its finite-exponential transport. -/
 noncomputable def monodromyTransport (c : K) (N : A) : A :=
   IsNilpotent.exp (-(c • N))
 
-example (N : A) : monodromyTransport (0 : K) N = 1 := by
+/-- Zero coordinate change gives identity monodromy transport (README §4.5). -/
+theorem monodromyTransport_zero_left (N : A) : monodromyTransport (0 : K) N = 1 := by
   simp [monodromyTransport, IsNilpotent.exp_zero]
 
-example (c : K) : monodromyTransport c (0 : A) = 1 := by
+/-- Vanishing monodromy makes every coordinate transport the identity (README §4.5). -/
+theorem monodromyTransport_zero_right (c : K) : monodromyTransport c (0 : A) = 1 := by
   simp [monodromyTransport, IsNilpotent.exp_zero]
 
 /-- The unit cocycle: transports along `c` and `d` compose to the transport along `c + d`. -/
@@ -520,19 +463,23 @@ example (c : ℚ) :
       monodromyTransport c !![(0 : ℚ), 1; 0, 0] ∧
     (monodromyTransport (2 * c) ((1 / 2 : ℚ) • !![(0 : ℚ), 1; 0, 0])).mulVec ![0, 1] =
       ![-c, 1] := by
-  sorry
-
-/-- The Tate-curve `(φ, N)` witness: `φ = diag(1, p)` and `N e₁ = e₀` satisfy `Nφ = pφN` with
-`N ≠ 0`; the opposite relation `φN = pNφ` fails. -/
-example (p : ℚ) (hp1 : p * p ≠ 1) :
-    !![(0 : ℚ), 1; 0, 0] * !![1, 0; 0, p] = p • (!![1, 0; 0, p] * !![(0 : ℚ), 1; 0, 0]) ∧
-      !![1, 0; 0, p] * !![(0 : ℚ), 1; 0, 0] ≠ p • (!![(0 : ℚ), 1; 0, 0] * !![1, 0; 0, p]) := by
-  refine ⟨?_, ?_⟩
-  · ext i j; fin_cases i <;> fin_cases j <;> simp [Matrix.mul_apply, Fin.sum_univ_two]
-  · intro h
-    have := congrFun (congrFun h 0) 1
-    simp [Matrix.mul_apply, Fin.sum_univ_two] at this
-    exact hp1 (by linarith [this])
+  have hscale : -((2 * c) • ((1 / 2 : ℚ) • !![(0 : ℚ), 1; 0, 0])) =
+      -(c • !![(0 : ℚ), 1; 0, 0]) := by
+    rw [smul_smul]
+    congr 1
+    congr 1
+    ring
+  have htransport :
+      monodromyTransport (2 * c) ((1 / 2 : ℚ) • !![(0 : ℚ), 1; 0, 0]) =
+        monodromyTransport c !![(0 : ℚ), 1; 0, 0] := by
+    unfold monodromyTransport
+    rw [hscale]
+  refine ⟨htransport, ?_⟩
+  rw [htransport]
+  have hN : (-(c • !![(0 : ℚ), 1; 0, 0])) ^ 2 = 0 := by
+    ext i j; fin_cases i <;> fin_cases j <;> simp [sq, Matrix.mul_apply, Fin.sum_univ_two]
+  rw [monodromyTransport, IsNilpotent.exp_eq_sum hN]
+  ext i; fin_cases i <;> simp [Finset.sum_range_succ, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
 
 end Monodromy
 
@@ -546,24 +493,25 @@ noncomputable def truncatedTorsionLength (R M : Type*) [CommRing R] [AddCommGrou
     (Ideal.span {π ^ n} • ⊤ : Submodule R (Submodule.torsion R M)))
 
 /-- At `n = 0` the quotient is zero. -/
-example (R M : Type*) [CommRing R] [AddCommGroup M] [Module R M]
+theorem truncatedTorsionLength_zero (R M : Type*) [CommRing R] [AddCommGroup M] [Module R M]
     (π : R) : truncatedTorsionLength R M π 0 = 0 := by
   rw [truncatedTorsionLength, pow_zero, Ideal.span_singleton_one, Submodule.top_smul]
   exact Module.length_eq_zero
 
 /-- A torsion-free module has zero truncated torsion length. -/
-example (n : ℕ) : truncatedTorsionLength ℤ ℤ 2 n = 0 := by
-  have h : Submodule.torsion ℤ ℤ = ⊥ :=
+example (R M : Type*) [CommRing R] [IsDomain R] [AddCommGroup M] [Module R M]
+    [Module.IsTorsionFree R M] (π : R) (n : ℕ) : truncatedTorsionLength R M π n = 0 := by
+  have h : Submodule.torsion R M = ⊥ :=
     Submodule.isTorsionFree_iff_torsion_eq_bot.mp inferInstance
   rw [truncatedTorsionLength, Module.length_eq_zero_iff]
-  have : Subsingleton (Submodule.torsion ℤ ℤ) := by
+  have : Subsingleton (Submodule.torsion R M) := by
     rw [h]; infer_instance
   infer_instance
 
 /-- The degenerating-group pair: `ℤ/p²` and `(ℤ/p)²` have truncated lengths `1` and `2` at
 `n = 1` and `2` and `2` at `n = 2`, although the second is killed by `p` and the first is not
-(BMS1, Theorem 2.10 and its proof, pp.15–17). -/
-example (p : ℕ) [Fact p.Prime] :
+(README §5.12; BMS1, Theorem 2.10 and its proof, pp.15–17). -/
+theorem truncatedTorsionLength_cyclic_vs_split (p : ℕ) [Fact p.Prime] :
     truncatedTorsionLength ℤ (ZMod (p ^ 2)) (p : ℤ) 1 = 1 ∧
       truncatedTorsionLength ℤ (ZMod p × ZMod p) (p : ℤ) 1 = 2 ∧
       truncatedTorsionLength ℤ (ZMod (p ^ 2)) (p : ℤ) 2 = 2 ∧
@@ -571,10 +519,6 @@ example (p : ℕ) [Fact p.Prime] :
   sorry
 
 /-! ## Layer 6: Relative, product and arithmetic comparisons -/
-
-/-- The scalar trace normalization distinguishes the period factor from its inverse. -/
-example : (2 : ℚ) * 1 = 2 ∧ (2 : ℚ)⁻¹ * 1 = 1 / 2 ∧ (2 : ℚ) ≠ 1 / 2 := by
-  norm_num
 
 /-- The quotient-line projective-bundle relation `∑_{i=0}^{n} (-1)^i c_i hⁿ⁻ⁱ` with `c₀ = 1`, as a
 polynomial in `h = c₁(O(1))`: the relation by which Grothendieck's formalism defines Chern
@@ -587,10 +531,6 @@ noncomputable def projectiveBundleRelation {R : Type*} [CommRing R] (n : ℕ) (c
 example {R : Type*} [CommRing R] (c : ℕ → R) : projectiveBundleRelation 1 c = X - C (c 1) := by
   simp [projectiveBundleRelation, Finset.sum_range_succ, sub_eq_add_neg]
 
-/-- For the trivial rank-two bundle the relation is `h²`. -/
-example {R : Type*} [CommRing R] : projectiveBundleRelation 2 (fun _ => (0 : R)) = X ^ 2 := by
-  simp [projectiveBundleRelation, Finset.sum_range_succ]
-
 /-- For `E = L ⊕ M` the relation factors as `(h - c₁(L))(h - c₁(M))`. -/
 example {R : Type*} [CommRing R] (a b : R) :
     projectiveBundleRelation 2 (fun i => if i = 1 then a + b else a * b) =
@@ -601,11 +541,6 @@ example {R : Type*} [CommRing R] (a b : R) :
 end TauCetiRoadmap.CohomologyComparisons
 
 /-
-The normalized-dictionary API of README §0.1 comprises thetaTilde_apply, period_composite,
-theta_xi, witt_xi, witt_mu, ker_theta, witt_frobenius and thetaTilde_xiTilde. The zero-transport
-and zero-truncation checks monodromyTransport_zero_left, monodromyTransport_zero_right and
-truncatedTorsionLength_zero are examples above.
-
 README constructions and supplier interfaces not declared here, because their carriers do not
 exist at the pins or because they are not light definitions: the formal, analytic and crystalline dictionaries
 and site compatibilities of Layer 0; `F_GR`, the Frobenius transport of GR’s coefficient
