@@ -385,7 +385,7 @@ serve the corresponding extension request. This is a tuple-budget bound, not a
 bound ignoring the named root.
 
 In particular, if $`G,H`$ satisfy $`\mathrm{EP}_{\le d}`$ and
-$`\operatorname{qr}(\varphi)\le d+1`$, then
+$`\mathrm{qr}(\varphi)\le d+1`$, then
 
 ```math
 G\models\varphi\quad\Longleftrightarrow\quad H\models\varphi.
@@ -400,7 +400,7 @@ Let $`T_R`$ be the native simple-graph theory together with all $`E_{r,s}`$.
 Prove that its models are precisely the graph structures with full extension; it has
 no finite models; it is countably categorical; and it is complete. Prove
 $`T_R\models\varphi`$ if and only if $`R\models\varphi`$, so the semantic consequence
-closure of this axiom set is $`\operatorname{Th}(R)`$.
+closure of this axiom set is $`\mathrm{Th}(R)`$.
 
 Prove quantifier elimination for actual first-order formulas, including formulas with
 free variables. Build finite equality-and-adjacency diagrams for tuples, give their
@@ -499,7 +499,7 @@ The empty request and the absence of candidates are required boundary checks.
 
 ### 7.1 Finite laws
 
-For $`\operatorname{qr}(\varphi)\le d+1`$ and $`n\ge d`$, prove the explicit estimate
+For $`\mathrm{qr}(\varphi)\le d+1`$ and $`n\ge d`$, prove the explicit estimate
 
 ```math
 \left|\Pr(G(n,p)\models\varphi)-\mathbf1_{\{R\models\varphi\}}\right|
@@ -508,7 +508,7 @@ For $`\operatorname{qr}(\varphi)\le d+1`$ and $`n\ge d`$, prove the explicit est
 ```
 
 It is uniform over all sentences of the indicated rank. Derive the fixed-$`p`$ zero–one
-law, the equality of the almost-sure theory with $`\operatorname{Th}(R)`$ (the semantic
+law, the equality of the almost-sure theory with $`\mathrm{Th}(R)`$ (the semantic
 consequence closure of $`T_R`$), and independence of this theory from $`p\in(0,1)`$. The procedure in Milestone 5 computes the limiting truth
 value; the rank supplies the error profile. Classical compactness alone is not claimed
 to compute either procedure.
@@ -573,7 +573,7 @@ and therefore
 \forall d,\quad
 \forall^\infty n,\quad
 \forall\varphi\
-(\operatorname{qr}(\varphi)\le d+1),\quad
+(\mathrm{qr}(\varphi)\le d+1),\quad
 \bigl(X_n(\omega)\models\varphi\iff R\models\varphi\bigr).
 
 ```
@@ -611,7 +611,7 @@ p^{e(H)}(1-p)^{\binom m2-e(H)}
 ```
 
 This is a finite, effectively determined polynomial expression. Include the example
-$`\psi(x_0,x_1)=\operatorname{Adj}(x_0,x_1)`$, whose limit is $`p`$. This does not contradict
+$`\psi(x_0,x_1)=\mathrm{Adj}(x_0,x_1)`$, whose limit is $`p`$. This does not contradict
 the sentence zero–one law: it is a formula evaluated at random named vertices.
 
 ### 8.2 Graph properties
@@ -739,8 +739,8 @@ Construct both of the following sentences and prove their stated semantics.
    $`G(\mathbb N,p)`$ for $`0<p<1`$, and probability $`0`$ on every finite carrier.
    This refutes extending the Rado-truth identification to arbitrary infinitary
    sentences. Its finite probabilities do converge to a zero–one value, namely $`0`$.
-2. Construct first-order $`\operatorname{CardEq}(m)`$, including $`m=0`$, and
-   $`\Theta_{\mathrm{even}}=\bigvee_{m\in\mathbb N}\operatorname{CardEq}(2m)`$.
+2. Construct first-order $`\mathrm{CardEq}(m)`$, including $`m=0`$, and
+   $`\Theta_{\mathrm{even}}=\bigvee_{m\in\mathbb N}\mathrm{CardEq}(2m)`$.
    On the finite carrier `Fin n`, its probability is exactly $`1`$ for even $`n`$ and
    $`0`$ for odd $`n`$, for every $`p`$. This sequence has no limit.
 
@@ -765,7 +765,7 @@ $`e^{-\lambda}\lambda^j/j!`$, convergence in distribution and total variation co
 The proof can use finite Bonferroni bounds for $`\Pr(X=j)`$ followed by the exponential
 series; provide those finite bounds and their hypotheses as reusable lemmas.
 For total variation use the countable discrete formula
-$`\frac12\sum_j|\nu_n\{j\}-\operatorname{Poisson}(\lambda)\{j\}|`$.
+$`\frac12\sum_j|\nu_n\{j\}-\mathrm{Poisson}(\lambda)\{j\}|`$.
 Handle $`\lambda=0`$.
 
 This convergence criterion is a target here. Defining the Poisson law in
@@ -784,7 +784,7 @@ is one triangle, so there is no factor-of-six ambiguity.
 For any $`p_n\in[0,1]`$ with $`np_n\to c\ge0`$, prove
 
 ```math
-T_n\ \xrightarrow{\mathrm{law}}\ \operatorname{Poisson}(c^3/6).
+T_n\ \xrightarrow{\mathrm{law}}\ \mathrm{Poisson}(c^3/6).
 
 ```
 
@@ -817,7 +817,7 @@ Its infinite sample is almost surely Rado by 9.2. Let $`Z_n`$ count isolated ver
 of its finite sample. Prove
 
 ```math
-Z_n\ \xrightarrow{\mathrm{law}}\ \operatorname{Poisson}(2).
+Z_n\ \xrightarrow{\mathrm{law}}\ \mathrm{Poisson}(2).
 
 ```
 
@@ -849,10 +849,10 @@ gives the integrable dominator $`\exp(-\sum_i u_i/(4k))`$ after scaling.
 Thus the moment limit is $`2^k`$, and 11.1 applies. Prove the $`k=0`$ case separately.
 As an elementary check, $`\mathbb E Z_n=2(1-2^{-n})`$ for $`n\ge1`$.
 
-Construct the FO sentence $`\forall x\,\exists y\,\operatorname{Adj}(x,y)`$ and derive
+Construct the FO sentence $`\forall x\,\exists y\,\mathrm{Adj}(x,y)`$ and derive
 
 ```math
-\Pr(G(n,W)\models\forall x\,\exists y\,\operatorname{Adj}(x,y))
+\Pr(G(n,W)\models\forall x\,\exists y\,\mathrm{Adj}(x,y))
 \longrightarrow e^{-2},
 
 ```
@@ -931,7 +931,7 @@ work. No unmerged mathlib branch or external formalization is a runtime dependen
   Theorems 1.21–1.22 give Poisson convergence from convergence of factorial moments, the
   criterion of 11.1. Theorem 4.1 gives the Poisson limit for copies of a fixed strictly
   balanced graph at its threshold, and Corollary 4.9 the cycle case at $`p\sim c/n`$; for
-  triangles this is the $`\operatorname{Poisson}(c^3/6)`$ limit of 11.2.
+  triangles this is the $`\mathrm{Poisson}(c^3/6)`$ limit of 11.2.
 - P. J. Cameron, [The random graph](https://arxiv.org/abs/1301.7544):
   extension properties, the binary presentation, homogeneity, universality and logical theory.
 - P. Erdős and A. Rényi,
