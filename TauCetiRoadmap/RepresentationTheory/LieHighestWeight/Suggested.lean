@@ -2570,3 +2570,7 @@ theorem generator_commutator (x y : L) :
     (AlgHom.id R U) x y
 
 end TauCetiRoadmap.RepresentationTheory.LieHighestWeight.PBWRees
+
+/-! The independent integral type-A polynomial/Haar precursor is prototyped in
+`TypeAHaarTargets.lean`; its finite lattice and denominator-cleared interfaces
+do not assume the group-character identity they are intended to prove. -/

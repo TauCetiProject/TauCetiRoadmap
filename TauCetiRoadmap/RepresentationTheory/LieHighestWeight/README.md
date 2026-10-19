@@ -605,6 +605,171 @@ The highest-weight predicates, Verma modules, weight form and Casimir in Layers 
   the `L(λ)` (dominant integral `λ`), so every finite-dimensional module has a well-defined
   multiplicity decomposition `M ≅ ⨁_λ L(λ)^{⊕ mλ}`, the setting in which characters are additive.
 
+### Precursor to Layer 6: integral type-A characters from Haar measure
+
+Construct the following independent type-A character route over ℂ. Its inputs are
+ClassicalGroups Layer 3's group-level classification of rational GLₙ-representations,
+highest-weight cone, one-dimensional highest-weight line and torus weights;
+CompactGroups' invariant Hermitian forms, complete reducibility and character
+orthogonality; LieGroups Layer 6's normalized Haar Weyl integration formula and
+Layer 7's compact-complexification equivalence for finite-dimensional continuous
+U(n)-representations; and SchurWeyl Layer 7's combinatorial Schur polynomials and
+division-free bialternant identity. The GLₙ classification uses torus weights and
+transvections before comparison with glₙ Lie modules. The compact-complexification
+equivalence uses the compact polar and algebraic-realization constructions before
+the Tannakian reconstruction layer. Retain these phase boundaries: neither input
+uses ClassicalGroups Layer 4's character–Schur identification, this layer's Weyl
+formula, its Fourier-boundary comparison, or a formula for tensor multiplicities.
+These inputs commission the following construction, separately from the native
+Freudenthal–Casimir proof used in Layer 6.
+
+Apply the complete LieGroups Layer 7 compact-real-form-pair *morphism* theorem:
+average a positive Hermitian form on a continuous U(n)-module, choose a Gram
+change of basis carrying its image into U(V), and extend this compact-pair
+homomorphism to a regular GLₙ→GL(V) morphism. Conjugate back by the constant
+Gram matrix to obtain a rational representation on the original vector space.
+Prove that restriction and this extension preserve intertwiners, direct sums,
+tensor products and irreducibility. Holomorphic extension alone is not the
+rationality statement required by ClassicalGroups Layer 3. The compact-pair
+morphism theorem uses Layer 7's graph/polar algebraicity proof before RG10;
+do not replace it with Tannakian reconstruction or a character formula.
+
+**Integral weights, finite induction and virtual characters.** Use the native
+`TauCeti.DominantWeight n`, its determinant shift and bounded Young diagram, and
+the integral group algebra ℤ[ℤⁿ]. Fix the action `(w·β)ᵢ=β_(w⁻¹(i))`; let m_λ
+sum each *distinct* weight in the orbit of λ once. For dominant λ, prove the
+group-level analogue of `formalCharacter_eq_orbitSum_add_lower` from the highest-weight
+cone, top-line dimension and Weyl invariance. Use the actual GLₙ torus weight-space
+dimensions to construct its integral Laurent character and prove the trace-evaluation
+dictionary. Do not instantiate a Killing-semisimple Lie-algebra theorem at glₙ:
+retain the central degree and determinant character in ℤⁿ. All coefficients below λ are
+nonnegative integers. Here μ≤λ means equal coordinate sums and λ−μ in the
+nonnegative integral span of εᵢ−ε_(i+1), equivalently the prefix-sum inequalities.
+
+Supply an explicit finite-induction API. For fixed S and strictly decreasing
+real x₁>⋯>xₙ, the set of dominant integer λ with Σλᵢ=S and x·λ≤B is finite.
+For n>1, put dⱼ=λⱼ−λ_(j+1)≥0 and prove
+
+`x·λ = (S/n)Σᵢxᵢ + Σ_(1≤j<n) [Σ_(i≤j)xᵢ − (j/n)Σᵢxᵢ] dⱼ`.
+
+Every coefficient in brackets is positive. A bound on x·λ therefore bounds each
+integer gap; the gaps and S determine λ, subject to the integral congruence for
+λₙ. Treat n=0 and n=1 directly. Deduce finite dominance ideals, well-founded
+strict decrease of the score, and a well-order on each fixed-sum dominant lattice
+when the coordinates of x are ℚ-linearly independent. For x=(n,…,1), retain
+well-foundedness but do not assert injectivity: for n=3 the different weights
+(1,1,−2) and (2,−1,−1) have equal score. Supply a deterministic finite tie order
+when a total algorithmic order is needed. No assertion concerns the unrestricted
+integer lattice or a cone whose defining inequalities have not been supplied.
+
+Invert the unitriangular character/orbit-sum matrix on each finite dominance
+ideal over ℤ. Prove that restriction identifies the Grothendieck group of
+finite-dimensional continuous U(n)-representations with the symmetric integral
+Laurent polynomials. A Laurent polynomial has only finitely many central degrees;
+apply finite triangular elimination separately in each one. Negative coefficients
+give actual *virtual* representations. For an actual representation, realize the
+highest-weight summands through its Hom spaces and complete reducibility before
+subtracting their nonnegative multiplicities; formal integer subtraction alone
+does not prove a subrepresentation exists. This supplies both the virtual
+character expansion and the source's decomposition procedure.
+
+**Polynomiality before character identification.** For dominant λ set
+ρ=(n−1,…,0), D=∏_(i>j)(1−tᵢ/tⱼ),
+A_β=Σ_w sgn(w)t^(w·β), and N_λ=t^(−ρ)A_(λ+ρ).
+All these expressions initially live in ℤ[ℤⁿ]. In its fraction field define
+
+`C_λ = Σ_w t^(w·λ) / ∏_(i>j)(1−t_(w(i))/t_(w(j)))`.
+
+Prove the inversion-set denominator rewrite, with the pinned action, and the
+identity D C_λ=N_λ. For n>0, put m=λₙ and let p be the bounded diagram of
+λ−m(1,…,1). Construct the integral Laurent polynomial
+`P_λ=(t₁⋯tₙ)^m s_p(t)` from the combinatorial tableau polynomial. Consume native
+`TauCeti.diagramSchurPoly_mul_alternant` with the actual row bound to prove
+D P_λ=N_λ and hence C_λ=P_λ in the fraction field. For n=0 all products and
+alternants equal 1 and there is just the trivial weight.
+
+Retain the paired-pole argument as its own algebraic construction. After clearing
+the determinant shift, pair numerator terms by the transposition of two variables.
+Their difference vanishes when the variables agree and is divisible by their
+difference over ℤ; polynomial division by this monic linear factor preserves
+integer coefficients. Prove that the distinct linear factors of the Vandermonde
+are nonassociate primes in ℤ[t₁,…,tₙ], so their product divides the alternating
+numerator. Compare this quotient with the independent tableau bialternant above.
+Analytic removal of an apparent pole, by itself, is not a proof of an integral
+Laurent quotient. On the unit torus use evaluation of P_λ at *every* point,
+including repeated eigenvalues; do not define a value by a pointwise 0/0 quotient.
+
+Construct the negative-simple-root completion in which D⁻¹ is the product of the
+specified geometric series. A fixed exponent receives finitely many contributions
+because positive-root height bounds every summation index. Prove that the map
+from finite Laurent polynomials is injective, multiplication by D cancels this
+inverse, and N_λ/D has support ≤λ with coefficient 1 at λ. Pin the fact that
+λ+ρ is strictly decreasing: for w≠1 its permuted exponent is strictly below
+λ+ρ in dominance order. This supplies the leading coefficient and support
+without an analytic expansion at a wall or a character-formula assumption.
+
+**Haar norm and identification.** Expand P_λ using the preceding integral virtual
+character isomorphism, `P_λ=Σ_ν a_ν χ_ν|_T`, with finitely many a_ν∈ℤ. The actual
+continuous central function `F_λ=Σ_ν a_ν χ_ν` on U(n) is constructed by this finite
+sum; its restriction is P_λ, and conjugacy into T determines it. This explicitly
+supplies the class function needed by the Haar integral, rather than presupposing
+that a rational torus expression extends continuously to U(n).
+
+Use probability Haar measures on U(n) and T. Compare the source's right-trivialized
+Jacobian X−Ad_t X with LieGroups Layer 6's left-trivialized Ad_(t⁻¹)X−X by the
+actual translation on the target tangent space; root-plane absolute determinants
+agree. Consume its regular conjugation covering, null singular locus and measure
+formula to obtain
+
+`∫_(U(n)) |F_λ|² = (1/n!)∫_T |P_λ D|²
+ = (1/n!) Σ_(w,v) sgn(w)sgn(v) δ_(w·(λ+ρ),v·(λ+ρ)) = 1`.
+
+The middle identity uses the native torus characters, their normalized Fourier
+orthogonality, |t^ρ|=1, and freeness of the permutations of the strictly decreasing
+λ+ρ. It remains valid at the singular torus points through the denominator-cleared
+polynomial identity. Character orthogonality makes the left side Σ_ν a_ν²;
+integrality implies exactly one coefficient is ±1. Its highest weight ν satisfies
+ν≤λ by support, while the nonzero coefficient at λ implies λ≤ν. Antisymmetry
+gives ν=λ, and the coefficient 1 fixes the positive sign. Conclude P_λ=χ_λ|_T
+and hence the denominator-cleared Weyl character formula by this independent
+polynomial/Haar route. Compare its result with the native formula after both
+constructions; the comparison is not a premise of either proof.
+
+**Type-A coefficient and branching applications.** In the same directed completion,
+derive Kostant's weight coefficient formula and the alternating tensor coefficient
+formula by multiplying D and extracting a dominant coefficient. For n>0, λ, μ
+dominant and `λᵢ−λ_(i+1)>μ₁−μₙ` for every adjacent pair, prove
+
+`V_λ ⊗ V_μ ≅ ⊕_(γ weight of V_μ) V_(λ+γ)^(⊕ mult_γ V_μ)`.
+
+Every weight γ has μₙ≤γᵢ≤μ₁, since the highest-weight cone and Weyl invariance
+put it in the permutahedron of μ; therefore λ+γ is dominant. In the alternating
+coefficient formula a nonidentity permutation of λ+ρ has an inversion. If a
+dominant ν and `ν+ρ=w·(λ+ρ)+γ` occurred for that permutation, the inverted gap
+would exceed μ₁−μₙ, whereas the correction γ cannot remove it. Thus only the
+identity contributes. Keep the precise total spread μ₁−μₙ and the source's strict
+inequality, rather than replacing it by a bound on adjacent gaps of μ. For n=0
+and n=1 the empty adjacent conditions give the direct character identities.
+
+For n≥1 and the restriction GLₙ→GL_(n−1)×GL₁, consume ClassicalGroups' interlacing
+branching contract and retain the finite-alternant proof: after tₙ=1, the
+coefficient determinant has entries `[λⱼ+n−j ≥ μᵢ+n−i]` for i<n and final row
+all 1. Prove its value is 1 precisely when
+`λᵢ+n−i ≥ μᵢ+n−i > λ_(i+1)+n−i−1`, equivalently
+λᵢ≥μᵢ≥λ_(i+1), and 0 otherwise. The extra GL₁ exponent is |λ|−|μ|. Iterating
+this multiplicity-one decomposition gives the Gel'fand–Cetlin lines, canonical
+up to separate nonzero scalings, their row-sum-difference weights and the
+weight-multiplicity count. SchurWeyl owns the combinatorial interlacing identity,
+ClassicalGroups owns the group restriction and line decomposition, and this
+precursor owns their comparison with the independent character proof.
+
+In applying this determinant to the notes, retain the printed p5 `+i`/`+j`
+indicator separately from the corrected `n−i`/`n−j` indexing above, whose strict
+interlacing comparison is given on p6. The corrected contract does not authenticate
+that earlier source formula. The n=0 restriction boundary is the trivial group;
+it has no GL_(−1) target.
+
+
 ### Layer 6: the Weyl character, dimension, and Kostant formulas
 
 Consume native `TauCeti.formalCharacter K H M`,
