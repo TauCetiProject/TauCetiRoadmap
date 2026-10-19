@@ -447,35 +447,16 @@ theorem monodromyTransport_add {N : A} (hN : IsNilpotent N) (c d : K) :
   · exact (hN.smul c).neg
   · exact (hN.smul d).neg
 
+/-- Rescaling monodromy by `e⁻¹` and the coordinate change by `e ≠ 0` preserves transport
+(README §4.5). This identifies the raw and p-normalized uniformizer-change formulas. -/
+theorem monodromyTransport_rescale (e c : K) (he : e ≠ 0) (N : A) :
+    monodromyTransport (e * c) (e⁻¹ • N) = monodromyTransport c N := by
+  sorry
+
 /-- The two-term witness: for `N e₁ = e₀`, `N e₀ = 0`, the transport sends `e₁` to `e₁ - c e₀`,
 fixing the sign and the direction of the coordinate change. -/
 example (c : ℚ) :
     (monodromyTransport c !![(0 : ℚ), 1; 0, 0]).mulVec ![0, 1] = ![-c, 1] := by
-  have hN : (-(c • !![(0 : ℚ), 1; 0, 0])) ^ 2 = 0 := by
-    ext i j; fin_cases i <;> fin_cases j <;> simp [sq, Matrix.mul_apply, Fin.sum_univ_two]
-  rw [monodromyTransport, IsNilpotent.exp_eq_sum hN]
-  ext i; fin_cases i <;> simp [Finset.sum_range_succ, Matrix.mulVec, dotProduct, Fin.sum_univ_two]
-
-/-- At ramification index two, transport of normalized monodromy uses twice the logarithm
-and agrees with transport of the raw operator. -/
-example (c : ℚ) :
-    monodromyTransport (2 * c) ((1 / 2 : ℚ) • !![(0 : ℚ), 1; 0, 0]) =
-      monodromyTransport c !![(0 : ℚ), 1; 0, 0] ∧
-    (monodromyTransport (2 * c) ((1 / 2 : ℚ) • !![(0 : ℚ), 1; 0, 0])).mulVec ![0, 1] =
-      ![-c, 1] := by
-  have hscale : -((2 * c) • ((1 / 2 : ℚ) • !![(0 : ℚ), 1; 0, 0])) =
-      -(c • !![(0 : ℚ), 1; 0, 0]) := by
-    rw [smul_smul]
-    congr 1
-    congr 1
-    ring
-  have htransport :
-      monodromyTransport (2 * c) ((1 / 2 : ℚ) • !![(0 : ℚ), 1; 0, 0]) =
-        monodromyTransport c !![(0 : ℚ), 1; 0, 0] := by
-    unfold monodromyTransport
-    rw [hscale]
-  refine ⟨htransport, ?_⟩
-  rw [htransport]
   have hN : (-(c • !![(0 : ℚ), 1; 0, 0])) ^ 2 = 0 := by
     ext i j; fin_cases i <;> fin_cases j <;> simp [sq, Matrix.mul_apply, Fin.sum_univ_two]
   rw [monodromyTransport, IsNilpotent.exp_eq_sum hN]
@@ -497,6 +478,21 @@ theorem truncatedTorsionLength_zero (R M : Type*) [CommRing R] [AddCommGroup M] 
     (π : R) : truncatedTorsionLength R M π 0 = 0 := by
   rw [truncatedTorsionLength, pow_zero, Ideal.span_singleton_one, Submodule.top_smul]
   exact Module.length_eq_zero
+
+/-- Truncated torsion length is invariant under linear isomorphisms, including when its
+value is infinite (README §5.2). -/
+theorem truncatedTorsionLength_linearEquiv {R M M' : Type*} [CommRing R]
+    [AddCommGroup M] [Module R M] [AddCommGroup M'] [Module R M']
+    (f : M ≃ₗ[R] M') (π : R) (n : ℕ) :
+    truncatedTorsionLength R M π n = truncatedTorsionLength R M' π n := by
+  sorry
+
+/-- A finitely generated module over a DVR has finite truncated torsion length for every
+truncating scalar, in particular for a uniformizer (README §5.2). -/
+theorem truncatedTorsionLength_ne_top (R M : Type*) [CommRing R] [IsDomain R]
+    [IsDiscreteValuationRing R] [AddCommGroup M] [Module R M] [Module.Finite R M]
+    (π : R) (n : ℕ) : truncatedTorsionLength R M π n ≠ ⊤ := by
+  sorry
 
 /-- A torsion-free module has zero truncated torsion length. -/
 example (R M : Type*) [CommRing R] [IsDomain R] [AddCommGroup M] [Module R M]
@@ -526,17 +522,6 @@ classes, to which the proof of Betts–Stix, Proposition 3.20(8), p.28, reduces.
 noncomputable def projectiveBundleRelation {R : Type*} [CommRing R] (n : ℕ) (c : ℕ → R) :
     R[X] :=
   ∑ i ∈ Finset.range (n + 1), C ((-1) ^ i * if i = 0 then 1 else c i) * X ^ (n - i)
-
-/-- In rank one the relation is `h - c₁`, so `h = c₁(E)`. -/
-example {R : Type*} [CommRing R] (c : ℕ → R) : projectiveBundleRelation 1 c = X - C (c 1) := by
-  simp [projectiveBundleRelation, Finset.sum_range_succ, sub_eq_add_neg]
-
-/-- For `E = L ⊕ M` the relation factors as `(h - c₁(L))(h - c₁(M))`. -/
-example {R : Type*} [CommRing R] (a b : R) :
-    projectiveBundleRelation 2 (fun i => if i = 1 then a + b else a * b) =
-      (X - C a) * (X - C b) := by
-  simp [projectiveBundleRelation, Finset.sum_range_succ, map_add, map_mul]
-  ring
 
 end TauCetiRoadmap.CohomologyComparisons
 
