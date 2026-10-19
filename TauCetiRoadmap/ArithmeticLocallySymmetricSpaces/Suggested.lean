@@ -151,6 +151,22 @@ theorem stabilizer_I_eq_orthogonalTimesScalars :
     MulAction.stabilizer (GL (Fin 2) ℝ) UpperHalfPlane.I = orthogonalTimesScalars := by
   sorry
 
+/-- `diag(−1, 1)` fixes `i` (it acts by `z ↦ −z̄`) although it has negative determinant: the
+stabilizer meets both components of `GL(2, ℝ)`. -/
+theorem orthogonalTimesScalars_reflection (g : GL (Fin 2) ℝ) (hg : (g : Matrix (Fin 2) (Fin 2) ℝ) = !![-1, 0; 0, 1]) :
+    g ∈ orthogonalTimesScalars := by
+  sorry
+
+/-- `diag(2, 1)` is not in `ℝ_{>0}·O(2)`: it moves `i` to `2i`. -/
+theorem orthogonalTimesScalars_not_diagonal (g : GL (Fin 2) ℝ) (hg : (g : Matrix (Fin 2) (Fin 2) ℝ) = !![2, 0; 0, 1]) :
+    g ∉ orthogonalTimesScalars := by
+  sorry
+
+/-- The scalar `2` is in `ℝ_{>0}·O(2)`: `(2I)ᵀ(2I) = 4·1`, so the split centre lies in the group. -/
+theorem orthogonalTimesScalars_scalar (g : GL (Fin 2) ℝ) (hg : (g : Matrix (Fin 2) (Fin 2) ℝ) = !![2, 0; 0, 2]) :
+    g ∈ orthogonalTimesScalars := by
+  sorry
+
 /-- **ALS.0.1, `cartanInvolution_GL_transposeInverse`.** The fixed points of the Cartan
 involution `g ↦ (gᵀ)⁻¹` of `GL_n(ℝ)` are the orthogonal group `O(n)`. This is the same
 fixed subgroup for the AA.3.7 inverse-adjoint datum with standard representation and identity form. -/
@@ -172,10 +188,21 @@ subgroup; for `n = 2` and `I = (p^c)` it is the `GL_2`-preimage of `Γ₀(p^c)`.
 def upperTriangularMod (I : Ideal R) : Subgroup (GL n R) :=
   (TauCeti.upperTriangularGroup n (R ⧸ I)).comap (GeneralLinearGroup.map (Ideal.Quotient.mk I))
 
+/-- Membership in `upperTriangularMod I`: every entry below the diagonal lies in `I`. -/
+theorem upperTriangularMod_mem_iff (I : Ideal R) (g : GL n R) :
+    g ∈ upperTriangularMod I ↔ ∀ i j, j < i → (g : Matrix n n R) i j ∈ I := by
+  sorry
+
 /-- **ALS.0.10.** The matrices that are unipotent upper triangular modulo `I`: the preimage of Tau
 Ceti's `upperUnitriangularGroup` of `GL_n(R/I)` under reduction modulo `I`. -/
 def unipotentMod (I : Ideal R) : Subgroup (GL n R) :=
   (TauCeti.upperUnitriangularGroup n (R ⧸ I)).comap (GeneralLinearGroup.map (Ideal.Quotient.mk I))
+
+/-- Membership in `unipotentMod I`: upper triangular modulo `I` with diagonal entries `≡ 1`. -/
+theorem unipotentMod_mem_iff (I : Ideal R) (g : GL n R) :
+    g ∈ unipotentMod I ↔
+      (∀ i j, j < i → (g : Matrix n n R) i j ∈ I) ∧ ∀ i, (g : Matrix n n R) i i - 1 ∈ I := by
+  sorry
 
 /-- **ALS.0.10, `LocallySymmetric.iwahori`.** The matrices of `GL_n(R)`, `R` a local ring, that are
 upper triangular modulo the maximal ideal: the case `I = 𝔪` of `upperTriangularMod`. When `R` is the
@@ -227,11 +254,70 @@ theorem iwahoriOne_relIndex (R : Type*) [CommRing R] [IsLocalRing R]
       (Nat.card (IsLocalRing.ResidueField R) - 1) ^ Fintype.card n := by
   sorry
 
+/-- Over `ZMod 5` with `I = ⊥`, the upper unipotent `(1, 1; 0, 1)` lies in both level groups. -/
+theorem levels_upper_unipotent_five (g : GL (Fin 2) (ZMod 5)) (hg : (g : Matrix (Fin 2) (Fin 2) (ZMod 5)) = !![1, 1; 0, 1]) :
+    g ∈ upperTriangularMod (⊥ : Ideal (ZMod 5)) ∧ g ∈ unipotentMod (⊥ : Ideal (ZMod 5)) := by
+  sorry
+
+/-- Over `ZMod 5` with `I = ⊥`, `diag(2, 1)` is upper triangular but not unipotent, and the lower
+unipotent `(1, 0; 1, 1)` is not upper triangular. -/
+theorem levels_diagonal_lower_five (g h : GL (Fin 2) (ZMod 5)) (hg : (g : Matrix (Fin 2) (Fin 2) (ZMod 5)) = !![2, 0; 0, 1])
+    (hh : (h : Matrix (Fin 2) (Fin 2) (ZMod 5)) = !![1, 0; 1, 1]) :
+    g ∈ upperTriangularMod (⊥ : Ideal (ZMod 5)) ∧ g ∉ unipotentMod (⊥ : Ideal (ZMod 5)) ∧
+      h ∉ upperTriangularMod (⊥ : Ideal (ZMod 5)) := by
+  sorry
+
+/-- Modulo the unit ideal every matrix is upper triangular, unipotent and in `Γ₁`. -/
+theorem levels_top : upperTriangularMod (⊤ : Ideal R) = (⊤ : Subgroup (GL n R)) ∧
+    unipotentMod (⊤ : Ideal R) = (⊤ : Subgroup (GL n R)) ∧
+    gamma1Mod (⊤ : Ideal R) = ⊤ := by
+  sorry
+
+/-- At residue field `F_2` every unit is `≡ 1`, so `Iw₁ = Iw` for `ℤ_2`; at residue field `F_3` the
+inclusion `Iw₁ ⊂ Iw` is strict. -/
+theorem iwahoriOne_two_eq_three_lt : iwahoriOne ℤ_[2] (Fin 2) = iwahori ℤ_[2] (Fin 2) ∧
+    iwahoriOne ℤ_[3] (Fin 2) < iwahori ℤ_[3] (Fin 2) := by
+  sorry
+
 /-- **`gamma0_eq_congruenceSubgroup`.** Intersecting the `GL_2`-preimage of the projective `Γ₀(N)`
 with `SL_2(ℤ)` gives Mathlib's `CongruenceSubgroup.Gamma0 N`. -/
 theorem gamma0_eq_congruenceSubgroup (N : ℕ) :
     (upperTriangularMod (Ideal.span {(N : ℤ)})).comap Matrix.SpecialLinearGroup.toGL =
       CongruenceSubgroup.Gamma0 N := by
+  sorry
+
+/-- **`gamma0_eq_congruenceSubgroup`, the `2`-adic clause.** `(3, 1; 8, 3)` has determinant `1`,
+lies in the `GL_2`-preimage of the projective `Γ₁(8)`, and has diagonal entries `≡ 3 ≢ ±1 mod 8`,
+so it is in neither `Γ₁(8)` nor `−Γ₁(8)`: the unqualified `±Γ₁` description fails at `2^c`,
+`c ≥ 3`. -/
+theorem gamma1Mod_two_adic_witness (g : GL (Fin 2) ℤ) (hg : (g : Matrix (Fin 2) (Fin 2) ℤ) = !![3, 1; 8, 3]) :
+    (g : Matrix (Fin 2) (Fin 2) ℤ).det = 1 ∧ g ∈ gamma1Mod (Ideal.span {(8 : ℤ)}) ∧
+      (g : Matrix (Fin 2) (Fin 2) ℤ) 0 0 - 1 ∉ Ideal.span {(8 : ℤ)} ∧
+      (g : Matrix (Fin 2) (Fin 2) ℤ) 0 0 + 1 ∉ Ideal.span {(8 : ℤ)} := by
+  sorry
+
+/-- **`gammaP_ne_gamma1`.** For `p = 3` and `q = 7`, `diag(1, 2)` has diagonal ratio of order `3`,
+so it lies in `Γ_3` but not in `Γ₁`: the inclusion `Γ₁ ⊂ Γ_p` is strict when `p ∣ q − 1`. -/
+theorem gammaPMod_three_seven_witness (g : GL (Fin 2) (ZMod 7)) (hg : (g : Matrix (Fin 2) (Fin 2) (ZMod 7)) = !![1, 0; 0, 2]) :
+    g ∈ gammaPMod (⊥ : Ideal (ZMod 7)) 3 ∧ g ∉ gamma1Mod (⊥ : Ideal (ZMod 7)) := by
+  sorry
+
+/-- **`gammaP_ne_gamma1`, `p = 2`, `q = 7`.** `diag(1, −1)` has diagonal ratio of order `2`, so it
+lies in `Γ_2` but not in `Γ₁`. -/
+theorem gammaPMod_two_seven_witness (g : GL (Fin 2) (ZMod 7)) (hg : (g : Matrix (Fin 2) (Fin 2) (ZMod 7)) = !![1, 0; 0, -1]) :
+    g ∈ gammaPMod (⊥ : Ideal (ZMod 7)) 2 ∧ g ∉ gamma1Mod (⊥ : Ideal (ZMod 7)) := by
+  sorry
+
+/-- **`gammaP_ne_gamma1`, equality.** For `p = 3` and `q = 5`, cubing is bijective on `F_5^×`, so a
+diagonal ratio of `3`-power order is `1` and `Γ_3 = Γ₁`. -/
+theorem gammaPMod_eq_gamma1Mod_five : gammaPMod (⊥ : Ideal (ZMod 5)) 3 = gamma1Mod (⊥ : Ideal (ZMod 5)) := by
+  sorry
+
+/-- **ALS.0.11, one pro-`v` factor does not suffice.** `(1, 1; −3, −2)` lies in the pro-`3`
+Iwahori subgroup of `GL_2(ℤ_3)` and has order `3`, so a level whose only small factor is a single
+pro-`v` Iwahori subgroup need not be neat. -/
+theorem iwahoriOne_order_three (g : GL (Fin 2) ℤ_[3]) (hg : (g : Matrix (Fin 2) (Fin 2) ℤ_[3]) = !![1, 1; -3, -2]) :
+    g ∈ iwahoriOne ℤ_[3] (Fin 2) ∧ g ^ 3 = 1 ∧ g ≠ 1 := by
   sorry
 
 end Levels
@@ -247,6 +333,16 @@ def glOrientationSign (m : ℕ) : GL (Fin m) F →* ℤˣ where
   toFun γ := if 0 < Algebra.norm ℚ ((γ : Matrix (Fin m) (Fin m) F).det) then 1 else (-1) ^ (m - 1)
   map_one' := by sorry
   map_mul' := by sorry
+
+/-- **`orientationCharacter_GL2_Q`.** `diag(−1, 1)` reverses the orientation of `ℍ`. -/
+theorem glOrientationSign_neg_det (γ : GL (Fin 2) ℚ) (hγ : (γ : Matrix (Fin 2) (Fin 2) ℚ) = !![-1, 0; 0, 1]) :
+    glOrientationSign ℚ 2 γ = -1 := by
+  sorry
+
+/-- **ALS.0.12.** In every odd rank the orientation character is trivial over every number field. -/
+theorem glOrientationSign_odd (m : ℕ) (hm : Odd m) (γ : GL (Fin m) F) :
+    glOrientationSign F m γ = 1 := by
+  sorry
 
 end Orientation
 
@@ -282,6 +378,31 @@ def sliceRepresentation (ρG : Representation R Γ V) (ρK : Representation R Q 
   map_one' := by simp
   map_mul' := by sorry
 
+/-- With the trivial `K_S`-action the slice representation is the `G(F)`-representation itself. -/
+theorem sliceRepresentation_trivial_right (ρG : Representation R Γ V) (φ : Γ →* Q) :
+    sliceRepresentation ρG (1 : Representation R Q V) φ (fun _ _ => by simp) = ρG := by
+  sorry
+
+/-- **ALS.1.1.** With trivial rational action, the cyclic `K_S` character of value `2`
+acts by `2` on the slice, retaining the character rather than its inverse. -/
+theorem sliceRepresentation_two :
+    let χ : Multiplicative ℤ →* ℚˣ := zpowersHom ℚˣ (Units.mk0 2 two_ne_zero)
+    sliceRepresentation (1 : Representation ℚ (Multiplicative ℤ) ℚ)
+      (Representation.ofLinearCharacter χ) (MonoidHom.id _) (fun _ _ => by simp)
+      (Multiplicative.ofAdd 1) 1 = 2 := by
+  sorry
+
+/-- **ALS.1.1.** In the natural `GL₂(ℚ)` coefficient representation, two noncommuting
+`K_S` values act in their slice-product order. -/
+theorem sliceRepresentation_noncomm (A B : GL (Fin 2) ℚ) (hA : (A : Matrix (Fin 2) (Fin 2) ℚ) = !![1, 1; 0, 1])
+    (hB : (B : Matrix (Fin 2) (Fin 2) ℚ) = !![1, 0; 1, 1]) :
+    let ρ : Representation ℚ (GL (Fin 2) ℚ) (Fin 2 → ℚ) :=
+      (Units.coeHom _).comp Matrix.GeneralLinearGroup.toLin.toMonoidHom
+    let σ := sliceRepresentation (1 : Representation ℚ (GL (Fin 2) ℚ) (Fin 2 → ℚ))
+      ρ (MonoidHom.id _) (fun _ _ => by simp)
+    (σ A * σ B) ![1, 0] = ![2, 1] ∧ (σ B * σ A) ![1, 0] = ![1, 1] := by
+  sorry
+
 /-- **ALS.1.1, `LocallySymmetric.localSystem.monodromy`.** The monodromy of the associated local
 system: a lifted loop ending at `δ(ℓ)x₀` defines `δ(ℓ) ∈ Γᵐᵒᵖ`, because Tau Ceti's loop product
 `g * h` is `h` followed by `g`, and the monodromy is `ℓ ↦ ρ_Γ(δ(ℓ)⁻¹)`, inverting the whole slice
@@ -289,6 +410,31 @@ action through Mathlib's `MulEquiv.inv' : Γ ≃* Γᵐᵒᵖ`. -/
 def endpointMonodromy {π : Type*} [Group π] (ρ : Representation R Γ V) (δ : π →* Γᵐᵒᵖ) :
     Representation R π V :=
   ρ.comp ((MulEquiv.inv' Γ).symm.toMonoidHom.comp δ)
+
+/-- **ALS.1.1.** A constant identity endpoint gives trivial monodromy for every slice action. -/
+theorem endpointMonodromy_one {π : Type*} [Group π] (ρ : Representation R Γ V) :
+    endpointMonodromy ρ (1 : π →* Γᵐᵒᵖ) = 1 := by
+  sorry
+
+/-- **ALS.1.1.** The cyclic slice character of value `2` gives endpoint monodromy `1/2`. -/
+theorem endpointMonodromy_half :
+    let χ : Multiplicative ℤ →* ℚˣ := zpowersHom ℚˣ (Units.mk0 2 two_ne_zero)
+    endpointMonodromy (Representation.ofLinearCharacter χ) (MonoidHom.id _)
+      (MulOpposite.op (Multiplicative.ofAdd 1)) 1 = 1 / 2 := by
+  sorry
+
+/-- **`localSystem_eq_LocalCoefficientSystem`.** For the noncommuting `A = (1, 1; 0, 1)` and
+`B = (1, 0; 1, 1)`, endpoint monodromy on the natural coefficient module takes the opposite
+product to the product of the two inverse actions, with distinct values in the two orders. -/
+theorem endpointMonodromy_noncomm (A B : GL (Fin 2) ℚ) (hA : (A : Matrix (Fin 2) (Fin 2) ℚ) = !![1, 1; 0, 1])
+    (hB : (B : Matrix (Fin 2) (Fin 2) ℚ) = !![1, 0; 1, 1]) :
+    let ρ : Representation ℚ (GL (Fin 2) ℚ) (Fin 2 → ℚ) :=
+      (Units.coeHom _).comp Matrix.GeneralLinearGroup.toLin.toMonoidHom
+    let μ := endpointMonodromy ρ (MonoidHom.id _)
+    μ (MulOpposite.op A * MulOpposite.op B) = μ (MulOpposite.op A) * μ (MulOpposite.op B) ∧
+      μ (MulOpposite.op A * MulOpposite.op B) ![1, 0] = ![2, -1] ∧
+      μ (MulOpposite.op B * MulOpposite.op A) ![1, 0] = ![1, -1] := by
+  sorry
 
 end Slice
 
@@ -311,6 +457,11 @@ def translationCoefficientEquiv (ρ : Representation R H V) (g : H) : V ≃ₗ[R
 theorem translationCoefficientEquiv_intertwines (ρ : Representation R H V) (g k : H) :
     (translationCoefficientEquiv ρ g).toLinearMap.comp (ρ k) =
       (ρ (g * k * g⁻¹)).comp (translationCoefficientEquiv ρ g).toLinearMap := by
+  sorry
+
+/-- **ALS.1.8.** Inverse group elements give inverse coefficient isomorphisms. -/
+theorem translationCoefficientEquiv_inv (ρ : Representation R H V) (g : H) :
+    (translationCoefficientEquiv ρ g).symm = translationCoefficientEquiv ρ g⁻¹ := by
   sorry
 
 /-- **ALS.1.8, monoid coefficient obstruction.** Multiplication by `p` on the integral
@@ -403,7 +554,9 @@ variable {G : Type*} [Group G] (U : Subgroup G)
 
 /-- **ALS.3.2, `LocallySymmetric.Hecke.heckeRing_normal`.** For a normal subgroup the Hecke ring
 is the group ring of the quotient: double cosets are cosets and the structure constants of the
-convolution product are `1` exactly when `γU = αβU`. -/
+convolution product are `1` exactly when `γU = αβU`. Tau Ceti proves the multiplication formula
+as `HeckeCosetModule.single_mul_single_of_mem_normalizer`; this target assembles the quotient
+basis identification into a ring equivalence. -/
 theorem heckeRing_normal [U.Normal] [IsHeckeTriple (⊤ : Submonoid G) U U] :
     Nonempty (𝕋 (⊤ : Submonoid G) U ℤ ≃+* MonoidAlgebra ℤ (G ⧸ U)) := by
   sorry
@@ -423,6 +576,10 @@ def IsDoubleCosetReps (g : G) (reps : Finset G) : Prop :=
       ∃ r ∈ reps, (x : G ⧸ U) = (r : G ⧸ U)) ∧
     (reps : Set G).Pairwise fun r s => (r : G ⧸ U) ≠ (s : G ⧸ U)
 
+/-- The double coset `U1U = U` is represented by `{1}`. -/
+theorem isDoubleCosetReps_one : IsDoubleCosetReps U 1 {1} := by
+  sorry
+
 /-- **ALS.3.1, `LocallySymmetric.Hecke.invariantsModule`.** For representatives of `UgU/U` the
 double-coset operator preserves `U`-invariants. -/
 theorem doubleCosetOperator_mem_invariants (ρ : Representation ℤ G M) (g : G) (reps : Finset G)
@@ -438,7 +595,9 @@ theorem doubleCosetOperator_indep (ρ : Representation ℤ G M) (g : G) (reps re
   sorry
 
 /-- **`hecke_degree_eq_index`.** On the trivial module `ℤ` the operator of `UgU` is multiplication
-by the degree `[U : U ∩ gUg⁻¹]`, Tau Ceti's `(gUg⁻¹).relIndex U`. -/
+by the degree `[U : U ∩ gUg⁻¹]`, Tau Ceti's `(gUg⁻¹).relIndex U`. Tau Ceti provides the degree
+homomorphism as `LeftCosetModule.deg` and proves its coefficient-sum action as
+`LeftCosetModule.degree_smul_eq_deg`; this is its trivial-module form with explicit representatives. -/
 theorem hecke_degree_eq_index (g : G) (reps : Finset G)
     (hreps : IsDoubleCosetReps U g reps) (z : ℤ) :
     doubleCosetOperator (1 : Representation ℤ G ℤ) reps z =
@@ -457,7 +616,9 @@ theorem heckeInvariants_S3_obstruction :
   sorry
 
 /-- **ALS.3.8, `T_p² = T_{p²} + (p + 1)S_p`.** In the Hecke ring of `(GL_2(ℚ_p), GL_2(ℤ_p))`, with
-`T_{p²}` the single double coset of `diag(p², 1)` and `S_p` that of `diag(p, p)`. -/
+`T_{p²}` the single double coset of `diag(p², 1)` and `S_p` that of `diag(p, p)`. Tau Ceti proves
+the integral-pair relation as `HeckeRing.GL2.heckeT_prime_mul_heckeTDiag_one_prime_pow` at `k = 1`;
+this target is the local spherical-pair form. -/
 theorem heckeBasis_GL2_square (p : ℕ) [Fact p.Prime] (W : Subgroup (GL (Fin 2) ℚ_[p]))
     (hW : W = (GeneralLinearGroup.map (PadicInt.Coe.ringHom (p := p))).range)
     [IsHeckeTriple (⊤ : Submonoid (GL (Fin 2) ℚ_[p])) W W] (t t₂ s : GL (Fin 2) ℚ_[p])
@@ -475,6 +636,36 @@ it does not depend on the representative. -/
 def heckeCosetCharacter (χ : G →* Rˣ) (hχ : ∀ u ∈ U, χ u = 1) :
     HeckeCoset (⊤ : Submonoid G) U U → Rˣ :=
   Quotient.lift (fun g : (⊤ : Submonoid G) => χ g) (by sorry)
+
+/-- **ALS.3.12.** The character value of the identity double coset is `1`. -/
+theorem heckeCosetCharacter_one (χ : G →* Rˣ) (hχ : ∀ u ∈ U, χ u = 1) :
+    heckeCosetCharacter U R χ hχ (HeckeCoset.mk U U ⟨1, Submonoid.mem_top 1⟩) = 1 := by
+  sorry
+
+/-- **ALS.3.12.** The two distinct translates `1` and `3` by even integers have the
+same parity-character value on their double coset. -/
+theorem heckeCosetCharacter_parity :
+    let χ : Multiplicative ℤ →* ℚˣ := zpowersHom ℚˣ (-1)
+    let U := χ.ker
+    let hχ : ∀ u ∈ U, χ u = 1 := fun _ hu => hu
+    Multiplicative.ofAdd (2 : ℤ) ∈ U ∧
+      Multiplicative.ofAdd (1 : ℤ) ≠ Multiplicative.ofAdd (3 : ℤ) ∧
+      heckeCosetCharacter U ℚ χ hχ
+          (HeckeCoset.mk U U ⟨Multiplicative.ofAdd 1, Submonoid.mem_top _⟩) =
+        heckeCosetCharacter U ℚ χ hχ
+          (HeckeCoset.mk U U ⟨Multiplicative.ofAdd 3, Submonoid.mem_top _⟩) := by
+  sorry
+
+/-- **ALS.3.12.** The sign character on the normal quotient `S₃/A₃` has value `−1`
+on the transposition double coset. -/
+theorem heckeCosetCharacter_sign :
+    let χ : Equiv.Perm (Fin 3) →* ℤˣ := Equiv.Perm.sign
+    let U := χ.ker
+    let hχ : ∀ u ∈ U, χ u = 1 := fun _ hu => hu
+    Nat.card (Equiv.Perm (Fin 3) ⧸ U) = 2 ∧
+      heckeCosetCharacter U ℤ χ hχ
+        (HeckeCoset.mk U U ⟨Equiv.swap 0 1, Submonoid.mem_top _⟩) = -1 := by
+  sorry
 
 /-- **ALS.3.12, `LocallySymmetric.twistHecke`.** Twisting by a character `χ` trivial on `U`: the
 ring automorphism of the Hecke ring multiplying the coefficient of `[UgU]` by `χ(g)⁻¹`. On
