@@ -32,7 +32,8 @@ noncomputable def ordinaryPart (U : Module.End R M) : Submodule R M :=
 noncomputable def nonOrdinaryPart (U : Module.End R M) : Submodule R M :=
   LinearMap.ker (ordinaryProjector U)
 
-/-- Stabilisation, idempotence and the invertible/nilpotent decomposition. -/
+/-- Factorial powers give the ordinary decomposition of a finite module
+(README §§0a.2–0a.4). -/
 theorem finite_ordinary_milestone (U : Module.End R M) :
     (∀ n : ℕ, Nat.card M ≤ n → ordinaryProjector U = U ^ n !) ∧
     IsIdempotentElem (ordinaryProjector U) ∧
@@ -40,25 +41,43 @@ theorem finite_ordinary_milestone (U : Module.End R M) :
     Set.BijOn U (ordinaryPart U) (ordinaryPart U) ∧
     (∀ x ∈ nonOrdinaryPart U, (U ^ Nat.card M) x = 0) := sorry
 
-/-- Compare the existing Fitting summands. -/
+/-- Ordinary and nonordinary parts are the Fitting summands (README §0a.3). -/
 theorem finite_ordinary_fitting (U : Module.End R M) :
     ordinaryPart U = ⨅ n, LinearMap.range (U ^ n) ∧
     nonOrdinaryPart U = ⨆ n, LinearMap.ker (U ^ n) := sorry
 
-/-- Intertwining preserves the stable projector. -/
+/-- Intertwining preserves the factorial projector (README §0a.6). -/
 theorem finite_ordinary_naturality
     {N : Type*} [AddCommGroup N] [Module R N] [Finite N]
     (U : Module.End R M) (V : Module.End R N)
     (f : M →ₗ[R] N) (h : f ∘ₗ U = V ∘ₗ f) :
     f ∘ₗ ordinaryProjector U = ordinaryProjector V ∘ₗ f := sorry
 
-example : ordinaryProjector (2 • (1 : Module.End (ZMod 6) (ZMod 6))) =
-    4 • (1 : Module.End (ZMod 6) (ZMod 6)) := sorry
-example : ordinaryProjector (0 : Module.End (ZMod 8) (ZMod 8)) = 0 := sorry
-example : ordinaryPart (1 : Module.End (ZMod 8) (ZMod 8)) = ⊤ := sorry
-example : ordinaryPart (2 • (1 : Module.End (ZMod 8) (ZMod 8))) = ⊥ := sorry
-example : nonOrdinaryPart (3 • (1 : Module.End (ZMod 8) (ZMod 8))) = ⊥ := sorry
-example : nonOrdinaryPart (0 : Module.End (ZMod 8) (ZMod 8)) = ⊤ := sorry
+/-- A unit endomorphism has the identity ordinary projector (README §0a.2). -/
+theorem ordinaryProjector_of_isUnit (U : Module.End R M) (hU : IsUnit U) :
+    ordinaryProjector U = 1 := sorry
+
+/-- A nilpotent endomorphism has zero ordinary projector (README §0a.2). -/
+theorem ordinaryProjector_of_isNilpotent (U : Module.End R M) (hU : IsNilpotent U) :
+    ordinaryProjector U = 0 := sorry
+
+/-- The invertible and elementwise nilpotent summands determine the ordinary decomposition
+(README §0a.5); stability of the second summand is not an extra hypothesis. -/
+theorem finite_ordinary_unique (U : Module.End R M) (A B : Submodule R M)
+    (hAB : IsCompl A B) (hA : Set.BijOn U A A)
+    (hB : ∀ x ∈ B, ∃ n : ℕ, (U ^ n) x = 0) :
+    A = ordinaryPart U ∧ B = nonOrdinaryPart U := sorry
+
+/-- Ordinary parts preserve exactness and surjections of finite modules (README §0a.7). -/
+theorem finite_ordinary_exact
+    {L N : Type*} [AddCommGroup L] [Module R L] [Finite L]
+    [AddCommGroup N] [Module R N] [Finite N]
+    (U₀ : Module.End R L) (U : Module.End R M) (U₂ : Module.End R N)
+    (f : L →ₗ[R] M) (g : M →ₗ[R] N) (hex : Function.Exact f g)
+    (hf : f ∘ₗ U₀ = U ∘ₗ f) (hg : g ∘ₗ U = U₂ ∘ₗ g) :
+    (ordinaryPart U₀).map f = LinearMap.ker g ⊓ ordinaryPart U ∧
+      (Function.Surjective g → (ordinaryPart U).map g = ordinaryPart U₂) := sorry
+
 end FiniteOrdinary
 
 section LocallyFinite
@@ -69,8 +88,8 @@ def IsLocallyFiniteEnd (I : Ideal R) (T : Module.End R M) : Prop :=
   ∀ n : ℕ, ∀ v : M, ∃ s : Finset M, ∀ k : ℕ,
     (T ^ k) v ∈ Submodule.span R (s : Set M) ⊔ (I ^ n) • (⊤ : Submodule R M)
 
-/-- The locally finite ordinary milestone of §0a.22 (Pilloni Lemma 2.1.3):
-the finite residue field and complete local coefficient ring are essential here. -/
+/-- A locally finite endomorphism has a unique adic ordinary projector, with invertible
+ordinary part and topologically nilpotent kernel (README §0a.22; Pilloni Lemma 2.1.3). -/
 theorem locally_finite_ordinary_milestone
     [IsNoetherianRing R] [IsLocalRing R]
     [Finite (IsLocalRing.ResidueField R)]
@@ -78,7 +97,7 @@ theorem locally_finite_ordinary_milestone
     [IsAdicComplete (IsLocalRing.maximalIdeal R) M]
     (T : Module.End R M)
     (hT : IsLocallyFiniteEnd (IsLocalRing.maximalIdeal R) T) :
-    ∃ e : Module.End R M, IsIdempotentElem e ∧ Commute T e ∧
+    ∃! e : Module.End R M, IsIdempotentElem e ∧ Commute T e ∧
       Set.BijOn T (LinearMap.range e) (LinearMap.range e) ∧
       (∀ x : M, ∀ n : ℕ, ∃ b : ℕ, ∀ k : ℕ, b ≤ k →
         (T ^ k !) x - e x ∈
@@ -86,14 +105,15 @@ theorem locally_finite_ordinary_milestone
       (∀ x ∈ LinearMap.ker e, ∀ n : ℕ, ∃ b : ℕ, ∀ k : ℕ, b ≤ k →
         (T ^ k) x ∈ (IsLocalRing.maximalIdeal R ^ n) • (⊤ : Submodule R M)) := sorry
 
-example (I : Ideal R) : IsLocallyFiniteEnd I (0 : Module.End R M) := sorry
-example (I : Ideal R) : IsLocallyFiniteEnd I (1 : Module.End R M) := sorry
+/-- Finite modules have locally finite endomorphisms for every coefficient ideal
+(README §0a.19). -/
+theorem isLocallyFiniteEnd_of_finite [Module.Finite R M] (I : Ideal R)
+    (T : Module.End R M) : IsLocallyFiniteEnd I T := sorry
 
-/-- Multiplication by the variable has an infinite independent orbit at the zero ideal. -/
-example : ¬ IsLocallyFiniteEnd (⊥ : Ideal (ZMod 2))
+/-- Multiplication by the variable has an infinite independent orbit modulo the zero ideal
+(README §0a.19, polynomial boundary). -/
+theorem polynomial_shift_not_locallyFinite : ¬ IsLocallyFiniteEnd (⊥ : Ideal (ZMod 2))
     (LinearMap.mulLeft (ZMod 2) (Polynomial.X : Polynomial (ZMod 2))) := sorry
-example [Module.Finite R M] (I : Ideal R) (T : Module.End R M) :
-    IsLocallyFiniteEnd I T := sorry
 end LocallyFinite
 
 /-! ## Layer 0: Ordinary Hecke algebras and Hida families
@@ -141,70 +161,48 @@ abbrev congruenceModule (lam : A →+* O) (M : Type*) [AddCommGroup M] [Module A
 /-- `η_λ = λ(I_λ)`. -/
 def congruenceIdeal (lam : A →+* O) : Ideal O := Ideal.map lam (augmentationAnnihilator lam)
 
-/-- The raw congruence module needs the double annihilator
-hypothesis to identify it with the quotient by the congruence ideal. -/
+/-- A surjective augmentation with the double-annihilator identity identifies the raw
+congruence module with the quotient by the congruence ideal (README §1.8). -/
 theorem congruence_milestone (lam : A →+* O) (hsurj : Function.Surjective lam)
     (hann : Submodule.torsionBySet A A
       (augmentationAnnihilator lam : Set A) = RingHom.ker lam) :
     Nonempty (congruenceModule lam A ≃+ O ⧸ congruenceIdeal lam) := sorry
 
-example : augmentationAnnihilator (RingHom.id ℤ) = ⊤ := sorry
-example : augmentationAnnihilator (RingHom.fst ℤ ℤ) = Ideal.span {(1, 0)} := sorry
-example : Nat.card (congruenceModule (RingHom.id ℤ) ℤ) = 1 := sorry
-example : congruenceIdeal (RingHom.id ℤ) = ⊤ := sorry
-example (M : Type*) [AddCommGroup M] [Module ℤ M] :
-    congruenceSubmodule (RingHom.id ℤ) M = ⊤ := sorry
-example : congruenceIdeal (RingHom.fst ℤ ℤ) = ⊤ := sorry
-example : Nat.card (congruenceModule (RingHom.fst ℤ ℤ) (ℤ × ℤ)) = 1 := sorry
+/-- The kernel and its annihilator both kill the raw congruence quotient (README §1.7). -/
+theorem congruenceModule_annihilated (lam : A →+* O)
+    (M : Type*) [AddCommGroup M] [Module A M] :
+    ∀ a ∈ RingHom.ker lam ⊔ augmentationAnnihilator lam,
+      ∀ x : congruenceModule lam M, a • x = 0 := sorry
 
-/-- Polynomial augmentation is a negative control for dropping the double annihilator. -/
-example : congruenceIdeal (Polynomial.constantCoeff : Polynomial ℤ →+* ℤ) = ⊥ ∧
-    Nat.card (congruenceModule (Polynomial.constantCoeff : Polynomial ℤ →+* ℤ) (Polynomial ℤ)) = 1 := sorry
-/-- Reduction modulo two has a nonzero raw congruence quotient. -/
-example :
-    augmentationAnnihilator (ZMod.castHom (by decide : 2 ∣ 4) (ZMod 2)) =
-      Ideal.span {(2 : ZMod 4)} ∧
-    congruenceIdeal (ZMod.castHom (by decide : 2 ∣ 4) (ZMod 2)) = ⊥ ∧
-    Nat.card (congruenceModule
-      (ZMod.castHom (by decide : 2 ∣ 4) (ZMod 2)) (ZMod 4)) = 2 := sorry
+/-- For the ring itself, the raw quotient uses the annihilator and its double annihilator
+(README §1.7), without assuming the latter equals the kernel. -/
+theorem congruenceModule_self (lam : A →+* O) :
+    Nonempty (congruenceModule lam A ≃ₗ[A]
+      A ⧸ (augmentationAnnihilator lam ⊔ Submodule.torsionBySet A A
+        (augmentationAnnihilator lam : Set A))) := sorry
 
-/-- The dual-number augmentation has a nontorsion raw quotient isomorphic to the integers. -/
-example :
+/-- Polynomial augmentation separates the raw quotient from the quotient by its congruence
+ideal when the double-annihilator hypothesis fails (README §1.8). -/
+theorem congruenceModule_polynomial_boundary :
+    congruenceIdeal (Polynomial.constantCoeff : Polynomial ℤ →+* ℤ) = ⊥ ∧
+      Subsingleton (congruenceModule
+        (Polynomial.constantCoeff : Polynomial ℤ →+* ℤ) (Polynomial ℤ)) := sorry
+
+/-- Dual numbers have a nontorsion raw congruence quotient, showing why generic regularity
+is required for finite length (README §1.7). -/
+theorem congruenceModule_dualNumber_boundary :
     Nonempty (congruenceModule
       (TrivSqZeroExt.fstHom ℤ ℤ ℤ).toRingHom (DualNumber ℤ) ≃+ ℤ) ∧
     ¬ Module.IsTorsion ℤ (congruenceModule
       (TrivSqZeroExt.fstHom ℤ ℤ ℤ).toRingHom (DualNumber ℤ)) := sorry
-
-/-- The two copies of the 5-adic integers glued over their residue field
-have raw congruence quotient equal to that residue field. -/
-example :
-    letI : Fact (Nat.Prime 5) := ⟨by decide⟩
-    let O := ℤ_[5]
-    let red : O →+* ZMod 5 := PadicInt.toZMod
-    let A := RingHom.eqLocus (red.comp (RingHom.fst O O))
-      (red.comp (RingHom.snd O O))
-    let lam := (RingHom.fst O O).comp A.subtype
-    Nonempty (congruenceModule lam A ≃+ ZMod 5) := sorry
-
-/-- For the depth-zero module over the power-series quotient by `25X`,
-the raw congruence quotient is the residue field. -/
-example : (by
-    letI : Fact (Nat.Prime 5) := ⟨by decide⟩
-    let O := ℤ_[5]
-    let B := PowerSeries O
-    let I : Ideal B := Ideal.span {(25 : B) * PowerSeries.X}
-    let c : B →+* O := PowerSeries.constantCoeff
-    have hc : I ≤ RingHom.ker c := Ideal.span_le.mpr (by
-      intro f hf
-      rcases Set.mem_singleton_iff.mp hf with rfl
-      change PowerSeries.constantCoeff
-        ((25 : PowerSeries O) * PowerSeries.X) = 0
-      rw [map_mul, PowerSeries.constantCoeff_X, mul_zero])
-    let A := B ⧸ I
-    let lam : A →+* O := Ideal.Quotient.lift I c (fun f hf => hc hf)
-    let M := A ⧸ (Ideal.span {(125 : A)} : Ideal A)
-    exact Nonempty (congruenceModule lam M ≃+ ZMod 5)) := sorry
 end Congruence
+
+/-- Coordinate trivialisations of a family period line differ by a unit of the coefficient
+ring (README §1.4), acting on coordinates rather than inverse basis vectors. -/
+theorem familyPeriod_unique_up_to_unit
+    {A M : Type*} [CommRing A] [AddCommGroup M] [Module A M]
+    (θ θ' : M ≃ₗ[A] A) :
+    ∃ u : Aˣ, ∀ x : M, θ' x = (u : A) * θ x := sorry
 
 /-! ## Layer 2a: The eigenvariety construction
 The spectral and eigenmodule carriers are described in README.md. -/
@@ -231,10 +229,9 @@ arithmeticPoint, LambdaAdicForm, familySymbols, familyPeriod,
 familyMeasure, reducedHidaAlgebra, branchAlgebra and familyCongruenceModule.
 
 The README-only API for these definitions includes ordinaryProjector_eq_pow_factorial,
-ordinaryProjector_of_isUnit, ordinaryProjector_of_isNilpotent,
-isLocallyFiniteEnd_iff_directed_union, isLocallyFiniteEnd_of_finite,
+isLocallyFiniteEnd_iff_directed_union,
 isLocallyFiniteEnd_of_finiteQuotientSystem, congruenceModule_map,
-congruenceModule_annihilated, congruenceModule_self, congruenceModule_isTorsion,
+congruenceModule_isTorsion,
 congruenceModule_compare_ikm, congruenceModule_mk, congruenceModule_lift,
 congruenceModule_self_eq, congruenceIdeal_map and congruenceIdeal_ne_bot.
 

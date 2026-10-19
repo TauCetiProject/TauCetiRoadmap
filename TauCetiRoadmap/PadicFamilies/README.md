@@ -232,6 +232,14 @@ For `M` finite as a set and `U ∈ End_R(M)`, `M = M_ord ⊕ M_nord` with both s
 
 Existence: `e_U` is idempotent, so `M = range e_U ⊕ ker e_U`; apply ordinary-part-bijective. Uniqueness: `U(A) = A` gives `A = Uⁿ(A) ⊆ range Uⁿ` for all `n`, so `A ⊆ ⨅ range Uⁿ = M_ord`; every `b ∈ B` lies in some `ker Uⁿ`, so `B ⊆ ⨆ ker Uⁿ = M_nord` (§0a.3). Since `M = A ⊕ B = M_ord ⊕ M_nord` are finite, `|A|·|B| = |M_ord|·|M_nord|` with `|A| ≤ |M_ord|` and `|B| ≤ |M_nord|`, so both inclusions are equalities.
 
+The milestone `finite_ordinary_unique` identifies both summands under these hypotheses.
+
+**Checks.**
+
+- For `U = 1`, the ordinary summand is all of `M` and the elementwise nilpotent summand is zero.
+- For `U = 0`, the ordinary summand is zero and the other summand is all of `M`.
+- For `U = diag(1, 0)` on `(ZMod 2)²`, the complement spanned by `e₁ + e₂` is excluded: its nonzero vector is never killed by a power of `U`.
+
 The comparison is by inclusion and counting; no stability hypothesis on `B` is used, and `U(A) = A` (not merely `U(A) ⊆ A` with `U` injective on `A`) is what the statement asks. Test: `U = diag(1, 0)` on (ZMod 2)²: the complement `B = span(e₁ + e₂)` of `A = span(e₁)` is excluded because `Uⁿ(e₁ + e₂) = e₁ ≠ 0`.
 
 See [KT](#ref-kt), §2.4, Lemma 2.10 and proof, p. 9 (arXiv v2).
@@ -259,6 +267,14 @@ Let `M' → M → M''` (maps `f`, `g`) be exact at `M`, with `M'`, `M`, `M''` `R
 Exactness in Mathlib's sense Function.Exact `f g (range f = ker g)`.
 
 If `x ∈ M_ord` and `g x = 0`, write `x = f y`; then `x = e x = e f y = f e' y ∈ f(M'_ord)` (naturality). The reverse inclusion is naturality and `g f = 0`. If `g` is surjective and `z ∈ M''_ord`, choose `g y = z`; then `g(e y) = e'' g y = z` with `e y ∈ M_ord`. The ordinary part is a natural direct summand of the identity functor, hence a retract of an exact sequence.
+
+The milestone `finite_ordinary_exact` states the image–kernel identity and preservation of surjections.
+
+**Checks.**
+
+- With all three endomorphisms equal to 1, the statement is the original exact sequence.
+- With all three endomorphisms nilpotent, all ordinary parts vanish.
+- The Chinese remainder sequence `0 → ZMod 2 → ZMod 6 → ZMod 3 → 0`, with the first map sending 1 to 3 and with multiplication by 2 on every term, becomes `0 → 0 → {0,2,4} → ZMod 3 → 0` on ordinary parts.
 
 No Mittag-Leffler or limit argument enters at finite level.
 
@@ -466,7 +482,7 @@ A finite `R`-module carries only locally finite endomorphisms; the notion is new
 
 - On `M = R²` over `R = ℤ_p` every endomorphism is locally finite, and the projector agrees with the adic projector of §0a.14.
 - The zero endomorphism and the identity of any complete `M` are locally finite (orbit spans have at most one generator). In the Lean predicate this holds for every ideal of any commutative coefficient ring.
-- On `(ℤ/2)[X]` as a vector space over `ℤ/2`, multiplication by `X` is not locally finite for `I=0`: the orbit of 1 consists of the independent monomials `Xⁿ`.
+- `polynomial_shift_not_locallyFinite`: on `(ℤ/2)[X]` as a vector space over `ℤ/2`, multiplication by `X` is not locally finite for `I=0`: the orbit of 1 consists of the independent monomials `Xⁿ`.
 - On the completed direct sum `M` of countably many copies of `ℤ_p`, the shift `e_i ↦ e_{i+1}` is not locally finite: modulo `p` the orbit of `e_0` spans an infinite-dimensional `𝔽_p`-space.
 - On the same `M`, the diagonal endomorphism `e_i ↦ p^i e_i` is locally finite: modulo `pⁿ` it kills all `e_i` with `i ≥ n`, so each orbit span is finitely generated.
 
@@ -520,7 +536,7 @@ No uniform exponent `N` with `e = T^{N!}` on all of `M` is asserted; on the diag
 - `ordinaryProjectorLF_topNilpotent`: `T` is topologically nilpotent on `(1 − e(T))M`.
 - `ordinaryProjectorLF_unique`: An idempotent commuting with `T` with these two properties equals `e(T)`.
 - `ordinaryProjectorLF_eq_profinite`: If every `M/mⁿM` is finite, `e(T)` is the projector of §0a.11 for `(mⁿM)_n`.
-- `locally_finite_ordinary_milestone`: for `IsLocallyFiniteEnd m T`, an idempotent commuting with `T`, with `T` bijective on its range, `T^{N!}v` converging to it and `T` topologically nilpotent on its kernel; uniqueness is `ordinaryProjectorLF_unique`.
+- `locally_finite_ordinary_milestone`: for `IsLocallyFiniteEnd m T`, a unique idempotent commuting with `T`, with `T` bijective on its range, `T^{N!}v` converging to it and `T` topologically nilpotent on its kernel; `ordinaryProjectorLF_unique` also characterises it by bijectivity and topological nilpotence alone.
 
 **Checks.**
 
@@ -1142,7 +1158,7 @@ The Hecke-module instances in automorphic congruences, level optimisation and in
 - For `A = {(a, b) ∈ ℤ_p × ℤ_p : a ≡ b mod pⁿ}` and `λ` the first projection, `𝔭_λ = 0 × pⁿℤ_p`, `I_λ = pⁿℤ_p × 0` and `Ψ_λ(A) ≅ ℤ/pⁿ`. At `p=5`, `n=1`, this is the `ZMod 5` quotient of the equalizer of the two residue maps.
 - For `A = O` and `λ = id`, `𝔭_λ = 0`, `I_λ = A` and `Ψ_λ(M) = 0` for every `M`.
 - For reduction `λ:ℤ/4→ℤ/2`, `Ann(ker λ)=(2)`, `η_λ=0` and `Ψ_λ(ℤ/4)` has two elements. This uses the general commutative-ring definition; the domain hypothesis is unnecessary for this computation.
-- For `A = O[t]/(t²)` and `λ(t) = 0`, `I_λ = 𝔭_λ = (t)` and `Ψ_λ(A) ≅ O` is not torsion: `A` is not reduced at `𝔭_λ`, so the finite-length statement needs its hypothesis.
+- `congruenceModule_dualNumber_boundary`: for `A = O[t]/(t²)` and `λ(t) = 0`, `I_λ = 𝔭_λ = (t)` and `Ψ_λ(A) ≅ O` is not torsion: `A` is not reduced at `𝔭_λ`, so the finite-length statement needs its hypothesis. The named boundary theorem gives the case `O=ℤ`.
 - For `A = O[[t]]/(ϖ²t)` and `M = A/(ϖ³)`, `M/(M[𝔭] + M[I]) ≅ O/(ϖ)` while Iyengar–Khare–Manning's `Ψ_A(M) = 0` (Example 2.11). At `O=ℤ₅`, the ideals are `(25t)` and `(125)` and the raw quotient is additively `ZMod 5`.
 
 See [IKM](#ref-ikm), §2.2 (congruence modules), pp. 13–14; Proposition 2.10 and Example 2.11, pp. 16–17.
@@ -1172,7 +1188,7 @@ For the fibre product of two copies of `ℤ_p` glued modulo `pⁿ`, `η_λ = p�
 - For `A = O`, `η_λ = O`.
 - For `A = O × O` (no congruence) and `λ` the first projection, `η_λ = O`.
 - For `A = O[t]/(t²)`, `η_λ = 0` although `A` is finite flat over `O`.
-- Take `A=B=O[x]`, finite flat over `B` by the identity, and `λ` evaluation at `x=0`. Then `𝔭=(x)`, `Ann(𝔭)=0`, and `Ann(Ann(𝔭))=A≠𝔭`. The base `B` maps onto `O`, but that does not make `𝔭` minimal.
+- `congruenceModule_polynomial_boundary`: take `A=B=O[x]`, finite flat over `B` by the identity, and `λ` evaluation at `x=0`. Then `𝔭=(x)`, `Ann(𝔭)=0`, and `Ann(Ann(𝔭))=A≠𝔭`. Thus `η_λ=0` but the raw congruence quotient is zero. The named boundary theorem gives the case `O=ℤ`. The base `B` maps onto `O`, but that does not make `𝔭` minimal.
 
 See [IKM](#ref-ikm), §2.2 and Proposition 2.10, pp. 13–17; [Hida](#ref-hida), §0 and §6, Numdam.
 
