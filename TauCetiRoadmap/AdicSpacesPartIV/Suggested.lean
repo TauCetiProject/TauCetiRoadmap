@@ -342,7 +342,9 @@ def IsOpenBoundedLattice {V : Type*} [AddCommGroup V] [Module O V] [TopologicalS
     ∀ v : V, ∃ n : ℕ, ϖ ^ n • v ∈ V₀
 
 /-- The integral mixed completed tensor product `X ⊗̂ M := lim_N X ⊗_O M/N` over the open
-submodules `N` of `M`, as the compatible families (CHJ, Def. 6.3, p. 46). -/
+submodules `N` of `M`, as the compatible families (CHJ, Def. 6.3, p. 46). For coefficient
+algebras with a basis of open ideals, this construction includes non-adic `O`-structure maps;
+comparison with Part III's adic completed tensor requires both structure maps to be adic. -/
 def mixedTensorInt (X : Type*) [AddCommGroup X] [Module O X] (M : Type*) [AddCommGroup M]
     [Module O M] [TopologicalSpace M] :
     Submodule O ((N : {N : Submodule O M // IsOpen (N : Set M)}) → X ⊗[O] (M ⧸ N.1)) where

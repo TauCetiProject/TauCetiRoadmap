@@ -2034,12 +2034,16 @@ completed tensor product; independence of the neighbourhood system); CHJ §6.1, 
 (the ring structure when the coefficient module is a small algebra); CHJ §6.1, Def. 6.6, p. 47 (the
 rational mixed completed tensor product `V ⊗̂ M := (V° ⊗̂ M)[1/ϖ]`); CHJ §6.1, after Def. 6.6, p. 47
 (Banach case: open bounded lattice, independent of the choice); CHJ §6.1, before Def. 6.6, p. 47
-(independence of the unit ball)). `ℚ_p⟨X⟩ ⊗̂ ℤ_p[[T]] = (ℤ_p⟨X⟩[[T]])[1/p]` (CHJ, proof of
+(independence of the unit ball)). The mixed construction gives
+`ℤ_p⟨X⟩ ⊗̂ ℤ_p[[T]] = ℤ_p⟨X⟩[[T]]` and hence
+`ℚ_p⟨X⟩ ⊗̂ ℤ_p[[T]] = (ℤ_p⟨X⟩[[T]])[1/p]` (CHJ, proof of
 Lemma 6.13(1)), and `V ⊗̂ 𝒪 = V`. When `V°` is a `ϖ`-adically complete `𝒪`-algebra and `M` a
-small `𝒪`-algebra, both adic rings with finitely generated ideals of definition, `V° ⊗̂ M` is the
+small `𝒪`-algebra, both adic rings with finitely generated ideals of definition and with both
+`𝒪`-structure maps adic, as in Convention 5, `V° ⊗̂ M` is the
 completed tensor product of adic rings `V° ⊗̂_𝒪 M` of *completed-tensor-product-adic* (AdicSpacesPartIII layer F0),
-the adic case of *completed-tensor-product* (AdicSpacesPartII layer R0); the construction here is the one for a
-profinite flat module `M` without ring structure. *Needs:* *profinite-flat-module*;
+the adic case of *completed-tensor-product* (AdicSpacesPartII layer R0). The mixed construction
+also covers small coefficient algebras with non-adic `𝒪`-structure maps, as in the power-series
+computation above, and profinite flat modules `M` without ring structure. *Needs:* *profinite-flat-module*;
 *small-coefficient-algebra*; *completed-tensor-product-adic* (AdicSpacesPartIII layer F0);
 Mathlib `TensorProduct`, `IsAdicComplete`. Lean: `Huber.IsOpenBoundedLattice`, `Huber.mixedTensorInt`,
 `Huber.mixedTensorInt.tmul`, `Huber.mixedTensorInt.map`, `Huber.mixedTensorOfLattice`; the
@@ -2052,6 +2056,11 @@ only.
   `ℚ_p⟨X⟩ ⊗̂ ℤ_p[[T]] ≅ (ℤ_p⟨X⟩[[T]])[1/p]`: power series `Σ f_n T^n` with `f_n ∈ ℚ_p⟨X⟩` uniformly
   bounded. The equivalence sends `(x ⊗ f)/d` to `C(x)·f/d`, with the coefficients
   of `f` included in `ℤ_p⟨X⟩`, for every denominator `d = p^k`.
+- Boundary: with `V° = ℤ_p⟨X⟩` given its `p`-adic topology and `M = ℤ_p[[T]]` its
+  canonical `(p,T)`-adic topology, both are complete adic rings with finitely generated ideals
+  of definition and `M` is small, but `ℤ_p → M` is not adic: for every `n ≥ 1`,
+  `T^n ∈ (p,T)^n` and `T^n ∉ pM`. The mixed tensor is still `ℤ_p⟨X⟩[[T]]`; this computation
+  lies outside the Part III comparison.
 - Non-example: the algebraic tensor product
   `ℚ_p⟨X⟩ ⊗_{ℤ_p} ℤ_p[[T]] → ℚ_p⟨X⟩ ⊗̂ ℤ_p[[T]]` is not surjective: `Σ_n X^n T^n` is not in the
   image, the `T^n`-coefficients of an element of the image lying in a finite-dimensional subspace of
