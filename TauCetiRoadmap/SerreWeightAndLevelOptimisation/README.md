@@ -54,9 +54,9 @@ Use `Nat.primeFactors` from `Mathlib/Data/Nat/PrimeFin.lean`. The distinct prime
 
 Use `padicValNat` from `Mathlib/Data/Nat/PadicValNat.lean`. The exponent of the largest dividing p-power for nonzero n and prime p; defaults at zero/base one are excluded by the mathematical input hypotheses.
 
-Suggested.lean mirrors the coordinate quotients and the elementary numerical Checks in §§2.3–2.5, 3.5, 3.14–3.14a, 4.6, 6.1 and 6.8.
+Suggested.lean states the finite-torsion and lattice-index comparisons in §1.2, the degeneracy matrix factorization in §2.5 and the arithmetic reduced-level comparisons in §6.1.
 
-The gluing examples use the existing submodule quotient over a commutative ring and module. The DVR finiteness theorem has the additional finite-free and rational complement assumptions in Layer 1. The suggested `reducedLevel` is an arithmetic expression in natural-number prime factors and exponent valuations of `|Δ|`; its elliptic interpretation requires the conductor and minimal-discriminant hypotheses in Layer 6. Natural valuation defaults at zero are not used to model a zero minimal discriminant.
+The gluing comparisons use the existing submodule quotient over a commutative ring and module. The DVR finiteness theorem has the additional finite-free and rational complement assumptions in Layer 1, expressed using Mathlib's `Submodule.localized` at the nonzero elements. The suggested `reducedLevel` is an arithmetic expression in natural-number prime factors and exponent valuations of `|Δ|`; its elliptic interpretation requires the conductor and minimal-discriminant hypotheses in Layer 6. Natural valuation defaults at zero are not used to model a zero minimal discriminant.
 
 For `H ⧸ (P ⊔ Q)`, use `Submodule.Quotient.subsingleton_iff` for the zero criterion, `Submodule.Quotient.mk_eq_zero` for membership, `Submodule.quot_hom_ext` and `Submodule.linearMap_qext` for extensionality, `Submodule.liftQ` with `Submodule.liftQ_mkQ` for descent, and `Submodule.mapQ`, `Submodule.mapQ_id`, `Submodule.mapQ_comp` and `Submodule.Quotient.equiv` for maps and transport. These declarations are in `Mathlib/LinearAlgebra/Quotient/Defs.lean` and `Mathlib/LinearAlgebra/Quotient/Basic.lean`; unique descent follows from the quotient projection's surjectivity `Submodule.mkQ_surjective`. Their ring, module and kernel/image hypotheses are retained. The lattice-specific finite-torsion statement and index-`π` example belong to §1.2.
 
@@ -188,7 +188,7 @@ O a DVR, H finite free, `P_K` and `Q_K` complementary K-subspaces. P and Q are i
 
 Take the existing submodule quotient by `P⊔Q`. After tensoring with K the quotient vanishes, so finite generation gives torsion. The zero criterion is `P+Q=H`; no augmentation is inferred from this lattice data.
 
-The gluing object is the existing quotient `H ⧸ (P ⊔ Q)`, with its existing quotient map and instances. Its generic zero, kernel, extensionality, lift, map and transport APIs are the Mathlib declarations listed in the exact supplier contracts; no parallel quotient API is required. The finite-torsion milestone is specific to these lattices: for O a DVR, H finite free and P,Q the intersections with complementary rational subspaces, prove that `C_level(H;P,Q)` is a finitely generated torsion O-module. This uses finite generation and vanishing after extension to K, beyond the general quotient interface. The two coordinate-lattice and index-`π` computations below pin its integral meaning.
+The gluing object is the existing quotient `H ⧸ (P ⊔ Q)`, with its existing quotient map and instances. Its generic zero, kernel, extensionality, lift, map and transport APIs are the Mathlib declarations listed in the exact supplier contracts; no parallel quotient API is required. The finite-torsion milestone `levelChange_finite_torsion` states that for O a DVR, H finite free and P,Q with complementary localizations at the nonzero elements, `H ⧸ (P ⊔ Q)` is a finitely generated torsion O-module. Saturated intersections give the old/new application; this finite-torsion conclusion holds for any submodules with the displayed complementary localizations. It uses finite generation and vanishing after extension to K, beyond the general quotient interface. The lattice-index comparison `levelChange_index_quotient` identifies `R²/(R(1,0)+R(1,a))` with `R/(a)` over any commutative ring R. A unit a, a uniformiser and `a=0` give respectively zero, a nonzero torsion quotient and a free quotient.
 
 Its applications are [Residual support and eigenvalue descent](#eigensystem-level-descent): Measure which integral comparison can contribute residual support. [Ribet lowering at an unramified prime](#level-lowering-unramified-prime): Keep integral index data through the dimension contradiction.
 
@@ -384,7 +384,7 @@ Integral maps, Hecke correspondences and duality conventions from ModularCurvesP
 
 Compose the two finite maps with the `U_q` correspondence. Compute the matrix on Picard varieties, then transpose under the character-group functor. Compute σδ from the norm/pullback matrix. Using the component and degeneracy geometry of ModularCurvesPartII §§12.2–12.4, identify the q-new quotient’s reduction at q as toric and that of J0(N) as good. Uniqueness follows because the q-new quotient has no nonzero homomorphism to J0(N)². The same vanishing proves Hecke equivariance. Retain diamond factors for nontrivial coefficients.
 
-Fix the two old-coordinate vectors in the displayed order. The matrix U sends the first to `(T_q,−1)` and the second to (q,0); its characteristic polynomial is `X²−T_q` X+q. Passing to contravariant character groups transposes the off-diagonal entries. This two-vector computation fixes both the sign and the variance. In nontrivial character or higher weight, the central term `q^{k−2}〈q〉` must be restored before taking `η`.
+Fix the two old-coordinate vectors in the displayed order. The matrix U sends the first to `(T_q,−1)` and the second to (q,0); its characteristic polynomial is `X²−T_q` X+q. Passing to contravariant character groups transposes the off-diagonal entries. This two-vector computation fixes both the sign and the variance. The matrix identity `degeneracy_eta_factorization` holds over any commutative ring; its Jacobian interpretation retains the weight-two and trivial-character hypotheses above. In nontrivial character or higher weight, the central term `q^{k−2}〈q〉` must be restored before taking `η`.
 
 *Needs:* `ModularCurvesPartII:Layers 13–14`, `ModularCurvesPartII:§§12.2–12.4`, [Localised integral degeneracy sequence](#integral-old-new-exact-sequence).
 
@@ -1410,7 +1410,7 @@ The definition has the following named operations and comparisons, under these h
 
 - `reducedLevel`: M divided by the product of primes `q∥M` with `ℓ∣v_q(Δ)`.
 
-- `reducedLevel_dvd`: For `M>0`, `M₀` divides M and is positive.
+- `reducedLevel_dvd`: `M₀` divides M. The separate `reducedLevel_pos` gives positivity when `M>0`.
 
 - `reducedLevel_prime_removed_iff`: For `q∥M`, `q∤M₀` exactly when `ℓ∣v_q(Δ)`.
 
@@ -1420,7 +1420,7 @@ The definition has the following named operations and comparisons, under these h
 
 - `reducedLevel_ext`: Replacing `Δ` by another nonzero integer with identical valuations at primes `q∥M` leaves `M₀` unchanged; in particular changing the sign of `Δ` does not change it.
 
-- `reducedLevel_simp`: For `M=1` the removed product is empty and `M₀=1`; at `q∥M` its removal is the exponent-divisibility test, including `q=ℓ`.
+- `reducedLevel_simp`: For `M=1` the removed product is empty and `M₀=1`. The exponent-divisibility test at `q∥M`, including `q=ℓ`, is `reducedLevel_prime_removed_iff`.
 
 - The arithmetic implementation uses Mathlib `Nat.primeFactors` and `padicValNat` on `Δ.natAbs` at prime q, `M>0` and `Δ≠0`; these are exponent valuations, not the largest prime power.
 
