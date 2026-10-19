@@ -500,7 +500,7 @@ HodgeTateAndCanonicalSubgroups / PerfectoidShimuraVarieties tower specialization
 (`unitary_torsion_tower_geometry`); the integral dual Weyl
 modules with their Levi splitting and bottom-alcove duality (`IntegralDualWeylModule`), the Hecke
 algebras of positive monoids, the image of a residually multiplicity-free pair, the forms of
-products of `PGL₂`, the density-one comparison of semisimple Galois representations, the
+products of `PGL₂`, the
 nonabelian cocycle quotient (`NonabelianGaloisH1`), the irreducibility of pure unramified principal
 series, smooth modules over open monoids
 (`SmoothMonoidModules`), the residual Iwahori Hecke algebra at Taylor–Wiles places, the Kostant and
@@ -524,6 +524,12 @@ row `WeightIndependentHidaTwist.nu` is stated above), and the Taylor–Wiles dat
 patching verifications and lifting theorems of Layer 5 (`TaylorWilesSelectedIdeals`,
 `OrdinaryTaylorWilesLevels`, `fontaine_laffaille_automorphy_lifting`,
 `ordinary_automorphy_lifting`).
+
+The density-one comparison of semisimple Galois representations is supplied by
+ArithmeticGaloisRepresentations §5.3, `GaloisRep.iso_of_frobenius_charpoly_eq`.
+README §2.16 names its specialization `frobenius_polynomials_determine_semisimple`,
+with arithmetic/geometric Frobenius inversion and characteristic polynomials in every
+characteristic. The arithmetic carriers of that supplied export are absent here.
 
 Further API statements and Checks specified in the README, without additional Lean declarations:
 CompletedArithmeticCohomology.level_colimit, CompletedArithmeticCohomology.residual_level_colimit,
