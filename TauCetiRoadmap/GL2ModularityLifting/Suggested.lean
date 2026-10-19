@@ -213,14 +213,20 @@ quaternionic eigenforms, global and local deformation rings, patched modules, co
 cohomology, and the shared `AutomorphicSystemData` view `RankTwoFamily`) absent from the pinned libraries; the README states those targets with
 their intended signatures.
 
-* Layer 1: `MinimalLevelData`, `ResidualModularAlpha`, `ResidualModularBeta`, `defToHecke`,
+* Layer 1: the arithmetic input to GlobalGaloisDeformations §§6.7–6.8’s
+  `HeckeGaloisDatum`, its point construction and classifying surjection; `MinimalLevelData`,
+  `ResidualModularAlpha`, `ResidualModularBeta`, `defToHecke`,
   `framedHecke`, `framedHeckeModule`, `defToHeckeFramed`; allowable base changes with prescribed
   completions (`cht_soluble_prescribed_completions`); surjectivity and faithfulness after framing.
 * Layer 2: `auxLevel`, `auxDelta`, `auxHecke`, `auxMaxIdeal`, `defToAuxHecke`, `twModule`;
   freeness and control at Taylor–Wiles levels.
 * Layers 3–4: `PatchingDatum` (with `patchingRadius` above), the patched ring and module,
   their support, finiteness of the minimal deformation ring, `avoidancePair`, integral and
-  generic-fibre `R = T`. The avoidance pair and its API require `p > 2`; §3.4a constructs
+  generic-fibre `R = T`. The formally smooth case of §4.2 consumes
+  DeformationAndDerivedPatchingAlgebra §§5.5–5.6’s `patching_surjection_iso`, with independent
+  finite-level data, equal variable counts, nonzero module and faithful target action, for the
+  isomorphism, freeness and complete-intersection conclusions. The avoidance pair and its API
+  require `p > 2`; §3.4a constructs
   the simultaneous ambient modules over A and A′, with common special-fibre actions and
   augmentations, without using the domain-case ring-module criterion.
 * Layers 5–6: `StronglyResiduallyModular`, `bcdtHeckeModule`, `DyadicPatchingDatum`,
@@ -239,6 +245,10 @@ their intended signatures.
 * Layers 7–9: `OddPrimeLifting`, `DyadicLifting`, `ResiduallyReducibleLifting`,
   `OrdinaryThreeLifting`, the classification of geometric twists, `patchedWeightFiltration`,
   Kisin's multiplicity criterion and the de Rham lifting theorems at odd primes and at `2`.
+  Residual attachment and modularity over ℚ use the supplied
+  `TauCeti.ResidualModularity.ArisesFrom` and `TauCeti.ResidualModularity.IsModular` of
+  AlgebraicModularFormsAndSerreWeights Layer R15.6; its integral-model comparison identifies
+  the representation itself under absolute irreducibility and otherwise only its semisimplification.
   Section 8.6 concludes modularity up to a global character twist for arbitrary distinct
   weights, with the labelled Hilbert weight and central-character convention of the README;
   normalized weights `{0,k−1}` over ℚ give exact weight-k modularity through §§7.9 and 7.11.
