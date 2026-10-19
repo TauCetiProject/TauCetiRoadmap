@@ -8,7 +8,8 @@ import TauCeti.AlgebraicGeometry.Cohomology.MayerVietoris
 
 These are suggested forms, not an exhaustive checklist; `README.md` is the roadmap. It records
 signatures whose carriers are available at the pinned libraries: a Dedekind-domain model, extension of its generic points,
-and the kernel and cokernel descriptions of the two-open cohomology sequence. Cohomology here
+the kernel and cokernel descriptions of the two-open cohomology sequence, and torsion reduction
+for separated finite-type commutative group schemes. Cohomology here
 has values in `AddCommGrpCat`; the README also specifies its scalar and base-change structure.
 The two inclusions into the biproduct check the order and sign of the differential.
 -/
@@ -69,14 +70,63 @@ def ofModel {R : Type u} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
   quasiSeparated := M.quasiSeparated
   genericFiberIso := M.genericFiberIso
 
-example {R : Type u} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+/-- The DVR comparison preserves the structure morphism. -/
+theorem ofModel_toBase {R : Type u} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
     [Algebra R K] [IsFractionRing R K] (M : TauCeti.Model R K C toK) :
     (ofModel M).toBase = M.toBase := rfl
 
-example {R : Type u} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+/-- The DVR comparison preserves the specified generic marking. -/
+theorem ofModel_genericFiberIso {R : Type u} [CommRing R] [IsDomain R]
+    [IsDiscreteValuationRing R] [Algebra R K] [IsFractionRing R K]
+    (M : TauCeti.Model R K C toK) :
+    (ofModel M).genericFiberIso = M.genericFiberIso := rfl
+
+/-- Properness agrees under the DVR comparison. -/
+theorem ofModel_isProper {R : Type u} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
     [Algebra R K] [IsFractionRing R K] (M : TauCeti.Model R K C toK) :
-    (ofModel M).genericFiberIso = M.genericFiberIso ∧
-      ((ofModel M).IsProper ↔ M.IsProper) := ⟨rfl, Iff.rfl⟩
+    (ofModel M).IsProper ↔ M.IsProper := Iff.rfl
+
+example (M : DedekindModel K K C toK) : Nonempty (Over.mk M.toBase ≅ Over.mk toK) := by
+  have hbase : Spec.map (CommRingCat.ofHom (algebraMap K K)) = 𝟙 (Spec (.of K)) := by
+    simp
+  have : IsIso (Spec.map (CommRingCat.ofHom (algebraMap K K))) := by
+    rw [hbase]
+    infer_instance
+  let e : M.total ≅ C := (asIso (TauCeti.genericFiberι K K M.toBase)).symm ≪≫
+    (Over.forget _).mapIso M.genericFiberIso
+  refine ⟨Over.isoMk e ?_⟩
+  change inv (TauCeti.genericFiberι K K M.toBase) ≫
+    M.genericFiberIso.hom.left ≫ toK = M.toBase
+  have hmark : M.genericFiberIso.hom.left ≫ toK =
+      (TauCeti.genericFiber K K M.toBase).hom := Over.w M.genericFiberIso.hom
+  simp only [hmark]
+  have hg := TauCeti.genericFiberι_toBase K K M.toBase
+  rw [hbase, Category.comp_id] at hg
+  rw [← hg, IsIso.inv_hom_id_assoc]
+
+example (M : DedekindModel R K C toK) (a : Over.mk toK ≅ Over.mk toK)
+    (ha : a ≠ Iso.refl _) :
+    ({ M with genericFiberIso := M.genericFiberIso ≪≫ a } :
+      DedekindModel R K C toK).genericFiberIso ≠ M.genericFiberIso := by
+  intro h
+  apply ha
+  apply Iso.ext
+  exact (cancel_epi M.genericFiberIso.hom).1 (by simpa using congrArg Iso.hom h)
+
+/-- The affine scheme defined by `2x = 0` is not flat over the integers. -/
+theorem nonflat_twoX :
+    ¬ Flat (Spec.map (CommRingCat.ofHom
+      (algebraMap ℤ
+        (Polynomial ℤ ⧸ Ideal.span {(2 : Polynomial ℤ) * Polynomial.X})))) := by
+  sorry
+
+/-- The affine line over the integers is flat, finitely presented and separated, and is not
+proper; the generic-fibre marking alone does not imply properness. -/
+theorem affineLine_flat_separated_notProper :
+    let f := Spec.map (CommRingCat.ofHom (algebraMap ℤ (Polynomial ℤ)))
+    Flat f ∧ LocallyOfFinitePresentation f ∧ QuasiCompact f ∧ QuasiSeparated f ∧
+      IsSeparated f ∧ ¬ AlgebraicGeometry.IsProper f := by
+  sorry
 
 /-- A point of the generic fibre of a proper Dedekind model extends uniquely to a section,
 with its generic restriction expressed using the specified identification. -/
@@ -132,18 +182,74 @@ theorem cohomologyOne [M.IsQuasicoherent] {U V : X.Opens} (hU : IsAffineOpen U)
 
 end TwoChart
 
+/-! ## Layer 4: reduction and torsion -/
+
+open scoped MonObj
+
+section Reduction
+
+variable {R : Type u} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+
+/-- Reduction of integral points is restriction along the residue-field morphism, as a group
+homomorphism on the native point groups of a group scheme over `Spec R`. -/
+def reductionHom (G : Over (Spec (.of R))) [GrpObj G] :
+    (Over.mk (𝟙 (Spec (.of R))) ⟶ G) →*
+      (Over.mk (Spec.map (CommRingCat.ofHom (IsLocalRing.residue R))) ⟶ G) :=
+  let i : Over.mk (Spec.map (CommRingCat.ofHom (IsLocalRing.residue R))) ⟶
+      Over.mk (𝟙 (Spec (.of R))) :=
+    Over.homMk (Spec.map (CommRingCat.ofHom (IsLocalRing.residue R))) (by simp)
+  ((yonedaGrpObj G).map i.op).hom
+
+/-- A finite-order point in the reduction kernel of a separated finite-type commutative group
+scheme has order a power of the residue characteristic exponent, including exponent 1 in
+residue characteristic zero. -/
+theorem torsionReductionKernel_pPrimary (G : Over (Spec (.of R))) [GrpObj G]
+    [IsCommMonObj G] [IsSeparated G.hom] [LocallyOfFiniteType G.hom] [QuasiCompact G.hom]
+    (p : ℕ) [ExpChar (IsLocalRing.ResidueField R) p]
+    (x : Over.mk (𝟙 (Spec (.of R))) ⟶ G) (hx : IsOfFinOrder x)
+    (hred : reductionHom G x = 1) :
+    ∃ m : ℕ, orderOf x = p ^ m := by
+  sorry
+
+/-- Reduction is injective on torsion for a separated finite-type commutative group scheme
+when the residue field has characteristic zero. -/
+theorem torsionReduction_injective_of_residueCharZero (G : Over (Spec (.of R))) [GrpObj G]
+    [IsCommMonObj G] [IsSeparated G.hom] [LocallyOfFiniteType G.hom] [QuasiCompact G.hom]
+    [CharZero (IsLocalRing.ResidueField R)] :
+    Set.InjOn (reductionHom G) {x | IsOfFinOrder x} := by
+  sorry
+
+/-- In mixed characteristic, reduction is injective on torsion of a separated finite-type
+commutative group scheme when the normalized valuation of `p` is strictly less than `p − 1`. -/
+theorem torsionReduction_injective_of_smallRamification (G : Over (Spec (.of R)))
+    [GrpObj G] [IsCommMonObj G] [IsSeparated G.hom] [LocallyOfFiniteType G.hom] [QuasiCompact G.hom]
+    [CharZero R] (p : ℕ) [Fact p.Prime] [CharP (IsLocalRing.ResidueField R) p]
+    (e : ℕ) (he : IsDiscreteValuationRing.addVal R (p : R) = (e : ℕ∞))
+    (hsmall : e < p - 1) :
+    Set.InjOn (reductionHom G) {x | IsOfFinOrder x} := by
+  sorry
+
+/-- In residue characteristic two the nonidentity unit `−1` of a characteristic-zero DVR
+has exact order two and reduces to the identity. -/
+theorem dyadic_negOne_reduction [CharZero R] [CharP (IsLocalRing.ResidueField R) 2] :
+    (-1 : Rˣ) ≠ 1 ∧ orderOf (-1 : Rˣ) = 2 ∧
+      Units.map (IsLocalRing.residue R).toMonoidHom (-1 : Rˣ) = 1 := by
+  sorry
+
+end Reduction
+
 -- Further targets in README.md: isProper_iff_localize, normalizedProjectiveLine,
 -- normalizedProjectiveLine_isModel, cohomologyOne_overlapQuotient,
 -- globalFunctions_constants, FibreMultiplicityData, geometricMultiplicityGcd_realizable,
--- TotalDegreePiece, Rigidificator, the rigidified Picard sheaf and its function/unit spaces,
+-- TotalDegreePiece, picardIdentity_iff_geometricPartialDegreesZero, curveNeronSeveri_finite,
+-- Rigidificator, the rigidified Picard sheaf and its function/unit spaces,
 -- rigidifiedPicard_algebraicSpace, picard_cohomologicallyFlat_algebraicSpace,
 -- universalRigidifiedBundle, finiteRankHilbert_algebraicSpace, DivDegree, abelMap_r,
 -- groupSpaceQuotient, smoothSeparatedGroupSpace_isScheme, jacobian_sectionRigidified,
 -- jacobian_universalBundleComparison, jacobianPoints_actualPicard, goodReductionSpecialization,
 -- GenericUnitClosure, SeparatedDegreeZeroQuotient, degreeZeroQuotient_representable,
 -- raynaud_normalPicard, raynaud_regularNeron, HasRationalSingularities,
--- picardNeronIdentity_iff_rational, globalPicardNeronComparison, reductionHom, formalKernel,
--- identityPreimage, torsionReductionKernel_pPrimary, torsionReduction_injective_of_smallRamification,
+-- picardNeronIdentity_iff_rational, globalPicardNeronComparison, formalKernel, identityPreimage,
 -- globalTorsionReduction, ComponentLattice, the Greenberg ring spaces and functors,
 -- neronComponent_multidegreeIso, specialization_componentFormula, exists_regularProperModel
 -- and pointedCurve_integralSpecialization.
