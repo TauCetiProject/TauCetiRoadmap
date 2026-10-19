@@ -41,6 +41,7 @@ The following constructions are reused. The work below proves the additional loc
 | Interface | Existing construction and its precise use |
 | --- | --- |
 | Reductive representations and cuspidal `GLₙ` inputs | **AutomorphicFormsOnReductiveGroups**, §§2.3–2.7: normalized induction, Casselman embedding, Langlands classification, archimedean parameters, generic unitary dual and Casselman–Wallach globalization; §§3.4–3.5: restricted tensors and Flath factorization; §4.3: number-field cuspidal Fourier reconstruction and global/local genericity; §5.7: Clozel rationality and exact-field finite-part descent in the cohomological normalization. This roadmap specializes these inputs to its Whittaker, analytic tensor and rational-period comparisons. |
+| GL₂ eigensystems and Hecke coordinates | **AutomorphicFormsOnReductiveGroups**, §5.8 supplies Hecke characters and nonzero eigenclasses, specialized to complex coefficients; §7.3 supplies the raw, cohomological and unitary Hecke normalization. AL.3's [eigensystem datum](#automorphic-l-data) uses this character, its specified archimedean parameters and missing local factors, and the explicit normalization exponent. |
 | Normalized Maass eigenforms | **AutomorphicFormsOnReductiveGroups**, §4.5: `NormalizedMaassEigenform(r,δ)`, `fourierCoefficient`, `fourierExpansion`, `maassHecke`, `maassHeckeRecurrence`, `maassAdelization` and `maassClassicalEquiv`. AL.2 uses real `r≥0`, first coefficient one in the supplied factor-two expansion, reflection sign `(−1)^δ` and the supplied unitary adelic realization. Negative real parameters use the same eigenvalue and `K_(ir)=K_(−ir)`. The standard and adjoint L-series, local factors, completions, functional equation and L-value norm identities are targets here. |
 | Positive-argument Bessel kernel | **AutomorphicFormsOnReductiveGroups**, §4.5: the convergent cosh integral for complex order, argument derivatives, symmetry, Fourier ODE, decay and half-order value. AL.0 identifies its half-integral formula with that kernel and adds holomorphy and derivatives in the order variable. |
 | Characters and Fourier integrals | Mathlib `AddChar`, `ContinuousMonoidHom`, `Real.fourierChar`, `ZMod.toCircle`, `ZMod.dft`, `VectorFourier.fourierIntegral`, its translation/scalar/a.e. congruence lemmas, and `SchwartzMap.fourierTransformCLM`. Translation covariance and the Schwartz Fourier operator are imported. |
@@ -1299,6 +1300,28 @@ Work under the following hypotheses. F is a completion `k_v` of a number field k
 
 ### Canonical archimedean factors
 
+<a id="gl2-archimedean-parameter-factors"></a>
+
+**GL₂ parameter coordinates and archimedean factors.** Specialize the semisimple Weil parameters and `recGL` of AutomorphicFormsOnReductiveGroups §2.5 to dimension two. `RealGL2Parameter` has a principal branch, an unordered pair `(a₁,t₁),(a₂,t₂)` representing `sgn^aᵢ|·|^tᵢ`, and a discrete branch `(k,t)` representing `I_(k−1)|·|^t`, with `k≥2`. `ComplexGL2Parameter` is an unordered pair `(κ₁,t₁),(κ₂,t₂)` representing `(z/|z|)^κᵢ|z|_ℂ^tᵢ`. These are coordinates on the supplied parameter classes; the smooth representation is their Langlands quotient. Complex GL₂ has no discrete-series branch.
+
+Expose the real and complex gamma-shift multisets, `twist`, `dual`, `centralExponent`, the angular or parity part of the central character, and `epsilonFactor`. The factors use the canonical positive-character conventions of this section:
+
+| Parameter | Γ_ℝ shifts | Γ_ℂ shifts | Central character | ε |
+| --- | --- | --- | --- | --- |
+| Real principal | `t₁+a₁, t₂+a₂` | empty | `sgn^(a₁+a₂)|·|^(t₁+t₂)` | `i^a₁ i^a₂` |
+| Real discrete `(k,t)` | empty | `t+(k−1)/2` | `sgn^k|·|^(2t)` | `i^k` |
+| Complex principal | empty | `t₁+|κ₁|/2, t₂+|κ₂|/2` | `(z/|z|)^(κ₁+κ₂)|z|_ℂ^(t₁+t₂)` | `i^|κ₁| i^|κ₂|` |
+
+Duality negates each norm exponent and each complex angular weight, preserves real parities and the discrete weight, and is involutive. Twisting adds the character's exponent to each constituent and its parity or angular weight to each principal constituent; a real sign twist leaves the discrete parameter class unchanged. Thus a norm twist by u adds `2u` to `centralExponent`. Prove agreement of the multiset products with `AL1.CanonicalArchimedeanFactor`, independence of ordering, the dual and twist laws, and compatibility with the supplied `recGL`.
+
+`IsGeneric` means that the corresponding irreducible smooth globalization admits a nonzero continuous functional equivariant under the fixed nontrivial upper-unipotent character. It is the supplied Whittaker predicate transported along `recGL`. Discrete parameters are generic. For principal parameters it holds exactly when the associated ordered normalized standard module is irreducible; a reducible standard module's Whittaker functional need not descend to its Langlands quotient. Define `RealGL2Parameter.oddArtin` by `(0,0),(1,0)`, `RealGL2Parameter.trivialArtin` by `(0,0),(0,0)`, and `ComplexGL2Parameter.trivialArtin` by `(0,0),(0,0)`.
+
+**Checks.** The odd real Artin parameter has `Γ_ℝ(s)Γ_ℝ(s+1)=Γ_ℂ(s)` and epsilon i. The trivial real and complex Artin parameters give `Γ_ℝ(s)²` and `Γ_ℂ(s)²`, both with epsilon 1; the trivial real Artin parameter differs from the parameter `|·|^(1/2)⊕|·|^(−1/2)` of the trivial GL₂ representation, whose quotient is nongeneric. Weight two has shift `1/2`, central parity zero and epsilon `−1`. An angular twist from `κ=−1` to `κ=0` changes the absolute-weight shift, so angular twists are not uniform translations of gamma shifts.
+
+(Source: [Humphries, archimedean newforms](#ref-humphriesarch), §§2.2.2–2.2.4, 2.4.1–2.4.4, pp.4–8; [Chenevier–Taïbi](#ref-cheneviertaibi2020), §2.1, p.274, footnote 6, for the positive-character epsilon convention; AutomorphicFormsOnReductiveGroups §2.5 for the parameter correspondence.)
+
+*Needs:* [Archimedean GLₙ parameters](#archimedean-gln-parameters); [Archimedean Whittaker comparisons](#archimedean-smooth-representations); [Canonical archimedean factors](#canonical-archimedean-factor); [The archimedean standard epsilon factor](#archimedean-standard-epsilon).
+
 
 <a id="canonical-archimedean-factor"></a>
 
@@ -1661,11 +1684,35 @@ Work under the following hypotheses. Both unitarity and self-duality are require
 *Needs:* [The standard local L-factor](#standard-local-l-factor); [The Godement–Jacquet zeta integral](#godement-jacquet-integral); [Canonical archimedean factors](#canonical-archimedean-factor).
 
 
+<a id="gl2-unramified-genericity"></a>
+
+**Unramified GL₂ genericity in Hecke coordinates.** For `q≥2`, an arithmetic spherical Hecke polynomial is `1−aT+qsT²`, with `s≠0`. Define `IsGenericUnramified q a s` by `a²≠s(q+1)²`. If its nonzero Satake parameters are α and β, so `a=α+β` and `qs=αβ`, prove `isGenericUnramified_iff_satake`: this condition is equivalent to `α/β≠q` and `α/β≠q⁻¹`. The spherical Langlands quotient is generic exactly under this condition, by the normalized-induction reducibility criterion. Uniformly rescaling both parameters does not change it. In unitary coordinates `A=a/√q`, the polynomial is `1−AT+sT²` and the same condition is `A²≠s(q+2+q⁻¹)`; the two coordinate formulas are not interchangeable.
+
+**Checks.** A determinant character with uniformizer value c has `a=(q+1)c`, `s=c²` and fails the condition; `not_isGenericUnramified_det_twist` states this boundary. Repeated nonzero parameters `α=β` have ratio 1 and satisfy the condition for every `q≥2`. At `q=2`, the trivial representation has `(a,s)=(3,1)` and lies exactly on the excluded boundary. An unramified Steinberg twist is generic but has no maximal-compact fixed vector, so this degree-two spherical criterion does not apply to it.
+
+(Source: [Bushnell–Henniart](#ref-bushnellhenniart2006), §9.11, p.69, normalized induction and its irreducibility criterion; the equivalence follows by factoring `q(α+β)²−αβ(q+1)²=(qα−β)(α−qβ)`.)
+
+*Needs:* SmoothRepresentationsOfLocalGroups SR.2–SR.4 for normalized induction, Whittaker genericity and Satake parameters; [The standard local L-factor](#standard-local-l-factor); AutomorphicFormsOnReductiveGroups §7.3 for arithmetic/unitary Hecke normalization.
+
 ### GL₂ newvectors
 
 <a id="gl2-newvectors"></a>
 
-Use the last-row subgroup `K₁(Pⁿ)` of [Generic finite-place newforms](#generic-local-newforms) in rank two. Put `K₀(Pⁿ)={k∈GL₂(O): k₂₁∈Pⁿ}`; embed both groups in `GL₂(F)`, with level zero `GL₂(O)`. Prove they are compact open, `K₁` is normal in `K₀`, and identify the lower-right-entry quotient at positive level. Construct the `GL₂` Kirillov model and its compactly supported functions in the proof of the existence and dimension statements below, using SR.2.3 Whittaker uniqueness and SR.3 smooth admissible representations.
+<a id="gl2-level-bridges"></a>
+
+**Local GL₂ levels and adelic cosets.** For a nonarchimedean local field F, define the integral subgroups once: `K₀(Pⁿ)={g∈GL₂(O): g₂₁∈Pⁿ}` and `K₁(Pⁿ)={g∈K₀(Pⁿ): g₂₂−1∈Pⁿ}`. The latter is the rank-two last-row subgroup of [Generic finite-place newforms](#generic-local-newforms). The Lean definitions `k0` and `k1` accept an ideal of any commutative ring; `localK0` and `localK1` are their images under the integral embedding into `GL₂(F)`. Prove `k0_top`, `k1_top`, `k1_le_k0`, `localK0_zero` and `localK1_zero`: depth zero is the whole integral maximal compact, rather than the identity subgroup. Prove the compact/open assertions `localK0_isCompact`, `localK0_isOpen`, `localK1_isCompact`, `localK1_isOpen`. At positive depth, `K₁` is normal in `K₀` and the lower-right entry identifies `K₀/K₁` with `(O/Pⁿ)×`.
+
+Use Mathlib's `Matrix.GeneralLinearGroup.upperRightHom`, the additive-character homomorphism `x↦[[1,x],[0,1]]`, for every rank-two unipotent embedding, including Whittaker equivariance. Prove `upperRightHom_mem_k1` for every integral x and every ideal. For a number field K and finitely supported depths `(n_v)`, use AdelicAlgebraicGroups AA.1.5's product-level construction for `U₁=∏_v K₁(P_v^n_v)`. Under its restricted-product realization, the local embedding `ι_v`, equal to the identity away from v, sends `localK1(K_v,n_v)` into `U₁`; coordinate evaluation recovers the original local element. Prove that this product is compact open. Over ℚ compare it with the last-row `K₁(N)` of that supplier's AA.5.2; AA.5.2's modular-curve specialization is not a general-number-field level construction.
+
+For any compact open product level `U=GL₂(O_v)×U^v` at a finite place v, put `t_v=ι_v(diag(ϖ_v,1))`. Choose lifts u of the residue field. Prove the disjoint right-coset decomposition `U t_v U=⊔_r ι_v(r)U`, with the q representatives `r_u=[[ϖ_v,u],[0,1]]` and `r_∞=diag(1,ϖ_v)`. Thus the local q+1 representatives give the global coset system, independently of the lifts and of the level away from v. Compare this system with AdelicAlgebraicGroups AA.4.5's relative-index degree and AutomorphicFormsOnReductiveGroups §7.3's Hecke convention.
+
+**Checks.** At depth zero both groups are `GL₂(O)`; at depth one `diag(u,1)` belongs to `K₁` for every unit u, whereas `diag(1,u)` belongs only when `u≡1 mod P`. Every integral upper unipotent belongs to `K₁` at every depth; a lower unipotent with unit entry fails at positive depth. When q=2 the good-place decomposition has exactly three cosets, indexed by the three lines of the residue plane. Changing a lift by `ϖa` preserves its right coset. At Iwahori level `U_v=K₀(P_v)`, the double coset of `diag(ϖ_v,1)` has q right cosets, so the q+1 assertion requires full maximal-compact level at v.
+
+(Source: [Bushnell–Henniart](#ref-bushnellhenniart2006), §7.2, pp.50–51, Cartan decomposition and double-coset index; [Casselman](#ref-casselman1973), pp.302–303, congruence subgroups, with the last-row convention; the coset representatives follow by reduction of column lattices to the q+1 residue-field lines. AdelicAlgebraicGroups AA.1.5, AA.4.5 and AA.5.2 supply the product-level and global quotient comparisons.)
+
+*Needs:* AdelicAlgebraicGroups AA.0–AA.1 for restricted products and integral embeddings, AA.1.5 for product levels and AA.4.5 for coset degrees; Mathlib `Matrix.GeneralLinearGroup.upperRightHom`; LocalFieldsRamification layer 0 for the valuation ring and residue field.
+
+Construct the `GL₂` Kirillov model and its compactly supported functions in the proof of the existence and dimension statements below, using SR.2.3 Whittaker uniqueness and SR.3 smooth admissible representations.
 
 <a id="r16-2-newvector-level-exists"></a>
 
@@ -2278,31 +2325,77 @@ Work under the following hypotheses. The product uses spherical value1 almost ev
 
 ### GLₙ converse theorems
 
+<a id="l-function-datum"></a>
+
+**L-function data and derived products.** Construct `LDatum` indexed by finite places, with residue cardinalities `q_v : ℕ`, degree bound n, Euler polynomials `P_v` and dual polynomials `P_vᵈ` over ℂ, finite multisets of real and complex gamma shifts and their duals, a real convergence abscissa σ and a real reflection centre c. This is algebraic and numerical data. Define `WellFormed` by `n≥1`, `q_v≥2`, `P_v(0)=P_vᵈ(0)=1`, both degrees at most n, and `−Re(μ)≤σ` for every gamma shift μ, including dual shifts. It imposes no analytic continuation or growth assertion. The separation of data from analytic hypotheses follows the interface design used by the Imperial College London FLT project.
+
+Derive `LFun(D,s)=∏_v P_v(q_v^(−s))⁻¹`, its dual product, `archFactor(D,s)=∏_μ Γ_ℝ(s+μ) ∏_ν Γ_ℂ(s+ν)` and its dual. `Converges D` requires nonzero local denominators in `Re(s)>σ` and, on every nonempty compact subset C of that half-plane, summability of `sup_(s∈C)|P_v(q_v^(−s))−1|` and the analogous dual family. Prove that the two products converge absolutely and locally uniformly to nonvanishing holomorphic functions there. The initial completion is the product of the derived finite and archimedean factors on that half-plane; its continuation is a theorem or a separate hypothesis. Expose swapping primal and dual data, involutivity, independence of multiset ordering, and the exact finite-deletion/restoration identities. A partial product carries its omitted local factors explicitly.
+
+**Checks.** `P_v=1` is permitted at a ramified place and contributes 1, while `P_v(0)=0` fails `WellFormed`. For `q_v=2`, `1−αT` has the factor `(1−α2^(−s))⁻¹` and its dual must be specified separately; complex conjugation is not the definition of duality. A real shift multiset `{0,1}` has archimedean factor `Γ_ℂ(s)`, whereas two complex zero shifts give `Γ_ℂ(s)²`. Polynomials `P_v=1−T` over the primes converge only in the appropriate right half-plane; well-formedness alone gives no convergent Euler product.
+
+(Source: [Cogdell, converse theorems](#ref-cogdellconverse), §2, pp.5–6, local-factor products and convergence hypotheses; [Humphries, archimedean newforms](#ref-humphriesarch), §2.4.1–§2.4.3, pp.5–7; [Cogdell, Fields lectures](#ref-cogdellfields), §§7–8 for finite and infinite local factors.)
+
+*Needs:* [The standard local L-factor](#standard-local-l-factor); [The Rankin–Selberg local L-factor](#rs-local-factor); [Canonical archimedean factors](#canonical-archimedean-factor); Mathlib `Polynomial`, `Multiset`, `HasProd` and the holomorphic locally uniform limit API. The datum and its products are constructed before their automorphic instances.
+
+<a id="bounded-on-strips"></a>
+
+**Boundedness on finite vertical strips.** For `f : ℂ→ℂ`, define `BoundedOnStrips f` by: for every pair of real endpoints a,b there is `C≥0` such that `‖f(s)‖≤C` whenever `a≤Re(s)≤b`. This roadmap owns the predicate. Prove `BoundedOnStrips.mul`, `BoundedOnStrips.translate` for any complex translation, and `BoundedOnStrips.reflect` for `s↦2c−s`, with real c. Use the actual entire continued completions, including their gamma factors. Meromorphic functions with poles in a strip do not satisfy this bound. AutomorphicSpectralTheory's `FiniteStripOrder` is a downstream growth condition: bounded strip functions satisfy its scalar finite-order condition; finite strip order does not imply boundedness.
+
+**Checks.** The constant function 1 is bounded with C=1 on every strip. `exp(s²)` is bounded on each finite vertical strip, since its modulus is `exp(Re(s)²−Im(s)²)`. `exp(−s²)` has finite strip order but is unbounded on the imaginary axis. An actual pole at 1 excludes boundedness on any strip containing a neighborhood of 1.
+
+(Source: [Cogdell, converse theorems](#ref-cogdellconverse), §1 Theorem 1.1 and §2, pp.5–6; [Cogdell, Fields lectures](#ref-cogdellfields), Lecture 9 §5, pp.72–73, for the completed Rankin–Selberg bounds.)
+
+*Needs:* Mathlib complex norm and real-part API; the continued functions of [The global standard L-function](#global-godement-jacquet) and [Continuation and the Rankin–Selberg pole criterion](#rs-global-poles) for automorphic applications.
+
+<a id="pinned-niceness"></a>
+
+**Niceness with specified root number and conductor.** Define `IsNicePinned D ε N`, with the complex constant ε and positive real conductor scale N as explicit arguments. It asserts `WellFormed D`, `Converges D`, `ε≠0`, `N>0`, and the existence of entire functions Λ and Λᵈ extending respectively `archFactor(D,s)LFun(D,s)` and its dual from `Re(s)>σ`. Both extensions satisfy `BoundedOnStrips`, and for every s satisfy `Λ(s)=ε N^(c−s)Λᵈ(2c−s)`. Continuation, boundedness and the functional equation are predicates to prove, rather than fields of `LDatum`. Prove uniqueness of the two continuations from their initial half-plane, the dual predicate with root number `ε⁻¹` and the same N, and equivalence with the balanced equation after multiplying each completion by `N^(s/2)`. At `c=1/2` the conductor exponent is `1/2−s`. No finite Euler correction or change of normalization is hidden inside this predicate.
+
+**Checks.** For `ε=1` and `c=1/2` the balanced equation is symmetric under `s↦1−s`. Replacing ε by its negative fails for a nonzero completion with the original N. The completed zeta function, and its imaginary norm translates, have poles and fail the entire hypothesis. Removing a finite factor changes the reflected equation by the ratio of the removed primal and dual polynomials; niceness for the original data cannot be reused with unchanged ε and N without restoring those factors.
+
+(Source: [Cogdell, converse theorems](#ref-cogdellconverse), §1 Theorem 1.1, §2 and §3 Theorems 3.1, 3.3, pp.5–9; [The normalized-distribution epsilon comparison](#global-epsilon-factor) for the conductor and root-number normalization.)
+
+*Needs:* [L-function data and derived products](#l-function-datum); [Boundedness on finite vertical strips](#bounded-on-strips); [The local Rankin–Selberg functional equation](#rs-local-functional-equation); Mathlib's identity theorem for holomorphic functions.
+
+<a id="automorphic-l-data"></a>
+
+**Hecke, eigensystem and Rankin–Selberg data.** Construct the following instances and their local-factor comparisons; every niceness theorem identifies its ε and N with the specified local constants, rather than merely asserting their existence.
+
+- For a continuous unitary idele-class character ω, the Hecke datum has degree 1, unramified polynomial `1−ω_v(ϖ_v)T`, polynomial 1 at ramified finite places, and the actual archimedean character shifts and inverse-character duals. Take `c=1/2`, `N=|D_K| Norm(𝔣(ω))`, and `ε=W_H(ω)`. Prove `IsNicePinned` when ω is nontrivial on the norm-one idele-class subgroup, using [Hecke continuation and functional equation](#hecke-l-functional-equation) and the strip estimates for its Godement–Jacquet realization. Complex norm twists use translated primal and inverse-translated dual factors, with their corresponding local epsilon constants. Norm characters still define data and meromorphic completions, but are outside this entire niceness theorem.
+- For a complex GL₂ eigensystem of AutomorphicFormsOnReductiveGroups §§5.8 and 7.3, together with specified archimedean parameters, admissible local representation factors at the omitted finite places and the arithmetic-to-unitary normalization exponent h, construct its character-twisted datum. In arithmetic coordinates the good-place polynomial is `1−a_vχ_v(ϖ_v)T+q_vs_vχ_v(ϖ_v)²T²`. If its arithmetic roots are α,β, the unitary roots are `q_v^(−h)α,q_v^(−h)β`; the dual roots are their inverses. Thus the datum's good polynomial is `1−a_vq_v^(−h)χ_v(ϖ_v)T+q_v^(1−2h)s_vχ_v(ϖ_v)²T²`; the dual uses the inverse character and the inverse normalization twist on the reciprocal arithmetic roots. Assign centre `1/2` after this conversion. At a good place where χ is ramified the polynomial is 1. Prove agreement with the full standard datum and `IsNicePinned` from an actual cuspidal automorphic realization, with `N=|D_K|² Norm(𝔣(Π⊗χ))` and ε the product of the standard local epsilon constants at `1/2`. An abstract eigensystem alone provides no continuation theorem; converse applications carry the pinned predicate as a hypothesis. At spherical places genericity is [the Hecke-coordinate criterion](#gl2-unramified-genericity).
+- For unitary cuspidal `π,τ` of ranks n,m, the Rankin–Selberg datum `rsDatum π τ` has degree bound nm, unramified polynomial `∏_(i,j)(1−α_iβ_jT)`, all ramified local denominators, and the gamma shifts of the tensor archimedean parameter. Its dual uses `π∨,τ∨`. Take `c=1/2`, `N=|D_K|^(nm) Norm(𝔣(π×τ))`, and ε the product of pair epsilon constants at `1/2`. Prove `IsNicePinned` outside the contragredient norm-twist pole case of [Continuation and the Rankin–Selberg pole criterion](#rs-global-poles). Prove the needed strip bounds for all ranks by extending the global integral estimates to the smooth completed tensor cusp space in [Restricted tensor realizations](#restricted-tensor-realizations), then applying the local archimedean realization. These are bounds for the completed pair L-function, as in Gelbart–Shahidi; a pointwise meromorphic functional equation alone supplies no bound. The same datum construction applies to the generic restricted-tensor candidates in the converse theorems, where niceness is a hypothesis.
+
+**Checks.** An odd finite-order Hecke character has its odd gamma shift and the root number fixed by the supplied Gauss-sum formula; a nonzero imaginary norm character is nontrivial but still fails entire niceness. For arithmetic GL₂ roots α,β with `a=α+β`, `qs=αβ`, the untwisted unitary dual polynomial is `1−a q^h/(qs) T+q^(2h)/(qs) T²`; at `h=1/2` this becomes `1−a/(√q s) T+s⁻¹T²`. Inverting coefficients term by term, or applying the primal normalization twist to reciprocal roots, gives the wrong polynomial. For a spherical GL₂ representation twisted by a ramified character, both finite Euler polynomials become 1 and the conductor changes. A self-pair `π×π∨` has a pole and supplies data but no `IsNicePinned`; a cuspidal pair of unequal ranks has no such pole obstruction.
+
+(Source: [Hecke continuation and functional equation](#hecke-l-functional-equation), the `n=1` case of Godement–Jacquet, for the character instance; [Cogdell, Fields lectures](#ref-cogdellfields), §§7–9, especially Lecture 9 §5, pp.72–73, for the completed-tensor integral estimates; Gelbart–Shahidi, [*Boundedness of automorphic L-functions in vertical strips*](https://doi.org/10.1090/S0894-0347-00-00351-9), JAMS 14 (2001), Theorem 4.1 and Corollary 4.2, pp.87–88; [Humphries](#ref-humphriesarch), §2.4; AutomorphicFormsOnReductiveGroups §§5.8 and 7.3 for eigensystems and normalization.)
+
+*Needs:* [Niceness with specified root number and conductor](#pinned-niceness); [GL₂ parameter coordinates and archimedean factors](#gl2-archimedean-parameter-factors); [Hecke continuation and functional equation](#hecke-l-functional-equation); [The global standard L-function](#global-godement-jacquet); [The global Rankin–Selberg functional equation](#rs-global-functional-equation); [Archimedean realization](#rs-archimedean-realization); AutomorphicFormsOnReductiveGroups §§5.8 and 7.3; ArithmeticGaloisRepresentations §2.7 for the finite-order Hecke normalization and Gauss-sum root-number comparisons.
+
 
 <a id="gln-converse-full-rank"></a>
 
-**The `GL(n)` converse theorem with twists through rank `n−1`.** For `n≥2`, under the stated niceness hypotheses for every cuspidal automorphic twist of each rank `1≤m≤n−1, Π` is cuspidal automorphic. At `n=2` the twisting family consists of all idele-class quasicharacters. The growth and archimedean hypotheses remain part of the niceness assumptions.
+**The `GL(n)` converse theorem with twists through rank `n−1`.** For `n≥2`, assume `IsNicePinned` with the specified local root number and conductor for every cuspidal automorphic twist of each rank `1≤m≤n−1`. Then Π is cuspidal automorphic. At `n=2` the twisting family consists of all idele-class quasicharacters. The predicate retains both the growth and archimedean hypotheses.
 
-Work under the following hypotheses. F is a number field; `Π` is an irreducible admissible generic restricted tensor representation of `GL_n(𝔸_F)`, spherical almost everywhere, with idele-class central character and Euler products convergent in a right half-plane. Local factors, duals, additive character and archimedean conventions are fixed by AL.2–AL.3. For every indicated cuspidal twist `τ`, both completed `L(s,Π×τ)` and its contragredient partner have entire continuations bounded on finite vertical strips and the matching functional equation; these conditions are hypotheses, not consequences of automorphy of `τ` alone.
+Work under the following hypotheses. F is a number field; `Π` is an irreducible admissible generic restricted tensor representation of `GL_n(𝔸_F)`, spherical almost everywhere, with idele-class central character and Euler products convergent in a right half-plane. Local factors, duals, additive character and archimedean conventions are fixed by AL.2–AL.3. For every indicated cuspidal twist τ require `IsNicePinned (rsDatum Π τ) ε_(Π,τ) N_(Π,τ)`, where the datum includes all places, `c=1/2`, and the specified local epsilon product is `ε_(Π,τ) N_(Π,τ)^(1/2−s)`. These are hypotheses, not consequences of automorphy of τ alone; the root number and conductor are fixed by the candidate's local factors.
 
 **Checks.** A determinant character of `GL₃` is admissible and irreducible but nongeneric, so it is excluded. At `n=2` the entire twisting family is all idele-class quasicharacters, with completed dual entireness, vertical-strip bounds and the matching functional equation. At `n=3` the full-rank theorem requires both `GL₁` and `GL₂` cuspidal twists; dropping rank two is the separately proved reduced-rank theorem. A twist with an uncancelled pole violates niceness and cannot be passed to this converse theorem.
 
 (Source: [Cogdell, converse theorems](#ref-cogdellconverse), §2; §3 Theorem3.1, pp.5–8.)
 
-*Needs:* [The Whittaker realization](#whittaker-model); [The local Rankin–Selberg functional equation](#rs-local-functional-equation); [The GL(n) cuspidal Fourier expansion](#gln-fourier-expansion).
+*Needs:* [The Whittaker realization](#whittaker-model); [The local Rankin–Selberg functional equation](#rs-local-functional-equation); [The GL(n) cuspidal Fourier expansion](#gln-fourier-expansion); [Niceness with specified root number and conductor](#pinned-niceness); [Hecke, eigensystem and Rankin–Selberg data](#automorphic-l-data).
 
 
 <a id="gln-converse-reduced-rank"></a>
 
-**The `GL(n)` converse theorem with twists through rank `n−2`.** For `n≥3` and a finite set S of finite places, assume niceness for every cuspidal twist of rank `1≤m≤n−2` unramified at S. If S is empty, `Π` is cuspidal automorphic; otherwise an automorphic representation agrees with `Π` outside S. For `n=3` these are `GL₁` twists. This theorem gives no rank-two conclusion and no highly ramified-twist variant.
+**The `GL(n)` converse theorem with twists through rank `n−2`.** For `n≥3` and a finite set S of finite places, assume `IsNicePinned` with the specified local root number and conductor for every cuspidal twist of rank `1≤m≤n−2` unramified at S. If S is empty, `Π` is cuspidal automorphic; otherwise an automorphic representation agrees with `Π` outside S. For `n=3` these are `GL₁` twists. This theorem gives no rank-two conclusion and no highly ramified-twist variant.
 
-Work under the following hypotheses. F is a number field; `Π` is an irreducible admissible generic restricted tensor representation of `GL_n(𝔸_F)`, spherical almost everywhere, with idele-class central character and Euler products convergent in a right half-plane. Local factors, duals, additive character and archimedean conventions are fixed by AL.2–AL.3. For every indicated cuspidal twist `τ`, both completed `L(s,Π×τ)` and its contragredient partner have entire continuations bounded on finite vertical strips and the matching functional equation; these conditions are hypotheses, not consequences of automorphy of `τ` alone.
+Work under the following hypotheses. F is a number field; `Π` is an irreducible admissible generic restricted tensor representation of `GL_n(𝔸_F)`, spherical almost everywhere, with idele-class central character and Euler products convergent in a right half-plane. Local factors, duals, additive character and archimedean conventions are fixed by AL.2–AL.3. For every indicated cuspidal twist τ require `IsNicePinned (rsDatum Π τ) ε_(Π,τ) N_(Π,τ)`, where the datum includes all places, `c=1/2`, and the specified local epsilon product is `ε_(Π,τ) N_(Π,τ)^(1/2−s)`. These are hypotheses, not consequences of automorphy of τ alone; the root number and conductor are fixed by the candidate's local factors.
 
 **Checks.** A determinant character of `GL₃` is excluded by genericity; it supplies no Whittaker input. At `n=3` and `S=∅` all `GL₁` twists satisfying niceness give cuspidal automorphy. Twists unramified at nonempty finite S give an automorphic representation matching outside S; neither cuspidality nor equality at S follows from this contract. `n=2` is outside the hypotheses, so an empty range `1≤m≤0` yields no `GL₂` theorem. Characters unramified at S are not the highly ramified T-family of Gelbart–Jacquet §9.2; that variant remains a separate proof obligation.
 
 (Source: [Cogdell, converse theorems](#ref-cogdellconverse), §2; §3 Theorem3.3, pp.5–6,9.)
 
-*Needs:* [The Whittaker realization](#whittaker-model); [The local Rankin–Selberg functional equation](#rs-local-functional-equation); [The GL(n) cuspidal Fourier expansion](#gln-fourier-expansion).
+*Needs:* [The Whittaker realization](#whittaker-model); [The local Rankin–Selberg functional equation](#rs-local-functional-equation); [The GL(n) cuspidal Fourier expansion](#gln-fourier-expansion); [Niceness with specified root number and conductor](#pinned-niceness); [Hecke, eigensystem and Rankin–Selberg data](#automorphic-l-data).
 
 ### Curve arithmetic and the unramified pure realization
 
@@ -2888,6 +2981,10 @@ AL.1–AL.4; the generic finite-place newform target; Tau Ceti's modular coeffic
 
 
 ## References
+
+<a id="ref-bushnellhenniart2006"></a>
+
+[The Local Langlands Conjecture for GL(2)](https://link.springer.com/book/10.1007/3-540-31511-X), Colin J. Bushnell and Guy Henniart. Grundlehren 335, Springer, 2006; §7.2, pp.50–51, and §9.11, p.69.
 
 <a id="ref-casselman1973"></a>
 

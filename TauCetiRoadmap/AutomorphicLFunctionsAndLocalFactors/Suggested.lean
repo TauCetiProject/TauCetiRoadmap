@@ -592,11 +592,13 @@ namespace TauCeti.AutomorphicLFunctions.AL1
 /-- The three gamma branches use finite numeric data over existing sum and product carriers. -/
 abbrev GammaBranch := (Fin 2 × ℂ) ⊕ ((ℤ × ℂ) ⊕ ({k : ℕ // 2 ≤ k} × ℂ))
 
+/-- The canonical gamma value of a real character, complex character or real discrete block. -/
 def gammaBranch (b : GammaBranch) (s : ℂ) : ℂ := match b with
   | .inl (a, t) => Complex.Gammaℝ (s+t+(a.val : ℂ))
   | .inr (.inl (κ, t)) => Complex.Gammaℂ (s+t+(κ.natAbs : ℂ)/2)
   | .inr (.inr (k, t)) => Complex.Gammaℂ (s+t+((k.val : ℂ)-1)/2)
 
+/-- The product of canonical gamma factors for the specified archimedean constituents. -/
 def CanonicalArchimedeanFactor (bs : List GammaBranch) (s : ℂ) : ℂ :=
   (bs.map (fun b => gammaBranch b s)).prod
 
@@ -624,6 +626,24 @@ end TauCeti.AutomorphicLFunctions.AL1
 /-! ## Layer AL.2: standard functions and paired products -/
 
 namespace TauCeti.AutomorphicLFunctions.AL2
+
+/-- The generic spherical condition in arithmetic Hecke coordinates 1 - aT + qsT². -/
+def IsGenericUnramified (q : ℕ) (a s : ℂ) : Prop :=
+  a ^ 2 ≠ s * ((q : ℂ) + 1) ^ 2
+
+/-- Nonzero Satake parameters satisfy the arithmetic criterion precisely away from
+the two reducibility ratios of normalized unramified induction. -/
+theorem isGenericUnramified_iff_satake (q : ℕ) (hq : 2 ≤ q)
+    (α β : ℂ) (hα : α ≠ 0) (hβ : β ≠ 0) :
+    IsGenericUnramified q (α + β) (α * β / (q : ℂ)) ↔
+      α / β ≠ (q : ℂ) ∧ α / β ≠ (q : ℂ)⁻¹ := by sorry
+
+/-- The arithmetic Hecke coefficients of a determinant character lie on the nongeneric boundary. -/
+theorem not_isGenericUnramified_det_twist (q : ℕ) (c : ℂ) :
+    ¬ IsGenericUnramified q (((q : ℂ) + 1) * c) (c ^ 2) := by
+  intro h
+  apply h
+  ring
 
 /-- The Godement–Jacquet integral formula on GLₙ supplied as a measurable carrier G,
 with its matrix inclusion and normalized determinant absolute value. The integrand is
@@ -784,6 +804,23 @@ end TauCeti.AutomorphicLFunctions.AL2
 /-! ## Layer AL.3: Rankin–Selberg formulas and rational factors -/
 
 namespace TauCeti.AutomorphicLFunctions.AL3
+
+/-- A complex-valued function has a finite bound on every closed vertical strip. -/
+def BoundedOnStrips (f : ℂ → ℂ) : Prop :=
+  ∀ a b : ℝ, ∃ C : ℝ, 0 ≤ C ∧ ∀ s : ℂ, a ≤ s.re → s.re ≤ b → ‖f s‖ ≤ C
+
+/-- Products preserve boundedness on each finite vertical strip. -/
+theorem BoundedOnStrips.mul {f g : ℂ → ℂ}
+    (hf : BoundedOnStrips f) (hg : BoundedOnStrips g) :
+    BoundedOnStrips (fun s => f s * g s) := by sorry
+
+/-- A complex translation carries a finite vertical strip to another finite vertical strip. -/
+theorem BoundedOnStrips.translate {f : ℂ → ℂ} (hf : BoundedOnStrips f) (t : ℂ) :
+    BoundedOnStrips (fun s => f (s + t)) := by sorry
+
+/-- Reflection in a real centre preserves boundedness on finite vertical strips. -/
+theorem BoundedOnStrips.reflect {f : ℂ → ℂ} (hf : BoundedOnStrips f) (c : ℝ) :
+    BoundedOnStrips (fun s => f (2 * (c : ℂ) - s)) := by sorry
 
 /-- A nontrivial cubic degree character distinguishes geometric from arithmetic
 Frobenius through its local polynomial at a degree-one place. -/
@@ -1200,6 +1237,19 @@ def k1 (I : Ideal R) : Subgroup (GeneralLinearGroup (Fin 2) R) :=
          ring
    } : Submonoid (Matrix (Fin 2) (Fin 2) R)).units
 
+/-- The unit-ideal lower-left congruence condition gives the whole integral group. -/
+theorem k0_top : k0 (⊤ : Ideal R) = ⊤ := by sorry
+
+/-- The unit-ideal last-row congruence condition gives the whole integral group. -/
+theorem k1_top : k1 (⊤ : Ideal R) = ⊤ := by sorry
+
+/-- The last-row subgroup is contained in the lower-left subgroup at the same ideal. -/
+theorem k1_le_k0 (I : Ideal R) : k1 I ≤ k0 I := by sorry
+
+/-- Every integral upper unipotent satisfies the last-row conditions at every ideal. -/
+theorem upperRightHom_mem_k1 (I : Ideal R) (x : R) :
+    GeneralLinearGroup.upperRightHom x ∈ k1 I := by sorry
+
 end Congruence
 
 section LocalRepresentation
@@ -1259,6 +1309,14 @@ abbrev localK0 (F : Type*) [Field F] [ValuativeRel F]
     Subgroup (GeneralLinearGroup (Fin 2) F) :=
   (k0 (𝓂[F] ^ n)).map
     (GeneralLinearGroup.map (algebraMap 𝒪[F] F))
+
+/-- Depth-zero K₀ is the image of the full integral general linear group. -/
+theorem localK0_zero : localK0 F 0 =
+    (GeneralLinearGroup.map (algebraMap 𝒪[F] F)).range := by sorry
+
+/-- Depth-zero K₁ is the image of the full integral general linear group. -/
+theorem localK1_zero : localK1 F 0 =
+    (GeneralLinearGroup.map (algebraMap 𝒪[F] F)).range := by sorry
 
 /-- The embedded congruence subgroup is compact. -/
 theorem localK0_isCompact (n : ℕ) :
@@ -1346,7 +1404,7 @@ theorem casselmanNewvector_k0_character
 
 /-- Nonvanishing of the chosen Whittaker functional on the newvector line.
 The second character condition says it is nontrivial on the inverse maximal
-ideal. Equivariance uses actual upper unipotent matrices. Existence of this
+ideal. Equivariance uses Mathlib's upper-unipotent homomorphism. Existence of this
 nonzero functional is SR.2.3's genericity theorem, not an assumption about its
 restriction to the newvector line. Casselman, proof of Theorem 1, pp. 303–306. -/
 theorem casselmanNewvector_whittaker_eval
@@ -1363,8 +1421,8 @@ theorem casselmanNewvector_whittaker_eval
     (hψp : ∃ x : F, (∀ a : 𝒪[F], a ∈ 𝓂[F] →
       x * (a : F) ∈ (𝒪[F] : Set F)) ∧ ψ x ≠ 1)
     (ell : V →ₗ[ℂ] ℂ) (hell : ell ≠ 0)
-    (hwhit : ∀ (x : F) (g : GeneralLinearGroup (Fin 2) F),
-      g.val = !![1, x; 0, 1] → ∀ v, ell (π g v) = ψ x * ell v) :
+    (hwhit : ∀ (x : F) (v : V),
+      ell (π (GeneralLinearGroup.upperRightHom x) v) = ψ x * ell v) :
     ∃ v : Representation.invariants (π.comp (localK1 F
       (conductorExponent π (localK1 F)
         (newvectorLevelExists π hsm hadm hinf))).subtype), ell v.val ≠ 0 := by sorry
