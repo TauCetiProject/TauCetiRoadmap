@@ -132,7 +132,7 @@ pro-`p` quotient.
     - `Mathlib: Mathlib/RingTheory/Valuation/AlgebraInstances.lean`.
   - *Source:* Neukirch ANT II §6 and II §8, for a complete discretely valued base. The hypotheses
     used are completeness of `K` and finiteness of `L/K`. *False generalization:* a valuation on
-    an incomplete field has several inequivalent extensions to a finite extension, so completeness
+    an incomplete field can have several inequivalent extensions to a finite extension, so completeness
     is not a convenience here.
 - **Finite extensions, II: uniqueness.** Any two valuations on `L` that restrict to the valuation
   class of `K` are equivalent, in the sense of `Valuation.IsEquiv`. Any two `ValuativeRel L`
@@ -424,15 +424,17 @@ pro-`p` quotient.
   follows from the formula and is exported separately as
   `finiteIndex_range_powMonoidHom_of_isUnit` or `finiteIndex_range_powMonoidHom`, so downstream
   declarations can consume a `Subgroup.FiniteIndex` proof without reconstructing it. Tau Ceti
-  implements regime 1: the count `TauCeti.card_powerClasses_of_isUnit`, the vanishing
-  `TauCeti.natCastValuation_eq_zero_of_isUnit`, finite index
-  `TauCeti.finiteIndex_range_powMonoidHom_of_isUnit` and the count `4`
-  `TauCeti.card_squareClasses_of_isUnit` (`TauCeti/NumberTheory/LocalField/PowerSubgroup.lean`), and
-  the identification of the two spellings of the square classes,
-  `TauCeti.square_eq_powMonoidHom_two_range`. This roadmap's `card_powerClasses_of_isUnit`,
-  `finiteIndex_range_powMonoidHom_of_isUnit`, `card_squareClasses_of_isUnit` and
-  `square_eq_range_powMonoidHom` are closed proofs of them. Regime 2, the dyadic count and the
-  worked example are the remaining milestones.
+  implements the generic count `TauCeti.card_powerClasses` for `(n : K) ≠ 0`, its finite-index
+  consequence `TauCeti.finiteIndex_range_powMonoidHom`, and their prime-to-residue
+  specializations `TauCeti.card_powerClasses_of_isUnit`,
+  `TauCeti.natCastValuation_eq_zero_of_isUnit` and
+  `TauCeti.finiteIndex_range_powMonoidHom_of_isUnit`. The count `4` is
+  `TauCeti.card_squareClasses_of_isUnit`
+  (`TauCeti/NumberTheory/LocalField/PowerSubgroup/Basic.lean`), and the square-class spellings
+  agree by `TauCeti.square_eq_range_powMonoidHom`. This companion's regime-1 count and index,
+  mixed-characteristic count, prime-to-residue square count and square-range identification
+  reuse these native proofs. Retain the displayed dyadic `4·q^e` specialization and the worked
+  representatives as explicit targets; the general mixed-characteristic count itself is native.
   - *Prerequisites:*
     - `Layer 1: structure of Kˣ`;
     - `Layer 1: deep units in mixed characteristic` (regime 2 only);
@@ -474,8 +476,11 @@ pro-`p` quotient.
 
   The name is `isOpen_range_powMonoidHom`. It holds in regime 1 for either characteristic, and in
   regime 2 for every `n`. ⚠ This does **not** follow from the count above. Finiteness of an
-  abstract quotient of a topological group says nothing about the topology of the kernel. The
-  proof exhibits an open subgroup inside the range:
+  abstract quotient of a topological group says nothing about the topology of the kernel. For
+  example, in the product group `(ℤ/2)^ℕ`, the finite-support subgroup is dense. The quotient by
+  it is a nonzero `𝔽₂`-vector space; choose a nonzero linear functional to `𝔽₂`. The inverse
+  image of its kernel is a proper dense subgroup of index two, hence is not open. The local-field
+  proof instead exhibits an open subgroup inside the range:
   - in regime 1, `U(K,1) ⊆ (Kˣ)^n`, by Hensel's lemma applied to `X^n − u` at the approximate
     root `1`. The derivative `n X^{n−1}` is a unit there, because `n` is a unit in `𝒪[K]`, and
     `1 − u ∈ 𝓂[K]` for `u ∈ U(K,1)`;
@@ -488,13 +493,14 @@ pro-`p` quotient.
   A subgroup of a topological group that contains an open subgroup is open, and is therefore
   closed. In this application finite index is a separate consequence of
   `card_powerClasses_of_isUnit` or `card_powerClasses_mixed`; it does not follow from openness.
-  Tau Ceti implements regime 1: `TauCeti.isOpen_range_powMonoidHom_of_isUnit`, with the
-  containment `TauCeti.unitFiltration_one_le_range_powMonoidHom_of_isUnit`, closedness
-  `TauCeti.isClosed_range_powMonoidHom_of_isUnit`, and the corollary for subgroups
-  `TauCeti.isOpen_of_isUnit_exponent` and `TauCeti.isOpen_of_isUnit_index`; this roadmap's
-  `isOpen_range_powMonoidHom_of_isUnit` is a closed proof. It also proves the case `n = 2` in every
-  characteristic other than `2`, `TauCeti.isOpen_range_powMonoidHom_two`, from the local square
-  theorem below. Regime 2 for general `n` remains.
+  Tau Ceti implements both regimes in one statement, `TauCeti.isOpen_range_powMonoidHom`, whose
+  hypothesis `(n : K) ≠ 0` holds in regime 1 and for every `n ≠ 0` in regime 2. It comes with the
+  regime 1 containment `TauCeti.unitFiltration_one_le_range_powMonoidHom_of_isUnit`, the deep-unit
+  containment `TauCeti.unitFiltration_le_range_powMonoidHom`, closedness
+  `TauCeti.isClosed_range_powMonoidHom`, and the corollary for subgroups
+  `TauCeti.isOpen_of_natCast_exponent_ne_zero` and `TauCeti.isOpen_of_natCast_index_ne_zero`.
+  This roadmap's `isOpen_range_powMonoidHom_of_isUnit` and `isOpen_range_powMonoidHom` are closed
+  proofs.
   - *Prerequisites:*
     - `Layer 1: the unit filtration as an object`;
     - `Layer 1: deep units in mixed characteristic` (regime 2 only);
@@ -571,7 +577,7 @@ pro-`p` quotient.
   survives generalization. Compare the predicate once, as a theorem, with `Algebra.IsUnramifiedAt`
   and `Algebra.FormallyUnramified` over `𝒪[K]`, so that the étale library becomes usable. Do not
   redefine those notions. Tau Ceti implements the predicate as the class `TauCeti.IsUnramified K L`
-  (`TauCeti/NumberTheory/LocalField/Unramified.lean`), with the equivalence with `e = 1`
+  (`TauCeti/NumberTheory/LocalField/Unramified/Basic.lean`), with the equivalence with `e = 1`
   (`TauCeti.isUnramified_iff_ramificationIndex_eq_one`), the value-group, valuation, ideal and
   degree forms, tameness (`TauCeti.IsUnramified.isTamelyRamified`), stability in towers in both
   directions (`TauCeti.isUnramified_tower_iff`) and the comparison theorems
@@ -684,8 +690,8 @@ pro-`p` quotient.
   `TauCeti.normGroup K L`, the range of the norm on units `TauCeti.Algebra.normUnits K`
   (`TauCeti/RingTheory/Norm/Units.lean`); the valuation identity `TauCeti.normalizedValuation_norm`
   (`TauCeti/NumberTheory/LocalField/Norm/Basic.lean`); and, under the class
-  `TauCeti.IsUnramified K L`, `TauCeti.map_normUnits_unitFiltration_zero` and
-  `TauCeti.mem_normGroup_iff_dvd_normalizedValuation` (`Norm/Unramified.lean`). This roadmap's
+  `TauCeti.IsUnramified K L`, `TauCeti.map_normUnits_unitFiltration` and
+  `TauCeti.mem_normGroup_iff_dvd_normalizedValuation` (`Norm/Unramified/Basic.lean`). This roadmap's
   `normGroup` is a reducible alias, and
   `map_norm_unitFiltration_zero` and `mem_normGroup_iff_dvd_normalizedValuation` are closed proofs,
   with the class supplied from `e = 1` as for the Frobenius; the worked cases remain.
@@ -842,8 +848,12 @@ pro-`p` quotient.
   `θ_i` followed by the Layer 1 coordinate attached to `π_L`
   (`TauCeti.unitFiltrationGradedSuccEquivResidueFieldOfUniformizer`), and replacing `π_L` by
   `u π_L` multiplies it by `residue(u)^{−i}`. So the residue form `wildRamificationCharacter`
-  takes the uniformizer as an argument, and its representative formula and this change rule are
-  stated targets. Injectivity and the action formula below do not determine it: multiplying a
+  takes the uniformizer as an argument. Tau Ceti already implements this composed positive-level
+  map and its injectivity, representative formula and change rule as
+  `ramificationGroupGradedToResidueField`, `_injective`, `_of_smul_sub_eq` and `_change` in
+  `UnitFiltration/RamificationGroup.lean`. The roadmap wrappers must transport the actual group
+  action, invariant integer ring, positive index and uniformizer hypotheses to those interfaces.
+  Injectivity and the action formula below do not determine it: multiplying a
   positive-level residue character by a nonzero residue scalar preserves both, but changes the
   constant `c` of the norm computation below, hence the norm polynomial. Over `k = 𝔽₄`, with
   `K = k((s))` and `L = K(π)` for `π² + sπ + s = 0` (separable Eisenstein, so totally ramified),
@@ -897,7 +907,7 @@ pro-`p` quotient.
   A global wrapper may be added only after its value below `-1` is fixed explicitly. Prove that
   `ψ` carries the jumps of the upper filtration to the jumps of the lower one. The upper numbering
   is `G^u := G_{ψ(u)}`, with the real-index groups above. Tau Ceti implements the definitions and
-  the analytic facts in `TauCeti/NumberTheory/LocalField/Herbrand.lean`, in the namespace
+  the analytic facts in `TauCeti/NumberTheory/LocalField/Herbrand/Basic.lean`, in the namespace
   `TauCeti.LocalFieldsRamification`: `RamificationIndexDomain`, `herbrandOrderIso`, `herbrand` and
   `inverseHerbrand`, with the integral formula `coe_herbrand`, the finite-sum formula
   (`coe_herbrand_of_mem_Icc`, `coe_herbrand_of_coe_eq_natCast`), continuity and strict
@@ -948,8 +958,10 @@ pro-`p` quotient.
   conversion from a Herbrand value to a unit depth in this roadmap. Every index of `U(K, −)` and
   of `U(L, −)` below is a literal natural number or a value of `ψℕ`, and `φ` never indexes a unit
   group. The proof is the piecewise
-  formula with Lagrange's theorem: write `g_i = #G_i`, and take `t` to be the largest jump with
-  `φ(t) ≤ n`; then `ψ(n) = t + (g_0·n − ∑_{i=1}^{t} g_i) / g_{t+1}`, and `g_{t+1}` divides `g_0`
+  formula with Lagrange's theorem: write `g_i = #G_i`, and choose `t` from zero together with
+  the nonnegative lower breakpoints, taking the largest one with `φ(t) ≤ n`. Including zero
+  covers an unramified extension and depths before the first positive jump. Then
+  `ψ(n) = t + (g_0·n − ∑_{i=1}^{t} g_i) / g_{t+1}`, and `g_{t+1}` divides `g_0`
   and every `g_i` with `i ≤ t`, because the filtration is decreasing.
   - *Prerequisites:* `Layer 3: Herbrand functions and the upper numbering`.
   - *API:*
@@ -972,7 +984,7 @@ pro-`p` quotient.
      `L/K` is totally ramified, `N_{L/K}(π_L)` is a uniformizer of `K`. This is the basic API of
      the norm at a local field. The last part fixes the coordinate on the target of the graded
      maps in item 4. Tau Ceti implements this item: `TauCeti.normalizedValuation_norm`,
-     `TauCeti.map_normUnits_unitFiltration_zero_le` and, for the uniformizer,
+     `TauCeti.map_normUnits_unitFiltration_le` and, for the uniformizer,
      `TauCeti.isUniformizer_normUnits_iff` (`TauCeti/NumberTheory/LocalField/Norm/Basic.lean`).
   2. *The Herbrand-shifted inclusion, for `L/K` finite Galois.*
      `N_{L/K}(U(L, ψℕ_{L/K}(i))) ⊆ U(K, i)` for every `i : ℕ`. Both depths are natural numbers,
@@ -988,7 +1000,7 @@ pro-`p` quotient.
      `t = 0` holds exactly in the tame case `ℓ ≠ p`, where the Galois hypothesis forces `μ_ℓ ⊆ K`
      and therefore `ℓ ∣ q − 1`. Coordinatize the graded pieces by a uniformizer `π_L` and by
      `π_K = N_{L/K}(π_L)`. The norm induces `gr_v N : U(L, ψℕ v)/U(L, ψℕ v + 1) → U(K, v)/U(K,
-     v+1)`. The milestone is the computation of that map in the four cases that occur:
+     v+1)`. The milestone is the computation of that map in the five cases that occur:
      - `v = t = 0`, the tame case: `y ↦ y^ℓ` on `𝓀ˣ`, with kernel and cokernel `μ_ℓ(𝓀)` of order
        `ℓ`, by `ℓ ∣ q − 1`;
      - `v = 0 < t`, so `ℓ = p`: `y ↦ y^p` on `𝓀ˣ`, the Frobenius of a finite field, bijective;
@@ -997,7 +1009,26 @@ pro-`p` quotient.
        element whose image under the canonical map `𝓀[K] → 𝓀[L]` of `residueFieldAlgebra`,
        bijective by total ramification, is the value at a generator `σ` of `G` of the residue
        form of `θ_t` at `π_L`; it is nonzero because `σ ∉ G_{t+1}`. The map is `𝔽_ℓ`-linear,
-       with kernel the line `𝔽_ℓ·c` and cokernel of order `ℓ`.
+       with kernel the line `𝔽_ℓ·c` and cokernel of order `ℓ`;
+     - `v > t`: a nonzero linear map on the common residue field, hence bijective. Construct
+       this case separately, in the coordinates of `π_L` and `N(π_L)`, rather than extending
+       one of the four preceding formulas beyond its range. Put
+       `m = ψℕ v = ℓv − (ℓ−1)t` and `d = (ℓ−1)(t+1)`. First prove the trace-ideal formula
+       `Tr(𝓂[L]^a) = 𝓂[K]^{⌊(a+d)/ℓ⌋}` from the trace-dual definition of the different.
+       Hilbert's different formula uses only the lower filtration and gives this value of `d`;
+       both constructions precede this norm calculation and do not use Hasse–Arf. For `a=m`
+       and `a=m+1` the two exponents are `v` and `v+1`. Expand the product defining the norm
+       and bound its higher elementary-symmetric terms to prove
+       `N(1+x)−1 ≡ Tr(x) mod 𝓂[K]^{v+1}` for `x ∈ 𝓂[L]^m`, using `m>t`. Thus trace descends
+       to a surjective map between the one-dimensional common-residue-field graded pieces.
+       Its coordinate is multiplication by a nonzero residue scalar, which also proves
+       injectivity. Export this case as `normGradedMap_after_break`. Tau Ceti already proves the
+       trace-first-order statement and this bijectivity in `Norm/AfterBreak.lean`, through
+       `norm_one_add_sub_one_sub_trace_mem_after_break` and `normGradedMap_after_break`.
+       The companion consumes the native graded norm by abbreviation, identifies the two
+       integral-depth definitions, and proves the equivalence of the unequal-group and native
+       strict-inclusion jump conventions using antitonicity. Its after-break wrapper therefore
+       reuses the native proof on the same carriers.
 
      ⚠ Three normalizations are part of this statement. First, the identification of residue
      fields is the canonical map, not an arbitrary isomorphism `𝓀[K] ≃ 𝓀[L]`: for `𝓀[K] = 𝔽₄`,
@@ -1020,8 +1051,9 @@ pro-`p` quotient.
      `ℓ`. The representative declarations keep these regimes separate:
      `normGradedMap_tame_break_zero` covers `v = t = 0`;
      `normGradedMap_zero_before_break` covers `v = 0 < t`;
-     `normGradedMap_positive_before_break` covers `0 < v < t`; and
-     `normGradedMap_at_break` covers only `v = t > 0`. The last theorem explicitly requires
+     `normGradedMap_positive_before_break` covers `0 < v < t`;
+     `normGradedMap_at_break` covers only `v = t > 0`; and
+     `normGradedMap_after_break` covers `t < v`, including tame `t = 0`. The at-break theorem explicitly requires
      `IsTotallyRamified K L`, `0 < t`, and
      `UpperJump K L ⟨(t : ℝ), _⟩`; prime-degree Galois hypotheses supply cyclicity. In particular,
      its kernel-and-cokernel conclusion is unavailable for an unramified extension or for the tame
@@ -1037,14 +1069,17 @@ pro-`p` quotient.
     - `Layer 3: the quotient embeddings`;
     - `Layer 1: graded pieces`;
     - `Layer 2: norms` (for item 3);
-    - `Layer 0: e and f, intrinsically`.
+    - `Layer 0: e and f, intrinsically`;
+    - the trace-dual construction, trace-ideal formula and lower-filtration Hilbert formula
+      of `Layer 3: the different and the discriminant`, before item 4's above-break branch.
+      These helpers have no norm-surjectivity or Hasse–Arf prerequisite.
   - *Source:* Serre LF V §2 for item 3, Serre LF V §3 for item 4, and Serre LF V §6 for item 2.
     *False generalization:* the unshifted inclusion in item 2, which the counterexample in the
     examples section refutes.
   - *Lean-facing exports:* `map_norm_unitFiltration_psiNat_le`, `UnitFiltrationGraded`,
     `normGradedMap`, `normGradedMap_tame_break_zero`, `normGradedMap_zero_before_break`,
-    `normGradedMap_positive_before_break`, `normGradedMap_at_break`, and
-    `normGradedMap_at_break_apply`.
+    `normGradedMap_positive_before_break`, `normGradedMap_at_break`,
+    `normGradedMap_at_break_apply`, and `normGradedMap_after_break`.
 - **Hasse–Arf.** For a finite abelian Galois extension `L/K`, the jumps of the upper-numbering
   filtration are integers. A jump is a `u` with `G^v ≠ G^u` for every `v > u` (Serre LF IV §3),
   defined as `UpperJump K L u` on the upper filtration `upperRamificationGroup` of the preceding
@@ -1054,7 +1089,7 @@ pro-`p` quotient.
   2. choose a prime-order normal quotient series for the finite abelian group;
   3. transport the filtration at every step using the abstract Herbrand quotient theorem and its
      fixed field-theoretic equivalence;
-  4. compare conductors with norms using the four graded norm maps and their kernel/cokernel
+  4. compare conductors with norms using all five graded norm regimes and their kernel/cokernel
      calculation above;
   5. induct along the series, showing at each quotient that integrality of the upper breaks is
      preserved.
@@ -1086,7 +1121,7 @@ pro-`p` quotient.
 
   Tau Ceti implements the discriminant ideal and both exponents, `TauCeti.discriminantIdeal`,
   `TauCeti.differentExponent` and `TauCeti.discriminantExponent`
-  (`TauCeti/NumberTheory/LocalField/Different/Basic.lean`, `Discriminant.lean`), with
+  (`TauCeti/NumberTheory/LocalField/Different/Basic.lean`, `Discriminant/Basic.lean`), with
   `𝔡_{L/K} = 𝓂[L]^{d(L/K)}` (`TauCeti.differentIdeal_eq_maximalIdeal_pow`),
   `𝔩_{L/K} = 𝓂[K]^{δ(L/K)}` (`TauCeti.discriminantIdeal_eq_maximalIdeal_pow`), the product formula
   `TauCeti.discriminantExponent_eq_inertiaDegree_mul_differentExponent`, the unramified criteria
@@ -1126,7 +1161,7 @@ nonarchimedean local field, while [Counting Totally Ramified Extensions
 of families of such extensions. The dependency is one-way:
 
 ```text
-LocalFieldsRamification (this roadmap) → TotallyRamified (#226)
+LocalFieldsRamification (this roadmap) → MassFormula (#226)
 ```
 
 This roadmap owns the canonical induced local-field structure, `e` and `f`, total/tame/wild
@@ -1438,7 +1473,10 @@ The external abstract dependency order is **[Continuous Cohomology of Profinite
 Groups](../ProfiniteCohomology/README.md) → [Profinite and Pro-`p`
 Groups](../ProfiniteProPGroups/README.md), a direct `import` of `Suggested.lean` here → this
 roadmap**. Within this roadmap the intended order is
-Layer 0 → Layer 1 → Layer 2 → Layer 3 → Layer 4. Later work may proceed against explicit
+Layer 0 → Layer 1 → Layer 2 → Layer 3 → Layer 4. Inside Layer 3 the trace-dual different,
+trace-ideal image formula and lower-filtration Hilbert formula precede the above-break graded
+norm; that branch precedes completeness-based deep norm surjectivity and Hasse–Arf. This order
+does not use Hasse–Arf to establish its own norm premise. Later work may proceed against explicit
 hypotheses, but the accepted exports use the canonical objects produced by the preceding layers.
 
 ## Material extracted from the former local-fields portfolio
