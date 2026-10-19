@@ -49,7 +49,8 @@ noncomputable def idealOrderAt (I : Ideal R) (p : PrimeSpectrum R) : ℕ∞ :=
     (IsLocalRing.maximalIdeal (Localization.AtPrime p.asIdeal)) ^ n then (n : ℕ∞) else 0
 
 /-- At a prime with regular local ring, ideal orders add under products, including zero ideals.
-The regular-local associated graded comparison supplies this in every characteristic. -/
+In every characteristic, README §1.10's regular-local comparison uses GroebnerGeometry G4's
+shared ordinary ideal-power associated-graded ring. -/
 theorem idealOrderAt_mul (I J : Ideal R) (p : PrimeSpectrum R)
     (hreg : IsRegularLocalRing (Localization.AtPrime p.asIdeal)) :
     idealOrderAt (I * J) p = idealOrderAt I p + idealOrderAt J p := sorry
