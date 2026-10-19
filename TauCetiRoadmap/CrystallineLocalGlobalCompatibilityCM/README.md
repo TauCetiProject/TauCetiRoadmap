@@ -114,7 +114,7 @@ These interfaces are used in CN, Theorem 3.1.2, pp.43–44.
 
 These interfaces are used in CN, Corollary 4.1.9, p.57; CN, Lemma 4.2.3, p.60.
 
-**IntegralHeckeAndGaloisDeterminants:IHG.5** (used in CL.0, CL.7, CL.8). CN Theorem 2.1.20 (residual), Theorem 2.1.24 (integral uniform nilpotent exponent), and Proposition 5.5.2 uniform-exponent Galois representations for integral derived Hecke images and `O/ϖ^m` cohomology. `N` depends only on n,[F:Q], not `m`, weights or levels. Include finite-level idempotent localization and inverse-limit/degree assembly preserving Frobenius characteristic coefficients; arithmetic/geometric Frobenius conversion is explicit. Existing IHG tower algebra alone does not assert this arithmetic export.
+**IntegralHeckeAndGaloisDeterminants:IHG.5** (used in CL.0, CL.7, CL.8). CN Theorem 2.1.20 (residual), Theorem 2.1.24 (integral uniform nilpotent exponent), and Proposition 5.5.2 uniform-exponent Galois representations for integral derived Hecke images and `O/ϖ^m` cohomology. Reconstruction of a representation takes place in the idempotent local factor whose residual representation is absolutely irreducible. `N` depends only on n,[F:Q], not `m`, weights or levels. Include finite-level idempotent localization and inverse-limit/degree assembly preserving Frobenius characteristic coefficients; arithmetic/geometric Frobenius conversion is explicit. Existing IHG tower algebra alone does not assert this arithmetic export.
 
 These interfaces are used in CN, Theorem 2.1.24, p.23; CN, Proposition 5.5.2, pp.80–81.
 
@@ -1524,7 +1524,15 @@ Prove `CrystallineCM.augmented_automorphic_support`. Let `C` be an irreducible c
 
 ### 8.6 Galois representations for PGL₂ over CM fields
 
-Prove `CrystallineCM.pgl2_hecke_galois_representation`. Suppose `p` is odd, `S = S^c, F` contains an imaginary quadratic field and every finite `v ∉ S` of residue characteristic `l` has: `S` contains no l-adic place and `l` unramified in `F`, or `l` splits in an imaginary quadratic subfield of `F`. Then for every maximal `m ⊂ T^S_G(C•(K/K′,V))` there is a continuous semisimple `ρ̄_m : G_{F,S} → GL₂(T^S_G(C•(K/K′,V))/m)` with `det(X − ρ̄_m(Frob_v)) = P_v(X)` mod `m` for `v ∉ S`; if `ρ̄_m` is absolutely irreducible there are `N` depending only on `[F : Q]`, `J` with `J^N = 0` and `ρ_m : G_{F,S} → GL₂(T^S_G(C•(K/K′,V))/J)` with `det(X − ρ_m(Frob_v)) = P_v(X)` mod `J` for `v ∉ S`; in particular det `ρ_m = ε^{−1}_p`.
+Prove `CrystallineCM.pgl2_hecke_galois_representation`. Suppose `p` is odd, `S = S^c, F` contains an imaginary quadratic field and every finite `v ∉ S` of residue characteristic `l` has: `S` contains no l-adic place and `l` unramified in `F`, or `l` splits in an imaginary quadratic subfield of `F`. Set `T=T^S_G(C•(K/K′,V))`. For every maximal ideal `𝔪⊂T` there is a continuous semisimple `ρ̄_𝔪 : G_{F,S} → GL₂(T/𝔪)` with `det(X − ρ̄_𝔪(Frob_v)) = P_v(X)` mod `𝔪` for `v ∉ S`.
+
+If `ρ̄_𝔪` is absolutely irreducible, set `T_𝔪=e_𝔪T=T^S_G(C•(K/K′,V)_𝔪)`, the complete local O-algebra cut out by §8.1's idempotent. There are `N≥1` depending only on `[F : Q]`, an ideal `J⊂T_𝔪` with `J^N=0` and a continuous lift `ρ_𝔪 : G_{F,S} → GL₂(T_𝔪/J)` of `ρ̄_𝔪`. For every `v ∉ S`, `det(X − ρ_𝔪(Frob_v))` is the image of the full polynomial `P_v(X)=X²−T_{v,1}X+q_v` under `T→T_𝔪→T_𝔪/J`; in particular `det ρ_𝔪=ε_p⁻¹` with values in `(T_𝔪/J)×`.
+
+**Checks.**
+
+- If `T=T₁×T₂` and `𝔪` selects `T₁` with absolutely irreducible residual representation while `T₂` has reducible residual representation, reconstruction applies to `T_𝔪` alone; it imposes no irreducibility hypothesis on `T₂`.
+- The same bound `N` works for integral coefficients and for every coefficient depth `O/ϖ^m`, independently of `K`, `K′`, `V` and `𝔪`.
+- The scalar `GL₂` Hecke operator acts as identity on the `PGL₂` complex, so the constant term remains `q_v` in `T_𝔪/J`; together with the trace coefficient this gives the full Frobenius polynomial and, by Chebotarev, `det ρ_𝔪=ε_p⁻¹`.
 
 (CN, Proposition 5.5.2, pp.80–81.)
 

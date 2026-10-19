@@ -642,6 +642,11 @@ not additional Lean declarations.
 
 8.6 Galois representations for PGL₂ over CM fields
   CrystallineCM.pgl2_hecke_galois_representation
+  Residual representations exist at every maximal ideal of the full Hecke
+  algebra T. At an absolutely irreducible residual ideal 𝔪, the integral lift
+  takes values in GL₂(T_𝔪/J), where T_𝔪 = e_𝔪 T is the idempotent local factor
+  and J^N = 0 with N depending only on [F : Q]. The full Frobenius polynomial
+  X² − T_{v,1} X + q_v is mapped through T → T_𝔪 → T_𝔪/J.
 
 8.7 Vanishing above the real dimension and perfectness
   CrystallineCM.nonneat_localized_perfectness
