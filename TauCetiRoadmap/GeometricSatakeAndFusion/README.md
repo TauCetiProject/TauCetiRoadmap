@@ -3,8 +3,9 @@
 **Summary.** Construct the integral geometric Satake equivalence for connected reductive groups `G/E` from bounded bundle
 modifications, with its tensor structure, coefficient changes and Weil action. The geometric input is the
 Beilinson–Drinfeld Grassmannian over the divisor space of the relative
-Fargues–Fontaine curve. Its Witt vector special fibre supplies projective models
-and dimension calculations. Universally locally acyclic, flat perverse sheaves
+Fargues–Fontaine curve. Its special fibre supplies projective lattice models
+and dimension calculations, using Witt coefficients in mixed characteristic and
+power-series coefficients in equal characteristic. Universally locally acyclic, flat perverse sheaves
 form the Satake category; convolution gives rigidity, fusion gives its symmetric
 tensor structure, and relative Tannaka reconstruction recovers the pinned dual
 group. A final comparison identifies normalized Frobenius traces with the
@@ -175,7 +176,7 @@ The following elementary presentations are supplied by the libraries and are use
 
 For coefficient flatness, use `Module.Flat.iff_lTensor_preserves_injective_linearMapₛ` with its smallness hypotheses. For perverse hearts use `CategoryTheory.Triangulated.TStructure.heart`. Neither is restated as a new abstract theorem. The point-torus and geometric relative-perverse comparisons below identify their actual applications.
 
-InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T2–IG.0.T3 supplies the finite/rational constructible Grothendieck–Lefschetz trace formula on separated finite-type finite-field schemes, with specified Frobenius descent, compact support and geometric Frobenius. Combine it with EtaleCohomologyFoundations §F.10.2b (perfect-complex traces), and SchemeAndStackFoundations §§0.24–0.26 (fixed finite models of perfections). Apply these results on bounded Witt models; no trace formula for an arbitrary diamond is assumed.
+InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T2–IG.0.T3 supplies the finite/rational constructible Grothendieck–Lefschetz trace formula on separated finite-type finite-field schemes, with specified Frobenius descent, compact support and geometric Frobenius. Combine it with EtaleCohomologyFoundations §F.10.3 (`PerfectComplex.lefschetzNumber`, `PerfectComplex.filteredTraceAdditivity`) for perfect-complex traces, shift signs and additivity, and §F.10.2b (`VanishingCycles.frobeniusCohomology`) for scheme/descent Frobenius comparison through adic realization. SchemeAndStackFoundations §§0.24–0.26 supplies fixed finite models of perfections. Apply these results on bounded special-fibre models; no trace formula for an arbitrary diamond is assumed.
 
 <a id="supplier-calculus"></a>
 
@@ -358,15 +359,15 @@ Construct torsor quotients and their changes of trivialization.
 
 Provide the following API.
 
-- `demazureChains_points`: The point core consists of chains `x₀,…,x_r` with each consecutive pair in the specified simple-step relation.
-- `demazureChains_endpoint`: Multiplication forgets the intermediate flags and keeps the endpoints.
-- `demazureChains_base_change`: A map of flag spaces preserving each simple-step relation acts on every vertex of a Demazure chain.
+- `demazureChains_points`: The point core consists of chains `x₀,…,x_r` anchored at the standard flag `x₀`, with each consecutive pair in the specified simple-step relation. Retain the final length-zero factor `ω` and its chosen loop representative.
+- `demazureChains_endpoint`: The endpoint is `p₁⋯p_rω`, obtained by multiplying the simple-step representatives and then the length-zero factor; in flag coordinates it is `x_rω`.
+- `demazureChains_base_change`: Base change carries the standard flag, simple-step relations and final factor `ω` to their pullbacks, and commutes with this endpoint map.
 
 **Checks.**
 
-- `demazure_empty`: An empty chain is one flag; its two endpoints coincide.
-- `demazure_one_step`: A one-step chain is the given simple-step incidence relation.
-- `demazure_not_product`: An empty step relation forces an empty chain space, even if `X` is nonempty.
+- `demazure_empty`: With no simple-reflection steps the Demazure space is the base and its endpoint is `ω`; the initial and final flags coincide when `ω=1`.
+- `demazure_one_step`: For `w=sω` the space is `L⁺P_s/L⁺𝓘≅(ℙ¹)^⋄`, with endpoint `pω`, rather than the unanchored incidence space of two variable flags.
+- `demazure_torus_translation`: For `G_m` and `ω=t¹` there are no simple-reflection steps, but the endpoint has weight one rather than zero.
 
 ([FS](#source-fs), VI.5.1–VI.5.7, pp. 209–211.)
 
@@ -655,7 +656,7 @@ Proper surjective pfp perfect morphism; geometric connectedness alone is the wea
 
 Establish the general finite/formal Witt-bundle descent and fibral criteria stated below, using BS 4.1 and 6.1, 6.8, 6.13. Apply them to the constructed Witt resolution.
 
-([BS](#source-bs), 6.1, 6.8, 6.13 and 8.5, pp. 21–26, 33.)
+([BS](#source-bs), 6.1, 6.8, 6.13 and 8.5, pp. 20–26, 33.)
 
 *Needs:* [Finite and formal Witt-bundle descent](#witt-bundle-descent); [Fibres of the Witt resolution](#connected-cohomological-fibres); SchemeAndStackFoundations §§4.7–4.8, 4.14; SchemeAndStackFoundations §3.4.
 
@@ -752,17 +753,41 @@ Use SchemeAndStackFoundations §§0.24–0.26 for Zhu A.3, A.15–A.17 and BS §
 
 *Needs:* [Witt lattice functor](#witt-lattice-functor-and-representability); SchemeAndStackFoundations §§0.9, 0.24–0.26; SchemeAndStackFoundations §§1.5–1.6, 1.13–1.17; AdicCoefficientsAndComparisons L1, `char-p-scheme-diamond-and-comparison-functor`; DiamondsAndVStacks D6, `pre-adic-diamondification`.
 
+<a id="equal-characteristic-schubert-models"></a>
+
+**Equal-characteristic Schubert models and coefficient comparison** (`equalCharacteristicSchubertModels`). For `E=𝔽_q((t))` and perfect `𝔽_q`-algebras `R`, construct the `R[[t]]`-lattice functor and, for each connected parahoric model, the torsor affine-flag functor. Construct their finite-dimensional Schubert models, projective bounds and Bruhat closure relations. Quotient types and decreasing filtrations use powers of `t`: at a geometric field a type `λ` means `Q≅⊕R[[t]]/(t^{λ_j})`, and the graded ranks count the parts exceeding each index. Include the determinant lines, reduced-word Demazure resolutions and affine Schubert strata used by GS1, with base change and finite-jet action comparisons. Identify the perfections of these functors with the closed fibre of the integral divisor Grassmannian by the coefficient-ring and torsor descriptions.
+
+The p-typical Witt targets use `W(R)` and `p`. For ramified mixed-characteristic coefficients use the supplied strict `O_E`-lift and its uniformizer `π`; finite-free restriction of scalars transports the lattice bounds and determinant construction, retaining the `π`-adic types and filtrations. For equal-characteristic coefficients this strict lift is `R[[t]]`. Projectivity and the special-fibre comparison are geometric assertions here, in addition to the supplied coefficient rings. No normality or tame-splitting hypothesis is needed for these projective bounds.
+
+Use the loop quotient construction and successive minimal-parahoric quotients to build the equal-characteristic models and their Demazure maps; take perfections only after constructing the finite-dimensional schemes.
+
+**Checks.**
+
+- `equal_characteristic_torus`: For `G_m`, the perfect affine Grassmannian is the discrete weight lattice `ℤ`, with weight `a` represented by `t^aR[[t]]`.
+- `equal_characteristic_two_layers`: For `E=𝔽_p((t))`, `R=𝔽_p` and `Q=R[[t]]/(t²)`, the two graded pieces `Q/tQ` and `tQ/t²Q` are lines. Here `pQ=0` but `tQ≠0`, so the p-adic filtration cannot replace the t-adic one.
+- `equal_characteristic_minuscule`: For `GL₂` and bound `(1,0)`, the ordinary model is `ℙ¹` and the perfect model is its perfection, with quotient determinant `O(1)`.
+
+([PR](#source-pr), Theorem 1.4, p. 9; §§8.b–8.c, especially Proposition 8.8, pp. 37–39; [SW](#source-sw), §§20.3–20.5, pp. 185–190; [Zhu](#source-zhu), §1.4.1, pp. 425–426, for ramified restriction of scalars.)
+
+*Needs:* [Beilinson–Drinfeld Grassmannian](#grassmannian); [Witt lattice functor](#witt-lattice-functor-and-representability); [Projectivity of the Witt Grassmannian](#ampleness-via-keel); RelativeFarguesFontaine §§0.1–0.10, 3.1–3.9; ReductiveGroupsPartII RG2.3; ReductiveGroupsPartII RG2.4; SchemeAndStackFoundations §§0.24–0.26, 1.5–1.6, 1.13–1.17; AlgebraicVectorBundles §L0C.
+
 <a id="integral-family-bounded-properness"></a>
 
-**Integral bounded Grassmannian families** (`integralWittGenericComparison`). The integral BD Grassmannian over Spd `O_E` (or `Div^d_𝒴)` interpolates between the generic `B⁺_dR` Grassmannian and the v-sheaf of the Witt Grassmannian. For a split reductive model, the geometric relative-position bounds are closed and proper and representable in spatial diamonds, also for ordered multiple legs with summed collision bounds; their componentwise filtered union is the full functor.
+**Integral bounded Grassmannian families** (`integralWittGenericComparison`). The integral BD Grassmannian over Spd `O_E` (or `Div^d_𝒴)` interpolates between the generic `B⁺_dR` Grassmannian and the v-sheaf of the Grassmannian of coefficient lattices: Witt coefficients in mixed characteristic and `R[[t]]` for `E=𝔽_q((t))`. For a split reductive model, the geometric relative-position bounds are closed and proper and representable in spatial diamonds, also for ordered multiple legs with summed collision bounds; their componentwise filtered union is the full functor.
 
 Fixed integral reductive model; unramified cocharacter reflex extensions in SW 20.3–20.5; no ramified reductive `O_E`-model asserted.
 
 Use SW 20.3.2 for the torsor/étale quotient description and the explicit characteristic-p comparison.
 
+**Checks.**
+
+- For `G_m`, a fixed weight gives a section over the integral base, with the same integer position in its generic and closed fibres.
+- For `GL₂` and `(1,0)`, the generic bound is the projective-line diamond and the closed fibre is the perfected projective-line model, in either characteristic of `E`.
+- Two coincident `G_m` legs of weights one and one specialize to weight two, whereas disjoint legs retain their two separate weight-one factors.
+
 ([SW](#source-sw), 20.3.6 and 20.5.4, pp. 186, 190.)
 
-*Needs:* [Projectivity of the Witt Grassmannian](#ampleness-via-keel); [Perfect models and étale realization](#perfect-model-and-etale-comparison); [Ordered legs and divisor base change](#ordered-leg-base-change); [Generic Schubert bounds](#schubert-bounds-and-properness); [proper pushforward calculus](#supplier-calculus); DiamondSixOperations §S2.4.
+*Needs:* [Projectivity of the Witt Grassmannian](#ampleness-via-keel); [Equal-characteristic Schubert models and coefficient comparison](#equal-characteristic-schubert-models); [Perfect models and étale realization](#perfect-model-and-etale-comparison); [Ordered legs and divisor base change](#ordered-leg-base-change); [Generic Schubert bounds](#schubert-bounds-and-properness); [proper pushforward calculus](#supplier-calculus); DiamondSixOperations §S2.4.
 
 ### Parahoric spaces and canonical models
 
@@ -770,7 +795,7 @@ Use inertia coinvariants for geometric component labels and retain residual Frob
 
 <a id="parahoric-ind-projectivity"></a>
 
-**Witt affine flags and components** (`parahoricGeometricComponents`). For a smooth affine `O_E`-model `𝓖` of a reductive generic fibre, the Witt affine Grassmannian is an ind-pfp perfect space with locally closed embedding into a `GL_n` Grassmannian and ind-quasiprojective bounds. If `𝓖°` is parahoric its bounds are projective. For a connected parahoric model, geometric components are `π₁(G)_I` via Kottwitz, with residual Frobenius action retained. If only `𝓖°` is parahoric, they are `π₁(G)_I/π₀(𝓖_k̄)`; retain the Kottwitz embedding of the denominator and the residual Frobenius action. For an Iwahori, Schubert cells have dimension `ℓ(w)`, closures are the Bruhat unions and reduced-word Demazure spaces are iterated perfected `P¹`-bundles.
+**Witt affine flags and components** (`parahoricGeometricComponents`). For a smooth affine `O_E`-model `𝓖` of a reductive generic fibre, the uniformizer affine Grassmannian (Witt in mixed characteristic, perfected power-series geometry in equal characteristic) is an ind-pfp perfect space with locally closed embedding into a `GL_n` Grassmannian and ind-quasiprojective bounds. If `𝓖°` is parahoric its bounds are projective. For a connected parahoric model, geometric components are `π₁(G)_I` via Kottwitz, with residual Frobenius action retained. If only `𝓖°` is parahoric, they are `π₁(G)_I/π₀(𝓖_k̄)`; retain the Kottwitz embedding of the denominator and the residual Frobenius action. For an Iwahori, Schubert cells have dimension `ℓ(w)`, closures are the Bruhat unions and reduced-word Demazure spaces are iterated perfected `P¹`-bundles.
 
 `Parahoric/Iwahori` notions supplied by RG2.3; inertia `I`, not the full absolute Galois group, labels geometric components.
 
@@ -784,7 +809,7 @@ Use the faithful representation with quasi-affine quotient and Zhu 1.20.
 
 ([SW](#source-sw), 21.1.1–21.1.4, pp. 191–192.)
 
-*Needs:* [Original perfect algebraic-space construction](#zhu-original-algebraic-space); [Projectivity of the Witt Grassmannian](#ampleness-via-keel); ReductiveGroupsPartII RG2.3; ReductiveGroupsPartII RG2.4.
+*Needs:* [Original perfect algebraic-space construction](#zhu-original-algebraic-space); [Projectivity of the Witt Grassmannian](#ampleness-via-keel); [Equal-characteristic Schubert models and coefficient comparison](#equal-characteristic-schubert-models); ReductiveGroupsPartII RG2.3; ReductiveGroupsPartII RG2.4.
 
 <a id="integral-parahoric-properness"></a>
 
@@ -1094,7 +1119,7 @@ Provide the following API.
 
 - `ula_moving_support`: On the minuscule `PGL₂` chart `ℙ¹` over a geometric point, a nonzero point skyscraper with perfect stalk is ULA but has no descent for the transitive finite-jet action: its support is not invariant.
 - `ula_trivial_group`: For the trivial geometric group the relative modification space is the base. Its bounded ULA complexes are perfect local systems, and the trivial action introduces no automorphism labels.
-- `ula_intertwining`: Maps intertwine all finite-jet descent arrows; for a trivial chart with two distinct rank-one characters an underlying nonzero linear map does not descend, while its zero map does.
+- `ula_connected_point_maps`: On a geometric point with connected finite-jet group, a degree-zero perfect coefficient sheaf has only the trivial equivariant structure, and every underlying degree-zero map between two such objects descends. This does not imply ULA for sheaves whose rank jumps along the leg base. ([FS](#source-fs), Lemma VI.7.3, pp. 216–217.)
 - `ula_action_identity`: The identity descent arrow acts identically. Even with this action, a torus coefficient sheaf supported on a proper closed subset of a connected leg base, with a rank jump at the boundary, is not ULA; equivariance alone cannot define this category.
 
 ([FS](#source-fs), VI.6.1–VI.6.5, pp. 211–214.)
@@ -1120,17 +1145,21 @@ For the forward direction, hyperbolic localization preserves ULA and proper toru
 
 <a id="integral-family-comparison"></a>
 
-**One-leg ULA special/generic comparison** (`oneLegULAComparison`). For a split integral model and one leg, restriction induces equivalences `D^ULA(Hck_{Spd O_C},Λ)≃D^ULA(Hck_{Spd C},Λ)≃D^ULA(Hck_{Spd k̄},Λ)`, compatible with finite Schubert bounds and coefficient change. The special side is identified with perfected scheme charts by the L1/L3 comparison; this is an actual restriction equivalence, not a formal analogy between lattice rings.
+**One-leg ULA special/generic comparison** (`oneLegULAComparison`). For a split integral model and one leg, restriction induces equivalences `D^ULA(Hck_{Spd O_C},Λ)≃D^ULA(Hck_{Spd C},Λ)≃D^ULA(Hck_{Spd k̄},Λ)`, compatible with finite Schubert bounds and coefficient change. The special side uses Witt models in mixed characteristic and `equalCharacteristicSchubertModels` in equal characteristic, identified with perfected scheme charts by the L1/L3 comparison; this is an actual restriction equivalence, not a formal analogy between lattice rings.
 
 Algebraically closed complete untilt `C`; split integral model; bounded quasicompact support; prime-to-p/derived adic coefficients.
 
 Use the cellwise locally constant perfect criterion, whose restriction over the strictly local trait is an equivalence.
 
-**Checks.** An arbitrary non-ULA complex is not transported by this equivalence; split model fixed throughout.
+**Checks.**
+
+- For `G_m` and a fixed weight, the degree-zero unit coefficient local system restricts to the same weight-point sheaf on both fibres.
+- For `GL₂` and `(1,0)`, the shifted constant sheaf `Λ[1]` on the projective-line bound restricts to `Λ[1]` on the perfected projective line, using the coefficient model for the characteristic of `E`.
+- For the trivial group over Spd `O_C`, a nonzero coefficient sheaf supported only on the closed fibre has zero generic restriction and nonzero special restriction. It is not ULA and cannot be an object of this restriction equivalence.
 
 ([FS](#source-fs), VI.6.7, p. 214; VI.7.4, pp. 217–219.)
 
-*Needs:* [ULA recognition by constant terms](#ula-constant-term-criterion); [Integral bounded Grassmannian families](#integral-family-bounded-properness); AdicCoefficientsAndComparisons L1, `char-p-scheme-diamond-and-comparison-functor`; AdicCoefficientsAndComparisons L3, `rf-shriek-comparison-27-4`; EtaleDualityAndPerverseSheaves §2.2; AdicCoefficientsAndComparisons L3, `full-faithfulness-27-2`; AdicCoefficientsAndComparisons L3, `commutation-and-adjoints-27-1-27-3`.
+*Needs:* [ULA recognition by constant terms](#ula-constant-term-criterion); [Integral bounded Grassmannian families](#integral-family-bounded-properness); [Equal-characteristic Schubert models and coefficient comparison](#equal-characteristic-schubert-models); AdicCoefficientsAndComparisons L1, `char-p-scheme-diamond-and-comparison-functor`; AdicCoefficientsAndComparisons L3, `rf-shriek-comparison-27-4`; EtaleDualityAndPerverseSheaves §2.2; AdicCoefficientsAndComparisons L3, `full-faithfulness-27-2`; AdicCoefficientsAndComparisons L3, `commutation-and-adjoints-27-1-27-3`.
 
 ### Perverse descent and flatness
 
@@ -1189,8 +1218,8 @@ On the one-point torus, identify geometric coefficient flatness with the supplie
 **Checks.**
 
 - `flat_perverse_nonflat_point`: For `Λ=ℤ/4`, `p≠2`, the degree-zero point sheaf `Λ/(2)` is perverse but is not coefficient-flat: tensoring the injection `(2)↪Λ` with `Λ/(2)` kills a nonzero source. The elementary Lean target states `¬Module.Flat Λ (Λ/(2))`. This module is also not perfect, so this test makes no ULA assertion. ([FS](#source-fs), VI.7.7, pp. 220–221.)
-- `flat_module_field`: Every vector space over a coefficient field is flat.
-- `flat_module_integral_nonexample`: `ℤ/2` is not flat over `ℤ`, despite concentration in degree zero.
+- `flat_perverse_torus_field`: On a geometric torus weight point over a coefficient field, a finite-dimensional degree-zero vector space is ULA and flat perverse.
+- `flat_perverse_perfect_nonperverse`: For `Λ=ℤ/4`, `p≠2`, on a geometric torus weight point the perfect complex `[Λ —2→ Λ]` in degrees `−1,0` is ULA but not perverse: both `H⁻¹=(2)` and `H⁰=Λ/(2)` are nonzero. It is therefore not flat perverse.
 
 
 ([FS](#source-fs), VI.7.7, pp. 220–221.)
@@ -1217,13 +1246,29 @@ Provide the following API.
 
 **Checks.**
 
-- `standard_zero_cell`: For identity inclusions and `d=0`, both objects are isomorphic to `Λ` via the zero-shift comparison.
-- `standard_open_restriction`: The costandard object restricts to `Λ[d]` on its own cell.
-- `standard_h0_normalization`: `Δ=pH⁰j_!Λ[d]`: shift before extension and perverse `H⁰`; ordinary unshifted `H⁰` is incorrect.
+- `standard_zero_cell`: At the zero modification, `Δ₀=∇₀=Λ` in degree zero.
+- `standard_gl2_minuscule`: For `GL₂` and bound `(1,0)`, both objects are `Λ[1]` on the projective line, while unshifted nonzero `Λ` is not perverse.
+- `standard_rank_one_mod_two`: For `PGL₂`, `p≠2`, `Λ=𝔽₂` and `μ` twice the minuscule coweight, the canonical map `Δ_μ→∇_μ` has a one-dimensional kernel and a one-dimensional cokernel, both supported at the zero modification. The quadratic-cone chart has exceptional curve of self-intersection `−2`, so its rank-one intersection form vanishes modulo two. ([Zhu](#source-zhu), Lemma B.10 and its preceding resolution, pp. 486–487; [FS](#source-fs), VI.7.5, pp. 219–220.)
 
 ([FS](#source-fs), VI.7.5 and VI.7.9, pp. 219–222.)
 
 *Needs:* [Flat perversity](#flat-perverse-objects); [ULA recognition by constant terms](#ula-constant-term-criterion); [Relative perverse t-structure](#relative-perverse-t-structure); EtaleDualityAndPerverseSheaves §2.7; [dual six-operation calculus](#supplier-calculus); EtaleDualityAndPerverseSheaves §§2.1–2.4.
+
+<a id="demazure-fibre-affine-stratification"></a>
+
+**Affine stratifications of Demazure fibres** (`demazureFibreAffineStratification`). Over an algebraically closed perfect residue field, every geometric fibre of a reduced-word Iwahori Demazure resolution of a Witt affine Schubert variety has a finite stratification by perfections of affine spaces. Retain the length-zero factor `ω` in the endpoint map. Construct the strata by rank-one Bruhat induction through the minimal-parahoric quotients. The equal-characteristic resolutions of `equalCharacteristicSchubertModels` have the corresponding affine stratifications. This target owns the geometric stratifications; rational proper decomposition is supplied by EtaleDualityAndPerverseSheaves §5.6 on fixed finite models descended to a finite field.
+
+The fibres are proper, so affine strata give compactly supported, and hence ordinary, rational cohomology concentrated in even degrees. Apply decomposition to the smooth Demazure source on a finite model to obtain the IC stalk parity used by `standardCostandardBoundedTorsion`; no integral decomposition theorem is asserted.
+
+**Checks.**
+
+- With no simple-reflection steps, the sole nonempty fibre is the point over `ω`, including nonzero torus translations.
+- For one simple reflection the resolution is the perfected projective line mapping isomorphically to its Schubert variety; its nonempty fibres are points.
+- In the finite Weyl subgroup of split `SL₃`, the reduced word `s₁s₂s₁` has fibre `ℙ¹` over the standard flag. Its perfected affine stratification has a line and a point, giving nonzero rational cohomology in degrees zero and two.
+
+([Zhu](#source-zhu), §1.4.2 and proof of Lemma 2.1, pp. 426–427, 430; [FS](#source-fs), proof of VI.7.5, pp. 219–220; [PR](#source-pr), §8.c, Proposition 8.8, pp. 38–39.)
+
+*Needs:* [Witt affine flags and components](#parahoric-ind-projectivity); [Equal-characteristic Schubert models and coefficient comparison](#equal-characteristic-schubert-models); ReductiveGroupsPartII RG2.4; SchemeAndStackFoundations §§0.24–0.26; [Perfect models and étale realization](#perfect-model-and-etale-comparison).
 
 <a id="standard-costandard-torsion-bound"></a>
 
@@ -1231,13 +1276,17 @@ Provide the following API.
 
 Rational statement requires decomposition/parity and connected stabilizers; the integral category is not semisimple.
 
-Import EtaleDualityAndPerverseSheaves §§5.3, 5.5–5.6’s rational proper direct-image decomposition and parity on Demazure generators.
+Use `demazureFibreAffineStratification` for the geometric parity input, with Witt models in mixed characteristic and `equalCharacteristicSchubertModels` in equal characteristic. Import EtaleDualityAndPerverseSheaves §§5.3, 5.5–5.6’s rational purity, geometric semisimplicity and proper direct-image decomposition on fixed finite models. Pass through the smooth affine-flag cover to obtain Grassmannian IC stalk parity `d_μ`; boundary Schubert dimensions have the same parity, so its boundary restriction lies in perverse degrees `≤−2`. This gives rational standard–costandard equality. Integral constructibility and coefficient comparison then give the uniform torsion exponent.
 
-**Checks.** The assertion does not set `a=0` and does not make integral extensions split.
+**Checks.**
+
+- For a torus weight point, the comparison is the identity over `ℤ_ℓ`, so exponent `a=0` suffices.
+- For `PGL₂` and twice the minuscule coweight, the quadratic cone has rational IC stalk parity even and the rational comparison is an isomorphism, despite its singular zero modification.
+- For the same bound with `p≠2`, the nonzero kernel and cokernel of `standard_rank_one_mod_two` prevent a uniform exponent zero at `ℓ=2`; rational equality does not imply integral semisimplicity.
 
 ([FS](#source-fs), VI.7.5 end and proof, pp. 219–220; [Zhu](#source-zhu), Lemma 2.1 and its proof, printed pp. 429–430.)
 
-*Needs:* [Standard and costandard objects](#standard-costandard-objects); EtaleDualityAndPerverseSheaves §5.6; ReductiveGroupsPartII RG2.3; [Perfect models and étale realization](#perfect-model-and-etale-comparison); `PadicInt`.
+*Needs:* [Standard and costandard objects](#standard-costandard-objects); [Affine stratifications of Demazure fibres](#demazure-fibre-affine-stratification); [Equal-characteristic Schubert models and coefficient comparison](#equal-characteristic-schubert-models); EtaleDualityAndPerverseSheaves §5.6; ReductiveGroupsPartII RG2.3; [Perfect models and étale realization](#perfect-model-and-etale-comparison); `PadicInt`.
 
 <a id="rational-weight-concentration"></a>
 
@@ -1286,7 +1335,7 @@ Provide the following API.
 
 - `satake_nonflat_point`: Over `Λ=ℤ/4` with `p≠2`, the degree-zero point object `Λ/(2)` is excluded from Satake by coefficient nonflatness; it also fails ULA perfection. Perversity alone does not imply Satake membership. ([FS](#source-fs), VI.7.7–VI.7.8, pp. 220–221.)
 - `satake_inclusion_fully_faithful`: For the trivial group and the unit over a geometric base, its endomorphism ring in Satake and in ULA is the coefficient ring. Passing to isomorphism classes would destroy these morphisms and fail full faithfulness.
-- `satake_wrong_degree`: A ULA object outside the relative perverse heart is excluded from Satake.
+- `satake_wrong_degree`: For the trivial group on a geometric point and nonzero `Λ`, the perfect complex `Λ[1]` is ULA and is excluded from Satake by its nonzero degree.
 
 
 ([FS](#source-fs), VI.7.8–VI.7.9, pp. 221–222.)
@@ -1458,11 +1507,17 @@ Apply FS IV.2.24 to the bounded Hecke kernel, using the proper target.
 
 <a id="one-leg-satake-comparison"></a>
 
-**One-leg Satake equivalence** (`oneLegSatakeComparison`). The one-leg ULA restriction equivalence over Spd `O_C` restricts to equivalences of flat-perverse Satake categories on the generic and Witt special fibres. The functors commute with coefficient change, finite bounds and bounded convolution diagrams and carry the unit and the convolution duals to their corresponding objects.
+**One-leg Satake equivalence** (`oneLegSatakeComparison`). The one-leg ULA restriction equivalence over Spd `O_C` restricts to equivalences of flat-perverse Satake categories on the generic and special fibres, using Witt models in mixed characteristic and `equalCharacteristicSchubertModels` in equal characteristic. The functors commute with coefficient change, finite bounds and bounded convolution diagrams and carry the unit and the convolution duals to their corresponding objects.
 
 Split integral model; chosen `C` and `k̄`; the comparison is not asserted for arbitrary multi-leg collision ULA categories.
 
 Use t-exact base change and the all-module tensor criterion on the ULA equivalence.
+
+**Checks.**
+
+- For `G_m` and any weight, a degree-zero finite-projective coefficient module gives corresponding Satake objects on both fibres; convolution adds the weights.
+- For `GL₂` and `(1,0)`, the comparison carries `Λ[1]` on the projective-line bound to `Λ[1]` on its perfected special fibre, preserving flat perversity.
+- For `PGL₂`, `p≠2` and `Λ=𝔽₂`, the comparison carries the canonical map in `standard_rank_one_mod_two` to the corresponding special-fibre map, with its nonzero point-supported kernel and cokernel. It preserves this failure of standard–costandard equality.
 
 ([FS](#source-fs), VI.6.7, VI.7.4–VI.7.8 and VI.8, pp. 214, 217–226.)
 
@@ -2081,7 +2136,7 @@ Provide the following API.
 
 ([Zhu](#source-zhu), §2.2 pp434–436, equations (2.2.7)–(2.2.10); [Gross](#source-gross), §3 pp6–8, (3.3), (3.4), (3.6), (3.13); §8 pp15–16 for choices of normalization.)
 
-*Needs:* InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T2–IG.0.T3; EtaleCohomologyFoundations §F.10.2b; [Satake support parity](#support-parity); [One-leg ULA special/generic comparison](#integral-family-comparison); [Normalized equivalence](#normalized-satake-equivalence); SchemeAndStackFoundations §§0.24–0.26; SmoothRepresentationsOfLocalGroups SR.4; [Perfect models and étale realization](#perfect-model-and-etale-comparison).
+*Needs:* InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T2–IG.0.T3; EtaleCohomologyFoundations §§F.10.2b, F.10.3; [Satake support parity](#support-parity); [One-leg ULA special/generic comparison](#integral-family-comparison); [Normalized equivalence](#normalized-satake-equivalence); SchemeAndStackFoundations §§0.24–0.26; SmoothRepresentationsOfLocalGroups SR.4; [Perfect models and étale realization](#perfect-model-and-etale-comparison).
 
 <a id="trace-convolution"></a>
 
@@ -2091,7 +2146,7 @@ On the finite-type bounded convolution correspondence use Künneth for stalk ten
 
 ([Zhu](#source-zhu), §2.1 pp430–433 and §2.2 pp434–436; [Gross](#source-gross), §2–§3 pp3–7, measure convention quoted in §3.)
 
-*Needs:* InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T2–IG.0.T3; EtaleCohomologyFoundations §F.10.2b; [Normalized Frobenius function](#normalized-frobenius-function); [Fusion product and ordinary symmetry](#fusion-product-and-sign-rule); [Ambient Hecke convolution](#convolution-diagram); SchemeAndStackFoundations §§0.24–0.26; SmoothRepresentationsOfLocalGroups SR.4; [Perfect models and étale realization](#perfect-model-and-etale-comparison).
+*Needs:* InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T2–IG.0.T3; EtaleCohomologyFoundations §§F.10.2b, F.10.3; [Normalized Frobenius function](#normalized-frobenius-function); [Fusion product and ordinary symmetry](#fusion-product-and-sign-rule); [Ambient Hecke convolution](#convolution-diagram); SchemeAndStackFoundations §§0.24–0.26; SmoothRepresentationsOfLocalGroups SR.4; [Perfect models and étale realization](#perfect-model-and-etale-comparison).
 
 <a id="trace-constant-term"></a>
 
@@ -2103,7 +2158,7 @@ The compact-support trace formula on each semi-infinite weight intersection turn
 
 ([Gross](#source-gross), §3 pp6–8, equations (3.4), (3.5), (3.6); [Zhu](#source-zhu), §2.2 pp434–436, equations (2.2.7)–(2.2.10).)
 
-*Needs:* InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T2–IG.0.T3; EtaleCohomologyFoundations §F.10.2b; [Normalized Frobenius function](#normalized-frobenius-function); [Symmetric constant terms](#symmetric-constant-term); [Levi naturality and normalization](#levi-naturality); SchemeAndStackFoundations §§0.24–0.26; SmoothRepresentationsOfLocalGroups SR.4; ReductiveGroupsPartII RG2.5.
+*Needs:* InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T2–IG.0.T3; EtaleCohomologyFoundations §§F.10.2b, F.10.3; [Normalized Frobenius function](#normalized-frobenius-function); [Symmetric constant terms](#symmetric-constant-term); [Levi naturality and normalization](#levi-naturality); SchemeAndStackFoundations §§0.24–0.26; SmoothRepresentationsOfLocalGroups SR.4; ReductiveGroupsPartII RG2.5.
 
 <a id="classical-satake-comparison"></a>
 
@@ -2115,7 +2170,7 @@ Use the normalized trace/constant-term equality to identify all weight coefficie
 
 ([Gross](#source-gross), §3 pp7–8, Proposition 3.6 and (3.13); [Zhu](#source-zhu), §2.2 pp434–436, (2.2.7)–(2.2.10).)
 
-*Needs:* InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T2–IG.0.T3; EtaleCohomologyFoundations §F.10.2b; [Normalized equivalence](#normalized-satake-equivalence); [Frobenius trace and convolution](#trace-convolution); [Frobenius trace and normalized constant terms](#trace-constant-term); [Geometric rational semisimplicity](#rational-semisimplicity); SmoothRepresentationsOfLocalGroups SR.4.
+*Needs:* InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T2–IG.0.T3; EtaleCohomologyFoundations §§F.10.2b, F.10.3; [Normalized equivalence](#normalized-satake-equivalence); [Frobenius trace and convolution](#trace-convolution); [Frobenius trace and normalized constant terms](#trace-constant-term); [Geometric rational semisimplicity](#rational-semisimplicity); SmoothRepresentationsOfLocalGroups SR.4.
 
 ### Examples
 
@@ -2123,7 +2178,7 @@ For `G_m` and the canonical descent of the weight-`n` point sheaf, the trace is 
 
 ### Dependencies
 
-GS0–GS3 and the normalized GS4 equivalence; SmoothRepresentationsOfLocalGroups §SR.4; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T2–IG.0.T3; EtaleCohomologyFoundations §F.10.2b; SchemeAndStackFoundations §§0.24–0.26; ReductiveGroupsPartII RG2.5.
+GS0–GS3 and the normalized GS4 equivalence; SmoothRepresentationsOfLocalGroups §SR.4; InverseGaloisAndArithmeticFundamentalGroups §§IG.0.T2–IG.0.T3; EtaleCohomologyFoundations §§F.10.2b, F.10.3; SchemeAndStackFoundations §§0.24–0.26; ReductiveGroupsPartII RG2.5.
 
 ## Downstream consumers
 
@@ -2148,6 +2203,10 @@ SW. Peter Scholze, Jared Weinstein, [Berkeley Lectures on p-adic Geometry](https
 <a id="source-zhu"></a>
 
 Zhu. Xinwen Zhu, [Affine Grassmannians and the geometric Satake in mixed characteristic](https://annals.math.princeton.edu/wp-content/uploads/annals-v185-n2-p02-p.pdf). Published Annals 185 (2017), pp. 403–492; PDF page `=` printed page − 402.
+
+<a id="source-pr"></a>
+
+PR. Georgios Pappas, Michael Rapoport, [Twisted loop groups and their affine flag varieties](https://www.math.uni-bonn.de/people/rapoport/myalggeom/preprints/twistedloop.pdf). Author preprint dated August 17, 2006, 72-page PDF; printed and PDF pages agree.
 
 <a id="source-cs"></a>
 

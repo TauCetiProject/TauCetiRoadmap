@@ -8,6 +8,8 @@ forms, not an exhaustive checklist. It states the elementary lattice, matrix and
 on carriers available in the pinned libraries. The local Hecke stacks, bounded Grassmannians,
 ULA and Satake categories, fusion, relative reconstruction and the Satake equivalences are
 README targets: their geometric carriers and hypotheses are part of those constructions.
+The equal-characteristic Schubert models and affine stratifications of Demazure fibres are
+also geometric README targets; the lattice carrier below accommodates either coefficient ring.
 In particular, the numerical trace identities below specify the sign convention; the geometric
 trace comparison also requires Frobenius descent and the bounded sheaf correspondences.
 -/
@@ -129,8 +131,10 @@ example : wittTypeBound_columns (![2, 1, 0] : Fin 3 → ℕ) 0 = 2 ∧
   decide
 
 /-- A finite projective embedded lattice spanning K^n (BS §8.1 and §9.4–§9.5).
-For Witt geometry B is the ramified Witt ring and K its uniformizer localization;
-locally uniform pole bounds belong to the geometric functor in the README. -/
+In the geometric applications B is the specified strict O_E-lift, using Witt
+coefficients in mixed characteristic and R[[t]] in equal characteristic, and K
+is its uniformizer localization. The README's equalCharacteristicSchubertModels
+provides the t-adic models; locally uniform pole bounds belong to the geometric functor. -/
 def WittLattice (B K : Type u) [CommRing B] [CommRing K] [Algebra B K] (n : ℕ) : Type u :=
   {L : Submodule B (Fin n → K) // Module.Finite B L ∧ Module.Projective B L ∧
     Submodule.span K (Set.range (fun x : L => (x : Fin n → K))) = ⊤}
