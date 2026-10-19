@@ -12,20 +12,18 @@ has the coinvariants form of the projection identity, `Rep.coinvariantsTensorInd
 Shapiro's lemma. The double-coset combinatorics that Mackey theory runs on, `DoubleCoset.Quotient H K`
 with its disjoint cover `DoubleCoset.iUnion_quotToDoubleCoset`, are also present.
 
-What Mathlib does **not** have is almost everything that turns this adjunction machinery into the classical
-theory a representation theorist would recognize: **transitivity of induction** (`Ind` along a composite is
-`Ind` then `Ind`); the **projection formula** `Ind(A ⊗ Res B) ≅ Ind A ⊗ B` as an isomorphism of
-representations (not only its coinvariants shadow); the **conjugate representation** `{}^s V` that Mackey
-theory is phrased in; that induction of a finite-dimensional representation of a finite-index subgroup is
-finite-dimensional, with `dim = [G : S] · dim`; the **induced-character formula** giving `(Ind χ)(g)` as a
-sum of `χ` over the conjugates landing in the subgroup; **Frobenius reciprocity as an identity of character
-inner products**; the **Mackey decomposition formula** for `Res ∘ Ind` over double cosets; the **Mackey
-irreducibility criterion**; **Clifford theory** over a normal subgroup; the **virtual-character ring**
-`R(G)` with the **Artin and Brauer induction theorems** and Brauer's characterization of characters; and
-**projective representations**, their **factor sets**, and the **Schur multiplier** `H²(G, k^×)`. None of
-this is upstream.
+Tau Ceti supplies the classical induction core on this Mathlib spine: transitivity,
+projection and coinduction projection formulas, conjugation, finite-dimensional
+induction and its character formulas, character Frobenius reciprocity, and Mackey
+splitting and ordinary-characteristic-zero irreducibility. It also supplies substantial
+Clifford theory, virtual characters, Artin/Brauer induction and cyclotomic descent,
+and normalized projective/factor-set interfaces. Consume the exact declarations,
+hypotheses and conventions listed below. Remaining work consists of the specified
+model comparisons, broader coefficient-field adapters, character/Grothendieck
+comparisons and worked arithmetic/group examples; no blanket missing-core claim
+replaces this source-level inventory.
 
-This roadmap builds that theory. It is deliberately built on Mathlib's categorical spine `Rep k G` wherever
+This roadmap specifies that complete theory and consumes its existing implementations. It is deliberately built on Mathlib's categorical spine `Rep k G` wherever
 Mathlib already works there, so that the adjunctions above are *consumed*, not reproved, and the character
 theory is layered on top through `FDRep.character`. The character-side results (the induced-character
 formula, Frobenius reciprocity as a pairing, permutation characters) feed directly into the
@@ -57,11 +55,16 @@ Suggested home: `TauCeti/RepresentationTheory/Induction/`, mirroring Mathlib's `
      field; the averaged group-sum form `(Nat.card S : k)⁻¹ · ∑` is a corollary carrying the explicit
      hypothesis `IsUnit (Nat.card S : k)` (equivalently `char k ∤ |S|`), since dividing by `|S|` is
      otherwise meaningless.
-  3. **Inner products, orthogonality, irreducibility criteria, and Clifford theory** over a **splitting
-     field** `k` with `IsUnit (Nat.card G : k)` (the Maschke hypothesis), the setting of Mathlib's
-     `FDRep.char_orthonormal`; taking `k` algebraically closed with `char k ∤ |G|` (the concrete worked
-     tables over `ℂ`) supplies both at once and is what the [character-theory
-     roadmap](../CharacterTheory/README.md) uses.
+  3. **Normalized pairings and semisimple criteria.** The native Frobenius
+     pairing identities hold over every field with `IsUnit (Nat.card G : k)`.
+     Scalar orthogonality and splitting-field Clifford/iff statements additionally
+     carry their stated scalar-Schur/splitting hypotheses. Algebraic closure
+     with `char k ∤ |G|` supplies both for the concrete worked tables over ℂ
+     and the [character-theory roadmap](../CharacterTheory/README.md).
+     Layer4 also retains its arbitrary-field
+     semisimple sufficient criterion and endomorphism-division characterization. Its iff
+     criterion takes the explicit scalar-Schur output of a splitting field, separately from
+     Maschke; neither condition is hidden in a new field class.
 
 - **The primary spine is the categorical `Rep k G`; the character side is the mirror.** Mathlib's induction,
   coinduction, restriction, and both adjunctions live on the category `Rep k G` (objects a `k`-module with a
@@ -69,7 +72,8 @@ Suggested home: `TauCeti/RepresentationTheory/Induction/`, mirroring Mathlib's `
   `Rep.coind`, `Rep.indResAdjunction`, and `Rep.resCoindAdjunction` directly. The character theory is the
   mirror: characters are traces on `FDRep k G` (`FDRep.character`), so results about `Ind χ` are stated for
   `FDRep`, and the finiteness needed to take a trace (induction of a finite-dimensional representation of a
-  finite-index subgroup is finite-dimensional) is itself a target of Layer 2. Use Mathlib's vocabulary
+  finite-index subgroup is finite-dimensional) is consumed in Layer2 from
+  `TauCeti.indFDRep` and `TauCeti.finrank_indFDRep`. Use Mathlib's vocabulary
   throughout: `Subgroup`, `Subgroup.subtype`, `Subgroup.subgroupOf`, `MulAut.conj`,
   `DoubleCoset.Quotient`, `Representation.IsIrreducible`, `CategoryTheory.Simple`, never a private synonym.
 
@@ -120,13 +124,13 @@ Suggested home: `TauCeti/RepresentationTheory/Induction/`, mirroring Mathlib's `
   `isSimpleModule_iff` / `isIrreducible_iff`, Schur's lemma (`IsIrreducible.bijective_or_eq_zero`,
   `Subsingleton (IntertwiningMap ρ σ)` for non-isomorphic irreducibles); `CategoryTheory.Simple` on
   `FDRep k G` with `FDRep.finrank_hom_simple_simple`.
-- **Semisimplicity (predicate only):** `RepresentationTheory/Semisimple.lean` --
-  `IsSemisimpleRepresentation` and its identification with `IsSemisimpleModule k[G]`, together with the
-  Maschke theorem. This is the *predicate* that a representation is semisimple; Mathlib does **not** yet
-  provide the isotypic-decomposition API on top of it (decomposition into a finite direct sum of
-  irreducibles, isotypic components, multiplicity as `finrank` of a `Hom` space, restriction preserving
-  semisimplicity, and character detection of a constituent). That bookkeeping is a build target here
-  (Layer 5 prerequisite), consumed by Clifford theory.
+- **Semisimplicity:** `RepresentationTheory/Semisimple.lean` supplies
+  `IsSemisimpleRepresentation`, its `IsSemisimpleModule k[G]` comparison and Maschke.
+  Consume those with Tau Ceti's normal-restriction, orbit, multiplicity and
+  structural Clifford APIs below. Layer5 retains the precise selected/general-
+  splitting-field isotypic dictionary, including finite irreducible sums, Hom
+  multiplicities and constituent detection; it does not assert that the native
+  Clifford infrastructure is absent.
 - **Double cosets:** `GroupTheory/DoubleCoset.lean` -- `DoubleCoset.Quotient (H : Set G) K`,
   `DoubleCoset.doubleCoset a H K`, `mk`, `Quotient.out`, `iUnion_quotToDoubleCoset` (disjoint cover),
   `disjoint_out`, and the coset-decomposition lemmas `doubleCoset_union_leftCoset`.
@@ -140,6 +144,11 @@ Suggested home: `TauCeti/RepresentationTheory/Induction/`, mirroring Mathlib's `
 - **Cyclic and `p`-groups (for elementary subgroups, Layer 6):** `IsCyclic` (`Algebra/Group/Defs.lean`),
   `IsPGroup p G` (`GroupTheory/PGroup.lean`), `Subgroup.zpowers`; there is **no** elementary- or
   hyperelementary-subgroup predicate upstream.
+- **Group extensions:** `GroupTheory/GroupExtension/Defs.lean` -- native
+  `GroupExtension N E G`, its inclusion/projection and injective/exact/surjective fields,
+  `GroupExtension.Equiv`, `Section` and `Splitting`. Centrality of the kernel, the normalized
+  factor-set construction and universal/representation-group existence and lifting remain Layer7
+  targets; the carrier alone does not prove them.
 - **Degree-`2` group cohomology (for the Schur multiplier, Layer 7):**
   `RepresentationTheory/Homological/GroupCohomology/LowDegree.lean` -- `groupCohomology.H2 A`
   (`= groupCohomology A 2`), the `2`-cocycles and `2`-coboundaries `groupCohomology.cocycles₂ A`,
@@ -154,33 +163,48 @@ Suggested home: `TauCeti/RepresentationTheory/Induction/`, mirroring Mathlib's `
   homomorphism to `PGL(n, k)` only after choosing a basis; the compatibility with `Matrix.ProjGenLinGroup`
   under a basis is itself a small build target.
 
-## What is missing (build here)
+## What Tau Ceti supplies (consume) and the remaining comparisons
 
-**Transitivity** of induction, coinduction, and restriction along composites; the **projection formula**
-`Ind(A ⊗ Res B) ≅ Ind A ⊗ B` and its dual, as isomorphisms of representations; the **conjugate
-representation** `conjRep`, its functoriality, character, and cocycle coherence; that **induction preserves
-finite-dimensionality** for a finite-index subgroup, with `finrank (Ind A) = [G : S] · finrank A`, packaged
-as an induction functor `FDRep k S ⥤ FDRep k G`; the **induced-character formula**; **Frobenius reciprocity
-as an identity of character inner products** in both directions; the **Mackey decomposition formula** for
-`Res_K ∘ Ind_H^G` over `K \ G / H`, both as an isomorphism of representations and as a character identity;
-the **intertwining-number formula** and the **Mackey irreducibility criterion**; and **Clifford theory**
-over a normal subgroup -- the inertia (stabilizer) group, that restriction to a normal subgroup is isotypic
-with the isotypic components permuted transitively, and the induction bijection from the inertia group onto
-the irreducibles lying over a given constituent. As specializations that genuinely unlock: the **permutation
-character** `Ind_H^G(trivial) ≅ k[G/H]` and its fixed-point count, and **induced characters of `Sₙ` from
-Young subgroups**. Beyond Mackey and Clifford, the **virtual-character ring** `R(G) = ch(kG)` with the
-**Artin** and **Brauer** induction theorems, **Brauer's characterization of characters**, the
-**elementary/hyperelementary subgroup** predicates, and the cyclotomic **splitting-field corollary**
-`ℚ(ζ_e)` that the [character-theory roadmap](../CharacterTheory/README.md) cites; and **projective
-representations**, their **factor-set** `2`-cocycles, the **twisted group algebra** `k_α[G]`, the **Schur
-multiplier** `H²(G, k^×)` classifying projective representations and central extensions, the
-**representation group** (Schur cover), and the identification of the Clifford-theory extension obstruction
-with a Schur-multiplier class. None of this is upstream.
+Native declarations below live in Tau Ceti modules; their namespaces are stated
+separately from module ownership. In particular Mackey's representation decomposition
+is `_root_.Rep.mackeyDecomposition`, not `TauCeti.Rep.mackeyDecomposition`.
+These source interfaces are consumed with their stated hypotheses; the selected
+Suggested file's admitted signatures do not by themselves instantiate these maps.
 
-`Suggested.lean` pins the load-bearing objects (`conjRep`, `indFDRep`, `character_ind`, `mackeyDecomp`,
-`irreducible_ind_iff`, the Clifford targets, the `artin_induction` / `brauer_induction` induction theorems,
-`schurMultiplier`, and `twistedMul`) and the named milestones below as `sorry`-targets, so each is
-claimable and its statement is machine-checked to be expressible against the pinned Mathlib.
+| Scope | Native supplier | Work owned by this roadmap after consumption |
+| --- | --- | --- |
+| Layer0 transitivity | `TauCeti.Rep.resFunctorCompIso`, `indFunctorCompIso`, `indFunctorSubgroupOfIso`, `coindFunctorCompIso` in `Induction.Transitivity` | Nested-subgroup/model and generator comparisons, using the native adjunction compatibility and generator lemmas rather than a second transitivity construction. |
+| Layer0 tensor and dual formulas | `TauCeti.indProjection`, `indProjectionNatIsoLeft/Right`, `coinvariantsTensorIndHom_map_indProjection_mk`; `TauCeti.coindProjection`, `coindProjectionNatIso` | Consume the native formulas and match the pinned coinvariant/internal-Hom displays. |
+| Layer1 conjugation | `TauCeti.conjRep`, `conjFDRep`, their functors/equivalences, `char_conjFDRep`, and `conjNormalRep`/`conjNormalFDRep` in `Induction.Conjugate` | Instantiate the selected same-convention models; retain subgroup-transport, coherence and example adapters. |
+| Layer2 finite induction | `TauCeti.Rep.indSubtypeEquivPi`, `finiteDimensional_ind`, `finrank_ind`; `TauCeti.indFDRep`, `indFDRepFunctor`, forgetful equivalence/isomorphisms and `finrank_indFDRep` | Named `indLeftCosetCoinvariantEquiv` free-left-coset adapter with action/generator comparison, independent of Layers0–1. |
+| Layer2 characters/pairings | `TauCeti.character_indFDRep_sum_quotient`, `character_ind` in `Induction.Character`; `frobenius_reciprocity`, `frobenius_reciprocity_resFDRep`, `characterPairing_indFDRep/resFDRep` in `Induction.FrobeniusReciprocity` | Compare the fixed character/pairing and representative conventions; preserve division-free versus unit-order averaged hypotheses. |
+| Layer3 splitting | Root `Rep.mackeyDecomposition`, `mackeyDecompositionNatIso` and both generator formulas in `Induction.Mackey.Decomposition`; `TauCeti.character_resFDRep_indFDRep_mackey` in `Mackey.Basic` | Match the selected conjugate/intersection model and finite-biproduct display to the native direct-sum model. The native CommRing representation theorem has no finite-G hypothesis. |
+| Layer4 ordinary specialization | `TauCeti.MackeyDisjoint`, its representative/normal transport, `simple_indFDRep_iff_doubleCoset` and `simple_indFDRep_iff` in `Mackey.Irreducible`; `finrank_hom_indFDRep_mackey_erase` in `Mackey.Intertwining` | Consume algebraically closed characteristic0 criteria/counts in that scope. Build the stated all-field k-linear Hom/identity-algebra comparison, positive-characteristic ℕ count, hG sufficiency/division criterion and separate hG+hSplitG iff. |
+| Layer5 Clifford theory | `TauCeti.inertia`, normal conjugation, structural/multiplicity APIs in `Induction.Clifford`; root `FDRep.clifford_restrict_iso` and `FDRep.cliffordCorrespondence`; `TauCeti.clifford_restrict_character` | Consume structural and character forms with their actual field hypotheses; retain the declared non-algebraically-closed splitting-field/model and scalar-Schur adapters rather than silently narrowing them to the native characteristic0 correspondence. |
+| Layer6 Artin/Brauer | `TauCeti.virtualCharacters`, `ClassFunction.indVirtualCharacterAddHom`; `ClassFunction.natCard_nsmul_mem_indVirtualCharacters_isCyclic`, `indVirtualCharacterDirectSumBaseChangeRat_isCyclic_surjective`, `indVirtualCharacters_eq_virtualCharacters_isElementary`; `TauCeti.mem_virtualCharacters_iff_forall_comp_subtype_isElementary` | Compare the character lattice and representation-ring models; do not reprove these induction theorems as admitted aliases. |
+| Layer6 auxiliary structures | `TauCeti.IsPElementary`, `IsPHyperelementary`, `IsElementary`, `IsHyperelementary` in `GroupTheory.Elementary`; root `FDRep.nonempty_iso_of_subgroupCharacterSum_eq_cyclic` and `FDRep.exists_simple_nonempty_iso_baseChange_of_isCyclotomicExtension` | Match subgroup-vs-underlying-group predicates and field-of-definition conventions, including the exact rational and cyclotomic examples. |
+| Representation ring | `TauCeti.ExactK0`'s FDRep commutative ring, `fdRepK0RingEquiv`, `resK0RingHom`, `indK0` and `indK0_mul_resK0` in `GrothendieckGroup` | In the ordinary semisimple regime compare exact K₀, the stated direct-sum Grothendieck model and the virtual-character lattice. Do not identify split and exact K₀ in a nonsemisimple regime without a proof. |
+| Layer7 projective interfaces | `TauCeti.IsProjectiveRep`, `FactorSet`, `schurMultiplier`, linearization/PGL interfaces in `ProjectiveRepresentation`, and native `TauCeti.twistedMonoidAlgebra` | Match curry/uncurry, bases, the pinned normalized operations and equivalence notions. Native common finite central lifting is not by itself the specified stem Schur cover. |
+| Layer7 Clifford obstruction | `TauCeti.cliffordObstruction`, `cliffordObstruction_eq_zero_iff`, and `IsProjectiveInertiaExtension.tensorRep/homAction/tensorRepEquiv` | Consume the native Simple/algebraically-closed specialization. Layer7.ScalarObstruction owns the explicit scalar-Schur extension over arbitrary fields; Layer7.DivisionCrossedSystem owns the non-scalar commutant/outer-action theory. Retain inverse-factor multiplicities and the independent abstract perfect-group universal extension. |
+
+The Gassmann fixed-coset counting and finite-set orbit/determinant API, the S₁₆
+pair, induced Young-subgroup character tables, the specified general-field
+Mackey/Clifford adapters, the exact Grothendieck/character comparison, the stem
+representation group and abstract perfect-group cover, and all worked examples
+retain their full scope. Existing native theorem specializations are suppliers to
+these tasks, not replacements for the broader statements or their examples.
+
+Representative interfaces in Layers 2.1–2.2 include `AlmostConjugate`, the fixed-coset identity
+and criterion, `Gassmann.almostConjugate_iff_permutation_equiv`, `Gassmann.almostConjugate_comap`,
+`Gassmann.not_conj_comap`, `Gassmann.restrictEquiv`, `Gassmann.normalInvariantEquiv`, and the
+finite `S₁₆` pair. The file also reuses native `TauCeti.indTrivialIso` and
+`TauCeti.char_ind_trivial`. The generic orbit-sum basis, quotient-orbit equivariance and full-cycle
+determinant formula are named README targets below; `Suggested.lean` is representative, not
+exhaustive. The displayed induction, conjugation, character, Mackey, Artin/Brauer,
+Schur-multiplier and twisted-product interfaces are implemented by consuming the
+named native suppliers where their types match. The remaining model/coefficient
+adapters keep the complete theorem scope above; no opaque admitted definition is
+silently treated as already equal to its intended native implementation.
 
 ---
 
@@ -190,32 +214,37 @@ claimable and its statement is machine-checked to be expressible against the pin
 
 Everything here is over `[CommRing k]`, on Mathlib's `Rep k G`, consuming the two adjunctions.
 
-- **Restriction is functorial in the map.** `Res_ψ ∘ Res_φ = Res_{ψ ∘ φ}` (definitional from
-  `res_obj_ρ` and `MonoidHom.comp_assoc`); state it as an equality/natural isomorphism of functors so the
-  later layers can rewrite along nested subgroups `S ≤ T ≤ G` (`Subgroup.inclusion`).
-- **Transitivity of induction.** For `S ≤ T ≤ G`, `Ind_T^G (Ind_S^T A) ≅ Ind_S^G A`, natural in `A`; more
-  generally `indFunctor k (ψ.comp φ) ≅ indFunctor k φ ⋙ indFunctor k ψ`. Prove it as a natural isomorphism,
-  and check its compatibility with `indResAdjunction` (the induced adjunction on the composite agrees with
-  the composite of adjunctions). The categorical isomorphism exists by uniqueness of left adjoints; because
-  the later character and Mackey computations need to know how it acts on representatives, also record the
-  **explicit representative-level formula** for the isomorphism (on `k[T] ⊗ k[S] ⊗ A`) and the `simp`
-  lemmas that fire on it, rather than leaving it an abstract adjoint comparison. Dually, **transitivity of
-  coinduction**, `Coind_T^G ∘ Coind_S^T ≅ Coind_S^G`, from `resCoindAdjunction` and uniqueness of adjoints.
-- **The projection formula (tensor identity).** For `φ : G →* H`, `A : Rep k G`, `B : Rep k H`, a natural
-  isomorphism `Ind_φ(A ⊗ Res_φ B) ≅ (Ind_φ A) ⊗ B` in `Rep k H`, sending `⟦h ⊗ₜ (a ⊗ Res b)⟧` to
-  `⟦h ⊗ₜ a⟧ ⊗ ρ(h) b`. This is not a quick categorical consequence: `Representation.ind` is built as the
-  coinvariants of `k[H] ⊗ A`, so the isomorphism is assembled by hand from the monoidal structure of
-  `Rep k H` (associators and the braiding, `MonoidalCategory`) and the coinvariants quotient. Build it in
-  stages: (1) the explicit `k`-linear map on representatives; (2) the proof it descends to coinvariants;
-  (3) equivariance; (4) naturality in `A` and `B`; (5) the comparison showing Mathlib's
-  `coinvariantsTensorIndNatIso` is exactly its image under coinvariants. Before starting, audit which
-  associator/coherence lemmas `Rep k H` already carries so the construction reuses them. State also the
-  dual projection formula for coinduction. The projection formula is what makes induced representations a
-  module over the representation ring and is used pervasively downstream.
+- **Restriction and transitivity.** Consume `TauCeti.Rep.resFunctorCompIso`,
+  `TauCeti.Rep.indFunctorCompIso` and `TauCeti.Rep.coindFunctorCompIso` for arbitrary
+  composable maps (coinduction already works for monoids over CommRing).
+  `indFunctorSubgroupOfIso` supplies nested subgroups. Consume their native
+  adjunction compatibility and forward/inverse generator lemmas; transport the
+  selected nested-subgroup displays through them instead of constructing another
+  abstract adjoint comparison. Keep the native universe maxima explicit when
+  the coefficient ring, groups and carriers have separate universes.
+- **The projection formula (tensor identity).** Consume `TauCeti.indProjection`
+  and its left/right natural isomorphisms. In native coinvariant coordinates the
+  FORWARD generator formula is
+  `⟦h⊗ₜ(a⊗b)⟧ ↦ ⟦h⊗ₜa⟧⊗ρ(h⁻¹)b`, by
+  `TauCeti.indProjection_hom_hom_apply`; the inverse sends
+  `⟦h⊗ₜa⟧⊗b ↦ ⟦h⊗ₜ(a⊗ρ(h)b)⟧`.
+  Consume `coinvariantsTensorIndHom_map_indProjection_mk` for comparison with
+  Mathlib's `coinvariantsTensorIndNatIso`. For the dual internal-Hom formula
+  consume `TauCeti.coindProjection` and `coindProjectionNatIso`, including their
+  evaluation/naturality rules. Own the selected coordinate/model comparisons;
+  the native maps already prove descent, equivariance and their inverse laws.
+  The categorical projection wrapper uses same-universe k,H and representation
+  carriers in its native signature; the underlying linear/equivariant maps allow
+  the separate universes stated there. Keep any universe-lift comparison explicit.
+  The projection identity supplies the representation-ring module law downstream.
 
 ### Layer 1: the conjugate representation
 
-Over `[CommRing k]`; the character statement over a field.
+Over `[CommRing k]`; the character statement over a field. Consume
+`TauCeti.conjSubgroupEquiv`, `conjRepFunctor`, `conjRepEquiv`, `conjFDRepFunctor`,
+`conjFDRepEquiv` and their one/product, action and character formulas. The native
+semiring/ring generality is available where stated; these objects use the same
+sHs⁻¹ and inverse-conjugation convention fixed here.
 
 - **The conjugation convention, fixed once.** Every formula below reads off Mathlib's pointwise action,
   not prose: `Subgroup.mem_pointwise_smul_iff_inv_smul_mem` gives
@@ -224,7 +253,9 @@ Over `[CommRing k]`; the character statement over a field.
   action and character from it, so the whole layer cannot be silently orientation-reversed.
 - **`conjRep s A`.** For `s : G`, `H : Subgroup G`, and `A : Rep k H`, the representation of
   `MulAut.conj s • H` on `A.V` with `x` acting by `A.ρ ⟨s⁻¹ * x * s, _⟩` (the membership proof as above).
-  A genuine `def`. Its functoriality `conjRepMap` in `A`, and that conjugating by `1` is the
+  Instantiate the selected `conjRep` model by the native object and consume its
+  functoriality in `A`; compare its named morphisms with `conjRepFunctor.map`.
+  Conjugating by `1` is the
   identity and `conjRep (s*t) ≅ conjRep s ∘ conjRep t` up to the canonical identification of the doubly
   conjugated subgroup (the cocycle coherence Mackey and Clifford both need).
 - **The conjugate character.** For `A : FDRep k H`, `({}^s A).character x = A.character ⟨s⁻¹ x s, _⟩` for
@@ -236,48 +267,195 @@ Over `[CommRing k]`; the character statement over a field.
 
 ### Layer 2: induced characters and Frobenius reciprocity
 
-Finite `G`. The finite-dimensionality result and the induced-character formula need only a field `k`
-(regime 2); the inner-product and reciprocity results need a splitting field with `IsUnit (Nat.card G : k)`
-(regime 3). This layer connects to the [character-theory roadmap](../CharacterTheory/README.md).
+Finite `G`. Native finite induction and the division-free induced-character formula need only a field `k`
+(regime 2). Normalized pairings and reciprocity additionally require `IsUnit (Nat.card G : k)`;
+scalar orthogonality carries the stated splitting hypotheses (regime 3). This layer connects to the
+[character-theory roadmap](../CharacterTheory/README.md).
 
-- **Induction preserves finite-dimensionality, via an explicit coset model.** Because `Representation.ind`
-  is built through coinvariants, the free basis is not immediately available; first construct the named
-  `k`-linear equivalence `Ind_S^G A ≃ₗ[k] (G ⧸ S →₀ A)` (equivalently a finite direct sum over cosets)
-  and derive from it that, for `[S.FiniteIndex]` and finite-dimensional `A`, `Ind_S^G A` is
-  finite-dimensional with `finrank k (Ind_S^G A) = S.index · finrank k A`. Package induction on finite
-  objects as `indFDRep : FDRep k S ⥤ FDRep k G`, with an isomorphism to `Rep.ind S.subtype` under the
-  forgetful functor so `FDRep.character` applies. This coset equivalence also powers the character formula
-  and the Mackey splitting, so it is a named, reusable theorem.
+- **Native finite-dimensional induction and the left-coset adapter.** Consume
+  `TauCeti.Rep.indSubtypeEquivPi`, `TauCeti.Rep.finiteDimensional_ind`,
+  `TauCeti.Rep.finrank_ind` and `TauCeti.indFDRepFunctor`, with
+  `finrank k (Ind_S^G A) = S.index · finrank k A` for `[S.FiniteIndex]`
+  and finite-dimensional A. `TauCeti.indFDRepForgetEquiv` allows separate
+  universes for k and G; BOTH `TauCeti.indFDRepForgetIso` and
+  `TauCeti.indFDRepForgetNatIso` are same-universe categorical wrappers.
+  The object, functor and finrank theorem allow the separate universes
+  stated in their native declarations.
+  Instantiate the Suggested induction object by native `TauCeti.indFDRep`
+  in the same universe and its finrank statement by `TauCeti.finrank_indFDRep`;
+  do not construct a second finite-dimensional induction functor.
+  The native coset model uses right cosets
+  `Quotient (QuotientGroup.rightRel S)`. This layer owns transport through
+  native `QuotientGroup.quotientRightRelEquivQuotientLeftRel S`, sending Sg
+  to g⁻¹S, to the displayed FREE left-coset model of the coinvariant construction
+  `Ind_S^G A ≃ₗ[k] (G ⧸ S →₀ A)`. Export the named
+  `indLeftCosetCoinvariantEquiv` using the finite-index finsupp/function
+  equivalence, `TauCeti.Rep.indSubtypeEquivPi` and its action/generator rules.
+  Prove the transported action/generator comparison. The carriers are not
+  definitionally equal. This adapter needs neither Layer0 nor Layer1 and is
+  owned here, used by the character-formula model and the Layer4 Hom route
+  even when no character or character-pairing identity is used.
 - **The induced-character formula (primary form: coset-representative sum, no division).** For a field `k`,
   `A : FDRep k S`, `[S.FiniteIndex]`, and `g : G`, the induced character is the sum over coset
   representatives `t : G ⧸ S` of `χ(t⁻¹ g t)` for those `t` with `t⁻¹ g t ∈ S` (and `0` otherwise). The
-  value is well-defined because `A.character` is a class function on `S`. Prove it from the trace on the
-  coset model `G ⧸ S →₀ A` by reading off which basis blocks are fixed; no invertibility of `|S|` is used.
+  value is well-defined because `A.character` is a class function on `S`.
+  Consume `TauCeti.character_indFDRep_sum_quotient`, whose source already
+  proves this over any field and finite-index S, without invertibility of |S|.
+  Match the selected free-left-coset display by the named adapter, reading
+  off the fixed trace blocks; this is a model comparison, not a second proof
+  of the native character theorem.
   This is the character-theoretic workhorse CharacterTheory consumes for permutation and Young-subgroup
   characters.
 - **The averaged group-sum form (corollary).** For `[Fintype G]` and the explicit hypothesis
   `IsUnit (Nat.card S : k)`,
   `(indFDRep A).character g = (Nat.card S : k)⁻¹ · ∑ x : G, [x⁻¹ g x ∈ S] · A.character ⟨x⁻¹ g x, _⟩`,
-  obtained from the coset form by summing over the `|S|` elements of each coset. The invertibility
+  consumed from `TauCeti.character_ind` under exactly these hypotheses,
+  with its native comparison to the coset form by summing over |S|-element cosets. The invertibility
   hypothesis is what makes the `(Nat.card S)⁻¹` factor meaningful; without it the coset form is the one to
   use.
-- **The permutation character.** Fix the coset convention: induction is along `S.subtype`, and inducing
-  the trivial representation gives the **left**-coset permutation representation
-  `Ind_H^G (trivial) ≅ Rep.ofMulAction k G (G ⧸ H)` on Mathlib's quotient `G ⧸ H`, with `G` acting by left
-  translation. Its character at `g` is `#{xH : g • xH = xH}`, the number of fixed cosets; and, over a
-  splitting field with `IsUnit (Nat.card G : k)`, `⟨Ind_H^G 1, Ind_H^G 1⟩_G = #(H \ G / H)` via
-  Frobenius reciprocity and Mackey (`⟨Ind 1, 1⟩_G` itself is just `1`, by reciprocity against the
-  trivial representation).
-- **Frobenius reciprocity as a character identity.** Over a splitting field with `IsUnit (Nat.card G : k)`,
+- **Native permutation character and double-coset inner product.** Consume
+  `TauCeti.indTrivialIso` for the induced-trivial / left-coset permutation isomorphism on
+  Mathlib's `G ⧸ H`, and `TauCeti.char_ind_trivial` for its character as the number of fixed
+  left cosets. Induction is along `H.subtype`, and `G` acts by left translation. Over every
+  field with `IsUnit (Nat.card G : k)`, prove
+  `⟨Ind_H^G 1, Ind_H^G 1⟩_G = (#(H \ G / H) : k)` using Frobenius reciprocity and Mackey,
+  with the natural double-coset count explicitly cast into k.
+  The pairing `⟨Ind_H^G 1, 1⟩_G` is1 by reciprocity against the trivial representation.
+- **Frobenius reciprocity as a character identity.** Over every field with `IsUnit (Nat.card G : k)`,
+  without a splitting hypothesis,
   for `A : FDRep k S` and `B : FDRep k G`,
-  `⟨(indFDRep A).character, B.character⟩_G = ⟨A.character, (res S.subtype B).character⟩_S`, proved from
-  `indResAdjunction` together with `scalar_product_char_eq_finrank_equivariant` (each side counts
-  `dim Hom`), and the dual identity from `resIndAdjunction`. State it self-containedly with the explicit
+  `⟨(indFDRep A).character, B.character⟩_G = ⟨A.character, (res S.subtype B).character⟩_S`.
+  Consume `TauCeti.frobenius_reciprocity`, `frobenius_reciprocity_resFDRep`
+  and `characterPairing_indFDRep/resFDRep`: their explicit-sum identities
+  already hold over every field under hG. Match the declared pairing using
+  their Hom-dimension/adjunction comparisons (each side is the cast into k of its natural-number
+  Hom dimension), and the dual identity from `resIndAdjunction`. State it self-containedly with the explicit
   `(Nat.card ·)⁻¹ ∑` sums as well, so it does not hard-depend on the pairing's final name. Because these
-  results lean on `FDRep.char_orthonormal`, record a small compatibility layer relating Mathlib's scalar
-  product to the [character-theory roadmap](../CharacterTheory/README.md)'s `characterPairing`: that the
-  pairing of two characters equals `finrank` of their `Hom` space, that it is `1` on an irreducible with
-  itself, and that it is nonzero exactly when two representations share an irreducible constituent.
+  identities are consumed from the native explicit-sum and Hom-dimension APIs, record a compatibility
+  layer relating those pairings and the split-field orthogonality API to the
+  [character-theory roadmap](../CharacterTheory/README.md)'s `characterPairing`: that the
+  pairing of two characters equals the CAST into k of the natural-number `finrank k` of their
+  `Hom` space, and that it is `1` on a split irreducible with itself. In the stated split semisimple
+  regime, the natural-number Hom dimension is nonzero exactly when the representations share an
+  irreducible constituent. Retain that structural detection in positive characteristic. Only in
+  characteristic0 does nonvanishing of the k-valued pairing give the same detection: in characteristic
+  p its cast can vanish for a positive Hom dimension divisible by p. Likewise, character-based
+  constituent detection is asserted only in characteristic0; do not infer it from the scalar pairing
+  in positive characteristic.
+
+#### Layer 2.1: almost-conjugacy and permutation representations
+
+For a finite group `G` and subgroups `H,K`, define almost-conjugacy by equality of their
+intersection cardinalities with every Mathlib conjugacy class. Reuse `ConjClasses`; introduce no
+second conjugacy-class carrier. The proposition may be written with `Nat.card` and no finiteness
+binder in the definition, but all counting theorems state `[Finite G]`. Give a computable
+`Decidable` instance with explicit `[Fintype G] [DecidableEq G]` and decidable subgroup-membership
+instances, using `Fintype.card` on the finite class-intersection subtypes; do not present `Nat.card`
+as computational data.
+
+Prove reflexivity, symmetry, transitivity, simultaneous-conjugation invariance, and that conjugate
+subgroups are almost conjugate. Fix the left-coset action on `G ⧸ H`. Establish the division-free
+identity, for each `g : G`,
+
+```text
+Nat.card (MulAction.fixedBy (G ⧸ H) g) * Nat.card H
+  = Nat.card (MulAction.stabilizer (ConjAct G) g)
+      * Nat.card {x : G // x ∈ (ConjClasses.mk g).carrier ∧ x ∈ H}.
+```
+
+The counting map sends an element `x` to its fixed coset and conjugate; each class element has
+exactly the centralizer cardinality many preimages. Summing over classes gives `|H| = |K|` from
+equal class intersections. Conversely, fixed-coset equality at `g = 1` gives equal indices and
+subgroup orders; the identity then recovers each class-intersection count. Thus prove equivalence of
+almost-conjugacy and equality of fixed-coset counts for every `g`.
+
+Consume the existing characteristic-zero theorem
+`TauCeti.nonempty_equiv_ofMulAction_iff_forall_natCard_fixedBy_eq` over `ℂ` to obtain equivalence
+of the permutation representations, and consume the native induced-trivial equivalence `TauCeti.indTrivialIso` and its fixed-point
+characterization `TauCeti.nonempty_equiv_ind_trivial_iff_forall_natCard_fixedBy_eq`, rather than
+reproving these native results as IR `sorry` targets. The equivalence between `AlmostConjugate` and
+permutation-representation equivalence for finite groups over `ℂ` is IR's own derived declaration
+`Gassmann.almostConjugate_iff_permutation_equiv`; its proof uses the fixed-coset criterion and the
+native `TauCeti.nonempty_equiv_ofMulAction_iff_forall_natCard_fixedBy_eq` as a substrate. Also prove transport of `AlmostConjugate` and subgroup nonconjugacy
+along a `MulEquiv`. Export the positive transport as
+`Gassmann.almostConjugate_comap` and the nonconjugacy transport as
+`Gassmann.not_conj_comap`. For `e : G ≃* G'`, the first declaration takes
+`AlmostConjugate H K` for `H,K ≤ G'` to
+`AlmostConjugate (H.comap e.toMonoidHom) (K.comap e.toMonoidHom)` without a finiteness
+hypothesis.
+The second transports `¬ ∃ τ : G', H.map (MulAut.conj τ) = K` to
+`¬ ∃ σ : G, (H.comap e.toMonoidHom).map (MulAut.conj σ) = K.comap e.toMonoidHom`. The action convention
+`MulAut.conj τ • H` from Layer 1 is the same subgroup as `H.map (MulAut.conj τ)`; state this
+equality explicitly so the Gassmann consumer can use NFA's hypothesis without changing convention.
+
+This layer owns the generic finite-set determinant adapters used by NFA 8.4. It is upstream of
+NFA 8.4; NFA does not own or duplicate these representation-theoretic targets. The generic restriction adapter is
+`Gassmann.restrictEquiv (e : Representation.Equiv ρ σ) (f : D →* G) :
+Representation.Equiv (ρ.comp f) (σ.comp f)`; it restricts a representation equivalence along a
+group homomorphism before applying the same-group invariant API. For a normal subgroup `I ◁ D`, the
+quotient-invariant representation is
+`ρ.quotientToInvariants I : Representation k (D ⧸ I) (Representation.invariants (ρ.comp I.subtype))`,
+using Mathlib's native `Representation.quotientToInvariants` construction. The noncomputable adapter
+`Gassmann.normalInvariantEquiv` transports these quotient representations across an equivalence
+when the subgroup is normal. For a finite group
+`I` acting on a finite set `X`, prove the invariant subspace of `k[X]` has a basis indexed by
+`orbitRel.Quotient I X`, represented by orbit sums. For a field `k` and a finite set `S`, let `ρπ : (S →₀ k) →ₗ[k] (S →₀ k)` be the linear
+endomorphism induced by `π : Equiv.Perm S`, sending the basis vector at `s` to the basis vector at
+`π s`. Prove the polynomial identity
+`(LinearMap.charpoly ρπ).reverse = (π.fullCycleType.map fun d ↦ 1 - Z ^ d).prod`, as an equality in
+`k[Z]`; the product counts the multiset multiplicities and `Z` is the polynomial indeterminate.
+Here `π.fullCycleType` is the multiset of natural-number cycle lengths, including fixed points,
+from Tau Ceti's native `Equiv.Perm.fullCycleType`; `cycleType` omits fixed points. The product is
+over the multiset, so repeated lengths contribute with multiplicity.
+
+For a group `D` acting on `X` and a normal subgroup `I ◁ D`, construct the induced `D/I`
+action on the set of `I`-orbits. Prove that the orbit-sum basis intertwines this permutation
+action with the quotient representation on `I`-invariants: each `d ∈ D` sends the sum over an
+`I`-orbit to the sum over its image orbit. Include the version for any element normalizing `I`.
+Export these generic contracts as `Gassmann.invariantOrbitSumBasis` and
+`Gassmann.orbitSumEquivariant`. Export the full-cycle determinant identity as
+`Gassmann.charpoly_reverse_eq_prod_fullCycleType`; its carrier is the finite-dimensional
+permutation representation on `k[X]`, and the product counts all cycle lengths, including fixed
+points. The identity is invariant under equivariant linear equivalence by native
+`LinearEquiv.charpoly_conj`. NFA instantiates these generic results with its decomposition subgroup `D`, its inertia
+subgroup `I`, the coset action on `G ⧸ H`, and the arithmetic-prime interpretation; IR owns the
+generic induced `D/I` action on the quotient of `I`-orbits and its representation-theoretic
+comparison with `I`-invariants.
+
+Finally, for finite `α`, prove the subgroup criterion in `Equiv.Perm α`: almost-conjugacy is
+equivalent to equality of the multiplicities of each conjugacy class, equivalently of the
+multiset of `cycleType` values over subgroup elements. Consume native
+`Equiv.Perm.isConj_iff_cycleType_eq`, `Equiv.Perm.cycleType_permCongr`, and
+`Equiv.Perm.fullCycleType_permCongr`; distinguish `cycleType`, which omits fixed points, from
+Tau Ceti's `fullCycleType`, which restores them. This is
+the connection to the regular-action example below.
+
+#### Layer 2.2: a nonconjugate almost-conjugate pair in `S₁₆`
+
+Use `A = Multiplicative (ZMod 4) × Multiplicative (ZMod 4)` and
+`B = QuaternionGroup 2 × Multiplicative (ZMod 2)`, respectively `C₄ × C₄` and `Q₈ × C₂`.
+Both have order 16 and element-order distribution 1, 3, 12 at orders 1, 2, 4. Their faithful
+left-regular actions have identical **full** cycle-type distributions `1^16`, `2^8`, `4^4` with
+multiplicities 1, 3, 12. The native raw `cycleType` drops fixed points: for the identity it is the
+empty multiset, and the raw types for orders 2 and 4 are `2^8` and `4^4`. Record this distinction;
+do not call the raw identity type `1^16`.
+
+Prove the regular-action formula for every element of a finite group of order `m`: the full cycle
+type of left multiplication by an element of order `d` is
+`Multiset.replicate (m / d) d`. Use the native `fullCycleType_permCongr` when identifying the
+carriers with `Fin 16`. The cycle-type conjugacy criterion from Layer 2.1 then proves the two
+images are almost conjugate. They are not conjugate because `A` is abelian and `B` is not. Export the result with an exact
+nonconjugacy conclusion of the form `¬ ∃ σ, H.map (MulAut.conj σ) = K`, alongside the
+`AlmostConjugate` result; these declarations are the named inputs used by PGG Layer 9.
+Build the permutation images using `MulAction.toPermHom` and its injectivity.
+`Fintype.equivFinOfCardEq` is noncomputable in the abstract carrier argument: this proof is not a
+`decide` example unless a concrete equivalence is explicitly constructed.
+
+Export the finite group pair as `Gassmann.exists_S16_gassmann_pair`, with the explicit regular
+actions of `C₄ × C₄` and `Q₈ × C₂` as the construction. Layer 2.2 supplies this pair to
+PolynomialGaloisGroups Layer 9. PGG Layer 9 then
+consumes Number Field Arithmetic Layers 3.8 and 8.4 for the fixed-field number-field example. This
+layer does not construct a Galois extension or a number field. No minimum-degree claim is made.
 
 ### Layer 3: the Mackey decomposition formula
 
@@ -286,7 +464,10 @@ Finite `G`. The finite-dimensionality result and the induced-character formula n
 
 #### Layer 3a: the decomposition as an isomorphism of representations (over `[CommRing k]`)
 
-- **The Mackey summand, with its two homomorphisms pinned.** For `s : G`, name the subgroup
+- **The Mackey summand, with its two homomorphisms pinned.** Consume
+  `TauCeti.mackeySubgroup`, `mackeyToK` and `mackeyToConjH` from
+  `Induction.Mackey.Subgroup`; instantiate the selected identical-convention
+  signatures by these maps. For `s : G`, the subgroup is
   `mackeySubgroup s H K := K ⊓ (MulAut.conj s • H)` of `G`. It carries two inclusions that concentrate all
   the Lean bookkeeping, and both must be pinned explicitly: `mackeyToK : mackeySubgroup s H K →* K`
   (from `mackeySubgroup s H K ≤ K`) along which we induce **up** into `K`, and
@@ -297,12 +478,21 @@ Finite `G`. The finite-dimensionality result and the induced-character formula n
   one representative per class with `Quotient.out`. The summand is built from this **fixed** choice of
   representative; we do not assert a canonical representative-independent summand (transporting along a
   change of representative `s ↦ k s h` requires coherent conjugation equivalences that are a separate
-  optional milestone), and the decomposition below is stated for the `Quotient.out` choice.
+  representative-change comparison target), and the decomposition below is stated
+  for the `Quotient.out` choice.
 - **The Mackey decomposition (isomorphism form).** For `A : Rep k H` and `[Fintype G]`,
   `Res_K (Ind_H^G A) ≅ ⨁_{KsH ∈ K\G/H} Ind_{mackeySubgroup s H K}^K (Res ({}^s A))`, a natural
-  isomorphism in `Rep k K`, proved by splitting the free module `k[G/H] ⊗ A` along the double-coset cover
-  `DoubleCoset.iUnion_quotToDoubleCoset` and matching each `K`-orbit block with an induced summand. This is
-  the central structural theorem of the roadmap.
+  isomorphism in `Rep k K`. Consume ROOT `Rep.mackeyDecomposition` and
+  `Rep.mackeyDecompositionNatIso` from the Tau Ceti module
+  `Induction.Mackey.Decomposition`; its native theorem is over CommRing k,
+  same-universe k,G/carriers, for arbitrary G,H,K, with no finiteness needed.
+  Its forward generator sends `⟦h s⁻¹u⊗a⟧` to `⟦u⊗h⁻¹a⟧` in the
+  s-summand, and its inverse sends `⟦u⊗a⟧` to `⟦s⁻¹u⊗a⟧`.
+  Consume both named generator lemmas and `Rep.mackeySummand_eq_ind_res_conjRep`.
+  Own the comparison with the selected subgroup/conjugation and finite-biproduct
+  display, including transport to/from its direct-sum carrier; do not construct
+  a second Mackey isomorphism or compare an opaque admitted constant without
+  first instantiating its selected models.
 
 #### Layer 3b: the character form (over a field, needs Layer 2)
 
@@ -312,47 +502,144 @@ Finite `G`. The finite-dimensionality result and the induced-character formula n
 
 ### Layer 4: intertwining numbers and the Mackey irreducibility criterion
 
-Over a splitting field with `IsUnit (Nat.card G : k)` (regime 3; the worked tables over `ℂ`); finite `G`.
+Finite `G`. The Hom-space decomposition below is over any field. Statements that use
+semisimplicity carry `hG : IsUnit (Nat.card G : k)` explicitly. The iff criterion
+also takes the scalar-Schur output of a splitting field:
 
-- **Intertwining spaces are finite-dimensional `k`-modules.** The formula below sums `finrank` of `Hom`
-  spaces, so first record the infrastructure the roadmap otherwise treats as automatic: the categorical
-  `Hom` space of two `FDRep k G` objects is a finite-dimensional `k`-module agreeing with the space of
-  intertwining maps, `finrank` is invariant under isomorphism of `Hom` spaces, and a finite biproduct
-  decomposes the `Hom` space as a product with `finrank` the sum.
-- **The intertwining-number formula.** Combining Frobenius reciprocity (Layer 2), the Mackey decomposition
-  (Layer 3), and Schur, for `V : FDRep k H`:
-  `finrank k (Ind_H^G V ⟶ Ind_H^G V) = ∑_{s ∈ H\G/H} finrank k (Res_{H ⊓ sHs⁻¹} V ⟶ Res_{H ⊓ sHs⁻¹} ({}^s V))`,
-  the sum running over representatives of the double cosets `H \ G / H`. State it as an equality of
-  intertwining-space dimensions (`FDRep` homs), the quantitative core of the criterion.
-- **The Mackey irreducibility criterion (primary form, over double cosets).** `Ind_H^G V` is irreducible if
-  and only if `V` is irreducible and for every **non-identity** double coset `HsH ∈ H \ G / H` (i.e. a
-  representative `s ∉ H`) the restrictions `Res_{H ⊓ sHs⁻¹} V` and `Res_{H ⊓ sHs⁻¹} ({}^s V)` are
-  **disjoint** (no common irreducible constituent, i.e. their intertwining space is `0`). Proved by reading
-  the intertwining-number formula: the identity double coset contributes `dim End V = 1` exactly when `V`
-  is irreducible, and the criterion is that every other term vanishes. Quantifying over double-coset
-  representatives is the natural statement; the disjointness condition is what the formula's terms are
-  indexed by.
-- **The `∀ s ∉ H` corollary.** The criterion re-expressed as "for every `s : G` with `s ∉ H`, the
-  restrictions are disjoint" follows once the disjointness condition is shown invariant under replacing `s`
-  by `h₁ s h₂` for `h₁, h₂ ∈ H` (the intersection subgroup and the conjugate representation change only by
-  isomorphism). State this invariance as its own lemma and derive the elementwise form from the double-coset
-  form.
-- **The normal-subgroup corollary.** If `H ◁ G` then `Ind_H^G V` is irreducible iff `V` is irreducible and
-  `{}^s V ≇ V` for all `s ∉ H` (the disjointness collapses to non-isomorphism since the restrictions are to
-  `H` itself).
+```text
+hSplitG : ∀ W : FDRep k G, Simple W → finrank k (W ⟶ W) = 1.
+```
+
+This uses native categorical endomorphisms, not a new field or representation carrier.
+Under hG, prove it equivalent to a finite k-algebra decomposition
+`k[G] ≃ₐ[k] ∏ i, Matrix (Fin (n i)) (Fin (n i)) k` with every n i positive.
+Consume Mathlib's algebra-form Wedderburn theorem and
+[SemisimpleAlgebras Layers1–2](../SemisimpleAlgebras/README.md#layer-1-simple-modules-schur-and-isotypic-components)'s
+simple-module/block dictionary; own the finite-group adapter here. Every simple k[G]-module
+is cyclic and hence finite-dimensional, so hSplitG covers every simple block. Its scalar
+map k→End(S) is bijective when End(S) has dimension1; retain the native opposite-
+endomorphism convention for block division algebras. Conversely every simple module
+of a product of full matrix algebras has endomorphisms k. Algebraic closure supplies
+hSplitG by native `CategoryTheory.finrank_endomorphism_simple_eq_one`;
+`scalarSchur_of_isAlgClosed` packages that output. Preserve non-algebraically-closed
+splitting fields and positive characteristic not dividing |G|. hSplitG alone does
+not imply Maschke.
+
+- **Finite-dimensional Hom and finite-biproduct infrastructure.** Consume the
+  native `FDRep` Hom-space `FiniteDimensional` instance,
+  `FDRep.forget₂HomLinearEquiv` and `LinearEquiv.finrank_eq`. For finite
+  families construct the k-linear equivalence from Hom(U,⨁_i V_i) to
+  ∏_i Hom(U,V_i) by composition with the biproduct projections; its inverse
+  is `biproduct.lift`, equivalently Σ_i f_i≫biproduct.ι. Use native
+  `biproduct.lift_π`, `biproduct.total` and composition linearity for the
+  inverse and linearity laws, then `Module.finrank_pi_fintype` for the dimension
+  sum. This finite adapter has no algebraic-closure or characteristic-zero
+  hypothesis. When applying the decomposition in `Rep`, carry finite-dimensionality
+  of each Hom factor across `FDRep.forget₂HomLinearEquiv` and the
+  induction/restriction comparisons before invoking `Module.finrank_pi_fintype`.
+  Reuse the native finite biproducts, not new Hom carriers.
+- **The actual Hom-space decomposition.** Put J_s=H∩sHs⁻¹ and
+  W_s=Res_(J_s)({}^s V). For every field construct a k-linear equivalence
+  `End_G(Ind_H^G V) ≃ₗ[k] ⨁_(D∈H\G/H) Hom_(J_s)(Res_(J_s)V,W_s)`, s=D.out.
+  Consume native `Rep.mackeyDecomposition`, `Rep.indResHomEquiv` for Ind⊣Res,
+  and the finite-index Res⊣Ind comparison through `Rep.resCoindHomEquiv` and
+  `Rep.indCoindIso`. The second reciprocity has the reverse adjoint direction.
+  Restrict to finite-dimensional objects through the actual induction/forgetful
+  comparisons. Use the instantiated `indFDRep` (= `TauCeti.indFDRep`);
+  compare only the selected `conjRep`/`conjFDRep` models with the native
+  Mackey summands on generators. Prove additivity, scalar-linearity, naturality
+  and representative transport. Identify the identity-double-coset component with
+  End_H(V), including the induced endomorphism functor's map; dimension alone does
+  not specify that algebra homomorphism.
+- **The intertwining-number formula.** Take dimensions of this finite direct sum
+  to get the equality in ℕ, also with the identity summand split off. This works
+  in positive characteristic. The current native
+  `TauCeti.finrank_hom_indFDRep_mackey_erase` derives its ℕ identity from a
+  character calculation only in characteristic0; its cast identity in k cannot
+  be cancelled in characteristic p. Consume it in that scope and own the preceding
+  k-linear adapter for the broader assertion.
+- **Arbitrary-field semisimple sufficiency.** Under hG, simplicity of V and zero
+  nonidentity Mackey Hom spaces imply simplicity of Ind V. With those spaces zero,
+  prove the induced unital map `End_H(V)→End_G(Ind V)` is an algebra isomorphism
+  using the identity component above. Arbitrary-field Schur makes End_H(V) a
+  division algebra. Maschke supplies invariant complements for Ind V; a nontrivial
+  proper complement would yield a nonzero nonunit projection. No splitting
+  hypothesis enters this sufficient criterion.
+- **Endomorphism-division characterization.** For every field under hG, prove
+  `Simple (Ind V) ↔ Nontrivial (End (Ind V)) ∧
+  ∀ f : End (Ind V), f≠0 → IsUnit f`, using native `CategoryTheory.End`.
+  Forward is Schur, and converse uses Maschke and the projection argument.
+  Nontrivial End excludes the zero representation, where the nonzero-unit
+  condition alone is vacuous. Do not replace this by dim End=1 over a nonsplitting
+  field or assert its converse without semisimplicity.
+- **The Mackey iff criterion.** Under hG and hSplitG, Ind V is simple iff V is
+  simple and every nonidentity double-coset Hom space is zero. Sufficiency is the
+  arbitrary-field result above. For necessity, apply hSplitG to the simple induced
+  object and use the ℕ direct-sum formula: End_H(V) is nonzero since induction of
+  zero is zero, so its dimension is1 and every other dimension is0. Maschke and
+  the rank-one endomorphism argument make V simple. No splitting hypothesis on H
+  is needed here; do not silently strengthen hSplitG to all subgroups.
+- **Representative and normal-subgroup forms.** Prove disjointness invariant under
+  s↦h₁sh₂, h₁,h₂∈H, by actual intertwining-space isomorphisms, then derive the
+  `∀ s∉H` form. For normal H and simple V, disjointness is equivalent to
+  `{}^s V ≇ V` by arbitrary-field Schur, giving the same hG/hSplitG iff in that form.
+
+Native `TauCeti.simple_indFDRep_iff_doubleCoset` and
+`TauCeti.simple_indFDRep_iff` already prove the algebraically closed,
+characteristic0 specialization. Consume them with those hypotheses; the positive-
+characteristic linear-Hom adapter and general-field results above remain explicit
+proof targets. Layer4 uses Layers0–1, Layer2's finite-induction/forgetful
+comparison, Layer3a, the finite-Hom/biproduct adapter, Maschke and Schur,
+without Layer5's isotypic decomposition. Its character mirror additionally
+uses Layer2's induced-character and pairing/reciprocity targets.
+
+**Nonsplitting acceptance counterexample.** Over ℝ let G=Q₈, H=⟨i⟩ and V=ℂ
+as a real plane with i acting by multiplication by i. Ind V is the simple real
+left-quaternion module ℍ. In native coinvariant coordinates
+`[h g⊗h v]=[g⊗v]`, `x·[g⊗v]=[g x⁻¹⊗v]`, the intertwiner is
+`[g⊗v]↦g⁻¹v`, so `[1⊗v]+[j⁻¹⊗w]↦v+jw`. Do not silently use the
+standard left-tensor formula without this inverse. Left i,j preserve only0 and ℍ,
+while complex conjugation gives a nonzero H-intertwiner V→{}^j V.
+End_H(V)≃ℂ and End_G(Ind V)≃ℍᵐᵒᵖ: the identity and j terms each have real
+dimension2. The division criterion accepts the induced simple object, but
+hSplitG fails and the nonidentity term need not vanish.
 
 ### Layer 5: Clifford theory over a normal subgroup
 
 Over a splitting field with `IsUnit (Nat.card G : k)` (regime 3; the worked table over `ℂ`); finite `G`;
-`N : Subgroup G` with `[N.Normal]`.
+`N : Subgroup G` with `[N.Normal]`. Every invocation of Layer4's iff at
+ambient G supplies its separate `hG` and `hSplitG` hypotheses. Use Layer4's
+SemisimpleAlgebras/native-Wedderburn dictionary when deriving `hSplitG` from
+an actual split k[G] presentation; the iff itself does not depend on that
+comparison theorem. Where Layer5 uses scalar Hom dimensions over N or an
+inertia subgroup, supply the corresponding splitting hypothesis there as
+well; do not infer that k splits every subgroup merely from `hSplitG`.
+Algebraic closure supplies all these scalar-Schur outputs, while the stated
+finite/non-algebraically-closed splitting-field regime remains available.
+
+Consume `TauCeti.inertia` and the normal conjugation/subrepresentation, orbit,
+multiplicity and decomposition APIs in `Induction.Clifford`. In particular root
+`FDRep.clifford_restrict_iso` is already structural over an algebraically closed
+field, while `TauCeti.clifford_restrict_character` has explicit hG and finite G.
+Root `FDRep.cliffordCorrespondence` in `Clifford.Classes` supplies the
+algebraically closed characteristic0 correspondence on actual simple-class-over
+carriers. Consume it in that scope; the declared non-algebraically-closed
+splitting-field extensions and selected model/isotypic comparisons remain targets.
 
 - **Prerequisite: the isotypic-decomposition API.** Clifford theory needs more than the semisimplicity
-  *predicate* Mathlib supplies (see the consume list). Before the theorems below, build the decomposition
+  *predicate* Mathlib supplies (see the consume list). Consume the native normal-restriction
+  semisimplicity, Clifford orbit/multiplicity and structural decomposition results;
+  complete the remaining selected/general-splitting-field decomposition
   infrastructure over the same coefficient regime: every finite-dimensional representation decomposes as a
   finite direct sum of irreducibles; its **isotypic components** and their **multiplicities**, with
   multiplicity equal to `finrank` of the relevant `Hom` space; restriction along a subgroup preserves
-  semisimplicity; and a character detects its constituents. These are genuine build targets, consumed by
-  Clifford's theorem and by the Layer 4 intertwining count.
+  semisimplicity. In every stated split semisimple field, a simple V occurs in W exactly when its
+  isotypic component is nonzero, equivalently when `finrank k (V ⟶ W)` is nonzero as a natural number.
+  This is the constituent-detection input consumed by Clifford's theorem, including positive
+  characteristic. Character-based detection is an additional characteristic0 corollary; the scalar
+  pairing equals a CAST natural-number dimension and can lose information modulo the characteristic.
+  These are genuine build targets. Layer4's Hom-space count uses Layer3a and the two finite-index
+  adjunctions instead.
 - **The `G`-action on `Irr(N)`.** `G` acts on isomorphism classes of irreducible `N`-representations by
   `conjRep` (Layer 1, using `MulAut.conj s • N = N`); the **inertia (stabilizer) group** `inertia V ≤ G` of
   an irreducible `V : FDRep k N` is `{g : G | {}^g V ≅ V}`, a subgroup containing `N`.
@@ -369,21 +656,22 @@ Over a splitting field with `IsUnit (Nat.card G : k)` (regime 3; the worked tabl
   `Irr(inertia V)` lying over `V`. Proved via the Mackey irreducibility criterion (Layer 4) applied to the
   inertia subgroup: `Ind` of an irreducible of the inertia group over `V` is irreducible because conjugates
   by `s ∉ inertia V` move `V` off itself. The further reduction to ordinary irreducibles of the quotient
-  `inertia V / N` holds **only when `V` extends to a genuine representation of `inertia V`**; in general the
-  irreducibles over `V` are governed by a **projective** representation of `inertia V / N`, and the
-  obstruction to extension is a Schur-multiplier class. That refinement is Layer 7, not part of this
-  correspondence.
+  `inertia V / N` by ordinary k-linear quotient representations requires BOTH an ordinary extension of V and scalar endomorphisms End_N(V)=k. Under scalar Schur, Layer7.ScalarObstruction gives the quotient factor set and its inverse-factor multiplicity theory. Over a general field the commutant is a division algebra D; Layer7.DivisionCrossedSystem gives the corresponding semilinear crossed-product module theory, including the nontrivial outer action. Even when V extends, a non-scalar D must remain in that theory. These refinements do not enter the proof of the preceding Clifford correspondence.
 
 ### Layer 6: the virtual-character ring, Artin and Brauer induction
 
 Over `ℂ`, or an algebraically closed field of characteristic `0`; finite `G`. This is the classical
-**induction-theorem** heart of ordinary character theory, absent from the whole representation-theory
-family; it connects to the [character-theory roadmap](../CharacterTheory/README.md), whose
+**induction-theorem** heart of ordinary character theory. Consume the native
+Artin/Brauer and virtual-character suppliers in the table above; it connects to the [character-theory roadmap](../CharacterTheory/README.md), whose
 `VirtualCharacter G` is the additive group underlying the ring built here.
 
 - **The representation ring and its character map.** The primary object is the **Grothendieck ring**
   `R(G)` of `FDRep k G` under direct sum and tensor product: a genuine commutative ring (the tensor product
-  gives the multiplication, the trivial representation the unit). The **character map** sends `R(G)` into
+  gives the multiplication, the trivial representation the unit). Consume the native
+  exact FDRep Grothendieck commutative ring, `TauCeti.fdRepK0RingEquiv`,
+  `resK0RingHom`, `indK0` and `indK0_mul_resK0`; own its comparison with the
+  displayed direct-sum model in this semisimple ordinary regime.
+  The **character map** sends `R(G)` into
   the class functions `G → k`; over a splitting field of characteristic `0` this map is injective, and its
   image is the `ℤ`-span of the irreducible characters, the **virtual-character lattice** inside the class
   functions. State the virtual-character lattice as an additive subgroup of `G → k` (closed under the
@@ -408,8 +696,9 @@ family; it connects to the [character-theory roadmap](../CharacterTheory/README.
   it has a **cyclic normal subgroup `C` of order prime to `p` with `p`-group quotient** (`p`-elementary is
   the special case where the extension splits as a direct product). **Elementary** means `p`-elementary for
   some `p`, and likewise **hyperelementary**. Mathlib has `IsCyclic` and `IsPGroup` but **no**
-  elementary-subgroup predicate; define `IsElementary` and `IsHyperelementary` from these orientations,
-  with their basic closure properties.
+  elementary-subgroup predicate; consume `TauCeti.IsElementary` and
+  `TauCeti.IsHyperelementary` on the underlying subgroup type, together with
+  their prime-indexed versions and closure properties, and match the displayed orientations.
 - **Brauer's induction theorem.** Every character is a `ℤ`-linear combination of characters induced from
   **elementary** subgroups: the map `⊕_{E elementary} R(E) → R(G)` is **surjective**. This is the sharp
   integral form that Artin achieves only rationally.
@@ -424,38 +713,93 @@ family; it connects to the [character-theory roadmap](../CharacterTheory/README.
   descent infrastructure (each elementary subgroup has its irreducibles realizable over the cyclotomic
   field, and Brauer's theorem in the sharper field-of-definition form propagates this to `G`). Treat it as
   a distinct sublayer built on cyclotomic fields and Schur indices, not as a one-line consequence of the
-  preceding statements. The [character-theory roadmap](../CharacterTheory/README.md) **cites this exact
-  statement** as an application off its Layer 4 critical path; this sublayer **supplies its proof**.
+  preceding statements. Consume root `FDRep.exists_simple_nonempty_iso_baseChange_of_isCyclotomicExtension`
+  and its concrete complex-adjoin specialization from `Induction.Cyclotomic.SplittingField`,
+  then supply the field-of-definition comparison in the
+  [character-theory roadmap](../CharacterTheory/README.md)'s exact Layer4 consumer convention.
 
 ### Layer 7: projective representations, factor sets, and the Schur multiplier
 
-Over an algebraically closed field `k` (so every projective representation admits a genuine factor set
-valued in `kˣ`); finite `G`. This is the natural companion to Layer 5's Clifford theory: the obstruction to
-extending an irreducible of a normal subgroup to its inertia group is exactly a Schur-multiplier class.
+The finite projective-representation subsection works over an algebraically closed field `k`;
+G is finite. A normalized set-theoretic choice of invertible representatives of a projective
+action gives its `kˣ`-valued factor set over any field; algebraic closure is not needed for that
+construction. Keep the stated field hypotheses for the subsequent representation-theoretic
+theorems. For a simple representation with End_N(V)=k, the extension obstruction is the scalar Schur-multiplier class owned by Layer7.ScalarObstruction. For arbitrary fields, Layer7.DivisionCrossedSystem retains the division commutant and its outer action instead of asserting a scalar H² class.
 
-- **Projective representations and factor sets.** A **projective representation** on `V` is a homomorphism
-  `G → PGL(V)`, equivalently a **normalized lift** `ρ : G → (V ≃ₗ[k] V)` (each `ρ(g)` an invertible linear
-  map, not an arbitrary endomorphism) with `ρ(1) = 1` and `ρ(g) ∘ ρ(h) = α(g, h) · ρ(gh)` for a **factor
-  set** `α : G × G → kˣ`. The invertibility and normalization are load-bearing: without them the zero map
-  would vacuously satisfy the relation and the theory below collapses. The factor set satisfies the
-  multiplicative `2`-cocycle identity -- it is a `groupCohomology.IsMulCocycle₂` for the **trivial** action
-  of `G` on `kˣ`, equivalently `Additive.ofMul ∘ α ∈ groupCohomology.cocycles₂ (Rep.trivial ℤ G (Additive kˣ))`
-  via `cocyclesOfIsMulCocycle₂`. Pin `IsProjectiveRep` (as a lift into `V ≃ₗ[k] V`) and this cocycle
-  statement; a projective representation lands in the matrix group `PGL(n, k)` only after a basis is chosen.
-- **Factor-set classes and the second cohomology.** Two projective representations are **projectively
-  equivalent** iff their factor sets differ by a coboundary (`groupCohomology.IsMulCoboundary₂`), i.e. by
-  rescaling each `ρ(g)`. The equivalence classes of factor sets are therefore exactly the **second
+Consume `TauCeti.IsProjectiveRep`, its normalized factor-set, rescaling,
+PGL and linearization interfaces, native `TauCeti.twistedMonoidAlgebra`, and
+`TauCeti.schurMultiplier`. The native `IsProjectiveInertiaExtension` quotient
+factor set and `TauCeti.cliffordObstruction_eq_zero_iff` supply the algebraically
+closed obstruction theorem. Its tensor factor uses the INVERSE quotient factor
+set; consume `tensorRep`, `homAction` and `tensorRepEquiv` with that convention.
+The native common finite central lifting extension does not assert that its
+kernel is the classical multiplier or is contained in the commutator subgroup;
+retain the specified stem representation-group target and the separate arbitrary
+abstract perfect-group cover below. Match curry/uncurry, basis and selected
+normalized-operation/equivalence conventions rather than duplicating the generic APIs.
+
+#### Abstract universal central extensions
+
+For any abstract group G define a central extension to be a surjective homomorphism
+E→G with kernel in Z(E), and universality to be initiality among these objects over G.
+Prove a perfect G has such an extension. Choose a free presentation F→G with kernel R;
+the explicit object is U=[F,F]/[F,R]→G, where [F,R] is the normal subgroup generated
+by commutators of elements of F and R. Prove surjectivity, kernel
+(R∩[F,F])/[F,R], centrality and perfection of U. For any central E→G lift free
+generators into E; restriction to [F,F] kills [F,R] and is independent of those
+choices, because the changes lie in the central kernel. Perfection of U proves
+uniqueness of the descended map. Prove independence of the free presentation by
+the universal property. This is an abstract-group theorem and asserts no topology
+or identification with a Lie group's universal covering group. It owns Borcherds
+p109's perfect-group assertion; the finite-G factor-set subsection below keeps its
+own field and finiteness hypotheses.
+
+#### Finite projective representations and factor sets
+
+- **Projective representations and factor sets.** For the intrinsic factor-class and linearization
+  comparisons for a homomorphism `G → PGL(V)`, require faithful scalar-unit action
+  `[FaithfulSMul kˣ V]`; over a field, a nonzero V supplies this. Choose a normalized lift
+  `ρ : G → (V ≃ₗ[k] V)` with `ρ(1)=1`. Faithfulness makes the scalar in
+  `ρ(g) ∘ ρ(h)=α(g,h)·ρ(gh)` unique, and associativity then gives its normalized cocycle laws.
+  A projective representation lands in `PGL(n,k)` only after a basis is chosen.
+
+  Separately retain raw native `IsProjectiveRep ρ α` as data on EVERY module, including V=0:
+  supply invertible operators, normalization and a normalized factor set with its cocycle laws,
+  rather than deducing an intrinsic α from operators without faithful scalar action. The factor set
+  is a `groupCohomology.IsMulCocycle₂` for the trivial G-action on kˣ, equivalently
+  `Additive.ofMul ∘ α ∈ groupCohomology.cocycles₂ (Rep.trivial ℤ G (Additive kˣ))` via
+  `cocyclesOfIsMulCocycle₂`. Invertibility alone does not exclude the zero module: GL(0) has one
+  invertible map and distinct supplied factor sets can act identically there. Zero twisted modules
+  and their supplied factor-set data remain valid; no intrinsic class of their PGL action is asserted.
+- **Factor-set classes and the second cohomology.** For a fixed projective action on a fixed linear carrier
+  with `[FaithfulSMul kˣ V]` (in particular nonzero V over a field), two normalized
+  lifts differ by a normalized scalar cochain, so their factor sets differ by a coboundary
+  (`groupCohomology.IsMulCoboundary₂`). Projective equivalence of two actions additionally
+  requires an intertwining linear isomorphism of their PGL actions; cohomologous factor sets
+  alone do not suffice. For C₂ on ℂ², the trivial action and the genuine action generated by
+  diag(1,−1) both have factor set1, but their projective actions are inequivalent. Independently, factor sets modulo coboundaries form the **second
   cohomology** `H²(G, kˣ)`: define `schurMultiplier := groupCohomology.H2 (Rep.trivial ℤ G (Additive kˣ))`
   and prove that it classifies **factor sets up to cohomology**. Note the scope precisely: `H²(G, kˣ)`
   classifies factor-set classes, **not** projective representations themselves (a fixed class carries many
   non-isomorphic projective representations). The classical **Schur multiplier** `M(G) = H₂(G, ℤ)` is a
   separate finite abelian group, canonically the character dual of `H²(G, ℂˣ)`; if that object is wanted,
   pin it separately and prove the duality under suitable hypotheses rather than conflating the two.
+  Consume native `IsProjectiveRep.cohomologyClass_eq_of_eq_smul` and
+  `cohomologyClass_eq_zero_iff` with their actual `[FaithfulSMul kˣ V]` premise. The forward
+  `exists_monoidHom_of_cohomologyClass_eq_zero` needs no faithfulness; its converse for an arbitrary
+  supplied factor set does. A raw pair (ρ,α) always has the class of its supplied α, including on
+  the zero module; it is the identification with an intrinsic PGL-action class and the two-way
+  linearization criterion that require faithful scalar action. Likewise keep the zero object in
+  every fixed-α twisted-module category.
 - **The twisted group algebra.** For a **normalized `2`-cocycle** `α` (the cocycle identity and
   `α(1, g) = α(g, 1) = 1`), `k_α[G]` is the `k`-algebra on `G →₀ k` with product
-  `e_g · e_h = α(g, h) · e_{gh}` twisting `MonoidAlgebra k G`; bundle it as `TwistedGroupAlgebra k G α`
-  parameterized by the normalized cocycle, and prove associativity and the unit **first** (both fail for a
-  raw `α : G × G → kˣ`; associativity is exactly the cocycle identity). Projective representations with
+  `e_g · e_h = α(g, h) · e_{gh}` twisting `MonoidAlgebra k G`.
+  Consume native `TauCeti.twistedMonoidAlgebra` with the normalized curried factor set
+  and its `IsFactorSet` data, matching the displayed group convention rather
+  than building a second carrier. Its operator-span carrier is compared with
+  `G →₀ k` by `TauCeti.TwistedMonoidAlgebra.basis`; use `of_mul_of` for
+  the multiplication table. Associativity and unit laws require that
+  data; they fail for an arbitrary raw `α : G × G → kˣ`. Projective representations with
   factor set `α` are then exactly `k_α[G]`-modules for the matching left-action convention, and cohomologous
   `α` give isomorphic twisted algebras, so `k_α[G]` up to isomorphism depends only on the cohomology class.
   This is the module-theoretic home of projective representation theory, mirroring the ordinary `k[G]` spine.
@@ -463,18 +807,58 @@ extending an irreducible of a normal subgroup to its inertia group is exactly a 
   extension** `1 → kˣ → E_α → G → 1` (the set `kˣ × G` with twisted multiplication
   `(a, g)(b, h) = (a · b · α(g, h), g · h)`, `centralExtensionOfFactorSet`); the construction takes the
   cocycle and normalization proofs as data, since without them the multiplication is neither associative nor
-  unital. `H²(G, kˣ)` classifies these central extensions up to equivalence. A **representation group**
+  unital. Consume native `TauCeti.FactorSet.Extension`, its scalar inclusion/projection
+  and projective linearization; compare the selected actual normalized operations
+  with that native extension. `H²(G, kˣ)` classifies these central extensions up to equivalence. Pin the actual carrier
+  `kˣ × G`, twisted multiplication, inverse, scalar inclusion and projection;
+  construct native `GroupExtension kˣ E_α G` and prove its kernel central.
+  This connects the normalized factor-set construction to the same onto/central
+  definition used by AbstractUCE, while keeping the finite representation and
+  arbitrary abstract-group quantifiers separate. A **representation group**
   (Schur cover) is a central extension `1 → M(G) → Ĝ → G → 1` with `M(G)` inside the commutator subgroup,
   through which **every** projective representation of `G` lifts to an ordinary linear representation of `Ĝ`.
-  Mathlib has central extensions only for Lie algebras (`Algebra/Lie/Extension.lean`), not for groups, so
-  the group central extension and the representation group are built here.
-- **The Clifford-theory obstruction.** For `N ◁ G` and an irreducible `V : FDRep k N` with inertia group
-  `T = inertia V` (Layer 5), the projective action lives on the **quotient** `T/N`: the obstruction to
-  extending `V` to an ordinary representation of `T` is a class `cliffordObstruction V` in `H²(T/N, kˣ)`
-  (group cohomology of `T/N`, using `N ≤ T` normal in `T`). `V` extends iff that class is trivial, and in
-  general the irreducibles of `T` lying over `V` are the **projective** representations of `T/N` carrying
-  that factor set. This identifies the extension obstruction of Layer 5's Clifford correspondence with a
-  cohomology class over `T/N`, closing the loop between the two layers.
+  Mathlib supplies the native `GroupExtension` carrier. This layer owns its central-kernel
+  condition, the normalized factor-set construction and the representation-group existence
+  and lifting theorems, as well as the separate abstract perfect-group universal extension.
+- **Layer7.ScalarObstruction.** Let k be any field, N normal in G and V a simple finite-dimensional N-representation. Supply scalar Schur explicitly as `∀ f : V ⟶ V, ∃ c : k, f = c • 𝟙 V`; simplicity makes V nonzero and the scalar c unique. Put T=inertia V and Q=T/N, on the actual subgroup/quotient carriers. Construct compatible projective extensions of V to T with normalized quotient factor β:Q×Q→kˣ. Prove any two such choices differ by a quotient scalar cochain and hence define the same class `cliffordObstruction V hScalar ∈ H²(Q,kˣ)` for the trivial coefficient action. Prove independence under changes of representative V and quotient models, and prove that this class vanishes exactly when an ordinary T-action on the SAME V restricts to its given N-action. No finiteness of G or characteristic-zero hypothesis is needed for this scalar construction. Algebraic closure supplies hScalar through native categorical Schur; consume `TauCeti.exists_isProjectiveInertiaExtension`, `cliffordObstruction` and `cliffordObstruction_eq_zero_iff` for their actual Simple/algebraically-closed specialization and compare the general scalar class with that native class. Do not define an intrinsic scalar class for arbitrary or zero V by a default value.
+
+  For the scalar isotypic category, the multiplicity projective representation of Q carries β⁻¹, so its tensor with the compatible β-extension is genuine. Consume native `IsProjectiveInertiaExtension.tensorRep`, `homAction` and `tensorRepEquiv` in their scope, and construct the arbitrary-field scalar-Schur comparison with the fixed tensor order and quotient maps. Keep general D-valued multiplicities in the following owner.
+
+#### Layer7.DivisionCrossedSystem: arbitrary-field commutants
+
+This owner treats every field k and simple finite-dimensional V of N normal in G; it includes all finite-group and non-splitting-field cases above. Let D=End_N(V) be the ACTUAL native `CategoryTheory.End V`, with multiplication composition `(ab)(v)=a(b(v))` (`a*b=b≫a` in categorical notation). Consume native categorical Schur for its division-ring structure, retain its central k-algebra map and finite k-dimension, and identify its units with invertible N-intertwiners. Do not identify D with k without the explicit scalar-Schur hypothesis. The construction below also works for arbitrary G with finite-dimensional V; a finite-group application retains its separately stated semisimplicity hypotheses only where needed.
+
+Put T=inertia V and Q=T/N. Write r(n) for the given action as a k-linear automorphism. Choose a normalized section s:Q→T and normalized invertible operators U_q with `U_q r(n) U_q⁻¹=r(s(q)n s(q)⁻¹)`; construct these from the actual inertia isomorphisms. Define `k(q,r)=s(q)s(r)s(qr)⁻¹∈N`. Define σ_q:D≃ₐ[k]D by U_q-conjugation and define a(q,r)∈Dˣ by
+
+`U_q U_r = a(q,r) r(k(q,r)) U_(qr)`.
+
+Prove this difference lies in Dˣ; prove σ_1=id, a(1,q)=a(q,1)=1 and the exact crossed-system laws
+
+`σ_q σ_r = Ad_(a(q,r)) σ_(qr)`,
+
+`a(q,r)a(qr,t)=σ_q(a(r,t))a(q,rt)`.
+
+Thus only q↦[σ_q] is initially an action into Out_k(D)=Aut_k(D)/Inn(Dˣ). Build that actual normal inner subgroup and quotient, the outer-action homomorphism, the central k-linearity and naturality under N-representation isomorphisms. For U'_q=b_q U_q, b_1=1, prove
+
+`σ'_q=Ad_(b_q)σ_q`,
+
+`a'(q,r)=b_q σ_q(b_r) a(q,r) b_(qr)⁻¹`.
+
+For a change of section s'_q=n_q s_q, use U'_q=r(n_q)U_q first, prove its section-defect identities and its identification with the same crossed system; subsequent choices are the displayed gauge change. Define equivalence of crossed systems by these actual normalized gauges and algebra transports, prove composition/inverses and section/choice independence. Do not replace a noncommutative gauge orbit with ordinary abelian H²(Q,kˣ), nor assume the chosen σ itself is an action.
+
+Construct the canonical Clifford extension explicitly: take the subgroup of `T × GL_k(V)` of pairs (t,U) implementing t-conjugation on N, and quotient by the NORMAL subgroup `{(n,r(n)):n∈N}`. Construct the actual native `GroupExtension Dˣ C Q`, identify its kernel and its outer action, and prove the chosen section presents multiplication `(d,q)(e,r)=(d σ_q(e)a(q,r),qr)`. The native GroupExtension carrier allows arbitrary kernel groups; the native commutative-coefficient FactorSet is not itself this noncommutative construction. Its kernel need not be central. An ordinary extension of V to T exists iff this extension splits, equivalently iff a normalized gauge b makes every a'(q,r)=1. A neutral gauge then makes σ' an actual action. Prove the correspondence on extensions of the specified N-action, with isomorphisms given by Dˣ-conjugation, rather than choosing a zero scalar class for non-scalar D. After a splitting is chosen, classify all splittings by the corresponding nonabelian 1-cocycles modulo Dˣ-conjugacy; do not assert a canonical H¹ torsor without choosing that reference.
+
+Construct the finite-support crossed-product k-algebra for (D,σ,a), with `(d[q])(e[r])=d σ_q(e)a(q,r)[qr]`, its unit, associativity, basis, inclusions, universal property and gauge/section algebra isomorphisms. Pin the multiplicity side separately: M=Hom_N(V,W) is a RIGHT D-module by f·d=f∘d, and `A_q(f)=W(s(q)) f U_q⁻¹` obeys
+
+`A_q(f d)=A_q(f)σ_q(d)`,
+
+`A_q A_r(f)=A_(qr)(f) a(q,r)⁻¹`.
+
+Consequently its ordinary LEFT algebra-module carrier is the crossed product on Dᵐᵒᵖ with action σ_qᵐᵒᵖ and factor `op(a(q,r)⁻¹)`. Prove this opposite/inverse convention, not an unqualified identification with left modules over the first crossed product. Construct the equivalence between finite-dimensional T-representations whose N-restriction is a direct sum of copies of V and these finite-dimensional semilinear/crossed-product modules. Use the actual evaluation `M⊗_D V→W`, its inverse and naturality; prove simple-object and endomorphism correspondences and independence under gauge/section choices.
+
+Pin restriction/induction comparisons as follows. For the actual subgroup inclusion N≤T′≤T (using N's canonical inclusion in T), put Q′=T′/N and identify Q′ with its actual subgroup of Q. Restrict the chosen section and crossed system to Q′; the section takes values in T′ because T′ is the full preimage of Q′. For the multiplicity algebra A(Q) on Dᵐᵒᵖ with the displayed inverse factor, construct the actual crossed-subalgebra inclusion A(Q′)→A(Q). Under the evaluation equivalences, restriction T→T′ agrees with restriction of scalars along this inclusion. If [T:T′] is finite, induction T′→T stays in FDRep and agrees with extension of scalars `A(Q)⊗_{A(Q′)} M`; construct the natural comparison with the actual induced representation and evaluation, retaining the same σ/opposite/inverse conventions. No finite-dimensional induction claim is made without this finite-index premise. For arbitrary index, own the analogous comparison in the larger native Rep categories whose N-restrictions are algebraic direct sums of V, with arbitrary-dimensional right-D multiplicity modules and finite-support algebraic induction. Prove evaluation and its naturality there too, with explicit universe bounds; do not silently regard that output as an FDRep.
+
+This isotypic-category equivalence does not require Maschke; claims that other restrictions are isotypic/semisimple consume their own Clifford hypotheses. For D=k recover σ=id, the scalar β=a and the β⁻¹ twisted multiplicity algebra and tensor theorem above. For a genuine extension with non-scalar D, retain its possibly nontrivial action on D. Preserve the existing real Q8/C4 division-endomorphism example and all general-field Mackey criteria.
 
 ---
 
@@ -511,16 +895,34 @@ extending an irreducible of a normal subgroup to its inertia group is exactly a 
 
 ## Ordering
 
-Layer 0 (transitivity, projection formula) is pure category theory over `Rep k G`, needs only the consumed
-adjunctions, and comes first. Layer 1 (the conjugate representation) is independent of Layer 0 and can
-proceed in parallel; both are prerequisites for everything downstream. Layer 2 (induced characters,
-Frobenius reciprocity) needs Layer 1's conjugate character only for the reciprocity corollaries, and needs
-the finite-dimensionality result as its own first target; it is where the connection to the
-[character-theory roadmap](../CharacterTheory/README.md) is made. Layer 3 splits: the representation-level
+Layer 0 (transitivity and the projection formula) is pure category theory over `Rep k G` and needs only the consumed
+adjunctions. Layer 1 (the conjugate representation) is independent of Layer 0 and can proceed in
+parallel. Layers 0 and 1 are prerequisites for the existing layers whose constructions consume them.
+Within the Layer 2 material, the Gassmann sublayers are ordered: 2.1 builds almost-conjugacy,
+fixed-coset counting, `MulEquiv` transport, and the generic invariant-orbit/cycle-determinant API;
+2.2 depends on 2.1 and builds the concrete `S₁₆` pair. These targets are independent of the
+induced-character and Frobenius-reciprocity targets in the existing Layer 2. Layer 2.1 needs neither
+Layer 0 nor Layer 1; those layers remain prerequisites for their own downstream consumers. NFA Layer
+8.4 consumes 2.1, and PGG Layer 9 consumes the named 2.2 pair and 2.1's transport results together
+with NFA Layers 3.8 and 8.4. Native finite-dimensional induction, its finrank
+and forgetful comparison, and the named free-left-coset adapter need neither
+Layer0 nor Layer1. The adapter is owned in IR2FD and used by BOTH the
+character-formula model and Layer4. The native character/reciprocity theorems
+are consumed; their selected conjugate-character/reciprocity comparisons take
+Layer1 as a direct input, recorded by IR0-1→IR2CharacterReciprocity in the
+selected graph. No new finite-dimensionality theorem is a first target.
+This is the connection to the [character-theory roadmap](../CharacterTheory/README.md).
+Layer 3 splits: the representation-level
 Mackey decomposition (3a) needs only Layers 0-1 (transitivity and the projection formula to build the
 summands, the conjugate representation to name them), while the character form (3b) additionally needs
-Layer 2's induced-character formula. Layer 4 (the irreducibility criterion) needs Layer 2's Frobenius
-reciprocity and Layer 3's decomposition, plus Schur and the Hom-space finiteness infrastructure. Layer 5
+Layer 2's induced-character formula. Layer4's k-linear Hom decomposition and criteria
+need Layers0–1, Layer2's finite-induction/forgetful comparison, Layer3a,
+the finite-Hom/biproduct adapter, the finite-index adjunctions, Maschke and
+Schur. Its character mirror additionally consumes Layer2's character and
+reciprocity targets. The scalar-Schur/split-algebra dictionary is a separate
+comparison target consuming SemisimpleAlgebras Layers1–2 and native Wedderburn,
+with no Layer5 input; the criteria take `hSplitG` directly and do not consume
+that comparison as a prerequisite. Layer 5
 (Clifford theory) needs Layer 4's criterion for the correspondence, Layer 1's conjugation action for the
 inertia group, Maschke (consumed) for semisimplicity of the restriction, and the **isotypic-decomposition
 API** that Layer 5's prerequisite builds on top of the bare semisimplicity predicate. Layer 6 (the
@@ -530,8 +932,7 @@ self-contained. Its cyclotomic splitting-field corollary is a distinct sublayer 
 indices), and it is that sublayer, not Brauer induction alone, that discharges the fact the
 [character-theory roadmap](../CharacterTheory/README.md) cites at its Layer 4. Layer 7 (projective
 representations, factor sets, the Schur multiplier) consumes Mathlib's degree-`2` group cohomology directly
-and is independent of Layers 3–4; only its Clifford-theory obstruction needs Layer 5's inertia group, so it
-is placed last, tying the cohomology class back to the Clifford correspondence. The examples are built
+and is independent of Layers 3–4. Its scalar and division-commutant Clifford refinements consume Layer1/5's actual inertia/intertwiner carriers and native Schur. The isotypic-module equivalence additionally uses the explicitly constructed isotypic evaluation API; it is not a prerequisite of Layer5's Mackey proof of Clifford correspondence. The scalar construction can be built directly from native intertwiners and hScalar. The division branch constructs crossed systems and neutralization before its scalar-recovery and multiplicity comparisons. The abstract perfect-group UCE remains independent of these finite-dimensional representation constructions. The examples are built
 alongside the layer that first makes each expressible.
 
 ## References
@@ -559,3 +960,7 @@ alongside the layer that first makes each expressible.
   Layer 7.
 - I. M. Isaacs, *Character Theory of Finite Groups*, AMS Chelsea (1976) -- Ch. 8 (the Schur multiplier,
   projective representations, and the extension obstruction to Clifford theory) and Ch. 11 for Layer 7.
+
+The object-level `Representation.comp` and invariant-space interfaces follow the
+[Category Rep and restriction of scalars discussion](https://leanprover.zulipchat.com/#narrow/channel/287929-mathlib4/topic/Category.20Rep.20and.20restriction.20of.20scalars/with/607304102):
+construct the representation maps first and derive categorical wrappers from them.

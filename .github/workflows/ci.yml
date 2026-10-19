@@ -29,6 +29,16 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
+      # Every roadmap names its arXiv topic in a `metadata.toml` (README.md, "Filing a roadmap").
+      # This is a step of `build` rather than a job of its own because `build` is the check the
+      # `main` ruleset requires, so this is what makes the topic a merge requirement. It runs before
+      # the Lean setup so that a missing topic fails in seconds rather than after the Mathlib restore.
+      - name: Test the roadmap topic checker
+        run: python3 .github/scripts/test_check_roadmap_topics.py
+
+      - name: Check roadmap topics
+        run: python3 .github/scripts/check_roadmap_topics.py
+
       # Install Lean and materialize the dependency workspace. This restores Mathlib through its
       # own cache (`lake exe cache get`) but deliberately leaves the project build to the final step.
       - name: Set up Lean and restore Mathlib
