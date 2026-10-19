@@ -934,7 +934,7 @@ work. No unmerged mathlib branch or external formalization is a runtime dependen
 - P. J. Cameron, [The random graph](https://arxiv.org/abs/1301.7544):
   extension properties, the binary presentation, homogeneity, universality and logical theory.
 - P. Erdős and A. Rényi,
-  [On the evolution of random graphs](https://combinatorica.hu/~p_erdos/1960-10.pdf):
+  [On the evolution of random graphs](https://www.renyi.hu/~p_erdos/1960-10.pdf):
   classical sparse small-subgraph asymptotics. The native model and normalization in
   this roadmap are specified in 11.2.
 - The linked Mathlib Fraïssé, order, semantics and probability files fix the formal
