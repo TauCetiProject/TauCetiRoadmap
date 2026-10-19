@@ -1,5 +1,6 @@
 import Mathlib
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.Analytic
+import TauCeti.AlgebraicGeometry.AdicSpace.FarguesFontaine.Quotient
 
 /-!
 # FarguesFontaineDiamonds: representative target signatures
@@ -10,10 +11,9 @@ available in the pinned Mathlib and Tau Ceti. The geometric product, Frobenius q
 sites, analytic Cartier divisors and enhanced coefficient comparisons are specified in the
 README. Their constructions and their full geometric hypotheses belong to those targets.
 
-The signatures here retain the algebraic compatible-root equation and the complete
-normed-ring consequence of the divisor multiplication bound. In particular, a unit
-denominator and a strictly positive lower bound are explicit hypotheses. Library checks
-pin the existing Witt, valuation and ideal vocabulary used by the geometric targets.
+The theorem here states the algebraic compatible-root equation with unit denominators.
+Library checks pin the existing Witt, valuation, Frobenius-window and orbit-space
+vocabulary, and the normed-ring results used by the geometric targets.
 -/
 
 noncomputable section
@@ -29,33 +29,33 @@ universe u
 #check WittVector.frobeniusEquiv
 #check TauCeti.ValuationSpectrum
 #check TauCeti.ValuationSpectrum.spaAnalytic_eq_spa_of_isTateRing
+#check TauCeti.FarguesFontaine.spaY
+#check TauCeti.FarguesFontaine.windowU
+#check TauCeti.FarguesFontaine.windowV
+#check TauCeti.FarguesFontaine.frobeniusHomeomorph
+#check TauCeti.FarguesFontaine.spaX
+#check TauCeti.FarguesFontaine.quotientMap
+#check TauCeti.FarguesFontaine.quotientMap_eq_iff
 #check Ideal.IsPrime.mul_mem_iff_mem_or_mem
 #check Ideal.span_singleton_mul_left_unit
 #check Ideal.span_singleton_eq_top
+#check AddMonoidHomClass.antilipschitz_of_bound
+#check AddMonoidHom.mulLeft
 #check AntilipschitzWith.injective
 #check AntilipschitzWith.isClosed_range
 
-/-! ## Layer F4: algebraic and normed-ring milestones for the untilt divisor -/
+/-! ## Layer F4: compatible roots for the untilt divisor -/
 
-/-- The compatible-root equation used in F4's root annulus: dividing two compatible
-p-power root families by units preserves the transition equations. The full perfectoid
-annulus and its tilt are specified by `root_annulus_tilt` in the README (FS II.1.1). -/
-theorem root_annulus_tilt {B : Type u} [CommRing B]
+/-- Quotients of compatible p-power root families with unit denominators satisfy the
+same transition equations. This is the algebraic step of the README target
+`root_annulus_tilt` (FS, proof of II.1.1, p.48). -/
+theorem compatibleRoots_ratio_pow {B : Type u} [CommRing B]
     (pRoot varpiRoot ratioRoot : ℕ → B) (p : ℕ)
     (hRatio : ∀ m, ratioRoot m * varpiRoot m = pRoot m)
     (hp : ∀ m, pRoot (m + 1) ^ p = pRoot m)
     (hv : ∀ m, varpiRoot (m + 1) ^ p = varpiRoot m)
     (hunit : ∀ m, IsUnit (varpiRoot m)) :
     ∀ m, ratioRoot (m + 1) ^ p = ratioRoot m := by
-  sorry
-
-/-- Completeness and a positive lower bound make multiplication injective with closed
-image. This is the normed-ring part of F4's `rational_strict_exactness`; the identification
-with the untilt quotient pair and rational restriction maps is specified in the README. -/
-theorem rational_strict_exactness {B : Type u} [NormedCommRing B] [CompleteSpace B]
-    (xi : B) (c : ℝ) (hc : 0 < c) (hbound : ∀ b : B, c * ‖b‖ ≤ ‖xi * b‖) :
-    Function.Injective (fun b : B => xi * b) ∧
-      IsClosed (Set.range (fun b : B => xi * b)) := by
   sorry
 
 /-
@@ -68,7 +68,8 @@ F2: frobenius_equivariance, adic_graph_relation, diamond_graph_relation,
 F3: chart_site_compatibility, sheaf_descent, finite_cover_descent;
 F4: AnalyticCartierIdeal, IsClosedCartier, analytic_cartier_closed_iff,
     section_untilt_equiv, primitive_equation_interface, root_extension_frame,
-    boundary_supremum, multiplication_lower_bound, untilt_closed_divisor,
+    root_annulus_tilt, boundary_supremum, multiplication_lower_bound,
+    rational_strict_exactness, untilt_closed_divisor,
     untilt_sheaf_exactness, curve_untilt_divisor, untilt_quotient_sections_field,
     untilt_orbit_invariance;
 F5: completed_derived_equiv, ordinary_bounded_below, completed_global_sections,

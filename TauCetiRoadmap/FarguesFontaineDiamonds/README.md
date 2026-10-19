@@ -27,7 +27,7 @@ reduction of the norm argument. All six layers are work in this scope.
 
 | Material | Owner and interface used here |
 | --- | --- |
-| Witt period ring, interval Huber pairs, radius, wandering-chart isomorphisms, actual adic quotient | [AdicSpaces, Layer 6][adic-anchor] |
+| Witt period ring, interval Huber pairs, radius, wandering-chart isomorphisms, actual adic quotient | [AdicSpaces, Layer 6][adic-anchor]; underlying spaces, windows and orbit topology from pinned `TauCeti.FarguesFontaine` as specified below |
 | Analytic adic spaces in the Yoneda category and their fibre products | [AdicEtaleGeometry][adic-etale], **A1** |
 | Marked untilts, bounded Fontaine `θ`, primitive kernels, integral tilts | [PerfectoidSpaces][perfectoid], **P1** |
 | Glued tilting, slice equivalence and rational perfectoid localizations | PerfectoidSpaces, **P2** |
@@ -89,6 +89,13 @@ Equivariance is checked before taking orbit quotients, so replacing the
 positive generator by its inverse cannot disappear into an equality of orbit
 sets.
 
+The wandering windows are those of AdicSpaces §6.2,
+`U_n = {p^n ≤ κ ≤ c p^n}` and `V_n = {c p^n ≤ κ ≤ p^(n+1)}`,
+with breakpoint `c = (p+1)/2`, as in
+`TauCeti.FarguesFontaine.windowU` and `TauCeti.FarguesFontaine.windowV`.
+The window arguments use only `1 < c < p`; the numerical Checks use this
+specified breakpoint.
+
 For a characteristic-`p` perfectoid test `T`, a point of `Y^◇(T)` is an
 isomorphism class of a marked untilt `(T^♯, ι)` with an adic map
 `T^♯ → Y`. That map induces a `ℚ_p` structure. Keep both the tilted map to `S`
@@ -126,7 +133,7 @@ hypotheses.
 
 Declaration names are proposed in **TauCeti.FFDiamond**. The mathematical
 specification here includes the topological, geometric and enhanced coherence
-hypotheses and every Lean statement retains all hypotheses needed for its algebraic or normed-ring assertion.
+hypotheses and the Lean theorem retains all hypotheses needed for its algebraic assertion.
 
 ## Exact supplier contracts
 
@@ -151,7 +158,30 @@ fixed-field geometry has already been constructed:
   **[TauCeti.ValuationSpectrum.spaAnalytic_eq_spa_of_isTateRing](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/AlgebraicGeometry/AdicSpace/Spa/Analytic.lean#L377)**: the existing
   valuative-relation spectrum and its Tate analyticity theorem. For a
   topological commutative Tate ring and specified plus subring, all Spa points
-  are analytic. Apply this chartwise; `Y` and `X` come from AdicSpaces.
+  are analytic. Apply this chartwise to the adic objects of AdicSpaces.
+- **`TauCeti.FarguesFontaine` underlying spaces and Frobenius windows**:
+  [`Y.lean`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/Y.lean),
+  [`Window.lean`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/Window.lean),
+  [`Quotient.lean`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/AlgebraicGeometry/AdicSpace/FarguesFontaine/Quotient.lean).
+  In this namespace `spaY`, `mem_spaY_iff` and
+  `spaY_eq_spa_inter_basicOpen` give `Y = D(p) ∩ D([ϖ])` inside
+  `Spa(W(R),W(R))`. For prime `p`, perfect commutative `R` of characteristic
+  `p`, and an `IsAdic` witness for `(p,[ϖ])` on `W(R)`,
+  `spaY_subset_spaAnalytic` gives analyticity of these points and
+  `frobeniusHomeomorph` gives valuation-precomposition Frobenius.
+  `IsRadiusLowerBound`, `IsRadiusUpperBound` and
+  `isRadiusLowerBound_comap_frobenius_iff` express radius scaling without
+  real-valued higher-rank valuations. The definitions `windowU`, `windowV`
+  use breakpoint `(p+1)/2`; `disjoint_image_iterate_comap_frobenius_windowU`
+  supplies wandering. The topological orbit space `spaX` and projection
+  `quotientMap` satisfy `quotientMap_eq_iff`:
+  `q(y)=q(y′) ↔ ∃ n∈ℤ, φ^n(y′)=y`.
+  `isOpenEmbedding_quotientMap_windowU`,
+  `image_windowU_zero_union_image_windowV_zero`, `compactSpace_spaX` and
+  `t0Space_spaX` give open window embeddings, the two-window cover,
+  quasi-compactness and `T0`. These are the point-set inputs of F0 and F2
+  from AdicSpaces §6.2. The interval rings, structure sheaf, adic chart
+  isomorphisms and adic quotient use AdicSpaces §§6.3–6.4.
 
 ### Algebraic suppliers and fixed-curve specializations
 
@@ -168,10 +198,14 @@ cover test, `Equiv.image_eq_iff_eq` and `Set.image_univ_of_surjective` identify
 a subset with the whole source exactly when its image is the whole target;
 `Set.image_union` transports the two-window union. They are supplied in
 `Logic/Equiv/Set` and `Data/Set/Image`. For a complete normed ring, the norm consequence in
-F4 uses `AntilipschitzWith.injective` and `AntilipschitzWith.isClosed_range`,
-with the continuity of multiplication. These are Mathlib declarations in
+F4 uses `AddMonoidHomClass.antilipschitz_of_bound`, applied to
+`AddMonoidHom.mulLeft ξ` with nonnegative real constant `c⁻¹` for `c>0`,
+then `AntilipschitzWith.injective` and `AntilipschitzWith.isClosed_range`.
+Multiplication by `ξ` is Lipschitz by `norm_mul_le`, hence uniformly continuous;
+the normed-ring step needs no separate target. These are Mathlib declarations in
 `RingTheory/Ideal/Prime`, `RingTheory/Ideal/Span`,
-`RingTheory/WittVector/Teichmuller` and `Topology/MetricSpace/Antilipschitz`.
+`RingTheory/WittVector/Teichmuller`, `Analysis/Normed/Group/Uniform` and
+`Topology/MetricSpace/Antilipschitz`.
 
 AdicSpaces §§6.1–6.4 supply the actual Witt pair, interval charts and quotient,
 including the canonical change-of-pseudouniformizer isomorphisms. The changes
@@ -288,7 +322,7 @@ Prove `analytic_interface`: `Y` and `X` are analytic adic spaces over `Spa(ℤ_p
 
 Apply the AdicSpaces construction’s actual chart isomorphisms and plus-ring descriptions; on a chart a power of `p` or `[ϖ]` is a topologically nilpotent unit. Apply the Tau Ceti Tate-ring analytic-point theorem on those charts, then glue the `ℤ_p` maps. `X` inherits the same maps on wandering charts.
 
-Checks: A valuation with `p=0` is outside `Y` even when `[ϖ]≠0`. No initial replacement of `W(O_F)` by `W(O_F)[1/p]`.
+Checks: A valuation with `p=0` is outside `Y` even when `[ϖ]≠0` (supplied: `TauCeti.FarguesFontaine.mem_spaY_iff`). No initial replacement of `W(O_F)` by `W(O_F)[1/p]`.
 
 (FS II.1.1, pp.47–48; II.1.15–16, pp.54–55; SW Lecture 13, Proposition 13.1.1 and proof, pp.108–109; Definition 13.5.1, p.112.)
 
@@ -453,7 +487,7 @@ Prove `frobenius_equivariance`: With `φ_Y` induced contravariantly by Witt Frob
 
 Evaluate the composed ring map on `[a]`, where Witt Frobenius sends `[a]` to `[a^p]` and fixes `p`. Use the marked-untilt formula to identify the first factor, and the AdicSpaces construction’s valuation precomposition convention to compute the radius. Check the positive generator before extending to its integer powers.
 
-Checks: For `ϖ`, the value is `f(ϖ^p)^♯`, not `f(ϖ^(1/p))^♯`. The `Spd ℚ_p` factor remains unchanged.
+Checks: For `ϖ`, the value is `f(ϖ^p)^♯`, not `f(ϖ^(1/p))^♯`. The `Spd ℚ_p` factor remains unchanged. The radius satisfies `κ(φ_Y x)=p·κ(x)` (supplied in order-theoretic form: `TauCeti.FarguesFontaine.isRadiusLowerBound_comap_frobenius_iff`).
 
 (FS II.1.16–17, pp.54–55.)
 
@@ -489,7 +523,7 @@ Prove `diamond_quotient_cover`: `q^◇:Y^◇→X^◇` is a surjective étale mor
 
 Use the two wandering-window families and the local chart isomorphisms. Their images cover the adic `X`; D6 identifies the underlying spaces and open subdiamonds, and transports the covering family.
 
-Checks: Over a geometric untilt point the fibre of `q^◇` is the discrete infinite orbit indexed by `ℤ`, so `q^◇` is not quasicompact. On each wandering chart its fibre over a point of the chart image is a singleton. The orbit with a lift at `κ=1` meets both `U₀` (at 1) and `V₀` (at `p`), so the two chart images overlap there.
+Checks: The images `q(U₀)^◇` and `q(V₀)^◇` cover `X^◇` (underlying cover supplied by `TauCeti.FarguesFontaine.image_windowU_zero_union_image_windowV_zero`, transported by D6). Over a geometric untilt point the fibre of `q^◇` is the discrete infinite orbit indexed by `ℤ`, so `q^◇` is not quasicompact. On each wandering chart its fibre over a point of the chart image is a singleton. The orbit with a lift at `κ=1` meets both `U₀` (at 1) and `V₀` (at `p`), so the two chart images overlap there.
 
 (FS II.1.16–17, pp.54–55.)
 
@@ -537,7 +571,7 @@ Prove `quotient_spatiality_choices`: `X^◇` and `Q_F` are locally spatial and q
 
 Use D6 for local spatiality and the topology comparison. For any two bounded-radius windows only finitely many `φ`-translates can meet; overlaps are finite unions of rational interval intersections and hence quasi-compact. Transfer the two-chart qcqs proof. Compare two `β` maps after `q`, where the bounded point formula is choice independent, and use uniqueness.
 
-Checks: For `p=2` and `c=3/2`, `q(U₀)∩q(V₀)` has two disjoint quasicompact rational annulus pieces, represented in `U₀` at `κ=1` and `κ=3/2`. Distinct translates of `U₀` have empty intersection. For windows with radius intervals `[a,b]` and `[d,e]`, where `0<a≤b` and `0<d≤e`, an overlap with the `k`-th graph requires `d/b≤p^k≤e/a`, leaving only finitely many integers `k`.
+Checks: The underlying quotient is quasi-compact (supplied: `TauCeti.FarguesFontaine.compactSpace_spaX`). For `p=2` and `c=3/2`, `q(U₀)∩q(V₀)` has two disjoint quasicompact rational annulus pieces, represented in `U₀` at `κ=1` and `κ=3/2`. Distinct translates of `U₀` have empty intersection (supplied: `TauCeti.FarguesFontaine.disjoint_image_iterate_comap_frobenius_windowU`; invert Frobenius for negative powers). For windows with radius intervals `[a,b]` and `[d,e]`, where `0<a≤b` and `0<d≤e`, an overlap with the `k`-th graph requires `d/b≤p^k≤e/a`, leaving only finitely many integers `k`.
 
 (FS II.1.16–17, pp.54–55.)
 
@@ -727,27 +761,29 @@ Checks: The retraction sends 1 to 1. On a pure tensor `b⊗x` it is `b·σ(x)`, 
 
 ### Perfectoid root annuli and their tilt coordinates
 
-Prove `root_annulus_tilt`: On the `n=1` integral chart of the auxiliary analytic domain `D([ϖ])`, put `C=W(O_F)⊗_{ℤ_p}O_{K_∞}` using the algebraic tensor product. Take compatible `v_m=[ϖ^{1/p^m}]`, and form the subring `C[s_m:m≥0]` of `C[1/[ϖ]]`, where `s_m=p_m/v_m`, so `s_{m+1}^p=s_m`. Let `A₀^+` be its `[ϖ]`-adic completion and `A=A₀^+[1/[ϖ]]`. Identify `A`, with its integral-closure plus ring, with the completed scalar extension of the actual `n=1` auxiliary chart, using the ring-of-definition topology. Establish `[ϖ]`-torsion freeness and the integral perfectoid criterion, then `A` is perfectoid. Its tilt is the chart `F⟨t₁^{1/p^∞}⟩` with `t₁^♯=p/[ϖ]`; the coordinate in the perfect open disc is `t=ϖ·t₁`, so the chart is `|t|≤|ϖ|≠0`. Rational subannuli covering `Y` inherit this perfectoid frame. The roots are quotients of compatible roots, not arbitrarily chosen roots with missing relations.
+Prove `root_annulus_tilt`: On the `n=1` integral chart of the auxiliary analytic domain `D([ϖ])`, put `C=W(O_F)⊗_{ℤ_p}O_{K_∞}` using the algebraic tensor product. Take compatible `v_m=[ϖ^{1/p^m}]`, and form the subring `C[s_m:m≥0]` of `C[1/[ϖ]]`, where `s_m=p_m/v_m`, so `s_{m+1}^p=s_m`. Let `A₀^+` be its `[ϖ]`-adic completion and `A=A₀^+[1/[ϖ]]`. Identify `A`, with its integral-closure plus ring, with the completed scalar extension of the actual `n=1` auxiliary chart, using the ring-of-definition topology. Establish `[ϖ]`-torsion freeness and the integral perfectoid criterion, then `A` is perfectoid. Its tilt is the chart `F⟨t₁^{1/p^∞}⟩` with `t₁^♯=p/[ϖ]`; the coordinate in the perfect open disc is `t=ϖ·t₁`, so the chart is `|t|≤|ϖ|≠0`. Rational subannuli of this chart, and their Frobenius translates, which together cover `Y`, inherit this perfectoid frame. The roots are quotients of compatible roots, not arbitrarily chosen roots with missing relations.
 
 *Needs:* F4, `root_extension_frame`; PerfectoidSpaces, Layer P1 (perfectoid tate ring from integral perfectoid); PerfectoidSpaces, Layer P2 (rational localization of perfectoid affinoids); PerfectoidSpaces, Layer P2 (tilting homeomorphism and rational subsets); PerfectoidSpaces §P1.24 (integral Frobenius criterion).
 
 Use the algebraic tensor and the explicit `[ϖ]`-adic ring of definition to construct the auxiliary scalar extension and its comparison with the actual chart; the integral map `ℤ_p→W(O_F)` is not an adic scalar map for R0.3. The separate generic `ℚ_p` base extension remains that of `root_extension_frame`. Compute the quotients `A₀^+/(π)` and `A₀^+/(π^p)`, with `π=v₁`, using compatible relations `p_m=v_m s_m` as in FS II.1.1. Verify the nonzerodivisor and Frobenius quotient criterion using PerfectoidSpaces §P1.24 with `π=v₁` and its integral/Tate dictionary. Use the root `π=v₁` as pseudouniformizer: `π^p=[ϖ]` divides `p` by the `s₀` relation; do not require `[ϖ]^p` to divide `p`. Identify the tilt coordinate and its sharp image, then rationally localize to the generic annuli. Use only the auxiliary frame, not a reconstruction of the AdicSpaces construction’s sheafiness or the general relative curve.
 
-Checks: On the relevant boundary `|s_m|=1`, while `s_{m+1}^p=s_m`. The reciprocal coordinate `[ϖ]/p` is not `t₁`. Modulo `p`, `ϖ^N≠0` for every `N`, so no power of `(p,[ϖ])` is contained in `(p)`; this integral scalar map cannot use R0.3's adic tensor.
+Checks: On the relevant boundary `|s_m|=1`, while `s_{m+1}^p=s_m`. The reciprocal coordinate `[ϖ]/p` is not `t₁`. Modulo `p`, `ϖ^N≠0` for every `N`, so no power of `(p,[ϖ])` is contained in `(p)`; this integral scalar map cannot use R0.3's adic tensor. For `p=2`, the window `V₀` has `3/2≤κ≤2` and lies outside the `n=1` chart `κ≤1`; its inverse-Frobenius translate has `3/4≤κ≤1` and inherits the frame by rational localization.
 
 (FS Proof of II.1.1, p.48.)
 
-The algebraic component of `root_annulus_tilt` has the following exact
-hypotheses, independently of the geometric construction. In a commutative
+The algebraic component, stated in Suggested.lean as
+`compatibleRoots_ratio_pow`, has the following exact hypotheses, independently
+of the geometric construction. In a commutative
 ring `B`, take sequences `pRoot`, `varpiRoot` and `ratioRoot` indexed by natural
 numbers, with `ratioRoot(m)·varpiRoot(m)=pRoot(m)`, both numerator and denominator
 satisfying the `p`-power transition equations, and each `varpiRoot(m)` a unit.
-Then `ratioRoot(m+1)^p=ratioRoot(m)`. This is the signature in Suggested.lean;
-it does not identify an arbitrary ring with a perfectoid annulus.
+Then `ratioRoot(m+1)^p=ratioRoot(m)`. This algebraic step is the only Lean
+signature associated with this target; the perfectoid annulus and tilt remain
+the geometric target above.
 For `p=2` in `ℚ`, numerator roots constantly 1 and denominator roots constantly 1
 give ratio roots constantly 1. A nonconstant real instance has `p=2`, numerator
 `4^(1/2^m)`, denominator `2^(1/2^m)`, and ratio `2^(1/2^m)`; the ratio transition
-follows from `root_annulus_tilt`. Dropping denominator regularity fails: in
+follows from `compatibleRoots_ratio_pow`. Dropping denominator regularity fails: in
 `ℤ/4`, take the numerator and denominator sequences constantly 0 and ratio roots
 constantly 2; the displayed product and power equations for numerator and
 denominator hold, but `2² ≠ 2`. The actual period chart inverts its denominator.
@@ -786,10 +822,10 @@ Prove `rational_strict_exactness`: For every rational affinoid `U=Spa(B,B^+)⊂Y
 
 *Needs:* F4, `multiplication_lower_bound`; F4, `primitive_equation_interface`; PerfectoidSpaces, Layer P2 (rational localization of perfectoid affinoids); AdicSpacesPartII §R0.8 (closed adic subspaces and embeddings).
 
-The normed-ring signature `rational_strict_exactness` assumes a complete
-normed commutative ring `B`, `ξ∈B`, a real `c>0`, and `c·‖b‖≤‖ξ b‖` for every `b`.
-It concludes injectivity of multiplication by `ξ` and closedness of its range.
-The geometric quotient identification is the additional target above.
+The normed-ring step is supplied by Mathlib: in a complete normed commutative
+ring `B`, the bound `c·‖b‖≤‖ξ b‖` for every `b`, with `c>0`, makes multiplication
+by `ξ` antilipschitz, hence injective with closed range (see Algebraic suppliers).
+The geometric quotient identification is the target above.
 The unit-ideal quotient `B/(1)` is a subsingleton ring. On `B=ℝ`, `ξ=0` and `c=0`
 satisfy the weak bound but multiplication is not injective.
 The lower bound implies injectivity and makes the preimages of a Cauchy sequence in `ξ B` Cauchy. Completeness proves closed image. The `θ` presentation identifies the untilt algebra with the separated completion of the quotient; closedness removes further completion. Use the affinoid quotient-pair plus convention and rational universal properties; an empty intersection forces the completed quotient to vanish.
@@ -1040,11 +1076,10 @@ F3; DiamondEtaleCohomology §§C2.2–C2.5, C2.9–C2.12 and Layer C3; EnhancedD
 ## Suggested Lean forms
 
 [Suggested.lean](Suggested.lean) records suggested forms, not an exhaustive
-checklist. This README is definitive. Its two theorem signatures express the
-compatible-root equation in F4 and the normed-ring consequence of the lower
-bound. They use existing commutative rings and complete normed rings, with
-all their algebraic hypotheses present. The product, quotient, sites, Cartier
-objects and enhanced comparisons have their intended signatures in the
+checklist. This README is definitive. Its one theorem signature,
+`compatibleRoots_ratio_pow`, expresses the compatible-root equation of F4
+in an existing commutative ring, with all its algebraic hypotheses present.
+The product, quotient, sites, Cartier objects and enhanced comparisons have their intended signatures in the
 corresponding subsections above; their carriers are mathematical targets.
 
 The reusable API should expose morphisms, their naturality and uniqueness,
