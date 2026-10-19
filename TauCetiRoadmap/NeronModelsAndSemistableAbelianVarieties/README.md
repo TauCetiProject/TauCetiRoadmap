@@ -67,7 +67,9 @@ The roadmap owns:
   the conductor interface and semistable formula, and residual conductor comparisons;
 - the interfaces of Layer 6: Serre's independence and Noot's closed-point specialization,
   degeneracy-map functoriality, character exact sequences with
-  verified kernels, semistable and isogeny behaviour of the differential lattice, the
+  verified kernels, semistable and isogeny behaviour of the differential lattice, connected-model
+  Kummer and localization sequences, isogeny component defects and exact cotangents of semistable
+  quotients under the strict ramification bound, the
   equation-level–scheme-level comparisons for elliptic curves, the compatible system of
   cohomology of an abelian variety, the semistable-ordinary adapters for abelian surfaces over
   `ℚ₂`, and the full-level extension for curves.
@@ -111,7 +113,8 @@ It leaves to other roadmaps, and consumes from them:
   Galois cohomology, with its coefficient pairing and connecting-map identities.
 - **SchemeAndStackFoundations**, §§0.12–0.14 (henselisation and henselian finite algebras),
   §§0.16, 0.20–0.21 (catenary, Nagata and excellent rings), §§1.13–1.17 (group spaces,
-  torsors and quotients), §2.22 (scheme Brauer groups), §3.6 (Picard torsors and rational
+  torsors and quotients), §§2.1–2.4, 2.10, 2.15 (fppf cohomology and
+  comparison with field Galois cohomology), §2.22 (scheme Brauer groups), §3.6 (Picard torsors and rational
   divisor classes), §3.8 (invariant differentials), §§4.7–4.10 (adic thickening systems,
   coherent formal existence and algebraisation of compatible morphisms), §§4.11–4.13
   (modifications and one-dimensional resolution), and §4.15 (moduli of stable curves). Zariski's main
@@ -3634,6 +3637,200 @@ Theorems 1–2, p. 2); that erratum supplies the warning against exactness of N�
 - At a place prime to the degree with good reduction, `f^*` is an isomorphism.
 - The ranks of `ω_A` and `ω_B` are equal, so the cokernel is torsion.
 
+<a id="connected-neron-kummer"></a>
+
+### 6.4a Kummer theory of the connected Néron model
+
+**Connected Néron Kummer sequence.** Let `S` be a Dedekind scheme with function field `K`,
+`A/K` an abelian variety with marked Néron model `M/S`, and `G = M⁰` its open identity model.
+Assume `A` is semistable at every closed point of `S`. Prove `ConnectedNeronKummer`: for every
+integer `m > 0`, multiplication `[m] : G → G` is faithfully flat, quasi-finite and of finite
+presentation, and
+`0 → G[m] → G --[m]--> G → 0` is exact on the fppf site of `S`. Consequently
+`0 → G(S)/mG(S) → H¹_fppf(S,G[m]) → H¹_fppf(S,G)[m] → 0` is exact. Construct the connecting
+maps and prove naturality under homomorphisms, restriction to an open subscheme and generic
+restriction. For `m | n`, the kernel inclusion and multiplication by `n/m` on the right-hand
+copy of `G` give the coefficient transition, hence the corresponding primary direct-limit
+sequence. The same assertions hold without semistability if `m` is invertible at every
+non-semiabelian geometric fibre of `G`.
+
+On each semiabelian fibre, multiplication is a finite flat surjection; the fibrewise flatness
+criterion gives the assertion over `S`. The kernel `G[m]` is separated, quasi-finite and flat,
+but need not be finite over `S`: its generic and special ranks can differ. Its finite part over
+a henselian trait is the object of 3.5. The sections are `G(S)`, with the component map
+`A(K) = M(S) → ⊕_v Φ_{A,v}(κ(v))`; over a number-field integer base its kernel is `G(S)`
+and its image is finite. Sources: Mazur, *Modular curves and the Eisenstein ideal*, III,
+Lemma 3.3 and its Kummer/direct-limit diagram, p. 149; Milne, *Arithmetic Duality Theorems*,
+III, Lemma 5.3, p. 267, for fibrewise exactness. *Needs:* 1.9, 2.1–2.2, 3.1, 3.5;
+SchemeAndStackFoundations §§2.1–2.4, 2.10 (sheaf cohomology, torsors and topology comparison);
+Mathlib `Sheaf.H.longSequence_exact` and `Sheaf.H.δ_naturality`.
+
+**Checks.**
+
+- For `A = 0` every group in the Kummer sequence is zero; for `m = 1` the kernel, quotient
+  of sections and torsion subgroup of `H¹` are zero. Multiplication by zero is excluded.
+- For a split Tate curve of dimension one and `m > 1`, the generic kernel has rank `m²`
+  and the special kernel `μ_m` has rank `m`. Thus quasi-finite flat torsion is insufficient
+  to assert a finite flat kernel of constant rank `m²` over the trait.
+- In equal characteristic `p`, an additive elliptic identity fibre is `𝔾_a` and `[p]` on it
+  is zero. It is not a surjection of fppf sheaves; the semiabelian-fibre hypothesis cannot
+  be omitted when the multiplication integer is divisible by the residue characteristic.
+- A nonzero image in a rational component group gives `G(S) ⊊ A(K)`; replacing `G(S)`
+  by all generic points changes the left term of the Kummer sequence.
+
+<a id="connected-neron-localization"></a>
+
+### 6.4b Connected Néron torsors and localization
+
+**Connected Néron localization.** Let `F` be any number field, `S` a nonempty open subscheme
+of `Spec 𝒪_F`, `M/S` the marked Néron model of an abelian variety `A/F`, and `G = M⁰`.
+Semistability is unnecessary for this target. With `i_v : Spec κ(v) → S`, construct the component
+sheaf `𝒫_A = ⊕_v (i_v)_*Φ_{A,v}` and the exact sequence of fppf abelian sheaves
+`0 → G → M → 𝒫_A → 0`. Prove `ConnectedNeronLocalization`: the generic restriction image of
+`H¹_fppf(S,G) → H¹(F,A)` is exactly
+`L_S(A) = ker(H¹(F,A) → ∏_{v ∈ S closed} H¹(F_v,A))`, and there is an exact sequence
+`0 → G(S) → A(F) → ⊕_v Φ_{A,v}(κ(v)) → H¹_fppf(S,G) → L_S(A) → 0`.
+Construct its maps from the component-sheaf and localization long exact sequences, with
+compatibility under homomorphisms and shrinking `S`. For a good-reduction open `U ⊆ S`,
+put `D = S ∖ U` and construct the low-degree localization sequence
+`0 → G(S) → A(F) → ⊕_{v ∈ D} Φ_{A,v}(κ(v)) → H¹(S,G) → H¹(U,M_U) → ⊕_{v ∈ D} H¹(F_v,A)`.
+The étale localization and henselian excision comparison for these smooth group sheaves are
+part of this target, transported to fppf cohomology by the smooth-group comparison.
+Retain the adjoining terms
+`H¹(S,M) → ⊕_v H¹(κ(v),Φ_{A,v}) → H²(S,G)` of the component-sheaf sequence.
+
+The local inputs are `H¹(𝒪_v,G) = 0` by smoothness, connectedness, Lang's theorem and henselian
+lifting, and `H¹(𝒪_v,M) ≅ H¹(κ(v),Φ_{A,v})`. Over a good-reduction open, generic restriction
+identifies torsors with classes trivial at its finite places. Localization at its complement
+gives the displayed sequence: locally `A(F_v)/G(𝒪_v) = Φ_{A,v}(κ(v))`, and the next local
+obstruction is `H¹(F_v,A)`. These identifications also hold using henselizations, and comparison
+with completions preserves `H¹`. Sources: Milne, *Arithmetic Duality Theorems*, I,
+Proposition 3.8 and Remark 3.10, pp. 46–48; II, Lemma 5.5 and (5.5.1), pp. 201–202;
+III, Proposition 2.1, p. 246, for the local component calculation. The localization argument
+is also the one in III, Proposition 9.2, pp. 295–296, over a finite-field curve.
+
+For `S = Spec 𝒪_F`, identify the all-place localization kernel `Ш(A/F)` with Mathlib's
+`ContinuousCohomology.tateShafarevich` in degree one for the discrete geometric point module,
+using its membership and kernel-of-product API and the smooth fppf/Galois comparison. Prove
+`0 → Ш(A/F) → L_S(A) → ⊕_{v real} H¹(F_v,A)` exact, without asserting surjectivity at the right.
+The real groups are killed by `2`; complex `H¹` is zero. Thus `L_S(A)[ℓ∞] = Ш(A/F)[ℓ∞]` for
+odd `ℓ`, while at `2` one retains `Ш(A/F)[2∞] ⊆ L_S(A)[2∞]` and its real localization kernel.
+This gives the connected-model comparison for any semistable modular Jacobian over `ℚ`,
+including the odd equality and dyadic inclusion used in Mazur, III, Lemma 3.3, p. 149;
+real-place duality is Milne, I, §3, pp. 45–46. *Needs:* 1.9, 2.1–2.2;
+ReductiveGroupsPartII RG2.3.7 (Lang's theorem); SchemeAndStackFoundations §§0.12–0.14,
+1.15–1.16, 2.1–2.4, 2.10, 2.15 (henselian lifting, torsors, cohomology and field comparison);
+Mathlib `ContinuousCohomology.tateShafarevich`, `mem_tateShafarevich`,
+`tateShafarevich_eq_ker_pi`. The comparison uses these intrinsic localization kernels;
+height and Selmer consumers identify their abelian Sha carriers with them.
+
+**Checks.**
+
+- For `A = 0`, the component sheaf, torsor groups and both localization kernels vanish.
+- If `A` has good reduction throughout `S`, the component terms vanish and generic restriction
+  injects `H¹(S,G)` with image `L_S(A)`; it imposes no condition at finite places removed from `S`.
+- Nonzero rational components remain between `A(F)` and `H¹(S,G)`; the kernel of generic
+  restriction is `coker(A(F) → ⊕_v Φ_{A,v}(κ(v)))`, which need not vanish.
+- Over `ℝ`, the elliptic curve `y² = x³ − x` has two connected components and
+  `H¹(ℝ,E) ≅ ℤ/2`. Real local triviality is an additional condition at `2`; this local
+  calculation alone does not assert a global torsor violating it. At odd primes the real
+  target vanishes on primary parts.
+
+<a id="neron-isogeny-component-defects"></a>
+
+### 6.4c Isogenies and component defects
+
+**Néron isogeny component defects.** Let `S` be a Dedekind scheme, and let `f : A → B` be any
+isogeny of abelian varieties over its function field, with their marked Néron models `M_A,M_B`.
+Form `𝒫_A = M_A/M_A⁰ = ⊕_v (i_v)_*Φ_{A,v}` by gluing the component projections of 2.2,
+and similarly for `B`. Write `f⁰ : M_A⁰ → M_B⁰` and `φ : 𝒫_A → 𝒫_B` for their induced maps.
+In fppf abelian sheaves put `K⁰ = ker f⁰`, `Q⁰ = coker f⁰`, `K = ker f`, `Q = coker f`.
+Prove `NeronIsogenyComponentDefects`: the component diagram gives the natural exact sequence
+`0 → K⁰ → K → ker φ → Q⁰ → Q → coker φ → 0`.
+Together with the two short exact sequences obtained by factoring each of `f,f⁰` through
+its sheaf image, give their cohomology long exact sequences and their generic and local
+restriction diagrams. In particular a four-term kernel/cokernel sequence is not itself a
+short exact sequence to which a three-term cohomology sequence can be applied.
+
+If `A` is semistable throughout `S`, then so is `B`, and `f⁰` is a quasi-finite faithfully flat
+surjection by its fibrewise isogeny property. Thus `Q⁰ = 0`,
+`0 → K⁰ → K → ker φ → 0` is exact and
+`Q ≅ coker φ = ⊕_v (i_v)_*coker(Φ_{A,v} → Φ_{B,v})`.
+The cokernel is a finite component skyscraper sheaf. For arbitrary reduction retain `Q⁰`; neither
+flatness of the full kernel nor a component-only description of the cokernel is assumed.
+Sources: Mazur, *Modular curves and the Eisenstein ideal*, III, (3.7) and Proposition 3.6,
+pp. 150–151, for the sheaf kernel/cokernel and its cohomological use; the general defect
+sequence is the snake lemma on the two component rows. Semistable fibrewise isogenies are
+2.5 (Conrad, Proposition 4.1, pp. 8–9). The specific Eisenstein isogeny's kernel and component
+map are determined by the consumer. *Needs:* 1.5, 2.1–2.2, 2.5, 3.2, 6.4b;
+SchemeAndStackFoundations §§2.1–2.4; Mathlib's snake lemma and sheaf cohomology long exact sequence.
+
+**Checks.**
+
+- For an isomorphism, both kernel and cokernel and all component defects vanish. With good
+  reduction, `φ` is the map `0 → 0`, so `K = K⁰` and `Q = 0`.
+- For split Tate curves `E_q → E_{q^m}`, `[z] ↦ [z^m]`, with `ord(q) = n > 0` and `m > 1`,
+  the component map is `ℤ/n → ℤ/(mn)`, `r ↦ mr`: its kernel is zero and its cokernel is
+  `ℤ/m`. The sheaf cokernel is therefore nonzero at the closed point, although the generic
+  isogeny is surjective.
+- Multiplication by `m` on a split Tate curve with `ord(q) = n` gives both component kernel
+  and component cokernel of order `gcd(m,n)`; when this exceeds one, the full kernel differs
+  from the identity-model kernel and the component cokernel is retained.
+- For multiplication by `p` on an additive elliptic identity fibre in characteristic `p`,
+  the map on `𝔾_a` is zero. The identity cokernel `Q⁰` has a nonzero special-fibre quotient,
+  so the semistable component-only cokernel formula cannot be extended to this case.
+
+<a id="semistable-quotient-cotangent"></a>
+
+### 6.4d Exact cotangents of semistable quotients
+
+**Semistable quotient cotangents.** Let `K/ℚ_p` be any finite extension, `𝒪 = 𝒪_K`, and
+`e = v_K(p) < p − 1`. For every exact sequence of abelian varieties
+`0 → A --i--> B --q--> C → 0` with `B` semistable, prove `SemistableQuotientCotangent`:
+`A,C` are semistable and the maps on their connected Néron models give exact sequences
+`0 → Lie(M_A⁰) → Lie(M_B⁰) → Lie(M_C⁰) → 0` and
+`0 → ω_C --q^*--> ω_B --i^*--> ω_A → 0`
+of finite free `𝒪`-modules. In particular `coker q^* ≅ ω_A` is free and every scalar extension,
+including tensoring with the residue field, preserves exactness. The quotient map has connected
+kernel `A`; an isogeny with nontrivial finite kernel is a different hypothesis.
+
+The finite-flat step is part of this target: take the connected components of the henselian
+finite parts of the `p^r`-torsion from 3.5. Under the ramification bound the sequence of these
+connected finite flat groups is exact for every `r ≥ 1`; their compatible formal groups give
+the tangent sequence, and duality gives the cotangent sequence. Sources: Mazur,
+*Rational isogenies of prime degree*, §1(d), Propositions 1.2–1.3 and Corollary 1.1,
+pp. 135–137; the strict-bound counterexample is §1(e), p. 138. This supplies the free quotient
+needed for integral differential and formal-immersion applications; the equal-rank inclusion
+of 6.4 has a torsion cokernel instead.
+
+For the modular specialization in a consumer, let `N ≥ 1`,
+`m_N = ∏_r r^⌊v_r(N)/2⌋`, and work over `ℤ[1/m_N]`. At every odd prime remaining in this base,
+a connected quotient of a semistable modular Jacobian satisfies the theorem with `e = 1`.
+This includes `p ∥ N`, where reduction can be multiplicative. The application to integral
+regular differentials uses the consumer's Picard/dualizing comparison (Mazur, §2(d–e),
+pp. 140–141); the theorem here quantifies over all semistable abelian sequences and every
+finite `K/ℚ_p` satisfying the bound. *Needs:* 1.5, 1.11, 3.5;
+AbelianSchemesAndArithmeticModuli A3, A6.3–A6.5 (torsion, abelian subvarieties and quotients);
+FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.3, R07.1.9, R07.1.30
+(henselian finite parts, connected torsion and full faithfulness for `e < p − 1`);
+SchemeAndStackFoundations §3.8 (invariant differentials).
+
+**Checks.**
+
+- For `B = A × C` the sequences split, with cotangent ranks `dim C`, `dim A + dim C`,
+  `dim A`. They include `A = 0` and `C = 0`.
+- Multiplication by `p` on a good elliptic Néron model induces `p : ω → ω`, with cokernel
+  `𝒪/p𝒪`; its residue map is zero. An isogeny lattice injection does not provide this theorem's
+  free quotient or its residue-field injectivity.
+- At `p = 2, e = 1`, Serre's example in Mazur §1(e) takes good elliptic curves `E,E'` with
+  respectively an étale order-two subgroup generated by `P` and a multiplicative one
+  generated generically by `P'`. For `B = (E × E')/⟨(P,P')⟩`, the generic sequence
+  `0 → E → B → E'/μ₂ → 0` is exact, but the special-fibre cotangent map from the quotient
+  to `B` is zero. Thus the conclusion fails at the boundary `e = p − 1`, even with good reduction.
+- For an optimal quotient of a semistable modular Jacobian at an odd `p ∥ N`, the residue
+  cotangent injection holds although good reduction is not assumed. Inverting the primes
+  dividing `m_N` removes precisely the primes with `p² | N`, rather than all primes dividing `N`.
+
 ### 6.5 Equation-level and scheme-level good reduction
 
 Let `R` be a discrete valuation ring and `W` a minimal integral Weierstrass model of an elliptic
@@ -4072,7 +4269,24 @@ Mathlib's Weierstrass reduction predicates and `IsPGroup` fixed-point theorems.
   and its successors): the compatible system 6.10, the ordinary adapters 6.11–6.13 and the
   unramified-`3`-torsion example of 3.12.
 
+- **EisensteinIdealAndRationalTorsion**: `connected-neron-kummer` (6.4a),
+  `connected-neron-localization` (6.4b), `neron-isogeny-component-defects` (6.4c) and
+  `semistable-quotient-cotangent` (6.4d). Its Eisenstein-specific kernels, component maps,
+  integral modular differential comparison and formal-immersion theorem remain with the consumer.
+
 ## References
+
+- B. Mazur, *Modular curves and the Eisenstein ideal*, Publ. Math. IHÉS 47 (1977), 33–186;
+  [public text](https://www.numdam.org/item/PMIHES_1977__47__33_0.pdf): III, Lemmas 3.2–3.3,
+  pp. 148–149, (3.7) and Proposition 3.6, pp. 150–151, for 6.4a–6.4c.
+- B. Mazur, *Rational isogenies of prime degree*, Invent. Math. 44 (1978), 129–162;
+  [public text](https://www.math.columbia.edu/~goldfeld/Mazur-Goldfeld1978.pdf): §1(d),
+  Propositions 1.2–1.3 and Corollary 1.1, pp. 135–137; §1(e), p. 138; §2(d–e), pp. 140–141,
+  for 6.4d and its strict-bound and modular Checks.
+- J. S. Milne, *Arithmetic Duality Theorems*, second edition, 2006;
+  [author text](https://www.jmilne.org/math/Books/ADTnot.pdf): I, §3, pp. 45–48;
+  II, Lemma 5.5, pp. 201–202; III, Proposition 2.1, p. 246, Lemma 5.3, p. 267,
+  and Proposition 9.2, pp. 295–296, for 6.4a–6.4b.
 
 - K. A. Ribet and W. A. Stein, *Lectures on Serre's conjectures*,
   [author text](https://wstein.org/papers/serre/ribet-stein.pdf): §3.9, (3.1) and

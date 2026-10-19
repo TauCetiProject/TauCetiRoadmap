@@ -629,6 +629,26 @@ end Interfaces
 /-!
 ## Further targets in README.md
 
+README §§6.4a–6.4d specify `ConnectedNeronKummer` (`connected-neron-kummer`),
+`ConnectedNeronLocalization` (`connected-neron-localization`),
+`NeronIsogenyComponentDefects` (`neron-isogeny-component-defects`) and
+`SemistableQuotientCotangent` (`semistable-quotient-cotangent`). Their statements use the
+relative open identity models, geometric torsion kernels, component sheaves and invariant
+cotangent modules specified in the README. The pinned APIs do not provide these carriers.
+They remain README targets, including their geometric boundary Checks.
+
+`ConnectedNeronKummer` gives the fppf multiplication sequence for positive integers on
+semistable identity models, with quasi-finite flat torsion kernels and the actual group of
+identity-model sections. `ConnectedNeronLocalization` identifies its generic torsor image
+over number-field integer opens by triviality at their finite places, retaining the component
+cokernel in the restriction kernel and the real-place 2-primary condition for all-place Sha.
+`NeronIsogenyComponentDefects` gives the snake sequence with both identity and component
+kernels and cokernels; semistability makes the identity cokernel zero.
+`SemistableQuotientCotangent` gives exact free tangent and cotangent sequences for every exact
+abelian sequence with semistable middle term over finite K/ℚ_p and e < p − 1. Its cotangent
+injection remains injective on the residue field. These statements retain additive-fibre and
+e = p − 1 boundary failures and include semistable bad reduction in the modular application.
+
 Geometric definitions and comparisons are recorded there rather than typed here:
 `GoodReduction`, `WeakNeronBlowup`, `DifferentialLattice`, `IdentityComponent`,
 the geometric `ComponentGroup`, `Chevalley`, `ToricCharacter`,
