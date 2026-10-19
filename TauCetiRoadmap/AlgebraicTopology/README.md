@@ -305,6 +305,20 @@ This stage is independent of Stages 2--8.
    on a wedge of circles.  The first check must use more than one basepoint and the second must
    consume the native wedge-of-circles free-group equivalence and recover its presentation maps.
 
+6. For a topological space G with a continuous unital multiplication, construct pointwise
+   multiplication on native based path-homotopy classes and prove that
+   `FundamentalGroup G 1` is abelian. In particular this applies to every topological group,
+   with no connectedness or covering-space hypothesis. Use the native product of path classes
+   followed by the map induced by multiplication G×G→G; prove both unit laws and the
+   interchange law with concatenation. Apply native Eckmann–Hilton and retain the existing
+   fundamental-group product, unit and inverse definitionally. Identify pointwise and existing
+   multiplication and prove naturality for actual continuous unital multiplicative maps.
+   Account explicitly for native `FundamentalGroup.mul_def`, whose multiplication is reversed
+   path composition. This construction uses native paths and groupoid maps independently of
+   covers, manifold structures and the later CW stages. The accompanying
+   [TopologicalGroupFundamentalGroup.lean](TopologicalGroupFundamentalGroup.lean) gives the
+   native construction and comparison laws.
+
 The proof spine is Brown, *Topology and Groupoids*, Chapters 6--7: subdivision gives generation,
 the square-grid subdivision of a homotopy gives relations, and the universal property identifies
 the colimit.  Hatcher, *Algebraic Topology*, Section 1.2 supplies the based corollaries.
@@ -347,10 +361,20 @@ the colimit.  Hatcher, *Algebraic Topology*, Section 1.2 supplies the based coro
    equality with the coordinate-oriented ball's canonical relative fundamental
    class. This reference construction uses only native chains/shuffles and
    relative homology, without Stage 6 manifold duality. Own the sphere's
-   normalized reference class by its positive local chart
+   normalized reference class using the positive local chart at q=e₀,
    v↦(sqrt(1−‖v‖²),v), with positively scaled chart cube and outward-first
-   local generator; use the native sphere homology/excision API to specify
-   its unique absolute class. Stage 4.4 compares q to this earlier class.
+   local generator. For n≥1, use native sphere homology/excision to define
+   the unique absolute class with this positive local image. For n=0,
+   define instead the unique reduced reference class whose ordinary-homology
+   image has this positive local image and augmentation zero. On
+   S⁰={q,−q}, its ordinary image is s₀=[q]−[−q], with local images +1 at q
+   and −1 at −q. Prove these two local-image formulas and the augmentation
+   formula; the positive local image together with augmentation zero gives
+   uniqueness. A single local image does not determine an ordinary H₀ class.
+   Use native reduced homology as the augmentation kernel and its canonical
+   inclusion into ordinary homology. Stage 4.4 compares its actual quotient
+   maps and separately chosen based generator with this earlier two-case
+   reference, retaining the opposite zero-sphere sign of that based generator.
    Own `coordinateCubeReferenceChain_eq_shuffle`: after the actual coordinate
    product identifications, the signed triangulation chain equals the native
    iterated `TopCat.shuffle` of the n positive interval chains, factor order
@@ -1467,12 +1491,14 @@ homology with one copy of the coefficient ring also assumes connectedness.
    in each case. The native
    zero-sphere law gives
    ι₀(g̃₀)=[−p₀]−[p₀], with augmentation zero and local
-   images +1 at −p₀ and −1 at p₀. Since H₀(S⁰;ℤ)=ℤ², one positive-chart
-   local image alone does not determine an ordinary absolute class.
-   Stage 6.3 does not use Stage 2, item 5's ordinary H₀ uniqueness statement
-   at n=0. For this downstream equality,
-   verify both local images and augmentation in ordinary H₀(S⁰;ℤ), rather than
-   inferring it from one chart. The outward-first class is s₀=[q]−[−q]. Thus
+   images +1 at −p₀ and −1 at p₀. Consume Stage 2, item 5's corrected
+   two-case normalization: uniqueness from the positive local image applies
+   to the absolute class for n≥1, while at n=0 the reduced reference has
+   augmentation-zero ordinary image s₀=[q]−[−q]. For this downstream equality,
+   verify both local images (+1 at q and −1 at −q) and augmentation zero in
+   ordinary H₀(S⁰;ℤ), using the canonical reduced-to-ordinary inclusion and
+   the native pole formula above. A single local image alone does not
+   determine an ordinary H₀ class. Thus
    s₀=σ₀ι₀(g̃₀), where σ₀=−1 if p₀=q and σ₀=+1 if p₀=−q; equivalently
    σ₀=−ε₀, with ε₀ the Stage 4.4 unit determined by the same actual pole.
    This comparison consumes the present native arbitrary-pole generator and
