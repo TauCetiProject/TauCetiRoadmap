@@ -5,9 +5,9 @@ import Mathlib
 
 The roadmap is `README.md`. This file records light definitions and theorem signatures
 expressible against the pinned APIs; it is not exhaustive. Strict perfectness bounds the terms
-of a cochain complex of finite locally free sheaves, rather than only its cohomology. The positive
-single-sheaf and isomorphism comparisons are theorem targets; the unbounded-term negative
-control is proved directly from the predicate. Perfect derived categories, K-theory spectra,
+of a cochain complex of finite locally free sheaves, rather than only its cohomology. Zero,
+single-sheaf, isomorphism, shift and cone statements give its basic interface. The two proved
+examples distinguish term bounds from derived acyclicity. Perfect derived categories, K-theory spectra,
 operations and their geometric comparison maps are specified in the README.
 -/
 
@@ -27,6 +27,11 @@ def IsStrictlyPerfect (X : AlgebraicGeometry.Scheme.{u})
   ∀ i : ℤ, SheafOfModules.IsLocallyFree (E.X i) ∧
     SheafOfModules.IsFiniteType (E.X i)
 
+/-- The zero cochain complex is strictly perfect. -/
+theorem isStrictlyPerfect_zero (X : AlgebraicGeometry.Scheme.{u}) :
+    IsStrictlyPerfect X (HomologicalComplex.zero : CochainComplex X.Modules ℤ) := by
+  sorry
+
 /-- A single finite locally free sheaf is strictly perfect in any cohomological degree. -/
 theorem isStrictlyPerfect_single (X : AlgebraicGeometry.Scheme.{u}) (M : X.Modules)
     [M.IsLocallyFree] [M.IsFiniteType] (n : ℤ) :
@@ -39,6 +44,28 @@ theorem isStrictlyPerfect_iff_of_iso (X : AlgebraicGeometry.Scheme.{u})
     IsStrictlyPerfect X E ↔ IsStrictlyPerfect X F := by
   sorry
 
+/-- Cohomological shifts preserve strict perfectness, translating the term bounds. -/
+theorem IsStrictlyPerfect.shift (X : AlgebraicGeometry.Scheme.{u})
+    {E : CochainComplex X.Modules ℤ} (hE : IsStrictlyPerfect X E) (n : ℤ) :
+    IsStrictlyPerfect X (E⟦n⟧) := by
+  rcases hE with ⟨⟨a, b, hab, hbounded⟩, hterms⟩
+  refine ⟨⟨a - n, b - n, by lia, ?_⟩, ?_⟩
+  · intro i hi
+    change IsZero (E.X (i + n))
+    apply hbounded
+    rcases hi with hi | hi
+    · exact Or.inl (by lia)
+    · exact Or.inr (by lia)
+  · intro i
+    exact hterms (i + n)
+
+/-- The mapping cone of a map between strictly perfect complexes is strictly perfect. -/
+theorem IsStrictlyPerfect.cone (X : AlgebraicGeometry.Scheme.{u})
+    {E F : CochainComplex X.Modules ℤ} (f : E ⟶ F)
+    (hE : IsStrictlyPerfect X E) (hF : IsStrictlyPerfect X F) :
+    IsStrictlyPerfect X (CochainComplex.mappingCone f) := by
+  sorry
+
 /-- A genuine term bound excludes a complex with nonzero terms in arbitrarily negative degrees,
 even when the differential is zero and every term is finite locally free. -/
 example (X : AlgebraicGeometry.Scheme.{u}) (E : CochainComplex X.Modules ℤ)
@@ -47,6 +74,17 @@ example (X : AlgebraicGeometry.Scheme.{u}) (E : CochainComplex X.Modules ℤ)
   rintro ⟨⟨a, b, _, hbounded⟩, _⟩
   obtain ⟨i, hia, hi⟩ := h a
   exact hi (hbounded i (Or.inl hia))
+
+/-- A contractible identity cone still fails strict perfectness if its source has terms
+in arbitrarily negative degrees. -/
+example (X : AlgebraicGeometry.Scheme.{u}) (E : CochainComplex X.Modules ℤ)
+    (h : ∀ a : ℤ, ∃ i : ℤ, i < a ∧ ¬ IsZero (E.X i)) :
+    ¬ IsStrictlyPerfect X (CochainComplex.mappingCone (𝟙 E)) := by
+  rintro ⟨⟨a, b, _, hbounded⟩, _⟩
+  obtain ⟨i, hia, hi⟩ := h a
+  have hz := hbounded (i - 1) (Or.inl (by lia))
+  have hsource := ((CochainComplex.mappingCone.isZero_X_iff (𝟙 E) (i - 1)).mp hz).1
+  exact hi (by simpa using hsource)
 
 /-
 The further strict-model API in README §1.1 includes `IsStrictlyPerfect.exists_bounds` and
