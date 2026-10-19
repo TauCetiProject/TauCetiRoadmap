@@ -97,6 +97,14 @@ theorem twistedGhost_ordinary (π : O) (q : ℕ) (A : Type u) [CommRing A] [Alge
 
 end Coefficients
 
+/-- The ordinary characteristic-`p` disc coordinate has no `p`-th root, as in README §7.6.
+The unit-radius restricted-series subring is the ring of the unperfected ratio chart. -/
+theorem unperfectedDiscCoordinate_no_pthRoot (p : ℕ) [Fact p.Prime]
+    (C : Type u) [NormedField C] [IsUltrametricDist C] [CharP C p]
+    (f : PowerSeries.IsRestricted.subring (R := C) 1) :
+    (f : PowerSeries C) ^ p ≠ PowerSeries.X := by
+  sorry
+
 /-! ## Layer 1: annuli and relative period rings -/
 
 /-- Scalar core of the geometric radius, evaluated at a rank-one valuation.
@@ -312,8 +320,11 @@ GlueingDatum.sections, GlueingDatum.sectionsCompare, GlueingDatum.can,
 GlueingDatum.Hom, Modification,
 relativeBPairPeriodComparison, relativeBPairModificationCompatibility and meromorphic bundles
 on the complement of a divisor; the unramified relative B-pair rings/equivalence are supplied.
+The flat-quasicoherent comparison B_pair_cohomology uses a principal affine Cartier neighbourhood.
 Layer 7: torsorTensorDictionary; GModification and GBundleModification, with geometric tensor gluing,
 faithful-representation meromorphy and ordinary torsor descent.
+The all-E theorem v_descent_and_local_triviality uses the uniformizer-root extension and its
+continuous module retractions on the base-cover nerve and coefficient overlaps.
 -/
 
 end TauCetiRoadmap.RelativeFarguesFontaine
