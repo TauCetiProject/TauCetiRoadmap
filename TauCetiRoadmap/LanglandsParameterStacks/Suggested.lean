@@ -13,17 +13,23 @@ Design choices.
 * A parameter with prescribed finite projection `η : Γ →* Q` is a homomorphism into Mathlib's
   `SemidirectProduct` `H ⋊[β] Q` lifting `η` (`ParameterLift`). Its first coordinate is the crossed
   cocycle for the action `β ∘ η`; gauge by `h` is conjugation by `SemidirectProduct.inl h`. This is
-  the section form of the crossed cocycles constructed in LP0.1.
-* LP0.4 constructs finite-wild discretization and continuous extension, LP1.1 the representing
-  scheme, LP2e.9 its excursion comparison, and LP2i.1 the integral comparison at good primes.
+  the section-form adapter to the crossed cocycles supplied by
+  SmoothRepresentationsOfLocalGroups SR.6.1, extended in LP0.1.
+* SmoothRepresentationsOfLocalGroups SR.6.1 and SR.6.3 supply the finite-wild scheme,
+  discretization, continuous extension, excursion algebra and scalar comparisons. LP0.4 and
+  LP1.1 identify their condensed refinements; LP2i.1 gives the enhanced comparison and its
+  agreement with the supplied scalar map.
+* IntegralHeckeAndGaloisDeterminants supplies determinant laws, connected pseudocharacters,
+  their free-word index and universal rings, and GL reconstruction. LP2c extends these to
+  prescribed finite projections and Weil continuity, with the group-algebra trace adapter.
 * Degrees are homomorphisms to `Multiplicative ℤ`. The arithmetic degree of `ClassFieldTheory`
   sends arithmetic Frobenius to `1`; the geometric degree used here is its inverse.
 * Weil–Deligne parameters are prototyped for `GL_n`, with the scaling `r(w) N r(w)⁻¹ = q^{-deg w} N`
   for the geometric degree, so that geometric Frobenius scales `N` by `q⁻¹`.
 * Coaction invariants are Mathlib's `AlgHom.equalizer` of the coaction and `a ↦ 1 ⊗ a`; no second
   equalizer is introduced.
-* Excursion coefficients are matrix coefficients `g ↦ β (ρ g α)` of an abstract representation; the
-  algebraic group structure and the categorical operators are README targets.
+* Excursion coefficient functions are supplied by SR.6.3. The categorical operators and
+  coefficient-function comparison of LP2e.13–LP2e.15 are README targets.
 -/
 
 namespace TauCetiRoadmap.LanglandsParameterStacks
@@ -39,7 +45,8 @@ section ParameterLifts
 variable {Γ H Q : Type*} [Group Γ] [Group H] [Group Q]
 
 /-- Parameters of `Γ` with values in `H ⋊[β] Q` and prescribed projection `η` (LP0.1): homomorphisms
-lifting `η`. The first coordinate is the crossed cocycle of LP0.1 for the action `β ∘ η`
+lifting `η`. This Mathlib subtype is the section-form adapter to SR.6.1's supplied crossed
+cocycles for `β ∘ η`, with the equivalence specified in LP0.1
 (Fargues–Scholze, Definition VIII.1.1, p.278). -/
 def ParameterLift (β : Q →* MulAut H) (η : Γ →* Q) : Type _ :=
   {φ : Γ →* H ⋊[β] Q // SemidirectProduct.rightHom.comp φ = η}
@@ -48,11 +55,11 @@ namespace ParameterLift
 
 variable {β : Q →* MulAut H} {η : Γ →* Q}
 
-/-- The crossed cocycle underlying a parameter: its first coordinate. -/
+/-- The first coordinate of the section-form adapter to the supplied crossed cocycle. -/
 def cocycleValue (φ : ParameterLift β η) (γ : Γ) : H := (φ.1 γ).left
 
-/-- Every crossed cocycle for `β ∘ η` determines a unique lift with that first coordinate
-(LP0.1, section equivalence; Fargues–Scholze, Definition VIII.1.1 and Remark VIII.1.2). -/
+/-- The section-form adapter uniquely recovers the lift from a supplied crossed cocycle
+for `β ∘ η` (LP0.1, section equivalence; Fargues–Scholze, Definition VIII.1.1 and Remark VIII.1.2). -/
 theorem existsUnique_of_cocycle (c : Γ → H)
     (hc : ∀ γ δ, c (γ * δ) = c γ * β (η γ) (c δ)) :
     ∃! φ : ParameterLift β η, ∀ γ, φ.cocycleValue γ = c γ := sorry
@@ -66,7 +73,7 @@ theorem right_apply (φ : ParameterLift β η) (γ : Γ) : (φ.1 γ).right = η 
   have h := DFunLike.congr_fun φ.2 γ
   simpa [SemidirectProduct.rightHom] using h
 
-/-- Gauge by `h ∈ H`: conjugation of the parameter by `inl h` (LP0.1). -/
+/-- The supplied gauge action in section form: conjugation by `inl h` (LP0.1). -/
 def gauge (h : H) (φ : ParameterLift β η) : ParameterLift β η :=
   ⟨(MulAut.conj (SemidirectProduct.inl h : H ⋊[β] Q)).toMonoidHom.comp φ.1, by
     ext γ
@@ -316,80 +323,14 @@ def coarseQuotient (δ : A →ₐ[R] C ⊗[R] A) : AlgebraicGeometry.Scheme :=
 
 end Coaction
 
-section FreeIndex
-
-variable (Γ : Type*) [Group Γ]
-
-/-- Objects of the finite free-group index category of LP2e.7: a finite free group with a map
-to `Γ` (Fargues–Scholze, §VIII.3.2, p.287). -/
-structure FreeCocycleIndex where
-  /-- The number of free generators. -/
-  rank : ℕ
-  /-- The map from the free group. -/
-  map : FreeGroup (Fin rank) →* Γ
-
-variable {Γ}
-
-/-- Morphisms of the index category: word maps over `Γ`. -/
-def FreeCocycleIndex.Hom (a b : FreeCocycleIndex Γ) : Type _ :=
-  {v : FreeGroup (Fin a.rank) →* FreeGroup (Fin b.rank) // b.map.comp v = a.map}
-
-/-- The index object of a finite tuple in `Γ`. -/
-def FreeCocycleIndex.ofTuple {n : ℕ} (γ : Fin n → Γ) : FreeCocycleIndex Γ :=
-  ⟨n, FreeGroup.lift γ⟩
-
-/-- The index object of a tuple evaluates to the tuple on the free generators. -/
-theorem FreeCocycleIndex.ofTuple_map_of {n : ℕ} (γ : Fin n → Γ) (i : Fin n) :
-    (FreeCocycleIndex.ofTuple γ).map (FreeGroup.of i) = γ i :=
-  FreeGroup.lift_apply_of
-
-/-- There is at most one word map from the zero-generator object. -/
-theorem FreeCocycleIndex.subsingleton_hom_zero (b : FreeCocycleIndex Γ) :
-    Subsingleton (FreeCocycleIndex.Hom (FreeCocycleIndex.ofTuple (Fin.elim0 : Fin 0 → Γ)) b) :=
-  sorry
-
-/-- A word map from the zero-generator object exists (LP2e.7). -/
-theorem FreeCocycleIndex.nonempty_hom_zero (b : FreeCocycleIndex Γ) :
-    Nonempty (FreeCocycleIndex.Hom (FreeCocycleIndex.ofTuple (Fin.elim0 : Fin 0 → Γ)) b) :=
-  sorry
-
-end FreeIndex
-
-section Excursion
-
-variable {R G V W : Type*} [CommRing R] [Group G] [AddCommGroup V] [Module R V]
-  [AddCommGroup W] [Module R W]
-
-/-- The excursion matrix coefficient `g ↦ β(ρ(g) α)` of a representation with creation vector `α`
-and annihilation functional `β` (LP2e.14; Fargues–Scholze, proof of Theorem VIII.4.1, pp.291–292). -/
-def excursionCoefficient (ρ : Representation R G V) (α : V) (β : Module.Dual R V) (g : G) : R :=
-  β (ρ g α)
-
-theorem excursionCoefficient_zero_left (ρ : Representation R G V) (β : Module.Dual R V) (g : G) :
-    excursionCoefficient ρ 0 β g = 0 := by
-  simp [excursionCoefficient]
-
-/-- Tensor products multiply excursion coefficients (LP2e.14). -/
-theorem excursionCoefficient_tprod (ρ : Representation R G V) (σ : Representation R G W)
-    (α : V) (α' : W) (β : Module.Dual R V) (β' : Module.Dual R W) (g : G) :
-    excursionCoefficient (ρ.tprod σ) (α ⊗ₜ α') (TensorProduct.dualDistrib R V W (β ⊗ₜ β')) g =
-      excursionCoefficient ρ α β g * excursionCoefficient σ α' β' g := sorry
-
-/-- Bi-invariance: if `α` is fixed by `a` and `β` by `b`, the coefficient is unchanged by
-`g ↦ b g a`. -/
-theorem excursionCoefficient_mul_mul (ρ : Representation R G V) (α : V) (β : Module.Dual R V)
-    (a b g : G) (ha : ρ a α = α) (hb : β ∘ₗ ρ b = β) :
-    excursionCoefficient ρ α β (b * g * a) = excursionCoefficient ρ α β g := sorry
-
-end Excursion
-
 /-! ## Layer LP2c: pseudocharacters with prescribed projection and local continuity -/
 
 section TraceAdapter
 
 variable {Γ A : Type*} [Group Γ] [CommRing A]
 
-/-- The `A`-linear extension of a function on `Γ` to the group algebra (LP2c.6):
+/-- The group-algebra adapter for the supplied trace pseudocharacters (LP2c.6):
+the `A`-linear extension of a function on `Γ`,
 `∑ a_γ [γ] ↦ ∑ a_γ τ(γ)` (Lafforgue, Remark 11.8, pp.143–144). -/
 def traceExtension (τ : Γ → A) : MonoidAlgebra A Γ →ₗ[A] A :=
   (Finsupp.linearCombination A τ).comp (MonoidAlgebra.coeffLinearEquiv A).toLinearMap
@@ -424,11 +365,16 @@ theory and stable ∞-categories of perfect complexes on quotient stacks. They a
 
 /-! ## Layers LP2i and LP4: the integral comparison and representation bundles
 
-The integral comparison in `Ind Perf(BĤ)`, the universal representation bundles on
+The enhanced comparison in `Ind Perf(BĤ)` and its agreement with SR.6.3's scalar comparison,
+the universal representation bundles on
 `[Z¹(W, Ĥ)/Ĥ]`, perfect generation and the module comparison are README targets: their carriers are
 stacks and stable categories that do not exist at the pins. -/
 
-/-! The remaining named definitions in the roadmap are README targets:
+/-! The remaining named definitions and adapters in the roadmap are README targets.
+The crossed cocycles and finite-wild schemes extend the supplied SR.6.1 carriers; the
+finite-wild excursion algebra and scalar comparison are supplied by SR.6.3. The free-word
+index, untwisted colimit and connected pseudocharacters are supplied by
+IntegralHeckeAndGaloisDeterminants; their prescribed-projection extensions are LP2e/LP2c targets.
 `CrossedCocycle.restrict`, `CrossedCocycle.sectionEquiv`, `CrossedCocycle.descend`,
 `CrossedCocycle.quotientEquiv`, `H¹(Γ, H)`, continuous crossed cocycles,
 `condensedCoefficients`, `LParameter`, `FiniteWildPiece`, `NormalWildCutoff`,
