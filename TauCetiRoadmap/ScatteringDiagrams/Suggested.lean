@@ -1,3 +1,6 @@
+import Mathlib.Algebra.Category.ModuleCat.Semi
+import Mathlib.CategoryTheory.Comma.Final
+import Mathlib.CategoryTheory.Filtered.Final
 import Mathlib.Algebra.Algebra.Pi
 import Mathlib.Algebra.BigOperators.Finprod
 import Mathlib.Algebra.Group.Subgroup.Lattice
@@ -418,91 +421,254 @@ theorem expDerivation_exists [IsDerivationAction g A] (F : AlgFiltration A)
 
 end Action
 
-/-! ### Coefficient diagrams and represented labels (README §0.7)
+/-! ### Coefficient diagrams and represented labels (README §0.7) -/
 
-A coefficient diagram is a functor on the Grothendieck construction of a functor `C : D ⥤ Cat`
-whose transition functors are bijective on objects. The scattering instance is the truncation
-tower `D = ℕᵒᵖ`. Arrows may be quotient and localization maps; labels form groupoids.
--/
+section CoefficientInfrastructure
 
-section CoefficientDiagrams
+open CategoryTheory Functor Limits
 
-open CategoryTheory Limits
+namespace GrothendieckLimits
 
-variable {D : Type*} [Category D] (C : D ⥤ Cat) (𝒱 : Type*) [Category 𝒱]
+variable {D : Type*} [Category D] {C : D ⥤ Cat} {𝒱 : Type*} [Category 𝒱]
+  (F : Grothendieck C ⥤ 𝒱)
+  [∀ d, HasLimit (Grothendieck.ι C d ⋙ F)]
+  [∀ ⦃d e : D⦄ (f : d ⟶ e),
+    HasLimit ((C.map f).toFunctor ⋙ Grothendieck.ι C e ⋙ F)]
+  [∀ ⦃d e : D⦄ (f : d ⟶ e),
+    IsIso (limit.pre (Grothendieck.ι C e ⋙ F) (C.map f).toFunctor)]
 
-/-- The transition functors of `C` are bijective on objects (`README §0.7`). -/
-def IsBijectiveOnObjects : Prop :=
-  ∀ ⦃d d' : D⦄ (f : d ⟶ d'), Function.Bijective (C.map f).toFunctor.obj
+/-- Fiberwise limits when restriction along each transition preserves the relevant limit. -/
+noncomputable def fiberwiseLimit : D ⥤ 𝒱 where
+  obj d := limit (Grothendieck.ι C d ⋙ F)
+  map {d e} f :=
+    limMap (whiskerRight (Grothendieck.ιNatTrans f) F ≫ (Functor.associator _ _ _).hom) ≫
+      inv (limit.pre (Grothendieck.ι C e ⋙ F) (C.map f).toFunctor)
+  map_id := by sorry
+  map_comp := by sorry
 
-/-- The transition functors of `C` are full (`README §0.7`, *fiberwiseLimit*). -/
-def IsFullTransitions : Prop :=
-  ∀ ⦃d d' : D⦄ (f : d ⟶ d'), (C.map f).toFunctor.Full
-
-/-- A coefficient diagram on `C` (`README §0.7`). -/
-abbrev CoefficientDiagram := Grothendieck C ⥤ 𝒱
-
-variable {C 𝒱}
-
-/-- The diagram at `d`, the restriction to the fiber over `d`. -/
-abbrev CoefficientDiagram.fiber (F : CoefficientDiagram C 𝒱) (d : D) : C.obj d ⥤ 𝒱 :=
-  Grothendieck.ι C d ⋙ F
-
-/-- Completed matching families (`README §0.7`). -/
-noncomputable abbrev CoefficientDiagram.completedMatching (F : CoefficientDiagram C 𝒱)
-    [HasLimit F] : 𝒱 :=
-  limit F
-
-/-- The functor `d ↦ lim_{C_d} F_d`, defined when the transition functors are bijective on
-objects and full (`README §0.7`, *fiberwiseLimit*). -/
-noncomputable def CoefficientDiagram.fiberwiseLimit (F : CoefficientDiagram C 𝒱)
-    [∀ d, HasLimit (F.fiber d)] (hobj : IsBijectiveOnObjects C) (hfull : IsFullTransitions C) :
-    D ⥤ 𝒱 :=
+noncomputable def fiberwiseLimitIso [HasLimit F] [HasLimit (fiberwiseLimit F)] :
+    limit F ≅ limit (fiberwiseLimit F) := by
   sorry
 
-/-- *fiberwiseLimit*: completed matching families are the limit of the fiberwise matching
-families. Mathlib's `colimitFiberwiseColimitIso` is the corresponding statement for colimits
-(`README §0.7`). -/
-noncomputable def CoefficientDiagram.fiberwiseLimitIso (F : CoefficientDiagram C 𝒱)
-    [∀ d, HasLimit (F.fiber d)] (hobj : IsBijectiveOnObjects C) (hfull : IsFullTransitions C)
-    [HasLimit F] [HasLimit (F.fiberwiseLimit hobj hfull)] :
-    limit F ≅ limit (F.fiberwiseLimit hobj hfull) :=
+/-- Initial base reindexing preserves this total limit under the relative restriction condition. -/
+theorem pre_limit_isIso {D' : Type*} [Category D'] (G : D' ⥤ D) [G.Initial]
+    [HasLimit F] [HasLimit (fiberwiseLimit F)] [HasLimit (Grothendieck.pre C G ⋙ F)] :
+    IsIso (limit.pre F (Grothendieck.pre C G)) := by
   sorry
 
-/-- *initialReindexing*: `Grothendieck.pre C G` is initial along an initial base functor
-(`README §0.7`). Completed matching families are then compared by
-`Functor.Initial.limitIso`. -/
+/-- Initial transitions give initiality independently of the coefficient diagram. -/
 theorem pre_initial {D' : Type*} [Category D'] (G : D' ⥤ D) [G.Initial]
-    (hobj : IsBijectiveOnObjects C) (hfull : IsFullTransitions C) :
-    (Grothendieck.pre C G).Initial :=
+    [∀ ⦃d e : D⦄ (f : d ⟶ e), (C.map f).toFunctor.Initial] :
+    (Grothendieck.pre C G).Initial := by
   sorry
 
-/-- A coefficient diagram map along a base functor `G` (`README §0.7`). For the truncation
-tower, `G` is the functor `ℕᵒᵖ ⥤ ℕᵒᵖ` of a monotone cutoff modulus (`cutoffBase`). -/
-structure CoefficientDiagramMap {D' : Type*} [Category D'] {C' : D' ⥤ Cat}
-    (F : CoefficientDiagram C 𝒱) (F' : CoefficientDiagram C' 𝒱) (G : D' ⥤ D) where
-  index : Grothendieck (G ⋙ C) ⥤ Grothendieck C'
-  over : index ⋙ Grothendieck.forget C' ≅ Grothendieck.forget (G ⋙ C)
-  app : Grothendieck.pre C G ⋙ F ⟶ index ⋙ F'
+end GrothendieckLimits
 
-/-- The base functor of a monotone cutoff modulus on the truncation tower. -/
-abbrev cutoffBase (modulus : ℕ → ℕ) (h : Monotone modulus) : ℕᵒᵖ ⥤ ℕᵒᵖ :=
-  h.functor.op
+section DiagramComparisons
 
-/-- Labels: groupoid fibers on the objects of `C`, located by an identity-on-objects natural
-transformation (`README §0.7`). -/
-structure LabelRepresentation (C : D ⥤ Cat) where
-  labels : D ⥤ Cat
-  isGroupoid : ∀ d, IsGroupoid (labels.obj d)
-  location : labels ⟶ C
-  location_obj : ∀ d, Function.Bijective (location.app d).toFunctor.obj
+variable {J J' J'' A B 𝒱 : Type*}
+  [Category J] [Category J'] [Category J''] [Category A] [Category B] [Category 𝒱]
 
-/-- The coefficient action of the labels. -/
-abbrev LabelRepresentation.action (L : LabelRepresentation C) (F : CoefficientDiagram C 𝒱) :
-    Grothendieck L.labels ⥤ 𝒱 :=
-  Grothendieck.map L.location ⋙ F
+/-- A comparison through a common index category, with an initial target leg. -/
+structure DiagramComparison (F : J ⥤ 𝒱) (F' : J' ⥤ 𝒱) (A : Type*) [Category A] where
+  source : A ⥤ J
+  target : A ⥤ J'
+  app : source ⋙ F ⟶ target ⋙ F'
+  initial : target.Initial
 
-end CoefficientDiagrams
+attribute [instance] DiagramComparison.initial
+
+variable {F : J ⥤ 𝒱} {F' : J' ⥤ 𝒱} {F'' : J'' ⥤ 𝒱}
+
+noncomputable def DiagramComparison.limitMap (S : DiagramComparison F F' A)
+    [HasLimit F] [HasLimit F'] : limit F ⟶ limit F' :=
+  limit.lift (S.target ⋙ F')
+    ((Cone.postcompose S.app).obj ((limit.cone F).whisker S.source)) ≫
+      (Functor.Initial.limitIso S.target F').hom
+
+@[reassoc (attr := simp)]
+theorem DiagramComparison.limitMap_π (S : DiagramComparison F F' A)
+    [HasLimit F] [HasLimit F'] (a : A) :
+    S.limitMap ≫ limit.π F' (S.target.obj a) =
+      limit.π F (S.source.obj a) ≫ S.app.app a := by
+  simp [DiagramComparison.limitMap, Functor.Initial.limitIso]
+
+theorem DiagramComparison.limitMap_isIso (S : DiagramComparison F F' A)
+    [HasLimit F] [HasLimit F'] [HasLimit (S.source ⋙ F)]
+    [IsIso (limit.pre F S.source)] [IsIso S.app] : IsIso S.limitMap := by
+  have h : S.limitMap = limit.pre F S.source ≫ limMap S.app ≫
+      (Functor.Initial.limitIso S.target F').hom := by
+    simp only [DiagramComparison.limitMap, limit.pre, ← limit.lift_map, Category.assoc]
+  rw [h]
+  infer_instance
+
+def DiagramComparison.fromNatTrans {F F' : J ⥤ 𝒱} (β : F ⟶ F') :
+    DiagramComparison F F' J where
+  source := 𝟭 J
+  target := 𝟭 J
+  app := β
+  initial := inferInstance
+
+@[simp]
+theorem DiagramComparison.fromNatTrans_limitMap {F F' : J ⥤ 𝒱} (β : F ⟶ F')
+    [HasLimit F] [HasLimit F'] : (DiagramComparison.fromNatTrans β).limitMap = limMap β := by
+  apply limit.hom_ext
+  intro j
+  rw [limMap_π]
+  simpa [DiagramComparison.fromNatTrans] using
+    (DiagramComparison.limitMap_π (DiagramComparison.fromNatTrans β) j)
+
+def DiagramComparison.restriction (F : J ⥤ 𝒱) (u : J' ⥤ J) :
+    DiagramComparison F (u ⋙ F) J' where
+  source := u
+  target := 𝟭 J'
+  app := 𝟙 _
+  initial := inferInstance
+
+@[simp]
+theorem DiagramComparison.restriction_limitMap (F : J ⥤ 𝒱) (u : J' ⥤ J)
+    [HasLimit F] [HasLimit (u ⋙ F)] :
+    (DiagramComparison.restriction F u).limitMap = limit.pre F u := by
+  apply limit.hom_ext
+  intro j
+  rw [limit.pre_π]
+  simpa [DiagramComparison.restriction] using
+    (DiagramComparison.limitMap_π (DiagramComparison.restriction F u) j)
+
+def DiagramComparison.id (F : J ⥤ 𝒱) : DiagramComparison F F J :=
+  DiagramComparison.fromNatTrans (𝟙 F)
+
+@[simp]
+theorem DiagramComparison.id_limitMap (F : J ⥤ 𝒱) [HasLimit F] :
+    (DiagramComparison.id F).limitMap = 𝟙 (limit F) := by
+  apply limit.hom_ext
+  intro j
+  simpa [DiagramComparison.id, DiagramComparison.fromNatTrans] using
+    (DiagramComparison.limitMap_π (DiagramComparison.id F) j)
+
+def DiagramComparison.comp (S : DiagramComparison F F' A)
+    (T : DiagramComparison F' F'' B) :
+    DiagramComparison F F'' (Comma S.target T.source) where
+  source := Comma.fst S.target T.source ⋙ S.source
+  target := Comma.snd S.target T.source ⋙ T.target
+  app :=
+    { app := fun x => S.app.app x.left ≫ F'.map x.hom ≫ T.app.app x.right
+      naturality := by
+        intro x y f
+        have hs := S.app.naturality f.left
+        have ht := T.app.naturality f.right
+        dsimp at hs ht ⊢
+        rw [← Category.assoc, hs]
+        simp only [Category.assoc]
+        rw [← Category.assoc (F'.map (S.target.map f.left)), ← F'.map_comp,
+          f.w, F'.map_comp]
+        simp only [Category.assoc]
+        rw [ht] }
+  initial := inferInstance
+
+theorem DiagramComparison.comp_limitMap (S : DiagramComparison F F' A)
+    (T : DiagramComparison F' F'' B) [HasLimit F] [HasLimit F'] [HasLimit F''] :
+    (S.comp T).limitMap = S.limitMap ≫ T.limitMap := by
+  apply (cancel_mono (limit.pre F'' (S.comp T).target)).1
+  apply limit.hom_ext
+  intro x
+  simp only [Category.assoc, limit.pre_π]
+  rw [(S.comp T).limitMap_π]
+  change limit.π F (S.source.obj x.left) ≫
+      (S.app.app x.left ≫ F'.map x.hom ≫ T.app.app x.right) =
+    S.limitMap ≫ T.limitMap ≫ limit.π F'' (T.target.obj x.right)
+  rw [T.limitMap_π, ← limit.w F' x.hom]
+  simp only [← Category.assoc]
+  rw [S.limitMap_π]
+
+end DiagramComparisons
+
+section Labels
+
+variable {D : Type*} [Category D] {C : D ⥤ Cat} {𝒱 : Type*} [Category 𝒱]
+
+theorem monotone_op_initial_iff (modulus : ℕ → ℕ) (h : Monotone modulus) :
+    h.functor.op.Initial ↔ ∀ n, ∃ k, n ≤ modulus k := by
+  rw [← h.final_functor_iff]
+  exact ⟨fun _ => Functor.final_of_initial_op _, fun _ => Functor.initial_op_of_final _⟩
+
+/-- A coherent choice of an object in each fiber. -/
+structure ObjectSection (C : D ⥤ Cat) where
+  functor : D ⥤ Grothendieck C
+  over : functor ⋙ Grothendieck.forget C = 𝟭 D
+
+def ObjectSection.map {C' : D ⥤ Cat} (s : ObjectSection C) (j : C ⟶ C') :
+    ObjectSection C' where
+  functor := s.functor ⋙ Grothendieck.map j
+  over := s.over
+
+noncomputable def ObjectSection.pullback {D' : Type*} [Category D']
+    (s : ObjectSection C) (G : D' ⥤ D) : ObjectSection (G ⋙ C) := by
+  sorry
+
+theorem ObjectSection.pullback_comp_pre {D' : Type*} [Category D']
+    (s : ObjectSection C) (G : D' ⥤ D) :
+    (s.pullback G).functor ⋙ Grothendieck.pre C G = G ⋙ s.functor := by
+  sorry
+
+/-- A natural label family whose image in the base is the identity. -/
+structure VerticalLabel (L : D ⥤ Cat) (s t : ObjectSection L) where
+  hom : s.functor ⟶ t.functor
+  vertical : whiskerRight hom (Grothendieck.forget L) =
+    eqToHom s.over ≫ eqToHom t.over.symm
+
+variable {L : D ⥤ Cat} [∀ d, IsGroupoid (L.obj d)] {s t : ObjectSection L}
+
+theorem VerticalLabel.isIso (g : VerticalLabel L s t) : IsIso g.hom := by
+  have : IsIso (whiskerRight g.hom (Grothendieck.forget L)) := by
+    rw [g.vertical]
+    infer_instance
+  have (d : D) : IsIso ((g.hom.app d).base) := by
+    change IsIso ((whiskerRight g.hom (Grothendieck.forget L)).app d)
+    infer_instance
+  have (d : D) : IsIso (g.hom.app d) := by
+    let e := Grothendieck.isoMk (asIso (g.hom.app d).base) (asIso (g.hom.app d).fiber)
+    change IsIso e.hom
+    infer_instance
+  exact NatIso.isIso_of_isIso_app g.hom
+
+noncomputable def VerticalLabel.coefficientIso (A : Grothendieck L ⥤ 𝒱)
+    (g : VerticalLabel L s t) [HasLimit (s.functor ⋙ A)] [HasLimit (t.functor ⋙ A)] :
+    limit (s.functor ⋙ A) ≅ limit (t.functor ⋙ A) := by
+  letI := g.isIso
+  exact HasLimit.isoOfNatIso (isoWhiskerRight (asIso g.hom) A)
+
+end Labels
+
+section ActionIntertwiners
+
+variable {D D' 𝒱 : Type*} [Category D] [Category D'] [Category 𝒱]
+  {L : D ⥤ Cat} {L' : D' ⥤ Cat}
+  {A : Grothendieck L ⥤ 𝒱} {A' : Grothendieck L' ⥤ 𝒱} {G : D' ⥤ D}
+
+/-- An action intertwiner; its label functor need not be initial. -/
+structure ActionIntertwiner (A : Grothendieck L ⥤ 𝒱)
+    (A' : Grothendieck L' ⥤ 𝒱) (G : D' ⥤ D) where
+  labels : G ⋙ L ⟶ L'
+  app : Grothendieck.pre L G ⋙ A ⟶ Grothendieck.map labels ⋙ A'
+
+noncomputable def ActionIntertwiner.section (T : ActionIntertwiner A A' G)
+    (s : ObjectSection L) : ObjectSection L' :=
+  (s.pullback G).map T.labels
+
+/-- Section coefficient limits use the comparison legs `G` and `𝟭 D'`. -/
+noncomputable def ActionIntertwiner.sectionComparison
+    (T : ActionIntertwiner A A' G) (s : ObjectSection L) :
+    DiagramComparison (s.functor ⋙ A) ((T.section s).functor ⋙ A') D' where
+  source := G
+  target := 𝟭 D'
+  app := eqToHom (congrArg (fun K => K ⋙ A) (s.pullback_comp_pre G).symm) ≫
+    whiskerLeft (s.pullback G).functor T.app
+  initial := inferInstance
+
+end ActionIntertwiners
+
+end CoefficientInfrastructure
 
 /-! ### Graded correspondences (README §0.8) -/
 
@@ -515,18 +681,11 @@ variable {R Γ M : Type*} [Semiring R] [DecidableEq Γ] [AddCommMonoid M] [Modul
 noncomputable def homogeneousComponent (q : Γ) (a : M) : M :=
   ((DirectSum.decompose 𝒜 a) q : M)
 
-/-- The same homogeneous projection as a linear map. -/
-noncomputable def homogeneousProjection (q : Γ) : M →ₗ[R] M where
-  toFun := homogeneousComponent 𝒜 q
-  map_add' a b := by simp [homogeneousComponent, DirectSum.decompose_add]
-  map_smul' c a := by
-    simp only [homogeneousComponent, DirectSum.decompose_smul, DFinsupp.smul_apply]
-    rfl
-
-/-- Apply a linear transfer and retain the whole target degree component. -/
+/-- Apply a linear map and retain its whole target component. -/
 noncomputable def homogeneousImage {N : Type*} [AddCommMonoid N] [Module R N]
     (φ : N →ₗ[R] M) (q : Γ) : N →ₗ[R] M :=
-  (homogeneousProjection 𝒜 q).comp φ
+  (𝒜 q).subtype ∘ₗ DirectSum.component R Γ (fun q => 𝒜 q) q ∘ₗ
+    (DirectSum.decomposeLinearEquiv 𝒜).toLinearMap ∘ₗ φ
 
 end HomogeneousComponents
 
@@ -572,13 +731,27 @@ def GradedCorrespondence.toSubmodule (S : GradedCorrespondence 𝒜u 𝒜v Mb) :
     Submodule R (Mu × Mv) :=
   LinearMap.range (S.left.prod S.right)
 
-/-- A common lift of two linear maps into homogeneous pieces (`README §0.8`). -/
+/-- A common lift of two linear maps, including inhomogeneous sums (`README §0.8`). -/
 structure GradedCorrespondence.CommonLift (S : GradedCorrespondence 𝒜u 𝒜v Mb)
-    {E : Type*} [AddCommMonoid E] [Module R E] {γu : Γu} {γv : Γv}
-    (αu : E →ₗ[R] 𝒜u γu) (αv : E →ₗ[R] 𝒜v γv) where
+    {E : Type*} [AddCommMonoid E] [Module R E]
+    (αu : E →ₗ[R] Mu) (αv : E →ₗ[R] Mv) where
   lift : E →ₗ[R] Mb
   left_lift : ∀ a : E, S.left (lift a) = αu a
   right_lift : ∀ a : E, S.right (lift a) = αv a
+
+instance GradedCorrespondence.CommonLift.instSubsingleton
+    (S : GradedCorrespondence 𝒜u 𝒜v Mb) {E : Type*} [AddCommMonoid E] [Module R E]
+    (αu : E →ₗ[R] Mu) (αv : E →ₗ[R] Mv) : Subsingleton (S.CommonLift αu αv) where
+  allEq l m := by
+    have h : l.lift = m.lift := by
+      ext a
+      apply S.joint_injective
+      exact Prod.ext ((l.left_lift a).trans (m.left_lift a).symm)
+        ((l.right_lift a).trans (m.right_lift a).symm)
+    cases l
+    cases m
+    cases h
+    rfl
 
 variable (𝒜u 𝒜v) in
 /-- The graph correspondence of a linear equivalence (`README §0.8`). -/
@@ -593,30 +766,62 @@ def GradedCorrespondence.graph (θ : Mu ≃ₗ[R] Mv) : GradedCorrespondence �
   liftRight η _ := θ.symm.toLinearMap.comp (𝒜v η).subtype
   right_lift _ _ a := by simp
 
-/-- Truncation of a graded correspondence, with the same degree groups, commuting with the maps
-and lifts (`README §0.8`). An admissible degree stays admissible when its piece survives. -/
-structure GradedCorrespondence.Truncation
-    {Mb' Mu' Mv' : Type*} [AddCommMonoid Mb'] [AddCommMonoid Mu'] [AddCommMonoid Mv']
+/-- A change of graded correspondence, preserving admissibility and every lift. -/
+structure GradedCorrespondence.Map
+    {Γu' Γv' Mb' Mu' Mv' : Type*}
+    [AddCommMonoid Mb'] [AddCommMonoid Mu'] [AddCommMonoid Mv']
     [Module R Mb'] [Module R Mu'] [Module R Mv']
-    {𝒜u' : Γu → Submodule R Mu'} {𝒜v' : Γv → Submodule R Mv'}
-    (S : GradedCorrespondence 𝒜u 𝒜v Mb) (S' : GradedCorrespondence 𝒜u' 𝒜v' Mb') where
+    {𝒜u' : Γu' → Submodule R Mu'} {𝒜v' : Γv' → Submodule R Mv'}
+    (S : GradedCorrespondence 𝒜u 𝒜v Mb) (S' : GradedCorrespondence 𝒜u' 𝒜v' Mb')
+    (T_u : Γu → Γu') (T_v : Γv → Γv') where
   face : Mb →ₗ[R] Mb'
   left : Mu →ₗ[R] Mu'
   right : Mv →ₗ[R] Mv'
   left_square : left.comp S.left = S'.left.comp face
   right_square : right.comp S.right = S'.right.comp face
-  left_graded : ∀ γ, (𝒜u γ).map left ≤ 𝒜u' γ
-  right_graded : ∀ η, (𝒜v η).map right ≤ 𝒜v' η
-  admissibleLeft : ∀ γ ∈ S.admissibleLeft, 𝒜u' γ ≠ ⊥ → γ ∈ S'.admissibleLeft
-  admissibleRight : ∀ η ∈ S.admissibleRight, 𝒜v' η ≠ ⊥ → η ∈ S'.admissibleRight
-  liftLeft_square : ∀ γ (h : γ ∈ S.admissibleLeft) (h' : γ ∈ S'.admissibleLeft) (a : 𝒜u γ),
-    face (S.liftLeft γ h a) =
-      S'.liftLeft γ h' ⟨left a, left_graded γ (Submodule.mem_map_of_mem a.2)⟩
-  liftRight_square : ∀ η (h : η ∈ S.admissibleRight) (h' : η ∈ S'.admissibleRight)
-    (a : 𝒜v η), face (S.liftRight η h a) =
-      S'.liftRight η h' ⟨right a, right_graded η (Submodule.mem_map_of_mem a.2)⟩
+  left_graded : ∀ γ, (𝒜u γ).map left ≤ 𝒜u' (T_u γ)
+  right_graded : ∀ η, (𝒜v η).map right ≤ 𝒜v' (T_v η)
+  admissibleLeft : ∀ γ ∈ S.admissibleLeft, T_u γ ∈ S'.admissibleLeft
+  admissibleRight : ∀ η ∈ S.admissibleRight, T_v η ∈ S'.admissibleRight
+  liftLeft_square : ∀ γ (h : γ ∈ S.admissibleLeft) (a : 𝒜u γ),
+    face (S.liftLeft γ h a) = S'.liftLeft (T_u γ) (admissibleLeft γ h)
+      ⟨left a, left_graded γ (Submodule.mem_map_of_mem a.2)⟩
+  liftRight_square : ∀ η (h : η ∈ S.admissibleRight) (a : 𝒜v η),
+    face (S.liftRight η h a) = S'.liftRight (T_v η) (admissibleRight η h)
+      ⟨right a, right_graded η (Submodule.mem_map_of_mem a.2)⟩
+
+/-- Truncation is the identity regrading; the lift equations also cover zero target pieces. -/
+abbrev GradedCorrespondence.Truncation
+    {Mb' Mu' Mv' : Type*} [AddCommMonoid Mb'] [AddCommMonoid Mu'] [AddCommMonoid Mv']
+    [Module R Mb'] [Module R Mu'] [Module R Mv']
+    {𝒜u' : Γu → Submodule R Mu'} {𝒜v' : Γv → Submodule R Mv'}
+    (S : GradedCorrespondence 𝒜u 𝒜v Mb) (S' : GradedCorrespondence 𝒜u' 𝒜v' Mb') :=
+  S.Map S' id id
 
 end Correspondences
+
+section DiagramCorrespondences
+
+open CategoryTheory
+
+/-- A span of arbitrary coefficient indices. -/
+structure DiagramSpan (J : Type*) [Category J] where
+  center : J
+  left : J
+  right : J
+  toLeft : center ⟶ left
+  toRight : center ⟶ right
+
+variable {R J Γu Γv : Type*} [Semiring R] [Category J]
+
+/-- A graded correspondence whose maps are exactly those of the coefficient diagram. -/
+structure DiagramSpan.GradedCorrespondence (S : DiagramSpan J) (F : J ⥤ SemimoduleCat R)
+    (𝒜u : Γu → Submodule R (F.obj S.left)) (𝒜v : Γv → Submodule R (F.obj S.right))
+    extends TauCetiRoadmap.ScatteringDiagrams.GradedCorrespondence 𝒜u 𝒜v (F.obj S.center) where
+  left_eq : left = (F.map S.toLeft).hom
+  right_eq : right = (F.map S.toRight).hom
+
+end DiagramCorrespondences
 
 /-! ## Layer 1: polyhedral geometry -/
 

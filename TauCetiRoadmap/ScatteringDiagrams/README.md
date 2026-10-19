@@ -102,7 +102,7 @@ suppliers are consumed through the public interfaces of their modules.
   `Fan.IsSubdivision` for salient cones. `PointedCone` allows lineality.
 - Groups, paths and sheaves: `FreeGroup`, `Subgroup.normalClosure`,
   `Finset.noncommProd`, `SemidirectProduct`; `CategoryTheory.Functor`,
-  natural transformations, groupoids and limits; `ModuleCat`, `AlgCat`;
+  natural transformations, groupoids and limits; `SemimoduleCat`, `AlgCat`;
   `Path`, `ContinuousMap.Homotopy`,
   `BaireSpace`, `AffineEquiv`, `ChartedSpace`, `Pregroupoid`, `StructureGroupoid`,
   `TopCat.Sheaf` with `TopCat.PrelocalPredicate.sheafify` and `TopCat.subsheafToTypes`.
@@ -409,146 +409,151 @@ has `b` and `m ∈ I^bA` with `x·m ∉ I^{b+k+2}A`.
 *Needs:* §§0.3–0.5; Lie modules,
 `Module.End.exp_mul_of_derivation`, `TauCeti.expAd_apply_eq_exp_mul_exp_neg`.
 
-### 0.7 Coefficient diagrams and representations of labels
+### 0.7 Limits of diagrams and label actions
 
-Let `D` be a small category and `C:D⥤Cat` a functor whose transition functors `C(f)`
-are bijective on objects, and let `∫C` be its Grothendieck construction
-(`CategoryTheory.Grothendieck`). A *CoefficientDiagram* on `C` is a functor
-`F:∫C⥤𝒱` to a category `𝒱` with limits; instances of `𝒱` are types, modules over a
-semiring and associative algebras over a commutative ring. Its restriction
-`F_d:C_d⥤𝒱` to the fiber over `d` is the diagram at `d`, and its values on the arrows
-over `f:d→d'` give natural transformations `F_d⇒F_{d'}∘C(f)`. No condition is
-imposed on the maps `F_d(α)`; quotient and localization maps are allowed. Composing
-with a functor `𝒱→𝒱'`, such as restriction of scalars, changes the value category.
-The *matching families* of `F_d` are the elements of `lim_{C_d}F_d`; for concrete
-`𝒱` these are the families `(s_x∈F_d(x))_x` with `F_d(α)(s_x)=s_y` for every arrow
-`α:x→y`. The *completed matching families* are the elements of `lim_{∫C}F`.
+A *diagram* is a functor `F:J⥤𝒱` from a small *index category* `J` to a *value
+category* `𝒱`; every limit taken in this section is assumed to exist in `𝒱`. Examples
+of value categories are types, `SemimoduleCat R` for a semiring `R`, and `AlgCat R` for
+a commutative ring `R`. In each of them, `lim F` is the object of *matching families*:
+families `(s_x)_{x∈J}` with `F(a)(s_x)=s_y` for every arrow `a:x→y`.
 
-The scattering instance is the truncation tower: `D=ℕᵒᵖ`, the fiber `C_k` is the
-order-`k` index category, `τ_k=C(k+1→k)` is the truncation functor, which is the
-identity on objects, and `q_k:F_{k+1}⇒F_k∘τ_k` is the truncation of coefficients.
+Diagrams on a Grothendieck construction combine diagrams indexed by the objects of a
+base category. Let `C:D⥤Cat` be a functor on a small category `D`, and `F:∫C⥤𝒱` a
+diagram on its Grothendieck construction. For an object `d` of `D`, write
+`F_d=Grothendieck.ι C d⋙F` for the restriction of `F` to the fiber `C(d)`. For an
+arrow `f:d→e`, write `α_f:F_d⇒C(f)⋙F_e` for the natural transformation with
+components `F(f,id)`. The truncation towers of later sections are the case `D=ℕᵒᵖ`.
 
-A *LabelRepresentation* consists of a functor `L:D⥤Cat` whose fibers `L_d` are
-groupoids on the objects of `C_d`, whose arrows are called *labels*, and a natural
-transformation `j:L⟶C` whose components `j_d:L_d→C_d` are the identity on objects.
-Its coefficient action is `Grothendieck.map j⋙F`; both `j_d` and the action may be
-nonfaithful. A functor from `D` to groups gives the one-object groupoids
-`L_d=SingleObj G_d`.
-
-A *CoefficientDiagramMap* `F→F'`, for `C:D⥤Cat` and `C':D'⥤Cat`, along a base
-functor `G:D'⥤D` is a functor `H:∫(G⋙C)⥤∫C'` over `D'`, together with a natural
-transformation `Grothendieck.pre C G⋙F ⟶ H⋙F'`. Represented maps also have a label
-functor commuting with `j` and `H`. For the truncation tower, a monotone cutoff
-modulus `λ:ℕ→ℕ` is the base functor `G=λ:ℕᵒᵖ→ℕᵒᵖ`, the fiber functors are
-`H_k:C_{λ(k)}→C'_k`, and same-order maps use `λ=id`. A change of index category,
-such as the refinements of §§1.5 and 6.2, is the case `G=id` in which the natural
-transformation is an identity.
+Labels act on such a diagram through a functor `L:D⥤Cat` whose values are groupoids
+and a natural transformation `j:L⇒C`. The arrows of the groupoids `L(d)` are the
+*labels*, and the diagram `A=Grothendieck.map j⋙F` on `∫L` is the *represented
+action*. Let `p:∫L⥤D` be the projection. A *section* is a functor `s:D⥤∫L` with
+`s⋙p=id_D`; write `s(d)=(d,s_d)`, and for `f:d→e` write `s_f:L(f)(s_d)→s_e` for the
+fiber component of `s(f)`. The *completed coefficient object* of `s` is
+`Â_s=lim_D(s⋙A)`. A *completed label* `s⇒t` between two sections is a natural
+transformation whose image under `p` is the identity.
 
 *Targets.*
-- *coefficientDiagramCategory*: coefficient diagrams and represented labels with
-  their maps form categories: identities, composition along composite base functors
-  (for moduli `λ,λ'` in succession, the modulus `λ∘λ'`), and componentwise
-  extensionality. Maps induce maps of completed matching families, functorially.
-- *fiberwiseLimit*: if every `C(f)` is full, `d↦lim_{C_d}F_d` is a functor `D⥤𝒱`,
-  with the map along `f:d→d'` induced by `F_d⇒F_{d'}∘C(f)` and the bijection on
-  objects, and `lim_{∫C}F` is its limit. For the truncation tower this is the
-  inverse limit of the order-`k` matching families; for a constant functor `C` it
-  says that matching families commute with limits over `D`. Mathlib proves the
-  corresponding statement for colimits, without these hypotheses on `C(f)`
-  (`colimitFiberwiseColimitIso`).
-- *initialReindexing*: precomposition with an initial functor (`Functor.Initial`)
-  does not change the completed matching families (`Functor.Initial.limitIso`).
-  Under the hypotheses of *fiberwiseLimit*, `Grothendieck.pre C G` is initial for
-  every initial `G:D'⥤D`. For the truncation tower, `λ:ℕᵒᵖ→ℕᵒᵖ` is initial exactly
-  when `λ` is unbounded; hence enlarging a modulus does not change the induced map of
-  completed matching families, and maps with moduli in both directions whose
-  composites are identities up to enlarging the modulus induce inverse isomorphisms.
-- Completed labels: compatible families of label arrows act on completed matching
-  families, functorially in the represented maps.
-- *groupTower_coefficientDiagram*: §§0.5–0.6's group towers, nonabelian ordered
-  products and coefficient actions give `SingleObj` constructors on the truncation
-  tower with identical carriers and action maps. Their completed matching families
-  and completed labels are §0.5's completed groups and §0.6's completed actions, and
-  §0.5's *changeDegreeEquiv* follows from *initialReindexing*.
+
+- **Comparison of limits.** Let `F:J⥤𝒱` and `F':J'⥤𝒱` be diagrams, `J←K−J''−H→J'` a
+  span of functors with `H` initial, and `β:K⋙F⇒H⋙F'` a natural transformation.
+  Construct the induced map `lim F→lim F'`: restriction `lim F→lim(K⋙F)` along `K`,
+  then `limMap β:lim(K⋙F)→lim(H⋙F')`, then the inverse of restriction
+  `lim F'→lim(H⋙F')` along `H`, which is an isomorphism because `H` is initial.
+  Prove identity and composition laws; two spans compose through the comma category
+  `Comma(H₁,K₂)`, whose second projection is initial (`Comma.initial_snd`). Prove
+  that the induced map is an isomorphism when `β` and restriction along `K` are
+  isomorphisms, the latter holding when `K` is initial, and that it commutes with
+  value functors preserving these limits. The span `J←id−J−id→J` recovers `limMap β`
+  for `β:F⇒F'`, and for `u:J'⥤J` the span `J←u−J'−id→J'`, with `F'=u⋙F` and
+  `β=id`, recovers `limit.pre F u`.
+- **Fiberwise limits.** For `f:d→e`, let `r_f:lim F_e→lim(C(f)⋙F_e)` be restriction
+  along `C(f)`. Assume that every `r_f` is an isomorphism, as it is when every
+  `C(f)` is initial. Construct the functor `D⥤𝒱` sending `d` to `lim F_d` and `f` to
+  `(lim α_f)≫r_f⁻¹`, and prove `lim_{∫C}F≅lim_d lim F_d`, naturally in `F`. For a
+  constant functor `C` this is the commutation of limits. Mathlib proves the
+  corresponding statement for colimits (`colimitFiberwiseColimitIso`).
+- **Reindexing.** Keep the assumption that every `r_f` is an isomorphism. For an
+  initial functor `G:D'⥤D`, prove that restriction along `Grothendieck.pre C G` is an
+  isomorphism of limits, and that `Grothendieck.pre C G` is itself initial when every
+  `C(f)` is initial. A monotone `λ:ℕ→ℕ` defines an initial functor `ℕᵒᵖ⥤ℕᵒᵖ` exactly
+  when `∀k,∃n,k≤λ(n)`. For towers `T,T':ℕᵒᵖ⥤𝒱`, a monotone `λ` and a natural
+  transformation `β:λ⋙T⇒T'` induce a map `lim T→lim T'`. Replacing `λ` by a monotone
+  `μ≥λ` and `β_k` by `T(μ(k)→λ(k))≫β_k` does not change this map. The moduli of
+  successive maps compose as `λ∘λ'`, and maps that become mutually inverse after such
+  replacements induce inverse isomorphisms of limits.
+- **Actions along sections.** Prove that each completed label `s⇒t` induces an
+  isomorphism `Â_s≅Â_t`, compatibly with identities and composition. Prove that the
+  completed labels `s⇒s` form a group isomorphic to `lim_d Aut(s_d)`, where the
+  transition map along `f:d→e` is `g↦s_f L(f)(g)s_f⁻¹`. A group tower `G` is the case
+  `L_k=SingleObj G_k` in which every `s_f` is the identity label; recover §§0.5–0.6
+  from this case, including ordered products and changes of degree.
+- **Intertwiners.** Let `L':D'⥤Cat` and `A'` be data of the same kind over `D'`, and
+  let `G:D'⥤D`, `h:G⋙L⇒L'` and `η:Grothendieck.pre L G⋙A⇒Grothendieck.map h⋙A'`.
+  Pulling a section `s` of `L` back along `G` and pushing it forward along `h` gives a
+  section `t` of `L'`. Restricting `η` to the pulled-back section, the span
+  `D←G−D'−id→D'` gives a comparison map `Â_s→Â'_t`. Prove identity and composition
+  laws, and equivariance for completed labels.
 
 **Checks.**
-- On `SingleObj H`, composition evaluates to multiplication in `H`, with the first
-  applied arrow rightmost. A trivial action of a nontrivial `H` leaves its distinct
-  labels distinct in `L_d`.
-- Let `z` be a nonzero central element of a positively graded `g` with nonzero image
-  in `g≤k`. Then `exp z≠1` in `G≤k`, while its action on `Û` by conjugation is the
-  identity: an action by conjugation does not detect this label.
 
-*Needs:* §§0.3–0.6; `CategoryTheory.Grothendieck`, `Grothendieck.pre`,
-`Grothendieck.map`, `Functor.Initial`, `Functor.Initial.limitIso`, `SingleObj`,
-groupoids, functors, natural transformations and limits; `ModuleCat`, `AlgCat`.
+- Without an initial leg `H`, there need be no comparison map. Let `J=J''` be
+  terminal and `J'` discrete on two objects, with `F=Unit`, `F'=(Unit,Empty)`, `H` the
+  first object and `β=id`. Then `lim F` is a point and `lim F'` is empty, so there is
+  no map `lim F→lim F'`.
+- For an action of a group `H` on a type `X`, viewed as a functor on `SingleObj H`,
+  the limit is the fixed-point set `Xᴴ`. In `ℚ[ε]/(ε²)`, the label `exp ε=1+ε` is not
+  `1`, but conjugation by it is the identity, so an action by conjugation does not
+  detect this label.
+
+*Needs:* §§0.3–0.6; `CategoryTheory.Grothendieck`, `Functor.Initial.limitIso`,
+`Comma.initial_snd`, `limit.pre`, `limMap`, `SingleObj`, `SemimoduleCat`, `AlgCat`.
 
 ### 0.8 Homogeneous coefficient correspondences
 
-Fix a semiring `R`. A *GradedCorrespondence* between `R`-modules
-`M_u=⊕_{γ∈Γ_u}M_{u,γ}` and `M_v=⊕_{η∈Γ_v}M_{v,η}`, graded by abelian groups, with
-projections `pr_{u,γ}` and `pr_{v,η}`, consists of
-- an `R`-module `N_b` with jointly injective linear maps `λ_{u,b}:N_b→M_u` and
-  `λ_{v,b}:N_b→M_v`;
-- sets `I_{u,b}⊆Γ_u` and `I_{v,b}⊆Γ_v` of *admissible degrees*, with linear lifts
-  `L_{u,b,γ}:M_{u,γ}→N_b` satisfying `λ_{u,b}∘L_{u,b,γ}=inclusion` for `γ∈I_{u,b}`,
-  and likewise for `v`.
+Let `R` be a semiring, `F:J⥤SemimoduleCat R` a diagram, and `b→u`, `b→v` two arrows
+of `J` with the same source. For `i=u,v` write `N_b=F(b)`, `M_i=F(i)` and
+`λ_{i,b}=F(b→i):N_b→M_i`. A *GradedCorrespondence* on this span consists of
 
-No grading is required on `N_b`. Algebra instances have graded multiplication.
+- for `i=u,v`, a direct-sum decomposition `M_i=⊕_{γ∈Γ_i}M_{i,γ}` indexed by an
+  abelian group `Γ_i`, with projections `pr_{i,γ}:M_i→M_{i,γ}`;
+- for `i=u,v`, a set `I_{i,b}⊆Γ_i` of *admissible degrees* and, for each
+  `γ∈I_{i,b}`, a linear *lift* `L_{i,b,γ}:M_{i,γ}→N_b` such that `λ_{i,b}∘L_{i,b,γ}`
+  is the inclusion of `M_{i,γ}`,
 
-In a §0.7 diagram with values in `R`-modules, a *span* is a pair of arrows `b→u`,
-`b→v` of its index category. A *graded correspondence structure* on a span is a
-*GradedCorrespondence* whose maps `λ_{u,b}`, `λ_{v,b}` are the values of the diagram
-on the two arrows. A diagram may carry such structures on any set of its spans; its
-other arrows and objects are unrestricted. For sets `U` and `B` with two elements
-`u_b,v_b∈U` assigned to each `b∈B`, the *incidence category* has objects `U⊔B` and,
-besides identities, one arrow `b→u_b` and one arrow `b→v_b` for each `b`; it is the
-index category in which every arrow belongs to a chosen span.
+and it requires `(λ_{u,b},λ_{v,b}):N_b→M_u×M_v` to be injective.
 
 The *transfer* from `u` to `v` consists of the linear maps
-`B_{u,b,v}^{γ,η}=pr_{v,η}∘λ_{v,b}∘L_{u,b,γ}:M_{u,γ}→M_{v,η}` for `γ∈I_{u,b}`, each
-returning the entire `η`-component of the image of a lift.
+`B^{γ,η}_{u,b,v}=pr_{v,η}∘λ_{v,b}∘L_{u,b,γ}:M_{u,γ}→M_{v,η}` for `γ∈I_{u,b}`: it
+lifts a homogeneous element of `M_u` to `N_b`, maps it into `M_v` and takes the
+`η`-component. For an `R`-semimodule `E` and linear maps `α_u:E→M_u` and
+`α_v:E→M_v`, a *common lift* of `(α_u,α_v)` is a linear map `ℓ:E→N_b` with
+`λ_{u,b}∘ℓ=α_u` and `λ_{v,b}∘ℓ=α_v`.
 
-On the truncation tower of §0.7, a span chosen at every order carries compatible
-structures: the truncations `r_{u,k}` and `r_{b,k}` of the diagram are graded under
-specified identifications of the degree groups and satisfy
-`r_{b,k}L_{u,b,k+1,γ}=L_{u,b,k,γ}r_{u,γ,k}`, also for `v`, where `r_{u,γ,k}` is the
-restriction of `r_{u,k}` to degree `γ`. An admissible degree at order `k+1` remains
-admissible at order `k` whenever its homogeneous piece is nonzero at order `k`.
-
-Let `E` be an `R`-module with linear maps `α_u:E→M_{u,γ_u}` and `α_v:E→M_{v,γ_v}`
-into homogeneous pieces. A *common lift* of `(α_u,α_v)` is a linear map `ℓ:E→N_b`
-with `λ_{u,b}∘ℓ=α_u` and `λ_{v,b}∘ℓ=α_v`.
-
-Maps of diagrams with graded correspondence structures are §0.7
-*CoefficientDiagramMap*s that send chosen spans to chosen spans, are graded through
-specified regradings and commute with the lifts. They are linear over common scalars
-and semilinear under scalar change.
+A *morphism* to a second graded correspondence, written with primes, consists of
+linear maps `r_b:N_b→N'_b` and `r_i:M_i→M'_i` with `r_i∘λ_{i,b}=λ'_{i,b}∘r_b`, and
+group homomorphisms `T_i:Γ_i→Γ'_i`, such that `r_i(M_{i,γ})⊆M'_{i,T_iγ}`,
+`T_i(I_{i,b})⊆I'_{i,b}` and `r_b∘L_{i,b,γ}=L'_{i,b,T_iγ}∘r_i|_{M_{i,γ}}` for
+`γ∈I_{i,b}`. A zero target piece counts as admissible, with the zero lift. When two
+diagrams are compared as in §0.7, these conditions are required of `β` along chosen
+spans in `J''` and their images under `K` and `H`. Changes of scalars go through
+restriction of scalars.
 
 *Targets.*
-- Each element of `M_u` has finite homogeneous support and is reconstructed from its
-  projections. Transfers and their composites along fixed finite degree sequences
-  are linear, and natural for maps and truncation. Regrading sums components with the
-  same image degree.
-- *GradedCorrespondence.graph*: for any linear equivalence `θ:M_u≃M_v`, take
-  `N_b=M_u`, `λ_{u,b}=id`, `λ_{v,b}=θ`, every degree admissible and
-  `L_{u,b,γ}=inclusion`; reversal uses `θ⁻¹`. Its transfer components are those of
-  `θ`. This realizes the signed label actions of §§0.6–0.7.
-- *GradedCorrespondence.matching*: `(λ_{u,b},λ_{v,b})` identifies `N_b` with a
-  submodule of `M_u×M_v`. On an incidence category, the matching families are the
-  families `(s_u)_{u∈U}` with `(s_{u_b},s_{v_b})` in this submodule for every
-  `b∈B`.
-- For graded algebra coefficients and algebra maps `λ`, matching families form an
-  algebra. Multiplicativity of the relevant lifts is an additional hypothesis for
-  product formulas.
+
+- **Morphisms and transfers.** Construct identity morphisms and composites. Prove
+  that morphisms commute with transfers: for `γ∈I_{u,b}` and `a∈M_{u,γ}`,
+  `B'^{T_uγ,η'}(r_ua)=∑_{η:T_vη=η'}r_v(B^{γ,η}(a))`, a finite sum over the
+  homogeneous support of `λ_{v,b}L_{u,b,γ}(a)`. With identity degree maps, this gives
+  compatibility of transfers with truncation and with composites along fixed
+  sequences of admissible degrees.
+- **Graphs.** For a linear equivalence `θ:M_u≃M_v`, construct the *graph
+  correspondence*: `N_b=M_u`, `λ_{u,b}=id`, `λ_{v,b}=θ`, every degree admissible,
+  `L_{u,b,γ}` the inclusion and `L_{v,b,η}=θ⁻¹∘inclusion`. Its transfers are the
+  components of `θ` and `θ⁻¹`.
+- **Matching and common lifts.** The injective map `(λ_{u,b},λ_{v,b})` identifies
+  `N_b` with the submodule `S_b=range(λ_{u,b},λ_{v,b})` of `M_u×M_v`. Prove that a
+  common lift of `(α_u,α_v)` exists exactly when `(α_u,α_v)` takes values in `S_b`,
+  that it is then unique, and that a morphism sends it to `r_b∘ℓ`, a common lift of
+  `(r_u∘α_u,r_v∘α_v)`. Now let `U` and `B` be sets with maps `u,v:B→U`, and let `J`
+  be the category generated freely on the objects `U⊔B` by the arrows `b→u(b)` and
+  `b→v(b)`. For a diagram on `J` with a graded correspondence on each of these spans,
+  construct a linear equivalence between its matching families and the families
+  `(s_x)_{x∈U}` with `(s_{u(b)},s_{v(b)})∈S_b` for every `b∈B`.
+- **Products.** For a commutative ring `R` and a diagram of `R`-algebras, prove that
+  this equivalence is an equivalence of algebras. Suppose further that the gradings
+  are multiplicative and that `L_{u,b,γ+δ}(aa')=L_{u,b,γ}(a)L_{u,b,δ}(a')` for
+  `a∈M_{u,γ}` and `a'∈M_{u,δ}` with `γ,δ,γ+δ∈I_{u,b}`. Prove
+  `B^{γ+δ,η}(aa')=∑_{η₁+η₂=η}B^{γ,η₁}(a)B^{δ,η₂}(a')`, a finite sum over the supports
+  of the two outputs.
 
 **Checks.**
-- For `Γ=ℤ`, `M=ℚ` concentrated in degree `0`, and `θ(a)=2a`, the graph correspondence
-  has `B^{0,0}(1)=2` and `B^{0,η}(1)=0` for every `η≠0`.
 
-*Needs:* §0.7; `DirectSum.Decomposition`, direct sums, linear maps, semilinear maps and
-graded modules. Sources: MAN §2.2; GHS Definitions 3.1–3.3 for the slab instance
-(§4.4).
+- For `M_u=M_v=ℚ` concentrated in degree `0∈ℤ` and `θ(a)=2a`, the graph
+  correspondence has `B^{0,0}(1)=2` and `B^{0,η}(1)=0` for `η≠0`.
+
+*Needs:* §0.7; `DirectSum.Decomposition`, `DirectSum.component`, linear maps and
+semilinear maps. Sources: MAN §2.2; GHS Definitions 3.1–3.3.
 
 ## Layer 1: polyhedral geometry and paths
 
@@ -783,24 +788,47 @@ map `dev:B̃₀→V`, and trivializations of the pulled-back lattice systems. De
 transformations act on the lifted data, with `dev(gx)=h_g(dev(x))` for the
 integral-affine holonomy `h_g`.
 
-A *BasedCoefficientDiagram* assigns the coefficient data of §§0.7–0.8 to the fixed
-base cells, base facets and chart overlaps. Its *slab faces* are designated
-cooriented base facets carrying §0.8 graded correspondences; the other base facets
-carry chart identifications. Coefficient monoids, quotient ideals and order functions
-are supplied at each coefficient object and compared by its maps. Each base cell `u`
-has an additive `ρ_u:Γ_u→Λ_u` from the degree group of its coefficient module `M_u`
-to a lattice. An *ordinary wall* in a base cell `u` has a §1.2 support, a nonzero
-integral normal, and a label whose §0.7 action is an automorphism of `M_u`. It is
-*active* at order `k` when its label is nonidentity at that order.
+A *BasedCoefficientDiagram* consists of the §0.7 data of a truncation tower
+`C:ℕᵒᵖ⥤Cat`, a diagram `F:∫C⥤𝒱` and labels `j:L⇒C`, together with the following
+choices compatible with truncation: a coefficient object for each base cell, a span
+for each base facet, and overlap diagrams. The overlap diagrams are generated by
+restriction arrows out of the cell and facet objects and by commuting chart
+comparisons, so every other object is reached from a cell or facet object by a path
+of restrictions. The comparison maps intertwine the actions and preserve the §0.8
+lifts. Quotient and localization arrows may occur outside the facet spans.
 
-At order `k`, choose a locally finite refinement adapted to the base facets and the
-active walls, and a closed cell union `Σ_k` of codimension at least two containing
-`Δ` and the boundaries and joints of the active walls and base facets. The *regular
-locus* is `B∖Σ_k`. Its open `d`-cells are the *chambers* and its regular open
-`(d−1)`-cells the crossing *faces*. The incidence diagram copies the coefficient
-objects of the base cells, using graph correspondences at ordinary walls and
-identity correspondences at cuts that lie on no wall or base facet. Common
-refinements compare its matching families at adjacent cutoffs.
+The *slab faces* are the cooriented base facets whose spans carry §0.8 graded
+correspondences; the other base facets carry chart identifications. Coefficient
+monoids, ideals and orders are supplied at the objects that need them and are
+compared by the maps of the diagram. Each base cell `u` has an additive map
+`ρ_u:Γ_u→Λ_u` from the degree group of its coefficient grading to its tangent
+lattice.
+
+An *ordinary wall* in a base cell `u` consists of a §1.2 support, a nonzero integral
+normal and a *label* `g`: an automorphism, in a fiber of `L`, of an object that `j`
+sends to the coefficient object of `u`. The wall is *active* at order `k` when its
+label is not the identity at that order.
+
+At order `k`, choose compatible locally finite refinements adapted to the base
+facets and the active walls, and a closed union `Σ_k` of cells of codimension at
+least two containing `Δ`, the boundaries of the walls and all joints of walls and
+base facets. The *regular locus* is `B∖Σ_k`; its open `d`-cells are the *chambers*,
+and its regular open `(d−1)`-cells are the crossing *faces*.
+
+The coefficients at order `k` form a diagram on an index category `J_k` built from
+this cell structure. The category `J_k` is generated by an object for each chamber
+and each face, the two arrows `b→u` and `b→v` from each face `b` to its adjacent
+chambers, and copies of the supplied overlap diagrams, whose chamber and face objects
+are identified with those of `J_k` and whose relations are imposed. Under subdivision
+a restriction target is either kept or replaced by copies identified by
+identity-valued isomorphisms, with the copied arrows commuting; atlas refinement
+restricts the same overlap diagrams to the finer cover. The functor `r_k:J_k→C_k`
+sends objects and arrows to the supplied coefficient objects, base-face incidences
+and overlap maps. A face cut out by an ordinary wall with label `g` goes to the object
+of its base cell, its arrow to the positive side to `id` and its arrow to the negative
+side to `j(g)`; a face that lies on no wall or base facet sends both arrows to
+identities. Matching families are taken in the *regular coefficient tower*
+`r_k⋙F_k`.
 
 The *velocity* of a degree `γ` is `−ρ(γ)`. Each oriented face, with normal `ν` and
 source chamber `u`, admits every degree whose velocity is transverse to the face and
@@ -828,7 +856,7 @@ all sufficiently negative `t` under the specified identifications. In one chart,
 The tail's *IncomingTypeDatum* records `e`, the degree, the coefficient and the
 chart, face and deck labels modulo the specified identifications; affine positions
 belong to the tail. A *ConstantIncomingSection* is a matching family of homogeneous
-coefficients of the regular incidence diagram with zero spatial velocity.
+coefficients of the regular coefficient tower with zero spatial velocity.
 
 *Targets.*
 - *integralAffineGroupoid*: the `Pregroupoid` axioms and its `StructureGroupoid`.
@@ -837,11 +865,18 @@ coefficients of the regular incidence diagram with zero spatial velocity.
   lattice map. Global self-equivalences form a group surjecting onto lattice
   automorphisms with translation kernel; they preserve rational-normal polyhedra,
   complexes and admissible paths.
-- Restriction, pullback along integral-affine open embeddings, common atlas and
-  polyhedral refinements, with identity and composition laws for exponent systems
-  and *BasedCoefficientDiagram*s. Compact-path data admit a common finite refinement
-  and cutoff bounded by the maximum of the local moduli; cofinal maps compare
-  the local towers.
+- Restriction, pullback along integral-affine open embeddings, and common atlas and
+  polyhedral refinements act functorially on exponent systems and
+  *BasedCoefficientDiagram*s. A coarsening `p:J'→J` of regular index categories gives
+  the §0.7 comparison span `J←p−J'−id→J'`. Prove that the induced map of matching
+  families is an isomorphism: faces with identity correspondences determine the
+  values on chambers, joint injectivity determines the values on faces, and
+  restrictions determine the remaining values. A wall that is active at a higher
+  cutoff but not at a lower one is an identity graph at the lower cutoff. These
+  isomorphisms give the hypothesis of §0.7's fiberwise limit theorem for the regular
+  coefficient tower. Compact-path
+  data admit a finite common refinement with cutoff bounded by the maximum local
+  modulus; cofinal reindexing compares the local towers.
 - *incomingTailTransport*: the map `IncomingTail→IncomingTypeDatum` respects
   restriction of representatives and chart, face and deck identifications.
   Transport commutes with restriction, refinement, coefficient maps, truncation
@@ -867,9 +902,9 @@ paths; *Consistent* means path products depend only on endpoints. A compatible
 refinement of `𝔇` subdivides its complex, gives walls inside a wall `𝔡` of `𝔇` its label
 and a positively proportional coorientation, and others `1`.
 
-A *GroupoidWallDiagram* assigns to each chamber an object of §0.7's label groupoid,
-and to the two opposite crossings of each wall mutually inverse arrows. The transport of successive
-crossings `ℓ_1,…,ℓ_s` is `ℓ_s∘…∘ℓ_1`.
+A *GroupoidWallDiagram* in a fiber `L_d` of §0.7's label functor assigns to each
+chamber an object of `L_d`, and to the two opposite crossings of each wall mutually
+inverse arrows. The transport of successive crossings `ℓ_1,…,ℓ_s` is `ℓ_s∘…∘ℓ_1`.
 
 *Targets.*
 - Path products are unchanged by positive rescaling of coorientations and by reversing
@@ -889,10 +924,11 @@ crossings `ℓ_1,…,ℓ_s` is `ℓ_s∘…∘ℓ_1`.
   relabelling are functorial, with the same joint-word relations. Killing local
   joint words gives homotopy-invariant transport on the regular base. Endpoint
   independence additionally requires trivial holonomy on each component.
-- *representedPathProduct*: representation sends transport to the composite
-  coefficient map, commutes with cutoff and truncation maps, and recovers
-  *pathProduct* in the one-object case. Faithful representations reflect equality
-  of label products.
+- *representedPathProduct*: the represented action sends label transport to the
+  composite coefficient map, commutes with cutoff and truncation, and recovers
+  *pathProduct* in the one-object case. Completed labels between sections that choose
+  chamber objects act between the corresponding completed coefficient objects (§0.7).
+  Faithful represented actions reflect equality of label products.
 
 **Checks.**
 - Subdivide the axes of `ℝ²` into four closed half-axes and the origin; label the
@@ -1221,7 +1257,7 @@ relative completions of §5.1. A *TropicalPairing* is a *PositiveDegreeMap*
   integrates through §0.6 to an `R`-algebra action on `R[[Q]]`, faithful on
   `R[[P]]` when `ρ(P)` spans `Λ_ℚ`. For ray series `f` of constant term one,
   `exp(log(f)∂_m)(z^p)=z^p f^{m(ρ(p))}` for `p∈Q`, with powers taken in units.
-  These are §0.7 label representations, compatibly with truncation.
+  These actions are §0.7 represented actions, compatible with truncation.
 - *tropicalVertexGroup.map*: for a *TropicalPairing*, the span of the `z^n∂_m`, `m∈U`,
   is a Lie subalgebra, and `z^n∂_m↦z^{Tn}∂_{S(m)}` is a functorial Lie and group
   homomorphism on it, intertwining `z^p↦z^{Tp}` on `R[P]` and on completions along the
@@ -1241,9 +1277,9 @@ relative completions of §5.1. A *TropicalPairing* is a *PositiveDegreeMap*
   `χ:Q→(R',·)`, the map `r z^n∂_m↦φ(r)χ(n)z^{Tn}∂_{S(m)}` is a Lie homomorphism
   on the span with `m∈U`. It intertwines `r z^q↦φ(r)χ(q)z^{Tq}` on coefficient
   algebras and their completions along the cutoff modulus of `T`, with the preceding
-  ray reindexing. For `Q=Γ`, `χ` takes values in units. The action square is
-  *LabelRepresentation* naturality; `T=S=id`, `χ=1` gives coefficient change on a
-  fixed lattice.
+  ray reindexing. For `Q=Γ`, `χ` takes values in units. These maps are §0.7
+  intertwiners, so they induce maps of completed coefficient objects along sections.
+  The case `T=S=id`, `χ=1` is coefficient change on a fixed lattice.
 
 **Checks.**
 - For `R=ℚ`, `Γ=Λ=ℤ³`, `P=ℕ³` and `ρ=id`, `g_{e_1}` contains the independent
@@ -1421,14 +1457,16 @@ exponent `κ_b∈Q` and a tangential function `f_b∈S[Λ_b]`, with `q_b=z^{κ_b
   filtered coefficient algebra with `I=F¹A`, for `f∈1+I` and a
   filtration-preserving normal degree derivation `D_ℓ`, prove
   `Θ_f=exp(log(f)D_ℓ)` at finite order and after completion. This identifies
-  the function-wall and §0.6 BCH label representations.
+  the function-wall action with the §0.6 BCH action.
 - *slabNormalForm*: for arbitrary `q`, `N_b` is free over `S[Λ_b]` with basis
   `{X^a | a≥0} ∪ {Y^a | a≥1}`. The chamber maps are jointly injective; the
   lifts have the stated source images and define transfers compatible with
   truncation.
 - The graph correspondences of §§4.1–4.3's tropical vertex, principal and quantum
-  actions, and the slab correspondences, instantiate §0.8. Their restrictions and coefficient and
-  degree maps give *CoefficientDiagramMap*s.
+  actions, and the slab correspondences, instantiate §0.8. For each pair of compared
+  cutoffs, coefficient and degree maps give natural transformations on the common span
+  `b→u`, `b→v`, and these are §0.8 morphisms. Restrictions and maps of completed
+  objects are §0.7 comparisons of limits and reindexings.
 
 **Checks.**
 - In `S[w,w⁻¹][X,Y]/(XY-t(1+w))`, the incoming lift `X^a w^b` has right chamber
@@ -1477,7 +1515,7 @@ Sources: MAN §2.1 and Definition 2.10.
 ### 5.2 Decorated broken lines
 
 Use §1.5's base and incoming datum `(s,a)`, with the chamber modules `M_u` and the
-face correspondences of its regular incidence diagram over a semiring. Fix an order
+face correspondences of its regular coefficient tower over a semiring. Fix an order
 `k` and an endpoint `Q` in a chamber.
 
 A *BrokenLine* is a proper continuous path `β:(−∞,0]→B₀` ending at `Q`, with
@@ -1651,8 +1689,8 @@ module `H`; at source identifications use `H=E_s` and precompose with `α_e`.
 A *LocalResolutionCertificate* gives both families at every such event. For
 nonterminal events, fix the outgoing degree and require the two map sums to agree
 under the coefficient identifications. At a
-terminal face `b`, the sums are `R_u:H→M_u` and `R_v:H→M_v`; the certificate supplies
-a linear `L:H→N_b` with `λ_{u,b}L=R_u` and `λ_{v,b}L=R_v`, including inputs from
+terminal face `b`, the two sums are maps `R_u:H→M_u` and `R_v:H→M_v`, and the
+certificate supplies a §0.8 common lift `L:H→N_b` of them, including inputs from
 either side and tangential coefficients. Joint injectivity makes `L` unique.
 
 *Targets.*
@@ -1841,7 +1879,8 @@ Sources: CPS Proposition 3.2, Proposition 4.4 and Lemmas 4.7, 4.9 in
 
 Fix §5.2's base, incoming datum and coefficient system, with truncation-compatible
 *FiniteClosedTypeFamily*s (§5.3) and *LocalResolutionCertificate*s (§5.4) at every
-order. Sections are matching families on §1.5's regular incidence diagram.
+order. Sections are matching families of §1.5's regular coefficient tower, whose faces
+carry the chosen §0.8 correspondences.
 
 *Targets.*
 
@@ -1850,8 +1889,9 @@ order. Sections are matching families on §1.5's regular incidence diagram.
   `ϑ_{s,a,≤k}`. It obeys signed transport at ordinary walls and
   `ϑ_u=λ_u(ϑ_b)`, `ϑ_v=λ_v(ϑ_b)` at each face `b`.
   *globalTheta_transport* comprises these equations and §0.7/§5.4 transport along
-  ordinary-wall paths, with partial propagation restricted to its admissible domain.
-- The sections commute with truncation, defining `ϑ_{s,a}=lim_k ϑ_{s,a,≤k}`.
+  ordinary-wall paths; propagation across faces uses the admissible degrees of §0.8.
+- The sections commute with truncation through §1.5's refinement isomorphisms,
+  defining `ϑ_{s,a}=lim_k ϑ_{s,a,≤k}`.
   They are linear in the incoming coefficient and natural under compatible coefficient
   maps, affine coordinate changes, restrictions retaining global incoming histories,
   and finite weighted refinements of path families.
@@ -1885,8 +1925,10 @@ map `T:Λ≃Λ'`, a lattice isomorphism `S:Γ≃Γ'` with `T∘ρ=ρ'∘S` and `
 and a graded Lie isomorphism `φ` taking `h_{n,m}` onto `h'_{Sn,m∘T⁻¹}`,
 with cofinal filtration moduli in both directions. Supports move by `f`, degrees by
 `S`, tangent vectors by `T`, normals by the dual inverse and labels by *completedMap*.
-A *CoefficientIso* is an isomorphism of the §0.7 representation diagrams and §0.8
-face data over these maps, graded through `S`. For algebra actions it satisfies
+A *CoefficientIso* over these maps consists of §0.7 comparisons of diagrams and
+intertwiners in both directions, mutually inverse after compatible enlargement of the
+moduli. On regular coefficient towers they preserve the chosen §0.8 correspondences,
+and the gradings and lifts through `S`. For algebra actions it satisfies
 `ψ(A_q)=A'_{Sq}` and `ψ(x·a)=φ(x)·ψ(a)`. When `Γ=Λ`, `ρ=id` and `δ'∘S=δ`,
 these are the degree-preserving coordinate changes of §§3.1 and 5.1.
 
@@ -1912,12 +1954,14 @@ these are the degree-preserving coordinate changes of §§3.1 and 5.1.
 
 ### 6.2 Descent of coefficient diagrams and transport
 
-At each cutoff, a *DescentDatum* on §1.5's `(B,Δ)` consists of chartwise
-§0.7 label/representation diagrams, §0.8 chamber/facet data and wall presentations,
-with §6.1 coordinate identifications, label-diagram equivalences and intertwining
-representation isomorphisms on each nonempty overlap component. They preserve face
-maps and regular loci and satisfy identity, cocycle and truncation equations on
-their overlaps, using §0.7's cutoff moduli and changes of index category when needed.
+At each cutoff, a *DescentDatum* on §1.5's `(B,Δ)` consists of, on each chart, §0.7
+labels, a coefficient diagram with chosen §0.8 correspondences, and a wall
+presentation. The restriction maps to overlaps may be quotients or localizations. On
+each nonempty overlap component, the restricted data carry §6.1 coordinate
+identifications, label equivalences, and coefficient isomorphisms intertwining the
+actions. These preserve the correspondences and regular loci and satisfy identity,
+cocycle and truncation equations. Geometric refinements are compared by §1.5's
+restriction isomorphisms, and changes of cutoff by §0.7's reindexing.
 Local consistency means identity label transport on every contractible admissible
 chart loop.
 
@@ -1972,7 +2016,7 @@ The exponent lattice is `Γ=ℤ³`, with
 orders `ord₋(a,b,h)=h` and `ord₊(a,b,h)=h−a`.
 
 For a commutative ring `K`, set `S_k=K[t]/(t^{k+1})`, `f=1+w` and `f'=1+w⁻¹`.
-The finite coefficient diagram consists of
+Use the algebras
 
 `R₋,k=S_k[x₁,y₁,w^{±1}]/(x₁y₁−t, y₁^{k+1})`,
 
@@ -1990,18 +2034,18 @@ and the unit `f⁻¹`, respectively `(f')⁻¹`. Since `f=w f'`,
 
 `g_f ∘ h_II = g_f' ∘ h_III : B_1,k → D_k`.
 
-Put `α₋=(g_f∘h_II)∘q₋` and let `α₊` be `q₊` followed by localization. The slab
-coefficient algebra is their limit `A_k=R₋,k ×_{D_k} R₊,k`, with its two projections.
-In this limit define
-`X=(x₁,f x₂)`, `Y=(f y₁,y₂)` and `W=(w,w)`.
-The horizontal weight `a` descends to `A_k`; the projections are jointly injective.
-On weights `a≤0` the left projection is injective, and on weights `a≥0` the right
-projection is injective. The admissible lifts of incoming monomials are
-`t^r x₁^d w^b ↦ t^r X^d W^b` from the left and
-`t^r y₂^d w^b ↦ t^r Y^d W^b` from the right (`d≥1`, `r≥0`, `b∈ℤ`).
-Tangential coefficients have the common lift `t^r w^b↦t^r W^b`.
-These are §0.8's admissible lifts; propagation is the opposite projection followed
-by its chamber homogeneous decomposition.
+Put `α₋=(g_f∘h_II)∘q₋` and let `α₊` be `q₊` followed by localization. The coefficient
+diagram contains the gluing cospan `R₋,k —α₋→ D_k ←α₊— R₊,k` and its limit
+`A_k=R₋,k ×_{D_k} R₊,k`, the slab coefficient algebra, whose two projections form the
+§0.8 span. In `A_k` define `X=(x₁,f x₂)`, `Y=(f y₁,y₂)` and `W=(w,w)`. The horizontal
+weight `a` descends to `A_k`. The projections are jointly injective, the left one is
+injective on weights `a≤0` and the right one on weights `a≥0`, and these weights are
+the admissible degrees on the two sides. The lifts are
+`t^r x₁^d w^b ↦ t^r X^d W^b` from the left and `t^r y₂^d w^b ↦ t^r Y^d W^b` from the
+right (`d,r≥0`, `b∈ℤ`), extended `K`-linearly to whole homogeneous pieces, with zero
+lifts on zero pieces. At weight `a=0`, the maps `α_±:K→M_±`, `α_±(c)=c t^r w^b`, have
+the common lift `ℓ(c)=c t^r W^b`. Propagation is the projection to the opposite side
+followed by its chamber homogeneous decomposition.
 The chamber embeddings
 `ι₋:R₋,k→S_k[x₁^{±1},w^{±1}]`, `y₁↦t x₁⁻¹`, and
 `ι₊:R₊,k→S_k[y₂^{±1},w^{±1}]`, `x₂↦t y₂⁻¹`, are injective localizations.
@@ -2015,10 +2059,10 @@ Composing with the projections of `A_k` gives §4.4's slab maps for `q=t(1+w)`.
 - *focusFocusDatum*: construct the displayed atlas, exponent system, monoid algebras
   and chamber-order quotients, and the §0.7–0.8 coefficient diagram with its stated
   admissible lifts. Prove the overlap and reduction squares, injectivity assertions,
-  and compatibility of lifts with both crossing descriptions. The maps
-  `(ι₋,e⁻¹,ι₊)` form a *CoefficientDiagramMap* to §4.4's slab constructor,
-  preserving lifts and homogeneous components and identifying the incoming
-  broken-line families and decorations in the two presentations.
+  and compatibility of lifts with both crossing descriptions. On the common span
+  `b→u`, `b→v`, the maps `ι₋`, `e⁻¹` and `ι₊` form a natural transformation to
+  §4.4's slab diagram. It preserves lifts and homogeneous components and identifies
+  the incoming broken-line families and decorations of the two presentations.
 - *focusFocusBrokenLines*: for incoming `X^d W^b` from the left, `Y^d W^b` from
   the right (`d≥1`), and invariant `W^b` (`b∈ℤ`), construct a
   *FiniteClosedTypeFamily* and a *LocalResolutionCertificate*. Every
