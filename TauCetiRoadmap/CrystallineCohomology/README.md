@@ -320,7 +320,7 @@ Chern cocycle `dlog(X_j/X_i)` on `U_i∩U_j`. Thus
 on `U₀∩U₁∩U₂`, the product is
 `−dlog t₁∧dlog(t₂/t₁)=−dlog t₁∧dlog t₂`.
 In particular the sign remains part of the integral convention at `p=2`.
-`Suggested.lean` declares `Crystalline.cechTraceSign` and computes these three values.
+`Suggested.lean` declares `Crystalline.cechTraceSign`.
 
 **Names.** Lean names in this README are relative to the namespace
 `TauCetiRoadmap.CrystallineCohomology`
@@ -7570,9 +7570,11 @@ Fontaine–Illusie*](https://math.uchicago.edu/~drinfeld/p-adic_periods/Kato_log
 
 **Checks.**
 
-- `nat`: ℕ is fine.
-- `cusp`: ⟨2,3⟩ is fine and 1 is missing although 2·1 lies in the monoid.
-- `rational_not_fine`: ℚ≥0 is not finitely generated and hence not fine.
+- `nat`: ℕ is fine and saturated (`LogCrystalline.nat_fine_saturated`).
+- `cusp`: ⟨2,3⟩ is fine and 1 is missing although 2·1 lies in the monoid
+  (`LogCrystalline.cusp_fine_not_saturated`).
+- `rational_not_fine`: ℚ≥0 is saturated but not finitely generated and hence not fine
+  (`LogCrystalline.rational_saturated_not_fine`).
 - The cusp monoid ⟨2,3⟩⊂ℕ is fine but not saturated.
 
 **Saturated monoids.** An integral monoid P is saturated when for every g∈P^gp and integer n>0, gⁿ∈P
@@ -9944,7 +9946,6 @@ EnhancedDerivedSheaves Layer E1 (*The enhanced derived category*).
   Scaling e₁ by v_K(q)⁻¹ gives the normalized unit block.
 - `shift_chain_map`: For x↦dx, the coefficients in dι_θ^1(x) and
   `ι_θ^2(d_{C[−1]}x)` are both +1; raw right wedge gives +1 and −1.
-  `Suggested.lean` computes these coefficients over ℚ.
 - `wedge_sign`: On the normalized Tate block, reversing the connecting-map sign gives N′(e₁)=−e₀,
   whereas the fixed convention gives N(e₁)=e₀.
 - N vanishes on the relative log point and is compatible with base change.
