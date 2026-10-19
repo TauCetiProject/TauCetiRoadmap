@@ -175,6 +175,7 @@ For a finite commutative `ℓ`-group `Δ` over a commutative local ring O with `
 - **§1.23, `keel_mori`, `finite_quotient_coarse`, `IsTame`, `tame_local_structure`**: Coarse spaces with finite inertia, affine finite quotient stacks and the étale-local structure of tame stacks. The possibly wild Deligne–Mumford local quotient theorem is §0.1 here.
 - **§§1.1, 1.22 and 2.2**: Quasi-coherent stack modules, fpqc descent and the Čech-to-cohomology spectral sequence. A flat surjective representable scheme cover `P→𝒳` computes cohomology using its fibre powers.
 - **§§2.6 and 2.19–2.21, `trace`**: Coherent restriction and flat base change, relative dualizing sheaves and proper coherent trace. On smooth proper curves `ω=Ω¹`; its field-trace comparison is §7.3 here. Restriction injectivity along a schematically dense open or a boundary meeting every component is §4.4 here.
+- **§2.20 (SF.2), `RelativeDualizingComplex`, `relativeDualizingModule`, `relativeDualizingModule_baseChange`, `cm_serre_duality` and `curve_dualizing_comparison`**: The relative dualizing object for flat Cohen–Macaulay morphisms, its base change, field duality and agreement with StableReduction Layer 2's Gorenstein-curve duality. Sections 13.7–13.9 specialize these constructions to integral modular models and their correspondences.
 - **§3.5, `lineBundleNorm`, `lineBundleNorm_pullback`, `lineBundleNorm_comp`, `lineBundleNorm_baseChange`, `lineBundleNorm_divisor`**: The norm of invertible sheaves under finite locally free maps, its degree, composition and base-change laws and scheme-theoretic divisor multiplicities. Section 13.1 restricts this supplied norm to the relative neutral Picard scheme and proves its polarization transpose identity.
 - **§4.14**: Hilbert and Quot schemes of projective morphisms for the tricanonical atlas of polygon-count stacks. **§4.9, `stein_factorization`**: Stein factorization of a proper Noetherian morphism.
 - **§4.10, `Formal.grothendieck_existence`, `Formal.algebraize_hom`**: Coherent existence and full faithfulness for compatible morphisms on given proper schemes. Effective algebraization of a polarized proper formal family is supplied by AdicSpacesPartIII §F0.8 below.
@@ -2446,6 +2447,8 @@ Establish this as follows. On the fine cover use `kodairaSpencer_normalization` 
 
 The theorem is `weightTwoRegularDifferentials`.
 
+The integral differential lattices and their model, base-change and Hecke comparisons are [§13.7](#integral-dualizing-forms), [§13.8](#integral-modular-serre-duality) and [§13.9](#integral-hecke-duality-compatibility).
+
 **Checks.**
 
 - For `Γ₀(N)` at infinity, `ω_f=f dq/q`; the q coefficient `a₁` is the leading dq coefficient.
@@ -2566,6 +2569,8 @@ All operators `T_n` act with `a₁(T_n f)=a_n(f)`, and their Q-span is `T_Q` by 
 Establish this as follows. If `β(T_n,f)=0` for all n, every q coefficient of f vanishes, so `f=0`. If `β(T,f)=0` for every f, then `a_n(Tf)=a₁(T_nTf)=a₁(TT_nf)=0` by commutativity; hence `Tf=0` for every f, and `T=0` in the image algebra. Both radicals vanish; finite-dimensional linear algebra gives equal dimensions and perfection over C. The rational coefficient and operator definitions, or faithful scalar extension, give perfection over Q.
 
 The theorem is `perfectHeckePairing`. Its Lean statement uses the native complex cusp space and `LinearMap.IsPerfPair`, so both induced maps to dual spaces are bijective; the rational geometric realization retains the preceding scalar-extension comparison.
+
+The integral Serre pairing between differentials and `H¹(O)` is [§13.8](#integral-modular-serre-duality); it is a different pairing from β.
 
 **Checks.**
 
@@ -3678,6 +3683,75 @@ Establish this as follows. If `β(T,f)=0` for all T, each Fourier coefficient of
 
 ([Heegner points and derivatives of L-series](https://people.mpim-bonn.mpg.de/zagier/files/doi/10.1007/BF01388809/fulltext.pdf), Chapter V §1, p.306.)
 
+<a id="s13-7"></a>
+<a id="integral-dualizing-forms"></a>
+
+### 13.7 Integral weight-two forms and dualizing differentials
+
+**Integral dualizing forms (`integral-dualizing-forms`).** For the compactified coarse modular models of §5.2 and the regular models of §11.4, specialize SchemeAndStackFoundations §2.20's relative dualizing module. Write `ω_C/S` for this module and reserve `ω_E` for the elliptic Hodge line of §7.1. The base S is locally Noetherian and the model morphism `C→S` is proper, flat and finitely presented with Cohen–Macaulay fibres of pure dimension one; verify these hypotheses on the model in use. The sheaf `ω_C/S` is invertible when the fibres are Gorenstein. Identify integral weight-two differential lattices with `H⁰(C,ω_C/S)`, and logarithmic lattices with `H⁰(C,ω_C/S(D))` when the cusp boundary D is a relative effective Cartier divisor in the smooth locus. Give their restriction, level transport and q-expansion maps in the Tate charts of Layer 4. The comparison with sections of `ω_E²` uses Kodaira–Spencer on the fine charts and the actual stabilizer invariants; it retains the extension conditions at the coarse elliptic points and the level fibres.
+
+These are lattices for the specified model, for every level in its stated range. On a normal arithmetic model, describe extension of a generic differential by its membership in the dualizing module at each codimension-one point, using reflexivity to extend across codimension two. Under specialization use the dualizing sheaf of the base-changed model, including nonreduced fibres. Use §4.4's detection hypotheses for injectivity of a collection of cusp expansions. A single cusp need not detect a differential on a reducible fibre. The integral coefficient lattice at infinity alone is not identified with the differential lattice for every composite level.
+
+At prime level `P≥5`, put `M=X₀(P)` for the coarse model over ℤ and let `r:C→M` be its minimal regular resolution. Let `B(ℤ)` be the lattice of classical holomorphic weight-two `Γ₀(P)` forms whose expansion at ∞ has integral coefficients, and `B⁰(ℤ)` its cuspidal sublattice; set `B(R)=B(ℤ)⊗R` and `B⁰(R)=B⁰(ℤ)⊗R`. Prove that expansion `η=f(q)dq/q↦f(q)` identifies `H⁰(M_R,ω_M/R)` with `B⁰(R)` and `H⁰(M_R,ω_M/R(0+∞))` with `B(R)`, for R flat over ℤ or over `ℤ/m` for some `m≥1`. This includes the fibre at P. Both identifications commute with every ring map within this category. For R flat over ℤ or over a field, prove the canonical comparison `H⁰(C_R,ω_C/R)≅H⁰(M_R,ω_M/R)`. The resolution is base-changed as a model; it need not remain a regular resolution after ramified base change. Do not extend this comparison's coefficient range by confusing sheaf base change with base change of global sections.
+
+Let `A(R)` and `A⁰(R)` instead be moduli-theoretic sections of `ω_E²`, holomorphic and cuspidal respectively, on the level stack. Prove `A⁰(R)=B⁰(R)` and `A(R)=B(R)` for R flat over `ℤ[1/P]`. For `R=ℤ/m` with `gcd(m,P)=1`, prove `A⁰(R)=B⁰(R)`; the noncuspidal equality also holds if `2∤m` or `P≢1 mod 4`, and `3∤m` or `P≢1 mod 3`. Over a field of characteristic 2 with `P≡1 mod 4`, or characteristic 3 with `P≡1 mod 3`, the differential description of A permits a simple pole at the wild elliptic point as well as the cusps, and `dim(A/B)=1`. There is no unrestricted A/B comparison at P. Integrality of B uses the expansion at ∞; it does not impose integrality of every moduli-theoretic expansion at the other cusp.
+
+**Checks.**
+
+- For `P=5,7,13`, genus zero gives `B⁰(R)=0`, including at P.
+- At `P=5` in characteristic 2 and `P=7` in characteristic 3, `dim(A/B)=1`, while `A⁰=B⁰=0`.
+- The form with expansion `E₂(q)−P E₂(q^P)` lies in `B(ℤ)` and has a denominator P at the other cusp as a moduli-theoretic weight-two form; it is not in `A(ℤ)`.
+- In the fibre of `X₀(55)` at 5, a nonzero regular differential on the genus-one component not meeting ∞, extended by zero on the other component, has zero expansion at ∞. Its node residues vanish. The prime-level single-cusp injection does not extend to this fibre.
+
+*Needs:* [§4.1](#s4-1), [§4.4](#s4-4) and [§4.8](#s4-8) (integral cusp charts and section detection); [§5.2](#s5-2)–[§5.4](#s5-4) (coarse models and base change); [§7.1](#s7-1)–[§7.2](#s7-2) (Hodge normalization and generic comparison); [§11.2](#s11-2)–[§11.4](#s11-4) (fibres and resolutions); SchemeAndStackFoundations §0.6 (reflexive extension), §2.20 (SF.2, relative dualizing module and curve comparison); StableReduction Layer 2 (curve duality). The general dualizing sheaf is imported.
+
+([Mazur, Modular curves and the Eisenstein ideal](https://www.numdam.org/item/PMIHES_1977__47__33_0.pdf), II Definition 3.1, Lemma and Proposition 3.3, Proposition 3.4, pp.67–69; §4, Lemmas 4.4–4.8 and convention 4.9, pp.73–77; §5, pp.78–87. For arbitrary-level regular models and their Tate expansion, [Mazur, Rational isogenies of prime degree](https://www.math.columbia.edu/~goldfeld/Mazur-Goldfeld1978.pdf), §2, especially §2(e), pp.138–141. The two-component composite-level fibre is the `n=1` case of §11.2.)
+
+<a id="s13-8"></a>
+<a id="integral-modular-serre-duality"></a>
+
+### 13.8 Integral Serre duality and residues
+
+**Integral modular Serre duality (`integral-modular-serre-duality`).** For a proper flat finitely presented modular model `f:C→Spec R` with Cohen–Macaulay fibres of pure dimension one over a Noetherian ring R, specialize the supplied proper duality trace. For every finite locally free sheaf F whose `H⁰(C,F)` and `H¹(C,F)` are finite locally free and commute with base change, identify `H⁰(C,F^∨⊗ω_C/R)` with `Hom_R(H¹(C,F),R)`, by cup product followed by `H¹(C,ω_C/R)→R`. Prove naturality and compatibility with base change whenever the hypotheses persist. With `F=O_C` this is the perfect integral pairing `H⁰(C,ω_C/R) × H¹(C,O_C)→R`. No smoothness or invertibility of 6 is required; invertibility of the dualizing sheaf is asserted only for Gorenstein fibres.
+
+For the prime-level coarse model M and its resolution C of §13.7, establish the local freeness and coherent base-change hypotheses and identify the pairings under their canonical comparison for R flat over ℤ or over a field. On M, transport the pairing to `B⁰(R) × H¹(M_R,O)→R` for every R flat over ℤ or over some `ℤ/m`, using Proposition 3.3's base-change isomorphisms. At a nodal geometric fibre, the normalization description consists of differentials with at most simple poles at the node branches and residues a and −a. At a node `uv=ϖ^h`, the relative generator is `du/u=−dv/v`; the thickness h is retained by the model.
+
+For a relative effective Cartier cusp divisor D finite flat over R in the smooth locus, identify `ω_C/R(D)|D≅ω_D/R` by adjunction, and use `0→ω_C/R→ω_C/R(D)→ω_D/R→0` to define residues. The finite dualizing module `H⁰(D,ω_D/R)` is `Hom_R(H⁰(D,O_D),R)`; the connecting map is dual to restriction of global functions to D. If D is finite étale, trace identifies `ω_D/R` with `O_D`. When also `f_*O_C=O_R` universally and D meets every fibre, this gives the exact residue sequence `0→H⁰(ω)→H⁰(ω(D))→H⁰(O_D)→R→0`, with the last arrow the sum of residue-field traces. In particular prime level has `0→B⁰(R)→B(R)→R²→R→0`, the last map `(a,b)↦a+b`. Expansion and residue commute with the base changes in §13.7: at a smooth Tate cusp `η=f(t)dt/t` has residue `a₀(f)`. The actual differential coefficient, including any width factor, determines the residue; a ramified cusp divisor retains `ω_D/R` rather than replacing it by `O_D`.
+
+**Checks.**
+
+- In genus zero both `H⁰(ω)` and `H¹(O)` are zero. At prime levels `5,7,13`, `B(R)` has its one-dimensional residue lattice `(a,−a)`.
+- On an irreducible nodal rational genus-one curve, `dt/t` on the normalization has opposite residues at 0 and ∞ and spans `H⁰(ω)`; independently chosen branch residues do not descend.
+- In characteristic 2, the two node residues can be equal and nonzero: their sum is still zero. The duality pairing remains perfect.
+- The characteristic-2/3 pole allowed in A at the wild elliptic point is excluded from `H⁰(ω(D))=B`; replacing B by A would give the wrong residue sequence.
+
+*Needs:* [§13.7](#integral-dualizing-forms); SchemeAndStackFoundations §2.6 (coherent cohomology and base change), §2.20 (SF.2, proper duality and curve comparison); StableReduction Layer 2 (nodal duality and normalization); JacobianChallenge Layers B–C (curve cohomology and base change).
+
+([Mazur, Modular curves and the Eisenstein ideal](https://www.numdam.org/item/PMIHES_1977__47__33_0.pdf), II Definition 3.1, duality (3.2), Lemma and Proposition 3.3, Proposition 3.4, pp.67–69; Lemma 4.6 and convention 4.9, pp.76–77; §5, residue formulas (5.14)–(5.16), pp.86–87; [Stacks 0E6N](https://stacks.math.columbia.edu/tag/0E6N), relative curve duality, and [0E2Y](https://stacks.math.columbia.edu/tag/0E2Y), derived base change.)
+
+<a id="s13-9"></a>
+<a id="integral-hecke-duality-compatibility"></a>
+
+### 13.9 Integral Hecke adjoints under Serre duality
+
+**Integral Hecke duality compatibility (`integral-hecke-duality-compatibility`).** On the integral modular models satisfying §13.8, construct the pullback and proper duality trace maps associated with the geometric Hecke correspondences, and compare their generic fibres with §§7.3–7.4 and their Picard actions with §13.2. Carry the model, coefficient ring and coherent local-freeness hypotheses with each map. For a correspondence `C←α Z→β C′` whose differential pullbacks extend to the integral dualizing lattices, prove `⟨Tr_α β*η,x⟩_C = ⟨η,Tr_β α*x⟩_C′` for `η∈H⁰(C′,ω)` and `x∈H¹(C,O)`. The two traces on differentials and on `H¹(O)` are transposes of the corresponding pullbacks under §13.8. Prove composition, level transport and compatibility with the base changes of the lattices. At a finite locally free leg the trace on O agrees with algebra trace. Coarse legs need not be flat; use proper duality and the integral modular extension, not a trace obtained by dividing by their degree.
+
+For normal arithmetic modular models, give the extension criterion: the generic differential pullback must carry the dualizing module into the dualizing module at every codimension-one point of the source. Under this hypothesis reflexivity extends it across codimension two. Verify this criterion for the prime-level operators below; for their resolutions use the comparison of §13.7. This extension is a modular assertion, not a property of every finite map of singular curves. A normalization map of a nodal curve, for example, does not pull all dualizing differentials back to regular differentials on its normalization. On the fine locus compare with the isogeny Hodge map, retaining the normalization of §9.10 and the division theorem where it applies.
+
+At prime level `P≥5`, prove that every good `T_l` (`l≠P`), the integral Fricke involution w and the bad operator `U_P` preserve `B⁰(R)` for all R in §13.7's coefficient category, including R of characteristic P. Under integral Serre duality their adjoints on `H¹(O)` are the reversed correspondences. The good `T_l` correspondence is symmetric on `Γ₀(P)`; w is its own transpose; on the cuspidal lattice `U_P=−w`. For `n≥1` the q-expansion identities are `a_n(T_l f)=a_(ln)(f)+l a_(n/l)(f)` and `a_n(U_P f)=a_(Pn)(f)`, with `a_(n/l)=0` unless `l∣n`. Retain inverse diamonds on nontrivial diamond components and reversed legs for general levels, rather than declaring all Hecke operators self-adjoint. Preserve the cusp residues of logarithmic differentials by the corresponding pullback and residue-field trace formulas wherever those maps extend; an automorphism transports each cusp residue to its image cusp. The integral differential operators require no division by a coefficient prime.
+
+**Checks.**
+
+- A genus-zero cuspidal lattice and its `H¹(O)` dual have zero Hecke actions; this supplies no nonzero rank-one generator.
+- At prime level, w exchanges 0 and ∞, so it exchanges their residues `(a,−a)` to `(−a,a)` without a degree factor.
+- On the fibre at P the relation `U_P=−w` is integral, including reduction modulo P. No diamond `⟨P⟩` is used.
+- The specialized maps land in the node residue-sum kernel; trace retains the scheme-theoretic multiplicities on inseparable branches. Counting geometric points loses the degree.
+- At `P=5` in characteristic 2 or `P=7` in characteristic 3, the construction acts on B and its dual, retaining the elliptic-point correction to A from §13.7.
+
+*Needs:* [§13.7](#integral-dualizing-forms)–[§13.8](#integral-modular-serre-duality); [§7.3](#s7-3)–[§7.4](#s7-4); [§9.1](#s9-1), [§9.4](#s9-4) and [§9.9](#s9-9)–[§9.10](#s9-10) (geometric correspondences, Fricke and coherent trace); [§10.2](#s10-2) (integral normalization); [§11.4](#s11-4); [§13.1](#s13-1)–[§13.2](#s13-2); SchemeAndStackFoundations §§2.19–2.21 (proper coherent trace and duality); StableReduction Layer 2.
+
+([Mazur, Modular curves and the Eisenstein ideal](https://www.numdam.org/item/PMIHES_1977__47__33_0.pdf), II §6, pp.87–90, especially the construction of dual maps on p.88 and adjointness on p.89; §9, pp.93–96, for the differential and `H¹(O)` realizations; §4, pp.69–77, for the coefficient lattices. The general leg conventions and integral Hecke extension are §§9.1, 9.10 and 13.2.)
+
 
 ### Examples
 
@@ -3685,7 +3759,7 @@ Establish this as follows. If `β(T,f)=0` for all T, each Fourier coefficient of
 
 ### Dependencies
 
-Use Layer 5, Layer 7, Layer 8, Layer 9, Layer 10. External contracts: AbelianSchemesAndArithmeticModuli, AlgebraicModuliForArithmeticGeometry, ComplexComparisonPartII, EnhancedDerivedSheaves, NeronModelsAndSemistableAbelianVarieties. The subsection prerequisites identify the precise objects and maps consumed.
+Use Layer 5, Layer 7, Layer 8, Layer 9, Layer 10, Layer 11. External contracts: AbelianSchemesAndArithmeticModuli, AlgebraicModuliForArithmeticGeometry, ComplexComparisonPartII, EnhancedDerivedSheaves, NeronModelsAndSemistableAbelianVarieties, SchemeAndStackFoundations and StableReduction. The subsection prerequisites identify the precise objects and maps consumed.
 
 ## Layer 14: Cohomological realizations and parabolic lattices
 

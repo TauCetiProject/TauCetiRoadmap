@@ -520,6 +520,12 @@ the genus-one family over ℍ is AbelianSchemesAndArithmeticModuli's `SiegelFami
 * The relative Jacobian point/divisor-class equivalence modularJacobian_divisorClass,
   with its semilinear Galois and two-leg Hecke compatibility (README §13.1)
 * Upper and lower Jacobian Hecke operators
+* Integral dualizing forms (README §13.7, integral-dualizing-forms), with distinct
+  coarse, resolved and stack lattices and the prime-level coefficient ranges
+* Integral modular Serre duality (README §13.8, integral-modular-serre-duality),
+  including coherent base change and opposite node residues
+* Integral Hecke adjoints (README §13.9, integral-hecke-duality-compatibility),
+  using the relative dualizing models and their integral correspondences
 * The geometric integral Hecke algebra
 * The anemic image heckeAlgebraAnemic of AutomorphicFormsOnReductiveGroups' common
   presentation, jacobianHeckeTorsion and jacobianHeckeTorsion_nonzero, and the universal
