@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.NumberTheory.ModularForms.GeodesicIntegral.BetweenCusps
 import TauCeti.NumberTheory.ModularForms.ModularSymbols.Basic
 
 /-!
@@ -32,27 +33,6 @@ open Matrix MvPolynomial TauCeti.ModularSymbols
 open scoped MatrixGroups OnePoint
 
 noncomputable section
-
-/-! ## Critical values -/
-
-section Mellin
-
-open Complex
-open scoped Real UpperHalfPlane
-
-/-- **The untwisted Mellin formula** (README §1.2, The twisted Mellin formula for modular symbols,
-conductor one) in Mathlib's normalisation of `ModularForm.L`:
-`2πi ∫_{i∞}^0 f(z) z^j dz = j! / (-2πi)^j · L(f, j + 1)` for a cusp form of weight `k + 2` and
-`0 ≤ j ≤ k`, written through the Mellin transform of `t ↦ f(it)` (the path from `i∞` to `0` gives
-the factor `-i^{j+1}`). When the width at `∞` is one, `ModularForm.L` is `Σ aₙ n^{-s}`. -/
-theorem mellin_period_eq_L {Γ : Subgroup (GL (Fin 2) ℝ)} [Γ.IsArithmetic] {k j : ℕ} (hj : j ≤ k)
-    {F : Type*} [FunLike F ℍ ℂ] [CuspFormClass F Γ (k + 2)] (f : F) :
-    2 * π * I * (-(I ^ (j + 1)) *
-        mellin (fun t : ℝ ↦ f (UpperHalfPlane.ofComplex (I * t))) ((j : ℂ) + 1)) =
-      (j.factorial : ℂ) / (-2 * π * I) ^ j *
-        ModularForm.L (k := (k : ℤ) + 2) (by omega) f ((j : ℂ) + 1) := sorry
-
-end Mellin
 
 /-! ## Layer 0: Hom-side modular symbols, Hecke operators and the Eichler–Shimura isomorphism -/
 
@@ -100,13 +80,18 @@ theorem mem_symbols_iff (Γ : Subgroup SL(2, ℤ)) (ρ : Representation R Γ V)
       φ (degreeZeroRep ℤ (γ : SL(2, ℤ)) D) = ρ γ (φ D) :=
   Iff.rfl
 
-/-- A modular symbol is determined by its values on the unimodular divisors `{g 0} - {g ∞}`
-(Manin's theorem, `TauCeti.ModularSymbols.degreeZero_eq_span_unimodular`). -/
-theorem symbols_ext (Γ : Subgroup SL(2, ℤ)) (ρ : Representation R Γ V)
-    {φ ψ : (degreeZero ℤ) →ₗ[ℤ] V} (hφ : φ ∈ symbols Γ ρ) (hψ : ψ ∈ symbols Γ ρ)
+/-- Two additive maps on `Δ₀` agreeing on the unimodular divisors `{g 0} - {g ∞}` are equal
+(README §0.2): `LinearMap.ext_on_range` for `span_degreeZeroRep_eq_top`, with reversed divisors. -/
+theorem ext_unimodular {φ ψ : (degreeZero ℤ) →ₗ[ℤ] V}
     (h : ∀ g : SL(2, ℤ), φ (divisor (Matrix.SpecialLinearGroup.mapGL ℚ g • (∞ : OnePoint ℚ)) (Matrix.SpecialLinearGroup.mapGL ℚ g • ((0 : ℚ) : OnePoint ℚ))) =
       ψ (divisor (Matrix.SpecialLinearGroup.mapGL ℚ g • (∞ : OnePoint ℚ)) (Matrix.SpecialLinearGroup.mapGL ℚ g • ((0 : ℚ) : OnePoint ℚ)))) :
-    φ = ψ := sorry
+    φ = ψ := by
+  apply LinearMap.ext_on_range span_degreeZeroRep_eq_top
+  intro g
+  have hg := congrArg (fun v : V ↦ -v) (h g)
+  rw [← map_neg, ← map_neg] at hg
+  simp only [← divisor_swap] at hg
+  simpa only [divisor, degreeZeroRep_apply, degreeZeroGLRep_single_sub_single] using hg
 
 /-- Level one, trivial coefficients: `Symb_{SL₂(ℤ)}(ℤ) = 0` (the Manin relations give `2v = 0` and
 `3v = 0`). A definition on all of `ℤ[P¹(ℚ)]` would contain the constant functions instead. -/
@@ -217,7 +202,9 @@ def slashSymbol (act : Matrix (Fin 2) (Fin 2) ℤ → V →ₗ[R] V) (δ : Matri
   (act δ).toAddMonoidHom.toIntLinearMap ∘ₗ φ ∘ₗ (degreeZeroGLRep ℤ) (intMatrixToGL δ)
 
 /-- **The Hecke operator** `T_ℓ = ∣ diag(ℓ, 1) + Σ_{a < ℓ} ∣ !![1, a; 0, ℓ]` (Pollack–Stevens §2.1),
-for a prime `ℓ ∤ N`. Belongs to Layer 0, §0.3. -/
+for a prime `ℓ ∤ N`. This is the Hom-side Hecke sum with coefficient twist `act δ` and fixed
+upper-triangular representatives; on dual coefficients, evaluation identifies it with the transpose
+of the pinned `HeckeCoset.heckeSum` on the tensor module (README §0.6). Belongs to Layer 0, §0.3. -/
 def heckeT (act : Matrix (Fin 2) (Fin 2) ℤ → V →ₗ[R] V) (ℓ : ℕ) (φ : (degreeZero ℤ) →ₗ[ℤ] V) :
     (degreeZero ℤ) →ₗ[ℤ] V :=
   slashSymbol act !![(ℓ : ℤ), 0; 0, 1] φ +
@@ -419,6 +406,25 @@ theorem periodScalar_smul {ψ φ : W} (hφ : φ ≠ 0) (hψ : ∃ c : ℂ, ψ = 
     periodScalar ψ (c • φ) = c⁻¹ * periodScalar ψ φ := sorry
 
 end Periods
+
+section CriticalValues
+
+open Complex
+open scoped Real UpperHalfPlane
+
+/-- The cusp integral of `f(z) z^j` from `∞` to `0` gives the untwisted critical value
+`j! / (-2πi)^j · L(f, j + 1)` after multiplication by `2πi` (README §1.2).
+The integral is `TauCeti.cuspIntegral`; the L-function has Mathlib's normalisation, which agrees
+with `Σ aₙ n^{-s}` when the width at `∞` is one. -/
+theorem cuspIntegral_monomial_eq_L {Γ : Subgroup (GL (Fin 2) ℝ)} [Γ.IsArithmetic]
+    {k j : ℕ} (hj : j ≤ k) {F : Type*} [FunLike F ℍ ℂ]
+    [CuspFormClass F Γ (k + 2)] (f : F) :
+    2 * π * I * TauCeti.cuspIntegral (fun z : ℍ ↦ f z * (z : ℂ) ^ j)
+        (∞ : OnePoint ℚ) ((0 : ℚ) : OnePoint ℚ) =
+      (j.factorial : ℂ) / (-2 * π * I) ^ j *
+        ModularForm.L (k := (k : ℤ) + 2) (by omega) f ((j : ℂ) + 1) := sorry
+
+end CriticalValues
 
 /-! ## Layer 2: refinements, overconvergent symbols and small-slope p-adic L-functions -/
 

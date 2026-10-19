@@ -226,7 +226,11 @@ At the pinned commit `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`:
 `TauCeti.single_sub_single_mem_augmentationSubrepresentation` (the degree-zero subrepresentation of a
 permutation representation, from which the pinned library builds `degreeZero`);
 `HeckeRing.GL2.commSemiringHeckeRingGamma0` (commutativity of the `Γ₀(N)` Hecke ring, `N ≠ 0`);
-`HeckeRing.GL2.diamondCosetGamma1` (the `Γ₁(N)` double coset of an element of `Γ₀(N)`); `diamondOp`
+`HeckeRing.GL2.diamondCosetGamma1` (the `Γ₁(N)` double coset of an element of `Γ₀(N)`);
+`HeckeRing.GLn.intEntries` and `HeckeRing.GLn.intMatrix` (the integral-entry submonoid of `GLₙ(ℚ)` and
+its underlying integral matrix); `HeckeCoset.heckeSum` with `heckeSum_eq_sum_of_rightCosets` and
+`heckeSum_comp_of_mem` (for a `Γ₁`-invariant map, the sum is independent of right-coset representatives
+and is `Γ₂`-invariant); `diamondOp`
 (lower-right convention), `cuspFormCharSpace` and `isInternal_cuspFormCharSpace` (the nebentypus
 decomposition of `S_k(Γ₁(N))`); `CuspForm.peterssonInnerCosets_definite` (positive definiteness of the
 Petersson product for finite-index `Γ`); `HeckeRing.GL2.Newform` and
@@ -237,6 +241,13 @@ no determinant factor) and `TauCeti.CuspForm.qExpansion_levelRaise`;
 `T_p F = cF` iff `a_{pm} = c·a_m − χ(p)p^{w−1}a_{m/p}`, in weight `w`) and
 `HeckeRing.GL2.heckeUCuspNat_eq_smul_iff_forall_qExpansion_coeff_prime_mul` (for `p | N`,
 `U_p F = cF` iff `a_{pm} = c·a_m`). The Layer-8 declarations listed under Scope and ownership are supplied at this same pin.
+
+The monoid `Σ₀(N)` is the integral-matrix form of the submonoid of `intEntries 2` with upper-left entry
+a unit modulo `N` and lower-left entry divisible by `N`. On nonsingular integral matrices,
+`intMatrixToGL` is inverse to `intMatrix 2`; its extension at singular matrices is not such an inverse.
+The operators `heckeT` and `heckeU` are Hom-side Hecke sums with coefficient twist `act δ` and fixed
+upper-triangular representatives. On dual coefficients, §0.6 identifies them with the transpose of
+`heckeSum` on the tensor module, with its specified coefficient action.
 
 ### Supplier replacements
 
@@ -444,7 +455,8 @@ multiply. It contains `Γ₀(N)`, every `(1 a; 0 ℓ)` with `ℓ ≥ 1`, and `(�
 The ambient helper `intMatrixToGL` sends a nonzero-determinant integral matrix to its
 rational general linear matrix using `Matrix.GeneralLinearGroup.mkOfDetNeZero`; on a
 singular matrix it is defined to be the identity. Its mathematical use in `slashSymbol`
-is restricted to `Σ₀(N)`, where that extension is immaterial. API: its matrix coercion is
+is restricted to `Σ₀(N)`, where that extension is immaterial. On nonsingular matrices it is inverse
+to the pinned `HeckeRing.GLn.intMatrix 2` on `HeckeRing.GLn.intEntries 2`. API: its matrix coercion is
 the entrywise rational cast for nonzero determinant, and it respects products on `Σ₀(N)`.
 This is the ambient form of the inclusion in the preceding target ([PS] §2.1, p. 7).
 
@@ -500,12 +512,13 @@ presentation, above). When the orders of the torsion elements of `Γ` act invert
 `Symb_Γ(V) ≅ H¹_c(Y_Γ, Ṽ)`; that comparison is the adapter of §0.6. API: `symbols` (`Symb_Γ(V)` as an
 `R`-submodule of the additive maps `Δ₀ → V` when `V` is an `R`-module with `R`-linear `Γ`-action, with its
 additive-subgroup view obtained by forgetting scalars),
-`mem_symbols_iff`, `symbols_ext` (two symbols agreeing on unimodular divisors are equal),
+`mem_symbols_iff`, `ext_unimodular` (two additive maps on `Δ₀` agreeing on unimodular divisors are equal,
+by the pinned `span_degreeZeroRep_eq_top`),
 `symbols_mono` (`Γ′ ≤ Γ` gives `Symb_Γ(V) ⊆ Symb_{Γ′}(V)`). *Needs:* Mathlib `Representation`,
 `Submodule`, `Matrix.SpecialLinearGroup.map`, `Matrix.SpecialLinearGroup.toGL`,
 `CongruenceSubgroup.Gamma0`; ModularForms Layer 8 (`Δ₀` with its `GL₂⁺(ℚ)`-action and its generation;
 pinned Tau Ceti `TauCeti.ModularSymbols.degreeZero`, `degreeZeroGLRep`; pinned Tau Ceti
-`TauCeti.augmentationSubrepresentation`). *Lean:* `divisor`, `symbols`, `mem_symbols_iff`, `symbols_ext`, `symbols_SL2Z_trivial`.
+`TauCeti.augmentationSubrepresentation`). *Lean:* `divisor`, `symbols`, `mem_symbols_iff`, `ext_unimodular`, `symbols_SL2Z_trivial`.
 
 **Checks.**
 
@@ -592,7 +605,8 @@ Preservation and commutation are statements about equivariant symbols, not about
 `Δ₀ → V`. API: `slashSymbol` `((φ|δ)(D) = φ(δD)|δ)`, `heckeT`, `heckeU`, `heckeT_mem_symbols` (`T_ℓ` and `U_q`
 preserve `Symb_{Γ₀(N)}(V)`), `heckeT_comm` (`T_ℓT_m = T_mT_ℓ` on symbols), `heckeU_comm_heckeT`.
 *Needs:* §0.1 (The Hecke monoid `Σ₀(N)`); §0.2 (Modular symbols); Tau Ceti
-`HeckeRing.GL2.commSemiringHeckeRingGamma0`; ModularForms Layer 8 (`Δ₀` as a `GL₂⁺(ℚ)`-module).
+`HeckeRing.GL2.commSemiringHeckeRingGamma0`, `HeckeCoset.heckeSum`, `heckeSum_eq_sum_of_rightCosets`,
+`heckeSum_comp_of_mem`; ModularForms Layer 8 (`Δ₀` as a `GL₂⁺(ℚ)`-module).
 *Lean:* `slashSymbol`, `heckeT`, `heckeU`, `IsSigma0Action`, `heckeT_mem_symbols`,
 `heckeU_mem_symbols`, `heckeT_comm`, `heckeU_comm_heckeT`.
 
@@ -728,7 +742,7 @@ cusp `x ∈ P¹(ℚ), c_φ(γ) = φ({γx} − {x})` is a 1-cocycle of `Γ` with 
 sign it is the connecting homomorphism of `Hom_Γ(−, V)` on `0 → Δ₀ → ℤ[P¹(ℚ)] → ℤ → 0`; the construction
 uses the explicit cocycle and Mathlib's degree-one cohomology, not Mathlib's covariant connecting
 map, since `Hom_Γ(−, V)` is contravariant in the first variable ([Wiese] proof of Proposition `6.7(a)`,
-p. 63, for the base-point cocycle; Lemma 5.2, p. 55, for the sequence). For `V = ℂ` trivial and
+pp. 63–64, for the base-point cocycle; Lemma 5.2, p. 55, for the sequence). For `V = ℂ` trivial and
 `φ = ψ_f` of a weight-two cusp form (§0.7), `δ(φ)` is `γ ↦ 2πi∫_x^{γx} f(z)dz`. API: `toH1`
 `(δ : Symb_Γ(V) → H¹(Γ, V))`, `toH1_cocycle` (`δ(φ)` is represented by `γ ↦ φ({γx} − {x})` for every base
 cusp `x`), `toH1_eis` `(δ ∘ res = 0)`, `toH1_hecke` (`δ(φ|T) = δ(φ)|T` for the double-coset Hecke operators
@@ -1363,8 +1377,17 @@ sum against `χ(a)` produces `L(f, χ̄)`; reversing the path changes the sign; 
 untwisted case; §2.1, formula `(2)`, p. 3, for `k = j = 0` in the `−a/N` form, where the character on the
 right is the conjugate). *Needs:* §0.7 (The period symbol); ModularForms Layer 7; Mathlib
 `ModularForm.L` and `mellin` (Mathlib's L-function of a modular form on an arithmetic subgroup, with
-its entire extension for cusp forms). *Lean:* `mellin_period_eq_L` (the case `m = 1`, in Mathlib's
-normalisation of `ModularForm.L`).
+its entire extension for cusp forms); Tau Ceti `TauCeti.cuspIntegral`.
+The Mellin identity itself is supplied by `CuspForm.Λ_eq_mellin` with
+`ModularForm.L = Λ·2/Gammaℂ`. *Lean:* `cuspIntegral_monomial_eq_L` (the case `m = 1`, for the actual
+cusp integral from `∞` to `0`, in Mathlib's normalisation of `ModularForm.L`).
+
+**Checks.**
+
+- At `j = 0`, `2πi·cuspIntegral(f, ∞, 0) = L(f, 1)`, with no remaining factorial or power of `2πi`.
+- For `k ≥ 1, j = 1`, the right side is `−L(f, 2)/(2πi)`; this detects the orientation and the power of `i`.
+- Reversing the endpoints to `0, ∞` negates the left side, by `TauCeti.cuspIntegral_symm`, and requires
+  negating the L-value expression as well.
 
 **Algebraicity of critical values with the parity sign** (theorem). Let
 `T_{j,χ}(ψ) = Σ_{a mod m} χ(a)·λ_{j,a/m}(ψ({a/m} − {∞}))` and `ε_{j,χ} = (−1)^{k−j}χ(−1)`. Then
@@ -2506,6 +2529,12 @@ criteria for Hecke eigenvalues; ModularForms Layer 4. *Lean:* `depletedCoeff`, `
   give `3/4`, while `j = 2` gives `27/32`; `εℓ = 0` and `j = 0` give `1/4`.
   These values distinguish inverse twisting, the critical exponent and the bad-prime omission.
 - The coefficients of `f^[ℓ]` at `ℓ` and at `ℓ²` are 0, while the coefficient at 1 is still 1.
+- Depleting twice at the same prime changes nothing:
+  `depletedCoeff (depletedCoeff a ℓ) ℓ = depletedCoeff a ℓ`.
+- At every `n = ℓm`, the good-prime recurrence gives
+  `a_{ℓm} − a_ℓa_m + ε(ℓ)ℓ^{k+1}a_{m/ℓ} = 0`, with `a_{m/ℓ} = 0` when `ℓ ∤ m`, as in
+  `depletedCoeff_eq`. For the level-11 form at `ℓ = 3 ≠ p`, `a₃ = −1, a₉ = −2, a₂₇ = 5`, so at `n = ℓ³`
+  all three terms are nonzero and cancel: `5 − 2 − 3 = 0`.
 - The scaling `[u]` requires `u ∈ ℤ_p^×`, so `ℓ = p` is excluded: `[p⁻¹]` is not defined on distributions on `ℤ_p^×`.
 
 ### 4.4 Examples of level 11
@@ -2592,6 +2621,10 @@ The formulas use the following sign, radius and cusp-count conventions at the in
   Definition 6.4, p. 29: the forms are `S_{k+2}(Γ₀, ℚ̄_p)`.
 - [PS] §3.3, pp. 16–17, and the proof of Lemma 6.2, p. 27: the weight-`k` action and the contraction hold for
   radii `r < p`.
+- [PS] §8.4, footnote (7), p. 36: different splitting fields of specialisations do not imply that a
+  Hida algebra is non-free over `Λ`. The algebra `ℤ₃⟦T⟧[x]/(x² − T − 9)` is free with basis `1,x`, while
+  its rational fibres at `T = 0` and `T = 3` are `ℚ₃ × ℚ₃` and `ℚ₃(√3)`. This does not decide the
+  freeness of the Hida algebra in that example.
 - [Bellaïche] §1.4.3, `(5)`, p. 8: the Euler factors of the refinement `f_β` have `β` in the denominators.
 - [Pollack SS] §4.3, Lemma 4.6, p. 538: inversion multiplies the half-logarithms by the units
   `(1 + T)^{p/(p+1)}` and `(1 + T)^{1/(p+1)}` rather than fixing them ([Sprung] Lemma 4.26).
