@@ -159,7 +159,14 @@ The raw integer expression is defined for all natural arguments. -/
 def hypersurfacePrimitiveRank (d m : ℕ) : ℤ :=
   (((d : ℤ) - 1) ^ (m + 2) + (-1) ^ m * ((d : ℤ) - 1)) / d
 
-/-! ## Layer 5: perverse weights, decomposition and relative hard Lefschetz -/
+/-! ## Layer 5: perverse weights, decomposition and relative hard Lefschetz
+
+README §5.3's `intersectionComplexPurity` identifies `IC` with `IC⁰[d]`, where
+AutomorphicLFunctionsAndLocalFactors AL.3's `normalized-scheme-ic-purity` supplies
+purity of `IC⁰`. The shift transports weight `w` to `w + d` and identifies degree `i`
+cohomology of `IC` with degree `i + d` cohomology of `IC⁰`. The affine intermediate-extension
+weight bounds and this geometric adapter are specified in the README.
+-/
 
 section Semisimple
 variable {C : Type u} [Category.{v} C] [Preadditive C] [HasFiniteBiproducts C]

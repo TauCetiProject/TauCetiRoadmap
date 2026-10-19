@@ -73,6 +73,10 @@ The following small geometric interfaces are required in addition to those headi
 
 DeligneWeightsAndPurity §§0.1–0.19 supply scalar Weil numbers and fixed-`ι` weights, the arithmetic of weights, spectral powers, tensor/dual/exterior spectra, characteristic power series, weight decomposition of Frobenius modules and perfect-pairing eigenvalue reciprocity. Sections 1.3–1.7 supply Rosati and the abelian-variety/curve estimates. Sections 5.1–5.18 supply Weil groups and Weil sheaves, punctual and determinantal weights, rank-one normalization, curve and local-monodromy bounds, monodromy specialization, the positive pole-order argument and compact Weil form. Sections 6.1–6.4 supply coefficient-specific vanishing cycles, real cohomological factors, square improvement and parabolic curve purity. Sections 7.5–7.9 supply the curve reduction, tame covers and Weil II direct-image theorem. Sections 8.1–8.5, 8.8–8.9, 8.11–8.12 supply mixed/pure complexes and six-operation bounds; §§8.14, 8.18–8.20 supply lisse geometric semisimplicity, the lisse weight filtration and potentially pure models. Sections 9.6–9.12 supply absolute hard Lefschetz, vector-space primitive decomposition and rational ample restriction/vanishing orthogonality. These inputs are used with geometric Frobenius and a fixed embedding `ι:ℚ̄_ℓ→ℂ` when `ι`-weights are used.
 
+| Supplier target | Contract used here |
+| --- | --- |
+| AutomorphicLFunctionsAndLocalFactors AL.3, `normalized-scheme-ic-purity` [TCR-AutomorphicLFunctionsAndLocalFactors] | For `ℓ∤q`, a separated finite-type pure `d`-dimensional scheme over `𝔽_q`, a dense smooth open `j:U→X` and a lisse `ℚ̄_ℓ`-sheaf `L` punctually pure of integer weight `w`, the normalized complex `IC⁰_X(L)=(j_!*(L[d]))[−d]` is pure of weight `w`, independently of shrinking `U`. For proper `X`, `H^r(X̄,IC⁰_X(L))` is pure of weight `w+r`. Section 5.3 transports this supplied theorem through `IC_X(L)≅IC⁰_X(L)[d]`; `intersectionComplexPurity` names that perverse-normalization adapter. |
+
 ### From comparison roadmaps
 
 ComplexComparisonPartII §§C−1.1, C5.4, C6.0–C6.6 supplies algebraically constructible analytic coefficient categories, finite Artin comparison, ordinary and compact integral/rational realization, proper `Rf*` and separated finite-Tor `Rf!` comparison, and the integral exponential/Kummer first-Chern comparison. The additional nonproper constructible `Rf*` exchange, perverse equivalence and rational stable-lattice essential image are §3.5 below. AlgebraicTopology Stage 6 supplies relative cochains, local orientations and products. CharacteristicClasses C2.1–C2.4 [TCR-CharacteristicClasses] owns the ordinary topological Thom class `U_E`, its orientation and product normalization, and embedding Gysin with supports, composition and projection formula. Section 3.6 identifies the ordinary realizations of its supported sheaf Thom/Gysin maps with those supplied maps, and constructs complete coefficient systems and torsion-sensitive noncompact constructible duality from relative cochains, localization and local orientation calculations.
@@ -5090,12 +5094,15 @@ Use [BBD-1982] Proposition 5.3.1, p. 134.
 
 ### 5.3 Purity of intermediate extensions
 
-**Intermediate extension along an affine immersion preserves weights; purity of `IC`.** (a) Let `j : U₀ ↪ X₀` be
+**Affine intermediate-extension weights and the perverse-normalization adapter.** (a) Let `j : U₀ ↪ X₀` be
 an affine locally closed immersion and `F₀` a mixed perverse sheaf on `U₀`. If `F₀` has weights `≤ w` (resp. `≥ w`), so
 does `j_!*F₀`; if `F₀` is pure of weight `w, j_!*F₀` is pure of weight `w`. (b) Let `X₀` be irreducible of dimension `d, U₀ ⊂ X₀` a dense open subscheme smooth over `𝔽_q` and `L₀` a lisse `ℚ̄_ℓ`-sheaf on `U₀` punctually pure of weight `w`.
-Then the intersection complex `IC_{X₀}(L₀) = j_!*(L₀[d])` of §2.10 is a pure perverse sheaf of weight `w + d`; in
-particular `IC_{X₀} := IC_{X₀}(ℚ̄_ℓ)` is pure of weight `d`. (c) Consequently, for `X₀` proper over `𝔽_q`, the
-intersection cohomology `H^i(X, IC_X(L))` is pure of weight `w + d + i` for every `i`.
+Identify the intersection complex of §2.10 with the shifted supplied normalized complex,
+`IC_{X₀}(L₀) ≅ IC⁰_{X₀}(L₀)[d]`. Transport `normalized-scheme-ic-purity` of
+AutomorphicLFunctionsAndLocalFactors AL.3 across this identification: `IC_{X₀}(L₀)` is pure perverse of weight
+`w + d`, and `IC_{X₀} := IC_{X₀}(ℚ̄_ℓ)` has weight `d`. (c) For `X₀` proper over `𝔽_q`, the comparison
+`H^i(X, IC_X(L)) ≅ H^{i+d}(X, IC⁰_X(L))` transports the supplied proper-cohomology purity to weight
+`w + d + i` for every `i`.
 
 Work with the following additional hypotheses. `X₀` separated of finite type over `𝔽_q` (`q` a power of `p`), `X := X₀ ⊗_{𝔽_q} 𝔽̄_q, ℓ ≠ p`; coefficients `ℚ̄_ℓ`, realised as the 2-colimit of the rational adic categories `D^b_c(−, E)`
 over finite `E/ℚ_ℓ` (§3.1, §3.3); 'perverse' refers to the middle perversity of §2.4 with its `ℓ`-adic form
@@ -5105,7 +5112,9 @@ integer weights are those of DeligneWeightsAndPurity §8.1 and DeligneWeightsAnd
 then `t`-exact for the perverse `t`-structure). (b): the shift is the perverse normalisation `L₀[d]`; no Tate
 half-twist is built in.
 
-Name the resulting statement `intersectionComplexPurity`.
+Name this interface `intersectionComplexPurity`. Parts (b)–(c) are the perverse-normalization adapter for the
+generic scheme purity theorem supplied by AutomorphicLFunctionsAndLocalFactors AL.3,
+`normalized-scheme-ic-purity`.
 
 A proof proceeds as follows.
 
@@ -5116,18 +5125,20 @@ If `F₀` has weights `≤ w, j_!F₀` has weights `≤ w` (DeligneWeightsAndPur
 Dually, if `F₀` has weights `≥ w, Rj_*F₀` has weights `≥ w` and its subobject `j_!*F₀` has weights `≥ w`; combining both
 gives purity (BBD 5.3.2, first proof).
 
-(b) `L₀[d]` is pure of weight `w + d` on the smooth `U₀` (DeligneWeightsAndPurity §8.9 (c)) and perverse (§2.4).
-Shrink `U₀` to an affine dense open (`IC` is independent of the dense open, §2.10); a morphism from an affine
-scheme to the separated `X₀` is affine, so `U₀ ↪ X₀` is an affine immersion; apply (a).
+(b) Both normalizations use the same intermediate extension: §2.10 gives `IC_{X₀}(L₀)=j_!*(L₀[d])`, while
+the supplier defines `IC⁰_{X₀}(L₀)=(j_!*(L₀[d]))[−d]`. The shift isomorphisms give the comparison, compatible
+with restriction and independence of the dense smooth open. The supplied weight `w` becomes `w+d` under
+`[d]` by the shift convention; perversity is §2.10. No Tate twist is introduced.
 
-(c) Proper pushforward to `Spec 𝔽_q` preserves purity (DeligneWeightsAndPurity §8.12): `RΓ(X, IC)` is pure of
-weight `w + d`, so `H^i` is pure of weight `w + d + i`.
+(c) Apply `RΓ` to that comparison. Cohomological grading identifies degree `i` on the perverse normalization
+with degree `i+d` on `IC⁰`, whose supplied proper-cohomology weight is `w+(i+d)`.
 
-Use [BBD-1982] Corollaire 5.3.2 with its first proof, p. 135; [Deligne-WeilII-1980] (6.2.5) `c`), p. 248;
-(6.2.6), p. 248.
+Use [BBD-1982] Corollaire 5.3.2 with its first proof, p. 135, for (a);
+[TCR-AutomorphicLFunctionsAndLocalFactors] AL.3, `normalized-scheme-ic-purity`, for (b)–(c);
+[Deligne-WeilII-1980] (6.2.2), (6.2.4) and (6.2.5) `b`), p. 247, for the weight and shift conventions.
 
 *Needs:* §2.7; §5.2; §2.4; §2.10; §2.8; §5.1; DeligneWeightsAndPurity §8.11; DeligneWeightsAndPurity §8.9;
-DeligneWeightsAndPurity §8.12.
+AutomorphicLFunctionsAndLocalFactors AL.3, `normalized-scheme-ic-purity`.
 
 **Checks.**
 
@@ -5137,6 +5148,8 @@ DeligneWeightsAndPurity §8.12.
 - For the split nodal cubic `X₀` with normalisation `ν : ℙ¹ → X₀` (`ν` finite birational), `IC_{X₀} = ν_*ℚ̄_ℓ[1]`, so `H⁰(X,IC_X)=IH¹(X)=H¹(ℙ¹,ℚ̄_ℓ)=0` although `H¹(X, ℚ̄_ℓ) = ℚ̄_ℓ` has weight 0: the constant sheaf `ℚ̄_ℓ[1]` on `X₀` is not pure of weight 1.
 
 - The specialisation `X₀` smooth projective of dimension `d` gives `IC = ℚ̄_ℓ[d]` and recovers purity of `H^i(X, ℚ̄_ℓ)` of weight `i` (the Weil II weight inputs (DeligneWeightsAndPurity §§8.1–8.20), Weil II 3.3.9).
+
+- For a pure lisse sheaf of weight `w` on a smooth curve, `IC⁰` has weight `w` and `IC=IC⁰[1]` has weight `w+1`, including odd `w`. The adapter uses only a cohomological shift.
 
 **Simple mixed perverse sheaves are pure.** Every simple object of `Perv_m(X₀)` is pure: it is isomorphic to
 `i_*j_!*(L₀[d])` for `i` the closure of a smooth connected locally closed `U₀ ⊂ X₀` of dimension `d, j : U₀ ↪ Ū₀` open
@@ -7684,6 +7697,8 @@ GeometricSatakeAndFusion and the proposed stack and perfect-space extensions use
 - **[Stacks-Morphisms]** The Stacks Project Authors, [The Stacks Project, Chapter 29: Morphisms of Schemes](https://stacks.math.columbia.edu/download/morphisms.pdf). Version ed88ff78 (compiled 14 July 2026).
 
 - **[TCR-AdicCoefficientsAndComparisons]** TauCetiRoadmap contributors, Adic coefficients and comparison with schemes. README.md, version 4a7b4d83e2622df066e2a883525bb755bce6b115.
+
+- **[TCR-AutomorphicLFunctionsAndLocalFactors]** TauCetiRoadmap contributors, [Automorphic L-functions and local factors](../AutomorphicLFunctionsAndLocalFactors/README.md#normalized-scheme-ic-purity). README.md, AL.3, `normalized-scheme-ic-purity`, version d1996dc1edb1a6f095caec7bd8768245888b7a7c.
 
 - **[TCR-CharacteristicClasses]** TauCetiRoadmap contributors, *Characteristic classes* (the CharacteristicClasses roadmap), C2.1–C2.4.
 
