@@ -13,6 +13,10 @@ unipotent tensor comparison over finite p-adic fields; Layers 6–7 extend them 
 explicit common-range identifications.
 Quantitative guards below use rational heights; the geometric statements use real
 rank-one valuations with v(p) = 1 and positive levels.
+Finite flat point groups, their postcomposition action and the DVR-based `GaloisModel`
+interface are supplied by FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.24a.
+The character maps and finite Tate-module levels use these supplied points; their
+geometric interfaces remain README targets.
 -/
 
 namespace TauCetiRoadmap.HodgeTateAndCanonicalSubgroups

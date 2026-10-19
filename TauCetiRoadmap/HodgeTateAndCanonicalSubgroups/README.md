@@ -113,6 +113,7 @@ Tau Ceti also provides `TauCeti.RestrictedProducts.CompactOpenSubgroups` in `Tau
 
 Each item is consumed as the supplier states it; where a statement here needs more, the additional mathematics is a target of this roadmap, cited in parentheses.
 
+- **Finite flat points and Galois models.** Use `FiniteFlatGroupsAndIntegralPadicHodgeTheory` [R07.1.24a, Points and finite flat models of Galois modules](../FiniteFlatGroupsAndIntegralPadicHodgeTheory/README.md#r07124a-points-and-finite-flat-models-of-galois-modules): `FiniteFlat.points H L` is the supplied additive point group of `H : FLF R` over a commutative R-algebra L, with functoriality, scalar extension and agreement with scheme-valued points. For a scalar tower `R→K→L`, its `L ≃ₐ[K] L` action is postcomposition. For a DVR R with characteristic-zero fraction field K, a chosen separable closure L and a finite discrete continuous Galois module M, use the supplied `GaloisModel R L M`, retaining both the integral group H and its equivariant additive points identification with M; coefficient actions use the supplier's coefficient-linear version. Sections 0.2–0.4 and the generic point groups of 3.7–3.12 use this interface. Over general `O_C` use `FiniteFlat.points`; the DVR model interface does not restrict those targets. The use of an integral model with an equivariant points identification follows the Imperial College London FLT project.
 - **`FiniteFlatGroupsAndIntegralPadicHodgeTheory`.** R07.1: p-divisible groups, their Tate modules and Cartier duals, the finite part of a quasi-finite group, the Oort–Tate classification; R07.1.1 (relative Frobenius and Verschiebung of commutative group schemes, `V_G = (F_{G^D})^D` for finite locally free G); R07.1.5 (levels of a p-divisible group); R07.1.10–R07.1.11 (truncated Barsotti–Tate groups and Illusie's co-Lie criterion over bases where p is nilpotent); R07.1.11 and R07.6.6 (the co-Lie complex and its derived dual for all flat, finitely presented commutative groups); R07.1.20a (quotients of p-divisible groups by finite flat subgroups over complete DVRs of mixed characteristic `(0,p)`); R07.1.14–R07.1.15 (dimension, and `dim G + dim G^D =` height over complete noetherian local rings); R07.1.40 (Raynaud's embedding of a finite locally free group into an abelian scheme, Zariski locally on any base). R07.2: BT₁ Hasse invariants and the Hasse–Witt duality, with R07.2.21's Frobenius-twist identity `det(ω^{(p)}) = (det ω)^{⊗p}` for a BT₁ over an `𝔽_p`-scheme. R07.6.6: Illusie's obstruction theory for lifting homomorphisms of flat commutative group schemes along square-zero thickenings. Conormal modules of p-divisible groups over `O_C (0.25)`, the degree of finitely presented torsion modules over rank-one valuation rings (0.24), finite-flat co-Lie perfectness, determinants and the abelian-isogeny Hodge triangle (0.26), the normalized multiplicative determinant pullback (0.12), general-base quotients by finite flat subgroups of the p-torsion and their truncated levels (0.28), Faltings's integral Hodge–Tate complex (0.5), Fargues's degree, the pointwise HN canonical subgroups and integral Hodge–Tate estimates are this roadmap's; the cyclotomic-base abelian-family weak/strong subgroup package is supplied by `CohomologyComparisons` §6.2.
 - **`AbelianSchemesAndArithmeticModuli`.** A2: polarizations and the Poincaré bundle; A3 and A3.5: dual isogenies with Cartier-dual kernels and the Weil pairings `e_n`: `A[n] × A^∨[n] → μ_n`; A3.7: their polarized forms; A4, A4.2–A4.3: the p-divisible group of an abelian scheme, `H¹_dR(A/S)` with its Hodge filtration `0 → ω_A → H¹_dR(A/S) → Lie(A^∨) → 0`, `Lie(A^∨) = R¹π_*O_A`, and Poincaré duality, over an arbitrary base. The Verschiebung of an abelian scheme is 0.27.
 - **`NeronModelsAndSemistableAbelianVarieties`.** Layer 3: semistable reduction after a finite extension, and rigid uniformization with the Raynaud extension and its dual polarized one-motive over a complete discrete valuation ring (0.18).
@@ -196,6 +197,8 @@ Sources: [FAR10], §2, before Def. 3, p. 7.
 
 For finite locally free commutative H/S, pull `dt/t` back along the Cartier-dual character of a point, on every S-scheme S′. For `H=A^∨[p^n]` the Weil pairing gives target `ω_A/p^n`.
 
+On affine charts `S=Spec R`, write `H(L)` for the supplied `FiniteFlat.points H L` of `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.24a. Its additive law, base change and postcomposition action are the ones used by the character differential. Over `O_C`, restriction identifies `H(O_C)` with `H(C)` by finite properness, so the character maps in 3.9 use integral points through this identification. When R is a DVR with characteristic-zero fraction field K and L is a chosen separable closure of K, comparisons with a specified finite Galois module M use the supplier's `GaloisModel R L M` and its chosen integral model.
+
 - `TauCeti.HodgeTate.hodgeTateMap`: `α_H`: `H(S) → ω_{H^D}`, `x ↦ x*(dt/t)`, through Cartier duality.
 - `TauCeti.HodgeTate.hodgeTateMap_add`: `α_H(x + y) = α_H(x) + α_H(y)` and `α_H(0) = 0`.
 - `TauCeti.HodgeTate.hodgeTateMap_apply_groupLike`: Over Spec R, `α_H(x)` is the class of `g_x − 1` in `I/I²`, `g_x` the group-like element of the Hopf algebra of `H^D` attached to x.
@@ -207,14 +210,14 @@ For finite locally free commutative H/S, pull `dt/t` back along the Cartier-dual
 
 - `TauCeti.HodgeTate.hodgeTateMap_constant`: For `H = (ℤ/p^n)_R`, `α_H(1)` is the class of `t − 1` in `ω_{μ_{p^n}} = R/p^n`, a generator.
 - `TauCeti.HodgeTate.hodgeTateMap_mu_eq_zero`: For `H = μ_{p^n,R}`, `α_H = 0` because `ω_{H^D} = ω_{ℤ/p^n} = 0`.
-- `TauCeti.HodgeTate.hodgeTateMap_depends_on_model`: Over `R = ℤ_p[ζ_p]` the groups `ℤ/p` and `μ_p` have isomorphic generic fibres, yet `α_{ℤ/p}(1)` generates `ω_{μ_p} ≅ R/p` while `α_{μ_p} = 0`: the Hodge–Tate map depends on the integral model, not only on the generic fibre.
+- `TauCeti.HodgeTate.hodgeTateMap_depends_on_model`: Over `R = ℤ_p[ζ_p]`, with fraction field K and chosen separable closure L, `ℤ/p` and `μ_p` give `GaloisModel R L (ℤ/p)` for the same trivial Galois module, using `a↦ζ_p^a` for the latter. Yet `α_{ℤ/p}(1)` generates `ω_{μ_p} ≅ R/p` while `α_{μ_p} = 0`: the character differential retains the chosen integral model.
 - `TauCeti.HodgeTate.hodgeTateMap_cotangentMap`: Over Spec R, `α_H(x) = TauCeti.Bialgebra.cotangentMap R A(g_x)` for A the Hopf algebra of `H^D`.
 - `α_{μ_{p^n}}`: `μ_{p^n}(R) → ω_{ℤ/p^n} = 0` is zero, and `α_{ℤ/p^n}`: `ℤ/p^n → ω_{μ_{p^n}} = R/p^n` sends 1 to dt/t.
 - `α_H` is additive and natural in H.
 
 Sources: [FAR10], §9.2, Def. 17, p. 25; [SW13], §5.1, Prop. 5.1.6 and its proof, pp. 49–50; [AIP15], §3.2, the Hodge–Tate map, p. 12.
 
-*Needs:* [0.1](#section-0-1); `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat`; `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDualBaseChangeIso`; `TauCeti.Bialgebra.cotangentMap_mul`; `IsGroupLikeElem`; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1 (p divisible cartier dual); `GroupLike`; `CategoryTheory.Grp`; [0.21](#section-0-21).
+*Needs:* [0.1](#section-0-1); `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat`; `TauCeti.FiniteLocallyFreeCommAffineGroupSchemeCat.cartierDualBaseChangeIso`; `TauCeti.Bialgebra.cotangentMap_mul`; `IsGroupLikeElem`; `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1.24a (points and Galois models); `FiniteFlatGroupsAndIntegralPadicHodgeTheory` R07.1 (p divisible cartier dual); `GroupLike`; `CategoryTheory.Grp`; [0.21](#section-0-21).
 
 <a id="section-0-3"></a>
 
@@ -238,6 +241,8 @@ Sources: [FAR10], §9.2, Def. 17, p. 25.
 ### 0.4 The Hodge–Tate map of a p-divisible group and its completed linearisation
 
 For p-divisible `G/O_C`, use `ω_{G^D[p^n]}=ω_{G^D}/p^n` and completeness (0.25). Tate transitions are multiplication by p; conormal transitions are reduction. Descent to a valuation subfield K gives equivariance for continuous K-automorphisms of C.
+
+Use R07.1.8's Tate module with finite levels `FiniteFlat.points G[p^n] C` from R07.1.24a, identified with their `O_C`-points as in 0.2. For a model over a mixed-characteristic DVR `O_K` and a chosen algebraic closure `K̄⊂C`, the finite-level Galois identifications use `GaloisModel O_K K̄ M_n`; the action on C retains the hypotheses below.
 
 - `TauCeti.HodgeTate.pDivisibleHodgeTateMap`: `α_G`: `T_pG(R) → ω_{G^D}`, the inverse limit of `α_{G[p^n]}`.
 - `TauCeti.HodgeTate.pDivisibleHodgeTateMap_mod`: `α_G mod p^n` equals `α_{G[p^n]}` composed with `T_pG → G[p^n]`.
