@@ -110,6 +110,12 @@ From `AlgebraicModularFormsAndSerreWeights:R15.3`: Hasse, theta cycles, inverse 
 
 From `AlgebraicModularFormsAndSerreWeights:R15.5`: Use the existing Deligne–Serre finite-free eigenvalue-lifting contract: finite fraction-field extension, a dominating DVR and residue embedding; no unique or preselected integral eigenvector and no claim that the DVR must be finite over O.
 
+From `AlgebraicModularFormsAndSerreWeights:target-s-type-arises-from-and-modular`: Use `TauCeti.ResidualModularity.ArisesFrom`, with one coefficient reduction map and both arithmetic Frobenius coordinates, and its integral-model comparison for absolutely irreducible representations. From `AutomorphicFormsOnReductiveGroups:anemic-eigensystems, galois-anemic-eigensystem, arithmetic-hecke-normalization`: Use the universal anemic presentation, its `eigenIdeal`, and its maps to the faithful Hecke images. In weight k the arithmetic coordinates are `T_r=a_r` and `S_r=ε(r)r^{k−2}`, so the Frobenius determinant is `rS_r`. Section 1.4 constructs the residual support and attachment bridges using ModularCurvesPartII §13.3's faithful integral Jacobian action. This interface follows the Imperial College London FLT project.
+
+From `NeronModelsAndSemistableAbelianVarieties:§4.14, semistable-torsion-datum, semistable-torsion-frobenius, semistable-jacobian-torsion`: Use `SemistableTorsionDatum` with `SemistableTorsionLaws`, and `TwoPlaceSemistableTorsionDatum` with its laws, over a commutative Hecke ring. The bad-prime Frobenius formulas require the separate `SemistableTorsionFrobeniusLaws` and its totally toric operator hypotheses. Retain the toric, finite and component-group filtration, the cyclotomic twist on toric torsion, and the abelian part when reduction is not purely toric. ModularCurvesPartII §§12.2–12.4 and HilbertModularVarietiesAndShimuraCurves §§R18.5.15–R18.5.18 provide its geometric realizations. Sections 2.6–2.10 consume this interface and the supplier's weighted graphs; they introduce no graph or torsion-datum carrier.
+
+From `FiniteFlatGroupsAndIntegralPadicHodgeTheory:§R07.1.3, Special-fibre types and the ordinary counting identity`: Use `card_points_quot_multiplicativePart` for a finite flat group G killed by `p^n` over a complete mixed-characteristic DVR with perfect residue field and `e<p−1`. For `M=G(K̄)` and a Galois-stable subgroup W, inertia must act cyclotomically on W and trivially on `M/W`; then `[M:W]=#G_k(k̄)`. From `ArithmeticGaloisRepresentations:inertia-filtration-predicates`: Use `InertiaUnipotentTowards`, `IsInertiaFiltration` and `HasMultiplicativeType`, with the actual character and coefficient module. The counting identity is used only for this ordinary filtration, not for every finite flat group or in residue characteristic two over `ℤ₂`.
+
 From `GL2AutomorphicRepresentationsAndTransfer:R17.3`: Global Jacquet–Langlands with exact discrete-series local components and matching character/coefficients. For Buzzard’s supercuspidal defect, supply the integral congruent-character transfer input (Diamond–Taylor Theorem 9 cited in Buzzard p. 108), not a deduction from rational JL alone.
 
 From `GL2AutomorphicRepresentationsAndTransfer:R17.4`: Solvable automorphic base change with cuspidality preserved by the residual disjointness/image assumptions, local splitting and determinant transport; no compatible-system existence theorem is consumed.
@@ -236,9 +242,9 @@ Let A act on a finite free O-module H and let the lower-level Hecke action facto
 
 A and L finite over O; L is torsion-free and the commuting Hecke operators preserve it. `m=ker φ`, the lower-level action factors through the stated quotient. Deligne–Serre is applied to a nonzero residual eigenvector, without prescribing its integral lift.
 
-Use localisation and Nakayama on `L/πL`, rather than the zero `π`-torsion of the O-free module L. Triangularise the finite commuting residue algebra to obtain a common eigencharacter over a finite residue extension. Apply exactly the supplier’s eigenvalue-lifting contract, and compare Galois representations by good-prime traces.
+Use AutomorphicFormsOnReductiveGroups' universal anemic presentation away from a finite set S containing the level and coefficient prime, with both `T_r` and `S_r`. The character attached to a weight-k witness has values `a_r` and `ε(r)r^{k−2}`. Its descent to the lower-level faithful image requires containment of that realization's relation kernel in `eigenIdeal(φ)`; containment alone does not supply a nonzero lower-level class. Use localisation and Nakayama on `L/πL`, rather than the zero `π`-torsion of the O-free module L. Triangularise the finite commuting residue algebra and apply the supplier's eigenvalue-lifting contract. Express the resulting attachment by AlgebraicModularFormsAndSerreWeights' `ArisesFrom`; absolute irreducibility and equality of both Frobenius coordinates identify the residual representation after compatible coefficient extension.
 
-*Needs:* [Localised integral degeneracy sequence](#integral-old-new-exact-sequence), [Hecke congruence-module application](#congruence-module), `AlgebraicModularFormsAndSerreWeights:R15.5, Deligne–Serre eigenvalue lifting`.
+*Needs:* [Localised integral degeneracy sequence](#integral-old-new-exact-sequence), [Hecke congruence-module application](#congruence-module), `AlgebraicModularFormsAndSerreWeights:R15.5, Deligne–Serre eigenvalue lifting`, `AlgebraicModularFormsAndSerreWeights:target-s-type-arises-from-and-modular`, `AutomorphicFormsOnReductiveGroups:anemic-eigensystems, galois-anemic-eigensystem, arithmetic-hecke-normalization`.
 
 **Checks.**
 
@@ -247,6 +253,39 @@ Use localisation and Nakayama on `L/πL`, rather than the zero `π`-torsion of t
 - If I is not killed by `φ`, lower-level factorisation is impossible.
 
 - Different characteristic-zero lifts may share the same residual character; no uniqueness is claimed.
+
+- Matching `T_r` while changing `S_r` does not give the same `ArisesFrom` witness.
+
+- A character of the universal presentation whose kernel omits a relation of the lower-level image cannot descend to that image.
+
+<a id="eigenform-ideal-jacobian-support"></a>
+
+**Eigenform ideals have Jacobian torsion.** For `N≥1`, let `T_N` be the faithful integral Hecke image on `J₀(N)`, identified with the weight-two cuspidal image by ModularCurvesPartII §§13.3, 14.15. A residual maximal ideal m containing a prime p, obtained from a characteristic-zero eigenform ideal and a compatible residue embedding, satisfies `J₀(N)(Q̄)[m]≠0`. Its eigenvalues are those of that residual character. This is support in actual Jacobian torsion, with no multiplicity-one or non-Eisenstein assumption for nonvanishing. More generally the same support argument applies to the supplied faithful image on a modular Jacobian with character. ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), §3.9, pp.44–45; [Ribet](https://math.berkeley.edu/~ribet/Articles/motives.pdf), proof of Theorem 8.1, p.28.)
+
+Use the faithful finite-free integral Tate lattice, localize at m and apply Nakayama. A nonzero finite module over the residual local Artin algebra has nonzero socle, giving a common eigenvector in p-torsion after residue extension. ModularCurvesPartII supplies the faithful integral geometric realization; this subsection identifies its support with the eigen-ideal used in descent.
+
+*Needs:* `ModularCurvesPartII:§§13.3, 13.5, 14.15`, `AutomorphicFormsOnReductiveGroups:anemic-eigensystems`, `AlgebraicModularFormsAndSerreWeights:target-s-type-arises-from-and-modular`.
+
+**Checks.**
+
+- For `N=1`, `J₀(1)=0` and its faithful image is the zero ring, so there is no residual maximal ideal satisfying the hypotheses.
+- For `N=11`, the rank-one Hecke image gives nonzero p-torsion in the elliptic Jacobian for every prime p.
+- A maximal ideal of a universal polynomial presentation that does not descend to `T_N` gives no Jacobian support assertion.
+
+<a id="jacobian-eigenvector-arises-from"></a>
+
+**Jacobian eigenvectors give residual modularity.** Let `N≥1`, p be prime and `ρ:G_Q→GL₂(k)` be continuous, odd and absolutely irreducible, with k a finite field of characteristic p. Fix a finite set S containing the primes dividing Np and every ramified prime of ρ. Suppose a nonzero vector in `J₀(N)[p]⊗_(F_p) k̄` is a simultaneous eigenvector for all good-prime `T_r`, `r∉S`, with eigenvalues `a_r=tr ρ(Frob_r)`, and assume `det ρ(Frob_r)=r`. Then a normalized full weight-two eigenform of level N and trivial character satisfies `ArisesFrom(ρ,f)` after compatible coefficient extension. Its primitive newform has level dividing N. For a supplied character-Jacobian realization the same bridge uses the diamond eigenvalues `S_r=ε(r)` and determinant `rε(r)`, with the full integral comparison retained. ([Ribet–Stein](https://wstein.org/papers/serre/ribet-stein.pdf), §3.6, p.40 and §3.9, pp.44–46; [Ribet](https://math.berkeley.edu/~ribet/Articles/motives.pdf), Theorem 8.1 proof, pp.27–28.)
+
+Descend the two-coordinate eigencharacter through the faithful geometric Hecke image, extend it to the full commuting algebra, and lift its eigenvalues through the finite-free weight-two lattice. The supplied residual attachment theorem and Frobenius comparison identify the absolutely irreducible representation, including the finitely many good primes omitted from S. This gives the existing `ArisesFrom` predicate rather than a second definition of modularity.
+
+*Needs:* [Residual support and eigenvalue descent](#eigensystem-level-descent), `ModularCurvesPartII:§§13.3, 13.5–13.6, 14.15`, `AlgebraicModularFormsAndSerreWeights:target-s-type-arises-from-and-modular`, `ArithmeticGaloisRepresentations:§§5.1–5.7`.
+
+**Checks.**
+
+- The zero vector gives no occurrence, although it satisfies every formal eigen-equation.
+- Without the determinant/diamond condition, trace matching alone does not establish attachment.
+- A witness coming from a proper divisor of N gives a full eigenform at level N; its primitive associate is not called new at N.
+- For a nonsemisimple reducible ρ, Frobenius polynomials recover only its semisimplification, so the stated representation-identification step requires its absolute irreducibility.
 
 ### Examples
 
@@ -406,9 +445,9 @@ For J0(pqM), p and q distinct primes not dividing M, use NeronModelsAndSemistabl
 
 Bad-fibre geometry ModularCurvesPartII Layers 11–12/ModularCurvesPartII §§12.2–12.4 and the geometric sequence of §2.7 here, Néron models NeronModelsAndSemistableAbelianVarieties §§2.4, 4.1–4.6, Shimura curves R18.6. The modular and quaternionic Jacobians have the specified semistable reduction; no generic character-group definition is owned here.
 
-Import the toric character functor and identify each geometric fibre. Check the induced Hecke matrices and the ordered primes in each notation. Use the supplied semistable and Čerednik–Drinfeld descriptions to identify Y.
+Import the toric character functor and identify each geometric fibre. Use NeronModelsAndSemistableAbelianVarieties' `SemistableTorsionDatum` with its separate laws for the Hecke action, specialization and monodromy. At a bad prime r distinct from the torsion prime `ℓ`, its toric subgroup is `Hom(X*(T)/ℓ,μ_ℓ)`. Keep the full semistable filtration and the abelian quotient: the kernel of specialization to the component group is the identity-component torsion, and equals toric torsion only after the abelian part vanishes on the chosen localization. In the purely toric involution case arithmetic Frobenius acts by `rt_r` on toric torsion and by `t_r` on the dual-lattice quotient. Check the induced Hecke matrices and the ordered primes in each notation. Use the supplied semistable and Čerednik–Drinfeld descriptions to identify Y. The underlying weighted graph and its matching are those of the same supplier.
 
-*Needs:* `NeronModelsAndSemistableAbelianVarieties:§§2.4, 4.1–4.6`, `ModularCurvesPartII:§§12.2–12.4`, `HilbertModularVarietiesAndShimuraCurves:§§R18.5.15–R18.5.18`.
+*Needs:* `NeronModelsAndSemistableAbelianVarieties:§§2.4, 4.1–4.7, 4.14 (semistable-torsion-datum, semistable-torsion-frobenius, semistable-jacobian-torsion)`, `ModularCurvesPartII:§§12.2–12.4`, `HilbertModularVarietiesAndShimuraCurves:§§R18.5.15–R18.5.18`.
 
 **Checks.**
 
@@ -417,6 +456,25 @@ Import the toric character functor and identify each geometric fibre. Check the 
 - `Y_p` belongs to the quaternionic Jacobian, not J0(pM).
 
 - Reversing covariance would reverse the exact-sequence arrows.
+
+- The toric subgroup has the `μ_ℓ` twist; replacing it by a Galois-trivial `F_ℓ` loses the factor r in Frobenius.
+
+- For good reduction the torus is zero but the identity-component `ℓ`-torsion need not vanish. Specialization to components cannot have toric kernel in this case.
+
+<a id="deuring-eichler-supersingular-comparison"></a>
+
+**Deuring–Eichler supersingular comparison.** For any prime q and positive M prime to q, fix a supersingular pair `(E₀,C₀)` in characteristic q with C₀ cyclic of order M. Its endomorphism ring R is an Eichler order of level M in the rational quaternion algebra B ramified at `{q,∞}`. Identify the geometric supersingular points of `X₀(M)` with the right ideal class set `B×\B̂×/R̂×`. The identification preserves stabilizers, degeneracy correspondences as M varies, prime-to-qM Hecke correspondences and the exact-divisor Atkin–Lehner operators. The class stabilizer weight is `w_x=|Aut(E,C)/{±1}|`; retain these integral weights in the graph pairing and the reciprocal weights in the function pairing. On the character lattice at q of `J₀(Mq)`, arithmetic Frobenius agrees with `U_q`, whereas the geometric Atkin–Lehner action is `w_q=−U_q`: exchanging the two vertices introduces the minus sign. ([Ribet](https://math.berkeley.edu/~ribet/Articles/invent_100.pdf), §3, Proposition 3.3 and Variant 3.4, p.440; monodromy pairing and Propositions 3.7–3.8, pp.444–446.)
+
+Identify isogenies of enhanced supersingular elliptic curves with ideal correspondences, carrying their automorphism groups and correspondence multiplicities. Transport the resulting weighted edge module to the supplied graph and definite quaternionic modules, then pass to cycles. No inverse stabilizer weight is used over an integral coefficient ring unless it is a unit. In characteristics two and three use the geometric automorphism groups, with the coarse-fibre resolution comparison supplied by ModularCurvesPartII.
+
+*Needs:* [Bad-fibre torus character interface](#character-group-of-bad-fibre), `ModularCurvesPartII:§§11.1, 12.2–12.4`, `NeronModelsAndSemistableAbelianVarieties:§§4.2–4.7`, `HilbertModularVarietiesAndShimuraCurves:R18.3`.
+
+**Checks.**
+
+- `M=1` gives the maximal-order class set, not the set of conjugacy classes of maximal orders.
+- For `q>3`, supersingular points with `M=1` and `j=0` or `1728` have weights three or two respectively; replacing all weights by one changes the integral pairing.
+- At q, `U_q` and Frobenius agree on characters, while `w_q` has the opposite sign; the permutation of supersingular points alone omits the vertex reversal.
+- Forgetting or quotienting a cyclic level subgroup gives the two degeneracy maps; their pullback multiplicities must survive passage to the class set.
 
 <a id="ribet-exact-sequence"></a>
 
@@ -468,9 +526,9 @@ If `ℓ≥5`, `q∤Mℓ`, an irreducible residual representation occurs at level
 
 A modular witness and coefficient prime; `q∤Mℓ`; `ρ` unramified at q. q≢1 mod `ℓ`; the general-weight branch uses `ℓ≥5` and the source’s character convention. The independently proved §8 weight-two branch permits odd `ℓ≥3` and tame character modulo M.
 
-Assume no lower-level support and force residual torsion into the toric part of the bad fibre. Unramifiedness and Frobenius on the torus force `q≡1` mod `ℓ`. Contradict the residue congruence, then apply the lower-level eigenvalue lifting contract.
+Use the one-place `SemistableTorsionDatum` at q with torsion prime `ℓ≠q`. Express the local two-step action by ArithmeticGaloisRepresentations' `IsInertiaFiltration`; its toric submodule has `HasMultiplicativeType` for `χ_ℓ|I_q`, trivial at q. Assume no lower-level support and force residual torsion into the toric part of the bad fibre. Unramifiedness and Frobenius on the torus force `q≡1` mod `ℓ`. Contradict the residue congruence, then apply the lower-level eigenvalue lifting contract. The coefficient-prime comparison in [Weight p+1 and finite-flatness](#weight-p-plus-one-and-finiteness) instead uses FiniteFlatGroupsAndIntegralPadicHodgeTheory's `card_points_quot_multiplicativePart`, with its cyclotomic-subgroup and unramified-quotient hypotheses and `e<ℓ−1`. That ordinary counting identity does not replace prime-to-q specialization at the removed prime q.
 
-*Needs:* [Residual support and eigenvalue descent](#eigensystem-level-descent), [Bad-fibre torus character interface](#character-group-of-bad-fibre), `ModularCurvesPartII:Layers 11–12`, [Prime-to-ℓ conductor interface](#serre-level).
+*Needs:* [Residual support and eigenvalue descent](#eigensystem-level-descent), [Bad-fibre torus character interface](#character-group-of-bad-fibre), `ModularCurvesPartII:Layers 11–12`, [Prime-to-ℓ conductor interface](#serre-level), `ArithmeticGaloisRepresentations:inertia-filtration-predicates`.
 
 **Checks.**
 
@@ -480,6 +538,10 @@ Assume no lower-level support and force residual torsion into the toric part of 
 
 - At `ℓ=3` the assertion is the §8 weight-two branch, with character modulo M, and not arbitrary-weight fixed-character lifting.
 
+- The counting identity on `μ_ℓ×ℤ/ℓ` over `ℤ_ℓ`, for odd `ℓ`, gives index `ℓ` and `ℓ` geometric special-fibre points. It is not a count of generic points.
+
+- At the removed prime q, prime-to-q torsion specializes by the semistable datum; no bound `e<q−1` for a q-primary finite-flat group is inferred from `ℓ≠q`.
+
 <a id="level-lowering-unramified-prime"></a>
 
 ### 2.10 Ribet lowering at an unramified prime
@@ -488,7 +550,7 @@ For `ℓ≥3`, `q∤Mℓ`, and an irreducible residual representation arising fr
 
 `ℓ` odd, `q∤Mℓ`, irreducible residual representation, unramified at q. Weight two, trivial character, actual integral Jacobian modules.
 
-Choose the joint complex-conjugation auxiliary prime r and raise there using the weight-two branch of Theorem 5.1; when M contains `ℓ`-power level use the separate weight-two Jacobian level-raising argument invoked in §7, not the tame-level general-weight cohomology statement. Localise both bad-fibre sequences at the common residual ideal and assume no descent at q. Compare monodromy/component lengths to obtain `2μ≤λ` and `2λ≤2μ` for positive `λ,μ`; odd-`ℓ` splitting supplies the second inequality. Conclude lower-level support and lift its eigenvalues.
+Choose the joint complex-conjugation auxiliary prime r and raise there using the weight-two branch of Theorem 5.1; when M contains `ℓ`-power level use the separate weight-two Jacobian level-raising argument invoked in §7, not the tame-level general-weight cohomology statement. Use `TwoPlaceSemistableTorsionDatum` on each Jacobian's same residual Hecke/Galois module at q and r, with the common eigen-ideal and coefficient embedding. The two distinct Jacobians are related by the supplied character-group sequences; no identification of their entire torsion modules is assumed. Localise both bad-fibre sequences at the common residual ideal and assume no descent at q. Compare monodromy/component lengths to obtain `2μ≤λ` and `2λ≤2μ` for positive `λ,μ`; odd-`ℓ` splitting supplies the second inequality. Conclude lower-level support and lift its eigenvalues.
 
 *Needs:* [Complex-conjugation auxiliary prime](#auxiliary-prime), [Diamond’s level-raising criterion](#level-raising-diamond), [Ribet’s two character-group sequences](#ribet-exact-sequence), [Monodromy comparison for lowering](#monodromy-pairing-component-group), [Residual support and eigenvalue descent](#eigensystem-level-descent), `ModularCurvesPartII:§§15.1–15.8`.
 
@@ -499,6 +561,8 @@ Choose the joint complex-conjugation auxiliary prime r and raise there using the
 - The coefficient field may enlarge.
 
 - Do not claim this theorem alone treats arbitrary nebentypus or higher conductor defects.
+
+- At the auxiliary r with `r≡−1` modulo odd `ℓ`, Frobenius acts by `rt_r` and `t_r` on the two purely toric graded pieces; the distinct residual scalars give the splitting. They merge at `ℓ=2`.
 
 <a id="twist-away-ramified-character"></a>
 
@@ -620,11 +684,11 @@ Use the supplied finite-flat/Fontaine–Laffaille comparison in the small-weight
 
 If an irreducible Katz eigensystem at `p∤N` has weight p+1 and is not the Hasse multiple of a weight-two form of the same type, then `a_p²=ε(p)` and its local representation is not finite flat over `Z_p`. Equivalently, the finite-flat branch at this filtration is detected by passage to weight two. Finite-flat means the given local finite Galois module extends to a finite flat `Z_p-group` scheme, not merely that its image is finite. ([Bas Edixhoven](https://websites.math.leidenuniv.nl/edixhoven/public_html_rennes/publications/weight.dvi), Theorem 2.8, author pp. 6–7; proof §8, author pp. 26–28. Mazur’s p+1 boundary and the explicit `p=2` adaptation.)
 
-Actual weight-p+1 filtration condition, irreducible representation, `p∤N`. FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.5 and AlgebraicModularFormsAndSerreWeights Layer R15.4 supply the finite-flat/peu-ramifiée equivalence.
+Actual weight-p+1 filtration condition, irreducible representation, `p∤N`. FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.5 and AlgebraicModularFormsAndSerreWeights Layer R15.4 supply the finite-flat/peu-ramifiée equivalence. Use the former's `GaloisModel` and `HasFiniteFlatModel` for the actual local module; ArithmeticGaloisRepresentations' `HasMultiplicativeType` records the cyclotomic inertia character on the ordinary line, and `InertiaUnipotentTowards` records trivial inertia on its quotient. These do not assert that the cyclotomic line itself is inertia-fixed at p.
 
-Use the geometric weight-two/weight-p+1 sequence to identify the non-Hasse eigensystem in toric support. Compute its `U_p` eigenvalue relation. A finite-flat extension would force incompatible connected/étale support, giving the contradiction.
+Use the geometric weight-two/weight-p+1 sequence to identify the non-Hasse eigensystem in toric support. Compute its `U_p` eigenvalue relation. For odd p, a putative finite-flat ordinary model over `ℤ_p` satisfies `e=1<p−1`; apply `card_points_quot_multiplicativePart` to its cyclotomic line W and unramified quotient to identify the quotient index with the geometric special-fibre count. The connected/étale comparison then contradicts the non-Hasse support. At `p=2`, use Edixhoven's separate closure argument in Theorem 2.8 and the supplied dyadic finite-flat comparison; the strict ramification bound for the counting theorem fails.
 
-*Needs:* `AlgebraicModularFormsAndSerreWeights:R15.4, The weight-two criterion`, `AlgebraicModularFormsAndSerreWeights:R15.3, The elliptic Hasse invariant`, `ModularCurvesPartII:Layers 11–12`.
+*Needs:* `AlgebraicModularFormsAndSerreWeights:R15.4, The weight-two criterion`, `AlgebraicModularFormsAndSerreWeights:R15.3, The elliptic Hasse invariant`, `ModularCurvesPartII:Layers 11–12`, `FiniteFlatGroupsAndIntegralPadicHodgeTheory:§§R07.1.3, R07.1.24a, R07.5`, `ArithmeticGaloisRepresentations:inertia-filtration-predicates`.
 
 **Checks.**
 
@@ -633,6 +697,10 @@ Use the geometric weight-two/weight-p+1 sequence to identify the non-Hasse eigen
 - Every residual representation has finite image; this alone is not the finite-flat criterion.
 
 - The Hasse multiple of a finite-flat weight-two form is excluded from the nonfinite conclusion.
+
+- Supersingular `E[p]` over an unramified p-adic base has `p²` generic points, one geometric special-fibre point and no multiplicative part. It does not satisfy the unramified-quotient hypothesis of the ordinary counting identity.
+
+- Over `ℤ₂`, `μ₂` and `ℤ/2` have isomorphic generic Galois modules but one and two geometric special-fibre points. The odd-p counting argument does not extend across `e=p−1`.
 
 <a id="weight-one-forms-unramified-at-p"></a>
 
