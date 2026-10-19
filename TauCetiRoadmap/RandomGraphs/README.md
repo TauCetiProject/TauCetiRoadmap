@@ -440,12 +440,24 @@ $`T_R\models\varphi`$ if and only if $`R\models\varphi`$, so the semantic conseq
 closure of this axiom set is $`\mathrm{Th}(R)`$.
 
 Prove quantifier elimination for actual first-order formulas, including formulas with
-free variables. Build finite equality-and-adjacency diagrams for tuples, give their
-realization and consistency criteria, and express every formula modulo $`T_R`$ as a
-finite Boolean combination of these atomic conditions. Include a genuine terminating
-syntactic procedure and its semantic correctness, not just a choice of an equivalent
-formula. Export the output's native `IsQF` proof and decidability of the sentence theory
-from the procedure.
+free variables. The meaning of a tuple's diagram is Tau Ceti's atomic-diagram semantics:
+`AtomicIdx.toFormula`, `firstOrderAtomicDiagram` and
+`realize_firstOrderAtomicDiagram_iff_sameAtomicType`. That diagram is a classical finite
+conjunction and is noncomputable, so it supplies the semantics but not the algorithm. Build:
+
+- a computable representation of finite equality-and-adjacency patterns on `Fin m`, with
+  its consistency procedure;
+- a correctness bridge identifying the formula of each consistent pattern with
+  `firstOrderAtomicDiagram` of any tuple realizing it;
+- a genuine terminating syntactic procedure expressing every formula modulo $`T_R`$ as a
+  finite Boolean combination of pattern formulas, with its semantic correctness, not just a
+  choice of an equivalent formula.
+
+Export the output's native `IsQF` proof and decidability of the sentence theory from the
+procedure. Export also the theory-level property in the vocabulary of Mathlib #41113,
+`T_R.HasQuantifierElimination`: every formula is `IsQFEquivalent` modulo $`T_R`$,
+using that proposal's reduction to finite variable types. The theory-level property is a
+consequence of the procedure and does not replace it.
 
 Show that the complete finite diagrams isolate the realized graph types and define
 automorphism orbits, using equality/disequality as well as adjacency/nonadjacency.
