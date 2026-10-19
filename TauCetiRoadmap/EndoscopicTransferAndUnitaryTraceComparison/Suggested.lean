@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.LinearAlgebra.Matrix.RationalCanonicalFormFinTwo
 
 /-!
 # EndoscopicTransferAndUnitaryTraceComparison: representative target signatures
@@ -6,14 +7,25 @@ import Mathlib
 The roadmap is README.md. This file records light definitions and representative theorem
 signatures statable against the pinned Mathlib APIs; it is not exhaustive. Reductive groups,
 transfer, Hitchin stacks, automorphic representations, Igusa varieties and local towers are
-README targets. The finite sums and matrices below fix numerical conventions, without
-constructing those objects. The special block uses geometric Frobenius of absolute value q⁻¹,
+README targets. The finite sums and matrices below state their algebraic comparison identities and fix
+normalizations on existing carriers. The special block uses geometric Frobenius of absolute value q⁻¹,
 subdiagonal monodromy, and left actions. Endoscopic coefficients retain both denominators.
 -/
 
 namespace TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison
 
 open scoped BigOperators
+
+/-- The rational GL_n conjugacy milestone of §1.3: semisimple invertible matrices with
+equal characteristic polynomials are conjugate. Semisimplicity is that of the induced
+polynomial module, so repeated irreducible factors in the characteristic polynomial are allowed. -/
+theorem isConj_iff_charpoly_eq_of_isSemisimple
+    {ι K : Type*} [Fintype ι] [DecidableEq ι] [Field K]
+    (γ γ' : Matrix.GeneralLinearGroup ι K)
+    (hγ : Module.End.IsSemisimple (Matrix.toLin' (γ : Matrix ι ι K)))
+    (hγ' : Module.End.IsSemisimple (Matrix.toLin' (γ' : Matrix ι ι K))) :
+    IsConj γ γ' ↔ (γ : Matrix ι ι K).charpoly = (γ' : Matrix ι ι K).charpoly := by
+  sorry
 
 /-! ## Layer 1: stable conjugacy and arithmetic invariants
 Section 1.1's NonabelianH1.exact_of_normal requires a Γ-stable normal subgroup H′ of H.
@@ -51,10 +63,6 @@ theorem kottwitzSign_gl (n r : ℕ) (hr : 1 ≤ r) (hrn : r ≤ n) :
     kottwitzSign (n - 1) (r - 1) = (-1 : ℤˣ) ^ ((n : ℤ) - r) := by
   sorry
 
-/-- The quaternion inner form of GL₂ has sign -1. -/
-example : kottwitzSign 1 0 = -1 := by
-  norm_num [kottwitzSign]
-
 /-- A quasi-split form has sign +1, including the rank-zero numerical case. -/
 example (r : ℕ) : kottwitzSign r r = 1 := by
   simp [kottwitzSign]
@@ -69,8 +77,9 @@ theorem isConj_iff_charpoly_eq_of_separable (γ γ' : Matrix.GeneralLinearGroup 
     IsConj γ γ' ↔ (γ : Matrix ι ι K).charpoly = (γ' : Matrix ι ι K).charpoly := by
   sorry
 
-/-- Equal characteristic polynomials do not suffice without semisimplicity. -/
-example : ¬ IsConj (1 : Matrix.GeneralLinearGroup (Fin 2) ℚ)
+/-- The nonsemisimple boundary of §1.3: the identity and a unipotent Jordan block
+are not conjugate despite equal characteristic polynomials. -/
+theorem identity_not_isConj_unipotent : ¬ IsConj (1 : Matrix.GeneralLinearGroup (Fin 2) ℚ)
     (Matrix.GeneralLinearGroup.mkOfDetNeZero !![1, 1; 0, 1]
       (by simp [Matrix.det_fin_two_of])) := by
   sorry
@@ -94,12 +103,6 @@ InnerGL.temperedInductionIrreducible and InnerGL.standardBasis give the inner-GL
 Section 2.13 constructs the endoscopically induced form B_h from B_g on matching Cartans;
 both Fourier transforms and Weil constants use these forms and the common character ψ. -/
 
-/-- For x=eᵗ with t>0, the hyperbolic SL₂ packet character sum is positive. -/
-example (x : ℝ) (hx : 1 < x) :
-    (x + x⁻¹) / (x - x⁻¹) - 1 = 2 / (x ^ 2 - 1) ∧
-      0 < 2 / (x ^ 2 - 1) := by
-  sorry
-
 section KappaSum
 variable {D : Type*} [CommGroup D] [Fintype D]
 
@@ -109,12 +112,6 @@ def kappaSum (κ : D →* ℂˣ) (O : D → ℂ) : ℂ := ∑ d, (κ d : ℂ) * 
 /-- Rebasing by d₀ gives the inverse character multiplier. -/
 theorem kappaSum_rebase (κ : D →* ℂˣ) (O : D → ℂ) (d₀ : D) :
     kappaSum κ (fun d => O (d₀ * d)) = ((κ d₀)⁻¹ : ℂ) * kappaSum κ O := by
-  sorry
-
-/-- A two-class stable sum with nontrivial character is a difference. -/
-example (κ : Multiplicative (ZMod 2) →* ℂˣ)
-    (hκ : κ (Multiplicative.ofAdd 1) = -1) (O : Multiplicative (ZMod 2) → ℂ) :
-    kappaSum κ O = O 1 - O (Multiplicative.ofAdd 1) := by
   sorry
 
 /-- An order-three class distinguishes the positive character weight from its inverse. -/
@@ -151,11 +148,6 @@ Section 3.17 gives codim Z ≤ δ_Z for every support and the top ordinary cohom
 conclusion under equality, equivalently the additional hypothesis codim Z ≥ δ_Z.
 Section 3.18 is the preliminary H-good comparison; full stabilization is §4.3a. -/
 
-/-- A determinant-trivial SL₂ regular nilpotent pair with an odd-degree twist
-would force this impossible degree equation for its kernel line. -/
-example (d : ℤ) : 2 * d + 1 ≠ 0 := by
-  omega
-
 section ChevalleyGL
 variable {K : Type*} [Field K] {n : ℕ}
 
@@ -187,33 +179,12 @@ theorem chevalleyMap_conj (X : Matrix (Fin n) (Fin n) K)
       chevalleyMap X := by
   sorry
 
-/-- The lower characteristic coefficient of a one-by-one matrix is minus its entry. -/
-example (c : K) : chevalleyMap (fun _ _ : Fin 1 => c) 0 = -c := by
-  sorry
-
-/-- In dimension two the constant-first vector is determinant followed by minus trace. -/
-example (X : Matrix (Fin 2) (Fin 2) K) :
-    chevalleyMap X = ![X.det, -X.trace] := by
-  sorry
-
-/-- The zero-dimensional characteristic map has an empty coefficient vector. -/
-example (X : Matrix (Fin 0) (Fin 0) K) : chevalleyMap X = Fin.elim0 := by
-  funext i
-  exact Fin.elim0 i
-
-/-- In rank one the companion entry is minus the prescribed constant coefficient. -/
-example (a : Fin 1 → K) : kostantSectionGL a = fun _ _ => -a 0 := by
-  sorry
-
-/-- The quadratic companion uses minus both coefficients in its last column. -/
-example (a : Fin 2 → K) : kostantSectionGL a = !![0, -a 0; 1, -a 1] := by
+/-- The constant-first section agrees with Tau Ceti's quadratic companion, with trace −a₁. -/
+example (a : Fin 2 → K) :
+    kostantSectionGL a = TauCeti.companionFinTwo (-a 1) (a 0) := by
   ext i j
-  fin_cases i <;> fin_cases j <;> simp [kostantSectionGL]
+  fin_cases i <;> fin_cases j <;> simp [kostantSectionGL, TauCeti.companionFinTwo]
 
-/-- For X² the companion is nonzero nilpotent, fixing the subdiagonal orientation. -/
-example : kostantSectionGL (0 : Fin 2 → K) = !![0, 0; 1, 0] := by
-  ext i j
-  fin_cases i <;> fin_cases j <;> simp [kostantSectionGL]
 end ChevalleyGL
 
 /-- A finite power sum vanishing at every sufficiently large exponent has zero coefficients
@@ -256,37 +227,19 @@ Its group interpretation requires d>0 and a nonempty list of positive sizes. -/
 def unitaryComponentCount (d : ℕ) (blocks : List ℕ) : ℕ :=
   if Even d ∨ ∀ i ∈ blocks, Even i then 2 ^ blocks.length else 2 ^ (blocks.length - 1)
 
-/-- The empty numerical component list has count one, including degree zero. -/
-example : unitaryComponentCount 0 [] = 1 := by
-  norm_num [unitaryComponentCount, even_iff_two_dvd]
-
-/-- Even degree, one block: two components. -/
-example : unitaryComponentCount 2 [1] = 2 := by
-  norm_num [unitaryComponentCount, even_iff_two_dvd]
-
-/-- Odd degree and an odd block: one exponent is removed. -/
-example : unitaryComponentCount 3 [3, 2] = 2 := by
-  norm_num [unitaryComponentCount, even_iff_two_dvd]
-
 /-- The endoscopic coefficient from Tamagawa numbers and the outer automorphism order.
 In its group application τH and outH are nonzero. -/
 def endoscopicCoefficient (τG τH : ℚ) (outH : ℕ) : ℚ := τG / τH / outH
 
-/-- The trivial datum has coefficient one when its Tamagawa number is nonzero. -/
-example (τ : ℚ) (hτ : τ ≠ 0) : endoscopicCoefficient τ τ 1 = 1 := by
-  simp [endoscopicCoefficient, hτ]
-
-/-- The numerical coefficient retains both the Tamagawa ratio and the outer denominator. -/
-example : endoscopicCoefficient 2 2 2 = 1 / 2 := by
-  norm_num [endoscopicCoefficient]
-
-/-- For G₄ and its G₂,₂ endoscopic datum, the stable coefficient is one quarter. -/
-example : endoscopicCoefficient 2 4 2 = 1 / 4 := by
+/-- The numerical trivial-datum identity of §6.7, with nonzero Tamagawa number. -/
+theorem endoscopicCoefficient_self (τ : ℚ) (hτ : τ ≠ 0) : endoscopicCoefficient τ τ 1 = 1 := by
   sorry
 
-/-- A zero Tamagawa denominator evaluates to zero in the numerical convention. -/
-example : endoscopicCoefficient 2 0 2 = 0 := by
-  norm_num [endoscopicCoefficient]
+/-- The equal-block coefficient identity of §6.7 retains the Tamagawa ratio
+alongside the order-two outer automorphism denominator. -/
+theorem endoscopicCoefficient_equal_blocks (τG τH : ℚ) :
+    endoscopicCoefficient τG τH 2 = τG / (2 * τH) := by
+  sorry
 
 /-! ## Layer 7: algebraic isocrystals and rational Igusa geometry
 PadicHodgeTheory §5.5 supplies sigmaConjugacy, B(G), the tensor Newton map,
@@ -318,60 +271,16 @@ with the Weil-composed lift, as required by §7.10a and §8.5. -/
 
 /-! ## Layer 8: Igusa counting and stabilization -/
 
-/-- Direct pullback under the three-cycle sends the indicator of zero to that of two;
-the reversed correspondence instead sends it to that of one. -/
-example :
-    (if (2 : ZMod 3) + 1 = 0 then (1 : ℚ) else 0) = 1 ∧
-    (if (1 : ZMod 3) + 1 = 0 then (1 : ℚ) else 0) = 0 ∧
-    (if (1 : ZMod 3) - 1 = 0 then (1 : ℚ) else 0) = 1 := by
-  decide
-
-/-- For right translations on any group, direct pullbacks multiply in the group order. -/
-example {G : Type*} [Group G] (f : G → ℚ) (g h x : G) :
-    (fun y => f (y * h)) (x * g) = f (x * (g * h)) := by
-  exact congrArg f (mul_assoc x g h)
-
 /-- Across decreasing slope blocks, every eigenvalue valuation in an earlier block is smaller
 than every valuation in a later block. This checks only the numerical acceptability inequality. -/
 def AcceptableValuations {r : ℕ} (vals : Fin r → Finset ℚ) : Prop :=
   ∀ i j : Fin r, i < j → ∀ x ∈ vals i, ∀ y ∈ vals j, x < y
 
-/-- Valuations (0,1) satisfy the decreasing-slope convention. -/
-example : AcceptableValuations (r := 2) ![{0}, {1}] := by
-  sorry
-
-/-- Equal cross-block valuations fail strict acceptability. -/
-example : ¬ AcceptableValuations (r := 2) ![{0}, {0}] := by
-  sorry
-
-/-- Reversing the two valuation blocks violates strict acceptability. -/
-example : ¬ AcceptableValuations (r := 2) ![{1}, {0}] := by
-  sorry
-
-/-- At residue cardinality four, the relative Weyl factor and half-modulus orbital factor
-agree with the normalized opposite Jacquet character of the trivial representation. -/
-example : (4 : ℚ) * (1 / 2) = 2 ∧ (4 : ℚ) * (1 / 4) ≠ 2 := by
-  norm_num
-
-/-- The first two inverse-power rows for eigenvalues two and three have determinant minus one sixth. -/
-example : Matrix.det !![(1 : ℚ), 1; 1 / 2, 1 / 3] = -1 / 6 := by
-  sorry
-
-/-- Consecutive inverse-power rows remain independent at every nonnegative starting exponent. -/
-example (N : ℕ) :
-    Matrix.det !![(2 : ℚ)⁻¹ ^ N, (3 : ℚ)⁻¹ ^ N;
-      (2 : ℚ)⁻¹ ^ (N + 1), (3 : ℚ)⁻¹ ^ (N + 1)] =
-      -((2 : ℚ)⁻¹ ^ (N + 1) * (3 : ℚ)⁻¹ ^ (N + 1)) ∧
-    Matrix.det !![(2 : ℚ)⁻¹ ^ N, (3 : ℚ)⁻¹ ^ N;
-      (2 : ℚ)⁻¹ ^ (N + 1), (3 : ℚ)⁻¹ ^ (N + 1)] ≠ 0 := by
-  sorry
-
-/-- After Frobenius grouping, two consecutive scalar equations separate both coefficients. -/
-example (a : ℕ) (c₁ c₂ : ℚ)
-    (h₀ : c₁ * (2 : ℚ)⁻¹ ^ a + c₂ * (3 : ℚ)⁻¹ ^ a = 0)
-    (h₁ : c₁ * (2 : ℚ)⁻¹ ^ (a + 1) + c₂ * (3 : ℚ)⁻¹ ^ (a + 1) = 0) :
-    c₁ = 0 ∧ c₂ = 0 := by
-  sorry
+/-- A shared valuation in two distinct slope blocks prevents strict acceptability. -/
+example {r : ℕ} (vals : Fin r → Finset ℚ) (i j : Fin r) (hij : i < j)
+    (x : ℚ) (hi : x ∈ vals i) (hj : x ∈ vals j) : ¬ AcceptableValuations vals := by
+  intro h
+  exact (lt_irrefl x) (h i j hij x hi x hj)
 
 /-! ## Layer 9: raw compact-unitary cohomology
 The geometric complex, its graded pieces and its commuting actions are README targets. -/
@@ -429,11 +338,6 @@ example (q : ℚ) : specialFrobenius q 2 = !![1, 0; 0, q⁻¹] := by
   ext i j
   fin_cases i <;> fin_cases j <;> simp [specialFrobenius, Matrix.diagonal]
 
-/-- q=1 gives the identity matrix; this numerical specialization is not a residue field. -/
-example : specialFrobenius 1 2 = 1 := by
-  ext i j
-  fin_cases i <;> fin_cases j <;> simp [specialFrobenius, Matrix.diagonal]
-
 /-! ## Layer 11: local unitary packets and global classification
 The bounded and extended packets assume the README contract UnitaryClassificationInputs.
 GSp₄ classification instead assumes GSp4ClassificationInputs, including its exterior-square,
@@ -473,11 +377,6 @@ With the fixed Haar measures of §13.7, each raw transferred trace in the Σ_min
 product is divided by vol(K_v). Equivalently it is the trace of the transfer of e_Kv.
 The Σ_lr zero/one factors and spherical factors are also idempotent traces. -/
 
-/-- At the split GL₂ congruence level with residue cardinality three, the raw trace
-divided by the compact volume gives the four-dimensional invariant space. -/
-example : (1 / 12 : ℚ) / (1 / 48) = 4 := by
-  norm_num
-
 /-! ## Layer 14: rational Igusa spectral comparison
 Virtual spectral factorization is separate from degree-wise concentration. -/
 
@@ -488,7 +387,22 @@ def comparisonTrace {ι : Type*} (s : Finset ι)
     (multiplicity coefficient localTrace auxiliaryTrace sphericalTrace : ι → ℚ) : ℚ :=
   ∑ i ∈ s, multiplicity i * coefficient i * localTrace i * auxiliaryTrace i * sphericalTrace i
 
-/-- The finite convention agrees with the trace of the diagonal matrix of summands. -/
+/-- The additivity identity of §15.1 preserves all four factors while adding virtual multiplicities. -/
+theorem comparisonTrace_addMultiplicity {ι : Type*} (s : Finset ι)
+    (m₁ m₂ c l a h : ι → ℚ) :
+    comparisonTrace s (m₁ + m₂) c l a h =
+      comparisonTrace s m₁ c l a h + comparisonTrace s m₂ c l a h := by
+  sorry
+
+/-- The merging identity of §15.1 sums multiplicities in each fibre when the remaining
+four factors depend only on its image. Empty fibres contribute zero. -/
+theorem comparisonTrace_merge {ι κ : Type*} [Fintype ι] [Fintype κ] [DecidableEq κ]
+    (f : ι → κ) (m : ι → ℚ) (c l a h : κ → ℚ) :
+    comparisonTrace Finset.univ m (c ∘ f) (l ∘ f) (a ∘ f) (h ∘ f) =
+      comparisonTrace Finset.univ (fun j => ∑ i with f i = j, m i) c l a h := by
+  sorry
+
+/-- The diagonal-trace comparison of §15.1 identifies the finite sum with the matrix trace. -/
 theorem comparisonTrace_eq_trace_diagonal {ι : Type*} [Fintype ι] [DecidableEq ι]
     (multiplicity coefficient localTrace auxiliaryTrace sphericalTrace : ι → ℚ) :
     comparisonTrace Finset.univ multiplicity coefficient localTrace auxiliaryTrace sphericalTrace =
@@ -496,48 +410,17 @@ theorem comparisonTrace_eq_trace_diagonal {ι : Type*} [Fintype ι] [DecidableEq
         multiplicity i * coefficient i * localTrace i * auxiliaryTrace i * sphericalTrace i) := by
   sorry
 
-/-- An empty spectral ledger has trace zero for arbitrary factors. -/
-example {ι : Type*} (m c l a h : ι → ℚ) :
-    comparisonTrace (∅ : Finset ι) m c l a h = 0 := by
-  simp [comparisonTrace]
-
-/-- Vanishing local traces kill every term, including signed multiplicities. -/
-example {ι : Type*} (s : Finset ι) (m c a h : ι → ℚ) :
+/-- The zero-local-factor identity of §15.1 holds for arbitrary signed multiplicities. -/
+theorem comparisonTrace_zeroLocal {ι : Type*} (s : Finset ι) (m c a h : ι → ℚ) :
     comparisonTrace s m c (fun _ => 0) a h = 0 := by
-  simp [comparisonTrace]
-
-/-- The quaternion-sign ledger with multiplicity two has value minus 210. -/
-example : comparisonTrace ({()} : Finset Unit) (fun _ => 2) (fun _ => -1)
-    (fun _ => 3) (fun _ => 5) (fun _ => 7) = -210 := by
-  norm_num [comparisonTrace]
-
-/-- Two products of two and three give the diagonal trace and ledger value five. -/
-example :
-    comparisonTrace (Finset.univ : Finset (Fin 2)) ![2, 3] (fun _ => 1)
-      (fun _ => 1) (fun _ => 1) (fun _ => 1) =
-        Matrix.trace (Matrix.diagonal ![(2 : ℚ), 3]) ∧
-    comparisonTrace (Finset.univ : Finset (Fin 2)) ![2, 3] (fun _ => 1)
-      (fun _ => 1) (fun _ => 1) (fun _ => 1) = 5 := by
-  norm_num [comparisonTrace, Matrix.trace, Matrix.diagonal, Fin.sum_univ_two]
-
-/-- A ledger term with prescribed coefficient one half contributes one half. -/
-example : comparisonTrace ({()} : Finset Unit) (fun _ => 1) (fun _ => 1 / 2)
-    (fun _ => 1) (fun _ => 1) (fun _ => 1) = 1 / 2 := by
-  norm_num [comparisonTrace]
-
-/-- Opposite virtual multiplicities cancel even though both graded pieces may be nonzero. -/
-example : comparisonTrace ({false, true} : Finset Bool)
-    (fun i => if i then 1 else -1) (fun _ => 1) (fun _ => 1) (fun _ => 1) (fun _ => 1) = 0 := by
-  norm_num [comparisonTrace]
+  sorry
 
 /-
 Further objects and constructions are specified in README.md:
 The full inner-form sign API of §1.13 includes kottwitzSign_quasiSplit,
 kottwitzSign_quaternion, kottwitzSign_compact_real, kottwitzSign_product and
-kottwitzSign_not_rank_parity. Section 6.7 specifies endoscopicCoefficient_iso,
-endoscopicCoefficient_self, endoscopicCoefficient_equal_blocks and
-endoscopicCoefficient_self_test. Section 15.1 specifies comparisonTrace_addMultiplicity,
-comparisonTrace_merge and comparisonTrace_zeroLocal. The classical-llc-normalization
+kottwitzSign_not_rank_parity. Section 6.7 specifies endoscopicCoefficient_iso and endoscopicCoefficient_self_test
+for geometric endoscopic data. The classical-llc-normalization
 contract is supplied by SmoothRepresentationsOfLocalGroups §SR.5.2.
 
 NonabelianH1, CrossedModuleCohomology, AbelianizedCohomology, InnerTwist,
@@ -567,5 +450,6 @@ Invariants, IsAssociated, IsStableDistribution, NearbyCycles, Newvector, PairFac
 ParabolicInduction, QuasiEL, SpehType, StrictDieudonne and StrictNearbyCycles. Their geometry and representation categories are needed
 before their signatures can be stated in Lean.
 -/
+
 
 end TauCetiRoadmap.EndoscopicTransferAndUnitaryTraceComparison

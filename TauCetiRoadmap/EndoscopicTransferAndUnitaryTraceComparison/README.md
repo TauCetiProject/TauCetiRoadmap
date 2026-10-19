@@ -256,7 +256,7 @@ The centralizer facts used here are also targets: over `F̄` the identity compon
 
 **Checks.**
 
-- `stableConj_gln`. For `G = GL_n`, two semisimple elements of `GL_n(F)` are stably conjugate iff they have the same characteristic polynomial iff they are `GL_n(F)`-conjugate. The suggested `isConj_iff_charpoly_eq_of_separable` specializes to an arbitrary field `K` and two invertible matrices whose first characteristic polynomial is separable. Without semisimplicity, the identity and `[[1,1],[0,1]]` over `Q` have equal characteristic polynomials and are not conjugate.
+- `stableConj_gln`. For `G = GL_n`, two semisimple elements of `GL_n(F)` are stably conjugate iff they have the same characteristic polynomial iff they are `GL_n(F)`-conjugate. The suggested `isConj_iff_charpoly_eq_of_isSemisimple` states rational conjugacy over an arbitrary field using Mathlib `Module.End.IsSemisimple` on `Matrix.toLin'` of each matrix; this permits repeated characteristic roots. The target `isConj_iff_charpoly_eq_of_separable` specializes to an arbitrary field `K` and two invertible matrices whose first characteristic polynomial is separable. Without semisimplicity, the identity and `[[1,1],[0,1]]` over `Q` have equal characteristic polynomials and are not conjugate (`identity_not_isConj_unipotent`).
 - `stableConj_sl2_elliptic`. For `G = SL₂` over a `p`-adic `F` and `E/F` quadratic, the element of `SL₂(F)` acting on `E = F²` by multiplication by `u ∈ E¹ \ {±1}` and its conjugate by `diag(a, 1)` with `a ∉ N E^×` are stably conjugate but not `SL₂(F)`-conjugate.
 - `stableConj_torus`. For `G = T` a torus, stable conjugacy is equality.
 - `stableConj_not_geometric`. In `PGL₂(F)`, the images of `diag(1, −1)` and of the matrix with rows (0, 1) and `(a, 0), a ∉ F^{×2}`, are geometrically conjugate (both are involutions), but the identity components of their centralizers are a split and a nonsplit torus, so they are not stably conjugate.
@@ -2091,7 +2091,7 @@ The interface consists of the following operations and identities.
 - `StableEllipticDistribution.isStable`: `ST^H_e` vanishes on `h` all of whose stable orbital integrals vanish.
 - `StableEllipticDistribution.linear`: `ST^H_e` is linear in `h`.
 - `endoscopicCoefficient`: `ι(G,H) = τ(G)τ(H)⁻¹|Out(H,s,η)|⁻¹`.
-- `endoscopicCoefficient_self`: `ι(G,G) = 1` for the trivial triple.
+- `endoscopicCoefficient_self`: `ι(G,G) = 1` for the trivial triple. Its rational identity is `endoscopicCoefficient τ τ 1 = 1` under `τ≠0`.
 - `endoscopicCoefficient_iso`: `ι(G,H)` depends only on the isomorphism class of `(H,s,η)`.
 
 Use the central quotient, support conditions and summation convention of Shin 2010 §1.2 and (7.3). Compactness modulo the entire centre alone does not imply finiteness: a torus would leave all rational central translates. Any finiteness assertion must be made on the specified quotient and support, not inferred from compact support modulo `Z(H)`. `ST^H_e` is a stable distribution: each `SO_{γ_H}` is stable (§2.4). `ι(G,H)` depends only on the isomorphism class of the triple.
@@ -2102,7 +2102,7 @@ Use the central quotient, support conditions and summation convention of Shin 20
 - For `τ(G)=τ(H)=2` and outer order 2, `endoscopicCoefficient` is `1/2`; outer order 1 instead gives 1.
 - At `τ(H)=0` the numerical rational function evaluates to 0 in Lean, so denominator nonvanishing must be checked before any group interpretation.
 - `StableEllipticDistribution.torus`. For a torus the connected-centralizer component factor is 1, and the formula is `τ(T)` times the rational sum with `A_{T,∞}⁰` and the central-character convention fixed; no finiteness follows merely from compact support modulo the whole torus.
-- `endoscopicCoefficient_equal_blocks`. For `G = G_{2n}` and `H = G_{n,n}, |Out(H,s,η)| = 2`, so `ι(G,H) = τ(G)/(2τ(H))`.
+- `endoscopicCoefficient_equal_blocks`. For `G = G_{2n}` and `H = G_{n,n}, |Out(H,s,η)| = 2`, so `ι(G,H) = τ(G)/(2τ(H))`. The rational identity `endoscopicCoefficient τG τH 2 = τG/(2τH)` holds for all rational inputs; the group interpretation retains `τH>0`.
 - `StableEllipticDistribution.non_elliptic_zero`. A semisimple class that is not elliptic at infinity has zero orbital integral against `h_∞` stable cuspidal. A sum of stable orbital integrals over more classes remains stable; the ellipticity test checks the selected geometric term, not stability.
 - `endoscopicCoefficient_self_test`. For the trivial triple `(G,1,id), ι(G,G) = 1`.
 
@@ -5110,7 +5110,7 @@ The interface consists of the following operations and identities.
 - `comparisonTrace`: Evaluate the finite signed coefficient sum on the existing rational carrier.
 - `comparisonTrace_addMultiplicity`: Adding multiplicity functions adds the trace.
 - `comparisonTrace_zeroLocal`: If every local factor is zero, the trace is zero.
-- `comparisonTrace_merge`: Terms with the same sign and three trace factors combine by adding virtual multiplicities.
+- `comparisonTrace_merge`: For finite index types `ι, κ` and a map `f : ι → κ`, if the coefficient and three trace factors depend only on `f(i)`, the full sum equals the sum over `κ` with multiplicity `Σ_{f(i)=j} mult_i`. Empty fibres have zero multiplicity.
 - `comparisonTrace_eq_trace_diagonal`: Over all of a finite index type, the ledger equals the Mathlib trace of the diagonal matrix whose entries are the five-fold products.
 
 The factorization theorem supplies the finite indexing set. The virtual multiplicity and the sign/endoscopic constant remain separate factors of the rational sum. Prove additivity and invariance under merging terms with identical remaining trace factors.
