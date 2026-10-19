@@ -370,11 +370,16 @@ theorems above; ring structures take their conclusions as explicit hypotheses. I
 UnitarySimilitudeDatum.heckeRestrict_heckeOperator.
 
 Layer IG.F adds the relative curve, crystalline/PEL classification, Artin/solid coefficients,
-Satake, local shtukas and geometric excursion action. integralGeometricSatakeEquiv has target
-finite-projective representations of the dual group on a geometric single-divisor fibre;
-relativeSatakeEquiv retains all legs and continuous Weil descent over the full divisor base.
-geometricHeckeFunctor takes a representation of the several-leg semidirect product with the
-finite quotient through which the pinned Weil action factors. IG.4.0a–d adds the valuation-model,
+local shtukas and geometric excursion action. IG.F.15–IG.F.16 consume the Satake foundation
+of GeometricSatakeAndFusion GS0–GS4. The alias integralGeometricSatakeEquiv is the supplied
+normalized equivalence on a geometric single-divisor fibre, with target finite-projective
+representations of the dual group. The alias relativeSatakeEquiv retains all legs and continuous
+Weil descent over the full divisor base pulled to Perf_k, k = overline(F_q), with products
+relative to Spd k; its empty-leg category is finite-projective coefficient modules.
+geometricHeckeFunctor uses these supplied kernels and their perfect-representation extension,
+with the finite quotient through which the pinned Weil action factors and the supplied tensor,
+coefficient, collision and inner Cartan comparisons. These geometric carriers and equivalences
+are README targets. IG.4.0a–d adds the valuation-model,
 two-tower descent, continuous cosupport and ordinary-support limit comparisons;
 IG.4.0d follows IG.4.7. IG.6.6a–b
 specifies the actual GL torsion import and the lower unitary residual application.
