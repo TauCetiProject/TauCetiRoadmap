@@ -2495,7 +2495,8 @@ linear constructor to the `Sp_{2g}(ℤ)` action with linear maps `R_M(Ω) = (CΩ
 `R_M(Ω) Π_Ω(v) = Π_{M·Ω}(M^{-T} v)` (checking the transpose), and identifies torsion with the lattice
 modulo `N`. The API is `SiegelFamily.fibre`, `SiegelFamily.polarization`, `SiegelFamily.symplecticAction`
 (the compatible period, lattice and fibre actions) and `SiegelFamily.level`. `Suggested.lean` states
-the period space as `SiegelUpperHalfSpace`, with `siegelAction` and `siegelAction_mem`. *Needs:* A3.7, A3.8, A5.2,
+the period space as `SiegelUpperHalfSpace`, with `siegelAction`, `siegelAction_mem`,
+`siegelAction_one`, `siegelAction_translation` and `siegelAction_mul`. *Needs:* A3.7, A3.8, A5.2,
 A5.6; ComplexTori Milestones 2–3; Mathlib `Matrix.symplecticGroup`, `Matrix.PosDef`.
 
 The light predicate has intended signature
@@ -2507,7 +2508,7 @@ period matrices using Mathlib's matrix inverse. Prove `siegelAction_one` and
 `siegelAction_translation`: the identity fixes every period, and
 `[[I, B], [0, I]]` sends `Ω` to `Ω + B` for symmetric integral `B`.
 For symplectic `M`, `siegelAction_mem` asserts both invertibility of `CΩ + D` and
-preservation of the Siegel space. Prove the composition identity on that space;
+preservation of the Siegel space. Prove `siegelAction_mul`, the composition identity on that space;
 the invertibility assertion is what justifies the fractional formula there
 (Faltings–Chai I.6, pp. 29–30).
 
@@ -3225,7 +3226,7 @@ numerator be a homomorphism. This proves full faithfulness on all `S`-schemes, w
 Locally defined fractions give a global arrow only after establishing a common denominator and
 gluing the integral numerators; local invertibility alone gives no such bound.
 Every unit of `D` acts invertibly on a localized Hom module, with its inverse giving
-inverse scalar multiplication; the companion Lean example pins this coefficient action. *Needs:* A6.22, A6.25.
+inverse scalar multiplication. *Needs:* A6.22, A6.25.
 
 **Checks.**
 

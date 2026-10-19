@@ -52,6 +52,22 @@ namespace TauCetiRoadmap.AbelianSchemesAndArithmeticModuli
 
 universe u
 
+/-- A Riemann form determines the homological Hodge structure of weight `−1`: the
+`+i`-eigenspace of `J` has type `(-1, 0)`, the Weil operator is `−J`, and the polarizing
+form is `−E` (README A5.2, `RiemannForm.homological`). -/
+theorem RiemannForm.homological {Λ Vℂ : Type*} [AddCommGroup Λ]
+    [Module.Free ℤ Λ] [Module.Finite ℤ Λ] [AddCommGroup Vℂ] [Module ℂ Vℂ]
+    {ιℂ : Λ →ₗ[ℤ] Vℂ} (hℂ : IsBaseChange ℂ ιℂ)
+    (J : TauCeti.AlmostComplexStructure (TauCeti.Hodge.Realification Λ))
+    (E : LinearMap.BilinForm ℤ Λ) (hE : J.IsRiemannForm E) :
+    ∃! hs : TauCeti.Hodge.HodgeStructure hℂ (-1),
+      hs.piece (-1) = Module.End.eigenspace (J.latticeComplexification hℂ) Complex.I ∧
+      hs.piece 0 = Module.End.eigenspace (J.latticeComplexification hℂ) (-Complex.I) ∧
+      (∀ p : ℤ, p ≠ -1 → p ≠ 0 → hs.piece p = ⊥) ∧
+      hs.weilOperator = -J.latticeComplexification hℂ ∧
+      TauCeti.Hodge.IsPolarization hℂ hs (-E) := by
+  sorry
+
 /-! ## Layer A0: The carrier and its boundaries -/
 
 /-- An **abelian scheme** over a scheme `S`: a group object in `Over S` whose structure morphism
@@ -185,40 +201,12 @@ theorem weilExtension [IsIntegral S]
       (Over.pullback (S.fromSpecStalk (genericPoint S))).map f) := by
   sorry
 
-/-- Check: the extension of a generic-fibre map is unique and restricts to that map
-(README A1.8). -/
-example [IsIntegral S]
-    (hS : ∀ U : S.affineOpens, Nonempty U.1 → IsDedekindDomain Γ(S, U.1))
-    (A : AbelianScheme S) (X : Over S) [Smooth X.hom]
-    (uη : (Over.pullback (S.fromSpecStalk (genericPoint S))).obj X ⟶
-      (A.baseChange (S.fromSpecStalk (genericPoint S))).toOver) :
-    ∃! f : X ⟶ A.toOver,
-      (Over.pullback (S.fromSpecStalk (genericPoint S))).map f = uη := by
-  obtain ⟨f, hf⟩ := (weilExtension hS A X).surjective uη
-  exact ⟨f, hf, fun g hg => (weilExtension hS A X).injective (hg.trans hf.symm)⟩
-
-/-- Check: extension between abelian sources preserves the group law whenever its generic
-restriction does (README A1.8). -/
-example [IsIntegral S]
-    (hS : ∀ U : S.affineOpens, Nonempty U.1 → IsDedekindDomain Γ(S, U.1))
-    (A B : AbelianScheme S)
-    (uη : (A.baseChange (S.fromSpecStalk (genericPoint S))).toOver ⟶
-      (B.baseChange (S.fromSpecStalk (genericPoint S))).toOver) [IsMonHom uη] :
-    ∃! f : A.toOver ⟶ B.toOver, IsMonHom f ∧
-      (Over.pullback (S.fromSpecStalk (genericPoint S))).map f = uη := by
-  sorry
-
 /-! ## Layer A3: Isogenies, finite-flat quotients, torsion and pairings -/
 
 /-- Multiplication by `n` on an abelian scheme, `[n] = 𝟙 ^ n` in the group of endomorphisms of the
 group object. -/
 noncomputable def mulBy (A : AbelianScheme S) (n : ℤ) : A.toOver ⟶ A.toOver :=
   𝟙 A.toOver ^ n
-
-/-- Check: on the dimension-zero abelian scheme every multiplication map, `[p]` included, is an
-isomorphism; a definition requiring positive dimension excludes this object (README A0.1). -/
-example (S : Scheme.{u}) (n : ℤ) : IsIso ((identity S).mulBy n) := by
-  sorry
 
 /-- Multiplication by one is the identity morphism (README A3.2). -/
 theorem mulBy_one (A : AbelianScheme S) : A.mulBy 1 = 𝟙 A.toOver :=
@@ -249,13 +237,6 @@ def IsAbelianIsogeny {A B : AbelianScheme S} (f : A.toOver ⟶ B.toOver) : Prop 
 example (A : AbelianScheme S) : IsAbelianIsogeny (𝟙 A.toOver) := by
   refine ⟨inferInstance, ?_, ?_, ?_⟩ <;> rw [Over.id_left] <;> infer_instance
 
-/-- Check: translation by a nonzero section is an isomorphism but is not an isogeny,
-because it does not preserve zero (README A3.1). -/
-example (A : AbelianScheme S) (a : 𝟙_ (Over S) ⟶ A.toOver) (ha : a ≠ 1) :
-    IsIso (GrpObj.mulRight a).hom ∧
-      ¬ IsAbelianIsogeny (A := A) (B := A) (GrpObj.mulRight a).hom := by
-  sorry
-
 /-- **Multiplication maps** over an arbitrary base: for `n ≠ 0` on an abelian scheme of relative
 dimension `g`, `[n]` is an isogeny of constant rank `|n|^(2g)` (README A3.2). -/
 theorem mulBy_isAbelianIsogeny (A : AbelianScheme S) (g : ℕ)
@@ -284,31 +265,6 @@ theorem surjectiveHom_flat {A B : AbelianVariety K} (f : A ⟶ B)
     (hf : Surjective (AbelianVariety.Hom.toSchemeHom f)) :
     Flat (AbelianVariety.Hom.toSchemeHom f) := by
   sorry
-
-/-- Check: projection from an elliptic square is faithfully flat with a positive-dimensional
-kernel, so it is not an isogeny (README A3.1). -/
-example (E : AbelianVariety K) (hE : E.dim = 1) :
-    Flat (AbelianVariety.Hom.toSchemeHom (AbelianVariety.prod.fst E E)) ∧
-      Surjective (AbelianVariety.Hom.toSchemeHom (AbelianVariety.prod.fst E E)) ∧
-        ¬ IsIsogeny (AbelianVariety.prod.fst E E) := by
-  sorry
-
-/-- Check: multiplication by the characteristic on an elliptic curve is faithfully flat;
-this includes supersingular curves with nonreduced kernel (README A3.1). -/
-example (p : ℕ) [Fact p.Prime] [CharP K p] (E : AbelianVariety K) (hE : E.dim = 1) :
-    Flat (AbelianVariety.Hom.toSchemeHom (mulBy E (p : ℤ))) ∧
-      Surjective (AbelianVariety.Hom.toSchemeHom (mulBy E (p : ℤ))) := by
-  sorry
-
-/-- Check: the identity is faithfully flat, including in dimension zero (README A3.1). -/
-example (A : AbelianVariety K) :
-    Flat (AbelianVariety.Hom.toSchemeHom (𝟙 A)) ∧
-      Surjective (AbelianVariety.Hom.toSchemeHom (𝟙 A)) := by
-  constructor
-  · change Flat (𝟙 A.toScheme)
-    infer_instance
-  · change Surjective (𝟙 A.toScheme)
-    infer_instance
 
 /-- Over a field, the relative isogeny condition is Tau Ceti's `IsIsogeny` (finite and surjective):
 `surjectiveHom_flat` supplies flatness (README A3.1). -/
@@ -347,11 +303,6 @@ theorem alternating_elementaryDivisors {g : ℕ}
       E.det = (∏ i, (d i : ℤ)) ^ 2 := by
   sorry
 
-/-- Check: the type `(1, 2)` form has determinant `(1 · 2)² = 4`. -/
-example : (Matrix.fromBlocks (0 : Matrix (Fin 2) (Fin 2) ℤ) (Matrix.diagonal ![1, 2])
-    (-Matrix.diagonal ![1, 2]) 0).det = 4 := by
-  sorry
-
 /-- The **Siegel space** `H_g`: symmetric complex `g × g` matrices with positive definite
 imaginary part (README A5.8). -/
 def SiegelUpperHalfSpace (g : ℕ) : Set (Matrix (Fin g) (Fin g) ℂ) :=
@@ -364,13 +315,17 @@ noncomputable def siegelAction {g : ℕ} (M : Matrix (Fin g ⊕ Fin g) (Fin g �
   let Mc := M.map (Int.cast : ℤ → ℂ)
   (Mc.toBlocks₁₁ * Ω + Mc.toBlocks₁₂) * (Mc.toBlocks₂₁ * Ω + Mc.toBlocks₂₂)⁻¹
 
-/-- Check: the identity block matrix fixes every period matrix. -/
-example {g : ℕ} (Ω : Matrix (Fin g) (Fin g) ℂ) :
+/-- The identity symplectic matrix fixes every period matrix (README A5.8,
+`siegelAction_one`). -/
+theorem siegelAction_one {g : ℕ} (Ω : Matrix (Fin g) (Fin g) ℂ) :
     siegelAction (1 : Matrix (Fin g ⊕ Fin g) (Fin g ⊕ Fin g) ℤ) Ω = Ω := by
   sorry
 
-/-- Check: the upper unipotent block matrix translates a period by its upper-right block. -/
-example {g : ℕ} (B : Matrix (Fin g) (Fin g) ℤ) (Ω : Matrix (Fin g) (Fin g) ℂ) :
+/-- An upper unipotent block matrix translates periods by its upper-right block
+(README A5.8, `siegelAction_translation`). The formula holds for every integral block;
+symmetric blocks give symplectic matrices. -/
+theorem siegelAction_translation {g : ℕ} (B : Matrix (Fin g) (Fin g) ℤ)
+    (Ω : Matrix (Fin g) (Fin g) ℂ) :
     siegelAction (Matrix.fromBlocks 1 B 0 1) Ω = Ω + B.map (Int.cast : ℤ → ℂ) := by
   sorry
 
@@ -382,13 +337,14 @@ theorem siegelAction_mem {g : ℕ} (M : Matrix (Fin g ⊕ Fin g) (Fin g ⊕ Fin 
       siegelAction M Ω ∈ SiegelUpperHalfSpace g := by
   sorry
 
-/-- Check, genus one: `H₁` is the upper half-plane. -/
-example (Ω : Matrix (Fin 1) (Fin 1) ℂ) : Ω ∈ SiegelUpperHalfSpace 1 ↔ 0 < (Ω 0 0).im := by
-  sorry
-
-/-- Check: a symmetric period matrix with singular imaginary part, here `0`, is not in `H_g` for
-`g ≥ 1`. -/
-example (g : ℕ) (hg : 0 < g) : (0 : Matrix (Fin g) (Fin g) ℂ) ∉ SiegelUpperHalfSpace g := by
+/-- Symplectic multiplication corresponds to composition of the period action on Siegel
+space (README A5.8, `siegelAction_mul`). -/
+theorem siegelAction_mul {g : ℕ}
+    (M N : Matrix (Fin g ⊕ Fin g) (Fin g ⊕ Fin g) ℤ)
+    (hM : M ∈ Matrix.symplecticGroup (Fin g) ℤ)
+    (hN : N ∈ Matrix.symplecticGroup (Fin g) ℤ)
+    {Ω : Matrix (Fin g) (Fin g) ℂ} (hΩ : Ω ∈ SiegelUpperHalfSpace g) :
+    siegelAction (M * N) Ω = siegelAction M (siegelAction N Ω) := by
   sorry
 
 /-- Check: positive definite imaginary part does not admit a nonsymmetric period
@@ -397,29 +353,6 @@ example : !![Complex.I, 1; 0, Complex.I] ∉ SiegelUpperHalfSpace 2 := by
   intro h
   have hsym := congrArg (fun Ω : Matrix (Fin 2) (Fin 2) ℂ => Ω 0 1) h.1
   norm_num [Matrix.transpose_apply] at hsym
-
-/-- Check: a genus-two lower-unipotent symplectic matrix acts by the right quotient;
-the left quotient has entry one in this position (README A5.8). -/
-example :
-    siegelAction (Matrix.fromBlocks 1 0 (Matrix.diagonal ![1, 0]) 1)
-      !![Complex.I, 1; 1, Complex.I] 1 0 = 1 / (1 + Complex.I) := by
-  sorry
-
-/-- Check: the genus-one inversion matrix fixes the period `i`. -/
-example :
-    siegelAction
-      (Matrix.fromBlocks (0 : Matrix (Fin 1) (Fin 1) ℤ) (-1) 1 0)
-      (Matrix.diagonal fun _ : Fin 1 => Complex.I) =
-        Matrix.diagonal (fun _ : Fin 1 => Complex.I) := by
-  sorry
-
-/-- Check: the empty period matrix belongs to the genus-zero Siegel space. -/
-example (Ω : Matrix (Fin 0) (Fin 0) ℂ) : Ω ∈ SiegelUpperHalfSpace 0 := by
-  sorry
-
-/-- Check: the determinant of the genus-zero denominator is the empty product one. -/
-example (Z : Matrix (Fin 0) (Fin 0) ℂ) : Z.det = 1 := by
-  simp
 
 /-! ## Layer A6: Arithmetic Hom and exports -/
 
@@ -457,20 +390,6 @@ theorem deg_dimension_zero (A : AbelianVariety K) (hg : A.dim = 0) (α : Abelian
     Hom.deg (AbelianVariety.End.toHom α) = 1 := by
   sorry
 
-/-- Check: on an elliptic curve `deg [2] = 4`, in every characteristic. -/
-example (A : AbelianVariety K) (hg : A.dim = 1) : Hom.deg (mulBy A 2) = 4 := by
-  sorry
-
-/-- Check: in positive dimension the zero endomorphism has degree `0` and the identity degree
-`1`. -/
-example (A : AbelianVariety K) (g : ℕ) (hg : A.dim = (g : WithBot ℕ∞)) (hpos : 0 < g) :
-    Hom.deg (AbelianVariety.End.toHom (0 : AbelianVariety.End A)) = 0 ∧ Hom.deg (𝟙 A) = 1 := by
-  sorry
-
-/-- Check: inversion has degree one, including in dimension zero. -/
-example (A : AbelianVariety K) : Hom.deg (mulBy A (-1)) = 1 := by
-  sorry
-
 /-- **Images over the original field**: the image of a homomorphism is an abelian subvariety,
 through which the homomorphism factors by a faithfully flat homomorphism (README A6.3). -/
 theorem exists_abelianImage {A C : AbelianVariety K} (f : A ⟶ C) :
@@ -491,16 +410,6 @@ def IsSimple (A : AbelianVariety K) : Prop :=
 /-- Check: a zero-dimensional abelian variety is not simple, so that `End⁰` of a simple abelian
 variety is never the zero ring. -/
 example (A : AbelianVariety K) (hA : A.dim = 0) : ¬ IsSimple A := fun h => h.1 hA
-
-/-- Check: a product of two positive-dimensional abelian varieties is not simple. -/
-example (A B : AbelianVariety K) (gA gB : ℕ)
-    (hA : A.dim = (gA : WithBot ℕ∞)) (hB : B.dim = (gB : WithBot ℕ∞))
-    (hgA : 0 < gA) (hgB : 0 < gB) : ¬ IsSimple (AbelianVariety.prod A B) := by
-  sorry
-
-/-- Check: every dimension-one abelian variety is simple. -/
-example (A : AbelianVariety K) (hA : A.dim = 1) : IsSimple A := by
-  sorry
 
 /-- A nonzero endomorphism of a simple abelian variety is an isogeny. -/
 theorem isIsogeny_of_isSimple {A : AbelianVariety K} (hA : IsSimple A) (α : AbelianVariety.End A)
@@ -543,6 +452,27 @@ theorem endQ_isSemisimple (A : AbelianVariety K) :
       Module.Finite ℚ (ℚ ⊗[ℤ] AbelianVariety.End A) := by
   sorry
 
+/-- A monic polynomial over `ℚ_ℓ` is determined by the norms of products of all integral
+polynomial tests over its roots, with multiplicity (README A6.9,
+`polynomialsFromAdicValues`). -/
+theorem eq_of_padicNorm_roots_products (ℓ : ℕ) [Fact ℓ.Prime]
+    (P Q : (Padic ℓ)[X]) (hP : P.Monic) (hQ : Q.Monic)
+    (hdegree : P.natDegree = Q.natDegree)
+    (htests : ∀ F : ℤ[X],
+      ‖((P.map (algebraMap (Padic ℓ) (PadicAlgCl ℓ))).roots.map
+          (fun a => F.eval₂ (Int.castRingHom (PadicAlgCl ℓ)) a)).prod‖ =
+        ‖((Q.map (algebraMap (Padic ℓ) (PadicAlgCl ℓ))).roots.map
+          (fun a => F.eval₂ (Int.castRingHom (PadicAlgCl ℓ)) a)).prod‖) : P = Q := by
+  sorry
+
+/-- The determinant of a polynomial evaluated at a matrix is the product of its values at
+the characteristic roots, counted with multiplicity (README A6.9,
+`multiplicativePolynomialLaw`, determinant specialization). -/
+theorem det_aeval_eq_prod_roots {F : Type*} [Field F] [IsAlgClosed F] {n : ℕ}
+    (M : Matrix (Fin n) (Fin n) F) (G : F[X]) :
+    (aeval M G).det = (M.charpoly.roots.map fun a => G.eval a).prod := by
+  sorry
+
 /-- **The characteristic polynomial** of an endomorphism: the unique monic integral polynomial of
 degree `2g` whose value at every integer `r` is `deg(α − r)`. This algebraic construction uses
 degree polynomials, finite-rank Hom and Tate-module linear algebra (README A6.10). -/
@@ -553,19 +483,11 @@ theorem exists_charpoly (A : AbelianVariety K) (g : ℕ) (hg : A.dim = (g : With
         P.eval r = (Hom.deg (AbelianVariety.End.toHom (α - (r : AbelianVariety.End A))) : ℤ) := by
   sorry
 
-/-- Check: `(X − n)^(2g)` has the defining property of the characteristic polynomial of `[n]`. -/
-example (A : AbelianVariety K) (g : ℕ) (hg : A.dim = (g : WithBot ℕ∞)) (n : ℤ) (r : ℤ) :
-    ((X - C n) ^ (2 * g) : ℤ[X]).eval r =
-      (Hom.deg (AbelianVariety.End.toHom
-        ((n : AbelianVariety.End A) - (r : AbelianVariety.End A))) : ℤ) := by
-  sorry
-
-/-- Check: the characteristic polynomial is not the minimal polynomial; for `g > 0` the linear
-polynomial `X − n` does not have the defining property for `[n]`. -/
-example (A : AbelianVariety K) (g : ℕ) (hg : A.dim = (g : WithBot ℕ∞)) (hpos : 0 < g) (n : ℤ) :
-    ¬ ∀ r : ℤ, ((X - C n : ℤ[X])).eval r =
-      (Hom.deg (AbelianVariety.End.toHom
-        ((n : AbelianVariety.End A) - (r : AbelianVariety.End A))) : ℤ) := by
+/-- A root of unity congruent to one modulo an integer at least three, with integral
+quotient, equals one (README A6.18, `eq_one_of_root_of_unity`). -/
+theorem eq_one_of_root_of_unity {F : Type*} [Field F] [CharZero F]
+    (π ζ : F) (hπ : IsIntegral ℤ π) (n : ℤ) (hn : 3 ≤ n)
+    (hcongr : ζ = 1 + n * π) (m : ℕ) (hm : 0 < m) (hfinite : ζ ^ m = 1) : ζ = 1 := by
   sorry
 
 /-- A finite-order endomorphism congruent to the identity modulo an integer at least three
@@ -575,11 +497,6 @@ theorem eq_one_of_finiteOrder_congruence (A : AbelianVariety K)
     (α β : AbelianVariety.End A) (n : ℤ) (hn : 3 ≤ n) (m : ℕ) (hm : 0 < m)
     (hfinite : α ^ m = 1) (hcongr : α = 1 + n • β) : α = 1 := by
   sorry
-
-/-- Check of the hypothesis `n ≥ 3`: for `n = 2`, `ζ = −1 = 1 + 2 · (−1)` is a root of unity
-different from `1`. -/
-example : ((-1 : ℚ) = 1 + (2 : ℤ) * (-1 : ℚ)) ∧ (-1 : ℚ) ^ 2 = 1 ∧ (-1 : ℚ) ≠ 1 := by
-  norm_num
 
 /-- **Coefficient Hom spaces** (README A6.22): for a commutative `ℚ`-algebra `R`, the coefficient
 extension `R ⊗[ℤ] Hom(A, B)`. The objects stay over `K`. -/
@@ -597,22 +514,6 @@ noncomputable def id (A : AbelianVariety K) : CoefficientHom A A R :=
 /-- The coefficient automorphism group: the units of `R ⊗[ℤ] AbelianVariety.End A`. -/
 abbrev units (A : AbelianVariety K) := (R ⊗[ℤ] AbelianVariety.End A)ˣ
 
-/-- Check: over dual numbers `1 + εα` has two-sided inverse `1 − εα`. -/
-example (A : AbelianVariety K) (ε : R) (hε : ε * ε = 0) (α : R ⊗[ℤ] AbelianVariety.End A) :
-    (1 + ε • α) * (1 - ε • α) = 1 ∧ (1 - ε • α) * (1 + ε • α) = 1 := by
-  sorry
-
-/-- Check: `2` is a unit of the rational endomorphism algebra, with inverse `1/2`. -/
-example (A : AbelianVariety K) :
-    (2 : R ⊗[ℤ] AbelianVariety.End A) * ((1 / 2 : ℚ) • (1 : R ⊗[ℤ] AbelianVariety.End A)) = 1 := by
-  sorry
-
-/-- Check: zero is a nonunit for nontrivial coefficients in positive dimension. -/
-example [Nontrivial R] (A : AbelianVariety K) (g : ℕ)
-    (hg : A.dim = (g : WithBot ℕ∞)) (hpos : 0 < g) :
-    ¬ IsUnit (0 : R ⊗[ℤ] AbelianVariety.End A) := by
-  sorry
-
 /-- Check: with zero coefficients every coefficient endomorphism is a unit. -/
 example [Subsingleton R] (A : AbelianVariety K) :
     IsUnit (0 : R ⊗[ℤ] AbelianVariety.End A) := by
@@ -626,11 +527,6 @@ end CoefficientHom
 Each arrow has a single denominator invertible in `D`. -/
 abbrev LocalizedHom (D : Subring ℚ) (A B : AbelianVariety K) :=
   D ⊗[ℤ] Additive (A ⟶ B)
-
-/-- Check: an invertible coefficient acts invertibly on every localized Hom module. -/
-example (D : Subring ℚ) (A B : AbelianVariety K) (u : Dˣ) (x : LocalizedHom D A B) :
-    (↑u⁻¹ : D) • ((↑u : D) • x) = x := by
-  simp [smul_smul]
 
 end OverField
 
@@ -735,33 +631,6 @@ theorem realRosatiDecomposition [Module.Finite ℝ E] (t : E →ₗ[ℝ] ℝ)
               0 < (∑ j, ∑ k, star (v j) * ((e s).2.2 i) j k * v k).re) := by
   sorry
 
-/-- Check: the positive diagonal matrix has its positive unit square root inside the real
-matrix algebra (README A6.15). -/
-example :
-    let t := Matrix.traceLinearMap (Fin 2) ℝ ℝ
-    let s : Matrix (Fin 2) (Fin 2) ℝ := !![2, 0; 0, 3]
-    let r : Matrix (Fin 2) (Fin 2) ℝ := !![Real.sqrt 2, 0; 0, Real.sqrt 3]
-    IsRosatiPositive t s ∧ IsRosatiPositive t r ∧ r * r = s ∧ IsUnit r := by
-  sorry
-
-/-- Check: the second diagonal matrix unit witnesses failure of strict trace positivity
-for a singular nonnegative matrix (README A6.15). -/
-example :
-    let t := Matrix.traceLinearMap (Fin 2) ℝ ℝ
-    let s : Matrix (Fin 2) (Fin 2) ℝ := !![1, 0; 0, 0]
-    let x : Matrix (Fin 2) (Fin 2) ℝ := !![0, 0; 0, 1]
-    x ≠ 0 ∧ t (s * x * star x) = 0 ∧ ¬ IsRosatiPositive t s ∧ ¬ IsUnit s := by
-  sorry
-
-/-- Check: commutation with a repeated-eigenvalue diagonal matrix implies commutation
-with its positive root and inverse, including on the full repeated block (README A6.15). -/
-example (c : Matrix (Fin 3) (Fin 3) ℝ) :
-    let s : Matrix (Fin 3) (Fin 3) ℝ := Matrix.diagonal ![4, 4, 9]
-    let r : Matrix (Fin 3) (Fin 3) ℝ := Matrix.diagonal ![2, 2, 3]
-    let rInv : Matrix (Fin 3) (Fin 3) ℝ := Matrix.diagonal ![1/2, 1/2, 1/3]
-    Commute c s → Commute c r ∧ Commute c rInv := by
-  sorry
-
 /-- Check: positivity is vacuous in the zero matrix algebra, whose zero element is a unit
 and its own square root (README A6.15). -/
 example :
@@ -777,15 +646,6 @@ example :
     exact isUnit_one
 
 end RealRosatiAlgebra
-
-/-- Check: the adjoint defined by `J = diag(1, -1)` on a semisimple matrix algebra fails trace
-positivity at the matrix unit `e₁₂` (README A6.15). -/
-example :
-    let J : Matrix (Fin 2) (Fin 2) ℝ := !![1, 0; 0, -1]
-    let x : Matrix (Fin 2) (Fin 2) ℝ := !![0, 1; 0, 0]
-    Matrix.trace (J * x.transpose * J * x) = -1 := by
-  norm_num [Matrix.trace, Matrix.diag, Matrix.mul_apply, Matrix.vecMul, dotProduct,
-    Fin.sum_univ_two, Matrix.transpose_apply]
 
 /-! Library declarations this roadmap builds on. -/
 
@@ -812,15 +672,14 @@ The elliptic comparison uses the inversion adapter from ModularCurves' self-dual
 the positive self-duality here; its Poincaré pullback and torsion-pairing sign are retained.
 A3.1 specifies `IsAbelianIsogeny.comp_rank`, `IsAbelianIsogeny.elliptic_two` and
 `IsAbelianIsogeny.field_iff`; the last is the field comparison theorem above.
-A5.8 specifies `siegelAction_one` and `siegelAction_translation` (tested above).
+A5.8 states `siegelAction_one`, `siegelAction_translation` and `siegelAction_mul` above.
 A6.1 specifies `deg_dual`, `deg_functionField`, `deg_mulBy_two_elliptic`, `deg_zero`,
-`deg_frobenius_ne_card_ker` and `deg_neg_one`; its examples above test multiplication
-by two, inversion and the positive-dimensional zero and identity maps. A6.9 states
-`eq_of_padicNorm_roots_products` and `det_aeval_eq_prod_roots` with their hypotheses;
-A6.18 states `eq_one_of_root_of_unity` with the necessary bound on the congruence modulus.
+`deg_frobenius_ne_card_ker` and `deg_neg_one`; its Checks include multiplication
+by two, inversion and the positive-dimensional zero and identity maps.
+A6.9's `eq_of_padicNorm_roots_products` and `det_aeval_eq_prod_roots`, and
+A6.18's `eq_one_of_root_of_unity`, are stated above with their hypotheses.
 A6.22 specifies `CoefficientHom.scalar_isogeny`, `CoefficientHom.dual_numbers` and
-`CoefficientHom.zero`; its examples above
-pin the scalar inverse and the dual-numbers inverse. A6.26 includes
+`CoefficientHom.zero`; its Checks include scalar and dual-numbers inverses. A6.26 includes
 `LocalizedHom.prime_to_p`.
 
 A6.26's `LocalizedHom.yonedaComparison` identifies global localized homomorphisms over `S`
@@ -952,9 +811,14 @@ choice of representative, with restriction and arbitrary-base-change compatibili
   FiniteFlatGroupsAndIntegralPadicHodgeTheory consumes the Dieudonné crystal, variance and twists,
   and Grothendieck–Messing equivalence from A4.CR.7.2; its slope decomposition and relative
   crystalline direct images use CrystallineCohomology CR.4.7 and CR.7.3, respectively.
-* **Riemann forms** (Tau Ceti's `IsRiemannForm`, current library): `RiemannForm.hermitian`,
+* **Riemann forms** (Tau Ceti's `IsRiemannForm`, current library; the homological
+  construction `RiemannForm.homological` is stated above): `RiemannForm.hermitian`,
   `RiemannForm.im_hermitian`, `RiemannForm.hermitian_self_pos`,
-  `RiemannForm.scale`, `RiemannForm.pullback`, `RiemannForm.homological`, `RiemannForm.hodgeDual`.
+  `RiemannForm.scale`, `RiemannForm.pullback`, `RiemannForm.hodgeDual`.
+  The Checks include `RiemannForm.zero_dimension` (vacuous positivity),
+  `RiemannForm.homological_sign` (`Q = −E` with `C = −J`),
+  `RiemannForm.scale_nonprincipal` (doubling loses integral unimodularity), and
+  `RiemannForm.dual_double` (the rational dual of a doubled form is half-integral).
 * **Complex analytic carriers** (ComplexComparisonPartII C−1.1–C−1.3 supplies analytic spaces
   and analytification, retaining nilpotents and arbitrary open gluing, with locally separated
   algebraic-space inputs and étale relation charts; Hausdorffness requires separatedness.
