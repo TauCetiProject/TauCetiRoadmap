@@ -12,6 +12,9 @@ import TauCeti.NumberTheory.LocalField.Tame.PadicCharacter
 import TauCeti.NumberTheory.LocalField.Teichmuller
 import TauCeti.Algebra.CentralSimple.Index
 import TauCeti.LinearAlgebra.GeneralLinearGroup.Unipotent
+import TauCeti.NumberTheory.NumberField.Frobenius.Restriction
+import TauCeti.AlgebraicGeometry.EllipticCurve.Affine.Point.Galois
+import TauCeti.AlgebraicGeometry.EllipticCurve.Isogeny.MulByInt.Torsion.Structure
 
 /-!
 # Arithmetic Galois representations and conductors: representative target signatures
@@ -288,6 +291,7 @@ variable (B : Type v') [CommRing B] [TopologicalSpace B] [IsTopologicalRing B] [
   [ContinuousSMul A B]
 
 /-- For a free carrier, `charpoly ρ_B(g) = (charpoly ρ(g)).map (A → B)`. -/
+@[simp]
 theorem charpoly_baseChange [Module.Free A M] (ρ : ContinuousRep Γ A M)
     [TopologicalSpace (B ⊗[A] M)] [IsModuleTopology B (B ⊗[A] M)] (g : Γ) :
     (ρ.baseChange B).charpoly g = (ρ.charpoly g).map (algebraMap A B) := by
@@ -1192,6 +1196,34 @@ theorem exists_isArithFrobAt (Q : Ideal (integralClosure (𝓞 F) (AlgebraicClos
       (∀ σ σ', IsArithFrobAtIntegralPrime σ Q →
         (IsArithFrobAtIntegralPrime σ' Q ↔ σ' * σ⁻¹ ∈ inertiaGroup F Q)) ∧
       inertiaGroup F Q ≤ decompositionGroup F Q := by
+  sorry
+
+/-- An arithmetic Frobenius in the global closure restricts to arithmetic Frobenius
+at the contracted prime in every finite Galois subextension (§2.1). -/
+theorem isArithFrobAtIntegralPrime_restrict
+    (L : Type*) [Field L] [NumberField L] [Algebra F L] [IsGalois F L]
+    [Algebra L (AlgebraicClosure F)] [IsScalarTower F L (AlgebraicClosure F)]
+    (Q : Ideal (integralClosure (𝓞 F) (AlgebraicClosure F))) [Q.IsMaximal]
+    (hQ : Q.under (𝓞 F) ≠ ⊥) (σ : Field.absoluteGaloisGroup F)
+    (hσ : IsArithFrobAtIntegralPrime σ Q) :
+    let j : 𝓞 L →ₐ[𝓞 F] integralClosure (𝓞 F) (AlgebraicClosure F) :=
+      (((IsScalarTower.toAlgHom F L (AlgebraicClosure F)).restrictScalars (𝓞 F)).mapIntegralClosure).comp
+        (NumberField.RingOfIntegers.algEquiv F L (integralClosure (𝓞 F) L)).toAlgHom
+    (MulSemiringAction.toAlgHom (𝓞 F) (𝓞 L)
+      ((show AlgebraicClosure F ≃ₐ[F] AlgebraicClosure F from σ).restrictNormal L)).IsArithFrobAt
+        (Q.comap j.toRingHom) := by
+  sorry
+
+/-- Raising a Frobenius lift by the intermediate residue degree gives relative Frobenius
+whenever that power fixes the intermediate field (§2.1). -/
+theorem isArithFrobAt_pow_relative
+    (M L : Type*) [Field M] [Field L] [NumberField M] [NumberField L]
+    [Algebra F M] [Algebra M L] [Algebra F L] [IsScalarTower F M L] [IsGalois F L]
+    (Q : Ideal (𝓞 L)) [Q.IsMaximal] (hQ : Q.under (𝓞 F) ≠ ⊥)
+    (σ : L ≃ₐ[F] L) (τ : L ≃ₐ[M] L)
+    (hσ : (MulSemiringAction.toAlgHom (𝓞 F) (𝓞 L) σ).IsArithFrobAt Q)
+    (hτ : τ.restrictScalars F = σ ^ (Q.under (𝓞 M)).inertiaDeg (𝓞 F)) :
+    (MulSemiringAction.toAlgHom (𝓞 M) (𝓞 L) τ).IsArithFrobAt Q := by
   sorry
 
 variable {F}
@@ -2830,6 +2862,47 @@ the supplier's separable-closure carrier, compatibly with transitions and
 The linear algebra of the oddness comparison is stated here. -/
 
 namespace TateModule
+
+section EllipticResidual
+
+open scoped WeierstrassCurve
+
+variable {K : Type*} [Field K] [DecidableEq (AlgebraicClosure K)]
+    (E : WeierstrassCurve K) [E.IsElliptic] (p : ℕ) [Fact p.Prime]
+
+/-- The basis-free action on geometric elliptic `p`-torsion over `ZMod p` (§6.1).
+The acting group is the automorphism group underlying the absolute Galois group. -/
+def residualRep : Representation (ZMod p)
+    (AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K)
+    (AddSubgroup.torsionBy (E⁄(AlgebraicClosure K)).toAffine.Point (p : ℤ)) where
+  toFun σ := (Multiplicative.toAdd (E.torsionGaloisAction (p : ℤ) σ)).toAddMonoidHom.toZModLinearMap p
+  map_one' := by
+    apply LinearMap.ext
+    intro P
+    change Multiplicative.toAdd (E.torsionGaloisAction (p : ℤ) 1) P = P
+    rw [map_one]
+    rfl
+  map_mul' σ τ := by
+    apply LinearMap.ext
+    intro P
+    change Multiplicative.toAdd (E.torsionGaloisAction (p : ℤ) (σ * τ)) P =
+      Multiplicative.toAdd (E.torsionGaloisAction (p : ℤ) σ)
+        (Multiplicative.toAdd (E.torsionGaloisAction (p : ℤ) τ) P)
+    rw [map_mul]
+    rfl
+
+/-- The carrier of the residual elliptic action is two-dimensional when `p` is invertible (§6.1). -/
+theorem finrank_residualRep (hp : (p : K) ≠ 0) :
+    Module.finrank (ZMod p)
+      (AddSubgroup.torsionBy (E⁄(AlgebraicClosure K)).toAffine.Point (p : ℤ)) = 2 := by
+  sorry
+
+/-- The residual elliptic action has open kernel in the Krull topology away from the characteristic (§6.1). -/
+theorem residualRep_isOpen_ker (hp : (p : K) ≠ 0) :
+    IsOpen ((residualRep E p).ker : Set (AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K)) := by
+  sorry
+
+end EllipticResidual
 
 /-- A similitude of a nondegenerate alternating space of dimension `2g` has determinant
 equal to the `g`-th power of its multiplier, in every characteristic (§6.2). -/

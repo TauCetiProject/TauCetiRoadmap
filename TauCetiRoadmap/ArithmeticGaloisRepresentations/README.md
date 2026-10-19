@@ -422,7 +422,11 @@ Galois-equivariant) and the `ℓ`-adic Tate module with its continuous `G_K`-act
 `frobeniusTrace`, `pointCount`, the Frobenius isogeny acting as `(x, y) ↦ (x^q, y^q)`,
 `deg(1 − π_q) = #E(F_q)` and `π_q² − a_q π_q + q = 0`; the trace formula on `V_ℓ` for every
 endomorphism is §6.1 here. Layer 4 supplies the Tate curve with its Galois-equivariant
-uniformisation `L^×/q^ℤ ≅ E_q(L)`; §6.3 constructs its torsion representation.
+uniformisation `L^×/q^ℤ ≅ E_q(L)`, the Tate parameter with `v(q) = −v(j)`, and the
+unramified quadratic splitting character for multiplicative reduction; §6.3 constructs its torsion
+representation. Layer 4's good-reduction specialization of geometric prime-to-residue-characteristic
+torsion, equivariant for decomposition groups and compatible with the Layer 3 Frobenius action,
+supplies the good-prime trace comparison consumed by the residual elliptic target in §6.1.
 JacobianChallenge layer E supplies
 field-level abelian varieties, duals and polarisations, compared with the abelian-scheme carrier in
 AbelianSchemesAndArithmeticModuli A0.2. The Tate module and Weil pairing used here are the A4.1
@@ -750,10 +754,20 @@ Use EtaleCohomologyFoundations §F.4.0's `ContinuousRep.baseChange` along a cont
 comparisons are supplied there.
 
 **Invariants and characteristic polynomials under coefficient extension.** Prove the
-characteristic-polynomial and determinant formulas. Along a topological field extension `E ⊂ E'`,
+characteristic-polynomial, trace and determinant formulas as `@[simp]` identities:
+`charpoly(ρ_B(g)) = map(A → B)(charpoly(ρ(g)))`, `tr(ρ_B(g)) = image(tr(ρ(g)))` and
+`det(ρ_B(g)) = image(det(ρ(g)))`, for finite free carriers and every continuous coefficient map.
+For a local coefficient map `A → B` inducing `k_A → k_B`, raw reduction commutes with scalar
+extension through `k_B ⊗_B (B ⊗_A M) ≅ k_B ⊗_{k_A} (k_A ⊗_A M)`; give its equivariant comparison
+and the resulting characteristic-polynomial, trace and determinant simplifications. The module
+topologies and continuity of both residue maps are required wherever these are continuous
+representations. Over fields, absolute irreducibility is preserved and reflected by every
+coefficient extension (`isAbsolutelyIrreducible_baseChange_iff`, §1.7).
+Along a topological field extension `E ⊂ E'`,
 prove `Hom_Γ(V, W) ⊗_E E' ≅ Hom_Γ(V_{E'}, W_{E'})` and `V^Γ ⊗ E' = (V_{E'})^Γ`; these algebraic
 statements hold for any monoid (BHKT, §2, p. 5; NT, §1.2, p. 7).
-*Needs:* EtaleCohomologyFoundations §F.4.0; Tau Ceti
+*Needs:* EtaleCohomologyFoundations §F.4.0; Mathlib's linear-map scalar-extension formulas
+for characteristic polynomial, trace and determinant; Tau Ceti
 `Representation.finrank_intertwiningMap_baseChange`. *Lean:* `charpoly_baseChange`,
 `invariants_baseChange`, `ContinuousRep.intertwining_baseChange`.
 
@@ -761,6 +775,11 @@ statements hold for any monoid (BHKT, §2, p. 5; NT, §1.2, p. 7).
 - `ℤ_ℓ(1)` along `ℤ_ℓ → ℚ_ℓ` is `ofCharacter χ_ℓ` over `ℚ_ℓ`; a definition that twisted the
   coefficients would change the character.
 - Base change along the identity is isomorphic to `ρ`. *Lean:* `baseChange_self_iso`.
+- For `ℤ_3 → ℤ_3[√2]` with residue extension `F₃ → F₉`, reduction of
+  `[[1,1],[0,1]]` followed by extension has the same nonzero upper-right entry as extension
+  followed by reduction; both traces are `2` and both determinants are `1`.
+- An irreducible real rotation representation of `C₃` splits over `ℂ`; irreducibility alone
+  is not preserved by coefficient extension, whereas absolute irreducibility is.
 - Along `ℚ_ℓ → B` with `B` discrete the cyclotomic character of `G_ℚ` is not a `ContinuousRep`: the
   map is not continuous, and a definition not requiring `ContinuousSMul A B` would produce an
   invalid object. *Lean:* `cyclotomic_discrete_baseChange_obstruction`.
@@ -894,6 +913,27 @@ equivalent to all vector stabilisers being open, to `ker ρ` being open, and to 
 p. 39). *Needs:* Tau Ceti `Representation.isOpen_ker_of_finite`,
 `Field.absoluteGaloisGroup.exists_finiteDimensional_normal_fixingSubgroup_le`,
 `Field.absoluteGaloisGroup.finite_quotient_of_isOpen`. *Lean:* `continuous_iff_isOpen_ker`.
+
+<a id="adic-continuity-finite-truncations"></a>
+
+**Adic continuity and finite truncations.** Let `A` be a separated complete Noetherian local
+ring with finite residue field, with its maximal-adic topology, `M` finite projective (hence free),
+and `Γ` profinite.
+For an algebraic representation `ρ` on `M`, prove that joint continuity is equivalent to:
+for every `n ≥ 1`, the induced action on `M/𝔪_A^n M` factors through `Γ/N_n` for some open normal
+subgroup `N_n`. The finite quotient carries the discrete topology; no common `N_n` is required.
+Prove compatibility of truncation, coefficient change and change of frame, and identify `ρ`
+with the compatible limit of its truncations (DDT, §2.1, p. 53; Mathlib
+`IsAdic` and `IsAdicComplete`, with the inverse-limit description of the maximal-adic topology).
+*Needs:* §1.1 and the discrete-coefficient criterion above; Mathlib's adic topology and
+finite-module quotient API.
+
+**Checks.**
+- `a ↦ [[1,a],[0,1]]` on `ℤ_p²`, for `a ∈ ℤ_p`, factors modulo `p^n` through `ℤ/p^n`,
+  but has no open kernel before truncation.
+- The trivial representation factors through the trivial quotient at every level.
+- A discontinuous abstract sign character `∏_ℕ C₂ → {±1} ⊂ ℤ_3^×` fails already modulo `3`;
+  finite image without an open kernel is insufficient.
 
 **No small subgroups.** Prove that in a normed ring which is a normed `ℝ`-algebra a subgroup of the
 units with `sup_{g∈G} ‖g − 1‖ < 1` is trivial (false `p`-adically); hence a continuous homomorphism
@@ -1072,6 +1112,25 @@ p. 523; Ribet 1976, §2, p. 154; BHKT, Def. 4.9, p. 17). *Needs:* Mathlib `IsLoc
   `V = F₂²` on its sum-zero lattice. On a transposition subgroup `C₂`, `Res V = J₂(1)` is
   nonsplit, whereas `residual(Res ρ) = 1 ⊕ 1`; the outer semisimplification is necessary.
   *Lean:* `ResidualImage.natural_GL2_F2_restrict_not_semisimple`.
+
+<a id="marked-residual-lift"></a>
+
+**Marked residual lifts.** For a topological local ring `A` with continuous residue map to a
+discrete field `k`, a finite free continuous `A`-representation `ρ`, a continuous
+`k`-representation `ρ̄` and a specified linear equivalence `ι : k ⊗_A M ≃ₗ[k] V̄`, define
+`IsLiftOf ρ ρ̄ ι` to mean that `ι` intertwines the raw reduction of `ρ` with `ρ̄`.
+Prove its scalar-extension, restriction and composition laws, and its frame description:
+in bases lifting the marked residual basis, reduction of the matrices equals the fixed matrix
+representation `ρ̄`. Changing such a lifted basis gives conjugation by a matrix reducing to `1`.
+The marking is part of the input, and raw reduction is used without semisimplification
+(Ribet 1976, §2, p. 154; DDT, §2.1, pp. 53–54).
+*Needs:* §1.2's frames and scalar-extension comparisons; the reduction target above.
+
+**Checks.**
+- The identity marking makes the trivial `A^n` a lift of the trivial `k^n`.
+- Over `F₃[ε]`, multiplying a basis vector by `1+ε` preserves the residual marking.
+- Swapping the residual basis of `diag(1,−1)` over `F₃` changes the marking; an arbitrary
+  isomorphism of residual semisimplifications does not give a marked lift.
 
 **Independence of the lattice.** Prove that for two models `Λ, Λ'` of `V` over `E`,
 `(Λ/ϖΛ)^ss ≅ (Λ'/ϖΛ')^ss` over `k_E` (the reductions have equal characteristic polynomials, and
@@ -1341,6 +1400,89 @@ Mathlib `AlgHom.IsArithFrobAt`, `AlgEquiv.mapIntegralClosure`, `Ideal.inertia`;
   definition that does not depend on `Q` (only on `v`) is wrong.
 - Two arithmetic lifts at `Q` differ by an element of `I_Q`; the inverse of an arithmetic lift is
   never one, since `x ↦ x^{q_v}` has infinite order on `k̄_Q`.
+
+<a id="valuation-subring-bridge"></a>
+
+**Valuation-subring bridge.** For `O` and a maximal `Q` above `v` as above, realize the
+localization `O_Q` as a valuation subring `A_Q ⊂ F̄`. Prove
+`decompositionGroup F Q = A_Q.decompositionSubgroup F` and that `inertiaGroup F Q` is the
+image of Mathlib's `A_Q.inertiaSubgroup F` under the decomposition subgroup inclusion,
+transporting along the defining identification of `G_F` with the automorphism group.
+Prove existence of `Q` above every finite `v`, transitivity of `G_F` on those `Q`,
+`A_Q ∩ O = O` with maximal ideal contracting to `Q`, and that the residue field of `A_Q`
+is an algebraic closure of `k_v`, of characteristic `p`. The induced valuation on
+`F̄^{D_Q}` is henselian, with valuation ring the henselization of `(𝓞_F)_v`.
+The residue action `D_Q → Gal(k̄_v/k_v)` is surjective with kernel `I_Q`; lift arithmetic
+Frobenius through it and identify the lifts with the existing ideal-indexed predicate.
+Use finite normal subextensions and their localizations, then pass to the directed union
+(Stacks, [tag 0307](https://stacks.math.columbia.edu/tag/0307), integral closure and localization;
+Neukirch, *Algebraic Number Theory*, Ch. II, §§6 and 9;
+Rosengarten, [*Constructible Sheaves, Stalks, and Cohomology*](https://virtualmath1.stanford.edu/~conrad/Weil2seminar/Notes/L3.pdf),
+Example 2.8, pp. 7–8, for the decomposition fixed field).
+*Needs:* the decomposition and inertia target above; Mathlib `ValuationSubring`,
+`ValuationSubring.decompositionSubgroup`, `ValuationSubring.inertiaSubgroup`, integral closure,
+lying over and the infinite Galois correspondence. These bridges use the ideal-indexed inertia
+group throughout. The interface follows the Imperial College London FLT project's use of
+valuation subrings to connect global primes and geometric torsion.
+
+**Checks.**
+- Above `5` for `F = ℚ`, the residue field is `F̄₅`, not `F₅`; arithmetic Frobenius has
+  infinite order there.
+- In `ℚ(i)/ℚ` above `5`, conjugation exchanges the two primes and their valuation subrings;
+  it belongs to neither finite decomposition stabilizer.
+- Above `2` in `ℚ(i)/ℚ`, inertia is the whole finite decomposition group; taking inertia
+  as a subgroup of `D` and then its image in `G` gives the same order-two subgroup.
+- The decomposition fixed field in `ℚ̄` is henselian but is not the complete field `ℚ_p`.
+
+<a id="finite-level-frobenius-transport"></a>
+
+**Finite-level Frobenius transport.** For a finite Galois `L/F` embedded in `F̄`, restriction
+of `σ` satisfying `IsArithFrobAtIntegralPrime σ Q` satisfies Mathlib's `AlgHom.IsArithFrobAt`
+at `Q ∩ 𝓞_L`, relative to `𝓞_F`. For an intermediate number field `M`, put
+`u = Q ∩ 𝓞_M` and `f = [k_u : k_v]`. If `σ_L^f` fixes `M`, it defines an automorphism over
+`M` and is arithmetic Frobenius relative to `M` at `Q ∩ 𝓞_L`. The fixing condition holds
+when `M_u/F_v` is unramified: the local residue action detects the automorphism on `M_u`.
+Without it the `f`-th power only acts on residues by `#k_u`; it need not belong to `Gal(L/M)`.
+Prove conjugation and tower compatibility (Neukirch, Ch. I, §9; Mathlib
+`AlgHom.IsArithFrobAt`; Tau Ceti `IsArithFrobAt.restrictNormal` for unpowered finite restriction).
+*Needs:* the valuation-subring bridge; Mathlib `AlgEquiv.restrictNormal`,
+`NumberField.RingOfIntegers.algEquiv` and `AlgHom.mapIntegralClosure`. *Lean:* `GaloisRep.isArithFrobAtIntegralPrime_restrict`,
+`GaloisRep.isArithFrobAt_pow_relative`.
+
+**Checks.**
+- For the unramified quadratic extension of `ℚ_5`, relative arithmetic Frobenius acts by
+  `x ↦ x²⁵`, the square of the base arithmetic Frobenius.
+- Restriction to `L = F` is the identity and is Frobenius on the base residue field.
+- In the totally ramified quadratic extension `ℚ₂(i)/ℚ₂`, `f = 1` and the nontrivial
+  automorphism is an arithmetic lift on residues; it does not fix the intermediate field
+  `M = L`. The fixing hypothesis cannot be dropped.
+
+<a id="finite-place-galois-action"></a>
+
+**Finite-place Galois action.** For number fields `L/K`, define the action of `Gal(L/K)` on
+`HeightOneSpectrum (𝓞 L)` by inverse comap, so
+`(σ • w).asIdeal = w.asIdeal.comap (σ⁻¹ on 𝓞 L)` (`smul_asIdeal`). Prove `under_smul`:
+contraction to `𝓞 K` is unchanged. Identify the stabilizer with the decomposition subgroup
+of Mathlib's `valuationSubringAtPrime L w`. For finite Galois `L/K`, the orbit is precisely
+the places with the same contraction. Use Tau Ceti's `completionCongr`, `decompositionHom` and
+`decompositionEquiv` to give the stabilizer actions on `L_w`, its valuation ring, `L_w^×` and
+the valuation-ring units, with compatible inclusions. Prove `(L_w)^D = image(K_v)` and the
+corresponding fixed-ring and fixed-unit descriptions. For a tower `L/M/K` with `L/K` finite
+Galois and `M/K` Galois, restriction `D_w(L/K) → D_u(M/K)` is surjective with kernel
+`D_w(L/M)`; the actions commute with the completion embeddings (Neukirch, Ch. II, §9;
+Mathlib `Algebra.IsInvariant.exists_smul_of_under_eq`; Tau Ceti
+`IsDedekindDomain.HeightOneSpectrum.decompositionHom`).
+*Needs:* Mathlib's action on ideals and `valuationSubringAtPrime`; Tau Ceti's completion
+and decomposition APIs. This target adds the place action and its comparisons to those APIs.
+
+**Checks.**
+- The two primes above `5` in `ℚ(i)` form one orbit, each with trivial stabilizer.
+- Above `3` in `ℚ(i)`, the unique place is fixed by the whole Galois group and the fixed
+  subfield of the completion is `ℚ₃`.
+- In an `S₃`-extension with a transposition decomposition group, the stabilizer is not
+  normal; actions on one completion belong to the stabilizer, not the whole global group.
+- For `M = K` the tower restriction has trivial target and kernel all of `D_w`; for
+  `M = L` it is the identity with trivial kernel.
 
 **The local embedding.** Define `GaloisRep.localEmbeddingMap F K : G_K →ₜ* G_F` as Mathlib's
 `Field.absoluteGaloisGroup.mapOfAlgebra` along an embedding `ι` of algebraic closures over `F → K`
@@ -3436,6 +3578,37 @@ AbelianSchemesAndArithmeticModuli A4.1; §§1.1–1.2; Tau Ceti `TateModule`.
 - `y² = x³ + 1` over `F̄_5` is supersingular, `E[5^n](F̄_5) = 0` and `T_5E = 0`: `ℓ ≠ char K` is
   needed (for ordinary curves the `p`-rank is `g`, not `2g`).
 
+<a id="elliptic-residual-representation"></a>
+
+**Basis-free elliptic residual representation.** For an elliptic Weierstrass curve `E/K`
+and a prime `p`, define `TateModule.residualRep E p` on
+`E[p](K̄) = AddSubgroup.torsionBy (E⁄K̄).toAffine.Point p` over `ZMod p`, by making Tau Ceti's
+`torsionGaloisAction` linear via `AddMonoidHom.toZModLinearMap`. Use the unfolded group
+`AlgebraicClosure K ≃ₐ[K] AlgebraicClosure K`; transport its Krull topology along the defining
+identification with `Field.absoluteGaloisGroup K` when packaging a `ContinuousRep`.
+When `p` is invertible in `K`, prove dimension two, open kernel, and determinant equal to
+Mathlib's `modularCyclotomicCharacter`, by Galois equivariance and nondegeneracy of the Weil pairing.
+For `K` a number field and good `v ∤ p`, prove unramifiedness and
+`tr(ρ̄(Frob_v)) = a_v(E) mod p`, where `a_v(E) = #k_v + 1 − #E_v(k_v)`; over `ℚ` this is
+`a_ℓ mod p`. Use EllipticCurves Layer 4's good-reduction specialization of torsion and its
+Layer 3 finite-field Frobenius calculation. Give the scalar extension to `F̄_p`, its matrix
+form in any basis, conjugation under change of basis, and basis-independent trace and determinant
+(DDT, §2.2, pp. 55–57, especially Proposition 2.8(a) and Proposition 2.11(a);
+Silverman, *The Arithmetic of Elliptic Curves*, III.6.4(b), III.8 and VII.3).
+*Needs:* Tau Ceti `torsionGaloisAction`, `nonempty_basis_torsionBy`, `weilPairing_torsionGaloisAction`;
+Mathlib `modularCyclotomicCharacter`; EllipticCurves Layers 2–4; §§1.2 and 2.1.
+*Lean:* `TateModule.residualRep`, `TateModule.finrank_residualRep`, `TateModule.residualRep_isOpen_ker`.
+
+**Checks.**
+- For `y² = x³ − x` over `ℚ`, geometric `E[5]` has dimension two, even though its
+  rational `5`-torsion is zero.
+- For `y² = x³ + 1` at the good prime `5`, `#E(F₅) = 6`, so the trace on `E[7]` is `0`
+  and the determinant of arithmetic Frobenius is `5` in `F₇`.
+- A curve with a rational point of order `p` has a trivial residual line and quotient
+  character `χ̄_p`; dimension two does not imply irreducibility.
+- In characteristic `p`, a supersingular elliptic curve has no nonzero geometric
+  `p`-torsion, so the invertibility hypothesis is essential.
+
 **Residual representations of Tate modules.** Use `AbelianTate.modPow` to identify
 `T_ℓA ⊗ F_ℓ ≅ A[ℓ](K^sep)` and prove
 `(Λ/ℓΛ)^ss ≅ A[ℓ](K^sep)^ss` for every stable lattice `Λ ⊂ V_ℓA`; and that for `E` elliptic, `E[ℓ]` is
@@ -3561,6 +3734,50 @@ iff `ℓ^n | v(q)` for `ℓ ≠ p` (Darmon–Diamond–Taylor 2007, §2.2, Prop.
 - For `ℓ ≠ p`, `q = p^ℓ` over `ℚ_p` has unramified `E_q[ℓ]` and ramified `V_ℓE_q`.
 - For `ℓ ≠ p`, `q = p` has ramified `E_q[ℓ]`.
 - For `K = ℚ₃`, `ℓ = 3`, `q = 3³`, divisibility holds but `μ₃ ⊂ E_q[3]` is ramified.
+
+<a id="inertia-filtration-predicates"></a>
+
+**Inertia filtration predicates.** For a representation `ρ` on a finite projective `A`-module
+`M`, a subgroup `I ≤ Γ` and a submodule `T`, define `InertiaUnipotentTowards ρ I T` by
+`(ρ(σ) − 1)(M) ⊆ T` for all `σ ∈ I`. Define `IsInertiaFiltration ρ I T` by requiring `T`
+to be `Γ`-stable, `I` to fix `T` pointwise, and `InertiaUnipotentTowards ρ I T`; equivalently,
+`0 ⊆ T ⊆ M` has trivial inertia action on both graded pieces. Define
+`HasMultiplicativeType ρ I T χ` for a character `χ : I →* Aˣ` by
+`ρ(σ)t = χ(σ)t` for every `σ ∈ I`, `t ∈ T`, with continuity of `χ` for continuous actions.
+Prove invariance under equivariant isomorphism, restriction, and scalar extension (for `T`
+use its tensor-image submodule); an inertia filtration implies
+`(ρ(σ)−1)(ρ(τ)−1) = 0` for `σ,τ ∈ I`. For Tate-curve prime-to-residue-characteristic torsion,
+the cyclotomic submodule gives this filtration; on residual `p`-torsion at residue
+characteristic `p` it instead has multiplicative type `χ̄_p` (DDT, §2.2,
+Propositions 2.11–2.12, pp. 57–58). *Needs:* §1.2 and the Tate-curve target above.
+This character-valued formulation follows the Imperial College London FLT project's
+inertia-filtration interfaces.
+
+**Checks.**
+- `[[1,a],[0,1]]` with `T = Ae₁` fixes `T` and the quotient; `T = 0` fails when `a ≠ 0`.
+- `[[χ(σ),0],[0,1]]` has multiplicative type `χ` on `Ae₁`; if `χ` is nontrivial on `I`,
+  it does not give an inertia filtration with trivial graded pieces.
+- A Jordan block of size three is unipotent but its square difference from `1` is nonzero;
+  the two-step inertia-filtration predicate excludes it.
+
+<a id="multiplicative-residual-unramified-criterion"></a>
+
+**Multiplicative residual unramified criterion.** Let `K` be a nonarchimedean local field
+of residue characteristic `ℓ`, `E/K` have multiplicative reduction, `v_K` the integer-normalized valuation and `p ≠ ℓ` prime.
+Prove `E[p]` unramified iff `p ∣ v_K(j(E))`. The Tate parameter has
+`v_K(q) = −v_K(j(E))`; the Kummer cocycle on inertia is this integer times the surjective
+mod-`p` tame character. For nonsplit multiplicative reduction, use the unramified quadratic
+splitting character: its restriction to inertia is trivial, including when `p = 2`.
+Relate the twist to Tau Ceti's `exists_quadraticTwist_hasSplitMultiplicativeReduction` and
+EllipticCurves Layer 4's equivariant Tate uniformization; the quadratic-twist existence theorem
+alone does not assert that the splitting character is unramified
+(DDT, Proposition 2.12(a)–(c), pp. 57–58; Silverman, *Advanced Topics*, V.5).
+*Needs:* §2.3's tame character; the Tate-curve and residual elliptic targets; EllipticCurves Layer 4.
+
+**Checks.**
+- For `q = ℓ^p` over `ℚ_ℓ`, `E_q[p]` is unramified while `V_pE_q` is ramified.
+- For `q = ℓ`, `E_q[p]` is ramified; an unramified quadratic twist has the same inertia action.
+- For `K = ℚ₃`, `p = ℓ = 3`, `q = 3³`, divisibility holds but `μ₃ ⊂ E_q[3]` is ramified.
 
 **Local Euler factors.** Define `H¹_ℓ(A) = V_ℓA^∨` for `A` over a nonarchimedean local field `F_v` of
 residue characteristic `≠ ℓ`, and
@@ -4816,6 +5033,17 @@ NeronModelsAndSemistableAbelianVarieties §§5.3a–5.3i. The Tate modules of La
 are consumed by complex multiplication and explicit reciprocity, by the finiteness and isogeny theorems
 for abelian varieties, by Euler systems of Heegner points and by the arithmetic of moduli of abelian
 schemes. The continuous carrier of Layer 1 is the input of the period functors of `p`-adic Hodge theory.
+
+The finite-place action of [§2.1](#finite-place-galois-action) is consumed by
+ArithmeticGaloisDuality R02.3.3 for local multiplicative and unit modules.
+FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.5 consumes
+[§6.1](#elliptic-residual-representation) and [§6.3](#inertia-filtration-predicates) for local
+residual types; its finite-flat criteria at the coefficient prime are separate from
+[the prime-to-residue-characteristic criterion](#multiplicative-residual-unramified-criterion).
+LocalGaloisDeformationRings F.1.4 consumes [marked residual lifts](#marked-residual-lift)
+and §1.2's coefficient comparisons for the frame-to-module comparison.
+ClassicalSerreModularity consumes §6.1's matrix realization over `F̄_p` with invariant trace
+and determinant. These are consumer interfaces, not prerequisites of their construction.
 
 AutomorphicLFunctionsAndLocalFactors AL.1 owns
 [`rank-one-local-functional-equation`](../AutomorphicLFunctionsAndLocalFactors/README.md#rank-one-local-functional-equation),
