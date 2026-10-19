@@ -6,14 +6,16 @@ import Mathlib
 The roadmap is `README.md`. This file records light definitions and theorem signatures
 expressible against the pinned APIs; it is not exhaustive. Strict perfectness bounds the terms
 of a cochain complex of finite locally free sheaves, rather than only its cohomology. Zero,
-single-sheaf, isomorphism, shift and cone statements give its basic interface. The two proved
-examples distinguish term bounds from derived acyclicity. Perfect derived categories, K-theory spectra,
+single-sheaf, isomorphism, shift and cone statements give its basic interface. A named boundary
+target and a proved identity-cone example distinguish term bounds from derived acyclicity.
+Perfect derived categories, K-theory spectra,
 operations and their geometric comparison maps are specified in the README.
 -/
 
 namespace TauCetiRoadmap.SchemeKTheoryOperations
 
 open CategoryTheory CategoryTheory.Limits
+open scoped ZeroObject
 
 universe u
 
@@ -66,14 +68,17 @@ theorem IsStrictlyPerfect.cone (X : AlgebraicGeometry.Scheme.{u})
     IsStrictlyPerfect X (CochainComplex.mappingCone f) := by
   sorry
 
-/-- A genuine term bound excludes a complex with nonzero terms in arbitrarily negative degrees,
-even when the differential is zero and every term is finite locally free. -/
-example (X : AlgebraicGeometry.Scheme.{u}) (E : CochainComplex X.Modules ℤ)
-    (h : ∀ a : ℤ, ∃ i : ℤ, i < a ∧ ¬ IsZero (E.X i)) :
-    ¬ IsStrictlyPerfect X E := by
-  rintro ⟨⟨a, b, _, hbounded⟩, _⟩
-  obtain ⟨i, hia, hi⟩ := h a
-  exact hi (hbounded i (Or.inl hia))
+/-- The zero-differential complex with the structure sheaf in every nonpositive degree
+has finite locally free terms but fails strict perfectness on a nonempty scheme. -/
+theorem nonpositiveStructureSheaf_not_strictlyPerfect
+    (X : AlgebraicGeometry.Scheme.{u}) [Nonempty X] :
+    let E : CochainComplex X.Modules ℤ :=
+      CochainComplex.of
+        (fun i : ℤ => if i ≤ 0 then SheafOfModules.unit X.ringCatSheaf else 0)
+        (fun _ => 0) (by intro i; simp)
+    (∀ i : ℤ, SheafOfModules.IsLocallyFree (E.X i) ∧
+      SheafOfModules.IsFiniteType (E.X i)) ∧ ¬ IsStrictlyPerfect X E := by
+  sorry
 
 /-- A contractible identity cone still fails strict perfectness if its source has terms
 in arbitrarily negative degrees. -/
