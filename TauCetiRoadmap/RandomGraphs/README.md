@@ -903,7 +903,10 @@ boundaries and private scheduling representations are not the specification.
 | [ExtensionRichDirectLimit](https://github.com/cameronfreer/computable-model-theory/blob/main/ComputableModelTheory/ModelTheory/ExtensionRichDirectLimit.lean) | Extension squares, stage factorization and direct-limit criteria |
 | [FraisseExistence](https://github.com/cameronfreer/computable-model-theory/blob/main/ComputableModelTheory/ModelTheory/FraisseExistence.lean) | Scheduled construction and the native general existence theorem |
 | [RootedExtension](https://github.com/cameronfreer/computable-model-theory/blob/main/ComputableModelTheory/ModelTheory/RootedExtension.lean) | Literal rooted embedding/isomorphism equations |
+| [ExtensionRichFamily](https://github.com/cameronfreer/computable-model-theory/blob/main/ComputableModelTheory/ModelTheory/ExtensionRichFamily.lean) | Extension-rich families of substructures and their equivalence with ultrahomogeneity |
 | [OrbitIsolation](https://github.com/cameronfreer/computable-model-theory/blob/main/ComputableModelTheory/ModelTheory/OrbitIsolation.lean) | Isolation from actual first-order orbit formulas |
+| [CountablePrime](https://github.com/cameronfreer/computable-model-theory/blob/main/ComputableModelTheory/ModelTheory/CountablePrime.lean) | Elementary embeddings of a countable atomic model into models of its complete theory |
+| [NamedParameters](https://github.com/cameronfreer/computable-model-theory/blob/main/ComputableModelTheory/ModelTheory/NamedParameters.lean) | Expansions by named finite tuples, for the parameter-retaining primeness forms |
 | [VC RootedIso](https://github.com/cameronfreer/vaught-conjecture-counterexample/blob/main/VaughtConjecture/Comparison/RootedIso.lean) | Selected-family rooted back-and-forth, for the separate InfinitaryLogic API extension |
 
 Coordinate with source authors before integrating their code, following the repository's
