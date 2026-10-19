@@ -63,6 +63,55 @@ def rankOne (h : ∀ m, δ (α m) = 0) : DeltaLogStructure p δ α where
   compat m := by simp [h m]
   deltaLog_mul _ _ := by simp
 
+/-- README §8.1, `Log.DeltaLogStructure.equivWittSection`: logarithmic delta structures
+are length-two Witt monoid sections with first coordinate one and the chart compatibility. -/
+theorem equivWittSection [Fact p.Prime] :
+    Nonempty (DeltaLogStructure p δ α ≃
+      {w : M →* TruncatedWittVector p 2 A //
+        (∀ m, (w m).coeff 0 = 1) ∧
+        ∀ m, TruncatedWittVector.mk p ![α m, δ (α m)] =
+          TruncatedWittVector.mk p ![α m, 0] * w m}) := by
+  sorry
+
+/-- README §8.1, `Log.DeltaLogStructure.trivialLog`: the unit chart has a unique
+logarithmic delta structure, with value `δ(u) / u^p`. Only the unit and product delta
+rules are needed. -/
+theorem trivialLog (hδ_one : δ 1 = 0)
+    (hδ_mul : ∀ x y, δ (x * y) = x ^ p * δ y + y ^ p * δ x + (p : A) * δ x * δ y) :
+    ∃! s : DeltaLogStructure p δ (Units.coeHom A),
+      ∀ u : Aˣ, s.deltaLog u = δ (u : A) * ((u⁻¹ : Aˣ) : A) ^ p := by
+  sorry
+
+/-- README §8.1, `Log.DeltaLogStructure.baseChange`: a delta-compatible ring map
+transports the logarithmic delta values and the prelog chart to its codomain. -/
+theorem baseChange {B : Type*} [CommRing B] (f : A →+* B) (δB : B → B)
+    (hδ : ∀ x, δB (f x) = f (δ x)) (s : DeltaLogStructure p δ α) :
+    ∃ t : DeltaLogStructure p δB (f.toMonoidHom.comp α),
+      t.deltaLog = f ∘ s.deltaLog := by
+  sorry
+
+/-- README §8.2, `Log.DeltaLogStructure.alpha_rankOneFrobeniusMonoid`: the power map
+on a rank-one prelog chart lifts ring Frobenius, without a log-ring hypothesis. -/
+theorem alpha_rankOneFrobeniusMonoid (s : DeltaLogStructure p δ α) (h : s.IsRankOne)
+    (m : M) : α (m ^ p) = α m ^ p + (p : A) * δ (α m) := by
+  sorry
+
+/-- README §8.1, `Log.DeltaLogStructure.frobenius_iterate_alpha`: every Frobenius
+iterate on a chart section is its corresponding power times a factor in `1 + pA`. -/
+theorem frobenius_iterate_alpha (s : DeltaLogStructure p δ α) (φ : A →+* A)
+    (hφ : ∀ x, φ x = x ^ p + (p : A) * δ x) (n : ℕ) (m : M) :
+    ∃ a : A, φ^[n] (α m) = α m ^ (p ^ n) * (1 + (p : A) * a) := by
+  sorry
+
+/-- README §8.6, `Log.DeltaLogStructure.groupification`: logarithmic delta extends
+uniquely to the group completion of an integral chart when `p` is in the Jacobson radical. -/
+theorem groupification [IsCancelMul M] (s : DeltaLogStructure p δ α)
+    (hp : (p : A) ∈ (⊥ : Ideal A).jacobson) :
+    ∃! d : Algebra.GrothendieckGroup M → A,
+      (∀ m, d (Algebra.GrothendieckGroup.of m) = s.deltaLog m) ∧ d 1 = 0 ∧
+      ∀ m n, d (m * n) = d m + d n + (p : A) * d m * d n := by
+  sorry
+
 /-- On a chart of nonzerodivisors a δ_log-structure is unique (Koshikawa, after
 Definition 2.2). -/
 theorem deltaLog_unique_of_nonZeroDivisor (hα : ∀ m, α m ∈ nonZeroDivisors A)
@@ -81,17 +130,12 @@ theorem exists_iff_dvd (hα : ∀ m, α m ∈ nonZeroDivisors A) (hδ_one : δ 1
     Nonempty (DeltaLogStructure p δ α) ↔ ∀ m, α m ^ p ∣ δ (α m) := by
   sorry
 
-/-- The rank-one structure has zero logarithmic delta and satisfies the rank-one predicate. -/
-example (h : ∀ m, δ (α m) = 0) :
-    (rankOne (p := p) h).IsRankOne ∧ ∀ m, (rankOne (p := p) h).deltaLog m = 0 := by
-  exact ⟨rfl, fun _ => rfl⟩
-
-/-- `Log.DeltaLogStructure.nonzero_logDelta_witness` provides a zero chart on `ℤ`
-with a nonzero logarithmic delta at `p = 2`:
-`δ_log(ofAdd n) = (3^n - 1)/2` has values one and four on the first two powers. -/
-example : ∃ s : DeltaLogStructure 2
+/-- README §8.1, `Log.DeltaLogStructure.nonzero_logDelta_witness`: a zero chart
+admits a structure with nonzero logarithmic delta despite its vanishing positive
+chart values. The integer model extends to the p-local example. -/
+theorem nonzero_logDelta_witness : ∃ s : DeltaLogStructure 2
     (fun z : ℤ ↦ (z - z ^ 2) / 2) (powersHom ℤ 0),
-    s.deltaLog (Multiplicative.ofAdd 1) = 1 ∧
+    ¬ s.IsRankOne ∧ s.deltaLog (Multiplicative.ofAdd 1) = 1 ∧
     s.deltaLog (Multiplicative.ofAdd 2) = 4 := by
   sorry
 
@@ -105,16 +149,6 @@ theorem unitFactor_mul {p : ℕ} {δ : A → A} {α : M →* A} (s : DeltaLogStr
   simp only [unitFactor, s.deltaLog_mul]
   ring
 
-/-- For the unit chart at `p = 2` with identity Frobenius, compatibility forces
-`δ_log(3) = −1/3 ≠ 0`. This is the unit calculation in §8.15: the Teichmüller chart has
-rank one, while its logification contains units with nonzero logarithmic delta. -/
-example (s : DeltaLogStructure 2 (fun x : ℚ ↦ (x - x ^ 2) / 2) (Units.coeHom ℚ)) :
-    s.deltaLog (Units.mk0 (3 : ℚ) (by norm_num)) = -(1 / 3 : ℚ) ∧
-      s.deltaLog (Units.mk0 (3 : ℚ) (by norm_num)) ≠ 0 := by
-  have h := s.compat (Units.mk0 (3 : ℚ) (by norm_num))
-  change (3 : ℚ) ^ 2 * s.deltaLog (Units.mk0 (3 : ℚ) (by norm_num)) = (3 - 3 ^ 2) / 2 at h
-  constructor <;> linarith
-
 /-- On the chart, the Frobenius `φ(x) = x^p + p·δ(x)` is `α(m)^p` times the correction factor
 (§8.1, `Log.frobenius_chart`). It is an equality; `α(m)^p` is never cancelled. -/
 theorem frobenius_chart {p : ℕ} {δ : A → A} {α : M →* A} (s : DeltaLogStructure p δ α)
@@ -122,11 +156,6 @@ theorem frobenius_chart {p : ℕ} {δ : A → A} {α : M →* A} (s : DeltaLogSt
   rw [← s.compat m]
   simp only [unitFactor]
   ring
-
-/-- The unit section has correction factor one. -/
-example {p : ℕ} {δ : A → A} {α : M →* A} (s : DeltaLogStructure p δ α) :
-    unitFactor p s.deltaLog 1 = 1 := by
-  simp [unitFactor, s.deltaLog_one]
 
 /-- For the trivial monoid every δ_log-structure is the zero one: the structure is unique. -/
 example {p : ℕ} {δ : A → A} {α : PUnit →* A} (s t : DeltaLogStructure p δ α) :
@@ -141,21 +170,6 @@ example (δ : Polynomial ℤ → Polynomial ℤ) (hδ : δ Polynomial.X = 1) :
   refine ⟨fun s => ?_⟩
   have h := congrArg (Polynomial.eval 0) (s.compat (Multiplicative.ofAdd 1))
   simp [hδ] at h
-
-/-- At `p = 2`, a δ_log value one gives correction factor three, and the square has δ_log value
-four and factor nine, not an additive value two. -/
-example {δ : ℤ → ℤ} {α : M →* ℤ} (s : DeltaLogStructure 2 δ α) (m : M) (h : s.deltaLog m = 1) :
-    unitFactor 2 s.deltaLog m = 3 ∧ s.deltaLog (m * m) = 4 ∧
-      unitFactor 2 s.deltaLog (m * m) = 9 := by
-  have hh : s.deltaLog (m * m) = 4 := by rw [s.deltaLog_mul, h]; norm_num
-  exact ⟨by norm_num [unitFactor, h], hh, by norm_num [unitFactor, hh]⟩
-
-/-- For a zero chart section, compatibility does not determine δ_log: the values zero and one
-satisfy `0^2 · δ_log = δ(0)` alike but give different correction factors. -/
-example : (0 : ℤ) ^ 2 * unitFactor 2 (fun _ : ℕ ↦ (0 : ℤ)) 2 =
-    0 ^ 2 * unitFactor 2 (fun _ : ℕ ↦ (1 : ℤ)) 2 ∧
-    unitFactor 2 (fun _ : ℕ ↦ (0 : ℤ)) 2 ≠ unitFactor 2 (fun _ : ℕ ↦ (1 : ℤ)) 2 := by
-  norm_num [unitFactor]
 
 end Log
 
@@ -182,20 +196,6 @@ map preserves units and induces the inverse on the quotient. -/
 theorem perfectRing_associates [PerfectRing M p] : PerfectRing (Associates M) p := by
   sorry
 
-/-- Quotienting a commutative group by its units leaves a single associate class. -/
-example (G : Type*) [CommGroup G] : Subsingleton (Associates G) := by
-  sorry
-
-/-- With no nontrivial units, the associates quotient identifies no distinct elements. -/
-example (M : Type*) [CommMonoid M] (hM : ∀ u : Mˣ, (u : M) = 1) :
-    Function.Injective (Associates.mk : M → Associates M) := by
-  sorry
-
-/-- The associates quotient of a product with a group removes exactly the group factor. -/
-example (G M : Type*) [CommGroup G] [CommMonoid M] :
-    Nonempty (Associates (G × M) ≃* Associates M) := by
-  sorry
-
 /-- Perfectoid monoids are pseudo-perfectoid. -/
 theorem IsPerfectoid.perfectRing_associates (h : IsPerfectoid M p) : PerfectRing (Associates M) p := by
   sorry
@@ -204,110 +204,24 @@ theorem IsPerfectoid.perfectRing_associates (h : IsPerfectoid M p) : PerfectRing
 theorem isPerfectoid_units (G : Type*) [CommGroup G] : IsPerfectoid G p := by
   sorry
 
-/-- The additive monoid `ℕ` is not `2`-divisible, hence not perfect: `1` has no half. -/
-example : ¬ PerfectRing (Multiplicative ℕ) 2 := by
+/-- Perfectoidness ignores unit directions: the group `ℤ` is perfectoid as a monoid
+although its power map at two is not surjective. -/
+example : IsPerfectoid (Multiplicative ℤ) 2 ∧ ¬ PerfectRing (Multiplicative ℤ) 2 := by
+  refine ⟨isPerfectoid_units (Multiplicative ℤ), ?_⟩
   intro h
   obtain ⟨m, hm⟩ := h.bijective_frobenius.2 (Multiplicative.ofAdd 1)
   have h1 := congrArg Multiplicative.toAdd hm
-  simp only [toAdd_pow, toAdd_ofAdd, smul_eq_mul] at h1
+  change (2 : ℕ) • Multiplicative.toAdd m = (1 : ℤ) at h1
+  simp only [two_smul] at h1
   omega
 
-/-- The trivial monoid is perfectoid for every exponent. -/
-example (p : ℕ) : IsPerfectoid PUnit p := by
-  exact isPerfectoid_units (p := p) PUnit
-
-/-- The monoid `ℕ` has trivial tilt at exponent two; it is not perfectoid. -/
-example : ¬ IsPerfectoid (Multiplicative ℕ) 2 := by
+/-- README §8.14, `Monoid.nat_not_perfect`: the sharp monoid `ℕ` is neither perfect
+nor perfectoid at two; its tilt is trivial and the zeroth projection misses its generator. -/
+theorem nat_not_perfect :
+    ¬ PerfectRing (Multiplicative ℕ) 2 ∧ ¬ IsPerfectoid (Multiplicative ℕ) 2 := by
   sorry
 
 end Monoid
-
-/-! ### §8.40 Log q-de Rham coefficients -/
-
-namespace LogQDeRham
-
-variable {R : Type*} [CommRing R]
-
-/-- The ordered merge telescopes, retaining its `q`-dependent coefficient:
-`[2]_q + q^2 [2]_q = [4]_q`. -/
-example (q : R) : (1 + q) + q ^ 2 * (1 + q) = 1 + q + q ^ 2 + q ^ 3 := by ring
-
-/-- Merging two coordinates of `X₀X₁` gives `(1 + q)X²`, the differential of `X²`; ordinary
-pullback would give `2X²`, which differs by `(q - 1)X²`. -/
-example (q : R) : (1 + q) - 2 = q - 1 := by ring
-
-/-- For `d¹(u, v) = Bu − Av`, the swapped merge minus the original is `H²d¹`, where
-`H²(w) = (q − 1)w`. This fixes the homotopy sign without cancelling `q − 1`. -/
-example (q A B u v : R) (hA : q ^ 2 - 1 = (q - 1) * A) (hB : q - 1 = (q - 1) * B) :
-    (q - 1) * u + (1 - q ^ 2) * v = (q - 1) * (B * u - A * v) := by
-  calc
-    (q - 1) * u + (1 - q ^ 2) * v = (q - 1) * B * u - (q - 1) * A * v := by
-      rw [← hA, ← hB]; ring
-    _ = (q - 1) * (B * u - A * v) := by ring
-
-/-- The negative exponent: `[−1]_q (q − 1) = q⁻¹ − 1` with `[−1]_q = −q⁻¹`, so
-`D(X⁻¹) = −q⁻¹ X⁻¹`; a formula using only nonnegative exponents misses this chart. -/
-example (q : Rˣ) : ((q⁻¹ : Rˣ) : R) - 1 = -((q⁻¹ : Rˣ) : R) * ((q : R) - 1) := by
-  linear_combination (Units.inv_mul q)
-
-/-- The intrinsic generator of `2ℕ ⊂ ℤ` is kept at `p = 2`: `2` lies in `2ℤ` and `1` does
-not, so no ambient `dlog X` is an integral form on that chart. -/
-example : (2 : ℤ) ∈ AddSubgroup.zmultiples (2 : ℤ) ∧
-    (1 : ℤ) ∉ AddSubgroup.zmultiples (2 : ℤ) := by
-  simp [Int.mem_zmultiples_iff]
-
-end LogQDeRham
-
-/-! ### §§8.70–8.72 Disconnected ranks and small-prime inertia controls -/
-
-/-- The ranks one and two on two clopen components admit no single constant rank
-(§§8.70–8.71). Their trivial-log local system satisfies the p-Kummer test piecewise. -/
-example : ¬ ∃ r : ℕ, ∀ b : Bool, (if b then 2 else 1 : ℕ) = r := by
-  rintro ⟨r, hr⟩
-  have h₁ := hr false
-  have h₂ := hr true
-  simp only [Bool.false_eq_true, ↓reduceIte] at h₁
-  simp only [↓reduceIte] at h₂
-  omega
-
-/-- At `p = 3`, the sign character retains order two modulo `p`. -/
-example : (-1 : ZMod 3) ^ 2 = 1 ∧ (-1 : ZMod 3) ≠ 1 := by
-  decide
-
-/-- A determinant-one integer matrix has order three; scalar extension gives an
-integral order-three action on `ℤ₂²`. -/
-example : let a : Matrix (Fin 2) (Fin 2) ℤ := !![0, -1; 1, -1]
-    a.det = 1 ∧ a ^ 3 = 1 ∧ a ≠ 1 := by
-  sorry
-
-/-- Reduction modulo two retains order three, so its image is not a two-group. -/
-example : let a : Matrix (Fin 2) (Fin 2) (ZMod 2) := !![0, -1; 1, -1]
-    a.det = 1 ∧ a ^ 3 = 1 ∧ a ≠ 1 := by
-  sorry
-
-/-! ### §8.76a The divided-power contraction exponent -/
-
-namespace LogPDDeformation
-
--- Legendre: the `p`-adic valuation of `(p^n)!` is `e(n) = 1 + p + ⋯ + p^(n-1)`; with
--- `Nat.Prime.emultiplicity_factorial_mul` this gives `v_p((r p^n)!/r!) = r·e(n)`.
-#check @Nat.Prime.multiplicity_factorial_pow
-
-/-- For a positive chart monomial `t`, at `p = 2` the first two contraction exponents are
-one and three: `φ(t) = 2γ₂(t)` and
-`φ²(t) = 24γ₄(t)`. The exponent grows like `2^n - 1`, not like `n`. -/
-example : 2 ∣ Nat.factorial 2 ∧ ¬ 4 ∣ Nat.factorial 2 ∧
-    8 ∣ Nat.factorial 4 ∧ ¬ 16 ∣ Nat.factorial 4 := by decide
-
-end LogPDDeformation
-
-/-! ### §8.0 The periodic coefficient reduction -/
-
-/-- Multiplication by two over `ℤ/4` has kernel equal to its image, giving the exact
-periodic free resolution of `ℤ/2` in §8.0. Reduction to `ℤ/2` makes every differential zero. -/
-example : (∀ x : ZMod 4, 2 * x = 0 ↔ ∃ y : ZMod 4, x = 2 * y) ∧
-    (∀ x : ZMod 2, 2 * x = 0) := by
-  decide
 
 end TauCetiRoadmap.PrismaticCohomologyPartIV
 
@@ -336,9 +250,9 @@ diamonds and condensed coefficients) are not at the pins.
   amplitude on both sides suffices. On Frobenius modules it uses derived Witt truncation
   over the perfected base and restriction back to the original base. Ordinary p-filtration,
   p-torsion and quotient exact sequences give bounded triangles without this hypothesis.
-* §§8.3–8.13: free δ_log-rings, completions, associated log structures, extension to `M^gp`,
-  exactification of δ_log-triples, prelog and log prisms, the standard prelog prisms, prelog and
-  log prismatic envelopes and their flatness.
+* §§8.3–8.13: free δ_log-rings, completions, associated log structures, delta-ring extensions
+  along submonoids of `M^gp`, exactification of δ_log-triples, prelog and log prisms, the
+  standard prelog prisms, prelog and log prismatic envelopes and their flatness.
 * §§8.15–8.17: perfect log prisms, perfectoid log rings and the equivalence with perfect log
   prisms; log cotangent complexes of perfectoid pre-log rings.
   `LogPrism.ainfPerfect` gives a rank-one Teichmüller prelog prism for a perfectoid integral
@@ -385,7 +299,6 @@ Named README targets and Checks whose carriers require the constructions above:
 
 * §§8.1–8.6:
   `Log.DeltaLogStructure.alpha_frobeniusMonoid`
-  `Log.DeltaLogStructure.alpha_rankOneFrobeniusMonoid`
   `Log.DeltaLogStructure.extend_universal`
   `Log.DeltaLogStructure.freeOnMonoid_trivial`
   `Log.DeltaLogStructure.freeOneGenerator_equiv_mvPolynomial`
@@ -398,7 +311,6 @@ Named README targets and Checks whose carriers require the constructions above:
   `Log.DeltaLogStructure.frobeniusMonoid_not_pow`
   `Log.DeltaLogStructure.frobeniusMonoid_trivial`
   `Log.DeltaLogStructure.frobeniusMonoid_units`
-  `Log.DeltaLogStructure.frobenius_iterate_alpha`
   `Log.DeltaLogStructure.invertGenerator_completion`
   `Log.DeltaLogStructure.monoidAlgebra_rankOne`
   `Log.DeltaLogStructure.not_any_map`
@@ -408,7 +320,6 @@ Named README targets and Checks whose carriers require the constructions above:
   `Log.frobenius_chart_example`
 
 * §8.14:
-  `Monoid.nat_not_perfect`
   `Monoid.pseudoPerfectoid_not_perfectoid`
   `Monoid.valuationMonoid_perfectoid_not_perfect`
 
