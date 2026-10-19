@@ -81,8 +81,8 @@ Use:
 - `classifyingSpace_natTrans`: cylinder homotopy has endpoints BF and BG.
 - `classifyingSpace_equivalence`: An equivalence realizes to a homotopy equivalence.
 - `classifyingSpace_filtered`: Nonempty filtered categories have contractible realization.
-- `classifyingSpace_product`: comparison for a finite product is a homotopy equivalence.
-- `classifyingSpace_op`: Reversing simplices gives the opposite-category comparison.
+- `classifyingSpace_product`: the realized projections identify a finite product realization with the compactly generated product by a homeomorphism, hence a homotopy equivalence.
+- `classifyingSpace_op`: reversing simplices gives a homeomorphism with the opposite-category realization.
 - `classifyingSpaceMap_id`, `classifyingSpaceMap_comp`: realization preserves identity and composition.
 - `classifyingSpace_filteredColimit_pi`: filtered diagrams of small categories give the corresponding filtered-colimit comparison on based homotopy groups, with compatible basepoints.
 
@@ -241,7 +241,7 @@ Use:
 - Exchanging two one-spheres acts by `−1` on their two-sphere smash.
 - Exchanging a one-sphere and a two-sphere acts by +1.
 - `sphereInterchangeSign (−1) 1=−1`, so the formula uses integer degrees and not truncated natural subtraction.
-- In characteristic two, the integer sign maps to `−1=1` in `𝔽₂`, as checked in Suggested.lean.
+- In characteristic two, the integer sign maps to `−1=1` in `𝔽₂`.
 - An odd-degree square is annihilated by 2; it is not asserted to be zero without excluding 2-torsion.
 
 *Needs:* §1.7; GeneralizedCohomology G2.4–G2.7 for derived smash, integer-sphere interchange and stable comparison; Mathlib tensor products of abelian groups. Layer 7 supplies the K-theory-specific biexact maps to which this adapter applies.
@@ -341,7 +341,7 @@ E is small, or transported by §2.3. Inflation followed by reversed deflation gi
 **Checks.**
 
 - The zero object gives the constant loop and class zero.
-- For finite-dimensional k-spaces, the stated loop for k has class +1; traversing it backwards gives `−1`. The arithmetic direction is the same `1−0` versus `0−1` tested in Suggested.lean.
+- For finite-dimensional k-spaces, the stated loop for k has class +1; traversing it backwards gives `−1`. The arithmetic direction is `1−0` versus `0−1`.
 - The split conflation `k↣k²↠k` gives the relation `2=1+1`; treating the positive loop as a difference of the two identical legs would incorrectly give zero.
 
 *Needs:* §2.2; §2.3; Layer 1; `ExactK0`; `ExactK0.of`; `ExactK0.of_conflation`; `ExactK0.AdditiveInvariant`; `ExactK0.lift`; `ExactK0.liftEquiv`; `ExactK0.hom_ext`; `ExactK0.transportEquiv`; `CategoryTheory.nerve`; `SSet.toTop`; `HomotopyGroup`.
@@ -469,7 +469,7 @@ Use:
 - Stabilizing the `1×1` matrix (u) gives diag(u,1), so the identity unit gives the identity stable matrix.
 - Over `ℤ`, block summing `I₁` and `(−1)` and then stabilizing gives `diag(1,−1,1)`, whereas block summing `I₂` and `(−1)` gives `diag(1,1,−1)`. They remain distinct under trailing-identity stabilization, but exchanging the last two coordinates conjugates one to the other.
 - `e₁₂(a)e₁₂(−a)=1`; using +a for the inverse fails over `ℤ` at `a=1`.
-- Over `ℤ` in rank 3, `[e₁₂(1),e₂₃(1)]=e₁₃(1)`, with the displayed commutator order; the finite matrix example in Suggested.lean checks the sign and entry.
+- Over `ℤ` in rank 3, `[e₁₂(1),e₂₃(1)]=e₁₃(1)`, with the displayed commutator order, sign and entry.
 - Over `𝔽₂`, `GL₂` has order 6 and its elementary subgroup is not perfect; the third distinct index is necessary for the commutator proof.
 
 *Needs:* Mathlib Matrix.GeneralLinearGroup and finite matrix algebra; group colimits and subgroup closure.
@@ -2579,11 +2579,17 @@ Use:
 
 Prove `X∈A` exactly when `[X]` belongs to `im(K₀A→K₀T)`. Conversely, for each subgroup `H⊂K₀T` the strictly full objects whose classes lie in H form a dense triangulated subcategory. These assignments are inverse and `K₀A→K₀T` is injective. Use the preceding stabilized-object quotient to realize Euler equalities, rather than inferring object membership from an arbitrary equality in a Grothendieck group.
 
-The named targets are `DenseClasses.membership_iff`, `DenseClasses.classification` with the hypotheses and conclusions above.
+The named targets are `DenseClasses.membership_iff`, `DenseClasses.classification` and `DenseClasses.map_injective` with the hypotheses and conclusions above.
 
-Use the dense triangulated hypotheses of §11.3 and the Euler `K₀` presentation. A non-dense triangulated subcategory need not be determined by its `K₀` image.
+Use the dense triangulated hypotheses of §11.3 and the Euler `K₀` presentation. Suggested.lean uses `TauCeti.TriangulatedK0`, its class map and functorial map from `TauCeti.CategoryTheory.GrothendieckGroup.Triangulated`; density is `A.retractClosure = ⊤` for Mathlib’s triangulated object property A. A non-dense triangulated subcategory need not be determined by its `K₀` image.
 
 (Thomason, T 2.1 and C 2.3, pp.5–6/PDF5–6.)
+
+**Checks.**
+
+- For `A=T`, the inclusion induces the identity on `K₀(T)` and the membership criterion accepts every object.
+- In bounded complexes of finite-dimensional k-spaces, the objects of even Euler characteristic form the dense subcategory for `2ℤ⊂ℤ`. Its `K₀` inclusion is injective but not surjective; `k[0]` is outside it.
+- The zero subcategory of that derived category is not dense. The nonzero object `k[0]⊕k[1]` has class zero, so its class lies in the zero subcategory's image without the object belonging to that subcategory.
 
 *Needs:* §11.3.
 
@@ -3222,7 +3228,7 @@ Use the p>3 finite-ring `K₃` calculations and the Cartan map; no general Artin
 **Checks.**
 
 - At p=5 an element of order 25 survives on the `ℤ/25` side.
-- At p=5 the dual-number p-primary group has exponent 5; Suggested.lean mirrors these two exponent checks.
+- At p=5 the dual-number p-primary group has exponent 5.
 - At p=3, §13.8 still gives the triangulated equivalence, but the p>3 K₄ distinction supplies no conclusion.
 
 *Needs:* §13.9; §13.9a; §13.8.
