@@ -244,6 +244,10 @@ Artin/functorial/symmetric-power predicates, integral Hecke and Dwork objects, o
 ordinary-prime density/progression and height-density arguments, and the §§2.18/2.29 adapters to
 EllipticCurveModularityImaginaryQuadratic's `nonCM_elliptic_large_residual_primes`, `switch_five`,
 `switch_three`, `modular_elliptic_all_coefficients`, `auxiliary_local_types` and `cm_modularity`.
+The weak Artin predicate in §1.2 uses the shared eigensystems of
+AutomorphicFormsOnReductiveGroups §5.8 and the geometric-Frobenius adapter of
+GL2AutomorphicRepresentationsAndTransfer R16.4.4 on the dual Artin representation.
+Its rank-two upgrade consumes R17.5.5 with the same witness's archimedean matching hypothesis.
 The adapters preserve the supplied residual, avoidance and local-type hypotheses and transport
 Tate-module realizations to their cohomological duals, with inverse-cyclotomic determinant.
 The README also specifies Conjecture B, twisted modular curves and exceptional-curve arithmetic

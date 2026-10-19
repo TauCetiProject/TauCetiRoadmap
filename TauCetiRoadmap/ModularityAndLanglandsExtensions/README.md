@@ -501,29 +501,42 @@ Construction: normalized Jacquet modules and Frobenius reciprocity; symmetric po
 <a id="strong-artin-conjecture"></a>
 ### 1.2 Langlands' conjecture for Artin representations (the strong Artin conjecture)
 
-For continuous irreducible finite-image `ρ:G_K→GL_n(ℂ)`, strong Artin means a cuspidal `π` with `rec(π_v)≅ρ|W_{K_v}` at **every** place, matching full `L/ε`. Godement–Jacquet gives entireness for nontrivial `ρ`. Weak Artin asks almost-everywhere matching only: strong multiplicity one gives uniqueness, without repairing bad factors or proving full Artin entireness.
+For a number field K, positive rank n and continuous irreducible finite-image `ρ:G_K→GL_n(ℂ)` in the classical arithmetic Artin convention of [C-ARTIN], strong Artin means a unitary cuspidal `π` with `rec(π_v)≅(ρ|W_{K_v})∨` at **every** place, matching full `L/ε`. With geometric reciprocity this dual gives the classical arithmetic Artin factors of ρ. Godement–Jacquet gives entireness for nontrivial `ρ`.
 
-- `TauCeti.WeightOne.IsAutomorphicArtin`: `ρ` has a cuspidal `π` matching its local Weil parameter at every place (strong Artin), rather than merely outside a finite set.
+Define weak Artin automorphy by existence of a unitary cuspidal π whose unramified Satake characteristic polynomials agree with those of `ρ∨(Φ_v)` outside one finite set containing both ramification sets, with geometric Frobenius `Φ_v` and fixed common complex coefficients. Equality includes every coefficient. In rank two this is precisely `AgreesAwayFromFinite (unitaryEigensystem π) (ofGaloisRep (ρ∨))`, using AutomorphicFormsOnReductiveGroups §5.8's [shared eigensystems](../AutomorphicFormsOnReductiveGroups/README.md#anemic-eigensystems) and GL2AutomorphicRepresentationsAndTransfer R16.4.4's [geometric-Frobenius adapter and unitary normalization](../GL2AutomorphicRepresentationsAndTransfer/README.md#r16-4-strong-multiplicity-one). Thus both `t_v` and `s_v` agree, where `X²−t_v X+q_v s_v` is the polynomial. These are the supplied carriers and comparison relation; a polynomial character without automorphic occurrence is insufficient.
+
+Strong multiplicity one makes the weak automorphic witness unique. For rank two, if that same witness also has archimedean parameters `(ρ|W_{K_v})∨`, apply GL2AutomorphicRepresentationsAndTransfer R17.5.5's [all-place upgrade](../GL2AutomorphicRepresentationsAndTransfer/README.md#r17-5-artin-all-place-upgrade) to obtain strong Artin. Weak matching itself includes no infinity or bad-place assertion. The separation of cofinite Hecke agreement from all-place matching follows the API pattern of the Imperial College London FLT project.
+
+- `TauCeti.WeightOne.IsWeaklyAutomorphicArtin`: For continuous irreducible finite-image ρ of positive rank, existence of the unitary cuspidal witness with the cofinite polynomial agreement above; in rank two use the shared `AgreesAwayFromFinite` relation in both coordinates.
+- `TauCeti.WeightOne.IsWeaklyAutomorphicArtin.of_iso`: Invariant under isomorphism of ρ.
+- `TauCeti.WeightOne.IsWeaklyAutomorphicArtin.twist`: Weak automorphy of ρ implies weak automorphy of `ρ⊗χ` for a continuous finite-order character χ, with witness twisted by the Hecke character corresponding to `χ∨` under geometric reciprocity.
+- `TauCeti.WeightOne.IsWeaklyAutomorphicArtin.unique`: Any two unitary cuspidal witnesses for the same ρ are isomorphic.
+- `TauCeti.WeightOne.IsAutomorphicArtin`: `ρ` has a unitary cuspidal `π` matching `(ρ|W_{K_v})∨` at every place (strong Artin).
+- `TauCeti.WeightOne.IsAutomorphicArtin.to_weak`: All-place matching implies weak automorphy for the same ρ and witness.
+- `TauCeti.WeightOne.IsAutomorphicArtin.of_weak_rankTwo`: For continuous irreducible finite-image rank-two ρ, a weak witness π whose archimedean parameters match `ρ∨` satisfies the all-place matching required by `IsAutomorphicArtin ρ`.
 - `TauCeti.WeightOne.IsAutomorphicArtin.lFunction_entire`: IsAutomorphicArtin `ρ` and `ρ` non-trivial ⇒ `L(ρ, s)` extends to an entire function.
 - `TauCeti.WeightOne.IsAutomorphicArtin.of_iso`: Invariant under isomorphism of `ρ`.
 - `TauCeti.WeightOne.IsAutomorphicArtin.twist`: IsAutomorphicArtin `ρ` ⇒ IsAutomorphicArtin `(ρ ⊗ χ)` for a finite-order character `χ`.
 - `TauCeti.WeightOne.IsAutomorphicArtin.dim_one`: Every one-dimensional `ρ` is automorphic (class field theory).
 - `TauCeti.WeightOne.IsAutomorphicArtin.unique`: The cuspidal `π` is unique (strong multiplicity one).
 
-Proof route: full local matching and Godement–Jacquet give entireness; isobaric strong multiplicity one gives uniqueness.
+Proof route: the supplied eigensystem isomorphism and twist laws give the weak API; strong multiplicity one gives uniqueness. The rank-two upgrade uses R17.5.5 with its separate infinity comparison. Full local matching and Godement–Jacquet give entireness.
 
 **Checks.**
 
 - A finite-order Hecke character matches its finite-image Galois character via Artin reciprocity.
 - For imaginary quadratic `L/ℚ` and `χ≠χ^c`, `Ind_{G_L}^{G_ℚ}χ` matches the weight-one theta series `AI(χ)`.
 - `1⊕1` is reducible; its isobaric match `1⊞1` has `L=ζ²` with a pole.
-- A weight-one newform’s Deligne–Serre representation (AG §2.10) matches `π_f`.
+- A weight-one newform’s Deligne–Serre representation (AG §2.10) matches `π_f` through its dual under geometric reciprocity.
+- At a good place, pairs `(1,−1)` and `(2,−2)` have equal trace zero but determinants `−1` and `−4`; their shared eigensystems differ in `s_v`. Trace agreement alone is not the weak predicate.
+- If ρ has arithmetic Frobenius eigenvalues `(ζ₃,ζ₃)`, its geometric eigenvalues are `(ζ₃⁻¹,ζ₃⁻¹)`; `ofGaloisRep (ρ∨)` restores `(ζ₃,ζ₃)`, giving `(t_v,s_v)=(2ζ₃,q_v⁻¹ζ₃²)`.
+- Cofinite matching without an infinity comparison does not meet R17.5.5's hypotheses: the archimedean factors cannot be cancelled in its functional-equation argument.
 
 The proved rank-two cases are [CSM §R27.6](../ClassicalSerreModularity/README.md) over `ℚ` and [§1.9] over totally real fields.
 
-([KW09], §10.2, pp. 20–21 (author copy results.pdf).)
+([KW09], §10.2, pp. 20–21 (author copy results.pdf); GL2AutomorphicRepresentationsAndTransfer R16.4.4 and R17.5.5, with the latter’s local recognition input from Bushnell–Henniart, §27.1–8, pp.170–176.)
 
-*Needs:* AL.2 (global Godement–Jacquet theory); AL.3 (strong multiplicity one); AL.3 (Rankin–Selberg boundary nonvanishing); AdelicAlgebraicGroups §2.4, convergence-factors; AnalyticNumberTheoryPartI §§2.18, 2.31; Chebotarev, Layer 10.
+*Needs:* AutomorphicFormsOnReductiveGroups §5.8/anemic-eigensystems; GL2AutomorphicRepresentationsAndTransfer R16.4.4/r16-4-strong-multiplicity-one and R17.5.5/r17-5-artin-all-place-upgrade; AL.2 (global Godement–Jacquet theory); AL.3 (strong multiplicity one); AL.3 (Rankin–Selberg boundary nonvanishing); AdelicAlgebraicGroups §2.4, convergence-factors; AnalyticNumberTheoryPartI §§2.18, 2.31; Chebotarev, Layer 10.
 
 <a id="irregular-systems-weight-one"></a>
 ### 1.3 Irregular odd compatible systems arise from weight-one newforms (Khare–Wintenberger, Theorem 10.1(ii))
@@ -3490,7 +3503,7 @@ Proof route: ILM 3.1’s local bijection, Gan–Ichino A.2’s generic metaplect
 <a id="global-langlands-reciprocity-conjecture"></a>
 ### 5.6 Global Langlands reciprocity for `GL_n` (frontier statement)
 
-Reciprocity(F,n) asserts: every continuous irreducible finite-image `r:G_F→GL_n(ℂ)` has a cuspidal `GL_n` automorphic `π` matching `r|W_{F_v}` at **every** place. Weak almost-everywhere matching is separate;uniqueness alone does not give bad factors. Strong reciprocity gives full Artin entireness for nontrivial r;trivial rank1 gives the zeta pole. Regular geometric `ℓ`-adic reciprocity is a separate frontier. Known here:rank1 class field theory,odd rank2/`ℚ` Langlands–Tunnell/Khare–Wintenberger,totally odd rank2/totally real Pilloni–Stroh.
+Reciprocity(F,n) asserts: every continuous irreducible finite-image `r:G_F→GL_n(ℂ)` in [§1.2]’s arithmetic Artin convention has a cuspidal `GL_n` automorphic `π` with `rec(π_v)≅(r|W_{F_v})∨` at **every** place. Weak almost-everywhere matching is separate;uniqueness alone does not give bad factors. Strong reciprocity gives full Artin entireness for nontrivial r;trivial rank1 gives the zeta pole. Regular geometric `ℓ`-adic reciprocity is a separate frontier. Known here:rank1 class field theory,odd rank2/`ℚ` Langlands–Tunnell/Khare–Wintenberger,totally odd rank2/totally real Pilloni–Stroh.
 
 - `TauCeti.Functoriality.Reciprocity`: this strong proposition.
 - `TauCeti.Functoriality.Reciprocity.one`: class field theory.
