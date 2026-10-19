@@ -538,7 +538,9 @@ deformation and envelope maps come from AInfCohomology §AI.6.5); the rational c
 comparisons; the supplied PrismaticCohomologyPartIII §7.0 interface `gradedBeilinsonSquare`
 with `gradedBeilinsonSquare_map`, `gradedBeilinsonSquare_zero`,
 `gradedBeilinsonSquare_cartesian`, `gradedBeilinsonSquare_integral` and
-`gradedBeilinsonSquare_local`, and the locally constructed nearby-cycle square of Layer 3; the semistable and Beilinson
+`gradedBeilinsonSquare_local`, and the nearby-cycle square of §3.8 for the arithmetic special
+fibre `𝔛̄₀/k₀`, with tensor over `W(k₀)` through `W(k₀) → A_inf → A_cris`, the derived Frobenius
+fibre and truncation of the nearby-cycle sheaf before global sections; the semistable and Beilinson
 comparisons, the overconvergent `RigidHyodoKatoCohomology` and its proper-model log-crystalline
 agreement, and proper rigid comparisons of Layer 4, including
 §4.6's period and Hyodo–Kato agreements for PrismaticCohomologyPartIV's supplied logarithmic
