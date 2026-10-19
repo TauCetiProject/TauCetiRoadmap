@@ -47,7 +47,7 @@ theorem createsColimits : Nonempty (CreatesColimitsOfSize.{u, u}
 theorem extensions (S : ShortComplex CondensedAb.{u})
     (hS : S.ShortExact) (h₁ : S.X₁.IsSolid) (h₃ : S.X₃.IsSolid) : S.X₂.IsSolid := sorry
 
-/-- The inclusion is a right adjoint: solidification exists (CS Theorem 5.8(ii)). -/
+/-- The inclusion is a right adjoint: solidification exists (CS Theorem 5.8(i), p.36). -/
 theorem inclusion_isRightAdjoint :
     (ObjectProperty.ι (fun A : CondensedAb.{u} => A.IsSolid)).IsRightAdjoint :=
   sorry
@@ -100,14 +100,6 @@ theorem zero {R : Type (u + 1)} [Ring R] :
 theorem polynomial (A : CondensedMod.{u} (Polynomial (ULift.{u + 1} ℤ)))
     (h : IsSolidGeneral A) : A.IsSolid := sorry
 
-/-- Over the polynomial ring the identity is among the tests. -/
-example (A : CondensedMod.{u} (Polynomial (ULift.{u + 1} ℤ)))
-    (h : IsSolidGeneral A) :
-    CondensedMod.IsSolid (Polynomial (ULift.{u + 1} ℤ))
-      ((sheafCompose (coherentTopology CompHaus.{u}) (ModuleCat.restrictScalars.{u + 1}
-        (RingHom.id (Polynomial (ULift.{u + 1} ℤ))))).obj A) :=
-  h (RingHom.id _)
-
 end IsSolidGeneral
 
 namespace CondensedQCQS
@@ -134,6 +126,14 @@ example (S : Profinite.{u}) : IsQuasicompact S.toCondensed :=
 example (X : CondensedSet.{u}) : IsQuasicompactMap (𝟙 X) := by
   intro S g
   exact ⟨S, inv (pullback.snd (𝟙 X) g), inferInstance⟩
+
+/-- A profinite realization has quasicompact structure map (PQ Appendix A, README VS2.3). -/
+theorem profinite_to_terminal (S : Profinite.{u}) :
+    IsQuasicompactMap (terminal.from S.toCondensed) := sorry
+
+/-- The infinite discrete natural numbers have nonquasicompact structure map (README VS2.3). -/
+theorem infiniteDiscrete_to_terminal_not :
+    ¬ IsQuasicompactMap (terminal.from (TopCat.of (ULift.{u + 1} ℕ)).toCondensedSet) := sorry
 
 /-- Quasicompactness of a map is stable under arbitrary base change (PQ Appendix A). -/
 theorem baseChange {X Y Z : CondensedSet.{u}} (f : X ⟶ Y) (g : Z ⟶ Y)
