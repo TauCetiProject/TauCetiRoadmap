@@ -167,7 +167,8 @@ def discAnalytic (a : K) (r : ENNReal) (hr : 0 < r) :
   algebraMap_mem' := by sorry
 
 /-- L0.7: a whole-disc series restricts about an interior centre to a positive numerical
-radius no larger than the original radius. -/
+radius no larger than the original radius. Containment of the sets of field-valued points
+alone does not provide this radius bound. -/
 theorem discAnalytic.restrict {a b : K} {r r' : ENNReal} {f : K → K}
     {P : FormalMultilinearSeries K K K} (hf : HasFPowerSeriesOnBall f P a r)
     (hb : b ∈ Metric.eball a r) (hr' : 0 < r') (hle : r' ≤ r) :
@@ -890,6 +891,10 @@ with transitions. Cup products and finite base change use common stages, includi
 relative cubes. In L3.Fb.2, `syntomicRegulator_weightOne` requires `ϕ* f̄ = f̄^q`
 at its representing stage: its second component is the dagger function
 `log(f^q/φ*f)/q`. Every finite collection of units admits a common compatible iterate.
+For `m ≥ 1`, writing `f₀ = f^q/φ*f`, the identity
+`f^(q^m)/((φ^m)*f) = ∏_(j=0)^(m-1) ((φ^j)*f₀)^(q^(m-1-j))` gives
+`log(f^(q^m)/((φ^m)*f))/q^m = Σ_(j=0)^(m-1) (φ^j)*log(f₀)/q^(j+1)`.
+Thus the logarithmic component transforms by `S_m(φ*/q)`.
 For `R = W(F₄), a³ = 1 ≠ a, f = t-a` on the complement of the roots of `t²+t+1`,
 `φ(t) = t²` at `q = 2` fails this condition and the required differential has end
 residues `+1,-1`; at `φ²(t) = t⁴, q = 4` the unit formula applies.
