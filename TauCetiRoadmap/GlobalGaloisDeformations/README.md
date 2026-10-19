@@ -378,9 +378,8 @@ exists before its dimension is computed.
 `TauCetiRoadmap.GlobalGaloisDeformations`, records the light definitions whose carriers exist at the
 pinned Mathlib and Tau Ceti (twisting matrix homomorphisms and the scalar frame cokernel),
 a few theorem signatures statable against them, and discriminating `example`s. A `*Lean:*` line
-identifies the local prototypes or the supplier prototypes named there. Checks using the local
-carriers have `example` mirrors, including boundary cases; Checks requiring the coefficient
-categories or arithmetic objects specified only here remain README specifications. Global types,
+identifies the local prototypes or the supplier prototypes named there. Proved examples test
+matrix twisting and the scalar frame cokernel; the other Checks are README specifications. Global types,
 Taylor–Wiles data and the patching systems use the coefficient categories and arithmetic suppliers
 above. Generic lifts, strict conjugation and strict classes, coefficient pushforward, restriction,
 the Schur predicate, `Φ_p`, framed lifts and their unrestricted quotient are supplied by
@@ -541,9 +540,9 @@ h¹_rel = |T| − 1 − Σ_{v|∞} h⁰(G_v, M₀) + Σ_{v∈S∖T} (dim L_v^χ 
 SelmerIwasawaCohomology §2A.3 (*Selmer and deformation tangent comparison*), §2A.4
 (*Determinant tangent fibres*) and Layer 2.
 
-*Lean:* `scalarFrameCokernel`, its three dimension `example`s, and the two-term differential
-`example` over `ZMod 3`, and the `example` giving rank-three scalar trace in characteristic two
-and separating `2 ∤ 3` from `2 > 2`.
+*Lean:* `scalarFrameCokernel` and `scalarFrameCokernel_finrank` give the rank-one scalar
+frame count for every nonempty framing set, with the identity in `ℤ`. Two proved `example`s
+exhibit the surviving direction for two frames and the zero cokernel for no frames.
 
 **Checks.**
 
@@ -800,8 +799,10 @@ deformation rings belong here.
 [LocalGaloisDeformationRings §F.3.1](../LocalGaloisDeformationRings/README.md#local-deformation-problem); ArithmeticGaloisDuality R02.6;
 Tau Ceti `TauCeti.RepresentationTheory.CharacterTwist`; ArithmeticGaloisRepresentations §1.2.
 
-*Lean:* `twist`, `twist_apply`, `twist_charTwist`, `twist_continuous`, `twist_reduce` and the
-trivial-character `example`.
+*Lean:* `twist`, `twist_bijective` and `det_twist` give the matrix twisting bijection and its
+determinant formula in every rank. `twist_apply`, `twist_charTwist`, `twist_continuous` and
+`twist_reduce` give the matrix, module, continuity and reduction compatibilities; the proved
+trivial-character `example` tests the identity twist.
 
 **Checks.**
 
@@ -845,7 +846,8 @@ for the ordinary character functor before completion at the identity.
 - **diagGroup_prime_to_p_trivial.** for `a = ℤ/ℓ` with `ℓ ≠ p`, `Hom(a, 1 + 𝔪_A)` is trivial for Artinian
   `A`, since `1 + 𝔪_A` is a `p`-group; this is why prime-to-`p` torsion is excluded.
 
-*Lean:* the `example` `(1 + X)² − 1 ∈ (2, X)²`.
+*Lean:* `diagonalizable_truncation_relation` states
+`(1 + X)^{pᵐ} − 1 ∈ (p, X)^{m+1}` in `ℤ[X]` for every prime `p` and `m ≥ 0`.
 
 <a id="free-action-quotient"></a>
 
@@ -934,8 +936,6 @@ The API:
 *Needs:* [3.3](#global-deformation-type); [3.5](#local-to-global-map);
 [4.5](#diagonalizable-groups); [LocalGaloisDeformationRings §F.2.9](../LocalGaloisDeformationRings/README.md#fixed-determinant-rings).
 
-*Lean:* the diagonal-character determinant equation `example`.
-
 **Checks.**
 
 - **detMap_trivial_group.** if `G_V = 1`, the two rings coincide.
@@ -974,7 +974,8 @@ The API:
 *Needs:* [4.5](#diagonalizable-groups); [4.8](#determinant-fixed-on-S);
 [3.3](#global-deformation-type); [LocalGaloisDeformationRings §F.2.6](../LocalGaloisDeformationRings/README.md#framed-unframed-comparison); `ClassFieldTheory` Layer 12.
 
-*Lean:* `twist`, `twist_apply`, `trace_twist`, and the `example` `det(c • M) = c² det M`.
+*Lean:* `twist`, `twist_apply`, `trace_twist` and `det_twist` give the matrix, trace and
+determinant formulas, with the rank-two determinant change obtained by taking `n = 2`.
 
 **Checks.**
 
@@ -1000,9 +1001,6 @@ nonzero character direction, using the nonsolvability of the residual image.
 
 *Needs:* [4.9](#twisting-action); [4.6](#free-action-quotient); [LocalGaloisDeformationRings §F.1.3](../LocalGaloisDeformationRings/README.md#strict-deformation-functor);
 ArithmeticGaloisRepresentations Layer 4.
-
-*Lean:* the `example`s conjugating by `diag(1, −1)` and its reductions modulo two and four,
-and the characteristic-two trace-unit `example`.
 
 **Checks.**
 
@@ -1100,8 +1098,6 @@ Lemma 6.2.19 and the following paragraph, pp. 1038–1039).
 *Needs:* LocalGaloisDeformationRings 1.1 and 1.10; [LocalGaloisDeformationRings §F.1.7](../LocalGaloisDeformationRings/README.md#fixed-determinant-functors);
 ClassFieldTheory Layer 7; [LocalGaloisDeformationRings §F.0.1](../LocalGaloisDeformationRings/README.md#completed-coefficient-products).
 
-*Lean:* the three matrix `example`s for dyadic, odd-prime and repeated-eigenvalue inertia.
-
 **Checks.**
 
 - **local_TW_dyadic.** For `p=2`, `k=𝔽₄` and `Nv=7`, Frobenius eigenvalues `ω,ω²`
@@ -1179,10 +1175,6 @@ The API:
 
 *Needs:* ArithmeticGaloisRepresentations Layer 4; [LocalGaloisDeformationRings §F.1.3](../LocalGaloisDeformationRings/README.md#strict-deformation-functor).
 
-*Lean:* the three `example`s on the `S₃` representation over `ZMod 5` and the three
-finite-subgroup big-image `example`s; 5.1 also has
-the `𝔽₃` eigenvalue boundary `example`.
-
 **Checks.**
 
 - **sl2F4_not_solvable.** `SL₂(𝔽₄) ≅ A₅` is not solvable, so hypothesis (3) holds for surjective dyadic
@@ -1222,8 +1214,6 @@ ArithmeticGaloisDuality R02.6, *Dyadic auxiliary primes and the cyclotomic resid
 hypothesis (KW final, §5.5.1, Proposition 5.6 and Lemmas 5.7–5.9, pp. 48–50).
 
 *Needs:* [5.2](#image-hypotheses); ArithmeticGaloisRepresentations Layer 4.
-
-*Lean:* the `example` `R₄(X) = R₃(2X² − 1) = 8X⁴ − 8X² + 1`.
 
 **Checks.**
 
@@ -1269,9 +1259,6 @@ is (5). Substituting (4) and (7) gives (8) as an identity in `ℤ`.
 [5.2](#image-hypotheses); [4.8](#determinant-fixed-on-S); [4.9](#twisting-action);
 [3.6](#relative-tangent-space); ArithmeticGaloisDuality R02.6; `Chebotarev` Layer 10 and 11.3(2).
 
-*Lean:* the integer `example` `(h + (4S − 1) + (2 − S + h)) − 3S = 2h + 1`, its natural-number
-counterexample at `h = 0`, `S = 3`, and the `example` that `1` has trace `0` in `M₂(𝔽₂)`.
-
 **Checks.**
 
 - **dyadic_count_identity.** (8) holds identically in `ℤ` after substituting (4) and (7); a version using
@@ -1298,8 +1285,6 @@ statement uses the inertia quotient of 4.3 (KW final, §5.6, Proposition 5.11 an
 
 *Needs:* [5.1](#taylor-wiles-datum); [rank-two local diagonalization](#rank-two-taylor-wiles-local);
 [4.3](#enlarging-ramification); [4.9](#twisting-action).
-
-*Lean:* the `example` computing `diag(α, β)·E₁₂·diag(α, β)⁻¹ = (α/β)·E₁₂`.
 
 **Checks.**
 
@@ -1333,8 +1318,6 @@ Layer 10, with the higher-degree discard of 11.3(2) for residue degree one); the
 pad with primes from the padding class.
 
 *Needs:* ArithmeticGaloisDuality R02.6; `Chebotarev` Layer 10 and 11.3(2).
-
-*Lean:* the two `example`s on joint localization over `ZMod 3`.
 
 **Checks.**
 
@@ -1400,8 +1383,6 @@ group zero this is `|T| − 1 − [F : ℚ] + r`.
 *Needs:* [5.7](#odd-taylor-wiles-primes); [3.6](#relative-tangent-space);
 [3.7](#local-to-global-presentation); ArithmeticGaloisDuality R02.5 and R02.6.
 
-*Lean:* the `example` `h + (4S − 1) − 3S = h + S − 1`.
-
 **Checks.**
 
 - **count_KW_vs_gee.** for `F = ℚ` and `|Q_N| = q`, the KW count with `S = {p, ∞}` is `q + 1`, while Gee's
@@ -1457,8 +1438,6 @@ The API:
 *Needs:* [3.3](#global-deformation-type); [3.5](#local-to-global-map); LocalGaloisDeformationRings 1.11,
 1.14, 2.5, 8.2, 8.17; [LocalGaloisDeformationRings §F.0.1](../LocalGaloisDeformationRings/README.md#completed-coefficient-products); SchemeAndStackFoundations §§0.16, 0.20–0.21.
 
-*Lean:* the `example` `3|S_f| + [F : ℚ] + 2[F : ℚ] = 3(|S_f| + [F : ℚ])`.
-
 **Checks.**
 
 - **relDim_Q.** for `F = ℚ` and `S = {∞, p}` the relative dimension is `2 + 4 = 6`.
@@ -1490,9 +1469,6 @@ The API:
 *Needs:* [6.1](#kw-deformation-data); [LocalGaloisDeformationRings §F.2.6](../LocalGaloisDeformationRings/README.md#framed-unframed-comparison);
 [LocalGaloisDeformationRings §F.2.7](../LocalGaloisDeformationRings/README.md#carayol-trace-theorem).
 
-*Lean:* the `example` conjugating the three-cycle matrix over `DualNumber (ZMod 5)`
-and the seven-coordinate rational framing `example`.
-
 **Checks.**
 
 - **framingVars_rational.** For `F=ℚ` and `S={p,∞}`, there are `4·2−1=7` independent
@@ -1522,8 +1498,6 @@ pp. 80–81; Definition 2.4, p. 10).
 
 *Needs:* [6.2](#trace-subring-universal-representation); [6.1](#kw-deformation-data);
 [5.5](#taylor-wiles-inertia-action); [4.9](#twisting-action).
-
-*Lean:* the `example` exhibiting a nonzero square-zero element in `DualNumber (ZMod 3)`.
 
 **Checks.**
 
@@ -1566,8 +1540,6 @@ The API:
 [5.7](#odd-taylor-wiles-primes); [5.8](#taylor-wiles-generator-count);
 [5.5](#taylor-wiles-inertia-action); [4.3](#enlarging-ramification).
 
-*Lean:* the polynomial `example` reducing `(1+z)³−1` modulo `z²`.
-
 **Checks.**
 
 - **twSystem_h_zero.** for `h = 0` the system is constant.
@@ -1593,8 +1565,6 @@ Proposition 9.2, (II), p. 83; proof of Proposition 9.3, p. 86; Gee, §5.6, p. 40
 
 *Needs:* [6.1](#kw-deformation-data); [6.4](#taylor-wiles-deformation-system);
 [6.6](#dyadic-patching-data) for the dyadic source; [5.4](#dyadic-taylor-wiles-primes).
-
-*Lean:* the `example`s `h + (4S − 1) − 3S = h + S − 1` and `h + (4S − 1) + (2 − S + h) − 3S = 2h + 1`.
 
 **Checks.**
 
@@ -1629,8 +1599,6 @@ The API:
 *Needs:* [5.4](#dyadic-taylor-wiles-primes); [4.8](#determinant-fixed-on-S);
 [4.10](#twist-action-free); [4.5](#diagonalizable-groups); [5.5](#taylor-wiles-inertia-action);
 [6.1](#kw-deformation-data).
-
-*Lean:* the order-four determinant-fibre and truncation polynomial `example`s.
 
 **Checks.**
 
@@ -1690,8 +1658,6 @@ The API:
 
 *Needs:* [LocalGaloisDeformationRings §F.3.1](../LocalGaloisDeformationRings/README.md#local-deformation-problem); [LocalGaloisDeformationRings §F.3.2](../LocalGaloisDeformationRings/README.md#deformation-problem-ideal);
 [LocalGaloisDeformationRings §F.1.1](../LocalGaloisDeformationRings/README.md#lifting-functor); [LocalGaloisDeformationRings §F.1.3](../LocalGaloisDeformationRings/README.md#strict-deformation-functor); LocalGaloisDeformationRings 1.1 and 1.15.
-
-*Lean:* the `example` keeping inertia trivial under strict conjugation of Frobenius.
 
 **Checks.**
 
@@ -1784,7 +1750,7 @@ pp. 135–136).
 [LocalGaloisDeformationRings §F.1.7](../LocalGaloisDeformationRings/README.md#fixed-determinant-functors); [3.3](#global-deformation-type).
 
 *Lean:* LocalGaloisDeformationRings §F.2.9 supplies `exists_unique_nthRoot_of_residue_eq_one`
-and its boundary examples. The characteristic-three cube `example` here records **fixedVar_p_divides_n**.
+and its boundary examples.
 
 **Checks.**
 
@@ -1860,9 +1826,6 @@ the polarized deformation problem uses that group and that correspondence.
 *Needs:* [LocalGaloisDeformationRings §F.3.1](../LocalGaloisDeformationRings/README.md#local-deformation-problem); [LocalGaloisDeformationRings §F.1.8](../LocalGaloisDeformationRings/README.md#change-of-coefficients);
 ArithmeticGaloisRepresentations §7.4.
 
-*Lean:* the `example` giving the factorizations of `X² + 1` over `ZMod 5` and `ZMod 2`,
-and the symplectic triple and diagonal infinitesimal-centralizer matrix `example`s.
-
 **Checks.**
 
 - **polarized_CM_ramification.** for `F = ℚ(i)`, `F⁺ = ℚ`, `p = 5` and `S = {5}`, the two primes
@@ -1931,8 +1894,6 @@ If `p ∤ n`, the adjoint splits as its trace kernel and a scalar line on which
 
 *Needs:* [8.2](#polarized-representability); [3.7](#local-to-global-presentation)
 for the obstruction construction; ArithmeticGaloisDuality R02.2, R02.4, D7 and D8.1; SelmerIwasawaCohomology §2A.3.
-
-*Lean:* the `example` that `1` has trace `0` in `M₃(𝔽₃)`.
 
 **Checks.**
 
@@ -2015,8 +1976,6 @@ and generator counts are preserved (ACC published, notation, p. 906).
 [rank-two local diagonalization](#rank-two-taylor-wiles-local);
 LocalGaloisDeformationRings 1.1; ClassFieldTheory Layer 7.
 
-*Lean:* the independent-inertia matrix `example` and the order-five reciprocity `example`.
-
 **Checks.**
 
 - **rankn_TW_n1.** for `n = 1` the inertia restriction of the universal character factors through
@@ -2090,8 +2049,6 @@ and its proof, printed p. 1047, PDF p. 151, with the diamond and augmentation da
 
 *Needs:* [8.6](#enormous-taylor-wiles-primes); [7.3](#variable-determinant-presentation);
 [8.5](#taylor-wiles-local-diamond).
-
-*Lean:* the `example` `−n²f + qn = qn − n²f` in `ℤ`.
 
 **Checks.**
 
