@@ -1944,8 +1944,8 @@ Galois group, normalized by arithmetic Frobenius. It is the inverse limit of the
 stated against named maps: `artinMap_restrict` (against `restrictAbsolute`),
 `unramifiedCoordinate_artinMap` (against `unramifiedCoordinate`) and `artinMap_norm` (against
 `absoluteGaloisGroupExtend`). It has dense image and is not surjective. -/
-noncomputable def artinMap
-    [IsNonarchimedeanLocalField K] : Kˣ →* Field.absoluteGaloisGroupAbelianization K :=
+noncomputable def artinMap (K : Type) [Field K] [ValuativeRel K]
+    [TopologicalSpace K] [IsNonarchimedeanLocalField K] : Kˣ →* Field.absoluteGaloisGroupAbelianization K :=
   sorry
 
 /-- **Restriction** of the absolute Galois group to a finite Galois extension embedded by `iota`:
@@ -2690,8 +2690,8 @@ arithmetic Frobenius under `G_K → Gal(K^ur/K) ≅ Ẑ`, that is, the preimage 
 surjection `G_K → Ẑ` and its kernel `LocalFieldsRamification.inertia` are owned by
 `LocalFieldsRamification` — its maximal unramified extension and its exact sequence
 `1 → I_K → G_K → Ẑ → 1` — and everything below is owned here. -/
-noncomputable def localWeilGroup
-    [IsNonarchimedeanLocalField K] : Subgroup (Field.absoluteGaloisGroup K) :=
+noncomputable def localWeilGroup (K : Type) [Field K] [ValuativeRel K]
+    [TopologicalSpace K] [IsNonarchimedeanLocalField K] : Subgroup (Field.absoluteGaloisGroup K) :=
   sorry
 
 /-- Inertia is the degree-zero part of the Weil group, hence contained in it. -/
