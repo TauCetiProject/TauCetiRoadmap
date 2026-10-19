@@ -9,6 +9,9 @@ Integer solidity uses `CondensedMod.IsSolid`; general discrete rings use its pol
 restriction criterion. Quasicompactness and quasiseparatedness concern condensed sheaves,
 including their categorical fibre products. Geometric stacks, enhanced solid tensor products
 and lisse categories are specified in the README.
+The README's shared solid/lisse comparison uses the same condensed coefficient carriers;
+its sousperfectoid section geometry uses the supplied Huber and adic-space predicates.
+Those geometric and enhanced comparison statements remain README targets.
 -/
 
 noncomputable section
