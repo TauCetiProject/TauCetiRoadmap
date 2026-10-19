@@ -8,7 +8,7 @@ This roadmap owns the passage from categorical K-theory to schemes: strict and c
 
 AlgebraicVectorBundles owns finite locally free sheaves, their ranks, duals, tensor, exterior and symmetric powers, determinant, and their affine projective-module comparison. DGAInfinity, Layer 5, owns perfect modules, compact generation and finite projective models over a ring. GrothendieckEulerForms owns exact and triangulated Grothendieck groups, Cartan maps and Euler classes, with the corresponding implementations in Tau Ceti. GeneralAlgebraicKTheory owns the categorical K-machines, the stable Whitehead model and its absolute K₀/K₁ comparisons, approximation and localisation theorems, products, transfers and the ring Bass theorem. The commutative determinant comparison of §3.6 and the special λ-ring, universal-polynomial, rank-augmentation and integral representation foundations of §§6.2–6.3 are targets here. StableHomotopyKTheory owns the spectral and homotopical tools used by those machines. The supplier contracts below fix the interfaces used here.
 
-EnhancedDerivedSheaves owns enhanced derived categories, their perfect full subcategories, general module descent, perfect-scheme h-descent and derived completion. SchemeAndStackFoundations owns pseudo-coherent complexes, D_QCoh and its affine equivalence, derived projection and Tor-independent base change, Noetherian approximation, the Nisnevich site and its abelian cohomology, Witt-vector geometry, projective geometry, the resolution-property predicate, Chow groups, geometric Chern characters and geometric Riemann–Roch. StableReduction owns Rees blowup geometry. JacobianChallenge Layer C owns general proper coherence over locally Noetherian bases, and EnhancedDerivedSheaves E1.9 owns its proper-support and algebraic-space extensions. AlgebraicModuliForArithmeticGeometry builds flag geometry from the supplied projective bundles and owns field projective-space Castelnuovo–Mumford regularity. The relative projective-bundle extension and the exact categories needed by Quillen’s resolution are constructed here. JacobianChallenge owns Picard/divisor and curve cohomology comparisons. This roadmap supplies the strict-model and K-theory realizations of those results.
+EnhancedDerivedSheaves owns enhanced derived categories, their perfect full subcategories, general module descent, perfect-scheme h-descent and derived completion. SchemeAndStackFoundations owns pseudo-coherent complexes, `D_QCoh` and its affine equivalence, derived projection and Tor-independent base change, Noetherian approximation, the Nisnevich site and its abelian cohomology, Witt-vector geometry, projective geometry, the resolution-property predicate, Chow groups, geometric Chern characters and geometric Riemann–Roch. StableReduction owns Rees blowup geometry. JacobianChallenge Layer C owns general proper coherence over locally Noetherian bases, and EnhancedDerivedSheaves E1.9 owns its proper-support and algebraic-space extensions. AlgebraicModuliForArithmeticGeometry builds flag geometry from the supplied projective bundles and owns field projective-space Castelnuovo–Mumford regularity. The relative projective-bundle extension and the exact categories needed by Quillen’s resolution are constructed here. JacobianChallenge owns Picard/divisor and curve cohomology comparisons. This roadmap supplies the strict-model and K-theory realizations of those results.
 
 The unstable A¹ category and algebraic K-representability required for uniqueness of operations are constructed in Layer 6 before they are used. Projective perfect pushforward uses the Noetherian approximation already supplied by SchemeAndStackFoundations §0.9. Full tame-symbol presentations, Milnor K-theory, higher Chow groups, motivic cycle maps, and formal-scheme supported intersections belong to their named consumers; they are not prerequisites for the ordinary-scheme results here.
 
@@ -51,7 +51,7 @@ The library pins are Mathlib 6b7abb3 and Tau Ceti a91d3aa. The concrete module c
 
 ### From AlgebraicVectorBundles and DGAInfinity
 
-Import AlgebraicVectorBundles L0B–L0C’s finite locally free category, scalar extension, tensor, dual, exterior and symmetric functors, and the determinant on the core, including the natural isomorphisms needed for tensor pairings. DGAInfinity, Layer 5, supplies `Perf(A)`=compact `D(A)`=thick(A), finite-projective complex models, retract closure and the dg/enhanced comparison. Its right dg-module convention is converted using opposite algebras before comparing with Mathlib's left ModuleCat. The affine scheme target proves compatibility with tilde and RΓ; it does not redefine module perfectness. In particular ℤ/6 is perfect over ℤ, ℤ/2 is not perfect over ℤ/4, and amplitude `[0,0]` gives precisely `TauCeti.finiteProjectiveModules` A. The zero-ring derived category is zero. Over `ℤ_p[[x]]`, the complex `R —x→ R` is a perfect resolution of ℤ_p, agreeing with the complete-local specialization.
+Import AlgebraicVectorBundles L0B–L0C’s finite locally free category, scalar extension, tensor, dual, exterior and symmetric functors, and the determinant on the core, including the natural isomorphisms needed for tensor pairings. DGAInfinity, Layer 5, supplies `Perf(A)=compact D(A)=thick(A)`, finite-projective complex models, retract closure and the dg/enhanced comparison. Its right dg-module convention is converted using opposite algebras before comparing with Mathlib's left ModuleCat. The affine scheme target proves compatibility with tilde and RΓ; it does not redefine module perfectness. In particular ℤ/6 is perfect over ℤ, ℤ/2 is not perfect over ℤ/4, and amplitude `[0,0]` gives precisely `TauCeti.finiteProjectiveModules` A. The zero-ring derived category is zero. Over `ℤ_p[[x]]`, the complex `R —x→ R` is a perfect resolution of `ℤ_p`, agreeing with the complete-local specialization.
 
 ### From GeneralAlgebraicKTheory
 
@@ -67,7 +67,7 @@ Import AlgebraicVectorBundles L0B–L0C’s finite locally free category, scalar
 
 ### From EnhancedDerivedSheaves
 
- E0 supplies stable enhancements, mapping spaces, cores and the dg-nerve comparison. E1.2–E1.4 supply K-flat/K-injective replacements, enhanced Lf*, `Rf_*`, tensor and RHom, with coherent units, counits and composition. E1.8 supplies `QuasicoherentDerived`, `PerfectDerived` and `quasicoherentDerived_affine`, including the unbounded affine equivalence on mapping spaces. Perf membership means local bounded finite-projective representatives; its repleteness and local criterion are imported. Layer 1 compares these objects with strict sheaf models and complicial/Frobenius localizations. E1.9 supplies `spaceProperSupport_coherent`, `spaceProperSupport_perfect`, `spaceProperSupport_approximation` and `perfect_proper_pushforward`: these include bounded coherent pushforward with proper support over a Noetherian base, finite-relative-Tor perfect pushforward there, and arbitrary-base perfect pushforward with a bounded finitely presented target-flat coefficient complex of proper support. Its flat proper finitely presented corollary is imported. E2.8 supplies the enhanced proper-coherence comparison with JacobianChallenge Layer C. Layer 2 constructs the corresponding complicial K/G functors, not these underlying preservation theorems. E5:cotangent-export supplies derived polynomial/exterior powers; the coherent overlap comparison with supported strict operations is a target of Layer 6. E5:presentability supplies compact factorization through the thick perfect subcategory (Stacks Tags 09SN and 09SP). E2.8 supplies `perfectHTopology`, `descendable_hCover_noetherian`, `perfectHCover_descendable` and `perfect_hDescent`: the last is h-Čech descent for Dqc and h-hyperdescent for Perf on qcqs perfect F_p-schemes. Layer 4 constructs the separate v-site comparison and its amplitude-stratum upgrade; h-to-v approximation is not an unproved supplier assumption. E5:animation and E5:spectra-comparison supply animated algebras and their enhanced module categories for the restricted derived Čech chart realization in §4.10. E4.2 and E4.5 supply regular-ideal completion, the completed coefficient ring and enhanced coefficient-system reconstruction. Layers 3–4 construct the Witt supported categories and prove the perfect-object effectivity and v-descent comparisons; generic coefficient reconstruction alone is not identified with `Perf(W(A))≃lim_n` `Perf(W_n(A))`.
+ E0 supplies stable enhancements, mapping spaces, cores and the dg-nerve comparison. E1.2–E1.4 supply K-flat/K-injective replacements, enhanced Lf*, `Rf_*`, tensor and RHom, with coherent units, counits and composition. E1.8 supplies `QuasicoherentDerived`, `PerfectDerived` and `quasicoherentDerived_affine`, including the unbounded affine equivalence on mapping spaces. Perf membership means local bounded finite-projective representatives; its repleteness and local criterion are imported. Layer 1 compares these objects with strict sheaf models and complicial/Frobenius localizations. E1.9 supplies `spaceProperSupport_coherent`, `spaceProperSupport_perfect`, `spaceProperSupport_approximation` and `perfect_proper_pushforward`: these include bounded coherent pushforward with proper support over a Noetherian base, finite-relative-Tor perfect pushforward there, and arbitrary-base perfect pushforward with a bounded finitely presented target-flat coefficient complex of proper support. Its flat proper finitely presented corollary is imported. E2.8 supplies the enhanced proper-coherence comparison with JacobianChallenge Layer C. Layer 2 constructs the corresponding complicial K/G functors, not these underlying preservation theorems. E5:cotangent-export supplies derived polynomial/exterior powers; the coherent overlap comparison with supported strict operations is a target of Layer 6. E5:presentability supplies compact factorization through the thick perfect subcategory (Stacks Tags 09SN and 09SP). E2.8 supplies `perfectHTopology`, `descendable_hCover_noetherian`, `perfectHCover_descendable` and `perfect_hDescent`: the last is h-Čech descent for Dqc and h-hyperdescent for Perf on qcqs perfect `F_p`-schemes. Layer 4 constructs the separate v-site comparison and its amplitude-stratum upgrade; h-to-v approximation is not an unproved supplier assumption. E5:animation and E5:spectra-comparison supply animated algebras and their enhanced module categories for the restricted derived Čech chart realization in §4.10. E4.2 and E4.5 supply regular-ideal completion, the completed coefficient ring and enhanced coefficient-system reconstruction. Layers 3–4 construct the Witt supported categories and prove the perfect-object effectivity and v-descent comparisons; generic coefficient reconstruction alone is not identified with `Perf(W(A))≃lim_n` `Perf(W_n(A))`.
 
 ### From SchemeAndStackFoundations
 
@@ -97,8 +97,8 @@ A cochain complex is **strictly perfect** when it is globally bounded and each t
 
 Expose the following interface:
 
-- `IsStrictlyPerfect` — The object property on complexes of O_X-modules: bounded, with finite locally free terms.
-- `isStrictlyPerfect_single` — A finite locally free O_X-module placed in a single degree n is strictly perfect.
+- `IsStrictlyPerfect` — The object property on complexes of `O_X`-modules: bounded, with finite locally free terms.
+- `isStrictlyPerfect_single` — A finite locally free `O_X`-module placed in a single degree n is strictly perfect.
 - `IsStrictlyPerfect.exists_bounds` — A strictly perfect complex has integers `a ≤ b` with `E^i = 0` for `i ∉ [a, b]`.
 - `isStrictlyPerfect_iff_of_iso` — An isomorphism of complexes preserves and reflects strict perfectness.
 - `IsStrictlyPerfect.shift` — E• strictly perfect implies E•`[k]` strictly perfect for every `k ∈ ℤ`.
@@ -108,7 +108,7 @@ Expose the following interface:
 
 **Checks.**
 
-- The two-term complex `O —x→ O` in degrees −1,0 on A¹_k qualifies; its cohomology is the skyscraper `k(0)` in degree zero.
+- The two-term complex `O —x→ O` in degrees −1,0 on `A¹_k` qualifies; its cohomology is the skyscraper `k(0)` in degree zero.
 - That skyscraper, viewed as a single sheaf, fails the condition: its ranks at the generic point and origin differ.
 - Zero and `O[0]` qualify, and every complex on the empty scheme is zero.
 - The zero-differential complex with O in every nonpositive degree fails boundedness on nonempty X.
@@ -150,9 +150,9 @@ Expose the following interface:
 - `HasFiniteTorDimension` — E has tor-amplitude in some `[a, b]`.
 - `HasLocallyFiniteTorDimension` — E has finite tor dimension on the members of an open covering.
 - `hasTorAmplitude_iff_flat_representative` — Tor-amplitude in `[a, b]` iff E is represented by flat modules in degrees `[a, b]` (Stacks 08CI).
-- `hasTorAmplitude_iff_stalks` — Tor-amplitude in `[a, b]` can be checked on every stalk E_x over `O_{X,x}` (Stacks 09U9).
+- `hasTorAmplitude_iff_stalks` — Tor-amplitude in `[a, b]` can be checked on every stalk `E_x` over `O_{X,x}` (Stacks 09U9).
 - `HasTorAmplitude.pullback` — Lf* preserves tor-amplitude in `[a, b]` (Stacks 09U8).
-- `HasTorAmplitude.triangle` — The three-term closure rules in a distinguished triangle (Stacks 08CJ) and additivity of amplitudes under ⊗^L (Stacks 09J4).
+- `HasTorAmplitude.triangle` — The three-term closure rules in a distinguished triangle (Stacks 08CJ) and additivity of amplitudes under `⊗^L` (Stacks 09J4).
 - `HasFiniteTorDimension.of_locally_quasiCompact` — On a quasi-compact scheme locally finite tor dimension implies finite tor dimension (TT 3.1.2).
 - `HasTorAmplitude.bounded` — Tor-amplitude in `[a, b]` implies `H^i(E) = 0` for `i ∉ [a, b]`.
 
@@ -160,7 +160,7 @@ Expose the following interface:
 
 - A vector bundle has amplitude `[0,0]`; `O —x→ O` has amplitude `[−1,0]`, even when its cohomology is concentrated in degree zero.
 - Zero satisfies every proposed interval.
-- Over `k[ε]`/ε², `Torᵢ(k,k)=k` for all `i≥0`, excluding a finite interval.
+- Over `k[ε]/ε²`, `Torᵢ(k,k)=k` for all `i≥0`, excluding a finite interval.
 - Affine sheafification preserves the module-theoretic interval exactly.
 
 ### 1.3 Perfect objects and derived operations
@@ -197,7 +197,7 @@ Use quasicoherence of perfect cohomology from EnhancedDerivedSheaves E1.8. Prove
 
 Import the ring-level perfect-module theorem through DGAInfinity, Layer 5, and use its finite-projective models. The assertions here compare it with sheaves; they do not reconstruct the ring theorem.
 
-Construct `quasicoherentCoherator` Q, right adjoint to QCoh(X)→Mod(O_X), with `quasicoherentCoherator_adjunction`, `quasicoherentCoherator_onQuasicoherent` and `quasicoherentCoherator_affine`. Identify D(QCoh X) with `D_QCoh(X)` for qc schemes with affine diagonal and for Noetherian schemes in the cited unbounded comparison; identify the bounded coherent models under the Noetherian hypotheses. Keep the derived adjunction and its unit/counit explicit. ([Stacks.perfect, Derived Categories of Schemes, Proposition 7.5 (tag 08DB)](https://stacks.math.columbia.edu/download/perfect.pdf); [TT90, Proposition B.16, p. 416](https://gwern.net/doc/math/1990-thomason.pdf)).
+Construct `quasicoherentCoherator` Q, right adjoint to `QCoh(X)→Mod(O_X)`, with `quasicoherentCoherator_adjunction`, `quasicoherentCoherator_onQuasicoherent` and `quasicoherentCoherator_affine`. Identify D(QCoh X) with `D_QCoh(X)` for qc schemes with affine diagonal and for Noetherian schemes in the cited unbounded comparison; identify the bounded coherent models under the Noetherian hypotheses. Keep the derived adjunction and its unit/counit explicit. ([Stacks.perfect, Derived Categories of Schemes, Proposition 7.5 (tag 08DB)](https://stacks.math.columbia.edu/download/perfect.pdf); [TT90, Proposition B.16, p. 416](https://gwern.net/doc/math/1990-thomason.pdf)).
 
 For the affine derived equivalences of SchemeAndStackFoundations §2.18 and EnhancedDerivedSheaves E1.8, prove compatibility with the concrete sheafification and global-section models used in the complicial K-construction. Compare their tensor constraints, restriction of scalars and derived scalar extension by coherent natural equivalences. The underlying unbounded equivalence `D(A)≃D_QCoh(Spec A)`, including its mapping spaces, is supplied; this target identifies its realization on the chosen chain models. ([Stacks.perfect, Derived Categories of Schemes, proof of Lemma 3.5 (tag 06Z0)](https://stacks.math.columbia.edu/download/perfect.pdf); [Stacks.perfect, Derived Categories of Schemes, Lemma 3.8(2) (tag 08DW)](https://stacks.math.columbia.edu/download/perfect.pdf); [Stacks.perfect, Derived Categories of Schemes, Lemma 3.7 (tag 0DJK)](https://stacks.math.columbia.edu/download/perfect.pdf)).
 
@@ -205,7 +205,7 @@ For the affine derived equivalences of SchemeAndStackFoundations §2.18 and Enha
 
 - On `Spec A`, `quasicoherentCoherator` sends a module sheaf M to `Γ(X,M)`~, and fixes each sheaf N~ through the adjunction counit.
 - It sends zero to zero; on `Spec ℤ` the sheaf `(ℤ/2)`~ remains nonzero and supported at `(2)`.
-- For the generic open j of the spectrum of a DVR, j_!O is not quasicoherent: its global sections vanish although its generic stalk is nonzero. The coherator is zero in this affine example, so the counit is not an isomorphism for arbitrary module sheaves.
+- For the generic open j of the spectrum of a DVR, `j_!O` is not quasicoherent: its global sections vanish although its generic stalk is nonzero. The coherator is zero in this affine example, so the counit is not an isomorphism for arbitrary module sheaves.
 
 ### 1.5 Compatible K-theory models and universes
 
@@ -215,7 +215,7 @@ Use all complexes that are perfect and have a global finite Tor bound as the com
 
 Expose the following interface:
 
-- `perfCategory` — The full subcategory `Perf(X)` of complexes of O_X-modules on perfect complexes of globally finite Tor-amplitude.
+- `perfCategory` — The full subcategory `Perf(X)` of complexes of `O_X`-modules on perfect complexes of globally finite Tor-amplitude.
 - `perfCategory.cofibration_iff` — A map is a cofibration iff it is a degreewise split monomorphism with cokernel in `Perf(X)`.
 - `perfCategory.weq_iff` — A map is a weak equivalence iff it is a quasi-isomorphism of complexes.
 - `perfCategory.isComplicialBiWaldhausen` — `Perf(X)` is a saturated extensional complicial biWaldhausen category (TT 1.2.11).
@@ -227,7 +227,7 @@ Expose the following interface:
 
 **Checks.**
 
-- On `Spec A` the localized model agrees with Kᵇ(proj_fg A); on the empty scheme its localization is zero.
+- On `Spec A` the localized model agrees with `Kᵇ(proj_fg A)`; on the empty scheme its localization is zero.
 - Arbitrarily large acyclic complexes `M —id→ M` belong to the model, so the category of representatives is not essentially small.
 - On A¹ the quasi-isomorphism from the x-resolution to `k(0)` has no chain homotopy inverse: a map `k(0)→O` must vanish.
 - Thus weak equivalence must mean quasi-isomorphism, rather than chain homotopy equivalence.
@@ -248,10 +248,10 @@ Expose the following interface:
 
 - `Cone(id_O)` is contractible and projective-injective, whereas `O[0]` is not on nonempty X.
 - Empty X gives the zero pair.
-- Affine localization recovers Kᵇ(proj_fg A).
+- Affine localization recovers `Kᵇ(proj_fg A)`.
 - The sequence `0→O —x→ O→k(0)→0`, placed in degree zero on A¹, is exact but is not a conflation of this degreewise split structure.
 
-Compare the enhanced localization of the complicial and Frobenius models with EnhancedDerivedSheaves E1.8’s `PerfectDerived X`, for qcqs X. Construct an exact equivalence and its coherent compatibility with pullback, passing to small models using §1.5. The supplied dg-nerve comparison identifies mapping spaces with Dold–Kan of τ≤0RHom; require the model comparison to induce that identification. Stability, the ambient enhanced category and its perfect full subcategory are imported rather than reconstructed. ([TT90, Introduction, p. 248](https://gwern.net/doc/math/1990-thomason.pdf); [Stacks.cohomology, Cohomology of Sheaves, Lemma 49.9 (tag 08CS)](https://stacks.math.columbia.edu/download/cohomology.pdf)).
+Compare the enhanced localization of the complicial and Frobenius models with EnhancedDerivedSheaves E1.8’s `PerfectDerived X`, for qcqs X. Construct an exact equivalence and its coherent compatibility with pullback, passing to small models using §1.5. The supplied dg-nerve comparison identifies mapping spaces with Dold–Kan of `τ≤0RHom`; require the model comparison to induce that identification. Stability, the ambient enhanced category and its perfect full subcategory are imported rather than reconstructed. ([TT90, Introduction, p. 248](https://gwern.net/doc/math/1990-thomason.pdf); [Stacks.cohomology, Cohomology of Sheaves, Lemma 49.9 (tag 08CS)](https://stacks.math.columbia.edu/download/cohomology.pdf)).
 
 Expose the following interface:
 
@@ -308,7 +308,7 @@ For the limit assertions use a cofiltered system of qcqs schemes with affine tra
 
 For a cofiltered qcqs system with affine transition maps, perfect objects descend to a finite stage and maps out of perfect objects are the filtered colimit of finite-stage maps. Vanishing off a descended closed support is eventually detected. No flatness of the transitions is imposed. ([Stacks.perfect, Derived Categories of Schemes, Lemma 29.3 (tag 09RF)](https://stacks.math.columbia.edu/download/perfect.pdf); [Stacks.perfect, Derived Categories of Schemes, Lemma 29.2 (tag 09RE)](https://stacks.math.columbia.edu/download/perfect.pdf); [TT90, Proposition 3.20.1, p. 324](https://gwern.net/doc/math/1990-thomason.pdf)).
 
-For integers `a≤b` construct the enhanced core Perf^[a,b](A), consisting of perfect A-complexes of that Tor-amplitude. Pullback preserves the stratum; the filtered union of strata is `Perf(A)`. The `[0,0]` core is the groupoid of finite projective modules. ([BS17, §11, proof of Theorem11.2(2)](https://arxiv.org/pdf/1507.06490v3)).
+For integers `a≤b` construct the enhanced core `Perf^[a,b](A)`, consisting of perfect A-complexes of that Tor-amplitude. Pullback preserves the stratum; the filtered union of strata is `Perf(A)`. The `[0,0]` core is the groupoid of finite projective modules. ([BS17, §11, proof of Theorem11.2(2)](https://arxiv.org/pdf/1507.06490v3)).
 
 Expose the following interface:
 
@@ -324,7 +324,7 @@ Expose the following interface:
 - A complex concentrated in degree zero need not qualify: the dual-number residue field is not perfect.
 - The `[0,0]` core is exactly the finite-projective groupoid, including its automorphisms.
 
-Maps between objects of Perf^[a,b](A) are `(b−a)`-truncated; consequently its core is `(b−a+1)`-truncated. Prove this from the lower cohomological bound on RHom, retaining the extra degree for automorphisms. ([BS17, Proof of Theorem 11.2(2), numbered assertion (1), PDF p.47, arXiv:1507.06490v3](https://arxiv.org/pdf/1507.06490v3)).
+Maps between objects of `Perf^[a,b](A)` are `(b−a)`-truncated; consequently its core is `(b−a+1)`-truncated. Prove this from the lower cohomological bound on RHom, retaining the extra degree for automorphisms. ([BS17, Proof of Theorem 11.2(2), numbered assertion (1), PDF p.47, arXiv:1507.06490v3](https://arxiv.org/pdf/1507.06490v3)).
 
 For perfect E over any commutative A, the residue-field complexes `E⊗ᴸκ(p)`, for all prime p, detect Tor-amplitude `[a,b]`. Perfectness is essential to this finite-presentation/Nakayama argument. ([BS17, §11, proof of Theorem11.2(2), Tor-amplitude argument](https://arxiv.org/pdf/1507.06490v3)).
 
@@ -332,7 +332,7 @@ For filtered ring colimits `A=colim` Aᵢ, `Perf(A)=colim` `Perf(Aᵢ)` as enhan
 
 ### Examples
 
-Let `C=(O —x→ O)`, in degrees −1,0 on A¹_k. Its tensor square has terms O,O²,O and differentials `(x,−x)` and `(x,x)`, after ordering the degree −1 summands accordingly. The composite vanishes. Pulling C to the origin gives `k —0→ k`, with amplitude `[−1,0]` over k. The tensor square `C⊗C` has amplitude `[−2,0]`, both over `k[x]` and after derived pullback. The single object `k⊗ᴸ_{k[x]}k`, retained over `k[x]`, also has amplitude `[−2,0]` because each k-summand has projective dimension one there.
+Let `C=(O —x→ O)`, in degrees −1,0 on `A¹_k`. Its tensor square has terms O,O²,O and differentials `(x,−x)` and `(x,x)`, after ordering the degree −1 summands accordingly. The composite vanishes. Pulling C to the origin gives `k —0→ k`, with amplitude `[−1,0]` over k. The tensor square `C⊗C` has amplitude `[−2,0]`, both over `k[x]` and after derived pullback. The single object `k⊗ᴸ_{k[x]}k`, retained over `k[x]`, also has amplitude `[−2,0]` because each k-summand has projective dimension one there.
 
 The quotient map `C→k(0)` is a global chain representative. More generally on an affine scheme the finite-projective source gives global representatives against quasicoherent targets by K-projectivity. Arbitrary sheaf targets only receive the local lifting assertion.
 
@@ -348,7 +348,7 @@ The enhanced `[0,0]` core at a field has π₁ at k equal to k×. Its mapping sp
 
 ### Dependencies
 
-Mathlib’s module-sheaf, cochain, derived and triangulated categories; AlgebraicVectorBundles’ finite locally free, tensor and dual APIs; DGAInfinity Layer 5 for module perfectness; EnhancedDerivedSheaves E0–E1 for enhancements and its PerfectDerived subcategory; SchemeAndStackFoundations §§0.6, 0.9, 2.18 and 5.7 for Hartogs extension, finite-presentation limits, pseudo-coherent/D_QCoh objects, affine derived equivalence and the resolution-property predicate. The strict-model and finite-level comparisons are constructed here.
+Mathlib’s module-sheaf, cochain, derived and triangulated categories; AlgebraicVectorBundles’ finite locally free, tensor and dual APIs; DGAInfinity Layer 5 for module perfectness; EnhancedDerivedSheaves E0–E1 for enhancements and its PerfectDerived subcategory; SchemeAndStackFoundations §§0.6, 0.9, 2.18 and 5.7 for Hartogs extension, finite-presentation limits, pseudo-coherent/`D_QCoh` objects, affine derived equivalence and the resolution-property predicate. The strict-model and finite-level comparisons are constructed here.
 
 ## Layer 2: Scheme K-theory and functoriality
 
@@ -360,7 +360,7 @@ Define connective `K(X)` from the perfect complicial model, and `K_naive(X)` fro
 
 Expose the following interface:
 
-- `Scheme.K` — `K(X)` := `K(Perf(X))`, a spectrum; Scheme.K_n X := π_n `K(X)`.
+- `Scheme.K` — `K(X)` := `K(Perf(X))`, a spectrum; `Scheme.K_n X := π_n K(X)`.
 - `Scheme.KOn` — `K(X on Z)` for `Z ⊂ X` closed, from perfect complexes acyclic on `X ∖ Z`.
 - `Scheme.Knaive` — `K^naive(X)`: K-theory of strictly perfect complexes, ≃ Quillen K of Vect(X) (TT 3.10).
 - `Scheme.Knaive_to_K` — The map `K^naive(X) → K(X)` induced by the inclusion.
@@ -368,8 +368,8 @@ Expose the following interface:
 - `Scheme.K.pullback` — `f*`: `K(Y) → K(X)` for every morphism f (Layer 2).
 - `Scheme.K.pushforward` — `f_*`: `K(X) → K(Y)` in exactly the proper perfect or perfect-projective/flat-proper-finitely-presented scopes of §2.3.
 - `Scheme.K.affineEquiv` — `K(Spec A) ≃ K(A)` (Layer 2).
-- `Scheme.K.zero_eq_triangulatedK0` — `K_0(X)` ≅ TriangulatedK0(`D_perf(O_X)`) (Layer 2).
-- `Scheme.K.nonconnective` — `𝕂(X)` with π_n `𝕂(X) = K_n(X)` for `n ≥ 0` (Layer 2).
+- `Scheme.K.zero_eq_triangulatedK0` — `K_0(X) ≅ TriangulatedK0(D_perf(O_X))` (Layer 2).
+- `Scheme.K.nonconnective` — `𝕂(X)` with `π_n 𝕂(X) = K_n(X)` for `n ≥ 0` (Layer 2).
 
 **Checks.**
 
@@ -389,7 +389,7 @@ Expose the following interface:
 
 - `Scheme.KB` — `𝕂(X)` := IK of the Frobenius pair of perfect complexes.
 - `Scheme.K_to_KB` — The natural map `K(X) → 𝕂(X)`.
-- `Scheme.K_to_KB_iso` — π_n `K(X) → π_n` `𝕂(X)` is an isomorphism for `n ≥ 0`.
+- `Scheme.K_to_KB_iso` — `π_n K(X) → π_n 𝕂(X)` is an isomorphism for `n ≥ 0`.
 - `Scheme.KB_neg_eq_thomason` — The downstream theorem Layer 5 supplies this equality; it is not an axiom of Scheme.KB.
 - `Scheme.KB_affine` — `𝕂(Spec A)` has negative homotopy Bass's `K_n(A)` (GeneralAlgebraicKTheory §§11.14 and 12.11).
 - `Scheme.KB_neg_eq_zero_of_regular` — By Layer 2 and nonconnective Cartan comparison, negative groups vanish for regular Noetherian X.
@@ -398,19 +398,19 @@ Expose the following interface:
 
 - For every affine A the zeroth group is the usual `K₀(A)`, and the empty-scheme spectrum vanishes.
 - The regular ring ℤ has `K₋₁=0`.
-- For the nodal ring `k[x,y]`/`(y²−x²−x³)`, char `k≠2`, normalization `x=t²−1`,y=tx gives `K₋₁≅coker(ℤ²→ℤ²)≅ℤ` through the two branches. Negative vanishing therefore needs regularity.
+- For the nodal ring `k[x,y]/(y²−x²−x³)`, char `k≠2`, normalization `x=t²−1,y=tx` gives `K₋₁≅coker(ℤ²→ℤ²)≅ℤ` through the two branches. Negative vanishing therefore needs regularity.
 
-For Noetherian X define `G(X)=K(Coh X)`, equivalently K of cohomologically bounded pseudo-coherent complexes. Give object classes, proper pushforward, finite-Tor pullback and `G₀≃ExactK₀(Coh X)`. On `k[ε]`/ε² the structure sheaf has class `2[k]`. ([Weibel, Definition IV.6.3.4 (PDF p. 328)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [TT90, Definition 3.3, p. 313](https://gwern.net/doc/math/1990-thomason.pdf)).
+For Noetherian X define `G(X)=K(Coh X)`, equivalently K of cohomologically bounded pseudo-coherent complexes. Give object classes, proper pushforward, finite-Tor pullback and `G₀≃ExactK₀(Coh X)`. On `k[ε]/ε²` the structure sheaf has class `2[k]`. ([Weibel, Definition IV.6.3.4 (PDF p. 328)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [TT90, Definition 3.3, p. 313](https://gwern.net/doc/math/1990-thomason.pdf)).
 
 Expose the following interface:
 
-- `Scheme.G` — `G(X)` := `K(Coh(X))` for noetherian X; Scheme.G_n X := π_n `G(X)`.
+- `Scheme.G` — `G(X)` := `K(Coh(X))` for noetherian X; `Scheme.G_n X := π_n G(X)`.
 - `Scheme.G.class` — The class `[F] ∈ G_0(X)` of a coherent sheaf, additive on short exact sequences.
-- `Scheme.G.equivPsCoh` — `G(X) ≃ K`(PsCoh^b(X)) ≃ K(Ch^b `Coh X`) (Layer 2).
+- `Scheme.G.equivPsCoh` — `G(X) ≃ K(PsCoh^b(X)) ≃ K(Ch^b Coh X)` (Layer 2).
 - `Scheme.G.pushforward` — `f_*`: `G(X) → G(Y)` for proper f (Layer 2).
 - `Scheme.G.pullback` — `f*`: `G(Y) → G(X)` for f of finite Tor-dimension (Layer 2).
-- `Scheme.G.affineEquiv` — `G(Spec R) ≃ G(R)` := K(mod R) for R noetherian (Layer 2).
-- `Scheme.G.zero_eq_exactK0` — `G_0(X)` ≅ Tau Ceti's ExactK0 of `Coh(X)` with its abelian exact structure (GeneralAlgebraicKTheory §3.14 identifies π_1 BQ with ExactK0).
+- `Scheme.G.affineEquiv` — `G(Spec R) ≃ G(R) := K(mod R)` for R noetherian (Layer 2).
+- `Scheme.G.zero_eq_exactK0` — `G_0(X)` ≅ Tau Ceti's ExactK0 of `Coh(X)` with its abelian exact structure (GeneralAlgebraicKTheory §3.14 identifies `π_1 BQ` with ExactK0).
 
 **Checks.**
 
@@ -442,14 +442,14 @@ Expose the following interface:
 - Identity pullback is naturally the identity.
 - Pulling back the skyscraper underived gives only `k[0]`, losing its other derived summand.
 
-Derived pullback gives contravariant maps `K(X)→K(X′)`, and 𝕂-maps in the qcqs setting, for arbitrary f:`X′→X`. Require coherent identity/composition homotopies and `f*[E]`=[Lf*E], the affine scalar-extension formula and the naive-bundle comparison. ([TT90, 3.14, pp. 317–318](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, 1.5.4, pp. 260–261](https://gwern.net/doc/math/1990-thomason.pdf)).
+Derived pullback gives contravariant maps `K(X)→K(X′)`, and 𝕂-maps in the qcqs setting, for arbitrary f:`X′→X`. Require coherent identity/composition homotopies and `f*[E]=[Lf*E]`, the affine scalar-extension formula and the naive-bundle comparison. ([TT90, 3.14, pp. 317–318](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, 1.5.4, pp. 260–261](https://gwern.net/doc/math/1990-thomason.pdf)).
 
 Expose the following interface:
 
 - `Scheme.K.pullback` — `f*` : `K(Y) → K(X)` for every morphism f : `X → Y`.
-- `Scheme.K.pullback_comp` — `(g∘f)* ≃ f*∘g*` (homotopy of spectrum maps; equality on K_n).
+- `Scheme.K.pullback_comp` — `(g∘f)* ≃ f*∘g*` (homotopy of spectrum maps; equality on `K_n`).
 - `Scheme.K.pullback_id` — `id* ≃ id`.
-- `Scheme.K.pullback_class` — On K_0, `f*[E]` = [Lf*E]; for a vector bundle V, `f*[V] = [f*V]`.
+- `Scheme.K.pullback_class` — On `K_0`, `f*[E] = [Lf*E]`; for a vector bundle V, `f*[V] = [f*V]`.
 - `Scheme.K.pullback_supports` — `f*`: `K(Y on Z) → K(X on f^{-1}Z)` compatibly with `K(Y on Z) → K(Y)`.
 - `Scheme.K.pullback_affine` — For `Spec B → Spec A` it is scalar extension `K(A) → K(B)` (Layer 2).
 - `Scheme.Knaive.pullback` — The same on `K^naive`, compatibly with `K^naive → K`.
@@ -481,7 +481,7 @@ Expose the following interface:
 
 The coherent assertions use locally Noetherian schemes and proper maps on the relevant coherent support. The K-transfer requires a proper perfect morphism, meaning pseudo-coherent and of finite Tor-dimension, with the bounded cohomological-dimension hypotheses stated below.
 
-Use SchemeAndStackFoundations §2.18’s total direct image on D_QCoh, its coproduct compatibility and the cohomological bounds supplied by §2.6. Compare its computation on the bounded-below injective/flasque models used here, and prove that the resulting complicial functor and composition transformations realize that supplied derived functor. In the quasi-compact-target scope retain a uniform bound after the specified base changes; on affine morphisms quasicoherent direct image is exact. ([Stacks.perfect, Derived Categories of Schemes, Lemma 4.1(1) (tag 08D5)](https://stacks.math.columbia.edu/download/perfect.pdf); [Stacks.perfect, Derived Categories of Schemes, Lemma 4.1(2) (tag 08D5)](https://stacks.math.columbia.edu/download/perfect.pdf); [Stacks.perfect, Derived Categories of Schemes, Lemma 4.5 (tag 08DZ)](https://stacks.math.columbia.edu/download/perfect.pdf)).
+Use SchemeAndStackFoundations §2.18’s total direct image on `D_QCoh`, its coproduct compatibility and the cohomological bounds supplied by §2.6. Compare its computation on the bounded-below injective/flasque models used here, and prove that the resulting complicial functor and composition transformations realize that supplied derived functor. In the quasi-compact-target scope retain a uniform bound after the specified base changes; on affine morphisms quasicoherent direct image is exact. ([Stacks.perfect, Derived Categories of Schemes, Lemma 4.1(1) (tag 08D5)](https://stacks.math.columbia.edu/download/perfect.pdf); [Stacks.perfect, Derived Categories of Schemes, Lemma 4.1(2) (tag 08D5)](https://stacks.math.columbia.edu/download/perfect.pdf); [Stacks.perfect, Derived Categories of Schemes, Lemma 4.5 (tag 08DZ)](https://stacks.math.columbia.edu/download/perfect.pdf)).
 
 Define `coherentPushforward_modelComparison`: for proper f of Noetherian schemes, identify the bounded-below flasque realization of `Rf_*` with the supplied enhanced pushforward, naturally under composition. Its coherent preservation is supplied by JacobianChallenge Layer C and EnhancedDerivedSheaves E2.8. The extension with proper coherent supports uses the E1.9 supplier contract. ([Stacks.perfect, Derived Categories of Schemes, Lemma 11.3 (tag 08E2)](https://stacks.math.columbia.edu/download/perfect.pdf); [Stacks.perfect, Derived Categories of Schemes, Remark 38.7 (tag 0FDL)](https://stacks.math.columbia.edu/download/perfect.pdf)).
 
@@ -500,7 +500,7 @@ Expose the following interface:
 
 **Checks.**
 
-- For p:P¹_k→`Spec k`, `p_*[O(n)]=n+1` for all integers n; in particular the answers for −1 and −2 are 0 and −1.
+- For `p:P¹_k→Spec k`, `p_*[O(n)]=n+1` for all integers n; in particular the answers for −1 and −2 are 0 and −1.
 - Identity pushforward fixes classes, while finite affine pushforward is restriction of scalars.
 - A closed point of residue degree e on a proper curve pushes to e over k.
 - The open `A¹→P¹` has noncoherent direct image of O and does not admit this proper-transfer construction.
@@ -510,7 +510,7 @@ For proper perfect f of Noetherian schemes, restrict bounded-below flasque direc
 Expose the following interface:
 
 - `Scheme.K.pushforward` — `f_*`: `K(X) → K(Y)` in exactly the proper perfect or perfect-projective/flat-proper-finitely-presented scopes of §2.3.
-- `Scheme.K.pushforward_class` — `f_*[E]` = [`Rf_*E`] in `K_0(Y)`.
+- `Scheme.K.pushforward_class` — `f_*[E] = [Rf_*E]` in `K_0(Y)`.
 - `Scheme.K.pushforward_comp` — `(g∘f)_* ≃ g_*∘f_*` (Layer 2).
 - `Scheme.K.pushforward_cartan` — `c_Y∘f_* ≃ f_*∘c_X` with the G-pushforward (Layer 2).
 - `Scheme.K.pushforward_affine` — For `Spec B → Spec A` finite with B perfect over A, `f_*` is the restriction-of-scalars transfer (Layer 2).
@@ -531,9 +531,9 @@ Use qcqs morphisms for derived quasicoherent pushforward, and Noetherian schemes
 
 Promote Tor-independent derived base change to homotopies of G-transfers for proper Noetherian f and finite-`Tor g`, and of K-transfers for proper perfect f and arbitrary g in such squares. Deploy the input simultaneously for `f*` and `g′*`, with flat and flasque comparison models. ([TT90, Proposition 3.18 and its bideployed-model proof, pp.321–322 (PDF pp.75–76)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, Base change Theorem V.3.7.2 (PDF p. 398)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-Realize SchemeAndStackFoundations §2.18’s projection isomorphism `Rf_*E⊗ᴸF≃Rf_*`(E⊗`ᴸLf*F`), for qcqs f and quasicoherent derived E,F, on the flat/flasque models used for K-theory. The new target is a natural weak-equivalence transformation compatible with the tensor pairings and composition, hence inducing the spectrum homotopy of §2.4. The ordinary derived projection formula is supplied. ([Stacks.perfect, Derived Categories of Schemes, Lemma 22.1 (tag 08EU)](https://stacks.math.columbia.edu/download/perfect.pdf); [TT90, Theorem 2.5.5, p. 304](https://gwern.net/doc/math/1990-thomason.pdf)).
+Realize SchemeAndStackFoundations §2.18’s projection isomorphism `Rf_*E⊗ᴸF≃Rf_*(E⊗ᴸLf*F)`, for qcqs f and quasicoherent derived E,F, on the flat/flasque models used for K-theory. The new target is a natural weak-equivalence transformation compatible with the tensor pairings and composition, hence inducing the spectrum homotopy of §2.4. The ordinary derived projection formula is supplied. ([Stacks.perfect, Derived Categories of Schemes, Lemma 22.1 (tag 08EU)](https://stacks.math.columbia.edu/download/perfect.pdf); [TT90, Theorem 2.5.5, p. 304](https://gwern.net/doc/math/1990-thomason.pdf)).
 
-Derived tensor gives `K∧K→K` and, on Noetherian X, `K∧G→G`. Construct these using flat perfect models, with unit O_X, associativity and affine comparisons. On π₀ use derived tensor, which can differ from underived tensor on coherent sheaves. ([TT90, 3.15, p. 318](https://gwern.net/doc/math/1990-thomason.pdf); [Stacks.perfect, Derived Categories of Schemes, Remark 38.6 (tag 0FDK)](https://stacks.math.columbia.edu/download/perfect.pdf)).
+Derived tensor gives `K∧K→K` and, on Noetherian X, `K∧G→G`. Construct these using flat perfect models, with unit `O_X`, associativity and affine comparisons. On π₀ use derived tensor, which can differ from underived tensor on coherent sheaves. ([TT90, 3.15, p. 318](https://gwern.net/doc/math/1990-thomason.pdf); [Stacks.perfect, Derived Categories of Schemes, Remark 38.6 (tag 0FDK)](https://stacks.math.columbia.edu/download/perfect.pdf)).
 
 Expose the following interface:
 
@@ -542,13 +542,13 @@ Expose the following interface:
 - `Scheme.K.mul_class` — `[E]·[F] = [E ⊗^L F]` in `K_0(X)`.
 - `Scheme.G.smul_class` — `[E]·[F] = [E ⊗^L F]` in `G_0(X)` for E perfect, F coherent.
 - `Scheme.K.one_mul` — `[O_X]·x = x` on `K_*(X)` and on `G_*(X)`.
-- `Scheme.K.mulPairing_pullback` — `f*` is multiplicative on K_0: `f*(x·y) = f*x·f*y`; in higher degrees this is Layer 6's.
-- `Scheme.K.mulPairing_affine` — On `Spec A` the K_0 product is the tensor product of projective modules (GeneralAlgebraicKTheory §7.6).
+- `Scheme.K.mulPairing_pullback` — `f*` is multiplicative on `K_0`: `f*(x·y) = f*x·f*y`; in higher degrees this is Layer 6's.
+- `Scheme.K.mulPairing_affine` — On `Spec A` the `K_0` product is the tensor product of projective modules (GeneralAlgebraicKTheory §7.6).
 
 **Checks.**
 
 - The O-class acts as the unit; on P¹, `[O(1)]²=[O(2)]` and `(1−[O(−1)])²=0`.
-- On affines, the product is [P⊗_AQ].
+- On affines, the product is `[P⊗_AQ]`.
 - Tensoring the x-resolution with `k(0)` produces `k⊕k[1]`, of Euler class zero.
 - Underived tensor on arbitrary perfect representatives fails: it sends the quasi-isomorphism from that resolution to `k(0)` to a map `k⊕k[1]→k` which is not a quasi-isomorphism.
 
@@ -558,7 +558,7 @@ For every defined proper transfer, `f_*(x·f*y)=f_*x·y` in all applicable K/G d
 
 Identify `K(Spec A)` with `K(A)` for every commutative ring A, and `G(Spec A)` with `G(A)` for Noetherian A. Compare the actual functors, object classes and maps, then extend the perfect comparison nonconnectively. ([Stacks.perfect, Derived Categories of Schemes, Lemma 38.3 (tag 0FDH)](https://stacks.math.columbia.edu/download/perfect.pdf); [Weibel, Example V.2.7.2 (PDF p. 391)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Exercise II.9.10(a) (PDF p. 180)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-Under the affine comparison, pullback along `A→B` is B⊗ᴸ_A−. In degree zero of K use scalar extension of finite projectives; in G require finite Tor-dimension and take the alternating Tor sum unless B is flat. ([Stacks.perfect, Derived Categories of Schemes, Lemma 3.8(2) (tag 08DW)](https://stacks.math.columbia.edu/download/perfect.pdf); [Weibel, Base change maps for G∗(R) V.3.5 (PDF p. 395)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
+Under the affine comparison, pullback along `A→B` is `B⊗ᴸ_A−`. In degree zero of K use scalar extension of finite projectives; in G require finite Tor-dimension and take the alternating Tor sum unless B is flat. ([Stacks.perfect, Derived Categories of Schemes, Lemma 3.8(2) (tag 08DW)](https://stacks.math.columbia.edu/download/perfect.pdf); [Weibel, Base change maps for G∗(R) V.3.5 (PDF p. 395)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
 For finite B/A, affine G-transfer is restriction of scalars when A,B are Noetherian. K-transfer exists if B is finite projective over A, or admits a finite projective resolution in the Noetherian setting. Its resolving `H(A)` category is not homotopy K-theory KH(A). ([Weibel, Transfer Maps for K∗(R) V.3.3.2 (PDF p. 394)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Remark after Base change maps V.3.5 (book p.388, PDF p.396)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Stacks.perfect, Derived Categories of Schemes, Lemma 3.7 (tag 0DJK)](https://stacks.math.columbia.edu/download/perfect.pdf)).
 
@@ -570,18 +570,18 @@ For Noetherian X, inclusion of perfect into bounded pseudo-coherent complexes de
 
 Expose the following interface:
 
-- `Scheme.cartan` — c_X : `K(X) → G(X)` for noetherian X.
+- `Scheme.cartan` — `c_X : K(X) → G(X)` for noetherian X.
 - `Scheme.cartan_class` — `c_X[E] = Σ(−1)^i` `[H^i(E)]` in `G_0(X)`.
 - `Scheme.cartan_class_vectorBundle` — `c_X[V] = [V]` for a finite locally free module V.
 - `Scheme.cartan_pullback` — `c_X∘f* ≃ f*∘c_Y` for f of finite Tor-dimension.
 - `Scheme.cartan_pushforward` — `c_Y∘f_* ≃ f_*∘c_X` for f proper perfect.
 - `Scheme.cartan_linear` — `c_X(x·y) = x·c_X(y)` for x, `y ∈ K_*(X)`.
-- `Scheme.cartan_affine` — For `X = Spec` R, π_0 c_X is Tau Ceti's cartanMap R (Layer 2).
-- `Scheme.cartan_isEquiv_of_regular` — c_X is an equivalence for regular noetherian X (Layer 2).
+- `Scheme.cartan_affine` — For `X = Spec` R, `π_0 c_X` is Tau Ceti's cartanMap R (Layer 2).
+- `Scheme.cartan_isEquiv_of_regular` — `c_X` is an equivalence for regular noetherian X (Layer 2).
 
 **Checks.**
 
-- Over a field the Cartan map is id_ℤ, and for the empty scheme it is the map of zero spectra.
+- Over a field the Cartan map is `id_ℤ`, and for the empty scheme it is the map of zero spectra.
 - On dual numbers it sends 1 to 2 in the basis `[k]`, so `[k]` is outside its image.
 - Under both affine π₀ comparisons it is precisely TauCeti.cartanMap, with its existing exact structures.
 
@@ -601,15 +601,15 @@ K and 𝕂 with descended supports commute with qcqs inverse limits along affine
 
 Construct `coherentProperSupport_modelComparison` for locally finite-type, quasi-separated f into Noetherian Y and bounded coherent E whose cohomology sheaves have proper support over Y. Identify the chosen flasque K-model with the supplied enhanced pushforward by closed proper-support factorization, compatibly with enlarging the support. This is a model comparison, extending §2.3 to a possibly non-quasi-compact ambient X; coherent preservation is part of the E1.9 supplier contract. ([Stacks, Tags0CYS,08DS,08E2](https://stacks.math.columbia.edu)).
 
-For projective perfect f over an arbitrary qcqs base, embed X in Pⁿ_Y, descend the finite-presentation data and the perfect complex `Ri_*E` to a Noetherian approximation, and recover `Rf_*E` by Tor-independent base change. This supplies the projective case of the K-transfer. Import `noetherian_approximation` and `finite_presentation_limits` from SchemeAndStackFoundations §0.9 and combine them with the perfect finite-diagram descent of Layer 1. Descend the perfect complex on projective space, whose structural map is flat, rather than require flat transition maps in the approximation. ([Stacks, Proposition 32.5.4, Tag 01ZA](https://stacks.math.columbia.edu/tag/01ZA); [Stacks, Lemma 32.10.1, Tag 01ZM](https://stacks.math.columbia.edu/tag/01ZM)). ([TT90, 2.7(a),3.20.1, printed310–312,324–328](https://gwern.net/doc/math/1990-thomason.pdf)).
+For projective perfect f over an arbitrary qcqs base, embed X in `Pⁿ_Y`, descend the finite-presentation data and the perfect complex `Ri_*E` to a Noetherian approximation, and recover `Rf_*E` by Tor-independent base change. This supplies the projective case of the K-transfer. Import `noetherian_approximation` and `finite_presentation_limits` from SchemeAndStackFoundations §0.9 and combine them with the perfect finite-diagram descent of Layer 1. Descend the perfect complex on projective space, whose structural map is flat, rather than require flat transition maps in the approximation. ([Stacks, Proposition 32.5.4, Tag 01ZA](https://stacks.math.columbia.edu/tag/01ZA); [Stacks, Lemma 32.10.1, Tag 01ZM](https://stacks.math.columbia.edu/tag/01ZM)). ([TT90, 2.7(a),3.20.1, printed310–312,324–328](https://gwern.net/doc/math/1990-thomason.pdf)).
 
 Nonconnective G of a Noetherian scheme has zero negative groups, using Schlichting's theorem for Noetherian abelian categories and the bounded coherent comparison. Require neither finite Krull dimension nor finite global dimension. ([Schlichting, Theorem 9.3 and Example 9.6, pp. 16–17](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/schlneg.pdf)).
 
 ### Examples
 
-For p:P¹_k→`Spec k`, `Rp_*O=k[0]` and `Rp_*O(−2)=k[−1]`. Thus pushforward of `O(n)` has Euler value `n+1`, including negative n. The uniform pushforward bound for Pⁿ is `N=n+1` in the convention `Hⁱ=0` for `i≥N`; an affine morphism has `N=1`.
+For `p:P¹_k→Spec k`, `Rp_*O=k[0]` and `Rp_*O(−2)=k[−1]`. Thus pushforward of `O(n)` has Euler value `n+1`, including negative n. The uniform pushforward bound for Pⁿ is `N=n+1` in the convention `Hⁱ=0` for `i≥N`; an affine morphism has `N=1`.
 
-Let `A=k⊕V` with V=⊕`_{n≥0}`ke_n square-zero. The complex `A —e₀→ A` is strict perfect even though `H⁻¹=V` is not finite type. Identity pushforward preserves it. A projective perfect pushforward theorem cannot require coherence of its cohomology over a noncoherent base.
+Let `A=k⊕V` with `V=⊕_{n≥0}ke_n` square-zero. The complex `A —e₀→ A` is strict perfect even though `H⁻¹=V` is not finite type. Identity pushforward preserves it. A projective perfect pushforward theorem cannot require coherence of its cohomology over a noncoherent base.
 
 Restriction to an open commutes with proper pushforward, as does passage to the generic fibre of an arithmetic surface in the Tor-independent square. Taking the tensor factor O gives the identity case of the projection formula; for an affine morphism it is the restriction-of-scalars tensor identity.
 
@@ -617,9 +617,9 @@ For p:`P¹→Spec` k and `y∈Kₙ(k)`, `p_*(p*y)=y`. For a degree-d isogeny f o
 
 The finite extension `ℤ[i]`/ℤ sends the unit class to 2. For a finite field extension, transfer on K₁ is the norm, while pullback is the inclusion on units. The map `ℤ→ℤ`/p preserves the rank generator.
 
-For a Dedekind domain, affine K₀ is ℤ⊕Pic. On regular connected curves, Cartan identifies this with coherent G₀. On dual numbers Cartan is ×2 and fails to be surjective; equality of the two abstract group isomorphism types does not remedy this.
+For a Dedekind domain, affine K₀ is `ℤ⊕Pic`. On regular connected curves, Cartan identifies this with coherent G₀. On dual numbers Cartan is ×2 and fails to be surjective; equality of the two abstract group isomorphism types does not remedy this.
 
-The dual-number residue field is not compact: maps from it to ⊕`_{n≥0}k[n]`, which is degreewise also the product, give `∏_{n≥0}Extⁿ(k,k)=∏k` rather than ⊕k. The unit and all perfect objects pass the compactness test.
+The dual-number residue field is not compact: maps from it to `⊕_{n≥0}k[n]`, which is degreewise also the product, give `∏_{n≥0}Extⁿ(k,k)=∏k` rather than `⊕k`. The unit and all perfect objects pass the compactness test.
 
 For countably many disjoint affine lines, the origin sheaf on one component has proper support over k and pushes to `k[0]`, despite the ambient morphism being non-quasi-compact. This tests the separate proper-support target.
 
@@ -639,7 +639,7 @@ For a closed subset `Z⊂X`, `Perf_Z(X)` consists of perfect E whose restriction
 
 Expose the following interface:
 
-- `PerfSupport` — PerfSupport X Z : ObjectProperty (D_perf X), E ↦ `(E|_{X∖Z} ≅ 0)`.
+- `PerfSupport` — `PerfSupport X Z : ObjectProperty (D_perf X), E ↦ (E|_{X∖Z} ≅ 0)`.
 - `PerfSupport.isTriangulated` — PerfSupport X Z is a triangulated subcategory closed under isomorphisms.
 - `PerfSupport.isClosedUnderRetracts` — Direct summands of objects of `Perf_Z(X)` lie in `Perf_Z(X)`.
 - `PerfSupport.mem_iff_support` — `E ∈ Perf_Z(X)` iff Supp `H^i(E) ⊆ Z` for all `i ∈ ℤ`.
@@ -647,10 +647,10 @@ Expose the following interface:
 - `PerfSupport.inf` — `Perf_Z(X)` ⊓ `Perf_W(X) = Perf_{Z∩W}(X)`.
 - `PerfSupport.univ` — `Perf_X(X) = D_perf(O_X)`.
 - `PerfSupport.empty` — `E ∈ Perf_∅(X)` iff `E ≅ 0`.
-- `PerfSupport.pullback` — For f: `X' → X`, Lf^* maps `Perf_Z(X)` into `Perf_{f^{-1}Z}(X')`; restriction to an open V maps `Perf_Z(X)` into `Perf_{Z∩V}(V)`.
-- `PerfSupport.tensor` — `E ∈ Perf_Z(X)`, `F ∈ Perf_W(X)` imply E ⊗^L `F ∈ Perf_{Z∩W}(X)` (Layer 1).
+- `PerfSupport.pullback` — For f: `X' → X`, `Lf^*` maps `Perf_Z(X)` into `Perf_{f^{-1}Z}(X')`; restriction to an open V maps `Perf_Z(X)` into `Perf_{Z∩V}(V)`.
+- `PerfSupport.tensor` — `E ∈ Perf_Z(X)`, `F ∈ Perf_W(X)` imply `E ⊗^L F ∈ Perf_{Z∩W}(X)` (Layer 1).
 - `PerfSupport.affine_iff` — On `X = Spec` A with `Z = V(I)`, `E = M`~ lies in `Perf_Z(X)` iff every `H^i(M)` has Module.support inside `V(I)` (Layer 1).
-- `PerfSupport.cone_mem` — For `s ∈ Γ(X, O_X)`, cone(s: `O_X → O_X`) ∈ `Perf_{V(s)}(X)`.
+- `PerfSupport.cone_mem` — For `s ∈ Γ(X, O_X)`, `cone(s: O_X → O_X) ∈ Perf_{V(s)}(X)`.
 
 **Checks.**
 
@@ -663,16 +663,16 @@ For qcqs X with quasi-compact complement of Z, define `𝕂(X on Z)` from the su
 
 Expose the following interface:
 
-- `supportKTheory` — `K(X on Z)`, a spectrum; `K_n(X on Z)` := π_n `K(X on Z)`, `n ∈ ℤ`.
+- `supportKTheory` — `K(X on Z)`, a spectrum; `K_n(X on Z) := π_n K(X on Z)`, `n ∈ ℤ`.
 - `supportKTheory.toK` — The map `K(X on Z) → K(X)` induced by `Perf_Z(X) ⊆ Perf(X)`.
 - `supportKTheory.class` — For `E ∈ Perf_Z(X)`, `[E] ∈ K_0(X on Z)`, additive in distinguished triangles and `[E[1]]` = `−[E]`.
 - `supportKTheory.univ` — `K(X on X) ≃ K(X)` compatibly with toK.
 - `supportKTheory.empty` — `K(X on ∅) ≃ 0`.
-- `supportKTheory.pullback` — f^*: `K(X on Z) → K(X' on Z')` for `f^{-1}(Z) ⊆ Z'`, with id^* = id and (fg)^* ≃ g^* f^*.
+- `supportKTheory.pullback` — `f^*: K(X on Z) → K(X' on Z')` for `f^{-1}(Z) ⊆ Z'`, with `id^* = id` and `(fg)^* ≃ g^* f^*`.
 - `supportKTheory.enlarge` — For `Z ⊆ Z'`, `K(X on Z) → K(X on Z')` compatible with toK and with pullback.
 - `supportKTheory.pairing` — `K(X on Z) ∧ K(X on W) → K(X on Z ∩ W)`, associative and commutative up to coherent homotopy (TT 3.15.4); `K(X on Z)` is a `K(X)`-module spectrum.
 - `supportKTheory.pushforward` — For f: `X' → X` proper and perfect between noetherian schemes with `f(Z') ⊆ Z`, `Rf_*` induces `K(X' on Z') → K(X on Z)` (TT 3.16.7; Layer 2).
-- `supportKTheory.connective_comparison` — For `n ≥ 0`, `K_n(X on Z)` equals the Waldhausen K_n of TT's category of perfect complexes acyclic off Z.
+- `supportKTheory.connective_comparison` — For `n ≥ 0`, `K_n(X on Z)` equals the Waldhausen `K_n` of TT's category of perfect complexes acyclic off Z.
 
 **Checks.**
 
@@ -691,7 +691,7 @@ On affine X, maps E|`U→E′`|U with E perfect lift as roofs E←`E₁→E′`,
 
 For qcqs X, quasi-compact U and T with quasi-compact complement, a map `P→E`|U from perfect P supported in `T∩U` extends after replacing P by a direct-summand enlargement R|U, with R perfect supported in T. The additional summands are finitely many shifted copies of P. Consequently supported restriction is dense up to retracts. ([Stacks.perfect, Lemma 36.13.11 (tag 09IM)](https://stacks.math.columbia.edu/download/perfect.pdf); [TT90, Lemma 5.5.1 (p. 343)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, 5.5.2 (p. 343)](https://gwern.net/doc/math/1990-thomason.pdf)).
 
-D_QCoh,`T(X)` has a single perfect generator when X is qcqs and `X∖T` quasi-compact. Orthogonality to all shifts of this generator detects zero. On `Spec A` with `T=V(f₁,…,fᵣ)`, use the finite Koszul complex on those generators. ([Stacks.perfect, Lemma 36.15.4 (tag 0A9A)](https://stacks.math.columbia.edu/download/perfect.pdf); [Stacks.perfect, Lemma 36.15.2 (tag 09IR)](https://stacks.math.columbia.edu/download/perfect.pdf)).
+`D_QCoh,T(X)` has a single perfect generator when X is qcqs and `X∖T` quasi-compact. Orthogonality to all shifts of this generator detects zero. On `Spec A` with `T=V(f₁,…,fᵣ)`, use the finite Koszul complex on those generators. ([Stacks.perfect, Lemma 36.15.4 (tag 0A9A)](https://stacks.math.columbia.edu/download/perfect.pdf); [Stacks.perfect, Lemma 36.15.2 (tag 09IR)](https://stacks.math.columbia.edu/download/perfect.pdf)).
 
 For P perfect and E supported on T, every `P→E` is killed after tensoring P with a perfect `I→O_X` invertible off T. The cone of `I⊗ᴸP→P` is perfect supported on T and receives a factorization of the original map. The variant with pseudo-coherent P requires E bounded below. ([Stacks.perfect, Lemma 36.17.5 (tag 0A9C)](https://stacks.math.columbia.edu/download/perfect.pdf); [Stacks.perfect, Proposition 36.17.1 (tag 09M1)](https://stacks.math.columbia.edu/download/perfect.pdf); [Stacks.derived, Lemmas 13.37.3–13.37.4 (tags 09SN, 09SP)](https://stacks.math.columbia.edu/download/derived.pdf)).
 
@@ -709,18 +709,18 @@ Apply Frobenius-pair localization to obtain `𝕂(X on Y∩Z)→𝕂(X on Z)→�
 
 For connective K the target is the cover of `K(U on U∩Z)` whose π₀ is the image of supported restriction and whose positive groups are unchanged. Thus exactness ends at `K₀(U on U∩Z)`; its cokernel embeds by the boundary in `K₋₁(X on Y∩Z)`. ([TT90, Theorem 5.1 (p. 337)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, 5.2 (p. 338)](https://gwern.net/doc/math/1990-thomason.pdf)).
 
-Choose the localization boundary ∂ₙ:`Kₙ(U on U∩Z)→Kₙ₋₁(X on Y∩Z)` to be right `K_*(X)`-linear and to send the loop of an endomorphism invertible on U to its cone class in degree zero. In particular `∂[π]=+[k]`. The left-linear convention is `∂ₙˡ=(−1)ⁿ⁻¹∂ₙ`; specify its comparison with the supplier's suspension convention. ([TT90, Theorem 7.4, (7.4.2) (p. 365)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, Theorem V.7.6 (PDF p. 433)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Example V.6.1.2 (PDF p. 414)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
+Choose the localization boundary `∂ₙ:Kₙ(U on U∩Z)→Kₙ₋₁(X on Y∩Z)` to be right `K_*(X)`-linear and to send the loop of an endomorphism invertible on U to its cone class in degree zero. In particular `∂[π]=+[k]`. The left-linear convention is `∂ₙˡ=(−1)ⁿ⁻¹∂ₙ`; specify its comparison with the supplier's suspension convention. ([TT90, Theorem 7.4, (7.4.2) (p. 365)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, Theorem V.7.6 (PDF p. 433)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Example V.6.1.2 (PDF p. 414)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
 Expose the following interface:
 
-- `localisationBoundary` — ∂: `K_n(U on U∩Z) → K_{n−1}(X on Y∩Z)`, a group homomorphism for each `n ∈ ℤ`.
-- `localisationBoundary_comp_restrict` — `∂ ∘ j`^* = 0.
+- `localisationBoundary` — `∂: K_n(U on U∩Z) → K_{n−1}(X on Y∩Z)`, a group homomorphism for each `n ∈ ℤ`.
+- `localisationBoundary_comp_restrict` — `∂ ∘ j^* = 0`.
 - `localisationBoundary_exact_left` — `ker(K_n(X on Z) → K_n(U on U∩Z)) = im(K_n(X on Y∩Z) → K_n(X on Z))`, and im `∂ = ker(K_{n−1}(X on Y∩Z) → K_{n−1}(X on Z))`.
 - `localisationBoundary_naturality` — ∂ commutes with pullback along f: `X' → X` with `f^{-1}(U) = U'` (Layer 3).
 - `localisationBoundary_mul_right` — `∂(x · j^*y) = ∂(x) · y` for `y ∈ K_*(X)` (Layer 3); `∂(j^*y · x) = (−1)^{|y|}` `y · ∂(x)`.
-- `localisationBoundary_K0` — ∂: `K_0(U on U∩Z) → K_{−1}(X on Y∩Z)` vanishes on `[F]` iff F extends to `Perf_Z(X)` (Layer 3).
-- `localisationBoundary_cone` — For X regular noetherian and `α ∈ End(O_X^m)` an isomorphism on U: `∂(λ[α|_U])` = [cone(α)] ∈ `K_0(X on Y)`.
-- `localisationBoundary_left` — `∂^left_n` := `(−1)^{n−1}`∂_n is left-linear, `∂^left(j^*y·x) = y`·`∂^left(x)`, and equals ∂ on K_1; conversions between the two normalisations used by consumers.
+- `localisationBoundary_K0` — `∂: K_0(U on U∩Z) → K_{−1}(X on Y∩Z)` vanishes on `[F]` iff F extends to `Perf_Z(X)` (Layer 3).
+- `localisationBoundary_cone` — For X regular noetherian and `α ∈ End(O_X^m)` an isomorphism on U: `∂(λ[α|_U]) = [cone(α)] ∈ K_0(X on Y)`.
+- `localisationBoundary_left` — `∂^left_n := (−1)^{n−1}∂_n` is left-linear, `∂^left(j^*y·x) = y·∂^left(x)`, and equals ∂ on `K_1`; conversions between the two normalisations used by consumers.
 
 **Checks.**
 
@@ -744,7 +744,7 @@ For finitely many pairwise disjoint closed supports with quasi-compact complemen
 
 On `Spec R`, support in `V(s)` means the perfect complex becomes acyclic over `R[1/s]`. Compare its connective K with the ring supported model and its localization sequence. For finitely generated I, support in `V(I)` is equivalent to I-power-torsion cohomology. ([Weibel, Theorem V.2.6.3 (PDF p. 390)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-For an effective Cartier divisor on a qcqs scheme with an ample family, let H_Z be the exact category of supported sheaves admitting vector-bundle resolutions of length at most one. Its K-spectrum is the connective cover of supported 𝕂. On `Spec R` with s a nonzerodivisor recover the ring H_s localization theorem. ([Weibel, Corollary V.7.6.1 (PDF p. 433)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Exercise V.3.16 (PDF p. 407)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [TT90, Exercise 5.7 (p. 350)](https://gwern.net/doc/math/1990-thomason.pdf)).
+For an effective Cartier divisor on a qcqs scheme with an ample family, let `H_Z` be the exact category of supported sheaves admitting vector-bundle resolutions of length at most one. Its K-spectrum is the connective cover of supported 𝕂. On `Spec R` with s a nonzerodivisor recover the ring `H_s` localization theorem. ([Weibel, Corollary V.7.6.1 (PDF p. 433)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Exercise V.3.16 (PDF p. 407)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [TT90, Exercise 5.7 (p. 350)](https://gwern.net/doc/math/1990-thomason.pdf)).
 
 ### 3.5 Coherent support and dévissage
 
@@ -756,10 +756,10 @@ Expose the following interface:
 
 - `cohSupport` — `Coh_Z(X)` as an ObjectProperty of `Coh(X)` (or as a full subcategory).
 - `cohSupport.isSerre` — `Coh_Z(X)` is closed under subobjects, quotients and extensions.
-- `cohSupport.mem_iff` — `F ∈ Coh_Z(X)` iff F|`_{X∖Z} = 0` iff Supp `F ⊆ Z`; on `Spec A`, M~ ∈ `Coh_{V(I)}` iff Module.support `M ⊆ V(I)` iff `I^n` `M = 0` for some n.
+- `cohSupport.mem_iff` — `F ∈ Coh_Z(X)` iff `F|_{X∖Z} = 0` iff Supp `F ⊆ Z`; on `Spec A`, `M~ ∈ Coh_{V(I)}` iff `Module.support M ⊆ V(I)` iff `I^n M = 0` for some n.
 - `cohSupport.mono` — `Z ⊆ Z'` implies `Coh_Z(X) ⊆ Coh_{Z'}(X)`.
-- `cohSupport.pushforward` — For a closed immersion i: `Y → X` into noetherian X with |Y| ⊆ Z, `i_*`: `Coh(Y) → Coh_Z(X)` is exact.
-- `cohSupport.flatPullback` — For flat f: `X' → X`, f^* maps `Coh_Z(X)` to `Coh_{f^{-1}Z}(X')`.
+- `cohSupport.pushforward` — For a closed immersion i: `Y → X` into noetherian X with `|Y| ⊆ Z`, `i_*`: `Coh(Y) → Coh_Z(X)` is exact.
+- `cohSupport.flatPullback` — For flat f: `X' → X`, `f^*` maps `Coh_Z(X)` to `Coh_{f^{-1}Z}(X')`.
 
 **Checks.**
 
@@ -774,7 +774,7 @@ For any closed subscheme i:`Z→X` of a Noetherian scheme, dévissage identifies
 
 The coherent Serre quotient and dévissage give `G(Z)→G(X)→G(U)` as a fibre sequence. Negative G is zero, so the long exact sequence ends in `G₀(U)→0`. Tensor by perfect objects makes it a `K(X)`-module sequence with the right-linear boundary convention. ([Weibel, Example V.6.11 (PDF p. 423)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Example V.6.11 (PDF p. 424)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Quillen, §7, 3.2 and Proposition 3.1 context (printed p. 120)](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Quillen-Higher-I.pdf)).
 
-Cartan gives a map of the perfect and coherent localization sequences and hence c_Z:`𝕂(X on Z)→G(Z)`. Its π₀ formula is the alternating cohomology class, interpreted through coherent dévissage. For regular Noetherian X all three comparison maps are equivalences. ([Weibel, Remark V.7.6.2 (PDF p. 433)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [TT90, Theorem 3.21 (p. 328)](https://gwern.net/doc/math/1990-thomason.pdf)).
+Cartan gives a map of the perfect and coherent localization sequences and hence `c_Z`:`𝕂(X on Z)→G(Z)`. Its π₀ formula is the alternating cohomology class, interpreted through coherent dévissage. For regular Noetherian X all three comparison maps are equivalences. ([Weibel, Remark V.7.6.2 (PDF p. 433)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [TT90, Theorem 3.21 (p. 328)](https://gwern.net/doc/math/1990-thomason.pdf)).
 
 For regular Noetherian X, `𝕂(X on Z)≃G(Z)` for every closed Z. If Z itself is regular, `Ri_*` further identifies `K(Z)` with the supported spectrum. A singular or nonreduced Z cannot in general replace `G(Z)` by `K(Z)`; keep this distinction in every use of dévissage. ([Weibel, Remark V.7.6.2 (PDF p. 433)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Exercise III.4.4 (PDF p. 223)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Example I.3.10.2 (PDF p. 34)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
@@ -784,16 +784,16 @@ G commutes with inverse limits of Noetherian schemes along affine flat transitio
 
 ### 3.6 Unit loops, DVR boundaries and specialization
 
-For commutative A, define λ_A:`A×→K₁(Spec A)` through `GL₁→GL→BGL⁺` and the plus/Q comparison, followed by the affine scheme comparison. It is natural and multiplicative-to-additive. Its definition uses the canonical stable unit loop; the full `K₁=GL`/E theorem is not needed. ([Weibel, Exercise IV.7.9 (PDF p. 340)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Definition IV.1.1 (PDF p. 268)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
+For commutative A, define `λ_A:A×→K₁(Spec A)` through `GL₁→GL→BGL⁺` and the plus/Q comparison, followed by the affine scheme comparison. It is natural and multiplicative-to-additive. Its definition uses the canonical stable unit loop; the full `K₁=GL`/E theorem is not needed. ([Weibel, Exercise IV.7.9 (PDF p. 340)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Definition IV.1.1 (PDF p. 268)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
 Expose the following interface:
 
-- `unitLoopClass` — λ_A: Additive(A^×) →+ `K_1(Spec A)`, u ↦ loop of the `1 × 1` matrix u.
+- `unitLoopClass` — `λ_A: Additive(A^×) →+ K_1(Spec A)`, u ↦ loop of the `1 × 1` matrix u.
 - `unitLoopClass_one` — `λ_A(1) = 0`.
-- `unitLoopClass_mul` — λ_A(uv) = `λ_A(u) + λ_A(v)`.
-- `unitLoopClass_map` — For φ: `A → B`, φ^* `λ_A(u) = λ_B(φ(u))`.
-- `unitLoopClass_eq_ofUnits` — The composite of A^×→`GL(A)`/`E(A)` with GeneralAlgebraicKTheory §3.14’s comparison and the affine scheme comparison is λ_A.
-- `unitLoopClass_prod` — For u, `w ∈ A`^×, `λ(u)·λ(w) ∈ K_2(Spec A)` is the product of GeneralAlgebraicKTheory §7.4; it is bilinear in `(u, w)`.
+- `unitLoopClass_mul` — `λ_A(uv) = λ_A(u) + λ_A(v)`.
+- `unitLoopClass_map` — For φ: `A → B`, `φ^*` `λ_A(u) = λ_B(φ(u))`.
+- `unitLoopClass_eq_ofUnits` — The composite of `A^×→GL(A)/E(A)` with GeneralAlgebraicKTheory §3.14’s comparison and the affine scheme comparison is `λ_A`.
+- `unitLoopClass_prod` — For u, `w ∈ A^×`, `λ(u)·λ(w) ∈ K_2(Spec A)` is the product of GeneralAlgebraicKTheory §7.4; it is bilinear in `(u, w)`.
 
 **Checks.**
 
@@ -802,7 +802,7 @@ Expose the following interface:
 - The assignment respects multiplication of units, not their addition: at `p=3`, `[3+3]` has boundary 1 while `[3]+[3]` has boundary 2.
 - For fields this is the size-one stable matrix class under GeneralAlgebraicKTheory §3.14's plus comparison.
 
-For every commutative A, construct `stableDeterminant` : `K₁(A)` → Additive(A^×) by descent of the finite-matrix determinant through the stable elementary quotient of GeneralAlgebraicKTheory §§3.3–3.4 and 3.14. Prove `stableDeterminant_unitLoopClass`, which identifies the size-one unit inclusion as its section, and `stableDeterminant_projectiveAutomorphism`, using the componentwise determinant object of AlgebraicVectorBundles L0C. Define `SpecialK1 A` as its kernel. Its API includes determinant-one stable representatives, inclusion, scalar-extension functoriality, and `kOne_units_split` : `K₁(A)` ≃ Additive(A^×) ⊕ `SpecialK1 A`; the inverse adds the unit class and the kernel inclusion. Prove `specialK1_semilocal_zero` for commutative semilocal rings by elementary reduction, hence `stableDeterminant_localEquiv` for every commutative local ring and the field specialization. The elementary-reduction theorem, including the stable range-one shortening argument for unimodular rows over a semilocal ring, is part of this target. No equivariance or semisimplicity assumption on projective automorphisms is imposed. (Weibel III.1.1.1–1.1.4, p.180, Lemma 1.4, pp.183–184, and Proposition 1.6.4, p.186.)
+For every commutative A, construct `stableDeterminant` : `K₁(A)` → `Additive(A^×)` by descent of the finite-matrix determinant through the stable elementary quotient of GeneralAlgebraicKTheory §§3.3–3.4 and 3.14. Prove `stableDeterminant_unitLoopClass`, which identifies the size-one unit inclusion as its section, and `stableDeterminant_projectiveAutomorphism`, using the componentwise determinant object of AlgebraicVectorBundles L0C. Define `SpecialK1 A` as its kernel. Its API includes determinant-one stable representatives, inclusion, scalar-extension functoriality, and `kOne_units_split` : `K₁(A) ≃ Additive(A^×) ⊕ SpecialK1 A`; the inverse adds the unit class and the kernel inclusion. Prove `specialK1_semilocal_zero` for commutative semilocal rings by elementary reduction, hence `stableDeterminant_localEquiv` for every commutative local ring and the field specialization. The elementary-reduction theorem, including the stable range-one shortening argument for unimodular rows over a semilocal ring, is part of this target. No equivariance or semisimplicity assumption on projective automorphisms is imposed. (Weibel III.1.1.1–1.1.4, p.180, Lemma 1.4, pp.183–184, and Proposition 1.6.4, p.186.)
 
 **Checks.**
 
@@ -817,17 +817,17 @@ Define the DVR boundary by the scheme-supported connecting map followed by inver
 
 Expose the following interface:
 
-- `dvrBoundary` — ∂_S: `K_n(L) →+ K_{n−1}(k)` for `n ∈ ℤ`.
-- `dvrBoundary_comp_restrict` — `∂_S ∘ (O → L)`^* = 0.
+- `dvrBoundary` — `∂_S`: `K_n(L) →+ K_{n−1}(k)` for `n ∈ ℤ`.
+- `dvrBoundary_comp_restrict` — `∂_S ∘ (O → L)^* = 0`.
 - `dvrBoundary_exact` — ker `∂_S = im(K_n(O) → K_n(L))` and im `∂_S = ker(i_*: K_{n−1}(k) → K_{n−1}(O))`.
 - `dvrBoundary_unitLoopClass` — `∂_S(λ(u)) = v(u)·[k]` (Layer 3).
 - `dvrBoundary_uniformizer` — `∂_S(λ(π)) = [k]` for every uniformiser π.
 - `dvrBoundary_mul_right` — `∂_S(x·y) = ∂_S(x)·ȳ` for `y ∈ K_*(O)` with image `ȳ ∈ K_*(k)`.
-- `dvrBoundary_unit_product` — `∂_S(λ(f)·λ(u)) = v(f)·λ_k(ū)` for `u ∈ O`^× (Layer 3).
-- `dvrBoundary_flat_ramification` — For a local flat map `O → O'` of DVRs with mO' = `m'^e`, `∂_S'(x_{L'}) = e·(k → k')`^*`(∂_S x)`: pulling back the support category multiplies by the `length e` of O'/mO' (Layer 3).
+- `dvrBoundary_unit_product` — `∂_S(λ(f)·λ(u)) = v(f)·λ_k(ū)` for `u ∈ O^×` (Layer 3).
+- `dvrBoundary_flat_ramification` — For a local flat map `O → O'` of DVRs with `mO' = m'^e`, `∂_S'(x_{L'}) = e·(k → k')^*(∂_S x)`: pulling back the support category multiplies by the `length e` of O'/mO' (Layer 3).
 - `dvrBoundary_completion` — The completion `O → Ô` `(e = 1)` and the henselisation `O → O^h` identify the boundaries (Layer 3 on the support term).
-- `dvrBoundary_left_normalisation` — `∂^left_n = (−1)^{n−1}`∂_S satisfies `∂^left(x·y)=x`̄·`∂^left(y)` for `x ∈ K_*(O)`: on K_2, `∂^left` is the inverse of ∂_S in multiplicative notation.
-- `dvrBoundary_explicit` — `∂_S ∘ λ` agrees with the cokernel-length boundary of GeneralAlgebraicKTheory §8.12, through the affine and supported Cartan comparisons; for f in L^× it is `v(f)·[k]`.
+- `dvrBoundary_left_normalisation` — `∂^left_n = (−1)^{n−1}∂_S` satisfies `∂^left(x·y)=x̄·∂^left(y)` for `x ∈ K_*(O)`: on `K_2`, `∂^left` is the inverse of `∂_S` in multiplicative notation.
+- `dvrBoundary_explicit` — `∂_S ∘ λ` agrees with the cokernel-length boundary of GeneralAlgebraicKTheory §8.12, through the affine and supported Cartan comparisons; for f in `L^×` it is `v(f)·[k]`.
 
 **Checks.**
 
@@ -845,9 +845,9 @@ For a parameter s define specialization `σ_s(a)=∂(λ(s)·a)`. Replacing s by 
 
 Expose the following interface:
 
-- `specialisation` — λ_s: `K_n(L) →+ K_n(k)`, `λ_s(a) = ∂_S(λ(s)·a)`.
-- `specialisation_restrict` — `λ_s(j^*a) = π`^*a for `a ∈ K_n(O)` (Layer 3).
-- `specialisation_change_parameter` — λ_{us}`(a) = λ_s(a) − λ_k(ū)·∂_S(a)`.
+- `specialisation` — `λ_s: K_n(L) →+ K_n(k)`, `λ_s(a) = ∂_S(λ(s)·a)`.
+- `specialisation_restrict` — `λ_s(j^*a) = π^*a` for `a ∈ K_n(O)` (Layer 3).
+- `specialisation_change_parameter` — `λ_{us}(a) = λ_s(a) − λ_k(ū)·∂_S(a)`.
 - `specialisation_unitLoopClass_param` — `λ_s(λ(s)) = ∂_S(λ(s)·λ(s))`; in degree one `λ_s(λ(w)) = λ_k(w̄)` for units w.
 - `specialisation_linear` — `λ_s(a·j^*y) = λ_s(a)·ȳ` for `y ∈ K_*(O)`.
 
@@ -858,37 +858,37 @@ Expose the following interface:
 - Replacing 5 by 10 changes the value on `[5]` by −[2 mod 5], which is nonzero.
 - On `[s]·[w]`, with w integral and invertible, the parameter change is `−[ū]·[w̄]`. This fixes the minus sign in degree two as well.
 
-Specialization of a class restricted from O is its reduction to k: σ_s `j*=π*`. Prove this from `∂λ(s)=1` and right linearity, including the compatible finite-coefficient assertion once coefficient pairings are supplied. ([Weibel, Lemma V.6.7.3 and its proof (PDF pp. 419-420)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
+Specialization of a class restricted from O is its reduction to k: `σ_s` `j*=π*`. Prove this from `∂λ(s)=1` and right linearity, including the compatible finite-coefficient assertion once coefficient pairings are supplied. ([Weibel, Lemma V.6.7.3 and its proof (PDF pp. 419-420)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
 If k is algebraically closed and A is a nonzero commutative k-algebra, `Kₙ(k)→Kₙ(A)` is injective in every degree. Descend to a finitely generated subalgebra and a k-valued closed point to construct a retraction; use continuity for general A. ([Weibel, Corollary V.6.7.4 (PDF p. 420)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
 ### 3.7 Divisors, curves and arithmetic surfaces
 
-For Noetherian integral X and a rational function f invertible on U, the codimension-one generic-length component of `∂[f]` is ord_y(f). Express it as `ℓ(O_y/a)−ℓ(O_y/b)` for `f=a`/b; only when O_y is a DVR identify this with a normalized valuation. On a Dedekind scheme this is the divisor map. ([Weibel, V.9.1 (PDF p. 443)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Quillen, §7, Lemma 5.16 (printed p. 128)](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Quillen-Higher-I.pdf)).
+For Noetherian integral X and a rational function f invertible on U, the codimension-one generic-length component of `∂[f]` is `ord_y`(f). Express it as `ℓ(O_y/a)−ℓ(O_y/b)` for `f=a/b`; only when `O_y` is a DVR identify this with a normalized valuation. On a Dedekind scheme this is the divisor map. ([Weibel, V.9.1 (PDF p. 443)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Quillen, §7, Lemma 5.16 (printed p. 128)](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Quillen-Higher-I.pdf)).
 
 Finite pushforward gives a map of coherent localization sequences, including their residue fibre terms. For finite extensions of Dedekind domains, generic transfer commutes with the sum of residue-field transfers. Verify residue degrees in degree zero and norm compatibility in degree one. ([Weibel, V.6.6.3 (PDF p. 418)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-For a Dedekind domain R with fraction field F, pass to the limit over finite closed subsets to obtain ⊕`_pKₙ(R/p)→Kₙ(R)→Kₙ(F)→⊕_pKₙ₋₁(R/p)`. The degree-one boundary is the divisor map; the basis vector at p maps to `[R/p]=[R]−[p]`, hence to the inverse ideal class under ℤ⊕Pic(R). ([Weibel, (6.6) (PDF p. 417)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, V.6.6 (PDF p. 417)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
+For a Dedekind domain R with fraction field F, pass to the limit over finite closed subsets to obtain `⊕_pKₙ(R/p)→Kₙ(R)→Kₙ(F)→⊕_pKₙ₋₁(R/p)`. The degree-one boundary is the divisor map; the basis vector at p maps to `[R/p]=[R]−[p]`, hence to the inverse ideal class under `ℤ⊕Pic(R)`. ([Weibel, (6.6) (PDF p. 417)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, V.6.6 (PDF p. 417)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
 For Noetherian Y of dimension one, localization and coherent dévissage give a sequence from the sum over non-generic closed points, through `G(Y)`, to the sum of K of its generic residue fields. At an integral singular point the degree-one boundary is the length order, not an assumed DVR valuation. ([Weibel, Smooth Curves 6.12 (PDF p. 424)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Exercise V.6.1 (PDF p. 426)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
 For a proper integral curve X/k and `a∈Kₙ₊₁(k(X))`, the finite sum `Σ_xN_{k(x)/k}∂_x(a)` is zero in `Kₙ(k)`. This follows by composing the localization boundary with proper pushforward; finiteness follows by spreading a over an open. ([Weibel, Weil Reciprocity Formula 6.12.1 (PDF p. 424)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Proof of 6.12.1 (PDF p. 425)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-For a flat finite-type integral regular surface over a Dedekind base with pure one-dimensional nonempty closed fibres, localization over finite sets of places gives ⊕`_vG(𝓧_v)→K(𝓧)→K(𝓧_U)`. Passing to the generic fibre retains G₁ of each possibly singular fibre, including its closed-point kernel and divisor cokernel; it is not merely a sum of component function-field units. ([Weibel, Example V.6.11 (PDF p. 423)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Quillen, §7, Proposition 2.2 (printed p. 117)](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Quillen-Higher-I.pdf)).
+For a flat finite-type integral regular surface over a Dedekind base with pure one-dimensional nonempty closed fibres, localization over finite sets of places gives `⊕_vG(𝓧_v)→K(𝓧)→K(𝓧_U)`. Passing to the generic fibre retains G₁ of each possibly singular fibre, including its closed-point kernel and divisor cokernel; it is not merely a sum of component function-field units. ([Weibel, Example V.6.11 (PDF p. 423)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Quillen, §7, Proposition 2.2 (printed p. 117)](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Quillen-Higher-I.pdf)).
 
 At a generic point c of a vertical component C of that surface, the composite of the vertical G-boundary with restriction and dévissage equals the DVR boundary of `O_{𝓧,c}`. Include the degree-two compatibility needed for elliptic K-theory without discarding the fibre's codimension-two terms. ([Weibel, V.6.6.1 (PDF p. 417)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Quillen, §7, 3.4 (printed p. 120)](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Quillen-Higher-I.pdf)).
 
 ### 3.8 Witt support and completion
 
-Fix a prime p. Rings R are perfect F_p-algebras, with no regularity or Noetherian hypothesis unless explicitly added. `W(R)` is p-torsion-free. For global X, `W(X)` is the p-adic formal Witt thickening, glued through its affine enhanced perfect categories.
+Fix a prime p. Rings R are perfect `F_p`-algebras, with no regularity or Noetherian hypothesis unless explicitly added. `W(R)` is p-torsion-free. For global X, `W(X)` is the p-adic formal Witt thickening, glued through its affine enhanced perfect categories.
 
-For perfect F_p-algebra R, define `Perf(W(R) on R)` by perfect `W(R)`-complexes killed after p-inversion. Glue these affine categories for perfect qcqs X to the p-adic formal Witt space `W(X)`. Distinguish the formal space from an ordinary scheme and supported perfect objects from all perfect Witt complexes. ([BS17, §4 opening paragraph; §5 after Remark5.4, printed19](https://arxiv.org/pdf/1507.06490v3)).
+For perfect `F_p`-algebra R, define `Perf(W(R) on R)` by perfect `W(R)`-complexes killed after p-inversion. Glue these affine categories for perfect qcqs X to the p-adic formal Witt space `W(X)`. Distinguish the formal space from an ordinary scheme and supported perfect objects from all perfect Witt complexes. ([BS17, §4 opening paragraph; §5 after Remark5.4, printed19](https://arxiv.org/pdf/1507.06490v3)).
 
 Expose the following interface:
 
 - `WittSupport.Perf` — Full enhanced support category.
 - `WittSupport.K` — K of this category.
-- `WittSupport.pullback` — Base change along a perfect F_p-algebra map.
+- `WittSupport.pullback` — Base change along a perfect `F_p`-algebra map.
 - `WittSupport.localization` — Its nonconnective spectrum is the fibre of `𝕂(W(R))→𝕂(W(R)[1/p])`; this fibre statement is not imposed on connective K without the K₀ surjectivity condition.
 - `WittSupport.affine` — Matches Layer 3 on `Spec W(R)` with closed subset `V(p)`.
 
@@ -899,12 +899,12 @@ Expose the following interface:
 - `W(k)[0]` is perfect but has nonzero generic fibre.
 - Over a singular perfect base, finite modules are not admitted without a separate perfectness argument.
 
-Because `R=W(R)`/p has the perfect resolution `[W(R)→ᵖW(R)]`, restriction of scalars defines α_R:`K(R)→K(W(R) on R)`, natural in perfect R and compatible with gluing. The map exists before asserting it is an equivalence. ([BS17, §5 after Remark5.4, printed19](https://arxiv.org/pdf/1507.06490v3)).
+Because `R=W(R)`/p has the perfect resolution `[W(R)→ᵖW(R)]`, restriction of scalars defines `α_R`:`K(R)→K(W(R) on R)`, natural in perfect R and compatible with gluing. The map exists before asserting it is an equivalence. ([BS17, §5 after Remark5.4, printed19](https://arxiv.org/pdf/1507.06490v3)).
 
 Expose the following interface:
 
 - `WittSupport.alpha` — `Map K(R)→K(W(R) on R)`.
-- `WittSupport.alpha_pullback` — Naturality under maps of perfect F_p-algebras.
+- `WittSupport.alpha_pullback` — Naturality under maps of perfect `F_p`-algebras.
 - `WittSupport.alpha_unit` — The class of R maps to `Cone(p)`.
 - `WittSupport.alpha_support_model` — Agrees with Layer 3’s supported restriction-of-scalars functor.
 
@@ -915,17 +915,17 @@ Expose the following interface:
 - There is no unital map `𝔽_p→ℤ_p`, so the construction cannot be extension of scalars along a section.
 - Perfect field extension carries the p-cone to the p-cone over the new Witt ring.
 
-For a qcqs map of qcqs algebraic spaces and a finitely presented closed Z, equivalence of the derived closed fibre Z×`ᴸ_XY→Z` implies equivalence of the supported derived and perfect categories, hence supported K. Apply this to p-adic completion of p-torsion-free rings, checking the derived fibre condition. Import EnhancedDerivedSheaves E4.2 and E4.5’s regular-ideal completion comparison; in the affine principal case identify its derived completed coefficient ring with the ordinary completion Â and deduce that Â is p-torsion-free and A/`pⁿ≅Â`/pⁿ for `n≥1`. Multiplication-by-p resolutions then give A/p⊗`ᴸ_AÂ≃A`/p. The new theorem is supported closed-fibre excision and this realization compatibility, not a second completion reflector or coefficient reconstruction theorem. ([Bhatt.2014, Lemma5.12 and Remark5.13, PDF23](https://arxiv.org/pdf/1404.7483v1); [BS17, §5, proof of Corollary5.6, printed19–20](https://arxiv.org/pdf/1507.06490v3); [Scholze, §8, Proposition8.8, PDF47](https://people.mpim-bonn.mpg.de/scholze/BerkovichMotives.pdf)).
+For a qcqs map of qcqs algebraic spaces and a finitely presented closed Z, equivalence of the derived closed fibre `Z×ᴸ_XY→Z` implies equivalence of the supported derived and perfect categories, hence supported K. Apply this to p-adic completion of p-torsion-free rings, checking the derived fibre condition. Import EnhancedDerivedSheaves E4.2 and E4.5’s regular-ideal completion comparison; in the affine principal case identify its derived completed coefficient ring with the ordinary completion Â and deduce that Â is p-torsion-free and `A/pⁿ≅Â/pⁿ` for `n≥1`. Multiplication-by-p resolutions then give `A/p⊗ᴸ_AÂ≃A/p`. The new theorem is supported closed-fibre excision and this realization compatibility, not a second completion reflector or coefficient reconstruction theorem. ([Bhatt.2014, Lemma5.12 and Remark5.13, PDF23](https://arxiv.org/pdf/1404.7483v1); [BS17, §5, proof of Corollary5.6, printed19–20](https://arxiv.org/pdf/1507.06490v3); [Scholze, §8, Proposition8.8, PDF47](https://people.mpim-bonn.mpg.de/scholze/BerkovichMotives.pdf)).
 
 For p-torsion-free p-complete A₀ with a Frobenius lift, put `R=colim_F` A₀/p and `A∞=colim_φA₀`. If its p-completion is `W(R)`, supported completion invariance and continuity give `K(W(R) on R)≃colim_φK(A₀ on V(p))`. ([BS17, §5, proof of Corollary5.6, printed19–20](https://arxiv.org/pdf/1507.06490v3)).
 
-If R is the perfection of a regular Noetherian F_p-algebra R₀, α_R is an equivalence. No finite-dimensional hypothesis is imposed on R₀, and neither R nor `W(R)` is assumed Noetherian. Use finite-stage regular dévissage, Frobenius continuity and supported completion. ([BS17, §5, Corollary5.6; regular-perfection proof using Popescu approximation](https://arxiv.org/pdf/1507.06490v3)).
+If R is the perfection of a regular Noetherian `F_p`-algebra R₀, `α_R` is an equivalence. No finite-dimensional hypothesis is imposed on R₀, and neither R nor `W(R)` is assumed Noetherian. Use finite-stage regular dévissage, Frobenius continuity and supported completion. ([BS17, §5, Corollary5.6; regular-perfection proof using Popescu approximation](https://arxiv.org/pdf/1507.06490v3)).
 
 ### 3.9 Quasi-isogenies and ramified coefficients
 
-Continue with perfect F_p-algebras. The quasi-isogeny construction below is a K₀ map. For ramified coefficients assume the finite-free Witt coefficient presentation, including its fixed coefficient field, before restricting scalars.
+Continue with perfect `F_p`-algebras. The quasi-isogeny construction below is a K₀ map. For ramified coefficients assume the finite-free Witt coefficient presentation, including its fixed coefficient field, before restricting scalars.
 
-For perfect R define the exact category C_R of pairs of finite projective `W(R)`-modules and an isomorphism after p-inversion. Morphisms commute with that isomorphism rationally. Conflations are exact in both module coordinates; their two module splittings need not commute with the rational isomorphisms. ([Zhu.2017, RemarkB.3, printed483](https://annals.math.princeton.edu/wp-content/uploads/annals-v185-n2-p02-p.pdf)).
+For perfect R define the exact category `C_R` of pairs of finite projective `W(R)`-modules and an isomorphism after p-inversion. Morphisms commute with that isomorphism rationally. Conflations are exact in both module coordinates; their two module splittings need not commute with the rational isomorphisms. ([Zhu.2017, RemarkB.3, printed483](https://annals.math.princeton.edu/wp-content/uploads/annals-v185-n2-p02-p.pdf)).
 
 Expose the following interface:
 
@@ -959,7 +959,7 @@ Expose the following interface:
 - With `m=1`, the two identity-normalizing cones both have class `[k]` and cancel.
 - When the map is integral, `m=0` recovers its usual cone class.
 
-Let k be perfect and identify the residue field of the complete mixed-characteristic DVR O_K with k; fix its coefficient inclusion `W(k)→O_K` and assume it is finite free. For a perfect k-algebra R, define `W_{O_K}(R)=W(R)⊗_{W(k)}O_K`. Restriction of scalars carries π-supported perfect objects to p-supported `W(R)`-perfect objects, since the extension is finite free and p- and π-inversion have the same vanishing locus. Construct its K-map and base-change compatibility. ([BS17, §10, proof of Proposition10.1](https://arxiv.org/pdf/1507.06490v3)).
+Let k be perfect and identify the residue field of the complete mixed-characteristic DVR `O_K` with k; fix its coefficient inclusion `W(k)→O_K` and assume it is finite free. For a perfect k-algebra R, define `W_{O_K}(R)=W(R)⊗_{W(k)}O_K`. Restriction of scalars carries π-supported perfect objects to p-supported `W(R)`-perfect objects, since the extension is finite free and p- and π-inversion have the same vanishing locus. Construct its K-map and base-change compatibility. ([BS17, §10, proof of Proposition10.1](https://arxiv.org/pdf/1507.06490v3)).
 
 Expose the following interface:
 
@@ -970,29 +970,29 @@ Expose the following interface:
 
 **Checks.**
 
-- Restriction sends O_K/π to a class of Witt degree one and O_K/p to degree e, the ramification index.
+- Restriction sends `O_K/π` to a class of Witt degree one and `O_K/p` to degree e, the ramification index.
 - Zero stays zero; `e=1` and `O_K=W(k)` recovers identity restriction.
-- The free O_K-module is perfect after restriction but has nonzero p-inverted fibre, so it does not belong to the supported category.
+- The free `O_K`-module is perfect after restriction but has nonzero p-inverted fibre, so it does not belong to the supported category.
 
 ### Examples
 
 On A² with its origin removed, O extends, and the affine extension construction also extends `O⊕O[1]` as `Cone(0)`. For the rational map x⁻¹ on `D(x)⊂A¹`, use the roof O←xO→O, with inclusion on the left and division by x on the right. A map `O→ℤ`/p² is killed by p². To kill `O→k(0)`, use xO→O; its cone is supported at the origin. These calculations fix both the roof direction and the support of its cone.
 
-For a DVR O, the quotient `Perf(O)`/`Perf_m(O)` has `End(O)`=Frac O. The object O_F extends and its K₀ obstruction is zero. More generally regular Noetherian X has surjective `K₀(X)→K₀(U)`, by coherent localization and Cartan, so perfect objects on U extend. The quotient for `ℤ→ℤ[1/p]` is an equivalence; the general theorem only requires equivalence after retract completion. The supported generator `Cone(p)` detects `ℤ[1/p]`/ℤ since `Hom(𝔽_p,ℤ[1/p]/ℤ)=𝔽_p`.
+For a DVR O, the quotient `Perf(O)`/`Perf_m(O)` has `End(O)=Frac O`. The object `O_F` extends and its K₀ obstruction is zero. More generally regular Noetherian X has surjective `K₀(X)→K₀(U)`, by coherent localization and Cartan, so perfect objects on U extend. The quotient for `ℤ→ℤ[1/p]` is an equivalence; the general theorem only requires equivalence after retract completion. The supported generator `Cone(p)` detects `ℤ[1/p]`/ℤ since `Hom(𝔽_p,ℤ[1/p]/ℤ)=𝔽_p`.
 
-The supports `(p)` in ℤ, `ℤ_(p)` and ℤ_p have the same K-theory, identified with `K(𝔽_p)`. A finite set of closed points on a regular curve gives the finite direct sum of their residue-field K-groups. On A¹, the supports `V(x)` and `V(x²)` agree, while `K₁(k[x]/x²)=k××`(1+xk) differs from the supported group k×. For a singular divisor, supported perfect K on a regular ambient is G of the divisor; it need not be its perfect K.
+The supports `(p)` in ℤ, `ℤ_(p)` and `ℤ_p` have the same K-theory, identified with `K(𝔽_p)`. A finite set of closed points on a regular curve gives the finite direct sum of their residue-field K-groups. On A¹, the supports `V(x)` and `V(x²)` agree, while `K₁(k[x]/x²)=k××`(1+xk) differs from the supported group k×. For a singular divisor, supported perfect K on a regular ambient is G of the divisor; it need not be its perfect K.
 
-For ℤ with support `{2,3}`, `Cone(12)` has coordinates `(2,1)`. For `k[x,y]`/(xy), the cone of multiplication by x instead has Euler class [R/xR]−[ann(x)]=[R/xR]−[yR]. This second example is a coherent-support computation and does not assert that either summand is perfect. The two-term cone itself is perfect. The quotient `Coh(ℤ)`/(finite p-groups) is `Coh(ℤ[1/p])`, and dévissage sends a finite p-group to its length.
+For ℤ with support `{2,3}`, `Cone(12)` has coordinates `(2,1)`. For `k[x,y]`/(xy), the cone of multiplication by x instead has Euler class `[R/xR]−[ann(x)]=[R/xR]−[yR]`. This second example is a coherent-support computation and does not assert that either summand is perfect. The two-term cone itself is perfect. The quotient `Coh(ℤ)`/(finite p-groups) is `Coh(ℤ[1/p])`, and dévissage sends a finite p-group to its length.
 
 With `O=ℤ_(5)`, `∂([5]·[2])=[2]` in `K₁(𝔽₅)`, while `∂([2]·[5])=−[2]=[3]` and `∂([2]·[3])=0`. Degree one gives `∂[−p]=1`, `∂[1/p]=−1`, and `∂[p²/3]=2` for `p≠3`. On `ℤ[i]_(1+i)`, `∂[2]=2` because `2=−i(1+i)²`. These checks use the canonical unit loop rather than an unnamed identification of K₁ with units. Specialization sends a lifted unit to its reduction and sends `1∈K₀(O)` to 1; changing s to us subtracts `[ū]` on the class `[s]`.
 
-The Dedekind sequence sends the prime p to `[R/p]=[R]−[p]`; in rank/Picard coordinates this is `(0,[p]⁻¹)`. For ℤ the class is zero and div(12)=`2[2]+[3]`. For `ℤ[√−5]`, the prime `(2,1+√−5)` gives its nontrivial order-two ideal class. For the nodal curve, in characteristic different from two, coherent localization still gives generic rank and point classes, but does not calculate its different perfect K₀. Limits of opens recover Kₙ of a function field, and `colim_NG₁(ℤ[1/N])=ℚ×`.
+The Dedekind sequence sends the prime p to `[R/p]=[R]−[p]`; in rank/Picard coordinates this is `(0,[p]⁻¹)`. For ℤ the class is zero and `div(12)=2[2]+[3]`. For `ℤ[√−5]`, the prime `(2,1+√−5)` gives its nontrivial order-two ideal class. For the nodal curve, in characteristic different from two, coherent localization still gives generic rank and point classes, but does not calculate its different perfect K₀. Limits of opens recover Kₙ of a function field, and `colim_NG₁(ℤ[1/N])=ℚ×`.
 
-Proper pushforward of the curve localization boundary is zero. In degree one on P¹ this says `Σ_x[k(x):k]`ord_x(f)=0. In degree two, after the separately supplied symbol comparison, it becomes the product of residue norms in Weil reciprocity. For finite maps, residue-field maps are transfers: inert primes in `ℤ[i]`/ℤ use finite-field norms, and ramification changes valuation multiplicities. Specialization also gives split injectivity `Kₙ(ℂ)→Kₙ(ℂ(t))`; the augmentation of `ℂ[ε]`/ε² gives another split injection from `Kₙ(ℂ)`.
+Proper pushforward of the curve localization boundary is zero. In degree one on P¹ this says `Σ_x[k(x):k]ord_x(f)=0`. In degree two, after the separately supplied symbol comparison, it becomes the product of residue norms in Weil reciprocity. For finite maps, residue-field maps are transfers: inert primes in `ℤ[i]`/ℤ use finite-field norms, and ramification changes valuation multiplicities. Specialization also gives split injectivity `Kₙ(ℂ)→Kₙ(ℂ(t))`; the augmentation of `ℂ[ε]`/ε² gives another split injection from `Kₙ(ℂ)`.
 
-On a regular arithmetic surface, the vertical boundary lands first in G₁ of the full fibre. Its map to the units of component function fields has kernel a quotient of the direct sum of closed-point units. Finite residue fields make that kernel torsion, without making the direct sum finite. Thus component residues detect rational extension from the generic fibre; they include the multiplicity `v_C(π_v)`. Proper smooth fibres over finite fields have torsion K₁ by the finite-field curve theorem, whereas G_m has a rational degree summand. The further point-order residue of a boundary vanishes by `d₁²=0`.
+On a regular arithmetic surface, the vertical boundary lands first in G₁ of the full fibre. Its map to the units of component function fields has kernel a quotient of the direct sum of closed-point units. Finite residue fields make that kernel torsion, without making the direct sum finite. Thus component residues detect rational extension from the generic fibre; they include the multiplicity `v_C(π_v)`. Proper smooth fibres over finite fields have torsion K₁ by the finite-field curve theorem, whereas `G_m` has a rational degree summand. The further point-order residue of a boundary vanishes by `d₁²=0`.
 
-For a perfect field k, `W(k)`/`p^m` has support degree m; `Cone(1)` is zero and `W(k)[0]` is not supported. The special-fibre map uses `W(k)→k`: there is no unital map `𝔽_p→ℤ_p` in the other direction. A fractional quasi-isogeny `p^r` gives `r[k]`, including `r=−1`. For `β=1` and denominator exponent `m=1`, the two length-one cone classes cancel. The identity triple still has rank one in the quasi-isogeny exact category. For ramified coefficients `p=uπ^e`, restriction sends O_K/π to degree one and O_K/p to degree e.
+For a perfect field k, `W(k)`/`p^m` has support degree m; `Cone(1)` is zero and `W(k)[0]` is not supported. The special-fibre map uses `W(k)→k`: there is no unital map `𝔽_p→ℤ_p` in the other direction. A fractional quasi-isogeny `p^r` gives `r[k]`, including `r=−1`. For `β=1` and denominator exponent `m=1`, the two length-one cone classes cancel. The identity triple still has rank one in the quasi-isogeny exact category. For ramified coefficients `p=uπ^e`, restriction sends `O_K/π` to degree one and `O_K/p` to degree e.
 
 ### Dependencies
 
@@ -1022,7 +1022,7 @@ Expose the following interface:
 - Nonconnective K on quasi-compact opens satisfies the condition, as does the zero presheaf.
 - The constant presheaf Hℤ satisfies every square condition but fails the required `F(∅)=0`.
 - Derived sections of an injective resolution give an example whose negative homotopy groups are sheaf cohomology.
-- Glue two copies of P¹ along two rational nodes a,b, and remove each node in turn. The two resulting affine opens have `K₀=ℤ`, while their intersection is two copies of G_m with `K₀=ℤ²`. The difference map has diagonal image and cokernel ℤ. Thus the homotopy pullback of their connective spectra has `π₋₁=ℤ` and cannot be connective `K(X)`.
+- Glue two copies of P¹ along two rational nodes a,b, and remove each node in turn. The two resulting affine opens have `K₀=ℤ`, while their intersection is two copies of `G_m` with `K₀=ℤ²`. The difference map has diagonal image and cokernel ℤ. Thus the homotopy pullback of their connective spectra has `π₋₁=ℤ` and cannot be connective `K(X)`.
 
 On a finite-dimensional Noetherian space, prove spectral Brown–Gersten vanishing: a spectrum presheaf with zero empty value, Zariski Mayer–Vietoris and zero associated homotopy sheaves has zero global homotopy groups. This is the spectrum-valued Zariski-space version; SchemeAndStackFoundations §2.14 already supplies the complex-valued Nisnevich theorem on Sm/S. Use dimension induction on the spectral homotopy presheaves with their exact connecting maps. Both reducedness and the dimension hypothesis are retained. ([Weibel, Proposition V.10.8 (PDF p. 455)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
@@ -1060,28 +1060,28 @@ Expose the following interface:
 - `hypercohomology.fiber` — `H(C; −)` preserves homotopy fibre sequences, products and weak equivalences (Thomason 1985 1.35).
 - `hypercohomology.presheaf` — U ↦ `H(C/U; F)` is a presheaf of fibrant spectra and has the Mayer–Vietoris property for the topology of C.
 - `hypercohomology.skyscraper` — For a skyscraper `i_{x*}E` on the Zariski site, η: `E → H(X; i_{x*}E)` is an equivalence.
-- `hypercohomology.supports` — `H_Y(X; F)` := fibre(`H(X; F) → H(X ∖ Y; F)`), functorial for maps of pairs.
-- `hypercohomology.eilenbergMacLane` — `π_{−n}H(X; K(A, 0))` ≅ Sheaf.H A n for an abelian sheaf A (Mathlib's sheaf cohomology).
+- `hypercohomology.supports` — `H_Y(X; F) := fibre(H(X; F) → H(X ∖ Y; F))`, functorial for maps of pairs.
+- `hypercohomology.eilenbergMacLane` — `π_{−n}H(X; K(A, 0)) ≅ Sheaf.H A n` for an abelian sheaf A (Mathlib's sheaf cohomology).
 
 **Checks.**
 
 - The Zariski site of a point gives `H(X;F)≃F(X)`.
-- For the units sheaf placed in spectral degree zero on P¹, π₋₁ of hypercohomology is Pic(P¹)=ℤ.
+- For the units sheaf placed in spectral degree zero on P¹, π₋₁ of hypercohomology is `Pic(P¹)=ℤ`.
 - On a discrete two-point space, sheafification changes the constant presheaf ℤ into global sections ℤ². Hypercohomology must see ℤ².
 - For an abelian sheaf, π₋ₙ recovers Mathlib's degree-n sheaf cohomology.
 
-The Godement tower yields `E₂^{p,q}=Hᵖ`(C,π̃_qF)⇒`π_{q−p}H(C,F)`, with differential `(r,r−1)`. Prove strong convergence under bounded-above homotopy or bounded cohomological dimension; give the equivalent indexing with π̃`_−q` and total degree `−p−q`. ([Thomason.1985, Proposition 1.36 (printed p. 452)](http://www.numdam.org/item/10.24033/asens.1495.pdf)).
+The Godement tower yields `E₂^{p,q}=Hᵖ(C,π̃_qF)⇒π_{q−p}H(C,F)`, with differential `(r,r−1)`. Prove strong convergence under bounded-above homotopy or bounded cohomological dimension; give the equivalent indexing with `π̃_−q` and total degree `−p−q`. ([Thomason.1985, Proposition 1.36 (printed p. 452)](http://www.numdam.org/item/10.24033/asens.1495.pdf)).
 
 Define Zariski K-sheaves by sheafifying supported Kₙ on quasi-compact opens; their stalks are Kₙ(`O_{X,x}` on the inverse-image support). Define Nisnevich K-sheaves on Noetherian X with the corresponding henselian stalks. The unspecialized local support term cannot be replaced by its residue field on a singular scheme. ([TT90, Remark 10.4 (p. 386)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, Remark 10.9 (p. 390)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, V.9.8 (PDF p. 449)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
 Expose the following interface:
 
-- `kSheaf` — 𝒦_n (and `𝒦_n(− on Y)`) as a sheaf of abelian groups on X_Zar; `𝒦_n^{Nis}` on X_Nis.
+- `kSheaf` — `𝒦_n` (and `𝒦_n(− on Y)`) as a sheaf of abelian groups on `X_Zar`; `𝒦_n^{Nis}` on `X_Nis`.
 - `kSheaf.stalk` — `(𝒦_n)_x ≅ K_n(O_{X,x})`, naturally in x.
 - `kSheaf.stalk_nis` — (`𝒦_n^{Nis}`) at the point over `(x, k')` is `K_n(O^h_{X,x,k'})`.
 - `kSheaf.map` — For f: `X' → X`, `f^{-1}𝒦_n(X) → 𝒦_n(X')` compatible with stalks.
 - `kSheaf.zero_of_neg` — `𝒦_n = 0` for `n < 0` when X is regular noetherian.
-- `kSheaf.units` — O_X^×→𝒦_1 (through λ of Layer 3 on local rings), split by the determinant when the stalks are local rings (§3.6’s determinant splitting and GeneralAlgebraicKTheory §3.14’s π_1 comparison).
+- `kSheaf.units` — `O_X^×`→`𝒦_1` (through λ of Layer 3 on local rings), split by the determinant when the stalks are local rings (§3.6’s determinant splitting and GeneralAlgebraicKTheory §3.14’s `π_1` comparison).
 
 **Checks.**
 
@@ -1115,19 +1115,19 @@ The coniveau tower has fibre layers given by the wedge over codimension-p points
 
 For a scheme with finite-dimensional Noetherian underlying space, supported and unrestricted 𝕂 equal their Zariski hypercohomology. In the supported case also identify them with hypercohomology supported in Y. Use Mayer–Vietoris, Brown–Gersten vanishing and the bounded coniveau tower. ([TT90, Theorem 10.3 (p. 383)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, 10.1 (p. 382)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, Theorem V.10.2 (PDF p. 451)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-For finite-dimensional Noetherian X derive the strongly convergent spectral sequence Hᵖ_Zar(X,`𝒦_−q`)⇒`K_−p−q(X)`, with supported-presheaf and supported-cohomology variants. Columns above `dim X` vanish. The local K₀ and K₁ identifications give the constant-integer and unit sheaves in their respective rows. ([TT90, Theorem 10.3, (10.3.2) (p. 383)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, 10.2 (p. 382)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, Example V.10.12 (PDF p. 457)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
+For finite-dimensional Noetherian X derive the strongly convergent spectral sequence `Hᵖ_Zar(X,𝒦_−q)⇒K_−p−q(X)`, with supported-presheaf and supported-cohomology variants. Columns above `dim X` vanish. The local K₀ and K₁ identifications give the constant-integer and unit sheaves in their respective rows. ([TT90, Theorem 10.3, (10.3.2) (p. 383)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, 10.2 (p. 382)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, Example V.10.12 (PDF p. 457)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-For finite-dimensional Noetherian X, Nisnevich excision gives the analogous descent equivalence, supported equivalence and strongly convergent Hᵖ_Nis(X,`𝒦_−q`) spectral sequence. Include the henselian stalk description and the same dimension bound. ([TT90, Theorem 10.8 (p. 388)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, Proof of 10.8 (p. 388)](https://gwern.net/doc/math/1990-thomason.pdf)).
+For finite-dimensional Noetherian X, Nisnevich excision gives the analogous descent equivalence, supported equivalence and strongly convergent `Hᵖ_Nis(X,𝒦_−q)` spectral sequence. Include the henselian stalk description and the same dimension bound. ([TT90, Theorem 10.8 (p. 388)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, Proof of 10.8 (p. 388)](https://gwern.net/doc/math/1990-thomason.pdf)).
 
 The bounded coniveau tower yields `E₁^{p,q}=⊕_{x∈Y, codim x=p}K_−p−q(O_{X,x} on x)`⇒`K_−p−q(X on Y)`, with filtration Fᵖ and flat naturality. Residue-field terms are justified only by regular dévissage. ([TT90, (10.3.6)-(10.3.7) (p. 384)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, Proof of Proposition V.9.2 (PDF p. 444)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
 Expose the following interface:
 
-- `kConiveauSS` — The spectral sequence `E_1^{p,q}` = ⊕`_{codim x = p}` `K_{−p−q}(O_{X,x} on x ∩ Y)` ⇒ `K_{−p−q}(X on Y)`.
+- `kConiveauSS` — The spectral sequence `E_1^{p,q} = ⊕_{codim x = p} K_{−p−q}(O_{X,x} on x ∩ Y) ⇒ K_{−p−q}(X on Y)`.
 - `kConiveauSS.converges` — Strong convergence to `K_*(X on Y)` with the coniveau filtration `F^p`; `E_1^{p,q} = 0` unless `0 ≤ p ≤ dim` X.
 - `kConiveauSS.flat` — Natural for flat morphisms.
-- `kConiveauSS.edge` — The edge map `K_n(X) → E_1^{0,−n}` = ⊕_{generic η} `K_n(O_{X,η})` is restriction to the generic points.
-- `kConiveauSS.regular` — For X regular, `E_1^{p,q}` ≅ ⊕ `K_{−p−q}(k(x))` and the spectral sequence is Quillen's (Layer 4).
+- `kConiveauSS.edge` — The edge map `K_n(X) → E_1^{0,−n} = ⊕_{generic η} K_n(O_{X,η})` is restriction to the generic points.
+- `kConiveauSS.regular` — For X regular, `E_1^{p,q} ≅ ⊕ K_{−p−q}(k(x))` and the spectral sequence is Quillen's (Layer 4).
 
 **Checks.**
 
@@ -1149,7 +1149,7 @@ Expose the following interface:
 - `codimFiltration.antitone` — `M^{p+1}(X) ⊆ M^p(X)`; `M^0(X) = Coh(X)`; `M^p(X) = 0` for `p > dim` X.
 - `codimFiltration.K_colim` — `K(M^p(X)) ≃ colim_{codim Z ≥ p}` `G(Z)`.
 - `codimFiltration.flat` — Flat f: `X' → X` maps `M^p(X)` into `M^p(X')`.
-- `codimFiltration.ring` — On `Spec R`: `M^p(R)` = finitely generated modules all of whose associated primes have Ideal.height ≥ p.
+- `codimFiltration.ring` — On `Spec R`: `M^p(R)` = finitely generated modules all of whose associated primes have `Ideal.height ≥ p`.
 
 **Checks.**
 
@@ -1164,15 +1164,15 @@ For finite-dimensional Noetherian X the coherent filtration gives Quillen's boun
 
 Expose the following interface:
 
-- `coniveauSS` — The spectral sequence `E_1^{p,q}` = ⊕`_{codim x = p}` `K_{−p−q}(k(x))` ⇒ `G_{−p−q}(X)`.
+- `coniveauSS` — The spectral sequence `E_1^{p,q} = ⊕_{codim x = p} K_{−p−q}(k(x)) ⇒ G_{−p−q}(X)`.
 - `coniveauSS.exactCouple` — The exact couple `(D_1, E_1)` from the localisation sequences of `M^{p+1} ⊆ M^p`.
 - `coniveauSS.converges` — Convergence to `G_*(X)` with filtration `F^pG_n(X) = im`(`K_nM^p(X) → G_n(X)`); `E_1^{p,q} = 0` unless `0 ≤ p ≤ dim` X and `p + q ≤ 0`.
-- `coniveauSS.edge` — The edge map `G_n(X)` → ⊕_η `K_n(k(η))` is restriction to the generic points. For nonreduced X, use Artinian dévissage at generic local rings rather than identifying the local ring with `k(η)`; this is the dévissage already supplied by Layer 4.
-- `coniveauSS.d1` — The components of d_1 are residues (Layer 4); on K_1 they are length orders (Layer 4).
+- `coniveauSS.edge` — The edge map `G_n(X) → ⊕_η K_n(k(η))` is restriction to the generic points. For nonreduced X, use Artinian dévissage at generic local rings rather than identifying the local ring with `k(η)`; this is the dévissage already supplied by Layer 4.
+- `coniveauSS.d1` — The components of `d_1` are residues (Layer 4); on `K_1` they are length orders (Layer 4).
 - `coniveauSS.d1_d1` — `d_1 ∘ d_1 = 0` (Layer 4).
 - `coniveauSS.E2_chow` — With codimension a dimension function, `E₂^{p,−p} ≅ CHᵖ(X)`; generally E₂ is the adjacent length-divisor quotient specified below.
 - `coniveauSS.flat` — Contravariant for flat maps (Layer 4).
-- `coniveauSS.proper` — For f:`X→Y` proper between pure-dimensional finite-type schemes over one field, set `δ=dim` `X−dim` Y and `M^j=Coh` for `j≤0`. Since `dim f`(Supp F)≤dim Supp F, `Rf_*` sends bounded complexes with coherent cohomology in `M^i(X)` to those in `M^{i−δ}(Y)`. After GeneralAlgebraicKTheory §6.19’s bounded-derived comparison, this filtered exact functor induces the δ-shifted spectral-sequence map. Import proper coherence and StableHomotopyKTheory §§7.24–7.29 filtered functoriality; no arbitrary nonequidimensional or fibre-dimension-only assertion is made.
+- `coniveauSS.proper` — For f:`X→Y` proper between pure-dimensional finite-type schemes over one field, set `δ=dim` `X−dim` Y and `M^j=Coh` for `j≤0`. Since `dim f(Supp F)≤dim Supp F`, `Rf_*` sends bounded complexes with coherent cohomology in `M^i(X)` to those in `M^{i−δ}(Y)`. After GeneralAlgebraicKTheory §6.19’s bounded-derived comparison, this filtered exact functor induces the δ-shifted spectral-sequence map. Import proper coherence and StableHomotopyKTheory §§7.24–7.29 filtered functoriality; no arbitrary nonequidimensional or fibre-dimension-only assertion is made.
 - `coniveauSS.K_compat` — For X regular it is the K-theoretic coniveau spectral sequence of Layer 4 (Layer 4).
 
 **Checks.**
@@ -1186,9 +1186,9 @@ Flat maps induce maps of coherent coniveau exact couples and spectral sequences.
 
 The d₁ component from y of codimension p to x of codimension `p+1` is zero unless x lies in the reduced closure Y of y; otherwise it is the boundary of the one-dimensional local domain `O_{Y,x}`. It is a DVR boundary only when that local ring is regular. ([Quillen, Proof of Proposition 5.14 (printed p. 128)](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Quillen-Higher-I.pdf)).
 
-In degree one that component is the length order ord_x^Y(f). Thus the map from codimension-`(p−1)` function-field units to codimension-p cycles sends f to div_Y(f). Compare with Scheme.ord and the additive interpretation of Ring.ordFrac, keeping singular branch lengths. ([Weibel, V.9.1 (PDF p. 443)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Quillen, Proof of Proposition 5.14, (5.15) (printed p. 127)](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Quillen-Higher-I.pdf)).
+In degree one that component is the length order `ord_x^Y`(f). Thus the map from codimension-`(p−1)` function-field units to codimension-p cycles sends f to `div_Y`(f). Compare with Scheme.ord and the additive interpretation of Ring.ordFrac, keeping singular branch lengths. ([Weibel, V.9.1 (PDF p. 443)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Quillen, Proof of Proposition 5.14, (5.15) (printed p. 127)](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Quillen-Higher-I.pdf)).
 
-Exact-couple identities give `d₁²=0`. On a regular integral surface this says `Σ_{D∋x}`ord_x^D(∂_Dα)=0 for `α∈K₂(k(X))`, for every closed x. Finiteness comes from the direct-sum residue maps, not from a claim that only finitely many divisors pass through x. ([Weibel, Proof of Proposition V.9.2 (PDF p. 444)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Proposition V.9.2, the E1 page (PDF p. 444)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
+Exact-couple identities give `d₁²=0`. On a regular integral surface this says `Σ_{D∋x}ord_x^D(∂_Dα)=0` for `α∈K₂(k(X))`, for every closed x. Finiteness comes from the direct-sum residue maps, not from a claim that only finitely many divisors pass through x. ([Weibel, Proof of Proposition V.9.2 (PDF p. 444)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Proposition V.9.2, the E1 page (PDF p. 444)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
 Define the diagonal quotient by the codimension-p components of the length-divisor maps from codimension-`(p−1)` points. When codimension is a dimension function, identify it with `CHᵖ(X)`; explicitly require `codim_X(x)=codim_X(y)+1` for codimension-one specializations x of y. This holds for pure-dimensional catenary schemes with dim closure{x}+`codim_X(x)=dim` X, including pure-dimensional finite-type schemes over a field. Compare this quotient with the P¹-family definition of Chow groups in the pure-dimensional finite-type-over-a-field scope. For normal X and `p=1` recover the divisor class group. ([Weibel, Lemma V.9.1.1 (PDF p. 443)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Proposition V.9.5 (PDF p. 446)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Lemma V.9.4.1 (PDF pp. 445-446)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
@@ -1202,8 +1202,8 @@ Define the Gersten–Quillen property by vanishing of `Kₙ(Mᵖ⁺¹)→Kₙ(M�
 
 Expose the following interface:
 
-- `GerstenQuillen` — GerstenQuillen X : Prop := ∀ p n, `K_n(M^{p+1}X) → K_n`(`M^pX`) is zero.
-- `GerstenQuillen.iff_exact` — GerstenQuillen `(Spec R)` iff the Gersten complex `0 → K_n(R) → K_n(F)` → ⊕_{ht 1} `K_{n−1}(k(p))` → ⋯ is exact for R a regular semilocal domain (Layer 4).
+- `GerstenQuillen` — `GerstenQuillen X : Prop := ∀ p n, K_n(M^{p+1}X) → K_n(M^pX)` is zero.
+- `GerstenQuillen.iff_exact` — GerstenQuillen `(Spec R)` iff the Gersten complex `0 → K_n(R) → K_n(F) → ⊕_{ht 1} K_{n−1}(k(p)) → ⋯` is exact for R a regular semilocal domain (Layer 4).
 - `GerstenQuillen.of_colimit` — Stable under filtered colimits of noetherian rings along flat maps with noetherian colimit (Layer 4).
 - `GerstenQuillen.field` — GerstenQuillen `(Spec k)` for every field k.
 - `GerstenQuillen.injective` — GerstenQuillen `(Spec R)` implies `K_n(R) → K_n(F)` injective for a regular semilocal domain R (with `K = G`).
@@ -1219,7 +1219,7 @@ For finite-dimensional Noetherian X, augment the coherent Gersten complex by `G�
 
 On regular finite-dimensional Noetherian X whose local rings have the Gersten property, the sheafified Gersten complex is a flasque resolution of 𝒦ₙ. Consequently the coniveau E₂ page is `Hᵖ(X,𝒦_−q)`. Local Gersten exactness is an explicit hypothesis. ([Weibel, Proposition V.9.8.1 (PDF p. 449)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, V.9.8 (PDF p. 449)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-Under those same hypotheses derive Bloch's formula `Hᵖ(X,𝒦_p)≃CHᵖ(X)`. In particular `H⁰(X,ℤ)=CH⁰(X)`, and `H¹(X,O×)`=Pic(X)=`CH¹(X)`. Regular schemes of finite type over a field supply an unconditional application. ([Weibel, Proposition V.9.8.1 (PDF p. 449)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, V.9.8.1 (PDF p. 449)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Quillen, §7, Theorem 5.19 (printed p. 129)](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Quillen-Higher-I.pdf)).
+Under those same hypotheses derive Bloch's formula `Hᵖ(X,𝒦_p)≃CHᵖ(X)`. In particular `H⁰(X,ℤ)=CH⁰(X)`, and `H¹(X,O×)=Pic(X)=CH¹(X)`. Regular schemes of finite type over a field supply an unconditional application. ([Weibel, Proposition V.9.8.1 (PDF p. 449)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, V.9.8.1 (PDF p. 449)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Quillen, §7, Theorem 5.19 (printed p. 129)](https://www.sas.rochester.edu/mth/sites/doug-ravenel/otherpapers/Quillen-Higher-I.pdf)).
 
 ### 4.7 Geometric and equicharacteristic Gersten theorems
 
@@ -1238,7 +1238,7 @@ Construct `powerSeriesDiagonalEffacement` using `D=k[[u₁,…,uₙ₋₁,z,w]]`
 Expose the following interface:
 
 - `powerSeriesPresentation` — For A and `0≠t∈A` nonunit as above, produce the formal triangular or analytic linear coordinate change making t regular in the last variable.
-- `weierstrassFiniteFree` — After that change, t=uP with u a unit, P distinguished monic of degree `h≥1`, and A/`(t)` free of `rank h` over B.
+- `weierstrassFiniteFree` — After that change, `t=uP` with u a unit, P distinguished monic of degree `h≥1`, and `A/(t)` free of `rank h` over B.
 - `powerSeriesDiagonalEffacement` — The displayed finite-free A-algebra D retracts onto C with regular kernel `(z−w)`, and its exact functors give zero maps on the codimension K-groups required by Quillen effacement.
 - `gersten_powerSeries` — The augmented Gersten–Quillen complex is exact for the formal and convergent local rings at the stated scope.
 
@@ -1246,13 +1246,13 @@ Expose the following interface:
 
 - For `n=0`, `A=k` and the complex is the identity `Kₘ(k)→Kₘ(k)`; no positive-codimension terms occur.
 - For `A=k[[x]]` and `t=xʰ`, C has basis 1,x,…,`x^{h−1}` over k; `D=C[[z]]`, evaluation z↦x is defined and has regular kernel `z−x`. With `h=1` this recovers the ordinary DVR residue calculation.
-- Over 𝔽_q the polynomial `x^q` y−xy^q vanishes on every rational line; the formal triangular construction must still handle this nonzero t. A linear-direction proof alone fails this case.
+- Over `𝔽_q` the polynomial `x^q y−xy^q` vanishes on every rational line; the formal triangular construction must still handle this nonzero t. A linear-direction proof alone fails this case.
 - In `ℂ{x,y}`, `t=y²−x³` gives `B=ℂ{x}` and free basis 1,y for C. Substitution z↦y in the analytic presentation respects germs.
 - The unit case `t=1` has `C=0`. The case `t=0` would have no regular principal-kernel effacement and is explicitly excluded.
 
 For a regular local ring containing a field, prove `gersten_equiChar_local`. Use smooth local approximations with a lifted regular parameter, continuity of K and of Zariski cohomology of its sheaf, and induction on dimension through the parameter divisor. Transition maps need not be flat. ([Panin.2003, Theorem A, pp.169–172; Lemmas 3.2–3.3, p.173; Theorem 6.6, p.177](https://www.mathnet.ru/eng/tm394).)
 
-For a regular Noetherian semilocal ring R containing a field, construct `equiChar_semilocalApprox` and prove `gersten_equiChar_semilocal`. Choose the perfect prime field `k⊂R`; the regular map `k→R` is a filtered colimit of smooth finitely generated k-algebras A_α by the supplied Popescu theorem. At each stage localize away from the union of the contractions of the finitely many maximal ideals of R. These smooth semilocal rings S_α form a filtered system with colimit R: every inverted element maps to a unit of R. Geometric semilocal Gersten gives `H^p(S_α,𝒦_n)=0` for `p>0` and `H⁰(S_α,𝒦_n)=K_n(S_α)`. Grothendieck continuity gives the same assertions on R. The local theorem at every point of `Spec R` makes the sheafified Gersten complex a flasque resolution; its global cohomology then proves the augmented semilocal exactness. This argument does not pass the codimension complexes directly through nonflat transition maps. (*Needs:* the geometric theorem above, §4.6's flasque resolution, SchemeAndStackFoundations §0.15's Popescu interface at [Stacks, Theorem 16.12.1, tag 07GC](https://stacks.math.columbia.edu/tag/07GC), and [Panin.2003, Theorem 6.6, p.177](https://www.mathnet.ru/eng/tm394).)
+For a regular Noetherian semilocal ring R containing a field, construct `equiChar_semilocalApprox` and prove `gersten_equiChar_semilocal`. Choose the perfect prime field `k⊂R`; the regular map `k→R` is a filtered colimit of smooth finitely generated k-algebras `A_α` by the supplied Popescu theorem. At each stage localize away from the union of the contractions of the finitely many maximal ideals of R. These smooth semilocal rings `S_α` form a filtered system with colimit R: every inverted element maps to a unit of R. Geometric semilocal Gersten gives `H^p(S_α,𝒦_n)=0` for `p>0` and `H⁰(S_α,𝒦_n)=K_n(S_α)`. Grothendieck continuity gives the same assertions on R. The local theorem at every point of `Spec R` makes the sheafified Gersten complex a flasque resolution; its global cohomology then proves the augmented semilocal exactness. This argument does not pass the codimension complexes directly through nonflat transition maps. (*Needs:* the geometric theorem above, §4.6's flasque resolution, SchemeAndStackFoundations §0.15's Popescu interface at [Stacks, Theorem 16.12.1, tag 07GC](https://stacks.math.columbia.edu/tag/07GC), and [Panin.2003, Theorem 6.6, p.177](https://www.mathnet.ru/eng/tm394).)
 
 **Checks.**
 
@@ -1284,9 +1284,9 @@ When local Gersten holds, identify the descent and coniveau E₂ pages with `H�
 
 ### 4.10 Perfect-scheme h- and v-descent
 
-For the first two assertions use classical Noetherian schemes and finite-presentation h-covers, with derived Čech nerves. The remaining assertions concern qcqs perfect F_p-schemes. They do not assert h-descent for arbitrary derived schemes.
+For the first two assertions use classical Noetherian schemes and finite-presentation h-covers, with derived Čech nerves. The remaining assertions concern qcqs perfect `F_p`-schemes. They do not assert h-descent for arbitrary derived schemes.
 
-Use EnhancedDerivedSheaves E2.8’s `perfectHTopology`. On qcqs perfect F_p-schemes define the **v-topology** by valuation lifting after extension and compare it with that h-topology: h-covers are the perfectly finitely presented v-covers, and affine v-covers admit finite-presentation h-approximations in the precise inverse-limit sense of the cited source. Prove the v-cover identity, composition, refinement and base-change rules, together with compatibility of the h-to-v comparison. This is the scheme v-site, distinct from the perfectoid v-site. ([BS17, Definition2.1 and Definition11.1; Lemma2.12](https://arxiv.org/pdf/1507.06490v3)).
+Use EnhancedDerivedSheaves E2.8’s `perfectHTopology`. On qcqs perfect `F_p`-schemes define the **v-topology** by valuation lifting after extension and compare it with that h-topology: h-covers are the perfectly finitely presented v-covers, and affine v-covers admit finite-presentation h-approximations in the precise inverse-limit sense of the cited source. Prove the v-cover identity, composition, refinement and base-change rules, together with compatibility of the h-to-v comparison. This is the scheme v-site, distinct from the perfectoid v-site. ([BS17, Definition2.1 and Definition11.1; Lemma2.12](https://arxiv.org/pdf/1507.06490v3)).
 
 Expose the following interface:
 
@@ -1304,15 +1304,15 @@ Expose the following interface:
 
 For a Noetherian h-cover, prove `hCover_detects_perfect_pseudoCoherent`: derived pullback detects perfectness and pseudo-coherence of an existing quasicoherent derived object. Use EnhancedDerivedSheaves E2.8’s `descendable_hCover_noetherian` and its module-descent machinery; the new target is reflection of these finiteness conditions, including pseudo-coherence rather than dualizability alone. Distinguish detection of an existing object from effectiveness of descent data. ([BS17, §11, Theorem11.12 and Remark11.13](https://arxiv.org/pdf/1507.06490v3)).
 
-For a classical Noetherian h-cover, prove `noetherian_hDerivedCech_descent` for enhanced D_QCoh using the **derived** Čech nerve, and restrict by the preceding detection theorem. Use the descendability theorem of EnhancedDerivedSheaves E2.8. Its `derivedSchemeBaseChange` already realizes derived charts for qcqs F_p-schemes. The retained extension `derivedCechCharts_overIntegers` has arbitrary characteristic: use its animated commutative rings and module categories (E5:animation and E5:spectra-comparison), with fibre-product chart A⊗ᴸ_RB and the enhanced module category over that algebra. Glue by the supplied Zariski descent and prove base-change and projection comparisons; on F_p-schemes compare with the supplied realization rather than construct a second one. Reduce h-descent to an affine Zariski refinement, where descendability gives module descent. No general h-hyperdescent for nonreduced/derived bases is inferred. ([BS17, Theorem11.12, proof via Proposition11.25; Remark11.13](https://arxiv.org/pdf/1507.06490v3)).
+For a classical Noetherian h-cover, prove `noetherian_hDerivedCech_descent` for enhanced `D_QCoh` using the **derived** Čech nerve, and restrict by the preceding detection theorem. Use the descendability theorem of EnhancedDerivedSheaves E2.8. Its `derivedSchemeBaseChange` already realizes derived charts for qcqs `F_p`-schemes. The retained extension `derivedCechCharts_overIntegers` has arbitrary characteristic: use its animated commutative rings and module categories (E5:animation and E5:spectra-comparison), with fibre-product chart `A⊗ᴸ_RB` and the enhanced module category over that algebra. Glue by the supplied Zariski descent and prove base-change and projection comparisons; on `F_p`-schemes compare with the supplied realization rather than construct a second one. Reduce h-descent to an affine Zariski refinement, where descendability gives module descent. No general h-hyperdescent for nonreduced/derived bases is inferred. ([BS17, Theorem11.12, proof via Proposition11.25; Remark11.13](https://arxiv.org/pdf/1507.06490v3)).
 
 Prove `perfect_vHyperdescent`: Perf on perfect qcqs schemes is a hypercomplete v-sheaf, using fixed Tor-amplitude truncation bounds, continuity and the h-to-v approximation theorem. Prove hypercover descent on each amplitude stratum before taking the filtered union. ([BS17, Theorem11.2(2), proof on printed46–47](https://arxiv.org/pdf/1507.06490v3)).
 
 ### 4.11 Witt hyperdescent and support degree
 
-Continue on the qcqs perfect F_p-scheme site, with `n≥1` fixed for W_n. The Witt formal carrier and the mapping-space/effectivity comparisons are the E.4/SF.4 contracts; their finite-diagram and uniform Tor-bound content is needed here.
+Continue on the qcqs perfect `F_p`-scheme site, with `n≥1` fixed for `W_n`. The Witt formal carrier and the mapping-space/effectivity comparisons are the E.4/SF.4 contracts; their finite-diagram and uniform Tor-bound content is needed here.
 
-For every `n≥1`, prove that `Perf(W_n(X))` is a hypercomplete v-sheaf on perfect qcqs schemes. Before the induction construct `perfectSquareZeroLifting`: for a square-zero ring extension `A′→A` with kernel J and perfect P over A, the obstruction to lifting P lies in Ext²_A(P,P⊗ᴸ_AJ); when it vanishes the space of lifts is a torsor under Map_A(P,`P⊗ᴸ_AJ[1]`). Construct this by lifting a bounded projective model: its squared differential gives the degree-two obstruction, correction of the differential gives degree-one choices, and degree-zero homotopies give automorphisms. Prove independence of the model and compatibility with pullback. Apply the theorem to `W_n→W_{n−1}`; its kernel is the Frobenius-twisted R-module, identified with R using perfectness. The resulting deformation and mapping complexes descend by `Perf(R)` v-hyperdescent and its quasicoherent coefficient comparison. The case `n=1` is that theorem itself. Induct on n, checking the obstruction and the full lift space, rather than substituting Witt thickenings into the perfect-scheme result. ([BS17, Theorem11.2(2), final sentence of its proof](https://arxiv.org/pdf/1507.06490v3)).
+For every `n≥1`, prove that `Perf(W_n(X))` is a hypercomplete v-sheaf on perfect qcqs schemes. Before the induction construct `perfectSquareZeroLifting`: for a square-zero ring extension `A′→A` with kernel J and perfect P over A, the obstruction to lifting P lies in `Ext²_A(P,P⊗ᴸ_AJ)`; when it vanishes the space of lifts is a torsor under `Map_A(P,P⊗ᴸ_AJ[1])`. Construct this by lifting a bounded projective model: its squared differential gives the degree-two obstruction, correction of the differential gives degree-one choices, and degree-zero homotopies give automorphisms. Prove independence of the model and compatibility with pullback. Apply the theorem to `W_n→W_{n−1}`; its kernel is the Frobenius-twisted R-module, identified with R using perfectness. The resulting deformation and mapping complexes descend by `Perf(R)` v-hyperdescent and its quasicoherent coefficient comparison. The case `n=1` is that theorem itself. Induct on n, checking the obstruction and the full lift space, rather than substituting Witt thickenings into the perfect-scheme result. ([BS17, Theorem11.2(2), final sentence of its proof](https://arxiv.org/pdf/1507.06490v3)).
 
 **Checks.**
 
@@ -1332,7 +1332,7 @@ The subcategory `Perf(W(X) on X)` is also a hypercomplete v-sheaf. Express the s
 
 The special-fibre map α becomes an equivalence after h-sheafification of `τ≤1K`, hence after v-sheafification of that truncation. Compare the resulting sheaf with the graded Picard groupoid through determinant. This is a low-truncation sheafified equivalence, not a full unsheafified equivalence for every perfect R. ([BS17, Theorem5.7, proof](https://arxiv.org/pdf/1507.06490v3)).
 
-Define deg:`K₀(W(X) on X)→H⁰`(X,ℤ_lc) via the sheafified low-truncation α inverse and rank. It is additive on triangles, compatible with pullback and gives a locally constant function. No global inverse of α_X is chosen. ([BS17, Remark7.12, printed30; Theorem5.7](https://arxiv.org/pdf/1507.06490v3)).
+Define deg:`K₀(W(X) on X)→H⁰`(X,`ℤ_lc`) via the sheafified low-truncation α inverse and rank. It is additive on triangles, compatible with pullback and gives a locally constant function. No global inverse of `α_X` is chosen. ([BS17, Remark7.12, printed30; Theorem5.7](https://arxiv.org/pdf/1507.06490v3)).
 
 Expose the following interface:
 
@@ -1354,9 +1354,9 @@ For a spectrum presheaf on qcqs schemes, the empty-value condition and excision 
 
 ### Examples
 
-Cover P¹ by two affine lines. The Mayer–Vietoris boundary of the Laurent coordinate generates the rank-zero part of `K₀(P¹)`, with the orientation recorded in Layer 5. To see why connective spectra require care, take two rational curves meeting at two rational nodes a,b. The opens deleting a and b are nodal affine crosses, whose projective modules are free by gluing the two polynomial branches. Their K₀ groups are ℤ; the intersection is two copies of G_m with `K₀=ℤ²`. The restriction difference has diagonal image, so its cokernel is ℤ. The spectral homotopy pullback of the connective values consequently has `π₋₁=ℤ`. This differs from connective K of the whole curve.
+Cover P¹ by two affine lines. The Mayer–Vietoris boundary of the Laurent coordinate generates the rank-zero part of `K₀(P¹)`, with the orientation recorded in Layer 5. To see why connective spectra require care, take two rational curves meeting at two rational nodes a,b. The opens deleting a and b are nodal affine crosses, whose projective modules are free by gluing the two polynomial branches. Their K₀ groups are ℤ; the intersection is two copies of `G_m` with `K₀=ℤ²`. The restriction difference has diagonal image, so its cokernel is ℤ. The spectral homotopy pullback of the connective values consequently has `π₋₁=ℤ`. This differs from connective K of the whole curve.
 
-For a field k, a Nisnevich covering member need only have a component with residue field k: `Spec(k×k)` has a section but is not `Spec k`. Its Nisnevich cohomological dimension is zero. A DVR has no Nisnevich abelian cohomology in degrees at least two; a henselian local ring has no higher Nisnevich cohomology. Completion is a separate excision example: `ℤ_(p)`,ℚ,ℤ_p,ℚ_p give a cartesian K-square by the derived support equivalence, without identifying completion with an étale neighborhood.
+For a field k, a Nisnevich covering member need only have a component with residue field k: `Spec(k×k)` has a section but is not `Spec k`. Its Nisnevich cohomological dimension is zero. A DVR has no Nisnevich abelian cohomology in degrees at least two; a henselian local ring has no higher Nisnevich cohomology. Completion is a separate excision example: `ℤ_(p)`,ℚ,`ℤ_p`,`ℚ_p` give a cartesian K-square by the derived support equivalence, without identifying completion with an étale neighborhood.
 
 For the Eilenberg–Mac Lane spectrum of a sheaf A in degree zero, the Godement construction has `π₋ₙ=Hⁿ(X,A)`; its spectral sequence has one nonzero row. A skyscraper spectrum is already acyclic for this calculation. A nonzero constant value at the empty scheme fails the descent criterion even if every nonempty distinguished square happens to be cartesian. On local Zariski schemes the global-section functor is evaluation at the closed point and is exact, so only the zero cohomological column remains. On a curve the resulting exact sequence is `0→H¹(X,𝒦ₙ₊₁)→Kₙ(X)→H⁰(X,𝒦ₙ)→0`.
 
@@ -1366,11 +1366,11 @@ On A², the element `[x]·[y]` has divisorial residues `[y]` along `x=0` and `�
 
 The two-column coniveau sequence for P¹ has residue image equal to the kernel of the sum of transfers, not the full sum of residue groups. Its two degree-zero pieces are `rank ℤ` and `CH¹=ℤ`. On A¹ point transfers vanish and `H¹(A¹,𝒦ₙ)=0`, while `H⁰(A¹,𝒦ₙ)=Kₙ(k)`. On P¹ the corresponding groups are `Kₙ(k)` and `Kₙ₋₁(k)`. A proper regular curve with a rational point can have a nonzero first coniveau piece. On a regular surface Bloch's formula gives `H²(X,𝒦₂)=CH₀(X)`.
 
-For the presentation lemma over characteristic zero, `u+w` makes the cusp `u²=w³` finite over `k[u+w]` and the ambient plane smooth over that line. Relative dimension one reduces the finite divisor to a finite k-algebra. The zero section of `k[u]` is effaced by its two-term free resolution. Over 𝔽_q the polynomial `x^qy`−xy^q vanishes on every rational linear direction; the power-series proof must use the triangular substitution, rather than infer an available rational direction. The theorems include `k[[x,y]]` and `ℂ{x,y}`, with completeness of the coefficient field in the convergent case. They exclude `ℤ_(p)[x]_(p,x)`.
+For the presentation lemma over characteristic zero, `u+w` makes the cusp `u²=w³` finite over `k[u+w]` and the ambient plane smooth over that line. Relative dimension one reduces the finite divisor to a finite k-algebra. The zero section of `k[u]` is effaced by its two-term free resolution. Over `𝔽_q` the polynomial `x^qy`−`xy^q` vanishes on every rational linear direction; the power-series proof must use the triangular substitution, rather than infer an available rational direction. The theorems include `k[[x,y]]` and `ℂ{x,y}`, with completeness of the coefficient field in the convergent case. They exclude `ℤ_(p)[x]_(p,x)`.
 
 For `Λ[x]` and `t=x−π`, the quotient is Λ and meets the relative-flatness hypothesis. The choice `t=π` fails that hypothesis. The choice `t=0` fails regularity and would make the claimed K₀ map the identity. In `R=Λ[x]_(π,x)`, the exact sequence `0→R`/xR —`π→ R`/xR→R/`(π,x)→0` makes the residue-field class zero in K₀M¹. The regular sequence `(π,x)` generates K₀M². Semilocalization at all generic special-fibre primes must retain all of them; it is not generally their product of DVR local rings. For `Λ=ℤ_(p)`, the localization at `(p)` has residue field `𝔽_p(x)`, so the finite-residue-extension split theorem does not apply.
 
-The derived h-descent theorem uses the derived Čech nerve even for classical schemes. The map `Sym_ℂ(ℂ[2])→ℂ` illustrates the boundary of this scope: its pullback kills the nonzero localization obtained by inverting the degree-two generator. Perfect-scheme v-hyperdescent is proved through bounded Tor strata; fixed W_n, completed W and p-supported W require their separate coefficient/effectivity arguments. A supported `Cone(p^m)` has locally constant degree m. This last construction uses the inverse of a sheafified truncation, and supplies no objectwise inverse to the full α-map.
+The derived h-descent theorem uses the derived Čech nerve even for classical schemes. The map `Sym_ℂ(ℂ[2])→ℂ` illustrates the boundary of this scope: its pullback kills the nonzero localization obtained by inverting the degree-two generator. Perfect-scheme v-hyperdescent is proved through bounded Tor strata; fixed `W_n`, completed W and p-supported W require their separate coefficient/effectivity arguments. A supported `Cone(p^m)` has locally constant degree m. This last construction uses the inverse of a sheafified truncation, and supplies no objectwise inverse to the full α-map.
 
 ### Dependencies
 
@@ -1394,7 +1394,7 @@ Zero-section localization and G-homotopy invariance give `Gₙ(X[s,s⁻¹])≃G�
 
 ### 5.2 Regular K-theory and Laurent extension
 
-For regular Noetherian X, Cartan transfers G-homotopy invariance to nonconnective K in every degree, hence NKₙ(X)=0. This proof uses regular negative vanishing and not the later Bass decomposition, avoiding a circular dependency. ([TT90, Proposition 6.8 (p. 362; PDF p. 116)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, Proposition 6.8, proof (p. 362; PDF p. 116)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, Corollary V.6.13.2 (PDF p. 425; book p. 417)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Example III.3.8.1 (PDF p. 215; book p. 207)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
+For regular Noetherian X, Cartan transfers G-homotopy invariance to nonconnective K in every degree, hence `NKₙ(X)=0`. This proof uses regular negative vanishing and not the later Bass decomposition, avoiding a circular dependency. ([TT90, Proposition 6.8 (p. 362; PDF p. 116)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, Proposition 6.8, proof (p. 362; PDF p. 116)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, Corollary V.6.13.2 (PDF p. 425; book p. 417)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Example III.3.8.1 (PDF p. 215; book p. 207)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
 Regular Noetherian X has `Kₙ(X[T,T⁻¹])≃Kₙ(X)⊕Kₙ₋₁(X)`, including `n=0` and negative degrees by vanishing. Restriction from X supplies the first summand; the parameter and localization boundary give the second. ([TT90, Proposition 6.8, proof (p. 363; PDF p. 117)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, Corollary V.6.13.2 (PDF p. 425)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
@@ -1418,12 +1418,12 @@ Expose the following interface:
 - `MumfordRegular.twist` — MumfordRegular m `(F(n))` ↔ MumfordRegular `(m + n)` F.
 - `MumfordRegular.mono` — MumfordRegular m F → MumfordRegular k F for every `k ≥ m` (Thomason–Trobaugh 4.7.2(a)).
 - `MumfordRegular.of_extension` — For `0 → F → G → H → 0`: F, H m-regular ⇒ G m-regular; G m-regular and F `(m+1)`-regular ⇒ H m-regular `(4.7.1(a), (b))`.
-- `MumfordRegular.acyclic` — A 0-regular F satisfies `R^qπ_*(F(n)) = 0` for `q > 0` and n ≥ −q; in particular F is `π_*`-acyclic (K-book II.8.7.3(2)).
-- `MumfordRegular.globallyGenerated` — If F is m-regular then π^*`π_*F(k) → F(k)` is surjective for `k ≥ m` `(4.7.2(c))`.
+- `MumfordRegular.acyclic` — A 0-regular F satisfies `R^qπ_*(F(n)) = 0` for `q > 0` and `n ≥ −q`; in particular F is `π_*`-acyclic (K-book II.8.7.3(2)).
+- `MumfordRegular.globallyGenerated` — If F is m-regular then `π^*π_*F(k) → F(k)` is surjective for `k ≥ m` `(4.7.2(c))`.
 - `MumfordRegular.exists` — For X noetherian and F coherent, ∃ m₀, ∀ `m ≥ m₀`, MumfordRegular m F `(4.7.0)`.
-- `MumfordRegular.pullback` — For N quasi-coherent on X and `n ≥ 0`, π^*`N ⊗ O(n)` is 0-regular and `π_*(π^*N ⊗ O(n)) ≅ Sym^n` `E ⊗ N` (K-book II.8.7.2).
-- `MumfordRegular.baseChange` — For a flat morphism g: `X′ → X`, F m-regular ⇒ g′^*F m-regular on `P(g^*E)` (flat base change of `R^qπ_*`).
-- `MumfordRegular.vectorBundleCategory` — MR_VB(E) is the full exact subcategory of finite locally free, 0-regular sheaves; its inclusion into MR(E) and Vect(`P(E)`) is exact.
+- `MumfordRegular.pullback` — For N quasi-coherent on X and `n ≥ 0`, `π^*N ⊗ O(n)` is 0-regular and `π_*(π^*N ⊗ O(n)) ≅ Sym^n E ⊗ N` (K-book II.8.7.2).
+- `MumfordRegular.baseChange` — For a flat morphism g: `X′ → X`, `F m-regular ⇒ g′^*F m-regular` on `P(g^*E)` (flat base change of `R^qπ_*`).
+- `MumfordRegular.vectorBundleCategory` — `MR_VB(E)` is the full exact subcategory of finite locally free, 0-regular sheaves; its inclusion into MR(E) and Vect(`P(E)`) is exact.
 - `MumfordRegular.fieldComparison` — For `X=Spec` k and `E=kʳ`, the relative higher-direct-image predicate agrees with the supplied IsCMRegular predicate on `P^{r−1}_k`.
 
 **Checks.**
@@ -1436,20 +1436,20 @@ Expose the following interface:
 
 Over a Noetherian base, coherent sheaves are eventually regular. Prove the three exact-sequence regularity bounds, propagation from m to every `k≥m`, surjectivity of multiplication by E on sections, and relative generation of `F(k)`. The kernel bound includes the stated surjectivity on direct images. ([TT90, Section 4.7.0 (p. 331; PDF p. 85)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, Lemma 4.7.1 (p. 332; PDF p. 86)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, Lemma 4.7.2 (p. 332; PDF p. 86)](https://gwern.net/doc/math/1990-thomason.pdf)).
 
-For regular F define `Z₋₁F=F`, TₙF=`π_*((Zₙ₋₁F)(n))`, and ZₙF as the evaluation kernel. Prove exactness of T₀,…,Tᵣ₋₁ and the finite resolution of F by `π*TᵢF⊗O(−i)`. On bounded regular coherent complexes Tᵢ preserves cones, acyclicity, quasi-isomorphisms and supports; on perfect complexes its values are perfect. Retain the companion exact sequences relating T_k to SymⁱE and `π_*F(k)`. ([TT90, Section 4.8 (p. 333; PDF p. 87)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, Lemma 4.8.4 `[4.8.3]` (p. 334; PDF p. 88)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, Section 4.8.5 (p. 334; PDF p. 88)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, Theorem II.8.7.8 (PDF p. 159; book p. 151)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
+For regular F define `Z₋₁F=F`, `TₙF=π_*((Zₙ₋₁F)(n))`, and ZₙF as the evaluation kernel. Prove exactness of T₀,…,Tᵣ₋₁ and the finite resolution of F by `π*TᵢF⊗O(−i)`. On bounded regular coherent complexes Tᵢ preserves cones, acyclicity, quasi-isomorphisms and supports; on perfect complexes its values are perfect. Retain the companion exact sequences relating `T_k` to SymⁱE and `π_*F(k)`. ([TT90, Section 4.8 (p. 333; PDF p. 87)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, Lemma 4.8.4 `[4.8.3]` (p. 334; PDF p. 88)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, Section 4.8.5 (p. 334; PDF p. 88)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, Theorem II.8.7.8 (PDF p. 159; book p. 151)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
 Expose the following interface:
 
-- `quillenT` — The functor T_n: 0-regular coherent sheaves on `P(E)` → coherent sheaves on X, `T_nF = π_*((Z_{n−1}F)(n))`.
-- `quillenZ` — The functor Z_n with `Z_{−1} = id` and `Z_nF = ker`(`O(−n) ⊗ π`^*`T_nF → Z_{n−1}F`).
-- `quillenResolution` — The natural exact sequence `0 → O(−r+1) ⊗ π`^*`T_{r−1}F` → ⋯ → `O ⊗ π`^*`T_0F → F → 0`.
-- `quillenT_exact` — Each T_i is an exact functor on MR(E), and on MR_perf(E) it preserves cofibrations, cones and quasi-isomorphisms. On MR_VB(E) they are exact functors to Vect(X).
+- `quillenT` — The functor `T_n`: 0-regular coherent sheaves on `P(E)` → coherent sheaves on X, `T_nF = π_*((Z_{n−1}F)(n))`.
+- `quillenZ` — The functor `Z_n` with `Z_{−1} = id` and `Z_nF = ker(O(−n) ⊗ π^*T_nF → Z_{n−1}F)`.
+- `quillenResolution` — The natural exact sequence `0 → O(−r+1) ⊗ π^*T_{r−1}F → ⋯ → O ⊗ π^*T_0F → F → 0`.
+- `quillenT_exact` — Each `T_i` is an exact functor on MR(E), and on `MR_perf(E)` it preserves cofibrations, cones and quasi-isomorphisms. On `MR_VB(E)` they are exact functors to Vect(X).
 - `quillenT_zero` — `T_0 = π_*` on 0-regular sheaves.
 - `quillenT_pullback` — `T_0(π^*N) = N` and `T_i(π^*N) = 0` for `i ≥ 1`.
 - `quillenZ_last` — `Z_{r−1}F = 0` for F 0-regular.
-- `quillenT_perfect` — If F^• ∈ MR_perf(E) then T_kF^• is a perfect complex on X, acyclic off Y if F^• is acyclic off `π⁻¹(Y)`.
-- `quillenT_vectorBundle` — If F is a 0-regular vector bundle, each T_iF is a vector bundle (K-book II.8.7.9).
-- `quillenResolution_class` — `[F] = Σ_{k=0}^{r−1}` `(−1)^k` [`O(−k) ⊗ π`^*T_kF], in vector-bundle K₀ for F∈MR_VB(E), in perfect K₀ for F∈MR_perf(E), and in G₀ for F∈MR(E). A general regular coherent sheaf need not have a perfect K₀ class.
+- `quillenT_perfect` — If `F^• ∈ MR_perf(E)` then `T_kF^•` is a perfect complex on X, acyclic off Y if `F^•` is acyclic off `π⁻¹(Y)`.
+- `quillenT_vectorBundle` — If F is a 0-regular vector bundle, each `T_iF` is a vector bundle (K-book II.8.7.9).
+- `quillenResolution_class` — `[F] = Σ_{k=0}^{r−1} (−1)^k [O(−k) ⊗ π^*T_kF]`, in vector-bundle K₀ for `F∈MR_VB(E)`, in perfect K₀ for `F∈MR_perf(E)`, and in G₀ for `F∈MR(E)`. A general regular coherent sheaf need not have a perfect K₀ class.
 
 **Checks.**
 
@@ -1471,13 +1471,13 @@ Together the two splittings prove the supported projective-bundle equivalence ov
 
 For arbitrary qcqs X, descend the bundle, support and perfect finite diagrams to a Noetherian approximation and use continuity. Obtain `∏ᵣ𝕂(X on Y)≃𝕂(P(E) on P(E)_Y)`, natural in base change, with the same basis and no regularity hypothesis on X. ([TT90, Theorem 4.1 (p. 329; PDF p. 83)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, Theorem 7.3 (p. 364; PDF p. 118)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, Section 4.3 (p. 329; PDF p. 83)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, Projective Bundle Theorem II.8.5 (PDF p. 157; book p. 149)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Projective Bundle Theorem V.1.5 (PDF p. 377; book p. 369)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-On P¹_X, `[O(m)]=(m+1)[O]−m[O(−1)]` for every integer m. The two basis coordinates are `π_*a` and `σ*a−π_*a`, where `π_*` is proper pushforward and σ a standard section. Over a field these are `(χ,rank−χ)`; a rational skyscraper is `1−[O(−1)]`, and `K₁(P¹)=k×⊕k×`. ([Weibel, Theorem V.1.5.4 (PDF p. 379; book p. 371)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [TT90, Theorem 6.1, proof (p. 352; PDF p. 106)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, Corollary II.8.6 (PDF p. 157; book p. 149)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
+On `P¹_X`, `[O(m)]=(m+1)[O]−m[O(−1)]` for every integer m. The two basis coordinates are `π_*a` and `σ*a−π_*a`, where `π_*` is proper pushforward and σ a standard section. Over a field these are `(χ,rank−χ)`; a rational skyscraper is `1−[O(−1)]`, and `K₁(P¹)=k×⊕k×`. ([Weibel, Theorem V.1.5.4 (PDF p. 379; book p. 371)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [TT90, Theorem 6.1, proof (p. 352; PDF p. 106)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, Corollary II.8.6 (PDF p. 157; book p. 149)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
 ### 5.6 Bass contraction and Nil terms
 
 Let X be qcqs, Z closed with quasi-compact complement, and n any integer. Use nonconnective supported K throughout the Bass argument. The ring fundamental theorem is an independent categorical supplier; the scheme result is proved from the geometric projective bundle theorem.
 
-Define the polynomial, inverse-polynomial and Laurent schemes by base change from ℤ, with their projection, zero/unit sections and overlap maps. Set NKₙ(X)=`coker(Kₙ(X)→Kₙ(X[T]))≃ker(z*)`, in every integer degree; define the inverse-variable and supported variants. Evaluation splits polynomial extension. ([Weibel, Section V.8, Theorem V.8.3 (PDF p. 439; book p. 431)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Example III.3.8.1 (PDF p. 215; book p. 207)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
+Define the polynomial, inverse-polynomial and Laurent schemes by base change from ℤ, with their projection, zero/unit sections and overlap maps. Set `NKₙ(X)=coker(Kₙ(X)→Kₙ(X[T]))≃ker(z*)`, in every integer degree; define the inverse-variable and supported variants. Evaluation splits polynomial extension. ([Weibel, Section V.8, Theorem V.8.3 (PDF p. 439; book p. 431)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Example III.3.8.1 (PDF p. 215; book p. 207)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
 Expose the following interface:
 
@@ -1501,25 +1501,25 @@ Expose the following interface:
 
 Mayer–Vietoris on P¹ and the projective-bundle basis give `0→Kₙ(X on Z)→Kₙ(X[T] on Z[T])⊕Kₙ(X[T⁻¹] on Z[T⁻¹])→Kₙ(X[T,T⁻¹] on Z[T,T⁻¹])→Kₙ₋₁(X on Z)→0`. The middle map is `j₊*−j₋*`. Describe the associated stable cofiber sequence and the resulting Bass contraction. ([TT90, Theorem 6.6(b) (p. 361; PDF p. 115)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, Theorem 6.1, proof (p. 353; PDF p. 107)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, Theorem V.8.3 (PDF p. 439; book p. 431)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-Prove `bassBoundary_parameter`: orient the Mayer–Vietoris connecting map by `∂_T[T]=+1∈K₀(ℤ)`, with the difference of restrictions `j₊*−j₋*`. Prove `bassBoundary_parameterProduct`, `∂_T([T]∪x)=x`, so `bassBoundary_section` `h_T=[T]`∪− splits ∂_T in all degrees with supports. The boundary is right-linear, as in §3.3. Thomason–Trobaugh explicitly compute the positive sign at the end of the proof of 6.1(b), printed p.354; the comparison identifies this actual connecting map, including its suspension convention. ([TT90, Theorem 6.1(b) (p. 352; PDF p. 106)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, Theorem 6.1, proof (p. 354; PDF p. 108)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, Theorem V.8.2 (PDF p. 438; book p. 430)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
+Prove `bassBoundary_parameter`: orient the Mayer–Vietoris connecting map by `∂_T[T]=+1∈K₀(ℤ)`, with the difference of restrictions `j₊*−j₋*`. Prove `bassBoundary_parameterProduct`, `∂_T([T]∪x)=x`, so `bassBoundary_section` `h_T=[T]`∪− splits `∂_T` in all degrees with supports. The boundary is right-linear, as in §3.3. Thomason–Trobaugh explicitly compute the positive sign at the end of the proof of 6.1(b), printed p.354; the comparison identifies this actual connecting map, including its suspension convention. ([TT90, Theorem 6.1(b) (p. 352; PDF p. 106)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, Theorem 6.1, proof (p. 354; PDF p. 108)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, Theorem V.8.2 (PDF p. 438; book p. 430)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-Obtain `Kₙ(X[T,T⁻¹])≃Kₙ(X)⊕Kₙ₋₁(X)`⊕NKₙ(X)⊕`N₋Kₙ(X)`, with explicit embeddings. Iterating ordered parameter products and ordered boundaries gives the identity; in particular negative K is a retract of degree-zero Laurent K. Two terms suffice only where both Nil terms vanish. ([TT90, Theorem 6.6(d) (p. 361; PDF p. 115)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, Section 6.7 (p. 362; PDF p. 116)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, Fundamental Theorem for K0 III.3.7 (PDF p. 214; book p. 206)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
+Obtain `Kₙ(X[T,T⁻¹])≃Kₙ(X)⊕Kₙ₋₁(X)⊕NKₙ(X)⊕N₋Kₙ(X)`, with explicit embeddings. Iterating ordered parameter products and ordered boundaries gives the identity; in particular negative K is a retract of degree-zero Laurent K. Two terms suffice only where both Nil terms vanish. ([TT90, Theorem 6.6(d) (p. 361; PDF p. 115)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, Section 6.7 (p. 362; PDF p. 116)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, Fundamental Theorem for K0 III.3.7 (PDF p. 214; book p. 206)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
 Identify the scheme fundamental theorem on `Spec R` with the ring theorem, its NK and Nil groups and its positively normalized boundary. In the ring conventions Nilₙ(R)≃`NKₙ₊₁(R)`. The affine comparison identifies the actual maps, not just abstract decompositions. ([Weibel, Theorem V.8.1 (PDF p. 438; book p. 430)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Theorem V.8.2 (PDF p. 438; book p. 430)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Theorem V.8.3, proof (PDF p. 440; book p. 432)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-For regular X compare zero-section localization on A¹_X with Bass on the punctured line. Their boundaries satisfy ∂_loc=∂_T and `∂_loc([T]∪x)=x`. Over a field `K₁(k[T,T⁻¹])=k×⊕ℤ[T]`, with `∂_loc[T]=1` and zero boundary on constants. ([Weibel, Example V.6.1.2 (PDF p. 414; book p. 406)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Theorem V.6.2, proof (PDF p. 415; book p. 407)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Corollary V.6.3.1 (PDF p. 416; book p. 408)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
+For regular X compare zero-section localization on `A¹_X` with Bass on the punctured line. Their boundaries satisfy `∂_loc=∂_T` and `∂_loc([T]∪x)=x`. Over a field `K₁(k[T,T⁻¹])=k×⊕ℤ[T]`, with `∂_loc[T]=1` and zero boundary on constants. ([Weibel, Example V.6.1.2 (PDF p. 414; book p. 406)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Theorem V.6.2, proof (PDF p. 415; book p. 407)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Corollary V.6.3.1 (PDF p. 416; book p. 408)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
 ### 5.7 Regular blowups and derived exceptional maps
 
-Let i:`Y→X` be a Koszul-regular closed immersion of pure codimension `d≥1` in qcqs X. Write p:X′=Bl_YX→X, i′:`E→X′`, p′:`E→Y`. Its conormal J/J² is finite locally free of `rank d`. X and Y need not themselves be regular. All twists on X′ restrict to the indicated twists on E.
+Let i:`Y→X` be a Koszul-regular closed immersion of pure codimension `d≥1` in qcqs X. Write `p:X′=Bl_YX→X`, i′:`E→X′`, p′:`E→Y`. Its conormal J/J² is finite locally free of `rank d`. X and Y need not themselves be regular. All twists on X′ restrict to the indicated twists on E.
 
 Use the blowup from StableReduction for a Koszul-regular closed immersion `Y→X` of pure codimension `d≥1`. Its exceptional divisor is `P(J/J²)`, the conormal convention; `O_{X′}(1)=O(−E)`, normal bundle `O_E(−1)`. Establish the regular local projective embedding, perfectness of the blowup map and exceptional immersion, their complement isomorphism, and the `d=1` identity. ([Thomason93, §1.2 (p. 197)](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0112/LOG_0023.pdf); [Stacks, Lemma 31.33.4, Tag 02OS (Divisors, Section 31.33)](https://stacks.math.columbia.edu); [Stacks, Lemma 10.69.2, Tag 00LN (Algebra, Section 10.69)](https://stacks.math.columbia.edu)).
 
-For the blowup projection p, `F→Rp_*`Lp*F is an equivalence on perfect objects. For the exceptional projective projection p′ the analogous unit is an equivalence and Rp′`_*`(`O(−i)`⊗Lp′*G)=0 for `1≤i≤d−1`. These are derived adjunction statements. ([Thomason93, Lemme 2.3 (p. 200)](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0112/LOG_0023.pdf); [Thomason93, Lemme 2.3, démonstration (p. 200)](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0112/LOG_0023.pdf)).
+For the blowup projection p, `F→Rp_*Lp*F` is an equivalence on perfect objects. For the exceptional projective projection p′ the analogous unit is an equivalence and `Rp′_*(O(−i)⊗Lp′*G)=0` for `1≤i≤d−1`. These are derived adjunction statements. ([Thomason93, Lemme 2.3 (p. 200)](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0112/LOG_0023.pdf); [Thomason93, Lemme 2.3, démonstration (p. 200)](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0112/LOG_0023.pdf)).
 
 For an effective Cartier divisor i:`D→W` with conormal line N, construct the natural triangle `(N⊗F)[1]`→Li*`Ri_*F→F→(N⊗F)[2]` for perfect F. The conormal, shift and counit direction follow from the two-term ideal resolution. ([Thomason93, Porisme 3.5, (3.5.2) (p. 213)](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0112/LOG_0023.pdf); [Thomason93, Porisme 3.5, démonstration (p. 213)](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0112/LOG_0023.pdf)).
 
-For `1≤k<d`, let A′_k be the subcategory defined by vanishing of `Rp_*(E(i))`, `0≤i<k`. Construct `blowup_exceptionalApproximation`, the map (`i′_*`Lp′*Rp′`_*`(Li′*`E⊗O(k−1)`)⊗`O(−k)`)`[−1]→E`, whose cone lies in `A′_{k+1}`. For `d≥2` also prove `blowup_exceptionalRecovery`: F≃Rp′`_*`(Li′*`i′_*`Lp′*`F⊗O(−1)`)`[−1]`. Keep Li′* explicit. Both assertions use the vanishing of `O(−1)` on projective fibres of positive dimension; they do not apply at `d=1`. The initial step `A′_0→A′_1` instead uses the cone of Lp*`Rp_*E→E`. ([Thomason93, Lemme 2.4, pp.200–202; Lemme 2.5, pp.202–203](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0112/LOG_0023.pdf).)
+For `1≤k<d`, let `A′_k` be the subcategory defined by vanishing of `Rp_*(E(i))`, `0≤i<k`. Construct `blowup_exceptionalApproximation`, the map `(i′_*Lp′*Rp′_*(Li′*E⊗O(k−1))⊗O(−k))[−1]→E`, whose cone lies in `A′_{k+1}`. For `d≥2` also prove `blowup_exceptionalRecovery`: `F≃Rp′_*(Li′*i′_*Lp′*F⊗O(−1))[−1]`. Keep Li′* explicit. Both assertions use the vanishing of `O(−1)` on projective fibres of positive dimension; they do not apply at `d=1`. The initial step `A′_0→A′_1` instead uses the cone of `Lp*Rp_*E→E`. ([Thomason93, Lemme 2.4, pp.200–202; Lemme 2.5, pp.202–203](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0112/LOG_0023.pdf).)
 
 **Checks.**
 
@@ -1527,17 +1527,17 @@ For `1≤k<d`, let A′_k be the subcategory defined by vanishing of `Rp_*(E(i))
 - At `d=1`, with the origin in A¹ and `F=k`, Li* `i_*k=k⊕k[1]`. Tensor by the trivial conormal inverse and shift by −1 leaves `k[−1]⊕k`, which is not k. This excludes extending exceptional recovery to Cartier blowups.
 - At `d=1` the index range `1≤k<d` is empty, and the initial cone vanishes because p is the identity. Zero F gives zero in every comparison.
 
-On a rank-d projective bundle, a perfect complex whose first d twisted direct images vanish is zero. By the regular projective embedding the same criterion holds on the blowup. Thus A′_d is the zero derived category. ([Thomason93, Lemme 2.5 (p. 202)](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0112/LOG_0023.pdf); [Thomason93, Lemme 2.5, démonstration (p. 202)](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0112/LOG_0023.pdf)).
+On a rank-d projective bundle, a perfect complex whose first d twisted direct images vanish is zero. By the regular projective embedding the same criterion holds on the blowup. Thus `A′_d` is the zero derived category. ([Thomason93, Lemme 2.5 (p. 202)](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0112/LOG_0023.pdf); [Thomason93, Lemme 2.5, démonstration (p. 202)](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0112/LOG_0023.pdf)).
 
 ### 5.8 The blowup decomposition
 
 Use the regular-immersion blowup square of the preceding subsection. First apply connective Waldhausen additivity; use Laurent contraction to obtain the asserted equivalences in every integer degree.
 
-Realize A′_0⊃⋯⊃A′_d as complicial categories and apply Waldhausen additivity: `K(A′_0)≃K(A′_1)×K(X)`, and `K(A′_k)≃K(A′_{k+1})×K(Y)` for `1≤k<d`. The exceptional inclusion is `i′_*`Lp′*`(−)⊗O(−k)`, with no reversed twist. ([Thomason93, §2.7 (p. 204)](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0112/LOG_0023.pdf)).
+Realize `A′_0⊃⋯⊃A′_d` as complicial categories and apply Waldhausen additivity: `K(A′_0)≃K(A′_1)×K(X)`, and `K(A′_k)≃K(A′_{k+1})×K(Y)` for `1≤k<d`. The exceptional inclusion is `i′_*`Lp′*`(−)⊗O(−k)`, with no reversed twist. ([Thomason93, §2.7 (p. 204)](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0112/LOG_0023.pdf)).
 
 The resulting blowup equivalence is `K(X)×K(Y)^{d−1}→K(X′)`, `(x,yᵢ)`↦`p*x+Σᵢi′_*p′*yᵢ⊗O(−i)`. It is `K(X)`-linear and valid nonconnectively for qcqs schemes with the stated regular immersion; X and Y themselves need not be regular. ([Thomason93, Théorème 2.1 (pp. 198–199)](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0112/LOG_0023.pdf); [Thomason93, §2.1.2 (p. 199)](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0112/LOG_0023.pdf); [Thomason93, §2.6 (p. 203)](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0112/LOG_0023.pdf)).
 
-For `d=1` this is the identity. On a regular surface blown up at a codimension-two point, the extra class is `i′_*O_E(−1)=O(E)−1`, whereas `i′_*O_E=1−O(−E)`. Thus K₀(Bl₀A²_k)=ℤ² and K₀(Bl_xP²_k)=ℤ⁴ for rational x. Extend to all exceptional twists using the P¹ recurrence. ([Thomason93, Introduction, (0.2) (p. 195)](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0112/LOG_0023.pdf); [Weibel, Example I.5.15.2 (PDF p. 66; book p. 58)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
+For `d=1` this is the identity. On a regular surface blown up at a codimension-two point, the extra class is `i′_*O_E(−1)=O(E)−1`, whereas `i′_*O_E=1−O(−E)`. Thus `K₀(Bl₀A²_k)=ℤ²` and `K₀(Bl_xP²_k)=ℤ⁴` for rational x. Extend to all exceptional twists using the P¹ recurrence. ([Thomason93, Introduction, (0.2) (p. 195)](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0112/LOG_0023.pdf); [Weibel, Example I.5.15.2 (PDF p. 66; book p. 58)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
 Restriction to the complement kills every exceptional summand, so the images of `Kₙ(X)` and `Kₙ(X′)` in `Kₙ(X∖Y)` agree. For integral X their images in the function-field group agree as well; for a regular arithmetic surface this gives invariance of the K₂ image in its generic fibre. ([Thomason93, Théorème 2.1 and §2.1.2 (p. 199)](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0112/LOG_0023.pdf); [Thomason93, §1.2 (p. 197)](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0112/LOG_0023.pdf)).
 
@@ -1561,11 +1561,11 @@ For `r=2` the twisted-pushforward matrix is `[[1,0],[E,1]]`, becoming `(a₀,a�
 
 On P¹, `O(1)` has coordinates `(2,−1)`, `O(−2)` has `(−1,2)`, and `O(m)` has `(m+1,−m)`. A class of `rank r` and degree d has `(r+d,−d)`. A rational point is `1−[O(−1)]`. In degree one, restriction to `k(t)` multiplies the two k× coordinates; its kernel is the point-class copy of k× and its image is the constant units. The coherent basis `(π*,∞_*)` corresponds to O and the point class under regular Cartan.
 
-The Bass boundary `∂_T[T]=1` is split by `[T]`∪−. Ordered iteration of k parameters followed by the ordered boundaries gives the identity, with the empty iteration also the identity. Zero-section localization sends `[T]∪x` to x with the same right-linear convention, so ∂_loc=∂_T. Replacing T by T⁻¹ changes the degree-one boundary to −1; it does not preserve the chosen section. The degree-zero Bass cokernel defines K₋₁ and embeds it as a retract of degree-zero Laurent K. For the dual numbers both NK₁ copies survive; omitting them gives the wrong four-term decomposition. Affine Nilₙ=NKₙ₊₁ uses the ring theorem's indexing.
+The Bass boundary `∂_T[T]=1` is split by `[T]∪−`. Ordered iteration of k parameters followed by the ordered boundaries gives the identity, with the empty iteration also the identity. Zero-section localization sends `[T]∪x` to x with the same right-linear convention, so `∂_loc=∂_T`. Replacing T by T⁻¹ changes the degree-one boundary to −1; it does not preserve the chosen section. The degree-zero Bass cokernel defines K₋₁ and embeds it as a retract of degree-zero Laurent K. For the dual numbers both NK₁ copies survive; omitting them gives the wrong four-term decomposition. Affine `Nilₙ=NKₙ₊₁` uses the ring theorem's indexing.
 
 For a blowup along a Cartier divisor, `d=1`, `X′=X` and there are no exceptional summands. For a codimension-two point on a regular surface, the extra summand is `i′_*O_E(−1)=O(E)−1`. Its untwisted counterpart is `1−O(−E)`, and both restrict to zero off E. The Cartier self-intersection triangle has E in degrees −1,0 after derived restriction, fixing the shift by `[1]`. On a rank-d projective bundle the first d vanishing twisted pushforwards force the object to vanish; for `d=1` this is the identity assertion. For `d=2` the Waldhausen filtration leaves `K(X)×K(Y)` and no final remainder.
 
-Consequently K₀(Bl₀A²_k)=ℤ², K₁(Bl₀A²_k)=`k×⊕k×` and K₀(Bl_xP²_k)=ℤ⁴ for rational x. On the last surface this agrees with `rank ℤ`, Picard ℤ² and zero-cycle degree ℤ. Every exceptional summand vanishes on the complement, so a blowup at a closed special-fibre point of a regular arithmetic surface preserves the rational image of K₂ in the generic-fibre K₂. The comparison of Bass and Frobenius spectra must identify their structure maps as well as all their groups.
+Consequently `K₀(Bl₀A²_k)=ℤ²`, `K₁(Bl₀A²_k)=k×⊕k×` and `K₀(Bl_xP²_k)=ℤ⁴` for rational x. On the last surface this agrees with `rank ℤ`, Picard ℤ² and zero-cycle degree ℤ. Every exceptional summand vanishes on the complement, so a blowup at a closed special-fibre point of a regular arithmetic surface preserves the rational image of K₂ in the generic-fibre K₂. The comparison of Bass and Frobenius spectra must identify their structure maps as well as all their groups.
 
 ### Dependencies
 
@@ -1585,7 +1585,7 @@ Expose the following interface:
 - `TauCeti.AlgebraicGeometry.KTheory.supportMul` — The bilinear product `K^Y_m(X) ⊗ K^Z_n(X) → K^{Y∩Z}_{m+n}(X)`.
 - `TauCeti.AlgebraicGeometry.KTheory.supportMul_forget` — Forgetting supports commutes with the products.
 - `TauCeti.AlgebraicGeometry.KTheory.supportMul_self` — For `Y = Z = X` the product is that of Layer 2.
-- `TauCeti.AlgebraicGeometry.KTheory.supportMul_zero_class` — On π_0 the product of `[E]` and `[F]` is `[E ⊗^L F]`.
+- `TauCeti.AlgebraicGeometry.KTheory.supportMul_zero_class` — On `π_0` the product of `[E]` and `[F]` is `[E ⊗^L F]`.
 - `TauCeti.AlgebraicGeometry.KTheory.gSupportPairing` — The pairing `K(X on Y) ∧ G(X on Z) → G(X on Y ∩ Z)`, X noetherian.
 
 **Checks.**
@@ -1596,15 +1596,15 @@ Expose the following interface:
 - Full support recovers Layer 2.
 - A proper clopen component is a different case: its supported ring does have the component's unit.
 
-For qcqs S-schemes X,Z, external derived pullback and tensor gives `K(X on Y)∧K(Z on W)→K`(X×_SZ on Y×_SW); no flatness of `X→S` is needed for perfect K. For `K(X)∧G(Z)→G`(X×_SZ), require X flat over S and both Z and the product Noetherian, so projection to Z has coherent flat pullback. Expose associativity and pullback naturality; derived diagonal pullback gives the internal K-product. ([TT90, 3.15 (printed p. 319)](https://gwern.net/doc/math/1990-thomason.pdf); [Soulé, Théorème 7 v) (p. 533)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427)).
+For qcqs S-schemes X,Z, external derived pullback and tensor gives `K(X on Y)∧K(Z on W)→K(X×_SZ on Y×_SW)`; no flatness of `X→S` is needed for perfect K. For `K(X)∧G(Z)→G(X×_SZ)`, require X flat over S and both Z and the product Noetherian, so projection to Z has coherent flat pullback. Expose associativity and pullback naturality; derived diagonal pullback gives the internal K-product. ([TT90, 3.15 (printed p. 319)](https://gwern.net/doc/math/1990-thomason.pdf); [Soulé, Théorème 7 v) (p. 533)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427)).
 
 Expose the following interface:
 
 - `TauCeti.AlgebraicGeometry.KTheory.externalPairing` — ⊠: `K(X on Y) ∧ K(Z on W) → K(X ×_S Z on Y ×_S W)`.
 - `TauCeti.AlgebraicGeometry.KTheory.externalMul_assoc` — `(x ⊠ y) ⊠ z = x ⊠ (y ⊠ z)` under the associativity isomorphism of fibre products.
-- `TauCeti.AlgebraicGeometry.KTheory.diag_externalMul` — Δ^*`(x ⊠ y) = x·y`.
-- `TauCeti.AlgebraicGeometry.KTheory.externalMul_pullback` — `(f × g)`^*`(x ⊠ y) = f`^*`x ⊠ g`^*y for maps of S-schemes.
-- `TauCeti.AlgebraicGeometry.KTheory.externalMul_one` — `[O_X] ⊠ y = pr_2`^*y.
+- `TauCeti.AlgebraicGeometry.KTheory.diag_externalMul` — `Δ^*(x ⊠ y) = x·y`.
+- `TauCeti.AlgebraicGeometry.KTheory.externalMul_pullback` — `(f × g)^*(x ⊠ y) = f^*x ⊠ g^*y` for maps of S-schemes.
+- `TauCeti.AlgebraicGeometry.KTheory.externalMul_one` — `[O_X] ⊠ y = pr_2^*y`.
 - `TauCeti.AlgebraicGeometry.KTheory.gExternalPairing` — `K(X) ∧ G(Z) → G(X ×_S Z)` for X flat over S and noetherian Z and `X ×_S Z`.
 
 **Checks.**
@@ -1618,7 +1618,7 @@ For qcqs f:`X′→X` define `K(f)=fib(f*:𝕂(X)→𝕂(X′))`. It is a `K(X)`
 
 Expose the following interface:
 
-- `TauCeti.AlgebraicGeometry.KTheory.relative` — `K(f)` = hofib(f^*: `K(X) → K(X')`).
+- `TauCeti.AlgebraicGeometry.KTheory.relative` — `K(f) = hofib(f^*: K(X) → K(X'))`.
 - `TauCeti.AlgebraicGeometry.KTheory.relative_les` — The long exact sequence ⋯ → `K_{n+1}(X') → K_n(f) → K_n(X) → K_n(X')` → ⋯.
 - `TauCeti.AlgebraicGeometry.KTheory.relative_module` — `K_*(f)` is a graded `K_*(X)`-module and the long exact sequence is `K_*(X)`-linear.
 - `TauCeti.AlgebraicGeometry.KTheory.relative_open_immersion` — For an open immersion j: `U → X` with closed complement Y, `K(j) ≃ K(X on Y)` as `K(X)`-modules (nonconnective).
@@ -1629,11 +1629,11 @@ Expose the following interface:
 - The fibre for an identity map is zero.
 - For an open immersion it is supported K and has the same connecting map.
 - For the generic point of a DVR its zeroth group is ℤ and the connecting map is valuation.
-- For `Spec ℚ→Spec ℤ`, the map on absolute K₀ is an isomorphism but the fibre K₀ is ⊕_pℤ. A cokernel definition would give the wrong answer.
+- For `Spec ℚ→Spec ℤ`, the map on absolute K₀ is an isomorphism but the fibre K₀ is `⊕_pℤ`. A cokernel definition would give the wrong answer.
 
 Pullback preserves the supported tensor product and unit, commutes with enlargement and external products, and satisfies the supported proper projection formula whenever the transfer of Layer 2 exists. Give the target support `f(W)∩Y` and the coherent variant explicitly. ([TT90, 3.15 (printed p. 319)](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, Proposition 3.17 (printed p. 320)](https://gwern.net/doc/math/1990-thomason.pdf)).
 
-The tensor pairings make ⊕`_{n∈ℤ}Kₙ(X)` a unital graded-commutative ring, xy=`(−1)^{mn}`yx. Supported groups are possibly nonunital graded rings and `K_*(X)`-modules; G is a K-module over Noetherian X. These are the actual degree-adding tensor products. ([TT90, 3.15 (printed p. 319)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, Theorem IV.1.10 (PDF p. 274)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
+The tensor pairings make `⊕_{n∈ℤ}Kₙ(X)` a unital graded-commutative ring, `xy=(−1)^{mn}yx`. Supported groups are possibly nonunital graded rings and `K_*(X)`-modules; G is a K-module over Noetherian X. These are the actual degree-adding tensor products. ([TT90, 3.15 (printed p. 319)](https://gwern.net/doc/math/1990-thomason.pdf); [Weibel, Theorem IV.1.10 (PDF p. 274)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
 Compare the π₀ tensor product with the finite-projective K₀ ring and the `K₀×K₁` product with `id_P⊗α`. On affine rings compare the `K₁×K₁` product with Loday's product in K₂, retaining the ordered unit notation. ([Weibel, Theorem IV.1.10 (PDF p. 274)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Riou, Remark 3.2.2 (p. 13)](https://arxiv.org/pdf/0907.2710)).
 
@@ -1643,7 +1643,7 @@ Construct the special λ-ring foundations below before the nonunital scheme and 
 
 #### 6.2.1 Pre-λ-rings, morphisms and ideals
 
-For a commutative ring R define `TauCeti.LambdaRing.PreLambda` by operations λⁿ : `R → R`, with `λ⁰(x)=1`, `λ¹(x)=x` and `λⁿ(x+y)=Σ_(i+j=n) λⁱ(x)λʲ(y)`. Equivalently the total operation is an additive-to-multiplicative homomorphism λ_t : `R → 1`+tR[`[t]`] with linear coefficient x. Define `TauCeti.LambdaRing.Hom` as a ring homomorphism commuting with all coefficients, `TauCeti.LambdaRing.Ideal` as an ideal stable under positive λ-operations, and `TauCeti.LambdaRing.IsLineElement` by `λ_t(l)=1`+lt. A line element need not be invertible. The API includes identity, composition and extensionality of morphisms; equivalence of total and coefficient laws; lambda_zero, lambda_neg, kernel λ-ideals, induced quotient operations, λ-subrings and their inclusions, and uniqueness of quotient and restricted structures. Ideal stability begins at `n=1`. Use Mathlib's BinomialRing for the binomial structure and its pointwise form on locally constant integer functions. Construct the line-monomial structure on MonoidAlgebra ℤ M for a commutative multiplicative monoid M, characterized by `λ_t([m])=1+[m]t`; its API includes monoid-map naturality, basis-monomial values and uniqueness. (Weibel II.4.1–4.1.1, printed p.90, and Exercises 4.1, 4.4, pp.101–102.)
+For a commutative ring R define `TauCeti.LambdaRing.PreLambda` by operations `λⁿ : R → R`, with `λ⁰(x)=1`, `λ¹(x)=x` and `λⁿ(x+y)=Σ_(i+j=n) λⁱ(x)λʲ(y)`. Equivalently the total operation is an additive-to-multiplicative homomorphism `λ_t : R → 1+tR[[t]]` with linear coefficient x. Define `TauCeti.LambdaRing.Hom` as a ring homomorphism commuting with all coefficients, `TauCeti.LambdaRing.Ideal` as an ideal stable under positive λ-operations, and `TauCeti.LambdaRing.IsLineElement` by `λ_t(l)=1+lt`. A line element need not be invertible. The API includes identity, composition and extensionality of morphisms; equivalence of total and coefficient laws; `lambda_zero`, `lambda_neg`, kernel λ-ideals, induced quotient operations, λ-subrings and their inclusions, and uniqueness of quotient and restricted structures. Ideal stability begins at `n=1`. Use Mathlib's BinomialRing for the binomial structure and its pointwise form on locally constant integer functions. Construct the line-monomial structure on MonoidAlgebra ℤ M for a commutative multiplicative monoid M, characterized by `λ_t([m])=1+[m]t`; its API includes monoid-map naturality, basis-monomial values and uniqueness. (Weibel II.4.1–4.1.1, printed p.90, and Exercises 4.1, 4.4, pp.101–102.)
 
 **Checks.**
 
@@ -1685,9 +1685,9 @@ Section 6.3.3 proves `TauCeti.LambdaRing.projective_special` by integral represe
 
 #### 6.2.4 Rank augmentation, γ-filtration and its first quotient
 
-For an augmented special λ-ring ε:`R→H` with binomial H define `TauCeti.LambdaRing.gamma` n by `γ_t(x)=λ_(t/(1−t))(x)` and `TauCeti.LambdaRing.gammaFiltration` n as the ideal generated by products Π_i `γ^(k_i)(x_i)`, with `x_i∈ker` ε, each `k_i≥1` and Σ_i `k_i≥n`. The empty product is allowed, so `F⁰=R` and `F¹=ker` ε. Its API includes the inverse substitution t/`(1+t)`, constant and linear coefficients, sum convolution, naturality, `γⁿ(x)`=`Σ_(j=1)^n` binom(`n−1`,`j−1`)`λʲ(x)` for `n≥1`, antitonicity, multiplicativity, functoriality and `TauCeti.LambdaRing.gammaGraded` `n=Fⁿ`/`F^(n+1)`. A λ-section of ε supplies the H-action and a weight-zero lift. (Weibel II.4, pp.94–96.)
+For an augmented special λ-ring ε:`R→H` with binomial H define `TauCeti.LambdaRing.gamma` n by `γ_t(x)=λ_(t/(1−t))(x)` and `TauCeti.LambdaRing.gammaFiltration` n as the ideal generated by products `Π_i γ^(k_i)(x_i)`, with `x_i∈ker` ε, each `k_i≥1` and `Σ_i k_i≥n`. The empty product is allowed, so `F⁰=R` and `F¹=ker` ε. Its API includes the inverse substitution `t/(1+t)`, constant and linear coefficients, sum convolution, naturality, `γⁿ(x)=Σ_(j=1)^n binom(n−1,j−1)λʲ(x)` for `n≥1`, antitonicity, multiplicativity, functoriality and `TauCeti.LambdaRing.gammaGraded` `n=Fⁿ/F^(n+1)`. A λ-section of ε supplies the H-action and a weight-zero lift. (Weibel II.4, pp.94–96.)
 
-For `H(A)`=LocallyConstant(`Spec A`,ℤ) use the geometric rank of SchemeAndStackFoundations §5.7 through the affine comparison. Construct `TauCeti.LambdaRing.rankSection` using the clopen rank fibres and their idempotent projectives, extended additively to integer values. Prove it is a λ-section, independent of a clopen presentation and compatible with scalar extension. Define `TauCeti.LambdaRing.reducedK0` as the rank kernel. With the supplied determinant to the additive Picard group, prove `TauCeti.LambdaRing.gammaFiltration_two_eq_rank_det_kernel`: F² is the simultaneous kernel of rank and determinant. Obtain `gr⁰≅H(A)` and gr¹≅Pic(A), with inverse L↦`[L]−1`, and prove scalar-extension compatibility. On the first reduced quotient `λᵏ(x)`≡`(−1)^(k−1)x` and `ψᵏ(x)`≡kx. The weighted higher-graded extension is the target below. (Weibel II.2.6–2.6.2, pp.73–74; II.4.7–4.7.1, p.96.)
+For `H(A)=LocallyConstant(Spec A,ℤ)` use the geometric rank of SchemeAndStackFoundations §5.7 through the affine comparison. Construct `TauCeti.LambdaRing.rankSection` using the clopen rank fibres and their idempotent projectives, extended additively to integer values. Prove it is a λ-section, independent of a clopen presentation and compatible with scalar extension. Define `TauCeti.LambdaRing.reducedK0` as the rank kernel. With the supplied determinant to the additive Picard group, prove `TauCeti.LambdaRing.gammaFiltration_two_eq_rank_det_kernel`: F² is the simultaneous kernel of rank and determinant. Obtain `gr⁰≅H(A)` and `gr¹≅Pic(A)`, with inverse L↦`[L]−1`, and prove scalar-extension compatibility. On the first reduced quotient `λᵏ(x)`≡`(−1)^(k−1)x` and `ψᵏ(x)`≡kx. The weighted higher-graded extension is the target below. (Weibel II.2.6–2.6.2, pp.73–74; II.4.7–4.7.1, p.96.)
 
 **Checks.**
 
@@ -1699,18 +1699,18 @@ For `H(A)`=LocallyConstant(`Spec A`,ℤ) use the geometric rank of SchemeAndStac
 
 #### 6.2.5 Nonunital algebras and their induced filtration
 
-Define a nonunital λ-algebra I over a special λ-ring R by requiring its unitization `R⊕I`, with product `(a,x)(b,y)`=(ab,ay+bx+xy), to be a special λ-ring with `λ^k(a,x)`=(`λ^ka`,`Σ_{i=0}^{k−1}λⁱ(a)λ^{k−i}(x)`). In the higher-degree λ-model `I²=0`; this auxiliary product is distinct from the degree-adding K-product. ([Soulé, Proposition 4 and its explanation (p. 512)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Soulé, §1.4 (p. 492)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427)).
+Define a nonunital λ-algebra I over a special λ-ring R by requiring its unitization `R⊕I`, with product `(a,x)(b,y)=(ab,ay+bx+xy)`, to be a special λ-ring with `λ^k(a,x)=(λ^ka,Σ_{i=0}^{k−1}λⁱ(a)λ^{k−i}(x))`. In the higher-degree λ-model `I²=0`; this auxiliary product is distinct from the degree-adding K-product. ([Soulé, Proposition 4 and its explanation (p. 512)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Soulé, §1.4 (p. 492)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427)).
 
 Expose the following interface:
 
-- `TauCeti.LambdaRing.NonUnitalAlgebra` — Non-unital λ-algebras over a special λ-ring K_0: operations `λ^k` on I `(k ≥ 1)` and a special λ-ring structure on `K_0 ⊕ I` with the displayed operations.
-- `TauCeti.LambdaRing.NonUnitalAlgebra.unitization` — The special λ-ring `K_0 ⊕ I` (Mathlib's Unitization K_0 I).
+- `TauCeti.LambdaRing.NonUnitalAlgebra` — Non-unital λ-algebras over a special λ-ring `K_0`: operations `λ^k` on I `(k ≥ 1)` and a special λ-ring structure on `K_0 ⊕ I` with the displayed operations.
+- `TauCeti.LambdaRing.NonUnitalAlgebra.unitization` — The special λ-ring `K_0 ⊕ I` (Mathlib's Unitization `K_0` I).
 - `TauCeti.LambdaRing.NonUnitalAlgebra.lambda_inl_add` — `λ^k(a + x) = λ^k(a) + Σ_{i=0}^{k−1}` `λ^i(a)λ^{k−i}(x)` in `K_0 ⊕ I`, for `k ≥ 1`.
 - `TauCeti.LambdaRing.NonUnitalAlgebra.isLambdaIdeal` — I, the kernel of the first projection `K_0 ⊕ I → K_0`, is a λ-ideal.
-- `TauCeti.LambdaRing.NonUnitalAlgebra.augmentation` — An augmentation ε_0: `K_0 → H` induces the augmentation `ε(a, x) = ε_0(a)` of `K_0 ⊕ I`, with augmentation ideal `ker ε_0 ⊕ I`.
+- `TauCeti.LambdaRing.NonUnitalAlgebra.augmentation` — An augmentation `ε_0`: `K_0 → H` induces the augmentation `ε(a, x) = ε_0(a)` of `K_0 ⊕ I`, with augmentation ideal `ker ε_0 ⊕ I`.
 - `TauCeti.LambdaRing.NonUnitalAlgebra.lambda_add_of_mul_eq_zero` — If `I·I = 0`: `λ^k(x + y) = λ^k(x) + λ^k(y)` and `ψ^k(x) = (−1)^{k−1}kλ^k(x)` for x, `y ∈ I` and `k ≥ 1`.
-- `TauCeti.LambdaRing.NonUnitalAlgebra.ofLambdaIdeal` — A λ-ideal J of K_0 with the restricted operations: `(a, x)` ↦ `(a, a + x)` identifies `K_0⊕J` with the λ-subring `{(a, c) : c − a ∈ J}` of `K_0 × K_0` (the λ-subring comparison of §6.2.1).
-- `TauCeti.LambdaRing.NonUnitalAlgebra.Hom` — Morphisms: K_0-linear multiplicative maps commuting with every `λ^k`, `k ≥ 1`.
+- `TauCeti.LambdaRing.NonUnitalAlgebra.ofLambdaIdeal` — A λ-ideal J of `K_0` with the restricted operations: `(a, x)` ↦ `(a, a + x)` identifies `K_0⊕J` with the λ-subring `{(a, c) : c − a ∈ J}` of `K_0 × K_0` (the λ-subring comparison of §6.2.1).
+- `TauCeti.LambdaRing.NonUnitalAlgebra.Hom` — Morphisms: `K_0`-linear multiplicative maps commuting with every `λ^k`, `k ≥ 1`.
 
 **Checks.**
 
@@ -1723,24 +1723,24 @@ Define `F^n_γI=I∩F^n_γ(R⊕I)`, with `F⁰=F¹=I`, decreasing filtration and
 
 Expose the following interface:
 
-- `TauCeti.LambdaRing.NonUnitalAlgebra.gammaFiltration` — `F^n_γI = I ∩ F^n_γ(K_0 ⊕ I)`, a K_0-submodule of I.
+- `TauCeti.LambdaRing.NonUnitalAlgebra.gammaFiltration` — `F^n_γI = I ∩ F^n_γ(K_0 ⊕ I)`, a `K_0`-submodule of I.
 - `TauCeti.LambdaRing.NonUnitalAlgebra.gammaFiltration_zero_one` — `F^0_γI = F^1_γI = I`.
 - `TauCeti.LambdaRing.NonUnitalAlgebra.gammaFiltration_antitone` — `F^{n+1}_γI ⊆ F^n_γI`.
 - `TauCeti.LambdaRing.NonUnitalAlgebra.smul_mem_gammaFiltration` — `a ∈ F^i_γK_0` and `x ∈ F^j_γI` give `a·x ∈ F^{i+j}_γI`.
 - `TauCeti.LambdaRing.NonUnitalAlgebra.gammaFiltration_eq_span_of_mul_eq_zero` — If `I·I = 0`, `F^n_γI` is the subgroup generated by `b·γ^j(x)` `(b ∈ K_0, j ≥ n)` and `a·γ^j(x)` `(a ∈ F^i_γK_0, i, j ≥ 1, i + j ≥ n)`.
-- `TauCeti.LambdaRing.NonUnitalAlgebra.gammaFiltration_map` — Morphisms of non-unital λ-algebras over K_0 preserve `F^n_γ`.
+- `TauCeti.LambdaRing.NonUnitalAlgebra.gammaFiltration_map` — Morphisms of non-unital λ-algebras over `K_0` preserve `F^n_γ`.
 - `TauCeti.LambdaRing.NonUnitalAlgebra.gammaGraded` — `gr^n_γI = F^n_γI`/`F^{n+1}_γI`.
 
 **Checks.**
 
-- For the weight-one square-zero line over ℤ, γ_t(mx)=1+mxt, so `F¹=I` and `F²=0`.
+- For the weight-one square-zero line over ℤ, `γ_t(mx)=1+mxt`, so `F¹=I` and `F²=0`.
 - All filtrations on zero I are zero, and the general convention is `F⁰=F¹=I`.
 - For an augmentation λ-ideal `J⊂R`, its positive filtration agrees with the filtration inherited from R.
 - Square-zero does not imply weight one: in `ℤ[ε,δ]`/`(ε²,δ²)`, `η=εδ` satisfies `γ_tη=1+η(t−t²)`. Hence `η=−γ²η` and `F²(ℤη)=ℤη`.
 
 In every augmented special λ-ring, for `n≥1` and `k≥1`, `ψ^k` acts on `gr^n_γ` by kⁿ, `λ^k` by `(−1)^{k−1}k^{n−1}`, and γⁿ by `(−1)^{n−1}(n−1)`!. Prove the universal weighted-polynomial remainder for `ψ^kγⁱ`, including the first-graded determinant comparison of §6.2.4; include nonunital modules. ([Weibel, Proposition II.4.9 (PDF p. 105)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Soulé, §1.5 (p. 493)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427)).
 
-For a ψ-stable subgroup J with `J=J_a` and `J_{N+1}⊗ℚ=0` in its induced γ-filtration, diagonalize `ψ^k` for `k≥2`: J_ℚ=⊕`_{i=a}^N` `J^{(i)}`, independent of k, with `ψˡ=lⁱ` on weight i. Construct the Lagrange projectors, identify the filtration with weights ≥i, and prove products add weights. The augmentation is split by a chosen λ-section, as it is for the scheme rank augmentation; without that section no canonical weight-zero lift is included. ([Weibel, Theorem II.4.10 (PDF p. 106)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Proof of Theorem IV.5.11 (PDF p. 324)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [GS99, Proof of Proposition 8 (p. 48)](http://web.archive.org/web/20210416024831id_/https://faculty.math.illinois.edu/K-theory/0327/fff.pdf)).
+For a ψ-stable subgroup J with `J=J_a` and `J_{N+1}⊗ℚ=0` in its induced γ-filtration, diagonalize `ψ^k` for `k≥2`: `J_ℚ=⊕_{i=a}^N J^{(i)}`, independent of k, with `ψˡ=lⁱ` on weight i. Construct the Lagrange projectors, identify the filtration with weights `≥i`, and prove products add weights. The augmentation is split by a chosen λ-section, as it is for the scheme rank augmentation; without that section no canonical weight-zero lift is included. ([Weibel, Theorem II.4.10 (PDF p. 106)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Proof of Theorem IV.5.11 (PDF p. 324)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [GS99, Proof of Proposition 8 (p. 48)](http://web.archive.org/web/20210416024831id_/https://faculty.math.illinois.edu/K-theory/0327/fff.pdf)).
 
 ### 6.3 Stable and exact representation rings
 
@@ -1760,21 +1760,21 @@ For split reductive groups over a PID A, prove `TauCeti.RepresentationRing.gener
 
 - For the trivial Hopf algebra the underlying-projective category and its exact K₀ recover the supplied ring K₀. A trivial torsion module ℤ/p has Euler class `[ℤ]−[ℤ]=0`, whereas naive residue tensor would produce the nonzero class `[𝔽_p]`.
 - A nonsplit extension of rational representations in characteristic p can have a finite free underlying vector space. Its exact relation is required even though its representation sequence does not split.
-- Over 𝔽₂, the weight-zero and weight-one representations of 𝔾_m have identical characters on the group of rational points but distinct formal characters. A sum of p identical weights in characteristic p has coefficient p in ℤ, not zero.
+- Over 𝔽₂, the weight-zero and weight-one representations of `𝔾_m` have identical characters on the group of rational points but distinct formal characters. A sum of p identical weights in characteristic p has coefficient p in ℤ, not zero.
 - A weight line χ gives the monomial `[χ]`; the trivial torus gives ℤ. A rank-two determinant has character x₁x₂, and duality inverts both variables.
 - Lattices A and pA in a trivial one-dimensional fraction-field representation give the same residue class. A generic simple can reduce to a nonsimple representation; the decomposition is a Grothendieck-group statement.
 - Over a general Dedekind domain the kernel of a finite free cover need only be finite projective. The integral comparison must retain this case. Nonsplit reductive groups are outside the split character-isomorphism hypothesis.
 
 #### 6.3.2 Finite general linear representation rings
 
-For every finite tuple `(n₁,…,n_s)`, form the integral representation ring of Π_i `GL_(n_i)` using §6.3.1 and identify it by formal character with `ℤ[x_(i,j)^±1]^Π_i` `S_(n_i)`. For one factor this is `ℤ[λ¹V,…,λⁿV,(λⁿV)⁻¹]`. Give `TauCeti.RepresentationRing.generalLinear` and its product-group version the exterior pre-λ structure from §6.2.3's canonical exact-sequence filtration. Prove standard, exterior, determinant and dual character formulas, base-change compatibility, and restriction along `diag(g,1)`. The coefficient Hopf algebras, their finite products and scalar-extension comparisons use the supplied group schemes; the additional targets identify their generic entries and inverse determinants under torus restriction and commute those restrictions with base change. (Serre.1968 §§3.7–3.8, pp.51–52; Soulé §1.1, p.490.)
+For every finite tuple `(n₁,…,n_s)`, form the integral representation ring of `Π_i` `GL_(n_i)` using §6.3.1 and identify it by formal character with `ℤ[x_(i,j)^±1]^Π_i` `S_(n_i)`. For one factor this is `ℤ[λ¹V,…,λⁿV,(λⁿV)⁻¹]`. Give `TauCeti.RepresentationRing.generalLinear` and its product-group version the exterior pre-λ structure from §6.2.3's canonical exact-sequence filtration. Prove standard, exterior, determinant and dual character formulas, base-change compatibility, and restriction along `diag(g,1)`. The coefficient Hopf algebras, their finite products and scalar-extension comparisons use the supplied group schemes; the additional targets identify their generic entries and inverse determinants under torus restriction and commute those restrictions with base change. (Serre.1968 §§3.7–3.8, pp.51–52; Soulé §1.1, p.490.)
 
 **Checks.**
 
 - GL₀ and the empty product both give ℤ with trivial character lattice.
 - For GL₂, the determinant and its inverse have characters x₁x₂ and `(x₁x₂)⁻¹`; polynomial characters without inverse determinants would omit a required representation.
 - The tuple `(1,1)` gives two independent invertible variables. Its restrictions to the factors distinguish them.
-- The algebraic representations of 𝔾_m over ℤ are weight-graded; they cannot be replaced by arbitrary representations of the two-element abstract group `GL₁(ℤ)`.
+- The algebraic representations of `𝔾_m` over ℤ are weight-graded; they cannot be replaced by arbitrary representations of the two-element abstract group `GL₁(ℤ)`.
 
 #### 6.3.3 Associated projectives and specialness
 
@@ -1795,7 +1795,7 @@ Take the inverse limit of the representation rings of §§6.3.1–6.3.3 `R_ℤ(G
 
 Expose the following interface:
 
-- `TauCeti.RepresentationRing.stableGL` — `R_ℤ(GL) = lim_N` `R_ℤ(GL_N)` along restriction, as the subring of compatible families in ∏_N `R_ℤ(GL_N)`.
+- `TauCeti.RepresentationRing.stableGL` — `R_ℤ(GL) = lim_N` `R_ℤ(GL_N)` along restriction, as the subring of compatible families in `∏_N R_ℤ(GL_N)`.
 - `TauCeti.RepresentationRing.stableGL.preLambda` — The pre-λ-ring structure of `R_ℤ(GL)`, componentwise.
 - `TauCeti.RepresentationRing.stableGL.proj` — The projections `R_ℤ(GL) → R_ℤ(GL_N)`, pre-λ-homomorphisms with `ρ_N ∘ proj_{N+1} = proj_N`.
 - `TauCeti.RepresentationRing.stableGL.ext` — Two elements of `R_ℤ(GL)` are equal if all their components are.
@@ -1818,48 +1818,48 @@ Expose the following interface:
 
 - `TauCeti.RepresentationRing` — `R_A(G)` as ExactK0 of the exact category of AG-modules finitely generated projective over A.
 - `TauCeti.RepresentationRing.preLambda` — The pre-λ-ring structure by exterior powers.
-- `TauCeti.RepresentationRing.restrict` — ρ^*: `R_A(G') → R_A(G)` for ρ: `G → G'`, with id and composition.
+- `TauCeti.RepresentationRing.restrict` — `ρ^*: R_A(G') → R_A(G)` for ρ: `G → G'`, with id and composition.
 - `TauCeti.RepresentationRing.extendScalars` — `f_*`: `R_A(G) → R_{A'}(G)` for f: `A → A'`.
 - `TauCeti.RepresentationRing.forget` — The forgetful λ-homomorphism `R_A(G) → K_0(A)`, a retraction of `R_A(1) = K_0(A) → R_A(G)`.
 - `TauCeti.RepresentationRing.ofGLPullback` — For ρ: `G → GL_N(A)`, the pre-λ-homomorphism `R_ℤ(GL_N) → R_A(G)`, σ ↦ `[σ_A ∘ ρ]`.
-- `TauCeti.RepresentationRing.frobeniusTwist` — For pA = 0, Φ^*: `R_A(G) → R_A(G)`, `[P]` ↦ `[A ⊗_{Φ,A} P]`.
+- `TauCeti.RepresentationRing.frobeniusTwist` — For `pA = 0`, `Φ^*: R_A(G) → R_A(G)`, `[P]` ↦ `[A ⊗_{Φ,A} P]`.
 
 **Checks.**
 
 - For the trivial group the result is `K₀(A)` with its supplied λ-structure.
 - Over ℂ, the group of order two gives `ℤ[σ]`/`(σ²−1)`, with `λ²(1+σ)=σ`.
 - Using only free modules would lose the nontrivial class group of a Dedekind domain already for the trivial group.
-- A representation pulled back from GL_N has underlying class `[Aᴺ]`.
+- A representation pulled back from `GL_N` has underlying class `[Aᴺ]`.
 
-In characteristic p, `ψ^p` of the standard GL_N representation is its Frobenius twist. More generally `ψ^p(x)=Φ*x` on the projective representation ring over every commutative F_p-algebra. The Frobenius pullback is scalar extension, not the original representation with unchanged coefficients. ([Weibel, Ex. II.4.2(b) (PDF p. 109)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Proof of Corollary IV.5.5.2 (PDF p. 322)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
+In characteristic p, `ψ^p` of the standard `GL_N` representation is its Frobenius twist. More generally `ψ^p(x)=Φ*x` on the projective representation ring over every commutative `F_p`-algebra. The Frobenius pullback is scalar extension, not the original representation with unchanged coefficients. ([Weibel, Ex. II.4.2(b) (PDF p. 109)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Proof of Corollary IV.5.5.2 (PDF p. 322)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
 A representation on projective P, after adding a complement, gives a pointed class BG→BGL(A)⁺ independent of the stabilization. Prove block-triangular additivity for exact sequences and naturality, giving q:`R_A(G)`→[BG,BGL(A)⁺]. A stable representation expression gives a compatible inverse-limit family of finite-rank classes; this is not yet a genuine self-map. ([Weibel, Proposition IV.5.3 (PDF p. 320)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Kratzer, Théorème 3.1 (p. 237)](https://gdz.sub.uni-goettingen.de/download/pdf/PPN358147735_0055/LOG_0018.pdf); [Soulé, §1.2 (p. 491)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427)).
 
 Expose the following interface:
 
-- `TauCeti.KTheory.LambdaOperations.classifyingMap` — q: `R_A(G)` → [BG, BGL(A)^+].
+- `TauCeti.KTheory.LambdaOperations.classifyingMap` — `q: R_A(G) → [BG, BGL(A)^+]`.
 - `TauCeti.KTheory.LambdaOperations.classifyingMap_add` — `q(ρ ⊕ ρ') = q(ρ) + q(ρ')` and q on exact sequences.
 - `TauCeti.KTheory.LambdaOperations.classifyingMap_natural` — Natural in G (restriction) and in A (extension of scalars).
-- `TauCeti.KTheory.LambdaOperations.stableMap` — r_A: `R_ℤ(GL) → lim_N` [BGL_N(A), BGL(A)^+], a compatible finite-rank class; a genuine self-map requires the separate Hiller lifting input.
-- `TauCeti.KTheory.LambdaOperations.stableMap_id` — `r_A((id_N−N)_N)` is the restriction family of the identity of BGL(A)^+.
+- `TauCeti.KTheory.LambdaOperations.stableMap` — `r_A: R_ℤ(GL) → lim_N [BGL_N(A), BGL(A)^+]`, a compatible finite-rank class; a genuine self-map requires the separate Hiller lifting input.
+- `TauCeti.KTheory.LambdaOperations.stableMap_id` — `r_A((id_N−N)_N)` is the restriction family of the identity of `BGL(A)^+`.
 
 **Checks.**
 
 - For the trivial group the reduced classifying map is zero, while retaining K₀ components makes it identity on `K₀(A)`.
 - A ℤ-action by a unit u gives its unit loop in `K₁(A)`.
 - Over ℚ the actions by 2 and 3 have the same underlying module but distinct classifying maps.
-- Restriction from `GL_{N+1}` to GL_N agrees with restriction of the representation class.
+- Restriction from `GL_{N+1}` to `GL_N` agrees with restriction of the representation class.
 
 ### 6.4 Universal higher operations and products
 
 Here A is commutative. The universal lifting assertion is proved before it is used to define genuine operations. The same-degree product supplied by a pointed-space diagonal is separate from Loday’s degree-adding product.
 
-With the genuine-map lifting and uniqueness theorem below, lift each reduced λ-expression to an operation on BGL(A)⁺ and hence `K_m(A)`, `m≥1`. Extend it to `K₀(A)×`[T,BGL(A)⁺] by the unitization formula, with the rank part supplied by finite-projective λ-operations. State the lifting hypothesis explicitly wherever its use precedes its proof. ([Weibel, Definition IV.5.4 (PDF p. 321)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, IV.5, before Theorem 5.5 (PDF p. 322)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Soulé, §1.3 (p. 492)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427)).
+With the genuine-map lifting and uniqueness theorem below, lift each reduced λ-expression to an operation on BGL(A)⁺ and hence `K_m(A)`, `m≥1`. Extend it to `K₀(A)×[T,BGL(A)⁺]` by the unitization formula, with the rank part supplied by finite-projective λ-operations. State the lifting hypothesis explicitly wherever its use precedes its proof. ([Weibel, Definition IV.5.4 (PDF p. 321)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, IV.5, before Theorem 5.5 (PDF p. 322)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Soulé, §1.3 (p. 492)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427)).
 
 Expose the following interface:
 
-- `TauCeti.KTheory.LambdaOperations.op` — τ_A ∈ [BGL(A)^+, BGL(A)^+] for a natural operation τ with `τ(0) = 0`.
-- `TauCeti.KTheory.LambdaOperations.lambda` — `λ^k`: `K_m(A) → K_m(A)`, `m ≥ 1`, and on `K_0(A)` × [X, BGL(A)^+].
+- `TauCeti.KTheory.LambdaOperations.op` — `τ_A ∈ [BGL(A)^+, BGL(A)^+]` for a natural operation τ with `τ(0) = 0`.
+- `TauCeti.KTheory.LambdaOperations.lambda` — `λ^k`: `K_m(A) → K_m(A)`, `m ≥ 1`, and on `K_0(A) × [X, BGL(A)^+]`.
 - `TauCeti.KTheory.LambdaOperations.gamma` — `γ^k` likewise.
 - `TauCeti.KTheory.LambdaOperations.adams` — `ψ^k` likewise.
 - `TauCeti.KTheory.LambdaOperations.op_natural` — `f_* ∘ τ_A = τ_B ∘ f_*` for a ring map f: `A → B`, and τ commutes with maps of spaces `X → X'`.
@@ -1872,9 +1872,9 @@ Expose the following interface:
 - Taking Λ² of a rank-one automorphism gives the zero bundle, while the actual `λ²[u]=−[u]` can be nonzero.
 - At degree zero the operations agree with exterior powers of projectives.
 
-Prove these operations make `K₀(A)×`[T,BGL(A)⁺] a special λ-ring with its diagonal-space product. On spheres of positive dimension the internal same-degree product is zero, so `λ^k` is additive and `ψ^k=(−1)^{k−1}kλ^k` on each `K_m(A)`, with Adams composition and K₀-module compatibility. ([Weibel, Theorem IV.5.5 (PDF p. 322)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Corollary IV.5.5.1 (PDF p. 322)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Soulé, §1.4 (p. 492)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427)).
+Prove these operations make `K₀(A)×[T,BGL(A)⁺]` a special λ-ring with its diagonal-space product. On spheres of positive dimension the internal same-degree product is zero, so `λ^k` is additive and `ψ^k=(−1)^{k−1}kλ^k` on each `K_m(A)`, with Adams composition and K₀-module compatibility. ([Weibel, Theorem IV.5.5 (PDF p. 322)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Corollary IV.5.5.1 (PDF p. 322)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Soulé, §1.4 (p. 492)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427)).
 
-Let A be commutative. For a connected pointed CW complex T, write q_T:`R_A(π₁T)`→[T,BGL(A)⁺] for the reduced representation classifying map. Prove that, for every connected H-space H and natural transformation η_T:`R_A(π₁T)→[T,H]`, there is a unique homotopy class f:BGL(A)`⁺→H` with `η_T=f_*q_T` for all T. Apply this to lift reduced representation operations to genuine maps, with the obstruction/phantom uniqueness argument included. Also transport transformations between representation functors and prove commutation with their λ-operations by this uniqueness. ([Weibel, Proposition IV.5.7 (PDF p. 323)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
+Let A be commutative. For a connected pointed CW complex T, write `q_T:R_A(π₁T)→[T,BGL(A)⁺]` for the reduced representation classifying map. Prove that, for every connected H-space H and natural transformation `η_T:R_A(π₁T)→[T,H]`, there is a unique homotopy class `f:BGL(A)⁺→H` with `η_T=f_*q_T` for all T. Apply this to lift reduced representation operations to genuine maps, with the obstruction/phantom uniqueness argument included. Also transport transformations between representation functors and prove commutation with their λ-operations by this uniqueness. ([Weibel, Proposition IV.5.7 (PDF p. 323)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
 For the actual Loday degree-adding product, Adams operations are multiplicative, so rational weights add. Establish the separate γ-product formula on two positive-degree inputs, with coefficient `−(k−1)`!/`((a−1)!(b−1)!)` for `a+b=k` and a,`b≥1`. Its integral coefficients are integers; the square-zero λ-product does not prove this formula by itself. ([Weibel, Theorem IV.5.9 (PDF p. 323)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Soulé, §1.6 (p. 493)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427)).
 
@@ -1882,13 +1882,13 @@ For unit loops, `λ^k[u]=(−1)^{k−1}[u]` and `ψ^k[u]=k[u]`. Products of n un
 
 ### 6.5 Affine filtration bounds and weights
 
-For commutative A, F²_γK₁(A)=`SK₁(A)`, and determinant gives `K₁=A×⊕F²` with first graded A×. For `m≥2`, `K_m(A)`=F²_γK_m(A). Compare the filtration with §6.2 and the determinant and units with §3.6. ([Weibel, Proposition IV.5.10 (PDF p. 324)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Soulé, Proposition 1 (p. 500)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427)).
+For commutative A, `F²_γK₁(A)=SK₁(A)`, and determinant gives `K₁=A×⊕F²` with first graded A×. For `m≥2`, `K_m(A)=F²_γK_m(A)`. Compare the filtration with §6.2 and the determinant and units with §3.6. ([Weibel, Proposition IV.5.10 (PDF p. 324)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Soulé, Proposition 1 (p. 500)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427)).
 
-If A is finite over R with finite-dimensional Max R, `γ^k` vanishes on rank-zero K₀ for `k≥dim` Max `R+1`. For `m≥1` and finite stable `rank r`, `γ^k` vanishes on K_m for `k≥m+r`. This bounds the subgroup generated by individual γ-values integrally; equality with the full coefficient γ-filtration is used only rationally unless an additional integral bridge is proved. ([Soulé, Théorème 1 (p. 494)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Weibel, Remark IV.5.10.1 (PDF p. 324)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
+If A is finite over R with finite-dimensional Max R, `γ^k` vanishes on rank-zero K₀ for `k≥dim Max R+1`. For `m≥1` and finite stable `rank r`, `γ^k` vanishes on `K_m` for `k≥m+r`. This bounds the subgroup generated by individual γ-values integrally; equality with the full coefficient γ-filtration is used only rationally unless an additional integral bridge is proved. ([Soulé, Théorème 1 (p. 494)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Weibel, Remark IV.5.10.1 (PDF p. 324)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-For finite stable `rank r`, rational weights of K_m lie in 2,…,`m+r−1` for `m≥2`, and 1,…,r for `m=1`. For arbitrary A use the elementwise filtered-union version. Give Soulé's integral decomposition modulo the finite-exponent Serre classes `𝒮_{m+r−1}` and `𝒮_{r+1}`, respectively, and its denominator constants w_i; `w₂=24`. Distinguish simultaneous integral eigenspaces from one-operator rational ones. Here 𝒮_n consists of groups of bounded exponent whose prime factors are 2 or primes less than n; for `n≥3` such errors disappear after inverting `(n−1)`!. The simultaneous integral weight-i subgroup is the intersection of `ker(ψ^k−kⁱ)` over all `k≥2`. For N large, w_i=gcd_{`k≥2`} `k^N(kⁱ−1)`; `w_i=2` for odd i, while for even i its prime factors are exactly those with `p−1` dividing i. Use the associated integral combinations of Adams factors to bound the kernel and cokernel of the sum of eigenspaces. ([Weibel, Theorem IV.5.11 (PDF p. 324)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Soulé, Corollaire 1 (p. 498)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427)).
+For finite stable `rank r`, rational weights of `K_m` lie in 2,…,`m+r−1` for `m≥2`, and 1,…,r for `m=1`. For arbitrary A use the elementwise filtered-union version. Give Soulé's integral decomposition modulo the finite-exponent Serre classes `𝒮_{m+r−1}` and `𝒮_{r+1}`, respectively, and its denominator constants `w_i`; `w₂=24`. Distinguish simultaneous integral eigenspaces from one-operator rational ones. Here `𝒮_n` consists of groups of bounded exponent whose prime factors are 2 or primes less than n; for `n≥3` such errors disappear after inverting `(n−1)`!. The simultaneous integral weight-i subgroup is the intersection of `ker(ψ^k−kⁱ)` over all `k≥2`. For N large, `w_i=gcd_{k≥2} k^N(kⁱ−1)`; `w_i=2` for odd i, while for even i its prime factors are exactly those with `p−1` dividing i. Use the associated integral combinations of Adams factors to bound the kernel and cokernel of the sum of eigenspaces. ([Weibel, Theorem IV.5.11 (PDF p. 324)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Soulé, Corollaire 1 (p. 498)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427)).
 
-For a field, K₀ has weight zero, K₁ weight one, and K_m, `m≥2`, has weights 2,…,m rationally and modulo 𝒮_m integrally. Products of m units lie in weight m. This statement neither identifies the entire top weight with Milnor K nor asserts Beilinson–Soulé vanishing. ([Soulé, Introduction (p. 488)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Weibel, Vanishing Conjecture IV.5.12 (PDF p. 325)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
+For a field, K₀ has weight zero, K₁ weight one, and `K_m`, `m≥2`, has weights 2,…,m rationally and modulo `𝒮_m` integrally. Products of m units lie in weight m. This statement neither identifies the entire top weight with Milnor K nor asserts Beilinson–Soulé vanishing. ([Soulé, Introduction (p. 488)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Weibel, Vanishing Conjecture IV.5.12 (PDF p. 325)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
 ### 6.6 Scheme λ-rings and splitting
 
@@ -1898,7 +1898,7 @@ Use the complete flag scheme and universal filtration supplied by the moduli roa
 
 Expose the following interface:
 
-- `TauCeti.AlgebraicGeometry.flagBundle.lineQuotients_sum` — `[f^*E] = Σ[L_i]` in K_0(Vect Fl(E)).
+- `TauCeti.AlgebraicGeometry.flagBundle.lineQuotients_sum` — `[f^*E] = Σ[L_i]` in `K_0`(Vect Fl(E)).
 
 **Checks.**
 
@@ -1913,29 +1913,29 @@ Iterating the projective-bundle formula makes `K_*`(Fl(E)) free of `rank n`! ove
 
 Let X be regular Noetherian, finite-dimensional, with an ample family of line bundles, and Y closed, `U=X∖Y`. These hypotheses also govern the following higher scheme operations and weight subsections unless a different scope is explicitly stated. The abstract K-coherence definition applies to the separately supplied ringed-topos homotopy model.
 
-For finite-dimensional Noetherian X and `U=X∖Y`, define C_Y=cofib(`U₊→X₊`) in pointed simplicial sheaves and `H_Y^{−m}(X,F)=π_mRMap(C_Y,F)`. Its fibre sequence has a pointed-set/action end: `m=0` is a pointed set and `m=1` only a group before extra structure. Do not promise an abelian spectral sequence for arbitrary pointed F. ([Soulé, 4.1 (p. 509)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Soulé, Proof of Lemme 1 (p. 510)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Brown–Gersten, Theorem 2 and Proposition 1, pp.271–279; Theorem 3 and proof/remark, pp.282–285](https://pi.math.cornell.edu/~kbrown/scan/1973.0341.0266.pdf)).
+For finite-dimensional Noetherian X and `U=X∖Y`, define `C_Y=cofib(U₊→X₊)` in pointed simplicial sheaves and `H_Y^{−m}(X,F)=π_mRMap(C_Y,F)`. Its fibre sequence has a pointed-set/action end: `m=0` is a pointed set and `m=1` only a group before extra structure. Do not promise an abelian spectral sequence for arbitrary pointed F. ([Soulé, 4.1 (p. 509)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Soulé, Proof of Lemme 1 (p. 510)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Brown–Gersten, Theorem 2 and Proposition 1, pp.271–279; Theorem 3 and proof/remark, pp.282–285](https://pi.math.cornell.edu/~kbrown/scan/1973.0341.0266.pdf)).
 
 Expose the following interface:
 
-- `TauCeti.AlgebraicGeometry.SimplicialSheaf` — Pointed simplicial sheaves on X_Zar with stalkwise weak equivalences and Brown–Gersten fibrations.
-- `TauCeti.AlgebraicGeometry.SimplicialSheaf.hyper` — `H_Y^{−m}(X,F)`=[`Σ^m` cofiber(`U_+→X_`+),F] in the derived pointed mapping category, equal to π_m of the homotopy fibre of derived sections.
+- `TauCeti.AlgebraicGeometry.SimplicialSheaf` — Pointed simplicial sheaves on `X_Zar` with stalkwise weak equivalences and Brown–Gersten fibrations.
+- `TauCeti.AlgebraicGeometry.SimplicialSheaf.hyper` — `H_Y^{−m}(X,F)=[Σ^m cofiber(U_+→X_+),F]` in the derived pointed mapping category, equal to `π_m` of the homotopy fibre of derived sections.
 - `TauCeti.AlgebraicGeometry.SimplicialSheaf.hyper_map` — Maps in Ho `S_*(X)` act on `H^{−m}_Y`; pullback along maps of pairs `(X', Y') → (X, Y)`.
 - `TauCeti.AlgebraicGeometry.SimplicialSheaf.hyper_les` — The fibre long exact sequence, with abelian groups for `m≥2`, groups for `m=1` and pointed sets/actions at `m=0`; it becomes an abelian sequence when F is an infinite-loop sheaf.
 - `TauCeti.AlgebraicGeometry.SimplicialSheaf.brownSS` — Under Brown–Gersten Theorem 3’s connectedness, abelianity and cohomology-vanishing hypotheses, the Postnikov tower yields `E₂^{p,q}=H^p(X,π_{−q}F)`. The `p>n` version requires the abelian tower structure specified on p.285 and has a total-degree-zero fringe. For supports require the analogous relative hypotheses; for K use the infinite-loop spectrum specialization.
 - `TauCeti.AlgebraicGeometry.SimplicialSheaf.hyper_thomason` — Agreement with Thomason's Godement hypercohomology of Layer 4 for sheaves of infinite loop spaces.
-- `TauCeti.AlgebraicGeometry.SimplicialSheaf.supportCofiber` — C_Y=cofiber(`U_+→X_`+); RMap(C_Y,F) represents supported derived sections.
+- `TauCeti.AlgebraicGeometry.SimplicialSheaf.supportCofiber` — `C_Y=cofiber(U_+→X_+)`; `RMap(C_Y,F)` represents supported derived sections.
 
 **Checks.**
 
-- At a one-point site with full support, the construction gives π_mF.
+- At a one-point site with full support, the construction gives `π_mF`.
 - Empty support gives a contractible cofiber, while full support gives derived sections.
 - A discrete constant ℤ sheaf has the expected H⁰ and no positive homotopy groups.
 - On a regular scheme, the derived plus-sheaf construction sees nontrivial vector bundles which sections of the trivial-bundle presheaf miss.
-- At a point, F=BG with nonabelian G has `H⁻¹=G`, so the general definition cannot require abelianity.
+- At a point, `F=BG` with nonabelian G has `H⁻¹=G`, so the general definition cannot require abelianity.
 
-For regular finite-dimensional Noetherian X with an ample family, construct the functorial stable plus sheaf and identify `K_m^Y(X)` with `H_Y^{−m}`(X,`ℤ×BGL⁺`), `m≥0`. Prove finite-rank stabilization of supported mapping classes and identify the classifying cocycle of a vector bundle. Use a functorial plus model with its natural stable comparison. ([Soulé, 4.2 (p. 509)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Soulé, Lemme 1 (p. 510)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Soulé, Proof of Lemme 1 (p. 511)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [TT90, 2.1.2(e), p.284; 3.8–3.10, p.316; Exercises 8.5–8.6, p.374](https://gwern.net/doc/math/1990-thomason.pdf)).
+For regular finite-dimensional Noetherian X with an ample family, construct the functorial stable plus sheaf and identify `K_m^Y(X)` with `H_Y^{−m}(X,ℤ×BGL⁺)`, `m≥0`. Prove finite-rank stabilization of supported mapping classes and identify the classifying cocycle of a vector bundle. Use a functorial plus model with its natural stable comparison. ([Soulé, 4.2 (p. 509)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Soulé, Lemme 1 (p. 510)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Soulé, Proof of Lemme 1 (p. 511)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [TT90, 2.1.2(e), p.284; 3.8–3.10, p.316; Exercises 8.5–8.6, p.374](https://gwern.net/doc/math/1990-thomason.pdf)).
 
-Define `integralCompletion` on connected pointed simplicial sheaves by sheafifying the Bousfield–Kan integral completion, computed from the standard cosimplicial reduced free-abelian resolution and its homotopy totalization. Give its natural unit and homotopy functoriality; an integral homology equivalence induces a weak equivalence after completion. Set `K^N=ℤ×`ℤ∞BGL_N and `K=ℤ×ℤ∞BGL`, pointed at rank zero. The stable comparison `completedGL_plus` identifies the latter with the functorial stable plus sheaf; its block-sum and tensor comparisons agree with the K-model above. This is completion of spaces, distinct from the prime-adic spectral completion. ([GS99, §3.1 and Lemma 18, pp.37–39](http://web.archive.org/web/20210416024831id_/https://faculty.math.illinois.edu/K-theory/0327/fff.pdf).)
+Define `integralCompletion` on connected pointed simplicial sheaves by sheafifying the Bousfield–Kan integral completion, computed from the standard cosimplicial reduced free-abelian resolution and its homotopy totalization. Give its natural unit and homotopy functoriality; an integral homology equivalence induces a weak equivalence after completion. Set `K^N=ℤ×ℤ∞BGL_N` and `K=ℤ×ℤ∞BGL`, pointed at rank zero. The stable comparison `completedGL_plus` identifies the latter with the functorial stable plus sheaf; its block-sum and tensor comparisons agree with the K-model above. This is completion of spaces, distinct from the prime-adic spectral completion. ([GS99, §3.1 and Lemma 18, pp.37–39](http://web.archive.org/web/20210416024831id_/https://faculty.math.illinois.edu/K-theory/0327/fff.pdf).)
 
 Expose `integralCompletion.unit`, `.map`, `.homologyEquiv`, and `completedGL_plus`. Its checks are: the point completes to the point; an integral-homology-acyclic connected space completes to a contractible space; the completed stable BGL retains `π₁=K₁` rather than becoming simply connected; and its ℤ factor retains locally constant rank on a disconnected scheme.
 
@@ -1946,8 +1946,8 @@ A pointed sheaf space is K-coherent when both finite-rank mapping-class stabiliz
 Expose the following interface:
 
 - `KCoherent` — The conjunction of both stabilization comparisons for all m,p,`n≥0`.
-- `KCoherent.mappingComparison` — For h:KCoherent W and `m≥0`, colim_N `H^{−m}(W,K^N)≅H^{−m}(W,K)`.
-- `KCoherent.homotopySheafComparison` — For h:KCoherent W and p,`n≥0`, colim_N `H^p`(W,`π_nK^N`)≅`H^p`(W,π_nK).
+- `KCoherent.mappingComparison` — For h:KCoherent W and `m≥0`, `colim_N H^{−m}(W,K^N)≅H^{−m}(W,K)`.
+- `KCoherent.homotopySheafComparison` — For h:KCoherent W and p,`n≥0`, `colim_N H^p(W,π_nK^N)≅H^p(W,π_nK)`.
 - `kCoherent_iff_two_comparisons` — KCoherent W iff both families of stabilization maps are isomorphisms.
 - `KCoherent.of_weakEquiv` — A weak equivalence `W′≃W` transports the two comparison isomorphisms.
 - `KCoherent.operation` — A compatible stable representation family gives an operation on `H^{−m}(W,K)`, using the mapping comparison; the homotopy-sheaf comparison supplies the stabilization used in the Brown bound.
@@ -1959,13 +1959,13 @@ Expose the following interface:
 - Failure of even one homotopy-sheaf cohomology comparison prevents K-coherence, regardless of mapping-class stabilization.
 - For P¹₊, derived stabilization must retain `[O(1)]` rather than just globally trivial bundles.
 
-In the same regular ample-family scope, `kCoherent_scheme` makes X₊ K-coherent with bound `d=dim` X, and `kCoherent_supportCofiber` makes C_Y K-coherent with bound D=max(`dim X`,`dim U+1`). For U empty take `D=d`; for Y empty C_Y is contractible. The cofiber's extra degree is essential. ([GS99, Proposition 5 and proof, pp.39–41; §3.2.4, p.42](http://web.archive.org/web/20210416024831id_/https://faculty.math.illinois.edu/K-theory/0327/fff.pdf); [TT90, 2.1.1–2.1.2, pp.283–284; 3.8–3.10, p.316; Exercises 8.5–8.6, p.374](https://gwern.net/doc/math/1990-thomason.pdf); [Stacks.Divisors.0GML, Divisors, Lemma 31.17.8, tag 0GML](https://stacks.math.columbia.edu/tag/0GML)).
+In the same regular ample-family scope, `kCoherent_scheme` makes X₊ K-coherent with bound `d=dim` X, and `kCoherent_supportCofiber` makes `C_Y` K-coherent with bound `D=max(dim X,dim U+1)`. For U empty take `D=d`; for Y empty `C_Y` is contractible. The cofiber's extra degree is essential. ([GS99, Proposition 5 and proof, pp.39–41; §3.2.4, p.42](http://web.archive.org/web/20210416024831id_/https://faculty.math.illinois.edu/K-theory/0327/fff.pdf); [TT90, 2.1.1–2.1.2, pp.283–284; 3.8–3.10, p.316; Exercises 8.5–8.6, p.374](https://gwern.net/doc/math/1990-thomason.pdf); [Stacks.Divisors.0GML, Divisors, Lemma 31.17.8, tag 0GML](https://stacks.math.columbia.edu/tag/0GML)).
 
 ### 6.8 Higher scheme operations
 
 Retain the regular finite-dimensional Noetherian ample-family scope, and arbitrary closed supports. Use a functorial plus/integral-completion sheaf model. The singular construction below has its own smooth-factorization hypotheses; it is not obtained by dropping regularity from this model comparison.
 
-Construct scheme operations from completed representation maps, block-triangular additivity, rank correction and both K-coherence comparisons. For regular finite-dimensional Noetherian X with ample family obtain `λ^k`,`γ^k` for `k≥1` and `ψ^k` for `k≠0` on supported K_m. Include the comparison of the matrix tensor pairing with the derived supported K-product. ([Soulé, 4.3 (p. 511)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Soulé, 4.3 (p. 512)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [GS99, Theorem 3 (p. 46)](http://web.archive.org/web/20210416024831id_/https://faculty.math.illinois.edu/K-theory/0327/fff.pdf); [GS99, Lemmas 18–20, pp.38–45; §4.2 and Theorem 3 with proof, pp.45–47](http://web.archive.org/web/20210416024831id_/https://faculty.math.illinois.edu/K-theory/0327/fff.pdf); [TT90, 2.1.2(e), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf)).
+Construct scheme operations from completed representation maps, block-triangular additivity, rank correction and both K-coherence comparisons. For regular finite-dimensional Noetherian X with ample family obtain `λ^k`,`γ^k` for `k≥1` and `ψ^k` for `k≠0` on supported `K_m`. Include the comparison of the matrix tensor pairing with the derived supported K-product. ([Soulé, 4.3 (p. 511)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Soulé, 4.3 (p. 512)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [GS99, Theorem 3 (p. 46)](http://web.archive.org/web/20210416024831id_/https://faculty.math.illinois.edu/K-theory/0327/fff.pdf); [GS99, Lemmas 18–20, pp.38–45; §4.2 and Theorem 3 with proof, pp.45–47](http://web.archive.org/web/20210416024831id_/https://faculty.math.illinois.edu/K-theory/0327/fff.pdf); [TT90, 2.1.2(e), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf)).
 
 Expose the following interface:
 
@@ -1984,19 +1984,19 @@ Expose the following interface:
 - Regular affine comparisons recover the ring operations.
 - On global units ψᵏ is kth power and λ² is inversion, whereas Λ² of the rank-one automorphism itself has no such information.
 
-These operations make ⊕`_{m≥0}K_m^Y(X)`, with zero products between positive degrees, a nonunital special λ-algebra over ℤ, and for full support over `K₀(X)`. Give the augmentation, duality, Adams composition, additive higher λ-operations and γ-filtration. Keep this auxiliary λ-product separate from the tensor ring throughout. ([Soulé, Proposition 4 (p. 512)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [GS99, Proof of Theorem 3 (p. 46)](http://web.archive.org/web/20210416024831id_/https://faculty.math.illinois.edu/K-theory/0327/fff.pdf); [TT90, 2.1.2(e), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf)).
+These operations make `⊕_{m≥0}K_m^Y(X)`, with zero products between positive degrees, a nonunital special λ-algebra over ℤ, and for full support over `K₀(X)`. Give the augmentation, duality, Adams composition, additive higher λ-operations and γ-filtration. Keep this auxiliary λ-product separate from the tensor ring throughout. ([Soulé, Proposition 4 (p. 512)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [GS99, Proof of Theorem 3 (p. 46)](http://web.archive.org/web/20210416024831id_/https://faculty.math.illinois.edu/K-theory/0327/fff.pdf); [TT90, 2.1.2(e), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf)).
 
 Operations commute with pullback in the regular ample-family scope, support enlargement, open restriction and localization into supported K. Compare their affine realizations with Quillen–Hiller operations. They do not commute uncorrected with residue-field dévissage: its Gysin twist is computed below. ([Soulé, Theorem 7, proof step 4 (p. 536)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Soulé, Proposition 4 (p. 512)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [TT90, 2.1.2(e), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf)).
 
 Under the resolution property identify perfect K₀ with vector-bundle K₀ and compare all operations, rank and determinant. On affine schemes compare directly with the low-degree λ-ring, including arbitrary singular A for degree zero. Top exterior power of an actual constant-rank projective is its determinant, not an operation on an arbitrary virtual rank alone. ([Soulé, Proof of Lemme 1 (p. 511)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Weibel, Example II.4.1.2 (PDF p. 98)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-For quasi-projective schemes over a regular finite-dimensional Noetherian base with ample family, express K_m as the colimit over maps to smooth schemes in that category. Transport operations through this presentation. The resulting augmented λ-algebra is elementwise γ-nilpotent; a uniform finite γ-filtration on singular schemes is not asserted. ([Soulé, Proposition 7 (p. 528)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Soulé, Remarque after Proposition 7 (p. 529)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [TT90, 2.1.2(h), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf)).
+For quasi-projective schemes over a regular finite-dimensional Noetherian base with ample family, express `K_m` as the colimit over maps to smooth schemes in that category. Transport operations through this presentation. The resulting augmented λ-algebra is elementwise γ-nilpotent; a uniform finite γ-filtration on singular schemes is not asserted. ([Soulé, Proposition 7 (p. 528)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Soulé, Remarque after Proposition 7 (p. 529)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [TT90, 2.1.2(h), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf)).
 
 Expose the following interface:
 
 - `TauCeti.AlgebraicGeometry.KTheory.singularLambdaOp` — τ on `K_m(X)` for X quasi-projective over a regular base, via smooth embeddings.
 - `TauCeti.AlgebraicGeometry.KTheory.singularLambdaOp_smooth` — Agrees with Layer 6 when X is smooth over S.
-- `TauCeti.AlgebraicGeometry.KTheory.singularLambdaOp_pullback` — Commutes with f^* for morphisms of 𝒱_S.
+- `TauCeti.AlgebraicGeometry.KTheory.singularLambdaOp_pullback` — Commutes with `f^*` for morphisms of `𝒱_S`.
 - `TauCeti.AlgebraicGeometry.KTheory.singular_lambda_nilpotent` — `K_m(X)` is a nilpotent augmented `K_0(X)`-λ-algebra.
 
 **Checks.**
@@ -2014,9 +2014,9 @@ Retain that scheme scope. A bound on individual γᵏ is not identified integral
 
 For regular X of dimension d with ample family, individual `γ^k` values vanish for `k≥m+d+1` when `m≥2`, and `k≥d+3` when `m=1`, also with supports. Prove full `F_γ^{d+1}K₀(X)=0` separately. The finite-type-over-a-field unsupported full bound `F_γ^{m+d+1}K_m(X)=0` uses the Gillet–Soulé Brown/coniveau comparison, not just the single-operation bound. ([Soulé, Proof of Proposition 5 (p. 514)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [GS99, 5.4 (p. 52)](http://web.archive.org/web/20210416024831id_/https://faculty.math.illinois.edu/K-theory/0327/fff.pdf); [TT90, 2.1.2(e), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf)).
 
-With support-cofiber bound D, decompose `K_m^Y(X)_ℚ` into simultaneous weights `α(m)`,…,`m+D`, where `α(0)=0`, `α(1)=1`, `α(m)=2` for `m≥2`. Without supports `D=d`, with low weights rank, units and Pic. State the separate integral F² decompositions modulo `𝒮_{m+d}`, `𝒮_{d+2}` and 𝒮_d. Comparing weights to gr_γ requires the explicit weighted λ-module filtration bridge. More precisely, for `m≥2`, F²K_m^Y has weights 2 through `m+d` modulo `𝒮_{m+d}`; `F²K₁^Y` has weights 2 through `d+2` modulo `𝒮_{d+2}`; and `F²K₀(X)` has weights 2 through d modulo 𝒮_d. The rational unsupported identifications are `K₀^(0)=H⁰(X,ℚ)`, `K₀^(1)`=Pic(X)⊗ℚ and `K₁^(1)=Γ(X,O×)⊗ℚ`. Put `π_i=∏_{j≠i}(ψ²−2^j)`/`(2^i−2^j)` over the actual finite weight range; each denominator is nonzero. ([GS99, Proposition 8 (p. 48)](http://web.archive.org/web/20210416024831id_/https://faculty.math.illinois.edu/K-theory/0327/fff.pdf); [Soulé, Proposition 5 (p. 513)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [TT90, 2.1.2(e), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf)).
+With support-cofiber bound D, decompose `K_m^Y(X)_ℚ` into simultaneous weights `α(m)`,…,`m+D`, where `α(0)=0`, `α(1)=1`, `α(m)=2` for `m≥2`. Without supports `D=d`, with low weights rank, units and Pic. State the separate integral F² decompositions modulo `𝒮_{m+d}`, `𝒮_{d+2}` and `𝒮_d`. Comparing weights to `gr_γ` requires the explicit weighted λ-module filtration bridge. More precisely, for `m≥2`, `F²K_m^Y` has weights 2 through `m+d` modulo `𝒮_{m+d}`; `F²K₁^Y` has weights 2 through `d+2` modulo `𝒮_{d+2}`; and `F²K₀(X)` has weights 2 through d modulo `𝒮_d`. The rational unsupported identifications are `K₀^(0)=H⁰(X,ℚ)`, `K₀^(1)=Pic(X)⊗ℚ` and `K₁^(1)=Γ(X,O×)⊗ℚ`. Put `π_i=∏_{j≠i}(ψ²−2^j)/(2^i−2^j)` over the actual finite weight range; each denominator is nonzero. ([GS99, Proposition 8 (p. 48)](http://web.archive.org/web/20210416024831id_/https://faculty.math.illinois.edu/K-theory/0327/fff.pdf); [Soulé, Proposition 5 (p. 513)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [TT90, 2.1.2(e), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf)).
 
-For `m≥2`, odd ℓ, `ν≥1` and `ℓ>N+1`, assume integral ℓ-local simultaneous endpoint decompositions in weights 0,…,N, coefficient exponent `ℓ^ν`, and additive commuting Adams operations compatible with Bockstein. Then coefficient K_m decomposes into generalized weights `ker(ψ^k−kⁱ)²` for a primitive root k mod ℓ, independently of k. Give each Bockstein short exact sequence, square-zero `ψ^r−rⁱ`, and CRT projectors over ℤ/`ℓ^ν`. Rational endpoint data alone is insufficient. Write `A_i=K_m(X)_(ℓ)^(i)`/`ℓ^ν` and `C_i=K_{m−1}(X)_(ℓ)^(i)[ℓ^ν]`. The summand B_i fits into `0→A_i→B_i→C_i→0`. The product `P(T)=∏_{i=0}^N(T−kⁱ)` kills both endpoints, so `P(ψ^k)²=0` on B. Its squared factors are pairwise comaximal modulo `ℓ^ν`, giving the CRT idempotents. On B_i every `ψ^r−rⁱ` maps to A_i and kills A_i, hence squares to zero; for a different primitive root the other weight differences are units plus this square-zero map. This proves independence without assuming scalar action on B_i. (The extension/CRT proof is the displayed algebraic argument; for the underlying coefficient model in the finite-type-over-a-field scope, see [Geisser, §1.1, pp.3–4](https://www2.rikkyo.ac.jp/web/geisser/padicKtheory.pdf).)
+For `m≥2`, odd ℓ, `ν≥1` and `ℓ>N+1`, assume integral ℓ-local simultaneous endpoint decompositions in weights 0,…,N, coefficient exponent `ℓ^ν`, and additive commuting Adams operations compatible with Bockstein. Then coefficient `K_m` decomposes into generalized weights `ker(ψ^k−kⁱ)²` for a primitive root k mod ℓ, independently of k. Give each Bockstein short exact sequence, square-zero `ψ^r−rⁱ`, and CRT projectors over `ℤ/ℓ^ν`. Rational endpoint data alone is insufficient. Write `A_i=K_m(X)_(ℓ)^(i)`/`ℓ^ν` and `C_i=K_{m−1}(X)_(ℓ)^(i)[ℓ^ν]`. The summand `B_i` fits into `0→A_i→B_i→C_i→0`. The product `P(T)=∏_{i=0}^N(T−kⁱ)` kills both endpoints, so `P(ψ^k)²=0` on B. Its squared factors are pairwise comaximal modulo `ℓ^ν`, giving the CRT idempotents. On `B_i` every `ψ^r−rⁱ` maps to `A_i` and kills `A_i`, hence squares to zero; for a different primitive root the other weight differences are units plus this square-zero map. This proves independence without assuming scalar action on `B_i`. (The extension/CRT proof is the displayed algebraic argument; for the underlying coefficient model in the finite-type-over-a-field scope, see [Geisser, §1.1, pp.3–4](https://www2.rikkyo.ac.jp/web/geisser/padicKtheory.pdf).)
 
 Define `coefficientMooreSpace(n,m)=P_m(n)=cofib(n:S^{m−1}→S^{m−1})` for `n≥2` and `m≥2`. For X in the regular finite-dimensional Noetherian ample-family scope and a closed support Y, construct the additive comparison
 
@@ -2030,13 +2030,13 @@ Prove `kCoherent_finiteCellSmash`: smashing a finite-dimensional K-coherent poin
 **Checks.**
 
 - Empty support gives zero Moore mapping groups and zero coefficient operations; full support gives the ordinary finite-coefficient group.
-- ψ¹ is identity on the coefficient group and on both Bockstein endpoints. A chosen nonzero class in `K_{m−1}[n]` must be retained by the comparison, detecting the shift and ruling out the quotient-only definition K_m/n.
+- ψ¹ is identity on the coefficient group and on both Bockstein endpoints. A chosen nonzero class in `K_{m−1}[n]` must be retained by the comparison, detecting the shift and ruling out the quotient-only definition `K_m`/n.
 - For `m=2` use the actual two-cell space `S¹∪_n e²`, with addition from the K-target. Replacing it by S²/n as an unstable Moore space would shift the torsion endpoint to `K₂[n]` and is incorrect.
 - The integral unit-loop formula on K₁, `ψ^k[u]=k[u]`, gives the same formula on the torsion endpoint of the `m=2` Bockstein sequence. The coefficient group itself is allowed a nonsplit extension and generalized, rather than scalar, Adams weights.
 - For `n=1`, treated separately, both coefficient models are contractible and their groups are zero. No `m=1` Moore-space construction is asserted here.
 
 
-For regular Noetherian separated S, construct the pointed A¹-homotopy category, infinite Grassmannian and Morel–Voevodsky K-representability on Sm/S as named preliminary targets here. Riou's uniqueness identifies endomorphisms of ℤ×Gr with natural K₀ operations, also in several variables. With finite-dimensional S compare the resulting higher operations and product with Soulé's. No later motivic roadmap is a prerequisite. In symbols, H•`(S)`=[pointed simplicial Nisnevich sheaves on Sm/S][A¹-equivalences⁻¹] and [`Sⁿ∧X₊`,ℤ×Gr]≅`K_n(X)`, `n≥0`. Prove `End_H(S)`(ℤ×Gr)≅Nat(`K₀(−)`,`K₀(−)`), and its several-variable version, by Grassmannian approximation and the vanishing of the relevant lim¹ terms. These are the named preliminary constructions and uniqueness assertions, not an assumed operation on later motivic K-theory. ([Riou, Theorem 0.2 (p. 2)](https://arxiv.org/pdf/0907.2710); [Riou, 3.3 (p. 13)](https://arxiv.org/pdf/0907.2710); [TT90, 2.1.2(d), p.284](https://gwern.net/doc/math/1990-thomason.pdf)).
+For regular Noetherian separated S, construct the pointed A¹-homotopy category, infinite Grassmannian and Morel–Voevodsky K-representability on Sm/S as named preliminary targets here. Riou's uniqueness identifies endomorphisms of ℤ×Gr with natural K₀ operations, also in several variables. With finite-dimensional S compare the resulting higher operations and product with Soulé's. No later motivic roadmap is a prerequisite. In symbols, `H•(S)=[pointed simplicial Nisnevich sheaves on Sm/S][A¹-equivalences⁻¹]` and `[Sⁿ∧X₊,ℤ×Gr]≅K_n(X)`, `n≥0`. Prove `End_H(S)(ℤ×Gr)≅Nat(K₀(−),K₀(−))`, and its several-variable version, by Grassmannian approximation and the vanishing of the relevant lim¹ terms. These are the named preliminary constructions and uniqueness assertions, not an assumed operation on later motivic K-theory. ([Riou, Theorem 0.2 (p. 2)](https://arxiv.org/pdf/0907.2710); [Riou, 3.3 (p. 13)](https://arxiv.org/pdf/0907.2710); [TT90, 2.1.2(d), p.284](https://gwern.net/doc/math/1990-thomason.pdf)).
 
 ### 6.10 Bott classes and twisted operations
 
@@ -2052,7 +2052,7 @@ Expose the following interface:
 - `TauCeti.LambdaRing.bott_mul_index` — `θ^{kk'}(N) = ψ^k(θ^{k'}(N))θ^k(N)`.
 - `TauCeti.LambdaRing.augmentation_bott` — `ε(θ^k(N)) = k^{rank N}`.
 - `TauCeti.LambdaRing.bott_map` — λ-homomorphisms commute with `θ^k`.
-- `TauCeti.LambdaRing.bottExp` — The exponential extension `θ^k`: `K_0 → K_0 ⊗ ℤ[1/k]`, for K_0 with nil augmentation ideal in which every element is a difference of finite-rank elements.
+- `TauCeti.LambdaRing.bottExp` — The exponential extension `θ^k`: `K_0 → K_0 ⊗ ℤ[1/k]`, for `K_0` with nil augmentation ideal in which every element is a difference of finite-rank elements.
 
 **Checks.**
 
@@ -2062,12 +2062,12 @@ Expose the following interface:
 - Its rank is `k^{rank N}`; invertibility after inverting k uses nilpotence of the augmentation ideal, not just this rank calculation.
 - In `ℤ[u,u⁻¹]`, the virtual rank-zero class `1−u` is outside the finite-dimensional input condition: `λ_t(1−u)=(1+t)`/(1+ut) has infinitely many coefficients. Its virtual θ² would require 2/`(1+u)`, which need not exist even after inverting 2.
 
-Define the twisted λ-ring R_N on `ℤ⊕R` using product x·`_Ny=xyλ₋₁(N)` on the ideal and universal integral λ-polynomials. Construct those polynomials before their identities after multiplication by `λ₋₁(N)`; the latter identities alone do not determine operations when that factor is a zero divisor. This models the self-intersection product transported by a Gysin map. ([Soulé, 4.5 (p. 514)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427)).
+Define the twisted λ-ring `R_N` on `ℤ⊕R` using product `x·_Ny=xyλ₋₁(N)` on the ideal and universal integral λ-polynomials. Construct those polynomials before their identities after multiplication by `λ₋₁(N)`; the latter identities alone do not determine operations when that factor is a zero divisor. This models the self-intersection product transported by a Gysin map. ([Soulé, 4.5 (p. 514)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427)).
 
 Expose the following interface:
 
-- `TauCeti.LambdaRing.twisted` — `R_N = ℤ × R` with `(1,0)` as unit and x_N y = xyλ_{−1}`(N)`, as a function of R, N and its `rank p` (`λ_{−1}(N)` depends on p).
-- `TauCeti.LambdaRing.twisted.lambdaRing` — R_N is a special λ-ring, under the hypothesis `λ^j(N) = 0` for `j > p`.
+- `TauCeti.LambdaRing.twisted` — `R_N = ℤ × R` with `(1,0)` as unit and `x_N y = xyλ_{−1}(N)`, as a function of R, N and its `rank p` (`λ_{−1}(N)` depends on p).
+- `TauCeti.LambdaRing.twisted.lambdaRing` — `R_N` is a special λ-ring, under the hypothesis `λ^j(N) = 0` for `j > p`.
 - `TauCeti.LambdaRing.twistedOp` — `τ(N, x)`, the R-component of `τ(0, x)`.
 - `TauCeti.LambdaRing.twistedLambda_mul` — `λ^k(N, x)λ_{−1}(N) = λ^k(xλ_{−1}(N))`, and the same for `γ^k`.
 - `TauCeti.LambdaRing.twisted_map` — A λ-homomorphism f: `R → R'` induces `R_N → R'_{f(N)}`.
@@ -2085,13 +2085,13 @@ The twisted Adams formula is `ψ^k_N(x)=θ^k(N)ψ^k(x)` for `k≥1`, with the sp
 
 For higher operations and the coniveau action use regular finite-dimensional Noetherian schemes with ample families, as above. Closed immersions are regular and have the stated conormal bundles. The finite étale assertion retains the additional factorization through A¹ of the target.
 
-For a regular closed immersion of regular finite-type schemes over a regular finite-dimensional Noetherian base, with ample families and conormal N, supported dévissage intertwines τ with the twisted τ_N. In particular `ψ^k` `j_*=j_*(θ^k(N)ψ^k)`. This is Riemann–Roch without denominators with the conormal convention, not commutation with unmodified pushforward. ([Soulé, Théorème 3 (p. 517)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Soulé, Proof of Théorème 3 (p. 517)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Thomason93, Lemme 3.2 and (3.2.6) (pp. 207–208)](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0112/LOG_0023.pdf); [TT90, 2.1.2(e), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, 2.1.2(e),(g),(h), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf)).
+For a regular closed immersion of regular finite-type schemes over a regular finite-dimensional Noetherian base, with ample families and conormal N, supported dévissage intertwines τ with the twisted `τ_N`. In particular `ψ^k j_*=j_*(θ^k(N)ψ^k)`. This is Riemann–Roch without denominators with the conormal convention, not commutation with unmodified pushforward. ([Soulé, Théorème 3 (p. 517)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Soulé, Proof of Théorème 3 (p. 517)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Thomason93, Lemme 3.2 and (3.2.6) (pp. 207–208)](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0112/LOG_0023.pdf); [TT90, 2.1.2(e), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, 2.1.2(e),(g),(h), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf)).
 
 For pure codimension c, trivial conormal gives `ψ^k` `j_*=k^c` `j_*ψ^k`, hence a weight shift by c. In general rational pushforward of weight i lies in weights at least `i+c` and raises γ-filtration by c modulo torsion. Exact homogeneous normalization uses the later Riemann–Roch correction. ([Soulé, Proof of Proposition 6 (p. 520)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Soulé, Remarque after Lemme 2 (p. 517)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [TT90, 2.1.2(e), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf)).
 
-For finite étale f in the regular ample-family scope admitting a closed embedding in A¹_Y, `kψ^k` `f_*`=kf_*`ψ^k` for `k≠0`. State also the `γ^k` discrepancy in `f_*F_γ^{k+1}`. Without division this is a k-annihilated discrepancy; filtration compatibility follows modulo torsion. ([Soulé, Proposition 6 (pp. 519–520)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [TT90, 2.1.2(e), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, 2.1.2(g),(h), p.284](https://gwern.net/doc/math/1990-thomason.pdf)).
+For finite étale f in the regular ample-family scope admitting a closed embedding in `A¹_Y`, `kψ^k f_*=kf_*ψ^k` for `k≠0`. State also the `γ^k` discrepancy in `f_*F_γ^{k+1}`. Without division this is a k-annihilated discrepancy; filtration compatibility follows modulo torsion. ([Soulé, Proposition 6 (pp. 519–520)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [TT90, 2.1.2(e), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, 2.1.2(g),(h), p.284](https://gwern.net/doc/math/1990-thomason.pdf)).
 
-Adams operations act additively on the coniveau exact couple. On codimension p the action is `kᵖψ^k` on residue-field K. State Soulé's bounded integral weight summand sequences and low-degree decompositions modulo 𝒮_d or `𝒮_{d+2}`. General λ-operations on K₀ are nonlinear and give only the pointed-space fringe constructions, not abelian spectral-sequence endomorphisms. Explicitly, for `i≥2` and `m≥i`, in the total-degree strip `−m≤p+q≤0` there is, modulo `𝒮_{m+d}`, a weight-i direct-summand sequence `E₁^{p,q}=⊕_{x∈X⁽ᵖ⁾}K_{−p−q}(k(x))`⁽ⁱ⁻ᵖ⁾ converging to `K_{−p−q}(X)`⁽ⁱ⁾, with weight-preserving differentials. The low-degree formulas are `K₀=E₂^{0,0}⊕E₂^{1,−1}`⊕F²_γK₀ and `K₁=E₂^{0,−1}`⊕F²_γK₁. The all-column decompositions `K₀≅⊕ₚE₂^{p,−p}`, `K₁≅⊕ₚE₂^{p,−p−1}`, `K₂≅⊕ₚE₂^{p,−p−2}` are modulo 𝒮_d, `𝒮_{d+2}`, `𝒮_{d+2}`, respectively; they do not assert integral degeneration outside these errors. ([Soulé, Théorème 4 (p. 521)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Soulé, Proof of Théorème 4 iii) (p. 522)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [TT90, 2.1.2(e), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, 2.1.2(e),(g), p.284](https://gwern.net/doc/math/1990-thomason.pdf)).
+Adams operations act additively on the coniveau exact couple. On codimension p the action is `kᵖψ^k` on residue-field K. State Soulé's bounded integral weight summand sequences and low-degree decompositions modulo `𝒮_d` or `𝒮_{d+2}`. General λ-operations on K₀ are nonlinear and give only the pointed-space fringe constructions, not abelian spectral-sequence endomorphisms. Explicitly, for `i≥2` and `m≥i`, in the total-degree strip `−m≤p+q≤0` there is, modulo `𝒮_{m+d}`, a weight-i direct-summand sequence `E₁^{p,q}=⊕_{x∈X⁽ᵖ⁾}K_{−p−q}(k(x))`⁽ⁱ⁻ᵖ⁾ converging to `K_{−p−q}(X)`⁽ⁱ⁾, with weight-preserving differentials. The low-degree formulas are `K₀=E₂^{0,0}⊕E₂^{1,−1}⊕F²_γK₀` and `K₁=E₂^{0,−1}⊕F²_γK₁`. The all-column decompositions `K₀≅⊕ₚE₂^{p,−p}`, `K₁≅⊕ₚE₂^{p,−p−1}`, `K₂≅⊕ₚE₂^{p,−p−2}` are modulo `𝒮_d`, `𝒮_{d+2}`, `𝒮_{d+2}`, respectively; they do not assert integral degeneration outside these errors. ([Soulé, Théorème 4 (p. 521)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Soulé, Proof of Théorème 4 iii) (p. 522)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [TT90, 2.1.2(e), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf); [TT90, 2.1.2(e),(g), p.284](https://gwern.net/doc/math/1990-thomason.pdf)).
 
 DVR dévissage twists the boundary: `∂ψ^k=kψ^k∂`, `k≥1`, so rational residue-field weights drop by one. More generally `d₁kᵖψ^k=kᵖ⁺¹ψ^kd₁`. Check a unit loop (weight `1→0`) and an ordered product with an integral unit (weight `2→1`), using the boundary convention of Layer 3. ([Soulé, Proof of Théorème 4 iii) (p. 523)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Weibel, Ex. IV.5.3 (PDF p. 325)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [TT90, 2.1.2(b),(e),(g), p.284](https://gwern.net/doc/math/1990-thomason.pdf)).
 
@@ -2124,7 +2124,7 @@ Expose the following interface:
 
 For separated regular finite-dimensional Noetherian X, identify `FᵖK₀^Y` with the degree-zero support-tower image, generated by supports of ambient codimension at least p inside Y. It has full and zero endpoints and is preserved by enlargement. Ambient codimension must not be replaced by codimension in Y. ([GS87, §5.1–5.2, printed264–265](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0090/LOG_0018.pdf); [LiLiu.2021, Appendix B, pp.60–61, paragraph preceding (B.3)](https://www.math.columbia.edu/~chaoli/AIPF.pdf)).
 
-Using `SupportK0.strictComparison` and the resolution property deduced above, prove `FᵖK₀^Y⊗ℚ=⊕_{q≥p}K₀^Y`,`(q)`, with `0≤q≤dim` X, and `ψ^k=kᵖ` on Gr_Fᵖ. The resolution property is established from the standing hypotheses, rather than removed by gluing K₀ groups. ([GS87, Proposition5.3, printed265–266](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0090/LOG_0018.pdf); [Zhang.2021, AppendixB.1, printed971–973](https://archive.ymsc.tsinghua.edu.cn/pacm_download/21/12000-annals.2021.193.3.5.pdf)).
+Using `SupportK0.strictComparison` and the resolution property deduced above, prove `FᵖK₀^Y⊗ℚ=⊕_{q≥p}K₀^Y`,`(q)`, with `0≤q≤dim` X, and `ψ^k=kᵖ` on `Gr_Fᵖ`. The resolution property is established from the standing hypotheses, rather than removed by gluing K₀ groups. ([GS87, Proposition5.3, printed265–266](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0090/LOG_0018.pdf); [Zhang.2021, AppendixB.1, printed971–973](https://archive.ymsc.tsinghua.edu.cn/pacm_download/21/12000-annals.2021.193.3.5.pdf)).
 
 For ordinary separated regular finite-dimensional Noetherian schemes the rational supported product takes `Fᵃ×Fᵇ` into Fᵃ⁺ᵇ on intersected supports. Prove it by the Adams weight decomposition and multiplicativity in the corresponding scope. This target gives neither an integral inclusion nor the formal-scheme extension. ([GS87, Propositions4.11,5.3,5.5; Theorem8.3](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0090/LOG_0018.pdf); [LiLiu.2021, Appendix B, proof of Lemma B.8, p.62](https://www.math.columbia.edu/~chaoli/AIPF.pdf); [Zhang.2021, AppendixB.1](https://archive.ymsc.tsinghua.edu.cn/pacm_download/21/12000-annals.2021.193.3.5.pdf)).
 
@@ -2132,17 +2132,17 @@ For ordinary separated regular finite-dimensional Noetherian schemes the rationa
 
 The support of a tensor product is the intersection of the supports; O gives the module unit. For the identity morphism the relative spectrum is zero. For the generic-point map of a DVR its relative spectrum is the residue-field spectrum with its `K(O)`-module structure. For a closed immersion i, `i_*(i*y)=[O_Y]y`. On a field the K₀ action is multiplication by its rank, while two degree-one factors anticommute. The sheaf and matrix product comparisons must preserve these actual maps and their homotopies.
 
-The auxiliary λ-product on positive degrees is zero. With `I=0` its unitalization is K₀. With `I=K₁`, `ψ²=−2λ²`; this agrees with `λ²[u]=−[u]`, `ψ²[u]=2[u]`. On `K₁(ℤ)`, odd ψᵏ fixes −1 and even ψᵏ kills it. The genuine degree-two product of unit classes instead satisfies `ψᵏ([u]·[v])=k²([u]·[v])`. For a line element L, `ψᵏ(L−1)`≡`k(L−1)` modulo F². On P², with `h=1−O(−1)`, ψᵏh=kh−binom(k,2)h². The weight-one projection is `h+h²`/2; h alone is not a weight-one eigenvector and there is no corresponding integral splitting.
+The auxiliary λ-product on positive degrees is zero. With `I=0` its unitalization is K₀. With `I=K₁`, `ψ²=−2λ²`; this agrees with `λ²[u]=−[u]`, `ψ²[u]=2[u]`. On `K₁(ℤ)`, odd ψᵏ fixes −1 and even ψᵏ kills it. The genuine degree-two product of unit classes instead satisfies `ψᵏ([u]·[v])=k²([u]·[v])`. For a line element L, `ψᵏ(L−1)`≡`k(L−1)` modulo F². On P², with `h=1−O(−1)`, `ψᵏh=kh−binom(k,2)h²`. The weight-one projection is `h+h²`/2; h alone is not a weight-one eigenvector and there is no corresponding integral splitting.
 
-In the stable representation ring, the component of ψᵏ∞ at GL_N has character `ΣXᵢᵏ−N`. The component of γᵏ∞ is zero when `N<k` and at `N=k` has character `∏(Xᵢ−1)`. At GL₁, composition of ψᵏ and ψˡ gives `t^{kl}−1`. Test the universal iteration polynomial `λ²λ²=a₁a₃−a₄`. For the trivial group `R_A(1)=K₀(A)`; for C₂ over ℂ it is `ℤ[σ]`/`(σ²−1)`. In characteristic p, Frobenius on matrices gives ψᵖ. Thus `ψᵖ=id` on `R_{𝔽_p}(G)`, even for `p=2`. The reduced classifying map kills the trivial representation and records its rank in the separate K₀ component.
+In the stable representation ring, the component of ψᵏ∞ at `GL_N` has character `ΣXᵢᵏ−N`. The component of γᵏ∞ is zero when `N<k` and at `N=k` has character `∏(Xᵢ−1)`. At GL₁, composition of ψᵏ and ψˡ gives `t^{kl}−1`. Test the universal iteration polynomial `λ²λ²=a₁a₃−a₄`. For the trivial group `R_A(1)=K₀(A)`; for C₂ over ℂ it is `ℤ[σ]`/`(σ²−1)`. In characteristic p, Frobenius on matrices gives ψᵖ. Thus `ψᵖ=id` on `R_{𝔽_p}(G)`, even for `p=2`. The reduced classifying map kills the trivial representation and records its rank in the separate K₀ component.
 
-For a field, F²_γK₁=0 and K₂=F²_γK₂. The upper γ-bound has `r=1`, giving vanishing in operation degree `k≥m+1`. A Dedekind domain has F²_γK₀=0. The denominator integers start `w₁=2` and `w₂=24`. Rationally `K₂(F)` has only weight two and `K₃(F)` has weights two and three. Positive K-groups of finite fields are torsion; their sharper integral Adams eigenvalues are supplied by KTheoryFiniteLocalFields, not deduced by rationalization. No low-weight vanishing conjecture or Milnor top-weight presentation is needed here.
+For a field, `F²_γK₁=0` and `K₂=F²_γK₂`. The upper γ-bound has `r=1`, giving vanishing in operation degree `k≥m+1`. A Dedekind domain has `F²_γK₀=0`. The denominator integers start `w₁=2` and `w₂=24`. Rationally `K₂(F)` has only weight two and `K₃(F)` has weights two and three. Positive K-groups of finite fields are torsion; their sharper integral Adams eigenvalues are supplied by KTheoryFiniteLocalFields, not deduced by rationalization. No low-weight vanishing conjecture or Milnor top-weight presentation is needed here.
 
-For E of rank one its flag bundle is X; for `E=O²` it is P¹_X. The complete flag variety of kⁿ has dimension `n(n−1)`/2 and K₀ `rank n`!. For `E=O⊕O(1)` on P¹, its flag surface has `K₀=ℤ⁴`. Exterior powers give `λ²(O+O(1))=O(1)`. These tests compare the splitting construction with the existing sheaf exterior powers and retain negative virtual classes.
+For E of rank one its flag bundle is X; for `E=O²` it is `P¹_X`. The complete flag variety of kⁿ has dimension `n(n−1)`/2 and K₀ `rank n`!. For `E=O⊕O(1)` on P¹, its flag surface has `K₀=ℤ⁴`. Exterior powers give `λ²(O+O(1))=O(1)`. These tests compare the splitting construction with the existing sheaf exterior powers and retain negative virtual classes.
 
-A constant discrete sheaf has hypercohomology H⁰ equal to its global sections; on a point `H^{−m}` of a pointed space is π_m. P¹ is K-coherent and the sheaf comparison retains `O(1)`. The line with doubled origin is also within the ample-family scope because its intersection G_m is affine and its diagonal is affine. The plane with doubled origin is excluded: its vector-bundle K₀ is ℤ and its perfect K₀ is ℤ². In relative support, check π₀ and π₁ using group-completed models rather than put a group law on arbitrary finite-rank pointed mapping sets. Empty support gives zero; full support has dimension bound d, and a proper support uses D=max(`dim X`,`dim U+1`).
+A constant discrete sheaf has hypercohomology H⁰ equal to its global sections; on a point `H^{−m}` of a pointed space is `π_m`. P¹ is K-coherent and the sheaf comparison retains `O(1)`. The line with doubled origin is also within the ample-family scope because its intersection `G_m` is affine and its diagonal is affine. The plane with doubled origin is excluded: its vector-bundle K₀ is ℤ and its perfect K₀ is ℤ². In relative support, check π₀ and π₁ using group-completed models rather than put a group law on arbitrary finite-rank pointed mapping sets. Empty support gives zero; full support has dimension bound d, and a proper support uses `D=max(dim X,dim U+1)`.
 
-On P¹, `ψᵏ(1−O(−1))=k(1−O(−1))`; for a Dedekind ideal I, `ψᵏ(I−1)=k(I−1)`. Smooth X agrees with the smooth-factorization construction for singular X. For the dual numbers, `ψᵏ(1+aε)=1+kaε`. A regular curve has F²_γK₀=0, and rational K₁ has weights one and two; its weight-one part is global units. A finite-coefficient application additionally needs the integral endpoint decompositions and additive coefficient operations. In an extension of two weight-i endpoints, the Adams map can have a nonzero square-zero off-diagonal entry: the correct summand is a generalized weight space, with the same primitive-root independence.
+On P¹, `ψᵏ(1−O(−1))=k(1−O(−1))`; for a Dedekind ideal I, `ψᵏ(I−1)=k(I−1)`. Smooth X agrees with the smooth-factorization construction for singular X. For the dual numbers, `ψᵏ(1+aε)=1+kaε`. A regular curve has `F²_γK₀=0`, and rational K₁ has weights one and two; its weight-one part is global units. A finite-coefficient application additionally needs the integral endpoint decompositions and additive coefficient operations. In an extension of two weight-i endpoints, the Adams map can have a nonzero square-zero off-diagonal entry: the correct summand is a generalized weight space, with the same primitive-root independence.
 
 For a line L, `θ²(L)=1+L`; for a trivial rank-c conormal `θᵏ=k^c`. Twisting by a trivial line makes the nonunital multiplication zero. The divisor resolution `O(−D)→O` gives `ψᵏ(1−L)=1−Lᵏ=(1−L)θᵏ(L)`. This fixes the conormal correction. A codimension-c trivial-conormal Gysin map raises Adams weight by c, so a rational point on a regular curve sends weight-one K₁ into weight two. The surface point sends its K₀ class into weight two. Finite étale transfer commutes with Adams after the stated multiplication by k; for the identity map the assertion is immediate.
 
@@ -2162,12 +2162,12 @@ For quasi-compact X apply the supplied γ-filtration to the rank-augmented speci
 
 Expose the following interface:
 
-- `TauCeti.AlgebraicGeometry.KTheory.gammaFiltration` — `F^i_γK_0(X)`, an ideal of K_0(Vect X).
+- `TauCeti.AlgebraicGeometry.KTheory.gammaFiltration` — `F^i_γK_0(X)`, an ideal of `K_0`(Vect X).
 - `TauCeti.AlgebraicGeometry.KTheory.gammaFiltration_mul` — `F^iF^j ⊆ F^{i+j}`; `F^{i+1} ⊆ F^i`; `F^0 = K_0`, `F^1 = ker(rank)`.
-- `TauCeti.AlgebraicGeometry.KTheory.gammaFiltration_pullback` — f^*`(F^i_γK_0(X)) ⊆ F^i_γK_0(X')`.
+- `TauCeti.AlgebraicGeometry.KTheory.gammaFiltration_pullback` — `f^*(F^i_γK_0(X)) ⊆ F^i_γK_0(X')`.
 - `TauCeti.AlgebraicGeometry.KTheory.gammaFiltration_affine` — For `X = Spec` A, `F^i_γ` is the affine γ-filtration of §6.2.4.
-- `TauCeti.AlgebraicGeometry.KTheory.gammaGraded` — gr^•`_γK_0(X)`, a graded `H^0(X, ℤ)`-algebra.
-- `TauCeti.AlgebraicGeometry.KTheory.gammaFiltration_first` — `F^1`/`F^2` ≅ Pic(X) and `F^2` = SK_0(X) (Layer 7).
+- `TauCeti.AlgebraicGeometry.KTheory.gammaGraded` — `gr^•_γK_0(X)`, a graded `H^0(X, ℤ)`-algebra.
+- `TauCeti.AlgebraicGeometry.KTheory.gammaFiltration_first` — `F^1/F^2 ≅ Pic(X)` and `F^2 = SK_0(X)` (Layer 7).
 
 **Checks.**
 
@@ -2177,9 +2177,9 @@ Expose the following interface:
 - On affines this is exactly the low-degree supplier's γ-filtration.
 - Equality with the support filtration is asserted rationally in the regular finite-type scope; on general Noetherian X the map from vector-bundle K₀ only gives the stated inclusion.
 
-Rank identifies gr⁰ with locally constant integers, while determinant identifies gr¹ with Pic(X), sending L to `[L]−1`. Thus `F²=ker(rank,det)`. Prove the rank/determinant ring formula `(a,L)(b,M)`=(ab,`L^{⊗b}⊗M^{⊗a}`) by gluing the supplied determinant identities, including disconnected X. ([Weibel, Theorem II.4.7 (PDF p. 104)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Theorem II.8.1 (PDF p. 153)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
+Rank identifies gr⁰ with locally constant integers, while determinant identifies gr¹ with Pic(X), sending L to `[L]−1`. Thus `F²=ker(rank,det)`. Prove the rank/determinant ring formula `(a,L)(b,M)=(ab,L^{⊗b}⊗M^{⊗a})` by gluing the supplied determinant identities, including disconnected X. ([Weibel, Theorem II.4.7 (PDF p. 104)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Theorem II.8.1 (PDF p. 153)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-For Noetherian X the image of F_γᵖK₀(Vect X) in perfect K₀ lies in the codimension-support filtration. For regular finite-type schemes over a field with ample family, `F_γᵖK_m⊂F_cod^{p−m}K_m`, hence the full bound `F_γ^{m+d+1}=0`. The latter uses the Brown/coniveau comparison theorem, including its filtered enhancement. ([GS99, Introduction (p. 1)](http://web.archive.org/web/20210416024831id_/https://faculty.math.illinois.edu/K-theory/0327/fff.pdf); [GS99, Theorem 4 (p. 51)](http://web.archive.org/web/20210416024831id_/https://faculty.math.illinois.edu/K-theory/0327/fff.pdf); [TT90, 2.1.2(e),(h), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf)).
+For Noetherian X the image of `F_γᵖK₀(Vect X)` in perfect K₀ lies in the codimension-support filtration. For regular finite-type schemes over a field with ample family, `F_γᵖK_m⊂F_cod^{p−m}K_m`, hence the full bound `F_γ^{m+d+1}=0`. The latter uses the Brown/coniveau comparison theorem, including its filtered enhancement. ([GS99, Introduction (p. 1)](http://web.archive.org/web/20210416024831id_/https://faculty.math.illinois.edu/K-theory/0327/fff.pdf); [GS99, Theorem 4 (p. 51)](http://web.archive.org/web/20210416024831id_/https://faculty.math.illinois.edu/K-theory/0327/fff.pdf); [TT90, 2.1.2(e),(h), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf)).
 
 Generic-length classes give a surjection `Zᵖ(X)→gr_codᵖG₀(X)` for Noetherian X, `[V]`↦`[O_V]`. Divisors of rational functions vanish, so it factors through the codimension-p coniveau divisor quotient of §4.5. Identify that quotient with the usual CHᵖ only under the dimension-function hypothesis stated there. In the finite-dimensional coniveau setting identify it with the diagonal edge map; rational invertibility requires the later comparison hypotheses. ([Weibel, Proof of Corollary II.8.9.1 (PDF p. 163)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Soulé, Proof of Théorème 5 iii) (p. 527)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427)).
 
@@ -2193,34 +2193,34 @@ Expose the following interface:
 
 - `chernCharacter_perfectComparison` — The geometric Chern character agrees with the character transported to π₀ of perfect K under the vector-bundle comparison.
 - `chernCharacter_coherentComparison` — The coherent geometric character agrees with the π₀ G interpretation under the supplied Cartan and Euler comparisons.
-- `chernCharacter_adams` — For `k≥1`, the degree-n geometric character of ψᵏx is kⁿch_n(x), under these realization comparisons.
+- `chernCharacter_adams` — For `k≥1`, the degree-n geometric character of ψᵏx is `kⁿch_n(x)`, under these realization comparisons.
 
 **Checks.**
 
 - The character of a trivial rank-r bundle is r.
-- On P¹, ch(`O(n)`)=`1+n`[pt] and ch(`1−O(−1)`)=[pt].
-- On P², the point Koszul resolution gives ch(O_pt)=`(1−e^{−h})²=h²`.
+- On P¹, `ch(O(n))=1+n[pt]` and `ch(1−O(−1))=[pt]`.
+- On P², the point Koszul resolution gives `ch(O_pt)=(1−e^{−h})²=h²`.
 - For `L⊕L` with `a=c₁L`, the total Chern class is `(1+a)²` but the character is 2eᵃ; these are different constructions.
 - The nth component kills `F^{n+1}_γ` and weights other than n; on Fⁿ it equals `(−1)^{n−1}c_n`/`(n−1)`!.
 
-For `k≥1`, ch_n(`ψ^kx`)=kⁿch_n(x) and c_n(`ψ^kx`)=kⁿc_n(x). Consequently the rational Chern character is graded for Adams weights. The Chern-class formula is a polynomial scaling identity; c_n itself is not an additive map on K₀. ([Weibel, Proposition II.4.11.3 (PDF p. 107)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
+For `k≥1`, `ch_n(ψ^kx)=kⁿch_n(x)` and `c_n(ψ^kx)=kⁿc_n(x)`. Consequently the rational Chern character is graded for Adams weights. The Chern-class formula is a polynomial scaling identity; `c_n` itself is not an additive map on K₀. ([Weibel, Proposition II.4.11.3 (PDF p. 107)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
 Prove `chernClass_structureSheaf_leading`: for an integral codimension-i subvariety, `i≥1`, of smooth quasi-projective X over a field, `c_j(O_Z)=0` for `1≤j<i` and `c_i(O_Z)=(−1)^{i−1}(i−1)![Z]`. Equivalently the leading rational ch component is `[Z]`. The divisor resolution `O(−D)→O` fixes the positive sign at `i=1`. ([Weibel, Ex. II.8.7 (PDF p. 165)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Weibel, Proof of Corollary II.8.9.1 (PDF p. 163)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-For smooth quasi-projective X over a field, ch:`K₀(X)_ℚ≃CH*(X)_ℚ` is a graded ring isomorphism. Identify gr_γⁱ, Adams weight i, gr_codⁱ and CHⁱ rationally, with equal rational filtrations and c_i factor `(−1)^{i−1}(i−1)`!. State the integral comparison only modulo Soulé's 𝒮_d; no integral Chow/γ-graded isomorphism is claimed. ([Weibel, Corollary II.8.9.1 (PDF p. 162)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Soulé, Théorème 4 iv) (p. 521)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [TT90, 2.1.2(h), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf)).
+For smooth quasi-projective X over a field, ch:`K₀(X)_ℚ≃CH*(X)_ℚ` is a graded ring isomorphism. Identify `gr_γⁱ`, Adams weight i, `gr_codⁱ` and CHⁱ rationally, with equal rational filtrations and `c_i` factor `(−1)^{i−1}(i−1)`!. State the integral comparison only modulo Soulé's `𝒮_d`; no integral Chow/γ-graded isomorphism is claimed. ([Weibel, Corollary II.8.9.1 (PDF p. 162)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Soulé, Théorème 4 iv) (p. 521)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [TT90, 2.1.2(h), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf)).
 
 ### 7.3 The γ-valued Chern character
 
-For the rank-split augmented special λ-rings and nonunital λ-modules used here, with full γ-filtration finite rationally, define the γ-Chern character by the Newton polynomials in `γⁱ(x−rank x)`, divided by i! in gr_γⁱ. Use the canonical locally constant trivial-bundle rank section; for a general augmentation include a λ-section as input. Prove operation compatibility and rational weight/graded isomorphism through the full bounded weighted λ-module theorem. Higher Chow or motivic Chern characters are separate targets of their owner. ([Soulé, 7.1 (p. 532)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427)).
+For the rank-split augmented special λ-rings and nonunital λ-modules used here, with full γ-filtration finite rationally, define the γ-Chern character by the Newton polynomials in `γⁱ(x−rank x)`, divided by i! in `gr_γⁱ`. Use the canonical locally constant trivial-bundle rank section; for a general augmentation include a λ-section as input. Prove operation compatibility and rational weight/graded isomorphism through the full bounded weighted λ-module theorem. Higher Chow or motivic Chern characters are separate targets of their owner. ([Soulé, 7.1 (p. 532)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427)).
 
 Expose the following interface:
 
-- `TauCeti.AlgebraicGeometry.KTheory.gammaChern` — For regular noetherian finite-dimensional X with an ample family and the stated finite full γ-filtration, ch: `K_m(X)` → ⊕_i `gr^i_γK_m(X) ⊗ ℚ`.
+- `TauCeti.AlgebraicGeometry.KTheory.gammaChern` — For regular noetherian finite-dimensional X with an ample family and the stated finite full γ-filtration, `ch: K_m(X) → ⊕_i gr^i_γK_m(X) ⊗ ℚ`.
 - `TauCeti.AlgebraicGeometry.KTheory.gammaChern_add` — For regular noetherian finite-dimensional X with an ample family and the stated finite full γ-filtration, ch is additive.
-- `TauCeti.AlgebraicGeometry.KTheory.gammaChern_mul` — For regular noetherian finite-dimensional X with an ample family and the stated finite full γ-filtration, ch(xy) = ch(x)ch(y) for the product on `K_*(X)`.
-- `TauCeti.AlgebraicGeometry.KTheory.gammaChern_adams` — For regular noetherian finite-dimensional X with an ample family and the stated finite full γ-filtration, ch_i ∘ `ψ^k = k^ich_i`.
-- `TauCeti.AlgebraicGeometry.KTheory.gammaChern_bijective` — For regular noetherian finite-dimensional X with an ample family and the stated finite full γ-filtration, ch ⊗ 1 is an isomorphism `K_m(X)_ℚ` ≅ ⊕`gr^i_γK_m(X)_ℚ`.
-- `TauCeti.AlgebraicGeometry.KTheory.gammaChern_pullback` — For both X and X′ regular noetherian finite-dimensional with ample families and the stated finite full γ-filtrations, ch commutes with f^*.
+- `TauCeti.AlgebraicGeometry.KTheory.gammaChern_mul` — For regular noetherian finite-dimensional X with an ample family and the stated finite full γ-filtration, `ch(xy) = ch(x)ch(y)` for the product on `K_*(X)`.
+- `TauCeti.AlgebraicGeometry.KTheory.gammaChern_adams` — For regular noetherian finite-dimensional X with an ample family and the stated finite full γ-filtration, `ch_i ∘ ψ^k = k^ich_i`.
+- `TauCeti.AlgebraicGeometry.KTheory.gammaChern_bijective` — For regular noetherian finite-dimensional X with an ample family and the stated finite full γ-filtration, `ch ⊗ 1` is an isomorphism `K_m(X)_ℚ ≅ ⊕gr^i_γK_m(X)_ℚ`.
+- `TauCeti.AlgebraicGeometry.KTheory.gammaChern_pullback` — For both X and X′ regular noetherian finite-dimensional with ample families and the stated finite full γ-filtrations, ch commutes with `f^*`.
 
 **Checks.**
 
@@ -2235,25 +2235,25 @@ For the Euler transfer use proper morphisms of Noetherian schemes, perfect for t
 
 Compare π₀ of the constructed proper G-transfer with `[F]`↦`Σ_q(−1)^q`[`R^qf_*F`]. For proper perfect f, compare the K-transfer with the same class under Cartan; closed-immersion direct image is underived. This identifies the geometric Euler pushforward used in Riemann–Roch with the actual K/G map. ([Weibel, Example II.8.2.3 (PDF p. 155)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Borel–Serre, §5d (p. 110)](http://www.numdam.org/item/10.24033/bsmf.1500.pdf)).
 
-For proper maps of smooth quasi-projective varieties over an algebraically closed field, geometric GRR becomes ch(`f_*x`)td(T_Y)=`f_*`(ch(x)td(T_X)) for the K-transfer just compared. Here td has root a/`(1−e^{−a})`, with denominators 2,12,… retained. The target is this realization compatibility; the geometric GRR theorem is supplied by intersection theory in exactly this source scope. ([Borel–Serre, §7 (p.113), Lemmas 15–16 and §§9–16 (pp.114–135; PDF pp.19–40)](http://www.numdam.org/item/10.24033/bsmf.1500.pdf); [Weibel, Theorem II.8.10 (PDF p. 163)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
+For proper maps of smooth quasi-projective varieties over an algebraically closed field, geometric GRR becomes `ch(f_*x)td(T_Y)=f_*(ch(x)td(T_X))` for the K-transfer just compared. Here td has root a/`(1−e^{−a})`, with denominators 2,12,… retained. The target is this realization compatibility; the geometric GRR theorem is supplied by intersection theory in exactly this source scope. ([Borel–Serre, §7 (p.113), Lemmas 15–16 and §§9–16 (pp.114–135; PDF pp.19–40)](http://www.numdam.org/item/10.24033/bsmf.1500.pdf); [Weibel, Theorem II.8.10 (PDF p. 163)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf)).
 
-For smooth projective X over an algebraically closed field, `χ(F)=deg`(ch(F)td(T_X)). On a smooth projective geometrically connected curve this gives `χ(O(D))=deg` `D+1−g`. Compare Serre duality, JacobianChallenge's curve RR and Tau Ceti's function-field RR using the existing point/divisor/cohomology dictionary; do not prove another curve RR theorem. ([Weibel, Theorem II.8.10 (PDF p. 163)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Borel–Serre, §7 (p. 113)](http://www.numdam.org/item/10.24033/bsmf.1500.pdf)).
+For smooth projective X over an algebraically closed field, `χ(F)=deg(ch(F)td(T_X))`. On a smooth projective geometrically connected curve this gives `χ(O(D))=deg D+1−g`. Compare Serre duality, JacobianChallenge's curve RR and Tau Ceti's function-field RR using the existing point/divisor/cohomology dictionary; do not prove another curve RR theorem. ([Weibel, Theorem II.8.10 (PDF p. 163)](https://sites.math.rutgers.edu/~weibel/Kbook/Kbook.pdf); [Borel–Serre, §7 (p. 113)](http://www.numdam.org/item/10.24033/bsmf.1500.pdf)).
 
 ### 7.5 Homological Adams operations and Riemann–Roch
 
 Fix a regular irreducible finite-dimensional Noetherian base S with an ample family. X is any quasi-projective S-scheme, possibly singular. Smooth quasi-projective ambient embeddings inherit the required ample families. Use `k≥1` and invert k. The pushforward assertion is for projective morphisms, with the supplied embedding and smooth-ambient comparisons.
 
-For quasi-projective schemes over a regular irreducible finite-dimensional Noetherian base S with ample family, construct homological Adams `φ^k` on `G_m[1/k]`, the finite increasing filtration F_j and σ to its associated graded. A smooth equidimensional ambient embedding of absolute dimension d identifies F_j with supported `F_γ^{d−j}`; normalize `k^{dim S}φ^k` by `ψ^k` times `θ^k(−T^∨_{M/S})`. Prove embedding independence and `φ^k=k^{−j}` on Gr_j. In the σ formula, the inverse ambient pushforward is on shifted associated graded groups. Write `Θ^k(M)=θ^k(−T^∨_{M/S})` for this correction. For two ambient embeddings compare in their product, use regular-immersion Riemann–Roch to identify the corrected operations, and transport the dimension-shifted associated graded groups. The scalar `k^{dim S}` is needed for the absolute-dimensional indexing. ([Soulé, Théorème 7 (p. 533)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Soulé, Proof of Théorème 7, step 1 (p. 534)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [TT90, 2.1.2(h), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf)).
+For quasi-projective schemes over a regular irreducible finite-dimensional Noetherian base S with ample family, construct homological Adams `φ^k` on `G_m[1/k]`, the finite increasing filtration `F_j` and σ to its associated graded. A smooth equidimensional ambient embedding of absolute dimension d identifies `F_j` with supported `F_γ^{d−j}`; normalize `k^{dim S}φ^k` by `ψ^k` times `θ^k(−T^∨_{M/S})`. Prove embedding independence and `φ^k=k^{−j}` on `Gr_j`. In the σ formula, the inverse ambient pushforward is on shifted associated graded groups. Write `Θ^k(M)=θ^k(−T^∨_{M/S})` for this correction. For two ambient embeddings compare in their product, use regular-immersion Riemann–Roch to identify the corrected operations, and transport the dimension-shifted associated graded groups. The scalar `k^{dim S}` is needed for the absolute-dimensional indexing. ([Soulé, Théorème 7 (p. 533)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [Soulé, Proof of Théorème 7, step 1 (p. 534)](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/S0008414X00008427); [TT90, 2.1.2(h), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf)).
 
 Expose the following interface:
 
 - `TauCeti.AlgebraicGeometry.KTheory.gAdams` — `φ^k` on K'`_m(X) ⊗ ℤ[1/k]` for X quasi-projective over a regular S.
 - `TauCeti.AlgebraicGeometry.KTheory.gFiltration` — The increasing filtration `F_jK'_m(X) ⊗ ℚ`.
-- `TauCeti.AlgebraicGeometry.KTheory.gRiemannRoch` — σ: K'`_m(X)_ℚ` ≅ ⊕Gr_jK'`_m(X)_ℚ`.
-- `TauCeti.AlgebraicGeometry.KTheory.gAdams_graded` — `φ^k` acts on Gr_j by `k^{−j}`.
+- `TauCeti.AlgebraicGeometry.KTheory.gRiemannRoch` — `σ: K'_m(X)_ℚ ≅ ⊕Gr_jK'_m(X)_ℚ`.
+- `TauCeti.AlgebraicGeometry.KTheory.gAdams_graded` — `φ^k` acts on `Gr_j` by `k^{−j}`.
 - `TauCeti.AlgebraicGeometry.KTheory.gAdams_comp` — `φ^kφ^l = φ^{kl}`.
 - `TauCeti.AlgebraicGeometry.KTheory.gAdams_embedding_indep` — The definitions do not depend on the closed immersion into a smooth M.
-- `TauCeti.AlgebraicGeometry.KTheory.gAdams_smooth` — On smooth equidimensional `X → S`, surjective, let η: `G_m(X) ≅ K_m(X)` be Cartan duality. Then `k^{dim S}η(φ^k x) = ψ^k(η x)Θ^k(X)`. Under the induced isomorphism of associated graded groups, `σ(x)` corresponds to ch_γ(η x)Td_γ(X); ch_γ takes values in γ-graded K-theory, not Chow groups for arbitrary m.
+- `TauCeti.AlgebraicGeometry.KTheory.gAdams_smooth` — On smooth equidimensional `X → S`, surjective, let η: `G_m(X) ≅ K_m(X)` be Cartan duality. Then `k^{dim S}η(φ^k x) = ψ^k(η x)Θ^k(X)`. Under the induced isomorphism of associated graded groups, `σ(x)` corresponds to `ch_γ(η x)Td_γ(X)`; `ch_γ` takes values in γ-graded K-theory, not Chow groups for arbitrary m.
 
 **Checks.**
 
@@ -2284,8 +2284,8 @@ For separated regular finite-dimensional Noetherian X and closed Y, define the s
 
 Expose the following interface:
 
-- `SupportedCycle.kClass` — Map the cycle[V] to[O_V] in supported K₀.
-- `SupportedCycle.kClass_filtration` — Codimension≥p maps into `F^p`.
+- `SupportedCycle.kClass` — Map the `cycle[V]` to`[O_V]` in supported K₀.
+- `SupportedCycle.kClass_filtration` — `Codimension≥p` maps into `F^p`.
 - `SupportedCycle.support_enlarge` — Class maps commute with support enlargement.
 - `SupportedCycle.generic_length` — The leading coefficient at a codimension-p generic point is the module length.
 - `SupportedCycle.chow_graded` — On the p-th graded quotient the rationalized map descends to `CH_Y^p(X)`.
@@ -2297,19 +2297,19 @@ Expose the following interface:
 - The module O/πᵐ has leading cycle `m[s]`, not merely `[s]`.
 - Enlarging the support keeps both this class and its ambient codimension one.
 
-Prove `CH_Yᵖ(X)_ℚ`≃Gr_FᵖK₀^Y(X)_ℚ using the ordinary-scheme supported operations and filtration comparison of Layer 6, using `SupportK0.strictComparison` of §6.12 and the resolution property deduced from separated regular Noetherian hypotheses in §1.6. Here relations use codimension-`(p−1)` subvarieties contained in Y, and codimension is measured in X. Only in an equidimensional catenary ambient scheme of dimension d identify this with `CH_{d−p}(Y)_ℚ`. ([GS87, §8.1 and Theorem8.2, printed274–275](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0090/LOG_0018.pdf); [LiLiu.2021, Appendix B, p.61, paragraph following (B.3)](https://www.math.columbia.edu/~chaoli/AIPF.pdf); [TT90, 2.1.2(d),(e),(g), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf)).
+Prove `CH_Yᵖ(X)_ℚ≃Gr_FᵖK₀^Y(X)_ℚ` using the ordinary-scheme supported operations and filtration comparison of Layer 6, using `SupportK0.strictComparison` of §6.12 and the resolution property deduced from separated regular Noetherian hypotheses in §1.6. Here relations use codimension-`(p−1)` subvarieties contained in Y, and codimension is measured in X. Only in an equidimensional catenary ambient scheme of dimension d identify this with `CH_{d−p}(Y)_ℚ`. ([GS87, §8.1 and Theorem8.2, printed274–275](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0090/LOG_0018.pdf); [LiLiu.2021, Appendix B, p.61, paragraph following (B.3)](https://www.math.columbia.edu/~chaoli/AIPF.pdf); [TT90, 2.1.2(d),(e),(g), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf)).
 
 For regular separated Noetherian catenary pure d-dimensional X with dim closure{x}+`codim x=d`, supported dévissage identifies the `p=d−1` comparison with `Gr₁G₀(Y)_ℚ≃CH₁(Y)_ℚ` by generic lengths. For Y proper over a Dedekind base retain the map to Zhang's proper one-cycle quotient with its vertical rational-equivalence relations; no isomorphism to that further quotient is asserted. ([Zhang.2021, §9.1, printed924–925, Gr₁ diagram](https://archive.ymsc.tsinghua.edu.cn/pacm_download/21/12000-annals.2021.193.3.5.pdf); [GS87, Theorem8.2, printed274–275](https://gdz.sub.uni-goettingen.de/download/pdf/PPN356556735_0090/LOG_0018.pdf); [TT90, 2.1.2(d),(e),(g), p.284; 3.8–3.10, p.316](https://gwern.net/doc/math/1990-thomason.pdf)).
 
 ### Examples
 
-For a field the reduced γ-filtration on `K₀=ℤ` is zero. On P¹, `F¹=ℤ(1−O(−1))` and `F²=0`; the determinant sends its generator to `O(1)`. A Dedekind domain gives F¹/F²=Cl(A), with `F²=0`. On P² the square h² is the point class and lies in coniveau two. More generally the projective linear-subspace cycle maps to `h^p` on Pⁿ.
+For a field the reduced γ-filtration on `K₀=ℤ` is zero. On P¹, `F¹=ℤ(1−O(−1))` and `F²=0`; the determinant sends its generator to `O(1)`. A Dedekind domain gives `F¹/F²=Cl(A)`, with `F²=0`. On P² the square h² is the point class and lies in coniveau two. More generally the projective linear-subspace cycle maps to `h^p` on Pⁿ.
 
-The Chern character of `O(n)` on P¹ is 1+nH, with `H²=0`. On Pⁿ it sends `h=1−O(−1)` to 1−exp(−H), an invertible triangular change of rational basis. It sends a trivial rank-r bundle to r and respects products; ch(h²)=ch(h)²`=0` on P¹. Adams multiplies ch_i by `k^i` and fixes rank. The two-term divisor complex `O(−D)→O` gives `c₁(O_D)=[D]`. For a codimension-two point, `c₂(O_P)=−[P]`. The coefficient in codimension c is `(−1)^{c−1}(c−1)`!, including the positive divisor sign.
+The Chern character of `O(n)` on P¹ is 1+nH, with `H²=0`. On Pⁿ it sends `h=1−O(−1)` to 1−exp(−H), an invertible triangular change of rational basis. It sends a trivial rank-r bundle to r and respects products; `ch(h²)=ch(h)²=0` on P¹. Adams multiplies `ch_i` by `k^i` and fixes rank. The two-term divisor complex `O(−D)→O` gives `c₁(O_D)=[D]`. For a codimension-two point, `c₂(O_P)=−[P]`. The coefficient in codimension c is `(−1)^{c−1}(c−1)`!, including the positive divisor sign.
 
-A connected smooth projective curve has the sharper integral calculation `K₀=ℤ`⊕Pic and CH¹=Pic. This does not follow merely by saying the Serre class is trivial: Soulé's class in weight one still permits bounded 2-primary torsion. The γ-valued character on higher K₁ projects its unit part onto `gr¹=O×⊗ℚ`. Its rank augmentation uses locally constant integers, and the abstract augmented-ring version requires its specified λ-section.
+A connected smooth projective curve has the sharper integral calculation `K₀=ℤ⊕Pic` and `CH¹=Pic`. This does not follow merely by saying the Serre class is trivial: Soulé's class in weight one still permits bounded 2-primary torsion. The γ-valued character on higher K₁ projects its unit part onto `gr¹=O×⊗ℚ`. Its rank augmentation uses locally constant integers, and the abstract augmented-ring version requires its specified λ-section.
 
-For π:`P¹→Spec` k, `π_*O(n)=χ(O(n))=n+1`, including `n≤−2` where the contribution is negative H¹. Its Todd class is `1+H` and deg((1+nH)`(1+H)`)=`n+1`. On a genus-one curve `χ(O(D))=deg` D. A finite morphism has no higher direct images, so its Euler transfer is its ordinary coherent direct image. The Chow-valued geometric GRR theorem here retains its algebraically closed field hypothesis.
+For π:`P¹→Spec` k, `π_*O(n)=χ(O(n))=n+1`, including `n≤−2` where the contribution is negative H¹. Its Todd class is `1+H` and `deg((1+nH)(1+H))=n+1`. On a genus-one curve `χ(O(D))=deg D`. A finite morphism has no higher direct images, so its Euler transfer is its ordinary coherent direct image. The Chow-valued geometric GRR theorem here retains its algebraically closed field hypothesis.
 
 For the K-valued Adams Riemann–Roch check, let `h=1−O(−1)` on P¹ and `k=2`. The cotangent line is `O(−2)=1−2h`, so `θ²(−T∨)=(2−2h)⁻¹=(1+h)`/2. Its Euler pushforward is `(1+1)`/`2=1=ψ²π_*1`. This computation fixes inverse, dual and denominator at once. At the field point `Spec F` the homological operation is ψᵏ, and `G₀(F)=ℤ` has its full dimension-zero filtration; higher G-groups are not placed there by that statement.
 
