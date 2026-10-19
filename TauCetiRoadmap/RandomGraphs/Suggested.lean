@@ -468,14 +468,14 @@ theorem satisfies_noIsolatedSentence [Fintype V] (G : SimpleGraph V) :
 
 /-- This convergence criterion is proved as part of the roadmap. -/
 theorem poisson_pointMass_limit_of_factorial_moments
-    (ν : ℕ → Measure ℕ) [∀ n, IsProbabilityMeasure (ν n)] (λ : ℝ≥0)
+    (ν : ℕ → Measure ℕ) [∀ n, IsProbabilityMeasure (ν n)] (r : ℝ≥0)
     (hfinite : ∀ n k,
       Integrable (fun x : ℕ => (x.descFactorial k : ℝ)) (ν n))
     (hmom : ∀ k : ℕ,
       Tendsto (fun n => ∫ x : ℕ, (x.descFactorial k : ℝ) ∂ν n)
-        atTop (𝓝 ((λ : ℝ) ^ k))) :
+        atTop (𝓝 ((r : ℝ) ^ k))) :
     ∀ j : ℕ, Tendsto (fun n => (ν n {j}).toReal) atTop
-      (𝓝 ((ProbabilityTheory.poissonMeasure λ {j}).toReal)) := by
+      (𝓝 ((ProbabilityTheory.poissonMeasure r {j}).toReal)) := by
   sorry
 
 theorem triangle_factorialMoment_limit (p : ℕ → I) (c : ℝ≥0)
