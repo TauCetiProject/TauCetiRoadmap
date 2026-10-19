@@ -586,15 +586,15 @@ The additional interfaces specified in the README are:
   definition; firstCoefficientHeckePairing_baseChange identifies the rational differential
   pairing with this complex analytic realization.
 * §11.2: cyclicIsogenyDeformationRing with its source/target coordinates.
-* §13.1: modularJacobian_thetaSpecialization constructs the relative theta polarization
-  for a smooth proper geometrically connected curve over a locally Noetherian base,
-  by a rank-zero two-term determinant, with independence and descent of the local
-  homomorphisms. modularJacobian_polarization is this principal polarization;
-  modularJacobian_baseChange preserves it for every base change, including nonreduced
-  bases and the geometric closed fibre of a good-reduction trait. Relative Picard
-  representability and the neutral component use ComplexComparisonPartII C3.2d.2–C3.2d.3
-  and C3.2f.1–C3.2f.2, with universal functions, geometric integrality, locally constant
-  smooth proper fibre components and formal smoothness over nonreduced bases.
+* §13.1: modularJacobian, modularJacobian_dimension, modularJacobian_polarization,
+  modularJacobian_thetaSpecialization and modularJacobian_baseChange are the modular
+  instances of JacobianChallengePartII §§1.2–1.4's positive-genus relative Jacobian,
+  dimension, canonical principal polarization and arbitrary-base-change comparisons.
+  Smooth proper geometrically connected curves over a locally Noetherian base use
+  étale local projective charts. The genus-zero branch is the trivial principally
+  polarized abelian scheme. The comparisons include nonreduced and non-Noetherian
+  pullbacks and the geometric closed fibre of a good-reduction trait. Norm, divisor-class,
+  cusp-normalized Abel maps and both Hecke leg comparisons belong to this roadmap.
 * §13.5: jacobianTateModule_trace after jacobianTateModule_kummer.
 * §14.9a: modularOpenFiniteGraph for the noncompact torsion-free quotient.
 * §9.1: degeneracyDegree_coprime, degeneracyDegree_dvd.
