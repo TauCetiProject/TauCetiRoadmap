@@ -26,8 +26,9 @@ open HeckeRing.GL2 (Newform)
 
 /-! ## Conventions and coefficient specializations -/
 
-/-- `G_ℚ = Gal(ℚ̄/ℚ)`. -/
-abbrev GQ : Type := Field.absoluteGaloisGroup ℚ
+/-- The absolute Galois group `G_ℚ = Gal(ℚ̄/ℚ)`, unfolded so that the native
+point and torsion actions apply to its automorphisms. -/
+abbrev GQ : Type := AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ
 
 /-- `a_n(E)`: the `n`-th coefficient of Mathlib's `L`-function of `E`. At a prime `ℓ` of good reduction it is
 `ℓ + 1 - #Ẽ(𝔽_ℓ)`; at a bad prime it is `1`, `-1`, `0` for split multiplicative, nonsplit multiplicative, additive
@@ -83,29 +84,31 @@ theorem nonexceptionalPrimes_infinite (E : WeierstrassCurve ℚ) [E.IsElliptic] 
 theorem goodReduction_of_not_mem (E : WeierstrassCurve ℚ) [E.IsElliptic]
     {p : ℕ} [Fact p.Prime] (h : p ∉ exceptionalPrimes E) : HasGoodReductionAt E p := sorry
 
-/-- Irreducibility on the native torsion carrier: every Galois-stable subgroup is zero
-or the whole p-torsion. For prime p these are exactly the invariant F_p-subspaces. -/
-theorem irreducible_of_not_mem (E : WeierstrassCurve ℚ) [E.IsElliptic]
-    {p : ℕ} [Fact p.Prime] (h : p ∉ exceptionalPrimes E)
-    (C : AddSubgroup (AddSubgroup.torsionBy
-      (E.baseChange (AlgebraicClosure ℚ)).toAffine.Point (p : ℤ)))
-    (hC : ∀ σ : GQ, C.map
-      (Multiplicative.toAdd (E.torsionGaloisAction (p : ℤ) σ)).toAddMonoidHom = C) :
-    C = ⊥ ∨ C = ⊤ := sorry
+/-- A rational cyclic 3-isogeny supplies a noncuspidal rational parameter on `X₀(3)`
+with the indicated j-invariant relation, including j = 0. -/
+theorem rationalThreeIsogeny_hauptmodul (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (h : HasRationalCyclicSubgroup E 3) :
+    ∃ u : ℚ, u ≠ 0 ∧ E.j * u = (u + 27) * (u + 3) ^ 3 := sorry
 
-/-- Outside the exceptional set, every scalar extension of the native p-torsion
-has only the zero and full invariant subspaces. The ZMod-module structure is supplied
-by Mathlib; additive Galois automorphisms are linear over the prime field. -/
-theorem absolutelyIrreducible_of_not_mem (E : WeierstrassCurve ℚ) [E.IsElliptic]
-    {p : ℕ} [Fact p.Prime] (h : p ∉ exceptionalPrimes E) (k : Type)
-    [Field k] [Algebra (ZMod p) k] :
-    letI := AddSubgroup.torsionBy.zmodModule
-      (A := (E.baseChange (AlgebraicClosure ℚ)).toAffine.Point) (n := p)
-    ∀ W : Submodule k (k ⊗[ZMod p]
-      AddSubgroup.torsionBy (E.baseChange (AlgebraicClosure ℚ)).toAffine.Point (p : ℤ)),
-      (∀ σ : GQ, W.map (LinearMap.baseChange k
-        ((Multiplicative.toAdd (E.torsionGaloisAction (p : ℤ) σ)).toAddMonoidHom.toZModLinearMap p)) ≤ W) →
-      W = ⊥ ∨ W = ⊤ := sorry
+/-- A rational cyclic 5-isogeny supplies a noncuspidal rational parameter on `X₀(5)`
+with the indicated j-invariant relation. -/
+theorem rationalFiveIsogeny_hauptmodul (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (h : HasRationalCyclicSubgroup E 5) :
+    ∃ v : ℚ, v ≠ 0 ∧ E.j * v = (v ^ 2 + 10 * v + 5) ^ 3 := sorry
+
+/-- Simultaneous rational cyclic 3- and 5-isogenies restrict the j-invariant to the
+four noncuspidal rational j-values on `X₀(15)`. -/
+theorem rationalFifteenIsogeny_j (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (h3 : HasRationalCyclicSubgroup E 3) (h5 : HasRationalCyclicSubgroup E 5) :
+    E.j = -25 / 2 ∨ E.j = -349938025 / 8 ∨ E.j = -121945 / 32 ∨
+      E.j = 46969655 / 32768 := sorry
+
+/-- Good or multiplicative reduction at 5 excludes simultaneous rational cyclic
+3- and 5-isogenies. Each of the four possible j-values has 5-adic valuation 1 or 2. -/
+theorem not_both_rational_three_five_isogenies (E : WeierstrassCurve ℚ) [E.IsElliptic]
+    (hred : haveI : Fact (Nat.Prime 5) := ⟨by decide⟩
+      HasGoodReductionAt E 5 ∨ HasMultiplicativeReductionAt E 5) :
+    ¬ (HasRationalCyclicSubgroup E 3 ∧ HasRationalCyclicSubgroup E 5) := sorry
 
 /-- 11a1 = `X₀(11)`: `y² + y = x³ - x² - 10x - 20`. -/
 def curve11a1 : WeierstrassCurve ℚ := ⟨0, -1, 1, -10, -20⟩
@@ -196,23 +199,6 @@ theorem rationalCyclicSubgroup_without_rational_generator :
 
 /-! ## Layer R29.2: trivial character by reduction -/
 
-/-- A weight-two form and a maximal coefficient ideal above p at a supplied positive level.
-The README uses N equal to the elliptic conductor and specifies trace and residual comparison.
-ClassicalSerreModularity R27.6 supplies witnesses outside the exceptional set. -/
-structure SerreWitness (N : ℕ) [NeZero N] (p : ℕ) where
-  form : Newform N 2
-  prime : Ideal (integralClosure ℤ ℂ)
-  isMaximal : prime.IsMaximal
-  natCast_mem : (p : integralClosure ℤ ℂ) ∈ prime
-
-/-- One positive level supports trivial-character witnesses at every nonexceptional prime,
-with all good-prime trace congruences. In the conductor interface this level is N_E. -/
-theorem exists_serreWitness_family :
-    ∃ (N : ℕ) (_ : NeZero N), ∀ p : ℕ, p.Prime → p ∉ exceptionalPrimes E →
-      ∃ w : SerreWitness N p, w.form.χ = 1 ∧
-        ∀ ℓ : ℕ, ℓ.Prime → ¬ ℓ ∣ N → ℓ ≠ p →
-          ∃ x ∈ w.prime, (x : ℂ) = coeff w.form ℓ - (lCoeff E ℓ : ℂ) := sorry
-
 /-- `EllipticCurveModularity:R29.2/trivial-nebentypus-by-reduction`: a root of unity of order prime to `p` that is
 `≡ 1` modulo a prime above `p` equals 1. Primality and prime-to-p order are essential. -/
 theorem eq_one_of_pow_eq_one_of_sub_mem {K : Type*} [Field K] [NumberField K] (ζ : 𝓞 K) {m : ℕ} (hm : ζ ^ m = 1)
@@ -258,32 +244,10 @@ omit [E.IsElliptic] in
 theorem not_isNewformOf_of_char_ne_one {M : ℕ} [NeZero M] (F : Newform M 2) (hF : F.χ ≠ 1) :
     ¬ IsNewformOf E F := fun h => hF h.1
 
-/-- Infinitely many congruent exact-level witnesses give one form with every good-prime
-coefficient equal to that of E. These curve-specific congruence hypotheses suffice
-without global residual modularity; ClassicalSerreModularity R27.6 supplies the
-witnesses in the unconditional elliptic application specified in the README. -/
-theorem exists_newform_coeff_eq (N : ℕ) [NeZero N] (P : Set ℕ)
-    (hP : P.Infinite) (hprime : ∀ p ∈ P, p.Prime)
-    (w : ∀ p ∈ P, SerreWitness N p)
-    (hχ : ∀ p (hp : p ∈ P), (w p hp).form.χ = 1)
-    (htrace : ∀ p (hp : p ∈ P) ℓ, ℓ.Prime → ¬ ℓ ∣ N → ℓ ≠ p →
-      ∃ x ∈ (w p hp).prime, (x : ℂ) = coeff (w p hp).form ℓ - (lCoeff E ℓ : ℂ)) :
-    ∃ F : Newform N 2, F.χ = 1 ∧
-      ∀ ℓ : ℕ, ℓ.Prime → ¬ ℓ ∣ N → coeff F ℓ = (lCoeff E ℓ : ℂ) := sorry
-
 /-- `EllipticCurveModularity:R29.3/rational-coefficient-field`: every coefficient of a newform attached to `E` is
 a rational integer. -/
 theorem IsNewformOf.coeff_int {M : ℕ} [NeZero M] {F : Newform M 2} (h : IsNewformOf E F) (n : ℕ) :
     ∃ m : ℤ, coeff F n = m := sorry
-
-/-- Every elliptic curve over ℚ unconditionally has an attached weight-two newform with
-all Fourier coefficients equal to its L-function coefficients. ClassicalSerreModularity
-R27.6 supplies the classical Serre modularity theorem and its finite-flat weight-two export.
-There is no residual-modularity hypothesis on the curve. The README's
-exact-conductor comparison identifies the positive level with the elliptic conductor. -/
-theorem modularity :
-    ∃ (N : ℕ) (hN : NeZero N) (F : Newform N 2),
-      IsNewformOf E F ∧ ∀ n : ℕ, coeff F n = (lCoeff E n : ℂ) := sorry
 
 /-! ## Layer R29.4: every Euler factor -/
 
@@ -351,20 +315,31 @@ theorem exists_entire_completed_LSeries :
 
 /-
 The README specifies the conductor-dependent forms and geometric constructions:
-rationalTateMap_surjective, not_dvd_conductor_of_not_mem, absolutelyIrreducible_of_not_mem,
+rationalTateMap_surjective, not_dvd_conductor_of_not_mem, irreducible_of_not_mem,
+absolutelyIrreducible_of_not_mem,
 artinConductor_residualRep_of_not_mem, serreWeight_residualRep, SerreWitness,
+ArisesFrom, ArisesFromLevel, ArisesFrom.of_isNewformOf, ArisesFrom.of_torsionEquiv,
+exists_serreWitness_family, residualArisesFrom_conductor, conductor,
+conductor_eq_artinConductor, conductor_eq_semistableConductor,
 serreWitness, serreWitness_level, serreWitness_trace, serreWitness_residual,
 serreWitness_11a1, serreWitness_trace_2, serreWitness_not_at_exceptional,
 exists_newform_coeff_eq, newformOf, isNewformOf_newformOf, newformOf_coeff_prime,
 newformOf_unique, newformOf_coeff_int, newformOf_χ, newformOf_11a1,
 newformOf_isogeny_invariant, newformOf_twist, IsNewformOf.nonempty_tateModule_equiv,
-IsNewformOf.level_eq, QuotientIsogeny, IsNewformOf.nonempty_quotientIsogeny,
+IsNewformOf.level_eq_conductor, IsNewformOf.level_eq, QuotientIsogeny, IsNewformOf.nonempty_quotientIsogeny,
 IsNewformOf.exists_hom_J0, IsNewformOf.exists_hom_X0, modularParametrisation,
 modularParametrisation_cusp, modularParametrisation_nonconstant,
 modularParametrisation_pullback, modularParametrisation_11a1,
 modularParametrisation_11a3, modularParametrisation_37a, exists_isNewformOf_of_J0,
 exists_isNewformOf_of_X0, conductor_dvd_of_J0, modularity, modularity_quotient,
 modularity_parametrisation, LFunction_eq and exists_entire_completed_LSeries.
+The irreducibility targets use predicates on ArithmeticGaloisRepresentations §6.1's
+residualRep. The witness targets use AlgebraicModularFormsAndSerreWeights R15.6's
+shared ArisesFrom predicate on that representation. SerreWitness E N p contains
+its form, trivial character and shared attachment; coefficient-prime congruences are
+derived from attachment. The target exists_newform_coeff_eq takes a family of
+forms with trivial character and ArisesFrom E p F_p at a fixed positive level N.
+The exact-level target modularity and newformOf E use Newform (conductor E) 2.
 The selected form newformOf E uses unconditional existence from ClassicalSerreModularity
 R27.6 and the exact-coefficient argument. Its theorems have no existence input.
 The map modularParametrisation E λ carries a chosen

@@ -189,7 +189,10 @@ The native elliptic substrate is supplied by
 The action preserves addition and the point at infinity, and its restriction agrees with
 the point action under the torsion inclusion. No second point action or torsion carrier
 is part of this roadmap. Mathlib's `Field.absoluteGaloisGroup ℚ` is the acting group,
-abbreviated `GQ` in the representative signatures.
+abbreviated `GQ` in the representative signatures. There `GQ` is written as
+`AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ`, the unfolded automorphism group, so
+the native point and torsion actions apply directly. The Krull topology is transported
+from the absolute Galois group.
 
 `TauCeti.AlgebraicGeometry.EllipticCurve.TateModule.Galois` supplies
 `WeierstrassCurve.tateModuleGaloisRepresentation` on the existing
@@ -205,7 +208,13 @@ The residual determinant is the mod-p cyclotomic character, by the supplied Weil
 and reduction of the integral determinant. ArithmeticGaloisRepresentations §6.2,
 *Determinant and oddness*, supplies the arithmetic adapter, including complex conjugation
 with determinant −1. Its §§6.1–6.3 supply the continuous, residual and rational adapters,
-the good-prime Frobenius polynomial, and the Tate-curve local comparison; Layer 3 supplies
+the good-prime Frobenius polynomial, and the Tate-curve local comparison. In §6.1,
+[Basis-free elliptic residual representation](../ArithmeticGaloisRepresentations/README.md#elliptic-residual-representation),
+use `TateModule.residualRep E p`, abbreviated `residualRep E p` below. It is the basis-free
+representation on the native geometric p-torsion, with its `ZMod p`-linear action.
+Its scalar extension to `𝔽̄_p` and a choice of basis give the matrix representation
+used by AlgebraicModularFormsAndSerreWeights; attachment, trace, determinant and
+irreducibility are independent of that basis. Layer 3 supplies
 Artin and Swan conductors, prime-to-p residual conductors and coefficient-extension
 invariance. NeronModelsAndSemistableAbelianVarieties §§5.3a, 5.3g–5.3i and 6.5–6.6
 supply the elliptic conductor, residual conductor formulas, equation/scheme reduction
@@ -524,6 +533,63 @@ but rationality of a chosen generator does not.
   The named boundary target `rationalCyclicSubgroup_without_rational_generator`
   asserts the stable order-7 subgroup and the absence of rational seven-torsion together.
 
+### Rational 3- and 5-isogeny Checks
+
+<a id="rational-small-isogeny-checks"></a>
+
+**Hauptmodul relations** (`rationalThreeIsogeny_hauptmodul`,
+`rationalFiveIsogeny_hauptmodul`). For every elliptic curve E over ℚ with a rational
+cyclic 3-isogeny, there is `u∈ℚ`, `u≠0`, such that
+`j_E·u=(u+27)(u+3)³`. For a rational cyclic 5-isogeny there is `v∈ℚ`, `v≠0`, such
+that `j_E·v=(v²+10v+5)³`. These are necessary relations for the given curve, including
+the special j-values; they do not identify a rational kernel generator. Use the
+modular-curve/isogeny dictionary of ModularCurvesPartII §§6.1–6.3 and the native cyclic
+subgroups above. The source for both relations is Barrios,
+[*Explicit classification of isogeny graphs of rational elliptic curves*](https://arxiv.org/abs/2208.05603),
+Theorem 2.3 and Table 1, p. 6. The choice of these isogeny Checks follows the Imperial
+College London FLT project.
+
+**Checks.**
+
+- In the 3-isogeny relation, `u=−3` and `u=−27` give `j=0`; this case is included.
+  In the 5-isogeny relation, `v²+10v+5` has no rational zero, so `j=0` is excluded.
+- For 11a1 the stable order-5 subgroup gives a rational parameter in the 5-isogeny
+  relation, although its bad reduction at 11 remains part of its exceptional set.
+  The 3-isogeny relation does not apply: at 2 its Frobenius polynomial is irreducible
+  over `𝔽₃`, excluding a stable order-3 subgroup.
+- The parameters 0 and ∞ are cusps, not nonsingular elliptic curves. In the displayed
+  affine relations, `u=0` or `v=0` would force respectively `729=0` or `125=0`.
+
+**The 15-isogeny boundary** (`rationalFifteenIsogeny_j`,
+`not_both_rational_three_five_isogenies`). If E has both rational cyclic 3- and
+5-isogenies, their kernels generate a rational cyclic subgroup of order 15 and
+
+`j_E ∈ {−25/2, −349938025/8, −121945/32, 46969655/32768}.`
+
+The first target states this four-value conclusion for every E. The second assumes
+that E has good or multiplicative reduction at 5 and excludes the simultaneous
+isogenies. For the four displayed values, `v_5(j_E)` is respectively `2,2,1,1`.
+For nonzero j, good reduction at 5 makes its valuation a nonnegative multiple of 3, while
+multiplicative reduction makes it negative. Thus the local hypothesis suffices; global
+semistability is a Check. The source is Darmon–Diamond–Taylor,
+[*Fermat's Last Theorem*](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05-DDT-paper.pdf),
+§3.6, proof of Theorem 3.48, pp. 101–102, for the four noncuspidal points and their
+failure of semistability; González–Jiménez–Lario,
+[*Faltings elliptic curves in twisted ℚ-isogeny classes*, supplementary tables](https://web.mat.upc.edu/joan.carles.lario/types.pdf),
+§19.1, p. 91, gives their j-values. This target includes establishing the rational-point
+list of `X₀(15)` and evaluating its j-map: four cusps and four noncuspidal rational
+points. ModularCurvesPartII supplies the isogeny dictionary; the rational-point
+calculation is owned here, using the descent and torsion theory of EllipticCurves
+Layers 2 and 6. EllipticCurves Layer 4 supplies the valuation criteria.
+
+**Checks.**
+
+- A globally semistable E cannot have both isogenies: it is semistable at 5.
+- The curve `y²=x³−x²−8x+112` has `j=−25/2` and both isogenies; it has additive
+  reduction at 5. Omitting the reduction hypothesis from the exclusion is false.
+- The remaining three j-values have 5-adic valuations `2,1,1`, so the same local
+  obstruction excludes each; the four-value theorem itself retains all four.
+
 ### The exceptional set
 
 Define `HasRationalCyclicSubgroup E p` to mean that `E(ℚ̄)` has a
@@ -550,8 +616,9 @@ bad reduction types.
 The API has the following assertions. `exceptionalPrimes_finite` states that `Σ_E`
 is finite. Its consequence `nonexceptionalPrimes_infinite` states that
 `{p : ℕ | p.Prime ∧ p ∉ exceptionalPrimes E}` is infinite.
-`irreducible_of_not_mem` states that, for a prime `p∉Σ_E`, `E[p]`
-is irreducible over `𝔽_p`. `goodReduction_of_not_mem` gives good reduction at
+`irreducible_of_not_mem` states that, for a prime `p∉Σ_E`,
+`Representation.IsIrreducible (residualRep E p)` holds for the supplied
+representation on `E[p]` over `𝔽_p`. The theorem `goodReduction_of_not_mem` gives good reduction at
 `p`, and `not_dvd_conductor_of_not_mem` presents its equivalent arithmetic form. The
 first two names above give the defining set and the rational-subgroup predicate; users
 of the remaining assertions need not unfold either.
@@ -585,7 +652,11 @@ numerical bound on the elements of `Σ_E` is needed or asserted.
 For a prime `p∉Σ_E`, the two conclusions are `absolutelyIrreducible_of_not_mem` and
 `artinConductor_residualRep_of_not_mem`:
 
-`ρ̄_(E,p) is absolutely irreducible, N(ρ̄_(E,p))=N_E.`
+`residualRep E p is absolutely irreducible, N(residualRep E p)=conductor E.`
+
+Use ArithmeticGaloisRepresentations §1.7's `ContinuousRep.IsAbsolutelyIrreducible`
+on the continuous packaging of its §6.1 residual representation. The conductor here is the prime-to-p conductor
+of the actual residual module, with the convention fixed above.
 
 Absolute irreducibility means irreducibility after extension from `𝔽_p` to every
 field containing it. The passage from irreducibility over `𝔽_p` uses oddness.
@@ -606,8 +677,8 @@ exceptional-set API and the residual conductor supplier contract.
 
 The literal equations in `Suggested.lean` use the following coefficient tuples, in the
 order `a₁,a₂,a₃,a₄,a₆`. Their API is exactly Mathlib's `WeierstrassCurve` coefficient
-projections, discriminant and c-invariants. No database lookup or classification is a
-target. The formulas are those of Silverman, AEC III.1 and Mathlib's
+projections, discriminant and c-invariants. For these literal models, no database
+lookup or classification is a target. The formulas are those of Silverman, AEC III.1 and Mathlib's
 `WeierstrassCurve.Δ` and `WeierstrassCurve.c₄`.
 
 | Model | Coefficient tuple | Δ | c₄ |
@@ -740,32 +811,74 @@ hypotheses are the residual conclusions of Layer R29.1.
 
 ### The witness at a residual characteristic
 
-For positive `N_E` identified with the elliptic conductor, the intended signature is
-`SerreWitness (N_E : ℕ) [NeZero N_E] (p : ℕ) : Type`. The data consist of a normalized newform `g_p` of weight two and
-level `N_E`, and a maximal ideal `λ_p` of the ring of algebraic integers in ℂ
-containing `p`. Its residue field has characteristic `p`. The operation
-`serreWitness E hp h` selects these data for a prime `p` with primality proof `hp`
-and `h : p∉Σ_E`, using ClassicalSerreModularity §R27.6. It has no residual modularity
-input; no selection is asserted at an exceptional prime.
-The milestone `exists_serreWitness_family` states its statable projection: there is one
-positive level N and, for every prime outside `Σ_E`, a `SerreWitness N p` with trivial
-character and all trace congruences away from Np. The conductor comparison identifies
-this same N with `N_E`; it is independent of p.
+<a id="elliptic-residual-attachment"></a>
+
+**Curve-level residual attachment** (`ArisesFrom`, `ArisesFromLevel`). For a prime p and
+a weight-two newform F of positive level N, abbreviate `ArisesFrom E p F` as
+`TauCeti.ResidualModularity.ArisesFrom` applied to `residualRep E p`, extended to `𝔽̄_p`
+and written in any basis. This uses AlgebraicModularFormsAndSerreWeights
+[Layer R15.6, S-type and modularity predicates](../AlgebraicModularFormsAndSerreWeights/README.md#target-s-type-arises-from-and-modular)
+and ArithmeticGaloisRepresentations
+[§6.1, Basis-free elliptic residual representation](../ArithmeticGaloisRepresentations/README.md#elliptic-residual-representation).
+Define `ArisesFromLevel E p N` to mean `∃ F : Newform N 2, F.χ=1 ∧ ArisesFrom E p F`.
+The form is new at N; no equality between N and the residual conductor is built into
+this abbreviation. The coefficient-map interface follows the Imperial College London
+FLT project.
+
+The theorem `ArisesFrom.of_isNewformOf` takes `IsNewformOf E F` and gives
+`ArisesFrom E p F` for every prime p, including 2, 3 and primes in `Σ_E`.
+The theorem `ArisesFrom.of_torsionEquiv` transports attachment along a Galois-equivariant
+`𝔽_p`-linear equivalence `E[p] ≃ E′[p]`. Neither assertion needs residual irreducibility.
+The shared predicate compares Frobenius polynomials; for reducible representations its
+integral-model interpretation identifies semisimplifications. It does not identify a
+nonsplit extension with its semisimplification. The first theorem uses the exact level
+and all-coefficient comparison of R29.4; witness existence below uses the global Serre
+export directly, without this attached-form theorem.
+
+*Source and prerequisites.* Serre §3.3, (3.3.1), p. 198, and §4.6, pp. 207–208,
+with the unconditional theorem supplied by ClassicalSerreModularity §R27.6.
+The coefficient-prime and integral-model equivalences are supplied by
+AlgebraicModularFormsAndSerreWeights at the cited anchor. Good Frobenius traces and
+cyclotomic determinants use ArithmeticGaloisRepresentations §§6.1–6.2.
+
+**Checks.**
+
+- `ArisesFromLevel (11a1) 5 11` holds although its residual module is reducible and
+  5 belongs to `Σ_E`; this is not a Serre witness existence claim at 5.
+- At p=3 the level-11 form gives trace `−2=1` and determinant 2 at Frobenius 2.
+  The trivial rank-two representation has trace 2 and determinant 1 and fails attachment.
+- The rational degree-5 isogeny between 11a1 and 11a3 identifies their p-torsion for
+  `p≠5`, so transport applies. At p=5 its torsion map is not an equivalence;
+  attachment of both curves to the same form instead follows from `of_isNewformOf`.
+
+For positive N and prime p the intended signature is
+`SerreWitness (E : WeierstrassCurve ℚ) [E.IsElliptic] (N : ℕ) [NeZero N]
+(p : ℕ) [Fact p.Prime] : Type`.
+It contains a form `form : Newform N 2`, trivial character and `ArisesFrom E p form`.
+This is a curve-specific specialization of the shared attachment predicate.
+A maximal ideal above p in the algebraic integers in ℂ, with a compatible residue
+embedding realizing the coefficient map, is obtained from that predicate's
+`iff_integralClosure_congruence` theorem. The prime and congruences are derived
+accessors, rather than an independent attachment condition.
+
+The operation `serreWitness E hp h` selects `SerreWitness E (conductor E) p` for
+`hp : p.Prime` and `h : p∉Σ_E`, using `hp` for the primality instance and
+ClassicalSerreModularity §R27.6.
+The milestone `exists_serreWitness_family` states that every such p has this witness
+at `conductor E`. It has no residual modularity input. Its form and attachment give
+`ArisesFromLevel E p (conductor E)` for these primes.
 
 The character and comparison properties are accessed through the API:
 
-* `serreWitness_level` gives the trivial nebentypus. Weight two and the
-  level `N_E` are part of the form's type.
-* `serreWitness_trace` gives, for every prime `ℓ∤ N_Ep`,
-  `A_ℓ(g_p)-a_ℓ(E)∈λ_p`. The membership is a statement
-  about an algebraic integer, with the complex coefficient obtained by
-  its inclusion into ℂ.
-* `serreWitness_residual` gives the equivariant comparison
-  `ρ̄_(g_p,λ_p)≃ ρ̄_(E,p)⊗_(𝔽_p)k_(λ_p)`.
-  In the point-module formulation it is an equivariant
-  `𝔽_p`-linear map `E[p]→ k_(λ_p)²` whose image spans
-  the target over `k_(λ_p)`. After scalar extension this map is
-  an isomorphism between two two-dimensional representations.
+* `serreWitness_level` gives trivial nebentypus. Weight two and exact level
+  `conductor E` are part of the form's type.
+* `serreWitness_trace` gives `A_ℓ(g_p)−a_ℓ(E)∈λ_p` at every prime `ℓ∤N_Ep`,
+  using the prime `λ_p` and residue embedding derived from the shared coefficient map.
+* `serreWitness_residual` gives
+  `ρ̄_(g_p,λ_p) ≃ ρ̄_(E,p)⊗_(𝔽_p)k_(λ_p)` after compatible coefficient extension.
+  Absolute irreducibility outside `Σ_E` upgrades the semisimple comparison to an
+  isomorphism of representations. The actual Galois-stable lattice of the form is
+  retained in this comparison.
 
 The newform is primitive at the exact level `N_E`, rather than merely an eigenform in a
 space at that level. This property is what lets the next layer take its finite range
@@ -829,7 +942,7 @@ specified rational prime.
 ### Examples and witness Checks
 
 For p=7 the witness construction uses ClassicalSerreModularity §R27.6 and the
-nonexceptionality Check. Three raw-data controls also apply to `SerreWitness N_E p`: the first coefficient
+nonexceptionality Check. Three controls also apply to `SerreWitness E N_E p`: the first coefficient
 is 1, the maximal ideal contains p but excludes 1, and the zero ideal cannot serve as
 a prime above a nonzero rational prime in the algebraic-integer domain.
 
@@ -964,20 +1077,26 @@ The defining predicate has three named tests:
 
 ### From infinitely many congruences to one exact form
 
-Given an infinite set P of prime characteristics, a family `SerreWitness N_E p` for
-p in P with trivial character and the trace congruences at every prime `ℓ ∤ N_E p`,
+Given an infinite set P of prime characteristics and forms `F_p : Newform N 2`
+with trivial character and `ArisesFrom E p F_p` for each p in P,
 `exists_newform_coeff_eq` states that there is a normalized newform `F` of weight two,
-level `N_E`, and trivial character with
+level N, and trivial character with
 
-`A_ℓ(F)=a_ℓ(E) for every prime ℓ∤ N_E.`
+`A_ℓ(F)=a_ℓ(E) for every prime ℓ∤ N.`
 
 Start with the infinite set of primes outside the finite set `Σ_E`. Apply the
 unconditional witness construction of R29.2, using ClassicalSerreModularity §R27.6, to
 each. The finite collection of normalized forms at level `N_E`
 has an infinite fibre, so one form `F` occurs for infinitely many distinct residual
-primes `p`. The prime above `p` is allowed to vary. The Lean milestone takes this witness family,
-its infinite prime domain, character and trace comparisons as explicit hypotheses,
-and takes the positive level N_E as a parameter. Fix a good prime ℓ and remove
+primes `p`. The prime above `p` is allowed to vary. The target takes the infinite prime
+domain, the form family, trivial character and shared attachment predicates as explicit hypotheses at a fixed positive level N;
+the elliptic application uses `N=conductor E`. The coefficient-prime comparison in
+R29.2 derives all trace congruences from these predicates. At a general level N,
+these hypotheses also imply good reduction at every `ℓ∤N`: choose a p in P outside
+`Σ_E` and different from ℓ. Attachment gives residual unramifiedness at ℓ, while R29.1
+identifies its conductor with `N_E`, so `ℓ∤N_E`. Thus the coefficient argument applies
+at every `ℓ∤N` without assuming the level-conductor equality in advance.
+Fix such a prime ℓ and remove
 `p=ℓ` from this infinite set. The witness trace congruence puts `A_ℓ(F)-a_ℓ(E)`
 in a prime above every remaining `p`. Restrict those ideals to `𝓞_(K_F)`; they
 remain primes above their respective rational characteristics. Norm vanishing gives the
@@ -1038,7 +1157,7 @@ input, as in Cremona §2.6, pp. 24–25.
 ### The newform of an elliptic curve
 
 The intended signature is
-`newformOf (E : WeierstrassCurve ℚ) [E.IsElliptic] : Newform N_E 2`,
+`newformOf (E : WeierstrassCurve ℚ) [E.IsElliptic] : Newform (conductor E) 2`,
 with the positive-conductor instance supplied by the conductor contract. Define it,
 denoted `F_E`, by selecting an attached newform from the unconditional existence
 theorem: ClassicalSerreModularity §R27.6 supplies the witnesses of R29.2, and
@@ -1152,11 +1271,44 @@ As an acceptance condition, the comparison must be available for each auxiliary 
 Frobenius set separately for each `r`. The next assertions require an auxiliary prime
 different from each local place, which this quantification supplies.
 
+### The conductor and its semistable comparison
+
+<a id="elliptic-conductor-comparison"></a>
+
+**Conductor specialization and comparison** (`conductor`, `conductor_eq_artinConductor`,
+`conductor_eq_semistableConductor`). For every elliptic E over ℚ, `conductor E : ℕ`
+is the positive generator of the conductor ideal of
+NeronModelsAndSemistableAbelianVarieties §5.3a. The theorem
+`conductor_eq_artinConductor` identifies `v_ℓ(conductor E)` with `a_ℓ(V_r(E))`
+for every pair of distinct rational primes ℓ,r. It includes additive reduction and
+wild ramification at 2 and 3. Thus `N_E` throughout is `conductor E`.
+
+For `WeierstrassCurve.IsSemistable ℤ E`, `conductor_eq_semistableConductor` identifies this integer
+with the squarefree product of bad primes. This is the conductor assembled from the
+0/1 exponents of EllipticCurves Layers 4 and 4.5a on local minimal models; its equality
+with the Artin conductor is the semistable comparison in EllipticCurves Layers 7–8.
+The semistable product is used only under that hypothesis. The general conductor and
+both comparison assertions use NeronModelsAndSemistableAbelianVarieties §§5.3a,
+5.3e and 5.5, with ArithmeticGaloisRepresentations Layer 3 and §§6.1–6.3.
+The sources are Serre 1970, n° 2.4, cases b), c), p. 10, and Brumer–Kramer 1994,
+§6, (6.1), p. 243, as located in that supplier's §5.3a; the semistable case is also
+Darmon–Diamond–Taylor, §2.2, Proposition 2.12, p. 57.
+
+**Checks.**
+
+- For 11a1 the sole bad prime is 11, multiplicative, and both conductor definitions
+  give 11; the minimal discriminant has absolute value `11⁵`, not 11.
+- For 37a1 the sole bad prime is 37, multiplicative, so both give 37.
+- For `y²=x³−x`, the Artin conductor is 32. The bad-prime product is 2 and cannot
+  replace it: this curve is additive at 2 and fails the semistability hypothesis.
+
 ### The level is the conductor
 
-`IsNewformOf.level_eq` states that every attached newform has
+`IsNewformOf.level_eq_conductor` states that every attached newform has
 
-`M=N_E.`
+`M=conductor E.`
+
+The name `IsNewformOf.level_eq` retains the same equality as an alias.
 
 Fix a rational prime ℓ and choose `r≠ℓ`. Restrict the Tate isomorphism to the
 decomposition group at ℓ. The Artin conductor of `V_r(E)` at ℓ gives `v_ℓ(N_E)`. Full
@@ -1597,9 +1749,12 @@ The names `modularity`, `modularity_quotient`, and `modularity_parametrisation` 
 these formulations. The first is R29.3 and R29.4 for `F_E`; the second composes the
 quotient map with the isogeny in R29.5; the third is the parametrisation there.
 ClassicalSerreModularity §R27.6 supplies the witness existence used in their proofs,
-so all three conclusions are unconditional. The representative Lean statement
-`modularity` exhibits a positive level and an attached newform with all coefficients
-equal; R29.4 identifies this level with `N_E`.
+so all three conclusions are unconditional. The target `modularity` gives a form in
+`Newform (conductor E) 2`, attached to E with every coefficient equal to that of E. Its level is the exact conductor. The corollary
+`residualArisesFrom_conductor` gives `ArisesFromLevel E p (conductor E)` for every
+prime p, by `ArisesFrom.of_isNewformOf`. It has no nonexceptionality or residual
+irreducibility hypothesis; it does not assert that the residual conductor equals `N_E`
+at those excluded primes.
 
 For an individual curve, there is also an equivalence without that existence input: an
 attached newform at some positive level, a surjective homomorphism `J_0(N')→ E` at
@@ -1629,7 +1784,15 @@ parametrisation in R29.5, and the Jacobian-quotient converse in this layer. The
 geometric inputs are ModularCurvesPartII **§16.8**,
 **§17.3**, and JacobianChallenge Layer F. The distinction
 between an arbitrary `N'` and `N_E`, together with the two old copies at level 22, is
-the acceptance condition for this equivalence.
+the acceptance condition for this equivalence. The residual corollary has the
+following additional Checks:
+
+- At p=5 for 11a1, the level-11 attachment holds even though the rational 5-isogeny
+  makes the residual representation reducible.
+- At p=11 for 11a1, level 11 is allowed even though its prime-to-11 residual
+  conductor has no factor at 11.
+- At p=2 for the geometric CM curve `y²=x³−x`, the level is 32; neither the small
+  characteristic nor the CM excludes the corollary.
 
 ### Elliptic coefficient summability
 
