@@ -21,9 +21,23 @@ universe u
 
 open CategoryTheory
 
-/-! ## Layer 1: local order and marked ideals -/
-
 namespace ResolutionOfSingularities
+
+/-! ## Headline: field resolution (Layer 5) -/
+
+open AlgebraicGeometry in
+/-- `localIsomorphismResolution` (README §5.5) and `resolution_field` (README §7.8):
+a reduced separated scheme of finite type over a field of characteristic zero admits a proper
+surjective morphism from a smooth scheme which is an isomorphism over the entire smooth locus and over a dense open subscheme. The embedded,
+functorial and boundary forms are README targets (Layers 5–7). -/
+theorem exists_resolution {k : Type u} [Field k] [CharZero k]
+    (X : Scheme.{u}) (s : X ⟶ Spec (CommRingCat.of k))
+    [LocallyOfFiniteType s] [QuasiCompact s] [IsSeparated s] [IsReduced X] :
+    ∃ (Y : Scheme.{u}) (π : Y ⟶ X), IsProper π ∧ Function.Surjective π.base ∧
+      Smooth (π ≫ s) ∧ IsIso (π ∣_ s.smoothLocus) ∧
+      ∃ U : X.Opens, Dense (U : Set X) ∧ IsIso (π ∣_ U) := sorry
+
+/-! ## Layer 1: local order and marked ideals -/
 
 variable {R : Type u} [CommRing R]
 
@@ -307,10 +321,11 @@ theorem MarkedIdeal.unit_cosupport (d : ℕ) (hd : 0 < d) :
 
 variable {k : Type u} [Field k] {σ : Type u}
 
-/-- `PolynomialOrderChecks.derivatives`: the localized principal-ideal order threshold at a
-rational point is detected by the supplied iterated-partial-derivative criterion in
-characteristic zero. -/
-example [Finite σ] [CharZero k] (f : MvPolynomial σ k) (a : σ → k) (n : ℕ) :
+/-- `PolynomialOrderChecks.derivatives` (README §2.15): localized principal-ideal order
+at a rational point is detected by vanishing of all shorter iterated partial derivatives
+in characteristic zero. -/
+theorem idealOrderAt_span_le_iff_eval_foldl_pderiv [Finite σ] [CharZero k]
+    (f : MvPolynomial σ k) (a : σ → k) (n : ℕ) :
     (n : ℕ∞) ≤ idealOrderAt (Ideal.span {f})
       (PrimeSpectrum.comap (MvPolynomial.eval a) ⟨⊥, inferInstance⟩) ↔
       ∀ l : List σ, l.length < n →
@@ -416,17 +431,40 @@ theorem exists_maximalContact [CharZero k] [Finite σ] (I : Ideal (MvPolynomial 
     (p : PrimeSpectrum (MvPolynomial σ k)) (d : ℕ) (hd : 0 < d) (hI : idealOrderAt I p = d) :
     ∃ f ∈ derivativeIdeal^[d - 1] I, idealOrderAt (Ideal.span {f}) p = 1 := sorry
 
-/-! ## Layer 5: the reduced field resolution milestone -/
+/-! ## Layer 2: Hilbert–Samuel functions and stabilization -/
 
-open AlgebraicGeometry in
-/-- Resolution of singularities in characteristic zero: a reduced separated scheme of finite type
-over a field of characteristic zero admits a proper surjective morphism from a smooth scheme which
-is an isomorphism over the entire smooth locus and over a dense open subscheme. The embedded,
-functorial and boundary forms are README targets (Layers 5–7). -/
-theorem exists_resolution [CharZero k] (X : Scheme.{u}) (s : X ⟶ Spec (CommRingCat.of k))
-    [LocallyOfFiniteType s] [QuasiCompact s] [IsSeparated s] [IsReduced X] :
-    ∃ (Y : Scheme.{u}) (π : Y ⟶ X), IsProper π ∧ Function.Surjective π.base ∧
-      Smooth (π ≫ s) ∧ IsIso (π ∣_ s.smoothLocus) ∧
-      ∃ U : X.Opens, Dense (U : Set X) ∧ IsIso (π ∣_ U) := sorry
+/-- `hilbertSamuel` (README §2.7): the Hilbert–Samuel function of a local quotient `A/I`,
+computed as the length over `A` of `A/(I + m^(n+1))`. For `I = 0` this is the function of `A`.
+The values are finite when `A` is Noetherian. -/
+noncomputable def localQuotientHilbertSamuel (A : Type u) [CommRing A] [IsLocalRing A]
+    (I : Ideal A) (n : ℕ) : ℕ∞ :=
+  Module.length A (A ⧸ (I ⊔ IsLocalRing.maximalIdeal A ^ (n + 1)))
+
+/-- `hilbertSamuel` (README §2.7) has finite values for every ideal of a Noetherian local ring,
+including the unit ideal, whose quotient has length zero. -/
+theorem localQuotientHilbertSamuel_finite (A : Type u) [CommRing A] [IsLocalRing A] [IsNoetherianRing A]
+    (I : Ideal A) (n : ℕ) : localQuotientHilbertSamuel A I n ≠ ⊤ := sorry
+
+/-- `hilbertSamuel_completion` (README §2.7): maximal-adic completion preserves the
+Hilbert–Samuel function of every local quotient. -/
+theorem hilbertSamuel_completion (A : Type u) [CommRing A] [IsLocalRing A]
+    [IsNoetherianRing A] (I : Ideal A) :
+    let Ahat := AdicCompletion (IsLocalRing.maximalIdeal A) A
+    localQuotientHilbertSamuel Ahat (I.map (algebraMap A Ahat)) = localQuotientHilbertSamuel A I := sorry
+
+/-- `hsStabilization` (README §2.8): a pointwise nonincreasing sequence of Hilbert–Samuel
+functions of formal ideals in a fixed finite-dimensional power-series ring stabilizes. -/
+theorem hsStabilization (K : Type u) [Field K] (n : ℕ)
+    (I : ℕ → Ideal (MvPowerSeries (Fin n) K))
+    (h : ∀ j ℓ, localQuotientHilbertSamuel _ (I (j + 1)) ℓ ≤ localQuotientHilbertSamuel _ (I j) ℓ) :
+    ∃ j₀, ∀ j, j₀ ≤ j → localQuotientHilbertSamuel _ (I j) = localQuotientHilbertSamuel _ (I j₀) := sorry
+
+/-- `hsLexStabilization` (README §2.8): lexicographically nonincreasing realized
+Hilbert–Samuel functions in a fixed finite-dimensional power-series ring stabilize. -/
+theorem hsLexStabilization (K : Type u) [Field K] (n : ℕ)
+    (I : ℕ → Ideal (MvPowerSeries (Fin n) K))
+    (h : ∀ j, localQuotientHilbertSamuel _ (I (j + 1)) = localQuotientHilbertSamuel _ (I j) ∨
+      Pi.Lex (· < ·) (· < ·) (localQuotientHilbertSamuel _ (I (j + 1))) (localQuotientHilbertSamuel _ (I j))) :
+    ∃ j₀, ∀ j, j₀ ≤ j → localQuotientHilbertSamuel _ (I j) = localQuotientHilbertSamuel _ (I j₀) := sorry
 
 end ResolutionOfSingularities

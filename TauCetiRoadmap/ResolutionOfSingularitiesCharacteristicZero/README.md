@@ -326,6 +326,8 @@ Define `hilbertSamuel`. For a Noetherian local ring `(A,m)`, `H_A(ℓ)=length_A(
 
 The API gives `hilbertSamuel_completion`: Completion preserves every `valueH_A(ℓ)`; `hilbertSamuel_diagram`: `H_I(ℓ)` counts `α∉D(I)` with |`α|≤ℓ`; `hilbertSamuel_order`: pointwise `H≤H′` means `∀ℓ, H(ℓ)≤H′(ℓ)`, and equality means equality of all values. Prove `hilbertSamuel_lex`: lexicographic comparison is total and extends pointwise comparison. Together with local finiteness, pointwise upper semicontinuity implies upper semicontinuity for this scheduling order: each lexicographic upper set of attained values is a finite union of pointwise upper sets. (Bierstone–Milman–Temkin, [§6.1](https://arxiv.org/html/0905.3580v1#S6.SS1).)
 
+The affine signature `ResolutionOfSingularities.localQuotientHilbertSamuel A I` computes `H_(A/I)` as `length_A(A/(I + m^(ℓ+1)))`, including the zero quotient for the unit ideal. It takes values in `ℕ∞`; `ResolutionOfSingularities.localQuotientHilbertSamuel_finite` asserts finiteness for every ideal of a noetherian local A, identifying these values with natural numbers. `ResolutionOfSingularities.hilbertSamuel_completion` states equality with the function of the extended ideal in the maximal-adic completion.
+
 *Needs:* Mathlib `Module.length`, `stalkOrder`, `formalDivision`, SchemeAndStackFoundations §§0.8, 0.28.
 
 **Checks.**
@@ -336,13 +338,13 @@ The API gives `hilbertSamuel_completion`: Completion preserves every `valueH_A(�
 
 ### 2.8 hsStabilization
 
-Prove `hsStabilization`. Fix n. For ideals `I_j⊆K[[X₁,…,Xₙ]]`, if `H_{I_j}(ℓ)≥H_{I_{j+1}}(ℓ)` for every j,ℓ, then there is `j₀` such that all `H_{I_j}` with `j≥j₀` coincide. The statement concerns functions realized by formal ideals in fixed embedding dimension, not arbitrary natural-number-valued functions.
+Prove `hsStabilization`, stated as `ResolutionOfSingularities.hsStabilization`. Fix n. For ideals `I_j⊆K[[X₁,…,Xₙ]]`, if `H_{I_j}(ℓ)≥H_{I_{j+1}}(ℓ)` for every j,ℓ, then there is `j₀` such that all `H_{I_j}` with `j≥j₀` coincide. The statement concerns functions realized by formal ideals in fixed embedding dimension, not arbitrary natural-number-valued functions.
 
 ([Edward Bierstone and Pierre D. Milman](https://www.researchgate.net/publication/255647609_Uniformization_of_Analytic_Spaces), Theorem 5.2.1 and proof, pp. 820–821).
 
 For the proof, replace each ideal by its finite-vertex initial diagram. In a strictly decreasing subsequence, successive finite vertex prefixes can be fixed on infinite subsequences because Hilbert counts bound their degrees; then diagonalize these prefixes. Dickson finite generation forces the limit diagram to have finitely many vertices, contradicting continuing strict decreases.
 
-Prove `hsLexStabilization`: in the same fixed finite-variable formal ambient ring, every lexicographically nonincreasing sequence of realized Hilbert–Samuel functions is eventually constant. Establish stabilization for the lexicographic order itself by the finite-vertex diagram argument, retaining the least degree of each strict change; pointwise stabilization alone does not imply this assertion. This supplies the first-entry stabilization for the scheduled invariant words of Layer 3. (Bierstone–Milman–Temkin, §6.1, property (4); Bierstone–Milman, *Uniformization of analytic spaces*, Theorem 5.2.1, pp. 820–821.)
+Prove `hsLexStabilization`, stated as `ResolutionOfSingularities.hsLexStabilization`: in the same fixed finite-variable formal ambient ring, every lexicographically nonincreasing sequence of realized Hilbert–Samuel functions is eventually constant. Establish stabilization for the lexicographic order itself by the finite-vertex diagram argument, retaining the least degree of each strict change; pointwise stabilization alone does not imply this assertion. This supplies the first-entry stabilization for the scheduled invariant words of Layer 3. (Bierstone–Milman–Temkin, §6.1, property (4); Bierstone–Milman, *Uniformization of analytic spaces*, Theorem 5.2.1, pp. 820–821.)
 
 *Needs:* `hilbertSamuel`, `initialDiagram`, Mathlib `Pi.wellQuasiOrderedLE`.
 
@@ -450,7 +452,7 @@ At rational coordinate points, use §1.10’s localized-order comparisons with t
 - `DerivativeIdealChecks.zero`: the derivative ideal of zero is zero.
 - `DerivativeIdealChecks.unit`: the derivative ideal of the unit ideal is the unit ideal.
 - `DerivativeIdealChecks.cubic`: over Q, the derivative ideal of `(x³)` is `(x²)`.
-- `PolynomialOrderChecks.derivatives`: over a characteristic-zero field at a rational coordinate point, the localized principal-ideal order is at least n exactly when every iterated partial derivative of length less than n vanishes; this is the supplied Taylor-order criterion transported by §1.10.
+- `PolynomialOrderChecks.derivatives`, stated as `ResolutionOfSingularities.idealOrderAt_span_le_iff_eval_foldl_pderiv`: over a characteristic-zero field at a rational coordinate point, the localized principal-ideal order is at least n exactly when every iterated partial derivative of length less than n vanishes; this is the supplied Taylor-order criterion transported by §1.10.
 - `MaxContactTests.characteristicTwoCusp`: differentiating `x²+y³` with respect to y in characteristic two gives `y²`.
 - `MaxContactTests.characteristicTwoPower`: the derivative ideal of `(x²)` in characteristic two stays `(x²)`, so it supplies no order-one equation.
 - `DerivTests.charP`: for every prime p over `𝔽_p`, the derivative ideal of `(x^p)` is `(x^p)`, including `(x³)` over `𝔽₃`. The product rule preserves this ideal when differentiating any of its elements.
