@@ -2,13 +2,16 @@ import Mathlib
 import TauCeti.AlgebraicGeometry.Fibers
 import TauCeti.AlgebraicGeometry.Curves.StableReduction.Model.Basic
 import TauCeti.AlgebraicGeometry.Cohomology.MayerVietoris
+import TauCeti.Algebra.AlgebraicGroup.ConstantGroup.Scheme
+import TauCeti.Algebra.AlgebraicGroup.DiagonalizableGroup.Scheme.Points
 
 /-!
 # Relative Jacobians and integral models of curves: representative target signatures
 
 These are suggested forms, not an exhaustive checklist; `README.md` is the roadmap. It records
 signatures whose carriers are available at the pinned libraries: a Dedekind-domain model, extension of its generic points,
-the kernel and cokernel descriptions of the two-open cohomology sequence, and torsion reduction
+the kernel and cokernel descriptions of the two-open cohomology sequence, strict-local fraction-field
+Brauer vanishing, and torsion reduction
 for separated finite-type commutative group schemes. Cohomology here
 has values in `AddCommGrpCat`; the README also specifies its scalar and base-change structure.
 The two inclusions into the biproduct check the order and sign of the differential.
@@ -182,6 +185,18 @@ theorem cohomologyOne [M.IsQuasicoherent] {U V : X.Opens} (hU : IsAffineOpen U)
 
 end TwoChart
 
+/-! ## Layer 3: strict-local fraction-field Brauer vanishing -/
+
+/-- The fraction field of a henselian DVR with algebraically closed residue field has trivial
+Brauer group. This also applies to the valuation ring in a finite purely inseparable constant
+extension, whose residue field remains algebraically closed. -/
+theorem brauer_fractionField_henselianDVR_algClosedResidue
+    (R K : Type u) [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    [HenselianLocalRing R] [IsAlgClosed (IsLocalRing.ResidueField R)]
+    [Field K] [Algebra R K] [IsFractionRing R K] :
+    Subsingleton (BrauerGroup.{u, u} K) := by
+  sorry
+
 /-! ## Layer 4: reduction and torsion -/
 
 open scoped MonObj
@@ -199,6 +214,77 @@ def reductionHom (G : Over (Spec (.of R))) [GrpObj G] :
       Over.mk (𝟙 (Spec (.of R))) :=
     Over.homMk (Spec.map (CommRingCat.ofHom (IsLocalRing.residue R))) (by simp)
   ((yonedaGrpObj G).map i.op).hom
+
+example (H : Type u) [Group H] [Finite H] (g : H) (hg : g ≠ 1) :
+    let b : Over.mk (𝟙 (Spec (.of R))) ⟶ (Spec (.of R)).asOver (Spec (.of R)) :=
+      Over.homMk (𝟙 _) (by
+        dsimp [Scheme.asOver, OverClass.asOver]
+        simp [specOverSpec_over])
+    reductionHom (TauCeti.ConstantGroup.groupScheme R H).X
+      (b ≫ TauCeti.ConstantGroup.groupSchemePointMulEquiv R H R
+        (TauCeti.ConstantGroup.toPoints R H g)) ≠ 1 := by
+  classical
+  let b : Over.mk (𝟙 (Spec (.of R))) ⟶ (Spec (.of R)).asOver (Spec (.of R)) :=
+    Over.homMk (𝟙 _) (by
+        dsimp [Scheme.asOver, OverClass.asOver]
+        simp [specOverSpec_over])
+  let e := TauCeti.ConstantGroup.groupSchemePointMulEquiv R H R
+  change reductionHom (TauCeti.ConstantGroup.groupScheme R H).X
+    (b ≫ e (TauCeti.ConstantGroup.toPoints R H g)) ≠ 1
+  have hone : reductionHom (TauCeti.ConstantGroup.groupScheme R H).X
+      (b ≫ e (TauCeti.ConstantGroup.toPoints R H 1)) = 1 := by
+    simp [e]
+  intro h
+  have hh := congrArg Over.Hom.left (h.trans hone.symm)
+  change Spec.map (CommRingCat.ofHom (IsLocalRing.residue R)) ≫
+      (e (TauCeti.ConstantGroup.toPoints R H g)).left =
+    Spec.map (CommRingCat.ofHom (IsLocalRing.residue R)) ≫
+      (e (TauCeti.ConstantGroup.toPoints R H 1)).left at hh
+  simp only [e, TauCeti.ConstantGroup.groupSchemePointMulEquiv_apply_left,
+    TauCeti.ConstantGroup.toPoints_apply, ← Category.assoc] at hh
+  have hh' := (cancel_mono
+    (eqToHom (TauCeti.ConstantGroup.groupScheme_X_left R H).symm)).1 hh
+  rw [← Spec.map_comp, ← Spec.map_comp] at hh'
+  have halg := Spec.map_injective hh'
+  let a := (TauCeti.ConstantGroup.functionAlgEquiv R H).symm (Pi.single g 1)
+  have hv := congrArg (fun f => f a) halg
+  change IsLocalRing.residue R (TauCeti.ConstantGroup.functionAlgEquiv R H a g) =
+    IsLocalRing.residue R (TauCeti.ConstantGroup.functionAlgEquiv R H a 1) at hv
+  have hvalues : (1 : IsLocalRing.ResidueField R) = 0 := by
+    simpa only [a, AlgEquiv.apply_symm_apply, Pi.single_eq_same,
+      Pi.single_eq_of_ne (Ne.symm hg), map_one, map_zero] using hv
+  exact one_ne_zero hvalues
+
+example (x : (Spec (.of R)).asOver (Spec (.of R)) ⟶
+    (TauCeti.DiagonalizableGroup.multiplicativeGroupScheme R).X) :
+    let b : Over.mk (𝟙 (Spec (.of R))) ⟶ (Spec (.of R)).asOver (Spec (.of R)) :=
+      Over.homMk (𝟙 _) (by
+        dsimp [Scheme.asOver, OverClass.asOver]
+        simp [specOverSpec_over])
+    TauCeti.DiagonalizableGroup.multiplicativeGroupSchemePointsMulEquiv
+        (R := R) (A := IsLocalRing.ResidueField R)
+        (reductionHom (TauCeti.DiagonalizableGroup.multiplicativeGroupScheme R).X (b ≫ x)) =
+      Units.map (IsLocalRing.residue R).toMonoidHom
+        (TauCeti.DiagonalizableGroup.multiplicativeGroupSchemePointsMulEquiv
+          (R := R) (A := R) x) := by
+  let b : Over.mk (𝟙 (Spec (.of R))) ⟶ (Spec (.of R)).asOver (Spec (.of R)) :=
+    Over.homMk (𝟙 _) (by
+        dsimp [Scheme.asOver, OverClass.asOver]
+        simp [specOverSpec_over])
+  let φ := IsScalarTower.toAlgHom R R (IsLocalRing.ResidueField R)
+  have hred : reductionHom (TauCeti.DiagonalizableGroup.multiplicativeGroupScheme R).X
+        (b ≫ x) =
+      (Spec.map (CommRingCat.ofHom φ.toRingHom)).asOver (Spec (.of R)) ≫ x := by
+    apply Over.OverMorphism.ext
+    change Spec.map (CommRingCat.ofHom (IsLocalRing.residue R)) ≫ (𝟙 _ ≫ x.left) =
+      Spec.map (CommRingCat.ofHom φ.toRingHom) ≫ x.left
+    erw [Category.id_comp]
+    rfl
+  change TauCeti.DiagonalizableGroup.multiplicativeGroupSchemePointsMulEquiv
+      (R := R) (A := IsLocalRing.ResidueField R)
+      (reductionHom (TauCeti.DiagonalizableGroup.multiplicativeGroupScheme R).X (b ≫ x)) = _
+  rw [hred]
+  exact TauCeti.DiagonalizableGroup.multiplicativeGroupSchemePointsMulEquiv_mapValue φ x
 
 /-- A finite-order point in the reduction kernel of a separated finite-type commutative group
 scheme has order a power of the residue characteristic exponent, including exponent 1 in
@@ -244,11 +330,13 @@ end Reduction
 -- TotalDegreePiece, picardIdentity_iff_geometricPartialDegreesZero, curveNeronSeveri_finite,
 -- Rigidificator, the rigidified Picard sheaf and its function/unit spaces,
 -- rigidifiedPicard_algebraicSpace, picard_cohomologicallyFlat_algebraicSpace,
--- universalRigidifiedBundle, finiteRankHilbert_algebraicSpace, DivDegree, abelMap_r,
+-- universalRigidifiedBundle, finiteRankHilbert_algebraicSpace, DivDegree, relativeSymmetricPower,
+-- divDegree_symmetricPowerIso, symmetricQuotient_universal, symmetricPower_baseChange, abelMap_r,
 -- groupSpaceQuotient, smoothSeparatedGroupSpace_isScheme, jacobian_sectionRigidified,
 -- jacobian_universalBundleComparison, jacobianPoints_actualPicard, goodReductionSpecialization,
 -- GenericUnitClosure, SeparatedDegreeZeroQuotient, degreeZeroQuotient_representable,
--- raynaud_normalPicard, raynaud_regularNeron, HasRationalSingularities,
+-- raynaud_normalPicard, strictLocal_genericPicardClass_representable, raynaud_regularNeron,
+-- HasRationalSingularities,
 -- picardNeronIdentity_iff_rational, globalPicardNeronComparison, formalKernel, identityPreimage,
 -- globalTorsionReduction, ComponentLattice, the Greenberg ring spaces and functors,
 -- neronComponent_multidegreeIso, specialization_componentFormula, exists_regularProperModel
