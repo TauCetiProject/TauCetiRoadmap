@@ -21,9 +21,13 @@ Its §3.2 supplies the minimal cuspidal Eisenstein family, meromorphic continuat
 finite-block denominators and constant terms. README §§1.2–1.5 identify that family
 with the chamber construction; §§2.4–2.4a extend it to discrete and smooth inducing data.
 README §§1.15a–1.15c provide the general reductive Fredholm continuation route,
-the GL₂ scattering ratio and the all-unitary Hecke functional equation. The last
-uses ArithmeticGaloisRepresentations §2.7's finite-sum root-number product and
-AutomorphicLFunctionsAndLocalFactors AL.1's rank-one local functional equation.
+the GL₂ scattering ratio and the Eisenstein construction of the all-unitary Hecke
+functional equation. The last uses ArithmeticGaloisRepresentations §2.7's finite-sum
+root-number product and AutomorphicLFunctionsAndLocalFactors AL.1's rank-one local
+functional equation, and identifies its completion with that supplier's canonical
+Hecke endpoint by agreement of the full initial products. README §3.6a proves the
+global Eisenstein/intertwining strip estimates for AL.3's canonical completed
+Rankin–Selberg function; the local test realization is supplied by AL.3.
 
 Complex inner products conjugate the first slot. Positive real powers use the real logarithm.
 The modular Laplacian has the positive spectral sign. Integrals and sums denote analytic
@@ -576,13 +580,26 @@ at S, in the normalized induction with exponents s/2 and -s/2. Scalar extraction
 a nonzero local matrix-coefficient germ, with a nonzero holomorphic value in Re s > 0.
 Its Whittaker comparison uses AL.1's
 rank-one local functional equation with the arithmetic Tate constant.
-unitaryHeckeFunctionalEquation continues the primitive conductor-balanced completion
-for every unitary idele-class character of every number field and proves its
-inverse-character equation with the Gauss-sum root number. The completion is entire
-except for pure imaginary norm characters, whose simple poles are -i r and 1 - i r.
-The character parameter uses TauCeti.GlobalNumberFields.HeckeCharacter with the
-explicit unitary hypothesis. The adelic inducing, intertwining and completed
-Hecke-function carriers are specified in the README.
+unitaryHeckeFunctionalEquation constructs the primitive conductor-balanced completion
+from Eisenstein scattering for every unitary idele-class character of every number
+field, derives its inverse-character equation with the Gauss-sum root number, and
+identifies it with AL.1's canonical Hecke continuation. Agreement uses the full
+primitive Euler product, archimedean factors and conductor power on Re u > 1;
+scattering ratios alone do not fix the normalization. The comparison identifies
+polar principal parts: only pure imaginary norm characters have poles, simple at
+-i r and 1 - i r. The character parameter uses
+TauCeti.GlobalNumberFields.HeckeCharacter with the explicit unitary hypothesis.
+The adelic inducing, intertwining and completed Hecke-function carriers are
+specified in the README.
+
+README §3.6a consumes AL.3's canonical completed Rankin–Selberg endpoint for every
+positive rank pair. Its global Eisenstein/intertwining strip estimates use the
+continued families, truncation and local normalizing-factor comparison. Agreement
+of the full initial products, including ramified and archimedean factors, identifies
+the spectral scalar with the supplied continuation and all polar principal parts.
+The local realization is AL.3's: finite K-finite tests for equal or adjacent ranks,
+and smooth completed projective tensors for arbitrary gaps. These local bounds
+are separate from the global strip estimates constructed here.
 
 The cuspidal restrictions of eisenstein_series, convergent_intertwiner and
 cuspidal_constant_term identify the minimal analytic family supplied by
