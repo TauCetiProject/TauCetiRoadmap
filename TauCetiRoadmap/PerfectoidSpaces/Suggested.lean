@@ -19,8 +19,9 @@ import TauCetiRoadmap.AdicSpacesPartII.Suggested
 The README is the definitive specification. These are suggested forms for a subset of its
 targets, not an exhaustive checklist: the key predicates and structures over Tau Ceti's Huber
 rings and pre-adic spaces, and the end theorems of each layer that can be stated against them.
-The almost category, the tilt, untilts, completed tensor products and the étale and pro-étale
-sites are specified in the README only. Limit signatures use the existing cone carriers and
+The almost category, the general Tate-ring tilt, untilts, completed tensor products and the
+étale and pro-étale sites are specified in the README only. The field Galois-group comparison
+uses Mathlib's `Tilt`. Limit signatures use the existing cone carriers and
 AdicSpacesPartII's tilde-limit relation.
 -/
 
@@ -69,6 +70,27 @@ namespace TauCetiRoadmap.PerfectoidSpaces
 open TauCeti TauCeti.Huber TauCeti.ValuationSpectrum CategoryTheory Topology Filter TensorProduct
 
 universe u v
+
+/-! ## Fontaine–Wintenberger -/
+
+/-- A perfectoid field and its tilt have isomorphic topological absolute Galois groups
+(README P3.8, `fontaine-wintenberger`; Sch12 Theorem 3.7(ii)). The hypotheses are the
+perfectoid-field criterion of P1.11 (ECD Proposition 3.8); the tilt is Mathlib's fraction
+field of `PreTilt` of the norm's ring of integers. -/
+theorem Perfectoid.fontaineWintenberger_nonempty (p : ℕ) [Fact p.Prime]
+    (K : Type u) [NontriviallyNormedField K] [IsUltrametricDist K] [CompleteSpace K]
+    (hnondiscrete : ∀ ε : ℝ, 1 < ε → ∃ x : K, 1 < ‖x‖ ∧ ‖x‖ < ε)
+    (hp : ‖(p : K)‖ < 1)
+    (hF : Function.Surjective
+      (fun x : ModP (NormedField.valuation (K := K)).integer p ↦ x ^ p)) :
+    let v := NormedField.valuation (K := K)
+    letI : Fact (v (p : K) ≠ 1) := ⟨by
+      change ‖(p : K)‖₊ ≠ 1
+      intro h
+      exact (ne_of_lt hp) (congrArg (fun x : NNReal ↦ (x : ℝ)) h)⟩
+    Nonempty (Field.absoluteGaloisGroup K ≃ₜ*
+      Field.absoluteGaloisGroup (_root_.Tilt K v v.integer (Valuation.integer.integers v) p)) :=
+  sorry
 
 /-! ## Layer P0: almost mathematics over a basic setup -/
 

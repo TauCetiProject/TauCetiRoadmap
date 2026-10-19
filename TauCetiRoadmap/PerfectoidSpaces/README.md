@@ -8549,6 +8549,16 @@ the finite-algebra equivalence; changing compatible fibres conjugates it.
 unramified quadratic action `u ↦ u+1` on `u²−u=1` with `ζ₃ ↦ ζ₃²` on
 `ζ₃²+ζ₃+1=0`, through the untilt functor over `ℚ₂^cycl`.
 
+`Perfectoid.fontaineWintenberger_nonempty` states the existence of this topological
+group isomorphism on Mathlib's `Tilt` and `Field.absoluteGaloisGroup` carriers.
+Its hypotheses are P1.11's criterion: `K` is complete, nontrivially normed and
+ultrametric, its norms accumulate at `1`, `‖p‖ < 1`, and Frobenius on `K°/p` is
+surjective. Here `K°` is `NormedField.valuation.integer`, and the tilt is the
+fraction field of `PreTilt K° p`. The marked map and its fibre-action
+compatibility are the targets above.
+
+Lean: `Perfectoid.fontaineWintenberger_nonempty`.
+
 ### P3.9 tilting is an equivalence of finite étale algebras
 
 **Tilting is an equivalence between finite étale algebras over a perfectoid Tate ring and over its
