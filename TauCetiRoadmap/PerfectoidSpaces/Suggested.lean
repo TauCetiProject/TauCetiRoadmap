@@ -10,9 +10,7 @@ import TauCeti.AlgebraicGeometry.AdicSpace.PreAdicSpace.Adic
 import TauCeti.AlgebraicGeometry.AdicSpace.PreAdicSpace.Affinoid
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.StructurePresheaf.SheafyRing
 import TauCeti.RingTheory.Huber.LocalizationTopology.Completion
-
 import TauCeti.RingTheory.Huber.WeightedRestrictedSeries.Completion
-import TauCeti.Topology.Algebra.Module.Compact
 import TauCetiRoadmap.AdicSpacesPartII.Suggested
 
 /-!
@@ -21,9 +19,9 @@ import TauCetiRoadmap.AdicSpacesPartII.Suggested
 The README is the definitive specification. These are suggested forms for a subset of its
 targets, not an exhaustive checklist: the key predicates and structures over Tau Ceti's Huber
 rings and pre-adic spaces, and the end theorems of each layer that can be stated against them.
-Constructions that are themselves formalisation targets (the almost category, the tilt, untilts,
-completed tensor products, the étale and pro-étale sites, tilde-limits) are specified in the
-README only.
+The almost category, the tilt, untilts, completed tensor products and the étale and pro-étale
+sites are specified in the README only. Limit signatures use the existing cone carriers and
+AdicSpacesPartII's tilde-limit relation.
 -/
 
 /-!
@@ -73,11 +71,6 @@ open TauCeti TauCeti.Huber TauCeti.ValuationSpectrum CategoryTheory Topology Fil
 universe u v
 
 /-! ## Layer P0: almost mathematics over a basic setup -/
-
--- P0.19 consumes DerivedModuleAlgebra §0.1's polynomial resolution.
--- The standard resolution of `ℤ → ℤ/2` has torsion-free degree zero.
--- Every additive candidate for an inverse is zero; its extra degeneracy is set-level.
-example {σ : Type u} (f : ZMod 2 →+ MvPolynomial σ ℤ) : f = 0 := sorry
 
 namespace Almost
 
@@ -306,61 +299,9 @@ theorem ofValuationRing_eq_ofCompatibleRoots (O : Type u) [CommRing O] [IsDomain
 theorem padicComplex_maximalIdeal_not_fg (p : ℕ) [Fact p.Prime] :
     ¬ (IsLocalRing.maximalIdeal (PadicComplexInt p)).FG := sorry
 
--- Checks: the object property agrees with almost zero on classical, zero and valuation setups.
-example : ¬ (classical ℤ).almostZero (ModuleCat.of ℤ ℤ) := sorry
-example : (zero ℤ).almostZero (ModuleCat.of ℤ ℤ) := sorry
-example (p : ℕ) [Fact p.Prime] :
-    let V := PadicComplexInt p
-    let S := ofValuationRing V (padicComplex_maximalIdeal_not_fg p)
-    S.almostZero (ModuleCat.of V (IsLocalRing.ResidueField V)) := sorry
-
--- Checks: base change preserves the classical setup, kills the ideal over `V/m`, and makes
--- the ideal classical after inverting one of its elements.
-example (W : Type u) [CommRing W] [Algebra V W] :
-    (classical V).baseChange W = classical W := sorry
-example : (S.baseChange (V ⧸ S.ideal)).ideal = ⊥ := sorry
-example : ((classical ℤ).baseChange (Localization.Away (2 : ℤ))).ideal = ⊤ := sorry
-
--- Checks: classical, zero and compatible-root ideals satisfy condition (A) and condition (B).
-example : (classical V).IsFilteredPrincipal := sorry
-example : (zero V).IsFilteredPrincipal := sorry
-example (p : ℕ) (hp : 2 ≤ p) (r : ℕ → V)
-    (hr : ∀ n, r (n + 1) ^ p = r n) :
-    (ofCompatibleRoots p hp r hr).IsFilteredPrincipal := sorry
-example : (classical V).PowersGenerate := sorry
-example : (zero V).PowersGenerate := sorry
-example (p : ℕ) (hp : 2 ≤ p) (r : ℕ → V)
-    (hr : ∀ n, r (n + 1) ^ p = r n) :
-    (ofCompatibleRoots p hp r hr).PowersGenerate := sorry
-
--- Checks: rank one is finite in the classical setup; infinite rank is finite only for the
--- zero setup. These controls apply to generation, presentation and finite projectivity.
-example : (classical ℤ).AlmostFG ℤ := sorry
-example : (zero ℤ).AlmostFG (ℕ →₀ ℤ) := sorry
-example : ¬ (classical ℤ).AlmostFG (ℕ →₀ ℤ) := sorry
-example : (classical ℤ).AlmostFP ℤ := sorry
-example : (zero ℤ).AlmostFP (ℕ →₀ ℤ) := sorry
-example : ¬ (classical ℤ).AlmostFP (ℕ →₀ ℤ) := sorry
-example : (classical ℤ).IsAlmostFiniteProjective ℤ := sorry
-example : (zero ℤ).IsAlmostFiniteProjective (ℕ →₀ ℤ) := sorry
-example : ¬ (classical ℤ).IsAlmostFiniteProjective (ℕ →₀ ℤ) := sorry
-
--- Checks: the ordinary uniform bound accepts rank n, detects almost zero at bound zero,
--- and rejects rank two at bound one in the classical setup.
-example (n : ℕ) : S.UniformlyAlmostFG (Fin n → V) n := sorry
-example (N : Type*) [AddCommGroup N] [Module V N] :
-    S.UniformlyAlmostFG N 0 ↔ S.IsAlmostZero N := sorry
-example : ¬ (classical ℚ).UniformlyAlmostFG (Fin 2 → ℚ) 1 := sorry
-
--- Check: the zero ideal is a basic setup, and every module is almost zero for it.
-example : (zero V).ideal = ⊥ := rfl
 example (M : Type*) [AddCommGroup M] [Module V M] : (zero V).IsAlmostZero M := by
   intro ε hε x
   rw [Ideal.mem_bot.mp hε, zero_smul]
-
--- Check: for the zero setup `m̃ = 0`, so `(V^a)_! ≅ m̃` vanishes.
-example : Subsingleton (zero V).tilde :=
-  inferInstanceAs (Subsingleton ((⊥ : Ideal V) ⊗[V] (⊥ : Ideal V)))
 
 -- Negative control: for `V ≠ 0` and the zero setup, the unit comparison `m̃ → V` of `M ↦ M_!`
 -- is not surjective, so `M ↦ M_!` is not strong monoidal into `ModuleCat V`.
@@ -372,68 +313,24 @@ example [Nontrivial V] : ¬ Function.Surjective (zero V).tildeMul := by
   rw [hx0, map_zero] at hx
   exact zero_ne_one hx
 
--- Check: classically, almost finite presentation is finite presentation.
-example (M : Type u) [AddCommGroup M] [Module V M] :
+/-- For the classical setup, almost finite generation is ordinary finite generation
+(GR Proposition 2.3.10; README P0.10). -/
+theorem isAlmostFG_classical_iff (M : Type u) [AddCommGroup M] [Module V M] :
+    (classical V).AlmostFG M ↔ Module.Finite V M := sorry
+
+/-- For the classical setup, almost finite presentation is ordinary finite presentation
+(GR Proposition 2.3.10; README P0.10). -/
+theorem isAlmostFP_classical_iff (M : Type u) [AddCommGroup M] [Module V M] :
     (classical V).AlmostFP M ↔ Module.FinitePresentation V M := sorry
 
--- Negative control: the maximal ideal of `ℤ_p` is not idempotent.
-example (p : ℕ) [Fact p.Prime] : ¬ IsIdempotentElem (IsLocalRing.maximalIdeal ℤ_[p]) := sorry
-
--- Negative control: multiplication from `m ⊗ m` over `ℤ_p` has image `(p²)` and misses `p`.
-example (p : ℕ) [Fact p.Prime] :
-    (p : ℤ_[p]) ∉ LinearMap.range
-      (TensorProduct.lift ((LinearMap.mul ℤ_[p] ℤ_[p]).compl₁₂
-        (IsLocalRing.maximalIdeal ℤ_[p]).subtype
-        (IsLocalRing.maximalIdeal ℤ_[p]).subtype)) := sorry
-
--- Negative control: `(t) ⊆ 𝔽_p[t]` satisfies (A) but its squares generate `(t²) ≠ (t)`.
-example (p : ℕ) [Fact p.Prime] :
-    Ideal.span {(Polynomial.X : Polynomial (ZMod p)) ^ 2} ≠
-      Ideal.span {(Polynomial.X : Polynomial (ZMod p))} := sorry
-
--- Check: over `(ℤ, ℤ)`, `m̃ → V` sends `2 ⊗ 3 + 5 ⊗ 7` to `41`.
-example : (classical ℤ).tildeMul
-    ((⟨2, by simp [classical]⟩ : (classical ℤ).ideal) ⊗ₜ[ℤ] ⟨3, by simp [classical]⟩ +
-     (⟨5, by simp [classical]⟩ : (classical ℤ).ideal) ⊗ₜ[ℤ] ⟨7, by simp [classical]⟩) = 41 := by
-  norm_num [tildeMul, classical, TensorProduct.lift.tmul]
-
--- Check: classically, an almost isomorphism is a bijection; `2 : ℤ → ℤ` is not one.
-example {M N : Type u} [AddCommGroup M] [Module V M] [AddCommGroup N] [Module V N]
+/-- For the classical setup, almost isomorphisms are exactly bijective linear maps
+(GR Example 2.1.2(ii); README P0.1). -/
+theorem isAlmostIso_classical_iff {M N : Type u} [AddCommGroup M] [Module V M]
+    [AddCommGroup N] [Module V N]
     (f : M →ₗ[V] N) : (classical V).IsAlmostIso f ↔ Function.Bijective f := sorry
-example : ¬ (classical ℤ).IsAlmostIso (2 • (LinearMap.id : ℤ →ₗ[ℤ] ℤ)) := sorry
-
--- Check: `m ↪ V` is an almost isomorphism.
-example : S.IsAlmostIso S.ideal.subtype := sorry
-
--- Check: every linear map is an almost isomorphism for the zero setup.
-example {M N : Type u} [AddCommGroup M] [Module V M]
-    [AddCommGroup N] [Module V N] (f : M →ₗ[V] N) :
-    (zero V).IsAlmostIso f := sorry
-
--- Check: the all-one chain gives the classical setup; the all-zero chain gives `m = 0`.
-example (p : ℕ) (hp : 2 ≤ p) :
-    ofCompatibleRoots p hp (fun _ ↦ (1 : V)) (fun _ ↦ one_pow p) = classical V := sorry
-example (p : ℕ) (hp : 2 ≤ p) :
-    (ofCompatibleRoots p hp (fun _ ↦ (0 : V)) (fun _ ↦ zero_pow (by omega : p ≠ 0))).ideal =
-      ⊥ := sorry
-
--- Check: `ϖ_0 = 0` with `ϖ_1 ≠ 0` gives a nonzero root ideal.
-example (p : ℕ) (hp : 2 ≤ p) (ϖ : ℕ → V) (hϖ : ∀ n, ϖ (n + 1) ^ p = ϖ n) (h0 : ϖ 0 = 0)
-    (h1 : ϖ 1 ≠ 0) : (ofCompatibleRoots p hp ϖ hϖ).ideal ≠ ⊥ := sorry
-
--- Check: over `𝒪_{ℂ_p}`, the residue field is almost zero and `V/p` is not.
-example (p : ℕ) [Fact p.Prime] :
-    let V := PadicComplexInt p
-    let S := ofValuationRing V (padicComplex_maximalIdeal_not_fg p)
-    S.IsAlmostZero (IsLocalRing.ResidueField V) ∧
-      ¬ S.IsAlmostZero (V ⧸ Ideal.span {(p : V)}) := sorry
-
--- Negative control: a field has idempotent, finitely generated maximal ideal `0`.
-example (K : Type u) [Field K] :
-    IsIdempotentElem (IsLocalRing.maximalIdeal K) ∧ (IsLocalRing.maximalIdeal K).FG := sorry
-
--- Check: classically, almost finite projective is finite projective.
-example (M : Type u) [AddCommGroup M] [Module V M] :
+/-- For the classical setup, the `ε`-factorisation criterion is finite projectivity
+(GR Lemma 2.4.15; README P0.11). -/
+theorem isAlmostFiniteProjective_classical_iff (M : Type u) [AddCommGroup M] [Module V M] :
     (classical V).IsAlmostFiniteProjective M ↔ Module.Projective V M ∧ Module.Finite V M :=
   sorry
 
@@ -513,10 +410,6 @@ unit ball and pseudouniformiser any `0 < ‖ϖ‖ < 1`, without a completeness h
 instance _root_.TauCeti.Huber.IsTateRing.of_nontriviallyNormedField (K : Type*)
     [NontriviallyNormedField K] [IsUltrametricDist K] : IsTateRing K := sorry
 
--- Check: the Huber/Normed Tate structure requires no completeness hypothesis.
-example (K : Type*) [NontriviallyNormedField K] [IsUltrametricDist K] : IsTateRing K :=
-  inferInstance
-
 /-- A product of perfectoid Tate rings is perfectoid (ECD Example 3.4). -/
 instance IsPerfectoidTateRing.prod (p : ℕ) [Fact p.Prime] {R S : Type*} [CommRing R]
     [UniformSpace R] [IsUniformAddGroup R] [IsTopologicalRing R] [IsTateRing R] [CompleteSpace R]
@@ -534,13 +427,6 @@ theorem bijective_coeffZero_integralElements_of_perfectRing (p : ℕ) [Fact p.Pr
     [IsTateRing R] [CompleteSpace R] [T2Space R] [IsUniform R] [CharP R p]
     [PerfectRing R p] (P : Pair R) :
     Function.Bijective (Perfection.coeffMonoidHom P.plus p 0) := sorry
-
--- The quotient comparison is algebraic; its coordinate formula needs no topology on `A/I`.
-example (p : ℕ) [Fact p.Prime] {A : Type*} [CommRing A] (I : Ideal A)
-    [CharP (A ⧸ I) p] [IsAdicComplete I A] (x : Perfection A p) (n : ℕ) :
-    Perfection.coeff (A ⧸ I) p n (Perfection.quotientMulEquiv p I x) =
-      Ideal.Quotient.mk I (Perfection.coeffMonoidHom A p n x) :=
-  Perfection.coeff_quotientMulEquiv x n
 
 /-! ### Compatible `p`-power roots -/
 
@@ -606,11 +492,6 @@ theorem almostSetup_isAlmostZero_iff [IsPerfectoidTateRing p R] (M : Type*) [Add
     (almostSetup p R).IsAlmostZero M ↔
       ∀ ϖ : powerBoundedSubring R, IsPseudoUniformizer (ϖ : R) → ∀ x : M, ϖ • x = 0 := sorry
 
--- Check: every module over a zero perfectoid base is almost zero.
-example [IsPerfectoidTateRing p R] [Subsingleton R]
-    (M : Type*) [AddCommGroup M] [Module (powerBoundedSubring R) M] :
-    (almostSetup p R).IsAlmostZero M := sorry
-
 end AlmostSetup
 
 /-! ### Perfectoid fields -/
@@ -640,15 +521,6 @@ theorem IsPerfectoidField.valueGroup_pDivisible [IsPerfectoidField p K] (x : K) 
 instance isPerfectoidField_padicComplex : IsPerfectoidField p ℂ_[p] := sorry
 
 end Field
-
--- Checks: the perfectoid almost setup kills the residue field of `ℂ_p`, but not `𝒪/p`.
-example (p : ℕ) [Fact p.Prime] :
-    (almostSetup p ℂ_[p]).IsAlmostZero
-      ((powerBoundedSubring ℂ_[p]) ⧸ topologicallyNilpotentIdeal ℂ_[p]) := sorry
-example (p : ℕ) [Fact p.Prime] :
-    ¬ (almostSetup p ℂ_[p]).IsAlmostZero
-      ((powerBoundedSubring ℂ_[p]) ⧸
-        Ideal.span {(p : powerBoundedSubring ℂ_[p])}) := sorry
 
 /-- Kedlaya's theorem: a perfectoid Tate ring which is a field has its topology defined by a
 nontrivial nonarchimedean absolute value (KBF Theorem 4.2, p. 13; AWS Theorem 2.9.1). -/
@@ -716,31 +588,27 @@ def IsPrimitiveIdeal {S : Type*} [CommRing S] [TopologicalSpace S]
 example {S : Type*} [CommRing S] [CharP S p] : IsDistinguished p (p : WittVector p S) := by
   simp [IsDistinguished, WittVector.coeff_p_one]
 
--- Negative control: over a nonzero ring of characteristic `p`, `p²` and Teichmüller lifts are
--- not distinguished.
-example {S : Type*} [CommRing S] [CharP S p] [Nontrivial S] :
-    ¬ IsDistinguished p ((p : WittVector p S) ^ 2) := sorry
-example {S : Type*} [CommRing S] [CharP S p] [Nontrivial S] (x : S) :
-    ¬ IsDistinguished p (WittVector.teichmuller p x) := sorry
-
--- Checks: `p` is primitive; `p²` and Teichmüller lifts fail the first-coordinate unit condition.
-example {S : Type*} [CommRing S] [TopologicalSpace S] [CharP S p] :
-    IsPrimitive p (p : WittVector p S) := sorry
-example {S : Type*} [CommRing S] [TopologicalSpace S] [CharP S p] [Nontrivial S] :
-    ¬ IsPrimitive p ((p : WittVector p S) ^ 2) := sorry
-example {S : Type*} [CommRing S] [TopologicalSpace S] [CharP S p] [Nontrivial S] (x : S) :
-    ¬ IsPrimitive p (WittVector.teichmuller p x) := sorry
-
--- Checks: `(p)` is primitive; every vector in `(p²)` or the zero ideal has first coordinate zero.
-example {S : Type*} [CommRing S] [TopologicalSpace S] [CharP S p] :
-    IsPrimitiveIdeal p (Ideal.span {(p : WittVector p S)}) := sorry
-example {S : Type*} [CommRing S] [TopologicalSpace S] [CharP S p] [Nontrivial S] :
-    ¬ IsPrimitiveIdeal p (Ideal.span {((p : WittVector p S) ^ 2)}) := sorry
-example {S : Type*} [CommRing S] [TopologicalSpace S] [CharP S p] [Nontrivial S] :
-    ¬ IsPrimitiveIdeal p (⊥ : Ideal (WittVector p S)) := sorry
-
 variable {R : Type*} [CommRing R] [UniformSpace R] [IsUniformAddGroup R] [IsTopologicalRing R]
   [IsTateRing R] [CompleteSpace R] [T2Space R]
+
+/-- Frobenius on the reduction modulo `p` of every ring of integral elements of a perfectoid
+Tate ring is surjective (BMS Lemma 3.20; README P1.17). -/
+theorem frobenius_surjective_plus [IsPerfectoidTateRing p R] (P : Pair R) :
+    Function.Surjective (fun x : ModP P.plus p ↦ x ^ p) := sorry
+
+/-- Fontaine's map onto a ring of integral elements of a perfectoid Tate ring is surjective
+(ECD Lemma 3.14(i); README P1.17). -/
+theorem surjective_fontaineTheta_of_isPerfectoidTateRing [IsPerfectoidTateRing p R] (P : Pair R)
+    [Fact ¬ IsUnit (p : P.plus)] [IsAdicComplete (Ideal.span {(p : P.plus)}) P.plus] :
+    Function.Surjective (WittVector.fontaineTheta P.plus p) := sorry
+
+/-- The Fontaine kernel for a perfectoid Tate pair has a distinguished regular generator
+(ECD Lemma 3.14(ii); BMS Remark 3.11; README P1.18). -/
+theorem exists_regular_generator_ker_fontaineTheta [IsPerfectoidTateRing p R] (P : Pair R)
+    [Fact ¬ IsUnit (p : P.plus)] [IsAdicComplete (Ideal.span {(p : P.plus)}) P.plus] :
+    ∃ ξ : WittVector p (PreTilt P.plus p), IsDistinguished p ξ ∧
+      ξ ∈ nonZeroDivisors (WittVector p (PreTilt P.plus p)) ∧
+      RingHom.ker (WittVector.fontaineTheta P.plus p) = Ideal.span {ξ} := sorry
 
 /-- **Fontaine's `θ` has distinguished kernel.** For a perfectoid Tate ring and a ring of integral
 elements `R⁺`, the kernel of Mathlib's `θ : W(PreTilt R⁺ p) → R⁺` is generated by a distinguished
@@ -778,14 +646,9 @@ class IsIntegralPerfectoid : Prop where
     letI := hc
     (RingHom.ker (WittVector.fontaineTheta A p)).IsPrincipal
 
--- Check: a perfect ring of characteristic `p` is integral perfectoid (with `π = 0`).
-example [CharP A p] [PerfectRing A p] : IsIntegralPerfectoid p A := sorry
-
--- Negative control: `ℤ_p` is not integral perfectoid (every `π` with `π ^ p ∣ p` is a unit).
-example : ¬ IsIntegralPerfectoid p ℤ_[p] := sorry
-
--- Check: `𝒪_{ℂ_p}` is integral perfectoid.
-example : IsIntegralPerfectoid p (powerBoundedSubring ℂ_[p]) := sorry
+/-- Every perfect ring of characteristic `p` is integral perfectoid, with adic element zero. -/
+theorem IsIntegralPerfectoid.of_perfectRing [CharP A p] [PerfectRing A p] :
+    IsIntegralPerfectoid p A := sorry
 
 variable {p} {R : Type*} [CommRing R] [UniformSpace R] [IsUniformAddGroup R] [IsTopologicalRing R]
   [IsTateRing R] [CompleteSpace R] [T2Space R]
@@ -806,34 +669,14 @@ example : IsPerfectoidField p ℂ_[p] := inferInstance
 example : IsPerfectoidField p (padicCyclotomic p) :=
   isPerfectoidField_padicCyclotomic p
 
--- Checks: the zeroth compatible root can be `p^{1/p}` in `ℂ_p`, and cannot be `p`.
-example : ∃ a : PseudoUniformizerRoots p ℂ_[p], (a.root 0) ^ p = (p : ℂ_[p]) := sorry
-example (a : PseudoUniformizerRoots p ℂ_[p]) : a.root 0 ≠ (p : ℂ_[p]) := sorry
+/-- The p-adic field fails perfectoidness despite its perfect residue field. -/
+theorem not_isPerfectoidTateRing_padic : ¬ IsPerfectoidTateRing p ℚ_[p] := sorry
 
--- Check: in a perfect characteristic-`p` ring, the zeroth coordinate determines every root.
-example {R : Type*} [CommRing R] [TopologicalSpace R] [IsTopologicalRing R]
-    [IsTateRing R] [CharP R p] [PerfectRing R p]
-    (a b : PseudoUniformizerRoots p R) (h : a.root 0 = b.root 0) : a = b := sorry
-
--- Negative control: `ℚ_p` is not perfectoid (no `ϖ` with `ϖ ^ p ∣ p` in `ℤ_p`), and not a
--- perfectoid field, although Frobenius on `𝔽_p` is bijective.
-example : ¬ IsPerfectoidTateRing p ℚ_[p] := sorry
-example : ¬ IsPerfectoidField p ℚ_[p] := sorry
-
--- Negative control: `ℚ_p` has no pseudouniformiser with compatible roots.
-example : IsEmpty (PseudoUniformizerRoots p ℚ_[p]) := sorry
-
--- Check: the zero ring is perfectoid.
-example (R : Type*) [CommRing R] [UniformSpace R] [IsUniformAddGroup R] [IsTopologicalRing R]
+/-- The zero Tate ring satisfies the perfectoid condition. -/
+theorem isPerfectoidTateRing_of_subsingleton (R : Type*) [CommRing R] [UniformSpace R]
+    [IsUniformAddGroup R] [IsTopologicalRing R]
     [IsTateRing R] [CompleteSpace R] [T2Space R] [Subsingleton R] : IsPerfectoidTateRing p R :=
   sorry
-
--- Negative control for the Frobenius criterion: for `A = ℤ_p[π]` with `π ^ p = p`,
--- `A/π^p = A/p ≅ 𝔽_p[u]/(u^p)` with `u` the class of `π`, and `u` is not a `p`-th power there; so
--- neither the relative Frobenius `A/π → A/π^p` nor Frobenius on `A/p` is surjective, although the
--- Frobenius endomorphism of `A/π ≅ 𝔽_p` is bijective.
-example : ¬ ∃ y : Polynomial (ZMod p) ⧸ Ideal.span {(Polynomial.X : Polynomial (ZMod p)) ^ p},
-    y ^ p = Ideal.Quotient.mk _ Polynomial.X := sorry
 
 end Examples
 
@@ -872,11 +715,6 @@ theorem isPerfectoid_of_isFiniteEtaleSplit (p : ℕ) [Fact p.Prime]
 
 end SplitTate
 
-
-/-- Equality `p^{n−1} = n` is not enough in the proof of Lemma 15.3: over `ℂ_2`, a root `ϖ` of
-`X⁴ − 4X − 4` has `|ϖ²| = |2|`, so `2/ϖ²` is a unit, not topologically nilpotent. -/
-example (ϖ : ℂ_[2]) (hϖ : ϖ ^ 4 - 4 * ϖ - 4 = 0) :
-    ‖ϖ ^ 2‖ = ‖(2 : ℂ_[2])‖ ∧ IsUnit (2 / ϖ ^ 2) ∧ ¬ IsTopologicallyNilpotent (2 / ϖ ^ 2) := sorry
 
 end Huber
 
@@ -1147,17 +985,9 @@ theorem IsSousperfectoid.of_isPerfectoidTateRing [IsPerfectoidTateRing p R] :
 
 end IdentityFrame
 
-/-- The direction of the splitting: `σ ∘ ι = id_R`, while `ι ∘ σ` is only an idempotent of `R̃`
-and, over a nonzero `R`, is not the identity for every frame. -/
-example (p : ℕ) (R : Type u) [CommRing R] [Nontrivial R] [TopologicalSpace R]
-    [IsTopologicalRing R] (F : PerfectoidFrame p R) :
-    (∀ r, F.σ (F.ι r) = r) ∧ (∀ x, F.ι (F.σ (F.ι (F.σ x))) = F.ι (F.σ x)) ∧
-      ¬ (∀ (F' : PerfectoidFrame p R) (x : F'.Rt), F'.ι (F'.σ x) = x) := sorry
-
-/-- A sousperfectoid ring is complete and Hausdorff: `ι` is a homeomorphism onto the closed
-subring `ker (id − ι ∘ σ)` of the complete Hausdorff `R̃`. So `ℚ_p(ζ_{p^∞})`, uncompleted, has no
-frame. -/
-example (p : ℕ) (R : Type u) [CommRing R] [TopologicalSpace R] [IsTopologicalRing R]
+/-- A sousperfectoid ring is Hausdorff and complete for its additive uniform structure. -/
+theorem IsSousperfectoid.complete_and_t2 (p : ℕ) (R : Type u) [CommRing R]
+    [TopologicalSpace R] [IsTopologicalRing R]
     [IsSousperfectoid p R] :
     T2Space R ∧ @CompleteSpace R (IsTopologicalAddGroup.rightUniformSpace R) := sorry
 
@@ -1242,33 +1072,10 @@ theorem not_isPerfectoidTateRing_restrictedMvPowerSeries {p : ℕ} [Fact p.Prime
     [CompleteSpace S] [T2Space S] [Nontrivial S] [IsPerfectoidTateRing p S] (n : ℕ) (hn : 0 < n) :
     ¬ IsPerfectoidTateRing p (restrictedMvPowerSeriesCompletion n S) := sorry
 
-/-- `ℚ_p` fails the perfectoid divisibility condition. -/
-example (p : ℕ) [Fact p.Prime] : ¬ IsPerfectoidTateRing p ℚ_[p] := sorry
-
-/-- A degree-`p` extension with `π^p = p` is not perfectoid: Frobenius misses
-its uniformiser modulo `p`. The valuation topology is represented by the normed Tate field. -/
-example (p : ℕ) [Fact p.Prime] (K : Type) [NontriviallyNormedField K]
-    [IsUltrametricDist K] [CompleteSpace K] [NormedAlgebra ℚ_[p] K]
-    [FiniteDimensional ℚ_[p] K] [IsTateRing K]
-    (π : K) (hπ : π ^ p = algebraMap ℚ_[p] K (p : ℚ_[p]))
-    (hdim : Module.finrank ℚ_[p] K = p) : ¬ IsPerfectoidTateRing p K := sorry
-
-/-- `ℚ_p⟨T⟩` is sousperfectoid (frame `ℚ_p^cycl⟨T^{1/p^∞}⟩`) but not perfectoid. -/
-example (p : ℕ) [Fact p.Prime] :
-    IsSousperfectoid p (restrictedMvPowerSeriesCompletion 1 ℚ_[p]) ∧
-      ¬ IsPerfectoidTateRing p (restrictedMvPowerSeriesCompletion 1 ℚ_[p]) := sorry
-
-/-- `ℚ_p⟨X⟩[Q]/(Q²)` is strongly noetherian and sheafy but not sousperfectoid (not reduced). -/
-example (p : ℕ) [Fact p.Prime] :
-    ¬ IsSousperfectoid p (DualNumber (restrictedMvPowerSeriesCompletion 1 ℚ_[p])) := sorry
-
-/-- The zero ring is perfectoid (every condition is vacuous), hence sousperfectoid; this is why
-`S ≠ 0` is assumed above. -/
-example (p : ℕ) [Fact p.Prime] [IsTopologicalRing PUnit] : IsSousperfectoid p PUnit := sorry
-
-/-- In characteristic `p`, for a uniform complete Tate ring with finite Frobenius, sousperfectoid
-means that Frobenius splits `A`-linearly (HK, Lem. 7.10). -/
-example (p : ℕ) [Fact p.Prime] (A : Type) [CommRing A] [UniformSpace A] [IsUniformAddGroup A]
+/-- For a complete uniform Tate ring of characteristic `p` with finite Frobenius,
+sousperfectoidness is equivalent to an algebraic Frobenius splitting (HK Lemma 7.10). -/
+theorem isSousperfectoid_iff_frobenius_split (p : ℕ) [Fact p.Prime] (A : Type u) [CommRing A]
+    [UniformSpace A] [IsUniformAddGroup A]
     [IsTopologicalRing A] [IsTateRing A] [CompleteSpace A] [T2Space A] [CharP A p] [IsUniform A]
     (hF : (frobenius A p).Finite) :
     IsSousperfectoid p A ↔
@@ -1354,11 +1161,6 @@ theorem IsSousperfectoid.exists_fibreProduct_etale {p : ℕ} {X Y Z : TauCeti.Ad
              (integralClosure ↥(c.target.affinoid.pair.plus.map c.ringHom.toRingHom)
                c.source.affinoid.ring).toSubring)) ∧ u ≫ f = j ≫ g ≫ i) P.snd := sorry
 
-/-- A nonzero nilpotent section excludes sousperfectoidness: sections are reduced. -/
-example (p : ℕ) (X : TauCeti.AdicSpace) (U : Opens X.obj)
-    (a : X.obj.toRingPresheafedSpace.presheaf.obj (Opposite.op U)) (ha : IsNilpotent a)
-    (hne : a ≠ 0) : ¬ IsSousperfectoid p X := sorry
-
 /-- The empty adic space is sousperfectoid. -/
 example (p : ℕ) (X : TauCeti.AdicSpace) [IsEmpty X.obj] : IsSousperfectoid p X :=
   fun x ↦ isEmptyElim x
@@ -1367,13 +1169,6 @@ example (p : ℕ) (X : TauCeti.AdicSpace) [IsEmpty X.obj] : IsSousperfectoid p X
 end AdicSpace
 
 /-! ## Layer P4: Zariski closed subsets and immersions -/
-
--- Check for P4.15.4: the constant polynomial `1` is monic but has no root in a nonzero ring.
-example {A : Type u} [CommRing A] [Nontrivial A] :
-    Polynomial.Monic (1 : Polynomial A) ∧
-      (1 : Polynomial A).natDegree = 0 ∧
-      ¬ ∃ x : A, Polynomial.eval x (1 : Polynomial A) = 0 := by
-  simp
 
 namespace Perfectoid
 
@@ -1422,18 +1217,28 @@ theorem exists_surjective_perfectoidQuotient [IsPerfectoidTateRing p R] (I : Ide
         Continuous g → (∀ x ∈ I, g x = 0) → ∃! h : S →+* T, Continuous h ∧ h.comp f = g :=
   sorry
 
--- Check: the vanishing clause is pointwise, so a map killing the unit ideal has zero target.
-example {T : Type*} [CommRing T] (f : R →+* T) (hf : ∀ x ∈ (⊤ : Ideal R), f x = 0) :
-    Subsingleton T := by
-  have h := hf 1 Submodule.mem_top
-  rw [map_one] at h
-  exact subsingleton_of_zero_eq_one h.symm
-
 end ZariskiClosed
 
 end Perfectoid
 
 /-! ## Layer P5: cofiltered limits -/
+
+namespace PerfectoidSpace
+
+/-- A small cofiltered diagram of affinoid perfectoid spaces has an affinoid perfectoid
+limit in perfectoid spaces, with the inverse-limit topology on its points
+(ECD Propositions 6.4(o) and 6.5; README P5.3–P5.4). -/
+theorem exists_affinoidPerfectoid_limit {p : ℕ} [Fact p.Prime]
+    {I : Type u} [SmallCategory I] [IsCofiltered I]
+    (F : I ⥤ PerfectoidSpace.Perfd.{u} p)
+    (hF : ∀ i, PerfectoidSpace.isAffinoidPerfectoid p (F.obj i).obj) :
+    ∃ c : Limits.Cone F, Nonempty (Limits.IsLimit c) ∧
+      PerfectoidSpace.isAffinoidPerfectoid p c.pt.obj ∧
+      ∃ e : c.pt.obj ≃ₜ {x : ∀ i, (F.obj i).obj //
+        ∀ (i j : I) (f : i ⟶ j), (F.map f).hom.base (x i) = x j},
+        ∀ x i, (e x).1 i = (c.π.app i).hom.base x := sorry
+
+end PerfectoidSpace
 
 namespace Perfectoid
 
@@ -1514,18 +1319,43 @@ theorem isKappaSmall_presentationLimit_iff {A : Type u} [CommRing A] [UniformSpa
       (isAffinoidPerfectoid_presentationLimitPreAdicSpace p S P hP)⟩ ↔ Cardinal.mk A < κ :=
   sorry
 
+/-- For an uncountable strong limit cutoff, an affinoid perfectoid open cover with small
+section rings and a small point set makes the space small (ECD proof of Proposition 4.4;
+README P6.3). -/
+theorem isKappaSmall_of_affinoid_cover {κ : Cardinal.{u}} (hκ : κ.IsStrongLimit)
+    (hκ₀ : Cardinal.aleph0 < κ) {X : Perfd.{u} p} (U : Set (TopologicalSpace.Opens X.obj))
+    (hcover : ∀ x : X.obj, ∃ V ∈ U, x ∈ V)
+    (haff : ∀ V ∈ U, isAffinoidPerfectoid p (X.obj.restrict V.isOpenEmbedding))
+    (hsections : ∀ V ∈ U,
+      Cardinal.mk (X.obj.toRingPresheafedSpace.presheaf.obj (Opposite.op V)) < κ)
+    (hpoints : Cardinal.mk X.obj < κ) : IsKappaSmall p κ X := sorry
+
+/-- A quasicompact small perfectoid space has a uniform bound on all its affinoid section
+rings for an uncountable strong limit cutoff (ECD proof of Proposition 4.4; README P6.2). -/
+theorem IsUniformlyKappaSmall.of_isKappaSmall_of_compactSpace {κ : Cardinal.{u}}
+    (hκ : κ.IsStrongLimit) (hκ₀ : Cardinal.aleph0 < κ) {X : Perfd.{u} p}
+    [CompactSpace X.obj] (hX : IsKappaSmall p κ X) : IsUniformlyKappaSmall p κ X := sorry
+
+/-- Uniform smallness is preserved by fibre products over any perfectoid base for an
+uncountable strong limit cutoff (ECD proof of Proposition 4.4; README P6.4). -/
+theorem IsUniformlyKappaSmall.fibreProduct {κ : Cardinal.{u}} (hκ : κ.IsStrongLimit)
+    (hκ₀ : Cardinal.aleph0 < κ) {X Y Z : Perfd.{u} p} (f : X ⟶ Z) (g : Y ⟶ Z)
+    (hX : IsUniformlyKappaSmall p κ X) (hY : IsUniformlyKappaSmall p κ Y) :
+    IsUniformlyKappaSmall p κ (Limits.pullback f g) := sorry
+
+/-- At cutoff two, small perfectoid spaces are precisely the empty ones
+(ECD Definition 4.2; README P6.1). -/
+theorem isKappaSmall_two_iff_isEmpty (X : Perfd.{u} p) :
+    IsKappaSmall p 2 X ↔ IsEmpty X.obj := sorry
+
+/-- At cutoff two, uniformly small perfectoid spaces are precisely the empty ones
+(ECD Proposition 6.4, uniform bound; README P6.2). -/
+theorem isUniformlyKappaSmall_two_iff_isEmpty (X : Perfd.{u} p) :
+    IsUniformlyKappaSmall p 2 X ↔ IsEmpty X.obj := sorry
+
 -- Negative control: smallness is strict, so no perfectoid space is `0`-small.
 example (X : Perfd.{u} p) : ¬ IsKappaSmall p 0 X :=
   fun h ↦ absurd h.card_lt (not_lt.mpr zero_le)
-
--- Checks: the empty space has one section over its empty affinoid open; a nonempty affinoid
--- open has a nontrivial ring of sections. Thus cutoff `2` accepts exactly the empty spaces.
-example {X : Perfd.{u} p} [IsEmpty X.obj] : IsKappaSmall p 2 X := sorry
-example {X : Perfd.{u} p} [IsEmpty X.obj] : ¬ IsKappaSmall p 1 X := sorry
-example {X : Perfd.{u} p} [Nonempty X.obj] : ¬ IsKappaSmall p 2 X := sorry
-example {X : Perfd.{u} p} [IsEmpty X.obj] : IsUniformlyKappaSmall p 2 X := sorry
-example {X : Perfd.{u} p} [IsEmpty X.obj] : ¬ IsUniformlyKappaSmall p 1 X := sorry
-example {X : Perfd.{u} p} [Nonempty X.obj] : ¬ IsUniformlyKappaSmall p 2 X := sorry
 
 /-- A pro-object of `C`, as an object of Mathlib's `(Ind Cᵒᵖ)ᵒᵖ`, has a *κ-small presentation* if
 it is the limit of a cofiltered diagram with fewer than `κ` arrows (ECD Proposition 7.10). -/
@@ -1550,14 +1380,6 @@ example (C : Type u) [Category.{v} C] : IsEmpty (ProKappa 0 C) :=
   ⟨fun Z ↦ by
     obtain ⟨_, _, _, _, h, _⟩ := Z.property
     exact absurd h (not_lt.mpr zero_le)⟩
-
--- Checks: a cofiltered presentation has an identity arrow, while a constant presentation
--- needs only one arrow. Cutoff `1` is empty, and cutoff `2` contains every constant pro-object.
-example (C : Type v) [SmallCategory C] : IsEmpty (ProKappa 1 C) := sorry
-example (C : Type v) [SmallCategory C] (X : C) : Nonempty (ProKappa 2 C) := sorry
-example (C : Type v) [SmallCategory C] (X : C) :
-    HasKappaSmallPresentation (2 : Cardinal.{v+1})
-      (Opposite.op ((Ind.yoneda (C := Cᵒᵖ)).obj (Opposite.op X))) := sorry
 
 end PerfectoidSpace
 
@@ -1613,11 +1435,6 @@ def const (A : Type u) [CommRing A] (π : A) (hreg : π ∈ nonZeroDivisors A)
   complete _ := hc
   divides _ := hd
 
--- Check: the consecutive maps of the system are the transition maps.
-example (n : ℕ) : (T.diagram.map (homOfLE (Nat.le_succ n))).hom = T.transition n := by
-  simp [diagram, Functor.ofSequence_map_homOfLE_succ]
-  rfl
-
 /-- The image of `ϖ` in `colim A_n⁺`. -/
 abbrev colimitParameter : (Limits.colimit T.diagram : CommRingCat.{u}) :=
   (Limits.colimit.ι T.diagram 0).hom (T.parameter 0)
@@ -1647,19 +1464,6 @@ theorem FrobeniusTower.isIntegralPerfectoid_completedPlus {p : ℕ} [Fact p.Prim
     (T : FrobeniusTower.{u} p) : IsIntegralPerfectoid p T.completedPlus :=
   sorry
 
--- Negative control: at `p = 2` no stage has parameter `2` unless it is the zero ring, since
--- `4 ∣ 2` with `2` regular makes `2` a unit.
-example (T : IntegralTower.{u} 2) (n : ℕ) (h : T.parameter n = 2) : Subsingleton (T.ring n) := by
-  obtain ⟨c, hc⟩ := h ▸ T.divides n
-  have h0 : (1 - 2 * c) * 2 = 0 := by push_cast at hc; linear_combination hc
-  have h1 := (mem_nonZeroDivisors_iff.mp (h ▸ T.regular n)).2 _ h0
-  have hu : IsUnit (2 : T.ring n) := IsUnit.of_mul_eq_one (b := c) (by linear_combination -h1)
-  have hH := (h ▸ T.complete n).toIsHausdorff
-  rw [Ideal.span_singleton_eq_top.mpr hu] at hH
-  have hz : ∀ x : T.ring n, x = 0 := fun x ↦
-    hH.haus x fun k ↦ by simp [SModEq.zero, Ideal.top_pow]
-  exact ⟨fun a b ↦ (hz a).trans (hz b).symm⟩
-
 -- Negative control: no stage of an integral tower is a field. A regular parameter of a field is
 -- nonzero, hence a unit, and adic separatedness for the unit ideal forces the zero ring. So a
 -- perfect field such as `𝔽_p`, integral perfectoid with `π = 0`, has no constant tower.
@@ -1676,5 +1480,24 @@ example {p : ℕ} (T : IntegralTower.{u} p) (n : ℕ) (hF : IsField (T.ring n)) 
   exact hab ((hz a).trans (hz b).symm)
 
 end Perfectoid
+
+namespace PerfectoidSpace
+
+/-- A small cofiltered system of perfectoid spaces with affinoid transition maps has a
+categorical limit which is also an adic tilde-limit (ECD Proposition 6.5 and gluing;
+README P7.14). -/
+theorem exists_tildeLimit_of_affinoid_transitions {p : ℕ} [Fact p.Prime]
+    {I : Type} [SmallCategory I] [IsCofiltered I] (F : I ⥤ Perfd.{u} p)
+    (haff : ∀ (i j : I) (f : i ⟶ j) (U : TopologicalSpace.Opens (F.obj j).obj),
+      isAffinoidPerfectoid p ((F.obj j).obj.restrict U.isOpenEmbedding) →
+      isAffinoidPerfectoid p ((F.obj i).obj.restrict
+        ((TopologicalSpace.Opens.comap
+          (F.map f).hom.base.hom U).isOpenEmbedding))) :
+    ∃ c : Limits.Cone F, Nonempty (Limits.IsLimit c) ∧
+      TauCetiRoadmap.AdicSpacesPartII.AdicSpace.IsTildeLimit
+        (F ⋙ ObjectProperty.ιOfLE (isPerfectoidSpace_le_isAdic p))
+        ((ObjectProperty.ιOfLE (isPerfectoidSpace_le_isAdic p)).mapCone c) := sorry
+
+end PerfectoidSpace
 
 end TauCetiRoadmap.PerfectoidSpaces

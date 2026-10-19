@@ -958,7 +958,8 @@ the first clause of *almost-zero-iff-tilde-tensor-zero* (P0.2)). *Needs:* Mathli
 Lean: `Almost.BasicSetup`, `BasicSetup.tilde`, `tildeMul`, `IsAlmostZero`, `almostZero`,
 `IsAlmostIso`, `classical`, `zero`, `baseChange`, `IsFilteredPrincipal`, `PowersGenerate`,
 `IsFilteredPrincipal.powersGenerate`, `powersGenerate`, `flat_tilde_top`,
-`isAlmostZero_classical_iff`, `isIdempotentElem_map`, `flat_tilde_map`,
+`isAlmostZero_classical_iff`, `BasicSetup.isAlmostIso_classical_iff`,
+`isIdempotentElem_map`, `flat_tilde_map`,
 `isAlmostZero_iff_tensor_eq_zero`.
 
 ### P0.2 the root setup of compatible p-power roots
@@ -1439,10 +1440,9 @@ almost zero modules form a tensor ideal ([GR] §2.2, (2.2.5), p. 12; [Bhatt] §4
 - Classical setup (positive control): for `m = V`, `m̃ → V` is bijective and `(−)_!` is strong
   monoidal into `ModuleCat V`.
 
-Lean: `BasicSetup.zero` and `BasicSetup.tildeMul`; the Lean `example`s for the zero setup check
-`(zero V).ideal = ⊥`, that every module is almost zero, that `(zero V).tilde` is a subsingleton,
-and that `(zero V).tildeMul` is not surjective when `V` is nontrivial. The monoidal structure on
-`Almost.Module S` is specified in this README only.
+Lean: `BasicSetup.zero` and `BasicSetup.tildeMul`; the two proved examples for the zero setup
+show that every module is almost zero and that `tildeMul` is not surjective over a nontrivial ring.
+The monoidal structure on `Almost.Module S` is specified in this README only.
 
 ### P0.8 almost algebras
 
@@ -1707,11 +1707,9 @@ and cokernel killed by `ε`). *Needs:* P0.8; Mathlib `Submodule.FG`, `Module.Fin
   The same infinite free module satisfies both predicates for the zero setup.
 
 Lean: `BasicSetup.AlmostFG`, `BasicSetup.UniformlyAlmostFG`, `BasicSetup.AlmostFP`,
-`BasicSetup.AlmostFP.almostFG`, `BasicSetup.UniformlyAlmostFG.iff_of_isAlmostIso`; a Lean
-`example` states that for the classical setup `AlmostFP` is `Module.FinitePresentation`;
-examples on `ℤ` and `ℕ →₀ ℤ` mirror the classical and zero-setup controls for both predicates.
-The uniform-bound examples test `Vⁿ` with bound `n`, bound zero as almost zero, and failure of
-bound `1` for `ℚ²` in the classical setup.
+`BasicSetup.AlmostFP.almostFG`, `BasicSetup.UniformlyAlmostFG.iff_of_isAlmostIso`, and
+`BasicSetup.isAlmostFG_classical_iff` and `BasicSetup.isAlmostFP_classical_iff` (classical
+almost finite generation and presentation are ordinary finite generation and presentation). The finite-rank, infinite-rank and zero-setup Checks are specified in prose.
 
 ### P0.11 flatness and almost projectivity
 
@@ -1826,10 +1824,10 @@ representatives ([GR] (2.4.10)).
   their almost versions are nonzero in the classical setup.
 
 Lean: `BasicSetup.IsAlmostFiniteProjective`, the `ε`-factorisation of
-*almost-projective-epsilon-factorisation*(ii) for a `V`-module over `S` (for every `ε ∈ m`,
-`ε • id_M` factors through a finite free module), which by that result agrees with
-`AlmostFiniteProjective` above; and `BasicSetup.IsAlmostFiniteProjective.almostFG`. A Lean
-`example` states that for the classical setup the `ε`-form is `Module.Projective ∧ Module.Finite`.
+*almost-projective-epsilon-factorisation*(ii) for a `V`-module over `S`;
+`BasicSetup.IsAlmostFiniteProjective.almostFG`; and
+`BasicSetup.isAlmostFiniteProjective_classical_iff`, identifying the classical `ε`-form with
+`Module.Projective ∧ Module.Finite`.
 
 ### P0.12 duals and traces
 
@@ -3522,13 +3520,11 @@ functor `invert ϖ`, the naive cotangent complex of `A_* → B_*`, the unit idea
 the complex `V[1/ϖ]` which is almost exact modulo `ϖ` but not almost exact, and the constant sheaf
 `k` on `S¹` which is almost acyclic with `H¹ ≠ 0`.
 
-The Lean `example`s of `Suggested.lean` for this layer use the classical, zero, valuation and root
-setups, with `ℤ_p`, `(t) ⊆ 𝔽_p[t]` and fields as non-examples: the zero setup pins `m̃ = 0` and the
-failure of the unit comparison `m̃ → V` (P0.7); the classical setup pins almost isomorphisms as
-bijections (with `2 : ℤ → ℤ` excluded), almost finite presentation as finite presentation, and the
-`ε`-form of almost finite projectivity as finite projectivity; `m ↪ V` is an almost isomorphism; the
-all-one and all-zero root chains give the classical and zero setups, while `ϖ_0 = 0` with `ϖ_1 ≠ 0`
-gives a nonzero root ideal; over `𝒪_{ℂ_p}` the residue field is almost zero and `V/p` is not.
+The two proved Lean examples for this layer show that the zero setup kills every module and
+that its unit comparison `m̃ → V` fails to be surjective when `V` is nontrivial (P0.7). Named
+comparison targets identify classical almost isomorphisms with bijections, classical almost
+finite presentation with finite presentation, and classical almost finite projectivity with
+finite projectivity. The other Checks above are specified in prose.
 
 ### Dependencies
 
@@ -3699,8 +3695,9 @@ Lean: `Perfectoid.IsPerfectoidTateRing`, `IsPerfectoidTateRing.of_surjective`,
 `IsPerfectoidTateRing.isReduced`, `IsPerfectoidTateRing.prod`, `IsTateRing.instProd`, and
 `TauCeti.Huber.IsTateRing.of_nontriviallyNormedField` (the Huber/Normed compatibility signature:
 a nontrivially normed ultrametric field is a Tate ring,
-with ring of definition the closed unit ball). The Lean `example`s check that `ℚ_p` is not
-perfectoid and that the zero ring is.
+with ring of definition the closed unit ball);
+`Perfectoid.not_isPerfectoidTateRing_padic` and `Perfectoid.isPerfectoidTateRing_of_subsingleton`
+state the `ℚ_p` and zero-ring boundaries.
 
 ### P1.2 characteristic p: perfectoid equals perfect complete Tate
 
@@ -3840,11 +3837,8 @@ power-multiplicative (`|x^n| = |x|^n` for `n > 0`, or for all `n` when `R ≠ 0`
 - Characterisation: `⋃_{q>0} ϖ^qR° = R°°`, the
   topologically nilpotent elements (*topologically-nilpotent-elements-as-root-ideal*, P1.9).
 
-Lean: `PseudoUniformizerRoots`, `PseudoUniformizerRoots.root`, `PseudoUniformizerRoots.nonempty`;
-Lean examples check that `ℚ_p` has no pseudo-uniformizer with compatible roots, that `ℂ_p`
-admits one with `root 0 ^ p = p` but none with `root 0 = p`, and that the zeroth root determines
-the structure in a perfect characteristic-`p` Tate ring. The gauge is
-specified in this README only.
+Lean: `PseudoUniformizerRoots`, `PseudoUniformizerRoots.root`, `PseudoUniformizerRoots.nonempty`.
+The root-system and gauge Checks are specified in this README only.
 
 ### P1.4 the tilt of a perfectoid Tate ring
 
@@ -4025,7 +4019,7 @@ relative Frobenius `A/π ≅ 𝔽_p → A/π^p = A/p ≅ 𝔽_p[u]/(u^p)` has im
 Frobenius on `A/p ≅ 𝔽_p[u]/(u^p)` also has image `𝔽_p`. So (i) and (ii) miss `u`, and Frobenius on
 `A/πp` is not surjective either, `A/p` being a quotient of `A/πp`: all three conditions of the
 criterion fail together, and bijectivity of the Frobenius endomorphism of `A/π` says nothing about
-perfectoidness. A Lean `example` states that `u` is not a `p`-th power in `(ZMod p)[X]/(X^p)`
+perfectoidness. The Check states that `u` is not a `p`-th power in `(ZMod p)[X]/(X^p)`
 ([ECD] Remark 3.2, p. 14; [BMS] Lemma 3.9 (i)–(iii), p. 22; [Berkeley] Remark 6.1.3, p. 42; [KL15]
 Remark 3.4.9, p. 81; [AWS] Remark 2.1.5, p. 50; Mathlib `IsAdicComplete`). The integral subrings of
 the tilt (*tilt-integral-subrings*): for `R` perfectoid with tilt `R♭`, `ϖ♭` with compatible roots
@@ -4354,8 +4348,9 @@ a compatible absolute value. The comparison preserves topology, not a prescribed
 
 Lean: `IsPerfectoidField`, `isPerfectoidField_padicComplex`, `IsPerfectoidField.valueGroup_pDivisible`,
 and the Huber/Normed compatibility signature `TauCeti.Huber.IsTateRing.of_nontriviallyNormedField`
-(the Tate structure, also listed under P1.1); Lean examples check the Tate structure without
-completeness and that `ℚ_p` is not a perfectoid field.
+(the Tate structure, also listed under P1.1). The `ℚ_p` boundary is
+`Perfectoid.not_isPerfectoidTateRing_padic`; the two proved field examples are `ℂ_p` and
+`padicCyclotomic`.
 
 ### P1.11 characterisation of perfectoid fields
 
@@ -4609,10 +4604,9 @@ field of AdicSpaces layer 6 and `R⁺ = 𝒪_F` the completeness clause is the l
 One statement, specified in this README only, records `ϖ♭`-adic completeness and torsion freeness
 of `R⁺`, the quotient `W(R⁺)/p ≃ R⁺`, and the three assertions in (c).
 
-Lean: `IsDistinguished`, `IsPrimitive`, `IsPrimitiveIdeal`; the Lean `example`s check that `p` is
-distinguished and primitive in characteristic `p` and that, over a nonzero ring of characteristic
-`p`, `p²` and Teichmüller lifts are neither. The ideal examples accept `(p)` and reject `(p²)`
-and the zero ideal over nonzero rings.
+Lean: `IsDistinguished`, `IsPrimitive`, `IsPrimitiveIdeal`; the proved Lean example shows that
+`p` is distinguished in characteristic `p`. The primitive-element and primitive-ideal Checks
+are specified in prose.
 
 ### P1.17 ECD's `θ` is Mathlib's `fontaineTheta`
 
@@ -4650,6 +4644,10 @@ Proposition 3.3.3, p. 58). For `K` a perfectoid field and `K⁺ ⊆ K°` an open
 rank `2` (one exists iff the residue field of `K` is not algebraic over `𝔽_p`, e.g. for the
 completed perfection of `𝔽_p(x)((t))`; `𝒪_{ℂ_p}` is the only ring of integral elements of `ℂ_p`),
 Frobenius on `K⁺/p` is surjective.
+
+Lean: `Perfectoid.frobenius_surjective_plus` and
+`Perfectoid.surjective_fontaineTheta_of_isPerfectoidTateRing` state the Frobenius and Fontaine
+surjections on the pinned `ModP`, `PreTilt` and Witt-vector carriers.
 
 ### P1.18 Fontaine's `θ`: the primitive kernel
 
@@ -4723,7 +4721,8 @@ adic completeness, p-adic completeness and the small quotient ([Berkeley] Lemmas
 6.2.8 and 6.2.10; [AWS] Remark 2.3.5; [BMS] Lemma 3.2(ii)).
 
 Lean: `ker_fontaineTheta` (the kernel of Mathlib's `WittVector.fontaineTheta` is generated by an
-`IsDistinguished` element).
+`IsDistinguished` element) and `Perfectoid.exists_regular_generator_ker_fontaineTheta`
+(the generator can be chosen to be a nonzerodivisor).
 
 ### P1.19 the untilt along a primitive ideal
 
@@ -5095,8 +5094,9 @@ content of the proposed topological interface; a topology identified as `π`-adi
 chosen presentation.
 
 Lean: `IsIntegralPerfectoid`, with fields `exists_adic_element`, `frobenius_surjective` and
-`theta_kernel_principal`; the Lean `example`s check that perfect rings of characteristic `p` and
-`𝒪_{ℂ_p}` are integral perfectoid and that `ℤ_p` is not.
+`theta_kernel_principal`; `Perfectoid.IsIntegralPerfectoid.of_perfectRing` states that every
+perfect ring of characteristic `p` is integral perfectoid. The `𝒪_{ℂ_p}` and `ℤ_p` Checks are
+specified in prose.
 
 ### P1.25 perfectoid Tate rings and integral perfectoid rings
 
@@ -5985,11 +5985,9 @@ names a Check specified in this README only.
 `triple_unit_counit` states the triangle identity for the specified classification functor and
 its primitive-untilting inverse.
 
-The Lean `example`s of `Suggested.lean` for this layer cover `ℚ_p` (not perfectoid, not a perfectoid
-field, no pseudo-uniformizer with compatible roots), the zero ring (perfectoid), `p` versus `p²` and
-Teichmüller lifts as distinguished elements, `ℤ_p` versus `𝒪_{ℂ_p}` and perfect rings of
-characteristic `p` as integral perfectoid rings, and the ramified control of P1.5 (`u` is not a
-`p`-th power in `𝔽_p[u]/(u^p)`).
+The three proved Lean examples for this layer show that `p` is distinguished and that `ℂ_p`
+and the completed cyclotomic field are perfectoid fields. The `ℚ_p` and zero-ring boundaries
+are named targets in P1.1; the other Checks above are specified in prose.
 
 ### Dependencies
 
@@ -9099,21 +9097,22 @@ P1.1 (`Perfectoid.IsPerfectoidTateRing`) and P1.31 (`ℚ_p^cycl`); Tau Ceti `Hub
 `Huber.PerfectoidFrame.refl`, `Huber.IsSousperfectoid`,
 `Huber.IsSousperfectoid.of_isPerfectoidTateRing`,
 `Huber.PerfectoidFrame.powerBoundedSubring_eq_comap`, `Huber.IsSousperfectoid.isUniform`,
-`Huber.IsSousperfectoid.isReduced`.
+`Huber.IsSousperfectoid.isReduced`, `Huber.IsSousperfectoid.complete_and_t2`, and
+`Huber.isSousperfectoid_iff_frobenius_split` (the characteristic-`p`, finite-Frobenius
+characterisation).
 
 **Checks.**
 
 - Computation: `ℚ_p⟨T⟩` is sousperfectoid:
   `ι : ℚ_p⟨T⟩ → ℚ_p^cycl⟨T^{1/p^∞}⟩` with `σ` = (the retraction `ℚ_p^cycl → ℚ_p`) applied to the
-  coefficients followed by deleting the non-integral exponents is a perfectoid frame (Lean
-  `example`, with the following non-example).
+  coefficients followed by deleting the non-integral exponents is a perfectoid frame.
 - Non-example: `ℚ_p⟨T⟩` is not a
   perfectoid Tate ring: Frobenius on `ℤ_p⟨T⟩/p = 𝔽_p[T]` is not surjective (`T` is not a `p`-th
   power), so "sousperfectoid" is strictly weaker than "perfectoid".
 - Non-example: `A = ℚ_p⟨X, Q⟩/(Q²)` is strongly noetherian
   and sheafy (the AdicSpaces layer 4 example) but not sousperfectoid: a sousperfectoid ring is
   uniform, hence reduced, and `Q ≠ 0` is nilpotent. A definition by "sheafy", or by a splitting of
-  abstract modules into a non-perfectoid ring, fails this test (Lean `example`).
+  abstract modules into a non-perfectoid ring, fails this test.
 - Degenerate: `ℚ_p` (the Tate algebra in zero variables) is
   sousperfectoid, with frame `ℚ_p → ℚ_p^cycl` split by a continuous `ℚ_p`-linear retraction
   (*sousperfectoid-p-adic-field*).
@@ -9122,13 +9121,13 @@ P1.1 (`Perfectoid.IsPerfectoidTateRing`) and P1.31 (`ℚ_p^cycl`); Tau Ceti `Hub
   the identity frame.
 - Characterisation: for a uniform complete Tate ring `A` of
   characteristic `p` whose Frobenius is finite, `A` is sousperfectoid iff Frobenius `A → A` splits as
-  `A`-modules (HK §7, Lem. 7.10) (Lean `example`); for example `𝔽_p((t))⟨T⟩` is sousperfectoid.
+  `A`-modules (HK §7, Lem. 7.10); for example `𝔽_p((t))⟨T⟩` is sousperfectoid.
 
 - Non-example: the uncompleted field `ℚ_p(ζ_{p^∞})` with its
   `p`-adic topology is a Tate ring that admits no perfectoid frame at all: a
   frame `(R̃, ι, σ)` makes `ι` a homeomorphism onto the closed subgroup `ker(id − ι∘σ)` of the
   complete Hausdorff group `R̃`, so a sousperfectoid ring is complete and Hausdorff, which
-  `ℚ_p(ζ_{p^∞})` is not (Lean `example`: a sousperfectoid ring is Hausdorff and complete). The class
+  `ℚ_p(ζ_{p^∞})` is not (`Huber.IsSousperfectoid.complete_and_t2`). The class
   `Huber.IsSousperfectoid` therefore omits completeness and
   the Hausdorff property, and omits the topological nilpotence of `p` (which holds in `R̃` since
   `ϖ^p ∣ p` there, and descends along the embedding `ι`): all three are consequences, not
@@ -9140,8 +9139,8 @@ P1.1 (`Perfectoid.IsPerfectoidTateRing`) and P1.31 (`ℚ_p^cycl`); Tau Ceti `Hub
   on `K_n = ℚ_p(ζ_{p^n})`), `ι(σ(ζ_{p²})) = σ(ζ_{p²}) = 0 ≠ ζ_{p²}` (the primitive `p²`-th roots of
   unity sum to `μ(p²) = 0`), while `σ(ι(1)) = 1`; `ζ_p` is a poorer witness, since for `p = 2`,
   `ζ_2 = −1 ∈ ℚ_2` and `ι(σ(ζ_2)) = ζ_2`. The assertion that the reversed composite
-  can fail assumes `R ≠ 0` (Lean `example`: `σ ∘ ι = id`, `ι ∘ σ` is idempotent, and over a nonzero
-  `R` it is not the identity for every frame).
+  can fail assumes `R ≠ 0`: `σ ∘ ι = id`, `ι ∘ σ` is idempotent, and over a nonzero
+  `R` it is not the identity for every frame.
 - Negative control: for `R = 0` the unital map
   `ι : R → R̃` forces `R̃ = 0`, and both composites are identities. A counterexample to
   the reversed identity cannot be demanded over the zero ring.
@@ -9369,9 +9368,9 @@ Lean: `Huber.IsSousperfectoid.of_finite_padic`.
 
 **Checks.**
 
-- `ℚ_p` is sousperfectoid but fails perfectoid divisibility (Lean `example`).
+- `ℚ_p` is sousperfectoid but fails perfectoid divisibility (`Perfectoid.not_isPerfectoidTateRing_padic`).
 - The finite extension with `π^p = p` satisfies divisibility and fails Frobenius
-  surjectivity modulo `p` (Lean `example`).
+  surjectivity modulo `p`.
 - `K⟨T⟩` is sousperfectoid; Frobenius on `K°⟨T⟩/p` misses its
   coordinate `T`, so sousperfectoidness does not imply perfectoidness.
 
@@ -9485,7 +9484,7 @@ The predicate `AdicSpace.IsSousperfectoid p X` is exactly the existence, at each
 point, of a Part II `AdicSpace.Chart` whose coordinate ring is sousperfectoid
 and whose open immersion contains that point in its image.
 The empty space satisfies this condition (Lean `example`);
-a nonzero nilpotent section on any open excludes it (Lean `example`);
+a nonzero nilpotent section on any open excludes it;
 the closed disc over `ℚ_p` satisfies it.
 Together with the closed-disc and perfectoid Checks above, these distinguish the
 local condition from perfectoidness and from merely being analytic.
@@ -9638,7 +9637,7 @@ Lean: `Huber.not_isPerfectoidTateRing_restrictedMvPowerSeries`.
 - Degenerate: the zero ring is a perfectoid Tate ring in the sense of
   the P1 structure (`0` is a topologically nilpotent unit, `0^p ∣ p = 0`, Frobenius on `0` is
   surjective), hence sousperfectoid with the identity frame; this is why
-  [*perfectoid-times-polydisc*](#p3-17b) (P3.17b) needs `S ≠ 0`: `0⟨T⟩ = 0` is perfectoid (Lean `example`).
+  [*perfectoid-times-polydisc*](#p3-17b) (P3.17b) needs `S ≠ 0`: `0⟨T⟩ = 0` is perfectoid (`Perfectoid.isPerfectoidTateRing_of_subsingleton`).
 - In zero variables the product is the original perfectoid affinoid.
 - For a nonempty perfectoid affinoid and one variable, the coordinate is not a p-th power modulo the pseudouniformizer.
 - *isLocallyEtaleOverPolydisc_test_perfectoidBase* (characterisation) — for a nonempty affinoid
@@ -10112,8 +10111,8 @@ and tilt the Kummer cover of the tilted torus; the open unit disc inside the clo
 `Y → X` of affinoid perfectoids with group `G`, `H^i(G, O⁺(Y))^a = 0` for `i > 0` and
 `O⁺(Y)^G = R⁺`.
 
-The Lean `example` of `Suggested.lean` for this layer checks that the split finite étale algebra
-`R × R` of a perfectoid Tate ring is perfectoid.
+The two proved Lean examples for this layer show that the split finite étale algebra `R × R`
+of a perfectoid Tate ring is perfectoid and that the empty adic space is sousperfectoid.
 
 ### Dependencies
 
@@ -11267,9 +11266,8 @@ give the zero ring at the unit ideal, and exhibit a nonreduced completed quotien
 perfectoidization.
 
 Lean: `exists_surjective_perfectoidQuotient` (a surjection `R → S` onto a perfectoid Tate ring
-killing `I`, initial among continuous maps to perfectoid Tate rings that kill `I`); the Lean
-`example` checks that a map killing the unit ideal has zero target, fixing the vanishing convention
-of the universal quotient.
+killing `I`, initial among continuous maps to perfectoid Tate rings that kill `I`). The unit-ideal
+Check fixes the vanishing convention of the universal quotient.
 
 ### P4.16 comparison with the closed immersions of AdicSpaces
 
@@ -11613,8 +11611,8 @@ strongly Zariski closed immersion with kernel the closure of `(T^{1/pⁿ})` and 
 `V((T − 1)) ≅ ℤ_p` with `S_I = C⁰(ℤ_p, ℂ_p)`; `Spa(R, R°) → Spa(R, R⁺)` as almost surjective on
 plus rings but not strongly Zariski closed; and the glued disc, quasiseparated but not separated.
 
-The Lean `example` of `Suggested.lean` for this layer checks that a map killing the unit ideal has
-zero target, fixing the vanishing convention of the universal perfectoid quotient (P4.15).
+The unit-ideal Check follows from preservation of `1` by ring homomorphisms; the Lean targets
+state the rooted-quotient construction and the universal surjective perfectoid quotient.
 
 ### Dependencies
 
@@ -11976,6 +11974,10 @@ one has `⋂_n ϖⁿS° = Kε ≠ 0`, so the `ϖ`-adic topology is not even Haus
 family into such an `S` need not extend to the completion, which is why the limit is taken in
 perfectoid spaces ([ECD] §6, proof of Prop. 6.5, p. 29). *Needs:* P2.10, P2.9, P2.8, P2.6; Mathlib
 `IsAdicComplete`, `AdicCompletion`.
+
+Lean: `PerfectoidSpace.exists_affinoidPerfectoid_limit` states the affinoid limit and its
+universal property on the pinned category `Perfd`, together with the projection-compatible
+homeomorphism on point spaces of P5.4.
 
 ### P5.4 the underlying space of the limit
 
@@ -13904,8 +13906,8 @@ The global predicates use `Perfd`, its underlying pre-adic space and its affinoi
 subspace, so different presentations of an open do not change the condition. The cardinal `κ`
 lives in the universe `u` of the spaces and their section rings (`κ : Cardinal.{u}`), so no lifting
 of cardinalities is needed. Global versions of the first, second and fourth Checks are stated on
-`Perfd`; Lean examples state the strictness boundary at `0`, the empty-space cutoffs `1` and `2`,
-and the exclusion of nonempty spaces at `2`.
+`Perfd`; the proved Lean example states the strictness boundary at `0`, and
+`PerfectoidSpace.isKappaSmall_two_iff_isEmpty` states the cutoff-`2` characterisation.
 
 **Checks for the full subcategory.**
 
@@ -13931,7 +13933,7 @@ p. 20, applied to this dense field).
   Thus the lower cardinal bound counts distinct field elements, even in characteristic two.
 
 Lean: `PerfectoidSpace.IsKappaSmall` (fields `card_lt` and `card_sections_lt`, over the affinoid
-perfectoid opens), `IsKappaSmall.mono`, `IsKappaSmall.restrict`.
+perfectoid opens), `IsKappaSmall.mono`, `IsKappaSmall.restrict`, and `isKappaSmall_two_iff_isEmpty`.
 
 ### P6.2 uniformly `κ`-small perfectoid spaces
 
@@ -13971,9 +13973,10 @@ cutoff of the separating example). *Needs:* *kappa-small-perfectoid-space*;
 - Degenerate: the empty perfectoid space is uniformly `κ`-small with
   `λ = 1`: its point set is empty and its ring of sections on the empty affinoid open is the zero
   ring, whose underlying set has one element. For arbitrary cutoffs it is uniformly `κ`-small
-  exactly when `1 < κ`; Lean examples accept it at `2` and reject it at `1`.
+  exactly when `1 < κ`; `PerfectoidSpace.isUniformlyKappaSmall_two_iff_isEmpty` states the
+  cutoff-`2` characterisation.
 - Every nonempty perfectoid space fails uniform smallness at cutoff `2`, since uniform
-  smallness implies smallness; a Lean example mirrors this boundary.
+  smallness implies smallness; the same named characterisation excludes this case.
 - Characterisation: for a quasicompact
   perfectoid space `X`, `IsUniformlyKappaSmall κ X ↔ IsKappaSmall κ X`.
 - `not_isUniformlyKappaSmall_of_cof_omegaOne` (non-example) — for `κ` with `cf κ = ω₁` and
@@ -14019,7 +14022,9 @@ and `completedTensor_cardinality`. The tensor statement uses the supplied adic s
 continuous maps from a Tate base are adic. The finite-algebra bound only requires a finite module.
 
 Lean: `PerfectoidSpace.IsUniformlyKappaSmall`, `IsUniformlyKappaSmall.isKappaSmall`,
-`completion_cardinality_bound` (*first-countable-completion-cardinality*).
+`completion_cardinality_bound` (*first-countable-completion-cardinality*),
+`IsUniformlyKappaSmall.of_isKappaSmall_of_compactSpace`, and
+`isUniformlyKappaSmall_two_iff_isEmpty`.
 
 ### P6.3 the cover criterion for `κ`-smallness
 
@@ -14080,7 +14085,8 @@ the stage sizes cofinal. This is the negative control for the converse printed i
 [ECD] Proposition 4.4, pp. 20–21, using the completion estimate of Remark 4.3, p. 20.
 This coproduct Check is specified in this README only.
 
-Lean: `isKappaSmall_presentationLimit_iff`.
+Lean: `isKappaSmall_presentationLimit_iff` and
+`PerfectoidSpace.isKappaSmall_of_affinoid_cover` (the cover criterion with a point-set bound).
 
 ### P6.4 closure properties of `κ`-small perfectoid spaces
 
@@ -14112,6 +14118,9 @@ Prop. 8.2.5(3), p. 59, for the fibre products whose size (c) bounds). Part (d) s
 *uniformly-kappa-small-perfectoid-space*; *kappa-small-cover-criterion*;
 *adic-spectrum-cardinality*; *complete-tate-ring-cardinality*; layer P2 (P2.16, P2.13); layer P1;
 AdicSpacesPartII R0.4 (*uniform-completed-tensor-product*).
+
+Lean: `PerfectoidSpace.IsUniformlyKappaSmall.fibreProduct` carries the uniform smallness
+hypotheses on both factors and permits an arbitrary perfectoid base.
 
 **Checks for small fibre products.**
 
@@ -15974,15 +15983,13 @@ p. 43 (a tower of flat formal schemes over `Z_p^cycl`); [BHW] §5.2, proof of Th
   `(1 + 1)² = 0` but `1² + 1² = 2`. Correspondingly, no `IntegralTower 2` can have a
   stage identified with `ℤ₂` whose marked parameter is `2`: its `divides` field would
   require `4 ∣ 2`. This tests the hypothesis used by `frobMod` to make its target
-  characteristic two ([Torsion], proof of Corollary III.2.19, pp. 42–43). A Lean `example` states
-  the general form: at `p = 2` a stage with parameter `2` is the zero ring, since `4 ∣ 2` with `2`
-  regular makes `2` a unit.
+  characteristic two ([Torsion], proof of Corollary III.2.19, pp. 42–43). More generally, at
+  `p = 2` a stage with parameter `2` is the zero ring, since `4 ∣ 2` with `2` regular makes `2` a unit.
 - Non-example (regularity): `𝔽_p` is integral perfectoid with `π = 0` but has no regular parameter
   for which it is adically complete (`0` is a zero-divisor, and a nonzero parameter is a unit, for
   which adic separatedness forces the zero ring), so it has no constant tower; more generally no
   stage of any `IntegralTower` is a field (a Lean `example`).
-- Convention: the consecutive maps of `IntegralTower.diagram` are the transition maps (a Lean
-  `example`).
+- Convention: the consecutive maps of `IntegralTower.diagram` are the transition maps.
 
 - Degenerate: all quotients of a tower of zero rings are zero.
 - Non-example: a nonzero stage cannot have zero
@@ -17026,6 +17033,19 @@ property on affinoids)). *Needs:* P5.3; P1.25; *frobenius-tower-uniformity-bound
 *tilde-limit-from-completed-colimit*; *tilde-limit-perfectoid-uniqueness*; *tilde-limit-gluing*;
 *perfectoid-tilde-limit*; P2.9; P5.2; P1.
 
+Lean: `PerfectoidSpace.exists_tildeLimit_of_affinoid_transitions` states both the categorical
+limit in `Perfd` and the supplied AdicSpacesPartII `AdicSpace.IsTildeLimit` relation on its
+underlying adic cone, for an arbitrary small cofiltered index category.
+
+**Checks.**
+
+- For a constant system on any perfectoid space, the identity cone gives the limit and the
+  tilde-limit; no affinoidness of that space is required.
+- For a perfectoid field `K` and a cofiltered system of finite sets `S_i`, the spaces
+  `Spa(K, K°) × S_i` have limit `Spa(C⁰(lim S_i, K), C⁰(lim S_i, K°))`.
+- A constant system of empty perfectoid spaces has empty limit and satisfies both the
+  topological and section-density conditions.
+
 ### P7.15 noetherian tilde-limits and the comparison of étale topoi
 
 **Tilde-limits `X ~ lim X_i` of noetherian adic spaces and the comparison of étale topoi.**
@@ -17563,9 +17583,8 @@ while every finite level fails the perfectoid criterion: for `m ≥ 1`, `R_m/p �
   forces `k` perfect, since Frobenius surjectivity descends to `k`; and the
 completion is `p`-adic, not `m_∞`-adic.
 
-The Lean `example`s of `Suggested.lean` for this layer check that the consecutive maps of the tower
-diagram are the transition maps, that at `p = 2` a stage with parameter `2` is the zero ring, and
-that no stage of an integral tower is a field (so `𝔽_p` has no constant tower).
+The proved Lean example for this layer shows that integral-tower stages cannot be fields,
+so `𝔽_p` has no constant tower with a regular adic parameter.
 
 ### Dependencies
 
