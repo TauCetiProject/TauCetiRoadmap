@@ -166,13 +166,13 @@ noncomputable instance finiteLocallyFreeRigidCategory (X : Scheme.{u}) :
   sorry
 
 /-- Rank is bundled with its local constancy proof. -/
-noncomputable def rank {X : Scheme.{u}}
-    (E : FiniteLocallyFreeSheaf X) : LocallyConstant X ℕ := by
+noncomputable def rank : ∀ {X : Scheme.{u}}
+    (E : FiniteLocallyFreeSheaf X), LocallyConstant X ℕ := by
   sorry
 
 noncomputable def rankLocus {X : Scheme.{u}}
-    (E : FiniteLocallyFreeSheaf X) (r : ℕ) : X.Opens := by
-  sorry
+    (E : FiniteLocallyFreeSheaf X) (r : ℕ) : X.Opens :=
+  ⟨{x | rank E x = r}, (rank E).isLocallyConstant.isOpen_fiber r⟩
 
 def isFiniteLocallyFreeOfRank (X : Scheme.{u}) (r : ℕ) : ObjectProperty X.Modules :=
   fun E => ∃ h : isFiniteLocallyFree X E,
@@ -186,12 +186,16 @@ noncomputable def finiteLocallyFreeOfRankForget (X : Scheme.{u}) (r : ℕ) :
   sorry
 
 noncomputable def pullbackQuasicoherent {X Y : Scheme.{u}} (f : Y ⟶ X) :
-    QuasicoherentSheaf X ⥤ QuasicoherentSheaf Y := by
-  sorry
+    QuasicoherentSheaf X ⥤ QuasicoherentSheaf Y :=
+  ObjectProperty.lift (SheafOfModules.isQuasicoherent Y.ringCatSheaf)
+    ((SheafOfModules.isQuasicoherent X.ringCatSheaf).ι ⋙ Scheme.Modules.pullback f)
+    (by intro E; sorry)
 
 noncomputable def pullbackFiniteLocallyFree {X Y : Scheme.{u}} (f : Y ⟶ X) :
-    FiniteLocallyFreeSheaf X ⥤ FiniteLocallyFreeSheaf Y := by
-  sorry
+    FiniteLocallyFreeSheaf X ⥤ FiniteLocallyFreeSheaf Y :=
+  ObjectProperty.lift (isFiniteLocallyFree Y)
+    ((isFiniteLocallyFree X).ι ⋙ Scheme.Modules.pullback f)
+    (by intro E; sorry)
 
 noncomputable def pullbackFiniteLocallyFreeObjIso {X Y : Scheme.{u}} (f : Y ⟶ X)
     (E : FiniteLocallyFreeSheaf X) :
@@ -305,11 +309,11 @@ noncomputable def tildeFiniteProjectiveEquivFunctorIso
 
 /-! ## L0C: polynomial operations and determinant -/
 
-noncomputable def symmetricPowerModules (X : Scheme.{u}) (n : ℕ) :
+noncomputable def symmetricPowerModules : ∀ (X : Scheme.{u}) (n : ℕ),
     X.Modules ⥤ X.Modules := by
   sorry
 
-noncomputable def symmetricPower (X : Scheme.{u}) (n : ℕ) :
+noncomputable def symmetricPower : ∀ (X : Scheme.{u}) (n : ℕ),
     FiniteLocallyFreeSheaf X ⥤ FiniteLocallyFreeSheaf X := by
   sorry
 
@@ -324,11 +328,11 @@ noncomputable def pullbackSymmetricPowerIso {X Y : Scheme.{u}} (f : Y ⟶ X)
       (symmetricPower Y n).obj ((pullbackFiniteLocallyFree f).obj E) := by
   sorry
 
-noncomputable def exteriorPowerModules (X : Scheme.{u}) (n : ℕ) :
+noncomputable def exteriorPowerModules : ∀ (X : Scheme.{u}) (n : ℕ),
     X.Modules ⥤ X.Modules := by
   sorry
 
-noncomputable def exteriorPower (X : Scheme.{u}) (n : ℕ) :
+noncomputable def exteriorPower : ∀ (X : Scheme.{u}) (n : ℕ),
     FiniteLocallyFreeSheaf X ⥤ FiniteLocallyFreeSheaf X := by
   sorry
 
@@ -343,8 +347,8 @@ noncomputable def pullbackExteriorPowerIso {X Y : Scheme.{u}} (f : Y ⟶ X)
       (exteriorPower Y n).obj ((pullbackFiniteLocallyFree f).obj E) := by
   sorry
 
-noncomputable def determinantObj {X : Scheme.{u}}
-    (E : FiniteLocallyFreeSheaf X) :
+noncomputable def determinantObj : ∀ {X : Scheme.{u}}
+    (E : FiniteLocallyFreeSheaf X),
     TauCeti.AlgebraicGeometry.InvertibleSheaf X := by
   sorry
 
@@ -402,9 +406,15 @@ noncomputable def pullbackQuasicoherentAlgebra {X Y : Scheme.{u}} (f : Y ⟶ X) 
     apply ObjectProperty.hom_ext
     exact (Scheme.Modules.pullback f).mapCommMon.map_comp a.hom b.hom
 
+set_option backward.isDefEq.respectTransparency.types false in
 noncomputable def baseChangeAffineSchemeOver {X Y : Scheme.{u}} (f : Y ⟶ X) :
-    AffineSchemeOver X ⥤ AffineSchemeOver Y := by
-  sorry
+    AffineSchemeOver X ⥤ AffineSchemeOver Y :=
+  ObjectProperty.lift (isAffineSchemeOver Y)
+    ((isAffineSchemeOver X).ι ⋙ Over.pullback f)
+    (by
+      intro V
+      change IsAffineHom (Limits.pullback.snd V.obj.hom f)
+      exact MorphismProperty.pullback_snd V.obj.hom f V.property)
 
 noncomputable def relativeSpec (X : Scheme.{u}) :
     (QuasicoherentAlgebra X)ᵒᵖ ⥤ AffineSchemeOver X := by
@@ -846,7 +856,7 @@ noncomputable def totalSpaceFiberIso {X : Scheme.{u}}
 
 /-! ## Base change and normalization -/
 
-noncomputable def baseChangeLinearScheme {X Y : Scheme.{u}} (f : Y ⟶ X) :
+noncomputable def baseChangeLinearScheme : ∀ {X Y : Scheme.{u}} (f : Y ⟶ X),
     QuasicoherentLinearScheme X ⥤ QuasicoherentLinearScheme Y := by
   sorry
 
@@ -856,7 +866,7 @@ noncomputable def linearSpecBaseChangeIso {X Y : Scheme.{u}} (f : Y ⟶ X)
       (linearSpec Y).obj (op ((pullbackQuasicoherent f).obj F.unop)) := by
   sorry
 
-noncomputable def baseChangeGeometricVectorBundle {X Y : Scheme.{u}} (f : Y ⟶ X) :
+noncomputable def baseChangeGeometricVectorBundle : ∀ {X Y : Scheme.{u}} (f : Y ⟶ X),
     GeometricVectorBundle X ⥤ GeometricVectorBundle Y := by
   sorry
 
