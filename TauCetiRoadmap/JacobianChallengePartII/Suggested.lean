@@ -257,11 +257,11 @@ example (c : X ⟶ A) (d : X ⨯ X ⟶ A) (x : T ⟶ X) (y : T ⟶ A) :
       (x ≫ c) * y := by
   simp [ShiftedFaltingsZhang, MonObj.comp_mul]
 -- test_sign
-example (c : X ⟶ A) (d : X ⨯ X ⟶ A) (x₁ x₂ : T ⟶ X) (y : T ⟶ A) :
+example (c : A ⟶ A) (x₁ x₂ y : T ⟶ A) :
     prod.lift (Pi.lift (fun i : Fin 2 ↦ if i = 0 then x₁ else x₂)) y ≫
-        ShiftedFaltingsZhang 1 c d ≫ Pi.π (fun _ : Fin 2 ↦ A) 1 =
-      prod.lift x₁ x₂ ≫ d := by
-  simp [ShiftedFaltingsZhang, ← Category.assoc, prod.comp_lift]
+        ShiftedFaltingsZhang 1 c (CurveDifference.pointedMap (𝟙 A)) ≫
+          Pi.π (fun _ : Fin 2 ↦ A) 1 = x₂ / x₁ := by
+  simp [ShiftedFaltingsZhang, CurveDifference.pointedMap, GrpObj.comp_div]
 /-- test_diagonal -/
 theorem test_diagonal (n : ℕ) (c : X ⟶ A) (d : X ⨯ X ⟶ A)
     (hd : prod.lift (𝟙 X) (𝟙 X) ≫ d = 1) (x : T ⟶ X) (y : T ⟶ A) :
@@ -628,26 +628,26 @@ theorem shifted_power_factorization [IsCommMonObj A] (n : ℕ) (e : ℤ)
       ShiftedFaltingsZhang n c d ≫ TailMultiplication (A := A) n e := by
   sorry
 
-/-- Product stability transfers finiteness of multiplication by `e` to `D`. -/
-theorem TailMultiplication.finite [IsCommMonObj A] (n : ℕ) (e : ℤ)
+/-- The head-tail product decomposition transfers finiteness of the power morphism to `D`. -/
+theorem TailMultiplication.finite (n : ℕ) (e : ℤ)
     [IsFinite (((𝟙 A) ^ e : A ⟶ A).left)] :
     IsFinite (TailMultiplication (A := A) n e).left := by
   sorry
 
-/-- The flatness part is transferred separately; it does not assert étaleness. -/
-theorem TailMultiplication.flat [IsCommMonObj A] (n : ℕ) (e : ℤ)
+/-- The head-tail product decomposition transfers flatness of the power morphism to `D`. -/
+theorem TailMultiplication.flat (n : ℕ) (e : ℤ)
     [Flat (((𝟙 A) ^ e : A ⟶ A).left)] :
     Flat (TailMultiplication (A := A) n e).left := by
   sorry
 
-/-- Finite-presentation stability is needed alongside finiteness and flatness. -/
-theorem TailMultiplication.finitePresentation [IsCommMonObj A] (n : ℕ) (e : ℤ)
+/-- The head-tail product decomposition transfers local finite presentation of the power morphism. -/
+theorem TailMultiplication.finitePresentation (n : ℕ) (e : ℤ)
     [LocallyOfFinitePresentation (((𝟙 A) ^ e : A ⟶ A).left)] :
     LocallyOfFinitePresentation (TailMultiplication (A := A) n e).left := by
   sorry
 
-/-- Surjectivity of multiplication by `e` transfers to `D`. -/
-theorem TailMultiplication.surjective [IsCommMonObj A] (n : ℕ) (e : ℤ)
+/-- The head-tail product decomposition transfers surjectivity of the power morphism to `D`. -/
+theorem TailMultiplication.surjective (n : ℕ) (e : ℤ)
     [Surjective (((𝟙 A) ^ e : A ⟶ A).left)] :
     Surjective (TailMultiplication (A := A) n e).left := by
   sorry
@@ -668,6 +668,11 @@ example (e : ℤ) (a b : T ⟶ A) :
 theorem TailMultiplication.test_one (n : ℕ) : TailMultiplication (A := A) n 1 = 𝟙 _ := by
   sorry
 
+/-- Inverting every tail is an isomorphism for any group object, including noncommutative ones. -/
+theorem TailMultiplication.test_inversion (n : ℕ) :
+    IsIso (TailMultiplication (A := A) n (-1)) := by
+  sorry
+
 /-- Multiplication by zero collapses the tails, so no general isogeny theorem is asserted at e = 0. -/
 theorem TailMultiplication.test_zero (n : ℕ) (q : Fin (n + 1) → (T ⟶ A)) :
     Pi.lift q ≫ TailMultiplication (A := A) n 0 =
@@ -682,20 +687,35 @@ end
 end TauCetiRoadmap.JacobianChallengePartII
 
 /-
-Targets stated in README.md and not typed here, because their carriers (the relative Picard sheaf
-and scheme, abelian schemes and their duals, polarizations, fibrewise Picard identity components,
-relative coherent cohomology and duality, full level structures) are not in Mathlib or Tau Ceti at
-the pins:
-Layer 0: `RelativeJacobian.degreeLocallyConstant`, `RelativeJacobian.RelativeDegreeComponents`,
+Targets stated in README.md and not typed here, because their carriers and comparison APIs (the
+relative Picard sheaf and scheme, abelian schemes and their duals, polarizations, fibrewise Picard
+identity components, relative coherent cohomology and duality, finite-stage sheaf descent, full
+level structures) are not in Mathlib or Tau Ceti at the pins:
+Layer 0: `RelativeJacobian.lineBundleFiniteStage`, `RelativeJacobian.degreeLocallyConstant`,
+  `RelativeJacobian.RelativeDegreeComponents`,
   `RelativeJacobian.picardRepresentability`, `RelativeJacobian.PicardTorsors`.
+  The finite-stage checks `RelativeJacobian.lineBundleFiniteStage.test_infinitePolynomial`,
+  `RelativeJacobian.lineBundleFiniteStage.test_eventualEquality` and
+  `RelativeJacobian.lineBundleFiniteStage.test_graph` require sheaf descent and comparison data.
+  SchemeAndStackFoundations §0.9 supplies affine_transition_limits and finite_presentation_limits;
+  lineBundleFiniteStage supplies their comparison with invertible sheaves.
 Layer 1: `RelativeJacobian.jacobianProper`, `RelativeJacobian.RelativeJacobian`,
-  `RelativeJacobian.jacobianBaseChange`, `RelativeJacobian.PrincipalPolarization`.
+  `RelativeJacobian.jacobianBaseChange`, `RelativeJacobian.curveDeterminantOfCohomology`,
+  `RelativeJacobian.PrincipalPolarization`.
+  The curve determinant and its checks `RelativeJacobian.curveDeterminantOfCohomology.test_field`,
+  `RelativeJacobian.curveDeterminantOfCohomology.test_baseTwist`,
+  `RelativeJacobian.curveDeterminantOfCohomology.test_jumping` and
+  `RelativeJacobian.curveDeterminantOfCohomology.test_divisorSequence` require relative derived
+  pushforward and its perfect-complex presentations, beyond the ring-level complex carriers.
 Layer 2: `RelativeJacobian.SectionFreeAbelMap`, `RelativeJacobian.DegreeAbelMap`,
   `RelativeJacobian.pointedFactorization`, `RelativeJacobian.degreeOneClosedImmersion`,
   `RelativeJacobian.nonzeroDegreeFinite`, `RelativeJacobian.CurveDifference` (the section-free
   morphism; its pointed companion `pointedMap` is above), `RelativeJacobian.diagonalBaseChange`.
   `RelativeJacobian.CurveDifference.test_noSection` checks the section-free morphism on a
   nontrivial genus-one torsor; it requires the Picard torsor and cannot be expressed by a pointed map.
+  `RelativeJacobian.SectionFreeAbelMap.test_ellipticNormalization` and
+  `RelativeJacobian.SectionFreeAbelMap.test_tangent` require the relative Picard carrier and the
+  tangent/cohomology comparison; they are geometric theorem targets.
 Layer 3: `RelativeJacobian.JacobianPoincare`, `RelativeJacobian.DegreeOneTheta`,
   `RelativeJacobian.TwiceTheta`, `RelativeJacobian.thetaInversePullback`,
   `RelativeJacobian.thetaPullback`, `RelativeJacobian.poincareAdditionIdentity`,
@@ -708,6 +728,8 @@ Layer 4: `RelativeJacobian.ActualPicardZero`, `RelativeJacobian.ActualPicardBize
   `RelativeJacobian.actualPullbackTorsionCokernel`, `RelativeJacobian.bizeroLiftOneFactor`,
   `RelativeJacobian.bizeroPullbackTorsionCokernel`, `RelativeJacobian.AxisNormalizedPicard`,
   `RelativeJacobian.pointedSquarePicardIsomorphism`.
+  `RelativeJacobian.AxisNormalizedPicard.test_elliptic` requires the elliptic divisor-class and
+  diagonal-degree comparisons to exhibit a nonzero axis-normalized actual Picard class.
 Layer 5: `RelativeJacobian.canonicalAbelMap`; the identification of the inputs `c` and `d` of
   `UniversalShift`, `FaltingsZhang`, `ShiftedFaltingsZhang` and `shifted_power_factorization` with
   `i_ω` and `j`, and the instance of multiplication by `2g − 2` on the Jacobian.
