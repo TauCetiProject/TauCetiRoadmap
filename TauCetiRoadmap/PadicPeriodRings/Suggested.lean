@@ -19,101 +19,144 @@ noncomputable section
 
 namespace TauCetiRoadmap.PadicPeriodRings
 
-/-! ## Continuous-cochain boundary calculations -/
+/-! ## Procyclic cohomology and finite descent -/
 
 open TauCeti.ContCohomology
 
-section ProcyclicChecks
+/-- §0.1: evaluation at the profinite generator identifies H¹ of a discrete torsion
+module with the quotient by the image of the generator minus the identity. -/
+theorem procyclic_H1_equiv_coinvariants
+    (C : Type*) [AddCommGroup C] [TopologicalSpace C] [DiscreteTopology C]
+    [IsTopologicalAddGroup C] [DistribMulAction TauCeti.zHat.{0} C]
+    [ContinuousSMul TauCeti.zHat.{0} C] (hC : IsAddTorsion C) :
+    ∃ e : H1 TauCeti.zHat.{0} C ≃+
+        C ⧸ (DistribSMul.toAddMonoidHom C TauCeti.zHat.gen - AddMonoidHom.id C).range,
+      ∀ c : Z1 TauCeti.zHat.{0} C,
+        e (H1pi TauCeti.zHat.{0} C c) = QuotientAddGroup.mk (c.1 TauCeti.zHat.gen) := sorry
+
+/-- §0.1: evaluation gives the procyclic H¹ calculation for finitely generated
+Hausdorff topological ℤ_p-modules with continuous linear action. -/
+theorem procyclic_H1_equiv_coinvariants_integral (p : ℕ) [Fact p.Prime]
+    (C : Type*) [AddCommGroup C] [TopologicalSpace C] [IsTopologicalAddGroup C]
+    [T2Space C] [Module ℤ_[p] C] [Module.Finite ℤ_[p] C] [ContinuousSMul ℤ_[p] C]
+    [DistribMulAction TauCeti.zHat.{0} C] [ContinuousSMul TauCeti.zHat.{0} C]
+    [SMulCommClass TauCeti.zHat.{0} ℤ_[p] C] :
+    ∃ e : H1 TauCeti.zHat.{0} C ≃+
+        C ⧸ (DistribSMul.toAddMonoidHom C TauCeti.zHat.gen - AddMonoidHom.id C).range,
+      ∀ c : Z1 TauCeti.zHat.{0} C,
+        e (H1pi TauCeti.zHat.{0} C c) = QuotientAddGroup.mk (c.1 TauCeti.zHat.gen) := sorry
+
+/-- §0.1: evaluation gives the procyclic H¹ calculation for finite-dimensional
+normed ℚ_p-spaces with continuous linear action. -/
+theorem procyclic_H1_equiv_coinvariants_rational (p : ℕ) [Fact p.Prime]
+    (C : Type*) [NormedAddCommGroup C] [NormedSpace ℚ_[p] C] [FiniteDimensional ℚ_[p] C]
+    [DistribMulAction TauCeti.zHat.{0} C] [ContinuousSMul TauCeti.zHat.{0} C]
+    [SMulCommClass TauCeti.zHat.{0} ℚ_[p] C] :
+    ∃ e : H1 TauCeti.zHat.{0} C ≃+
+        C ⧸ (DistribSMul.toAddMonoidHom C TauCeti.zHat.gen - AddMonoidHom.id C).range,
+      ∀ c : Z1 TauCeti.zHat.{0} C,
+        e (H1pi TauCeti.zHat.{0} C c) = QuotientAddGroup.mk (c.1 TauCeti.zHat.gen) := sorry
+
+/-- §0.2: averaging makes H¹ vanish for a finite group acting linearly on a module
+over a characteristic-zero field, with continuous cochains. -/
+theorem finite_H1_vanish (F L M : Type*) [Group F] [Fintype F] [TopologicalSpace F]
+    [IsTopologicalGroup F] [Field L] [CharZero L] [AddCommGroup M] [Module L M]
+    [TopologicalSpace M] [IsTopologicalAddGroup M] [DistribMulAction F M]
+    [ContinuousSMul F M] [SMulCommClass F L M] :
+    Subsingleton (H1 F M) := sorry
+
+/-! ## The completed field, its Galois action and fixed points -/
+
+section PadicComplex
 
 variable (p : ℕ) [Fact p.Prime]
 
-/-- §0.1: evaluation at the profinite generator identifies trivial finite-coefficient H¹
-with the coefficient group. -/
-example [action : DistribMulAction TauCeti.zHat.{0} (ZMod p)]
-    [hcont : @ContinuousSMul TauCeti.zHat.{0} (ZMod p) action.toSMul _ _]
-    (htriv : ∀ (g : TauCeti.zHat.{0}) (m : ZMod p),
-      @SMul.smul _ _ action.toSMul g m = m) :
-    ∃ e : @H1 TauCeti.zHat.{0} _ _ (ZMod p) _ _ _ action hcont ≃+ ZMod p,
-      ∀ c : @Z1 TauCeti.zHat.{0} _ _ (ZMod p) _ _ _ action.toDistribSMul,
-        e (@H1pi TauCeti.zHat.{0} _ _ (ZMod p) _ _ _ action hcont c) = c.1 TauCeti.zHat.gen := sorry
+/-- §1.1: the action of a Galois automorphism on `ℂ_p`, by continuous extension from
+`PadicAlgCl p`. -/
+def padicComplexGaloisAction (σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) : ℂ_[p] → ℂ_[p] :=
+  UniformSpace.Completion.map σ
 
-/-- §0.1: the action of the generator by `1+p` on `ℤ_p` gives H¹ equal to `ℤ/p`,
-with the residue of the cocycle value as comparison map. -/
-example [DistribMulAction TauCeti.zHat.{0} ℤ_[p]]
-    [ContinuousSMul TauCeti.zHat.{0} ℤ_[p]]
-    (hgen : ∀ m : ℤ_[p], TauCeti.zHat.gen • m = (1 + p) * m) :
-    ∃ e : H1 TauCeti.zHat.{0} ℤ_[p] ≃+ ZMod p,
-      ∀ c : Z1 TauCeti.zHat.{0} ℤ_[p],
-        e (H1pi TauCeti.zHat.{0} ℤ_[p] c) = PadicInt.toZMod (c.1 TauCeti.zHat.gen) := sorry
+/-- §1.1: the extension is an isometric, hence uniformly continuous, `ℚ_p`-algebra
+automorphism of `ℂ_p` extending `σ`. -/
+theorem padicComplexGaloisAction_spec (σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) :
+    ∃ τ : ℂ_[p] ≃ₐ[ℚ_[p]] ℂ_[p], ⇑τ = padicComplexGaloisAction p σ ∧ Isometry τ ∧
+      ∀ x : PadicAlgCl p, τ x = σ x := sorry
 
-/-- §0.1: when the generator acts by `2` on `ℚ_p` for odd `p`, H¹ vanishes. -/
-example (hp : p ≠ 2) [DistribMulAction TauCeti.zHat.{0} ℚ_[p]]
-    [ContinuousSMul TauCeti.zHat.{0} ℚ_[p]]
-    (hgen : ∀ m : ℚ_[p], TauCeti.zHat.gen • m = 2 * m) :
-    Subsingleton (H1 TauCeti.zHat.{0} ℚ_[p]) := sorry
+/-- §1.1: the completed Galois action respects multiplication of automorphisms. -/
+theorem padicComplexGaloisAction_mul
+    (σ τ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) (x : ℂ_[p]) :
+    padicComplexGaloisAction p (σ * τ) x =
+      padicComplexGaloisAction p σ (padicComplexGaloisAction p τ x) := sorry
 
-/-- §0.1: the trivial action on `ℚ_p` instead has H¹ equal to `ℚ_p`, by evaluation. -/
-example [DistribMulAction TauCeti.zHat.{0} ℚ_[p]]
-    [ContinuousSMul TauCeti.zHat.{0} ℚ_[p]]
-    (htriv : ∀ (g : TauCeti.zHat.{0}) (m : ℚ_[p]), g • m = m) :
-    ∃ e : H1 TauCeti.zHat.{0} ℚ_[p] ≃+ ℚ_[p],
-      ∀ c : Z1 TauCeti.zHat.{0} ℚ_[p],
-        e (H1pi TauCeti.zHat.{0} ℚ_[p] c) = c.1 TauCeti.zHat.gen := sorry
+/-- §1.1: the Galois action on the completed field is jointly continuous for the
+Krull topology on the Galois group and the norm topology on ℂ_p. -/
+theorem padicComplexGaloisAction_continuous
+    (K : IntermediateField ℚ_[p] (PadicAlgCl p)) [FiniteDimensional ℚ_[p] K] :
+    Continuous (fun z : (PadicAlgCl p ≃ₐ[K] PadicAlgCl p) × ℂ_[p] =>
+      padicComplexGaloisAction p (z.1.restrictScalars ℚ_[p]) z.2) := sorry
 
-/-- §0.1: multiplication by `2` cannot be the generator of a continuous `Ẑ`-action on `ℚ₂`. -/
-example [DistribMulAction TauCeti.zHat.{0} ℚ_[2]]
-    [ContinuousSMul TauCeti.zHat.{0} ℚ_[2]] :
-    ¬ (∀ m : ℚ_[2], TauCeti.zHat.gen • m = 2 * m) := sorry
+/-- §1.1: a continuous extension of an algebraic Galois automorphism to the completed
+field is unique. -/
+theorem padicComplexGaloisAction_unique (σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p)
+    (f : ℂ_[p] → ℂ_[p]) (hf : Continuous f)
+    (hext : ∀ x : PadicAlgCl p, f x = σ x) :
+    f = padicComplexGaloisAction p σ := sorry
 
-end ProcyclicChecks
+/-- §1.2, Ax–Sen–Tate: for `K/ℚ_p` finite inside `PadicAlgCl p`, the `G_K`-invariants of `ℂ_p`
+are `K`. -/
+theorem padicComplex_fixed_eq (K : IntermediateField ℚ_[p] (PadicAlgCl p))
+    [FiniteDimensional ℚ_[p] K] (x : ℂ_[p]) :
+    (∀ σ : PadicAlgCl p ≃ₐ[K] PadicAlgCl p,
+        padicComplexGaloisAction p (σ.restrictScalars ℚ_[p]) x = x) ↔
+      ∃ k : K, x = ((k : PadicAlgCl p) : ℂ_[p]) := sorry
 
-section DescentChecks
+/-- §1.2, Ax–Sen–Tate: fixed points of a closed subgroup in the completed field
+are the closure of its algebraic fixed field. -/
+theorem padicComplex_fixed_closure_eq
+    (H : ClosedSubgroup (PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p)) (x : ℂ_[p]) :
+    (∀ σ : H, padicComplexGaloisAction p σ x = x) ↔
+      x ∈ closure (Set.range (fun y : IntermediateField.fixedField H.toSubgroup =>
+        ((y : PadicAlgCl p) : ℂ_[p]))) := sorry
 
-variable (G : Type*) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
-    (M : Type*) [AddCommGroup M] [TopologicalSpace M] [IsTopologicalAddGroup M]
-    [T2Space M] [DistribMulAction G M] [ContinuousSMul G M]
+/-- §1.4, Tate: `H⁰(G_K, ℂ_p(i)) = 0` for `i ≠ 0`: no nonzero `x` satisfies
+`σ(x) = χ(σ)^{-i} x` for every `σ ∈ G_K`. -/
+theorem tate_H0_padicComplex_twist (K : IntermediateField ℚ_[p] (PadicAlgCl p))
+    [FiniteDimensional ℚ_[p] K] (i : ℤ) (hi : i ≠ 0) (x : ℂ_[p])
+    (hx : ∀ σ : PadicAlgCl p ≃ₐ[K] PadicAlgCl p,
+      padicComplexGaloisAction p (σ.restrictScalars ℚ_[p]) x =
+        (((cyclotomicCharacter (PadicAlgCl p) p σ.toRingEquiv ^ (-i) : ℤ_[p]ˣ) : ℤ_[p]) :
+          ℚ_[p]) • x) :
+    x = 0 := sorry
 
-/-- §0.2: for the trivial subgroup, inflation is the canonical identification with H¹(G,M)
-and restriction is zero. -/
-example [ContinuousSMul (G ⧸ (⊥ : Subgroup G))
-    (FixedPoints.addSubgroup (⊥ : Subgroup G) M)] :
-    (∃ e : H1 (G ⧸ (⊥ : Subgroup G)) (FixedPoints.addSubgroup (⊥ : Subgroup G) M)
-        ≃+ H1 G M,
-      ∀ x, e x = explicitInfl1 G M (⊥ : Subgroup G) x) ∧
-    ∀ x : H1 G M, explicitRes1 G M (⊥ : Subgroup G) x = 0 := sorry
+/-- §1.4: every continuous cocycle with a nonzero Tate twist is a coboundary,
+expressing the nonzero-twist part of Tate's H¹ calculation. -/
+theorem tate_H1_padicComplex_twist (K : IntermediateField ℚ_[p] (PadicAlgCl p))
+    [FiniteDimensional ℚ_[p] K] (i : ℤ) (hi : i ≠ 0)
+    (c : (PadicAlgCl p ≃ₐ[K] PadicAlgCl p) → ℂ_[p]) (hc : Continuous c)
+    (hcocycle : ∀ g h, c (g * h) =
+      (((cyclotomicCharacter (PadicAlgCl p) p g.toRingEquiv ^ i : ℤ_[p]ˣ) : ℤ_[p]) :
+        ℚ_[p]) • padicComplexGaloisAction p (g.restrictScalars ℚ_[p]) (c h) + c g) :
+    ∃ b : ℂ_[p], ∀ g,
+      c g = (((cyclotomicCharacter (PadicAlgCl p) p g.toRingEquiv ^ i : ℤ_[p]ˣ) : ℤ_[p]) :
+        ℚ_[p]) • padicComplexGaloisAction p (g.restrictScalars ℚ_[p]) b - b := sorry
 
-/-- §0.2: for the whole subgroup, restriction is the canonical identification and
-inflation has zero image. -/
-example [ContinuousSMul (G ⧸ (⊤ : Subgroup G))
-    (FixedPoints.addSubgroup (⊤ : Subgroup G) M)] :
-    (∃ e : H1 G M ≃+ H1 (⊤ : Subgroup G) M,
-      ∀ x, e x = explicitRes1 G M (⊤ : Subgroup G) x) ∧
-    ∀ x : H1 (G ⧸ (⊤ : Subgroup G)) (FixedPoints.addSubgroup (⊤ : Subgroup G) M),
-      explicitInfl1 G M (⊤ : Subgroup G) x = 0 := sorry
+variable [Fact ¬IsUnit (p : PadicComplexInt p)]
+    [IsAdicComplete (Ideal.span {(p : PadicComplexInt p)}) (PadicComplexInt p)]
 
-end DescentChecks
+/-- §1.5: for the p-adically complete valuation ring with p a nonunit, the pinned
+de Rham plus ring is a discrete valuation domain. -/
+theorem bDeRhamPlus_isDiscreteValuationRing :
+    ∃ h : IsDomain (BDeRhamPlus (PadicComplexInt p) p),
+      @IsDiscreteValuationRing (BDeRhamPlus (PadicComplexInt p) p) _ h := sorry
 
-section FiniteCoefficientChecks
+/-- §1.5: for the p-adically complete valuation ring with p a nonunit, the pinned
+de Rham localization is a field. -/
+theorem bDeRham_isField :
+    @IsField (BDeRham (PadicComplexInt p) p) (by unfold BDeRham; infer_instance) := sorry
 
-variable (p : ℕ) [Fact p.Prime]
+end PadicComplex
 
-/-- §0.2: averaging kills H¹ of the finite group `ℤ/p` with trivial `ℚ_p` coefficients. -/
-example [DistribMulAction (Multiplicative (ZMod p)) ℚ_[p]]
-    [ContinuousSMul (Multiplicative (ZMod p)) ℚ_[p]]
-    (htriv : ∀ (g : Multiplicative (ZMod p)) (m : ℚ_[p]), g • m = m) :
-    Subsingleton (H1 (Multiplicative (ZMod p)) ℚ_[p]) := sorry
-
-/-- §0.2: trivial `ℤ/p` coefficients instead give H¹ equal to `ℤ/p`, by evaluation at `1`. -/
-example [action : DistribMulAction (Multiplicative (ZMod p)) (ZMod p)]
-    [hcont : @ContinuousSMul (Multiplicative (ZMod p)) (ZMod p) action.toSMul _ _]
-    (htriv : ∀ (g : Multiplicative (ZMod p)) (m : ZMod p),
-      @SMul.smul _ _ action.toSMul g m = m) :
-    ∃ e : @H1 (Multiplicative (ZMod p)) _ _ (ZMod p) _ _ _ action hcont ≃+ ZMod p,
-      ∀ c : @Z1 (Multiplicative (ZMod p)) _ _ (ZMod p) _ _ _ action.toDistribSMul,
-        e (@H1pi (Multiplicative (ZMod p)) _ _ (ZMod p) _ _ _ action hcont c) =
-          c.1 (Multiplicative.ofAdd 1) := sorry
-
-end FiniteCoefficientChecks
+/-! ## Controlled finite trace homotopy -/
 
 section TraceHomotopy
 
@@ -130,14 +173,20 @@ theorem tate_traceHomotopy_defect (α : L) (a : Q → L)
     g • tate_traceHomotopy α a - tate_traceHomotopy α a - a g =
       -∑ τ : Q, ((g * τ) • α) * (g • a τ - a (g * τ) + a g) := sorry
 
-/-- A zero cochain has zero trace average. -/
-example (α : L) : tate_traceHomotopy α (fun _ : Q => 0) = 0 := by
-  simp [tate_traceHomotopy]
-
 /-- The trace average is an exact primitive for a finite-group cocycle. -/
 example (α : L) (a : Q → L) (htrace : ∑ τ : Q, τ • α = 1)
     (hcocycle : ∀ g h : Q, a (g * h) = g • a h + a g) (g : Q) :
-    g • tate_traceHomotopy α a - tate_traceHomotopy α a = a g := sorry
+    g • tate_traceHomotopy α a - tate_traceHomotopy α a = a g := by
+  have hsum (f : Q → L) : (∑ τ : Q, f (g * τ)) = ∑ τ : Q, f τ :=
+    Function.Bijective.sum_comp (Group.mulLeft_bijective g) f
+  have hc (τ : Q) : g • a τ = a (g * τ) - a g := by
+    rw [hcocycle g τ]
+    ring
+  simp only [tate_traceHomotopy, smul_neg, Finset.smul_sum, smul_mul', ← mul_smul]
+  simp_rw [hc, mul_sub]
+  rw [Finset.sum_sub_distrib, ← Finset.sum_mul,
+    hsum (fun τ => τ • α * a τ), hsum (fun τ => τ • α), htrace]
+  ring
 
 end TraceHomotopy
 
@@ -159,82 +208,13 @@ theorem tate_traceHomotopy_bound (hisom : ∀ (g : Q) (x : L), ‖g • x‖ = �
 
 end TraceHomotopyBounds
 
-/-! ## The completed field, its Galois action and fixed points -/
-
-section PadicComplex
-
-variable (p : ℕ) [Fact p.Prime]
-
-/-- §1.1: the action of a Galois automorphism on `ℂ_p`, by continuous extension from
-`PadicAlgCl p`. -/
-def padicComplexGaloisAction (σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) : ℂ_[p] → ℂ_[p] :=
-  UniformSpace.Completion.map σ
-
-/-- §1.1: the extension is an isometric, hence uniformly continuous, `ℚ_p`-algebra
-automorphism of `ℂ_p` extending `σ`. -/
-theorem padicComplexGaloisAction_spec (σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) :
-    ∃ τ : ℂ_[p] ≃ₐ[ℚ_[p]] ℂ_[p], ⇑τ = padicComplexGaloisAction p σ ∧ Isometry τ ∧
-      ∀ x : PadicAlgCl p, τ x = σ x := sorry
-
-/-- The identity Galois automorphism extends to the identity of the completed carrier. -/
-example (x : ℂ_[p]) :
-    padicComplexGaloisAction p (AlgEquiv.refl : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) x = x := sorry
-
-/-- Every extended Galois action fixes the base field. -/
-example (σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) (x : ℚ_[p]) :
-    padicComplexGaloisAction p σ (algebraMap ℚ_[p] ℂ_[p] x) =
-      algebraMap ℚ_[p] ℂ_[p] x := sorry
-
-/-- An automorphism changing a square root of `p` has a nonidentity completed action. -/
-example (hp : p ≠ 2) (σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) (x : PadicAlgCl p)
-    (hx : x ^ 2 = (p : PadicAlgCl p)) (hσ : σ x = -x) :
-    padicComplexGaloisAction p σ (x : ℂ_[p]) = (-x : PadicAlgCl p) ∧
-      padicComplexGaloisAction p σ (x : ℂ_[p]) ≠ (x : ℂ_[p]) := sorry
-
-/-- The abstract field `ℂ_p` admits an automorphism that is discontinuous for its norm topology. -/
-example : ∃ σ : ℂ_[p] ≃+* ℂ_[p], ¬ Continuous σ := sorry
-
-/-- §1.2, Ax–Sen–Tate: for `K/ℚ_p` finite inside `PadicAlgCl p`, the `G_K`-invariants of `ℂ_p`
-are `K`. -/
-theorem padicComplex_fixed_eq (K : IntermediateField ℚ_[p] (PadicAlgCl p))
-    [FiniteDimensional ℚ_[p] K] (x : ℂ_[p]) :
-    (∀ σ : PadicAlgCl p ≃ₐ[K] PadicAlgCl p,
-        padicComplexGaloisAction p (σ.restrictScalars ℚ_[p]) x = x) ↔
-      ∃ k : K, x = ((k : PadicAlgCl p) : ℂ_[p]) := sorry
-
-/-- The full `ℚ_p` Galois group fixes exactly the image of `ℚ_p` in `ℂ_p`. -/
-example (x : ℂ_[p]) :
-    (∀ σ : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p,
-      padicComplexGaloisAction p σ x = x) ↔
-    ∃ q : ℚ_[p], x = algebraMap ℚ_[p] ℂ_[p] q := sorry
-
-/-- §1.4, Tate: `H⁰(G_K, ℂ_p(i)) = 0` for `i ≠ 0`: no nonzero `x` satisfies
-`σ(x) = χ(σ)^{-i} x` for every `σ ∈ G_K`. -/
-theorem tate_H0_padicComplex_twist (K : IntermediateField ℚ_[p] (PadicAlgCl p))
-    [FiniteDimensional ℚ_[p] K] (i : ℤ) (hi : i ≠ 0) (x : ℂ_[p])
-    (hx : ∀ σ : PadicAlgCl p ≃ₐ[K] PadicAlgCl p,
-      padicComplexGaloisAction p (σ.restrictScalars ℚ_[p]) x =
-        (((cyclotomicCharacter (PadicAlgCl p) p σ.toRingEquiv ^ (-i) : ℤ_[p]ˣ) : ℤ_[p]) :
-          ℚ_[p]) • x) :
-    x = 0 := sorry
-
-/-- The positive Tate twist has no nonzero invariant vector over a finite extension of `ℚ_p`. -/
-example (K : IntermediateField ℚ_[p] (PadicAlgCl p))
-    [FiniteDimensional ℚ_[p] K] (x : ℂ_[p])
-    (hx : ∀ σ : PadicAlgCl p ≃ₐ[K] PadicAlgCl p,
-      padicComplexGaloisAction p (σ.restrictScalars ℚ_[p]) x =
-        (((cyclotomicCharacter (PadicAlgCl p) p σ.toRingEquiv ^ (-1 : ℤ) : ℤ_[p]ˣ) :
-          ℤ_[p]) : ℚ_[p]) • x) : x = 0 := sorry
-
-end PadicComplex
-
 /-! ## The neighbourhood obstruction for the canonical de Rham topology -/
 
 /-- §4.1: a Hausdorff field whose zero-neighbourhoods contain entire rows of one
 family, with reciprocal rows converging to zero, cannot have jointly continuous
 multiplication. For the canonical de Rham topology the families are `p⁻ᵐtᴺ` and
 `pᵐt⁻ᴺ`; fixed filtration stages still have jointly continuous multiplication. -/
-example {B : Type*} [Field B] [TopologicalSpace B] [T2Space B]
+theorem deRham_mul_not_continuous_of_reciprocal_rows {B : Type*} [Field B] [TopologicalSpace B] [T2Space B]
     (a b : ℕ → ℕ → B)
     (ha : ∀ U ∈ nhds (0 : B), ∃ N, ∀ m, a N m ∈ U)
     (hb : ∀ N, Filter.Tendsto (b N) Filter.atTop (nhds (0 : B)))
@@ -243,16 +223,16 @@ example {B : Type*} [Field B] [TopologicalSpace B] [T2Space B]
 
 /-
 The remaining targets are specified in the README:
-§0.1 procyclic_H1_equiv_coinvariants; §0.2 continuous inflation–restriction and finite descent
-(the boundary examples above use the supplied explicit H1, explicitInfl1 and explicitRes1);
-§1.1 joint continuity, uniqueness and multiplicativity of padicComplexGaloisAction;
-§1.2 padicComplex_fixed_closure_eq, fixed points for every closed subgroup;
+§0.1 naturality in the coefficients and transport along a procyclic group isomorphism;
+§0.2 continuous inflation–restriction and finite descent, using the supplied explicit H1,
+explicitInfl1 and explicitRes1;
 §1.3 periodTraceIdeal, senTowerEstimates, tate_algebraicTraceDescent (finite-stage
 degree and trace compatibility, exact integral preimages and trace-one valuation bounds),
 tate_normalizedTrace and tate_almostEtale;
 §1.4 tate_finiteCochainControl (uniform algebraic cochain approximation with its defect),
 tate_cocycleLimit (convergent primitive sums with uniform valuation loss),
-tate_cyclotomicBanachH1 and tate_H1_padicComplex_twist;
+tate_cyclotomicBanachH1 and the untwisted part of tate_H1_padicComplex_twist
+(the one-dimensional K-space generated by log χ);
 §1.5 the canonical BDeRhamPlus/BDeRham topologies, valuation, action, t and graded pieces,
 with joint multiplication on BDeRhamPlus, separate multiplication on BDeRham and
 joint multiplication on each pair of fixed filtration stages;
