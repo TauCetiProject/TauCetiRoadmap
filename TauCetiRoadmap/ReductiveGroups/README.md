@@ -246,6 +246,189 @@ representation classification or spectral topology of this roadmap.
   "identity component and component group", and "connected" always means the geometric
   notion.
 
+### Layer 3A: algebraic actions, orbit boundaries and projective closed orbits
+
+Build this phase on Layers0–1 and the early scheme/group-object vocabulary of
+Layer3. It precedes Borel subgroups, reductive classification and Borel–Weil.
+For its geometric statements take an algebraically closed field k, a smooth
+affine finite-type k-group G, and a separated finite-type k-scheme X with an
+actual algebraic G-action. G need not be connected, and X need not be
+irreducible or reduced. Empty X has no orbit-existence assertion. Over a
+nonclosed field apply the geometric statements after the specified algebraic
+closure; do not turn a geometric orbit or closed point into a k-rational one
+without a descent argument. Retain the standing distinction between smooth
+groups and arbitrary finite-type group schemes. In characteristic zero use
+the separately proved Cartier smoothness comparison when starting from the
+latter. No reductivity hypothesis belongs in the orbit-existence theorem.
+
+**3A.1 Actual action and orbit maps.** Use native `GrpObj` and `ModObj` in
+the cartesian monoidal category of schemes over Spec k. Its action is a
+scheme morphism G×X→X with native unit/associativity laws; the native
+`CategoryTheory.Hom.group` and `Hom.mulAction` give the action on test-scheme
+points. Export product, inverse-translation, stabilizer equalizer, base-change
+and equivariant-map laws. For x∈X(k) construct μ_x:G→X, g↦gx, translations
+t_g and their inverses, and μ_(hx)=μ_x∘R_h. Define the geometric orbit O_x
+as the image of the underlying scheme map μ_x, with closure Z_x and boundary
+Z_x\O_x. Compare its closed points with the actual orbit of x under G(k).
+This comparison uses the finite-type closed-point/residue-field theorem; the
+image of all scheme points is not literally a set consisting only of
+k-valued points. Define the stabilizer as the scheme fibre over x, with its
+actual subgroup structure and fibre translation isomorphisms. A set-theoretic
+stabilizer does not supply the scheme-theoretic kernel or a smoothness proof.
+
+**3A.2 Constructible image and local closedness.** Derive that μ_x is
+quasi-compact and locally of finite presentation from finite type over k,
+the Noetherian target and separatedness/quasi-separatedness; do not add
+these conclusions as unexplained action data. Consume native
+`Scheme.Hom.isLocallyConstructible_image` / `isConstructible_image`
+(Chevalley) at their exact hypotheses. Supply the finite-type-over-k
+Jacobson adapter: closed points have residue field k; a nonempty
+constructible set contains a closed point; and constructible subsets are
+determined by their closed points. Consume native `residueFieldIsoBase`,
+`pointOfClosedPoint`, `pointEquivClosedPoint` and
+`LocallyOfFiniteType.jacobsonSpace` at their actual hypotheses. The
+remaining image/fibre and constructible-set comparisons are bounded
+adapters here, not new point or residue-field carriers. For a closed point in the image, a
+nonempty finite-type fibre has a k-point. Prove that a dense constructible
+set in a Noetherian space contains an open subset dense in every
+irreducible component of its closure. Apply this to O_x⊂Z_x, choose a
+closed point of that open subset, and translate it by G(k). The translates
+are open in Z_x and cover exactly the orbit on closed points; Jacobson
+constructible detection identifies their union with O_x as a subset of the
+whole scheme space. Thus O_x is open in Z_x and locally closed in X.
+Construct its reduced locally closed subscheme and immersion into X,
+including the action restriction, independence of the open/closed
+factorization, equivariant isomorphisms and algebraically closed field
+extension comparisons. These are direct image/subscheme constructions;
+no representability theorem for G/H is a premise.
+
+**3A.3 Finite dimensions, including disconnected groups.** Consume
+SchemeAndStackFoundations0.7 and native topological Krull dimension rather
+than introducing a second dimension function. Prove the bounded helpers
+needed here: finite-type schemes over k have finite dimension; a proper
+closed subset of an irreducible finite-dimensional finite-type k-scheme
+has strictly smaller dimension; a nonempty open in such an irreducible
+component has the same dimension; and dimension of a finite union of
+closed components is their maximum. Treat the empty set with dimension
+−∞, not dimension0. For Z_x, the finitely many irreducible components
+are permuted transitively by G(k). Prove this using closed orbit points
+away from component intersections and transitivity on O_x(k). A point of
+O_x cannot lie in two components: translate an orbit point belonging to
+only one component to that point. It follows that all components have
+the same dimension d=dim O_x and the boundary misses a dense open in
+each. Hence dim(Z_x\O_x)<dim O_x, and every boundary orbit O_y has
+strictly smaller dimension. Prove closure stability and orbit containment
+before applying the bound. Do not assume Z_x irreducible or assert that
+every closed orbit has the globally smallest dimension.
+
+**3A.4 Existence of closed orbits.** In a nonempty X, minimize the natural
+number dim O_x over its k-points. If the boundary is nonempty, its
+finite-type closed locus has a k-point y, contradicting the strict bound.
+Thus an orbit of minimal dimension is closed. Apply the same argument
+inside every Z_x to prove that each orbit closure contains a closed orbit.
+Export the actual chosen point, containment, closed immersion of its
+reduced orbit model, and change-of-choice statements; uniqueness is not
+claimed. This is a generic algebraic action theorem, not a highest-line
+or adjoint-only substitute. The argument also gives closed orbits in
+nonproper X, but supplies compactness only with properness.
+
+**3A.5 Properness and the complex comparison.** If X is proper over k,
+the closed orbit model is proper; in particular apply the existing
+SchemeAndStackFoundations0.3 relative-Proj/projective-space carrier and
+the projective-morphism properness theorem to projective X. Consume native
+`IsProper (Proj.toSpecZero 𝒜)` at its `Algebra.FiniteType (𝒜 0) A`
+hypothesis and transport through the actual projective-space/closed-immersion
+maps. Over ℂ,
+consume ComplexComparisonPartII C−1.1's actual `.complexPoints`,
+`.closedSubspace`, `.proper`, `.separatedHausdorff` and `.smooth`
+interfaces, not a proper-GAGA theorem or an invented analytification
+functor. Prove the point-map, subspace-topology and properness comparison
+at these finite-type hypotheses. A proper scheme over ℂ has compact
+Hausdorff complex points; the closed orbit therefore has compact complex
+points. To obtain its complex manifold, prove that the reduced orbit
+model is smooth: over the perfect field ℂ its nonempty smooth locus
+meets each component, and translations spread it to the whole orbit.
+Consume native `Scheme.Hom.dense_smoothLocus_of_perfectField` and its
+open smooth locus, restricting to the reduced component loci as needed.
+Construct the corresponding charts and compare with the existing
+finite-dimensional LieGroups closed-stabilizer/local-constant-rank
+quotient construction. Pin H=Stab_G(x), the actual map G(ℂ)→O_x(ℂ)
+and its fibres. Consume SmoothBundlesConnections B1.1/1.4 and its
+independent LieGroupoidsPoisson G0.1 regular-fibre-product prerequisite,
+as specified by LieGroups Layer6's early homogeneous-space floor; no
+torus, conjugacy or Weyl theorem is needed. Prove the complex orbit map
+is a holomorphic submersion using characteristic-zero separability:
+prove the generic maximal-rank statement from the actual function-field
+extension and Jacobian criterion, then spread the smooth/rank locus by
+the source/target translation equations. This bounded orbit-map
+separability/rank adapter is part of this phase, not assumed action data.
+Then construct holomorphic local sections by the analytic inverse theorem.
+Prove the induced biholomorphic homogeneous-space
+identification G(ℂ)/H(ℂ)≃O_x(ℂ). This is downstream of the direct
+orbit construction and the characteristic-zero stabilizer-smoothness
+theorem. It does not assume an algebraic quotient G/H was already
+represented. The compact manifold can be disconnected. A closed orbit
+in affine X need not be compact, and an arbitrary projective orbit
+need not be closed or compact.
+
+**3A.6 Projective representation and restriction maps.** For a nonzero
+finite-dimensional rational G-module V retain the original G and its
+homomorphism ρ:G→GL(V). Construct the dual action
+(g·ℓ)(v)=ℓ(ρ(g⁻¹)v) on V*, its regular action on P(V*) and the O(1)
+linearization. Consume the generic relative-Proj/tautological line and
+projective-space H⁰ calculation from SchemeAndStackFoundations0.3/2.6
+and AlgebraicVectorBundles. Prove the actual natural identification
+H⁰(P(V*),O(1))≃V (using finite-dimensional double duality) and its
+equivariance. Choose a closed orbit X in P(V*) by 3A.4; construct the
+G-equivariant restriction r:V→H⁰(X,O(1)|X), including multiplication,
+pullback and section evaluation in trivializations. At x=[ℓ] choose
+v with ℓ(v)≠0, proving r≠0. Its kernel is a rational G-submodule;
+for irreducible V it is zero. When using point-group representations,
+first prove the rational-submodule versus G(k)-stable-subspace adapter
+by the density of k-points of the smooth group. Do not replace G by
+GL(V), assume H⁰(X,O(1)) irreducible, or assume restriction surjective.
+H⁰ finiteness uses the existing proper/coherent theorem, separately
+from this kernel argument. Any comparison with holomorphic sections
+uses the specified proper coherent comparison later; no Borel–Weil or
+cohomological vanishing premise enters the injection. For connected
+reductive G, identifying H with a parabolic and the line with a
+dominant-weight associated bundle is the later Layer7/SchubertGeometry
+application, not an input to generic orbit existence.
+For the compact U(n) source specialization, first consume the actual
+compact-to-rational GL_n(ℂ) representation dictionary from the existing
+classical/compact representation suppliers. Do not apply an algebraic
+action theorem directly to a bare continuous compact-group action.
+
+**3A.7 Regularity, tests and conventions.** Compare a rational/comodule
+representation with its actual scheme morphism, all action equations,
+and regular matrix coefficients. On GL_n these lie in
+k[x_ij,det⁻¹]; arbitrary rational functions with poles on GL_n are
+not allowed. Prove that entrywise complex conjugation is not a complex
+algebraic representation, by restriction to the nonholomorphic map
+z↦bar z on a diagonal ℂ* (n>0); GL_0 is the separate trivial case.
+Require the following complete tests with explicit action/orbit maps:
+ℂ* acting by t·[u:v]=[tu:v] on P¹ has two closed fixed-point orbits
+and the nonclosed open orbit ℂ*, whose boundary is those two points;
+the finite constant group C₂ swapping coordinates has the disconnected
+closed orbit {0,∞}; trivial actions give point orbits; zero V gives
+empty P(V*) and no chosen orbit; dimension-one V gives P⁰.
+In characteristic p, t·[u:v]=[t^p u:v] has the same geometric open
+orbit but scheme stabilizer μ_p and zero orbit differential. Keep the
+local-closedness/boundary theorem, but do not infer smooth orbit maps,
+tangent-image equality, or a separable homogeneous quotient from it
+without the actual stabilizer/separability hypotheses.
+
+The generic algebraic construction belongs here. SchemeAndStackFoundations
+retains generic constructibility/dimension/projective/coherent geometry,
+ComplexComparisonPartII retains generic analytification and properness,
+and LieGroups retains finite-dimensional analytic quotient/manifold theory.
+NilpotentOrbits' adjoint orbit and SchubertGeometry's highest-line/flag
+comparison consume or compare with this earlier phase without becoming
+its prerequisites. Nonexhaustive native target forms are in
+`OrbitGeometryTargets.lean`, which imports `Suggested.lean`; no reverse
+import is needed.
+
+
 ### Layer 4: Jordan decomposition, diagonalizable groups, tori
 - **Jordan decomposition** of elements into semisimple and unipotent parts (geometric,
   over `k̄`), functorial under representations.

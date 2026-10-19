@@ -153,3 +153,7 @@ end TauCetiRoadmap.ReductiveGroups.CoverLifts
 
 /- The actual signed ADE instantiation, root-line and native Lie action are in
 CoverLiftTargets.lean. This file stays below IntegralRational/SignedADETargets. -/
+
+/- Generic algebraic actions, orbit boundaries, closed projective orbits and
+complex-point comparisons are prototyped in OrbitGeometryTargets.lean.
+That companion imports this file; no reverse import is introduced. -/
