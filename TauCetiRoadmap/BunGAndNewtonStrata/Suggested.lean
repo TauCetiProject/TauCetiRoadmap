@@ -379,7 +379,10 @@ theorem sign_class_two_eq_zero :
   by sorry
 end KottwitzDescent
 
-/-- The affine solution fibre of Frobenius minus identity for an integral difference. -/
+/-- The affine solution fibre of Frobenius minus identity for an integral difference.
+For reductive bundles the difference is the inertia image of the geometric cocharacter
+class minus the representative Kottwitz invariant. Uniformizer evaluation gives that
+cocharacter image when the cocharacter is defined over the coefficient field. -/
 def ComponentCoset {A : Type u} [AddCommGroup A] (tau : A ≃+ A) (difference : A) : Set A :=
   {x | tau x - x = difference}
 

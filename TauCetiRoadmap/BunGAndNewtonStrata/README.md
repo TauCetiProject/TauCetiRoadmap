@@ -32,7 +32,7 @@ Let `E` be a nonarchimedean local field with residue field `F_q`, uniformizer `�
 
 The representative Kottwitz homomorphism takes values in `π₁(G)_I`; the class invariant takes values in the full Galois coinvariants `π₁(G)_Γ`, integrally and with torsion. Rational averaging relates `κ ⊗ 1` to `ν` and loses torsion. The order on `B(G)` fixes `κ` and increases the dominant Newton point. On `|Bun_G|` one has `[b] ≤ [b′]` exactly when `E_{b′}` lies in the closure of `E_b`: the basic point of a `κ`-fibre generalizes to the more unstable points. A rational Newton orbit need not have an `E`-rational representative in `G`; the central Newton morphism of `J_b` does descend for every `b`.
 
-Translations of the Iwahori–Weyl group are lifted by `μ(π)`, whose Kottwitz class is `+[μ]`. ReductiveGroupsPartII RG2.4 labels the same element by `−μ`, because its apartment translation parameter uses the inverse Kottwitz image; dominant displacements convert by `ν_std = −w₀(ν_disp)`. In split `GL_2`, `diag(π, 1)` has RG2.4 dominant displacement `(0, −1)`, Newton point `(1, 0)` and `κ = 1`.
+Translations of the Iwahori–Weyl group are indexed through the Kottwitz quotient `T(L)/T(L)_0 ≅ X_*(T)_I` for the maximal torus of ReductiveGroupsPartII RG2.4.3. A geometric cocharacter contributes its inertia-coinvariant class. When `μ` is defined over `L`, evaluation `μ(π)` represents the translation with Kottwitz class `+[μ]_I`; RG2.4 labels the same element by `−[μ]_I`, because its apartment translation parameter uses the inverse Kottwitz image. Dominant displacements convert by `ν_std = −w₀(ν_disp)`. In split `GL_2`, `diag(π, 1)` has RG2.4 dominant displacement `(0, −1)`, Newton point `(1, 0)` and `κ = 1`.
 
 Schubert labels use GeometricSatakeAndFusion GS0: `Gr^GS_μ` is indexed by `μ(ξ)`. RelativeFarguesFontaine §7.7 gives `BL(ξ^m B_dR⁺)=O(−m)`, hence `κ(BL(x))` is the Γ-coinvariant image of the component `α`. Caraiani–Scholze and Igusa use the inverse label: `Gr^CS_η=Gr^GS_((−η)^dom)`, so `η=(−μ)^dom` converts a GS label `μ` to a CS label. A rank-one lattice `ξ^m` has CS label `−m`. Flag strata below use the supplied Igusa carriers through this adapter.
 
@@ -1258,11 +1258,11 @@ The API:
 - For `σ=id` a nonempty coset requires difference `0` and equals the entire lattice.
 - On `Z` with `σ=−id`, the equation `−2x=2` has unique solution `x=−1`.
 - On the same lattice difference `1` has no solution; its full coinvariant compatibility fails.
-- For the norm-one torus of `ℚ₃(√π)/ℚ₃`, a geometric generator `μ` has a well-defined image in `π₁(T)_I=ℤ/2`. In split coordinates `μ(π)=(π,π⁻¹)` is exchanged with its inverse by ramified inertia, so it is not in `T(L)` and cannot be an input to `κ̃`.
+- For `E=ℚ₃`, `π=3`, `E′=E(√3)` and `T=Res¹_(E′/E) G_m`, inertia acts by `−1` on `X_*(T)=ℤ`. A geometric generator `μ` has image `μ_I=1` in `π₁(T)_I=ℤ/2`, on which Frobenius is trivial. With `a=√3`, the induced-torus resolution sends `a` to `a/τ(a)=−1`, where `τ(a)=−a`; its normalized valuation is `1`, so `b=−1∈T(E)` has `κ̃(b)=1`. Thus the compatible component coset is all of `ℤ/2`. In split coordinates `μ(3)=(3,3⁻¹)` is exchanged with its inverse by inertia and is not in `T(L)`; in the norm-one description its proposed coordinate `3` has norm `9`.
 
-Source: the affine-fibre description is the elementary kernel-and-fibre deduction from the integral Kottwitz maps and component condition in [GLX](#ref-glx), Section 1.1 equations (1.3)–(1.4), p. 807, and Section 2.2, p. 818; it is not a separate theorem stated there.
+Source: the affine-fibre description is the elementary kernel-and-fibre deduction from the integral Kottwitz maps and component condition in [GLX](#ref-glx), Section 1.1 equations (1.3)–(1.4), p. 807, and Section 2.2, p. 818; it is not a separate theorem stated there. The inertia class and torus normalization are [Kot97](#ref-kot97), §§7.2–7.3, pp. 293–296.
 
-*Needs:* [§1.8 Newton and Kottwitz invariants](#newton-and-kottwitz-maps); [§1.23 Acceptable classes B(G,{μ})](#admissible-pair).
+*Needs:* [§1.8 Newton and Kottwitz invariants](#newton-and-kottwitz-maps); [§1.23 Acceptable classes B(G,{μ})](#admissible-pair); ReductiveGroupsPartII §RG2.1.5 (the geometric cocharacter class map, inertia coinvariants and torus Kottwitz normalization).
 
 <a id="z-extension-bounded-lifting"></a>
 
