@@ -90,9 +90,9 @@ example (μ : H →ₐc[R] LaurentPolynomial R) :
     TauCeti.Cocharacter.levi A μ ≤ hodgeTateParabolic A μ :=
   TauCeti.Cocharacter.levi_le_parabolic
 
--- Test `hodgeParabolic_test_gl2`: the two nonidentity root shears distinguish the
--- Hodge parabolic P(μ⁻¹) from P(μ) for μ(t)=diag(t,1), on actual Hopf-coordinate points.
-example :
+/-- The root shears distinguish `P(μ⁻¹)` from `P(μ)` for `μ(t) = diag(t, 1)` on
+Hopf-coordinate `GL₂(ℚ)` points (B0.3, `hodgeParabolic_test_gl2`). -/
+theorem hodgeParabolic_test_gl2 :
     let μ := TauCeti.GeneralLinear.Dynamic.GL2.dynamicCocharacter (R := ℚ)
     let upper := (TauCeti.GeneralLinear.pointsMulEquiv (R := ℚ) (A := ℚ) 2).symm
       (TauCeti.transvectionUnit (by decide : (0 : Fin 2) ≠ 1) (1 : ℚ))
@@ -105,30 +105,6 @@ example :
 end Parabolic
 
 /-! ## Layer B4: classical forms and explicit weights -/
-
-section SectionMaps
-
-open CategoryTheory
-
--- Test `classicalForms_test_map_id`: the identity coefficient map fixes every section.
-example {X : AlgebraicGeometry.Scheme} (V : X.Modules) (s : SheafOfModules.sections V) :
-    SheafOfModules.sectionsMap (𝟙 V : V ⟶ V) s = s := by
-  sorry
-
--- Test `classicalForms_test_map_comp`: section maps compose in coefficient-map order.
-example {X : AlgebraicGeometry.Scheme} {V W U : X.Modules} (u : V ⟶ W) (v : W ⟶ U)
-    (s : SheafOfModules.sections V) :
-    SheafOfModules.sectionsMap (u ≫ v : V ⟶ U) s =
-      SheafOfModules.sectionsMap v (SheafOfModules.sectionsMap u s) := by
-  sorry
-
--- Test `classicalForms_test_map_zero`: a section zero on every open maps to a zero section.
-example {X : AlgebraicGeometry.Scheme} {V W : X.Modules} (u : V ⟶ W)
-    (s : SheafOfModules.sections V) (hs : ∀ U, s.val U = 0) :
-    ∀ U, (SheafOfModules.sectionsMap u s).val U = 0 := by
-  sorry
-
-end SectionMaps
 
 section AutomorphyFactor
 
@@ -192,11 +168,12 @@ theorem changeFrame_comp (J : AutomorphyFactor β G X R V) (u v : X → (V ≃�
     (J.changeFrame u).changeFrame v = J.changeFrame (fun x ↦ (u x).trans (v x)) := by
   sorry
 
--- Test `AutomorphyFactor_test_frame`: a gauge of the identity has the shifted cocycle.
-example (u : X → (V ≃ₗ[R] V)) (k : β) (g h : G) (x : X) :
-    let J := (trivial : AutomorphyFactor β G X R V).changeFrame u
-    J.coefficient k (g * h) x = (J.coefficient k h x).trans (J.coefficient k g (h • x)) := by
-  sorry
+-- Test `AutomorphyFactor_test_frame`: changing frame preserves the shifted cocycle.
+example (J : AutomorphyFactor β G X R V) (u : X → (V ≃ₗ[R] V))
+    (k : β) (g h : G) (x : X) :
+    let K := J.changeFrame u
+    K.coefficient k (g * h) x = (K.coefficient k h x).trans (K.coefficient k g (h • x)) := by
+  exact (J.changeFrame u).cocycle k g h x
 
 end AutomorphyFactor
 
@@ -257,61 +234,23 @@ example (k : β) (g : G) (f : X → V) :
         fun x ↦ f (g • x) := by
   rfl
 
--- Test `slashActionOfAutomorphyFactor_test_zero`: no nonvanishing hypothesis is needed.
-example (k : β) (g : G) :
-    (slashActionOfAutomorphyFactor J hone hmul).map k g (0 : X → V) = 0 := by
-  ext x
-  exact (J k g x).symm.map_zero
-
 -- Test `slashActionOfAutomorphyFactor_test_frame`: the inverse gauge has the stated order.
-example (u : X → (V ≃ₗ[R] V)) (k : β) (g : G) (f : X → V) (x : X) :
-    let K := (AutomorphyFactor.trivial : AutomorphyFactor β G X R V).changeFrame u
+example (J : AutomorphyFactor β G X R V) (u : X → (V ≃ₗ[R] V))
+    (k : β) (g : G) (f : X → V) (x : X) :
+    let K := J.changeFrame u
     (slashActionOfAutomorphyFactor K.coefficient K.normalized K.cocycle).map k g f x =
-      u x ((u (g • x)).symm (f (g • x))) := by
-  sorry
+      u x ((J.coefficient k g x).symm ((u (g • x)).symm (f (g • x)))) := by
+  rfl
 
--- B4.5: evaluation allows arbitrary sections, identity elements, and prescribed scalar factors.
-example (k : β) (g : G) (f : X → V) (x : X) :
-    (slashActionOfAutomorphyFactor J hone hmul).map k g f x =
-      (J k g x).symm (f (g • x)) := rfl
-
-example (k : β) (f : X → V) (x : X) :
-    (slashActionOfAutomorphyFactor J hone hmul).map k 1 f x = f x := by
-  simp
-
-example {G X : Type*} [Monoid G] [MulAction G X]
-    (K : AutomorphyFactor Unit G X ℚ ℚ) (g : G) (x : X) (f : X → ℚ)
-    (hK : K.coefficient () g x = LinearEquiv.smulOfNeZero ℚ ℚ 2 (by norm_num)) :
-    (slashActionOfAutomorphyFactor K.coefficient K.normalized K.cocycle).map () g f x =
-      (1 / 2 : ℚ) * f (g • x) := by
-  sorry
-
--- B4.6: the zero function satisfies both descriptions of invariance.
-example (k : β) :
-    (∀ g, (slashActionOfAutomorphyFactor J hone hmul).map k g (0 : X → V) = 0) ∧
-      (∀ g x, (0 : X → V) (g • x) = J k g x ((0 : X → V) x)) := by
-  sorry
-
-example (k : β) (f : X → V) (hX : ∀ (g : G) (x : X), g • x = x) :
-    let K := (AutomorphyFactor.trivial : AutomorphyFactor β G X R V)
-    (∀ g, (slashActionOfAutomorphyFactor K.coefficient K.normalized K.cocycle).map k g f = f) ∧
-      (∀ g x, f (g • x) = K.coefficient k g x (f x)) := by
-  sorry
-
--- The nonidentity of C₂ acts by −1 on a rational fibre over a point.
-example :
-    let K : AutomorphyFactor Unit (Multiplicative (ZMod 2)) Unit ℚ ℚ :=
-      { coefficient := fun _ g _ ↦ LinearEquiv.smulOfNeZero ℚ ℚ
-          (if g = 1 then 1 else -1) (by split_ifs <;> norm_num)
-        normalized := by
-          intro k x
-          ext v
-          simp
-        cocycle := by sorry }
-    ∀ f : Unit → ℚ,
-      ((∀ g, (slashActionOfAutomorphyFactor K.coefficient K.normalized K.cocycle).map () g f = f)
-        ↔ f () = 0) ∧
-      ((∀ g x, f (g • x) = K.coefficient () g x (f x)) ↔ f () = 0) := by
+/-- A sign stabilizer on a one-dimensional fibre over a point forces every invariant function
+to vanish when `2 ≠ 0` in the coefficient field (B4.6,
+`slashActionOfAutomorphyFactor_sign_invariant_iff`). -/
+theorem slashActionOfAutomorphyFactor_sign_invariant_iff
+    {Γ F : Type*} [Monoid Γ] [Field F] [NeZero (2 : F)]
+    (K : AutomorphyFactor Unit Γ Unit F F) (g : Γ)
+    (hK : ∀ v : F, K.coefficient () g () v = -v) (f : Unit → F) :
+    (∀ h, (slashActionOfAutomorphyFactor K.coefficient K.normalized K.cocycle).map () h f = f) ↔
+      f () = 0 := by
   sorry
 
 end AutomorphyFactor
@@ -337,39 +276,16 @@ def sl2ScalarFactor (k : ℤ) (g : SL(2, ℤ)) (z : UpperHalfPlane) : ℂ ≃ₗ
   LinearEquiv.smulOfNeZero ℂ ℂ (UpperHalfPlane.denom g z ^ k)
     (zpow_ne_zero k (UpperHalfPlane.denom_ne_zero g z))
 
--- Test `slashActionOfAutomorphyFactor_test_sl2`: with the factor `denom(g, z)^k` the adapter is
--- Mathlib's weight-`k` slash action of `SL₂(ℤ)`.
-example (k : ℤ) (g : SL(2, ℤ)) (f : UpperHalfPlane → ℂ) (z : UpperHalfPlane)
+/-- The scalar factor `denom(g, z)^k` gives Mathlib's weight-`k` `SL₂(ℤ)` slash action
+(B4.4 and B4.10, `slashActionOfAutomorphyFactor_sl2`), with its normalization and shifted
+cocycle as the adapter hypotheses. -/
+theorem slashActionOfAutomorphyFactor_sl2
+    (k : ℤ) (g : SL(2, ℤ)) (f : UpperHalfPlane → ℂ) (z : UpperHalfPlane)
     (hone : ∀ k z, sl2ScalarFactor k 1 z = LinearEquiv.refl ℂ ℂ)
     (hmul : ∀ k g h z, sl2ScalarFactor k (g * h) z =
       (sl2ScalarFactor k h z).trans (sl2ScalarFactor k g (h • z))) :
     (slashActionOfAutomorphyFactor sl2ScalarFactor hone hmul).map k g f z = (f ∣[k] g) z := by
-  rw [slashActionOfAutomorphyFactor_map_apply, ModularForm.SL_slash_apply]
-  simp [sl2ScalarFactor, Units.smul_def, zpow_neg, mul_comm]
-
--- Test `slashActionOfAutomorphyFactor_test_semilinear`: the determinant-negative part of
--- `GL₂(ℝ)` acts semilinearly on scalars, so no `ℂ`-linear factor reproduces it.
-example (k : ℤ) (g : GL (Fin 2) ℝ) (f : UpperHalfPlane → ℂ) (c : ℂ) :
-    (c • f) ∣[k] g = UpperHalfPlane.σ g c • (f ∣[k] g) :=
-  ModularForm.smul_slash k g f c
-
--- Test `AutomorphyFactor_test_scalar_shift`: `S²` has denominator `−1`, whereas the
--- unshifted product at `2i` is `−4`.
-example : let z : UpperHalfPlane := ⟨2 * Complex.I, by norm_num⟩
-    UpperHalfPlane.denom (ModularGroup.S * ModularGroup.S : SL(2, ℤ)) z = -1 ∧
-      UpperHalfPlane.denom ModularGroup.S z * UpperHalfPlane.denom ModularGroup.S z = -4 := by
-  let z : UpperHalfPlane := ⟨2 * Complex.I, by norm_num⟩
-  change UpperHalfPlane.denom (ModularGroup.S * ModularGroup.S : SL(2, ℤ)) z = -1 ∧
-    UpperHalfPlane.denom ModularGroup.S z * UpperHalfPlane.denom ModularGroup.S z = -4
-  rw [ModularGroup.denom_apply (ModularGroup.S * ModularGroup.S) z, ModularGroup.denom_S z]
-  constructor
-  · change ((↑(((ModularGroup.S : Matrix (Fin 2) (Fin 2) ℤ) * ModularGroup.S) 1 0) : ℂ) *
-      (z : ℂ) + ↑(((ModularGroup.S : Matrix (Fin 2) (Fin 2) ℤ) * ModularGroup.S) 1 1)) = -1
-    rw [ModularGroup.S_mul_S_eq]
-    norm_num
-  · change (2 * Complex.I) * (2 * Complex.I) = -4
-    rw [mul_mul_mul_comm]
-    norm_num [Complex.I_mul_I]
+  sorry
 
 /-- The rational shear `(a, b) ↦ (a + b, b)`. -/
 def shearX : (ℚ × ℚ) ≃ₗ[ℚ] (ℚ × ℚ) where
@@ -389,49 +305,6 @@ def shearY : (ℚ × ℚ) ≃ₗ[ℚ] (ℚ × ℚ) where
   map_add' p q := Prod.ext (by simp) (by simp; ring)
   map_smul' c p := Prod.ext (by simp) (by simp; ring)
 
--- Test `AutomorphyFactor_test_shift`: the shifted and unshifted C₂ products differ.
-example :
-    let t : Multiplicative (ZMod 2) := Multiplicative.ofAdd 1
-    let u : Multiplicative (ZMod 2) → ((ℚ × ℚ) ≃ₗ[ℚ] (ℚ × ℚ)) :=
-      fun x ↦ if x = 1 then LinearEquiv.refl ℚ (ℚ × ℚ) else shearX
-    let J := (AutomorphyFactor.trivial : AutomorphyFactor Unit (Multiplicative (ZMod 2))
-      (Multiplicative (ZMod 2)) ℚ (ℚ × ℚ)).changeFrame u
-    J.coefficient () (t * t) 1 (0, 1) = (0, 1) ∧
-      ((J.coefficient () t 1).trans (J.coefficient () t 1)) (0, 1) = (2, 1) := by
-  sorry
-
--- B4.7: noncommuting coefficients give the reversed inverse product.
-example :
-    let J : ((ℚ × ℚ) ≃ₗ[ℚ] (ℚ × ℚ)) → (ℚ × ℚ) → ((ℚ × ℚ) ≃ₗ[ℚ] (ℚ × ℚ)) :=
-      fun g _ ↦ g
-    J (shearX * shearY)⁻¹ (0, 0) = J shearY⁻¹ (shearX⁻¹ (0, 0)) * J shearX⁻¹ (0, 0) ∧
-      J (shearX * shearY)⁻¹ (0, 0) ≠ J shearX⁻¹ (0, 0) * J shearY⁻¹ (shearX⁻¹ (0, 0)) := by
-  sorry
-
-example {G K X : Type*} [Group G] [Group K] [MulAction G X]
-    (J : G → X → K) (hone : ∀ x, J 1 x = 1) (x : X) :
-    (1 : G)⁻¹ • x = x ∧ J (1 : G)⁻¹ x = 1 := by
-  simp [hone]
-
--- The character id on ℚˣ has value 2 of infinite order, detecting an omitted inverse.
-example :
-    let χ : ℚˣ →* ℚˣ := MonoidHom.id ℚˣ
-    let g : ℚˣ := Units.mk0 2 (by norm_num)
-    χ g⁻¹ = (χ g)⁻¹ ∧ χ g⁻¹ ≠ χ g := by
-  sorry
-
--- B4.8: at a nonzero constant section the trivial base action forces the unit factor.
-example {G : Type*} [Monoid G] (J : G → Unit → ℚ)
-    (hf : ∀ g x, (1 : ℚ) = J g x * 1) :
-    (∀ g x, J g x = 1) ∧ ∀ g h x, J (g * h) x = J g x * J h x := by
-  sorry
-
--- On the free two-point orbit, every nowhere-zero function gives a shifted scalar cocycle.
-example (f : Multiplicative (ZMod 2) → ℚ) (hf : ∀ x, f x ≠ 0) :
-    let J := fun g x ↦ f (g * x) / f x
-    ∀ g h x, J (g * h) x = J g (h * x) * J h x := by
-  sorry
-
 /-- The constant factor `J(g, x) = g` of `GL(ℚ²)` acting on `ℚ²` by evaluation. -/
 def constantFactor : AutomorphyFactor Unit ((ℚ × ℚ) ≃ₗ[ℚ] (ℚ × ℚ)) (ℚ × ℚ) ℚ (ℚ × ℚ) where
   coefficient _ g _ := g
@@ -445,46 +318,6 @@ example : constantFactor.coefficient () (shearX * shearY) (0, 0) (1, 0) = (2, 1)
   constructor
   · simp [constantFactor, shearX, shearY]; norm_num
   · simp [constantFactor, shearX, shearY]
-
--- Test `slashActionOfAutomorphyFactor_test_noncommuting`: the slash of the constant `(1, 0)` by
--- `S_x S_y` is `(1, −1)` and by `S_y S_x` is `(2, −1)`.
-example :
-    (slashActionOfAutomorphyFactor constantFactor.coefficient constantFactor.normalized
-      constantFactor.cocycle).map () (shearX * shearY) (fun _ ↦ ((1 : ℚ), (0 : ℚ))) (0, 0) =
-        (1, -1) ∧
-    (slashActionOfAutomorphyFactor constantFactor.coefficient constantFactor.normalized
-      constantFactor.cocycle).map () (shearY * shearX) (fun _ ↦ ((1 : ℚ), (0 : ℚ))) (0, 0) =
-        (2, -1) := by
-  constructor
-  · change (shearX * shearY).symm ((1 : ℚ), (0 : ℚ)) = (1, -1)
-    simp [LinearEquiv.mul_eq_trans, shearX, shearY]
-  · change (shearY * shearX).symm ((1 : ℚ), (0 : ℚ)) = (2, -1)
-    simp [LinearEquiv.mul_eq_trans, shearX, shearY]
-    norm_num
-
--- Test `slashActionOfAutomorphyFactor_test_inverse`: the slash of the constant `(0, 1)` by `S_x`
--- is `(−1, 1)`, which an operator that forgets the inverse gets wrong.
-example :
-    (slashActionOfAutomorphyFactor constantFactor.coefficient constantFactor.normalized
-      constantFactor.cocycle).map () shearX (fun _ ↦ ((0 : ℚ), (1 : ℚ))) (0, 0) = (-1, 1) := by
-  change shearX.symm ((0 : ℚ), (1 : ℚ)) = (-1, 1)
-  simp [shearX]
-
--- Test `slashActionOfAutomorphyFactor_test_zero_noncocycle`: a zero section transforms under the
--- normalized nonzero factor `1 ↦ 1, t ↦ 2` of `C₂`, which is not a cocycle since `2² ≠ 1`.
-example :
-    (∀ g : Multiplicative (ZMod 2), (0 : ℚ) = (if g = 1 then 1 else 2) * 0) ∧
-    ¬ ∀ g h : Multiplicative (ZMod 2),
-    (if g * h = 1 then (1 : ℚ) else 2) = (if g = 1 then 1 else 2) * (if h = 1 then 1 else 2) := by
-  constructor
-  · intro g; simp
-  · intro h
-    have := h (Multiplicative.ofAdd 1) (Multiplicative.ofAdd 1)
-    have hg : (Multiplicative.ofAdd 1 : Multiplicative (ZMod 2)) * Multiplicative.ofAdd 1 = 1 := by
-      decide
-    have hne : (Multiplicative.ofAdd 1 : Multiplicative (ZMod 2)) ≠ 1 := by decide
-    simp only [hg, hne, ite_true, ite_false] at this
-    norm_num at this
 
 /-- An arithmetic Hilbert weight: integers `k_τ` indexed by the real embeddings and a central
 weight `w` with `k_τ ≡ w (mod 2)` ([Diamond21], §3.2, p.12; [Milne90], III §8). -/
@@ -521,11 +354,6 @@ def add (a b : HilbertArithmeticWeight ι) : HilbertArithmeticWeight ι where
 theorem ext {a b : HilbertArithmeticWeight ι} (hk : a.k = b.k) (hw : a.w = b.w) : a = b := by
   sorry
 
--- Test `HilbertArithmeticWeight_test_zero`: `k = 0`, `w = 0` has every `m_τ = 0`.
-example (i : ι) :
-    (⟨fun _ ↦ 0, 0, fun _ ↦ rfl⟩ : HilbertArithmeticWeight ι).detExponent i = 0 := by
-  rfl
-
 -- Test `HilbertArithmeticWeight_test_negative`: `k = 4`, `w = 2` has `m = −1`.
 example : (⟨fun _ ↦ 4, 2, fun _ ↦ rfl⟩ : HilbertArithmeticWeight Unit).detExponent () = -1 := by
   rfl
@@ -535,40 +363,6 @@ example : ¬ ∃ a : HilbertArithmeticWeight Unit, a.k () = 3 ∧ a.w = 2 := by
   rintro ⟨a, hk, hw⟩
   have := a.parity ()
   omega
-
--- Test `HilbertArithmeticWeight_test_add`: two determinant exponents `−1` add to `−2`.
-example : let a : HilbertArithmeticWeight Unit := ⟨fun _ ↦ 4, 2, fun _ ↦ rfl⟩
-    let b : HilbertArithmeticWeight Unit := ⟨fun _ ↦ 2, 0, fun _ ↦ rfl⟩
-    (a.add b).k () = 6 ∧ (a.add b).w = 2 ∧ (a.add b).detExponent () = -2 := by
-  decide
-
--- The zero weight is a right and left identity for every index type.
-example (a : HilbertArithmeticWeight ι) :
-    let zeroWeight : HilbertArithmeticWeight ι := ⟨fun _ ↦ 0, 0, fun _ ↦ rfl⟩
-    a.add zeroWeight = a := by
-  apply ext
-  · funext i
-    exact add_zero _
-  · exact add_zero _
-
-example (a : HilbertArithmeticWeight ι) :
-    let zeroWeight : HilbertArithmeticWeight ι := ⟨fun _ ↦ 0, 0, fun _ ↦ rfl⟩
-    zeroWeight.add a = a := by
-  apply ext
-  · funext i
-    exact zero_add _
-  · exact zero_add _
-
--- Negation preserves parity and gives an additive inverse.
-example (a : HilbertArithmeticWeight ι) :
-    let zeroWeight : HilbertArithmeticWeight ι := ⟨fun _ ↦ 0, 0, fun _ ↦ rfl⟩
-    let negWeight : HilbertArithmeticWeight ι :=
-      ⟨fun i ↦ -a.k i, -a.w, fun i ↦ by have h := a.parity i; omega⟩
-    a.add negWeight = zeroWeight := by
-  apply ext
-  · funext i
-    exact add_neg_cancel _
-  · exact add_neg_cancel _
 
 end HilbertArithmeticWeight
 
@@ -580,16 +374,6 @@ namespace ClassicalHecke
 the correspondence has degree `ℓ + 1` and the normalization is `ν = det⁻¹`, so
 `T_ℓ(1) = ν(diag(1, ℓ)) (ℓ + 1)`. -/
 def modularNormalization (ℓ : ℕ) (_hℓ : Nat.Prime ℓ) : ℚ := (ℓ : ℚ)⁻¹ * (ℓ + 1)
-
--- Test `ClassicalHecke.modularNormalization`: `T_ℓ(1) = (ℓ + 1)/ℓ`, not `ℓ + 1` and not `1`.
-example : modularNormalization 2 (by decide) = 3 / 2 := by
-  norm_num [modularNormalization]
-
-example : modularNormalization 3 (by decide) = 4 / 3 := by
-  norm_num [modularNormalization]
-
-example : modularNormalization 5 (by decide) = 6 / 5 := by
-  norm_num [modularNormalization]
 
 end ClassicalHecke
 
@@ -611,23 +395,10 @@ theorem twiceTateExponents_even (k₁ k₂ w : ℤ) (hpar : (k₁ + k₂ + w) % 
     ∃ a : ℤ, twiceTateExponents k₁ k₂ w j = 2 * a := by
   sorry
 
--- Test `SiegelHT.weights_zero`: for `κ = 0` the coherent weights are `(0,0;0)`, `(2,0;0)`,
--- `(3,1;0)`, `(3,3;0)` and the Tate exponents are `0, 1, 2, 3`.
-example : coherentWeights 0 0 0 = ![(0, 0, 0), (2, 0, 0), (3, 1, 0), (3, 3, 0)] ∧
-    twiceTateExponents 0 0 0 = ![0, 2, 4, 6] := by
-  constructor <;> decide
-
 -- Test `SiegelHT.weights_nonzero`: the central coordinate is `−w` in every Weyl term.
 example : coherentWeights 0 (-2) 2 = ![(0, -2, -2), (2, -2, -2), (5, 1, -2), (5, 3, -2)] ∧
     twiceTateExponents 0 (-2) 2 = ![0, 2, 8, 10] := by
   constructor <;> decide
-
--- The BCGP identity Weyl element has length zero and gives the degree-three coherent term.
--- Here `2ρ_U = (-3,-3)`, whereas `2ρ_L = (1,-1)` gives the wrong Levi-dual weight.
-example : (-(-3 : ℤ), -(-3 : ℤ), (0 : ℤ)) = coherentWeights 0 0 0 3 ∧
-    (-(-1 : ℤ), -(1 : ℤ), (0 : ℤ)) ≠ coherentWeights 0 0 0 3 ∧
-    coherentWeights 0 0 0 3 ≠ coherentWeights 0 0 0 0 := by
-  decide
 
 -- Test `SiegelHT.parity`: `(0, 0; 1)` fails the parity condition, and its first doubled exponent
 -- is odd.

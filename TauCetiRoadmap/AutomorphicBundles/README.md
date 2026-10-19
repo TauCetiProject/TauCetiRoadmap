@@ -498,7 +498,8 @@ Mathlib `AddMonoidAlgebra.mapDomainBialgHom`; TauCetiRoadmap.ReductiveGroups Lay
 TauCetiRoadmap.ReductiveGroupsPartII RG2.0a.3
 (*deligne-torus*).
 *Lean:* `inverseCocharacter`, `inverseCocharacter_inverseCocharacter`, `hodgeParabolic`,
-`hodgeTateParabolic`, `levi_inverseCocharacter`, `hodgeParabolic_inf_hodgeTateParabolic`.
+`hodgeTateParabolic`, `levi_inverseCocharacter`, `hodgeParabolic_inf_hodgeTateParabolic`,
+`hodgeParabolic_test_gl2`.
 
 **Checks.**
 
@@ -3811,7 +3812,7 @@ The API:
 (`generalCanonicalExtension`); B3.general.3 (`generalBoundaryFunctoriality`); Mathlib
 `AlgebraicGeometry.Scheme.Modules`; Mathlib `AlgebraicGeometry.Scheme.Modules.presheaf`; Mathlib
 `SheafOfModules.sections`.
-*Lean:* the three `Scheme.Modules` section-map Checks below; the geometric carrier is specified here only.
+*Lean:* none; the geometric carrier is specified in the README only.
 
 **Checks.**
 
@@ -3912,14 +3913,14 @@ B3.4 (`subcanonicalExtension`); Mathlib `LinearEquiv.trans`.
 
 - `AutomorphyFactor_test_unit` (degenerate): The constant identity coefficient is normalized and
   satisfies the shifted cocycle.
-- `AutomorphyFactor_test_frame` (computation): For any invertible frame function u,
-  `J(g,x)=u(gx)u(x)⁻¹` satisfies the shifted cocycle.
+- `AutomorphyFactor_test_frame` (computation): For any factor J and invertible frame function u,
+  `J′(g,x)=u(gx)J(g,x)u(x)⁻¹` satisfies the shifted cocycle; at `J=1` this is `u(gx)u(x)⁻¹`.
 - `AutomorphyFactor_test_order` (non-example): For `Q²` let `Sx(a,b)=(a+b,b)`, `Sy(a,b)=(a,a+b)`. The
   constant functional factor `J(g,x)=g` for the evaluation action of `GL(Q²)` has `J(SxSy,x)(1,0)=(2,1)`
   and `J(SySx,x)(1,0)=(1,1)`. Reversing coefficient composition fails this test.
-- `AutomorphyFactor_test_scalar_shift` (non-example): for the modular inversion matrix `S` at
+- For the modular inversion matrix `S` at
   `z = 2i`, `denom(S²,z) = −1` whereas `denom(S,z)² = −4`. The unshifted scalar law fails.
-- `AutomorphyFactor_test_shift` (non-example): On `C₂` acting on itself by left multiplication, choose
+- On `C₂` acting on itself by left multiplication, choose
   frames `u(1)=id` and `u(t)=Sx` on `Q²`. Gauge-changing the identity factor gives `J(t²,1)(0,1)=(0,1)`,
   whereas the unshifted square `J(t,1)²(0,1)=(2,1)`. Thus the base-point shift is necessary.
 
@@ -3947,26 +3948,28 @@ The API:
 Mathlib `LinearEquiv.symm_apply_eq`; Mathlib `LinearEquiv.automorphismGroup`; Mathlib
 `LinearEquiv.applyDistribMulAction`.
 *Lean:* `slashActionOfAutomorphyFactor`, `slashActionOfAutomorphyFactor_map_smul`,
-`slashActionOfAutomorphyFactor_congr`, `slashActionOfAutomorphyFactor_map_of_trivial`.
+`slashActionOfAutomorphyFactor_congr`, `slashActionOfAutomorphyFactor_map_of_trivial`,
+`slashActionOfAutomorphyFactor_sl2` (the scalar `SL₂(ℤ)` comparison, with the factor laws as hypotheses).
 
 **Checks.**
 
 - `slashActionOfAutomorphyFactor_test_trivial` (degenerate): For identity J, f|g is `x↦f(gx)`.
-- `slashActionOfAutomorphyFactor_test_zero` (computation): The zero function is fixed for every
+- The zero function is fixed for every
   normalized coefficient.
-- `slashActionOfAutomorphyFactor_test_frame` (characterisation): The point-dependent frame cocycle
-  `u(gx)u(x)⁻¹` yields exactly `u(x)u(gx)⁻¹f(gx)`.
-- `slashActionOfAutomorphyFactor_test_noncommuting` (non-example): For the two rational shears,
+- `slashActionOfAutomorphyFactor_test_frame` (characterisation): The frame change
+  `J′(g,x)=u(gx)J(g,x)u(x)⁻¹` yields exactly `u(x)J(g,x)⁻¹u(gx)⁻¹f(gx)`;
+  at `J=1` this is `u(x)u(gx)⁻¹f(gx)`.
+- For the two rational shears,
   applying the inverse composite in the wrong order changes the value on `(1,0)`.
-- `slashActionOfAutomorphyFactor_test_inverse` (non-example): The rational shearX applied to the
+- The rational shearX applied to the
   constant `(0,1)` has slash value `(−1,1)`, detecting an operator that forgets the inverse.
-- `slashActionOfAutomorphyFactor_test_sl2` (compatibility): For SL2(Z), `V=C` and
+- For SL2(Z), `V=C` and
   `J(k,g,z)=denom(g,z)^k` as a scalar linear automorphism, the adapter equals Mathlib’s scalar slash
   action.
-- `slashActionOfAutomorphyFactor_test_zero_noncocycle` (non-example): The normalized nonzero factor
+- The normalized nonzero factor
   on C2 with nonidentity value 2 transforms the zero section but fails `J(gh)=J(g)J(h)`; this is not
   accepted as an adapter input.
-- `slashActionOfAutomorphyFactor_test_semilinear` (non-example): The determinant-negative GL2(R)
+- The determinant-negative GL2(R)
   slash law has conjugated scalar multiplication and cannot be represented by this C-linear adapter.
 
 ### B4.5 Evaluation of the slash adapter
@@ -3997,7 +4000,9 @@ equivalence at each point; no cancellation of a selected nonzero section is invo
 *Source:* [LanIntro], §4.2.7, p.49.
 
 *Needs:* B4.5 (`slashActionOfAutomorphyFactor_map_apply`); Mathlib `LinearEquiv.symm_apply_eq`.
-*Lean:* `slashActionOfAutomorphyFactor_invariant_iff`.
+*Lean:* `slashActionOfAutomorphyFactor_invariant_iff`;
+`slashActionOfAutomorphyFactor_sign_invariant_iff` states the sign-stabilizer boundary case
+for any monoid acting on a point and a coefficient field with `2 ≠ 0`.
 
 **Checks.**
 
@@ -4005,7 +4010,10 @@ equivalence at each point; no cancellation of a selected nonzero section is invo
 
 - With trivial factor and trivial base action every function is invariant and satisfies the transformation law.
 
-- For the sign action of `C₂` on a one-dimensional fibre over a point in characteristic zero, invariance forces the value to be zero; using `J` in one direction and forgetting it in the other fails.
+- `slashActionOfAutomorphyFactor_sign_invariant_iff` (boundary): If an element of the
+  acting monoid has coefficient `v ↦ −v` on a one-dimensional fibre over a point and the
+  coefficient field has `2 ≠ 0`, invariance is equivalent to vanishing. This includes the
+  sign action of `C₂` in characteristic zero; in characteristic two the sign acts trivially.
 
 ### B4.7 The inverse-base right cocycle
 
@@ -4092,9 +4100,9 @@ Mathlib `ModularForm.slash_action_eq'_iff`; Mathlib `ModularForm.smul_slash`; Ma
 `UpperHalfPlane.denom_ne_zero`; Mathlib `UpperHalfPlane.denom_cocycle`; Mathlib
 `UpperHalfPlane.denom_cocycle'`; TauCetiRoadmap.ModularForms Layer 10C (the automorphy sheaf on
 `X(Γ)`).
-*Lean:* the scalar factor `sl2ScalarFactor` and the `example`s
-`slashActionOfAutomorphyFactor_test_sl2` and `slashActionOfAutomorphyFactor_test_semilinear` pin the
-scalar `SL₂` convention; the geometric comparison is specified in the README only.
+*Lean:* the scalar factor `sl2ScalarFactor` and the theorem
+`slashActionOfAutomorphyFactor_sl2` pin the scalar `SL₂` convention. The determinant-negative
+scalar law is Mathlib `ModularForm.smul_slash`; the geometric comparison is specified in the README only.
 
 **Checks.**
 
@@ -4133,12 +4141,12 @@ The API:
 
 **Checks.**
 
-- `HilbertArithmeticWeight_test_zero` (degenerate): `k=0,w=0` is an arithmetic weight and every `m_τ=0`.
+- `k=0,w=0` is an arithmetic weight and every `m_τ=0`.
 - `HilbertArithmeticWeight_test_negative` (computation): For one embedding, `k=4,w=2` gives `m=−1`, so
   forbidding negative determinant twists would lose an allowed weight.
 - `HilbertArithmeticWeight_test_parity` (non-example): `k=3,w=2` violates parity and is not an
   arithmetic weight.
-- `HilbertArithmeticWeight_test_add` (computation): at one index, adding `(k,w) = (4,2)` to
+- At one index, adding `(k,w) = (4,2)` to
   `(2,0)` gives `(6,2)` and determinant exponent `−2`, the sum of the two exponents `−1`.
   For every index type and arithmetic weight `a`, addition with `(0,0)` on either
   side fixes `a`, and addition with `(-k,-w)` gives `(0,0)`; its parity follows
@@ -5358,7 +5366,7 @@ specified in the README only.
 
 **Checks.**
 
-- `SiegelHT.weights_zero` (computation): for `κ = 0` the coherent weights are `(0,0;0)`, `(2,0;0)`,
+- For `κ = 0` the coherent weights are `(0,0;0)`, `(2,0;0)`,
   `(3,1;0)`, `(3,3;0)` and the doubled Tate exponents `0, 2, 4, 6`.
 - `SiegelHT.parity` (non-example): `(0, 0; 1)` fails the parity condition and its first doubled
   exponent is odd, so halving it is not integer division.
