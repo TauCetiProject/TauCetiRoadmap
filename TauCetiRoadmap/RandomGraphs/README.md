@@ -821,10 +821,14 @@ This convergence criterion is a target here. Defining the Poisson law in
 StandardDistributions does not discharge it. Use native `Nat.descFactorial`,
 `ProbabilityTheory.poissonMeasure`, integration and convergence notions.
 State it in a general probability module for laws on $`\mathbb N`$, not in a random-graph
-namespace; 11.2 and 11.3 are its consumers here. Point-process convergence theorems that
-assume uniform exponential moments, or Grigelionis-type theorems for arrays of independent
-point processes, do not discharge it: the hypothesis here is only convergence of each
-factorial moment.
+namespace; 11.2 and 11.3 are its consumers here. The point-process criteria of the
+[PointProcesses roadmap proposal](https://github.com/TauCetiProject/TauCetiRoadmap/pull/417)
+do not discharge it: its factorial-moment-measure criterion assumes a uniform local
+exponential-moment bound, and its Grigelionis theorem assumes independence within each array
+row, while the hypothesis here is only convergence of each fixed factorial moment. The sparse
+triangle counts of 11.2 need the weaker hypothesis: the complete-graph event gives
+$`\mathbb E[a^{T_n}]\ge a^{\binom n3}p_n^{\binom n2}\to\infty`$ for every $`a\gt 1`$ when
+$`np_n\to c\gt 0`$.
 
 ### 11.2 Sparse triangles
 
