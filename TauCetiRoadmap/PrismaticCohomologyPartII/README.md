@@ -116,7 +116,7 @@ AInfCohomology §AI.3.3 supplies `TauCetiRoadmap.AInfCohomology.qInteger q n = �
 
 ## How to read the build
 
-Construct canonical Breuil–Kisin twists and Nygaard filtrations, absolute cohomology through the Cartier–Witt stack, and multiplicative q-crystalline and q-de Rham models. The relative Nygaard object is the Frobenius pullback; orientation choices never enter its canonical definition. Within a layer, the explicit prerequisites determine construction order. Earlier parts are consumed by roadmap name and section. Suggested.lean records the coefficient, cochain sign and derivative-thickening checks over Mathlib carriers; the geometric constructions and comparisons are specified in the layers below.
+Construct canonical Breuil–Kisin twists and Nygaard filtrations, absolute cohomology through the Cartier–Witt stack, and multiplicative q-crystalline and q-de Rham models. The relative Nygaard object is the Frobenius pullback; orientation choices never enter its canonical definition. Within a layer, the explicit prerequisites determine construction order. Earlier parts are consumed by roadmap name and section. Suggested.lean states the discrete Nygaard ideal laws, the infinitesimal Witt identity and the polynomial q-derivative laws over Mathlib carriers; the geometric constructions and comparisons are specified in the layers below.
 
 ## Layer 3: Nygaard filtration and Breuil–Kisin twists
 
@@ -162,7 +162,7 @@ Prove `Prismatic.Filtered.connectiveCover_laxMonoidal`: for a commutative ring T
 
 For any prism `(B,J)`, define the ideal filtration `Fil_N^iB=φ_B^−1(J^i), i≥0`, and B for `i≤0`. Apply it to the initial prism of a QRSP ring. The API below gives its multiplicativity, variance and graded quotients; neither separatedness nor completeness is automatic (§3.23). This is Frobenius divisibility, not J-adic, powers of Fil¹, or a PD filtration.
 
-For `J=(d)` this reads `φ(x)∈d^iB`. Initial QRSP prisms are imported at PrismaticCohomology §2.15.
+For `J=(d)` this reads `φ(x)∈d^iB`. Initial QRSP prisms are imported at PrismaticCohomology §2.15. The ideal definition and the membership, zero, decreasing, product and map laws below hold for any ring endomorphism φ and ideal J. The map law assumes `fφ=ψf` and `f(J)⊂K`; the principal-power formula assumes φ is a ring equivalence with `φ(e)=d`.
 
 (BS22, Definition 12.1; p. 86; BS22, Theorem 1.14 `(2)` and the warning after Definition 12.1; pp. 7, 86; ALB23, the paragraph before Theorem 3.4.4; p. 25.)
 
@@ -413,7 +413,7 @@ For an oriented prism `(B,(d))`, define additive semilinear `φ_i=φ/d^i` on `Fi
 *Needs:* [§3.1](#s3-1), [§3.4](#s3-4), [§3.5](#s3-5), [§3.9](#s3-9), [PrismaticCohomology §1.9](../PrismaticCohomology/README.md#s1-9), [PrismaticCohomology §0.72](../PrismaticCohomology/README.md#s0-72).
 
 - `Prismatic.Nygaard.dividedFrobenius`: `φ_i=φ/d^i` on `Fil^i`.
-- `Prismatic.Nygaard.dividedFrobenius_spec`: `d^iφ_i(x)=φ(x)`, uniquely.
+- `Prismatic.Nygaard.dividedFrobenius_spec`: `d^iφ_i(x)=φ(x)`, uniquely. On a ring endomorphism φ and regular d, its value is characterised by `∃! y, d^i y=φ(x)` for `x∈φ⁻¹((d)^i)`.
 - `Prismatic.Nygaard.dividedFrobenius_mul`: `φ_(i+j)(xy)=φ_i(x)φ_j(y)`.
 - `Prismatic.Nygaard.dividedFrobenius_succ`: `φ_i=dφ_(i+1)` on `Fil^(i+1)`.
 - `Prismatic.Nygaard.dividedFrobenius_mem_iff`: `φ_i(x)∈dB` iff `x∈Fil^(i+1)`.
@@ -1599,6 +1599,8 @@ For `K=(p,t)`, assume also D,P p-torsion-free, `P/p` classically K-complete and 
 - At `p=2, φγ(X)=q²X²=γφ(X)`. Replacing `φ(q)` by q would violate this equality.
 
 For a D-algebra E with commuting D-automorphisms `γ_s` satisfying the displayed coordinate and divisibility laws, with `tX_s` regular, define `QFraming.qDeriv(s,f)` by `tX_s∇_s(f)=γ_s(f)−f`. These D-linear operators have `∇_s(1)=0, ∇_s(fg)=∇_s(f)g+γ_s(f)∇_s(g), ∇_s(X_s^n)=[n]_qX_s^(n−1), n≥1`, and `∇_s∇_u=∇_u∇_s`. For finite S define `QFraming.qDeRhamComplex` with term `E⊗_D∧^iD^S` and differential `Σ_s∇_s dX_s∧`−. It is D-linear, also linear over common invariants, with the two-direction sign fixed in Conventions; coordinate-injective naturality requires extra automorphisms to fix the image. (SQDEF §3, pp.6–7; BS22 Constructions 16.19–16.20, pp.114–115.)
+
+On the polynomial ring over any commutative D, define `QCrys.polynomialNabla` by `∇_q(Σ a_n X^n)=Σ a_n [n]_q X^(n−1)`, with the constant term sent to zero. This finite-sum definition requires no regularity of `q−1`, including at `q=1`. Its identities are `QCrys.polynomialNabla_spec`, the formula `f(qX)−f(X)=(q−1)X∇_q(f)`, and `QCrys.polynomialNabla_mul`, the twisted Leibniz rule above. The specialisation `QCrys.pr6_qdr_at_q_one_derivative` is `∇_1=Polynomial.derivative`. These are the polynomial instances of the q-derivative laws, before completion. (BS22 Construction 16.19, p.114; SQDEF §3, pp.6–7.)
 
 For finite completely étale framings flat over a t-torsion-free coefficient ring, division before reduction identifies this complex modulo t with completed ordinary de Rham (p-complete when `K=(p,t)`). On tori `dX_s=X_s dlog X_s` identifies it with `Koszul((γ_s−1)/t)`, hence `η_t Koszul(γ_s−1)`. If `φ(q)=q^p, φ(X_s)=X_s^p` and `φγ_s=γ_sφ`, then `∇_sφ=[p]_qX_s^(p−1)φ∇_s`. API: `qDeriv_spec`, `qDeriv_add`, `qDeriv_smul`, `qDeriv_mul`, `qDeriv_X_pow`, `qDeriv_comm`, `qDeRhamComplex_map`, `qDeRhamComplex_mod`, `qDeRhamComplex_toric`, `qDeriv_frobenius`; the associative product is §5.18’s skew product.
 

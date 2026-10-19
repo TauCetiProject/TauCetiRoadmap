@@ -1,168 +1,129 @@
 import Mathlib
-import TauCeti.RingTheory.WittVector.Frobenius
 
 /-!
 # PrismaticCohomologyPartII: representative target signatures
 
 The roadmap is README.md. These are suggested forms, not an exhaustive checklist.
-This file records the convention checks statable against the pinned APIs.
+The discrete Nygaard ideal laws of §3.1, the infinitesimal Witt identity of §4.13,
+and the polynomial q-derivative laws of §§5.0, 5.16 use existing Mathlib carriers.
+The derived Nygaard, canonical twist, Cartier–Witt stack and q-crystalline comparison
+statements are specified in README.md.
 
-AInfCohomology §AI.3.3 supplies q-integers; their polynomial values, including at q = 1,
-are checked here using Mathlib finite sums. These signatures and
-examples fix the coefficient, cochain sign and derivative-thickening conventions of
-Layers 3–5; the complete Nygaard, stack and q-PD constructions are specified in README.md.
-The Nygaard basis check retains the factorial coefficient of §3.2, and the Witt
-Frobenius checks distinguish the forward crystalline comparison from its inverse (§4.23).
-
-AInfCohomology §AI.0:integral.1 supplies `AInf.bkTwist` on A_inf coefficients.
-README §3.9 specifies `Prismatic.BKTwist.ainfTwistIso`, identifying the general prism
-twist on `(A_inf, (ξ̃))` with that line, including conormal projections, integer powers,
-duals and Frobenius. Transport to `(ξ)` includes extension of scalars along φ.
-README §4.7 constructs the prism points and their naturality; §4.8 applies them to
-the algebraic coproduct cocones imported in §4.6.
+The Nygaard ideal is the preimage of an ideal power under the specified ring
+endomorphism. The polynomial q-derivative uses finite sums, including at q = 1;
+it requires neither division by q - 1 nor regularity of that element.
+README notation Fil_N denotes Nygaard filtration, Fil_N¹ its first step, and Fil_j
+a conjugate step. The enhanced totalization exchange
+`Prismatic.completeBaseChange_totalization` is the completed tensor/limit comparison
+of README's Completed base change and totalization target.
 -/
 
 namespace TauCetiRoadmap.PrismaticCohomologyPartII
 
 open scoped BigOperators
 
-namespace QCrys
+variable {R S : Type*} [CommRing R] [CommRing S]
 
-variable {R : Type*} [CommRing R]
+namespace Prismatic
+namespace Nygaard
 
--- Mathlib supplies the denominator-free geometric-series identity.
-#check geom_sum_mul
+/-- The Frobenius-divisibility ideals of README §3.1, on a specified endomorphism. -/
+def fil (φ : R →+* R) (J : Ideal R) (i : ℕ) : Ideal R :=
+  Ideal.comap φ (J ^ i)
 
-/-- The distinguished generator specializes to p. -/
-example (p : ℕ) : (∑ i ∈ Finset.range p, (1 : ℤ) ^ i) = p := by
+/-- Membership in the Nygaard ideal is divisibility of the Frobenius image (§3.1). -/
+theorem mem_fil_iff (φ : R →+* R) (J : Ideal R) (i : ℕ) (x : R) :
+    x ∈ fil φ J i ↔ φ x ∈ J ^ i := by
   sorry
 
-/-- The empty sum is zero, including at q=0. -/
-example (q : R) : (∑ i ∈ Finset.range 0, q ^ i) = 0 := by simp
-
-/-- A dyadic q-integer has two terms, not one. -/
-example (q : R) : (∑ i ∈ Finset.range 2, q ^ i) = 1 + q := by
-  simp [Finset.sum_range_succ]
-
-/-- A nontrivial specialization distinguishes the polynomial from the constant n. -/
-example : (∑ i ∈ Finset.range 3, (2 : ℤ) ^ i) = 7 := by
-  norm_num [Finset.sum_range_succ]
-
-/-- At p = 3 and i = 2/3, the Nygaard basis image has coefficient [2]_q! = 1+q. -/
-example (q : R) :
-    (∏ j ∈ Finset.range 2, (∑ k ∈ Finset.range (j + 1), q ^ k)) = 1 + q := by
-  simp [Finset.prod_range_succ, Finset.sum_range_succ]
-
-/-- The r = 2 q-prism generator is the product of the two Frobenius factors (§3.11). -/
-example (p : ℕ) (q : R) :
-    (∑ i ∈ Finset.range p, q ^ i) * (∑ j ∈ Finset.range p, (q ^ p) ^ j) =
-      ∑ k ∈ Finset.range (p * p), q ^ k := by
+/-- The zeroth Nygaard ideal is the entire ring (§3.1). -/
+theorem fil_zero (φ : R →+* R) (J : Ideal R) : fil φ J 0 = ⊤ := by
   sorry
 
-/-- On perfect characteristic-p rings, the forward crystalline comparison is Witt
-Frobenius; the reverse comparison applies the inverse Frobenius to Teichmüller elements. -/
-example (p : ℕ) [Fact p.Prime] [CharP R p] [PerfectRing R p] (a : R) :
-    WittVector.frobenius (WittVector.teichmuller p a) =
-        WittVector.teichmuller p a ^ p ∧
-      (WittVector.frobeniusEquiv p R).symm (WittVector.teichmuller p a) =
-        WittVector.teichmuller p ((_root_.frobeniusEquiv R p).symm a) := by
-  exact ⟨WittVector.frobenius_teichmuller a,
-    WittVector.frobeniusEquiv_symm_teichmuller a⟩
+/-- The Nygaard ideals form a decreasing filtration (§3.1). -/
+theorem fil_antitone (φ : R →+* R) (J : Ideal R) : Antitone (fil φ J) := by
+  sorry
 
-/-- The two-endomorphism cochain Koszul convention `d⁰ m = (D₁ m, D₂ m)`,
-`d¹ (a, b) = D₂ a - D₁ b`: commuting operators give `d¹ ∘ d⁰ = 0`. -/
-example {M : Type*} [AddCommGroup M] [Module R M] (D₁ D₂ : M →ₗ[R] M)
-    (h : D₁ ∘ₗ D₂ = D₂ ∘ₗ D₁) (m : M) : D₂ (D₁ m) - D₁ (D₂ m) = 0 := by
-  rw [← LinearMap.comp_apply, ← h, LinearMap.comp_apply, sub_self]
+/-- Products add Nygaard degrees (§3.1). -/
+theorem fil_mul_le (φ : R →+* R) (J : Ideal R) (i j : ℕ) :
+    fil φ J i * fil φ J j ≤ fil φ J (i + j) := by
+  sorry
 
-/-- Replacing subtraction by addition fails already at the integer unit. -/
-example : 3 * (2 * (1 : ℤ)) + 2 * (3 * 1) = 12 := by norm_num
+/-- Maps preserving the ideal and commuting with Frobenius preserve Nygaard degrees (§3.1). -/
+theorem fil_map_le (φ : R →+* R) (ψ : S →+* S) (J : Ideal R) (K : Ideal S)
+    (f : R →+* S) (hφ : f.comp φ = ψ.comp f) (hJ : Ideal.map f J ≤ K) (i : ℕ) :
+    Ideal.map f (fil φ J i) ≤ fil ψ K i := by
+  sorry
 
-/-- In the dyadic derivative thickening, the epsilon-square term changes the coefficient.
-This pins the Frobenius formula without cancelling the coordinate. -/
-example (t x e : R) (he : e ^ 2 = t * x * e) :
-    (x + e) ^ 2 = x ^ 2 + (2 + t) * x * e := by
-  calc
-    (x + e) ^ 2 = x ^ 2 + 2 * x * e + e ^ 2 := by ring
-    _ = x ^ 2 + (2 + t) * x * e := by rw [he]; ring
+/-- Invertible Frobenius carries principal ideal powers back to principal powers (§3.1). -/
+theorem fil_eq_span_pow_of_perfect (φ : R ≃+* R) (d e : R) (he : φ e = d) (i : ℕ) :
+    fil φ.toRingHom (Ideal.span {d}) i = Ideal.span {e ^ i} := by
+  sorry
 
-/-- Characteristic-p coefficients identify the crystalline divisor with the eta divisor
-(`pr5_ht_p_eq_verschiebung_one`). -/
-example (p : ℕ) [Fact p.Prime] [CharP R p] :
-    (p : WittVector p R) = WittVector.verschiebung (1 : WittVector p R) := by
-  simpa using (WittVector.verschiebung_frobenius (1 : WittVector p R)).symm
+/-- Every element of an oriented Nygaard ideal has a unique divided Frobenius
+value when the chosen generator is regular (README §3.10). -/
+theorem dividedFrobenius_spec (φ : R →+* R) (d : R) (hd : IsRegular d)
+    (i : ℕ) (x : R) (hx : x ∈ fil φ (Ideal.span {d}) i) :
+    ∃! y : R, d ^ i * y = φ x := by
+  sorry
 
-/-- The Witt projection formula gives the action on the eta divisor
-(`pr5_ht_unit_times_v_one`). -/
-example (p : ℕ) [Fact p.Prime] (u : WittVector p R) :
-    u * WittVector.verschiebung (1 : WittVector p R) =
-      WittVector.verschiebung (WittVector.frobenius u) := by
-  simpa [mul_comm] using (WittVector.verschiebung_mul_frobenius
-    (1 : WittVector p R) u).symm
+end Nygaard
 
-/-- Frobenius kills a square-zero Teichmüller representative over any coefficient ring
-(`pr5_sen_teichmuller_frobenius`). -/
-example (p : ℕ) [Fact p.Prime] (ε : R) (hε : ε ^ 2 = 0) :
+namespace WCart
+
+/-- The infinitesimal Teichmüller unit fixes the Verschiebung ideal, giving the
+natural automorphism used to construct the Sen operator in README §4.13. -/
+theorem one_add_teichmuller_eps_mul_verschiebung (p : ℕ) [Fact p.Prime]
+    (ε : R) (hε : ε ^ 2 = 0) (y : WittVector p R) :
+    (1 + WittVector.teichmuller p ε) * WittVector.verschiebung y =
+      WittVector.verschiebung y := by
+  sorry
+
+end WCart
+end Prismatic
+
+/-- Frobenius kills square-zero Teichmüller representatives over any commutative ring
+(README §4.13, `pr5_sen_teichmuller_frobenius`). -/
+theorem pr5_sen_teichmuller_frobenius (p : ℕ) [Fact p.Prime] (ε : R)
+    (hε : ε ^ 2 = 0) :
     WittVector.frobenius (WittVector.teichmuller p ε) = 0 := by
   sorry
 
-/-- The infinitesimal Teichmüller unit acts trivially on every Verschiebung image
-(`Prismatic.WCart.one_add_teichmuller_eps_mul_verschiebung`). -/
-example (p : ℕ) [Fact p.Prime] (ε : R) (hε : ε ^ 2 = 0)
-    (y : WittVector p R) :
-    (1 + WittVector.teichmuller p ε) * WittVector.verschiebung y =
-      WittVector.verschiebung y := by
-  have hF : WittVector.frobenius (WittVector.teichmuller p ε) = 0 := by sorry
-  rw [mul_comm, ← WittVector.verschiebung_mul_frobenius]
-  simp [hF]
+namespace QCrys
 
-/-- Frobenius carries the eta divisor to the crystalline divisor over every ring
-(`pr5_frob_eta_is_p`). -/
-example (p : ℕ) [Fact p.Prime] :
-    WittVector.frobenius (WittVector.verschiebung (1 : WittVector p R)) = p := by
-  simpa using (WittVector.frobenius_verschiebung (1 : WittVector p R))
+/-- The polynomial q-derivative of README §§5.0, 5.16, defined without denominators. -/
+noncomputable def polynomialNabla (q : R) (f : Polynomial R) : Polynomial R :=
+  f.sum (fun n a => Polynomial.C (a * ∑ i ∈ Finset.range n, q ^ i) *
+    Polynomial.X ^ (n - 1))
 
-/-- The dyadic crystalline divided-Frobenius normalization divides 6 by 2
-(`pr5_frob_filtered_index`). -/
-example : (6 : ℤ) / 2 = 3 := by norm_num
+/-- Coordinate scaling differs from the identity by (q - 1) X times the polynomial
+q-derivative (README §§5.0, 5.16). -/
+theorem polynomialNabla_spec (q : R) (f : Polynomial R) :
+    f.comp (Polynomial.C q * Polynomial.X) - f =
+      Polynomial.C (q - 1) * Polynomial.X * polynomialNabla q f := by
+  sorry
 
-/-- Coordinate scaling satisfies the denominator-free polynomial q-derivative identity
-(`pr6_qdr_polynomial_nabla`). -/
-example (q : R) (n : ℕ) :
-    ((Polynomial.X : Polynomial R) ^ (n + 1)).comp (Polynomial.C q * Polynomial.X) -
-        Polynomial.X ^ (n + 1) =
-      Polynomial.C (q - 1) * Polynomial.X *
-        (Polynomial.C (∑ i ∈ Finset.range (n + 1), q ^ i) * Polynomial.X ^ n) := by
-  have h : Polynomial.C (q - 1) *
-      Polynomial.C (∑ i ∈ Finset.range (n + 1), q ^ i) =
-        (Polynomial.C q : Polynomial R) ^ (n + 1) - 1 := by
-    rw [← Polynomial.C_mul, mul_comm (q - 1), geom_sum_mul]
-    simp
-  calc
-    _ = ((Polynomial.C q) ^ (n + 1) - 1) * Polynomial.X ^ (n + 1) := by
-      simp only [Polynomial.pow_comp, Polynomial.X_comp, mul_pow]
-      ring
-    _ = _ := by rw [← h, pow_succ]; ring
+/-- The polynomial q-derivative satisfies the twisted Leibniz rule of README §5.0. -/
+theorem polynomialNabla_mul (q : R) (f g : Polynomial R) :
+    polynomialNabla q (f * g) = f * polynomialNabla q g +
+      g.comp (Polynomial.C q * Polynomial.X) * polynomialNabla q f := by
+  sorry
 
-/-- At q = 1, the coefficient formula is Mathlib's polynomial derivative
-(`pr6_qdr_at_q_one_derivative`). -/
-example (f : Polynomial R) :
-    f.sum (fun n a => Polynomial.C (a * ∑ i ∈ Finset.range n, (1 : R) ^ i) *
-      Polynomial.X ^ (n - 1)) = Polynomial.derivative f := by
-  simp [Polynomial.derivative_apply]
+/-- At q = 1 the polynomial q-derivative is the ordinary derivative, including over
+rings with torsion (README §5.16, `pr6_qdr_at_q_one_derivative`). -/
+theorem pr6_qdr_at_q_one_derivative (f : Polynomial R) :
+    polynomialNabla 1 f = Polynomial.derivative f := by
+  sorry
 
 /-
 The q-PD operation and its laws are README §5.1 targets: gamma_add, gamma_mul,
-pAnalog_mul_gamma and delta_pAnalog_sub_one_mem need the constructed δ-ring interface.
-The envelope quotient equivalence of §5.7 assumes derived p-completeness of P/J,
-including for locally regular and completed-colimit presentations. Completeness of P
-alone does not supply this hypothesis; §5.10 identifies its discrete complete quotients.
-The other envelope laws in §5.7 are envelopeMap_delta, envelope_frobenius_mem,
+pAnalog_mul_gamma and delta_pAnalog_sub_one_mem use the δ-ring interface.
+The envelope laws of §5.7 are envelopeMap_delta, envelope_frobenius_mem,
 envelopeMap_mem, envelopeLift_comp, envelopeLift_unique, envelopeLift_isDeltaHom,
-envelopeLift_map_I and envelopePair_q; the q-PD envelope is a construction target.
+envelopeLift_map_I and envelopePair_q, on the q-PD envelope.
 The site and comparison laws in §§5.9–5.10 are qCrystallineMap_id,
 qCrystallineMap_comp, qCrystallineEval_natural, qCrystallineEval_frobenius and
-cechAlexanderZero_weaklyInitial. Their q-crystalline carriers are specified in the README.
+cechAlexanderZero_weaklyInitial, on the q-crystalline site and its cohomology.
 -/
 
 end QCrys
