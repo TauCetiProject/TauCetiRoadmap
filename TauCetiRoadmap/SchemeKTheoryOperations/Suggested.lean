@@ -103,11 +103,20 @@ Layer 1: `IsPseudoCoherentAt`, `HasTorAmplitude`, `HasFiniteTorDimension`,
 
 Layer 2: `Scheme.K`, `Scheme.KOn`, `Scheme.Knaive`, `Scheme.KB`, `Scheme.G`,
 `perfPullback`, proper perfect/coherent direct-image functors, `Scheme.cartan`,
-and the perfect tensor and coherent module pairings.
+and the perfect tensor and coherent module pairings. `Scheme.K.vectorBundleQComparison`
+identifies the Quillen vector-bundle and perfect K-spaces on qcqs schemes with the
+resolution property. On the regular ample-family domain, it preserves the ordinary,
+relative and supported interfaces `higherKGroup`, `relativeKSpace` and
+`higherKGroupWithSupports` used by ColemanIntegration.
 
 Layer 3: `PerfSupport`, `supportKTheory`, `cohSupport`, `unitLoopClass`,
 `specialisation`, `WittSupport.Perf`, `WittSupport.K`, `WittSupport.alpha`,
 `WittQuasiIsogeny`, its `supportClass`, and `RamifiedWittSupport` with restriction.
+`stableDeterminant`, `SpecialK1` and `kOne_units_split` transport AlgebraicKTheory A2
+through GeneralAlgebraicKTheory's classical K1 comparison. The scheme unit-loop and
+projective-automorphism determinant comparisons are targets here;
+`specialK1_semilocal_zero` and `stableDeterminant_localEquiv` use A4's supplied
+semilocal shortening and elementary reduction.
 
 Layer 4: `HasMayerVietoris`, `hypercohomology` and its supported variant,
 `kSheaf`, `supportFiltration`, `kConiveauSS`, `codimFiltration`, `coniveauSS`,
@@ -141,6 +150,15 @@ Layer 7: `TauCeti.AlgebraicGeometry.KTheory.gammaFiltration`, `gammaGraded`,
 `gammaChern`, `gAdams`, `gFiltration`, `gRiemannRoch`, their graded Todd correction,
 and `SupportedCycle.kClass` and its rational Chow comparison. The geometric
 Chow/Chern carriers themselves are supplied as specified in the README.
+For `gFiltration`, a smooth ambient stratum of relative dimension r over the fixed
+regular irreducible base S uses supported gamma degree `dim S + r - j` in grade j.
+`gAdams_embedding_indep` compares these indices componentwise, and `gAdams_smooth`
+has the normalization `k^(dim S) * phi^k = psi^k * theta^k(-T_dual)` under Cartan.
+These constructions use relative cotangent rank even on nonsurjective components.
+
+ColemanIntegration owns the downstream `adams_exactCube_comparison`, identifying
+its rational exact-cube operations with the scheme operations through the Quillen
+comparison and the uniqueness interface of Layer 6.
 
 -/
 
