@@ -21,7 +21,7 @@ The distinction between a Jacobian and its degree-one torsor is the point of the
 
 **Owned here.** For a smooth projective curve `X/S` with geometrically connected fibres of genus `g > 0` over a noetherian base: local constancy of the fibre degree and the degree components `Picᵈ_{X/S}`; representability of the relative Picard sheaf by a smooth separated group scheme with quasi-projective degree pieces; the torsor structure of `Picᵈ_{X/S}` under `Pic⁰_{X/S}` and its intrinsic difference; the relative Jacobian as an abelian scheme of relative dimension `g`, its properness, its base change and its canonical principal polarization defined without a degree-one bundle; the section-free Abel map, the degree-d Abel–Jacobi morphisms, their local pointed factorization, the degree-one closed immersion and finiteness for `d ≠ 0`; the curve difference morphism and its description as an Abel map over `X`; the Jacobian Poincaré bundle in Yuan's sign, the theta divisor of an arbitrary degree-one divisor over an arbitrary field and the identities of Yuan's Theorem A.3 (theta pullbacks, Poincaré addition, curve-square and diagonal identities); the identification of the canonical twice-theta bundle with the graph bundle of `λ_X`, and its geometric-fibre class; actual Picard subgroups of projective flat families (fibrewise algebraically trivial classes, the two-projection version and the axis-normalized subgroup), relative curve autoduality with Abel pullback, the actual-to-relative comparison for the curve and its Jacobian, Yuan's torsion-cokernel theorems and the pointed square Picard comparison; the canonical Abel morphism of `ω_{X/S}`, the universal shift, the Faltings–Zhang and shifted Faltings–Zhang morphisms, the triangular coordinate change on fibre powers of a group scheme and the tail-isogeny factorization; for stable curves, the Lie algebra of the semi-abelian generalized Jacobian, the curve–Jacobian Hodge bundle comparison and its determinant; and the specialization of Layers 0–5 to a curve family with a full symplectic level structure on its Jacobian.
 
-The generic relative Jacobian and canonical principal polarization are supplied here by §§1.2–1.4. Downstream, ModularCurvesPartII §13.1 (`modularJacobian`, `modularJacobian_thetaSpecialization`, `modularJacobian_baseChange`) and ArithmeticStatisticsPartVIII's `hyperellipticJacobian` instantiate these targets on their positive-genus components; their modular/norm and hyperelliptic-model comparisons remain with those roadmaps. Their genus-zero instances use the trivial abelian scheme and its unique principal polarization. Neither roadmap is an input here.
+Sections 1.2–1.4 supply the generic relative Jacobian and canonical principal polarization. The export contract for ModularCurvesPartII §13.1 (`modularJacobian`, `modularJacobian_thetaSpecialization`, `modularJacobian_baseChange`) is the positive-genus instance of those constructions, including arbitrary-base-change compatibility; norm, divisor-class and modular comparisons belong there. The export contract for ArithmeticStatisticsPartVIII's `hyperellipticJacobian n` is the same instance for its smooth projective pointed hyperelliptic family when `g>0`; hyperelliptic-model comparisons belong there. In genus zero both contracts use the trivial abelian scheme and its unique principal polarization. Neither consumer supplies a prerequisite here.
 
 **Supplied by pinned Tau Ceti.** `TauCeti.AlgebraicGeometry.InvertibleSheaf`, its tensor product, dual and pullback; `LineBundleClass`, the commutative group of actual isomorphism classes with pullback; `SchemeWeilDivisor.relativeDegree`; `Scheme.Modules.Cohomology`; the section-rigidified functor `rigidifiedPicardFunctor`; the field carrier `AbelianVariety` and its `AbelianVariety.IsAlbanese` universal-property predicate. `InvertibleSheaf.eulerDegree` and `LineBundleClass.eulerDegree` use the difference of Euler characteristics truncated below degree two; finiteness and vanishing on proper curves identify it with ordinary degree. These group, pullback, rigidification, cohomology, field-degree and Albanese definitions are consumed, not rebuilt. Relative Picard sheafification and representability over a general base are the separate supplier contracts below.
 
@@ -53,7 +53,7 @@ Suggested library home: `TauCeti/AlgebraicGeometry/Jacobian/Relative/`. General 
 - **Degree.** The fibre degree is `deg(L) = χ(L) − χ(O)`, equal to the residue-field-weighted divisor degree (JacobianChallenge Layer A). Degree on a disconnected test scheme is a locally constant function, not one integer. `Picᵈ` is the fixed-degree subsheaf and `J = Pic⁰_{X/S}`. Addition in `J` is tensor product, negation is dualization, and the difference of two elements `L`, `M` of the same degree torsor is `M − L`, so `j(x, y) = [y] − [x]`. In point formulas `[x]` is the relative divisor class of the graph of x, with its test base understood.
 - **Poincaré conventions.** Write `U` for AbelianSchemesAndArithmeticModuli A2.2's Poincaré bundle `AbelianScheme.poincare` on `J ×_S J^∨`, rigidified along both zero sections and normalized by evaluation: `U` restricted to `J × {b}` represents b. A2.3's Mumford map is `φ_L(a) = t_a^*L ⊗ L⁻¹` (with its base-line correction), so that `(id × φ_L)^*U ≅ m^*L ⊗ p₁^*L⁻¹ ⊗ p₂^*L⁻¹` after normalization at zero. The canonical principal polarization `λ_X` (§1.4) is positive in A2.5's sense: on a field fibre with a degree-one divisor `α` it is `φ_{O(θ_α)}`. Yuan's Poincaré bundle is `P_X := (id_J × (−λ_X))^*U` on `J ×_S J`; it has the negative addition class `m^*L⁻¹ ⊗ p₁^*L ⊗ p₂^*L` on a field fibre (with `L = O(θ_α)`), and its dual is `(id_J × λ_X)^*U`. The canonical twice-theta bundle `Θ_X := Δ_J^*(P_X^∨)` is the pullback of `U` along the graph `(id_J, λ_X)` : `J → J ×_S J^∨`, so it is A2.6's graph bundle `Polarization.graphBundle λ_X`. Witness for the sign: for an elliptic curve `E` with origin 0 and `α = O(0)`, `Θ_X` has degree 2 and `Δ_J^*P_X` has degree `−2`. A Picard-class equality over a field never supplies a preferred scalar isomorphism; every rigidified comparison includes its normalization at the origin.
 - **Field identities.** In Layer 3's field identities `K` is any field, `C/K` is smooth projective geometrically connected of genus `g > 0`, and `α` is a divisor of degree one. It need not be effective, need not be a rational point, and the associated theta divisor is not assumed symmetric; in particular no hypothesis `(2g − 2)α = ω_C` enters the curve-square identity. The degree-d Abel map exists for every integer d; finiteness assumes `d ≠ 0`. Multiplication is finite when the characteristic divides d and need not be étale.
-- **Actual Picard subgroups.** Layer 4 uses actual Picard subgroups. For a projective flat `Y → S`, a class is algebraically trivial on a geometric fibre `Y_s̄` when its image in `Pic_{Y_s̄/s̄}(s̄)` lies in the identity component `Pic⁰_{Y_s̄/s̄}` of ComplexComparisonPartII §§C3.2f.1–C3.2f.2 (`picardZeroSheaf`); for a curve this is degree zero and for an abelian variety it is the kernel of `L ↦ φ_L`. `Pic⁰(Y/S)` consists of actual classes algebraically trivial on every geometric fibre; on a product, `Pic⁰⁰` asks this along both projections; `Pic⁻` is instead the intersection of the kernels of the two restrictions to specified pointed axes. Classes pulled back from the base stay in the actual groups. The obstruction groups are `H²_fppf(−, G_m)`; no identification with Azumaya Brauer groups is used.
+- **Actual Picard subgroups.** Layer 4 uses actual Picard subgroups. On a geometric fibre V, algebraic equivalence of invertible sheaves is the relation generated by families on `V×T` for connected finite-type parameter schemes T and isomorphisms of successive geometric fibres over common residue fields (Kleiman, Definition 5.9, p. 41). A class is algebraically trivial when it is equivalent to O. This definition needs no represented Picard sheaf. When the fibre fppf Picard sheaf is represented, §4.1 compares it with membership in the identity component (Kleiman, Proposition 5.10, pp. 41–42); for a smooth projective connected curve this is degree zero and for an abelian variety it is the kernel of `L ↦ φ_L`. For projective flat `Y → S`, `Pic⁰(Y/S)` consists of actual classes algebraically trivial on every geometric fibre; on a product, `Pic⁰⁰` asks the same intrinsic relation along both projections; `Pic⁻` is instead the intersection of the kernels of the two restrictions to specified pointed axes. Classes pulled back from the base stay in the actual groups. The obstruction groups are `H²_fppf(−, G_m)`; no identification with Azumaya Brauer groups is used.
 - **Stable families (Layer 6).** `S` is integral and noetherian, and `X/S` is a proper flat finitely presented stable curve (StableReduction Layer 3) of constant arithmetic genus `g > 1`. Its generalized Jacobian `G = Pic⁰_{X/S}` is a smooth separated semi-abelian group scheme (NeronModelsAndSemistableAbelianVarieties §4.13) and can fail to be proper; its toric rank may jump.
 - **Level (Layer 7).** `g ≥ 2`; `ℓ ≥ 3` is invertible on the base; the base is a scheme over `ℤ[1/ℓ, ζ_ℓ]` with `ζ_ℓ` fixed. A full symplectic `level-ℓ` structure on `X/S` is a full level structure `α` : `(ℤ/ℓ)^{2g}_S ≅ J[ℓ]` in the sense of AbelianSchemesAndArithmeticModuli A3.8 (`FullLevel`) such that the polarized Weil pairing `e_{λ_X, ℓ}` of A3.7 satisfies `e_{λ_X,ℓ}(α(v), α(w)) = ζ_ℓ^{⟨v,w⟩}`, where `⟨(a, b), (a′, b′)⟩ = a·b′ − b·a′` is the standard alternating form on `(ℤ/ℓ)^g × (ℤ/ℓ)^g`. Forgetting `ζ_ℓ` gives the similitude version with a multiplier; it is a different moduli problem and is not used.
 - **Lean.** Names are relative to the namespace `TauCetiRoadmap.JacobianChallengePartII`; for example `RelativeJacobian.UniversalShift`. `Suggested.lean` contains the light definitions with real bodies and the theorems whose carriers exist at the pinned Mathlib and Tau Ceti: the Layer 2 pointed difference and the Layer 5 coordinate constructions on fibre powers of a group object in `Over S`. The geometric targets are specified in this README and listed by name at the end of that file.
@@ -529,17 +529,33 @@ Use the dual of the invertible sheaf `P_X`. Pull back along the diagonal morphis
 
 ### 3.4 Pullback of inverse theta
 
+First prove `RelativeJacobian.translatedThetaInversePullback`. For any field K, a smooth projective geometrically connected curve `C/K` of genus `g>0`, a degree-one divisor α and an actual degree-zero line class c on C,
+`i_{α−c}^*O_J([−1]^*θ_α)=O_C(gα)⊗c⁻¹`
+in `Pic(C)`. Here `α−c` denotes the actual degree-one line class `O_C(α)⊗c⁻¹` used in §2.2. No rational base point or symmetry of `θ_α` is assumed. ([Yuan](https://arxiv.org/pdf/2108.05625v4), proof of Theorem A.3(1), p. 110, displaying Serre's p. 75 identity.)
+
+Construct this comparison from curve Riemann–Roch and the translated effective theta locus of §3.2, keeping the actual degree-one class throughout. It is a Picard-class identity; it does not select a scalar isomorphism.
+
+**Checks for the translated pullback.**
+
+- `RelativeJacobian.translatedThetaInversePullback.test_zero`: for `c=O_C`, the class is `O_C(gα)`, giving the inverse-theta pullback below.
+- `RelativeJacobian.translatedThetaInversePullback.test_ellipticSign`: on an elliptic E over an algebraically closed field, take `α=[0]` and `c=O_E([P]−[0])` with `2P≠0`. The Abel map is translation by P, and its pullback of the origin divisor is `O_E([−P])`, not `O_E([P])`. This detects the inverse on c.
+- `RelativeJacobian.translatedThetaInversePullback.test_nonsymmetric`: for genus two with `2α` not linearly equivalent to `ω_C`, the class is `O_C(2α)⊗c⁻¹`. At `c=0` it differs from the ordinary theta pullback `ω_C` of §3.5; replacing inverse theta by theta fails.
+
+*Needs:* §3.2; §2.2; JacobianChallenge, Layer B.
+
 Prove `RelativeJacobian.thetaInversePullback`: `i_α^*O_J([-1]^*θ_α)≅O_C(gα)`. ([Yuan](https://arxiv.org/pdf/2108.05625v4), §A.4 Theorem A.3(1) first identity p. 109; proof p. 110.)
 
 Here `K` is any field; `C` is smooth projective geometrically connected of genus `g>0`; `α` is a degree-one divisor; `J`, `i_α`, `θ_α` and `P` have the conventions of Layers 2–3. Statements are equalities of Picard classes, not unchosen canonical scalar isomorphisms.
 
-Apply the translated theta pullback formula with `c=0`. Preserve the degree-one divisor hypothesis over `K`; a rational base point is not substituted.
+Specialize `RelativeJacobian.translatedThetaInversePullback` to `c=0`. Preserve the degree-one divisor hypothesis over `K`; a rational base point is not substituted.
 
 **Checks.**
 
-- For `g=1` this is the degree-one `α` class. For `g=2` the degree is2.
+- For `g=1` this is the degree-one α class.
+- For `g=2` the class is `2α`, of degree two.
+- For genus two and `2α` not linearly equivalent to `ω_C`, the inverse-theta pullback differs from the ordinary theta pullback; symmetrizing the divisor changes the statement.
 
-*Needs:* §3.2; §2.2; JacobianChallenge, Layer B.
+*Needs:* §3.4 (`RelativeJacobian.translatedThetaInversePullback`).
 
 ### 3.5 Pullback of theta
 
@@ -547,13 +563,13 @@ Prove `RelativeJacobian.thetaPullback`: `i_α^*O_J(θ_α)≅ω_{C/K}⊗O_C((2−
 
 Here `K` is any field; `C` is smooth projective geometrically connected of genus `g>0`; `α` is a degree-one divisor; `J`, `i_α`, `θ_α` and `P` have the conventions of Layers 2–3. Statements are equalities of Picard classes, not unchosen canonical scalar isomorphisms.
 
-Combine the inverse-theta pullback with the theta/inversion translation formula. Prove the translated-theta identity used in this calculation for arbitrary degree-one `α`.
+Use Riemann–Roch to identify `[−1]^*θ_α=t_κ^*θ_α` for `κ=[ω_C−(2g−2)α]`. Thus `O_J(θ_α)=t_{−κ}^*O_J([−1]^*θ_α)`. Pull back along `i_α` and apply `RelativeJacobian.translatedThetaInversePullback` with `c=−κ`: the resulting class `gα+κ` is `ω_C+(2−g)α`.
 
 **Checks.**
 
 - For `g=2` the answer is `ω_C`, independently of `α`. The degree is `g`, not `2g−2`.
 
-*Needs:* §3.2; §3.4; JacobianChallenge, Layer B.
+*Needs:* §3.2; §3.4 (`RelativeJacobian.translatedThetaInversePullback`, `RelativeJacobian.thetaInversePullback`); JacobianChallenge, Layer B.
 
 ### 3.6 Poincaré addition identity
 
@@ -571,13 +587,13 @@ Prove `RelativeJacobian.poincareCurveSquare`. In `Pic(C×C)`, `(i_α,i_α)^*P=O(
 
 Here `K` is any field; `C` is smooth projective geometrically connected of genus `g>0`; `α` is a degree-one divisor; `J`, `i_α`, `θ_α` and `P` have the conventions of Layers 2–3. Statements are equalities of Picard classes, not unchosen canonical scalar isomorphisms.
 
-Compare the two families of degree-zero line classes by the Poincaré universal property. Compute their translated-theta restrictions with arbitrary `α`. Use normalized seesaw to remove the axis terms; prove the extra computation for arbitrary `α` beyond the canonical-root case.
+Compare the two families of degree-zero line classes by the Poincaré universal property. Compute their translated-theta restrictions using `RelativeJacobian.translatedThetaInversePullback` with arbitrary α and c. Use normalized seesaw to remove the axis terms; the translated formula supplies the computation without a canonical-root hypothesis.
 
 **Checks.**
 
 - For genus 2 with arbitrary `α`, the formula still holds without `2α=ω_C`. The diagonal has positive sign.
 
-*Needs:* §3.6; §3.4; §3.5; JacobianChallenge, Layer F; AbelianSchemesAndArithmeticModuli A1.4 (`relativeSeesaw`); AbelianSchemesAndArithmeticModuli A2.2 (`normalizedPoincare`).
+*Needs:* §3.6; §3.4 (`RelativeJacobian.translatedThetaInversePullback`); §3.5; JacobianChallenge, Layer F; AbelianSchemesAndArithmeticModuli A1.4 (`relativeSeesaw`); AbelianSchemesAndArithmeticModuli A2.2 (`normalizedPoincare`).
 
 ### 3.8 Theta doubling formula
 
@@ -649,7 +665,7 @@ Layers 1 and 2 supply the polarized Jacobian and Abel maps. JacobianChallenge La
 
 ## Layer 4: Actual Picard groups and autoduality pullbacks
 
-Work first with actual line-bundle classes and their two projection conditions. Algebraic triviality on a geometric fibre means, as in the conventions, that the fibre class lies in the identity component of the fibre Picard scheme (ComplexComparisonPartII §§C3.2f.1–C3.2f.2, `picardZeroSheaf`); the condition is closed under tensor and inverse because each geometric-fibre identity component is a subgroup, and under pullback because the induced Picard morphism carries the identity component into the identity component. No representability or openness of the whole relative identity-component subfunctor is required for these actual subgroups. For a curve it is degree zero; on higher-dimensional fibres it is not a degree condition.
+Work first with actual line-bundle classes and their two projection conditions. Define algebraic triviality intrinsically by connected finite-type parameter families, as in the conventions and §4.1. Tensoring, dualizing and pulling back these families construct the subgroup and functoriality laws without fibre Picard representability. The comparison `RelativeJacobian.ActualPicardZero.mem_iff_picardZero` identifies this relation with identity-component membership when the fibre Picard sheaf is represented. Curve fibres use §0.3; abelian-scheme fibres use AbelianSchemesAndArithmeticModuli A2.1–A2.2. For a curve the condition is degree zero; on higher-dimensional fibres it is not a degree condition.
 
 The universal-global-functions hypothesis permits the low-degree fppf Leray sequence (ComplexComparisonPartII §C3.2d.4, `picard_brauer_obstruction`). A section of `J/S` removes the Brauer obstruction on `J`; it does not create a section of `X/S`. Compare degree-d Abel pullback to multiplication by d through relative autoduality on all test schemes. When lifting an actual class, absorb any difference pulled from `S` by a corresponding base twist on `J`.
 
@@ -657,27 +673,31 @@ For the bi-zero statement, lift along one factor and then the other. Each lift m
 
 ### 4.1 Actual fibrewise Picard subgroup
 
-Define `RelativeJacobian.ActualPicardZero`. For a projective flat `Y→S`, `Pic⁰(Y/S)` is the subgroup of the actual `Pic(Y)` formed by line-bundle classes algebraically trivial on every geometric fibre. It is not `Pic⁰_{Y/S}(S)`; comparison to that sheaf group requires a separate obstruction statement. ([Yuan](https://arxiv.org/pdf/2108.05625v4), Proposition 2.6 proof p. 31.)
+Define `RelativeJacobian.ActualPicardZero`. For a projective flat `Y→S`, `Pic⁰(Y/S)` is the subgroup of the actual `Pic(Y)` formed by line-bundle classes algebraically equivalent to O on every geometric fibre, using connected finite-type parameter families. It is not `Pic⁰_{Y/S}(S)`; comparison to that sheaf group requires a separate obstruction statement. ([Kleiman](https://arxiv.org/pdf/math/0504020v1), Definition 5.9, p. 41, Proposition 5.10, pp. 41–42; [Yuan](https://arxiv.org/pdf/2108.05625v4), Proposition 2.6 proof p. 31.)
 
-Define the subgroup by the fibre algebraic-triviality predicate of the conventions. Tensor and dual preserve membership because the identity component of each geometric-fibre Picard group is a subgroup. Pullback on a geometric fibre induces a Picard morphism preserving zero, hence carries the connected identity component into the connected identity component. This uses the fibrewise definition in ComplexComparisonPartII §C3.2f.1 (`picardZeroSheaf`), without the smoothness or local-constancy hypotheses needed to represent that subfunctor over the whole base.
+Construct algebraic equivalence as the relation generated by finite chains of invertible-sheaf families on `V×T_i`, where each `T_i` is connected and of finite type over the geometric fibre's field; endpoints and consecutive fibres are identified after extension to common geometric residue fields. Constant families, reversal and concatenation give an equivalence relation. Tensor a chain with a fixed bundle and concatenate chains to obtain tensor compatibility; dualize or pull back the families to obtain inverse and pullback compatibility. Extension of algebraically closed residue fields preserves these relations. None of these constructions assumes universal global functions or a represented fibre Picard sheaf.
+
+Prove `RelativeJacobian.ActualPicardZero.mem_iff_picardZero`: whenever a geometric fibre's fppf Picard sheaf is represented, an actual restricted class is algebraically equivalent to O exactly when its image lies in the identity component. Families give connected images in that component; conversely, an fppf cover carrying a universal line class supplies the connecting families (Kleiman, Proposition 5.10 and proof). Apply this comparison to curve and abelian-scheme fibres using their supplied representability.
 
 The properties of `RelativeJacobian.ActualPicardZero` distinguish actual membership from a relative section and keep the kernel condition explicit:
 
 - `RelativeJacobian.ActualPicardZero.mem`: Membership means algebraic triviality on every geometric fibre, not degree zero for higher-dimensional `Y`.
+- `RelativeJacobian.ActualPicardZero.mem_iff_picardZero`: For represented fibre Picard sheaves, the intrinsic condition is equivalent to identity-component membership on every geometric fibre.
 - `RelativeJacobian.ActualPicardZero.pullback`: An S-morphism `Y′→Y` pulls these actual classes to fibrewise algebraically trivial classes.
-- `RelativeJacobian.ActualPicardZero.relativeClass`: The class map lands in `Pic⁰_{Y/S}(S)`, with kernel the base classes under universal global-functions hypotheses.
+- `RelativeJacobian.ActualPicardZero.relativeClass`: When the relative Picard sheaf is represented, the class map lands in its fibrewise identity-component subfunctor `Pic⁰_{Y/S}(S)` by `mem_iff_picardZero`; under universal global-functions hypotheses its kernel is the base classes.
 
 **Checks.**
 
 - `RelativeJacobian.ActualPicardZero.test_base` (degenerate): For `Y=S`, every class in `Pic(S)` belongs to this subgroup.
 - `RelativeJacobian.ActualPicardZero.test_curve` (compatibility): For a smooth projective curve over a field, membership is equivalent to degree 0.
 - `RelativeJacobian.ActualPicardZero.test_brauer` (non-example): An obstructed point of the relative Picard sheaf is not an actual line-bundle class in this subgroup.
+- `RelativeJacobian.ActualPicardZero.test_disconnected`: For `Y=E⊔E` over an algebraically closed field, a pair of line classes belongs exactly when both degrees are zero. For `P≠0`, `(O_E([P]−[0]),O_E)` belongs and `(O_E,O_E([0]))` does not, although `H⁰(Y,O_Y)=k×k` and universal global functions fail.
 
-*Needs:* JacobianChallenge, Layer A; AlgebraicModuliForArithmeticGeometry §7.6.1 (`relativePicardSheaf`, `relativePicardKernel`); ComplexComparisonPartII §§C3.2f.1–C3.2f.2 (`picardZeroSheaf`, `picardZeroCriterion`).
+*Needs:* JacobianChallenge, Layer A; AlgebraicModuliForArithmeticGeometry §7.6.1 (`relativePicardSheaf`, `relativePicardKernel`, for the relative-class comparison); ComplexComparisonPartII §C3.2f.1 (`picardZeroSheaf`, for represented Picard sheaves); §0.3 and AbelianSchemesAndArithmeticModuli A2.1–A2.2 (curve and abelian-scheme fibre representability).
 
 ### 4.2 Picard subgroup along both projections
 
-Define `RelativeJacobian.ActualPicardBizero`. For projective flat `Y₁,Y₂` over `S`, `Pic⁰⁰(Y₁×_S Y₂)` consists of actual line classes whose restrictions to every geometric fibre of each projection to `Y₁` and to `Y₂` are algebraically trivial. ([Yuan](https://arxiv.org/pdf/2108.05625v4), Proposition 2.6 proof p. 31.)
+Define `RelativeJacobian.ActualPicardBizero`. For projective flat `Y₁,Y₂` over `S`, `Pic⁰⁰(Y₁×_S Y₂)` consists of actual line classes whose restrictions to every geometric fibre of each projection to `Y₁` and to `Y₂` are algebraically equivalent to O by the intrinsic parameter-family relation of §4.1. No representability of those fibre Picard sheaves is assumed. ([Kleiman](https://arxiv.org/pdf/math/0504020v1), Definition 5.9, p. 41; [Yuan](https://arxiv.org/pdf/2108.05625v4), Proposition 2.6 proof p. 31.)
 
 Intersect the two fibrewise algebraic-triviality subgroups. Check that tensor and inverse preserve both conditions.
 
@@ -691,7 +711,7 @@ Intersect the two fibrewise algebraic-triviality subgroups. Check that tensor an
 
 - `RelativeJacobian.ActualPicardBizero.test_trivial` (degenerate): The structure sheaf and every base pullback lie in `Pic⁰⁰`.
 - `RelativeJacobian.ActualPicardBizero.test_oneAxis` (non-example): On `C×C`, `p₁^*L` of positive degree fails one projection condition, despite being trivial along the other projection fibres.
-- `RelativeJacobian.ActualPicardBizero.test_poincare` (compatibility): The normalized Poincaré bundle `P_X` on `J×J` belongs to `Pic⁰⁰`: its restriction to each fibre of either projection lies in the identity component `Pic⁰` of that abelian fibre (degree zero when `g = 1`, but for `g ≥ 2` the condition is algebraic triviality, not a degree).
+- `RelativeJacobian.ActualPicardBizero.test_poincare` (compatibility): The normalized Poincaré bundle `P_X` on `J×J` belongs to `Pic⁰⁰`: its restriction to each fibre of either projection lies in the identity component `Pic⁰` of that abelian fibre, hence is intrinsically algebraically trivial by `RelativeJacobian.ActualPicardZero.mem_iff_picardZero` (degree zero when `g = 1`, but for `g ≥ 2` the condition is algebraic triviality, not a degree).
 
 *Needs:* §4.1; JacobianChallenge, Layer A.
 
@@ -713,13 +733,13 @@ Prove `RelativeJacobian.actualToRelativeObstruction`. For proper flat `Y/S` with
 
 Here `Y→S` is proper, flat and finitely presented, with `O_T≅(f_T)_*O_{Y_T}` for every `T→S`. For the `Pic⁰` restrictions, use the smooth geometrically connected curve `X/S` and its abelian-scheme Jacobian `J/S` in the standing scope.
 
-Take the imported sequence and restrict it to classes that are algebraically trivial on geometric fibres; a section of `Pic_{Y/S}` lands in the identity component exactly when every fibre class does. Use `sectionPicardSplit` for the identity section of `J` to get surjectivity; do not use it as a section of `X`.
+Take the imported sequence and restrict it to classes that are algebraically trivial on geometric fibres. For X and J the fibre Picard sheaves are represented, so `RelativeJacobian.ActualPicardZero.mem_iff_picardZero` identifies this condition with the identity-component subfunctor. Use `sectionPicardSplit` for the identity section of `J` to get surjectivity; do not use it as a section of `X`.
 
 **Checks.**
 
 - For a sectionless genus-one curve a relative class may have nonzero Brauer obstruction.
 
-*Needs:* ComplexComparisonPartII §C3.2d.4 (`picard_brauer_obstruction`); AlgebraicModuliForArithmeticGeometry §7.6.1–§7.6.1a (`relativePicardKernel`, `sectionPicardSplit`); §4.1; §1.2; JacobianChallenge, Layer C.
+*Needs:* ComplexComparisonPartII §C3.2d.4 (`picard_brauer_obstruction`); AlgebraicModuliForArithmeticGeometry §7.6.1–§7.6.1a (`relativePicardKernel`, `sectionPicardSplit`); §4.1 (`RelativeJacobian.ActualPicardZero.mem_iff_picardZero`); §1.2; JacobianChallenge, Layer C.
 
 ### 4.5 Actual Picard pullback torsion cokernel
 
@@ -803,7 +823,7 @@ A base pullback lies in the actual fibrewise Picard subgroup, although it maps t
 
 ### Dependencies
 
-Layers 1–3 supply the relative Jacobian, the degree-d Abel map and the Poincaré normalization. JacobianChallenge Layers A and `F` supply actual Picard classes and pointed universal properties. ComplexComparisonPartII §C3.2d.4 supplies the Brauer-obstruction sequence and §§C3.2f.1–C3.2f.2 the identity components; AlgebraicModuliForArithmeticGeometry §§7.6.1–7.6.1a supplies the actual-to-relative comparison; AbelianSchemesAndArithmeticModuli A1.4 and A2.2 supply seesaw and duality. The obstruction sequence and the lift preserving the other projection are separate prerequisites for the torsion-cokernel assertions.
+Layers 1–3 supply the relative Jacobian, the degree-d Abel map and the Poincaré normalization. JacobianChallenge Layers A and `F` supply actual Picard classes and pointed universal properties. Section 4.1 constructs intrinsic algebraic equivalence and compares it with represented fibre identity components. ComplexComparisonPartII §C3.2d.4 supplies the Brauer-obstruction sequence and §§C3.2f.1–C3.2f.2 the represented identity-component subfunctor; AlgebraicModuliForArithmeticGeometry §§7.6.1–7.6.1a supplies the actual-to-relative comparison; AbelianSchemesAndArithmeticModuli A1.4 and A2.2 supply seesaw and duality. The obstruction sequence and the lift preserving the other projection are separate prerequisites for the torsion-cokernel assertions.
 
 ## Layer 5: Fibre powers and shifted Faltings–Zhang maps
 
@@ -1106,7 +1126,7 @@ In a stable family, invariant differentials use the semi-abelian generalized Jac
 
 ## Downstream consumers
 
-- *ModularCurvesPartII* §13.1 (`modularJacobian`, `modularJacobian_thetaSpecialization`, `modularJacobian_baseChange`) and *ArithmeticStatisticsPartVIII* (`hyperellipticJacobian`) instantiate §§1.2–1.4 for their positive-genus curve families and use the trivial principally polarized abelian scheme in genus zero. Their modular/norm and hyperelliptic-model comparisons stay with those roadmaps.
+- *ModularCurvesPartII* §13.1: the export to `modularJacobian`, `modularJacobian_thetaSpecialization` and `modularJacobian_baseChange` is the positive-genus instance of §§1.2–1.4, including arbitrary base change. Norm, divisor-class and modular comparisons belong to that consumer. *ArithmeticStatisticsPartVIII*: the export to `hyperellipticJacobian n` is the same instance for its smooth projective pointed hyperelliptic family when `g>0`, with model comparisons belonging to that consumer. Both genus-zero contracts use the trivial principally polarized abelian scheme.
 - *StableReductionPartII* (fine moduli of smooth curves with full symplectic level): defines curve level structures through the Jacobian of §1.2 with its polarization §1.4 and base change §1.3, constructs the fine moduli scheme `M_g[ℓ]` and its universal curve, and applies Layer 7 to it.
 - *AbelianSchemesAndArithmeticModuliPartII* (Betti maps and nondegeneracy): uses the curve difference of §2.6 and the Faltings–Zhang morphism of a curve family with level (§7.2) in the nondegeneracy of universal-curve difference images.
 - *AbelianVarietiesIsogenousToNoJacobian*: uses the relative Jacobian §1.2 and the principal polarization §1.4 for the Torelli locus.
@@ -1118,7 +1138,7 @@ The generic construction of Layers 0–5 uses no curve moduli space; Layer 6 com
 
 - Xinyi Yuan, [*Arithmetic bigness and a uniform Bogomolov-type result*, arXiv:2108.05625v4](https://arxiv.org/pdf/2108.05625v4), 125 pages; printed page numbers equal PDF page numbers. Locators used: §2.2.1, Definition 2.4, Proposition 2.6 and its proof, pp. 29–32; Theorem 2.10 and its proof, pp. 37–39; Lemma 3.4 and its proof, pp. 43–44; §4.6.2 and Theorem 4.17 with its proof, pp. 96–98; §A.3, p. 108; §A.4, Theorem A.3 and its proof, pp. 109–110. Published in Annals of Mathematics `203 (2026)`; the arXiv page numbers are not publisher page numbers.
 - Vesselin Dimitrov, Ziyang Gao and Philipp Habegger, [*Uniformity in Mordell–Lang for curves*, arXiv:2001.10276v3](https://arxiv.org/pdf/2001.10276v3), §6.1, pp. 23–25, with equations (6.1), (6.3) and (6.5).
-- Steven `L`. Kleiman, [*The Picard scheme*, arXiv:math/0504020v1](https://arxiv.org/pdf/math/0504020v1) (in *Fundamental Algebraic Geometry: Grothendieck's FGA Explained*, AMS 2005). Locators use the arXiv pagination: Remark 2.11, pp. 20–21; Definition 4.6 and Theorem 4.8 with its proof, pp. 27–29; Proposition 5.10, pp. 41–42; Theorem 5.11 and Remark 5.12, pp. 42–44; Remark 5.18, pp. 45–46; Propositions 5.19–5.20, pp. 47–48; Exercise 5.23, p. 50; Remark 5.26, p. 51.
+- Steven `L`. Kleiman, [*The Picard scheme*, arXiv:math/0504020v1](https://arxiv.org/pdf/math/0504020v1) (in *Fundamental Algebraic Geometry: Grothendieck's FGA Explained*, AMS 2005). Locators use the arXiv pagination: Remark 2.11, pp. 20–21; Definition 4.6 and Theorem 4.8 with its proof, pp. 27–29; Definition 5.9, p. 41, and Proposition 5.10, pp. 41–42; Theorem 5.11 and Remark 5.12, pp. 42–44; Remark 5.18, pp. 45–46; Propositions 5.19–5.20, pp. 47–48; Exercise 5.23, p. 50; Remark 5.26, p. 51.
 - Eduardo Esteves, Mathieu Gagné and Steven `L`. Kleiman, [*Autoduality of the compactified Jacobian*, arXiv:math/9911071](https://arxiv.org/pdf/math/9911071), Theorem (2.1), pp. 4–6; Proposition (2.2) and proof, pp. 6–7; Proposition (3.7), pp. 15–16; proof (4.1), p. 16. Only the smooth-curve family specialization is consumed, not the singular compactified Jacobian construction. Locators use the arXiv pagination; the published theorem starts on p. 595 in Journal of the London Mathematical Society `65 (2002)`, 591–610.
 - Finn Knudsen and David Mumford, [*The projectivity of the moduli space of stable curves, I: Preliminaries on “det” and “Div”*](https://www.dam.brown.edu/people/mumford/alg_geom/papers/1976b--DetDiv%2BKnudsenSequel-GT.pdf), Chapter I, Definition 1, pp. 23–24, Theorem 1, p. 25: the coherent determinant functor.
 - `J`. `S`. Milne, [*Jacobian Varieties*, notes](https://www.jmilne.org/math/xnotes/JVs.pdf), §8, Theorem 8.1 and the following discussion, pp. 27–28.

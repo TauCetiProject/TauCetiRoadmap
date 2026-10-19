@@ -688,8 +688,9 @@ end TauCetiRoadmap.JacobianChallengePartII
 
 /-
 Targets stated in README.md and not typed here, because their carriers and comparison APIs (the
-relative Picard sheaf and scheme, abelian schemes and their duals, polarizations, fibrewise Picard
-identity components, relative coherent cohomology and duality, finite-stage sheaf descent, full
+relative Picard sheaf and scheme, abelian schemes and their duals, polarizations, algebraic
+equivalence through parameter families and its comparison with fibre Picard identity components,
+relative coherent cohomology and duality, finite-stage sheaf descent, full
 level structures) are not in Mathlib or Tau Ceti at the pins:
 Layer 0: `RelativeJacobian.lineBundleFiniteStage`, `RelativeJacobian.degreeLocallyConstant`,
   `RelativeJacobian.RelativeDegreeComponents`,
@@ -717,17 +718,27 @@ Layer 2: `RelativeJacobian.SectionFreeAbelMap`, `RelativeJacobian.DegreeAbelMap`
   `RelativeJacobian.SectionFreeAbelMap.test_tangent` require the relative Picard carrier and the
   tangent/cohomology comparison; they are geometric theorem targets.
 Layer 3: `RelativeJacobian.JacobianPoincare`, `RelativeJacobian.DegreeOneTheta`,
-  `RelativeJacobian.TwiceTheta`, `RelativeJacobian.thetaInversePullback`,
+  `RelativeJacobian.TwiceTheta`, `RelativeJacobian.translatedThetaInversePullback`,
+  `RelativeJacobian.thetaInversePullback`,
   `RelativeJacobian.thetaPullback`, `RelativeJacobian.poincareAdditionIdentity`,
   `RelativeJacobian.poincareCurveSquare`, `RelativeJacobian.thetaDoublingFormula`,
   `RelativeJacobian.poincareDiagonal`, `RelativeJacobian.geometricTwiceTheta`,
   `RelativeJacobian.twiceThetaSymmetric`, `RelativeJacobian.twiceThetaZeroRigidified`,
   `RelativeJacobian.twiceThetaRelativelyAmple`.
+  The translated comparison and its checks
+  `RelativeJacobian.translatedThetaInversePullback.test_zero`,
+  `RelativeJacobian.translatedThetaInversePullback.test_ellipticSign` and
+  `RelativeJacobian.translatedThetaInversePullback.test_nonsymmetric` require the Picard carrier,
+  the translated effective theta locus and the arbitrary degree-one Abel map.
 Layer 4: `RelativeJacobian.ActualPicardZero`, `RelativeJacobian.ActualPicardBizero`,
   `RelativeJacobian.relativeAutodualityPullback`, `RelativeJacobian.actualToRelativeObstruction`,
   `RelativeJacobian.actualPullbackTorsionCokernel`, `RelativeJacobian.bizeroLiftOneFactor`,
   `RelativeJacobian.bizeroPullbackTorsionCokernel`, `RelativeJacobian.AxisNormalizedPicard`,
   `RelativeJacobian.pointedSquarePicardIsomorphism`.
+  `RelativeJacobian.ActualPicardZero.mem_iff_picardZero` compares intrinsic algebraic equivalence
+  with the identity component only for represented fibre Picard sheaves. The check
+  `RelativeJacobian.ActualPicardZero.test_disconnected` uses E disjoint union E and requires the
+  parameter-family relation; it does not assume universal global functions.
   `RelativeJacobian.AxisNormalizedPicard.test_elliptic` requires the elliptic divisor-class and
   diagonal-degree comparisons to exhibit a nonzero axis-normalized actual Picard class.
 Layer 5: `RelativeJacobian.canonicalAbelMap`; the identification of the inputs `c` and `d` of
