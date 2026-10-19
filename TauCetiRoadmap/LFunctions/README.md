@@ -168,7 +168,7 @@ belong downstream.
 
 | Declaration | Use here |
 | --- | --- |
-| `ArithmeticDirichletSeries.UnitaryIdealWeight` | coefficient systems of ray-class and Grossencharacter presentations. ⚠ The accepted supplier has `MultiplicativeIdealWeight` and its unitary refinement, and no `IdealWeight`; everything used here — `HasCancellation`, `sq`, `IsNormTwistOnGood`, `continuedLFunctionOfWeight` — is stated for the unitary one |
+| `ArithmeticDirichletSeries.UnitaryIdealWeight` | coefficient systems of ray-class and Grossencharacter presentations. ⚠ The accepted supplier has `MultiplicativeIdealWeight` and its unitary refinement, and no `IdealWeight`; everything used here — `HasCancellation`, pointwise products, `IsNormTwistOnGood`, `continuedLFunctionOfWeight` — is stated for the unitary one (or, for `IsNormTwistOnGood`, for its underlying multiplicative weight) |
 | `ArithmeticDirichletSeries.normCoeff` | conversion of an ideal-indexed L-function into Mathlib's `LSeries` coefficients |
 | `ArithmeticDirichletSeries.regroupByNorm` | equality between the ideal sum and the norm-indexed series |
 | `ArithmeticDirichletSeries.EulerProductData` | local Euler factors and the global Euler-product theorem |
@@ -848,7 +848,7 @@ completion follows by recentering.
 general Hecke character: an arbitrary continuous idele-class character has complex archimedean
 exponents, which is `ContinuousInfinityType`, and `normCharacter K t` for `t ≠ 0` is not
 algebraic (`not_isAlgebraic_normCharacter`). The imaginary norm twists of Layer 7 act on the
-weight, through `UnitaryIdealWeight.imaginaryNormTwist`, and are not Grossencharacters here; the
+weight, through `imaginaryNormTwist` (the supplier's `UnitaryIdealWeight.normTwist` at `z = -it`), and are not Grossencharacters here; the
 finite-order characters of Layer 5 have only `FiniteOrderInfinityType` signs.
 
 Characterize the presented L-function: on `Re s > 1 + shift`, `lFunctionC χ` is the

@@ -1,5 +1,5 @@
 import Mathlib
-import TauCetiRoadmap.ArithmeticDirichletSeries.Suggested
+import Completed.ArithmeticDirichletSeries.Suggested
 import TauCetiRoadmap.GlobalNumberFields.Suggested
 import TauCetiRoadmap.ThetaSeries.Suggested
 
@@ -34,8 +34,8 @@ noncomputable section
 universe u
 
 namespace ADS
-export TauCetiRoadmap.ArithmeticDirichletSeries
-  (NonzeroIdeal IdealArithmeticFunction UnitaryIdealWeight normCoeff EulerProductData
+export TauCeti
+  (IdealArithmeticFunction UnitaryIdealWeight normCoeff EulerProductData
     HasCancellation continuedLFunctionOfWeight regroupByNorm primeVonMangoldtCoeff
     PrimeBoundaryRemainder)
 end ADS
@@ -1238,12 +1238,12 @@ theorem partialZeta_eq_lSeries
 /-- The shared regrouping theorem applies to the general ray-class indicator carrier. -/
 theorem rayClassCoeff_regroupByNorm
     (𝔪 : GNF.Modulus K) (c : GNF.RayClassGroup 𝔪) (s : ℂ)
-    (h : Summable fun I : ADS.NonzeroIdeal K ↦
+    (h : Summable fun I : (Ideal (𝓞 K))⁰ ↦
       rayClassCoeff K 𝔪 c I / (Ideal.absNorm (I : Ideal (𝓞 K)) : ℂ) ^ s) :
     LSeriesHasSum (ADS.normCoeff K (rayClassCoeff K 𝔪 c)) s
-      (∑' I : ADS.NonzeroIdeal K,
+      (∑' I : (Ideal (𝓞 K))⁰,
         rayClassCoeff K 𝔪 c I / (Ideal.absNorm (I : Ideal (𝓞 K)) : ℂ) ^ s) :=
-  ADS.regroupByNorm K (rayClassCoeff K 𝔪 c) s h
+  ADS.regroupByNorm K h.hasSum
 
 /-- **The sum over ray classes is not `ζ_K`.** Summing the class indicators gives the indicator of
 the ideals prime to the finite part of the modulus, so the sum is `ζ_K` with the Euler factors at
@@ -1880,13 +1880,13 @@ noncomputable def rayClassIdealWeight
 the supplier's prime-to carrier, so no junk class can be read off a bad ideal. -/
 theorem rayClassIdealWeight_apply (𝔪 : GNF.Modulus K) (χ : GNF.RayClassCharacter 𝔪)
     (I : GNF.integralIdealsPrimeTo 𝔪) :
-    rayClassIdealWeight K 𝔪 χ (I : Ideal (𝓞 K)) = (χ (GNF.idealClass 𝔪 I) : ℂ) := sorry
+    (rayClassIdealWeight K 𝔪 χ).1 (I : Ideal (𝓞 K)) = (χ (GNF.idealClass 𝔪 I) : ℂ) := sorry
 
 /-- ⚠ The weight vanishes at the zero ideal and at every prime dividing the finite part of the
 modulus. This is what deletes the Euler factors recorded by `finiteEulerCorrection`. -/
 theorem rayClassIdealWeight_eq_zero (𝔪 : GNF.Modulus K) (χ : GNF.RayClassCharacter 𝔪)
     {I : Ideal (𝓞 K)} (hI : ¬ 𝔪.IsCoprimeTo I) :
-    rayClassIdealWeight K 𝔪 χ I = 0 := sorry
+    (rayClassIdealWeight K 𝔪 χ).1 I = 0 := sorry
 
 /-- **A finite-order character presented at its own conductor.** ⚠ One ray-class character can be
 presented at every multiple of its conductor, so a conductor stored beside a presentation modulus
@@ -1980,7 +1980,7 @@ open scoped Classical in
 noncomputable def eulerCorrection {𝔪 : GNF.Modulus K} (χ : GNF.RayClassCharacter 𝔪)
     (𝔫 : GNF.Modulus K) (s : ℂ) : ℂ :=
   ∏ 𝔭 ∈ 𝔫.support \ 𝔪.support,
-    (1 - rayClassIdealWeight K 𝔪 χ 𝔭.asIdeal * (Ideal.absNorm 𝔭.asIdeal : ℂ) ^ (-s))
+    (1 - (rayClassIdealWeight K 𝔪 χ).1 𝔭.asIdeal * (Ideal.absNorm 𝔭.asIdeal : ℂ) ^ (-s))
 
 /-- The correction for the trivial character at the trivial modulus is exactly the finite Euler
 correction that `sum_partialZeta` carries: one notion, not two. -/
@@ -1992,7 +1992,7 @@ theorem heckeLFunctionC_eq
     {𝔪 : GNF.Modulus K} (χ : GNF.RayClassCharacter 𝔪) {s : ℂ} (hs : 1 < s.re) :
     heckeLFunctionC K χ s = LSeries
       (ADS.normCoeff K
-        (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.toArithmeticFunction K
+        (TauCeti.UnitaryIdealWeight.toIdealArithmeticFunction
           (rayClassIdealWeight K 𝔪 χ))) s := sorry
 
 /-- Inducing multiplies the presented series by the deleted Euler factors. ⚠ For the trivial
@@ -2088,41 +2088,44 @@ theorem conductorOf_one (𝔪 : GNF.Modulus K) :
     PrimitiveRayClassCharacter.conductorOf K (1 : GNF.RayClassCharacter 𝔪) =
       GNF.Modulus.one K := sorry
 
+/-- The purely imaginary twist `χ * N^(it)` of a unitary weight, as the supplier's norm twist
+`χ * N^(-z)` at `z = -it`. -/
+noncomputable abbrev imaginaryNormTwist (χ : ADS.UnitaryIdealWeight K) (t : ℝ) :
+    ADS.UnitaryIdealWeight K :=
+  TauCeti.UnitaryIdealWeight.normTwist (-((t : ℂ) * Complex.I)) (by simp) χ
+
 /-- The finite-family hypotheses used by the `3-4-1` argument. Cancellation of norm twists is
 required only for nontrivial members; the identity member supplies the zeta pole. -/
 structure CancellingFamily (G : Type*) [CommGroup G] [Fintype G]
     (w : G → ADS.UnitaryIdealWeight K) : Prop where
   map_mul : ∀ g h : G, ∀ I : Ideal (𝓞 K),
-    w (g * h) I = w g I * w h I
+    (w (g * h)).1 I = (w g).1 I * (w h).1 I
   map_one : ∀ I : Ideal (𝓞 K),
-    TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.IsGood K (w 1) I →
-      w 1 I = 1
-  cancellation : ∀ g : G, g ≠ 1 → ADS.HasCancellation K (w g)
+    TauCeti.MultiplicativeIdealWeight.IsGood (w 1).1 I →
+      (w 1).1 I = 1
+  cancellation : ∀ g : G, g ≠ 1 → ADS.HasCancellation (w g)
   conj : ∀ g : G, ∃ h : G, ∀ I : Ideal (𝓞 K),
-    w h I = starRingEnd ℂ (w g I)
+    (w h).1 I = starRingEnd ℂ ((w g).1 I)
   cancellation_normTwist : ∀ g : G, g ≠ 1 → ∀ t : ℝ,
-    ADS.HasCancellation K
-      (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.imaginaryNormTwist K (w g) t)
+    ADS.HasCancellation
+      (imaginaryNormTwist K (w g) t)
 
 /-- Hypotheses for one possibly infinite-order unitary character. The square of a twist may be a
 pure norm twist or may cancel; requiring cancellation in all cases excludes quadratic examples. -/
 structure UnitaryCancelling (χ : ADS.UnitaryIdealWeight K) : Prop where
   not_normTwist : ∀ u : ℝ,
-    ¬ TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.IsNormTwistOnGood K χ u
-  cancellation : ADS.HasCancellation K χ
-  cancellation_conj : ADS.HasCancellation K
-    (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.conj K χ)
-  cancellation_normTwist : ∀ t : ℝ, ADS.HasCancellation K
-    (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.imaginaryNormTwist K χ t)
+    ¬ TauCeti.MultiplicativeIdealWeight.IsNormTwistOnGood χ.1 u
+  cancellation : ADS.HasCancellation χ
+  cancellation_conj : ADS.HasCancellation
+    (TauCeti.UnitaryIdealWeight.conj χ)
+  cancellation_normTwist : ∀ t : ℝ, ADS.HasCancellation
+    (imaginaryNormTwist K χ t)
   square_twist : ∀ t : ℝ,
     (∃ u : ℝ,
-      TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.IsNormTwistOnGood K
-        (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.sq K
-          (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.imaginaryNormTwist K χ t))
-        u) ∨
-      ADS.HasCancellation K
-        (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.sq K
-          (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.imaginaryNormTwist K χ t))
+      TauCeti.MultiplicativeIdealWeight.IsNormTwistOnGood
+        (imaginaryNormTwist K χ t * imaginaryNormTwist K χ t).1 u) ∨
+      ADS.HasCancellation
+        (imaginaryNormTwist K χ t * imaginaryNormTwist K χ t)
 
 /-- **Analytic presentation of the imported Hecke-character carrier, at a modulus.** The idele
 class character `toHeckeCharacter` is the primary object: every other field is pinned to it by an
@@ -2163,14 +2166,14 @@ structure Grossencharacter
     infinityType.toContinuous toHeckeCharacter.infinityType
   realParity_eq : ∀ w : {w : InfinitePlace K // w.IsReal}, w ∉ 𝔪.infinitePart →
     toHeckeCharacter.infinityType.realParity w = infinityType.toContinuous.realParity w
-  unitaryWeight_eq_zero : ∀ I : Ideal (𝓞 K), ¬ 𝔪.IsCoprimeTo I → unitaryWeight I = 0
+  unitaryWeight_eq_zero : ∀ I : Ideal (𝓞 K), ¬ 𝔪.IsCoprimeTo I → unitaryWeight.1 I = 0
   unitaryWeight_apply : ∀ v : HeightOneSpectrum (𝓞 K), ¬ v.asIdeal ∣ 𝔪.finitePart →
     ∀ y : GNF.IdeleGroup K,
       Valued.v ((GNF.ideleFiniteCoord v y : (v.adicCompletion K)ˣ) : v.adicCompletion K) =
         ((Multiplicative.ofAdd (-1 : ℤ) : Multiplicative ℤ) : WithZero (Multiplicative ℤ)) →
       (∀ v' : HeightOneSpectrum (𝓞 K), v' ≠ v → GNF.ideleFiniteCoord v' y = 1) →
       (∀ w : InfinitePlace K, GNF.ideleInfiniteCoord w y = 1) →
-      unitaryWeight v.asIdeal = ((toHeckeCharacter.unitaryPart (QuotientGroup.mk y) : ℂˣ) : ℂ)
+      unitaryWeight.1 v.asIdeal = ((toHeckeCharacter.unitaryPart (QuotientGroup.mk y) : ℂˣ) : ℂ)
 
 namespace Grossencharacter
 
@@ -2198,7 +2201,7 @@ theorem lFunctionC_eq {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) {s :
     (hs : 1 + χ.shift < s.re) :
     lFunctionC K χ s =
       LSeries (ADS.normCoeff K
-        (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.toArithmeticFunction K
+        (TauCeti.UnitaryIdealWeight.toIdealArithmeticFunction
           χ.unitaryWeight)) (s - (χ.shift : ℂ)) := sorry
 
 theorem meromorphic_lFunctionC {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
@@ -2244,12 +2247,12 @@ theorem lFunctionC_eq_primitive {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 
     (∀ s : ℂ, 1 + χ.shift < s.re →
         lFunctionC K χ s = lFunctionC K (primitive K χ) s *
           ∏ 𝔭 ∈ 𝔪.support \ (primitiveConductor K χ).support,
-            (1 - (primitive K χ).unitaryWeight 𝔭.asIdeal *
+            (1 - (primitive K χ).unitaryWeight.1 𝔭.asIdeal *
               (Ideal.absNorm 𝔭.asIdeal : ℂ) ^ ((χ.shift : ℂ) - s))) ∧
       (∀ s : ℂ, lFunctionC K χ =ᶠ[𝓝[≠] s]
         fun z ↦ lFunctionC K (primitive K χ) z *
           ∏ 𝔭 ∈ 𝔪.support \ (primitiveConductor K χ).support,
-            (1 - (primitive K χ).unitaryWeight 𝔭.asIdeal *
+            (1 - (primitive K χ).unitaryWeight.1 𝔭.asIdeal *
               (Ideal.absNorm 𝔭.asIdeal : ℂ) ^ ((χ.shift : ℂ) - z))) := sorry
 
 noncomputable def rootNumber {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) : ℂ := sorry
@@ -2288,7 +2291,7 @@ noncomputable def inverse
     {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) : Grossencharacter K 𝔪 where
   toHeckeCharacter := χ.toHeckeCharacter⁻¹
   unitaryWeight :=
-    TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.conj K χ.unitaryWeight
+    TauCeti.UnitaryIdealWeight.conj χ.unitaryWeight
   infinityType := ⟨fun τ ↦ -χ.infinityType.exponent τ⟩
   eq_one_of_mem := sorry
   infinityType_eq := sorry
@@ -2394,7 +2397,7 @@ theorem toHeckeCharacter_primeIdele {𝔪 : GNF.Modulus K} (χ : Grossencharacte
     (h₂ : ∀ v' : HeightOneSpectrum (𝓞 K), v' ≠ v → GNF.ideleFiniteCoord v' y = 1)
     (h₃ : ∀ w : InfinitePlace K, GNF.ideleInfiniteCoord w y = 1) :
     ((χ.toHeckeCharacter (QuotientGroup.mk y) : ℂˣ) : ℂ) =
-      χ.unitaryWeight v.asIdeal * (Ideal.absNorm v.asIdeal : ℂ) ^ (χ.shift : ℂ) := sorry
+      χ.unitaryWeight.1 v.asIdeal * (Ideal.absNorm v.asIdeal : ℂ) ^ (χ.shift : ℂ) := sorry
 
 /-- **Hecke's unit relation**, derived from the primary object rather than taken as a field, and
 with the sign the primary object forces. On a principal ideal generated by `a ≡ 1 mod* 𝔪` — the
@@ -2414,14 +2417,14 @@ which this relation determines; quantifying over all `a` would leave only the un
 characters. -/
 theorem compatibility {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (x : Kˣ)
     (hx : GNF.IsCongrOne 𝔪 x) (a : 𝓞 K) (ha : algebraMap (𝓞 K) K a = x) :
-    χ.unitaryWeight (Ideal.span {a}) *
+    χ.unitaryWeight.1 (Ideal.span {a}) *
         ((Ideal.absNorm (Ideal.span {a}) : ℕ) : ℂ) ^ (χ.shift : ℂ) *
       ∏ τ : K →+* ℂ, τ (x : K) ^ χ.infinityType.exponent τ = 1 := sorry
 
 /-- The unit relation solved for the finite value: `χ_u((a)) N(a)^shift = (∏_τ τ(a)^(n_τ))⁻¹`. -/
 theorem compatibility_inv {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (x : Kˣ)
     (hx : GNF.IsCongrOne 𝔪 x) (a : 𝓞 K) (ha : algebraMap (𝓞 K) K a = x) :
-    χ.unitaryWeight (Ideal.span {a}) *
+    χ.unitaryWeight.1 (Ideal.span {a}) *
         ((Ideal.absNorm (Ideal.span {a}) : ℕ) : ℂ) ^ (χ.shift : ℂ) =
       (∏ τ : K →+* ℂ, τ (x : K) ^ χ.infinityType.exponent τ)⁻¹ :=
   eq_inv_of_mul_eq_one_left (compatibility K χ x hx a ha)
@@ -2450,7 +2453,7 @@ theorem grossencharacterData_coeff
     {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (n : ℕ) (hn : n ≠ 0) :
     (grossencharacterData K χ).coeff n =
       ADS.normCoeff K
-        (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.toArithmeticFunction K
+        (TauCeti.UnitaryIdealWeight.toIdealArithmeticFunction
           (Grossencharacter.primitive K χ).unitaryWeight) n := sorry
 
 theorem grossencharacterData_conductor
@@ -2569,7 +2572,7 @@ algebraic exponents alone it would be even at `-1` for every finite-order charac
 theta series of an odd character would vanish by pairing `a` with `-a`. -/
 noncomputable def finiteCharacter {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) (a : 𝓞 K) :
     ℂ :=
-  χ.unitaryWeight (Ideal.span {a}) * ((Ideal.absNorm (Ideal.span {a}) : ℕ) : ℂ) ^ (χ.shift : ℂ) *
+  χ.unitaryWeight.1 (Ideal.span {a}) * ((Ideal.absNorm (Ideal.span {a}) : ℕ) : ℂ) ^ (χ.shift : ℂ) *
     archimedeanValue K χ (algebraMap (𝓞 K) K a)
 
 /-- `compatibility`, restated: the finite character is trivial on `a ≡ 1 mod* 𝔪`. -/
@@ -2590,7 +2593,7 @@ theorem finiteCharacter_eq_zero_iff {𝔪 : GNF.Modulus K} (χ : Grossencharacte
 where the ideal weight, a `→*₀` homomorphism, is `0`. -/
 theorem finiteCharacter_zero {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪) :
     finiteCharacter K χ 0 = 0 := by
-  have h : χ.unitaryWeight (Ideal.span {(0 : 𝓞 K)}) = 0 := by
+  have h : χ.unitaryWeight.1 (Ideal.span {(0 : 𝓞 K)}) = 0 := by
     rw [Ideal.span_singleton_eq_bot.mpr rfl, ← Ideal.zero_eq_bot]
     exact map_zero _
   rw [finiteCharacter, h, zero_mul, zero_mul]
@@ -2813,7 +2816,7 @@ theorem unitaryPartialCompletion_eq_tsum {𝔪 : GNF.Modulus K} (χ : Grossencha
         ∑' 𝔟 : {𝔟 : Ideal (𝓞 K) // 𝔟 ≠ ⊥ ∧ ∃ x : Kˣ,
             (𝔟 : FractionalIdeal (𝓞 K)⁰ K) * (𝔞 : FractionalIdeal (𝓞 K)⁰ K) =
               FractionalIdeal.spanSingleton (𝓞 K)⁰ (x : K)},
-          (primitive K χ).unitaryWeight 𝔟 * (Ideal.absNorm (𝔟 : Ideal (𝓞 K)) : ℂ) ^ (-s) := sorry
+          (primitive K χ).unitaryWeight.1 𝔟 * (Ideal.absNorm (𝔟 : Ideal (𝓞 K)) : ℂ) ^ (-s) := sorry
 
 /-- The unitary completion is the sum of the per-class completions over a system of
 representatives prime to the conductor. -/
@@ -2832,7 +2835,7 @@ theorem unitaryPartialCompletion_eq_mellin {𝔪 : GNF.Modulus K} {D : Set (Arch
     (hD : IsUnitFundamentalDomain K D) (χ : Grossencharacter K 𝔪) (𝔞 : Ideal (𝓞 K))
     (h𝔞 : (primitiveConductor K χ).IsCoprimeTo 𝔞) {s : ℂ} (hs : 1 < s.re) :
     unitaryPartialCompletion K χ 𝔞 s =
-      ((primitive K χ).unitaryWeight 𝔞)⁻¹ *
+      ((primitive K χ).unitaryWeight.1 𝔞)⁻¹ *
         mellin (fun u ↦ heckeMellinKernel K D χ (idealUnit K 𝔞 h𝔞.1) u -
             heckeEpsilon K χ * (mellinConstant K : ℂ))
           ((s + (harmonicDegree K χ : ℂ) / (Module.finrank ℚ K : ℂ)) / 2) := sorry
@@ -2845,14 +2848,14 @@ noncomputable def heckeMellinTotal {𝔪 : GNF.Modulus K} (D : Set (ArchParam K)
     (χ : Grossencharacter K 𝔪) (rep : ClassGroup (𝓞 K) → Ideal (𝓞 K))
     (hrep : IsClassRepresentatives K (primitiveConductor K χ) rep) (u : ℝ) : ℂ :=
   ∑ c : ClassGroup (𝓞 K),
-    ((primitive K χ).unitaryWeight (rep c))⁻¹ *
+    ((primitive K χ).unitaryWeight.1 (rep c))⁻¹ *
       heckeMellinKernel K D χ (idealUnit K (rep c) (hrep c).1.1) u
 
 /-- Its constant term: `ε(χ) a₀ ∑_c χ_u(rep c)⁻¹`, which vanishes unless `χ_u` is trivial. -/
 noncomputable def heckeMellinConstant {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪)
     (rep : ClassGroup (𝓞 K) → Ideal (𝓞 K)) : ℂ :=
   heckeEpsilon K χ * (mellinConstant K : ℂ) *
-    ∑ c : ClassGroup (𝓞 K), ((primitive K χ).unitaryWeight (rep c))⁻¹
+    ∑ c : ClassGroup (𝓞 K), ((primitive K χ).unitaryWeight.1 (rep c))⁻¹
 
 theorem heckeMellinTotal_congr {𝔪 : GNF.Modulus K} {D : Set (ArchParam K)}
     (hD : IsUnitFundamentalDomain K D) (χ : Grossencharacter K 𝔪)
@@ -3175,8 +3178,8 @@ from the ray-class and archimedean inputs rather than assumed by the final theor
 theorem Grossencharacter.unitaryCancelling
     {𝔪 : GNF.Modulus K} (χ : Grossencharacter K 𝔪)
     (hexc : ∀ u : ℝ,
-      ¬ TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.IsNormTwistOnGood K
-        χ.unitaryWeight u) :
+      ¬ TauCeti.MultiplicativeIdealWeight.IsNormTwistOnGood
+        χ.unitaryWeight.1 u) :
     UnitaryCancelling K χ.unitaryWeight := sorry
 
 theorem Grossencharacter.meromorphicOrderAt_lFunctionC
@@ -3234,8 +3237,8 @@ applies to it unconditionally. -/
 theorem angularGrossencharacter_not_isNormTwist
     (F : Type u) [Field F] [NumberField F] [IsCyclotomicExtension {4} ℚ F] {k : ℤ} (hk : k ≠ 0)
     (u : ℝ) :
-    ¬ TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.IsNormTwistOnGood F
-      (angularGrossencharacter F k).unitaryWeight u := sorry
+    ¬ TauCeti.MultiplicativeIdealWeight.IsNormTwistOnGood
+      (angularGrossencharacter F k).unitaryWeight.1 u := sorry
 
 /-- **The nonreal acceptance test of the sign in `compatibility`.** Over `ℚ(i)`, at `a = 2 + i`
 and any `k ≠ 0`: the finite value `χ_u((a))` is `((2+i)/(2-i))^(2k) = ((3+4i)/5)^(2k)` through
@@ -3248,11 +3251,11 @@ nonzero `a`. -/
 theorem angularGrossencharacter_compatibility_test
     (F : Type u) [Field F] [NumberField F] [IsCyclotomicExtension {4} ℚ F] {k : ℤ} (hk : k ≠ 0)
     (a : 𝓞 F) (ha : (a : F) = 2 + IsCyclotomicExtension.zeta 4 ℚ F) :
-    (angularGrossencharacter F k).unitaryWeight (Ideal.span {a}) *
+    (angularGrossencharacter F k).unitaryWeight.1 (Ideal.span {a}) *
         ∏ τ : F →+* ℂ, τ (a : F) ^ (angularGrossencharacter F k).infinityType.exponent τ = 1 ∧
-      (angularGrossencharacter F k).unitaryWeight (Ideal.span {a}) ≠
+      (angularGrossencharacter F k).unitaryWeight.1 (Ideal.span {a}) ≠
         ∏ τ : F →+* ℂ, τ (a : F) ^ (angularGrossencharacter F k).infinityType.exponent τ ∧
-      ((angularGrossencharacter F k).unitaryWeight (Ideal.span {a})).im ≠ 0 := sorry
+      ((angularGrossencharacter F k).unitaryWeight.1 (Ideal.span {a})).im ≠ 0 := sorry
 
 /-- The ideal-side values of the angular character, through the embedding `τ` at which its
 infinity type has exponent `-2k`: `χ_u((α)) = (τ α / conj (τ α))^(2k)` for every nonzero
@@ -3263,7 +3266,7 @@ theorem angularGrossencharacter_unitaryWeight_span
     (F : Type u) [Field F] [NumberField F] [IsCyclotomicExtension {4} ℚ F] (k : ℤ) :
     ∃ τ : F →+* ℂ, (angularGrossencharacter F k).infinityType.exponent τ = -(2 * k) ∧
       ∀ α : 𝓞 F, α ≠ 0 →
-        (angularGrossencharacter F k).unitaryWeight (Ideal.span {α}) =
+        (angularGrossencharacter F k).unitaryWeight.1 (Ideal.span {α}) =
           (τ (α : F) / starRingEnd ℂ (τ (α : F))) ^ (2 * k) := sorry
 
 /-- **The boundary datum exported to prime-distribution consumers.** For a unitary weight covered
@@ -3275,8 +3278,8 @@ theorem exists_continuousOn_logDeriv_of_unitaryCancelling
     (χ : ADS.UnitaryIdealWeight K) (h : UnitaryCancelling K χ) :
     ∃ G : ℂ → ℂ, ContinuousOn G {s : ℂ | 1 ≤ s.re} ∧
       ∀ s : ℂ, 1 < s.re →
-        G s = -deriv (ADS.continuedLFunctionOfWeight K χ) s /
-          ADS.continuedLFunctionOfWeight K χ s := sorry
+        G s = -deriv (ADS.continuedLFunctionOfWeight χ) s /
+          ADS.continuedLFunctionOfWeight χ s := sorry
 
 /-- The trivial-weight companion: the norm coefficients of the ideal von Mangoldt weight sum to
 the logarithmic derivative of the named continuation of `ζ_K`. -/
@@ -3289,32 +3292,22 @@ theorem lSeries_primeVonMangoldtCoeff_univ {s : ℂ} (hs : 1 < s.re) :
 `ζ_K` at `s = 1`; the continuous remainder exists because `ζ_K` is nonvanishing on `Re s = 1`.
 Mathlib's one-sided residue theorem does not supply this. -/
 noncomputable def primeIdealVonMangoldtBoundary (K : Type u) [Field K] [NumberField K] :
-    ADS.PrimeBoundaryRemainder K Set.univ 1 where
-  residue_nonneg := zero_le_one
-  F := fun s ↦ -deriv (dedekindZetaC K) s / dedekindZetaC K s
-  G := sorry
-  hasSum := sorry
-  continuous_remainder := sorry
-  remainder_eq := sorry
+    ADS.PrimeBoundaryRemainder K Set.univ 1 :=
+  TauCeti.PrimeBoundaryRemainder.ofFunctions
+    (fun s ↦ -deriv (dedekindZetaC K) s / dedekindZetaC K s) sorry sorry sorry sorry
 
 /-- Dedekind-zeta specialization of the generic ideal von Mangoldt transform. -/
 theorem dedekindZeta_logDeriv_eq {s : ℂ} (hs : 1 < s.re) :
-    (∑' I : ADS.NonzeroIdeal K,
-      TauCetiRoadmap.ArithmeticDirichletSeries.IdealArithmeticFunction.vonMangoldt K
-          (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.toArithmeticFunction K
-            (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.one K)) I /
+    (∑' I : (Ideal (𝓞 K))⁰,
+      TauCeti.IdealArithmeticFunction.vonMangoldt (K := K) I /
         (Ideal.absNorm (I : Ideal (𝓞 K)) : ℂ) ^ s) =
       -deriv (dedekindZeta K) s / dedekindZeta K s := sorry
 
 /-- Nonnegativity of the Dedekind-zeta von Mangoldt coefficients. -/
-theorem dedekindZeta_idealVonMangoldt_nonneg (I : ADS.NonzeroIdeal K) :
+theorem dedekindZeta_idealVonMangoldt_nonneg (I : (Ideal (𝓞 K))⁰) :
     0 ≤
-        (TauCetiRoadmap.ArithmeticDirichletSeries.IdealArithmeticFunction.vonMangoldt K
-          (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.toArithmeticFunction K
-            (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.one K)) I).re ∧
-      (TauCetiRoadmap.ArithmeticDirichletSeries.IdealArithmeticFunction.vonMangoldt K
-          (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.toArithmeticFunction K
-            (TauCetiRoadmap.ArithmeticDirichletSeries.UnitaryIdealWeight.one K)) I).im = 0 := sorry
+        (TauCeti.IdealArithmeticFunction.vonMangoldt (K := K) I).re ∧
+      (TauCeti.IdealArithmeticFunction.vonMangoldt (K := K) I).im = 0 := sorry
 
 end
 
