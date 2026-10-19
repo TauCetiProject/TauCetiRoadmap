@@ -7,7 +7,7 @@ import TauCeti.Algebra.AlgebraicGroup.DiagonalizableGroup.Weight
 The roadmap is the accompanying `README.md`; this file records light definitions and
 representative statements that can be made against the pinned Mathlib and Tau Ceti APIs,
 and it is not exhaustive. Bun_G, its strata, its charts and the reductive classification
-of B(G) are specified in the README.
+of B(G) are specified in the README, including the geometric supplier contracts.
 
 Design choices made explicit here:
 * arithmetic Frobenius acts on a representative `b` by twisted conjugation
@@ -38,6 +38,17 @@ example (sigma : G ≃* G) (b : G) : twistedConjugate sigma 1 b = b := by
 example (g b : G) : twistedConjugate (MulEquiv.refl G) g b = g * b * g⁻¹ := by
   rfl
 
+/-- Composing twisted actions multiplies the later conjugator on the left. -/
+theorem twistedConjugate_comp (sigma : G ≃* G) (b g h : G) :
+    twistedConjugate sigma h (twistedConjugate sigma g b) =
+      twistedConjugate sigma (h * g) b := by sorry
+
+/-- Reversing conjugator order fails already in the permutation group on three points. -/
+theorem twistedConjugate_reverse_order_fails :
+    ∃ b g h : Equiv.Perm (Fin 3),
+      twistedConjugate (MulEquiv.refl _) h (twistedConjugate (MulEquiv.refl _) g b) ≠
+        twistedConjugate (MulEquiv.refl _) (g * h) b := by sorry
+
 /-- The equivalence relation for changing a Frobenius trivialization. -/
 def sigmaSetoid (sigma : G ≃* G) : Setoid G where
   r b c := ∃ g : G, c = twistedConjugate sigma g b
@@ -60,10 +71,6 @@ namespace SigmaClass
 def mk (sigma : G ≃* G) (b : G) : SigmaClass sigma :=
   Quotient.mk (sigmaSetoid sigma) b
 
-example (sigma : G ≃* G) (b g : G) :
-    mk sigma b = mk sigma (twistedConjugate sigma g b) := by
-  exact Quotient.sound ⟨g, rfl⟩
-
 /-- Equality in the orbit set is existence of a twisted conjugator. -/
 theorem mk_eq_iff (sigma : G ≃* G) (b c : G) :
     mk sigma b = mk sigma c ↔ ∃ g, c = g * b * (sigma g)⁻¹ := by sorry
@@ -85,7 +92,6 @@ abbrev sigma := Units.mapEquiv (WittVector.FractionRing.frobenius p k).toMulEqui
 def uniformizer : (Coefficients p k)ˣ :=
   Units.mk0 (p : Coefficients p k) (WittVector.FractionRing.p_nonzero p k)
 
-example : (uniformizer p k : Coefficients p k) = p := by rfl
 example : sigma p k (uniformizer p k) = uniformizer p k := by
   ext
   simp [sigma, uniformizer]
@@ -232,12 +238,8 @@ example : basic half ∧ ¬ basic split := by
   · intro h
     have hfirst := h 0 1
     norm_num [split] at hfirst
-example : ordinary split split ∧ ¬ ordinary half split := by
-  constructor
-  · exact ⟨⟨rfl, fun _ _ => le_rfl⟩, rfl⟩
-  · rintro ⟨_, h⟩
-    have hfirst := congrFun h 0
-    norm_num [half, split] at hfirst
+/-- The split datum is ordinary for its own bound, whereas the half datum is not. -/
+theorem ordinary_split_and_not_half : ordinary split split ∧ ¬ ordinary half split := by sorry
 example : basic (zero 0) ∧ ordinary (zero 0) (zero 0) := by
   constructor
   · intro i
@@ -246,6 +248,21 @@ example : basic (zero 0) ∧ ordinary (zero 0) (zero 0) := by
 /-- A slope of denominator two cannot occur with multiplicity one. -/
 theorem rank_one_half_impossible :
     ¬ ∃ x : GLnSlopeData 1, x.slopes 0 = (1/2 : ℚ) := by sorry
+/-- Integral total does not suffice when a slope denominator fails multiplicity divisibility. -/
+theorem two_thirds_one_third_impossible :
+    ¬ ∃ x : GLnSlopeData 2, x.slopes 0 = (2/3 : ℚ) ∧ x.slopes 1 = (1/3 : ℚ) := by sorry
+
+/-- Descending slope data cannot have the ascending pair zero and one. -/
+theorem ascending_pair_impossible :
+    ¬ ∃ x : GLnSlopeData 2, x.slopes 0 = 0 ∧ x.slopes 1 = 1 := by sorry
+
+/-- A first slope of two exceeds the split bound despite the matching total. -/
+theorem two_neg_one_not_acceptable (x : GLnSlopeData 2)
+    (hfirst : x.slopes 0 = 2) (hsecond : x.slopes 1 = -1) :
+    ¬ acceptable x split := by sorry
+
+/-- Numerical ordinarity allows the half datum as its own bound. -/
+theorem half_ordinary_self : ordinary half half := by sorry
 end GLnSlopeData
 
 namespace SlopeProtorus
@@ -327,6 +344,17 @@ example (n : ℤ) (a : A) :
     ext x
     rfl
   simp [cyclicRepresentation, h]
+/-- Sign Frobenius on the integers retains distinct odd and even twisted classes. -/
+theorem sign_class_zero_ne_one :
+    SigmaClass.mk (AddEquiv.toMultiplicative (AddEquiv.neg ℤ)) (Multiplicative.ofAdd 0) ≠
+      SigmaClass.mk (AddEquiv.toMultiplicative (AddEquiv.neg ℤ)) (Multiplicative.ofAdd 1) :=
+  by sorry
+
+/-- Sign Frobenius identifies the twisted classes represented by two and zero. -/
+theorem sign_class_two_eq_zero :
+    SigmaClass.mk (AddEquiv.toMultiplicative (AddEquiv.neg ℤ)) (Multiplicative.ofAdd 2) =
+      SigmaClass.mk (AddEquiv.toMultiplicative (AddEquiv.neg ℤ)) (Multiplicative.ofAdd 0) :=
+  by sorry
 end KottwitzDescent
 
 /-- The affine solution fibre of Frobenius minus identity, with no chosen origin. -/
