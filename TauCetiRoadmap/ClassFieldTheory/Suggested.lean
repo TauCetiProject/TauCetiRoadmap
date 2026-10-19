@@ -2,6 +2,7 @@ import Mathlib
 import TauCeti.FieldTheory.Galois.AbsoluteGaloisGroup.FiniteExtension
 import TauCeti.FieldTheory.GaloisCohomology.Kummer
 import TauCeti.NumberTheory.ClassFieldTheory.ClassField
+import TauCeti.NumberTheory.ClassFieldTheory.Brauer.LocalH2Bound
 import TauCeti.NumberTheory.ClassFieldTheory.Formation.GaloisMaps
 import TauCeti.NumberTheory.ClassFieldTheory.Formation.GroundNorm
 import TauCeti.NumberTheory.ClassFieldTheory.Formation.Tate.Corestriction
@@ -1029,8 +1030,8 @@ noncomputable abbrev Br (F : Type) [Field F] : Type _ :=
 /-! ### The local units and the local `H²` bound
 
 These precede `invMap`: the invariant is extended from the unramified layers to all of `Br K`
-through the bound `natCard_h2_units_le_finrank`, and nothing here uses a class formation or an Artin
-map.
+through native divisibility, `finite_h2_units`, and the bound `natCard_h2_units_le_finrank`;
+nothing here uses a class formation or an Artin map.
 
 The normal basis theorem is Mathlib's, for a finite Galois extension of arbitrary fields:
 `IsGalois.normalBasis F E : Module.Basis Gal(E/F) F E` is a basis whose value at `σ` is `σ θ` for
@@ -1081,23 +1082,44 @@ reciprocity. -/
 theorem index_normGroup_of_isCyclic [Algebra K L] [ValuativeExtension K L] [Module.Finite K L]
     [IsGalois K L] [IsCyclic (L ≃ₐ[K] L)] :
     (LocalFieldsRamification.normGroup K L).index = Module.finrank K L :=
-  sorry
+  TauCeti.index_normGroup_of_isCyclic K L
 
-/-- **The local `H²` bound** `#H²(Gal(L/K), Lˣ) ≤ [L:K]`. For cyclic `L/K`, two-periodicity
-identifies `H²` with `Ĥ⁰`, which has `[L:K]` elements by `index_normGroup_of_isCyclic`; in general
-`Gal(L/K)` is solvable (Tau Ceti's `TauCeti.LocalFieldsRamification.isSolvable_algEquiv`, which
-landed after this repository's Tau Ceti pin) and the bound propagates along a normal subgroup with
-cyclic quotient through inflation–restriction in degree two, exact because `H¹` vanishes by
-Hilbert 90. Equality is the class-formation axiom and belongs to Layer 6. -/
-theorem natCard_h2_units_le_finrank [Algebra K L] [ValuativeExtension K L] [Module.Finite K L]
+/-- Native local `H²` divisibility, before reciprocity: cyclic Herbrand quotients and solvable
+reduction. `Rep.ofAlgebraAutOnUnits` is Mathlib's abbreviation for the same action. -/
+theorem natCard_h2_units_dvd_finrank
+    (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
+    (L : Type) [Field L] [ValuativeRel L] [TopologicalSpace L] [IsNonarchimedeanLocalField L]
+    [Algebra K L] [ValuativeExtension K L] [Module.Finite K L]
     [IsGalois K L] :
-    Nat.card (groupCohomology (Rep.ofAlgebraAutOnUnits K L) 2) ≤ Module.finrank K L :=
-  sorry
+    Nat.card (groupCohomology (Rep.ofAlgebraAutOnUnits K L) 2) ∣ Module.finrank K L := by
+  simpa only [Rep.ofAlgebraAutOnUnits] using TauCeti.natCard_H2_units_dvd_finrank K L
+
+/-- Positive finite degree and native divisibility exclude `Nat.card = 0`, proving finiteness. -/
+theorem finite_h2_units
+    (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
+    (L : Type) [Field L] [ValuativeRel L] [TopologicalSpace L] [IsNonarchimedeanLocalField L]
+    [Algebra K L] [ValuativeExtension K L] [Module.Finite K L]
+    [IsGalois K L] :
+    Finite (groupCohomology (Rep.ofAlgebraAutOnUnits K L) 2) := by
+  have hd := natCard_h2_units_dvd_finrank K L
+  have hn : Module.finrank K L ≠ 0 := Module.finrank_pos.ne'
+  exact Nat.finite_of_card_ne_zero fun h => hn (Nat.eq_zero_of_zero_dvd (h ▸ hd))
+
+/-- The local `H²` bound follows from native divisibility. Use `finite_h2_units` as well when
+counting subgroups: the inequality alone permits infinite groups with `Nat.card = 0`. Equality
+is the class-formation axiom of Layer 6. -/
+theorem natCard_h2_units_le_finrank
+    (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
+    (L : Type) [Field L] [ValuativeRel L] [TopologicalSpace L] [IsNonarchimedeanLocalField L]
+    [Algebra K L] [ValuativeExtension K L] [Module.Finite K L]
+    [IsGalois K L] :
+    Nat.card (groupCohomology (Rep.ofAlgebraAutOnUnits K L) 2) ≤ Module.finrank K L := by
+  exact Nat.le_of_dvd Module.finrank_pos (natCard_h2_units_dvd_finrank K L)
 
 /-- Local invariant, normalized by arithmetic Frobenius. It is first constructed on the unramified
-relative Brauer groups; by `natCard_h2_units_le_finrank` the unramified relative Brauer group of
-degree `[L:K]`, which lies in the kernel of restriction to `L`, is all of the relative Brauer group
-of `L/K`, so `Br K` is the union of the unramified relative Brauer groups. The local-field
+relative Brauer groups; `finite_h2_units` first proves the relative group finite, and then
+`natCard_h2_units_le_finrank` shows that the unramified relative Brauer group of degree `[L:K]`,
+which lies in the kernel of restriction to `L`, is all of the relative Brauer group of `L/K`, so `Br K` is the union of the unramified relative Brauer groups. The local-field
 structure is bound in the header: `Br ℂ = 0`, so no such isomorphism exists for an arbitrary
 field. -/
 noncomputable def invMap (K : Type) [Field K] [ValuativeRel K] [TopologicalSpace K]
@@ -1870,7 +1892,7 @@ theorem localArtinMap_cyclotomic_uniformizer [Algebra K L] [ValuativeExtension K
     (iota : L →ₐ[K] SeparableClosure K)
     (h : LocalFieldsRamification.ramificationIndex K L = 1)
     (pi : 𝒪[K]) (_hpi : Irreducible pi) (hpi0 : (pi : K) ≠ 0)
-    (m : ℕ) (ζ : L) (_hζ : IsPrimitiveRoot ζ m) (σ : L ≃ₐ[K] L)
+    (m : ℕ) (_hm : IsUnit (m : 𝒪[K])) (ζ : L) (_hζ : IsPrimitiveRoot ζ m) (σ : L ≃ₐ[K] L)
     (hσ : localArtinMap K L iota (Additive.ofMul (Units.mk0 (pi : K) hpi0)) =
       Additive.ofMul (Abelianization.of σ)) :
     σ ζ = ζ ^ Nat.card 𝓀[K] :=
@@ -1922,7 +1944,8 @@ Galois group, normalized by arithmetic Frobenius. It is the inverse limit of the
 stated against named maps: `artinMap_restrict` (against `restrictAbsolute`),
 `unramifiedCoordinate_artinMap` (against `unramifiedCoordinate`) and `artinMap_norm` (against
 `absoluteGaloisGroupExtend`). It has dense image and is not surjective. -/
-noncomputable def artinMap : Kˣ →* Field.absoluteGaloisGroupAbelianization K :=
+noncomputable def artinMap
+    [IsNonarchimedeanLocalField K] : Kˣ →* Field.absoluteGaloisGroupAbelianization K :=
   sorry
 
 /-- **Restriction** of the absolute Galois group to a finite Galois extension embedded by `iota`:
@@ -2667,7 +2690,8 @@ arithmetic Frobenius under `G_K → Gal(K^ur/K) ≅ Ẑ`, that is, the preimage 
 surjection `G_K → Ẑ` and its kernel `LocalFieldsRamification.inertia` are owned by
 `LocalFieldsRamification` — its maximal unramified extension and its exact sequence
 `1 → I_K → G_K → Ẑ → 1` — and everything below is owned here. -/
-noncomputable def localWeilGroup : Subgroup (Field.absoluteGaloisGroup K) :=
+noncomputable def localWeilGroup
+    [IsNonarchimedeanLocalField K] : Subgroup (Field.absoluteGaloisGroup K) :=
   sorry
 
 /-- Inertia is the degree-zero part of the Weil group, hence contained in it. -/
@@ -2711,7 +2735,6 @@ instance instIsTopologicalGroupWeilGroup : IsTopologicalGroup (WeilGroup K) :=
 noncomputable def weilToAbsolute : WeilGroup K →* Field.absoluteGaloisGroup K :=
   (localWeilGroup K).subtype
 
-omit [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K] in
 theorem injective_weilToAbsolute : Function.Injective (weilToAbsolute K) :=
   Subtype.val_injective
 
@@ -2861,8 +2884,8 @@ theorem range_weilTransfer_eq_ker_weilRestrict [Algebra K L] [Module.Finite K L]
 abelianization `W_K / closure ⁅W_K, W_K⁆`. Its injectivity is `injective_artinMap` and its
 surjectivity is `localAbelianExistence`, which is why it carries their mixed-characteristic
 hypotheses.
-⚠ The algebraic `Abelianization (WeilGroup K)` is the wrong target: the commutator subgroup of
-`W_K` need not be closed, and the algebraic quotient is not `Kˣ`.
+The target is the Hausdorff topological quotient. Any identification with the algebraic
+`Abelianization (WeilGroup K)` requires a comparison theorem preserving its topology.
 ⚠ There is no equal-characteristic form. For `𝔽_q((t))` both `Kˣ` and `W_K^ab` exist, but the map
 between them is injective only if the norm subgroups of *all* finite abelian extensions intersect
 trivially, and the prime-to-`p` ones this roadmap constructs all contain the principal units
@@ -3184,8 +3207,8 @@ order at most two — the decomposition groups at unramified primes are cyclic, 
 `ℚ(√17)` and `17` splits in `ℚ(√13)` by quadratic reciprocity, and the field is totally real — so
 `H²(Gal(L/ℚ), I_L) = ⨁_v Br(L_w/ℚ_v)` is killed by `2`, and its image in the cyclic group
 `H²(Gal(L/ℚ), C_L)` of order `4` has order at most `2`. In general the image is the subgroup of
-order `lcm_v [L_w : K_v]`, which is everything only when some decomposition group is all of
-`Gal(L/K)`. The cyclic case is the one where the lift always exists: there
+order `lcm_v [L_w : K_v]`, so surjectivity is equivalent to this lcm being `[L:K]`.
+A full decomposition group is sufficient but not necessary. Cyclicity is also sufficient: there
 `H³(Gal(L/K), Lˣ) ≃ H¹(Gal(L/K), Lˣ) = 0` by periodicity and Hilbert 90. -/
 theorem surjective_ideleToClassH2_of_isCyclic
     (Lay : NormalLayer (TauCeti.AbsoluteGaloisGroup K)) [IsCyclic Lay.Gal] :
@@ -3677,15 +3700,15 @@ place the ray class group `(ℤ/4)ˣ/{±1}` is again trivial, so the conductor e
 places matter, and the conductor of `ℚ(i)/ℚ` is `(4)·∞`. -/
 
 /-- **Admissibility of a modulus for a finite extension**: the ray subgroup of `𝔪` lies in the
-idele-class norm subgroup of `L/K`. Classically this is "the conductor of `L/K` divides `𝔪`";
-through `globalArtinMap` it says that the Artin map kills the ray of `𝔪`, which is exactly what
-lets it descend to `RayClassGroup 𝔪`. -/
+idele-class norm subgroup of `L/K`. For finite abelian Galois `L/K`, this says that the conductor
+divides `𝔪` and that the Artin map descends to `RayClassGroup 𝔪`. For a general finite extension
+this norm-defined condition records its abelian normic part, not all of its ramification. -/
 def IsAdmissibleModulus [Module.Finite K L] (𝔪 : GlobalNumberFields.Modulus K) : Prop :=
   GlobalNumberFields.RaySubgroup 𝔪 ≤ (ideleClassNorm K L).range
 
-/-- An admissible modulus is divisible by every prime ramified in `L`: the support condition is a
-consequence of admissibility, not a substitute for it. -/
-theorem IsAdmissibleModulus.mem_support_of_ramified [Module.Finite K L]
+/-- For a finite abelian Galois extension, an admissible modulus is divisible by every prime
+ramified in `L`: the support condition is a consequence of admissibility. -/
+theorem IsAdmissibleModulus.mem_support_of_ramified [Module.Finite K L] [IsAbelianGalois K L]
     {𝔪 : GlobalNumberFields.Modulus K} (h𝔪 : IsAdmissibleModulus K L 𝔪)
     (v : HeightOneSpectrum (𝓞 K))
     (hv : ∃ (Q : Ideal (𝓞 L)) (_ : Q.IsPrime) (_ : Q.LiesOver v.asIdeal),
@@ -3881,13 +3904,14 @@ noncomputable def kummerNormSubgroup (S : Finset (HeightOneSpectrum (𝓞 K))) (
 
 /-- **The Kummer layer of the `S`-units**: the open normal subgroup of `G_K` cutting out
 `K(U(S)^{1/p})`, pinned by `classField_sUnitsKummerLayer`. -/
-noncomputable def sUnitsKummerLayer (S : Finset (HeightOneSpectrum (𝓞 K))) (p : ℕ) :
+noncomputable def sUnitsKummerLayer (S : Finset (HeightOneSpectrum (𝓞 K))) (p : ℕ) [NeZero p] :
     OpenNormalSubgroup (TauCeti.AbsoluteGaloisGroup K) :=
   sorry
 
 /-- The characterizing equation of `sUnitsKummerLayer`: the field it cuts out is generated by the
-`p`-th roots of the `S`-units. -/
-theorem classField_sUnitsKummerLayer (S : Finset (HeightOneSpectrum (𝓞 K))) (p : ℕ) :
+`p`-th roots of the `S`-units, for a nonzero exponent. Finite generation of the `S`-unit group
+makes the resulting radical extension finite. -/
+theorem classField_sUnitsKummerLayer (S : Finset (HeightOneSpectrum (𝓞 K))) (p : ℕ) [NeZero p] :
     classField K (sUnitsKummerLayer K S p) =
       IntermediateField.adjoin K
         {x : SeparableClosure K | ∃ a : Kˣ, IsSUnit K S a ∧ x ^ p = algebraMap K _ (a : K)} :=

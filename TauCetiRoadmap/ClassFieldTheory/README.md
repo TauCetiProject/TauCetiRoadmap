@@ -582,7 +582,7 @@ names may change during implementation, but the mathematical direction of each m
 | global quotient and degree | `globalAbelianGaloisEquiv`, `globalAbelianGaloisEquiv_artinMap`, `index_globalNormSubgroup`, `globalClassFieldGaloisEquiv`, `globalClassField_index`; Tau Ceti's `galClassFieldEquiv` |
 | continuous local coefficients | `GalRep`, `H`, `muNRep`, `muNRep_ρ_apply`, `isSmoothDiscrete_muNRep`, `instFactIsSmoothDiscreteMuNRep`, `kummerClass`, `kummerClass_eq`, `kummerClass_mul`, `kummerEquiv_mixed`, `kummerEquiv_mixed_mk` |
 | Kummer transport and local Brauer group | `absoluteGaloisGroupComparison`, `comparisonDistribMulAction`, `muNRepCoeffDictionary`, `explicitKummerClass`, `explicitH1AddEquivH`, `inhomogeneousCocycle1`, `unitsRep`, `Br`, `invMap`, `brRes`, `brCor` |
-| local units and the `H²` bound | `unitsFiniteLayerRep`, `herbrandQuotient_units_eq_one`, `herbrandQuotient_units_eq_finrank_of_isCyclic`, `index_normGroup_of_isCyclic`, `natCard_h2_units_le_finrank`, on Mathlib's normal basis `IsGalois.normalBasis` |
+| local units and the `H²` divisibility, finiteness and bound | `unitsFiniteLayerRep`, `herbrandQuotient_units_eq_one`, `herbrandQuotient_units_eq_finrank_of_isCyclic`, `index_normGroup_of_isCyclic`, `natCard_h2_units_dvd_finrank`, `finite_h2_units`, `natCard_h2_units_le_finrank`, on Mathlib's normal basis `IsGalois.normalBasis` and native `TauCeti.natCard_H2_units_dvd_finrank` |
 | local invariant and Hilbert pairing | `h2MuEquivZMod_mixed`, `h2FpEquivZMod_of_mu`, `muNRepEquivZMod`, `muNRep_ρ_eq_self`, `kummerCupPairing`, `kummerCupPairing_bil`, `kummerCupPairing_bil_comm`, `localSymbol`, `localSymbol_antisymm`, `localSymbol_eq_zero_iff_mem_normGroup`, `localSymbol_kummerClass_eq_zero_iff` |
 | the Tate dual and evaluation | `tateDual`, `tateDualEquiv`, `tateDualEquiv_ρ_apply`, `isSmoothDiscrete_tateDual`, `instFactIsSmoothDiscreteTateDual`, `tateDual_ρ_eq_self_iff`, `tateEvaluationPairing`, `tateEvaluationPairing_bil`, `tateDualMap`, `tateEvaluationPairing_tateDualMap`, `tateDualMap_exact`, `muNRepToTateDual`, `bijective_muNRepToTateDual` |
 | local duality and Euler characteristic, for finite smooth discrete modules | `tateDualityPairing`, `tateDualityPairing_tateDualMap`, `tateDualityPairing_muNRepToTateDual`, `tateDualityPairing_perfect_mixed`, `finite_H`, `eulerCharacteristic_mixed`, `eulerCharacteristic_finrank_fp`, `instFactIsSmoothDiscreteTrivialFp` |
@@ -1011,17 +1011,21 @@ Lemmas 2.3–2.6):
   `Ĥ⁻¹ ≅ H¹` vanishes by Hilbert 90 (`groupCohomology.H1ofAutOnUnitsUnique`) and two-periodicity.
   ⚠ This is a Herbrand-quotient computation; it is not the norm-index theorem
   `index_localNormSubgroup` of Layer 8, which is reciprocity;
-- **the local `H²` bound** `natCard_h2_units_le_finrank`: `#H²(Gal(L/K), Lˣ) ≤ [L:K]` for every
-  finite Galois `L/K`. In the cyclic case two-periodicity identifies `H²` with `Ĥ⁰`; in general
-  `Gal(L/K)` is solvable (Tau Ceti's `TauCeti.LocalFieldsRamification.isSolvable_algEquiv`, which
-  landed after this repository's Tau Ceti pin), and the bound propagates along a normal subgroup
-  with cyclic quotient through inflation–restriction in degree two, which is exact because `H¹`
-  vanishes by Hilbert 90.
+- **the local `H²` divisibility, finiteness and bound**: consume the native
+  `TauCeti.natCard_H2_units_dvd_finrank` from
+  `TauCeti.NumberTheory.ClassFieldTheory.Brauer.LocalH2Bound`. Its order divides `[L:K]`
+  for every finite Galois extension of nonarchimedean local fields with compatible valuations.
+  Since `[L:K] > 0`, divisibility excludes zero `Nat.card`, hence proves finiteness
+  (`finite_h2_units`) and the bound `natCard_h2_units_le_finrank`. The bound alone does not
+  prove finiteness: `Nat.card` is zero for an infinite type. The native proof uses cyclic
+  two-periodicity and the local norm index, then the solvable local Galois group and
+  inflation–restriction with Hilbert 90; it uses no reciprocity.
 
 Then the invariant extends: the unramified relative Brauer group of degree `[L:K]` has `[L:K]`
 elements and lies in the kernel of restriction to `L`, since restriction multiplies the unramified
-invariant by `[L:K]`; that kernel is the relative Brauer group of `L/K`, and by the bound the two
-are equal. So `Br K` is the union of the unramified relative Brauer groups, and `invMap` is the
+invariant by `[L:K]`; that kernel is the relative Brauer group of `L/K`. First use the
+native divisibility and positive degree to prove that this group is finite, then compare
+orders using the bound to conclude that the two groups are equal. So `Br K` is the union of the unramified relative Brauer groups, and `invMap` is the
 unramified invariant on all of it. The bound is an inequality; equality is the class-formation
 axiom of Layer 6.
 
@@ -1482,7 +1486,11 @@ After reciprocity is established, develop the topology of norm subgroups and pro
   and the missing extensions are the excluded Artin–Schreier–Witt ones;
 - the compatibility of the Layer 7 conductors with existence: the norm subgroup attached to an
   abelian extension of conductor exponent `n` contains `U(K,n)` and no smaller step of the unit
-  filtration, and the extension attached by existence to `U(K,n)·⟨π⟩` has that conductor.
+  filtration. Whenever the existence scope above supplies the class field of
+  `N = U(K,n)·⟨π⟩`, its conductor is the least `m` with `U(K,m) ≤ N`, hence is at most
+  `n`; equality requires that no smaller unit step lie in `N`. At a repeated shallow step this
+  can be strict: for `K = ℚ₂`, `U(K,0) = U(K,1)`, so `U(K,1)·⟨2⟩ = Kˣ` has trivial
+  class field and conductor zero.
 
 The construction order is normative: norm subgroups first define the normic topology and its
 completion; norm limitation precedes `localAbelianExistence_primeToResidueCharacteristic`; the
@@ -1533,8 +1541,9 @@ A full layer, not a corollary of reciprocity. Build, in order:
   giving `1 → I_K → W_K → ℤ → 1`, and it agrees with the frozen `unramifiedCoordinate`
   (`unramifiedCoordinate_weilDegree`), which fixes the arithmetic normalization;
 - **the abelianization comparison**, for `K/ℚ_p` finite. `localWeilArtinEquiv : Kˣ ≃ₜ* W_K^ab`
-  onto the **topological** abelianization `W_K / closure ⁅W_K, W_K⁆`. ⚠ The algebraic
-  `Abelianization (W_K)` is the wrong target: the commutator subgroup of `W_K` need not be closed.
+  onto the **topological** abelianization `W_K / closure ⁅W_K, W_K⁆`, with its Hausdorff
+  quotient topology. Any identification with the algebraic `Abelianization (W_K)` must be
+  justified by a comparison theorem preserving this topology.
   Prove `localWeilArtinEquiv_compat` and `mem_range_artinMap_iff`, identifying the image of
   `artinMap` in `G_K^ab` with the image of the Weil group, under the same hypotheses.
 
@@ -1550,6 +1559,11 @@ roadmap.
 mixed characteristic, a reciprocity isomorphism, each with a name.
 
 ### Layer 10: global carriers, the Brauer sequence, and the sum of local invariants
+
+**Finite S-unit/idele proof objects for Layer10.** Fix a finite Galois extension L/K and a G-stable finite set S_L of places containing all archimedean and ramified places, lying over S_K. Define E_(L,S)={u∈Lˣ : v_w(u)=0 for every finite w outsideS_L}, I_(L,S)={a∈I_L : a_w∈O_wˣ outsideS_L}, and their actual inclusion/diagonal maps. Their quotient image in C_L=I_L/Lˣ has finite cokernel, identified with the corresponding S-ideal class quotient using the divisor map; obtain finiteness from Mathlib's actual finite class group, not a ray-counting asymptotic. Derive the S-unit finitely generated module and its rational representation from the exact S-divisor sequence, finite class group and Dirichlet log lattice: after tensoring Q its character is the permutation module on S_L minus the trivial representation. This is a representation identity, not merely the rank |S_L|−1; prove it equivariantly by the log map, finite-index image and the product-formula relation, using complex absolute values |z|².
+
+For cyclic G=Gal(L/K), this gives h_G(E_(L,S))=(product over v∈S_K of |G_w|)/|G|. Construct the local restricted-product decomposition and Shapiro comparisons; the product of unit factors outsideS has Tate-acyclic unramified unit coefficients, using the actual norm and Hilbert90/residue-degree arguments. Consequently h_G(I_(L,S))=product |G_w|. The exact sequence with E_(L,S), its image and finite class cokernel gives h_G(C_L)=|G|. Keep the choices of a place w|v and their conjugation comparisons in the maps. These explicit constructions are the finite-S inputs to Layer10's first and second fundamental inequalities, H1 vanishing, ABHN and refinement-compatible invariant programme. The general noncyclic argument uses the selected finite-layer Tate/transfer/subgroup machinery, not an assumption that G is cyclic. None of these arithmetic formation axioms is inferred from the generic ClassFormation structure. Layer10 still proves them; Layer11 then constructs the class formation and global Artin map, after which the actual Layer12 norm-index, Layer13 cyclic norm and Layer14 Hilbert-product exports apply. No global existence/ray-field, general Hecke/Picard, Tate local-duality/Euler-characteristic or Evens-norm theorem is made a prerequisite of these finite-S steps merely because it shares an owner.
+
 
 *Prerequisites:* Layer 1; from Layer 5, `Br K`, `invMap` and the local unit computations
 (`herbrandQuotient_units_eq_one`, `herbrandQuotient_units_eq_finrank_of_isCyclic`,
@@ -1648,8 +1662,10 @@ vanish. For `L = ℚ(√13, √17)` every decomposition group has order at most 
 groups at unramified primes are cyclic, `13` splits in `ℚ(√17)` and `17` splits in `ℚ(√13)`, and
 the field is totally real — so `H²(Gal(L/ℚ), I_L) = ⨁_v Br(L_w/ℚ_v)` is killed by `2`, while
 `H²(Gal(L/ℚ), C_L)` is cyclic of order `4`. In general the image has order `lcm_v [L_w : K_v]`.
-The lift exists for every class exactly in the cyclic case, `surjective_ideleToClassH2_of_isCyclic`,
-where `H³(Gal(L/K), Lˣ) ≃ H¹(Gal(L/K), Lˣ) = 0`.
+The lift exists for every class precisely when `lcm_v [L_w : K_v] = [L:K]`.
+Cyclicity is sufficient, as recorded by `surjective_ideleToClassH2_of_isCyclic`, because
+`H³(Gal(L/K), Lˣ) ≃ H¹(Gal(L/K), Lˣ) = 0`. The criterion can also hold for a noncyclic
+extension and does not require a single decomposition group of full order.
 
 The invariant is therefore defined on every class by refinement, in three named steps:
 
@@ -1953,7 +1969,8 @@ The proof of `localArtinMap_uniformizer` must use the arithmetic Frobenius objec
 introduced. For `K = ℚ_p` this is the principal sign test for local reciprocity. The concrete
 example `ℚ₂(ζ₅)/ℚ₂` is unramified of degree four, and `localArtinMap(2)(ζ₅) = ζ₅²`
 (`localArtinMap_Q2_zeta5`); replacing arithmetic by geometric Frobenius changes the exponent from
-`2` to `3` modulo `5`. The general local cyclotomic form is `localArtinMap(π)(ζ_m) = ζ_m^q`
+`2` to `3` modulo `5`. For `m` invertible in `𝒪_K` (equivalently prime to the residue
+characteristic), the general local cyclotomic form is `localArtinMap(π)(ζ_m) = ζ_m^q`
 (`localArtinMap_cyclotomic_uniformizer`).
 
 At `ℚ_p`, verify further that the unramified coordinate of `Art(p)` is the generator `zHat.gen`
@@ -2125,10 +2142,12 @@ It does not contain:
   mentions a name introduced below it;
 - a `sorry` inside a statement: every missing map used in a statement is a named `sorry`
   definition with its own docstring;
-- a `sorry` definition that has lost a hypothesis its type needs. A `sorry` body drops every
-  section variable its header does not mention, so `invMap`, `localClassFormation`,
-  `localAbelianGaloisEquiv` and `localWeilArtinEquiv`, which are false over an arbitrary field or
-  an arbitrary topology, bind the local-field structure in their headers.
+- a `sorry` definition that omits structures needed for its specified arithmetic construction.
+  Inspect the actual elaborated declaration: section-instance retention differs between
+  definitions and theorems, and cannot be inferred from the absence of an explicit binder alone.
+  `invMap`, `localClassFormation`, `localAbelianGaloisEquiv`, `artinMap`, `localWeilGroup` and
+  `localWeilArtinEquiv` bind the local-field structure in their headers; genuinely generic field
+  and cohomology bridges retain their generic scope.
 
 The derived Artin definitions are ordinary definitions with bodies rather than opaque `sorry`
 declarations. This makes the eventual target definitionally equal to the inverse of the
