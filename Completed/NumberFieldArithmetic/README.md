@@ -1697,13 +1697,14 @@ State it with the ideal map, not as multiplication by `𝓞_{L_w}`. The right-ha
 for the algebra structure of Layer 5.7 and for no other, and it needs the `IsTorsionFree`
 instance of that milestone to exist at all.
 
-The proof is a named finite-projective flat-base-change chain: trace commutes with completion;
-trace dual commutes with flat base change; inverse fractional ideals commute with it; and the
-integral semilocal equivalence of Layer 5.7 projects the resulting product equality to the chosen
-factor. Equivalently, a componentwise proof may start from that same integral equivalence. In
-either route, cite `trace_completion`, `traceDual_completion`,
-`fractionalIdealDual_completion`, and `differentIdeal_integralSemilocal` before deriving the
-displayed equality. Both sides are ideals of `w.adicCompletionIntegers L`.
+The proof is a named finite-projective chain, run componentwise: trace commutes with completion;
+trace dual commutes with the base change to the completion; inverse fractional ideals commute
+with it; taking inverses gives the displayed equality. Cite `trace_completion`,
+`traceDual_completion` and `fractionalIdealDual_completion` on the way. The semilocal product
+identity `differentIdeal_integralSemilocal`, that the extended global different corresponds under
+the integral semilocal equivalence of Layer 5.7 to the product of the local differents, is then a
+consequence of the componentwise identity, not an input to it. Both sides of the displayed
+equality are ideals of `w.adicCompletionIntegers L`.
 
 *Source:* Neukirch III (2.2)(iii).
 
@@ -2569,7 +2570,9 @@ extra information is which layers are independent of each other.
 
 *Archived: this roadmap was declared complete on 2026-10-07. `Suggested.lean` now states the
 milestones against Tau Ceti and closes every statement with no `sorry`; its header lists the
-items not certified and the erratum corrected at archiving (Layer 4.2). It consumes Tau Ceti's
+items not certified, with the later Tau Ceti revisions that prove them, and the erratum corrected
+at archiving (Layer 4.2). Layer 5.9's proof order was also amended on archiving: the semilocal
+product identity follows from the componentwise one. It consumes Tau Ceti's
 local-field declarations directly rather than the Local Fields and Ramification roadmap's
 prototypes, so the descriptions above of that import are of the file as it stood before
 archiving.*

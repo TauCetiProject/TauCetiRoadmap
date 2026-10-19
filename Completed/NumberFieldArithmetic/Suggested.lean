@@ -164,26 +164,41 @@ Differences from the README's requested forms:
   `isOpen_maximalIdeal_pow_adicCompletionIntegers` (closedness follows, as for any open ideal),
   `mem_asIdeal_pow_iff_valued_algebraMap_le` with `mem_maximalIdeal_pow_iff`, and
   `continuous_decompositionHom`.
-* Not certified: 5.9's companion `differentIdeal_integralSemilocal`, the different of the integral
-  semilocal algebra read componentwise, has no Tau Ceti counterpart; the localization of the
-  different is proved componentwise without it.
+* 5.9's companion `differentIdeal_integralSemilocal`, the different of the integral semilocal
+  algebra read componentwise, is not at this pin. The localization of the different is proved
+  componentwise without it, which is the order README 5.9 now prescribes. Tau Ceti `main` proves
+  the companion from the componentwise identity since `df08111`, in
+  `NumberTheory/NumberField/LocalGlobal/Different/Basic.lean`.
 * Layer 3.10's reduction lemmas exist only in part. The binary discriminant formula
   `Polynomial.Monic.discr_mul`, separability from `discr ≠ 0`, `Polynomial.rootSet_mul`,
   `Polynomial.factorDegrees_mul` and `IsArithFrobAt.restrictNormal` are stated with 3.10 below.
-  Not certified: the factorization into distinct monic irreducibles, the discriminant formula over
-  all factors with its pairwise resultants, and additivity of the full cycle type along the
-  root-set decomposition have no Tau Ceti counterpart. The theorem itself does not need them: its
-  proof reduces roots modulo a prime directly and holds for every monic `f` with `p ∤ disc f`,
-  reducible or not.
-* Not certified at the README's generality: Layers 1.4 and 1.5 are stated for number fields
-  `K ⊆ M`, as the README's display for 1.4 uses `𝓞 L`. The standing hypotheses place Layer 1 in the
-  Dedekind-generic regime, and the double-coset law and the Galois-closure and compositum
-  statements over an arbitrary Dedekind base have no Tau Ceti counterpart.
-* Not certified: the counts in the README's account of the `3.1.23.1` unit certificate (`98`
-  candidates, exactly two with a root in the open interval, `15` in the closed interval, `16` of
-  discriminant `−23`) have no Tau Ceti counterpart. The certificate
-  `cubicUnitEliminationCertificate`, its soundness, and the discriminants `49` and `257` of the
-  two survivors are stated.
+  Not at this pin: the factorization into distinct monic irreducibles, the discriminant formula
+  over all factors with its pairwise resultants, and additivity of the full cycle type along the
+  root-set decomposition. Tau Ceti `main` proves all three since `d662fe1`, as
+  `Polynomial.Monic.exists_finset_prod_eq_of_discr_ne_zero`, `Polynomial.discr_prod_of_monic` and
+  `Polynomial.Gal.fullCycleType_galActionHom_restrict_prod`. The theorem itself does not need
+  them: its proof reduces roots modulo a prime directly and holds for every monic `f` with
+  `p ∤ disc f`, reducible or not.
+* Not certified here at the README's generality: Layers 1.4 and 1.5 are stated for number fields
+  `K ⊆ M`, as the README's display for 1.4 uses `𝓞 L`, while the standing hypotheses place Layer 1
+  in the Dedekind-generic regime. Tau Ceti `main` proves the general forms since `d662fe1`:
+  `doubleCosetQuotientEquivPrimesOverOfIsIntegralClosure` with its value, naturality, `e·f`,
+  inertia-index and fundamental-identity theorems in
+  `RamificationInertia/DoubleCoset/IntegralClosure.lean`; the compositum criteria
+  `ncard_primesOver_inf_eq_finrank_iff_of_isIntegralClosure` and
+  `isUnramifiedIn_inf_iff_of_isIntegralClosure` in `HilbertTheory/Compositum.lean`; and the
+  Galois-closure equivalences in `HilbertTheory/NormalClosure.lean`. None assumes a number field
+  or a finite residue field.
+* The counts in the README's account of the `3.1.23.1` unit certificate (`98` candidates, exactly
+  two with a root in the open interval, `15` in the closed interval, `16` of discriminant `−23`,
+  none of discriminant `−23m²` for `m ≥ 2`) are not at this pin. Tau Ceti `main` proves them since
+  `df08111` in `NumberField/WorkedExamples/Cubic23/UnitCandidates.lean` (`card_cubicCandidates`,
+  `card_filter_cubicCandidates_exists_root_Ioo`, `_Icc`, `card_filter_cubicCandidates_discr_eq`,
+  `discr_ne_of_mem_cubicCandidates`), with `unitCandidates_eq_cubicCandidates` tying them to the
+  field's candidate set. The certificate `cubicUnitEliminationCertificate`, its soundness, and the
+  discriminants `49` and `257` of the two survivors are stated.
+* Each result listed above as proved on Tau Ceti `main` is certified here at the first pin bump
+  that includes it.
 * Erratum, corrected at archiving: README 4.2 asked for compatibility of `Algebra.trace` with
   localization on a finite projective algebra. Mathlib's `Algebra.trace` is `0` on a module with no
   finite basis, so that equation fails for a projective, non-free `B` whose localization is free.
