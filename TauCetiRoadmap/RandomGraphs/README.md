@@ -890,6 +890,21 @@ work. No unmerged mathlib branch or external formalization is a runtime dependen
   *Journal of Symbolic Logic* 41 (1976), 50–58: finite-model zero–one laws,
   finite consequences and rates. The theorem here is specialized to undirected loopless
   graphs and covers every fixed interior binomial parameter.
+- J. Spencer, *The Strange Logic of Random Graphs*, Algorithms and Combinatorics 22,
+  Springer, 2001. Theorem 0.1.2 is the Fagin–GKLT law at $p=1/2$ and Theorem 0.1.5 the
+  uniqueness of the countable graph with the extension ("Alice's Restaurant") property;
+  §1.3 introduces extension statements over rooted graphs. Definition 2.3 and
+  Theorem 2.2.3 show that graphs with the $k$-extension property form one $(k+1)$-round
+  Ehrenfeucht class, the source of the $\mathrm{EP}_{\le d}$/rank-$(d+1)$ indexing of
+  Milestone 5; Theorems 2.3.1–2.3.2 relate Ehrenfeucht values to quantifier depth, with
+  designated vertices for the rooted form. Theorems 9.1.3–9.1.4 are the dense
+  varying-parameter laws: the fixed-rank condition of 7.2 sharpens the hypothesis of
+  Theorem 9.1.3, and the all-rank condition is that of Theorem 9.1.4.
+- B. Bollobás, *Random Graphs*, 2nd ed., Cambridge University Press, 2001.
+  Theorems 1.21–1.22 give Poisson convergence from convergence of factorial moments, the
+  criterion of 11.1. Theorem 4.1 gives the Poisson limit for copies of a fixed strictly
+  balanced graph at its threshold, and Corollary 4.9 the cycle case at $p\sim c/n$; for
+  triangles this is the $\operatorname{Poisson}(c^3/6)$ limit of 11.2.
 - P. J. Cameron, [The random graph](https://arxiv.org/abs/1301.7544):
   extension properties, the binary presentation, homogeneity, universality and logical theory.
 - P. Erdős and A. Rényi,
