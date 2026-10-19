@@ -1,4 +1,5 @@
 import Mathlib
+import TauCeti.Topology.Algebra.Group.Profinite.ZHat.Basic
 
 /-!
 # Weights in étale cohomology: representative target signatures
@@ -11,11 +12,12 @@ The representation, polynomial and matrix interfaces below use Mathlib directly.
 Inertia groups, Frobenius lifts and residue cardinalities are supplied parameters;
 they do not construct continuous Galois representations or arithmetic places.
 The arithmetic and geometric comparisons require the supplier interfaces stated
-in README.md. Full signatures whose carriers are unavailable are listed at the end;
+in README.md. Targets whose carriers are unavailable are listed at the end;
 no arbitrary proposition or mock cohomology carrier replaces them.
 The declarations use the pinned Mathlib carriers and light definitions with real bodies.
 -/
 open Polynomial
+open scoped TensorProduct
 
 namespace TauCeti.Weights
 
@@ -57,99 +59,190 @@ theorem IsPureOutside.weight_unique [CharZero E] [Algebra ℚ E] [IsAlgClosed E]
     (ι : E →+* ℂ) (h : IsPureOutside ρ I F q T w)
     (h' : IsPureOutside ρ I F q T w') : w = w' := by
   sorry
+
+/-- R34.1: purity expands into unramifiedness, algebraicity and all-embedding norms. -/
+theorem isPureOutside_iff [CharZero E] [Algebra ℚ E] [IsAlgClosed E]
+    [Nonempty (E →+* ℂ)] (ρ : Representation E G V) (I : P → Subgroup G)
+    (F : P → G) (q : P → ℕ) (T : Set P) (w : ℤ) :
+    IsPureOutside ρ I F q T w ↔
+      ∀ v ∉ T, (∀ g ∈ I v, ρ g = 1) ∧
+        ∀ α : E, (ρ (F v)).charpoly.IsRoot α →
+          IsIntegral ℚ α ∧ ∀ ι : E →+* ℂ,
+            ‖ι α‖ = Real.rpow (q v : ℝ) ((w : ℝ) / 2) := Iff.rfl
+
+/-- R34.1: integral Frobenius polynomials have integer coefficient preimages. -/
+theorem hasIntegralFrobOutside_iff [CharZero E] [Algebra ℚ E]
+    (ρ : Representation E G V) (I : P → Subgroup G) (F : P → G) (T : Set P) :
+    HasIntegralFrobOutside ρ I F T ↔
+      ∀ v ∉ T, (∀ g ∈ I v, ρ g = 1) ∧
+        ∃ Q : ℤ[X], Q.map (Int.castRingHom E) = (ρ (F v)).charpoly := Iff.rfl
+
+/-- R34.1: chosen-embedding purity asserts unramifiedness and the specified root norms. -/
+theorem isIotaPureOutside_iff [CharZero E] [Algebra ℚ E] [IsAlgClosed E]
+    (ρ : Representation E G V) (I : P → Subgroup G) (F : P → G) (q : P → ℕ)
+    (T : Set P) (ι : E →+* ℂ) (w : ℝ) :
+    IsIotaPureOutside ρ I F q T ι w ↔
+      ∀ v ∉ T, (∀ g ∈ I v, ρ g = 1) ∧
+        ∀ α : E, (ρ (F v)).charpoly.IsRoot α →
+          ‖ι α‖ = Real.rpow (q v : ℝ) (w / 2) := Iff.rfl
+
+/-- R34.1: enlarging the exceptional set preserves purity at the same weight. -/
+theorem IsPureOutside.mono [CharZero E] [Algebra ℚ E] [IsAlgClosed E]
+    [Nonempty (E →+* ℂ)] {ρ : Representation E G V} {I : P → Subgroup G}
+    {F : P → G} {q : P → ℕ} {T T' : Set P} {w : ℤ}
+    (h : IsPureOutside ρ I F q T w) (hTT' : T ⊆ T') :
+    IsPureOutside ρ I F q T' w :=
+  fun v hv => h v (fun hmem => hv (hTT' hmem))
+
+/-- R34.1: enlarging the exceptional set preserves integral Frobenius polynomials. -/
+theorem HasIntegralFrobOutside.mono [CharZero E] [Algebra ℚ E]
+    {ρ : Representation E G V} {I : P → Subgroup G} {F : P → G} {T T' : Set P}
+    (h : HasIntegralFrobOutside ρ I F T) (hTT' : T ⊆ T') :
+    HasIntegralFrobOutside ρ I F T' :=
+  fun v hv => h v (fun hmem => hv (hTT' hmem))
+
+/-- R34.1: enlarging the exceptional set preserves the chosen embedding and weight. -/
+theorem IsIotaPureOutside.mono [CharZero E] [Algebra ℚ E] [IsAlgClosed E]
+    {ρ : Representation E G V} {I : P → Subgroup G} {F : P → G} {q : P → ℕ}
+    {T T' : Set P} {ι : E →+* ℂ} {w : ℝ}
+    (h : IsIotaPureOutside ρ I F q T ι w) (hTT' : T ⊆ T') :
+    IsIotaPureOutside ρ I F q T' ι w :=
+  fun v hv => h v (fun hmem => hv (hTT' hmem))
+
+/-- R34.1: all-embeddings purity supplies purity for each chosen complex embedding. -/
+theorem IsPureOutside.iota [CharZero E] [Algebra ℚ E] [IsAlgClosed E]
+    [Nonempty (E →+* ℂ)] {ρ : Representation E G V} {I : P → Subgroup G}
+    {F : P → G} {q : P → ℕ} {T : Set P} {w : ℤ}
+    (h : IsPureOutside ρ I F q T w) (ι : E →+* ℂ) :
+    IsIotaPureOutside ρ I F q T ι (w : ℝ) :=
+  fun v hv => ⟨(h v hv).1, fun α hα => ((h v hv).2 α hα).2 ι⟩
+
 end Predicates
+
+section Milestones
+variable {E G V W P : Type*} [Field E] [CharZero E] [Algebra ℚ E]
+  [IsAlgClosed E] [Nonempty (E →+* ℂ)] [Group G]
+  [AddCommGroup V] [Module E V] [FiniteDimensional E V]
+  [AddCommGroup W] [Module E W] [FiniteDimensional E W]
+
+/-- R34.1, Every embedding and a chosen embedding: testing every embedding also forces
+algebraicity of the roots. -/
+theorem isPureOutside_iff_forall_iota (ρ : Representation E G V) (I : P → Subgroup G)
+    (F : P → G) (q : P → ℕ) (T : Set P) (w : ℤ) :
+    IsPureOutside ρ I F q T w ↔
+      ∀ ι : E →+* ℂ, IsIotaPureOutside ρ I F q T ι (w : ℝ) := by
+  sorry
+
+/-- R34.1, Linear algebra operations: invariant subspaces inherit the ambient purity. -/
+theorem IsPureOutside.subrepresentation (ρ : Representation E G V) (I : P → Subgroup G)
+    (F : P → G) (q : P → ℕ) (T : Set P) (w : ℤ)
+    (U : Submodule E V) (hU : ∀ g, U ≤ U.comap (ρ g))
+    (h : IsPureOutside ρ I F q T w) :
+    IsPureOutside (ρ.subrepresentation U hU) I F q T w := by
+  sorry
+
+/-- R34.1, Linear algebra operations: invariant quotients inherit the ambient purity. -/
+theorem IsPureOutside.quotient (ρ : Representation E G V) (I : P → Subgroup G)
+    (F : P → G) (q : P → ℕ) (T : Set P) (w : ℤ)
+    (U : Submodule E V) (hU : ∀ g, U ≤ U.comap (ρ g))
+    (h : IsPureOutside ρ I F q T w) :
+    IsPureOutside (ρ.quotient U hU) I F q T w := by
+  sorry
+
+/-- R34.1, Linear algebra operations: an unramified extension is pure exactly when
+its subrepresentation and quotient have that weight. -/
+theorem pureOutside_iff_subrepresentation_quotient (ρ : Representation E G V)
+    (I : P → Subgroup G) (F : P → G) (q : P → ℕ) (T : Set P) (w : ℤ)
+    (U : Submodule E V) (hU : ∀ g, U ≤ U.comap (ρ g))
+    (hunram : ∀ v ∉ T, ∀ g ∈ I v, ρ g = 1) :
+    IsPureOutside ρ I F q T w ↔
+      IsPureOutside (ρ.subrepresentation U hU) I F q T w ∧
+        IsPureOutside (ρ.quotient U hU) I F q T w := by
+  sorry
+
+/-- R34.1, Linear algebra operations: direct sums preserve a common weight. -/
+theorem IsPureOutside.prod (ρ : Representation E G V) (σ : Representation E G W)
+    (I : P → Subgroup G) (F : P → G) (q : P → ℕ) (T : Set P) (w : ℤ)
+    (hρ : IsPureOutside ρ I F q T w) (hσ : IsPureOutside σ I F q T w) :
+    IsPureOutside (ρ.prod σ) I F q T w := by
+  sorry
+
+/-- R34.1, Linear algebra operations: tensor products add geometric weights. -/
+theorem IsPureOutside.tprod (ρ : Representation E G V) (σ : Representation E G W)
+    (I : P → Subgroup G) (F : P → G) (q : P → ℕ) (T : Set P) (w w' : ℤ)
+    (hq : ∀ v ∉ T, 1 < q v)
+    (hρ : IsPureOutside ρ I F q T w) (hσ : IsPureOutside σ I F q T w') :
+    IsPureOutside (ρ.tprod σ) I F q T (w + w') := by
+  sorry
+
+/-- R34.6, Transport through actual arithmetic comparisons: an intertwining linear
+isomorphism transports purity on the supplied local data. -/
+theorem isPureOutside_iff_of_equiv (ρ : Representation E G V) (σ : Representation E G W)
+    (I : P → Subgroup G) (F : P → G) (q : P → ℕ) (T : Set P) (w : ℤ)
+    (e : V ≃ₗ[E] W) (he : ∀ g, e.toLinearMap.comp (ρ g) = (σ g).comp e.toLinearMap) :
+    IsPureOutside ρ I F q T w ↔ IsPureOutside σ I F q T w := by
+  sorry
+
+/-- R34.6, Eigenform purity and the Ramanujan bound: purity bounds every embedded
+Frobenius trace by the rank times the common root modulus. -/
+theorem IsPureOutside.trace_bound (ρ : Representation E G V) (I : P → Subgroup G)
+    (F : P → G) (q : P → ℕ) (T : Set P) (w : ℤ)
+    (h : IsPureOutside ρ I F q T w) (ι : E →+* ℂ) (v : P) (hv : v ∉ T) :
+    ‖ι (LinearMap.trace E V (ρ (F v)))‖ ≤
+      (Module.finrank E V : ℝ) * Real.rpow (q v : ℝ) ((w : ℝ) / 2) := by
+  sorry
+end Milestones
+
+section IntegralMilestones
+variable {E G V W P : Type*} [Field E] [CharZero E] [Algebra ℚ E] [Group G]
+  [AddCommGroup V] [Module E V] [FiniteDimensional E V]
+  [AddCommGroup W] [Module E W] [FiniteDimensional E W]
+
+/-- R34.1, Rational integrality: direct sums preserve integer Frobenius polynomials. -/
+theorem HasIntegralFrobOutside.prod (ρ : Representation E G V) (σ : Representation E G W)
+    (I : P → Subgroup G) (F : P → G) (T : Set P)
+    (hρ : HasIntegralFrobOutside ρ I F T) (hσ : HasIntegralFrobOutside σ I F T) :
+    HasIntegralFrobOutside (ρ.prod σ) I F T := by
+  sorry
+
+/-- R34.1, Rational integrality: tensor products preserve integer Frobenius polynomials. -/
+theorem HasIntegralFrobOutside.tprod (ρ : Representation E G V) (σ : Representation E G W)
+    (I : P → Subgroup G) (F : P → G) (T : Set P)
+    (hρ : HasIntegralFrobOutside ρ I F T) (hσ : HasIntegralFrobOutside σ I F T) :
+    HasIntegralFrobOutside (ρ.tprod σ) I F T := by
+  sorry
+
+/-- R34.1, Rational integrality: a rational invariant factor of an integer polynomial
+has integer coefficients. -/
+theorem hasIntegralFrobOutside_subrepresentation (ρ : Representation E G V)
+    (I : P → Subgroup G) (F : P → G) (T : Set P)
+    (U : Submodule E V) (hU : ∀ g, U ≤ U.comap (ρ g))
+    (h : HasIntegralFrobOutside ρ I F T)
+    (hrat : ∀ v ∉ T, ∃ Q : ℚ[X],
+      Q.map (algebraMap ℚ E) = ((ρ.subrepresentation U hU) (F v)).charpoly) :
+    HasIntegralFrobOutside (ρ.subrepresentation U hU) I F T := by
+  sorry
+end IntegralMilestones
 end GaloisRep
 open GaloisRep
+
+/-- R34.1, Continuous Frobenius eigenvalues: on the profinite-integer presentation of
+the finite-field Galois group, a unit determines a unique continuous character.
+The generator is identified with geometric Frobenius. -/
+theorem finite_field_unit_character (ℓ : ℕ) [Fact ℓ.Prime] (u : ℤ_[ℓ]ˣ) :
+    ∃! χ : TauCeti.zHat.{0} →ₜ* ℤ_[ℓ]ˣ, χ TauCeti.zHat.gen = u := by
+  sorry
+
+/-- R34.1, Continuous Frobenius eigenvalues need not be algebraic: a continuous
+rank-one character has a transcendental geometric Frobenius eigenvalue. -/
+theorem continuous_frobenius_not_algebraic (ℓ : ℕ) [Fact ℓ.Prime] :
+    ∃ χ : TauCeti.zHat.{0} →ₜ* ℤ_[ℓ]ˣ,
+      ¬ IsIntegral ℚ (((χ TauCeti.zHat.gen) : ℤ_[ℓ]) : ℚ_[ℓ]) := by
+  sorry
 
 /-- The scalar representation on a complex line used in the convention checks. -/
 noncomputable abbrev scalarRep : Representation ℂ ℂˣ ℂ :=
   Representation.ofDistribMulAction ℂ ℂˣ ℂ
-/-- The nonzero scalar three, viewed as a complex unit. -/
-noncomputable abbrev three : ℂˣ := Units.mk0 (3 : ℂ) (by norm_num)
-/-- The nonzero scalar two, viewed as a complex unit. -/
-noncomputable abbrev two : ℂˣ := Units.mk0 (2 : ℂ) (by norm_num)
-
--- Unit test: TauCeti.Weights.frobCharpoly_cyclotomic
--- Frobenius on Q_l(1) is q⁻¹ for the geometric convention.
-example : (scalarRep three⁻¹).charpoly = X - C ((3 : ℂ)⁻¹) := by
-  sorry
-
--- Unit test: TauCeti.Weights.frobCharpoly_trivial
-example (d : ℕ) :
-    ((Representation.trivial ℂ ℂˣ (Fin d → ℂ)) three).charpoly = (X - 1) ^ d := by
-  sorry
-
--- Unit test: TauCeti.Weights.not_unramified_scalar_inertia
--- A nontrivial inertia action is rejected before any choice of Frobenius lift.
-example : ¬ (∀ g ∈ (⊤ : Subgroup ℂˣ), scalarRep g = 1) ∧
-    (scalarRep (two * three)).charpoly ≠ (scalarRep three).charpoly := by
-  sorry
-
--- Unit test: TauCeti.Weights.frobCharpoly_arith_elliptic
--- The inverse companion matrix has roots inverse to T² - aT + q.
-example (a q : ℚ) (hq : q ≠ 0) :
-    (!![a / q, 1; -1 / q, 0]).charpoly = X ^ 2 - C (a / q) * X + C (1 / q) := by
-  sorry
-
--- Unit test: TauCeti.Weights.isPureOutside_tate
-example (n : ℤ) :
-    IsPureOutside (scalarRep.comp (zpowGroupHom n)) (fun _ : Unit => ⊥)
-      (fun _ => three⁻¹) (fun _ => 3) ∅ (-2 * n) := by
-  sorry
-
--- Unit test: TauCeti.Weights.isPureOutside_trivial
-example :
-    IsPureOutside (Representation.trivial ℂ ℂˣ ℂ) (fun _ : Unit => ⊥)
-      (fun _ => three) (fun _ => 3) ∅ 0 ∧
-    HasIntegralFrobOutside (Representation.trivial ℂ ℂˣ ℂ) (fun _ : Unit => ⊥)
-      (fun _ => three) ∅ := by
-  sorry
-
--- Unit test: TauCeti.Weights.not_integral_tate_one
-example : ¬ HasIntegralFrobOutside scalarRep (fun _ : Unit => ⊥)
-    (fun _ => three⁻¹) ∅ := by
-  sorry
-
--- Unit test: TauCeti.Weights.not_isPureOutside_sum
-example : ¬ ∃ w : ℤ,
-    IsPureOutside (Representation.prod (Representation.trivial ℂ ℂˣ ℂ) scalarRep)
-      (fun _ : Unit => ⊥) (fun _ => three⁻¹) (fun _ => 3) ∅ w := by
-  sorry
-
--- Unit test: TauCeti.Weights.isPureOutside_zero
-example (w : ℤ) :
-    IsPureOutside (Representation.trivial ℂ ℂˣ (Fin 0 → ℂ)) (fun _ : Unit => ⊥)
-      (fun _ => three) (fun _ => 3) ∅ w ∧
-    ((Representation.trivial ℂ ℂˣ (Fin 0 → ℂ)) three).charpoly = 1 ∧
-    HasIntegralFrobOutside (Representation.trivial ℂ ℂˣ (Fin 0 → ℂ))
-      (fun _ : Unit => ⊥) (fun _ => three) ∅ := by
-  sorry
-
-/-- A nonclosed coefficient field can hide every root of a nonconstant polynomial. -/
-example : ¬ ∃ x : ℝ, (X ^ 2 + 1 : ℝ[X]).IsRoot x := by
-  sorry
-
-/-- The trivial line has chosen-embedding weight zero. -/
-example : IsIotaPureOutside (Representation.trivial ℂ ℂˣ ℂ)
-    (fun _ : Unit => ⊥) (fun _ => three) (fun _ => 3) ∅ (RingHom.id ℂ) 0 := by
-  sorry
-
-/-- The geometric Tate line has chosen-embedding weight minus two under every embedding. -/
-example (ι : ℂ →+* ℂ) :
-    IsIotaPureOutside scalarRep (fun _ : Unit => ⊥)
-      (fun _ => three⁻¹) (fun _ => 3) ∅ ι (-2) := by
-  sorry
-
-/-- The rank-zero representation satisfies chosen-embedding purity at every real weight. -/
-example (w : ℝ) (ι : ℂ →+* ℂ) :
-    IsIotaPureOutside (Representation.trivial ℂ ℂˣ (Fin 0 → ℂ))
-      (fun _ : Unit => ⊥) (fun _ => three) (fun _ => 3) ∅ ι w := by
-  sorry
-
-/-- A scalar of modulus three does not have chosen-embedding weight zero. -/
-example : ¬ IsIotaPureOutside scalarRep (fun _ : Unit => ⊥)
-    (fun _ => three) (fun _ => 3) ∅ (RingHom.id ℂ) 0 := by
-  sorry
 
 /-- Duality negates geometric weight, retaining the unramified condition. -/
 theorem pureOutside_dual {G V P : Type*} [Group G] [AddCommGroup V] [Module ℂ V]
@@ -188,8 +281,9 @@ theorem chosen_embedding_integer_weight_nonexample :
           ‖α‖ = 1 ∧ 1 < ‖β‖ := by
   sorry
 
-/-- A quartic unit-circle root gives chosen-embedding purity but fails all-embeddings purity. -/
-example : ∃ α : ℂˣ,
+/-- R34.1, Every embedding and a chosen embedding: the quartic algebraic-unit
+character has chosen-embedding weight zero without all-embeddings purity. -/
+theorem chosen_embedding_purity_nonexample : ∃ α : ℂˣ,
     (X ^ 4 - X ^ 3 - X ^ 2 - X + 1 : ℂ[X]).IsRoot (α : ℂ) ∧
     IsIotaPureOutside scalarRep (fun _ : Unit => ⊥)
       (fun _ => α) (fun _ => 3) ∅ (RingHom.id ℂ) 0 ∧
@@ -228,19 +322,7 @@ theorem elliptic_second_power_trace (α β a q : ℂ) (ht : α + β = a)
     (hd : α * β = q) : α ^ 2 + β ^ 2 = a ^ 2 - 2 * q := by
   sorry
 
-example : (25 : ℤ) + 1 - ((-2) ^ 2 - 2 * 5) = 32 := by
-  norm_num
-
 /-! ## Layer R34.3: geometric monodromy normalization -/
-
-/-- A quadratic coefficient projector selects a line whose correspondence trace is nonrational. -/
-example (a : ℂ) (ha : a ^ 2 = 2) :
-    let A : Matrix (Fin 2) (Fin 2) ℂ := !![0, 2; 1, 0]
-    let e := (1 / 2 : ℂ) • (1 + a⁻¹ • A)
-    e * e = e ∧ A * e = a • e ∧ Matrix.trace e = 1 ∧
-      Matrix.trace (A * e) = a ∧
-      ¬ ∃ r : ℚ, (r : ℂ) = Matrix.trace (A * e) := by
-  sorry
 
 /-- Nodal monodromy sends the vanishing direction to the graph direction,
 kills the graph direction and scales by q⁻¹ under geometric Frobenius. -/
@@ -252,26 +334,6 @@ theorem nodal_monodromy_scaling (q : ℚ) (hq : q ≠ 0) :
       N.mulVec ![0, 1] = ![1, 0] ∧ N.mulVec ![1, 0] = 0 := by
   sorry
 
-/-- A ramified Tate block distinguishes raw HK monodromy from p-normalized monodromy. -/
-example (e : ℕ) (he : 1 < e) :
-    let N_p : Matrix (Fin 2) (Fin 2) ℚ := !![0, (e : ℚ)⁻¹; 0, 0]
-    let N_HK : Matrix (Fin 2) (Fin 2) ℚ := !![0, 1; 0, 0]
-    (e : ℚ) • N_p = N_HK ∧ N_p ≠ N_HK := by
-  sorry
-
-/-- Dividing raw monodromy by absolute ramification commutes with further ramification. -/
-example (e d : ℕ) (he : 0 < e) (hd : 0 < d) :
-    let N_HK : Matrix (Fin 2) (Fin 2) ℚ := !![0, 1; 0, 0]
-    ((d : ℚ) * (e : ℚ))⁻¹ • ((d : ℚ) • N_HK) = (e : ℚ)⁻¹ • N_HK := by
-  sorry
-
-/-- A quadratic ramified extension doubles raw monodromy of E_p and preserves N_p. -/
-example :
-    let N_Qp : Matrix (Fin 2) (Fin 2) ℚ := !![0, 1; 0, 0]
-    let N_HK : Matrix (Fin 2) (Fin 2) ℚ := !![0, 2; 0, 0]
-    (2 : ℚ) • N_Qp = N_HK ∧ (2 : ℚ)⁻¹ • N_HK = N_Qp ∧ N_HK ≠ N_Qp := by
-  sorry
-
 /-! ## Layer R34.5: degree and Tate-twist checks -/
 
 /-- Symmetric degree k−2 and curve degree one give weight k−1. -/
@@ -280,46 +342,6 @@ theorem parabolic_degree_weight (k : ℤ) : (k - 2) + 1 = k - 1 := by
 
 /-- The arithmetic Lefschetz twist makes the source and target weights equal. -/
 theorem hard_lefschetz_target_weight (d a : ℤ) : d + a - 2 * a = d - a := by
-  sorry
-
-/-- The Hilbert projected degree and auxiliary Tate twist give weight w−1. -/
-example (g w : ℤ) :
-    (2 * g - 1) * (w - 2) + 1 - 2 * ((g - 1) * (w - 2)) = w - 1 := by
-  ring
-
-/-- At g=w=2 the Hilbert projected degree is one and the auxiliary twist is zero. -/
-example : (2 * 2 - 1) * (2 - 2) + 1 - 2 * ((2 - 1) * (2 - 2)) = (1 : ℤ) := by
-  norm_num
-
-/-- Classical weight twelve occurs in total degree eleven with zero twist. -/
-example : (12 - 2 : ℤ) + 1 = 11 := by
-  norm_num
-
-/-- On a smooth elliptic fibre, inversion projects onto the two degree-one directions. -/
-example :
-    let inv : Matrix (Fin 4) (Fin 4) ℚ := Matrix.diagonal ![1, -1, -1, 1]
-    let p := (1 / 2 : ℚ) • (1 - inv)
-    p * p = p ∧ p = Matrix.diagonal ![0, 1, 1, 0] ∧ p.rank = 2 := by
-  sorry
-
-/-- On smooth-fibre tensors, the projector for graded interchange selects symmetric rank three. -/
-example :
-    let s : Matrix (Fin 4) (Fin 4) ℚ :=
-      !![-1, 0, 0, 0; 0, 0, -1, 0; 0, -1, 0, 0; 0, 0, 0, -1]
-    let p := (1 / 2 : ℚ) • (1 - s)
-    p * p = p ∧ p.rank = 3 := by
-  sorry
-
-/-- An I₃ boundary divisor survives inversion but is killed by component translations. -/
-example :
-    let s : Matrix (Fin 3) (Fin 3) ℚ := !![1, 0, 0; 0, 0, 1; 0, 1, 0]
-    let t : Matrix (Fin 3) (Fin 3) ℚ := !![0, 0, 1; 1, 0, 0; 0, 1, 0]
-    let D : Fin 3 → ℚ := ![0, 1, -1]
-    let p := (1 / 2 : ℚ) • (1 - s)
-    let a := (1 / 3 : ℚ) • (1 + t + t * t)
-    let intersection : Matrix (Fin 3) (Fin 3) ℚ := !![-2, 1, 1; 1, -2, 1; 1, 1, -2]
-    D ≠ 0 ∧ p.mulVec D = D ∧ (a * p).mulVec D = 0 ∧
-      dotProduct D (intersection.mulVec D) = -6 := by
   sorry
 
 /-! ## Layer R34.6: trace bounds and the local twist -/
@@ -339,17 +361,6 @@ theorem degree_one_trace_from_alternating {L E E' : Type*}
     ring
   · rw [map_sub, map_add, ← hv₀, ← hv₂, ← hv]
     ring
-
-/-- With constant weight-two coefficients on a fixed connected curve component, the
-outer Frobenius traces one and q both contribute to degree-one trace extraction. -/
-example (q : ℕ) (h : ℚ) : (1 : ℚ) + q - (1 - h + q) = h := by
-  ring
-
-/-- Equal alternating traces of three-degree blocks can have unequal middle traces. -/
-example :
-    (1 - (1 + 1) + 1 : ℚ) = 0 ∧ (2 - (2 + 1) + 1 : ℚ) = 0 ∧
-      (1 + 1 : ℚ) ≠ 2 + 1 := by
-  norm_num
 
 /-- Two roots of the same modulus give the rank-two Ramanujan trace bound. -/
 theorem ramanujan_trace_bound (α β : ℂ) (R : ℝ) (hα : ‖α‖ = R) (hβ : ‖β‖ = R) :
@@ -422,9 +433,6 @@ Saito's cohomological decomposition and rank-two multiplicity descent, local WD 
 L-coefficient e and e° with specified embeddings and chosen C_μ factor, descent to the Hecke
 coefficient field with a model and descent datum, and N_HK/e_K = N_p before the Weil–Deligne export.
 R34.6/common-good-prime-polynomials: HasCommonGoodPrimePolynomials on an arithmetic family.
-R34.1/predicate-api: isPureOutside_iff, hasIntegralFrobOutside_iff,
-isIotaPureOutside_iff, IsPureOutside.mono, HasIntegralFrobOutside.mono,
-IsIotaPureOutside.mono and IsPureOutside.iota have their specifications in README.md.
 See README.md for the required supplier interfaces and arithmetic hypotheses. -/
 
 end TauCeti.Weights

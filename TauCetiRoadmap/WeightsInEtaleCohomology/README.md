@@ -128,10 +128,10 @@ For supplied group elements, use Mathlib's `LinearMap.charpoly` on the action di
 
 **Checks.**
 
-* `frobCharpoly_cyclotomic`: at residue cardinality 3, geometric Frobenius on `ℚ_ℓ(1)` has polynomial `X − 1/3`.
-* `frobCharpoly_trivial`: the trivial representation of rank d has polynomial `(X − 1)^d`, including polynomial 1 at `d=0`.
-* `not_unramified_scalar_inertia`: the scalar action of `ℂˣ` with full supplied inertia is ramified; changing the lift from 3 to `2 · 3` changes the polynomial.
-* `frobCharpoly_arith_elliptic`: the inverse of a rank-two operator with polynomial `X² − aX + q`, q nonzero, has polynomial `X² − (a/q)X + 1/q`. Its inverse companion matrix gives a direct check.
+* At residue cardinality 3, geometric Frobenius on `ℚ_ℓ(1)` has polynomial `X − 1/3`.
+* The trivial representation of rank d has polynomial `(X − 1)^d`, including polynomial 1 at `d=0`.
+* The scalar action of `ℂˣ` with full supplied inertia is ramified; changing the lift from 3 to `2 · 3` changes the polynomial.
+* The inverse of a rank-two operator with polynomial `X² − aX + q`, q nonzero, has polynomial `X² − (a/q)X + 1/q`. Its inverse companion matrix gives a direct check.
 
 These are numerical convention tests. Their sources are [Deligne I, (1.15), p. 279][WI] and [Deligne II, (1.1.13), p. 152][WII]. The arithmetic adapter requires ArithmeticGaloisRepresentations §§1.1–1.6, 2.1–2.2, not merely supplied group elements.
 
@@ -161,13 +161,13 @@ The predicate API, in `TauCeti.Weights.GaloisRep`, is:
 
 The rank-zero case is intentionally excluded from uniqueness. Its root set is empty, so it is pure of every weight and has characteristic polynomial `1`. Nor does uniqueness hold merely from a vacuous condition on an exceptional set containing every supplied place. The signature records a place outside the set, positive rank and cardinality greater than one explicitly.
 
-**Checks.** The following tests, in `TauCeti.Weights`, determine the intended predicate:
+**Checks.** The following cases determine the intended predicate:
 
-* `isPureOutside_tate`: `ℚ_ℓ(n)` has geometric weight `−2n`. At an unramified place its polynomial is `X − q_v^{−n}`.
-* `isPureOutside_trivial`: the trivial representation is pure of weight zero and has integer Frobenius polynomials.
-* `not_integral_tate_one`: `ℚ_ℓ(1)` is pure of weight `−2`, while `X − q_v⁻¹ ∉ ℤ[X]` for `q_v>1`.
-* `not_isPureOutside_sum`: the direct sum `ℚ_ℓ ⊕ ℚ_ℓ(1)` is not pure of any single integer weight at a place with `q_v>1`.
-* `isPureOutside_zero`: a rank-zero representation is pure at every weight, has polynomial `1`, and satisfies the integer-polynomial predicate.
+* `ℚ_ℓ(n)` has geometric weight `−2n`. At an unramified place its polynomial is `X − q_v^{−n}`.
+* The trivial representation is pure of weight zero and has integer Frobenius polynomials.
+* `ℚ_ℓ(1)` is pure of weight `−2`, while `X − q_v⁻¹ ∉ ℤ[X]` for `q_v>1`.
+* The direct sum `ℚ_ℓ ⊕ ℚ_ℓ(1)` is not pure of any single integer weight at a place with `q_v>1`.
+* A rank-zero representation is pure at every weight, has polynomial `1`, and satisfies the integer-polynomial predicate.
 
 **Checks for the chosen-embedding predicate.**
 
@@ -190,6 +190,8 @@ The integer-polynomial statements form a separate family. They are preserved by 
 As a nonexample, take the diagonal operator with eigenvalues `√2` and `−√2`. Its full polynomial is `X² − 2 ∈ ℤ[X]`, while either invariant line has polynomial `X ∓ √2`, which is not rational. The `integer_charpoly_factor_nonexample` suggestion records this factorization. Together with the Tate-one test, it prevents a false integrality API for arbitrary summands and duals.
 
 For an elliptic curve at a good place, `H¹ ⊗ H¹` has weight two and integer Frobenius polynomials, while its dual has weight minus two and has a noninteger constant coefficient. Its determinant test is `det H¹ = ℚ_ℓ(−1)`, of weight two. These geometric examples supplement the scalar and factorization tests.
+
+The representation signatures are `IsPureOutside.subrepresentation`, `IsPureOutside.quotient`, `pureOutside_iff_subrepresentation_quotient`, `IsPureOutside.prod`, `pureOutside_dual` and `IsPureOutside.tprod`. The extension equivalence carries unramifiedness of the middle representation. The separate integer-polynomial signatures are `HasIntegralFrobOutside.prod`, `HasIntegralFrobOutside.tprod` and `hasIntegralFrobOutside_subrepresentation`; the last requires a rational polynomial for each invariant-subspace action.
 
 Sources are [Deligne II, (1.2.5)(ii), p. 154][WII], and [Lawrence–Venkatesh, §2.5, p. 13][LV]. Prerequisites are the predicates above and DWP.0 subquotient and extension weights (§0.9), tensor and contragredient spectra (§0.13), rank-one twists (§0.15), Weil-number arithmetic (§0.2). This target applies those numerical theorems to the arithmetic exceptional-set conditions; it does not reprove them.
 
@@ -215,9 +217,9 @@ Sources are [Deligne II, (1.2.5)(i), p. 154][WII], and [Lawrence–Venkatesh, §
 
 ### Continuous Frobenius eigenvalues need not be algebraic
 
-For a finite field `k = 𝔽_q`, the Galois group is `ℤ̂`. Given any `u ∈ ℤ_ℓˣ`, construct its continuous one-dimensional `ℓ`-adic representation whose geometric Frobenius acts by `u`. Construct the homomorphism through the finite unit quotients and their compatible inverse limit. This does not require the whole unit group to be procyclic. The extension is determined by the image of the chosen topological generator. Compactness requires a unit; a representation of the Weil group alone can have any nonzero `ℚ̄_ℓ`-eigenvalue.
+For a finite field `k = 𝔽_q`, the Galois group is `ℤ̂`. Given any `u ∈ ℤ_ℓˣ`, construct its continuous one-dimensional `ℓ`-adic representation whose geometric Frobenius acts by `u`. Construct the homomorphism through the finite unit quotients and their compatible inverse limit. The signature `finite_field_unit_character` uses the pinned profinite-integer group `TauCeti.zHat`, identifying `TauCeti.zHat.gen` with geometric Frobenius; `TauCeti.zHat.existsUnique_lift` supplies its profinite universal property. This does not require the whole unit group to be procyclic. The extension is determined by the image of the chosen topological generator. Compactness requires a unit; a representation of the Weil group alone can have any nonzero `ℚ̄_ℓ`-eigenvalue.
 
-There are transcendental elements of `ℤ_ℓˣ`, since that set is uncountable whereas the elements algebraic over `ℚ` form a countable set. The resulting representation has finite dimension and is continuous, yet its Frobenius eigenvalue is not algebraic and it is not pure of any integer weight in the all-embeddings definition. For a chosen embedding, it still has a real `ι`-weight `2 log_q|ι(u)|`.
+There are transcendental elements of `ℤ_ℓˣ`, since that set is uncountable whereas the elements algebraic over `ℚ` form a countable set. The resulting representation has finite dimension and is continuous, yet its Frobenius eigenvalue is not algebraic and it is not pure of any integer weight in the all-embeddings definition. The signature `continuous_frobenius_not_algebraic` states this character counterexample on the same profinite-integer presentation, with its eigenvalue in `ℚ_ℓ`. For a chosen embedding, it still has a real `ι`-weight `2 log_q|ι(u)|`.
 
 An algebraic example separates finite dimension from integer-weight purity without a transcendental choice. For odd `ℓ`, take `u = 2` and an odd prime `q ≠ ℓ`. If this eigenvalue had integer weight `w`, then `4 = q^w`, impossible for an odd prime and integer `w`. Thus even algebraicity does not force integer-weight purity. The numerical suggestion `transcendental_not_pure` only records existence of a complex transcendental; the continuous finite-field character requires the actual ArithmeticGaloisRepresentations §§2.1–2.6 construction.
 
@@ -227,7 +229,7 @@ Sources are [Deligne II, (1.2.3), (1.2.6)–(1.2.7), pp. 154–155][WII]. Prereq
 
 ### Every embedding and a chosen embedding
 
-For a representation over `ℚ̄_ℓ`, prove that all-embeddings purity at integer weight `w` is equivalent to `ι`-purity at weight `w` for every field isomorphism `ι:ℚ̄_ℓ ≃ ℂ`. The forward implication is immediate from the definition. The reverse implication uses the DWP.0 theorem that the norm constraint for every such isomorphism forces algebraicity; it must not silently assume the eigenvalues algebraic first. The construction and abundance of these isomorphisms use the cardinality and transcendence-basis argument in DWP.0 complex embeddings (§0.5).
+For a representation over `ℚ̄_ℓ`, prove that all-embeddings purity at integer weight `w` is equivalent to `ι`-purity at weight `w` for every field isomorphism `ι:ℚ̄_ℓ ≃ ℂ`. The forward implication is immediate from the definition. The reverse implication uses the DWP.0 theorem that the norm constraint for every such isomorphism forces algebraicity; it must not silently assume the eigenvalues algebraic first. The construction and abundance of these isomorphisms use the cardinality and transcendence-basis argument in DWP.0 complex embeddings (§0.5). The numerical signature `isPureOutside_iff_forall_iota` expresses the equivalent test by all complex embeddings of the algebraically closed splitting coefficient field; its reverse implication includes algebraicity.
 
 For a common coefficient number field `E`, an equivalent practical test is that every polynomial `σ(P_v)`, for every `σ:E ↪ ℂ`, has all its roots of the required norm. Roots are taken in an algebraic closure and with multiplicity. This is the form used for fixed-form coefficient descent in R34.6. If a polynomial is already rational, its full root set under one embedding contains every algebraic conjugate, so testing all of those roots suffices. Testing one eigenvalue under one embedding is a weaker assertion.
 
@@ -237,7 +239,7 @@ A chosen embedding can fail even at integer weight zero. Use
 
 It is irreducible over `ℚ`, as seen by reduction modulo `2`. For a root `α`, put `t = α + α⁻¹`; then `t² − t − 3 = 0`. One real value of `t` lies in `(−2,2)` and gives a pair on the unit circle. The other exceeds `2` and gives reciprocal positive real roots, one greater than `1`. All roots are algebraic units, since the polynomial is monic with constant term `1`. A root gives a continuous finite-field rank-one character in a finite `ℓ`-adic coefficient extension. Choose the embedding carrying that root to the unit circle: the character is `ι`-pure of weight zero, but fails the all-embeddings condition because another conjugate has norm greater than one.
 
-The example is a finite-field character, not a claim of a global number-field character with prescribed purity at every place. The polynomial suggestion `chosen_embedding_integer_weight_nonexample` records irreducibility and the two norms. Its accompanying scalar-representation example asserts chosen-embedding purity and failure of all-embeddings purity at weight zero for a unit-circle root. The continuous arithmetic character requires the finite-field construction above. Sources are [Deligne II, (1.2.6), p. 154][WII]. Prerequisites are the preceding character construction and DWP.0 the all-isomorphisms algebraicity criterion (§0.6), Weil numbers (§0.1), complex embeddings (§0.5).
+The example is a finite-field character, not a claim of a global number-field character with prescribed purity at every place. The polynomial suggestion `chosen_embedding_integer_weight_nonexample` records irreducibility and the two norms. The named theorem `chosen_embedding_purity_nonexample` asserts chosen-embedding purity and failure of all-embeddings purity at weight zero for a unit-circle root of `scalarRep`, the scalar representation on a complex line. The continuous arithmetic character requires the finite-field construction above. Sources are [Deligne II, (1.2.6), p. 154][WII]. Prerequisites are the preceding character construction and DWP.0 the all-isomorphisms algebraicity criterion (§0.6), Weil numbers (§0.1), complex embeddings (§0.5).
 
 As a positive coefficient-field test, the `H¹` polynomial of an elliptic curve with complex multiplication by `ℚ(i)` is rational. Testing its full root multiset over either embedding of that coefficient field gives the same all-conjugates assertion.
 
@@ -310,7 +312,7 @@ The resulting assertions are:
 * The equivariant cup-product isomorphism `Hⁱ ≃ ⋀ⁱ H¹` makes `Hⁱ` pure of weight `i`, with integer Frobenius polynomials. This includes the zero groups outside the cohomological range.
 * `det H¹ ≃ ℚ_p(−g)` has weight `2g`. At `g = 0`, both degree-one representations have rank zero and polynomial `1`; the nonintegrality assertion does not apply.
 
-The integer polynomials of exterior powers come from the specified abelian reduction polynomial and its symmetric expressions, not merely from purity. Track the coefficient embeddings and specialization maps so the statement applies to the genuine arithmetic representation. The suggestions `positive_dimension_tate_constant` and the rank-zero example check the strict dimension hypothesis and its boundary case.
+The integer polynomials of exterior powers come from the specified abelian reduction polynomial and its symmetric expressions, not merely from purity. Track the coefficient embeddings and specialization maps so the statement applies to the genuine arithmetic representation. The signature `positive_dimension_tate_constant` and the rank-zero Check distinguish the strict dimension hypothesis and its boundary case.
 
 For a smooth proper geometrically connected curve `C/K` with a smooth proper model at `v ∤ p`, apply smooth proper base change **to the curve itsel`f*`*. Then use the Jacobian of its smooth residue curve and the finite-field curve–Jacobian comparison to obtain purity of its geometric `H¹` of weight `1`, and an integer polynomial. This route does not require a theorem asserting that the generic Jacobian has good reduction. The cohomological groups in degrees zero and two have weights zero and two. Singular reduction requires the degeneration layer instead.
 
@@ -348,7 +350,7 @@ for every `m ≥ 1`. The degree-zero root is `1`, the degree-two root is `q_v`, 
 * On an elliptic curve, changing the Abel–Jacobi base point translates its Jacobian and leaves `H¹` unchanged.
 * For a smooth proper curve with no chosen rational point, geometric Abel–Jacobi maps give the same Frobenius-equivariant `H¹` comparison; the statement requires no supplied rational section of `Pic¹`.
 
-For a rank-two polynomial `X² − aX + q`, define `t_m = α^m + β^m`. The tests use `t₀ = 2`, `t₁ = a`, and `t_m = at_{m − 1} − qt_{m − 2}` for `m ≥ 2`. The curve `y² = x³ − x` over `𝔽₅` has eight points, so `a = −2` and `t₂ = a² − 2q = −6`. Its point count over `𝔽₂₅` is `25 + 1 − (−6) = 32`. `card_points_y2_eq_x3_sub_x_F5` computes the affine count plus the point at infinity; `elliptic_second_power_trace` and the accompanying numerical example check the extension formula.
+For a rank-two polynomial `X² − aX + q`, define `t_m = α^m + β^m`. The tests use `t₀ = 2`, `t₁ = a`, and `t_m = at_{m − 1} − qt_{m − 2}` for `m ≥ 2`. The curve `y² = x³ − x` over `𝔽₅` has eight points, so `a = −2` and `t₂ = a² − 2q = −6`. Its point count over `𝔽₂₅` is `25 + 1 − (−6) = 32`. `card_points_y2_eq_x3_sub_x_F5` computes the affine count plus the point at infinity; `elliptic_second_power_trace` gives the second-power identity used in this extension formula.
 
 Sources are [Deligne I, (1.5.1), p. 275, and (1.13)–(1.15), pp. 278–279][WI]. Prerequisites are the smooth-curve part of the preceding good-reduction target; DWP.1 curve cohomology weights (§1.7), the curve Weil estimate (§1.6); EtaleCohomologyFoundations §§F.2.1–F.2.2, F.4 for smooth proper base change; InverseGaloisAndArithmeticFundamentalGroups §IG.0.T3 for the all-power trace formula; SchemeAndStackFoundations §3.6 for the unpointed Picard objects; InverseGaloisAndArithmeticFundamentalGroups §IG.0.T1 for the finite-level and rational curve–Jacobian comparison; and JacobianChallenge Layers D–F for pointed Abel–Jacobi, with AbelianSchemesAndArithmeticModuli §A4.4 for translation invariance. No trace construction or new Rosati positivity proof belongs here.
 
@@ -652,7 +654,7 @@ When using Diamond–Flach–Guo's conventions, identify `M_{f,λ}` with the act
 
 DFG's characteristic-zero étale realizations and lattices exist at every coefficient prime. Its integral crystalline and Fontaine–Laffaille comparison data have the separate restriction `λ ∉ S_N`, where `S_N` consists of coefficient primes dividing `Nk!`. The good-prime purity assertion uses the specified étale eigensummand and geometric polynomial at every `λ`; it does not extend integral crystalline comparison, freeness or saturation through an excluded coefficient prime by changing coefficients.
 
-For the discriminant form `Δ`, `k = 12`, `a₂ = −24`, and the polynomial is `X² + 24X + 2048`. Its geometric cohomological weight is `11`, and the geometric weight of the arithmetic dual is `−11`. The suggestion `ramanujan_trace_bound` isolates the triangle inequality for two roots of equal norm; the degree and polynomial comparisons are supplied by the actual geometric realization.
+For the discriminant form `Δ`, `k = 12`, `a₂ = −24`, and the polynomial is `X² + 24X + 2048`. Its geometric cohomological weight is `11`, and the geometric weight of the arithmetic dual is `−11`. The signature `IsPureOutside.trace_bound` bounds each embedded Frobenius trace by `rank · p^{w/2}`, including rank zero, and specializes to rank two and weight `k−1` here. The suggestion `ramanujan_trace_bound` isolates the triangle inequality for two roots of equal norm; the degree and polynomial comparisons are supplied by the actual geometric realization.
 
 Sources are [Deligne modular, Theorems 5.1 and 5.6, pp. 168 and 170–171][DM]; [Deligne II, (3.7.1), p. 215][WII]; and [DFG, §§1.1–1.3, pp. 6–13, §5.4, Lemma 5.7, pp. 58–59][DFG], for the coefficient and normalization data. Prerequisites are R34.5's parabolic purity, classical projector and weight-two quotient targets; R34.1's every-embedding comparison; AlgebraicModularFormsAndSerreWeights R15.5A.1–R15.5A.2 the classical projector and coefficient descent (R15.5A.1–R15.5A.2) and the independent geometric polynomial interface; and DWP.10 stable-subquotient transport (§10.1).
 
@@ -687,7 +689,7 @@ Sources are [DFG, §§1.1–1.3, pp. 6–13; §5.4, Lemma 5.7, and §5.5, pp. 58
 
 ### Transport through actual arithmetic comparisons
 
-Given a coefficient-linear isomorphism between two specified arithmetic realizations, require that it intertwine their actual arithmetic Frobenius actions, equivalently their geometric inverses at an unramified place. Then their local characteristic polynomials and weights agree. More generally, an arithmetic algebraic projector commuting with Frobenius has an invariant image that inherits the ambient purity. Apply DWP.10's general transport theorem to the actual Tate, parabolic and Kuga–Sato comparisons already constructed here.
+Given a coefficient-linear isomorphism between two specified arithmetic realizations, require that it intertwine their actual arithmetic Frobenius actions, equivalently their geometric inverses at an unramified place. Then their local characteristic polynomials and weights agree. The signature `isPureOutside_iff_of_equiv` carries an intertwining equation for every group element and transports the numerical purity predicate. More generally, an arithmetic algebraic projector commuting with Frobenius has an invariant image that inherits the ambient purity. Apply DWP.10's general transport theorem to the actual Tate, parabolic and Kuga–Sato comparisons already constructed here.
 
 For a finite extension of residue degree `d`, a comparison concerns `F^d` and `q^d`. Use DWP.0's power criterion to recover the original weight relative to `q`, with `q>1`, when the original Frobenius action is specified. This does not construct a descent datum for an otherwise unspecified representation or correspondence. Coefficient extension likewise needs the given coefficient map and the induced action; a bare vector-space isomorphism is insufficient.
 
@@ -734,8 +736,8 @@ Source: [Saito, §3, Claim 2(1) and its reduction to Claim 1(1), pp. 16–17; §
 **Checks.**
 
 * If some `k_i>2`, both outer groups vanish on each coefficient side, and the degree-one trace is `−t_alt`.
-* At `k₁=⋯=k_g=w=2`, retain the component module in degree zero and its dual twisted by `(−1)` in degree two until their traces have been compared. For a connected component fixed by geometric Frobenius, with `T=1`, the two contributions are `1` and q; hence `t_1=1+q−t_alt`. Suggested.lean records this scalar identity without discarding either outer term.
-* On graded spaces `(H⁰,H¹,H²)=(A,A⊕B,B)`, an operator induced by operators on A and B has zero alternating trace while its degree-one trace is `Tr(A)+Tr(B)`. Taking scalar actions `(1,1)` and `(2,1)` gives degree-one traces two and three with the same alternating trace zero; Suggested.lean records this failure of implication.
+* At `k₁=⋯=k_g=w=2`, retain the component module in degree zero and its dual twisted by `(−1)` in degree two until their traces have been compared. For a connected component fixed by geometric Frobenius, with `T=1`, the two contributions are `1` and q; hence `t_1=1+q−t_alt`.
+* On graded spaces `(H⁰,H¹,H²)=(A,A⊕B,B)`, an operator induced by operators on A and B has zero alternating trace while its degree-one trace is `Tr(A)+Tr(B)`. Taking scalar actions `(1,1)` and `(2,1)` gives degree-one traces two and three with the same alternating trace zero.
 * For odd w, `q₀` is odd, so the total-variety alternating trace changes sign when shifted to the curve; the factor `(−1)^q₀` is necessary before outer-degree subtraction.
 
 For `λ ∣ ℓ`, `ℓ ≠ p`, and `μ ∣ p`, prove `hilbert-modular-form-compatibility-at-p` over the specified completions of L and chosen `C_μ` factor. Use the same L as R34.3, enlarged to contain the eigenvalues of f and admit the transferred finite-part models. Consume GL2AutomorphicRepresentationsAndTransfer §§R17.3.1, R17.3.3, R17.3.5–R17.3.8 for global Jacquet–Langlands, split-place Hecke matching, strong multiplicity one, spectral multiplicity one and coefficient-model comparison. Construct Saito §3 Lemma 1’s cohomological decomposition, retaining Carayol’s construction and the local Galois action. Apply `hilbert-degreewise-trace-comparison` for every `σ∈W⁺` before choosing a Hecke element that isolates f in degree one. At level K with `d=dim(π′_f)^K>0`, identify the f-isotypic cohomology over `L_λ` with `(π′_f)^K` tensored with the rank-two Galois multiplicity, and likewise over `L_μ`; its dimension is `2d`. Construct the coefficient descent of that multiplicity using the actual models and Lemma 1’s model argument. If `K_f` is the Hecke coefficient field, compare all places over each place of `K_f` and descend to `K_f` only with a supplied `K_f`-model and compatible descent datum; otherwise state the result after extension to L. The L-valued projected traces alone do not supply this descent. Equality of rationality fields alone does not produce a model. Prove potential semistability at `μ`, comparison of the rank-two Frobenius-semisimplified Weil–Deligne realizations with the source-normalized `σ̌_h(π_{f,𝔭})`, and the monodromy-graded weight assertion. For residue size `q = N𝔭`, with geometric Frobenius `F`, use
@@ -813,7 +815,7 @@ For `r≥1` and full level `M≥3` the intended signature returns a smooth proje
 * At `r=2` the permutation sign compensates for graded commutativity, giving `Sym² H¹` of a two-dimensional fibre, of rank three, rather than its rank-one exterior square.
 * At `r=0` the group-average formula alone does not identify the cuspidal weight-two realization; the separate Jacobian quotient target supplies it.
 * For `k=12`, `r=10` and total degree eleven give weight eleven before any Tate twist; the CM product has a different total degree.
-* For `r=1` and `M=3`, inversion swaps `C₁,C₂` in a cusp `I₃` fibre. The boundary divisor `D=C₁−C₂` has `D²=−6` and survives inversion averaging. Averaging the translations that cycle the components kills D. Suggested.lean mirrors this on the three-dimensional component module, separately from its smooth-fibre rank-two and rank-three checks.
+* For `r=1` and `M=3`, inversion swaps `C₁,C₂` in a cusp `I₃` fibre. The boundary divisor `D=C₁−C₂` has `D²=−6` and survives inversion averaging. Averaging the translations that cycle the components kills D.
 
 ### R34.5: the higher-weight model comparison
 
@@ -834,8 +836,8 @@ For an extension of K of ramification index d, raw HK monodromy scales by d; Cry
 * At smooth proper good reduction `N=0` and the comparison restricts to the crystalline realization.
 * For a split nodal genus-one degeneration N has rank one; replacing `B_st` by `B_cris` on the entire `H¹` loses the nonzero monodromy.
 * For `L=ℚ(√2)`, the L-coefficient projector in the two-point Check restricts the comparison only after extension through `ι_μ`; its A-trace is `ι_μ(√2)`, rather than a rational number. Further coefficient extension preserves this image and its structured comparison.
-* For the Tate curve `E_π` over ramified K with `e_K>1`, `N_HK` has coefficient `v_K(π)=1` and `N_p` has coefficient `1/e_K` in the valuation basis. An `I₁` model uses normalized branches for this calculation; a ramified refinement to a strict `I_d` model multiplies raw monodromy by d and its comparison divides by d. The identity `Nφ=pφN` holds for both scalar multiples and does not fix the factor `e_K`. Suggested.lean mirrors the factor and its cancellation under further ramification.
-* For `E_p` over `ℚ_p`, raw `N_HK` has coefficient one in the valuation basis. After a ramified quadratic extension `K/ℚ_p`, `v_K(p)=2` and raw `N_HK` has coefficient two, while `N_p=N_HK/e_K` retains coefficient one. Suggested.lean records these matrices in the same basis; their ranks alone do not distinguish the factor.
+* For the Tate curve `E_π` over ramified K with `e_K>1`, `N_HK` has coefficient `v_K(π)=1` and `N_p` has coefficient `1/e_K` in the valuation basis. An `I₁` model uses normalized branches for this calculation; a ramified refinement to a strict `I_d` model multiplies raw monodromy by d and its comparison divides by d. The identity `Nφ=pφN` holds for both scalar multiples and does not fix the factor `e_K`.
+* For `E_p` over `ℚ_p`, raw `N_HK` has coefficient one in the valuation basis. After a ramified quadratic extension `K/ℚ_p`, `v_K(p)=2` and raw `N_HK` has coefficient two, while `N_p=N_HK/e_K` retains coefficient one. Their ranks alone do not distinguish the factor.
 
 ### R34.5–R34.6: comparison with the supplied classical eigensummand
 
@@ -843,9 +845,9 @@ Use ModularCurvesPartII §§14.1–14.4a for the parabolic realization and Algeb
 
 ## Suggested Lean forms
 
-[Suggested.lean](Suggested.lean) gives numerical representation, polynomial and matrix forms using Mathlib's own objects, together with the named API and tests above. The README is the mathematical specification. The supplied inertia subgroups, Frobenius elements and cardinality functions in the numerical forms must be connected to the genuine continuous arithmetic carrier through ArithmeticGaloisRepresentations §§1.1–1.12, 2.1–2.6. They do not construct that carrier.
+[Suggested.lean](Suggested.lean) states the representation-weight operations, all-embeddings criterion, continuous finite-field character construction and trace bound on pinned carriers, together with the predicate API and auxiliary polynomial and matrix targets. The README is the mathematical specification. The supplied inertia subgroups, Frobenius elements and cardinality functions in the numerical forms must be connected to the genuine continuous arithmetic carrier through ArithmeticGaloisRepresentations §§1.1–1.12, 2.1–2.6. They do not construct that carrier.
 
-Full arithmetic or geometric signatures require the supplier objects described in the layers: actual lisse sheaves and adic complexes; Tate modules and cohomology with specialization; traits and nearby cycles with the compatible coefficient systems; modular models, geometric normalization graphs and quadratic degenerations; pencil incidence families and original-coefficient vanishing quotients; algebraic projectors and equivariant parabolic, Kuga–Sato and Hilbert comparisons; and the local Weil–Deligne and period carriers. The suggested file lists the full signatures needing these objects. Scalar identities and weight arithmetic are useful convention tests, but are not statements of the omitted geometric comparison theorems. The eventual Lean forms must express those hypotheses through the owners' actual objects and maps, rather than through arbitrary proposition-valued replacement fields.
+Full arithmetic or geometric signatures require the supplier objects described in the layers: actual lisse sheaves and adic complexes; Tate modules and cohomology with specialization; traits and nearby cycles with the compatible coefficient systems; modular models, geometric normalization graphs and quadratic degenerations; pencil incidence families and original-coefficient vanishing quotients; algebraic projectors and equivariant parabolic, Kuga–Sato and Hilbert comparisons; and the local Weil–Deligne and period carriers. The suggested file lists the targets needing these objects. Scalar identities and weight arithmetic give convention Checks; the geometric comparison targets retain their actual objects and maps. The eventual Lean forms must express those hypotheses through the owners' actual objects and maps, rather than through arbitrary proposition-valued replacement fields.
 
 ## References
 
