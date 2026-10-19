@@ -1,6 +1,7 @@
 import Mathlib
 import TauCeti.NumberTheory.ModularForms.HeckeSlash.Operators
 import TauCeti.NumberTheory.ModularForms.Newforms.Newform
+import TauCeti.NumberTheory.ModularForms.Newforms.Coefficient
 
 /-!
 # AlgebraicModularFormsAndSerreWeights: representative target signatures
@@ -88,6 +89,57 @@ theorem weightOne_attachment {N : ℕ} [NeZero N]
   sorry
 
 end TauCeti.ClassicalModularGalois
+
+namespace TauCeti.ResidualModularity
+
+/-- A normalized coefficient sequence satisfies the prime Hecke recurrences
+with second Euler coefficient `e`, including the coefficient at index zero. -/
+def IsEigensequence {R : Type*} [CommRing R] (e a : ℕ → R) : Prop :=
+  a 1 = 1 ∧ ∀ ℓ : ℕ, ℓ.Prime → ∀ n : ℕ,
+    a (ℓ * n) + e ℓ * (if ℓ ∣ n then a (n / ℓ) else 0) = a ℓ * a n
+
+/-- Applying a coefficient ring homomorphism preserves a normalized Hecke
+coefficient sequence and maps its second Euler coefficient at the same time. -/
+theorem IsEigensequence.map {R S : Type*} [CommRing R] [CommRing S]
+    {e a : ℕ → R} (h : IsEigensequence e a) (φ : R →+* S) :
+    IsEigensequence (φ ∘ e) (φ ∘ a) := by
+  refine ⟨by simpa using congrArg φ h.1, ?_⟩
+  intro ℓ hℓ n
+  have hn := congrArg φ (h.2 ℓ hℓ n)
+  by_cases hd : ℓ ∣ n <;> simpa [Function.comp_def, hd] using hn
+
+/-- Realization of a ring-valued sequence as the Fourier coefficients of a
+cusp form of the specified level and integer weight through a fixed coefficient map. -/
+def IsRealizedIn (R : Type*) [CommRing R] (ι : R →+* ℂ)
+    (N : ℕ) [NeZero N] (k : ℤ) (b : ℕ → R) : Prop :=
+  ∃ f : CuspForm ((CongruenceSubgroup.Gamma1 N).map (Matrix.SpecialLinearGroup.mapGL ℝ)) k,
+    ∀ n, (UpperHalfPlane.qExpansion 1 f).coeff n = ι (b n)
+
+/-- A coefficient realization transports along a ring map when the complex
+coefficient maps commute. The same cusp form realizes the mapped sequence. -/
+theorem IsRealizedIn_baseChange {R S : Type*} [CommRing R] [CommRing S]
+    {ι : R →+* ℂ} {j : S →+* ℂ} (φ : R →+* S) (hcomp : j.comp φ = ι)
+    {N : ℕ} [NeZero N] {k : ℤ} {b : ℕ → R}
+    (h : IsRealizedIn R ι N k b) : IsRealizedIn S j N k (φ ∘ b) := by
+  obtain ⟨f, hf⟩ := h
+  refine ⟨f, fun n => ?_⟩
+  rw [hf n]
+  exact (congrArg (fun ψ : R →+* ℂ => ψ (b n)) hcomp).symm
+
+/-- In a specified character space over the complex numbers, the normalized
+prime coefficient equations characterize full Hecke eigenforms. The character
+is extended by zero, so primes dividing the level give the `U` equation. -/
+theorem isEigensequence_iff_eigenform {N : ℕ} [NeZero N] {k : ℤ}
+    (f : CuspForm ((CongruenceSubgroup.Gamma1 N).map (Matrix.SpecialLinearGroup.mapGL ℝ)) k)
+    (χ : (ZMod N)ˣ →* ℂˣ) (hχ : f ∈ cuspFormCharSpace k χ)
+    (h₁ : (UpperHalfPlane.qExpansion 1 f).coeff 1 = 1) :
+    IsEigensequence
+        (fun ℓ => (MulChar.ofUnitHom χ : DirichletCharacter ℂ N) ℓ * (ℓ : ℂ) ^ (k - 1))
+        (fun n => (UpperHalfPlane.qExpansion 1 f).coeff n) ↔
+      ∃ F : HeckeRing.GL2.Eigenform N k, F.toCuspForm = f ∧ F.χ = χ := by
+  sorry
+
+end TauCeti.ResidualModularity
 
 namespace TauCeti.ResidualModularity
 
@@ -738,6 +790,12 @@ TauCeti.EigenvalueLifting:
 
 TauCeti.ResidualModularity:
   ArisesFrom, ClassicalTarget, IsModular, IsSType, Witness, arisesFrom_baseChange,
+  ArisesFrom.of_dvd, ArisesFrom.baseChange, ArisesFrom.iff_integral_model,
+  ArisesFrom.iff_exists_maximalIdeal_hecke, ArisesFrom.iff_integralClosure_congruence,
+  ArisesFrom.iff_agrees_ofGaloisRep,
+  integralQExpansionLattice_finiteFree, integralQExpansionLattice_spans,
+  integralQExpansionLattice_hecke_stable, weightOne_three_weightTwo,
+  eisenstein_chiNegThree_mod_three,
   arisesFrom_11a1_three, not_arisesFrom_trivial_11a1_three, not_arisesFrom_11a1_three_delta,
   isModular_11a1_three, isModular_11a1_five, not_isModular_trivial_three,
   classicalTarget_baseChange, classicalTarget_implies_modular, isSType_11a1_three,

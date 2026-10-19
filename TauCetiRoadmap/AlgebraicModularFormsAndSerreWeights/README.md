@@ -4,7 +4,7 @@
 
 A complex eigenform has an integral system of Hecke eigenvalues, and reducing those eigenvalues at a coefficient prime gives a residual Galois representation. Over a field of positive characteristic there is another source of forms: sections of powers of the Hodge line on a compactified modular curve. These two constructions meet through integral section spaces and their q-expansions. Their meeting is delicate in weight one, at small levels, with torsion coefficients and at the small residual primes. This roadmap develops the geometric comparison, the characteristic-`p` weight operations, the local weight recipe and the algebraic lifting argument needed to pass between them.
 
-The resulting interfaces serve three purposes. They let a geometric eigenform carry a precisely specified integral reduction witness. They compute the classical Serre weight of a residual representation from its local representation, including the extension class in the wild case. They express residual modularity with an eigenform, a coefficient field, a chosen place and a comparison of semisimple representations. In particular, the final target asks for weight `k(ρ̄)`, conductor level `N(ρ̄)` and determinant character `ε(ρ̄)`; this roadmap defines that classical target and proves the stated conditional comparisons. Universal residual modularity and weight/level minimality are outside its scope.
+The resulting interfaces serve three purposes. They let a geometric eigenform carry a precisely specified integral reduction witness. They compute the classical Serre weight of a residual representation from its local representation, including the extension class in the wild case. They express residual modularity by a coefficient reduction and good-prime trace and determinant identities, with integral-model witnesses supplied by a comparison theorem. In particular, the final target asks for weight `k(ρ̄)`, conductor level `N(ρ̄)` and determinant character `ε(ρ̄)`; this roadmap defines that classical target and proves the stated conditional comparisons. Universal residual modularity and weight/level minimality are outside its scope.
 
 ## Scope and ownership
 
@@ -77,6 +77,7 @@ The targets below have concrete mathematical prerequisites. A complete implement
 | ModularCurvesPartII §§14.1–14.4a, 14.11 | Geometric `Sym^(k−2)R¹h_*` systems, support maps and parabolic images, finite/adic comparisons and characteristic-zero scalar extension, with level/isogeny/Hecke transport; coefficient-domain pairing with its dual lattice, adjoint Hecke action and Tate twist. R15.5A.1 constructs the logarithmic de Rham/parabolic filtered comparison, higher-weight Eichler–Shimura decomposition and primitive rank-two newspace summand. |
 | EtaleCohomologyFoundations §§0.6, 0.8, 0.11, F.0–F.6; ComplexComparisonPartII §§C6.3–C6.6 | Scheme cohomology, compact support, duality and equivariant Betti–étale comparison used in the classical attachments of R15.5A. |
 | [ArithmeticDirichletSeries](../../Completed/ArithmeticDirichletSeries/README.md) Layers 3, 7–8; Chebotarev Layer 10 | Euler-product logarithms, Landau positivity, all-prime normalization and upper Dirichlet-density bounds; Frobenius-class density for finite Galois extensions. R15.5A.2a constructs the classical weight-one Rankin–Selberg specialization used by R15.5A.3. |
+| AutomorphicFormsOnReductiveGroups [§5.8](../AutomorphicFormsOnReductiveGroups/README.md#58-residual-and-torsion-hecke-eigenclasses) and [§7.3](../AutomorphicFormsOnReductiveGroups/README.md#73-hecke-and-diamond-normalization-for-gl₂) | Hecke characters, their kernels and arithmetic normalization. R15.6 compares its trace/determinant predicate with agreement of the reduced form system and `ofGaloisRep ρ̄`, with `T_ℓ ↦ tr` and `S_ℓ ↦ ℓ⁻¹ det`, away from `Np`. |
 | ModularForms Layers 0, 4–5, 8, 8G, 8W, 10C | Existing analytic carriers, character and Eisenstein normalization, full Hecke eigenform normalization, classical multiplicity one and old/new decomposition, coefficient rationality, integral algebra via modular symbols, the weight-one all-cusp lattice, and analytic automorphy and cusp conventions. R15.2 constructs the higher-weight geometric all-cusp lattice and denominator comparison; R15.5A constructs the primitive classical cohomological summand and its Galois attachments. |
 | ModularCurves Layers 5, 10; AlgebraicCurves Layer 12E; JacobianChallenge Layers A–B | Universal elliptic curves and compactification, coherent curve cohomology and Serre duality used by R15.5A.1. |
 | ClassFieldTheory Layer 11 | Global reciprocity for the Dirichlet-character Eisenstein branches of R15.5A.2–R15.5A.3. |
@@ -434,11 +435,35 @@ Compare the geometric operators on the finite integral lattice with the integral
 
 ([Darmon–Diamond–Taylor](https://www.math.mcgill.ca/darmon/pub/Articles/Expository/05.DDT/paper.pdf), §4.1, Lemma 4.1, p. 107 (revision of 9 September 2007).)
 
+<a id="target-ring-valued-eigensequences"></a>
+
+#### Ring-valued eigensequences and coefficient realization
+
+For any commutative ring `R` and sequences `e,a:ℕ→R`, define `TauCeti.ResidualModularity.IsEigensequence e a` by `a(1)=1` and, for every prime `ℓ` and every `n≥0`,
+
+`a(ℓn)+e(ℓ)·(if ℓ∣n then a(n/ℓ) else 0)=a(ℓ)a(n)`.
+
+Here `e(ℓ)` is the second Euler coefficient. Mapping both sequences through any unital ring homomorphism preserves the predicate (`IsEigensequence.map`), including reduction to rings with nilpotents. In a complex character space set `e(ℓ)=χ(ℓ)ℓ^(k−1)`, with `χ` extended by zero. The theorem `TauCeti.ResidualModularity.isEigensequence_iff_eigenform` identifies this predicate for the q-expansion of a cusp form with `a₁=1` with the pinned full `HeckeRing.GL2.Eigenform` coefficient characterization. It includes the bad-prime `U_ℓ` equations; it does not assert newness.
+
+Define `TauCeti.ResidualModularity.IsRealizedIn R ι N k b` to mean that `b` is the q-expansion, through the specified ring map `ι:R→ℂ`, of a cusp form of integer weight `k` on `Γ₁(N)`, with `N≥1`. This imposes neither eigen-ness nor a character; a use in a character space carries that membership separately. The theorem `TauCeti.ResidualModularity.IsRealizedIn_baseChange` transports realization along `φ:R→S` and `j:S→ℂ` with `j∘φ=ι`. Q-expansion injectivity makes the realizing form unique. The ring-valued coefficient interface follows the design of the Imperial College London FLT project.
+
+**Checks.**
+
+- Mapping a characteristic-zero eigen-sequence to a residue field maps `e` as well as `a`; the determinant term remains part of the recurrence in characteristic two.
+- At `ℓ∣N`, `χ(ℓ)=0` gives `a(ℓn)=a(ℓ)a(n)`, the bad-prime equation. Omitting those primes characterizes only good eigenforms.
+- The zero sequence fails `a(1)=1` over a nonzero ring. The zero sequence is nevertheless realized by the zero cusp form; realization alone is not a normalized eigensystem.
+
+*Needs:* ModularForms Layers 2 and 4; the pinned `HeckeRing.GL2.Eigenform.exists_toCuspForm_eq_and_χ_eq_iff_ne_zero_and_forall_prime_qExpansion_coeff_prime_mul` in `TauCeti.NumberTheory.ModularForms.Newforms.Coefficient`.
+
+([Diamond–Shurman](https://doi.org/10.1007/b138227), Proposition 5.8.5; [Deligne–Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf), §1.6, p.509.)
+
 <a id="target-integral-lattice-and-reduction-image"></a>
 
 #### The integral cusp lattice and its reduction image
 
-Let `O` be the localization of a number-field integer ring at a place `λ` over `p`, with `p∤N`. Choose an integral lift of the diamond character, and assume that its projector is integral. Take the character part of `L=H⁰(X_O,ω^k(−C))`; compare it with the analytic all-cusp integral lattice through the actual moduli family and Tate trivializations. Define the reduction space as
+For a number field `K⊂ℂ`, let `S_k(Γ₀(N),K)` be the coefficient-rational cusp space, `N≥1` and `k≥2`, and let `O=O_(K,λ)` at any finite place, including places dividing `N`. The q-integral submodule `L_q={f : a_n(f)∈O for every n}` is finite free over `O`, spans this `K`-space and is stable under every `T_n`, including `U_ℓ` at level primes. These are theorems `TauCeti.ResidualModularity.integralQExpansionLattice_finiteFree`, `TauCeti.ResidualModularity.integralQExpansionLattice_spans` and `TauCeti.ResidualModularity.integralQExpansionLattice_hecke_stable`, obtained from ModularForms Layer 8's finite integral Hecke algebra and the coefficient pairing `⟨T,f⟩=a₁(Tf)`, together with Layer 8G's rational structure. They are properties of the actual coefficient submodule, not conditions in a lattice constructor. The analogous statement in weight one uses Layer 8W. For a fixed nebentypus the coefficient field contains its values and the same argument uses its full integral Hecke action. Reduction mod `λ` means the image of this lattice; it does not mean all Katz forms. The formulation of this interface follows the Imperial College London FLT project.
+
+At primes away from `N` compare this coefficient lattice with the geometric lattice as follows. Let `O` be the localization of a number-field integer ring at a place `λ` over `p`, with `p∤N`. Choose an integral lift of the diamond character, and assume that its projector is integral. Take the character part of `L=H⁰(X_O,ω^k(−C))`; compare it with the analytic all-cusp integral lattice through the actual moduli family and Tate trivializations. Define the reduction space as
 
 `S_red=im(L/λL → S_k(X_κ))`.
 
@@ -460,7 +485,9 @@ The interface consists of:
 
 - `TauCeti.ResidualModularity.reduced_delta` (computation): At any residue characteristic, integral `Δ` reduces to a nonzero series with coefficient `a₁=1`.
 
-*Needs:* [Finite section modules](#target-finite-generation-of-geometric-sections); [All-weight analytic comparison](#target-all-weight-analytic-comparison); [Functorial coefficient maps](#target-coefficient-maps); [The q-expansion principle](#target-q-expansion-principle-and-its-vanishing-theorem).
+- At a prime dividing `N`, the q-integral lattice is still Hecke-stable and spanning; its existence asserts no smooth prime-to-level geometric base-change theorem.
+
+*Needs:* ModularForms Layers 8, 8G and 8W; [Finite section modules](#target-finite-generation-of-geometric-sections); [All-weight analytic comparison](#target-all-weight-analytic-comparison); [Functorial coefficient maps](#target-coefficient-maps); [The q-expansion principle](#target-q-expansion-principle-and-its-vanishing-theorem).
 
 ([Katz 1973](https://web.math.princeton.edu/~nmk/old/padicpropMFMS.pdf), Theorem 1.7.1, printed p.85 (Katz running mark Ka-17); [Deligne–Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf), 2.6–2.7, printed pp.511–512.)
 
@@ -1479,6 +1506,25 @@ For a low-weight reduction form, Deligne–Serre's shift multiplies by a level-o
 
 ([Deligne–Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf), 6.9–6.11, printed p.522.)
 
+<a id="target-weight-one-three-weight-two"></a>
+
+#### Weight one to weight two at three
+
+Write `χ₋₃(n)=0,1,−1` for `n≡0,1,2 mod 3`. Construct the holomorphic Eisenstein form `E₁(χ₋₃)∈M₁(Γ₀(3),χ₋₃)` with expansion `1+6Σ_(n≥1)(Σ_(d∣n)χ₋₃(d))q^n`. In particular its coefficients are integers and `E₁(χ₋₃)≡1 mod 3` (`TauCeti.ResidualModularity.eisenstein_chiNegThree_mod_three`). For a weight-one form of level `N` and character `χ`, multiplication gives weight two at `M=lcm(N,3)` with character the product of the inflated `χ` and `χ₋₃`; cuspidality is preserved. If `3∣N` and `χ=χ₋₃` inflated to level `N`, this is a weight-two form on `Γ₀(N)` with trivial character.
+
+For a normalized integral weight-one eigenform at a number-field place over 3, the product has the same reduced q-expansion. Away from `3N`, its second Euler coefficients agree with the original ones modulo that place, since `χ₋₃(ℓ)≡ℓ mod 3`. Apply R15.5 eigenvalue lifting to the weight-two integral coefficient lattice at that place to obtain a characteristic-zero weight-two eigenform with congruent eigenvalues and the product character (`TauCeti.ResidualModularity.weightOne_three_weightTwo`). For holomorphic input use the holomorphic coefficient lattice, whose finite-free and spanning properties follow from the all-prime denominator target and coefficient rationality; for cuspidal input use the cusp lattice and obtain a cusp eigenform. If `3∣N`, the bad-prime `U` equations also agree. Apply lifting to the full Hecke family and normalize the lifted eigenform: all its positive-index Fourier coefficients are congruent to those of the weight-one form in a common residue field. Thus character `χ₋₃` gives a normalized weight-two eigenform on `Γ₀(N)` congruent modulo 3, with cuspidality retained for cusp input. No congruence of constant terms is inferred from eigenvalue lifting for noncuspidal input. A primitive cusp associate has level dividing `M` and retains the away-`3N` congruence. The integral analytic lattice is used even though 3 divides `M`; the smooth prime-to-level geometric lifting theorem is not invoked at 3. This weight-change interface follows the Imperial College London FLT project.
+
+**Checks.**
+
+- The first coefficients of `E₁(χ₋₃)` are `1+6q+0q²+6q³+6q⁴+⋯`; reducing its full divisor-sum expansion modulo 3 gives the constant series 1.
+- For `3∣N` and character `χ₋₃`, the product has trivial character and weight two at level `N`. Its determinant at `ℓ∤3N` reduces to `ℓ=χ₋₃(ℓ)`, as required by the weight-one determinant.
+- If `3∤N`, the asserted product level is `3N`. Arbitrary character `χ` gives product character `χχ₋₃`, and no trivial-character conclusion is asserted.
+- A nonzero reduction is essential for lifting; normalization `a₁=1` ensures it. Multiplication does not itself make the characteristic-zero product a Hecke eigenform.
+
+*Needs:* ModularForms Layer 0 for character Eisenstein series; [The integral cusp lattice and its reduction image](#target-integral-lattice-and-reduction-image); [All-prime bounded denominators](#target-bounded-denominators-congruence-application); [Deligne–Serre eigenvalue lifting](#target-deligne-serre-eigenvalue-lifting-lemma); [Controlled eigenform lifting](#target-reduction-to-weight-at-least-two-and-to-a-true-eigenform).
+
+([Buzzard, Weight one Eisenstein series](https://www.ma.imperial.ac.uk/~buzzard/maths/research/notes/weight_one_eisenstein_series.pdf), pp.1–2, especially the conductor-three example on p.2; [Deligne–Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf), §§6.10–6.11, p.522.)
+
 ### Examples
 
 The matrix `[[0,ϖ],[0,0]]` has residual eigenvector `e₂` with eigenvalue zero, but every nonzero generic eigenvector lies on `e₁`. The matrix `[[0,ϖ],[1,0]]` requires a coefficient root `λ²=ϖ` and permits an inseparable extension in characteristic two. Both satisfy the eigenvalue-lifting conclusion with its exact residue square.
@@ -1664,9 +1710,11 @@ The headline `TauCeti.ResidualModularity.residual_attachment` states the classic
 
 #### A residual modularity witness
 
-A residual modularity witness for `ρ̄` includes a normalized eigenform `f` with its actual weight and level, its coefficient number field `K_f`, a place `λ∣p`, the corresponding coefficient and residue embeddings, an attached `λ`-adic representation, a chosen stable rank-two integral lattice and an isomorphism from its semisimple reduction to `ρ̄` after passage to a common finite residue field. Each attachment and reduction is the actual one supplied by [Residual attachment for reduction eigensystems](#target-residual-attachment-for-reduction-eigensystems) and ArithmeticGaloisRepresentations §§1.6–1.9, 5.7, rather than an unrelated matrix representation stored in the same record.
+An integral-model residual modularity witness for `ρ̄` includes a normalized eigenform `f` with its actual weight and level, its coefficient number field `K_f`, a place `λ∣p`, the corresponding coefficient and residue embeddings, an attached `λ`-adic representation, a chosen stable rank-two integral lattice and an isomorphism from its semisimple reduction to `ρ̄^ss` after passage to a common finite residue field. Each attachment and reduction is the actual one supplied by [Residual attachment for reduction eigensystems](#target-residual-attachment-for-reduction-eigensystems) and ArithmeticGaloisRepresentations §§1.6–1.9, 5.7, rather than an unrelated matrix representation stored in the same record.
 
 Expose the form, weight, level, coefficient field and place projections. Brauer–Nesbitt gives independence of the stable lattice at the same place and attached characteristic-zero representation. Scalar extension preserves the witness. For a coefficient-field isomorphism `σ:K_f≃K′`, simultaneously transport `f` to `σf`, `λ` to `σ(λ)`, and the lattice and attachment along `σ`. The induced residue-field isomorphism `σ̄` satisfies `σ̄ ∘ red_λ = red_σ(λ) ∘ σ`; for a residue embedding `ι`, use `ι′=ι ∘ σ̄⁻¹` at the transported place. This does not assert that all unrelated coefficient places give the same fixed residual representation. Good-prime characteristic polynomials must match those of the chosen form, excluding unrelated valid representations as well. The intended signature is `Witness (ρ̄)` with projections to the normalized form, its coefficient field and place, the stable lattice, its attached representation and the residual semisimplification isomorphism; every compatibility listed here is part of the witness.
+
+This is auxiliary witness data for the comparison with the coefficient-defined `ArisesFrom` below. For a general residual representation the isomorphism compares its semisimplification; an isomorphism to the given representation requires semisimplicity, in particular absolute irreducibility.
 
 The interface consists of:
 
@@ -1692,13 +1740,19 @@ The interface consists of:
 
 ([Khare–Wintenberger](https://www.math.ucla.edu/~shekhar/papers/results.pdf), Introduction, preprint pp.1–2; [Horawa](https://people.maths.ox.ac.uk/horawa/Hilbert.pdf), “Weight one form of level 47”, printed p.57.)
 
+The coefficient-defined predicate below is the shared interface for the consumers [SerreWeightAndLevelOptimisation](../SerreWeightAndLevelOptimisation/README.md) §1.4, [EllipticCurveModularity](../EllipticCurveModularity/README.md) R29.2, [ClassicalSerreModularity](../ClassicalSerreModularity/README.md), [OrdinaryAutomorphicFormsAndModularityLifting](../OrdinaryAutomorphicFormsAndModularityLifting/README.md), [GL2ModularityLifting](../GL2ModularityLifting/README.md) and [GL2AutomorphicRepresentationsAndTransfer](../GL2AutomorphicRepresentationsAndTransfer/README.md) R17.5. Curve-level and Frey-level formulations use abbreviations of this predicate. The characteristic-three weight comparison in R15.5 supplies the weight-two realization needed by the last consumer.
+
 ### Modularity predicates and their comparisons
 
 <a id="target-s-type-arises-from-and-modular"></a>
 
 #### S-type and modularity predicates
 
-For a continuous `ρ̄:G_ℚ→GL₂(𝔽̄_p)`, define S-type to mean absolute irreducibility and odd determinant. In characteristic two the determinant condition for complex conjugation is automatic, while irreducibility remains a separate condition. For a normalized newform `f` and a chosen embedding `ι_p` of its coefficient data, define `ArisesFrom(ρ̄,f)` by a genuine integral model at that place and an isomorphism with the semisimplified reduction of its attached representation. Define `IsModular(ρ̄)` by the existence of such a form and place-sensitive witness.
+For a continuous `ρ̄:G_ℚ→GL₂(𝔽̄_p)`, define S-type to mean absolute irreducibility and odd determinant. In characteristic two the determinant condition for complex conjugation is automatic, while irreducibility remains a separate condition. For a normalized cuspidal full eigenform `f` of positive weight `k` and level `N`, let `A_f⊂ℂ` be the subring generated by its Fourier coefficients and zero-extended nebentypus values. Define `ArisesFrom(ρ̄,f)` by the existence of one unital ring map `φ:A_f→F` to the residual coefficient field of characteristic `p`, such that at every prime `ℓ∤Np`, `ρ̄` is unramified and every arithmetic Frobenius lift satisfies `tr ρ̄(Frob_ℓ)=φ(a_ℓ(f))` and `det ρ̄(Frob_ℓ)=φ(χ_f(ℓ))ℓ^(k−1)`. This is the single residual attachment predicate; it applies to normalized full eigenforms and in particular newforms. Define `IsModular(ρ̄):=∃ f, ArisesFrom(ρ̄,f)`, including the form's weight and level in the existential. Primitive associates give the equivalent newform formulation. The trace/determinant design follows the Imperial College London FLT project.
+
+The integral-model reading is a theorem, not the definition: for continuous absolutely irreducible `ρ̄`, `ArisesFrom(ρ̄,f)` is equivalent to an integral model of the attachment of `f` having semisimple reduction isomorphic to `ρ̄` after compatible coefficient extension. For a general continuous `ρ̄` only its semisimplification is identified; Frobenius polynomials do not recover a nonsplit extension. The coefficient map specifies the place and residue embedding. Equivalently there are a maximal ideal `P` of `integralClosure ℤ ℂ` containing `p` and an embedding of its residue field into `𝔽̄_p` giving the same coefficient and character congruences. For a smaller residual field make this comparison in its algebraic closure. The coefficient-prime formulation is a comparison theorem, not the primary predicate.
+
+Through AutomorphicFormsOnReductiveGroups [§5.8](../AutomorphicFormsOnReductiveGroups/README.md#58-residual-and-torsion-hecke-eigenclasses) and [§7.3](../AutomorphicFormsOnReductiveGroups/README.md#73-hecke-and-diamond-normalization-for-gl₂), the same identities mean agreement of `ofGaloisRep ρ̄` and the reduced form eigensystem away from `Np`: the arithmetic coordinates are `T_ℓ=tr` and `S_ℓ=ℓ⁻¹det`. Also prove the maximal-Hecke-ideal reading: in the faithful integral Hecke image on the fixed weight/level/character lattice, there are a maximal ideal `𝔪` containing `p` and an embedding `T/𝔪→𝔽̄_p` matching both coordinates, with `𝔪` containing the kernel of the characteristic-zero eigencharacter of `f`. That containment is required to refer to this specific `f`, rather than an unrelated form of the same weight and level.
 
 Prove coefficient-field invariance using the actual scalar extension, finite-field descent and residue-place transport. The rational elliptic curve 11a1, `y²+y=x³−x²−10x−20`, supplies a test: its residual representation at 3 is S-type with conductor 11, weight 2 and trivial determinant character, and its associated newform gives a witness. At 5 its rational isogeny supplies a proper invariant line, so it fails S-type. At 2 an involution has determinant `−1` in the residue field without requiring the matrix to equal the identity.
 
@@ -1706,13 +1760,25 @@ The interface consists of:
 
 - `TauCeti.ResidualModularity.IsSType`: `ρ̄` continuous, absolutely irreducible and odd.
 
-- `TauCeti.ResidualModularity.ArisesFrom`: `ρ̄` arises from the newform `f` through `ι_p`: an integral model of `ρ_f` reduces to `ρ̄`.
+- `TauCeti.ResidualModularity.ArisesFrom`: A single coefficient ring map gives unramifiedness and the trace/determinant identities at all primes away from `Np`.
 
 - `TauCeti.ResidualModularity.IsModular`: ∃ `f`, ArisesFrom `ρ̄ f`.
 
 - `TauCeti.ResidualModularity.isSType_baseChange`: IsSType `ρ̄ ↔` IsSType (`ρ̄ ⊗_F F′`).
 
-- `TauCeti.ResidualModularity.arisesFrom_baseChange`: For absolutely irreducible `ρ̄`, ArisesFrom `ρ̄ f ↔` ArisesFrom (`ρ̄ ⊗_F F′`) `f`.
+- `TauCeti.ResidualModularity.arisesFrom_baseChange`: For a fixed coefficient map `φ:A_f→F` and an injective field map `F→F′`, the defining identities hold before extension if and only if they hold after extension with the composite map. The existential predicate is invariant between algebraically closed coefficient fields. Descent to a smaller field also requires the reduced full eigensystem to have values in that field.
+
+- `TauCeti.ResidualModularity.ArisesFrom.baseChange`: Extending coefficients carries the coefficient map and the trace/determinant equalities forward. This implication needs no irreducibility.
+
+- `TauCeti.ResidualModularity.ArisesFrom.of_dvd`: If `N∣M`, a form at level `N` gives the same system away from `Mp` on its oldspace at level `M`; choosing a full eigenform there gives attachment at level `M`, after coefficient extension when necessary. A primitive associate still has its actual level dividing `M`; a newform of level `N` is never relabelled as a newform of level `M`.
+
+- `TauCeti.ResidualModularity.ArisesFrom.iff_integral_model`: For continuous absolutely irreducible residual representations, the coefficient predicate is equivalent to the integral-model witness, with compatible place and residue embeddings.
+
+- `TauCeti.ResidualModularity.ArisesFrom.iff_agrees_ofGaloisRep`: The two arithmetic Hecke coordinates agree exactly when the Frobenius trace/determinant identities do.
+
+- `TauCeti.ResidualModularity.ArisesFrom.iff_exists_maximalIdeal_hecke`: The fixed-form predicate is equivalent over `𝔽̄_p` to the maximal-ideal and residue-embedding condition, including containment of the form's characteristic-zero eigenkernel.
+
+- `TauCeti.ResidualModularity.ArisesFrom.iff_integralClosure_congruence`: Over `𝔽̄_p`, a coefficient reduction extends to a prime of the algebraic integers in `ℂ`; conversely that prime and its residue embedding give the defining coefficient map.
 
 **Checks for S-type.**
 
@@ -1730,6 +1796,12 @@ The interface consists of:
 
 - `TauCeti.ResidualModularity.not_arisesFrom_11a1_three_delta` (non-example): `E[3]` for 11a1 does not arise from `Δ`. At Frobenius 2 its trace is `−2=1` in `𝔽₃`, whereas `τ(2)=−24` reduces to 0. The different traces give different characteristic polynomials.
 
+- A nonsplit unipotent representation and its semisimplification can have identical Frobenius trace and determinant; the integral-model isomorphism theorem therefore retains absolute irreducibility.
+
+- At level `N∣M`, the oldspace preserves the primes away from `Mp`; the primitive form's exact conductor level need not become `M`.
+
+- A maximal ideal of a full Hecke image not containing the chosen form's eigenkernel may belong to another eigenform and cannot establish attachment to this `f`.
+
 **Checks for IsModular.**
 
 - `TauCeti.ResidualModularity.isModular_11a1_three` (computation): The weight-two newform of 11a1 supplies a modularity witness for `E[3]`.
@@ -1738,7 +1810,7 @@ The interface consists of:
 
 - `TauCeti.ResidualModularity.not_isModular_trivial_three` (non-example): The trivial rank-two `𝔽₃` representation is not modular. Every newform attachment has determinant `−1` at complex conjugation, since `ε(−1)=(−1)^k` and `det ρ_f=εχ_cyc^(k−1)`; reduction and semisimplification preserve this determinant. The trivial representation has determinant `1≠−1` in `𝔽₃`.
 
-*Needs:* [A residual modularity witness](#target-residual-modularity-witness); [Invariance and renormalized twists](#target-recipe-well-definedness-and-twisting); [Determinant and parity](#target-determinant-parity-and-weight-mod-p-minus-one); ArithmeticGaloisRepresentations Layer 3; ArithmeticGaloisRepresentations §§1.6–1.9, 5.1–5.7.
+*Needs:* AutomorphicFormsOnReductiveGroups §§5.8, 7.3; ModularForms Layers 4, 8, 8G and 8W; [A residual modularity witness](#target-residual-modularity-witness); [Invariance and renormalized twists](#target-recipe-well-definedness-and-twisting); [Determinant and parity](#target-determinant-parity-and-weight-mod-p-minus-one); ArithmeticGaloisRepresentations Layer 3; ArithmeticGaloisRepresentations §§1.6–1.9, 5.1–5.7.
 
 ([Khare–Wintenberger](https://www.math.ucla.edu/~shekhar/papers/results.pdf), §1, p. 2 (authors' preprint); [Deligne–Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf), §1.5, pp.508–509, §4.5, p.514, Theorems 6.1 and 6.7, pp.520–522.)
 
