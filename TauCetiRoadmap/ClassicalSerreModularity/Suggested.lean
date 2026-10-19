@@ -6,7 +6,13 @@ import TauCeti.NumberTheory.ModularForms.Newforms.Newform
 
 These are suggested forms, not an exhaustive checklist. README.md is the definitive
 specification. The file records light definitions and theorem signatures statable against
-the pinned Mathlib and Tau Ceti APIs. The good-dihedral predicates retain explicit inertia,
+the pinned Mathlib and Tau Ceti APIs. `ArisesFrom` is the newform consumer spelling of
+AlgebraicModularFormsAndSerreWeights R15.6's `TauCeti.ResidualModularity.ArisesFrom`.
+Its `TauCeti.ResidualModularity.ArisesFrom.iff_integral_model` supplies the integral-model
+reading for continuous absolutely irreducible residual representations.
+ArithmeticGaloisRepresentations §6.1 supplies the elliptic action `TateModule.residualRep`;
+`residualRep` here reduces an integral matrix representation over a local coefficient ring.
+The good-dihedral predicates retain explicit inertia,
 characteristic and conductor inputs. Frobenius is arithmetic, and reductions retain their
 chosen integral model. Compatible systems, prescribed lifts, period modules, geometric forms
 and the exact-invariant Galois attachments are specified in the README. Its compatible-system
@@ -30,8 +36,9 @@ open HeckeRing.GL2 (Newform)
 
 /-! ## Arithmetic carriers and conventions -/
 
-/-- The absolute Galois group `G_ℚ = Gal(ℚ̄/ℚ)`, with Mathlib's Krull topology. This is the body
-of `Field.absoluteGaloisGroup ℚ`, used unfolded so that its actions on algebraic integers apply. -/
+/-- The absolute Galois group `G_ℚ = Gal(ℚ̄/ℚ)`, with Mathlib's Krull topology. As in
+EllipticCurveModularity, the body of `Field.absoluteGaloisGroup ℚ` is unfolded so that Tau Ceti's
+actions on algebraic integers and elliptic torsion apply directly. -/
 abbrev GQ : Type := AlgebraicClosure ℚ ≃ₐ[ℚ] AlgebraicClosure ℚ
 
 /-- The ring `ℤ̄` of algebraic integers, on which `G_ℚ` acts. -/
@@ -74,8 +81,9 @@ def coeff {N : ℕ} [NeZero N] {k : ℤ} (f : Newform N k) (n : ℕ) : ℂ :=
 def coefficientRing {N : ℕ} [NeZero N] {k : ℤ} (f : Newform N k) : Subring ℂ :=
   Subring.closure (Set.range (coeff f) ∪ Set.range (fun n : ℕ => f.dirichletLift n))
 
-/-- Residual attachment through one coefficient reduction, with arithmetic Frobenius traces,
-determinants and unramifiedness at every prime away from the level and characteristic. -/
+/-- The newform consumer spelling of AlgebraicModularFormsAndSerreWeights R15.6's
+`TauCeti.ResidualModularity.ArisesFrom`: one coefficient reduction gives arithmetic Frobenius
+traces, determinants and unramifiedness away from the level and characteristic. -/
 def ArisesFrom {p N : ℕ} [Fact p.Prime] [NeZero N] {k : ℤ}
     (ρ : GQ →* GL (Fin 2) (FpBar p)) (f : Newform N k) : Prop :=
   ∃ φ : coefficientRing f →+* FpBar p, φ p = 0 ∧
@@ -146,8 +154,9 @@ theorem ArisesFrom.conjugate {p N : ℕ} [Fact p.Prime] [NeZero N] {k : ℤ}
     ArisesFrom ((MulAut.conj B).toMonoidHom.comp ρ) f ↔ ArisesFrom ρ f := by
   sorry
 
-/-- `R27.6/finite-flat-weight-two-export`: residual attachment has an integral coefficient
-prime and a residue-field map, giving the prime and congruences used in elliptic Serre witnesses. -/
+/-- `R27.6/finite-flat-weight-two-export`: AlgebraicModularFormsAndSerreWeights R15.6's
+`TauCeti.ResidualModularity.ArisesFrom.iff_integralClosure_congruence` gives a coefficient
+prime and residue-field map for attachment, supplying the congruences in elliptic Serre witnesses. -/
 theorem ArisesFrom.integral_reduction {p N : ℕ} [Fact p.Prime] [NeZero N] {k : ℤ}
     (ρ : GQ →* GL (Fin 2) (FpBar p)) (f : Newform N k) (hk : 1 ≤ k)
     (h : ArisesFrom ρ f) :
@@ -166,7 +175,8 @@ of `ρ(τ b τ⁻¹)` for some `τ`. -/
 def IsProjConj {G k : Type*} [Group G] [CommRing k] (ρ : G →* GL (Fin 2) k) (a b : G) : Prop :=
   ∃ (τ : G) (z : k),
     (ρ a : Matrix (Fin 2) (Fin 2) k) = z • (ρ (τ * b * τ⁻¹) : Matrix (Fin 2) (Fin 2) k)
-/-- The reduction of a representation over a local ring modulo the maximal ideal. -/
+/-- Entrywise reduction of an integral matrix representation modulo the maximal ideal of its
+local coefficient ring, distinct from the elliptic action `TateModule.residualRep`. -/
 def residualRep {G O : Type*} [Group G] [CommRing O] [IsLocalRing O] (ρ : G →* GL (Fin 2) O) :
     G →* GL (Fin 2) (IsLocalRing.ResidueField O) :=
   (Matrix.GeneralLinearGroup.map (IsLocalRing.residue O)).comp ρ
