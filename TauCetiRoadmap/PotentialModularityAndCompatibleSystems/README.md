@@ -239,7 +239,7 @@ The construction has the following API:
 - `pred_newform`: A newform of weight `k ≥ 2` is regular, strictly pure of weight `k − 1`, irreducible and automorphic.
 - `extreme_positive`: H=`{0,1,3,7}` has distinct sums of distinct equal-size subsets and is extremely regular; it is realized by a sum of Tate characters.
 - `extreme_collision`: H=`{0,1,2,3}` is regular but not extremely regular: `{0,3}` and `{1,2}` have the same cardinality and sum.
-- `extreme_repetition`: H=`{0,0}` is not regular and hence not extremely regular. The finite-multiset predicate `HodgeChecks.IsExtremelyRegular` in Suggested.lean mirrors these three tests; the system-level realizations are README-only because the system carrier is supplied separately.
+- `extreme_repetition`: H=`{0,0}` is not regular and hence not extremely regular. The finite-multiset predicate `HodgeChecks.IsExtremelyRegular` in Suggested.lean distinguishes the positive and equal-sum collision cases; the system-level realizations are README-only because the system carrier is supplied separately.
 - `pred_regular_fails`: `ε ⊕ ε` is not regular `(H = {−1, −1})`.
 - `pred_odd_purity`: For n odd and v real, purity forces w even (BLGGT p. 53).
 - `pred_strict_vs_almost_strict`: Check the away-coefficient WD comparison separately from the coefficient-prime conditions. BLGGT strictness has no coefficient-prime WD clause, and KW almost strictness requires additional conditions there.
@@ -266,7 +266,7 @@ The construction has the following API:
 - `Factors.dualPolynomial`: The normalized reciprocal of a monic polynomial with nonzero constant term, for the supplied contragredient operation.
 - `symmetricPower`: `Sym^k` members and repeated k-fold weight sums; `rank binomial(n+k−1,k)` for `n≥1`, with the rank-zero cases just specified.
 - `exteriorPower`: `∧^k` members and distinct k-fold weight sums; rank binomial(n,k), zero if `k>n`.
-- `dual_charpoly`: The normalized reciprocal polynomial is monic of rank n; for `rank 2, X²−aX+b` becomes `X²−(a/b)X+1/b`.
+- `Factors.dual_charpoly`: The contragredient of an invertible matrix has the normalized reciprocal characteristic polynomial, monic of rank n; for `rank 2, X²−aX+b` becomes `X²−(a/b)X+1/b`.
 - `directSum_pure`: Pure systems of the same weight w have pure direct sum of weight w; differing weights invalidate the conclusion.
 
 **Checks.**
@@ -697,7 +697,7 @@ The construction has the following API:
 - `pg_whole_boundary`: rigidification along the identity of X gives one class; forgetting it gives the trivial line-bundle class. These are objectwise checks, distinct from relative fppf exactness.
 - `pg_forget_representative`: For `(L,α)`, the forgotten class is LineBundleClass.mk L.
 
-The `PicardChecks` examples in Suggested.lean mirror `pg_rigidified_iso`, `pg_whole_boundary` and `pg_forget_representative` on the imported carriers. Import `RigidifiedLineBundle`, `RigidifiedLineBundleClass.mk_eq_mk_iff`, `lift`, `lift_mk`, `pullback`, `pullback_id`, `pullback_comp`, `toLineBundleClass` and `toLineBundleClass_pullback` from Tau Ceti (`LineBundle/Rigidified/Basic.lean`), and `mk_mk_eq_mk_mk_iff`, `stabilizer_eq_range` and `range_toLineBundleClass` from `LineBundle/Rigidified/Automorphisms.lean`, all in the `TauCeti.AlgebraicGeometry` namespace. These declarations are imported prerequisites and are not new targets.
+Import `RigidifiedLineBundle`, `RigidifiedLineBundleClass.mk_eq_mk_iff`, `lift`, `lift_mk`, `pullback`, `pullback_id`, `pullback_comp`, `toLineBundleClass` and `toLineBundleClass_pullback` from Tau Ceti (`LineBundle/Rigidified/Basic.lean`), and `mk_mk_eq_mk_mk_iff`, `stabilizer_eq_range` and `range_toLineBundleClass` from `LineBundle/Rigidified/Automorphisms.lean`, all in the `TauCeti.AlgebraicGeometry` namespace. These declarations are imported prerequisites and are not new targets.
 
 The sources are [Moret–Bailly II][moret-bailly-1989-II], 3.1, pp. 186–187, 3.2.4 and Lemme 3.3, p. 187, 3.4, p. 188, Lemme 3.6, p. 189.
 
@@ -1054,7 +1054,7 @@ The construction has the following API:
 
 - `taylorAux_N0_l5`: For `l = 5` and `k = F_5`: `ζ` has order 4 and `N₀ = ℚ(ζ₄, √−19)`; 5 does not divide `1 − 4·5 = −19`, so 5 is unramified in N₀.
 - `taylorAux_unramified_CM`: with the original `l=5,k=𝔽₅`, `N₀=ℚ(i,√−19)` is everywhere finitely unramified over `M₀=ℚ(√19)`. For any CM N containing N₀, `N=N₀N⁺`, so finite unramifiedness persists by base change; enlarging N cannot create finite ramification, and this argument supplies no ordered norm witness.
-- `taylorAux_split_eigenvalues`: over 𝔽₅ the determinant-one matrix `[[0,−1],[1,−1]]` has projective order three but irreducible polynomial `X²+X+1`. Distinct eigenvalues alone do not lie in the initial field; they split over the coefficient extension k′. The `Auxiliary` examples in Suggested.lean verify its order, characteristic polynomial and absence of roots in 𝔽₅.
+- `taylorAux_split_eigenvalues`: over 𝔽₅ the determinant-one matrix `[[0,−1],[1,−1]]` has projective order three but irreducible polynomial `X²+X+1`. Distinct eigenvalues alone do not lie in the initial field; they split over the coefficient extension k′.
 - `taylorAux_det_needed`: The simultaneous alternating torsion pairing requires `det ρ̄=ε̄_l`. A different determinant, such as `ε̄_lω²`, cannot supply that pairing; also check the stored identity `det Ind ψ=ε_p`.
 - `taylorAux_alpha_norm`: For `α_w` of algebraic norm `p, diag(α_w,α_w^c)` has determinant p. This is an algebraic norm calculation, not a p-adic cyclotomic value of a Frobenius lift at p.
 - `taylorAux_not_in_cyclotomic`: L ⊄ `F(ζ_p)` is part of the data; a quadratic subfield of `F(ζ_p)` is not allowed.
@@ -1846,9 +1846,9 @@ The API exposes the presentation equivalence, flatness and regular sequence; `Pr
 - `presentation_variable`: O also has the one-variable presentation O[[x]]/(x).
 - `presentation_unit`: O[[x]]/(1) is a valid presentation of the zero algebra, so presentation alone does not imply nontriviality.
 - `ci_empty`: every nonzero O is flat over itself and has relative dimension zero via the empty regular sequence.
-- `ci_variable`: for nonzero noetherian O, O[[x]] is O-flat of relative dimension one; arbitrary coefficient rings are excluded.
-- `ci_unit`: over `ℚ`, the quotient by (1) fails the regular-sequence nonzero-quotient condition.
-- `ci_torsion`: `ℤ/2` is not ℤ-flat, so it fails the flat-complete-intersection predicate.
+- `Presentations.ci_variable`: for nonzero noetherian O, O[[x]] is O-flat of relative dimension one; arbitrary coefficient rings are excluded.
+- `Presentations.ci_unit`: over any coefficient ring and in any relative dimension, the quotient by (1) fails the regular-sequence nonzero-quotient condition; in particular this excludes `ℚ[[x]]/(1)`.
+- `Presentations.ci_torsion`: a nonzero scalar annihilating a nonzero algebra over a domain obstructs flatness in every relative dimension. In particular `ℤ/2` is not ℤ-flat, so it fails the flat-complete-intersection predicate.
 
 The sources are [Böckle][bockle-appendix-2003], Lemma 2, p. 5; [Stacks Project, §10.97, Lemma 10.97.2](https://stacks.math.columbia.edu/tag/00MB) for noetherian completion flatness in `ci_variable`.
 
