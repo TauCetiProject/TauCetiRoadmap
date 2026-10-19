@@ -18,6 +18,9 @@ toroidal Hodge-type tower uses B3.HT.6. Their identifications preserve finite-le
 moduli, completed rings, boundary ideals, period maps and semilinear actions.
 The rational Levi comparison uses B3.HT.7 with B0.3's opposite/dual identification
 and the central-cocharacter Tate twist.
+Layer 6 uses the rank-removing quotient `G^r`; its effective-central-kernel theorem,
+canonical-model pullback from the quotient datum and comparison with `G^c` under
+the CM-split-centre hypothesis are geometric targets of README §6.1a.
 -/
 
 /-! ## Layer 0: the genus-one similitude identity -/
@@ -255,6 +258,7 @@ the geometric levelAction, polAction, weilPairing, weilPairing_arith, qpAction.
 The levelAction_adjugate and levelAction_vs_rightTranslation Checks are in §5.4.
 Layer 6: AbelianType.hodgeCover, lovering, deltaGroup; LevelGroup.mk;
 BruhatTube.mk; the logarithmic, de Rham and Hodge–Tate torsors, the chosen universally open
-toric cover (§6.0), arbitrary-data canonical association (§6.1a), finite-level truncated
+toric cover (§6.0), the rank-removing coefficient quotient and its principal/logarithmic
+models and arbitrary-data canonical association (§6.1a), finite-level truncated
 period maps (§6.13a) and nonsplit Levi image (§6.13b).
 -/
