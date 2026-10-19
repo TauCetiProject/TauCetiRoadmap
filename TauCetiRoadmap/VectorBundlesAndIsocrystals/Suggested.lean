@@ -93,7 +93,9 @@ end FiniteIsocrystal
 -- Check: finiteIsocrystal_witt
 /-- The carrier comparison transports CrystallineCohomology §CR.4.7's Witt blocks and
 classification through the finite Witt specialization, preserving Frobenius and rank.
-The ramified-coefficient and equal-characteristic extensions are specified in VB0. -/
+VB0's mixed-characteristic comparison transports the ramified and q-Frobenius classification
+from PadicDifferentialEquationsAndRigidCohomology §RD.1.32; its equal-characteristic
+classification over k((π)) is a separate VB0 target. -/
 theorem dieudonneManinIsocrystals
     (p : ℕ) [Fact p.Prime] (k : Type u) [Field k] [CharP k p]
     [PerfectRing k p] [IsAlgClosed k]
