@@ -11,6 +11,8 @@ import Mathlib.Analysis.Convex.Intrinsic
 import Mathlib.Analysis.Normed.Affine.AddTorsorBases
 import Mathlib.Analysis.Normed.Module.FiniteDimension
 import Mathlib.CategoryTheory.Groupoid
+import Mathlib.CategoryTheory.Grothendieck
+import Mathlib.CategoryTheory.Limits.Final
 import Mathlib.CategoryTheory.NatTrans
 import Mathlib.GroupTheory.Index
 import Mathlib.GroupTheory.QuotientGroup.Defs
@@ -418,47 +420,91 @@ end Action
 
 /-! ### Coefficient diagrams and represented labels (README §0.7)
 
-Coefficient arrows include quotient and localization maps; abstract labels form a groupoid.
+A coefficient diagram is a functor on the Grothendieck construction of a functor `C : D ⥤ Cat`
+whose transition functors are bijective on objects. The scattering instance is the truncation
+tower `D = ℕᵒᵖ`. Arrows may be quotient and localization maps; labels form groupoids.
 -/
 
 section CoefficientDiagrams
 
-open CategoryTheory
+open CategoryTheory Limits
 
-variable (J V : Type*) [Category J] [Category V]
+variable {D : Type*} [Category D] (C : D ⥤ Cat) (𝒱 : Type*) [Category 𝒱]
 
-/-- A fixed-index tower of coefficient diagrams (`README §0.7`). -/
-structure CoefficientDiagram where
-  level : ℕ → J ⥤ V
-  truncate : ∀ k, level (k + 1) ⟶ level k
+/-- The transition functors of `C` are bijective on objects (`README §0.7`). -/
+def IsBijectiveOnObjects : Prop :=
+  ∀ ⦃d d' : D⦄ (f : d ⟶ d'), Function.Bijective (C.map f).toFunctor.obj
 
-variable {J V}
+/-- The transition functors of `C` are full (`README §0.7`, *fiberwiseLimit*). -/
+def IsFullTransitions : Prop :=
+  ∀ ⦃d d' : D⦄ (f : d ⟶ d'), (C.map f).toFunctor.Full
 
-variable (L : Type*) [Groupoid L]
+/-- A coefficient diagram on `C` (`README §0.7`). -/
+abbrev CoefficientDiagram := Grothendieck C ⥤ 𝒱
 
-/-- Abstract label transport `L ⥤ J`, represented by `J ⥤ V` (`README §0.7`). -/
-structure LabelRepresentation where
-  location : L ⥤ J
-  coefficient : J ⥤ V
+variable {C 𝒱}
 
-/-- The represented transport. -/
-def LabelRepresentation.transport (F : LabelRepresentation (J := J) (V := V) L) : L ⥤ V :=
-  F.location ⋙ F.coefficient
+/-- The diagram at `d`, the restriction to the fiber over `d`. -/
+abbrev CoefficientDiagram.fiber (F : CoefficientDiagram C 𝒱) (d : D) : C.obj d ⥤ 𝒱 :=
+  Grothendieck.ι C d ⋙ F
 
-variable {L}
+/-- Completed matching families (`README §0.7`). -/
+noncomputable abbrev CoefficientDiagram.completedMatching (F : CoefficientDiagram C 𝒱)
+    [HasLimit F] : 𝒱 :=
+  limit F
 
-/-- A level change with varying label and stratum categories (`README §0.7`). -/
-structure LabelTruncation {L' J' : Type*} [Groupoid L'] [Category J']
-    (F : LabelRepresentation (J := J) (V := V) L)
-    (F' : LabelRepresentation (J := J') (V := V) L') where
-  labels : L ⥤ L'
-  strata : J ⥤ J'
-  over : F.location ⋙ strata ≅ labels ⋙ F'.location
-  truncate : F.coefficient ⟶ strata ⋙ F'.coefficient
+/-- The functor `d ↦ lim_{C_d} F_d`, defined when the transition functors are bijective on
+objects and full (`README §0.7`, *fiberwiseLimit*). -/
+noncomputable def CoefficientDiagram.fiberwiseLimit (F : CoefficientDiagram C 𝒱)
+    [∀ d, HasLimit (F.fiber d)] (hobj : IsBijectiveOnObjects C) (hfull : IsFullTransitions C) :
+    D ⥤ 𝒱 :=
+  sorry
+
+/-- *fiberwiseLimit*: completed matching families are the limit of the fiberwise matching
+families. Mathlib's `colimitFiberwiseColimitIso` is the corresponding statement for colimits
+(`README §0.7`). -/
+noncomputable def CoefficientDiagram.fiberwiseLimitIso (F : CoefficientDiagram C 𝒱)
+    [∀ d, HasLimit (F.fiber d)] (hobj : IsBijectiveOnObjects C) (hfull : IsFullTransitions C)
+    [HasLimit F] [HasLimit (F.fiberwiseLimit hobj hfull)] :
+    limit F ≅ limit (F.fiberwiseLimit hobj hfull) :=
+  sorry
+
+/-- *initialReindexing*: `Grothendieck.pre C G` is initial along an initial base functor
+(`README §0.7`). Completed matching families are then compared by
+`Functor.Initial.limitIso`. -/
+theorem pre_initial {D' : Type*} [Category D'] (G : D' ⥤ D) [G.Initial]
+    (hobj : IsBijectiveOnObjects C) (hfull : IsFullTransitions C) :
+    (Grothendieck.pre C G).Initial :=
+  sorry
+
+/-- A coefficient diagram map along a base functor `G` (`README §0.7`). For the truncation
+tower, `G` is the functor `ℕᵒᵖ ⥤ ℕᵒᵖ` of a monotone cutoff modulus (`cutoffBase`). -/
+structure CoefficientDiagramMap {D' : Type*} [Category D'] {C' : D' ⥤ Cat}
+    (F : CoefficientDiagram C 𝒱) (F' : CoefficientDiagram C' 𝒱) (G : D' ⥤ D) where
+  index : Grothendieck (G ⋙ C) ⥤ Grothendieck C'
+  over : index ⋙ Grothendieck.forget C' ≅ Grothendieck.forget (G ⋙ C)
+  app : Grothendieck.pre C G ⋙ F ⟶ index ⋙ F'
+
+/-- The base functor of a monotone cutoff modulus on the truncation tower. -/
+abbrev cutoffBase (modulus : ℕ → ℕ) (h : Monotone modulus) : ℕᵒᵖ ⥤ ℕᵒᵖ :=
+  h.functor.op
+
+/-- Labels: groupoid fibers on the objects of `C`, located by an identity-on-objects natural
+transformation (`README §0.7`). -/
+structure LabelRepresentation (C : D ⥤ Cat) where
+  labels : D ⥤ Cat
+  isGroupoid : ∀ d, IsGroupoid (labels.obj d)
+  location : labels ⟶ C
+  location_obj : ∀ d, Function.Bijective (location.app d).toFunctor.obj
+
+/-- The coefficient action of the labels. -/
+abbrev LabelRepresentation.action (L : LabelRepresentation C) (F : CoefficientDiagram C 𝒱) :
+    Grothendieck L.labels ⥤ 𝒱 :=
+  Grothendieck.map L.location ⋙ F
 
 end CoefficientDiagrams
 
-/-! ### Graded face spans and whole-component crossings (README §0.8) -/
+/-! ### Graded correspondences (README §0.8) -/
 
 section HomogeneousComponents
 
@@ -484,99 +530,93 @@ noncomputable def homogeneousImage {N : Type*} [AddCommMonoid N] [Module R N]
 
 end HomogeneousComponents
 
-section FaceSpans
+section Correspondences
 
 variable {R Γu Γv Mb Mu Mv : Type*} [Semiring R]
   [AddCommMonoid Mb] [AddCommMonoid Mu] [AddCommMonoid Mv]
   [Module R Mb] [Module R Mu] [Module R Mv]
   (𝒜u : Γu → Submodule R Mu) (𝒜v : Γv → Submodule R Mv)
 
-/-- A regular face span with linear lifts from admissible homogeneous chamber pieces.
-Each chamber has its own grading (`README §0.8`). -/
-structure GradedFaceSpan where
+/-- A jointly injective span with linear lifts on admissible whole homogeneous pieces
+(`README §0.8`). In a coefficient diagram it is a structure on a span of the index category. -/
+structure GradedCorrespondence (Mb : Type*) [AddCommMonoid Mb] [Module R Mb] where
   left : Mb →ₗ[R] Mu
   right : Mb →ₗ[R] Mv
-  joint_injective : Function.Injective (fun a => (left a, right a))
-  admissibleLeft : Γu → Submodule R Mu
-  admissibleLeft_le : ∀ p, admissibleLeft p ≤ 𝒜u p
-  liftLeft : ∀ p, admissibleLeft p →ₗ[R] Mb
-  left_lift : ∀ p (a : admissibleLeft p), left (liftLeft p a) = a
-  admissibleRight : Γv → Submodule R Mv
-  admissibleRight_le : ∀ p, admissibleRight p ≤ 𝒜v p
-  liftRight : ∀ p, admissibleRight p →ₗ[R] Mb
-  right_lift : ∀ p (a : admissibleRight p), right (liftRight p a) = a
+  joint_injective : Function.Injective (left.prod right)
+  admissibleLeft : Set Γu
+  liftLeft : ∀ γ ∈ admissibleLeft, 𝒜u γ →ₗ[R] Mb
+  left_lift : ∀ γ (h : γ ∈ admissibleLeft) (a : 𝒜u γ), left (liftLeft γ h a) = a
+  admissibleRight : Set Γv
+  liftRight : ∀ η ∈ admissibleRight, 𝒜v η →ₗ[R] Mb
+  right_lift : ∀ η (h : η ∈ admissibleRight) (a : 𝒜v η), right (liftRight η h a) = a
 
 variable {𝒜u 𝒜v}
 
-/-- Propagate by restricting the regular lift to the other chamber. -/
-def GradedFaceSpan.leftToRight (S : GradedFaceSpan (Mb := Mb) 𝒜u 𝒜v) (p : Γu) :
-    S.admissibleLeft p →ₗ[R] Mv := S.right.comp (S.liftLeft p)
+/-- The transfer from the left module: lift, map to the right module and keep the whole
+`η`-component (`README §0.8`). -/
+noncomputable def GradedCorrespondence.transferLeft [DecidableEq Γv]
+    [DirectSum.Decomposition 𝒜v]
+    (S : GradedCorrespondence 𝒜u 𝒜v Mb) (γ : Γu) (h : γ ∈ S.admissibleLeft) (η : Γv) :
+    𝒜u γ →ₗ[R] Mv :=
+  homogeneousImage 𝒜v (S.right.comp (S.liftLeft γ h)) η
 
-/-- Reverse regular propagation. -/
-def GradedFaceSpan.rightToLeft (S : GradedFaceSpan (Mb := Mb) 𝒜u 𝒜v) (p : Γv) :
-    S.admissibleRight p →ₗ[R] Mu := S.left.comp (S.liftRight p)
+/-- The transfer from the right module. -/
+noncomputable def GradedCorrespondence.transferRight [DecidableEq Γu]
+    [DirectSum.Decomposition 𝒜u]
+    (S : GradedCorrespondence 𝒜u 𝒜v Mb) (η : Γv) (h : η ∈ S.admissibleRight) (γ : Γu) :
+    𝒜v η →ₗ[R] Mu :=
+  homogeneousImage 𝒜u (S.left.comp (S.liftRight η h)) γ
 
-/-- Truncation of a regular face span, commuting with restrictions and admissible lifts
-(`README §0.8`). -/
-structure FaceSpanTruncation
+/-- The submodule of `Mu × Mv` identified with `Mb` (`README §0.8`, *matching*). -/
+def GradedCorrespondence.toSubmodule (S : GradedCorrespondence 𝒜u 𝒜v Mb) :
+    Submodule R (Mu × Mv) :=
+  LinearMap.range (S.left.prod S.right)
+
+/-- A common lift of two linear maps into homogeneous pieces (`README §0.8`). -/
+structure GradedCorrespondence.CommonLift (S : GradedCorrespondence 𝒜u 𝒜v Mb)
+    {E : Type*} [AddCommMonoid E] [Module R E] {γu : Γu} {γv : Γv}
+    (αu : E →ₗ[R] 𝒜u γu) (αv : E →ₗ[R] 𝒜v γv) where
+  lift : E →ₗ[R] Mb
+  left_lift : ∀ a : E, S.left (lift a) = αu a
+  right_lift : ∀ a : E, S.right (lift a) = αv a
+
+variable (𝒜u 𝒜v) in
+/-- The graph correspondence of a linear equivalence (`README §0.8`). -/
+def GradedCorrespondence.graph (θ : Mu ≃ₗ[R] Mv) : GradedCorrespondence 𝒜u 𝒜v Mu where
+  left := LinearMap.id
+  right := θ.toLinearMap
+  joint_injective _ _ h := congrArg Prod.fst h
+  admissibleLeft := Set.univ
+  liftLeft γ _ := (𝒜u γ).subtype
+  left_lift _ _ _ := rfl
+  admissibleRight := Set.univ
+  liftRight η _ := θ.symm.toLinearMap.comp (𝒜v η).subtype
+  right_lift _ _ a := by simp
+
+/-- Truncation of a graded correspondence, with the same degree groups, commuting with the maps
+and lifts (`README §0.8`). An admissible degree stays admissible when its piece survives. -/
+structure GradedCorrespondence.Truncation
     {Mb' Mu' Mv' : Type*} [AddCommMonoid Mb'] [AddCommMonoid Mu'] [AddCommMonoid Mv']
     [Module R Mb'] [Module R Mu'] [Module R Mv']
     {𝒜u' : Γu → Submodule R Mu'} {𝒜v' : Γv → Submodule R Mv'}
-    (S : GradedFaceSpan (Mb := Mb) 𝒜u 𝒜v)
-    (S' : GradedFaceSpan (Mb := Mb') 𝒜u' 𝒜v') where
+    (S : GradedCorrespondence 𝒜u 𝒜v Mb) (S' : GradedCorrespondence 𝒜u' 𝒜v' Mb') where
   face : Mb →ₗ[R] Mb'
   left : Mu →ₗ[R] Mu'
   right : Mv →ₗ[R] Mv'
   left_square : left.comp S.left = S'.left.comp face
   right_square : right.comp S.right = S'.right.comp face
-  admissibleLeft : ∀ p, S.admissibleLeft p →ₗ[R] S'.admissibleLeft p
-  admissibleLeft_val : ∀ p (a : S.admissibleLeft p), (admissibleLeft p a : Mu') = left a
-  liftLeft_square : ∀ p, face.comp (S.liftLeft p) = (S'.liftLeft p).comp (admissibleLeft p)
-  admissibleRight : ∀ p, S.admissibleRight p →ₗ[R] S'.admissibleRight p
-  admissibleRight_val : ∀ p (a : S.admissibleRight p), (admissibleRight p a : Mv') = right a
-  liftRight_square : ∀ p, face.comp (S.liftRight p) = (S'.liftRight p).comp (admissibleRight p)
+  left_graded : ∀ γ, (𝒜u γ).map left ≤ 𝒜u' γ
+  right_graded : ∀ η, (𝒜v η).map right ≤ 𝒜v' η
+  admissibleLeft : ∀ γ ∈ S.admissibleLeft, 𝒜u' γ ≠ ⊥ → γ ∈ S'.admissibleLeft
+  admissibleRight : ∀ η ∈ S.admissibleRight, 𝒜v' η ≠ ⊥ → η ∈ S'.admissibleRight
+  liftLeft_square : ∀ γ (h : γ ∈ S.admissibleLeft) (h' : γ ∈ S'.admissibleLeft) (a : 𝒜u γ),
+    face (S.liftLeft γ h a) =
+      S'.liftLeft γ h' ⟨left a, left_graded γ (Submodule.mem_map_of_mem a.2)⟩
+  liftRight_square : ∀ η (h : η ∈ S.admissibleRight) (h' : η ∈ S'.admissibleRight)
+    (a : 𝒜v η), face (S.liftRight η h a) =
+      S'.liftRight η h' ⟨right a, right_graded η (Submodule.mem_map_of_mem a.2)⟩
 
-end FaceSpans
-
-section CrossingRules
-
-variable {R Γ Γ' Λ Λ' M M' : Type*} [Semiring R]
-  [AddCommGroup Γ] [AddCommGroup Γ'] [AddCommGroup Λ] [AddCommGroup Λ']
-  [DecidableEq Γ'] [AddCommMonoid M] [AddCommMonoid M']
-  [Module R M] [Module R M']
-  (𝒜 : Γ → Submodule R M) (𝓑 : Γ' → Submodule R M')
-  [DirectSum.Decomposition 𝓑]
-  (ρ : Γ →+ Λ) (ρ' : Γ' →+ Λ')
-
-/-- A filtered crossing rule on admissible homogeneous inputs. `normal_compat` preserves
-transverse velocity in each nonzero output component (`README §§0.8, 1.5`). -/
-structure DecoratedCrossingRule where
-  tangent : Λ ≃+ Λ'
-  normal : Λ →+ ℤ
-  targetNormal : Λ' →+ ℤ
-  tangent_normal : targetNormal.comp tangent.toAddMonoidHom = normal
-  admissible : Γ → Submodule R M
-  admissible_le : ∀ p, admissible p ≤ 𝒜 p
-  propagate : ∀ p, admissible p →ₗ[R] M'
-  sourceOrder : ℕ → Submodule R M
-  targetOrder : ℕ → Submodule R M'
-  source_antitone : Antitone sourceOrder
-  target_antitone : Antitone targetOrder
-  cutoff : ℕ → ℕ
-  monotone_cutoff : Monotone cutoff
-  filtered : ∀ k p (a : admissible p), (a : M) ∈ sourceOrder (cutoff k) →
-    propagate p a ∈ targetOrder k
-  normal_compat : ∀ p q (a : admissible p),
-    homogeneousComponent 𝓑 q (propagate p a) ≠ 0 → targetNormal (ρ' q) = normal (ρ p)
-
-variable {𝒜 𝓑 ρ ρ'}
-
-/-- The whole homogeneous component of the propagated input. -/
-noncomputable def DecoratedCrossingRule.component
-    (C : DecoratedCrossingRule 𝒜 𝓑 ρ ρ') (p : Γ) (q : Γ') :
-    C.admissible p →ₗ[R] M' := homogeneousImage 𝓑 (C.propagate p) q
-
-end CrossingRules
+end Correspondences
 
 /-! ## Layer 1: polyhedral geometry -/
 
