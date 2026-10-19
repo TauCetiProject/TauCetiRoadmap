@@ -454,8 +454,8 @@ The API consists of the following maps and identities.
 **Checks.**
 
 - `constant_finite`: A constant identity system with value `O/ϖ^s` has that same colimit.
-- `circle_killed`: For degree-p circle covers, degree-one pullback is `p` and the fixed-exponent colimit is zero.
-- `locally_constant_not_all`: For `K_0=ℤ_p` fixed `s`, the degree-zero regular torsor colimit contains precisely locally constant functions, not arbitrary set functions.
+- `torsionColimit_circle_killed`: For degree-p circle covers, degree-one pullback is `p` and the fixed-exponent colimit is zero; the named theorem states this for the multiplication-by-p module diagram.
+- `torsionColimit_locally_constant_not_all`: For `K_0=ℤ_p` fixed `s`, the degree-zero regular torsor colimit contains precisely locally constant functions, not arbitrary set functions. The named theorem uses `p=2`, `s=1` and excludes the singleton indicator at zero.
 - At fixed `s` the regular torsor gives locally constant functions `K_0→O/ϖ^s`.
 - The order level colimit then coefficient limit is pinned.
 
@@ -1277,7 +1277,7 @@ To prove this, use the actual finite-rank lifted representatives from the previo
 
 - The pro-p circle complex is perfect but `H₀=Λ/(γ−1)` is not `Λ`-projective.
 - A bad stabilizer with p-torsion cannot be averaged away.
-- At a point with `W_0=ℤ₅` and a coefficient automorphism 2, chains on `W_0∨` have automorphism `1/2`; their cochain dual has automorphism 2. The `Representation.dual` example over `ZMod 5` gives scalars three and two on the first dual and bidual, respectively. Dualizing chains on `W_0` instead would give the wrong action.
+- At a point with `W_0=ℤ₅` and a coefficient automorphism 2, chains on `W_0∨` have automorphism `1/2`; their cochain dual has automorphism 2. Over `ZMod 5` the first dual and bidual have scalars three and two, respectively. Dualizing chains on `W_0` instead would give the wrong action.
 
 *Needs:* DerivedModuleAlgebra §1.E.0 and ArithmeticLocallySymmetricSpaces §ALS.F.2; [4.2](#completed-equivariant-cell-complex), [3.11](#admissible-complex-convention), [2.4](#integral-admissible-complex-control), `DeformationAndDerivedPatchingAlgebra §§7.3, 7.5–7.7; F.2–F.3 here for group rings`.
 
@@ -2015,9 +2015,9 @@ The API consists of the following maps and identities.
 
 **Checks.**
 
-- `TauCetiRoadmap.CompletedCohomologyPartII.transportedAction_identity`: The trivial natural action induces the identity on every element of the completed object.
-- `TauCetiRoadmap.CompletedCohomologyPartII.transportedAction_sign`: For a constant `O` coefficient-limit diagram with the `C_2` sign action, the nontrivial element acts by −1, including at `p=2`; reduction modulo 2 can be trivial without making the integral action trivial.
-- `TauCetiRoadmap.CompletedCohomologyPartII.transportedAction_noncommuting`: The two shears on `O^2`, represented by matrices [[1,1],[0,1]] and [[1,0],[1,1]], do not commute. Commutation on the completed object requires the finite commuting-action hypothesis.
+- The trivial natural action induces the identity on every element of the completed object.
+- For a constant `O` coefficient-limit diagram with the `C_2` sign action, the nontrivial element acts by −1, including at `p=2`; reduction modulo 2 can be trivial without making the integral action trivial.
+- The two shears on `O^2`, represented by matrices [[1,1],[0,1]] and [[1,0],[1,1]], do not commute. Commutation on the completed object requires the finite commuting-action hypothesis.
 - Projection to each coefficient coordinate recovers the specified action, with the same order of Hecke composition.
 - A product of finite discrete representations gives a continuous inverse-limit action even when their common kernel is not open.
 
@@ -2046,9 +2046,9 @@ The API consists of the following maps and identities.
 
 **Checks.**
 
-- `TauCetiRoadmap.CompletedCohomologyPartII.derivedHeckeDiagram_zero`: A zero complex has the one-element image ring at every level; its compatible diagram has no maximal ideals.
-- `TauCetiRoadmap.CompletedCohomologyPartII.derivedHeckeDiagram_scalar`: For the scalar action on a rank-one `O/ϖ^s` complex at trivial group level, the image is `O/ϖ^s` and coefficient transitions are quotient maps.
-- `TauCetiRoadmap.CompletedCohomologyPartII.derivedHeckeDiagram_intertwiner_insufficient`: For `H=k[x]` acting by `x=0` on `k` and by `x=1` on `k`, the zero map of modules intertwines the actions, but no H-compatible map of the two image quotients exists. A bare intertwiner cannot replace base-change recovery.
+- A zero complex has the one-element image ring at every level; its compatible diagram has no maximal ideals.
+- For the scalar action on a rank-one `O/ϖ^s` complex at trivial group level, the image is `O/ϖ^s` and coefficient transitions are quotient maps.
+- For `H=k[x]` acting by `x=0` on `k` and by `x=1` on `k`, the zero map of modules intertwines the actions, but no H-compatible map of the two image quotients exists. A bare intertwiner cannot replace base-change recovery.
 - Every transition is surjective on actual image rings and preserves the class of each abstract Hecke operator.
 - An operator killed in the finer derived image is killed after actual derived coefficient change.
 
@@ -2101,11 +2101,11 @@ The API consists of the following maps and identities.
 
 **Checks.**
 
-- `TauCetiRoadmap.CompletedCohomologyPartII.completedHecke_constant`: For the constant identity-transition diagram on a finite commutative ring A, `T̂≅A` with its discrete topology.
+- For the constant identity-transition diagram on a finite commutative ring A, `T̂≅A` with its discrete topology.
 - `TauCetiRoadmap.CompletedCohomologyPartII.completedHecke_scalar`: For `A_s=ℤ/p^s` with reduction maps (the native `coefficientRingDiagram` uses exponents `n+1`), `T̂≅ℤ_p`; the map `ℤ→ℤ_p` is dense and is not surjective.
 - At `p=0`, `coefficientRingDiagram` has `ZMod 0=ℤ` at every object and identity maps; its ring limit is `ℤ`. This generic constructor test lies outside the finite arithmetic coefficient hypotheses.
 - At `p=1`, `coefficientRingDiagram` has the one-element ring at every object and identity maps; its limit is the one-element ring and has empty maximal spectrum.
-- `TauCetiRoadmap.CompletedCohomologyPartII.completedHecke_zero`: For the one-element finite image diagram, the completed ring is the one-element ring and its maximal spectrum is empty.
+- For the one-element finite image diagram, the completed ring is the one-element ring and its maximal spectrum is empty.
 - For the contractible perfect disk `[k --1→ k]`, the derived image is the zero ring; it acts on the zero derived object and homology, but cannot act unitally on the nonzero chain terms.
 - No topology of pointwise convergence on End(completed homology) replaces the specified inverse-limit topology.
 - The underlying ring and projections agree with the native compatible-sections carrier.
@@ -2156,9 +2156,9 @@ The API consists of the following maps and identities.
 
 **Checks.**
 
-- `TauCetiRoadmap.CompletedCohomologyPartII.residualProjector_product`: For O×O with the two residual maximal ideals, the projectors are (1,0) and (0,1).
-- `TauCetiRoadmap.CompletedCohomologyPartII.residualProjector_local`: For a local completed image ring the sole residual projector is 1.
-- `TauCetiRoadmap.CompletedCohomologyPartII.residualProjector_congruent_characters`: In `T = {(a,b) ∈ O×O : a ≡ b mod ϖ}`, (1,0) is not an element of `T`. Both rational characters belong to the same residual factor, whose projector is 1.
+- For O×O with the two residual maximal ideals, the projectors are (1,0) and (0,1).
+- For a local completed image ring the sole residual projector is 1.
+- In `T = {(a,b) ∈ O×O : a ≡ b mod ϖ}`, (1,0) is not an element of `T`. Both rational characters belong to the same residual factor, whose projector is 1.
 - A residual ideal outside the image support is rejected as input; it does not define an arbitrary new summand.
 
 *Needs:* [8.11](#completed-semilocal-product), `IntegralHeckeAndGaloisDeterminants §§2.1–2.2; F.3 here for equivariant group rings`, `RingCat.sectionsSubring`.
@@ -2184,13 +2184,14 @@ The API consists of the following maps and identities.
 - `TauCetiRoadmap.CompletedCohomologyPartII.completedLocalization_projection`: `P` corestricts to a continuous linear projection onto its range, and the inclusion/projection composites are 1 on the range and `P` on `M`.
 - `TauCetiRoadmap.CompletedCohomologyPartII.completedLocalization_map`: Any continuous linear map intertwining two labelled projectors restricts to the ranges, respecting identity and composition.
 - `TauCetiRoadmap.CompletedCohomologyPartII.completedLocalization_algebraic`: For the supported residual label and semilocal product ring, the selected image is algebraically the localization of `M` at that maximal ideal.
+- `TauCetiRoadmap.CompletedCohomologyPartII.completedLocalization_decomposition`: A finite family of orthogonal continuous idempotents with sum 1 gives a continuous linear equivalence with the product of their ranges, whose coordinates are the projectors.
 - `TauCetiRoadmap.CompletedCohomologyPartII.completedLocalization_complete`: For the complete separated additive uniformity of the Hausdorff completed object, its closed residual range is complete with the induced uniformity.
 
 **Checks.**
 
-- `TauCetiRoadmap.CompletedCohomologyPartII.completedLocalization_zero`: The zero projector selects the zero module, even when `M` is nonzero.
-- `TauCetiRoadmap.CompletedCohomologyPartII.completedLocalization_one`: The identity projector selects all of `M` with its original topology.
-- `TauCetiRoadmap.CompletedCohomologyPartII.completedLocalization_product`: On O×O with the first residual factor projector, the selected module is O×{0}; (0,1) is excluded.
+- The zero projector selects the zero module, even when `M` is nonzero.
+- The identity projector selects all of `M` with its original topology.
+- On O×O with the first residual factor projector, the selected module is O×{0}; (0,1) is excluded.
 - The range topology is inherited from `M` and the inclusion/projection are continuous; no algebraic localization topology is silently substituted.
 - A nonidentity residual summand may be zero on one degree of `M` without removing that label from the all-degree derived image algebra.
 
@@ -2220,7 +2221,7 @@ To prove this, at each fixed `s`, represent a vector at some finite level; apply
 
 <a id="derived-cohomological-residual-comparison"></a>
 
-Suppose the finite derived image diagram `T_i` maps surjectively and compatibly to the corresponding image `T_i^H` on the direct sum of finite homology groups, and all complexes have cohomology in one common interval `[a,b]`, `a≤b`. The induced map of finite-ring inverse limits `T̂→T̂^H` is surjective and its kernel has `(b−a+1)`-st power zero. Consequently it induces a bijection of residual maximal ideals and transports the unique residual projectors. It need not be an isomorphism. An action on one completed homology degree, or on End of its completed limit, is a further quotient and is not identified with either all-degree inverse-limit image algebra without a separate theorem.
+Suppose the finite derived image diagram `T_i` maps surjectively and compatibly to the corresponding image `T_i^H` on the direct sum of finite homology groups, and all complexes have cohomology in one common interval `[a,b]`, `a≤b`. The induced map of finite-ring inverse limits `T̂→T̂^H` is surjective and its kernel has `(b−a+1)`-st power zero (`derivedCohomologicalResidualComparison`). Consequently it induces a bijection of residual maximal ideals and transports the unique residual projectors. It need not be an isomorphism. An action on one completed homology degree, or on End of its completed limit, is a further quotient and is not identified with either all-degree inverse-limit image algebra without a separate theorem.
 
 Assume that finite-ring diagrams share the same cofiltered index and compatible image-quotient maps. A uniform cohomological interval supplies the uniform exponent. The IHG equivariant ghost bound is required in the actual derived category of the group-ring complexes.
 
@@ -2376,7 +2377,7 @@ Pan (2022), proof of Lemma 4.4.4, p. 45 (arXiv v3, p. 48). After the universal-c
 
 ## Suggested Lean forms
 
-`Suggested.lean` uses the namespace `TauCetiRoadmap.CompletedCohomologyPartII`. Its light definitions are specializations of the native categorical colimit and topological-module limit, the native commutative-ring limit and the range of a continuous residual projector. It states Pan's no-coherent-roots lemma, the continuity and uniqueness of induced limit actions, the finite-inverse-ring semilocal decomposition and the completeness and continuous splitting of a residual summand. Examples distinguish inverse action from transpose action, torsion from its O-dual, the zero and identity images, and integral from residual sign actions.
+`Suggested.lean` uses the namespace `TauCetiRoadmap.CompletedCohomologyPartII`. Its light definitions are specializations of the native categorical colimit and topological-module limit, the native commutative-ring limit and the range of a continuous residual projector. It states `torsionColimit_homology` and `torsionColimit_cofinal` for supplied module diagrams, Pan's `homology_hom_away_eq_zero`, `interiorSubmodule_closed`, the continuity and uniqueness of induced limit actions, the algebraic universal property and semilocal decomposition of the finite-ring inverse limit, its uniform nilpotent-kernel comparison `derivedCohomologicalResidualComparison`, and the completeness, continuous splitting and finite product decomposition of residual summands. The named tower tests are `torsionColimit_circle_killed`, `torsionColimit_locally_constant_not_all` and `completedHecke_scalar`.
 
 The arithmetic tower, chain models, completed tensor products and comparison morphisms require carriers absent at the fixed pins. Their precise statements, APIs and Checks remain in the layers above, and their intended declaration names are listed in the Lean file's closing comment. No private substitute for an arithmetic cohomology theory is introduced.
 
