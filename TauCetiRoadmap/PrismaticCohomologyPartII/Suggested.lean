@@ -13,9 +13,9 @@ The Nygaard ideal is the preimage of an ideal power under the specified ring
 endomorphism. The polynomial q-derivative uses finite sums, including at q = 1;
 it requires neither division by q - 1 nor regularity of that element.
 README notation Fil_N denotes Nygaard filtration, Fil_N¹ its first step, and Fil_j
-a conjugate step. The enhanced totalization exchange
-`Prismatic.completeBaseChange_totalization` is the completed tensor/limit comparison
-of README's Completed base change and totalization target.
+a conjugate step. PrismaticCohomology §1.10 supplies the enhanced totalization
+exchange `Prismatic.completeBaseChange_totalization`; README's Imported completed
+base change and totalization describes its q-PD application in §§5.3–5.4, 5.11.
 -/
 
 namespace TauCetiRoadmap.PrismaticCohomologyPartII

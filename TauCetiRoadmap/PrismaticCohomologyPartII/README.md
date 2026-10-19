@@ -46,7 +46,8 @@ A supplier row specifies the interface used, under the hypotheses shown. Its the
 | --- | --- | --- |
 | DGAInfinity Layer 1 | 5 | Unital cochain DG algebras, their morphisms and signed tensor products over a commutative coefficient ring. Section 5.18 constructs its specific skew product on this supplied kind of algebra. |
 | DerivedDeRhamCohomology §§PD.1–PD.2, PD.4–PD.7; CrystallineCohomology §§CR.DDR.5.20–CR.DDR.5.21 | 3, 4, 5 | PD envelopes with their initial property and flat base change, including p-completion. For p-torsion-free B and a sequence regular modulo p, retain p-torsion-freeness; in characteristic p use the divided-power monomial basis. `A_crys(S)` is the initial p-complete PD thickening of a semiperfect `F_p`-algebra S, with Frobenius and PD/conjugate filtrations. The `γ_p`-stability and `γ_k∘γ_p` identities are used with their p-torsion-free hypotheses (BS22 Lemmas 2.38, 16.11). |
-| DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology Layer 1 | 3, 4, 5 | Derived completion at a finitely generated ideal, completed tensors, Nakayama and complete-flat descent; complete Tor-amplitude and the bounded-torsion discreteness criterion (BMS2 Lemmas 4.4–4.7). The finite complete Tor-amplitude base-change/totalization exchange is constructed in [Completed base change and totalization](#complete-base-change-totalization). Filtered derived categories, Day tensor, graded pieces, completion, Beilinson t-structure/heart and Bocksteins retain their enhanced coherences. Derived complete M with perfect reduction is perfect. Negative tensor powers of invertible ideals are allowed; no unqualified classical-completion comparison is assumed. |
+| DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology Layer 1 | 3, 4, 5 | Derived completion at a finitely generated ideal, completed tensors, Nakayama and complete-flat descent; complete Tor-amplitude and the bounded-torsion discreteness criterion (BMS2 Lemmas 4.4–4.7). Filtered derived categories, Day tensor, graded pieces, completion, Beilinson t-structure/heart and Bocksteins retain their enhanced coherences. Derived complete M with perfect reduction is perfect. Negative tensor powers of invertible ideals are allowed; no unqualified classical-completion comparison is assumed. |
+| [PrismaticCohomology §1.10](../PrismaticCohomology/README.md#complete-base-change-totalization) | 3–5 | `Prismatic.completeBaseChange_totalization`: completed base change along a map of finite J-complete Tor-amplitude commutes with totalization of cosimplicial complexes with a common cohomological lower bound, for a finitely generated ideal J. The q-PD application is [Imported completed base change and totalization](#complete-base-change-totalization). |
 | DerivedModuleAlgebra §§0.4–0.17, 0.25; DerivedDeRhamCohomology §1.23, §§5.1–5.4 | 4 | Full cotangent complexes, transitivity, derived exterior/divided powers, décalage `∧^i(M[1])≃Γ^i(M)[i]`, p-complete Tor-amplitude and quasisyntomic/QRSP predicates. Square-zero deformation classes, map-lifting and uniqueness under cotangent vanishing are affine inputs; scheme lifting groupoids are PrismaticCohomology §2.6. |
 | DerivedDeRhamCohomology Layer 2 | 3, 4 | Derived p-complete de Rham algebras with Hodge filtration, polynomial models, continuous forms for smooth algebras and crystalline base change; the logarithmic constructors are DerivedDeRhamCohomology §6.20. Comparison maps preserve multiplication and the stated filtrations. |
 | DerivedDeRhamCohomology §§5.1–5.7 | 3, 4, 5 | Quasisyntomic site and QRSP basis, completed faithfully flat cotangent-power descent, unfolding from QRSP objects and completed left Kan extension. BMS2 Lemma 4.34 supplies the relative cotangent-flatness condition only in its perfect-base range. |
@@ -124,15 +125,15 @@ First calculate the Frobenius-divisibility ideals of discrete quasiregular semip
 
 <a id="complete-base-change-totalization"></a>
 
-### Completed base change and totalization
+### Imported completed base change and totalization
 
-Construct `Prismatic.completeBaseChange_totalization`: for a commutative ring C, a finitely generated ideal J, a ring map `C→C′` of finite J-complete Tor-amplitude, and a cosimplicial C-complex `M•` with a common cohomological lower bound, the natural map
+[PrismaticCohomology §1.10](../PrismaticCohomology/README.md#complete-base-change-totalization) supplies `Prismatic.completeBaseChange_totalization`: for a commutative ring C, a finitely generated ideal J, a ring map `C→C′` of finite J-complete Tor-amplitude, and a cosimplicial C-complex `M•` with a common cohomological lower bound, the natural map
 
 `LΛ_(JC′)(Tot(M•)⊗^L_C C′) → Tot(LΛ_(JC′)(M•⊗^L_C C′))`
 
 is an equivalence. Completion on the target uses the image ideal `JC′`. The lower bound is uniform over the cosimplicial degrees. (BS22 Lemma 4.22 and proof, p.44.)
 
-*Needs:* DerivedModuleAlgebra §§1.1–1.8.
+*Needs:* [PrismaticCohomology §1.10](../PrismaticCohomology/README.md#complete-base-change-totalization).
 
 **Checks.**
 
@@ -140,7 +141,7 @@ is an equivalence. Completion on the target uses the image ideal `JC′`. The lo
 - For `C→C[t]`, completed polynomial base change satisfies the exchange on uniformly bounded-below diagrams; flatness supplies amplitude zero.
 - For `Z→F_p` and `J=(p)`, the exchange holds despite nonflatness: Tor-amplitude is `[−1,0]`, and `F_p⊗^L_Z F_p` retains its degree `−1` term.
 
-**Proof route.** Finite partial totalizations commute with completed base change by exactness. Choose a fixed connectivity loss for completed tensor, using a Koszul complex on finite generators of J and the finite complete Tor-amplitude. The errors of the partial totalizations then tend uniformly to arbitrarily high degrees, so passage to the limit preserves the comparison (BS22 Lemma 4.22, p.44).
+**q-PD application.** For a q-PD pair `(D,I)`, take `C=D`, `J=(p,[p]_q)` and `C′=D/(q−1)`. Section 5.2 condition (3) supplies finite J-complete Tor-amplitude; the image ideal is `(p)` because `[p]_q=p` in C′. Section 5.10 identifies the q-crystalline Čech terms as the derived J-complete, discrete envelopes of §5.7. They therefore have the common cohomological lower bound zero. The supplied theorem gives the totalization exchange in §5.4 and hence the crystalline comparison of §5.11. This application uses the q-PD Tor-amplitude condition without assuming that `q−1` is regular (BS22 Definition 16.2(3), Lemma 16.5(3) and Construction 16.13, pp.106–107, 111–112).
 
 <a id="s3-0"></a>
 <a id="layer-3-filtered-multiplicative-enhancement"></a>
@@ -1690,7 +1691,7 @@ Divided powers must lie in I, not just D; p-regularity makes them unique.
 
 (BS22, Remark 16.3; p. 107; BS22, Remark 16.4; p. 107.)
 
-*Needs:* [Completed base change and totalization](#complete-base-change-totalization), [§5.2](#s5-2), [The q-analogue `[p]_q` and the operation `γ`](#layer-5-q-divided-power-operation), Mathlib `DividedPowers`, DerivedDeRhamCohomology §§PD.1–PD.2, PD.4–PD.7; CrystallineCohomology §§CR.DDR.5.20–CR.DDR.5.21, DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology Layer 1, [PrismaticCohomology §0.74](../PrismaticCohomology/README.md#s0-74).
+*Needs:* [PrismaticCohomology §1.10](../PrismaticCohomology/README.md#complete-base-change-totalization), [§5.2](#s5-2), [The q-analogue `[p]_q` and the operation `γ`](#layer-5-q-divided-power-operation), Mathlib `DividedPowers`, DerivedDeRhamCohomology §§PD.1–PD.2, PD.4–PD.7; CrystallineCohomology §§CR.DDR.5.20–CR.DDR.5.21, DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology Layer 1, [PrismaticCohomology §0.74](../PrismaticCohomology/README.md#s0-74).
 
 **Proof route.** (⇐ of `(a)`) With `q = 1` one has `[p]_q = p` and `γ(x) = x^p/p`, which lies in I by `(ii); D` is p-torsion-free and p-complete, so `(D, (p))` is a bounded prism, and `D/(q−1) = D` gives `(3)`.
 
@@ -1701,11 +1702,11 @@ Divided powers must lie in I, not just D; p-regularity makes them unique.
 
 For q-PD `(D,I), D` is derived f-complete for `f∈I`. Completed reduction modulo `q−1` is conservative on complete complexes and commutes with cosimplicial totalizations in `D≥0`. If `I₀⊃(q−1)` satisfies the algebraic q-PD conditions and D is complete, completing `I₀` inside D gives a q-PD pair. Likewise, completely flat δ-A extension to a complete D′, followed by completing the image ideal, preserves q-PD pairs.
 
-`(3)`: the cosimplicial complexes must be derived `(p,[p]_q)`-complete; the source’s abbreviated term omits the completeness condition (the corresponding correction). `(4)`: the source states it for a q-PD pair `(D, I)`; since the ideal of a q-PD pair is already derived complete that statement is empty, and the proof of `(5)` and of Theorem 16.17 apply `(4)` to an ideal that is not known to be complete. The target states the form that the printed proof of `(4)` proves. Completion, conservativity (derived Nakayama) and Tor-amplitude are imported from DerivedModuleAlgebra §§1.1–1.8 and DerivedDeRhamCohomology Layer 1. The totalization exchange is `Prismatic.completeBaseChange_totalization` of [Completed base change and totalization](#complete-base-change-totalization), applied using §5.2’s finite p-complete Tor-amplitude for `D→D/(q−1)`.
+`(3)`: the cosimplicial complexes must be derived `(p,[p]_q)`-complete; the source’s abbreviated term omits the completeness condition (the corresponding correction). `(4)`: the source states it for a q-PD pair `(D, I)`; since the ideal of a q-PD pair is already derived complete that statement is empty, and the proof of `(5)` and of Theorem 16.17 apply `(4)` to an ideal that is not known to be complete. The target states the form that the printed proof of `(4)` proves. Completion, conservativity (derived Nakayama) and Tor-amplitude are imported from DerivedModuleAlgebra §§1.1–1.8 and DerivedDeRhamCohomology Layer 1. The totalization exchange is `Prismatic.completeBaseChange_totalization` supplied by [PrismaticCohomology §1.10](../PrismaticCohomology/README.md#complete-base-change-totalization), with the hypotheses verified in [the q-PD application](#complete-base-change-totalization): §5.2 supplies finite complete Tor-amplitude for `D→D/(q−1)`, and §5.10 supplies complete, discrete Čech terms.
 
 (BS22, Lemma 16.5 and its proof; p. 107.)
 
-*Needs:* [Completed base change and totalization](#complete-base-change-totalization), [§5.2](#s5-2), [The q-analogue `[p]_q` and the operation `γ`](#layer-5-q-divided-power-operation), [§5.3](#s5-3), DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology Layer 1, [PrismaticCohomology §0.81](../PrismaticCohomology/README.md#s0-81).
+*Needs:* [PrismaticCohomology §1.10](../PrismaticCohomology/README.md#complete-base-change-totalization), [§5.2](#s5-2), [The q-analogue `[p]_q` and the operation `γ`](#layer-5-q-divided-power-operation), [§5.3](#s5-3), DerivedModuleAlgebra §§1.1–1.9; DerivedDeRhamCohomology Layer 1, [PrismaticCohomology §0.81](../PrismaticCohomology/README.md#s0-81).
 
 **Proof route.** `(1)` For `f ∈ I, φ(f) = f^p + pδ(f) ∈ [p]_q D`, so `f^p ∈ (p, [p]_q)`; derived `(p,[p]_q)`-completeness gives derived f^p-completeness, hence derived f-completeness.
 
@@ -1878,9 +1879,9 @@ For q-PD `(D,I)` and smooth `R/D/I, qΩ_(R/D)⊗`̂^`L_D D/(q−1)≃RΓ_crys(R/
 
 (BS22, Theorem 16.14 and its proof; p. 112; BS22, Remark 16.15 `(1); p`. 112.)
 
-*Needs:* [§5.10](#s5-10), [§5.8](#s5-8), [§5.4](#s5-4), [§5.3](#s5-3), CrystallineCohomology Layer CR.2, §§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.4, CR.DDR.5.8–CR.DDR.5.10, DerivedDeRhamCohomology §§PD.1–PD.2, PD.4–PD.7; CrystallineCohomology §§CR.DDR.5.20–CR.DDR.5.21.
+*Needs:* [PrismaticCohomology §1.10](../PrismaticCohomology/README.md#complete-base-change-totalization), [§5.10](#s5-10), [§5.8](#s5-8), [§5.4](#s5-4), [§5.3](#s5-3), CrystallineCohomology Layer CR.2, §§CR.DDR.4.1, CR.DDR.4.3–CR.DDR.4.4, CR.DDR.5.8–CR.DDR.5.10, DerivedDeRhamCohomology §§PD.1–PD.2, PD.4–PD.7; CrystallineCohomology §§CR.DDR.5.20–CR.DDR.5.21.
 
-**Proof route.** Compute `qΩ_{R/D}` by the cosimplicial ring `D_{J^•,q}(F^•)` of Čech–Alexander complexes for q-crystalline cohomology. The completed base change − ⊗̂^`L_D D/(q−1)` commutes with the totalisation (§5.4 and `Prismatic.completeBaseChange_totalization`), so the left side is computed by the cosimplicial ring `D_{J^•,q}(F^•) ⊗`̂^`L_D D/(q−1)`.
+**Proof route.** Compute `qΩ_{R/D}` by the cosimplicial ring `D_{J^•,q}(F^•)` of Čech–Alexander complexes for q-crystalline cohomology. The completed base change − ⊗̂^`L_D D/(q−1)` commutes with the totalisation (§5.4, applying `Prismatic.completeBaseChange_totalization` from [PrismaticCohomology §1.10](../PrismaticCohomology/README.md#complete-base-change-totalization)), so the left side is computed by the cosimplicial ring `D_{J^•,q}(F^•) ⊗`̂^`L_D D/(q−1)`.
 
 <a id="s5-12"></a>
 <a id="layer-5-q-pd-thickening-invariance"></a>
