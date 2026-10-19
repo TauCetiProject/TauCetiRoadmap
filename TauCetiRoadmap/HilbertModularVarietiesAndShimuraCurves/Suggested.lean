@@ -369,6 +369,14 @@ end VeryFreeChartAction
 /-- The archimedean norm `‖dz‖ = 2 Im z` of the quaternionic Hodge line at `z ∈ ℍ`. -/
 def QuaternionHodgeLine.metric (z : ℂ) : ℝ := 2 * z.im
 
+-- `QuaternionHodgeLine.metric_offAxis`: real translation preserves the differential's norm.
+example : QuaternionHodgeLine.metric (1 + Complex.I) = 2 := by
+  simp [QuaternionHodgeLine.metric]
+
+-- `QuaternionHodgeLine.metric_real`: the boundary formula vanishes outside the half-plane.
+example (x : ℝ) : QuaternionHodgeLine.metric (x : ℂ) = 0 := by
+  simp [QuaternionHodgeLine.metric]
+
 /-! ## Layer R18.3, part 1: definite forms, transfer and auxiliary levels -/
 
 /-- Inverting a left representation supplies the right coefficient action used by the
@@ -399,10 +407,12 @@ end Weights
 `r` with `r² = ψ(Nrd Π)⁻¹` has been chosen. -/
 def divisionCharacterValue {R : Type*} [CommRing R] (r : Rˣ) (n : ℤ) : Rˣ := r ^ n
 
--- `DivisionParityCharacter.scalarUniformiser`: both signs act trivially at even valuation.
-example (n : ℤ) : divisionCharacterValue (1 : ℤˣ) (2 * n) = 1 ∧
-    divisionCharacterValue (-1 : ℤˣ) (2 * n) = 1 := by
-  simp [divisionCharacterValue, zpow_mul]
+-- `DivisionParityCharacter.scalarUniformiser`: scalar valuation two detects the exponent sign.
+example : divisionCharacterValue (Units.mk0 (2 : ℚ) two_ne_zero) 2 ≠
+    divisionCharacterValue (Units.mk0 (2 : ℚ) two_ne_zero) (-2) := by
+  intro h
+  have hval := congrArg Units.val h
+  norm_num [divisionCharacterValue] at hval
 
 /-- The `N`-torsion subgroup of a finite abelian diamond factor `Δ′`. -/
 def QuaternionTWLevel.torsionSubgroup (Δ' : Type*) [CommGroup Δ'] (N : ℕ) : Subgroup Δ' :=

@@ -274,7 +274,7 @@ Its API:
 - `integralTraceFamily_apply`: Evaluation is `Tr(a(x₁y₂−x₂y₁))`.
 - `integralTraceFamily_parameter_add`: `ψ_{a+b}=ψ_a+ψ_b` and `ψ_0=0`.
 - `integralTraceFamily_alternating`: For every number field F, parameter a and vector x in F², `integralTraceFamily F a x x = 0`.
-- `integralTraceFamily_integral`: Its rational image agrees with §H0.0’s trace representation multiplied by a.
+- `integralTraceFamily_integral`: For nonzero c, `a∈c` and `x,y∈L_c`, the value `ψ_{c,a}(x,y)` is an integer: `∃ n : ℤ, integralTraceFamily F a x y = n`.
 - `integralTraceFamily_nondegenerate`: For every number field F, the rational form on F² has zero radical exactly when its parameter a is nonzero.
 - `integralTraceFamily_balance`: For `b∈O`, `ψ_{ba}(x, y)=ψ_a(bx, y)=ψ_a(x, by)`. This specifies the O-action on the family of ℤ-bilinear forms; it is not scalar multiplication of their `ℤ`-valued outputs.
 
@@ -991,6 +991,12 @@ Its API:
 
 *Proof route.* Reuse the pinned adjugate anti-multiplicativity and rank-two determinant formula. Compute the pulled-back alternating form under `α∘adj γ`. Apply H1’s λ-rescaling law to obtain `η⁻¹` and verify commuting actions.
 
+**Checks.**
+
+- `adjugateAction_one`: The identity matrix fixes every frame (`adjugateFrameAction_one`).
+- `adjugateAction_scalar`: `uI₂` acts by u, since `adj(uI₂)=uI₂` in rank two (`adjugateFrameAction_scalar`). Precomposition by the inverse would act by `u⁻¹`, and precomposition by `det γ·γ` would act by `u³`.
+- `adjugateAction_notRight`: Precomposition by γ gives a right action. Over `ℤ/pⁿℤ` with `n≥1`, take `u=[[1,1],[0,1]]` and `v=[[1,0],[1,1]]`; then `uv=[[2,1],[1,1]]` and `vu=[[1,1],[1,2]]` differ, so this rule fails the left-action law on a faithful frame.
+
 In [Suggested.lean](Suggested.lean): `adjugateFrameAction`, `adjugate_level_action`, `adjugateFrameAction_one`, `adjugateFrameAction_scalar`.
 
 (Source: [BHW23](#references) Remark 5.8 and Lemma 8.9, pp.1744,1769–1770.)
@@ -1385,7 +1391,7 @@ Its API:
 
 ### H6.2 Twisted Hilbert torsion moduli
 
-**Construction** (`TwistedHilbertTorsionModuli`). Twist the fine paired `level-(𝔫₁, 𝔫₂)` Hilbert moduli and its universal HBAV by the inverse action of the actual paired torsion Isom torsor. The descended K-space classifies `(A, ι, λ, μ_N, α₁, α₂)` when the Hilbert tame marking is retained, and `(A, ι, λ, α₁, α₂)` when the torsion levels themselves supply the fine marking. In both cases `α_i:V_i≅A∨[𝔫_i]` preserves the c d⁻¹-valued pairing. Over a splitting field it is isomorphic to the untwisted paired `level-(𝔫₁, 𝔫₂)` space. This construction uses effective finite noncommutative descent, not the commutative Γ-only torsor-twist target of AlgebraicModuliForArithmeticGeometry R09.4.
+**Construction** (`TwistedHilbertTorsionModuli`). Twist the fine paired `level-(𝔫₁, 𝔫₂)` Hilbert moduli and its universal HBAV by the inverse action of the actual paired torsion Isom torsor. The descended K-space classifies `(A, ι, λ, μ_N, α₁, α₂)` when the Hilbert tame marking is retained, and `(A, ι, λ, α₁, α₂)` when the torsion levels themselves supply the fine marking. In both cases `α_i:V_i≅A∨[𝔫_i]` preserves the c d⁻¹-valued pairing. Over a splitting field it is isomorphic to the untwisted paired `level-(𝔫₁, 𝔫₂)` space. This construction uses effective finite noncommutative descent, not the commutative-Γ torsor twist `torsorTwistSpace` of AlgebraicModuliForArithmeticGeometry §4.5.
 
 *Construction.* Construct the characteristic-zero fine `level-(𝔫₁, 𝔫₂)` torsion moduli using M1/M2 and its actual complex component from M3. For the retained Hilbert `μ_N` convention compare with H4; for Allen’s elliptic specialization use the two full odd torsion levels as the fine marking, without an independent `μ_N` datum. Form the contracted product with the inverse/right-versus-left action. Before descent, restrict an ample line from the projective normal minimal compactification of ShimuraVarieties §8.18 to the untwisted fine moduli. Verify the actual canonical open model, pure Hilbert datum and fixed level of H1.10 and H4, passing to a neat cover and taking its finite quotient for a nonneat fixed level. Tensor the conjugates of this line over the finite splitting field and give the explicit permutation cocycle. Apply `finiteEtaleAmpleDescent` (§H2.2a) to descend the open scheme along the possibly noncommutative Isom torsor. Descend the polarized universal abelian family separately using AlgebraicModuliForArithmeticGeometry §3.5. Verify the moduli universal property by twisting the paired frames in both directions.
 
@@ -2490,6 +2496,8 @@ Its API:
 - `QuaternionHodgeLine.unramified`: When every `e_Q=1`, the generic `L_U` equals `ω`.
 - `QuaternionHodgeLine.indexTwo`: At an effective ramification point of index 2, the correction is [Q]/2.
 - `QuaternionHodgeLine.imaginaryUnit`: At `z=i, |dz|=2`.
+- `QuaternionHodgeLine.metric_offAxis`: At `z=1+i`, the norm of dz is 2, whereas `2|z|=2√2`.
+- `QuaternionHodgeLine.metric_real`: At real z the formula gives 0; it defines a norm on the Hodge line only for `z∈ℍ`.
 
 In [Suggested.lean](Suggested.lean): `QuaternionHodgeLine.metric`.
 
@@ -2964,7 +2972,7 @@ Its API:
 
 - `DivisionParityCharacter.trivialCentre`: For `ψ_v=1` the two values at `Π` are 1 and `−1`.
 - `DivisionParityCharacter.nontrivialCentre`: For `ψ_v(Nrd Π)=4` in a coefficient ring containing 1/2, `r=1/2` satisfies central compatibility and `r=1` does not.
-- `DivisionParityCharacter.scalarUniformiser`: A scalar uniformiser has `ν_D=2` and acts by r², as required by `ψ_v⁻¹`.
+- `DivisionParityCharacter.scalarUniformiser`: A scalar uniformiser has `ν_D=2` and acts by r², as required by `ψ_v⁻¹`. For `r=2∈ℚ×`, the values at valuations 2 and −2 are 4 and 1/4, distinguishing the coefficient character from its inverse.
 - `DivisionParityCharacter.dyadicSigns`: Over `Z_2`, the characters with values ±1 at `Π` reduce to the same `F_2`-character.
 
 In [Suggested.lean](Suggested.lean): `divisionCharacterValue`.
@@ -3285,9 +3293,9 @@ O is the ring of integers of a finite extension of `ℚ_l`, and the algebraic co
 - At `l=2` a rank-one sign monodromy becomes trivial modulo two; characteristic-zero H⁰ vanishing alone does not supply the residual criterion.
 - A good-place eigensystem `(T_v,S_v)=(1,2)` over `F₇` has adjoint `(4,4)`. These maximal ideals differ, so vanishing of the dual group at m cannot replace its vanishing at m*.
 
-(Source: [CDN20](#references) §5.2.1, p.41; Newton–Thorne, [Proposition 3.7(3), p.32](https://arxiv.org/pdf/1511.04913#page=32), for inverse-double-coset adjoints.)
+(Source: [CDN20](#references) §5.2.1, p.41; [NT16](#references) Proposition 3.7(3), p.32, for inverse-double-coset adjoints.)
 
-*Needs:* [R18.4.2 Quaternionic finite-level cohomology](#r1842-quaternionic-finite-level-cohomology); [ArithmeticLocallySymmetricSpaces, ALS.5a.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ArithmeticLocallySymmetricSpaces/README.md#hecke-adjoint-duality); [EtaleCohomologyFoundations, §§F.0–F.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/EtaleCohomologyFoundations/README.md); [ClassicalAdicEtaleCohomology, §§1.1–1.5, 9.2–9.7, 11.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassicalAdicEtaleCohomology/README.md); [ComplexComparisonPartII, §§C6.3–C6.6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ComplexComparisonPartII/README.md).
+*Needs:* [R18.4.2 Quaternionic finite-level cohomology](#r1842-quaternionic-finite-level-cohomology); [ArithmeticLocallySymmetricSpaces, ALS.5a.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ArithmeticLocallySymmetricSpaces/README.md#als5a4-hecke-adjoints-inverse-double-cosets-and-restrictioncorestriction); [EtaleCohomologyFoundations, §§F.0–F.4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/EtaleCohomologyFoundations/README.md); [ClassicalAdicEtaleCohomology, §§1.1–1.5, 9.2–9.7, 11.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ClassicalAdicEtaleCohomology/README.md); [ComplexComparisonPartII, §§C6.3–C6.6](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ComplexComparisonPartII/README.md).
 
 ### R18.4.4 Quaternionic cohomological duality
 
@@ -4327,7 +4335,7 @@ Page numbers are printed pages unless an entry says otherwise. Each source is ci
 - **[KW09]** Chandrashekhar Khare and Jean-Pierre Wintenberger, [Serre’s modularity conjecture (II)](https://www.math.ucla.edu/~shekhar/papers/proofs.pdf). Author copy proofs.pdf, 98 pages, dated 30 May 2009; published Inventiones 178 (2009), 505–586.
 - **[Kur79]** Akira Kurihara, [On some examples of equations defining Shimura curves and the Mumford uniformization](https://repository.dl.itc.u-tokyo.ac.jp/record/39680/files/jfs250303.pdf). Journal of the Faculty of Science, University of Tokyo, Section IA 25 (1979), 277–300; published scan.
 - **[MS19]** Jeffrey Manning and Jack Shotton, [Ihara’s lemma for Shimura curves over totally real fields via patching](https://arxiv.org/pdf/1907.06043v2). arXiv:1907.06043v2, 27 July 2020; internal pages 1–40.
-- **[MM63]** Yozô Matsushima and Shingo Murakami, [On vector bundle valued harmonic forms and automorphic forms on symmetric Riemannian manifolds](https://doi.org/10.2307/1970348), Annals of Mathematics 78 (1963), 365–416.
+- **[NT16]** James Newton and Jack A. Thorne, [Torsion Galois representations over CM fields and Hecke algebras in the derived category](https://arxiv.org/pdf/1511.04913v1). Forum of Mathematics, Sigma 4 (2016), e21; locators use arXiv:1511.04913v1, internal pages.
 - **[Mil]** James S. Milne, [Lectures on Étale Cohomology](https://www.jmilne.org/math/CourseNotes/LEC.pdf). Version 2.21, 22 March 2013.
 - **[PRR23]** Vladimir Platonov, Andrei Rapinchuk and Igor Rapinchuk, [Algebraic Groups and Number Theory, Volume 1](https://doi.org/10.1017/9781139017756.004). Second edition, Cambridge Studies in Advanced Mathematics 205 (2023).
 - **[Rap78]** Michael Rapoport, [Compactifications de l’espace de modules de Hilbert–Blumenthal](https://www.numdam.org/item/CM_1978__36_3_255_0.pdf). Compositio Mathematica 36 (1978), 255–335.
