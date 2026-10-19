@@ -234,7 +234,9 @@ theorem sinh_le_mul_exp_sq_div_six {u : ℝ} (hu : 0 ≤ u) :
 variable {K F : Type*} [Field K] [NumberField K] [Field F] [NumberField F] [Algebra K F]
 
 /-- **Layer 2.2** (Bombieri–Gubler, Lemma 6.3.4). The auxiliary polynomial of prescribed index at
-several points of `Fᵐ`, with coefficients in `K`, in relative logarithmic heights. -/
+several points of `Fᵐ`, with coefficients in `K`, in relative logarithmic heights: the book's
+absolute bound multiplied by `[K : ℚ]`, so `logHeight₁ (α k j)` (relative to `F`) is divided by
+`[F : K]` and `log 2` carries the factor `[K : ℚ]`. -/
 theorem exists_ne_zero_le_weightedIndex_logHeight_le {m N : ℕ} (α : Fin N → Fin m → F)
     (t : Fin N → ℝ) (ht : ∀ k, 0 < t k)
     (hV : (finrank K F : ℝ) * ∑ k, simplexVolume m (t k) < 1) {δ : ℝ} (hδ : 0 < δ) :
@@ -245,7 +247,7 @@ theorem exists_ne_zero_le_weightedIndex_logHeight_le {m N : ℕ} (α : Fin N →
         polyLogHeight P ≤
           (finrank K F : ℝ) / (1 - (finrank K F : ℝ) * ∑ k, simplexVolume m (t k)) *
           ∑ k, ∑ j, simplexVolume m (t k) *
-            (logHeight₁ (α k j) + Real.log 2 + δ) * d j :=
+            (logHeight₁ (α k j) / finrank K F + finrank ℚ K * Real.log 2 + δ) * d j :=
   sorry
 
 end Auxiliary

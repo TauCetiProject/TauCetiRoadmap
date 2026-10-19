@@ -347,9 +347,10 @@ They agree exactly when the local degree is `1` (`FinitePlace.liesOver_val_iff_l
 - The `S`-product formula in multiplicative form,
   `(∏ v : InfinitePlace K, v u ^ v.mult) * ∏ v ∈ S, v u = 1` for an `S`-unit `u`, two lines on
   Tau Ceti's `sum_log_adicAbv_add_sum_mult_mul_log_eq_zero`.
-- For `x : ι → K` with coordinates in `S.integer K`, `mulHeight x` is at most the product over the
-  infinite places and `S` of the local sup norms (`NumberField.mulHeight_le_prod`), with equality
-  when the coordinates generate the unit ideal of `S.integer K`, which is `Set.IsPrimitive S x`
+- For `x : ι → K`, `x ≠ 0`, with coordinates in `S.integer K`, `mulHeight x` is at most the
+  product over the infinite places and `S` of the local sup norms
+  (`NumberField.mulHeight_le_prod`), with equality when the coordinates generate the unit ideal
+  of `S.integer K`, which is `Set.IsPrimitive S x`
   (`NumberField.mulHeight_eq_prod_of_forall_iSup_eq_one`); primitivity implies that every local
   sup norm outside `S` is `1`, by the ultrametric inequality on `1 = ∑ cᵢ xᵢ`. The converse, that
   local sup norms equal to `1` away from `S` imply primitivity, is a statement about the maximal
@@ -367,10 +368,11 @@ They agree exactly when the local degree is `1` (`FinitePlace.liesOver_val_iff_l
   contained in a finite `S'` such that the height of every nonzero point is, after one scaling,
   the product of its local sup norms over the infinite places and `S'`. This is the assembly
   Theorem 7.2.6 opens with, and it is what 5.1 and 6.4 consume.
-- `NumberField.FinitePlace.hasFiniteMulSupport_iSup`: the finite support of `v ↦ ⨆ᵢ |xᵢ|_v`,
-  bounded by the union over the nonzero coordinates. Mathlib proves it for a field with
-  `AdmissibleAbsValues` but keeps it private, and its public form asks every coordinate to be
-  nonzero.
+- `NumberField.FinitePlace.hasFiniteMulSupport_iSup`: for `x ≠ 0`, the finite support of
+  `v ↦ ⨆ᵢ |xᵢ|_v`, bounded by the union over the nonzero coordinates. Mathlib proves it for a
+  field with `AdmissibleAbsValues` but keeps it private, and its public form asks every
+  coordinate to be nonzero. `x ≠ 0` is needed here and in the height bound above: the zero tuple
+  has height `1` and local sup norm `0` at every place.
 The membership dictionaries and the height of a single `S`-integer are HAU 4.1, in Tau Ceti, and
 the `S`-unit theorem is HAU 4.2; neither is restated. Exponent bookkeeping is done in `ℤ` through
 `HeightOneSpectrum.valuationOfNeZero`, whose normalization is the negative of the usual order.
@@ -517,7 +519,8 @@ sharp at `k = 1`, which is where the `6` comes from. The lattice-point bounds ar
 half-open boxes `∏ j, [i j / d j, (i j + 1) / d j)`, the upper one through
 `Measure.addHaar_smul` on `(1 + ρ) 𝒱_m(t)`; at `t = 0` the origin is an admissible point and
 `V_m(0) = 0`, so `t > 0` is load-bearing there. Also `0 < V_m(t)` for `t > 0`, `V_m(t) = 1` for
-`t ≥ m`, `V_m(t) = 0` for `t < 0`, and `V_1(t) = min 1 t`, which pins the normalization. State all
+`t ≥ m`, `V_m(t) = 0` for `t < 0`, and `V_1(t) = min 1 t` for `t ≥ 0`, which pins the
+normalization. State all
 of it in a file that imports no number theory. DAT §1.5's count of the `d` with
 `∑ d i / r i ≤ (n/2)(1 − ε)` is the shape Roth over `ℚ` uses; what 2.2 and 5.2 need is the
 volume form with the book's constants.
@@ -527,8 +530,15 @@ of number fields of degree `r`, let `α k : Fin m → F` for `k : Fin N` be poin
 `t k > 0` with `r ∑ k, V_m(t k) < 1`. For every `δ > 0` there is `D₀` such that for all
 `d : Fin m → ℕ` with `D₀ ≤ d j` there is a nonzero `P : MvPolynomial (Fin m) K` with
 `degreeOf j P ≤ d j`, `weightedIndex d (α k) P ≥ t k` for every `k`, and
-`P.logHeight ≤ r / (1 − r ∑ k, V_m(t k)) · ∑ k, ∑ j, V_m(t k) (logHeight₁ (α k j) + log 2 + δ) d j`
-in relative logarithmic heights (`MvPolynomial.exists_ne_zero_le_weightedIndex_logHeight_le`).
+`P.logHeight ≤ r / (1 − r ∑ k, V_m(t k)) · ∑ k, ∑ j, V_m(t k) (logHeight₁ (α k j) / r + [K : ℚ] log 2 + δ) d j`
+in relative logarithmic heights, `P` over `K` and `α k j` over `F`
+(`MvPolynomial.exists_ne_zero_le_weightedIndex_logHeight_le`). This is the book's bound in absolute
+heights multiplied by `[K : ℚ]`: the relative height of `P` is `[K : ℚ]` times the absolute one,
+that of `α k j` is `[F : ℚ] = r [K : ℚ]` times it, and the `log 2` becomes `[K : ℚ] log 2`. The
+factor on `log 2` is load-bearing and no `δ` absorbs its absence: at `F = K = ℚ(2 ^ (1/256))`,
+`m = N = 1`, `α = 1`, `t = 1/2`, `δ = log 2`, the bound with `log 2` in place of `[K : ℚ] log 2`
+asks for `P.logHeight ≤ 2 D log 2` at multiplicity `D / 2` at `1`, while Jensen's formula at each
+of the `256` embeddings gives `P.logHeight ≥ (32 log 2 / (e π)) D − 256 log (D + 1)`.
 This is the `ε`–`D₀` reading of the book's `o(1)`, and every application lets `d j → ∞` with `m`
 fixed. Route: DAT's relative Siegel lemma `siegelRelativeKernelBasis` applied on the **box** of
 bounded partial degrees `∀ j, Fin (d j + 1)`, through a dictionary `MvPolynomial.ofBox` between
@@ -539,7 +549,9 @@ counted by 2.1; a condition row is the multiplication table
 `(∏ j, (I j).choose (μ j)) ∏ j, α j ^ (I j − μ j)`, whose height is a product of one-variable heights
 exactly by `Height.mulHeight_fun_prod_eq`, with the tuple of powers `α ^ k, k ≤ d`, of height
 `mulHeight₁ α ^ d` exactly (`NumberField.mulHeight_pow_range`), and the single estimate
-`(I j).choose (μ j) ≤ 2 ^ d j` is the `log 2`. The `δ` pays for three quantities of three orders,
+`(I j).choose (μ j) ≤ 2 ^ d j` is the `[K : ℚ] log 2`: the condition rows have entries in `F`,
+whose relative heights enter divided by `r` as that of `α k j` does, and an integer `n` has
+relative height `n ^ [F : ℚ]` over `F`. The `δ` pays for three quantities of three orders,
 all `o(∑ j, d j)`: the lattice-point correction `(1 + ρ) ^ m − 1 = O(m² / D₀)`, the `√M` by which
 the Arakelov normalization of Siegel's lemma exceeds the sup-norm one, and the discriminant of
 `K`. Rejection tests: with no variables `V₀(t) = 1` forces `N = 0`, since a nonzero constant has
@@ -764,7 +776,9 @@ Deliverables:
   intersection. The body is balanced over every completion: multiplying a point by an element of
   `mixedSpace K` of norm at most `1` at every place keeps it inside
   (`NumberField.mul_mem_approxBody`). The module is defined with `|Q|`, so it is a submodule for
-  every real `Q`, and `approxDomain_eq` is stated for `0 ≤ Q`. No statement carries
+  every real `Q`, and `approxDomain_eq` is stated for `0 ≤ Q`. Every statement that reads
+  `Q ^ c v i` as a positive real, the value floors, the covolume, the volume and the comparison
+  with `Q` below, and the interior of the body, assumes `0 < Q`. No statement carries
   `DecidableEq ι`: the coefficients of a form are its values at `Pi.basisFun K ι j`.
 - *The value floor*, `NumberField.FinitePlace.floorValue v t`: the largest value of `v` on `Kˣ`
   that is at most `t > 0`. It exists because those values are the integer powers of the norm of
@@ -974,9 +988,12 @@ DAT's `relativeSubspaceHeight`, in its logarithmic form.
 - *Size of the forms at a normalized point* (Corollary 7.5.5): every nonzero value `L v i (u • x)`
   has `logHeight₁ ≤ logHeight x + C'` (`NumberField.exists_forall_logHeight₁_apply_smul_le`, from
   Tau Ceti's `mulHeight₁_sum_mul_le` against the affine height; no independence of the forms is
-  used), hence by 0.4 at one place `|log (v (L v i (u • x)))| ≤ C'' · logHeight x`, the book's
-  (7.19) (`NumberField.InfinitePlace.abs_mult_mul_log_le_logHeight₁` and its finite-place
-  companion). The bound is sharp: `|log |2|₂| = log H(2)`.
+  used), hence by 0.4 at one place `mult v · |log (v (L v i (u • x)))| ≤ logHeight x + C'`
+  (`NumberField.InfinitePlace.abs_mult_mul_log_le_logHeight₁` and its finite-place companion),
+  and the book's (7.19), `≤ C'' · logHeight x`, for `logHeight x` at least a positive threshold.
+  The threshold is needed: over `ℚ` with no finite places, `x = (1)` and `L = 2 X` have
+  `logHeight x = 0` and `|log |L (u • x)|| = log 2` for both units `u`. The bound is sharp:
+  `|log |2|₂| = log H(2)`.
 - *Classes* (7.5.6, `NumberField.exists_finset_forall_exists_smul_mem_approxDomain`): above a level
   `Q₀`, every solution of 6.2's inequality at which no `L v i` vanishes has a normalized multiple
   in `approxDomain S₀ L c (mulHeight x)` for one of finitely many exponent systems `c`, each of
@@ -1081,16 +1098,20 @@ constants `C₄`, `C₅`, `C₆` independent of `Q`, such that at every level wi
 which `V(Q)` has dimension `card ι − 1`, either `V(Q) = W₀` or
 
 ```text
-ε log Q / (4 s) − C₅  ≤  log (relativeSubspaceHeight V(Q))  ≤  (card ι − 1) · (∑ v, mult v · cMax v) · log Q + C₆ ,
+ε log Q / (4 t) − C₅  ≤  log (relativeSubspaceHeight V(Q))  ≤  (card ι − 1) · (∑ v, mult v · cMax v) · log Q + C₆ ,
 ```
 
-with `s` the number of places, counted without multiplicity
+with `t = card (InfinitePlace K) + #S₀` the number of places, counted without multiplicity
 (`NumberField.exists_forall_logHeight_approxSpan`). Deliverables beneath it:
-- *Liouville for the value of a linear form*: for tuples `a`, `z` with `∑ s, a s * z s ≠ 0`, at
-  every place `(⨆ s, v (a s)) (⨆ s, v (z s)) ≤ C · H(a) H(z) · v (∑ s, a s * z s)`, with
-  `C = (card)^[K : ℚ]` at an infinite place in Mathlib's normalization and `C = 1` at a finite one
-  (`NumberField.InfinitePlace.iSup_mul_iSup_pow_mult_le`, `NumberField.FinitePlace.iSup_mul_iSup_le`),
-  by dividing by the value, which leaves the height unchanged by the product formula. With it,
+- *Liouville for the value of a linear form*: for tuples `a`, `z : σ → K` with
+  `∑ s, a s * z s ≠ 0`, at an infinite place
+  `((⨆ s, v (a s)) (⨆ s, v (z s))) ^ mult v ≤ (card σ) ^ [K : ℚ] · H(a) H(z) · v (∑ s, a s * z s) ^ mult v`
+  and at a finite place the same without the exponent `mult v`, **with the same factor
+  `(card σ) ^ [K : ℚ]`** (`NumberField.InfinitePlace.iSup_mul_iSup_pow_mult_le`,
+  `NumberField.FinitePlace.iSup_mul_iSup_le`), by dividing by the value, which leaves the height
+  unchanged by the product formula. The factor is the triangle inequality at the infinite places,
+  which enters the height even when the place singled out is finite; it cannot be `1` there:
+  over `ℚ` at the `2`-adic place, `a = z = (1, 1)` gives `1 ≤ |2|₂ = 1/2`. With it,
   the comparisons between a `finprod` over the finite places and a subproduct,
   `NumberField.prod_le_finprod_of_one_le` and `NumberField.finprod_le_prod_of_le_one_outside`.
   ⚠ The book bounds the height of a single wedge value `L̂_{vi}(w)` by `h(V(Q)) + C₇`; that is
@@ -1121,8 +1142,8 @@ with `s` the number of places, counted without multiplicity
   such vector, scaled to be integral at every finite place (`NumberField.exists_smul_apply_le_one`),
   vanishes on every exceptional `V(Q)` by the product formula
   (`NumberField.one_le_mul_rpow_weightAt`). Hence at most one exceptional subspace
-  (`NumberField.exists_forall_mem_of_weightAt_lt`), which removes a factor `2 ^ (card ι · s)` from
-  5.5 and the number of places from 6.1's count. Without the exceptional alternative the lower
+  (`NumberField.exists_forall_mem_of_weightAt_lt`), which removes a factor `2 ^ (card ι · t)` from
+  5.5's count. Without the exceptional alternative the lower
   bound is false.
 
 **5.5 The penultimate-minimum theorem** (Bombieri–Gubler, Theorem 7.5.13, Steps IV–VI). For forms
@@ -1133,12 +1154,21 @@ Above a level every such `V(Q)` is 5.4's `W₀` (`NumberField.exists_forall_appr
 1.2's Northcott for subspaces leave finitely many.
 - *The interval form* (`NumberField.exists_forall_mem_interval_approxSpan`): above a level, the
   levels at which `V(Q)` is a hyperplane other than `W₀` have `log Q` in at most `m` intervals
-  `[t, 4 σ⁻¹ t)`, with explicit `m = NumberField.subspaceChainLength (card ι) s ε A` and
-  `σ = NumberField.subspaceRatio (card ι) s ε A`, `A` bounding `approxAbsWeight`. The covering is
-  the greedy one of 3.6 (`Set.exists_forall_mem_Ico_of_not_exists_chain`). 6.1 needs one `A` for
-  all its grid systems, so `m` and `σ` depend on `c` only through `A`.
-- *The contradiction* (`NumberField.exists_forall_not_chain`): no `m + 1` levels above a threshold,
-  growing at rate `2 σ⁻¹`, all carry non-exceptional hyperplanes. Given such a chain take
+  `[q, 4 σ⁻¹ q)`, with explicit `m = NumberField.subspaceChainLength (card ι) s ε A` and
+  `σ = NumberField.subspaceRatio (card ι) s ε A`, where `A` bounds `approxAbsWeight` and `s` is any
+  natural number with `NumberField.formCount S₀ L ≤ card ι · s`, `formCount` being the number of
+  distinct forms `L v i` over the infinite places and `S₀` (at most `card ι · t`,
+  `NumberField.formCount_le`). The covering is the greedy one of 3.6
+  (`Set.exists_forall_mem_Ico_of_not_exists_chain`). 6.1 needs one `A` for all its grid systems,
+  so `m` and `σ` depend on `c` only through `A`; and **`m` and `σ` do not depend on the number of
+  places `t`**, which enters only the threshold and the denominator of 5.4's lower bound. This is
+  what makes 6.1's and 9.5's counts independent of the places: the same coordinate forms can be
+  repeated at arbitrarily many finite places, so no bound on `t` in terms of the forms exists.
+  The forms enter the chain length through 5.2, whose conditions are imposed once per distinct
+  form.
+- *The contradiction* (`NumberField.exists_forall_not_chain`, under `formCount S₀ L ≤ card ι · s`):
+  no `m + 1` levels above a threshold, growing at rate `2 σ⁻¹`, all carry hyperplanes of height
+  at least `ε log Q / (4 t) − C₅`. Given such a chain take
   `d h ≈ D / log Q h`, `P` from 5.2, `M h` the normal form of `V(Q h)`, whose height 5.4 bounds
   below. 5.3 bounds `formIndex d M P` by `(m + 1) η / 2` and produces a derivative of that weighted
   order not vanishing on `∏ h, V(Q h)`; DAT §2.6's block grid lemma
@@ -1173,8 +1203,9 @@ hypothetical sequence of solutions; their argument proves it for every level.
 `NumberField.parametricSubspaceCount` proper subspaces and a level `Q₀ > 0` such that for every
 `Q₀' ≥ Q₀` a level `Q` with `log Q ≥ Q₀'` either has its domain in one of those subspaces or has
 `log Q` in one of at most `NumberField.parametricIntervalCount` intervals `[t, ρ t)` with `t ≥ Q₀'`,
-`ρ = NumberField.parametricRatio`. The counts and `ρ` are closed forms in `card ι`, `[K : ℚ]`, the
-number of distinct forms, `ε` and `A`. The parametric theorem is read off it.
+`ρ = NumberField.parametricRatio`, under `NumberField.formCount S₀ L ≤ s`. The counts and `ρ` are
+closed forms in `card ι`, `[K : ℚ]`, `s`, `ε` and `A`, and do not depend on the number of places;
+the number of subspaces does not depend on `s` either. The parametric theorem is read off it.
 
 Route, at a level where the domain has rank `R < card ι` (4.3):
 - `R = 0`: the domain spans `⊥`.
@@ -1195,7 +1226,9 @@ Route, at a level where the domain has rank `R < card ι` (4.3):
   minimal vectors into a domain of `wedgeForms` whose exponents `NumberField.wedgeExponentAt`
   move with `Q`. The case `R = card ι − 1` is `k = card ι − 1`, `p = 1`, the original domain
   re-indexed by one-element subsets, so 5.5 is used only through this construction and one
-  mechanism covers every rank.
+  mechanism covers every rank. A wedge form is the wedge of a `p`-tuple of forms, so
+  `formCount S₀ (wedgeForms L p) ≤ formCount S₀ L ^ p` (`NumberField.formCount_wedgeForms_le`),
+  and 5.5 runs in `⋀^p` with form parameter `s ^ p`.
 - *The grid* (`NumberField.minimaGrid`, `NumberField.gridExponent`; Evertse 1996, Lemma 18): round
   the `card ι` minima, not the wedge exponents, to a grid of mesh `γ`. The constant rounds to `1`
   above a threshold, and the top block's jump is absorbed by rounding `μ (k − 1)` in place of
@@ -1352,9 +1385,10 @@ Schmidt, *Diophantine Approximation*, Ch. VI; Bombieri–Gubler, Remark 7.3.4).
   is DAT's `finite_small_linear_form` at `1, α, …, α ^ n`, the polynomials vanishing at `α` being
   excluded by the definition of the exponent; and Wirsing's third inequality of 1.2 with DAT's
   `algebraicApproximationExponent_le_mahlerExponent` carry the value to Koksma's exponent. At
-  `n = 0` all three sides vanish, so no `1 ≤ n` is assumed. Acceptance test: at `n = 1` this is
-  `irrationalityExponent α = 2` through DAT's `algebraicApproximationExponent_one_add`, a proof of
-  Roth's theorem through Layer 6 and not Layer 3.
+  `n = 0` all three sides vanish, so no `1 ≤ n` is assumed. Acceptance test: at `n = 1` and `α`
+  irrational, `D ≥ 2`, this is `irrationalityExponent α = 2` through DAT's
+  `algebraicApproximationExponent_one_add`, a proof of Roth's theorem through Layer 6 and not
+  Layer 3.
 - *The Subspace step with a product* (`Rat.exists_finset_submodule_of_prod_le`): 6.3 over `ℚ` at
   `∞` alone, where `approxProd` is `(∏ i, |L i x|) / M ^ card ι` with `M` the sup norm of an
   integer point, so the hypothesis is `∏ i, |L i x| ≤ M ^ (−ε)`. The height of an integer point is
@@ -1615,12 +1649,17 @@ later counts consume them from one place:
   `sumForms_mem_range`), their products at a point (`prod_sumForms_mul`, `affineProd_sumForms_mul`),
   exact on the hyperplane `∑ y = 0` (`prod_sumForms_mul_eq_prod_option`,
   `apply_sumForms_eq`), `det_sumForms_apply`, `det_pi_sumForms`, `iSup_le_card_mul_iSup_sumForms`,
-  and `mulHeight_elim_neg_sum_le`, `H (y, −∑ y) ≤ (card ι) ^ [K : ℚ] · H (y)`.
+  and `mulHeight_elim_neg_sum_le`, `H (y, −∑ y) ≤ (card ι) ^ [K : ℚ] · H (y)` for nonempty `ι`
+  (for empty `ι` the left side is `1` and the right side `0`).
 - *A balanced representative* (`NumberField.exists_smul_balanced`,
-  `NumberField.exists_smul_systemValue_le`): every projective point has an `S`-integral
-  representative meeting Evertse's normalization (2.4) for the largest exponents, with fixed
-  constants `balancedConst` of product `1`, at a cost `scalarConst K S` from one Minkowski scalar
-  rather than the `S`-unit covering radius of 5.1; with the normalization of coefficients by
+  `NumberField.exists_smul_systemValue_le`): for a chosen prime `P₀ ∈ S` (so `S` nonempty; a
+  caller with `S = ∅` first adjoins one prime, which only enlarges the set of solutions), every
+  projective point has an `S`-integral representative meeting Evertse's normalization (2.4) for
+  the largest exponents, with fixed constants `balancedConst P₀` of product `1`, at a cost
+  `scalarConst K S` from one Minkowski scalar rather than the `S`-unit covering radius of 5.1. The
+  scalar's factor `scalarConst K S` is pushed to `P₀`, where the representative is made at most
+  `(scalarConst K S)⁻¹`; this cancels the archimedean constants
+  `scalarConst K S ^ (mult v / [K : ℚ])` in the product; with the normalization of coefficients by
   Minkowski's bound on ideal classes (`exists_mul_isIntegral_inv_le_finprod_iSup`,
   `placeProd_iSup_le_mul_mulHeight`) and `exists_absNorm_le_two_pow` (a prime above `2` has norm at
   most `2 ^ [K : ℚ]`).
@@ -1641,8 +1680,9 @@ later counts consume them from one place:
 
 ### Layer 9: counting subspaces
 
-The elementary half of the quantitative Subspace Theorem (Evertse, "An improvement of the
-quantitative Subspace theorem", 1996, §§2–4), in the language of systems of inequalities. It uses
+The elementary half of the quantitative Subspace Theorem (Evertse, "On the Quantitative Subspace
+Theorem", 2010, §§2–4; "Evertse" in this layer is this paper), in the language of systems of
+inequalities. It uses
 Layer 0, the product formula, determinant bounds and Layer 4's geometry of numbers, and of Layers
 2–6 only 6.4, in Theorem A: it bounds how many subspaces the solutions in a range of heights
 need. Write `N = Fintype.card ι`. Heights are **affine**, Tau Ceti's `Height.mulHeightAff`, and its
@@ -1674,13 +1714,17 @@ and forms as in 6.4, constants `C p` and exponents `c p i` indexed by `p : Infin
   inequality or independence of the forms is needed, unlike 5.1; exponents are clamped below at
   `−(2 · #(places × forms) + δ + 1)`, which also handles the kernels. The last condition of (2.4)
   is not produced: at a finite place it requires moving the point by an `S`-unit;
-- *normalized systems from a grid* (`NumberField.exists_mem_systemSet_systemGridExponent`): an
-  `S`-integral `x` with `H = H_aff(x) > 1`, every form at most `C p · H ^ s(p)`, no form zero, and
-  `∏ p, ∏ i, |L i x|_p · H ^ (N − 1 + 2 δ) ≤ (∏ p, max i, |L i x|_p) ^ (N − 1)` solves the system of
-  a grid point `k` with entries at most `N · M`, a zero at every place and `∑ k / M ≥ N − 1 + δ`,
-  once `M δ ≥ t (N − 1)`; these exponents meet (2.4) with the constants unchanged
-  (`systemGridExponent_le`, `exists_systemGridExponent_eq`, `systemWeight_systemGridExponent_le`),
-  with no existential level and `(N · M + 1) ^ ((N − 1) t)` systems. The lower bound on the largest
+- *normalized systems from a grid* (`NumberField.exists_mem_systemSet_systemGridExponent`): with
+  `t` the number of places of the system, an `S`-integral `x` with `H = H_aff(x) > 1`, every form
+  at most `C p · H ^ s(p)`, no form zero, and
+  `∏ p, ∏ i, |L i x|_p · H ^ (N + 2 δ) ≤ (∏ p, max i, |L i x|_p) ^ N` solves the system of
+  a grid point `k` with entries at most `(N + 1) M`, a zero at every place and `∑ k / M ≥ N + δ`,
+  once `M δ ≥ t N`, with exponents `s(p) − k p i / M`. Their weight is exactly `N − ∑ k / M`
+  (`systemWeight_systemGridExponent`), hence at most `−δ`
+  (`systemWeight_systemGridExponent_le`), and they meet (2.4) with the constants unchanged
+  (`systemGridExponent_le`, `exists_systemGridExponent_eq`), with no existential level and at most
+  `((N + 1) M + 1) ^ (t N)` systems. The exponent `N + 2 δ` on the left is load-bearing: the
+  weight is `N − ∑ k / M`, so the grid sum has to exceed `N`. The lower bound on the largest
   forms is the caller's, through `placeProd_iSup_le_mul_prod_iSup_systemValue`;
 - **Theorem A** (`NumberField.exists_finset_submodule_of_systemWeight_neg`): one system of negative
   weight has its solutions in finitely many proper subspaces, from 6.4 for large affine height and
@@ -1698,8 +1742,10 @@ solutions with `Q ≤ H(x) < Q ^ (1 + δ / (2 N))`, `H` the absolute affine heig
 them have determinant `0` (`NumberField.det_eq_zero_of_window`). Route: the determinant is an
 `S`-integer, so its local sizes over the places of the system multiply to at least `1`
 (`NumberField.one_le_prod_systemAbs_algebraMap`); in the window each local value is at most
-`C p · Q ^ (c p i + s(p) δ / (2 N))` (`NumberField.systemValue_le_rpow_of_window`, the one use of
-`c p i ≤ s(p)`); and the determinant of the forms at the points is bounded row by row by the
+`C p · Q ^ ([K : ℚ] · (c p i + s(p) δ / (2 N)))` (`NumberField.systemValue_le_rpow_of_window`,
+applied at the relative level `Q ^ [K : ℚ]`, since `Q` bounds the absolute affine height and
+`systemValue` is a relative local value; the one use of `c p i ≤ s(p)`); and the determinant of
+the forms at the points is bounded row by row by the
 Leibniz expansion (`AbsoluteValue.apply_det_le_factorial_mul_prod`,
 `AbsoluteValue.apply_det_le_prod_of_isNonarchimedean`; `NumberField.systemAbs_det_le`,
 `NumberField.det_eq_zero_of_systemAbs_det_le`, `NumberField.prod_systemBound_le`). The places are
@@ -1765,20 +1811,32 @@ doubly-logarithmic dependence on the heights of Schlickewei's count; the sharp a
 DAT §2.8's `subspace_theorem_for_systems`, and 9.5 is the statement Layers 4–6 prove without the
 absolute theory. Deliverables:
 - *From systems to domains over `E`* (`NumberField.mem_approxDomain_conjSystem_of_mem_systemSet`):
-  a solution, read in `ι → E`, lies in the approximation domain over `E` of 6.3's conjugated forms
-  `NumberField.conjSystem`, at the places of `E` above `S` (`NumberField.systemPlacesOver`), with
-  exponents `NumberField.conjExponent` (`c v i / mult v` above an infinite place, `e f · c v i` above
-  a prime of `S`), at level `H(x)`; both weights are `[E : K]` times those of the system
-  (`NumberField.approxWeight_conjExponent`, `NumberField.approxAbsWeight_conjExponent`), and the
-  forms are independent at every place the domain reads. A system over an intermediate field is
+  a solution `x` whose constants satisfy `C p ≤ H(x) ^ γ p` for a family `γ`, read in `ι → E`,
+  lies in the approximation domain over `E` of 6.3's conjugated forms `NumberField.conjSystem`, at
+  the places of `E` above `S` (`NumberField.systemPlacesOver`), with exponents
+  `NumberField.conjExponent (c + γ)` (`c v i / mult v` above an infinite place, `e f · c v i`
+  above a prime of `S`, applied to `c p i + γ p`), at level `H(x)`; both weights are `[E : K]`
+  times those of the system with exponents `c + γ` (`NumberField.approxWeight_conjExponent`,
+  `NumberField.approxAbsWeight_conjExponent`), the shift adding `N ∑ p, γ p` to the weight, and the
+  forms are independent at every place the domain reads. The constants cannot be dropped: over
+  `ℚ` with the forms `(2 X, 2 Y)`, `C ∞ = 2` and `c = (1, −2)`, a normalized system, every `(k, 0)`
+  is a solution and none lies in the domain of `conjExponent c` at level `k`. A system over an
+  intermediate field is
   the same system over its Galois closure (`NumberField.systemSet_compRingHom`). No unit
   normalization and no Northcott are used, unlike 5.1 and 6.2.
 - *Raised exponents* (`NumberField.IsNormalizedSystem.exists_raise`): since `max i, c p i = s(p)`,
   the positive exponents sum to at most `N`, and scaling the negative ones leaves weight `−δ` and
   absolute weight at most `2 N + δ`, for any number of places.
 - *One scalar for the constants* (`NumberField.exists_ne_zero_systemAbs_le`, Minkowski's first
-  theorem on `K`): a nonzero `S`-integer `β` with `|β|_p ^ mult p ≤ κ / C p` at every place, so the
-  constants cost `log scalarConst K S` in the threshold and nothing in the count.
+  theorem on `K`): a nonzero `S`-integer `β` with `|β|_p ^ mult p ≤ κ / C p` at every place, where
+  `κ ^ t = scalarConst K S · (N! H ^ (N [K : ℚ])) ^ (2 t / N)` depends only on `H`, `K` and `S`
+  (it bounds `scalarConst K S · ∏ C p` by (2.4) and `NumberField.IsNormalizedSystem.systemDet_le`).
+  Then `β x` solves the system with every constant at most `κ`, and above the threshold
+  `κ ≤ H(x) ^ (δ / (2 N t))`, so the bridge applies to `β x` at level `H(x)` with
+  `γ p = δ / (2 N t)` at every place and the raised exponents. The shift costs `δ / 2` of weight:
+  the exponents over `E` have weight `−[E : K] δ / 2` and absolute weight at most
+  `[E : K] (2 N + 2)`, which are the `ε` and `A` given to 6.1. `x` lies in every subspace `β x` lies in, so the constants cost
+  `log scalarConst K S` in the threshold and nothing in the count.
 - *The thresholds are linear in the heights* (`NumberField.parametricThreshold_le`, with
   `NumberField.thresholdScale = formLogHeight + log |D_K| + ∑ v ∈ Sfin, log N v + 1`): every
   threshold of Layers 4, 5.4, 5.5 and 6.1 bounded by the heights of the entries of the matrices of
@@ -1788,9 +1846,11 @@ absolute theory. Deliverables:
   `NumberField.evertseConst_le`), in the form `X ≤ exp (c Λ)`, whose coefficients add under
   products and multiply under powers.
 - *Assembly* (`NumberField.exists_finset_submodule_of_forall_interval`): for any interval result
-  for the conjugated forms above `X₀`, with 6.1 as one and, for `N = 2`, 5.5 as another; the
-  forms over `E` are at most `R [E : K]` in number (`NumberField.formCount_conjSystem_le`); 9.4
-  turns each interval into windows; below `X₀` one interval covers the large solutions.
+  for the conjugated forms above `X₀`, with 6.1 as one and, for `N = 2`, 5.5 as another, used once
+  with the weight and absolute-weight budget of the previous item; the conjugated forms are at
+  most `R [E : K]` in number (`NumberField.formCount_conjSystem_le`), the form parameter `s` of
+  5.5 and 6.1 over `E`, which is why the count sees `R` and not `t`; 9.4 turns each interval into
+  windows; below `X₀` one interval covers the large solutions.
 
 ## Relationship to Mathlib
 
@@ -1873,7 +1933,7 @@ Mordell–Lang circle for tori; Siegel's theorem by the Corvaja–Zannier method
 
 Secondary to everything above: the milestones are the specification. The milestones have
 sorry-free implementations in
-[`rwst/Subspace-Theorems` at `ad93117`](https://github.com/rwst/Subspace-Theorems/tree/ad931171192c7f0d63254b979fa4f52ee4a476c0/DiophantineApproximation),
+[`rwst/Subspace-Theorems` at `09835cb`](https://github.com/rwst/Subspace-Theorems/tree/09835cb23557ae5ae0cf55a9c4ab9055f5d60338/DiophantineApproximation),
 directory `DiophantineApproximation/`, with helpers in `STForMathlib/`, Apache 2.0, by the author
 of this roadmap. Three items are exceptions and have none: Wirsing's first two inequalities (1.2),
 the classifications with Mahler's theorem (1.3), and the acceptance tests of 9.2–9.4. That code
