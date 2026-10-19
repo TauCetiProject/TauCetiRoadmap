@@ -226,6 +226,9 @@ libraries. Section numbers `k.n` refer to this document; `LV20` is the paper of 
   `NumberField.Chebotarev.mem_frobeniusPrimeSet_galEquivProd_symm_iff`, `IsCyclotomicExtension.galEquivProd` (for `L/K`
   Galois and `m` prime to the discriminant of `L`, `Gal(L(μ_m)/K) ≅ Gal(L/K) × (ℤ/m)^×`),
   `IsCyclotomicExtension.Rat.prime_dvd_of_dvd_natAbs_discr` and `AlgHom.IsArithFrobAt.autToPow_eq_absNorm`.
+- S-units: `Set.unit_fg_of_units` in `TauCeti.RingTheory.DedekindDomain.SInteger.Unit` supplies
+  finite generation from a finite set of primes and finite generation of the base-ring units;
+  Mathlib's Dirichlet instance supplies the latter for `𝒪_K`.
 - Representations and linear algebra: `Rep.mackeyDecomposition` (algebraic, no continuity; the continuous form is
   ArithmeticGaloisRepresentations §1.3), `TauCeti.nonempty_linearEquiv_of_finrank_linearMap_eq` (multiplicity criterion
   over a semisimple algebra), `TauCeti.BilinForm.isometryGroup` (the group `Sp(V, ω)` of a nondegenerate alternating
@@ -268,6 +271,9 @@ libraries. Section numbers `k.n` refer to this document; `LV20` is the paper of 
 
 ### From TauCetiRoadmap roadmaps
 
+- **HeightsAndUnits** §4.2 owns the S-unit API; §6.1 consumes its pinned finite-generation result.
+- **ConformalMapping** L5 supplies Jordan separation and filled-hull topology on `TauCeti.IsJordanCurve`,
+  including the two complementary components and their frontiers, for §5.2.
 - **ReductiveGroups** Layers 2, 3, 6 and 7: Lie algebras of smooth affine groups and the adjoint representation; closed
   subgroup schemes, quotients and identity components; centres and semisimple groups; split structure theory. What
   this roadmap needs beyond them about Zariski closures, unit groups, orbit maps and the symplectic group is stated
@@ -387,7 +393,9 @@ libraries. Section numbers `k.n` refer to this document; `LV20` is the paper of 
   determinants, twists — which enlarge the exceptional set by the places above `p` — restriction and induction).
 - **SchemeAndStackFoundations** Layer 0 (finitely presented schemes and spreading out of models and their properties
   over a localization of `𝒪_K`; dimension theory of schemes of finite type over a field; normalization in finite
-  extensions of function fields, finite for Nagata bases).
+  extensions of function fields, finite for Nagata bases); §2.1 (`Sheaf.derivedPushforward`).
+- **DerivedDeRhamCohomology** §§2.12–2.13 (`DeRham.complex` and pullback of ordinary forms),
+  §5.8 (`baseLinearFilteredDerived`, `schemeDeRhamRealization`) supplies the base-linear carriers for §2.1a.
 - **ComplexComparisonPartII** §C0.4 (`𝒪_{X,x} → 𝒪_{X^an,x}` is flat with isomorphic completions), Layer C2 (GAGA for proper
   schemes), §C4.5 (connectedness of affine curves), §§C5.1–C5.2 (algebraic de Rham–Betti comparison; for smooth proper
   `f` the analytic Gauss–Manin connection has `R^q f_*ℂ` as horizontal sections; relative Hodge bundles in characteristic
@@ -1062,7 +1070,7 @@ fibres.
 
 **Construction.** For a number field `K`, its ring `𝒪_S` of `S`-integers, a smooth separated finite-type `𝒪_S`-scheme `B` and an abelian scheme `f : A → B`, construct `integralGaussManin` on the locally free bundle `H¹_dR(A/B)`. It is an integrable `𝒪_S`-connection, natural for homomorphisms and pullback along every morphism between such smooth bases, and compatible with arbitrary base change of `𝒪_S`. Its generic fibre is the connection of AbelianSchemesAndArithmeticModuli §A4.3. The de Rham duality pairing is horizontal; when a polarization has invertible degree, its alternating self-pairing is horizontal as well. No horizontality of the Hodge subbundle is asserted.
 
-*Construction.* Filter `Ω•_(A/𝒪_S)` by the number of differentials pulled back from `B`. The connecting differential from the first two filtration pieces gives `∇`; the next piece gives `∇² = 0`. Since `B/𝒪_S` is smooth, its differential bundles are locally free, and the projection formula identifies these pieces after pushforward with `Ω^p_(B/𝒪_S) ⊗ H¹_dR(A/B)`. Functoriality and the product rule give base change and horizontal cup products and duality. The same construction on the generic fibre gives the supplied field-valued connection. (Stacks, Tags `0FMM` and `0FMN`, spectral sequence of relative de Rham cohomology; LV20 §3.1, (3.1), p. 15.) *Needs:* AbelianSchemesAndArithmeticModuli §A4.3 for the Hodge bundles and dual pairing; SchemeAndStackFoundations Layer 3 for differentials and derived pushforward.
+*Construction.* Construct and glue the relative base-form filtration on `Ω•_(A/𝒪_S)` in the supplied base-linear sheaf category, filtering by the number of differentials pulled back from `B`; its differentials are `𝒪_S`-linear, not `𝒪_A`-linear. The connecting differential from the first two filtration pieces gives `∇`; the next piece gives `∇² = 0`. Since `B/𝒪_S` is smooth, its differential bundles are locally free, and the projection formula identifies these pieces after pushforward with `Ω^p_(B/𝒪_S) ⊗ H¹_dR(A/B)`. Functoriality and the product rule give base change and horizontal cup products and duality. The same construction on the generic fibre gives the supplied field-valued connection. (Stacks, Tags `0FMM` and `0FMN`, spectral sequence of relative de Rham cohomology; LV20 §3.1, (3.1), p. 15.) *Needs:* AbelianSchemesAndArithmeticModuli §A4.3 for the Hodge bundles and dual pairing; DerivedDeRhamCohomology §§2.12–2.13 (`DeRham.complex`, pullback of ordinary forms), §5.8 (`baseLinearFilteredDerived`, `schemeDeRhamRealization`); SchemeAndStackFoundations §2.1 (`Sheaf.derivedPushforward`).
 
 **Checks.**
 
@@ -1675,7 +1683,13 @@ family of branched covers over a configuration space with lifted point-pushing.
 
 **Theorem.** Every homeomorphism between two simple closed curves in the plane `ℝ²` extends to a homeomorphism of `ℝ²`. In particular the closure of the bounded complementary component of a simple closed curve is homeomorphic to the closed disk (`schoenflies_extension`). The signature uses embeddings of Mathlib’s `Circle` into the real plane, their range homeomorphism, and its extension to a plane homeomorphism.
 
-*Proof sketch.* Use the Jordan curve theorem for the two complementary components, then extend the homeomorphism over the bounded component by a sequence of chords dividing it into small disks (Thomassen’s graph-theoretic proof) or by homology and the Riemann mapping theorem with Carathéodory extension. (GX13, Appendix `E`, Theorem `E`.1, p. 160.)
+*Proof sketch.* Consume Jordan separation to identify the bounded and unbounded complementary components and their common frontier. Thomassen's extension proof extends the boundary homeomorphism over these components, giving a homeomorphism of the whole plane. (GX13, Appendix `E`, Theorem `E`.1, p. 160, referring to Thomassen, Theorem 3.1.) *Needs:* ConformalMapping L5, Jordan separation and filled-hull topology on `TauCeti.IsJordanCurve`.
+
+**Checks.**
+
+- For the identity of a round circle, the identity of the plane is an extension.
+- Reflection of the unit circle extends by plane reflection; the boundary map need not preserve orientation.
+- A homeomorphism from the unit circle to a Koch snowflake extends over the plane and identifies the closed disk with the closure of its bounded component; boundary smoothness is not required.
 
 ### 5.3 Every compact surface can be triangulated (Radó)
 
@@ -2021,19 +2035,17 @@ Hodge-weight argument, and the finiteness criterion applies on every residue dis
 
 ### 6.1 Reductions for the `S`-unit equation
 
-**Finite-generation bridge.** For every number field `K` and finite set `S_f` of height-one
-primes of `O_K`, prove `(Set.unit S_f K).FG` (`sUnits_fg`). Use Mathlib's `S`-unit subgroup and its
-valuation membership equation. The valuations at the primes of `S_f` give a homomorphism into
-`ℤ^(S_f)` whose kernel is the image of `(O_K)ˣ`; that kernel is finitely generated by Dirichlet's
-unit theorem, the image is a subgroup of a finitely generated free abelian group, and hence the
-whole `S`-unit group is finitely generated. This supplies the hypothesis for identifying the end
-statement with DiophantineApproximationAndTranscendence §2.4'`s` unit equation; the geometric proof
-below is independent of its subspace-theorem proof. Sources: Mathlib
-`Mathlib.NumberTheory.NumberField.Units.DirichletTheorem`, the `Monoid.FG (O_K)ˣ` instance
-and its proof; `Mathlib.RingTheory.DedekindDomain.SInteger`, `Set.unit_valuation_eq_one` and
-`Set.unitEquivUnitsInteger`; the valuation exact-sequence argument just given.
+**Finite-generation supplier.** For every number field `K` and finite set `S_f` of height-one
+primes of `O_K`, use the pinned `Set.unit_fg_of_units` from
+`TauCeti.RingTheory.DedekindDomain.SInteger.Unit`, specialized to `R = O_K`, and
+`Group.fg_iff_subgroup_fg` to obtain `(Set.unit S_f K).FG`. Mathlib's Dirichlet instance
+`Monoid.FG (O_K)ˣ` supplies the base-ring hypothesis. HeightsAndUnits §4.2 owns the S-unit API.
+This supplies the hypothesis for identifying the end statement with
+DiophantineApproximationAndTranscendence §2.4's unit equation; the geometric proof below is
+independent of its subspace-theorem proof. Sources: the pinned `Set.unit_fg_of_units` instance;
+Mathlib `Mathlib.NumberTheory.NumberField.Units.DirichletTheorem` and `Group.fg_iff_subgroup_fg`.
 
-**Checks of the bridge.** With `S_f` empty this is finite generation of the ordinary unit group.
+**Checks of the supplier.** With `S_f` empty this is finite generation of the ordinary unit group.
 For `K = ℚ` and `S_f = {2}`, the group is `{±2^n : n ∈ ℤ}`. For `S_f = {2,3}`, the valuations
 of `2` and `3` give the two independent integer coordinates, while the sign is in the kernel.
 
@@ -2161,8 +2173,9 @@ DiophantineApproximationAndTranscendence §2.4'`s`
 `DiophantineApproximation.finite_two_term_unit_equation`, with `a = b = 1` and
 `Γ = Set.unit S_f K`, where `S_f` is the finite-prime part of `S`. The hypotheses are a number field `K` and a finite set `S` of places
 containing the archimedean ones. Write `U(K,S) := {t ∈ O_Sˣ : 1 − t ∈ O_Sˣ}`; this is the
-solution set identified with the supplied two-term unit equation. Its finite generation is the
-finite-generation target `sUnits_fg` of §6.1. This is a proof of that supplied declaration, with no second local finiteness declaration.
+solution set identified with the supplied two-term unit equation. The finite-generation hypothesis for `Γ` follows
+from the pinned `Set.unit_fg_of_units` and `Group.fg_iff_subgroup_fg`, as in §6.1
+(HeightsAndUnits §4.2). This is a proof of that supplied declaration, with no second local finiteness declaration.
 
 *Proof sketch.* By 6.1, assume `μ_8 ⊆ K` and that `S` contains the places above 2; it suffices to show that `U₁` is finite. `U₁` is the finite union of the `U_{1,L}` over the Kummer fields `L` (Hermite–Minkowski). For each `L` choose `v` by 6.3. `𝒴(𝒪_S)` meets finitely many residue classes modulo `v` (`k_v` is finite); in each class that meets `U_{1,L}` choose `t₀` in it and apply 6.9 (LV20 Lemma 4.2). (LV20, §4, Theorem 4.1, p. 20; §4, p. 20.) *Needs:* 6.1; 6.2; 6.3; 6.9.
 
@@ -2346,13 +2359,13 @@ Kodaira–Parshin family, of relative dimension `(2g − 1)(q − 1)/2`. Its fib
 - `singlyRamifiedSurjections.quotient`: `S(Γ, c, G)/G`, the conjugacy classes, with trivial `Γ`-action.
 - `singlyRamifiedSurjections.stabilizer_eq`: `Stab_{Γ × G^op}(φ) = {(γ, φ(γ)⁻¹)}`.
 - `singlyRamifiedSurjections.comap`: For a surjection `Γ → Γ̄` through which the `Γ`-action factors, `S(Γ̄, c̄, G) = S(Γ, c, G)`.
-- `singlyRamifiedSurjections.aff3`: The `Aff(3)` count 810/135.
+- `card_singlyRamifiedSurjections_aff3_genus_two`: The `Aff(3)` surjection count 810, giving 135 conjugacy classes.
 
 *Construction.* `γ·φ = Ad(φ(γ))⁻¹ ∘ φ`, so the `Γ`-action preserves `G`-orbits and commutes with the `G`-action. `φ·h = φ` means `Ad(h⁻¹)` is trivial on the image `G`, so `h` is central, hence `h = 1`. `(γ, h)` fixes `φ` iff `Ad(φ(γ)h)⁻¹ ∘ φ = φ`, iff `φ(γ)h` is central (`φ` is surjective), i.e. `h = φ(γ)⁻¹`; so `φ` is recovered from its stabilizer as the map sending `γ` to the inverse of its partner `h`. (LV20, §7.3, proof of Lemma 7.4, p. 38.) *Needs:* 0.9; 0.10.
 
 **Checks.**
 
-- For `Γ` free of rank `4, c` its product-of-commutators peripheral class and `G=Aff(3), |S|=810` and `|S/G|=135`.
+- For `Γ = FreeGroup (Fin 4)`, standard generators `x₀,…,x₃`, `c` the conjugacy class of `[x₀,x₁][x₂,x₃]` and `G=Aff(3)`, `|S|=810` (`card_singlyRamifiedSurjections_aff3_genus_two`) and `|S/G|=135`: the 15 generating linear-part tuples each have `3³·2=54` lifts, and conjugation is free with orbits of size 6 (LV20 Lemma 2.11, p. 14).
 - For `c` containing the identity, `S` is empty.
 - If the target has nontrivial centre, its conjugation action on surjections is not free; that case is excluded from the free-action conclusion.
 - `G = S₃ = Aff(3), Γ` free on `x₁, x₁', x₂, x₂'` and `c` the conjugacy class of `[x₁, x₁'][x₂, x₂']`: #`S(Γ, c, G) = 810` and #`S/G = 135` (LV20 Lemma 2.11 in Layer LV.0).
@@ -2401,7 +2414,7 @@ Kodaira–Parshin family, of relative dimension `(2g − 1)(q − 1)/2`. Its fib
 - For `G=1` (centre-free), `S` is empty and `Y′` is empty; no branched cover is manufactured.
 - Off the graph of `Y′→Y`, the constructed map is a `G`-torsor; at the graph its local model is `(z,w)↦(z,w^n)` with `n>1` for the nontrivial peripheral image.
 - `G = Aff(3) = S₃, g = 2: e : Y' → Y` has degree 135.
-- For `G` abelian the construction does not apply (nontrivial centre), and indeed abelian covers cannot be branched at a single point (the peripheral class is a product of commutators).
+- For a nontrivial abelian group `G` the construction does not apply, because its centre is nontrivial; no abelian cover can have exactly one branch point, since the peripheral class is a product of commutators.
 
 ### 8.6 Descent of the Hurwitz covering to `K` (LV20 Lemma 7.4)
 
@@ -2416,14 +2429,15 @@ Kodaira–Parshin family, of relative dimension `(2g − 1)(q − 1)/2`. Its fib
 
 ### 8.7 Hurwitz spaces of `G`-covers branched at one point (LV20 Proposition 7.1)
 
-**Theorem.** `Y` is a smooth projective geometrically connected curve of genus `g ≥ 2` over a number field `K ⊂ ℂ`, and `G` is a finite group with trivial centre. There are a finite étale morphism `π : Y' → Y` of `K`-curves and a smooth proper relative curve `Z → Y'` with a morphism `Z → Y' × Y` of relative curves over `Y'` and a `G`-action on `Z` over `Y' × Y` such that: `(i)` for `y ∈ Y(K̄)` there is a bijection between `π⁻¹(y)` and the set of `G`-conjugacy classes of surjections `π₁^geom(Y ∖ {y}) → G` nontrivial on a loop around `y, G_K`-equivariant when `y ∈ Y(K)`; (ii) `Z → Y' × Y` is a `G`-torsor away from the graph of `π`, and for `y' ∈ Y'(K̄)` the fibre `Z_{y'} → Y` is the connected `G`-covering classified by `y'`, ramified exactly at `π(y')`. The finite étale parameter scheme `Y′` may be disconnected (or empty for some `G`); it is not required to be a geometrically connected curve. Its individual relative curve fibres are connected.
+**Theorem.** `Y` is a smooth projective geometrically connected curve of genus `g ≥ 2` over a number field `K ⊂ ℂ`, and `G` is a finite group with trivial centre. There are a finite étale morphism `π : Y' → Y` of `K`-curves and a smooth projective relative curve `Z → Y'` with a finite morphism `Z → Y' × Y` of relative curves over `Y'` and a `G`-action on `Z` over `Y' × Y` such that: `(i)` for `y ∈ Y(K̄)` there is a bijection between `π⁻¹(y)` and the set of `G`-conjugacy classes of surjections `π₁^geom(Y ∖ {y}) → G` nontrivial on a loop around `y, G_K`-equivariant when `y ∈ Y(K)`; (ii) `Z → Y' × Y` is a `G`-torsor away from the graph of `π`, and for `y' ∈ Y'(K̄)` the fibre `Z_{y'} → Y` is the connected `G`-covering classified by `y'`, ramified exactly at `π(y')`. The finite étale parameter scheme `Y′` may be disconnected (or empty for some `G`); it is not required to be a geometrically connected curve. Its individual relative curve fibres are connected.
 
-*Proof sketch.* Take `Y' := Y'_K` from 8.6 and `Z :=` the normalization of `Y' × Y` in `Z°_K`. Normalization commutes with the base change `K → ℂ` in characteristic zero (normality is preserved by separable field extensions), so `Z_ℂ` is the complex `Z` of the analytic construction; smoothness and properness of `Z → Y'` and the fibre description descend from `ℂ`. `(i)` is 8.6 (2) together with the analytic identification of fibres; (ii) holds over `ℂ` and hence over `K`. (LV20, §7.1, Proposition 7.1, p. 34; §7.1, Proposition 7.1, p. 35; §7.3, p. 37.) *Needs:* 8.4; 8.5; 8.6; SchemeAndStackFoundations Layer 0; Mathlib `AlgebraicGeometry.Scheme.Hom.normalization`.
+*Proof sketch.* Take `Y' := Y'_K` from 8.6 and `Z :=` the normalization of `Y' × Y` in `Z°_K`. This normalization is finite over `Y' × Y` by the Nagata finiteness supplied in Layer 0, so `Z → Y'` is projective because `Y` is projective. Normalization commutes with the base change `K → ℂ` in characteristic zero (normality is preserved by separable field extensions), so `Z_ℂ` is the complex `Z` of the analytic construction; smoothness and properness of `Z → Y'` and the fibre description descend from `ℂ`. `(i)` is 8.6 (2) together with the analytic identification of fibres; (ii) holds over `ℂ` and hence over `K`. (LV20, §7.1, Proposition 7.1, p. 34; §7.1, Proposition 7.1, p. 35; §7.3, p. 37.) *Needs:* 8.4; 8.5; 8.6; SchemeAndStackFoundations Layer 0; Mathlib `AlgebraicGeometry.Scheme.Hom.normalization`.
 
 **Checks.**
 
 - `G = Aff(3), g = 2: π` has degree 135.
 - The fibres of `Z → Y'` have genus `1 + |G|(g − 1) + (|G| − |G|/n)/2` by Riemann–Hurwitz, `n` the order of the monodromy at the branch point.
+- For `G=Aff(3)`, `g=2` and inertia order 3, the smooth projective Galois fibre has genus 9, satisfying the positive-genus hypothesis of 8.10; the degree-3 quotient instead has genus 5.
 
 ### 8.8 The idempotents `e, e′` and `e`″ of `ℚ[Aff(q)]`
 
@@ -2452,9 +2466,9 @@ Kodaira–Parshin family, of relative dimension `(2g − 1)(q − 1)/2`. Its fib
 
 ### 8.10 The reduced relative Prym of a family of `Aff(q)`-covers
 
-**Construction.** Let `q ≥ 3` be prime, `B` a smooth scheme of finite type over a field of characteristic zero and `Z → B` a smooth proper relative curve with geometrically connected fibres and an action of `G = Aff(q)` over `B`. Let `P := Pic⁰_{Z/B}`, an abelian scheme with its canonical principal polarization, on which `G` acts (by pushforward; the idempotents are invariant under `g ↦ g⁻¹`, so the choice does not matter), and `e'' ∈ End(P)`. If the dimension of `ker(e''_b)` is constant in `b ∈ B`, the reduced Prym is `X := (ker e'')°`, the relative identity component, an abelian subscheme of `P` with the restricted polarization; its fibre at `b` is `(ker e''_b)°`.
+**Construction.** Let `q ≥ 3` be prime, `B` a smooth scheme of finite type over a field of characteristic zero and `Z → B` a smooth projective relative curve with geometrically connected fibres of positive genus, fixed on each connected component of `B`, and an action of `G = Aff(q)` over `B`. Let `P := Pic⁰_{Z/B}`, an abelian scheme with its canonical principal polarization, on which `G` acts (by pushforward; the idempotents are invariant under `g ↦ g⁻¹`, so the choice does not matter), and `e'' ∈ End(P)`. If the dimension of `ker(e''_b)` is constant in `b ∈ B`, the reduced Prym is `X := (ker e'')°`, the relative identity component, an abelian subscheme of `P` with the restricted polarization; its fibre at `b` is `(ker e''_b)°`.
 
-- `reducedPrym`: `X := (ker e'')° ⊆ Pic⁰_{Z/B}` for a relative curve with `Aff(q)`-action and constant kernel dimension.
+- `reducedPrym`: `X := (ker e'')° ⊆ Pic⁰_{Z/B}` for such a smooth projective relative curve of positive genus with `Aff(q)`-action and constant kernel dimension.
 - `reducedPrym.isAbelianScheme`: `X` is an abelian scheme over `B`.
 - `reducedPrym.polarization`: The restriction of the principal polarization of `Pic⁰`.
 - `reducedPrym.fibre`: `X_b = (ker e''_b)°` for every point `b`.
@@ -2462,11 +2476,12 @@ Kodaira–Parshin family, of relative dimension `(2g − 1)(q − 1)/2`. Its fib
 - `reducedPrym.dim`: The relative dimension of `X` over a base whose complex fibres are singly ramified `Aff(q)`-covers of a genus-`g` curve is `(2g − 1)(q − 1)/2`.
 - `reducedPrym.example`: `q = 3, g = 2`: relative dimension 3.
 
-*Construction.* Relative Picard scheme of a smooth proper curve with geometrically connected fibres: `Pic⁰_{Z/B}` is an abelian scheme with principal polarization (JacobianChallenge Layer `D`, AlgebraicModuli A0-extension, AbelianSchemes A2). Functoriality gives the `G`-action and `e'' ∈ ℤ[G] → End(P)`. Writing `n=|G|` and `e''=n(1−e)`, the idempotence `e²=e` gives `(e'')²=[n]e''`. Apply 8.9 on each connected component of the smooth base; the polarization restricts and formation commutes with base change. (LV20, §7.2, p. 36; §7.2, p. 35.) *Needs:* 8.8; 8.9; AlgebraicModuliForArithmeticGeometry §7.9; AbelianSchemesAndArithmeticModuli §§A0.1, A1.1; JacobianChallengePartII §§1.2–1.4; TauCetiRoadmap JacobianChallenge Layer `D`; JacobianChallengePartII §§1.2–1.4.
+*Construction.* Apply JacobianChallengePartII §1.2, `RelativeJacobian.RelativeJacobian`, and §1.4, `RelativeJacobian.PrincipalPolarization`, to the smooth projective curve family of positive genus, componentwise on `B`, to obtain `Pic⁰_{Z/B}` and its principal polarization. Functoriality gives the `G`-action and `e'' ∈ ℤ[G] → End(P)`. Writing `n=|G|` and `e''=n(1−e)`, the idempotence `e²=e` gives `(e'')²=[n]e''`. Apply 8.9 on each connected component of the smooth base; the polarization restricts and formation commutes with base change. (LV20, §7.2, p. 36; §7.2, p. 35.) *Needs:* 8.8; 8.9; AlgebraicModuliForArithmeticGeometry §7.9; AbelianSchemesAndArithmeticModuli §§A0.1, A1.1; JacobianChallengePartII §§1.2–1.4 (`RelativeJacobian.RelativeJacobian`, `RelativeJacobian.PrincipalPolarization`).
 
 **Checks.**
 
 - For singly branched `Aff(3)`-covers of a genus-two curve, the reduced Prym has dimension 3.
+- The family `ℙ¹_B → B` has genus zero and lies outside this positive-genus construction; it is not an instance of the cited relative-Jacobian supplier.
 - If `G` acts trivially on `Pic⁰, e=e_H−e_G=0`, so `e′′=|G|` and the connected kernel is the zero abelian scheme.
 - After base change to a geometric point `b`, the reduced Prym is `(ker e′′_b)°`, with the polarization restricted from `Pic⁰`; the polarization is not automatically principal.
 - If `Z_b → Z_b/G` has genus-0 quotient the Prym has dimension given by Riemann–Hurwitz for `Z_b/H`.
@@ -2502,7 +2517,7 @@ Kodaira–Parshin family, of relative dimension `(2g − 1)(q − 1)/2`. Its fib
 - `kodairaParshin.fibreHomology`: `H₁(X_{q,y'}(ℂ), ℚ) ≅ H₁^Pr(Z_{q,y'} ×^{Aff(q)} 𝔽_q, Y(ℂ); ℚ)`.
 - `kodairaParshin.example`: `q = 3, g = 2: d = 3`, fibre of size 135.
 
-*Construction.* `Aff(q)` has trivial centre (Layer LV.0), so the Hurwitz space exists. The fibre dimension of `ker e''` is constant by 8.12 (computed at complex points, which lie over every point of `Y'_q`), so the reduced Prym is an abelian scheme of relative dimension `d_q` with polarization. Good model: Layer LV.2 (existence after enlarging `S`), with `𝒴` proper because `Y` is. Property (iii) is 8.7 (LV20 Proposition 7.1 `(i)`); `Aff(q)`-conjugacy and `Sym(𝔽_q)`-conjugacy classes agree (Layer LV.0). (LV20, §7.1, Definition 7.2, p. 35; §7.2, Definition 7.3, p. 36; §5, p. 26.) *Needs:* 0.9; 2.1; 2.3; 8.7; 8.10; 8.12.
+*Construction.* `Aff(q)` has trivial centre (Layer LV.0), so the Hurwitz space exists. The Hurwitz curve family is projective over `Y′_q` because `Z_q → Y′_q × Y` is finite and `Y` is projective. Riemann–Hurwitz for its degree-`q(q−1)` fibres over a genus-`g ≥ 2` curve gives positive genus, constant on each connected component of `Y′_q`; hence the relative-Jacobian hypotheses of 8.10 hold. The fibre dimension of `ker e''` is constant by 8.12 (computed at complex points, which lie over every point of `Y'_q`), so the reduced Prym is an abelian scheme of relative dimension `d_q` with polarization. Good model: Layer LV.2 (existence after enlarging `S`), with `𝒴` proper because `Y` is. Property (iii) is 8.7 (LV20 Proposition 7.1 `(i)`); `Aff(q)`-conjugacy and `Sym(𝔽_q)`-conjugacy classes agree (Layer LV.0). (LV20, §7.1, Definition 7.2, p. 35; §7.2, Definition 7.3, p. 36; §5, p. 26.) *Needs:* 0.9; 2.1; 2.3; 8.7; 8.10; 8.12.
 
 **Checks.**
 

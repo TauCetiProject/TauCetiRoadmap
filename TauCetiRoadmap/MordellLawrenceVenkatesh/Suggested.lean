@@ -527,18 +527,6 @@ theorem schoenflies_extension
 
 /-! ## Layer LV.6: the S-unit theorem -/
 
-section SUnits
-
-open IsDedekindDomain NumberField
-
-/-- Finite generation of S-units over every number field, with a finite set of finite primes.
-README 6.1; Dirichlet's unit theorem and the finite-support valuation exact sequence. -/
-theorem sUnits_fg (K : Type*) [Field K] [NumberField K]
-    (S : Set (HeightOneSpectrum (𝓞 K))) (hS : S.Finite) : (S.unit K).FG := by
-  sorry
-
-end SUnits
-
 section Legendre
 
 /-- The Legendre curve `y² = x(x - 1)(x - t)` over any commutative ring. README 6.4. -/
@@ -642,6 +630,16 @@ theorem singlyRamifiedSurjections_conj_free {Γ G : Type*} [Group Γ] [Group G]
 example (Γ G : Type*) [Group Γ] [Group G] : singlyRamifiedSurjections Γ G {1} = ∅ := by
   ext φ
   simp [singlyRamifiedSurjections]
+
+open scoped commutatorElement
+
+/-- The genus-two peripheral class gives 810 surjections onto `Aff(3)`.
+README 8.2; Lawrence–Venkatesh Lemma 2.11, p. 14. -/
+theorem card_singlyRamifiedSurjections_aff3_genus_two :
+    let x : Fin 4 → FreeGroup (Fin 4) := FreeGroup.of
+    Nat.card (singlyRamifiedSurjections (FreeGroup (Fin 4)) (affinePermGroup 3)
+      (conjugatesOf (⁅x 0, x 1⁆ * ⁅x 2, x 3⁆))) = 810 := by
+  sorry
 
 end Surjections
 
