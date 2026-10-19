@@ -2,6 +2,7 @@ import Mathlib
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.Basic
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.Comap
 import TauCeti.AlgebraicGeometry.AdicSpace.Spa.RationalSubset.Basic
+import TauCeti.RingTheory.Huber.Basic
 
 
 /-!
@@ -72,6 +73,49 @@ Design choices made explicit here:
 
 namespace TauCetiRoadmap.ClassicalAdicEtaleCohomology
 
+/-! ## Layer 2: Henselian Huber rings -/
+
+namespace Huber
+
+variable {A : Type*} [CommRing A]
+
+/-- Henselianity along the topologically nilpotent elements is independent of the open
+power-bounded subring (README §2.1, `Huber.henselianRing_iff_of_isOpen`). -/
+theorem henselianRing_iff_of_isOpen [TopologicalSpace A] [IsTopologicalRing A]
+    [TauCeti.Huber.IsHuberRing A] (B C : Subring A)
+    (hB : B ≤ TauCeti.Huber.powerBoundedSubring A)
+    (hC : C ≤ TauCeti.Huber.powerBoundedSubring A)
+    (hBopen : IsOpen (B : Set A)) (hCopen : IsOpen (C : Set A)) :
+    HenselianRing B ((TauCeti.Huber.topologicallyNilpotentIdeal A).comap
+      (Subring.inclusion hB)) ↔
+    HenselianRing C ((TauCeti.Huber.topologicallyNilpotentIdeal A).comap
+      (Subring.inclusion hC)) := by
+  sorry
+
+/-- A ring of definition in a complete Hausdorff Huber ring is complete for its ideal of
+definition (README §2.1, `Huber.PairOfDefinition.isAdicComplete`). Its Tate specialization
+is AdicEtaleGeometry A4.5's `PairOfDefinition.isAdicComplete_of_completeSpace`. -/
+theorem PairOfDefinition.isAdicComplete [UniformSpace A] [IsUniformAddGroup A]
+    [IsTopologicalRing A] [CompleteSpace A] [T2Space A]
+    (P : TauCeti.Huber.PairOfDefinition A) :
+    IsAdicComplete P.idealOfDefinition P.ringOfDefinition := by
+  sorry
+
+/-- Every open power-bounded subring of a complete Hausdorff Huber ring is henselian along
+each open ideal of topologically nilpotent elements (README §2.1,
+`Huber.henselianRing_of_completeSpace`). Since `B` is open, openness of `I` in `B` is
+equivalent to openness of its image in `A`. -/
+theorem henselianRing_of_completeSpace [UniformSpace A] [IsUniformAddGroup A]
+    [IsTopologicalRing A] [CompleteSpace A] [T2Space A] [TauCeti.Huber.IsHuberRing A]
+    (B : Subring A) (hBopen : IsOpen (B : Set A))
+    (hB : B ≤ TauCeti.Huber.powerBoundedSubring A)
+    (I : Ideal B) (hIopen : IsOpen (I : Set B))
+    (hI : ∀ x : B, x ∈ I → IsTopologicallyNilpotent (x : A)) :
+    HenselianRing B I := by
+  sorry
+
+end Huber
+
 /-! ## Layer 4: Formal specialization and semistable nearby cycles -/
 
 namespace Semistable
@@ -92,26 +136,6 @@ theorem filtrationCutoff_le_iff (p e m : ℕ) :
 theorem filtrationCutoff_two (e : ℕ) : filtrationCutoff 2 e = 2 * e := by
   sorry
 
-/-- Zero ramification argument gives zero in the arithmetic specialization. -/
-example : filtrationCutoff 2 0 = 0 := by
-  sorry
-
-/-- Vanishing begins at the ceiling, not the floor, when the threshold is nonintegral. -/
-example : filtrationCutoff 3 1 = 2 := by
-  sorry
-
-/-- At `p=2, e=3` the threshold is six, rather than two. -/
-example : filtrationCutoff 2 3 = 6 := by
-  sorry
-
-/-- At `p=3, e=2` the integral threshold is three. -/
-example : filtrationCutoff 3 2 = 3 := by
-  sorry
-
-/-- For the wild node `XY = 2` over `ℚ₂(√2)`, absolute ramification two gives cutoff four. -/
-example : filtrationCutoff 2 2 = 4 := by
-  sorry
-
 end Semistable
 
 /-! ## Layer 5: Nearby cycles over valuation rings -/
@@ -130,22 +154,6 @@ theorem variation_one : variation (1 : Module.End R M) = 0 := by
 /-- The noncommutative cocycle formula uses the order of the left action. -/
 theorem variation_mul (u v : Module.End R M) :
     variation (u * v) = variation u + variation v + variation u * variation v := by
-  sorry
-
-/-- The zero endomorphism has variation minus the identity. -/
-example : variation (0 : Module.End R M) = -1 := by
-  sorry
-
-/-- Scalar endomorphisms give variation five for the composite of two and three. -/
-example : variation (2 * 3 : Module.End ℤ ℤ) = 5 := by
-  sorry
-
-/-- Noncommuting rank-two monodromies distinguish the order of the product term. -/
-example :
-    ((!![1, 1; 0, 1] : Matrix (Fin 2) (Fin 2) ℤ) * !![1, 0; 1, 1] - 1) =
-      !![1, 1; 1, 0] ∧
-    ((!![1, 0; 1, 1] : Matrix (Fin 2) (Fin 2) ℤ) * !![1, 1; 0, 1] - 1) =
-      !![0, 1; 1, 1] := by
   sorry
 
 end Trait
@@ -227,14 +235,6 @@ theorem IsSurjectiveValuationMap.spa_surjective_iff {C₃ C₁ : Type*}
       IsSurjectiveValuationMap φ := by
   sorry
 
-/-- The identity is surjective on the full prime spectrum. -/
-example : IsSurjectiveValuationMap (RingHom.id A) := by
-  sorry
-
-/-- Passing from the integers to their fraction field loses closed primes. -/
-example : ¬ IsSurjectiveValuationMap (Int.castRingHom ℚ) := by
-  sorry
-
 end ValuationBase
 
 /-! ## Layer 10: Radial cohomology and smooth families -/
@@ -275,10 +275,12 @@ section ClosedDisc
 
 variable {Aplus : Subring A} {T b : A}
 
+/-- Closed-disc membership is the outer-radius comparison inside the adic spectrum. -/
 theorem mem_closedDisc {v : Spv A} :
     v ∈ closedDisc Aplus T b ↔ v ∈ spa Aplus ∧ v.toValuativeRel.vle T b := by
   sorry
 
+/-- Every closed-disc point belongs to the ambient adic spectrum. -/
 theorem closedDisc_subset_spa : closedDisc Aplus T b ⊆ spa Aplus := by
   sorry
 
@@ -316,13 +318,16 @@ section PuncturedDisc
 
 variable {Aplus : Subring A} {T b : A}
 
+/-- Punctured-disc membership excludes the support of the coordinate from the closed disc. -/
 theorem mem_puncturedDisc {v : Spv A} :
     v ∈ puncturedDisc Aplus T b ↔ v ∈ closedDisc Aplus T b ∧ ¬ v.toValuativeRel.vle T 0 := by
   sorry
 
+/-- Puncturing a closed disc gives a subset of that disc. -/
 theorem puncturedDisc_subset_closedDisc : puncturedDisc Aplus T b ⊆ closedDisc Aplus T b := by
   sorry
 
+/-- The punctured disc is the closed disc minus the coordinate's support locus. -/
 theorem puncturedDisc_eq_diff :
     puncturedDisc Aplus T b = closedDisc Aplus T b \ {v | v.toValuativeRel.vle T 0} := by
   sorry
@@ -339,6 +344,7 @@ section ClosedAnnulus
 
 variable {Aplus : Subring A} {T a b : A}
 
+/-- Closed-annulus membership imposes both weak bounds and excludes the coordinate's support. -/
 theorem mem_closedAnnulus {v : Spv A} :
     v ∈ closedAnnulus Aplus T a b ↔ v ∈ spa Aplus ∧ v.toValuativeRel.vle a T ∧
       v.toValuativeRel.vle T b ∧ ¬ v.toValuativeRel.vle T 0 := by
@@ -349,6 +355,7 @@ theorem closedAnnulus_eq_inter :
     closedAnnulus Aplus T a b = rationalSubset Aplus {T} b ∩ rationalSubset Aplus {a} T := by
   sorry
 
+/-- Every closed annulus is contained in its punctured outer disc. -/
 theorem closedAnnulus_subset_puncturedDisc :
     closedAnnulus Aplus T a b ⊆ puncturedDisc Aplus T b := by
   sorry
@@ -365,6 +372,7 @@ section StrictAnnulus
 
 variable {Aplus : Subring A} {T a b : A}
 
+/-- Strict-annulus membership imposes the two strict bounds outside the coordinate's support. -/
 theorem mem_strictAnnulus {v : Spv A} :
     v ∈ strictAnnulus Aplus T a b ↔ v ∈ spa Aplus ∧ ¬ v.toValuativeRel.vle T a ∧
       ¬ v.toValuativeRel.vle b T ∧ ¬ v.toValuativeRel.vle T 0 := by
@@ -376,6 +384,7 @@ theorem strictAnnulus_vlt {v : Spv A} :
       v.toValuativeRel.vlt T b ∧ ¬ v.toValuativeRel.vle T 0 := by
   sorry
 
+/-- Strict bounds imply the weak bounds of the corresponding closed annulus. -/
 theorem strictAnnulus_subset_closedAnnulus :
     strictAnnulus Aplus T a b ⊆ closedAnnulus Aplus T a b := by
   sorry
@@ -386,10 +395,12 @@ section OpenRegions
 
 variable {Aplus : Subring A} {T : A}
 
+/-- An open-annulus point belongs to one of the supplied closed-annulus stages. -/
 theorem mem_openAnnulus {a b : ℕ → A} {v : Spv A} :
     v ∈ openAnnulus Aplus T a b ↔ ∃ j, v ∈ closedAnnulus Aplus T (a j) (b j) := by
   sorry
 
+/-- Every closed-annulus stage is contained in its open-annulus union. -/
 theorem closedAnnulus_subset_openAnnulus (a b : ℕ → A) (j : ℕ) :
     closedAnnulus Aplus T (a j) (b j) ⊆ openAnnulus Aplus T a b := by
   sorry
@@ -409,10 +420,12 @@ theorem openAnnulus_eq_of_cofinal {a b a' b' : ℕ → A}
     openAnnulus Aplus T a b = openAnnulus Aplus T a' b' := by
   sorry
 
+/-- An open-disc point belongs to one of the supplied closed-disc stages. -/
 theorem mem_openDisc {b : ℕ → A} {v : Spv A} :
     v ∈ openDisc Aplus T b ↔ ∃ j, v ∈ closedDisc Aplus T (b j) := by
   sorry
 
+/-- Every closed-disc stage is contained in its open-disc union. -/
 theorem closedDisc_subset_openDisc (b : ℕ → A) (j : ℕ) :
     closedDisc Aplus T (b j) ⊆ openDisc Aplus T b := by
   sorry
@@ -430,70 +443,6 @@ theorem openDisc_eq_of_cofinal {b b' : ℕ → A}
 
 end OpenRegions
 
-/-- The zero coordinate satisfies the unit outer bound everywhere. -/
-example (Aplus : Subring A) : closedDisc Aplus 0 1 = spa Aplus := by
-  sorry
-
-/-- A unit coordinate cannot satisfy the zero outer bound. -/
-example (Aplus : Subring A) : closedDisc Aplus 1 0 = ∅ := by
-  sorry
-
-/-- Puncturing a zero coordinate removes every point. -/
-example (Aplus : Subring A) (b : A) : puncturedDisc Aplus 0 b = ∅ := by
-  sorry
-
-/-- Puncturing the constant unit coordinate removes no point of its unit disc. -/
-example (Aplus : Subring A) : puncturedDisc Aplus 1 1 = spa Aplus := by
-  sorry
-
-/-- Equal inner and outer unit radii include a unit-valued coordinate. -/
-example (Aplus : Subring A) : closedAnnulus Aplus 1 1 1 = spa Aplus := by
-  sorry
-
-/-- The puncture is essential even with a zero inner radius. -/
-example (Aplus : Subring A) : closedAnnulus Aplus 0 0 1 = ∅ := by
-  sorry
-
-/-- The support condition excludes a zero coordinate for all annulus radii. -/
-example (Aplus : Subring A) (a b : A) : closedAnnulus Aplus 0 a b = ∅ := by
-  sorry
-
-/-- A zero outer radius excludes the unit coordinate from a punctured disc. -/
-example (Aplus : Subring A) : puncturedDisc Aplus 1 0 = ∅ := by
-  sorry
-
-/-- The zero coordinate belongs to every disc stage, including zero and nonunit radii. -/
-example (Aplus : Subring A) (b : ℕ → A) : openDisc Aplus 0 b = spa Aplus := by
-  sorry
-
-/-- Equal strict inner and outer radii leave no point. -/
-example (Aplus : Subring A) (T a : A) : strictAnnulus Aplus T a a = ∅ := by
-  sorry
-
-/-- A coordinate at the outer boundary is excluded from the strict locus. -/
-example (Aplus : Subring A) : strictAnnulus Aplus 1 0 1 = ∅ := by
-  sorry
-
-/-- An exhaustion whose coordinate is identically zero remains punctured and empty. -/
-example (Aplus : Subring A) (a b : ℕ → A) : openAnnulus Aplus 0 a b = ∅ := by
-  sorry
-
-/-- No stage with a zero outer bound contains the constant unit coordinate. -/
-example (Aplus : Subring A) : openDisc Aplus 1 (fun _ ↦ 0) = ∅ := by
-  sorry
-
-/-- A zero coordinate is excluded from every strict annulus. -/
-example (Aplus : Subring A) (a b : A) : strictAnnulus Aplus 0 a b = ∅ := by
-  sorry
-
-/-- Constant unit annulus data includes every point of the spectrum. -/
-example (Aplus : Subring A) : openAnnulus Aplus 1 (fun _ ↦ 1) (fun _ ↦ 1) = spa Aplus := by
-  sorry
-
-/-- Constant unit disc data includes every point of the spectrum. -/
-example (Aplus : Subring A) : openDisc Aplus 1 (fun _ ↦ 1) = spa Aplus := by
-  sorry
-
 end Radial
 
 /-
@@ -506,7 +455,8 @@ AdicSpace.EtaleSheaf.IsConstructible, AdicSpace.DbConstructible, AdicSpace.muN,
 AdicSpace.tateTwist, SupportedTildeLimit, SupportedTildeLimit.fullSupport_iff,
 ProEtaleSheaf.completedZp, LisseSheaf.
 Layer 2: Huber.IsHenselian, Huber.Henselization, Huber.Pair.rationalHenselization,
-Huber.specialSubset, Huber.IsSpecialSubset, Huber.IsProSpecialSubset, Huber.Triple,
+Huber.specialSubset, Huber.specialSubset_eq_diff, Huber.IsSpecialSubset,
+Huber.isSpecialSubset_rationalSubset, Huber.IsProSpecialSubset, Huber.Triple,
 Huber.Pair.proSpecialHenselization, AdicSpace.PseudoAdic.schemeFibreProduct,
 AdicSpace.henselianComparison, PerfectoidHuberApproximation.
 Layer 3: AdicSpace.IsTaut, AdicSpace.IsTautMap (on AdicSpacesPartII R0.0 locally spectral maps), StrictAnalyticSpace, StrictAnalyticEtaleSite,
