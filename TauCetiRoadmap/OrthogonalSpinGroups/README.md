@@ -14,7 +14,7 @@ carries no topology; it has `RestrictedProduct` with its topology, the finite ad
 Dedekind domain and the adele ring of a number field. It has none of the spinor norm or the
 orthogonal-specific arithmetic developed here. Generic restricted-product
 packaging, componentwise maps, and rational diagonals are consumed from
-[RestrictedProducts](../RestrictedProducts/README.md), not rebuilt in this roadmap.
+[RestrictedProducts](../../Completed/RestrictedProducts/README.md), not rebuilt in this roadmap.
 
 This roadmap develops the arithmetic of the orthogonal and spin groups attached to a
 finite-dimensional nondegenerate quadratic space over a field of characteristic not two: the
@@ -45,7 +45,7 @@ facts** belong to [LocalFieldsRamification](../LocalFieldsRamification/README.md
 reciprocity belongs to [ClassFieldTheory](../ClassFieldTheory/README.md). Those global suppliers
 are inputs only to `OrthogonalTamagawaAndLatticeMass`, not current imports. **Generic compact-open families,
 restricted-product maps, finite/away/full adelic packaging, and rational diagonals** belong to
-[RestrictedProducts](../RestrictedProducts/README.md). That roadmap explicitly does not own
+[RestrictedProducts](../../Completed/RestrictedProducts/README.md). That roadmap explicitly does not own
 strong approximation, reduction theory, Tamagawa measures, central-isogeny volume formulas, or
 Tamagawa numbers. **Affine group schemes,
 representability, root data, and reductive structure theory** belong to
@@ -243,7 +243,7 @@ The final portfolio dependencies are imports, not local interfaces.
   `unitFiltration_le_range_powMonoidHom_two` and its sharpness, and the **openness** of the square
   subgroup, `isOpen_range_powMonoidHom`, which 2E and 3C both consume and which does not follow
   from the module topology.
-- **[RestrictedProducts](../RestrictedProducts/README.md)** owns generic compact-open
+- **[RestrictedProducts](../../Completed/RestrictedProducts/README.md)** owns generic compact-open
   families, restricted-product maps, rational diagonals, and finite/away/full point packaging. Its
   Lean-level contracts consumed in
   `Suggested.lean` are `integralSubgroup`, `restrictedProductMap`,
