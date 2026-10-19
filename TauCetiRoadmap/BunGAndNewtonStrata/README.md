@@ -12,7 +12,7 @@ This roadmap owns, over every nonarchimedean local field `E` with finite residue
 - filtered relative automorphism group schemes, stratum dimensions and connected components, together with the supplier comparisons below (Layer 3); the locally profinite classifying-stack theorem is §0.9;
 - the Newton-order interpretation of the supplied chart images and the rank-two extension calculation (Layer 4).
 
-VStackSheavesAndLisseCategories §VS4.0 supplies `BunGeometry`, `BunNewtonGeometry`, `BunAutomorphisms` and `BunCharts`, with pullback, general-local-field invariant maps, geometric classification, strata, full automorphisms and contracting charts, including nonsplit `G`. The overlapping statements in §§0.5–0.6, 1.8, 1.21, 2.3–2.6, 2.15, 3.1–3.2, 3.4–3.5, 3.7, 3.9, 3.16–3.17 and 4.1–4.7 are supplier contracts. The abstract group APIs, arithmetic classification and the identification of chart images with Newton-order down-sets remain targets here. RelativeFarguesFontaine §7.0 supplies the scheme and sousperfectoid tensor–torsor dictionary of §§0.1, 0.3 and 0.4; §0.2 adds the rational filtered theory. IgusaVarietiesAndTorsionConcentration §§IG.3.4–IG.3.5 supplies the flag strata and unitary results of §§3.12–3.15; its §§IG.F.6, IG.F.9, IG.F.11 and IG.F.12a supply the corresponding mixed-characteristic bundle, stratum and chart interfaces.
+VStackSheavesAndLisseCategories §VS4.0 supplies `BunGeometry`, `BunNewtonGeometry`, `BunAutomorphisms` and `BunCharts`, with pullback, general-local-field invariant maps, geometric classification, strata, full automorphisms and contracting charts, including nonsplit `G`. The overlapping statements in §§0.5–0.6, 1.8, 1.21, 2.3–2.6, 2.15, 3.1–3.2, 3.4–3.5, 3.7, 3.9, 3.16–3.17 and 4.1–4.7 are supplier contracts. The abstract group APIs, arithmetic classification and the identification of chart images with Newton-order down-sets remain targets here. RelativeFarguesFontaine §7.0 supplies the scheme and sousperfectoid tensor–torsor dictionary of §§0.1, 0.3 and 0.4. HodgeTateAndCanonicalSubgroups §2.14 supplies integer-filtered fibre functors and their parabolic, unipotent and Levi theory; §§0.2 and 3.3 add rational reindexing, affine splitting and higher raising subgroups. IgusaVarietiesAndTorsionConcentration §§IG.3.4–IG.3.5 supplies the flag strata and unitary results of §§3.12–3.15; its §§IG.F.6, IG.F.9, IG.F.11 and IG.F.12a supply the corresponding mixed-characteristic bundle, stratum and chart interfaces.
 
 The linear theory belongs to VectorBundlesAndIsocrystals: finite isocrystals and their slope blocks, bundles on the relative curve and their HN theory, the isocrystal-to-bundle functor, geometric classification of vector bundles, Banach–Colmez spaces and relative slope filtrations. Lattice gluing of `G`-bundles at an untilt divisor (Beauville–Laszlo gluing) belongs to RelativeFarguesFontaine Layer 7; this roadmap proves that the resulting modification map is a v-cover of `Bun_G`. Modification spaces, Schubert bounds and open Schubert cells belong to GeometricSatakeAndFusion GS0. Artin v-stacks, smooth descent and the Jacobian criterion belong to VStackSheavesAndLisseCategories VS0–VS1, and its VS4.0 supplies the bundle geometry. Sheaf categories, Hecke stacks and local shtukas, and the spectral action belong to VStackSheavesAndLisseCategories VS3–VS5, HeckeStacksAndLocalShtukas and ExcursionOperatorsAndSpectralAction.
 
@@ -53,7 +53,7 @@ unit Frobenius and the sign action in the integral component examples directly.
 Mathlib at `6b7abb3c7686292736be2955bd3eb9ebf63b456a` and Tau Ceti at `a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039`:
 
 - `TauCeti.ReductiveAffineGroupSchemeCat` and `TauCeti.AffineGroupSchemeCat`: reductive affine group schemes of finite type over a field, through the Hopf-algebra equivalence, and affine group objects over `Spec` of a commutative ring. Neither supplies local Newton theory.
-- `TauCeti.Cocharacter.parabolic` and `TauCeti.Cocharacter.leviGroupExtension`: the dynamic parabolic, unipotent and Levi point groups of a cocharacter; relative representability is Layer 0 work here.
+- `TauCeti.Cocharacter.parabolic` and `TauCeti.Cocharacter.leviGroupExtension`: the dynamic parabolic, unipotent and Levi point groups of a cocharacter; HodgeTateAndCanonicalSubgroups §2.14 supplies the relative filtration groups, with rational-threshold comparisons here.
 - `TauCeti.FGPointRepresentationCat` and its `instRigidCategory`: finite rational representations as finite comodules, rigid symmetric monoidal. `TauCeti.Tannaka.fgPointTensorIsoEquiv`: over a field, algebra-valued points are tensor automorphisms of scalar extension on finite comodules. `TauCeti.FGComoduleCat.scalarExtensionMonoidalFunctor`, `TauCeti.Comodule.pointsAction`, `TauCeti.Tannaka.scalarExtensionComponent`, `TauCeti.Comodule.rTensor_comp_endOfPoint`, `TauCeti.Comodule.baseChange_comp_endOfPoint`, `TauCeti.Comodule.endOfPoint_tensor` and `TauCeti.Comodule.endOfPoint_trivial`: scalar extension of comodules and the action of points on it, with its tensor, unit and base-change compatibilities. These give the trivialized Frobenius tensor families of [§0.5](#g-isocrystals-and-B-of-G).
 - `TauCeti.AlgHom.mapValue` and `TauCeti.MultiplicativeGroup.pointsMulEquiv_mapValue`: coefficient change on points, and points of `G_m` as units.
 - `TauCeti.DiagonalizableGroup.weightSpace`, `TauCeti.DiagonalizableGroup.mem_weightSpace`, `TauCeti.DiagonalizableGroup.isInternal_weightSpace`, `TauCeti.DiagonalizableGroup.finite_setOf_weightSpace_ne_bot` and `TauCeti.MonoidAlgebra.mapDomainBialgHom_surjective`, with Mathlib's `MonoidAlgebra.mapDomainBialgHom`: weight decompositions of comodules over group algebras, their finite support, and bialgebra maps of monoid algebras over a field.
@@ -73,6 +73,7 @@ Tau Ceti also supplies `TauCeti.AlgebraicGeometry.FiniteLocallyFreeSheaf` in `Ta
 
 - **VectorBundlesAndIsocrystals.** VB−1: ramified Witt coefficient rings, equal-characteristic power series and their Frobenius; VB0: finite `E`-isocrystals over `L` as an exact rigid `E`-linear tensor category, Dieudonné–Manin decomposition with slope multiplicities, tensor and dual slopes, the division endomorphism algebra of a simple block and its arithmetic Brauer invariant. VB1: finite locally free bundles on the relative curve as an exact symmetric tensor category with pullback and v-descent, and the exact tensor isocrystal-to-bundle functor normalized by `E(π^m) = O(−m)`. VB2: GAGA on affinoid perfectoid bases, geometric classification of bundles, and the stable-bundle endomorphism comparison. VB3: families of two-term Banach–Colmez spaces (representability, partial properness, properness of the punctured space, cohomological smoothness and dimension in the positive and negative ranges) and properness of projectivized Banach–Colmez spaces and the “Quotients by contracting automorphisms” criterion. VB4: relative HN filtrations with constant polygon and their pro-étale splitting, upper semicontinuity of the HN polygon, the equivalence between bundles with all geometric slopes zero and pro-étale `E`-local systems, and the relative vanishing of positive-slope H¹.
 - **RelativeFarguesFontaine.** Layer 1 (relative period annuli and the exhaustion of the period domain), §4.7 (the degree-one divisor space Div¹ and its projection), §§4.12–4.13 (`B_dR⁺` as the completed local ring at an untilt), §7.0 (`torsorTensorDictionary`: scheme and sousperfectoid tensor–torsor comparisons, associated bundles, pullback, change of structure group and faithful tensor generators), and §§7.2 and 7.7 (Beauville–Laszlo gluing of `G`-bundles and the modification of a `G`-bundle by a B_dR⁺-lattice, with base change).
+- **HodgeTateAndCanonicalSubgroups.** §2.14, `TauCeti.HodgeTate.filteredFiberFunctor_split`: the integer-filtered fibre-functor carrier, fpqc-local splitting torsor, filtration parabolic, unipotent radical and Levi/type dictionary, with base change. Sections 0.2 and 3.3 use these constructions after clearing rational denominators; affine global splitting and the higher rational-threshold Lie and graded-vector-group API are targets here.
 - **DiamondsAndVStacks.** §§D0.25–D0.26 (stackification, groupoid quotients and two-fibre products), §§D1.4 and D1.9 (strictly totally disconnected spaces and universally open covers by them), Layer D2 (pro-étale and v-sites), Layer D3 (effective descent; §D3.10 torsors under locally profinite groups), Layer D4 (diamonds and small v-stacks, §D4.7; underlying spaces and open substacks), §D5.12 (maps representable in locally spatial diamonds) and §D6.5 (étale sites of an analytic adic space over `ℤ_p` and of its diamond).
 - **DiamondEtaleCohomology**, §§C1.11–C1.12: base change for qcqs maps of locally spatial diamonds and prime-to-p torsion coefficients, including the bounded-below derived form.
 - **VStackSheavesAndLisseCategories.** §§VS0.1–VS0.2: Artin v-stacks, representable diagonals, `ℓ`-cohomological smoothness and its dimension, with smooth descent. The locally profinite classifying-stack theorem is [§0.9](#locally-profinite-classifying); a faithful rational representation embeds each `J_b(E)` as a closed subgroup of `GL_n(E)`. §VS4.0 supplies `BunGeometry`, `BunNewtonGeometry`, `BunAutomorphisms` and `BunCharts` as specified in Scope and ownership. §VS1.3 also supplies sousperfectoid spaces and their smooth section geometry. §VS1.3: the Jacobian criterion for sections of a smooth space over the curve whose tangent bundle has positive HN slopes.
@@ -126,11 +127,11 @@ Source: [FS](#ref-fs), after III.1.1 p. 88.
 
 ### 0.2 Relative tensor torsors and filtered automorphism groups
 
-Let `G` be a connected reductive group over `E` and `X` an `E`-scheme or a sousperfectoid `E`-space. RelativeFarguesFontaine §7.0, `torsorTensorDictionary`, supplies the scheme and sousperfectoid comparisons, associated bundles, pullback and change of structure group. Item `1` records that supplied API. Items `2`–`3` are the rational filtered and cocharacter targets here; ReductiveGroups Layer 1 supplies the field-valued dictionary.
+Let `G` be a connected reductive group over `E` and `X` an `E`-scheme or a sousperfectoid `E`-space. RelativeFarguesFontaine §7.0, `torsorTensorDictionary`, supplies the scheme and sousperfectoid comparisons, associated bundles, pullback and change of structure group. Item `1` records that supplied API. On schemes, items `2`–`3` use HodgeTateAndCanonicalSubgroups §2.14, `TauCeti.HodgeTate.filteredFiberFunctor_split`, for the integer-filtered carrier, fpqc-local splitting torsor and parabolic/unipotent/Levi and type constructions. The additions here are rational reindexing, affine global splitting and higher raising subgroups; ReductiveGroups Layer 1 supplies the field-valued dictionary.
 
 `1`. *Supplied relative torsor gluing and analytic reconstruction.* For an exact tensor functor `ω: Rep_E(G) → Vect(X)`, the sheaf `Isom^⊗(ω_std ⊗ O_X, ω)` is represented by a `G`-torsor, recovered from `ω` applied to the regular representation written as a filtered colimit of finite subrepresentations; exactness of `ω` makes the resulting algebra faithfully flat. On schemes the torsor is fpqc, hence étale-locally trivial because `G` is smooth. The automorphism sheaf `Aut^⊗(ω)` is represented by the inner form of `G` defined by this torsor, with base change.
-`2`. *Filtered functors.* `A` `ℚ`-filtered exact tensor functor over an affine base splits: clear the denominators of the rational weights on a tensor generator and apply Ziegler’s splitting theorem, which needs an affine base and a smooth (here reductive) automorphism group. Over a general base the splitting exists étale-locally; no global splitting over a non-affine base is asserted. For `λ ≥ 0`, the subgroups of `Aut^⊗(ω)` whose difference from the identity raises every filtration by `λ` (resp. more than `λ`) are represented by smooth closed subgroup schemes: for `λ = 0` a parabolic subgroup, whose unipotent radical is the subgroup raising the filtration by more than `0`; for `λ` > `0` the graded quotients are vector groups.
-`3`. *Rational cocharacters.* The weights of a `ℚ`-filtration are computed by a rational cocharacter of the inner form, unique up to the parabolic; its relative representability and effective descent along étale covers hold with base change.
+`2`. *Rational filtered functors.* Locally clear the finitely many rational jump denominators on a tensor generator and rescale to the supplied integer-filtered carrier; exact tensor generation gives the same denominator on every representation. Transport its splitting torsor and parabolic/unipotent/Levi constructions through this reindexing. Over an affine base the functor splits when its underlying tensor automorphism group is smooth, by Ziegler’s affine splitting theorem. For reductive `G` this gives splittings on affine opens and, after trivializing the underlying torsor, étale-locally. For `λ > 0`, construct the smooth closed subgroups raising every filtration by at least `λ` or more than `λ` and identify their graded quotients as vector groups, as in §3.3.
+`3`. *Rational cocharacters.* After reindexing, a supplied integral splitting defines a rational cocharacter of the inner form. Transport the supplied parabolic/type dictionary and its conjugacy description of splittings, compatibly with base change and descent along étale covers.
 
 **Checks.**
 
@@ -140,7 +141,7 @@ Let `G` be a connected reductive group over `E` and `X` an `E`-scheme or a sousp
 
 Source: [SW](#ref-sw), Theorems 19.5.1–19.5.2, pp. 178–180; [Zie15](#ref-zie15), Theorem 1.3, p. 2, §4.3, Theorems 4.14–4.16, pp. 24–25, and Proposition 4.24, Lemma 4.25, Theorem 4.26, pp. 26–27; [FS](#ref-fs), Proposition III.5.2, p. 105.
 
-*Needs:* RelativeFarguesFontaine §7.0 (`torsorTensorDictionary`); [§0.1](#g-bundle) (`G`-bundles); PadicHodgeTheory §5.5 (`tensorIsomTorsor`); ReductiveGroups Layer 1 (representations and comodules); ReductiveGroups Layer 7 (structure theory); ModularCurves §0E (effective faithfully flat descent of affine schemes); SchemeAndStackFoundations §§1.15 and 2.3 (torsor carriers and descent); AlgebraicModuliForArithmeticGeometry §3.1 (module descent and finite local freeness).
+*Needs:* RelativeFarguesFontaine §7.0 (`torsorTensorDictionary`); HodgeTateAndCanonicalSubgroups §2.14 (`TauCeti.HodgeTate.filteredFiberFunctor_split`); [§0.1](#g-bundle) (`G`-bundles); PadicHodgeTheory §5.5 (`tensorIsomTorsor`); ReductiveGroups Layer 1 (representations and comodules); ReductiveGroups Layer 7 (structure theory); ModularCurves §0E (effective faithfully flat descent of affine schemes); SchemeAndStackFoundations §§1.15 and 2.3 (torsor carriers and descent); AlgebraicModuliForArithmeticGeometry §3.1 (module descent and finite local freeness).
 
 <a id="g-torsors-three-descriptions"></a>
 
@@ -637,7 +638,7 @@ For the local Iwahori–Weyl group with its specified Frobenius and parahoric ro
 - A dominant split translation `t_μ` has length `⟨2ρ,μ⟩` and Newton point `μ`; its lift has Kottwitz class `+[μ]` in the arithmetic convention.
 - For a torus the affine Weyl reflection group is trivial; the comparison retains the integral translation coinvariants, including their torsion.
 
-Source: [He14](#ref-he14), Theorems 2.1 and 2.3, pp. 6–7, Lemma 3.2, pp. 11–12, Theorem 3.5, p. 12, Proposition 3.6 and Theorem 3.7, p. 13; [KZ](#ref-kz), §2.2.2 pp. 9–10, with `σ`-straight definitions in §§2.1.3–2.1.4 pp. 7–8.
+Source: [He14](#ref-he14), Theorem 2.1, p. 8, and Theorem 2.3, pp. 9–10, Lemma 3.2, pp. 11–12, Theorem 3.5, p. 12, Proposition 3.6 and Theorem 3.7, p. 13; [KZ](#ref-kz), §2.2.2 pp. 9–10, with `σ`-straight definitions in §§2.1.3–2.1.4 pp. 7–8.
 
 *Needs:* [§1.8 Newton and Kottwitz invariants](#newton-and-kottwitz-maps); ReductiveGroupsPartII RG2.4 (Iwahori–Weyl group, lengths, admissible sets, Cartan decomposition); ReductiveGroupsPartII RG2.3 (parahoric group schemes and Lang’s theorem).
 
@@ -1240,7 +1241,7 @@ Source: [Kot97](#ref-kot97), Section 7.7 pp. 300–301; [Kisin17](#ref-kisin17),
 
 ### 1.42 Component Kottwitz coset
 
-Define `ComponentCoset`. For `b∈G(L)` and a bound `μ` with compatible full `κ`, let `c_(b,μ)={x∈π_1(G)_I:(σ−1)x=tildeκ(μ(π))−tildeκ(b)}`. Compatibility in `π_1(G)_Γ` makes this a nonempty affine coset under `(π_1(G)_I)^σ`. This is an affine set of components, with no distinguished origin before a choice.
+Define `ComponentCoset`. For `b∈G(L)` and a geometric cocharacter bound `μ`, let `μ_I` be its image in `π₁(G)_I` and set `c_(b,μ)={x∈π₁(G)_I:(σ−1)x=μ_I−κ̃(b)}`. Compatibility means that `μ_I` and `κ̃(b)` have equal images in `π₁(G)_Γ`; it makes this a nonempty affine coset under `(π₁(G)_I)^σ`. This is an affine set of components, with no distinguished origin before a choice. Only when `μ` is defined over `L` can one replace `μ_I` by `κ̃(μ(π))`.
 
 *Construction.* Take the kernel/cokernel sequence of `σ−1` on inertia coinvariants. Full `κ` equality says the difference lies in its image; a chosen solution identifies the fibre with the kernel.
 
@@ -1251,13 +1252,13 @@ The API:
 - `ComponentCoset.mem_iff`: A component `x` solves the stated difference equation.
 - `ComponentCoset.nonempty`: The Γ-coinvariant compatibility is equivalent to nonemptiness.
 - `ComponentCoset.translate`: Invariant classes act freely and transitively on the fibre.
-- `ComponentCoset.liftZExtension`: Over a finite extension of `Q_p`, a z-extension and lifted `b,μ` give a surjective map of affine component cosets, using ZExtensionBoundedLifting with its `p`-adic scope.
 
 **Checks.**
 
 - For `σ=id` a nonempty coset requires difference `0` and equals the entire lattice.
 - On `Z` with `σ=−id`, the equation `−2x=2` has unique solution `x=−1`.
 - On the same lattice difference `1` has no solution; its full coinvariant compatibility fails.
+- For the norm-one torus of `ℚ₃(√π)/ℚ₃`, a geometric generator `μ` has a well-defined image in `π₁(T)_I=ℤ/2`. In split coordinates `μ(π)=(π,π⁻¹)` is exchanged with its inverse by ramified inertia, so it is not in `T(L)` and cannot be an input to `κ̃`.
 
 Source: the affine-fibre description is the elementary kernel-and-fibre deduction from the integral Kottwitz maps and component condition in [GLX](#ref-glx), Section 1.1 equations (1.3)–(1.4), p. 807, and Section 2.2, p. 818; it is not a separate theorem stated there.
 
@@ -1274,6 +1275,14 @@ Hypotheses: `E` is a finite extension of `ℚ_p`: the bounded-class, component-c
 *Proof outline.* Lift `μ` using the exact cocharacter sequence of the induced torus. Use the adjoint acceptable-set bijection to choose `b̃` with the specified `κ` and Newton bound. Lift differences in the affine coset using invariant-lattice surjectivity and `H^1(E,Z)=0`.
 
 *Remark.* An arbitrary central torus lacks the induced-torus cohomological vanishing used here.
+
+The API includes `ComponentCoset.liftZExtension`: over a finite extension of `ℚ_p`, a z-extension and compatible lifts `b̃∈B(G̃,{μ̃})` of `b∈B(G,{μ})` induce a surjection `c_(b̃,μ̃)→c_(b,μ)`.
+
+**Checks.**
+
+- For `G` with simply connected derived group, the identity z-extension induces the identity on each component coset.
+- For `G_m×G_m→G_m` projecting to the second factor, with trivial `b̃` and zero `μ̃`, the component map is the surjection `ℤ²→ℤ`.
+- For `GL₂→PGL₂`, with trivial `b̃` and zero `μ̃`, the component map is `ℤ→ℤ/2`, reduction modulo `2`; integral torsion remains in the target.
 
 Source: [GLX](#ref-glx), Lemma 3.16 p. 829; [Kot97](#ref-kot97), Section 6.5 equation 6.5.1 p. 287.
 
@@ -1651,7 +1660,7 @@ For split `G`, the decomposition `Gr_G=∐_(α∈π_1G) Gr_G^α` has each compon
 - The lattice `ξ⁻¹ B_dR⁺` has GS component `−1`, bundle `O(1)` and Kottwitz invariant `−1`; inverting the label changes both signs.
 - For `GL₂`, `diag(ξ,1)(B_dR⁺)²` has determinant component `1` and bundle `O(−1)⊕O`, with isocrystal slopes `(1,0)`.
 
-Source: [FS](#ref-fs), Proposition III.3.6(ii)-(iii) pp. 99–100; [Zhu17](#ref-zhu17), Proposition 1.21 p. 427; RelativeFarguesFontaine §7.7, `modify_gm_degree`; GeometricSatakeAndFusion GS0, minuscule Bialynicki–Birula convention.
+Source: [FS](#ref-fs), Proposition III.3.6(i),(iii), pp. 99–100, for the component decomposition and exhaustion; [Zhu17](#ref-zhu17), Proposition 1.21 p. 427. The positive sign here follows from RelativeFarguesFontaine §7.7, `modify_gm_degree`, and the GS lattice identification in GeometricSatakeAndFusion GS0. FS III.3.6(ii) states the negative sign in its presentation.
 
 *Needs:* [§1.8 Newton and Kottwitz invariants](#newton-and-kottwitz-maps); [§2.15 Local constancy of bundle Kottwitz invariant](#semicontinuity-and-local-constancy); GeometricSatakeAndFusion GS0 (generic Schubert bounds and properness); RelativeFarguesFontaine §§7.2, 7.7 (Beauville–Laszlo gluing of `G`-bundles and modification by a B_dR⁺-lattice).
 
@@ -1733,7 +1742,7 @@ Source: [CS17](#ref-cs17), Proposition 3.5.3 and Lemma 3.5.4 pp. 687–689, afte
 
 For minuscule `μ` over `Q_p` in GS0 indexing, the map from the flag variety `Fℓ^GS_(G,μ)≅Gr^GS_(G,μ)` to `B(G,{μ})` is surjective on geometric classes. This is stronger than the invariant containment for all `μ` and uses the Rapoport existence result recalled by CS17 Remark 3.5.8.
 
-*Proof outline.* Use the minuscule identification of the Schubert cell with the flag variety from GeometricSatakeAndFusion GS0. Every acceptable class occurs by Rapoport’s result (Rapoport, appendix to Scholze, *`p`-adic geometry*, Proposition `A.9`); its proof, by reduction to the basic case of a Levi and explicit construction there, is part of this target and is not deduced from the containment of the image in `B(G, {μ})`.
+*Proof outline.* Use the minuscule identification of the Schubert cell with the flag variety from GeometricSatakeAndFusion GS0. Every acceptable class occurs by Rapoport, *Accessible and weakly accessible period domains*, appendix to Scholze, *On the p-adic cohomology of the Lubin–Tate tower*, Proposition A.9. For an acceptable `b`, its admissible period locus is nonempty: it has the same classical points as the weakly admissible locus, whose nonemptiness is characterized by the Newton bound. The inverse modification at an admissible point trivializes `E_b`, so reversing it realizes `b` as a modification of the trivial bundle. This existence argument is part of the target.
 
 *Remark.* A nonempty acceptable index set alone does not produce a flag point.
 
@@ -1743,7 +1752,7 @@ For minuscule `μ` over `Q_p` in GS0 indexing, the map from the flag variety `F�
 - A central minuscule cocharacter gives a point and its unique acceptable class.
 - The class `(2,−1)` has no point for GS bound `(1,0)` despite its matching Kottwitz invariant; surjectivity is only onto the acceptable set.
 
-Source: [CS17](#ref-cs17), Remark 3.5.8 p. 689, after the CS-to-GS label conversion.
+Source: [Rap15](#ref-rap15), Proposition A.9, p. 42; [CS17](#ref-cs17), Remark 3.5.8 p. 689, after the CS-to-GS label conversion.
 
 *Needs:* [§2.21 Newton bound for a modification](#modification-newton-bound); [§1.23 Acceptable classes B(G,{μ})](#admissible-pair); GeometricSatakeAndFusion GS0 (open Schubert cell smoothness).
 
@@ -1823,19 +1832,19 @@ Source: [FS](#ref-fs), Proposition III.4.7 pp. 102–103.
 
 ### 3.3 Filtered torsor automorphism group schemes
 
-Define `FilteredAutomorphism`. For a reductive `G/K`, scheme `X/K` and Q-filtered `G`-fibre functor `E`, let `H=Aut_G(E)`, its inner group over `X`. For `λ≥0, H^≥λ` consists of automorphisms whose difference from `1` raises every represented filtration by at least `λ. H^≥0` is parabolic with unipotent radical `H^>0`; the groups are smooth, `Lie H^≥λ=(ad E)^≥λ`, and for `λ>0` the quotient `H^≥λ/H^>λ` is the vector group `(ad E)^≥λ/(ad E)^>λ`.
+Define the rational-threshold API `FilteredAutomorphism` using HodgeTateAndCanonicalSubgroups §2.14, `TauCeti.HodgeTate.filteredFiberFunctor_split`, for the integer-filtered carrier, splitting torsor and parabolic/unipotent/Levi constructions. For a reductive `G/K`, scheme `X/K` and Q-filtered `G`-fibre functor `E`, let `H=Aut_G(E)`, its inner group over `X`. For `λ≥0`, `H^≥λ` consists of automorphisms whose difference from `1` raises every represented filtration by at least `λ`. Rational reindexing identifies `H^≥0` with the supplied parabolic and `H^>0` with its unipotent radical. The higher raising groups are smooth, `Lie H^≥λ=(ad E)^≥λ`, and for `λ>0` the quotient `H^≥λ/H^>λ` is the vector group `(ad E)^≥λ/(ad E)^>λ`.
 
 Hypotheses: The underlying functor is an exact K-linear tensor fibre functor for finite rational representations of a reductive `G/K`, associated to a `G`-torsor on `X`. The descending `ℚ`-filtration is exhaustive, separated and locally has finitely many jumps on each representation; its steps are subbundles with locally free graded pieces, and it is exact and tensor-compatible. Splitting is asserted on affine open charts, followed by étale trivialization of the smooth underlying torsor; no global splitting over an arbitrary scheme is assumed.
 
-*Construction.* On an affine chart, choose a tensor generator and clear its finitely many rational weight denominators. Exact tensor generation extends the same denominator to all representations. Rescale to a `ℤ`-filtration; a chosen threshold `λ` can be included in the denominator. The underlying automorphism group is an inner form of reductive `G`, hence smooth. Zie15 Theorem `1.3/4.15` therefore splits the filtration on that chart, rather than merely after an fpqc cover. Trivialize the `G`-torsor étale locally. The splitting is then a rational cocharacter `D→G`. Apply the relative cocharacter and root-weight calculation of [§0.2](#relative-tensor-torsors) to represent the filtration-preserving parabolic, its positive radical and the higher raising subgroups. Their `Lie` algebras are the corresponding filtered adjoint subbundles. At `λ>0`, the map `g↦g−1` on associated gradeds is additive: the product error raises the filtration by `2λ>λ`. Zie15 Proposition 4.24 and Lemma 4.25 give the vector-group quotient after rescaling; its `Lie` bundle identifies it with `gr^λ(ad E)`. At `λ=0` retain the reductive Levi quotient instead. Descend the represented closed subgroup schemes and their Lie/graded identifications along the étale charts, compatibly with arbitrary scheme pullback.
+*Construction.* On an affine chart, choose a tensor generator and clear its finitely many rational weight denominators as in [§0.2](#relative-tensor-torsors). Exact tensor generation extends the same denominator to all representations. Rescale to the supplied `ℤ`-filtered carrier, including a chosen threshold `λ` in the denominator. The underlying automorphism group is an inner form of reductive `G`, hence smooth. Zie15 Theorem `1.3/4.15` gives a section of the supplied splitting torsor on that affine chart. Trivialize the `G`-torsor étale locally; the supplied splitting/cocharacter dictionary then gives a rational cocharacter `D→G`. Transport the supplied parabolic and radical, and use root weights to represent the higher raising subgroups and identify their `Lie` algebras with the filtered adjoint subbundles. At `λ>0`, the map `g↦g−1` on associated gradeds is additive: the product error raises the filtration by `2λ>λ`. Zie15 Proposition 4.24 and Lemma 4.25 give the vector-group quotient after rescaling; its `Lie` bundle identifies it with `gr^λ(ad E)`. At `λ=0` retain the supplied reductive Levi quotient. Descend the higher subgroup schemes and their Lie/graded identifications along the étale charts, compatibly with arbitrary scheme pullback and independently of the denominator.
 
 *Remark.* Subgroups of points over a field do not represent this relative group scheme. The splitting input is the affine one for smooth groups, not an fpqc-local splitting, and no global splitting on a non-affine `X` is asserted.
 
 The API:
 
 - `FilteredAutomorphism.raising_iff`: For every rational representation and `λ′, (γ−1)E^≥λ′⊂E^≥(λ′+λ)`.
-- `FilteredAutomorphism.parabolic`: `H^≥0` is the filtration-preserving parabolic.
-- `FilteredAutomorphism.unipotent`: `H^>0` is its unipotent radical.
+- `FilteredAutomorphism.parabolic`: Rational reindexing identifies `H^≥0` with the supplied filtration-preserving parabolic.
+- `FilteredAutomorphism.unipotent`: Rational reindexing identifies `H^>0` with the supplied unipotent radical.
 - `FilteredAutomorphism.graded`: For `λ>0` the quotient is the stated additive vector group.
 - `FilteredAutomorphism.pullback`: Scheme pullback commutes with `H`, its filtration and vector-group quotients.
 - `FilteredAutomorphism.localSplit`: There is an affine open cover on which the filtered fibre functor splits; after an étale trivialization of its underlying torsor the splitting is a rational cocharacter `D→G`. This assertion is compatible with restriction and does not assert a global splitting on `X`.
@@ -1850,7 +1859,7 @@ The API:
 
 Source: [FS](#ref-fs), Proposition III.5.2 p. 105; [Zie15](#ref-zie15), Theorem 1.3 p. 2; §4.3, Theorems 4.14–4.16 pp. 24–25 and Proposition 4.24/Lemma 4.25/Theorem 4.26 pp. 26–27.
 
-*Needs:* [§0.7 Pure inner twisting of torsors](#pure-inner-twisting); [§0.2 Relative tensor torsors and filtered automorphism groups](#relative-tensor-torsors); ReductiveGroups Layer 7 (structure theory); ReductiveGroups Layer 1 (representations and comodules); Tau Ceti `Cocharacter.parabolic`, `Cocharacter.leviGroupExtension`, `FGPointRepresentationCat`, `FGPointRepresentationCat.instRigidCategory`.
+*Needs:* HodgeTateAndCanonicalSubgroups §2.14 (`TauCeti.HodgeTate.filteredFiberFunctor_split`); [§0.7 Pure inner twisting of torsors](#pure-inner-twisting); [§0.2 Relative tensor torsors and filtered automorphism groups](#relative-tensor-torsors); ReductiveGroups Layer 7 (structure theory); ReductiveGroups Layer 1 (representations and comodules); Tau Ceti `Cocharacter.parabolic`, `Cocharacter.leviGroupExtension`, `FGPointRepresentationCat`, `FGPointRepresentationCat.instRigidCategory`.
 
 <a id="full-automorphism-v-group"></a>
 
@@ -2329,7 +2338,8 @@ includes the projections `slopes`, `descending`, `kottwitz`, `total_eq` and
 
 - The slopes `(1/2, 1/2)` with `κ=1` satisfy all fields; a single slope `1/2`
   fails the multiplicity and integral-total conditions.
-- The integral-total tuple `(1/3, 1/3, 1/3)` is allowed; `(2/3, 1/3)` has
+- The integral-total tuple `(1/3, 1/3, 1/3)` is allowed
+  (`GLnSlopeData.third_exists`); `(2/3, 1/3)` has
   integral total `1` but fails denominator divisibility, as stated by
   `GLnSlopeData.two_thirds_one_third_impossible`; integral total alone is insufficient.
 - The decreasing-order condition rejects `(0, 1)`, although its total and
@@ -2343,7 +2353,8 @@ reflexivity, transitivity and the partial-sum criterion, with no rank restrictio
 **Checks.**
 
 - `(1/2, 1/2)` is below `(1, 0)`, and the reverse inequality fails at `k=1`.
-- Slopes `(0)` and `(1)` are incomparable because their `κ` values differ.
+- Slopes `(0)` and `(1)` are incomparable because their `κ` values differ
+  (`GLnSlopeData.rank_one_zero_one_incomparable`).
 - At rank zero dominance holds for the unique empty datum; at `k=n` its
   inequality is equality because the integral totals agree.
 
@@ -2409,7 +2420,8 @@ values and `κ` values and the comparison and basicness tests above.
 - At rank zero it has no slope entries and its basicness and ordinarity still
   hold; no expression `κ/n` is used at this boundary.
 - At positive rank its slope function differs from every nonzero constant
-  basic datum, so basicness alone does not identify it with such a datum.
+  basic datum (`GLnSlopeData.zero_ne_nonzero_constant`), so basicness alone
+  does not identify it with such a datum.
 
 These are numerical consequences of Dieudonné–Manin and the order conventions
 of [KMPS](#ref-kmps), §§1.1.1–1.1.5, pp.5–8, and [FS](#ref-fs), §III.2.2,
@@ -2442,7 +2454,8 @@ with equality of that norm to the prescribed element, as in §1.9.
 
 - The empty norm is `1`, the one-factor norm is `b`, and the two-factor norm is
   `bσ(b)`; replacing the last by `b²` fails for nonfixed `b`.
-- For fixed `b=π` the `r`-factor norm is `π^r`, with no extra factor.
+- For fixed `b=π` the `r`-factor norm is `π^r`, with no extra factor
+  (`WittRankOne.norm_uniformizer` in the Witt specialization, including `r=0`).
 - The decency predicate is false at period zero, is `b=a` at period one, and at
   period two is `bσ(b)=a`; it asserts no Newton integrality.
 
@@ -2523,6 +2536,7 @@ Page numbers are the printed pages of the version listed, unless a PDF page is n
 - <a id="ref-kmps"></a>**[KMPS]** Mark Kisin, Keerthi Madapusi Pera, Sug Woo Shin, *Honda-Tate theory for Shimura varieties*. [https://math.berkeley.edu/~swshin/HT.pdf](https://math.berkeley.edu/~swshin/HT.pdf).
 - <a id="ref-kz"></a>**[KZ]** Mark Kisin, Rong Zhou, *Independence of l for Frobenius conjugacy classes attached to abelian varieties*. [https://arxiv.org/pdf/2103.09945v2](https://arxiv.org/pdf/2103.09945v2).
 - <a id="ref-cs17"></a>**[CS17]** Ana Caraiani, Peter Scholze, *On the generic part of the cohomology of compact unitary Shimura varieties*. [https://annals.math.princeton.edu/wp-content/uploads/annals-v186-n3-p01-p.pdf](https://annals.math.princeton.edu/wp-content/uploads/annals-v186-n3-p01-p.pdf).
+- <a id="ref-rap15"></a>**[Rap15]** Michael Rapoport, *Accessible and weakly accessible period domains*, appendix to Peter Scholze, *On the p-adic cohomology of the Lubin–Tate tower*. [Author PDF](https://www.math.uni-bonn.de/people/scholze/pAdicCohomLT.pdf), Proposition A.9, p. 42.
 - <a id="ref-cs24"></a>**[CS24]** Ana Caraiani, Peter Scholze, *On the generic part of the cohomology of non-compact unitary Shimura varieties*. [https://arxiv.org/pdf/1909.01898v2](https://arxiv.org/pdf/1909.01898v2).
 - <a id="ref-zhu17"></a>**[Zhu17]** Xinwen Zhu, *Affine Grassmannians and the geometric Satake in mixed characteristic*. [https://annals.math.princeton.edu/wp-content/uploads/annals-v185-n2-p02-p.pdf](https://annals.math.princeton.edu/wp-content/uploads/annals-v185-n2-p02-p.pdf).
 - <a id="ref-glx"></a>**[GLX]** Ian Gleason, Dong Gyu Lim, Yujie Xu, *The connected components of affine Deligne-Lusztig varieties*. [https://link.springer.com/content/pdf/10.1007/s00222-025-01386-1.pdf](https://link.springer.com/content/pdf/10.1007/s00222-025-01386-1.pdf).

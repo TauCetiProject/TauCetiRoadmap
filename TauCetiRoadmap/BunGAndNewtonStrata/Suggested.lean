@@ -169,6 +169,14 @@ example (sigma : G ≃* G) (b a : G) :
   simp [decencyEquation, frobeniusNorm]
 end TwistedGroupInvariants
 
+namespace WittRankOne
+variable (p : ℕ) [Fact p.Prime] (k : Type u) [Field k] [IsAlgClosed k] [CharP k p]
+
+/-- The r-factor Frobenius norm of the fixed uniformizer is its r-th power. -/
+theorem norm_uniformizer (r : ℕ) :
+    frobeniusNorm (sigma p k) (uniformizer p k) r = uniformizer p k ^ r := by sorry
+end WittRankOne
+
 /-- Numerical GL_n slope data; each denominator divides its multiplicity. -/
 structure GLnSlopeData (n : ℕ) where
   slopes : Fin n → ℚ
@@ -248,6 +256,20 @@ example : basic (zero 0) ∧ ordinary (zero 0) (zero 0) := by
 /-- A slope of denominator two cannot occur with multiplicity one. -/
 theorem rank_one_half_impossible :
     ¬ ∃ x : GLnSlopeData 1, x.slopes 0 = (1/2 : ℚ) := by sorry
+
+/-- Three copies of slope one-third give valid integral slope data of total one. -/
+theorem third_exists :
+    ∃ x : GLnSlopeData 3, (∀ i, x.slopes i = (1/3 : ℚ)) ∧ x.kottwitz = 1 := by sorry
+
+/-- Rank-one slopes zero and one are incomparable because their totals differ. -/
+theorem rank_one_zero_one_incomparable :
+    ∃ x y : GLnSlopeData 1, x.slopes 0 = 0 ∧ y.slopes 0 = 1 ∧
+      ¬ dominance x y ∧ ¬ dominance y x := by sorry
+
+/-- In positive rank the zero datum differs from every nonzero constant-slope datum. -/
+theorem zero_ne_nonzero_constant {n : ℕ} (hn : 0 < n) (x : GLnSlopeData n)
+    (q : ℚ) (hq : q ≠ 0) (h : ∀ i, x.slopes i = q) : zero n ≠ x := by sorry
+
 /-- Integral total does not suffice when a slope denominator fails multiplicity divisibility. -/
 theorem two_thirds_one_third_impossible :
     ¬ ∃ x : GLnSlopeData 2, x.slopes 0 = (2/3 : ℚ) ∧ x.slopes 1 = (1/3 : ℚ) := by sorry
@@ -357,7 +379,7 @@ theorem sign_class_two_eq_zero :
   by sorry
 end KottwitzDescent
 
-/-- The affine solution fibre of Frobenius minus identity, with no chosen origin. -/
+/-- The affine solution fibre of Frobenius minus identity for an integral difference. -/
 def ComponentCoset {A : Type u} [AddCommGroup A] (tau : A ≃+ A) (difference : A) : Set A :=
   {x | tau x - x = difference}
 
