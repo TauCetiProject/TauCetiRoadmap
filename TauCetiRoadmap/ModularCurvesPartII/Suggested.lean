@@ -4,6 +4,7 @@ import TauCeti.NumberTheory.ModularForms.Fricke.Matrix
 import TauCeti.NumberTheory.ModularForms.HeckeSlash.Nebentypus.Composite
 import TauCeti.NumberTheory.ModularForms.QExpansion.Basic
 import TauCeti.AlgebraicGeometry.AbelianVariety.Isogeny
+import TauCeti.FieldTheory.FunctionField.Divisor.Conorm
 
 /-!
 # ModularCurvesPartII: representative target signatures
@@ -287,6 +288,56 @@ theorem splitCartanFibreGenus_eq (k : ℕ) (hk : 1 ≤ k) :
     splitCartanFibreGenus k = 6 * k ^ 2 - 3 * k := by
   sorry
 
+/-! ## Layer 13: function-field divisor norm -/
+
+section DivisorNorm
+open TauCeti
+
+variable {k k' F F' : Type*} [Field k] [Field k'] [Field F] [Field F']
+    [Algebra k k'] [Algebra k F] [Algebra k' F'] [Algebra F F'] [Algebra k F']
+    [IsScalarTower k k' F'] [IsScalarTower k F F'] [FiniteDimensional F F']
+
+/-- Pushforward of function-field divisors, weighted by residue degree (README §13.2).
+The upper and lower constant fields can differ. -/
+def functionFieldDivisorNorm : Divisor k' F' →+ Divisor k F :=
+  Finsupp.liftAddHom fun P' =>
+    zmultiplesHom _ ((Place.relativeDegree k F P' : ℤ) •
+      TauCeti.AlgebraicGeometry.WeilDivisor.ofPoint (P'.restrict k F))
+
+/-- A single place pushes forward with its residue-field degree, rather than its
+ramification index (README §13.2). -/
+theorem functionFieldDivisorNorm_ofPoint (P' : Place k' F') :
+    functionFieldDivisorNorm (TauCeti.AlgebraicGeometry.WeilDivisor.ofPoint P') =
+      (Place.relativeDegree k F P' : ℤ) •
+        TauCeti.AlgebraicGeometry.WeilDivisor.ofPoint (P'.restrict k F) := by
+  sorry
+
+/-- Divisor norm preserves degree measured over the lower constants; changing constants
+contributes their extension degree (README §13.2). -/
+theorem functionFieldDivisorNorm_degree [FiniteDimensional k k']
+    (hF : IsFunctionField k F) (hF' : IsFunctionField k' F') (D' : Divisor k' F') :
+    Divisor.degree (functionFieldDivisorNorm (k := k) (F := F) D') =
+      (Module.finrank k k' : ℤ) * Divisor.degree D' := by
+  sorry
+
+/-- Divisor norm carries a principal divisor to the divisor of the field norm,
+including finite inseparable extensions (README §13.2). -/
+theorem functionFieldDivisorNorm_principal
+    (hF : IsFunctionField k F) (hF' : IsFunctionField k' F') (z : F'ˣ) :
+    functionFieldDivisorNorm (Divisor.principal hF' z) =
+      Divisor.principal hF (Units.map (Algebra.norm F : F' →* F) z) := by
+  sorry
+
+/-- Norm after the pinned conorm is multiplication by the full field degree,
+including its inseparable part (README §13.2). -/
+theorem functionFieldDivisorNorm_conorm
+    (hF : IsFunctionField k F) (D : Divisor k F) :
+    functionFieldDivisorNorm (Divisor.conorm k' F' D) =
+      (Module.finrank F F' : ℤ) • D := by
+  sorry
+
+end DivisorNorm
+
 /-! ## Layer 14: cohomological realizations and parabolic lattices -/
 
 /-- Specialize the existing symmetric-power action to weight k≥2, without defining
@@ -466,8 +517,13 @@ the genus-one family over ℍ is AbelianSchemesAndArithmeticModuli's `SiegelFami
 * Full and cyclic isogeny correspondences
 * Integral coherent Hecke trace
 * Modular Jacobians and norms
+* The relative Jacobian point/divisor-class equivalence modularJacobian_divisorClass,
+  with its semilinear Galois and two-leg Hecke compatibility (README §13.1)
 * Upper and lower Jacobian Hecke operators
 * The geometric integral Hecke algebra
+* The anemic image heckeAlgebraAnemic of AutomorphicFormsOnReductiveGroups' common
+  presentation, jacobianHeckeTorsion and jacobianHeckeTorsion_nonzero, and the universal
+  modularEisensteinSystem with its image ideal modularEisensteinIdeal (README §13.3)
 * The modular Jacobian Tate module
 * Open level subgroups and the standard levels
 * Level-H structures away from the level
@@ -497,6 +553,20 @@ the genus-one family over ℍ is AbelianSchemesAndArithmeticModuli's `SiegelFami
 * The finite Taylor–Wiles modular cover
 
 The additional interfaces specified in the README are:
+* §8.2: qExpansionField over any coefficient field, qExpansionCuspInfty,
+  qExpansionGaloisAction and qExpansionTorsionRepresentation; qExpansionDegeneracy and
+  qExpansionFricke with their geometric characterizations, and
+  gammaZeroRationalFunctionField when the level is invertible in the coefficient field.
+* §13.2: functionFieldDivisorNorm_baseChange and functionFieldCorrespondence, with
+  the full tensor-product factors or the stated linear-disjointness hypothesis.
+* §§12.1 and 17.5: gammaZeroPrimeGraph and gammaZeroPrime_mass at primes at least five,
+  gammaZeroPrime_componentGroup and gammaZeroPrime_componentEisenstein, retaining
+  thicknesses, cyclicity and the integral component-group order.
+* §§17.1–17.2: GoodReductionSpecialisation, goodReductionSpecialisation_exists and
+  goodReductionSpecialisation_frobenius for the canonical geometric-point reduction,
+  its prime-to-residue-characteristic torsion isomorphisms and the diamond-valued relation.
+* §17.7: modularJacobian_semistableTorsion in the supplier's SemistableTorsionDatum,
+  with the identity-component and toric terms distinguished.
 * §0.2: finiteInvariantModule_completion, regularInvariants_freeness and
   tameInertiaIdeal_cotangent for the local invariant ring and its finite module.
 * §1.4a: latticeSigma, latticeQuasiPeriod, latticeSigma_quasiPeriod and
