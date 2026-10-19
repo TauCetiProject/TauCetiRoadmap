@@ -24,7 +24,12 @@ AL.1 gives its scalar Hecke corollary and normalization comparisons, and special
 the local matrix equation through `rank-one-local-functional-equation`.
 The local equation for arbitrary Schwartz functions and eigendistribution uniqueness
 are targets here. The standard-function evaluations and `tateLocalConstant` belong to that
-supplier. The Hecke corollary uses the conductor-balanced standard factors.
+supplier. The Hecke corollary uses the conductor-balanced standard factors and fixes the canonical
+scalar continuation: an Eisenstein construction agreeing with its full Euler product and
+gamma factors agrees by meromorphic uniqueness. The all-rank completed Rankin–Selberg
+strip endpoint is specified in README AL.3; intertwining estimates refer to that same
+continued function after identifying all local factors. The completed-tensor global
+integral estimates remain targets here for every rank gap.
 `LocalAdditiveSelfDuality` compares the supplied isomorphism with the bilinear annihilator;
 `SelfDualHaar` records the local measure adapter. The README specifies the additional
 local-factor, vector-space and distribution refinements, representation spaces, shtukas and
@@ -970,8 +975,12 @@ theorem RationalPeriodComparison.infinity_scalar
 family under twisting and coefficient conjugation, with the signature convention
 of Raghuram §2.5.2.5. RationalPeriodComparison.gauss_twist_independent retains
 the scalar a from infinity_scalar: [pξ] = [a] [G(ξ_f)]^(n(n-1)/2) [p].
-ShtukaIntersectionComparison.middleExtension uses IC⁰=j_!*Q̄_ℓ[d][-d]. Its
-localModel_pullback and pure contracts identify the specified fibre complexes;
+README AL.3's normalized-scheme-ic-purity target establishes generic scheme purity:
+for lisse L of weight w, j_!*(L[d]) has weight w+d and IC⁰_Y(L) has weight w.
+It includes the mixed-perverse subquotient bounds and affine-open reduction.
+ShtukaIntersectionComparison.middleExtension specializes it to constant L, w=0,
+with IC⁰=j_!*Q̄_ℓ[d][-d]. Its localModel_pullback and pure contracts transport
+that scheme theorem through the local-model, fibre and finite-stabilizer comparisons;
 essential_comp compares compact supports on the nested smooth opens with proper
 intersection cohomology, with r-negligible kernels and cokernels under lower-rank
 ramified induction. Its equivariant contract transports Hecke and partial Frobenius
