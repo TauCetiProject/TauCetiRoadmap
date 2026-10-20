@@ -1806,7 +1806,7 @@ group theory of §4's last bullet (`Sylow`, `Sylow.nonempty`, `Sylow.not_dvd_ind
 `Subgroup.subgroupOfEquivOfLe`, `Subgroup.quotient_finite_of_isOpen`,
 `Subgroup.finiteIndex_of_finite_quotient`, `Subgroup.isOpen_mono`, `Nat.factorization_def`).
 Tau Ceti: the invariants and their theory in
-`TauCeti/RepresentationTheory/Homological/ContCohomology/CohomologicalDimension.lean`
+`TauCeti/RepresentationTheory/Homological/ContCohomology/CohomologicalDimension/Basic.lean`
 (`TauCeti.CohomologicalDimensionLE`, `TauCeti.StrictCohomologicalDimensionLE`,
 `TauCeti.cohomologicalDimensionAt`, `TauCeti.strictCohomologicalDimensionAt`,
 `TauCeti.cohomologicalDimension`, `TauCeti.cohomologicalDimensionAt_le_iff`,

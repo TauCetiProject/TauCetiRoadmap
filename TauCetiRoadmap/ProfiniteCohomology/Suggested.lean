@@ -1,6 +1,6 @@
 import Mathlib
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Additive
-import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologicalDimension
+import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologicalDimension.Basic
 import TauCeti.RepresentationTheory.Homological.ContCohomology.CohomologyComparison
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Coinduced.Functor
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Coinduced.PreservesExactness
@@ -22,8 +22,8 @@ import TauCeti.RepresentationTheory.Homological.ContCohomology.Inflation.Connect
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Inflation.Comparison
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Invariants
 import TauCeti.RepresentationTheory.Homological.ContCohomology.ProjectionFormula
-import TauCeti.RepresentationTheory.Homological.ContCohomology.Shapiro
-import TauCeti.RepresentationTheory.Homological.ContCohomology.SmoothDiscrete
+import TauCeti.RepresentationTheory.Homological.ContCohomology.Shapiro.Basic
+import TauCeti.RepresentationTheory.Homological.ContCohomology.SmoothDiscrete.Basic
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Transgression
 import TauCeti.RepresentationTheory.Homological.ContCohomology.Cup.ConnectingMap
 import TauCeti.RepresentationTheory.Homological.ContCohomology.TrivialF2
@@ -39,7 +39,7 @@ import TauCeti.Topology.Algebra.Group.Profinite.Section
 import TauCeti.Topology.Algebra.Group.Quotient.Basic
 import TauCeti.Topology.Algebra.Group.TopologicalAbelianization
 import TauCeti.Topology.Algebra.GroupAction.Discrete
-import TauCeti.Topology.Algebra.GroupAction.InternalHom
+import TauCeti.Topology.Algebra.GroupAction.InternalHom.Basic
 
 /-!
 # Continuous cohomology of profinite groups: target signatures
@@ -249,7 +249,7 @@ instance compactSpace_openSubgroup {G : Type*} [Group G] [TopologicalSpace G]
 
 /-- **Layer 0, the conjugation action on the internal hom,** `(g • φ) m = g • φ (g⁻¹ • m)` on
 `M →+ N`. This is Tau Ceti's `TauCeti.homAction`
-(`TauCeti/Topology/Algebra/GroupAction/InternalHom.lean`). Mathlib already puts the
+(`TauCeti/Topology/Algebra/GroupAction/InternalHom/Basic.lean`). Mathlib already puts the
 codomain-pointwise action on `M →+ N`, so the conjugation action is registered not there but on
 Tau Ceti's wrapper `TauCeti.InternalHom G M N`, where `g • φ` is `homAction g φ`
 (`TauCeti.InternalHom.toAddMonoidHom_smul`) and which is again a discrete `G`-module for finite
@@ -285,7 +285,7 @@ per group element and nothing there forces the action to be continuous in the gr
 object whose module is discrete can still have non-open stabilizers. The dictionary of `README.md`
 Layer 1 is an equivalence with **this** subcategory and not with all of `TopRep`, and every
 canonical-facing comparison below quantifies over it. This is Tau Ceti's `TauCeti.IsSmoothDiscrete`
-(`TauCeti/RepresentationTheory/Homological/ContCohomology/SmoothDiscrete.lean`), with its two fields
+(`TauCeti/RepresentationTheory/Homological/ContCohomology/SmoothDiscrete/Basic.lean`), with its two fields
 `discreteTopology` and `stabilizer_isOpen`; `TauCeti.isSmoothDiscrete_iff_continuousSMul` is the
 comparison with continuity of the action, and
 `TauCeti.not_isSmoothDiscrete_ofDiscreteModule_units_zmod` the discrete object that is not
@@ -452,7 +452,7 @@ open CategoryTheory in
 `README.md` §3 becomes an object of `TopRep ℤ G`. This is where the explicit statements of
 Layers 2 to 9 meet the canonical API, and it is the translation Layer 3's comparison is stated
 across. It is Tau Ceti's `TauCeti.ofDiscreteModule ℤ G M`
-(`TauCeti/RepresentationTheory/Homological/ContCohomology/SmoothDiscrete.lean`), the continuous
+(`TauCeti/RepresentationTheory/Homological/ContCohomology/SmoothDiscrete/Basic.lean`), the continuous
 counterpart of Mathlib's `Rep.ofDistribMulAction`, whose underlying module is `M` itself
 (`TauCeti.ofDiscreteModule_V`) and whose operator at `g` is `m ↦ g • m`
 (`TauCeti.ofDiscreteModule_ρ_apply_apply`). Every statement below about `Hⁿ(G, M)` for a discrete
@@ -2007,7 +2007,7 @@ variable {G : Type u} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
 carrier `TauCeti.DiscreteCoind G H A` of `Coind`: evaluation at `1`, with the constant functions
 as inverse (`TauCeti.ContCohomology.explicitShapiro0_apply`, `explicitShapiro0_symm_apply`). Tau
 Ceti's `TauCeti.ContCohomology.explicitShapiro0`
-(`TauCeti/RepresentationTheory/Homological/ContCohomology/Shapiro.lean`). This degree needs no
+(`TauCeti/RepresentationTheory/Homological/ContCohomology/Shapiro/Basic.lean`). This degree needs no
 closedness of `H`. -/
 noncomputable abbrev explicitShapiro0 : H0 G (TauCeti.DiscreteCoind G H A) ≃+ H0 H A :=
   TauCeti.ContCohomology.explicitShapiro0 G H A
@@ -2981,7 +2981,7 @@ theorem delta_conjMapOf (G : Type u) [Group G] [TopologicalSpace G] [IsTopologic
 section CohomologicalDimensionInvariants
 
 /-! The invariants of this layer are Tau Ceti's, in
-`TauCeti/RepresentationTheory/Homological/ContCohomology/CohomologicalDimension.lean`, read at the
+`TauCeti/RepresentationTheory/Homological/ContCohomology/CohomologicalDimension/Basic.lean`, read at the
 coefficient universe of `G`: Tau Ceti lets the coefficient modules range over `Type (max u v)` for
 an extra universe `v`, and this roadmap takes `v = 0`, so that they range over `Type u`, the
 universe `README.md` §3 fixes for the coefficients of a group in `Type u`. The definitions do not
