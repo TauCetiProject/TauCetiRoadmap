@@ -116,6 +116,7 @@ body:
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
+        - TauberianBoundaryConvergence
         - TaubesGromov
         - ThetaSeries
         - Yamabe
