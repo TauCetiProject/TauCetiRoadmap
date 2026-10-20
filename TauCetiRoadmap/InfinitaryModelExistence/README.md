@@ -27,8 +27,8 @@ The summits are:
 * **Craig interpolation and PC separation** for sentences of a language of any cardinality, with the
   Lyndon (relation polarity, logical equality) and Malitz (universal consequent) refinements, all
   for arbitrary languages except Malitz, which is relational (Layer 7);
-* **Marker's Theorem 4.4.1 and Corollary 4.4.2** and the undefinability of well-ordering, for
-  arbitrary languages (Layer 8).
+* **the boundedness theorems for well-orderings** of Marker's Chapter 4 and the undefinability of
+  well-ordering, for arbitrary languages (Layer 8).
 
 The interpolation and well-ordering theorems are proved for relational languages and transferred to
 languages with function symbols by the **graph translation** of Layer 6, a proof device with its own
@@ -48,7 +48,7 @@ TauCeti/ModelTheory/ModelExistence/                  -- A-elementarity, Löwenhe
                                                      -- consistency properties, model existence,
                                                      -- types, omitting types, Morleyization
 TauCeti/ModelTheory/Interpolation/                   -- PC classes, Craig, Lyndon, Malitz
-TauCeti/ModelTheory/WellOrdering.lean                -- Marker §4.4
+TauCeti/ModelTheory/WellOrdering.lean                -- boundedness of well-orderings
 ```
 
 ## Scope and dependency order
@@ -281,7 +281,7 @@ hypothesis on the language. Formation closure is a separate predicate:
   fragments play the role of Marker's fragments. They omit his formal negation, which this syntax
   does not need, and his closure under substitution of terms, which no proof here uses: atomic
   formulas over arbitrary terms are already members. This is **not** a fragment in the sense of
-  Gao, *Invariant Descriptive Set Theory*, Definition 11.2.3, whose fragments contain the
+  Gao, *Invariant Descriptive Set Theory*, whose fragments contain the
   first-order formulas over a countable language; results stated for those need the
   formation-closure hypothesis explicitly.
 
@@ -339,7 +339,7 @@ first-order image fragment.
 
   stated with `Cardinal.lift` into `max u v w`, since the three cardinals start in three universes.
   Function symbols appear separately because a fragment need not contain an atomic formula
-  mentioning them. Marker's bound `max(|A|, |X|)` (Marker 2016, §1.1), stated for fragments that
+  mentioning them. Marker's bound `max(|A|, |X|)` (Marker 2016, Chapter 1), stated for fragments that
   contain every atomic formula, is the corollary for infinite formation-closed fragments, where the
   function-symbol term is absorbed; state the absorption lemma rather than assuming it.
 * `exists_countable_aElementary_substructure`: with countably many function symbols, a countable
@@ -403,7 +403,7 @@ member `s` (writing `s + φ` for `insert φ s`):
 | `eq_subst` | for atomic `φ` with one bound position, `t = t' ∈ s` and `φ[t] ∈ s` give `s + φ[t']` |
 | `eq_name` | for every closed term `t`, `s + (c = t)` for some Henkin constant `c` |
 
-Here `φ[t]` is `inst φ t`. This follows Marker 2016, §4.1, and Keisler 1971, adapted to the
+Here `φ[t]` is `inst φ t`. This follows Marker 2016, Chapter 4, and Keisler 1971, adapted to the
 implication-and-falsum syntax: the existential quantifier is `¬∀¬`, so `not_all` is the witness
 clause, and the universal clause instantiates only constants because every element of the model
 will be named by one.
@@ -545,7 +545,7 @@ under components.
 
 * `morleyTheory_countable`, `morleyTypes_countable` for countable `A`, with no countability of the
   language.
-* `exists_firstOrder_presentation` (Marker 2016, Theorem 1.2.1 and Exercise 1.2.2): an expansion
+* `exists_firstOrder_presentation` (Marker 2016, Chapter 1): an expansion
   `S` of an `L`-structure along `lhomMorleyize A` models `morleyTheory A` and omits every type of
   `morleyTypes A` **iff** `S` is the canonical expansion. The backward direction is an induction
   over `A`; omission supplies exactly the conjunction and disjunction steps.
@@ -684,9 +684,9 @@ is used.
   sign, back-translate into equalities and drop out of the signed bounds.
   `craig_of_lyndon_interpolation` recovers Craig from the two signed bounds.
 
-This is the **relation-polarity, logical-equality form** of López-Escobar's Theorem 4.1: his clause
-(.4) is proved in full, and his clause (.3), which restricts where equality may occur in `θ`, is not
-part of this theorem. The proof refines the Craig engine: only the separator class changes, the
+This is the **relation-polarity, logical-equality form** of López-Escobar's interpolation theorem:
+his polarity clause is proved in full, and his clause restricting where equality may occur in `θ`
+is not part of this theorem. The proof refines the Craig engine: only the separator class changes, the
 pair maintaining the flipped classes `(P₁ ∩ N₂, N₁ ∩ P₂)`.
 
 ### 7.4 Malitz interpolation
@@ -721,12 +721,12 @@ Fix a binary relation symbol `lt : L.Relations 2` of an arbitrary language and w
 
 * `HasWellOrderedChains φ lt`: for every `α < ω₁` some nonempty model of `φ` carries a chain
   `f : α.ToType → M`.
-* `exists_model_relChain_rat` (Marker 2016, Theorem 4.4.1, raw positive form): under that
+* `exists_model_relChain_rat` (Marker 2016, Chapter 4, raw positive form): under that
   hypothesis some countable nonempty model of `φ` carries `f : ℚ → M` with `RelChain lt f`.
   Injectivity is the separate corollary `RelChain.injective_of_irreflexive`, for irreflexive `lt`.
 * `wellFounded_boundedness`: if `lt` is well-founded in every model of `φ`, some countable ordinal
   has a chain in no model of `φ`.
-* `wellOrder_type_boundedness` (Marker 2016, Corollary 4.4.2): if `lt` well-orders every model of
+* `wellOrder_type_boundedness` (Marker 2016, Chapter 4): if `lt` well-orders every model of
   `φ`, some `α < ω₁` strictly exceeds the order type of every model.
 * `wellOrdering_undefinable`: no sentence has as its models exactly the structures in which `lt`
   is a well-order. It is a different target from `not_exists_modelsOf_eq_wellOrderClass` of
@@ -810,15 +810,15 @@ does not discharge its target.
 The following belong to separate roadmaps or to the named sibling.
 
 * **Theory-level interpolation and separation.** For sets of sentences the interpolation theorem
-  is false in Lω₁ω: López-Escobar (1965, Theorem 6.3) gives disjoint `PC_Δ(Lω₁ω)` classes that no
+  is false in Lω₁ω: López-Escobar (1965) gives disjoint `PC_Δ(Lω₁ω)` classes that no
   class closed under Lω₁ω-elementary equivalence separates. Likewise there is a set of Lω₁ω
   sentences closed under substructures that is equivalent to no set of universal Lω₁ω sentences.
   No theorem here is stated for arbitrary sets of sentences.
 * **Forms of Malitz interpolation for languages with function symbols**, and **preservation
   theorems** — Malitz's relative existential preservation theorem, the
   characterization of sentences preserved by substructures as universal ones, and López-Escobar's
-  homomorphism preservation theorem — and the equality-occurrence clause (.3) of López-Escobar's
-  Theorem 4.1, which needs a separate equality-occurrence recursion.
+  homomorphism preservation theorem — and the equality-occurrence clause of López-Escobar's
+  interpolation theorem, which needs a separate equality-occurrence recursion.
 * **Relationalization of the back-and-forth and Scott spine** for languages with function and
   constant symbols. The graph translation of Layer 6 is a sentence-level proof device; transferring
   the parent's analysis belongs to the separate relationalization roadmap.
@@ -890,18 +890,17 @@ universe-general statements here are part of the work. The map below says where 
 
 * David Marker, *Lectures on Infinitary Model Theory*, Lecture Notes in Logic 46, Cambridge
   University Press, 2016, [doi:10.1017/CBO9781316855560](https://doi.org/10.1017/CBO9781316855560).
-  Chapter 1 (fragments, downward Löwenheim–Skolem, and in §1.2 the first-order presentation of a
-  countable fragment, Theorem 1.2.1 and Exercise 1.2.2) and Chapter 4, "The model existence
-  theorem": consistency properties and model existence (§4.1, Theorem 4.1.2), omitting types,
-  interpolation and López–Escobar (§4.3), and well-ordering (§4.4, Theorem 4.4.1 and Corollary
-  4.4.2).
+  Chapter 1 (fragments, downward Löwenheim–Skolem, and the first-order presentation of a countable
+  fragment) and Chapter 4, "The model existence theorem": consistency properties and model
+  existence, omitting types, interpolation and López–Escobar, and the boundedness of
+  well-orderings.
 * H. Jerome Keisler, *Model Theory for Infinitary Logic*, Studies in Logic and the Foundations of
   Mathematics 62, North-Holland, 1971: consistency properties, model existence, omitting types and
   interpolation over countable fragments.
 * E. G. K. López-Escobar, "An interpolation theorem for denumerably long formulas", *Fundamenta
   Mathematicae* 57 (1965), 253–272,
-  [doi:10.4064/fm-57-3-253-272](https://doi.org/10.4064/fm-57-3-253-272). Theorem 4.1 (Craig and
-  Lyndon interpolation for Lω₁ω, p. 267) and Theorem 6.3 (failure for sets of sentences).
+  [doi:10.4064/fm-57-3-253-272](https://doi.org/10.4064/fm-57-3-253-272): Craig and Lyndon
+  interpolation for Lω₁ω, and its failure for sets of sentences.
 * J. Malitz, "Universal classes in infinitary languages", *Duke Mathematical Journal* 36 (1969),
   621–630, [doi:10.1215/S0012-7094-69-03674-6](https://doi.org/10.1215/S0012-7094-69-03674-6):
   interpolation with a universal consequent for relational languages.
@@ -910,7 +909,7 @@ universe-general statements here are part of the work. The map below says where 
   [doi:10.1017/jsl.2023.19](https://doi.org/10.1017/jsl.2023.19). §2 (the `∀ₙ`/`∃ₙ` hierarchy) and
   §4.2.2: Theorem 4.5 (p. 1831) states Malitz's interpolation theorem for signatures without
   function symbols, and Theorem 4.6 his relative preservation theorem.
-* S. Gao, *Invariant Descriptive Set Theory*, CRC Press, 2009, Definition 11.2.3 (fragments over a
-  countable language), for comparison with Layer 1.
+* S. Gao, *Invariant Descriptive Set Theory*, CRC Press, 2009: fragments over a countable language,
+  for comparison with Layer 1.
 * `cameronfreer/infinitary-logic`, Lean 4 formalization of infinitary logic, checkpoint
   `518a366`.

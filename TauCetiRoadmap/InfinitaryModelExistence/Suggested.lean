@@ -365,7 +365,7 @@ variable {L : FirstOrder.Language.{u, v}}
 /-- The Henkin constant `c` as a closed term. -/
 abbrev hc (c : ℕ) : L[[ℕ]].Term (Empty ⊕ Fin 0) := (L.con c).term
 
-/-- **Layer 3, consistency properties** over the Henkin expansion `L[[ℕ]]`, following Marker §4.1
+/-- **Layer 3, consistency properties** over the Henkin expansion `L[[ℕ]]`, following Marker, Chapter 4,
 and Keisler. Each clause either forbids a contradiction or lets one decomposition target be added
 consistently; double negation is the `not_imp` clause at `ψ = ⊥`. There is no chain-closure or
 decide-every-sentence clause: `Lω₁ω` is not compact, and the satisfiable sets do not have either
@@ -521,7 +521,7 @@ def OmitsFOType {L : FirstOrder.Language.{u, v}} (M : Type w) [L.Structure M] {n
   ∀ a : Fin n → M, ∃ ψ ∈ p, ¬ ψ.Realize Empty.elim a
 
 /-- **Layer 5 milestone, the first-order presentation of a countable fragment** (Marker 2016,
-Theorem 1.2.1). There is a first-order theory of the Morleyization, countable when `A` is (no
+Chapter 1). There is a first-order theory of the Morleyization, countable when `A` is (no
 countability of the language is needed), and a countable family of first-order partial types, such
 that an expansion of an `L`-structure models the theory and omits the types exactly when it is the
 canonical expansion.
@@ -728,13 +728,13 @@ def RelChain {M : Type w} [L.Structure M] (lt : L.Relations 2) {β : Type*} [LT 
     (f : β → M) : Prop :=
   ∀ x y, x < y → RelMap lt ![f x, f y]
 
-/-- **Layer 8, the hypothesis of Marker's Theorem 4.4.1**: models of `φ` carry `lt`-chains of
+/-- **Layer 8, the hypothesis of Marker's boundedness theorem**: models of `φ` carry `lt`-chains of
 every countable length. -/
 def HasWellOrderedChains (φ : Sentenceω L) (lt : L.Relations 2) : Prop :=
   ∀ α : Ordinal.{w}, α < Ordinal.omega 1 → ∃ (M : Type w) (_ : L.Structure M), Nonempty M ∧
     SentenceInf.Realize φ M ∧ ∃ f : α.ToType → M, RelChain lt f
 
-/-- **Layer 8 milestone, Marker 2016 Theorem 4.4.1** in the raw positive form, for an arbitrary
+/-- **Layer 8 milestone, Marker's boundedness theorem** in the raw positive form, for an arbitrary
 language: a countable nonempty model of `φ` with an `lt`-preserving map from `ℚ`. -/
 theorem exists_model_relChain_rat (φ : Sentenceω L) (lt : L.Relations 2)
     (h : HasWellOrderedChains.{u, v, w} φ lt) :
@@ -742,7 +742,7 @@ theorem exists_model_relChain_rat (φ : Sentenceω L) (lt : L.Relations 2)
       ∃ f : ℚ → M, RelChain lt f := by
   sorry
 
-/-- **Layer 8 milestone, Marker 2016 Corollary 4.4.2**: well-ordered models have uniformly
+/-- **Layer 8 milestone, boundedness of order types**: well-ordered models have uniformly
 bounded countable order type. -/
 theorem wellOrder_type_boundedness (φ : Sentenceω L) (lt : L.Relations 2)
     (hwo : ∀ (M : Type w) (_ : L.Structure M), SentenceInf.Realize φ M →
