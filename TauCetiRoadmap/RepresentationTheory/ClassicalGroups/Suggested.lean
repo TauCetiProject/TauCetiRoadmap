@@ -79,8 +79,7 @@ theorem rationalRep_isSemisimple {n : ℕ} {W : Type u} [AddCommGroup W] [Module
 /-- **The `d`-fold tensor power** of the standard representation (diagonal `GLₙ`-action). -/
 noncomputable abbrev tensorPowerRep (n d : ℕ) : Representation ℂ (GL (Fin n) ℂ) (⨂[ℂ]^d (Fin n → ℂ)) := TauCeti.tensorPowerRep ℂ n d
 
-/-- **The `k`-th symmetric power** representation. (Mathlib lacks `FiniteDimensional (Sym[ℂ]^k _)`; supplying
-that instance is itself a small target, so the character lemma below carries it as a hypothesis.) -/
+/-- The native symmetric-power representation; imported finite-dimensional instances are consumed. -/
 noncomputable abbrev symPowerRep (n k : ℕ) : Representation ℂ (GL (Fin n) ℂ) (Sym[ℂ]^k (Fin n → ℂ)) :=
   TauCeti.symPowerRep ℂ n k
 
@@ -92,9 +91,8 @@ noncomputable abbrev extPowerRep (n k : ℕ) : Representation ℂ (GL (Fin n) �
 /-- A diagonal torus element `diagonal (t₁, …, tₙ)` as an element of `GLₙ`. -/
 abbrev diagGL {n : ℕ} (t : Fin n → ℂˣ) : GL (Fin n) ℂ := TauCeti.diagGL t
 
-/-- **Character of the tensor power**: `χ_{V^{⊗d}}(g) = (tr g)ᵈ`, via `char_tensor`. (Mathlib lacks
-`FiniteDimensional (⨂[ℂ]^d _)`; providing it is a small target, carried here as a hypothesis.) -/
-theorem char_tensorPowerRep (n d : ℕ) [FiniteDimensional ℂ (⨂[ℂ]^d (Fin n → ℂ))]
+/-- Character of the tensor power, using the imported native finite-dimensional instance. -/
+theorem char_tensorPowerRep (n d : ℕ)
     (g : GL (Fin n) ℂ) :
     (tensorPowerRep n d).character g = ((stdRep n).character g) ^ d := sorry
 
@@ -106,7 +104,7 @@ theorem char_extPowerRep_diagonal (n k : ℕ) (t : Fin n → ℂˣ) :
 /-- **The first decomposition** `V^{⊗2} ≅ Sym²V ⊕ ⋀²V`, at the level of characters (over `ℂ`, so the
 symmetrizer/antisymmetrizer projections `½(1 ± swap)` split it). The structural iso is the smallest Weyl
 construction. -/
-theorem tensorSquare_char (n : ℕ) [FiniteDimensional ℂ (Sym[ℂ]^2 (Fin n → ℂ))] (g : GL (Fin n) ℂ) :
+theorem tensorSquare_char (n : ℕ) (g : GL (Fin n) ℂ) :
     ((stdRep n).character g) ^ 2
       = (symPowerRep n 2).character g + (extPowerRep n 2).character g := sorry
 
@@ -278,8 +276,8 @@ noncomputable abbrev gtPatternEquivSSYT (n : ℕ) (μ : YoungDiagram) (hμ : μ.
 /-- **The Gelfand-Tsetlin basis** of `V_λ`: iterating the multiplicity-free `GLₙ ↓ GLₙ₋₁` branching down the
 chain `GL₁ ⊂ ⋯ ⊂ GLₙ` refines `V_λ` into a direct sum of **lines**, one per Gelfand-Tsetlin pattern with top
 row `λ`. The lines are canonical; a `Basis` additionally fixes a vector in each line, so this pins the choice
-of normalization (the joint eigenbasis of the Gelfand-Tsetlin subalgebra below, up to the standard
-contravariant-form scaling). Valid for every `l : DominantWeight n`, since patterns carry negative entries;
+of normalization: the README's fixed highest vector and ordered Molev2.7 lowering product;
+sourceGTLowering below gives its actual carrier equation, separate from the contravariant norm. Valid for every `l : DominantWeight n`, since patterns carry negative entries;
 the pattern ↔ tableau reading is the polynomial specialization `λ n ≥ 0`. -/
 def gtBasis (n : ℕ) (l : DominantWeight n) :
     Module.Basis {P : GTPattern n // P.topRow = l.1} ℂ (highestWeightRep n l) := sorry
@@ -307,8 +305,10 @@ def gtGenerator (n : ℕ) (l : DominantWeight n) (k : Fin n) (r : Fin (k.val + 1
 
 /-- **The Gelfand-Tsetlin eigenvalue** of the generator `(k, r)` on the basis vector indexed by pattern `P`,
 an explicit polynomial in the entries of the first `k+1` rows of `P`. -/
-def gtEigenvalue (n : ℕ) (l : DominantWeight n) (k : Fin n) (r : Fin (k.val + 1))
-    (P : {P : GTPattern n // P.topRow = l.1}) : ℂ := sorry
+noncomputable def gtEigenvalue (n : ℕ) (l : DominantWeight n) (k : Fin n) (r : Fin (k.val + 1))
+    (P : {P : GTPattern n // P.topRow = l.1}) : ℂ :=
+  ∑ s ∈ (Finset.univ : Finset (Fin (k.val+1))).powersetCard (r.val+1),
+    ∏ i ∈ s, ((P.1 i.val (k.val+1) : ℂ) - (i.val : ℂ))
 
 /-- **The Gelfand-Tsetlin generators are diagonalized in the GT basis**: each basis vector is a joint
 eigenvector of every generator `(k, r)`, with eigenvalue `gtEigenvalue`. -/
@@ -323,6 +323,171 @@ theorem gtEigenvalue_injective (n : ℕ) (l : DominantWeight n) :
     Function.Injective
       (fun (P : {P : GTPattern n // P.topRow = l.1}) =>
         fun (kr : Σ k : Fin n, Fin (k.val + 1)) => gtEigenvalue n l kr.1 kr.2 P) := sorry
+
+/-! ## Explicit Capelli coefficients and rational classical-group targets
+These are new signature targets, not an implementation or an exhaustive checklist.
+The README fixes the finite-module lowering constructions and all comparisons.
+-/
+
+/-- Differentiated native rational Weyl action of the matrix unit E_ij.
+The required construction uses the actual GL/Lie comparison, not chosen eigenvalues. -/
+noncomputable def matrixUnitAction (n : ℕ) (l : DominantWeight n) (i j : Fin n) :
+    Module.End ℂ (highestWeightRep n l) := by sorry
+
+/-- Column-ordered Capelli determinant in the actual endomorphism algebra.
+List.prod retains the order, since the coefficients need not commute. -/
+noncomputable def capelliActionPolynomial (n : ℕ) (l : DominantWeight n) (k : Fin n) :
+    Polynomial (Module.End ℂ (highestWeightRep n l)) :=
+  ∑ σ : Equiv.Perm (Fin (k.val + 1)),
+    (((σ.sign : ℤ) : ℂ) •
+      (List.ofFn fun c : Fin (k.val + 1) =>
+        Polynomial.C (matrixUnitAction n l
+          ⟨(σ c).val, by omega⟩ ⟨c.val, by omega⟩) +
+        if σ c = c then (Polynomial.X : Polynomial (Module.End ℂ (highestWeightRep n l))) +
+          Polynomial.C ((-(c.val : ℂ)) • (1 : Module.End ℂ (highestWeightRep n l)))
+        else 0).prod)
+
+/-- This coefficient is the actual central action, not unrelated generator data. -/
+noncomputable def capelliGenerator (n : ℕ) (l : DominantWeight n)
+    (k : Fin n) (r : Fin (k.val + 1)) : Module.End ℂ (highestWeightRep n l) :=
+  (capelliActionPolynomial n l k).coeff (k.val - r.val)
+
+theorem capelliGenerator_eq_gtGenerator (n : ℕ) (l : DominantWeight n)
+    (k : Fin n) (r : Fin (k.val + 1)) :
+    capelliGenerator n l k r = gtGenerator n l k r := by sorry
+
+theorem capelliGenerator_commute_matrixUnit (n : ℕ) (l : DominantWeight n)
+    (k : Fin n) (r : Fin (k.val + 1)) (i j : Fin (k.val + 1)) :
+    Commute (capelliGenerator n l k r)
+      (matrixUnitAction n l ⟨i.val, by omega⟩ ⟨j.val, by omega⟩) := by sorry
+
+/-- The chosen source normalization is a concrete vector, including the unit at n=0. -/
+noncomputable def normalizedHighestVector (n : ℕ) (l : DominantWeight n) :
+    highestWeightRep n l := by sorry
+
+theorem normalizedHighestVector_ne_zero (n : ℕ) (l : DominantWeight n) :
+    normalizedHighestVector n l ≠ 0 := by sorry
+
+/-- The actual source-ordered lowering operator on the native carrier, with the
+finite-module pole cancellation and matrix-unit laws specified in the README. -/
+noncomputable def sourceGTLowering (n : ℕ) (l : DominantWeight n)
+    (P : {P : GTPattern n // P.topRow = l.1}) :
+    Module.End ℂ (highestWeightRep n l) := by sorry
+
+theorem gtBasis_eq_sourceLowering (n : ℕ) (l : DominantWeight n)
+    (P : {P : GTPattern n // P.topRow = l.1}) :
+    gtBasis n l P = sourceGTLowering n l P (normalizedHighestVector n l) := by sorry
+
+namespace FormGroups
+
+abbrev Sp (r : ℕ) := Matrix.symplecticGroup (Fin r) ℂ
+abbrev SO (n : ℕ) := Matrix.specialOrthogonalGroup (Fin n) ℂ
+
+/-- A real coordinate condition, compared with the generic coordinate-comodule
+definition in ReductiveGroups. It does not replace the native GL predicates. -/
+def HasRegularMatrixCoefficients {G I W : Type*} [Monoid G] [Fintype I]
+    [AddCommGroup W] [Module ℂ W] (entry : G → Matrix I I ℂ)
+    (ρ : Representation ℂ G W) : Prop :=
+  ∃ (b : Module.Basis (Fin (Module.finrank ℂ W)) ℂ W)
+    (q : Fin (Module.finrank ℂ W) → Fin (Module.finrank ℂ W) →
+      MvPolynomial (I × I) ℂ),
+    ∀ g i j, LinearMap.toMatrix b b (ρ g) i j =
+      MvPolynomial.eval (fun p => entry g p.1 p.2) (q i j)
+
+abbrev SpWeight (r : ℕ) :=
+  {a : Fin r → ℤ // Antitone a ∧ ∀ i, 0 ≤ a i}
+
+/-- SO_(2r+1) group characters: this excludes the spin half-lattice. -/
+abbrev BWeight (r : ℕ) := SpWeight r
+
+/-- SO_(2r+4) group characters, including either sign of the final coordinate. -/
+abbrev DWeight (r : ℕ) :=
+  {a : Fin (r+2) → ℤ // Antitone a ∧
+    |a (Fin.last (r+1))| ≤ a ⟨r, by omega⟩}
+
+noncomputable def spTorus (r : ℕ) : (Fin r → ℂˣ) →* Sp r := by sorry
+
+theorem spTorus_entries (r : ℕ) (t : Fin r → ℂˣ) :
+    ((spTorus r t : Sp r) : Matrix (Fin r ⊕ Fin r) (Fin r ⊕ Fin r) ℂ) =
+      Matrix.fromBlocks (Matrix.diagonal (fun i => (t i : ℂ))) 0 0
+        (Matrix.diagonal (fun i => (((t i)⁻¹ : ℂˣ) : ℂ))) := by sorry
+
+/-- The rational module built as the Cartan component of actual exterior blocks. -/
+noncomputable def spHighestWeightRep (r : ℕ) (a : SpWeight r) : FDRep ℂ (Sp r) := by sorry
+
+theorem spHighestWeightRep_regular (r : ℕ) (a : SpWeight r) :
+    HasRegularMatrixCoefficients
+      (fun g : Sp r => (g : Matrix (Fin r ⊕ Fin r) (Fin r ⊕ Fin r) ℂ))
+      (spHighestWeightRep r a).ρ := by sorry
+
+theorem spHighestWeightRep_simple (r : ℕ) (a : SpWeight r) :
+    Simple (spHighestWeightRep r a) := by sorry
+
+theorem spHighestWeightRep_exhaustive (r : ℕ) (W : FDRep ℂ (Sp r)) [Simple W]
+    (hW : HasRegularMatrixCoefficients
+      (fun g : Sp r => (g : Matrix (Fin r ⊕ Fin r) (Fin r ⊕ Fin r) ℂ)) W.ρ) :
+    ∃ a : SpWeight r, Nonempty (W ≅ spHighestWeightRep r a) := by sorry
+
+/-- Odd and even SO use their actual integer group lattices; SO0/1 and SO2
+have the separate trivial/torus models described in the definitive README. -/
+noncomputable def soOddHighestWeightRep (r : ℕ) (a : BWeight (r+1)) :
+    FDRep ℂ (SO (2*(r+1)+1)) := by sorry
+
+noncomputable def soEvenHighestWeightRep (r : ℕ) (a : DWeight r) :
+    FDRep ℂ (SO (2*(r+2))) := by sorry
+
+noncomputable def soTwoCharacter (m : ℤ) : FDRep ℂ (SO 2) := by sorry
+
+theorem soOddHighestWeightRep_simple (r : ℕ) (a : BWeight (r+1)) :
+    Simple (soOddHighestWeightRep r a) := by sorry
+
+theorem soEvenHighestWeightRep_simple (r : ℕ) (a : DWeight r) :
+    Simple (soEvenHighestWeightRep r a) := by sorry
+
+/-- The exact torus highest-weight equation is on a nonzero vector. -/
+theorem spHighestWeightRep_highest_torus (r : ℕ) (a : SpWeight r) :
+    ∃ v : spHighestWeightRep r a, v ≠ 0 ∧
+      ∀ t, (spHighestWeightRep r a).ρ (spTorus r t) v =
+        (((∏ i, t i ^ a.1 i : ℂˣ) : ℂ)) • v := by sorry
+
+/-- Fix the first e/f plane and act on the last r planes. -/
+noncomputable def spLastPlaneInclusion (r : ℕ) : Sp r →* Sp (r+1) := by sorry
+
+/-- Actual multiplicity rows, not a type whose cardinality is merely asserted. -/
+def SpIntermediate (r : ℕ) (a : SpWeight (r+1)) (c : SpWeight r) :=
+  {b : Fin (r+1) → ℤ //
+    (∀ i, 0 ≤ b i ∧ b i ≤ a.1 i) ∧
+    (∀ i : Fin r, a.1 i.succ ≤ b i.castSucc ∧
+      b i.succ ≤ c.1 i ∧ c.1 i ≤ b i.castSucc)}
+
+noncomputable instance (r : ℕ) (a : SpWeight (r+1)) (c : SpWeight r) :
+    Fintype (SpIntermediate r a c) := by sorry
+
+abbrev SpBranchingHom (r : ℕ) (a : SpWeight (r+1)) (c : SpWeight r) :=
+  Representation.IntertwiningMap (spHighestWeightRep r c).ρ
+    ((spHighestWeightRep (r+1) a).ρ.comp (spLastPlaneInclusion r))
+
+/-- The basis vectors are the actual group maps obtained from Molev's ordered
+highest vectors through the earlier rational group/Lie Hom comparison. -/
+noncomputable def spMultiplicityBasis (r : ℕ) (a : SpWeight (r+1)) (c : SpWeight r) :
+    Module.Basis (SpIntermediate r a c) ℂ (SpBranchingHom r a c) := by sorry
+
+theorem spMultiplicity_finrank (r : ℕ) (a : SpWeight (r+1)) (c : SpWeight r) :
+    Module.finrank ℂ (SpBranchingHom r a c) =
+      Fintype.card (SpIntermediate r a c) := by sorry
+
+/-- Actual evaluation on an intertwiner tensor a vector. Its image spans the
+c-isotypic summand; the direct sum over the finite admitted c is the full module. -/
+noncomputable def spMultiplicityEvaluation (r : ℕ) (a : SpWeight (r+1)) (c : SpWeight r) :
+    SpBranchingHom r a c ⊗[ℂ] (spHighestWeightRep r c) →ₗ[ℂ]
+      (spHighestWeightRep (r+1) a) := by sorry
+
+theorem spMultiplicityEvaluation_tmul (r : ℕ) (a : SpWeight (r+1)) (c : SpWeight r)
+    (f : SpBranchingHom r a c) (v : spHighestWeightRep r c) :
+    spMultiplicityEvaluation r a c (f ⊗ₜ[ℂ] v) = f v := by sorry
+
+end FormGroups
+
 
 /-! ## Layer 6A: concrete diagonal overgroups and restriction through them
 These are full-math theorem targets. Defined maps use native group, Goursat,
