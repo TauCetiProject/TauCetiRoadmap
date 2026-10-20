@@ -20,15 +20,16 @@ namespace TauCetiRoadmap.SerreWeightAndLevelOptimisation
 
 /-! ## Layer 1: Level-changing algebra and cohomology -/
 
-/-- The finite-torsion milestone of README §1.2: complementary rational
-localizations give a finitely generated torsion gluing quotient over a DVR. -/
+/-- The torsion milestone of README §1.2: complementary rational localizations
+give a torsion gluing quotient over a DVR. Finite generation is supplied by
+Mathlib’s `Module.Finite.quotient` instance. -/
 theorem levelChange_finite_torsion
     (O H : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     [AddCommGroup H] [Module O H] [Module.Free O H] [Module.Finite O H]
     (P Q : Submodule O H)
     (hPQ : IsCompl (P.localized (nonZeroDivisors O))
       (Q.localized (nonZeroDivisors O))) :
-    Module.Finite O (H ⧸ (P ⊔ Q)) ∧ Module.IsTorsion O (H ⧸ (P ⊔ Q)) := by
+    Module.IsTorsion O (H ⧸ (P ⊔ Q)) := by
   sorry
 
 /-- The index comparison of README §1.2 identifies the quotient of two
