@@ -121,9 +121,30 @@ theorem chiComponent_trivial_eq_bot (δ : Δ)
 
 variable [Fintype Δ]
 
+/-- Every vector in the regular character component has a unique scalar coordinate
+on the character sum of `[1]` (§0.18). -/
+theorem chiComponent_regular (χ : Δ →* Oˣ) (hΔ : IsUnit (Fintype.card Δ : O))
+    (x : MonoidAlgebra O Δ) :
+    x ∈ chiComponent (Representation.leftRegular O Δ) χ ↔
+      ∃! a : O, x = a • ∑ δ : Δ, MonoidAlgebra.single δ (((χ δ)⁻¹ : Oˣ) : O) := sorry
+
+/-- At group order `p`, augmentation is onto over `𝔽_p` but its restriction to
+the norm line of invariants is zero and fails to be onto (§0.18). -/
+theorem chiComponent_not_split (p : ℕ) [Fact p.Prime] (hΔ : Fintype.card Δ = p) :
+    let ε : MonoidAlgebra (ZMod p) Δ → ZMod p := fun x => ∑ δ : Δ, x.coeff δ
+    chiComponent (Representation.leftRegular (ZMod p) Δ) 1 =
+        Submodule.span (ZMod p) {∑ δ : Δ, MonoidAlgebra.single δ (1 : ZMod p)} ∧
+      Function.Surjective ε ∧
+      (∀ x : chiComponent (Representation.leftRegular (ZMod p) Δ) 1, ε x.val = 0) ∧
+      ¬Function.Surjective
+        (fun x : chiComponent (Representation.leftRegular (ZMod p) Δ) 1 => ε x.val) := sorry
+
 /-- The twisted sum `∑_δ χ(δ)⁻¹ δ x`; for `M = Lˣ ⊗ O` written additively this
 is `∏_δ (δ x)^{χ⁻¹(δ)}`. -/
 def chiSum (x : M) : M := ∑ δ : Δ, ((χ δ)⁻¹ : Oˣ) • ρ δ x
+
+/-- For a trivial group the unnormalised character sum is the identity (§0.19). -/
+theorem chiSum_trivial_group [Subsingleton Δ] (x : M) : chiSum ρ χ x = x := sorry
 
 /-- Twisted sums lie in the `χ`-component. -/
 theorem chiSum_mem (x : M) : chiSum ρ χ x ∈ chiComponent ρ χ := sorry
@@ -305,9 +326,11 @@ and the Tate-twisted Selmer consequences.
 
 The further API of §§0.18–0.19 is specified in the README:
 chiComponent_map, chiComponent_map_eq, chiComponent_ext.
-Its prose checks are chiComponent_one, chiComponent_trivial_rep,
-chiComponent_regular, chiComponent_not_split, chiComponent_torsion_counterexample,
-chiSum_trivial, chiSum_trivial_group and chiSum_sign_regular. -/
+Its further checks are chiComponent_one, chiComponent_trivial_rep,
+chiComponent_torsion_counterexample, chiSum_trivial and chiSum_sign_regular.
+The regular character line, modular failure of exactness and trivial-group
+sum are the named targets chiComponent_regular, chiComponent_not_split and
+chiSum_trivial_group above. -/
 
 /- Definitions specified in the README over the arithmetic supplier carriers:
 p-extended cyclotomic numbers and their real norms; cyclotomic Kummer classes;
