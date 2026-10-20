@@ -9,6 +9,8 @@ exhaustive. It states the finite-torsion lattice comparison of §1.2, the matrix
 factorization of §2.5 and the arithmetic reduced-level properties of §6.1.
 Integral modular cohomology, residual modularity, Katz eigensystems and
 quaternionic automorphic modules are specified in the README.
+The arithmetic Eisenstein specialization and integral pairing comparison of
+§1.3 use ordinary full-form and Hecke-algebra carriers specified in the README.
 The residual support and Jacobian attachment bridges of §1.4 use the shared
 `ArisesFrom` and Hecke eigen-ideal interfaces. The semistable torsion data and
 Deuring–Eichler comparison of §2.6, and the inertia and ordinary finite-flat
