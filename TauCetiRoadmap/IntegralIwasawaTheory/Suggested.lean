@@ -35,6 +35,11 @@ example : (layerPolynomial ℤ 2 1).coeff 1 = 2 := by
   rw [h]
   simp
 
+/-- Reduction at the first dyadic layer removes the linear term. -/
+theorem layerPolynomial_mod_two :
+    layerPolynomial (ZMod 2) 2 1 = Polynomial.X ^ 2 := by
+  sorry
+
 /-- The norm operator from layer m to layer m+d. No division by ω_m is used. -/
 def transitionPolynomial (R : Type*) [Ring R] (p m d : ℕ) : Polynomial R :=
   ∑ i ∈ Finset.range (p ^ d), (1 + Polynomial.X) ^ (i * p ^ m)
@@ -78,9 +83,22 @@ the torsion-free layer index is absorbed into the eventual integer constant. -/
 noncomputable def cyclotomicClassVal (p m n : ℕ) : ℕ :=
   padicValNat p (NumberField.classNumber (CyclotomicField (m * p ^ (n + 1)) ℚ))
 
-/-- The degenerate valuation base 1 is excluded by primality in the headlines. -/
-example (m n : ℕ) : cyclotomicClassVal 1 m n = 0 := by
-  simp [cyclotomicClassVal]
+/-- The conductor-two field is rational and has trivial dyadic class group. -/
+theorem cyclotomicClassVal_first_dyadic : cyclotomicClassVal 2 1 0 = 0 := by
+  sorry
+
+/-- The irregular pair (37,32) gives a nontrivial 37-primary class group. -/
+theorem cyclotomicClassVal_irregular37_pos : 0 < cyclotomicClassVal 37 1 0 := by
+  sorry
+
+/-- Multiplying the conductor parameter by p shifts the exponent by one. -/
+theorem cyclotomicClassVal_conductor_shift (p m n : ℕ) :
+    cyclotomicClassVal p (m * p) n = cyclotomicClassVal p m (n + 1) := by
+  have h : (m * p) * p ^ (n + 1) = m * p ^ ((n + 1) + 1) := by
+    rw [pow_succ]
+    ring
+  exact congrArg (fun N : ℕ =>
+    padicValNat p (NumberField.classNumber (CyclotomicField N ℚ))) h
 
 /-- Iwasawa growth for a fixed positive cyclotomic conductor. The general
 number-field Z_p-extension theorem is stated in Layer 3 of the README. -/
@@ -152,7 +170,7 @@ example {K : Type*} [Field K] (u : Kˣ) :
 example {K : Type*} [Field K] (u : Kˣ) (T : K) : tateCoordinate u 0 T = T := by
   simp [tateCoordinate]
 
-/-- A module twist by r changes its annihilating series by exponent -r. -/
+/-- Coordinate exponents add under composition. -/
 theorem tateCoordinate_comp {K : Type*} [Field K] (u : Kˣ) (a b : ℤ) (T : K) :
     tateCoordinate u a (tateCoordinate u b T) = tateCoordinate u (a + b) T := by
   sorry
@@ -217,9 +235,18 @@ def dyadicCorrection (d : ℕ) : Ideal (PowerSeries ℤ_[2]) :=
 example : dyadicCorrection 0 = ⊤ := by
   simp [dyadicCorrection]
 
-/-- Degree one is a vertical factor 2, not a horizontal factor T. -/
-example : dyadicCorrection 1 = Ideal.span {PowerSeries.C (2 : ℤ_[2])} := by
-  simp [dyadicCorrection]
+/-- The degree-two vertical correction excludes 2, as reduction modulo four detects. -/
+example : PowerSeries.C (2 : ℤ_[2]) ∉ dyadicCorrection 2 := by
+  intro h
+  rw [dyadicCorrection, Ideal.mem_span_singleton] at h
+  obtain ⟨f, hf⟩ := h
+  have hmod := congrArg
+    (fun g : PowerSeries ℤ_[2] =>
+      (PadicInt.toZModPow (p := 2) 2 : ℤ_[2] →+* ZMod 4)
+        (PowerSeries.constantCoeff g)) hf
+  norm_num [map_mul, map_pow, map_ofNat] at hmod
+  have hfour : (4 : ZMod 4) = 0 := by decide
+  exact (by decide : (2 : ZMod 4) ≠ 0) (by simpa only [hfour, zero_mul] using hmod)
 
 
 /-! ## Layer 11: integral passage to the limit -/
@@ -243,6 +270,10 @@ example : finiteLayerIdeal ℤ 2 0 4 = ⊤ := by
   · change (1 : PowerSeries ℤ) ∈ Ideal.span _
     exact Ideal.subset_span (by simp)
   · exact isUnit_one
+
+/-- The first joint quotient retains the nonzero dyadic residue field. -/
+theorem finiteLayerIdeal_first_proper : finiteLayerIdeal ℤ_[2] 2 1 0 ≠ ⊤ := by
+  sorry
 
 /-- Closed-ideal continuity in the finite free order used by the arithmetic proof.
 This is stronger than a characterwise identity in its normalization. -/
