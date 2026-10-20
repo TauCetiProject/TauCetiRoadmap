@@ -157,30 +157,46 @@ has there, with subdirectories `Roth/`, `Parallelepiped/`, `Subspace/`, `Transce
   `NumberField.exists_ne_zero_int_vec_abs_le_of_house_le`. `TauCeti.irrationalityExponent` with
   its API, `BadlyApproximable`, and `Rat.AbsoluteValue.IsStandard` with
   `AbsoluteValue.IsEquiv.eq_of_isStandard` (`TauCeti/Analysis/AbsoluteValue/Equivalence.lean`).
-- **DAT**, by section. §0.1 `primitiveMinpoly`; §0.5 `linearFormExponent`, `mahlerExponent`,
-  `algebraicApproximationExponent` with `natCast_le_linearFormExponent` (the box principle) and
-  `algebraicApproximationExponent_le_mahlerExponent`; §1.2 the local bounds on the coefficients of
-  a Hasse derivative; §1.3 `logHeight_mul_of_disjoint_vars`, `matrixMulHeight` with
-  `matrixMulHeight_mul_le`; §1.4 the height of a determinant of Hasse derivatives and the
-  separation of variables; §1.5 **Roth's lemma** `roth_lemma`, over a number field with relative
-  heights, at the constants `2 n σ ^ (1 / 2 ^ (n − 1))` and `4 n r₁ [K : ℚ]`; §1.7
-  `exists_nonzero_hasseDeriv_of_blockLinear` and the block-degree calculus; §2.1 `InGeneralPosition`
-  with `inGeneralPosition_iff_det_ne_zero`, `inGeneralPosition_coords_add_sum` and
-  `InGeneralPosition.map`; §2.3 `IsNondegenerateSolution` and
-  `IsNondegenerateHomogeneousSolution`; §2.5 `plucker`, `plucker_cauchyBinet`,
-  `relativePluckerPoint`, `relativeSubspaceHeight`, `relativeSubspaceHeight_dualAnnihilator`,
-  `relativeSubspaceArakelovHeight`, `subspaceHeight`, `subspaceHeight_orthogonal`,
-  `subspaceHeight_le_prod`, `finite_subspaceHeight_le`, `arakelovMulHeight` and
-  `orthogonalBilin_eq_dualAnnihilator_comap`; §2.6 the grid lemma `exists_rectangular_int_grid_jet`
-  and the block form `exists_nonzero_block_grid_jet_of_restriction`; §2.8
-  `exists_linearIndependent_comp_finrank_mul` (the extraction lemma),
-  `exists_ne_zero_height2_le`, `siegelKernelBasis`, `siegelRelativeKernelBasis` and
-  `siegelCoefficientConditions`.
+- **DAT**, by section, under Tau Ceti's names where it is in Tau Ceti. §0.1
+  `TauCeti.primitiveMinpoly` (`TauCeti/FieldTheory/Minpoly/Primitive.lean`). §0.5
+  `TauCeti.linearFormExponent`, `mahlerExponent` and `algebraicApproximationExponent`, with the box
+  principle `card_le_linearFormExponent`, its form `natCast_le_mahlerExponent` (`w_n ≥ n` unless
+  `ξ` is algebraic of degree at most `n`), and `algebraicApproximationExponent_le_mahlerExponent`
+  for every `n` and every real `ξ` (`TauCeti/NumberTheory/DiophantineApproximation/`). §1.2 the
+  coefficient bound `MvPolynomial.abv_coeff_hasseDeriv_le`, and its nonarchimedean form without
+  the factor `2 ^ |m + d|`. §1.3 `MvPolynomial.logHeight` with `logHeight_mul_of_disjoint_vars`.
+  §1.4 the height of a determinant of Hasse derivatives, `MvPolynomial.logHeight_det_hasseDeriv_le`
+  (`TauCeti/NumberTheory/Height/MvPolynomial.lean`), and the separation of variables,
+  `MvPolynomial.exists_sum_mul_linearIndependent` and `det_hasseDeriv_sum_mul_toMvPolynomial`
+  (`TauCeti/RingTheory/MvPolynomial/`). §1.5 **Roth's lemma**,
+  `TauCeti.weightedIndex_le_of_logHeight_le`, over a number field with relative heights, at the
+  constants `2 n σ ^ (1 / 2 ^ (n − 1))` and `4 n r₁ [K : ℚ]`
+  (`TauCeti/NumberTheory/DiophantineApproximation/Roth/IndexEstimate.lean`). §1.7
+  `MvPolynomial.exists_eval_hasseDeriv_ne_zero_of_blockLinearForm` with
+  `hasseDeriv_aeval_blockLinearForm_hasseDeriv` and `degreeOf_aeval_blockLinearForm_le`
+  (`TauCeti/RingTheory/MvPolynomial/HasseDeriv/ChainRule.lean`), and the block-homogeneous
+  calculus: residual block degrees, a zero block, and blocks of degree `0`. §2.1
+  `TauCeti.InGeneralPosition` with `inGeneralPosition_iff_det_ne_zero`,
+  `inGeneralPosition_coords_add_sum` and `InGeneralPosition.map`
+  (`TauCeti/LinearAlgebra/LinearIndependent/GeneralPosition.lean`). §2.3 `IsNondegenerateSolution`
+  and `IsNondegenerateHomogeneousSolution`. §2.5 `TauCeti.plucker` with Cauchy–Binet,
+  `det_mul_transpose_eq_sum_plucker_mul` (`TauCeti/LinearAlgebra/ExteriorPower/Plucker.lean`);
+  `Submodule.relativePluckerPoint` (`TauCeti/LinearAlgebra/Projectivization/Plucker.lean`);
+  `Submodule.relativeSubspaceHeight` with `relativeSubspaceHeight_euclideanDual`,
+  `relativeSubspaceArakelovHeight`, `subspaceHeight` with `subspaceHeight_euclideanDual`,
+  `finite_subspaceHeight_le`, `height2` and `arakelovMulHeight` (`TauCeti/NumberTheory/Height/`);
+  and `orthogonalBilin_eq_dualAnnihilator_comap`, `relativeSubspaceHeight_dualAnnihilator` and
+  `subspaceHeight_le_prod`. §2.6 the grid lemma `exists_rectangular_int_grid_jet` and the block
+  form `exists_nonzero_block_grid_jet_of_restriction`. §2.8 the extraction lemma
+  `TauCeti.exists_linearIndependent_comp_finrank_mul`
+  (`TauCeti/LinearAlgebra/LinearIndependent/Extraction.lean`), `exists_ne_zero_height2_le`,
+  `siegelKernelBasis`, `siegelRelativeKernelBasis` and `siegelCoefficientConditions`.
 - **HAU**, by milestone. 0.1 and 0.2, the affine height and the value bounds (in Tau Ceti); 1.1
   Northcott on projective space (in Tau Ceti); 1.2 the `Northcott` instances for DAT's three
-  subspace heights; 1.3 Kronecker's theorem (in Tau Ceti); 2.1 the basis from the minima; 3.1 the
-  unit height identities; 4.1 the height of an `S`-integer (in Tau Ceti); 4.2 the `S`-unit theorem
-  with a fundamental system (in Tau Ceti); 4.3 the `S`-logarithmic lattice (in Tau Ceti).
+  subspace heights (in Tau Ceti); 1.3 Kronecker's theorem (in Tau Ceti); 2.1 the basis from the
+  minima; 3.1 the unit height identities; 4.1 the height of an `S`-integer (in Tau Ceti); 4.2 the
+  `S`-unit theorem with a fundamental system (in Tau Ceti); 4.3 the `S`-logarithmic lattice (in Tau
+  Ceti).
 - **GlobalNumberFields** Layer 0, through the Tau Ceti declarations named above: the place
   carrier `Place K`, the normalized absolute values, the product formula and its functoriality
   under a finite extension with the local degrees in the exponents.
@@ -198,7 +214,7 @@ lands the milestone discharges the instance in the same pull request.
 
 | DAT target | Milestone here |
 | --- | --- |
-| §1.6 `roth`, Roth's theorem for a real algebraic `α` and rational `ξ`; `not_liouvilleWith_of_isAlgebraic` | 3.3, `K = ℚ`, `S∞ = {∞}`, `S₀ = ∅` |
+| §1.6 Roth's theorem for a real algebraic `α` and rational `ξ`, and `¬ LiouvilleWith p α` for `p > 2`; in Tau Ceti as `IsAlgebraic.finite_setOfPred_abs_sub_le_mulHeight₁_rpow_neg` and `IsAlgebraic.not_liouvilleWith` | 3.3, `K = ℚ`, `S∞ = {∞}`, `S₀ = ∅`; the specialization is the acceptance test, and there is nothing to discharge |
 | §1.6 `thue_equation_finite`, Thue's equation over `ℤ` | 8.4 at `K = ℚ`, `S = ∅` |
 | §2.1 `subspace_theorem`, `subspace_theorem_general_position` | 6.3 and 6.5 at `K = ℚ`, `S∞ = {∞}`, `S₀ = ∅`, integer points |
 | §2.1 `padic_subspace_theorem`, `padic_subspace_theorem_general_position` | 6.3 and 6.5 at `K = ℚ` with `S₀` the chosen primes |
@@ -471,11 +487,7 @@ inequality therefore needs the nearest-root estimate `|ξ − α| ≤ c |P ξ| H
 `Polynomial.discr`, pairing the roots into a square, is part of this milestone. The second is
 Wirsing's generalized-resultant construction, a basis selected among the monomial multiples of a
 family of polynomials, as in Poëls's and Dixit's treatments. In the range `n ≤ w ≤ 2n − 3` the
-first needs the second. Both are false at `n = 0`, where both exponents are `0`. Also the
-comparison `algebraicApproximationExponent n ξ ≤ mahlerExponent n ξ` **for every real `ξ`**,
-strengthening DAT §0.5's hypothesis: the only Koksma approximants whose minimal polynomial
-vanishes at `ξ` are the roots of one primitive irreducible polynomial up to sign (1.1's rigidity),
-so they share one height and the height gap discards them.
+first needs the second. Both are false at `n = 0`, where both exponents are `0`.
 
 **1.3 Mahler's and Koksma's classifications** (Bugeaud, Ch. 3; Mahler 1932; Koksma 1939). With
 `w(ξ) = limsup_n mahlerExponent n ξ / n` in `ℝ≥0∞`: `Real.IsANumber` (`w = 0`), `IsSNumber`
@@ -607,7 +619,8 @@ reduction. Route, Steps 0–V of 6.4.2–6.4.10: discard the finitely many `β` 
 `log Λ_v(β) / log Λ(β)` (3.1) with `N` chosen so `|S| / N` is small; take `m` with
 `[F : K] |S| exp (−6 m ε²) < 1/2` and an `(L, M)`-independent `m`-tuple in one class; build `P` by
 2.2 at the target points `(α 0 v, …, α m v)` with `d j = ⌈D / h(β j)⌉` (Steps I, II,
-`NumberField.exists_auxiliary_deriv`); find by DAT's `roth_lemma` a derivative `Q` of `P` of small
+`NumberField.exists_auxiliary_deriv`); find by Roth's lemma
+(`TauCeti.weightedIndex_le_of_logHeight_le`) a derivative `Q` of `P` of small
 weighted order with `Q(β) ≠ 0`; bound `Q(β)` above at each place of `S` by the Taylor expansion at
 the target point (`eval_add_eq_finsum_hasseDeriv`, with the size of a target bounded by its height
 through 0.1), below by the product formula, and compare
@@ -653,10 +666,12 @@ the infinite place of `ℚ` and one at each prime of a finite set. *`p`-adic* (6
 `Rat.finite_setOf_apply_intCast_sub_le`: for `α` in a number field `F`, `w` over
 `Rat.AbsoluteValue.padic p` and `ε > 0`, finitely many `n ∈ ℤ` with `w (α − n) ≤ |n| ^ (−1 − ε)`;
 the exponent `1 + ε` comes from the target `∞` at the infinite place, where an integer has local
-factor exactly `H(n)⁻¹`. DAT §1.6's `roth` and §2.3's `p`-adic Roth are the instances; the
-roadmap asks for both to be discharged from this milestone. Rejection tests: Roth's theorem is
-false at `κ = 2` (Dirichlet at `√2 − 1`, where every approximation in Mathlib's infinite Dirichlet
-set has naive height its denominator), false at `κ = 0`, and the `p`-adic form is false at `ε = 0`
+factor exactly `H(n)⁻¹`. DAT §1.6's Roth theorem
+(`IsAlgebraic.finite_setOfPred_abs_sub_le_mulHeight₁_rpow_neg`) and §2.3's `p`-adic Roth are the
+instances: the milestone specializes to the first and discharges the second. Rejection tests:
+Roth's theorem is false at `κ = 2` (Dirichlet at `√2 − 1`, where every approximation in Mathlib's
+infinite Dirichlet set has naive height its denominator), false at `κ = 0`, and the `p`-adic form
+is false at `ε = 0`
 (the powers of `p`).
 
 **3.4 Roth's theorem on the projective line** (Bombieri–Gubler, Example 7.2.7). Define the
@@ -929,7 +944,8 @@ over `ℚ`.
 §2.5's `plucker`, so that 4.2, 4.3 and 5.5 apply to domains in `⋀^p` verbatim. For `1 ≤ p < card ι`:
 - *Wedge forms* `exteriorPower.wedgeForms L p`, indexed by the `p`-subsets of the index set of
   the forms, with **Laplace's identity** `wedgeForms L p I (plucker y J) = det (L (I a) (y (J b)))`
-  (`exteriorPower.wedgeForm_plucker`, from DAT's `plucker_cauchyBinet`), linearly independent
+  (`exteriorPower.wedgeForm_plucker`, from Cauchy–Binet,
+  `TauCeti.det_mul_transpose_eq_sum_plucker_mul`), linearly independent
   when the `L i` are (`exteriorPower.linearIndependent_wedgeForms`), as are the Plücker vectors
   of the `p`-subsets of a basis (`exteriorPower.linearIndependent_plucker_comp`). The determinant
   of the wedge system (Sylvester–Franke) is not needed: the constants of 4.1–4.3 see the forms
@@ -1081,8 +1097,8 @@ first.
 - *The generalized Roth lemma* (`MvPolynomial.formIndex_le_of_degree_ratio`): if `P` is nonzero
   and multihomogeneous of multidegree at most `d`, `0 < σ ≤ 1/2`, `d (h + 1) ≤ σ · d h`, and
   `(card ι − 1) σ⁻¹ (logHeight P + 4 m d 0 [K : ℚ]) ≤ d h · logHeight (M h)` for all `h`, then
-  `formIndex d M P ≤ 2 m σ ^ ((1/2) ^ (m − 1))`: specialize, dehomogenize, and apply DAT §1.5's
-  `roth_lemma`.
+  `formIndex d M P ≤ 2 m σ ^ ((1/2) ^ (m − 1))`: specialize, dehomogenize, and apply Roth's lemma,
+  `TauCeti.weightedIndex_le_of_logHeight_le`.
 - *From a small index to a nonvanishing derivative on a product of hyperplanes*
   (`MvPolynomial.exists_linSubst_hasseDeriv_ne_zero_of_formIndex_le`): if `formIndex d M P ≤ t`
   then some Hasse derivative of `P` of weighted order at most `t`, in the original coordinates,
@@ -1380,13 +1396,14 @@ Schmidt, *Diophantine Approximation*, Ch. VI; Bombieri–Gubler, Remark 7.3.4).
 - *The exponents* (`Real.mahlerExponent_eq_of_isAlgebraic`,
   `Real.algebraicApproximationExponent_eq_of_isAlgebraic`): for real algebraic `α` of degree `D`
   and every `n`, `mahlerExponent n α = algebraicApproximationExponent n α = min n (D − 1)`. Route:
-  `mahlerExponent n α ≤ D − 1` is 1.2; the lower bounds are DAT's box principle
-  `natCast_le_linearFormExponent`, at `n` when `n < D` and at `D − 1` then monotonicity when
+  `mahlerExponent n α ≤ D − 1` is 1.2; the lower bounds are the box principle
+  `TauCeti.natCast_le_mahlerExponent`, at `n` when `n < D` and at `D − 1` then monotonicity when
   `n ≥ D`; the missing bound `mahlerExponent n α ≤ n` (`Real.mahlerExponent_le_natCast_of_isAlgebraic`)
   is DAT's `finite_small_linear_form` at `1, α, …, α ^ n`, the polynomials vanishing at `α` being
-  excluded by the definition of the exponent; and Wirsing's third inequality of 1.2 with DAT's
-  `algebraicApproximationExponent_le_mahlerExponent` carry the value to Koksma's exponent. At
-  `n = 0` all three sides vanish, so no `1 ≤ n` is assumed. Acceptance test: at `n = 1` and `α`
+  excluded by the definition of the exponent; and Wirsing's third inequality of 1.2 with
+  `TauCeti.algebraicApproximationExponent_le_mahlerExponent` carry the value to Koksma's
+  exponent. At `n = 0` all three sides vanish, so no `1 ≤ n` is assumed. Acceptance test: at
+  `n = 1` and `α`
   irrational, `D ≥ 2`, this is `irrationalityExponent α = 2` through DAT's
   `algebraicApproximationExponent_one_add`, a proof of Roth's theorem through Layer 6 and not
   Layer 3.

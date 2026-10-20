@@ -184,11 +184,6 @@ theorem mahlerExponent_add_one_le_two_mul {n : ℕ} (hn : 1 ≤ n) {ξ : ℝ}
     mahlerExponent n ξ + 1 ≤ 2 * algebraicApproximationExponent n ξ :=
   sorry
 
-/-- **Layer 1.2.** `w_n^* ≤ w_n` for **every** real `ξ`, strengthening DAT's hypothesis. -/
-theorem algebraicApproximationExponent_le_mahlerExponent' (n : ℕ) (ξ : ℝ) :
-    algebraicApproximationExponent n ξ ≤ mahlerExponent n ξ :=
-  sorry
-
 /-- **Layer 1.3.** Mahler's invariant `w(ξ) = limsup w_n(ξ) / n`. -/
 def mahlerInvariant (ξ : ℝ) : ℝ≥0∞ :=
   limsup (fun n : ℕ ↦ mahlerExponent n ξ / n) atTop
