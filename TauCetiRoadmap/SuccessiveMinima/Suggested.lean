@@ -12,15 +12,12 @@ Design choices made explicit here:
 
 * lattices are Mathlib's `IsZLattice` submodules and covolumes are `ZLattice.covolume`, taken
   with an explicit additive Haar measure in Minkowski's second theorem;
-* `MeasureTheory.successiveMin` is the definition of Mathlib PR #35812, on arbitrary sets with
-  natural indices and `ℝ≥0` values;
+* `MeasureTheory.successiveMin` is the definition of Mathlib's successive-minima proposal, on
+  arbitrary sets with natural indices and `ℝ≥0` values;
 * `successiveMin` is its real-valued adapter on a `ConvexBody`, indexed by
   `Fin (finrank ℝ E)`, with `i` meaning the `(i+1)`-st minimum;
 * central symmetry of the body is a separate hypothesis, assumed only where it is needed;
 * Gram matrices are Mathlib's `Matrix.gram`, conjugate-linear in the first argument.
-
-Tau Ceti's `ZLattice.exists_basis_triangular`, which 0.2.1 consumes, is newer than the Tau Ceti
-pin, so this file states 0.2.1 against Mathlib only.
 -/
 
 noncomputable section
@@ -28,7 +25,8 @@ open scoped BigOperators Pointwise NNReal
 open MeasureTheory Module
 
 /-- The nonnegative dilation threshold at which the real span has dimension greater than `i`, for
-an arbitrary set and natural index (1.1). This is the definition of Mathlib PR #35812. -/
+an arbitrary set and natural index (1.1). This is the definition of Mathlib's successive-minima
+proposal. -/
 noncomputable def MeasureTheory.successiveMin {E : Type*} [NormedAddCommGroup E]
     [NormedSpace ℝ E] (L : Submodule ℤ E) (s : Set E) (i : ℕ) : ℝ≥0 :=
   sInf {r : ℝ≥0 | i < Set.finrank ℝ (r • s ∩ (L : Set E))}
@@ -224,6 +222,48 @@ theorem exists_integral_minimum_flag :
         x ∈ Submodule.span ℝ {y : E | ∃ j, j < i ∧ (b j : E) = y} := by sorry
 
 end SuccessiveMinima
+
+section MinimaChecks
+
+/-- For `L = ℤ ⊂ ℝ` and `K = [−2, 2]`, `λ_0 = 1/2` (Checks of 1.1). -/
+theorem successiveMin_int_Icc (K : ConvexBody ℝ) (hK : (K : Set ℝ) = Set.Icc (-2) 2) :
+    successiveMin (Submodule.span ℤ {(1 : ℝ)}) K ⟨0, by simp⟩ = 1 / 2 := by sorry
+
+/-- For `ℤ²` and `K₂₃ = [−1/2, 1/2] × [−1/3, 1/3]`, `(λ_0, λ_1) = (2, 3)` (Checks of 1.1). -/
+theorem successiveMin_box_two_three (K : ConvexBody (Fin 2 → ℝ))
+    (hK : (K : Set (Fin 2 → ℝ)) = {x | 2 * |x 0| ≤ 1 ∧ 3 * |x 1| ≤ 1}) :
+    successiveMin (Submodule.span ℤ (Set.range (Pi.basisFun ℝ (Fin 2)))) K ⟨0, by simp⟩ = 2 ∧
+      successiveMin (Submodule.span ℤ (Set.range (Pi.basisFun ℝ (Fin 2)))) K ⟨1, by simp⟩ = 3 := by
+  sorry
+
+/-- For `ℤ²` and `K₂₃`, the natural-index values at `0, 1, 2` are `2, 3, 0`; index `2` is not a
+third positive minimum (Checks of 1.1a). -/
+theorem successiveMinNat_box_two_three (K : ConvexBody (Fin 2 → ℝ))
+    (hK : (K : Set (Fin 2 → ℝ)) = {x | 2 * |x 0| ≤ 1 ∧ 3 * |x 1| ≤ 1}) :
+    successiveMinNat (Submodule.span ℤ (Set.range (Pi.basisFun ℝ (Fin 2)))) K 0 = 2 ∧
+      successiveMinNat (Submodule.span ℤ (Set.range (Pi.basisFun ℝ (Fin 2)))) K 1 = 3 ∧
+      successiveMinNat (Submodule.span ℤ (Set.range (Pi.basisFun ℝ (Fin 2)))) K 2 = 0 := by
+  obtain ⟨h0, h1⟩ := successiveMin_box_two_three K hK
+  refine ⟨?_, ?_, successiveMinNat_of_le _ _ _ (by simp)⟩
+  · rw [successiveMinNat_of_lt _ _ _ (by simp)]
+    exact h0
+  · rw [successiveMinNat_of_lt _ _ _ (by simp)]
+    exact h1
+
+/-- For the standard lattice in `ℝ⁶` and the box with weights `1, …, 6`, the natural index
+`2 = 2 · 1` denotes the third minimum, `3` (Checks of 1.1a). -/
+theorem successiveMinNat_box_six (K : ConvexBody (Fin 6 → ℝ))
+    (hK : (K : Set (Fin 6 → ℝ)) = {x | ∀ j : Fin 6, ((j : ℕ) + 1 : ℝ) * |x j| ≤ 1}) :
+    successiveMinNat (Submodule.span ℤ (Set.range (Pi.basisFun ℝ (Fin 6)))) K (2 * 1) = 3 := by
+  sorry
+
+/-- In `ℝ⁶` the natural index `6 = 2 · 3` is the dimension, where the value is zero for every
+lattice and body (Checks of 1.1a). -/
+example (L : Submodule ℤ (Fin 6 → ℝ)) (K : ConvexBody (Fin 6 → ℝ)) :
+    successiveMinNat L K (2 * 3) = 0 :=
+  successiveMinNat_of_le L K _ (by simp)
+
+end MinimaChecks
 
 /-! ## Layer 2: Minkowski's lower inequality and the linear forms theorem -/
 

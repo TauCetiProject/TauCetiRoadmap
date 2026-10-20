@@ -10,8 +10,8 @@ theory all start from them.
 
 The roadmap builds on Mathlib's `ZLattice`, `ConvexBody`, `gauge` and Minkowski's first theorem. It
 adopts the foundational successive minima of
-[Mathlib PR #35812](https://github.com/leanprover-community/mathlib4/pull/35812) and adds a
-real-valued `Fin d`-indexed adapter. On that adapter it proves:
+[Mathlib's successive-minima proposal](https://github.com/leanprover-community/mathlib4/pull/35812)
+and adds a real-valued `Fin d`-indexed adapter. On that adapter it proves:
 - the gauge-threshold calculus;
 - attainment of all minima by one independent family, for bodies that need not be symmetric;
 - monotonicity in the body and the lattice, and transport along linear equivalences;
@@ -41,8 +41,8 @@ Layer 0.2.
 
 - The hermitian Gram–Hadamard inequality and its coordinate form (0.1).
 - The integral basis with the flags of a prescribed real basis of lattice vectors (0.2).
-- The foundational `MeasureTheory.successiveMin` of Mathlib PR #35812, its real `Fin d` adapter
-  `successiveMin` and the natural-index extension `successiveMinNat`, with:
+- The foundational `MeasureTheory.successiveMin` of Mathlib's successive-minima proposal, its real
+  `Fin d` adapter `successiveMin` and the natural-index extension `successiveMinNat`, with:
   - the threshold calculus;
   - positivity and monotonicity in the index;
   - attainment by one real basis;
@@ -66,10 +66,12 @@ These are used without restatement:
 - In Tau Ceti, in `TauCeti/Algebra/Module/ZLattice/AdaptedBasis.lean` and `GaugeBasis.lean`:
   - the triangular, reduced lattice basis adapted to a real basis of lattice vectors,
     `ZLattice.exists_basis_triangular`;
-  - the lattice basis of controlled gauge, `ZLattice.exists_basis_gauge_le` and
-    `ZLattice.exists_basis_gauge_le_max_one_mul` (Cassels, Ch. V, Lemma 8).
-- Tau Ceti's squared-norm successive minima of a positive definite integral lattice,
-  `TauCeti.IntegralLattice.successiveMinimum`, and its Minkowski bound
+  - the lattice basis of controlled gauge, the general form of HeightsAndUnits 2.1,
+    `ZLattice.exists_basis_gauge_le` and `ZLattice.exists_basis_gauge_le_max_one_mul` (Cassels,
+    Ch. V, Lemma 8).
+- The squared-norm successive minima of a positive definite integral lattice
+  ([IntegralLattices](../IntegralLattices/README.md) 2F), in Tau Ceti as
+  `TauCeti.IntegralLattice.successiveMinimum`, and their Minkowski bound
   `TauCeti.IntegralLattice.IsPosDef.prod_successiveMinimum_mul_pi_pow_le`. Those are natural numbers
   on the `IntegralLattice` carrier, bounded through the Euclidean ball. The minima here are real
   numbers on `ConvexBody` carriers, bounded by the exact volume of the body.
@@ -77,7 +79,8 @@ These are used without restatement:
 ### Not owned here
 
 Other geometry of numbers built on this roadmap is out of scope, including:
-- the comparison between the real minima here and Tau Ceti's squared-norm minima;
+- the comparison between the real minima here and the squared-norm minima of IntegralLattices 2F,
+  which belongs to GeometryOfNumbersAndQuadraticArithmetic;
 - covolumes of orthogonal projections, duals and primitive intersections;
 - ordered-product and ball-volume bounds;
 - lattice-point counting, transference, star bodies and reduction theory.
@@ -101,16 +104,16 @@ is a separate hypothesis, assumed only where stated. The gauge is Mathlib's `gau
 minima are real numbers indexed by `i : Fin d`, `d = finrank ℝ E`, with `i` meaning the `(i+1)`-st
 minimum. There is no minimum in dimension zero. The polar of a box is a weighted cross-polytope.
 
-**Mathlib PR #35812.** Build `MeasureTheory.successiveMin` here, with the name, signature and
-definition of
+**Mathlib's successive-minima proposal.** Build `MeasureTheory.successiveMin` here, with the name,
+signature and definition of
 [revision `8423d1c`, lines 63–304](https://github.com/khwilson/mathlib4/blob/8423d1c878e50d8504a230ffd9b6ec76ce6a08eb/Mathlib/MeasureTheory/Group/GeometryOfNumbers.lean#L63-L304),
-so that adopting the PR when it lands is a deletion plus an import. The
+so that adopting the proposal if it lands is a deletion plus an import. The
 [Zulip design discussion](https://leanprover-community.github.io/archive/stream/217875-Is-there-code-for-X%3F/topic/Minkowski.20Lattice.20Theorem.html)
-motivates the arbitrary-set core and the separate geometric hypotheses. Reuse the PR's monotonicity,
-threshold-attainment and directional-family and basis results with their hypotheses. A directional
-basis is a real ambient basis, not necessarily an integral lattice basis. The PR's `proof_wanted`
-form of Minkowski's second theorem supplies no proof. Both product inequalities, the gauge flags and
-the transport laws are targets here.
+motivates the arbitrary-set core and the separate geometric hypotheses. Reuse the proposal's
+monotonicity, threshold-attainment and directional-family and basis results with their hypotheses.
+A directional basis is a real ambient basis, not necessarily an integral lattice basis. The
+proposal's `proof_wanted` form of Minkowski's second theorem supplies no proof. Both product
+inequalities, the gauge flags and the transport laws are targets here.
 
 ## Headline signatures
 
@@ -264,8 +267,9 @@ definition.
 `gauge_closedBall`.
 **Checks.**
 
-- For `L = ℤ ⊂ ℝ` and `K = [−2,2]`, `λ_0(L,K) = 1/2`.
-- For `L = ℤ²` and `K = K₂₃`, `(λ_0, λ_1) = (2,3)`, attained by `e₀, e₁` in that order.
+- For `L = ℤ ⊂ ℝ` and `K = [−2,2]`, `λ_0(L,K) = 1/2` (`successiveMin_int_Icc`).
+- For `L = ℤ²` and `K = K₂₃`, `(λ_0, λ_1) = (2,3)`, attained by `e₀, e₁` in that order
+  (`successiveMin_box_two_three`).
 - For the zero lattice in `ℝ^0` and its singleton convex body, the product over all minima indices
   is 1.
 - For `L = 2ℤ` in ℝ and `K = [−1,1]`, `λ_0 = 2`, not 1.
@@ -296,12 +300,14 @@ reindexing of 1.1; the out-of-range value is the explicit convention here.)
 **Checks.**
 
 - For ℤ² and `K₂₃`, the natural-index values at 0, 1 and 2 are 2, 3 and 0; index 2 is not a third
-  positive minimum.
+  positive minimum (`successiveMinNat_box_two_three`).
 - In dimension zero every natural-index value is zero in both the adapter and the foundational
   definition, while the product over `Fin 0` remains one.
-- For a space with proved dimension `d · card ι`, with `d = 2` and `card ι = 3`, index `d · 1 = 2`
-  denotes the third minimum, and index 6 has value zero. The proof of the dimension formula supplies
-  the bound required by `successiveMinNat_of_lt`.
+- For the standard lattice in `ℝ⁶` and the box with weights `(1,2,3,4,5,6)` (half-widths
+  `1,1/2,1/3,1/4,1/5,1/6`), the natural-index values at `2 = 2·1` and `6 = 2·3` are `3` and `0`
+  (`successiveMinNat_box_six`, and an `example` for index 6). The indices are transported along the
+  proved dimension equality, which supplies the bounds of `successiveMinNat_of_lt` and
+  `successiveMinNat_of_le`.
 
 Prove `finite_gauge_sublevel` (1.2): for every real `R`, the set `{x ∈ L : gauge K x ≤ R}` is
 finite. `K` need not be symmetric.
@@ -460,8 +466,9 @@ Prove `exists_integral_minimum_flag` (1.13): there is an integral basis `b : Fin
 `x ∈ L` and `gauge K x < λ_i` imply that `x` belongs to the real flag of `b` at `i`, the span of its
 first `i` vectors.
 Symmetry of `K` is not assumed. No bound on the individual gauges of the `b_i` is claimed; only the
-attained real basis's flag is preserved. Tau Ceti's `ZLattice.exists_basis_gauge_le_max_one_mul`
-is the form that bounds the vectors, at the cost `max 1 ((i+1)/2)`.
+attained real basis's flag is preserved. The form that bounds the vectors, at the cost
+`max 1 ((i+1)/2)` and for a symmetric body, is [HeightsAndUnits](../HeightsAndUnits/README.md) 2.1;
+its general form is Tau Ceti's `ZLattice.exists_basis_gauge_le_max_one_mul`.
 Apply 0.2.1 to the real basis of 1.7: the integral basis it returns has the same real flags, and
 those contain the strict sublevels.
 (Source: Henk2002, pp.3–4, (2.1)–(2.3).)
