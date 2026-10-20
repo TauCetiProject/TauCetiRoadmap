@@ -14,8 +14,10 @@ body:
     attributes:
       label: Roadmap area
       options:
+        - AdicEtaleGeometry
         - AdicSpaces
         - AdicSpacesPartII
+        - AdicSpacesPartIII
         - AffineLieAlgebras
         - AffineMorseLefschetz
         - AlgebraicCurves
@@ -23,6 +25,7 @@ body:
         - AlgebraicVectorBundles
         - AmenableGroups
         - AnalyticToricGeometry
+        - BanachAlgebras
         - BanachSpaceTheory
         - BelyiMaps
         - BordismFormalGroups
@@ -34,6 +37,8 @@ body:
         - CombinatorialHeegaardFloer
         - CompactOperators
         - ComplexCurveModuli
+        - ComplexKahlerGeometry
+        - ComplexTori
         - ConformalMapping
         - DGAInfinity
         - DGFloer
@@ -42,6 +47,8 @@ body:
         - DifferentialGeometry
         - DiophantineApproximationAndTranscendence
         - EllipticCurves
+        - EnhancedDerivedSheaves
+        - EtaleCohomologyFoundations
         - Exchangeability
         - FinancialMathematics
         - FormalLaurentPuiseux
@@ -99,6 +106,7 @@ body:
         - Regularity
         - RepresentationTheory
         - RestrictedPowerSeries
+        - RiemannianGeometry
         - RigidAnalyticGeometry
         - SchemeAndStackFoundations
         - SchubertGeometry
@@ -107,6 +115,7 @@ body:
         - StableReduction
         - StandardDistributions
         - TaubesGromov
+        - ThetaSeries
         - Yamabe
         - ZigzagPreprojective
     validations:
