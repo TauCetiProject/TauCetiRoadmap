@@ -25,7 +25,7 @@ hypotheses.
 
 | Layer | Title | What it delivers |
 |---|---|---|
-| [0](#layer-0-schemes-and-morphisms) | Schemes and morphisms | direct-image algebras and relative Proj, coherent extension and Hartogs, dimension theory and limits, henselization of pairs, catenary, Cohen–Macaulay, Nagata and excellent rings, perfect schemes and universal homeomorphisms, étale topological invariance (§0.23a), scheme Frobenius (§0.29), ideal-sheaf comparisons |
+| [0](#layer-0-schemes-and-morphisms) | Schemes and morphisms | direct-image algebras and relative Proj, coherent extension and Hartogs, dimension theory and limits, henselization of pairs, catenary, Cohen–Macaulay, Nagata and excellent rings, perfect schemes and universal homeomorphisms, étale topological invariance (§0.23a), scheme Frobenius (§0.29), ideal-sheaf comparisons, normal schemes and ramification at a point (§0.30) |
 | [1](#layer-1-descent-algebraic-spaces-and-stacks) | Descent, algebraic spaces and stacks | fpqc/fppf descent, algebraic spaces, group spaces, groupoids, torsors and quotients, algebraic and Deligne–Mumford stacks, moduli spaces, Galois gerbs |
 | [2](#layer-2-sites-and-scheme-cohomology) | Sites and scheme cohomology | site cohomology and torsors, quasi-coherent cohomology and supports, topology comparisons, the Nisnevich site, pro-étale site foundations, coherent duality, Brauer groups, equivariant cohomology |
 | [3](#layer-3-curves-divisors-and-picard-objects) | Curves, divisors and Picard objects | genus checks, degrees and duality for vector bundles on curves, Picard groups, groupoids, norms and torsors, Picard stacks and Abel maps |
@@ -58,6 +58,7 @@ relative Proj and its comparison with the finitely generated case, extension of 
 henselization of pairs, the catenary, Cohen–Macaulay, Nagata and excellent packages, perfect schemes
 and perfection, the universal-homeomorphism equivalence of small étale sites (§0.23a),
 absolute, relative, iterated and finite-field scheme Frobenius with coherent twists (§0.29),
+normal schemes, codimension-one points under finite dominant morphisms and ramification at a point (§0.30),
 the ideal-sheaf comparison API, algebraic spaces with their small étale sites,
 group algebraic spaces, groupoids, torsors and their classes, categorical and geometric quotient predicates,
 projective quotients by finite groups, algebraic stacks, moduli spaces, Galois gerbs, the
@@ -430,6 +431,7 @@ Layers 9–10 (continuous cohomology, Hilbert 90 and Kummer theory for fields).
 | §0.23a / `universalHomeomorphismEtaleEquivalence` | Scheme base change gives the equivalence of small étale sites, preserving and reflecting covers, with coherent composition and arbitrary base change. |
 | §0.29 / `SchemeFrobenius.absoluteFrobenius`, `SchemeFrobenius.schemeFrobeniusTwist`, `SchemeFrobenius.relativeFrobenius`, `SchemeFrobenius.iteratedSchemeFrobenius` | Arbitrary characteristic-`p` schemes have absolute and relative maps with distinct codomains; smooth pure relative dimension `d` gives finite locally free relative Frobenius of rank `p^d`. |
 | §0.29 / `SchemeFrobenius.qPowerFrobenius` | Over a field of order `q = p^a`, the specified absolute iterate is a map over that field. Its base change fixes extension-field scalars and is compared with relative Frobenius. |
+| §0.30 / `NormalSchemes.IsNormalScheme`, `NormalSchemes.codimensionOneMap`, `NormalSchemes.ramificationIdxAt` | Normality is stalkwise (integrally closed domains). Points of coheight one map to points of coheight one under finite dominant morphisms of integral schemes whose target is Noetherian and locally of finite type over a field, or normal; the ramification index at a point is Mathlib's `Ideal.ramificationIdx` of the stalk maximal ideal. |
 
 ### Other supplier contracts
 
@@ -680,8 +682,29 @@ free and `(S_2)`, iff `F = j_* j^* F` for some open `j : U → X` with complemen
 on which `F` is finite locally free (Lemma 31.13.13 (0AY6)); and a reflexive sheaf has depth `≥ 2`
 at every point where `O_X` does, so it is `(S_2)` when `X` is (Lemma 31.13.11 (0EBI)). Prove `coherent_hartogs`: for a coherent `F` on a locally Noetherian `X` and a closed `Z`
 such that `depth F_x ≥ 2` at every point of `Z`, restriction `F(X) → F(X ∖ Z)` is an isomorphism
-(Stacks, Lemma 31.5.11 (0E9I)). *Needs:* §0.4, §0.17 (depth); Tau Ceti `SheafOfModules.dual`;
-Mathlib `Module.IsReflexive`, `Module.Dual.eval`.
+(Stacks, Lemma 31.5.11 (0E9I)).
+
+Without integrality: prove `IsReflexive.two_le_depth_stalk`: for a coherent reflexive `F` on a
+locally Noetherian `X` and a point `x` with `depth O_{X,x} ≥ 2`, `depth F_x ≥ 2` (Lemma 31.13.11
+(0EBI), part (1), stated there for integral `X`; `F_x` is `Hom(Hom(F_x, O_{X,x}), O_{X,x})`, so
+§0.17 `depth_hom_ge` applies, and the argument uses no integrality). Prove
+`reflexive_extension_of_depth`: for a locally Noetherian `X` and an open `j : U → X` with
+`depth O_{X,x} ≥ 2` at every `x ∉ U`, `j^*` and `j_*` are inverse equivalences between coherent
+reflexive `O_X`-modules and coherent reflexive `O_U`-modules (Lemma 31.13.12 (0EBJ), stated there
+for integral `X`; reflexive is `Scheme.Modules.IsReflexive` above). The proof is affine-local.
+For a coherent reflexive `F` on `X`, `F → j_* j^* F` is an isomorphism by
+`IsReflexive.two_le_depth_stalk` and `coherent_hartogs` applied on every open of `X` (the sheaf
+form of 0E9I). For a coherent reflexive `G` on `U`,
+extend it to a coherent `F` on `X` (§0.4 `coherent_extension`). Then `F^{∨∨}` restricts to
+`G^{∨∨} = G` and has depth `≥ 2` at every point of `X ∖ U` (§0.17 `depth_hom_ge`), so
+`F^{∨∨} = j_* G` by `coherent_hartogs` on every open of `X`, and `j_* G` is coherent. Its evaluation map
+`F^{∨∨} → F^{∨∨∨∨}` is an isomorphism over `U`. At a point of `X ∖ U` both sides have depth
+`≥ 2`, so the target has no associated prime there, and §0.17 `bijective_of_depth` makes the
+map an isomorphism. On a normal `X` the codimension-two hypothesis of
+`reflexive_extension_normal` gives this depth hypothesis. *Needs:* §0.4, §0.17 (depth,
+`depth_hom_ge`, `bijective_of_depth`); Tau Ceti `SheafOfModules.dual`; Mathlib
+`Module.IsReflexive`, `Module.Dual.eval`, `Scheme.Modules.restrictFunctor`,
+`Scheme.Modules.pushforward`.
 
 **Checks.**
 - `reflexive_extension_torsion_rejected`: on `Spec k[t]`, `F = k[t] ⊕ k[t]/(t)`
@@ -694,6 +717,16 @@ Mathlib `Module.IsReflexive`, `Module.Dual.eval`.
   `I^{∨∨} = O_X ≠ I`; a torsion-free sheaf need not be reflexive.
 - `test_hartogs_plane`: `Γ(𝔸² ∖ {0}, O) = k[x, y]` by `coherent_hartogs`; on `𝔸¹`, removing the
   origin gives `k[x, x^{-1}]`, so the depth hypothesis is essential.
+- `reflexive_extension_reducible`: over a field `k`, `X = Spec k[x, y, z, w]/(xw)` is reducible
+  and Cohen–Macaulay of dimension three, so `depth O_{X,0} = 3`; for `U = X ∖ {0}`,
+  `reflexive_extension_of_depth` gives `j_* O_U = O_X`. Lemma 31.13.12 (0EBJ) does not apply, as `X`
+  is not integral. This exercises only the direction `F → j_* j^* F` for `F = O_X`, which is
+  `coherent_hartogs`; the `j_*` direction for a reflexive sheaf on `U` that does not extend as a
+  locally free sheaf is not exercised by a check here.
+- `reflexive_extension_two_planes`: for `X` the union of the planes `V(x, y)` and `V(z, w)` in
+  `𝔸⁴_k`, meeting at the origin, `depth O_{X,0} = 1`, and for `U = X ∖ {0}` the sheaf `j_* O_U` is
+  the direct image of the structure sheaf of the disjoint union of the two planes, not `O_X`; the
+  depth hypothesis of `reflexive_extension_of_depth` is needed.
 
 ### 0.7 Local dimension and dimension theory of schemes of finite type over a field
 
@@ -1136,6 +1169,30 @@ localisations of `M_p` at primes are localisations of `M`). *Needs:* Mathlib
 `RingTheory.Sequence.IsWeaklyRegular`, `IsRegular`, `Module.support`, `Module.supportDim`,
 `Ideal.height`, `IsRegularLocalRing`, `Ext`.
 
+Prove the depth lemmas used to extend modules across a closed subset of depth `≥ 2`. Here `R` is
+Noetherian, each lemma states which modules are finite, as in Stacks, and the depth of a
+localization `M_p` is `IsLocalRing.depth` of `LocalizedModule p.primeCompl M` over
+`Localization.AtPrime p`.
+`depth_shortExact` (Algebra, Lemma 10.72.6 (00LX)): for a short exact sequence
+`0 → N' → N → N'' → 0` of nonzero finite modules over a Noetherian local ring,
+`depth N ≥ min (depth N') (depth N'')`, `depth N'' ≥ min (depth N) (depth N' − 1)` and
+`depth N' ≥ min (depth N) (depth N'' + 1)`. `depth_hom_ge` (More on Algebra, Lemma 15.24.10 (0AV5)):
+over a Noetherian local ring and finite modules `M` and `N`, for `n ≤ 2`, `n ≤ depth N` implies
+`n ≤ depth (M →ₗ[R] N)`. `injective_of_forall_localization` (Lemma 15.24.12 (0AV7)): an `R`-linear
+map `φ : M → N`, with no finiteness hypothesis, is
+injective if at every prime `p` either `φ_p` is injective or `p ∉ associatedPrimes R M`.
+`bijective_of_depth` (Lemma 15.24.13 (0AV8)): an `R`-linear map `φ : M → N` with `M` finite is
+bijective if at every prime `p` either `φ_p` is bijective, or `2 ≤ depth M_p` and
+`p ∉ associatedPrimes R N`. `depth_eq_iInf_localization_maximal` (Algebra, Lemma 10.72.11
+(0AUK)): for a finite ring map `R → S` with `R` Noetherian local and a finite `S`-module `N`,
+`Module.depth (maximalIdeal R) N` is the minimum of `depth N_𝔫` over the finitely many maximal
+ideals `𝔫` of `S`. `depth_eq_add_of_flat` (Lemma 10.163.2 (0337)): for a flat local homomorphism
+`R → S` of Noetherian local rings, `depth S = depth R + depth (S ⧸ (maximalIdeal R).map (algebraMap R S))`,
+where the last term is `IsLocalRing.depth` of the quotient as an `S`-module (it equals the depth of
+the quotient local ring over itself).
+*Needs:* the depth API above; Mathlib `associatedPrimes`, `LocalizedModule`, `Module.Flat`,
+`IsLocalHom`, `Module.Finite`.
+
 **Checks.**
 - `IsLocalRing.depth.test_residueField`: for a Noetherian local ring `R` of positive dimension,
   `depth κ = 0`.
@@ -1162,6 +1219,13 @@ localisations of `M_p` at primes are localisations of `M`). *Needs:* Mathlib
   origin is an embedded prime.
 - `Ring.IsCohenMacaulay.test_not_cm`: `k[x, y]/(x², xy)` is not Cohen–Macaulay, by the previous
   check and `isCohenMacaulay_iff_forall_satisfiesSerreS`.
+- `bijective_of_depth.test_maximal_ideal`: for `R = k[x, y]` and the inclusion `𝔪 = (x, y) → R`,
+  the map is bijective at every prime other than `𝔪`, and `depth 𝔪_𝔪 = 1`; it is not surjective,
+  so the bound `2` in `bijective_of_depth` cannot be lowered to `1`.
+- `depth_hom_ge.test_dual_maximal`: for `R = k[x, y]_{(x, y)}`, `Hom_R(𝔪, R) = R`, of depth `2`, as
+  `depth_hom_ge` predicts from `depth R = 2`.
+- `depth_eq_add_of_flat.test_polynomial`: for `R = k[x]_{(x)}` and `S = k[x, y]_{(x, y)}`,
+  `depth S = 2 = depth R + depth (S ⧸ x S)`.
 
 ### 0.18 Scheme-theoretic support and Cohen–Macaulay schemes
 
@@ -1864,6 +1928,77 @@ Mathlib `FiniteField.frobenius_pow` for the finite-field identity.
 `iteratedRelativeFrobenius_add`,
 `qPowerFrobenius`, `qPowerFrobenius_eq_iterated`, `qPowerFrobenius_over`.
 The zeroth-iterate, quadratic-field and scalar-base-change Checks are `example`s.
+
+### 0.30 Normal schemes, codimension-one points under finite morphisms, ramification at a point
+
+The suggested forms of this subsection are the strand `NormalSchemes` of `Suggested.lean`.
+
+*Normal schemes.* Define the class `IsNormalScheme X`: every local ring `X.presheaf.stalk x` is a
+domain and integrally closed (Stacks, Definition 28.7.1 (033I)). Prove
+`isNormalScheme_iff_forall_affineOpens` and its open-cover form (Lemma 28.7.2 (033J)),
+`IsNormalScheme.of_isOpenImmersion`, `IsNormalScheme.isReduced` (Lemma 28.7.3 (033K)),
+`isNormalScheme_Spec_iff` (for a domain `R`, `Spec R` is normal iff `R` is integrally closed),
+`IsNormalScheme.isIntegrallyClosed_of_isAffineOpen` (on an integral normal scheme the sections over
+a nonempty affine open are integrally closed), and `IsNormalScheme.isDiscreteValuationRing_stalk`:
+on a locally Noetherian normal scheme the stalk at a point of coheight one is a discrete valuation
+ring, hence a regular local ring (Algebra, Lemma 10.119.7 (00PD)). §4.13 *IsRegular.isNormal* is
+the instance `IsNormalScheme.of_isRegular` for this predicate.
+
+*Codimension-one points under finite dominant morphisms.* Let `f : X ⟶ Y` be finite and dominant
+with `X` and `Y` integral. Prove `coheight_eq_one_of_coheight_apply_eq_one`: a point over a point
+of coheight one has coheight one (incomparability, with dominance). Prove `coheight_apply_eq_one`:
+the image of a point of coheight one has coheight one when `Y` is locally Noetherian with
+Noetherian underlying space and `Y ⟶ Spec k` is locally of finite type for a field `k`. The proof
+applies the local formula `dim_x X = trdeg_k κ(x) + dim 𝒪_{X,x}` (Varieties, Lemma 33.20.3 (0A21))
+on `X` and on `Y`, with `dim X = dim Y` (Morphisms, Lemma 29.45.9 (0ECG)) and
+`[κ(x) : κ(f x)] < ∞`. Prove `coheight_apply_eq_one_of_isNormalScheme` when `Y` is normal and
+locally Noetherian (going down, Algebra, Proposition 10.38.7 (00H8)). Without either hypothesis the
+statement fails (Examples, Section 110.19 (02JE)). Define
+`codimensionOneMap f hf : CodimensionOnePoint X → CodimensionOnePoint Y`, where `hf` is the
+conclusion of either lemma, and prove `codimensionOneMap_surjective`,
+`finite_codimensionOneMap_fiber`, `codimensionOneMap_comp` and `codimensionOneMap_id`.
+
+*Ramification at a point.* For `f : X ⟶ Y` and `x : X` define `ramificationIdxAt f x`:
+the ramification index (Mathlib `Ideal.ramificationIdx`) of the maximal ideal of
+`X.presheaf.stalk x` over `Y.presheaf.stalk (f x)` along `f.stalkMap x`. Prove
+`ramificationIdxAt_pos` for `f` finite and dominant between integral schemes and `x` of coheight
+one, and `ramificationIdxAt_eq_dvr`: at a point of coheight one of a locally Noetherian normal
+integral `X` with `f x` of coheight one on a locally Noetherian normal integral `Y`, it is the
+ramification index of the extension of discrete valuation rings (More on Algebra, Definition
+15.113.1 (09E4)). Prove `ramificationIdxAt_comp`: for finite dominant `f : X ⟶ Y`, `g : Y ⟶ Z`
+between locally Noetherian normal integral schemes and `x` of coheight one,
+`ramificationIdxAt (f ≫ g) x = ramificationIdxAt f x * ramificationIdxAt g (f x)`. The stalk map
+of `f ≫ g` at `x` is the composite of the stalk maps (Mathlib `Scheme.Hom.stalkMap_comp`), and
+Mathlib `Ideal.ramificationIdx_tower` needs `Module.Flat`, which holds because an extension of
+discrete valuation rings is torsion free.
+
+*Regular quotients of a regular local ring.* Prove
+`exists_regularSystem_of_quotient` (Algebra, Lemma 10.106.4 (00NR)): if `R` is a
+regular local ring and `I` an ideal with `R ⧸ I` a regular local ring, then `I` is generated by
+the first `c` members of a minimal generating set `x_1, …, x_d` of the maximal ideal, for some
+`c ≤ d`. Prove its codimension-one case `isPrincipal_of_height_eq_one`: a prime
+of height one with regular quotient is generated by one element of `𝔪 ∖ 𝔪²`.
+
+*Needs:* §§0.7, 0.20, 4.13; Mathlib `IsIntegrallyClosed`, `IsDiscreteValuationRing`, `IsReduced`,
+`IsAffineOpen`, `Order.coheight`, `Algebra.HasGoingDown`, `IsFinite`, `IsDominant`,
+`Ideal.ramificationIdx`, `Ideal.ramificationIdx_tower`, `Scheme.Hom.stalkMap_comp`,
+`IsRegularLocalRing`, `Ideal.height`; Tau Ceti `TauCeti.AlgebraicGeometry.CodimensionOnePoint`,
+`TauCeti.IsRegularLocalRing.quotient_span_singleton_iff`.
+
+**Checks.**
+
+- `IsNormalScheme.test_cusp`: `Spec k[t², t³]` is integral and not normal; `Spec k[t]` is normal.
+- `codimensionOneMap.test_square`: for `x ↦ x²` on `𝔸¹_k`, `codimensionOneMap` sends the closed
+  point `x = a` to `x = a²`, and the fibre over `x = 0` is one point.
+- `ramificationIdxAt.test_square`: for `x ↦ x²` on `𝔸¹_k` with `2` invertible in `k`, the
+  ramification index is `2` at `x = 0` and `1` at `x = 1`.
+- `exists_regularSystem_of_quotient.test_parabola`: in `k[x, y]_{(x, y)}` the quotient by
+  `y − x²` is regular and `y − x² ∉ 𝔪²`; the quotient by `y² − x³` is not regular.
+
+*Lean:* `NormalSchemes.IsNormalScheme`, `NormalSchemes.coheight_apply_eq_one`,
+`NormalSchemes.coheight_apply_eq_one_of_isNormalScheme`, `NormalSchemes.codimensionOneMap`,
+`NormalSchemes.codimensionOneMap_surjective`, `NormalSchemes.ramificationIdxAt`,
+`NormalSchemes.ramificationIdxAt_comp`, `NormalSchemes.exists_regularSystem_of_quotient`.
 
 ### Examples
 
