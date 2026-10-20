@@ -307,9 +307,10 @@ cohomology, compact support, traces and duality; ClassicalAdicEtaleCohomology La
 supplies the adic coefficient operations used in R17.6.3a–R17.6.3b.
 ComplexComparisonPartII §§C6.3–C6.6 supplies equivariant finite- and adic-coefficient
 Artin comparison. LefschetzPencilsAndVanishingCycles LPV.0 and LPV.2 supplies nearby
-cycles, variation and Picard–Lefschetz, retaining the monodromy map. R17.6.3a–R17.6.4
-constructs the proper-curve correspondence trace, contracting local terms and ramified
-conductor comparison.
+cycles, variation and Picard–Lefschetz, retaining the monodromy map. R17.6.3a–R17.6.3b
+owns the reusable proper-curve correspondence trace and contracting-local-term interfaces,
+including their normalized adic realization. R17.6.4 applies these interfaces to the
+ramified conductor comparison.
 
 Related integral GL₂ level conventions are described in the
 [FLT local-level discussion](https://leanprover-community.github.io/archive/stream/416277-FLT/topic/Rolling.20update.html).
@@ -409,10 +410,24 @@ is proved here from the cited local converse arguments. The inner-form parameter
 uses LocalGaloisDeformationRings §2.26.1 through R17.1/local-quaternionic-comparison.
 
 *Source:* [bh06], §25.2, pp.157–159, §27, pp.170–176, §33.1, pp.212–213, §§44.3–44.6, pp.269–273,
-and §50.3, pp.312–313; [henniart83], Theorem 2.10, pp.20–21, Proposition 3.2, p.30;
+and Theorem 50.3, pp.309–313; [henniart83], Theorem 2.10, pp.20–21, Proposition 3.2, p.30;
 [henniart02], Theorem 1.5, p.590 and §2, pp.592–596, for pair-factor characterization;
 [deligne73], §8.12, p.572, for the WD conductor; [fargues-scholze], Definition IX.0.4
 and Theorem IX.0.5, pp.319–320, for the semisimple construction and its compatibilities.
+
+### Examples
+
+An unramified generic principal series has two nonzero Satake roots and conductor zero.
+Steinberg has trivial inertial type, rank-one `N` and conductor one; setting `N = 0`
+in its Weil–Deligne parameter lowers the conductor to zero. The primitive dyadic
+supercuspidal of R16.3.3 has `N = 0`, Artin conductor three and Swan conductor one.
+
+### Dependencies
+
+SmoothRepresentationsOfLocalGroups SR.0–SR.4; ClassFieldTheory Layer 9;
+ArithmeticGaloisRepresentations §§2.4–2.7 and Layer 3;
+AutomorphicLFunctionsAndLocalFactors AL.1–AL.3;
+LocalGaloisDeformationRings §2.26.1 through R17.1/local-quaternionic-comparison.
 
 ## Layer R16.1: Local and adelic groups
 
@@ -626,6 +641,12 @@ flag-function quotient for an unramified character has conductor one; a characte
 Each Check includes existence of a nonzero last-row fixed vector in the actual function or
 quotient model, followed by the stated least level; a zero model fails the existence assertion.
 
+- On the field unit represented by the uniformizer `p`, `localNormCharacter p t` has
+  value `(p : ℝ)^(−t)`, viewed in `ℂˣ`; in particular, at `t = 1` its value is
+  `p⁻¹ = ν(ϖ)`. It is one on every unit of `ℤ_p`. The character
+  `localNormCharacter p 0` is trivial, and
+  `localNormCharacter p 1 * localNormCharacter p (−1) = 1`.
+
 *Needs:* R16.1/iwasawa-cartan; SmoothRepresentationsOfLocalGroups SR.2; SmoothRepresentationsOfLocalGroups SR.3; SmoothRepresentationsOfLocalGroups SR.2.3/whittaker-functionals. The conductor Checks consume AL.2/GL₂ newvectors after the analytic classification.
 
 *Source:* [casselman73], p. 305, principal/special classification; [bh06], §9.10,
@@ -826,7 +847,7 @@ rec identifies supercuspidal GL₂(F) representations with irreducible two-dimen
 
 *Source:* [nt26], §2 after Definition 2.4, p. 11.
 
-The R16.0/local-langlands correspondence must include the fully local dyadic existence and bijectivity arguments of [bh06], Theorem 50.3 pp.309–313 and Theorem 52.1 pp.316–323. Minimal primitive parameters become imprimitive over a tame cubic extension; descend their stratum and type character, compare cubed ε-factors, and remove the cube ambiguity using the independently computed 2-power root-of-unity bound. For octahedral bijectivity, compare type-character depth and low-level twisted ε-ratios over the normal closure, then use the norm map on the relevant unit graded piece. The finite orbit counts give surjectivity from injectivity. This imports local LLC; compatibility of tame lifting with Weil restriction is a separate statement ([bh06], §52.9 p.324).
+The R16.0/local-langlands correspondence must include the fully local dyadic existence and bijectivity arguments of [bh06], Theorem 50.3 pp.309–313 and Theorem 52.1 pp.316–323. Minimal primitive parameters become imprimitive over a tame cubic extension; descend their stratum and type character, compare cubed ε-factors, and remove the cube ambiguity using the independently computed 2-power root-of-unity bound. For octahedral bijectivity, compare type-character depth and low-level twisted ε-ratios over the normal closure, then use the norm map on the relevant unit graded piece. The finite orbit counts give surjectivity from injectivity. This imports local LLC; compatibility of tame lifting with restriction of the Weil parameter to `W_E` is a separate statement ([bh06], §52.9 p.324, where the authors report having no purely local proof of `π_E(ρ|_{W_E}) = π_F(ρ)_E` for tame `E/F`).
 
 *Primitive dyadic test.* Take F=ℚ₂, the chain order A=((ℤ₂,ℤ₂),(2ℤ₂,ℤ₂)), its radical P, and α=((0,−1/2),(1,0)). Then α²=−1/2 and (A,1,α) is a ramified simple stratum. Choose an additive character ψ₁ nontrivial on ℤ₂ and trivial on 2ℤ₂. On `U¹_A=1+P` put `ψ_α(1+x)=ψ₁(tr(αx))`. Set E=F[α] and `J=E×U¹_A`. Extend `ψ_α|U¹_E` to a finite-order character φ of E× and define `Λ(eu)=φ(e)ψ_α(u)`; the intertwining group is J, so `π=c-Ind_J^{GL₂(F)}Λ` is irreducible supercuspidal. This uses SmoothRepresentationsOfLocalGroups SR.2's compact induction, not finite-group induction. Its normalized level is 1/2. The explicit local-constant computation gives exponent 1 for ψ₁; replacing ψ₁(x) by ψ₁(2x), which has the roadmap's conductor ℤ₂, adds 2. Thus a(π)=3, `a(rec π)=3`, N=0 and Swan(rec π)=3−2=1. All ramification breaks of this irreducible parameter coincide, so its positive upper break is 1/2.
 
@@ -965,11 +986,11 @@ R16.2; ClassFieldTheory Layers 7 and 9; ArithmeticGaloisRepresentations Layers 2
 
 ### R16.4.1 The cuspidal restricted tensor factorization
 
-For unitary central character ω trivial on F×, the smooth K∞-finite cuspidal spectrum in AdelicAlgebraicGroups AA.2’s L² space is AutomorphicSpectralTheory AS.4’s algebraic Hilbert-direct-sum decomposition with finite multiplicities. Every irreducible constituent has the AutomorphicLFunctionsAndLocalFactors/restricted-tensor-realizations factorization ⊗′vπv, with spherical distinguished vectors at almost all finite v, on the ArithmeticLocallySymmetricSpaces ALS.F.6 cusp carrier. Identify this algebraic factorization with the corresponding smooth vectors of its Hilbert completion and with the Whittaker tensor model. Multiplicity one is supplied by AL.3 and transported to this Whittaker realization below. Nonunitary cuspidal representations are handled after a specified norm twist.
+For unitary central character ω trivial on F×, the smooth K∞-finite cuspidal spectrum in AdelicAlgebraicGroups AA.2’s L² space is AutomorphicSpectralTheory Layer 4’s algebraic Hilbert-direct-sum decomposition with finite multiplicities. Every irreducible constituent has the AutomorphicLFunctionsAndLocalFactors/restricted-tensor-realizations factorization ⊗′vπv, with spherical distinguished vectors at almost all finite v, on the ArithmeticLocallySymmetricSpaces ALS.F.6 cusp carrier. Identify this algebraic factorization with the corresponding smooth vectors of its Hilbert completion and with the Whittaker tensor model. Multiplicity one is supplied by AL.3 and transported to this Whittaker realization below. Nonunitary cuspidal representations are handled after a specified norm twist.
 
 F number field; central character unitary for L²; admissible local factors and ArithmeticLocallySymmetricSpaces ALS.F.6 distinguished-vector data.
 
-*Needs:* R16.1/finite-level-comparison; AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors; AutomorphicLFunctionsAndLocalFactors/restricted-tensor-realizations; AutomorphicSpectralTheory AS.4; R16.1/haar-quotient-comparison (central-character L²); AutomorphicLFunctionsAndLocalFactors AL.3/global-whittaker-factorization.
+*Needs:* R16.1/finite-level-comparison; AutomorphicLFunctionsAndLocalFactors AL.2/GL₂ newvectors; AutomorphicLFunctionsAndLocalFactors/restricted-tensor-realizations; AutomorphicSpectralTheory Layer 4; R16.1/haar-quotient-comparison (central-character L²); AutomorphicLFunctionsAndLocalFactors AL.3/global-whittaker-factorization.
 
 *Source:* [jl70], §11 product formula (11.1.2), p. 183.
 
@@ -993,7 +1014,7 @@ Consume AutomorphicLFunctionsAndLocalFactors AL.3/global-multiplicity-one at n=2
 
 Number field F; characteristic-zero automorphic forms; unitary twist when working inside L².
 
-*Needs:* R16.4/global-whittaker-expansion; R16.4/cuspidal-tensor-factorization; SmoothRepresentationsOfLocalGroups SR.2.3/whittaker-functionals; AutomorphicSpectralTheory AS.4; AutomorphicLFunctionsAndLocalFactors AL.3/global-multiplicity-one.
+*Needs:* R16.4/global-whittaker-expansion; R16.4/cuspidal-tensor-factorization; SmoothRepresentationsOfLocalGroups SR.2.3/whittaker-functionals; AutomorphicSpectralTheory Layer 4; AutomorphicLFunctionsAndLocalFactors AL.3/global-multiplicity-one.
 
 *Source:* [jl70], Proposition 11.1.1, p. 183; [cogdell-fields], Lecture 4 §3, Theorem 4.2 and proof, pp.33–34.
 
@@ -1512,7 +1533,7 @@ The API includes Label every term and its measure; change local factors while re
 
 **Checks.** For d odd the exceptional τ summand is zero; d=2 retains `η^σ=η̃≠η` with weight ½; a Steinberg projector has determinant-character trace −1 rather than zero.
 
-*Needs:* LocalGaloisDeformationRings §2.26.1; R17.2/steinberg-projector-difference and local matching; AutomorphicSpectralTheory AS.2, AutomorphicSpectralTheory AS.4, AutomorphicSpectralTheory AS.6 and §§7.0a–7.0c for the ordinary and twisted distributions, intertwining operators and truncation; AdelicAlgebraicGroups AA.2 for measures. The explicit rank-two coordinate comparison belongs here.
+*Needs:* LocalGaloisDeformationRings §2.26.1; R17.2/steinberg-projector-difference and local matching; AutomorphicSpectralTheory Layer 2, AutomorphicSpectralTheory Layer 4, AutomorphicSpectralTheory Layer 6 and §§7.0a–7.0c for the ordinary and twisted distributions, intertwining operators and truncation; AdelicAlgebraicGroups AA.2 for measures. The explicit rank-two coordinate comparison belongs here.
 
 *Source:* [langlands80], §10, (10.1)–(10.7), pp.112–115; (10.28)–(10.35), pp.126–128; §11, pp.129–131.
 
@@ -1524,7 +1545,7 @@ If a finite local factor `f_v` satisfies `∫_{N(Fv)}f_v(xny)dn=0` for every x,y
 
 Compact-mod-center smooth test function, suitable integrability and fixed unitary central character; strong cuspidal constant-term condition for all x,y.
 
-*Needs:* R16.2/supercuspidal-kirillov; R17.2/continuous-residual-ledger; SmoothRepresentationsOfLocalGroups SR.2; SmoothRepresentationsOfLocalGroups SR.3; AutomorphicSpectralTheory AS.6.
+*Needs:* R16.2/supercuspidal-kirillov; R17.2/continuous-residual-ledger; SmoothRepresentationsOfLocalGroups SR.2; SmoothRepresentationsOfLocalGroups SR.3; AutomorphicSpectralTheory Layer 6.
 
 *Source:* [jl70], §16 equation (16.1.7), p.277; preceding Steinberg averaged constant term, p.269.
 
@@ -1534,7 +1555,7 @@ Compact-mod-center smooth test function, suitable integrability and fixed unitar
 
 For matching factorizable functions, prove the ordinary/quaternion trace identity with the preceding ledger. For prime-cyclic transfer, specialize the full truncated distributions supplied by AutomorphicSpectralTheory §7.0c to n=2 and express them in the six-term coordinates of R17.2/continuous-residual-ledger. Identify each term after transport by R17.2/cyclic-local-matching, including quotient measures, central norm index d, Weyl factors and normalized σ-operators. After the singular and derivative cancellations below, group by infinitesimal spectral parameter to recover the supplied invariant t-discrete comparison, retaining its proper-Levi Weyl-intertwiner terms. Compute the conversion from its norm-character averaging and split-central scaling to Langlands’s identity tr R(φ)R(σ)=tr r(f): R contains d copies of the twisted discrete spectrum and the quadratic exceptional summand, while r excludes the one-dimensional and induced continuous constituents of [langlands80] §11. For a cuspidal output with d distinct descents the supplied transferred character is their average with coefficient 1/d; the conversion must account for this coefficient and the quadratic exceptional term, as well as the d copies in R. This is a comparison of distributions on all matching tests, including finite variations at bad places. All cyclic consumers use the supplied distributions and transfer map.
 
-*Cyclic coordinate comparison.* AutomorphicSpectralTheory §7.0c and AS.6 truncation, cyclic Hasse norms, centralizer volumes and index d match elliptic/scalar terms. Pair (10.4) with d(10.31). Norm-fibre Hecke L-products give `∑m′/m=d·m_E′/m_E`, cancelling (10.3) with d(10.28). Section 9's A₃=−θ′ and θ′(c,0,φ)=dθ′(Nc,0,f), including archimedean corrections, cancel (10.5) with d(10.32). Exceptional τ, M=−1 and d self-associate preimages cancel (10.2) with d(10.30). The B-discrepancy (11.1) vanishes at good spherical places; separate it at bad places below.
+*Cyclic coordinate comparison.* AutomorphicSpectralTheory §7.0c and Layer 6 truncation, cyclic Hasse norms, centralizer volumes and index d match elliptic/scalar terms. Pair (10.4) with d(10.31). Norm-fibre Hecke L-products give `∑m′/m=d·m_E′/m_E`, cancelling (10.3) with d(10.28). Section 9's A₃=−θ′ and θ′(c,0,φ)=dθ′(Nc,0,f), including archimedean corrections, cancel (10.5) with d(10.32). Exceptional τ, M=−1 and d self-associate preimages cancel (10.2) with d(10.30). The B-discrepancy (11.1) vanishes at good spherical places; separate it at bad places below.
 
 *Joint absolute bounds.* Fix other factors and the spherical unit at a good split v. Lift compact-mod-centre tests using a central cutoff on GL₂(A)¹, then project to the prescribed character of Z(F)\Z(A)¹. Put `Δ=1−Ω+2Ω_K`. Its inverse powers bound blocks by powers of `(1+t²+λ_π²+λ_τ²)⁻¹`. [flm11] §5.1–2 separates `M⁻¹M′=(n′/n)Id+∑_u N_u⁻¹N_u′`: polynomial weighted L¹ growth for the scalar; bounded finite-level rational degree, polynomial archimedean degree/dimension and unitary variation bounds for local matrices. Choose the resolvent power beyond these and the discrete counting exponent. Block trace norms are jointly summable/integrable before cancellation; central projection preserves this. [mw26] Theorem 11.1 applies the same estimates to `Res_{E/F}GL₂` with σ, a unitary twisted operator and conjugated level. Keep the quadratic self-associate term at spectral dimension zero.
 
@@ -1542,13 +1563,13 @@ For B₁, [langlands80] §9 pp.98–99,111 gives compact logarithmic orbital fun
 
 Hence ∑|cᵢ|<∞ and ∫|d(it)|dt<∞ in (11.6)–(11.7). The algebraic measure milestones `spectralCircle_fibre_countable` and `spectralCircle_density_singleton` also state that the real quotient fibres are countable for every real period T, and for T>0 and any nonnegative measurable density d (without an L¹ assumption), its pushforward has zero singleton mass. The L¹ assumption supplies finite total variation for the spectral comparison. Push d to the circle of period `2π/|log|ϖ_v||` and its Weyl quotient. Countable point fibres give no atoms and variation ≤||d||₁; no supremum bound is needed. Retain complementary parameters in the compact unitary Satake set. The Weyl-invariant Laurent algebra is self-adjoint and separates orbits, extending equality to finite measures. Separate atoms from the continuous measure, then each original coefficient from a finite set after bounding its tail (§11 p.138). Bad-place factors can vary arbitrarily.
 
-**Quaternion proof.** Apply AutomorphicSpectralTheory AS.6 and [jl70] §16's eight-term expansion. Put supercuspidal coefficients or Steinberg projectors at all ramified places. Equation (16.1.7) at at least two places kills split, singular, continuous and derivative terms. Elliptic matching leaves a scalar difference; separation and Lemma 16.1.2 would turn it into an away-place regular trace, forcing a noncompact group compact. Thus trace equality and the volume/formal-degree identity. Then subtract equal norm-character traces: each Steinberg factor gives −1, with product 1. Character independence gives cuspidal transfer; AutomorphicSpectralTheory supplies convergence, and R17.2 supplies the local matching functions.
+**Quaternion proof.** Apply AutomorphicSpectralTheory Layer 6 and [jl70] §16's eight-term expansion. Put supercuspidal coefficients or Steinberg projectors at all ramified places. Equation (16.1.7) at at least two places kills split, singular, continuous and derivative terms. Elliptic matching leaves a scalar difference; separation and Lemma 16.1.2 would turn it into an away-place regular trace, forcing a noncompact group compact. Thus trace equality and the volume/formal-degree identity. Then subtract equal norm-character traces: each Steinberg factor gives −1, with product 1. Character independence gives cuspidal transfer; AutomorphicSpectralTheory supplies convergence, and R17.2 supplies the local matching functions.
 
 The API includes Joint bounds before summing derivatives; atom-free L¹ periodization (`spectralCircle_fibre_countable`, `spectralCircle_density_singleton`); finite changes of local factors; quadratic exceptional correction; strongly cuspidal and Steinberg/norm-character specializations.
 
 **Checks.** Identity extension gives the ordinary formula; a cuspidal output with d distinct descents retains the supplied coefficient 1/d under the ledger conversion; deleting quadratic τ leaves (10.30) unmatched; retain the Steinberg/norm-character correction. Finite harmonic cutoffs do not give an absolute bound. The unbounded |t|⁻¹/² density on (0,1) has atom-free periodization. A constant map gives an atom.
 
-*Needs:* LocalGaloisDeformationRings §2.26.1; R17.2 local matching, continuous-residual-ledger and strong-cuspidal-vanishing; AutomorphicSpectralTheory AS.6 and §§7.0a–7.0c for the canonical ordinary and cyclic distributions and spectral isolation; AdelicAlgebraicGroups AA.2–3; ClassFieldTheory cyclic norm theorem and reciprocity; R16.4 multiplicity one. The rank-two singular and derivative cancellations and their comparison with the supplied distribution are owned by this target.
+*Needs:* LocalGaloisDeformationRings §2.26.1; R17.2 local matching, continuous-residual-ledger and strong-cuspidal-vanishing; AutomorphicSpectralTheory Layer 6 and §§7.0a–7.0c for the canonical ordinary and cyclic distributions and spectral isolation; AdelicAlgebraicGroups AA.2–3; ClassFieldTheory cyclic norm theorem and reciprocity; R16.4 multiplicity one. The rank-two singular and derivative cancellations and their comparison with the supplied distribution are owned by this target.
 
 *Source:* [langlands80], §9 pp.97–111, §10 pp.112–128, Theorem 11.1 pp.130–138; [jl70], §16 pp.262–278, Theorem 16.1 pp.269–270; [flm11], Theorem 3 and Proposition 1 pp.183–184, §5.1–2 pp.187–191; [mw26], Theorem 11.1 pp.14–16, Theorem 13.1 pp.17–18 (v2).
 
@@ -1738,9 +1759,9 @@ Fix the maximal-order identifications `(O_{D⁰})_v≅M₂(O_{E_v})` and the awa
 
 In CDN20 §5.2.1 fix `F₀/ℚ_p`, a coefficient field `L/ℚ_p`, `C≅Q̄_p`, and supercuspidal τ=LL(M) with centre trivial on ϖ. Let E be totally real with `E_𝔭≅F₀`. B̌ ramifies at 𝔭 and every real place except ∞₀; B exchanges invariants at {𝔭,∞₀}. Construct an automorphic Π̌ with `Π̌_𝔭=JL(τ)`, trivial types at compact real places, and weight-two holomorphic discrete series at ∞₀. Permit the central-character adjustment of footnote 21: twist τ by ηdet and its division partner by ηNrd, and replace L by a finite extension. Global JL then gives Π on B with `Π_𝔭=τ` and `Π_f^𝔭=Π̌_f^𝔭`. The latter determines `Π̌_𝔭` by strong multiplicity one.
 
-Proof: Extend `ω_τ` by full-local-character-prescription to finite Ψ, trivial at infinity. AdelicAlgebraicGroups AA.3 gives compactness modulo centre for B̌×. A normalized JL(τ) matrix coefficient at 𝔭 has trace one on that class and kills norm characters, since dim JL(τ)>1. Average at compact real places. At ∞₀ balance the split centre and use (sl₂,O(2)). Its tangent representation has weights ±2; D₂ contains that O(2)-type once and has no weight zero. Thus relative cochains vanish in degrees 0,2 and have dimension one in degree 1. The negative AutomorphicSpectralTheory AS.6 Euler–Poincaré function has D₂ trace +1 and identity value its positive formal degree. One-dimensional exceptions are killed at 𝔭. Using (gl₂,O(2)) without balancing would instead give zero Euler characteristic.
+Proof: Extend `ω_τ` by full-local-character-prescription to finite Ψ, trivial at infinity. AdelicAlgebraicGroups AA.3 gives compactness modulo centre for B̌×. A normalized JL(τ) matrix coefficient at 𝔭 has trace one on that class and kills norm characters, since dim JL(τ)>1. Average at compact real places. At ∞₀ balance the split centre and use (sl₂,O(2)). Its tangent representation has weights ±2; D₂ contains that O(2)-type once and has no weight zero. Thus relative cochains vanish in degrees 0,2 and have dimension one in degree 1. The negative AutomorphicSpectralTheory Layer 6 Euler–Poincaré function has D₂ trace +1 and identity value its positive formal degree. One-dimensional exceptions are killed at 𝔭. Using (gl₂,O(2)) without balancing would instead give zero Euler characteristic.
 
-On AdelicAlgebraicGroups AA.2's compact central quotient C of mass one, `P_Ψ=∫_C` Ψ(z)⁻¹R(z)dz projects onto the Ψ-isotypic space by character orthogonality. AutomorphicSpectralTheory AS.6 gives trace-class T=R(f) and ‖R(z)T‖₁=‖T‖₁. Trace-norm continuity and AutomorphicSpectralTheory AS.0's bounded trace justify `tr(P_ΨT)=∫_C` Ψ(z)⁻¹tr(R(z)T)dz. Apply this to the compact trace formula with the same centralizer measures.
+On AdelicAlgebraicGroups AA.2's compact central quotient C of mass one, `P_Ψ=∫_C` Ψ(z)⁻¹R(z)dz projects onto the Ψ-isotypic space by character orthogonality. AutomorphicSpectralTheory Layer 6 gives trace-class T=R(f) and ‖R(z)T‖₁=‖T‖₁. Trace-norm continuity and AutomorphicSpectralTheory Layer 0's bounded trace justify `tr(P_ΨT)=∫_C` Ψ(z)⁻¹tr(R(z)T)dz. Apply this to the compact trace formula with the same centralizer measures.
 
 Fix supports modulo centre and compact idempotents elsewhere; shrink an auxiliary split-place level. The rational central invariant Δ=(trd²−4Nrd)/Nrd is bounded on fixed supports and uniformly small at the shrinking place. The product formula forces Δ=0. A repeated characteristic root in a characteristic-zero division algebra forces γ scalar. Only the identity class remains, with positive volume times formal degrees and inverse auxiliary volume. Hence the spectral trace contains the prescribed Π̌ and no norm character.
 
@@ -1844,7 +1865,7 @@ The GL₂ adapter API consists of:
 
 ### R17.4.3 All-place compatibility of cyclic base change
 
-For the canonical weak prime-cyclic BC pair supplied by AutomorphicSpectralTheory §7.1, after the R17.5 Artin construction, and every w|v, identify `rec(BC(π)_w)` with `rec(π_v)|W_{E_w}`, retaining N; the same identity holds for recᵀ since local norms restrict compatibly. Principal series restrict both characters; Steinberg twists retain N≠0; a restricted supercuspidal parameter can become reducible. Real-to-complex transfer restricts the real Weil parameter. The global character identity supplies a local Shintani lift; proving that its parameter is the restriction is a further local comparison. Langlands treats reducible, special, dihedral and tetrahedral cases. Include the extraordinary dyadic case in every prime degree. R16.3's existence of local LLC alone does not prove this comparison, and [bh06] §52.9 p.324 explicitly distinguishes tame lifting from Weil restriction.
+For the canonical weak prime-cyclic BC pair supplied by AutomorphicSpectralTheory §7.1, after the R17.5 Artin construction, and every w|v, identify `rec(BC(π)_w)` with `rec(π_v)|W_{E_w}`, retaining N; the same identity holds for recᵀ since local norms restrict compatibly. Principal series restrict both characters; Steinberg twists retain N≠0; a restricted supercuspidal parameter can become reducible. Real-to-complex transfer restricts the real Weil parameter. The global character identity supplies a local Shintani lift; proving that its parameter is the restriction is a further local comparison. Langlands treats reducible, special, dihedral and tetrahedral cases. Include the extraordinary dyadic case in every prime degree. R16.3's existence of local LLC alone does not prove this comparison, and [bh06] §52.9 p.324 records that its authors have no purely local proof of `π_E(ρ|_{W_E}) = π_F(ρ)_E` for tame `E/F`.
 
 Use Frobenius-semisimple Weil–Deligne parameters and the R16.3 geometric reciprocity and Tate normalization. `E_w/F_v` is trivial or cyclic of degree ℓ, at every finite and infinite place.
 
@@ -2943,7 +2964,20 @@ In characteristic two a reflection has a one-dimensional fixed space despite its
 R16.3 and R16.6; R17.4–R17.5; ArithmeticGaloisRepresentations Layers 1–5; AlgebraicModularFormsAndSerreWeights R15.1–R15.6, including R15.5A.1–R15.5A.3; ModularForms Layers 0–8W; EtaleCohomologyFoundations §§0.6, 0.8, 0.11 and F.0–F.6; ClassicalAdicEtaleCohomology Layers 8–9; ComplexComparisonPartII §§C6.3–C6.6; LefschetzPencilsAndVanishingCycles LPV.0 and LPV.2; ClassFieldTheory Layer 11.
 
 
-## Bibliography
+## Downstream consumers
+
+- ModularityAndLanglandsExtensions §1.2 uses R17.5's solvable Artin automorphy;
+  its local Langlands and transfer inputs use R16.3 and R17.4–R17.5.
+- AutomorphicGaloisRepresentationsPartII's independent classical and Hilbert member
+  comparisons use R16.6.3–R16.6.4's weight and Frobenius dictionaries. Its
+  `semisimpleParameter` is an independent geometric construction, compared with the
+  semisimple part of R16.0's correspondence as specified there.
+- The proper-curve cases of EtaleDualityAndPerverseSheaves §§6.3–6.5 use
+  R17.6.3a–R17.6.3b's trace and contraction interfaces. General scheme correspondences
+  belong to that roadmap; the reordered curve branches, `ramification_contraction`,
+  dual-stalk transpose and cusp extension by zero belong here.
+
+## References
 [jl70]: https://publications.ias.edu/sites/default/files/automorphic-forms-on-gl2_rpl_9.pdf "H. Jacquet and R. P. Langlands, Automorphic forms on GL(2). LNM 114 (1970), IAS retypeset (2026)."
 [jl70-ubc]: https://sunsite.ubc.ca/DigitalMathArchive/Langlands/pdf/jl-ps.pdf "Jacquet–Langlands1970, UBC author retypeset pagination."
 [casselman73]: https://lesesvre.perso.math.cnrs.fr/newforms-references/casselman.pdf "W. Casselman, On some results of Atkin and Lehner. Math. Ann. 201 (1973), 301–314."

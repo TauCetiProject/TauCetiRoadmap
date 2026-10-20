@@ -245,7 +245,8 @@ section LocalModelFixtures
 open scoped ValuativeRel
 variable {p : ℕ} [Fact p.Prime]
 
-/-- The norm-power character on Q_p with the normalized p-adic absolute value. -/
+/-- The norm-power character on Q_p with normalized absolute value, taking the
+uniformizer p to p^(-t) and every p-adic integral unit to one. -/
 def localNormCharacter (p : ℕ) [Fact p.Prime] (t : ℝ) : ℚ_[p]ˣ →* ℂˣ where
   toFun u := Units.mk0 ((‖(u : ℚ_[p])‖ ^ t : ℝ) : ℂ) (by sorry)
   map_one' := by sorry
