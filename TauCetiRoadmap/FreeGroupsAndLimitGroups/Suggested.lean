@@ -229,8 +229,8 @@ theorem graphPresentation_abelianization (T : Γ.SpanningTree) (O : Set E)
     Nonempty (Additive (Abelianization (Γ.GraphPresentation T)) ≃+
       FreeAbelianGroup {e : E // e ∈ O ∧ e ∉ T.edges}) := by sorry
 
-/-- Finite-function coordinate adapter for NeronModelsAndSemistableAbelianVarieties §4.2's
-mod-two Finsupp incidence on the actual edge type `O` (§2.2a). Both ends of a loop are counted. -/
+/-- Binary incidence in finite-function coordinates on actual edge type `O` (§2.2a).
+Both ends of a loop are counted. -/
 noncomputable def cycleBoundary [Fintype V] [Fintype E] (O : Set E) :
     (O → ZMod 2) →ₗ[ZMod 2] (V → ZMod 2) := by
   classical
@@ -240,14 +240,104 @@ noncomputable def cycleBoundary [Fintype V] [Fintype E] (O : Set E) :
       map_add' := by sorry
       map_smul' := by sorry }
 
-/-- Finite-function coordinate adapter for the supplied `DualGraph.modTwoCycleSpace`
-(NeronModelsAndSemistableAbelianVarieties §4.2), on the actual edge type `O` (§2.2a). -/
+/-- Binary cycle space in finite-function coordinates on actual edge type `O` (§2.2a). -/
 noncomputable def cycleSpace [Fintype V] [Fintype E] (O : Set E) :
     Submodule (ZMod 2) (O → ZMod 2) := (Γ.cycleBoundary O).ker
 
-/-- Finite-function/Finsupp coordinates commute with the supplied binary boundary (§2.2a).
-The right side is the incidence map defining `DualGraph.modTwoCycleSpace` in
-NeronModelsAndSemistableAbelianVarieties §4.2, specialized to edge type `O`. -/
+/-- Signed integral incidence retains loops and parallel edge identities (§2.2a). -/
+noncomputable def integralCycleBoundary (O : Set E) : (O →₀ ℤ) →ₗ[ℤ] (V →₀ ℤ) :=
+  Finsupp.linearCombination ℤ
+    (fun e : O => Finsupp.single (Γ.tgt e) 1 - Finsupp.single (Γ.src e) 1)
+
+/-- The integral cycle lattice is the signed incidence kernel (§2.2a). -/
+noncomputable def cycleLattice (O : Set E) : Submodule ℤ (O →₀ ℤ) :=
+  (Γ.integralCycleBoundary O).ker
+
+/-- The binary incidence kernel on finitely supported edge coefficients (§2.2a). -/
+noncomputable def modTwoCycleSpace (O : Set E) : Submodule (ZMod 2) (O →₀ ZMod 2) :=
+  LinearMap.ker (Finsupp.linearCombination (ZMod 2)
+    (fun e : O => Finsupp.single (Γ.tgt e) (1 : ZMod 2) -
+      Finsupp.single (Γ.src e) (1 : ZMod 2)))
+
+/-- A loop's integral unit vector is a cycle, fixing the signed incidence convention. -/
+example (O : Set E) (e : O) (he : Γ.tgt e = Γ.src e) :
+    Finsupp.single e (1 : ℤ) ∈ Γ.cycleLattice O := by
+  simp [cycleLattice, integralCycleBoundary, LinearMap.mem_ker, he]
+
+/-- Separate parallel edges give a signed difference cycle without identifying their coordinates. -/
+example (O : Set E) (e f : O) (hef : e ≠ f)
+    (hs : Γ.src e = Γ.src f) (ht : Γ.tgt e = Γ.tgt f) :
+    Finsupp.single e (1 : ℤ) - Finsupp.single f 1 ∈ Γ.cycleLattice O ∧
+      Finsupp.single e (1 : ℤ) - Finsupp.single f 1 ≠ 0 := by
+  classical
+  constructor
+  · simp [cycleLattice, integralCycleBoundary, LinearMap.mem_ker, hs, ht]
+  · intro h
+    have hcoord := congrArg (fun c : O →₀ ℤ => c e) h
+    simp [hef] at hcoord
+
+/-- A loop's binary unit vector survives because its two incidence contributions cancel. -/
+example (O : Set E) (e : O) (he : Γ.tgt e = Γ.src e) :
+    Finsupp.single e (1 : ZMod 2) ∈ Γ.modTwoCycleSpace O := by
+  simp [modTwoCycleSpace, LinearMap.mem_ker, he]
+
+/-- The simple support retains all vertices and is used only for connectivity (§2.2a). -/
+def supportGraph (O : Set E) : SimpleGraph V :=
+  SimpleGraph.fromRel (fun v w => ∃ e : O, Γ.src e = v ∧ Γ.tgt e = w)
+
+/-- Spanning forests retain reachability, contain no loops or duplicate endpoint pairs,
+and have acyclic simple support (§2.2a). -/
+def IsSpanningForest (O F : Set E) : Prop :=
+  F ⊆ O ∧ (∀ e ∈ F, Γ.src e ≠ Γ.tgt e) ∧
+    (∀ e ∈ F, ∀ f ∈ F,
+      ((Γ.src e = Γ.src f ∧ Γ.tgt e = Γ.tgt f) ∨
+        (Γ.src e = Γ.tgt f ∧ Γ.tgt e = Γ.src f)) → e = f) ∧
+    (Γ.supportGraph F).IsAcyclic ∧
+    ∀ v w, (Γ.supportGraph F).Reachable v w ↔ (Γ.supportGraph O).Reachable v w
+
+/- The forest existence and count use pinned
+`SimpleGraph.exists_isAcyclic_reachable_eq_le` and `SimpleGraph.IsTree.card_edgeFinset`. -/
+
+/-- Every finite endpoint multigraph has a spanning forest, including the empty graph (§2.2a). -/
+theorem exists_spanningForest [Fintype V] [Fintype E] (O : Set E) :
+    ∃ F : Set E, Γ.IsSpanningForest O F := by sorry
+
+/-- Forest edges plus components count all vertices (§2.2a). The component count agrees
+with GraphConnectivityAndFlows Target 1.1's `Graph.componentCount`. -/
+theorem spanningForest_card [Fintype V] [Fintype E] (O F : Set E)
+    (hF : Γ.IsSpanningForest O F) :
+    Nat.card F + Nat.card (Γ.supportGraph O).ConnectedComponent = Nat.card V := by sorry
+
+/-- Every spanning forest gives integral and binary chord bases with matching reductions,
+without connectedness or orientation hypotheses (§2.2a). -/
+theorem exists_forest_cycleBasis [Fintype V] [Fintype E] [DecidableEq E]
+    (O F : Set E) (hF : Γ.IsSpanningForest O F) :
+    ∃ (b : Module.Basis {e : O // e.val ∉ F} ℤ (Γ.cycleLattice O))
+      (b₂ : Module.Basis {e : O // e.val ∉ F} (ZMod 2) (Γ.modTwoCycleSpace O)),
+      (∀ e f : {e : O // e.val ∉ F}, (b e).val f.val = if e = f then 1 else 0) ∧
+      ∀ (e : {e : O // e.val ∉ F}) (i : O), (b₂ e).val i = ((b e).val i : ZMod 2) := by
+  sorry
+
+/-- Coefficient reduction identifies the base-changed integral lattice with binary cycles;
+each pure tensor `1 ⊗ c` maps to the edgewise reduction of `c` (§2.2a). -/
+theorem cycleLattice_modTwoEquiv [Fintype V] [Fintype E] (O : Set E) :
+    ∃ e : TensorProduct ℤ (ZMod 2) (Γ.cycleLattice O) ≃ₗ[ZMod 2] Γ.modTwoCycleSpace O,
+      ∀ (c : Γ.cycleLattice O) (i : O),
+        (e (TensorProduct.tmul ℤ (1 : ZMod 2) c)).val i = (c.val i : ZMod 2) := by sorry
+
+/-- The integral cycle rank counts edges, vertices and components for every finite multigraph
+(§2.2a), including disconnected and empty graphs. -/
+theorem finrank_cycleLattice [Fintype V] [Fintype E] (O : Set E) :
+    Module.finrank ℤ (Γ.cycleLattice O) + Nat.card V =
+      Nat.card O + Nat.card (Γ.supportGraph O).ConnectedComponent := by sorry
+
+/-- The binary cycle dimension counts edges, vertices and components without connectedness
+(§2.2a). The support component count is the shared `Graph.componentCount`. -/
+theorem modTwoCycleSpace_finrank [Fintype V] [Fintype E] (O : Set E) :
+    Module.finrank (ZMod 2) (Γ.modTwoCycleSpace O) + Nat.card V =
+      Nat.card O + Nat.card (Γ.supportGraph O).ConnectedComponent := by sorry
+
+/-- Finite-function/Finsupp coordinates commute with binary incidence (§2.2a). -/
 theorem cycleBoundary_finsupp [Fintype V] [Fintype E] (O : Set E) (c : O → ZMod 2) :
     (Finsupp.linearEquivFunOnFinite (ZMod 2) (ZMod 2) V).symm (Γ.cycleBoundary O c) =
       Finsupp.linearCombination (ZMod 2)
@@ -255,17 +345,13 @@ theorem cycleBoundary_finsupp [Fintype V] [Fintype E] (O : Set E) (c : O → ZMo
           Finsupp.single (Γ.src e) (1 : ZMod 2))
         ((Finsupp.linearEquivFunOnFinite (ZMod 2) (ZMod 2) O).symm c) := by sorry
 
-/-- The boundary comparison restricts to a coordinate-preserving linear equivalence with the
-supplied binary kernel on edge type `O` (§2.2a). -/
+/-- The boundary comparison gives a coordinate-preserving equivalence of binary kernels
+(§2.2a). -/
 theorem exists_cycleSpace_finsuppEquiv [Fintype V] [Fintype E] (O : Set E) :
-    ∃ e : Γ.cycleSpace O ≃ₗ[ZMod 2]
-      LinearMap.ker (Finsupp.linearCombination (ZMod 2)
-        (fun e : O => Finsupp.single (Γ.tgt e) (1 : ZMod 2) -
-          Finsupp.single (Γ.src e) (1 : ZMod 2))),
+    ∃ e : Γ.cycleSpace O ≃ₗ[ZMod 2] Γ.modTwoCycleSpace O,
       ∀ (c : Γ.cycleSpace O) (i : O), (e c).val i = c.val i := by sorry
 
-/-- Transport of the supplied binary forest basis along the coordinate-preserving equivalence and the
-chord-index bijection gives the Serre tree-loop basis (§2.2a). -/
+/-- The binary forest basis specializes to the parity vectors of spanning-tree loops (§2.2a). -/
 theorem cycleSpace_basis [Fintype V] [Fintype E] [DecidableEq E] (T : Γ.SpanningTree)
     (O : Set E) (hO : Γ.IsOrientation O) :
     ∃ b : Module.Basis {e : E // e ∈ O ∧ e ∉ T.edges} (ZMod 2) (Γ.cycleSpace O),
@@ -273,8 +359,7 @@ theorem cycleSpace_basis [Fintype V] [Fintype E] [DecidableEq E] (T : Γ.Spannin
         (b e).val ⟨f.val, f.property.1⟩ =
         if e.val = f.val then 1 else 0 := by sorry
 
-/-- The supplied component-count rank formula, transported to Serre coordinates, specializes
-to the connected nonempty graph count (§2.2a). -/
+/-- The component-count formula specializes to a connected nonempty graph (§2.2a). -/
 theorem cycleSpace_finrank [Fintype V] [Fintype E] (T : Γ.SpanningTree)
     (O : Set E) (hO : Γ.IsOrientation O) :
     Module.finrank (ZMod 2) (Γ.cycleSpace O) = Nat.card O + 1 - Nat.card V := by sorry
