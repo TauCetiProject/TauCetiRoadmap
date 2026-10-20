@@ -115,6 +115,7 @@ body:
         - StableReduction
         - StandardDistributions
         - TaubesGromov
+        - ThetaSeries
         - Yamabe
         - ZigzagPreprojective
     validations:
