@@ -221,8 +221,11 @@ not prove projected discreteness.
 Neatness is that of AdelicAlgebraicGroups §4.3 (`Neat.IsNeatLevel`, for a point homomorphism
 satisfying `Neat.IsFaithfulAlgebraicPointHom`): every rational intersection `G(F) ∩ xKx⁻¹` is
 neat, eigenvalues being taken in a faithful algebraic representation of `G` over `F` (through an
-embedding `F → ℂ`, on which the notion does not depend). This is the notion of NT16 and ACC+
-(Pink's), and it provides the free arithmetic action. It is
+embedding `F → ℂ`, on which the notion does not depend). The adelic condition of Pink, NT16
+(§3.1) and ACC+ (§2.1.1) instead tests every adelic element through the intersection of its local
+eigenvalue-generated torsion groups. It implies this arithmetic-intersection convention; the
+converse fails, as the torus Check in ALS.0.9 shows. The geometric constructions here use the
+neatness of the arithmetic intersections, which provides the free arithmetic action. This is
 weaker than neatness of the same groups inside `𝐆(ℚ)`, where all Galois conjugates of the
 eigenvalues count. Neatness does not imply orientability: ALS.0.13 gives a neat level of `PGL_2`
 over `ℚ`, and ALS.0.12 a neat level of `GL_2` over `ℚ(√5)`, whose arithmetic groups contain
@@ -232,10 +235,14 @@ a CM field. The orientation local system `o_K` is kept throughout; for `GL_m/F` 
 `sign(N_{F/ℚ}(det))^{m−1}`.
 
 For a linear algebraic group `H` over `F`, a compact open subgroup `L ⊂ H(𝔸_F^∞)` is **good** if it
-is neat and of the form `L = ∏_v L_v` over the finite places `v` ([ACC+23, §2.1.1, p. 910]). If
+is neat in this roadmap's arithmetic-intersection convention and of the form `L = ∏_v L_v` over the
+finite places `v`. This adapts the terminology of [ACC+23, §2.1.1, p. 910]. If
 `K ⊂ G(𝔸^∞)` is good, then for every rational parabolic `P` and `g ∈ G(𝔸^∞)` the transported level
 `L_g = P(𝔸^∞) ∩ gKg⁻¹` is good: it is the product of the `P(F_v) ∩ g_vK_vg_v⁻¹`, and it is neat
-as a subgroup of the neat group `gKg⁻¹`.
+by inclusion of its rational intersections in those for `gKg⁻¹`. At decomposed parabolic levels,
+the Levi level is the intersection with the Levi (ALS.2.7–2.8). For a product Levi, factorwise
+arguments use neat product refinements and finite-cover descent (ALS.6); arithmetic-intersection
+neatness of a level does not assert neatness of its projected factor levels.
 
 Artin maps are normalized so that uniformizers go to **geometric** Frobenius elements, as in
 [ACC+23, §1.2, p. 906]: `Art_{F_v}` and `Art_F : 𝔸_F^×/F^× → G_F^{ab}` are ClassFieldTheory's
@@ -905,7 +912,8 @@ constant term is `f_P(g) = ∫_{N(F)\N(𝔸_F)} f(ng) dn`, and `f` is cuspidal i
 proper `P`, equivalently for every proper maximal `P`; cusp forms are cuspidal automorphic forms.
 Prove: (i) for a fixed ideal `J` of finite codimension, finite set of `K_∞`-types and level, the
 space of automorphic forms of that type is finite dimensional; (ii) every automorphic form `f`
-satisfies `f = f * α` for some `K_∞`-invariant `α ∈ C_c^∞(G(F_∞))`, hence lies in `T([G])`; (iii) a
+satisfies `f = f * α` for some `α ∈ C_c^∞(G(F_∞))` invariant under conjugation by `K_∞`, namely
+`α(kxk⁻¹) = α(x)` for all `k ∈ K_∞`, equivalently `α(kx) = α(xk)`, hence lies in `T([G])`; (iii) a
 cuspidal function satisfying the conditions on `K_∞`, level and `Z(𝔤)`, with a unitary central
 character on `A_∞`, is a cusp form if and only if it is bounded, if and only if it is square
 integrable modulo `A_∞`, and then it is rapidly decreasing on `A_∞G(F)\G(𝔸_F)`; (iv) for a unitary
@@ -921,7 +929,8 @@ they are the vectors of the cuspidal Hilbert space that are archimedean smooth, 
 cusp forms.
 The statement assumes `G` connected reductive over `F`. ([BJ79, §1.6 (2), p. 191]; [BJ79, §1.8, pp.
 191–192]; [BJ79, §4.2 and §4.3 (i), pp. 194–195]; [BJ79, §4.4, p. 196]; [BJ79, §4.6, pp. 196–197];
-[Fra98, §2.3, Proposition 2, p. 198], for `T([G])`)
+[Fra98, §2.3, Proposition 2, p. 198], for `T([G])`; [BorAF, §4.2, p. 4], for the conjugation
+convention in (ii))
 
 The API: `LocallySymmetric.AutomorphicForm` — the module `𝒜(G)`;
 `LocallySymmetric.AutomorphicForm.uniformModerateGrowth` — the space `T([G])` and the inclusion
@@ -970,8 +979,14 @@ integral dual Weyl modules, a finite free `O`-module equipped with an `O`-linear
 `∏_{v|p} GL_n(O_{F_v})`. Each reduction `𝒱_λ/ϖ^m` is smooth with its discrete coefficient fibre;
 `𝒱_λ` itself need not be smooth as a discrete module. (ii) Wigner's lemma: if
 `W` is a `(𝔤, K_∞)`-module on which `Z(𝔤)` acts by a character and `H^*(𝔤, K_∞; W ⊗ V_λ) ≠ 0`, then
-that character is the infinitesimal character of `V_λ^∨`; hence for fixed `λ` only finitely many
-irreducible admissible `W` have nonzero cohomology. (iii) For `F` imaginary CM and `G = GL_n`, put
+that character is the infinitesimal character of `V_λ^∨`. The finite-fibre theorem of
+Harish–Chandra is also a target here: for `G(F_∞)` and its full maximal compact `K_∞`, each algebra
+character `χ : Z(𝔤) → ℂ` occurs in only finitely many isomorphism classes of irreducible admissible
+`(𝔤, K_∞)`-modules. These are compatible modules of ALS.F.5, locally finite under `K_∞`, with finite
+multiplicity of each irreducible `K_∞`-type; the differentiated compact action agrees with the
+restricted Lie action, and `k(Xw) = (Ad(k)X)(kw)`. Together with Wigner's lemma this gives finitely
+many irreducible admissible `W` with nonzero cohomology for fixed `λ`. (iii) For `F` imaginary CM and
+`G = GL_n`, put
 `q₀ = [F⁺ : ℚ] n(n − 1)/2` and `ℓ₀ = [F⁺ : ℚ] n − 1`, and let `𝔪_G = 𝔤/𝔞_G`; for a cuspidal
 automorphic
 representation `π` of `GL_n(𝔸_F)` whose central character on `A_∞` is inverse to that of `V_λ`,
@@ -981,22 +996,35 @@ representation `π` of `GL_n(𝔸_F)` whose central character on `A_∞` is inve
 cohomological: some algebraic `ξ` of `Res_{F/ℚ} GL_n` has
 `H^*(𝔪_G, K_∞°; π_∞|·|^{(n+1)/2} ⊗ ξ) ≠ 0`. The statement assumes the hypotheses of each part.
 ([ACC+23, §2.2, pp. 917–918]; [HR15, §3.1.2,
-Lemma 3.2, and §3.1.4, pp. 16–17]; [ACC+23, §2.4.9, Theorem 2.4.10 and its proof, pp. 948 and 951];
+Lemma 3.2, and §3.1.4, pp. 16–17]; [BK, §4, Theorem 4.2(ii), pp. 20–21], for finite fibres;
+[ACC+23, §2.4.9, Theorem 2.4.10 and its proof, pp. 948 and 951];
 [Sch15, §V.4, proof of Corollary V.4.2, p. 102]; [CN23, §2.1.11, p. 16], for the integral lattices)
 
 The API: `LocallySymmetric.cohomologicalRepresentation` — the `(𝔤, K_∞)`-modules with nonzero
 cohomology against some `V_λ`; `LocallySymmetric.cohomologicalRepresentation.algebraicWeight` —
 `λ ↦ V_λ`, with duals; `LocallySymmetric.cohomologicalRepresentation.coefficientLattice` — `𝒱_λ`;
-`LocallySymmetric.cohomologicalRepresentation.wigner` — (ii);
+`LocallySymmetric.cohomologicalRepresentation.wigner` — the central-character implication in (ii);
+`LocallySymmetric.cohomologicalRepresentation.finiteInfinitesimalCharacter` — its finite-fibre theorem;
 `LocallySymmetric.cohomologicalRepresentation.degreeRange` — (iii), with `q₀` and `ℓ₀`;
 `LocallySymmetric.cohomologicalRepresentation.twist_cAlgebraic` — (iv).
 
 *Needs:* ALS.F.5; ALS.F.6;
 RepresentationTheory/LieHighestWeight,
-Layers 4, 5, 7 and 9.
+Layers 4, 5, 7 and 9. Within this target the compatible-module conventions and the finite-fibre
+theorem precede the fixed-weight finiteness conclusion. Algebraic coefficients and Wigner's lemma
+precede the specialized cuspidal degree and twisting results (iii)–(iv), whose proofs are targets
+of this section with the cited sources.
 
 **Checks.**
 
+- For `G(F_∞) = ℝ^×` and `K_∞ = {±1}`, the one-dimensional modules realized by `|x|^c` and
+  `sign(x)|x|^c`, for `c ∈ ℂ`, have the same infinitesimal character. A finite fibre need not be a
+  singleton.
+- For the compact torus `U(1)` with `K_∞ = U(1)`, compatibility forces its irreducibles to have
+  integral infinitesimal weight: in the coordinate where `z ↦ z^m` has weight `m`, each integral
+  fibre is a singleton and every nonintegral fibre is empty.
+- For `ℝ^×`, the trivial modules `ℂ^r`, `r ≥ 1`, have the same infinitesimal character and distinct
+  dimensions. They are admissible; irreducibility is essential to the finite-fibre assertion.
 - `n = 1`, `F` imaginary quadratic: `q₀ = ℓ₀ = 0`, and an algebraic Hecke character contributes in
   degree `0` only.
 - `n = 2`, `F` imaginary quadratic: `q₀ = ℓ₀ = 1`, so the range is `{1, 2}`, the cuspidal degrees of
@@ -1396,6 +1424,13 @@ between neat levels); AdelicAlgebraicGroups §4.4 (free action at neat level); M
   copies of `Γ(N)∖ℍ`, each a punctured surface with free fundamental group.
 - `K_0(N) ⊂ GL_2(Ẑ)` is never neat: `−I ∈ GL_2(ℚ) ∩ K_0(N)` has eigenvalue `−1`; it lies in `Z_K` and acts
   trivially, which is why stabilizers are computed with `Z_K`.
+- On `T = G_m²/ℚ`, take `K_3 = ℤ_3^× × (1 + 3ℤ_3)`,
+  `K_5 = (1 + 5ℤ_5) × ℤ_5^×` and `K_ℓ = (ℤ_ℓ^×)²` otherwise. Every rational coordinate in `K` is
+  `±1`; the condition at `5` kills the first minus sign and that at `3` kills the second. Since
+  `T` is abelian, every conjugated rational intersection is trivial, so `K` is neat here. But the
+  adelic element with `k_3 = (−1,1)`, `k_5 = (1,−1)` and `k_ℓ = (−1,1)` otherwise belongs to `K`
+  and has local eigenvalue torsion group `{±1}` at every prime in the faithful diagonal
+  representation. Thus it fails the adelic neatness condition of NT16 and ACC+.
 
 ### ALS.0.10 Standard level subgroups: Iwahori, `Γ0`, `Γ1`, `Γp` and Taylor–Wiles levels
 
@@ -4771,6 +4806,10 @@ Layers ALS.1–ALS.4; AlgebraicTopology, Stage 5; Mathlib (`groupCohomology`,
 - **[BJ79]** A. Borel, H. Jacquet, *Automorphic forms and automorphic representations*, in
   *Automorphic forms, representations and L-functions*, Part 1, Proceedings of Symposia in Pure
   Mathematics 33, American Mathematical Society (1979), 189–202.
+- **[BK]** J. Bernstein, B. Krötz, *Smooth Fréchet globalizations of Harish-Chandra modules*,
+  [arXiv:0812.1684v3](https://arxiv.org/abs/0812.1684v3), §4, pp. 20–21.
+- **[BorAF]** A. Borel, *Automorphic forms on reductive groups*,
+  [notes](https://homepages.math.uic.edu/~rtakloo/papers/borel/borel3.pdf), §4.2, p. 4.
 - **[Bor83]** A. Borel, *Regularization theorems in Lie algebra cohomology. Applications*, Duke
   Mathematical Journal 50 (1983), 605–623.
 - **[BS73]** A. Borel, J.-P. Serre, *Corners and arithmetic groups*, Commentarii Mathematici

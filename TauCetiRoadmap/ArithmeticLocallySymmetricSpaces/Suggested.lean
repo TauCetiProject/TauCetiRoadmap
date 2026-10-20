@@ -761,10 +761,15 @@ here.
   Discrete equivariant sections preserve injectives for every topological carrier; supported
   and boundary sheaves receive separate injective resolutions.
   `lieCochains` (Chevalley–Eilenberg and relative cochains), `AutomorphicForm` (automorphic forms
-  and cusp forms, with `AutomorphicForm.cuspidalSpectrum_discrete` assembling cusp forms as an
-  algebraic direct sum of admissible modules), `cohomologicalRepresentation` (algebraic weights,
-  Wigner's lemma and the degree range; its coefficient lattices are finite free over the coefficient
-  ring with a separate compact-group representation).
+  and cusp forms, with regularizing kernels invariant under conjugation by `K_∞` and
+  `AutomorphicForm.cuspidalSpectrum_discrete` assembling cusp forms as an algebraic direct sum of
+  admissible modules), `cohomologicalRepresentation` (algebraic weights, Wigner's lemma and the
+  degree range; its coefficient lattices are finite free over the coefficient ring with a separate
+  compact-group representation). ALS.F.7 also owns
+  `cohomologicalRepresentation.finiteInfinitesimalCharacter`: for `G(F_∞)` with full maximal
+  compact `K_∞`, each character of `Z(𝔤)` has finitely many isomorphism classes of irreducible
+  admissible compatible `(𝔤, K_∞)`-modules. This precedes fixed-weight finiteness and the specialized
+  cuspidal calculations. These module carriers are not provided at the pins.
 * Algebraic groups over number fields, their real points as Lie groups and algebraic Cartan
   involutions (twisted real forms): `IsCartanInvolution` and its API, including
   `IsCartanInvolution.iff_inverseAdjoint` (the AA.3.7 comparison preserving the specified involution,
@@ -773,7 +778,9 @@ here.
   (ALS.0.5 owns the proper-action/discrete-image/finite-kernel theorem; KleinianGroups Layer 1,
   `properlyDiscontinuousSMul_of_discrete`, is its PSL₂(ℂ) special case after the equivariant
   H³ identification and trivial-split-centre verification).
-* Adelic level quotients (AdelicAlgebraicGroups §4.4) and neat levels (§4.3): `X` and its API,
+* Adelic level quotients (AdelicAlgebraicGroups §4.4) and neat levels (§4.3, using
+  `Neat.IsNeatLevel`'s arithmetic-intersection convention, implied by the adelic condition of NT16
+  and ACC+): `X` and its API,
   `X.componentDecomposition`, `X.properlyDiscontinuous`, `X.manifold_of_neat`, `taylorWilesLevel`,
   `isNeat_of_two_proUnipotent`, `orientationSystem`, `nonorientable_neat_PGL2`.
 * Parahoric group schemes (ReductiveGroupsPartII, Layer RG2.3): `iwahori.eq_parahoric`.
