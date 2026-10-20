@@ -298,7 +298,10 @@ Generic tower comparisons retain StableHomotopyKTheory section 7.9's
 abelianTower.difference/limitKernel/limOneCokernel and the supplied
 DerivedModuleAlgebra section 1.T.1 on main carriers and spectral Milnor maps.
 Layer 11: FrobeniusPair/derived/map/ofExact/waldhausen, DenseClasses stable quotient with zero_iff/euler/quotientEquiv,
-countableEnvelope, enlarge/suspension/setup/IK, IsExactSequence,
+the triangulated idempotent completion Karoubi.hasShift/pretriangulated/isTriangulated/
+toKaroubi_isTriangulated/pretriangulated_unique/extension_isTriangulated/map_isTriangulated/
+cofinal_equivalence/verdierComparison on Mathlib's Karoubi envelope,
+countableEnvelope, enlarge/suspension/setup/IK, IsExactSequence and IsExactSequence.karoubi,
 NegativeKSetup, IK0/negativeIK, FrobeniusReplacement and spectrum localization.
 Layer 12: KaroubiFiltration/finiteIdeal/quotient, KaroubiCone/Suspension/Negative,
 FiniteChainDomination, FiniteDomination.idempotent/finiteModel/modelEquivalence/euler,

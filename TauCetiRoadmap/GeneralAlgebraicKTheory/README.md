@@ -4,13 +4,13 @@
 
 ## Scope and ownership
 
-This roadmap owns exact-category Q-theory and the S/Q comparison, the ring plus/Q comparison, the Bass/Schlichting comparison and the ordinary finite-field calculation needed by the Artin example. StableHomotopyKTheory supplies generic categorical homotopy, plus and monoidal group completion, Waldhausen/S foundations, additivity and relative-S delooping. The corresponding names here are supplied aliases or comparison targets; the exact-category and ring-specific comparisons and the K-theory adapters to the supplied spectrum category belong here. AlgebraicKTheory supplies associative scalar extension, stable GL/E, classical ring K₁ and finite-projective Milnor patching with its low-degree exact sequence; §§3.1, 3.3–3.4 and 8.4–8.6 expose these inputs through convention adapters. The higher comparisons and relative homotopy-fibre comparisons belong here. The ordinary interfaces supplied here for GeometryOfNumbersAndQuadraticArithmetic are §§1.1–1.6, §§2.1–2.6, §§5.2–5.11 and §§11.5–11.16 for its §§6.1.1–6.1.5; §§3.1–3.5, §§10.10–10.11 and §12.10 for its §6.1.7; §3.12 for its §6.10.3 plus/Q adapter; and §§13.8a–13.8c for its ordinary finite-field input. Under this consumer contract its local ordinary names are aliases for the supplied interfaces; its hermitian and shared-spectrum adapters and finite-field hermitian applications remain separate. With the same ordered charts, its first-to-second Milnor clutching parameter u corresponds to α=u⁻¹ in §8.4, so its boundary at u is the boundary here at u⁻¹, the negative of the boundary here at u.
+This roadmap owns exact-category Q-theory and the S/Q comparison, the ring plus/Q comparison, the Bass/Schlichting comparison and the ordinary finite-field calculation needed by the Artin example. StableHomotopyKTheory supplies generic categorical homotopy, plus and monoidal group completion, Waldhausen/S foundations, additivity and relative-S delooping. The corresponding names here are supplied aliases or comparison targets; the exact-category and ring-specific comparisons and the K-theory adapters to the supplied spectrum category belong here. AlgebraicKTheory supplies associative scalar extension, stable GL/E, classical ring K₁, the relative congruence group K₁(R,I) and finite-projective Milnor patching with its low-degree exact sequence; §§3.1, 3.3–3.4 and 8.4–8.6 expose these inputs through convention adapters, and §8.7 compares the relative group with the relative fibre. The higher comparisons and relative homotopy-fibre comparisons belong here. The ordinary interfaces supplied here for GeometryOfNumbersAndQuadraticArithmetic are §§1.1–1.6, §§2.1–2.6, §§5.2–5.11 and §§11.5–11.16 for its §§6.1.1–6.1.5; §§3.1–3.5, §§10.10–10.11 and §12.10 for its §6.1.7; §3.12 for its §6.10.3 plus/Q adapter; and §§13.8a–13.8c for its ordinary finite-field input. Under this consumer contract its local ordinary names are aliases for the supplied interfaces; its hermitian and shared-spectrum adapters and finite-field hermitian applications remain separate. With the same ordered charts, its first-to-second Milnor clutching parameter u corresponds to α=u⁻¹ in §8.4, so its boundary at u is the boundary here at u⁻¹, the negative of the boundary here at u.
 
 Exact structures, conflations, admissible maps, exact functors, projective and injective objects, and Frobenius exact categories belong to Tau Ceti. Its exact Grothendieck groups, finite-projective exact categories and Cartan map are inputs here. The new conflation-category target equips the supplied category of conflations with its componentwise exact structure; it does not construct that underlying category again. GrothendieckEulerForms Layers 2–3 supply the algebraic degree-zero Euler and finite-resolution comparisons; the resolution theorem here adds the homotopy equivalence and all higher groups.
 
 AlgebraicTopology Stages 2, 4 and 8 supply local coefficient complexes, CW attachment and the homotopy/Hurewicz/Whitehead tools. GeneralizedCohomology G2.10 supplies generic mapping-path fibres and their homotopy exact sequence; G2.3–G2.7 and G3 supply the stable category, sequential/symmetric comparison, integer homotopy, derived fibres/cofibres and telescopes. StableHomotopyKTheory supplies the categorical realization and acyclic-plus results used in Layer 1; the local targets add the specified model comparisons and K-theoretic adapters to those spectra. Mathlib supplies simplicial sets, nerves, their realization and ordinary homotopy groups. Serre quotient categories and their abelian universal properties are supplied by Mathlib; Layer 4 proves their K-theory localization sequence.
 
-DGAInfinity Layers 5–7 own perfect differential graded models, pretriangulated hulls, derived Morita theory and differential graded quotients. Layer 13 uses these carriers only to compare K-theory under an actual map of enhanced models. Triangulated structures, Verdier localization and idempotent completion are supplied category theory. The K-theoretic dense-class and completion criteria here add their Euler-class and boundary conclusions.
+DGAInfinity Layers 5–7 own perfect differential graded models, pretriangulated hulls, derived Morita theory and differential graded quotients. Layer 13 uses these carriers only to compare K-theory under an actual map of enhanced models. Triangulated structures, Verdier localization and the additive idempotent completion `Karoubi` are supplied category theory. Its triangulation, the exact-functor universal property and its compatibility with Verdier quotients are §11.4a here, for every pretriangulated category and so for every value of §11.6's derived functor. The K-theoretic dense-class and completion criteria here add their Euler-class and boundary conclusions.
 
 Field-specific symbol presentations, including Matsumoto’s theorem, and indecomposable `K₃` comparisons for infinite fields are outside this roadmap. No Bloch-group presentation of `K₃` for arbitrary rings is claimed. Scheme K-theory, descent, arithmetic calculations, topological K-theory and a general theory of commutative ring spectra remain separate directions; the projective-line construction here is stated directly for rings.
 
@@ -34,7 +34,7 @@ For Laurent splitting use `{t,x}` with the t-class first; its boundary is x. Gra
 
 Use `CategoryTheory.nerve` and `nerveMap`, `SSet.toTop`, `SSet.toTopSimplex` and `sSetTopAdj` for realization. Use `Path`, `ContinuousMap.Homotopy`, `ContinuousMap.HomotopyEquiv`, `LoopSpace` and `HomotopyGroup.Pi` for spaces and their based homotopy. StableHomotopyKTheory supplies Quillen A/B, the plus construction and the generic homotopy comparisons; Layer 1 identifies their carriers and maps with the conventions used here.
 
-Use `ShortComplex`, kernels, cokernels, pullbacks, pushouts, biproducts and additive functors. The exact square arguments retain `IsPullback`/`IsPushout` witnesses. `CategoryTheory.Idempotents.Karoubi` supplies actual idempotents; a map idempotent only up to chain homotopy is not such an object. Use homological complexes and chain homotopies, triangulated object properties and Verdier localizations as their existing carriers.
+Use `ShortComplex`, kernels, cokernels, pullbacks, pushouts, biproducts and additive functors. The exact square arguments retain `IsPullback`/`IsPushout` witnesses. `CategoryTheory.Idempotents.Karoubi` supplies actual idempotents; a map idempotent only up to chain homotopy is not such an object. With `toKaroubi`, `functorExtension`, `functorExtension₂` and `karoubiUniversal` it supplies the additive completion and its functor extensions, but no shift or triangulation; §11.4a adds them. Use homological complexes and chain homotopies, triangulated object properties and Verdier localizations as their existing carriers.
 
 For a Serre object property P, use `P.isoModSerre.Localization` and its functor `P.isoModSerre.Q`. In `CategoryTheory.ObjectProperty.SerreClassLocalization`, use `abelian`, `isZero_obj_iff`, `isIso_map_iff`, `preservesFiniteLimits`, `preservesFiniteColimits` and `exactFunctor_comp_iff`: the quotient is abelian, kills precisely P, inverts precisely the maps with P-kernel and P-cokernel, and has the exact-functor universal property. The calculus-of-fractions hypotheses come from `P.IsSerreClass`.
 
@@ -58,7 +58,7 @@ From `TauCeti.Algebra.Category.ModuleCat.CartanMap.Morita`, use `CategoryTheory.
 
 ### From TauCetiRoadmap
 
-[AlgebraicKTheory](../AlgebraicKTheory/README.md#conventions-dependencies-and-ownership), conventions and A0, supplies balanced tensor products for arbitrary associative rings, the all-module extension/restriction adjunction, its unit, counit, triangle identities and universe transport, and restriction of extension to finite projectives. A1–A2 supply stable GL, its elementary perfect commutator subgroup, classical K₁ and its projective-automorphism presentation. A6 supplies the patching equivalence, boundary and four-interior-term sequence for a pullback with at least one surjective leg. These are algebraic inputs, independent of Q/S, plus constructions and higher spectra.
+[AlgebraicKTheory](../AlgebraicKTheory/README.md#conventions-dependencies-and-ownership), conventions and A0, supplies balanced tensor products for arbitrary associative rings, the all-module extension/restriction adjunction, its unit, counit, triangle identities and universe transport, and restriction of extension to finite projectives. A1–A2 supply stable GL, its elementary perfect commutator subgroup, classical K₁ and its projective-automorphism presentation. A3 supplies the relative congruence group `K₁(R,I)=GL∞(R,I)/E∞(R,I)` of a two-sided ideal, its maps for morphisms of ideal pairs and its map to `K₁(R)`; §8.7 compares it with the relative fibre. A6 supplies the patching equivalence, boundary and four-interior-term sequence for a pullback with at least one surjective leg. These are algebraic inputs, independent of Q/S, plus constructions and higher spectra.
 
 Use its right-projective category over Rᵒᵖ as `P(R)`, with the native `finiteProjectiveModules R` carrier and split exact structure. Its split K₀ over Rᵒᵖ is identified with `TauCeti.ExactK0 (TauCeti.finiteProjectiveModulesExactStructure R)` by `ExactK0.fromSplitEquiv`; generators and scalar-extension maps agree. This change of module convention is distinct from the contravariant duality `P↦Hom_R(P,R)`. For classical K₁ use the matrix and projective-automorphism adapters of §3.14; for patching use the inverse-parameter adapter of §8.4. The section names retained here denote these supplied constructions and their comparisons, not additional low-degree ring groups.
 
@@ -1090,7 +1090,7 @@ The natural-transformation components are invertible and all functors preserve c
 
 ### 5.4 The simplex fibres in Waldhausen additivity
 
-The following explicit simplex-fibre model is an additional local target on the supplied S-diagrams. For the subobject map `δS₂C→δC` and `y∈δ_nC`, define `F_y=Δ[n]×_{δC}δS₂C`. Its m-simplices are monotone `u:[m]→[n]` and a cofibration sequence `u*y↣D↠B` in `S_mC`. Quotient gives `p_y:F_y→δC`. The constant last-vertex map and `0↣B=B` give a section `q_y`, since every vertex restriction of an `S_n`-object is zero. Prove `p_yq_y=id` and make these constructions natural in y.
+The following explicit simplex-fibre model is an additional local target on the supplied S-diagrams. For the subobject map `δS₂C→δC` and `y∈δ_nC`, define `F_y=Δ[n]×_{δC}δS₂C`. Its m-simplices are monotone `u:[m]→[n]` and a cofibration sequence `u*y↣D↠B` in `S_mC`. Quotient gives `p_y:F_y→δC`. The constant last-vertex map and `0↣B=B` give a section `q_y`, since every vertex restriction of an `S_n`-object is zero. Prove `p_yq_y=id`. For every simplicial operator `θ:[k]→[n]`, composition with θ gives a map `F_{θ*y}→F_y` over `δC` commuting with the quotient maps, so `F_y` and `p_y` are natural in y. The sections are natural only along operators with `θ(k)=n`; along any other θ the transported `q_{θ*y}` is a second section of `p_y`, compared with `q_y` in §5.5.
 
 Use the induced cofibration structure on `S₂C`, and the actual simplicial pullback.
 
@@ -1108,12 +1108,13 @@ Use:
 - For `n=0` and `y=0`, `F_y` parametrizes `0↣B=B` and `p_y` is the quotient identification.
 - On `q_y(B)`, the quotient is exactly B, rather than the zero object.
 - For the filtration `0↣k↣k²`, the middle object of a fibre extension may be larger than u*y; the fibre is not the set of subobjects of y.
+- Even for the zero category, let y be the 1-simplex and `θ:[0]→[1]` pick vertex 0. Transporting `q_{θ*y}` into `F_y` gives `Δ[1]`-coordinate the constant map at 0, while `q_y` uses the constant map at 1, so the sections are not strictly natural along θ.
 
 *Needs:* §5.2; §5.3.
 
 ### 5.5 The pushout contraction of an additivity fibre
 
-Construct the additional local contraction of §5.4's explicit fibre model. For `v:[m]→[1]`, replace u(j) by n at indices with `v(j)=1`, leaving the other indices unchanged. The monotone comparison `u≤ū` induces `u*y→ū*y`, and cobase change of the fibre extension defines a simplicial homotopy `id_{F_y}≃q_yp_y`. Prove its endpoint formulas, simplicial compatibility, constancy on the section, and preservation of the quotient B. `p_y` and `q_y` are homotopy inverses.
+Construct the additional local contraction of §5.4's explicit fibre model. For `v:[m]→[1]`, replace u(j) by n at indices with `v(j)=1`, leaving the other indices unchanged. The monotone comparison `u≤ū` induces `u*y→ū*y`, and cobase change of the fibre extension defines a simplicial homotopy `id_{F_y}≃q_yp_y`. Prove its endpoint formulas, simplicial compatibility, constancy on the section, and preservation of the quotient B. `p_y` and `q_y` are homotopy inverses. Hence any two sections of `p_y` are homotopic, in particular `q_y` and the transport of `q_{θ*y}` along an operator θ that moves the last vertex.
 
 The named targets are `AdditivityFibre.pushout_contraction` with the hypotheses and conclusions above.
 
@@ -1863,7 +1864,7 @@ The square is a pullback of unital associative rings with at least one map onto 
 
 For `f:R→S`, identify the relative split triple group of `f_!:P(R)→P(S)` with `π₀RelK(f)`. Map `(P,α,Q)` to `[P]−[Q]` together with the path from its scalar extension to zero furnished by `α`. Use stabilized virtual-projective representatives for surjectivity and paths representing stable automorphisms for injectivity. Compare the automorphism boundary with the connecting map from `K₁(S)`.
 
-f is a unital map of associative rings. This triple comparison concerns degree zero. Separately, for a quotient `R→R/I`, prove `relativeK.one_eq_classical`: `π₁RelK(R,I)` is the classical relative `K₁` congruence group, compatibly with ideal maps and the low-degree exact sequence. Use the relative plus-construction model of IV.1.11.1 and its comparison with classical `K₁` in Exercise IV.1.15. This additional adapter is used in §10.12 and makes no assertion of higher excision.
+f is a unital map of associative rings. This triple comparison concerns degree zero. Separately, for a quotient `R→R/I`, prove `relativeK.one_eq_classical`: `π₁RelK(R,I)` is AlgebraicKTheory A3's classical relative group `K₁(R,I)=GL∞(R,I)/E∞(R,I)`. Under §3.14's `ringKGroup.oneEquiv`, the isomorphism carries A3's map `K₁(R,I)→K₁(R)` to the fibre projection and A3's maps for morphisms of ideal pairs to the induced maps of relative fibres. Hence the segment `K₁(R,I)→K₁(R)→K₁(R/I)` of A3's exact sequence is the corresponding segment of §8.1's long exact sequence. Matching the boundary from `K₂(R/I)` with A5's Steinberg boundary would need an identification of `π₂` with Steinberg `K₂`, which this target does not assert. Use the relative plus-construction model of IV.1.11.1 and its comparison with classical `K₁` in Exercise IV.1.15. This additional adapter is used in §10.12 and makes no assertion of higher excision.
 
 (Weibel II, D 2.10,pp.II.13–14;E 2.17,p.II.17;IV E 1.16,p.IV.16;IV.1.11.1, pp.IV.8–9 and E 1.15, p.IV.16 for the relative `K₁` adapter.)
 
@@ -1873,7 +1874,7 @@ f is a unital map of associative rings. This triple comparison concerns degree z
 - For `R→0` the relative components are `K₀(R)`; a triple (P,unique,0) maps to `[P]`.
 - For `I=0` the quotient map is the identity and both classical and spectral relative `K₁` are zero.
 
-*Needs:* §8.1; §4.17; §3.14.
+*Needs:* §8.1; §4.17; §3.14; AlgebraicKTheory A3.
 
 ### 8.8 Ideal K-zero through the augmented-ring patching square
 
@@ -1980,7 +1981,7 @@ The relative fibre of `id_R` is contractible; the fibre of `R→0` is `K(R)`. Mu
 
 ### Dependencies
 
-Layers 1–4 and 7; ring pullbacks, unitization and the supplied exact `K₀`.
+Layers 1–4 and 7; ring pullbacks, unitization and the supplied exact `K₀`; AlgebraicKTheory A3's relative `K₁`.
 
 ## Layer 9: The ring projective line and Nil terms
 
@@ -2659,9 +2660,40 @@ Use the dense triangulated hypotheses of §11.3 and the Euler `K₀` presentatio
 
 *Needs:* §11.3.
 
+### 11.4a Triangulated idempotent completion
+
+For a pretriangulated T, give Mathlib's `Karoubi T` the shift `(X,e)[n]=(X[n],e[n])`, with shift isomorphisms induced from those of T, so that `toKaroubi` commutes with shifts. A triangle of `Karoubi T` is distinguished when it is a retract, in the category of triangles, of the image of a distinguished triangle of T. Prove that this is a pretriangulation, that it satisfies the octahedral axiom when T does, and that it is the only pretriangulation for this shift making `toKaroubi` a triangle functor; a triangle of T is distinguished exactly when its image is. For a triangle functor `F:T→L` into an idempotent-complete pretriangulated L, give Mathlib's extension `functorExtension` of F its shift comparison and prove it is a triangle functor; restriction along `toKaroubi` is an equivalence from triangle functors `Karoubi T→L` to triangle functors `T→L`, with natural transformations commuting with shifts. For a triangle functor `G:T→T′`, the induced functor `Karoubi T→Karoubi T′` of `functorExtension₂` is a triangle functor, compatibly with identities, composition and natural isomorphisms.
+
+Prove the two cofinality comparisons used by negative localization. A fully faithful triangle functor whose image is summand-dense induces a triangle equivalence of idempotent completions. For a triangulated `A⊂B`, let `A^♮⊂B^♮` be the essential image of the completed inclusion; the induced functor `B/A→B^♮/A^♮` of Verdier quotients is fully faithful and summand-dense. A map from an object of B to a retract of an A-object factors through that A-object, and an object of B that is such a retract lies in the thick closure of A, which has the same Verdier quotient.
+
+T, T′ and L are pretriangulated with additive shift functors. Distinguished triangles must be closed under retracts: an object of `Karoubi T` outside the essential image of T lies on no image triangle. The extension property requires L to be idempotent complete.
+
+(Balmer–Schlichting, T 1.5, p.2;L 1.6–1.8, D 1.10, R 1.11, T 1.12 and L 1.13, pp.2–4;proof 1.15, pp.4–6;Schlichting 2003, Facts 1.2 and §1.5 opening, p.4.)
+
+Use:
+
+- `Karoubi.hasShift`: shift `(X,e)[n]=(X[n],e[n])` commuting with `toKaroubi`.
+- `Karoubi.pretriangulated`: retracts of images of distinguished triangles.
+- `Karoubi.isTriangulated`: octahedral axiom when T satisfies it.
+- `Karoubi.toKaroubi_isTriangulated`: `toKaroubi` is a triangle functor reflecting distinguished triangles.
+- `Karoubi.pretriangulated_unique`: the only such pretriangulation for this shift.
+- `Karoubi.extension_isTriangulated`: triangle extension to an idempotent-complete target and the restriction equivalence.
+- `Karoubi.map_isTriangulated`: induced triangle functor of completions, with identity, composition and natural-isomorphism compatibility.
+- `Karoubi.cofinal_equivalence`: fully faithful summand-dense triangle functors induce triangle equivalences of completions.
+- `Karoubi.verdierComparison`: `B/A→B^♮/A^♮` is fully faithful and summand-dense.
+
+**Checks.**
+
+- If T is idempotent complete, as Dᵇ of finite-dimensional k-spaces is, `toKaroubi` is a triangle equivalence and the distinguished triangles of `Karoubi T` are exactly the images of those of T.
+- For the even-Euler subcategory A of Dᵇ(k) from §11.3, the summand-dense inclusion induces a triangle equivalence `A^♮≃Dᵇ(k)`. The object `(k[0]⊕k[0], projection onto the first summand)` of `A^♮` corresponds to `k[0]`, which is not in A, and §11.4 makes `K₀(A)→K₀(A^♮)=ℤ` injective with image `2ℤ`.
+- In that `A^♮`, the triangle on the identity of `(k[0]⊕k[0], projection onto the first summand)` with zero third term is distinguished, as a retract of the image of the identity triangle on `k[0]⊕k[0]`; it is isomorphic to no image of a triangle of A.
+- The identity `A→A` of the even-Euler subcategory has no additive extension `A^♮→A`: the image Y of `k[0]` would satisfy `Y⊕Y≅k[0]⊕k[0]`, forcing `Y≅k[0]∉A`. The extension property fails for a target that is not idempotent complete.
+
+*Needs:* `CategoryTheory.Idempotents.Karoubi`; `CategoryTheory.Idempotents.functorExtension`; `CategoryTheory.Idempotents.functorExtension₂`; `CategoryTheory.Pretriangulated`; `CategoryTheory.IsTriangulated`; `CategoryTheory.ObjectProperty.trW`; §11.4.
+
 ### 11.5 Flasque enlargement and suspension
 
-Construct countable admissible-ind envelope: objects are inflation sequences `X₀↣X₁↣⋯` and maps are `lim_i colim_j Hom(X_i,Y_j)`, with induced exact structure. Establish exact countable coproducts and the natural swindle `id⊕T≅T`. For a Frobenius pair form its Frobenius envelope F and the suspension pair S using the full objects killed by the quotient of the envelope-derived category by the original derived category. Prove original idempotent-completed derived category identifies with the countably compact objects of the envelope, and `D(S)` is the Verdier quotient. Verify exactness of the natural sequence `id→F→S`. Define the Frobenius IK spectrum now by spectrifying levels `K(SʳA)`. The structure map `K(A)→ΩK(SA)` comes from the envelope contraction and the composite nullhomotopy; the completed-level computation is §11.14.
+Construct countable admissible-ind envelope: objects are inflation sequences `X₀↣X₁↣⋯` and maps are `lim_i colim_j Hom(X_i,Y_j)`, with induced exact structure. Establish exact countable coproducts and the natural swindle `id⊕T≅T`. For a Frobenius pair form its Frobenius envelope F and the suspension pair S using the full objects killed by the quotient of the envelope-derived category by the original derived category. Prove the original idempotent-completed derived category, with the triangulation of §11.4a, identifies as a triangulated category with the countably compact objects of the envelope, and `D(S)` is the Verdier quotient. Verify exactness of the natural sequence `id→F→S`. Define the Frobenius IK spectrum now by spectrifying levels `K(SʳA)`. The structure map `K(A)→ΩK(SA)` comes from the envelope contraction and the composite nullhomotopy; the completed-level computation is §11.14.
 
 Keep the smallness bounds. Countable compactness concerns countable coproducts only; use the exact ind-envelope.
 
@@ -2684,19 +2716,20 @@ Use:
 - The enlargement has `IK₀=0` by additivity of `id⊕T≅T`, while the original k-model has `K₀=ℤ`.
 - The composite `M→FM→SM` has zero derived image; the quotient SM still retains the connecting map, rather than being identified with FM.
 
-*Needs:* §11.1; §10.1; `CategoryTheory.Idempotents.Karoubi`.
+*Needs:* §11.1; §10.1; §11.4a; `CategoryTheory.Idempotents.Karoubi`.
 
 ### 11.6 The set-up: negative K-groups of a triangulated category with models
 
 Define a model setup as a category of models with a derived triangulated-category functor, endofunctors F,S, and natural transformations `id→F→S`. An exact sequence of triangulated categories has zero composite, fully faithful first map, and a cofinal induced Verdier quotient map. Require F and S to preserve these sequences, `K₀(D(FM)^♮)=0`, and `M→FM→SM` to be exact. Put `IK₀(M)=K₀(D(M)^♮)` and `IK_{−n}(M)=IK₀(SⁿM)`. Verify the preceding Frobenius envelopes satisfy these axioms.
 
-Cofinal means fully faithful with every target object a summand of an image object. Idempotent completion and its triangulated structure are supplied; this target adds the K-theoretic setup.
+Cofinal means fully faithful with every target object a summand of an image object. Here `D(M)^♮` is `Karoubi (D(M))` with the triangulation of §11.4a. Prove `IsExactSequence.karoubi`: completing the three terms of an exact sequence `A→B→C` gives an exact sequence. The completed first map is fully faithful, and the comparison from `B^♮/A^♮` to `C^♮` is cofinal by §11.4a's Verdier comparison and cofinal equivalence.
 
-(Schlichting 2003, D 1.1, Facts 1.2, Set-up 1.3 and D 1.4, pp.4–5;§5.5, p.11.)
+(Schlichting 2003, D 1.1, Facts 1.2, Set-up 1.3, D 1.4 and §1.5 opening, pp.4–5;§5.5, p.11.)
 
 Use:
 
 - `IsExactSequence`: An exact sequence of small triangulated categories, with the cofinality condition.
+- `IsExactSequence.karoubi`: idempotent completion of the three terms preserves exact sequences.
 - `IK0`: zeroth invariant, the K-group of the idempotent completion.
 - `NegativeKSetup`: category of models with F, S and the three conditions.
 - `negativeIK`: negative groups of a model.
@@ -2709,20 +2742,21 @@ Use:
 - For the zero model all suspension iterates have zero group.
 - For the identity sequence T `--id→ T→0`, exactness gives the expected identity and zero maps.
 - The inclusion of the even-Euler-characteristic subcategory of Dᵇ(k) is cofinal but not essentially surjective: `k[0]` is a summand of `k[0]⊕k[0]` but is not itself an even-Euler object.
+- For that subcategory A, the sequence `A→Dᵇ(k)→0` is exact, and `IsExactSequence.karoubi` gives the exact sequence `A^♮→Dᵇ(k)→0` whose first map is a triangle equivalence, although `A→Dᵇ(k)` is not essentially surjective.
 
-*Needs:* §11.5; `CategoryTheory.Idempotents.Karoubi`; §11.4.
+*Needs:* §11.5; §11.4a; `CategoryTheory.Idempotents.Karoubi`; §11.4.
 
 ### 11.7 Negative localization
 
-For an exact sequence of setup models, construct the boundary by lifting a class through the flasque enlargement, and prove independence of the lift. Obtain the exact nonpositive sequence through `IK₀` and all negative groups. A cofinal derived functor induces isomorphisms on these groups. Relate vanishing of `IK₋₁(M)` to idempotent completeness of the quotient between idempotent-completed derived categories in every exact sequence beginning at M, using the object-lifting obstruction in the first boundary.
+For an exact sequence of setup models, form the completed diagram of the sequence and its F- and S-images by `IsExactSequence.karoubi`. Construct the boundary by lifting a class through the flasque enlargement, and prove independence of the lift. Obtain the exact nonpositive sequence through `IK₀` and all negative groups. A cofinal derived functor induces isomorphisms on these groups. Relate vanishing of `IK₋₁(M)` to idempotent completeness of the quotient between idempotent-completed derived categories in every exact sequence beginning at M, using the object-lifting obstruction in the first boundary.
 
 The named targets are `negativeIK_localization` with the hypotheses and conclusions above.
 
 The Verdier quotient comparison need only be cofinal. Localization applies to exact model sequences, not arbitrary triangulated functors.
 
-(Schlichting 2003, L 1.6, T 1.7, C 1.8 and Remark 1.9, pp.5–6;§5.5, p.11.)
+(Schlichting 2003, §1.5, pp.4–5;L 1.6, T 1.7, C 1.8 and Remark 1.9, pp.5–6;§5.5, p.11.)
 
-*Needs:* §11.6; §11.5.
+*Needs:* §11.6; §11.5; §11.4a.
 
 ### 11.8 Additivity and filtered colimits for the negative groups
 
@@ -2850,7 +2884,7 @@ The identity Frobenius pair has zero derived quotient. The even-Euler subcategor
 
 ### Dependencies
 
-Layers 1, 4–6 and 10; supplied Frobenius stable categories, Verdier localization and idempotent completion.
+Layers 1, 4–6 and 10; supplied Frobenius stable categories, Verdier localization and the additive `Karoubi` completion, triangulated in §11.4a.
 
 ## Layer 12: Karoubi filtrations, finite domination and comparison
 
@@ -3353,6 +3387,7 @@ In locators, T/P/D/C/E/L mean theorem/proposition/definition/corollary/exercise/
 - May, [A concise course in algebraic topology](https://www.math.uchicago.edu/~may/CONCISE/ConciseRevised.pdf), revised author PDF, Chapters 22 and 25.
 - Thomason–Trobaugh, [Higher algebraic K-theory of schemes and of derived categories](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/tt.pdf), Grothendieck Festschrift III (1990), 247–435.
 - Thomason, [The classification of triangulated subcategories](https://www.cambridge.org/core/services/aop-cambridge-core/content/view/8FA43E2F659E004A21FE2F0652743CE8/S0010437X97000067a.pdf/div-class-title-the-classification-of-triangulated-subcategories-div.pdf), Compositio 105 (1997), 1–27.
+- Balmer–Schlichting, [Idempotent completion of triangulated categories](https://www.math.ucla.edu/~balmer/Pubfile/IdempCompl.pdf), Journal of Algebra 236 (2001), 819–834; locators use the revised preprint of 14 June 2000.
 - Schlichting 2003, [Negative K-theory of derived categories](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/schlneg.pdf), 16 June 2003 preprint; its numbering differs from the published article.
 - Schlichting 2002, [A note on K-theory and triangulated categories](https://webhomes.maths.ed.ac.uk/~v1ranick/papers/schlk.pdf), Inventiones 150, 111–116.
 - Dugger–Shipley, [A curious example of two model categories and some associated differential graded algebras](https://www.math.uic.edu/~bshipley/dugger.shipley.curious.example.pdf), Algebraic & Geometric Topology 9 (2009), 135–166, Remark 4.9.
