@@ -53,7 +53,7 @@ The section and coefficient calculations use Mathlib's existing `PresheafOfModul
 
 For `p>0`, coefficient-linear `V` on `PowerSeries A` is Mathlib `PowerSeries.expand p hp`, with `hp : p ≠ 0`. Use `PowerSeries.coeff_expand`, `PowerSeries.coeff_expand_mul`, `PowerSeries.expand_C` and its `AlgHom` linearity. There is no separate `qV` definition or coefficient API. Mathlib `PowerSeries.derivative` supplies the formal derivation used to compare the series operation `q d/dq` with the geometric theta operator.
 
-Generic coefficient selection is owned by [TauCeti/RingTheory/PowerSeries/Cartier.lean](https://github.com/TauCetiProject/TauCeti/blob/a3a2f35c018d741d724b689c2a90aab4d6eecf68/TauCeti/RingTheory/PowerSeries/Cartier.lean#L32-L47). Its semiring-linear `PowerSeries.cartier A q r` selects coefficient `qn+r`. The modular-form-facing `qU p` is the residue-zero specialization `PowerSeries.cartier A p 0`; use this specialization as an abbreviation, `PowerSeries.coeff_cartier` for its coefficient equation, and the Cartier/expansion identities for its formal properties. Geometric preservation and Hecke comparison belong to R15.3.
+The generic coefficient-selection API [TauCeti/RingTheory/PowerSeries/Cartier.lean](https://github.com/TauCetiProject/TauCeti/blob/a3a2f35c018d741d724b689c2a90aab4d6eecf68/TauCeti/RingTheory/PowerSeries/Cartier.lean#L32-L47), at `a3a2f35`, is later than the declared pin `a91d3aa`. Its semiring-linear `PowerSeries.cartier A q r` selects coefficient `qn+r`. At the declared pin, `qU p` is the real-bodied coefficient-selection definition below and `qU_coefficient` is its coefficient equation. Their API follows the residue-zero specialization `PowerSeries.cartier A p 0` and `PowerSeries.coeff_cartier`, so adopting that library API replaces the local definition and coefficient equation. Geometric preservation and Hecke comparison belong to R15.3.
 
 Tau Ceti `TauCeti.integralClosure.isDedekindDomain` is supplied by `TauCeti.RingTheory.DedekindDomain.IntegralClosure`. It takes a Dedekind domain `O`, a chosen fraction field `K`, a field extension `L` with compatible `O/K` algebra structures and `Module.Finite K L`; no separability or `O`-module finiteness of the normalization is assumed.
 
@@ -77,11 +77,11 @@ The targets below have concrete mathematical prerequisites. A complete implement
 | ModularCurvesPartII §§14.1–14.4a, 14.11 | Geometric `Sym^(k−2)R¹h_*` systems, support maps and parabolic images, finite/adic comparisons and characteristic-zero scalar extension, with level/isogeny/Hecke transport; coefficient-domain pairing with its dual lattice, adjoint Hecke action and Tate twist. R15.5A.1 constructs the logarithmic de Rham/parabolic filtered comparison, higher-weight Eichler–Shimura decomposition and primitive rank-two newspace summand. |
 | EtaleCohomologyFoundations §§0.6, 0.8, 0.11, F.0–F.6; ComplexComparisonPartII §§C6.3–C6.6 | Scheme cohomology, compact support, duality and equivariant Betti–étale comparison used in the classical attachments of R15.5A. |
 | [ArithmeticDirichletSeries](../../Completed/ArithmeticDirichletSeries/README.md) Layers 3, 7–8; Chebotarev Layer 10 | Euler-product logarithms, Landau positivity, all-prime normalization and upper Dirichlet-density bounds; Frobenius-class density for finite Galois extensions. R15.5A.2a constructs the classical weight-one Rankin–Selberg specialization used by R15.5A.3. |
-| AutomorphicFormsOnReductiveGroups [§5.8](../AutomorphicFormsOnReductiveGroups/README.md#58-residual-and-torsion-hecke-eigenclasses) and [§7.3](../AutomorphicFormsOnReductiveGroups/README.md#73-hecke-and-diamond-normalization-for-gl₂) | Hecke characters, their kernels and arithmetic normalization. R15.6 compares its trace/determinant predicate with agreement of the reduced form system and `ofGaloisRep ρ̄`, with `T_ℓ ↦ tr` and `S_ℓ ↦ ℓ⁻¹ det`, away from `Np`. |
+| AutomorphicFormsOnReductiveGroups [§5.8](../AutomorphicFormsOnReductiveGroups/README.md#58-residual-and-torsion-hecke-eigenclasses) and [§7.3](../AutomorphicFormsOnReductiveGroups/README.md#73-hecke-and-diamond-normalization-for-gl₂) | Hecke characters, their kernels and arithmetic normalization. R15.6 compares its trace/determinant predicate with agreement of the reduced form system and `galoisAnemicEigenSystem ρ̄`, with `T_ℓ ↦ tr` and `S_ℓ ↦ ℓ⁻¹ det`, away from `Np`. |
 | ModularForms Layers 0, 4–5, 8, 8G, 8W, 10C | Existing analytic carriers, character and Eisenstein normalization, full Hecke eigenform normalization, classical multiplicity one and old/new decomposition, coefficient rationality, integral algebra via modular symbols, the weight-one all-cusp lattice, and analytic automorphy and cusp conventions. R15.2 constructs the higher-weight geometric all-cusp lattice and denominator comparison; R15.5A constructs the primitive classical cohomological summand and its Galois attachments. |
 | ModularCurves Layers 5, 10; AlgebraicCurves Layer 12E; JacobianChallenge Layers A–B | Universal elliptic curves and compactification, coherent curve cohomology and Serre duality used by R15.5A.1. |
 | ClassFieldTheory Layer 11 | Global reciprocity for the Dirichlet-character Eisenstein branches of R15.5A.2–R15.5A.3. |
-| EllipticCurves Layers 3–4 | Relative Frobenius and Verschiebung and their differential actions; semistable reduction, Tate torsion extension and the actual Kummer parameter including unramified twists. |
+| EllipticCurves Layers 1, 3–5 | Relative Frobenius, Verschiebung and their differential actions (Layer 1), supersingularity (Layer 3), Galois-equivariant Tate uniformisation `L^×/q^ℤ ≅ E_q(L)` (Layer 4), semistability (Layer 4.5a) and quadratic/unramified twists (Layer 5). R15.4 derives the torsion extension, Kummer parameter and peu/très criterion from this uniformisation. |
 
 Several proof obligations need more than the named geometric carrier. Q-expansion vanishing uses filtered-colimit cohomology, faithfully flat noetherian completion, formal functions, Krull intersection and the Artin-base depth argument. Fine-level base change uses proper coherent finiteness, curve degree and duality vanishing, with the `n≤11` weight-one cusp calculation. The strong principle also uses a reduction from coefficient modules to the Artin-local argument and positive-weight constant-expansion vanishing in characteristic zero. These are foundational proof inputs for the stated q-expansion results.
 
@@ -95,15 +95,21 @@ Weight-one `T_p` over `O/ϖ^m` uses ModularCurvesPartII §9.11 `coherentHecke` a
 
 #### The Raynaud input and its boundary
 
-Use the Raynaud statements supplied by FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.1 for a mixed-characteristic DVR `R`, residue characteristic `p` and absolute ramification `e`. For an `F`-vector-space generic-fibre scheme of rank `q` admitting a finite flat model, the maximal model is characterized by `v(δ_i)≤p−1` for all `i` and strict inequality for at least one `i`. If `e<p−1` the model is unique and retains the `F`-action. At `e=p−1`, with simple generic fibre and henselian `R`, either the model is unique or there are exactly two, one étale and one multiplicative; the `F`-action remains in either case.
+Use the Raynaud statements supplied by FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.1 for a mixed-characteristic DVR `R`, residue characteristic `p` and absolute ramification `e`. For a finite extension `F/𝔽_p` of order `q=p^r`, put `K=Frac R`. For a `K`-scheme in `F`-vector spaces of rank `q` admitting a finite flat model, the target `TauCeti.SerreWeight.raynaud_maximal_model` here proves that the maximal model is characterized by `v(δ_i)≤p−1` for all `i` and strict inequality for at least one `i`, in Raynaud coordinates `X_i^p=δ_i X_(i+1)`, taken étale locally to split the `F×` characters, with normalized valuation `v(ϖ)=1` and `0≤v(δ_i)≤e`. It also extends the generic `F`-action functorially to the maximal model. This maximal-model criterion is constructed here from Raynaud Propositions 3.3.1–3.3.2; it is separate from the supplied uniqueness, boundary and tame-inertia statements. If `e<p−1` the model is unique and retains the `F`-action. At `e=p−1`, with simple generic fibre and henselian `R`, either the model is unique or there are exactly two, one étale and one multiplicative; the `F`-action remains in either case.
 
 Under `e<p−1` every commutative `p`-power-torsion finite generic-fibre group scheme has at most one finite flat model. For commutative finite flat group schemes killed by a power of `p`, generic-fibre morphisms extend uniquely; their kernels and cokernels are flat and the corresponding Ext map is injective. Over a strictly henselian mixed-characteristic DVR, the tame-character classification expresses a prolongable character as a product of fundamental characters with exponents `0≤n_j≤e`; the Jordan–Hölder factors of a prolongable `p`-power group have this form. At `e≥p−1` that numerical bound supplies no restrictive classification.
 
-For the maximal unramified base at `p`, `e=1`. Thus odd `p` lies in the uniqueness range, but `p=2` lies exactly on the boundary `e=p−1`. Tame prolongation over the strict henselian base does not by uniqueness alone descend to `ℤ₂`. Raynaud's relevant tame prolongation theorem is 3.4.3; the reference to 2.4.3 in Serre's proof has the wrong number. The general statements remain owned by FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.1, and this contract records their precise use in the weight criterion.
+For the maximal unramified base at `p`, `e=1`. Thus odd `p` lies in the uniqueness range, but `p=2` lies exactly on the boundary `e=p−1`. Tame prolongation over the strict henselian base does not by uniqueness alone descend to `ℤ₂`. Raynaud's relevant tame prolongation theorem is 3.4.3; the reference to 2.4.3 in Serre's proof has the wrong number. The uniqueness, boundary and tame-inertia statements remain owned by FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.1. The maximal-model target above supplies the additional criterion used in the weight comparison.
 
-*Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.30; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.31; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.32.
+**Checks.**
 
-([Raynaud](https://www.numdam.org/article/BSMF_1974__102__241_0.pdf), Proposition 3.3.2, parts 2 and 3, printed p. 267; [Raynaud](https://www.numdam.org/article/BSMF_1974__102__241_0.pdf), Corollary 3.4.4, printed p. 270; [Raynaud](https://www.numdam.org/article/BSMF_1974__102__241_0.pdf), Corollary 3.3.6, printed p. 268; [Serre](https://www.college-de-france.fr/media/jean-pierre-serre/UPL5835292064138487263_Serre_Repr.modulaires_Galois.pdf), Proof of Proposition 4, printed p. 190; [Raynaud](https://www.numdam.org/article/BSMF_1974__102__241_0.pdf), Theorem 3.3.3 and Remarks 3.3.4-3.3.5, printed p. 268; [Raynaud](https://www.numdam.org/article/BSMF_1974__102__241_0.pdf), Remark 3.4.6, printed p. 271.)
+- For `R=ℤ₃`, a rank-three model has `v(δ)∈{0,1}`; both values satisfy the maximal-model criterion, consistently with uniqueness for each generic fibre.
+- Over `ℤ₂`, the constant model has `v(δ)=0` and is maximal. The multiplicative model has `v(δ)=1=p−1` and fails the strict inequality, although its generic fibre is isomorphic to the constant one.
+- For `p>2` and `e≥p`, the rank-`p` equation with `v(δ)=p` fails the bound. Rescaling its generic coordinate by the inverse uniformizer gives a larger model with parameter valuation `p−(p−1)=1`, which satisfies it.
+
+*Needs:* FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.24 for maximal prolongation; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.28 for Raynaud coordinates; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.30; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.31; FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.1.32.
+
+([Raynaud](https://www.numdam.org/article/BSMF_1974__102__241_0.pdf), Propositions 3.3.1–3.3.2, parts 1–3 of the latter, printed pp.265–267; [Raynaud](https://www.numdam.org/article/BSMF_1974__102__241_0.pdf), Corollary 3.4.4, printed p. 270; [Raynaud](https://www.numdam.org/article/BSMF_1974__102__241_0.pdf), Corollary 3.3.6, printed p. 268; [Serre](https://www.college-de-france.fr/media/jean-pierre-serre/UPL5835292064138487263_Serre_Repr.modulaires_Galois.pdf), Proof of Proposition 4, printed p. 190; [Raynaud](https://www.numdam.org/article/BSMF_1974__102__241_0.pdf), Theorem 3.3.3 and Remarks 3.3.4-3.3.5, printed p. 268; [Raynaud](https://www.numdam.org/article/BSMF_1974__102__241_0.pdf), Remark 3.4.6, printed p. 271.)
 
 <a id="target-finite-at-p-equals-peu-ramifie"></a>
 
@@ -736,13 +742,13 @@ For `p=2` or 3 the Hasse section has no holomorphic level-one characteristic-zer
 
 #### Theta and filtration
 
-Define the series operation `seriesTheta (f : PowerSeries A) : PowerSeries A` by coefficient `n` equal to `n a_n` for a commutative ring `A`. Its API is the coefficient formula, the derivation law, vanishing on pth powers in characteristic `p`, and the formal weight-shifted Hecke relation `seriesTheta_hecke`: in characteristic `p` for prime `p`, `seriesHecke(ℓ,ℓ²c,d,seriesTheta(f))=ℓ seriesTheta(seriesHecke(ℓ,c,d,f))`. It agrees with `q` times Mathlib's formal derivative and is distinct from the geometric form operator with degree `p+1`. (Katz 1977, §II, pp.55–56; Edixhoven §3.1, author DVI p.7.)
+Define the series operation `seriesTheta (f : PowerSeries A) : PowerSeries A` by coefficient `n` equal to `n a_n` for a commutative ring `A`. Its API is the coefficient formula, the derivation law, vanishing on pth powers in characteristic `p`, and the formal weight-shifted Hecke relation `seriesTheta_hecke`: over every commutative coefficient ring, `seriesHecke(ℓ,ℓ²c,d,seriesTheta(f))=ℓ seriesTheta(seriesHecke(ℓ,c,d,f))`. The series operator agrees with `q` times Mathlib's formal derivative and is distinct from the geometric form operator with degree `p+1`. For the geometric `theta_hecke` comparison, the shift from `ℓ^(k−1)` to `ℓ^(k+p)` equals multiplication by `ℓ²` in characteristic `p`, for prime `p` and `ℓ≠p`. (Katz 1977, §II, pp.55–56; Edixhoven §3.1, author DVI p.7.)
 
 The named milestones `seriesTheta_coefficient`, `seriesTheta_eq_X_mul_derivative`, `seriesTheta_mul` and `seriesTheta_pow_charP` state these characterizing properties; the last carries prime `p` and `CharP A p` as hypotheses.
 
 **Checks.**
 
-- On `q²` over `ℤ` its value is `2q²`.
+- On `q²` over `ℤ` its value is `2q²`. With `ℓ=2,c=d=1`, the formal Hecke/theta identity has both sides `2q+8q⁴`, exhibiting its characteristic-zero case.
 - On 1 its value is zero, although 1 is nonzero over a field.
 - In characteristic `p` it kills `q^p`; on `Δ` modulo 5 its coefficient two is 2.
 
@@ -778,7 +784,7 @@ The interface consists of:
 
 #### Coefficient-linear `U` and `V`
 
-On expansions use the coefficient-linear `V` of the exact Mathlib supplier contract and the residue-zero Cartier specialization `U(Σa_mq^m)=Σa_(pm)q^m`. Its intended signature is `qU (p : ℕ) : PowerSeries A →ₗ[A] PowerSeries A` for every commutative ring `A`; its coefficient API `qU_coefficient` specializes `PowerSeries.coeff_cartier`. Then `UV=1` for `p>0`. The formal weight-one identity `seriesHecke_weightOne` is `seriesHecke(p,1,d,f)=U(f)+dV(f)`. Absolute Frobenius instead sends `f` to `f^p`, with coefficients `a_m^p`. These maps coincide only under the appropriate coefficient restriction; the field `𝔽₂(t)` distinguishes them immediately. The geometric meaning of the form operations uses relative Frobenius and Verschiebung of elliptic curves and the actual modular correspondence.
+On expansions use the coefficient-linear `V` of the exact Mathlib supplier contract and the residue-zero Cartier specialization `U(Σa_mq^m)=Σa_(pm)q^m`. Its intended signature is `qU (p : ℕ) : PowerSeries A →ₗ[A] PowerSeries A` for every commutative ring `A`; its coefficient API at the pin is `qU_coefficient`, with the same equation as the residue-zero case of the later `PowerSeries.coeff_cartier`. Then `UV=1` for `p>0`. The formal weight-one identity `seriesHecke_weightOne` is `seriesHecke(p,1,d,f)=U(f)+dV(f)`. Absolute Frobenius instead sends `f` to `f^p`, with coefficients `a_m^p`. These maps coincide only under the appropriate coefficient restriction; the field `𝔽₂(t)` distinguishes them immediately. The geometric meaning of the form operations uses relative Frobenius and Verschiebung of elliptic curves and the actual modular correspondence.
 
 The theorem `seriesTheta_expand` gives `Θ(V(f))=p V(Θ(f))` over every commutative coefficient ring for `p>0`, where `Θ` is `seriesTheta`. Its characteristic-`p` specialization `seriesTheta_expand_charP` gives `Θ(V(f))=0`. The scalar `p` cannot be dropped for torsion coefficients.
 
@@ -802,7 +808,7 @@ The interface consists of:
 
 - `TauCeti.ModPModularForms.qU_constant` (degenerate): For `p>0`, `U` and `V` fix constants. For `p≥2`, `U(q)=0` although `q≠0` over a nonzero ring, so `U` is not injective.
 
-- At `p=0`, every coefficient of `qU 0 f` equals the constant coefficient of `f`, as for `PowerSeries.cartier A 0 0`; the expansion and left-inverse identities require `p>0`.
+- At `p=0`, every coefficient of `qU 0 f` equals the constant coefficient of `f`, as for the general Cartier operator at modulus zero; the expansion and left-inverse identities require `p>0`.
 
 *Needs:* [Geometric modular forms](#target-hodge-bundle-with-tate-curve-normalization); [Integral geometric Hecke operators](#target-integral-hecke-operators-from-q-expansions); [EllipticCurves Layer 3](../EllipticCurves/README.md#layer-3-elliptic-curves-over-finite-fields--the-hasse-bound-aec-v1).
 
@@ -969,7 +975,7 @@ The interface consists of:
 
 *Needs:* ModularCurvesPartII §9.3; [Functorial coefficient maps](#target-coefficient-maps); [Fricke on Hodge powers](#target-fricke-hodge-action).
 
-([Edixhoven](https://websites.math.leidenuniv.nl/edixhoven/public_html_rennes/publications/weight.dvi), §7, between (7.2.1) and Proposition7.3, author DVI p.24; [Calegari–Geraghty 2018](https://www.math.uchicago.edu/~fcale/papers/CG.pdf), 3.2.5, printed pp.322–323.)
+([Edixhoven](https://websites.math.leidenuniv.nl/edixhoven/public_html_rennes/publications/weight.dvi), §7, between (7.2.1) and Proposition7.3, author DVI p.24; [Calegari–Geraghty 2018](https://www.math.uchicago.edu/~fcale/papers/CG.pdf), 3.2.4, printed pp.322–323.)
 
 <a id="target-twisted-serre-duality-hecke"></a>
 
@@ -998,7 +1004,7 @@ For the Hasse sequence, take `n=p+1−k`. Its connecting map followed by the sec
 
 *Needs:* [Hecke on torsion coherent cohomology](#target-torsion-cohomology-hecke-action) for the odd-`p K/O` assertion; [Logarithmic Kodaira–Spencer](#target-logarithmic-kodaira-spencer); [All-prime field coherent Hecke and trace duality](#target-field-coherent-hecke-action); [The root-dependent Hodge Fricke operator](#target-edixhoven-root-fricke-operator); SchemeAndStackFoundations §2.19; SchemeAndStackFoundations §§2.19–2.21; SchemeAndStackFoundations §§2.20–2.21, 3.3; [Supersingular section spaces](#target-supersingular-section-space); [Cusp forms and the cusp ideal](#target-cusp-ideal-section-forms); SchemeAndStackFoundations §2.20.
 
-([Calegari–Geraghty 2018](https://www.math.uchicago.edu/~fcale/papers/CG.pdf), 3.2.5, after Lemma3.7, printed pp.322–323; [Edixhoven](https://websites.math.leidenuniv.nl/edixhoven/public_html_rennes/publications/weight.dvi), Proposition7.3 and Lemma7.4, author DVI pp.24–25.)
+([Calegari–Geraghty 2018](https://www.math.uchicago.edu/~fcale/papers/CG.pdf), 3.2.4, after Lemma3.7, printed pp.322–323; [Edixhoven](https://websites.math.leidenuniv.nl/edixhoven/public_html_rennes/publications/weight.dvi), Proposition7.3 and Lemma7.4, author DVI pp.24–25.)
 
 ### Theta cycles and weight reduction
 
@@ -1050,7 +1056,7 @@ The explicit small-characteristic eigenform tables are:
 | 3 | 3 | `(3,3)` | `(5,9)` |
 | 3 | 4 | Does not occur | `(8,12)` |
 
-The proof interface includes the general theta-cycle argument cited to Jochnowitz §7 and the filtration drop calculation, in addition to the geometric theta construction. Evaluating a finite list of integers alone does not prove that an actual eigenform has that cycle.
+The proof interface includes the general theta-cycle argument (Jochnowitz 1982, §7) and the filtration drop calculation, in addition to the geometric theta construction. Evaluating a finite list of integers alone does not prove that an actual eigenform has that cycle.
 
 *Needs:* [Theta and filtration](#target-theta-operator-filtration-and-hecke-commutation).
 
@@ -1062,7 +1068,7 @@ The proof interface includes the general theta-cycle argument cited to Jochnowit
 
 For an eigenform `f` of type `(N,k,ε)`, with `p∤N`, find an eigenform `g` of type `(N,k′,ε)` and an integer `0≤i≤p−1` such that `k′≤p+1` and `f` and `θ^ig` have the same `T_ℓ^*` eigenvalues for primes `ℓ∤pN`. The claim controls that good-prime eigensystem, not its `T_p` eigenvalue.
 
-At `N≥5` the proof uses the Hasse cohomology sequence, the weight-`(p+1)` supersingular periodicity with its Hecke twist and the boundary comparison `SS_k→S_(p+1−k)∨`. To extract eigenvectors, use support over the finite-dimensional commutative image algebra and its preservation by field duality; a semisimple Hecke action is unnecessary. Smaller levels are obtained through rigidifying covers and `G`-invariants only when `p∤#G`. The exceptional `N=1,p=2,3` cases require Serre's theorem in Astérisque 24–25, Theorem 3, as an additional source input. These form-theoretic operations do not themselves prove universal residual modularity or optimize the classical target.
+At `N≥5` the proof uses the Hasse cohomology sequence, the weight-`(p+1)` supersingular periodicity with its Hecke twist and the boundary comparison `SS_k→S_(p+1−k)∨`. To extract eigenvectors, use support over the finite-dimensional commutative image algebra and its preservation by field duality; a semisimple Hecke action is unnecessary. Smaller levels are obtained through rigidifying covers and `G`-invariants only when `p∤#G`. The exceptional `N=1,p=2,3` cases require Serre's level-one weight reduction (Serre 1975, Théorème 3, printed p.114), as an additional source input. These form-theoretic operations do not themselves prove universal residual modularity or optimize the classical target.
 
 The algebraic milestone `TauCeti.EigenvalueLifting.dual_support` states this support comparison for a finite-dimensional commutative `κ`-algebra acting on a finite-dimensional `κ`-space and its field dual. The dual action is specified by transposing each operator.
 
@@ -1160,7 +1166,9 @@ The interface consists of:
 
 - `TauCeti.SerreWeight.wildExponents`: The ordered quotient and stable-line exponents `(α,β)`, with `0≤α≤p−2` and `1≤β≤p−1`, where the stable line is `D=V^(P_p)` for wild inertia `P_p`.
 
-- `TauCeti.SerreWeight.serreWeight_wild`: `k = 1 + pa + b` with `a = min(α, β)`, `b = max(α, β)` if `β ≠ α + 1`; if `β = α + 1`, `k = 2 + α(p + 1)` when peu ramifiée and `(α + 1)(p + 1)` (`p odd`) or 4 (`p = 2`) when très ramifiée.
+- `TauCeti.SerreWeight.serreWeight_wild`: For prime `p≠2`, the très weight exceeds the peu weight by `p−1` at adjacent exponents `(α,α+1)`. The branch formula itself is the definition.
+
+- `TauCeti.SerreWeight.serreWeight_wild_symm`: For every natural `p`, if `β≠α+1` and `α≠β+1`, exchanging `(α,β)` preserves the generic wild weight.
 
 - `TauCeti.SerreWeight.serreWeight_wild_isomorphic`: Isomorphic wild local representations have the same ordered exponents and peu/très branch, hence the same weight.
 
@@ -1169,6 +1177,8 @@ The interface consists of:
 - `TauCeti.SerreWeight.serreWeight_wild_same_ss` (non-example): For odd `p`, two extensions of 1 by `χ` with the same semisimplification, one peu and one très ramifiée, receive weights 2 and `p+1`; at `p=2` they receive weights2 and4.
 
 - `TauCeti.SerreWeight.serreWeight_wild_generic` (computation): `p = 5`, `α = 1`, `β = 3` (`β ≠ α + 1`): `k = 1 + 5·1 + 3 = 9`.
+
+- The generic wild rows at `p=5` with `(α,β)=(1,3)` and `(3,1)` both give 9; neither adjacent exceptional branch occurs. The symmetry concerns the arithmetic table, not an interchange of stable line and quotient in a representation.
 
 - `TauCeti.SerreWeight.serreWeight_wild_p2` (degenerate): At `p = 2 (α = 0, β = 1)` the très ramifiée correction is `+2`, giving `k = 4`, not `+(p − 1) = +1`.
 
@@ -1294,7 +1304,15 @@ The arithmetic milestones `fontaineLaffailleWeight` and `fontaineLaffailleWildWe
 
 #### Semistable elliptic torsion
 
-For semistable elliptic `E/ℚ_p`, the residual representation `E[p]` has weight 2 in the good-reduction case, using its finite flat model and the local inertia classification. In the multiplicative case its Tate parameter `q_E` determines the actual extension class. For odd `p` its weight is 2 if `p∣v_p(j(E))` and `p+1` otherwise. At `p=2` the same divisible case has weight 2 and the other case has weight 4. Nonsplit multiplicative reduction is the unramified quadratic twist of the Tate case. Import the torsion extension and Kummer class from EllipticCurves Layer 4 and the finite-flat local criterion from FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.5; the numerical weights follow from the full recipe.
+For semistable elliptic `E/ℚ_p`, the residual representation `E[p]` has weight 2 in the good-reduction case, using its finite flat model and the local inertia classification. In the multiplicative case its Tate parameter `q_E` determines the actual extension class. For odd `p` its weight is 2 if `p∣v_p(j(E))` and `p+1` otherwise. At `p=2` the same divisible case has weight 2 and the other case has weight 4. Nonsplit multiplicative reduction is the unramified quadratic twist of the Tate case. Derive the exact sequence `0→μ_p→E_q[p]→ℤ/pℤ→0` and its Kummer class `[q_E]∈ℚ_p×/ℚ_p×p` from the Galois-equivariant Tate uniformisation of EllipticCurves Layer 4, then transport it through the unramified quadratic twist. Use the finite-flat local criterion from FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.5; the numerical weights follow from the full recipe.
+
+The numerical milestone `TauCeti.SerreWeight.semistableMultiplicativeWeight` specializes the wild table to `(α,β)=(0,1)`; the torsion-sequence and Kummer identification above provide its arithmetic input.
+
+**Checks.**
+
+- For the Tate curve with `q_E=p^p(1+p)` at odd `p`, the valuation is divisible by `p`, its class is a unit class modulo pth powers and the weight is 2.
+- For `q_E=p`, the valuation is not divisible by `p`: the weight is `p+1` at odd `p` and 4 at `p=2`.
+- An unramified quadratic twist preserves the inertia extension class and these weights; it changes the unramified diagonal characters in the nonsplit multiplicative case.
 
 *Needs:* [Invariance and renormalized twists](#target-recipe-well-definedness-and-twisting); [The weight-two criterion](#target-weight-two-iff-finite-flat-at-p); [The dyadic weight dichotomy](#target-dyadic-weight-two-or-four); FiniteFlatGroupsAndIntegralPadicHodgeTheory Layer R07.5; [EllipticCurves Layer 4](../EllipticCurves/README.md#layer-4-elliptic-curves-over-local-fields--reduction-tates-algorithm-the-tate-curve-aec-vii-ataec-ivv).
 
@@ -1316,7 +1334,7 @@ At `p=5` the niveau-two data `(1,3)` give weight 9. The peu and très extensions
 
 ### Dependencies
 
-ArithmeticGaloisRepresentations §§2.1–2.3, 4.6; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.1.26, R07.1.30–R07.1.32, R07.3.7, R07.5.1–R07.5.11; EllipticCurves Layers 3–4. The classification feeds the arithmetic tables before any modularity witness is defined.
+ArithmeticGaloisRepresentations §§2.1–2.3, 4.6; FiniteFlatGroupsAndIntegralPadicHodgeTheory §§R07.1.26, R07.1.30–R07.1.32, R07.3.7, R07.5.1–R07.5.11; EllipticCurves Layers 1, 3–5. The classification feeds the arithmetic tables before any modularity witness is defined.
 
 <a id="layer-r15-5"></a>
 
@@ -1600,6 +1618,8 @@ The API includes Good-place trace `λ_p(f)` and determinant; determinant `εχ_c
 - A weight-two form has determinant `εχ_cyc`.
 - Replacing arithmetic Frobenius by geometric Frobenius in that same polynomial fails the convention.
 - For the weight-two level-11 newform at `λ|11`, Frobenius at 2 has polynomial `X²+2X+2` and unramifiedness holds outside 11, using an auxiliary level divisible by 11.
+- In characteristic two, take `F=V=I`, `ε=c=1` and the standard alternating pairing. Then the Hecke eigenvalue is zero and the polynomial is `X²+1=(X+1)²`; alternation still gives the adjoint identity.
+- Over any field, `F=0`, `ε=c=0`, eigenvalue zero and any `V` satisfy the three operator relations with the standard alternating pairing; the polynomial is `X²`.
 - If `F=rI`, the transpose identity forces `ε(q)V=rI`, `λ_q(f)=2r` and `r²=ε(q)q^(k−1)`; the characteristic polynomial is `(X−r)²` even with a repeated root.
 - On `ℚ²`, `F=I`, `V=2I` and `T_q=3I` satisfy the two operator relations with `ε(q)=1` and `c=2`, but have characteristic polynomial `(X−1)²` rather than `X²−3X+2`. They fail the nondegenerate pairing's transpose identity.
 
@@ -1748,11 +1768,11 @@ The coefficient-defined predicate below is the shared interface for the consumer
 
 #### S-type and modularity predicates
 
-For a continuous `ρ̄:G_ℚ→GL₂(𝔽̄_p)`, define S-type to mean absolute irreducibility and odd determinant. In characteristic two the determinant condition for complex conjugation is automatic, while irreducibility remains a separate condition. For a normalized cuspidal full eigenform `f` of positive weight `k` and level `N`, let `A_f⊂ℂ` be the subring generated by its Fourier coefficients and zero-extended nebentypus values. Define `ArisesFrom(ρ̄,f)` by the existence of one unital ring map `φ:A_f→F` to the residual coefficient field of characteristic `p`, such that at every prime `ℓ∤Np`, `ρ̄` is unramified and every arithmetic Frobenius lift satisfies `tr ρ̄(Frob_ℓ)=φ(a_ℓ(f))` and `det ρ̄(Frob_ℓ)=φ(χ_f(ℓ))ℓ^(k−1)`. This is the single residual attachment predicate; it applies to normalized full eigenforms and in particular newforms. Define `IsModular(ρ̄):=∃ f, ArisesFrom(ρ̄,f)`, including the form's weight and level in the existential. Primitive associates give the equivalent newform formulation. The trace/determinant design follows the Imperial College London FLT project.
+For a continuous `ρ̄:G_ℚ→GL₂(𝔽̄_p)`, define S-type to mean absolute irreducibility and odd determinant. In characteristic two the determinant condition for complex conjugation is automatic, while irreducibility remains a separate condition. For a normalized cuspidal full eigenform `f` of positive weight `k` and level `N`, let `A_f=TauCeti.ResidualModularity.coefficientRing f⊂ℂ` be the subring generated by all positive-index Hecke eigenvalues and unit nebentypus values. Under first-coefficient normalization these eigenvalues are its Fourier coefficients; extending the character by zero adds no generators. Define `TauCeti.ResidualModularity.ArisesFrom f p ρ̄` by the existence of one unital ring map `φ:A_f→F` to the residual coefficient field of characteristic `p`, such that at every prime `ℓ∤Np`, `ρ̄` is unramified and every arithmetic Frobenius lift satisfies `tr ρ̄(Frob_ℓ)=φ(a_ℓ(f))` and `det ρ̄(Frob_ℓ)=φ(χ_f(ℓ))ℓ^(k−1)`. This is the single residual attachment predicate; it applies to normalized full eigenforms and in particular newforms. Define `TauCeti.ResidualModularity.IsModular p ρ̄:=∃ N k f, 1≤k ∧ ArisesFrom f p ρ̄`, including the nonzero level and full cusp eigenform in the existential. The Lean attachment predicate uses the same characteristic polynomial, with integer weight exponent `k−1`, on `Representation F (Field.absoluteGaloisGroup ℚ) (Fin 2 → F)` for finite `F`; its inertia and Frobenius conditions are imposed at every maximal ideal above each good prime. Continuity is carried by consumers that use it, including the integral-model comparison. Primitive associates give the equivalent newform formulation. Rescaling a full eigenform leaves this coefficient ring and attachment predicate unchanged; normalization gives the stated Fourier-coefficient formulation. The trace/determinant design follows the Imperial College London FLT project.
 
 The integral-model reading is a theorem, not the definition: for continuous absolutely irreducible `ρ̄`, `ArisesFrom(ρ̄,f)` is equivalent to an integral model of the attachment of `f` having semisimple reduction isomorphic to `ρ̄` after compatible coefficient extension. For a general continuous `ρ̄` only its semisimplification is identified; Frobenius polynomials do not recover a nonsplit extension. The coefficient map specifies the place and residue embedding. Equivalently there are a maximal ideal `P` of `integralClosure ℤ ℂ` containing `p` and an embedding of its residue field into `𝔽̄_p` giving the same coefficient and character congruences. For a smaller residual field make this comparison in its algebraic closure. The coefficient-prime formulation is a comparison theorem, not the primary predicate.
 
-Through AutomorphicFormsOnReductiveGroups [§5.8](../AutomorphicFormsOnReductiveGroups/README.md#58-residual-and-torsion-hecke-eigenclasses) and [§7.3](../AutomorphicFormsOnReductiveGroups/README.md#73-hecke-and-diamond-normalization-for-gl₂), the same identities mean agreement of `ofGaloisRep ρ̄` and the reduced form eigensystem away from `Np`: the arithmetic coordinates are `T_ℓ=tr` and `S_ℓ=ℓ⁻¹det`. Also prove the maximal-Hecke-ideal reading: in the faithful integral Hecke image on the fixed weight/level/character lattice, there are a maximal ideal `𝔪` containing `p` and an embedding `T/𝔪→𝔽̄_p` matching both coordinates, with `𝔪` containing the kernel of the characteristic-zero eigencharacter of `f`. That containment is required to refer to this specific `f`, rather than an unrelated form of the same weight and level.
+Through AutomorphicFormsOnReductiveGroups [§5.8](../AutomorphicFormsOnReductiveGroups/README.md#58-residual-and-torsion-hecke-eigenclasses) and [§7.3](../AutomorphicFormsOnReductiveGroups/README.md#73-hecke-and-diamond-normalization-for-gl₂), the same identities mean agreement of `galoisAnemicEigenSystem ρ̄` and the reduced form eigensystem away from `Np`: the arithmetic coordinates are `T_ℓ=tr` and `S_ℓ=ℓ⁻¹det`. Also prove the maximal-Hecke-ideal reading: in the faithful integral Hecke image on the fixed weight/level/character lattice, there are a maximal ideal `𝔪` containing `p` and an embedding `T/𝔪→𝔽̄_p` matching both coordinates, with `𝔪` containing the kernel of the characteristic-zero eigencharacter of `f`. That containment is required to refer to this specific `f`, rather than an unrelated form of the same weight and level.
 
 Prove coefficient-field invariance using the actual scalar extension, finite-field descent and residue-place transport. The rational elliptic curve 11a1, `y²+y=x³−x²−10x−20`, supplies a test: its residual representation at 3 is S-type with conductor 11, weight 2 and trivial determinant character, and its associated newform gives a witness. At 5 its rational isogeny supplies a proper invariant line, so it fails S-type. At 2 an involution has determinant `−1` in the residue field without requiring the matrix to equal the identity.
 
@@ -1760,21 +1780,23 @@ The interface consists of:
 
 - `TauCeti.ResidualModularity.IsSType`: `ρ̄` continuous, absolutely irreducible and odd.
 
+- `TauCeti.ResidualModularity.coefficientRing`: The subring generated by the full Hecke eigenvalues and unit character values.
+
 - `TauCeti.ResidualModularity.ArisesFrom`: A single coefficient ring map gives unramifiedness and the trace/determinant identities at all primes away from `Np`.
 
-- `TauCeti.ResidualModularity.IsModular`: ∃ `f`, ArisesFrom `ρ̄ f`.
+- `TauCeti.ResidualModularity.IsModular`: A full cusp eigenform of positive weight and nonzero level satisfies `ArisesFrom f p ρ̄`.
 
 - `TauCeti.ResidualModularity.isSType_baseChange`: IsSType `ρ̄ ↔` IsSType (`ρ̄ ⊗_F F′`).
 
 - `TauCeti.ResidualModularity.arisesFrom_baseChange`: For a fixed coefficient map `φ:A_f→F` and an injective field map `F→F′`, the defining identities hold before extension if and only if they hold after extension with the composite map. The existential predicate is invariant between algebraically closed coefficient fields. Descent to a smaller field also requires the reduced full eigensystem to have values in that field.
 
-- `TauCeti.ResidualModularity.ArisesFrom.baseChange`: Extending coefficients carries the coefficient map and the trace/determinant equalities forward. This implication needs no irreducibility.
+- `TauCeti.ResidualModularity.ArisesFrom.baseChange`: For an injective map `ι:F→F′` between finite characteristic-`p` fields and representations whose standard-basis matrices satisfy `ρ′(σ)=map ι (ρ(σ))`, extending coefficients carries the coefficient map and Frobenius polynomials forward. This implication needs no irreducibility.
 
-- `TauCeti.ResidualModularity.ArisesFrom.of_dvd`: If `N∣M`, a form at level `N` gives the same system away from `Mp` on its oldspace at level `M`; choosing a full eigenform there gives attachment at level `M`, after coefficient extension when necessary. A primitive associate still has its actual level dividing `M`; a newform of level `N` is never relabelled as a newform of level `M`.
+- `TauCeti.ResidualModularity.ArisesFrom.of_dvd`: If `N∣M`, a form at level `N` gives the same system away from `Mp` on its oldspace at level `M`; there exists a full eigenform `g` of the same positive weight at level `M` with the same prime eigenvalues and character values away from `M`, and attachment to the scalar-extended representation over some finite `F′/F`. A primitive associate still has its actual level dividing `M`; a newform of level `N` is never relabelled as a newform of level `M`.
 
 - `TauCeti.ResidualModularity.ArisesFrom.iff_integral_model`: For continuous absolutely irreducible residual representations, the coefficient predicate is equivalent to the integral-model witness, with compatible place and residue embeddings.
 
-- `TauCeti.ResidualModularity.ArisesFrom.iff_agrees_ofGaloisRep`: The two arithmetic Hecke coordinates agree exactly when the Frobenius trace/determinant identities do.
+- `TauCeti.ResidualModularity.ArisesFrom.iff_agrees_galoisAnemicEigenSystem`: The two arithmetic Hecke coordinates agree exactly when the Frobenius trace/determinant identities do.
 
 - `TauCeti.ResidualModularity.ArisesFrom.iff_exists_maximalIdeal_hecke`: The fixed-form predicate is equivalent over `𝔽̄_p` to the maximal-ideal and residue-embedding condition, including containment of the form's characteristic-zero eigenkernel.
 
@@ -1812,7 +1834,7 @@ The interface consists of:
 
 *Needs:* AutomorphicFormsOnReductiveGroups §§5.8, 7.3; ModularForms Layers 4, 8, 8G and 8W; [A residual modularity witness](#target-residual-modularity-witness); [Invariance and renormalized twists](#target-recipe-well-definedness-and-twisting); [Determinant and parity](#target-determinant-parity-and-weight-mod-p-minus-one); ArithmeticGaloisRepresentations Layer 3; ArithmeticGaloisRepresentations §§1.6–1.9, 5.1–5.7.
 
-([Khare–Wintenberger](https://www.math.ucla.edu/~shekhar/papers/results.pdf), §1, p. 2 (authors' preprint); [Deligne–Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf), §1.5, pp.508–509, §4.5, p.514, Theorems 6.1 and 6.7, pp.520–522.)
+([Khare–Wintenberger](https://www.math.ucla.edu/~shekhar/papers/results.pdf), §1, p. 2 (authors' preprint); [Deligne–Serre](https://www.numdam.org/article/ASENS_1974_4_7_4_507_0.pdf), §1.5, pp.508–509, §4.5, p.514, Theorems 6.1 and 6.7, pp.520–522, and §6.10, p.522, for completion to a full eigenform.)
 
 <a id="target-serre-conjecture-target-with-N-k-epsilon"></a>
 
@@ -1886,3 +1908,5 @@ All statements above are mathematical formulations in the conventions of this ro
 * Lue Pan, [On locally analytic vectors of the completed cohomology of modular curves II](https://arxiv.org/pdf/2209.06366v1), arXiv:2209.06366v1, §4.1.2, p.34. That version and pagination specify the logarithmic differential input.
 * Luis Dieulefait and Ariel Pacetti, [A simplified proof of Serre's conjecture](https://arxiv.org/pdf/2108.07577v2), arXiv:2108.07577v2, Lemma 1.14, pp.8–9. Used for the normalized bad-dihedral niveau calculation.
 * Chandrashekhar Khare and Jean-Pierre Wintenberger, [Serre's modularity conjecture (I)](https://www.math.ucla.edu/~shekhar/papers/results.pdf), authors' preprint. §1, pp.2–3 supplies the S-type and modularity conventions; §6.2(ii), p.11 gives the normalized bad-dihedral consequence.
+* Naomi Jochnowitz, [A study of the local components of the Hecke algebra mod ℓ](https://doi.org/10.1090/S0002-9947-1982-0642340-0), Transactions of the AMS 270 (1982), pp.253–267. §7 supplies the level-one theta-cycle analysis used in Edixhoven §3.2.
+* Jean-Pierre Serre, [Valeurs propres des opérateurs de Hecke modulo ℓ](https://www.numdam.org/item/AST_1975__24-25__109_0.pdf), Astérisque 24–25 (1975), pp.109–117. Théorème 3, printed p.114, supplies level-one weight reduction, including `p=2,3`.
