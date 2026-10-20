@@ -52,9 +52,10 @@ The roadmap owns:
   extension, and the full-level criterion; the Raynaud extension and the polarised rigid
   uniformisation with its lattice and valuation pairing;
 - the degree-zero Picard scheme of a regular semistable curve over a discrete valuation ring,
-  the normalisation sequence, the integral cycle lattice of the dual multigraph and its
-  identification with the toric characters, the Picard–Néron identity comparison, the integral
-  monodromy pairing of a semistable abelian variety and its graph formula for Jacobians, the
+  the normalisation sequence, the dual-multigraph adapters for the supplied integral cycle
+  lattice and its identification with the toric characters, the Picard–Néron identity comparison,
+  the integral monodromy pairing of a semistable abelian variety and its graph formula for
+  Jacobians, the
   component group as a cokernel, Grothendieck's pairing on component groups, the
   intersection-matrix description, the one-node hyperelliptic curves of Bhargava–Gross–Wang
   with their generalised Jacobians, two-torsion and odd-factor torsors, and the semi-abelian
@@ -93,6 +94,12 @@ It leaves to other roadmaps, and consumes from them:
   model; `KodairaConfiguration` in 2.8 here identifies its fibre with the configuration
   attached to EllipticCurves' `ReductionSymbol`. This roadmap also owns the smooth-locus
   and component-group comparisons.
+- **FreeGroupsAndLimitGroups**, §2.2a
+  ([finite cycle spaces and independent cycles](../FreeGroupsAndLimitGroups/README.md#22a-finite-cycle-spaces-and-independent-cycles)):
+  signed integral incidence and its kernel, binary cycles, spanning forests and their count,
+  integral and binary chord bases, coefficient reduction and both rank formulas, for all finite
+  multigraphs. Section 4.2 here identifies these carriers on the dual graph of a semistable curve
+  and compares its integral cycles with toric characters.
 - **JacobianChallenge** (Tau Ceti), Layers D–F: the Picard functor, Jacobian and Abel–Jacobi map
   of a smooth proper curve over a field.
 - **AlgebraicCurves** (Tau Ceti), Layer 10: hyperelliptic models.
@@ -237,10 +244,10 @@ structure morphism, over an arbitrary base morphism `j`, and with the mapping pr
 marked extensionality and uniqueness are `ext_of_genericFiberι_eq` and `Model.subsingleton_iso`
 over `Spec R` and are derived from the mapping property over arbitrary `j` (1.2, 1.4); the
 component group of 2.2 is for smooth finite-type groups over any field and agrees with
-`componentGroupScheme` in the affine algebraically-closed case; the cycle lattice of 4.2 is the
-integral `H₁` of StableReduction's dual graph, of which that roadmap records only the Betti
-number; the intersection-matrix description of 4.7 is a comparison with `NumericalType.Pic`, not
-a second numerical Picard group; the semistable predicate of 3.1 is for abelian varieties and
+`componentGroupScheme` in the affine algebraically-closed case; the cycle lattice adapter of 4.2
+identifies FreeGroupsAndLimitGroups §2.2a's integral `H₁` with the kernel on StableReduction's
+dual-graph coordinates; the intersection-matrix description of 4.7 is a comparison with
+`NumericalType.Pic`, not a second numerical Picard group; the semistable predicate of 3.1 is for abelian varieties and
 restricts, for elliptic curves, to the local form of `WeierstrassCurve.IsSemistable`.
 The existing symmetric discriminant form is
 `TauCeti.IntegralLattice.discriminantPairing` and `discriminantPairing_mk` in
@@ -584,13 +591,14 @@ Layers 3–4 here.
 
 | Target | Supplier and exact section / label | Retained adapter and consumer |
 | --- | --- | --- |
-| §4.2 incidence | GraphConnectivityAndFlows §1.3 / `Assignment`, `excessAt` | Endpoint-indexed arrows correspond to actual edge identities; finite assignments and vertex functions correspond to Finsupp coordinates. `DualGraph.boundary` retains the ℤ-linear carrier with the `tgt − src` convention for the integral character lattice and monodromy. |
-| §4.2 signed circulation group | GraphConnectivityAndFlows §8.1 / `signedCirculations`, `sub_mem_signedCirculations_iff` | Identify the supplied additive subgroup with the additive group of `DualGraph.cycleLattice`; ℤ satisfies the prototype's `AddCommGroup`, `LinearOrder`, and `IsOrderedAddMonoid` hypotheses. Integral module structure, character-lattice realization and pairings are retained here. |
-| §4.2 component count | GraphConnectivityAndFlows §1.1 / Components and their count: `Graph.componentCount` | Identify the supplied count with `Nat.card (DualGraph.supportGraph src tgt).ConnectedComponent` using the simplification bridge. The spanning-forest bases, binary cycle space, rank formulas and integral/F₂ comparison are targets of §4.2 here; only connected nonempty graphs have component count one. |
+| §4.2 finite multigraph cycle core | FreeGroupsAndLimitGroups §2.2a / `SerreGraph.integralCycleBoundary`, `SerreGraph.cycleLattice`, `SerreGraph.modTwoCycleSpace`, `SerreGraph.supportGraph`, `SerreGraph.IsSpanningForest`, `SerreGraph.exists_spanningForest`, `SerreGraph.spanningForest_card`, `SerreGraph.exists_forest_cycleBasis`, `SerreGraph.cycleLattice_modTwoEquiv`, `SerreGraph.finrank_cycleLattice`, `SerreGraph.modTwoCycleSpace_finrank` | The dual graph's actual edges identify with the positive darts of its doubled Serre graph. `DualGraph.boundary` and `DualGraph.cycleLattice` are the incidence and kernel in those edge coordinates. Characters, monodromy and weighted pairings are compared here. |
+| §4.2 excess identification | GraphConnectivityAndFlows §1.3 / `Assignment`, `excessAt` | Endpoint-indexed arrows correspond to actual dual-edge identities; finite assignments and vertex functions correspond to Finsupp coordinates. Identify `DualGraph.boundary` with incoming-minus-outgoing excess. |
+| §4.2 signed circulation group | GraphConnectivityAndFlows §8.1 / `signedCirculations`, `sub_mem_signedCirculations_iff` | Identify the supplied additive subgroup with the additive group of `DualGraph.cycleLattice`; ℤ satisfies the prototype's `AddCommGroup`, `LinearOrder`, and `IsOrderedAddMonoid` hypotheses. The character-lattice realization and pairings are targets here. |
+| §4.2 component count | GraphConnectivityAndFlows §1.1 / Components and their count: `Graph.componentCount` | Use the simplification bridge to identify the count with the components of FreeGroupsAndLimitGroups §2.2a's `SerreGraph.supportGraph` on the dual multigraph. Its supplied forest bases, coefficient comparison and rank formulas apply without connectedness or nonemptiness; only connected nonempty graphs have component count one. |
 
-The coordinate identifications of `DualGraph.boundary` and `DualGraph.cycleLattice` with
-these suppliers are work in §4.2. That section owns the cycle bases and coefficient and rank
-theorems used by the character-lattice and monodromy comparisons.
+Section 4.2 identifies the supplied incidence and cycle carriers in dual-graph coordinates
+and with the circulation group. The general cycle bases, coefficient comparison and rank
+formulas are consumed from FreeGroupsAndLimitGroups §2.2a.
 
 ## How to read the build
 
@@ -1890,19 +1898,29 @@ JacobianChallenge Layer D; StableReduction Layer 1.
 
 ### 4.2 Characters are integral graph cycles
 
-Let `V` and `E` be finite types and `src, tgt : E → V` the ends of an oriented multigraph;
-loops and parallel edges are allowed. For StableReduction Layer 1's dual graph, these are
-`endpoint e 0` and `endpoint e 1`. No connectedness or nonempty vertex set is assumed until
-explicitly stated. This section owns the spanning-forest cycle bases, binary cycle space,
-coefficient comparison and rank formulas, in addition to the integral and geometric adapters.
+Let `V` and `E` be finite types and `src, tgt : E → V` the ends of the dual multigraph;
+loops and parallel edges are retained. For StableReduction Layer 1's dual graph, these are
+`endpoint e 0` and `endpoint e 1`. The finite multigraph cycle core is supplied by
+FreeGroupsAndLimitGroups §2.2a
+([finite cycle spaces and independent cycles](../FreeGroupsAndLimitGroups/README.md#22a-finite-cycle-spaces-and-independent-cycles)).
+Its statements require neither connectedness nor a nonempty vertex set.
 
-**`DualGraph.boundary`.** (*boundary*) Provides signed edge incidence and its additive excess
-calculus. Supplied by GraphConnectivityAndFlows §1.3 / Excess calculus, subnetworks, bounds,
-and residual updates (`Assignment`, `excessAt`).
-Set `Q v w := {e : E // src e = v ∧ tgt e = w}`, transport finite assignments to `E →₀ ℤ`
-and vertex functions to `V →₀ ℤ`, and identify incoming-minus-outgoing excess with the retained
-ℤ-linear map `∂ : e ↦ δ_tgt(e) − δ_src(e)`, preserving loops and parallel edge identities.
-This is the degree-one cellular boundary convention (Hatcher, §2.2, pp. 140–141).
+To identify the carriers, take darts `E × Bool`, reversal `(e,b) ↦ (e,!b)`, and source
+`src e` on `(e,false)`, `tgt e` on `(e,true)`. This gives a Serre graph `Γ` whose positive
+darts are `O = {(e,false) | e ∈ E}`. The edge bijection `ι : E ≃ O` transports Finsupp
+coordinates by `ι_*`, sending `δ_e` to `δ_(e,false)` and leaving vertex coordinates fixed.
+The supplied `SerreGraph.integralCycleBoundary` and `SerreGraph.cycleLattice` are identified
+with the following two adapters; their geometric interpretation is a target here.
+
+**`DualGraph.boundary`.** (*boundary*) Retain signed incidence in the actual dual-edge coordinates:
+`DualGraph.boundary src tgt = Finsupp.linearCombination ℤ (e ↦ δ_tgt(e) − δ_src(e))`.
+The identification equation is
+`Γ.integralCycleBoundary O ∘ ι_* = DualGraph.boundary src tgt`.
+This uses FreeGroupsAndLimitGroups §2.2a's boundary and the cellular sign convention
+of Hatcher, §2.2, pp. 140–141. For the excess comparison with GraphConnectivityAndFlows §1.3,
+set `Q v w := {e : E // src e = v ∧ tgt e = w}` and transport finite assignments to
+`E →₀ ℤ` and vertex functions to `V →₀ ℤ`. Identify incoming-minus-outgoing excess
+with this boundary, retaining loops and parallel edge identities.
 
 **Checks.**
 
@@ -1911,12 +1929,15 @@ This is the degree-one cellular boundary convention (Hatcher, §2.2, pp. 140–1
 - Two parallel edges `0 → 1` have equal boundaries but distinct basis vectors; their
   difference has boundary zero, whereas their sum has boundary `2δ₁ − 2δ₀` over ℤ.
 
-**`DualGraph.cycleLattice`.** (*cycle-lattice*) Provides the additive group of signed assignments
-with zero incidence. Supplied by GraphConnectivityAndFlows §8.1 / Signed circulation algebra
-and assignment shifts (`signedCirculations`, `sub_mem_signedCirculations_iff`).
-Our carrier is the ℤ-submodule `ker ∂` in Finsupp coordinates; specialize the supplied subgroup
-to ℤ, which satisfies its ordered-group prototype hypotheses, and prove the coordinate/additive
-equivalence before using the integral lattice. Thus `H₁(Γ, ℤ)` here means this kernel.
+**`DualGraph.cycleLattice`.** (*cycle-lattice*) Retain the kernel in dual-edge coordinates:
+`DualGraph.cycleLattice src tgt = ker (DualGraph.boundary src tgt)`.
+Under `ι_*`, the identification equation is
+`ι_*(DualGraph.cycleLattice src tgt) = Γ.cycleLattice O`.
+Thus `H₁(Γ, ℤ)` on the curve's edges is FreeGroupsAndLimitGroups §2.2a's cycle lattice.
+Identify its additive group with GraphConnectivityAndFlows §8.1's
+`signedCirculations Q ℤ`, using `sub_mem_signedCirculations_iff` and the coordinate/excess
+comparison above; ℤ satisfies that prototype's ordered additive-group hypotheses.
+The incidence-kernel description is Hatcher, §2.2, pp. 140–141.
 
 **Checks.**
 
@@ -1925,80 +1946,44 @@ equivalence before using the integral lattice. Thus `H₁(Γ, ℤ)` here means t
 - Two parallel edges with the same orientation have cycle lattice generated by `(1, −1)`;
   identifying the edges would remove this generator.
 
-**Spanning forests and integral cycle bases.** Define `DualGraph.supportGraph src tgt` by
-Mathlib's `SimpleGraph.fromRel (fun v w => ∃ e, src e = v ∧ tgt e = w)` and provide
-`DualGraph.supportGraph_adj`, its adjacency characterization for distinct vertices. This graph
-is used only for reachability and acyclicity; the chain modules keep the original edge set `E`.
-Use GraphConnectivityAndFlows §1.1's simplification bridge to identify its components with the
-multigraph components and their count with `Graph.componentCount`.
+Consume `SerreGraph.modTwoCycleSpace`, `SerreGraph.supportGraph` and
+`SerreGraph.IsSpanningForest` from FreeGroupsAndLimitGroups §2.2a on `(Γ,O)`. Its `SerreGraph.exists_spanningForest` and
+`SerreGraph.spanningForest_card` provide a forest of actual edges with `#F + #components = #V`;
+`SerreGraph.exists_forest_cycleBasis` provides integral and binary chord bases with matching
+reductions.
+In particular, loops are chords and distinct parallel edges retain separate coordinates.
+Its `SerreGraph.cycleLattice_modTwoEquiv` supplies the coefficient-reduction isomorphism
+`𝔽₂ ⊗_ℤ H₁(Γ, ℤ) ≅ Γ.modTwoCycleSpace O`, with `1 ⊗ c` sent to the edgewise reduction
+of `c`. These are supplied general statements, including disconnected and empty graphs
+(Hatcher, §1.A, Propositions 1A.1–1A.2, pp. 83–85 and §2.2, pp. 140–141, 153–154).
 
-Define `DualGraph.IsSpanningForest src tgt F` for `F : Finset E` by four conditions:
-no edge in `F` is a loop; distinct edges in `F` have distinct unordered endpoint pairs;
-the simple support of the edges in `F` is `SimpleGraph.IsAcyclic`; and its `SimpleGraph.Reachable`
-relation equals that of the full support graph on all of `V`. Prove
-`DualGraph.exists_spanningForest` and `DualGraph.spanningForest_card`:
-`#F + #components = #V`. Lift a simple spanning forest by choosing one actual edge for each
-of its edges; reuse Mathlib's `SimpleGraph.exists_isAcyclic_reachable_eq_le` and
-`SimpleGraph.IsTree.card_edgeFinset` for its existence and componentwise count.
-
-For every such `F`, prove `DualGraph.exists_fundamentalCycleBasis`, existence of a basis with
-the specified chord coordinates, and choose `DualGraph.fundamentalCycleBasis`, a
-`Module.Basis {e : E // e ∉ F} ℤ (DualGraph.cycleLattice src tgt)`.
-The cycle for a chord `e` traverses `e` forward and returns from `tgt e` to `src e` along
-the unique forest path, with signed edge coefficients. Prove
-`DualGraph.fundamentalCycleBasis_chord`: its coefficient on a chord `f` is `1` if `f = e`
-and `0` otherwise. In particular, every cycle has a unique expansion with its original
-chord coefficients. These are finite multigraph statements, including disconnected and empty
-graphs (Hatcher, §1.A, Proposition 1A.1 and the discussion of tree paths, pp. 83–85;
-Chapter 3, graph homology calculation, p. 187).
-
-**Checks.**
-
-- A single loop has empty forest and its unit vector is the sole basis cycle. A forest
-  condition using only simple-graph acyclicity would incorrectly allow the loop itself.
-- For two parallel edges `e₀, e₁ : 0 → 1`, choose `F = {e₀}`. The chord basis cycle is
-  `e₁ − e₀`; taking both edges violates the distinct-endpoint-pair condition, despite the
-  acyclicity of their simple support.
-- A two-vertex tree has its sole edge in `F`, no chords and zero cycle module.
-- Two isolated vertices have empty forest and no cycles, with `0 + 2 = 2` in the forest
-  count; the graph with no vertices and no edges also has an empty forest, with `0 + 0 = 0`.
-
-**`DualGraph.modTwoCycleSpace`.** Define the kernel of the same incidence map with coefficients
-in `ZMod 2`, using `E →₀ ZMod 2` and `V →₀ ZMod 2`. Membership means even endpoint incidence
-at every vertex, counting both ends of a loop. Reversing any chosen edges leaves this kernel
-unchanged because signs agree in characteristic two. The reductions of the integral forest
-basis are a binary basis, indexed by the same chords (Hatcher, §2.2, pp. 153–154;
-Chapter 3, p. 187).
-
-**Checks.**
-
-- A loop contributes twice at its vertex, hence gives a binary cycle of dimension one.
-- Two parallel edges with the same orientation give the nonzero binary cycle `(1, 1)`;
-  their sum is not an integral cycle with those same integer coefficients.
-- A single edge between two distinct vertices is not a binary cycle, so a two-vertex tree
-  has binary dimension zero.
+Consume the rank formulas `SerreGraph.finrank_cycleLattice` and
+`SerreGraph.modTwoCycleSpace_finrank` from the same section:
+`rank_ℤ H₁(Γ, ℤ) + #V = #E + #components` and
+`dim_𝔽₂ Γ.modTwoCycleSpace O + #V = #E + #components`.
+GraphConnectivityAndFlows §1.1 supplies the component count via its simplification bridge
+with `Γ.supportGraph O`. The equal ranks and the connected specialization
+`rank H₁ + #V = #E + 1` follow from these supplied formulas; connectedness includes a
+nonempty vertex set. Two isolated vertices give `0 + 2 = 0 + 2`, while the empty graph gives
+`0 = 0`; neither has the connected specialization. On a connected curve's dual graph the
+rank agrees with StableReduction's `firstBetti`.
 
 **Integral graph adapter and character lattice.** (*integral-graph-adapter*) Prove the
 endpoint-indexed assignment/Finsupp equivalences in the GraphConnectivityAndFlows §1.3 and
 §8.1 contracts above, including ℤ-linearity, and realize the integral module on the supplied
-circulation group. Prove `DualGraph.exists_cycleLattice_modTwoEquiv`, existence of an
-isomorphism with the specified pure-tensor formula, and choose
-`DualGraph.cycleLattice_modTwoEquiv`, the coefficient-reduction
-isomorphism `𝔽₂ ⊗_ℤ H₁(Γ, ℤ) ≅ DualGraph.modTwoCycleSpace src tgt`.
-Prove `DualGraph.cycleLattice_modTwoEquiv_tmul`: `1 ⊗ c` maps to the edgewise reduction of `c`.
-The forest path cycles and their reductions give bases indexed by the same chords; over
-either coefficient ring a cycle is uniquely determined by its chord coefficients. This proves
-that the displayed reduction map is an isomorphism. Deduce
-`DualGraph.cycleLattice_rank_eq_cycleSpace_finrank`, equality of the integral rank and binary
-dimension without a connectedness hypothesis (Hatcher, §2.2, pp. 153–154 and Chapter 3, p. 187).
-
-Prove `CharactersGraphHomology`: `X^*(T_Γ) ≅ H₁(Γ, ℤ)` canonically, using the integral carrier
-transported from GraphConnectivityAndFlows §8.1; the isomorphism changes by the
-corresponding coordinate sign when an edge is reversed, and it is equivariant for automorphisms
-of `C` and for Galois descent. The dual lattice `Hom(X^*(T_Γ), ℤ)` is `H¹(Γ, ℤ)`
-(SGA 7 I, Exposé IX, 12.3.7 and 12.3.11–12.3.14, pp. 472–473). *Needs:* 2.4, 4.1;
-GraphConnectivityAndFlows §§1.1, 1.3, 8.1 as contracted above; the local forest and coefficient
-theorems of this section; StableReduction Layer 1 (`DualGraph`, `firstBetti`);
+circulation group. Prove `CharactersGraphHomology`: `X^*(T_Γ) ≅ H₁(Γ, ℤ)` canonically,
+using the supplied integral cycle lattice in the dual-graph coordinates just specified.
+The isomorphism changes by the corresponding coordinate sign when an edge is reversed,
+and it is equivariant for automorphisms of `C` and for Galois descent. The dual lattice
+`Hom(X^*(T_Γ), ℤ)` is `H¹(Γ, ℤ)` (SGA 7 I, Exposé IX, 12.3.7 and 12.3.11–12.3.14,
+pp. 472–473). *Needs:* 2.4, 4.1; FreeGroupsAndLimitGroups §2.2a
+(`SerreGraph.integralCycleBoundary`, `SerreGraph.cycleLattice`, `SerreGraph.modTwoCycleSpace`,
+`SerreGraph.supportGraph`, `SerreGraph.IsSpanningForest`, `SerreGraph.exists_spanningForest`,
+`SerreGraph.spanningForest_card`, `SerreGraph.exists_forest_cycleBasis`,
+`SerreGraph.cycleLattice_modTwoEquiv`, `SerreGraph.finrank_cycleLattice`,
+`SerreGraph.modTwoCycleSpace_finrank`);
+GraphConnectivityAndFlows §§1.1, 1.3, 8.1 as contracted above;
+StableReduction Layer 1 (`DualGraph`, `firstBetti`);
 Mathlib `Finsupp.linearCombination`, `LinearMap.ker`, `TensorProduct`.
 
 **Checks.**
@@ -2012,33 +1997,6 @@ Mathlib `Finsupp.linearCombination`, `LinearMap.ker`, `TensorProduct`.
   vertex rescalings remove all node gluing parameters.
 - For two isolated vertices both cycle modules vanish and coefficient reduction is still
   an isomorphism; neither the coefficient comparison nor a forest basis requires connectedness.
-
-**`DualGraph.finrank_cycleLattice`.** (*cycle-rank*) Prove the integral rank formula and its
-binary counterpart `DualGraph.modTwoCycleSpace_finrank` for every finite oriented multigraph:
-
-```text
-rank_ℤ H₁(Γ, ℤ) + #V = #E + #components,
-dim_𝔽₂ DualGraph.modTwoCycleSpace + #V = #E + #components.
-```
-
-Use the local forest bases and `DualGraph.spanningForest_card`; the component count is supplied
-by GraphConnectivityAndFlows §1.1 as identified above. This is the finite graph homology
-calculation of Hatcher, Chapter 3, p. 187, combined with the tree count of §1.A, pp. 83–85.
-Prove `DualGraph.finrank_cycleLattice_of_connected`: under
-`(DualGraph.supportGraph src tgt).Connected`, the count is one, hence
-`rank H₁ + #V = #E + 1`, agreeing with StableReduction's `firstBetti`.
-Mathlib's `SimpleGraph.Connected` includes a nonempty vertex set. The additive formulas avoid
-truncated natural subtraction; they also imply `#V ≤ #E + #components`.
-
-**Checks.**
-
-- A single loop has integral and binary rank one, so `1 + 1 = 1 + 1`.
-- A two-vertex single-edge tree has both ranks zero, so `0 + 2 = 1 + 1`;
-  a double edge gives both ranks one, so `1 + 2 = 2 + 1`.
-- Two vertices and no edge have both ranks zero and component count two. The general formula
-  is `0 + 2 = 0 + 2`; the connected specialization `0 + 2 = 0 + 1` is false.
-- The empty graph has both ranks and component count zero. Its general formula is `0 = 0`;
-  vacuous pairwise reachability does not give the connected formula `0 = 1`.
 
 <a id="weighted-graph"></a>
 
@@ -2732,7 +2690,12 @@ roadmap takes none of them as a prerequisite.
 
 ### Dependencies
 
-Layers 1–3; StableReduction Layers 1, 3, 4 and 6; AlgebraicModuliForArithmeticGeometry
+Layers 1–3; FreeGroupsAndLimitGroups §2.2a (`SerreGraph.integralCycleBoundary`,
+`SerreGraph.cycleLattice`, `SerreGraph.modTwoCycleSpace`, `SerreGraph.supportGraph`,
+`SerreGraph.IsSpanningForest`, `SerreGraph.exists_spanningForest`, `SerreGraph.spanningForest_card`,
+`SerreGraph.exists_forest_cycleBasis`, `SerreGraph.cycleLattice_modTwoEquiv`,
+`SerreGraph.finrank_cycleLattice`, `SerreGraph.modTwoCycleSpace_finrank`); GraphConnectivityAndFlows §§1.1, 1.3, 8.1;
+StableReduction Layers 1, 3, 4 and 6; AlgebraicModuliForArithmeticGeometry
 §§7.3, 7.6.1 and 7.9; ComplexComparisonPartII §C3.2d.2 and §§C3.2f.1–C3.2f.2;
 JacobianChallenge Layer D; `AbelianSchemesAndArithmeticModuli:A2–A3`;
 ReductiveGroupsPartII RG2.0a; SchemeAndStackFoundations §3.6 and §4.15;
@@ -4297,7 +4260,8 @@ Mathlib's Weierstrass reduction predicates and `IsPGroup` fixed-point theorems.
 - A. Hatcher, *Algebraic Topology*, Cambridge University Press, 2002;
   [author text](https://pi.math.cornell.edu/~hatcher/AT/AT.pdf): §1.A, Proposition 1A.1 and
   tree paths, pp. 83–85; §2.2, cellular boundary, pp. 140–141, and coefficients, pp. 153–154;
-  Chapter 3, graph homology calculation, p. 187, for the local graph targets of 4.2.
+  Chapter 3, graph cohomology calculation, p. 187, for the supplied graph core and its
+  dual-graph identifications in 4.2.
 - S. Bosch, W. Lütkebohmert and M. Raynaud, *Néron Models*, Ergebnisse der Mathematik 21,
   Springer, 1990. Chapter 1 (§§1.1–1.5) for Layer 1 and 2.7; §9.4, Theorem 1, p. 259, for 4.13;
   p. 190, Example 8, for the failure of exactness.
