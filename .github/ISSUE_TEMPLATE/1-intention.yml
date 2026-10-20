@@ -95,6 +95,7 @@ body:
         - PDE
         - PadicFunctionalAnalysis
         - PadicMeasuresIwasawaAlgebras
+        - PerfectoidSpaces
         - PeripheralActions
         - PivotalSpherical
         - PolynomialGaloisGroups
