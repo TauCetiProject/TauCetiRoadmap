@@ -24,7 +24,7 @@ It leaves to named roadmaps and libraries:
 - analytic continuation along a path, its uniqueness, concatenation, the monodromy theorem and the global branch on a simply connected domain, to Tau Ceti **ConformalMapping**, layer L4, which the Tau Ceti library implements (`TauCeti.IsAnalyticContinuationAlong`, `TauCeti.monodromy_theorem`, `TauCeti.ContinuesInside.exists_analyticOnNhd`); the polylogarithm tower is one germ to which that theory is applied;
 - the universal cover, its covering projection and the action of the fundamental group, to the Tau Ceti library (`TauCeti.UniversalCover`, from the completed UniversalCovers roadmap);
 - the weak and strong minimum principles for superharmonic functions, to the Tau Ceti library (`TauCeti.ge_of_laplacian_nonpos_ge_frontier`, `TauCeti.eqOn_const_of_laplacian_nonpos_of_isMinOn`); only their application to `D` is new here;
-- affine cross-ratio invariance for maps with factorized difference quotients, to Tau Ceti `TauCeti.crossRatio_comp_eq_of_sub_eq_div` in `TauCeti/Algebra/Field/LinearFractional.lean`. For a field, `φ(s) − φ(t) = κ(s − t)/(d(s)d(t)), κ ≠ 0` and `d` nonzero on a set `S` imply invariance of `(p − r)(q − s)/((p − s)(q − r))` for `p, q, r, s ∈ S`, with exactly the normalization used here. A Möbius map supplies this factorization wherever its denominator is nonzero. Section 5.8 consumes that theorem and owns the sphere extension and the D-valued projective identities; it does not redevelop affine invariance.
+- affine cross-ratio invariance for maps with factorized difference quotients, to Tau Ceti `TauCeti.crossRatio_comp_eq_of_sub_eq_div` in `TauCeti/Algebra/Field/LinearFractional.lean`. For a field, `φ(s) − φ(t) = κ(s − t)/(d(s)d(t)), κ ≠ 0` and `d` nonzero on a set `S` imply invariance of `(p − r)(q − s)/((p − s)(q − r))` for `p, q, r, s ∈ S`, with exactly the normalization used here. A Möbius map supplies this factorization wherever its denominator is nonzero. Section 5.8 consumes that theorem and owns the field-general sphere extension, projective normalization and the D-valued projective identities; it does not redevelop affine invariance.
 
 Already in the pinned libraries, and therefore cited rather than stated here:
 
@@ -122,7 +122,7 @@ Its API is `polylog_zero_right` (`Liₙ(0) = 0` for every `n ∈ ℤ`, a simp le
 - `Li₀(1/2) = 1` (`Suggested.lean` example); the weight-zero function is `z/(1−z)`, not `1/(1−z)`.
 - `Li₋₁(z) = z/(1−z)²` for `z ≠ 1` (`Suggested.lean` example); a definition that applied `d/dz` without the factor `z` would give `1/(1−z)²`.
 - For `|z| < 1`, `Li₁` agrees with Mathlib's Taylor series `Complex.hasSum_taylorSeries_neg_log'`, term by term; this is a compatibility with the library, not a second development of the logarithm series.
-- At `x = 3` the total value `Li₁(3) = −log 2 − πi` is the lower boundary value (§2.4); an alternative definition by holomorphic continuation across the cut would not be total and would not agree with Mathlib's argument convention.
+- At `x = 3`, `polylog_one_three` gives the total value `Li₁(3) = −log 2 − πi`, the lower boundary value (§2.4); an alternative definition by holomorphic continuation across the cut would not be total and would not agree with Mathlib's argument convention.
 - `Li₀` is not continuous at its pole 1 although `polylog 0 1` has the totalised value 0 (`not_continuousAt_one_polylog_neg`, §1.4); field totalisation does not make a pole analytic.
 
 *Needs:* Mathlib `Complex.log`, `intervalIntegral`, `deriv`.
@@ -193,7 +193,7 @@ including `z = 0`, where both sides are 0; for `z ≠ 0` this is `Li′ₙ₊₁
 **Checks.**
 - At weight three, `z·Li₃′(z) = Li₂(z)` on `Ω`; at `z = −1` this reads `−Li₃′(−1) = Li₂(−1) = −π²/12`.
 - The derivative of `Li₁` at `z ∈ Ω` is `1/(1−z) = Li₀(z)/z` for `z ≠ 0`, and 1 at `z = 0`.
-- Analyticity is asserted on `Ω` only: `Li₁` is not continuous at 3 (§2.4), and `Li₀` is not analytic at 1 (§1.4).
+- Analyticity is asserted on `Ω` only: `not_continuousAt_polylog_one_three` states that `Li₁` is not continuous at 3 (already from the principal logarithm; §2.4 gives the jump), and `Li₀` is not analytic at 1 (§1.4).
 
 *Needs:* §§1.1–1.4; Mathlib `Complex.hasDerivAt_log`, `hasDerivAt_integral_of_dominated_loc_of_deriv_le`, `intervalIntegral.integral_eq_sub_of_hasDerivAt_of_le`, `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq`.
 
@@ -201,7 +201,7 @@ including `z = 0`, where both sides are 0; for `z ≠ 0` this is `Li′ₙ₊₁
 
 References: [O93] §§1.1–1.3, pp. 50–51 (real coefficients and the conjugation-invariant domain `Ω`). Built on Mathlib `starRingEnd ℂ`.
 
-Prove `polylog_conj`: for every `n ∈ ℤ` and `z ∈ Ω, Liₙ(z̄) = conj(Liₙ(z))`. Conjugate the disc series, whose coefficients are real; `Ω` is invariant under conjugation and connected, so the identity principle applied to `z ↦ conj(Liₙ(z̄))` extends the identity. For `n ≥ 2` it holds on the closed unit disc by continuity (§1.7). At a real point `x > 1` and positive weight `n ≥ 1` the identity is **false** for the total function: `Liₙ(x)` is the lower value, its conjugate is the upper value, and these differ by the jump of §2.4. Nonpositive weights are rational with real coefficients, so their conjugation identity extends to all of `ℂ` (including the totalised value at 1); this exception is not a cut jump.
+Prove `polylog_conj`: for every `n ∈ ℤ` and `z ∈ Ω, Liₙ(z̄) = conj(Liₙ(z))`. Conjugate the disc series, whose coefficients are real; `Ω` is invariant under conjugation and connected, so the identity principle applied to `z ↦ conj(Liₙ(z̄))` extends the identity. At a real point `x > 1` and positive weight `n ≥ 1` the identity is **false** for the total function: `Liₙ(x)` is the lower value, its conjugate is the upper value, and these differ by the jump of §2.4. Nonpositive weights are rational with real coefficients, so their conjugation identity extends to all of `ℂ` (including the totalised value at 1); this exception is not a cut jump.
 
 **Checks.**
 - `Li₂(−1)` is real (`−1 ∈ Ω` and is its own conjugate).
@@ -214,7 +214,7 @@ Prove `polylog_conj`: for every `n ∈ ℤ` and `z ∈ Ω, Liₙ(z̄) = conj(Li�
 
 References: [O93] §1.4, p. 51 (finite limit at 1 equal to `ζ(k)` for `k ≥ 2`); [Z07] Part I §1, p. 6 (`Li₂(1) = π²/6` among the special values). Built on Mathlib `riemannZeta_two`, `zeta_nat_eq_tsum_of_gt_one`, `HurwitzZeta.hasSum_expZeta_of_one_lt_re`, `HurwitzZeta.expZeta_zero`, `Complex.tendsto_tsum_powerSeries_nhdsWithin_stolzCone`.
 
-For every natural `n ≥ 2`, prove `hasSum_polylog_of_norm_le_one` (the disc series converges absolutely and uniformly on `|z| ≤ 1` to `Liₙ(z)`), `continuousOn_polylog_closedBall` (`Liₙ` is continuous on the closed unit disc), `continuousAt_polylog_one` (`Liₙ` is continuous at 1 for unrestricted complex approach), `polylog_one_eq_riemannZeta` (`Liₙ(1) = ζ(n)`, Mathlib's zeta value) and `polylog_exp_eq_expZeta` (for every real `a, Liₙ(e^{2πia}) =` `HurwitzZeta.expZeta a n`). The uniform convergence comes from `∑ k^{−n} < ∞`; the boundary values of the integral of §1.1 agree with the series by Abel's limit theorem along radii, together with continuity of the integral on the closed disc (dominated convergence with the majorants of §1.2). For the unrestricted limit at 1, use the uniform integrability of §1.2 and almost-everywhere convergence of the integrand as `z → 1`; for `t < 1` the limiting argument `1 − t` is positive, so there is no logarithmic branch discontinuity. This supplies the full complex limit used in Layers 2 and 4, beyond closed-disc continuity. The exponential-zeta comparison is a term-by-term identification with Mathlib's series, whose `k = 0` term `1/0^n` vanishes for `n ≥ 1`, so no competing circle function is introduced. For `n = 1` there is no such statement: `|Li₁(z)| → ∞` as `z → 1` inside the disc, whatever the totalised value `polylog 1 1 = 0`.
+For every natural `n ≥ 2`, prove `hasSum_polylog_of_norm_le_one` (the disc series converges absolutely and uniformly on `|z| ≤ 1` to `Liₙ(z)`), `continuousOn_polylog_closedBall` (`Liₙ` is continuous on the closed unit disc), `continuousAt_polylog_one` (`Liₙ` is continuous at 1 for unrestricted complex approach), `polylog_one_eq_riemannZeta` (`Liₙ(1) = ζ(n)`, Mathlib's zeta value) and `polylog_exp_eq_expZeta` (for every real `a, Liₙ(e^{2πia}) =` `HurwitzZeta.expZeta a n`). After `continuousOn_polylog_closedBall`, prove `polylog_conj_of_norm_le_one`: for `n ≥ 2` and `‖z‖ ≤ 1`, `Liₙ(z̄) = conj(Liₙ(z))`, extending §1.6 by continuity from the open disc. The uniform convergence comes from `∑ k^{−n} < ∞`; the boundary values of the integral of §1.1 agree with the series by Abel's limit theorem along radii, together with continuity of the integral on the closed disc (dominated convergence with the majorants of §1.2). For the unrestricted limit at 1, use the uniform integrability of §1.2 and almost-everywhere convergence of the integrand as `z → 1`; for `t < 1` the limiting argument `1 − t` is positive, so there is no logarithmic branch discontinuity. This supplies the full complex limit used in Layers 2 and 4, beyond closed-disc continuity. The exponential-zeta comparison is a term-by-term identification with Mathlib's series, whose `k = 0` term `1/0^n` vanishes for `n ≥ 1`, so no competing circle function is introduced. For `n = 1` there is no such statement: `|Li₁(z)| → ∞` as `z → 1` inside the disc, whatever the totalised value `polylog 1 1 = 0`.
 
 **Checks.**
 - `Li₂(1) = π²/6`, through `riemannZeta_two`; Euler's evaluation is not proved again.
@@ -222,7 +222,7 @@ For every natural `n ≥ 2`, prove `hasSum_polylog_of_norm_le_one` (the disc ser
 - `Li₂(−1) = expZeta (1/2) 2 = −π²/12` (§3.6); `Li₂(i)` has real part `−π²/48` and imaginary part Catalan's constant `∑(−1)^k/(2k+1)²`.
 - `polylog 1 1 = 0` is a totalised value, and `continuousOn_polylog_closedBall` is not stated for `n = 1`.
 
-*Needs:* §§1.1–1.3, 1.5; the Mathlib declarations above.
+*Needs:* §§1.1–1.3, 1.5–1.6; the Mathlib declarations above; `continuousOn_polylog_closedBall` precedes `polylog_conj_of_norm_le_one`.
 
 ### Examples
 
@@ -254,7 +254,7 @@ Prove `continuesInside_polylogTower` as follows. A germ at a point `w` of an ope
 
 **Checks.**
 - At `b` the tower is `(Log(1/2), Li₁(1/2), Li₂(1/2)) = (−log 2, log 2, π²/12 − (log 2)²/2)`: entry 0 is the logarithm and entry 1 is `−Log(1−z)` (`Suggested.lean` example), so the indexing is not shifted.
-- Truncation: the first two entries of `polylogTower 3` are `polylogTower 1`; a construction that continued each weight separately could not satisfy `polylogTower_ode` for a single family.
+- Truncation: the first two entries of `polylogTower 3` are `polylogTower 1` (`polylogTower_trunc`). Separately continuing the components along the same path gives the coupled ODE by analytic uniqueness. Choosing different paths for different weights need not do so: at `b`, keep the principal `Li₂` but replace `Li₁` by its `T₁` branch `Li₁ − 2πi`; then `Li₂′(b) ≠ (Li₁(b) − 2πi)/b` (`polylogTower_incoherent_two`, from §2.3).
 - Continuation along the upper half of the circle `|z + 1/4| = 3/4` from `b` to −1 (in `V₀` except at its endpoint) ends at the principal values `Li₂(−1) = −π²/12` and `Log(−1) = πi`; along the lower half it ends at the same `Li₂(−1)` but at `Log = −πi`. The straight segment from `b` to −1 is not admissible: it passes through 0. Continuation along a path from `b` to 3 through the lower half-plane ends at the total values `Liₙ(3)` of Layer 1; through the upper half-plane it ends at the upper values, which differ by the jump of §2.4.
 - For `N ≥ 1` the germ of `polylogTower N` at 3 is not analytic (`Log` is analytic there, `Li₁` is not continuous). At `N = 0` the tower contains only `Log` and is analytic at 3; the uniform principal determination for all heights is the one on `V₀`.
 
@@ -270,7 +270,7 @@ Its API is `polylogBranch_basepointLift` (at the constant path the value is `pol
 
 **Checks.**
 - At the constant path: `Li₁^[base] = log 2` and `Log^[base] = −log 2` (degenerate case).
-- For `p = ⟨−1, [upper half-circle]⟩` (the path of §2.1) the branch is principal: `Li₂^[p] = −π²/12`, a finite real value, and `Log^[p] = πi`; a branch convention with the cut of `Li₂` along `(−∞, 0]` would give a complex value.
+- For `p = ⟨−1, [upper half-circle]⟩` (the path of §2.1) the branch is principal: `Li₂^[p] = −π²/12`, a finite real value, and `Log^[p] = πi`. Prefixing `T₁` instead gives `Li₂^[T₁p] = 23π²/12`, still real (§2.3); the exact value distinguishes these branches.
 - For `p = T₁(base) = periph1⁻¹ • base` (the loop `γ₁` run once): `Li₁^[p] = log 2 − 2πi, Log^[p] = −log 2` and `Li₂^[p] = Li₂(1/2) + 2πi log 2` (§2.3); this point lies over `b` but is not the base point.
 - A section over a simply connected `V ⊆ U` exists, but over `U` itself none exists: `Log^[·]` cannot be a single-valued function of `z`.
 
@@ -434,14 +434,22 @@ The norm condition gives `|a|, |b|, |c| < 1: |a| ≤ |x|/(1 − |y|) < 1`, and `
 
 References: [O93] §2.1–2.2, pp. 52–53 (continuation on the universal cover and its monodromy); [O93] §4.1, pp. 59–60 (the dilogarithm identities and their single-valued forms); [Z90] §7, discussion before (33), p. 413. Built on Layer 2 and §§3.1–3.4.
 
-State and prove `isAnalyticContinuationAlong_functionalEquation` for each of the four identities: if `c` is a path in the identity's nonsingular argument space starting at a point of its principal domain, and every `Liₖ` and `Log` occurring in the identity is replaced by the corresponding entry of a continuation of the tower along its own argument path (the image of `c` under the argument map), then the identity holds at the endpoint for these continued values. The argument spaces and base points are: for distribution, `z` with `z ≠ 0` and `z^m ≠ 1`, the argument paths `z^m` and `ζ_j z`, base point a small positive real number; for inversion, `z ∈ U` with the paired paths `z` and `1/z`, base point −1; for reflection, `z ∈ U` with the paths `z` and `1 − z`, base point `1/2`; for Abel, `M = {(x, y) : xy(1−x)(1−y)(1−x−y) ≠ 0}` with the five argument paths, base point `(1/4, 1/4)`. The proof: both sides of the identity, written with continued germs, are continuations along `c` of germs that agree near the base point; the difference is a continuation of the zero germ, hence zero (`TauCeti.IsAnalyticContinuationAlong.eventuallyEq`). A further statement, `functionalEquation_branch_change`, computes the defect when one of the continued branches is changed independently by a loop word: it is given by the substitution `Φ` of §2.3 applied to that branch, including the continued logarithms in the polynomial or product term. No uncorrected identity between independently chosen branches is asserted.
+Initialize each polylogarithm continuation at the principal germ at its base argument. Continue logarithms of nonvanishing argument maps on `ℂ∖{0}`, independently of the full tower when the logarithm's argument may equal 1. Initial germs, rather than just initial values, are required. In inversion, continue `Log(−z)` along `−c`, initialized at the germ of `Complex.log` at 1 with value 0; the full tower of positive height has a singular entry `Li₁` at 1 and cannot supply that germ. The target `polylog_inversion_continuation` states the Bernoulli identity with these initial germs for the two polylogarithm families at −1 and the logarithm family at 1.
+
+State and prove `isAnalyticContinuationAlong_functionalEquation` for each of the four identities: along a path `c` in its nonsingular argument space from the specified base point, continue each principal polylogarithm germ along its argument path and each principal logarithm germ along its nonvanishing argument path. The argument spaces and base points are: for distribution, `z ≠ 0` and `z^m ≠ 1`, with argument paths `z^m` and `ζ_j z`, from a small positive real base point; for inversion, `z ∈ U`, with paths `z`, `1/z` and logarithm path `−z`, from −1; for reflection, `z ∈ U`, with paths `z`, `1 − z`, from `1/2`; for Abel, `M = {(x, y) : xy(1−x)(1−y)(1−x−y) ≠ 0}`, with the five dilogarithm arguments and logarithms of `1−x`, `1−y`, from `(1/4, 1/4)`. For the first three identities, compose the continued germs with the analytic argument maps on the one-dimensional base and apply `TauCeti.IsAnalyticContinuationAlong.eventuallyEq` to the difference and the zero germ.
+
+For Abel first prove `abel_functionalEquation_continuation`, a two-variable propagation theorem owned here, from [O93] §4.1, (30), p. 59 and the following identity-principle argument. Set `a = x/(1−y)`, `b = y/(1−x)`, `d = xy/((1−x)(1−y))`. Carry seven germs on `ℂ × ℂ`, initially the germs of `(Li₂(d), Li₂(a), Li₂(b), Li₂(x), Li₂(y), Log(1−x), Log(1−y))` at `(1/4,1/4)`. Require `AnalyticAt ℂ` for their vector at every path point and local germ agreement at nearby parameter times, for each of the seven entries. These conditions are obtained by composing the one-variable continuations with the analytic argument maps on `M`. On small polydiscs the difference `F₀−F₁−F₂+F₃+F₄+F₅F₆` is analytic and initially zero as a germ by §3.4. Local germ agreement and the identity principle on connected overlapping polydiscs propagate its vanishing along the continuous path. The conclusion is Abel's identity at the endpoint. Mathlib's `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq` applies to `ℂ × ℂ`; the one-variable Tau Ceti continuation predicate does not.
+
+Prove `functionalEquation_branch_change`: changing one branch independently by a loop word gives the defect obtained by substituting `Φ` of §2.3 for that branch, including every continued logarithm in the polynomial or product term. No uncorrected identity between independently chosen branches is asserted.
 
 **Checks.**
+- At the inversion base point −1, the logarithm argument is 1 and its initial value is 0; this is regular for `Log` and singular for the positive-height tower.
+- On the constant Abel path at `(1/4,1/4)`, the seven initial germs recover §3.4 with arguments `1/9, 1/3, 1/3, 1/4, 1/4` and logarithmic product `Log(3/4)²`.
 - Changing the branch of `Li₁` alone by `T₁` in an otherwise principal identity changes it by `−2πi` times the coefficient of `Li₁`.
 - Two loop words with the same winding numbers about 0 and 1 (for instance `T₁T₀` and `T₀T₁`) can change `Li₂` differently, by `4π²` (§2.3); a correction computed from winding numbers alone is wrong.
 - The continued reflection along a path from `1/2` that encircles 1 once counterclockwise changes `Li₂(z)` by `−2πi Log z` and `Log(1−z)` by `2πi`, and the identity still holds: `−2πi Log z` on the left equals `−Log z · 2πi` on the right.
 
-*Needs:* Layer 2; §§3.1–3.4; Tau Ceti `IsAnalyticContinuationAlong.eventuallyEq`.
+*Needs:* Layer 2; §§3.1–3.4; Tau Ceti `IsAnalyticContinuationAlong.eventuallyEq` for the one-variable cases; the separately initialized logarithm continuations and `abel_functionalEquation_continuation` above; Mathlib `AnalyticAt`, `AnalyticOnNhd.eqOn_of_preconnected_of_eventuallyEq` on `ℂ × ℂ`.
 
 ### 3.6 Exact dilogarithm values
 
@@ -450,7 +458,7 @@ References: [Z07] Part I §1, pp. 6–7 (the closed-form values, among them `Li�
 Prove `polylog_two_one` (`Li₂(1) = π²/6`, from `riemannZeta_two`), `polylog_two_neg_one` (`Li₂(−1) = −π²/12`, from duplication at `z = 1` by closed-disc continuity: `Li₂(1) = 2(Li₂(1) + Li₂(−1))`) and `polylog_two_half` (`Li₂(1/2) = π²/12 − (log 2)²/2`, from reflection at `z = 1/2`). These three are complex equalities with zero imaginary part. The golden-ratio values are proved after the Rogers pentagon in §6.5.
 
 **Checks.**
-- The value at −1 is finite and real; a branch that crossed the cut would give an imaginary part.
+- At the upper half-circle lift `p` of −1 the principal value is `−π²/12`; prefixing `T₁` changes it to `23π²/12`, still real. The exact real value detects this branch change. The target `polylogBranch_two_T1_neg_one`, for `2 ≤ N`, states this using the continuation of the `T₁`-changed tower germ along that half-circle: `−π²/12 − 2πi·πi = 23π²/12`.
 - `Li₂(1/2) ≠ π²/12`: the logarithmic correction `−(log 2)²/2` is part of the value.
 - `Li₂(1) = π²/6` but `Li₂(−1) = −π²/12`: duplication fixes the factor `−1/2` between the two endpoint values.
 
@@ -499,11 +507,11 @@ with principal `Li` and the lower boundary values on the cut, and define `single
 Its API is `singleValued_formula` (the displayed sum for `z ∉ {0, 1}`), `singleValued_zero` (`Lₙ(0) = 0`), `singleValued_one` (the parity-dependent value at 1), `singleValuedSphere_infty` (value 0 at `∞`) and `singleValuedSphere_coe` (agreement with `Lₙ` on `ℂ`), `singleValued_of_norm_eq_one` (for `|z| = 1, Lₙ(z) = πₙ(Liₙ(z))`, including `z = 1`; equivalently the parity projection of Mathlib's `HurwitzZeta.expZeta`, by §1.7), and `singleValued_two` (§5.2).
 
 **Checks.**
-- `L₃(1) = ζ(3)` and `L₂(1) = 0` (the two `Suggested.lean` examples): the odd-weight endpoint keeps the zeta value; dropping it changes every odd-weight regulator convention downstream.
+- `L₃(1) = ζ(3)` and `L₂(1) = 0` (`singleValued_one`): the odd-weight endpoint keeps the zeta value; dropping it changes every odd-weight regulator convention downstream.
 - `L₃(−1) = −3ζ(3)/4` (§4.8): odd weights do not vanish on the real axis.
 - Weight-one distinction: at `z = 1/2` the weight-one formula gives `−log|1/2| = log 2`, whereas `log|z| = −log 2`.
-- On the unit circle, `L₃(e^{it}) = Re Li₃(e^{it})` and `L₂(e^{it}) = Im Li₂(e^{it})`; the projection alternates with the weight.
-- `L₂(z) = Im Li₂(z) + Arg(1 − z)·ℓ` for `z ∉ {0, 1}`, the Bloch–Wigner function (§5.2), because `c₁ = −1` and `Im Li₁ = −Arg(1 − z)`.
+- On the unit circle, `L₃(z) = Re Li₃(z)` for `‖z‖ = 1, z ≠ 1` (a proved `Suggested.lean` example); in weight two the projection is the imaginary part, so the parity alternates.
+- `L₂(z) = Im Li₂(z) + Arg(1 − z)·ℓ` for `z ∉ {0, 1}`, the Bloch–Wigner function (§5.2), because `c₁ = −1` and `Im Li₁ = −Arg(1 − z)` (the other proved `Suggested.lean` example).
 
 *Needs:* §§1.1, 1.7, 4.1.
 
@@ -581,7 +589,7 @@ Prove `continuous_singleValuedSphere`: for `n ≥ 2` the function `singleValuedS
 **Checks.**
 - `L₃(1) = ζ(3) ≠ 0`, while `L₂(0) = L₂(1) = L₂(∞) = 0` and `L₄(1) = 0`.
 - The limit of `L₃` at 1 is `ζ(3)` from above and from below the cut alike.
-- `singleValuedSphere n ∞ = 0` and `singleValuedSphere n z = singleValued n z` (the two `Suggested.lean` examples).
+- `singleValuedSphere_infty` and `singleValuedSphere_coe` give the assigned values at infinity and finite points; `continuous_singleValuedSphere` asserts their compatibility with limits.
 
 *Needs:* §§1.3, 1.7, 4.3, 4.4, 4.6.
 
@@ -753,12 +761,27 @@ Proof of the cyclic form for `x, y` in the open set `W` where all five arguments
 
 References: [O93] §4.1, (35)–(38), p. 60 (the birapport, the function `P̃₂(a, b, c, d) = P₂(r(a, b, c, d))`, its alternating behaviour under permutations, PGL₂-invariance and the five-point relation); [Z07] Part I §3, (5)–(6), p. 11 (`D̃` and the alternating sum over five points of `ℙ¹(ℂ)`); [GR] §1.1, (3)–(4) and footnote 1, p. 4 (the cyclic bracket form). Built on §§5.3, 5.7.
 
-**The cross-ratio.** Define `crossRatio : ℂ → ℂ → ℂ → ℂ → ℂ`, written `r(a, b, c, d) = (a − c)(b − d)/((a − d)(b − c))`. Its API is `crossRatio_swap` (`r(b, a, d, c) = r(a, b, c, d)`, invariance under the product of two disjoint transpositions; the `Suggested.lean` example), `crossRatio_zero_one` (`r(a, 0, 1, z) = z(a − 1)/(a − z)` for `a ≠ z`, whose limit as `a → ∞` is `z`) and `crossRatioSphere` (the extension to four distinct points of `OnePoint ℂ` by cancellation limits, with `r(∞, 0, 1, z) = z`). Write `D̃(a, b, c, d) = D(r(a, b, c, d))`, Zagier's notation.
+**The cross-ratio.** Define `crossRatio : ℂ → ℂ → ℂ → ℂ → ℂ`, written `r(a, b, c, d) = (a − c)(b − d)/((a − d)(b − c))`. Its API is `crossRatio_swap` (`r(b, a, d, c) = r(a, b, c, d)`, invariance under the product of two disjoint transpositions; the `Suggested.lean` example), `crossRatio_zero_one` (`r(a, 0, 1, z) = z(a − 1)/(a − z)` for `a ≠ z`, whose limit as `a → ∞` is `z`) and `crossRatioSphere` (over any field `K`, the extension to `OnePoint K` by the finite expression and four one-infinity cancellation formulas below; set it to 0 when two or more entries are infinity, outside the distinct-tuple locus). Write `D̃(a, b, c, d) = D(r(a, b, c, d))`, Zagier's notation.
 
 **Checks.**
 - `r(∞, 0, 1, z) = z`; the Goncharov–Rudenko bracket of the same tuple is `[∞, 0, 1, z] = 1 − z`, and a cross-ratio normalised by `cr(0, ∞, 1, z) = z` gives `1/z` on `(∞, 0, 1, z)`.
 - Coincidences give `r(a, b, a, d) = 0`. If the denominator is nonzero, `r(a, a, c, d) = r(a, b, c, c) = 1`; if the denominator vanishes, Lean instead gives 0. In particular `r(0, 0, 1, 2) = 1` but `r(0, 0, 0, 2) = 0`, a negative control for the missing hypothesis (both values are pinned in the second `Suggested.lean` example). If `a = d` and `b, c, a` are otherwise distinct, the projective cancellation limit is `∞` while the finite Lean expression is 0. `D` vanishes at 0, 1 and `∞`, so its degenerate values still agree; the projective theorems below assume distinct points.
 - `D(r(σa, σb, σc, σd)) = sign(σ)·D(r(a, b, c, d))` for every permutation `σ` of four distinct points ([O93] (36)); for `σ = (a b)` the sign is −1.
+
+**Projective normalization and invariance.** From [O93] §4.1, (35)–(38), p. 60, prove the elementary coordinate prerequisites over every field `K`. Use Mathlib's `GL (Fin 2) K` action on `OnePoint K` and `OnePoint.equivProjectivization_smul` (`Mathlib/Topology/Compactification/OnePoint/ProjectiveLine.lean`, lines 124–129). Prove `crossRatioSphere_finite` (agreement with the finite formula), and the four cancellation formulas `crossRatioSphere_infty_first`, `crossRatioSphere_infty_second`, `crossRatioSphere_infty_third`, `crossRatioSphere_infty_fourth`:
+
+```text
+r(∞,b,c,d) = (b−d)/(b−c),     r(a,∞,c,d) = (a−c)/(a−d),
+r(a,b,∞,d) = (b−d)/(a−d),     r(a,b,c,∞) = (a−c)/(b−c).
+```
+
+Prove `crossRatioSphere_eq_det`: for an injective four-tuple with nonzero homogeneous representatives `vᵢ`, this value is `Δ(v₀,v₂)Δ(v₁,v₃)/(Δ(v₀,v₃)Δ(v₁,v₂))`, where `Δ(v,w) = v₀w₁−v₁w₀`; all rescaling factors cancel. Then `crossRatioSphere_mobius`: every `g : GL (Fin 2) K` preserves the cross-ratio of an injective four-tuple, by determinant covariance. Prove `normalize_five`: for every injective `s : Fin 5 → OnePoint K` there exist `g : GL (Fin 2) K` and `x,y : K` with `x,y ∉ {0,1}`, `x ≠ y`, and `g • s = (∞,0,1,x,y)` pointwise. Construct the map using representatives of the first three points, whose pairwise determinants are nonzero. This field-general algebra supplies the complex projective proof and the downstream projective-coordinate APIs under the bracket translation `1−r` on distinct tuples. Symbol complexes and scalar-to-group descent belong to the consumers listed below.
+
+**Checks.**
+- The first cancellation formula gives `r(∞,0,1,z) = z` for every finite `z`.
+- The identity matrix already normalizes `(∞,0,1,x,y)` when `x,y ∉ {0,1}`, `x ≠ y`; no map can send a coincident first pair to the distinct points `∞,0`, so injectivity is essential.
+- The matrix exchanging the two coordinates sends `0` to `∞` and `∞` to `0`; `crossRatioSphere_mobius` includes these pole cases, which the affine nonzero-denominator theorem cannot cover.
+- On distinct tuples the homogeneous bracket `Δ(v₀,v₁)Δ(v₂,v₃)/(Δ(v₀,v₃)Δ(v₂,v₁))` equals `1−r`; the equality need not survive totalised coincident tuples.
 
 Prove `blochWigner_crossRatio_fiveTerm`: for five pairwise distinct points `s₀, …, s₄` of `ℂ`,
 
@@ -766,14 +789,14 @@ Prove `blochWigner_crossRatio_fiveTerm`: for five pairwise distinct points `s₀
 ∑_{j=0}^{4} (−1)^j D(r(s₀, …, ŝⱼ, …, s₄)) = 0,
 ```
 
-and `blochWignerSphere_crossRatio_fiveTerm`: the same for five distinct points of `OnePoint ℂ` with the sphere cross-ratio. For the D-valued identities use the affine invariance supplied in Scope and ownership, add the one-infinity cancellation cases for the sphere cross-ratio, normalise three of the points to `(∞, 0, 1)` and apply §5.7. Prove `blochWigner_bracket_cyclic`: for five distinct points `x₁, …, x₅, ∑_{i ∈ ℤ/5} D([xᵢ, xᵢ₊₁, xᵢ₊₂, xᵢ₊₃]) = 0`, translating by `[a, b, c, d] = 1 − r(a, b, c, d)` and the sixfold symmetry; writing `bᵢ = [xᵢ, xᵢ₊₁, xᵢ₊₂, xᵢ₊₃]`, direct cancellation gives `1 − bᵢ = −bᵢ/(bᵢ₊₂bᵢ₊₃)`. These are coordinate identities for values of `D`; no configuration complex, regulator or group-descent statement is inferred from them.
+and `blochWignerSphere_crossRatio_fiveTerm`: the same for five distinct points of `OnePoint ℂ` with the sphere cross-ratio. For the D-valued identities use `crossRatioSphere_mobius` and `normalize_five` above, then the four cancellation formulas reduce the normalized tuple to §5.7. The finite theorem follows by restriction. Prove `blochWigner_bracket_cyclic`: for five distinct points `x₁, …, x₅, ∑_{i ∈ ℤ/5} D([xᵢ, xᵢ₊₁, xᵢ₊₂, xᵢ₊₃]) = 0`, translating by `[a, b, c, d] = 1 − r(a, b, c, d)` and the sixfold symmetry; writing `bᵢ = [xᵢ, xᵢ₊₁, xᵢ₊₂, xᵢ₊₃]`, direct cancellation gives `1 − bᵢ = −bᵢ/(bᵢ₊₂bᵢ₊₃)`. These are coordinate identities for values of `D`; no configuration complex, regulator or group-descent statement is inferred from them.
 
 **Checks.**
 - For `(s₀, …, s₄) = (∞, 0, 1, x, y)` the projective relation is the alternating form of §5.7.
 - Replacing `r` by the bracket `[a, b, c, d] = 1 − r` in the alternating sum replaces each term by its negative (`D(1 − w) = −D(w)`), so that sum still vanishes; the cyclic bracket sum is a different identity, equivalent to it by footnote 1 of [GR], p. 4.
 - Non-example: the sum of the five values `D(r(s₀, …, ŝⱼ, …, s₄))` without the alternating signs is not zero in general (about 2.85526 for the ordered tuple `(0, 1, 2, i, 1 + i)`), so the signs are part of the statement.
 
-*Needs:* §§5.3, 5.7.
+*Needs:* §§5.3, 5.7; Mathlib `OnePoint.equivProjectivization_smul` and the `GL (Fin 2) K` action; first the finite/cancellation and homogeneous comparison targets, then `crossRatioSphere_mobius` and `normalize_five` above, then the projective five-term identities.
 
 ### Examples
 
@@ -798,8 +821,8 @@ References: [Z07] Part II §1.A, p. 23 (the definition `L(x) = Li₂(x) + (1/2) 
 Its API is `rogers_formula` (the displayed expression on `(0, 1)`), `rogers_zero` and `rogers_one` (simp), `rogers_eq_polylog` (on `(0, 1), (R(x) : ℂ) = Li₂(x) + (1/2) log x log(1 − x)`, since `Im Li₂(x) = 0`), `continuousOn_rogers` and `strictMonoOn_rogers` (§6.2), and `rogers_mem_Icc` (`R` maps `[0, 1]` into `[0, π²/6]`).
 
 **Checks.**
-- `R(0) = 0` and `R(1) = π²/6` (the two `Suggested.lean` examples); a unit-normalised Rogers function with `R(1) = 1` fails the second.
-- `R(1/2) = π²/12`, while `Li₂(1/2) = π²/12 − (log 2)²/2`: the logarithmic correction is not zero.
+- `R(0) = 0` and `R(1) = π²/6` (`rogers_zero`, `rogers_one`); a unit-normalised Rogers function with `R(1) = 1` fails the second.
+- `R(1/2) = π²/12`, while `Li₂(1/2) = π²/12 − (log 2)²/2`: the logarithmic correction is not zero. The proved `Suggested.lean` example computes `R(1/2) = Re Li₂(1/2) + (log 2)²/2` directly from the definition.
 - `R(ρ) = π²/10` and `R(ρ²) = π²/15` (§6.5).
 - `R′(1/2) = 2 log 2 > 0` (§6.2).
 
@@ -814,7 +837,7 @@ Prove `hasDerivAt_rogers`: for `x ∈ (0, 1)`, `R′(x) = −(1/2)(log(1 − x)/
 **Checks.**
 - `R′(1/2) = −(1/2)(2 log(1/2) + 2 log(1/2)) = 2 log 2`.
 - `R′(x) = R′(1 − x)`: the derivative is symmetric about `1/2`, as reflection requires.
-- `R′(x) → +∞` as `x → 0+` and as `x → 1−`: `R` is not differentiable at the endpoints, and no derivative is asserted there.
+- `R′(x) → +∞` as `x → 0+` and as `x → 1−`: `not_differentiableAt_rogers_zero` and `not_differentiableAt_rogers_one` state that `R` is not differentiable at those endpoints.
 
 *Needs:* §§1.5, 1.7, 6.1.
 
@@ -953,7 +976,7 @@ Prove `exists_norm_iteratedFDeriv_singleValued_le`: for `n ≥ 2`, every compact
 
 References: [Z07] Part I §3, p. 10 (`D` is continuous but not differentiable at 0 and 1, with singularities of type `r log r`); [G95] §1.0, p. 201 (singularities of type `|x| ln |x|` at `0, 1, ∞`). The expansion is derived from the definition. Built on §§1.3, 5.3, 5.4, 7.1.
 
-Prove `blochWigner_I_mul_asymptotic`: as real `t → 0` with `t ≠ 0`, `D(it) = t(1 − log|t|) + O(|t|³(1 + |log|t||))`. From the series, `Im Li₂(it) = t − t³/9 + O(t⁵)`; from the Taylor expansion of the argument, `Arg(1 − it) = −arctan t = −t + O(t³)`; multiply by `log|it| = log|t|`. Consequently `not_differentiableAt_blochWigner_zero`: `D(it)/t = 1 − log|t| + o(1) → +∞`, so `D` has no real derivative at 0. By `D(1 − z) = −D(z)` and `D(1/z) = −D(z)` (§5.3) the same failure holds at 1 and, in the coordinate `w = 1/z`, at `∞`. This behaviour is specific to weight two: `L₃` is differentiable at 1 (§4.8).
+Prove `blochWigner_I_mul_asymptotic`: as real `t → 0` with `t ≠ 0`, `D(it) = t(1 − log|t|) + O(|t|³(1 + |log|t||))`. From the series, `Im Li₂(it) = t − t³/9 + O(t⁵)`; from the Taylor expansion of the argument, `Arg(1 − it) = −arctan t = −t + O(t³)`; multiply by `log|it| = log|t|`. Consequently `not_differentiableAt_blochWigner_zero`: `D(it)/t = 1 − log|t| + o(1) → +∞`, so `D` has no real derivative at 0. `not_differentiableAt_blochWigner_one` follows by `D(1 − z) = −D(z)`. By this symmetry and `D(1/z) = −D(z)` (§5.3) the same failure holds at 1 and, in the coordinate `w = 1/z`, at `∞`. This behaviour is specific to weight two: `L₃` is differentiable at 1 (§4.8).
 
 **Checks.**
 - The expansion is odd in `t` to leading order, as `D(z̄) = −D(z)` requires.
@@ -995,7 +1018,7 @@ These roadmaps take the analytic statements of this roadmap as inputs; none of t
 - **HabiroNahmSeries**: takes `D` at all complex embeddings of algebraic Nahm solutions (§5.1), its conjugation sign (§5.3), the Rogers values (§6.5) and the finite-sum bounds (§7.7).
 - **HabiroNumberFields**: takes the complex five-term identity on an explicit branch domain (§3.4, §3.5) for comparison with its cyclic quantum dilogarithm, which remains its own object.
 - **PeriodsAndSpecialValues**: takes the classical analytic realisation `Liₙ, Lₙ` and the zeta endpoint values (§§1.7, 4.2) alongside its multiple-zeta and motivic objects.
-- **ColemanIntegration**: uses the complex values of `P₂` on the unit circle (§§4.2, 5.1) as a check of its p-adic conventions; its formal and p-adic polylogarithms are its own.
+- **ColemanIntegration**: L2.Fa uses §§1.1–1.7 and §3.1: its `complexPolylog k z = polylog k z` for `k ≥ 1, ‖z‖ ≤ 1` (the value at `k = 1, z = 1` is totalised); off-disc values of that wrapper carry no analytic contract. L3.Fc.3 uses §§4.2–4.7: for `n ≥ 2, z ∉ {0,1}`, its `zagierPolylog n z` is `(singleValued n z : ℂ)` in odd weight and `Complex.I * singleValued n z` in even weight. The complex analytic construction, closed-disc/distribution/expZeta API and single-valued inversion/distribution/conjugation are supplied here. Its formal and p-adic functions and arithmetic comparisons remain its own. L2.Fb uses the field-general projective algebra of §5.8, translating its bracket by `1 − r` on distinct tuples; its algebraic Bloch-group and p-adic comparisons remain its own.
 
 ## References
 

@@ -11,8 +11,9 @@ import TauCeti.Analysis.InnerProductSpace.Laplacian.StrongMaximumPrinciple
 The roadmap is `README.md`; it is definitive. This file is not the roadmap and is not
 exhaustive: it records the light definitions and the theorem signatures of the roadmap that can
 be stated against the pinned Mathlib and Tau Ceti, fixing names and signatures. The function on the universal cover that a continuation of the tower
-defines, the action of arbitrary loop words and the continued functional equations are README
-targets; their carrier `TauCeti.UniversalCover` is pinned below.
+defines and the action of arbitrary loop words are README targets; their carrier
+`TauCeti.UniversalCover` is pinned below. Continued inversion and two-variable Abel propagation
+have signatures here; the full family of continued functional equations is specified in the README.
 
 Design choices made explicit here:
 
@@ -76,6 +77,15 @@ theorem hasSum_polylog_of_norm_lt (n : ℤ) {z : ℂ} (hz : ‖z‖ < 1) :
     HasSum (fun k : ℕ => z ^ (k + 1) / ((k + 1 : ℕ) : ℂ) ^ n) (polylog n z) := by
   sorry
 
+/-- The principal weight-one value at `3` is the lower cut value (§1.1). -/
+theorem polylog_one_three :
+    polylog 1 3 = -(Real.log 2 : ℂ) - Real.pi * Complex.I := by
+  sorry
+
+/-- The principal weight-one function is discontinuous at `3` (§1.5). -/
+theorem not_continuousAt_polylog_one_three : ¬ ContinuousAt (polylog 1) (3 : ℂ) := by
+  sorry
+
 /-- Every weight vanishes at the origin (§1.1). -/
 theorem polylog_zero_right (n : ℤ) : polylog n 0 = 0 := by
   sorry
@@ -122,6 +132,11 @@ theorem continuousOn_polylog_closedBall (n : ℕ) (hn : 2 ≤ n) :
     ContinuousOn (polylog n) (Metric.closedBall 0 1) := by
   sorry
 
+/-- Closed-disc conjugation follows from continuity after the principal-domain identity (§1.7). -/
+theorem polylog_conj_of_norm_le_one (n : ℕ) (hn : 2 ≤ n) {z : ℂ} (hz : ‖z‖ ≤ 1) :
+    polylog n (starRingEnd ℂ z) = starRingEnd ℂ (polylog n z) := by
+  sorry
+
 /-- Continuity at `1` for unrestricted complex approach, beyond closed-disc continuity (§1.7). -/
 theorem continuousAt_polylog_one (n : ℕ) (hn : 2 ≤ n) : ContinuousAt (polylog n) 1 := by
   sorry
@@ -158,6 +173,16 @@ theorem continuesInside_polylogTower (N : ℕ) :
     TauCeti.ContinuesInside (polylogTower N) {z : ℂ | z ≠ 0 ∧ z ≠ 1} (1 / 2) := by
   sorry
 
+/-- Truncation of the principal tower preserves every retained entry (§2.1). -/
+theorem polylogTower_trunc (N M : ℕ) (hMN : M ≤ N) (z : ℂ) (i : Fin (M + 1)) :
+    polylogTower N z ⟨i, by omega⟩ = polylogTower M z i := by
+  sorry
+
+/-- Choosing the `T₁` branch only in weight one breaks the weight-two ODE (§2.1). -/
+theorem polylogTower_incoherent_two :
+    deriv (polylog 2) (1 / 2) ≠ (polylog 1 (1 / 2) - 2 * Real.pi * Complex.I) / (1 / 2) := by
+  sorry
+
 /-- Monodromy about `0` (§2.3): continuing along the counterclockwise circle `|z| = 1/2` from
 `1/2` adds `2πi` to the logarithm and fixes every `Liₙ`. -/
 theorem polylogTower_monodromy_zero (N : ℕ) {f : unitInterval → ℂ → Fin (N + 1) → ℂ}
@@ -186,6 +211,20 @@ so prefixing a counterclockwise loop `γ` is the action of `[γ]⁻¹`. -/
 #check @TauCeti.monodromy_theorem
 #check @TauCeti.ContinuesInside.exists_analyticOnNhd
 #check @TauCeti.UniversalCover.smul_mk
+
+/-- Prefixing `T₁` before the upper semicircle to `-1` changes the dilogarithm to the
+still real value `23π²/12`; the initial germ is the generator formula of §2.3 (§3.6). -/
+theorem polylogBranch_two_T1_neg_one (N : ℕ) (hN : 2 ≤ N)
+    {f : unitInterval → ℂ → Fin (N + 1) → ℂ}
+    (hf : TauCeti.IsAnalyticContinuationAlong f
+      (fun t : unitInterval => -(1 / 4 : ℂ) + (3 / 4 : ℂ) *
+        Complex.exp (Real.pi * Complex.I * (t : ℝ))) univ)
+    (h0 : f 0 =ᶠ[𝓝 (1 / 2 : ℂ)] fun z i =>
+      if i = 0 then Complex.log z else
+        polylog (i.val : ℤ) z - 2 * Real.pi * Complex.I *
+          Complex.log z ^ (i.val - 1) / ((i.val - 1).factorial : ℂ)) :
+    f 1 (-1) ⟨2, by omega⟩ = 23 * (Real.pi : ℂ) ^ 2 / 12 := by
+  sorry
 
 /-- The upper-minus-lower jump across the cut at `x > 1` (§2.4). Counterclockwise monodromy
 about `1` has the opposite sign (§2.3). -/
@@ -248,6 +287,42 @@ theorem polylog_abel {x y : ℂ} (hxy : ‖x‖ + ‖y‖ < 1) :
         Complex.log (1 - x) * Complex.log (1 - y) := by
   sorry
 
+/-- Continued inversion uses principal polylogarithm germs at `-1` and a separate
+logarithm germ at `1`, continued along the negated argument path (§3.5). -/
+theorem polylog_inversion_continuation (n : ℕ) (hn : 1 ≤ n)
+    {c : unitInterval → ℂ} (hc : ∀ t, c t ≠ 0 ∧ c t ≠ 1) (hc0 : c 0 = -1)
+    {f g l : unitInterval → ℂ → ℂ}
+    (hf : TauCeti.IsAnalyticContinuationAlong f c univ)
+    (hg : TauCeti.IsAnalyticContinuationAlong g (fun t => (c t)⁻¹) univ)
+    (hl : TauCeti.IsAnalyticContinuationAlong l (fun t => -c t) univ)
+    (hf0 : f 0 =ᶠ[𝓝 (-1 : ℂ)] polylog n)
+    (hg0 : g 0 =ᶠ[𝓝 (-1 : ℂ)] polylog n)
+    (hl0 : l 0 =ᶠ[𝓝 (1 : ℂ)] Complex.log) :
+    f 1 (c 1) + (-1 : ℂ) ^ n * g 1 ((c 1)⁻¹) =
+      -(2 * Real.pi * Complex.I) ^ n / (n.factorial : ℂ) *
+        (Polynomial.bernoulli n).eval₂ (algebraMap ℚ ℂ)
+          ((1 / 2 : ℂ) + l 1 (-c 1) / (2 * Real.pi * Complex.I)) := by
+  sorry
+
+/-- Abel's identity propagates for seven analytic germs on the two-variable base. The initial
+germ specifies all five dilogarithms and both logarithms; local agreement transports their
+identity along any path in the nonsingular locus (§3.5). -/
+theorem abel_functionalEquation_continuation {c : unitInterval → ℂ × ℂ}
+    (hc : Continuous c)
+    (hcM : ∀ t, (c t).1 * (c t).2 * (1 - (c t).1) * (1 - (c t).2) *
+      (1 - (c t).1 - (c t).2) ≠ 0)
+    (hc0 : c 0 = (1 / 4, 1 / 4))
+    {F : unitInterval → (ℂ × ℂ) → Fin 7 → ℂ}
+    (hFa : ∀ t, AnalyticAt ℂ (F t) (c t))
+    (hFl : ∀ t, ∀ᶠ u in 𝓝 t, F u =ᶠ[𝓝 (c u)] F t)
+    (hF0 : F 0 =ᶠ[𝓝 ((1 / 4, 1 / 4) : ℂ × ℂ)] fun z =>
+      ![polylog 2 (z.1 * z.2 / ((1 - z.1) * (1 - z.2))),
+        polylog 2 (z.1 / (1 - z.2)), polylog 2 (z.2 / (1 - z.1)),
+        polylog 2 z.1, polylog 2 z.2, Complex.log (1 - z.1), Complex.log (1 - z.2)]) :
+    F 1 (c 1) 0 = F 1 (c 1) 1 + F 1 (c 1) 2 - F 1 (c 1) 3 - F 1 (c 1) 4 -
+      F 1 (c 1) 5 * F 1 (c 1) 6 := by
+  sorry
+
 /-- The negative-real value, real and finite (§3.6). -/
 theorem polylog_two_neg_one : polylog 2 (-1) = -(Real.pi : ℂ) ^ 2 / 12 := by
   sorry
@@ -284,22 +359,33 @@ def singleValued (n : ℕ) (z : ℂ) : ℝ :=
       (bernoulliCoeff k : ℂ) * polylog ((n : ℤ) - k) z * (Real.log ‖z‖ : ℂ) ^ k
     if Odd n then w.re else w.im
 
-/-- The odd-weight endpoint keeps the zeta value. -/
-example : singleValued 3 1 = (riemannZeta 3).re := by
-  simp [singleValued, show Odd 3 by decide]
+/-- The endpoint at `1` keeps the zeta value exactly in odd weight (§4.2). -/
+theorem singleValued_one (n : ℕ) :
+    singleValued n 1 = if Odd n then (riemannZeta n).re else 0 := by
+  simp [singleValued]
 
-/-- The even-weight endpoint is zero. -/
-example : singleValued 2 1 = 0 := by
-  simp [singleValued, show ¬ Odd 2 by decide]
+/-- Weight two includes the logarithmic argument correction (§4.2). -/
+example {z : ℂ} (hz0 : z ≠ 0) (hz1 : z ≠ 1) :
+    singleValued 2 z = (polylog 2 z).im + Complex.arg (1 - z) * Real.log ‖z‖ := by
+  simp [singleValued, hz0, hz1, show ¬ Odd 2 by decide, Finset.sum_range_succ,
+    bernoulliCoeff, bernoulli_one, polylog, Complex.log_im, Complex.mul_im]
+  ring
+
+/-- In odd weight three, the unit-circle projection is the real part (§4.2). -/
+example {z : ℂ} (hz : ‖z‖ = 1) (hz1 : z ≠ 1) :
+    singleValued 3 z = (polylog 3 z).re := by
+  have hz0 : z ≠ 0 := by intro h; simp [h] at hz
+  simp [singleValued, hz0, hz1, hz, show Odd 3 by decide, Finset.sum_range_succ,
+    bernoulliCoeff]
 
 /-- The extension of `Lₙ` to the Riemann sphere `OnePoint ℂ`, with value `0` at `∞` (§4.7). -/
 def singleValuedSphere (n : ℕ) : OnePoint ℂ → ℝ := fun p => p.elim 0 (singleValued n)
 
-/-- The value at infinity is zero. -/
-example (n : ℕ) : singleValuedSphere n OnePoint.infty = 0 := rfl
+/-- The value at infinity is zero (§4.2). -/
+theorem singleValuedSphere_infty (n : ℕ) : singleValuedSphere n OnePoint.infty = 0 := rfl
 
-/-- On a finite point the sphere extension is `Lₙ` itself. -/
-example (n : ℕ) (z : ℂ) : singleValuedSphere n z = singleValued n z := rfl
+/-- On a finite point the sphere extension is `Lₙ` itself (§4.2). -/
+theorem singleValuedSphere_coe (n : ℕ) (z : ℂ) : singleValuedSphere n z = singleValued n z := rfl
 
 /-- On the unit circle `Lₙ` is the parity projection of `Liₙ` (§4.2). -/
 theorem singleValued_of_norm_eq_one (n : ℕ) (hn : 2 ≤ n) {z : ℂ} (hz : ‖z‖ = 1) :
@@ -413,6 +499,11 @@ theorem blochWigner_differential {z : ℂ} (hz0 : z ≠ 0) (hz1 : z ≠ 1) :
         -Real.log ‖z‖ * (v / (1 - z)).im - Real.log ‖1 - z‖ * (v / z).im := by
   sorry
 
+/-- At the cut point `2`, the transverse derivative is nonzero (§5.4). -/
+theorem blochWigner_derivative_two (v : ℂ) :
+    fderiv ℝ blochWigner (2 : ℂ) v = Real.log 2 * v.im := by
+  sorry
+
 /-- The Euclidean Laplacian `ΔD(z) = -2 Im z / (|z|² |1 - z|²)` (§5.5). -/
 theorem laplacian_blochWigner {z : ℂ} (hz0 : z ≠ 0) (hz1 : z ≠ 1) :
     Laplacian.laplacian blochWigner z = -2 * z.im / (‖z‖ ^ 2 * ‖1 - z‖ ^ 2) := by
@@ -461,6 +552,73 @@ when it vanishes (§5.8). -/
 example : crossRatio 0 0 1 2 = 1 ∧ crossRatio 0 0 0 2 = 0 := by
   norm_num [crossRatio]
 
+/-- The field-general sphere cross-ratio by cancellation in the four one-infinity cases.
+Two or more infinities receive zero; projective identities use distinct tuples (§5.8). -/
+def crossRatioSphere {K : Type*} [Field K] : OnePoint K → OnePoint K → OnePoint K → OnePoint K → K
+  | .some a, .some b, .some c, .some d => (a - c) * (b - d) / ((a - d) * (b - c))
+  | .infty, .some b, .some c, .some d => (b - d) / (b - c)
+  | .some a, .infty, .some c, .some d => (a - c) / (a - d)
+  | .some a, .some b, .infty, .some d => (b - d) / (a - d)
+  | .some a, .some b, .some c, .infty => (a - c) / (b - c)
+  | _, _, _, _ => 0
+
+/-- On finite points the sphere cross-ratio agrees with its affine formula (§5.8). -/
+theorem crossRatioSphere_finite {K : Type*} [Field K] (a b c d : K) :
+    crossRatioSphere (a : OnePoint K) b c d = (a - c) * (b - d) / ((a - d) * (b - c)) := rfl
+
+/-- Cancellation when the first point is infinity (§5.8). -/
+theorem crossRatioSphere_infty_first {K : Type*} [Field K] (b c d : K) :
+    crossRatioSphere (OnePoint.infty : OnePoint K) b c d = (b - d) / (b - c) := rfl
+
+/-- Cancellation when the second point is infinity (§5.8). -/
+theorem crossRatioSphere_infty_second {K : Type*} [Field K] (a c d : K) :
+    crossRatioSphere (a : OnePoint K) OnePoint.infty c d = (a - c) / (a - d) := rfl
+
+/-- Cancellation when the third point is infinity (§5.8). -/
+theorem crossRatioSphere_infty_third {K : Type*} [Field K] (a b d : K) :
+    crossRatioSphere (a : OnePoint K) b OnePoint.infty d = (b - d) / (a - d) := rfl
+
+/-- Cancellation when the fourth point is infinity (§5.8). -/
+theorem crossRatioSphere_infty_fourth {K : Type*} [Field K] (a b c : K) :
+    crossRatioSphere (a : OnePoint K) b c OnePoint.infty = (a - c) / (b - c) := rfl
+
+/-- Homogeneous determinants compute the sphere cross-ratio of distinct points (§5.8). -/
+theorem crossRatioSphere_eq_det {K : Type*} [Field K] [DecidableEq K]
+    (s : Fin 4 → OnePoint K) (hs : Function.Injective s)
+    (v : Fin 4 → Fin 2 → K) (hv : ∀ i, v i ≠ 0)
+    (hrep : ∀ i, OnePoint.equivProjectivization K (s i) = Projectivization.mk K (v i) (hv i)) :
+    crossRatioSphere (s 0) (s 1) (s 2) (s 3) =
+      (v 0 0 * v 2 1 - v 0 1 * v 2 0) * (v 1 0 * v 3 1 - v 1 1 * v 3 0) /
+        ((v 0 0 * v 3 1 - v 0 1 * v 3 0) * (v 1 0 * v 2 1 - v 1 1 * v 2 0)) := by
+  sorry
+
+/-- Projective linear transformations preserve the cross-ratio, including poles (§5.8). -/
+theorem crossRatioSphere_mobius {K : Type*} [Field K] [DecidableEq K]
+    (g : Matrix.GeneralLinearGroup (Fin 2) K) (s : Fin 4 → OnePoint K)
+    (hs : Function.Injective s) :
+    crossRatioSphere (g • s 0) (g • s 1) (g • s 2) (g • s 3) =
+      crossRatioSphere (s 0) (s 1) (s 2) (s 3) := by
+  sorry
+
+/-- Every injective projective five-tuple has the normal form `(∞,0,1,x,y)` over its field (§5.8). -/
+theorem normalize_five {K : Type*} [Field K] [DecidableEq K]
+    (s : Fin 5 → OnePoint K) (hs : Function.Injective s) :
+    ∃ (g : Matrix.GeneralLinearGroup (Fin 2) K) (x y : K),
+      x ≠ 0 ∧ x ≠ 1 ∧ y ≠ 0 ∧ y ≠ 1 ∧ x ≠ y ∧
+        ∀ i, g • s i = ![OnePoint.infty, ((0 : K) : OnePoint K), ((1 : K) : OnePoint K),
+          (x : OnePoint K), (y : OnePoint K)] i := by
+  sorry
+
+/-- The alternating projective five-term identity includes all possible positions of infinity (§5.8). -/
+theorem blochWignerSphere_crossRatio_fiveTerm (s : Fin 5 → OnePoint ℂ)
+    (hs : Function.Injective s) :
+    blochWigner (crossRatioSphere (s 1) (s 2) (s 3) (s 4)) -
+      blochWigner (crossRatioSphere (s 0) (s 2) (s 3) (s 4)) +
+      blochWigner (crossRatioSphere (s 0) (s 1) (s 3) (s 4)) -
+      blochWigner (crossRatioSphere (s 0) (s 1) (s 2) (s 4)) +
+      blochWigner (crossRatioSphere (s 0) (s 1) (s 2) (s 3)) = 0 := by
+  sorry
+
 /-- The projective five-term relation for five distinct finite points (§5.8). -/
 theorem blochWigner_crossRatio_fiveTerm (s : Fin 5 → ℂ) (hs : Function.Injective s) :
     blochWigner (crossRatio (s 1) (s 2) (s 3) (s 4)) -
@@ -478,11 +636,24 @@ def rogers (x : ℝ) : ℝ :=
   if x = 0 then 0 else if x = 1 then Real.pi ^ 2 / 6
   else (polylog 2 x).re + Real.log x * Real.log (1 - x) / 2
 
-/-- The lower endpoint is unshifted. -/
-example : rogers 0 = 0 := by simp [rogers]
+/-- The lower endpoint is unshifted (§6.1). -/
+theorem rogers_zero : rogers 0 = 0 := by simp [rogers]
 
-/-- The upper endpoint is `π²/6`. -/
-example : rogers 1 = Real.pi ^ 2 / 6 := by simp [rogers]
+/-- The upper endpoint is `π²/6` (§6.1). -/
+theorem rogers_one : rogers 1 = Real.pi ^ 2 / 6 := by simp [rogers]
+
+/-- At the midpoint the logarithmic correction is nonzero (§6.1). -/
+example : rogers (1 / 2) = (polylog 2 (1 / 2)).re + (Real.log 2) ^ 2 / 2 := by
+  norm_num [rogers, Real.log_div]
+  ring
+
+/-- The logarithmic endpoint singularity prevents differentiability at zero (§6.2). -/
+theorem not_differentiableAt_rogers_zero : ¬ DifferentiableAt ℝ rogers (0 : ℝ) := by
+  sorry
+
+/-- The logarithmic endpoint singularity prevents differentiability at one (§6.2). -/
+theorem not_differentiableAt_rogers_one : ¬ DifferentiableAt ℝ rogers (1 : ℝ) := by
+  sorry
 
 /-- Continuity on `[0, 1]` (§6.2). -/
 theorem continuousOn_rogers : ContinuousOn rogers (Icc 0 1) := by
@@ -564,10 +735,13 @@ theorem exists_abs_singleValued_le_const (n : ℕ) (hn : 2 ≤ n) :
 theorem not_differentiableAt_blochWigner_zero : ¬ DifferentiableAt ℝ blochWigner 0 := by
   sorry
 
+/-- The logarithmic singularity also prevents a real derivative at `1` (§7.6). -/
+theorem not_differentiableAt_blochWigner_one : ¬ DifferentiableAt ℝ blochWigner (1 : ℂ) := by
+  sorry
+
 /- README targets stated there and not here: the branch function `polylogBranch` on the universal
-cover with its determinations and the action of arbitrary loop words (§§2.2–2.3), the continued
-functional equations along common argument paths (§3.5), the sphere cross-ratio
-`crossRatioSphere` with the projective five-term relation at a point `∞` and the
+cover with its determinations and the action of arbitrary loop words (§§2.2–2.3), continued
+distribution and reflection along common argument paths (§3.5), the
 Goncharov–Rudenko cyclic form (§5.8), branchwise sectorial growth (§7.3), the endpoint moduli at
 `1` and `∞` (§7.4) and compact bounds for every real derivative (§7.5). -/
 
@@ -579,7 +753,7 @@ Goncharov–Rudenko cyclic form (§5.8), branchwise sectorial growth (§7.3), th
 * §1.2: `polylog_integrand_ae_congr`, `uniformIntegrable_polylog_integrand`.
 * §1.4: `analyticOnNhd_polylog_nonpos`.
 * §1.7: `hasSum_polylog_of_norm_le_one`.
-* §2.1: `polylogTower_zero`, `polylogTower_succ`, `polylogTower_trunc`, `polylogTower_ode`.
+* §2.1: `polylogTower_zero`, `polylogTower_succ`, `polylogTower_ode`.
 * §2.2: `polylogBranch_basepointLift`, `polylogBranch_eq_of_isAnalyticContinuationAlong`,
   `polylogBranch_trans`, `polylogBranch_trunc`, `analyticOn_polylogBranch_comp_section`,
   `exists_section_of_isSimplyConnected`, `polylogBranch_principal`,
@@ -590,8 +764,7 @@ Goncharov–Rudenko cyclic form (§5.8), branchwise sectorial growth (§7.3), th
 * §3.6: `polylog_two_one`.
 * §4.1: `bernoulliCoeff_zero`, `bernoulliCoeff_one`, `bernoulliCoeff_two`,
   `bernoulliCoeff_of_odd`, `bernoulliCoeff_powerSeries`.
-* §4.2: `singleValued_formula`, `singleValued_zero`, `singleValued_one`,
-  `singleValuedSphere_infty`, `singleValuedSphere_coe`.
+* §4.2: `singleValued_formula`, `singleValued_zero`.
 * §4.3: `singleValued_eq_polylogBranch`.
 * §4.4: `contDiffOn_singleValued`.
 * §4.7: `continuous_singleValued`.
@@ -599,10 +772,10 @@ Goncharov–Rudenko cyclic form (§5.8), branchwise sectorial growth (§7.3), th
 * §5.1: `blochWigner_formula`, `blochWigner_zero`, `blochWigner_one`,
   `blochWigner_exp_eq_im_expZeta`.
 * §5.3: `blochWigner_sixfold`.
-* §5.4: `blochWigner_differential_eq_eta`, `blochWigner_derivative_two`.
+* §5.4: `blochWigner_differential_eq_eta`.
 * §5.8: `crossRatio_swap`, `crossRatio_zero_one`,
-  `blochWignerSphere_crossRatio_fiveTerm`, `blochWigner_bracket_cyclic`.
-* §6.1: `rogers_formula`, `rogers_zero`, `rogers_one`, `rogers_eq_polylog`, `rogers_mem_Icc`.
+  `blochWigner_bracket_cyclic`.
+* §6.1: `rogers_formula`, `rogers_eq_polylog`, `rogers_mem_Icc`.
 * §6.2: `analyticOnNhd_rogers`.
 * §7.1: `norm_polylog_sub_partialSum_le_of_nonpos`.
 * §7.2: `abs_singleValued_exp_sub_le`.
