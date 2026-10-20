@@ -167,6 +167,13 @@ theorem HasCantorAntichainOn.mono_topology {E : Setoid X} {A : Set X}
     (h : @HasCantorAntichainOn X t' E A) : HasCantorAntichainOn E A := by
   sorry
 
+/-- Cantor antichains pass in both directions between `A`, for `E`, and the whole subtype `↥A`,
+for the pulled-back relation; with `continuum_le_mk_quotient` this bounds the quotient of `↥A`. -/
+theorem hasCantorAntichainOn_subtype_iff {E : Setoid X} {A : Set X} :
+    HasCantorAntichainOn (Setoid.comap ((↑) : A → X) E) (Set.univ : Set A) ↔
+      HasCantorAntichainOn E A := by
+  sorry
+
 theorem HasCantorAntichainOn.continuum_le_mk_quotient {E : Setoid X} {A : Set X}
     (h : HasCantorAntichainOn E A) : 𝔠 ≤ #(Quotient E) := by
   sorry

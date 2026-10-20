@@ -255,8 +255,9 @@ Define `HasPerfectAntichainOn`, `HasCantorAntichainOn` and `IsThinOn` as in Conv
 build their API:
 
 - monotonicity in the ambient set; `mono_relation` (a Cantor antichain for a coarser relation is
-  one for a finer relation, stated with `E ≤ F`); `of_subtype` (a Cantor antichain for the
-  pulled-back relation on `↥A` is one on `A`); `mono_topology` (a Cantor antichain for a finer
+  one for a finer relation, stated with `E ≤ F`); `hasCantorAntichainOn_subtype_iff` (a
+  Cantor antichain for the pulled-back relation on `↥A` is one on `A`, and conversely, so that a
+  Cantor antichain on `A` bounds the quotient of `↥A` from below by `𝔠`); `mono_topology` (a Cantor antichain for a finer
   topology is one for a coarser topology, which carries witnesses built in a clopenable
   refinement back to the original topology);
 - injectivity from reflexivity; `HasCantorAntichainOn.continuum_le_mk_quotient`, needing no
