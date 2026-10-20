@@ -1,4 +1,11 @@
 import Mathlib
+import TauCeti.CategoryTheory.Exact.Functor
+import TauCeti.CategoryTheory.Exact.Split
+import TauCeti.CategoryTheory.Exact.Abelian
+import TauCeti.CategoryTheory.GrothendieckGroup.Exact
+import TauCeti.CategoryTheory.GrothendieckGroup.Triangulated
+import TauCeti.Algebra.Homology.EulerCharacteristic.ExtEuler.Descent
+import TauCeti.Algebra.Category.ModuleCat.CartanMap.Basic
 
 /-!
 # Grothendieck groups, Cartan maps, and Euler forms: target signatures
@@ -7,6 +14,11 @@ import Mathlib
 `README.md`. The declarations below force several load-bearing design choices and suggest Lean
 forms for milestones; proving all of them would finish neither a layer nor the roadmap. `sorry` is
 allowed in this human-owned roadmap library -- these are goals, not proofs.
+
+The composable-pair exact structures and local quotient signatures below are comparison
+presentations. Native Tau Ceti owns the categorical carriers and their proved APIs; the final
+section states actual class-preserving comparisons rather than assuming that similarly named
+local definitions are the native ones. The README retains the complete comparison programme.
 
 In particular, `ShortComplex.Exact` is not used as the primitive notion of a Quillen conflation.
 The first structure below retains witnesses for the actual kernel and cokernel universal
@@ -319,6 +331,9 @@ noncomputable def extEulerPairing {P Q : C → Prop} (h : ExtEulerFinite k C P Q
     [Category.{v} CQ] [Preadditive CQ] [HasZeroObject CQ] [HasBinaryBiproducts CQ]
     [EssentiallySmall.{w} CQ]
     (EP : ExactStructure CP) (EQ : ExactStructure CQ) (iP : CP ⥤ C) (iQ : CQ ⥤ C)
+    [iP.Additive] [iQ.Additive]
+    (hEP : EP.IsConflationExact (ExactStructure.abelian C) iP)
+    (hEQ : EQ.IsConflationExact (ExactStructure.abelian C) iQ)
     (hiP : ∀ X, P (iP.obj X)) (hiQ : ∀ Y, Q (iQ.obj Y)) :
     ExactK0 EP →+ ExactK0 EQ →+ ℤ := sorry
 
@@ -331,8 +346,11 @@ theorem extEulerPairing_class {P Q : C → Prop} (h : ExtEulerFinite k C P Q)
     [Category.{v} CQ] [Preadditive CQ] [HasZeroObject CQ] [HasBinaryBiproducts CQ]
     [EssentiallySmall.{w} CQ]
     (EP : ExactStructure CP) (EQ : ExactStructure CQ) (iP : CP ⥤ C) (iQ : CQ ⥤ C)
+    [iP.Additive] [iQ.Additive]
+    (hEP : EP.IsConflationExact (ExactStructure.abelian C) iP)
+    (hEQ : EQ.IsConflationExact (ExactStructure.abelian C) iQ)
     (hiP : ∀ X, P (iP.obj X)) (hiQ : ∀ Y, Q (iQ.obj Y)) (X : CP) (Y : CQ) :
-    extEulerPairing h EP EQ iP iQ hiP hiQ (exactK0Class EP X) (exactK0Class EQ Y) =
+    extEulerPairing h EP EQ iP iQ hEP hEQ hiP hiQ (exactK0Class EP X) (exactK0Class EQ Y) =
       extEulerValue h (hiP X) (hiQ Y) := sorry
 
 end ExtEuler
@@ -499,5 +517,117 @@ example : a2Euler a2SimpleOne a2SimpleTwo = -1 := by decide
 example : a2Euler a2ProjectiveOne a2SimpleOne = 1 := by decide
 example : a2Euler a2ProjectiveOne a2SimpleTwo = 0 := by decide
 example : a2Euler a2ProjectiveTwo a2SimpleTwo = 1 := by decide
+
+/-! ## Comparisons with the implemented categorical carriers
+
+All equations here are genuine comparison targets. The local presentation names remain available;
+no private exact structure or K-group is substituted for a native one without these maps.
+-/
+
+section NativeExactComparisons
+
+variable (C : Type u) [Category.{v} C] [Preadditive C]
+  [HasZeroObject C] [HasBinaryBiproducts C]
+
+/-- The composable-pair E0/E1/E2 presentation agrees with the native short-complex presentation. -/
+noncomputable def exactStructureNativeEquiv :
+    ExactStructure C ≃ _root_.TauCeti.ExactStructure C := sorry
+
+/-- Distinguished pairs are preserved; the zero-composite proof is part of the short complex. -/
+theorem exactStructureNativeEquiv_conflation (E : ExactStructure C) (S : ShortComplex C) :
+    E.Conflation S.f S.g ↔ (exactStructureNativeEquiv C E).Conflation S := sorry
+
+/-- The comparison takes the split structure to the existing split structure. -/
+theorem exactStructureNativeEquiv_split :
+    exactStructureNativeEquiv C (ExactStructure.split C) =
+      _root_.TauCeti.ExactStructure.split C := sorry
+
+end NativeExactComparisons
+
+section NativeAbelianComparison
+
+variable (C : Type u) [Category.{v} C] [Abelian C]
+
+/-- The canonical abelian structure is preserved as well. -/
+theorem exactStructureNativeEquiv_abelian :
+    exactStructureNativeEquiv C (ExactStructure.abelian C) =
+      _root_.TauCeti.ExactStructure.abelian C := sorry
+
+end NativeAbelianComparison
+
+section NativeExactComparisons
+
+variable (C : Type u) [Category.{v} C] [Preadditive C]
+  [HasZeroObject C] [HasBinaryBiproducts C] [EssentiallySmall.{w} C]
+
+/-- The local quotient is compared to native exact K-zero, without changing its small universe. -/
+noncomputable def exactK0NativeEquiv (E : ExactStructure C) :
+    ExactK0 E ≃+ _root_.TauCeti.ExactK0 (exactStructureNativeEquiv C E) := sorry
+
+theorem exactK0NativeEquiv_class (E : ExactStructure C) (X : C) :
+    exactK0NativeEquiv C E (exactK0Class E X) = _root_.TauCeti.ExactK0.of X := sorry
+
+end NativeExactComparisons
+
+section NativeFunctorComparisons
+
+variable {C : Type u} {D : Type w} [Category.{v} C] [Preadditive C]
+  [HasZeroObject C] [HasBinaryBiproducts C] [Category.{v} D] [Preadditive D]
+  [HasZeroObject D] [HasBinaryBiproducts D]
+
+/-- Preserve the actual exact-functor predicate, not finite-limit exactness by a name match. -/
+theorem conflationExact_native_iff (E : ExactStructure C) (E' : ExactStructure D)
+    (F : C ⥤ D) [F.Additive] :
+    E.IsConflationExact E' F ↔
+      (exactStructureNativeEquiv C E).IsConflationExact (exactStructureNativeEquiv D E') F := sorry
+
+variable [EssentiallySmall.{w} C] [EssentiallySmall.{w} D]
+
+/-- The two induced K-group maps commute with their class-preserving comparisons. -/
+theorem exactK0NativeEquiv_map (E : ExactStructure C) (E' : ExactStructure D)
+    (F : C ⥤ D) [F.Additive] (hF : E.IsConflationExact E' F) (x : ExactK0 E) :
+    exactK0NativeEquiv D E' (exactK0Map F hF x) =
+      _root_.TauCeti.ExactK0.map F ((conflationExact_native_iff E E' F).mp hF)
+        (exactK0NativeEquiv C E x) := sorry
+
+end NativeFunctorComparisons
+
+section NativeTriangleComparisons
+
+variable (C : Type u) [Category.{v} C] [Preadditive C] [HasZeroObject C]
+  [HasShift C ℤ] [∀ n : ℤ, (shiftFunctor C n).Additive]
+  [Pretriangulated C] [EssentiallySmall.{w} C]
+
+noncomputable def triangulatedK0NativeEquiv :
+    TriangulatedK0 C ≃+ _root_.TauCeti.TriangulatedK0 C := sorry
+
+theorem triangulatedK0NativeEquiv_class (X : C) :
+    triangulatedK0NativeEquiv C (triangulatedK0Class C X) =
+      _root_.TauCeti.TriangulatedK0.of X := sorry
+
+end NativeTriangleComparisons
+
+section NativeEulerComparisons
+
+variable {k : Type*} [Field k] {C : Type u} [Category.{v} C] [Abelian C]
+  [Linear k C] [HasExt.{v} C] {P Q : C → Prop}
+
+/-- Translate both genuine finiteness conditions into the native pairwise predicate. -/
+theorem ExtEulerFinite.native (h : ExtEulerFinite k C P Q) {X Y : C}
+    (hX : P X) (hY : Q Y) : _root_.TauCeti.IsEulerAdmissible k X Y := sorry
+
+theorem extEulerValue_native (h : ExtEulerFinite k C P Q) {X Y : C}
+    (hX : P X) (hY : Q Y) :
+    extEulerValue h hX hY = _root_.TauCeti.extEuler k (h.native hX hY) := sorry
+
+end NativeEulerComparisons
+
+/-- The arbitrary-ring right-projective category uses native opposite modules. -/
+abbrev RightFiniteProjectives (R : Type u) [Ring R] :=
+  (_root_.TauCeti.finiteProjectiveModules Rᵐᵒᵖ).FullSubcategory
+
+/-- Its split K-group is the native one, with no commutativity or flatness premise. -/
+abbrev RightProjectiveK0 (R : Type u) [Ring R] :=
+  _root_.TauCeti.SplitK0.{u} (RightFiniteProjectives R)
 
 end TauCetiRoadmap.GrothendieckEulerForms
