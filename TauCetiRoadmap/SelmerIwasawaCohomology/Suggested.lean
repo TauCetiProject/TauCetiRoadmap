@@ -22,7 +22,12 @@ Design choices made explicit here:
   §§D7.7.1–D7.7.6 supply pairings, annihilators and mapping-fibre duality.
 * The algebraic Selmer diagram `SelmerData` takes actual global and local modules and maps; its
   identification with continuous Galois cohomology is a README target.
-* The Selmer-complex carrier takes an explicitly supplied local diagram. Its ordinary instance
+* IntegralIwasawaTheory §§2.0, 10.0–10.3 supplies the common finite p-primary and finite-free
+  compact number-field support, duality and tower maps. NoncommutativeAndEquivariantIwasawa
+  §F.4 supplies the lattice Selmer fibres, inverse-action Iwasawa cochains and control errors.
+  The README adapters identify the same local diagrams, finite-level projections and Tor maps;
+  the general coefficient and profinite-group extensions retain their stated hypotheses.
+* The Selmer-complex adapter takes an explicitly supplied local diagram. Its ordinary instance
   uses continuous cochains at every place; its modified instance uses finite-place cochains,
   complete Tate cochains at real places and zero at complex places, with localization composed
   with the ordinary-to-Tate maps. Arithmetic compact support and derived duality use the
@@ -30,6 +35,9 @@ Design choices made explicit here:
   the finite-place `GaloisCohomology.compactCochains` is a quasi-isomorphism when the real
   Tate terms are acyclic, in particular under (P). The H⁰ correction uses the chosen diagram,
   and the archimedean comparison retains the difference between the two fibres even at odd p.
+  On IntegralIwasawaTheory §10.1's arithmetic sheaf coefficients, its bounded ordinary
+  Burns–Flach instance is the strict ordinary fibre; at real dyadic places the strict modified
+  fibre can have negative Tate cohomology and is compared through its archimedean cone.
 * ℤ_p-corank is computed on a compact dual (`corankFromDual`); Iwasawa corank is computed on
   each finite compact component dual (`iwasawaCorankFromComponentDual`).
 * PadicPeriodRings §§1.1–1.5, 2–3, 4.1–4.3 supply the period carriers, functors and fixed fields.
@@ -751,7 +759,9 @@ end TauCetiRoadmap.SelmerIwasawaCohomology
 Targets stated in `README.md` only, because their carriers are not at the pins: the limit Kummer
 map `kummerLimit` and its API (§0.6); Galois Selmer groups on continuous cochains, `corank` on a
 discrete p-primary module, `SelmerStructure` and its dual (§§2.9–2.13);
-`selmerComplex` (parametric in the supplied local complexes),
+`selmerComplex` (the §2.21 adapter to NoncommutativeAndEquivariantIwasawa §F.4's
+`arithmeticSelmerComplex` and IntegralIwasawaTheory §10.0's `arithmeticLocalMappingFiber`
+in their common number-field domains, extended to the stated coefficient complexes),
 `selmerComplexOrd`, `selmerComplexMod`, `selmerComplex_globalTriangle`,
 `selmerComplex_compactTriangle` (the strict fibre for the same diagram, arithmetic compact
 support for the modified instance), `selmerComplex_map`, `selmerComplex_quasiIso`,
@@ -765,7 +775,9 @@ complex-place groups. For trivial `𝔽_p` over `ℚ`, `S = {p, ∞}` and odd p,
 H⁰ map has cokernel `𝔽_p`, while the modified map has zero cokernel;
 the arithmetic compact-support identification with the supplied Tate-modified `Ĉ_c` and
 Selmer H¹ correction (§2A.1); for trivial `𝔽₂` over `ℚ` with `S = {2, ∞}`, this fibre has
-`H^i = 𝔽₂` for every `i < 0`, while the finite-place compact fibre has no negative cohomology;
+`H^i = 𝔽₂` for every `i < 0`, while the finite-place compact fibre and
+IntegralIwasawaTheory §10.1's bounded ordinary `burnsFlachFiniteComplex` have no negative
+cohomology; the latter is the strict ordinary instance, compared through the same archimedean cone;
 function-field Greenberg–Wiles (§2A.2), Selmer and deformation tangent comparison (§2A.3),
 the positive-rank cohomological determinant fibres and their ordinary/modified trace sequences
 (§2A.4, `n ≥ 1`); the determinant derivative above also holds for an empty matrix index type,
@@ -779,8 +791,12 @@ and derived coefficient change with its Tor spectral sequence (§2A.5);
 isogenies, including the conjugation adapter for complex lattice uniformization, its
 compatibility with lattice torsion and Poincaré duality, and all real two-primary Kummer
 conditions; Iwasawa algebra coordinates and character twists for `ℤ_p^d × Δ` (§3.0);
-`iwasawaComplex`, `iwasawaCohomology`,
-`iwasawaSelmerComplex`, `discreteInfiniteSelmerComplex`, `localSpecializationError`,
+`iwasawaComplex` (equal to the supplied `arithmeticIwasawaCochains` and, for the common
+abelian ℤ_p-lattice tower, `derivedArithmeticTower` and `arithmeticIwasawaComplex`, with the
+same corestriction maps), `iwasawaCohomology`,
+`iwasawaSelmerComplex` (the supplied arithmetic Selmer tower adapter),
+`discreteInfiniteSelmerComplex`, `localSpecializationError` (the actual local comparison cone
+in `arithmeticSelmerComplex.control`, retaining its H⁰ and Tor terms),
 `selmerDeterminant` (§§3.1–3.14, with Iwasawa fibres for the chosen diagram and arithmetic
 duality on the modified instance). Finite errors disappear at height one for `d ≥ 1`; for
 `d = 0`, the finite module `O/λ` survives at `(λ)` and contributes characteristic factor `(λ)`;
