@@ -33,7 +33,7 @@ characteristic products of complexes, slope decompositions,
 finite-slope windows and the torus slope adapters.
 
 The targets supplied by PadicFunctionalAnalysis, CompactOperators and RestrictedPowerSeries are cited in the README.
-These definitions are signature stand-ins for the named supplier APIs. Implementations import
+These definitions are local restatements of the named supplier APIs. Implementations import
 those APIs and retain one owner for each object.
 -/
 
@@ -81,7 +81,7 @@ end DiscRealization
 
 /-- §0.2: spherical completeness gives a norm-preserving extension from any normed subspace.
 The ball-intersection hypothesis states spherical completeness directly.
-Source: Schneider, Proposition 9.2 and Corollary 9.4, pp. 58–59. -/
+Source: Schneider, Proposition 9.2 and Corollary 9.4, pp. 57–58. -/
 theorem naHahnBanach {K V : Type*} [NontriviallyNormedField K] [CompleteSpace K]
     [IsUltrametricDist K] [NormedAddCommGroup V] [NormedSpace K V] [IsUltrametricDist V]
     (hK : ∀ c : Set (Set K), c.Nonempty → IsChain (· ⊆ ·) c →
@@ -114,7 +114,7 @@ section Coefficients
 variable {E : Type*} [TopologicalSpace E] [Zero E]
 variable {I : Type*} [TopologicalSpace I] [DiscreteTopology I] [DecidableEq I]
 
-/-- Signature stand-in for PadicFunctionalAnalysis §2.1: the coordinate vector `single i a`,
+/-- Local restatement of PadicFunctionalAnalysis §2.1: the coordinate vector `single i a`,
 the finitely supported element of Mathlib's `C₀(I, E)` with value `a` at `i` and zero elsewhere; `c0Single i 1` is the basis vector
 `e_i` and supplies the chart monomials of the analytic stages. -/
 def c0Single (i : I) (a : E) : C₀(I, E) where
@@ -499,7 +499,7 @@ section CompleteContinuity
 variable {A M N : Type*} [NormedCommRing A]
   [NormedAddCommGroup M] [Module A M] [NormedAddCommGroup N] [Module A N]
 
-/-- Signature stand-in for CompactOperators §0.1: approximation by continuous A-linear maps
+/-- Local restatement of CompactOperators §0.1: approximation by continuous A-linear maps
 of finitely generated range. Over Noetherian A this is its finite-image approximation predicate
 by `isFiniteRank_iff_range_fg`. Its comparison with row compactness is supplied by §0.2;
 the affinoid lattice comparison is supplied by §0.1 and AdicSpacesPartIII §R3.6. -/
@@ -507,7 +507,7 @@ def IsCompletelyContinuous (f : M →L[A] N) : Prop :=
   ∀ ε : ℝ, 0 < ε → ∃ g : M →L[A] N,
     (LinearMap.range g.toLinearMap).FG ∧ ∀ x : M, ‖f x - g x‖ ≤ ε * ‖x‖
 
-/-- Signature stand-in for CompactOperators §0.1 (`IsFiniteRank`): the image lies in a finitely
+/-- Local restatement of CompactOperators §0.1 (`IsFiniteRank`): the image lies in a finitely
 generated `A`-submodule (finite `A`-image, not finite `K`-rank). -/
 def HasFiniteAImage (f : M →L[A] N) : Prop :=
   ∃ Q : Submodule A N, Q.FG ∧ LinearMap.range f.toLinearMap ≤ Q
@@ -536,7 +536,7 @@ theorem isCompletelyContinuous_iff_norm_approximation (f : M →L[A] N) :
     IsCompletelyContinuous f ↔ ∀ ε : ℝ, 0 < ε → ∃ g : M →L[A] N,
       HasFiniteAImage g ∧ ‖(f - g).restrictScalars K‖ < ε := by sorry
 
-/-- Signature stand-in for PadicFunctionalAnalysis §2.2: property (Pr), `M` is a continuous
+/-- Local restatement of PadicFunctionalAnalysis §2.2: property (Pr), `M` is a continuous
 retract of some `C₀(I, A)`. -/
 def HasPr (A : Type u) (M : Type v) [NormedCommRing A]
     [NormedAddCommGroup M] [Module A M] : Prop :=
@@ -546,11 +546,17 @@ def HasPr (A : Type u) (M : Type v) [NormedCommRing A]
       r.comp i = ContinuousLinearMap.id A M
 
 /-- §4.8: property (Pr) passes to continuous retracts over any normed commutative ring.
-Source: Buzzard's retract definition of (Pr), pp. 18–19. -/
+Source: Buzzard's direct-summand definition of (Pr), p. 17, and lifting characterization,
+pp. 17–18; the retract form is equivalent for Banach modules. -/
 theorem hasPr_of_retract {R : Type u} {X Y : Type v} [NormedCommRing R]
     [NormedAddCommGroup X] [Module R X] [NormedAddCommGroup Y] [Module R Y]
     (i : X →L[R] Y) (r : Y →L[R] X) (hri : r.comp i = ContinuousLinearMap.id R X)
     (hY : HasPr R Y) : HasPr R X := by sorry
+
+/-- §4.1: identity on an infinite coefficient space has operator-norm distance at least one
+from every finite-A-image map over the nonzero Noetherian Banach algebra. -/
+theorem approximation_identity_c0 (g : C₀(ℕ, A) →L[A] C₀(ℕ, A)) (hg : HasFiniteAImage g) :
+    1 ≤ ‖(ContinuousLinearMap.id A C₀(ℕ, A) - g).restrictScalars K‖ := by sorry
 
 end Section41
 
@@ -558,15 +564,15 @@ end Section41
 
 section Entire
 
-/-- Signature stand-in for RestrictedPowerSeries §7.2: restrictedness at every positive radius.
+/-- Local restatement of RestrictedPowerSeries §7.2: restrictedness at every positive radius.
 The analytic algebra and division use complete ultrametric coefficients; the predicate itself
 is defined for any normed coefficient ring. The supplier's normalized-root unit criterion
 is named `IsEntire.isUnit_of_evalAt_eq_zero`. -/
 def IsEntire (f : PowerSeries A) : Prop :=
   ∀ R : ℝ, 0 < R → PowerSeries.IsRestricted R f
 
-/-- Signature stand-in for RestrictedPowerSeries §§2.1 and 7.2 (`evalAt`, with arguments
-swapped): `entireEval f a = evalAt a f`, the total coefficient sum at a scalar.
+/-- Local restatement of RestrictedPowerSeries §2.1 (`eval₂` with the identity coefficient map)
+and CompactOperators §3.3 (`evalAt`): `entireEval f a = evalAt a f` is the total coefficient sum.
 For entire series over complete ultrametric coefficients this is the convergent evaluation. -/
 def entireEval (f : PowerSeries A) (a : A) : A := ∑' n : ℕ, f.coeff n * a ^ n
 
@@ -593,15 +599,21 @@ theorem entireOperatorEval_exists [IsUltrametricDist A] [IsUltrametricDist M]
 
 section RootKernels
 
-include hNoeth in
-/-- §4.8 (Property (Pr) of the complemented root kernel). -/
-theorem riesz_kernel_hasPr (u : M →L[A] M) (a : A) (h : ℕ)
+/-- §4.8: a topologically complemented root kernel inherits (Pr) by continuous retraction,
+over any normed commutative ring with continuous scalar action. -/
+theorem riesz_kernel_hasPr {A M : Type*} [NormedCommRing A] [NormedAddCommGroup M]
+    [Module A M] [ContinuousSMul A M] (u : M →L[A] M) (a : A) (h : ℕ)
     (F : Submodule A M) (ht : Submodule.IsTopCompl ((1 - a • u) ^ h).ker F)
-    (hp : HasPr A M) : HasPr A ((1 - a • u) ^ h).ker := by sorry
+    (hp : HasPr A M) : HasPr A ((1 - a • u) ^ h).ker := by
+  apply hasPr_of_retract ((1 - a • u) ^ h).ker.subtypeL
+    (((1 - a • u) ^ h).ker.projectionOntoL F ht) _ hp
+  apply ContinuousLinearMap.ext
+  intro x
+  exact Submodule.projectionOntoL_apply_left ht x
 
 include K hNoeth hCompleteA hCompleteM in
 /-- §4.8: a complemented root kernel of a completely continuous operator is finite over `A`,
-without a good-zero or unit-parameter hypothesis. Source: Buzzard, Proposition 3.2, pp. 23–24. -/
+without a good-zero or unit-parameter hypothesis. Source: Buzzard, Proposition 3.2, pp. 22–24. -/
 theorem riesz_kernel_finite (u : M →L[A] M) (hu : IsCompletelyContinuous u)
     (a : A) (h : ℕ) (F : Submodule A M)
     (ht : Submodule.IsTopCompl ((1 - a • u) ^ h).ker F) :
@@ -609,7 +621,7 @@ theorem riesz_kernel_finite (u : M →L[A] M) (hu : IsCompletelyContinuous u)
 
 include K hNoeth hCompleteA hCompleteM in
 /-- §4.8: when the ambient Banach module has (Pr), its complemented finite root kernel is
-algebraically projective. Source: Buzzard, Proposition 3.2, pp. 23–24. -/
+algebraically projective. Source: Buzzard, Proposition 3.2, pp. 22–24. -/
 theorem riesz_kernel_projective (u : M →L[A] M) (hu : IsCompletelyContinuous u)
     (a : A) (h : ℕ) (F : Submodule A M)
     (ht : Submodule.IsTopCompl ((1 - a • u) ^ h).ker F) (hp : HasPr A M) :
@@ -687,7 +699,7 @@ section MonicDivision
 
 variable {A : Type*} [NormedCommRing A] [NormOneClass A] [CompleteSpace A] [Nontrivial A]
 
-/-- Signature stand-in for RestrictedPowerSeries §7.2, **Explicit monic division**:
+/-- Local restatement of RestrictedPowerSeries §7.2, **Explicit monic division**:
 coefficient n is `Σ_k coeff_{n+d+k}(F) b_k`, with `Σ b_k T^k` the inverse of `Q.reverse`. -/
 def entireMonicQuotient (Q : Polynomial A) (F : PowerSeries A) : PowerSeries A :=
   PowerSeries.mk fun n => ∑' k : ℕ, F.coeff (n + Q.natDegree + k) *
@@ -755,7 +767,7 @@ section HasseFormal
 
 variable {B : Type*} [Semiring B]
 
-/-- Signature stand-in for RestrictedPowerSeries §2.3: the semiring Hasse derivative,
+/-- Local restatement of RestrictedPowerSeries §2.3 (`hasseDeriv`): the semiring Hasse derivative,
 whose coefficient n is `binom(n+s,s) • coeff_{n+s} f`. The ordered product rule and polynomial
 comparison are supplied there without inverse factorials. -/
 def hasseSeries (s : ℕ) (f : PowerSeries B) : PowerSeries B :=
@@ -786,7 +798,7 @@ theorem spectralReversal_monic [Nontrivial A] (P : A[X]) (n : ℕ)
     (hP : P.coeff 0 = 1) (hn : P.natDegree ≤ n) :
     (P.reflect n).Monic ∧ (P.reflect n).natDegree = n := by sorry
 
-/-- Signature stand-in for CompactOperators §3.3 (**Prescribed finite rank**,
+/-- Local restatement of CompactOperators §3.3 (**Prescribed finite rank**,
 `colemanDBounded`):
 `D_{n,m}(B, P)` is the bounded resultant over `A[T]` of `Q_n = reflect_n P` and `1 − T·B(Y)`. -/
 def polynomialSpectralResultant (n m : ℕ) (B P : A[X]) : A[X] :=
@@ -1112,6 +1124,17 @@ def analyticStageConstantTranspose (a : A) (ha : ‖a‖ ≤ 1) (j : A)
     (μ : C₀(ℕ, A) →L[A] A) : C₀(ℕ, A) →L[A] A :=
   (j • μ).comp (analyticStageDilate a ha)
 
+/-- §4.15: the constant-multiplier transpose sends point evaluation at `x` to `j` times
+point evaluation at `a * x`. -/
+theorem stageConstantTranspose_dirac (a : A) (ha : ‖a‖ ≤ 1) (j x : A)
+    (hx : ‖x‖ ≤ 1) (hax : ‖a * x‖ ≤ 1) :
+    analyticStageConstantTranspose a ha j (analyticStageEvaluate x hx) =
+      j • analyticStageEvaluate (a * x) hax := by
+  ext f
+  change j • analyticStageEvaluate x hx (analyticStageDilate a ha f) =
+    j • analyticStageEvaluate (a * x) hax f
+  rw [analyticStageEvaluate_dilate x a hx ha hax f]
+
 variable {B : Type*} [NormedCommRing B]
 
 /-- §4.15: specialize analytic coefficients along a bounded ring homomorphism. -/
@@ -1239,6 +1262,20 @@ theorem banachComplex_infinite_rank [CompleteSpace A] [Nontrivial A] [IsNoetheri
 def degreeCLM (U : C ⟶ C) (i : ℤ)
     (hc : Continuous (fun x : E i => e i (U.f i ((e i).symm x)))) : E i →L[A] E i :=
   ⟨(e i).toLinearMap.comp ((U.f i).hom.comp (e i).symm.toLinearMap), hc⟩
+
+/-- §4.16: transporting an identity cochain map gives the identity in each normed degree. -/
+theorem degreeCLM_identity (i : ℤ)
+    (hc : Continuous (fun x : E i => e i ((𝟙 C : C ⟶ C).f i ((e i).symm x)))) :
+    degreeCLM C E e (𝟙 C) i hc = ContinuousLinearMap.id A (E i) := by
+  ext x
+  simp [degreeCLM]
+
+/-- §4.16: transporting a zero cochain map gives zero in each normed degree. -/
+theorem degreeCLM_zero (i : ℤ)
+    (hc : Continuous (fun x : E i => e i ((0 : C ⟶ C).f i ((e i).symm x)))) :
+    degreeCLM C E e 0 i hc = 0 := by
+  ext x
+  simp [degreeCLM]
 
 /-- §4.16 (Degreewise completely continuous representatives). -/
 def DegreewiseCompletelyContinuous (U : C ⟶ C) : Prop :=
