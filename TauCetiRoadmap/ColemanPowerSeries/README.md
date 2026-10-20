@@ -1906,13 +1906,13 @@ Keep the hypotheses of the preceding target.
 
 Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.baseTeichmuller_eq` in the following form.
 
-For `E=ℚ_p`, the base tower’s stationary section at each level, transported through baseIntegerEquiv and the base tower residue equivalence, is `TauCeti.teichmuller K_n`.
+For `E=ℚ_p`, the base tower’s stationary section at each level, transported through baseIntegerEquiv and the base tower residue equivalence, is `TauCeti.teichmuller 𝒪[K_n]`. On residue units its underlying integer-ring values equal `TauCeti.teichmullerLift K_n` on the corresponding nonzero residues; their inclusions into `K_n` therefore agree as well.
 
 For the proof, the scalar lift has residue `r` and is killed by `p−1`. The native residue cardinality is `p`. Apply uniqueness of the native Teichmüller lift.
 
 No second finite-level Teichmüller construction is introduced.
 
-*Needs:* [The canonical cyclotomic integer ring](#colemanpowerseries-l0-unramified-base-integer-equivalence); [The Teichmüller section in the arithmetic tower](#colemanpowerseries-l0-teichmuller-tower-section); `TauCeti.eq_teichmuller`.
+*Needs:* [The canonical cyclotomic integer ring](#colemanpowerseries-l0-unramified-base-integer-equivalence); [The Teichmüller section in the arithmetic tower](#colemanpowerseries-l0-teichmuller-tower-section); `TauCeti.eq_teichmuller`; `TauCeti.coe_teichmuller_apply`.
 
 (Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 12.2 p.178; §9 p.162) The cited discussion supplies the base cyclotomic units, norms and Galois actions. The canonical-carrier comparison, or the separately proved dyadic sign, is the arithmetic refinement described in the proof steps.
 
@@ -2118,17 +2118,16 @@ The API includes the following named statements.
 
 - `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientFrobenius_scalar`: `φ_n(algebraMap E E_n a)=algebraMap E E_n(φ_E a)`.
 - `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientFrobenius_root`: `φ_n(ρ_n)=ρ_n`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientFrobenius_residue`: `r_n(φ_n a)=r_n(a)^p` for `a∈O_n`.
 
 **Checks.**
 
 - `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientFrobenius_base`: When `E=ℚ_p`, `φ_n` is the identity.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientFrobenius_residue`: For `p=2,f=3` and a coefficient residue `r` of order 7 in `𝔽_8`, the image has residue `r²`, which differs from the inverse-Frobenius value `r⁴`.
+- `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientFrobenius_residue`: For `p=2,f=3`, the native residue action of `φ_E` on `𝓀[E]=𝔽_8` sends an element `r` of order 7 to `r²`, which differs from the inverse-Frobenius value `r⁴`.
 - `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientFrobenius_root`: For every `n`, `φ_n` fixes `ρ_n`, including `ρ_1=i` at `p=2`.
 
 For the proof, consume arithmetic Frobenius on the finite unramified field from LocalFieldsRamification Layer 2. By linear disjointness extend `φ_E` and the identity on `K_n` to the compositum. Alternatively act on the `O`-coefficients of the integral power basis; its defining polynomial has `ℤ_p` coefficients. Uniqueness follows because `E` and `ρ_n` generate `E_n`. Continuity and preservation of integers follow from the canonical local-field structures.
 
-Specifies the Frobenius twist used by the unramified Coleman interpolation interface.
+Specifies the Frobenius twist used by the unramified Coleman interpolation interface. The comparison with the common residue maps `r_n` is proved in [§0.134](#colemanpowerseries-l0-unramified-api-coefficientfrobenius-residue).
 
 Layer 1, unramified interpolation interface: Provides the actual coefficient fields, unit towers and arithmetic transition maps used in Frobenius-twisted evaluation. Layer 0 and Layer 2–Layer 4: Specifies the Frobenius twist used by the unramified Coleman interpolation interface.
 
@@ -2913,9 +2912,9 @@ Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientFrobenius_residue
 
 `r_n(φ_n a)=r_n(a)^p` for `a∈O_n`.
 
-For the proof, use the specified construction or its characterization from the base tower declaration. `r_n(φ_n a)=r_n(a)^p` for `a∈O_n`.
+For the proof, choose a coefficient integer `b∈O` with `r_n(a)=residue_O(b)`, using the scalar-induced residue isomorphism. The difference `a−b` lies in `(π_n)`. Since `φ_n` fixes `π_n`, its image still lies in `(π_n)`. The scalar formula for `φ_n` and the native residue action of `φ_E` then give the equality.
 
-*Needs:* [The pinned coefficient Frobenius](#colemanpowerseries-l0-unramified-coefficient-frobenius).
+*Needs:* [The pinned coefficient Frobenius](#colemanpowerseries-l0-unramified-coefficient-frobenius); [The residue field of a coefficient level](#colemanpowerseries-l0-unramified-coefficient-residue); [The unramified cyclotomic uniformizer](#colemanpowerseries-l0-unramified-coefficient-uniformizer).
 
 (Sharifi, Iwasawa Theory: [Iwasawa Theory](https://math.ucla.edu/~sharifi/notes/iwasawa.pdf), §5.4 opening, p.143; Notation 5.4.10, p.146) The cited text treats unramified cyclotomic unit norms, Frobenius-twisted interpolation or semilocal coefficients. This result is the explicit arithmetic specialization or bridge derived in its proof steps, not a separately numbered theorem attributed to the notes.
 
@@ -4926,7 +4925,7 @@ At `p=3`, the base residue `−1` remains `−1` under a degree-three norm, whil
 
 ### Dependencies
 
-LocalFieldsRamification Layers 0–3 supply the canonical receiving local fields, residue and unit interfaces and general Eisenstein input. Native algebraic fields, integral closures, norms and product units are used throughout. Current pro-p closure and p-adic powers are consumed through ProfiniteProPGroups and ProfiniteArithmetic. PMIA Layer 1 supplies the weak-measure/native-completed-algebra comparison; NumberFieldArithmetic Layer 5 supplies the semilocal tensor comparison. The arithmetic receiver and relative integral basis are constructed above; the completed action uses the exact Dirac-preserving PMIA comparison.
+LocalFieldsRamification Layers 0–3 supply the canonical receiving local fields, residue and unit interfaces and general Eisenstein input. Native algebraic fields, integral closures, norms and product units are used throughout. Pro-p closure and p-adic powers are consumed through ProfiniteProPGroups and ProfiniteArithmetic. PMIA Layer 1 supplies the weak-measure/native-completed-algebra comparison; NumberFieldArithmetic Layer 5 supplies the semilocal tensor comparison. The arithmetic receiver and relative integral basis are constructed above; the completed action uses the exact Dirac-preserving PMIA comparison.
 
 ## Layer 1: Integral norm, trace and Coleman interpolation
 
@@ -6038,11 +6037,11 @@ Prove `TauCetiRoadmap.ColemanPowerSeries.Series.rootTranslation_phiScalar` in th
 
 If `zeta^p=1` in `O`, then for every natural `i` and a in `B`, `tau_i(algebraMap_phi(a))=iota(phi(a))`.
 
-For the proof, equip `O[[T]]` with its native `Z`-algebra induced by `C` composed with `j`. The imported evaluation formula and native evaluation on constants show `tau_i` preserves this coefficient map; native map_C does the same for `iota`. Thus each is a `Z`-algebra homomorphism. Use the imported continuity of `tau_i`. Coefficientwise continuity of `iota` follows from continuous `j`, coeff_map and the native coefficientwise convergence criterion. Set `b=Y^p-1`. Its constant coefficient is zero, so formal substitution by `b` has the existing HasSubst proof. The polynomial/natural-power translation formulas and `zeta^p=1` give `tau_i(b)=Y_O^p-1=iota(b)`. This common image has constant coefficient zero and hence native HasEval. Use pinned Tau Ceti `PowerSeries.aeval_subst` on each of the two continuous `Z`-algebra maps. Native complete, Hausdorff and uniform power-series instances and the imported linear topology of `O` provide its topological hypotheses. Both right sides are evaluation at the same argument with the same structural coefficient map. Replace algebraMap_phi by `phi` using the preceding result. This uses the nondiscrete-coefficient Tau Ceti theorem. The similarly named Mathlib substitution-continuity result requiring DiscreteUniformity is not applicable to `Z_p` or `O`.
+For the proof, equip `O[[T]]` with its native `Z`-algebra induced by `C` composed with `j`. The imported evaluation formula and native evaluation on constants show `tau_i` preserves this coefficient map; native map_C does the same for `iota`. Thus each is a `Z`-algebra homomorphism. Use the imported continuity of `tau_i`. Coefficientwise continuity of `iota` follows from continuous `j`, coeff_map and the native coefficientwise convergence criterion. Set `b=Y^p-1`. Its constant coefficient is zero, so formal substitution by `b` has the existing HasSubst proof. The polynomial/natural-power translation formulas and `zeta^p=1` give `tau_i(b)=Y_O^p-1=iota(b)`. This common image has constant coefficient zero and hence native HasEval. Use pinned Tau Ceti `PowerSeries.aeval_subst` on each of the two continuous `Z`-algebra maps. Native complete, Hausdorff and uniform power-series instances and the linear topology of `O` supplied by PMIA §2.4, “The linear topology on the receiving integer ring”, provide its topological hypotheses. Both right sides are evaluation at the same argument with the same structural coefficient map. Replace algebraMap_phi by `phi` using the preceding result. This uses the nondiscrete-coefficient Tau Ceti theorem. The similarly named Mathlib substitution-continuity result requiring DiscreteUniformity is not applicable to `Z_p` or `O`.
 
 The conclusion holds for any pth root, before primitivity is needed. It concerns the Coleman scalar action on the existing PMIA map and introduces no replacement root translation.
 
-*Needs:* [Structural map of the Frobenius scalar algebra](#colemanpowerseries-l1-frobenius-scalar-map); [PadicMeasuresIwasawaAlgebras §2.4: integral coefficient map](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); [PadicMeasuresIwasawaAlgebras §2.4: integral coefficient map continuous](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); [LocalFieldsRamification Layer 0: integer-ring linear topology](../LocalFieldsRamification/README.md#layer-0-local-fields-and-their-finite-extensions); [PadicMeasuresIwasawaAlgebras §2.4: root translation evaluation](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); [PadicMeasuresIwasawaAlgebras §2.4: root translation continuous](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); [PadicMeasuresIwasawaAlgebras §2.4: root translation polynomial](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); [PadicMeasuresIwasawaAlgebras §2.4: root translation natural powers](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); `PowerSeries.aeval_subst`; `PowerSeries.eval₂_C`; `PowerSeries.map_C`; `PowerSeries.coeff_map`; `PowerSeries.WithPiTopology.continuous_coeff`; `PowerSeries.WithPiTopology.tendsto_iff_coeff_tendsto`; `PowerSeries.WithPiTopology.isTopologicallyNilpotent_of_constantCoeff_zero`.
+*Needs:* [Structural map of the Frobenius scalar algebra](#colemanpowerseries-l1-frobenius-scalar-map); [PadicMeasuresIwasawaAlgebras §2.4: integral coefficient map](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); [PadicMeasuresIwasawaAlgebras §2.4: integral coefficient map continuous](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); [PadicMeasuresIwasawaAlgebras §2.4: The linear topology on the receiving integer ring](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); [PadicMeasuresIwasawaAlgebras §2.4: root translation evaluation](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); [PadicMeasuresIwasawaAlgebras §2.4: root translation continuous](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); [PadicMeasuresIwasawaAlgebras §2.4: root translation polynomial](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); [PadicMeasuresIwasawaAlgebras §2.4: root translation natural powers](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); `PowerSeries.aeval_subst`; `PowerSeries.eval₂_C`; `PowerSeries.map_C`; `PowerSeries.coeff_map`; `PowerSeries.WithPiTopology.continuous_coeff`; `PowerSeries.WithPiTopology.tendsto_iff_coeff_tendsto`; `PowerSeries.WithPiTopology.isTopologicallyNilpotent_of_constantCoeff_zero`.
 
 (Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma10.8 and its proof, printed167/PDF68) Deduction of the determinant/product characterization, using convergent translations in the ramified receiving ring. The native basis, determinant and root translations are reused; the source does not state these individual matrix or topology bridges.
 
@@ -6816,6 +6815,8 @@ The API includes the following named statements.
 
 - `UnramifiedSeries.Y_mem_fixedUnits_three`: With identity coefficient automorphism over `ℤ₃`, every unit with value `Y` belongs to `fixedUnits 3 ℤ₃ id`.
 - `UnramifiedSeries.Y_not_mem_fixedUnits_two`: With identity coefficient automorphism over `ℤ₂`, every unit with value `Y` is excluded from `fixedUnits 2 ℤ₂ id`, since `N(Y)=−Y≠Y`.
+- `UnramifiedSeries.negative_Y_mem_fixedUnits_two`: With identity coefficient automorphism over `ℤ₂`, every unit with value `−Y` belongs to `fixedUnits 2 ℤ₂ id`, since `N(−Y)=N(−1)N(Y)=−Y`.
+- `UnramifiedSeries.four_not_mem_fixedUnits_three`: With identity coefficient automorphism over `ℤ₃`, every unit with value `C(4)` is excluded from `fixedUnits 3 ℤ₃ id`, since `N(C(4))=C(64)≠C(4)`.
 
 - `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.fixed_one`: 1 belongs.
 - `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.fixed_Y`: For `s=(−1)^(p−1)`, the unit series `sY` belongs: `Y` for odd `p` and `−Y` for `p=2`.
@@ -6916,7 +6917,7 @@ The supplied contract has the following properties. Separately named matrix, sig
 
 - `ColemanInterpolationTests.identity`: `colemanInterpolation(1)=1`.
 - `ColemanInterpolationTests.product`: For `u,v∈U∞`, the nth evaluation of `colemanInterpolation(uv)` is `u_n v_n`.
-- `ColemanInterpolationTests.constant_minus_one_three`: At `p=3` the inverse image under colemanInterpolation of the evaluated norm-fixed constant `−1` series is that same constant `−1` series.
+- `ColemanInterpolationTests.constant_minus_one_three`: At `p=3`, `colemanInterpolation` sends the stationary `−1` tower to the norm-fixed constant `−1` series.
 
 *Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 

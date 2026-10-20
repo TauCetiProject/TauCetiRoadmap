@@ -127,6 +127,16 @@ theorem Y_not_mem_fixedUnits_two (u : (PowerSeries ℤ_[2])ˣ)
     (hu : (u : PowerSeries ℤ_[2]) = 1 + PowerSeries.X) :
     u ∉ fixedUnits 2 ℤ_[2] (AlgEquiv.refl : ℤ_[2] ≃ₐ[ℤ_[2]] ℤ_[2]) := sorry
 
+/-- The signed dyadic unit -Y belongs to the norm-fixed subgroup (§1.96). -/
+theorem negative_Y_mem_fixedUnits_two (u : (PowerSeries ℤ_[2])ˣ)
+    (hu : (u : PowerSeries ℤ_[2]) = -(1 + PowerSeries.X)) :
+    u ∈ fixedUnits 2 ℤ_[2] (AlgEquiv.refl : ℤ_[2] ≃ₐ[ℤ_[2]] ℤ_[2]) := sorry
+
+/-- The ternary scalar unit 4 is excluded by its cubic norm (§1.96). -/
+theorem four_not_mem_fixedUnits_three (u : (PowerSeries ℤ_[3])ˣ)
+    (hu : (u : PowerSeries ℤ_[3]) = PowerSeries.C 4) :
+    u ∉ fixedUnits 3 ℤ_[3] (AlgEquiv.refl : ℤ_[3] ≃ₐ[ℤ_[3]] ℤ_[3]) := sorry
+
 section Coefficients
 variable (p : ℕ) [Fact p.Prime]
 variable (O : Type) [CommRing O] [IsDomain O] [Algebra ℤ_[p] O]
@@ -426,7 +436,7 @@ Unramified:
   coefficientCyclotomicAction_continuous (§0.168); coefficientCyclotomicAction_mul (§0.168);
   coefficientCyclotomicAction_root (§0.168); coefficientCyclotomicAction_scalar (§0.168);
   coefficientFrobenius_inclusion (§0.132); coefficientFrobenius_order (§0.133); coefficientFrobenius_residue
-  (§0.93); coefficientFrobenius_root (§0.93); coefficientFrobenius_scalar (§0.93);
+  (§0.134); coefficientFrobenius_root (§0.93); coefficientFrobenius_scalar (§0.93);
   coefficientIntegerComparison_compatible (§0.233); coefficientIntegralBasis_dim (§0.89);
   coefficientIntegralBasis_gen (§0.89); coefficientIntegralBasis_repr (§0.89); coefficientLevel_base (§0.85);
   coefficientLevel_eq_adjoin (§0.85); coefficientLimitActions_commute (§0.187);
