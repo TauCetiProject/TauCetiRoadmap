@@ -15,6 +15,8 @@ The heavy carriers are README targets with their intended signatures and do not 
 projective bundles of quasi-coherent modules and their twisting sheaves, coherent Grassmannians
 and flags, the quasi-coherent descent pseudofunctor, relative Hom and Weil restriction presheaves,
 the intrinsic band sheaf and the Hom sheaves of banded morphisms, gerbe classes in `H²`,
+finite-stage twisted-inertia pair stacks, their internal mapping-stack comparisons and stackified
+filtered two-colimit (README §4.5),
 rigidifications and finite correspondences of stacks, Picard stack carriers and sheaves, framed
 deformation groupoids and nonarchimedean analytifications. Layer 9 consumes resolution and
 marked-ideal APIs from ResolutionOfSingularitiesCharacteristicZero and specifies their algebraic

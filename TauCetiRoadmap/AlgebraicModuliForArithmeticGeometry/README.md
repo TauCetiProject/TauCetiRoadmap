@@ -70,7 +70,8 @@ algebraic spaces along finite locally free morphisms, polarized descent over a g
 gerbes, bandings, neutralizations and their `H²` classification, change of band and of site,
 faithful flatness of arbitrary commutative Hopf inclusions and quotients of arbitrary affine groups
 by closed normal subgroups, finite-stage and profinite gerbes, the intrinsic band and the Hom
-sheaves of banded morphisms; rigidification, level structures, finite correspondences, schematic
+sheaves of banded morphisms; finite-stage twisted-inertia pair stacks, their internal mapping-stack
+comparisons and their stackified filtered two-colimit; rigidification, level structures, finite correspondences, schematic
 closures and normalizations of Deligne–Mumford stacks; the Artin approximation property; formal
 points, Artin's criteria, module obstruction theories, openness of versality from strong formal
 effectiveness, perfect-complex rank loci on algebraic spaces, universal flattening of
@@ -246,6 +247,10 @@ The specific uses:
   graph charts, gluing and universal property; its smoothness of relative dimension `d(n−d)` for `E`
   of constant rank `n`, its tangent space `Hom(ker(E→Q), Q)` and the extreme ranks are targets of
   §1.3 (Görtz, Algebraic Geometry III, §5, Lemma 5.8 and Theorem 5.9, pp. 58–59).
+  Coordinate the finite-free chart construction and its quotient convention with
+  [Mathlib PR #14686](https://github.com/leanprover-community/mathlib4/pull/14686).
+  Follow Mathlib's adopted API; the scheme construction remains assigned to ModularCurves §0G,
+  and §1.3 here constructs the coherent extension and its comparisons.
 - *Coarse moduli by finite quotients.* ModularCurves §9D supplies the level-`3/4` rigidifier quotient
   presentations, the comparison of coarse finite quotients and the four base-change alternatives of
   Katz–Mazur 8.1.6 (`P` representable, flat base change, `6` invertible, or `P = P′/G` with `P′`
@@ -2481,32 +2486,154 @@ For the proof, trivialize ρ in the fppf topology; then over the trivialization,
 
 *Needs:* SchemeAndStackFoundations §§1.18, 1.21, SchemeAndStackFoundations Layer 1.
 
-Define `primeToPTwistedInertia`. For a stack X over a perfect field k of characteristic p, let μ̂=`lim_(n,p)=1` μn with transition μmn→μn given by the mth power. Define Iμ̂X as the two-colimit, with stackification on the chosen site, of the mapping stacks `Hom(Bμn,X)`, indexed by positive n prime to p. The transition functor is precomposition with Bμmn→Bμn. These are all maps of stacks, not only representable maps, and the evaluation at the trivial torsor gives the projection to X. No algebraic finite-presentation assertion for this colimit is included.
+Define `TwistedInertia.finiteStagePairs`. For a perfect field k of characteristic p, a positive
+integer n prime to p and an fppf stack in groupoids X over k, construct the stack whose objects
+over a k-scheme T are pairs `(x, α)`, with `x ∈ X(T)` and a homomorphism of fppf sheaves of groups
+`α : μ_n,T → Aut_T(x)`. An arrow is an isomorphism `u : x → y` with
+`α_y = Ad_u ∘ α_x`. Retain every homomorphism, including the trivial one. Pullback along `T′ → T`
+uses X's restriction and the canonical pullback comparison for automorphism sheaves; its unit and
+composition isomorphisms come from X. Prove descent for objects, homomorphisms and intertwining
+arrows: descend x in X and then descend α in the automorphism sheaf.
 
-Here k is perfect of characteristic p; the mapping stack and the 2-colimit are those of SchemeAndStackFoundations §1.18.
+Here the site is the big fppf site of k-schemes, with fixed universes. No representability or
+finiteness hypothesis on X's diagonal is needed for this construction.
 
-([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://arxiv.org/pdf/1810.06739v2), §2.4 setup and Definition 2.9, p.9).
+([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://arxiv.org/pdf/1810.06739v2), Definition
+2.9 and the proof of Lemma 2.10, pp.9–10; [Stacks](https://stacks.math.columbia.edu/tag/02ZP),
+Lemma 8.9.1, for stackification.)
 
-The API gives `TwistedInertia.project`: The projection forgets the homomorphism and retains its object in X; `TwistedInertia.finiteStage`: Every map Bμn→X with n prime to p supplies an object; `TwistedInertia.fibre`: The fibre at x is the filtered system of `Hom(μn,Aut(x))`, with conjugation on arrows.
+The API gives `TwistedInertia.finiteStageProjection`, forgetting α, and
+`TwistedInertia.mappingStackComparison`: an equivalence with the internal mapping stack
+`T ↦ Hom_T(Bμ_n,T, X_T)`, whose arrows are invertible modifications. Construct this
+test-scheme pseudofunctor here from the supplier's categories of strong transformations; its
+restriction is base change and its coherence comes from pullback. The equivalence sends a map to
+its value on the trivial torsor and the induced μ_n-action. Conversely, for a μ_n-torsor P on U,
+descend `x|_P` along the action α; this defines the map on all torsors and arrows. Prove naturality
+under every change of test scheme and compatibility with evaluation at the trivial torsor.
+`TwistedInertia.finiteStageFibre` identifies the 2-fibre over a specified `x : T → X` with the
+sheaf `Hom_T-grp(μ_n,T, Aut_T(x))`, viewed as a discrete stack on T's fppf site. The fibre data
+include an identification of the evaluated object with x, so its arrows preserve α and have no
+residual stabilizers.
 
-*Needs:* SchemeAndStackFoundations §1.20 (`inertia`), SchemeAndStackFoundations §1.18, SchemeAndStackFoundations §§1.18, 1.21.
+*Needs:* SchemeAndStackFoundations §§1.18, 1.20–1.21 (strong transformations, automorphism sheaves,
+classifying stacks and torsor descent), SchemeAndStackFoundations §2.9 (`μ_n`).
+
+**Checks.**
+
+- `TwistedInertiaTests.stageOne`: for n = 1, the pair stack and `Hom(Bμ_1, X)` are equivalent to X,
+  and their evaluation fibre at each specified x is terminal.
+- `TwistedInertiaTests.splitCyclicStage`: over an algebraically closed field of characteristic p,
+  for a prime ℓ different from p and `X = B(C_ℓ)`, stage ℓ has ℓ isomorphism classes, each with
+  automorphism group `C_ℓ`; the fibre at the trivial torsor consists of ℓ discrete objects.
+- `TwistedInertiaTests.torsorDescent`: for `X = Bμ_n` and the identity homomorphism at the trivial
+  torsor, the inverse mapping-stack comparison sends any μ_n-torsor P to P, including a nontrivial
+  torsor, rather than to the trivial torsor.
+
+Define `primeToPTwistedInertia`. For an fppf stack in groupoids X over a perfect field k of
+characteristic p, let `μ̂ = lim_(n,p)=1 μ_n`, with transition `μ_mn → μ_n` given by the mth power.
+`TwistedInertia.inflation` sends `(x, α)` at stage n to `(x, α ∘ (−)^m)` at stage mn and leaves
+its intertwining arrow unchanged. Prove its full faithfulness using that `μ_mn → μ_n` is an
+epimorphism of fppf sheaves, its compatibility with restriction, and its unit and composition
+coherence. Under `TwistedInertia.mappingStackComparison` this is precomposition by
+`Bμ_mn → Bμ_n`.
+
+Construct `TwistedInertia.filteredPrestack` objectwise: objects are stage pairs `(n, x, α)`;
+arrows between two such objects are intertwining arrows at a common divisible stage, identified
+when they agree after a further inflation. Specify composition at a common refinement, independence
+of refinement, restriction functors and their pseudofunctor constraints. Its groupoid fibres and
+Hom-sheaf descent are part of the construction. Define Iμ̂X by the supplier's fppf stackification
+of this pseudofunctor. Prove `TwistedInertia.twoColimitComparison`: for every fppf stack Y,
+maps `Iμ̂X → Y` and modifications are equivalent to compatible stage maps with their invertible
+transition modifications and unit/composition coherence. Thus this is the two-colimit of the
+finite-stage mapping stacks among fppf stacks. This system and its comparisons are owned here;
+SchemeAndStackFoundations §1.18 supplies stackification and its 2-universal property.
+
+Here k is perfect of characteristic p; n ranges over all positive integers prime to p ordered by
+divisibility. All maps `Bμ_n → X` are retained. No algebraic finite-presentation assertion for the
+two-colimit is included.
+
+([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://arxiv.org/pdf/1810.06739v2), §2.4 setup
+and Definition 2.9, p.9; [Stacks](https://stacks.math.columbia.edu/tag/02ZP), Lemma 8.9.1.)
+
+The API gives `TwistedInertia.project`: the projection induced by the finite-stage projections;
+`TwistedInertia.finiteStage`: the compatible maps from each stage into Iμ̂X;
+`TwistedInertia.fibre`: for a specified `x : T → X`, the 2-fibre of the projection is the discrete
+stack of the fppf sheafification of `colim_(n,p)=1 Hom_T-grp(μ_n,T, Aut_T(x))`. Prove this
+identification compatibly with change of T and x. Conjugating arrows occur in the total stack of
+pairs as x varies; they are not automorphisms in this relative fibre.
+
+*Needs:* `TwistedInertia.finiteStagePairs`, `TwistedInertia.mappingStackComparison`,
+`TwistedInertia.finiteStageFibre`, SchemeAndStackFoundations §1.18 (stackification and its
+2-universal property).
 
 **Checks.**
 
 - `TwistedInertiaTests.space`: For an algebraic space regarded as a stack, Iμ̂`X≃X`.
 - `TwistedInertiaTests.zeroHom`: The trivial homomorphism is retained; the definition is not the representable cyclotomic inertia substack.
-- `TwistedInertiaTests.pGroup`: For the constant group Z/pZ in characteristic p, all homomorphisms from μ̂ are trivial, but Iμ̂B(Z/pZ) still retains the classifying-stack automorphisms Z/pZ.
+- `TwistedInertiaTests.pGroup`: over an algebraically closed field of characteristic p, all
+  homomorphisms `μ_n → C_p` with n prime to p are trivial. The projection `Iμ̂B(C_p) → B(C_p)`
+  is an equivalence and its 2-fibre at a specified torsor is terminal, while the total stack retains
+  its `C_p` automorphisms. The conjugation groupoid of the trivial homomorphism is `B(C_p)`,
+  so it cannot describe that relative fibre.
 - `TwistedInertiaTests.frobeniusDirection`: on the fifth roots of unity over `𝔽₂`, arithmetic Frobenius acts by the exponent 2 and its inverse by 3, which differ at a generator; this fixes the direction of the Frobenius action. Over `𝔽₂` a homomorphism from `μ₃` to the constant group `ℤ/3` that intertwines the square Frobenius with the identity is trivial, whereas over `𝔽₄` the fourth-power Frobenius is the identity on `μ₃` and every such homomorphism is equivariant.
 
-Prove `twistedInertiaFiniteField`. For X/Fq with diagonal of finite presentation, Iμ̂X(Fq) is equivalent to the groupoid of pairs `(x,α)`, with `x∈X`(Fq), a continuous homomorphism `α:μ`̂(Fqbar)→`Aut(x_Fqbar)` for the discrete topology, and Frobenius equivariance `φα=αφ`. An arrow is an Fq-isomorphism of objects intertwining α. The domain Frobenius acts by qth power. For `μ₅` over `F₂` the exponent is 2 modulo 5, whereas inverse Frobenius has exponent 3; the identity map from `μ₅` to itself intertwines the two q-power actions and does not intertwine q-power with inverse q-power. For a constant `C₃` target over `F₂` equivariance forces `α = 0`; over `F₄` there are three homomorphisms from `μ₃` to `C₃`.
+Prove `TwistedInertia.finiteFieldComparison`. For an fppf stack in groupoids X over `𝔽_q` with
+diagonal representable by algebraic spaces and of finite presentation, identify
+`TwistedInertia.finiteStagePairs(n)(𝔽_q)` with the groupoid of pairs `(x, α_n)`, where
+`x ∈ X(𝔽_q)` and `α_n : μ_n(𝔽_qbar) → Aut(x_𝔽_qbar)` is Galois-equivariant; arrows are rational
+isomorphisms intertwining the geometric homomorphisms. Prove compatibility with inflation and
+evaluation in X. Also prove that the functor from the filtered groupoid of these rational stage
+objects to `Iμ̂X(𝔽_q)` is an equivalence, including full faithfulness on rational arrows.
 
-Here X is a stack over Fq with diagonal of finite presentation; The mapping-stack/Galois-descent comparison at each finite stage is supplied.
+Here q is a power of p and n is positive and prime to p. All the diagonal hypotheses are retained
+in the filtered and continuous-homomorphism comparisons.
+
+([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://arxiv.org/pdf/1810.06739v2), Lemma
+2.10(a) and proof, pp.9–10; [Stacks](https://stacks.math.columbia.edu/tag/02ZP), Lemma 8.9.1.)
+
+For the proof, finite étale splitting of μ_n and Galois descent identify its sheaf homomorphisms
+with equivariant geometric homomorphisms; descent of X's Isom sheaves identifies the arrows.
+An object of the stackification is fppf-locally a finite-stage object. Over a finite field, a
+nonempty finite-type member of such a cover has a point over a finite field extension. Pull back
+to that finite étale cover and use the fully faithful inflations to descend its finite-stage
+object and intertwining descent arrows at the same stage. This proves the rational-point
+comparison through stackification. The finite-presentation diagonal ensures that the geometric
+automorphism and Isom data descend to finite extensions, so the Galois comparison uses finite
+étale descent: choose étale scheme charts of these algebraic spaces and apply finite-presentation
+limit factorization to their affine charts.
+For geometric points with discrete target, continuity is equivalent to factoring through some
+finite μ_n; equivariance then gives the corresponding rational sheaf homomorphism.
+
+*Needs:* `TwistedInertia.finiteStagePairs`, `TwistedInertia.mappingStackComparison`,
+`TwistedInertia.inflation`, `TwistedInertia.filteredPrestack`, `primeToPTwistedInertia`,
+SchemeAndStackFoundations §§0.9, 1.18 (limits and stackification), SchemeAndStackFoundations Layer 1
+(finite étale Galois descent and Isom sheaves).
+
+**Checks.**
+
+- `TwistedInertiaTests.nonsplitStage`: at stage 3 over `𝔽₂`, for the trivial object of `B(C₃)`,
+  the only equivariant homomorphism is trivial; over `𝔽₄`, the relative fibre has three objects.
+- `TwistedInertiaTests.rationalCentralizer`: for the identity `μ₃ → μ₃` at the trivial object of
+  `Bμ₃` over `𝔽₂`, the rational pair has trivial automorphism group, although the geometric
+  centralizer has three elements.
+- `TwistedInertiaTests.finiteFieldStackification`: at stage 1 for `X = B(C₃)` over `𝔽₂`, all
+  three rational torsor classes and their rational arrows survive the filtered comparison; objects
+  are not restricted to the trivial torsor.
+
+Prove `twistedInertiaFiniteField`. For X/Fq with diagonal representable by algebraic spaces and of finite presentation, Iμ̂X(Fq) is equivalent to the groupoid of pairs `(x,α)`, with `x∈X`(Fq), a continuous homomorphism `α:μ`̂(Fqbar)→`Aut(x_Fqbar)` for the discrete topology, and Frobenius equivariance `φα=αφ`. An arrow is an Fq-isomorphism of objects intertwining α. The domain Frobenius acts by qth power. For `μ₅` over `F₂` the exponent is 2 modulo 5, whereas inverse Frobenius has exponent 3; the identity map from `μ₅` to itself intertwines the two q-power actions and does not intertwine q-power with inverse q-power. For a constant `C₃` target over `F₂` equivariance forces `α = 0`; over `F₄` there are three homomorphisms from `μ₃` to `C₃`.
+
+Here X is an fppf stack in groupoids over Fq with diagonal representable by algebraic spaces and
+of finite presentation; `TwistedInertia.finiteFieldComparison` supplies the finite-stage and
+stackification comparisons as targets of this roadmap.
 
 ([Michael Groechenig, Dimitri Wyss and Paul Ziegler](https://arxiv.org/pdf/1810.06739v2), Lemma 2.10(a) and proof, pp.9–10).
 
-For the proof, describe a finite-stage map over x by a homomorphism μn→`Aut(x)`; then apply Galois descent to these homomorphisms and their conjugating arrows; then the finite-presentation diagonal supplies the finite-stage factorization needed for the colimit comparison; retain this hypothesis; then pass to the prime-to-p system, with continuity recording that a homomorphism has finite image and factors through a finite μn.
+For the proof, apply `TwistedInertia.finiteFieldComparison` and pass to the prime-to-p system,
+using its continuous-homomorphism comparison. Equivariance for arithmetic Frobenius is equivalent
+to equivariance for the Galois group because the source is profinite, the target is discrete and
+the arithmetic Frobenius powers are dense.
 
-*Needs:* `primeToPTwistedInertia`, SchemeAndStackFoundations Layer 1.
+*Needs:* `primeToPTwistedInertia`, `TwistedInertia.finiteFieldComparison`.
 
 Prove `twistedInertiaGenerator`. For a chosen profinite generator ξ of μ̂(Fqbar), the preceding groupoid is equivalent to pairs `(x,a)` in ordinary inertia with x defined over Fq and `φ(a)=a^q`. The finite-presentation hypothesis makes a finite-order geometric automorphism; the displayed equation forces its order prime to p, so it uniquely determines the continuous homomorphism α with `α(ξ)=a`.
 
