@@ -23,8 +23,11 @@ library -- these are goals, not proofs.
 The individual Tau Ceti imports supply normalized Haar, unitarity, matrix coefficients,
 Schur orthogonality, Peter–Weyl models and bases, characters, Frobenius–Schur indicators,
 and symmetric-power models of `SU(2)`. Definitions below are aliases of those actual
-objects. Remaining admitted statements suggest comparison interfaces on those objects;
-they are mathematical targets rather than private replacements for library definitions.
+objects. The local G-finite spellings instead display the shared contract commissioned
+solely by AutomorphicFormsOnReductiveGroups §2.1 on the actual native orbit span.
+They are suggested interface forms, not an assertion that an absent implementation
+is a native alias or a request for a second public core/density proof. Other
+admitted statements suggest the specified comparison and application interfaces.
 
 `ContRepresentation` bundles continuity of each operator only. Every analytic interface
 below carries `hπ : Continuous π` explicitly. Algebraic consequences of unitarity do not
@@ -38,6 +41,8 @@ predicate and unitarizability (Layer 1); complete reducibility (Layer 2); matrix
 Hilbert-basis assembly is cited from `Completed/OrthogonalL2Bases`; the finite-group specialization is
 `../CharacterTheory`. `README.md` remains the definitive document.
 -/
+
+universe u v
 
 namespace TauCetiRoadmap.RepresentationTheory.CompactGroups
 
@@ -59,7 +64,7 @@ noncomputable def haarProb (G : Type*) [Group G] [TopologicalSpace G] [IsTopolog
   [CompactSpace G] [MeasurableSpace G] [BorelSpace G] [LocallyCompactSpace G] : Measure G :=
  TauCeti.haarProb G
 
-variable {G : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+variable {G : Type u} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
  [CompactSpace G] [T2Space G] [MeasurableSpace G] [BorelSpace G] [LocallyCompactSpace G]
 
 /-- The total Haar mass of a compact group is **finite** (`CompactSpace.isFiniteMeasure`); needed to
@@ -301,7 +306,7 @@ abbrev IrrepModel (G : Type*) [Group G] [TopologicalSpace G] := TauCeti.IrrepMod
 /-- The native skeleton quantifies continuous test actions on standard finite-dimensional
 Hilbert spaces. Transport along an orthonormal basis gives the arbitrary-carrier formulation.
 It records inequivalence and exhaustion by actual unitary equivalences. -/
-abbrev IsIrrepSkeleton {ι : Type} (models : ι → IrrepModel G) : Prop :=
+abbrev IsIrrepSkeleton {ι : Type v} (models : ι → IrrepModel G) : Prop :=
  TauCeti.IsIrrepSkeleton models
 
 /-- **The Peter-Weyl predicate (element-level).** Holds when the Hilbert basis `b`
@@ -309,7 +314,7 @@ is the family of normalized matrix coefficients `√dᵢ · (models i)_{jk}`: `b
 `(√(models i).dim) • matrixCoeffLp (models i).rep eⱼ eₖ` for chosen orthonormal bases of the model
 carriers. Because the summit theorem quantifies the basis existentially, all the element-level
 content must live *here* (a bundled `HilbertBasis` without its `coe_*` is near-vacuous). -/
-def IsPeterWeylBasis {ι : Type} (models : ι → IrrepModel G)
+def IsPeterWeylBasis {ι : Type v} (models : ι → IrrepModel G)
   (b : HilbertBasis (Σ i : ι, Fin (models i).dim × Fin (models i).dim) ℂ (Lp ℂ 2 (haarProb G))) :
   Prop :=
   ∃ e : ∀ i : ι, OrthonormalBasis (Fin (models i).dim) ℂ (EuclideanSpace ℂ (Fin (models i).dim)),
@@ -322,12 +327,19 @@ irreducibles whose normalized matrix coefficients form a Hilbert basis of `L²(G
 `Σ i, Fin dᵢ × Fin dᵢ`. Assembled from Layer 4's orthonormal system and Layer 5's `L²`-density via
 `HilbertBasis.mkOfOrthogonalEqBot` (the `Completed/OrthogonalL2Bases` pattern); the skeleton and bases are
 chosen data. For the circle this specializes to Mathlib's `fourierBasis`. -/
-theorem peterWeylBasis (G : Type*) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+theorem peterWeylBasis (G : Type u) [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
   [CompactSpace G] [T2Space G] [MeasurableSpace G] [BorelSpace G] [LocallyCompactSpace G] :
-  ∃ (ι : Type) (models : ι → IrrepModel G) (_ : IsIrrepSkeleton models)
+  ∃ (ι : Type u) (models : ι → IrrepModel G) (_ : IsIrrepSkeleton models)
    (b : HilbertBasis (Σ i : ι, Fin (models i).dim × Fin (models i).dim) ℂ
     (Lp ℂ 2 (haarProb G))),
-   IsPeterWeylBasis models b := sorry
+   IsPeterWeylBasis models b := by
+  refine ⟨TauCeti.IrrepClass ℂ G,
+    TauCeti.IrrepClass.model (𝕜 := ℂ) (G := G),
+    TauCeti.isIrrepSkeleton_model ℂ G, TauCeti.stdPeterWeylBasis ℂ G, ?_⟩
+  refine ⟨fun i => (TauCeti.IrrepClass.model (𝕜 := ℂ) (G := G) i).basis, ?_⟩
+  intro i j k
+  change (TauCeti.stdPeterWeylBasis ℂ G) ⟨i, (j, k)⟩ = _
+  exact congrFun (TauCeti.coe_stdPeterWeylBasis ℂ G) ⟨i, (j, k)⟩
 
 /-! ### Layer 5.1: G-finite vectors for strongly continuous Banach actions -/
 
@@ -336,11 +348,20 @@ section BanachGFinite
 variable {E F : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [CompleteSpace E]
   [NormedAddCommGroup F] [NormedSpace ℂ F] [CompleteSpace F]
 
-/-- A vector is G-finite precisely when its actual orbit spans a finite-dimensional space. -/
-def IsGFinite (π : ContRepresentation ℂ G E) (v : E) : Prop :=
+/-- Suggested continuous-action spelling of the shared §2.1 predicate. The finite-orbit
+span is actual data; the common public core belongs to that supplier, not here. -/
+abbrev IsGFinite (π : ContRepresentation ℂ G E) (v : E) : Prop :=
   FiniteDimensional ℂ (Submodule.span ℂ (Set.range (fun g : G ↦ π g v)))
 
-/-- The G-finite vectors form the specified invariant subspace. -/
+/-- The suggested shared API uses exactly the underlying native algebraic orbit span. -/
+theorem isGFinite_toRepresentation_iff (π : ContRepresentation ℂ G E) (v : E) :
+  IsGFinite π v ↔
+    FiniteDimensional ℂ
+      (Submodule.span ℂ (Set.range (fun g : G ↦ (π.toRepresentation : Representation ℂ G E) g v))) := Iff.rfl
+
+/-- Suggested form of the shared invariant submodule; its carrier is the same exact
+orbit-span predicate. Its elementary proof fields are supplier goals, not a second
+CompactGroups core implementation. -/
 noncomputable def gFiniteSubmodule (π : ContRepresentation ℂ G E) : Submodule ℂ E where
   carrier := {v | IsGFinite π v}
   zero_mem' := by sorry
@@ -366,7 +387,9 @@ theorem exists_gFinite_near (π : ContRepresentation ℂ G E)
   (hstrong : ∀ v : E, Continuous (fun g : G ↦ π g v)) (v : E) {ε : ℝ} (hε : 0 < ε) :
   ∃ w : E, IsGFinite π w ∧ ‖w - v‖ < ε := sorry
 
-/-- G-finite vectors are dense for every strongly continuous Banach action of a compact group. -/
+/-- Suggested continuous-action form of the shared §2.1 `gFiniteSubmodule_dense`
+contract. This is an external supplier statement, not a new generic-density proof
+target owned here; this roadmap owns the explicit witnesses/covariance refinements. -/
 theorem dense_gFiniteSubmodule (π : ContRepresentation ℂ G E)
   (hstrong : ∀ v : E, Continuous (fun g : G ↦ π g v)) :
   Dense (gFiniteSubmodule π : Set E) := sorry
@@ -494,7 +517,10 @@ abbrev SU2 : Type := TauCeti.SU2
 variable {E : Type} [NormedAddCommGroup E] [InnerProductSpace ℂ E] [FiniteDimensional ℂ E]
 
 /-- **The irreducibles of `SU(2)`**: the representation on `Sym^n(ℂ²)` (degree-`n` homogeneous
-polynomials in two variables), of dimension `n+1`, modelled on `EuclideanSpace ℂ (Fin (n+1))`. -/
+polynomials in two variables), of dimension `n+1`, modelled on `EuclideanSpace ℂ (Fin (n+1))`.
+This native monomial model is not unitary in its Euclidean norm for n≥2. Pass
+through `exists_isUnitary_congr` for unitary coefficient applications; trace
+characters are unchanged by that equivalence. -/
 noncomputable def su2Irrep (n : ℕ) : ContRepresentation ℂ SU2 (EuclideanSpace ℂ (Fin (n + 1))) :=
  TauCeti.SU2.symPowerModel n
 

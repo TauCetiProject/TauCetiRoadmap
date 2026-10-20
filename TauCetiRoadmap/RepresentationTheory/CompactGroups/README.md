@@ -241,7 +241,9 @@ layer makes the next layer's *types* expressible, its milestones go into `Sugges
   explicit correspondence lemma; it is a *specialization-compatible* shadow, not literally Mathlib's
   Maschke theorem, so
   the finite-group case *specializes to* `IsSemisimpleModule` rather than being it. Keep the `FDRep`
-  mirror (semisimplicity of the finite-dimensional representation category) in step.
+  mirror in step: use the full subcategory of `FDRep ℂ G` whose finite-dimensional
+  actions have continuous parameter maps, with the induced intertwiners. Semisimplicity
+  is asserted for this continuous subcategory, not for all abstract `FDRep ℂ G`.
 - **Schur's lemma, transported.** Import `FDRep.finrank_hom_simple_simple` and
   `finrank_endomorphism_simple_eq_one` (over `ℂ`, algebraically closed) as: a continuous
   `G`-intertwiner between finite-dimensional irreducibles is `0` or an isomorphism, and a self-
@@ -343,44 +345,60 @@ layer makes the next layer's *types* expressible, its milestones go into `Sugges
   Stone–Weierstrass argument enter as corollaries.
 #### Layer5.1. G-finite vectors in strongly continuous Banach representations
 
+Consume the topology-free shared prefix and Banach density theorem of
+[AutomorphicFormsOnReductiveGroups §2.1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/04038f3cfbc018183bfe4190d837ce8e778f67aa/TauCetiRoadmap/AutomorphicFormsOnReductiveGroups/README.md#21-compact-finite-vectors-and-admissibility). That prefix is the
+sole owner of the field-general `Representation.IsGFinite`,
+`gFiniteSubmodule`, addition/scalar/invariance/equivariant-map API and the
+generic `gFiniteSubmodule_dense` theorem. These names describe its common
+contract on a native `Representation`, not a second public API here.
+For a continuous representation π use `π.toRepresentation`; its actual
+orbit span gives exactly this predicate by `isGFinite_toRepresentation_iff`.
+The local spellings in Suggested.lean show this same contract on actual
+native carriers; they are suggested interface forms, not a claim that a
+new shared implementation already exists or a request for duplicate proofs.
+
 For a compact Hausdorff topological group G, a complete complex normed space E
 and a representation by continuous linear automorphisms, assume explicitly
-that g↦π(g)v is continuous for every v. Define `IsGFinite π v` by
-finite dimensionality of the complex span of {π(g)v | g∈G}. Prove that these
-vectors form an invariant complex subspace and that continuous equivariant
-linear maps preserve them. Use uniform boundedness on the compact orbit maps
-to obtain C_π=sup_g‖π(g)‖<∞; operator-norm continuity is not assumed.
-Consume [BanachAlgebras A7.IntegratedRepresentations](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4ca3e99e0e27255fdcf8aea71e4e9aef052a3d77/TauCetiRoadmap/BanachAlgebras/README.md)
-for the integrated action T_f v=∫f(g)π(g)v dμ_G with
-‖T_f‖≤C_π‖f‖₁, and its chosen neighbourhood-net approximate identities.
-Only this early integration contract is used, not A7's later Fourier or
-Johnson applications. Construct their compact-group Haar-probability
-normalization and prove the left-translation covariance
+that g↦π(g)v is continuous for every v. The shared predicate means finite
+dimensionality of the complex span of {π(g)v | g∈G}; retain the exact
+identification of its invariant submodule and continuous-intertwiner maps.
+Here construct the application estimates and witnesses: uniform boundedness
+on compact orbit maps gives C_π=sup_g‖π(g)‖<∞; operator-norm continuity is
+not assumed. Consume [BanachAlgebras A7.IntegratedRepresentations](https://github.com/TauCetiProject/TauCetiRoadmap/blob/4ca3e99e0e27255fdcf8aea71e4e9aef052a3d77/TauCetiRoadmap/BanachAlgebras/README.md)
+for T_f v=∫f(g)π(g)v dμ_G, ‖T_f‖≤C_π‖f‖₁ and its chosen
+neighbourhood-net approximate identities. Only this early integration
+contract is used, not A7's later Fourier or Johnson applications.
+Construct the compact-group Haar-probability normalization and prove
 π(h)T_f v=T_(L_h f)v, L_h f(g)=f(h⁻¹g).
 
-If p is a finite sum of matrix coefficients, its left translates span a
-finite-dimensional space; covariance makes T_p v G-finite. Given v and ε>0,
-first choose an approximate-identity kernel u with ‖T_u v−v‖<ε/2, then use
-the preceding uniform density in C(G) to choose such p with
-C_π‖p−u‖₁‖v‖<ε/2 (treat v=0 separately). Thus the G-finite vectors are
-dense. Keep the actual finite-orbit span and approximation witnesses. Prove
-the estimates, covariance, naturality under continuous intertwiners and the
-uniform-on-compact-vector-sets refinement from the bounded operator norms
-and a finite ε-net. Use nets for arbitrary compact groups. The vector-valued
-Bochner integral and its separable-compact-image measurability are supplied
-by the stated integration contract, without separability of the whole E.
+Apply the shared Banach theorem and expose its concrete approximation
+witnesses under these conventions. For a finite sum p of matrix
+coefficients, left translates span a finite-dimensional space; covariance
+makes T_p v G-finite. Given v and ε>0, retain an approximate-identity
+kernel u with ‖T_u v−v‖<ε/2 and a representative function p with
+C_π‖p−u‖₁‖v‖<ε/2, treating v=0 separately. Keep their actual
+finite-orbit-span witnesses. This is the common theorem's constructive
+application, not a second generic-density proof target. Prove the
+norm estimates, covariance, naturality and uniform-on-compact-vector-sets
+refinement from bounded operator norms and a finite ε-net. Use nets for
+arbitrary compact groups. The vector-valued Bochner integral and its
+separable-compact-image measurability come from the integration contract;
+no separability of the whole E is imposed.
 
-TopologicalKTheory T6.1 owns the continuous-section/L²-section actions and
-finite bundle embeddings that apply this theorem. NoncompactQuantumSymmetry
-M0 owns the further Hilbert isotypic orthogonal projections, multiplicity
-spaces, completed-tensor and smooth-vector comparisons, using this same
-orbit-span predicate and density input. Its Hilbert structure is not part
-of the generic Banach density theorem. For compact Lie groups,
-[SmoothBanachRepresentations SB4](../SmoothBanachRepresentations/README.md)
-compares this same G-finite predicate with smooth vectors and proves density
-in their stronger Fréchet topology. This comparison consumes Layer5.1;
-Layer5.1's arbitrary compact-group Banach density has no Lie-smoothness
-or Dixmier–Malliavin prerequisite.
+The prerequisite order is the topology-free shared prefix, Layer5's
+matrix-coefficient Peter–Weyl density for functions on G, the shared §2.1
+Banach density theorem, then these application adapters. No other
+automorphic construction, locally convex extension or Lie-smoothness
+result is an early input. TopologicalKTheory T6.1 owns section/L²-section
+actions and finite bundle embeddings applying this interface.
+NoncompactQuantumSymmetry M0 owns further Hilbert isotypic projections,
+multiplicities, completed-tensor and smooth-vector comparisons. For compact
+Lie groups, [SmoothBanachRepresentations SB4](../SmoothBanachRepresentations/README.md)
+consumes the same shared predicate and density theorem through these
+adapters and proves density in the stronger smooth Fréchet topology.
+Its generic smooth-vector density is independent earlier material; neither
+that comparison nor Dixmier–Malliavin is a premise of generic Banach
+G-finite density.
 
 - **Density in `L²(G)`.** From uniform density plus `ContinuousMap.toLp_denseRange` (continuous
   functions dense in `L²` on the compact finite-measure `G`), `𝓡(G)` is **dense in `L²(G)`**, so its
@@ -397,7 +415,10 @@ or Dixmier–Malliavin prerequisite.
   - Because the summit `peterWeylBasis` quantifies the basis existentially, the element-level content
     (the analogue of `coe_peterWeylBasis`) must live **inside** `IsPeterWeylBasis models b`, which
     asserts `b ⟨i, j, k⟩ = √(models i).dim • matrixCoeffLp (models i).rep e_j e_k` for the chosen
-    bases - otherwise the bundled `HilbertBasis` is near-vacuous, in exactly the sense
+    bases. For `G : Type u`, take the native `TauCeti.IrrepClass ℂ G : Type u`
+    and `TauCeti.stdPeterWeylBasis ℂ G`; helpers allow arbitrary index universes,
+    and no universe-zero smallness or countability of the unitary dual is imposed.
+    Otherwise the bundled `HilbertBasis` is near-vacuous, in exactly the sense
     [Completed/OrthogonalL2Bases](../../../Completed/OrthogonalL2Bases/README.md) warns against. Parseval is
     `HilbertBasis.tsum_inner_mul_inner`.
 - **The isotypic decomposition.** As unitary `G×G`-representations (left and right translation),
@@ -427,8 +448,136 @@ or Dixmier–Malliavin prerequisite.
   `f ↦ f ∘ (h · h⁻¹)`, and prove `characterLp_mem_centralLp`. The characters of the irreducibles form
   an **orthonormal Hilbert basis of `centralLp G`**, the "central" restriction of Peter-Weyl: project
   `peterWeylBasis` onto the center of each `End(V_π)` block, which is one-dimensional and spanned by
-  `χ_π`. This is the compact-group **class-function completeness**, the infinite analogue of
+  `conj χ_π`, since the sum of diagonal coefficients is `conj χ_π`.
+  The inversion linear isometry `f(g) ↦ f(g⁻¹)` preserves the closed class-function
+  subspace and sends `χ_π` to `conj χ_π`; transport completeness back along it.
+  Reuse `toLp_star_character_mem_peterWeylBlock` and
+  `TauCeti.ContRepresentation.invLpₗᵢ_characterLp` with their actual unitarity
+  and continuity hypotheses. This is the compact-group **class-function completeness**, the infinite analogue of
   "#irreducibles = #conjugacy classes".
+
+### Layer 6a: the representation ring of a compact connected Lie group
+
+Retain Layers0–6 for all compact Hausdorff topological groups. This additional
+application assumes K is a compact **connected finite-dimensional real Lie**
+group, T an actual maximal torus and `W=N_K(T)/T`. Representations are
+finite-dimensional continuous complex representations, with continuity of the
+parameter map explicit as in the standing conventions. Use [LieGroups Layer2](../LieGroups/README.md#layer-2-the-closed-subgroup-cartan-theorem)
+for automatic smoothness and Layers3–4 for differentiation and integration;
+[LieHighestWeight Layers0–5](../LieHighestWeight/README.md) supply the semisimple
+highest-weight modules, one-dimensional top lines and finite lower-weight bounds.
+Use only Layer6's early formal-character/additivity interfaces: prove the leading
+orbit-sum formula from those bounds and the actual normalizer action. Neither the
+Weyl character formula nor6E/6F's Haar/Fourier applications is a premise. No
+Borel–Weil, flag cohomology, generic algebraic-group classification, HC isomorphism
+or compact character-ring surjectivity is an input.
+
+**Virtual representations and actual torus characters.** Construct R(K), the
+Grothendieck ring of finite-dimensional continuous complex representations,
+with addition by direct sum, multiplication by tensor product, unit, dual,
+restriction and continuous intertwiner/equivalence APIs. Reuse the generic
+additive group-completion engine (`Algebra.GrothendieckAddGroup`) and prove its
+split-representation specialization. Layers1–2 and Schur orthogonality identify
+it with the free abelian group on irreducible equivalence classes, with the
+finite tensor-decomposition coefficients as multiplication. Also identify it
+with the subring of complex class functions generated by **continuous** finite
+characters. The native general `TauCeti.virtualCharacters` allows arbitrary
+algebraic representations; do not silently use its entire carrier for this
+continuous subgroup. Construct the continuous subring and comparison map using
+actual continuous coordinate models and prove equivalence-independence,
+cancellation, character injectivity, tensor/dual identities and naturality.
+The positive cone consists of nonnegative irreducible multiplicities; an
+arbitrary integral combination is virtual and need not be a genuine module.
+
+Let `X=Additive (PontryaginDual T)` be the actual character group (native
+`PontryaginDual`, whose carrier is `ContinuousMonoidHom T Circle`), not the full
+real dual Lie algebra and not an automatically simply connected weight lattice.
+Construct torus weight spaces and their finite internal sum from commuting
+unitaries; one-dimensionality of irreducibles gives `R(T)≃Z[X]`, using
+Mathlib `AddMonoidAlgebra ℤ X` after the explicit additive-character convention.
+Prove the character/Fourier coefficient equation and uniqueness, and the finite
+rank/lattice identification from LieGroups Layers5A–6's actual torus quotient.
+For `chi(exp X)=exp(i ell_chi(X))`, the differential is `i ell_chi` and
+`ell_chi(ker exp_T)⊆2πZ`. Compare this with the dimensionless Y coordinates of
+LieGroups7F; do not lose that2pi factor. For a real finite-dimensional T-module, construct the conjugate-linear map
+on its complexification sending the chi-weight space bijectively to the
+chi-inverse weight space, with its involution and dimension equations. This
+proves opposite multiplicities without assuming semisimple root theory; the
+compact adjoint application uses LG5A–6's full central/Cartan zero-weight space.
+Pin the left Weyl action by `(w·chi)(t)=chi(n⁻¹tn)` for n representing w;
+it is independent of the representative modulo T. On the integral group
+algebra send `e^chi` to `e^(w·chi)`, with fixed subring `Z[X]^W`.
+
+**Global existence and descent before the ring isomorphism.** Consume
+LieGroups5A's compact center/derived Lie splitting, its early7 compact simply
+connected semisimple integration, and7F's actual finite central covering
+`q:Z(K)^0×K_der,sc→K` with finite kernel F. Retain the homomorphism, its torus
+restriction, quotient topology, kernel embedding and derivative/period equations.
+Do not treat these covering factors as direct factors of K. Construct the
+pullback injection from the actual X into
+`X*(Z(K)^0)⊕P_der`, and prove its image is exactly the characters trivial on
+F in the covering torus. Dominance is imposed only on the derived coordinate.
+This includes the zero-root case and preserves the full central character.
+
+
+For the lattice input to LieGroups7F, use RootSystems' finite root geometry and
+LHW10's pure abstract root-datum/coweight comparison. This phase uses the actual
+finite-free integral lattices and their field extension, with no compact group or
+period theorem. The later compact-period reverse-inclusion argument and the
+subsection titled `Late compact-center application in LieGroups` are consumers
+of LG integration and periods; neither is an early premise of7F. RootSystems'
+independent root-exchange route supplies its finite Coxeter input; the generic
+real-disk2G construction and later compact-normalizer applications are not
+required for this lattice cut.
+
+For each dominant element of X, integrate the derived highest-weight module to
+K_der,sc by LieGroups4, and use its specified central-torus character. The
+covering-product action is the actual map
+`(z,s)↦chi(z)·rho_lambda(s)`. Compute its restriction to F; the actual X condition
+makes it the identity. Descend through q, proving continuity and smoothness from
+the quotient/local-cover charts, not an unproved abstract representation of K.
+Construct and prove the descent on intertwiners, tensor and dual maps, unique
+factorization and the top weight line. Prove irreducibility and uniqueness by
+the derivative/connected-group stable-subspace dictionary. Conversely pull
+back an irreducible K-module, use Schur for the central torus, and restrict to
+the semisimple derived factor; its Lie highest weight and actual torus
+character give exactly that dominant element of X. State all differentiability,
+Lie-to-group invariant-subspace and intertwiner comparisons at this cut.
+A Lie-algebra central functional can be arbitrary; it integrates only when the
+actual periods and the finite kernel conditions hold.
+
+Now restriction gives the ring isomorphism
+`R(K)≃Z[X*(T)]^W`. Injectivity follows from all-element conjugacy into T and
+compact character injectivity. For surjectivity, give the orbit-sum basis of
+`Z[X]^W`, summing each DISTINCT weight in W·lambda once, including walls and
+lambda=0. Prove the irreducible-character formula with leading orbit sum coefficient1,
+and finite downward-dominance subtraction. Each finite subtraction has fixed
+central character and a bounded semisimple weight set, so prove termination
+without ordering arbitrary central real directions. Construct the inverse ring
+map, not just additive spanning, and prove it preserves multiplication by
+restriction injectivity. This is integral virtual-character surjectivity; it
+asserts neither that each invariant positive torus character is positive in
+the irreducible basis nor that every Lie dominant weight integrates to K.
+
+**Normalization and global-form tests.** For a torus W is trivial and all
+irreducibles are its actual characters. For the trivial group R(K)=Z and X=0.
+For SU2 all highest integers n≥0 occur, whereas for SO3 only even SU2 highest
+integers descend. The positive torus character `e²+e⁻²=chi_(Sym²)−1` is
+virtual but not a positive SU2 character, testing the positive-cone distinction. For U(n), n>0, use the actual covering
+`S1×SU(n)→U(n), (z,A)↦zA`, with kernel `(z,z⁻¹I)` for zⁿ=1. A central exponent
+q and derived highest coefficients a_i descend exactly when
+`q≡Σ_(i=1)^(n−1) i a_i (mod n)`. Compare this with the full integer tuple
+lambda, where q=Σlambda_i and a_i=lambda_i−lambda_(i+1). This is a congruence,
+not an independent central/derived lattice split. Exterior powers1,…,n and
+determinant inverse give the U(n) ring generators; include n=1, and treat U(0)
+as trivial without a purported injective scalar-circle inclusion. Other global
+forms need not admit all fundamental modules or a polynomial representation
+ring on a purported independent set of fundamental characters.
+
+The algebraic universal-enveloping center and trace-form adapter is owned by
+LieHighestWeight9. CharacteristicClasses C5.1 owns compact invariant polynomial
+restriction. Neither polynomial invariant theorem nor a semisimple Lie weight
+label replaces this layer's actual integrable group-character construction.
 
 ### Layer 6b: Frobenius–Schur reality types
 
@@ -469,7 +618,11 @@ and rank-one `SU(2)` subgroups, so `SU(2)` is foundational.
   the fact that **every element of `SU(2)` is conjugate into `T`** (unitary diagonalization).
 - **The irreducibles and their classification.** `su2Irrep n :
   ContRepresentation ℂ SU(2) (Sym^n ℂ²)`, the representation on degree-`n` homogeneous polynomials in
-  two variables (`Sym^n(ℂ²)`), of dimension `n+1`. **Peter-Weyl does not classify these**: it gives a
+  two variables (`Sym^n(ℂ²)`), of dimension `n+1`. The native monomial-coordinate
+  model has the standard Euclidean norm and is not unitary in that norm for n≥2.
+  Before applying unitary coefficient/orthogonality results use Layer1 and
+  `exists_isUnitary_congr` to pass to a unitary equivalent model; trace characters
+  and their formulas transfer by equivalence invariance. **Peter-Weyl does not classify these**: it gives a
   Hilbert-space decomposition into *some* irreducibles, but does not identify them as the symmetric
   powers, and the torus character basis below itself depends on knowing the irreducible characters are
   exactly the `χ_n`. So the classification is a **separate, prior layer**, proved directly:
@@ -556,6 +709,8 @@ integration formulas are proved concretely; the circle and finite-group speciali
 acceptance criteria that keep the abstract normalizations honest. A contributor can complete Layers
 0-2 (the unitarian trick and complete reducibility) as a self-contained first deliverable, well before
 the Peter-Weyl density argument.
+
+Layer6a is a separate compact CONNECTED Lie-group application after the general compact Haar/character theory and LieGroups' actual finite central cover/period phases. Semisimple highest-weight modules and LieII integration precede its descent construction; that descent precedes invariant-character-ring surjectivity. Its proof uses no Borel–Weil or HC endpoint. The pre-Weyl-formula type-A virtual-character unit remains independent: it uses the existing explicit polynomial GLn construction, not this general compact classification as an earlier premise.
 
 **Separable deliverables.** This is one coherent dependency chain, but it is broad,
 and several pieces are independent formalization projects; treat them as separately shippable units,
