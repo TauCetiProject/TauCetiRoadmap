@@ -220,6 +220,34 @@ theorem not_isOrdinary_sum_sq_char_two [CharP K 2] : ¬ IsOrdinaryOverField
     (QuadraticMap.proj 0 0 + QuadraticMap.proj 1 1 : QuadraticForm K (Fin 2 → K)) := by
   sorry
 
+/-- README check `not_isOrdinary_imperfect`: over a field of characteristic two and a nonsquare
+`a`, for example `t` in `𝔽₂(t)`, the form `x² + a y²` has zero radical but vanishing polar form,
+so its polar kernel has rank two and it is not ordinary. Zero radical alone does not give
+ordinarity. -/
+theorem not_isOrdinary_imperfect [CharP K 2] {a : K} (ha : ¬ IsSquare a) :
+    let Q : QuadraticForm K (Fin 2 → K) := QuadraticMap.proj 0 0 + a • QuadraticMap.proj 1 1
+    Q.radical = ⊥ ∧ ¬ IsOrdinaryOverField Q := by
+  intro Q
+  have hpolar : QuadraticMap.polarBilin Q = 0 := by
+    ext v w
+    simp [Q, QuadraticMap.polar]
+    ring_nf
+    simp [CharTwo.two_eq_zero]
+  refine ⟨(Submodule.eq_bot_iff _).2 fun v hv => ?_, fun ⟨_, h⟩ => ?_⟩
+  · have hQv : v 0 * v 0 + a * (v 1 * v 1) = 0 := by
+      simpa [Q, QuadraticMap.radical] using hv.1
+    have h1 : v 1 = 0 := by
+      by_contra h1
+      refine ha ⟨v 0 / v 1, ?_⟩
+      field_simp
+      linear_combination hQv - (v 0 * v 0) * CharTwo.two_eq_zero (R := K)
+    have h0 : v 0 = 0 := by simpa [h1] using hQv
+    ext i
+    fin_cases i <;> simp [h0, h1]
+  · have := h.rank_rad_polar_le
+    rw [hpolar, LinearMap.ker_zero, rank_top, rank_fin_fun] at this
+    norm_num at this
+
 /-- The coordinate expansion of a quadratic form on `Fin r → K` as a power series: the diagonal
 coefficients are `Q (e i)` and the coefficient of `X i * X j`, `i < j`, is `polar Q (e i) (e j)`,
 with no division by two. README 2.4. -/
@@ -236,7 +264,10 @@ noncomputable def quadraticSeries {r : ℕ} (Q : QuadraticForm K (Fin r → K)) 
 isomorphic to `K⟦x₁, …, x_r⟧ / (Q + R)` with `Q` ordinary and `R` of order at least three, that is
 every coefficient of `R` of total degree at most two vanishes (Mathlib's `MvPowerSeries.order`,
 with `MvPowerSeries.le_order` and `MvPowerSeries.coeff_of_lt_order`). This is the field
-specialization of the README's `Quadric.IsOrdinaryQuadraticPoint` (README 2.4). -/
+specialization of the README's `Quadric.IsOrdinaryQuadraticPoint` (README 2.4) at a point with
+residue field `K`. An ordinary quadratic point with larger residue field is not of this form: in
+characteristic two with `a` not a square, the polar-degenerate point `(√a, 0, 0)` of
+`x₀² - a + x₁x₂ = 0` has residue field `K(√a)`. -/
 def IsOrdinaryQuadraticGerm (A : Type*) [CommRing A] [Algebra K A] (r : ℕ) : Prop :=
   0 < r ∧ ∃ (Q : QuadraticForm K (Fin r → K)) (R : MvPowerSeries (Fin r) K),
     IsOrdinaryOverField Q ∧ 3 ≤ R.order ∧
@@ -310,8 +341,9 @@ def vanishingRadical (B : LinearMap.BilinForm K V) (E : Submodule K V) : Submodu
 abbrev vanishingQuotient (B : LinearMap.BilinForm K V) (E : Submodule K V) :=
   E ⧸ vanishingRadical B E
 
-/-- A reflexive form induces a nondegenerate form on the radical quotient. README 4.4,
-`vanishingForm`, `vanishingForm_nondegenerate`, `vanishingForm_mk`. -/
+/-- A reflexive form induces a nondegenerate form on the radical quotient. The descended form
+is Mathlib's `LinearMap.IsRefl.liftQ₂` of the restriction of `B` to `E`; the content is
+nondegeneracy. README 4.4, `vanishingForm`, `vanishingForm_nondegenerate`, `vanishingForm_mk`. -/
 theorem exists_vanishingForm (B : LinearMap.BilinForm K V) (hB : B.IsRefl) (E : Submodule K V) :
     ∃ ψ : LinearMap.BilinForm K (vanishingQuotient B E), ψ.Nondegenerate ∧
       ∀ x y : E, ψ (Submodule.mkQ _ x) (Submodule.mkQ _ y) = B x y := by
@@ -487,7 +519,8 @@ InverseGaloisAndArithmeticFundamentalGroups: `VanishingCycles.curveEndomorphismT
 `VanishingCycles.etaleTraceFormula` (IG.0.T3) and `VanishingCycles.pointCountTrace`
 (IG.0.T4). The algebraic trace package is supplied by EtaleCohomologyFoundations
 F.10.1–F.10.5. README 0.1 uses `VanishingCycles.tameCharacter_eq_inertiaTameCharacter`,
-supplied by ArithmeticGaloisRepresentations 2.1a.
+supplied by EtaleCohomologyFoundations §F.3a and transported by ArithmeticGaloisRepresentations
+§2.1a.
 The README names of the local targets' API and checks, by namespace:
 
 * `VanishingCycles`: `nearbyBettiCompatibility`,

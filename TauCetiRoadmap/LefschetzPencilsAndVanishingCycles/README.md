@@ -742,13 +742,25 @@ modifications use the shared log sheaves and fs fibre products.
 - In residue characteristic dividing `e`, the root chart remains Kummer but is not
   log étale, and its wild stabilizer fails the tame hypothesis.
 
-**Theorem (Galois semistable alteration).** For a normal integral proper flat finite-type model of a geometrically
-integral smooth variety over a strictly henselian trait, construct
-`VanishingCycles.galoisSemistableAlteration`: a finite extension `S'→S`, a finite group `G`
-and a projective regular connected semistable `X'→X`, generically étale Galois with group `G`,
-with compatible `G`-action over `S'→S` on the shared fs log model. Apply to a projective
-closure and restrict to a quasi-projective open when needed. (ILO XVI §3.7, pp. 254–255; Vidal 2004b, Proposition 4.4.1,
-as cited there.) *Needs:* SchemeAndStackFoundations §§0.21, 4.19–4.20; the log charts above.
+**Theorem (Galois semistable alteration).** Let `S` be an excellent strictly henselian trait with
+generic point `η`, and `X` a normal integral scheme, proper and flat of finite type over `S`, with
+geometrically integral generic fibre. Construct `VanishingCycles.galoisSemistableAlteration`: a
+finite extension of traits `S'→S` with generic point `η'`, a finite group `G` acting on `S'` over
+`S`, and a `G`-equivariant projective surjective `X'→X` over `S'→S`, with `G` trivial on `X` and
+faithful on `X'`, and `X'` regular, connected and strictly semistable over `S'` with the shared fs
+log model. The fixed field `η'^G` is radicial over `η`, and there are a dense open `U ⊂ X_η` and a
+`G`-stable dense open `W ⊂ X'_{η'}` over it such that, with `K = ker(G → Aut(η'))`, `W → W/K` is a
+Galois étale cover with group `K` and `W/K → U ×_η η'` is a universal homeomorphism. When `η` has
+characteristic zero, in particular over every trait of mixed
+characteristic `(0, p)` (such a trait is a Dedekind domain with fraction field of characteristic
+zero, hence excellent), purely inseparable extensions are trivial: the universal homeomorphism is
+an isomorphism over a dense open, `η'/η` is Galois with group `G/K`, and `X'→X` is generically a
+Galois étale cover with group `G`. Purity uses only this case, because a regular scheme over a
+prime field is already pointwise pure (ILO XVI Proposition 3.2.5), so equal-characteristic traits
+never reach this step. Apply to a projective closure and restrict to a quasi-projective open when
+needed. (ILO X Lemma 2.5, p. 153, and Remark 3.3.2, after Vidal 2004b, Proposition 4.4.1; ILO XVI
+§3.7, pp. 254–255, for the mixed-characteristic form; Stacks 07QW for excellence.)
+*Needs:* SchemeAndStackFoundations §§0.21, 4.19–4.20; the log charts above.
 
 **Checks.**
 
@@ -756,6 +768,11 @@ as cited there.) *Needs:* SchemeAndStackFoundations §§0.21, 4.19–4.20; the l
 - A strictly semistable proper model permits the identity and its existing boundary chart.
 - In a tame cyclic trait extension `π=u^e`, the generic Galois action sends `u` to `ζu`
   and extends to the regular model; the base extension and action are retained as data.
+- In equal characteristic `p`, take `X = S`, `S'` the normalization of `S` in `η(π^{1/p})`,
+  `X' = S'` and `G = K = 1`: the data satisfy the general statement, with `η'^G = η'`
+  radicial over `η`, but `X'→X` is a universal homeomorphism of degree `p` and is not
+  generically étale. The generically Galois étale form needs the characteristic-zero
+  generic point.
 
 **Theorem (equivariant log resolution).** For a noetherian quasi-excellent separated
 log-regular fs scheme `X` with a tame generically free action of a finite group `H`, construct
@@ -1480,8 +1497,9 @@ AlgebraicModuliForArithmeticGeometry Layer 1, §1.1 (projective bundles); Scheme
 0 (§0.8 smoothness, §§0.12–0.14 henselization); Mathlib's Jacobian criterion (`Algebra.IsStandardSmooth`,
 `Algebra.IsSmoothAt.exists_notMem_isStandardSmooth`). *Lean:* `Suggested.lean` declares the field case,
 `Quadric.IsOrdinaryOverField` (`Nontrivial V ∧ Q.Nondegenerate`) and `isOrdinaryOverField_iff_polar_nondegenerate`,
-and the named boundary theorems `Quadric.isOrdinary_xy_add_sq_char_two` and
-`Quadric.not_isOrdinary_sum_sq_char_two` over every field of characteristic two.
+and the named boundary theorems `Quadric.isOrdinary_xy_add_sq_char_two`,
+`Quadric.not_isOrdinary_sum_sq_char_two` and `Quadric.not_isOrdinary_imperfect` over every field of
+characteristic two.
 
 **Checks.**
 
@@ -1490,6 +1508,7 @@ and the named boundary theorems `Quadric.isOrdinary_xy_add_sq_char_two` and
 - `Quadric.isOrdinary_rank_one`: `r = 1`, `Q = ax²` with `a` `a` unit: the quadric is empty and `Q` is ordinary in every characteristic.
 - `Quadric.isOrdinary_iff_nondegenerate_test`: Over a field and for `V ≠ 0`, `IsOrdinary Q` agrees with Mathlib's `QuadraticMap.Nondegenerate Q`: in characteristic 2 the alternating `Φ` has kernel of dimension `≡ r mod 2`, so `rank ≤ 1` forces 0 or 1 according to the parity of `r`.
 - `Quadric.isOrdinary_zero_rank_excluded`: The zero form on the zero module is not ordinary: rank zero is excluded explicitly.
+- `Quadric.not_isOrdinary_imperfect`: Over a field `K` of characteristic 2 and `a ∈ K` not a square (for example `t` in `𝔽₂(t)`), `Q = x² + a y²` on `K²` has zero radical, since its only rational zero is `0`, but `Φ = 0`, so `ker Φ = K²` has rank two and `Q` is not ordinary: over `K̄` its quadric is the double point `(x + √a y)² = 0`. Zero radical alone does not give ordinarity; the rank bound on `ker Φ` is needed.
 - `xy + z²` in characteristic 2 is ordinary; `x² + y²` in characteristic 2 is not; `ax²` is ordinary.
 
 **Theorem (normal form).** Let `Q` be an ordinary quadratic form on a locally free `A`-module of rank
@@ -1632,8 +1651,9 @@ cycle classes) and EtaleCohomologyFoundations §F.7 (weak Lefschetz, cohomology 
 ordinary form on `V` of rank `n + 2`, `H` a hyperplane meeting `X` transversally, `Y = X ∩ H` (a smooth
 quadric of dimension `n − 1` for `n > 0`, and empty for `n = 0`), `X° = X − Y`, `f : X° → S`, and `q : Y → S`. For `n = 2m` the primitive part of
 `R^n p_*ℤ_ℓ(m)` is the orthogonal of `η^m`, generated by `cl(α) − cl(β)`, and the primitive quotient is
-`R^n p_*ℤ_ℓ(m)/ℤ_ℓ η^m`. The cohomology of `X°` is torsion-free with nonzero Betti numbers `b_0 = b_n = 1`,
-and with compact supports `b_{2n} = b_n = 1` (`b_0 = 2` when `n = 0`). For `n = 2m > 0`, `R^n f_!ℤ_ℓ(m)` is the
+`R^n p_*ℤ_ℓ(m)/ℤ_ℓ η^m`. The cohomology of `X°` is torsion-free; for `n > 0` its nonzero Betti numbers are `b_0 = b_n = 1`,
+and with compact supports `b_{2n} = b_n = 1`; for `n = 0` both theories have `b_0 = 2` and nothing
+else. For `n = 2m > 0`, `R^n f_!ℤ_ℓ(m)` is the
 primitive part and `R^n f_*ℤ_ℓ(m)` the primitive quotient of `R^{2m} p_*ℤ_ℓ(m)`; for `n = 2m + 1`, `R^n f_!ℤ_ℓ(m)`
 is the primitive quotient and `R^n f_*ℤ_ℓ(m + 1)` the primitive part of `R^{2m} q_*ℤ_ℓ(m)`. Locally these
 have natural generators up to sign, `δ` with compact support and `δ'` without. The forget-supports map
@@ -1672,7 +1692,7 @@ expansion `Quadric.quadraticSeries` of a quadratic form as a multivariate power 
 diagonal coefficients are `Q(e_i)` and whose mixed coefficients are `Q(e_i + e_j) − Q(e_i) − Q(e_j)`, with
 no division by two.
 
-- `Quadric.IsOrdinaryQuadraticPoint`: Geometric predicate on `(Y/k,y)`, tested after algebraic closure. Its field formal-germ specialization takes a `k`-algebra `A` and `r=n+1>0` and requires `A≅k[[x₁,…,x_r]]/(quadraticSeries(Q)+R)` as `k`-algebras, with `Q` ordinary and `R` of order at least three (`3 ≤ MvPowerSeries.order R`).
+- `Quadric.IsOrdinaryQuadraticPoint`: Geometric predicate on `(Y/k,y)`, tested after algebraic closure. Its field formal-germ specialization takes a `k`-algebra `A` and `r=n+1>0` and requires `A≅k[[x₁,…,x_r]]/(quadraticSeries(Q)+R)` as `k`-algebras, with `Q` ordinary and `R` of order at least three (`3 ≤ MvPowerSeries.order R`). This is the case `k(y) = k`: a completed local ring of this form has residue field `k`. For instance, in characteristic 2 with `a ∉ k²`, the point `(√a, 0, 0)` of `x₀² − a + x₁x₂ = 0` is ordinary quadratic and polar-degenerate (`n = 2`, geometric local equation `u² + x₁x₂` with `u = x₀ − √a`), but its residue field is `k(√a)`, so its local ring is not an `IsOrdinaryQuadraticGerm` over `k`.
 - `Quadric.IsNondegenerateQuadraticPoint`: The same with the leading form polar-nondegenerate.
 - `Quadric.isNondegenerate_iff`: `IsNondegenerateQuadraticPoint Y y ↔ IsOrdinaryQuadraticPoint Y y ∧ (p ≠ 2 ∨ Odd n)`.
 - `Quadric.isOrdinaryQuadraticPoint_baseChange`: The notion is geometric: it holds at `y` if and only if it holds at the points over `y` after any field extension.
@@ -2679,7 +2699,8 @@ EtaleCohomologyFoundations §0.8 (`ClassicalAlgebraic.finiteTrace`) for dimensio
 Mathlib `LinearMap.BilinForm.orthogonal`, `LinearMap.IsAlt`,
 `Submodule.mkQ`. *Lean:* `Suggested.lean` declares the linear-algebra core: `LefschetzPencil.vanishingRadical`,
 `LefschetzPencil.vanishingQuotient`, `exists_vanishingForm` (a reflexive form descends to a nondegenerate form on the
-radical quotient), `LefschetzPencil.exists_alternating_vanishingForm` (including alternation),
+radical quotient; the descended form is Mathlib's `LinearMap.IsRefl.liftQ₂` of the restriction to `E`,
+and the content is nondegeneracy), `LefschetzPencil.exists_alternating_vanishingForm` (including alternation),
 and the named boundary theorem `LefschetzPencil.vanishingQuotient_radical` on `stdSymplectic4`.
 
 **Checks.**
@@ -3048,7 +3069,7 @@ A stable subspace pairing nontrivially with a transported root contains that roo
 reflection formula, hence the whole orbit by conjugacy. A subspace orthogonal to every
 root is zero in the radical quotient. This is the argument of 5.4 with the transported
 orbit in place of one chosen cycle per puncture. (Weil II 4.2.5, 4.2.7–4.2.8,
-pp. 220–221; 4.4.2, p. 228.) *Needs:* 2.7, 4.2–4.4, 5.3 (normal generation),
+pp. 220–221; Lemma 4.4.2ˢ, the symmetric case, p. 228.) *Needs:* 2.7, 4.2–4.4, 5.3 (normal generation),
 the generic conjugacy theorem above.
 
 **Checks.**
