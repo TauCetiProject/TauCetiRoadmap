@@ -468,6 +468,22 @@ Crystalline.crysFrobenius_semilinear; Crystalline.crysFrobenius_linearize;
 Crystalline.crysFrobenius_lift; Crystalline.crysFrobenius_natural; Crystalline.crysFrobenius_cup;
 Crystalline.crysFrobenius_chern; Crystalline.crysFrobenius_finite_field.
 
+CR.3.5 Proper smooth tests and a crystalline torsion surface:
+For the BMS surface, Y = H̃_C is a smooth complete-intersection surface in projective space
+and Y → H_C is the finite étale Z/p²-torsor. EtaleCohomologyFoundations F.7,
+VanishingCycles.etaleWeakLefschetz, gives H⁰(Y,Z/p^r) = Z/p^r and H¹(Y,Z/p^r) = 0 for r ≥ 1.
+Its F.4.1–F.4.4 normalizedAdicSystems, classicalAdicRealization,
+etaleProetaleAdicComparison and adicFiniteness realize these as H⁰(Y,Z_p) = Z_p,
+H¹(Y,Z_p) = 0, and identify derived mod-p reduction. The reduction triangle gives
+H²(Y,Z_p)[p] = 0; integral finiteness makes H²(Y,Z_p) finite free.
+SchemeAndStackFoundations §2.15 hochschildSerre_galois_covering and the same F.4 realization
+identify the torsor spectral sequence with H^a(Z/p²,H^b(Y,Z_p)) ⇒ H^(a+b)(H_C,Z_p).
+In total degree two, E∞^(2,0) = Z/p², E∞^(1,1) = 0 and E∞^(0,2) is torsion-free,
+so H²_ét(H_C,Z_p)_tors = Z/p². The cyclic calculation specializes Mathlib's
+Rep.FiniteCyclicGroup.groupCohomologyIsoEven to the trivial Z_p-representation.
+The smooth plane cubic boundary has H¹(D,Z/p) = (Z/p)²; weak Lefschetz is only
+injective there, unlike the degree-one isomorphism for the covering surface.
+
 CR.4.1 Dieudonné complexes, saturation and décalage:
 Crystalline.pDecalage_degree; Crystalline.pDecalage_d; Crystalline.pDecalage_map;
 Crystalline.pDecalage_cohomology; Crystalline.pDecalage_filtered_colimit;
@@ -634,6 +650,19 @@ Crystalline.finiteEtaleTransfer_trace; Crystalline.crysGysin_comp; Crystalline.c
 Crystalline.crysGysin_trace; Crystalline.crysGysin_adjoint; Crystalline.crysGysin_frobenius;
 Crystalline.crysDiagonal_action; Crystalline.crysDiagonal_triangles;
 Crystalline.crysDiagonal_projective.
+For a smooth closed immersion i:Z ↪ Y of codimension c, dim Y = d and n ≥ 1, the supported
+top-form object on W_nY is R𝒢_Z(W_nΩ_Y^d) ≃ ℋ_Z^c(W_nΩ_Y^d)[−c]. Its residue map
+(W_n i)_*W_nΩ_Z^(d−c) → ℋ_Z^c(W_nΩ_Y^d) is independent of regular generators, form lifts
+and smooth W_n-lifts, and commutes with étale restriction. Chatzistamatiou–Rülling §1.11,
+Proposition 1.11.4 compares it with the supported coherent-duality trace. Berthelot VI,
+Propositions 1.4.5 and 1.6.1 supply codimension-filtration Cohen–Macaulayness; VII,
+Theorem 1.4.6 and 1.4.9 supply residues and trace, as compared by Ekedahl I.5, p.198.
+Transport the local construction through the fixed Čech signs and the Frobenius scalar
+transport of crysTrace. Normalization gives i_* = (ε_(d−c)/ε_d)i_*^Ek. Under de Rham–Witt
+comparison it agrees with crysGysin's duality transpose, with cycle classes and with
+Tor-independent expected-dimension base change between proper smooth schemes.
+The coordinate-divisor and codimension-two Checks test lift/generator independence and
+étale restriction. On P¹ ↪ P², i_*^Ek(1) = −h and the normalized class is h, also over W(F₂).
 
 CR.5:log-algebra.1 Prelog rings, log structures and charts:
 LogCrystalline.PrelogRing.hom_ext; LogCrystalline.PrelogRing.map_comp;

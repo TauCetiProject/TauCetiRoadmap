@@ -361,6 +361,11 @@ owned here, retaining the namespace of the DerivedDeRhamCohomology constructors 
   `mk_fontaineTheta`, `surjective_fontaineTheta`; `WittVector.Isocrystal`,
   `StandardOneDimIsocrystal`
   and `isocrystal_classification` (dimension one over an algebraically closed field).
+- **Finite cyclic group cohomology.**
+  `Rep.FiniteCyclicGroup.groupCohomologyIsoEven` in
+  `Mathlib/RepresentationTheory/Homological/GroupCohomology/FiniteCyclic.lean`, lines 76–87,
+  identifies positive even cohomology with the homology of the norm / generator-minus-identity
+  complex. For the trivial Z_p-representation of Z/p² this gives H²=Z_p/p².
 - **Infinite Witt identities and truncation.** In
   `Mathlib.RingTheory.WittVector.Identities`, `WittVector.frobenius_verschiebung` gives
   `F(Vx) = px` over every commutative ring, `verschiebung_mul_frobenius` gives the projection
@@ -518,6 +523,18 @@ owned here, retaining the namespace of the DerivedDeRhamCohomology constructors 
   `Crystalline.wittScheme` for all schemes on which p is locally nilpotent, proves agreement
   with that perfect-scheme constructor, and supplies the differential module sheaves and descent
   on this carrier. CR.3:duality uses this same extended scheme.
+- **EtaleCohomologyFoundations**: §F.7, `VanishingCycles.etaleWeakLefschetz`, supplies
+  restriction isomorphisms below the middle degree and injection in the middle for smooth
+  ample sections of smooth projective varieties, with finite coefficients of invertible
+  annihilator and integral ℓ-adic coefficients for ℓ invertible in the base field.
+  §§F.4.1–F.4.4, `VanishingCycles.normalizedAdicSystems`,
+  `VanishingCycles.classicalAdicRealization`, `VanishingCycles.etaleProetaleAdicComparison`
+  and `VanishingCycles.adicFiniteness`, supply normalized coefficient towers, realization
+  as a derived limit, its pro-étale comparison, finite-group compatibility, integral
+  finiteness and derived reduction. CR.3.5 applies them with ℓ=p over C of characteristic zero.
+- **SchemeAndStackFoundations**: §2.15, `hochschildSerre_galois_covering`, supplies the
+  finite-coefficient spectral sequence for a finite étale G-torsor. CR.3.5 identifies its
+  integral realization using EtaleCohomologyFoundations §F.4 and specializes it to G=Z/p².
 - **SchemeAndStackFoundations**: §0.15 (Néron–Popescu desingularization);
   §§2.1–2.2 (`cech_to_cohomology` and `leray_spectral_sequence`
   for general sites); Layer 2 (coherent cohomology, Tor-independent base change,
@@ -3296,7 +3313,35 @@ middle map with the endomorphism of H¹_crys(E_k/W) induced by E_k→E_k/E_k[p]�
 multiplication by p. Hence H¹_crys(H_k/W)=0 and H²_crys(H_k/W)_tors≅H¹_crys(E_k/W)/p≅k⊕k (BMS1,
 proof of Theorem 2.10). The geometric quotient and torsor construction of Bhatt–Morrow–Scholze §2.2,
 Lemmas 2.5–2.9, and its finite-group specialisation are part of this target; the spectral sequence
-alone does not replace them. Part (a) uses the Hodge and de Rham cohomology of projective space:
+alone does not replace them.
+
+For the étale calculation in (d), put `Y=H̃_C⊂P_C` and `G_C=Z/p²`. Choose a smooth
+partial-intersection flag for Y in the sufficiently general Bertini construction; each step
+is an ample hypersurface section. Since C is algebraically closed of characteristic zero,
+p is invertible. EtaleCohomologyFoundations §F.7, `VanishingCycles.etaleWeakLefschetz`,
+and its projective-space calculation give `H⁰_ét(Y,Z/p^r)=Z/p^r` and
+`H¹_ét(Y,Z/p^r)=0` for every `r≥1`, compatibly with reduction. Its §§F.4.1–F.4.4
+realize this normalized tower: the H⁰ transitions are surjective, so the Milnor sequence
+has no `lim¹ H⁰` term and gives `H⁰_ét(Y,Z_p)=Z_p`, `H¹_ét(Y,Z_p)=0`.
+For `K_Y=RΓ_ét(Y,Z_p)`, derived reduction gives the triangle
+`K_Y →[p] K_Y → RΓ_ét(Y,Z/p) → K_Y[1]`.
+Its exact sequence gives `H²_ét(Y,Z_p)[p]=0` from `H¹_ét(Y,Z/p)=0`.
+Integral finiteness then makes `H²_ét(Y,Z_p)` a finite free Z_p-module. The middle-degree
+injection of weak Lefschetz by itself does not imply this torsion-freeness.
+
+Apply SchemeAndStackFoundations §2.15, `hochschildSerre_galois_covering`, to
+`Y→H_C` with coefficients Z/p^r. Through the same §F.4 realization and finite-group
+compatibilities, its integral spectral sequence is
+`H^a(G_C,H^b_ét(Y,Z_p)) ⇒ H^(a+b)_ét(H_C,Z_p)`.
+Finite-group cochains use finite products, which commute with the derived coefficient
+limit; the finite-level finiteness and Milnor identifications are those of §F.4.
+In total degree two, `E∞^(2,0)=H²(G_C,Z_p)=Z_p/p²`, since the b=1 row vanishes
+and no other differential can enter or leave this position. For the trivial action the norm
+is multiplication by p², so Mathlib's `Rep.FiniteCyclicGroup.groupCohomologyIsoEven`
+gives this cyclic-group calculation. Also `E∞^(1,1)=0`, and `E∞^(0,2)` is a submodule
+of the torsion-free `H²_ét(Y,Z_p)^G_C`. Thus the filtration gives
+`0 → Z/p² → H²_ét(H_C,Z_p) → E∞^(0,2) → 0`, identifying its whole torsion subgroup
+with Z/p². Part (a) uses the Hodge and de Rham cohomology of projective space:
 H^q(ℙⁿ_A, Ω^p) = 0 unless 0 ≤ p = q ≤ n, H^p(ℙⁿ_A, Ω^p) free of rank one on the p-th power of the
 Hodge class of O(1), and `H^{2i}_dR(ℙⁿ_A/A)` free of rank one on c₁^dR(O(1))^i for 0 ≤ i ≤ n ([Stacks
 Project](https://stacks.math.columbia.edu), de Rham Cohomology, Lemmas 50.11.3 and 50.11.4, tags
@@ -3312,13 +3357,22 @@ filtration* (Layer CR.2);
 TauCetiRoadmap/JacobianChallenge#layer-b-coherent-cohomology-over-k-genus-riemannroch-serre-duality;
 DerivedModuleAlgebra §S.1 (*The spectral sequence of a first-quadrant double complex*);
 SchemeAndStackFoundations §§2.1–2.2 (`cech_to_cohomology`, `leray_spectral_sequence`); *Smooth proper lifts of curves over Witt vectors*; *Crystalline
-Leray spectral sequence*; *Vanishing of the top coherent de Rham differential*.
+Leray spectral sequence*; *Vanishing of the top coherent de Rham differential*;
+EtaleCohomologyFoundations §F.7 (`VanishingCycles.etaleWeakLefschetz` and the projective-bundle
+formula), §§F.4.1–F.4.4 (`VanishingCycles.normalizedAdicSystems`,
+`VanishingCycles.classicalAdicRealization`, `VanishingCycles.etaleProetaleAdicComparison`,
+`VanishingCycles.adicFiniteness`); SchemeAndStackFoundations §2.15
+(`hochschildSerre_galois_covering`); Mathlib `Rep.FiniteCyclicGroup.groupCohomologyIsoEven`.
 
 **Checks.**
 
 - d=1: H^*_crys(P¹_k/W)=W⊕W·h with h∪h=0 and F(h)=p·h.
 - At d=0 the projective-space computation is W in degree zero with the unit cup product;
   its finite-level reductions are W_n, without higher classes.
+- For the covering surface Y in (d), `H¹_ét(Y,Z/p)=0` forces `H²_ét(Y,Z_p)[p]=0` by
+  derived reduction. For a smooth plane cubic `D⊂P²_C`, weak Lefschetz gives only an
+  injection in degree one: `H¹_ét(D,Z/p)=(Z/p)²`, so the surface vanishing argument
+  does not extend to complete-intersection curves.
 - For the surface of (d): length_W H²_crys(H_k/W)_tors=2=length_(Z_p) H²_ét(H_C,Z_p)_tors, but
   Z/p²⊗_(Z_p)W=W/p² is not isomorphic to k⊕k; K=RΓ_crys(H_k/W) is perfect although H² is not free.
 
@@ -3373,7 +3427,9 @@ Layers CR.1, CR.2; EnhancedDerivedSheaves (Layer E1, Layer E2, Layer E3); Derive
 (Layer 1, Layer 3); EnhancedDerivedSheaves (§E1.9); SchemeAndStackFoundations (Layer 2, Layer 4);
 AdicSpacesPartIII (F0.6); TauCetiRoadmap JacobianChallenge (Layer B, Layer C); DerivedModuleAlgebra
 (§S.1); SchemeAndStackFoundations (§§2.1–2.2, `cech_to_cohomology`, `leray_spectral_sequence`);
-TauCetiRoadmap EllipticCurves (Layer 3); Mathlib.
+TauCetiRoadmap EllipticCurves (Layer 3); EtaleCohomologyFoundations (§F.7,
+`VanishingCycles.etaleWeakLefschetz`; §§F.4.1–F.4.4, normalized adic realization and derived
+reduction); SchemeAndStackFoundations (§2.15, `hochschildSerre_galois_covering`); Mathlib.
 
 ## Layer CR.3:Frobenius-isogeny: The Frobenius isogeny
 
@@ -7318,10 +7374,42 @@ same morphism on K(X)⊗^L K(Y)⊗^L K(Y): associativity of cup product and mult
 identify both with Tr_X∘μ_X∘(id⊗f^*∘μ_Y), with the prescribed shifts and symmetry signs. Duality
 therefore identifies the morphisms, including integral torsion. The class formula follows on
 cohomology. Composition follows by contravariant transposition of (g∘f)^*=f^*∘g^*; transposition of
-the unit W→K(X) gives Tr_X. For a regular closed immersion f, the agreement of f_* with the local
-construction through crystalline residues, f_*(1) with Berthelot’s cycle class, and base change
-g^*∘f_* = f′_*∘g′^* for cartesian squares of proper smooth k-schemes with dim X′ = dim X + dim Y′ −
-dim Y all rest on Berthelot’s purity theorem (LNM 407, VI); they are part of this target. ([Ekedahl,
+the unit W→K(X) gives Tr_X. For a closed immersion `i:Z↪Y` of smooth pure-dimensional
+k-schemes with `dim Y=d`, `dim Z=d−c`, use `W_nY=Crystalline.wittScheme n Y`, `n≥1`.
+Write `R𝒢_Z` for derived sheaf sections supported on Z in the Zariski topos of W_nY,
+and `ℋ_Z^q` for its cohomology sheaves. The supported top-form object is
+`R𝒢_Z(W_nΩ_Y^d) ≅ ℋ_Z^c(W_nΩ_Y^d)[−c]`; it is distinct from the full supported
+crystalline object `R𝒢_Z(Ru_(Y/W_n),*O_crys) ≅ R𝒢_Z(W_nΩ_Y^•)`.
+On a chart with ideal `(t₁,…,t_c)`, the top-form residue morphism is
+`ι_(Z,n):(W_n i)_*W_nΩ_Z^(d−c) → ℋ_Z^c(W_nΩ_Y^d)`.
+In the source's Koszul convention it sends α to
+`(−1)^c [d[t₁]∧…∧d[t_c]∧α̃ / ([t₁],…,[t_c])]`, with α̃ any lift.
+Prove independence of α̃ and of the regular generators, including reordering and unit
+rescaling, and compatibility with étale restriction and changes of smooth W_n-lift.
+The comparison diagram identifies `ι_(Z,n)[d−c]` with the supported coherent-duality
+trace for W_n i, through the top-form dualizing identifications.
+([Chatzistamatiou–Rülling, *Hodge-Witt cohomology and Witt-rational
+singularities*](https://emis.de/ft/9676), §1.11, equation (1.11.1), Remarks 1.11.2–1.11.3,
+Proposition 1.11.4 and its diagram (1.11.2), pp. 699–703.)
+
+Transport the Koszul fractions and their comparison maps to the Čech totalization
+`δ+(−1)^r d` and cup sign `(−1)^(s t)` fixed above. If `i_*^Ek` denotes the resulting
+pushforward adjoint for the unnormalized Ekedahl traces, the normalized map is
+`i_* = (ε_(d−c)/ε_d) i_*^Ek`: indeed `Tr_Y=ε_d Tr_Y^Ek` and
+`Tr_Z=ε_(d−c) Tr_Z^Ek`. This sign transport is part of the residue comparison.
+Use the codimension-filtration Cohen–Macaulay statements of Berthelot, LNM 407,
+VI, Propositions 1.4.5 and 1.6.1, and his crystalline residues in VII, Theorem 1.4.6,
+to compare local traces; VII, 1.4.9 constructs the global trace. Ekedahl I.5, p. 198,
+identifies this trace with his construction by étale-local comparison at closed points
+and the projective-space normalization (VII, 1.4.11).
+Through the de Rham–Witt comparison, with the same Frobenius scalar transport as
+*Proper smooth crystalline trace*, require the supported residue construction followed
+by forgetting supports to agree with the duality-defined i_* at finite level and over W.
+Its value on 1 is Berthelot's cycle class in this normalization. Also prove
+`g^*∘i_* = i′_*∘g′^*` for cartesian squares of proper smooth k-schemes with
+`dim Z′ = dim Z + dim Y′ − dim Y`; these smooth expected-dimension squares are
+Tor-independent. These residue, cycle-class and base-change identifications are part
+of this target. ([Ekedahl,
 *On the multiplicative properties of the de Rham–Witt complex I*, Ark. Mat. 22
 (1984)](https://archive.ymsc.tsinghua.edu.cn/pacm_download/116/7414-11512_2006_Article_BF02384380.pdf),
 Introduction, p. 186: the crystalline duality formula RHom_W(RΓ(X/W),W)[−2N]≅RΓ(X/W); I.5, p. 198,
@@ -7331,7 +7419,12 @@ Lemma 0FGT (pushforward defined by Poincaré duality).) *Needs:* *Derived crysta
 duality*; *Proper smooth crystalline trace*; *Crystalline cup products* (Layer CR.3); *The
 crystalline first Chern class and the hyperplane class* (Layer CR.3); *Semilinear crystalline
 Frobenius and linearization* (Layer CR.3); *Finite étale crystalline transfer and trace*;
-EnhancedDerivedSheaves Layer E1 (*Derived sheaf tensor*).
+EnhancedDerivedSheaves Layer E1 (*Derived sheaf tensor*); *Witt schemes on locally p-nilpotent schemes*
+(CR.4.6); *Finite and infinite crystalline de Rham–Witt comparison*
+(Layer CR.4); SchemeAndStackFoundations §2.7 (`supportedSubsheaf`,
+`localCohomologySheaf`, `rHZ_adjunction`, `supports_localization_triangle`); Layer 2
+(*Coherent Grothendieck duality*, from which this target constructs the supported
+closed-immersion comparison; *Tor-independent base change for quasi-coherent complexes*).
 
 **Checks.**
 
@@ -7343,6 +7436,13 @@ EnhancedDerivedSheaves Layer E1 (*Derived sheaf tensor*).
 - `test_crysGysin_finite_etale`: For π:X′→X finite étale of constant degree n between proper smooth
   k-schemes of pure dimension d: π_*(1)=n in H⁰_crys(X/W) and π_*π^*x=n·x.
 - For the structure map a:X→Spec k: a_*=Tr_X.
+- On `Z=(t=0)⊂A¹_k`, replacing t by ut for a unit u and changing the lift of a
+  zero-form leaves `ι_(Z,n)` unchanged; its restriction along an étale coordinate
+  chart agrees with the residue formed on that chart, also for n=1.
+- For `Z=(t₁=t₂=0)⊂A²_k`, swapping the regular generators reverses both the wedge
+  and the generalized-fraction orientation, leaving the residue unchanged.
+- For `i:P¹↪P²`, `ε₁/ε₂=−1` and `i_*^Ek(1)=−h`; the normalized Gysin class is h
+  and `Tr_(P²)(i_*h)=Tr_(P¹)(h)=1`. Over W(F₂) the sign −1 still differs from 1.
 
 **Diagonal class and crystalline coevaluation.** Let k be a perfect field of characteristic p,
 W=W(k), X a proper smooth k-scheme of pure dimension d, K=RΓ_crys(X/W) and Δ:X→X×_kX the diagonal.
