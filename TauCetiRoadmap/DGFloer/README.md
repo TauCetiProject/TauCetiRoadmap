@@ -114,10 +114,12 @@ This roadmap consumes, and does not rebuild:
     and the Robbin–Salamon index.
   - Lane F2: symplectic manifolds, almost complex structures, `J`-holomorphic maps, energy,
     compactness, transversality and gluing.
-  - The manifold orientation and degree API. The differential geometry roadmap (Layers 2 and 10)
-    also proposes to own it. This roadmap depends only on its homological characterization
-    `f_*[S] = deg(f) · [Q]` from Stage 6 of the algebraic topology roadmap, so it is unaffected by
-    which of the two owns it.
+- **[Differential geometry](../DifferentialGeometry/README.md), Layers 2 and 10.**
+  The manifold orientation and smooth degree API, also consumed by Heegaard Floer.
+  Algebraic topology Stage 6.3 owns the homological fundamental classes; Stage 6.5
+  owns the homological characterization `f_*[S] = deg(f) · [Q]` and its comparison
+  with DG10's smooth degree, under their stated manifold hypotheses. Here the
+  required degree interface is that homological characterization.
 - **[Algebraic topology](https://github.com/TauCetiProject/TauCetiRoadmap/blob/77caf227f456d6da938674a1ac50e309d47c476a/TauCetiRoadmap/AlgebraicTopology/README.md).**
   - Stage 2: relative singular homology and local coefficient systems.
   - Stage 4: CW pairs, cellular approximation and cofibrations.
@@ -188,7 +190,8 @@ support, grading, and comparison applications stated in Layer 7.C. In particular
 - Serre classes;
 - the Pontryagin--Thom collapse for framed submanifolds of an arbitrary closed ambient manifold,
   extending the Euclidean-ambient construction of the homotopy spheres roadmap;
-- local triviality of `Diff(M) → M`;
+- local triviality of evaluation `Diff(M) → O` onto the chosen point's orbit,
+  with `O = M` under the connectedness/transitivity hypotheses of Layer 1 item 6;
 - the real and complex orthonormal-two-frame quotient comparisons, with the real Stiefel-map degree application, consuming native frame carriers, SBC proper quotients and LieGroups' actual orthogonal/unitary subgroups;
 - cyclic/free-loop broken-geodesic extensions and the projective energy, Jacobi index, integral perfectness and explicit-generator applications, consuming the designated CKG/GC carriers, Riem R1–R3 and MorseTheory M5;
 - Moore path and loop spaces, transitive lifting-function data, the Moore-path
@@ -483,6 +486,35 @@ convergence targets below extend those interfaces.
      do not consume AT8.1's relative-pair sequence. These constructions use
      AT1–4's homotopy, disc and CW-pair APIs. Paracompactness is retained where
      Layer 2 asks for the stronger Hurewicz-fibration property.
+
+     **All-CW testing and based fibration sequence.**
+     Own the actual comparison between native disk/cube Serre testing and
+     homotopy lifting for every Hausdorff CW parameter, in the displayed
+     universe. Prove the finite disk-cylinder pair homeomorphism from bottom
+     to bottom∪boundary-cylinder, use it for prescribed boundary and bottom
+     lifts, and extend cellwise over a native relative CW pair. Keep arbitrary
+     dimensions and cell sets; glue via attaching quotient diagrams and prove
+     the product weak-topology lemma for the compact Hausdorff interval.
+     Empty pairs and 0-cells are included. This actual relative-CW lifting
+     consequence, not disk testing alone, fixes basepoint tracks for the
+     finite sphere/cube representatives and their homotopies.
+
+     Construct the fibration boundary by the actual relative lift and endpoint
+     restriction, prove representative/lift independence by a further relative
+     cube lift, and prove naturality for commuting based squares. Pin all
+     concatenation comparisons to native mul_spec's reversed transAt order.
+     At the low end retain pointed sets, component actions and image=kernel
+     exactness, with no module carrier for π₁ or components. For arbitrary
+     well-pointed parameters the Hurewicz lane consumes GC G2.10's fixed-data
+     closed-NDR relative lifting, not a presumed regular lift. AT8 owns the
+     different based-pair carrier and sequence; neither LES depends on the
+     other's construction. Every-fibre weak contractibility, including
+     nonemptiness, gives a weak equivalence by this LES and component lifting.
+     Homotopy equivalence additionally uses actual CW-type witnesses and
+     AT8.5 ordinary Whitehead. A chosen fibre alone gives no conclusion on
+     unrelated base components. No unrestricted contractible-fibre
+     homotopy-equivalence conclusion is asserted without these additional
+     CW-type or separately stated precise local-to-global hypotheses.
    - Own `arbitraryCWSerreSpectralSequence` for every path-connected CW base,
      using AT1–4 and the actual filtration
      `E_p = p⁻¹(B^(p))`, with `E_(−1)` empty. Prove that singular chains are
@@ -784,7 +816,8 @@ convergence targets below extend those interfaces.
    homotopy spheres roadmap's Stage 5, with an arbitrary closed ambient manifold in place of
    `ℝ^{n+k}`, and agrees with it for spherical ambient manifolds. Independence of the choices, its
    effect on fundamental classes, and its compatibility with shriek maps.
-6. **Diffeomorphism groups.** For a closed manifold M consume GT Layer3's C-infinity topological group Diff(M), the map from actual smooth parameter families to Diff(M), and the orthogonal action on spheres. Construct local Palais evaluation sections: in a coordinate ball choose compactly supported smooth vector fields giving a smooth family moving the basepoint, extend by identity and use the smooth-families map. Prove evaluation Diff(M)→M locally trivial, including its actual local product/inverse. A merely continuous family into Diff is not identified with a jointly smooth family.
+6. **Diffeomorphism groups and evaluation orbits.** For a closed smooth manifold M with a chosen point x₀ consume GT Layer3's C-infinity topological group Diff(M), its composition/inverse continuity, smooth-families map, orthogonal sphere action and compact-embedding restriction bundle onto the actual Diff orbit. Specialize that restriction construction to a point, identify its C-infinity embedding space with M through the actual evaluation/inverse maps, and let O be the orbit of x₀ and H={g | g(x₀)=x₀}. Compare the resulting supported local sections with coordinate-ball motions from compactly supported smooth vector fields. If g(x₀)=y, compose a local motion taking y to z with g to obtain a continuous local section s:U→Diff(M) over an open neighbourhood U of y in O. Export evaluation Diff(M)→O as a locally trivial principal right-H bundle, with the actual mutually inverse maps g↦(g(x₀),s(g(x₀))⁻¹g) and (z,h)↦s(z)h.
+   For connected M, join x₀ to y by a path covered by finitely many coordinate balls and compose the supported motions to prove O=M; this gives the claimed bundle over M without an orientation hypothesis. For disconnected M retain the orbit formulation: identify O with the union of precisely those components reachable by an actual global diffeomorphism (for a closed manifold, the components diffeomorphic to the component of x₀, with the component-swap extensions constructed). It is an open-and-closed submanifold. State a bundle over all M only with explicit transitivity data; otherwise fibres outside O are empty. Retain the zero-dimensional and finite-component cases. A merely continuous family into Diff is not identified with a jointly smooth family.
 7. **Homogeneous examples on designated carriers.** Consume [SBC B1.4](https://github.com/TauCetiProject/TauCetiRoadmap/pull/887) for proper free-action smooth quotients, principal projections and tangent quotients, and LieGroups Layer2 for the real/complex closed matrix subgroups. Consume [CKG K7.1](https://github.com/TauCetiProject/TauCetiRoadmap/pull/953) for its complex projectivization atlas and real restriction, [GC G4.0b](../GeneralizedCohomology/README.md#g4-generalized-lerayhirsch-thom-and-euler-theory) for the designated Sp, quaternionic frame/Grassmannian/HP carriers and smooth Hopf comparisons, and Riem R1 for the normalized quotient metrics. Retain the supplied topologies, smooth structures and explicit quotient comparisons.
    - For n≥3 construct the ordered orthonormal-two-frame identification SO(n)/SO(n−2), with stabilizer diag(I₂,SO(n−2)), actual orbit/inverse maps, tangent quotient and sphere-bundle projection. For n=2 the carrier is O(2)=SO(2)⊔rSO(2), r=diag(1,−1), with determinant distinguishing the two SO(2) orbits; for n<2 it is empty. Compare with O(n)/O(n−2) for every n≥2, so both descriptions use this same frame carrier.
    - On the native complex ordered orthonormal-two-frame carrier in ℂⁿ, for n≥2 construct the U(n)/U(n−2) comparison with stabilizer diag(I₂,U(n−2)), actual orbit/inverse maps, tangent quotient, principal local sections and the first-vector sphere-bundle projection. For n=2 this is U(2), while n<2 gives the empty frame carrier. This is the complex analogue on its own carrier, not an identification with the real SO quotient; retain the quaternionic frame comparisons on GC's designated carriers.
@@ -955,8 +988,13 @@ This layer is pure algebra over a DG algebra `R`. It consumes the DG roadmap's L
    spectral sequence, from Layer 1 item 3.
    - The `E²` page is the homology of the classical complex with local coefficients `H_q(𝓕)`.
    - Continuation maps induce morphisms of spectral sequences.
-5. For the Brown universal twisting cocycle of a CW structure, identify the twisted homology with
-   `Tor^{C_*(ΩB)}(𝓕, A)`, through the DG roadmap's derived tensor product.
+5. **Arbitrary-CW Brown resolution before derived coefficients.** Let A be a commutative coefficient ring and B a pointed connected CW complex with an arbitrary small cell set. Put R=C_*(Ω_b B;A) on the designated normalized cubical Moore-loop carrier, with its augmentation ε:R→A; retain π₁(B), all components of Ω_b B and their action, rather than assuming B simply connected. Construct the following objects before Layer5's fibration-chain or derived-coefficient comparisons.
+   - Extend items1–4 from finite P to an arbitrary small graded basis using the direct sum K_m=⊕_{x∈P}R[ind x] (degreewise Finsupp with the shift signs), not the unrestricted product P→R. Specify each row m_x as a finitely supported family of coefficients, its degree and MC identity. The differential of a finite-support vector is a finite sum of finite-support rows; prove D²=0 on generators and extend by the DG Leibniz rule. State exactly the extra one-sided/well-founded attaching filtration used for a semi-free model; row finiteness alone constructs a complex, not a resolution. Recover the finite prototype by the actual finite direct-sum/function equivalence, with all tensor and opposite-algebra signs. Carry arbitrary scalar/module/basis universes through upward transport.
+   - Construct a cell-filtered augmented semi-free left R-module P_B and a compatible R-linear chain comparison to C_*(P_b B;A), where P_b B is the space of paths starting at b and Ω_b B acts by concatenation in front. For a characteristic disk χ:Dⁿ→B choose a path to its centre and follow the radial paths χ(tv) to construct a continuous family τ_v from b to χ(v). Concatenation (γ,v)↦γ⋆τ_v identifies its pulled-back path fibration with Ω_b B×Dⁿ up to actual left-loop-equivariant homotopy; the inverse appends τ_v reversed, and the cancellation homotopies use the earlier Moore-path constructions. With relative disk/prism chains, EZ and excision, construct the resulting R-linear relative-cell quasi-isomorphism with R[n]. If P_prev→C_prev is the previously constructed quasi-isomorphism, the connecting class of that relative generator has a finite cycle representative a∈P_prev. Choose a correcting target chain c with ∂c=f(a), attach the free R-generator e in degree n by de=a and map e↦c. Prove d²e=0 and the relative comparison, and record the finite coefficients of a as the Brown row m_x. Carry out this induction with actual attaching and basepoint-change homotopies. An arbitrary choice of a matrix satisfying MC is not this constructor.
+   - Build the comparison first on finite subcomplexes and relative cell attachments, with compatible maps/homotopies under inclusions; prove independence of the paths, characteristic data and representatives. Extend to arbitrary cell sets by the actual filtered-colimit/direct-sum comparison. Each chain and differential row has finite support; no completion or product over all cells is introduced. Since R is homologically nonnegative and cell degrees are nonnegative, the base-skeleton filtration in each total degree has the bounded range needed for the relative-cell comparison. Keep the separate arbitrary-cell-set colimit proof, not an unstated finite-type assumption.
+   - Prove P_B→C_*(P_b B;A) is a quasi-isomorphism from that relative-cell construction. Contract P_b B to its constant path by rescaling/truncating Moore paths, construct the induced chain homotopy, and conclude that its augmentation and P_B→A are quasi-isomorphisms. This contraction need not be R-linear; the augmentation and comparison maps must be R-linear for the trivial action on A. Establish the semi-free/K-flat lifting and tensor-invariance property with the actual DG derived-module supplier. If using a bar replacement, construct its split normalized free resolution and its augmentation contraction, then the actual topological/cellular comparison; do not infer a topological Brown theorem from a bar/cobar name or impose simply-connected cobar hypotheses on arbitrary π₁.
+   - Define the Brown twisting object by this constructor and prove its singular/cellular and basepoint-change comparisons. Then, for every right DG R-module 𝓕, prove 𝓕⊗_R P_B represents 𝓕⊗^L_R A and hence the stated Tor groups, with natural maps and the actual comparison to the designated twisted complex. For disconnected CW spaces use the chosen basepoint in each path component, the corresponding loop DG algebras and the direct sum of the component constructions. Preserve all general coefficient modules, infinite cell sets and relative versions; finite P remains only the earlier illustrative special case.
+   Calibrate B=S¹ with the nontrivial loop-minus-unit boundary and the actual π₁ action. Reject the zero-cocycle two-generator complex as a proposed resolution when its augmentation has unwanted positive homology. Filtered comparisons needed in5.7 are constructed there with a specified base filtration; an unfiltered derived equivalence alone grants none.
 6. Source: the source paper §1.4; BDHO Chapters 3--4.
 
 ## Layer 5: Morse homology with DG coefficients
@@ -1007,7 +1045,13 @@ corner structures.
 
    For HPᵈ the analogous cell degrees have within-level gap4d−1 and successive-level gap3; prove the actual negative-bundle/Thom model before using these gaps to infer vanishing boundaries and identify its calibrated generator. The case d=0 is the constant point space. The free-loop extension in item6 is a separate construction; the based Hopf calculation alone does not give it.
 
-   **Path-loop filtered comparison.** Apply item4's fibration-chain theorem and Layer1.2's ordinary Serre sequence to Ω_p→P_p→CPᵈ and HPᵈ, using their actual designated projective carriers and normalized cup/Thom classes from GC G4.0/G4.3–5 and AT's ordinary cup comparison. Compute the same homology groups through the projective cup rings and transgressions and construct the filtered chain and spectral-sequence comparisons to the oriented Morse–Bott energy model. Match its transgressive classes with the explicit calibrated generators above, including orientation signs and the classes used by Propositions6.38/6.39. The comparison uses actual maps and reference classes, not equality of abstract copies of ℤ. This is a further comparison of the constructed models, not an input to the independent based Hopf/attachment perfectness proof above or a replacement for the separate free-loop construction.
+   **Fibre representatives and the distinct path-loop total-space comparison.** For B=CPᵈ or HPᵈ construct a chain comparison from the oriented Morse–Bott energy/Thom model E_B to C_*(Ω_p B;ℤ), carrying the chosen completing cycles and calibrated generators to designated singular/cubical representatives. Prove it by the actual finite-energy attachment maps, compact-band comparison and filtered colimit; retain its energy-filtration statement only on this fibre model. It computes H_*(Ω_p B), not H_*(P_p B). Its perfectness and generator proof above remains independent of the following comparison.
+
+   Use Layer4.5's genuine augmented semi-free P_B and item4's fibration-chain theorem for Ω_p B→P_p B→B. Here the total complex C_*(Ω_p B)⊗_{C_*(Ω_p B)}P_B is compared with C_*(P_p B), with base-cell filtration. If replacing the fibre chains by E_B, construct the compatible homotopy-coherent loop action and its DG-module rectification first, with actual integral split/free chain data and the DG supplier's bar/module comparisons. Justify the chosen chain contractions from the free integral fibre homology and the calibrated chain comparison, keep the higher module coherence, and prove the required degreewise finiteness of the bar/perturbation formulas before base change. Construct the coefficient maps, relative attaching comparisons and filtration-preserving homotopies that compare the resulting two total-space models. Their total-space spectral sequences agree from the proved page onward and abut to H_*(P_p B), which is trivial in positive degrees. Do not identify that sequence or its abutment with the energy-filtered fibre sequence. A plain derived-module equivalence, without these action and filtered maps, is insufficient. Name the actual page comparison and the edge/fibre inclusion squares used on representatives.
+
+   On the designated projective carriers, normalize the base cell/cup/Thom classes using GC G4.0/G4.3–5 and AT. Calculate the primary d₂ for CPᵈ and d₄ for HPᵈ and construct the subsequent mixed-bidegree relative-boundary maps: d_(2d):E_(2d,1)→E_(0,2d) for CPᵈ and d_(4d):E_(4d,3)→E_(0,4d+2) for HPᵈ. Identify the surviving source/target representatives, their unit integer coefficient and sign by the actual total-space/fibre comparison and chosen orientations. For d=1 these maps occur on the same page as the primary differential and must be computed together, not assumed to survive an earlier distinct page. For d=0 retain the separate point case. Ordinary base-to-fibre transgression from a nonexistent H_(2d+1)(CPᵈ) or H_(4d+3)(HPᵈ) is not the higher-generator construction.
+
+   For Propositions6.38/6.39 construct the actual map from the geometric sphere family to the completing manifold, its fibrewise degree±2 and its compatibility with β under sphere-loop adjunction. With g the calibrated generator, prove β_*(σ_p)_*[Σ_p]=±2g in degree2d for CPᵈ and4d+2 for HPᵈ, fixing the sign by the stated orientations; do not relabel this nonprimitive class as g. Keep the projective-line geometric construction, the independent based Hopf/perfectness proof, and the separate free-loop and Cayley applications with their own hypotheses. Equality of abstract copies of ℤ does not supply any of these representative, action or filtration maps.
 8. Source: BDHO Chapters 5--13; the source paper §§2.1--2.4 and 4.3--4.4; Bott, *The stable
    homotopy of the classical groups*, §§1--3; Ziller, *The free loop space of globally symmetric
    spaces*.
