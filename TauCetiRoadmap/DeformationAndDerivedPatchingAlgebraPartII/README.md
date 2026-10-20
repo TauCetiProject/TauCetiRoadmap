@@ -97,10 +97,11 @@ It leaves to other roadmaps, and imports:
 Not here: Macaulayfication itself (Česnavičius §§4–5); the CM-quasi-excellence conditions
 (SchemeAndStackFoundations §0.19); the general theory of blowing-ups and strict transforms of
 schemes; dualizing complexes on schemes; the foundations of local cohomology. The sheaf of a
-graded module on `Proj` is owned by K3.3.
+graded module on `Proj` is owned by K3.3. The graded-module sheafification on projective space in
 [GroebnerGeometry, G4](../GroebnerGeometry/README.md#g4-rees-algebras-and-flat-initial-families)
-consumes this functor for standard polynomial rings, naturally in graded maps and with the same
-localizations on `D₊(Xᵢ)`. G4 owns its specialized twist and quotient comparisons, eventual-sections
+is `Proj.tildeModule` for a standard polynomial ring `A[X₀, …, X_N]`, with the same localizations
+on `D₊(Xᵢ)` and natural in graded maps; its chart and exactness statements are the K3.3 targets
+for that ring. G4 owns its specialized twist and quotient comparisons, eventual-sections
 comparison, graded Hilbert syzygy and Hilbert/`K₀` comparisons, using `N(q)_n = N_{n+q}` and
 `S(-d) ↦ O(-d)`; SchemeAndStackFoundations §0.3 supplies the twists.
 K3.4's `blowupStrictTransform` extends SchemeAndStackFoundations §4.11's `strictTransformModule`

@@ -540,13 +540,14 @@ and `Proj.tildeModule.awayIso`; the induced degree-preserving maps `Proj.tildeMo
 `Proj.tildeModule.exact` for degreewise short exact sequences and
 `Proj.tildeModule.truncateIso` for inclusion of degrees at least any integer cutoff,
 natural in graded maps and compatible with successive cutoffs. These supply the exactness
-and tail invariance used in K4 and the common sheafification functor for GroebnerGeometry G4,
-with shift convention `S(-d) ↦ O(-d)` in its polynomial specialization; the module
-blowing-up `Bl_I(M)` as a sheaf on the supplied scheme `Proj (reesAlgebra.grade I)`,
-with its chart isomorphisms, functoriality, zero and unit cases, the comparison with the strict
-transform, the product-of-ideals identities for schemes and modules, the support of `Bl_I(M)`,
-and the `Proj` prime-chain bound (Layer K3); the regular-element reduction, the principal and
-two-generator chart presentations and Kawasaki's two local-cohomology claims (Layer K4).
+and tail invariance used in K4 and the functor whose standard-polynomial-ring case is the
+projective-space sheafification of GroebnerGeometry G4, with shift convention
+`S(-d) ↦ O(-d)`; the module blowing-up `Bl_I(M)` as a sheaf on the supplied scheme
+`Proj (reesAlgebra.grade I)`, with its chart isomorphisms, functoriality, zero and unit cases,
+the comparison with the strict transform, the product-of-ideals identities for schemes and
+modules, the support of `Bl_I(M)`, and the `Proj` prime-chain bound (Layer K3); the
+regular-element reduction, the principal and two-generator chart presentations and Kawasaki's
+two local-cohomology claims (Layer K4).
 
 The remaining basic APIs are also README targets, rather than auxiliary declarations here:
 * K0.2: `annihilatorProduct_zero`, `annihilatorProduct_succ`,
