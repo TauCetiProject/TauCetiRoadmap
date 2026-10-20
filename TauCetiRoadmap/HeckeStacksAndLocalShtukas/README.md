@@ -183,7 +183,7 @@ on the complete contract.
 | **GeometricSatakeAndFusion**, GS0, “Loop quotients and ordered divisors” and “Generic bounds and integral affine flags”, **GeometricSatakeAndFusion**, GS0, “Open cells, action truncation and minuscule flags” | Ordered-leg Schubert bounds, finite `dim.trg`, proper surjective bounded convolution, and factorization off the diagonals. For a characteristic-zero untilt and minuscule class, the Białynicki-Birula map is an isomorphism, with reflex-field descent and equivariance under reduction of positive loops. The additional arbitrary-bound bijection on finite-extension points over `ℚ_p` is a target of HS2.12. |
 | **GeometricSatakeAndFusion**, GS1, **GeometricSatakeAndFusion**, GS2, “Proper correspondences and rational semismallness”, **GeometricSatakeAndFusion**, GS3, **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality” | ULA recognition and duality; equivariant Demazure spaces with proper, spatial, finite-dimensional maps; the equivariant Demazure spaces used in HS1.1’s `solidDualDemazureGeneration`, whose generation assertion is proved here; convolution and coherent fusion. On chain spaces the twisted product is flat perverse and ULA with its specified extension from disjoint legs. The normalized integral Satake functor has its enhanced perfect-complex extension, the perfect-complex extension needed for HS1.0’s bounded-weight resolution convergence, and naturality for adjoint maps, products, Levi maps and Weil restriction. |
 | **GeometricSatakeAndFusion**, GS4, “Integral identification, normalization and functoriality” | Pullback to `Div¹_F` corresponds to restriction from `W_E` to `W_F`, including the action of all endomorphisms and idempotent summands. For residue degree `f`, the square root is `r^f`. Weil restriction pushes the inflated then induced representation's Satake sheaf forward along the corresponding closed immersion and finite étale leg map. Choosing the other square root changes the comparison by the unramified sign character on components of odd `⟨2ρ,μ⟩`. |
-| **GeometricSatakeAndFusion**, GS4, `representationComplexInterface` and `perfectSatakeFunctor`; **LanglandsParameterStacks**, §LP3.0 | Relative integral perfect-complex base change and stable completion; induced and Weyl modules and good-filtration theory. The additional tensor-generator, exterior-product generation and bounded-weight resolution assertions, for every `ℓ≠p` and arbitrary finite pinned-action group `Q`, are targets of HS1.0. |
+| **GeometricSatakeAndFusion**, GS4, `representationComplexInterface` and `perfectSatakeFunctor`; **LanglandsParameterStacks**, §LP3.0 | Relative integral perfect-complex base change and stable completion; induced and Weyl modules and good-filtration theory. The additional algebraic tensor-generator, exterior-product generation and bounded-weight resolution assertions, for every `ℓ≠p` and arbitrary finite pinned-action group `Q`, are targets of HS1.0. Its Satake convergence comparison uses `perfectSatakeFunctor` with a specified continuous finite quotient `W_E↠Q` inducing the given pinned action. |
 | **VStackSheavesAndLisseCategories**, VS0–VS5 | Artin-stack sheaves; divisor–Weil maps and the Drinfeld fully faithful embedding; solid operations and relative homology with base change, projection formula, and an isomorphism for restriction of coefficients; lisse categories, geometric invariance and stratum adjoints; compact generation, ULA/admissibility, lisse and BZ duality, and Künneth. The chart calculation comparing cohomology with `[*/K]` is required as an identity of condensed objects for every profinite parameter space. On classifying stacks relative homology is compact induction, with its level units and counits. Stratum extension by zero, excision, compactness and its dualizing-complex formula are required in addition to the left adjoint of stratum restriction. |
 | **VStackSheavesAndLisseCategories**, VS0 | For torsion coefficients, the smooth stacky map `π:Bun_P^(b_N)→Bun_M^(b_M)` has exceptional direct image inverse to the section's exceptional direct image, with composition and representable base change. Its classifying-stack fibres make the representable diamond formalism alone insufficient. The stacky dimension bounds in [GL], §2, require the fine-morphism formalism, or proofs through atlases giving those same bounds. |
 | **SmoothRepresentationsOfLocalGroups**, §§SR.0d.1–SR.0d.2, **SmoothRepresentationsOfLocalGroups**, SR.1, **SmoothRepresentationsOfLocalGroups**, SR.2, **SmoothRepresentationsOfLocalGroups**, SR.3, **SmoothRepresentationsOfLocalGroups**, SR.6 | Enhanced derived smooth representations, exact pro-`p` invariants commuting with filtered colimits, admissible reflexive smooth duals, compact projective compact inductions, derived reciprocity and level trace identities. For `ℚ̄_ℓ`, use noetherianity, finite global dimension, admissibility of irreducibles, and finite length of finitely generated admissible objects. For integral finite generation use [DHKM], Theorem 1.1 and Corollary 1.4, rather than extrapolating the characteristic-zero statements. |
@@ -506,20 +506,26 @@ through pinned automorphisms, `I` finite and `Λ` any `Z_ℓ[r]`-algebra, with
 the thick subcategory of `Perf(BĜ^I_Λ)` generated by exterior products of
 one-factor finite-projective representations. For `(Ĝ⋊Q)^I`, construct
 resolutions by exterior products with only finitely many `Ĝ`-weights; they
-may be unbounded to the left. Prove that applying the exact relative
-perfect-complex Satake functor and taking the specified resolution colimit
-recovers its value on the representation, naturally in morphisms,
+may be unbounded to the left. These algebraic assertions impose no restriction
+on torsion in `π₁(Ĝ)`, on `|Q|`, or on solvability of `Q`. The intended
+interfaces are `integralExteriorGeneration` and `boundedWeightExteriorResolution`.
+
+For `satakeResolutionConvergence`, assume additionally a specified continuous
+finite quotient `W_E↠Q` inducing the given pinned action on `Ĝ`, as in
+**GeometricSatakeAndFusion**, GS4, `perfectSatakeFunctor`. Prove that applying
+this exact relative perfect-complex Satake functor and taking the specified
+resolution colimit recovers its value on the representation, naturally in morphisms,
 coefficients, finite-set restriction and idempotent summands. This includes
 the convergence used to pass from exterior products to general kernels.
-There is no restriction on torsion in `π₁(Ĝ)`, on `|Q|`, or on solvability
-of `Q`. The intended interfaces are `integralExteriorGeneration`,
-`boundedWeightExteriorResolution` and `satakeResolutionConvergence`.
+There is no additional restriction on torsion in `π₁(Ĝ)` or on `|Q|`.
 
-**Integral tensor generator** (`integralTensorGenerator`). Construct a finite-projective
-representation `U` of `Ĝ⋊Q` over `Z_ℓ[r]` such that, after every coefficient
+**Integral tensor generator** (`integralTensorGenerator`). For arbitrary finite
+pinned-action `Q`, construct a finite-projective representation `U` of `Ĝ⋊Q`
+over `Z_ℓ[r]` such that, after every coefficient
 change to `Λ`, every finite-projective representation is generated by the
 nonnegative tensor powers of `U_Λ` using finite sums, retracts, extensions
-and bounded-weight resolutions with the convergence specified above.
+and bounded-weight resolutions. For a specified Weil quotient as above,
+require the stated Satake convergence for these resolutions.
 Include the tensor unit as the zeroth power. Prove naturality under coefficient
 change; a single integral choice of `U` works for every `Λ`.
 
@@ -527,8 +533,9 @@ Use a faithful integral representation, the sum of its `Q`-conjugates
 with its dual, and the regular `Q`-representation. Prove the required
 finite-projective comodule resolutions from matrix coefficients of its tensor powers, integral induced/Weyl-module
 and good-filtration theory, and bounded-weight highest-weight resolutions.
-Track the weight bounds and the Satake colimit comparison; ordinary
-subquotient tensor generation alone does not give this assertion.
+Track the weight bounds and, under the Weil-quotient hypothesis, the Satake
+colimit comparison; ordinary subquotient tensor generation alone does not
+give this assertion.
 
 (Source: [FS], proof of Proposition IX.5.1, p. 328, the tensor-generator
 reduction; IX.2, pp. 321–323, for the integral resolution inputs.)
@@ -555,6 +562,12 @@ The exterior-product and convergence targets have the following checks.
   a nonzero weight does not become the zero-weight representation.
 - For `Ĝ=PGL₂` and `ℓ=2≠p`, the assertion still applies. If `ℓ` divides
   `|Q|`, it does not assert that an equivariant resolution has finite length.
+- `satakeResolutionConvergence.weil_quotient_test`: For `Ĝ=1` and `Q=A₅`
+  with its trivial pinned action, the algebraic generation and resolution
+  assertions apply. No continuous quotient `W_E↠A₅` exists: in every finite
+  Weil quotient, the wild-inertia image is a `p`-group, the tame-inertia
+  quotient is cyclic, and the residue quotient is cyclic, so the quotient
+  is solvable. The Satake comparison requires the specified Weil quotient.
 
 (Source: [FS], IX.2, pp. 321–323, the highest-weight base-change and
 bounded-weight argument.) *Needs:* **LanglandsParameterStacks**, §LP3.0;
@@ -719,10 +732,14 @@ kernel construction.
   `K_f=(Γ_f)_♮Λ`, `K_g=(Γ_g)_♮Λ`. Their convolution acts as
   `Φ_(K_g)∘Φ_(K_f)`: the point kernel at `(1,0)` goes to `(1,1)`.
   Reversing the kernels sends it to `(2,1)`.
-- `kernelConvolution.diagonal_test`: On `X=(P¹_C)^♦`, with
-  nonzero `ℓ`-power torsion coefficients, the unit kernel is
-  `Δ_♮Λ≃Δ_*Λ[−2](−1)` by diagonal purity. Its operator is identity;
-  the unshifted `Δ_*Λ` instead acts by `[2](1)`.
+- `kernelConvolution.diagonal_test`: Let `E=ℚ₃`, `C` be its completed
+  algebraic closure, `Λ=𝔽₂`, and `X=(P¹_C)^♦`. For the diagonal
+  `Δ:X→X×_(Spd C)X`, the unit is `Δ_♮Λ≃(Δ_*Λ)^∨`, concentrated
+  in degree zero, and its operator is identity. Its pullback to a geometric
+  point on the diagonal is `Λ`. For the first projection `π₁`, prove
+  `Rπ₁*Δ_♮Λ≃Λ[−2](−1)`: the dimension shift occurs after this pushforward.
+  ([FS], Propositions VII.3.1, p. 257; VII.3.5, p. 260;
+  VII.4.1, p. 262; VII.4.3, p. 263.)
 - `kernelConvolution.collision_test`: For nonzero `ℓ`-power torsion `Λ`, `GL₂` and two minuscule
   types `(1,0)` at the same leg, the composition fibre over
   `ξ(B⁺_dR)²` is `P¹`. The torsion Satake convolution stalk there is
@@ -2538,8 +2555,9 @@ subobjects, quotients or duals follows from these facts.
 
 Use `integralTensorGenerator` of HS1.0, whose tensor powers generate
 every representation through precisely those operations, and
-`satakeResolutionConvergence` for the resolution step. Controlling this
-generator reduces the finite-ramification proof to one leg. The
+`satakeResolutionConvergence` for the resolution step, with the continuous
+quotient `W_E↠Q` fixed in the conventions. Controlling this generator reduces
+the finite-ramification proof to one leg. The
 existence of a single `P` controlling every `I,V` is the
 finite-ramification theorem of
 **ExcursionOperatorsAndSpectralAction**, ES1, `finite-ramification`.
