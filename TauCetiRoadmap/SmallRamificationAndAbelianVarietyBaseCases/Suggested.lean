@@ -689,10 +689,17 @@ theorem simple_two_groupScheme_over_int (G : FFGroupScheme) (h2 : ∃ k, order G
     (h0 : order G ≠ 1) (hG : IsSimpleGroupScheme G) :
     Nonempty (G ≅ TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ (Multiplicative (ZMod 2))) ∨ Nonempty (G ≅ TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme ℤ (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod 2)))) := sorry
 
-/-- Every extension `0 → ℤ/2ℤ → E → μ₂ → 0` over `ℤ` splits. -/
+/-- The `ℓ = 2` specialization of FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.G5,
+`admissible-global-ext-vanishing`: `Ext¹_ℤ(μ_ℓ, ℤ/ℓ)|_{ℓ=2} = Ext¹_ℤ(μ₂, ℤ/2) = 0`.
+Every extension `0 → ℤ/2ℤ → E → μ₂ → 0` over `ℤ` therefore splits. -/
 theorem ext_muTwo_zModTwo_eq_zero : Ext1Vanishes (TauCeti.DiagonalizableGroup.finiteLocallyFreeGroupScheme ℤ (TauCeti.FGCommGrpCat.of (Multiplicative (ZMod 2)))) (TauCeti.ConstantGroup.finiteLocallyFreeGroupScheme ℤ (Multiplicative (ZMod 2))) := sorry
 
-/-- A finite flat two-group scheme over `ℤ` has a diagonalizable subobject and constant quotient. -/
+/-- The `ℓ = 2` specialization of FiniteFlatGroupsAndIntegralPadicHodgeTheory §R07.G5,
+`admissible-global-ext-vanishing`:
+`(M₂(G) → G → C₂(G)) = admissibleConnectedEtaleFiltration(ℓ := 2, G)`.
+The simple-two-group classification makes every `G` of rank `2^n` admissible. The μ-type
+subobject is diagonalizable in the sense of `IsDiagonalizableGroupScheme`; its quotient is
+constant and their ranks multiply to `order G`. -/
 theorem exists_diagonalizable_constant_filtration (G : FFGroupScheme)
     (h2 : ∃ k, order G = 2 ^ k) :
     ∃ (M C : FFGroupScheme) (i : M ⟶ G) (q : G ⟶ C), TauCeti.CommHopfAlgCat.IsShortExact
