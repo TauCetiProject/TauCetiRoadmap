@@ -355,6 +355,23 @@ None of the following exist in Mathlib, in Tau Ceti, or on another roadmap. They
    - `F_s C^□_n = 0` for `s < 0` and `F_s C^□_n = C^□_n` for `s ≥ n`.
    - For a Hurewicz fibration, the comparison enters in identifying `E¹` with the chains of the
      base with coefficients in the homology of the fibre.
+   - **Two constructions, with named scopes.** This *cubical* Serre spectral sequence, over an
+     arbitrary path-connected base and without a CW structure, is the one that the cubical
+     consumers use: Layer 5 item 4 (the index spectral sequence is isomorphic to it from `E²` on)
+     and Layer 8 item 6 (Theorem J). The *CW-approximation* Serre spectral sequence of Layer 1
+     item 2, with its skeletal filtration, remains the supplier of the algebraic topology
+     roadmap (Stage 5.5: `arbitraryCWSerreSpectralSequence` and
+     `arbitraryBaseSerreSpectralSequence`); that contract is unchanged.
+   - **Comparison.** For a Hurewicz fibration over a path-connected base, the two are naturally
+     isomorphic as spectral sequences from `E²` on:
+     - the isomorphism is compatible with the identification `E²_{p,q} = H_p(B; H_q(F))`, where
+       `H_q(F)` is the local system of the fibre homology (the monodromy local system on the
+       CW side, the local system `b ↦ H_q(p⁻¹ b)` on the cubical side);
+     - it is compatible with the abutment filtration of `H_*(E)`;
+     - it is natural in maps of fibrations.
+     It is stated for a Hurewicz fibration. A Serre fibration enters only through the algebraic
+     topology roadmap's carrier `TauCeti.TopCat.serreFibrations`, via the bridge that every
+     Hurewicz fibration is a Serre fibration (Layer 2 item 2).
 4. Fundamental chains: a compact oriented topological manifold with corners whose boundary is a
    union of products of lower-dimensional ones has a fundamental chain rel boundary in
    `C^□_*`. Its boundary is the signed sum of the cross products of the fundamental chains of the
@@ -378,7 +395,9 @@ These are general facts that the later layers use, which no other roadmap builds
    - A weak homotopy equivalence induces isomorphisms on singular homology with local
      coefficients.
    - As a corollary, the Serre spectral sequence over an arbitrary path-connected base, by pulling
-     back along a CW approximation. The source applies it over `Ω₀Q`, `Ω²B` and `Y`.
+     back along a CW approximation. The source applies it over `Ω₀Q`, `Ω²B` and `Y`. This is the
+     CW-approximation construction; Layer 0 item 3 builds a second, cubical one and requires the
+     comparison between the two.
 3. **The spectral sequence of a filtered complex.** For a bounded-below, exhaustive, increasing
    filtration of a chain complex over a ring: the spectral sequence with
    `E¹_{p,q} = H_{p+q}(F_p/F_{p−1})`, its strong convergence, and naturality under filtered maps.
@@ -619,7 +638,8 @@ corner structures.
      Hurewicz fibrations by transport along the Moore-path replacement `E → E'`, which is a fibre
      homotopy equivalence and has a transitive lifting function;
    - `H_*(B; C_*(F')) ≅ H_*(E') ≅ H_*(E)`;
-   - the index spectral sequence is isomorphic to the Serre spectral sequence from `E²` on;
+   - the index spectral sequence is isomorphic, from `E²` on, to the cubical Serre spectral
+     sequence of Layer 0 item 3 (and so, by its comparison, to the CW-approximation one);
    - direct and shriek maps correspond to the maps induced by maps of total spaces and by the
      Umkehr maps of pulled-back fibrations.
 5. **Classes living over the fundamental class.**
@@ -773,7 +793,7 @@ real boundary conditions.
    - The canonical filtration (Definition 3.38) and the spectral sequence with
      `E² = FH_*(H; H_q(𝓕))` (Theorem 3.39).
    - Theorem J: for a Hurewicz fibration `F → E → 𝓛₀X`, `FH_*(H; C_*(F)) ≅ H_{*+n}(E|_X)`,
-     compatibly with the Serre spectral sequence.
+     compatibly with the cubical Serre spectral sequence of Layer 0 item 3.
 7. **Symplectic homology** `SH_*(W; 𝓕)` with DG coefficients for a Liouville domain.
    - The zero-energy identification `SH^{=0}_*(W; 𝓕) ≅ H_{*+n}(W, ∂W; i_W^*𝓕)`
      (Proposition 3.44), which defines `i_{W*}`.
