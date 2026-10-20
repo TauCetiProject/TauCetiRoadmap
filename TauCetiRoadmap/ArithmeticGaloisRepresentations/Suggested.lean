@@ -737,8 +737,8 @@ structure GaloisLattice.IntegralModel {Γ : Type u} [Group Γ] [TopologicalSpace
 namespace GaloisLattice.IntegralModel
 
 variable {Γ : Type u} [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ]
-  {O : Type v} [CommRing O] [TopologicalSpace O] [IsDomain O] [IsDiscreteValuationRing O]
-  {E : Type v} [Field E] [TopologicalSpace E] [Algebra O E] [IsFractionRing O E]
+  {O : Type v} [CommRing O] [TopologicalSpace O]
+  {E : Type v} [Field E] [TopologicalSpace E] [Algebra O E]
   {V : Type w} [AddCommGroup V] [Module E V] [Module.Finite E V] [Module.Projective E V]
   [TopologicalSpace V] [IsModuleTopology E V] [Module O V] [IsScalarTower O E V]
   {ρ : ContinuousRep Γ E V}
@@ -746,11 +746,17 @@ variable {Γ : Type u} [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ]
 instance (Λ : IntegralModel O ρ) : Module.Finite O Λ.lattice :=
   Module.Finite.iff_fg.mpr Λ.fg
 
-instance (Λ : IntegralModel O ρ) : Module.Free O Λ.lattice := by
+/-- A finite lattice over a DVR is free when its ambient field is the fraction field (§1.6). -/
+instance (Λ : IntegralModel O ρ) [IsDomain O] [IsDiscreteValuationRing O]
+    [IsFractionRing O E] : Module.Free O Λ.lattice := by
   sorry
 
-instance (Λ : IntegralModel O ρ) : Module.Projective O Λ.lattice :=
+/-- A lattice over a DVR with the specified fraction field is projective (§1.6). -/
+instance (Λ : IntegralModel O ρ) [IsDomain O] [IsDiscreteValuationRing O]
+    [IsFractionRing O E] : Module.Projective O Λ.lattice :=
   Module.Projective.of_free
+
+variable [IsDomain O] [IsDiscreteValuationRing O] [IsFractionRing O E]
 
 /-- Consumer realization of the continuous lattice action supplied by
 EtaleCohomologyFoundations §F.4.0, used by reduction in §1.9. -/
@@ -1182,7 +1188,8 @@ def decompositionGroup (Q : Ideal (integralClosure (𝓞 F) (AlgebraicClosure F)
   one_mem' := sorry
   inv_mem' := sorry
 
-/-- The inertia group `I_Q = {σ : σ x − x ∈ Q for all x}`. -/
+/-- The inertia group `I_Q = {σ : σ x − x ∈ Q for all x}`; its carrier agrees with
+`AddSubgroup.inertia Q.toAddSubgroup` for the integral-closure action (§2.1). -/
 def inertiaGroup (Q : Ideal (integralClosure (𝓞 F) (AlgebraicClosure F))) :
     Subgroup (Field.absoluteGaloisGroup F) where
   carrier := {σ | ∀ x, toIntegralClosure F σ x - x ∈ Q}
@@ -2265,7 +2272,9 @@ theorem normal_subgroups_GL2 {k : Type*} [Field k] [Finite k] (hq : 4 ≤ Nat.ca
   sorry
 
 /-- For `p ≥ 5`, `a ≥ 2` and a finite `G ≤ GL₂(F̄_p)` containing `g SL₂(F_{p^a}) g⁻¹`, every
-subgroup of index `< 2p` contains the same conjugate (Newton–Thorne 2026, Lemma 2.3). -/
+subgroup of index `< 2p` contains the same conjugate (Dickson 1901, §262, through
+`index_ge_of_ne_top_PSL2` and `Matrix.SL2.commutator_eq_top`; Newton–Thorne 2026, Lemma 2.3(3),
+states persistence for `a ≥ a₀(p) ≥ 3`). -/
 theorem le_of_relIndex_lt {p : ℕ} [Fact p.Prime] (hp : 5 ≤ p) (a : ℕ) (ha : 2 ≤ a)
     (F₀ : Subfield (AlgebraicClosure (ZMod p))) (hF₀ : Nat.card F₀ = p ^ a)
     (g : GL (Fin 2) (AlgebraicClosure (ZMod p)))
@@ -2390,7 +2399,9 @@ theorem IsBadDihedral.isInduced [NumberField F] {p : ℕ} [Fact p.Prime] (hp : p
   sorry
 
 /-- If `ρ̄` is irreducible and `ρ̄|_{G_{F(ζ_p)}}` is not absolutely irreducible, the image of `ρ̄`
-lies in the normaliser of a Cartan subgroup (Caraiani–Newton 2023, Lemma 6.1.4). -/
+lies in the normaliser of a Cartan subgroup (Caraiani–Newton 2023, Lemma 7.1.1(1), stated there
+over `F_p` with `det ρ̄ = ε̄_p`; Clifford theory for the cyclic cyclotomic quotient gives the
+finite-coefficient-field statement without that determinant hypothesis). -/
 theorem image_le_normalizer_cartan_of_res_cyclotomic [NumberField F] {p : ℕ} [Fact p.Prime]
     [Finite k] [CharP k p] (hM : Module.finrank k M = 2)
     (ρ : ContinuousRep (Field.absoluteGaloisGroup F) k M)
@@ -2434,7 +2445,7 @@ theorem bad_dihedral_F23_not_absolute [Fact (Nat.Prime 23)] [TopologicalSpace (Z
   sorry
 
 /-- For discrete coefficients and the kernel field `K`, if a finite `F' ⊂ F̄` meets `K` only in `F`
-then `ρ(G_{F'}) = ρ(G_F)` (Allen et al. 2023, Lemma 7.1.6). -/
+then `ρ(G_{F'}) = ρ(G_F)` (Allen et al. 2023, proof of Lemma 7.1.6, p. 1090). -/
 theorem image_res_eq_of_disjoint {F : Type*} [Field F] {A : Type*} [CommRing A]
     [TopologicalSpace A] [DiscreteTopology A]
     {M : Type*} [AddCommGroup M] [Module A M] [Module.Finite A M] [Module.Projective A M]
@@ -3102,7 +3113,8 @@ variable (H : Subgroup Γ) [H.FiniteIndex] (hH : IsOpen (H : Set Γ)) [Module.Fi
   [IsModuleTopology A (⨂[A] _ : Γ ⧸ H, V)]
 
 /-- Tensor induction does not depend on the transversal, up to the isomorphism `⨂ ρ(u_x)⁻¹`
-(BCGP 2021, §7.5.16); for `H` of finite index and `V` free its rank is `(rank V)^{[Γ : H]}`. -/
+(Berger 1977, Prop. 2.14, pp. 12–13; the pure-tensor intertwiner works over every commutative
+ring); for `H` of finite index and `V` free its rank is `(rank V)^{[Γ : H]}`. -/
 theorem tensorInd_indep_rank (s s' : H.LeftTransversal) (ρ : ContinuousRep H A V) :
     Nonempty ((tensorInd H hH s ρ).Iso (tensorInd H hH s' ρ)) ∧
       ([Module.Free A V] → [Nontrivial A] →
@@ -3186,7 +3198,7 @@ def resScalars [Module A M] [IsScalarTower A B M] [Module.Finite A M] [Module.Pr
      map_mul' := sorry }, sorry⟩
 
 /-- `det_A(X − ρ(g)) = N_{B[X]/A[X]} det_B(X − ρ(g))` for `B` free over `A` and `M` free over `B`
-(BCGP 2021, §2.2). -/
+(Mathlib `LinearMap.det_restrictScalars`, applied over `A[X] → B[X]` to `X − ρ(g)`). -/
 theorem charpoly_resScalars [Module A M] [IsScalarTower A B M] [Module.Finite A M]
     [Module.Projective A M] [IsModuleTopology A M] [Module.Free A B] [Module.Finite A B]
     [Module.Free B M] [Module.Free A M] (ρ : ContinuousRep Γ B M) (g : Γ) :
@@ -3686,7 +3698,8 @@ def adZero (r : GSp4Rep Γ A) :
     ((MonoidHom.fst _ _).comp ((SimilitudeGroup.GSp 2 A).subtype.comp r.toHom.toMonoidHom))).subrepresentation
     _ sorry
 
-/-- For `2 ∈ Aˣ`, `ad⁰ r ≅ Sym² r ⊗ ν⁻¹` (CG20, §4; BCGP 2021, §2.2). -/
+/-- For `2 ∈ Aˣ`, `ad⁰ r ≅ Sym² r ⊗ ν⁻¹` (BCGP 2021, §7.5.16, p. 202, gives
+`ad⁰(W) = Sym²(W)` for symplectic `W`; the similitude twist comes from `V^∨ ≅ V ⊗ ν⁻¹`). -/
 theorem adZero_equiv_symSq {A : Type} [CommRing A] [TopologicalSpace A] [Invertible (2 : A)]
     (r : GSp4Rep Γ A) :
     ∃ e : skewAdjointMatricesSubmodule (SimilitudeGroup.J4 A) ≃ₗ[A] Sym[A]^2 (Fin 2 ⊕ Fin 2 → A),
