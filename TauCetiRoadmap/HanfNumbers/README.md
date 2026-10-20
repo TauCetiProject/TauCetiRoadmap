@@ -579,10 +579,13 @@ Targets:
 
 ### 3.4 The template and the theorem
 
-Enumerate `Γ*` and decide its members one at a time by the decision lemma, adding a disjunction
-or conjunction witness whenever the decided member requires one. The union `Φ` of the resulting
-chain of conditions is a total truth assignment on `Γ*`, every finite part of which is cofinally
-approximated. Targets:
+Fix an enumeration `θ₀, θ₁, …` of `Γ*` and build cofinally approximated conditions
+`p₀ ⊆ p₁ ⊆ …`, `p₀` the start condition. At stage `k`, if `θ_k` is not in the domain of `p_k`,
+extend by the decision lemma; then, if the condition assigns `true` to `θ_k = iSup ψs` or `false`
+to `θ_k = iInf ψs`, extend once more by the witness lemma, giving `p_{k+1}`. A member that received
+its value earlier, as a witness, receives its own witness at its own stage, from `p_k`, which
+contains it. The union `Φ` is total on `Γ*`, ω-complete, and each finite part lies in some `p_k`.
+Targets:
 
 - **`isSkolemTemplate_of_cofinallyApproximated`**: `Φ` is a Skolem template with `Φ φ` and `Φ
   disEq`. Coherence holds because a formula true at every increasing tuple of `H` remains true after
@@ -628,9 +631,10 @@ time, so each use of Erdős–Rado concerns one arity and finitely or countably 
 `ω₁`-pigeonhole chooses among countably many outcomes. Deciding a whole arity at once would colour
 tuples by a complete type, with `2^ℵ₀` colours, where the pigeonhole over `ω₁` fails.
 
-⚠ **API warning.** A disjunction or negated conjunction must receive its witness when it is
-decided. A finitely approximated assignment that leaves the witness to later stages can lose it:
-the condition sets approximated at the level of each finite part need not have a common witness.
+⚠ **API warning.** Witnesses are chosen during the construction, by the witness lemma applied to a
+stage condition. They cannot be recovered from the finished assignment: a total `Φ` all of whose
+finite parts are cofinally approximated, built by the decision lemma alone, need not be
+ω-complete (compare the height example of Layer 1).
 
 ## Layer 4 — The Hanf number of Lω₁ω
 
