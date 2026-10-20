@@ -503,8 +503,15 @@ milestones, each with its own statement:
   symbols, `a` is injective and `J` is infinite, the structure of `exists_emModel` has cardinality
   exactly `#J`: the language term is at most `ℵ₀`, `max ℵ₀ #J = #J`, and `c` injects `J` into `E`.
 
-**Acceptance check:** for `(ℚ, <)`, `Γ₀` the order formulas and `a = id`, the EM model over any `J`
-is a dense linear order without endpoints containing an order-isomorphic copy of `J`.
+**Acceptance check:** take `ℚ` in the language of one binary relation symbol interpreted as `<`,
+`Γ` the two atoms `x₀ = x₁` and `x₀ < x₁`, and `a : ℕ → ℚ` the inclusion. Then
+`IsEMSource Γ ℚ a`: `Γ` has no compound or universal members, so (1) and (3) hold vacuously, and
+since the language has no function symbols every term is a variable, so (4) says only that
+increasing tuples of `a` have the same order type. The EM model over any linear order `J` is `J`
+itself: the skeleton is an order isomorphism onto `EM(J, Φ)`. This checks the construction, not
+density. A dense linear order without endpoints over `J` needs Skolem functions for density and
+unboundedness, together with a sequence indiscernible for every term built from them, and such a
+source is what the extraction of Layer 3 produces.
 
 ⚠ **API warning.** Do not Skolemize all Lω₁ω formulas of a language at once. There are `2^ℵ₀`
 formulas even over a finite language, and the resulting language is uncountable, so its term model
