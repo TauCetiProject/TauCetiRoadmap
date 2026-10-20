@@ -653,7 +653,8 @@ Part 2, Ch. XII §2 (Lemmas XII.5–XII.6 and Theorem XII.7), restated in the `B
 the parent roadmap. In order:
 
 1. **Level classes are sentences.** Layer 1's `modelsOf_scottSentenceAtLevel`
-   (Montalbán's Lemma XII.5, with `bfEquivSetoid β` for his `≡_β`).
+   (Montalbán's Lemma XII.5, with `bfEquivSetoid β` in place of his `≡_β`; the hierarchies differ,
+   but the statement holds for either).
 2. **Saturation of a sentence.** `exists_bfLevel_saturated_modelsOf`: for every sentence `θ` there
    is `β₀ < ω₁` such that for every `β ≥ β₀`, `bfEquivSetoid β`-equivalent codes agree on `θ`.
    Proof: (S7) applied to the Borel, hence analytic, set of pairs in `modelsOf θ × (modelsOf θ)ᶜ`,
