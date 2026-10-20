@@ -200,10 +200,10 @@ has there, with subdirectories `Roth/`, `Parallelepiped/`, `Subspace/`, `Transce
 - **GlobalNumberFields** Layer 0, through the Tau Ceti declarations named above: the place
   carrier `Place K`, the normalized absolute values, the product formula and its functoriality
   under a finite extension with the local degrees in the exponents.
-- **GeometryOfNumbersAndQuadraticArithmetic** (GoN below; an open TauCetiRoadmap pull request by
-  CBirkbeck, #851), as HAU and DAT consume it: §1.2 `successiveMin` for a `ZLattice` and a
-  `ConvexBody`, zero-based, with `exists_successiveMin_witnesses`; §§1.3 and 1.5
-  `minkowski_second_lower` and `minkowski_second_upper`; §0.1 `hermitian_gram_hadamard`.
+- **[SuccessiveMinima](../SuccessiveMinima/README.md)** (SM below; TauCetiRoadmap #1298): 1.1
+  `successiveMin` for a `ZLattice` and a `ConvexBody`, zero-based; 1.7
+  `exists_successiveMin_witnesses`; 2.1.4 `minkowski_second_lower` and 3.21
+  `minkowski_second_upper`; 0.1.2 `hermitian_gram_hadamard`.
 
 ### Instances owned by other roadmaps
 
@@ -767,7 +767,7 @@ to `O` (the constant pair `(2, 2)`). Conformance test: constant targets give 3.2
 ### Layer 4: parallelepipeds over a number field
 
 Schmidt's proof is geometry of numbers applied to a family of parallelepipeds. Bombieri–Gubler
-work in the adèles (7.5.6 and Appendix C.2); this layer works in GoN's real formulation, a
+work in the adèles (7.5.6 and Appendix C.2); this layer works in SM's real formulation, a
 `ZLattice` in a real vector space together with a convex body, for forms whose coefficients lie in
 `K`. Neither choice costs anything: 6.3 removes the restriction on the coefficients by the book's
 Remark 7.2.3, and the adelic form of Minkowski's second theorem is recovered in 4.2 from the real
@@ -835,11 +835,11 @@ Three pieces of infrastructure sit beneath 4.1, each its own target.
   enters.
 - **The mixed image of an `𝓞 K`-module**, `Submodule.mixedImage Λ`, as a `ZLattice` in
   `ι → mixedSpace K` when `Λ` is finitely generated and spans, with its `DiscreteTopology` and
-  `IsZLattice ℝ` instances: the bridge from `𝓞 K`-modules to GoN's vocabulary.
+  `IsZLattice ℝ` instances: the bridge from `𝓞 K`-modules to SM's vocabulary.
 
 **4.2 Successive minima over `K`** (Bombieri–Gubler, Definition C.2.9, Theorem C.2.11). For an
 `𝓞 K`-module `Λ` and a body `B` as in 4.1, the `K`-minimum
-`NumberField.successiveMinimum Λ B l`, indexed from `0` like GoN's `successiveMin`, is the infimum
+`NumberField.successiveMinimum Λ B l`, indexed from `0` like SM's `successiveMin`, is the infimum
 of the `t > 0` for which `Λ ∩ t • B` contains `l + 1` vectors linearly independent over `K`, and
 `0` for `l ≥ card ι`. Statements take `Λ` only through
 `[DiscreteTopology Λ.mixedImage] [IsZLattice ℝ Λ.mixedImage]`. Deliverables:
@@ -850,7 +850,7 @@ of the `t > 0` for which `Λ ∩ t • B` contains `l + 1` vectors linearly inde
   family is then assembled one vector at a time, since `l + 1` independent vectors realizing the
   `l`-th minimum include one outside the span of the `l` already chosen. Cassels's greedy
   construction with its minimality clause is not needed.
-- *Comparison with the real minima*: with `λ` GoN's `successiveMin` of `Λ.mixedImage` and `B`
+- *Comparison with the real minima*: with `λ` SM's `successiveMin` of `Λ.mixedImage` and `B`
   (a lattice of rank `d · card ι`),
   `λ l ≤ μ l` (`NumberField.successiveMin_mixedImage_le`) and `μ l ≤ λ (d l)`
   (`NumberField.successiveMinimum_le_successiveMin_mixedImage`), the second by DAT §2.8's
@@ -869,7 +869,7 @@ of the `t > 0` for which `Λ ∩ t • B` contains `l + 1` vectors linearly inde
   ```
 
   (`NumberField.covolume_le_prod_successiveMinimum_pow_mul_measure`,
-  `NumberField.prod_successiveMinimum_pow_mul_measure_le`), from GoN's `minkowski_second_lower`
+  `NumberField.prod_successiveMinimum_pow_mul_measure_le`), from SM's `minkowski_second_lower`
   and `minkowski_second_upper` and the comparison above. This is Bombieri–Vaaler and McFeat's
   adelic theorem in the generality the Subspace Theorem needs.
 - *For an approximation domain*, combined with 4.1: `(∏ l, μ l) ^ d` is `Q ^ (−approxWeight)` up
@@ -1785,7 +1785,7 @@ below the threshold from `log (1 + log₂ N) ≤ N − 1`, which Evertse's const
 - *Lemma 4.3* (`Matrix.exists_det_partition`): a partition of `Fin N → ℂ` into at most
   `(20 N) ^ N · M²` classes on each of which `|det (y 1, …, y N)| ≤ M⁻¹ ∏ i, ‖y i‖`, with the pivot
   coordinate not gridded (classes `Σ i, ({j // j ≠ i} → Fin A × Fin A)`) and grid `⌈3 A⌉`; with
-  Hadamard's inequality in the sup norm (`Matrix.norm_det_le_card_rpow_mul_prod_norm`), from GoN's
+  Hadamard's inequality in the sup norm (`Matrix.norm_det_le_card_rpow_mul_prod_norm`), from SM's
   `hermitian_gram_hadamard`. False for `N = 1`. The infinite places are read through complex
   embeddings (0.1), Evertse's vector being `(φ (L i x) / t i)_i` with `t i` the `mult v`-th root of
   the bound, and `M = (9/2) ^ (N / 2)` beats the doubled window;
@@ -1947,7 +1947,7 @@ in place: Layer 1; Layers 2–3; Layer 4; 5.2–5.3 (pure algebra over a field o
 zero, with no place in sight); 7.2–7.3's combinatorics on words; 8.3's linear algebra; 8.7–8.8;
 and 9.2–9.3. Layers 3 and 6 can be built in either order: 6.6 checks that they agree, and 3.4 is
 the interface 8.1–8.5 would consume if Layers 4–6 were absent. DAT's §§1.2–1.5 and §2.8, HAU 4.3
-and GoN §§1.2–1.5 are consumed by name; where one has not landed, state the milestone against the
+and SM Layers 0–3 are consumed by name; where one has not landed, state the milestone against the
 target's pinned statement and keep going.
 
 ## Long horizon
