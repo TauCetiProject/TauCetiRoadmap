@@ -19,7 +19,7 @@ namespace TauCetiRoadmap.CompletedCohomologyAndLocalGlobalCompatibility
 namespace DefiniteQuaternion
 
 section DefiniteQuaternion
-variable (O : Type*) [CommRing O] [TopologicalSpace O] [IsTopologicalRing O]
+variable (O : Type*) [CommRing O]
 variable (X : Type*) [TopologicalSpace X]
 variable (M : Type*) [TopologicalSpace M] [AddCommGroup M] [Module O M] [IsTopologicalAddGroup M]
   [ContinuousConstSMul O M]
@@ -44,6 +44,30 @@ def withCentralCharacter (ψ : Z →* Oˣ) : Submodule O C(X, M) where
   smul_mem' := by
     intro c f hf z x
     simp [hf z x, smul_comm c]
+
+omit [ContinuousConstSMul D X] in
+/-- For Hausdorff coefficients the central-character submodule is closed: it is an intersection
+of evaluation equalizers. -/
+theorem withCentralCharacter_isClosed [T2Space M] (ψ : Z →* Oˣ) :
+    IsClosed (withCentralCharacter O X M ι ψ : Set C(X, M)) := by
+  have h : (withCentralCharacter O X M ι ψ : Set C(X, M)) =
+      ⋂ z, ⋂ x, {f : C(X, M) | f (ι z • x) = (ψ z : O) • f x} := by
+    ext f
+    simp only [Set.mem_iInter]
+    rfl
+  rw [h]
+  exact isClosed_iInter fun z => isClosed_iInter fun x =>
+    isClosed_eq (ContinuousEvalConst.continuous_eval_const _)
+      ((ContinuousEvalConst.continuous_eval_const x).const_smul _)
+
+/-- Translation by `ι z` acts on the `ψ`-equivariant functions by the scalar `ψ(z)⁻¹`. -/
+theorem translate_central_of_mem (ψ : Z →* Oˣ) {f : C(X, M)}
+    (hf : f ∈ withCentralCharacter O X M ι ψ) (z : Z) :
+    translate O X M (ι z) f = ((ψ z⁻¹ : Oˣ) : O) • f := by
+  ext x
+  have h := hf z⁻¹ x
+  simp only [map_inv] at h
+  simpa [translate] using h
 
 /-- Translation uses the inverse, as required for a left action on functions. -/
 example (d : D) (f : C(X, M)) (x : X) :
@@ -86,15 +110,17 @@ theorem functions_free_finite_orbits
       ∀ (k : K) (f : C(X, M)) (i : Fin s),
         e (translate O X M k f) i = translate O K M k (e f i) := sorry
 
-/-- An empty free action has zero regular summands, with continuous equivariant comparison. -/
+/-- An empty space has zero regular summands, with continuous equivariant comparison. -/
 theorem functions_free_finite_orbits_empty [IsEmpty X]
-    (K : Type*) [Group K] [TopologicalSpace K] [CompactSpace K] [IsTopologicalGroup K]
-    [MulAction K X] [ContinuousSMul K X] [CompactSpace X] [T2Space X]
-    (hfree : ∀ (k : K) (x : X), k • x = x → k = 1)
-    [Finite (MulAction.orbitRel.Quotient K X)] :
+    (K : Type*) [Group K] [TopologicalSpace K] [ContinuousMul K]
+    [MulAction K X] [ContinuousConstSMul K X] :
     ∃ e : C(X, M) ≃L[O] (Fin 0 → C(K, M)),
       ∀ (k : K) (f : C(X, M)) (i : Fin 0),
-        e (translate O X M k f) i = translate O K M k (e f i) := sorry
+        e (translate O X M k f) i = translate O K M k (e f i) :=
+  ⟨{ LinearEquiv.ofSubsingleton _ _ with
+      continuous_toFun := continuous_of_const fun _ _ => Subsingleton.elim _ _
+      continuous_invFun := continuous_of_const fun _ _ => Subsingleton.elim _ _ },
+    fun _ _ i => i.elim0⟩
 
 end DefiniteQuaternion
 
@@ -123,9 +149,12 @@ def equivariantDualMaps : Submodule E (Module.Dual E W →ₗ[E] C(X, E)) where
   smul_mem' := by intro c φ hφ k l; simp [hφ k l]
 
 /-- Dospinescu–Le Bras Lemme 4.5, in the finite-dimensional case (the topology of `W` is the
-canonical one, since `E` is complete and `W` is Hausdorff). -/
+canonical one, since `E` is complete and `W` is Hausdorff): the equivalence is given by the
+pairing `ℓ (f x) = φ ℓ x`. -/
 theorem weightedForms_equiv [FiniteDimensional E W] :
-    Nonempty (equivariantDualMaps E X W ρ ≃ₗ[E] weightedForms E X W ρ) := sorry
+    ∃ e : equivariantDualMaps E X W ρ ≃ₗ[E] weightedForms E X W ρ,
+      ∀ φ (l : Module.Dual E W) (x : X),
+        l ((e φ : C(X, W)) x) = (φ : Module.Dual E W →ₗ[E] C(X, E)) l x := sorry
 
 /-- For the regular action, evaluation at the identity determines every weighted value. -/
 example (K : Type*) [Group K] [TopologicalSpace K] [IsTopologicalGroup K]
@@ -188,8 +217,12 @@ theorem IsProModular.of_le {φ : R →+* T} {q q' : PrimeSpectrum R} (hq : IsPro
     (h : q ≤ q') : IsProModular φ q' :=
   le_trans hq h
 
-/- Prime contraction along a surjection has image exactly the zero locus of its kernel. -/
-#check range_comap_of_surjective
+/-- Along a surjection, the pro-modular primes are exactly the contractions of primes of the
+Hecke quotient. -/
+theorem IsProModular.iff_mem_range {φ : R →+* T} (hφ : Function.Surjective φ)
+    (q : PrimeSpectrum R) : IsProModular φ q ↔ q ∈ Set.range (PrimeSpectrum.comap φ) := by
+  rw [range_comap_of_surjective T φ hφ, PrimeSpectrum.mem_zeroLocus]
+  rfl
 
 /-- The zero Hecke quotient has no pro-modular prime. -/
 example (φ : R →+* T) [Subsingleton T] (q : PrimeSpectrum R) : ¬ IsProModular φ q := by
@@ -233,14 +266,38 @@ theorem multiplicityEvaluation_injective [FiniteDimensional E V]
       ∃ c : E, f.toLinearMap = c • LinearMap.id) :
     Function.Injective (multiplicityEvaluation E ρV ρH) := sorry
 
-/-- Evaluation has the stated order of tensor factors. -/
-example (v : V) (f : Representation.IntertwiningMap ρV ρH) :
-    multiplicityEvaluation E ρV ρH (v ⊗ₜ[E] f) = f v := rfl
+/-- Irreducibility cannot be dropped: for trivial actions on `E²` and on `E`, evaluation is not
+injective. -/
+theorem multiplicityEvaluation_trivial_not_injective :
+    ¬ Function.Injective (multiplicityEvaluation E
+      (Representation.trivial E G (Fin 2 → E)) (Representation.trivial E G E)) := by
+  intro hinj
+  let f : Representation.IntertwiningMap (Representation.trivial E G (Fin 2 → E))
+      (Representation.trivial E G E) :=
+    ⟨LinearMap.proj 1, fun g => by ext; simp⟩
+  have h0 : multiplicityEvaluation E _ _ ((Pi.single 0 1 : Fin 2 → E) ⊗ₜ[E] f) = 0 := by
+    simp [multiplicityEvaluation, f]
+  have hz : ((Pi.single 0 1 : Fin 2 → E) ⊗ₜ[E] f) = 0 :=
+    hinj (by rw [h0, map_zero])
+  let test : (Fin 2 → E) ⊗[E] Representation.IntertwiningMap
+      (Representation.trivial E G (Fin 2 → E)) (Representation.trivial E G E) →ₗ[E] E :=
+    TensorProduct.lift
+      { toFun := fun v => { toFun := fun g => v 0 * g (Pi.single 1 1)
+                            map_add' := fun _ _ => by simp [mul_add]
+                            map_smul' := fun _ _ => by simp; ring }
+        map_add' := fun _ _ => by ext; simp [add_mul]
+        map_smul' := fun _ _ => by ext; simp [mul_assoc] }
+  have h1 : test ((Pi.single 0 1 : Fin 2 → E) ⊗ₜ[E] f) = 1 := by
+    simp [test, f]
+  rw [hz, map_zero] at h1
+  exact zero_ne_one h1
 
-/-- The identity multiplicity map recovers its input vector. -/
-example (v : V) :
-    multiplicityEvaluation E ρV ρV
-      (v ⊗ₜ[E] Representation.IntertwiningMap.id ρV) = v := rfl
+/-- Evaluation is equivariant: the group acts on the vector factor and on the target, not on
+the multiplicity factor. -/
+example (g : G) (v : V) (f : Representation.IntertwiningMap ρV ρH) :
+    multiplicityEvaluation E ρV ρH (ρV g v ⊗ₜ[E] f) =
+      ρH g (multiplicityEvaluation E ρV ρH (v ⊗ₜ[E] f)) :=
+  Representation.IntertwiningMap.isIntertwining ρV ρH f g v
 end Multiplicity
 
 /-! ## Layer 5: patched completed modules and support -/
@@ -248,18 +305,10 @@ section Support
 variable (R : Type*) [CommRing R] (M : Type*) [AddCommGroup M] [Module R M]
 
 /-- The finite span of Iwasawa generators has the same scalar annihilator, even when the
-whole module is not finite over the scalar ring (Emerton–Paškūnas, Lemma 6.2, p. 25). -/
+whole module is not finite over the scalar ring (Emerton–Paškūnas, Lemma 6.2, p. 26). -/
 theorem annihilator_span_eq {B : Type*} [Ring B] [Module B M] [SMulCommClass R B M]
     (S : Set M) (hS : Submodule.span B S = ⊤) :
     Module.annihilator R (Submodule.span R S) = Module.annihilator R M := sorry
-
-/-- The scalar span of the quotient generator has exactly the quotient ideal as annihilator. -/
-theorem annihilator_quotient_span (I : Ideal R) :
-    Module.annihilator R (Submodule.span R ({(1 : R ⧸ I)} : Set (R ⧸ I))) = I := sorry
-
-/-- The empty span in the zero module is annihilated by the unit ideal. -/
-theorem annihilator_zero_span [Subsingleton M] :
-    Module.annihilator R (Submodule.span R (∅ : Set M)) = ⊤ := sorry
 end Support
 
 /-!
