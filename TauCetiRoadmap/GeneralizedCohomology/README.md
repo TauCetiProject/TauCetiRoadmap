@@ -576,6 +576,38 @@ axiomatic theories independently of their G2 spectral representation.
    where * traverses its left factor first; if the
    endpoint path components differ that fibre is empty. No path-independent
    loop-fibre identification is asserted.
+   For a Hurewicz p:E→B and e0 with b0=p(e0), let F be its fibre and
+   P={lambda:I→E | lambda(0)∈F, lambda(1)=e0}. Construct the continuous
+   q:P→Omega(B,b0), q(lambda)=p∘lambda, and its all-parameter Hurewicz
+   lifts using the square-pair homeomorphism carrying one initial edge
+   onto bottom∪right. Construct a continuous section on ALL loop
+   components: lift beta(1−t) from e0 with universal parameter OmegaB
+   and reverse the resulting path. For the inverse homotopy use the
+   base square beta_lambda(s), prescribing lambda on bottom, the
+   selected section on top and e0 on right. Build the required
+   one-edge→three-edge square homeomorphism by the boundary map
+   theta3(s)=3s on [0,1], 3+(s−1)/3 on [1,4], and its radial extension.
+   Prove both inverse formulas, continuity at the center and product
+   transport for arbitrary parameters. Lift this whole three-edge
+   prescription and curry in the path variable. This gives
+   q∘sigma=id and id_P~sigma∘q over OmegaB, including every component
+   without a connectedness or CW-type hypothesis. The equivalence is
+   ordinary/unbased: strict based choices and based homotopies require
+   actual relative lifting; a generic lifting function need not fix
+   constant paths. Do not substitute a single contractible fibre for
+   this global construction or infer a general contractible-fibre
+   theorem from it. Preserve ordinary compact-open interval evaluation,
+   chosen e0, empty-fibre cases and arbitrary-universe HLP transport.
+   For a supplied path alpha:I→B, construct the pullback E_alpha→I.
+   Lift the two contractions (t,u)↦(1−u)t and (t,u)↦(1−u)t+u with
+   parameter E_alpha to obtain homotopy-inverse endpoint maps r0,r1. Their
+   restricted constant-base tracks give both inverse homotopies for
+   each endpoint-fibre inclusion, even without regular lifting. Define
+   fibre transport r1∘i0 and its reverse r0∘i1; derive both composite
+   homotopies from those four homotopies, including empty endpoint
+   fibres. This compares fibres along a supplied path, not by a
+   path-independent canonical map. Neither raw construction consumes
+   DGF's LES, Moore/transitive lifts or general Whitehead machinery.
    Retain the raw carrier/topology when passing to G2.1's compactly
    generated category: build its k-ification and the projection,
    endpoint, fibre/pullback and exponential-law comparisons. Raw
@@ -594,6 +626,39 @@ axiomatic theories independently of their G2 spectral representation.
    StringOrientation's BString and
    TangentialBordism's normal-classifier lifting use this single carrier;
    neither constructs an endpoint-dependent disjoint sum of path fibres.
+
+
+   **Fixed-data relative lifting and topological bundles.**
+   Own `zeroSetSDR_liftingInclusion`: for a subspace A=u⁻¹(0) of Y,
+   continuous u:Y→I, a supplied retraction r:Y→A and homotopy i r→id fixing A,
+   arbitrary-parameter Hurewicz p lifts every compatible square on A→Y, fixing
+   the supplied A-data strictly. With h from i r to id, use
+   F(y,t)=h(y,min(t/u(y),1)) for u>0 and F(a,t)=a, lift from g r,
+   and evaluate at time u(y). Compact-I tube continuity at A is indispensable;
+   no regular lifting function is assumed. Own the closed-NDR parameter-corner
+   consequence: J=X×{0}∪A×I has control u(x)t and the explicit SDR
+   (H(x,s min(1,t/u)), t(1−s min(1,u/t))), fixing the zero axes.
+   Prove its continuity at both axes and its global endpoint in J, including
+   u=t=1. This supplies arbitrary fixed basepoint tracks for well-pointed
+   parameters. DGF1.2 consumes it in its Hurewicz-based LES lane; AT8 remains
+   the relative-pair owner. No CW, convenient or stable prerequisite is imposed
+   on this ordinary zero-set SDR theorem.
+
+   Consume actual native Trivialization and FiberBundleCore for general
+   topological bundles. Given a supplied continuous topological-group action
+   and continuous overlap G-valued cocycle, construct joint coordinate changes
+   and their inverses without imposing compact-open Homeo(F) group hypotheses
+   for arbitrary F. Own `numerableFiberBundle_hurewicz` for a supplied locally
+   finite partition of unity with supports in trivializing opens; construct
+   the continuous universal path-lifting function by the actual numerable
+   local-to-global lifting argument, with refinement, zero-duration continuity
+   and all parameter/universe comparisons. Paracompact Hausdorff bases supply
+   such numerations. This is a construction target, not a theorem inferred
+   from the local native clift. Arbitrary-base bundles have the separate
+   existing native Serre theorem consumed by DGF1.2. Empty F needs no choice
+   of a point; projection surjectivity still requires Nonempty F. These
+   fixed-data and numerable-bundle statements retain their stated hypotheses;
+   they give no global homotopy equivalence from a single contractible fibre.
 
 ## G3. Brown representation, arbitrary CW and infinite comparisons
 
@@ -1996,12 +2061,15 @@ axiomatic theories independently of their G2 spectral representation.
    pairing and consumes these comparisons and stabilization afterward.
    The zero-signature classifier represents KO⁰ and is not the sphere-
    module's separate unit level K_op,0=S⁰. First construct
-   `realMixedCliffordBottTransport`: for k with r=p−q+8k≥1, an actual
-   graded-Morita/operator comparison to K_op,r. Define the coefficient
-   identification π₀≃KO^(p−q) by this transport and independence of k:
-   x maps to b^(−k)x with TopK's fixed b∈KO_8=KO^(−8), and multiplication
-   by b^k recovers x. Check this identification against the finite ABS
-   calibrations below, rather than presupposing the classifier's degree.
+   `realMixedCliffordBottTransport`: let d=p−q and choose k with
+   r=d+8k≥1. Construct the actual graded-Morita/operator comparison to
+   K_op,r. Under this comparison π₀ is identified with KO^r; the forward
+   coefficient identification π₀→KO^d sends its corresponding y∈KO^r
+   to b^k y∈KO^d, with TopK's fixed b∈KO_8=KO^(−8). Its inverse sends
+   x∈KO^d to b^(−k)x∈KO^r and then applies the inverse operator comparison.
+   Prove independence of k and check these mutually inverse identifications
+   against the finite ABS calibrations below, rather than presupposing the
+   classifier's degree.
    Prove independence of k, ordered exterior-module cancellation for
    Cl(c,0) graded-⊗Cl(0,c), eight-periodic Morita maps, product/unit,
    Hilbert stabilization and parameter/pair naturality, including the
