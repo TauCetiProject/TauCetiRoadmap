@@ -37,8 +37,9 @@ R02.1, R02.2, R02.3, R02.4, D7, R02.5, D8, R02.6 (see *How to read the build*).
 
 ## Scope and ownership
 
-**Owned here.** Continuous cohomology with compact, lattice, rational and torsion
-coefficients using PerfectoidTowers §P9.0's comparison with Mathlib's carrier, Tate's inverse-limit
+**Owned here.** The general coefficient and global-field extensions, and the comparison adapters,
+of the number-field constructions supplied below. Continuous cohomology with compact, lattice,
+rational and torsion coefficients using PerfectoidTowers §P9.0's comparison with Mathlib's carrier, Tate's inverse-limit
 theorem, the long exact sequences that need a continuous section, rationalisation and the discrete
 quotient `V/T`; the pointwise `Hom` with its
 splitting torsor and connecting-map cup formula, and the continuous `Hom` from a profinite source
@@ -115,6 +116,29 @@ and Khare–Wintenberger numerics of Layer R02.6.
 
 **Further roadmaps this roadmap builds on.**
 
+- *IntegralIwasawaTheory* §2.0 supplies `arithmeticPoitouTate`,
+  `arithmeticCompactSupport` and `arithmeticCompactDuality` for finite p-primary and
+  finite-free compact number-field coefficients, including the ordinary-to-Tate comparison.
+  Section 10.0 supplies `completedArithmeticCoefficients`, `derivedArithmeticTower`,
+  `compactArithmeticShapiro` and `arithmeticLocalMappingFiber`, with their finite-level,
+  restriction and trace maps. Section 10.1 supplies the bounded ordinary dyadic instance
+  `burnsFlachFiniteComplex` and `burnsFlachFinite_perfect`; its tower version is
+  `burnsFlachComplex`. The comparisons in R02.4 and D7 identify the common instances with
+  these maps. General profinite groups, arbitrary complete Noetherian local coefficient rings,
+  ind-admissible complexes, dualizing complexes and function fields retain their stated
+  generality here.
+- *NoncommutativeAndEquivariantIwasawa* §F.3 supplies `arithmeticContinuousCochains`,
+  `arithmeticLocalDuality`, `arithmeticPoitouTate`,
+  `arithmeticCompactSupport` and `arithmeticGlobalDuality` on its number-field and
+  `O`-lattice/`L`-representation domains (`O` the integers of a finite extension
+  `L/ℚ_p`). D7 consumes their localization, trace, cup and real Tate maps. Its
+  `arithmeticCompactSupport` denotes Tate-modified support; the ordinary support of
+  IntegralIwasawaTheory is identified only with the corresponding ordinary instance.
+  The specialization equations below identify the shared objects and morphisms; the
+  remaining targets extend them to the broader coefficient and field categories here.
+  Comparison equations use the same embeddings and cochain conventions; comparisons
+  through resolutions are equations in the homotopy or derived category, with the
+  specified localization homotopy used to induce the map of fibres.
 - *PadicPeriodRings* §0.1 supplies `procyclic_H1_equiv_coinvariants`, natural in the
   coefficient module, for discrete torsion, finitely generated `ℤ_p` and finite-dimensional
   `ℚ_p` coefficients with the stated continuous actions, together with its Checks.
@@ -3317,7 +3341,17 @@ finite;
 The pairing in (a) is the canonical Ext-defined pairing, natural in `M`: for `f : M → N`,
 `⟨f_* a, b⟩ = ⟨a, f^D_* b⟩`.
 
-*Proof sketch.* Take the long exact `Ext_{G_S}(M^D, −)` sequence of `0 → E_S → J_S → C_S → 0`.
+For finite `S` and p-primary `M`, consume IntegralIwasawaTheory §2.0
+`arithmeticPoitouTate`, also supplied by NoncommutativeAndEquivariantIwasawa §F.3.
+The coefficient comparison `Hom(M, μ_{p^∞}) ≅ Hom(M, μ_{pⁿ})` for `pⁿM = 0`
+identifies the duals. The induced cohomology comparisons carry restriction, the
+sum-of-invariants map, dual localization and the Sha pairing to the maps above;
+at real dyadic places use the full ordinary-to-Tate sequence before taking its
+low-degree segment. Arbitrary finite order and possibly infinite `S`, with the
+specified restricted-product topologies, are the extension here.
+
+*Proof sketch.* On the shared finite p-primary domain use the supplied maps. For the
+extension take the long exact `Ext_{G_S}(M^D, −)` sequence of `0 → E_S → J_S → C_S → 0`.
 Replace `Ext^r(M^D, E_S) = H^r(G_S, M)` and `Ext^r(M^D, J_S) = P^r_S(K, M)` for `r ≥ 1` (*Ext into
 the S-units and the S-ideles*, with `M^{Dd} = M`), and `Ext^r(M^D, C_S) = H^{2−r}(G_S, M^D)^*` for
 `r ≥ 1` (*Tate's global duality for the S-idele classes*; the primes dividing `#M` are units in
@@ -3339,7 +3373,8 @@ Theorem 4.10, p. 62 (PDF p. 70).) *Needs:* *Ext into the S-units and the S-idele
 duality for the S-idele classes*; *`P^r_S(K, M)` is dual to `P^{2−r}_S(K, M^D)`*; *`β¹` is proper*; *The
 dual `M^D = Hom(M, E_S)`*; *Restricted products of local cohomology and `Ш^r_S`*; *S-ideles, S-units
 and S-idele classes* (Layer R02.3); *Character duality for the arithmetic topological groups*;
-ProfiniteCohomology Layer 12.
+ProfiniteCohomology Layer 12; IntegralIwasawaTheory §2.0 (`arithmeticPoitouTate`);
+NoncommutativeAndEquivariantIwasawa §F.3 (`arithmeticPoitouTate`).
 
 **Checks.**
 
@@ -3777,6 +3812,16 @@ cohomology can be unbounded above. For finite coefficients its groups in degrees
 the sums of the real Tate cohomology groups of `M`, so nonvanishing depends on `M`; both
 complexes retain their full degrees.
 
+For a number field and p-primary `M`, `ArithmeticDuality.finiteCompactCochains`
+is an adapter to the Tate-modified `arithmeticCompactSupport` of IntegralIwasawaTheory
+§2.0 and NoncommutativeAndEquivariantIwasawa §F.3. If `θ` and `θ_v` are the supplied
+global and local cochain comparisons, its comparison `κ` is the induced map of fibres:
+`(⊕ θ_v) ∘ res_here = res_supplier ∘ θ` and
+`κ = Fib(θ, ⊕ θ_v)`. Thus `Hⁱ(κ)` also identifies
+`ArithmeticDuality.finiteCompactCohomology`, `finiteCompact_exact` and
+`finiteCompact_map` with the supplied cohomology, boundary and functoriality maps.
+The extension here includes mixed finite orders and global function fields.
+
 The API:
 
 - `ArithmeticDuality.finiteCompactCochains`: the mapping fibre of the finite arithmetic
@@ -3797,7 +3842,9 @@ Fields*](https://www.mathi.uni-heidelberg.de/~schmidt/NSW2e/NSW2.3.pdf), §8.6, 
 8.6.10, pp. 485–492.) *Needs:* *Localisation maps and the modified local groups* (Layer R02.3);
 *Poitou–Tate duality and the nine-term exact sequence*; *Local inputs at places of a global function
 field* (Layer R02.3); *The class formation of a global function field* (Layer R02.3);
-*Prime-to-characteristic function-field Poitou–Tate duality*.
+*Prime-to-characteristic function-field Poitou–Tate duality*;
+IntegralIwasawaTheory §2.0 (`arithmeticCompactSupport`);
+NoncommutativeAndEquivariantIwasawa §F.3 (`arithmeticCompactSupport`).
 
 **Checks.**
 
@@ -4923,6 +4970,20 @@ in general. For an inverse system of discrete coefficients satisfying the Mittag
 the comparison is instead with Jannsen's continuous cohomology of the system, whose Milnor sequence
 keeps the `lim¹` term. Joint continuity of the action is part of every hypothesis.
 
+On the common `O`-coefficient domain, consume
+NoncommutativeAndEquivariantIwasawa §F.3 `arithmeticContinuousCochains`.
+For a number field and a finite-free `ℤ_p`-lattice `T`, this is also the compact
+cochain construction of IntegralIwasawaTheory §2.0; its tower comparison is §10.0
+`compactArithmeticShapiro`. The adapters above the canonical homogeneous carrier
+satisfy `θ_M ∘ C_here(f) = C_supplier(f) ∘ θ_N` for `f : N → M`, and
+`θ_{M⊗N}(a ∪ b) = θ_M(a) ∪ θ_N(b)` with the signed tensor convention of this
+roadmap. Restriction and corestriction obey the same commuting squares. In the
+number-field tower case the completed action is
+`h(λ⊗t) = λ h̄⁻¹⊗ht`, and
+`Rlim_cores C(G_{K_n,S_n},T) ≃ C(G_{K,S},Λ(G)^ι ⊗̂ T)`
+is the supplied comparison, not a second tower construction. General `R` and
+ind-admissible coefficient complexes are the extension here.
+
 The API:
 
 - `ArithmeticDuality.algebraicContinuousCochains`: the homogeneous continuous cochain complex of a
@@ -4949,7 +5010,9 @@ cohomology*](https://epub.uni-regensburg.de/26684/1/jannsen12.pdf), §2, Theorem
 compact coefficients* (PerfectoidTowers §P9.0); *The Milnor sequence for towers of complexes*
 (DerivedModuleAlgebra §1.T.1);
 *Derived tensor, perfect amplitude and Tor*; *Matlis duality for arithmetic coefficients* (DerivedModuleAlgebra §1.M.1);
-ProfiniteCohomology Layer 10.
+ProfiniteCohomology Layer 10; IntegralIwasawaTheory §§2.0, 10.0
+(`compactArithmeticShapiro`); NoncommutativeAndEquivariantIwasawa §F.3
+(`arithmeticContinuousCochains`).
 
 **Checks.**
 
@@ -5071,6 +5134,12 @@ formula `Coind_H^G(T) ⊗_R L ≅ Coind_H^G(T ⊗_R Res L)` is compatible with c
 local restriction and corestriction. For coefficients `L` that are not finite projective, the
 derived tensor product and its Tor spectral sequence are used instead.
 
+For finite extensions of number fields and finite-free `ℤ_p` coefficients,
+this is the finite-level specialization of IntegralIwasawaTheory §10.0
+`compactArithmeticShapiro`: the evaluation map and each reduction modulo `pⁿ`
+agree. The general profinite-group and `R`-coefficient comparison here extends
+that map, preserving its restriction, trace and inverse-action convention.
+
 *Proof sketch.* Give the coinduced module of ProfiniteCohomology Layer 7 the finite product
 topology. Reduce modulo `𝔪ⁿ`, apply Shapiro for discrete coefficients and pass to the limit of
 cochains with the Milnor sequence. Write the finite-coset tensor map and check equivariance,
@@ -5081,7 +5150,8 @@ Systems*](https://swc-math.github.io/notes/files/99RubinES.pdf), Appendix B, §4
 Proposition 4.2 and Remark 4.3, pp. 155–156.) *Needs:* *Continuous cochains into an inverse limit*
 (PerfectoidTowers §P9.0); *Completed tensor products and finite reductions* (Layer R02.1);
 *Continuous
-cochains in the derived category*; ProfiniteCohomology Layer 7.
+cochains in the derived category*; ProfiniteCohomology Layer 7;
+IntegralIwasawaTheory §10.0 (`compactArithmeticShapiro`).
 
 **Checks.**
 
@@ -5259,6 +5329,15 @@ E₂^{i,j} = Ext^i_R(H^{2−j}_cont(G_v, T*(1)), ω•) = Ext^i_R(D(H^j_cont(G_v
 (Theorem 5.2.6). On cohomology, cup product gives `Hⁱ(G_v, T) ≅ D(H^{2−i}(G_v, A*(1)))` and
 `H^j(G_v, A*(1)) ≅ D(H^{2−j}(G_v, T))` (5.2.10).
 
+For number-field completions and finite coefficients, `O`-lattices or their
+`L`-scalar extensions, consume NoncommutativeAndEquivariantIwasawa §F.3
+`arithmeticLocalDuality`. If `θ_v` is the cochain comparison and `θ_v^D` its
+dual-coefficient counterpart, the adapter equation is
+`α_here = D_{J[−2]}(θ_v^D) ∘ α_supplier ∘ θ_v`.
+The normalized trace is the same local invariant, so this equation identifies
+pairings and not only their perfectness. General `R`, dualizing complexes and
+positive-characteristic local fields are the extensions here.
+
 *Proof sketch.* (i): triangles and truncation reduce to a single module, and Lemma 5.2.5 to
 `J = I`; for `X = T` of finite type, `α_T` is the limit of the `α_{I,T/𝔪ⁿT}`, which are Tate's local
 duality (5.1.4) for finite modules, and the comparison maps `u₁, …, u₈` are quasi-isomorphisms by the
@@ -5271,7 +5350,8 @@ pp. 116–121 (PDF 125–130).) *Needs:* *The local duality morphisms `α_{J,X}`
 as a quasi-isomorphism*; *The Milnor sequence for towers of complexes* (DerivedModuleAlgebra §1.T.1); *Mittag-Leffler
 towers have vanishing `lim¹`* (DerivedModuleAlgebra §1.T.1); *Matlis duality for arithmetic coefficients* (DerivedModuleAlgebra §1.M.1);
 *Cohomological finiteness and perfect amplitude*; *Derived tensor, perfect amplitude and Tor*;
-*Grothendieck local duality for a complete Noetherian local ring*; ClassFieldTheory Layer 5.
+*Grothendieck local duality for a complete Noetherian local ring*; ClassFieldTheory Layer 5;
+NoncommutativeAndEquivariantIwasawa §F.3 (`arithmeticLocalDuality`).
 
 **Checks.**
 
@@ -5280,6 +5360,9 @@ towers have vanishing `lim¹`* (DerivedModuleAlgebra §1.T.1); *Matlis duality f
 - For `R = ℤ_p`, `ω• = ℤ_p` (`H¹_𝔪(ℤ_p) = ℚ_p/ℤ_p`), `K_v = ℚ_p` with `p` odd and `T = ℤ_p`:
   `H¹(ℚ_p, ℤ_p(1)) ≅ ℤ_p²` and `H²(ℚ_p, ℤ_p(1)) ≅ ℤ_p`, and the spectral sequence gives
   `H⁰(ℚ_p, ℤ_p) = ℤ_p`, `H¹(ℚ_p, ℤ_p) ≅ ℤ_p²` and `H²(ℚ_p, ℤ_p) = 0`.
+- For a finite-free `O`-lattice `T`, derived reduction of the transported local
+  map modulo `ϖⁿ` gives the finite pairing for `T/ϖⁿT`; its trace is the local
+  invariant, so replacing it by a unit multiple would violate the comparison.
 
 **Functoriality and symmetry of local duality.** Let `K`, `S`, `S_f`, `G_{K,S}`, `G_v` and `R` be as
 in *The local duality morphisms `α_{J,X}`*, with (P): if `p = 2`, `K` has no real place (the case
@@ -5328,6 +5411,34 @@ boundedness depends on the coefficients. Both are bounded for the induced coeffi
 Nakamura Check. Dyadic duality uses the construction with Tate cochains at the real places,
 *Duality when `p = 2` and `K` has real places*.
 
+For the number-field finite p-primary and finite-free `ℤ_p` cases, consume
+IntegralIwasawaTheory §2.0 `arithmeticCompactSupport` and §10.0
+`arithmeticLocalMappingFiber` with zero local conditions. For the common
+`O`-lattice, torsion and rational cases, consume
+NoncommutativeAndEquivariantIwasawa §F.3 `arithmeticCompactSupport`.
+Write `C_mod` for the fibre with real Tate terms and `C_ord` for the fibre
+with ordinary terms at every place. The cochain comparisons give
+`κ_mod : C_mod,here ≃ arithmeticCompactSupport_mod` and
+`κ_ord : C_ord,here ≃ arithmeticCompactSupport_ord`,
+with `(⊕ θ_v) ∘ res_here = res_supplier ∘ θ` and
+`κ = Fib(θ, ⊕ θ_v)` in each diagram. Under (P), projection away from the
+acyclic real Tate terms gives `C_mod ≃ C_c` for the finite-place model above.
+Without (P), retain the triangles
+`C_mod → C_c → ⊕_{v real} Ĉ(G_v,X) → C_mod[1]` and
+`C_ord → C_mod → ⊕_{v|∞} Cone(q_v)[−1] → C_ord[1]`.
+Here the second sum also includes complex places, whose ordinary degree-zero
+term maps to zero. All comparison maps commute with coefficient maps,
+restriction, trace and the boundary maps. The named API below is the adapter
+on the shared domains; the construction here extends it to general `R` and
+ind-admissible complexes and to function fields.
+
+IntegralIwasawaTheory §10.1 `burnsFlachFiniteComplex` is the specified
+ordinary finite-layer instance, and `burnsFlachFinite_perfect` supplies its
+bounded finite-projective model with its coefficient hypotheses. Its tower
+`burnsFlachComplex` uses the supplied corestriction comparisons. Neither is
+identified with `C_mod` at real dyadic places: its ordinary-to-modified map
+retains the displayed comparison cone.
+
 The API:
 
 - Mathlib's `CochainComplex.mappingCocone res_{S_f}` and
@@ -5345,14 +5456,19 @@ The API:
   cofinite-type and amplitude statements use *Cohomological finiteness and perfect amplitude*.
 - `GaloisCohomology.compactCochains_diff`: `d(a, a_S) = (da, −res_{S_f}(a) − da_S)`.
 
-*Proof sketch.* The cone of a morphism of complexes is a complex, and the triangle is the shifted
+*Proof sketch.* Use the supplied fibres and maps on the common domains. For the
+extension, the cone of a morphism of complexes is a complex, and the triangle is the shifted
 cone triangle. Change of embeddings: the first square commutes up to the homotopy
 `h_v = α′*_v ⋆ h_{σ_v}(M•) ⋆ inf` and the second strictly; `Cone(id, (σ_v)_*, h)` is a homotopy
 equivalence with inverse `Cone(id, (σ_v^{−1})_*, h′)`, by Nekovář 1.1.7 and a 2-homotopy. Lemma
 5.3.2 follows from Nekovář 4.2.7 for the global and local terms and the long exact sequence.
 ([Nekovář, *Selmer complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §5.3.1–5.3.2,
 pp. 122–123 (PDF 131–132).) *Needs:* *Finite arithmetic compact support* (Layer R02.4); *Admissible
-compact and cofinite coefficients*; *Continuous cochains in the derived category*.
+compact and cofinite coefficients*; *Continuous cochains in the derived category*;
+IntegralIwasawaTheory §2.0 (`arithmeticCompactSupport`), §10.0
+(`arithmeticLocalMappingFiber`) and §10.1 (`burnsFlachFiniteComplex`,
+`burnsFlachFinite_perfect`); NoncommutativeAndEquivariantIwasawa §F.3
+(`arithmeticCompactSupport`).
 
 **Checks.**
 
@@ -5376,6 +5492,10 @@ compact and cofinite coefficients*; *Continuous cochains in the derived category
   `[0,2]`, as in the Nakamura Check. The finite local terms have amplitude `[0,2]`, so the
   finite-place fibre has amplitude in `[0,3]` and is bounded. The real restriction is the regular
   `ℤ₂[C₂]` module, whose complete Tate cohomology is zero.
+- For `K = ℚ`, `S = {2,∞}` and trivial `M = 𝔽₂`, ordinary compact support
+  has no negative-degree cohomology, whereas `Hⁱ(C_mod) = 𝔽₂` for every `i < 0`.
+  The finite-place fibre has `Hⁱ = 𝔽₂` for `i ≥ 4`. Thus neither this fibre
+  nor Tate-modified support can replace the bounded ordinary Burns–Flach model.
 
 **Cup products with compact support.** Let `K`, `S`, `S_f`, `G_{K,S}`, `G_v` and `R` be as in *The
 local duality morphisms `α_{J,X}`*, with (P): if `p = 2`, `K` has no real place (the case `p = 2` with
@@ -5399,6 +5519,15 @@ lands in `B• ⊗ A•` and is composed with the signed symmetry of the tensor 
 formulas and the evaluation maps are compared. These are the sign conventions for compact support
 used throughout the layer.
 
+On the shared number-field coefficient domains these are the evaluation cup
+products of NoncommutativeAndEquivariantIwasawa §F.3
+`arithmeticCompactSupport` and `arithmeticGlobalDuality`, transported by `θ`
+and `κ`. In particular
+`κ_{A⊗B}((a,a_S) _c∪ b) = κ_A(a,a_S) _c∪ θ_B(b)` and
+`κ_{A⊗B}(a ∪_c (b,b_S)) = θ_A(a) ∪_c κ_B(b,b_S)`.
+The named cup maps retain their coordinate formulas as adapters; general
+`R`-coefficients and function fields are their extension here.
+
 The API:
 
 - `GaloisCohomology.compactCupLeft`: `_c∪ : C_c(A) ⊗ C(B) → C_c(A ⊗ B)`.
@@ -5417,7 +5546,8 @@ The API:
 `(−1)^{deg a}` in `∪_c` comes from moving `d` past `a`. ([Nekovář, *Selmer
 complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §3.4.5, pp. 83–85; §5.3.3,
 pp. 123–124 (PDF 132–133).) *Needs:* *Continuous cochains with compact support*;
-ProfiniteCohomology Layer 12.
+ProfiniteCohomology Layer 12; NoncommutativeAndEquivariantIwasawa §F.3
+(`arithmeticCompactSupport`, `arithmeticGlobalDuality`).
 
 **Checks.**
 
@@ -5438,6 +5568,13 @@ bounded complex `J` of injectives, totalise these rowwise truncations and repres
 the invariant isomorphism by a trace map into `J[−3]`, unique up to homotopy. Localisation on `H²`
 need not be injective (Check), and the trace is not identified with the cone in (5.4.1.2).
 
+On the shared number-field domains, use the sum-of-local-invariants trace of
+IntegralIwasawaTheory §2.0 `arithmeticCompactDuality` and
+NoncommutativeAndEquivariantIwasawa §F.3 `arithmeticGlobalDuality`.
+Its specialization equation is `tr_here = tr_supplier ∘ κ_{A(1)}`.
+The extension to general `R`, injective complexes and function fields preserves
+this equation and the local normalization.
+
 *Proof sketch.* Use the last three terms of finite Poitou–Tate duality for `μ_{pⁿ}`: localisation
 followed by the sum of local invariants has cokernel `ℤ/pⁿ`, while the kernel of localisation can
 contain `Pic(O_{K,S})/pⁿ`. Combine this with the compact-support long exact sequence and the global
@@ -5450,7 +5587,9 @@ Theorems*](https://www.jmilne.org/math/Books/ADTnot.pdf), I, Lemma 4.12, pp. 58�
 p. 63; Theorem 4.10, pp. 56–57.) *Needs:* *Continuous cochains with compact support*; *The local
 invariant map as a quasi-isomorphism*; *Poitou–Tate duality and the nine-term exact sequence*
 (Layer R02.4); *The Kummer sequence for S-units* (Layer R02.3); *Prime-to-characteristic
-function-field Poitou–Tate duality* (Layer R02.4).
+function-field Poitou–Tate duality* (Layer R02.4); IntegralIwasawaTheory §2.0
+(`arithmeticCompactDuality`); NoncommutativeAndEquivariantIwasawa §F.3
+(`arithmeticGlobalDuality`).
 
 **Checks.**
 
@@ -5492,7 +5631,23 @@ E₂^{i,j}  = Ext^i_R(H^{3−j}_{c,cont}(G_{K,S}, T*(1)), ω•) ⇒ H^{i+j}_con
 
 (Theorem 5.4.5).
 
-*Proof sketch.* As for Proposition 5.2.4, reduce to a finite discrete `ℤ/pⁿ[G_{K,S}]`-module `M`,
+On the shared number-field domains, consume
+NoncommutativeAndEquivariantIwasawa §F.3 `arithmeticGlobalDuality` and
+IntegralIwasawaTheory §2.0 `arithmeticCompactDuality`. With `θ_X` the global
+cochain comparison and `κ_X` the compact-support comparison, the adapters satisfy
+`β_c,here = D_{J[−3]}(θ_{D_J(X)(1)}) ∘ β_c,supplier ∘ κ_X` and
+`_cβ_here = D_{J[−3]}(κ_{D_J(X)(1)}) ∘ _cβ_supplier ∘ θ_X`.
+For `R = O`, `J = O` and finite-free `T`, the first equation is precisely the
+supplied perfect-complex isomorphism
+`RΓ_c(K,T) ≃ RHom_O(RΓ(K,T*(1)),O)[−3]`, with its perfectness hypotheses;
+for the injective dual it is compact/discrete duality. Under (P) use `C_c`;
+with real dyadic places use `C_mod` and the unbounded formulation below.
+The additional work here is the extension to general `R`, finite/cofinite
+ind-admissible complexes, dualizing complexes and function fields, together
+with these comparison equations. The duality maps on every shared domain are the transported maps.
+
+*Proof sketch.* Use the supplied duality maps on their domains. For the extension,
+as for Proposition 5.2.4, reduce to a finite discrete `ℤ/pⁿ[G_{K,S}]`-module `M`,
 where the statement is a variant of Poitou–Tate duality (5.1.6): the non-obvious maps of the
 nine-term sequence are the cup products
 `∪_c : Hⁱ(G_{K,S}, M) × H^{3−i}_c(G_{K,S}, M*(1)) → H³_c(G_{K,S}, ℤ/pⁿ(1)) ≅ ℤ/pⁿ` and `_c∪`
@@ -5504,7 +5659,9 @@ support*; *Derived local Tate duality*; *The local duality morphisms `α_{J,X}`*
 and the nine-term exact sequence* (Layer R02.4); *Tate's global duality for the S-idele classes*
 (Layer R02.4); *Matlis duality for arithmetic coefficients* (DerivedModuleAlgebra §1.M.1); *Cohomological finiteness and perfect
 amplitude*; *Prime-to-characteristic function-field Poitou–Tate duality* (Layer R02.4);
-*Grothendieck local duality for a complete Noetherian local ring*.
+*Grothendieck local duality for a complete Noetherian local ring*;
+IntegralIwasawaTheory §2.0 (`arithmeticCompactDuality`);
+NoncommutativeAndEquivariantIwasawa §F.3 (`arithmeticGlobalDuality`).
 
 **Checks.**
 
@@ -5514,6 +5671,9 @@ amplitude*; *Prime-to-characteristic function-field Poitou–Tate duality* (Laye
 - For `K = ℚ`, `S = {p, ∞}`, `p` odd and `M = 𝔽_p`: `Hⁱ_c(G_{ℚ,S}, 𝔽_p)` and
   `H^{3−i}(G_{ℚ,S}, μ_p)` both have dimensions `0, 0, 1, 0` for `i = 0, 1, 2, 3`
   (`H¹(G_{ℚ,S}, μ_p) = ℤ[1/p]^×/p`, spanned by `p`).
+- For `R = ℤ_p`, `J = ℤ_p`, a finite-free lattice `T` and (P), the
+  transported perfect-complex map has shift `−3`; its reduction modulo `pⁿ`
+  is the supplied finite trace pairing, with the same localization boundaries.
 
 **Duality after localising the coefficients.** Let `K`, `S`, `S_f`, `G_{K,S}`, `G_v` and `R` be as
 in *The local duality morphisms `α_{J,X}`*, with (P): if `p = 2`, `K` has no real place (the case
@@ -5592,12 +5752,25 @@ or cofinite type holds in the unbounded derived category. After inverting `2`, t
 fibre `C_c` and Tate-modified fibre `Ĉ_c` agree and the bounded comparison is restored. The fibre
 using ordinary cochains at every place retains the cone of the maps `q_v` from the ordinary to the modified local diagram (Conventions).
 
+For finite p-primary number-field coefficients and `O`-lattices, consume the
+real Tate construction of NoncommutativeAndEquivariantIwasawa §F.3
+`arithmeticCompactSupport` and `arithmeticGlobalDuality`, identified with
+IntegralIwasawaTheory §2.0's modified instance and its comparison map.
+The specialization is `κ : Ĉ_c,here ≃ arithmeticCompactSupport_mod`, and
+`β_here = D_{J[−3]}(θ_{D_J(X)(1)}) ∘ β_supplier ∘ κ`.
+General residue-characteristic-two rings and their finite/cofinite or
+dualizing complexes extend that construction here; the ordinary Burns–Flach
+instance remains connected by the ordinary-to-Tate triangle of this section.
+
 *Proof sketch.* These are the classical statements with Tate cohomology at the real places (NSW
 Chapter VIII), restated by Nekovář; the constructions of 5.3 are repeated with `Ĉ` at the real
 places. ([Nekovář, *Selmer complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf),
 §5.7.1–5.7.6, pp. 130–133, formulas on printed p. 133.) *Needs:* *Continuous cochains with compact
 support*; *Derived Poitou–Tate duality*; *Local duality at the archimedean places* (Layer R02.4);
-*Poitou–Tate duality and the nine-term exact sequence* (Layer R02.4).
+*Poitou–Tate duality and the nine-term exact sequence* (Layer R02.4);
+IntegralIwasawaTheory §2.0 (`arithmeticCompactDuality`);
+NoncommutativeAndEquivariantIwasawa §F.3
+(`arithmeticCompactSupport`, `arithmeticGlobalDuality`).
 
 **Checks.**
 
@@ -5678,20 +5851,35 @@ sequence uses the complete real-place correction of *Duality when `p = 2` and `K
 the bounded rational comparison holds after inverting `p`. Compact and discrete duals are taken by
 Pontryagin (Matlis) duality, rational duals by `ℚ_p`-linear duality.
 
-*Proof sketch.* Write the finite nine-term sequences, with transition maps adjoint under the finite
-evaluation pairings. Apply the Milnor sequence to each cochain complex and use the exact sequence
-`0 → T → V → W → 0`; finiteness of arithmetic cohomology gives the Mittag-Leffler condition for the
-relevant towers. Take inverse limits of compact finite exact sequences and exact direct limits of
-the discrete duals, treating the local unramified subgroups by the same finite reductions.
-Rationalise, using that the images of compact cohomology are bounded, and check the normalisation
-by the sum of local invariants. ([Rubin, *Euler
+This number-field `ℤ_p`-lattice target is an adapter to IntegralIwasawaTheory
+§2.0 `arithmeticCompactDuality` and NoncommutativeAndEquivariantIwasawa §F.3
+`arithmeticGlobalDuality` and its compact/rational cochain comparisons.
+For every global or local term the comparison is
+`Hⁱ_here(T) ≅ lim_n Hⁱ_supplier(T/pⁿT)`, and
+`Hⁱ_here(V) ≅ Hⁱ_supplier(T) ⊗_{ℤ_p} ℚ_p`.
+For compact support use the same equations under (P), and the full modified
+complexes at real dyadic places. The localization, trace and dual-localization
+maps commute with these comparisons, and
+`⟨x,y⟩_here = ⟨θ_T x, θ_{T^D} y⟩_supplier`.
+These identifications relate the supplied lattice duality to the broader D7
+coefficient theory.
+
+*Proof sketch.* Transport the supplied finite sequences and their adjoint
+transition maps. The Milnor sequence and finite-level finiteness give the
+lattice comparisons, and `0 → T → V → W → 0` gives the rational comparison.
+The supplied localization triangle and trace identify all connecting maps;
+use the complete real-place sequence before inverting `2` in the dyadic case.
+([Rubin, *Euler
 Systems*](https://swc-math.github.io/notes/files/99RubinES.pdf), Appendix B, §2, Propositions
 2.3–2.5, pp. 151–152; §3, pp. 153–154; [Nekovář, *Selmer
 complexes*](https://www.numdam.org/item/AST_2006__310__R1_0.pdf), §§5.2, 5.4, 5.7, pp. 116–133.)
 *Needs:* *Poitou–Tate duality and the nine-term exact sequence* (Layer R02.4); *The Milnor sequence
 for towers of complexes* (DerivedModuleAlgebra §1.T.1); *Tate's inverse-limit theorem* (Layer R02.1);
 *Rationalisation of lattice cohomology* (Layer R02.1); *The sequence `T → V → W` and the torsion of
-`H¹(T)`* (Layer R02.1); *Duality when `p = 2` and `K` has real places*; *Adic continuous-map flatness*.
+`H¹(T)`* (Layer R02.1); *Duality when `p = 2` and `K` has real places*; *Adic continuous-map flatness*;
+IntegralIwasawaTheory §2.0 (`arithmeticCompactDuality`);
+NoncommutativeAndEquivariantIwasawa §F.3
+(`arithmeticContinuousCochains`, `arithmeticGlobalDuality`).
 
 **Checks.**
 
@@ -6073,6 +6261,17 @@ hypotheses; condition (P): `p` is odd or `F` has no real places. Chain-level ort
 just orthogonal `H¹` subspaces. For `p=2` with real places this construction/theorem requires §D7.5
 (*Duality when `p = 2` and `K` has real places*).
 
+For number fields and finite-free `ℤ_p` coefficients, identify this fibre with
+IntegralIwasawaTheory §10.0 `arithmeticLocalMappingFiber` for the same local maps
+and modified terms. If `η_v` compares the local-condition complexes, its adapter is
+`κ_F = Fib(θ_global ⊕ ⊕ η_v, ⊕ θ_v)`, for the arrow `loc−i`.
+Under derived complementarity the pairing satisfies
+`β_F,here = D_{J[−3]}(κ_{F_Y}) ∘ β_F,supplier ∘ κ_{F_X}`.
+The global trace in this identity is NoncommutativeAndEquivariantIwasawa §F.3
+`arithmeticGlobalDuality`, transported by D7.5. General `R`, dualizing
+coefficients, function fields and the explicit error triangle retain their
+stated scope here.
+
 Prove this as follows. Import the compact-support triangle and its perfect degree-three duality. Use
 the local nullhomotopies to define the fibre pairing; use the octahedral axiom on the global and
 local duality triangles. Identify the third vertex with the finite direct sum of local adjoint cones
@@ -6089,7 +6288,9 @@ local duality triangles. Identify the third vertex with the finite direct sum of
 - At `p=2` with a real place, use the complete Tate local diagram and the unbounded supplier duality.
 
 *Needs:* §D7.7.3 (Local conditions and derived orthogonal complements); §D7.5 (*Derived Poitou–Tate
-duality*); §D7.5 (*Continuous cochains with compact support*).
+duality*); §D7.5 (*Continuous cochains with compact support*);
+IntegralIwasawaTheory §10.0 (`arithmeticLocalMappingFiber`);
+NoncommutativeAndEquivariantIwasawa §F.3 (`arithmeticGlobalDuality`).
 
 #### D7.7.5 Strict ordinary and inertia ordinary annihilators
 
@@ -6901,8 +7102,7 @@ Brauer obstructions* (Layer R02.4); ClassFieldTheory Layers 7 and 12; Chebotarev
   PotentialAutomorphyInfrastructurePartII): Layers R02.3–R02.6, D7 and D8, in particular Poitou–Tate,
   the Greenberg–Wiles formula, the first-order adjoint calculations and the auxiliary-prime numerics.
 - **Euler systems and Iwasawa theory** (EulerSystemsAndKolyvaginSystems, HeegnerPointEulerSystems,
-  KatoEulerSystems, IntegralIwasawaTheory, NoncommutativeAndEquivariantIwasawa,
-  PhiGammaModulesAndIwasawaCohomology, PadicFamilies, PadicHodgeRegulators, RankZeroOneBSD,
+  KatoEulerSystems, PhiGammaModulesAndIwasawaCohomology, PadicFamilies, PadicHodgeRegulators, RankZeroOneBSD,
   GeneralizedHeegnerCycles, ArithmeticStatistics): compact and rational coefficients (R02.1), the
   Hochschild–Serre and inflation–restriction statements (R02.2), Poitou–Tate (R02.4) and the derived
   duality of D7.

@@ -61,7 +61,13 @@ Design choices made explicit here:
   under `(P)` this is the finite-place fibre. Global degree bounds additionally require every
   place above `p` in `S`, and finiteness and perfectness use their separate coefficient hypotheses. The
   ordinary deformation-local diagram uses ordinary cochains at every place.
-  R02.3 and D7 supply arithmetic local complexes, ordinary-to-Tate maps and duality.
+  IntegralIwasawaTheory §§2.0, 10.0 supplies the finite p-primary and finite-free compact
+  number-field constructions. NoncommutativeAndEquivariantIwasawa §F.3 supplies the
+  number-field cochain, compact-support and lattice-duality package. R02.3 and D7 extend
+  these to their general coefficient and field categories, with the cochain, fibre, cup
+  and trace comparison equations in the README. The generic mapping-fibre declarations
+  below give adapters on the shared domains. IntegralIwasawaTheory §10.1's bounded
+  ordinary dyadic Burns–Flach instance retains its ordinary-to-Tate comparison cone.
   D7.7 constructs dual conditions and parametric mapping-fibre duality on the modified diagram.
   Finite Selmer numerics use EllipticCurves Layer 7 for the discrete Selmer carrier.
 * Finite local Tate duality uses the three bijections imported from
@@ -689,11 +695,14 @@ variable {R : Type u} [CommRing R] {A B A' B' : CochainComplex (ModuleCat.{u} R)
 
 /-- `Hⁿ_c`, the homology of Mathlib's mapping cocone. Arithmetic localization has ordinary
 finite-place cochains, real Tate cochains and zero complex-place terms; under `(P)` for
-coefficients of residue characteristic `p`, the finite-place model is quasi-isomorphic. -/
+coefficients of residue characteristic `p`, the finite-place model is quasi-isomorphic.
+On the shared number-field domains this is the cohomology adapter for
+IntegralIwasawaTheory §2.0 and NoncommutativeAndEquivariantIwasawa §F.3 compact support. -/
 abbrev compactCohomology (res : A ⟶ B) (n : ℤ) : ModuleCat.{u} R :=
   (CochainComplex.mappingCocone res).homology n
 
-/-- A commutative localization square induces the shift of Mathlib's `mappingCone.map`. -/
+/-- A commutative localization square induces the shift of Mathlib's `mappingCone.map`,
+including the compact-support comparisons with the supplied number-field complexes. -/
 def compactMap (res : A ⟶ B) (res' : A' ⟶ B') (a : A ⟶ A') (b : B ⟶ B')
     (comm : res ≫ b = a ≫ res') :
     CochainComplex.mappingCocone res ⟶ CochainComplex.mappingCocone res' :=
