@@ -31,6 +31,8 @@ in a private provenance ledger.
 - Artin--Whaples weak approximation, including mixed finite and infinite places;
 - moduli, multiplicative congruences, ray class groups, narrow class groups, and transition maps;
 - geometry-of-numbers counts in ideal and ray classes, with uniform power-saving errors;
+- explicit regulator lower bounds in every unit rank, and the measure/cardinality comparison
+  between the existing polydisc-counting engine and Mathlib lattices;
 - the finite adele ring, the full adele ring, and their diagonal embeddings;
 - additive strong approximation for finite adeles, discreteness in full adeles, and compactness of
   the additive quotient;
@@ -181,6 +183,26 @@ NarrowPic
 
 The ring class field attached to an order is deliberately absent: it belongs to Class Field Theory.
 
+### Interface supplied to Effective Bounds
+
+This roadmap owns the lattice-interface and regulator-estimate continuation of
+[Effective Bounds](../../Completed/EffectiveBounds/README.md) Layers 0 and 3. It consumes the
+existing discriminant, ideal-count, class-number, unit-square and bounded-polynomial-root bounds;
+those producers keep their existing owners and statements. Layer 3G below supplies
+`finite_lattice_inter_polydisc`, `lattice_polydisc_count_limit`,
+`regulator_ge_elementary_rank_bound`, and `regulator_ge_elementary_degree_bound`. Its regulator
+is exactly `NumberField.Units.regulator`, and its lattice is exactly
+`NumberField.Units.unitLattice`. The volume computations use the existing Mathlib
+`volume_normLeOne` and Dedekind-zeta residue, with the ray-domain specialization of 3C–3E.
+
+[Geometry of Numbers and Quadratic Arithmetic](https://github.com/TauCetiProject/TauCetiRoadmap/pull/851)
+owns the generic successive-minima calculus and Minkowski's second theorem. Layer 3G constructs
+neither again: its arithmetic separation bound uses bounded powers of a unit, and its covolume
+step consumes Mathlib's first convex-body theorem directly. Arithmetic Dirichlet Series owns the
+series/Abel/Tauberian infrastructure; no such analytic theorem is an input to this elementary
+regulator estimate. Number Field Arithmetic keeps its rank-one unit certification and concrete
+fundamental units. Here the bound is uniform over all number fields, not limited to those examples.
+
 ## Standing hypotheses and levels of generality
 
 The standing number-field context is `[Field K] [NumberField K]`; write `𝓞 K` for the ring of
@@ -224,7 +246,7 @@ group.
 | Infinity type | Three carriers. `ContinuousInfinityType` is the archimedean parameter of an arbitrary Hecke character and has **complex** exponents; `AlgebraicInfinityType` is integer exponents at the embeddings; `FiniteOrderInfinityType` is signs at the real places. `HeckeCharacter.infinityType` lands in the first. |
 | Algebraic character | Weil's type `A₀`: the archimedean parameters agree with those of an `AlgebraicInfinityType` **on the identity component**, so a finite-order sign twist does not destroy algebraicity. Equality of full `ContinuousInfinityType`s is the wrong comparison. |
 | Base change of adeles | `𝔸_K ⊗_K L ≃ 𝔸_L` is a `ContinuousAlgEquiv` over `𝔸_K`, with the module topology on the source. A bare `AlgEquiv` is not the target. |
-| Morphism of orders | A field embedding of the ambient number fields carrying one order into the other. A bare `ℤ`-algebra homomorphism of the orders does not induce a map on `Pic` or `NarrowPic`. |
+| Morphism of orders | The existing ambient-field `Hom` carrier is equivalent to ordinary unital `ℤ`-algebra maps between the order subalgebras by unique extension to fraction fields. This supplies the field map used for ideal extension and pulls real places back for narrow functoriality. |
 | Proper ideal of an order | A fractional ideal `I` with multiplier ring `{x | xI ⊆ I}` equal to the order. This is necessary but, for a general non-Gorenstein order, not sufficient for invertibility. |
 | Picard group of an order | The group of **invertible proper fractional ideals** modulo nonzero principal fractional ideals. It is not the ideal class monoid of all fractional ideals. |
 | Narrow Picard group | The same invertible carrier modulo principal fractional ideals with a totally positive generator (equivalently positive norm only in the quadratic cases where that dictionary is used). |
@@ -347,7 +369,9 @@ card_inter_smul_isBigO :
 ```
 
 for a full lattice `Λ` in an `n`-dimensional real space and a bounded measurable `D` whose
-frontier is Lipschitz parametrizable in dimension `n-1`. Mathlib's
+frontier is Lipschitz parametrizable in dimension `n-1`. Use an explicit additive Haar measure
+for both `volume D` and `covolume Λ`; the measure carried by a `MeasureSpace` alone is not a
+Haar hypothesis. The quotient is unchanged by positive rescaling of that Haar measure. Mathlib's
 `ZLattice.covolume.tendsto_card_le_div'` assumes only that the frontier is null, which yields the
 limit but no error term, so this theorem is built here rather than consumed.
 
@@ -408,6 +432,134 @@ GlobalNumberFields.rayClassCharacter_partialSums.
 The sum is over all nonzero integral ideals prime to the modulus. It is not a sum over chosen class
 representatives. This layer is arithmetic counting; analytic continuation is performed by the
 consumer.
+
+### Layer 3G: polydisc/lattice reconciliation and explicit regulator lower bounds
+
+Use the existing `Submodule ℤ E`, `DiscreteTopology` and `IsZLattice ℝ` carriers. The polydisc
+in a finite product of complex coordinates is Mathlib's set
+
+```text
+D(r,c) = Set.pi univ (fun j => Metric.closedBall (0 : ℂ) (c * r j)).
+```
+
+Write that set directly in declarations; `D` in the equations below is notation, not a new
+region definition or a separation predicate. Establish the exact equality with the legacy
+`TauCeti.GeometryOfNumbers.box r c`. Replace that standalone wrapper definition in the engine
+by a reducible compatibility abbreviation to the displayed Mathlib set, preserving existing
+names and all packing/doubling statements and proofs. The arithmetic engine remains the same;
+there is no second lattice or packing theory.
+
+**3G.1. Complete the lattice/count/measure dictionary.** For finite `ι`, a discrete integral
+submodule `L ≤ ι → ℂ` and every real scale `c`, prove that `L ∩ D(r,c)` is finite by compactness
+and closedness/discreteness. Restate the native packing bound with positive radii, positive
+separation `ε ≤ c`, and the native doubling bound with factor `49^#ι`, directly on these sets.
+The separated-set hypothesis remains the explicit coordinate inequality, not a wrapper class.
+No full-span assumption is needed for these finite counts. For a full real lattice, prove
+
+```text
+volume.real D(r,c) = π^(#ι) * (∏ j, r j ^ 2) * c^(2 * #ι)     (r j > 0, c ≥ 0),
+lim_{t→+∞} #(L ∩ D(r,t)) / t^(2 * #ι)
+    = π^(#ι) * (∏ j, r j ^ 2) / ZLattice.covolume L.
+```
+
+Fix the product of standard Lebesgue measures, with complex area giving the unit disc measure
+`π`. The pointwise real/imaginary coordinate equivalence is the product of
+`Complex.measurableEquivPi`, followed by coordinate reindexing; build its continuous linear,
+measure-preserving and lattice-transport comparison. This avoids treating the supremum-norm
+space `ι → ℂ` as an inner-product space. Prove that each positive scale gives the actual
+bijection between `L ∩ t • D(r,1)` and `D(r,1) ∩ t⁻¹ • L`, then consume the real-Pi lattice
+count/covolume theorem. Prove compactness, measurable boundary and null frontier of the
+polydisc from the corresponding complex discs and finite products. First obtain the natural
+scale limit; extend to positive real scales by the monotone floor/ceiling squeeze. Empty `ι`
+is a separate zero-dimensional identity: lattice and region are singletons, covolume and count
+are one. No positive-dimensional assumption is silently imposed on this case.
+
+**3G.2. A quantitative unit-lattice separation bound.** For `n ≥ 1` define the explicit integers
+and real number
+
+```text
+B(n) = 4^n,
+Q(n) = n * (2 * B(n) + 1)^(n + 1),
+δ(n) = log 2 / (n * Q(n)).
+```
+
+The actual constants come from the existing bounded-polynomial-root count:
+[`ncard_biUnion_roots_natDegree_le_abs_intCoeff_le`](https://github.com/TauCetiProject/TauCeti/blob/a91d3aafa8cd3e6bc33dfde0d7677ed0f1625039/TauCeti/Algebra/Polynomial/Card/RootSetUnion.lean#L90)
+is `(2B+1)^(n+1) * n`. The coefficient input is
+[Mathlib's `Embeddings.coeff_bdd_of_norm_le`](https://github.com/leanprover-community/mathlib4/blob/6b7abb3c7686292736be2955bd3eb9ebf63b456a/Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.lean#L94):
+conjugate norms at most two give coefficient norm at most
+`2^n * choose(n, floor(n/2)) ≤ 4^n`. Transfer the rational minimal polynomial to the integer
+one using integrality. These are derived coarse constants, not an assertion of a stronger
+analytic regulator estimate.
+
+For a number field `K` of degree `n`, let `r = NumberField.Units.rank K`. Work in exactly
+Mathlib's `logSpace K = {w : InfinitePlace K // w ≠ w₀} → ℝ`, with coordinate
+`w.mult * log(w u)`. It has the supremum norm and product Lebesgue measure. The product formula
+bounds the omitted weighted-log coordinate by the sum of the other `r` absolute coordinates;
+using `#InfinitePlace K ≤ n` gives the native bound `|log(w u)| ≤ n‖logEmbedding u‖` at every
+place, including the omitted one. In declarations that use this finite subtype-indexed function
+space, provide the classical finite-index and decidability instances locally (for example with
+`open scoped Classical in`); retain Mathlib's `logSpace` carrier, norm, and product volume.
+
+If `‖logEmbedding u‖ ≤ δ(n)`, each power `u^k`, `0 ≤ k ≤ Q(n)`, has every conjugate norm at
+most two. Each is an algebraic integer of degree at most `n`, with monic nonzero integer minimal
+polynomial of coefficient height at most `B(n)`. Therefore those powers belong to a root set
+with at most `Q(n)` elements. The zero polynomial contributes no roots to that finite-root API
+and is never a witness for a power. A non-torsion unit has `Q(n)+1` distinct powers in that
+range, a contradiction. Export the positive-power witness `∃ m, 0 < m ∧ u^m = 1` under the
+small-log hypothesis, and consequently
+
+```text
+x ∈ unitLattice K, x ≠ 0  ==>  δ(n) < ‖x‖.
+```
+
+This is a quantitative strengthening of discreteness for this particular existing lattice,
+not a new definition of torsion, unit lattice or successive minima.
+
+**3G.3. Regulator estimates in every rank.** The regulator is exactly
+`ZLattice.covolume (unitLattice K)` in these omitted-place weighted-log coordinates, not the
+Euclidean covolume in the sum-zero hyperplane. Prove that the closed supremum-norm cube of
+radius `δ(n)` has volume `(2δ(n))^r`. For `r > 0`, the first Minkowski convex-body theorem and
+3G.2 imply
+
+```text
+δ(n)^r ≤ NumberField.Units.regulator K.
+```
+
+Indeed a smaller covolume makes that cube's volume exceed `2^r` times a fundamental-domain
+volume and produces a nonzero point with norm at most `δ(n)`. Use the actual full/discrete
+unit-lattice instances and explicitly identify the fundamental-domain volume with the regulator;
+there is no missing measure normalization or `sqrt(r+1)` factor. Treat `r = 0` by the existing
+native equality `R_K = 1`, retaining both branches.
+
+Prove `0 < δ(n) ≤ 1` for `n ≥ 1` and `r ≤ n`, then export the degree-only bound
+
+```text
+b(n) := δ(n)^n > 0,                 b([K:ℚ]) ≤ R_K.
+```
+
+Supply monotonicity of the root budget and antitonicity of `b` on positive degrees. With
+`D = max 1 (NumberField.hermiteTheorem.rankOfDiscrBdd N)`, the existing discriminant/degree bound
+then yields `b(D) ≤ R_K` whenever `|discr K| ≤ N`. No assertion `1 ≤ R_K` is made for arbitrary
+positive rank: the real quadratic example `R_{ℚ(√5)} = log((1+√5)/2) < 1` is a regression case.
+All number fields and all possible unit ranks are covered, including mixed and totally complex
+signatures; the estimates do not assume that a chosen unit generates modulo torsion.
+
+**3G.4. Volume exports and arithmetic consumers.** Consume Mathlib's exact
+`volume_normLeOne` and `dedekindZeta_residue` formulas and the ray-fundamental-domain volume
+from 3C–3E, preserving their multiplicities, congruence-unit index and real-sign divisor.
+Combine those equations with 3G.3 to export explicit positive lower bounds for the displayed
+fundamental-domain main terms. In particular `rayClassIdealMainTerm_ge_elementaryRegulatorBound`
+replaces the factor `R_K` in 3E's exact residue by `b(n)`, keeping
+`2^r₁ (2π)^r₂ h_K / (w_K sqrt|d_K|)`, the divisor `#RayClassGroup 𝔪` and every finite Euler
+factor unchanged. The Euler factors are positive because their norms are at least two. This is
+a consumer of 3E after the independent regulator proof, not a premise of that proof.
+Never infer a regulator lower bound merely from positivity or
+from a rank-one evaluation. Keep the existing Layer1 class-number/discriminant/ideal/unit-square
+bounds and Layer2 effective Hermite count of Effective Bounds unchanged. Generic sharper
+successive-minima estimates retain PR851's owner; analytic continuation and zero-free estimates
+retain the L-function owners. This elementary branch uses neither, and precedes analytic
+consumers, so it introduces no arithmetic/analytic dependency cycle.
 
 ### Layer 4: finite adeles
 
@@ -568,25 +720,48 @@ Define `NumberFieldOrder K` as a `ℤ`-subalgebra finite over `ℤ` and spanning
 the fraction-field instance. Define `NumberFieldOrder.conductor` as the largest `𝓞_K`-ideal inside
 the order and prove the annihilator, index, and discriminant descriptions.
 
-Define the multiplier-ring predicate `NumberFieldOrder.IsProperFractionalIdeal`. Define
-`NumberFieldOrder.invertibleProperFractionalIdeals` as the group of units in the fractional-ideal
-monoid and prove that every such ideal is proper. Define `Pic O` as this invertible carrier modulo
-nonzero principal fractional ideals. Define `NumberFieldOrder.narrowPrincipal` as a subgroup of
-the same invertible carrier and
+For a fractional ideal `I` of `O`, define its multiplier ring as
+`(I : I) = {x : K | ∀ y ∈ I, x * y ∈ I}`. Define
+`NumberFieldOrder.IsProperFractionalIdeal I` to mean both `I ≠ 0` and `(I : I) = O` as subsets of
+`K`; do not silently identify a zero fractional ideal as proper. Prove the equivalent set
+characterization and the containment `O ≤ (I : I)` from the `O`-module action.
+
+Define the trace-dual fractional ideal
+
+```text
+Oᵗ = {x : K | ∀ y ∈ O, Tr_{K/ℚ}(x*y) ∈ ℤ}.
+```
+
+Give its membership theorem and identify it as the `ℤ`-linear dual of `O` under the field-trace
+pairing; for `O = 𝓞_K` this is the codifferent. Define `O.IsGorenstein` by invertibility of this
+trace-dual ideal. Prove, for a number-field order, that this is equivalent to every nonzero
+fractional ideal with multiplier ring exactly `O` being invertible. This is the order-theoretic
+Gorenstein criterion, not a definition by an uninhabited proposition; its trace-dual formulation
+and equivalence are described in Marseglia, “Computing abelian varieties over finite fields
+isogenous to a power,” §2 (2019). Give the quadratic-order result as a named specialization.
+
+Define `NumberFieldOrder.invertibleProperFractionalIdeals` as the group of units in the
+fractional-ideal monoid and prove that every such ideal is proper. Define `Pic O` as this
+invertible carrier modulo nonzero principal fractional ideals. Define
+`NumberFieldOrder.narrowPrincipal` as a subgroup of the same invertible carrier and
 
 ```text
 NarrowPic O := O.invertibleProperFractionalIdeals / O.narrowPrincipal.
 ```
 
-Do **not** assert that every proper ideal is invertible. State that equivalence only for a
-Gorenstein order, with the quadratic-order result as a named specialization. Define the separate
-`IdealClassMonoid O` from homothety classes of nonzero fractional ideals so that noninvertible
-proper ideals have a home without being assigned inverses.
+Do **not** assert that every proper ideal is invertible without the Gorenstein hypothesis. Define
+the separate `IdealClassMonoid O` from homothety classes of nonzero fractional ideals so that
+noninvertible proper ideals have a home without being assigned inverses.
 
 Construct extension and contraction between **invertible** ideals prime to the conductor and
 maximal-order ideals prime to the conductor. Put both restrictions in the carrier types of the
 maps, and prove they are inverse equivalences there. Likewise, the prime correspondence is only
-between primes away from the conductor. Prove the ray-class-style congruence description and
+between primes away from the conductor: construct the canonical ring inclusion `O ↪ 𝓞_K` from
+integrality of elements of the finite `ℤ`-algebra, and define `conductorInOrder O` as the comap of
+the maximal-order conductor under this inclusion. For an order prime `p`, use `p.IsPrime` together
+with `¬ conductorInOrder O ≤ p`. Prove that contraction and extension carry this condition to the
+corresponding noncontainment condition for maximal-order primes. Prove the ray-class-style
+congruence description and
 finiteness for the invertible Picard carrier; do not use noninvertible ideal classes in a
 group-valued statement. The unrestricted maximal-order comparison is valid only after specializing
 to the maximal order, where every nonzero fractional ideal is invertible. The wide/narrow
@@ -597,19 +772,25 @@ surjectivity, and identify its kernel through the exact sequence
 `narrowClassToClass`; the existential `narrowPic_surjective` remains only as a corollary of the
 named map.
 
-Functoriality is stated for the morphisms that actually induce it. ⚠ An arbitrary
-`ℤ`-algebra homomorphism `O →ₐ[ℤ] O'` does **not** induce a map on `Pic` or `NarrowPic`, so a
-functoriality statement quantified over one is a false theorem. Two things are missing: extension
-of a fractional ideal needs a compatible embedding of the fraction fields, since a homomorphism of
-the abstract rings has nowhere to send a denominator; and the narrow quotient is by ideals with a
-**totally positive** generator, so the map must control real places. `NumberFieldOrder.Hom O O'`
-is therefore a ring homomorphism `K →+* K'` of the ambient number fields carrying `O` into `O'`,
-with `NumberFieldOrder.Hom.ofLE` the inclusion of two orders of one field as the special case.
-Prove `NumberFieldOrder.Hom.isReal_comap` (a real place of `K'` restricts to a real place of `K`,
-from Mathlib's `InfinitePlace.IsReal.comap`) and `NumberFieldOrder.Hom.pos_of_totallyPos`, then
-`Hom.mapPic`, `Hom.mapNarrowPic`, and the naturality square `narrowToPic_natural`. The positivity
-lemma is what makes `mapNarrowPic` well defined, and it is a named target rather than a step
-inside a construction.
+Every ordinary unital `ℤ`-algebra map `f : O.toSubalgebra →ₐ[ℤ] O'.toSubalgebra` between
+finite orders in number fields is injective and extends uniquely to a field homomorphism `K →+* K'`.
+For injectivity, a nonzero element of the kernel would have a monic integral minimal polynomial with
+nonzero constant term, forcing a nonzero integer into the kernel, contrary to unitality and
+characteristic zero. The orders span their ambient fields, so localization extends `f` by
+`a/b ↦ f(a)/f(b)`; the fraction-ring universal property gives this extension and uniqueness.
+Conversely, `NumberFieldOrder.Hom.toAlgHom` restricts an ambient map carrying `O` into `O'`, and
+`Hom.ofAlgHom` is its canonical extension. Prove the value-on-order and uniqueness equations and
+both inverse equations. Thus the existing `Hom` carrier is equivalent to ordinary order algebra
+maps; injectivity is proved, not added as a hypothesis.
+
+`NumberFieldOrder.Hom O O'` remains the ambient ring map used to extend fractional ideals, and
+`Hom.ofLE` remains the same-field inclusion. Every real place of `K'` pulls back to a real place of
+`K` by Mathlib's `InfinitePlace.IsReal.comap`, so a totally positive generator maps to a totally
+positive generator. Retain `Hom.pos_of_totallyPos`, `Hom.mapPic`, `Hom.mapNarrowPic`, and
+`narrowToPic_natural`. Expose the Picard and narrow-Picard maps for an ordinary order algebra map by
+composing `Hom.ofAlgHom` with these existing maps, and prove the resulting narrow-to-wide square.
+Include the identity/composition laws for the restriction/extension bridge; do not add a second
+morphism carrier or duplicate the fractional-ideal maps.
 
 Do not define `ringClassField O`. Class Field Theory consumes the congruence description and builds
 that field.
@@ -671,9 +852,9 @@ produce a nonunit class in `IdealClassMonoid O`, never an element of `Pic O`.
 22. Extension/contraction and prime correspondence are stated on invertible ideals or primes away
     from the conductor. The maximal-order comparison does not erase these hypotheses before the
     actual maximal-order specialization.
-23. `Hom.mapPic` and `Hom.mapNarrowPic` are stated for `NumberFieldOrder.Hom`, which carries a
-    ring homomorphism of the ambient fields. A functoriality claim for an arbitrary
-    `O.toSubalgebra →ₐ[ℤ] O'.toSubalgebra` is rejected.
+23. Every unital `O.toSubalgebra →ₐ[ℤ] O'.toSubalgebra` extends uniquely to the ambient fields;
+    `Hom.ofAlgHom` and `Hom.toAlgHom` are inverse. The resulting ordinary-map Pic/NarrowPic maps
+    retain the ambient-field extension contract and commute with `narrowToPic`.
 24. No declaration named `ringClassField`, `globalArtinMap`, or `reciprocity` is introduced here.
 
 ## Ordering and parallelism
@@ -685,6 +866,11 @@ on Layers 2 and 7. Layers 10 and 11 are independent after their carrier dependen
 
 Class Field Theory, L-functions, Chebotarev, Adelic Algebraic Groups, Global Quadratic Forms, and
 Integral Lattices consume this roadmap after these contracts stabilize.
+
+Layer 3G.1 consumes only the existing polydisc engine and Mathlib lattice/measure comparisons.
+Layer 3G.2 starts from native units, logarithmic embedding and bounded-polynomial roots; 3G.3
+uses 3G.2 and Mathlib Minkowski first. These precede 3G.4 and are independent of 3D–3F ray-class
+counting, analytic continuation, reciprocity and the generic successive-minima roadmap.
 
 ## References
 
@@ -698,6 +884,10 @@ Integral Lattices consume this roadmap after these contracts stabilize.
 - G. S. Kopp and J. C. Lagarias, *Class Field Theory for Orders of Number Fields*, §2, for
   invertible fractional ideals, conductor-prime restrictions, ideal class monoids, and the explicit
   cubic proper-noninvertible example.
+- S. Marseglia, “Computing abelian varieties over finite fields isogenous to a power,”
+  *Research in Number Theory* 5 (2019), article 35, §2,
+  [doi:10.1007/s40993-019-0174-x](https://doi.org/10.1007/s40993-019-0174-x), for the multiplier-ring
+  definition of a proper fractional ideal and the trace-dual criterion for Gorenstein orders.
 - D. A. Cox, *Primes of the Form x² + ny²*, §7, only for the specialization to **quadratic**
   orders, where proper fractional ideals are invertible; it is not a source for that equivalence for
   arbitrary number-field orders.
