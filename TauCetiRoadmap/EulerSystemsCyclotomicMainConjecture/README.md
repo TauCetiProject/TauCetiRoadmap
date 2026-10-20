@@ -13,8 +13,10 @@ Selmer formulations.
 This roadmap owns the cyclotomic arithmetic application and its abelian
 extension, including the four arithmetic comparison targets in §§3.3,
 4.7, 4.18 and 4.21. The supporting continuous-cohomology comparisons, Euler-system descent,
-finite Stickelberger annihilation and analytic value formulas are targets of
-Foundation F below. **IntegralIwasawaTheory** owns cyclotomic fields and
+finite Stickelberger annihilation and analytic value formulas are supplied by
+SelmerIwasawaCohomology, EulerSystemsAndKolyvaginSystems,
+CyclotomicClassGroupsAndStickelberger and DirichletPadicLFunctions,
+respectively. Foundation F records their contracts and the adapters used here. **IntegralIwasawaTheory** owns cyclotomic fields and
 circular units, arithmetic Iwasawa modules, control, Leopoldt,
 Ferrero–Washington and the canonical Kubota–Leopoldt pseudomeasure.
 **ColemanPowerSeries** owns local interpolation and Coleman operators;
@@ -31,19 +33,13 @@ stable index (§3.3), the all-prime unramified-coefficient Coleman sequence
 sequence (§§4.10, 4.14, 4.17), the `p`-adic class-number formula (§4.23), the
 integral Coleman image (§4.27) and the characterwise Iwasawa ranks (§5.3).
 
-Foundation F is a shared prerequisite layer. Its §§F.3–F.8 and the
-matching rank-one targets of EulerSystemsAndKolyvaginSystems describe the
-same Euler-system carriers, derivative descent and conditional bounds;
-§§F.1–F.2 and the matching targets of SelmerIwasawaCohomology describe the
-same compact Kummer limits, local conditions and Selmer groups; the
-Tate-twist dictionary of §5.3 is shared with its §4.20. Likewise
-§F.9 and CyclotomicClassGroupsAndStickelberger share finite Stickelberger
-theory and class-number products, while §§F.10–F.11 and
-DirichletPadicLFunctions share the logarithmic, Gamma–Gauss and derivative
-comparisons. Each shared construction or theorem has one library
-declaration, with the general hypotheses stated below; those downstream
-roadmaps extend its API and applications. The cyclotomic specializations
-and the half-norm-shift adapter of §0.29 belong here.
+Foundation F consumes those four suppliers without constructing a second
+cohomology, Euler-system or analytic-value theory. Its existing names are
+adapters to the supplied declarations, with the evaluation and specialization
+equations in §§F.1–F.11. The cyclotomic specializations, arithmetic
+nonvanishing arguments and half-norm-shift adapter of §0.29 belong here.
+The Tate-twist comparison uses SelmerIwasawaCohomology §4.20's Greenberg
+condition, with the arithmetic Iwasawa-module identification proved in §5.3.
 
 The existing Tau Ceti **ClassFieldTheory** roadmap supplies local and global
 reciprocity and ray class fields (the idelic sequences used here are derived
@@ -181,7 +177,8 @@ domain; invertibility of the root order is an additional hypothesis.
 Here `KummerCoeff K n` is the additive form of the roots of unity in a
 separable closure. `kummerMap` lands in the multiplicative wrapper of
 continuous `H¹` and requires `IsUnit (n : K)`. The finite norm, restriction and coefficient-transition squares above are supplied
-directly; §F.1 proves their inverse-limit comparison and §0.25 their character comparison.
+directly; SelmerIwasawaCohomology §§0.6–0.8 supplies their inverse-limit
+comparison through §F.1, and §0.25 proves their character comparison.
 
 For the current completed-group-algebra interface, use
 `TauCeti.completedGroupAlgebra`, its finite projections `proj`, group map
@@ -194,13 +191,17 @@ the representative Lean signatures use the pinned declarations above.
 
 ### From the arithmetic roadmaps
 
-Foundation F states the continuous-cohomology, descent, Stickelberger and
-analytic comparisons used in the arithmetic layers. Their sources and exact
-hypotheses are part of those targets. The external contracts are the following.
+Foundation F records the supplied continuous-cohomology, descent, Stickelberger
+and analytic comparisons used in the arithmetic layers. Each adapter retains
+the hypotheses of its supplier. The external contracts are the following.
 
 Each supplier below is consumed only through the sections named, and only
 for the statements those sections make.
 
+- **SelmerIwasawaCohomology.** §§0.6–0.8 (limit Kummer maps and the compact comparison); §§2.1–2.2 (`SelmerData`, `SelmerData.selmer_eq_ker`); §§2.5–2.8 (`propagateImage`, `propagatePreimage`, `unramified_equiv_coinvariants`, `greenberg`); §2.25 (injective Selmer restriction); §§3.1, 3.5 (`iwasawaCohomology_equiv_limit`, universal norms away from `p`); §4.20 (Greenberg conditions for Tate twists). Sections F.1–F.2 give the adapter equations.
+- **EulerSystemsAndKolyvaginSystems.** §§1.7–1.8 (`rubinPrimes`, `finiteSingular`); §§2.1–2.2, 2.4–2.8 (Euler polynomials, `EulerSystem`, conductor presentations, twists, replacement, universal systems and rigidity); §§3.1–3.4, 3.9–3.14, 3.19 (`derivativeClass` and its local relations); §§4.3, 4.17 (`HypKT`, `HypKV`, the initial index and finite bound); §§8.2–8.8, 8.16, 8.25, 8.37–8.39 (`lambdaIndex`, restricted dual, weak Leopoldt and integral/rational Iwasawa bounds). Sections F.3–F.8 retain their full hypotheses and identify the cyclotomic inputs.
+- **CyclotomicClassGroupsAndStickelberger.** §§2.2–2.4 (`smoothedStickelberger_cast`, `gaussSum_smoothed_descent`, `stickelberger_smoothing_annihilates`); §3.2 (`cyclotomicClassEigenspace_one_eq_zero`); §3.4 (`relativeClassNumber_character_product`, `realClassNumber_log_product`). Section F.9 transports these statements through the covariant class-group action.
+- **DirichletPadicLFunctions.** §0.6 (`localIwasawaLog`, `IsIwasawaLog.norm_eq_trace`); §§3.2, 3.4, 3.6–3.7 (`complexGaussLogValue_eq_LValue`, `leopoldt_value_one`, `bernoulliQuotient_tendsto`); §§4.1–4.5 (`existsUnique_moritaGamma`, `grossKoblitz_formula` and its analytic prerequisites); §4.14 (`ferreroGreenbergGammaSum`, `ferreroGreenberg_derivative`, `ferreroGreenberg_gauss_projection`). Sections F.10–F.11 fix the branch, Gauss sign and Gamma-sum equations used by the arithmetic applications.
 - **IntegralIwasawaTheory.** §0.1 (the cyclotomic `ℤ_p`-extension with its torsion retained); §0.3 (`cyclotomic_every_pPrime_ramifies`, `cyclotomic_no_finite_prime_splits_completely`, the Frobenius description `κ_Γ(Frob_ℓ)=⟨ℓ⟩` and linear disjointness from every finite prime-to-`p` extension); §§0.2, 1.1 (compatible cyclotomic fields, real subfields, the norm direction and the restriction of `σ_a`); §1.3 (real cyclotomic generators); §1.5 (the prime-power index); §1.7 (Sinnott's circular numbers `D_k`, generated by `−1` and the norms `N_{ℚ(μ_n)/ℚ(μ_n)∩k}(1−ζ_n^a)`, `n>1`, `n∤a`, and the circular units `C_k=E_k∩D_k`; Sinnott 1980, §4, p. 201); §1.8 (Sinnott's lattice `U` and his Theorem 4.1, p. 207: for real `k` of conductor `m`, `[E_k:C_k]=h_k·2^{[k:ℚ]−1}·(∏_{q|m}[k_{q^e}:ℚ]/[k:ℚ])·(R:U)`, with `q^e‖m` and `k_{q^e}=k∩ℚ(μ_{q^e})`, and the archimedean logarithmic image `circularLog_image`); §2.2 (completed units, principal semilocal units and `globalUnitClosure`); §2.3 (`p`-ramified and unramified modules, `pRamifiedModule_rayLimit`, `unramifiedModule_classGroupLimit`); §2.4 (`principalUnitLimit_finite`, `unramifiedModule_finite_torsion`, `classGroupDirectLimit_dual_finite_torsion`); §2.6 (weak Leopoldt: `𝔛_S(K_∞)` has `Λ`-rank `r₂(K)` and no nonzero finite submodule); §2.7 (`finiteGlobalLocalSequence` `0→D_n→E_n→U_n⊕Σ_n→𝔛_S(K_n)→Cl(K_n)(p)→0`, `infiniteGlobalLocalSequence` `0→E_∞→U_∞⊕Σ_∞→𝔛_S(K_∞)→X_∞→0`, `unitLimit_eq_limit_closures`, and the discrete Kummer sequence over `K_∞⊇μ_{2p}` with its contragredient dual); §2.8 (`uniformCapitulationBound`, including the `S`-class version for `S⊇S_p∪S_∞`); §3.1 (`onePrimeClassControl`, `onePrimeBaseClassZero`); §3.2 (`inertiaClassControl`, `inertiaKernel_transition`); §3.3 (`classNumberGrowth`); §3.5 (`rjwModuleDictionary`; `greitherRayDictionary`, with `0→𝔛_S(F_∞)_{Γ_n}→A′(F_n)→Γ_n→0` and `(1−e₀)A′(F)≅(1−e₀)𝔛_S(F_∞)_Γ` for real `F`; the `p`-split dictionary `X′_{S_p}=X/D_∞`; Chevalley's ambiguous-class formula for cyclic extensions); §§4.1–4.2 (`bakerBrumer_algebraicNumbers`, `algebraicLog_kernel`: below); §4.3 (`unitRepresentation_augmentation`: `(O_E^×/μ(E))⊗ℚ≅ℚ[G]/ℚ·N_G` for real abelian `E`); §4.4 (`abelianLeopoldt` for every abelian field and every `p`); §5.6 (Ferrero–Washington for every abelian field); §6.3 (`bernoulliStickelberger_dictionary`: over `ℚ` with `F_n=ℚ(μ_{mp^n})`, `(m,p)=1`, the analytic value is the negative of the Bernoulli evaluation, with coefficient `a/(mp^n)−1/2` at `σ_a⁻¹` and arithmetic test character `ρ_{χ,s}(σ_x)=χ(x)⁻¹ω(x)⟨x⟩^s`; this negative evaluation gives the Kubota–Leopoldt series `f_χ`, `f_χ(u^s−1)=L_p(χ,s)`, for every `p` under its convention `q=4` at `p=2`, including `m=1`, with the Mellin relation `a(T)=u(1+T)⁻¹−1`); §10.4 (`arithmeticCharacter_eulerQuotient`, the coinvariant lemma `|M_Γ|/|M^Γ|=|O/f(0)|` when `f(0)≠0`).
 - **IntegralIwasawaTheory §§4.1–4.2**: for nonzero algebraic `p`-adic units with `ℚ`-linearly independent normalized `p`-adic logarithms, those logs are independent over the embedded algebraic numbers. A common deep power meets the strict exponential-disc hypothesis, also at `p=2`. Its owner imports the qualitative `p`-adic Baker theorem from LinearFormsInLogarithms §8.10; no transcendence proof is replanned here. A `p`-unit `y` is first replaced by `p^(−v_pι(y))y` at a split completion, preserving `log` while making it a local unit. Section 4.18 supplies the actual nonzero Gauss-ideal vector before applying this generic input.
 - **IntegralIwasawaTheory §4.2**: with Iwasawa's logarithm `(log_p p = 0)`, `(a) log_p α = 0` for algebraic `α ≠ 0` exactly when some power of `α` is a root of unity times a power of `p`, and `(b)` logarithms of algebraic numbers that are linearly independent over `ℚ` are linearly independent over `ℚ̄`. Section 4.18 uses it for the direct form of its nonvanishing argument, which needs neither the minus condition nor complete splitting.
@@ -246,7 +247,8 @@ has kernel `p^ℤ×μ_{p−1}` on `ℚ_p^×` and maps `ℤ_p^×` onto `pℤ_p`.
 
 ## How to read the build
 
-Foundation F gives the general cohomology, descent and value comparisons.
+Foundation F identifies the supplied cohomology, descent and value comparisons
+with the conventions of this application.
 Layer 0 fixes the cyclotomic norm relations and their Kummer, character and
 Stickelberger applications. Layer 1 gives finite descent and its class-group
 bound; Layer 2 passes to the Iwasawa divisibility. Layer 3 proves equality
@@ -262,50 +264,46 @@ library carriers.
 
 ## Foundation F: cohomology, descent and value comparisons
 
-These targets provide the general statements used by the cyclotomic application.
+These supplier contracts and adapter identities provide the inputs to the
+cyclotomic application; their general theorems belong to the named suppliers.
 Fix a number field `K`, a prime `p`, a finite extension `Φ/ℚ_p` with integer
 ring `O`, uniformizer `π` and residue field `k`, and a finite free continuous
 `O[G_K]`-lattice `T` unramified outside finitely many places. Put
 `V=T⊗_O Φ`, `W=V/T`, `D=Φ/O`, `T*=Hom_O(T,O)(1)` and `W*=V*/T*`.
-The definitions and results below retain arbitrary `K`, arbitrary rank of `T`
+The contracts retain arbitrary `K`, arbitrary rank of `T`
 and the coefficient extensions allowed by their sources. A prime bound is
 imposed only on the particular theorem that needs it.
 
 <a id="compact-kummer-and-norm-limits"></a>
 ### F.1 Compact Kummer theory and norm limits
 
-Use continuous-cochain cohomology for compact and rational coefficients,
-with the finite-coefficient comparisons and inverse-limit maps of
-IntegralIwasawaTheory §2.0 and ProfiniteCohomology Layers 0–12. For any field
-`F` with `char F≠p`, construct `kummerLimit` as the inverse limit of the
-native finite Kummer maps. Prove `kummerLimit_equiv`:
-`H¹(F,ℤ_p(1)) ≅ lim_m Fˣ/(Fˣ)^(p^m)`.
-The coefficient transition is the pth-power map on roots of unity and the
-quotient transition on multiplicative classes. The groups `μ_(p^m)(F)`
-are finite, hence their inverse system is Mittag–Leffler. The resulting
-`lim¹ H⁰=0` gives the comparison with compact continuous `H¹`.
-For local fields this is a homeomorphism; for arbitrary fields the assertion
-is an algebraic isomorphism. Its API is `kummerLimit_res`,
-`kummerLimit_cor`, `kummerLimit_linear` and compatibility with every finite
-coefficient projection. Restriction corresponds to inclusion of elements,
-and corestriction corresponds to the relative norm. The finite squares are
-the pinned Tau Ceti declarations in the supplier contracts, not new targets.
-(**RUBIN-ES**, `I` Example 2.1, p.3, `B` Proposition 2.3, p.152;
+Consume SelmerIwasawaCohomology §§0.6–0.8's finite-map limit and compact
+Kummer comparison, for any field `F` with `char F≠p`. The adapters are
+`kummerLimit=κ_∞` and `kummerLimit_equiv=compact comparison`:
+`H¹(F,ℤ_p(1)) ≅ lim_m Fˣ/(Fˣ)^(p^m)`. In particular
+`pr_m(kummerLimit(a))=kummerMap_(p^m)(a_m)` for a compatible family
+of power classes `a`. The finite projections are the native Tau Ceti maps;
+`kummerLimit_res`, `kummerLimit_cor` and `kummerLimit_linear` are their
+supplied restriction, norm/corestriction and scalar compatibilities.
+For local fields the comparison is a homeomorphism; for arbitrary fields
+it is an algebraic isomorphism, without replacing completion by tensoring.
+(**RUBIN-ES**, I Example 2.1, p.3, B Proposition 2.3, p.152;
 **RJW-PADIC-L**, display (10.7), p.52.)
 
-Define `iwasawaCohomology` by `H¹_Iw(K∞/K,T)=lim_F H¹(F,T)` with
-corestriction, for an abelian `ℤ_p^d`-extension with `d≥1`, and give it the
-continuous completed-group-algebra action. Its API includes finite
-projection, transitivity, coefficient maps, semilocal localization and
-restriction/corestriction compatibility. Prove `universalNorm_unramified`:
-at every prime away from `p` with infinite decomposition group, every
-norm-coherent class is unramified. Thus if `S` contains `p`, the infinite
-places, the ramification of `T` and the primes with finite decomposition
-group, `lim_F H¹(F,T)=lim_F H¹(K_S/F,T)`. Prove the local assertion first
-in an unramified `ℤ_p`-extension: the inertia-cohomology term is finitely
-generated over `ℤ_p` and its norm limit vanishes. No condition at `p` is
-deduced from this argument. (**RUBIN-ES**, `B` §3, Lemma 3.2, Proposition 3.3
-and Corollaries 3.4–3.5, pp.153–155.)
+Use SelmerIwasawaCohomology §3.1's `iwasawaCohomology` in degree one.
+The adapter equation is `iwasawaCohomology(K∞/K,T)=lim_(F,Cor) H¹(F,T)`
+for finite free `T` in an abelian `ℤ_p^d`-extension, `d≥1`.
+The restricted-ramification comparison uses its
+`iwasawaCohomology_equiv_limit` under condition `(F)` for `G_(K,S)`;
+its §3.5 universal-norm theorem identifies the full-field limit with this
+restricted limit when `S` contains `p∞`, the ramification of `T` and all
+primes with finite decomposition group. The adapter
+`universalNorm_unramified` is that theorem: `loc_v(pr_F c)∈H¹_ur(F_v,T)`
+for `v∤p` with infinite decomposition group. No local condition at `p`
+is inferred. In the cyclotomic application `T=O(1)⊗χ⁻¹` and the
+projection of the Iwasawa class is precisely its finite Kummer class.
+(**RUBIN-ES**, B §3, Lemma 3.2, Proposition 3.3 and Corollaries 3.4–3.5,
+pp.153–155.)
 
 **Checks.**
 
@@ -322,7 +320,7 @@ and Corollaries 3.4–3.5, pp.153–155.)
 - A completely split prime has no growing local degree; the universal-norm
   assertion at that prime does not follow. Primes above `p` are also excluded.
 
-*Needs:* IntegralIwasawaTheory §2.0; ProfiniteCohomology Layers 5–12;
+*Needs:* SelmerIwasawaCohomology §§0.6–0.8, 3.1, 3.5; IntegralIwasawaTheory §2.0; ProfiniteCohomology Layers 5–12;
 LocalGaloisGroups Layer 7, Step 1 (`padicCompletionUnits`, its integral
 module structure, Galois action and reciprocity comparison), and Layer 0
 for absolute-Galois and roots-of-unity carriers; PadicMeasuresIwasawaAlgebras §5.2.
@@ -330,40 +328,39 @@ for absolute-Galois and roots-of-unity carriers; PadicMeasuresIwasawaAlgebras §
 <a id="selmer-and-local-conditions"></a>
 ### F.2 Local conditions and Selmer comparisons
 
-Use the general discrete Selmer construction of EllipticCurves Layer 7.
-Extend its kernel-of-localization description to the compact lattice `T`
-and rational representation `V`, and propagate rational local conditions
-to `T` by inverse image and to `W` by image. Away from `p`, set
-`H¹_f(K_v,V)=ker(H¹(K_v,V)→H¹(I_v,V))`; at `p` allow the explicitly
-specified rational local condition with its Tate-orthogonal dual.
-For discrete torsion, compact finite-type or rational coefficients `B`,
-define `unramifiedCondition` as the kernel of restriction to inertia and
-prove `unramifiedCondition_coinvariants`:
-`H¹_ur(K_v,B)≅B^I/(Fr_v−1)B^I`. On a ramified lattice or its torsion
-quotient, the propagated finite condition and raw unramifiedness must be
-compared, not identified without hypotheses. For a finite support `S`
-containing `p∞` and the ramification, prove `selmerKernel_global`:
-the kernel inside `H¹(G_(K,S),B)` equals the full global classes satisfying
-the conditions at `S` and unramifiedness outside it. Enlarging `S` with
-unramified conditions leaves the group unchanged. Supply coefficient
-functoriality, strict/relaxed local modifications and their localization
-exact sequences. (**RUBIN-ES**, I Definitions 3.1 and 3.4, Lemmas 3.2,
-3.5 and 5.3, pp.4–7, 12.)
+Consume SelmerIwasawaCohomology §§2.1–2.2's `SelmerData` and
+`SelmerData.selmer_eq_ker` on compact, rational and discrete coefficients.
+The adapter `selmerKernel_global` identifies the supplied kernel with
+the full global classes satisfying the local conditions, using unramified
+conditions outside a finite `S⊇p∞` containing the coefficient ramification:
+`Sel(B)=ker(H¹(G_(K,S),B)→∏_(v∈S) H¹(K_v,B)/L_v)`.
+The image/preimage propagation in §§2.5–2.6 gives
+`L_T=res_(T→V)⁻¹(L_V)` and `L_W=res_(V→W)(L_V)`.
+Its strict/relaxed modifications, coefficient maps and localization sequences
+are consumed on this same datum. At `v∤p` the rational finite condition is
+inertia's kernel; on a ramified lattice its propagated condition need not
+equal raw unramifiedness. (**RUBIN-ES**, I Definitions 3.1 and 3.4,
+Lemmas 3.2, 3.5 and 5.3, pp.4–7, 12.)
 
-For a `G_(K_v)`-stable submodule `F⁺B⊆B` at `v|p`, define
-`greenbergCondition=ker(H¹(K_v,B)→H¹(I_v,B/F⁺B))`. Its API includes
-`greenberg_zero`, `greenberg_top`, `unramified_le_greenberg` and coefficient
-maps preserving the filtration. Stability under the local decomposition
-group suffices. For `W_n=(ℚ_p/ℤ_p)(n)` in §5.3 use `F⁺W_n=W_n` for
-`n≥1` and zero for `n≤0`. (**RJW-PADIC-L**, Definition 13.19, p.70.)
+The adapters to its §§2.7–2.8 are
+`unramifiedCondition(B)=unramified(B)=ker res_I`,
+`unramifiedCondition_coinvariants=unramified_equiv_coinvariants`, and
+`greenbergCondition(B,F⁺B)=greenberg(B,F⁺B)=ker(H¹(K_v,B)→H¹(I_v,B/F⁺B))`.
+The coinvariant equation is `H¹_ur(K_v,B)≅B^I/(Fr_v−1)B^I` for
+discrete torsion, compact finite-type or rational coefficients.
+The names `greenberg_zero`, `greenberg_top` and `unramified_le_greenberg`
+refer to that supplied API, with `F⁺B` stable under the local decomposition
+group. For §5.3's `W_n=(ℚ_p/ℤ_p)(n)`, its §4.20 specializes this to
+`F⁺W_n=W_n` for `n≥1` and zero for `n≤0`; hence the local condition is
+all of `H¹` or `H¹_ur`, respectively.
+(**RJW-PADIC-L**, Definition 13.19, p.70.)
 
-Prove `selmerRestriction_injective` for any finite extension whose
-restriction preserves the specified local conditions, under either of
-these hypotheses: its degree is prime to `p`, or `B^(G_L)=0` for its
-Galois closure `L/K`. In particular, vanishing upstairs implies vanishing
-downstairs under these hypotheses. Use `cor∘res=[L:K]` in the first case
-and inflation–restriction in the second. (**RUBIN-ES**, `B` Proposition 2.5,
-p.152, and `I` §5, p.12.)
+Use its §2.25 injective restriction theorem as
+`selmerRestriction_injective`: restriction preserving the specified local
+conditions is injective if the finite extension has degree prime to `p`,
+or if `B^(G_L)=0` for its Galois closure `L/K`.
+Thus `Sel_L(B)=0` implies `Sel_K(B)=0` under the corresponding hypothesis.
+(**RUBIN-ES**, B Proposition 2.5, p.152, and I §5, p.12.)
 
 **Checks.**
 
@@ -385,45 +382,35 @@ p.152, and `I` §5, p.12.)
 - A nonzero class in `Hom(Gal(L/K),ℤ/p)` for a cyclic `p`-extension
   restricts to zero. Arbitrary extension degree does not imply injectivity.
 
-*Needs:* §F.1; EllipticCurves Layer 7; ProfiniteCohomology Layer 5;
+*Needs:* SelmerIwasawaCohomology §§2.1–2.2, 2.5–2.8, 2.25, 4.20; §F.1; EllipticCurves Layer 7; ProfiniteCohomology Layer 5;
 ClassFieldTheory Layer 5 for local Tate duality.
 
 <a id="euler-system-module-and-conductors"></a>
 ### F.3 Euler polynomials, the module of systems and conductor presentations
 
-For `q∤p` unramified on `T`, let `P_q(X)=det(1−Fr_q⁻¹X | T*)`.
-Prove its equality with `det(1−Nq⁻¹ Fr_q X | T)` and the coefficient
-comparison with `det(1−Fr_q X | T)`: the coefficients in degree `i`
-differ by `Nq^(−i)`. They are congruent modulo `Nq−1`, but need not be
-equal. Give constant term, rank-zero, direct-sum, coefficient-extension,
-twist and Cayley–Hamilton APIs. (**RUBIN-ES**, IV Lemma 1.2, p.57.)
-
-The polynomial and Euler-system definitions also apply over a commutative
-coefficient order finite free over `ℤ_p`; the length bounds in §§F.7–F.8
-use the complete DVR `O` specified above.
-
-For any abelian extension `𝒦/K` and ideal `N` containing `p` and the
-ramification of `T`, define `EulerSystem` to be the completed-group-algebra
-submodule of `∏_(K⊆F⊆𝒦 finite) H¹(F,T)` satisfying
+Consume EulerSystemsAndKolyvaginSystems §§2.1–2.2's Euler polynomials,
+`EulerSystem` and admissible-tower interface. At `q∤p` unramified on `T`,
+the convention is `P_q(X)=det(1−Fr_q⁻¹X | T*)=det(1−Nq⁻¹ Fr_q X | T)`.
+The adapter `EulerSystem(T,𝒦,N)=ES(T,𝒦,N)` uses the same families:
 `Cor_(F′/F)c_(F′)=(∏_(q∈Σ(F′/F))P_q(Fr_q⁻¹))c_F`, where `Σ` consists
-of primes outside `N` newly ramifying in `F′/K`. Give evaluation,
-extensionality, addition, scalar action, tower restriction and compatible
-family lifting APIs. Admissibility is a separate property: `𝒦` contains
-every maximal `p`-subextension `K(q)` of the ray field modulo `q`, `q∤N`,
-and a `ℤ_p^d`-extension, `d≥1`, with no completely split finite prime.
-The family definition makes sense without this property; the descent
-theorems use it or the rigidity alternatives of §F.5.
-(**RUBIN-ES**, II Definition 1.1, pp.21–22.)
+of primes outside `N` newly ramifying in `F′/K`, and `N` contains `p`
+and the ramification of `T`. Evaluation, module operations, coefficient
+extension and tower restriction are those of the supplier. The polynomial
+and family definitions allow coefficient orders finite free over `ℤ_p`;
+the length bounds use the complete DVR `O`.
+(**RUBIN-ES**, IV Lemma 1.2, p.57; II Definition 1.1, pp.21–22.)
 
-Prove `eulerSystem_conductorPresentation`: the module is equivalent to
-the conductor-indexed ray-class family with the one-prime norm factors
-`P_q(Fr_q⁻¹)` for `q∤mN` and 1 for `q|mN`. The conductor includes its
-archimedean part. The comparison from ray families uses corestriction
-from the field at the conductor; the inverse comparison inserts the
-Euler factors of conductor primes unramified in that field. Prove also
-the squarefree presentation on the cofinal fields `F(r)=FK(r)`, where
-`K(r)` is the compositum of the `K(q)`, for the minimal admissible
-extension. Give both inverse maps and their evaluation formulas.
+Use its §2.4 conductor-indexed equivalence as
+`eulerSystem_conductorPresentation`. Its equations are
+`c_F=Cor_(K[m]∩𝒦/F)(c̃_m)` at the conductor of `F/K`, and
+`c̃_m=(∏_q P_q(Fr_q⁻¹))c_(K[m]∩𝒦)`, with the product over
+`q|m`, `q∤N`, unramified in `K[m]∩𝒦`. The archimedean conductor is
+retained. For the minimal admissible extension the squarefree presentation
+uses `F(r)=FK(r)`. Admissibility requires every ray `p`-subextension `K(q)`
+for `q∤N` and an infinite `ℤ_p^d`-direction with no completely split
+finite prime; the carrier itself does not require it.
+For `K=ℚ`, `T=ℤ_p(1)`, the local polynomial is `1−X`; §§0.15–0.17
+construct the cyclotomic family satisfying exactly this norm relation.
 (**RUBIN-ES**, II Remarks 1.3–1.4, pp.22–23.)
 
 **Checks.**
@@ -447,40 +434,35 @@ extension. Give both inverse maps and their evaluation formulas.
 - A conductor prime unramified in its ray-field intersection introduces
   an Euler factor in the inverse comparison; omitting it changes the family.
 
-*Needs:* §§F.1–F.2; ClassFieldTheory Layer 13; native determinants and
+*Needs:* EulerSystemsAndKolyvaginSystems §§2.1–2.2, 2.4; §§F.1–F.2; ClassFieldTheory Layer 13; native determinants and
 characteristic polynomials; PadicMeasuresIwasawaAlgebras Layer 1.
 
 <a id="admissible-primes-and-finite-singular"></a>
 ### F.4 Admissible primes and finite–singular comparison
 
-Let `K(1)` be the `p`-Hilbert class field and `K(q)` the maximal `p`-subfield
-of the ray class field modulo `q`. For finite `F⊆K∞` put `F(1)=FK(1)`.
-For `0≠M∈O`, define `rubinPrimes(F,M,T)` as squarefree products of
-primes `q∤N` with `M|[K(q):K(1)]`, `M|P_q(1)` and complete splitting
-in `F(1)/K`. Specify the corresponding prime subset as well as its
-squarefree products. Give membership, change-of-modulus, omission of a
-factor and compositum APIs. If the ideal `M O∩ℤ` is generated by `M̄`,
-prove `mem_rubinPrimes_of_frobenius`: a Frobenius conjugate to `τ` on
-`F(1)(μ_M̄,(O_Kˣ)^(1/M̄),W_M)`, with `τ` fixing the ray-base, roots
-and unit radicals and `T^(τ=1)≠0`, gives the stated membership.
-Chebotarev supplies infinitely many such primes after any finite exclusion
-once that conjugacy class exists. (**RUBIN-ES**, IV Definition 1.1 and
-Lemmas 1.2–1.3, pp.56–58.)
+Consume EulerSystemsAndKolyvaginSystems §§1.1, 1.7–1.8's ray fields,
+`rubinPrimes`, `mem_rubinPrimes_of_frobenius` and `finiteSingular`.
+With `K(1)` the `p`-Hilbert class field, `K(q)` the ray `p`-subfield and
+`F(1)=FK(1)`, the adapter prime set is
+`rubinPrimes(F,M,T)={squarefree r : q|r ⇒ q∤N, M|[K(q):K(1)], M|P_q(1), q splits in F(1)}`.
+For `0≠M∈O`, its Frobenius membership criterion uses
+`F(1)(μ_M̄,(O_Kˣ)^(1/M̄),W_M)`, where `M O∩ℤ=(M̄)`, and a `τ`
+fixing the ray-base, roots and unit radicals with `T^(τ=1)≠0`.
+The supplier's Chebotarev theorem avoids any finite excluded set.
+In the cyclotomic rank-one case `M=p^k`, the resulting congruence over
+`ℚ` is `q≡1 mod p^k`, together with the required character-field splitting.
+(**RUBIN-ES**, IV Definition 1.1 and Lemmas 1.2–1.3, pp.56–58.)
 
-For a finite free unramified local representation `B` over a commutative
-artinian ring `R`, suppose `#k_vˣ R=0` and `det(1−Fr_v | B)=0`.
-Write `P(X)=(X−1)Q(X)` for `P(X)=det(1−Fr_v X | B)`.
-Define `finiteSingular` by the operator `Q(Fr_v⁻¹)` from
-`B/(Fr_v−1)B` to `B^(Fr_v=1)`, using Frobenius evaluation on
-`H¹_f` and tame inertia evaluation on `H¹_s`. Keep the tensor factor
-`k_vˣ`, or its ray quotient `G_q`, in the intrinsic comparison. If
-the Frobenius coinvariants are free of rank one, prove it is an
-isomorphism. With a chosen generator `σ_q`, changing it to `σ_q^a`
-multiplies the scalar comparison by `a⁻¹`; the tensor-valued comparison
-is unchanged. Its API includes the quotient-polynomial identity,
-coefficient reduction, the isomorphism criterion and generator change.
-Naturality is asserted for coefficient reductions of one fixed lattice
-and for maps commuting with the quotient-polynomial operators.
+For finite free unramified `B` over a commutative artinian `R`, with
+`#k_vˣ R=0` and `det(1−Fr_v | B)=0`, the adapter `finiteSingular`
+is the supplier's map induced by `Q(Fr_v⁻¹)`, where
+`(X−1)Q(X)=det(1−Fr_v X | B)`. It maps
+`B/(Fr_v−1)B→B^(Fr_v=1)` through Frobenius and tame-inertia evaluation,
+retaining the intrinsic tensor factor `k_vˣ` or its ray quotient `G_q`.
+Free rank-one coinvariants give an isomorphism. With generator `σ_q`,
+`φ_(q,σ_q^a)^fs=a⁻¹φ_(q,σ_q)^fs`; coefficient reductions and maps
+commuting with the quotient-polynomial operators preserve it.
+For `B=ℤ/p^k(1)` and admissible `q`, `Q=−1`, fixing the sign used here.
 (**RUBIN-ES**, IV Lemma 5.2 and Definition 5.3, pp.67–68.)
 
 **Checks.**
@@ -502,46 +484,40 @@ and for maps commuting with the quotient-polynomial operators.
 - Over `𝔽₅`, the fixed-line inclusion into `diag(1,2)` changes `Q(1)`
   from `−1` to 1. Arbitrary equivariant inclusions do not preserve this map.
 
-*Needs:* §§F.1–F.3; ClassFieldTheory Layers 7 and 13;
+*Needs:* EulerSystemsAndKolyvaginSystems §§1.1, 1.7–1.8; §§F.1–F.3; ClassFieldTheory Layers 7 and 13;
 Chebotarev Layer 10; native Cayley–Hamilton.
 
 <a id="twisting-replacement-and-rigidity"></a>
 ### F.5 Twisting, Euler-factor replacement and rigidity
 
-For a finite-order character `χ` of `Gal(𝒦/K)`, with values in `Oˣ`,
-field `L` and conductor `fχ`, fix a generator `ξχ` of `Oχ`. Define
-`twistEulerSystem(c,χ)_F=Cor_(FL/F)(c_(FL)⊗ξχ)`.
-Prove this is a system for `(T⊗χ,𝒦,Nfχ)`. If `L⊆L′⊆𝒦` have the
-same conductor, restriction to `FL′`, followed by cancelling `ξχ`,
-is `Σ_(δ∈Gal(FL′/F))χ(δ)δ c_(FL′)`. Give linearity,
-trivial-character, coefficient-extension, conductor and restriction APIs.
-Comparing iterated twists uses corestriction from the compositum of
-the character fields; cancelled ramification contributes its Euler
-factors. Twisting by an inverse character therefore need not undo the
-first twist. (**RUBIN-ES**, II Proposition 4.2 and Lemma 4.3, pp.30–31.)
+Consume EulerSystemsAndKolyvaginSystems §§2.5–2.6's
+`EulerSystem.twist`, `EulerSystem.twist_eval` and change-of-factors map.
+For finite-order `χ` with field `L`, conductor `fχ` and chosen generator
+`ξχ`, the adapter equation is
+`twistEulerSystem(c,χ)_F=Cor_(FL/F)(c_(FL)⊗ξχ)` for `(T⊗χ,𝒦,Nfχ)`.
+After restriction to `FL′`, for `L⊆L′⊆𝒦` of the same conductor,
+cancelling `ξχ` gives `Σ_(δ∈Gal(FL′/F))χ(δ)δ c_(FL′)`.
+For the cyclotomic construction with `T=O(1)` and twist `χ⁻¹`, this
+is precisely the unnormalised `χ`-sum in §§0.18–0.20.
+(**RUBIN-ES**, II Proposition 4.2 and Lemma 4.3, pp.30–31.)
 
-Prove `replaceEulerFactors`: for polynomial families `f_q≡g_q mod Nq−1`,
-there is an `O`-linear map from families satisfying the `f_q` relations
-to those satisfying the `g_q` relations. It preserves components in
-fields unramified outside `N` and preserves character sums whose
-character conductor contains every newly ramified prime outside `N`.
-Include the unit-factor and variable-power variants of the comparison.
-This is a map of families with explicit evaluation identities, not an
-assertion that the two norm conditions are equal.
+The adapter `replaceEulerFactors` is its §2.6 `O`-linear map for
+`f_q≡g_q mod Nq−1`, with the unit-factor and variable-power variants.
+Its equations are `replaceEulerFactors(c)_F=c_F` over fields unramified
+outside `N`, and equality of character sums when the character conductor
+contains every newly ramified prime outside `N`. Thus it compares
+`1−X` with `1−q⁻¹X` in §0.31 without equating their norm relations.
 (**RUBIN-ES**, IX Lemma 6.1 and Example 6.2, pp.141–143.)
 
-For a tower containing all the `K(q)` but without an infinite
-`p`-direction, retain the finite descent results under the following
-rigidity alternatives, together with `T^(G_(K(1)))=0`: all ray-indexed
-classes are finite away from `p`, and either there is `γ` fixing
-`K(1)(μ_(p∞),(O_Kˣ)^(1/p∞))` with `γ−1` injective on `T`, or every
-`Fr_q^(p^a)−1`, `a≥0`, is injective on `T` and the local congruence
-of §F.6 is imposed on the family. Give the hypothesis predicate,
-its stability under coefficient extension, and the finite-depth
-version with classes in `T/MT`; the local finite condition in finite
-depth can require one uniform multiplier. The ordinary admissible
-tower is the third, infinite-direction alternative of the same
-rigidity theorem. (**RUBIN-ES**, IX §1, pp.133–136, and §3, pp.136–137.)
+Use its §2.8 rigidity predicate and finite-depth variant, retaining
+`T^(G_(K(1)))=0`. Besides the infinite admissible direction, its alternatives
+require finiteness away from `p` and either a `γ` fixing
+`K(1)(μ_(p∞),(O_Kˣ)^(1/p∞))` with `γ−1` injective on `T`, or all
+`Fr_q^(p^a)−1` injective together with the separate local congruence
+of §F.6. Finite-depth local finiteness retains its uniform multiplier.
+These hypotheses are inputs whenever the finite cyclotomic descent uses
+that alternative; the infinite cyclotomic tower uses admissibility.
+(**RUBIN-ES**, IX §§1, 3, pp.133–137.)
 
 **Checks.**
 
@@ -559,39 +535,33 @@ rigidity theorem. (**RUBIN-ES**, IX §1, pp.133–136, and §3, pp.136–137.)
 - The Frobenius-injectivity alternative alone does not supply the local
   congruence; that congruence is a separate clause of the hypothesis.
 
-*Needs:* §§F.1–F.4.
+*Needs:* EulerSystemsAndKolyvaginSystems §§2.5–2.6, 2.8; §§F.1–F.4.
 
 <a id="derivative-descent-and-local-relations"></a>
 ### F.6 Derivative descent and local relations
 
-For each cyclic ray factor choose `σ_q`, put `n_q=|G_q|`,
-`N_q=Σ_(i=0)^(n_q−1)σ_q^i` and
-`D_q=Σ_(i=1)^(n_q−1)iσ_q^i`, and define `D_r=∏_(q|r)D_q`.
-Prove `(σ_q−1)D_q=n_q−N_q`, the commuting-factor identities, and
-the change-of-generator law modulo `M`. Construct the universal
-norm-relation module on the symbols at divisors of `r`; prove its
-finite freeness over `O`, its universal evaluation into cohomology,
-and the coinduced lift and connecting map required for descent.
-Define `derivativeClass(c,F,r,M)` in `H¹(F,T/MT)` by that connecting
-map applied to the invariant universal derivative. It restricts to
-`N_(F(1)/F)D_r c_(F(r)) mod M`, is independent of lifts and coset
-representatives, and at `r=1` is `c_F mod M`. Supply linearity,
-modulus reduction and coefficient inclusion, localization and intrinsic
-generator independence after tensoring with `⊗_(q|r)G_q`.
-Invariant derivatives upstairs are not used as a substitute for the
-descended classes. (**RUBIN-ES**, IV §§2–4, pp.58–67, especially
-Definition 4.10 and Lemma 4.13.)
+Consume EulerSystemsAndKolyvaginSystems §§2.7, 3.1–3.4 and 3.9's
+universal system, derivative operators and `derivativeClass`. For a cyclic
+ray factor of order `n_q`, its operators satisfy
+`D_q=Σ_(i=1)^(n_q−1)iσ_q^i`, `(σ_q−1)D_q=n_q−N_q` and `D_r=∏_(q|r)D_q`.
+The adapter is `derivativeClass(c,F,r,M)=κ_(F,r,M)` through
+`T/MT≅M⁻¹T/T`, `t mod M↦t/M mod T`. For `r` admissible,
+`res_(F(r)/F)κ_(F,r,M)=N_(F(1)/F)D_r c_(F(r)) mod M` and
+`κ_(F,1,M)=c_F mod M`. Its reduction, coefficient-inclusion, linearity
+and intrinsic tensor-generator compatibilities are the supplied ones;
+§1.4 identifies this class with the derivative of the actual cyclotomic
+numbers through the supplied descent map.
+(**RUBIN-ES**, IV §§2–4, pp.58–67, Definition 4.10 and Lemma 4.13.)
 
-Prove that these classes are finite away from `pr` and satisfy
-`loc_q^s κ_(F,rq,M)=φ_(q,σ_q)^fs(loc_q κ_(F,r,M))` when `rq`
-is admissible. When Frobenius coinvariants have rank one, the orders of
-the two localized classes agree. If the original system is zero at
-a finite set away from `p`, its derivative classes retain that condition.
-For finite-depth systems retain the uniform multiplier in the finite
-condition. Prove also the local congruence at primes above `q`:
-`loc_Q c_(F(rq)) = A_q(Fr_q⁻¹)loc_Q c_(F(r))`, where
-`A_q(X)=(P_q(X)−P_q(Nq X))/[K(q):K(1)]` is an integral polynomial.
-The divisibility of the ray degree into `Nq−1` justifies this quotient.
+Its §§3.10–3.14 and 3.19 supply the local relations:
+`loc_q^s κ_(F,rq,M)=φ_(q,σ_q)^fs(loc_q κ_(F,r,M))`, finiteness away
+from `pr`, preservation of prescribed zero localizations away from `p`,
+and `loc_Q c_(F(rq))=A_q(Fr_q⁻¹)loc_Q c_(F(r))`, with
+`A_q(X)=(P_q(X)−P_q(Nq X))/[K(q):K(1)]` integral.
+Equal localization orders use free rank-one Frobenius coinvariants;
+finite-depth variants retain their uniform finite-condition multiplier.
+The cyclotomic specialization has `P_q=1−X`, so
+`A_q(X)=((Nq−1)/[K(q):K(1)])X`.
 (**RUBIN-ES**, IV Theorems 5.1 and 5.4, pp.67–68, §§6–7,
 pp.69–76, Corollary 8.1, p.77, IX Theorem 5.2, p.140.)
 
@@ -609,45 +579,39 @@ pp.69–76, Corollary 8.1, p.77, IX Theorem 5.2, p.140.)
 - The finite condition away from `pr` gives no condition at `p`;
   a claimed strict condition there would strengthen the theorem.
 
-*Needs:* §§F.1–F.5; ProfiniteCohomology Layers 5–10 for connecting
+*Needs:* EulerSystemsAndKolyvaginSystems §§2.7, 3.1–3.4, 3.9–3.14, 3.19; §§F.1–F.5; ProfiniteCohomology Layers 5–10 for connecting
 maps, coinduction, Shapiro and semilocal restriction.
 
 <a id="finite-euler-system-bound"></a>
 ### F.7 Finite bounds with both error terms
 
-Define `rubinHyp(K,T)` by a `τ∈G_K` fixing `K(1)`, all `p`-power
-roots of unity and all `p`-power roots of global units, with
-`T/(τ−1)T` free of rank one, and with `T/πT` irreducible.
-The rational variant replaces these by one-dimensional rational
-coinvariants and irreducibility of `V`. Put
-`Ω=K(1)K(W)K(μ_(p∞),(O_Kˣ)^(1/p∞))` and define
-`ind_O(c)=sup{a : c_K∈π^a H¹(K,T)+H¹(K,T)_tors}`.
-Define the two errors as the lengths of
-`H¹(Ω/K,W)∩S^Σp(K,W)` and
-`H¹(Ω/K,W*)∩S_Σp(K,W*)`, with inflation understood. Their finiteness
-requires rational irreducibility and excludes the trivial and cyclotomic
-rank-one representations. Give integral-to-rational implication,
-rank-one, torsion, scaling and error-length APIs.
-(**RUBIN-ES**, II §2 and Definition 2.1, p.24, `V` Lemma 3.2, p.87.)
+Consume EulerSystemsAndKolyvaginSystems §§4.3 and 4.17's
+`HypKT`, `HypKV`, `indexOfDivisibility`, `errorTerm` and finite bound.
+The adapter `rubinHyp(K,T)=HypKT(K,T)` requires `τ` fixing
+`K(1)`, all `p`-power roots of unity and unit radicals, free rank-one
+`T/(τ−1)T` and irreducible reduction. Its rational variant is `HypKV`,
+with rational rank-one coinvariants and irreducible `V`. The index adapter is
+`ind_O(c)=indexOfDivisibility(c)=sup{a : c_K∈π^a H¹(K,T)+H¹(K,T)_tors}`.
+With `Ω=K(1)K(W)K(μ_(p∞),(O_Kˣ)^(1/p∞))`, the two errors are the
+lengths of `H¹(Ω/K,W)∩S^Σp(K,W)` and
+`H¹(Ω/K,W*)∩S_Σp(K,W*)`, using inflation. Their finiteness uses rational
+irreducibility and excludes the trivial and cyclotomic rank-one actions.
+(**RUBIN-ES**, II §2 and Definition 2.1, p.24, V Lemma 3.2, p.87.)
 
-Prove `finiteEulerSystem_bound`: for odd `p`, an admissible Euler
-system and `rubinHyp(K,T)` give
-`length_O S_Σp(K,W*) ≤ ind_O(c)+n_W+n_W*`.
-The strict-at-`p` dual Selmer group is the one in this statement.
-Under the rational hypothesis, `T≠O` and nontorsion `c_K`, prove its
-finiteness for every `p`. For local conditions at `p` orthogonal to
-their duals, a nonzero singular localization of finite index gives the
-corresponding bound for the full Selmer group using
-`length_O(H¹_s(K_p,T)/O loc^s(c_K))` in place of the initial index.
-Allow prescribed zero localizations away from `p`, with the matching
-relaxed/strict Selmer error intersections. Prove these statements also
-under §F.5's rigidity hypotheses. The proof includes Chebotarev selection
-detecting the quotient by the error intersections, the telescoping
-derivative-localization filtration, its cokernel bound and the global
-duality comparison. Finite coefficients are compared uniformly before
-passing to `W*`; annihilator exponent is not substituted for length.
-(**RUBIN-ES**, II Theorems 2.2–2.3, p.24, `I` Corollary 7.5,
-pp.19–20, `V` Lemma 2.5 and proof, pp.82–86, IX §5, p.140.)
+The adapter `finiteEulerSystem_bound` is the supplied inequality
+`length_O S_Σp(K,W*)≤ind_O(c)+n_W+n_W*` for odd `p`, an admissible
+system and `rubinHyp`. Under the rational hypothesis, `T≠O` and a
+nontorsion initial value, finiteness holds for every `p`. With orthogonal
+local conditions at `p` and nonzero singular localization of finite index,
+the true-Selmer bound replaces the initial index by
+`length_O(H¹_s(K_p,T)/O loc^s(c_K))`. Prescribed zero localizations away
+from `p` use the corresponding relaxed/strict error intersections.
+The rigidity variants require §F.5's complete hypotheses. In §§1.1–1.3,
+under the odd-prime character assumptions and `χ(p)≠1`,
+for `T=O(1)⊗χ⁻¹`, the arithmetic application proves
+`n_W=n_W*=0` and `S_Σp(ℚ,W*)≅Hom(A_L^χ,Φ/O)` before applying this bound.
+(**RUBIN-ES**, II Theorems 2.2–2.3, p.24, I Corollary 7.5,
+pp.19–20, V Lemma 2.5, pp.82–86, IX §5, p.140.)
 
 **Checks.**
 
@@ -661,42 +625,44 @@ pp.19–20, `V` Lemma 2.5 and proof, pp.82–86, IX §5, p.140.)
 - An error group `(O/π)²` has length 2 and exponent 1; the bound uses 2.
 - The zero system has infinite index and gives no finiteness assertion.
 
-*Needs:* §§F.1–F.6; Chebotarev Layer 10; IntegralIwasawaTheory §2.0
+*Needs:* EulerSystemsAndKolyvaginSystems §§4.3, 4.17; §§F.1–F.6; Chebotarev Layer 10; IntegralIwasawaTheory §2.0
 for finite global duality; ClassFieldTheory Layer 5 for local duality.
 
 <a id="iwasawa-euler-system-bound"></a>
 ### F.8 Iwasawa indices, duality and divisibility
 
-Let `Γ=Gal(K∞/K)≅ℤ_p^d`, `d≥1`, with no completely split finite
-prime, and `Λ=O[[Γ]]`. Define `rubinIwasawaHypT` and its rational
-variant by §F.7 with `τ∈G_(K∞)` and irreducibility on `G_(K∞)`.
-Define `rubinTowerHyp`: if `d=1` and the action on `V` is trivial or
-cyclotomic over `G_(K∞)`, then `K` is totally real satisfying Leopoldt,
-or imaginary quadratic. Give integral-to-rational and base-field
-implications, invariance under `Γ`-character twists and the automatic
-cases `d≥2` and `K=ℚ`. For an Iwasawa class `x`, define
-`lambdaIndex(x)={f(x) : f∈Hom_Λ(H¹_Iw,Λ)}`. Prove this is an ideal,
-that it scales by the scalar multiplying `x`, vanishes exactly on torsion,
-and is `(a)` when `H¹_Iw/tors≅Λ` takes `x` to `a`.
+Consume EulerSystemsAndKolyvaginSystems §§8.2–8.8, 8.16, 8.25 and
+8.37–8.39 for `Γ≅ℤ_p^d`, `d≥1`, with no completely split finite prime.
+The adapters `rubinIwasawaHypT=Hyp(K∞,T)` and its rational variant
+require the §F.7 hypotheses over `G_(K∞)`, including irreducibility there.
+The adapter `rubinTowerHyp=Hyp(K∞/K)` requires, when `d=1` and the
+action over `G_(K∞)` is trivial or cyclotomic, that `K` be totally real
+satisfying Leopoldt or imaginary quadratic. The supplied integral/rational
+implications, character twists and automatic cases `d≥2`, `K=ℚ` retain
+these hypotheses. For finitely generated `H¹_Iw`, use its §8.7
+`lambdaIndex(x)={f(x) : f∈Hom_Λ(H¹_Iw,Λ)}`. This is the same ideal,
+with `lambdaIndex(ax)=a lambdaIndex(x)`, zero exactly on torsion,
+and equal to `(a)` for `x↦a` in a rank-one torsion-free quotient.
 (**RUBIN-ES**, II §3, pp.26–28, Definition 3.1, p.28.)
 
-Define `restrictedSelmerDual` by dualizing the direct limit of the
-strict-at-`p` groups `S_Σp(F,W*)`, and define the true Selmer dual using
-`S(F,W*)`. Prove finite generation and the exact sequence
-`0→H¹_(Iw,s)(K_p,T)/loc^s H¹_Iw(K,T)→Hom_O(S(K∞,W*),D)→X∞→0`,
-where `X∞` is the restricted dual and the first term is formed from the
-norm-limit singular local groups. This is obtained from finite duality
-and §F.1's universal-norm comparison. Prove weak Leopoldt, that `X∞`
-is `Λ`-torsion, from a nontorsion Euler-system Iwasawa class under the
-rational Iwasawa and tower hypotheses. Prove the integral divisibility
-`lambdaIndex(c)⊆char_Λ(X∞)` under the integral Iwasawa and tower
-hypotheses. Under only the rational hypothesis prove
-`p^t lambdaIndex(c)⊆char_Λ(X∞)` for some `t≥0`. These results hold
-for every `d≥1` and every prime, including 2. Adopt characteristic
-ideal zero for nontorsion modules; a torsion initial class has zero
-index and does not force a nontorsion dual. Give height-one length,
-scalar-twist and singular-localization consequences, with the
-involution on Pontryagin duals explicit.
+The adapter `restrictedSelmerDual=X∞=Hom_O(colim_F S_Σp(F,W*),Φ/O)`
+uses restriction transitions and the contragredient action. Its §8.16
+sequence is
+`0→H¹_(Iw,s)(K_p,T)/loc^s H¹_Iw(K,T)→Hom_O(S(K∞,W*),Φ/O)→X∞→0`.
+A nontorsion Euler-system Iwasawa class and the rational Iwasawa hypothesis
+give weak Leopoldt and torsion `X∞`. With the tower hypothesis as well,
+the integral Iwasawa hypothesis gives
+`lambdaIndex(c)⊆char_Λ(X∞)`; the rational Iwasawa hypothesis gives
+`p^t lambdaIndex(c)⊆char_Λ(X∞)` for some `t≥0`.
+These are the supplied bounds at every prime, including 2, and every
+`d≥1`; characteristic ideal zero for nontorsion modules and the involution
+on duals are retained. Under the odd-prime character assumptions,
+for `K=ℚ`, `T=O(1)⊗χ⁻¹`, §1.3 identifies
+the true Selmer dual with `A∞^χ`; when `χ(p)≠1` it also identifies
+`X∞≅A∞^χ`. Sections 2.2–2.4 retain the general specialization
+`J·char_Λχ(E∞^χ/C∞χ)⊆lambdaIndex(c)` and the singular-local correction,
+giving `J²·char_Λχ(E∞^χ/C∞χ)⊆char_Λχ(A∞^χ)`. Abelian Leopoldt
+removes the augmentation factors; equality is proved in Layer 3.
 (**RUBIN-ES**, II Theorems 3.2–3.4 and Proposition 3.7, pp.28–29,
 VII §§1–7, pp.97–121.)
 
@@ -716,64 +682,57 @@ VII §§1–7, pp.97–121.)
 - When `d≥2`, pseudo-null modules need not be finite. Their
   characteristic ideal is still the unit ideal, as the height-one test requires.
 
-*Needs:* §§F.1–F.7; IntegralIwasawaTheory §2.0;
+*Needs:* EulerSystemsAndKolyvaginSystems §§8.2–8.8, 8.16, 8.25, 8.37–8.39; §§F.1–F.7; IntegralIwasawaTheory §2.0;
 PadicMeasuresIwasawaAlgebras §§4.2, 4.4, 4.6 and 5.2.
 
 <a id="finite-stickelberger-and-class-number-comparisons"></a>
 ### F.9 Finite Stickelberger annihilation and class-number products
 
-For every `m≥2`, use `G_m=(ℤ/mℤ)ˣ` and the covariant action
-`σ_a(ζ_m)=ζ_m^a`. Define the rational element
-`θ⁰_m=Σ_(a∈G_m)(a₀/m)[a⁻¹]`, the denominator ideal
-`J_m={x∈ℤ[G_m] : xθ⁰_m∈ℤ[G_m]}` and its integral image
-`I_m={xθ⁰_m : x∈J_m}` inside `ℚ[G_m]`. The latter is the
-intersection of integral multiples of `θ` with `ℤ[G_m]`.
-Prove coefficient, conjugation, augmentation, ideal-membership and
-integral-image APIs, and the generation of `J_m` by `b−[b]` for all
-positive integers `b` prime to `m`. Define positive smoothing by the
-coefficients `floor(b a₀/m)` at `[a⁻¹]` and prove
-`smoothedStickelberger_cast=(b−[b])θ⁰_m`.
+Consume CyclotomicClassGroupsAndStickelberger §§2.2–2.4's denominator
+ideal, integral image, Gauss descent and annihilation. On
+`G_m=(ℤ/mℤ)ˣ`, `m≥2`, the dictionary is
+`θ⁰_m=stickelberger(m)=Σ_a(a₀/m)[a⁻¹]`,
+`J_m=denominatorIdeal(m)={x∈ℤ[G_m] : xθ⁰_m∈ℤ[G_m]}` and
+`I_m=stickelbergerIdeal(m)={xθ⁰_m : x∈J_m}`.
+The supplied `smoothedStickelberger_cast` identifies the floor coefficients
+at `[a⁻¹]` with `(b−[b])θ⁰_m`, for `b` prime to `m`.
 (**SHARIFI-IWASAWA**, Definition 4.5.1 and Lemma 4.5.2, pp.113–114.)
 
-Prove `gaussSum_smoothed_descent`: for a prime `𝔩` above a rational
-prime `ℓ≡1 mod m`, choose the inverse residue character compatible
-with `𝔩` and the chosen primitive root. For `x∈J_m`, its native
-Gauss sum satisfies `g^x∈ℚ(μ_m)ˣ` and `(g^x)=𝔩^(xθ⁰_m)`.
-Extend the `σ_a` to fix `ζ_ℓ`, and prove that the denominator-ideal
-condition kills the inertia root-of-unity factor. Give independence
-under simultaneous root/character/prime transport and multiplicativity
-in `x`. Apply the supplied Gauss-power factorization, then Hilbert
-class fields and Chebotarev to represent every class by such a split
-prime. Deduce `stickelberger_smoothing_annihilates` and the stronger
-`stickelbergerIdeal_annihilates` for the full class group at every
-conductor, transported to any cyclotomic field model. The explicit
-positive-smoothing statement is in `Suggested.lean`.
+The adapter `gaussSum_smoothed_descent` is its §2.3 descent:
+`g^x∈ℚ(μ_m)ˣ`, `(g^x)=𝔩^(xθ⁰_m)` for `x∈J_m`, `ℓ≡1 mod m`,
+and the inverse residue character compatible with `𝔩` and `ζ_m`.
+Simultaneous root/character/prime transport and multiplication in `x`
+use the supplied API. The adapter `stickelbergerIdeal_annihilates`
+is its §2.4 full-class-group theorem `I_m·Cl(ℚ(μ_m))=0`.
+In `Suggested.lean`, `stickelberger_smoothing_annihilates` is the
+same supplier's named theorem in this namespace: its product at `x` is
+`∏_a σ_(a⁻¹)(x)^floor(b a₀/m)=1`, with the native covariant
+`ClassGroup.mulEquivHom` action. Transport to a cyclotomic field model
+sends `ζ_m↦ζ_m`, hence `[a⁻¹]↦σ_(a⁻¹)`; no inverse class-group action
+or odd-conductor restriction is inserted. Section 0.29 proves the actual
+application adapter
+`(b−σ_b)(θ⁰_m−½N_m)=smoothedStickelberger(m,b)−((b−1)/2)N_m`
+for odd `b`, and then multiplies by the required `p`-Euler factor.
 (**SHARIFI-IWASAWA**, Lemma 4.5.4 and Theorem 4.5.6, pp.115–117.)
 
-For odd `p`, prove `cyclotomicClassEigenspace_one_eq_zero` for the
-Teichmüller component of the `p`-class group of `ℚ(μ_p)`: take smoothing
-`b=1+p`, whose `χ`-value is `p B_(1,ω⁻¹)`, and prove this scalar is
-a `p`-adic unit. Indeed `p B_(1,ω⁻¹)≡p−1≡−1 mod p`.
-Integral annihilation then kills this component. No nonintegral
-Bernoulli scalar is made to act on a finite module.
-(**SHARIFI-IWASAWA**, §4.5, Theorem 4.5.7, p.117.)
+Use its §3.2 `cyclotomicClassEigenspace_one_eq_zero` for odd `p`:
+the exponent-one Teichmüller component of `Cl(ℚ(μ_p))(p)` is zero.
+The normalization is smoothing by `1+p`, whose scalar
+`p B_(1,ω⁻¹)≡−1 mod p` is a unit; a nonintegral Bernoulli value
+is never made to act on the class group.
+(**SHARIFI-IWASAWA**, Theorem 4.5.7, p.117.)
 
-Use native class numbers, regulators, roots of unity and the CM Hasse
-index `Q_F=[E_F:μ(F)E_(F⁺)]`. Prove for every abelian CM field
-`relativeClassNumber_character_product`:
-`h(F)/h(F⁺)=Q_F w_F ∏_(χ odd)(−B_(1,χ)/2)`.
-Prove `realClassNumber_log_product` for its real subfield:
+Use its §3.4 `relativeClassNumber_character_product` and
+`realClassNumber_log_product` on the same native class numbers, regulators,
+roots of unity and CM Hasse index `Q_F=[E_F:μ(F)E_(F⁺)]`:
+`h(F)/h(F⁺)=Q_F w_F ∏_(χ odd)(−B_(1,χ)/2)` and
 `h(F⁺)R(F⁺)=∏_(χ≠1 even)(−½Σ_(a=1)^(fχ)χ(a)log|1−exp(2πia/fχ)|)`.
-Characters are taken at primitive conductors. The ratio is initially
-a positive rational number; its prime-power cyclotomic integrality is
-proved from norm surjectivity. Derive the products from native
-Dedekind-zeta residues, the Euler-product factorization into primitive
-Dirichlet functions, ClassFieldTheory's conductor–discriminant formula,
-and the signed Gauss-product and logarithmic comparisons. Prove the
-Gauss product with its phase `∏χ τ(χ)=i^(r₂(F))√|D_F|`: pair inverse
-characters and evaluate the remaining primitive quadratic Gauss sums,
-including discriminants `−4` and `±8`. Use the weighted complex-place
-regulator; for prime-power CM fields its Hasse index is one.
+The adapters preserve primitive conductors, the positive rational ratio,
+weighted complex-place regulators and the phase
+`∏χ τ(χ)=i^(r₂(F))√|D_F|` from its §3.4 `abelianCharacter_gauss_product`.
+The analytic residue comparison, prime-power integrality and Hasse index
+one in prime-power CM fields are supplied there. Sections 3.3, 4.22 and
+4.23 apply these equalities to the specified arithmetic towers and lattices.
 (**SHARIFI-IWASAWA**, Proposition 4.1.21, pp.100–101, Proposition
 4.2.13, Theorem 4.2.14, Lemma 4.2.17 and Theorem 4.2.20, pp.103–108.)
 
@@ -805,7 +764,7 @@ regulator; for prime-power CM fields its Hasse index is one.
   logarithms loses this factor. At conductor two the field is rational,
   so the degree-two CM formula does not apply.
 
-*Needs:* ClassicalArithmeticCompletion §§1.47 and 1.55;
+*Needs:* CyclotomicClassGroupsAndStickelberger §§2.2–2.4, 3.2, 3.4; ClassicalArithmeticCompletion §§1.47 and 1.55;
 ClassFieldTheory Layer 13; Chebotarev Layer 10; Mathlib class groups,
 CM units, Dirichlet functions and Dedekind-zeta residues; §F.10 for the
 finite logarithmic value comparison; IntegralIwasawaTheory §1.5 for
@@ -814,49 +773,47 @@ the real regulator normalization.
 <a id="dirichlet-values-and-branches"></a>
 ### F.10 Logarithmic values and analytic branch comparisons
 
-Use IntegralIwasawaTheory §5.0's canonical Kubota–Leopoldt
-pseudomeasure and its §6.3 Bernoulli normalization. No second
-arithmetic measure is defined. Its integral smoothing denominator is
-`δ_a−δ_1` after the inverse-weighted restriction to units. The branch
-corresponding to a finite character `ην` satisfies, for `k≥1`,
-`L_p(ην,1−k)=(1−ψ(p)p^(k−1))L(ψ,1−k)`, where `ψ` is the primitive
-character inducing `ηνω^(−k)`; imprimitive presentations retain their
-extra Euler deletions. Consume this interpolation, smoothing
-independence, principal pole and residue from IntegralIwasawaTheory
-§§5.0, 5.3 and 6.3. The complex Bernoulli identity is
-`L(ψ,1−k)=−B_(k,ψ)/k`, with its primitive-character convention.
-Give the evaluation comparison, coefficient-embedding and conductor
-APIs for this same object. (**RJW-PADIC-L**, §§4–5, pp.26–35, and §7, pp.40–43.)
+Use IntegralIwasawaTheory §§5.0, 5.3 and 6.3's canonical
+Kubota–Leopoldt pseudomeasure and Bernoulli normalization, through
+DirichletPadicLFunctions §§3.1–3.2's all-test branch comparison.
+No new measure or branch is constructed. The specialization equation is
+`L_p(ην,1−k)=(1−ψ(p)p^(k−1))L(ψ,1−k)`, `k≥1`, where `ψ` is the
+primitive character inducing `ηνω^(−k)`, and `L(ψ,1−k)=−B_(k,ψ)/k`.
+Imprimitive presentations retain their extra Euler deletions.
+The coordinate comparison with the series used here is
+`f_θ(u^s−1)=L_p(θ,s)`; it preserves the supplied pole at `s=1`.
+(**RJW-PADIC-L**, §§4–5, pp.26–35, and §7, pp.40–43.)
 
-For nontrivial primitive complex `θ` of conductor `f>1`, prove
-`dirichletValue_one_log`:
-`L(θ,1)=−τ(θ⁻¹)⁻¹Σ_a θ⁻¹(a)Log(1−exp(2πia/f))`, using the positive
-Gauss sum and principal logarithm and omitting zero-character terms.
-For even `θ` pair conjugate roots to replace `Log` by `log|·|`.
-For odd `θ` use the phase difference `2πi(a/f−1/2)` to obtain
-`L(θ,1)=−πi B_(1,θ⁻¹)/τ(θ⁻¹)`. Prove root-change covariance,
-inverse-character normalization and nonvanishing of the Bernoulli
-factor from native `L(θ,1)≠0`. For every primitive nontrivial `θ` at
-every prime, including conductor `p` and conductor 4 at 2, prove
-`leopoldt_value_one` for the canonical `p`-adic branch:
+Consume DirichletPadicLFunctions §3.4's
+`complexGaussLogValue_eq_LValue` as `dirichletValue_one_log`:
+for primitive nontrivial `θ` of conductor `f>1`,
+`L(θ,1)=−τ(θ⁻¹)⁻¹Σ_a θ⁻¹(a)Log(1−exp(2πia/f))`.
+Zero-character terms are omitted. Its parity equations replace `Log`
+by real `log|·|` for even `θ`, and give
+`L(θ,1)=−πi B_(1,θ⁻¹)/τ(θ⁻¹)` for odd `θ`.
+The root-change, inverse-character and coefficient conventions are the
+supplier's; native nonvanishing then gives the odd Bernoulli nonvanishing.
+Its §3.6 `leopoldt_value_one` is the adapter with the same name:
 `L_p(θ,1)=−(1−θ(p)/p)τ(θ⁻¹)⁻¹Σ_a θ⁻¹(a)log_p(1−ζ_f^a)`.
-For odd `θ` both sides are zero. At wild conductor the Fourier trace
-cancels, rather than producing an artificial `p`-Euler factor.
+This holds at every prime for tame, mixed and wild conductors, including
+conductor `p` and conductor 4 at 2; for odd `θ` both sides vanish.
+Sections 4.23 and 4.26 apply this identity to the actual circular-unit
+logarithms, with no extra wild Euler factor.
 (**RJW-PADIC-L**, Theorem 6.1 and proof, pp.35–39.)
 
-Use Mathlib's `NormedSpace.log` on principal units, with convergence,
-continuity and deep-unit injectivity supplied by Tau Ceti as specified
-in the exact contracts. Extend it to the normalized Iwasawa logarithm
-with `log_p p=0` on the finite local extensions in use, and prove the
-branch comparison, homomorphism and coefficient-extension laws and the
-inverse exponential on the strict small disc. On `ℚ_pˣ` identify its
-kernel as `p^ℤ×μ_(p−1)` for odd `p` and `2^ℤ×{±1}` at 2.
-The algebraic-number kernel and independence statements are supplied
-by IntegralIwasawaTheory §§4.1–4.2. Prove the Bernoulli limit
-`B_(w_r)→1−p⁻¹`, `w_r=2(p−1)p^r`, by the moment and logarithm
-estimates of the canonical measure. The Euler-deleted sequence has
-the same limit. (**RJW-PADIC-L**, §7, Theorem 7.1 and
-Lemmas 7.2–7.5, pp.40–43; **RUBIN-ES**, `D` §1, pp.163–166.)
+Use its §0.6 `localIwasawaLog` on the finite local extensions in use:
+`log_p|_(principal units)=NormedSpace.log`, `log_p p=0` and
+`log_p(N_(E/F)x)=Tr_(E/F)(log_p x)` for `x≠0`.
+Its branch and coefficient maps and inverse exponential on the strict
+small disc are consumed with their hypotheses. On `ℚ_pˣ` the kernel
+is `p^ℤ×μ_(p−1)` for odd `p`, and `2^ℤ×{±1}` at 2; the
+algebraic-number kernel and independence statements remain supplied by
+IntegralIwasawaTheory §§4.1–4.2.
+Its §3.7 `bernoulliQuotient_tendsto` gives, for `w_r=2(p−1)p^r`,
+`B_(w_r)→1−p⁻¹` and `(1−p^(w_r−1))B_(w_r)→1−p⁻¹`, together
+with the actual principal residue. Sections 4.10–4.11 use these supplied limits and estimates.
+(**RJW-PADIC-L**, §7, Theorem 7.1 and Lemmas 7.2–7.5, pp.40–43;
+**RUBIN-ES**, D §1, pp.163–166.)
 
 **Checks.**
 
@@ -873,49 +830,53 @@ Lemmas 7.2–7.5, pp.40–43; **RUBIN-ES**, `D` §1, pp.163–166.)
 - `log₂(−1)=0` although `−1` is a nontrivial principal unit.
   The first two terms of `log₂ 3` cancel, giving valuation 2.
 
-*Needs:* IntegralIwasawaTheory §§4.1–4.2, 5.0, 5.3, 6.3;
+*Needs:* DirichletPadicLFunctions §§0.6, 3.1–3.2, 3.4, 3.6–3.7; IntegralIwasawaTheory §§4.1–4.2, 5.0, 5.3, 6.3;
 PadicMeasuresIwasawaAlgebras §§1–3; native Dirichlet functions and
 finite Fourier sums; LocalFieldsRamification Layers 0–2.
 
 <a id="gamma-gauss-and-exceptional-derivative"></a>
 ### F.11 Gamma–Gauss comparison and the exceptional derivative
 
-Construct Morita's signed `Γ_p:ℤ_p→ℤ_pˣ` as the continuous extension
-of `Γ_p(n)=(−1)^n∏_(1≤j<n,p∤j)j`, at every prime. Give its recurrence,
-unit values, continuity, coefficient embeddings and local analytic
-expressions, including the dyadic small disc. For `q=p^f`, `f≥1`,
-choose the actual unramified degree-`f` field, its Teichmüller lift `ω`,
-a primitive pth root `ζ` and `π^(p−1)=−p` with
-`π≡ζ−1 mod (ζ−1)²`. Define the negative finite-field Gauss sum
-`g_q(a)=−Σ_(x∈𝔽_qˣ)ω(x)^(−a)ζ^(Tr x)`, `0≤a<q−1`.
-Prove `grossKoblitz_formula`:
-`g_q(a)=π^(S_p(a))∏_(j=0)^(f−1)Γ_p(a_j/(q−1))`, where `a_j`
-is the least residue of `p^j a mod q−1`.
-Its API includes character and root transport, valuation, leading
-factorial residue and comparison with the positive Gauss convention.
-Prove the analytic prerequisites: normalized factorial-quotient limits,
-the Dwork coefficient identity, the convergent Frobenius telescope,
-and the splitting-function trace-character identity at Teichmüller
-points, with its convergence estimates. At 2 retain the estimate
-`k/2−S₂(k)≥−1/2` and its exceptional minima `k=1`,3.
+Use DirichletPadicLFunctions §§4.1–4.4's signed Morita function and
+analytic API, supplied by `existsUnique_moritaGamma`:
+`Γ_p(n)=(−1)^n∏_(1≤j<n,p∤j)j`, with its unique continuous
+unit-valued extension to `ℤ_p`, at every prime. The recurrence, strict-disc
+analytic expressions and coefficient embeddings are those of the supplier.
+Its §4.5 `grossKoblitz_formula` supplies the adapter of the same name.
+For `q=p^f`, `f≥1`, use the actual unramified degree-`f` field,
+Teichmüller lift `ω`, primitive pth root `ζ` and normalized
+`π^(p−1)=−p`, `π≡ζ−1 mod (ζ−1)²`. The equation is
+`g_q(a)=π^(S_p(a))∏_(j=0)^(f−1)Γ_p(a_j/(q−1))`, `0≤a<q−1`,
+where `g_q(a)=−Σ_(x∈𝔽_qˣ)ω(x)^(−a)ζ^(Tr x)` and `a_j` is the
+least residue of `p^j a mod q−1`. The finite-field identification and
+coefficient embedding carry the native sum to this sum term by term.
+Its root transport, valuation and leading factorial residue, and its
+factorial limits, Dwork identity, Frobenius telescope and trace-character
+estimates are consumed there, including the dyadic bound
+`k/2−S₂(k)≥−1/2` with exceptional minima `k=1`,3.
+For the positive Gauss convention of the arithmetic applications,
+`τ_q(ω^(−a))=−g_q(a)`; the normalized logarithm kills this sign.
 (**MORITA-1975**, Theorem 1 and §§3–4, pp.255–266;
 **GROSS-KOBLITZ-1979**, Theorem 1.7, p.571, Lemma 2.11, p.575;
 **ROBERT-2001**, Theorems 1–4, pp.160–168, appendices, p.169.)
 
-For a primitive odd `χ` of conductor `N>1` prime to `p`, define
+Consume its §4.14 `ferreroGreenbergGammaSum`,
+`ferreroGreenberg_derivative` and `ferreroGreenberg_gauss_projection`.
+The adapter has exactly the supplier's finite sum, for primitive odd `χ`
+of conductor `N>1` prime to `p`:
 `ferreroGreenbergGammaSum(χ)=Σ_(0≤a<N)χ(a)log_p Γ_p(a/N)`.
-Prove finite-sum, coefficient-map, conjugation and zero-term APIs and
-identify the derivative of §F.10's actual branch:
+Its finite-sum, coefficient-map, conjugation and zero-term API is unchanged.
+The branch equations are
+`L_p(χω,0)=−(1−χ(p))B_(1,χ)` and
 `L_p′(χω,0)=ferreroGreenbergGammaSum(χ)+(1−χ(p))B_(1,χ)log_p N`.
-Its value is `L_p(χω,0)=−(1−χ(p))B_(1,χ)`.
-Differentiate the measure integral on its convergence disc, prove the
-residue-permutation and Gamma-antidifference limits, and compare them
-with this finite sum. If `χ(p)=1`, group into Frobenius orbits and
-apply Gross–Koblitz to identify the sum with the Gauss-product
-logarithms, retaining the orbit lengths and the matching Gauss sign.
-The arithmetic nonvanishing of that projected logarithm is proved in
-§4.18 and its odd-prime counterpart in §4.21; it is not deduced from
-the nonzero values of the individual Gamma units.
+The derivative is that of the canonical branch of §F.10. Differentiation
+of its measure integral, residue permutations and Gamma-antidifference
+limits belong to the supplier. When `χ(p)=1`, its Gauss projection
+identifies this sum with the logarithms of the actual Gauss products,
+with the matching sign and Frobenius orbit lengths. Sections 4.18 and
+4.21 prove nonvanishing of the arithmetic projection, then apply that
+identity to obtain the exceptional derivative and simple zero. Nonzero
+individual Gamma units alone imply no such nonvanishing.
 (**GROSS-DASGUPTA-2022**, §2, pp.3–5; **ZHAO-2022**,
 Theorem 4.1 and equations (4.5)–(4.6), pp.470–473.)
 
@@ -940,7 +901,7 @@ Theorem 4.1 and equations (4.5)–(4.6), pp.470–473.)
 - A zero projected logarithm gives zero derivative; a simple-zero
   conclusion requires the separate nonvanishing argument.
 
-*Needs:* §F.10; ClassicalArithmeticCompletion §§1.47 and 1.55;
+*Needs:* DirichletPadicLFunctions §§4.1–4.5, 4.14; §F.10; ClassicalArithmeticCompletion §§1.47 and 1.55;
 LocalFieldsRamification Layers 0–2; native finite fields, power series,
 convergent scalar series and Teichmüller lifts.
 
@@ -964,10 +925,13 @@ ClassicalArithmeticCompletion §§1.47 and 1.55;
 IntegralIwasawaTheory §§1.5, 2.0, 4.1–4.2, 5.0, 5.3 and 6.3;
 PadicMeasuresIwasawaAlgebras Layers 1–5; the native Mathlib arithmetic,
 cohomology and scalar analysis used in the individual targets.
-In §F.3 first define the polynomials, then construct §F.4's ray fields
-and prime sets before completing the conductor presentations. Build §F.10
-before §F.9's class-number products; its finite annihilation
-argument is independent of those products.
+The generic prerequisites are supplied by SelmerIwasawaCohomology
+§§0.6–0.8, 2.1–2.8, 2.25, 3.1, 3.5, 4.20;
+EulerSystemsAndKolyvaginSystems §§1.7–1.8, 2.1–2.8, 3.1–3.14,
+3.19, 4.3, 4.17, 8.2–8.8, 8.16, 8.25, 8.37–8.39;
+CyclotomicClassGroupsAndStickelberger §§2.2–2.4, 3.2, 3.4; and
+DirichletPadicLFunctions §§0.6, 3.1–3.2, 3.4, 3.6–3.7, 4.1–4.5, 4.14.
+The arithmetic layers specialize them through the equations in Foundation F.
 
 ## Layer 0: Euler systems and their normalization
 
@@ -1733,7 +1697,8 @@ For odd `p`, `m≥1` and an odd integer `b` prime to `mp`, let `θ_m=Σ_{a∈(�
 
 Use least nonnegative representatives a modulo `m` and arithmetic `σ_a(ζ_m)=ζ_m^a`. The extra factor `1−Fr_p⁻¹` is used only when `p∤m`.
 
-Prove this as follows. The unshifted statement is proved in §F.9; only the half-norm shift and the Euler factor are new here.
+Prove this as follows. The unshifted statement is supplied by
+CyclotomicClassGroupsAndStickelberger §2.4 through §F.9; only the half-norm shift and the Euler factor are new here.
 
 1. Write `θ_m=θ⁰_m−½N_m`, with `θ⁰_m=Σ_a(a/m)σ_a⁻¹` the Stickelberger element of §F.9 (same group-ring convention `σ_a⁻¹=[a⁻¹]`) and `N_m=Σ_aσ_a`. Then `(b−σ_b)θ_m=s_{m,b}−((b−1)/2)N_m`, where `s_{m,b}=(b−[b])θ⁰_m` is the integral floor element of §F.9 (`smoothedStickelberger_cast`). Since `b` is odd, `(b−1)/2` is an integer, so the shifted element is integral.
 2. `s_{m,b}` annihilates `Cl(ℚ(μ_m))` for `m≥2` and `b` prime to `m` (§F.9, `stickelberger_smoothing_annihilates`; its Gauss-sum descent is `gaussSum_smoothed_descent` in the same target). `N_m` annihilates `Cl(ℚ(μ_m))` because `N_m·[𝔞]` is the class of the extension of the ideal `N_{ℚ(μ_m)/ℚ}𝔞`, and `ℚ` has class number one; equivalently `N_m=(1+c)θ⁰_m` lies in the integral Stickelberger ideal (§F.9). For `m=1` the operator is zero.
@@ -2078,7 +2043,8 @@ See **RUBIN-ES**, Chapter IV §4, Definition 4.1, printed p. 62; Definition 4.10
 ### 1.5 Local conditions of cyclotomic derivatives
 For `κ^cyc_{F,r,M}`, localization lies in `H¹_f`(`F_w,T/`MT) whenever `w∤`pr. If rq is admissible and `q∤r`, then `(κ^cyc_{F,rq,M})^s_q=φ^fs_{q,σ_q}((κ^cyc_{F,r,M})_q)`. Here `φ^fs` is the finite–singular comparison of §F.4 with arithmetic Frobenius, its `Q_q(Fr_q⁻¹)` factor, and evaluation at the same chosen `σ_q`. The generator-independent formula retains the tensor factor `G_q`. In rank one, when `W_M/(Fr_q−1)W_M` is free of rank one over `O/M`, it identifies the orders of these finite and singular classes: over `ℚ` this is §F.6`(c)`, and over `F` the comparison is the direct sum of the same isomorphism over the primes of `F` above `q`, which split completely in `F`. No finite condition at `p` follows solely from this theorem.
 
-Use precisely the admissible primes and modulus of §1.4. Local groups, comparison maps and their normalisations are proved in §F.4.
+Use precisely the admissible primes and modulus of §1.4. Local groups, comparison maps and their normalisations are supplied by
+EulerSystemsAndKolyvaginSystems §§1.7–1.8 through §F.4.
 
 Prove this as follows.
 
@@ -2100,7 +2066,10 @@ See **RUBIN-ES**, Chapter IV Theorems 5.1 and 5.4, Corollary 5.5, printed pp. 67
 ### 1.6 Kolyvagin's bound: `|A_L^χ|` divides `[E_L^χ : C_{L,χ}]` (Rubin, Theorem III.2.3)
 Let `p > 2` and `χ` : `G_ℚ → O^×` even, nontrivial, of finite order prime to `p`, with conductor `f` and field `L`; `T = O_χ`, `W = D_χ`, `T* = O_{χ^{−1}}(1)`, `W* = T* ⊗ ℚ_p/ℤ_p`, with `χ(p) ≠ 1`. Then `|A_L^χ|` divides `[E_L^χ : C_{L,χ}]`.
 
-Theorem II.2.2 (the error-tolerant Euler-system bound, `p > 2`) is proved in §F.7, with its derivative classes and Chebotarev inputs (Layers 1 and 3 there). The derivative descent, Chebotarev selection and duality proof are targets of §§F.4–F.7.
+Theorem II.2.2 (the error-tolerant Euler-system bound, `p > 2`) is
+supplied by EulerSystemsAndKolyvaginSystems §4.17 through §F.7. Its
+derivative descent, Chebotarev selection and duality inputs are supplied
+by that roadmap; §§F.4–F.7 specify their application here.
 
 Mazur–Wiles proved it first; this proof is Kolyvagin's.
 
@@ -2142,7 +2111,8 @@ divisibility.
 ### 2.1 Hypotheses of the Iwasawa-theoretic Euler-system theorems over `ℚ_∞`
 Let `p` an odd prime and `χ` : `G_ℚ → O^×` even, nontrivial, of finite order prime to `p`, with field `L`, `Λ = O[[Gal(ℚ_∞/ℚ)]]` and `J = char(O)` its augmentation ideal, and `T* = O_{χ^{−1}}(1)`. The cyclotomic `ℤ_p`-extension `ℚ_∞/ℚ` has `Gal ≅ ℤ_p`, and no finite prime splits completely in it. `Hyp(ℚ_∞, T*)` holds with `τ = 1`, because `rank_O T* = 1`. `Hyp(ℚ_∞/ℚ)` holds because `K = ℚ` is totally real and Leopoldt's conjecture holds for `ℚ`. So Rubin's Theorem II.3.3 applies to the cyclotomic Euler system `c`: `char(X_∞)` divides `ind_Λ(c)`.
 
-Theorems II.3.2–II.3.4 and Proposition II.3.7 are proved in §F.8.
+Theorems II.3.2–II.3.4 and Proposition II.3.7 are supplied by
+EulerSystemsAndKolyvaginSystems §§8.25, 8.37–8.38, 8.16 through §F.8.
 
 Theorem II.3.3 itself also holds for `p = 2` (Remark III.2.5), but `p = 2` for the cyclotomic main conjecture is left to Greither (Layer 4).
 
@@ -2231,7 +2201,8 @@ See **RUBIN-ES**, Chapter II, Definition 3.1, printed p. 28. The `Λ`-index. **R
 ### 2.4 Divisibility of characteristic ideals: `char(A_∞^χ)` divides `char(E_∞^χ/C_{∞,χ})` (Rubin, Theorem III.2.7)
 Let `p` an odd prime and `χ` : `G_ℚ → O^×` even, nontrivial, of finite order prime to `p`, with field `L`, `Λ = O[[Gal(ℚ_∞/ℚ)]]` and `J = char(O)` its augmentation ideal. Then `char(A_∞^χ)` divides `char(E_∞^χ/C_{∞,χ})`, where `A_∞ = lim A_n` is the inverse limit of the `p`-parts of the class groups of `L_n`. No hypothesis on `χ(p)` is needed.
 
-Theorem II.3.3 and Proposition II.3.7 are proved here (§F.8). `Hom_O(S(ℚ_∞, W), D) ≅ A_∞^χ` is Rubin's (5), proved in §1.3 (`selmer_eq_classGroupDual`).
+Theorem II.3.3 and Proposition II.3.7 are supplied by
+EulerSystemsAndKolyvaginSystems §§8.37, 8.16 through §F.8. `Hom_O(S(ℚ_∞, W), D) ≅ A_∞^χ` is Rubin's (5), proved in §1.3 (`selmer_eq_classGroupDual`).
 
 Leopoldt's conjecture for the real abelian field `L` is used to exclude `J` from `char(A_∞^χ)`.
 
@@ -3055,7 +3026,7 @@ These interfaces are used in §4.19: the lines `λ_χ⟨g_F⟩` and `μ_χ⟨g_F
 - Dropping oddness loses the argument that `B₁` is nonzero; dropping complete splitting loses step 6's assertion that the local logarithm kernel is just `{±1}·2^ℤ`, although step 8 does not use it. Neither generalization is part of the target.
 - The nonvanishing argument needs a nonzero `χ`-valuation. For `u=2`, both `μ_χ(2)` and `λ_χ(2)` vanish, because 2 is `Δ`-invariant and `log_2(2)=0`; Baker–Brumer gives `λ_χ(u)≠0` only when `e·u≠0`, as for `g_F` by `(G1)`.
 
-See **GREITHER-1992**, §4, definitions before `(G1)`, p. 490. The definitions of `W`, `M`, `μ`, `λ`. **GREITHER-1992**, §4, the Gauss sum, p. 490. Greither's claim `g ∈ F`, corrected here. **GREITHER-1992**, §4, `(G2)`, p. 491. The derivation of `(G2)`. **GROSS-DASGUPTA-2022**, §2, pp.3–5, describes the valuation/logarithm regulator convention and the algebraic-coefficient case. The elementary and Baker–Brumer deductions in steps 5–8 prove the nonvanishing of the actual Gauss projection. The generic theorem is the `p`-adic Baker–Brumer input of IntegralIwasawaTheory §§4.1–4.2. The derivative identity is proved in §F.11.
+See **GREITHER-1992**, §4, definitions before `(G1)`, p. 490. The definitions of `W`, `M`, `μ`, `λ`. **GREITHER-1992**, §4, the Gauss sum, p. 490. Greither's claim `g ∈ F`, corrected here. **GREITHER-1992**, §4, `(G2)`, p. 491. The derivation of `(G2)`. **GROSS-DASGUPTA-2022**, §2, pp.3–5, describes the valuation/logarithm regulator convention and the algebraic-coefficient case. The elementary and Baker–Brumer deductions in steps 5–8 prove the nonvanishing of the actual Gauss projection. The generic theorem is the `p`-adic Baker–Brumer input of IntegralIwasawaTheory §§4.1–4.2. DirichletPadicLFunctions §4.14 supplies the derivative identity through §F.11.
 
 *Needs:* `TauCetiRoadmap.ClassicalArithmeticCompletion` §§1.47 and 1.55 (Stickelberger's relation); [§4.1](#greither-chi-parts); IntegralIwasawaTheory §6.3 `(L_2(s,χ̌)=G_2(u^s−1,χ̌))`; §F.10; §F.11; `DirichletCharacter.LFunction_apply_one_ne_zero`; IntegralIwasawaTheory §§4.1–4.2 (generic Baker–Brumer input only); IntegralIwasawaTheory §4.2.
 

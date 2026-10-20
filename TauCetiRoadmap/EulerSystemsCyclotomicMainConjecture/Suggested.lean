@@ -20,11 +20,12 @@ open scoped NumberField
 
 namespace TauCetiRoadmap.EulerSystemsCyclotomicMainConjecture
 
-/-! ## Foundation F: finite Stickelberger annihilation -/
+/-! ## Foundation F: finite Stickelberger adapter -/
 
-/-- Every positive integral Stickelberger smoothing annihilates the full class group
-of a cyclotomic field (§F.9). The inverse automorphism matches the basis of the
-rational Stickelberger element. -/
+/-- The adapter to CyclotomicClassGroupsAndStickelberger §2.4
+(`stickelberger_smoothing_annihilates`) gives annihilation on the native
+class group (§F.9). Its floor coefficients act by the covariant automorphisms
+`σ_(a⁻¹)`, exactly as in the supplied theorem. -/
 theorem stickelberger_smoothing_annihilates (m b : ℕ) [NeZero m]
     (K : Type*) [Field K] [NumberField K] [IsCyclotomicExtension {m} ℚ K]
     (hm : 2 ≤ m) (hb : b.Coprime m) (x : ClassGroup (𝓞 K)) :
