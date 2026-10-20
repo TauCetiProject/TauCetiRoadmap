@@ -9,10 +9,12 @@ it builds ramification of finite separable extensions with respect to a discrete
 (More on Algebra, Sections 15.113 and 15.116), unramified and tamely ramified covers in codimension
 one (Section 58.31), and extension of covers unramified in codimension one across a regular divisor
 (Lemmas 58.31.2 (0H2W) and 58.31.3 (0EYE)). Mathlib has discrete valuation rings, ramification
-indices of ideals, `AdjoinRoot`, Eisenstein polynomials, scheme normalization and étale
-morphisms; Tau Ceti has finite étale schemes over a base, codimension-one points with discrete
-valuation ring stalks, effective Cartier divisors, and tame ramification of local fields. Neither has
-ramification in codimension one of a cover or Abhyankar's lemma.
+indices of ideals, `AdjoinRoot`, Eisenstein polynomials, scheme normalization, étale
+morphisms, and the finite-étale over-category
+`(@IsFinite ⊓ @Etale : MorphismProperty Scheme).Over ⊤ S`; Tau Ceti has
+codimension-one points with discrete valuation ring stalks, effective Cartier divisors, and tame
+ramification of local fields. Neither has ramification in codimension one of a cover or
+Abhyankar's lemma.
 
 | Layer | Title | What it delivers |
 |---|---|---|
@@ -54,13 +56,19 @@ no second carrier.
   §2.1 (`IsLocalRing.purityHolds_of_isRegularLocalRing`, Stacks 0BMA (1)) and §2.2
   (`spread_from_localScheme`, Stacks 0BQ5 and 0EY3; `finiteEtale_extend_of_purity`, Stacks 0EY7;
   `finiteEtale_extend_of_regular_codimTwo`).
-- *Finite étale schemes over a base*: Tau Ceti `TauCeti.FiniteEtaleScheme S` (module
-  `TauCeti.AlgebraicGeometry.FiniteEtale.Basic`), Stacks' `FÉt_S` (Section 58.5 (0BL6)), equivalent
-  to Mathlib's `(@IsFinite ⊓ @Etale).Over ⊤ S`.
+- *Finite étale schemes over a base*: at this roadmap's pinned dependency revision, use Mathlib's
+  `(@IsFinite ⊓ @Etale : MorphismProperty Scheme).Over ⊤ S` as Stacks' `FÉt_S`
+  (Section 58.5 (0BL6)), including its pullback
+  API. [ModularCurves](../ModularCurves/README.md) §0D supplies Tau Ceti's
+  `TauCeti.FiniteEtaleScheme S` implementation (module
+  `TauCeti.AlgebraicGeometry.FiniteEtale.Basic`), which is not in that pinned revision. Coordinate
+  transport to that implementation when advancing the dependency; do not construct a second
+  finite-étale carrier or duplicate its affine comparison.
 - *Codimension-one points and discrete valuation ring stalks*: Tau Ceti
   `TauCeti.AlgebraicGeometry.CodimensionOnePoint` (module
   `TauCeti.AlgebraicGeometry.Scheme.CodimensionOnePoint`) and the instance
-  `TauCeti.AlgebraicGeometry.CodimensionOnePoint.isDiscreteValuationRing_stalk` for a regular stalk.
+  `TauCeti.AlgebraicGeometry.CodimensionOnePoint.isDiscreteValuationRing_stalk` for a regular stalk
+  (module `TauCeti.AlgebraicGeometry.Scheme.DiscreteValuationStalk`).
 - *Effective Cartier divisors*: Tau Ceti `AlgebraicGeometry.Scheme.IdealSheafData.IsEffectiveCartier`.
   A *regular divisor* is an ideal sheaf `I` with `I.IsEffectiveCartier` whose subscheme
   `I.subscheme` has every stalk a regular local ring.
@@ -99,8 +107,12 @@ in this roadmap.
 1. Rings are commutative. Schemes and morphisms are Mathlib's `Scheme` and `Scheme.Hom` in a fixed
    universe `u`. Hypotheses such as Noetherian, normal and regular are written on the statement
    that uses them, never folded into a definition.
-2. **Statement form.** Every target is stated in Mathlib's and Tau Ceti's vocabulary, against the
-   pinned libraries, and that statement is the target. Where the Stacks Project states the same
+2. **Statement form.** Scheme-level finite-étale targets use the pinned Mathlib carrier
+   `(@IsFinite ⊓ @Etale : MorphismProperty Scheme).Over ⊤ S`; the ModularCurves §0D Tau Ceti
+   implementation is a coordinated
+   transport, not another carrier to define here. Every target is stated in Mathlib's and Tau
+   Ceti's vocabulary against the pinned libraries, and that statement is the target. Where the
+   Stacks Project states the same
    result in a different form, the target cites the tag, carries `@[stacks XXXX]`, and an
    accompanying statement in the form of the tag is proved equivalent. Targets with no Stacks
    counterpart are marked *API*.
@@ -211,7 +223,8 @@ unramified, resp. tamely ramified, with respect to `A'` when `L` is with respect
 
 ### 1.1 Unramified and tamely ramified covers in codimension one
 
-Let `X` be locally Noetherian, `U ⊆ X` a dense open and `V : TauCeti.FiniteEtaleScheme U` such
+Let `X` be locally Noetherian, `U ⊆ X` a dense open and
+`V : (@IsFinite ⊓ @Etale : MorphismProperty Scheme).Over ⊤ U` such
 that for every codimension-one point `ξ ∉ U` the stalk `𝒪_{X,ξ}` is a discrete valuation ring with
 fraction field `K_ξ`. Then `V ×_U Spec K_ξ = Spec L_ξ` with `L_ξ` finite separable over `K_ξ`.
 Define `IsUnramifiedInCodimOne X U V` and `IsTamelyRamifiedInCodimOne X U V`: for every such `ξ`,
@@ -228,7 +241,9 @@ likewise for unramified. Prove `IsUnramifiedInCodimOne.baseChange` and
 `IsTamelyRamifiedInCodimOne.baseChange` (Stacks, Lemma 58.31.1 (0EYD)): for `g : X' ⟶ X` of locally
 Noetherian schemes satisfying the four hypotheses of that lemma, both properties pass to the
 base change of `V` over `U' = g⁻¹ U`.
-*Needs:* §0.1; Tau Ceti `FiniteEtaleScheme`, `CodimensionOnePoint`, `isDiscreteValuationRing_stalk`;
+*Needs:* §0.1; Mathlib `(@IsFinite ⊓ @Etale : MorphismProperty Scheme).Over ⊤ U`;
+Tau Ceti `CodimensionOnePoint`,
+`TauCeti.AlgebraicGeometry.Scheme.DiscreteValuationStalk` (`isDiscreteValuationRing_stalk`);
 Mathlib `Scheme.Hom.normalization`, `IsIntegralClosure`.
 
 **Checks.**
@@ -242,13 +257,17 @@ Mathlib `Scheme.Hom.normalization`, `IsIntegralClosure`.
 ### 2.1 Extension across a regular complement
 
 Prove `finiteEtale_extend_of_regular_complement` (Stacks, Lemma 58.31.2 (0H2W)): for `X` locally
-Noetherian, `U` a dense open, `V : TauCeti.FiniteEtaleScheme U` with `IsUnramifiedInCodimOne X U V`,
+Noetherian, `U` a dense open,
+`V : (@IsFinite ⊓ @Etale : MorphismProperty Scheme).Over ⊤ U` with
+`IsUnramifiedInCodimOne X U V`,
 and `𝒪_{X,x}` a regular local ring for every `x ∉ U`, `V` is the restriction of a finite étale
 scheme over `X`. The proof extends `V` across each codimension-one generic point of `X ∖ U` by
 `isUnramifiedWRT_iff_etale` (§0.1) and LocalPurity §2.2 `spread_from_localScheme`, then across the
 remaining points, whose local rings are regular of dimension `≥ 2`, by LocalPurity §2.2
 `finiteEtale_extend_of_regular_codimTwo`.
-*Needs:* §§0.1, 1.1; LocalPurity §2.2; Tau Ceti `FiniteEtaleScheme`, `CodimensionOnePoint`.
+*Needs:* §§0.1, 1.1; LocalPurity §2.2;
+Mathlib `(@IsFinite ⊓ @Etale : MorphismProperty Scheme).Over ⊤ U`;
+Tau Ceti `CodimensionOnePoint`.
 
 ### 2.2 Extension across a regular divisor
 
@@ -306,7 +325,8 @@ and `s : S`, there are an étale `φ : U ⟶ S`, `u : U` with `φ u = s`, and a 
 the base change of `X` to `U` into open and closed subschemes each mapping isomorphically to `U`.
 Prove the local form used in §3.3, `finiteEtale_split_of_strictlyHenselian`: over a strictly
 henselian local ring every finite étale algebra is a finite product of copies of the base.
-*Needs:* Tau Ceti `FiniteEtaleScheme`; ModularCurves §4D (strict henselisation);
+*Needs:* Mathlib `(@IsFinite ⊓ @Etale : MorphismProperty Scheme).Over ⊤ S`;
+ModularCurves §4D (strict henselisation);
 SchemeAndStackFoundations §0.12 (henselisation); Mathlib `HenselianLocalRing`, `IsSepClosed`,
 `Algebra.Etale`, `IsRegularLocalRing`, `AdicCompletion`.
 

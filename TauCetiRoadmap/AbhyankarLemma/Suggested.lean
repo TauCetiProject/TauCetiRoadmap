@@ -10,8 +10,10 @@ finishes neither a layer nor the roadmap.
 
 Every statement is in Mathlib's vocabulary (README, Convention 2). Declarations with a Stacks
 Project counterpart carry Mathlib's `@[stacks]` attribute; those without one say why. The
-scheme-level targets, which use Tau Ceti's `FiniteEtaleScheme` and `IsEffectiveCartier`, are
-specified in the README; the affine forms are stated here.
+scheme-level targets, which use Mathlib's
+`(@IsFinite ⊓ @Etale : MorphismProperty Scheme).Over ⊤ S` at the pinned
+dependency revision and Tau Ceti's `IsEffectiveCartier`, are specified in the README; the affine
+forms are stated here.
 -/
 
 universe u
