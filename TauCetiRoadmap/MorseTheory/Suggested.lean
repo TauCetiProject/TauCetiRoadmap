@@ -7,6 +7,7 @@ import Mathlib.Geometry.Manifold.MFDeriv.NormedSpace
 import Mathlib.Topology.Homotopy.Equiv
 import Mathlib.Topology.Homotopy.Contractible
 import Mathlib.Data.Set.Card
+import Mathlib.Topology.Compactification.OnePoint.Sphere
 
 /-!
 These are suggested forms, not an exhaustive checklist. The README is the
@@ -261,5 +262,45 @@ theorem minimumCriticalCount_eq_extended_sInf
       sInf {m : ℕ∞ | ∃ f : M → ℝ,
         ContMDiff I 𝓘(ℝ) ∞ f ∧ totalCriticalCount (I := I) f = m} := by
   sorry
+
+
+/-! M4.1: the all-smooth two-critical-point bridge. No `IsMorse` or
+nondegeneracy assumption is added to these targets. The second theorem is
+Rosen's narrow two-open-cell consequence of GT2's bicollared Brown engine. -/
+
+/-- Two actual Euclidean open sets obtained by a uniform compact-flow estimate. -/
+theorem exists_twoEuclideanOpenCover_of_two_criticalPoints
+    [CompactSpace M] [ConnectedSpace M] [SecondCountableTopology M]
+    (hdim : 0 < Module.finrank ℝ E) (f : M → ℝ)
+    (hf : ContMDiff I 𝓘(ℝ) ∞ f)
+    (hcrit : totalCriticalCount (I := I) f = 2) :
+    ∃ U V : TopologicalSpace.Opens M,
+      (∀ x : M, x ∈ U ∨ x ∈ V) ∧
+      Nonempty ({x : M // x ∈ U} ≃ₜ (Fin (Module.finrank ℝ E) → ℝ)) ∧
+      Nonempty ({x : M // x ∈ V} ≃ₜ (Fin (Module.finrank ℝ E) → ℝ)) := by
+  sorry
+
+/-- The genuine two-open-cell topological construction, with m=1 included. -/
+theorem nonempty_homeomorph_sphere_of_two_euclidean_opens
+    {X : Type*} [TopologicalSpace X] [T2Space X] [CompactSpace X]
+    (m : ℕ) (hm : 0 < m) (U V : TopologicalSpace.Opens X)
+    (hcover : ∀ x : X, x ∈ U ∨ x ∈ V)
+    (hU : Nonempty ({x : X // x ∈ U} ≃ₜ (Fin m → ℝ)))
+    (hV : Nonempty ({x : X // x ∈ V} ≃ₜ (Fin m → ℝ))) :
+    Nonempty (X ≃ₜ Metric.sphere (0 : EuclideanSpace ℝ (Fin (m + 1))) 1) := by
+  sorry
+
+/-- Degenerate Reeb--Milnor/Rosen: exactly two critical POINTS, no Hessian hypothesis. -/
+theorem nonempty_homeomorph_sphere_of_two_criticalPoints
+    [CompactSpace M] [ConnectedSpace M] [SecondCountableTopology M]
+    (hdim : 0 < Module.finrank ℝ E) (f : M → ℝ)
+    (hf : ContMDiff I 𝓘(ℝ) ∞ f)
+    (hcrit : totalCriticalCount (I := I) f = 2) :
+    Nonempty (M ≃ₜ Metric.sphere
+      (0 : EuclideanSpace ℝ (Fin (Module.finrank ℝ E + 1))) 1) := by
+  obtain ⟨U, V, hcover, hU, hV⟩ :=
+    exists_twoEuclideanOpenCover_of_two_criticalPoints (I := I) hdim f hf hcrit
+  exact nonempty_homeomorph_sphere_of_two_euclidean_opens
+    (Module.finrank ℝ E) hdim U V hcover hU hV
 
 end TauCetiRoadmap.MorseTheory

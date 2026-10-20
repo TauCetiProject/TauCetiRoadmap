@@ -575,13 +575,88 @@ smooth degenerate functions there. Manifolds with boundary are excluded:
 f(t)=t on [0,1] has no ordinary interior critical points. Relative/boundary
 Morse conditions require their own hypotheses and are not added here.
 
+### M4.1. Two critical points with arbitrary degeneracy
+
+Prove `nonempty_homeomorph_sphere_of_two_criticalPoints`: if M is compact,
+connected, boundaryless and smooth of real dimension m>0, and a smooth
+f:M→ℝ has exactly two distinct critical points, construct an actual
+homeomorphism M≃ₜS^m. Both critical points may be degenerate, including
+vanishing Hessians. The count is the same derivative-zero point count used
+above, not a count of critical values. Compact extrema and the boundaryless
+Fermat theorem identify the two points as the unique minimum p and maximum q,
+with a=f(p)<f(q)=b; every value in (a,b) is regular. This theorem is separate
+from the LS inequality: a categorical contraction or category bound does not
+recognize a disc or sphere. Do not perturb f to Morse while assuming its
+critical count stays two.
+
+First construct `exists_twoEuclideanOpenCover_of_two_criticalPoints`, with
+actual open subsets U,V covering M and homeomorphisms U≃ₜℝ^m and V≃ₜℝ^m.
+Choose a coordinate ball B at p with compact closure avoiding q and a coordinate
+ball V at q avoiding p. Consume the smooth metric and complete compact-manifold
+flow suppliers from DG3/DG12 already used in M2, using X=−grad f itself, not
+an adapted Morse pseudo-gradient. Its global flow Φ_t is a diffeomorphism
+with inverse Φ_−t and d(f∘Φ_t)/dt=−‖grad f‖². Since p is the unique minimum,
+choose ε>0 with {f≤a+ε}⊂B. This sublevel is invariant under the descending
+flow; no assertion that it is a disc is needed. K=M\V is compact and excludes
+the unique maximum, so choose δ>0 with f(K)≤b−δ. If K already lies below
+a+ε, use time0; otherwise on the compact critical-free band
+f⁻¹[a+ε,b−δ] the gradient norm has a strictly positive lower bound η.
+The energy identity gives a single T>0 sending every point of K into
+{f<a+ε}⊂B, by choosing T larger than the band width divided by η².
+Prove this uniform estimate, including trajectories which enter the invariant
+lower sublevel earlier. Then U=Φ_−T(B) covers K, and U∪V=M. The chart-ball
+homeomorphisms and Φ_T give the required Euclidean maps. This uses compact
+flow and elementary value estimates, not continuity of pointwise hitting times
+or the nondegenerate local normal form. Negating f gives the symmetric cover.
+
+Next prove the precise **Rosen two-open-cell lemma**:
+`nonempty_homeomorph_sphere_of_two_euclidean_opens`. For any compact Hausdorff
+space X covered by two open subsets U,V each homeomorphic to ℝ^m, m>0,
+construct X≃ₜS^m. This is the narrow topological bridge required here; consume
+[GT Layer2's bicollar and Brown generalized Schoenflies construction](../GeometricTopology/README.md#layer-2-locally-flat-embeddings-in-general-dimension)
+at its actual bicollared-sphere hypotheses, rather than building another
+Schoenflies engine or using GT's later Morse-dependent smooth handles.
+In U coordinates choose a closed round m-ball D whose interior contains the
+compact set X\V. Thus Σ=∂D lies inside V. Its standard U-coordinate collar
+makes Σ locally flat in X and hence in V; retain the actual collar and use
+GT2's bicollar comparison. The complement C=X\int D is compact and lies
+inside V. Identify the one-point compactification of V≃ₜℝ^m with S^m using
+native `Homeomorph.onePointCongr` and `onePointEquivSphereOfFinrankEq`.
+Apply Brown's bicollared Schoenflies theorem there. Prove C is exactly the
+closure of the complementary component not containing the added point:
+its boundary is Σ, its compact image avoids that point, and the collar fixes
+which local side it occupies. This supplies a homeomorphism C≃ₜD^m with its
+actual boundary map. D is the other closed cell. Compare their union with
+the boundary pushout, and extend the boundary gluing homeomorphism radially
+by the Alexander map to obtain X≃ₜS^m. Include m=1 (two arcs and their two
+endpoints) explicitly; no annulus theorem, high-dimensional surgery,
+Poincaré conjecture or differentiable Schoenflies statement is an input.
+
+Compose the two constructions for the degenerate Reeb–Milnor/Rosen theorem.
+Its output is topological only; exotic smooth spheres are not identified
+diffeomorphically with the standard sphere. In the nondegenerate case compare
+this result with M1/M2's two-disc-handle route at the level of existence of a
+homeomorphism, without asserting that two arbitrary choices of homeomorphism
+are isotopic. The all-smooth theorem does not assert that every small regular
+sublevel at a degenerate extremum is a disc or that its regular level is a
+standard sphere.
+
+As a degenerate regression take standard height h:S^m→[−1,1] and
+f=h−h³/3, m>0. Compute df=(1−h²)dh: its critical set is exactly the two poles,
+and both intrinsic Hessians vanish. Apply the all-smooth theorem directly;
+M1's nondegenerate chart theorem is inapplicable to this f. Retain all empty,
+dimension0, boundary, infinite-critical-count and arbitrary-function LS cases
+above unchanged; they are not extra hypotheses on this positive-dimensional
+sphere theorem.
+
 Acceptance: standard height on S^m; cosine functions on T^m with binomial
 critical counts; the two-dimensional torus's minimum/saddles/maximum; explicit
 integer counts satisfying weak inequalities/Euler but violating a strong
 inequality; and closed connected positive-dimensional M with exactly two
-critical points is homeomorphic to a sphere. The last conclusion follows from
-two disc handles and the topological radial extension of the boundary gluing;
-no diffeomorphism-to-standard-sphere assertion is made. Complex projective
+critical points is homeomorphic to a sphere. For a Morse function the last conclusion follows from M1/M2's two disc
+handles and radial boundary extension. For an arbitrary smooth function,
+including degenerate extrema, use M4.1's Euclidean-open-cover and Rosen
+construction. Neither route asserts a diffeomorphism to the standard sphere. Complex projective
 moment functions use [ComplexKahlerGeometry K7.1 and K7.2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/a452db2cfef888380d1b7b7ce00fa06d5bad1109/TauCetiRoadmap/ComplexKahlerGeometry/README.md#k7-projective-torus-and-hopf-examples):
 K7.1 supplies the actual `Projectivization ℂ (Fin (n+1)→ℂ)` carrier and,
 through K1/#279's real restriction of the complex affine charts, the concrete
@@ -682,6 +757,13 @@ hypotheses.
 ## References and course targets
 
 - Milnor, *Morse Theory*, §§2–6 for local/deformation/CW/inequality proofs.
+  Theorem4.1 and Remark1 distinguish the nondegenerate two-disc proof from
+  the general degenerate statement. For M4.1's additional topological bridge,
+  see Milnor, [*Sommes de variétés différentiables et structures différentiables
+  des sphères*](https://numdam.org/articles/10.24033/bsmf.1538/), Bull. Soc.
+  Math. France87 (1959), Theorem1(3), and R. H. Rosen, *A weak form of the star
+  conjecture for manifolds*, Notices Amer. Math. Soc.7 (1960), abstract570-28,
+  p.380, Lemma1. The required construction is specified in M4.1 above.
 - Cohen, Iga and Norbury, [Topics in Morse Theory](https://math.stanford.edu/~ralph/morsecourse/biglectures.pdf),
   classical part, for manifold normal forms, sublevels and cellular comparison.
 - Thomas Mark's *Math240 Riemannian Geometry* lecture/homework notes,
