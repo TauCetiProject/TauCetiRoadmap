@@ -76,20 +76,20 @@ sign from T_n when δ<0. At δ=0 normalized traces and normalized Jones
 projections are undefined. The algebraic algebras and closure traces
 remain defined there.
 
-- [CStarAlgebras C1–C4](../CStarAlgebras/README.md) supplies finite matrix
+- [CStarAlgebras C1–C4](https://github.com/TauCetiProject/TauCetiRoadmap/blob/2a35ac0d546695b37b8e36cd92ecc67e7ac93e82/TauCetiRoadmap/CStarAlgebras/README.md) supplies finite matrix
   C*-algebras, ideals, continuous functional calculus and the concrete
   CP-map interfaces; V13a owns their general CP foundations. C5 supplies
   spatial tensor products and C*-inductive limits.
-  [CStarClassification CL2](../CStarClassification/README.md) supplies
+  [CStarClassification CL2](https://github.com/TauCetiProject/TauCetiRoadmap/blob/299afef76b70a31db4cfe724db2c0d626fadd8d4/TauCetiRoadmap/CStarClassification/README.md) supplies
   Bratteli-diagram/AF presentations. This roadmap supplies the TL path
   instances, finite diagram-quotient C*-norms, trace representations
   and the elementary unitary TL category.
-- [VonNeumannAlgebras V0–V1](../VonNeumannAlgebras/README.md) supplies
+- [VonNeumannAlgebras V0–V1](https://github.com/TauCetiProject/TauCetiRoadmap/blob/d231d5b229b03546f4bbd7aeb3021dac5416d2bb/TauCetiRoadmap/VonNeumannAlgebras/README.md) supplies
   GNS representations and weak closures; V4 supplies normal functionals
   and V6 tracial L². V13a supplies general CP maps. The
   construction here supplies their specific input states and trace Hilbert
   spaces. It asserts no factor classification or index theorem.
-- [CategoricalOperatorAlgebras CA1a,CA2a](../CategoricalOperatorAlgebras/README.md)
+- [CategoricalOperatorAlgebras CA1a,CA2a](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e9c4588f46b8e33db5f9cbdd225aae91f1e39d08/TauCetiRoadmap/CategoricalOperatorAlgebras/README.md)
   supplies the elementary C*-category, dagger tensor and unitary-duality
   interfaces instantiated by A6, independently of normal bimodules and
   planar/module reconstruction.
@@ -380,7 +380,7 @@ Prove independence of the envelope realization and agreement of
 End(n) with Q_n.
 
 Instantiate the native dagger and C*-category interfaces of
-[CategoricalOperatorAlgebras CA1a,CA2a](../CategoricalOperatorAlgebras/README.md),
+[CategoricalOperatorAlgebras CA1a,CA2a](https://github.com/TauCetiProject/TauCetiRoadmap/blob/e9c4588f46b8e33db5f9cbdd225aae91f1e39d08/TauCetiRoadmap/CategoricalOperatorAlgebras/README.md),
 using its finite linking/Hom, tensor and unitary-duality axioms,
 independent of its bimodule and realization milestones.
 This is a concrete normed dagger tensor category:
@@ -508,22 +508,86 @@ rotation covariance and cap cancellation. Build the forest-polynomial
 recurrence and the four diagram cases establishing these identities,
 and prove injectivity of the successor maps.
 
-Compute the affine Gram determinant by its restriction recurrence and
-unitriangular basis comparison. In compatible standard bases its factorization
-is, up to the explicitly determined basis-order sign,
+Compute the affine Gram determinant in the finite monic-diagram bases.
+Construct the universal matrix over `ℤ[X,Z,Z⁻¹]`, where X is the
+contractible-loop value and Z is the right winding character; at t=0
+an essential circle evaluates to `Z+Z⁻¹`. Put `m=(n−t)/2` and
 
 ```
-det G_(t,z)(n) = ± Π_(t<r≤n, r≡t mod2)
-                    (z²−v^r−v^(−r)+z⁻²)^(dim ordinaryCell_r(n)).
+a_(n,r)=binom(n,(n−r)/2)−binom(n,(n−r)/2−1),
+E_(n,r)=binom(n,(n−r)/2),
+T_0(X)=2,  T_1(X)=X,  T_(r+1)(X)=X T_r(X)−T_(r−1)(X),
+F_r(X,Z)=Z²+Z⁻²−(−1)^r T_r(X).
 ```
 
-Use the actual polynomial/Laurent identity before specializing z or v.
-For the deformation vary the loop coefficient through an indeterminate
-x while holding z fixed, and specialize x to δ. Build the discrete
-valuation-ring comparison over the localization of ℂ[x] at (x−δ):
-Smith normal form gives kernel dimension at specialization at most
-the valuation of the determinant. Apply it to the affine Gram matrix
-and its determinant factorization. Then
+Here a negative lower binomial index means zero. The ordinary cell
+multiplicity is a_(n,r); it occurs in the intermediate restriction
+blocks. Prove the block triangularization and scalar Gram recurrences,
+cancel their quantum-integer factors as rational-function identities,
+and then prove the telescoping equality
+`Σ_(r≤s≤n, s≡r mod2) a_(n,s)=E_(n,r)`. Thus the **final affine**
+exponent is E_(n,r). Transport the diagram bases, seam conventions and
+winding character explicitly when using another presentation of the
+periodic algebra. A twist parameter weighting individual strand
+translations is not identified with Z just by its name.
+
+Prove, before specialization, the Laurent-polynomial identity
+
+```
+det G_(t,Z)(n;X) = σ_(n,t) Π_(t<r≤n, r≡t mod2) F_r(X,Z)^E_(n,r),
+σ_(n,t)=(−1)^((t+1) Σ_(t<r≤n, r≡t mod2) E_(n,r)).
+```
+
+Use matching reflected standard orders on the two bases for this sign.
+Each diagonal entry has leading X-term X^m with coefficient one,
+and each off-diagonal entry has smaller X-degree. Prove these diagram
+facts and `Σ_r r E_(n,r)=m binom(n,m)`; comparison of leading terms
+then fixes σ, rather than leaving an unspecified parameter-dependent
+unit. For independent row/column permutations give the actual determinant
+sign adapter; reciprocal winding rescalings on the opposite-parameter
+bases cancel. The empty product for t=n is one, including n=0,1.
+At `X=δ=−v−v⁻¹` prove `T_r(δ)=(−1)^r(v^r+v⁻r)`, so the factors become
+`z²+z⁻²−v^r−v⁻r` in the quantum convention already fixed above.
+The polynomial identity remains valid at singular parameters; do not
+evaluate a rational expression with zero denominators.
+
+Include the six-state n=4,t=0 calculation. Writing d for X and
+`a=z+z⁻¹`, one compatible simultaneous order has Gram matrix
+
+```
+[d², d,  a,  a,  ad, a²]
+[d,  d², ad, ad, a,  d ]
+[a,  ad, d², a², d,  a ]
+[a,  ad, a², d², d,  a ]
+[ad, a,  d,  d,  d², ad]
+[a², d,  a,  a,  ad, d²].
+```
+
+Its determinant is `(d²−a²)^4 ((d²−2)^2−a²)`. At d=3,a=0 it is
+321489; the powers are four and one. At d=a=3 the rank is two and
+nullity four. Keeping a=3 and substituting d=3+h, its determinant has
+leading term `51840 h^4`. These are actual standard-module tests:
+for the first take z=i and any nonzero root of `v²+3v+1=0`; for the
+second take `z=(3+sqrt(5))/2` and v=−z. Neither is the excluded
+zero-head label. Include n=2,t=0, with determinant `d²−a²`, and the
+t=n empty-product case as normalization boundaries.
+
+For the deformation keep z fixed and substitute the independent loop
+variable x into this universal polynomial matrix. Work over the discrete
+valuation ring `ℂ[x]_(x−δ)`. Its determinant is not the zero polynomial,
+so Smith normal form gives specialization nullity at most
+
+```
+Σ_(t<r≤n, r≡t mod2) E_(n,r) ord_(x−δ) F_r(x,z).
+```
+
+Compute each order in the loop variable. At a root of unity several
+factors can vanish together, and a factor can have higher order; sum
+the actual valuations with their affine multiplicities. Do not replace
+them by the number of distinct vanishing labels. Compare the injected
+successor images and their intersections, including coincident factors
+and the exceptional zero-head exclusion, with this corrected bound.
+Then
 use the injective successor maps and induction on the finite parameter
 order to determine composition factors. For each valid label establish
 `[W_(t,z)]=Σ_((t,z)≼(s,y)) [L_(s,y)]` in the finite-length module
@@ -570,6 +634,17 @@ classification and the full affine Hecke interpretation are outside scope.
   algebraic semisimplicity, and §§5.2–5.4, especially Theorems5.4.4–5.4.5,
   for the negligible quotient, truncated range and root semisimplicity.
   The loop convention is `q+q⁻¹`.
+- Morin-Duchesne–Saint-Aubin, [*A homomorphism between link and XXZ modules
+  over the periodic Temperley–Lieb algebra*](https://arxiv.org/html/1203.4996#S4.SS4),
+  Corollary4.2 and Proposition4.3, for the restriction products and their
+  telescoping to affine binomial exponents. Their `C_j=cos(jΛ)`,
+  `Λ=π−λ`, and loop `−2cosΛ` fix the quantum sign. Construct the
+  explicit winding-character/basis comparison before transporting their
+  per-translation twist to the module convention in A7.
+- Chen–Przytycki, [*The Gram determinant of the type B Temperley–Lieb
+  algebra*](https://arxiv.org/html/0802.1083v2#S2), §2, for the
+  zero-through-string annular Chebyshev normalization and all-size
+  determinant. Use the stated six-diagram comparison for n=4.
 - Graham–Lehrer, [*The Representation Theory of Affine Temperley–Lieb
   Algebras*](https://doi.org/10.5169/seals-63902), *L'Enseignement
   Mathématique*44 (1998), 173–218: Definitions2.5–2.6, printed188,
