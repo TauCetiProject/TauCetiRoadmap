@@ -1,0 +1,123 @@
+import Mathlib
+
+/-!
+# HermitianKTheoryOfPoincareCategories: representative target signatures
+
+The roadmap is README.md. This file records representative definitions and
+theorem signatures expressible with the pinned Mathlib and Tau Ceti APIs; it is
+not an exhaustive specification. Complexes are homologically indexed and modules
+are left modules. A global-dimension bound is written using Mathlib's projective
+dimension, consistently with the supplier's opposite-ring convention.
+-/
+
+namespace TauCetiRoadmap.HermitianKTheoryOfPoincareCategories
+
+open CategoryTheory
+
+universe u
+
+/-! ## Layer 2: connectivity and projective width -/
+
+section ProjectiveWidth
+
+variable {R : Type u} [Ring R]
+
+/-- A bounded complex of finite projectives with no homology below `k` has a
+homotopy-equivalent finite-projective model with no terms below `k`.
+This is the one-sided assertion of Paper III, Lemma 1.1.6, p. 13.
+The dual upper-bound assertion and the two-sided width criterion are in README.md.
+-/
+theorem exists_homotopyEquiv_concentrated_ge
+    (C : ChainComplex (ModuleCat.{u} R) ℤ)
+    (hproj : ∀ i, Module.Projective R (C.X i))
+    (hfinite : ∀ i, Module.Finite R (C.X i))
+    (hbounded : ∃ a b : ℤ, ∀ i, i < a ∨ b < i → Limits.IsZero (C.X i))
+    (k : ℤ) (hconn : ∀ i, i < k → Limits.IsZero (C.homology i)) :
+    ∃ C' : ChainComplex (ModuleCat.{u} R) ℤ,
+      (∀ i, Module.Projective R (C'.X i)) ∧
+      (∀ i, Module.Finite R (C'.X i)) ∧
+      (∃ b : ℤ, ∀ i, i < k ∨ b < i → Limits.IsZero (C'.X i)) ∧
+      Nonempty (HomotopyEquiv C C') := by
+  sorry
+
+end ProjectiveWidth
+
+/-! ## Layer 6: coherent rings and finite projective resolutions -/
+
+/-- A ring is left coherent when every finitely generated left ideal is finitely
+presented. Paper III, §1.3, p. 27 and Remark 1.3.5, p. 28.
+-/
+def IsLeftCoherentRing (R : Type u) [Ring R] : Prop :=
+  ∀ I : Ideal R, I.FG → Module.FinitePresentation R I
+
+section Coherence
+
+variable (R : Type u) [Ring R]
+
+/-- Left noetherian rings are left coherent. -/
+theorem isLeftCoherentRing_of_noetherian [IsNoetherianRing R] :
+    IsLeftCoherentRing R := by
+  sorry
+
+/-- Coherence and a uniform projective-dimension bound give a resolution of
+every finitely presented module by finite projectives of length at most `d`.
+The augmentation and its quasi-isomorphism are part of Mathlib's
+`ProjectiveResolution`, rather than additional unbundled hypotheses.
+Paper III, discussion at the start of §1.3, p. 27.
+-/
+theorem finitePresentation_finiteProjectiveResolution
+    (hcoherent : IsLeftCoherentRing R) (d : ℕ)
+    (hd : ∀ M : ModuleCat.{u} R, HasProjectiveDimensionLE M d)
+    (M : ModuleCat.{u} R) [Module.FinitePresentation R M] :
+    ∃ P : ProjectiveResolution M,
+      (∀ i, Module.Finite R (P.complex.X i)) ∧
+      (∀ i, d < i → Limits.IsZero (P.complex.X i)) := by
+  sorry
+
+/-- Global dimension zero characterizes semisimple rings; the bound quantifies
+over all modules, rather than only finitely presented modules.
+Paper III, Example 1.3.7, p. 30.
+-/
+theorem globalDimension_zero_iff_semisimple :
+    (∀ M : ModuleCat.{u} R, HasProjectiveDimensionLE M 0) ↔ IsSemisimpleRing R := by
+  sorry
+
+end Coherence
+
+/-- Dedekind domains, including fields in Mathlib's convention, have left global
+dimension at most one. Paper III, Corollary 1.3.14 and its preceding discussion,
+p. 31.
+-/
+theorem dedekind_projectiveDimension_le_one
+    (R : Type u) [CommRing R] [IsDedekindDomain R]
+    (M : ModuleCat.{u} R) : HasProjectiveDimensionLE M 1 := by
+  sorry
+
+/-- The integral coefficient ring has global dimension one, not zero:
+the module `ℤ/2` is not projective. This is the negative control in README §6.1.
+-/
+theorem zmod_two_not_projectiveDimension_le_zero :
+    ¬ HasProjectiveDimensionLE (ModuleCat.of ℤ (ZMod 2)) 0 := by
+  sorry
+
+/-- The coherence condition includes integral coefficients for surgery. -/
+example : IsLeftCoherentRing ℤ := by
+  intro I hI
+  let : Module.Finite ℤ I := Module.Finite.iff_fg.mpr hI
+  exact Module.finitePresentation_of_finite ℤ I
+
+/-- It also applies to every field, including characteristic two. -/
+example (K : Type u) [Field K] : IsLeftCoherentRing K := by
+  intro I hI
+  let : Module.Finite K I := Module.Finite.iff_fg.mpr hI
+  exact Module.finitePresentation_of_finite K I
+
+/-!
+The coefficient-line operations, flavour spectra, opposite-duality transport,
+metabolic Poincaré category, symmetry and quadraticity bounds, bounded L-monoids,
+Lagrangian surgery, Ranicki's complexes and Wu classes, connective ring-spectrum
+projectives, enhanced Postnikov t-structure, and form parameters are specified in
+README.md. Their carriers and the GW/L comparison theorems remain there.
+-/
+
+end TauCetiRoadmap.HermitianKTheoryOfPoincareCategories
