@@ -148,7 +148,8 @@ The following ownership boundaries locate the geometric and period-theoretic int
 
 | Mathematics | Owner and section |
 | --- | --- |
-| Finite-étale specialization, good-reduction Frobenius and its reciprocal Euler polynomial | NeronModelsAndSemistableAbelianVarieties §§5.0a–5.0c |
+| Equation-level prime-to-residue-characteristic torsion specialization and its elliptic-scheme comparison | §6.1 here, `prime-to-residue-characteristic-torsion-specialization` and `weierstrass-scheme-torsion-specialization-comparison` |
+| General abelian-scheme finite-étale specialization, good-reduction Frobenius and its reciprocal Euler polynomial | NeronModelsAndSemistableAbelianVarieties §§5.0a–5.0c; the elliptic specialization agrees with §6.1's equation-level reduction |
 | Potential good reduction | NeronModelsAndSemistableAbelianVarieties §5.1a |
 | Elliptic conductors, special fibres, étale Euler characteristics, determinant of cohomology and Ogg's formula | NeronModelsAndSemistableAbelianVarieties §§5.3a–5.3e |
 | Elliptic conductor bounds, residual conductors and Mathlib local-polynomial comparison | NeronModelsAndSemistableAbelianVarieties §§5.3g–5.3i |
@@ -357,6 +358,17 @@ elliptic Tate module `TateModule`, `WeierstrassCurve.tateModuleGaloisRepresentat
 `WeierstrassCurve.tateModuleWeilPairing`, `det_tateModuleGaloisRepresentation`. Most of these live in
 the namespace `TauCeti`; some (the representation-theoretic ones) extend Mathlib namespaces.
 `Suggested.lean` imports the modules of those it uses.
+
+The native point-level torsion-lifting interface is
+[`Affine/Point/TorsionReduction.lean`](https://github.com/TauCetiProject/TauCeti/blob/76f3600b269c3a5ab95c1b19f2d9447f6071cf16/TauCeti/AlgebraicGeometry/EllipticCurve/Affine/Point/TorsionReduction.lean#L304-L387):
+`WeierstrassCurve.Affine.Point.existsUnique_torsion_lift`,
+`WeierstrassCurve.torsionReductionAddEquiv`,
+`WeierstrassCurve.coe_torsionReductionAddEquiv_apply` and
+`WeierstrassCurve.reductionHom_torsionReductionAddEquiv_symm`, on the actual
+`Submodule.torsionBy ℤ` carriers over the completed field. Section 6.1 uses this reduction and
+lifting interface at finite unramified extensions, together with the file's torsion-injectivity
+and formal-kernel inputs. The interface at `76f3600b269c3a5ab95c1b19f2d9447f6071cf16` is absent
+from the `a91d3aaf` pin; its point-level construction belongs to the same native API.
 
 ### From `TauCetiRoadmap.LocalFieldsRamification`
 
@@ -3602,11 +3614,19 @@ that reduction gives a `G_K`-equivariant isomorphism
 `E[N](K^ur) ≃ Ẽ[N](k^sep)`, where `G_K` acts on the right through `G_k`. In particular the
 reduction map into `Ẽ(k^sep)` is injective and inertia acts trivially. For `k` finite of order `q`,
 arithmetic Frobenius corresponds to the `q`-power Frobenius endomorphism of `Ẽ`. The kernel of
-reduction has no `N`-torsion; Hensel lifting on the smooth model and invertibility of `[N]` on
-the formal-group kernel give surjectivity
+reduction has no `N`-torsion. For each finite separable residue extension `k'/k`, use its finite
+unramified lift `K'/K`, which is complete: Hensel lifting on the smooth model and invertibility
+of `[N]` on the formal-group kernel give the unique torsion lift over `K'`. Use the native
+`WeierstrassCurve.torsionReductionAddEquiv` and its forward-reduction and inverse-lifting laws
+for this point-level step. Prove compatibility under finite unramified extension, with the
+inclusions `E[N] → E[M]` for `N | M`, and with `[M/N] : E[M] → E[N]` when `M` is invertible in
+`k`; then pass to the union `K^ur`. Injectivity after any finite complete extension containing
+a geometric torsion point identifies all geometric torsion with these unramified lifts.
+Reduction commutes with the decomposition-group action and hence with arithmetic Frobenius
 (Silverman, *The Arithmetic of Elliptic Curves*, VII.3.1(b), p. 192, and VII.7.1, pp. 201–202).
 *Needs:* EllipticCurves Layer 2 (geometric torsion), Layer 3 (finite-field Frobenius) and Layer 4
-(reduction on points and the formal-group kernel); §2.1 (decomposition groups).
+(reduction on points and the formal-group kernel); LocalFieldsRamification Layer 2 (finite
+unramified extensions); §2.1 (decomposition groups).
 
 **Checks.**
 - For `y² = x³ + 1` over `ℚ₅` and `N = 7`, reduction identifies all `49` geometric torsion
@@ -3617,6 +3637,50 @@ the formal-group kernel give surjectivity
   injectivity fails when `N` is not invertible in the residue field.
 - For `y² = x³ − x` over `ℚ₅` and `N = 2`, the points `(0,0)`, `(1,0)`, `(−1,0)` reduce to
   three distinct nonzero points fixed by arithmetic Frobenius, together with the identity.
+- The algebraic maximal unramified extension of `ℚ₅` is not complete; every torsion lift in
+  the construction lies in a finite complete unramified extension, and uniqueness makes its
+  image in the union independent of that extension.
+
+<a id="weierstrass-scheme-torsion-specialization-comparison"></a>
+
+**Weierstrass and elliptic-scheme torsion specialization.** Under the preceding hypotheses,
+choose an integral good-reduction Weierstrass equation for `E`, and let `𝓔/O_K` be its smooth
+proper elliptic scheme. Use the point-group identifications of ModularCurves Layers 1C–1D and
+the abelian-scheme identification of AbelianSchemesAndArithmeticModuli A1.6. For compatible
+geometric generic and special points of `Spec O_K`, let `sp_N` be specialization of `𝓔[N]`
+under the henselian finite-étale equivalence. Prove that the following square commutes, with
+the left vertical map using the preceding identification of all geometric torsion over `K^ur`:
+
+```text
+E[N](K^ur)          -- red_N -->  Ẽ[N](k^sep)
+  | ι_K,N                         | ι_k,N
+  v                               v
+𝓔_K[N](K^sep)      -- sp_N  -->  𝓔_k[N](k^sep)
+```
+
+Here `red_N` is the equation-level reduction map and the vertical arrows are the canonical
+point-group identifications restricted to torsion. Identify `sp_N` with reduction of integral
+sections of the finite étale group scheme `𝓔[N]`; the commutativity follows from the same
+coordinate reduction on the Weierstrass model. Prove compatibility with the inclusions into
+the full point groups, the inclusions of `N`-torsion into `M`-torsion for `N | M`, all maps
+`[M/N] : E[M] → E[N]` for positive invertible `M`, finite unramified extension, and the
+decomposition-group action. For finite `k`, this identifies arithmetic Frobenius with the
+`q`-power endomorphism on both special-fibre point groups; it also identifies the inverse-limit
+specializations on `T_ℓ` for `ℓ ≠ char k`
+(Stacks, Lemma 15.13.2, [tag 09ZL](https://stacks.math.columbia.edu/tag/09ZL);
+Silverman, VII.3.1(b), p. 192). *Needs:* the preceding torsion-specialization target;
+SchemeAndStackFoundations §0.14, `henselian_finiteEtale_equivalence`;
+ModularCurves Layers 1C–1D; AbelianSchemesAndArithmeticModuli A1.6 and A3.2.
+
+**Checks.**
+- For `N = 1`, all four torsion groups are trivial and both maps send the identity to the
+  identity.
+- For `y² = x³ − x` over `ℚ₅`, both reductions fix the four geometric `2`-torsion points;
+  for every `P ∈ E[4]`, their level maps give `red_2([2]P) = [2]red_4(P)`.
+- For `y² = x³ + 1` over `ℚ₅` and `N = 7`, both specialization maps intertwine arithmetic
+  Frobenius of determinant `5 mod 7`; substituting geometric Frobenius gives determinant `3`.
+- For the same curve and `N = 5`, `𝓔[5]` is not étale over `ℤ₅`; the finite-étale comparison
+  does not apply to the collapse of geometric `5`-torsion under reduction.
 
 **The Tate-module representation adapter.** For `ℓ ≠ char K`, use the geometric fibre over
 `Spec K` of `AbelianTate A ℓ` (AbelianSchemesAndArithmeticModuli A4.1), identified there with

@@ -60,6 +60,10 @@ Design choices made explicit here.
 * Data whose construction is a theorem (semisimplification, the Weil–Deligne representation of an
   `ℓ`-adic representation, conductors, local constants, Tate modules of abelian varieties) are README
   targets and do not appear here.
+  Section 6.1's equation-level torsion specialization uses native Weierstrass torsion submodules
+  and reduction over finite complete unramified extensions. Its comparison with elliptic-scheme
+  specialization commutes with torsion inclusions, multiplication transitions, Galois actions
+  and arithmetic Frobenius; these are README targets on the geometric suppliers' carriers.
   Section 2.7 defines character constants and root numbers by finite Gauss sums, restates the
   supplied finite-order Hecke equation, and constructs local constants through finite-order
   globalisation and Brauer induction. AutomorphicLFunctionsAndLocalFactors AL.1's
