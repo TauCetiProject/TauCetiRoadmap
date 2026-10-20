@@ -813,39 +813,241 @@ actual central decomposition. No state reconstruction is an input.
 
 ## V7. Hilbert modules, coupling dimension, and index
 
-For a finite factor M, define normal Hilbert M-modules, closed submodules, intertwiners,
-unitary equivalence, countable direct sums, amplification, and commuting left/right actions
-as bimodules (the right action is an action of the opposite algebra). Embed every separable
-module in `L²(M) ⊗ ℓ²`. Define its dimension by the semifinite trace of the **range** projection
-in `M^op ⊗̄ B(ℓ²)`, normalized by a rank-one amplification projection. Prove independence,
-classification by attainable dimensions, countable additivity, standard-module
-dimension one, right-cut formula `dim_M L²(M)q=τ(q)`, nonzero left-corner rescaling by
-`1/τ(p)`, commutant-corner scaling and reciprocal dimensions when both acting factors are
-finite. Give the zero module dimension zero, and impose nonzero modules in the finite-commutant
-and reciprocal-dimension statements. Prove cyclic/separating-vector criteria at dimension
-≤1/≥1. When both acting factors are finite, prove the original
-vector-support trace-ratio formula using their normalized traces, with
-independence of the vector.
+**V7.StandardAmplifications — normal modules at arbitrary cardinality.** For a
+finite factor N with its faithful normal normalized trace τ, define a normal
+Hilbert N-module to be a complete complex Hilbert space H and a normal unital
+star representation of N on H. Include the zero Hilbert space. Build closed
+submodules, bounded intertwiners, adjoints, unitary equivalence, orthogonal
+Hilbert sums and commuting left/right actions; a right action is a left action
+of N^op. Reuse native bounded complex linear maps, linear isometries,
+`IsStarProjection`, commutants and `lp (fun j : J => G) 2`, where
+G=L²(N,τ) is V6's tracial GNS space. Write this last space as S_J and construct
+its canonical unitary with `G ⊗̂ ℓ²(J)`, its coordinate maps ι_j:G→S_J and
+the diagonal normal left N-action. All index types J and orthogonal-sum
+index types are arbitrary; N finite does not imply G separable.
 
-For M of type II₁ with separable predual, prove realization of every
-dimension in [0,∞] by separable modules. For nonzero separable modules prove the commutant
-is type II₁ exactly when dimension is finite, and type II∞ exactly
-when dimension is infinite. For M=M_m(ℂ), m≥1, with normalized trace,
-construct every normal module as `H=ℂ^m⊗K` and prove
-`dim_M H=dim_ℂ(K)/m` and `M′=B(K)` in this representation.
-For separable H the attainable dimensions are
-`{k/m : k∈ℕ}∪{∞}`; for K of positive finite dimension k the
-commutant is type I_k, and for infinite-dimensional separable K it is
-type I∞. Treat K=0 as the zero module separately. Prove these
-classification and commutant identifications are compatible with the
-general finite-factor dimension, corner and direct-sum APIs.
+Consume V4.Normality's normal-functional vector decomposition and normal
+representation amplification, V6's faithful standard left/right actions,
+and V2's completed tensors. Own the following explicit standard-model
+adapter. Decompose H as an orthogonal sum of cyclic reducing N-submodules
+using a maximal orthogonal family of cyclic subspaces. For a unit cyclic
+vector η_i, V4 represents its normal positive functional on the faithful
+standard G by a square-summable family ξ_(i,n) in G. The rule
+`xη_i ↦ (xξ_(i,n))_n` is isometric on the dense cyclic orbit, since both
+inner products are the same functional evaluated at x*y. Extend it to the
+closed cyclic submodule, then sum these isometries. This constructs an
+N-linear isometry `U:H→S_J`, with J=I×ℕ for a set I of cyclic summands;
+the zero module may use J=∅. One can choose I with cardinality at most that
+of the underlying H by choosing distinct unit vectors in its orthogonal
+summands. Thus an actual set of amplification coordinates suffices, not a
+proper class or a fixed countable bound. When H is separable, I is countable
+and this construction gives a countable amplification.
 
-Define `[M:N]=dim_N L²(M)` for a unital inclusion of II₁ factors. Prove invariance, index ≥1,
-index one iff equality, and the amplification example
-`[N ⊗̄ M_n:N]=n²`. Build the trace-preserving conditional expectation, identify it as the
-L² projection with norm-one, positivity, bimodularity and uniqueness, and establish index
-multiplicativity for nested finite-index inclusions. For `M_m⊂M_n`, n=mk, identify the
-normalized Hilbert module dimension with the free left-module rank k². This layer owns elementary index and bimodule theory.
+State these constructions universe-polymorphically. For two given models
+lift their carriers and index types to a common sufficiently large universe
+and use the disjoint sum of the lifted index sets. Construct the canonical
+isometries for these lifts and prove all action, trace and dimension
+comparisons below invariant under them. Do not assume that every index type
+lives in one fixed small universe or replace a large Hilbert basis by ℕ.
+
+**V7.AmplificationTrace — the normalized product trace.** For every J identify
+the commutant of the left N-action on S_J with
+`A_J=N^op ⊗̄ B(ℓ²(J))`, using the right standard action
+`ρ(b^op)(xΩ)=xbΩ`. This identification is an early matrix-amplification
+consequence of V2 and V6, before the group examples of V8 or general standard
+forms of V11: the coefficient `T_ij=ι_i* T ι_j` of a commuting operator
+lies in the standard commutant, and its finite matrix compressions recover T
+strongly. Prove the converse, membership, multiplication, adjoint, coordinate
+and normality laws. The empty amplification acts on zero and is treated as
+the zero algebra, not a nonzero factor.
+
+For a positive bounded T∈A_J define
+
+```
+Tr_J(T) = ∑' j : J, τ_op(T_jj)
+        = sup {∑ j∈F, τ_op(T_jj) : F⊆J finite},
+```
+
+where `τ_op(ρ(b^op))=τ(b)`. Use the nonnegative value of the normalized
+trace on each positive diagonal coefficient, with values in `ℝ≥0∞`.
+Construct this normal faithful semifinite tracial weight in V6's existing
+positive-cone vocabulary; do not introduce a second weight carrier. Prove
+additivity, nonnegative homogeneity, monotone-net continuity, faithfulness
+and `Tr_J(T*T)=Tr_J(TT*)`. For the last identity, compress a column of T to
+finite coordinate sets, apply normality of τ_op to the increasing sums
+`∑_i T_ij* T_ij`, and interchange the two nonnegative extended sums over i,j;
+the finite trace identity exchanges each `T_ij* T_ij` with `T_ij T_ij*`.
+No countable enumeration of J or interchange with a nonmonotone limit is
+used. For semifiniteness put P_F=∑_(j∈F)ι_jι_j*. The positive operators
+`T^(1/2) P_F T^(1/2) ≤ T` increase strongly to T and have finite trace
+equal to `Tr_J(P_F T P_F)≤|F|‖T‖`. This is an increasing finite-trace
+approximation from below; P_F T P_F itself need not be below T.
+
+For ξ∈ℓ²(J) define the positive rank-one operator
+`θ_ξ(v)=⟨ξ,v⟩ξ`, including θ_0=0. Prove
+`Tr_J(b⊗θ_ξ)=τ_op(b)‖ξ‖²` for positive b∈N^op. For ‖ξ‖=1,
+θ_ξ is the rank-one orthogonal projection, so its amplification
+normalization is1 when b=1.
+In particular `Tr_J(1)=∑'_(j∈J)1`, equal to |J| for finite J and ∞ for
+infinite J, and `Tr_∅(0)=0`. Prove agreement on finite matrix corners
+with the normalized N^op trace times the **unnormalized** matrix trace,
+and agreement with V6's tracial tensor/corner comparisons. This fixes the
+product trace even when the amplification is not sigma-finite.
+
+For an injection f:J→K construct the coordinate zero-padding N-linear
+isometry V_f:S_J→S_K. The nonunital corner map `T↦V_f T V_f*` preserves
+Tr on all positive T; prove this from its diagonal coefficients. Establish
+identity/composition, disjoint-union block sums and all reindexing/lift
+laws. This is extension by zero, not the generally trace-multiplying map
+T↦T⊗1. For an arbitrary N-linear unitary between standard amplifications,
+prove positive-trace invariance by applying the preceding tracial identity
+to its off-diagonal block times T^(1/2) in the common disjoint-sum
+amplification. Deduce independence of an orthonormal basis in the
+amplification Hilbert space. This argument uses the diagonal construction
+and zero-padding laws, not a prior dimension-invariance theorem.
+
+**V7.Dimension — embedding and index-set independence.** For a normal module
+H and an N-linear isometry U:H→S_J, prove that `p_U=UU*` is the
+orthogonal **range** projection and belongs to A_J. The adjoint of an
+intertwiner is an intertwiner by the star laws. Define
+
+```
+dim_N(H) = Tr_J(p_U) ∈ ℝ≥0∞.
+```
+
+Prove independence of both U and J before using this definition elsewhere.
+Given V:H→S_K, put both models in S_(J⊔K) by zero-padding. The
+off-diagonal operator W=VU* is N-linear, with
+`W*W=p_U` and `WW*=p_V` in their respective blocks. Thus it is a
+partial isometry in A_(J⊔K); the tracial identity and the proved
+zero-padding invariance equate the two traces. For a unitary module map
+Q:H→H', use VQU* to prove unitary invariance. Include empty index types,
+zero modules and universe lifts. Give identity/composition/restriction
+and extensionality APIs so consumers do not depend on the chosen U or J.
+
+Construct the induced normal faithful semifinite trace on the commutant
+of any given module: transport the restricted weight on p_U A_J p_U
+through T↦UTU*. The same common-amplification argument proves this
+weight independent of U,J, on every positive bounded commutant operator,
+not only on1; its value at1 is dim_N(H). When that value is finite and
+nonzero, normalize by it for the commutant's tracial state. There is no
+normalization by ∞ and no such state on the zero algebra.
+
+**V7.SumsAndCorners — dimension laws.** For every set-indexed family of
+normal modules (H_i), construct the normal action on its orthogonal Hilbert
+sum and prove
+
+```
+dim_N(⨁_i H_i) = ∑' i, dim_N(H_i).
+```
+
+Choose models S_(J_i), use the canonical N-linear unitary between their
+orthogonal sum and S_(Σ_i J_i), and apply block-diagonal trace and
+nonnegative extended-sum associativity. Include zero summands, an empty
+family and nonseparable sums. More generally prove that the induced trace
+of every positive commutant operator T on this sum is the extended sum of
+the induced traces of its positive diagonal compressions
+`ι_i* T ι_i`; T need not be block diagonal. Derive it from the same
+standard models and the arbitrary nonnegative matrix-sum formula. On a
+closed submodule and its orthogonal
+complement prove dimension additivity and monotonicity; dimension0 is
+equivalent to the zero Hilbert space. Do not subtract ∞ or infer equality
+of infinite-dimensional submodules from equality of their scalar dimensions.
+For a bounded module intertwiner, its polar partial isometry identifies
+the orthogonal complement of its kernel with the closure of its range;
+deduce the corresponding extended dimension sum and comparison laws.
+
+Retain standard-module dimension1 and
+`dim_N(L²(N)q)=τ(q)` for projections q∈N. For nonzero p∈N prove
+`dim_(pNp)(pH)=dim_N(H)/τ(p)` with normalized trace τ(p)^(-1)τ on pNp;
+the standard corner identification sends
+`aΩ_(pNp)↦τ(p)^(-1/2)aΩ_N` into pL²(N)p. Prove this rescaling and
+the general module comparison by the standard models and projection
+comparison of V5. When both acting factors are finite and H≠0, retain
+the commutant-corner formula with its normalized commutant trace, the
+reciprocal dimensions, and the original vector-support formula
+`dim_N(H)=τ_N(q_ξ)/τ_(N')(p_ξ)` for ξ≠0, where p_ξ projects onto
+closure(Nξ) and q_ξ onto closure(N'ξ). Prove its vector independence;
+the two support projections lie in different algebras. Retain the
+cyclic/separating-vector criteria at dimension≤1/≥1, with the zero module
+and the stated finite-commutant hypotheses handled separately where used.
+These finite-factor statements use V4–V6 and the present trace/comparison
+construction; they do not consume V10's later Lp theory or V11.
+
+**V7.CountableAndTypeI — agreement and classification scope.** For a
+separable normal module, compare its countable standard model with the
+arbitrary model and prove the dimensions equal, with the same rank-one
+normalization. This recovers the preceding countable sum and corner laws.
+Classify separable modules of a fixed finite factor by their attainable
+dimensions; do not assert scalar classification of arbitrary nonseparable
+modules. For N of type II₁ with separable predual, retain realization of
+every dimension in [0,∞] by separable modules. For nonzero separable
+modules prove the commutant type II₁ exactly when dimension is finite,
+and type II∞ exactly when dimension is infinite. The zero module is separate.
+
+For N=M_m(ℂ), m≥1, construct every normal module as `ℂ^m⊗K` and prove
+`dim_N(H)=d_ℂ(K)/m` and N'=B(K), where d_ℂ(K) is the extended sum of1
+over an orthonormal Hilbert basis of K, not finite-dimensional `finrank`
+applied to an infinite-dimensional space. Prove basis independence, the
+finite value k, the infinite value∞ and the zero value0. For separable H,
+retain attainable dimensions `{k/m:k∈ℕ}∪{∞}`, commutant type I_k for
+0<dim K=k<∞ and type I∞ for infinite-dimensional separable K. Retain
+the full arbitrary-cardinality multiplicity Hilbert space in the general
+module equivalence; the common value∞ does not identify distinct uncountable
+multiplicities. Prove compatibility with all preceding finite-factor
+dimension, corner and direct-sum APIs.
+
+**V7.Index — unrestricted normal inclusions.** For a unital inclusion of
+II₁ factors N⊆M as von Neumann algebras, restrict the standard normal
+M-action on L²(M) to N and define `[M:N]=dim_N L²(M)` using the
+arbitrary-amplification dimension just constructed. No separable-predual
+or countable-generation premise is added. The normalized trace of M
+restricts to that of N. Prove invariance under normal trace-preserving
+isomorphisms of inclusions, index≥1 and index1 iff N=M. For the last
+claims the closed copy L²(N)⊂L²(M) has dimension1; add its orthogonal
+complement and use faithfulness of dimension, without subtracting ∞.
+
+Construct the trace-preserving normal conditional expectation E_N:M→N
+directly from the L² projection, with norm1, positivity, complete positivity,
+bimodularity and uniqueness. To show the projected vector y is a bounded
+element of N, use right-N equivariance: on the dense NΩ,
+`‖ya‖₂≤‖x‖‖a‖₂`. Its bounded left multiplication commutes with the
+right standard action, hence lies in N by V6; its value at Ω is y.
+Positive matrix/vector coefficients give positivity and the matrix versions;
+faithfulness of the finite trace proves normality on increasing bounded
+positive nets. This construction precedes the modular expectation theorem.
+
+For a finite-index N⊆M prove the restriction-of-scalars law
+`dim_N(H)=[M:N] dim_M(H)` for every normal M-module H. On the
+commutant of L²(M) the induced N-module trace has finite value [M:N]
+at1; restrict it to the right M^op action and use uniqueness of its
+normalized trace. The matrix and arbitrary-sum formulas then identify
+its restriction on M^op⊗̄B(ℓ²(J)) with [M:N] times the standard
+product trace, yielding the formula on each representing range projection.
+Deduce multiplicativity for nested finite-index inclusions. This proof
+uses the present dimension/commutant trace, not a later basic construction
+or Connes-fusion engine. Prove `[N⊗̄M_n:N]=n²` for n≥1 by the n²
+orthogonal standard summands, and for `M_m⊂M_(mk)` identify dimension
+with the free left-module rank k², m,k≥1.
+
+For every index set I prove `dim_N(S_I)=∑'_(i∈I)1` directly from its
+identity range projection, and transport this value along any supplied
+N-linear unitary. This general corollary has no group-theoretic input.
+
+**V7.GroupApplications — after the V8 models.** V8.SubgroupCosets constructs
+its actual arbitrary-index coset unitary without a dimension input. When
+L(Η) is a factor, it consumes the preceding corollary: dimension is the finite subgroup index
+when finite and∞ when infinite. Its dimension/index comparison and the
+following test are applications, not prerequisites of V7's general
+construction or index laws. After V8's group-factor and tensor models,
+for the separable hyperfinite factor R and an uncountable free group F_I,
+prove the inclusion R⊂R⊗̄L(F_I) has index∞ on the actual amplification
+L²(R)⊗̂ℓ²(F_I); no isometry into a separable amplification is required.
+Retain V9's finite formal-degree/covolume and commuting-action applications
+with their stated hypotheses. This layer owns elementary dimension, index
+and bimodule theory; Subfactors continues to own its basic constructions,
+finite bases and later towers.
+
 
 ## V8. Group algebras, actions, and discrete crossed products
 
