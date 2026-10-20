@@ -878,7 +878,8 @@ here.
   689, Springer, 1978, 193–208: the perfect-set ("strong") form and minimal counterexamples.
 * J. Baldwin, S. Friedman, M. Koerwien and M. C. Laskowski, "Three red herrings around Vaught's
   conjecture", *Trans. Amer. Math. Soc.* 368 (2016), 3673–3694: the "absolute" form; their
-  Lemma 3.4 identifies Morley's scattered sentences with those lacking perfectly many models.
+  Lemma 3.4 (as cited by Andrews et al., below) identifies Morley's scattered sentences with those
+  lacking perfectly many models.
 * U. Andrews, I. Goldbring, S. Hachtman, H. J. Keisler and D. Marker, [Scattered sentences have few
   separable randomizations](https://people.math.wisc.edu/~hkeisler/scatteredfew13.pdf): §1–§2 state
   the three forms (Vaught's, the absolute form "if `φ` is scattered then countably many", and
@@ -890,18 +891,15 @@ here.
 * E. G. K. Lopez-Escobar, "An interpolation theorem for denumerably long formulas", *Fund. Math.* 57
   (1965), 253–272.
 * D. Marker, *Lectures on Infinitary Model Theory*, Cambridge University Press, 2016: the chapters
-  "The space of countable models" (pp. 29–38) and "Vaught counterexamples" (pp. 83–96). As cited
-  in the source's docstrings: Definition 3.3.1 and Corollaries 3.3.3 and 3.3.10 (scattered
-  sentences and their equivalent forms, Layer 4c, 4e, 4f), Lemma 3.3.2 (Borel fragment types), and
-  Theorem 4.3.7 (López–Escobar).
+  "The space of countable models" (pp. 29–38) and "Vaught counterexamples" (pp. 83–96): scattered sentences and their equivalent forms (Layers 4c,
+  4e, 4f), Borel fragment types, and López–Escobar's theorem.
 * H. Becker and A. S. Kechris, *The Descriptive Set Theory of Polish Group Actions*, LMS Lecture
   Note Series 232, Cambridge University Press, 1996, chapter "Model theory and the Vaught
   conjecture" (pp. 82–97).
-* S. Gao, *Invariant Descriptive Set Theory*, CRC Press, 2009. As cited in the source's docstrings:
-  Proposition 5.4.4 (Borel complete invariants and separating families, 4e), Lemma 5.4.6 (invariant
-  separation, S6), Theorem 11.3.6 (López–Escobar).
+* S. Gao, *Invariant Descriptive Set Theory*, CRC Press, 2009: Borel complete invariants and
+  separating families (4e), invariant separation (S6), and López–Escobar's theorem.
 * A. S. Kechris, *Classical Descriptive Set Theory*, Graduate Texts in Mathematics 156, Springer,
-  1995, §31.A, Theorem 31.2 (the boundedness theorem behind S7).
+  1995, §31, "Analytic well-founded relations" (the boundedness theorem behind S7).
 * A. Montalbán, *Computable Structure Theory: Beyond the Arithmetic*, Part 2,
   [draft](https://math.berkeley.edu/~antonio/CSTpart2.pdf), Chapter XII: §XII.1 (Morley's theorem
   via Silver; scattered and unbounded sentences, Definition XII.1) and §XII.2 (Definition XII.4,
