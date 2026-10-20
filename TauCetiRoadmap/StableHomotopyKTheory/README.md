@@ -7,15 +7,16 @@
 This extends **Algebraic topology of spaces and manifolds**. The following mathematics enters through its owners’ interfaces.
 
 - **AlgebraicTopology**, stages 1–4, owns van Kampen, singular and relative chains, twisted chains with local coefficients, excision, cellular homology, mapping cylinders, cellular approximation and CW cofibrations. Stages 5–6 own Serre fibrations, the homology Serre spectral sequence and ordinary cohomology. Stage 8 owns cubical/Kan homotopy comparison, based relative homotopy, absolute and simply connected relative Hurewicz, and Whitehead. Realisation-specific cell indexing and comparisons with category chains belong here. ClassifyingSpaces Stages 1–4 supply group classifiers, their CW-type uniqueness and their group-(co)homology comparisons; the new nerve-model adapters are specified below. The extensions for arbitrary fibre pairs and twisted cellular comparisons are stated explicitly below.
-- **GeneralizedCohomology**, G2, G3 and G5.5–G5.6, owns the symmetric-sphere-module model, its stable and monoidal homotopy theory, Γ-machine, ordinary coefficients, derived spectral limits, localization and completion, Bott spectra and rational stable comparison. The additional point-set, algebraic K-theory, coefficient and convergence comparisons are specified here.
+- **GeneralizedCohomology**, G2, G3 and G5.4–G5.6, owns the symmetric-sphere-module model, its stable and monoidal homotopy theory, Γ-machine, ordinary coefficients, derived spectral limits, localization and completion, Bott spectra and rational stable comparison. The additional point-set, algebraic K-theory, coefficient and convergence comparisons are specified here.
 - **UniversalCovers**, stages 2–4, owns cover classification, covering-induced homotopy isomorphisms, basepoint change and recognition of aspherical spaces. Group-nerve and bar comparisons are local; the classifier itself is supplied by ClassifyingSpaces Stages 1–4.
 - **GrothendieckEulerForms**, layer 2, and Tau Ceti's `TauCeti.SplitK0.grothendieckAddGroupEquiv` own algebraic split K₀. Mathlib owns algebraic group completion. This roadmap constructs a space and identifies its components with those groups.
 - **IntegralLattices**, 0A, supplies integral forms, isometries and orthogonal sums; 0E supplies signatures, 2C supplies orthogonal groups and orthogonal-sum embeddings without a definiteness assumption, and 6A supplies indefinite unimodular classification. **OrthogonalSpinGroups**, 0C, supplies only the bilinear/quadratic base-change comparison. The new targets here are cofinal stabilization and the classifying-space and plus comparison.
 - **BordismFormalGroups**, F6.5, owns Sp∞, symmetric coherence, infinity-operad interfaces and the monoidal model-localization comparison for GeneralizedCohomology's spectra. The comparisons here use those supplied objects.
+- **TangentialBordism**, B4.1–B4.2, owns the generic mod-2 Steenrod squares on ordinary cochains, the stable HF₂ operations and the mod-2 Adams tower. §7.1's Hopf-class and Moore-spectrum calculations and §7.31's Adams E₂-page use them.
 
 StableHomotopyKTheory owns generic nerve homotopy, Quillen A/B, acyclic and plus constructions, monoidal group completion and generic Waldhausen/S foundations, including the Waldhausen structure on each SₙC. AlgebraicKTheory A0–A1 owns the arbitrary-ring matrix, elementary-subgroup and projective-complement algebra; §§4.14–4.15 here adapt its objects to classifying spaces and left modules. GeneralAlgebraicKTheory consumes the generic homotopy and Waldhausen interfaces and owns Q-theory, localization, approximation and ring-specific comparisons. The map-level contracts in Downstream consumers identify these constructions and the ring specialization of the general plus factorization.
 
-Local foundations include universal central extensions (Layer 3); stable-linear classifying-space and projective-cofinality adapters (Layer 4); stable and operadic comparisons (Layer 5); Waldhausen categories, S-construction, additivity and relative-S delooping (Layer 6); and the spectral comparison with supplied countable-tower algebra (Layer 7).
+Local foundations include universal central extensions (Layer 3); stable-linear classifying-space and projective-cofinality adapters and the function-ring model of topological K-theory (Layer 4); stable and operadic comparisons (Layer 5); Waldhausen categories, S-construction, additivity and relative-S delooping (Layer 6); and the spectral comparison with supplied countable-tower algebra, the Eₙ quotient obstruction tower, the Patchkoria–Pstrągowski deformation and HF₂-synthetic spectra (Layer 7).
 
 Nerves, realisation, local coefficient carriers, universal covers, split K₀, chain cones and abstract spectral-sequence pages retain their supplier objects. Tau Ceti also supplies `TauCeti.HasHomotopyExtensionProperty`, its cylinder-retraction criterion and cross-universe extension theorem in `Topology.Homotopy.Extension.Basic`; these enter as prerequisites, rather than a new HEP theory. The new proper-realisation and gluing targets use this property on closed embedding images.
 
@@ -55,6 +56,10 @@ Use `HomotopyGroup.map` and its homomorphism form, `TauCeti.homotopyGroupEquivOf
 
 [AlgebraicKTheory A0–A1](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1142) supplies the finite-projective splitting maps, finite block matrices, stable GL under trailing-identity stabilization, its elementary subgroup, normality, perfectness and equality with the commutator subgroup, for arbitrary associative unital rings including zero. Its projectives are right modules, with matrices acting on columns. For left R-modules use its A0 at Rᵐᵒᵖ, the canonical double-opposite scalar identification and the transpose/opposite adapter of §4.15. The underlying finite-projective category remains Tau Ceti's native category. No higher-K comparison is an input to A0–A1. The topology and plus multiplication on these supplied groups belong to §4.14.
 
+### From TangentialBordism
+
+[TangentialBordism B4.1–B4.2](https://github.com/TauCetiProject/TauCetiRoadmap/pull/942) supplies the mod-2 Steenrod squares on AlgebraicTopology's normalized ordinary cochains: higher diagonals and cup-i products, `Sq^k[c] = [c ∪_(n−k) c]` for c of degree n, naturality, Sq⁰=id, instability, the top square, additivity, Cartan, Adem, suspension stability, relative groups and Sq¹ equal to the mod-2 Bockstein. B4.2 supplies the stable operations on HF₂ from GeneralizedCohomology's HA model, H*(HF₂)=A with its admissible basis, and the mod-2 Adams tower with its Ext_A E₂-page and convergence to 2-completion for bounded-below spectra of finite type. These retain AlgebraicTopology's coefficient carrier, cup product and suspension isomorphism. No second Steenrod-square construction belongs to this roadmap.
+
 ### From DerivedModuleAlgebra on main
 
 [DerivedModuleAlgebra §1.T.1](../DerivedModuleAlgebra/README.md#1t1-towers-lim-and-lim¹) supplies countable tower algebra on `ℕᵒᵖ ⥤ ModuleCat R`. Use it at R=ℤ with its integral abelian-group adapter `CompactCoefficients.Tower`: `ModuleTower.shift`, `ModuleTower.lim`, `ModuleTower.limOne`, their natural maps, the six-term boundary, derived-limit comparison and Mittag–Leffler vanishing. Its `Tower.toModuleFunctor`, `Tower.limComparison` and `Tower.limOneComparison` preserve that boundary and the Milnor maps. Its `limOne_mul_p` supplies the multiplication-by-p integer tower and the convergent-sum identification with ℤₚ/ℤ. Sections 4.11 and 7.9–7.11 add the unstable and spectral identifications with this same algebra.
@@ -69,7 +74,7 @@ Consume [GeneralizedCohomology](../GeneralizedCohomology/README.md) at the follo
 - **G2.4 and G2.8:** consume strict monoid/ring and right-module objects (right modules are left modules over the opposite ring), the module-model free–forgetful adjunction, the Barratt–Eccles machine with full block-substitution laws, and positive-model rectification. Γ-spaces use the skeleton of finite based sets and covariant functors; special means the zero term is contractible and the Segal maps are weak, and very special means also grouplike π₀. Consume prolongation, assembly, all permutation actions, the connective-spectrum equivalence and the group-completion left adjoint, including its unit/counit and the full homological localization property. The broader spectrum-operad transfer theorem below states its precise additional generality. (BS Appendix §12, Def. 12.4, Thm. 12.9 and Prop. 12.10, pp. 56–58; S IV Thm. 1.3, p. 386.)
 - **G2.7 and G3.8:** consume `HA`, its reduced-free-module levels, Dold–Kan/abelian Kan comparison, coefficient maps, Kan Ω status, `π₀HA=A` and all other π zero, the commutative HR and HM actions, unit and ordinary reduced/absolute/relative homology and cohomology comparisons. Consume full mapping-space truncation, `connectiveSpectrumMapsToHA`, connective covers, Postnikov sections, their adjunctions and compatible towers, with heart the abelian groups. A normalised smash-sphere complex is quasi-isomorphic to A[n], and need not be literally A[n]. For connective V and X with π_kX=0 for k≥1, consume [V,X]≅Hom(π₀V,π₀X), even when X has negative homotopy. A spectrum concentrated in degree zero is equivalent to Hπ₀ with the specified identity on π₀. Covers erase only groups below their cutoff, sections erase only groups above it, and the truncation triangle retains its map and boundary. (S I Example 1.14, p. 16; S II Prop. 5.24 and Thm. 5.25, pp. 265–266, Prop. 6.23, p. 279, Thms. 8.1 and 8.3, pp. 295–296; Jardine Lecture 06, Lemmas 14.1 and 14.3.)
 - **G3.4, G3.7–G3.9:** consume coherent spectral telescopes, π commuting with filtered homotopy colimits, the contravariant Milnor sequence for cohomological functors carrying sums to products, model tower replacements, derived products and the homotopy-limit fibre of `1−shift`. Its Milnor sequence is `0→lim¹π_(k+1)E_r→π_k holim E_r→lim π_kE_r→0`. Consume sphere localization, rationalization and prime completion `E^∧_p=holim_(r≥1)E/p^r` with reduction induced by `(p,id)`, the identified function-spectrum model `F(S/p∞,ΣE)`, units, exactness, independence and idempotence. Completeness means the unit invertible, equivalently `F(S[1/p],E)=0`. Its Hom/Ext sequence is `0→Ext¹(ℤ/p∞,π_kE)→π_kE^∧_p→Hom(ℤ/p∞,π_(k−1)E)→0`; degreewise finite generation gives `π_kE^∧_p=π_kE⊗ℤ_p`. Rationalization is the exact coproduct-preserving functor E↦S_ℚ∧ᴸE with π_k(E_ℚ)=π_kE⊗ℚ; its unit is universal into rational spectra, equivalently spectra with uniquely divisible homotopy groups. Section 7.9 compares its Milnor maps with the supplied integral-module difference map. (S II Lemma 5.6 and Remark 5.9, pp. 257–258, Thm. 8.3, p. 297, Thm. 9.9, pp. 303–304.)
-- **G5.5–G5.6:** consume KU, KO, ku, ko and their specified Bott/unit maps, rational stable-stem vanishing, `S_ℚ≃Hℚ` and the all-degree stable rational Hurewicz comparison. Also consume the filtered-cochain Serre spectral sequence, local tensor-cup pairings, derivation differentials and multiplicative convergence used in its rational EM computation. The unstable rational H-space theorem and the graded rational classification below are additional comparisons. (S II Thm. 9.6, p. 302; H SS §§1.2–1.4, pp. 22–45.)
+- **G5.4–G5.6:** consume KU, KO, ku, ko, built in G5.4 by G2.8's multiplicative machine from the skeletal bipermutative categories with endomorphism spaces O(r) and U(r), and their specified Bott/unit maps, rational stable-stem vanishing, `S_ℚ≃Hℚ` and the all-degree stable rational Hurewicz comparison. Also consume the filtered-cochain Serre spectral sequence, local tensor-cup pairings, derivation differentials and multiplicative convergence used in its rational EM computation. The unstable rational H-space theorem and the graded rational classification below are additional comparisons. (S II Thm. 9.6, p. 302; H SS §§1.2–1.4, pp. 22–45.)
 
 **Supplier compatibility checks.** These specify which parts of these contracts the comparisons must preserve.
 
@@ -98,7 +103,7 @@ Consume [GeneralizedCohomology](../GeneralizedCohomology/README.md) at the follo
 
 Layers 1–2 build category spaces, chains and fibre tools for Quillen’s theorems. Layers 3–4 construct plus and group completion. Layer 5 compares point-set and derived spectral structures; Layer 6 assembles K-theory deloopings; Layer 7 supplies finite coefficients, completion comparisons and filtered convergence. Subsections give contracts, API, checks, sources and prerequisites. `Suggested.lean` records light definitions over existing carriers, representative theorem signatures and checks. The constructions of category chains, plus spaces, monoidal completion and the new spectral/coefficient comparisons are specified here with their full interfaces and checks; their carriers require subsequent formalisation. This document is the mathematical specification.
 
-Reference abbreviations below are Q (Quillen), W IV/V (Weibel), C (Carlsson), H AT/SS (Hatcher), S (Schwede), HSS, BF, NS, BS, HA (Lurie), Sh (Shipley), HK III (Calmès et al.) and Bu (Burklund). M and TC in prerequisites mean the exact Mathlib and Tau Ceti suppliers above. Names are relative to the topic namespace; `SymmSpectrum` and SHC denote GeneralizedCohomology G2’s supplied symmetric-sphere-module carrier and stable localization, while `naivePi` and `pi` denote its naïve and true homotopy groups. The notation `homotopyFiber f b` denotes its `MappingPathFiber f b`, and `EilenbergMacLaneSpace A n` denotes DGFloer Layer 1 item 4’s CW K(A,n). These are supplier notations, not new carrier definitions.
+Reference abbreviations below are Q (Quillen), W IV/V (Weibel), C (Carlsson), H AT/SS (Hatcher), S (Schwede), HSS, BF, NS, BS, HA (Lurie), Sh (Shipley), HK III (Calmès et al.), Sch (Schlichting), Bu (Burklund), BHS (Burklund–Hahn–Senger), PP (Patchkoria–Pstrągowski) and Pst (Pstrągowski). M and TC in prerequisites mean the exact Mathlib and Tau Ceti suppliers above. Names are relative to the topic namespace; `SymmSpectrum` and SHC denote GeneralizedCohomology G2’s supplied symmetric-sphere-module carrier and stable localization, while `naivePi` and `pi` denote its naïve and true homotopy groups. The notation `homotopyFiber f b` denotes its `MappingPathFiber f b`, and `EilenbergMacLaneSpace A n` denotes DGFloer Layer 1 item 4’s CW K(A,n). These are supplier notations, not new carrier definitions.
 
 ## Layer 1: Classifying spaces and category homology
 
@@ -404,9 +409,37 @@ Deduce `classifyingSpace_homologyIso_categoryHomology` for small C and morphism-
 
 *Needs:* §1.24, §1.23, §1.3, AlgebraicTopology, §1.26.
 
-### 1.28 Comparing the group nerve with the supplied classifying space
+### 1.28 Classifying spaces of translation categories
 
-For every group G, construct `groupNerve_classifyingSpaceEquiv` from `B(SingleObj G)` to the ClassifyingSpaces Stage 1 join model. This is a based homotopy equivalence, natural up to specified based homotopies under group homomorphisms. The object and morphism universes are matched with explicit lifts. This comparison concerns the nerve realization rather than constructing another classifying-space functor. Its π₁ map carries edge(g) to g in the supplier's identification; the convention is edge(gh) ≃ edge(h) followed by edge(g). Compare the induced homology map with ClassifyingSpaces Stage 4's bar-resolution comparison; the nerve-to-bar map in §1.32 is a chain isomorphism after normalization, while the join-to-bar map is a chain homotopy equivalence.
+For a left G-set X, prove `translationCategory_covering`: the projection from the translation category of X (objects x, arrows g:x→g·x) to `SingleObj G` realises to a covering map over BG with fibre X over the vertex, and the lift of edge(g) at x ends at g·x. For X=G there is exactly one arrow between any two objects, so §1.12 contracts the total space; record this as `translationCategory_regular_contractible`. Separately, for a subgroup H, prove `translationCategory_subgroupComparison`: the inclusion of `SingleObj H` at the coset eH is an equivalence onto the translation category of G/H, so §1.11 gives a homotopy equivalence whose composite with the covering is the inclusion-induced map BH→BG. Neither branch uses the supplied classifier.
+
+**Checks.**
+
+- For the trivial group the translation category of X is discrete: the cover is the discrete space X over a point.
+- For G=ℤ/2 and X=G the total space is contractible while BG has H₁=ℤ/2, so the regular cover is not a product.
+- For g=(01), h=(12) in the symmetric group on Fin 3, lifting edge(g) and then edge(h) from x=2 ends at (hg)(2)=1, not at (gh)(2)=0.
+
+(W IV Translation categories 3.3.1, p. IV.27; Exercise 3.2, p. IV.34.)
+
+*Needs:* §1.18, §1.11, §1.12, §1.19, §1.20, §1.3, M.
+
+### 1.29 Asphericity of the nerve model
+
+Prove `groupNerve_isKOne` from §1.28 alone. The regular cover has contractible total space, so UniversalCovers Stage 3's covering-induced isomorphisms give zero πₙ for n≥2 at every point of the connected space BG. Its fibre G over the vertex, with simply connected total space, identifies π₁ at the vertex with G by edge(g)↦g. Under the π₁ convention of Conventions this is a homomorphism. This gives the asphericity condition of `TauCeti.IsEilenbergMacLaneSpaceOne` before any comparison with the supplied classifier.
+
+**Checks.**
+
+- The trivial group has a one-point nerve realisation, and the condition holds there.
+- For G=ℤ the identification sends edge(1) to 1, rather than to −1.
+- For g=(01), h=(12) the class of edge(h) followed by edge(g) goes to gh, which differs from hg; an anti-homomorphism would fail this.
+
+(W IV Application 3.4.1, p. IV.28; Translation categories 3.3.1, p. IV.27.)
+
+*Needs:* §1.28, §1.1, §1.20, UniversalCovers Stages 2–4, TC.
+
+### 1.30 Comparing the group nerve with the supplied classifying space
+
+For every group G, construct `groupNerve_classifyingSpaceEquiv` from `B(SingleObj G)` to the ClassifyingSpaces Stage 1 join model. Apply ClassifyingSpaces Stage 3's CW-type uniqueness to the K(G,1) of §1.29, with the CW structure of §1.3. This is a based homotopy equivalence, natural up to specified based homotopies under group homomorphisms. The object and morphism universes are matched with explicit lifts. This comparison concerns the nerve realization rather than constructing another classifying-space functor. Its π₁ map carries edge(g) to g in the supplier's identification; the convention is edge(gh) ≃ edge(h) followed by edge(g). Compare the induced homology map with ClassifyingSpaces Stage 4's bar-resolution comparison; the nerve-to-bar map in §1.32 is a chain isomorphism after normalization, while the join-to-bar map is a chain homotopy equivalence.
 
 The comparison API includes basepoint and map naturality, `groupNerve_classifyingSpaceEquiv_pi1`, `groupNerve_classifyingSpaceEquiv_homology` and the compatibility with the supplied H₁–abelianization isomorphism.
 
@@ -419,23 +452,7 @@ The comparison API includes basepoint and map naturality, `groupNerve_classifyin
 
 (W IV Example 3.1.3, p. IV.25; Applications 3.4.1–3.4.2, p. IV.28; ClassifyingSpaces Stages 1.5–1.6, 3.11–3.15 and 4.16–4.19.)
 
-*Needs:* §1.1, ClassifyingSpaces Stage 3 (CW-type uniqueness) and Stage 4 (group homology).
-
-### 1.29 Classifying spaces of translation categories
-
-Prove `translationCategory_covering` for a left G-set X, with fibre X over BG. For X=G the total space is contractible; for X=G/H, prove `translationCategory_subgroupComparison` with BH and the inclusion-induced map.
-
-(W IV Translation categories 3.3.1, p. IV.27; Exercise 3.2, p. IV.34.)
-
-*Needs:* §1.18, §1.11, §1.12, §1.28, §1.20, §1.3, M.
-
-### 1.30 Asphericity of the nerve model
-
-Prove `groupNerve_isKOne` by transporting ClassifyingSpaces Stage 1.5 through §1.28. Identify the natural π₁ map explicitly by edge(g)↦g and prove zero higher homotopy, including the chosen vertex. This is the nerve-model comparison to the supplied classifier.
-
-(W IV Application 3.4.1, p. IV.28.)
-
-*Needs:* §1.28, ClassifyingSpaces Stage 1.5, UniversalCovers Stage 4.
+*Needs:* §1.1, §1.3, §1.29, ClassifyingSpaces Stage 3 (CW-type uniqueness) and Stage 4 (group homology).
 
 ### 1.31 Conjugate homomorphisms induce freely homotopic maps
 
@@ -443,7 +460,7 @@ For ψ(g)=hφ(g)h⁻¹, construct a free homotopy Bφ≃Bψ with basepoint track
 
 (W IV Homotopy-theoretic properties 3.2, p. IV.25.)
 
-*Needs:* §1.10, §1.28, §1.1, TC.
+*Needs:* §1.10, §1.30, §1.1, TC.
 
 ### 1.32 The nerve of a group is the bar construction
 
@@ -457,7 +474,7 @@ Construct the coefficient-preserving `groupNerve_barChainIso` by inverting each 
 
 (W IV Application 3.4.2 and (3.5), p. IV.28.)
 
-*Needs:* §1.24, §1.27, §1.28, M.
+*Needs:* §1.24, §1.27, §1.30, M.
 
 ### 1.33 The nerve of a groupoid is a Kan complex
 
@@ -473,7 +490,7 @@ Prove `classifyingSpace_groupoid_oneType` and B G≃⊔_[x]B Aut(x), using chose
 
 (BS Appendix §12, pp. 55–56; W IV Def. 4.1, p. IV.36.)
 
-*Needs:* §1.11, §1.30, §1.18, §1.3.
+*Needs:* §1.11, §1.29, §1.18, §1.3.
 
 ### Examples
 
@@ -907,7 +924,7 @@ For surjective G→Q with kernel N, prove BN→BG→BQ is a homotopy-fibre seque
 
 (W IV Exercise 3.6(c), p. IV.34.)
 
-*Needs:* §2.35, §1.28.
+*Needs:* §2.35, §1.30.
 
 ### Examples
 
@@ -948,7 +965,7 @@ For acyclic F of CW type, prove `IsAcyclicSpace.perfect_and_H2`: π₁F is perfe
 
 (W IV Lemma 1.3.1 with proof, p. IV.4.)
 
-*Needs:* §3.1, §1.30, §2.5, AlgebraicTopology, AlgebraicTopology stage 8, DGFloer Layer 1 item 4, §1.32, M.
+*Needs:* §3.1, §1.29, §2.5, AlgebraicTopology, AlgebraicTopology stage 8, DGFloer Layer 1 item 4, §1.32, M.
 
 ### 3.3 Acyclic maps
 
@@ -1272,7 +1289,7 @@ Build `UniversalCentralExtension` as a surjective homomorphism with central kern
 
 (W IV Prop. 1.7 with proof and Cor. 1.7.1, p. IV.6.)
 
-*Needs:* §3.13, §3.2, §2.5, §2.6, §1.30, M. Construct the central-extension foundation in this subsection before applying it to the plus fibre.
+*Needs:* §3.13, §3.2, §2.5, §2.6, §1.29, M. Construct the central-extension foundation in this subsection before applying it to the plus fibre.
 
 ### 3.30 Naturality of π₂(BG⁺) ≅ H₂(P; ℤ)
 
@@ -1288,7 +1305,7 @@ For P⊆H⊆G and P perfect normal in G, identify the H/P-cover of BG⁺ₚ with
 
 (W IV Exercise 1.8, pp. IV.14–15.)
 
-*Needs:* §3.26, §1.29, §2.8, TC.
+*Needs:* §3.26, §1.28, §2.8, TC.
 
 ### 3.32 The plus-construction fibration of a universal central extension
 
@@ -1747,25 +1764,61 @@ Construct `classicalGrothendieckWittComparison` for symmetric unimodular ℤ-for
 
 ### 4.28 Topological variants of functors on rings via simplicial rings
 
-For simplicial-compatible F on unital rings and topological A, construct the realisation of F(C(Δⁿ,A)), its constant-function unit and functoriality; compare discrete A. Separately prove `topologicalKComparison` for ℝ,ℂ with continuous GL topology/stabilisation and connective ko/ku.
+For a topological ring A, `simplicialRingOfContinuous A` is n↦C(Δⁿ,A) with pointwise operations, where Δⁿ is Mathlib's `SimplexCategory.toTop₀.obj ⦋n⦌` and simplicial operators act by precomposition. For a functor F from unital rings to simplicial sets, `topologicalVariant F A` is the realisation of the diagonal of the bisimplicial set n↦F(C(Δⁿ,A)) (§§2.17–2.18). For F valued in Γ-spaces of simplicial sets, take this diagonal at each finite pointed set. The result is a Γ-space, and it is special whenever every F(C(Δⁿ,A)) is: diagonals preserve finite products and levelwise weak equivalences (§2.23). The K-theory case of §4.30 applies this to the Segal Γ-spaces of §§4.24–4.25 and then GeneralizedCohomology G2.8's Γ-machine. A colimit in a separate ∞-category of spectra is not used as a carrier.
 
-- `topologicalVariant`: Realise n↦F(C(Δⁿ,A)), when F is simplicial-compatible with the variance.
-- `topologicalVariant.unit`: The map induced by constant functions.
-- `topologicalVariant.map`: Natural in F and continuous ring maps.
-- `simplicialRingOfContinuous`: n↦C(Δⁿ,A), with pointwise ring operations.
+- `simplicialRingOfContinuous`: n↦C(Δⁿ,A), with pointwise ring operations and precomposition operators.
+- `topologicalVariant`: The diagonal realisation for simplicial-set-valued F, taken objectwise in Γ for Γ-space-valued F.
+- `topologicalVariant.unit`: The map from F(A) induced by constant functions.
+- `topologicalVariant.map`: Natural in F and in continuous ring maps.
+- `topologicalVariant.isSpecial`: Levelwise special input gives a special Γ-space.
 
 **Checks.**
 
 - `topologicalVariant_const`: For a constant functor F, topologicalVariant F A ≃ F A.
 - `topologicalVariant_discrete_ring`: For A with the discrete topology, C(Δⁿ, A) = A and topologicalVariant F A ≃ F A.
-- `topologicalVariant_pi0_K`: π₀ K^top(ℝ) = K₀(ℝ) = ℤ.
-- `topologicalVariant_not_discrete_K1`: π₁ K^top(ℝ) = ℤ/2 differs from K₁(ℝ) = ℝ^×: the topological variant is not the algebraic K-theory.
+- `topologicalVariant_units_components`: Let F send R to the discrete simplicial set on Rˣ. Then topologicalVariant F ℝ has exactly two path components, given by the sign of a nowhere-zero function on the connected simplex, whereas F(ℝ)=ℝˣ is uncountable.
 
-Compare this construction with GeneralizedCohomology G5.5’s KU, KO and connective covers, retaining its chosen complex degree-two and real degree-eight Bott classes. The comparison must carry their units and Bott maps. Check `π₂ku=π₂KU=ℤ`, `π₁ku=π₁KU=0`, `π₁ko=π₁KO=ℤ/2` and `π₄ko=π₄KO=ℤ`; the connective covers have zero negative homotopy, whereas `π₋₂KU=ℤ` and `π₋₈KO=ℤ`.
+(HK III Section 3.2, proof of Lemma 3.2.11, p. 59; Sch §10, p. 90.)
 
-(HK III Section 3.2, proof of Lemma 3.2.11, p. 59.)
+*Needs:* §2.17, §2.18, §2.23, §4.24, §4.25, GeneralizedCohomology G2.8, M.
 
-*Needs:* §2.17, M.
+### 4.29 Finite projective modules and general linear groups over C(Δⁿ,k)
+
+Let k be ℝ or ℂ. Prove `continuousFunctions_projective_free`: every finitely generated projective module over C(Δⁿ,k) is free. Present the module by an idempotent matrix e. The straight-line contraction of Δⁿ to a vertex gives a continuous path of idempotents from e to a constant idempotent. Two idempotents f, f′ in a unital Banach algebra with `‖f − f′‖·‖2f − 1‖ < 1` are conjugate by `ff′ + (1 − f)(1 − f′)`, so compactness of the path conjugates e to a constant idempotent, whose image is free. Since C(Δⁿ,k) is commutative and nonzero, ranks are invariant. Hence §4.15's functor from `BasedFree (C(Δⁿ,k))` to the finite-projective core is an equivalence of symmetric monoidal groupoids, natural in the simplicial operators.
+
+Construct `continuousGL_simplicialEquiv`: GLᵣ(C(Δⁿ,k))≅C(Δⁿ,GLᵣ(k)) as groups, from Mathlib's `ContinuousMap.unitsLift` and the entrywise matrix identification, natural in the simplicial operators. Thus n↦GLᵣ(C(Δⁿ,k)) is the singular simplicial group of the topological group GLᵣ(k). The identification commutes with stabilization g↦diag(g,1), block sum, permutation conjugation and the Kronecker product, using GeneralizedCohomology G5.4's lexicographic index (i,j)↦i·s+j.
+
+Construct `polarInclusion`: the inclusions O(r)→GLᵣ(ℝ) and U(r)→GLᵣ(ℂ) are homotopy equivalences via the deformation `g ↦ g·(g*g)^(−t/2)`, which fixes O(r) and U(r). For k=ℝ this is GeneralizedCohomology G2.9's polar deformation. Since `|g ⊕ h| = |g| ⊕ |h|` and `|g ⊗ h| = |g| ⊗ |h|`, the deformation commutes with block sum, Kronecker product and permutation conjugation. The inclusions are therefore identity-on-objects strict bipermutative functors.
+
+**Checks.**
+
+- `continuousFunctions_projective_point`: at n=0, C(Δ⁰,k)=k, and the statement is that finite-dimensional vector spaces are free.
+- `continuousFunctions_circle_projective_not_free`: over C(S¹,ℝ) the sections of the Möbius line bundle form a rank-one finite projective module that is not free, since a basis element would be a nowhere-vanishing section. Contractibility of Δⁿ is used.
+- `continuousGL_one_real_components`: for r=1 and k=ℝ the realised simplicial group n↦GL₁(C(Δⁿ,ℝ)) has two path components, matching O(1)={±1}, whereas GL₁(ℝ) has uncountably many elements.
+
+(Sch Lemma 10.1, p. 90, with proof, pp. 92–93; proof of Prop. 10.2, p. 90; §10.1, p. 92.)
+
+*Needs:* §4.15, §4.28, GeneralizedCohomology G2.9 and G5.4, M.
+
+### 4.30 Topological K-theory of ℝ and ℂ from function rings
+
+For k=ℝ, ℂ define Kᵗᵒᵖ(k) as G2.8's Γ-machine applied to `topologicalVariant` of the finite-projective Segal Γ-space of §4.24 at A=k. Prove `topologicalKComparison`: Kᵗᵒᵖ(ℝ)≃ko and Kᵗᵒᵖ(ℂ)≃ku as connective spectra, compared with GeneralizedCohomology G5.4's models. Through the based-free bipermutative model of step 2 it is an equivalence of commutative ring spectra, and it carries their units and Bott maps.
+
+1. By §4.29 and §§4.23 and 4.25, the finite-projective Γ-space of C(Δⁿ,k) is levelwise equivalent to the coherent-subset Γ-space of `BasedFree (C(Δⁿ,k))`, naturally in n.
+2. By `continuousGL_simplicialEquiv`, the simplicial object n↦`BasedFree (C(Δⁿ,k))`, with block sum and Kronecker tensor, is a bipermutative category with objects r≥0, enriched in the singular simplicial groups of GLᵣ(k). Its diagonal Γ-space is the one in step 1.
+3. Realise the hom-objects (§2.20 keeps the products). The counit |Sing GLᵣ(k)|→GLᵣ(k) and `polarInclusion` are identity-on-objects strict bipermutative functors and weak equivalences on every endomorphism space, connecting this category with G5.4's O(r) and U(r) categories. G2.8's additive and multiplicative machines carry these to equivalences, and G5.4's Bott classes transport along them.
+4. Deduce `topologicalK_unitComponent`: the fibre sequence `BGL(k)^top → Ω∞Kᵗᵒᵖ(k) → K₀(k)`, where π₀ is constant in n by §4.29.
+
+**Checks.**
+
+- `topologicalVariant_pi0_K`: π₀ Kᵗᵒᵖ(ℝ) = K₀(ℝ) = ℤ.
+- `topologicalVariant_not_discrete_K1`: π₁ Kᵗᵒᵖ(ℝ) = ℤ/2 differs from K₁(ℝ) = ℝ^×, so the topological variant is not the algebraic K-theory.
+- `π₂ku=π₂KU=ℤ`, `π₁ku=π₁KU=0`, `π₁ko=π₁KO=ℤ/2` and `π₄ko=π₄KO=ℤ`. The connective covers have zero negative homotopy, whereas `π₋₂KU=ℤ` and `π₋₈KO=ℤ`.
+- The rank-one free module goes to the unit of ko or ku, and the class of the trivial rank-n module to n in π₀.
+
+(HK III Section 3.2, proof of Lemma 3.2.11, p. 59; Sch Prop. 10.2 with proof, pp. 90–91.)
+
+*Needs:* §4.15, §4.23, §4.24, §4.25, §4.28, §4.29, §2.18, §2.20, §2.23, GeneralizedCohomology G2.8 and G5.4, M.
 
 ### Examples
 
@@ -1773,7 +1826,7 @@ The category of all finite projective-module maps has a zero object and a contra
 
 ### Dependencies
 
-Layers 1–3, algebraic Grothendieck groups and the local stable linear-group/projective-complement foundations.
+Layers 1–3, algebraic Grothendieck groups and the local stable linear-group/projective-complement foundations; §§4.28–4.30 add simplicial-space realisation and GeneralizedCohomology's Γ-machine and K-theory models.
 
 ## Layer 5: Comparisons for the supplied symmetric spectra
 
@@ -2174,7 +2227,7 @@ For m≥1 define S/m as a cone of m:S→S, with triangle S→S→S/m→ΣS. It i
 - `moore_two_not_ring`: 2 • 𝟙 (moore 2) ≠ 0 in SHC, so S/2 admits no unital multiplication.
 - `moore_zero_extended`: S/0=S∨ΣS has H₁=ℤ, so the positive-modulus homology clause fails at zero.
 
-Use GeneralizedCohomology G2.5’s Freudenthal theorem: for n-connected based CW X, n≥0, πᵢX→πᵢ₊₁ΣX is bijective for i≤2n and surjective for i=2n+1. Construct the stable Hopf class η and prove `sphere_firstStems`: π₁S=ℤ/2 generated by η, π₂S=ℤ/2 generated by η². Build `modTwoSquares` with naturality, suspension, Cartan and Adem laws; apply Sq² on CP² and Sq¹Sq²Sq¹=Sq²Sq² to prove `mooreTwo_piTwo`: π₂(S/2)=ℤ/4, with twice a lift of η equal to the image of η². These supply the finite-coefficient and stable-range inputs, rather than assuming the first stems. (H AT, Cor. 4.24, p. 360, §4.L, pp. 487–517; S, I.1, pp. 12–13; II.6.48, pp. 287–288; II.10.11, 10.13, pp. 319–320.)
+Use GeneralizedCohomology G2.5’s Freudenthal theorem: for n-connected based CW X, n≥0, πᵢX→πᵢ₊₁ΣX is bijective for i≤2n and surjective for i=2n+1. Construct the stable Hopf class η and prove `sphere_firstStems`: π₁S=ℤ/2 generated by η, π₂S=ℤ/2 generated by η². Use TangentialBordism B4.1's Steenrod squares with their naturality, suspension, Cartan, Adem and Sq¹=Bockstein laws, and B4.2's stable HF₂ operations; apply Sq² on CP² and Sq¹Sq²Sq¹=Sq²Sq² to prove `mooreTwo_piTwo`: π₂(S/2)=ℤ/4, with twice a lift of η equal to the image of η². These supply the finite-coefficient and stable-range inputs, rather than assuming the first stems. (H AT, Cor. 4.24, p. 360, §4.L, pp. 487–517; S, I.1, pp. 12–13; II.6.48, pp. 287–288; II.10.11, 10.13, pp. 319–320.)
 
 **Checks.**
 
@@ -2184,7 +2237,7 @@ Use GeneralizedCohomology G2.5’s Freudenthal theorem: for n-connected based CW
 
 (S II, Def. 6.33, p. 284; Construction 6.39, (6.41)–(6.42) and Thm. 6.43, pp. 285–286; Prop. 6.48 and (6.50), pp. 287–288; W IV Def. 2.1, p. IV.18.)
 
-*Needs:* §5.7, GeneralizedCohomology G2.2 and G2.5, GeneralizedCohomology G2.4, §5.10, GeneralizedCohomology G2.7, GeneralizedCohomology G2.4.
+*Needs:* §5.7, GeneralizedCohomology G2.2 and G2.5, GeneralizedCohomology G2.4, §5.10, GeneralizedCohomology G2.7, GeneralizedCohomology G2.4, TangentialBordism B4.1–B4.2.
 
 ### 7.2 Spectra with finite coefficients E/m
 
@@ -2532,15 +2585,65 @@ For prime powers pʳ outside {2,3,4,8}, construct a homotopy associative and com
 
 *Needs:* §7.1, §5.11, GeneralizedCohomology G2.4.
 
-### 7.29 Burklund's towers of E_n-algebra quotients
+### 7.29 Graded and filtered Eₙ-algebras and the quotient obstruction tower
 
-In a stable, stably Eₘ-monoidal ∞-category, m≥2, fix v:I→1 such that cofib(v) admits a right unital multiplication. Construct the specified v-compatible structures on 1/vᑫ as Eₙ-algebras for n≤m and q>n, with the reduction tower of Eₙ-algebra maps for q≥n+1. Prove uniqueness up to equivalence among v-compatible structures as defined in the source, not among every possible Eₙ structure on the carrier. Construct the abstract Eₙ interfaces and their concrete spectrum comparison in Layer 5, so no later abstract-sheaf package is a prerequisite.
+Work in a stable, presentably Eₘ-monoidal ∞-category C, m≥2, with compact generators. Use §5.13's abstract Eₙ-algebra interfaces and BordismFormalGroups F6.5's Day convolution, Ind and operadic Kan extensions. Construct graded objects C^Gr and filtered objects C^Fil with Day convolution, the shift τ:X(1)→X, the associated graded functor as the cofibre of τ, and τ-inversion. All of these are Eₘ-monoidal. Positively graded means zero in negative degrees with the unit in degree zero.
 
-(Bu Thm. 1.5, p. 2; Bu Thm. 5.2, p. 10; Bu Remark 5.7, p. 12.)
+For n≤m construct the Eₙ bar–cobar adjunction on augmented graded algebras and coalgebras (HA §5.2.3) and prove `gradedBarCobarEquiv`: it is an equivalence on positively graded objects. Write `D^c_(Eₙ,k)(Y)` for the limit of the k-fold tensor powers of Y over Eₙ(k)_(hΣₖ). Construct the cofree positively graded Eₙ-coalgebra with underlying object `∏ₖ D^c_(Eₙ,k)(Y)`, and the cell filtration of a positively graded Eₙ-algebra R whose k-th cells are `Σ^(−1−n) Bar(R)ₖ`. For the unordered configuration space of k points in ℝⁿ, a model of Eₙ(k)_(hΣₖ), construct a finite cell filtration with cells in dimensions 0 to (n−1)(k−1). Deduce `configurationResolution`: a finite filtration of `D^c_(Eₙ,k)(Y)` with graded pieces `Σ^(−c) Y^⊗k`, 0≤c≤(n−1)(k−1).
 
-*Needs:* §7.1, §5.13, §5.18, §7.7.
+Prove `quotientObstructionTower` for a map r:X→1. It gives obstructions `θₖ ∈ [Σ^(−2−n) D^c_(Eₙ,k)(Σ^(n+1)X), 1/r]` for k≥2, each defined after nullhomotopies of the earlier ones are chosen. Their vanishing builds filtered Eₙ-algebras attached along the displayed cells, and τ-inversion gives an Eₙ-structure on 1/r. If every group `[Σ^(−1−n) D^c_(Eₙ,k)(Σ^(n+1)X), 1/r]` vanishes, the construction produces at most one structure. `quotientObstructionTower.refined` splits θₖ into `θ_(k,α) ∈ [Σ^(−2−n−c_α)(Σ^(n+1)X)^⊗k, 1/r]`, 0≤c_α≤(n−1)(k−1). `quotientMapObstruction` gives the analogous obstructions γ_(k,α), k≥1, to an Eₙ-map from the constructed quotient to an Eₙ-algebra on another quotient. It identifies γ₁ with the composite of the attaching map with the quotient map. `quotientObstruction_unital`: if the first obstruction Q₁(r) vanishes, then 1/r has a unital multiplication.
 
-### 7.30 Browder’s mod-coefficient products
+**Checks.**
+
+- `quotientObstruction_eOne`: for n=1 the space E₁(k)_(hΣₖ) is a point, so θₖ lies in the single group `[Σ^(−3)(Σ²X)^⊗k, 1/r]`.
+- `configurationResolution_two_two`: for n=k=2 the unordered configuration space of two points in ℝ² is equivalent to a circle, with cells in dimensions 0 and 1=(n−1)(k−1). On an even sphere these are the square class and the Q₁ class of the free E₂-algebra.
+- `quotientObstruction_moore`: for r=2:S→S in spectra, Q₁(2)≠0 because S/2 has no unital multiplication (§7.1). For odd p the obstruction group `[S¹, S/p] = π₁(S/p)` vanishes, so S/p has a unital multiplication also at p=3, where §7.28's exception concerns associativity.
+
+(Bu §2, Lemmas 2.2–2.3, Prop. 2.4, Remark 2.5, Lemma 2.6 with footnote 8, Cor. 2.7 and Remark 2.8, pp. 4–6; Conventions (5)–(8), p. 3; proof of Thm. 5.2, pp. 10–11; proof of Lemma 5.4, p. 11; Appendix A, Recollection A.5 and Thm. A.6, p. 13, Lemma A.19, Construction A.20 and Lemma A.21, pp. 18–19; HA §5.2.3.)
+
+*Needs:* §5.13, §7.1, BordismFormalGroups F6.5.
+
+### 7.30 The deformation Def(C;Q) of a quotient
+
+Let C be stable and stably Eₘ-monoidal, m≥2, with v:I→1 such that `1/v = cofib(v)` has a right unital multiplication. First replace C by Ind(C′), where C′ is generated by 1 and I under tensor products and finite (co)limits. This Ind(C′) is presentable and Eₘ-monoidal, and its functor to C is fully faithful on C′. Let `quotientSplitEpiClass` Q be the maps of compact objects that become split epimorphisms after tensoring with 1/v. Prove that every 1/v⊗X is Q-injective, that X→1/v⊗X is Q-monic, that compact objects have enough Q-injectives and that Q is ⊗-compatible.
+
+Construct the perfect derived ∞-category D^ω(C^ω;Q) as perfect sheaves for the Q-epimorphism topology, with ν, the shift [1], τ and τ-inversion. Prove the seven properties of Bu Recollection 4.1: finite (co)limits; ν fully faithful; generation by ν under finite colimits; ν preserving cofibre sequences whose second map is in Q; `ν(−)[1] ≃ ν(Σ−)`; τ-inversion as localization at τ; and `[Σ^(−s)νX, νJ] = 0` for s>0 and Q-injective J. Construct its exact Eₘ-monoidal structure with ν and τ-inversion Eₘ-monoidal, and `deformationCategory` Def(C;Q) as its Ind-completion. The cofibre sequence `ν1 → ν(1/v) → ν(ΣI)` exists because 1→1/v splits after tensoring with 1/v. Its boundary is `deformationCategory.liftedMap` `ṽ : Σ^(−1)νI[1] → ν1`. Prove `deformationCategory.quotient_vanishing`: `[Σ^(−s)νX, ν1/ṽ^q] = 0` for compact X and s≥q, by induction on q. Define `IsVCompatible`: an Eₙ-structure on 1/v^q is v-compatible if it is equivalent to the τ-inversion of an Eₙ-structure on ν1/ṽ^q.
+
+**Checks.**
+
+- `deformation_quotient_one`: at q=1, ν1/ṽ≃ν(1/v), so the vanishing estimate is the Q-injectivity of ν(1/v).
+- `deformation_tauInverse`: τ-inversion carries ṽ to v and ν1/ṽ^q to 1/v^q.
+- `deformation_moore`: for C=Sp and v=p odd, S/p has a right unital multiplication but no E₁-structure, so the construction uses only the right unital multiplication. At v=2 the hypothesis fails (§7.1's `moore_two_not_ring`), while v=4 satisfies it because Q₁(4)=0.
+
+(Bu Remark 1.6, p. 2; Introduction, p. 1; §4, Recollection 4.1 to Lemma 4.8, pp. 8–10; Def. 5.1, p. 10; Remark 5.7, p. 12; PP Def. 5.32 and Prop. 5.34, p. 54; Lemmas 5.67–5.68 and Prop. 5.69, pp. 64–65; Remark 5.65, p. 64.)
+
+*Needs:* §7.29, §5.13, §7.1, BordismFormalGroups F6.5.
+
+### 7.31 HF₂-synthetic spectra and the vanishing line of C(2̃^q)
+
+Construct Pstrągowski's HF₂-synthetic spectra `F2Synthetic`: spherical sheaves of spectra on finite spectra for the topology of mod-2 homology surjections. This is a stable, presentably symmetric monoidal ∞-category with `ν : Sp → F2Synthetic`. Here ν is symmetric monoidal because every finite spectrum has projective mod-2 homology. Index bigraded spheres by stem k and Adams filtration s, `S^(k,s) = Σ^(−s) ν(S^(k+s))`, so that π_(k,s) here is BHS's π_(k,k+s). Construct τ∈π_(0,−1)S^(0,0), the commutative algebra Cτ and the symmetric monoidal τ-inversion. τ-inversion identifies τ-invertible synthetic spectra with Sp and satisfies τ⁻¹ν≃id. Prove that ν carries a cofibre sequence to a cofibre sequence exactly when it is short exact on mod-2 homology. Prove BHS Theorem 9.19 comparing π_(*,*)νX with TangentialBordism B4.2's mod-2 Adams spectral sequence, for HF₂-nilpotent complete X with strongly convergent spectral sequence.
+
+Let 2̃∈π_(0,1)S^(0,0), with τ2̃=ν(2), be the boundary of the cofibre sequence νS→ν(S/2)→ν(S¹). Define `F2Synthetic.mooreTilde q` as `C(2̃^q) = cofib(2̃^q : S^(0,q) → S^(0,0))`. Define vanishing lines of slope m and intercept c and prove BHS's cofibre lemma and Prop. 11.6 at torsion level zero. Prove the base line `π_(w,s) C(2̃) = 0 for s > w/2 + 1`; by Prop. 11.6 this is the corresponding vanishing of the Adams E₂-page of S/2. Then prove `F2Synthetic.mooreTilde_vanishing`: `π_(w,s) C(2̃^q) = 0 for s > w/2 + q`, by induction on q along `Σ^(0,1)C(2̃^(q−1)) → C(2̃^q) → C(2̃)`.
+
+**Checks.**
+
+- `F2Synthetic.nu_moore_two`: νS→ν(S/2)→ν(S¹) is a cofibre sequence, so ν(S/2)≃C(2̃). Applying ν to S→S→S/2, with first map multiplication by 2, does not give a cofibre sequence, since 2 is zero on mod-2 homology.
+- `F2Synthetic.tauInverse_moore`: τ⁻¹C(2̃^q)≃S/2^q for every q≥1.
+- `F2Synthetic.sphere_no_vanishing_line`: 2̃^s∈π_(0,s)S^(0,0) is nonzero for every s, since τ^s·2̃^s=ν(2^s) inverts to 2^s≠0. The sphere has no vanishing line of slope ½, so the Moore quotient is needed.
+
+(Pst Def. 4.1, Prop. 4.2, Defs. 4.3 and 4.6, Lemma 4.23, Def. 4.27, Cor. 4.30, Thm. 4.37 and Prop. 4.40, pp. 38–49; BHS Construction 9.3 to Thm. 9.12, pp. 32–33, Thm. 9.19, p. 36, Def. 11.2 and Prop. 11.6, p. 45, Lemma 11.11, p. 47, Def. 13.6, p. 54, Notation 15.3 and Prop. 15.8 (row C(2̃), clause (4) of Def. 13.6), pp. 67–68; Bu Convention (10), p. 3, footnotes 9–10, p. 7, Lemma 3.3, p. 8.)
+
+*Needs:* §5.13, §7.1, §7.7, BordismFormalGroups F6.5, TangentialBordism B4.2.
+
+### 7.32 Burklund's towers of E_n-algebra quotients
+
+In a stable, stably Eₘ-monoidal ∞-category, m≥2, fix v:I→1 such that cofib(v) admits a right unital multiplication. Construct the v-compatible structures of §7.30 on 1/vᑫ as Eₙ-algebras for n≤m and q>n, with the reduction tower of Eₙ-algebra maps for q≥n+1. Apply §7.29's obstruction tower to ṽ^q in Def(C;Q). The obstruction groups vanish by `deformationCategory.quotient_vanishing`, since q≥n+1. The tower maps and the uniqueness use §7.29's map obstructions. When the two exponents agree, the nullhomotopy of γ₁ given by the defining cofibre sequence yields an equivalence of Eₙ-algebras. Prove uniqueness up to equivalence among v-compatible structures, not among every possible Eₙ structure on the carrier. Construct the abstract Eₙ interfaces and their concrete spectrum comparison in Layer 5, so no later abstract-sheaf package is a prerequisite.
+
+(Bu Thm. 1.5, p. 2; Bu Thm. 5.2 with proof, pp. 10–11; Bu Remark 5.7, p. 12.)
+
+*Needs:* §7.1, §5.13, §5.18, §7.7, §7.29, §7.30.
+
+### 7.33 Browder’s mod-coefficient products
 
 For a homotopy associative and commutative ring spectrum E with πₖE=0 in negative degrees and in positive even degrees, prove homotopy associative and commutative products on E/pʳ for every prime power, including the four exceptional Moore moduli. Construct the unit and product and their compatibility with E→E/pʳ. The vanishing applies to E, not to the coefficient spectrum, so this statement does not force an impossible unital product on S/2.
 
@@ -2548,13 +2651,19 @@ For a homotopy associative and commutative ring spectrum E with πₖE=0 in nega
 
 *Needs:* §7.28, GeneralizedCohomology G2.4.
 
-### 7.31 Burklund's E_n-algebra structures on Moore spectra
+### 7.34 Burklund's E_n-algebra structures on Moore spectra
 
-Construct the Eₙ-algebra structures on S/pᑫ in the specified ranges: q≥n+1 at odd primes and 2q≥3(n+1) at p=2. Thus S/8 is E₁ and S/32 is E₂, while S/p² is E₁ for odd p. Identify these with the abstract-algebra and concrete-spectrum comparison of Layer 5; the general quotient tower has the v-compatible uniqueness just stated, rather than uniqueness of arbitrary Moore algebra structures.
+Construct the Eₙ-algebra structures on S/pᑫ in the specified ranges: q≥n+1 at odd primes and 2q≥3(n+1) at p=2. Thus S/8 is E₁ and S/32 is E₂, while S/p² is E₁ for odd p. At odd p apply §7.32 with C=Sp and v=p. At p=2 apply §7.29's obstruction tower in `F2Synthetic` to `2̃^q : S^(0,q) → S^(0,0)`. Each refined obstruction lies in a group that vanishes by `F2Synthetic.mooreTilde_vanishing` when 2q≥3(n+1). The symmetric monoidal τ-inversion then carries the Eₙ-algebra C(2̃^q) to S/2^q. Identify these with the abstract-algebra and concrete-spectrum comparison of Layer 5. The general quotient tower has the v-compatible uniqueness of §7.32, rather than uniqueness of arbitrary Moore algebra structures.
 
-(Bu Theorems 1.1 and 1.2, p. 1.)
+**Checks.**
 
-*Needs:* §7.1, §5.13, §5.18, §7.7, §7.29.
+- `moore_power_two_route`: §7.32 at v=4, admissible since Q₁(4)=0, gives S/2^(2(n+1)): S/16 as E₁ and S/64 as E₂. The synthetic route is required for S/8 as E₁ and S/32 as E₂.
+- `moore_odd_square`: S/p² is E₁ at odd p, whereas S/p is never E₁.
+- `moore_two_not_eOne`: at p=2 and n=1 the range begins at q=3; S/2 has no unital multiplication (§7.1).
+
+(Bu Theorems 1.1 and 1.2, p. 1; Thms. 3.1–3.2, pp. 6–8; Cor. 5.6 and Remark 5.7, p. 12.)
+
+*Needs:* §7.1, §5.13, §5.18, §7.7, §7.29, §7.31, §7.32.
 
 ### Examples
 
@@ -2562,7 +2671,7 @@ For E = Hℤ, E/p has π₀ = ℤ/p and no extra degree-zero summand. For E = H(
 
 ### Dependencies
 
-Layers 3 and 5–6, abelian/spectral-object APIs, the supplied countable-tower algebra and the local Ext comparison; prime, finiteness and convergence conditions remain explicit.
+Layers 3 and 5–6, abelian/spectral-object APIs, the supplied countable-tower algebra and the local Ext comparison, TangentialBordism's Steenrod squares and Adams tower, and §§7.29–7.31's obstruction tower, deformation and synthetic spectra; prime, finiteness and convergence conditions remain explicit.
 
 ## Downstream consumers
 
@@ -2592,6 +2701,10 @@ The following contracts export the general constructions here. GeneralAlgebraicK
 - Bhargav Bhatt, Peter Scholze, [Projectivity of the Witt vector affine Grassmannian](https://arxiv.org/abs/1507.06490v3), arXiv:1507.06490v3; manuscript pages.
 - B. Calmès, E. Dotto, Y. Harpaz, F. Hebestreit, M. Land, K. Moi, D. Nardin, T. Nikolaus, W. Steimle, [Hermitian K-theory for stable ∞-categories III: Grothendieck–Witt groups of rings](https://arxiv.org/abs/2009.07225), arXiv:2009.07225, 63-page version; manuscript pages.
 - Robert Burklund, [Multiplicative structures on Moore spectra](https://arxiv.org/abs/2203.14787), arXiv:2203.14787, 20-page version; manuscript pages.
+- Marco Schlichting, [Hermitian K-theory, derived equivalences and Karoubi's fundamental theorem](https://arxiv.org/abs/1209.0848v3), arXiv:1209.0848v3; manuscript pages.
+- Robert Burklund, Jeremy Hahn, Andrew Senger, [On the boundaries of highly connected, almost closed manifolds](https://arxiv.org/abs/1910.14116v3), arXiv:1910.14116v3; manuscript pages.
+- Irakli Patchkoria, Piotr Pstrągowski, [Adams spectral sequences and Franke's algebraicity conjecture](https://arxiv.org/abs/2110.03669v2), arXiv:2110.03669v2; manuscript pages.
+- Piotr Pstrągowski, [Synthetic spectra and the cellular motivic category](https://arxiv.org/abs/1803.01804v3), arXiv:1803.01804v3; manuscript pages.
 - Jacob Lurie, [Higher Algebra](https://www.math.ias.edu/~lurie/papers/HA.pdf), September 2017 author’s edition; printed pages.
 - Allen Hatcher, [Spectral Sequences (Chapter 1 of the book project 'Spectral Sequences in Algebraic Topology')](https://pi.math.cornell.edu/~hatcher/SSAT/SSch1.pdf), author’s SSch1.pdf, 67-page version; chapter pages.
 - Bruno Kahn, [Around Quillen's Theorem A](https://arxiv.org/abs/1108.2441v3), arXiv:1108.2441v3; manuscript pages.

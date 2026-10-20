@@ -10,7 +10,8 @@ not exhaustive: it records light definitions and milestones statable against
 the pinned Mathlib and Tau Ceti APIs. New theorem proofs use `sorry`.
 
 The signatures specify realised nerves, endpoint-based homotopy fibres,
-acyclic maps, plus recognition and plus factorization. Spectra, their
+acyclic maps, plus recognition, plus factorization and freeness of finite
+projective modules over function rings of topological simplices. Spectra, their
 localisations, coefficient objects and filtered constructions are specified in
 the README. Homotopy fibres use GeneralizedCohomology G2.10's real-bodied
 MappingPathFiber carrier.
@@ -411,13 +412,33 @@ theorem IsPlusConstruction.lift
       ∀ h' : Y ⟶ Z, ContinuousMap.Homotopic g.hom (f ≫ h').hom →
         ContinuousMap.Homotopic h.hom h'.hom := sorry
 
+/-! ## Layer 4: Function rings over topological simplices -/
+
+/-- Every finitely generated projective module over the continuous `𝕜`-valued functions on
+the topological `n`-simplex is free, for `𝕜 = ℝ` or `ℂ` (§4.29). -/
+theorem continuousFunctions_projective_free (𝕜 : Type) [RCLike 𝕜] (n : ℕ) (P : Type u)
+    [AddCommGroup P] [Module C(SimplexCategory.toTop₀.obj ⦋n⦌, 𝕜) P]
+    [Module.Finite C(SimplexCategory.toTop₀.obj ⦋n⦌, 𝕜) P]
+    [Module.Projective C(SimplexCategory.toTop₀.obj ⦋n⦌, 𝕜) P] :
+    Module.Free C(SimplexCategory.toTop₀.obj ⦋n⦌, 𝕜) P := sorry
+
+/-- Over the circle, which is not contractible, the sections of the Möbius line bundle give a
+finite projective module over `C(Circle, ℝ)` that is not free (§4.29). -/
+theorem continuousFunctions_circle_projective_not_free :
+    ∃ (P : Type) (_ : AddCommGroup P) (_ : Module C(Circle, ℝ) P),
+      Module.Finite C(Circle, ℝ) P ∧ Module.Projective C(Circle, ℝ) P ∧
+        ¬ Module.Free C(Circle, ℝ) P := sorry
+
 end TauCeti
 
 /-
 Further construction targets are specified in README.md:
 Layer 1: toTopCWComplex and its cell/skeleton maps; CGWH and its categorical
 closures; categorySimplicialModule, categoryChainComplex, categoryHomology and
-categoryHomologyFunctor; twisted cellular and group-nerve/bar comparisons.
+categoryHomologyFunctor; twisted cellular and group-nerve/bar comparisons;
+translationCategory_covering, translationCategory_regular_contractible,
+translationCategory_subgroupComparison, groupNerve_isKOne and
+groupNerve_classifyingSpaceEquiv, in that order.
 Layer 2: IsHomotopyFiberSequence, IsHomotopyFiberSequenceOfHomotopy,
 homotopyPullback, IsHomotopyCartesian, IsHomotopyCartesianOfHomotopy,
 IsQuasiFibration, SimplicialSpace.realization, BisimplicialSet.realization,
@@ -438,7 +459,9 @@ BasedFree and projectiveFreeComplement, the latter transported from
 AlgebraicKTheory A0 with its actual finite-projective splitting maps;
 summingFunctors, segalGammaSpace, segalSpaces,
 coherentSubsetGammaSpace using the supplied symmetric coherence,
-topologicalVariant and simplicialRingOfContinuous.
+topologicalVariant, topologicalVariant.isSpecial and simplicialRingOfContinuous;
+continuousGL_simplicialEquiv, polarInclusion, topologicalKComparison and
+topologicalK_unitComponent.
 Layer 5: point-set loop/suspension/shift and cone adapters, injective replacements,
 point-set/derived pairings, operadPositiveModel, operadRectification,
 eilenbergMacLaneRing for associative rings, eilenbergMacLaneModule,
@@ -458,7 +481,14 @@ CompactCoefficients.Tower), retaining the spectral Milnor injection,
 projection and six-term boundary;
 multiplicationTower.limOneEquiv as the sphere-tower specialization of the
 supplied limOne_mul_p; generalMoore, completionZEquiv,
-FilteredSpectrum, ExactCouple and their spectral sequences and convergence.
+FilteredSpectrum, ExactCouple and their spectral sequences and convergence;
+gradedBarCobarEquiv, configurationResolution, quotientObstructionTower,
+quotientObstructionTower.refined, quotientMapObstruction,
+quotientObstruction_unital, quotientSplitEpiClass, deformationCategory,
+deformationCategory.liftedMap, deformationCategory.quotient_vanishing,
+IsVCompatible, F2Synthetic, F2Synthetic.mooreTilde and
+F2Synthetic.mooreTilde_vanishing. The Steenrod squares used in Layer 7 are
+TangentialBordism B4.1–B4.2's.
 
 Additional map, comparison and boundary-check targets from those sections:
 IsAcyclicMap.iff_homology, IsAcyclicMap.isWeakHomotopyEquivalence_of_bijective_pi1.
