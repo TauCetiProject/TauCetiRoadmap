@@ -1,24 +1,25 @@
 # Roadmap: coleman power series, local units and cyclotomic-unit quotients
 
-**Summary.** Build Coleman interpolation for the actual cyclotomic local-unit tower, first over `ℤ_p` and then over the integers of a finite unramified extension of `ℚ_p`. On `PowerSeries` construct its determinant norm, coefficient-Frobenius correction and topological interpolation equivalence. Over `ℚ_p`, use the logarithmic derivative and the integral measure operators to obtain the principal Coleman exact sequence and the quotient of real principal units by local cyclotomic units.
+**Summary.** Refine the Coleman operators and arithmetic comparisons supplied by IntegralIwasawaTheory §§7.1–7.3. Specify their chosen-root integer-ring adapters, multiplication matrices, uniform precision estimates, Frobenius-twisted residue splittings and finite semilocal transport. The explicit logarithmic-derivative and cyclotomic-denominator calculations identify the supplied normalized Coleman map and real principal-unit quotient on these carriers.
 
 The arithmetic objects are finite intermediate fields, their native integer rings and units, and the subgroup of their product cut out by relative norm compatibility. The interpolation theorem identifies that arithmetic inverse limit with a subgroup of power-series units. The final quotient has the actual principal-unit quotient on its left and an explicitly normalized Iwasawa-algebra ideal quotient on its right. Finite unramified arithmetic coefficients and finite-flat change of a `ℤ_p`-module are different constructions, and both comparisons are stated separately.
 
 ## Scope and ownership
 
-This roadmap owns the cyclotomic specializations: the chosen-root tower and its integer-ring comparisons, the fixed-root lift of coefficient Frobenius, the Frobenius-twisted residue splitting, the signed Tate tower, finite semilocal norm limits, the finite-free power-series norm and trace, interpolation, the arithmetic Coleman composite, and the local cyclotomic-unit closures and their image ideals. Each comparison identifies genuine arithmetic carriers and maps.
+This roadmap owns explicit carrier comparisons and API refinements: the chosen-root integer-ring and relative-basis comparisons, the fixed-root lift of coefficient Frobenius, Frobenius-twisted residue splittings, signed Tate coordinates, finite semilocal transport, multiplication-matrix identities, uniform iterate precision and arbitrary-coefficient logarithmic-derivative calculations. IntegralIwasawaTheory §§7.1–7.3 own the norm, trace, interpolation, arithmetic Coleman map, exact sequences, real principal circular closure and its quotient. Sections recording those results below are consumed contracts, under the supplier’s names. The all-prime formal logarithmic-derivative and boundary statements in Layer 3 extend §7.2’s odd-prime context by independent integral arguments, including `p=2`.
 
 The neighbouring roadmaps supply the following mathematics.
 
 - **LocalFieldsRamification, Layers 0–3:** finite-extension and intermediate-field local-field structures; integer rings, residue fields, valuations and topologies; principal-unit filtrations, Teichmüller lifts and their pro-p theorem; unramified Frobenius; Eisenstein and ramification results. Here these are specialized to the chosen cyclotomic roots. The general local-field constructions retain that owner.
 - **ProfiniteProPGroups, Layer 3, and ProfiniteArithmetic, §1.3:** pro-p closure and continuous p-adic powers, with their native Tau Ceti implementations. The targets here verify its hypotheses on principal norm limits and compare its action with the actual arithmetic action.
 - **PadicMeasuresIwasawaAlgebras (PMIA), Layers 0–5:** integral measures, weak topology, Amice and intrinsic unit-domain transforms, bounded `ψ`, inverse weighting, completed group algebras, pseudomeasures and finite-flat exactness. The new statements here compare those operators with the arithmetic norm, derivative, action and quotient; they do not define another measure carrier.
+- **IntegralIwasawaTheory, §§7.1–7.3:** `colemanSeriesBasis`, `colemanNorm`, `colemanTrace`, `localUnitNormLimit`, `colemanInterpolation`, `colemanLogDerivative_surjective`, the fixed-space boundary sequence, `arithmeticColeman`, `principalColeman_exact`, `principalColeman_plusEquiv`, `realPrincipalCircularClosure` and `realCircularClosure_colemanImage`, including finite-free coefficient change.
 - **IntegralIwasawaTheory, §5.0:** the canonical Kubota–Leopoldt pseudomeasure, its integral Bernoulli smoothing and exact smoothing multiplier. The elementary denominator and its independent smoothed series are specified in §2.10 and §2.10a here. The arithmetic reciprocity comparison fixes the sign relative to the supplied normalization.
-- **IntegralIwasawaTheory, §§1.1–1.4:** the actual global cyclotomic fields, global cyclotomic-unit groups, their real subgroups and the finite-conductor cyclic-generation theorem. Their local embeddings, closures and inverse limits are built here.
+- **IntegralIwasawaTheory, §§1.1–1.4:** the actual global cyclotomic fields, global cyclotomic-unit groups, their real subgroups and the finite-conductor cyclic-generation theorem. Its §7.3 supplies their real principal local closures and inverse limit; the explicit root-compatible embeddings and finite/full/real carrier comparisons are specified here.
 - **NumberFieldArithmetic, Layer 5:** completion tensors and the integral semilocal equivalence, including projections and Galois transport. The finite-product constructions below identify its cyclotomic factors and norms.
 
 
-The local cyclotomic Eisenstein calculation and irreducibility are supplied by **LocalGaloisGroups, Layer 0**. Use the shifted prime-power cyclotomic polynomial there, including its constant coefficient `p`. The pinned library implements `TauCeti.irreducible_cyclotomic_prime_pow_ratPadic` in `TauCeti/NumberTheory/Cyclotomic/Irreducible.lean` and `TauCeti.finrank_cyclotomic_prime_pow_ratPadic` in `TauCeti/NumberTheory/LocalField/RootsOfUnity/Cyclotomic.lean`. The latter gives `[K_n:ℚ_p]=p^n(p−1)` on the chosen primitive-root extension. These are inputs to the relative degree and chosen-root calculations here.
+The local cyclotomic Eisenstein calculation and irreducibility are supplied by **LocalGaloisGroups, Layer 0**. Use the shifted prime-power cyclotomic polynomial there, including its constant coefficient `p`. The pinned library implements `TauCeti.irreducible_cyclotomic_prime_pow_ratPadic` in `TauCeti/NumberTheory/Cyclotomic/Irreducible.lean` and `TauCeti.finrank_cyclotomic_prime_pow_ratPadic` in `TauCeti/NumberTheory/LocalField/RootsOfUnity/Cyclotomic.lean`. The latter gives `[K_n:ℚ_p]=p^n(p−1)` on the chosen primitive-root extension. These are inputs to the relative degree and chosen-root comparisons here.
 
 Tau Ceti also supplies `finiteIntermediateFieldNormedField`, `finiteIntermediateFieldTopology`, `integerRing_eq_integralClosure` and `integerRingEquivIntegralClosure` in `NumberTheory/LocalField/FiniteExtension/IntermediateField.lean` and `NumberTheory/LocalField/FiniteExtension/Basic.lean`, and `coe_norm_integerRing`, `coe_trace_integerRing` and `continuous_normUnits` in `NumberTheory/LocalField/Norm/Basic`. Their canonical-carrier constructions are used through LocalFieldsRamification. The comparisons below add compatibility with the selected roots, the explicit cyclotomic integral basis, residue identifications and Frobenius; they do not construct another general finite-extension structure. Tau Ceti `IsProP.module` and completed actions are used through ProfiniteArithmetic §1.3 and PMIA’s measure/algebra comparison. The native `completedGroupAlgebra.map`, `continuous_map` and `map_surjective` in `TauCeti/Topology/Algebra/Group/Profinite/CompletedGroupAlgebra/Map.lean`, and `proj_surjective` in its `Basic.lean`, supply the native functor and quotient projections used in the plus comparison.
 
@@ -48,7 +49,7 @@ Here `ε_n` is native convergent evaluation at `π_n`. The positive twist belong
 
 For the `ℚ_p` arithmetic Coleman composite, `Δ(F)=YF′F⁻¹`, `W=ker(ψ−id)` and `V=ker ψ`. The fixed-space boundary is `W→V`, `F↦F−φ(F)`. The raw map `Col₀` has the sign of this displayed composite. The normalized map `Col=−Col₀` satisfies `Col(c(a))=λ_a=([a]−1)ζ_p`; `ζ_p` keeps the normalization of IntegralIwasawaTheory §5.0. The endpoint of the principal sequence is the **first moment** `μ↦μ(x)`, rather than mass `μ↦μ(1)`.
 
-The declaration namespaces distinguish the `ℤ_p` series calculations (`TauCetiRoadmap.ColemanPowerSeries.Series`), their arithmetic realizations (`TauCetiRoadmap.ColemanPowerSeries.Arithmetic`), the unramified arithmetic tower (`TauCetiRoadmap.ColemanPowerSeries.Unramified`) and its series operators (`TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries`). Fully qualified names distinguish the two interpolation equivalences and the different Frobenius maps. No compatibility is inferred from a shared short name.
+The declaration namespaces distinguish the `ℤ_p` series calculations (`TauCetiRoadmap.ColemanPowerSeries.Series`), their arithmetic realizations (`TauCetiRoadmap.ColemanPowerSeries.Arithmetic`), the unramified arithmetic tower (`TauCetiRoadmap.ColemanPowerSeries.Unramified`) and its series operators (`TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries`). The base and unramified interpolation maps are specializations of the supplied `colemanInterpolation`; fully qualified refinement names distinguish their Frobenius comparisons. No compatibility is inferred from a shared short name.
 
 ## Exact supplier contracts
 
@@ -58,15 +59,15 @@ Tau Ceti supplies arbitrary-product/subgroup pro-p closure and `TauCeti.IsProP.m
 
 The native norm-on-units carrier is `TauCeti.Algebra.normUnits` with `TauCeti.Algebra.coe_normUnits` in `TauCeti/RingTheory/Norm/Units.lean`. Its input is the chosen commutative algebra; finite freeness is proved before interpreting its norm as the arithmetic determinant. No independent units-norm construction is requested. The local-field comparison modules are `TauCeti.NumberTheory.LocalField.FiniteExtension.IntermediateField` and `.Basic`; `TauCeti.NumberTheory.LocalField.Norm.Basic` supplies the integral norm, trace and their continuity. The selected-root and selected-basis comparisons below are additional assertions on these carriers.
 
-IntegralIwasawaTheory §§1.1–1.4 supply `compatibleCyclotomicTower`, `cyclotomicEmbedding`, `cyclotomicUnits`, `realCyclotomicUnits`, `smoothedCyclotomicUnit`, their Galois/norm compatibility and `realCyclotomicUnits_cyclic`. At our level `n` their conductor is `p^(n+1)`; the cyclic theorem assumes an odd prime and a generator of `(ℤ/p^(n+1)ℤ)ˣ` and retains sign torsion. Its §5.0 supplies `kubotaLeopoldtPseudomeasure`, the integral Bernoulli smoothing `μ_a` for natural a prime to `p`, and the exact multiplier identifying its intrinsic inverse-weighted restriction `λ_a` with `([a]−1)ζ_p`. Section 2.10a here proves the Amice comparison with the explicit smoothing series. No Coleman norm, interpolation or closure result is consumed from that roadmap’s Layer 7.
+IntegralIwasawaTheory §§1.1–1.4 supply `compatibleCyclotomicTower`, `cyclotomicEmbedding`, `cyclotomicUnits`, `realCyclotomicUnits`, `smoothedCyclotomicUnit`, their Galois/norm compatibility and `realCyclotomicUnits_cyclic`. At our level `n` their conductor is `p^(n+1)`; the cyclic theorem assumes an odd prime and a generator of `(ℤ/p^(n+1)ℤ)ˣ` and retains sign torsion. Its §5.0 supplies `kubotaLeopoldtPseudomeasure`, the integral Bernoulli smoothing `μ_a` for natural a prime to `p`, and the exact multiplier identifying its intrinsic inverse-weighted restriction `λ_a` with `([a]−1)ζ_p`. Section 2.10a here proves the Amice comparison with the explicit smoothing series. Sections 7.1–7.3 supply the Coleman constructions and their real principal quotient. Their conductor exponent `a` is `n+1` here. The native scalar algebra and equalizer definitions in Suggested.lean only expose the carriers used by the refinements; norm and trace there are native `Algebra.norm` and `Algebra.trace`, without additional roadmap definitions.
 
 The multiplicative Teichmüller section is `TauCeti.teichmuller`; its power compatibility is the ordinary `map_pow` law for that homomorphism, and uniqueness is `TauCeti.eq_teichmuller`. These declarations are in `TauCeti/RingTheory/Henselian/Teichmuller.lean`. The local-field realization is `TauCeti.teichmullerLift` in `TauCeti/NumberTheory/LocalField/Teichmuller.lean`. The cyclotomic comparisons identify these supplied sections with the roots chosen here.
 
 The arithmetic receiver is established in Layer 0: the [coherent chosen-root comparison](#coherent-chosen-root-integer-rings) fixes the inclusions, scalar towers, valuation and topology instances; the [relative integral basis](#relative-integral-cyclotomic-basis) has vectors `ρ_(n+1)^i` for `i<p`; and the [specialization and unit-lift formulas](#integral-norm-specialization-and-unit-lifts) compare integral norms/traces, commute with `σ_n` and lift each finite-level unit to a polynomial-series unit. The norm/evaluation square is then proved in Layer 1 by specializing multiplication matrices. In particular the absolute basis of dimension `d_n` is not silently used as the relative basis.
 
-For `ψ_O`, PMIA §2.5 supplies `extendIntegralCoefficients` and its Amice comparison (§2.5) and the integral bounded averaging operator. The [finite-free coefficient comparison](#finite-free-coefficient-averaging) below supplies the `O`-valued operator and receiving topology. The required operator is continuous and `O`-linear, with `ψ_O(Y^m)=Y^(m/p)` if `p` divides `m` and zero otherwise. Its equality with `τ/p` is a conclusion here. PMIA §4.3 supplies nonzero complete-DVR Weierstrass factorization; zero is treated separately. PMIA §5.2 supplies compact inverse-limit exactness. For the finite-free coefficient change of the actual principal sequence, the Layer 3 proof identifies each algebraic tensor with a finite product of compact modules and hence with its completion, transporting all four terms and maps.
+For `ψ_O`, PMIA §2.5 supplies `extendIntegralCoefficients` and its Amice comparison (§2.5) and the integral bounded averaging operator. The [finite-free coefficient comparison](#finite-free-coefficient-averaging) below supplies the `O`-valued operator and receiving topology. The required operator is continuous and `O`-linear, with `ψ_O(Y^m)=Y^(m/p)` if `p` divides `m` and zero otherwise. Its equality with `τ/p` is a conclusion here. PMIA §4.3 supplies nonzero complete-DVR Weierstrass factorization; zero is treated separately. PMIA §5.2 supplies compact inverse-limit exactness. For the supplied finite-free coefficient change of the actual principal sequence, IntegralIwasawaTheory §7.2 identifies each algebraic tensor with a finite product of compact modules and hence with its completion, transporting all four terms and maps.
 
-For the terminal quotient, use the native completed-algebra functor and finite projections through PMIA Layer 1. The [actual plus comparison](#actual-plus-algebra-comparison) below identifies `e⁺Λ(G)≃Λ(G⁺)`, with source identity `e⁺`, and the normalized pseudomeasure’s image in that algebra. The chosen-generator augmentation identity is proved below from compactness, density of Dirac combinations and dense integer powers of the specified a. IntegralIwasawaTheory §5.0 supplies the independently normalized Bernoulli smoothing and pseudomeasure numerator. IntegralIwasawaTheory §§1.1–1.4 supply the actual global orbit-generation theorem with its torsion and conductor hypotheses. Coleman proves local norm stability, closed principal spans, inverse-limit cyclicity and the resulting actual-unit quotient comparison.
+For the terminal quotient, use the native completed-algebra functor and finite projections through PMIA Layer 1. The [actual plus comparison](#actual-plus-algebra-comparison) below identifies `e⁺Λ(G)≃Λ(G⁺)`, with source identity `e⁺`, and the normalized pseudomeasure’s image in that algebra. The chosen-generator augmentation identity is proved below from compactness, density of Dirac combinations and dense integer powers of the specified a. IntegralIwasawaTheory §5.0 supplies the independently normalized Bernoulli smoothing and pseudomeasure numerator. IntegralIwasawaTheory §§1.1–1.4 supply the actual global orbit-generation theorem with its torsion and conductor hypotheses. IntegralIwasawaTheory §7.3 supplies local norm stability, inverse-limit cyclicity and the actual-unit quotient comparison; the finite closed-span and explicit carrier identifications are refinements here.
 
 ## Mathematical sources
 
@@ -76,7 +77,7 @@ For the terminal quotient, use the native completed-algebra functor and finite p
 
 ## How to read the build
 
-Layer 0 constructs and compares the `ℚ_p` tower, then its unramified and semilocal arithmetic variants, retaining exact prerequisites when the generalized result simplifies a base calculation. Layer 1 first establishes Frobenius coordinates and determinant operators, extends them to `O`, and proves the corrected projector and actual twisted interpolation. Its compactness inputs appear before interpolation. Layer 2 builds the logarithmic derivative and arithmetic measure map; the elementary fixed-space boundary is introduced there before its exactness is studied in Layer 3. Layer 3 computes the full kernel, first-moment image and principal topological exact sequence. Layer 4 passes from global cyclotomic generators to local closures, a compatible principal real generator, its image ideal and the quotient theorem. Targets within a layer follow their prerequisite order.
+Layer 0 identifies the supplied base and unramified towers on the chosen native fields and adds residue and finite semilocal comparisons. Layer 1 consumes IntegralIwasawaTheory §7.1 and develops explicit coordinate, matrix, precision and evaluation refinements. Layer 2 supplies arbitrary-coefficient logarithmic-derivative and smoothing calculations and compares them with the supplied arithmetic Coleman map. Layer 3 adds coefficient and leading-term formulas, extends the supplied formal fixed-space statements to all primes, and consumes the odd-prime principal exact sequence. Layer 4 identifies finite/full/real closures and their generators with IntegralIwasawaTheory §7.3. Within these refinements, prerequisites precede their consumers.
 
 | Layer | Arithmetic output | Coefficient range |
 | --- | --- | --- |
@@ -1618,16 +1619,17 @@ This uses the fixed residue identification of the actual integral closure, not a
 
 Keep the hypotheses of the preceding target.
 
-Define `normCompatibleUnits` by the following specification.
+Use `localUnitNormLimit` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
 
-Define `normCompatibleUnits(p)` as the native subgroup of `V` consisting of `u` with `N_n(u_(n+1))=u_n` for every `n`. It has the inherited product-subtype topology.
 
-The API includes the following named statements.
+The supplied object is `localUnitNormLimit(p)` as the native subgroup of `V` consisting of `u` with `N_n(u_(n+1))=u_n` for every `n`. It has the inherited product-subtype topology.
 
-- `mem_normCompatibleUnits`: Membership is equivalent to every adjacent norm equation.
-- `normCompatibleUnits_ext`: Two compatible units are equal when all their coordinates agree.
-- `continuous_normCompatibleUnits_eval`: Every coordinate projection from the compatible-unit subtype is continuous.
-- `normCompatibleUnits_lift_unique`: For any topological monoid `H` and continuous monoid homomorphism `f:H→V` satisfying adjacent compatibility, there is a unique continuous monoid homomorphism `H→normCompatibleUnits(p)` with the given coordinates.
+The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
+
+- Membership is equivalent to every adjacent norm equation.
+- Two compatible units are equal when all their coordinates agree.
+- Every coordinate projection from the compatible-unit subtype is continuous.
+- For any topological monoid `H` and continuous monoid homomorphism `f:H→V` satisfying adjacent compatibility, there is a unique continuous monoid homomorphism `H→localUnitNormLimit(p)` with the given coordinates.
 
 **Checks.**
 
@@ -1636,15 +1638,9 @@ The API includes the following named statements.
 - `NormLimitTests.dyadic_minus_one_incompatible`: The constant`−1` family is not norm-compatible for `p=2`, since its relative norm is`+1`.
 - `NormLimitTests.signed_root_family`: The tuple `((−1)^(p−1)ζ_n)_n` belongs and is not the identity tuple: at `p=3` its zeroth coordinate is `ζ_0≠1`, and at `p=2` its first coordinate is `−ζ_1≠1`. This excludes replacing the equalizer by its trivial subgroup.
 
-For the proof, for each `n`, form the native equalizer subgroup of `N_n` composed with the successor coordinate and the nth coordinate projection. Take their infimum in the native complete subgroup lattice. The native equalizer and infimum carrier formulas give exactly the displayed compatibility condition. Multiplication, inversion, identity and all integer powers are inherited coordinatewise. Native subtype extensionality gives equality from equality of every coordinate. Coordinate evaluation is continuous as a product projection after the subtype inclusion. For a continuous monoid homomorphism `f:H→V` satisfying all adjacent equations, corestrict `f` to the subgroup; native induced-topology continuity supplies its continuous lift. Coordinate extensionality proves uniqueness. No general inverse-limit functor is rebuilt.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-Adjacent equations determine the entire sequential norm diagram by iteration. No surjectivity of the finite norm maps or of the coordinate projections is assumed.
-
-`RJW(9-3)` and Theorems10.2/10.13: Supply the actual arithmetic target and its residue-one subgroup for Coleman interpolation. Layer 2–Layer 4: The subsequent arithmetic Coleman map and its exact sequence need these carriers and evaluation laws before importing module structures or a `G`-action.
-
-*Needs:* [Continuous norm transitions on actual units](#colemanpowerseries-l0-continuous-unit-norm); `MonoidHom.eqLocus`; `Subgroup.coe_iInf`; `Subgroup`.
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), `Equations(9-2)–(9-3)`, published162–163/PDF63–64; Theorem10.2 on164/PDF65 and Propositions10.10 and 10.12, Lemma10.11 and Theorem10.13 on167–169/PDF68–70) Actual-carrier construction of the full and principal compatible unit groups using existing continuous arithmetic norms. Compactness and the evaluation map precede, and do not assert, interpolation bijectivity. The source assumes `p` odd; dyadic tests keep the signed norm convention. Only the principal subgroup receives a `ℤ_p`-module structure.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), `Equations(9-2)–(9-3)`, published162–163/PDF63–64; Theorem10.2 on164/PDF65 and Propositions10.10 and 10.12, Lemma10.11 and Theorem10.13 on167–169/PDF68–70)
 
 <a id="colemanpowerseries-l0-norm-compatible-units-closed"></a>
 
@@ -1654,7 +1650,7 @@ Keep the hypotheses of the preceding target.
 
 Prove `isClosed_normCompatibleUnits` in the following form.
 
-The subset `normCompatibleUnits(p)⊆V` is closed.
+The subset `localUnitNormLimit(p)⊆V` is closed.
 
 For the proof, for each `n`, the successor coordinate followed by the existing continuous `N_n` and the nth projection are continuous into the Hausdorff unit group `U_n`. Native isClosed_eq makes their equality locus closed. The actual carrier is the intersection of those loci. Use the native infimum carrier formula and isClosed_iInter. This argument needs no finite-level norm surjectivity.
 
@@ -1672,7 +1668,7 @@ Keep the hypotheses of the preceding target.
 
 Prove `compact_normCompatibleUnits` in the following form.
 
-The actual `normCompatibleUnits(p)` subtype is a compact space.
+The actual `localUnitNormLimit(p)` subtype is a compact space.
 
 For the proof, each `O_n` is compact by the preceding cyclotomic-integers-compact instance. Native Units.isClosedEmbedding_embedProduct and its existing compact-unit-group instance give CompactSpace `U_n`; this finite-level fact is not replanned. Native `Pi.compactSpace` makes `V` compact. Apply `IsClosed.isCompact` to the preceding compatible-locus closedness theorem and transport to the subtype using isCompact_iff_compactSpace.
 
@@ -1704,7 +1700,7 @@ The statement fixes the integral root used in subsequent comparisons.
 
 ### 0.76 The Teichmüller section in the arithmetic tower
 
-`p` is an odd prime, `n≥0` denotes the source level `n+1`, `K_n=ℚ_p(ζ_n)`, `O_n` is its native integral closure, `U_n=O_nˣ` and `U∞` is the already constructed native norm-compatible subgroup. `G=ℤ_pˣ` acts through its power residues, and `U∞,1` is the existing residue kernel. All topologies are the native norm/product/subtype topologies.
+`p` is prime, including `p=2`, `n≥0` denotes the source level `n+1`, `K_n=ℚ_p(ζ_n)`, `O_n` is its native integral closure, `U_n=O_nˣ` and `U∞` is the already constructed native norm-compatible subgroup. `G=ℤ_pˣ` acts through its power residues. All topologies are the native norm/product/subtype topologies.
 
 Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.teichTower` by the following specification.
 
@@ -1713,12 +1709,12 @@ Define `teichTower:(𝔽_p)ˣ→U∞` by the stationary tower of the unique `c�
 The API includes the following named statements.
 
 - `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.teichTower_apply`: The nth coordinate is the scalar image of the unique lift `c` of `r` in `O_nˣ`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.teichTower_residue`: `normLimitResidue(teichTower(r))=r`.
 - `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.teichTower_pow`: `teichTower(r)^(p−1)=1`; together with its residue this characterizes the lift.
 - `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.teichTower_continuous`: teichTower is continuous from the finite discrete residue-unit group.
 
 **Checks.**
 
+- `TeichTowerTests.dyadic`: At `p=2` the residue-unit group is trivial and its unique element maps to the identity tower.
 - `TeichTowerTests.one`: `teichTower(1)=1`.
 - `TeichTowerTests.minus_one_three`: At `p=3`, `teichTower(−1)` has every coordinate `−1`.
 - `TeichTowerTests.fifth_power`: At `p=5`, `teichTower(2)^4=1` and its residue is 2; the scalar integer 2 fails the fourth-power equation.
@@ -1832,7 +1828,7 @@ For `p=2` and `n=0`, `π_0=−2` and its valuation is 1.
 
 *Needs:* [The canonical cyclotomic integer ring](#colemanpowerseries-l0-unramified-base-integer-equivalence); [The cyclotomic difference is a prime element](#colemanpowerseries-l0-cyclotomic-difference-irreducible); `TauCeti.normalizedValuation_irreducible`.
 
-(Sharifi, Algebraic Number Theory: [Algebraic Number Theory](https://www.math.ucla.edu/~sharifi/algnum.pdf), §5.4, Corollary 5.4.8 p.106; §6.1, Definition 6.1.14 p.118) The cited local-field results supply the valuation, residue, unramified or Eisenstein facts used here. The cyclotomic arithmetic specialization and canonical comparison are derived in the proof steps.
+(Sharifi, Algebraic Number Theory: [Algebraic Number Theory](https://www.math.ucla.edu/~sharifi/algnum.pdf), §5.4, Corollary 5.4.8 p.106; §6.1, Definition 6.1.14, p.119) The cited local-field results supply the valuation, residue, unramified or Eisenstein facts used here. The cyclotomic arithmetic specialization and canonical comparison are derived in the proof steps.
 
 <a id="colemanpowerseries-l0-unramified-base-normalized-prime"></a>
 
@@ -2148,15 +2144,16 @@ Layer 1, unramified interpolation interface: Provides the actual coefficient fie
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientUnitLimit` by the following specification.
+Use `localUnitNormLimit` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
 
-Define `U∞(E)` as the subgroup of `∏_(n≥0) O_nˣ` cut out by `N_n(u_(n+1))=u_n`, with the subspace topology. Its coordinates are genuine integer units and its transitions are coefficientUnitNorm.
 
-The API includes the following named statements.
+The supplied object is `U∞(E)` as the subgroup of `∏_(n≥0) O_nˣ` cut out by `N_n(u_(n+1))=u_n`, with the subspace topology. Its coordinates are genuine integer units and its transitions are coefficientUnitNorm.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientUnitLimit_transition`: Every `u` satisfies `N_n(u_(n+1))=u_n`.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientUnitLimit_ext`: Two elements are equal if all coordinates agree.
-- `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientUnitLimit_base`: At `E=ℚ_p`, identify `U∞(E)` with the base tower’s actual unit inverse limit via baseIntegerEquiv.
+The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
+
+- Every `u` satisfies `N_n(u_(n+1))=u_n`.
+- Two elements are equal if all coordinates agree.
+- At `E=ℚ_p`, identify `U∞(E)` with the base tower’s actual unit inverse limit via baseIntegerEquiv.
 
 **Checks.**
 
@@ -2164,15 +2161,9 @@ The API includes the following named statements.
 - `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientUnitLimit_teich_failure`: For `k=𝔽_9` and `r` of order 8, the stationary tuple `ω_n(r)` does not belong to `U∞(E)`.
 - `TauCetiRoadmap.ColemanPowerSeries.Unramified.Tests.coefficientUnitLimit_actual_norms`: A tuple of native integer units belongs exactly when every native field norm of its next coordinate equals its current field-valued coordinate.
 
-For the proof, specialize the base tower inverse-limit subgroup construction to the actual coefficient fields and actual norms. The defining equalities are stable under multiplication and inversion.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-The unramified Coleman interpolation target is this arithmetic inverse limit.
-
-Layer 1, unramified interpolation interface: Provides the actual coefficient fields, unit towers and arithmetic transition maps used in Frobenius-twisted evaluation. Layer 0 and Layer 2–Layer 4: The unramified Coleman interpolation target is this arithmetic inverse limit.
-
-*Needs:* [The actual consecutive norm on coefficient units](#colemanpowerseries-l0-unramified-coefficient-unit-norm); [The actual norm-compatible unit group](#colemanpowerseries-l0-norm-compatible-units).
-
-(Sharifi, Iwasawa Theory: [Iwasawa Theory](https://math.ucla.edu/~sharifi/notes/iwasawa.pdf), §5.4 opening, p.143; Notation 5.4.10, p.146) The cited text treats unramified cyclotomic unit norms, Frobenius-twisted interpolation or semilocal coefficients. This result is the explicit arithmetic specialization or bridge derived in its proof steps, not a separately numbered theorem attributed to the notes.
+(Sharifi, Iwasawa Theory: [Iwasawa Theory](https://math.ucla.edu/~sharifi/notes/iwasawa.pdf), §5.4 opening, p.143; Notation 5.4.10, p.146)
 
 <a id="colemanpowerseries-l0-unramified-coefficient-limit-compact"></a>
 
@@ -2936,13 +2927,12 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientUnitLimit_transition` in the following form.
+Use `localUnitNormLimit` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following property.
 
 Every `u` satisfies `N_n(u_(n+1))=u_n`.
 
-For the proof, use the specified construction or its characterization from the base tower declaration. Every `u` satisfies `N_n(u_(n+1))=u_n`.
 
-*Needs:* [Norm-compatible coefficient units](#colemanpowerseries-l0-unramified-coefficient-unit-limit).
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
 (Sharifi, Iwasawa Theory: [Iwasawa Theory](https://math.ucla.edu/~sharifi/notes/iwasawa.pdf), §5.4 opening, p.143; Notation 5.4.10, p.146) The cited text treats unramified cyclotomic unit norms, Frobenius-twisted interpolation or semilocal coefficients. This result is the explicit arithmetic specialization or bridge derived in its proof steps, not a separately numbered theorem attributed to the notes.
 
@@ -2952,13 +2942,12 @@ For the proof, use the specified construction or its characterization from the b
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientUnitLimit_ext` in the following form.
+Use `localUnitNormLimit` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following property.
 
 Two elements are equal if all coordinates agree.
 
-For the proof, use the specified construction or its characterization from the base tower declaration. Two elements are equal if all coordinates agree.
 
-*Needs:* [Norm-compatible coefficient units](#colemanpowerseries-l0-unramified-coefficient-unit-limit).
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
 (Sharifi, Iwasawa Theory: [Iwasawa Theory](https://math.ucla.edu/~sharifi/notes/iwasawa.pdf), §5.4 opening, p.143; Notation 5.4.10, p.146) The cited text treats unramified cyclotomic unit norms, Frobenius-twisted interpolation or semilocal coefficients. This result is the explicit arithmetic specialization or bridge derived in its proof steps, not a separately numbered theorem attributed to the notes.
 
@@ -3238,7 +3227,7 @@ For `u∈O_(n+1)ˣ`, the residue of `unitsNorm_n(u)` equals the residue of `u` u
 
 - `RelativeNormTests.principal_unit`: A unit with residue1 has norm with residue1.
 
-For the proof, specialize the exact unramified coefficient norm-residue theorem to `E=ℚ_p`. Its canonical residue field is `ZMod p`, so the relative degree-p norm sends residue `r` to `r^p=r` by `ZMod.pow_card`. Transport the native integer rings, residues and unit norms through baseIntegerEquiv and basePrincipalEquiv_norm. Both norms are restrictions of the same field norm, so the statement is precisely the base tower reduction_unitsNorm equality on its original carrier. This removes the former detour through Layer 1 arithmetic norm evaluation. It supplies principal-unit preservation at Layer 0 without requiring an interpolation result or a newly assumed relative integral basis.
+For the proof, specialize the exact unramified coefficient norm-residue theorem to `E=ℚ_p`. Its canonical residue field is `ZMod p`, so the relative degree-p norm sends residue `r` to `r^p=r` by `ZMod.pow_card`. Transport the native integer rings, residues and unit norms through baseIntegerEquiv and basePrincipalEquiv_norm. Both norms are restrictions of the same field norm, so the statement is precisely the base tower reduction_unitsNorm equality on its original carrier. It supplies principal-unit preservation at Layer 0 without requiring an interpolation result or a newly assumed relative integral basis.
 
 This supplies preservation of the principal-unit condition, not its pro-p proof or a new module structure.
 
@@ -3254,7 +3243,7 @@ This supplies preservation of the principal-unit condition, not its pro-p proof 
 
 Prove `normCompatibleUnits_residue_constant` in the following form.
 
-For `u∈normCompatibleUnits(p)` and every `n`, `red_n(u_n)=red_0(u_0)` in `ZMod p`.
+For `u∈localUnitNormLimit(p)` and every `n`, `red_n(u_n)=red_0(u_0)` in `ZMod p`.
 
 For the proof, the adjacent norm equation and the preceding unit-norm-residue identity imply `red_(n+1)(u_(n+1))=red_n(u_n)`. Induct on `n`, starting from the identity at0. The fixed identifications of every residue field with `ZMod p` are essential to this equality.
 
@@ -3272,7 +3261,7 @@ Keep the hypotheses of the preceding target.
 
 Define `normLimitResidue` by the following specification.
 
-Define `normLimitResidue(p):normCompatibleUnits(p)→(ZMod p)ˣ` as a native continuous monoid homomorphism, by reduction of coordinate0.
+Define `normLimitResidue(p):localUnitNormLimit(p)→(ZMod p)ˣ` as a native continuous monoid homomorphism, by reduction of coordinate0.
 
 The API includes the following named statements.
 
@@ -3289,7 +3278,9 @@ The API includes the following named statements.
 
 For the proof, compose coordinate0 with native `Units.map` of `red_0`. Continuity follows from continuous_reduction, native Continuous.units_map and continuity of the product-subtype coordinate. The residue-constant lemma identifies the same map with unit reduction of every coordinate `n`; units extensionality passes from equality in `ZMod p` to equality of residue units. Native homomorphism laws give multiplicativity and inversion.
 
-The target is the fixed native residue-unit group. The later Teichmüller tower section and full/principal splitting give its continuous section and surjectivity; these do not follow from the residue-map construction alone.
+Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.teichTower_residue`: `normLimitResidue(teichTower(r))=r`, using reduction of its scalar coordinate at level zero. At `p=2` both residue units and the section image are trivial.
+
+The target is the fixed native residue-unit group. The Teichmüller tower section of §0.76 and full/principal splitting give its continuous section and surjectivity; these do not follow from the residue-map construction alone.
 
 `RJW(9-3)` and Theorems10.2/10.13: Supply the actual arithmetic target and its residue-one subgroup for Coleman interpolation. Layer 2–Layer 4: The subsequent arithmetic Coleman map and its exact sequence need these carriers and evaluation laws before importing module structures or a `G`-action.
 
@@ -3305,7 +3296,7 @@ Keep the hypotheses of the preceding target.
 
 Define `principalNormCompatibleUnits` by the following specification.
 
-Define `principalNormCompatibleUnits(p)` as the native kernel subgroup of `normLimitResidue(p)`, inside `normCompatibleUnits(p)`.
+Define `principalNormCompatibleUnits(p)` as the native kernel subgroup of `normLimitResidue(p)`, inside `localUnitNormLimit(p)`.
 
 The API includes the following named statements.
 
@@ -3338,7 +3329,7 @@ Keep the hypotheses of the preceding target.
 
 Prove `mem_principalNormCompatibleUnits` in the following form.
 
-For `u∈normCompatibleUnits(p)`, `u` belongs to `principalNormCompatibleUnits(p)` if and only if `red_n(u_n)=1` for every `n`.
+For `u∈localUnitNormLimit(p)`, `u` belongs to `principalNormCompatibleUnits(p)` if and only if `red_n(u_n)=1` for every `n`.
 
 For the proof, unfold the native kernel condition: the coordinate0 residue unit equals1 if and only if its underlying element of `ZMod p` equals1. Use the residue-constant lemma for all `n`; conversely the all-coordinate condition includes `n=0`. The proof uses the already fixed norm transitions and residue identifications.
 
@@ -3778,13 +3769,13 @@ Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientPrincipal_isProP`
 
 `TauCeti.IsProP p U∞¹(E)` holds for the subgroup topology just specified.
 
-For the proof, each finite-level principal group is pro-p by the LocalFieldsRamification supplier. Identify `U∞¹(E)` with a closed subgroup of their countable product via its actual coordinates. Use the existing current TauCeti infinite-product IsProP theorem and subgroup theorem. The pinned finite-product theorem alone does not establish this step.
+For the proof, each finite-level principal group is pro-p by the LocalFieldsRamification supplier. Identify `U∞¹(E)` with a closed subgroup of their countable product via its actual coordinates. Use the existing TauCeti infinite-product IsProP theorem and subgroup theorem. The pinned finite-product theorem alone does not establish this step.
 
 The theorem concerns the arithmetic principal carrier, including `p=2`.
 
 *Needs:* [Norm-compatible principal coefficient units](#colemanpowerseries-l0-unramified-coefficient-principal-limit); [Compact topology on the coefficient limit](#colemanpowerseries-l0-unramified-coefficient-limit-compact); [LocalFieldsRamification layer 1 units the filtration and the multiplicative group](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/LocalFieldsRamification/README.md#layer-1-units-the-filtration-and-the-multiplicative-group); [ProfiniteProPGroups layer 3 pro p groups the maximal pro p quotient frattini theory generation](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ProfiniteProPGroups/README.md#layer-3-pro-p-groups-the-maximal-pro-p-quotient-frattini-theory-generation); `TauCeti.IsProP`.
 
-(the named supplier roadmap: [LocalFieldsRamification, Layers 0–3, and ProfiniteArithmetic §1.3](../LocalFieldsRamification/README.md), LocalFieldsRamification Layer 1.II principal units; current TauCeti Profinite/ProP/Product and Subgroup) Apply the supplied general result to the chosen cyclotomic roots and the specified arithmetic maps; the additional assertions identify these carriers and maps.
+(the named supplier roadmap: [LocalFieldsRamification, Layers 0–3, and ProfiniteArithmetic §1.3](../LocalFieldsRamification/README.md), LocalFieldsRamification Layer 1.II principal units; TauCeti Profinite/ProP/Product and Subgroup) Apply the supplied general result to the chosen cyclotomic roots and the specified arithmetic maps; the additional assertions identify these carriers and maps.
 
 <a id="colemanpowerseries-l0-unramified-coefficient-scalar-comparison"></a>
 
@@ -3796,13 +3787,13 @@ Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientPrincipalScalar_e
 
 Install the existing `TauCeti.IsProP.module` on Additive `U∞¹(E)`. For `a∈ℤ_p` and `v∈U∞¹(E)`, its nth multiplicative coordinate is the native continuous `ℤ_p` power of `v_n` in the finite-level principal group. In particular m•v corresponds to `v^m` for every `m∈ℕ`.
 
-For the proof, import, rather than reconstruct, the current native pro-p scalar module. Its uniqueness comes from continuity and agreement with dense natural-number scalars. Each coordinate homomorphism is continuous and preserves natural powers, hence is `ℤ_p`-linear by the owner’s naturality theorem or density argument.
+For the proof, import, rather than reconstruct, the native pro-p scalar module. Its uniqueness comes from continuity and agreement with dense natural-number scalars. Each coordinate homomorphism is continuous and preserves natural powers, hence is `ℤ_p`-linear by the owner’s naturality theorem or density argument.
 
 No `O`-module structure and no scalar structure on `kˣ×U∞¹(E)` is asserted.
 
 *Needs:* [The actual principal coefficient limit is pro-p](#colemanpowerseries-l0-unramified-coefficient-principal-prop); [LocalFieldsRamification layer 1 units the filtration and the multiplicative group](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/LocalFieldsRamification/README.md#layer-1-units-the-filtration-and-the-multiplicative-group); [ProfiniteArithmetic §1.3: continuous p-adic powers and the native module](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ProfiniteArithmetic/README.md#13-the-ℤ_ℓ-power-on-a-pro-ℓ-group); [The principal-unit scalar structure](#colemanpowerseries-l0-principal-tower-scalar-adapter).
 
-(the named supplier roadmap: [LocalFieldsRamification, Layers 0–3, and ProfiniteArithmetic §1.3](../LocalFieldsRamification/README.md), ProfiniteArithmetic §1.3; current TauCeti Profinite/ProP/PadicPow, `IsProP.module` and its naturality API) Apply the supplied general result to the chosen cyclotomic roots and the specified arithmetic maps; the additional assertions identify these carriers and maps.
+(the named supplier roadmap: [LocalFieldsRamification, Layers 0–3, and ProfiniteArithmetic §1.3](../LocalFieldsRamification/README.md), ProfiniteArithmetic §1.3; TauCeti Profinite/ProP/PadicPow, `IsProP.module` and its naturality API) Apply the supplied general result to the chosen cyclotomic roots and the specified arithmetic maps; the additional assertions identify these carriers and maps.
 
 <a id="colemanpowerseries-l0-unramified-signed-tate-tower"></a>
 
@@ -4128,7 +4119,7 @@ Prove `TauCetiRoadmap.ColemanPowerSeries.Unramified.coefficientCompletedAction_e
 
 For `Γ=G` or `C_f×G`, install `TauCeti.IsProP.completedGroupAlgebraModule` on Additive `U∞¹(E)`, over the existing completedGroupAlgebra `ℤ_p Γ`. Its Dirac element at `γ` acts as the arithmetic `γ` action; its `ℤ_p` scalar restriction is coefficientPrincipalScalar_eq, and the action is jointly continuous.
 
-For the proof, use the native current completed-group-algebra module, checking compactness, total disconnectedness, continuous group action, and separately continuous multiplication on `Γ`. All hold for the specified compact profinite `Γ`. Use completedGroupAlgebraModule_of_smul, isScalarTower_completedGroupAlgebraModule and continuousSMul_completedGroupAlgebraModule. The base tower’s weak-measure algebra receives this module only after its owner supplies the precise continuous ring comparison; do not identify the two carriers by their informal names.
+For the proof, use the native completed-group-algebra module, checking compactness, total disconnectedness, continuous group action, and separately continuous multiplication on `Γ`. All hold for the specified compact profinite `Γ`. Use completedGroupAlgebraModule_of_smul, isScalarTower_completedGroupAlgebraModule and continuousSMul_completedGroupAlgebraModule. The base tower’s weak-measure algebra receives this module only after its owner supplies the precise continuous ring comparison; do not identify the two carriers by their informal names.
 
 The generator `γ`, scalar 2 and identity all act correctly. The weak-measure comparison is an explicit supplier obligation.
 
@@ -4203,7 +4194,7 @@ No module structure is claimed on full semilocal units, and no algebra isomorphi
 
 *Needs:* [Shuffle the actual semilocal limit](#colemanpowerseries-l0-unramified-semilocal-shuffle); [Principal semilocal norm-compatible units](#colemanpowerseries-l0-unramified-semilocal-principal-limit); [The actual principal coefficient limit is pro-p](#colemanpowerseries-l0-unramified-coefficient-principal-prop); [Scalar action on the actual principal tower](#colemanpowerseries-l0-unramified-coefficient-scalar-comparison); [Completed action on the genuine principal module](#colemanpowerseries-l0-unramified-coefficient-completed-action); [Galois permutations of the semilocal factors](#colemanpowerseries-l0-unramified-semilocal-permutation-action); [ProfiniteArithmetic §1.3: continuous p-adic powers and the native module](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ProfiniteArithmetic/README.md#13-the-ℤ_ℓ-power-on-a-pro-ℓ-group); [PadicMeasuresIwasawaAlgebras §1.7: Layer 1](../PadicMeasuresIwasawaAlgebras/README.md#17-comparison-with-the-completed-group-algebra).
 
-(the named supplier roadmap: [LocalFieldsRamification, Layers 0–3, and ProfiniteArithmetic §1.3](../LocalFieldsRamification/README.md), ProfiniteArithmetic §1.3; current TauCeti ProP/PadicPow.lean and ProP/CompletedGroupAlgebraModule.lean; Sharifi-IW §6.1 pp.157–158) Apply the supplied general result to the chosen cyclotomic roots and the specified arithmetic maps; the additional assertions identify these carriers and maps.
+(the named supplier roadmap: [LocalFieldsRamification, Layers 0–3, and ProfiniteArithmetic §1.3](../LocalFieldsRamification/README.md), ProfiniteArithmetic §1.3; TauCeti ProP/PadicPow.lean and ProP/CompletedGroupAlgebraModule.lean; Sharifi-IW §6.1 pp.157–158) Apply the supplied general result to the chosen cyclotomic roots and the specified arithmetic maps; the additional assertions identify these carriers and maps.
 
 <a id="colemanpowerseries-l0-unramified-semilocal-tate"></a>
 
@@ -4939,7 +4930,7 @@ LocalFieldsRamification Layers 0–3 supply the canonical receiving local fields
 
 ## Layer 1: Integral norm, trace and Coleman interpolation
 
-First prove that Frobenius coordinate assembly is bijective over `ℤ_p` by residue coordinates, successive `p`-power lifting and compactness. This produces a native finite basis for the substitution scalar algebra before any determinant argument. Finite free `ℤ_p` coefficients extend that result componentwise to `O`. Norm and trace are then the native base-valued determinant and matrix trace. Their residue and precision formulas prove convergence of `M=Σ⁻¹N` and a continuous retraction onto `N=Σ` units. Compactness of this closed subgroup is available before either base or coefficient interpolation. Relative integral-basis specialization proves the norm and trace evaluation squares on the actual rings. A doubled-level finite approximation gives existence, while independent nonzero Weierstrass preparation and growing cyclotomic degree give uniqueness. The resulting equivalence is multiplicative and is a homeomorphism.
+Use IntegralIwasawaTheory §7.1’s finite-free algebra and interpolation. The refinements below identify its coordinate assembly over `ℤ_p` by residue coordinates, successive `p`-power lifting and compactness. This produces a native finite basis for the substitution scalar algebra before any determinant argument. Finite free `ℤ_p` coefficients extend that result componentwise to `O`. Norm and trace are then the native base-valued determinant and matrix trace. The supplied corrected projector is expressed through `M=Σ⁻¹N`; the refinements specify its uniform precision and chosen-coordinate formulas. Compactness of this closed subgroup is available before either base or coefficient interpolation. Relative integral-basis specialization proves the norm and trace evaluation squares on the actual rings. The finite approximation and separation formulas below are explicit API refinements of the supplied topological interpolation equivalence.
 
 <a id="colemanpowerseries-l1-frobenius-scalar-algebra"></a>
 
@@ -5138,16 +5129,17 @@ The finite-level tuples are not presumed compatible; nested compact solution set
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Series.phiBasis` by the following specification.
+Use `colemanSeriesBasis` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
 
-Construct the basis `(1,Y,…,Y^(p−1))` of `B` over `B` with scalar algebra `φ`. Equivalently every `f` has a unique expansion `Σ_i Y^i φ(a_i)`. Its rank is exactly `p`.
 
-The API includes the following named statements.
+The supplied object is the basis `(1,Y,…,Y^(p−1))` of `B` over `B` with scalar algebra `φ`. Equivalently every `f` has a unique expansion `Σ_i Y^i φ(a_i)`. Its rank is exactly `p`.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Series.phiBasis_apply`: The basis vector with index `i<p` is `Y^i`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.phiBasis_repr_sum`: For every `f`, `f=Σ_i φ((phiBasis.repr f)_i)Y^i`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.phiBasis_repr_phi_mul`: Coordinates of `φ(a)f` are a times the coordinates of `f`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.phiBasis_rank`: The finrank of `B` with its explicitly chosen Frobenius module structure is `p`; finite freeness is already supplied by the actual finite basis.
+The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
+
+- The basis vector with index `i<p` is `Y^i`.
+- For every `f`, `f=Σ_i φ((colemanSeriesBasis.repr f)_i)Y^i`.
+- Coordinates of `φ(a)f` are a times the coordinates of `f`.
+- The finrank of `B` with its explicitly chosen Frobenius module structure is `p`; finite freeness is already supplied by the actual finite basis.
 
 **Checks.**
 
@@ -5155,15 +5147,9 @@ The API includes the following named statements.
 - `phiBasis_one_three`: At `p=3` the vector with index 1 is `Y`.
 - `phiBasis_carry_two`: At `p=2`, `Y²` has coordinates (Y,0), not (0,Y); this tests the structural map.
 
-For the proof, the assembly injectivity says the `p` specified vectors are linearly independent for the `φ` scalar action. Surjectivity says they span. Apply the existing `Basis.mk` construction, converting the finite coefficient function to Finsupp. Use the actual scalar algebra argument explicitly, so this cannot elaborate as a basis of the ordinary rank-one self-module.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-The scalar `T` multiplies `Y^(p−1)` to `(Y^p−1)Y^(p−1)`, not `T Y^(p−1)` with an ordinary action.
-
-Layer 1, RJW Lemma 10.8 and Coates–Sujatha Proposition 2.2.3: Supply the actual finite-free algebra, its coordinates and determinant/trace; interpolation consumes these maps after the norm/evaluation comparison below.
-
-*Needs:* [Frobenius scalar algebra](#colemanpowerseries-l1-frobenius-scalar-algebra); [Uniqueness of integral coordinates](#colemanpowerseries-l1-frobenius-coordinate-injectivity); [Existence of integral coordinates](#colemanpowerseries-l1-frobenius-coordinate-surjectivity); `Module.Basis.mk`; [Formula for coordinate assembly](#colemanpowerseries-l1-frobenius-coordinate-formula); `Module.finrank_eq_card_basis`.
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.8 and its proof, printed p.167 / PDF 68; finite-free algebra implicit in the degree-p assertion) The stated basis/coordinate calculation is the explicit proof of the finite-free input used here, or a determinant/trace consequence of it. The source does not state every helper separately. The dyadic signs follow from the displayed multiplication matrix, independently of the sources’ odd-prime arithmetic convention.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.8 and its proof, printed p.167 / PDF 68; finite-free algebra implicit in the degree-p assertion)
 
 <a id="colemanpowerseries-l1-frobenius-basis-values"></a>
 
@@ -5171,15 +5157,14 @@ Layer 1, RJW Lemma 10.8 and Coates–Sujatha Proposition 2.2.3: Supply the actua
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.phiBasis_apply` in the following form.
+Use `colemanSeriesBasis` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following property.
 
-For every `i∈Fin p`, the `i`-th vector of phiBasis is `Y^i`.
+For every `i∈Fin p`, the `i`-th vector of colemanSeriesBasis is `Y^i`.
 
-For the proof, apply Basis.mk_apply to the family used by the basis constructor.
 
 The index zero gives 1.
 
-*Needs:* [Frobenius power basis](#colemanpowerseries-l1-frobenius-power-basis); `Module.Basis.mk_apply`.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
 (Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.8 and its proof, printed p.167 / PDF 68; finite-free algebra implicit in the degree-p assertion) The stated basis/coordinate calculation is the explicit proof of the finite-free input used here, or a determinant/trace consequence of it. The source does not state every helper separately. The dyadic signs follow from the displayed multiplication matrix, independently of the sources’ odd-prime arithmetic convention.
 
@@ -5189,15 +5174,14 @@ The index zero gives 1.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.phiBasis_repr_sum` in the following form.
+Use `colemanSeriesBasis` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following property.
 
-For every `f∈B`, `f=Σ_(i<p)φ((phiBasis.repr f)_i)Y^i`.
+For every `f∈B`, `f=Σ_(i<p)φ((colemanSeriesBasis.repr f)_i)Y^i`.
 
-For the proof, apply the existing basis reconstruction formula to `f`. Replace the basis vectors by their value theorem and the scalar multiplication by `φ(a)x`.
 
 Coordinates are series in the base variable; coefficients pass through `φ` before multiplying the vectors.
 
-*Needs:* [Values of the Frobenius basis](#colemanpowerseries-l1-frobenius-basis-values); [Frobenius scalar algebra](#colemanpowerseries-l1-frobenius-scalar-algebra); `Module.Basis.sum_repr`.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
 (Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.8 and its proof, printed p.167 / PDF 68; finite-free algebra implicit in the degree-p assertion) The stated basis/coordinate calculation is the explicit proof of the finite-free input used here, or a determinant/trace consequence of it. The source does not state every helper separately. The dyadic signs follow from the displayed multiplication matrix, independently of the sources’ odd-prime arithmetic convention.
 
@@ -5209,7 +5193,7 @@ Keep the hypotheses of the preceding target.
 
 Prove `TauCetiRoadmap.ColemanPowerSeries.Series.phiBasis_leftMulMatrix` in the following form.
 
-Write `c_k=(phiBasis.repr f)_k`. In the Frobenius basis, the `(i,j)` entry of multiplication by `f` is `Σ_(k<p, i≡k+j mod p) c_k Y^⌊(k+j)/p⌋`, where the `Y` on the right is in the base ring. Since `0≤k,j<p`, the exponent is zero or one.
+Write `c_k=(colemanSeriesBasis.repr f)_k`. In the Frobenius basis, the `(i,j)` entry of multiplication by `f` is `Σ_(k<p, i≡k+j mod p) c_k Y^⌊(k+j)/p⌋`, where the `Y` on the right is in the base ring. Since `0≤k,j<p`, the exponent is zero or one.
 
 For the proof, expand `f` with the basis-expansion result and multiply by the `j`-th vector `Y^j`. For each `k`, write `k+j=pq+r`. The identity `Y^p=φ(Y)` rewrites `Y^(k+j)` as `φ(Y^q)Y^r`. Uniqueness of basis coordinates gives the entry formula. Cite the pinned leftMulMatrix definition; rows are output coordinates and columns are input vectors.
 
@@ -5225,18 +5209,19 @@ At `p=2`, multiplication by `Y` is the matrix [[0,Y],[1,0]], not its transpose.
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Series.colemanNorm` by the following specification.
+Use `colemanNorm` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
 
-Define `N:B→*B` to be the existing `Algebra.norm` for `B` with its explicitly chosen Frobenius scalar algebra. The output belongs to the source copy of `B`, so no separately defined inverse of `φ` on a range subtype is required.
 
-The API includes the following named statements.
+The supplied object is `N:B→*B` to be the existing `Algebra.norm` for `B` with its explicitly chosen Frobenius scalar algebra. The output belongs to the source copy of `B`, so no separately defined inverse of `φ` on a range subtype is required.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Series.colemanNorm_def`: `N` is `Algebra.norm` with the explicit Frobenius algebra structure.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.colemanNorm_matrix`: `N(f)=det(leftMulMatrix(phiBasis,f))`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.colemanNorm_one`: `N(1)=1`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.colemanNorm_mul`: `N(fg)=N(f)N(g)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.colemanNorm_phi`: `N(φ(a))=a^p`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.colemanNorm_constant`: `N(C(c))=C(c^p)`.
+The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
+
+- `N` is `Algebra.norm` with the explicit Frobenius algebra structure.
+- `TauCetiRoadmap.ColemanPowerSeries.Series.colemanNorm_matrix`: `N(f)=det(leftMulMatrix(colemanSeriesBasis,f))`.
+- `N(1)=1`.
+- `N(fg)=N(f)N(g)`.
+- `N(φ(a))=a^p`.
+- `N(C(c))=C(c^p)`.
 - `TauCetiRoadmap.ColemanPowerSeries.Series.colemanNorm_Y`: `N(Y)=(−1)^(p−1)Y`.
 
 **Checks.**
@@ -5246,15 +5231,9 @@ The API includes the following named statements.
 - `colemanNorm_Y_two`: At `p=2`, `N(Y)=−Y` and `N(Y)≠Y`.
 - `colemanNorm_X_three`: At `p=3`, `N(T)=T`; this matches the source’s odd-prime normalization.
 
-For the proof, apply the pinned `Algebra.norm` to the exact Frobenius algebra. The basis theorem makes this the determinant of a genuine rank-p multiplication matrix. Use norm_eq_matrix_det to expose its value in the Frobenius basis. The norm’s existing multiplicative structure gives the monoid homomorphism and its induced map on units. The product over `p`-th roots of unity is a comparison to prove after completed coefficient extension; it is not used as an ill-typed definition over `ℤ_p`.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-At `p=2`, `N(Y)=−Y`; at odd `p`, `N(Y)=Y`.
-
-Layer 1, RJW Lemma 10.8 and Coates–Sujatha Proposition 2.2.3: Supply the actual finite-free algebra, its coordinates and determinant/trace; interpolation consumes these maps after the norm/evaluation comparison below.
-
-*Needs:* [Frobenius power basis](#colemanpowerseries-l1-frobenius-power-basis); `Algebra.norm`; `Algebra.norm_eq_matrix_det`.
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.8 and its proof, printed p.167 / PDF 68; finite-free algebra implicit in the degree-p assertion) The stated basis/coordinate calculation is the explicit proof of the finite-free input used here, or a determinant/trace consequence of it. The source does not state every helper separately. The dyadic signs follow from the displayed multiplication matrix, independently of the sources’ odd-prime arithmetic convention.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.8 and its proof, printed p.167 / PDF 68; finite-free algebra implicit in the degree-p assertion)
 
 <a id="colemanpowerseries-l1-coleman-norm-base-scalars"></a>
 
@@ -5262,17 +5241,14 @@ Layer 1, RJW Lemma 10.8 and Coates–Sujatha Proposition 2.2.3: Supply the actua
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanNorm_phi` in the following form.
+Use `colemanNorm` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
+
 
 For every `a∈B`, `N(φ(a))=a^p`.
 
-For the proof, apply norm_algebraMap_of_basis to the rank-p Frobenius basis. Its structural map is `φ` and `Fin p` has cardinal `p`.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-For `a=T`, this gives `N(Y^p−1)=T^p`.
-
-*Needs:* [Coleman determinant norm](#colemanpowerseries-l1-coleman-determinant-norm); `Algebra.norm_algebraMap_of_basis`.
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.8 and its proof, printed p.167 / PDF 68; finite-free algebra implicit in the degree-p assertion) The stated basis/coordinate calculation is the explicit proof of the finite-free input used here, or a determinant/trace consequence of it. The source does not state every helper separately. The dyadic signs follow from the displayed multiplication matrix, independently of the sources’ odd-prime arithmetic convention.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.8 and its proof, printed p.167 / PDF 68; finite-free algebra implicit in the degree-p assertion)
 
 <a id="colemanpowerseries-l1-coleman-norm-constants"></a>
 
@@ -5280,17 +5256,14 @@ For `a=T`, this gives `N(Y^p−1)=T^p`.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanNorm_constant` in the following form.
+Use `colemanNorm` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
+
 
 For every `c∈ℤ_p`, `N(C(c))=C(c^p)`.
 
-For the proof, substitution fixes constant series. Apply the base-scalar norm formula to `C(c)`.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-At `p=3`, the norm of the constant 2 is 8, so the norm is not an additive ring endomorphism.
-
-*Needs:* [Norm of a Frobenius scalar](#colemanpowerseries-l1-coleman-norm-base-scalars).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.8 and its proof, printed p.167 / PDF 68; finite-free algebra implicit in the degree-p assertion) The stated basis/coordinate calculation is the explicit proof of the finite-free input used here, or a determinant/trace consequence of it. The source does not state every helper separately. The dyadic signs follow from the displayed multiplication matrix, independently of the sources’ odd-prime arithmetic convention.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.8 and its proof, printed p.167 / PDF 68; finite-free algebra implicit in the degree-p assertion)
 
 <a id="colemanpowerseries-l1-coleman-integral-trace"></a>
 
@@ -5298,14 +5271,15 @@ At `p=3`, the norm of the constant 2 is 8, so the norm is not an additive ring e
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Series.colemanTrace` by the following specification.
+Use `colemanTrace` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
 
-Define `τ:B→+B` to be the existing `Algebra.trace` for the Frobenius scalar algebra, with its additive homomorphism retained. It satisfies `τ(φ(a)f)=aτ(f)`. The codomain carries ordinary base-ring multiplication; it is not the Frobenius self-module.
 
-The API includes the following named statements.
+The supplied object is `τ:B→+B` to be the existing `Algebra.trace` for the Frobenius scalar algebra, with its additive homomorphism retained. It satisfies `τ(φ(a)f)=aτ(f)`. The codomain carries ordinary base-ring multiplication; it is not the Frobenius self-module.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Series.colemanTrace_def`: `τ` is `Algebra.trace` with the explicit Frobenius scalar algebra, viewed additively.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.colemanTrace_add`: `τ(f+g)=τ(f)+τ(g)`.
+The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
+
+- `τ` is `Algebra.trace` with the explicit Frobenius scalar algebra, viewed additively.
+- `τ(f+g)=τ(f)+τ(g)`.
 - `TauCetiRoadmap.ColemanPowerSeries.Series.colemanTrace_phi_mul`: `τ(φ(a)f)=aτ(f)`.
 - `TauCetiRoadmap.ColemanPowerSeries.Series.colemanTrace_coordinates`: `τ(f)=p` times the zeroth Frobenius-basis coordinate of `f`.
 - `TauCetiRoadmap.ColemanPowerSeries.Series.colemanTrace_divisible`: For every `f`, there is a unique `g∈B` with `τ(f)=pg`. The preceding coordinate formula identifies `g` without constructing another bounded `ψ`.
@@ -5317,15 +5291,9 @@ The API includes the following named statements.
 - `colemanTrace_Y_three`: At `p=3`, `τ(Y)=0`, despite the constant coefficient of `Y` being 1.
 - `colemanTrace_phi_three`: At `p=3`, `τ(Y³)=3Y`, since `Y³=φ(Y)`.
 
-For the proof, apply the pinned trace definition with the explicit algebra argument with its native additive and scalar structures. Use the basis and trace_eq_matrix_trace for computations. Its `B`-linearity is stated as the explicit semilinear formula on ordinary series, which avoids confusing the two self-actions. Divisibility by `p` is proved from the diagonal calculation; the operator is not defined by dividing an arbitrary series by `p`.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-`τ(1)=p` whereas `τ(Y)=0`.
-
-Layer 1, RJW Lemma 10.8 and Coates–Sujatha Proposition 2.2.3: Supply the actual finite-free algebra, its coordinates and determinant/trace; interpolation consumes these maps after the norm/evaluation comparison below.
-
-*Needs:* [Frobenius power basis](#colemanpowerseries-l1-frobenius-power-basis); `Algebra.trace`; `Algebra.trace_eq_matrix_trace`.
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.8 and its proof, printed p.167 / PDF 68; finite-free algebra implicit in the degree-p assertion) The stated basis/coordinate calculation is the explicit proof of the finite-free input used here, or a determinant/trace consequence of it. The source does not state every helper separately. The dyadic signs follow from the displayed multiplication matrix, independently of the sources’ odd-prime arithmetic convention.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.8 and its proof, printed p.167 / PDF 68; finite-free algebra implicit in the degree-p assertion)
 
 <a id="colemanpowerseries-l1-coleman-trace-coordinates"></a>
 
@@ -5335,7 +5303,7 @@ Keep the hypotheses of the preceding target.
 
 Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanTrace_coordinates` in the following form.
 
-For `f∈B`, `τ(f)=p·(phiBasis.repr f)_0`.
+For `f∈B`, `τ(f)=p·(colemanSeriesBasis.repr f)_0`.
 
 For the proof, in the multiplication-matrix formula, a diagonal entry has `i=j`. The congruence `k+j≡j` mod `p` with `0≤k<p` forces `k=0`. For `k=0` and `j<p` there is no wrap, so every diagonal entry is `c_0`. Sum the `p` diagonal entries using trace_eq_matrix_trace.
 
@@ -5559,7 +5527,8 @@ No additive-homomorphism property of `N` is asserted. For `p=3`, the inputs 1 an
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanNorm_sub_self_dvd` in the following form.
+Use `colemanNorm` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
+
 
 For every `f∈B`, `p` divides `N(f)−f`. No unit hypothesis is imposed.
 
@@ -5568,13 +5537,9 @@ For every `f∈B`, `p` divides `N(f)−f`. No unit hypothesis is imposed.
 - `colemanNorm_mod_three_sharp`: In `ℤ₃[[T]]`, 3 divides `N(2)−2`, but 9 does not.
 - `phi_freshman_two_difference`: For `p=2`, `(1+T)²−1−T²=2T≠0` in `ℤ₂[[T]]`.
 
-For the proof, first reduce `φ(f)` coefficientwise using `PowerSeries.map_subst`. The native add_pow_char gives `ρ(Y^p−1)=T^p`; `PowerSeries.expand_apply`, map_frobenius_expand and `ZMod.frobenius_zmod` then give `ρ(φ(f))=ρ(f)^p=ρ(f^p)`. Use map_toZMod_eq_iff. These are substitutions into existing identities, not a second construction of cyclotomic Frobenius. Apply preservation of congruences to `φ(f)` and `f^p`, using this reduced equality. The inherited base-scalar formula gives `N(φ(f))=f^p`, and the monoid-homomorphism law gives `N(f^p)=N(f)^p`. After coefficient reduction, `ρ(f)^p=ρ(N(f))^p`. Frobenius is injective on the reduced ring `𝔽_p[[T]]` by the native frobenius_inj theorem (the power-series ring is a domain). Cancel Frobenius and use map_toZMod_eq_iff to return to divisibility in `B`. This proof works for nonunits and does not identify the determinant with a product of completed substitutions.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-For `p=3`, `N(2)=8` and `N(2)−2=6` is divisible by 3 but not by 9.
-
-*Needs:* [Norm preservation of congruences](#colemanpowerseries-l1-coleman-norm-preserves-congruence); [Norm of a Frobenius scalar](#colemanpowerseries-l1-coleman-norm-base-scalars); [Coleman determinant norm](#colemanpowerseries-l1-coleman-determinant-norm); [Coefficient reduction and divisibility](#colemanpowerseries-l1-residue-series-congruence); `frobenius_inj`; `PowerSeries.map_subst`; `PowerSeries.expand_apply`; `PowerSeries.map_frobenius_expand`; `ZMod.frobenius_zmod`; `add_pow_char`.
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.11(ii), printed p.168 / PDF69; compare Coates–Sujatha Lemma 2.3.2, pp.18–19 / PDF28–29) Exactly the RJW assertion for all series. Coates–Sujatha states its norm congruence for units. The finite-free determinant proof supplies the stronger all-series statement without using the unfinished completed-substitution comparison.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.11(ii), printed p.168 / PDF69; compare Coates–Sujatha Lemma 2.3.2, pp.18–19 / PDF28–29)
 
 <a id="colemanpowerseries-l1-coleman-norm-improves-one-congruence"></a>
 
@@ -5582,7 +5547,8 @@ For `p=3`, `N(2)=8` and `N(2)−2=6` is divisible by 3 but not by 9.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanNorm_sub_one_dvd` in the following form.
+Use `colemanNorm` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
+
 
 For `f∈B` and `k≥1`, if `p^k` divides `f−1` then `p^(k+1)` divides `N(f)−1`. The assertion is stated for all `f` satisfying this condition.
 
@@ -5592,15 +5558,9 @@ For `f∈B` and `k≥1`, if `p^k` divides `f−1` then `p^(k+1)` divides `N(f)�
 - `colemanNorm_improvement_two`: In `ℤ₂[[T]]`, `N(3)−1=8` and 4 divides it.
 - `colemanNorm_improvement_zero_precision`: In `ℤ₃[[T]]`, 1 divides `0−1`, while 3 does not divide `N(0)−1`.
 
-For the proof, write `f=1+p^k h`. For `M=M_h`, the native multiplication-matrix homomorphism gives `M_f=I+p^k M`. Apply the existing Matrix.det_one_add_smul with scalar `p^k`. It gives `det(I+p^k M)=1+p^k trace(M)+p^(2k) Q` for an explicit polynomial evaluation `Q∈B`; this exact expansion requires no division. Identify `trace(M)=τ(h)` by the native Algebra.trace_eq_matrix_trace and the inherited trace definition. The existing colemanTrace_divisible gives `τ(h)=p b`. Both terms `p^(k+1)b` and `p^(2k)Q` are divisible by `p^(k+1)`, because `k≥1` implies `2k≥k+1`. Use the inherited norm-matrix formula.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-The bound `k≥1` is essential to this statement: at `k=0` the premise holds for `f=0`, while `N(0)−1=−1` is not divisible by `p`.
-
-At `p=3`, `f=4` gives `N(f)−1=63`, divisible by 9 but not by 27. At `p=2`, `f=3` gives `N(f)−1=8`, consistent with the required bound 4.
-
-*Needs:* [Matrix formula for the Coleman norm](#colemanpowerseries-l1-coleman-norm-matrix); [Integral Coleman trace](#colemanpowerseries-l1-coleman-integral-trace); [Divisibility of the integral trace](#colemanpowerseries-l1-coleman-trace-divisibility); `Algebra.leftMulMatrix`; `Algebra.trace_eq_matrix_trace`; `Matrix.det_one_add_smul`.
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.11(iii), printed p.168 / PDF69; compare Coates–Sujatha Lemma 2.3.2, pp.18–19 / PDF28–29) The source conclusion is proved integrally from norm and trace. Its separate unit hypothesis is unnecessary once the hypothesis `f≡1` mod `p^k`, `k≥1`, is imposed. The argument covers `p=2`; all congruences are taken in `B` before any coefficient extension.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.11(iii), printed p.168 / PDF69; compare Coates–Sujatha Lemma 2.3.2, pp.18–19 / PDF28–29)
 
 <a id="colemanpowerseries-l1-coleman-norm-iterated-improvement"></a>
 
@@ -5657,7 +5617,7 @@ At `p=2`, `N(Y)=−Y` and `N²(Y)=−Y`. The estimate holds despite `Y` itself n
 
 Prove `TauCetiRoadmap.ColemanPowerSeries.Series.phiBasis_coordinates_continuous` in the following form.
 
-The map sending `f∈B` to its tuple of Frobenius-basis coordinates `((phiBasis.repr f)_i)_(i<p)` is continuous for the coefficientwise p-adic topologies.
+The map sending `f∈B` to its tuple of Frobenius-basis coordinates `((colemanSeriesBasis.repr f)_i)_(i<p)` is continuous for the coefficientwise p-adic topologies.
 
 For the proof, the existing assembly `Ξ:B^p→B` is continuous and bijective. Its source is compact, since `ℤ_p` is compact and both series and finite tuples carry product topologies; `B` is Hausdorff. Package the established bijection as an existing equivalence and apply the pinned compact-to-Hausdorff inverse-continuity theorem. No new topological carrier or topology is defined. The inverse tuple is exactly the basis coordinate function: assembly of those coordinates is `f` by the explicit basis expansion, and assembly is injective. Use this equality to transfer continuity. The Frobenius scalar module is passed explicitly; ordinary self-module coordinates would be wrong.
 
@@ -5673,17 +5633,14 @@ The exact Frobenius scalar structure and coefficientwise topology are retained; 
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanNorm_continuous` in the following form.
+Use `colemanNorm` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
+
 
 The actual determinant norm `N:B→B` is continuous for the coefficientwise p-adic topology.
 
-For the proof, each entry of the existing multiplication matrix is a finite sum of continuous coordinate functions multiplied by fixed powers of `Y`. Apply frobenius-coordinates-continuous and the explicit matrix-entry formula. The determinant is a finite sum of finite products of entries by Matrix.det_apply. Addition and multiplication are continuous in the coefficientwise power-series topology. Use the exact norm-matrix equality to identify this continuous polynomial with `N`. This proves continuity of the constructed determinant norm, without assuming a root-product formula or a norm on `B`.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-The exact Frobenius scalar structure and coefficientwise topology are retained; the statement includes `p=2` and does not imply arithmetic interpolation.
-
-*Needs:* [Continuity of Frobenius coordinates](#colemanpowerseries-l1-frobenius-coordinates-continuous); [Multiplication matrix in Frobenius coordinates](#colemanpowerseries-l1-frobenius-multiplication-matrix); [Matrix formula for the Coleman norm](#colemanpowerseries-l1-coleman-norm-matrix); `Matrix.det_apply`.
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.8, printed167/PDF68; continuity needed in the limiting argument around Proposition10.12, printed168–169/PDF69–70) Library-level continuity for the existing finite-free algebra. The compact inverse and finite determinant proof make the topology explicit; no root-product comparison is assumed. This is a decomposition, not a claim that the paper separately states these helper lemmas.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.8, printed167/PDF68; continuity needed in the limiting argument around Proposition10.12, printed168–169/PDF69–70)
 
 <a id="colemanpowerseries-l1-coleman-trace-continuous"></a>
 
@@ -5691,17 +5648,14 @@ The exact Frobenius scalar structure and coefficientwise topology are retained; 
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanTrace_continuous` in the following form.
+Use `colemanTrace` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
+
 
 The existing integral trace `τ:B→B` is continuous for the coefficientwise p-adic topology.
 
-For the proof, the trace-coordinate formula is `τ(f)=p·c_0(f)`. Coordinate projection is continuous by frobenius-coordinates-continuous. Multiplication by the fixed integral scalar `p` is continuous. This is continuity of the actual integral trace; the identification of `c_0` with bounded `ψ` remains a separate comparison.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-The exact Frobenius scalar structure and coefficientwise topology are retained; the statement includes `p=2` and does not imply arithmetic interpolation.
-
-*Needs:* [Continuity of Frobenius coordinates](#colemanpowerseries-l1-frobenius-coordinates-continuous); [Trace in Frobenius coordinates](#colemanpowerseries-l1-coleman-trace-coordinates).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.8, printed167/PDF68; continuity needed in the limiting argument around Proposition10.12, printed168–169/PDF69–70) Library-level continuity for the existing finite-free algebra. The compact inverse and finite determinant proof make the topology explicit; no root-product comparison is assumed. This is a decomposition, not a claim that the paper separately states these helper lemmas.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.8, printed167/PDF68; continuity needed in the limiting argument around Proposition10.12, printed168–169/PDF69–70)
 
 <a id="colemanpowerseries-l1-coleman-norm-iterate-coefficient-cauchy"></a>
 
@@ -5727,19 +5681,20 @@ The exact Frobenius scalar structure and coefficientwise topology are retained; 
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Series.normLimitSeries` by the following specification.
+Use `Lσ` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization. Here `Lσ` denotes the supplied corrected projector `lim_r(Σ⁻¹N)^r`.
+
 
 For `u∈Bˣ`, define `L(u)∈B` to be the series whose nth coefficient is the unique limit in `ℤ_p` of coeff_n(`N^[k](u)`).
 
-The API includes the following named statements.
+The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Series.normLimitSeries_tendsto`: For each `u∈Bˣ`, `N^[k](u)` tends to `L(u)` in the coefficientwise p-adic topology.
+- For each `u∈Bˣ`, `N^[k](u)` tends to `L(u)` in the coefficientwise p-adic topology.
 - `TauCetiRoadmap.ColemanPowerSeries.Series.normLimitSeries_sub_iterate_dvd`: For every `u∈Bˣ` and `k≥0`, `p^(k+1)` divides `L(u)−N^[k](u)` in `B`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.normLimitSeries_fixed`: For every `u∈Bˣ`, `N(L(u))=L(u)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.normLimitSeries_mul`: For `u,v∈Bˣ`, `L(uv)=L(u)L(v)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.normLimitSeries_of_fixed`: If `u∈Bˣ` satisfies `N(u)=u`, then `L(u)=u` as series.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.normLimitSeries_isUnit`: For every `u∈Bˣ`, `L(u)` is a unit of `B`; an explicit inverse is `L(u⁻¹)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Series.normLimitSeries_continuous`: The map `L:Bˣ→B` is continuous, with the existing unit topology on the source and coefficientwise p-adic topology on the target.
+- For every `u∈Bˣ`, `N(L(u))=L(u)`.
+- For `u,v∈Bˣ`, `L(uv)=L(u)L(v)`.
+- If `u∈Bˣ` satisfies `N(u)=u`, then `L(u)=u` as series.
+- For every `u∈Bˣ`, `L(u)` is a unit of `B`; an explicit inverse is `L(u⁻¹)`.
+- The map `L:Bˣ→B` is continuous, with the existing unit topology on the source and coefficientwise p-adic topology on the target.
 
 **Checks.**
 
@@ -5748,15 +5703,9 @@ The API includes the following named statements.
 - `normLimit_Y_two`: At `p=2`, for a unit `u` with value `Y`, `L(u)=−Y`. The sequence is `Y,−Y,−Y,…`; the odd-prime answer `Y` is wrong.
 - `normLimit_Y_three`: At `p=3`, for a unit `u` with value `Y`, `L(u)=Y` because `N(Y)=Y`.
 
-For the proof, every coefficient sequence is Cauchy by coleman-norm-iterate-coefficient-cauchy. Completeness of `ℤ_p` supplies its limit, and Hausdorffness gives uniqueness. Use the existing power-series constructor on this coefficient function. This is a map on the existing unit carrier to the existing series carrier, not an assumed arithmetic interpolation map. The convergence, norm-fixedness, multiplicativity and unit property are proved separately below; none is hidden in the definition.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-The exact Frobenius scalar structure and coefficientwise topology are retained; the statement includes `p=2` and does not imply arithmetic interpolation.
-
-Coates–Sujatha Corollary2.3.4; Layer 1 interpolation: Produce actual norm-fixed invertible series by iterating the already constructed norm, with quantitative precision for compact approximation. Arithmetic norm/evaluation compatibility remains required. Layer 3 norm-fixed logarithmic-derivative sequence: Provide convergence and fixedness in the actual series space; the map fixes preexisting norm-fixed inputs and retains their inverse. It is not the missing arithmetic tower isomorphism.
-
-*Needs:* [Cauchy coefficients of iterated norms](#colemanpowerseries-l1-coleman-norm-iterate-coefficient-cauchy); `cauchySeq_tendsto_of_complete`; `PowerSeries`.
-
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page) Explicit decomposition of the norm-fixed limit of integral unit series. Continuity of the actual determinant norm and its coordinate inverse, the unit witness, uniform precision and continuity of the limit map are elaborations of the source proof. The book fixes odd `p`; the `p=2` extension here follows the preceding independently justified determinant congruences and keeps the dyadic norm sign.
+(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page)
 
 <a id="colemanpowerseries-l1-coleman-norm-limit-convergence"></a>
 
@@ -5764,17 +5713,14 @@ Coates–Sujatha Corollary2.3.4; Layer 1 interpolation: Produce actual norm-fixe
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.normLimitSeries_tendsto` in the following form.
+Use `Lσ` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization. Here `Lσ` denotes the supplied corrected projector `lim_r(Σ⁻¹N)^r`.
+
 
 For each `u∈Bˣ`, `N^[k](u)` tends to `L(u)` in the coefficientwise p-adic topology.
 
-For the proof, the defining coefficient limits are exactly the required convergence statements for every coefficient. Apply the pinned coefficientwise convergence criterion for power series. This states convergence in the product topology; a topology of uniform coefficient bounds is not introduced.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-The exact Frobenius scalar structure and coefficientwise topology are retained; the statement includes `p=2` and does not imply arithmetic interpolation.
-
-*Needs:* [Norm-fixed limit](#colemanpowerseries-l1-coleman-norm-limit); `PowerSeries.WithPiTopology.tendsto_iff_coeff_tendsto`.
-
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page) Explicit decomposition of the norm-fixed limit of integral unit series. Continuity of the actual determinant norm and its coordinate inverse, the unit witness, uniform precision and continuity of the limit map are elaborations of the source proof. The book fixes odd `p`; the `p=2` extension here follows the preceding independently justified determinant congruences and keeps the dyadic norm sign.
+(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page)
 
 <a id="colemanpowerseries-l1-coleman-norm-limit-precision"></a>
 
@@ -5800,17 +5746,14 @@ At iteration zero, `L(u)≡u` mod `p`. At iteration `k` the exponent is `k+1`, u
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.normLimitSeries_fixed` in the following form.
+Use `Lσ` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization. Here `Lσ` denotes the supplied corrected projector `lim_r(Σ⁻¹N)^r`.
+
 
 For every `u∈Bˣ`, `N(L(u))=L(u)`.
 
-For the proof, continuity of `N` sends the convergent sequence `N^[k](u)` to a sequence converging to `N(L(u))`. The image sequence is `N^[k+1](u)`, the shifted sequence of iterates. It has the same limit `L(u)`. Uniqueness of limits in the Hausdorff series space gives equality. Completeness or the congruence estimate alone does not replace the continuity argument.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-The exact Frobenius scalar structure and coefficientwise topology are retained; the statement includes `p=2` and does not imply arithmetic interpolation.
-
-*Needs:* [Continuity of the Coleman norm](#colemanpowerseries-l1-coleman-norm-continuous); [Convergence to the norm limit](#colemanpowerseries-l1-coleman-norm-limit-convergence).
-
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page) Explicit decomposition of the norm-fixed limit of integral unit series. Continuity of the actual determinant norm and its coordinate inverse, the unit witness, uniform precision and continuity of the limit map are elaborations of the source proof. The book fixes odd `p`; the `p=2` extension here follows the preceding independently justified determinant congruences and keeps the dyadic norm sign.
+(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page)
 
 <a id="colemanpowerseries-l1-coleman-norm-limit-multiplication"></a>
 
@@ -5818,17 +5761,14 @@ The exact Frobenius scalar structure and coefficientwise topology are retained; 
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.normLimitSeries_mul` in the following form.
+Use `Lσ` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization. Here `Lσ` denotes the supplied corrected projector `lim_r(Σ⁻¹N)^r`.
+
 
 For `u,v∈Bˣ`, `L(uv)=L(u)L(v)`.
 
-For the proof, every iterate of the actual monoid homomorphism `N` preserves multiplication. Thus `N^[k](uv)`=`N^[k](u)N^[k](v)`. The two factor sequences converge. Continuity of multiplication and uniqueness of the limit identify the product limit with `L(uv)`.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-The exact Frobenius scalar structure and coefficientwise topology are retained; the statement includes `p=2` and does not imply arithmetic interpolation.
-
-*Needs:* [Coleman determinant norm](#colemanpowerseries-l1-coleman-determinant-norm); [Convergence to the norm limit](#colemanpowerseries-l1-coleman-norm-limit-convergence).
-
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page) Explicit decomposition of the norm-fixed limit of integral unit series. Continuity of the actual determinant norm and its coordinate inverse, the unit witness, uniform precision and continuity of the limit map are elaborations of the source proof. The book fixes odd `p`; the `p=2` extension here follows the preceding independently justified determinant congruences and keeps the dyadic norm sign.
+(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page)
 
 <a id="colemanpowerseries-l1-coleman-norm-limit-fixed-input"></a>
 
@@ -5836,17 +5776,14 @@ The exact Frobenius scalar structure and coefficientwise topology are retained; 
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.normLimitSeries_of_fixed` in the following form.
+Use `Lσ` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization. Here `Lσ` denotes the supplied corrected projector `lim_r(Σ⁻¹N)^r`.
+
 
 If `u∈Bˣ` satisfies `N(u)=u`, then `L(u)=u` as series.
 
-For the proof, inductively every norm iterate is `u`. The constant sequence converges to `u`. Compare this limit with coleman-norm-limit-convergence and use Hausdorff uniqueness. In particular `L(1)=1`.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-The exact Frobenius scalar structure and coefficientwise topology are retained; the statement includes `p=2` and does not imply arithmetic interpolation.
-
-*Needs:* [Convergence to the norm limit](#colemanpowerseries-l1-coleman-norm-limit-convergence); [Coleman determinant norm](#colemanpowerseries-l1-coleman-determinant-norm).
-
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page) Explicit decomposition of the norm-fixed limit of integral unit series. Continuity of the actual determinant norm and its coordinate inverse, the unit witness, uniform precision and continuity of the limit map are elaborations of the source proof. The book fixes odd `p`; the `p=2` extension here follows the preceding independently justified determinant congruences and keeps the dyadic norm sign.
+(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page)
 
 <a id="colemanpowerseries-l1-coleman-norm-limit-unit"></a>
 
@@ -5854,17 +5791,14 @@ The exact Frobenius scalar structure and coefficientwise topology are retained; 
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.normLimitSeries_isUnit` in the following form.
+Use `Lσ` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization. Here `Lσ` denotes the supplied corrected projector `lim_r(Σ⁻¹N)^r`.
+
 
 For every `u∈Bˣ`, `L(u)` is a unit of `B`; an explicit inverse is `L(u⁻¹)`.
 
-For the proof, apply multiplicativity to `u` and its actual inverse to obtain `L(u)L(u⁻¹)=L(1)`. The fixed-input identity at 1 gives `L(1)=1`. Commutativity supplies both inverse identities, so the existing unit criterion yields `IsUnit(L(u))`. This proves invertibility rather than inferring it from convergence of units. Equivalently the precision result at `k=0` preserves the nonzero residue of the constant coefficient.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-The inverse witness is `L(u⁻¹)`, supplied by multiplicativity and `L(1)=1`; convergence of units alone is not used to claim that the limit is a unit.
-
-*Needs:* [Multiplicativity of the norm limit](#colemanpowerseries-l1-coleman-norm-limit-multiplication); [The norm limit on a fixed unit](#colemanpowerseries-l1-coleman-norm-limit-fixed-input).
-
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page) Explicit decomposition of the norm-fixed limit of integral unit series. Continuity of the actual determinant norm and its coordinate inverse, the unit witness, uniform precision and continuity of the limit map are elaborations of the source proof. The book fixes odd `p`; the `p=2` extension here follows the preceding independently justified determinant congruences and keeps the dyadic norm sign.
+(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page)
 
 <a id="colemanpowerseries-l1-coleman-norm-limit-continuity"></a>
 
@@ -5872,23 +5806,20 @@ The inverse witness is `L(u⁻¹)`, supplied by multiplicativity and `L(1)=1`; c
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.normLimitSeries_continuous` in the following form.
+Use `Lσ` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization. Here `Lσ` denotes the supplied corrected projector `lim_r(Σ⁻¹N)^r`.
+
 
 The map `L:Bˣ→B` is continuous, with the existing unit topology on the source and coefficientwise p-adic topology on the target.
 
-For the proof, for each coefficient `n` and finite iteration `k`, `u↦coeff_n(N^[k](u))` is continuous by coleman-norm-continuous and the continuous unit-value map. The precision lemma gives a uniform-in-u error bound `p^(−k−1)` for that coefficient. Hence the continuous finite-iterate coefficient maps converge uniformly to `u↦coeff_n(L(u))`. Apply the pinned uniform-limit continuity theorem coefficient by coefficient, then the product-topology criterion. This proves continuity without asserting that the coefficientwise topology equals a uniform norm topology.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-The exact Frobenius scalar structure and coefficientwise topology are retained; the statement includes `p=2` and does not imply arithmetic interpolation.
-
-*Needs:* [Continuity of the Coleman norm](#colemanpowerseries-l1-coleman-norm-continuous); [Uniform precision of the norm limit](#colemanpowerseries-l1-coleman-norm-limit-precision); `PadicInt.norm_p_pow`; `PadicInt.norm_le_one`; `TendstoUniformly.continuous`; `PowerSeries.WithPiTopology.continuous_coeff`; `PowerSeries.WithPiTopology.tendsto_iff_coeff_tendsto`.
-
-(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page) Explicit decomposition of the norm-fixed limit of integral unit series. Continuity of the actual determinant norm and its coordinate inverse, the unit witness, uniform precision and continuity of the limit map are elaborations of the source proof. The book fixes odd `p`; the `p=2` extension here follows the preceding independently justified determinant congruences and keeps the dyadic norm sign.
+(Coates–Sujatha: [Cyclotomic Fields and Zeta Values](https://doi.org/10.1007/978-3-540-33069-1), Corollary 2.3.4 and its proof, printed p.19 / PDF29, using Corollary 2.3.3 on the same page)
 
 <a id="colemanpowerseries-l1-coleman-trace-frobenius-scalars"></a>
 
 ### 1.45 Trace and Frobenius scalars
 
-`p` is any prime, including 2. `Z=ℤ_p`, `B=Z[[T]]`, `Y=1+T` and `φ(F)=F(Y^p−1)`. `B` carries the coefficientwise p-adic topology. The existing phiScalarAlgebra uses `φ` for its scalar map; `τ=colemanTrace` is its `Algebra.trace` with values in the base `B`, and `c_i(F)` are the existing phiBasis coordinates. `ψ` is the actual PMIA `AbstractMeasure.psiSeries`, transported from the bounded integral measure operator by the pinned Amice equivalence. Its continuity and left-inverse formula are imported from PMIA. No normalized-trace definition of `ψ`, division by `p` inside `B`, or additional coefficient Frobenius is assumed.
+`p` is any prime, including 2. `Z=ℤ_p`, `B=Z[[T]]`, `Y=1+T` and `φ(F)=F(Y^p−1)`. `B` carries the coefficientwise p-adic topology. The existing phiScalarAlgebra uses `φ` for its scalar map; `τ=colemanTrace` is its `Algebra.trace` with values in the base `B`, and `c_i(F)` are the existing colemanSeriesBasis coordinates. `ψ` is the actual PMIA `AbstractMeasure.psiSeries`, transported from the bounded integral measure operator by the pinned Amice equivalence. Its continuity and left-inverse formula are imported from PMIA. No normalized-trace definition of `ψ`, division by `p` inside `B`, or additional coefficient Frobenius is assumed.
 
 Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanTrace_phi_mul` in the following form.
 
@@ -5949,7 +5880,8 @@ For `p=2`, `τ(T)=−2` while `ψ(T)=−1`; the formula also includes the zero p
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanTrace_eq_mul_psi` in the following form.
+Use `colemanTrace` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
+
 
 For every `F∈B`, `colemanTrace(F)=p·AbstractMeasure.psiSeries(F)` in the base `B`. This compares the existing finite-free `Algebra.trace` with the independently constructed bounded integral operator.
 
@@ -5961,13 +5893,9 @@ For every `F∈B`, `colemanTrace(F)=p·AbstractMeasure.psiSeries(F)` in the base
 - `TraceComparisonTests.no_extra_frobenius_three`: For `p=3`, `τ((1+T)³)` is not `3(1+T)³`.
 - `TraceComparisonTests.no_missing_prime_three`: For `p=3`, `τ(1)` is not `ψ(1)`.
 
-For the proof, the existing Coleman trace is coefficientwise continuous. The existing PMIA psi-series-continuous theorem and multiplication by the constant `p` make the right side continuous. The maps agree on polynomial series by coleman-trace-psi-polynomials. The pinned polynomial inclusion has dense range and `B` is Hausdorff for the coefficientwise p-adic topology. Apply `DenseRange.equalizer` to those two actual functions. No continuity for a coefficient supremum norm is needed; no field-valued formal-series inverse or root translation in `Z[[T]]` is asserted.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-For `p=3`, `τ(1)=3` and `ψ(1)=1` reject a missing factor `p`. At `F=Y³`, `τ(F)=3Y` differs from `3Y³` and rejects an extra Frobenius. The theorem includes `p=2`.
-
-*Needs:* [Trace and bounded psi on polynomials](#colemanpowerseries-l1-coleman-trace-psi-polynomials); [Continuity of the integral Coleman trace](#colemanpowerseries-l1-coleman-trace-continuous); [PadicMeasuresIwasawaAlgebras §2.2: psi series continuous](../PadicMeasuresIwasawaAlgebras/README.md#22-translation-dilation-φ-and-ψ-on-power-series); `PowerSeries.WithPiTopology.denseRange_toPowerSeries`; `DenseRange.equalizer`.
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Sentence immediately following Lemma 10.8, printed p.167 / PDF68, compared with §3.5.5 equation (3-9), printed pp.128–129; arXiv v2 §3.5.5 PDF21) Deduction of the source’s normalized-trace comparison. The paper writes the trace into the embedded subring `φ(B)` and applies `φ` inverse. The existing Coleman trace is already base-valued, so its integral comparison is `τ=pψ`. Polynomial values and coefficientwise continuity prove the comparison with the independently constructed bounded operator. The dyadic case is proved algebraically; no odd-prime arithmetic theorem is extended by assertion.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Sentence immediately following Lemma 10.8, printed p.167 / PDF68, compared with §3.5.5 equation (3-9), printed pp.128–129; arXiv v2 §3.5.5 PDF21)
 
 <a id="colemanpowerseries-l1-frobenius-zeroth-coordinate-psi"></a>
 
@@ -5981,7 +5909,7 @@ For every `F∈B`, the zeroth coordinate in the actual Frobenius basis equals th
 
 **Checks.**
 
-- `TraceComparisonTests.coordinate_three`: For `p=3`, the zeroth coordinate of `(1+T)³` in phiBasis is `1+T`.
+- `TraceComparisonTests.coordinate_three`: For `p=3`, the zeroth coordinate of `(1+T)³` in colemanSeriesBasis is `1+T`.
 
 For the proof, combine coleman-trace-coordinates with coleman-trace-psi to obtain `p·c₀(F)=p·ψ(F)`. `B` is a characteristic-zero integral domain, so the natural prime `p` is nonzero and multiplication by `p` is injective. Cancel `p`. This is cancellation of a nonzero element, not inversion of `p` in the integral ring.
 
@@ -5995,7 +5923,7 @@ For `p=3`, `c₀(Y³)=Y`, while for `0<i<p` the zeroth coordinate of `Y^i` is ze
 
 ### 1.50 The embedded trace as a root sum
 
-`p` is any prime, including 2. `Z=ℤ_p`, `B=Z[[T]]`, `Y=1+T` and `φ(F)=F(Y^p−1)`. `B` carries the coefficientwise p-adic topology. The existing phiScalarAlgebra uses `φ` for its scalar map; `τ=colemanTrace` is its `Algebra.trace` with values in the base `B`, and `c_i(F)` are the existing phiBasis coordinates. `ψ` is the actual PMIA `AbstractMeasure.psiSeries`, transported from the bounded integral measure operator by the pinned Amice equivalence. Its continuity and left-inverse formula are imported from PMIA. No normalized-trace definition of `ψ`, division by `p` inside `B`, or additional coefficient Frobenius is assumed. `O` carries its inherited p-adic topology. Root translations are the existing topological integral-series evaluations from PMIA; roots need not lie in `ℤ_p`.
+`p` is any prime, including 2. `Z=ℤ_p`, `B=Z[[T]]`, `Y=1+T` and `φ(F)=F(Y^p−1)`. `B` carries the coefficientwise p-adic topology. The existing phiScalarAlgebra uses `φ` for its scalar map; `τ=colemanTrace` is its `Algebra.trace` with values in the base `B`, and `c_i(F)` are the existing colemanSeriesBasis coordinates. `ψ` is the actual PMIA `AbstractMeasure.psiSeries`, transported from the bounded integral measure operator by the pinned Amice equivalence. Its continuity and left-inverse formula are imported from PMIA. No normalized-trace definition of `ψ`, division by `p` inside `B`, or additional coefficient Frobenius is assumed. `O` carries its inherited p-adic topology. Root translations are the existing topological integral-series evaluations from PMIA; roots need not lie in `ℤ_p`.
 
 Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanTrace_root_sum` in the following form.
 
@@ -6010,7 +5938,7 @@ For the proof, substitute the integral comparison `τ(F)=pψ(F)`. Formal Frobeni
 
 At `F=1` the root sum is `p`. At `F=Y^p` it is `pY^p`; this is the embedded trace, whereas the base-valued trace is `pY`.
 
-*Needs:* [Integral trace and bounded psi](#colemanpowerseries-l1-coleman-trace-psi); [PadicMeasuresIwasawaAlgebras §2.4: root average](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); [PadicMeasuresIwasawaAlgebras §2.5: integral coefficient map](../PadicMeasuresIwasawaAlgebras/README.md#25-bounded-mahler-coefficients-and-the-amice-norm); `PowerSeries.substAlgHom`.
+*Needs:* [Integral trace and bounded psi](#colemanpowerseries-l1-coleman-trace-psi); [PadicMeasuresIwasawaAlgebras §2.4: root average](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); [PadicMeasuresIwasawaAlgebras §2.4: integral coefficient map](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); `PowerSeries.substAlgHom`.
 
 (Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Sentence immediately following Lemma 10.8, printed p.167 / PDF68, compared with §3.5.5 equation (3-9), printed pp.128–129; arXiv v2 §3.5.5 PDF21) Deduction of the source’s normalized-trace comparison. The paper writes the trace into the embedded subring `φ(B)` and applies `φ` inverse. The existing Coleman trace is already base-valued, so its integral comparison is `τ=pψ`. Polynomial values and coefficientwise continuity prove the comparison with the independently constructed bounded operator. The dyadic case is proved algebraically; no odd-prime arithmetic theorem is extended by assertion.
 
@@ -6086,7 +6014,7 @@ Rows are output coordinates and columns are input basis vectors. Reversing the c
 
 ### 1.54 Structural map of the Frobenius scalar algebra
 
-`p` is any prime, including 2; `Z=Z_p`, `B=Z[[T]]`, `Y=1+T` and `phi(F)=F(Y^p-1)`. The existing phiScalarAlgebra has structural map `phi`, and phiBasis has entries `Y^k` for `k` in `Fin p`. `N` is the existing base-valued determinant Coleman norm for this scalar algebra. `O` is the existing valuation integer ring of `C_p` with its induced p-adic topology; `j:Z→O` is the actual PMIA integralCoefficientMap and `iota=PowerSeries.map(j)`. Power series use the coefficientwise topology. `tau_i` is the actual PMIA rootTranslation for the explicitly specified root `zeta`. Write `Y_O=1+T` in `O[[T]]`.
+`p` is any prime, including 2; `Z=Z_p`, `B=Z[[T]]`, `Y=1+T` and `phi(F)=F(Y^p-1)`. The existing phiScalarAlgebra has structural map `phi`, and colemanSeriesBasis has entries `Y^k` for `k` in `Fin p`. `N` is the existing base-valued determinant Coleman norm for this scalar algebra. `O` is the existing valuation integer ring of `C_p` with its induced p-adic topology; `j:Z→O` is the actual PMIA integralCoefficientMap and `iota=PowerSeries.map(j)`. Power series use the coefficientwise topology. `tau_i` is the actual PMIA rootTranslation for the explicitly specified root `zeta`. Write `Y_O=1+T` in `O[[T]]`.
 
 Prove `TauCetiRoadmap.ColemanPowerSeries.Series.phiScalarAlgebra_map` in the following form.
 
@@ -6104,7 +6032,7 @@ Retain the explicitly selected Frobenius algebra; the ordinary identity self-alg
 
 ### 1.55 Root translations on Frobenius scalars
 
-`p` is any prime, including 2; `Z=Z_p`, `B=Z[[T]]`, `Y=1+T` and `phi(F)=F(Y^p-1)`. The existing phiScalarAlgebra has structural map `phi`, and phiBasis has entries `Y^k` for `k` in `Fin p`. `N` is the existing base-valued determinant Coleman norm for this scalar algebra. `O` is the existing valuation integer ring of `C_p` with its induced p-adic topology; `j:Z→O` is the actual PMIA integralCoefficientMap and `iota=PowerSeries.map(j)`. Power series use the coefficientwise topology. `tau_i` is the actual PMIA rootTranslation for the explicitly specified root `zeta`. Write `Y_O=1+T` in `O[[T]]`. `zeta` is an element of `O` satisfying `zeta^p=1`; `i` is any natural number.
+`p` is any prime, including 2; `Z=Z_p`, `B=Z[[T]]`, `Y=1+T` and `phi(F)=F(Y^p-1)`. The existing phiScalarAlgebra has structural map `phi`, and colemanSeriesBasis has entries `Y^k` for `k` in `Fin p`. `N` is the existing base-valued determinant Coleman norm for this scalar algebra. `O` is the existing valuation integer ring of `C_p` with its induced p-adic topology; `j:Z→O` is the actual PMIA integralCoefficientMap and `iota=PowerSeries.map(j)`. Power series use the coefficientwise topology. `tau_i` is the actual PMIA rootTranslation for the explicitly specified root `zeta`. Write `Y_O=1+T` in `O[[T]]`. `zeta` is an element of `O` satisfying `zeta^p=1`; `i` is any natural number.
 
 Prove `TauCetiRoadmap.ColemanPowerSeries.Series.rootTranslation_phiScalar` in the following form.
 
@@ -6114,7 +6042,7 @@ For the proof, equip `O[[T]]` with its native `Z`-algebra induced by `C` compose
 
 The conclusion holds for any pth root, before primitivity is needed. It concerns the Coleman scalar action on the existing PMIA map and introduces no replacement root translation.
 
-*Needs:* [Structural map of the Frobenius scalar algebra](#colemanpowerseries-l1-frobenius-scalar-map); [PadicMeasuresIwasawaAlgebras §2.5: integral coefficient map](../PadicMeasuresIwasawaAlgebras/README.md#25-bounded-mahler-coefficients-and-the-amice-norm); [PadicMeasuresIwasawaAlgebras §2.5: integral coefficient map continuous](../PadicMeasuresIwasawaAlgebras/README.md#25-bounded-mahler-coefficients-and-the-amice-norm); [LocalFieldsRamification Layer 0: integer-ring linear topology](../LocalFieldsRamification/README.md#layer-0-local-fields-and-their-finite-extensions); [PadicMeasuresIwasawaAlgebras §2.4: root translation evaluation](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); [PadicMeasuresIwasawaAlgebras §2.4: root translation continuous](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); [PadicMeasuresIwasawaAlgebras §2.4: root translation polynomial](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); [PadicMeasuresIwasawaAlgebras §2.4: root translation natural powers](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); `PowerSeries.aeval_subst`; `PowerSeries.eval₂_C`; `PowerSeries.map_C`; `PowerSeries.coeff_map`; `PowerSeries.WithPiTopology.continuous_coeff`; `PowerSeries.WithPiTopology.tendsto_iff_coeff_tendsto`; `PowerSeries.WithPiTopology.isTopologicallyNilpotent_of_constantCoeff_zero`.
+*Needs:* [Structural map of the Frobenius scalar algebra](#colemanpowerseries-l1-frobenius-scalar-map); [PadicMeasuresIwasawaAlgebras §2.4: integral coefficient map](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); [PadicMeasuresIwasawaAlgebras §2.4: integral coefficient map continuous](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); [LocalFieldsRamification Layer 0: integer-ring linear topology](../LocalFieldsRamification/README.md#layer-0-local-fields-and-their-finite-extensions); [PadicMeasuresIwasawaAlgebras §2.4: root translation evaluation](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); [PadicMeasuresIwasawaAlgebras §2.4: root translation continuous](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); [PadicMeasuresIwasawaAlgebras §2.4: root translation polynomial](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); [PadicMeasuresIwasawaAlgebras §2.4: root translation natural powers](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); `PowerSeries.aeval_subst`; `PowerSeries.eval₂_C`; `PowerSeries.map_C`; `PowerSeries.coeff_map`; `PowerSeries.WithPiTopology.continuous_coeff`; `PowerSeries.WithPiTopology.tendsto_iff_coeff_tendsto`; `PowerSeries.WithPiTopology.isTopologicallyNilpotent_of_constantCoeff_zero`.
 
 (Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma10.8 and its proof, printed167/PDF68) Deduction of the determinant/product characterization, using convergent translations in the ramified receiving ring. The native basis, determinant and root translations are reused; the source does not state these individual matrix or topology bridges.
 
@@ -6122,15 +6050,15 @@ The conclusion holds for any pth root, before primitivity is needed. It concerns
 
 ### 1.56 Root translation of the Frobenius basis expansion
 
-`p` is any prime, including 2; `Z=Z_p`, `B=Z[[T]]`, `Y=1+T` and `phi(F)=F(Y^p-1)`. The existing phiScalarAlgebra has structural map `phi`, and phiBasis has entries `Y^k` for `k` in `Fin p`. `N` is the existing base-valued determinant Coleman norm for this scalar algebra. `O` is the existing valuation integer ring of `C_p` with its induced p-adic topology; `j:Z→O` is the actual PMIA integralCoefficientMap and `iota=PowerSeries.map(j)`. Power series use the coefficientwise topology. `tau_i` is the actual PMIA rootTranslation for the explicitly specified root `zeta`. Write `Y_O=1+T` in `O[[T]]`. `zeta^p=1`; `i` is any natural number.
+`p` is any prime, including 2; `Z=Z_p`, `B=Z[[T]]`, `Y=1+T` and `phi(F)=F(Y^p-1)`. The existing phiScalarAlgebra has structural map `phi`, and colemanSeriesBasis has entries `Y^k` for `k` in `Fin p`. `N` is the existing base-valued determinant Coleman norm for this scalar algebra. `O` is the existing valuation integer ring of `C_p` with its induced p-adic topology; `j:Z→O` is the actual PMIA integralCoefficientMap and `iota=PowerSeries.map(j)`. Power series use the coefficientwise topology. `tau_i` is the actual PMIA rootTranslation for the explicitly specified root `zeta`. Write `Y_O=1+T` in `O[[T]]`. `zeta^p=1`; `i` is any natural number.
 
 Prove `TauCetiRoadmap.ColemanPowerSeries.Series.rootTranslation_phiBasis_repr` in the following form.
 
-For `zeta^p=1` and `F` in `B`, `tau_i(F)=sum_(k in Fin p) iota(phi((phiBasis.repr F)_k)) (C(zeta^i)Y_O)^k`.
+For `zeta^p=1` and `F` in `B`, `tau_i(F)=sum_(k in Fin p) iota(phi((colemanSeriesBasis.repr F)_k)) (C(zeta^i)Y_O)^k`.
 
 For the proof, apply the existing ring homomorphism `tau_i` to the actual finite Frobenius basis expansion of `F`. Distribute it over the finite sum and multiplication. The scalar comparison identifies each translated coefficient. The imported natural-power formula identifies `tau_i(Y^k)` with `(C(zeta^i)Y_O)^k`. Collect the factors in the receiving commutative ring.
 
-Use the actual phiBasis coordinates, not coefficients of `F` in the ordinary monomial basis.
+Use the actual colemanSeriesBasis coordinates, not coefficients of `F` in the ordinary monomial basis.
 
 *Needs:* [Root translations on Frobenius scalars](#colemanpowerseries-l1-root-translation-frobenius-scalars); [Expansion in the Frobenius basis](#colemanpowerseries-l1-frobenius-basis-expansion); [PadicMeasuresIwasawaAlgebras §2.4: root translation natural powers](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections).
 
@@ -6140,7 +6068,7 @@ Use the actual phiBasis coordinates, not coefficients of `F` in the ordinary mon
 
 ### 1.57 Nonvanishing of the root evaluation determinant
 
-`p` is any prime, including 2; `Z=Z_p`, `B=Z[[T]]`, `Y=1+T` and `phi(F)=F(Y^p-1)`. The existing phiScalarAlgebra has structural map `phi`, and phiBasis has entries `Y^k` for `k` in `Fin p`. `N` is the existing base-valued determinant Coleman norm for this scalar algebra. `O` is the existing valuation integer ring of `C_p` with its induced p-adic topology; `j:Z→O` is the actual PMIA integralCoefficientMap and `iota=PowerSeries.map(j)`. Power series use the coefficientwise topology. `tau_i` is the actual PMIA rootTranslation for the explicitly specified root `zeta`. Write `Y_O=1+T` in `O[[T]]`. `zeta` is primitive of order `p`.
+`p` is any prime, including 2; `Z=Z_p`, `B=Z[[T]]`, `Y=1+T` and `phi(F)=F(Y^p-1)`. The existing phiScalarAlgebra has structural map `phi`, and colemanSeriesBasis has entries `Y^k` for `k` in `Fin p`. `N` is the existing base-valued determinant Coleman norm for this scalar algebra. `O` is the existing valuation integer ring of `C_p` with its induced p-adic topology; `j:Z→O` is the actual PMIA integralCoefficientMap and `iota=PowerSeries.map(j)`. Power series use the coefficientwise topology. `tau_i` is the actual PMIA rootTranslation for the explicitly specified root `zeta`. Write `Y_O=1+T` in `O[[T]]`. `zeta` is primitive of order `p`.
 
 Prove `TauCetiRoadmap.ColemanPowerSeries.Series.phiBasis_root_vandermonde_det_ne_zero` in the following form.
 
@@ -6150,7 +6078,7 @@ For the proof, `o` is the native integer subring of the field `C_p`; native inst
 
 The determinant is only asserted nonzero. Differences of `p`-power roots are generally nonunits in `O`; no inverse determinant or division by `p` is introduced.
 
-*Needs:* [Values of the Frobenius basis](#colemanpowerseries-l1-frobenius-basis-values); [PadicMeasuresIwasawaAlgebras §2.5: integral coefficient map](../PadicMeasuresIwasawaAlgebras/README.md#25-bounded-mahler-coefficients-and-the-amice-norm); `Matrix.vandermonde`; `Matrix.det_vandermonde_ne_zero_iff`; `IsPrimitiveRoot.pow_inj`.
+*Needs:* [Values of the Frobenius basis](#colemanpowerseries-l1-frobenius-basis-values); [PadicMeasuresIwasawaAlgebras §2.4: integral coefficient map](../PadicMeasuresIwasawaAlgebras/README.md#24-root-of-unity-averaging-and-residue-projections); `Matrix.vandermonde`; `Matrix.det_vandermonde_ne_zero_iff`; `IsPrimitiveRoot.pow_inj`.
 
 (Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma10.8 and its proof, printed167/PDF68) Deduction of the determinant/product characterization, using convergent translations in the ramified receiving ring. The native basis, determinant and root translations are reused; the source does not state these individual matrix or topology bridges.
 
@@ -6162,9 +6090,9 @@ Keep the hypotheses of the preceding target.
 
 Prove `TauCetiRoadmap.ColemanPowerSeries.Series.phiBasis_root_matrix_intertwines` in the following form.
 
-Let `M_F` be the existing left-multiplication matrix in phiBasis and `alpha=iota` composed with `phi`. For primitive `zeta`, `E` times `map(alpha,M_F)=diag(tau_i(F))` times `E` in matrices over `O[[T]]`.
+Let `M_F` be the existing left-multiplication matrix in colemanSeriesBasis and `alpha=iota` composed with `phi`. For primitive `zeta`, `E` times `map(alpha,M_F)=diag(tau_i(F))` times `E` in matrices over `O[[T]]`.
 
-For the proof, for column `k`, apply the translated basis-expansion formula to `F` times `phiBasis(k)`. Native leftMulMatrix_eq_repr_mul identifies its coordinates with column `k` of `M_F`. The ring-homomorphism law gives `tau_i(F times phiBasis(k))=tau_i(F)` times `tau_i(phiBasis(k))`. The imported basis values and root power formula identify the latter factor with `E_(i,k)`. Native matrix multiplication and diagonal multiplication now give the equality entry by entry. The scalar map is `alpha=iota` composed with `phi`, so the base variable is embedded before comparing determinants.
+For the proof, for column `k`, apply the translated basis-expansion formula to `F` times `colemanSeriesBasis(k)`. Native leftMulMatrix_eq_repr_mul identifies its coordinates with column `k` of `M_F`. The ring-homomorphism law gives `tau_i(F times colemanSeriesBasis(k))=tau_i(F)` times `tau_i(colemanSeriesBasis(k))`. The imported basis values and root power formula identify the latter factor with `E_(i,k)`. Native matrix multiplication and diagonal multiplication now give the equality entry by entry. The scalar map is `alpha=iota` composed with `phi`, so the base variable is embedded before comparing determinants.
 
 This is an intertwining equality, not a conjugacy over the integral ring. The actual basis and actual multiplication matrix are retained.
 
@@ -6178,7 +6106,8 @@ This is an intertwining equality, not a conjugacy over the integral ring. The ac
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanNorm_root_product` in the following form.
+Use `colemanNorm` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
+
 
 For every `F` in `B` and primitive pth root `zeta` in `O`, `iota(phi(N(F)))=product_(i in Fin p) tau_i(F)` in `O[[T]]`.
 
@@ -6190,13 +6119,9 @@ For every `F` in `B` and primitive pth root `zeta` in `O`, `iota(phi(N(F)))=prod
 - `NormRootTests.translated_power`: The product of root translations of `Y` is `(-1)^(p-1)Y_O^p`, distinguishing the translated variable from `T`.
 - `NormRootTests.root_choice`: For two primitive pth roots `zeta` and xi in `O`, the products of their root translations of every `F` agree.
 
-For the proof, take determinants of the preceding intertwining equality. The native determinant laws give `det(E)` times `alpha(det M_F)=(product_i tau_i(F))` times `det(E)`. Cancel the nonzero `det(E)` in the domain `O[[T]]`. Identify det `M_F` with the actual base-valued `N(F)` using the existing norm/matrix comparison. The result proves both that the product lies in the embedded Frobenius image and that its preimage is the previously constructed determinant norm. It does not define a second norm.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-Retain `iota` and `phi` on the left. Omitting `phi` confuses the base-valued norm with its embedded product. All primes, including `p=2`, are included.
-
-*Needs:* [Coleman determinant norm](#colemanpowerseries-l1-coleman-determinant-norm); [Matrix formula for the Coleman norm](#colemanpowerseries-l1-coleman-norm-matrix); [Root evaluations intertwine the multiplication matrix](#colemanpowerseries-l1-root-translation-multiplication-matrix); [Nonvanishing of the root evaluation determinant](#colemanpowerseries-l1-root-evaluation-vandermonde-nonzero); `RingHom.map_det`; `Matrix.det_mul`; `Matrix.det_diagonal`.
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma10.8 and its proof, printed167/PDF68) Deduction of the determinant/product characterization, using convergent translations in the ramified receiving ring. The native basis, determinant and root translations are reused; the source does not state these individual matrix or topology bridges.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma10.8 and its proof, printed167/PDF68)
 
 <a id="colemanpowerseries-l1-coleman-norm-root-product-unique"></a>
 
@@ -6204,17 +6129,14 @@ Retain `iota` and `phi` on the left. Omitting `phi` confuses the base-valued nor
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Series.colemanNorm_root_product_iff` in the following form.
+Use `colemanNorm` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
+
 
 For `F,G` in `B` and primitive `zeta`, `iota(phi(G))=product_(i in Fin p) tau_i(F)` if and only if `G=N(F)`.
 
-For the proof, replace the product by `iota(phi(N(F)))`. Native injectivity of coefficientwise `PowerSeries.map` follows from the imported injectivity of `j`, giving `phi(G)=phi(N(F))`. Apply the imported actual bounded integral `psi` to both sides and use `psi` composed with `phi` equals identity. This yields `G=N(F)`. The converse follows by substitution in the product formula.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-This supplies the uniqueness in Lemma10.8 over `Z_p`. It does not assert finite-level arithmetic norm compatibility, interpolation, or a ramified-coefficient extension.
-
-*Needs:* [Coleman norm as the product of root translations](#colemanpowerseries-l1-coleman-norm-root-product); [PadicMeasuresIwasawaAlgebras §2.5: integral coefficient map injective](../PadicMeasuresIwasawaAlgebras/README.md#25-bounded-mahler-coefficients-and-the-amice-norm); [PadicMeasuresIwasawaAlgebras §2.2: psi series phi](../PadicMeasuresIwasawaAlgebras/README.md#22-translation-dilation-φ-and-ψ-on-power-series); `PowerSeries.map_injective`.
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma10.8 and its proof, printed167/PDF68) Deduction of the determinant/product characterization, using convergent translations in the ramified receiving ring. The native basis, determinant and root translations are reused; the source does not state these individual matrix or topology bridges.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma10.8 and its proof, printed167/PDF68)
 
 <a id="colemanpowerseries-l1-arithmetic-frobenius-evaluation"></a>
 
@@ -6276,7 +6198,8 @@ Use the actual carrier, topology and relative scalar inclusion, including `p=2`.
 
 Keep the hypotheses of the preceding target.
 
-Prove `integralNorm_seriesEvaluation` in the following form.
+Use `colemanNorm` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
+
 
 For every `F∈ℤ_p[[T]]`, `integralNorm_n(ε_(n+1)(F))=ε_n(colemanNorm(F))` in `O_n`.
 
@@ -6285,13 +6208,9 @@ For every `F∈ℤ_p[[T]]`, `integralNorm_n(ε_(n+1)(F))=ε_n(colemanNorm(F))` i
 - `RelativeNormTests.evaluate_constant`: A constant a evaluates through the norm square to the scalar `a^p`.
 - `RelativeNormTests.dyadic_variable`: At `p=2,n=0`, the norm of the upper evaluation of `T` is minus its lower evaluation.
 
-For the proof, include both sides into `K_n`. The integral norm field-value lemma identifies the left side with the native field norm. Use the existing relative basis determinant formula and the preceding multiplication-matrix specialization. Native RingHom.map_det commutes the lower evaluation with this finite determinant. The existing Coleman determinant formula identifies that evaluated determinant with `ε_n(colemanNorm(F))`. The actual integral inclusion is injective, giving equality in `O_n`.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-The equality holds for all integral power series, including nonunits and zero. No extension of a character across an unrelated total quotient is involved.
-
-*Needs:* [Tau Ceti: coe_norm_integerRing](#exact-supplier-contracts); [Specialization of the actual multiplication matrix](#colemanpowerseries-l1-arithmetic-multiplication-matrix); [Matrix formula for the Coleman norm](#colemanpowerseries-l1-coleman-norm-matrix); `Algebra.norm_eq_matrix_det`; `RingHom.map_det`.
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Published166–169/PDF67–70, `equation(10-1)`, Lemma10.9, Proposition10.10 and complete10.11–10.13) Actual-carrier decomposition of the relative norm transitions and evaluation square. The determinant proof uses specialization of the existing Frobenius and cyclotomic power bases instead of assuming the formal extension is already split. The source assumes `p` odd; dyadic instances keep the established signs. No norm-compatible inverse-limit carrier or principal-unit module is introduced here.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Published166–169/PDF67–70, `equation(10-1)`, Lemma10.9, Proposition10.10 and complete10.11–10.13)
 
 <a id="colemanpowerseries-l1-arithmetic-unit-norm-evaluation"></a>
 
@@ -6299,17 +6218,14 @@ The equality holds for all integral power series, including nonunits and zero. N
 
 Keep the hypotheses of the preceding target.
 
-Prove `unitsNorm_seriesEvaluation` in the following form.
+Use `colemanNorm` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
+
 
 For `F∈Bˣ`, applying unitsNorm_n after upper evaluation equals lower evaluation after `Units.map(colemanNorm)`.
 
-For the proof, all horizontal maps are the native `Units.map` of the existing evaluation ring homomorphisms. Hence their inverses are evaluations of the inverse series. Apply units extensionality, unfold the units lift, and use the preceding equality for the underlying power series.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-Use the actual carrier, topology and relative scalar inclusion, including `p=2`.
-
-*Needs:* [Continuous norm transitions on actual units](#colemanpowerseries-l0-continuous-unit-norm); [The arithmetic Coleman norm and evaluation square](#colemanpowerseries-l1-arithmetic-norm-evaluation).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Published166–169/PDF67–70, `equation(10-1)`, Lemma10.9, Proposition10.10 and complete10.11–10.13) Actual-carrier decomposition of the relative norm transitions and evaluation square. The determinant proof uses specialization of the existing Frobenius and cyclotomic power bases instead of assuming the formal extension is already split. The source assumes `p` odd; dyadic instances keep the established signs. No norm-compatible inverse-limit carrier or principal-unit module is introduced here.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Published166–169/PDF67–70, `equation(10-1)`, Lemma10.9, Proposition10.10 and complete10.11–10.13)
 
 <a id="colemanpowerseries-l1-norm-fixed-arithmetic-compatibility"></a>
 
@@ -6317,17 +6233,14 @@ Use the actual carrier, topology and relative scalar inclusion, including `p=2`.
 
 Keep the hypotheses of the preceding target.
 
-Prove `normFixedUnits_evaluation_compatible` in the following form.
+Use `colemanInterpolation.symm` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
+
 
 For a unit series `F` in the existing normFixedUnits subgroup, `unitsNorm_n(ε_(n+1)(F))=ε_n(F)` as actual units.
 
-For the proof, the preceding unit-group norm square identifies the left side with the lower evaluation of `Units.map(colemanNorm)(F)`. The existing subgroup membership theorem says that the underlying series is fixed by colemanNorm. Units extensionality identifies the units, giving the required adjacent compatibility.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-This is the norm/evaluation compatibility portion of Proposition10.10. The subsequent native inverse-limit and interpolation results supply the actual carrier and the injective, surjective topological Coleman isomorphism.
-
-*Needs:* [The norm square in actual unit groups](#colemanpowerseries-l1-arithmetic-unit-norm-evaluation); [Membership in norm-fixed units](#colemanpowerseries-l1-coleman-norm-fixed-membership).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Published166–169/PDF67–70, `equation(10-1)`, Lemma10.9, Proposition10.10 and complete10.11–10.13) Actual-carrier decomposition of the relative norm transitions and evaluation square. The determinant proof uses specialization of the existing Frobenius and cyclotomic power bases instead of assuming the formal extension is already split. The source assumes `p` odd; dyadic instances keep the established signs. No norm-compatible inverse-limit carrier or principal-unit module is introduced here.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Published166–169/PDF67–70, `equation(10-1)`, Lemma10.9, Proposition10.10 and complete10.11–10.13)
 
 <a id="colemanpowerseries-l1-norm-fixed-evaluation-map"></a>
 
@@ -6335,15 +6248,16 @@ This is the norm/evaluation compatibility portion of Proposition10.10. The subse
 
 `p` is any prime, including2. `K_n` is the existing actual level `p n` inside the p-adic algebraic closure, `O_n` its native integral closure of `ℤ_p`, and `U_n=O_nˣ` with native unit topology. The source level is `n+1`. Let `V=∏_(n≥0)U_n` with its native product topology. `N_n:U_(n+1)→U_n` is the existing continuous unitsNorm, and `red_n:O_n→ZMod p` is the fixed reduction map. All compatible carriers are native Subgroup subtypes, with inherited commutative group operations and product/subtype topologies. Full unit groups are not assigned a `ℤ_p`-module structure. No pro-p certificate, Galois action, Teichmüller splitting or Tate-module inclusion is assumed.
 
-Define `normFixedEvaluation` by the following specification.
+Use `colemanInterpolation.symm` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
 
-Construct `normFixedEvaluation(p):normFixedUnits(p)→normCompatibleUnits(p)` as a native continuous monoid homomorphism, with nth coordinate `Units.map(seriesEvaluation_n)(F)`.
 
-The API includes the following named statements.
+The supplied object is `colemanInterpolation.symm(p):normFixedUnits(p)→localUnitNormLimit(p)` as a native continuous monoid homomorphism, with nth coordinate `Units.map(seriesEvaluation_n)(F)`.
 
-- `normFixedEvaluation_apply`: Its nth coordinate is `Units.map(seriesEvaluation_n)(F)`.
-- `normFixedEvaluation_mul`: Evaluation carries products of norm-fixed units to products of compatible towers.
-- `normFixedEvaluation_inv`: Evaluation carries inverse to inverse.
+The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
+
+- Its nth coordinate is `Units.map(seriesEvaluation_n)(F)`.
+- Evaluation carries products of norm-fixed units to products of compatible towers.
+- Evaluation carries inverse to inverse.
 
 **Checks.**
 
@@ -6351,15 +6265,9 @@ The API includes the following named statements.
 - `NormLimitTests.evaluation_inverse`: The nth coordinate of the inverse-series evaluation is the inverse of the nth evaluated unit.
 - `NormLimitTests.ternary_constant_evaluation`: A norm-fixed constant`−1` unit series at `p=3` evaluates to the constant`−1` tower.
 
-For the proof, at each `n`, apply the existing ring homomorphism seriesEvaluation_n to units. The existing norm-fixed-arithmetic-compatibility lemma supplies every adjacent norm equation, so the family corestricts to the actual compatible subgroup. The existing continuous_seriesEvaluation API and native Continuous.units_map make each unit-valued coordinate continuous; the domain subgroup has its native topology. Native continuity into a product and then its subtype gives continuity of the family. The coordinatewise unit maps are monoid homomorphisms. Bundle their common corestriction as ContinuousMonoidHom. Its coordinate formula, product and inverse laws give the API.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-This is the evaluation direction from norm-fixed series to compatible units. No injectivity, surjectivity, inverse or Coleman interpolation bijection is asserted.
-
-`RJW(9-3)` and Theorems10.2/10.13: Supply the actual arithmetic target and its residue-one subgroup for Coleman interpolation. Layer 2–Layer 4: The subsequent arithmetic Coleman map and its exact sequence need these carriers and evaluation laws before importing module structures or a `G`-action.
-
-*Needs:* [The actual norm-compatible unit group](#colemanpowerseries-l0-norm-compatible-units); [Continuity of actual cyclotomic series evaluation](#colemanpowerseries-l0-cyclotomic-series-evaluation-continuity); [Norm-fixed units give compatible finite-level evaluations](#colemanpowerseries-l1-norm-fixed-arithmetic-compatibility); `Units.map`; `Continuous.units_map`.
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), `Equations(9-2)–(9-3)`, published162–163/PDF63–64; Theorem10.2 on164/PDF65 and Propositions10.10 and 10.12, Lemma10.11 and Theorem10.13 on167–169/PDF68–70) Actual-carrier construction of the full and principal compatible unit groups using existing continuous arithmetic norms. Compactness and the evaluation map precede, and do not assert, interpolation bijectivity. The source assumes `p` odd; dyadic tests keep the signed norm convention. Only the principal subgroup receives a `ℤ_p`-module structure.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), `Equations(9-2)–(9-3)`, published162–163/PDF63–64; Theorem10.2 on164/PDF65 and Propositions10.10 and 10.12, Lemma10.11 and Theorem10.13 on167–169/PDF68–70)
 
 <a id="colemanpowerseries-l1-norm-fixed-evaluation-residue"></a>
 
@@ -6369,7 +6277,7 @@ Keep the hypotheses of the preceding target.
 
 Prove `normFixedEvaluation_residue` in the following form.
 
-For a norm-fixed unit series `F`, the residue of `normFixedEvaluation(F)`, coerced to `ZMod p`, is `toZMod(constantCoeff F)`.
+For a norm-fixed unit series `F`, the residue of `colemanInterpolation.symm(F)`, coerced to `ZMod p`, is `toZMod(constantCoeff F)`.
 
 For the proof, by the definitions of the residue and evaluation maps, their composite on underlying ring elements is `red_0(seriesEvaluation_0(F))`. Apply the existing arithmetic-evaluation-reduction lemma. This uses a fixed coordinate only; the preceding residue-constant theorem makes it valid at every coordinate.
 
@@ -6457,17 +6365,14 @@ Agreement at one level is insufficient: the zero series and the minimal polynomi
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.normFixedEvaluation_injective` in the following form.
+Use `colemanInterpolation.symm` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
 
-`normFixedEvaluation:Bˣ,N=id→U∞` is injective.
 
-For the proof, equality of evaluated towers gives equality of every underlying series evaluation. Apply series-interpolation-separation, then native units and subgroup extensionality.
+`colemanInterpolation.symm:Bˣ,N=id→U∞` is injective.
 
-No injectivity of any individual finite-level evaluation map is claimed.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-*Needs:* [Separation by cyclotomic evaluations](#colemanpowerseries-l1-series-interpolation-separation); [The arithmetic evaluation map into the unit limit](#colemanpowerseries-l1-norm-fixed-evaluation-map).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.7, printed p.166; Proposition 10.12, printed pp.168–169; Theorem 10.13, printed p.169 (published PDF67,69–70)) The arithmetic specialization uses the native carriers and supplier comparisons specified above.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.7, printed p.166; Proposition 10.12, printed pp.168–169; Theorem 10.13, printed p.169 (published PDF67,69–70))
 
 <a id="colemanpowerseries-l1-evaluation-precision-bound"></a>
 
@@ -6515,7 +6420,7 @@ Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.exists_normFixed_approximati
 
 For each `u∈U∞` and `k≥0` there is `F∈Bˣ,N=id` with `‖evaluation_n(F)−u_n‖≤p^(−(k+1))` for every `n≤k`.
 
-For the proof, choose a unit lift `f` of `u_(2k)`. For `n≤k` the iterate `N^[2k−n](f)` evaluates exactly to `u_n`. The existing norm-limit precision theorem with exponent `2k−n` says `p^(2k−n+1)` divides `normLimitSeries(f)−N^[2k−n](f)`. Since `2k−n≥k`, the evaluation-precision bound gives the stated inequality. The existing norm-limit unit and fixedness declarations produce a genuine `F` in the norm-fixed subgroup. This replaces a sequential diagonal argument by compact nested fibers and does not assume that a chosen family of lifts converges.
+For the proof, choose a unit lift `f` of `u_(2k)`. For `n≤k` the iterate `N^[2k−n](f)` evaluates exactly to `u_n`. The existing norm-limit precision theorem with exponent `2k−n` says `p^(2k−n+1)` divides `Lσ(f)−N^[2k−n](f)`. Since `2k−n≥k`, the evaluation-precision bound gives the stated inequality. The existing norm-limit unit and fixedness declarations produce a genuine `F` in the norm-fixed subgroup. This replaces a sequential diagonal argument by compact nested fibers and does not assume that a chosen family of lifts converges.
 
 For `k=0` this uses a level-0 lift and its norm limit. The error bound is `p⁻¹`, not zero; higher `k` impose increasing precision.
 
@@ -6561,15 +6466,14 @@ The native-carrier boundary theorems `UnramifiedSeries.norm_Y_three`, `Unramifie
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.coordinates_injective` in the following form.
+Use `colemanSeriesBasis` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
+
 
 The assembly map `(a_i)↦∑_(i<p)Y^iΦ(a_i)` from `B^p` to `B` is injective.
 
-For the proof, choose a finite `ℤ_p`-basis of `O`. Apply its coordinate functions to every power-series coefficient. These component maps commute with `Φ` and multiplication by `Y^i`, because those series have `ℤ_p` coefficients. Each component relation is the base `ℤ_p` coordinate relation. Its injectivity annihilates every component; basis extensionality annihilates every `a_i`.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-*Needs:* [Coefficient-fixed cyclotomic scalar algebra](#colemanpowerseries-l1-unramified-scalar-algebra); [Uniqueness of integral coordinates](#colemanpowerseries-l1-frobenius-coordinate-injectivity); `PowerSeries.mk`; `Module.Basis.linearCombination_repr`.
-
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Theorem 11, pp.102–103) Coefficient extension of the finite-degree norm algebra implicit in Coleman’s norm construction; the component proof uses the base tower finite-free calculation.
+(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Theorem 11, pp.102–103)
 
 <a id="colemanpowerseries-l1-unramified-coordinates-surjective"></a>
 
@@ -6577,15 +6481,14 @@ For the proof, choose a finite `ℤ_p`-basis of `O`. Apply its coordinate functi
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.coordinates_surjective` in the following form.
+Use `colemanSeriesBasis` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
+
 
 Every `f∈B` has an expansion `f=∑_(i<p)Y^iΦ(a_i)`.
 
-For the proof, apply a chosen finite `ℤ_p`-basis coordinate function coefficientwise to `f`. Use the base `ℤ_p` coordinate surjectivity for each of the finitely many component series. Assemble their coefficients back in `O` using the chosen basis; finite sums commute with all formal substitutions and recover `f`.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-*Needs:* [Coefficient-fixed cyclotomic scalar algebra](#colemanpowerseries-l1-unramified-scalar-algebra); [Existence of integral coordinates](#colemanpowerseries-l1-frobenius-coordinate-surjectivity); `PowerSeries.mk`; `Module.Basis.linearCombination_repr`.
-
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Theorem 11, pp.102–103) The norm is a degree-p integral norm. The component proof supplies the corresponding finite-free construction over the finite unramified coefficient ring.
+(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Theorem 11, pp.102–103)
 
 <a id="colemanpowerseries-l1-unramified-basis"></a>
 
@@ -6593,16 +6496,17 @@ For the proof, apply a chosen finite `ℤ_p`-basis coordinate function coefficie
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.basis` by the following specification.
+Use `colemanSeriesBasis` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
 
-Construct the `B`-basis `b_i=Y^i`, `i∈Fin p`, of `B` under the coefficient-fixed `Φ` scalar algebra. Let `c_i(f)` be its native basis coordinates.
 
-The API includes the following named statements.
+The supplied object is the `B`-basis `b_i=Y^i`, `i∈Fin p`, of `B` under the coefficient-fixed `Φ` scalar algebra. Let `c_i(f)` be its native basis coordinates.
 
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.basis_apply`: `b_i=Y^i`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.basis_expansion`: `f=∑_(i<p)Y^iΦ(c_i(f))`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.basis_scalar`: `c_i(Φ(a)f)=a c_i(f)`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.basis_rank`: The explicitly induced module has finrank `p`.
+The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
+
+- `b_i=Y^i`.
+- `f=∑_(i<p)Y^iΦ(c_i(f))`.
+- `c_i(Φ(a)f)=a c_i(f)`.
+- The explicitly induced module has finrank `p`.
 
 **Checks.**
 
@@ -6610,13 +6514,9 @@ The API includes the following named statements.
 - `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.basis_one_three`: For `p=3`, `b_1=Y`.
 - `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.basis_carry`: The coordinates of `Y^p` are `Y` in position 0 and zero in all other positions.
 
-For the proof, apply native `Basis.mk` to the injective and surjective assembly map. The basis has exactly `p` vectors. Keep the induced module argument explicit in every norm, trace and finrank application.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-Layer 1 norm/trace congruences: Supplies rank `p` and multiplication matrices. Layer 1 arithmetic evaluation: Specializes to the relative power basis of `ζ_(n+1)`.
-
-*Needs:* [Uniqueness of unramified cyclotomic coordinates](#colemanpowerseries-l1-unramified-coordinates-injective); [Existence of unramified cyclotomic coordinates](#colemanpowerseries-l1-unramified-coordinates-surjective); `Module.Basis.mk`.
-
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Theorem 11, pp.102–103) This is the explicit finite-free algebra realizing Coleman’s norm in the cyclotomic specialization.
+(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Theorem 11, pp.102–103)
 
 <a id="colemanpowerseries-l1-unramified-coordinates-homeomorphism"></a>
 
@@ -6640,16 +6540,17 @@ For the proof, assembly is continuous coefficientwise: substitution at a zero-co
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.norm` by the following specification.
+Use `colemanNorm` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
 
-Define `N:B→*B` as native `Algebra.norm` for the `Φ` scalar algebra. Its multiplication matrix is taken in `b_i=Y^i`; the resulting norm is base-valued.
 
-The API includes the following named statements.
+The supplied object is `N:B→*B` as native `Algebra.norm` for the `Φ` scalar algebra. Its multiplication matrix is taken in `b_i=Y^i`; the resulting norm is base-valued.
 
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.norm_def`: `N` is native `Algebra.norm` for the `Φ` algebra.
+The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
+
+- `N` is native `Algebra.norm` for the `Φ` algebra.
 - `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.norm_matrix`: `N(f)=det(left-multiplication matrix of f in b)`.
 - `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.norm_constants`: `N(C(c))=C(c^p)`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.norm_scalar`: `N(Φ(f))=f^p`.
+- `N(Φ(f))=f^p`.
 - `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.norm_Y`: For `s=(−1)^(p−1)`, `N(Y)=sY` and `N(T)=sT`. In particular these are `Y` and `T` for odd `p`, and their negatives for `p=2`.
 
 **Checks.**
@@ -6658,13 +6559,9 @@ The API includes the following named statements.
 - `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.norm_constant`: `N(C(1+p))=C((1+p)^p)`.
 - `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.norm_native`: The returned map equals native `Algebra.norm` under `Φ`, not under the ordinary self-algebra.
 
-For the proof, use the explicit scalar algebra in native `Algebra.norm`. The finite basis certifies the module is finite free of rank `p`, so this is its determinant norm rather than the native non-finite fallback.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-Coleman Theorem A and Lemma 13: Controls norm-compatible interpolation and iteration. Layer 2: Provides the arithmetic input to the Coleman-map construction.
-
-*Needs:* [Coefficient-fixed cyclotomic scalar algebra](#colemanpowerseries-l1-unramified-scalar-algebra); [Unramified Frobenius power basis](#colemanpowerseries-l1-unramified-basis); `Algebra.norm`; `Algebra.norm_eq_matrix_det`.
-
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Theorem 11, pp.102–103) Coleman defines the integral norm by its division-point product. The determinant realization gives that norm before any root translations are introduced.
+(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Theorem 11, pp.102–103)
 
 <a id="colemanpowerseries-l1-unramified-trace"></a>
 
@@ -6672,15 +6569,16 @@ Coleman Theorem A and Lemma 13: Controls norm-compatible interpolation and itera
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.trace` by the following specification.
+Use `colemanTrace` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
 
-Define `τ:B→ₗ[B]B` as native `Algebra.trace` for the `Φ` scalar algebra, with the domain module using `Φ`. This is an integral base-valued map, before normalization.
 
-The API includes the following named statements.
+The supplied object is `τ:B→ₗ[B]B` as native `Algebra.trace` for the `Φ` scalar algebra, with the domain module using `Φ`. This is an integral base-valued map, before normalization.
 
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.trace_def`: `τ` equals native `Algebra.trace` under `Φ`.
+The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
+
+- `τ` equals native `Algebra.trace` under `Φ`.
 - `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.trace_coordinates`: `τ(f)=p c_0(f)`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.trace_scalar`: `τ(Φ(a)f)=aτ(f)`.
+- `τ(Φ(a)f)=aτ(f)`.
 - `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.trace_powers`: `τ(Y^m)=pY^(m/p)` if `p` divides `m`, and zero otherwise.
 
 **Checks.**
@@ -6689,13 +6587,9 @@ The API includes the following named statements.
 - `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.trace_one`: `τ(1)=p`.
 - `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.trace_Yp`: `τ(Y^p)=pY`, which differs from `pY^p`.
 
-For the proof, apply native `Algebra.trace` with the explicit scalar algebra. Use the finite power basis for its matrix and coordinate formulas.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-Layer 1 near-one norm gain: The linear determinant term is divisible by `p`. Layer 1 normalized trace: Compares the integral trace to the independently supplied `ψ` operator.
-
-*Needs:* [Coefficient-fixed cyclotomic scalar algebra](#colemanpowerseries-l1-unramified-scalar-algebra); [Unramified Frobenius power basis](#colemanpowerseries-l1-unramified-basis); `Algebra.trace`; `Algebra.trace_eq_matrix_trace`.
-
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §II, Theorem 4 and Corollary 5(i), p.98; Lemma 6, p.99) Coleman constructs the continuous additive division-point sum and its field-trace evaluation identity. Native matrix trace realizes that operator in the multiplicative specialization; Lemma 6 supplies integral divisibility.
+(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §II, Theorem 4 and Corollary 5(i), p.98; Lemma 6, p.99)
 
 <a id="colemanpowerseries-l1-unramified-trace-coordinates"></a>
 
@@ -6735,17 +6629,14 @@ For the proof, `Σ` commutes with `Φ` and fixes each basis vector. The left-mul
 
 `p` is a prime. `E/ℚ_p` is finite unramified; `O` is its native integer ring, a compact complete DVR finite free over `ℤ_p` with maximal ideal `pO`. The topology on `B=O[[T]]` is coefficientwise p-adic. `Y=1+T` and `Φ(f)=f(Y^p−1)` fixes coefficients. The scalar algebra on the second `B` has structural map `Φ`, not the ordinary self-algebra. All norms and traces are base-valued. `σ:O≃ₐ[ℤ_p]O` is the canonical arithmetic `p`-Frobenius: its residue action is `x↦x^p`. `Σ` applies `σ` coefficientwise. `σ` is continuous, preserves `p`-power ideals, and fixes `ℤ_p`. It is not the `q`-power residue Frobenius when `[E:ℚ_p]>1`. `S` is a complete Hausdorff DVR receiving `O` injectively and continuously, with an adic topology in which `ξ−1` is topologically nilpotent. `ξ` has order `p`; the translated series `ξ^iY−1` satisfy native HasEval in `S[[T]]`, and the constant-series coefficient homomorphism is continuous.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.norm_root_product` in the following form.
+Use `colemanNorm` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
+
 
 For a complete ramified integral receiving ring `S` containing `O` and a primitive `p`-th root `ξ`, with continuous coefficient map `ρ`, the identity `map(ρ)(Φ(Nf))=∏_(i<p) t_i(map(ρ)f)` holds, where `t_i` is native convergent power-series evaluation `T↦ξ^iY−1`. Each such substitution is defined only in `S[[T]]`, with `ξ^i−1` topologically nilpotent.
 
-For the proof, let `A_f` be the basis multiplication matrix with each entry a sent to `map(ρ)(Φ(a))`. Let `x_i=C(ξ^i)Y` in `S[[T]]`, `V=Matrix.vandermonde(x)`, and `e_i=eval₂Hom(C∘ρ,x_i−1)(f)`. Evaluating the basis expansion of `fY^j` gives `V A_f=diag(e_i) V`. The scalar identity `eval₂Hom(C∘ρ,x_i−1)(Φ(a))=map(ρ)(Φ(a))` follows from native aeval_subst and `ξ^p=1`. The `x_i` are distinct: distinct powers of the primitive root give distinct nonzero constant-series differences, and multiplication by the unit `Y` preserves this. In the domain `S[[T]]`, Matrix.det_vandermonde_ne_zero_iff gives `det(V)≠0`. Take determinants in the matrix identity and cancel the nonzero `det(V)` in `S[[T]]`. RingHom.map_det identifies `det(A_f)` with `map(ρ)(Φ(Nf))`. The determinant of the diagonal matrix is the product of all `p` translated values, including `i=0`. No localization or topology on a fraction-series field is required.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-For a complete ramified integral receiving ring `S` containing `O` and a primitive `p`-th root `ξ`, with continuous coefficient map `ρ`, the identity `map(ρ)(Φ(Nf))=∏_(i<p) t_i(map(ρ)f)` holds, where `t_i` is native adic substitution `T↦ξ^iY−1`. Each such substitution is defined only in `S[[T]]`, with `ξ^i−1` topologically nilpotent.
-
-*Needs:* [Unramified Frobenius power basis](#colemanpowerseries-l1-unramified-basis); [Unramified Coleman determinant norm](#colemanpowerseries-l1-unramified-norm); `PowerSeries.aeval_subst`; `PowerSeries.eval₂Hom`; `Matrix.det_vandermonde_ne_zero_iff`; `RingHom.map_det`.
-
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Theorem 11, p.102) Coleman Theorem 11 gives the division-point product. The displayed native finite-basis argument proves the integral determinant realization after coefficient extension, using Vandermonde determinant cancellation in `S[[T]]`.
+(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Theorem 11, p.102)
 
 <a id="colemanpowerseries-l1-unramified-phi-reflection"></a>
 
@@ -6769,17 +6660,14 @@ For the proof, modulo `p`, `Φ` becomes expansion `T↦T^p`, which is injective 
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.norm_residue_frobenius` in the following form.
+Use `colemanNorm` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
+
 
 For every `f∈B`, `N(f)−Σf∈pB`. For nontrivial unramified coefficients this is not the congruence `N(f)≡f`.
 
-For the proof, in `k[[T]]`, the native map_frobenius_expand identity and the residue action of `σ` give `f̄^p=Φ̄(Σ̄f)`. Thus `f^p−Φ(Σf)` lies in `pB`. The multiplication-matrix homomorphism sends `f^p` to `M_f^p` and `Φ(Σf)` to the scalar matrix `Σf·I`. It preserves `pB` because `Φ` fixes `p`. Reduce its entries modulo `p`, so `M̄_f^p=Σ̄f·I`. Take determinants using RingHom.map_det and Matrix.det_pow. Since the matrix has rank `p`, `(N̄f)^p=(Σ̄f)^p`. The residue series ring `k[[T]]` is a domain; in characteristic `p` this forces `N̄f=Σ̄f`. This establishes the congruence directly, without assuming a purely inseparable norm theorem.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-For a Teichmüller `c` with `σ(c)=c^p≠c` modulo `p`, `N(C(c))` is congruent to `C(σ(c))`, not `C(c)`.
-
-*Needs:* [Unramified Frobenius power basis](#colemanpowerseries-l1-unramified-basis); [Unramified Coleman determinant norm](#colemanpowerseries-l1-unramified-norm); [LocalFieldsRamification layer 2 unramified extensions and frobenius](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/LocalFieldsRamification/README.md#layer-2-unramified-extensions-and-frobenius); `PowerSeries.map_frobenius_expand`; `Matrix.det_pow`; `RingHom.map_det`.
-
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, equation (2) in the proof of Lemma 13(ii), p.103; Sharifi §5.4, proof of Proposition 5.4.6, p.145) Coleman’s corrected congruence includes the arithmetic coefficient Frobenius. This fixes the omitted coefficient action in the inspected secondary calculation. The base-coefficient proof is a model, rather than an assumed `O`-valued theorem: Coleman norm modulo `p`. The displayed proof establishes the coefficient variant from its listed native and supplier inputs.
+(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, equation (2) in the proof of Lemma 13(ii), p.103; Sharifi §5.4, proof of Proposition 5.4.6, p.145)
 
 <a id="colemanpowerseries-l1-unramified-norm-near-one-gain"></a>
 
@@ -6787,15 +6675,14 @@ For a Teichmüller `c` with `σ(c)=c^p≠c` modulo `p`, `N(C(c))` is congruent t
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.norm_near_one_gain` in the following form.
+Use `colemanNorm` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
+
 
 For `r≥1` and `h∈B`, `N(1+p^r h)−1∈p^(r+1)B`.
 
-For the proof, expand `det(I+p^r M_h)`. The term linear in `p^r` is `p^r τ(h)`, divisible by `p^(r+1)` by the trace coordinate formula. Each term of degree at least two contains `p^(2r)`, divisible by `p^(r+1)`. The constant term is one.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-*Needs:* [Unramified Coleman determinant norm](#colemanpowerseries-l1-unramified-norm); [Trace in unramified Frobenius coordinates](#colemanpowerseries-l1-unramified-trace-coordinates).
-
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Lemma 13(i), p.103) The norm of an element congruent to one gains one uniformizer power; the explicit determinant expansion proves the needed integral statement. The base-coefficient proof is a model, rather than an assumed `O`-valued theorem: Coleman norm improvement at one. The displayed proof establishes the coefficient variant from its listed native and supplier inputs.
+(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Lemma 13(i), p.103)
 
 <a id="colemanpowerseries-l1-unramified-norm-congruence-gain"></a>
 
@@ -6819,15 +6706,14 @@ For the proof, write `fg⁻¹=1+p^r h` in `B`. Apply near-one gain. Multiply by 
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.norm_continuous` in the following form.
+Use `colemanNorm` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
+
 
 `N:B→B` and `τ:B→B` are continuous for the coefficientwise p-adic topology.
 
-For the proof, in the finite basis, the matrix of multiplication by `f` depends continuously on its coordinate functions. Those coordinates are continuous. Finite determinant and trace polynomials are continuous.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-*Needs:* [Topology of unramified cyclotomic coordinates](#colemanpowerseries-l1-unramified-coordinates-homeomorphism); [Unramified Coleman determinant norm](#colemanpowerseries-l1-unramified-norm); [Unramified integral Coleman trace](#colemanpowerseries-l1-unramified-trace).
-
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Theorem 11, p.102; §II, Theorem 4, p.98) Coleman constructs continuous norm and additive trace operators. The displayed coordinate-matrix proof supplies continuity of the native integral realizations in the coefficient topology.
+(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Theorem 11, p.102; §II, Theorem 4, p.98)
 
 <a id="finite-free-coefficient-averaging"></a>
 
@@ -6854,15 +6740,14 @@ The API includes `coefficientPsi_natural_power`, `coefficientPsi_continuous`, `c
 
 `p` is a prime. `E/ℚ_p` is finite unramified; `O` is its native integer ring, a compact complete DVR finite free over `ℤ_p` with maximal ideal `pO`. The topology on `B=O[[T]]` is coefficientwise p-adic. `Y=1+T` and `Φ(f)=f(Y^p−1)` fixes coefficients. The scalar algebra on the second `B` has structural map `Φ`, not the ordinary self-algebra. All norms and traces are base-valued. `σ:O≃ₐ[ℤ_p]O` is the canonical arithmetic `p`-Frobenius: its residue action is `x↦x^p`. `Σ` applies `σ` coefficientwise. `σ` is continuous, preserves `p`-power ideals, and fixes `ℤ_p`. It is not the `q`-power residue Frobenius when `[E:ℚ_p]>1`. The PMIA Layer 2 request supplies `ψ_O` independently from bounded measures, its continuity and the displayed polynomial action. No division by `p` in `O[[T]]` is used.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.trace_psi` in the following form.
+Use `colemanTrace` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
+
 
 Let `ψ_O` be the independently supplied continuous coefficient-extended bounded measure operator, normalized by `ψ_O(Y^m)=Y^(m/p)` when `p|m` and zero otherwise. Then `τ=pψ_O` on all `B`.
 
-For the proof, the trace coordinate formula gives its values on every `Y^m`. These vectors span the polynomial series. The measure supplier’s polynomial formula identifies `pψ_O` there. Both maps are continuous; polynomial series are dense for the coefficient topology. Apply the native dense equalizer theorem.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-*Needs:* [Trace in unramified Frobenius coordinates](#colemanpowerseries-l1-unramified-trace-coordinates); [Topology of unramified cyclotomic coordinates](#colemanpowerseries-l1-unramified-coordinates-homeomorphism); [PadicMeasuresIwasawaAlgebras §2.2: Layer 2](../PadicMeasuresIwasawaAlgebras/README.md#22-translation-dilation-φ-and-ψ-on-power-series); `PowerSeries.WithPiTopology.denseRange_toPowerSeries`; `DenseRange.equalizer`; [Coefficientwise continuity of the unramified norm](#colemanpowerseries-l1-unramified-norm-continuous); [PadicMeasuresIwasawaAlgebras §2.5: integral coefficient extension](../PadicMeasuresIwasawaAlgebras/README.md#25-bounded-mahler-coefficients-and-the-amice-norm); [PadicMeasuresIwasawaAlgebras §2.5: coefficient extension amice](../PadicMeasuresIwasawaAlgebras/README.md#25-bounded-mahler-coefficients-and-the-amice-norm).
-
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §II, Theorem 4, p.98; comparison with the independently supplied PMIA operator) The additive division-point sum is the integral trace. The identification with `p` times the measure-theoretic `ψ` is the displayed density argument, using the independently supplied polynomial action and continuity; Coleman does not state a PMIA comparison.
+(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §II, Theorem 4, p.98; comparison with the independently supplied PMIA operator)
 
 <a id="colemanpowerseries-l1-unramified-corrected-norm"></a>
 
@@ -6929,6 +6814,9 @@ The API includes the following named statements.
 
 **Checks.**
 
+- `UnramifiedSeries.Y_mem_fixedUnits_three`: With identity coefficient automorphism over `ℤ₃`, every unit with value `Y` belongs to `fixedUnits 3 ℤ₃ id`.
+- `UnramifiedSeries.Y_not_mem_fixedUnits_two`: With identity coefficient automorphism over `ℤ₂`, every unit with value `Y` is excluded from `fixedUnits 2 ℤ₂ id`, since `N(Y)=−Y≠Y`.
+
 - `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.fixed_one`: 1 belongs.
 - `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.fixed_Y`: For `s=(−1)^(p−1)`, the unit series `sY` belongs: `Y` for odd `p` and `−Y` for `p=2`.
 - `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.fixed_teichmuller`: `C(c)` belongs when `σ(c)=c^p`, even if `N(C(c))≠C(c)`.
@@ -6964,17 +6852,14 @@ For the proof, a series is a unit exactly when its constant coefficient is a uni
 
 `p` is any prime, including2. `K_n` is the existing actual level `p n` inside the p-adic algebraic closure, `O_n` its native integral closure of `ℤ_p`, and `U_n=O_nˣ` with native unit topology. The source level is `n+1`. Let `V=∏_(n≥0)U_n` with its native product topology. `N_n:U_(n+1)→U_n` is the existing continuous unitsNorm, and `red_n:O_n→ZMod p` is the fixed reduction map. All compatible carriers are native Subgroup subtypes, with inherited commutative group operations and product/subtype topologies. Full unit groups are not assigned a `ℤ_p`-module structure. No pro-p certificate, Galois action, Teichmüller splitting or Tate-module inclusion is assumed.
 
-Prove `isClosed_range_normFixedEvaluation` in the following form.
+Use `colemanInterpolation.symm` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
 
-The image of `normFixedEvaluation(p)` is closed in `normCompatibleUnits(p)`.
 
-For the proof, use unramified-unit-space-compact at `O=ℤ_p` and `σ=id`. Its coefficient-fixed scalar algebra is the same native substitution algebra, its determinant is the base tower norm, and its equalizer is the base tower normFixedUnits; thus its compactness applies to this exact carrier. Apply this compactness theorem to the existing norm-fixed-series subgroup. The supplied evaluation map is continuous, so the image of the whole compact domain is compact. The target has the native Hausdorff topology as a subgroup of the product of Hausdorff unit groups. Native `IsCompact.isClosed` makes the image closed. No bijectivity is needed for this step.
+The image of `colemanInterpolation.symm(p)` is closed in `localUnitNormLimit(p)`.
 
-Closed image is preparation for the source’s compact interpolation argument, not a replacement for uniqueness or surjectivity.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-*Needs:* [The arithmetic evaluation map into the unit limit](#colemanpowerseries-l1-norm-fixed-evaluation-map); [Compactness of series units and the fixed subgroup](#colemanpowerseries-l1-unramified-unit-space-compact); `IsCompact.image`; `IsCompact.isClosed`.
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), `Equations(9-2)–(9-3)`, published162–163/PDF63–64; Theorem10.2 on164/PDF65 and Propositions10.10 and 10.12, Lemma10.11 and Theorem10.13 on167–169/PDF68–70) Actual-carrier construction of the full and principal compatible unit groups using existing continuous arithmetic norms. Compactness and the evaluation map precede, and do not assert, interpolation bijectivity. The source assumes `p` odd; dyadic tests keep the signed norm convention. Only the principal subgroup receives a `ℤ_p`-module structure.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), `Equations(9-2)–(9-3)`, published162–163/PDF63–64; Theorem10.2 on164/PDF65 and Propositions10.10 and 10.12, Lemma10.11 and Theorem10.13 on167–169/PDF68–70)
 
 <a id="colemanpowerseries-l1-compact-interpolation-fibers"></a>
 
@@ -7000,17 +6885,14 @@ A fiber uses closed norm inequalities. Replacing them by strict inequalities wou
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.normFixedEvaluation_surjective` in the following form.
+Use `colemanInterpolation.symm` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
 
-The actual continuous monoid homomorphism normFixedEvaluation onto `U∞` is surjective.
 
-For the proof, apply the native compact nested-intersection theorem to the `S_k`. Choose `F` in every `S_k`. For fixed `n`, its evaluation error is bounded by `p^(−(k+1))` for every `k≥n`. Those bounds tend to zero, so the norm of the error is zero. Hence `evaluation_n(F)=u_n` for every `n`. Use native compatible-unit extensionality to identify `normFixedEvaluation(F)=u`. No finite-level norm surjectivity is assumed.
+The actual continuous monoid homomorphism colemanInterpolation.symm onto `U∞` is surjective.
 
-The proof interpolates the entire compatible tower, not a finite prefix. The sequence `(−1)_n` is excluded at `p=2` because it is not norm-compatible.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-*Needs:* [Compact nested interpolation fibers](#colemanpowerseries-l1-compact-interpolation-fibers); `IsCompact.nonempty_iInter_of_sequence_nonempty_isCompact_isClosed`; [The arithmetic evaluation map into the unit limit](#colemanpowerseries-l1-norm-fixed-evaluation-map); `PadicInt.exists_pow_neg_lt`.
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.7, printed p.166; Proposition 10.12, printed pp.168–169; Theorem 10.13, printed p.169 (published PDF67,69–70)) The arithmetic specialization uses the native carriers and supplier comparisons specified above.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.7, printed p.166; Proposition 10.12, printed pp.168–169; Theorem 10.13, printed p.169 (published PDF67,69–70))
 
 <a id="colemanpowerseries-l1-coleman-equivalence"></a>
 
@@ -7018,32 +6900,27 @@ The proof interpolates the entire compatible tower, not a finite prefix. The seq
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.colemanEquiv` by the following specification.
+Use `colemanInterpolation` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
 
-Construct `colemanEquiv:U∞≃*{F∈Bˣ | N(F)=F}` as the inverse of the actual arithmetic evaluation bijection. Thus its nth evaluation equals `u_n` for every `u`; the equivalence is uniquely characterized by these equalities.
 
-The API includes the following named statements.
+The supplied object is `colemanInterpolation:U∞≃*{F∈Bˣ | N(F)=F}` as the inverse of the actual arithmetic evaluation bijection. Thus its nth evaluation equals `u_n` for every `u`; the equivalence is uniquely characterized by these equalities.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.colemanEquiv_evaluation`: `evaluation_n(colemanEquiv(u))=u_n` for every `n`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.colemanEquiv_inverse`: `normFixedEvaluation(colemanEquiv(u))=u`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.colemanEquiv_unique`: Any map `U∞→normFixedUnits` with the same interpolation values agrees with colemanEquiv.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.colemanEquiv_mul`: `colemanEquiv(uv)=colemanEquiv(u)colemanEquiv(v)`.
+The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
+
+- `evaluation_n(colemanInterpolation(u))=u_n` for every `n`.
+- `colemanInterpolation.symm(colemanInterpolation(u))=u`.
+- Any map `U∞→normFixedUnits` with the same interpolation values agrees with colemanInterpolation.
+- `colemanInterpolation(uv)=colemanInterpolation(u)colemanInterpolation(v)`.
 
 **Checks.**
 
-- `ColemanInterpolationTests.identity`: `colemanEquiv(1)=1`.
-- `ColemanInterpolationTests.product`: For `u,v∈U∞`, the nth evaluation of `colemanEquiv(uv)` is `u_n v_n`.
-- `ColemanInterpolationTests.constant_minus_one_three`: At `p=3` the inverse image under colemanEquiv of the evaluated norm-fixed constant `−1` series is that same constant `−1` series.
+- `ColemanInterpolationTests.identity`: `colemanInterpolation(1)=1`.
+- `ColemanInterpolationTests.product`: For `u,v∈U∞`, the nth evaluation of `colemanInterpolation(uv)` is `u_n v_n`.
+- `ColemanInterpolationTests.constant_minus_one_three`: At `p=3` the inverse image under colemanInterpolation of the evaluated norm-fixed constant `−1` series is that same constant `−1` series.
 
-For the proof, use the native monoid-homomorphism equivalence of a bijective map, then its inverse. The inverse is a multiplicative equivalence because the existing evaluation map is a monoid homomorphism. Its interpolation formula is the evaluation inverse identity. Another map with that formula has equal underlying series by series-interpolation-separation, so it equals this map pointwise.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-Supplies Theorems 10.2 and 10.13 on actual units with no assumed interpolation inverse.
-
-Lemma 10.7, printed p.166; Proposition 10.12, printed pp.168–169; Theorem 10.13, printed p.169 (published PDF67,69–70).: Supplies Theorems 10.2 and 10.13 on actual units with no assumed interpolation inverse. The raw Coleman map, The full Coleman kernel: Provides the actual arithmetic construction consumed in the named comparison, kernel, image or quotient target.
-
-*Needs:* [Injectivity of arithmetic evaluation](#colemanpowerseries-l1-norm-fixed-evaluation-injective); [Surjectivity of arithmetic evaluation](#colemanpowerseries-l1-norm-fixed-evaluation-surjective).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.7, printed p.166; Proposition 10.12, printed pp.168–169; Theorem 10.13, printed p.169 (published PDF67,69–70)) The arithmetic specialization uses the native carriers and supplier comparisons specified above.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.7, printed p.166; Proposition 10.12, printed pp.168–169; Theorem 10.13, printed p.169 (published PDF67,69–70))
 
 <a id="colemanpowerseries-l1-coleman-equivalence-homeomorphism"></a>
 
@@ -7051,17 +6928,14 @@ Lemma 10.7, printed p.166; Proposition 10.12, printed pp.168–169; Theorem 10.1
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.continuous_colemanEquiv` in the following form.
+Use `colemanInterpolation` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
 
-colemanEquiv and its inverse normFixedEvaluation are continuous for the actual compact subtype topologies.
 
-For the proof, use unramified-unit-space-compact at `O=ℤ_p` and `σ=id`. Its coefficient-fixed scalar algebra is the same native substitution algebra, its determinant is the base tower norm, and its equalizer is the base tower normFixedUnits; thus its compactness applies to this exact carrier. The existing evaluation map is continuous, bijective, from a compact space to a Hausdorff space. The native compact-to-Hausdorff closed-embedding theorem makes its inverse continuous.
+colemanInterpolation and its inverse colemanInterpolation.symm are continuous for the actual compact subtype topologies.
 
-This is the coefficientwise topology on series and product/subtype topology on towers, not an assertion about a uniform sup norm on coefficients.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-*Needs:* [The Coleman power-series equivalence](#colemanpowerseries-l1-coleman-equivalence); [The arithmetic evaluation map into the unit limit](#colemanpowerseries-l1-norm-fixed-evaluation-map); [Compactness of series units and the fixed subgroup](#colemanpowerseries-l1-unramified-unit-space-compact); [Compactness of the compatible unit group](#colemanpowerseries-l0-norm-compatible-units-compact); `Continuous.isClosedEmbedding`.
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.7, printed p.166; Proposition 10.12, printed pp.168–169; Theorem 10.13, printed p.169 (published PDF67,69–70)) The arithmetic specialization uses the native carriers and supplier comparisons specified above.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.7, printed p.166; Proposition 10.12, printed pp.168–169; Theorem 10.13, printed p.169 (published PDF67,69–70))
 
 <a id="colemanpowerseries-l1-unramified-evaluation-frobenius"></a>
 
@@ -7101,17 +6975,14 @@ For the proof, specialize the basis expansion for `fY^j` at `π_(n+1)`. Evaluati
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.norm_evaluation` in the following form.
+Use `colemanNorm` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
+
 
 For `n≥0` and `f∈B`, `ε_n(Nf)=Algebra.norm_(O_n)(ε_(n+1)(f))`; on units the native unit-map version is `ε_n(Nf)=ν_n(ε_(n+1)f)`.
 
-For the proof, take determinants of the specialized multiplication matrices. Ring homomorphisms commute with determinants. The Layer 0 fraction-field comparison identifies the native integral norm with the field norm after inclusion; import that supplier result. Restrict the displayed integral square using the native unit-norm homomorphism.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-For `f=C(c)`, both sides equal the scalar image of `c^p`, even when `σ(c)≠c`. For `f=Y` and odd `p` both sides are `ζ_n`.
-
-*Needs:* [Specialization to the unramified relative multiplication matrix](#colemanpowerseries-l1-unramified-evaluation-matrix); [Unramified Coleman determinant norm](#colemanpowerseries-l1-unramified-norm); `RingHom.map_det`; `TauCeti.Algebra.normUnits`; [the residual Layer 0 arithmetic receiver contract](#exact-supplier-contracts); [The actual consecutive norm on coefficient units](#colemanpowerseries-l0-unramified-coefficient-unit-norm).
-
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Corollary 12(ii), p.102) This is the actual norm/evaluation compatibility, rather than an assumed interpolation equation.
+(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Corollary 12(ii), p.102)
 
 <a id="colemanpowerseries-l1-unramified-trace-evaluation"></a>
 
@@ -7135,15 +7006,16 @@ For the proof, take traces of the specialized matrices. The Layer 0 integral-to-
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.twistedEvaluation` by the following specification.
+Use `colemanInterpolation.symm` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
 
-Define `evσ:B^(N=Σ)→*U∞` by `(evσf)_n=σ_n^(−n)(ε_n(f))`. These are actual finite-level units and are norm-compatible.
 
-The API includes the following named statements.
+The supplied object is `evσ:B^(N=Σ)→*U∞` by `(evσf)_n=σ_n^(−n)(ε_n(f))`. These are actual finite-level units and are norm-compatible.
 
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.twistedEvaluation_coordinate`: Coordinate `n` is `σ_n^(−n)ε_n(f)`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.twistedEvaluation_continuous`: The map is continuous for the coefficient and product/subtype topologies.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.twistedEvaluation_injective`: All coordinates determine `f` uniquely.
+The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
+
+- Coordinate `n` is `σ_n^(−n)ε_n(f)`.
+- The map is continuous for the coefficient and product/subtype topologies.
+- All coordinates determine `f` uniquely.
 
 **Checks.**
 
@@ -7151,13 +7023,9 @@ The API includes the following named statements.
 - `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.evaluation_Y`: For `s=(−1)^(p−1)`, `evσ(sY)` has coordinate `sζ_n`. This is the root tower `ζ_n` for odd `p` and the signed root tower `−ζ_n` for `p=2`.
 - `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.evaluation_teichmuller`: For a Teichmüller `c` with `σ(c)=c^p≠c`, `C(c)` has tower `σ_n^(−n)c`. The repeated constant `c` violates the actual relative norm equation already at levels `1→0`.
 
-For the proof, the native evaluation and coefficient automorphisms map units to units. Use norm evaluation: `ν_n(ε_(n+1)f)=ε_n(Nf)=σ_n(ε_n f)`. The supplied `σ_n` commute with the relative norm. Apply `σ_n^(−n−1)` to the last equality to obtain `ν_n((evσf)_(n+1))=(evσf)_n`. Multiplication is coordinatewise.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-Coleman Theorem A and Corollary 17: Gives the inverse of the Coleman interpolating-series map. Layer 2: Provides the correct arithmetic identification when coefficients are extended.
-
-*Needs:* [Frobenius norm-fixed unit subgroup](#colemanpowerseries-l1-unramified-fixed-units); [Unramified arithmetic norm square](#colemanpowerseries-l1-unramified-norm-evaluation); [Coefficient Frobenius and native cyclotomic evaluation](#colemanpowerseries-l1-unramified-evaluation-frobenius); [the residual Layer 0 arithmetic receiver contract](#exact-supplier-contracts); `TauCeti.Algebra.normUnits`; [Norm-compatible coefficient units](#colemanpowerseries-l0-unramified-coefficient-unit-limit); [The pinned coefficient Frobenius](#colemanpowerseries-l0-unramified-coefficient-frobenius).
-
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), Introduction, Theorem A, p.92; §IV, Corollary 17, pp.105–106) Coleman’s inverse Frobenius twist on the nth evaluation is precisely the coordinate formula for the map into the norm limit.
+(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), Introduction, Theorem A, p.92; §IV, Corollary 17, pp.105–106)
 
 <a id="colemanpowerseries-l1-unramified-iterated-lift-evaluation"></a>
 
@@ -7265,15 +7133,14 @@ A single level does not determine a series: the minimal polynomial of `π_n` eva
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.twistedEvaluation_injective` in the following form.
+Use `colemanInterpolation.symm` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
+
 
 `evσ` is injective.
 
-For the proof, apply `σ_n^n` to equality of coordinate `n`. The two series then have identical `ε_n` values at every level. Apply evaluation separation.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-*Needs:* [Frobenius-twisted evaluation into local unit towers](#colemanpowerseries-l1-unramified-twisted-evaluation); [Separation over finite unramified coefficients](#colemanpowerseries-l1-unramified-evaluation-separation).
-
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), Introduction, Theorem A, p.92; §IV, Corollary 17, pp.105–106) This is the uniqueness half of the interpolation isomorphism.
+(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), Introduction, Theorem A, p.92; §IV, Corollary 17, pp.105–106)
 
 <a id="colemanpowerseries-l1-unramified-corrected-norm-continuous"></a>
 
@@ -7297,16 +7164,17 @@ For the proof, the norm and coefficientwise `σ⁻¹` are continuous on native s
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.normLimit` by the following specification.
+Use `Lσ` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization. Here `Lσ` denotes the supplied corrected projector `lim_r(Σ⁻¹N)^r`.
 
-Construct `Lσ:Bˣ→*B^(N=Σ)` by the coefficientwise limit of `M^r(f)`. This is a multiplicative retraction onto the Frobenius norm-fixed subgroup.
 
-The API includes the following named statements.
+The supplied object is `Lσ:Bˣ→*B^(N=Σ)` by the coefficientwise limit of `M^r(f)`. This is a multiplicative retraction onto the Frobenius norm-fixed subgroup.
 
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.normLimit_tendsto`: `M^r(f)` tends to the underlying unit of `Lσf`.
+The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
+
+- `M^r(f)` tends to the underlying unit of `Lσf`.
 - `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.normLimit_precision`: `Lσf−M^r(f)∈p^(r+1)B`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.normLimit_retract`: `Lσ(f)=f` for `f` in `B^(N=Σ)`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.normLimit_continuous`: `Lσ` is continuous in coefficientwise topology.
+- `Lσ(f)=f` for `f` in `B^(N=Σ)`.
+- `Lσ` is continuous in coefficientwise topology.
 
 **Checks.**
 
@@ -7315,13 +7183,9 @@ The API includes the following named statements.
 - `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.limit_near_one`: `Lσ(C(1+p))=1`, so this projector is not the identity on `Bˣ`.
 - `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.limit_signed_root`: `Lσ(sY)=sY` for `s=(−1)^(p−1)`. This is a nonconstant fixed unit, excluding a projector that keeps only the Teichmüller constant term.
 
-For the proof, iteration precision makes every coefficient Cauchy. Complete `O` gives a unique limiting series. The constant coefficients stay unit-valued; alternatively take the limit in the compact native unit space. Continuity of `M` and the precision estimate imply `M(Lσf)=Lσf`. Multiplication commutes with limits. For fixed inputs the iterates are constant, proving the retraction property. Continuity is established by the uniform-precision lemma below.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-Coleman Proposition 14: Gives the fixed subgroup as a retract. Coleman Theorem A: Produces fixed approximants and clarifies the coefficient twist.
-
-*Needs:* [Uniform precision of corrected norm iterates](#colemanpowerseries-l1-unramified-iteration-precision); [Coefficientwise continuity of the unramified norm](#colemanpowerseries-l1-unramified-norm-continuous); [Compactness of series units and the fixed subgroup](#colemanpowerseries-l1-unramified-unit-space-compact); [Frobenius norm-fixed unit subgroup](#colemanpowerseries-l1-unramified-fixed-units); [Continuity of the corrected one-step norm](#colemanpowerseries-l1-unramified-corrected-norm-continuous).
-
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, equations (3)–(4), p.103, Proposition 14, p.104) Coleman constructs the Frobenius-corrected limiting norm as a projection. The finite unramified specialization retains units and uses the exact corrected iterates. The base-coefficient proof is a model, rather than an assumed `O`-valued theorem: Convergence to the norm limit. The displayed proof establishes the coefficient variant from its listed native and supplier inputs.
+(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, equations (3)–(4), p.103, Proposition 14, p.104)
 
 <a id="colemanpowerseries-l1-unramified-interpolation-existence"></a>
 
@@ -7329,15 +7193,14 @@ Coleman Proposition 14: Gives the fixed subgroup as a retract. Coleman Theorem A
 
 `p` is a prime. `E/ℚ_p` is finite unramified; `O` is its native integer ring, a compact complete DVR finite free over `ℤ_p` with maximal ideal `pO`. The topology on `B=O[[T]]` is coefficientwise p-adic. `Y=1+T` and `Φ(f)=f(Y^p−1)` fixes coefficients. The scalar algebra on the second `B` has structural map `Φ`, not the ordinary self-algebra. All norms and traces are base-valued. `σ:O≃ₐ[ℤ_p]O` is the canonical arithmetic `p`-Frobenius: its residue action is `x↦x^p`. `Σ` applies `σ` coefficientwise. `σ` is continuous, preserves `p`-power ideals, and fixes `ℤ_p`. It is not the `q`-power residue Frobenius when `[E:ℚ_p]>1`. Choose `ζ_n` of exact order `p^(n+1)` in an algebraic closure of `E`, with `ζ_(n+1)^p=ζ_n`. `E_n=E(ζ_n)`, `O_n=integralClosure O E_n`, `π_n=ζ_n−1`. Use the Layer 0 native integral closure, inherited valuation topology, and inclusion-induced algebras. `d_n=[E_n:E]=p^n(p−1)`. `ε_n` is native convergent series evaluation `O[[T]]→O_n` at `π_n`. `σ_n` extends `σ` and fixes `ζ_n`. `ν_n` is the native unit norm `O_(n+1)ˣ→O_nˣ`. `U∞` is the subgroup of the product of these actual unit groups cut out by `ν_n(u_(n+1))=u_n`, with product/subtype topology.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.interpolation_existence` in the following form.
+Use `colemanInterpolation` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
+
 
 For every `u∈U∞` there exists a unique `f∈Bˣ` with `ε_n(f)=σ_n^n(u_n)` for every `n≥0`. This `f` satisfies `N(f)=Σf`.
 
-For the proof, take the approximating `v_r` from finite-precision interpolation in the compact native unit space. Choose a convergent subnet with `r` tending to infinity. For each fixed `n`, the errors eventually lie in `p^(r+1)O_n` and tend to zero in the native finite-level adic topology. Continuity of `ε_n` gives exact interpolation for the limit `f`. The approximate fixed equation passes to the limit by continuity of `M`, so `f` is in the norm/Frobenius equalizer. Evaluation separation gives uniqueness even among all unit series, without assuming fixedness in the uniqueness hypothesis.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-*Needs:* [Uniform finite-level approximation of a unit tower](#colemanpowerseries-l1-unramified-finite-precision-interpolation); [Compactness of series units and the fixed subgroup](#colemanpowerseries-l1-unramified-unit-space-compact); [Coefficientwise continuity of the unramified norm](#colemanpowerseries-l1-unramified-norm-continuous); [Separation over finite unramified coefficients](#colemanpowerseries-l1-unramified-evaluation-separation); [the residual Layer 0 arithmetic receiver contract](#exact-supplier-contracts); [LocalFieldsRamification layer 0 local fields and their finite extensions](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/LocalFieldsRamification/README.md#layer-0-local-fields-and-their-finite-extensions); [The actual point for integral series evaluation](#colemanpowerseries-l0-unramified-coefficient-series-point); [Continuity of the corrected one-step norm](#colemanpowerseries-l1-unramified-corrected-norm-continuous).
-
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), Introduction, Theorem A, p.92; §IV, Theorem 16 and Corollary 17, pp.105–106) This proves the integral-unit, finite-unramified specialization of the original interpolation result, with the source’s coefficient twist and actual cyclotomic indexing.
+(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), Introduction, Theorem A, p.92; §IV, Theorem 16 and Corollary 17, pp.105–106)
 
 <a id="colemanpowerseries-l1-unramified-interpolation-equivalence"></a>
 
@@ -7345,17 +7208,18 @@ For the proof, take the approximating `v_r` from finite-precision interpolation 
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.colemanEquiv` by the following specification.
+Use `colemanInterpolation` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
 
-Construct `Colσ:U∞≃*B^(N=Σ)` as the inverse of `evσ`. Thus `ε_n(Colσ(u))=σ_n^n(u_n)`; neither norm compatibility nor surjectivity is assumed.
 
-The API includes the following named statements.
+The supplied object is `Colσ:U∞≃*B^(N=Σ)` as the inverse of `evσ`. Thus `ε_n(Colσ(u))=σ_n^n(u_n)`; neither norm compatibility nor surjectivity is assumed.
 
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.colemanEquiv_interpolation`: `ε_n(Colσ(u))=σ_n^n(u_n)`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.colemanEquiv_symm`: The inverse is `evσ`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.colemanEquiv_mul`: `Colσ(uv)=Colσ(u)Colσ(v)`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.colemanEquiv_unique`: A unit series with these interpolation values equals `Colσ(u)`.
-- `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.colemanEquiv_continuous`: Both directions are continuous.
+The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
+
+- `ε_n(Colσ(u))=σ_n^n(u_n)`.
+- The inverse is `evσ`.
+- `Colσ(uv)=Colσ(u)Colσ(v)`.
+- A unit series with these interpolation values equals `Colσ(u)`.
+- Both directions are continuous.
 
 **Checks.**
 
@@ -7363,13 +7227,9 @@ The API includes the following named statements.
 - `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.coleman_root_tower`: The compatible tower `sζ_n`, `s=(−1)^(p−1)`, maps to `sY`. At `p=2` the compatible signed root tower maps to `−Y`.
 - `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.Tests.coleman_teichmuller`: The tower `σ_n^(−n)c` for a Teichmüller `c` maps to `C(c)`, rejecting the opposite twist.
 
-For the proof, interpolation existence supplies surjectivity of `evσ`; its injectivity is already proved. Apply the native equivalence construction for a bijective homomorphism and take its inverse. The group laws follow from the native monoid homomorphism and uniqueness of interpolation.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-Coleman Corollary 17: Identifies local units with the Frobenius norm-fixed power-series subgroup. Layer 2: Allows subsequent Coleman constructions to consume actual arithmetic units.
-
-*Needs:* [Frobenius-twisted evaluation into local unit towers](#colemanpowerseries-l1-unramified-twisted-evaluation); [Injectivity of twisted evaluation](#colemanpowerseries-l1-unramified-twisted-evaluation-injective); [Coleman interpolation with arithmetic Frobenius](#colemanpowerseries-l1-unramified-interpolation-existence); `MulEquiv.ofBijective`.
-
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Theorem 16 and Corollary 17, pp.105–106) Coleman’s series map is the inverse of the twisted evaluation map and is a multiplicative isomorphism.
+(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Theorem 16 and Corollary 17, pp.105–106)
 
 <a id="colemanpowerseries-l1-unramified-interpolation-homeomorphism"></a>
 
@@ -7377,15 +7237,14 @@ Coleman Corollary 17: Identifies local units with the Frobenius norm-fixed power
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.interpolation_homeomorphism` in the following form.
+Use `colemanInterpolation` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
+
 
 `Colσ` and `evσ` are continuous inverse homomorphisms; their underlying equivalence is a homeomorphism.
 
-For the proof, twisted evaluation is coordinatewise continuous by native convergent evaluation and `σ_n` continuity. The map into the product and its closed subgroup is continuous. The fixed series subgroup is compact and `U∞` is Hausdorff as a subgroup of a Hausdorff product. The continuous bijective `evσ` has continuous inverse by compact-to-Hausdorff inversion.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-*Needs:* [Unramified Coleman power-series equivalence](#colemanpowerseries-l1-unramified-interpolation-equivalence); [Compactness of series units and the fixed subgroup](#colemanpowerseries-l1-unramified-unit-space-compact); [the residual Layer 0 arithmetic receiver contract](#exact-supplier-contracts); `Continuous.homeoOfEquivCompactToT2`; [Frobenius-twisted evaluation into local unit towers](#colemanpowerseries-l1-unramified-twisted-evaluation); [Norm-compatible coefficient units](#colemanpowerseries-l0-unramified-coefficient-unit-limit).
-
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Corollary 17, pp.105–106) Coleman’s interpolation is a topological isomorphism in the coefficient and norm-limit topologies.
+(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, Corollary 17, pp.105–106)
 
 <a id="colemanpowerseries-l1-unramified-interpolation-frobenius-equivariant"></a>
 
@@ -7425,15 +7284,14 @@ For the proof, the two structural maps and basis vectors agree, so the native no
 
 `p` is a prime. `E/ℚ_p` is finite unramified; `O` is its native integer ring, a compact complete DVR finite free over `ℤ_p` with maximal ideal `pO`. The topology on `B=O[[T]]` is coefficientwise p-adic. `Y=1+T` and `Φ(f)=f(Y^p−1)` fixes coefficients. The scalar algebra on the second `B` has structural map `Φ`, not the ordinary self-algebra. All norms and traces are base-valued. `σ:O≃ₐ[ℤ_p]O` is the canonical arithmetic `p`-Frobenius: its residue action is `x↦x^p`. `Σ` applies `σ` coefficientwise. `σ` is continuous, preserves `p`-power ideals, and fixes `ℤ_p`. It is not the `q`-power residue Frobenius when `[E:ℚ_p]>1`.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.normLimit_tendsto` in the following form.
+Use `Lσ` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization. Here `Lσ` denotes the supplied corrected projector `lim_r(Σ⁻¹N)^r`.
+
 
 For every `f∈Bˣ`, `M^r(f)` tends to the underlying unit of `Lσ(f)` as `r` tends to infinity.
 
-For the proof, the constructor selects the unique limits of the coefficientwise Cauchy sequences. Iteration precision is uniform in the coefficient index; completeness supplies each limit. The constant coefficient is unit-valued modulo `p` for all iterates, hence its limit is a unit. In a local ring, its inverse is continuous on the open-and-closed unit set. Coefficients of the inverse series are finite polynomial expressions in finitely many coefficients and the inverse constant coefficient. Thus inverse values converge coefficientwise too, giving convergence in native Units topology, not merely convergence of values.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-*Needs:* [Corrected norm projector](#colemanpowerseries-l1-unramified-norm-limit); [Uniform precision of corrected norm iterates](#colemanpowerseries-l1-unramified-iteration-precision); [LocalFieldsRamification layer 0 local fields and their finite extensions](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/LocalFieldsRamification/README.md#layer-0-local-fields-and-their-finite-extensions); `PowerSeries.isUnit_iff_constantCoeff`.
-
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, equations (3)–(4), p.103, Proposition 14, p.104) Proof of this property of the Frobenius-corrected integral norm, using the specified native maps and precision estimates.
+(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, equations (3)–(4), p.103, Proposition 14, p.104)
 
 <a id="colemanpowerseries-l1-unramified-norm-limit-precision"></a>
 
@@ -7457,15 +7315,14 @@ For the proof, pass the iteration precision estimate to the limit, using closed 
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.UnramifiedSeries.normLimit_continuous` in the following form.
+Use `Lσ` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization. Here `Lσ` denotes the supplied corrected projector `lim_r(Σ⁻¹N)^r`.
+
 
 `Lσ:Bˣ→B^(N=Σ)` is continuous for the coefficientwise p-adic topology.
 
-For the proof, fix a basic output neighborhood, determined by finitely many coefficients and one p-adic precision. Choose `r` so the uniform error bound for `Lσ−M^r` is smaller than that precision. Continuity of the finite iterate `M^r` provides a basic input neighborhood. The uniform error estimate controls both limits there and proves continuity.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-*Needs:* [Corrected norm projector](#colemanpowerseries-l1-unramified-norm-limit); [Uniform precision of the corrected projector](#colemanpowerseries-l1-unramified-norm-limit-precision); [Frobenius-corrected Coleman norm](#colemanpowerseries-l1-unramified-corrected-norm); [LocalFieldsRamification layer 0 local fields and their finite extensions](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/LocalFieldsRamification/README.md#layer-0-local-fields-and-their-finite-extensions); [Continuity of the corrected one-step norm](#colemanpowerseries-l1-unramified-corrected-norm-continuous).
-
-(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, equations (3)–(4), p.103, Proposition 14, p.104) Topological consequence of Coleman’s uniform corrected-limit precision estimate.
+(Coleman: [Division Values in Local Fields](https://gdz.sub.uni-goettingen.de/dms/resolveppn/?PPN=GDZPPN002095289), §IV, equations (3)–(4), p.103, Proposition 14, p.104)
 
 ### Examples
 
@@ -7675,7 +7532,7 @@ Define `TauCetiRoadmap.ColemanPowerSeries.Series.cyclotomicSeries` by `f_a(T) = 
 
 **Checks.**
 
-- `cyclotomicSeries_empty`: Over `ℤ`, `f_0=0`.
+- `cyclotomicSeries_empty`: Over every commutative ring `R`, `f_0=0`.
 - `cyclotomicSeries_three`: Over `ℤ`, `f_3=3+3T+T²`.
 - `cyclotomicSeries_nonunit_at_three`: Over `ℤ/3ℤ`, `f_3` is not a unit.
 - `cyclotomicSeries_coefficient_reduction`: The existing coefficient map `ℤ→ℤ/3ℤ` sends `f_3` to `T²`.
@@ -8265,7 +8122,7 @@ The API includes the following named statements.
 - `CyclotomicTowerTests.ternary_two`: For `p=3,a=2` the level-0 coordinate is `1+ζ_0`.
 - `CyclotomicTowerTests.ternary_three_excluded`: At `p=3,a=3` the evaluated geometric sum at level 0 is zero, hence not a unit; the hypothesis `IsUnit(a in ℤ_p)` cannot be dropped.
 
-For the proof, corestrict the actual `f_a` unit to normFixedUnits using cyclotomic-series-norm-fixed, and apply normFixedEvaluation. The finite geometric identity gives the coordinate ratio.
+For the proof, corestrict the actual `f_a` unit to normFixedUnits using cyclotomic-series-norm-fixed, and apply colemanInterpolation.symm. The finite geometric identity gives the coordinate ratio.
 
 Supplies the actual arithmetic input for the corrected explicit reciprocity calculation.
 
@@ -8333,15 +8190,16 @@ All topology claims are weak/coefficientwise; no norm topology on integral measu
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.colemanMap` by the following specification.
+Use `arithmeticColeman` from [IntegralIwasawaTheory §7.2](../IntegralIwasawaTheory/README.md#72-the-normalized-arithmetic-coleman-map) with the following specialization.
 
-Define `Col=−Col₀` on the underlying additive group of actual intrinsic unit measures. It has the same domain, kernel and image; its explicit reciprocity sign is positive.
 
-The API includes the following named statements.
+The supplied object is `Col=−Col₀` on the underlying additive group of actual intrinsic unit measures. It has the same domain, kernel and image; its explicit reciprocity sign is positive.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.colemanMap_eq_neg_raw`: `Col(u)=−Col₀(u)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.colemanMap_mul`: `Col(uv)=Col(u)+Col(v)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.colemanMap_kernel`: `Col(u)=0` iff `Col₀(u)=0`.
+The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
+
+- `Col(u)=−Col₀(u)`.
+- `Col(uv)=Col(u)+Col(v)`.
+- `Col(u)=0` iff `Col₀(u)=0`.
 
 **Checks.**
 
@@ -8350,15 +8208,9 @@ The API includes the following named statements.
 - `ColemanMapTests.sign_relation`: For every `u` the actual measure outputs of Col and `Col₀` add to zero.
 - `ColemanMapTests.normalized_second_moment_three`: At `p=3`, `Col(c(2))(x²)=1/2`, whereas `Col₀(c(2))(x²)=−1/2`. These are distinct nonzero elements of `ℤ_3`.
 
-For the proof, apply additive negation to the output and re-tag it multiplicatively. Since the target additive group is commutative, negation is a homomorphism.
+*Needs:* [IntegralIwasawaTheory §7.2](../IntegralIwasawaTheory/README.md#72-the-normalized-arithmetic-coleman-map).
 
-Keep this map distinct from the raw composite and prove the comparison; do not alter the independent Kubota–Leopoldt pseudomeasure.
-
-Lemma 10.3 and Proposition 10.4, printed p.165; Definition 10.14 and Theorem 10.15, printed p.170; Theorem 12.17 proof, printed pp.184–185.: Keep this map distinct from the raw composite and prove the comparison; do not alter the independent Kubota–Leopoldt pseudomeasure. The raw cyclotomic numerator and its sign, Layer 4: Provides the actual arithmetic construction consumed in the named comparison, kernel, image or quotient target.
-
-*Needs:* [The raw Coleman map](#colemanpowerseries-l2-raw-coleman-map).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.3 and Proposition 10.4, printed p.165; Definition 10.14 and Theorem 10.15, printed p.170; Theorem 12.17 proof, printed pp.184–185) The arithmetic specialization uses the native carriers and supplier comparisons specified above.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemma 10.3 and Proposition 10.4, printed p.165; Definition 10.14 and Theorem 10.15, printed p.170; Theorem 12.17 proof, printed pp.184–185)
 
 <a id="colemanpowerseries-l2-raw-cyclotomic-numerator"></a>
 
@@ -8402,17 +8254,14 @@ Fixes the exact action on the series attached to an arithmetic unit tower.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.colemanEquiv_towerAction` in the following form.
+Use `colemanInterpolation` from [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation) with the following specialization.
+
 
 For every `a∈G` and `u∈U∞` the series of `towerAction(a)(u)` is `f_u(Y^a−1)`. In particular this substituted unit is norm-fixed.
 
-For the proof, substitution at a series with zero constant coefficient sends a unit to a unit; its inverse is the inverse substituted unit. The evaluation/dilation square identifies all its finite-level values with those of the transformed tower. The series of that tower already exists by Coleman interpolation. Separation gives the equality; norm-fixedness follows from it rather than an unstated commutation of norm and substitution.
+*Needs:* [IntegralIwasawaTheory §7.1](../IntegralIwasawaTheory/README.md#71-integral-norm-and-interpolation).
 
-The arithmetic action, not a formal action asserted on a separate tower, enters the Coleman composite.
-
-*Needs:* [Cyclotomic evaluation and arithmetic dilation](#colemanpowerseries-l2-arithmetic-evaluation-dilation); [The continuous Galois action on the unit tower](#colemanpowerseries-l0-norm-tower-galois-action); [The Coleman power-series equivalence](#colemanpowerseries-l1-coleman-equivalence); [Separation by cyclotomic evaluations](#colemanpowerseries-l1-series-interpolation-separation).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Proposition12.1, Proposition12.5 and Corollary12.6, pp.178–180) The cited passage supplies this arithmetic target. The native-carrier adapter and the separate closure/compactness steps are arithmetic deductions. The source conventions below specify the corrections to the printed formulas used in this argument.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Proposition12.1, Proposition12.5 and Corollary12.6, pp.178–180)
 
 <a id="colemanpowerseries-l2-principal-coleman-scalar-linearity"></a>
 
@@ -8420,17 +8269,14 @@ The arithmetic action, not a formal action asserted on a separate tower, enters 
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.coleman_smul` in the following form.
+Use `arithmeticColeman` from [IntegralIwasawaTheory §7.2](../IntegralIwasawaTheory/README.md#72-the-normalized-arithmetic-coleman-map) with the following specialization.
+
 
 For `a∈ℤ_p` and `u∈U∞,1`, `Col₀(a•u)=a Col₀(u)` and `Col(a•u)=a Col(u)`, on the additive measures and the imported principalModule.
 
-For the proof, the multiplicative-to-additive homomorphism law proves the equality at natural scalars. The principal scalar action and the raw map are continuous, so density extends the equality to every p-adic scalar. Negation gives the normalized formula. This avoids inventing a binomial power of a nonprincipal series.
+*Needs:* [IntegralIwasawaTheory §7.2](../IntegralIwasawaTheory/README.md#72-the-normalized-arithmetic-coleman-map).
 
-The scalar restriction is stated only on principal units. Full-unit prime-to-p torsion remains outside the `ℤ_p`-module.
-
-*Needs:* [The principal-unit scalar structure](#colemanpowerseries-l0-principal-tower-scalar-adapter); [The raw Coleman map](#colemanpowerseries-l2-raw-coleman-map); [Continuity of the raw Coleman map](#colemanpowerseries-l2-raw-coleman-continuity); [The sign-adjusted Coleman map](#colemanpowerseries-l2-normalized-coleman-map); `PadicInt.denseRange_natCast`.
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Proposition12.1, Proposition12.5 and Corollary12.6, pp.178–180) The cited passage supplies this arithmetic target. The native-carrier adapter and the separate closure/compactness steps are arithmetic deductions. The source conventions below specify the corrections to the printed formulas used in this argument.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Proposition12.1, Proposition12.5 and Corollary12.6, pp.178–180)
 
 <a id="colemanpowerseries-l2-raw-coleman-galois-equivariance"></a>
 
@@ -8456,33 +8302,28 @@ Both factors are displayed; omitting division by `x` would leave an incorrect cy
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalColeman` by the following specification.
+Use `arithmeticColeman` from [IntegralIwasawaTheory §7.2](../IntegralIwasawaTheory/README.md#72-the-normalized-arithmetic-coleman-map) with the following specialization.
 
-Bundle `u↦Col(u)` as a continuous `Λ(G)`-linear map `principalColeman:Additive(U∞,1)→Λ(G)`, using the actual principalCompletedModule and the regular convolution action on `Λ(G)`.
 
-The API includes the following named statements.
+Bundle `u↦Col(u)` as a continuous `Λ(G)`-linear map `arithmeticColeman:Additive(U∞,1)→Λ(G)`, using the actual principalCompletedModule and the regular convolution action on `Λ(G)`.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalColeman_apply`: The underlying measure is `Col(u)` for the full-tower image of `u`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalColeman_continuous`: principalColeman is continuous for the compact principal topology and weak measure topology.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalColeman_dirac`: `principalColeman(δ_g•u)=δ_g*principalColeman(u)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalColeman_raw`: `principalColeman(u)=−Col₀(u)`.
+The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
+
+- The underlying measure is `Col(u)` for the full-tower image of `u`.
+- arithmeticColeman is continuous for the compact principal topology and weak measure topology.
+- `arithmeticColeman(δ_g•u)=δ_g*arithmeticColeman(u)`.
+- `arithmeticColeman(u)=−Col₀(u)`.
 
 **Checks.**
 
-- `PrincipalColemanTests.zero`: `principalColeman(0)=0`.
-- `PrincipalColemanTests.tate`: `principalColeman(tateTower(b))=0` for every `b∈ℤ_p`.
-- `PrincipalColemanTests.twist`: `principalColeman(δ_g•u)=g_*principalColeman(u)`, with no extra factor `χ(g)`.
-- `PrincipalColemanTests.nonzero_three`: At `p=3` let `v=teichTower(−1)⁻¹c(2)`. Its residue is 1, and `principalColeman(v)(x²)=1/2≠0`, because the constant Teichmüller tower is killed. The zero module map fails this test.
+- `PrincipalColemanTests.zero`: `arithmeticColeman(0)=0`.
+- `PrincipalColemanTests.tate`: `arithmeticColeman(tateTower(b))=0` for every `b∈ℤ_p`.
+- `PrincipalColemanTests.twist`: `arithmeticColeman(δ_g•u)=g_*arithmeticColeman(u)`, with no extra factor `χ(g)`.
+- `PrincipalColemanTests.nonzero_three`: At `p=3` let `v=teichTower(−1)⁻¹c(2)`. Its residue is 1, and `arithmeticColeman(v)(x²)=1/2≠0`, because the constant Teichmüller tower is killed. The zero module map fails this test.
 
-For the proof, the raw map and negation give additivity; principal scalar linearity and G-equivariance give linearity for finite linear combinations of Dirac measures. Use the Dirac-preserving completed-algebra comparison and the native completed action and joint weak continuity to extend equality to `Λ(G)`. Bundle the resulting actual map, rather than assume `Λ`-linearity as data.
+*Needs:* [IntegralIwasawaTheory §7.2](../IntegralIwasawaTheory/README.md#72-the-normalized-arithmetic-coleman-map).
 
-Supplies the exact principal map used in the four-term module sequence and the local quotient.
-
-Proposition12.1, Proposition12.5 and Corollary12.6, pp.178–180: Supplies the exact principal map used in the four-term module sequence and the local quotient.
-
-*Needs:* [The completed action on principal units](#colemanpowerseries-l0-principal-completed-action-adapter); [Principal-unit linearity of the Coleman map](#colemanpowerseries-l2-principal-coleman-scalar-linearity); [Galois equivariance and cancellation of twists](#colemanpowerseries-l2-raw-coleman-galois-equivariance); [The sign-adjusted Coleman map](#colemanpowerseries-l2-normalized-coleman-map); [PadicMeasuresIwasawaAlgebras §1.7: Layer 1](../PadicMeasuresIwasawaAlgebras/README.md#17-comparison-with-the-completed-group-algebra).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Proposition12.1, Proposition12.5 and Corollary12.6, pp.178–180) The cited passage supplies this arithmetic target. The native-carrier adapter and the separate closure/compactness steps are arithmetic deductions. The source conventions below specify the corrections to the printed formulas used in this argument.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Proposition12.1, Proposition12.5 and Corollary12.6, pp.178–180)
 
 ### Examples
 
@@ -8501,6 +8342,8 @@ Prove the formal image theorem for the norm-fixed logarithmic derivative using i
 ### 3.1 Kernel on norm-fixed units
 
 `p` is any prime, including 2; `Z=Z_p`, `B=Z[[T]]`, `Y=1+T` and `phi(F)=F(Y^p-1)`. The explicit Frobenius scalar algebra and its basis `Y^i`, `0<=i<p`, are the existing Coleman constructions. partial is the existing PMIA Mahler derivation `Y D`, `psi` is the independently constructed PMIA bounded integral operator, and `Delta` is the existing Coleman weighted logarithmic derivative on actual units. `N` and `tau` are base-valued determinant norm and trace. No coefficient Frobenius or division by `p` in `B` is introduced.
+
+For odd `p`, IntegralIwasawaTheory §7.2 supplies this result for its measure operators. The refinement here includes `p=2` and uses the independent integral arguments below.
 
 Prove `TauCetiRoadmap.ColemanPowerSeries.Series.normFixedLogDeriv_eq_one_iff` in the following form.
 
@@ -8731,6 +8574,8 @@ This is exactness at `W` for the constant inclusion `Z→W`. It is distinct from
 ### 3.12 The evaluation obstruction to the Frobenius boundary
 
 Keep the hypotheses of the preceding target.
+
+For odd `p`, IntegralIwasawaTheory §7.2 supplies this result for its measure operators. The refinement here includes `p=2` and uses the independent integral arguments below.
 
 Prove `TauCetiRoadmap.ColemanPowerSeries.Series.psiFixedBoundary_range` in the following form.
 
@@ -8966,7 +8811,7 @@ The remaining characteristic-p proof must use a well-defined integral polynomial
 
 *Needs:* [Logarithmic derivative on norm-fixed units](#colemanpowerseries-l2-norm-fixed-logarithmic-derivative-map); [Coefficient change](#colemanpowerseries-l2-logarithmic-derivative-coefficient-change); [Surjectivity from the residual image condition](#colemanpowerseries-l3-logarithmic-derivative-surjective-mod-p); [Norm-fixed lifts of residue-series units](#colemanpowerseries-l3-norm-fixed-unit-residue-surjective); [Kernel on norm-fixed units](#colemanpowerseries-l3-norm-fixed-logarithmic-derivative-kernel); [Norm-fixed constant units](#colemanpowerseries-l1-coleman-fixed-constant-units).
 
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemmas12.11–12.14 and proof of Theorem12.9, printed181–183 / PDF82–84; the kernel label on printed183 was checked in the page image) Explicit expansion of the integral compactness and successive-precision argument. The residue-unit lift is specialized from pinned generic local-ring theorems and the existing Coleman norm limit. All-prime algebra here is independently justified and makes no assertion about arithmetic interpolation at `p=2`.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Lemmas12.11–12.14 and proof of Theorem12.9, printed181–183 / PDF82–84) Explicit expansion of the integral compactness and successive-precision argument. The residue-unit lift is specialized from pinned generic local-ring theorems and the existing Coleman norm limit. All-prime algebra here is independently justified and makes no assertion about arithmetic interpolation at `p=2`.
 
 <a id="colemanpowerseries-l3-residue-logarithmic-derivative-psi-fixed"></a>
 
@@ -9189,6 +9034,8 @@ This derives the stronger statement for all actual residue `ψ_0`-fixed series; 
 
 Keep the hypotheses of the preceding target.
 
+For odd `p`, IntegralIwasawaTheory §7.2 supplies this result for its measure operators. The refinement here includes `p=2` and uses the independent integral arguments below.
+
 Prove `TauCetiRoadmap.ColemanPowerSeries.Series.normFixedLogDeriv_surjective` in the following form.
 
 The actual existing group homomorphism normFixedLogDeriv from norm-fixed units in `Z_p[[T]]` to the additive `ψ`-fixed integral series, with the native Multiplicative tag, is surjective.
@@ -9310,7 +9157,7 @@ Keep the hypotheses of the preceding target.
 
 Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.normFixedEvaluation_binomialNormFixed` in the following form.
 
-For odd `p` and `a∈ℤ_p`, `normFixedEvaluation(Y^a)=tateTower(a)` in the actual compatible unit subgroup.
+For odd `p` and `a∈ℤ_p`, `colemanInterpolation.symm(Y^a)=tateTower(a)` in the actual compatible unit subgroup.
 
 For the proof, for natural exponents both coordinates are `ζ_n^a` by the ring-homomorphism evaluation law and the native root order. Both sides are continuous functions of a: use continuous binomial coefficients/evaluation and the native finite-residue construction. Density of natural integers extends equality to every p-adic exponent.
 
@@ -9326,17 +9173,14 @@ This identifies the direct Layer 0 root-power Tate subgroup with the binomial fa
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.rawColeman_kernel` in the following form.
+Use `principalColeman_exact` from [IntegralIwasawaTheory §7.2](../IntegralIwasawaTheory/README.md#72-the-normalized-arithmetic-coleman-map) with the following specialization.
+
 
 For odd `p`, `Col₀(u)=0` iff there exist unique `c∈ℤ_pˣ` with `c^(p−1)=1` and `a∈ℤ_p` such that the Coleman series of `u` is `C(c)Y^a`. Thus its full kernel is `μ_(p−1)×tateTower(ℤ_p)`.
 
-For the proof, intrinsic Amice injectivity and the injectivity of `H` on ker `ψ` reduce `Col₀(u)=0` to vanishing of the fixed-space boundary on `Δ(f_u)`. Its exact kernel says `Δ(f_u)=C(a)`. Divide `f_u` by the actual binomial unit `Y^a`. Additivity of `Δ` gives zero logarithmic derivative; the characteristic-zero formal kernel theorem makes the quotient constant `C(c)`. Norm-fixedness forces `c^(p−1)=1`. Conversely the constants and `Y^a` are killed by the boundary. Constant coefficient gives uniqueness of `c` and logarithmic derivative gives uniqueness of a. Evaluation transports this direct product to the actual tower.
+*Needs:* [IntegralIwasawaTheory §7.2](../IntegralIwasawaTheory/README.md#72-the-normalized-arithmetic-coleman-map).
 
-The prime-to-p constant factor is present on full units. At `p=3` the stationary `−1` tower is a nontrivial kernel element.
-
-*Needs:* [The raw Coleman map](#colemanpowerseries-l2-raw-coleman-map); [Norm-fixed binomial units](#colemanpowerseries-l3-norm-fixed-binomial-units); [Logarithmic derivative of binomial units](#colemanpowerseries-l3-binomial-logarithmic-derivative); [Kernel of the fixed-space boundary](#colemanpowerseries-l3-psi-fixed-boundary-kernel); [PadicMeasuresIwasawaAlgebras §2.3: inverse mahler unique](../PadicMeasuresIwasawaAlgebras/README.md#23-inverting-multiplication-by-x-on-the-units); [Kernel of the logarithmic derivative](#colemanpowerseries-l2-logarithmic-derivative-kernel); [Norm-fixed constant units](#colemanpowerseries-l1-coleman-fixed-constant-units); [Binomial interpolation of the Tate inclusion](#colemanpowerseries-l3-binomial-evaluation-tate).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition 12.16 and Theorem 12.17 with proof, printed pp.184–185; Lemmas 12.2–12.3, printed pp.178–179 (published PDF79–80,85–86)) The arithmetic specialization uses the native carriers and supplier comparisons specified above.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition 12.16 and Theorem 12.17 with proof, printed pp.184–185; Lemmas 12.2–12.3, printed pp.178–179 (published PDF79–80,85–86))
 
 <a id="colemanpowerseries-l3-intrinsic-unit-weighting-comparison"></a>
 
@@ -9362,17 +9206,14 @@ Discharges the specific weighting leaf of the full Coleman range theorem without
 
 `p` is an odd prime. `B=ℤ_p[[T]]`, `Y=1+T`, `U∞` is the actual norm-compatible unit group, and `U∞,1` its native principal residue kernel. `M=D(ℤ_pˣ,ℤ_p)` denotes the actual intrinsic unit measures with the imported weak topology.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.rawColeman_range` in the following form.
+Use `principalColeman_exact` from [IntegralIwasawaTheory §7.2](../IntegralIwasawaTheory/README.md#72-the-normalized-arithmetic-coleman-map) with the following specialization.
+
 
 For odd `p`, the additive image of `Col₀` is exactly `ker(cyclotomicMoment)` inside the actual intrinsic unit measures.
 
-For the proof, for an output `μ`, `∂A_Uμ` is the fixed-space boundary on `Δ(f_u)`. Evaluating that boundary at `T=0` gives zero, and `constantCoeff(∂A_Uμ)=cyclotomicMoment(μ)`. Conversely take `μ` with zero first moment. The intrinsic-unit-weighting-comparison places `∂A_Uμ` in ker `ψ` with constant coefficient zero. The exact fixed-space range theorem lifts it to a `ψ`-fixed series `F`. Surjectivity of normFixedLogDeriv lifts `F` to a norm-fixed unit. Coleman interpolation gives the arithmetic tower. Since `H` is the inverse of `∂` on the `ψ` kernel, its actual `Col₀` output has Amice series `A_Uμ`; intrinsic Amice injectivity gives equality of measures.
+*Needs:* [IntegralIwasawaTheory §7.2](../IntegralIwasawaTheory/README.md#72-the-normalized-arithmetic-coleman-map).
 
-No cardinality argument or dimension count replaces equality of the actual maps and their images. The specialized weighting comparison resolves to exact PMIA results.
-
-*Needs:* [The raw Coleman map](#colemanpowerseries-l2-raw-coleman-map); [The cyclotomic-moment endpoint](#colemanpowerseries-l3-cyclotomic-moment); [Surjectivity on norm-fixed integral units](#colemanpowerseries-l3-norm-fixed-logarithmic-derivative-surjective); [The evaluation obstruction to the Frobenius boundary](#colemanpowerseries-l3-psi-fixed-boundary-range); [PadicMeasuresIwasawaAlgebras §2.3: mahler derivative inverse](../PadicMeasuresIwasawaAlgebras/README.md#23-inverting-multiplication-by-x-on-the-units); [PadicMeasuresIwasawaAlgebras §2.3: inverse mahler derivative](../PadicMeasuresIwasawaAlgebras/README.md#23-inverting-multiplication-by-x-on-the-units); [Intrinsic unit weighting at the endpoint](#colemanpowerseries-l3-intrinsic-unit-weighting-comparison).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition 12.16 and Theorem 12.17 with proof, printed pp.184–185; Lemmas 12.2–12.3, printed pp.178–179 (published PDF79–80,85–86)) The arithmetic specialization uses the native carriers and supplier comparisons specified above.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition 12.16 and Theorem 12.17 with proof, printed pp.184–185; Lemmas 12.2–12.3, printed pp.178–179 (published PDF79–80,85–86))
 
 <a id="colemanpowerseries-l3-coleman-sequence-topology"></a>
 
@@ -9380,17 +9221,14 @@ No cardinality argument or dimension count replaces equality of the actual maps 
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.colemanSequence_topology` in the following form.
+Use `principalColeman_exact` from [IntegralIwasawaTheory §7.2](../IntegralIwasawaTheory/README.md#72-the-normalized-arithmetic-coleman-map) with the following specialization.
+
 
 For odd `p` the full-unit sequence `μ_(p−1)×ℤ_p(1)→U∞→M→ℤ_p(1)` is algebraically exact with injective first and surjective last map. Each kernel/image is closed and the maps onto their images are quotient maps for the native compact/weak topologies.
 
-For the proof, combine the actual kernel and range identities with the first-moment section. The kernel inclusion has compact domain `μ_(p−1)×ℤ_p` and Hausdorff target `U∞`, so is a closed embedding. The continuous raw map has compact domain and hence closed image, with a quotient map onto it. The imported weak compactness of `M` and its Hausdorff weak topology give a quotient map for the surjective continuous moment. Negating the middle map changes neither its kernel nor its image or quotient topology.
+*Needs:* [IntegralIwasawaTheory §7.2](../IntegralIwasawaTheory/README.md#72-the-normalized-arithmetic-coleman-map).
 
-The completed-module/G-equivariance and finite-flat tensor comparison are separate dependencies. This result proves topological exactness of these actual maps; it does not assume a module action on full local units.
-
-*Needs:* [The full Coleman kernel](#colemanpowerseries-l3-raw-coleman-kernel); [The image of the Coleman map](#colemanpowerseries-l3-raw-coleman-range); [Surjectivity of the cyclotomic moment](#colemanpowerseries-l3-cyclotomic-moment-surjective); [Continuity of the raw Coleman map](#colemanpowerseries-l2-raw-coleman-continuity); [PadicMeasuresIwasawaAlgebras §1.5: unit measures weak compact](../PadicMeasuresIwasawaAlgebras/README.md#15-the-weak-topology-in-unit-coordinates); [Compactness of the compatible unit group](#colemanpowerseries-l0-norm-compatible-units-compact); `Topology.IsQuotientMap.of_surjective_continuous`.
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition 12.16 and Theorem 12.17 with proof, printed pp.184–185; Lemmas 12.2–12.3, printed pp.178–179 (published PDF79–80,85–86)) The arithmetic specialization uses the native carriers and supplier comparisons specified above.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition 12.16 and Theorem 12.17 with proof, printed pp.184–185; Lemmas 12.2–12.3, printed pp.178–179 (published PDF79–80,85–86))
 
 <a id="colemanpowerseries-l3-principal-coleman-kernel"></a>
 
@@ -9398,17 +9236,14 @@ The completed-module/G-equivariance and finite-flat tensor comparison are separa
 
 `p` is an odd prime, `n≥0` denotes the source level `n+1`, `K_n=ℚ_p(ζ_n)`, `O_n` is its native integral closure, `U_n=O_nˣ` and `U∞` is the already constructed native norm-compatible subgroup. `G=ℤ_pˣ` acts through its power residues, and `U∞,1` is the existing residue kernel. All topologies are the native norm/product/subtype topologies.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalColeman_kernel` in the following form.
+Use `principalColeman_exact` from [IntegralIwasawaTheory §7.2](../IntegralIwasawaTheory/README.md#72-the-normalized-arithmetic-coleman-map) with the following specialization.
 
-For odd `p`, `ker(principalColeman)=tateTower(ℤ_p)`, with its continuous injective inclusion as a closed `Λ(G)`-submodule of `Additive(U∞,1)`.
 
-For the proof, the full kernel factorizes uniquely as a Teichmüller constant times a Tate tower. A principal element has residue one; the Teichmüller factor is therefore one. The already specified Tate inclusion is injective and continuous. Its arithmetic action is multiplication by the unit character, while scalar powers are multiplication of exponents; the imported completed-action interface gives the Tate `Λ` action. Compactness makes its image closed.
+For odd `p`, `ker(arithmeticColeman)=tateTower(ℤ_p)`, with its continuous injective inclusion as a closed `Λ(G)`-submodule of `Additive(U∞,1)`.
 
-The `μ_(p−1)` factor disappears by restriction to principal units, not by assigning it zero as a scalar module.
+*Needs:* [IntegralIwasawaTheory §7.2](../IntegralIwasawaTheory/README.md#72-the-normalized-arithmetic-coleman-map).
 
-*Needs:* [The principal Coleman module map](#colemanpowerseries-l2-principal-coleman-linear-map); [The full and principal unit splitting](#colemanpowerseries-l0-teichmuller-unit-splitting); [The full Coleman kernel](#colemanpowerseries-l3-raw-coleman-kernel); [The Tate-module inclusion into local units](#colemanpowerseries-l0-tate-module-inclusion); [The continuous Galois action on the unit tower](#colemanpowerseries-l0-norm-tower-galois-action); [The principal-unit scalar structure](#colemanpowerseries-l0-principal-tower-scalar-adapter); [The completed action on principal units](#colemanpowerseries-l0-principal-completed-action-adapter).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Theorem12.17, pp.184–185) The cited passage supplies this arithmetic target. The native-carrier adapter and the separate closure/compactness steps are arithmetic deductions. The source conventions below specify the corrections to the printed formulas used in this argument.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Theorem12.17, pp.184–185)
 
 <a id="colemanpowerseries-l3-principal-coleman-sequence"></a>
 
@@ -9416,17 +9251,14 @@ The `μ_(p−1)` factor disappears by restriction to principal units, not by ass
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalColeman_exact` in the following form.
+Use `principalColeman_exact` from [IntegralIwasawaTheory §7.2](../IntegralIwasawaTheory/README.md#72-the-normalized-arithmetic-coleman-map) with the following specialization.
 
-For odd `p`, `0→ℤ_p(1)→Additive(U∞,1)→Λ(G)→ℤ_p(1)→0` is exact as `Λ(G)`-modules and topological modules. The maps are the actual Tate inclusion, principalColeman and cyclotomicMoment. Every kernel/image is closed and each map to its image has the quotient topology.
 
-For the proof, the full image equals the principal image because the splitting writes every tower as a Teichmüller factor times a principal one and the Teichmüller factor is killed. Combine the actual range theorem, the new intrinsic weighting comparison and principal kernel. The moment is integration against the unit-value character, and hence equivariant for the cyclotomic endpoint action. Scalar linearity is native; the completed character-integral interface makes it `Λ`-linear. Use compact/Hausdorff closed-image and quotient-map arguments for the actual terms, as in the full sequence.
+For odd `p`, `0→ℤ_p(1)→Additive(U∞,1)→Λ(G)→ℤ_p(1)→0` is exact as `Λ(G)`-modules and topological modules. The maps are the actual Tate inclusion, arithmeticColeman and cyclotomicMoment. Every kernel/image is closed and each map to its image has the quotient topology.
 
-Recovers `Theorem12.17(ii)`, including the nontrivial Tate action on the endpoint.
+*Needs:* [IntegralIwasawaTheory §7.2](../IntegralIwasawaTheory/README.md#72-the-normalized-arithmetic-coleman-map).
 
-*Needs:* [Kernel of the principal Coleman map](#colemanpowerseries-l3-principal-coleman-kernel); [The principal Coleman module map](#colemanpowerseries-l2-principal-coleman-linear-map); [Intrinsic unit weighting at the endpoint](#colemanpowerseries-l3-intrinsic-unit-weighting-comparison); [The image of the Coleman map](#colemanpowerseries-l3-raw-coleman-range); [Surjectivity of the cyclotomic moment](#colemanpowerseries-l3-cyclotomic-moment-surjective); [Topological exactness of the Coleman sequence](#colemanpowerseries-l3-coleman-sequence-topology); [The full and principal unit splitting](#colemanpowerseries-l0-teichmuller-unit-splitting); [PadicMeasuresIwasawaAlgebras §1.6: character integral algebra hom](../PadicMeasuresIwasawaAlgebras/README.md#16-moments-and-characters-of-unit-measures).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Theorem12.17, pp.184–185) The cited passage supplies this arithmetic target. The native-carrier adapter and the separate closure/compactness steps are arithmetic deductions. The source conventions below specify the corrections to the printed formulas used in this argument.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Theorem12.17, pp.184–185)
 
 <a id="colemanpowerseries-l3-finite-flat-coleman-sequence"></a>
 
@@ -9434,17 +9266,14 @@ Recovers `Theorem12.17(ii)`, including the nontrivial Tate action on the endpoin
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.coleman_exact_baseChange` in the following form.
+Use `principalColeman_exact` from [IntegralIwasawaTheory §7.2](../IntegralIwasawaTheory/README.md#72-the-normalized-arithmetic-coleman-map) with the following specialization.
+
 
 Let A be a finite free commutative `ℤ_p`-algebra with its finite-module topology. Tensor the actual principal sequence by A: `0→A(1)→A⊗_(ℤ_p)Additive(U∞,1)→A⊗_(ℤ_p)Λ(G)→A(1)→0`. It is exact, and its continuous maps and quotient topologies agree with the finite completed tensor products under the finite-product completion comparison in the proof. Both endpoint lattices are A with the cyclotomic action.
 
-For the proof, use Mathlib’s flat tensor exactness for the finite free coefficient module, applied to each of the two short exact sequences cut out by the actual middle image. With a finite basis of A, tensoring a compact `ℤ_p`-module is a finite direct sum, equipped with the finite product topology. A change of basis is a finite matrix over `ℤ_p` with continuous inverse, so this topology is independent of the basis. Every compact Hausdorff module is complete for its group uniformity; the finite product is complete as well. The finite tensor universal map is therefore a homeomorphism onto its completion. Apply this comparison to each actual term and middle image, and use compact-to-Hausdorff quotient maps to obtain the asserted quotient topologies. Transport both Tate maps, principalColeman and the first-moment endpoint; identify `A⊗ℤ_p(1)` with `A(1)`. Do not substitute an arithmetic A-tower for the tensor module without a separate comparison.
+*Needs:* [IntegralIwasawaTheory §7.2](../IntegralIwasawaTheory/README.md#72-the-normalized-arithmetic-coleman-map).
 
-Changes all four terms; tensoring only `Λ` or its series realization is insufficient.
-
-*Needs:* [The fundamental principal Coleman sequence](#colemanpowerseries-l3-principal-coleman-sequence); [PadicMeasuresIwasawaAlgebras §5.2: measure and algebra contract](../PadicMeasuresIwasawaAlgebras/README.md#52-compact-inverse-systems-and-topological-nakayama); [PadicMeasuresIwasawaAlgebras §0.2: Layer 0](../PadicMeasuresIwasawaAlgebras/README.md#02-weak-and-strong-topologies-on-measures).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Theorem12.17, pp.184–185) The cited passage supplies this arithmetic target. The native-carrier adapter and the separate closure/compactness steps are arithmetic deductions. The source conventions below specify the corrections to the printed formulas used in this argument.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Theorem12.17, pp.184–185)
 
 ### Examples
 
@@ -9462,7 +9291,7 @@ Embed the supplier's actual global cyclotomic units in the chosen local fields a
 
 ### 4.1 The root-compatible local embedding
 
-`p` is an odd prime, `n≥0` denotes the source level `n+1`, `K_n=ℚ_p(ζ_n)`, `O_n` is its native integral closure, `U_n=O_nˣ` and `U∞` is the already constructed native norm-compatible subgroup. `G=ℤ_pˣ` acts through its power residues, and `U∞,1` is the existing residue kernel. All topologies are the native norm/product/subtype topologies. `F_n=TauCeti.CyclotomicTower.Qmu(p^(n+1))`; `D_n` and `D_n⁺` are the imported actual global cyclotomic subgroups. Their local images are formed using the fixed root-compatible embedding, not by identifying complex and p-adic elements. Write `c=σ_(-1)`, `G_n=(ℤ/p^(n+1)ℤ)ˣ`, `G_n⁺=G_n/⟨−1⟩` and `G⁺=G/⟨−1⟩`. Real means fixed by `c`. When a generator is used, `a>1` is a fixed natural integer prime to `p` whose image `â` in `G` topologically generates `G`: its integral powers are dense in `G`. Put `b=(1−a)/2` in `ℤ_p` and `w=ω(a mod p)⁻¹`. `Λ(G)` is the supplied integral unit-measure convolution ring `M=D(G,ℤ_p)` with weak topology; `Λ(G⁺)` is its supplied quotient-group counterpart.
+`p` is an odd prime, `n≥0` denotes the source level `n+1`, `K_n=ℚ_p(ζ_n)`, `O_n` is its native integral closure, `U_n=O_nˣ` and `U∞` is the already constructed native norm-compatible subgroup. `G=ℤ_pˣ` acts through its power residues, and `U∞,1` is the existing residue kernel. All topologies are the native norm/product/subtype topologies. `F_n=F(p^(n+1))` from IntegralIwasawaTheory §1.1’s `compatibleCyclotomicTower`, with its distinguished root and inclusions; `D_n` and `D_n⁺` are the imported actual global cyclotomic subgroups. Their local images are formed using the fixed root-compatible embedding, not by identifying complex and p-adic elements. Write `c=σ_(-1)`, `G_n=(ℤ/p^(n+1)ℤ)ˣ`, `G_n⁺=G_n/⟨−1⟩` and `G⁺=G/⟨−1⟩`. Real means fixed by `c`. When a generator is used, `a>1` is a fixed natural integer prime to `p` whose image `â` in `G` topologically generates `G`: its integral powers are dense in `G`. Put `b=(1−a)/2` in `ℤ_p` and `w=ω(a mod p)⁻¹`. `Λ(G)` is the supplied integral unit-measure convolution ring `M=D(G,ℤ_p)` with weak topology; `Λ(G⁺)` is its supplied quotient-group counterpart.
 
 Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.globalLocalEmbedding` by the following specification.
 
@@ -9662,15 +9491,16 @@ Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188�
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalRealLocalCyclotomicUnits` by the following specification.
+Use `Cₙ₁⁺` from [IntegralIwasawaTheory §7.3](../IntegralIwasawaTheory/README.md#73-circular-closures-and-their-actual-image) with the following specialization. Here `Cₙ₁⁺` denotes its finite-level real principal circular closure.
 
-Define `C_(n,1)⁺=C_n⁺∩P_n`, as a closed `ℤ_p`-submodule of `Additive(P_n)`. Its elements are both real and principal. This is different from the algebraic subgroup `D_n⁺∩P_n`.
 
-The API includes the following named statements.
+The supplied object is `C_(n,1)⁺=C_n⁺∩P_n`, as a closed `ℤ_p`-submodule of `Additive(P_n)`. Its elements are both real and principal. This is different from the algebraic subgroup `D_n⁺∩P_n`.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.mem_principalRealLocalCyclotomicUnits`: `u∈C_(n,1)⁺` iff `u∈C_n⁺` and `red_n(u)=1`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalRealLocalCyclotomicUnits_closed`: `C_(n,1)⁺` is closed and compact.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalRealLocalCyclotomicUnits_smul`: It is stable under the supplied `ℤ_p` scalar action.
+The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
+
+- `u∈C_(n,1)⁺` iff `u∈C_n⁺` and `red_n(u)=1`.
+- `C_(n,1)⁺` is closed and compact.
+- It is stable under the supplied `ℤ_p` scalar action.
 
 **Checks.**
 
@@ -9679,15 +9509,9 @@ The API includes the following named statements.
 - `PrincipalRealTests.ternary_bottom`: For `p=3,n=0`, `C_(0,1)⁺={1}`, since the global real field is `ℚ` and its units are ±1.
 - `PrincipalRealTests.nontrivial_fifth`: At `p=5,n=0` the adjusted real unit `q(2)_0` belongs and is not 1. Its square is `−(2+ζ_0+ζ_0⁻¹)`; the square satisfies `X²+3X+1=0` and cannot equal 1 in characteristic zero. This excludes the trivial subgroup away from the ternary bottom level.
 
-For the proof, intersect the actual closed real closure with the residue-one condition. The closed subgroup is stable under the supplied finite principal scalar action. No algebraic equality `(p−1)D_n⁺=(p−1)(D_n⁺∩P_n)` is used; the source’s false equality is corrected by a compact closure argument in finite cyclicity.
+*Needs:* [IntegralIwasawaTheory §7.3](../IntegralIwasawaTheory/README.md#73-circular-closures-and-their-actual-image).
 
-Provides the finite receiving submodule for the adjusted real generator.
-
-Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189: Provides the finite receiving submodule for the adjusted real generator.
-
-*Needs:* [The real local cyclotomic closure](#colemanpowerseries-l4-real-local-cyclotomic-unit-closure); [The real local unit subgroup](#colemanpowerseries-l4-finite-real-local-unit-subgroup); [The principal local cyclotomic subgroup](#colemanpowerseries-l4-principal-local-cyclotomic-units); [The principal-unit scalar structure](#colemanpowerseries-l0-principal-tower-scalar-adapter); [ProfiniteArithmetic §1.3: continuous p-adic powers and the native module](https://github.com/TauCetiProject/TauCetiRoadmap/blob/main/TauCetiRoadmap/ProfiniteArithmetic/README.md#13-the-ℤ_ℓ-power-on-a-pro-ℓ-group).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189) The cited passage supplies this arithmetic target. The native-carrier adapter and the separate closure/compactness steps are arithmetic deductions. The source conventions below specify the corrections to the printed formulas used in this argument.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189)
 
 <a id="colemanpowerseries-l4-finite-principal-closure-span"></a>
 
@@ -9781,16 +9605,17 @@ Correctly distinguishes the real tower from its principal adjustment.
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.adjustedRealTower` by the following specification.
+Use `q` from [IntegralIwasawaTheory §7.3](../IntegralIwasawaTheory/README.md#73-circular-closures-and-their-actual-image) with the following specialization. Here `q(a)` denotes its normalized compatible real principal generator.
 
-Define `q(a)=teichTower(a mod p)⁻¹·γ(a)` in `U∞,1`. It is real and norm-compatible. The Teichmüller correction is an actual scalar root-of-unity tower, not an omitted normalization.
 
-The API includes the following named statements.
+The supplied object is `q(a)=teichTower(a mod p)⁻¹·γ(a)` in `U∞,1`. It is real and norm-compatible. The Teichmüller correction is an actual scalar root-of-unity tower, not an omitted normalization.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.adjustedRealTower_coe`: As a full tower `q(a)=teichTower(a mod p)⁻¹·γ(a)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.adjustedRealTower_fixed`: `towerAction(−1)(q(a))=q(a)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.adjustedRealTower_pow`: `q(a)^(p−1)=γ(a)^(p−1)`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.adjustedRealTower_norm`: `N_n(q(a)_(n+1))=q(a)_n`.
+The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
+
+- As a full tower `q(a)=teichTower(a mod p)⁻¹·γ(a)`.
+- `towerAction(−1)(q(a))=q(a)`.
+- `q(a)^(p−1)=γ(a)^(p−1)`.
+- `N_n(q(a)_(n+1))=q(a)_n`.
 
 **Checks.**
 
@@ -9799,15 +9624,9 @@ The API includes the following named statements.
 - `AdjustedRealTests.fifth_residue`: At `p=5,a=2` every coordinate has residue 1, whereas the unadjusted `γ` has residue 2.
 - `AdjustedRealTests.fifth_value`: At `p=5,a=2,n=0`, `q(2)_0²=−(2+ζ_0+ζ_0⁻¹)≠1`. Here `((1−2)/2)` modulo 5 is 2 and `ω(2)²=−1`, so the square follows from `ζ_0²(1+ζ_0)=ζ_0²+ζ_0³`. This excludes the identity tower, which the residue-only test would allow.
 
-For the proof, the section property and the residue calculation make the product principal. Both factors are real under conjugation. Norm compatibility is inherited from the existing two actual towers; the dedicated coordinate square is recorded separately.
+*Needs:* [IntegralIwasawaTheory §7.3](../IntegralIwasawaTheory/README.md#73-circular-closures-and-their-actual-image).
 
-Provides the compatible principal generator used in finite and infinite cyclicity and its Coleman image.
-
-Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189: Provides the compatible principal generator used in finite and infinite cyclicity and its Coleman image.
-
-*Needs:* [The real cyclotomic unit tower](#colemanpowerseries-l4-real-cyclotomic-unit-tower); [The residue of the real generator](#colemanpowerseries-l4-real-cyclotomic-generator-residue); [The Teichmüller section in the arithmetic tower](#colemanpowerseries-l0-teichmuller-tower-section); [The continuous Galois action on the unit tower](#colemanpowerseries-l0-norm-tower-galois-action); [The principal compatible unit subgroup](#colemanpowerseries-l0-principal-norm-compatible-units).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189) The cited passage supplies this arithmetic target. The native-carrier adapter and the separate closure/compactness steps are arithmetic deductions. The source conventions below specify the corrections to the printed formulas used in this argument.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189)
 
 <a id="colemanpowerseries-l4-adjusted-generator-local-membership"></a>
 
@@ -9815,17 +9634,14 @@ Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188�
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.adjustedRealTower_mem` in the following form.
+Use `realPrincipalCircularClosure` from [IntegralIwasawaTheory §7.3](../IntegralIwasawaTheory/README.md#73-circular-closures-and-their-actual-image) with the following specialization.
+
 
 For each `n`, `q(a)_n∈C_(n,1)⁺`, even though its Teichmüller factor need not be a global real unit.
 
-For the proof, the element `γ_n^(p−1)` is a real global unit image and is principal. It therefore lies in `C_(n,1)⁺`. Since `p−1` is a unit in `ℤ_p`, its scalar inverse acts on the closed principal submodule. The unique `(p−1)st` root there is `q_n`, because `q_n` is principal and `q_n^(p−1)=γ_n^(p−1)`.
+*Needs:* [IntegralIwasawaTheory §7.3](../IntegralIwasawaTheory/README.md#73-circular-closures-and-their-actual-image).
 
-Justifies membership of the adjusted element before declaring it a cyclotomic generator.
-
-*Needs:* [The principal real cyclotomic generator](#colemanpowerseries-l4-principal-adjusted-real-generator); [The real cyclotomic unit tower](#colemanpowerseries-l4-real-cyclotomic-unit-tower); [The real local cyclotomic closure](#colemanpowerseries-l4-real-local-cyclotomic-unit-closure); [The principal real cyclotomic subgroup](#colemanpowerseries-l4-principal-real-local-cyclotomic-units); [The principal-unit scalar structure](#colemanpowerseries-l0-principal-tower-scalar-adapter).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189) The cited passage supplies this arithmetic target. The native-carrier adapter and the separate closure/compactness steps are arithmetic deductions. The source conventions below specify the corrections to the printed formulas used in this argument.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189)
 
 <a id="colemanpowerseries-l4-adjusted-generator-norm-square"></a>
 
@@ -9833,17 +9649,14 @@ Justifies membership of the adjusted element before declaring it a cyclotomic ge
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.unitsNorm_adjustedRealTower` in the following form.
+Use `realPrincipalCircularClosure` from [IntegralIwasawaTheory §7.3](../IntegralIwasawaTheory/README.md#73-circular-closures-and-their-actual-image) with the following specialization.
+
 
 For the coordinate formula `q_n=ω(a mod p)⁻¹ζ_n^((1−a)/2)c_n(a)`, `N_n(q_(n+1))=q_n`, and `q_n∈C_(n,1)⁺`.
 
-For the proof, the norm of the scalar Teichmüller lift is itself, the norm of the odd-prime root factor is the corresponding previous root power, and the two cyclotomic differences have the same norm sign. Multiply these three exact adjacent identities. Combine with the proved local membership, so this is a compatibility square of the actual restricted cyclotomic diagram.
+*Needs:* [IntegralIwasawaTheory §7.3](../IntegralIwasawaTheory/README.md#73-circular-closures-and-their-actual-image).
 
-Pins the chosen generator under transition; finite cyclicity without this square is insufficient for inverse-limit cyclicity.
-
-*Needs:* [The principal real cyclotomic generator](#colemanpowerseries-l4-principal-adjusted-real-generator); [Membership of the principal generator in the local closure](#colemanpowerseries-l4-adjusted-generator-local-membership); [Norm compatibility of Teichmüller factors](#colemanpowerseries-l0-teichmuller-norm-compatibility); [Norm compatibility of evaluated cyclotomic units](#colemanpowerseries-l2-cyclotomic-series-evaluation-norm); [The Tate-module inclusion into local units](#colemanpowerseries-l0-tate-module-inclusion).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189) The cited passage supplies this arithmetic target. The native-carrier adapter and the separate closure/compactness steps are arithmetic deductions. The source conventions below specify the corrections to the printed formulas used in this argument.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189)
 
 <a id="colemanpowerseries-l4-finite-real-principal-cyclicity"></a>
 
@@ -9851,17 +9664,14 @@ Pins the chosen generator under transition; finite cyclicity without this square
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.finiteRealCyclotomic_cyclic` in the following form.
+Use `realPrincipalCircularClosure` from [IntegralIwasawaTheory §7.3](../IntegralIwasawaTheory/README.md#73-circular-closures-and-their-actual-image) with the following specialization.
+
 
 If `â` topologically generates `G`, then `C_(n,1)⁺` is the `ℤ_p[G_n⁺]`-span of `q(a)_n` for every `n`.
 
-For the proof, apply the exact global cyclic-generation result: the real global subgroup is the integer `G_n⁺-orbit` span of `γ_n(a)`, including `−1` by the global telescoping identity. The scalar factor `−1` is killed by raising to `p−1`. Apply finite-principal-closure-span to the conjugates of `γ_n(a)^(p−1)=q_n^(p−1)`. Compactness of `C_n⁺` identifies the closure of the `(p−1)`-power image of `D_n⁺` with the `(p−1)`-power image of `C_n⁺`. That image equals `C_(n,1)⁺`: it is principal, and scalar multiplication by `p−1` is invertible on its closed principal subgroup. Replace the span of `q_n^(p−1)` by that of `q_n`. Do not assert the false algebraic equality between the two global `(p−1)`-power subgroups.
+*Needs:* [IntegralIwasawaTheory §7.3](../IntegralIwasawaTheory/README.md#73-circular-closures-and-their-actual-image).
 
-Corrects Lemma12.22 at the level of closures, including the `p=5` negative control.
-
-*Needs:* [Membership of the principal generator in the local closure](#colemanpowerseries-l4-adjusted-generator-local-membership); [The compatible principal-generator square](#colemanpowerseries-l4-adjusted-generator-norm-square); [Finite principal closure equals the p-adic span](#colemanpowerseries-l4-finite-principal-closure-span); [The real local cyclotomic closure](#colemanpowerseries-l4-real-local-cyclotomic-unit-closure); [The principal real cyclotomic subgroup](#colemanpowerseries-l4-principal-real-local-cyclotomic-units); [IntegralIwasawaTheory §1.4: cyclic generation](../IntegralIwasawaTheory/README.md#14-cyclic-generation-torsion-and-norm-compatibility); [IntegralIwasawaTheory §1.3: cyclotomic unit generators](../IntegralIwasawaTheory/README.md#13-real-generators-and-the-valuation-relation); [IntegralIwasawaTheory §1.3: smoothed cyclotomic unit](../IntegralIwasawaTheory/README.md#13-real-generators-and-the-valuation-relation); [The actual finite cyclotomic automorphisms](#colemanpowerseries-l0-finite-cyclotomic-galois-action); [The principal-unit scalar structure](#colemanpowerseries-l0-principal-tower-scalar-adapter).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), `Lemma12.22(i)`, p.188; corrected using Lemma12.20, pp.186–187 and the principal-unit closure argument) The cited passage supplies this arithmetic target. The native-carrier adapter and the separate closure/compactness steps are arithmetic deductions. The source conventions below specify the corrections to the printed formulas used in this argument.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), `Lemma12.22(i)`, p.188; corrected using Lemma12.20, pp.186–187 and the principal-unit closure argument)
 
 <a id="colemanpowerseries-l4-principal-cyclotomic-limit"></a>
 
@@ -9924,16 +9734,17 @@ The API includes `plusColemanAlgebraEquiv_dirac`, `plusColemanAlgebraEquiv_ident
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realPrincipalCyclotomicLimit` by the following specification.
+Use `realPrincipalCircularClosure` from [IntegralIwasawaTheory §7.3](../IntegralIwasawaTheory/README.md#73-circular-closures-and-their-actual-image) with the following specialization.
 
-Define `C∞,1⁺` as the closed subgroup of `U∞,1` whose nth coordinate lies in `C_(n,1)⁺` for every `n`. It is real and has the action through `G⁺`, so its completed module uses the supplied `Λ(G⁺)` quotient-group interface.
 
-The API includes the following named statements.
+The supplied object is `C∞,1⁺` as the closed subgroup of `U∞,1` whose nth coordinate lies in `C_(n,1)⁺` for every `n`. It is real and has the action through `G⁺`, so its completed module uses the supplied `Λ(G⁺)` quotient-group interface.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.mem_realPrincipalCyclotomicLimit`: Membership means `u_n∈C_(n,1)⁺` for every `n`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realPrincipalCyclotomicLimit_closed`: It is closed and compact.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realPrincipalCyclotomicLimit_adjusted`: `q(a)` belongs to `C∞,1⁺`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realPrincipalCyclotomicLimit_factor`: Conjugation acts trivially, and the action factors through the native quotient `G⁺`.
+The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
+
+- Membership means `u_n∈C_(n,1)⁺` for every `n`.
+- It is closed and compact.
+- `q(a)` belongs to `C∞,1⁺`.
+- Conjugation acts trivially, and the action factors through the native quotient `G⁺`.
 
 **Checks.**
 
@@ -9941,15 +9752,9 @@ The API includes the following named statements.
 - `RealLimitTests.adjusted`: `q(a)∈C∞,1⁺`.
 - `RealLimitTests.tate_excluded`: `tateTower(1)∉C∞,1⁺` for odd `p`.
 
-For the proof, use the native coordinatewise closed subgroup conditions. Every coordinate is fixed by conjugation; hence the whole tower is fixed. The actual action restricts and factors through `G/⟨−1⟩`. The actual plus algebra comparison above identifies the action with the existing quotient-group completed algebra.
+*Needs:* [IntegralIwasawaTheory §7.3](../IntegralIwasawaTheory/README.md#73-circular-closures-and-their-actual-image).
 
-Defines the receiving compact module for inverse-limit cyclicity.
-
-Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189: Defines the receiving compact module for inverse-limit cyclicity.
-
-*Needs:* [The principal real cyclotomic subgroup](#colemanpowerseries-l4-principal-real-local-cyclotomic-units); [Norms preserve the local cyclotomic closures](#colemanpowerseries-l4-local-cyclotomic-norm-stability); [The full principal cyclotomic limit](#colemanpowerseries-l4-principal-cyclotomic-limit); [The continuous Galois action on the unit tower](#colemanpowerseries-l0-norm-tower-galois-action); [The completed action on principal units](#colemanpowerseries-l0-principal-completed-action-adapter); [PadicMeasuresIwasawaAlgebras §1.7: Layer 1](../PadicMeasuresIwasawaAlgebras/README.md#17-comparison-with-the-completed-group-algebra).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189) The cited passage supplies this arithmetic target. The native-carrier adapter and the separate closure/compactness steps are arithmetic deductions. The source conventions below specify the corrections to the printed formulas used in this argument.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189)
 
 <a id="colemanpowerseries-l4-compatible-cyclotomic-coefficient-fibers"></a>
 
@@ -9975,17 +9780,14 @@ The nested coefficient fibers justify passage from finite cyclic spans to a sing
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realPrincipalCyclotomicLimit_cyclic` in the following form.
+Use `realPrincipalCircularClosure` from [IntegralIwasawaTheory §7.3](../IntegralIwasawaTheory/README.md#73-circular-closures-and-their-actual-image) with the following specialization.
+
 
 `C∞,1⁺=Λ(G⁺)•q(a)` for the fixed compatible topological generator `â`, with the quotient topology from its continuous cyclic coefficient map.
 
-For the proof, compactness and the nonempty closed nested fibers give a single `λ` in every `S_n`. Equality of all native coordinates gives `u=λ•q(a)`. The reverse inclusion follows from the actual submodule stability of `C∞,1⁺`. A continuous map from compact `Λ(G⁺)` onto the Hausdorff target is a quotient map.
+*Needs:* [IntegralIwasawaTheory §7.3](../IntegralIwasawaTheory/README.md#73-circular-closures-and-their-actual-image).
 
-This is `Lemma12.22(ii)` with an actual generator and a compact compatible-fiber proof.
-
-*Needs:* [Compatible coefficient fibers for the chosen generator](#colemanpowerseries-l4-compatible-cyclotomic-coefficient-fibers); [The real principal cyclotomic limit](#colemanpowerseries-l4-real-principal-cyclotomic-limit); [The principal real cyclotomic generator](#colemanpowerseries-l4-principal-adjusted-real-generator); [PadicMeasuresIwasawaAlgebras §1.7: Layer 1](../PadicMeasuresIwasawaAlgebras/README.md#17-comparison-with-the-completed-group-algebra); `IsCompact.nonempty_iInter_of_sequence_nonempty_isCompact_isClosed`.
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189) The cited passage supplies this arithmetic target. The native-carrier adapter and the separate closure/compactness steps are arithmetic deductions. The source conventions below specify the corrections to the printed formulas used in this argument.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189)
 
 <a id="colemanpowerseries-l4-finite-local-tate-real-splitting"></a>
 
@@ -10029,17 +9831,14 @@ Supplies the full cyclotomic split used by `Theorem12.23(i)`.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realPrincipalColeman_surjective` in the following form.
+Use `principalColeman_plusEquiv` from [IntegralIwasawaTheory §7.2](../IntegralIwasawaTheory/README.md#72-the-normalized-arithmetic-coleman-map) with the following specialization.
 
-For odd `p`, principalColeman maps the real principal subgroup `U∞,1⁺` onto the plus summand of `Λ(G)`, identified by the actual plus algebra comparison above with `Λ(G⁺)`, and its kernel on that subgroup is zero.
 
-For the proof, apply the supplied order-two idempotent splitting with `e⁺=(1+c)/2` to the actual principal exact sequence. Its two Tate modules have `c` acting by `−1` and hence have zero plus part. For a plus measure, lift it using principal exactness and project the lift with `e⁺`. The equivariance square gives the same measure. A real Tate element is zero because 2 is a unit. Use the supplier’s identification `e⁺Λ(G)≃Λ(G⁺)`, including its identity `e⁺`. Do not treat `e⁺Λ(G)` as a unital subring with the ambient identity 1.
+For odd `p`, arithmeticColeman maps the real principal subgroup `U∞,1⁺` onto the plus summand of `Λ(G)`, identified by the actual plus algebra comparison above with `Λ(G⁺)`, and its kernel on that subgroup is zero.
 
-The Tate cokernel vanishes on the real summand, which is why the plus quotient is an isomorphism.
+*Needs:* [IntegralIwasawaTheory §7.2](../IntegralIwasawaTheory/README.md#72-the-normalized-arithmetic-coleman-map).
 
-*Needs:* [The fundamental principal Coleman sequence](#colemanpowerseries-l3-principal-coleman-sequence); [Kernel of the principal Coleman map](#colemanpowerseries-l3-principal-coleman-kernel); [The continuous Galois action on the unit tower](#colemanpowerseries-l0-norm-tower-galois-action); [The principal Coleman module map](#colemanpowerseries-l2-principal-coleman-linear-map); [PadicMeasuresIwasawaAlgebras §1.7: Layer 1](../PadicMeasuresIwasawaAlgebras/README.md#17-comparison-with-the-completed-group-algebra).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189) The cited passage supplies this arithmetic target. The native-carrier adapter and the separate closure/compactness steps are arithmetic deductions. The source conventions below specify the corrections to the printed formulas used in this argument.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189)
 
 <a id="colemanpowerseries-l4-adjusted-generator-coleman-image"></a>
 
@@ -10047,17 +9846,14 @@ The Tate cokernel vanishes on the real summand, which is why the plus quotient i
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalColeman_adjustedRealTower` in the following form.
+Use `realCircularClosure_colemanImage` from [IntegralIwasawaTheory §7.3](../IntegralIwasawaTheory/README.md#73-circular-closures-and-their-actual-image) with the following specialization.
 
-`principalColeman(q(a))=λ_a=([â]−1)ζ_p` for the independently normalized arithmetic pseudomeasure. The raw `Col₀` image is `−λ_a`. Projection to `Λ(G⁺)` gives `([ā]−1)ζ_p⁺` under the supplied plus pseudomeasure comparison.
 
-For the proof, the root factor `tateTower((1−a)/2)` is killed by the full raw kernel, as is the scalar Teichmüller factor. Thus raw and normalized images equal those of the actual `cyclotomicTower(a)`. Use the existing signed arithmetic numerator theorem. Transport that equality through the actual plus algebra/pseudomeasure comparison above; `ζ_p` is not renormalized.
+`arithmeticColeman(q(a))=λ_a=([â]−1)ζ_p` for the independently normalized arithmetic pseudomeasure. The raw `Col₀` image is `−λ_a`. Projection to `Λ(G⁺)` gives `([ā]−1)ζ_p⁺` under the supplied plus pseudomeasure comparison.
 
-Computes the genuine compatible principal generator rather than a nonprincipal tower missing its Teichmüller correction.
+*Needs:* [IntegralIwasawaTheory §7.3](../IntegralIwasawaTheory/README.md#73-circular-closures-and-their-actual-image).
 
-*Needs:* [The principal real cyclotomic generator](#colemanpowerseries-l4-principal-adjusted-real-generator); [Kernel of the principal Coleman map](#colemanpowerseries-l3-principal-coleman-kernel); [The full and principal unit splitting](#colemanpowerseries-l0-teichmuller-unit-splitting); [The raw cyclotomic numerator and its sign](#colemanpowerseries-l2-raw-cyclotomic-numerator); [The real cyclotomic unit tower](#colemanpowerseries-l4-real-cyclotomic-unit-tower); [The principal Coleman module map](#colemanpowerseries-l2-principal-coleman-linear-map); [PadicMeasuresIwasawaAlgebras §1.7: Layer 1](../PadicMeasuresIwasawaAlgebras/README.md#17-comparison-with-the-completed-group-algebra); [IntegralIwasawaTheory §5.0: canonical pseudomeasure and integral numerator](../IntegralIwasawaTheory/README.md#50-the-canonical-kubotaleopoldt-object).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189) The cited passage supplies this arithmetic target. The native-carrier adapter and the separate closure/compactness steps are arithmetic deductions. The source conventions below specify the corrections to the printed formulas used in this argument.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189)
 
 <a id="colemanpowerseries-l4-augmentation-generator-arithmetic-comparison"></a>
 
@@ -10085,7 +9881,7 @@ Keep the hypotheses of the preceding target.
 
 Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalColeman_cyclotomic_image` in the following form.
 
-`principalColeman(C∞,1)=I(G)ζ_p` as an actual closed `Λ(G)`-submodule of `Λ(G)`.
+`arithmeticColeman(C∞,1)=I(G)ζ_p` as an actual closed `Λ(G)`-submodule of `Λ(G)`.
 
 For the proof, the Tate summand of `C∞,1` is killed. Its real part is cyclic over `Λ(G⁺)`, and its actual generator has image `λ_a`. Restrict or extend through the supplied plus comparison. The generator image is plus: `δ_(-1)λ_a=λ_a`. Therefore the `Λ(G)`-span and the `Λ(G⁺)`-span of this element agree under that comparison. The augmentation comparison identifies the resulting principal ideal with `I(G)ζ_p`, and its compact image is closed.
 
@@ -10101,17 +9897,14 @@ Specifies the image used in the full quotient exact sequence.
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.principalColeman_real_cyclotomic_image` in the following form.
+Use `realCircularClosure_colemanImage` from [IntegralIwasawaTheory §7.3](../IntegralIwasawaTheory/README.md#73-circular-closures-and-their-actual-image) with the following specialization.
 
-Under the supplied identification of the plus algebra with `Λ(G⁺)`, `principalColeman(C∞,1⁺)=I(G⁺)ζ_p⁺` as a closed ideal.
 
-For the proof, apply the actual `Λ(G⁺)`-linear Coleman map to the proved cyclic module. Its image is `Λ(G⁺)λ_a⁺`. The augmentation-generator comparison identifies this span with the required integral image ideal, including its closed topology.
+Under the supplied identification of the plus algebra with `Λ(G⁺)`, `arithmeticColeman(C∞,1⁺)=I(G⁺)ζ_p⁺` as a closed ideal.
 
-The real ideal is the one that appears in Theorem11.9.
+*Needs:* [IntegralIwasawaTheory §7.3](../IntegralIwasawaTheory/README.md#73-circular-closures-and-their-actual-image).
 
-*Needs:* [Cyclicity of the real cyclotomic limit](#colemanpowerseries-l4-inverse-limit-real-cyclicity); [The actual Coleman image of the adjusted generator](#colemanpowerseries-l4-adjusted-generator-coleman-image); [The augmentation image for the chosen generator](#colemanpowerseries-l4-augmentation-generator-arithmetic-comparison); [Coleman on the real principal summand](#colemanpowerseries-l4-real-principal-coleman-surjectivity); [The principal Coleman module map](#colemanpowerseries-l2-principal-coleman-linear-map); [PadicMeasuresIwasawaAlgebras §1.7: Layer 1](../PadicMeasuresIwasawaAlgebras/README.md#17-comparison-with-the-completed-group-algebra).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189) The cited passage supplies this arithmetic target. The native-carrier adapter and the separate closure/compactness steps are arithmetic deductions. The source conventions below specify the corrections to the printed formulas used in this argument.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189)
 
 <a id="colemanpowerseries-l4-full-local-unit-quotient-sequence"></a>
 
@@ -10123,7 +9916,7 @@ Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.cyclotomicQuotient_exact` in
 
 For odd `p`, the actual Coleman map induces the topologically exact sequence `0→Additive(U∞,1)/C∞,1→Λ(G)/(I(G)ζ_p)→ℤ_p(1)→0` of `Λ(G)`-modules. The quotient maps are the actual closed-submodule quotients.
 
-For the proof, the full Tate kernel lies in `C∞,1`. Quotient principalColeman by the actual source submodule and its identified image ideal; the resulting first map is injective. The moment kills `I(G)ζ_p` because it kills the Coleman image, so it descends; its range is unchanged and its kernel is the image of the new first map. Use the native quotient universal properties and the compact/Hausdorff quotient topologies. These are map identities, not merely an isomorphism of abstract groups.
+For the proof, the full Tate kernel lies in `C∞,1`. Quotient arithmeticColeman by the actual source submodule and its identified image ideal; the resulting first map is injective. The moment kills `I(G)ζ_p` because it kills the Coleman image, so it descends; its range is unchanged and its kernel is the image of the new first map. Use the native quotient universal properties and the compact/Hausdorff quotient topologies. These are map identities, not merely an isomorphism of abstract groups.
 
 Recovers `Theorem12.23(i)`, including its nonzero Tate cokernel.
 
@@ -10137,16 +9930,17 @@ Recovers `Theorem12.23(i)`, including its nonzero Tate cokernel.
 
 Keep the hypotheses of the preceding target.
 
-Define `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realPrincipalUnitQuotient` by the following specification.
+Use `Q⁺` from [IntegralIwasawaTheory §7.3](../IntegralIwasawaTheory/README.md#73-circular-closures-and-their-actual-image) with the following specialization. Here `Q⁺` denotes its native real principal-unit quotient.
 
-Form the native module quotient `Q⁺=Additive(U∞,1⁺)/C∞,1⁺` with the quotient topology and the supplied `Λ(G⁺)`-action. `U∞,1⁺` is the actual conjugation-fixed subgroup of principal norm-compatible units.
 
-The API includes the following named statements.
+The supplied object is the native module quotient `Q⁺=Additive(U∞,1⁺)/C∞,1⁺` with the quotient topology and the supplied `Λ(G⁺)`-action. `U∞,1⁺` is the actual conjugation-fixed subgroup of principal norm-compatible units.
 
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realPrincipalUnitQuotient_mk`: The quotient projection sends a real principal tower `u` to its class `[u]`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realPrincipalUnitQuotient_eq_zero`: `[u]=0` iff `u∈C∞,1⁺`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realPrincipalUnitQuotient_eq`: `[u]=[v]` iff `u/v∈C∞,1⁺`.
-- `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realPrincipalUnitQuotient_lift`: A `Λ(G⁺)`-linear map killing `C∞,1⁺` descends uniquely; a continuous such map descends continuously for the quotient topology.
+The supplied contract has the following properties. Separately named matrix, sign and coordinate identities specify the refinements here.
+
+- The quotient projection sends a real principal tower `u` to its class `[u]`.
+- `[u]=0` iff `u∈C∞,1⁺`.
+- `[u]=[v]` iff `u/v∈C∞,1⁺`.
+- A `Λ(G⁺)`-linear map killing `C∞,1⁺` descends uniquely; a continuous such map descends continuously for the quotient topology.
 
 **Checks.**
 
@@ -10155,15 +9949,9 @@ The API includes the following named statements.
 - `RealQuotientTests.conjugate_tate_excluded`: A nontrivial Tate tower does not supply a representative in `U∞,1⁺`.
 - `RealQuotientTests.native_relation`: For actual real principal towers `u,v`, their classes agree exactly when `uv⁻¹∈C∞,1⁺`, by the native Submodule quotient relation on the additive carrier. In particular the kernel is the full closed cyclotomic subgroup, not merely its algebraic integer span or its torsion subgroup.
 
-For the proof, conjugation-fixed principal units form a closed stable subgroup of the compact principal module. `C∞,1⁺` is its actual closed submodule by the infinite Tate/real comparison. Form the native submodule quotient and transport the action through `G⁺`; do not define a substitute unit quotient on the Iwasawa algebra side.
+*Needs:* [IntegralIwasawaTheory §7.3](../IntegralIwasawaTheory/README.md#73-circular-closures-and-their-actual-image).
 
-Defines the unit side of the headline local Iwasawa comparison.
-
-Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189: Defines the unit side of the headline local Iwasawa comparison.
-
-*Needs:* [The continuous Galois action on the unit tower](#colemanpowerseries-l0-norm-tower-galois-action); [The completed action on principal units](#colemanpowerseries-l0-principal-completed-action-adapter); [The real principal cyclotomic limit](#colemanpowerseries-l4-real-principal-cyclotomic-limit); [The full Tate and real cyclotomic splitting](#colemanpowerseries-l4-inverse-limit-tate-real-splitting); [PadicMeasuresIwasawaAlgebras §1.7: Layer 1](../PadicMeasuresIwasawaAlgebras/README.md#17-comparison-with-the-completed-group-algebra).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189) The cited passage supplies this arithmetic target. The native-carrier adapter and the separate closure/compactness steps are arithmetic deductions. The source conventions below specify the corrections to the printed formulas used in this argument.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189)
 
 <a id="colemanpowerseries-l4-local-iwasawa-real-quotient-comparison"></a>
 
@@ -10171,17 +9959,14 @@ Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188�
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realPrincipalUnitQuotient_equiv` in the following form.
+Use `realCircularClosure_colemanImage` from [IntegralIwasawaTheory §7.3](../IntegralIwasawaTheory/README.md#73-circular-closures-and-their-actual-image) with the following specialization.
+
 
 The actual principal Coleman map induces a topological `Λ(G⁺)`-linear equivalence `Q⁺≃Λ(G⁺)/(I(G⁺)ζ_p⁺)`. It maps the class of `u` to the class of its actual Coleman measure.
 
-For the proof, on the real principal group Coleman is injective and surjective onto `Λ(G⁺)`. Its cyclotomic submodule maps exactly to the identified ideal. Apply the native quotient universal property and the closed-submodule quotient comparison. The explicit map and inverse are continuous because the original map is a continuous bijection from a compact space to a Hausdorff space, and the submodules are closed.
+*Needs:* [IntegralIwasawaTheory §7.3](../IntegralIwasawaTheory/README.md#73-circular-closures-and-their-actual-image).
 
-Recovers `Theorem12.23(ii)` and Theorem11.9 with the same maps, signs and quotient topology.
-
-*Needs:* [The real principal unit quotient](#colemanpowerseries-l4-real-principal-unit-quotient); [Coleman on the real principal summand](#colemanpowerseries-l4-real-principal-coleman-surjectivity); [The real local cyclotomic image ideal](#colemanpowerseries-l4-real-cyclotomic-coleman-image); [The principal Coleman module map](#colemanpowerseries-l2-principal-coleman-linear-map); [PadicMeasuresIwasawaAlgebras §5.2: measure and algebra contract](../PadicMeasuresIwasawaAlgebras/README.md#52-compact-inverse-systems-and-topological-nakayama).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189) The cited passage supplies this arithmetic target. The native-carrier adapter and the separate closure/compactness steps are arithmetic deductions. The source conventions below specify the corrections to the printed formulas used in this argument.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189)
 
 <a id="colemanpowerseries-l4-finite-flat-local-unit-quotient-comparison"></a>
 
@@ -10189,17 +9974,14 @@ Recovers `Theorem12.23(ii)` and Theorem11.9 with the same maps, signs and quotie
 
 Keep the hypotheses of the preceding target.
 
-Prove `TauCetiRoadmap.ColemanPowerSeries.Arithmetic.realPrincipalUnitQuotient_baseChange` in the following form.
+Use `realCircularClosure_colemanImage` from [IntegralIwasawaTheory §7.3](../IntegralIwasawaTheory/README.md#73-circular-closures-and-their-actual-image) with the following specialization.
+
 
 For a finite free commutative `ℤ_p`-algebra A with finite-module topology, `A⊗_(ℤ_p)Q⁺` is canonically equivalent to `(A⊗U∞,1⁺)/im(A⊗C∞,1⁺)`, and the actual Coleman comparison identifies it with `Λ_A(G⁺)/im(A⊗I(G⁺)ζ_p⁺)`. The two quotient topologies agree with the completed finite tensor comparisons; the image ideal is `A⊗` the actual integral image ideal.
 
-For the proof, apply the finite-product tensor and completion comparison of Layer 3 to the short exact sequence `C∞,1⁺→U∞,1⁺→Q⁺` and to the integral image ideal sequence. Tensor the actual equivalence and its actual maps. Use the coefficient-algebra identification `A⊗Λ(G⁺)≃Λ_A(G⁺)`; basis-independence and the finite-product compact topologies are given by the Layer 3 comparison. No unchanged `ℤ_p`-unit quotient is identified with an A-coefficient algebra quotient. No arithmetic A-cyclotomic tower is silently substituted for the displayed tensor module.
+*Needs:* [IntegralIwasawaTheory §7.3](../IntegralIwasawaTheory/README.md#73-circular-closures-and-their-actual-image).
 
-Pins the coefficient extension of both the unit quotient and its algebraic image.
-
-*Needs:* [Iwasawa’s real local-unit comparison](#colemanpowerseries-l4-local-iwasawa-real-quotient-comparison); [Finite-flat transport of the entire sequence](#colemanpowerseries-l3-finite-flat-coleman-sequence); [PadicMeasuresIwasawaAlgebras §5.2: measure and algebra contract](../PadicMeasuresIwasawaAlgebras/README.md#52-compact-inverse-systems-and-topological-nakayama); [PadicMeasuresIwasawaAlgebras §0.2: Layer 0](../PadicMeasuresIwasawaAlgebras/README.md#02-weak-and-strong-topologies-on-measures); [PadicMeasuresIwasawaAlgebras §1.7: Layer 1](../PadicMeasuresIwasawaAlgebras/README.md#17-comparison-with-the-completed-group-algebra).
-
-(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189) The cited passage supplies this arithmetic target. The native-carrier adapter and the separate closure/compactness steps are arithmetic deductions. The source conventions below specify the corrections to the printed formulas used in this argument.
+(Rodrigues Jacinto–Williams: [An introduction to p-adic L-functions](https://msp.org/ent/2025/4-1/ent-v4-n1-p03-s.pdf), Definition11.8, p.176; Lemmas12.20–12.22, pp.186–188; Theorem12.23, pp.188–189)
 
 ### Examples
 
