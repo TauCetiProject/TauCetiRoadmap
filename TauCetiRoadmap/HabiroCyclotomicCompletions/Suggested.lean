@@ -27,25 +27,14 @@ namespace TauCetiRoadmap.HabiroCyclotomicCompletions
 
 namespace QToolkit
 
--- README §1.1: integral definitions precede all quotient formulas.
-/-- The integral polynomial `[n]_q`, including `[0]_q = 0`. -/
-def qInteger (R : Type*) [CommRing R] (n : ℕ) : R[X] :=
+-- AInfCohomology §AI.3.3 supplies qInteger and qInteger_mul_sub_one.
+/-- Polynomial specialization of AInfCohomology's q-integer finite-sum formula. -/
+abbrev qInteger (R : Type*) [CommRing R] (n : ℕ) : R[X] :=
   ∑ i ∈ Finset.range n, X ^ i
 
 /-- The product of the first n positive q-integers, with empty value one. -/
 def qFactorial (R : Type*) [CommRing R] (n : ℕ) : R[X] :=
   ∏ i ∈ Finset.range n, qInteger R (i + 1)
-
-/-- Gaussian polynomials via the integral Pascal recurrence, zero outside the triangle. -/
-def qBinomial (R : Type*) [CommRing R] : ℕ → ℕ → R[X]
-  | 0, k => if k = 0 then 1 else 0
-  | _n + 1, 0 => 1
-  | n + 1, k + 1 => X ^ (k + 1) * qBinomial R n (k + 1) + qBinomial R n k
-
-/-- Successive Gaussian choices, with total the sum of the list. -/
-def qMultinomial (R : Type*) [CommRing R] : List ℕ → R[X]
-  | [] => 1
-  | n :: ns => qBinomial R (n + ns.sum) n * qMultinomial R ns
 
 /-- Finite multiplicative q-shifts in any commutative ring. -/
 def pochhammer {A : Type*} [CommRing A] (x q : A) (n : ℕ) : A :=
@@ -57,7 +46,7 @@ example : qInteger ℤ 0 = 0 ∧ qInteger ℤ 1 = 1 ∧
   norm_num [qInteger, Finset.sum_range_succ]
 
 example : (qInteger (ZMod 2) 2).eval 1 = 0 ∧
-    (qInteger ℤ 3).eval 1 = 3 := by
+    (qInteger ℤ 3).eval 1 = 3 ∧ (qInteger (ZMod 3) 3).eval 1 = 0 := by
   norm_num [qInteger, Finset.sum_range_succ]
   decide
 
@@ -70,28 +59,10 @@ example : (qFactorial ℤ 3).eval 1 = 6 ∧
   norm_num [qFactorial, qInteger, Finset.prod_range_succ, Finset.sum_range_succ]
   decide
 
-example : qBinomial ℤ 0 0 = 1 ∧ qBinomial ℤ 1 2 = 0 ∧
-    qBinomial ℤ 3 1 = 1 + X + X ^ 2 := by
-  norm_num [qBinomial]
-  ring
-
-example : qBinomial ℤ 4 2 = 1 + X + 2 * X ^ 2 + X ^ 3 + X ^ 4 := by
-  norm_num [qBinomial]
-  ring
-
-example : qMultinomial ℤ [] = 1 ∧ qMultinomial ℤ [0, 0] = 1 ∧
-    qMultinomial ℤ [1, 1, 1] = (1 + X) * (1 + X + X ^ 2) := by
-  norm_num [qMultinomial, qBinomial]
-  ring
-
-example : qMultinomial ℤ [1, 2] = qMultinomial ℤ [2, 1] ∧
-    (qMultinomial ℤ [1, 2]).eval 1 = 3 := by
-  norm_num [qMultinomial, qBinomial]
-  ring
-
 example {A : Type*} [CommRing A] (x q : A) :
     pochhammer x q 0 = 1 ∧ pochhammer x q 1 = 1 - x ∧
-    pochhammer x q 2 = (1 - x) * (1 - x * q) := by
+    pochhammer x q 2 = (1 - x) * (1 - x * q) ∧
+    pochhammer x (1 : A) 3 = (1 - x) ^ 3 := by
   simp [pochhammer, Finset.prod_range_succ]
 
 example : pochhammer (2 : ℤ) 3 3 = -85 ∧
@@ -104,20 +75,6 @@ example : pochhammer (2 : ℤ) 3 3 = -85 ∧
 theorem qFactorial_pochhammer (R : Type*) [CommRing R] (n : ℕ) :
     (1 - X) ^ n * qFactorial R n = pochhammer (X : R[X]) X n := sorry
 
-/-- The Gaussian factorial identity requires `k≤n` but no invertibility hypothesis. -/
-theorem qBinomial_factorial (R : Type*) [CommRing R] {n k : ℕ} (h : k ≤ n) :
-    qBinomial R n k * qFactorial R k * qFactorial R (n - k) = qFactorial R n := sorry
-
-/-- Multiplying a Gaussian multinomial by the part factorials gives the total factorial. -/
-theorem qMultinomial_factorial (R : Type*) [CommRing R] (ns : List ℕ) :
-    qMultinomial R ns * (ns.map (qFactorial R)).prod = qFactorial R ns.sum := sorry
-
-/-- The finite q-binomial theorem is an identity of polynomials in the product variable. -/
-theorem finite_qBinomial {A : Type*} [CommRing A] (q : A) (n : ℕ) :
-    pochhammer (-X : A[X]) (C q) n =
-      ∑ k ∈ Finset.range (n + 1),
-        C (q ^ (k * (k - 1) / 2) * (qBinomial A n k).eval q) * X ^ k := sorry
-
 -- No division by t or 1-q: this also works in characteristic two.
 /-- Coefficientwise Jackson derivative; neither `t` nor `1-q` is inverted. -/
 def jackson {A : Type*} [CommRing A] (q : A) (f : A[X]) : A[X] :=
@@ -128,16 +85,23 @@ def jackson {A : Type*} [CommRing A] (q : A) (f : A[X]) : A[X] :=
 def adaptedJackson {A : Type*} [CommRing A] (q : A) (f : A[X]) : A[X] :=
   C (1 - q) * jackson q f
 
-example : jackson (2 : ℤ) (X ^ 2) = 3 * X ∧
-    jackson (1 : ℤ) (X ^ 2) = 2 * X ∧ jackson (2 : ℤ) 1 = 0 := by
-  norm_num [jackson, qInteger, Finset.sum_range_succ]
+example {A : Type*} [CommRing A] (q : A) :
+    jackson q (X ^ 2) = C (1 + q) * X ∧
+    jackson (2 : ℤ) (X ^ 2) = 3 * X ∧
+    jackson (1 : ℤ) (X ^ 2) = 2 * X ∧ jackson (2 : ℤ) 1 = 0 ∧
+    jackson (1 : ℤ) (X ^ 3) = 3 * X ^ 2 := by
+  constructor
+  · nontriviality A
+    norm_num [jackson, qInteger, Finset.sum_range_succ]
+  · norm_num [jackson, qInteger, Finset.sum_range_succ]
 
 example : jackson (1 : ZMod 2) (X ^ 2) = 0 := by
   norm_num [jackson, qInteger, Finset.sum_range_succ]
   decide
 
 example : adaptedJackson (2 : ℤ) (X ^ 2) = -3 * X ∧
-    adaptedJackson (2 : ℤ) 1 = 0 := by
+    adaptedJackson (2 : ℤ) 1 = 0 ∧
+    adaptedJackson (0 : ℤ) (X ^ 3) = X ^ 2 := by
   norm_num [adaptedJackson, jackson, qInteger, Finset.sum_range_succ]
 
 example : adaptedJackson (1 : ℤ) (X ^ 2) = 0 ∧
@@ -168,20 +132,60 @@ example (R : Type*) [CommRing R] : cycloIndex R ∅ = ⊥ := by
   simp [cycloIndex]
 
 example : cycloIndex ℤ {1} = Submonoid.closure {X - 1} ∧
-    cycloIndex (ZMod 2) {1} = cycloIndex (ZMod 2) {2} := by
-  norm_num [cycloIndex, Polynomial.cyclotomic_one, Polynomial.cyclotomic_two]
-  have h : (X - 1 : (ZMod 2)[X]) = X + 1 := by
-    rw [sub_eq_add_neg, ← Polynomial.C_1, ← Polynomial.C_neg]
-    rfl
-  rw [h]
+    cycloIndex (ZMod 2) {1} = cycloIndex (ZMod 2) {2} ∧
+    ∀ n : ℕ, (cyclotomic n ℤ).map (Int.castRingHom ℚ) = cyclotomic n ℚ := by
+  refine ⟨?_, ?_, ?_⟩
+  · norm_num [cycloIndex, Polynomial.cyclotomic_one]
+  · norm_num [cycloIndex, Polynomial.cyclotomic_one, Polynomial.cyclotomic_two]
+    have h : (X - 1 : (ZMod 2)[X]) = X + 1 := by
+      rw [sub_eq_add_neg, ← Polynomial.C_1, ← Polynomial.C_neg]
+      rfl
+    rw [h]
+  · intro n
+    exact Polynomial.map_cyclotomic n (Int.castRingHom ℚ)
 
 example : factorialPoly ℤ 0 = 1 ∧ factorialPoly ℤ 1 = 1 - X ∧
     factorialPoly ℤ 2 = (1 - X) * (1 - X ^ 2) ∧
     ¬ ((X ^ 0 - 1 : ℤ[X]) ^ 1 ∣ factorialPoly ℤ 0) ∧
-    (X ^ 2 - 1 : ℤ[X]) ^ 0 ∣ factorialPoly ℤ 0 := by
-  norm_num [factorialPoly, QToolkit.pochhammer, Finset.prod_range_succ]
-  left
-  ring
+    (X ^ 2 - 1 : ℤ[X]) ^ 0 ∣ factorialPoly ℤ 0 ∧
+    cyclotomic 3 ℤ ^ 2 ∣ factorialPoly ℤ 6 ∧
+    ¬ (cyclotomic 3 ℤ ^ 2 ∣ factorialPoly ℤ 5) ∧
+    (X ^ 2 - 1 : ℤ[X]) ^ 2 ∣ factorialPoly ℤ 4 := by
+  refine ⟨?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  · simp [factorialPoly, QToolkit.pochhammer]
+  · simp [factorialPoly, QToolkit.pochhammer]
+  · simp [factorialPoly, QToolkit.pochhammer, Finset.prod_range_succ]
+    left
+    ring
+  · simp [factorialPoly, QToolkit.pochhammer]
+  · simp
+  · refine ⟨(1 - X) * (1 - X ^ 2) * (1 - X ^ 4) * (1 - X ^ 5) *
+      (X - 1) ^ 2 * (X + 1) * (X ^ 2 - X + 1), ?_⟩
+    norm_num [factorialPoly, QToolkit.pochhammer, Finset.prod_range_succ,
+      Polynomial.cyclotomic_three]
+    ring
+  · have hm : (cyclotomic 3 ℤ ^ 2).Monic := (Polynomial.cyclotomic.monic 3 ℤ).pow 2
+    have hr : factorialPoly ℤ 5 %ₘ (cyclotomic 3 ℤ ^ 2) = 9 - 9 * X ^ 3 := by
+      apply (Polynomial.div_modByMonic_unique
+        (-8 + 15 * X - 7 * X ^ 2 - 6 * X ^ 3 + 11 * X ^ 4 - 4 * X ^ 5 -
+          5 * X ^ 6 + 7 * X ^ 7 - 3 * X ^ 8 - 2 * X ^ 9 + 3 * X ^ 10 - X ^ 11)
+        (9 - 9 * X ^ 3) hm ?_).2
+      constructor
+      · norm_num [factorialPoly, QToolkit.pochhammer, Finset.prod_range_succ,
+          Polynomial.cyclotomic_three]
+        ring
+      · rw [Polynomial.degree_pow, Polynomial.degree_cyclotomic]
+        norm_num [Nat.totient_prime Nat.prime_three]
+        compute_degree
+        norm_num
+    intro hd
+    have hz := (Polynomial.modByMonic_eq_zero_iff_dvd hm).mpr hd
+    rw [hr] at hz
+    have hc := congrArg (fun p : ℤ[X] => p.coeff 0) hz
+    norm_num at hc
+  · refine ⟨(1 - X) * (1 - X ^ 3) * (X ^ 2 + 1), ?_⟩
+    norm_num [factorialPoly, QToolkit.pochhammer, Finset.prod_range_succ]
+    ring
 
 example (k : ℕ) : factorialPoly ℤ 3 = (1 - X) * (1 - X ^ 2) * (1 - X ^ 3) ∧
     (factorialPoly ℤ 1).leadingCoeff = -1 ∧
@@ -292,8 +296,7 @@ theorem factorialPoly_smul_injective (R M : Type*) [CommRing R]
     Function.Injective (fun x : PolynomialModule R M => factorialPoly R N • x) := sorry
 
 -- Further basic API specified in README §§1.1 and 1.4:
--- qInteger_geometric, qInteger_at_one, qFactorial_at_one, qBinomial_symm,
--- qBinomial_pascal_right, qMultinomial_perm, pochhammer_append,
+-- qFactorial_at_one, pochhammer_append,
 -- pochhammer_inverse_parameter, factorialPoly_zero.
 -- Objects retained in the README, grouped by their mathematical role:
 -- §1.1: jacksonSeries, adaptedJacksonSeries, pochhammerInf, reciprocalPochhammer,
@@ -314,7 +317,7 @@ theorem factorialPoly_smul_injective (R M : Type*) [CommRing R]
 -- cyclotomicIntegerRoot, FiniteH, hTransition, TaylorProduct (with map),
 -- taylorCoeff, gamma, atFourthRoot, hFiltration, hFiltration_quotient_equiv,
 -- pFiltration, FiniteP, jetRows, digitAt, jetAt, jetCoordinates, digitCoordinates,
--- iota, idealStep, factorialGradedEquiv, taylorGradedEquiv, finiteDigitBasis,
+-- iota, factorialGradedEquiv, taylorGradedEquiv, finiteDigitBasis,
 -- finiteJetBasis, gradedIota, simultaneousRemainders, finiteIota,
 -- rationalTaylorEquiv, taylorMatrix, twoRemainderMatrix, remainderAt,
 -- remainderMatrix, D1, D2, gradedMatrix, delta, starMatrix, awayToPadic.
