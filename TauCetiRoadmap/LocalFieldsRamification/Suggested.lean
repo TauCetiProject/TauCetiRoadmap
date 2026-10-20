@@ -1315,7 +1315,15 @@ theorem normGradedMap_after_break [Algebra K L] [ValuativeExtension K L]
   exact TauCeti.normGradedMap_after_break hprime _hvt
     ((upperJump_iff_native K L _).mp _ht)
 
-/-- **Layer 3, Hasse–Arf.** Every upper jump of a finite abelian Galois extension is integral. -/
+/-- **Layer 3, Hasse–Arf.** Every upper jump of a finite abelian Galois extension is integral.
+
+The proof target is decomposed in the README: first construct the complete lower-break data for
+cyclic totally ramified extensions of degree `p^r`, including the Sen divisibility
+`p^(j+1) ∣ (b_(j+1) - b_j)` only for `j + 1 < r`; then derive integral upper breaks from the
+Herbrand sum. Next detect each positive jump by a cyclic p-primary quotient, compare after removing
+its unramified part, and handle `-1`, `0`, and degree one separately. These are independent
+prerequisites of this theorem; the prime-degree norm-index results are not used to assert the
+cyclic p-power divisibility. -/
 theorem hasseArf [Algebra K L] [ValuativeExtension K L]
     [Module.Finite K L] [IsGalois K L]
     (hcomm : ∀ σ τ : L ≃ₐ[K] L, σ * τ = τ * σ)

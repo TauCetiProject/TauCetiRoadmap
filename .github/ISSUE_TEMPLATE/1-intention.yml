@@ -22,6 +22,7 @@ body:
         - AdicSpaces
         - AdicSpacesPartII
         - AdicSpacesPartIII
+        - AdicSpacesPartIV
         - AffineLieAlgebras
         - AffineMorseLefschetz
         - AlgebraicCurves
@@ -42,6 +43,7 @@ body:
         - CompactOperators
         - ComplexCurveModuli
         - ComplexKahlerGeometry
+        - ComplexManifolds
         - ComplexTori
         - ConformalMapping
         - DGAInfinity
@@ -56,6 +58,7 @@ body:
         - Exchangeability
         - FinancialMathematics
         - FormalLaurentPuiseux
+        - FreeGroupsAndLimitGroups
         - FreeProbability
         - FuchsianOrbifolds
         - GeneralizedCohomology
@@ -71,6 +74,7 @@ body:
         - HeightsAndUnits
         - HopfRinow
         - Hyperfunctions
+        - ImaginaryQuadraticClassNumber
         - InfinitaryLogic
         - IntegralLattices
         - Isoperimetry
@@ -78,12 +82,14 @@ body:
         - KhovanovHomology
         - LocalFieldsRamification
         - LocalGaloisGroups
+        - LocalPurity
         - MassFormula
         - ModularCurves
         - ModularForms
         - MorseNovikov
         - MorseTheory
         - NewtonPolygons
+        - NilpotentOrbits
         - NoncommutativeGeometry
         - NumberFieldArithmetic
         - OneParameterSemigroups
@@ -95,6 +101,7 @@ body:
         - PDE
         - PadicFunctionalAnalysis
         - PadicMeasuresIwasawaAlgebras
+        - PerfectoidSpaces
         - PeripheralActions
         - PivotalSpherical
         - PolynomialGaloisGroups
@@ -114,11 +121,16 @@ body:
         - RigidAnalyticGeometry
         - SchemeAndStackFoundations
         - SchubertGeometry
+        - SeibergWittenTheory
         - SpinGeometry
         - StablePeriodicCurved
         - StableReduction
         - StandardDistributions
+        - SymplecticGeometry
+        - TauberianBoundaryConvergence
         - TaubesGromov
+        - ThetaSeries
+        - TypeAHeckeAlgebras
         - Yamabe
         - ZigzagPreprojective
     validations:

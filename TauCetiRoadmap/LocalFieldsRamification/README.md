@@ -529,8 +529,8 @@ pro-`p` quotient.
   `unitFiltration_le_range_powMonoidHom_two`. ⚠ This is **not** an instance
   of the cardinality count, which decides how many square classes there are and not which
   subgroup lies inside the squares. The proof is Hensel's lemma applied to `X² − u`, or the
-  deep-unit logarithm with the fact that multiplication by `2` carries the logarithmic lattice at
-  depth `2e+1` into the lattice at depth `e+1`. ⚠ The hypothesis is mixed characteristic. In
+  deep-unit logarithm: division by `2` carries the logarithmic lattice at depth `2e+1`
+  into the lattice at depth `e+1`; exponentiation then constructs a square root. ⚠ The hypothesis is mixed characteristic. In
   equal characteristic `2` the element `2` is zero and there is no absolute ramification index,
   so the displayed statement is not even the contract for that case.
 
@@ -1061,9 +1061,10 @@ pro-`p` quotient.
   5. *The consequences of item 4, for the same extensions.* `N_{L/K}(U(L, ψℕ v)) = U(K,v)` for
      every `v > t`, by successive approximation from item 4 and completeness. `[U(K,v) :
      N_{L/K}(U(L, ψℕ v)) · U(K,v+1)] = ℓ` for `v = t`, and `= 1` for `v ≠ t`. Multiplication up
-     the filtration then gives `[𝒪[K]ˣ : N_{L/K}(𝒪[L]ˣ)] = ℓ`. The induction for Hasse–Arf
-     consumes item 4 and these indices, and the conductor of a cyclic extension of prime degree is
-     `c(L/K) = t + 1`.
+     the filtration then gives `[𝒪[K]ˣ : N_{L/K}(𝒪[L]ˣ)] = ℓ`, and the conductor of a cyclic
+     extension of prime degree is `c(L/K) = t + 1`. These prime-degree norm-index results have
+     their own downstream uses. They do not supply the cyclic prime-power lower-break divisibility
+     required by Hasse–Arf; that arithmetic input is stated and proved as a separate target below.
   - *Prerequisites:*
     - `Layer 3: Herbrand values as unit depths`;
     - `Layer 3: the quotient embeddings`;
@@ -1080,27 +1081,86 @@ pro-`p` quotient.
     `normGradedMap`, `normGradedMap_tame_break_zero`, `normGradedMap_zero_before_break`,
     `normGradedMap_positive_before_break`, `normGradedMap_at_break`,
     `normGradedMap_at_break_apply`, and `normGradedMap_after_break`.
-- **Hasse–Arf.** For a finite abelian Galois extension `L/K`, the jumps of the upper-numbering
-  filtration are integers. A jump is a `u` with `G^v ≠ G^u` for every `v > u` (Serre LF IV §3),
-  defined as `UpperJump K L u` on the upper filtration `upperRamificationGroup` of the preceding
-  milestone. The proof contract includes the induction chain, not merely the phrase
-  “reduce to cyclic prime degree”:
-  1. prove the unique-break and conductor calculation for cyclic extensions of prime degree;
-  2. choose a prime-order normal quotient series for the finite abelian group;
-  3. transport the filtration at every step using the abstract Herbrand quotient theorem and its
-     fixed field-theoretic equivalence;
-  4. compare conductors with norms using all five graded norm regimes and their kernel/cokernel
-     calculation above;
-  5. induct along the series, showing at each quotient that integrality of the upper breaks is
-     preserved.
+- **Hasse–Arf.** For a finite abelian Galois extension `L/K`, every jump of the upper-numbering
+  filtration is an integer. A jump is `u` with `G^v ≠ G^u` for every `v > u` (Serre LF IV §3),
+  represented by `UpperJump K L u`. The proof contract contains an independent cyclic
+  prime-power arithmetic theorem; prime-degree norm cases and quotient compatibility alone do not
+  imply the result.
+
+  **Cyclic p-power arithmetic input.** Let `L/F` be totally ramified cyclic of degree `p^r`,
+  `r ≥ 1`, with residue characteristic `p`, and choose a uniformizer `π` of `L`. Normalize
+  `v_L(π)=1`. For a generator `σ ∈ Gal(L/F)` and an integer `k` for which `σ^k ≠ 1`, set
+  `c_k(σ) = v_L(σ^k(π)/π − 1) = i_L(σ^k) − 1`. The finite lower breaks are exactly
+  `b_j = c_{p^j}(σ)` for `0 ≤ j < r`; these use nonidentity powers only. They are strictly
+  increasing, and `|G_{b_j}| = p^{r−j}`. The Sen congruence gives
+  `p^{j+1} ∣ (b_{j+1} − b_j)` for `0 ≤ j < r−1`. There is no `b_r`: `σ^{p^r}=1`, so its
+  valuation is not a finite lower break. The zero-based index makes the last valid difference `j=r−2` when `r≥2`; for `r=1` the
+  difference range is empty.
+
+  The explicit upper-break conversion is `u_0=b_0` and
+  `u_j=b_0 + Σ_{a=0}^{j−1}(b_{a+1}−b_a)/p^{a+1}` for `1≤j<r`. These are integers by the
+  divisibilities above. This formula uses the Herbrand integral with slope `|G_x|/|G_0|`; it is
+  not an extra divisibility assumption.
+
+  **Proof source and dependency.** Fesenko–Vostokov, *Local Fields and Their Extensions*, second
+  edition (2002), Chapter III §4, printed pp. 91–93 (PDF physical pp. 101–103), proves the
+  cyclic p-power input using Sh. Sen’s proposition immediately preceding the argument. With
+  `c_k(σ)` as above, that proposition states: (i) `c_k` depends only on `v_p(k)`; (ii) for each
+  nonzero integer `k` there is `α_k` with `v_L(α_k)=k` and
+  `v_L(σ(α_k)/α_k−1)=c_k`; (iii) if `v_p(k_1−k_2)≥a`, then
+  `v_p(c_{k_1}−c_{k_2})≥a+1`. In (i), writing `k=i p^j` with `p∤i` compares powers of the
+  same order; in (ii), for `k>0` the product of the conjugates `σ^i(π)` gives the required
+  element (and inversion handles `k<0`); (iii) is proved by induction using the preceding
+  construction and a valuation comparison. Apply (iii) to `k_1=p^j`, `k_2=p^{j+1}` for
+  `j<r−1`. The complete lower-break list and group orders follow from the cyclic filtration and
+  (i), since these powers represent the successive nontrivial orders. The cited proof is available in the
+  [author-hosted second edition](https://ivanfesenko.org/wp-content/uploads/2021/10/vol.pdf#page=101). This theorem is the
+  independent arithmetic input: it is neither deduced from Hasse–Arf nor from the five
+  prime-degree norm regimes.
+
+  **From cyclic quotients to an arbitrary finite abelian group.** For a positive upper jump `u`,
+  take a rational `v>u` in the next constant interval of the finite filtration. Then
+  `G^v` is a proper subgroup of `G^u`. The quotient `G^u/G^v` is a nontrivial finite abelian
+  p-group (positive lower groups are p-groups, and upper numbering preserves this property).
+  Finite abelian character separation supplies a cyclic p-primary quotient
+  `q : G → C_{p^s}` whose kernel contains `G^v` but not `G^u`. By the upper-numbering quotient
+  theorem, the quotient extension has a jump at `u`. If its field has an unramified p-part,
+  pass to the maximal unramified intermediate field: for indices `i≥0`, lower groups restrict
+  to the same groups in the totally ramified part, and the Herbrand integral has the same
+  `G_0` denominator, so positive upper jumps are unchanged. The cyclic p-power theorem above
+  therefore makes `u` integral.
+
+  Handle the nonpositive endpoints separately. The unramified jump is `−1`; the tame-to-wild
+  boundary is `0`; both are integers. Degree one has no jumps. The positive-jump quotient
+  argument applies only to `u>0` and does not conflate these cases.
+
+  **Dependency order and exports.** First establish the cyclic lower-break list and Sen
+  divisibility from the cited arithmetic proposition; next derive the Herbrand upper-break
+  formula; then prove quotient detection, unramified-part invariance, and endpoint cases; finally
+  conclude `hasseArf`. Required native inputs are the lower-group p-group theorem, the upper
+  quotient/fixed-field equivalence, restriction of lower groups to the maximal unramified
+  intermediate, and Herbrand transitivity. The finite abelian character-separation lemma is an
+  explicit finite-group prerequisite. Neither local reciprocity nor class field theory is used.
+  The prime-degree unit-norm/conductor induction remains a separate result and cannot be a
+  premise for cyclic p-power divisibility. The nonabelian quaternion example in Serre LF IV §3,
+  exercise 3, remains the witness that abelianity cannot be dropped.
+
   - *Prerequisites:*
-    - `Layer 3: the norm on the unit filtration` (items 4 and 5);
-    - `Layer 3: Herbrand functions and the upper numbering` (normal-quotient compatibility and
-      tower transitivity);
-  - *Lean-facing exports:* `UpperJump` and `hasseArf`.
-  - *Source:* Serre LF V §7. The hypothesis is that `G` is abelian. *False generalization:* for
-    `G` non-abelian the jumps of the upper numbering need not be integers; the quaternion
-    extension in Serre LF IV §3, exercise 3, is the standard witness.
+    - `Layer 3: Herbrand functions and the upper numbering` (quotient compatibility,
+      tower transitivity, and fixed-field comparison);
+    - `Layer 3: lower ramification groups` (positive groups are p-groups and restriction to
+      maximal unramified subextensions);
+    - a finite abelian character-separation theorem for nontrivial finite abelian p-groups;
+    - Fesenko–Vostokov III §4, printed pp. 91–93, for the cyclic prime-power arithmetic input.
+  - *Proposed Lean-facing target declarations:* `CyclicLowerBreakData`,
+    `sen_cyclic_power_break_divisibility`,
+    `cyclic_power_upper_breaks_integral`, `cyclic_quotient_detects_positive_jump`,
+    `positive_upper_jumps_unchanged_after_unramified_base_change`, and `hasseArf`.
+  - *Source:* Fesenko–Vostokov III §4, pp. 91–93, for the arithmetic bridge; Serre LF V §7
+    for the finite-abelian theorem context. The source scopes and proof dependencies are explicit:
+    the Sen proposition treats totally ramified cyclic p-power extensions of local fields in
+    residue characteristic `p`; it is not the characteristic-p-only Artin–Schreier–Witt route.
+
 - **The different and the discriminant.** Let `L/K` be finite separable. The different
   `𝔡_{L/K} ⊆ 𝒪[L]` is Mathlib's `differentIdeal 𝒪[K] 𝒪[L]`, the inverse of the trace dual of
   `𝒪[L]`. Define the discriminant `𝔩_{L/K} = N_{L/K}(𝔡_{L/K}) ⊆ 𝒪[K]`,
