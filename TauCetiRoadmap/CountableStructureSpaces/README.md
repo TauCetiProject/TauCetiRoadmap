@@ -521,7 +521,10 @@ isomorphism invariant then `B = modelsOf φ` for some `φ : Sentenceω L`. Proof
    `exists_code_of_realize_pcSentence`, applied to the `W`-part of each expansion (its reduct along
    `LHom.sumInr`), gives two bijections `e₀, e₁ : M ≃ ℕ` with
    `encodeVia e₀ ∈ B` and `encodeVia e₁ ∈ Bᶜ`; both codes name structures isomorphic to `M`, so
-   invariance of `B` gives a contradiction. This is the only use of invariance.
+   invariance of `B` gives a contradiction. This is the only use of invariance. The step uses
+   `sumStructure_reducts`: an `(L.sum W)`-structure on `M` is the `sumStructure` of its reducts
+   along `LHom.sumInl` and `LHom.sumInr`, and when it is an expansion of `M` along `LHom.sumInl` its
+   `L`-reduct is `M`'s own structure (extensionality, with `propext` for relations).
 3. `pcSeparation` (InfinitaryModelExistence) gives `θ : Sentenceω L` true in every nonempty member
    of the projective class of `pcSentence T₀` and false in every nonempty member of that of
    `pcSentence T₁`.
