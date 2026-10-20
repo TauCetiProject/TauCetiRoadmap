@@ -44,6 +44,10 @@ example : cuspidalIndex 11 = 5 := by
 example : cuspidalIndex 17 = 4 := by
   norm_num [cuspidalIndex, Nat.gcd]
 
+/-- The genus-zero level thirteen has cuspidal index one despite being above seven. -/
+theorem index_thirteen : cuspidalIndex 13 = 1 := by
+  sorry
+
 /-! ## Layer 7: Cusp moduli and prime-torsion descent -/
 
 /-- The positive-genus descent excludes a rational point of prime order outside the five
