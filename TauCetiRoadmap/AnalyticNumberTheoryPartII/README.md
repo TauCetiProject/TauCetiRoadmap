@@ -4,7 +4,7 @@
 
 ## Scope and ownership
 
-This part owns Layers 4–6 and consumes [AnalyticNumberTheoryPartI, Layers 0–3](../AnalyticNumberTheoryPartI/README.md#how-to-read-the-build). The selected special-function, prehomogeneous-series and operator constructions are local targets; generic carriers and supplier theory are imported. A spectral determinant, a Beurling zeta function, the quadratic reciprocity matrix and the binary-cubic Fourier matrix have separate definitions and normalizations.
+This part owns Layers 4–6 and consumes [AnalyticNumberTheoryPartI, Layers 0–3](../AnalyticNumberTheoryPartI/README.md#how-to-read-the-build). Measured operator foundations come from [VonNeumannAlgebras V0–V4, V8 and V10–V11](#from-vonneumannalgebras). The selected special-function, prehomogeneous-series and operator constructions are local targets; generic carriers and supplier theory are imported. A spectral determinant, a Beurling zeta function, the quadratic reciprocity matrix and the binary-cubic Fourier matrix have separate definitions and normalizations.
 
 ### Prerequisites and boundaries
 
