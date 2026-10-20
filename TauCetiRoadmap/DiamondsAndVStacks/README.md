@@ -926,10 +926,11 @@ The rational-space Checks in D2.1 use `Rat.interior_compact_eq_empty`
 ## How to read the build
 
 `Suggested.lean` carries the targets that can be stated against Mathlib, Tau Ceti and
-PerfectoidSpaces as they stand: the spectral topology of D0 with the cutoff cardinals and the
-flasque constant sheaf, the topological part of the disconnected perfectoid spaces of D1 with
-automatic flatness, the v-topology on PerfectoidSpaces' `Perfd p` with the v-descent of `O` and of
-continuous maps (D2–D3), the Berkovich spectrum and the component formula of D5, and the affine
+PerfectoidSpaces as they stand: the spectral topology and submersions of D0 with the cutoff
+cardinals and the flasque constant sheaf, the disconnected perfectoid spaces and split-cover
+cohomology of D1 with automatic flatness, the v-topology on PerfectoidSpaces' `Perfd p` with
+v-descent, degree-zero comparison and affinoid acyclicity of `O`, and v-descent of continuous maps
+(D2–D3), the Berkovich spectrum and the component formula of D5, and the affine
 seminormality and seminormalization inputs of D6.9. Each subsection ends with a `Lean:` line that names the declarations carrying it, or states that the subsection is
 specified in the README only (no Lean declaration). Every other declaration name of this roadmap in
 the text — the suggested definitions and lemmas, and the carriers `Geometry.*`, `Perf.*`, `Perfd.*`,
@@ -941,10 +942,10 @@ not in the Lean file.
 
 Check labels `sM_N_case` identify the Checks of subsection DM.N; labels of the form
 `definition_Name_k`, and the other backticked labels in Check lists, identify the Checks of a
-definition target. They are the suggested names of the corresponding Lean `example`s; the examples
-present in `Suggested.lean` are named on the `Lean:` lines and listed in each layer's Examples
-subsection. Italic slug labels such as (*spectral-quotient-criterion*) name targets for citation
-from other roadmaps; they are labels of this README and of the roadmaps that cite them. The
+definition target. Checks specify mathematical acceptance cases in prose. The `Lean:` lines
+identify milestone signatures and the three proved examples in `Suggested.lean`; named boundary
+theorems state the size obstructions used in D3–D4. Italic slug labels such as
+(*spectral-quotient-criterion*) name targets for citation from other roadmaps; they are labels of this README and of the roadmaps that cite them. The
 geometric examples use `Geometry.Affinoid`, `Geometry.Spaces`, `Geometry.VSheaf` and
 `Geometry.VStack`, including their valuation spectra and slice categories.
 
@@ -1038,11 +1039,9 @@ topology). The named comparisons are `Spectral.inverseTopology_constructible` an
 - `s0_5_inverse_sierpinski_closed_point` — The closed singleton of the Sierpiński space becomes open
   in the inverse topology.
 
-Lean: `inverseTopology` and `spectralSpace_inverseTopology`, with the Checks
-`s0_5_inverse_sierpinski_closed_point`, `s0_5_inverse_not_spectral_without_compactness`,
-`s0_5_inverse_discrete_finite`, `definition_inverseTopology_2`, `definition_inverseTopology_3`
-and `s0_5_inverse_point_and_empty` as examples. The rest of this subsection is specified in the
-README only (no Lean declaration).
+Lean: `inverseTopology`, `spectralSpace_inverseTopology`, `Spectral.inverseTopology_inverse`,
+`Spectral.inverseTopology_constructible` and `Spectral.inverseTopology_map`. The Checks are
+specified in prose.
 
 ### D0.6 The profinite space of connected components
 
@@ -1219,7 +1218,8 @@ R0.19.1; Mathlib `IsSpectralMap`, `Topology.IsQuotientMap`.
 - `definition_IsSpectralSubmersion_3` — The identity from the discrete two-point space to the
   two-point chain is not a spectral submersion.
 
-Lean: none; this subsection is specified in the README only (no Lean declaration).
+Lean: `IsSpectralSubmersion`, `IsSpectralSubmersion.iff_constructible`,
+`IsSpectralSubmersion.of_quotient` and `IsSpectralSubmersion.comp`.
 
 ### D0.12 Limits of spectral submersions
 
@@ -1249,7 +1249,8 @@ AdicSpacesPartII R0.19.6.
   quotient maps whose limit is a spectral submersion but not a quotient map, so the conclusion
   cannot be strengthened to `Topology.IsQuotientMap`.
 
-Lean: none; this subsection is specified in the README only (no Lean declaration).
+Lean: `isSpectralSubmersion_limMap`, on small cofiltered diagrams in Mathlib's `TopCat`, with
+spectral transition maps.
 
 ### D0.13 Bounded pro-objects
 
@@ -1416,9 +1417,8 @@ R0.19.9; Mathlib `PrimeSpectrum`, `SpectralSpace`, `PrimeSpectrum.comap`,
 - `definition_hochsterRealization_2` — The chosen realization of the empty space is the zero ring.
 - `definition_hochsterRealization_3` — The point is not realized by the three-element field under this choice; the bare existence contract would allow it.
 
-Lean: `spectralSpace_iff_nonempty_homeomorph_primeSpectrum`, with the Check `s0_15_sierpinski` as
-two examples (`Prop` is `Spec ℤ_p`, and no finite ring realizes it). The rest of this subsection is
-specified in the README only (no Lean declaration).
+Lean: `spectralSpace_iff_nonempty_homeomorph_primeSpectrum`. The Checks are specified in prose;
+the remaining constructions are specified in the README only.
 
 ### D0.16 Profinite presentations of compact Hausdorff spaces
 
@@ -1463,8 +1463,8 @@ universal Hausdorff quotient, not this criterion). *Needs:* Mathlib
   points (the dense-orbit computation of D5.16), so not Hausdorff: closedness of the relation cannot
   be dropped.
 
-Lean: `t2Space_quotient_of_isClosed`, with the Check `s0_16_closed_relation_needed` as an example.
-The rest of this subsection is specified in the README only (no Lean declaration).
+Lean: `t2Space_quotient_of_isClosed`; the Check `s0_16_closed_relation_needed` is specified in prose.
+The remaining constructions are specified in the README only.
 
 ### D0.18 Filtered colimits and cohomology on algebraic topoi
 
@@ -1927,10 +1927,8 @@ stays below `κ` ([ECD] §4, discussion after Lem. 4.1, pp. 19–20). *Needs:* M
 - `definition_IsCutoffCardinal_2` — Zero is not a cutoff.
 - `definition_IsCutoffCardinal_3` — The uncountable strong limit beth-omega fails the cofinality clause; this excludes the strong-limit-only alternative.
 
-Lean: `IsCutoffCardinal` and `exists_isCutoffCardinal_gt`, with the Checks `s0_23_cutoff_aleph_zero`
-`s0_23_cutoff_zero`, `definition_IsCutoffCardinal_1`, `definition_IsCutoffCardinal_2`
-and `s0_23_beth_omega_is_not_a_cutoff` as examples. The rest of this subsection is specified in the
-README only (no Lean declaration).
+Lean: `IsCutoffCardinal` and `exists_isCutoffCardinal_gt`, with a proved example excluding `ℵ₀`.
+The remaining Checks and constructions are specified in the README only.
 
 ### D0.24 Cardinality of a completion
 
@@ -2469,11 +2467,9 @@ trivial torsor, and a free discrete action has the sheaf quotient as its quotien
 modulo translation by `ℤ` is a non-Hausdorff quotient of a profinite set by a relation that is not
 closed.
 
-In `Suggested.lean` the D0 examples compute the inverse topology of the Sierpiński space `Prop`,
-realize it as `Spec ℤ_p` and as the spectrum of no finite ring, show that the inverse topology of
-discrete `ℕ` is not quasi-sober, that `ℤ_p/ℤ` is not Hausdorff, and that `ℵ₀` and `ℶ_ω` are not
-cutoff cardinals. The generic locally spectral, constructible-topology, closure and generalizing
-quotient-map Checks are supplied by AdicSpacesPartII R0.0 and R0.19.1–R0.19.4.
+The proved D0 example in `Suggested.lean` excludes `ℵ₀` from the cutoff cardinals. The generic
+locally spectral, constructible-topology, closure and generalizing quotient-map Checks are supplied
+by AdicSpacesPartII R0.0 and R0.19.1–R0.19.4.
 
 ### Dependencies
 
@@ -2649,16 +2645,14 @@ The same `coverSplits` is tested on `Geometry.Spaces p c` with its actual open a
 - `finite_disjoint_union` — Discrete ℕ has split open covers but is not compact; splitting alone does not imply the qcqs condition.
 
 Lean: `OpenCoversSplit` and `isTotallyDisconnected` (quasicompact, quasiseparated, with split open
-covers, on Tau Ceti's `PreAdicSpace`), with the Checks `definition_OpenCoversSplit_1`,
-`definition_OpenCoversSplit_3`, `open_covers_profinite`, `finite_disjoint_union` and the topological part of
-`s1_1_empty_space` as examples. The rest of this subsection is specified in the README only (no Lean
-declaration).
+covers, on Tau Ceti's `PreAdicSpace`). The Checks and remaining constructions are specified in
+the README only.
 
 ### D1.2 Fargues' characterisation of split covers
 
 **Fargues' characterisation of spectral spaces all of whose open covers split.**
 (*split-cover-characterisation*) Let `X` be a spectral space. Prove `splitCoverCharacterisation`
-(README only; its part (i) ⇔ (ii) is the Lean theorem `openCoversSplit_iff`): the following are
+(its part (i) ⇔ (ii) is also `openCoversSplit_iff`): the following are
 equivalent: (i) every open cover of `X` splits; (ii) every connected component of `X` has a unique
 closed point; (iii) the global-sections functor on set-valued sheaves sends epimorphisms to
 surjections; (iv) the global-sections functor on abelian sheaves is exact; (v) every abelian sheaf
@@ -2686,8 +2680,11 @@ this specifies exactness without adding a preservation-of-coproducts assertion.
 - `two_point_discrete` — On the discrete two-point space, global sections of the coproduct of two terminal sheaves have four elements, whereas the coproduct of their global sections has two.
 - `set_valued_criterion_on_every_space` — On any topological space, open covers split exactly when every epimorphism of set-valued sheaves is surjective on global sections.
 
-Lean: `openCoversSplit_iff`, the part (i) ⇔ (ii). The rest of this subsection is specified in the
-README only (no Lean declaration).
+- `empty_spectral_space` — every open cover of the empty space has its unique section; its
+  abelian sheaf category is trivial, so all six conditions hold.
+
+Lean: `splitCoverCharacterisation` states all six conditions on Mathlib's sheaf and cohomology
+carriers, with sheafification and Ext hypotheses; `openCoversSplit_iff` states (i) ⇔ (ii).
 
 ### D1.3 Connected components and affinoidness
 
@@ -3013,10 +3010,8 @@ requires only `IsWStrictlyLocalPerfectoid p X` and concludes geometric strict to
 disconnectedness. The completed residue fields already belong to the charts of `X`
 ([ECD] Definition 7.17 and Proposition 7.16, p. 36).
 
-Lean: `IsWLocalSpace` and `IsWLocalSpace.isHomeomorph_connectedComponentsMk`, with the Checks
-`definition_IsWLocalSpace_1`, `definition_IsWLocalSpace_2`, `definition_IsWLocalSpace_3`,
-`w_local_empty` and `w_local_profinite` as examples. The rest of this
-subsection is specified in the README only (no Lean declaration).
+Lean: `IsWLocalSpace` and `IsWLocalSpace.isHomeomorph_connectedComponentsMk`. The Checks and
+remaining constructions are specified in the README only.
 
 ### D1.8 The w-localization functor
 
@@ -3734,7 +3729,7 @@ strictly disconnected case ([ECD] Definition 7.1, Lemma 7.3 and Proposition 7.16
 - `Affinoid_ulift_cyclotomic_selector` (non-example) — The lift of the
   `Perfectoid.padicCyclotomic p` pair is in the essential image for `false` and outside it for
   `true`: its ring is `Small.{0}` but `(p : ULift.{1} (Perfectoid.padicCyclotomic p)) ≠ 0`
-  ([ECD] Example 3.4(i), pp. 14–15). The Lean example with this label states these two ring facts.
+  ([ECD] Example 3.4(i), pp. 14–15).
 
 **`Geometry.HasAffinoidCharts` — Checks.**
 
@@ -3872,9 +3867,7 @@ identity cover of an already strictly totally disconnected space; the base case 
 pro-étale spaces over `Spa(C, O_C)` are the `Spa(C, O_C) × S` with `S` profinite; and the infinite
 disjoint union of copies of `Spa(C, O_C)`, pro-étale but neither affinoid nor profinite.
 
-In `Suggested.lean` the examples compute splitting of open covers for the Sierpiński space `Prop`
-(yes), for `ℝ` (no) and for discrete `ℕ` (yes, but not quasicompact), total disconnectedness of an
-empty pre-adic space, and w-locality of the Sierpiński space against discrete `ℕ`.
+The splitting and w-locality Checks are specified in prose.
 
 ### Dependencies
 
@@ -3959,8 +3952,8 @@ PerfectoidSpaces layer P2 (perfectoid spaces and glued tilting); PerfectoidSpace
   image, and a finite union of those images cannot cover `S`.
 - `s2_1_matches_scheme_condition` (library agreement) — for a scheme pre-zero-hypercover `E`,
   `QuasiCompactCover E` is equivalent to every compact open being `IsCompactOpenCovered` by `E.f`.
-  Both site constructions use this same topological predicate; the suggested Lean example proves the
-  equivalence using Mathlib's affine-basis criterion.
+  Both site constructions use this same topological predicate; the equivalence follows from
+  Mathlib's affine-basis criterion.
 - `s2_1_empty_space` (degenerate case) — for `X = ∅` the only quasicompact open is `∅`, so the empty
   family is a pro-étale covering of `∅` (take `J = ∅`); for `X ≠ ∅` the empty family is not a
   covering, since a nonempty quasicompact open `U` exists (`|X|` is locally spectral) and the empty
@@ -4052,9 +4045,7 @@ pp. 39–40). These statements use `Geometry.Spaces p c`.
 - `Perfdκ_empty` — An empty space belongs whenever `1 < κ`.
 - `Perfdκ_large_affine` — An affinoid whose ring has cardinality at least the cutoff is excluded.
 
-Lean: none for the pro-étale site; the Checks `s2_1_infinite_profinite_point_family` and
-`s2_1_finite_profinite_point_family` are examples stated with Mathlib's `IsCompactOpenCovered`.
-The rest of this subsection is specified in the README only (no Lean declaration).
+Lean: none for the pro-étale site; the covering-family Checks are specified in prose.
 
 ### D2.2 The small pro-étale site and the v-site
 
@@ -4202,10 +4193,8 @@ Definition 8.1, p. 39; Proposition 8.2, pp. 39–40).
 
 - `Perfd.vPrecoverage_not_le_proEtalePrecoverage` — A singleton family satisfying the compact-open image condition whose arrow is outside the selected pro-étale class is a v-cover but not a pro-étale cover.
 
-Lean: `vPrecoverage`, `perfdToTop`, `vTopology` and `singleton_mem_vPrecoverage_iff_surjective`,
-with the Checks `s2_2_empty_cover`, `definition_vPrecoverage_1`, `definition_vPrecoverage_2`,
-`definition_vPrecoverage_3` and `s2_1_vPrecoverage_rational_empty_cover` as examples. The rest of this subsection is specified in the
-README only (no Lean declaration).
+Lean: `vPrecoverage`, `perfdToTop`, `vTopology` and `singleton_mem_vPrecoverage_iff_surjective`.
+The Checks and remaining constructions are specified in the README only.
 
 ### D2.3 Cutoff independence and small sheaves
 
@@ -4569,8 +4558,8 @@ completed-tensor plus-ring almost formula).
 - `structurePresheaf_empty` (degenerate case) — on a perfectoid space with `IsEmpty X.obj` the value
   of `structurePresheaf` is a subsingleton ring: the top open of `X` is the empty open, whose
   sections are terminal by the sheaf condition.
-- `structurePresheaf_map` (computation) — for `f : Y ⟶ X` the map of `structurePresheaf` is the
-  global-sections pullback `O_X(X) → O_Y(Y)` of `f` (by `rfl`), so the presheaf is not constant in
+- Global-function pullback — for `f : Y ⟶ X` the map of `structurePresheaf` is the
+  global-sections pullback `O_X(X) → O_Y(Y)` of `f`, so the presheaf is not constant in
   `X`.
 
 `Geometry.O_isSheaf_v` and `Geometry.Oplus_isSheaf_v` prove ring-valued v-descent;
@@ -4582,13 +4571,15 @@ uses this theorem. `Geometry.subcanonical` states v and pro-étale subcanonicity
 characteristic convention ([ECD] Theorem 8.7, p. 43; Theorem 1.2, p. 3). In `Suggested.lean`,
 `structurePresheaf` is the ring-valued presheaf `X ↦ O_X(X)` on PerfectoidSpaces' `Perfd p`, built
 from Mathlib's `PresheafedSpace.Γ`; `isSheaf_structurePresheaf` is its v-sheaf property and
-`vTopology_subcanonical` the subcanonicity of `vTopology p`. The statements for `O⁺`, the pro-étale
-site and degree-zero cohomology are specified in the README only.
+`vTopology_subcanonical` the subcanonicity of `vTopology p`. The additive sheaf
+`additiveStructureSheaf` forgets multiplication; `isSheaf_additiveStructurePresheaf` supplies its
+abelian v-descent, and `structureSheaf_v_H0` identifies its objectwise degree-zero cohomology `Sheaf.H'` with the additive group of global functions, assuming
+sheafification and Ext at the indicated universes. The statements for `O⁺` and the pro-étale site
+are specified in the README only.
 
-Lean: `structurePresheaf`, `isSheaf_structurePresheaf` and `vTopology_subcanonical`, with an example
-computing the value of `structurePresheaf` at `X` as `O_X(X)` and the Checks
-`structurePresheaf_empty` and `structurePresheaf_map` as examples. The rest of this subsection is
-specified in the README only (no Lean declaration).
+Lean: `structurePresheaf`, `isSheaf_structurePresheaf`, `vTopology_subcanonical`,
+`isSheaf_additiveStructurePresheaf`, `additiveStructureSheaf` and `structureSheaf_v_H0`,
+with the proved empty-space example `structurePresheaf_empty`. The other Checks and constructions are specified in the README only.
 
 ### D2.8 Higher v-acyclicity
 
@@ -4650,7 +4641,10 @@ specified universe ([ECD] Proposition 8.8, p. 43).
 - `integralScalar_detects_function` — Distinct functions give distinct transformations,
   detected by the unit section at the identity object of the slice.
 
-Lean: none; this subsection is specified in the README only (no Lean declaration).
+Lean: `structureSheaf_v_acyclic`, with the affinoid hypothesis on `X : Perfd p`, states exact
+positive-degree vanishing for `additiveStructureSheaf` using Mathlib's objectwise `Sheaf.H'`.
+The integral almost-vanishing statement requires the integral sheaf and its scalar action and is
+specified in the README only.
 
 ### D2.9 Pro-étale and v vector bundles
 
@@ -4775,9 +4769,8 @@ where everything vanishes exactly; and `H⁰_v(Spa(R, R⁺), O) = R`, `H⁰_v(Sp
 the higher v-cohomology of `O` zero and that of `O⁺` almost zero, the content of [ECD] Thm 1.2; and
 the rank-`0` bundle and the empty space as the degenerate cases of the vector bundle comparison.
 
-In `Suggested.lean` the examples show that the point inclusions of an infinite profinite set are not
-compact-open covering, that the empty presieve covers exactly the empty perfectoid space, and that
-`structurePresheaf` takes global sections `O_X(X)`, not stalks.
+The proved D2 example in `Suggested.lean` shows that global functions on an empty perfectoid
+space form a subsingleton ring.
 
 ### Dependencies
 
@@ -5798,7 +5791,7 @@ PerfectoidSpaces P5.3 (affinoid limits formed with `Small.{0}` diagrams); Scheme
   Coordinatewise `g_n → 0`, giving a continuous `h : OnePoint ℕ → G`. The charted test object
   `P × underline(OnePoint ℕ)` would map to the representing space with inverse image of `V`
   exactly `{∞}`, which is not open. This excludes every charted representing space, although
-  the ambient profinite product exists in `Perfd.{1} p`. The Lean example
+  the ambient profinite product exists in `Perfd.{1} p`. The named boundary theorem
   `s3_10_large_group_escape` states the continuous escape from any small `B` containing zero.
 
 The torsor Checks require the sheaf of continuous maps, a group action over the base with local equivariant trivializations, the associated `G/K`-spaces and their adic realization. A torsor of sets alone does not express the claimed pro-étale or étale morphism.
@@ -5990,9 +5983,9 @@ split torsor `G̲ × X`, the finite étale Galois cover from a finite `G`, the t
 geometric point from a profinite `G`, and the pro-étale but not étale torsor from an infinite
 profinite `G`.
 
-In `Suggested.lean` the only statement of this layer is the v-sheaf property
-`isSheaf_yonedaPresheaf` of `T̲`; the Checks above need the perfectoid morphism classes and are
-specified in the README only.
+In `Suggested.lean`, `isSheaf_yonedaPresheaf` states the v-sheaf property of `T̲` and
+`s3_10_large_group_escape` states the size obstruction in D3.10. The geometric Checks need the
+perfectoid morphism classes and are specified in the README only.
 
 ### Dependencies
 
@@ -6612,7 +6605,7 @@ Mathlib `Continuous.isClosedMap`, `Topology.IsClosedMap.isQuotientMap`.
   `P = Spa(C, O_C)` with `C : Type` algebraically closed of characteristic `p`, the canonical
   evaluation map `q : |T̲ × h_P| → T` therefore has closed inverse image of `A`, by the final
   topology of realization. Constant sections hit every point of `T`; nevertheless `q` cannot
-  be a homeomorphism. The Lean examples `compHaus_large_cube_dense`,
+  be a homeomorphism. The named boundary theorems `compHaus_large_cube_dense`,
   `compHaus_large_cube_not_closed` and `compHaus_large_cube_small_preimage` state the three
   topological facts used here.
 
@@ -7057,10 +7050,10 @@ hypothesis. *Needs:* D3.8; D4.7; D4.8; D4.10.
   charted perfectoid atlas, so `F` is a small v-sheaf. No finite subfamily is epimorphic:
   its union is still `Small.{0}` and misses an element of `G`, whose constant section over
   `P` cannot lift even v-locally. Thus `F` is not quasicompact and `F → h_P` is not
-  quasicompact, as in D5.3's large-index Check. The Lean example with this name states the
-  finite-union obstruction.
+  quasicompact, as in D5.3's large-index Check. The named boundary theorem
+  `s4_11_large_profinite_quotient` states the finite-union obstruction.
 
-Lean: the finite-union Check `s4_11_large_profinite_quotient`; the geometric statements are
+Lean: the boundary theorem `s4_11_large_profinite_quotient`; the geometric statements are
 specified in the README only.
 
 ### Examples
@@ -7085,8 +7078,10 @@ presentations of `Spa(C, O_C)` with the same one-point space; and the quotient o
 indiscrete; and, for proper maps, the closed immersions against the rank-two open immersion
 `Spa(K, O_K) → Spa(K, K⁺)` and the non-quasicompact `ℕ̲ × S → S`.
 
-None of these is in `Suggested.lean`: diamonds need the pro-étale morphisms of PerfectoidSpaces P6,
-which are formalisation targets there.
+The three `compHaus_large_cube_dense`, `compHaus_large_cube_not_closed` and
+`compHaus_large_cube_small_preimage` boundary theorems and `s4_11_large_profinite_quotient` state
+the size obstructions on pinned topological carriers. The diamond statements require the
+pro-étale morphisms of PerfectoidSpaces P6 and are specified in the README only.
 
 ### Dependencies
 
@@ -8394,11 +8389,9 @@ Tate Huber pair and pseudouniformizer, and impose no continuity on `toSpa` ([ECD
 - `t2QuotientHomeomorph_zeroRing` — the quotient of the zero-ring spectrum is empty.
 - `t2QuotientHomeomorph_distinctSeminorms` — distinct seminorms have distinct inverse images.
 
-Lean: `BerkovichSpectrum` with its topology instance, and `nonempty_t2Quotient_spa_homeomorph`, with
-the Checks `definition_BerkovichSpectrum_2` (the normaliser `ϖ = 0`),
-`definition_BerkovichSpectrum_3` (the normaliser `ϖ = 1`), `s5_13_product_fields`, `padic_field`
-and `archimedean_empty` as examples.
-The rest of this subsection is specified in the README only (no Lean declaration).
+Lean: `BerkovichSpectrum` with its topology instance, and `nonempty_t2Quotient_spa_homeomorph`,
+with the proved empty-spectrum example `definition_BerkovichSpectrum_2` at the degenerate
+normalizer `ϖ = 0`. The other Checks and constructions are specified in the README only.
 
 ### D5.14 The Berkovich space of a small v-sheaf
 
@@ -8736,7 +8729,7 @@ the total relation for a nonempty connected space and the ordinary point-orbit r
 totally disconnected space. Together with `trivial_group` they pin `componentOrbitRel` and
 `ComponentOrbitSetoid`; the empty, connected and totally disconnected quotient Checks above pin
 `componentOrbitSpace`. In `two_point_compactification`, use `WithBot (WithTop ℤ)` with its order
-topology and the translation action fixing both endpoints. The suggested Lean example fixes that
+topology and the translation action fixing both endpoints. This Check fixes that
 action on every integer and both endpoints and computes three component orbits and a connected orbit
 space.
 
@@ -8829,7 +8822,7 @@ and the proof of Lemma 11.31).
 - `berkovich_section_t1_inverse` — On a T₁ realization the section also satisfies the other inverse equation.
 - `berkovich_section_rejects_nonmaximal` — For a qcqs sheaf the section never chooses a point admitting a strict generalization.
 
-Lean: `connectedComponents_mk_quotient_eq_iff`, with the Check `dense_orbits` as an example showing
+Lean: `connectedComponents_mk_quotient_eq_iff`, with `padicInteger_denseOrbitQuotient` showing
 that compactness of the group cannot be dropped. The rest of this subsection is specified in the
 README only (no Lean declaration).
 
@@ -8870,8 +8863,8 @@ point and not quasiseparated; `⊔_ℕ Spa(C, O_C) → Spa(C, O_C)`, locally spe
 `IsSpectralMap`; the lower-universe and two cardinal controls of D5.3; and
 `Spa(C', O_{C'}) → Spa(C, O_C)`, a v-surjection along which only the third descent statement of D5.12 applies.
 
-In `Suggested.lean` the examples compute the Berkovich spectrum at `ϖ = 0` (empty) and for `ℚ_p` at
-`ϖ = p` (one point), and the connected orbit space `ℤ_p/ℤ` for the noncompact group `ℤ`.
+The proved D5 example in `Suggested.lean` excludes the degenerate normalizer `ϖ = 0`.
+`padicInteger_denseOrbitQuotient` states the connected orbit-space boundary for noncompact `ℤ`.
 
 ### Dependencies
 
@@ -10108,8 +10101,10 @@ statements used by subintegral-unit and seminormalization-ring.
 
 **Affine seminormalization and its universal property.** For every commutative ring `A`, construct
 `snRing A`, its ring structure `snRing.commRing`, and the unit
-`snMap A : A →+* snRing A`. For reduced `A` this is its seminormalization;
-for arbitrary `A` the construction first removes nilpotents. Prove `snRing_seminormal` and
+`snMap A : A →+* snRing A`. The existence milestone `exists_seminormalization` states that a
+commutative ring `A : Type u` admits a subintegral map to a seminormal ring in `CommRingCat.{u}`;
+`snRing`, `snRing.commRing` and `snMap` select that ring and map. For reduced `A` this is its
+seminormalization; for arbitrary `A` the construction first removes nilpotents. Prove `snRing_seminormal` and
 `sn_lift`: for every seminormal commutative ring `B` and homomorphism `f : A →+* B`,
 there is a unique `g : snRing A →+* B` with `g ∘ snMap A = f`.
 This gives the ring reflection, its functoriality and the unique maps needed for gluing,
@@ -10402,7 +10397,8 @@ the discrete quotient's diamondification ([Berkeley] §18.1 and Prop. 18.2.2).
 
 Lean: the local ring-theoretic declarations `IsSeminormalRing`,
 `IsSeminormalRing.iff_unique`, `IsSeminormalRing.of_isIntegrallyClosed`,
-`IsSeminormalRing.prod_iff`, `IsSeminormalRing.eqLocus`, `Affine.normal_finiteProduct`, `snRing`,
+`IsSeminormalRing.prod_iff`, `IsSeminormalRing.eqLocus`, `Affine.normal_finiteProduct`,
+`exists_seminormalization`, `snRing`,
 `snRing.commRing`, `snMap`, `snRing_seminormal`, `sn_lift`,
 `IsSubintegral`, `subintegral_lift`, `subintegral_bijective_of_seminormal`,
 `snMap_subintegral`, `snMap_isIntegral`, `snMap_fieldPoints`, `snMap_bijective`,
