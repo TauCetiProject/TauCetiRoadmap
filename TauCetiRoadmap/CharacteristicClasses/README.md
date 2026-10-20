@@ -16,16 +16,19 @@ pullbacks, Hom/dual constructions and `ContMDiffVectorBundle`. The continuous
 finite-rank category, locally constant ranks, finite embeddings, metrics,
 Grassmannians, Stiefel spaces and numerable BO/BU classification are
 [TopologicalKTheory T1](../TopologicalKTheory/README.md) dependencies. Its T6.4
-supplies continuous principal/associated bundles and descent. Consume
-[HomotopySpheres §4A](https://github.com/TauCetiProject/TauCetiRoadmap/pull/284)'s
-finite oriented Grassmannian models; TopK T1.6a owns their fixed/stable
-colimit and classifier comparison used here. C1 compares these
-carriers with the compact Lie universal principal bundle. Write BO(n) and BU(n)
-for T1.6's fixed-rank universal Grassmannians. Write BSO(n) for the ambient-dimension
-colimit in `CompactlyGenerated` of HomotopySpheres' oriented rank-n finite
-Grassmannians. C1.1a supplies the finite-cover precursor; TopK T1.6 constructs
-the fixed-rank and stable colimits and their based HomotopySpheres comparison.
-C1.1b compares them with the SO join classifier. Its stable classification theorem is consumed only for finite CW bases.
+supplies continuous principal/associated bundles and descent. Use TopK T1.5's actual finite real Grassmannians and tautological bundles.
+C1.0 and C1.1a construct their positive-rank oriented double covers, lifted
+finite cells and coordinate maps. TopK T1.6a owns the fixed-rank and stable
+colimits, universal-bundle diagrams and classifier comparison on those
+carriers. [HomotopySpheres §3A and §4A](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1287)
+supplies the earlier compactly generated substrate and consumes these
+classifiers for its later stable O/SO and ΩBSO comparison; §4A is not an
+input to the finite oriented-cover construction. Write BO(n) and BU(n)
+for T1.6's fixed-rank universal Grassmannians, and BSO(n) for the
+ambient-dimension colimit in `CompactlyGenerated` of C1.1a's actual finite
+oriented carriers. C1.1b compares these carriers and their universal bundles
+with the SO join classifier. Stable classification is consumed only for
+finite CW bases.
 The oriented frame/classifier statements use n≥1. In rank0 retain the
 orientation sign separately as a section of the trivial two-point cover;
 BSO(0)=pt represents the canonically oriented zero bundle. Write
@@ -234,9 +237,15 @@ and C3.5 owns the separate universal Spin obstruction.
    consume C1.0's single determinant-sign orientation double cover and its
    metric independence. Construct its direct-sum and cover-section comparisons
    and path-transport sign local system using TopK T1's vector-bundle atlases
-   and T1.5's finite Stiefel quotients. Identify orientation forgetting
-   on HomotopySpheres' positive-rank finite oriented Grassmannians with this cover of
-   TopK's tautological bundle. Consume T1.5's finite Schubert cells, append-last
+   and T1.5's finite Stiefel quotients. Specialize C1.0's single cover to
+   TopK's tautological finite rank-n real bundle for n≥1, and use this
+   cover as the finite oriented Grassmannian. Construct its comparison with
+   the quotient of the actual orthonormal n-frame Stiefel carrier by the
+   right SO(n) action, with its tautological bundle and orientation-forgetting
+   projection. Retain the two orientations when n equals the ambient rank;
+   an ambient-SO quotient is not substituted for this full carrier. The
+   rank0 carrier below is the canonical positive point with its sign datum
+   separate. Consume T1.5's finite Schubert cells, append-last
    ambient Fin.castSucc inclusions and V↦ℝe₀⊕shift(V) rank maps, with the new
    positive line first, and lift these maps to the cover.
    For positive rank construct the lifted Schubert CW cells,
@@ -268,8 +277,9 @@ and C3.5 owns the separate universal Spin obstruction.
    countable union of locally finite families; the original weights are not
    asserted locally finite in Mathlib's partition-of-unity sense. Prove functoriality under continuous homomorphisms,
    products and subgroup-associated fibrations. For finite discrete G compare the weak-topology model of
-   #437 and the O/U/SO Grassmannian models of TopologicalKTheory T1/HomotopySpheres §4A by the universal bundle
-   maps, including finite-rank and stable inclusions and orientation forgetting.
+   #437 and TopK T1's O/U Grassmannian models, together with C1.1a/TopK T1.6's
+   oriented carriers, by the actual universal-bundle maps, including
+   finite-rank and stable inclusions and orientation forgetting.
    Consume C1.0's continuous orthonormal/unitary frame principal bundles
    and Gram–Schmidt charts. Construct their comparison with pulled-back
    universal Stiefel bundles. Consume C1.1a's orientation
@@ -705,10 +715,92 @@ AT8.1's relative-cell connectivity and transport theorem.
    fibre cohomology, including the possible lim¹ term and its vanishing;
    consume AlgebraicTopology Stage 6.0's countable-tower cochain Milnor sequence
    and Mittag–Leffler vanishing, then prove the needed skeletal stabilization.
-   Apply C1's CW-resolution bundle/pair comparison for general bases; include
-   locally compact supported versions. Do not presume cohomological Leray–Hirsch
-   from the homology Serre sequence alone. Iterated projectivization gives flag pullback injection and
-   actual line summands, independently of a characteristic-class sum law.
+   Apply C1's ordinary CW-resolution bundle/pair comparison for general
+   bases. Do not presume cohomological Leray–Hirsch from the homology Serre
+   sequence alone. Iterated projectivization gives flag pullback injection
+   and actual line summands, independently of a characteristic-class sum law.
+
+   **Relative and compact-support Leray–Hirsch.** Prove the ordinary
+   comparison for every restricted numerable bundle p_C:p⁻¹(C)→C, for an
+   arbitrary subspace C⊆B, using the restrictions of the same finite family
+   of ordinary global classes e_j∈H^(d_j)(E;R). Numerable charts and their
+   partition restrict to C; do not assume that C is paracompact because B
+   is. For this comparison use C1.2b's actual singular counit |Sing C|→C,
+   its weak-equivalence construction and DGF's ordinary coefficient-chain/Hom
+   comparison. Pull back the restricted bundle to that actual CW carrier;
+   use the locally trivial Serre sequence to prove that the total-space map
+   is a weak equivalence, componentwise with the same typical fibre.
+   Prove the cochain LH map upstairs by the cell/Milnor argument above and
+   transport the ordinary cochain comparison downstairs. Construct the
+   natural restriction square with the comparison over B. Its mapping-cone
+   comparison gives ordinary relative LH for (B,C) and (E,p⁻¹(C)); identify
+   these cones with the actual ordinary relative singular cochain objects
+   and retain their connecting signs. This does not require C to be closed,
+   a CW subcomplex or a paracompact space. In particular it applies to the
+   relative subsets used for compact supports below. Neither the counit nor
+   its total-space comparison is asserted proper.
+
+   For compact supports require a proper numerable locally trivial projection
+   p:E→B of locally compact Hausdorff spaces with that finite ordinary global
+   fibre-cohomology basis. Prove that a bundle with compact typical fibre F
+   over such a base is proper: on each compact K⊆B take a finite closed
+   refinement of its trivializing cover inside K, and identify each inverse
+   image with the product of that compact piece and F. Include the empty
+   base case. For every degree n construct the actual mixed-support map
+   `⊕_j H_c^(n-d_j)(B;R) → H_c^n(E;R)`,
+   `(a_j) ↦ Σ_j p*(a_j) ∪ e_j`, and prove it an isomorphism. The e_j are
+   ordinary global classes, not compactly supported fibre or total classes;
+   p* is C1.2a's proper pullback and the cup is its compact-support/ordinary
+   mixed product in the displayed order.
+
+   For each compact K⊆B apply the preceding ordinary relative theorem to
+   (B,B\K) and (E,E\p⁻¹K), retaining these exact pair carriers and cup
+   representatives. Properness makes p⁻¹K compact. Prove compatibility
+   with K⊆K', coefficient maps, restrictions and the mixed products.
+   Prove inverse-image supports cofinal among compact subsets of E:
+   for compact L⊆E, p(L) is compact and L⊆p⁻¹(p(L)). Pass through C1.2a's
+   exact filtered ModuleCat colimits to obtain the displayed supported
+   isomorphism and its actual cochain-level comparison. This step uses
+   ordinary relative comparisons before supports, not compact-support
+   invariance under an unproved proper CW resolution.
+
+   For a closed base subset A⊆B give the corresponding isomorphism
+   `⊕_j H_c^(n-d_j)(B,A;R) → H_c^n(E,p⁻¹(A);R)` using, at each compact K,
+   the relative subset A∪(B\K) and its full inverse image. The ordinary
+   pair theorem above applies even if this union is not paracompact.
+   Use C1.2a's union-relative supported carrier; do not assume its
+   separate pair-excision triangle for arbitrary closed A. Prove the
+   coefficient, proper-pullback, mixed-module, enlargement and connecting
+   comparisons on the actual pairs; when invoking a supported pair LES,
+   retain C1.2a's support-excisive hypotheses.
+
+   For the base-local-system extension with an arbitrary module-valued L
+   on B and p*L on E, require a displayed bounded finite free R-chain model
+   P_* of the typical fibre and an actual chain homotopy equivalence
+   P_*≃C_*(F;R). Construct the coefficient comparison before applying LH:
+   finite freeness gives the degreewise natural isomorphism
+   Hom_R(P_*,R)⊗_R M≃Hom_R(P_*,M) for every R-module M. Choose cocycle
+   representatives for the supplied finite ordinary fibre basis e_j and
+   transport them to this dual model. Prove that the resulting map from
+   the finite sum of shifted copies of R to Hom_R(P_*,R) is a cochain
+   homotopy equivalence: its cone is a bounded acyclic projective complex,
+   whose contraction is constructed degreewise. Tensor the contraction
+   with M and compare with singular cochains using the displayed chain
+   homotopy equivalence. Prove naturality in M, independence of the chosen
+   representatives/model, and compatibility with coefficient transport.
+   Thus no flatness of M or exchange of an infinite cochain product with
+   tensor is presumed. Apply this actual comparison to the first-vertex
+   fibres of L and carry it through the same ordinary restriction, pair
+   and proper support-colimit proof. Construct the finite free model for
+   finite-CW projective and flag fibres from AT's actual cellular/singular
+   chain comparison. This extra coefficient-model hypothesis belongs to
+   the arbitrary-L extension, not to the preceding full R-valued theorem.
+   Compact-fibre projective and flag bundles are instances. A noncompact
+   fibre does not inherit this same-basis compact-total-support statement:
+   its vertical/proper-over-base support or compactly supported fibre-class
+   comparison must have its own stated support hypotheses and maps, as in
+   C2's distinct Thom/fibre-integration interfaces. Retain ordinary LH at
+   its original numerable scope.
 2. In positive rank define w_i and c_i by the unique monic projective
    relations above. In rank0 define the total class as1, with all positive
    components zero; the empty projectivization is not used for coefficient uniqueness. Build
@@ -747,6 +839,42 @@ AT8.1's relative-cell connectivity and transport theorem.
    `H*(BSO(n);F2)=F2[w₂,…,w_n]` for n≥1, with the canonical rank0 case separate. Compare stabilization and rank restrictions.
    Integral BO/BSO is not inferred from these mod2 or rational rings.
 
+
+4a. **Partial-frame primary obstruction comparison.** After C3.4, compare
+   its actual universal w/c classes with the first obstruction for r independent
+   sections, using TopK T1.5a and AT8.9's actual relative cochains/path transport.
+   For real rank n and 1≤r≤n, put k=n−r+1. In the branch k≥2, the
+   first obstruction is in degree k with
+   fibre group π_(k−1)(V_r(R^n)). For r=1 retain the integral Euler coefficient
+   system. For r≥2 the group is Z/2 for even k and Z for odd k, with the
+   actual orientation action in the latter case. Its mod2 reduction is the
+   shared w_k. Prove this on the universal associated Stiefel fibration:
+   its total space compares with BO(k−1), and C3.4 makes the degree-k
+   restriction kernel exactly the span of w_k. Construct the low-degree
+   transgression/primary-obstruction square on AT's cochains; prove the
+   bottom-fibre generator maps to this nonzero kernel, and transport through
+   bundle pullback and the CW-resolution comparison. Do not substitute an
+   unspecified whole spectral sequence for this square. For k=1 compare
+   the component obstruction with C1.0's determinant cover and w1 separately.
+   In the integral branch, w_k=0 alone does not imply the integral obstruction
+   vanishes; retain higher obstructions beyond the first obstruction range.
+   Fixed skeletal data extend iff the actual obstruction cochain vanishes;
+   class vanishing permits the changes stated in AT8.9.
+
+   For complex rank n and 1≤r≤n, put k=n−r+1, so 1≤k≤n. The first
+   group is Z in degree2k−1.
+   The primary obstruction is c_k in degree2k. Compare the universal total
+   space with BU(k−1), whose integral restriction kernel in that degree is
+   generated by c_k; normalize the bottom generator by C2.2's positive
+   complex-oriented one-frame Euler obstruction to obtain +c_k. Prove
+   coefficient, relative, pullback, stabilization and rank0/one-frame
+   comparisons. This comparison follows C3.2/C3.4's projective definitions
+   and ring calculations, and is not an input to either of them.
+
+   For r=0 the actual frame fibre is a point: the empty frame has no
+   first obstruction. This is the only frame branch at n=0; do not apply
+   either positive-frame first-group formula there. For r>n use the empty
+   frame fibre and retain the empty-base case separately.
 
 5. Identify w₂ with the universal transition-lift cocycle for the real spin
    central double cover. In positive rank consume native
