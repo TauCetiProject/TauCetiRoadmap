@@ -41,6 +41,15 @@ theorem injective_iff_exists_isMatlisGenerator {R : Type*} [CommRing R] [Finite 
     Module.Injective R R ↔ ∃ lam : R →+ UnitAddCircle, IsMatlisGenerator lam := by
   sorry
 
+/-- The finite local ring `𝔽_p[x,y]/(x,y)²` has a two-dimensional socle, so no additive character
+is a trace generator (`not_isSelfInjectiveCoefficient_square`, README 0.2). -/
+theorem not_exists_isMatlisGenerator_square (p : ℕ) [Fact p.Prime] :
+    ¬ ∃ lam : (MvPolynomial (Fin 2) (ZMod p) ⧸
+        (Ideal.span {MvPolynomial.X 0, MvPolynomial.X 1} :
+          Ideal (MvPolynomial (Fin 2) (ZMod p))) ^ 2) →+ UnitAddCircle,
+        IsMatlisGenerator lam := by
+  sorry
+
 end KolyvaginSystems
 
 namespace ErrorTolerant
@@ -48,7 +57,7 @@ namespace ErrorTolerant
 /-! ## Layer 1: exponents, orders and the abundance exponent of Liu–Tian–Xiao–Zhang–Zhu
 
 `exp_ϖ(x) = min{d : ϖᵈ x = 0}` and `ord_ϖ(x) = sup{d : x ∈ ϖᵈ M}` (Definition 2.1.6), and the
-sequence `𝔣(0) = 𝔣(1) = 1`, `𝔣(r + 1) = 2(𝔣(r) + 1)` of the saturation lemma 2.3.4. -/
+sequence `𝔣(0) = 𝔣(1) = 1`, `𝔣(r + 2) = 2(𝔣(r + 1) + 1)` of the saturation lemma 2.3.4. -/
 
 section Exponents
 
@@ -299,6 +308,33 @@ example {R : Type*} [CommRing R] (a : R) : fsQuotientPoly (X ^ 2 - C a) = X + 1 
     ring
   exact (monic_X_sub_C (1 : R)).isRegular.left heq
 
+/-- A rank-two Frobenius with eigenvalues `1` and `a` keeps the second factor:
+the quotient of `(1 − X)(1 − aX)` is `−(1 − aX)` (`finiteSingular_rank_two`, README §1.8). -/
+theorem fsQuotientPoly_rank_two {R : Type*} [CommRing R] (a : R) :
+    fsQuotientPoly ((1 - X) * (1 - C a * X)) = -(1 - C a * X) := by
+  have h := fsQuotientPoly_spec ((1 - X) * (1 - C a * X))
+  have heq : (X - C (1 : R)) * fsQuotientPoly ((1 - X) * (1 - C a * X)) =
+      (X - C 1) * (-(1 - C a * X)) := by
+    rw [h]
+    simp only [eval_mul, eval_sub, eval_one, eval_X, sub_self, zero_mul, map_zero, sub_zero]
+    rw [C_1]
+    ring
+  exact (monic_X_sub_C (1 : R)).isRegular.left heq
+
+/-- At the double root of `(1 − X)²` the quotient polynomial vanishes at `1`, so the comparison
+is not an isomorphism there (`finiteSingular_not_iso`, README §1.8). -/
+theorem fsQuotientPoly_double_root {R : Type*} [CommRing R] :
+    (fsQuotientPoly ((1 - X : R[X]) ^ 2)).eval 1 = 0 := by
+  have h := fsQuotientPoly_spec ((1 - X : R[X]) ^ 2)
+  have heq : (X - C (1 : R)) * fsQuotientPoly ((1 - X : R[X]) ^ 2) = (X - C 1) * (X - C 1) := by
+    rw [h]
+    simp only [eval_pow, eval_sub, eval_one, eval_X, sub_self, ne_eq, OfNat.ofNat_ne_zero,
+      not_false_eq_true, zero_pow, map_zero, sub_zero]
+    rw [C_1]
+    ring
+  rw [(monic_X_sub_C (1 : R)).isRegular.left heq]
+  simp
+
 end KolyvaginSystems
 
 namespace EulerSystems
@@ -336,6 +372,14 @@ theorem selectedDescent_spec (f : A →ₗ[R] B) (a : R)
     f (selectedDescent f a hc x) = a ^ 3 • x := by
   sorry
 
+/-- When `a` kills the kernel, the selected descent of a restricted class is `a³` times that
+class. -/
+theorem selectedDescent_comp_self (f : A →ₗ[R] B) (a : R)
+    (hc : ∀ x : B, ∃ b : A, f b = a • x)
+    (hk : ∀ y : A, f y = 0 → a • y = 0) (y : A) :
+    selectedDescent f a hc (f y) = a ^ 3 • y := by
+  sorry
+
 /-- The cyclic class `z` need not be selected uniquely; the cubic scale agrees. -/
 theorem selectedDescent_factor (r : A →ₗ[R] C) (s : C →ₗ[R] B) (a : R)
     (hc : ∀ x : B, ∃ b : A, (s.comp r) b = a • x)
@@ -367,6 +411,24 @@ theorem selectedDescent_zero (f : A →ₗ[R] B) (a : R)
     selectedDescent f a hc 0 = 0 := by
   sorry
 
+/-- For reduction `ℤ/25 → ℤ/5` and `a = 5` the selected descent is zero, while the fibre over
+zero contains a nonzero class: selection is not uniqueness (`selected_kernel_not_unique`,
+README §3.5). -/
+theorem selectedDescent_fibre_not_unique :
+    let f : ZMod 25 →ₗ[ℤ] ZMod 5 :=
+      (ZMod.castHom (by norm_num : 5 ∣ 25) (ZMod 5)).toAddMonoidHom.toIntLinearMap
+    ∃ hc : ∀ x : ZMod 5, ∃ b : ZMod 25, f b = (5 : ℤ) • x,
+      (∀ x, selectedDescent f 5 hc x = 0) ∧ ∃ y : ZMod 25, y ≠ 0 ∧ f y = 0 := by
+  intro f
+  refine ⟨fun x => ⟨0, ?_⟩, fun x => ?_, ⟨5, by decide, ?_⟩⟩
+  · rw [map_zero, zsmul_eq_mul]
+    have : ((5 : ℤ) : ZMod 5) = 0 := by decide
+    rw [this, zero_mul]
+  · simp only [selectedDescent, zsmul_eq_mul]
+    have : (((5 : ℤ) ^ 2 : ℤ) : ZMod 25) = 0 := by decide
+    rw [this, zero_mul]
+  · rfl
+
 end SelectedDescent
 
 end EulerSystems
@@ -375,12 +437,14 @@ namespace ErrorTolerant
 
 /-! ## Layer 4: bounded-image matrices over a truncated discrete valuation ring
 
-The linear algebra behind the corrected Proposition 2.6.7 of Liu–Tian–Xiao–Zhang–Zhu: if a square matrix over `R/ϖⁿ` has image containing `ϖᶜ (R/ϖⁿ)ʳ`
-with `c < n`, it has a two-sided scaled inverse. It need not be diagonalisable by column
-operations alone. -/
+The linear algebra behind the corrected Proposition 2.6.7 of Liu–Tian–Xiao–Zhang–Zhu: if a square
+matrix over `R/ϖⁿ` has image containing `ϖᶜ (R/ϖⁿ)ʳ`, it has a two-sided scaled inverse (for
+`c ≥ n` the scalar is zero and `C = 0` works). It need not be diagonalisable by column operations
+alone. -/
 
+/-- The scaled inverse of README §4.4`(b)`. -/
 theorem scaled_inverse {R : Type*} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
-    {ϖ : R} (hϖ : Irreducible ϖ) {r n c : ℕ} (hc : c < n)
+    {ϖ : R} (hϖ : Irreducible ϖ) {r n c : ℕ}
     (A : Matrix (Fin r) (Fin r) (R ⧸ Ideal.span {ϖ ^ n}))
     (hA : ∀ v : Fin r → R ⧸ Ideal.span {ϖ ^ n},
       ∃ w, A.mulVec w = Ideal.Quotient.mk (Ideal.span {ϖ ^ n}) (ϖ ^ c) • v) :
@@ -391,6 +455,121 @@ theorem scaled_inverse {R : Type*} [CommRing R] [IsDomain R] [IsDiscreteValuatio
 
 end ErrorTolerant
 
+namespace KolyvaginSystems
+
+/-! ## Layer 4: sheaves on graphs, surjective paths and hubs
+
+Mazur–Rubin's sheaves on a graph (Definition 3.1.1) and their hub criterion (Proposition 3.4.4):
+a global section is determined by its value at a hub, and every value there extends exactly when
+the monodromy is trivial. -/
+
+universe u v w
+
+/-- A sheaf of `R`-modules on a simple graph: vertex stalks `S(v)`, edge modules `S(e)` and maps
+`ψ_v^e : S(v) → S(e)` for each endpoint `v` of `e`. -/
+structure GraphSheaf (R : Type u) [CommRing R] {V : Type v} (G : SimpleGraph V) where
+  /-- The vertex stalks. -/
+  stalk : V → Type w
+  [instAddCommGroupStalk : ∀ x, AddCommGroup (stalk x)]
+  [instModuleStalk : ∀ x, Module R (stalk x)]
+  /-- The edge modules. -/
+  edge : G.edgeSet → Type w
+  [instAddCommGroupEdge : ∀ e, AddCommGroup (edge e)]
+  [instModuleEdge : ∀ e, Module R (edge e)]
+  /-- The vertex-to-edge maps. -/
+  res : ∀ (e : G.edgeSet) (x : V), x ∈ (e : Sym2 V) → stalk x →ₗ[R] edge e
+
+attribute [instance] GraphSheaf.instAddCommGroupStalk GraphSheaf.instModuleStalk
+  GraphSheaf.instAddCommGroupEdge GraphSheaf.instModuleEdge
+
+namespace GraphSheaf
+
+variable {R : Type u} [CommRing R] {V : Type v} {G : SimpleGraph V}
+
+/-- The global sections `Γ(S)`: families of stalk elements agreeing in every edge module. -/
+def sections (S : GraphSheaf.{u, v, w} R G) : Submodule R (∀ x, S.stalk x) where
+  carrier := {κ | ∀ (e : G.edgeSet) (x y : V) (hx : x ∈ (e : Sym2 V)) (hy : y ∈ (e : Sym2 V)),
+    S.res e x hx (κ x) = S.res e y hy (κ y)}
+  add_mem' {a b} ha hb e x y hx hy := by
+    simp only [Pi.add_apply, map_add, ha e x y hx hy, hb e x y hx hy]
+  zero_mem' e x y hx hy := by simp
+  smul_mem' c a ha e x y hx hy := by
+    simp only [Pi.smul_apply, map_smul, ha e x y hx hy]
+
+/-- All stalks and edge modules are cyclic and all vertex-to-edge maps are surjective. -/
+def IsLocallyCyclic (S : GraphSheaf.{u, v, w} R G) : Prop :=
+  (∀ x, (⊤ : Submodule R (S.stalk x)).IsPrincipal) ∧
+    (∀ e, (⊤ : Submodule R (S.edge e)).IsPrincipal) ∧
+    ∀ (e : G.edgeSet) (x : V) (hx : x ∈ (e : Sym2 V)), Function.Surjective (S.res e x hx)
+
+/-- A surjective path: each step `x → y` along an edge `e` has `ψ_y^e` bijective. -/
+inductive SurjPath (S : GraphSheaf.{u, v, w} R G) : V → V → Type (max v w)
+  | nil (x : V) : SurjPath S x x
+  | cons {x y z : V} (h : G.Adj x y)
+      (hb : Function.Bijective (S.res ⟨s(x, y), G.mem_edgeSet.2 h⟩ y (Sym2.mem_mk_right x y)))
+      (p : SurjPath S y z) : SurjPath S x z
+
+/-- The transport `ψ_P`, composing `(ψ_y^e)⁻¹ ∘ ψ_x^e` along the steps of a surjective path. -/
+noncomputable def SurjPath.transport {S : GraphSheaf.{u, v, w} R G} :
+    ∀ {x y : V}, S.SurjPath x y → (S.stalk x →ₗ[R] S.stalk y)
+  | _, _, .nil _ => LinearMap.id
+  | _, _, .cons h hb p =>
+      p.transport ∘ₗ ((LinearEquiv.ofBijective _ hb).symm : _ →ₗ[R] _) ∘ₗ
+        S.res ⟨_, G.mem_edgeSet.2 h⟩ _ (Sym2.mem_mk_left _ _)
+
+/-- `x` is a hub: every vertex is the end of a surjective path from `x`. -/
+def IsHub (S : GraphSheaf.{u, v, w} R G) (x : V) : Prop :=
+  ∀ y, Nonempty (S.SurjPath x y)
+
+/-- Trivial monodromy: transports along surjective paths with the same ends agree, and transports
+to the two ends of an edge agree in its edge module. -/
+def HasTrivialMonodromy (S : GraphSheaf.{u, v, w} R G) : Prop :=
+  (∀ {x y : V} (P P' : S.SurjPath x y), P.transport = P'.transport) ∧
+    ∀ {x y y' : V} (P : S.SurjPath x y) (P' : S.SurjPath x y') (e : G.edgeSet)
+      (hy : y ∈ (e : Sym2 V)) (hy' : y' ∈ (e : Sym2 V)),
+      S.res e y hy ∘ₗ P.transport = S.res e y' hy' ∘ₗ P'.transport
+
+/-- Evaluation at a hub is injective on global sections (Mazur–Rubin, Proposition 3.4.4(i)). -/
+theorem eval_injective_of_isHub (S : GraphSheaf.{u, v, w} R G) {x : V} (hx : S.IsHub x) :
+    Function.Injective fun κ : S.sections => (κ : ∀ y, S.stalk y) x := by
+  sorry
+
+/-- Evaluation at a hub is surjective exactly when the monodromy is trivial (Mazur–Rubin,
+Proposition 3.4.4(i)). -/
+theorem eval_surjective_iff (S : GraphSheaf.{u, v, w} R G) {x : V} (hx : S.IsHub x) :
+    Function.Surjective (fun κ : S.sections => (κ : ∀ y, S.stalk y) x) ↔
+      S.HasTrivialMonodromy := by
+  sorry
+
+end GraphSheaf
+
+end KolyvaginSystems
+
+namespace StarkSystems
+
+/-! ## Layer 6: exterior biduals
+
+`⋂^r_R X = Hom_R(⋀^r Hom_R(X, R), R)` with determinant evaluation from `⋀^r_R X`, built from
+Mathlib's `exteriorPower.pairingDual`. -/
+
+/-- The exterior bidual `⋂^r_R X`. -/
+abbrev exteriorBidual (R : Type*) [CommRing R] (r : ℕ) (X : Type*) [AddCommGroup X]
+    [Module R X] : Type _ :=
+  Module.Dual R (⋀[R]^r (Module.Dual R X))
+
+/-- Determinant evaluation `⋀^r_R X → ⋂^r_R X`, `x ↦ (φ ↦ ⟨φ, x⟩)`. -/
+noncomputable def toExteriorBidual (R : Type*) [CommRing R] (r : ℕ) (X : Type*)
+    [AddCommGroup X] [Module R X] : ⋀[R]^r X →ₗ[R] exteriorBidual R r X :=
+  (exteriorPower.pairingDual R X r).flip
+
+/-- For finite projective `X` determinant evaluation is an isomorphism (README §6.1). -/
+theorem toExteriorBidual_bijective_of_projective (R : Type*) [CommRing R] (r : ℕ) (X : Type*)
+    [AddCommGroup X] [Module R X] [Module.Projective R X] [Module.Finite R X] :
+    Function.Bijective (toExteriorBidual R r X) := by
+  sorry
+
+end StarkSystems
+
 /- Further arithmetic definitions and constructions specified in the README:
 KolyvaginSystems.SelmerTriple, KolyvaginSystems.QuotCat, KolyvaginSystems.IsCartesian,
 KolyvaginSystems.coreRankInt, KolyvaginSystems.canonicalStructure, KolyvaginSystems.MR04Hypotheses,
@@ -400,9 +579,10 @@ KolyvaginSystems.SelmerTriple.modify, KolyvaginSystems.SelfDual.finiteSingular,
 ErrorTolerant.gammaAssociated, EulerSystems.EulerSystem, EulerSystems.EulerSystem.twist,
 EulerSystems.Universal.X, EulerSystems.IsRigid, KolyvaginSystems.normElement,
 KolyvaginSystems.derivativeClass, KolyvaginSystems.KolyvaginSystem, KolyvaginSystems.correctedClass,
-KolyvaginSystems.conductorGraph, KolyvaginSystems.GraphSheaf.IsLocallyCyclic, KolyvaginSystems.selmerLength,
+KolyvaginSystems.conductorGraph, KolyvaginSystems.selmerLength,
 KolyvaginSystems.stubSheaf, EulerSystems.HypKT, KolyvaginSystems.KolyvaginSystem.divIndex,
-KolyvaginSystems.kolyvaginDualSelmer, KolyvaginSystems.SelfDual.Hypotheses, StarkSystems.exteriorBidual, StarkSystems.toExteriorBidual, StarkSystems.selmerBidual,
+KolyvaginSystems.kolyvaginDualSelmer, KolyvaginSystems.SelfDual.Hypotheses,
+StarkSystems.selmerBidual,
 StarkSystems.stalk, StarkSystems.BSSHypothesis32, StarkSystems.KolyvaginSystemRank,
 RubinStark.modifiedUnits, EulerSystems.HigherEulerSystem, EulerSystems.rawHigherDerivative,
 RubinStark.rubinBrumerStark, EulerSystem.ZpdExtension, EulerSystem.IwasawaHypT,
@@ -410,7 +590,7 @@ EulerSystem.LeopoldtTowerHyp, EulerSystem.restrictedSelmerInf, EulerSystem.iwasa
 EulerSystem.lambdaIndex, EulerSystem.trueSelmerInf, EulerSystem.twistGamma,
 EulerSystem.evalStar, EulerSystem.UnramifiedAtSplitPrimes, KolyvaginSystem.lambdaRep,
 KolyvaginSystem.lambdaKS, KolyvaginSystem.exceptionalSet, KolyvaginSystem.specRing,
-KolyvaginSystem.blindSpot, KolyvaginSystem.ind, KolyvaginSystems.TwistData,
+KolyvaginSystem.ind, KolyvaginSystems.TwistData,
 EulerSystems.RingClassEulerSystem, EulerSystems.RingClassEulerSystem.admissiblePrimes, KolyvaginSystems.SelfDual.index.
 Further coefficient, local and system data accompanying these definitions are
 KolyvaginSystems.IsCoefficientRing, KolyvaginSystems.residueChar,
@@ -424,14 +604,15 @@ KolyvaginSystems.gammaPrime, KolyvaginSystems.tameGroup, KolyvaginSystems.finite
 ErrorTolerant.reducibilityDepth, ErrorTolerant.frobeniusSet, ErrorTolerant.IsAbundant,
 KolyvaginSystems.frobeniusPrimes, KolyvaginSystems.rubinPrimes,
 KolyvaginSystems.finiteSingular, KolyvaginSystems.scalarError, KolyvaginSystems.spanError,
-EulerSystems.eulerPolyMR, EulerSystems.IsAdmissibleTower, EulerSystems.Universal.gen,
+EulerSystems.eulerPolyAt, EulerSystems.eulerPolyMR, EulerSystems.IsAdmissibleTower,
+EulerSystems.Universal.gen,
 EulerSystems.FiniteDepthEulerSystem, EulerSystems.AnticyclotomicEulerSystem,
 EulerSystems.EulerSystem.IsTrivialAt, KolyvaginSystems.WeakKolyvaginSystem,
 KolyvaginSystems.GeneralizedKolyvaginSystem, KolyvaginSystems.moduleOfLValues,
-KolyvaginSystems.blindSpot, KolyvaginSystems.GraphSheaf,
+KolyvaginSystems.blindSpot,
 KolyvaginSystems.selmerSheaf, EulerSystems.HypKV, EulerSystems.indexOfDivisibility,
-EulerSystems.errorTerm, KolyvaginSystems.GraphSheaf.IsHub,
-KolyvaginSystems.GraphSheaf.HasTrivialMonodromy, KolyvaginSystems.GraphSheaf.IsPrimitive,
+EulerSystems.errorTerm, KolyvaginSystems.GraphSheaf.IsPrimitive,
+KolyvaginSystems.GraphSheaf.generates_of_generates, KolyvaginSystems.GraphSheaf.mem_sections,
 KolyvaginSystems.IsCoreVertex, KolyvaginSystems.IsLeadingVertex,
 KolyvaginSystems.divisibilityIndex, KolyvaginSystems.KolyvaginSystem.elementaryDivisor,
 KolyvaginSystems.KolyvaginSystem.divIndexInfty, EulerSystems.deltaCorrection,
@@ -443,7 +624,7 @@ RubinStark.ordG, RubinStark.rubinLattice, StarkSystems.transition,
 StarkSystems.StarkSystem, StarkSystems.regulator, EulerSystems.BSSHypothesis61,
 EulerSystems.higherDerivative, RubinStark.RubinConjecture, EulerSystem.Xinf,
 EulerSystem.IwasawaHypV, EulerSystem.iwasawaClassAt, EulerSystem.singularLocalInf,
-EulerSystem.locSingularInf, EulerSystem.eval, EulerSystem.evalAt, EulerSystem.aTau,
+EulerSystem.locSingularInf, EulerSystem.rubinEval, EulerSystem.evalAt, EulerSystem.aTau,
 KolyvaginSystem.LambdaSelmerStructure, KolyvaginSystem.lambdaKSBar,
 KolyvaginSystem.bottomClass, KolyvaginSystem.specRep, KolyvaginSystem.specialize,
 KolyvaginSystem.perturb, KolyvaginSystem.indKS and KolyvaginSystem.IsLambdaPrimitive.
@@ -454,10 +635,9 @@ EulerSystems.ChiRayLocalData,
 EulerSystems.ChiRayLowerData, EulerSystems.chiRayCongruenceLift,
 EulerSystems.chiRayTorsionCongruence, EulerSystems.chiRayIntegralClassComparison,
 EulerSystems.chiUniversalPresentation, EulerSystems.chiRefinedPrimes,
-EulerSystems.chiUniversalDerivativeDescent, EulerSystems.chiGlobalDerivativeCongruence,
-EulerSystems.chiCompatibleCochainLifts,
+EulerSystems.chiUniversalDerivativeDescent, EulerSystems.chiCompatibleCochainLifts,
 KolyvaginSystems.MR16Hypotheses.frobeniusRefinement,
-KolyvaginSystems.MR16Hypotheses.detect, SharpConductorEvaluation,
+KolyvaginSystems.MR16Hypotheses.detect,
 OrdinaryCoefficientPrime.local, OrdinaryCoefficientPrime.corrections and
 OrdinaryCoefficientPrime.change also have arithmetic carriers specified in the README.
 KolyvaginSystems.IsSelfInjectiveCoefficient records the finite local coefficient data.
@@ -466,9 +646,9 @@ bimodule normal form, centralizerLatticeOrder and pairingCorner, and the
 ordinaryFiltration, ordinaryLocalCondition and anticyclotomicSelmerStructure
 carriers are likewise README targets. Their statements specify the module sides,
 fullness, finite arithmetic support and coefficient-prime hypotheses there.
-The arithmetic Iwasawa comparison of Layer 8, the coinduced Euler-system lift,
-and the higher-rank regulator also remain README targets. Their coefficient,
-local-duality and geometric carriers are supplied by the named
-roadmaps before these signatures can be stated in Lean. -/
+The remaining README targets, including the arithmetic Iwasawa comparison of Layer 8,
+the coinduced Euler-system lift and the higher-rank regulator, need arithmetic
+carriers absent at the pin. The README Checks sections_zero_hub, sections_one_vertex
+and sections_ne_product concern the sections of GraphSheaf above. -/
 
 end TauCetiRoadmap.EulerSystemsAndKolyvaginSystems
