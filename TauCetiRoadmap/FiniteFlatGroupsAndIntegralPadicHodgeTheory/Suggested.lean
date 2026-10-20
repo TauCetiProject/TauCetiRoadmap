@@ -1169,8 +1169,17 @@ identification. `bCris`, `bCris_toBDR`, `bCris_frobenius` and
 `dCris`, `dDeRham`, `IsCrystalline`, `IsDeRham` and `crystalline_iff_dim` use its
 §§4.2–4.3 functors and rational predicates, with the tensor flip for `(V ⊗ B)`.
 The underlying fundamental exact sequence, fixed fields and regularity are supplied by §4.3.
-Downstream targets are the additional continuous period sequences, sections and boundary maps;
-`crystalline_isDeRham`; `IsTorsionCrystalline`, `IsIntegralCrystalline`, whose public intervals
+PhiGammaModulesAndIwasawaCohomology §5.7 supplies the continuous sections, both tensor-cochain
+long exact sequences and `blochKatoExp` for every finite-dimensional continuous representation.
+Section R07.P3 identifies them on the finite-flat realization interfaces, with diagonal first maps,
+difference x-y and companion ((1-φ)x,x-y). For a p-divisible G of arbitrary height over O_K,
+T = BarsottiTate.tateModule G and V = T ⊗ ℚ_p, the equations are
+δ_e,V(z) = blochKatoExp V ([z]) = δ_f,V(0,z), with connecting cocycle
+g ↦ g(w)-w for a lift w under x-y, naturally in group maps, coefficients and twists.
+Here T/pⁿT ≅ G[pⁿ](K̄); tensoring a finite torsion group with ℚ_p gives zero.
+Integral crystalline predicates use the unramified-base hypotheses of §R07.P5a;
+§R07.1.24a supplies finite-flat models over arbitrary finite K/ℚ_p.
+Further targets are `crystalline_isDeRham`; `IsTorsionCrystalline`, `IsIntegralCrystalline`, whose public intervals
 are Hodge–Tate intervals with `HT(χ_p) = +1`. The lattice witnesses for twists `1` and `-1`,
 and all their finite reductions, use intervals `[1,1]` and `[-1,-1]` respectively; their
 covariant crystalline filtration jumps are `-1` and `+1`.

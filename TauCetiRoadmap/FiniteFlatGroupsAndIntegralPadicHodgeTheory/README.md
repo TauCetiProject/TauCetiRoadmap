@@ -164,8 +164,10 @@ Galois and cohomological Frobenius conventions and their bridge to scheme pullba
   predicates, fixed fields, regularity and underlying fundamental sequence (§§4.1–4.3).
   Its §2 also owns mixed-characteristic perfect-residue Herbrand theory, the different and
   the completed maximal unramified filtration comparison used in §R07.6.
-  Sections R07.P2–R07.P5 import their finite-`K` specializations and supply the additional
-  period sequence, continuous sections, boundary maps and crystalline-to-de Rham implication.
+  Sections R07.P2–R07.P5 import their finite-`K` specializations and supply the
+  crystalline-to-de Rham implication. Section R07.P3 specializes the continuous sections,
+  both period-sequence long exact sequences and `blochKatoExp` supplied by
+  PhiGammaModulesAndIwasawaCohomology §5.7 to the finite-flat realization interfaces.
   Section R07.P5a owns the integral coefficient predicates. Sections R07.P7.1–R07.P7.5 give finite-coefficient de Rham and
   Hodge–Tate adapters, labelled Sen theory, character criteria and lifting applications.
   Section R07.3.3a owns the general-ring filtered Frobenius carrier; §R07.3.4 specializes its
@@ -440,9 +442,16 @@ laws) with `FormalGroup.IsComm`.
   and logarithm. Sections 4.1–4.3 supply the crystalline and semistable carriers, actions,
   period maps, invariant functors, rational predicates, fixed fields, regularity and underlying
   fundamental exact sequence. Sections R07.P2–R07.P5 import their finite-`K` specializations;
-  §R07.P3 adds continuous sections, the `1−φ` sequence and boundary maps, §R07.P5 gives the
-  crystalline-to-de Rham implication, and §R07.P5a owns integral coefficient predicates.
+  §R07.P3 identifies the supplied continuous sequences and boundaries on the finite-flat
+  realization interfaces, §R07.P5 gives the crystalline-to-de Rham implication, and
+  §R07.P5a owns integral coefficient predicates.
   Section R07.3.0 gives the finite-`K` arithmetic realization comparisons.
+- **PhiGammaModulesAndIwasawaCohomology.** Section 5.7, *The local exponential and the
+  all-level image condition*, supplies continuous nonequivariant sections of both fundamental
+  period sequences, their tensor-cochain long exact sequences and `blochKatoExp` for every
+  finite-dimensional continuous representation over a finite extension of `ℚ_p`.
+  Section R07.P3 uses its `x−y` and `1−φ` conventions and identifies its boundaries with
+  the finite-flat realization interfaces; no de Rham hypothesis is needed for these boundaries.
 - **ArithmeticGaloisDuality.** §R02.1.2 supplies continuous-cochain long exact sequences
   for quotient maps admitting continuous nonequivariant sections; §R02.2.3a supplies
   the finite-type procyclic cohomology calculation.
@@ -1354,28 +1363,58 @@ crystalline carriers and period structure maps).
 
 ### R07.P3 Fundamental period sequences with continuous sections
 
-Import the underlying `G_K`-equivariant fundamental exact sequence
-`0→ℚ_p→B_cris^(φ=1)→B_dR/B_dR^+→0` from PadicPeriodRings §4.3.
-Its pullback along `B_dR→B_dR/B_dR^+` is
-`0→ℚ_p→B_cris^(φ=1)⊕B_dR^+→B_dR→0`, with diagonal first map and
-difference last map. Prove the additional exact sequence
-`0→ℚ_p→B_cris⊕B_dR^+→B_cris⊕B_dR→0` with `(x,y)↦((1−φ)x,x−y)`. Tensoring with a finite-dimensional continuous `V` gives the continuous-cohomology LES because the quotient maps admit continuous nonequivariant sections on the canonical topologies. Supply the boundary map `D_dR(V)/Fil⁰→H¹(K,V)` and its compatibility with coefficient/twist maps. A merely algebraically exact sequence is not enough for this LES.
+Consume PhiGammaModulesAndIwasawaCohomology §5.7, *The local exponential and the
+all-level image condition*: its continuous nonequivariant sections of the fundamental
+sequence of PadicPeriodRings §4.3 and its pullback
+`0→ℚ_p→B_cris^(φ=1)⊕B_dR^+→B_dR→0`, and of the companion sequence
+`0→ℚ_p→B_cris⊕B_dR^+→B_cris⊕B_dR→0`.
+The first maps are diagonal; the last maps are respectively `x−y` and
+`((1−φ)x,x−y)`. Use the supplied continuous-cochain long exact sequences after
+tensoring over `ℚ_p` with any finite-dimensional continuous `V`, including finite
+coefficient extensions, and the supplied boundary
+`blochKatoExp V : D_dR(V)/Fil⁰→H¹(K,V)`. These constructions require no de Rham
+hypothesis. The sections and topologies are part of the supplied interface, not consequences
+of algebraic exactness alone.
 
-Canonical period topologies; finite-dimensional `V`; the continuous-cochain long exact sequences of ArithmeticGaloisDuality §R02.1.2 (*Long exact sequences for continuous cohomology*), which apply to these topological coefficients because the sections constructed here are continuous.
+For a `p`-divisible group `G` of arbitrary height over `O_K`, use
+`T = BarsottiTate.tateModule G` and `V = T⊗_{ℤ_p}ℚ_p` from §R07.1.8, whose
+finite levels satisfy `T/pⁿT ≅ G[pⁿ](K̄)` for `n≥1`. Identify the supplied sequences
+and boundaries on the realization interfaces of §R07.P5. The tensor flip
+`v⊗b↦b⊗v` intertwines their diagonal and difference maps; Frobenius acts on the
+crystalline period factor. With `δ_e,V` and `δ_f,V` denoting the connecting maps from
+`D_dR(V)` and `D_cris(V)⊕D_dR(V)` respectively, prove the specialization equations
+`δ_e,V(z) = blochKatoExp V ([z]) = δ_f,V(0,z)` for every `z∈D_dR(V)`.
+For a lift `w=(x,y)` of `z` under the first difference map, this class is represented
+by `g↦g(w)−w`, using `v↦(1⊗v,1⊗v)` to identify the kernel with `V`.
+Require these identifications to commute with homomorphisms of `p`-divisible groups,
+finite coefficient extensions and Tate twists of `V`. Retain the supplied general-`V`
+interface for consumers. Over unramified `K`, finite flat torsion coefficients use
+§R07.P5a's integral predicates; §R07.1.24a gives the finite-flat model predicate for any
+finite `K/ℚ_p`. Section R07.3.0 preserves these boundary equations under its period comparisons.
 
-Use the kernel and surjectivity of the supplied fundamental sequence for its pullback.
-Prove surjectivity of `1−φ` using divided-power Frobenius estimates and Bloch–Kato
-Lemma 1.17.3, and combine it with the supplied sequence to obtain the additional sequence. Construct the continuous sections as in Remark 1.18 and apply the continuous-section long exact sequence of ArithmeticGaloisDuality §R02.1.2 after tensoring with `V`.
-
-(Bloch–Kato, Proposition 1.17, Lemma 1.17.3 and Remark 1.18, pp. 340–341.)
+The specialization uses the naturality of the supplied connecting maps and the inclusion
+of the first tensor sequence into the companion, whose map on the final term is
+`z↦(0,z)`. (Bloch–Kato, Proposition 1.17 and Remark 1.18, pp. 340–341;
+Example 3.9, p. 359, for the rank-one boundary cases.)
 
 **Checks.**
 
 - For `V = 0` every term and the boundary map vanish.
 - For `V = ℚ_p`, the diagonal scalar pair maps to zero under the difference map; the sign is `x−y`.
 - On a Tate twist, tensoring and the boundary commute with the twist and retain the period's continuous Galois action.
+- For `G=ℚ_p/ℤ_p`, `V=ℚ_p` and `D_dR(V)/Fil⁰=0`, so the exponential image
+  `H¹_e(K,V)` is zero, while `H¹_f(K,V)` contains the nonzero unramified class.
+- For `G=μ_{p^∞}`, `V=ℚ_p(1)` and the two specialized boundaries agree on
+  `D_dR(V)/Fil⁰`; their image is the rational Kummer image of `O_K^×` and excludes
+  a uniformizer class. Here `T/pⁿT=μ_{pⁿ}(K̄)`.
+- For the nonzero finite flat group `μ_p`, its generic points tensor to zero over
+  `ℤ_p` with `ℚ_p`; the rational boundary cannot define its integral crystalline predicate.
 
-*Needs:* PadicPeriodRings §4.3 (underlying fundamental exact sequence); §R07.P2 (supplied crystalline structures); ArithmeticGaloisDuality §R02.1.2 (*Long exact sequences for continuous cohomology*); ArithmeticGaloisDuality Layer R02.1.
+*Needs:* PhiGammaModulesAndIwasawaCohomology §5.7 (`blochKatoExp`, continuous sections
+and both tensor-cochain long exact sequences); PadicPeriodRings §4.3 (underlying fundamental
+exact sequence); §§R07.P2 and R07.P5 (period and realization interfaces);
+§R07.1.8 (Tate modules and finite levels); §R07.1.24a (finite-flat model predicate);
+§R07.P5a (integral coefficient predicates over unramified bases).
 
 ### R07.P4 Period fixed fields and dimension bounds
 
@@ -4396,8 +4435,8 @@ Prove `finiteKPeriodComparison`. Let `K/ℚ_p` be finite, `k` its residue field 
 algebraic closure, topological period rings, structure maps, invariant functors and
 period identities. Use the imported finite-`K` crystalline structures, fixed fields,
 functors and rational predicates of §§R07.P2, R07.P4–R07.P5 on these same carriers.
-Identify their arithmetic realization interfaces, the additional continuous-sequence
-contracts of §R07.P3 and the integral coefficient predicates of §R07.P5a. Give canonical topological algebra isomorphisms on `A_inf, A_cris, B_cris⁺, B_cris, B_dR⁺` and `B_dR` and their induced natural isomorphisms on realizations.
+Identify their arithmetic realization interfaces, the supplied continuous-sequence
+contracts specialized in §R07.P3 and the integral coefficient predicates of §R07.P5a. Give canonical topological algebra isomorphisms on `A_inf, A_cris, B_cris⁺, B_cris, B_dR⁺` and `B_dR` and their induced natural isomorphisms on realizations.
 The comparisons commute with `θ` on plus carriers, `φ`, Galois action, filtration and
 continuous valued embeddings with compatible algebraic closures.
 
@@ -4415,8 +4454,8 @@ only their finite-`K` specializations.
 identifications, preserving their supplied continuous structure maps. Apply the
 §4.2 invariant functors to the compatible finite-dimensional tensor maps, including
 the tensor flip for §R07.P5's convention. Use §4.3 for fixed fields, regularity,
-rational predicates and the underlying fundamental sequence; use §R07.P3 for
-continuous sections and boundary maps and §R07.P5a for integral predicates. (Brinon–Conrad 2009, §§4.3–4.4, pp. 49–55; §9.1, pp. 128–135;
+rational predicates and the underlying fundamental sequence; use §R07.P3's identification
+of the supplied continuous sections and boundary maps and §R07.P5a for integral predicates. (Brinon–Conrad 2009, §§4.3–4.4, pp. 49–55; §9.1, pp. 128–135;
 §9.2, pp. 135–146.)
 
 *Needs:* PadicPeriodRings §§1–4; §§R07.P2–R07.P5a.
