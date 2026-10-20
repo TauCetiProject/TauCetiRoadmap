@@ -113,7 +113,7 @@ Define `cyclotomicClassAction R m a` for any commutative ring `R` by scalar-exte
 
 - For an abstract class of order `p²`, scalar multiplication by a p-adic integer reducing to `1+p` is multiplication by `1+p` modulo `p²`, not multiplication by its residue modulo `p`. This detects an incorrect mod-p-only module.
 - A class of order prime to `p` has zero image in the tensor model and in the p-primary projection; a class of order `p` does not. Thus tensoring with `ℚ_p` would give the wrong object.
-- On `1⊗[𝔞]`, `cyclotomicClassAction R m a` gives `1⊗[σ_a𝔞]`. The pure-tensor comparison is the proved API theorem `classAction_tensor`. The conductor-five root-action example tests the Galois identification only; its class group is trivial.
+- On `1⊗[𝔞]`, `cyclotomicClassAction R m a` gives `1⊗[σ_a𝔞]`. The pure-tensor comparison is the proved API theorem `classAction_tensor`. At conductor five, `IsCyclotomicExtension.Rat.galEquivZMod_apply_of_pow_eq` identifies σ₂ and σ₃ by their respective powers on ζ₅; its class group is trivial.
 - If the class group is trivial, both models are zero and the Artin extension is the base field. Finiteness here is finiteness of a module, not a claim that `ℤ_p` itself is finite.
 
 ### 0.2 Tame components at every odd-prime level
@@ -239,7 +239,7 @@ Let `I_L` be the multiplicative group of nonzero fractional ideals and `j:I_K→
 I_L^G / j(I_K) ≅ ⊕_(v finite) ℤ/e_vℤ.
 ```
 
-Only ramified primes contribute; this is a finite group. The defining valuation at a chosen prime over v is independent of that choice by invariance. Prove its homomorphism law, independence, surjectivity by orbit products of primes, kernel equal to the extended ideals, and compatibility with maps of towers when the ramification indices divide. Source: Sharifi proof of Proposition 1.3.6, pp.15–16; Hilbert §57, Satz 93, pp.277–278.
+Only ramified primes contribute; this is a finite group. The defining valuation at a chosen prime over v is independent of that choice by invariance. Prove its homomorphism law, independence, surjectivity by orbit products of primes, kernel equal to the extended ideals, and compatibility with maps of towers when the ramification indices divide. Source: Sharifi Proposition 1.3.6, pp.15–16, and the invariant-ideal calculation in the proof of Theorem 1.3.16, p.22; Hilbert §57, Satz 93, pp.277–278.
 
 The Hilbert 93 comparison uses the supplied different criterion on these ideal carriers: a finite prime contributes precisely when its ramification index exceeds one. For cyclic prime degree, a ramified prime is totally ramified; an inert prime fixed by the Galois group has index one and contributes zero. Thus the valuation quotient detects ramification, while a merely invariant prime need not contribute.
 
@@ -324,9 +324,9 @@ The last two identities include `m=2`, where `c=1` and `θ_2=[1]/2`. For a nontr
 **Checks.**
 
 - At `m=5`, the coefficients at `[3]` and `[2]` are `2/5` and `3/5`. Both unequal values occur as proved examples in Suggested.lean, so a missing basis inverse fails.
-- At `m=2`, the group has one element and the coefficient is `1/2`. Replacing the least nonnegative representative of a unit by zero would fail even this boundary.
+- At `m=2`, the group has one element and the coefficient is `1/2`, as stated by `stickelberger_two_coeff`. Replacing the least nonnegative representative of a unit by zero would fail even this boundary.
 - For a nontrivial even character at odd prime conductor, the value is zero, by pairing a and `p−a`; an odd character generally has a nonzero value. The trivial character has value `(p−1)/2`, not the primitive trivial Bernoulli value `+1/2`.
-- At `m=1` the same finite-sum formula gives zero. All-conductor arithmetic theorems here start at two and do not use `φ(1)/2` as an augmentation formula.
+- At `m=1` the same finite-sum formula gives zero, as stated by `stickelberger_one`. All-conductor arithmetic theorems here start at two and do not use `φ(1)/2` as an augmentation formula.
 
 ### 2.2 Denominators and the integral ideal
 
@@ -348,6 +348,18 @@ Prove `denominatorIdeal_mem_iff`, closure under addition and group-ring multipli
 - The representative `b=1` gives the zero generator; the equally valid representative `b=1+m` gives `−m`. Restricting the generators to one residue system omits a necessary integral relation.
 - For `x=[b]−b`, the congruence criterion reads `b₀−b≡0 mod m`, as required. The sign in this generator is opposite to the positive smoothing of §2.3, but the ideals are unchanged.
 
+For `integralGroupRingCast`, the following three Checks use the coefficient-extension formula in Mathlib's `MonoidAlgebra.coeff_mapRingHom` and `mapRingHom_single`.
+
+- At conductor five, `[3]` maps to `[3]` and differs from `[2]`; coefficient extension must preserve the basis index.
+- The coefficient of `[3]` in the image of `−2[3]+3[2]` is −2; the sign is preserved.
+- The image of `−2[3]+3[2]` is exactly the same two-term rational sum, with coefficient 3 at `[2]`. Distinct support entries must not merge. Suggested.lean proves these cast Checks in two examples.
+
+For `integralStickelbergerMap`, the following three Checks are named theorem targets on the ideal subtypes in Suggested.lean. Each asserts the existence of the indicated denominator-ideal element and computes its image, using the finite sums of §§2.1–2.3.
+
+- `integralStickelbergerMap_two`: the multiplier 2 at conductor two maps to 1.
+- `integralStickelbergerMap_three`: the multiplier `2[−1]−1` at conductor three maps to 1.
+- `integralStickelbergerMap_five`: the multiplier `2−[2]` at conductor five maps to `[2]+[4]`. The unequal coefficients of θ₅ and the inverse basis determine these two image indices.
+
 ### 2.3 Positive smoothing and floor coefficients
 
 Define `smoothedStickelberger m b : ℤ[G_m]` for natural b by the finite sum of floors. For `m≥2` and `b.Coprime m`, prove `smoothedStickelberger_cast`:
@@ -361,8 +373,8 @@ The cast to `ℚ[G_m]` is injective. Show `smoothedStickelberger_mem`, the coeff
 **Checks.**
 
 - At `m=5,b=2`, the coefficients at `[3]` and `[2]` are zero and one. Suggested.lean proves both values. Smoothing with `[b]−b` would give zero and minus one.
-- At `m=5,b=6`, `[6]=[1]` but `s_(5,6)=5θ_5`, which is nonzero. Reducing b modulo m before taking floors is incorrect.
-- At `m=2,b=3`, the group ring is `ℤ` and `s_(2,3)=1`. This witnesses integral smoothing at the smallest conductor.
+- At `m=5,b=6`, `[6]=[1]` but `s_(5,6)=5θ_5`, which is nonzero; `smoothedStickelberger_five_six` states this after the integral cast. Reducing b modulo m before taking floors is incorrect.
+- At `m=2,b=3`, the group ring is `ℤ` and `s_(2,3)=1`, as stated by `smoothedStickelberger_two_three`. This witnesses integral smoothing at the smallest conductor.
 - At `b=1` all coefficients are zero. The formula exists for `b=0`, but the annihilation theorem's coprimality hypothesis excludes it when `m≥2`.
 
 ### 2.4 Gauss sums, valuations and descent
@@ -444,7 +456,7 @@ dim_k(A_E/p A_E)^χ ≤ dim_k(A_E/p A_E)^ψ
 
 Here `δ_χ` is one precisely when `χ=ω` and adjoining pth roots of the roots of unity of E gives an unramified extension of E; it is zero otherwise. It is roots of unity of E in this condition. This formulation avoids multiplying one side by the residue degree of a different coefficient field. Prove invariance under further unramified coefficient extension. Source: Sharifi Theorem 4.4.2 and proof, pp.111–113; the proof's Kummer radical uses `μ(E)`.
 
-Define `unramifiedKummerRadical E p` as the subgroup of `Eˣ/Eˣᵖ` whose elements generate extensions unramified at all finite places, with the real-place condition where needed. Construct the ideal-class map from a radical represented by x: unramifiedness implies `(x)=𝔞^p`, and send it to `[𝔞]∈Cl(E)[p]`. Its kernel is the unramified unit radical. Use the supplied Kummer pairing and global reciprocity to obtain the exact sequence from this unit radical to `Hom(A_E,μ_p)` to `Cl(E)[p]`. Give `unramifiedRadical_independent_representative`, `unramifiedRadical_idealClass`, `unramifiedRadical_kernel`, and `kummerPairing_equivariant`. Sources: Sharifi Lemma 1.4.6, pp.23–24, and Theorem 4.4.2, pp.111–113.
+Define `unramifiedKummerRadical E p` as the subgroup of `Eˣ/Eˣᵖ` whose elements generate extensions unramified at all finite places, with the real-place condition where needed. Construct the ideal-class map from a radical represented by x: unramifiedness implies `(x)=𝔞^p`, and send it to `[𝔞]∈Cl(E)[p]`. Its kernel is the unramified unit radical. Use the supplied Kummer pairing and global reciprocity to obtain the exact sequence from this unit radical to `Hom(A_E,μ_p)` to `Cl(E)[p]`. Give `unramifiedRadical_independent_representative`, `unramifiedRadical_idealClass`, `unramifiedRadical_kernel`, and `kummerPairing_equivariant`. Sources: Sharifi Lemma 1.4.6, p.25, and Theorem 4.4.2, pp.111–113.
 
 **Checks.**
 
@@ -473,6 +485,28 @@ For a CM number field F write `Q_F` for the native Hasse index in the supplier c
 - For `ℚ(ζ₈)` the real field is `ℚ(√2)`, Q=1 and `R_F=2R_(F⁺)`. This detects an unweighted complex logarithm convention.
 - Conductor two is the rational field and is not a CM extension of its maximal real field; it is treated directly rather than inserted into the degree-two CM identities.
 
+For a primitive quadratic complex Dirichlet character χ of conductor f, prove `quadraticCharacter_gaussSum`: the positive Gauss sum `τ(χ)=Σ_(a mod f)χ(a)exp(2πia/f)` is the positive real `√f` when χ is even and `i√f` when χ is odd. Include the primitive trivial character at conductor one. Identify primitive quadratic characters with the characters of fundamental discriminants, evaluate the odd-prime sums with their signs, compute the dyadic sums at conductors four and eight, and use Chinese remainders with the quadratic reciprocity factors to obtain every primitive conductor. This is an arithmetic target here; the square of a Gauss sum alone does not fix its sign. Source: Montgomery–Vaughan, *Multiplicative Number Theory I*, §9.3, Theorem 9.17 and proof, p.286 (Theorem 17 in the linked chapter draft).
+
+**Checks.**
+
+- The quadratic character of discriminant −3 has `τ=i√3`, while that of discriminant 5 has `τ=√5`.
+- The characters of discriminants −4, 8 and −8 give respectively `2i`, `√8` and `i√8`. These include both primitive quadratic signs at conductor eight.
+- At conductor one the unique character gives `τ=1`; the same character represented imprimitively at conductor two does not satisfy the primitive hypothesis.
+
+For any abelian number field F with primitive character group `X(F)`, prove `abelianCharacter_gauss_product`:
+
+```text
+∏_(χ∈X(F)) τ(χ) = i^(r₂(F)) √|D_F|.
+```
+
+Use the positive exponential in every Gauss sum and the positive real square root on the right. Pair each nonquadratic χ with χ⁻¹, proving `τ(χ)τ(χ⁻¹)=χ(−1)fχ` at every common primitive conductor from finite Fourier orthogonality and complex conjugation. The pinned `DirichletCharacter.IsPrimitive.fourierTransform_eq_inv_mul_gaussSum` supplies the Fourier identity at composite conductors as well as prime ones; the finite-field product formula alone does not cover this case. Sources for this inverse-pair calculation are Montgomery–Vaughan §9.2, Theorems 9.5 and 9.7, pp.273–274 (Theorems 5 and 7 in the draft). Evaluate the remaining quadratic characters with `quadraticCharacter_gaussSum`. An odd inverse pair contributes phase −1 and two odd characters; an odd quadratic character contributes phase i and one odd character. Since the number of odd characters is `r₂(F)`, the phase is exactly the displayed power of i. ClassFieldTheory's conductor–discriminant formula gives the positive magnitude. Source: Sharifi equation (4.2.2), p.107; this finite-character proof uses no Artin or Dedekind functional equation.
+
+**Checks.**
+
+- For ℚ the product is the conductor-one Gauss sum 1 and `D=1,r₂=0`.
+- For `ℚ(i)`, `D=−4,r₂=1`, the product is `2i`. For `ℚ(√2)`, `D=8,r₂=0`, it is `√8`.
+- For `ℚ(ζ₅)`, the odd inverse pair contributes −5 and the quadratic character contributes `√5`, giving `−5√5=i²√125`. Taking only absolute values loses this minus sign.
+
 For abelian CM F, define `relativeClassNumber F = h(F)/h(F⁺)` initially as a positive rational number. The general character product below is an equality of positive rational numbers. For the prime-power fields write it `h_m⁻` and prove integrality directly by norm. Prove `relativeClassNumber_character_product` and `realClassNumber_log_product`:
 
 ```text
@@ -485,7 +519,7 @@ Each χ on the right is used at its primitive conductor. The products are embedd
 
 Give `relativeClassNumber_pos`, `relativeClassNumber_mul_real` and `relativeClassNumber_primePower_integral`. **Checks.** For `ℚ(ζ₃)` and `ℚ(i)` the ratio is one and their respective odd-character products use w=6 and w=4. For `ℚ(ζ₈)` it is also one, although the real field has positive unit rank. If the two class numbers are abstractly h and h⁺, the definition is the rational quotient h/h⁺; integrality requires the arithmetic norm argument and is not a property of arbitrary pairs of positive integers. Taking conductor two has no CM character product, while its direct full and real class numbers are both one.
 
-Build the analytic bridge as follows. Prove the Euler-product identity `ζ_F(s)=∏_(χ∈X(F))L(χ,s)` for `Re(s)>1` using the existing splitting law. Compare right-hand limits at one with Mathlib's `dedekindZeta_residue`; the trivial primitive factor is the Riemann zeta factor. Derive `L(0,χ)=−B_(1,χ)` and the finite logarithmic formula at one for nontrivial even χ, using the existing Dirichlet meromorphic-extension and functional equation, or the finite Fourier expansion of `−log(1−z)`. Keep the gamma parity and Gauss-sum normalization of the native functions. Use ClassFieldTheory's conductor–discriminant theorem and the CM regulator comparison above to cancel discriminants, roots of unity and powers of two. The special-value comparisons and the Euler-product bridge are targets here; meromorphic extension, the functional equation and conductor–discriminant are imports. Sources: Sharifi Proposition 4.1.21, pp.100–101, Proposition 4.2.13 and Theorem 4.2.14, pp.103–105, and Theorem 4.2.20, pp.107–108.
+Build the analytic bridge as follows. Prove the Euler-product identity `ζ_F(s)=∏_(χ∈X(F))L(χ,s)` for `Re(s)>1` using the existing splitting law. Compare right-hand limits at one with Mathlib's `dedekindZeta_residue`; the trivial primitive factor is the Riemann zeta factor. Derive `L(0,χ)=−B_(1,χ)` and the finite logarithmic formula at one for nontrivial even χ, using the existing Dirichlet meromorphic-extension and functional equation, or the finite Fourier expansion of `−log(1−z)`. Keep the gamma parity and Gauss-sum normalization of the native functions. Use `abelianCharacter_gauss_product` for F and F⁺, together with ClassFieldTheory's conductor–discriminant theorem and the CM regulator comparison above, to cancel discriminants, Gauss phases, roots of unity and powers of two in the relative product. Apply the same signed Gauss-product identity to the totally real field F⁺ in the logarithmic class-number product. The special-value comparisons and the Euler-product bridge are targets here; meromorphic extension, the functional equation and conductor–discriminant are imports. Sources: Sharifi Proposition 4.1.21, pp.100–101, Proposition 4.2.13 and Theorem 4.2.14, pp.103–105, and Theorem 4.2.20, pp.107–108.
 
 ### Examples
 
@@ -721,7 +755,7 @@ For every regular odd prime p and every `r≥1`, prove `regular_prime_power_clas
 
 Prove separately `dyadic_class_number : 2∤h(K_(2^r))` for every `r≥1`. The conductor-two field is rational. The conductor-four field has Gaussian integer ring and class number one; obtain this from the native Euclidean/principal ideal ring comparison or its norm-Euclidean proof. Starting at `ℚ(i)`, every further step has no infinite ramification and a single totally ramified finite prime, so §1.7 applies. Do not apply its no-infinite-ramification statement to `ℚ(i)/ℚ`. Source: Sharifi Lemma 1.3.13, p.18, applied above the Gaussian base field, together with the cyclotomic ramification calculation of §3.1, pp.75–77.
 
-Also prove `regular_prime_power_real_class_number`: the real field's p-primary class group is zero at every such level. For odd p use §0.4's norm/extension comparison. For p=2 use norm surjectivity on the full class groups of `K_(2^r)/K_(2^r)^+`, since the finite prime above two is ramified and hence the quadratic extension meets the real field's Hilbert class field trivially. This makes the real two-primary class module a quotient of the zero complex one; it does not divide a norm by two. At conductors two and four the real field is rational. Sources: Sharifi Lemma 1.3.8 and Corollary 1.3.9, p.16; Lemma 1.3.13, p.18, gives the complex-field vanishing used here.
+Also prove `regular_prime_power_real_class_number`: the real field's p-primary class group is zero at every such level. For odd p use §0.4's norm/extension comparison. For p=2 use norm surjectivity on the full class groups of `K_(2^r)/K_(2^r)^+`, since the finite prime above two is ramified and hence the quadratic extension meets the real field's Hilbert class field trivially. This makes the real two-primary class module a quotient of the zero complex one; it does not divide a norm by two. At conductors two and four the real field is rational. Sources: Sharifi Lemma 1.3.8 and Corollary 1.3.9, pp.16–17; Lemma 1.3.13, p.18, gives the complex-field vanishing used here.
 
 ### Examples
 
@@ -959,6 +993,8 @@ For a concrete two-term witness take p=5 and a tame element with `ω(a)=2 mod 5`
 
 Expose `cyclotomicClassEigenspaces`, `stickelbergerHerbrandAnnihilator`, and `inverseCharacterUnramifiedQuotient` as the three arithmetic contracts for EisensteinIdealAndRationalTorsion. The first includes the native Sylow/tensor comparison, tame decomposition at every prime-power level, arithmetic Artin equivariance and the real-field comparison at odd p. The second includes the all-conductor integral annihilator, the prime-conductor Bernoulli scalar with the `1−k` index, and the separate exceptional exponent-one vanishing. The third includes inverse-character vanishing, its universal unramified quotient, the harmless split-at-p condition and the constant étale duality just specified.
 
+The downstream interface for FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.G5, `admissible-cyclotomic-class-obstruction`, consists of `cyclotomicClassEigenspaces`, `bernoulli_annihilates_component`, `herbrand`, `cyclotomicClassEigenspace_one_eq_zero`, `inverseCharacterClassGroup` and `inverseCharacterUnramifiedQuotient_zero`, with the carrier `cyclotomicClassEigenspace`. Its ideal action is the covariant action of §§0.2–0.3 and its scalar is the primitive-conductor evaluation of §§2.5 and 3.1–3.2. The prime-conductor obstruction is the r=1 application of §§8.1–8.3, with the rational dyadic boundary handled directly. The global Ext applications belong to the downstream finite-flat development.
+
 An application to a division field must first prove that its proposed quotient is abelian of p-power order, unramified at every finite prime, and carries the actual inverse tame conjugation action. The arithmetic contract then kills that quotient. It does not turn a general division field into an unramified extension, or identify two different Hom target actions. The vanishing remains valid without regularity or Vandiver, and at all higher prime-power levels.
 
 ### Examples
@@ -973,27 +1009,18 @@ Layers 0–3 and §1.7 for all-level vanishing; Layer 4 for the 691 negative con
 
 EisensteinIdealAndRationalTorsion consumes the three contracts of §8.4. Its division-field and finite-flat arguments must supply the actual ramification and conjugation hypotheses before applying the unramified quotient. The class-field result then applies at every prime-power level. Constant group schemes use the constant-coefficient dual of §8.3; a root-of-unity target requires the additional cyclotomic twist.
 
-DirichletPadicLFunctions consumes the primitive-conductor Bernoulli values, their p-adic integrality, the Kummer congruence of §3.1, the finite Stickelberger character evaluations and the circular-unit distribution relations. It supplies its own measures and interpolation constructions. These finite arithmetic results do not assume a p-adic L-function or a main conjecture.
+The downstream interface for DirichletPadicLFunctions contains the primitive-conductor Bernoulli values, their p-adic integrality, the Kummer congruence of §3.1, the finite Stickelberger character evaluations and the circular-unit distribution relations. Measures and interpolation are outside this roadmap. These finite arithmetic results do not assume a p-adic L-function or a main conjecture.
 
 IntegralIwasawaTheory and later Selmer and main-conjecture roadmaps consume the actual norm-compatible cyclotomic class module, its arithmetic Artin realization, exact one-prime control and its μ and λ invariants. The abstract completed-group-ring algebra remains supplied by PadicMeasuresIwasawaAlgebras. A later comparison with an analytic characteristic ideal is additional mathematics; the growth theorem here identifies no such ideal.
 
-The field-level constructions in §§4.3–4.4 and the finite scalar comparisons of §3.1 are common foundations exported to the following downstream developments. Each row describes reuse of the same carrier and theorem, rather than a second construction with a different name.
-
-| Downstream development | Shared foundation exported here | Additional downstream scope |
-| --- | --- | --- |
-| ModularCurvesPartII §§13.1–13.5, 14.13–14.14, 16.1–16.4 and 17.2 | The Albanese-Hecke quotient, its coefficient action, rank-two Tate factor and special-fibre arithmetic relation in §4.3, with the explicit Fourier eigencharacter adapter | Integral modular comparisons and the full geometric Hecke API |
-| AbelianSchemesAndArithmeticModuli A2.4, A3.2, A3.9, A4.1, A6.2, A6.6, A6.10–A6.11 and A6.14 | The field-level torsion counts, Tate realization, numerical degree and characteristic polynomial, Riemann–Roch and Rosati positivity in §4.3 | Relative abelian schemes, their moduli and relative realization APIs |
-| FiniteFlatGroupsAndIntegralPadicHodgeTheory R07.1.19–R07.1.20, R07.1.30 and R07.P7.1–R07.P7.3 | The general `BarsottiTate` carrier, its Hodge–Tate comparison, finite-flat closure and small-ramification full faithfulness, and the local character criterion in §4.4 | Integral comparison theories, labelled Sen operators and crystalline realizations |
-| DeligneWeightsAndPurity §§1.1–1.4 | The all-abelian-varieties Frobenius polynomial and Rosati root bound `abelianFrobenius_abs` of §4.3 | Cohomological Frobenius adapters, weights and general purity |
-| DirichletPadicLFunctions §0.4 | First-degree parity and induction, and `L(0,χ)` and `L(−1,χ)` comparisons on the native generalized Bernoulli values | Positive-degree interpolation, measures and p-adic L-functions |
-
-The shared statements keep their full field and valuation-ring generality in §§4.3–4.4, independently of prime level and Bernoulli divisibility. The p-divisible-group and Hodge–Tate carriers have one construction; their downstream realizations use its Tate module and the convention `HT(χ_p)=1`. Completed-field cohomology remains an input from PadicPeriodRings. General Néron-model theory and local–global compatibility beyond these targets are downstream developments.
+The field-level constructions in §§4.3–4.4 retain their full field and valuation-ring generality, independently of prime level and Bernoulli divisibility. The p-divisible-group and Hodge–Tate comparisons use the native Tate-module carrier and the convention `HT(χ_p)=1`. Completed-field cohomology is an input from PadicPeriodRings. General Néron-model theory and local–global compatibility beyond these targets are outside this roadmap.
 
 Explicit cyclotomic arithmetic, Fermat-type applications and unit computations consume the full class-number formulation of regularity, Hilbert's relative-unit and capitulation comparisons, primary-unit lemma and all-level stability. The circular-unit index supplies a concrete unit subgroup with quotient order `h(K_m⁺)`. It does not give an isomorphism of that unit quotient with the real ideal class group, nor prove the universal Vandiver conjecture.
 
 ## References
 
 - Romyar Sharifi, [*Iwasawa Theory*](https://www.math.ucla.edu/~sharifi/iwasawa.pdf), author's lecture notes. The numbering used here is that of the 189-page version: §§1.3–1.5 for class modules, Kummer radicals and group determinants; §2.8 for character components; §§3.1–3.2 for cyclotomic towers and norm limits; §§4.1–4.5 for Dirichlet values, class-number products, circular units, reflection and Stickelberger annihilation. Individual statements and printed pages are specified where used.
+- Hugh L. Montgomery and Robert C. Vaughan, [*Multiplicative Number Theory I: Classical Theory*, Chapter 9 draft](https://personal.science.psu.edu/rcv4/568s20/568chapter9.pdf), §9.2, pp.273–274, Theorems 9.5 and 9.7 (Theorems 5 and 7 in the draft), and §9.3, Theorem 9.17, p.286 (Theorem 17 in the draft), for primitive inverse-pair products and the signed quadratic Gauss sum, including discriminants −4 and ±8.
 - David Hilbert, *Die Theorie der algebraischen Zahlkörper*, Jahresbericht der Deutschen Mathematiker-Vereinigung 4 (1897), pp.175–546. The [ETH/e-rara digitization](https://doi.org/10.3931/e-rara-10039) supplies the original numbering: §§54–58, pp.271–279, for relative units and capitulation; §126, Satz 148, pp.394–397, for the primary radical; §141, Satz 156, pp.439–440, for Kummer's lemma. The ideal-class and field-extension formulations here use modern native carriers.
 - Pierre Deligne and Jean-Pierre Serre, [“Formes modulaires de poids 1”](https://www.numdam.org/item/ASENS_1974_4_7_4_507_0/), Annales scientifiques de l’École Normale Supérieure, série 4, 7 (1974), pp.507–530, §6, Lemme 6.11, p.522, for simultaneous eigencharacter lifting over a discrete valuation ring.
 - Kenneth A. Ribet, [“A modular construction of unramified p-extensions of ℚ(μ_p)”](https://math.berkeley.edu/~ribet/Articles/invent_34.pdf), Inventiones Mathematicae 34 (1976), pp.151–162. Theorems 1.1 and 1.3 state the extension and representation targets; Proposition 2.1 supplies the lattice argument; §3 constructs the congruent cusp form; §4 constructs and studies the arithmetic representation. The determinant estimate in §4.1 of this roadmap is an explicit finite-character proof of the auxiliary bound used in Ribet's §3.

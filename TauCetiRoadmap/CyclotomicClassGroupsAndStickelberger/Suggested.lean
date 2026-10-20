@@ -39,26 +39,6 @@ theorem classAction_tensor (R : Type*) [CommRing R] (m : ℕ) [NeZero m] (a : (Z
             (((IsCyclotomicExtension.Rat.galEquivZMod m (CyclotomicField m ℚ)).symm a).toRingEquiv)) x) := by
   rfl
 
-example :
-    ((IsCyclotomicExtension.Rat.galEquivZMod 5 (CyclotomicField 5 ℚ)).symm
-      (show (ZMod 5)ˣ from ⟨2, 3, by decide, by decide⟩))
-        (IsCyclotomicExtension.zeta 5 ℚ (CyclotomicField 5 ℚ)) =
-          IsCyclotomicExtension.zeta 5 ℚ (CyclotomicField 5 ℚ) ^ 2 ∧
-    ((IsCyclotomicExtension.Rat.galEquivZMod 5 (CyclotomicField 5 ℚ)).symm
-      (show (ZMod 5)ˣ from ⟨3, 2, by decide, by decide⟩))
-        (IsCyclotomicExtension.zeta 5 ℚ (CyclotomicField 5 ℚ)) =
-          IsCyclotomicExtension.zeta 5 ℚ (CyclotomicField 5 ℚ) ^ 3 := by
-  have h (a : (ZMod 5)ˣ) :
-      ((IsCyclotomicExtension.Rat.galEquivZMod 5 (CyclotomicField 5 ℚ)).symm a)
-        (IsCyclotomicExtension.zeta 5 ℚ (CyclotomicField 5 ℚ)) =
-      IsCyclotomicExtension.zeta 5 ℚ (CyclotomicField 5 ℚ) ^ a.val.val := by
-    simpa only [MulEquiv.apply_symm_apply] using
-      (IsCyclotomicExtension.Rat.galEquivZMod_apply_of_pow_eq
-        5 (CyclotomicField 5 ℚ)
-        ((IsCyclotomicExtension.Rat.galEquivZMod 5 (CyclotomicField 5 ℚ)).symm a)
-        (IsCyclotomicExtension.zeta_spec 5 ℚ (CyclotomicField 5 ℚ)).pow_eq_one)
-  exact ⟨h ⟨2, 3, by decide, by decide⟩, h ⟨3, 2, by decide, by decide⟩⟩
-
 /-- The simultaneous character submodule for a family of linear operators. -/
 noncomputable def characterEigenspace {R G M : Type*} [CommRing R]
     [AddCommGroup M] [Module R M] (ρ : G → Module.End R M)
@@ -154,6 +134,59 @@ theorem integralGroupRingCast_injective (m : ℕ) :
   simpa only [integralGroupRingCast, MonoidAlgebra.coeff_mapRingHom,
     Int.coe_castRingHom, Int.cast_inj] using hcoeff
 
+example :
+    integralGroupRingCast 5
+        (MonoidAlgebra.single (⟨3, 2, by decide, by decide⟩ : (ZMod 5)ˣ) 1) =
+      MonoidAlgebra.single (⟨3, 2, by decide, by decide⟩ : (ZMod 5)ˣ) 1 ∧
+    integralGroupRingCast 5
+        (MonoidAlgebra.single (⟨3, 2, by decide, by decide⟩ : (ZMod 5)ˣ) 1) ≠
+      MonoidAlgebra.single (⟨2, 3, by decide, by decide⟩ : (ZMod 5)ˣ) 1 := by
+  constructor
+  · simp [integralGroupRingCast]
+  · intro h
+    have hcoeff := congrArg
+      (fun z : MonoidAlgebra ℚ (ZMod 5)ˣ =>
+        z.coeff (⟨3, 2, by decide, by decide⟩ : (ZMod 5)ˣ)) h
+    norm_num [integralGroupRingCast, MonoidAlgebra.coeff_single,
+      Finsupp.single_apply] at hcoeff
+    exact (by decide : (2 : ZMod 5) ≠ 3) hcoeff.1
+
+example :
+    let a : (ZMod 5)ˣ := ⟨3, 2, by decide, by decide⟩
+    let b : (ZMod 5)ˣ := ⟨2, 3, by decide, by decide⟩
+    let x := integralGroupRingCast 5
+      (MonoidAlgebra.single a (-2) + MonoidAlgebra.single b 3)
+    x = MonoidAlgebra.single a (-2) + MonoidAlgebra.single b 3 ∧
+      x.coeff a = -2 ∧ x.coeff b = 3 := by
+  norm_num [integralGroupRingCast, MonoidAlgebra.coeff_single, Finsupp.single_apply]
+  decide
+
+/-- The finite-sum convention at conductor one has zero value. -/
+theorem stickelberger_one : stickelberger 1 = 0 := by
+  classical
+  unfold stickelberger
+  apply Finset.sum_eq_zero
+  intro a _
+  have ha : a.val = 0 := Subsingleton.elim _ _
+  simp [ha]
+
+/-- The sole coefficient at conductor two retains its denominator. -/
+theorem stickelberger_two_coeff :
+    (stickelberger 2).coeff 1 = (1 : ℚ) / 2 := by
+  classical
+  norm_num [stickelberger, MonoidAlgebra.coeff_single, Finsupp.single_apply,
+    inv_eq_iff_eq_inv]
+  rfl
+
+/-- Smoothing by six at conductor five retains the integer representative. -/
+theorem smoothedStickelberger_five_six :
+    integralGroupRingCast 5 (smoothedStickelberger 5 6) = 5 * stickelberger 5 := by
+  sorry
+
+/-- The first nonzero smoothing at conductor two is the integral unit. -/
+theorem smoothedStickelberger_two_three : smoothedStickelberger 2 3 = 1 := by
+  sorry
+
 /-- The integral multipliers whose product with θ has integral coefficients. -/
 noncomputable def denominatorIdeal (m : ℕ) [NeZero m] :
     Ideal (MonoidAlgebra ℤ (ZMod m)ˣ) where
@@ -200,6 +233,27 @@ theorem integralStickelbergerMap_surjective (m : ℕ) [NeZero m] :
   apply integralGroupRingCast_injective m
   exact (integralStickelbergerMap_cast m ⟨x, ⟨y, hx⟩⟩).trans hx.symm
 
+/-- The denominator multiplier two at conductor two has integral image one. -/
+theorem integralStickelbergerMap_two :
+    ∃ x : denominatorIdeal 2, x.val = 2 ∧ (integralStickelbergerMap 2 x).val = 1 := by
+  sorry
+
+/-- The conductor-three inverse multiplier has integral image one. -/
+theorem integralStickelbergerMap_three :
+    ∃ x : denominatorIdeal 3,
+      x.val = 2 * MonoidAlgebra.single (-1 : (ZMod 3)ˣ) 1 - 1 ∧
+        (integralStickelbergerMap 3 x).val = 1 := by
+  sorry
+
+/-- Smoothing by two at conductor five gives the two inverse-indexed image terms. -/
+theorem integralStickelbergerMap_five :
+    ∃ x : denominatorIdeal 5,
+      x.val = 2 - MonoidAlgebra.single (⟨2, 3, by decide, by decide⟩ : (ZMod 5)ˣ) 1 ∧
+        (integralStickelbergerMap 5 x).val =
+          MonoidAlgebra.single (⟨2, 3, by decide, by decide⟩ : (ZMod 5)ˣ) 1 +
+            MonoidAlgebra.single (⟨4, 4, by decide, by decide⟩ : (ZMod 5)ˣ) 1 := by
+  sorry
+
 /-- The weighted augmentation modulo the conductor detects integral multiplication by θ. -/
 theorem denominatorIdeal_mem_iff (m : ℕ) [NeZero m] (hm : 2 ≤ m)
     (x : MonoidAlgebra ℤ (ZMod m)ˣ) :
@@ -234,7 +288,16 @@ theorem stickelberger_smoothing_annihilates (m b : ℕ) [NeZero m]
         (b * a.val.val / m)) = 1 := by
   sorry
 
-/-! ## Layer 3: the prime-power Hasse unit index -/
+/-! ## Layer 3: signed quadratic Gauss sums and the prime-power Hasse unit index -/
+
+/-- The standard positive Gauss sum of a primitive quadratic character has the specified phase.
+The conductor-one trivial character is included; the square roots are positive real roots. -/
+theorem quadraticCharacter_gaussSum (f : ℕ) [NeZero f]
+    (χ : DirichletCharacter ℂ f) (hχ : χ.IsPrimitive) (hquad : χ.IsQuadratic) :
+    (χ.Even → gaussSum χ ZMod.stdAddChar = (Real.sqrt (f : ℝ) : ℂ)) ∧
+      (χ.Odd → gaussSum χ ZMod.stdAddChar =
+        Complex.I * (Real.sqrt (f : ℝ) : ℂ)) := by
+  sorry
 
 -- The degree-one Bernoulli value is the existing generalized Bernoulli value.
 #check DirichletCharacter.generalizedBernoulli_one_of_ne_one
@@ -462,7 +525,7 @@ the prime-power cyclotomicClassEigenspace, dyadicNormKernel,
 dyadicAntiInvariants, dyadicMinusQuotient, cyclotomicPrime; relativeUnitSat,
 relativeUnitQuotient, RelativeFundamentalSystem, invariantIdealResidues,
 capitulationKernel, capitulationCocycle, genusClassQuotient; compatibleGaussData;
-unramifiedKummerRadical, relativeClassNumber; modularAbelianQuotient,
+unramifiedKummerRadical, relativeClassNumber, abelianCharacter_gauss_product; modularAbelianQuotient,
 numericalIntersection, abelianEndomorphismPolynomial, modularTate_trace_bound, the Rosati involution,
 finite-flat closures and quotients, BarsottiTate and its height, dual, Tate
 module, formal tangent space and dimension, LocallyAlgebraicCharacter,
