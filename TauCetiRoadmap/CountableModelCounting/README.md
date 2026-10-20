@@ -682,15 +682,18 @@ the parent roadmap. In order:
    one-element convention, not translated from Montalbán's `≡_{α_i + 3}`, whose `≡_β` moves blocks.
    The conclusion is at `α i` with no offset.
 4. **The splitting tree.** Let `modelsOf Θ` be back-and-forth scattered and meet uncountably many
-   classes, and suppose no `Θ.and θ` has minimally uncountable models. Call a set *large* if it
-   meets uncountably many classes. Put `α_0 :=` the saturation level of `Θ`. Build codes `A_σ` (`σ`
+   isomorphism classes, and suppose no `Θ.and θ` has minimally uncountable models. Call a set
+   *large* if it meets uncountably many isomorphism classes. Put `α_0 :=` the saturation level of
+   `Θ`. Since `modelsOf Θ` meets countably many level-`α_0` classes and is large, the class `C_∅` of
+   some `A_∅ ∈ modelsOf Θ` is large, and `C_∅ ⊆ modelsOf Θ` by saturation. Build codes `A_σ` (`σ`
    a finite binary word) and an increasing sequence `α_i < ω₁` with `α_{i+1} ≥ α_i + ω` such that
    each class `C_σ := {d | bfEquivSetoid α_|σ| A_σ d}` is large and contained in `modelsOf Θ`, and
    `A_{σ0}`, `A_{σ1}` are `bfEquivSetoid α_|σ|`-equivalent to `A_σ` but not
-   `bfEquivSetoid α_{|σ|+1}`-equivalent to each other. At `σ`: `C_σ` is the model set of
-   `Θ.and (scottSentenceAtLevel A_σ α_|σ|)`; by assumption some sentence `φ_σ` splits it into two
-   large sides; take `α_{|σ|+1}` above `α_|σ| + ω` and the saturation levels of the finitely many
-   `φ_σ`, so both sides are unions of level-`α_{|σ|+1}` classes; each side has countably many such
+   `bfEquivSetoid α_{|σ|+1}`-equivalent to each other. At length `n`, for each of the `2^n`
+   words `σ`: `C_σ` is the model set of `Θ.and (scottSentenceAtLevel A_σ α_n)`; by assumption some
+   sentence `φ_σ` splits it into two large sides. Take one `α_{n+1} < ω₁` at least `α_n + ω` and
+   the saturation levels of all `φ_σ` with `|σ| = n`, so that for each such `σ` both sides are
+   unions of level-`α_{n+1}` classes; each side has countably many such
    classes (scatteredness) and is large, so one of its classes is large; take `A_{σ0}`, `A_{σ1}`
    there.
 5. **The reduction.** `exists_minimallyUncountableOn_and_of_bfScattered`: under the hypotheses of
