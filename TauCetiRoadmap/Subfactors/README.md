@@ -305,17 +305,36 @@ A_0 ⊆ A_1
 B_0 ⊆ B_1,
 ```
 
-define commuting by commutation of the trace expectations and symmetry
-by the spanning condition `span(B_0 A_1)=B_1`. Prove propagation through
-basic constructions; prove equivalence of the spanning condition with Jones–Sunder
-5.3.4(b),5.3.6's symmetry under the all-four-connected hypotheses.
+For each unital subalgebra C of B_1 let E_C be its trace-preserving
+conditional expectation, viewed as an operator on B_1. Define the square
+to be commuting by `E_(A_1) ∘ E_(B_0)=E_(A_0)`. Prove equivalence with
+`E_(B_0) ∘ E_(A_1)=E_(A_0)`, with the restriction identity
+`E_(B_0)|_(A_1)=E_(A_0)|_(A_1)`, and with commutation of the two
+expectations together with `A_1∩B_0=A_0`. Construct their L² orthogonal
+projections and prove the corresponding projection-product identities.
+Give transport under trace-preserving isomorphisms of squares and the
+restriction and inclusion compatibility of these expectations.
+
+Define symmetry separately by `span(B_0 A_1)=B_1`. For a commuting
+symmetric square prove propagation through basic constructions, retaining
+the equality with the expectation onto each designated smallest corner. Prove
+equivalence of the spanning condition with Jones–Sunder
+5.3.4(b),5.3.6's
+symmetry under the all-four-connected hypotheses.
+
+Include the tensor-leg example with normalized product trace,
+`B_1=M₂⊗M₂⊗M₂`, `A_1=M₂⊗M₂⊗1`, `B_0=M₂⊗1⊗M₂` and `A_0=ℂ1`.
+Compute the intersection `A_1∩B_0=M₂⊗1⊗1` and
+`E_(A_1)E_(B_0)=E_(M₂⊗1⊗1)`, and verify the spanning condition.
+All four inclusions are connected and Markov, but this is not a commuting
+square over A_0; compute the horizontal parameters as `1/16` and `1/4`.
 Build the two horizontal basic-construction towers (A_j)_j and (B_j)_j
 and their vertical inclusions A_j⊆B_j. Define the higher-row grid
 A_j^r by A_j^0=A_j, A_j^1=B_j and the vertical basic construction
 `A_j^(r+1)=⟨A_j^r,f_(j,r)⟩` for r≥1. Prove every new grid square
 commuting, symmetric and Markov, with compatible expectations/projections.
-Prove equality of the two horizontal Markov parameters and of the two
-vertical ones under symmetry. Assume connected horizontal
+For a commuting symmetric square prove equality of the two horizontal
+Markov parameters and of the two vertical ones. Assume connected horizontal
 and vertical inclusions and common horizontal graph norm >1 for the II₁
 weak-limit construction. Prove path-tail ergodicity and unbounded matrix-
 size growth from these assumptions, and show
