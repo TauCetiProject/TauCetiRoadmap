@@ -8,6 +8,9 @@ import TauCeti.NumberTheory.DirichletCharacter.GeneralizedBernoulli
 The roadmap is README.md. This file gives suggested forms of light definitions and theorem
 signatures statable against the pinned APIs; it is not an exhaustive checklist. The covariant
 ideal-class action, inverse group-ring basis, and dyadic tower shift are explicit.
+The circular-unit carriers specialize the shared arithmetic groups of IntegralIwasawaTheory
+Layer 1; class-number growth specializes its Layer 3. The native Vandiver predicate agrees
+with its Layer 7 condition at odd primes and also records the rational dyadic boundary.
 -/
 
 open scoped BigOperators TensorProduct Cyclotomic Matrix
@@ -376,7 +379,8 @@ example : IsRegularPrime 3 := by
       (IsCyclotomicExtension.Rat.three_pid (CyclotomicField 3 ℚ))
   simp [IsRegularPrime, h]
 
-/-- The statement at one prime, with the native maximal real subfield. -/
+/-- Nondivisibility of the native real class number; at odd primes this is the
+Vandiver condition of IntegralIwasawaTheory §7.4. -/
 def VandiverAt (p : ℕ) [NeZero p] : Prop :=
   ¬ p ∣ NumberField.classNumber
     (NumberField.maximalRealSubfield (CyclotomicField p ℚ))
@@ -425,14 +429,16 @@ theorem regular_prime_power_real_class_number (p : ℕ) [NeZero p]
       (NumberField.maximalRealSubfield (CyclotomicField (p ^ r) ℚ)) := by
   sorry
 
-/-- Regularity implies the statement of Vandiver at that prime. -/
+/-- Odd-prime regularity implies the native Vandiver condition, through the shared
+real-class comparison of IntegralIwasawaTheory §7.4. -/
 theorem vandiver_of_regular (p : ℕ) [NeZero p] (hp : p.Prime)
     (hodd : p ≠ 2) (hreg : IsRegularPrime p) : VandiverAt p := by
   sorry
 
 /-! ## Layer 6: integral cyclotomic ratios and their real phases -/
 
-/-- The geometric-sum unit representing (1 − ζᵃ)/(1 − ζ) in an integral domain. -/
+/-- The geometric-sum unit representing (1 − ζᵃ)/(1 − ζ). In a prime-power
+cyclotomic integer ring its field value is the ratio of IntegralIwasawaTheory §1.2. -/
 noncomputable def cyclotomicUnit {A : Type*} [CommRing A] [IsDomain A]
     {m : ℕ} [NeZero m] (ζ : A) (hζ : IsPrimitiveRoot ζ m) (hm : 2 ≤ m)
     (a : (ZMod m)ˣ) : Aˣ :=
@@ -456,7 +462,8 @@ theorem cyclotomicUnit_neg_one {A : Type*} [CommRing A] [IsDomain A]
     cyclotomicUnit ζ hζ hm (-1) = -(hζ.isUnit (by omega)).unit⁻¹ := by
   sorry
 
-/-- The phase t is explicit; the condition 2t = 1 − a makes this ambient unit real. -/
+/-- The phased circular ratio. The condition 2t = 1 − a makes it real and identifies
+its cyclotomic specialization with the generators of IntegralIwasawaTheory §§1.3, 1.6. -/
 noncomputable def realCyclotomicUnit {A : Type*} [CommRing A] [IsDomain A]
     {m : ℕ} [NeZero m] (ζ : A) (hζ : IsPrimitiveRoot ζ m) (hm : 2 ≤ m)
     (a : (ZMod m)ˣ) (t : ℤ) : Aˣ :=
@@ -490,7 +497,8 @@ theorem realCyclotomicUnit_five_negative
 
 /-! ## Layer 7: eventual growth, with the dyadic base at conductor four -/
 
-/-- The shift gives degree p^n over Q(ζ_p), or over Q(i) at p=2. -/
+/-- Prime-power class-number growth from IntegralIwasawaTheory §3.3, with conductor
+parameter one at odd primes and two at p=2. The base is Q(ζ_p), or Q(i) at p=2. -/
 theorem cyclotomic_class_number_growth (p : ℕ) [NeZero p] (hp : p.Prime) :
     ∃ mu lam : ℕ, ∃ nu : ℤ, ∃ n₀ : ℕ, ∀ n : ℕ, n₀ ≤ n →
       (padicValNat p (NumberField.classNumber
@@ -531,8 +539,10 @@ finite-flat closures and quotients, BarsottiTate and its height, dual, Tate
 module, formal tangent space and dimension, LocallyAlgebraicCharacter,
 HodgeTate; cyclotomicSUnitSubgroup, circularUnits, realCircularUnits,
 circularRegulator; cyclotomicClassInverseLimit,
-classLimitProjection and inverseCharacterUnramifiedQuotient. Their arithmetic
-comparison theorems, constructions and full APIs belong to the README layers.
+classLimitProjection and inverseCharacterUnramifiedQuotient. The circular-unit,
+regulator, norm-limit, Artin and growth adapters in README Layers 6–7 transport
+IntegralIwasawaTheory's shared arithmetic results. The other constructions and
+comparison APIs are specified in their respective README layers.
 
 README-only API targets include denominatorIdeal_generators,
 stickelbergerIdeal_eq_intersection, stickelbergerIdeal_annihilates,

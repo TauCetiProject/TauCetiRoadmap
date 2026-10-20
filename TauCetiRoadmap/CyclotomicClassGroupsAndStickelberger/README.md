@@ -4,13 +4,13 @@
 
 ## Scope and ownership
 
-This roadmap follows ClassFieldTheory. It owns cyclotomic class modules, their arithmetic character conventions, Hilbert's relative-unit and capitulation applications, the Stickelberger element and its integral ideal, Bernoulli annihilators, reflection, the modular construction of the converse to Herbrand, regularity, circular units, and the cyclotomic norm limit. The inverse-character vanishing and its translation to unramified extensions and constant-coefficient étale cohomology are explicit end results.
+This roadmap follows ClassFieldTheory. It owns finite cyclotomic class modules, their arithmetic character conventions, Hilbert's relative-unit and capitulation applications, the Stickelberger element and its integral ideal, Bernoulli annihilators, reflection, the modular construction of the converse to Herbrand, and regularity. Its prime-power circular-unit and norm-limit endpoints specialize the shared arithmetic constructions of IntegralIwasawaTheory. The inverse-character vanishing and its translation to unramified extensions and constant-coefficient étale cohomology are explicit end results.
 
 Mathlib supplies basic cyclotomic fields, integer rings, Dirichlet's unit theorem, ideal norms and class-number finiteness. GlobalNumberFields Layer 10 supplies the cyclotomic ramification and splitting comparisons. NumberFieldArithmetic Layers 4 and 6 supply the different and its ramification criterion. ClassFieldTheory supplies reciprocity, Hilbert class fields, functoriality, the conductor–discriminant formula, and the generic unit and S-unit Herbrand-quotient computations. These are prerequisites, not new targets here. In particular the conductor–discriminant formula is in ClassFieldTheory Layer 13. It is not an additional cyclotomic theorem to develop.
 
 ModularForms supplies modular forms, Fourier expansions, Eisenstein series, Hecke operators and integral Hecke modules. The residual eigencharacter lifting comparison is supplied in §4.2 below. ModularCurves supplies the modular curves and their integral moduli geometry. The analytic Eichler–Shimura comparison alone does not provide an arithmetic Tate module. Section 4.3 therefore builds the weight-two modular-quotient realization and the arithmetic Frobenius comparison actually needed here. Section 4.4 supplies the small-ramification finite-flat comparison and the required good-reduction calculation. The generality of those statements is specified there; a residual extension with its desired ramification is not assumed as input.
 
-The classical Ribet lattice target in IntegralHeckeAndGaloisDeterminants §1.4 supplies the choice of an oriented nonsplit reduction. PadicMeasuresIwasawaAlgebras supplies integral tame projectors and the algebra of completed group rings, including the torsion-module structure theorem and finite-coinvariant length calculation. This roadmap supplies the arithmetic identification, finite generation, torsion, and exact control of the cyclotomic class module to which that algebra is applied.
+The classical Ribet lattice target in IntegralHeckeAndGaloisDeterminants §1.4 supplies the choice of an oriented nonsplit reduction. PadicMeasuresIwasawaAlgebras supplies integral tame projectors and the algebra of completed group rings, including the torsion-module structure theorem and finite-coinvariant length calculation. IntegralIwasawaTheory supplies arithmetic norm limits, their Artin identification, finite generation, torsion, one-prime control and general class-number growth; Layer 7 identifies their cyclotomic specializations on the native fields used here.
 
 General main conjectures, arbitrary arithmetic Iwasawa towers, Selmer complexes, and p-adic L-functions belong to their respective roadmaps. The primitive-character Bernoulli comparisons and congruences needed for annihilation are constructed here on the native generalized Bernoulli values. No main conjecture is an input to Herbrand–Ribet, Kummer's criterion, the circular-unit index, or inverse-character vanishing. The universal Kummer–Vandiver assertion is recorded as a conjecture, not as a theorem or an axiom.
 
@@ -70,6 +70,12 @@ For geometric torsion use the pinned library's `TauCeti.TateModule` from `TauCet
 ### From PadicPeriodRings
 
 PadicPeriodRings §1.4 supplies `tate_H0_padicComplex_twist` and `tate_H1_padicComplex_twist` for finite extensions of ℚ_p: continuous H⁰ and H¹ of C(i) vanish for nonzero i, while the untwisted H¹ is one-dimensional. Its §2 supplies their general-base versions for complete mixed-characteristic discretely valued fields with perfect residue field, and `tateSen_character` for a continuous character into the base field's units with finite or virtually ℤ_p image. The infinite-inertia case has zero H⁰ and H¹; finite inertia gives the one-dimensional case. Section 4.4 applies these statements to construct the p-divisible-group comparison and the local character criterion; it does not reconstruct completed-field cohomology.
+
+### From IntegralIwasawaTheory
+
+IntegralIwasawaTheory §§1.1–1.6 supplies compatible cyclotomic fields, circular-number groups and their unit intersections, real generators, norm comparisons, and the prime-power regulator and index theorems, including the separate dyadic case. Sections 6.1–6.3 identify these groups with the native unit subgroups here, retaining the same roots of unity and real phases. Its general abelian-subfield norm convention and conductor-lattice correction in §§1.7–1.8 are retained; the equalities below concern full prime-power cyclotomic fields, not intersections with arbitrary real subfields. Sources: Sharifi Definition 4.3.1 and Theorem 4.3.3, pp.108–110; Lemma 4.2.17, pp.106–107; Theorem 4.7.1, pp.120–121.
+
+IntegralIwasawaTheory §§0.1–0.4, 2.1 and 2.3 supplies the arithmetic tower, completed action, compact class norm limit and Artin comparison. Its §3.1 supplies `onePrimeClassControl` and `onePrimeClassModule_finite_torsion` under the hypothesis of exactly one finite ramified prime, totally ramified from the base, with no other ramification. Its §§3.2–3.3 supplies general tower growth and the base-shift and generator-change formulas; §7.4 supplies `VandiverCondition` and its real-class and plus-class reformulations for odd primes. Sections 6.4 and 7.1–7.3 transport these statements, including their actual norm and projection maps. Sources: Sharifi Proposition 3.2.6, Proposition 3.2.11, Remark 3.2.12 and Theorem 3.2.13, pp.79–82; the odd-prime real-class comparison uses §0.4 here. No main conjecture or μ-vanishing is required for these supplied results.
 
 ### From ClassicalArithmeticCompletion
 
@@ -769,15 +775,23 @@ Layers 0–3, with Layer 4 providing the stronger characterwise converse; cyclot
 
 ### 6.1 The prime-power circular-unit subgroup
 
-For a prime p, `r≥1` and `m=p^r`, define `cyclotomicSUnitSubgroup m` as the subgroup of `K_mˣ` generated by `μ(K_m)` and all `1−ζ_m^a` with `1≤a<m`. Define `circularUnits m` as its intersection with the native integral unit group, using the natural embedding of that group in `K_mˣ`. Define `realCircularUnits m` by intersection with the units of the native maximal real subfield. Membership means membership in these actual subgroups; it is not a predicate asserting an index theorem. Sources: Sharifi Definition 4.3.1, p.108, with the roots-of-unity subgroup included explicitly; at prime-power conductor the generators described below give the same unit subgroup.
+For a prime p, `r≥1` and `m=p^r`, let `φ_r:K_m≃ℚ F(p^r)` be the field isomorphism sending the chosen primitive root to the compatible root of IntegralIwasawaTheory §1.1. Its integer-ring and maximal-real-field restrictions identify the native unit groups and commute with the Galois action, extension and relative norms. Retain `cyclotomicSUnitSubgroup m`, `circularUnits m` and `realCircularUnits m` as the pullbacks under these maps of its circular-number and unit-intersection groups in §§1.2–1.3 (and §1.6 at two). Thus, writing D for those supplied groups,
 
-Prove `circularUnits_subgroup`, `circularUnits_galois_stable`, `circularUnits_rootsOfUnity`, `realCircularUnits_eq_comap`, and independence of a change of primitive root. For every a prime to p, define the integral unit `cyclotomicUnit m a` by
+```text
+φ_r(cyclotomicSUnitSubgroup m) = ⟨μ(F(p^r)), 1−ζ_(p^r)^a : 1≤a<p^r⟩,
+φ_r(circularUnits m) = D_r,
+φ_r(realCircularUnits m) = D_r⁺.
+```
+
+The first group is `cyclotomicNumbers r` at odd p. Since `−ζ_(p^r)` generates the full root-of-unity group there, its generators agree with the displayed ones; at two μ is generated by ζ. At m=2 the circular-number group is generated by two and −1 and its unit intersection is `{±1}`. Membership means membership in these actual subgroups. Sources: IntegralIwasawaTheory §§1.1–1.3 and 1.6; Sharifi Definition 4.3.1, p.108, with the roots-of-unity subgroup included explicitly.
+
+Transport the supplied subgroup, Galois stability, torsion and real-field preimage results as `circularUnits_subgroup`, `circularUnits_galois_stable`, `circularUnits_rootsOfUnity`, `realCircularUnits_eq_comap`, and independence of a change of primitive root. For every a prime to p, retain the integral unit `cyclotomicUnit m a` with
 
 ```text
 η_(m,a) = (1−ζ_m^a)/(1−ζ_m).
 ```
 
-An integer representative can be used in this expression; its dependence is only on a modulo m, with the corresponding roots of unity when negative representatives are used in polynomial expressions. Obtain the integral unit from the native geometric-sum unit in the supplier contract. Its light definition takes a primitive root ζ in any integral domain A, `m≥2`, and a unit residue a; taking `A=O_m` and the native root transported by `IsPrimitiveRoot.toInteger_isPrimitiveRoot` gives the arithmetic unit. Prove `cyclotomicUnit_inverse`, `cyclotomicUnit_galois`, and the generator theorem `circularUnits_eq_closure_ratios`: μ and these η generate the whole intersection. To prove it, express each nonprimitive `1−ζ_m^a` as a product of conjugates of a primitive generator at a higher level, and cancel the common valuation at the unique prime above p. The valuation-zero condition precisely leaves ratios.
+An integer representative can be used in this expression; its dependence is only on a modulo m, with the corresponding roots of unity when negative representatives are used in polynomial expressions. Obtain the integral unit from the native geometric-sum unit in the supplier contract. Its light definition takes a primitive root ζ in any integral domain A, `m≥2`, and a unit residue a; taking `A=O_m` and the native root transported by `IsPrimitiveRoot.toInteger_isPrimitiveRoot` gives the arithmetic unit. Its field value satisfies `φ_r(η_(m,a))=cyclotomicRatio ζ_(p^r) a₀`. Retain `cyclotomicUnit_inverse` and `cyclotomicUnit_galois` on these carriers and transport `cyclotomicUnits_generators` from IntegralIwasawaTheory §1.3 as `circularUnits_eq_closure_ratios`: μ and these η generate the whole intersection. The supplied factorization of nonprimitive differences and their valuations identifies this intersection with the ratio-generated subgroup, including the dyadic case of §1.6.
 
 **Checks.**
 
@@ -786,7 +800,7 @@ An integer representative can be used in this expression; its dependence is only
 - For m=8, a=2 gives the nonprimitive element `1−i`; it belongs to the S-unit subgroup but has positive valuation at two. Excluding nonprimitive exponents from the definition would require a separate distribution argument before the subgroups could be identified.
 - At m=2 the sole nonzero difference is two. Intersecting the subgroup generated by two and `{±1}` with `ℤˣ` gives `{±1}`, not an infinite group of units.
 
-For `m>2`, make the ratios real by defining `realCyclotomicUnit m a = ζ_m^t η_(m,a)` with `2t≡1−a mod m`. If p is odd choose the unique t modulo m; if p=2 choose the integer `t=(1−a)/2` for an odd representative a. The latter choice is well defined up to sign on residue classes, and the subgroup includes −1. The light definition `realCyclotomicUnit` takes the phase t explicitly and returns an ambient integral unit. The target `realCyclotomicUnit_fixed`, under `2t=1−a` in `ZMod m`, says that the involution sending ζ to ζ⁻¹ fixes it; in `O_m` this gives its descent to the native real integer ring. Prove the change-of-representative and conjugation identities as well. Together with −1, the units with representatives `1<a<m/2`, prime to p, generate the real circular group. Sources: Sharifi proof of Theorem 4.3.3, pp.108–109; the same elementary realness calculation applies to powers of two.
+For `m>2`, retain `realCyclotomicUnit m a = ζ_m^t η_(m,a)` with `2t≡1−a mod m`. If p is odd choose the unique t modulo m; if p=2 choose the integer `t=(1−a)/2` for an odd representative a. The latter choice is well defined up to sign on residue classes, and the subgroup includes −1. Under φ_r its value is `ζ_(p^r)^t cyclotomicRatio ζ_(p^r) a₀`, the `smoothedCyclotomicUnit r a` of IntegralIwasawaTheory §1.3 at odd p and its §1.6 generator at two. The light definition `realCyclotomicUnit` takes the phase t explicitly and returns an ambient integral unit. The target `realCyclotomicUnit_fixed`, under `2t=1−a` in `ZMod m`, says that the involution sending ζ to ζ⁻¹ fixes it; in `O_m` this gives its descent to the native real integer ring. Retain the change-of-representative and conjugation identities on these carriers. The supplied real generator theorem identifies the real circular group with the subgroup generated by −1 and the units with representatives `1<a<m/2`, prime to p. Sources: IntegralIwasawaTheory §§1.3 and 1.6; Sharifi proof of Theorem 4.3.3, pp.108–109; the same elementary realness calculation applies to powers of two.
 
 **Checks.**
 
@@ -803,9 +817,9 @@ With compatible primitive roots, prove `cyclotomic_difference_distribution`:
 1−ζ_n^a = ∏_(j=0)^(q−1) (1−ζ_(nq)^(a+jn))
 ```
 
-for positive n,q and `a≢0 mod n`. Apply it to prime-power levels, proving that norms carry circular units to circular units and that extension carries lower-level circular units into the higher-level group. Prove `circularUnit_norm`, `realCircularUnit_norm`, and the corresponding commutative diagrams with the unit inclusions and real-field norms. The field norm is the product over relative conjugates, whereas the distribution product includes all roots of the relevant polynomial; verify their equality in each prime-power specialization. Source: Sharifi proof of Theorem 4.3.3, p.109, and Lemma 4.3.5, p.110.
+for positive n,q and `a≢0 mod n`, with `ζ_(nq)^q=ζ_n`. The general finite distribution identity is a target here. At prime-power levels identify it with IntegralIwasawaTheory §§1.3–1.4 and 1.6; transport norm stability and extension compatibility as `circularUnit_norm`, `realCircularUnit_norm`, and the corresponding commutative diagrams with the unit inclusions and real-field norms. The field norm is the product over relative conjugates, whereas the distribution product includes all roots of the relevant polynomial; their equality uses the actual relative conjugates in each specialization. Source: Sharifi proof of Theorem 4.3.3, p.109, and Lemma 4.3.5, p.110.
 
-Prove `primePower_units_eq_roots_mul_real` from `Q_(K_m)=1` and the matching statement for circular units from their generators. Deduce a canonical quotient isomorphism
+For m>2, retain `primePower_units_eq_roots_mul_real` as the native-field form of the Hasse-index and circular-generator comparisons: `E_(K_m)=μ(K_m)E_(K_m⁺)` and `C_m=μ(K_m)C_m⁺`. At odd p use IntegralIwasawaTheory §§1.3 and 1.5's Hasse-index result and `fullRealCircularQuotientEquiv`; at two use §3.4's `primePower_indexRealUnits_eq_one` and the supplied dyadic generators of IntegralIwasawaTheory §1.6. The real-unit inclusion induces the canonical quotient isomorphism
 
 ```text
 E_(K_m)/C_m ≅ E_(K_m⁺)/C_m⁺.
@@ -813,34 +827,38 @@ E_(K_m)/C_m ≅ E_(K_m⁺)/C_m⁺.
 
 The intersection of μ with the real field is `{±1}`, contained in `C_m⁺`, so the map induced by the real-unit inclusion is injective as well as surjective. This is an isomorphism of unit quotients. It is not an isomorphism of those quotients with a class group. At m=2 both quotients are trivial and the assertion is proved directly. Source: Sharifi Lemma 4.2.17, p.106, and the generator argument in Theorem 4.3.3, pp.108–109.
 
-The norm of a ratio is a ratio of products, so the common nonunit factors cancel. At m=8, the norm of `1−ζ₈` to `ℚ(i)` is `1−i`, while the rational norm is two. For m=4 over m=2 the step has degree two, whereas the odd-prime initial field-to-ℚ map has degree p−1; the formulas use actual relative Galois groups and must not assume every downward step has degree p.
+**Checks.**
+
+- The norm of a ratio is a ratio of products, so the common nonunit factors cancel. At m=8, the norm of `1−ζ₈` to `ℚ(i)` is `1−i`, while the rational norm is two.
+- For m=4 over m=2 the full-field step has degree two, whereas both real fields are ℚ and their relative norm is the identity. The restriction of the full norm to real units is the square of that real norm, as in IntegralIwasawaTheory §1.1's exponent `e(4)/e(2)=2`.
+- Across the step from conductor eight to four, the real generator with a=3 and phase −1 has norm −1. The conductor-four generator with the same representative and phase is +1; the dyadic phase and sign in IntegralIwasawaTheory §1.6 must be retained.
 
 ### 6.3 The real circular regulator and index, including powers of two
 
-Let `m=p^r>2`, `G⁺=(ℤ/mℤ)ˣ/{±1}` and `d=#G⁺=[K_m⁺:ℚ]`. Choose the representatives `1≤a<m/2` prime to p and omit a=1 from the free-unit list. Define `circularRegulator m` as the absolute determinant of the `(d−1)×(d−1)` logarithm matrix of those real circular units, after omitting the identity embedding. Use the native regulator-of-a-family construction, with its determinant and index formula, rather than defining a second regulator of the whole unit group.
+Let `m=p^r>2`, `G⁺=(ℤ/mℤ)ˣ/{±1}` and `d=#G⁺=[K_m⁺:ℚ]`. Choose the representatives `1≤a<m/2` prime to p and omit a=1 from the free-unit list. Retain `circularRegulator m` as the native regulator of this family. Under φ_r it equals the family regulator in IntegralIwasawaTheory §§1.5–1.6: the absolute determinant of the `(d−1)×(d−1)` logarithm matrix after omitting the identity embedding. Transport along the specified root map also identifies the omitted embedding and the sign torsion; no second regulator of the whole unit group is introduced.
 
-Prove `circularRegulator_det`, `circularRegulator_character_product`, `circularRegulator_pos` and `circularUnitFamily_independent`. Writing `f(a)=log|1−ζ_m^a|`, the entry at row a and column b is `f(ab)−f(a)`. Inverting the column representatives only permutes the determinant and changes its sign; hence Dedekind's reduced group-determinant identity gives
+Transport the shared regulator calculation as `circularRegulator_det`, `circularRegulator_character_product`, `circularRegulator_pos` and `circularUnitFamily_independent`. Writing `f(a)=log|1−ζ_m^a|`, the entry at row a and column b is `f(ab)−f(a)`. Inverting the column representatives only permutes the determinant and changes its sign; hence the supplied reduced group-determinant calculation gives
 
 ```text
 R_circ = |∏_(1≠χ even mod m) ((1/2) Σ_(a∈(ℤ/mℤ)ˣ) χ(a) f(a))|.
 ```
 
-Prove that reduced determinant identity as the finite-character specialization of the native determinant and character-orthogonality APIs: add back the trivial-character row and column, diagonalize the convolution operator, and cancel its trivial eigenvalue. The identity remains valid when that eigenvalue is zero, by a polynomial identity or the augmentation-space argument; division by a zero trivial eigenvalue is not permitted. Sources: Sharifi Proposition 1.5.18, p.34, and proof of Theorem 4.3.3, pp.108–109.
+This comparison preserves the finite-character specialization of the native determinant and character-orthogonality APIs. The shared calculation adds back the trivial-character row and column and diagonalizes the convolution operator. The identity remains valid when the trivial eigenvalue is zero, by a polynomial identity or the augmentation-space argument; division by a zero trivial eigenvalue is not permitted. Sources: IntegralIwasawaTheory §1.5; Sharifi Proposition 1.5.18, p.34, and proof of Theorem 4.3.3, pp.108–109.
 
-Every nontrivial character in the product is used at its primitive conductor `fχ`, a power of p. Repeated distribution gives the exact equality of the logarithmic character sum at m with the one at `fχ`. For p=2, every nontrivial even primitive conductor is at least eight; it is never one or four. Consequently no additional Euler factor from a new rational prime occurs. Compare with §3.4 to prove `circularRegulator_eq_classNumber_mul_regulator`:
+Every nontrivial character in the product is used at its primitive conductor `fχ`, a power of p. Repeated distribution gives the exact equality of the logarithmic character sum at m with the one at `fχ`. For p=2, every nontrivial even primitive conductor is at least eight; it is never one or four. Consequently no additional Euler factor from a new rational prime occurs. Retain `circularRegulator_eq_classNumber_mul_regulator` as the transport of IntegralIwasawaTheory §1.5's `circularRegulator_eq_classNumber_mul`, with its §1.6 dyadic comparison:
 
 ```text
 R_circ = h(K_m⁺) R_(K_m⁺).
 ```
 
-The right side is positive. This proves independence of the chosen `d−1` circular units and finite index of their span. With the generator theorem of §6.1 and −1 in the torsion subgroup, the native regulator-index formula gives
+The right side is positive. The supplied independence and finite-index statements therefore apply to the transported `d−1` circular units. With the generator comparison of §6.1 and −1 in the torsion subgroup, the native regulator-index formula gives
 
 ```text
 [E_(K_m⁺):C_m⁺] = h(K_m⁺),
 [E_(K_m):C_m] = h(K_m⁺).
 ```
 
-Prove `circularUnit_index` for every prime p and `r≥1`, treating m=2 directly. For odd p this is Hasse's theorem, Sharifi Theorem 4.3.3, pp.108–109. For powers of two the proof just specified uses the same finite group determinant, explicit dyadic real ratios, distribution and class-number product; it does not cite the odd-prime theorem with its hypothesis removed.
+Retain `circularUnit_index` for every prime p and `r≥1` as the native-field specialization of IntegralIwasawaTheory's `primePowerCircularUnitIndex` at odd p (§1.5) and `dyadicPrimePowerCircularUnitIndex` at p=2 (§1.6), treating m=2 directly. Sources: Sharifi Theorem 4.3.3, pp.108–109, for odd p; Theorem 4.7.1, pp.120–121, with one prime divisor and correction exponent zero, for dyadic powers. The dyadic regulator comparison retains the explicit real phases, distribution and class-number product; it does not remove the odd-prime hypothesis from Hasse's stated theorem.
 
 **Checks.**
 
@@ -854,12 +872,12 @@ Prove `circularUnit_index` for every prime p and `r≥1`, treating m=2 directly.
 
 Define `VandiverAt p` for a nonzero p by `p∤h(K_p⁺)`, using the native maximal real subfield. The universal assertion that this holds for every odd prime is the **Kummer–Vandiver conjecture**. Record it as a mathematical conjecture in prose; do not introduce an axiom or a sorry-backed proposition claiming its truth. Source: Soulé, *Perfect forms and the Vandiver conjecture*, arXiv:math/9812171v1, Introduction, p.1; the equivalence of plus-class and real-class formulations is §0.4 here.
 
-For odd prime p prove `vandiver_iff_realClassModule_zero`, `vandiver_iff_even_components_zero`, and `vandiver_iff_circularUnitQuotient_pPart_zero`. The first is finiteness and class-number cardinality; the second uses §0.4 and the tame decomposition; the third uses the exact index theorem. Prove `vandiver_of_regular`. Do not assert the converse: regularity also controls the odd components. No canonical isomorphism between the unit quotient and the real class group is inferred from their equal cardinalities.
+For odd prime p, the restriction of φ_1 to the maximal real field identifies `VandiverAt p ↔ VandiverCondition p` of IntegralIwasawaTheory §7.4. Retain `vandiver_iff_realClassModule_zero` and `vandiver_iff_even_components_zero` by transporting its real-class and plus-class comparisons through §0.4 and the tame decomposition. Retain `vandiver_iff_circularUnitQuotient_pPart_zero` by the transported exact index theorem: the p-primary unit quotient is zero exactly when p does not divide its order `h(K_p⁺)`. Retain `vandiver_of_regular` using the supplied regularity implication and the same finite-field comparison. Do not assert the converse: regularity also controls the odd components. No canonical isomorphism between the unit quotient and the real class group is inferred from their equal cardinalities. Sources: IntegralIwasawaTheory §§1.5–1.6 and 7.4; Sharifi Theorem 4.3.3, pp.108–109; the finite plus/real comparison is §0.4 here.
 
 **Checks.**
 
 - At p=3 the real field is rational, so `VandiverAt 3` holds; `vandiver_three` states this boundary on the native maximal real subfield.
-- At p=2 the real field is rational and `vandiver_two` states the arithmetic boundary. The even-projector reformulation is asserted only for odd primes.
+- At p=2 the real field is rational and `vandiver_two` states the arithmetic boundary. Agreement with the supplier's odd-prime `VandiverCondition` and the even-projector reformulation have no dyadic instance.
 - An abstract finite tame module with zero plus part and a nonzero odd component satisfies the vanishing pattern required by Vandiver and fails the pattern for regularity. Thus the two predicates cannot be identified by character decomposition alone.
 - A finite unit quotient of order prime to p has zero p-primary part even when it is nontrivial. The reformulation must not demand that all units are circular.
 
@@ -869,23 +887,23 @@ The real circular unit at conductor eight has norm −1, so total positivity wou
 
 ### Dependencies
 
-Layers 0, 3 and 5; native cyclotomic integer rings and norms; the unit logarithmic lattice and regulator-of-family index formula; finite character orthogonality and determinants. The dyadic determinant proof uses all-prime finite algebra and the class-number product, with no odd-prime-only index theorem as an input.
+Layers 0, 3 and 5; IntegralIwasawaTheory §§1.1–1.6 and 7.4 for the shared groups, arithmetic norm comparisons, regulator/index and odd-prime Vandiver reformulations; native cyclotomic integer rings, unit logarithmic lattice and regulator-of-family index formula. The finite ratio and real-phase identities and the general distribution identity retain their native carriers here; the index and norm-limit endpoints specialize the supplied arithmetic theory.
 
 ## Layer 7: the cyclotomic norm limit and class-number growth
 
 ### 7.1 The tower and its compact class module
 
-For every prime p use the fields F_n fixed in Conventions: conductors `p^(n+1)` at odd p and `2^(n+2)` at p=2. Construct the union `F_∞` inside a fixed algebraic closure, its compatible embeddings, and the topological isomorphism `Gal(F_∞/F_0)≅ℤ_p`. At odd p retain the commuting tame group Δ of order p−1. The dyadic base `ℚ(i)` removes the order-two torsion in `ℤ_2ˣ`; the procyclic group is the `1+4ℤ_2` factor. Sources: Sharifi Remark 3.1.4, Lemma 3.1.5, Corollary 3.1.6 and Definition 3.1.8, pp.75–76; the completed-group-ring identification is supplied by PadicMeasuresIwasawaAlgebras.
+For every prime p use the fields F_n fixed in Conventions: conductors `p^(n+1)` at odd p and `2^(n+2)` at p=2. Identify them with the compatible fields of IntegralIwasawaTheory §§0.1–0.4 and 1.1 by `φ_(n+1)` at odd p and `φ_(n+2)` at two. Transport its union `F_∞` inside a fixed algebraic closure, compatible embeddings, and topological isomorphism `Gal(F_∞/F_0)≅ℤ_p`. At odd p retain the commuting tame group Δ of order p−1. The dyadic base `ℚ(i)` removes the order-two torsion in `ℤ_2ˣ`; the procyclic group is the `1+4ℤ_2` factor. Sources: Sharifi Remark 3.1.4, Lemma 3.1.5, Corollary 3.1.6 and Definition 3.1.8, pp.75–76; the completed-group-ring identification is supplied by PadicMeasuresIwasawaAlgebras.
 
-Define `cyclotomicClassInverseLimit p` to be the compact inverse limit
+Retain `cyclotomicClassInverseLimit p` as the specialization of IntegralIwasawaTheory §2.1's `classGroupLimit` to this tower, transported through the finite class-module identifications of Layer 0. Thus it is the compact inverse limit
 
 ```text
 X = lim_(←n,N) A_p(F_n).
 ```
 
-Give it the induced continuous `Λ=ℤ_p[[Γ]]` action. Its carrier consists of compatible class tuples, not arbitrary tuples with a postulated action. Define the projections `classLimitProjection n`, and prove `classLimitProjection_norm`, continuity, compact Hausdorffness, and `classLimitProjection_surjective`. The last assertion follows because finite-level norm maps are surjective: each extension is totally ramified at the unique prime above p and has trivial intersection with the lower field's Hilbert class field. Use exactness of compact inverse limits from the supplier. Sources: Sharifi Definition 3.2.3, p.78, and §1.3, Lemma 1.3.8, pp.16–17.
+Its continuous `Λ=ℤ_p[[Γ]]` action is the supplied arithmetic completed action under this identification. Its carrier consists of compatible class tuples. Retain `classLimitProjection n` as `classGroupLimit_proj` at the corresponding field. If Φ denotes the induced limit isomorphism and `φ_n^Cl` the finite class-module map, their equation is `φ_n^Cl ∘ classLimitProjection n = classGroupLimit_proj n ∘ Φ`. Transport `classLimitProjection_norm`, continuity, compact Hausdorffness, and `classLimitProjection_surjective` from the shared construction and one-prime control of IntegralIwasawaTheory §3.1. Finite-level norm surjectivity uses total ramification at the unique prime above p and trivial intersection with the lower field's Hilbert class field. Sources: Sharifi Definition 3.2.3, p.78, and §1.3, Lemma 1.3.8, pp.16–17.
 
-Give `classLimit_ext`, `classLimit_zero_iff`, `classLimit_norm_transitive`, `classLimit_tame_action`, and `classLimit_generator_coordinate`. The Λ coordinate T is `γ−1`; γ itself acts as `1+T`. A different topological generator gives a canonically transported Λ action, not a new arithmetic class module.
+Retain `classLimit_ext`, `classLimit_zero_iff`, `classLimit_norm_transitive`, `classLimit_tame_action`, and `classLimit_generator_coordinate` as the corresponding universal-property, norm and action specializations of IntegralIwasawaTheory §§0.4 and 2.1. The Λ coordinate T is `γ−1`; γ itself acts as `1+T`. The comparison intertwines the covariant ideal action and arithmetic Artin action. A different topological generator gives a canonically transported Λ action, not a new arithmetic class module.
 
 **Checks.**
 
@@ -896,33 +914,33 @@ Give `classLimit_ext`, `classLimit_zero_iff`, `classLimit_norm_transitive`, `cla
 
 ### 7.2 Artin identification and exact cyclotomic control
 
-Let `H_n/F_n` be the maximal unramified abelian p-extension. Prove `classLimit_artin`: the compatible arithmetic Artin maps identify X with the Galois group of the maximal unramified abelian pro-p extension of F_∞. Prove the needed descent assertion: every finite unramified abelian p-extension of F_∞ is contained, after enlarging n, in `H_n F_∞`. Its field of definition is finite; make its finite Galois action abelian by increasing n, then kill its possible remaining ramification at p by a further level. Ramification away from p already descends through the unramified tower there. State the comparison with completed local unramified extensions explicitly. This is the arithmetic inverse-limit target; it is not a generic construction of Λ. Sources: Sharifi Proposition 3.2.6 and Corollary 3.2.7, p.79.
+Let `H_n/F_n` be the maximal unramified abelian p-extension. Retain `classLimit_artin` as the transported `unramifiedModule_classGroupLimit` of IntegralIwasawaTheory §2.3: compatible arithmetic Artin maps identify X with the Galois group of the maximal unramified abelian pro-p extension of F_∞. The comparison must commute with finite-level arithmetic Artin maps, conjugation and norm, and with the completed local unramified-extension maps. The supplied descent assertion places every finite unramified abelian p-extension of F_∞ in `H_n F_∞` after enlarging n. Sources: Sharifi Proposition 3.2.6 and Corollary 3.2.7, p.79.
 
-For every `n≥0` prove `cyclotomicClass_control`:
+For every `n≥0` retain `cyclotomicClass_control` as the inverse of IntegralIwasawaTheory §3.1's `onePrimeClassControl`, transported through Φ and `φ_n^Cl`:
 
 ```text
 X / (γ^(p^n)−1)X  ≅  A_p(F_n).
 ```
 
-The isomorphism is induced by the actual norm projection, is Λ-linear through the quotient group, and commutes with the tame action at odd p. In the T coordinate the annihilating polynomial is `(1+T)^(p^n)−1`. Derive exactness by taking compact inverse limits of the finite genus sequences of §1.7. There is one ramified prime and its inertia maps isomorphically to every relative Galois group, so both the inertia kernel and cokernel disappear. Use the same exactness or compactness to identify the limiting kernel with the closed submodule generated by `γ^(p^n)−1`. Sources: Sharifi Proposition 3.2.11, exact sequence (3.2.1), pp.80–81, and Remark 3.2.12, p.81.
+The isomorphism is induced by the actual norm projection, is Λ-linear through the quotient group, and commutes with the tame action at odd p. Its defining equation is `cyclotomicClass_control n (x mod (γ^(p^n)−1)X)=classLimitProjection n x`. In the T coordinate the annihilating polynomial is `(1+T)^(p^n)−1`. The supplier's hypotheses hold from F_0 onward: there is exactly one finite ramified prime, it is totally ramified, and there is no other ramification. For p=2 the base F_0 is already complex. Thus the inertia-sum map has zero kernel and cokernel and the closed kernel of the norm projection is `(γ^(p^n)−1)X`. Sources: Sharifi Proposition 3.2.11, exact sequence (3.2.1), pp.80–81, and Remark 3.2.12, p.81.
 
 The assertion is exact for this tower at every n; it does not follow solely from norm surjectivity in an arbitrary tower. The prime above p is principal at each finite level, but exact control also needs its total ramification and the genus comparison. At n=0 the statement is `X/TX≅A_p(F_0)`. Replacing the norm limit by a direct limit would lose this map. If several primes above p were allowed, the inertia kernel would generally remain and the stated isomorphism would need a correction term.
 
 ### 7.3 Finite generation, torsion and the growth invariants
 
-Prove `cyclotomicClassInverseLimit_finite` in the module-theoretic sense of finite generation over Λ, and `cyclotomicClassInverseLimit_torsion`. Compact Nakayama applies because X is compact Hausdorff, its action is continuous, and `X/(p,T)X≅A_p(F_0)/p` is finite. It first gives finite generation; do not invoke the finite-generation form of Nakayama before establishing that hypothesis.
+Retain `cyclotomicClassInverseLimit_finite` in the module-theoretic sense of finite generation over Λ, and `cyclotomicClassInverseLimit_torsion`, by transporting `onePrimeClassModule_finite_torsion` from IntegralIwasawaTheory §3.1 through Φ. Its compact Nakayama hypothesis is `X/(p,T)X≅A_p(F_0)/p` finite, with X compact Hausdorff and continuous action. This provides finite generation before the algebraic structure theorem is used.
 
-For torsion use the supplied structure theorem for a finitely generated module, with possible free summands. If X had positive Λ-rank, its Γ_n-coinvariants would have `ℤ_p`-rank growing at least as a positive multiple of `p^n`, up to a bounded correction from a fixed torsion module and finite kernel/cokernel. Exact control makes all these coinvariants finite, giving a contradiction. It is insufficient to assert that a subquotient's rank is preserved by an arbitrary nonexact coinvariant functor; use the structure comparison and its kernel/cokernel calculation. Source: Sharifi Proposition 3.2.11 and proof, pp.80–81.
+The shared torsion argument uses the structure theorem for a finitely generated module, with possible free summands. Positive Λ-rank would force unbounded `ℤ_p`-rank of Γ_n-coinvariants under the structure comparison and its finite cokernel. Exact one-prime control makes every such coinvariant finite. The transported conclusion concerns this arithmetic module, not rank preservation by an arbitrary nonexact coinvariant functor. Source: Sharifi Proposition 3.2.11 and proof, pp.80–81.
 
-Apply the already supplied invariants `μ(X),λ(X)` and finite-coinvariant length theorem to prove `cyclotomic_class_number_growth`: there are `μ,λ∈ℕ`, `ν∈ℤ` and `n₀∈ℕ` such that
+Retain `cyclotomic_class_number_growth` as the specialization of IntegralIwasawaTheory §3.3's `classNumberGrowth` to this tower, with `μ(X)=towerMu(F_∞/F_0)`, `λ(X)=towerLambda(F_∞/F_0)` and `ν=towerNu(F_∞/F_0)` under Φ. There are `μ,λ∈ℕ`, `ν∈ℤ` and `n₀∈ℕ` such that
 
 ```text
 v_p(h(F_n)) = μ p^n + λ n + ν        for every n≥n₀.
 ```
 
-Equivalently `#A_p(F_n)=p^(μ p^n+λn+ν)` for those n. The integer exponent is nonnegative there because it is the length of a finite p-group; ν itself is not required to be nonnegative. The invariants μ and λ are exactly those of X, using p as the uniformizer of `ℤ_p`. Finite Λ-modules have μ=λ=0 and contribute to the constant term. Source: Sharifi Theorem 3.2.13, pp.81–82; the abstract algebra is PadicMeasuresIwasawaAlgebras Layer 4, “Cyclotomic polynomials and growth”. No proof of the torsion-module structure theorem is repeated here.
+Equivalently `#A_p(F_n)=p^(μ p^n+λn+ν)` for those n. The integer exponent is nonnegative there because it is the length of a finite p-group; ν itself is not required to be nonnegative. The invariants μ and λ are exactly those of X, using p as the uniformizer of `ℤ_p`. Finite Λ-modules have μ=λ=0 and contribute to the constant term. The native valuation equation in Suggested.lean is also the specialization of the supplier's `cyclotomicClassNumberGrowth` with conductor parameter m=1 at odd p and m=2 at p=2, since `2·2^(n+1)=2^(n+2)`. Sources: IntegralIwasawaTheory §3.3; Sharifi Theorem 3.2.13, pp.81–82; the abstract algebra is PadicMeasuresIwasawaAlgebras Layer 4, “Cyclotomic polynomials and growth”.
 
-Prove `growth_generator_independent` and `growth_shift_base`. Passing from F_0 to F_s and renumbering levels by n changes the constants as `μ′=p^s μ`, `λ′=λ`, `ν′=ν+sλ`. These follow by substitution in the displayed formula and uniqueness of its coefficients on a tail. At odd p the character decomposition yields growth for each tame component with its own invariants; plus and minus invariants are the sums over even and odd components. At p=2 there is no integral plus/minus direct-sum conclusion from this theorem.
+Retain `growth_generator_independent` and `growth_shift_base` as the generator-change and base-shift specializations of IntegralIwasawaTheory §3.3. Passing from F_0 to F_s and renumbering levels by n changes the constants as `μ′=p^s μ`, `λ′=λ`, `ν′=ν+sλ`. These follow by substitution in the displayed formula and uniqueness of its coefficients on a tail. At odd p the character decomposition yields growth for each tame component with its own invariants; plus and minus invariants are the sums over even and odd components. At p=2 there is no integral plus/minus direct-sum conclusion from this theorem.
 
 The zero-module check gives μ=λ=ν=0 and `v_p(h(F_n))=0` at all levels for a regular p, using Layer 5; it includes the dyadic tower. For the algebraic control `Λ/(p)`, the coinvariant length is `p^n`, so μ=1 and λ=0. For `Λ/(T−p)` at odd p it is `n+1`, so μ=0, λ=1 and ν=1. These are controls on the supplied algebraic length theorem, not assertions that those modules are realized by cyclotomic class groups. A module `Λ/(T)` has infinite coinvariants and does not satisfy the finite-coinvariant hypothesis.
 
@@ -932,7 +950,7 @@ The dyadic field sequence begins `ℚ(i)⊂ℚ(ζ₈)⊂ℚ(ζ₁₆)`, with deg
 
 ### Dependencies
 
-Layers 0–1 and cyclotomic total ramification; ClassFieldTheory's finite Hilbert class fields and local/global reciprocity; PadicMeasuresIwasawaAlgebras Layers 1, 4 and 5 for Λ, its structure and length theorems, compact inverse-limit exactness and topological Nakayama. Layer 5 gives the regular and dyadic examples. Arithmetic Artin descent, norm-limit control, finite generation and torsion are proved here before the abstract growth theorem is applied.
+Layers 0–1 and cyclotomic total ramification identify the native fields and their maps with IntegralIwasawaTheory §§0.1–0.4, 1.1, 2.1, 2.3 and 3.1–3.3. That supplier provides arithmetic Artin descent, norm-limit control, finite generation, torsion and growth for the transported module. ClassFieldTheory supplies finite Hilbert class fields and reciprocity; PadicMeasuresIwasawaAlgebras supplies Λ and its abstract algebra. Layer 5 gives the regular and dyadic examples. None of these specializations uses a main conjecture.
 
 ## Layer 8: inverse-character vanishing and unramified quotients
 
@@ -1011,7 +1029,7 @@ EisensteinIdealAndRationalTorsion consumes the three contracts of §8.4. Its div
 
 The downstream interface for DirichletPadicLFunctions contains the primitive-conductor Bernoulli values, their p-adic integrality, the Kummer congruence of §3.1, the finite Stickelberger character evaluations and the circular-unit distribution relations. Measures and interpolation are outside this roadmap. These finite arithmetic results do not assume a p-adic L-function or a main conjecture.
 
-IntegralIwasawaTheory and later Selmer and main-conjecture roadmaps consume the actual norm-compatible cyclotomic class module, its arithmetic Artin realization, exact one-prime control and its μ and λ invariants. The abstract completed-group-ring algebra remains supplied by PadicMeasuresIwasawaAlgebras. A later comparison with an analytic characteristic ideal is additional mathematics; the growth theorem here identifies no such ideal.
+The norm-compatible cyclotomic class module, its arithmetic Artin realization, exact one-prime control and growth invariants in Layer 7 specialize IntegralIwasawaTheory §§0–3. The comparison preserves norms, projections, the covariant Galois action and `T=γ−1`, with conductor exponent n+1 at odd p and n+2 at two. The circular-unit and regulator adapters in Layer 6 specialize its §§1.1–1.6, and agreement of `VandiverAt` with its §7.4 predicate is restricted to odd primes. Other finite cyclotomic targets here retain their own ownership. The abstract completed-group-ring algebra remains supplied by PadicMeasuresIwasawaAlgebras. Comparison with an analytic characteristic ideal is additional mathematics; growth alone identifies no such ideal.
 
 The field-level constructions in §§4.3–4.4 retain their full field and valuation-ring generality, independently of prime level and Bernoulli divisibility. The p-divisible-group and Hodge–Tate comparisons use the native Tate-module carrier and the convention `HT(χ_p)=1`. Completed-field cohomology is an input from PadicPeriodRings. General Néron-model theory and local–global compatibility beyond these targets are outside this roadmap.
 
@@ -1037,4 +1055,4 @@ Explicit cyclotomic arithmetic, Fermat-type applications and unit computations c
 - Keith Conrad, [*Kummer's Lemma*](https://kconrad.math.uconn.edu/blurbs/gradnumthy/kummer.pdf), author's notes, 8 pages. Theorem 1, p.1, states the unit lemma, and pp.6–7 give a logarithmic proof. The proof route in Layer 5 uses Hilbert's unramified-radical argument; it does not use the basis assertion of Conrad's Theorem 7.
 - Christophe Soulé, [*Perfect forms and the Vandiver conjecture*](https://arxiv.org/abs/math/9812171v1), version 1 (1998), Introduction, p.1, for the formulation of Vandiver's conjecture and its even-component interpretation. No assertion of the conjecture's truth is an input or a target here.
 
-The supplier contracts use the named declarations in Mathlib and Tau Ceti and the named layers of GlobalNumberFields, NumberFieldArithmetic, ClassFieldTheory, ClassicalArithmeticCompletion, ModularForms, ModularCurves, JacobianChallenge, IntegralHeckeAndGaloisDeterminants, PadicPeriodRings and PadicMeasuresIwasawaAlgebras. Their mathematical ownership is retained when the arithmetic specializations above are constructed.
+The supplier contracts use the named declarations in Mathlib and Tau Ceti and the named layers of GlobalNumberFields, NumberFieldArithmetic, ClassFieldTheory, ClassicalArithmeticCompletion, ModularForms, ModularCurves, JacobianChallenge, IntegralHeckeAndGaloisDeterminants, IntegralIwasawaTheory, PadicPeriodRings and PadicMeasuresIwasawaAlgebras. Their mathematical ownership is retained when the arithmetic specializations above are constructed.
