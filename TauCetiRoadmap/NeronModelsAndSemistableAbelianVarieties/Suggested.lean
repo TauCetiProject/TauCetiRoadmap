@@ -24,8 +24,8 @@ The file makes the following design choices explicit.
   arithmetic computations of the roadmap's checks are already meaningful.
 * README §4.2 uses GraphConnectivityAndFlows §§1.3 and 8.1 for incidence and signed circulations;
   §1.1 supplies component counts. The spanning-forest cycle bases, binary cycle space, rank
-  formulas and integral/F₂ coefficient comparison are local targets, used by the character-lattice
-  realization and monodromy pairing.
+  formulas and integral/F₂ coefficient comparison come from FreeGroupsAndLimitGroups §2.2a.
+  The local targets identify these supplied carriers with toric characters and monodromy.
 * The intersection-matrix comparison of the component group of a Jacobian uses Tau
   Ceti's numerical Picard group `TauCeti.NumericalType.Pic` and its degree map, which are pinned
   and not redefined.
@@ -290,16 +290,38 @@ noncomputable def boundary (src tgt : E → V) : (E →₀ ℤ) →ₗ[ℤ] (V �
 /-- The dual graph's integral cycle lattice in its actual edge coordinates.
 Under the reindexing of README 4.2, this is FreeGroupsAndLimitGroups §2.2a's
 `SerreGraph.cycleLattice`. The identification with GraphConnectivityAndFlows §8.1's
-`signedCirculations Q ℤ` supplies its additive circulation interpretation.
+`signedCirculations (K := ℤ) Q` supplies its additive circulation interpretation.
 This carrier supports `CharactersGraphHomology` and the monodromy pairing.
 README labels: cycle-lattice, integral-graph-adapter. -/
 noncomputable def cycleLattice (src tgt : E → V) : Submodule ℤ (E →₀ ℤ) :=
   LinearMap.ker (boundary src tgt)
 
-variable [Fintype V] [Fintype E] [DecidableEq V] [DecidableEq E]
+-- A loop contributes zero incidence, while an oriented segment fixes both endpoint signs.
+example : boundary (fun _ : Unit => ()) (fun _ : Unit => ())
+    (Finsupp.single () 1) = 0 := by
+  simp [boundary]
 
-/-- The edge-length form `(c, d) ↦ ∑_e ℓ(e) c_e d_e` on `ℤ^E`; with all lengths `1` it is the
-monodromy pairing of the Jacobian of a regular semistable curve (SGA 7 I, Exposé IX, 12.5). -/
+example : boundary (fun _ : Unit => (0 : Fin 2)) (fun _ : Unit => (1 : Fin 2))
+    (Finsupp.single () 1) = Finsupp.single 1 1 - Finsupp.single 0 1 := by
+  simp [boundary]
+
+-- Loop and segment membership distinguish the incidence kernel from both zero and top.
+example : Finsupp.single () (1 : ℤ) ∈
+    cycleLattice (fun _ : Unit => ()) (fun _ : Unit => ()) := by
+  simp [cycleLattice, boundary]
+
+example : Finsupp.single () (1 : ℤ) ∉
+    cycleLattice (fun _ : Unit => (0 : Fin 2)) (fun _ : Unit => (1 : Fin 2)) := by
+  intro h
+  have h0 := congrArg (fun c : Fin 2 →₀ ℤ => c 0) h
+  norm_num [cycleLattice, LinearMap.mem_ker, boundary] at h0
+
+variable [Fintype E]
+
+/-- The edge-length form `(c, d) ↦ ∑_e ℓ(e) c_e d_e` on `ℤ^E`, allowing zero lengths.
+Its restriction to cycles with all lengths `1` gives the Jacobian monodromy pairing
+under README §4.4's projective regular semistable curve hypotheses
+(SGA 7 I, Exposé IX, 12.4.5 and Theorem 12.5). -/
 noncomputable def edgeForm (len : E → ℕ) : (E →₀ ℤ) →ₗ[ℤ] (E →₀ ℤ) →ₗ[ℤ] ℤ :=
   LinearMap.mk₂ ℤ (fun c d => ∑ e, (len e : ℤ) * c e * d e)
     (by intros; simp [mul_add, add_mul, Finset.sum_add_distrib])
@@ -311,11 +333,24 @@ noncomputable def edgeForm (len : E → ℕ) : (E →₀ ℤ) →ₗ[ℤ] (E →
 theorem edgeForm_symm (len : E → ℕ) (c d : E →₀ ℤ) :
     edgeForm len c d = edgeForm len d c := by sorry
 
-/-- Reversing the orientation of an edge negates the corresponding coordinate and preserves the
-form: the cycle lattice and the pairing do not depend on the chosen orientation. -/
+/-- Negating the same edge coordinate in both arguments preserves the ambient edge form.
+For orientation transport, the endpoints of that edge are also interchanged in the boundary. -/
 theorem edgeForm_neg_coord (len : E → ℕ) (e₀ : E) (c d : E →₀ ℤ) :
     edgeForm len (c - 2 • Finsupp.single e₀ (c e₀)) (d - 2 • Finsupp.single e₀ (d e₀)) =
       edgeForm len c d := by sorry
+
+-- A weighted loop detects the coefficient and the sign of mixed pairings.
+example (n : ℕ) (r s : ℤ) :
+    edgeForm (fun _ : Unit => n) (Finsupp.single () r) (Finsupp.single () s) =
+      (n : ℤ) * r * s := by
+  simp [edgeForm]
+
+-- Parallel-edge cycles retain both weights; collapsing the two edges changes this value.
+example (a b : ℕ) :
+    edgeForm (fun e : Fin 2 => if e = 0 then a else b)
+      (Finsupp.single 0 1 - Finsupp.single 1 1)
+      (Finsupp.single 0 1 - Finsupp.single 1 1) = (a : ℤ) + b := by
+  simp [edgeForm, Fin.sum_univ_two]
 
 end DualGraph
 
@@ -338,8 +373,6 @@ def bipartiteDouble (G : WeightedGraph V E) : WeightedGraph (V ⊕ V) E where
   tgt := Sum.inr ∘ G.tgt
   thickness := G.thickness
 
-variable [Fintype V] [Fintype E] [DecidableEq V] [DecidableEq E]
-
 /-- Integral cycles of the ordinary weighted graph, with signed incidence `target - source`.
 The weights enter the Gram form rather than the incidence map (README §4.2). -/
 noncomputable def H1 (G : WeightedGraph V E) : Submodule ℤ (E →₀ ℤ) :=
@@ -351,6 +384,8 @@ theorem mem_bipartiteDouble_H1 (G : WeightedGraph V E) (c : E →₀ ℤ) :
     c ∈ G.bipartiteDouble.H1 ↔
       Finsupp.lmapDomain ℤ ℤ G.src c = 0 ∧ Finsupp.lmapDomain ℤ ℤ G.tgt c = 0 := by
   sorry
+
+variable [Fintype E]
 
 /-- Positive thicknesses give the integral edge pairing on the cycle lattice
 (SGA 7 I, Exposé IX, §§12.4–12.5; README §4.4). -/
@@ -375,7 +410,7 @@ theorem componentGroup_finite (G : WeightedGraph V E) : Finite G.componentGroup 
 /-- For adjoint cycle maps the dual of the reverse map preserves the Gram images, giving
 covariant functoriality of the discriminant groups (README §4.2). -/
 theorem gram_adjoint_range {W F : Type*}
-    [Fintype W] [Fintype F] [DecidableEq W] [DecidableEq F]
+    [Fintype F]
     (G : WeightedGraph V E) (H : WeightedGraph W F)
     (a : G.H1 →ₗ[ℤ] H.H1) (b : H.H1 →ₗ[ℤ] G.H1)
     (hadj : ∀ x y, H.gram (a x) y = G.gram x (b y)) :
@@ -386,7 +421,24 @@ between distinct vertices and does not contain that cycle (README §4.2). -/
 theorem bipartiteDouble_single_loop (n : ℕ+) :
     let G : WeightedGraph Unit Unit := ⟨fun _ => (), fun _ => (), fun _ => n⟩
     Finsupp.single () (1 : ℤ) ∈ G.H1 ∧
-      Finsupp.single () (1 : ℤ) ∉ G.bipartiteDouble.H1 := by sorry
+      Finsupp.single () (1 : ℤ) ∉ G.bipartiteDouble.H1 := by
+  dsimp
+  constructor
+  · simp [H1, DualGraph.cycleLattice, DualGraph.boundary]
+  · intro h
+    have h0 := congrArg (fun c : Unit ⊕ Unit →₀ ℤ => c (Sum.inl ())) h
+    norm_num [H1, DualGraph.cycleLattice, LinearMap.mem_ker,
+      DualGraph.boundary, bipartiteDouble] at h0
+
+-- Restriction to the cycle lattice retains the positive thickness of a loop.
+example (n : ℕ+) :
+    let G : WeightedGraph Unit Unit := ⟨fun _ => (), fun _ => (), fun _ => n⟩
+    let c : G.H1 := ⟨Finsupp.single () 1, by
+      simp [H1, DualGraph.cycleLattice, DualGraph.boundary]⟩
+    G.gram c c = (n : ℤ) := by
+  change DualGraph.edgeForm (fun _ : Unit => (n : ℕ))
+    (Finsupp.single () 1) (Finsupp.single () 1) = _
+  simp [DualGraph.edgeForm]
 
 end WeightedGraph
 

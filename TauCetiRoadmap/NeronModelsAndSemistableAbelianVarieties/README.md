@@ -1935,9 +1935,12 @@ Under `ι_*`, the identification equation is
 `ι_*(DualGraph.cycleLattice src tgt) = Γ.cycleLattice O`.
 Thus `H₁(Γ, ℤ)` on the curve's edges is FreeGroupsAndLimitGroups §2.2a's cycle lattice.
 Identify its additive group with GraphConnectivityAndFlows §8.1's
-`signedCirculations Q ℤ`, using `sub_mem_signedCirculations_iff` and the coordinate/excess
+`signedCirculations (K := ℤ) Q`, using `sub_mem_signedCirculations_iff` and the coordinate/excess
 comparison above; ℤ satisfies that prototype's ordered additive-group hypotheses.
-The incidence-kernel description is Hatcher, §2.2, pp. 140–141.
+The incidence-kernel description is Hatcher, §2.2, pp. 140–141. The assignment
+correspondence sends `f` to `c` with `c e = f ⟨e, rfl, rfl⟩` in `Q (src e) (tgt e)`;
+its excess at `v` is exactly `(DualGraph.boundary src tgt c) v`. It imposes no
+nonnegativity or capacity constraint.
 
 **Checks.**
 
@@ -1971,12 +1974,16 @@ rank agrees with StableReduction's `firstBetti`.
 **Integral graph adapter and character lattice.** (*integral-graph-adapter*) Prove the
 endpoint-indexed assignment/Finsupp equivalences in the GraphConnectivityAndFlows §1.3 and
 §8.1 contracts above, including ℤ-linearity, and realize the integral module on the supplied
-circulation group. Prove `CharactersGraphHomology`: `X^*(T_Γ) ≅ H₁(Γ, ℤ)` canonically,
-using the supplied integral cycle lattice in the dual-graph coordinates just specified.
+circulation group. For a proper reduced nodal curve `C` over an algebraically closed field,
+prove `CharactersGraphHomology`: `X^*(T_Γ) ≅ H₁(Γ, ℤ)` canonically, where `T_Γ` is the
+torus in 4.1's normalisation sequence, taken componentwise if `C` is disconnected.
+Use the supplied integral cycle lattice in the dual-graph coordinates just specified.
 The isomorphism changes by the corresponding coordinate sign when an edge is reversed,
-and it is equivariant for automorphisms of `C` and for Galois descent. The dual lattice
-`Hom(X^*(T_Γ), ℤ)` is `H¹(Γ, ℤ)` (SGA 7 I, Exposé IX, 12.3.7 and 12.3.11–12.3.14,
-pp. 472–473). *Needs:* 2.4, 4.1; FreeGroupsAndLimitGroups §2.2a
+and it is equivariant for automorphisms of `C` and for Galois descent: an automorphism
+interchanging the two branches acts by a signed edge permutation, including on a loop.
+The dual lattice `Hom(X^*(T_Γ), ℤ)` is `H¹(Γ, ℤ)` (SGA 7 I, Exposé IX,
+12.3.6–12.3.7 and 12.3.11–12.3.14, pp. 471–473; BLR §9.2, Example 8 and its proof,
+pp. 246–247). *Needs:* 2.4, 4.1; FreeGroupsAndLimitGroups §2.2a
 (`SerreGraph.integralCycleBoundary`, `SerreGraph.cycleLattice`, `SerreGraph.modTwoCycleSpace`,
 `SerreGraph.supportGraph`, `SerreGraph.IsSpanningForest`, `SerreGraph.exists_spanningForest`,
 `SerreGraph.spanningForest_card`, `SerreGraph.exists_forest_cycleBasis`,
@@ -1989,22 +1996,40 @@ Mathlib `Finsupp.linearCombination`, `LinearMap.ker`, `TensorProduct`.
 **Checks.**
 
 - A rational curve with one node has integral character lattice ℤ. Reduction of its unit
-  loop cycle generates its one-dimensional binary cycle space.
+  loop cycle generates its one-dimensional binary cycle space. Interchanging its branches
+  acts by inversion on the torus and by `−1` on the integral cycle, not by the identity.
+  For a Tate curve with `v(q) = n > 0`, the nodal contraction has one loop of thickness `n`;
+  its regular `I_n` model has the same rank-one lattice, pairing `[n]` and component group `ℤ/n`.
 - Two rational components meeting at two nodes give character lattice ℤ. The integral
   generator `(1, −1)` reduces to `(1, 1)`; reversing one edge changes the corresponding
   integral coordinate sign and leaves the binary cycle unchanged.
 - A tree of rational components has zero character lattice and zero binary cycle space;
   vertex rescalings remove all node gluing parameters.
-- For two isolated vertices both cycle modules vanish and coefficient reduction is still
-  an isomorphism; neither the coefficient comparison nor a forest basis requires connectedness.
+- For a smooth connected curve there are no edges: the torus and both cycle modules are zero,
+  while `Pic⁰(C) = Jac(C)` need not be zero. For two isolated vertices both cycle modules vanish
+  and coefficient reduction is still an isomorphism. Disjoint unions give products of Picard
+  identity groups and direct sums of character lattices; no graph adapter requires connectedness.
+- Two rational components meeting at three nodes give a totally degenerate genus-two curve.
+  Orient all three edges in the same direction. Its characters are
+  `{(x,y,z) ∈ ℤ³ | x+y+z = 0}`, with basis `(1,−1,0)`, `(0,1,−1)`.
+  Both ranks are `2`, satisfying `2 + 2 = 3 + 1`; at unit thickness the Gram matrix is
+  `[[2,−1],[−1,2]]` and the component group is `ℤ/3`. For two components meeting twice,
+  the corresponding formulas are `1 + 2 = 2 + 1` and Gram matrix `[2]`.
 
 <a id="weighted-graph"></a>
 
-**Weighted graphs and their discriminant groups.** Define `WeightedGraph V E` for finite
+**Weighted graphs and their discriminant groups.** Define `WeightedGraph V E` on arbitrary
 vertex and edge types, with endpoint maps `src, tgt : E → V` and positive integral
-`thickness : E → ℕ+`. Its `WeightedGraph.H1` is `DualGraph.cycleLattice src tgt`;
+`thickness : E → ℕ+`. The edge form, Gram map and finite discriminant group assume finite
+`E`; the incidence kernels and the bipartite-double membership criterion need no finiteness.
+Finite `V` is needed for the component-count rank formulas above. Its `WeightedGraph.H1` is `DualGraph.cycleLattice src tgt`;
 `WeightedGraph.gram` is the restriction of `DualGraph.edgeForm thickness` to this lattice,
 and `WeightedGraph.componentGroup` is `Module.Dual ℤ H1 ⧸ LinearMap.range gram`.
+Here `DualGraph.edgeForm len` on the ambient edge module is
+`(c,d) ↦ Σ_e (len e : ℤ) c_e d_e` for arbitrary `len : E → ℕ`, including zero lengths;
+`DualGraph.edgeForm_symm` and `DualGraph.edgeForm_neg_coord` assert symmetry and invariance
+under simultaneous coordinate sign reversal in both arguments. Transporting cycles also
+interchanges the endpoints of the reversed edge, as in the supplied orientation API.
 Prove `WeightedGraph.gram_positive`, strict positivity on nonzero cycles,
 `WeightedGraph.gram_injective` and `WeightedGraph.componentGroup_finite`, including empty
 and disconnected graphs. These are geometry-free objects; their geometric identification
@@ -2023,8 +2048,10 @@ the geometry-free graph and torsion organization of the Imperial College London 
 **Checks.**
 
 - One vertex and one loop of thickness `n > 0` have `H1 = ℤ`, Gram map `[n]` and
-  component group `ℤ/n`; the bipartite double has one edge between two distinct vertices
-  and zero cycle lattice (`WeightedGraph.bipartiteDouble_single_loop`). The two
+  component group `ℤ/n`. The ambient form on loop coefficients `r,s` is `n*r*s`;
+  in particular coefficients `1,−1` give `−n`, and restricting to the unit cycle gives `n`.
+  These identities also hold for the ambient zero-length form. The bipartite double has
+  one edge between two distinct vertices and zero cycle lattice (`WeightedGraph.bipartiteDouble_single_loop`). The two
   constructions cannot be interchanged.
 - Two parallel edges from one vertex to another, of thicknesses `a,b`, give Gram map
   `[a+b]`; two endpoint maps to a singleton give the same augmentation kernel in the double.
