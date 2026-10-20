@@ -106,14 +106,6 @@ theorem erdos_rado_beth (α : Ordinal.{u}) (n : ℕ) :
     PartitionRel (Order.succ (ℶ_ (α + n))) (Order.succ (ℶ_ α)) (n + 1) (ℶ_ α) := by
   sorry
 
-/-- **Layer 0, all arities up to a bound at once.** One homogeneous set serves a colouring of
-each arity `≤ N + 1`. -/
-theorem exists_isHomogeneousOn_forall_le {κ : Cardinal.{u}} (hκ : ℵ₀ ≤ κ) (N : ℕ)
-    {J : Type u} [LinearOrder J] (hJ : Order.succ (iteratedTwoPow κ N) ≤ #J)
-    (D : ℕ → Type u) (hD : ∀ n, #(D n) ≤ κ) (c : ∀ n, (Fin n ↪o J) → D n) :
-    ∃ H : Set J, Order.succ κ ≤ #H ∧ ∀ n ≤ N + 1, IsHomogeneousOn (c n) H := by
-  sorry
-
 /-- **Layer 0, the `ω₁`-pigeonhole principle.** A countable colouring of the countable ordinals
 has a colour taken at unboundedly many of them. -/
 theorem exists_unbounded_fiber {D : Type*} [Countable D]

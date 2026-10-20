@@ -269,15 +269,6 @@ Consumer forms, each a stated theorem:
 - **`erdos_rado_beth`**: `ℶ_(α+n)⁺ → (ℶ_α⁺)ⁿ⁺¹_{ℶ_α}` for every ordinal `α`, from
   `iteratedTwoPow_beth`. Since `ℶ_(α+n)⁺ ≤ ℶ_(α+n+1)`, a set of cardinality at least `ℶ_(α+n+1)`
   suffices.
-- **`exists_isHomogeneousOn_forall_le`**: for infinite `κ`, a linear order of cardinality at least
-  `ℶ_N(κ)⁺` and colourings `c n : (Fin n ↪o J) → D n` with `#(D n) ≤ κ` for every `n`, one set of
-  cardinality `κ⁺` is homogeneous for every `c n` with `n ≤ N + 1` simultaneously. Code the
-  colourings of all arities `≤ N + 1` into one colouring of `(N + 1)`-tuples, by the colours of all
-  increasing subtuples (finitely many, so at most `κ` colours), apply `erdos_rado`, and remove the
-  at most `N + 1` largest elements of the homogeneous set, so that every shorter tuple extends
-  upwards to an `(N + 1)`-tuple inside it.
-- the well-ordered output form: for a well-order `I`, the homogeneous set can be taken to be the
-  range of an order embedding of `(κ⁺).ord.ToType`.
 
 **Acceptance check:** `erdos_rado` at `n = 1`, i.e. `(2^κ)⁺ → (κ⁺)²_κ`, and at `κ = ℵ₀`, i.e.
 `ℶ₁⁺ → (ℵ₁)²_{ℵ₀}`.
