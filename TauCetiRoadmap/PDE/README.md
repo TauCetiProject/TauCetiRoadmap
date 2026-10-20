@@ -20,15 +20,23 @@ For a **bounded open `Ω ⊆ ℝⁿ`** and a **uniformly elliptic, divergence-fo
 symmetry assumption on the principal coefficient field `a`, deliver the **three pillars**
 for the Dirichlet problem `L u = f` in `Ω`, `u = g` on `∂Ω`:
 
-1. **Existence and uniqueness** of a weak solution in `H¹(Ω)` (energy method: Gårding's
-   inequality plus Lax–Milgram; the Fredholm alternative when coercivity fails).
-2. **Regularity:** weak solutions are locally Hölder continuous
-   (**De Giorgi–Nash–Moser**, the bounded-measurable-coefficient case), and smooth when
-   the coefficients and data are smooth (the interior `Hᵏ` bootstrap of Lane E.20;
-   divergence-form Schauder estimates give `C^{1,α}` under Hölder hypotheses).
-3. **The maximum principle** (weak and strong) and the **Harnack inequality** for the
-   homogeneous equation, with the classical potential theory (mean-value property,
-   Newtonian potential, Perron's method) as the constant-coefficient template.
+1. **Solvability:** for the bounded weak form, coercivity gives a unique
+   `H¹` solution for `f∈H^{-1}` (including scalar `L²` data) and boundary data
+   with a specified `H¹` lifting. Under a Gårding bound and Rellich, the unshifted
+   Fredholm problem is solvable exactly when the corrected forcing annihilates
+   the adjoint kernel; solutions then form an affine translate of the kernel.
+   At resonance this is neither unconditional existence nor uniqueness.
+2. **Regularity:** homogeneous scalar principal-part equations have a locally
+   Hölder representative by **De Giorgi–Nash–Moser**, for bounded measurable,
+   not necessarily symmetric a. For forcing and lower-order terms, retain the
+   explicit data ranges and scaled hypotheses of E20–E23; arbitrary `L²` forcing
+   in arbitrary dimension does not imply Hölder regularity. Smooth coefficients
+   and data give the interior `Hᵏ` bootstrap, while Hölder divergence-form
+   coefficients/data give `C^{1,β}`, not unqualified `C^{2,α}`.
+3. **Maximum and Harnack principles:** homogeneous scalar equations with their
+   stated sign/coefficient and connectedness assumptions, with distinct classical
+   and weak Hopf contracts, and potential theory as the constant-coefficient
+   template. Each global/boundary conclusion carries its own domain regularity.
 
 ```lean
 -- the shape we are building toward (state in Suggested.lean as the supporting types land):
@@ -75,10 +83,17 @@ for the Dirichlet problem `L u = f` in `Ω`, `u = g` on `∂Ω`:
 --     (hu : IsHomogeneousWeakSolution a u (ball x₀ (2 * r)))
 --     (hInt : IntegrableOn (fun x => |u x| ^ p₀) (ball x₀ (2 * r))) :
 --     ∃ v, v =ᵐ[volume.restrict (ball x₀ (2 * r))] u ∧
---       HolderOnWith (holderConstant n (Λ / λ) p₀ *
---           ENNReal.ofReal (r ^ (-(holderExponent n (Λ / λ) : ℝ) - n / p₀)) *
---           ‖(‖u‖ ^ p₀)‖_{L¹(ball x₀ (2 * r))} ^ (1/p₀))
+--       HolderOnWith (Real.toNNReal
+--           ((holderConstant n (Λ / λ) p₀ : ℝ) *
+--             Real.rpow r (-(holderExponent n (Λ / λ) : ℝ) - (n : ℝ) / p₀) *
+--             Real.rpow (∫ x in ball x₀ (2 * r), |u x| ^ p₀) (1 / p₀)))
 --         (holderExponent n (Λ / λ)) v (ball x₀ r)
+--
+-- The displayed Bochner integral is a finite nonnegative real by hInt;
+-- r,d>0 and p₀>1 make all rpow factors finite. Prove nonnegativity and
+-- (Real.toNNReal B : ℝ)=B before deriving this native HolderOnWith statement
+-- from the real inequality dist(v x,v y)≤B*dist(x,y)^α. Its constant is NNReal,
+-- not ENNReal; no toReal-of-infinity or default integral value is used.
 --
 -- and the compact-subset corollary, derived from it by a covering argument:
 -- theorem weakSolution_holderOn (hn : 3 ≤ n) (hp₀ : 1 < p₀)
@@ -87,13 +102,18 @@ for the Dirichlet problem `L u = f` in `Ω`, `u = g` on `∂Ω`:
 --     (hInt : IntegrableOn (fun x => |u x| ^ p₀) Ω) (hK : IsCompact K) (hKΩ : K ⊆ Ω)
 --     (d : ℝ) (hd : 0 < d) (hdist : ∀ x ∈ K, ball x (2 * d) ⊆ Ω) :
 --     ∃ v, v =ᵐ[volume.restrict Ω] u ∧
---       HolderOnWith (holderConstant n (Λ / λ) p₀ *
---           ENNReal.ofReal (d ^ (-(holderExponent n (Λ / λ) : ℝ) - n / p₀)) *
---           ‖(‖u‖ ^ p₀)‖_{L¹(Ω)} ^ (1/p₀))
+--       HolderOnWith (Real.toNNReal
+--           ((holderConstant n (Λ / λ) p₀ : ℝ) *
+--             Real.rpow d (-(holderExponent n (Λ / λ) : ℝ) - (n : ℝ) / p₀) *
+--             Real.rpow (∫ x in Ω, |u x| ^ p₀) (1 / p₀)))
 --         (holderExponent n (Λ / λ)) v K
 ```
 
 ## Standing hypotheses (spell them out)
+
+Take n≥1 for the elliptic inequalities, gradients and boundary theorems below.
+Retain dimension0 function spaces and their finite-dimensional algebraic cases;
+do not apply a positive-domain Poincaré inequality to zero-dimensional constants.
 
 PDE theory is **example-driven and hypothesis-sensitive**: the same theorem is true in
 many incomparable forms, and the art is in tracking exactly which structure each proof
@@ -164,6 +184,15 @@ making a changed upper constant primitive.
 
 ## Getting the statements right
 
+[GeometricMeasureTheory](../GeometricMeasureTheory/README.md), G3–G6, extends this roadmap's
+weak-derivative and `W¹,¹` APIs to distributional BV, finite perimeter, scalar coarea, BV
+compactness, and BV traces. Lane A retains ownership of Sobolev spaces, smooth density,
+Sobolev Poincaré and domain trace/extension theory; GMT proves agreement of its BV versions
+with those canonical constructions. [Isoperimetry](../Isoperimetry/README.md), I3 and I5,
+owns sharp periodic Wirtinger with equality, and the sharp whole-space BV Sobolev inequality
+with its extremizers. Lane A's general embedding and nonsharp estimates are independent
+of those sharp results; no second weak-derivative or trace definition is introduced.
+
 A few cross-cutting rules for the *shape* of a PDE statement: which hypotheses it carries
 and which notion it names. These recur across the lanes below, and getting them right at
 statement time is what keeps the formalized API reusable.
@@ -188,20 +217,30 @@ statement time is what keeps the formalized API reusable.
   (`TemperedDistribution.memSobolev`) on `ℝⁿ` in the range where they coincide
   (`1 < p < ∞`, integer `s`; Calderón). Don't reuse the Bessel definition as the domain
   theory: it is a whole-space notion and the two scales genuinely differ at `p = 1, ∞`.
-- **Carry Poincaré's normalization.** `‖u‖ ≤ C‖∇u‖` holds on `W^{1,p}_0(Ω)` (zero trace)
-  or modulo constants (Poincaré–Wirtinger, zero mean), for `Ω` bounded (or of finite
-  measure, or bounded in one direction). State that side condition explicitly; it is the
-  load-bearing hypothesis (the inequality fails outright on `ℝⁿ`).
-- **Pick the Sobolev-embedding regime by exponent.** Subcritical `p < n` gives
-  `W^{1,p} ↪ L^{p*}`, `p* = np/(n−p)` (consume Gagliardo–Nirenberg–Sobolev); supercritical
-  `p > n` gives Hölder `C^{0,1−n/p}` (Morrey); the borderline `p = n` gives
-  BMO/exponential integrability (Trudinger–Moser), not `L^∞`. State the regime you mean
-  rather than a single catch-all embedding.
+- **Separate zero-boundary and mean normalization.** On a bounded open set,
+  `‖u‖_p≤C‖∇u‖_p` holds for closure-defined `W^{1,p}_0`, `1≤p≤∞`, with
+  a finite enclosing-width constant and no connectedness assumption. For
+  Poincaré–Wirtinger use a nonempty **connected bounded Lipschitz domain**
+  (or another explicitly quantified Poincaré domain):
+  `‖u−u_Ω‖_p≤C(Ω,p)‖∇u‖_p`. Boundedness or finite measure alone does not
+  give this mean-zero theorem. On finitely many components normalize each
+  component separately and take their maximum constant; for infinitely many
+  require a uniform component constant before asserting a global estimate.
+  At p=∞ the zero-boundary closure is not identified with the trace kernel.
+- **Pick the embedding regime and domain class.** For n≥2, subcritical `1≤p<n`
+  gives the Sobolev exponent `p*=np/(n−p)`; `n<p<∞` gives Morrey exponent
+  `1−n/p`; p=∞ has its separate Lipschitz representative theorem. The critical
+  p=n case gives BMO/exponential integrability with its stated normalization,
+  not an L∞ theorem. For n=1,p=1 use the absolutely continuous/FTOC estimate
+  instead. Global domain conclusions require A6's extension hypotheses or
+  zero extension from W0; arbitrary open Ω has the appropriate interior form.
 - **Use weak compactness for existence; reserve norm compactness for Rellich.** Existence
   arguments run on *weak* sequential compactness of bounded sets in a reflexive space
   (Banach–Alaoglu / `WeakDual`). Norm compactness comes from one place,
-  **Rellich–Kondrachov**: `W^{1,p}(Ω) ↪↪ L^p(Ω)` is compact for bounded `Ω`, the embedding
-  that powers the Fredholm alternative and the eigenvalue expansions.
+  **Rellich–Kondrachov** gives compact `W^{1,p}(Ω)↪L^p(Ω)` on bounded
+  Lipschitz/extension domains for finite p, with the separate endpoint proof
+  in A6. Arbitrary bounded-open sets use the closure-defined W0/zero-extension
+  version. This is the compactness used by the Fredholm/spectral lanes.
 - **State maximum principles with their hypotheses.** The weak maximum principle for
   `Lu = -∂ⱼ(aⁱʲ∂ᵢu) + cu` needs `c ≥ 0` (or `Lu ≤ 0` with the right structure); the strong
   principle additionally needs `Ω` connected and, for classical `C²` solutions of a
@@ -278,11 +317,14 @@ statement time is what keeps the formalized API reusable.
 
 - **Weak-derivative Sobolev spaces `W^{k,p}(Ω)`** on a domain (distinct from the
   Bessel-potential scale): weak derivatives, completeness, `W^{k,p}_0` as the
-  `C_c^∞`-closure, Meyers–Serrin `H = W` density, and the agreement theorem with the
-  Fourier `H^{s,p}` on `ℝⁿ`.
+  `C_c^∞`-closure for every `1≤p≤∞`, finite-p (`1≤p<∞`) Meyers–Serrin
+  `H = W` density, and the agreement theorem with Fourier `H^{s,p}` on `ℝⁿ`.
+  Keep the infinity spaces and their closure-defined subspaces; do not assign
+  them full Sobolev-norm smooth density or whole-space compact-support density.
 - **The embedding/trace/compactness package:** Morrey `C^{0,α}` embedding (`p > n`), the
   borderline `p = n` case, **Poincaré** and Poincaré–Wirtinger, the **trace operator** on
-  `∂Ω` and its kernel `= W^{1,p}_0`, the **extension operator**, and
+  `∂Ω` with kernel `= W^{1,p}_0` for `1≤p<∞`, the separately specified
+  endpoint trace without that kernel claim, the **extension operator**, and
   **Rellich–Kondrachov** compactness.
 - **Hölder spaces `C^{k,α}`** as Banach spaces (for Schauder), and the Campanato/Morrey
   space characterization.
@@ -309,7 +351,12 @@ statement time is what keeps the formalized API reusable.
   theorem.
 - **Parabolic & evolution equations:** Bochner spaces `L²(0,T;H)`, the Gelfand triple
   `V ↪ H ↪ V*`, the **Galerkin method**, existence for linear parabolic equations, the
-  parabolic maximum principle, the **heat semigroup** and **Hille–Yosida**.
+  parabolic maximum principle, and the concrete **heat semigroup**/kernel realization.
+  General `C₀` generators, Hille–Yosida and shared `LinearPMap` resolvents are
+  consumed from OneParameterSemigroups/OperatorTheory, as specified in F26.
+  F27 additionally owns the complete classical whole-space bounded parabolic
+  Hölder spaces, heat-potential estimates, continuity method, backward problems,
+  BUC traces, all derivative orders and spatial weights below.
 
 ---
 
@@ -328,29 +375,101 @@ Almost everything downstream waits on this, so do it first and do it right.
    locally integrable function, `W^{k,p}(Ω)` with its norm, and prove **completeness**.
    Build on Mathlib's `Distribution`/`TestFunction` pairing so the definition is the
    honest one (`∫ u ∂^α φ = (−1)^{|α|} ∫ (D^α u) φ` for all test `φ`).
-2. **Density and `W^{k,p}_0`.** Mollification (consume `BumpFunction/Convolution`) gives
-   `C^∞ ∩ W^{k,p}` dense (**Meyers–Serrin**, `H = W`); define `W^{k,p}_0(Ω)` as the
-   `C_c^∞(Ω)`-closure. ⚠ `H = W` needs no boundary regularity; `W^{k,p}_0 = W^{k,p}` for
-   `Ω = ℝⁿ` but **not** for bounded `Ω`.
+   On a bounded interval identify W^{1,p} classes with their unique absolutely
+   continuous representatives whose derivatives lie in L^p, `1≤p≤∞`, and
+   prove the endpoint/Fundamental-Theorem-of-Calculus and integration-by-parts
+   identities. At p=2 this is H¹, not the entire class of all absolutely
+   continuous functions. Compare A6's two endpoint traces and its finite-p
+   closure/kernel statement with the existing interval-derivative partial
+   operator in OperatorTheory/UnboundedOperators; that owner retains the
+   operator, graph/adjoint and boundary-condition realizations.
+2. **Density and `W^{k,p}_0`.** For every open Ω and integer `k≥0`, define
+   `W^{k,p}_0(Ω)` as the closure of `C_c^∞(Ω)` in the full `W^{k,p}` norm,
+   for **all** `1≤p≤∞`. For `1≤p<∞`, prove arbitrary-open-set Meyers–Serrin:
+   `C^∞(Ω)∩W^{k,p}(Ω)` is dense, without a boundary hypothesis. Construct an
+   interior exhaustion and locally finite partition of unity, mollify each
+   localized term at a support-preserving radius with summable Sobolev errors,
+   and sum using local finiteness and the derivative/convolution identities.
+   On `ℝⁿ`, cutoff at large radius and then mollify to prove
+   `W^{k,p}_0=W^{k,p}` for finite p. On a general domain that equality is not
+   inferred from smooth-interior density. Preserve `W^{k,∞}` for coefficient
+   and solution hypotheses, and develop local mollifier approximation in lower
+   norms/weak-* derivative topologies under the appropriate boundedness
+   hypotheses; do not assert full `W^{k,∞}`-norm smooth density. The constant1
+   on ℝⁿ, `|x|` on (−1,1), and zero-trace `x(1−x)` on (0,1) are endpoint
+   acceptance counterexamples. Consume an actual native finite-p Meyers–Serrin
+   endpoint when available at the pin, otherwise build this same API here.
 3. **Reconcile with Mathlib's Bessel-potential scale.** Prove `W^{k,2}(ℝⁿ) = H^{k,2}(ℝⁿ)`
    (and the `1<p<∞` integer-order Calderón agreement) so the two definitions are known to
    coincide where both make sense; *do not* leave them as unrelated theories.
-4. **Embeddings.** *Consume* Gagliardo–Nirenberg–Sobolev for `p<n`; **build** the Morrey
-   embedding `W^{1,p}(Ω) ↪ C^{0,1−n/p}(Ω)` for `p>n`, and state (then prove) the
-   borderline `p=n`.
-5. **Poincaré and Sobolev–Poincaré.** Prove Poincaré on `W^{1,p}_0(Ω)` (bounded `Ω`),
-   Poincaré–Wirtinger (zero mean), and the scale-compatible Sobolev–Poincaré inequality
-   on balls `‖u - u_B‖_{L^{p*}(B)} ≤ C‖∇u‖_{L^p(B)}` for `p < n`, with explicit constant
-   dependence. The last form turns Caccioppoli into the reverse-Hölder inequality used in
-   Lane E.21.
-6. **Trace, extension, Rellich.** The **trace operator** `W^{1,p}(Ω) → L^p(∂Ω)` with
-   `ker = W^{1,p}_0` (Lipschitz `∂Ω`), an **extension operator** `W^{1,p}(Ω) → W^{1,p}(ℝⁿ)`,
-   and **Rellich–Kondrachov**: `W^{1,p}(Ω) ↪↪ L^p(Ω)` **compact** for bounded `Ω` (via
-   Fréchet–Kolmogorov / Arzelà–Ascoli). This is the keystone for Lane D and the
-   eigenvalue theory.
-7. **Hölder and Campanato spaces.** Build `C^{k,α}(Ω)` as Banach spaces, the target
-   spaces for Schauder, together with the Campanato/Morrey characterization of Hölder
-   regularity used by the excess-decay proofs.
+4. **Embeddings.** Consume Gagliardo–Nirenberg–Sobolev for `1≤p<n`.
+   Build whole-space Morrey for `n<p<∞` with a Hölder representative of
+   exponent `1−n/p`, and the p=∞ local/global Lipschitz version on its
+   stated domains. Obtain domain-global estimates through A6's extension
+   operator; on arbitrary open sets state interior estimates or use the
+   zero-extension class rather than silently assuming an extension exists.
+   For n≥2, build the critical p=n BMO/exponential-integrability statements
+   with their normalization, not an L∞ embedding. Treat n=1,p=1 separately
+   by the absolutely continuous representative/Fundamental Theorem of
+   Calculus, which does give the one-dimensional L∞ estimate.
+5. **Poincaré and Sobolev–Poincaré.** Prove zero-boundary Poincaré on
+   closure-defined `W^{1,p}_0(Ω)` for bounded open Ω and `1≤p≤∞`, first on
+   compactly supported smooth functions by integration along a bounded
+   coordinate direction, then by the defining norm closure. On a nonempty
+   connected bounded Lipschitz domain prove
+   `‖u−u_Ω‖_p≤C(Ω,p)‖∇u‖_p`. For finite p use A6's independent extension/
+   Rellich construction, a normalized contradiction sequence and the fact
+   that a distributional zero gradient on a connected open set is constant.
+   At p=∞ use an extension/local Lipschitz representative and a finite
+   connected chart-chain/path bound, not finite-p norm density. Build that
+   geometric bound for this domain class, retaining its dependence on the
+   charts. Provide the componentwise theorem with uniform constants as in
+   the normalization rule, and the two-disjoint-balls counterexample to a
+   single global mean. On balls prove the scale-compatible Sobolev–Poincaré
+   inequality `‖u−u_B‖_{L^{p*}(B)}≤C(n,p)‖∇u‖_{L^p(B)}` for `1≤p<n`;
+   this converts Caccioppoli into E21's reverse-Hölder estimate.
+6. **Trace, extension, Rellich.** On bounded Lipschitz domains and for
+   `1≤p<∞`, construct the bounded trace
+   `W^{1,p}(Ω)→L^p(∂Ω,μHE[n−1])`, agreeing with classical restriction,
+   and prove `ker(trace)=W^{1,p}_0` in both directions by boundary charts,
+   zero extension and inward cutoff/mollification. Construct the bounded
+   `W^{1,p}` extension to ℝⁿ. At p=∞ retain a bounded trace from the
+   continuous/Lipschitz representative and its agreement with finite-p
+   traces on this bounded domain, and extension, but not the false kernel
+   equality with the full-norm closure `W^{1,∞}_0`. Keep zero extension
+   and its precise trace hypotheses separate from compact-support density.
+   Prove Rellich `W^{1,p}(Ω)↪↪L^p(Ω)` for finite p on this bounded
+   extension-domain class by extension and translation estimates. At p=∞
+   prove the bounded-Lipschitz-domain compactness through uniformly bounded
+   equi-Lipschitz extensions and Arzelà–Ascoli on the compact closure,
+   not an inapplicable finite-p density proof. Give the distinct arbitrary-
+   bounded-open compactness statements for `W^{1,p}_0` via zero extension,
+   with finite-p target ranges `1≤q<p*` if p<n, every finite q if p=n,
+   and continuous/Hölder compactness below the Morrey exponent if p>n.
+   At p=∞ use the zero-extension equi-Lipschitz argument on bounded supports.
+   These constructions use no mean-zero Poincaré theorem; A5's mean-zero
+   proof may consume them.
+   This lane owns the common Lipschitz-domain predicate for open Euclidean sets: at each
+   frontier point, after an affine isometry, the domain in an open product cylinder is
+   the region above a Lipschitz graph over a hyperplane. Supply restriction to smaller
+   charts, rigid-coordinate transport, and positive dilation; for bounded domains supply
+   a finite chart cover with explicit Lipschitz constants. Use normalized Euclidean
+   Hausdorff measure `μHE[n−1]` on the frontier. GMT G6 consumes this predicate for BV
+   traces and proves its surface-measure comparisons. The chart-integration formulas for
+   Sobolev traces consume GMT G2's area formula, independently of G6's BV trace comparison.
+   `C¹` domains satisfy it by a
+   proved local-graph comparison; cone conditions are separate hypotheses and do not
+   redefine the Lipschitz predicate.
+7. **Hölder and Campanato spaces.** Build the globally finite-norm
+   `C^{k,α}(Ω)` Banach spaces, with supremum norms of derivatives through k
+   and the kth derivative Hölder seminorm, and their restriction/localization
+   API. Distinguish `C^{k,α}_loc` with its compact-exhaustion topology from a
+   Banach claim about all locally Hölder functions. Supply the Campanato/Morrey
+   characterization used by the excess-decay proofs.
+   Include the bounded global variant `C_b^{k,α}(ℝⁿ)`: its norm is the sum of the
+   supremum norms of spatial derivatives through k and the spatial α seminorm of
+   the kth derivative, using continuous multilinear operator norms for iterated
+   Fréchet derivatives. Lane F consumes these spatial trace spaces.
 
 ### Lane B: harmonic-analysis estimates
 
@@ -449,7 +568,19 @@ geometric-measure prerequisites and should be scheduled separately.
     Separately prove the
     **Aleksandrov–Bakelman–Pucci estimate** for scalar non-divergence-form strong
     solutions; it is the maximum-principle input to Krylov–Safonov in Lane E.24. This
-    consumes the `W^{2,n}_loc` strong-solution language from Lane A.1 and additionally
+    consumes the `W^{2,n}_loc` strong-solution language from Lane A.1. C13 owns
+    the convex-envelope/contact construction used here: for smooth approximants
+    with nonnegative boundary values, extend `min(u,0)` by0 to a larger
+    enclosing ball and construct its lower convex envelope there. Identify
+    the interior negative contact set, prove the
+    gradient-image ball inclusion from the boundary depth, and bound that
+    image measure by the integral of the Hessian determinant on the contact
+    set. Use GMT G2's area formula for the Lipschitz gradient on the compact
+    contact pieces, prove the needed local regularity/approximations of this
+    envelope, and the ellipticity determinant-to-trace bound. Exhaust/approximate
+    to the `W^{2,n}` strong-solution statement with L^n right-hand side. These
+    convex/approximation lemmas are constructed here, rather than assumed as
+    unnamed measure theory. The estimate additionally
     requires convex envelopes, contact sets, and the measure estimate for the
     gradient/normal map, via an area formula for Lipschitz maps or Alexandrov twice
     differentiability. These inputs are not part of the otherwise-early Lane C theory and
@@ -459,7 +590,12 @@ geometric-measure prerequisites and should be scheduled separately.
 15. **Fundamental solution / Newtonian potential** of `Δ` on `ℝⁿ`, the **Green's
     function** and **Poisson kernel** on the ball/half-space, and **Perron's method**:
     existence for the Dirichlet problem `Δu = 0` in `Ω`, `u = g` on `∂Ω`, via subharmonic
-    barriers. ⚠ Perron yields a harmonic function for *any* bounded `Ω`; **boundary
+    barriers. Pin Φ for **−ΔΦ=δ**, and use −Φ for the Δ convention;
+    prove the convolution sign and normalization in each dimension. For a ball,
+    construct the harmonic boundary correction from the trace of Φ*f, and prove
+    `G_B f=Φ*f−H_B(trace(Φ*f))` with actual trace/weak equality and uniqueness.
+    Boundary regularity/data assumptions for classical attainment remain explicit.
+    ⚠ Perron yields a harmonic function for *any* bounded `Ω`; **boundary
     attainment** of `g` is a separate statement needing a **barrier** at each boundary
     point (regular boundary points).
 
@@ -475,14 +611,34 @@ Mathlib*. This lane mostly assembles Lane A and Mathlib.
     boundedness with the same `Λ` from coercivity of `a⁻¹`.
 17. **Existence & uniqueness (coercive case).** When `a` is coercive, *consume* Lax–Milgram
     (`continuousLinearEquivOfBilin`) for the unique weak solution of the Dirichlet problem.
-    This is the first end-to-end PDE theorem and should land early.
-18. **The Fredholm alternative (non-coercive case).** Using Rellich (Lane A.6) to make the
-    resolvent compact, *consume* `FredholmAlternative` to get the
-    "either-unique-solution-or-finite-dim-kernel" dichotomy for `Lu = f`.
+    For boundary data use a specified H¹ lifting g̃ and solve for u−g̃∈H¹_0;
+    on rough open sets this quotient condition defines the Dirichlet data,
+    while on Lipschitz domains compare it to the actual Sobolev trace. This
+    is the first end-to-end PDE theorem and should land early.
+18. **The Fredholm alternative (non-coercive case).** For the weak form
+    satisfying D16's Gårding bound, add a sufficiently large `L²` shift to
+    obtain the coercive isomorphism `H¹_0→H^{-1}`. Use A6's compact
+    `H¹_0↪L²` inclusion to reduce the original operator to identity minus
+    compact. Consume FredholmAlternative to prove finite-dimensional kernel,
+    closed range, index0, and the precise range formula: corrected forcing
+    ℓ is solvable iff `ℓ(w)=0` for every w in the **weak adjoint kernel**
+    `{w | ∀v, a(v,w)=0}` (the real bilinear convention here). Solutions are
+    one particular solution plus `ker L`; prove uniqueness modulo that
+    kernel and uniqueness when it is zero. Nonsymmetric a does not permit
+    replacing the adjoint kernel by the kernel of L. For nonzero boundary
+    data first choose an H¹ lifting g̃ and use ℓ=f−L g̃. State the dual
+    pairing and the shift/compact reduction, not an unconditional
+    existence-and-uniqueness promise at resonance.
 19. **Spectrum of `−Δ`.** The Dirichlet eigenvalues/eigenfunctions of `−Δ` on a bounded
     `Ω`: a compact self-adjoint inverse (Rellich plus Lax–Milgram), then the eigenfunction
     basis from `InnerProductSpace/Spectrum`. The model **Sturm–Liouville** /
-    separation-of-variables payoff.
+    separation-of-variables payoff. Consume the implemented Tau Ceti
+    `Variational/Spectrum` and `Variational/Rayleigh` real coercive-form APIs.
+    [VariationalMethods V1–V5 proposal](https://github.com/TauCetiProject/TauCetiRoadmap/blob/515847c411b9f9642d7c1d180b2a6e82bb976e3a/TauCetiRoadmap/VariationalMethods/README.md) supplies generic
+    direct minimization, complex/shifted energy adapters, ordered constrained
+    minima and form-domain/`LinearPMap` comparison; Lane D/E retains the domain,
+    boundary-condition and elliptic-regularity constructions.
+
 
 ### Lane E: elliptic regularity
 
@@ -529,8 +685,11 @@ should not preclude a later vector-valued generalization.
     State the **homogeneous** principal part first: Hölder continuity and Harnack are
     theorems about `-div(a ∇u) = 0`, not about the standing operator with arbitrary
     forcing and lower-order terms. Then do the inhomogeneous equation, where the estimate
-    acquires a norm of the data under an integrability hypothesis (`f ∈ L^q`, `q > n/2`,
-    or a divergence datum `F`), and then `b` and `c`, whose contributions enter through
+    acquires scaled data norms: scalar `f∈L^q`, `q≥1`, `q>n/2`, and
+    divergence datum `F∈L^s`, `s>n`, with the Hölder exponent restricted by
+    their positive Morrey gains as well as the homogeneous exponent. Prove
+    the corresponding data-to-Caccioppoli/iteration estimates; no arbitrary
+    L² forcing is substituted for these assumptions. Then treat `b` and `c`, whose contributions enter through
     the scaled quantities `r‖b‖∞` and `r²‖c‖∞` and which need a sign hypothesis for
     Harnack. Keep the Hölder exponent and all estimate constants explicit in `λ, Λ` (or
     `Λ / λ`) and dimension. Note that this is **divergence-form/weak**, whereas the
@@ -545,7 +704,11 @@ should not preclude a later vector-valued generalization.
     `λ` only by scaling; it assumes `2 < n`; it concludes for a representative `v` with
     `v =ᵐ u` rather than for `u` itself; and its constant carries
     `(∫_{B₁} |u|^{p₀})^{1/p₀}` for `p₀ > 1`, so the estimate is quantitative in the
-    solution, not in the structural constants alone.
+    solution, not in the structural constants alone. The n≥3 migration cut
+    does not erase n=1,2 from the scalar theorem: supply the one-dimensional
+    absolutely continuous/flux argument, and the two-dimensional iteration
+    using A4/A5's finite-q critical Sobolev–Poincaré estimates and E23's same
+    Caccioppoli/truncation machinery, with their separate constants.
 
 #### Non-divergence form: strong/classical solutions
 
@@ -570,41 +733,616 @@ should not preclude a later vector-valued generalization.
 
 ### Lane F: parabolic and evolution equations
 
-27. **Bochner spaces and the Gelfand triple.** `L²(0,T;V)`, `H¹(0,T;V*)`, the triple
+The stable identifiers in this lane are **F24** (Bochner/Gelfand), **F25**
+(Galerkin), **F26** (heat realization) and **F27.1–F27.6** (classical Schauder).
+Use these lane-qualified IDs in every cross-reference: E24–E26 denote the
+non-divergence elliptic items, whereas F24–F26 denote these evolution items.
+F27 always denotes the complete classical whole-space programme below.
+
+24. **F24 — Bochner spaces and the Gelfand triple.** `L²(0,T;V)`, `H¹(0,T;V*)`, the triple
     `V ↪ H ↪ V*` (consume the Bochner integral), and the integration-by-parts/embedding
     `L²(V) ∩ H¹(V*) ↪ C([0,T];H)`.
-28. **Linear parabolic existence.** The **Galerkin method**: finite-dimensional
+25. **F25 — Linear parabolic existence.** The **Galerkin method**: finite-dimensional
     approximation (consume ODE existence), energy estimates, weak-compactness passage to
     the limit, giving existence/uniqueness for `∂ₜu + Lu = f`, `u(0) = u₀`. The parabolic
     maximum principle.
-29. **Semigroups.** The **heat semigroup**, generators, and **Hille–Yosida**; the heat
-    kernel on `ℝⁿ` (consume the Fourier transform) and the smoothing estimates.
+26. **F26 — Heat realization and concrete evolution applications.** Consume the general
+    `C₀` semigroup, generator, growth/resolvent, Hille–Yosida and Lumer–Phillips
+    APIs from [OneParameterSemigroups Part A](../OneParameterSemigroups/README.md#part-a--strongly-continuous-semigroups),
+    using the shared native `LinearPMap` and `TauCeti.LinearPMap` resolvent
+    vocabulary of [OperatorTheory](../OperatorTheory/README.md#ownership-boundaries).
+    PDE owns the Gaussian kernel, its convolution semigroup on `L^p(ℝⁿ)` for
+    `1≤p<∞` and on `BUC(ℝⁿ)`, its strong continuity and contraction bounds,
+    and the exact closed generator. On L^p its domain is the u∈L^p whose
+    distributional Δu is in L^p, with `C_c^∞` as a graph core; do not replace
+    this by an unsupported full W^{2,1} assertion at p=1. On BUC the domain
+    consists of u whose distributional Δu has a BUC representative, with the
+    graph core of smooth functions with every derivative bounded. Construct
+    this core by heat smoothing/graph convergence; `C_c^∞` is not uniformly
+    dense in BUC and is not its proposed core. Prove both domain equalities
+    and the actual action Δ, using distributional identities and integration
+    of the convolution derivative before applying abstract generator uniqueness.
+    Do not assert strong continuity on all `L^∞`; prove the BUC realization and
+    compatible positive-time action on bounded data separately. Use the shared
+    resolvent convention `(λI−A)⁻¹`; the heat generator is A=Δ, while the
+    nonnegative elliptic operator in Lane D is −Δ. Construct the Fourier/kernel
+    equality with the fixed2π convention, Duhamel formula, smoothing estimates
+    and the comparison with the variational Dirichlet heat realization on bounded
+    domains. Nonautonomous Galerkin equations in F25 are not a one-parameter
+    semigroup without time independence. General generation is consumed, not
+    redefined or re-proved in a second PDE engine.
 
-### Stretch goals (state once the lanes above are solid)
+27. **F27 — Classical whole-space parabolic Schauder theory.** Work with scalar real
+    functions on `Q=ℝⁿ×[0,T]`, `T>0`, and fix `0<α<1`. Build the following
+    interfaces in order; all estimates are global in the spatial variable.
 
-- **Strichartz estimates** for the wave and Schrödinger equations (Tao, *Nonlinear
-  Dispersive Equations*): the `TT*` method, the dispersive `L¹→L^∞` decay, and the
-  endpoint Keel–Tao argument, consuming the Fourier/oscillatory-integral and
-  interpolation lanes.
-- **Quasilinear elliptic existence** via Schauder/Leray–Schauder fixed-point theory on top
-  of Lane E (the De Giorgi–Nash–Moser a-priori estimates supply the compactness).
-- **Stochastic PDE:** a result from Krylov's analytic `L_p`-theory of SPDE, or
-  Da Prato–Debussche for the stochastic Navier–Stokes / 2D stochastic quantization,
-  consuming the parabolic and Bochner lanes plus Mathlib's probability stack.
+    **F27.1 Spaces, calculus and traces.** Use the parabolic distance
+    `d_par((x,t),(y,s))=‖x−y‖+√|t−s|`. Reuse Mathlib's
+    [`Metric.Snowflaking`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Topology/MetricSpace/Snowflaking.html#Metric.Snowflaking)
+    for time, the native [`WithLp 1` product metric](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Analysis/Normed/Lp/ProdLp.html#WithLp.instProdMetricSpace), and
+    [`HolderOnWith`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Topology/MetricSpace/Holder.html#HolderOnWith).
+    Transport a function through the coordinate homeomorphism to ordinary
+    Euclidean space-time before differentiating. Spatial derivatives are
+    `iteratedFDeriv ℝ` with their continuous multilinear operator norms.
+    On every nondegenerate closed slab `[a,b]`, time derivatives use
+    `derivWithin` on `Icc a b`, agreeing with interior derivatives and their
+    continuous one-sided endpoint extensions; prove this agreement and
+    uniqueness. Supply restriction and time reversal using the same carriers.
+
+    Use native [`BoundedContinuousFunction`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Topology/ContinuousMap/Bounded/Basic.html#BoundedContinuousFunction) (`→ᵇ`) for bounded continuous
+    derivative maps. For a map v on the slab subtype, use
+    [`eHolderNorm α v`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Topology/MetricSpace/HolderNorm.html#eHolderNorm); require its finiteness (`MemHolder α v`) before
+    taking its real value, denoted `[v]_{α,par}`. Native Hölder exponents are
+    in `ℝ≥0`. Prove `[v]_{α,par}=sup_{z≠z′} ‖v(z)−v(z′)‖/d_par(z,z′)^α`
+    and equivalence with the sum of the separate spatial α and temporal
+    α/2 seminorms. For ordinary time slices, define `[v]_{t,γ}` as the real
+    value of `⨆ x, eHolderNorm γ (fun t : Icc a b ↦ v(x,t))`, again
+    requiring finiteness first. Use this with `γ=(1+α)/2`. For every integer
+    `k≥0`, define `C_{par,b}^{k+α}(Q)` by continuous mixed derivatives
+    `D_t^r D_x^β u` for `2r+|β|≤k`. Prove by Schwarz/Peano induction that
+    every ordering of these factors exists, is continuous on the closed
+    slab and agrees, including the one-sided endpoint derivatives.
+    Its norm is the sum of their supremum norms, the parabolic α seminorms for `2r+|β|=k`, and the separate
+    temporal `(1+α)/2` seminorms for `2r+|β|=k−1` (the last sum is empty
+    for k=0). Here β is a spatial multi-index; prove equivalence with
+    iterated-Fréchet-derivative operator norms. The time seminorms in this
+    definition are required also when k is odd. Prove completeness,
+    continuous inclusions between consecutive orders, restriction, product
+    and bounded multiplication estimates. The k=0 and k=2 spaces are also
+    denoted `C_b^{α,α/2}` and `C_b^{2+α,1+α/2}`.
+
+    In the order-two norm the temporal `(1+α)/2` seminorm of `D_xu` is
+    controlled by `C(n,α)([D_x²u]_{α,par}+[u_t]_{α,par})`; prove this
+    using spatial centered differences at scale `√|t−s|`. Thus the norm
+    obtained by omitting this controlled term is equivalent. For
+    any slab `[a,b]` with `a<b` and `0<ε≤min(1,√((b−a)/2))`, prove the
+    interpolation bounds
+    `‖D_xu‖∞≤C(n)(ε‖D_x²u‖∞+ε⁻¹‖u‖∞)`,
+    `‖D_x²u‖∞≤C(n,α)(ε^α[D_x²u]_{α,par}+ε⁻²‖u‖∞)`, and
+    `‖u_t‖∞≤C(α)(ε^α[u_t]_{α,par}+ε⁻²‖u‖∞)`.
+    Derive absorption of the lower-order spatial/time Hölder norms:
+    `‖u‖_{α,par}+‖D_xu‖_{α,par}≤η‖u‖_{2+α,par}+C(n,α,T,η)‖u‖∞`
+    for every `η>0`, with T replaced by b−a on `[a,b]`; all constants are
+    independent of a. Prove the bounded initial/terminal trace maps into
+    Lane A.7's spatial spaces `C_b^{k,α}(ℝⁿ)`, with its specified norm.
+
+    **F27.2 Classical comparison and heat potentials.** Let
+    `P u=u_t−a^{ij}u_{ij}−b^i u_i−cu`. Assume a symmetric matrix a and
+    `a^{ij},b^i,c∈C_b^{α,α/2}(Q)`, with explicit `0<λ≤Λ` and
+    `λI≤a≤ΛI`. Prove comparison for bounded functions continuous on Q,
+    classical `C^{2,1}` for `t>0`, using a barrier at spatial infinity and
+    a finite-horizon exponential change for c. For bounded f with `Pu≤f`,
+    prove
+    `‖u⁺‖∞≤exp(C_+ T)(‖u(·,0)⁺‖∞+T‖f⁺‖∞)`,
+    where `C_+=max(0,sup_Q c)`; obtain uniqueness by applying comparison
+    to differences. This is the classical whole-space theorem, with its
+    own proof, rather than an inference from the weak Galerkin theorem.
+    Consume Lane F's heat-kernel/semigroup item to construct the Cauchy
+    potential `Γ(t)*u₀` and Duhamel potential `∫₀ᵗΓ(t−s)*f(s)ds`.
+    F27 owns the pointwise kernel estimates used here: for every m,j≥0,
+    `‖∂_t^j D_x^m Γ(x,t)‖≤C(n,m,j)t^{−(n+m+2j)/2}exp(−‖x‖²/(8t))`
+    for t>0, as well as positivity, `∫Γ(t)=1`, and
+    `∫D_x^m Γ(t)=0` for m≥1. Prove integrability and differentiation under
+    these integrals. Prove the potentials' full order-two Hölder estimates
+    and trace attainment,
+    using `∫D²Γ=0` for the differentiated Duhamel term and estimates of
+    both spatial and temporal differences. Reduce each constant symmetric
+    elliptic matrix a₀ to the Laplacian by a linear coordinate change.
+    Prove that `u↦(u_t−a₀^{ij}u_{ij},u(·,0))` is a bounded linear
+    isomorphism from `C_b^{2+α,1+α/2}(Q)` onto
+    `C_b^{α,α/2}(Q)×C_b^{2,α}(ℝⁿ)`. F27 owns this isomorphism and its
+    Hölder estimates; the semigroup item supplies the kernel.
+
+    **F27.3 Variable coefficients and backward problems.** For the
+    coefficients in F27.2 and data `f∈C_b^{α,α/2}(Q)`,
+    `u₀∈C_b^{2,α}(ℝⁿ)`, prove existence and uniqueness in
+    `C_b^{2+α,1+α/2}(Q)`, the equation `Pu=f`, trace `u(·,0)=u₀`, and
+    `‖u‖_{2+α,par}≤K(‖u₀‖_{2,α}+‖f‖_{α,par})`. K depends only on
+    n, α, T, λ, Λ and coefficient norms. Prove freezing, interpolation,
+    absorption and localization with space-time cutoffs and constants
+    independent of the spatial center; obtain a global a priori estimate.
+    Cutoffs near the initial slice equal one at t=0 on the smaller patch,
+    so the localized estimate retains the initial trace.
+    Apply the method of continuity from F27.2's heat operator along a
+    uniformly elliptic coefficient path. The estimate is uniform on the
+    path; invertibility is open by a Neumann series and closed by applying
+    the estimate to differences as the parameter converges. This route
+    uses no bounded-cylinder solvability theorem. Export the resulting
+    bounded linear initial-data isomorphism `u↦(Pu,u(·,0))`.
+
+    With `R(x,s)=(x,T−s)`, prove R is a parabolic isometry, preserves Q,
+    and sends restrictions to the corresponding reversed slabs. If
+    `v=u∘R`, `ã=a∘R`, `b̃=b∘R`, `c̃=c∘R`, and
+    `P_back u=u_t+a^{ij}u_{ij}+b^i u_i+cu`, prove
+    `P_back u=g` iff `P̃v=−g∘R`, with `v(·,0)=u(·,T)`; P̃ is the
+    forward operator with reversed coefficients. Export the terminal-data
+    isomorphism for P_back, including inhomogeneous traces. Prove
+    continuity of the forward and backward inverses in operator norm as
+    a,b,c vary in `C_b^{α,α/2}`, locally on uniformly elliptic sets with
+    fixed ellipticity and coefficient-norm bounds.
+
+    **F27.4 Uniformly continuous traces.** Here `BUC(ℝⁿ)` means the
+    closed vector subspace of `ℝⁿ →ᵇ ℝ` consisting of `UniformContinuous`
+    functions. For such u₀ and the coefficients/forcing of F27.3, construct
+    a bounded continuous solution on Q, classical for `t>0`, with
+    `‖u(·,t)−u₀‖∞→0` as `t↓0` and bounded
+    `C_b^{2+α,1+α/2}` norm on every `[δ,T]`, `0<δ<T`.
+    Prove the quantitative interior target
+    `sup_{0<δ<T} δ^{1+α/2}‖u‖_{2+α,par;[δ,T]}≤C(‖u(·,0)‖∞+‖f‖_{α,par})`
+    first for solutions in the base closed-slab space. C depends only on
+    n, α, T, ellipticity and coefficient norms. Use time cutoffs on
+    `[δ/2,T]`, interpolation at scale `√δ`, and absorption of the weighted
+    supremum. The cutoff forcing `χ′u` requires this interpolation step;
+    its Hölder norm is not bounded by `‖u‖∞` alone. The weighted supremum
+    is finite for each smooth-data approximant before absorption, which
+    makes the bound uniform independently of its higher initial norms.
+    Use uniform smooth approximation, comparison to make solutions
+    uniformly Cauchy, this weighted estimate, and compact-exhaustion
+    derivative convergence. Prove uniqueness among bounded functions
+    continuous on Q and `C^{2,1}` for `t>0` that solve the equation and
+    have the specified initial trace. For a uniformly bounded family
+    `g_i:ℝⁿ →ᵇ ℝ`, assume Mathlib's [`UniformEquicontinuous`](https://leanprover-community.github.io/mathlib4_docs/Mathlib/Topology/UniformSpace/Equicontinuity.html#UniformEquicontinuous), namely one
+    common modulus of continuity on all of ℝⁿ. For fixed coefficients and
+    forcing, obtain the quantitative common-modulus estimate
+    `‖u_i(·,t)−g_i‖∞≤C(ω(√t)+t(‖g_i‖∞+‖f‖∞))`,
+    where ω is a nonnegative nondecreasing common modulus with
+    `‖g_i(x)−g_i(y)‖≤ω(‖x−y‖)` and `ω(r)→0` as `r↓0`.
+    Prove it by compactly supported unit-mass mollification at scale
+    `√t` and classical comparison, including the first/second derivative
+    bounds of the mollifications from ω. Thus
+    `sup_i ‖u_i(·,t)−g_i‖∞→0` and positive-time estimates are uniform
+    over the family. Transport this version by time reversal.
+
+    **F27.5 Every derivative order.** For every integer `k≥0`, take
+    `a,b,c,f∈C_{par,b}^{k+α}(Q)` in the full norm of F27.1, the same
+    ellipticity, and `u₀∈C_b^{k+2,α}(ℝⁿ)`. Prove that the initial and
+    terminal operators are isomorphisms between `C_{par,b}^{k+2+α}(Q)`
+    and `C_{par,b}^{k+α}(Q)×C_b^{k+2,α}(ℝⁿ)`, with estimates and
+    coefficient/data dependence in these norms. Start the higher-space
+    method of continuity from the heat potentials with the corresponding
+    higher estimates. Prove the inductive a priori estimate for functions
+    already in the higher space, absorbing lower terms via F27.1.
+    Spatial differentiation reduces the order by one; use the equation
+    to recover time derivatives and their temporal Hölder seminorms.
+    Combine this estimate with higher-space continuity and base-space
+    uniqueness. A separate regularity proof uses spatial difference
+    quotients and the equation, with passage to the derivative limits and
+    continuous one-sided endpoint traces. No extra boundary compatibility
+    is needed on the whole space. Smooth data and coefficients whose derivatives
+    of every required order are bounded and Hölder give solutions in
+    every finite-order space. Export the corresponding positive-time
+    estimates for F27.4.
+
+    **F27.6 Spatial weights.** Let w(x)>0 be smooth and time-independent,
+    with bounded, α-Hölder derivatives of `log w` of positive orders
+    1 through `k+2`. There is no boundedness requirement on `log w`
+    itself. Define the weighted class by `v=u/w∈C_{par,b}^{k+2+α}(Q)`.
+    Prove `(Pu)/w=P_w v` with unchanged a and
+    `b_w^i=b^i+2a^{ij}∂_j log w`,
+    `c_w=c+a^{ij}(∂_{ij} log w+∂_i log w ∂_j log w)+b^i∂_i log w`.
+    The forcing and trace become `f/w` and `u₀/w`. Prove these transformed
+    coefficients belong to the required Hölder spaces, then transport
+    the estimates, inverses, BUC trace theorem in the weighted uniform
+    norm `‖u/w‖∞`, and time reversal.
+    Include `w(x)=1+exp(x)` in dimension one, in every finite order.
+
+
+### Extension lanes: dispersive, quasilinear and stochastic equations
+
+These are part of the programme. Their prerequisites and constructions follow
+Lanes A–F; none is implied by the homogeneous DGNM theorem. The identifiers
+X1–X3 below do not change the stable F27.1–F27.6 identifiers.
+
+**X0 shared analytic spaces.** Consume native Fourier transforms, tempered
+distributions and Bessel potentials with the `2π` convention fixed above.
+Build the missing smooth dyadic partition, Bernstein estimates and
+Littlewood–Paley square-function theorem here as an extension of Lane B.10.
+On ℝ^d distinguish homogeneous spaces (distributions modulo polynomials,
+with the specified convergent dyadic reconstruction) from inhomogeneous
+spaces. Define `B^s_{p,q}` by the dyadic `ℓ^q(L^p)` norm and prove independence
+of the chosen annular cutoffs, completeness, Fourier/Bessel comparisons in
+their actual exponent ranges and periodic versions on `𝕋^d=ℝ^d/ℤ^d`.
+For noninteger s, write `𝒞^s=B^s_{∞,∞}`; the **little** space `c^s` is the
+closure of smooth functions in this norm. Use little spaces when strong
+continuity at t=0 or separable random-variable carriers is needed; smooth
+functions are not asserted dense in every large `𝒞^s`. Construct Bony's
+paraproducts from the dyadic blocks: low–high terms, high–low terms and the
+resonant term. Prove the usual product map for exponents α<0<β with
+α+β>0 into `𝒞^α`, including local-in-time weighted versions. Products of
+two negative-regularity fields are not supplied by this theorem; X3.3–X3.4
+construct their particular enhanced Gaussian products. Torus heat estimates
+follow by Fourier series/periodization from F26 and the same dyadic estimates.
+These are PDE-owned analytic constructions, not assumptions that generic
+stochastic calculus has already built them.
+
+**X1 Strichartz estimates for both Schrödinger and wave equations.**
+
+- **X1.1 dispersive kernels and the time-pairing engine.** On ℝ^d with
+  Lebesgue measure construct the unitary Schrödinger propagator
+  `S(t)=exp(i t Δ)` with Fourier multiplier `exp(-4π² i t |ξ|²)`.
+  Prove its group/strong-L²-continuity laws and
+  `‖S(t)f‖∞≤(4π|t|)^(-d/2)‖f‖₁` for t≠0, first for Schwartz f and then
+  by the proper bounded-operator extension. Set `D=√(-Δ)`, multiplier
+  `2π|ξ|`, and construct `W±(t)=exp(±itD)`. For each smooth annular
+  dyadic block P_j prove
+  `‖W±(t)P_j f‖∞≤C 2^(jd)(1+2^j|t|)^(-(d-1)/2)‖f‖₁` for d≥2.
+  This is a stationary-phase/polar-coordinate estimate owned here;
+  no unlocalized wave `L¹→L∞` operator is inferred from it.
+
+  Construct the reusable `TT*` time-pairing argument for an L²-energy
+  family with decay `|t-s|^(-σ)`. For q,r≥2, σ-admissibility is
+  `1/q+σ/r=σ/2`, excluding `(q,r,σ)=(2,∞,1)`; include the energy pair
+  `(∞,2)`. State dual exponents with `1/∞=0`. Prove nonendpoint bounds
+  by interpolation and fractional time integration. Own the endpoint
+  proof: decompose the retarded bilinear pairing into Whitney rectangles
+  with `|t-s|≈2^k`, prove the nearby-exponent localized bilinear bounds,
+  then use bilinear real interpolation and dyadic summation to get the
+  endpoint when σ>1. This precedes the retarded endpoint estimate; do
+  not apply Christ–Kiselev at equality of the time exponents. For strict
+  time-exponent inequalities prove the retarded truncation lemma separately.
+  Consume existing interpolation/Bochner/Lp duality foundations, keeping
+  real-linear versus complex-Hilbert adjoints explicit.
+
+- **X1.2 Schrödinger contracts.** For every integer d≥1 call (q,r)
+  admissible when `2≤q,r≤∞`, `2/q+d/r=d/2`, and
+  `(q,r,d)≠(2,∞,2)`. For any two such pairs and every interval
+  `I=[0,T]`, `0<T≤∞`, construct the mild solution of
+  `i∂_t u+Δu=F`, `u(0)=f`, and prove
+  `‖u‖_(L^q(I;L^r))≤C(‖f‖₂+‖F‖_(L^(q̃')(I;L^(r̃'))))`.
+  The Duhamel convention is `u=S(t)f-i∫₀ᵗS(t-s)F(s)ds`.
+  Constants are independent of T. Construct by completion of smooth
+  data/forcing, prove the distributional equation, `C(I;L²)` when
+  the forcing is in the stated dual Strichartz space, and uniqueness
+  in the energy/Strichartz solution class through the Duhamel identity.
+  Include the d≥3 endpoint `(2,2d/(d-2))`, the d=1 pair `(4,∞)` and
+  the energy pair. Prove the analogous full-line homogeneous estimate.
+  No `(2,∞,2)` endpoint is promised. Commutation with Bessel/Fourier
+  derivatives gives regularity-shifted estimates on their exact domains.
+
+- **X1.3 wave contracts.** For d≥2 let q,r≥2 satisfy
+  `1/q+(d-1)/(2r)≤(d-1)/4`, excluding `(q,r,d)=(2,∞,3)`, and put
+  `s(q,r)=d/2-d/r-1/q`. For r<∞ prove the full-line homogeneous
+  bound `‖W±(t)f‖_(L^q_t L^r_x)≤C‖f‖_(Ḣ^s)`; the energy pair has
+  s=0. Construct the Littlewood–Paley summation using q,r≥2 rather
+  than interchanging an L∞ norm with a square sum. At r=∞ retain
+  the valid endpoint-space bound with `Ḃ^s_{2,1}` on the right,
+  including `(∞,∞)` with s=d/2; do not assert the false critical
+  `Ḣ^(d/2)→L∞` embedding. Endpoint means q=2 when d≥4 and finite
+  `r=2(d-1)/(d-3)`, handled by X1.1, not the excluded d=3 pair.
+
+  For `∂_t²u-Δu=F`, data `(f,g)`, use
+  `u=cos(tD)f+D⁻¹sin(tD)g+∫₀ᵗD⁻¹sin((t-s)D)F(s)ds`.
+  Besides the finite-r homogeneous Sobolev theorem, prove the following
+  explicit retarded bound for all the admissible pairs, including
+  spatial-infinity pairs with their Besov summation:
+  `‖u‖_(L^q([0,T];L^r))≤C[‖f‖_(Ḃ^s_{2,1})+
+    ‖g‖_(Ḃ^(s-1)_{2,1})+
+    Σ_j 2^(j(s+s̃-1))‖P_j F‖_(L^(q̃')([0,T];L^(r̃')))]`.
+  Initial data and forcing belong to the indicated completed homogeneous
+  classes; convergence of this dyadic series defines the solution, and
+  constants are independent of T. First prove frequency-localized
+  estimates, then the retarded time bounds and reconstruction. Export
+  finite-r square-function improvements where their mixed norms justify
+  them, without replacing the displayed universally valid ℓ¹ bound by
+  an unjustified endpoint Sobolev assertion. Prove energy uniqueness
+  and agreement with classical solutions for smooth data. Treat the
+  one-dimensional wave equation separately by its two-translation
+  d'Alembert formula and corresponding energy/finite-time bounds;
+  it has no positive dispersive decay exponent. These results own the
+  actual wave and Schrödinger dispersive theory; applications may
+  consume them without a second generic propagator engine.
+
+**X2 quasilinear elliptic existence with an actual compact map.**
+
+- **X2.1 global linear input.** Let Ω⊂ℝ^d be a nonempty bounded C¹,¹
+  domain, d≥1, fix `q>max(1,d/2)`, `s>max(2,d)`, and choose
+  `0<β<min(α_DG,2-d/q,1-d/s,1)` using a proved uniform boundary
+  DGNM exponent. For measurable real matrices a with
+  `ξ·a(x)ξ≥λ|ξ|²`, `‖a(x)‖≤M` uniformly, construct the weak
+  Dirichlet solution of `-div(a∇u)=f+div F`, trace g, for
+  `f∈L²∩L^q`, `F∈L^s`, and g admitting a C¹ bounded extension
+  to Ω̄. Lax–Milgram acts on u-g∈H¹₀. Prove a global estimate
+  `‖u‖_(C^β(Ω̄))≤C(‖g‖_(C¹)+‖f‖₂+‖f‖_q+‖F‖_s)` with
+  C depending on d,Ω,λ,M,q,s,β. This is a new boundary/forcing
+  consequence to construct, not an unnamed use of interior E23:
+  flatten finitely many boundary charts, subtract g, prove the
+  boundary Caccioppoli/level-set decay (or the precise reflected
+  zero-trace divergence equation), and combine the forced E23
+  oscillation estimate and finite covering. Include the d=1
+  direct energy/interval embedding argument. Prove continuous
+  dependence in H¹ on uniform coefficient changes and data,
+  and identify the continuous representative and its boundary trace.
+
+- **X2.2 nonlinear map and homotopy.** Let A:Ω̄×ℝ→Mat(d,ℝ)
+  be continuous, uniformly bounded/coercive with the same λ,M,
+  and uniformly Lipschitz in the second variable. For v∈C(Ω̄)
+  define T(v) to be X2.1's solution with `a(x)=A(x,v(x))`
+  and fixed f,F,g. Construct T as an actual map C(Ω̄)→C(Ω̄).
+  Uniform convergence of v gives uniform convergence of a;
+  subtract the two weak equations and use coercivity to prove
+  H¹ convergence. The uniform C^β estimate and Arzelà–Ascoli
+  upgrade this to C(Ω̄) convergence. Thus T is continuous and
+  maps every set into one fixed bounded C^β ball. It maps a
+  sufficiently large closed convex sup-norm ball into itself.
+  Consume [BanachAlgebras A8](../BanachAlgebras/README.md#a8-compact-operators-transitive-algebras-and-invariant-subspaces)
+  (its real compact-map Schauder cut, which consumes the finite-span
+  Brouwer theorem in [AlgebraicTopology Stage2.7](../AlgebraicTopology/README.md)), and obtain
+  `u∈H¹`, u-g∈H¹₀, with
+  `∫ A(x,u)∇u·∇φ=∫fφ-∫F·∇φ` for every φ∈H¹₀.
+  Its representative belongs to C^β(Ω̄) with the same bound.
+  Also export the Leray–Schauder realization: solutions of
+  u=θT(u), θ∈[0,1], solve the linear equation with right side
+  θ(f+div F) and boundary θg, so the same estimate is uniform
+  in θ. Derive the needed Leray–Schauder/Schaefer existence adapter from
+  that same compact-map theorem: choose R larger than every homotopy
+  solution norm, apply Schauder to the compact radial truncation
+  `v↦min(1,R/‖T(v)‖)T(v)` on the R-ball (value T(v) when
+  its norm is at most R), and exclude a boundary fixed point with
+  truncation factor below1 by the homotopy bound. No separate
+  unbuilt degree engine is a premise of this application.
+  Do not infer compactness from an unspecified quasilinear operator
+  or claim uniqueness for arbitrary A(x,u).
+
+- **X2.3 higher regularity and reusable parameter family.** Prove
+  continuity/compactness uniformly for parameter families A_η,f_η,F_η,g_η
+  with the above common bounds and uniform data convergence;
+  produce the compact solution set and upper-semicontinuity conclusion,
+  not a continuous single-valued nonlinear solution map absent uniqueness.
+  For a C²,α domain, A C¹,α jointly on each bounded u range,
+  f C^α, F C¹,α and g C²,α, bootstrap the constructed weak
+  solutions to C²,α. Own global boundary Schauder adapters of
+  E22/E25: first C^β gives Hölder coefficients, divergence-form
+  Schauder gives C¹,β' for a positive β', the non-divergence
+  rewritten equation then gives C²,β', and composition plus
+  further Schauder yields the stated α. Keep constants on the
+  bounded u range and prove the needed composition/chain rules.
+  Uniqueness is a separate conclusion only in the linear case
+  or under an explicitly proved strong-monotonicity estimate
+  for the nonlinear weak operator on H¹₀; it is not an automatic
+  consequence of Schauder or Leray–Schauder existence.
+
+**X3 stochastic PDE: analytic Lp and both Da Prato–Debussche models.**
+
+- **X3.0 stochastic/analytic foundations.** On a complete right-continuous
+  probability basis let `(β_k)_(k∈ℕ)` be independent real Brownian
+  motions relative to that basis. Consume SC's finite-dimensional
+  predictable integral/isometry, versions, scalar BDG and localization.
+  Construct here the cylindrical-noise integral by finite sums and
+  completion, not by assuming a Hilbert-valued Radon Brownian motion
+  with identity covariance in infinite dimension. For a Hilbert H,
+  prove convergence in L²(Ω;C([0,T];H)) from predictable
+  `∫₀ᵀ‖G_t‖_(HS(ℓ²,H))²dt`, initially in expectation, with
+  isometry, dimension-independent Hilbert BDG, basis independence
+  and local energy stopping; prove these through finite Hilbert
+  norm-square Ito/Doob and orthogonal coordinate sums before passing
+  to the limit. For the spatial Lp/Bessel spaces used below,
+  p≥2, construct the particular integral from the pointwise
+  ℓ²-square function, scalar BDG, Fubini and completion of simple
+  predictable finite-coordinate data. Prove its stochastic convolution
+  estimates; do not identify Hilbert–Schmidt norms with arbitrary
+  Banach-valued stochastic-integral norms. This PDE-owned extension
+  is beyond SC's finite-dimensional scope.
+
+  Define predictable Bochner Lp spaces, distribution-valued path
+  measurability and initial traces; for separable versions use the
+  specified little Besov completions. X0 owns paraproduct and
+  negative-regularity spaces. F26/F27 own deterministic heat
+  realization and parabolic estimates; construct their periodic and
+  distributional Besov heat consequences here. No generic C0
+  semigroup or stochastic calculus engine is redefined.
+
+- **X3.1 Krylov-type linear analytic Lp theorem.** On ℝ^d, d≥1,
+  for every finite p≥2, γ∈ℝ and T<∞, construct the adapted
+  distributional solution of
+  `du=(a^{ij}D_ij u+b^iD_i u+c u+f)dt
+       +Σ_k(σ^{ik}D_i u+ν^k u+g^k)dβ_k`, u(0)=u₀.
+  Coefficients are predictable, uniformly smooth in x with all
+  required derivatives bounded; σ and ν and their derivatives
+  are ℓ²-valued with uniform bounds. a is real symmetric and
+  `2a-σσᵀ≥κI`, κ>0, uniformly in (t,ω,x).
+  There is a deterministic common spatial modulus for the highest
+  coefficients; no time differentiability is assumed. Put
+  `f∈L^p(Ω×[0,T];H_p^γ)`,
+  `g∈L^p(Ω×[0,T];H_p^(γ+1)(ℓ²))`, predictably,
+  and F₀-measurable u₀ with finite p-moment in
+  `B^(γ+2-2/p)_{p,p}`. Define H_p by the existing Bessel-potential
+  carrier and prove any normalization-equivalent norm comparison.
+  Prove existence/uniqueness with
+  `E∫₀ᵀ‖u_t‖_(H_p^(γ+2))^p dt
+    +E sup_(t≤T)‖u_t‖_(B^(γ+2-2/p)_{p,p})^p
+    ≤C[E‖u₀‖_(B^(γ+2-2/p)_{p,p})^p
+      +E∫₀ᵀ(‖f_t‖_(H_p^γ)^p+‖g_t‖_(H_p^(γ+1)(ℓ²))^p)dt]`.
+  State continuous paths in that trace space and the test-function
+  integral equation; uniqueness is in this solution class.
+
+  Assign the proof in order: Fourier/energy heat estimate (p=2),
+  stochastic Littlewood–Paley square-function estimate (p>2),
+  constant-coefficient gradient-noise estimate using the strict
+  stochastic-parabolicity margin, then spatial freezing, commutator
+  estimates, partitions of unity, localization and method of
+  continuity with a uniform estimate. These estimates are actual
+  targets here; deterministic F27 does not imply them. Fractional
+  γ follows multiplier/commutator estimates on X0/Bessel spaces.
+  Export stopping/restriction and compatible finite-horizon solutions,
+  finite-dimensional/truncated-noise convergence, deterministic-noise-zero
+  comparison and coefficient/data stability with uniform bounds.
+  Nonlinear locally Lipschitz lower-order perturbations use this
+  proved estimate on a short horizon and maximal stopping continuation;
+  global existence requires a stated global Lipschitz/linear-growth
+  bound or a separately proved dissipative estimate. Boundary-value
+  SPDEs require their own boundary/noise compatibility and are not
+  silently included in this whole-space statement.
+
+- **X3.2 enhancement and fixed-point prerequisites for singular models.**
+  On the unit flat two-torus use normalized Lebesgue measure and
+  eigenvalues of -Δ equal to `4π²|k|²`. Define real cylindrical
+  space-time white noise on L² by the basis-independent X3.0
+  construction, and stationary stochastic convolutions by integrating
+  from -∞, on a two-sided Brownian basis with independent future
+  increments. For `0<κ<1/12` construct the indicated Wick fields
+  as limits of symmetric smooth Fourier cutoffs in every finite
+  moment of `C([0,T];c^(-κ))`, allowing an arbitrarily smaller
+  negative exponent in the estimates before the final embedding.
+  Prove the actual covariance/contraction estimates and their
+  summability with dyadic blocks, using Gaussian/Hermite chaos
+  and hypercontractive finite-chaos moment bounds. Construct those
+  bounds from Gaussian polynomial/orthogonality and the Gaussian
+  semigroup before invoking them; they are not assumed from a
+  name. Prove independence of mollifier after using its own
+  covariance counterterms and identify equal limiting enhanced laws.
+  All negative-field products below refer to these limits.
+
+  Prove the periodic heat Schauder/time-weighted estimates and the
+  mild-contraction lemma with Bony multiplication. In particular
+  for initial data in `c^(-κ)`, use a remainder v continuous into
+  `c^(-κ)` with
+  `sup_(0<t≤T) t^(3κ/2)‖v_t‖_(c^(2κ))<∞`.
+  Positive-time higher regularity follows from the equation and
+  the convolution estimates. Establish local uniqueness, adaptedness,
+  maximal lifetime and the continuation criterion in this space;
+  do not multiply two arbitrary negative distributions.
+
+- **X3.3 two-dimensional stochastic quantization (Φ⁴₂).** For m>0
+  solve globally
+  `du=(Δu-m²u-:u³:)dt+√2 dW` on the two-torus,
+  for each F₀-measurable initial u₀∈c^(-κ) with finite moments
+  when moment estimates are asserted. Let Z be stationary OU with
+  generator Δ-m² and noise √2, so its covariance is
+  `(-Δ+m²)^(-1)`. For a chosen cutoff let `C_ε=E[Z_ε(t,x)²]`,
+  constant in t,x, and construct
+  `:Z²:=lim(Z_ε²-C_ε)`,
+  `:Z³:=lim(Z_ε³-3C_εZ_ε)` by X3.2.
+  With u=Z+v the remainder equation is exactly
+  `∂_t v=(Δ-m²)v-[v³+3v²Z+3v:Z²:+:Z³:]`,
+  v(0)=u₀-Z₀. Construct its local mild solution, then globalize
+  by an actual dissipative a-priori estimate for v on [δ,T],
+  δ>0: control its L² supremum, gradient L² energy and L⁴
+  space-time norm by a finite random function of initial norm,
+  δ,T,m and the enhanced-noise norms. Prove this using coercivity
+  of v⁴, negative-Besov duality/paraproduct interpolation and Young
+  absorption; derive the higher positive-time norm bounds needed
+  by the continuation criterion. This is a required producer,
+  not an appeal to ordinary DGNM for distributional forcing.
+  Prove pathwise uniqueness in the specified remainder class,
+  global adapted c^(-κ)-continuous u, and convergence in probability
+  on each finite horizon of smooth-noise equations
+  `∂_t u_ε=(Δ-m²)u_ε-u_ε³+3C_εu_ε+√2 ξ_ε`
+  with initial data converging in c^(-κ) and the same enhanced
+  noise coupling. The counterterm sign and factor3 are fixed by
+  this displayed expansion. Include cutoff independence, moments
+  under corresponding initial moments and the stationary Gibbs
+  measure construction as a follow-on: define finite-cutoff
+  Wick quartic densities against the massive Gaussian free field,
+  prove normalizability/tightness and limiting invariance using
+  the finite-dimensional gradient dynamics and solution convergence.
+
+- **X3.4 two-dimensional stochastic Navier–Stokes.** Let H be real
+  mean-zero divergence-free L² vector fields on the two-torus,
+  Π the Leray projector, A=-ΠΔ and ν>0. For cylindrical W on H
+  consider `du+[νAu+Π div(u⊗u)]dt=dW`.
+  Let Z solve `dZ+νAZdt=dW` stationarily, covariance
+  `(2νA)^(-1)`. Construct
+  `:Z⊗Z:=lim(Z_ε⊗Z_ε-C_ε)`,
+  `C_ε=E[Z_ε(t,x)⊗Z_ε(t,x)]`, a constant matrix. For
+  mean-zero divergence-free u₀∈c^(-κ), the remainder equation is
+  `∂_t v+νAv+Πdiv[v⊗v+v⊗Z+Z⊗v+:Z⊗Z:]=0`,
+  v(0)=u₀-Z₀. Construct the locally unique adapted mild solution
+  in X3.2's weighted space, its maximal lifetime and a precise
+  restart/blow-up alternative. Prove continuous dependence on the
+  initial and enhanced data and convergence of smooth cutoffs up
+  to every bounded stopping time below the maximal lifetime.
+  Because C_ε is spatially constant, `Π div C_ε=0`; no
+  Φ⁴-style scalar linear drift counterterm is inserted.
+
+  Give the genuine Da Prato–Debussche global conclusion with its
+  initial-law qualification. Let μ be the centered Gaussian law
+  with covariance `(2νA)^(-1)` on the negative-regularity solenoidal
+  space. Construct Galerkin invariant laws μ_N: the finite-dimensional
+  convection field preserves enstrophy `‖A^(1/2)u‖₂²` and has
+  zero phase-space divergence, so the Gaussian density proportional
+  to `exp(-ν‖A^(1/2)u‖₂²)` is invariant under the noisy dynamics.
+  Prove μ_N→μ with uniform finite moments of every fixed
+  c^(-κ) norm, using a smaller negative exponent before compact
+  embedding. Prove tightness of the stationary enhanced/Galerkin
+  laws, identification with the local mild equation and its
+  pathwise-unique solution, and the invariant-law localization
+  argument that its maximal lifetime is infinite for μ-almost
+  every initial state and almost every future noise. Obtain a
+  global stationary Markov solution, μ invariance, and global
+  pathwise solutions for any initial law absolutely continuous
+  with respect to μ and independent future Brownian noise.
+  The μ-null exceptional set is an actual part of this global
+  theorem; do not infer global existence for every deterministic
+  rough state from stationarity. Prove the necessary finite-time
+  nonexplosion estimate using invariant negative-space moments
+  and the local-lifetime/restart bound before taking N→∞.
+
+  Preserve the classical all-initial-data direction separately:
+  for an additive covariance Q with
+  `Σ_k‖Qe_k‖_(H²)^2<∞` and solenoidal u₀∈H, construct the
+  unique global variational/mild two-dimensional solution with
+  `u∈C([0,T];H)∩L²(0,T;H¹)` almost surely, moment bounds
+  under the corresponding initial moments, and Galerkin convergence.
+  Use the actual divergence-free energy cancellation, Hilbert Ito,
+  viscosity and BDG/Young/Gronwall. Compare this solution with the
+  local paraproduct solution wherever both are defined. The
+  cylindrical-identity-noise solution is not asserted to have
+  this H¹ energy class: its stochastic background and remainder
+  have different regularity. Export periodic pressure recovery,
+  zero-mean/incompressibility preservation and stopped uniqueness
+  in the stated classes. Neither this two-dimensional programme
+  nor its smooth-noise variant claims three-dimensional global
+  regularity.
+
+The construction order is X0 and deterministic F26 → X1's dispersive
+applications; A/D/E and X2.1 → X2.2–X2.3; SC finite-noise/Brownian
+foundations plus X0/F26 → X3.0, then X3.1; X3.0/X0/F26 → X3.2,
+then X3.3 and X3.4 separately. Krylov's linear Lp theorem is not a
+premise for the singular negative-regularity products, and neither
+singular model is a premise of the heat/integral foundations. Tao,
+Keel–Tao, Krylov and Da Prato–Debussche supply proof references for
+these distinct programmes; their names do not replace the estimates,
+carriers and construction obligations stated above.
 
 ## Acceptance criteria ("checks along the way")
 
 Concrete sanity checks that rule out vacuous or mis-stated definitions:
 
 - **Spaces agree where they must:** `W^{k,2}(ℝⁿ) = H^{k,2}(ℝⁿ)` (Lane A.3) and
-  `ker(trace) = W^{1,p}_0` (Lane A.6).
+  `ker(trace) = W^{1,p}_0` for `1≤p<∞` on bounded Lipschitz domains
+  (Lane A.6); test the separate infinity closure/trace distinction.
 - **Poincaré is non-vacuous:** the constant is finite on a concrete bounded `Ω` (e.g. a
   ball) and the inequality genuinely *fails* on `ℝⁿ`. Formalize both directions so the
   hypothesis is known to be load-bearing.
 - **End-to-end existence:** the Dirichlet problem `−Δu = f` in a ball, `u = 0` on the
   boundary, has a unique weak solution (Lane D.17), it is **smooth** for smooth `f`
-  (Lane E.20), and it equals the **Newtonian-potential** solution (Lane C.15): three lanes
-  meeting on one example.
+  (Lane E.20), and equals the **Dirichlet Green potential**, or the whole-space
+  Newtonian potential minus the actual harmonic function with its boundary trace
+  (Lane C.15). First construct this equality for smooth compactly supported data,
+  then pass to L² data through the weak/trace solution maps. For the unit ball in
+  ℝ³ and f=1, verify u=(1−|x|²)/6: its Newtonian potential is
+  (3−|x|²)/6 and the harmonic boundary correction is1/3. This joins all three
+  lanes without assigning zero boundary values to the uncorrected potential.
 - **Eigenvalues are real and positive:** the first Dirichlet eigenvalue of `−Δ` is
   positive (Lane D.19), matching the Poincaré constant.
 - **Regularity actually upgrades:** exhibit a weak solution that is *only* `H¹` a priori
@@ -623,6 +1361,9 @@ Concrete sanity checks that rule out vacuous or mis-stated definitions:
 - L. C. Evans, *Partial Differential Equations*, the default modern graduate text;
   Sobolev spaces (Ch. 5), second-order elliptic (Ch. 6), parabolic/Galerkin (Ch. 7),
   semigroups (Ch. 7), Hamilton–Jacobi & conservation laws.
+- A. Lunardi, [*Linear and nonlinear diffusion problems*](https://people.dmi.unipr.it/alessandra.lunardi/LectureNotes/Cortona2004.pdf),
+  Cortona lecture notes (2004), Corollary 4.2.10: the whole-space heat Cauchy problem
+  in parabolic Hölder spaces; Chapter 3 supplies the interpolation framework.
 - D. Gilbarg, N. Trudinger, *Elliptic Partial Differential Equations of Second Order*:
   maximum principles (Ch. 3), Schauder (Ch. 6), `Lᵖ` theory (Ch. 9), De Giorgi–Nash–Moser
   (Ch. 8); the canonical elliptic reference.

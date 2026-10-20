@@ -93,9 +93,9 @@ the checks here rather than alongside the level-one inputs makes the roadmap dep
 #check RiemannSurface.localMultiplicity
 #check RiemannSurface.degree
 #check RiemannSurface.degree_comp
-#check RiemannSurface.divisor_pullback
-#check RiemannSurface.biholomorph_of_degree_eq_one
-#check RiemannSurface.biholomorph_of_degree_eq_one_toFun
+#check RiemannSurface.divisorPullback
+#check RiemannSurface.biholomorphOfDegreeEqOne
+#check RiemannSurface.biholomorphOfDegreeEqOne_toFun
 #check RiemannSurface.riemannHurwitz
 
 /-!

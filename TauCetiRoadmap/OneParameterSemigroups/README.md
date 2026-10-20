@@ -1,8 +1,7 @@
 # Roadmap: one-parameter semigroups, completely monotone and positive-definite functions, and Bochner-type representations
 
-Operator semigroups are the analytic backbone of evolution equations (heat, Fokker–Planck;
-the conservative Schrödinger case is a unitary *group*, a stretch goal below) and of
-Markov-process theory. Mathlib has the *static* functional-analysis
+Operator semigroups are the analytic backbone of evolution equations (heat, Fokker–Planck)
+and of Markov-process theory. Mathlib has the *static* functional-analysis
 stack — Banach/Hilbert spaces, bounded operators, `spectrum` and `resolvent`, the
 holomorphic functional calculus, the Bochner integral, Fourier theory, unbounded operators
 via `LinearPMap` — but **not the dynamical layer**: strongly continuous (C₀) semigroups,
@@ -32,22 +31,24 @@ Suggested home: `TauCeti/Analysis/Semigroups/`, `TauCeti/Analysis/CompletelyMono
 - **Scalar field: real-Banach-first, stated explicitly.** Develop over a real Banach space
   `X` (`[NormedSpace ℝ X]`) — Hille–Yosida / Lumer–Phillips hold there, and a complex Hilbert
   space is usable as a real Banach space for the semigroup action. Get the complex resolvent
-  set and the analyticity of `λ ↦ R(λ,A)` via **complexification** `X_ℂ`. (An `[RCLike 𝕜]`
-  formulation is a possible later generalization.)
-- **C₀ groups as a stretch.** Two-sided strongly continuous groups `(S(t))_{t∈ℝ}` — e.g. the
-  unitary `e^{itH}` of Schrödinger — are *not* reached by the contraction-semigroup API;
-  include them as a stretch goal / example (Stone's theorem on Hilbert space).
-- **Generators are unbounded.** The generator carries a **dense domain**; model it as a
-  `LinearPMap` / submodule, never a total operator. Mathlib's `resolvent`/`spectrum` are
-  **Banach-algebra-only**, so an unbounded generator needs its **own** resolvent notion
-  (`λ ∈ ρ(A)` iff `λ·I − A : D(A) → X` is a bijection with bounded inverse); add a **bridge
-  lemma** identifying it with Mathlib's `resolvent` in the bounded (`domain = ⊤`) case, rather
-  than duplicating effort.
+  set and the analyticity of `λ ↦ R(λ,A)` via **complexification** `X_ℂ`.
+- **C₀ groups.** Two-sided strongly continuous groups `(S(t))_{t∈ℝ}` — e.g. the unitary
+  `e^{itH}` of Schrödinger — are *not* reached by the contraction-semigroup API. Stone's
+  theorem on Hilbert space is a milestone of
+  [`OperatorTheory/SelfAdjointSpectralTheory`](../OperatorTheory/SelfAdjointSpectralTheory/README.md),
+  which is cited for it rather than specifying it twice.
+- **Generators are unbounded.** The generator is a densely defined `LinearPMap`. Its resolvent
+  uses the shared `TauCeti.LinearPMap` core, with `λ ∈ ρ(A)` when
+  `λ I - A : D(A) → X` has a bounded two-sided inverse. The bounded-operator bridge
+  identifies this inverse with Mathlib's Banach-algebra resolvent. This roadmap owns the general
+  generator theory and its resolvent estimates;
+  [`OperatorTheory/SelfAdjointSpectralTheory`](../OperatorTheory/SelfAdjointSpectralTheory/README.md)
+  owns the scalar generalization of the shared resolvent core, the self-adjoint estimates, and
+  the imaginary-shift Yosida approximants.
 - **Bochner at its natural generality.** A continuous positive-definite function lives on a
   **general finite-dimensional real inner-product space** `V` (so `ℝ²` as `ℝ × ℝ`, or any
   finite-dim space, is covered) — *not* on hard-coded `Fin d` coordinates. State Bochner for
-  such `V`. **Stretch goal:** a locally compact abelian group via Pontryagin duality (gated
-  on Mathlib's LCA/Pontryagin support). The BCR involutive-semigroup representation is then
+  such `V`. The BCR involutive-semigroup representation is then
   stated over `[0,∞) × V`.
 - **Spell hypotheses out; never bundle.** Positive-definiteness, complete monotonicity, the
   involution, growth bounds — each is a named predicate, stated explicitly, not folded into
@@ -126,7 +127,7 @@ of growth `(M, ω)`.
 densely-defined **dissipative** operator with a **range condition** (`∃ λ₀ > 0` with `λ₀ − A`
 surjective) generates a **contraction** semigroup.
 
-⚠ **Both are genuinely open / build-here**, via the same **Yosida approximation**:
+⚠ **Both were open / build-here, now built**, via the same **Yosida approximation**:
 `Aλ = λ² R(λ,A) − λI` (bounded, by the resolvent API), each generating a uniformly continuous
 contraction semigroup `e^{tAλ}`. `S` does not exist yet, so do not phrase this as convergence
 "to `S(t)x`": prove the `e^{tAλ}x` are **Cauchy uniformly on compact `t`-intervals**, *define*
@@ -160,11 +161,16 @@ resolvent identity and `‖R(λ)‖ ≤ 1/λ` hold on these concretely.
 
 ## Part B — Completely monotone (and Bernstein) functions
 
-**Objects.** `IsCompletelyMonotone` — **bundle smoothness** with the sign condition:
-`ContDiffOn ℝ ⊤ f (Set.Ici 0) ∧ ∀ n, ∀ t ≥ 0, 0 ≤ (−1)ⁿ · iteratedDeriv n f t`. ⚠ The
-smoothness clause is essential: `iteratedDeriv` is total and defaults to `0` where `f` is not
-differentiable, so `0 ≤ 0` would let a non-smooth `f` pass *vacuously*. The related
-**Bernstein functions** (nonnegative, with completely monotone derivative).
+**Objects.** `IsContinuousCompletelyMonotoneOnIoi` — continuity on `[0,∞)` together with
+complete monotonicity on the *open* `(0,∞)`:
+`ContinuousOn f (Set.Ici 0) ∧ IsCompletelyMonotoneOnIoi f`. ⚠ A sign condition alone will not do:
+`iteratedDeriv` is total and defaults to `0` where `f` is not differentiable, so `0 ≤ 0` would let
+a non-smooth `f` pass *vacuously*; the smoothness must be part of the predicate. ⚠ But it must be
+smoothness on the open ray, not on `Set.Ici 0`. Demanding `ContDiffOn ℝ ⊤ f (Set.Ici 0)` makes the
+reverse direction of the milestone below false: take the finite measure with mass `∝ 1/n²` at each
+`n`, whose Laplace transform is continuous at `0` but has no finite right derivative there, so it
+is not `ContDiffOn` within `Set.Ici 0`. The related **Bernstein functions** (nonnegative, with
+completely monotone derivative).
 
 **API to develop.**
 - Closure: completely monotone functions are closed under **sums, nonnegative scalar
@@ -180,7 +186,7 @@ differentiable, so `0 ≤ 0` would let a non-smooth `f` pass *vacuously*. The re
 `[0,∞)`. ⚠ Complete monotonicity on the *open* `(0,∞)` alone yields only a general (possibly
 infinite) positive measure — e.g. `1/t = ∫₀^∞ e^{−tx} dx` is completely monotone with the
 infinite Lebesgue representing measure (Hausdorff–Bernstein–Widder). Finiteness is exactly the
-`f(0⁺) < ∞` criterion, which our `Set.Ici 0` definition above builds in. Encode the measure on
+`f(0⁺) < ∞` criterion, which the continuity clause of the definition above builds in. Encode the measure on
 `Measure ℝ≥0` (non-negative support automatic — the same convention as the BCR milestone, not a
 `support ⊆ Ici 0` side-condition). Develop both directions and uniqueness (Laplace-transform
 injectivity); measure extraction via Prokhorov tightness.
@@ -202,7 +208,7 @@ completely monotone functions from these.
 finite-dimensional real inner-product space `V` (involution `a⋆ = −a`), and on `ℝ≥0 × V`,
 where the **product `StarAddMonoid` automatically supplies the BCR involution** `(t,a)⋆ = (t,−a)`
 (`ℝ≥0` carries the trivial involution, `V` the negation) — no hand-coding. `IsSemigroupGroupPD`
-is then this predicate on `ℝ≥0 × V`. (Stretch: an LCA group.) The condition itself: for every
+is then this predicate on `ℝ≥0 × V`. The condition itself: for every
 finite family `(cᵢ, aᵢ)`, `Σ_{i,j} cᵢ · conj(cⱼ) · F(aᵢ + aⱼ⋆) ≥ 0` — note the **involution**
 `aⱼ⋆`, not the group form `F(aᵢ − aⱼ)`; this is exactly what makes the product involution
 `(t,a)⋆ = (t,−a)` yield the intended BCR notion.
@@ -228,9 +234,10 @@ corollary.
 
 ⚠ Mathlib's "Bochner" is the *integral*, and its
 positive-definiteness is only for *matrices* / quadratic forms — there is no
-continuous-positive-definite-*function* notion, and no Bochner representation. So this is
-build-here. Two routes: (i) the positive linear functional `f ↦ ∫ f̂ · φ` + Riesz–Markov, or
-(ii) `charFun` + Lévy/Prokhorov tightness. **Stretch:** an LCA group via Pontryagin duality.
+continuous-positive-definite-*function* notion, and no Bochner representation. So this was
+build-here, **now built** by route (ii), `charFun` + Lévy/Prokhorov tightness; route (i), the
+positive linear functional `f ↦ ∫ f̂ · φ` + Riesz–Markov, was the alternative not taken.
+**Stretch:** an LCA group via Pontryagin duality, not begun.
 
 **Milestone 2 — BCR semigroup–Bochner (Berg–Christensen–Ressel 4.1.13).** A bounded
 continuous positive-definite function on the involutive semigroup `[0,∞) × V` is the
@@ -262,10 +269,11 @@ positive-definite, with the expected Gaussian representing measure.
 
 Part A (semigroups) and Part B (completely monotone) are independent and can proceed in
 parallel; the Hille–Yosida resolvent API and the Bernstein representation are good early
-targets. Part A's **generation theorem** (Yosida approximation) is build-here and can follow
-the resolvent API. Part C builds on B for the `V = 0` consistency check; its **Bochner
-theorem on `V`** (Milestone 1) is build-here and **gates** the BCR existence half, while BCR
-uniqueness is independent and portable early.
+targets. Part A's **generation theorem** (Yosida approximation) was build-here, following the
+resolvent API, and is **now built** — both Hille–Yosida and Lumer–Phillips. Part C builds on B
+for the `V = 0` consistency check; its **Bochner theorem on `V`** (Milestone 1) was build-here
+and gated the BCR existence half, and is **now built**, as is BCR uniqueness, which was
+independent and portable early. What remains of Part C is the BCR existence half.
 
 ## References
 
@@ -276,6 +284,6 @@ uniqueness is independent and portable early.
   Gruyter, 2nd ed. 2012) — completely monotone / Bernstein functions and their structure.
 - W. Rudin, *Fourier Analysis on Groups* (1962); G. Folland, *A Course in Abstract Harmonic
   Analysis* (2nd ed. 2016) — Bochner's theorem, positive-definite functions, Pontryagin
-  duality (the stretch generality).
+  duality and positive-definite functions.
 - C. Berg, J. P. R. Christensen, P. Ressel, *Harmonic Analysis on Semigroups* (GTM 100, 1984)
   — Theorem 4.1.13, positive-definite functions on involutive semigroups.

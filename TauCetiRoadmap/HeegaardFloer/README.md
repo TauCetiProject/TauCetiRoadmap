@@ -121,7 +121,9 @@ roadmap**, which builds exactly this in its Lane A); elliptic estimates for the
 first-order operator ∂̄ (Calderón–Zygmund inequality, boundary regularity for
 totally real boundary conditions, bootstrapping); almost complex structures and
 symplectic manifolds (*even the definitions*, which can land immediately); Morse
-theory, gradient flows, stable manifolds; manifold orientations and degree theory.
+theory, gradient flows, stable manifolds. Manifold orientations and degree theory are built by
+the [differential-geometry roadmap](../DifferentialGeometry/README.md) (its layers 2 and 10) and
+consumed here.
 
 The combinatorics of pointed Heegaard diagrams — generators, domains, periodic
 domains, admissibility — that Lane F4 puts a holomorphic count on are built in the

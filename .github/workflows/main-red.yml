@@ -1,0 +1,130 @@
+name: main-red
+
+# Tell the Tau Ceti Zulip when `main` stops building, and when it recovers.
+#
+# `main` went red on 2026-09-14 and stayed red for three days because nothing said so: the failing
+# run was recorded and nobody was watching the Actions tab. Prevention alone cannot close that gap,
+# since a Mathlib or Tau Ceti pin bump can redden `main` with no pull request at fault, so the
+# missing piece is noticing.
+#
+# This runs on `workflow_run` rather than as a job inside CI so that the Zulip credentials never
+# share a job with the build, matching the separation progress-announce.yml keeps.
+#
+# It posts only on the *edge*, and it decides what the edge is by reading back the last message it
+# posted rather than by comparing workflow runs. Run history is the wrong source: re-running a
+# failed run REPLACES that run's conclusion, so the failure it is recovering from is no longer in
+# the history at all, and an edge derived from runs would stay silent after a red run is re-run
+# green. Overlapping pushes reorder for the same kind of reason. The topic is the only record of
+# what was actually announced, so it is the thing to compare against, and reading it back makes the
+# notifier self-correcting rather than dependent on the API's ordering.
+#
+# Zulip is the only channel here. Opening an issue as well would need the App token, because the org
+# disables write `GITHUB_TOKEN`, and that would put repository-write credentials in the same job as
+# the Zulip secrets — which is the arrangement the comment above exists to avoid.
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+
+# Serialise, so two pushes completing together cannot both read the topic before either writes.
+concurrency:
+  group: main-red
+  cancel-in-progress: false
+
+jobs:
+  notify:
+    # Only the push-to-main runs. A `pull_request` run that happens to carry a `main` head ref is
+    # not a statement about the branch, and neither is a `merge_group` run, which describes a
+    # candidate rather than the branch.
+    if: ${{ github.event.workflow_run.event == 'push' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Announce a change of state
+        env:
+          ZULIP_EMAIL: ${{ secrets.ZULIP_EMAIL }}
+          ZULIP_API_KEY: ${{ secrets.ZULIP_API_KEY }}
+          ZULIP_SITE: ${{ secrets.ZULIP_SITE }}
+          CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+          SHA: ${{ github.event.workflow_run.head_sha }}
+          URL: ${{ github.event.workflow_run.html_url }}
+          # Through env, never interpolated into the script: a commit message is
+          # attacker-influenced, and interpolation would make it shell source.
+          TITLE: ${{ github.event.workflow_run.head_commit.message }}
+          CHANNEL: Tau Ceti
+          TOPIC: main build
+        run: |
+          set -euo pipefail
+
+          if [ -z "${ZULIP_SITE:-}" ]; then
+            echo "::warning::Zulip is not configured; skipping"
+            exit 0
+          fi
+
+          # `cancelled` and `skipped` say nothing about the branch, so they neither alert nor clear.
+          # `startup_failure` counts as red: a CI run that cannot start is exactly a case where
+          # `main` has not been validated, and treating it as a non-event leaves the topic green.
+          # `cancelled`, `skipped` and `neutral` really are non-verdicts.
+          case "$CONCLUSION" in
+            success) now=green ;;
+            failure|timed_out|startup_failure) now=red ;;
+            *) echo "::notice::conclusion '$CONCLUSION' is not a verdict on main"; exit 0 ;;
+          esac
+
+          # The last thing we said in this topic. `apply_markdown=false` returns what was posted
+          # rather than rendered HTML, so the marker below survives the round trip.
+          narrow=$(printf '[["channel","%s"],["topic","%s"]]' "$CHANNEL" "$TOPIC")
+          last=$(curl -sS --fail-with-body --retry 3 --retry-all-errors --max-time 30 \
+            -G "$ZULIP_SITE/api/v1/messages" \
+            -u "$ZULIP_EMAIL:$ZULIP_API_KEY" \
+            --data-urlencode "anchor=newest" \
+            --data-urlencode "num_before=1" \
+            --data-urlencode "num_after=0" \
+            --data-urlencode "apply_markdown=false" \
+            --data-urlencode "narrow=$narrow" \
+            | jq -r '.messages[-1].content // ""')
+
+          case "$last" in
+            *"<!-- main-build:red -->"*)   was=red ;;
+            *"<!-- main-build:green -->"*) was=green ;;
+            # An empty topic. Announce a red main, but do not announce green out of nowhere.
+            *) was=green ;;
+          esac
+
+          if [ "$now" = "$was" ]; then
+            echo "::notice::main was $was and is $now; staying quiet"
+            exit 0
+          fi
+
+          short="${SHA:0:9}"
+          # Rendered as inline code: a squash title is attacker-influenced, and unescaped it could
+          # carry Zulip mentions or misleading markup posted under the bot's identity. Backticks are
+          # stripped so the span cannot be closed early.
+          subject=$(printf '%s' "$TITLE" | head -1 | tr -d '`')
+          if [ "$now" = red ]; then
+            content=$(printf '%s\n\n%s\n%s' \
+              ":cross_mark: **\`main\` is red.** [\`$short\`]($URL) — \`$subject\`" \
+              "New merge candidates that do not fix this are expected to fail their \`build\` check." \
+              "<!-- main-build:red -->")
+          else
+            content=$(printf '%s\n%s' \
+              ":check: **\`main\` is green again.** [\`$short\`]($URL) — \`$subject\`" \
+              "<!-- main-build:green -->")
+          fi
+
+          # Retries are safe because the topic read above is the idempotency check: a retry that
+          # duplicates a delivered post is far less likely than a lost alert, and a duplicate is
+          # visible noise rather than silence.
+          code=$(curl -sS --retry 3 --retry-all-errors --max-time 30 \
+            -o /tmp/zulip.out -w '%{http_code}' -X POST "$ZULIP_SITE/api/v1/messages" \
+            -u "$ZULIP_EMAIL:$ZULIP_API_KEY" \
+            --data-urlencode "type=stream" \
+            --data-urlencode "to=$CHANNEL" \
+            --data-urlencode "topic=$TOPIC" \
+            --data-urlencode "content=$content")
+          cat /tmp/zulip.out
+          [ "$code" = "200" ]

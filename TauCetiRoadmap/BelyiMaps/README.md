@@ -19,8 +19,9 @@ The full programme is recorded below, from the combinatorics up:
 - algebraic Belyi pairs over a field, the analytic/algebraic comparison over `ℂ`, and Belyi's
   theorem in both directions;
 - fields of moduli and fields of definition, the Galois action on dessins, the branch-cycle
-  theorem for the profinite fundamental group, a generic pro-`ℓ` peripheral-power theorem, and
-  faithfulness of the Galois action;
+  theorem for the profinite fundamental group, the pro-`ℓ` peripheral-power theorem for the Galois
+  action (its generic group-theoretic form belongs to `PeripheralActions`), and faithfulness of
+  the Galois action;
 - the assertion semantics of LMFDB Belyi-map and passport records.
 
 The pinned Mathlib is favourable on exactly the substrate this roadmap starts from: the
@@ -68,11 +69,11 @@ declaration or a completion claim of this PR**. Every excluded summit has exactl
 | Excluded material | Layers | Exact owner | Activated once |
 | --- | --- | --- | --- |
 | passports, cycle partitions, and the reference transitive-group results | 1, 3 | **this roadmap**, in a follow-up PR | #243 `PolynomialGaloisGroups` lands its exact `fullCycleType` and transitive-group API |
-| the two-open Seifert–van Kampen theorem | 5.5 | roadmap **`UniversalCovers`** | — it is general algebraic topology, owned there and only consumed here |
-| associated covers, and the subgroup half of the covering classification | 6.2, and the subgroup statement inside 6.3 | **this roadmap** for 6.2, in a follow-up PR; `UniversalCovers` milestone 8 for the subgroup statement | UniversalCovers publishes compiled semilocal-connectivity, universal-cover, deck-action and classification carriers |
+| the two-open Seifert–van Kampen theorem | 5.5 | roadmap **`AlgebraicTopology`**, Stage 1 | AlgebraicTopology Stage 1 publishes the four declarations pinned in Layer 5.5; it is general algebraic topology, owned there and only consumed here |
+| the finite corollary of the associated cover, and its instantiation at `U` | 6.2 | **this roadmap**, in a follow-up PR; the general associated cover, its covering map, fiber and monodromy are Tau Ceti's `TauCeti.UniversalCover.ActionCover` API, and the subgroup statement inside 6.3 is Tau Ceti's `TauCeti.UniversalCover.existsUnique_subgroup_homeomorph_subgroupQuotient` (both from the completed [UniversalCovers](../../Completed/UniversalCovers/README.md) roadmap, and checked in `Suggested.lean`) | AlgebraicTopology Stage 1 publishes the Layer 5.5 declarations, so that Layer 5.6 presents `π₁(U, b)` and a triple defines a `π₁(U, b)`-action |
 | compactification, compact Riemann surfaces, ramification, analytic cohomology, and analytic Riemann existence | 7, 8 | successor roadmap **`BelyiAnalyticCovers`** | a compact-surface owner (ModularForms Layer 10B) publishes one checked carrier and the Riemann–Roch/Riemann–Hurwitz API |
 | algebraic Belyi pairs, the analytic–algebraic comparison, Belyi's theorem, fields of moduli and of definition, and Weil descent | 9, 10, 11 | successor roadmap **`BelyiAlgebraicAndDescent`** | AlgebraicCurves publishes its curve/function-field anti-equivalence and extension-ramification carriers, and `BelyiAnalyticCovers` lands |
-| the arithmetic exact sequence and outer action, peripheral inertia, the branch-cycle theorem, the pro-`ℓ` peripheral-power theorem, faithfulness, and LMFDB record semantics | 12, 13, 14 | successor roadmap **`BelyiArithmeticActions`** | #244 `ProfiniteProPGroups` and its generic successor `ProfiniteArithmetic` land, and `BelyiAlgebraicAndDescent` lands |
+| the arithmetic exact sequence and outer action, peripheral inertia, the branch-cycle theorem, the pro-`ℓ` peripheral-power theorem for the Galois action (its generic existence theorem belongs to `PeripheralActions`), faithfulness, and LMFDB record semantics | 12, 13, 14 | successor roadmap **`BelyiArithmeticActions`** | #244 `ProfiniteProPGroups` and its generic successor `ProfiniteArithmetic` land, and `BelyiAlgebraicAndDescent` lands |
 
 The generic constructions the arithmetic layers need — the profinite integers as a topological
 commutative **ring**, profinite exponentiation with its `ℤ_ℓ` comparison, and the continuous
@@ -82,8 +83,8 @@ successor. Their exact owner is **`ProfiniteArithmetic`**, the generic successor
 
 Thus an unresolved supplier contract is a scheduling block, not a theorem with a prose caveat.
 No unmerged supplier branch is imported and no Belyi-local stand-in is exported. The order is
-#243 and #244 first, then UniversalCovers, the compact-surface owner, AlgebraicCurves and
-`ProfiniteArithmetic`, and only then the follow-up PRs and the three Belyi successors above. The
+#243 and #244 first, then AlgebraicTopology Stage 1, the compact-surface owner,
+AlgebraicCurves and `ProfiniteArithmetic`, and only then the follow-up PRs and the three Belyi successors above. The
 split is combinatorial / analytic / arithmetic, and it is drawn where the carriers actually
 become typeable rather than where the mathematics changes subject.
 
@@ -107,10 +108,18 @@ profinite exponent ring, or outer-automorphism carrier.
 
 Seven roadmaps supply material to this one. The boundaries are stated once here.
 
-There is no dependency on `LocalGaloisGroups`, `ClassFieldTheory`, or a proposed
-`PeripheralActions` roadmap. The future branch-cycle and pro-`ℓ` peripheral-power applications
-are Belyi-specific; their generic groups, powers, and outer-automorphism carriers come from
-`ProfiniteProPGroups`.
+There is no dependency on `LocalGaloisGroups` or `ClassFieldTheory`. The generic group-theoretic
+peripheral-power theorem, that a free pro-`p` group of finite rank has, for every unit `u`, a
+continuous automorphism carrying each peripheral element to a conjugate of its `u`-th power, belongs
+to `PeripheralActions` (proposed in #490), which proves it without the Galois action; Layers 13.3
+and 13.4 below state its instance for `Δ_ℓ` and record the arithmetic proof. The branch-cycle
+theorem and the Galois-equivariant peripheral statements are Belyi-specific; their generic groups,
+powers, and outer-automorphism carriers are Tau Ceti's implementations of `ProfiniteProPGroups`,
+extended by `ProfiniteArithmetic`. `PeripheralActions` consumes from here only the
+conjugation-transfer lemma `conjugation_transfer` and the word identity `opposite_third_peripheral`,
+and nothing from the arithmetic successor. Both are self-contained exports of §Pinned conventions,
+which precedes Layer 13, and neither depends on `PeripheralActions`; only the existence statements
+of 13.3 and 13.4 depend on it, so there is no cycle.
 
 **Character theory.** Class functions, irreducible characters, the character table, both
 orthogonality relations, class sums, structure constants, and central characters belong to
@@ -122,27 +131,31 @@ of them. It consumes, by name: `ClassFunction` (Layer 0), `classSum`, `structure
 roadmap; **this roadmap owns it** (Layer 3.2), together with the inverse-class operation on
 `ConjClasses` it needs.
 
-**Universal covers.** The covering-space classification, deck transformation groups, the
-`N(H)/H` deck-group theorem, and the two-open Seifert–van Kampen theorem belong to
-[UniversalCovers](../UniversalCovers/README.md) (milestones 4, 5, 7, 8 there, together with the
-van Kampen declarations whose exact required signatures Layer 5.5 below pins). This roadmap
-consumes them and builds no universal cover. Two conventions from that roadmap bind here: deck
-groups are identified with `(π₁)ᵐᵒᵖ` (its milestone 5), and basepoint change acts on recovered
-subgroups by conjugation (its milestone 7). The constructive direction this roadmap needs — a
-cover of the base built *from* a permutation action — is Layer 6.2's associated cover
-`(Ũ × S)/π₁`, which needs from that roadmap only the universal cover and the free proper
-discontinuity of the deck action. ⚠ Mathlib's `IsQuotientCoveringMap` supplies only **half**
-of the covering property: it gives `Ũ × S → assocCover S`, the quotient by the free proper
-action, and with it the topology on `assocCover S` and the universal property for maps out
-of it. It says nothing about the projection `assocCover S → X`, which is the map this
-roadmap actually needs to be a covering; that is Layer 6.2's own equivariant sheet
-computation, and the two maps have different groups in play.
+**Universal covers.** The covering-space classification, deck transformation groups, and the
+`N(H)/H` deck-group theorem belong to the completed
+[UniversalCovers](../../Completed/UniversalCovers/README.md) roadmap (milestones 4, 5, 7, 8
+there), and are Tau Ceti declarations. This roadmap consumes them by name and builds no universal
+cover. Two conventions from that roadmap bind here: deck groups are identified with `(π₁)ᵐᵒᵖ`
+(`TauCeti.UniversalCover.deckFundamentalGroupEquiv`, its milestone 5), and changing the chosen
+lift moves the recovered subgroup by conjugation (its milestone 7): along a loop,
+`IsCoveringMap.range_mapOfEq_monodromy`; along a path to another basepoint, by
+`FundamentalGroup.basepointChangeSubgroup`, `IsCoveringMap.range_mapOfEq_monodromy_path`. The constructive
+direction this roadmap needs, a cover of the base built *from* a permutation action, is Layer
+6.2's associated cover `(Ũ × S)/π₁`, which is Tau Ceti's
+`TauCeti.UniversalCover.ActionCover x₀ S`, the balanced product of the universal cover with an
+arbitrary discrete `π₁(X, x₀)`-set. Both halves of its covering property are supplied there: the
+class map `Ũ × S → ActionCover x₀ S` is a quotient covering map
+(`TauCeti.BalancedProduct.isQuotientCoveringMap_mk`), and the projection to `X`, which is the map
+this roadmap needs and which Mathlib's `IsQuotientCoveringMap` alone does not reach, is a covering
+map (`TauCeti.UniversalCover.isCoveringMap_actionCoverProj`). What stays here is Belyi-specific:
+the finite, transitive case read as a `ConnectedFiberNumberedCover`, and the instantiation at `U`.
 
 **Seifert–van Kampen.** The pin has it in no form, and this roadmap builds none of it. The
 case the fundamental-group computation needs — two open sets with simply connected
 intersection — is general algebraic topology, reusable far beyond three-point covers, so it
-belongs to [UniversalCovers](../UniversalCovers/README.md) with the rest of the fundamental-group
-machinery. Layer 5.5 below records exactly which declarations that roadmap supplies and under
+belongs to [AlgebraicTopology](../AlgebraicTopology/README.md), whose Stage 1 derives the based
+two-open theorem and its group-presentation corollaries from van Kampen for the fundamental
+groupoid. Layer 5.5 below records exactly which declarations this roadmap requires of it and under
 which hypotheses; Layer 5.6 **instantiates** them at the two-set cover of Layer 5.1 and reads
 off the values on the canonical generators, and that instantiation is what this roadmap owns.
 No Belyi-local copy, alias or stand-in for the theorem is exported.
@@ -153,7 +166,7 @@ degree `TauCeti.exists_localDegree`, holomorphic branch roots — belongs to
 local normal form. Nothing here uses the Riemann mapping theorem, Montel, or the boundary
 correspondence. The `ℍ/Γ(2) ≅ ℂ∖{0,1}` λ-uniformization is that roadmap family's material
 (recorded there as belonging to ModularForms); no layer here consumes or supplies it — the
-route to the fundamental group of the thrice-punctured sphere is UniversalCovers' two-open van
+route to the fundamental group of the thrice-punctured sphere is AlgebraicTopology's two-open van
 Kampen theorem, applied to the cover of Layer 5.1, and no retraction onto a figure eight
 occurs anywhere in it.
 
@@ -185,17 +198,20 @@ second cycle-type-with-fixed-points definition. Blocks, primitivity, and transit
 always Mathlib's `MulAction.IsBlock`, `MulAction.IsPreprimitive`, `MulAction.IsPretransitive`,
 as there.
 
-**Profinite and pro-p groups.** The free profinite group on a finite set (`freeProfiniteGroup`, `.of`,
-`.lift`), the maximal pro-`p` quotient (`proPKernel`, `maximalProPQuotient`) with its
-universal property and the characteristicity of its kernel under continuous automorphisms,
-the free pro-`p` group `freeProP`, and the identification
-  `maximalProPQuotient_zHat_equiv_padicInt` belong to the
-ProfiniteProPGroups roadmap (its Layers 3 and 4). The generic **ring** structure on `ẑ`, profinite
-exponentiation and its `ℤ_ℓ` comparison, and the continuous outer-automorphism carrier are owned
-by **`ProfiniteArithmetic`**, the generic successor named in #244's opening section — #244 itself
-builds `zHat` only as a profinite group. Neither set is owned or exported by the Belyi namespace.
-`BelyiArithmeticActions` will consume their exact public names for the cyclotomic and peripheral
-applications.
+**Profinite and pro-p groups.** The free profinite group on a finite set, the maximal pro-`p`
+quotient with its universal property and the characteristicity of its kernel under continuous
+automorphisms, the free pro-`p` group, and the profinite integers `ẑ` as a profinite group with
+their maximal pro-`p` quotients are specified by the ProfiniteProPGroups roadmap (its Layers 3 and
+4) and implemented in Tau Ceti: `TauCeti.freeProfiniteGroup` with `.of` and `.lift`,
+`TauCeti.proPKernel`, `TauCeti.maximalProPQuotient` with `.lift`, `TauCeti.map_proPKernel_eq`,
+`TauCeti.freeProP` with `.of` and `.lift`, and `TauCeti.zHat` with
+`TauCeti.zHat.maximalProPQuotientEquivPadicInt`. The **ring** structure on `ẑ`, which lives on
+Tau Ceti's own `TauCeti.zHat` (as `Additive TauCeti.zHat`), profinite exponentiation
+`x ^ᶻ a = TauCeti.zHat.lift x a` with its `ℤ_ℓ` comparison, and the continuous
+outer-automorphism carrier are owned by **`ProfiniteArithmetic`** (proposed in #489), the generic
+successor named in #244's opening section. Neither set is owned or exported by the Belyi
+namespace, and neither has a second carrier anywhere. `BelyiArithmeticActions` will consume these
+exact public names for the cyclotomic and peripheral applications.
 
 AlgebraicCurves, PolynomialGaloisGroups and ProfiniteProPGroups live at
 `../AlgebraicCurves/README.md`, `../PolynomialGaloisGroups/README.md` and
@@ -210,8 +226,9 @@ What this roadmap supplies to other subjects:
 - in `BelyiAlgebraicAndDescent`, the Belyi-specific analytic/algebraic comparison, after the
   compact-surface and AlgebraicCurves carriers land;
 - in `BelyiArithmeticActions`, the branch-cycle theorem and the pro-`ℓ` peripheral-power theorem
-  (Layers 12, 13), the Belyi-specific arithmetic application of `ProfiniteArithmetic`'s generic
-  infrastructure.
+  for the Galois action (Layers 12, 13), the Belyi-specific arithmetic application of
+  `ProfiniteArithmetic`'s generic infrastructure; the generic existence theorem itself belongs to
+  `PeripheralActions`.
 
 ## Internal boundaries
 
@@ -259,21 +276,24 @@ definition, Weil descent, and `trueOrbitSize`.
 4.6            the normality criterion                      6.5
 ```
 
-and nothing else; UniversalCovers; ConformalMapping L0; ModularForms Layer 10B;
-AlgebraicCurves. ⚠ `4.6` belongs on this list: Layer 6.5 classifies regular covers by
+and nothing else; UniversalCovers; AlgebraicTopology Stage 1; ConformalMapping L0; ModularForms
+Layer 10B; AlgebraicCurves. ⚠ `4.6` belongs on this list: Layer 6.5 classifies regular covers by
 normality of the point stabilizer, which is Layer 4.6's criterion, so section B is not
 independent of Layer 4.
 
 **C. Arithmetic and database semantics — Layers 12–14, the successor roadmap
 `BelyiArithmeticActions`.**
-*Consumes from `ProfiniteArithmetic`:* the profinite integers as a topological ring, the profinite
-exponentiation calculus and its pro-`ℓ` comparison, and continuous outer automorphisms.
-*Consumes from #244 `ProfiniteProPGroups`:* free profinite and free pro-`p` groups, the maximal
-pro-`p` quotient, and `maximalProPQuotient_zHat_equiv_padicInt`.
+*Consumes from `ProfiniteArithmetic`:* the ring structure on `TauCeti.zHat`, the profinite
+exponentiation calculus through `TauCeti.zHat.lift` and its pro-`ℓ` comparison, and continuous
+outer automorphisms.
+*Consumes from Tau Ceti, which implements #244 `ProfiniteProPGroups`:* free profinite and free
+pro-`p` groups (`TauCeti.freeProfiniteGroup`, `TauCeti.freeProP`), the maximal pro-`p` quotient
+(`TauCeti.maximalProPQuotient`), and `TauCeti.zHat.maximalProPQuotientEquivPadicInt`.
 *Belyi-specific exports:* `π₁ᵍᵉᵒ` and the comparison isomorphism with its
 orientation; the arithmetic exact sequence and outer action; peripheral inertia; the
 `ẑ`-cyclotomic character; the branch-cycle theorem and its finite Nielsen-class corollary;
-the pro-`ℓ` peripheral-power theorem and its dyadic instance; faithfulness; the LMFDB
+the Galois-equivariant form of the pro-`ℓ` peripheral-power theorem and of its dyadic instance
+(the existence statements themselves are `PeripheralActions`'); faithfulness; the LMFDB
 record certificates.
 *Imports:*
 
@@ -283,8 +303,8 @@ from B   5.6, 6.1, 6.3, 7.1, 8.7, 9.1, 9.5–9.8, 10.2, 10.3, 10.7,
          11.1, 11.3, 11.5, 11.7
 ```
 
-plus ProfiniteProPGroups, ProfiniteArithmetic, and Mathlib's Galois categories and
-cyclotomic characters.
+plus Tau Ceti's implementation of ProfiniteProPGroups, ProfiniteArithmetic, and Mathlib's Galois
+categories and cyclotomic characters.
 
 ⚠ The boundary between B and C is **not** the boundary between geometry and arithmetic:
 Layers 10 and 11 are already arithmetic, and they sit in B because they consume the analytic
@@ -413,7 +433,8 @@ is an outer action, because basepoints and comparison paths are not canonical. P
 statements are stated first on conjugacy classes or in outer form; automorphism
 representatives are chosen only where a theorem says one exists (Layer 13.3).
 
-**Peripheral elements.** In the profinite completion `F̂₂` of `FreeGroup (Fin 2)`:
+**Peripheral elements.** In the profinite completion `F̂₂` of `FreeGroup (Fin 2)`, Tau Ceti's
+`TauCeti.freeProfiniteGroup (Fin 2)`:
 `P` and `T` are the images of the two generators `of 0`, `of 1`, and `C := (T * P)⁻¹`, so
 that
 
@@ -430,8 +451,31 @@ peripheral element the *conjugate*
 (P · T)⁻¹ = T⁻¹ · P⁻¹ = P · C · P⁻¹ ,
 ```
 
-and **not** `P⁻¹ · C · P`. The peripheral-power theorems of Layer 13 transfer along it by the
-conjugation-transfer lemma of 13.3, whose conjugator is computed rather than guessed.
+and **not** `P⁻¹ · C · P`. This word identity, stated in an arbitrary group, is
+`opposite_third_peripheral`. The peripheral-power theorems of Layer 13 transfer along it by the
+conjugation-transfer lemma below, whose conjugator is computed rather than guessed.
+
+**The conjugation-transfer lemma.** Let `φ` be an automorphism of a group `G` and `pow : G → G`
+a map that commutes with conjugation, `pow (q · x · q⁻¹) = q · pow x · q⁻¹`. If
+
+```text
+φ x = c⁻¹ · pow x · c ,
+```
+
+then for any conjugate `y = q · x · q⁻¹`,
+
+```text
+φ y = d⁻¹ · pow y · d   with   d := q · c · (φ q)⁻¹ .
+```
+
+The proof is `φ y = (φ q)(φ x)(φ q)⁻¹`, then the hypothesis on `pow`. ⚠ The conjugator is
+*computed*: it involves `φ q`, and is **not** obtained by multiplying `c` by `q` on one side. This
+is `conjugation_transfer`, stated generically because that is all the proof uses; each
+application supplies the hypothesis on `pow` from the naturality of its power under conjugation
+(Layer 12.2 here). It and `opposite_third_peripheral` are self-contained exports of this section:
+neither depends on Layers 12 and 13 or on `PeripheralActions`, which consumes both. Both mention
+no Belyi object: in Tau Ceti they belong in a shared module under `TauCeti/GroupTheory/`, which
+the arithmetic successor and `PeripheralActions` both import, not in the Belyi development.
 
 **Profinite powers.** Powers `x ^ᶻ a` by `a ∈ ẑ` are the canonical operation of Layer 12.2,
 defined through the universal property of the profinite completion of `ℤ`; powers by
@@ -460,7 +504,7 @@ The private provenance ledger carries the dated audit that produced this list:
 | Actions | `MulAction.IsPretransitive`, `IsBlock`, `IsBlockSystem`, `IsPreprimitive`, `isCoatom_stabilizer_iff_preprimitive`, `ConjAct`, `MulAction.stabilizer`, orbit–stabilizer, Burnside `MulAction.sum_card_fixedBy_eq_card_orbits_mul_card_group` |
 | Jordan theorems | `Equiv.Perm.subgroup_eq_top_of_isPreprimitive_of_isSwap_mem`, `alternatingGroup_le_of_isPreprimitive_of_isThreeCycle_mem` |
 | Free groups | `FreeGroup`, `FreeGroup.lift`, `IsFreeGroup`, `FreeGroupBasis`, `PresentedGroup`, `PresentedGroup.toGroup`, Nielsen–Schreier |
-| Topology | `FundamentalGroup`, `FundamentalGroupoid`, `Path`, `IsCoveringMap` (`Topology/Covering/Basic.lean`), `IsQuotientCoveringMap`, `liftPath`, `liftHomotopy`, `IsCoveringMap.monodromy`, `monodromyFunctor`, `monodromy_trans_apply`, `injective_path_homotopic_map`, the lifting criterion `existsUnique_continuousMap_lifts_of_range_le`, `LocPathConnectedSpace`, `isCoveringMap_exp`, `isCoveringMapOn_zpow` |
+| Topology | `FundamentalGroup`, `FundamentalGroupoid`, `Path`, `IsCoveringMap` (`Topology/Covering/Basic.lean`), `IsQuotientCoveringMap`, `liftPath`, `liftHomotopy`, `IsCoveringMap.monodromy`, `IsCoveringMap.fundamentalGroupMulAction`, `IsCoveringMap.monodromyPerm`, `monodromyFunctor`, `monodromy_trans_apply`, `injective_path_homotopic_map`, the lifting criterion `existsUnique_continuousMap_lifts_of_range_le`, `LocallyPathConnectedSpace`, `deck` (`Topology/Covering/Deck.lean`), `IsAddQuotientCoveringMap.fundamentalGroupEquiv`, `FundamentalGroup.fundamentalGroupMulEquivOfPath`, `isCoveringMap_exp`, `isCoveringMapOn_zpow` |
 | Galois categories | `PreGaloisCategory`, `FiberFunctor`, the profinite topology on `Aut F`, `IsGalois` objects, `functorToContAction` with `IsEquivalence`, `IsFundamentalGroup` with `toAutMulEquiv` and `toAutMulEquiv_isHomeomorph` |
 | Profinite | `ProfiniteGrp`, `ProfiniteGrp.profiniteCompletion` with `eta`, `lift`, adjunction; `ContinuousMulEquiv` (`≃ₜ*`); `PadicInt` |
 | Arithmetic | `Field.absoluteGaloisGroup`, Krull topology, `AlgebraicClosure`, `modularCyclotomicCharacter`, `cyclotomicCharacter`, cyclotomic polynomials irreducible over `ℚ`, `IsPrimitiveRoot` |
@@ -468,7 +512,7 @@ The private provenance ledger carries the dated audit that produced this list:
 | Manifolds | `IsManifold 𝓘(ℂ) ω`, `MDifferentiable`, `Mathlib/Geometry/Manifold/Complex.lean` (maximum principle) |
 
 Notable absences at the pin, so that nobody searches for them: any `SemilocallySimplyConnected`
-(UniversalCovers owns the class), Seifert–van Kampen in any topological form, `ẑ`, `Out G`,
+(the class is Tau Ceti's `TauCeti.SemilocallySimplyConnectedSpace`, from UniversalCovers), Seifert–van Kampen in any topological form, `ẑ`, `Out G`,
 étale fundamental groups, Riemann surfaces, Riemann–Roch, Riemann–Hurwitz, divisors on
 schemes, and any ribbon-graph or triangle-group object.
 
@@ -487,11 +531,14 @@ the three portfolio suppliers have no local stand-ins here.
 | 3.2 | CharacterTheory Layer 1 | class sums and structure constants | `classSum`, `structureConstant`, `classSum_mul` |
 | 3.2 | CharacterTheory Layer 3 | the character table and column orthogonality | `characterTable`, `char_column_orthogonality` |
 | 3.2 | CharacterTheory Layer 4 | central characters, and the conversion to class sizes | `centralCharacter`, `centralCharacter_coordinate`, and the conversion of `ω_χ` on a class sum into class size times character value over degree, for which that roadmap pins **no Lean name**; local interface: `centralCharacter_eq_card_mul_div (χ) (j) : centralCharacter χ (classSum j) = (Nat.card (carrier j) : ℂ) * χ (rep j) / χ 1` |
-| 5.1, 6.2 | UniversalCovers Stage 0.2 | semilocal simple connectivity | **unresolved supplier contract**: no Mathlib class exists and UniversalCovers has not published a compiled target; no local stand-in is exported |
-| 5.6 | UniversalCovers, the two-open van Kampen milestone | Seifert–van Kampen for two open sets with simply connected intersection | **unresolved supplier contract**: the required declarations are `vanKampenLift`, `vanKampenLift_bijective`, `vanKampenEquiv` and `vanKampenEquiv_toMonoidHom`, with the signatures and hypotheses pinned verbatim in Layer 5.5 below. This roadmap exports no copy: Layer 5.6 is the instantiation, not the theorem. |
-| 6.2 | UniversalCovers Stage 0.2, 0.3 | the universal cover, its covering map, and the free proper `π₁`-action | `UniversalCover x₀`, `proj`, `IsCoveringMap proj`, `SimplyConnectedSpace (UniversalCover x₀)`, `UniversalCover.isQuotientCoveringMap` |
-| 6.4 | UniversalCovers Stage 0.4, 1 | deck groups and `Deck ≅ (π₁)ᵐᵒᵖ` | `Deck`, `deckFundamentalGroupEquiv : Deck proj ≃* (FundamentalGroup X x₀)ᵐᵒᵖ` |
-| 6.3 | UniversalCovers Stage 2 | basepoint change, and the pointed/unpointed correspondence | `basepointChangeSubgroup` is named upstream; milestone 8's equivalences are **unresolved prose-only supplier contracts** and are not exported locally. Their required carriers and exact connectedness/orbit semantics are pinned in Layer 6.3 below. |
+| 5.1, 6.2 | UniversalCovers milestone 2 | semilocal simple connectivity | `TauCeti.SemilocallySimplyConnectedSpace` (`TauCeti/AlgebraicTopology/SemilocallySimplyConnected/Basic.lean`); no local stand-in is exported |
+| 5.6 | AlgebraicTopology Stage 1 | Seifert–van Kampen for two open sets with simply connected intersection | **unresolved supplier contract**: the required declarations are `vanKampenLift`, `vanKampenLift_bijective`, `vanKampenEquiv` and `vanKampenEquiv_toMonoidHom`, with the signatures and hypotheses pinned verbatim in Layer 5.5 below. This roadmap exports no copy: Layer 5.6 is the instantiation, not the theorem. |
+| 5.7, 6.3 | UniversalCovers milestone 7 | basepoint change on subgroups, and the recovered subgroup under a change of lift | `FundamentalGroup.basepointChangeSubgroup` (conjugation of a subgroup along a path); `IsCoveringMap.range_mapOfEq_monodromy` (moving the lift along a loop conjugates the recovered subgroup); `IsCoveringMap.range_mapOfEq_monodromy_path` (moving it along a path applies `basepointChangeSubgroup`) |
+| 6.2 | UniversalCovers milestones 2, 3 | the universal cover, its covering map, and the free properly discontinuous `π₁`-action | `TauCeti.UniversalCover x₀`, `TauCeti.UniversalCover.proj`, `TauCeti.UniversalCover.isCoveringMap`, `TauCeti.UniversalCover.simplyConnectedSpace`, `TauCeti.UniversalCover.isQuotientCoveringMap` |
+| 6.2 | UniversalCovers milestone 8 | the associated cover of an arbitrary discrete `π₁`-set, its covering map, its fiber and its monodromy | `TauCeti.UniversalCover.ActionCover x₀ A`, `TauCeti.UniversalCover.actionCoverProj`, `TauCeti.UniversalCover.isCoveringMap_actionCoverProj`, `TauCeti.UniversalCover.actionCoverFiberEquiv : A ≃ actionCoverProj x₀ A ⁻¹' {x₀}`, `TauCeti.UniversalCover.monodromy_actionCoverFiberEquiv`, `TauCeti.BalancedProduct.isQuotientCoveringMap_mk`; bundled, `TauCeti.UniversalCover.actionCoveringSpace` with `actionCoveringSpaceFiberEquiv` and `actionCoveringSpaceFiberEquiv_apply_monodromy`; as equivalences of categories, `TauCeti.CoveringSpace.fiberActionEquivalence` and `TauCeti.ConnectedCoveringSpace.transitiveFiberActionEquivalence` |
+| 6.3 | UniversalCovers milestone 8 | the pointed and unpointed subgroup correspondences, and sheet number as index | `TauCeti.UniversalCover.existsUnique_subgroup_homeomorph_subgroupQuotient`, `TauCeti.UniversalCover.exists_homeomorph_subgroupQuotient_comp_eq_iff_exists_eq_map_conj`, `IsCoveringMap.stabilizer_eq_range`, `IsCoveringMap.card_fiber_eq_index` |
+| 6.4 | UniversalCovers milestones 4, 5 | deck groups, and deck group of the universal cover `≃* (π₁)ᵐᵒᵖ` | Mathlib's `deck p : Subgroup (E ≃ₜ E)`; `TauCeti.UniversalCover.deckFundamentalGroupEquiv x₀ : deck proj ≃* (FundamentalGroup X x₀)ᵐᵒᵖ`, and for any regular simply connected cover `TauCeti.Deck.IsRegular.deckFundamentalGroupEquiv` |
+| 6.5 | UniversalCovers milestone 8 | regular covers, and the deck groups `N(H)/H` and `π₁/H` | `TauCeti.Deck.isRegular_iff_fiber_isPretransitive`, `TauCeti.UniversalCover.isRegular_subgroupQuotientProj_iff_normal`, `TauCeti.UniversalCover.deckSubgroupQuotientProjEquiv`, `TauCeti.UniversalCover.deckSubgroupQuotientProjEquivOfNormal` |
 | 8.2 | ConformalMapping L0 | the local degree of a holomorphic map | `TauCeti.exists_localDegree`, and the holomorphic branch-root extraction beside it |
 | 8.1–9.4 | ModularForms Layer 10B / compact-surface owner | compact Riemann-surface carrier, sphere instance, meromorphic functions, Riemann–Roch and Riemann–Hurwitz | **unresolved supplier contract**: no compiled carrier or theorem names are published, so this PR exports no local hypothesis-stack, meromorphic-field, divisor, degree, ramification, or cohomology stand-in. The successor must import and `#check` the supplier's map-derived invariants. |
 | 9.1, 9.4, 9.6 | `AlgebraicCurves` Layers 0, 1 | function fields, places, and divisors | exact declarations: `AlgebraicCurves.IsFunctionField`, Mathlib's `IsIntegrallyClosedIn`, `AlgebraicCurves.Place`, `AlgebraicCurves.Divisor` |
@@ -499,16 +546,19 @@ the three portfolio suppliers have no local stand-ins here.
 | 9.5, 10.7, 11.4 | `AlgebraicCurves` Layer 5 | Riemann–Roch and genus | exact declarations: `AlgebraicCurves.riemannRochSpace`, `AlgebraicCurves.genus` |
 | 10.7, 11.4 | `AlgebraicCurves` Layer 8 | constant-field extension in characteristic zero | **prose-only supplier milestone; no full-faithfulness declaration is pinned yet** |
 | 9.1, 9.5 | `AlgebraicCurves` Layer 12 | the regular projective model and the anti-equivalence | **prose-only supplier milestones; no Lean declarations are pinned yet**. The reserved roadmap names are `regularModel`, `functionFieldEquiv`, and `regularModel_functionField`; **this roadmap never analytifies a scheme** — Layer 9.6 works with places, so only the place set and its `(e,f)` data are consumed, never a scheme-theoretic fiber |
-| 12.7, 13.1 | #244 `ProfiniteProPGroups` Layers 3, 4 | free profinite and free pro-`p` groups, the maximal pro-`p` quotient, and `maximalProPQuotient_zHat_equiv_padicInt` | **unmerged supplier contract**: `BelyiArithmeticActions` must import and `#check` the final #244 declarations; this PR exports no aliases or stand-ins. |
-| 12.1–12.3 | `ProfiniteArithmetic` (the generic successor to #244) | `zHat` as a topological commutative ring, the `ℤ̂`-power with its `ℤ_ℓ` comparison, and the continuous outer-automorphism carrier | **unwritten supplier roadmap**, named in #244's opening section as the exact owner; these are generic group theory, not Belyi mathematics, and this PR exports no aliases or stand-ins. |
+| 12.7, 13.1 | Tau Ceti | free profinite and free pro-`p` groups, the maximal pro-`p` quotient, and the maximal pro-`ℓ` quotient of `ẑ`, as #244 `ProfiniteProPGroups` Layers 3 and 4 specify them | exact declarations: `TauCeti.freeProfiniteGroup`, `TauCeti.freeProfiniteGroup.of`, `TauCeti.freeProP`, `TauCeti.freeProP.of`, `TauCeti.freeProP.lift`, `TauCeti.proPKernel`, `TauCeti.map_proPKernel_eq`, `TauCeti.maximalProPQuotient`, `TauCeti.zHat.maximalProPQuotientEquivPadicInt`; `BelyiArithmeticActions` imports and `#check`s them, and this PR exports no aliases or stand-ins. |
+| 12.1–12.3 | `ProfiniteArithmetic` (the generic successor to #244, proposed in #489) | the ring structure on Tau Ceti's `TauCeti.zHat`, the `ẑ`-power `x ^ᶻ a = TauCeti.zHat.lift x a` with its `ℤ_ℓ` comparison, and the continuous outer-automorphism carrier | **supplier roadmap not yet merged**, named in #244's opening section as the exact owner; these are generic group theory, not Belyi mathematics, and this PR exports no aliases or stand-ins. |
 
 An exact portfolio row is imported only by the successor that consumes it, after the supplier
 lands on `main`; that successor must fail on a spelling or carrier change rather than selecting a
-local replacement. The UniversalCovers, compact-surface, AlgebraicCurves, #243, and #244 rows are
+local replacement. The UniversalCovers rows are exact Tau Ceti declarations; `Suggested.lean`
+imports their modules and states the Layer 5.7 and 6.2–6.5 consumers in the form this roadmap
+uses, each closed by the supplier declaration. The AlgebraicTopology, compact-surface, AlgebraicCurves, #243, and #244 rows are
 scheduling contracts, not claims that declarations already exist. `Suggested.lean` intentionally
-omits their consumers. The `ProfiniteArithmetic` row is the one supplier that has no roadmap of its
-own yet; #244's opening section records the same boundary from the supplier side, so the three
-constructions have one owner rather than none.
+omits their consumers. The `ProfiniteArithmetic` row is a supplier roadmap that has not merged yet
+(#489); #244's opening section records the same boundary from the supplier side, so the three
+constructions have one owner rather than none. The Tau Ceti row for 12.7 and 13.1 names
+declarations that exist at the pin.
 
 ## The build, in layers
 
@@ -1537,10 +1587,10 @@ the modular group — material belonging to the modular-forms family that nothin
 needs. The route below computes the fundamental group directly instead, and Layer 5.6's
 result is the same isomorphism.
 
-**The route is pinned, and its one general input comes from UniversalCovers.** The pin has
+**The route is pinned, and its one general input comes from AlgebraicTopology.** The pin has
 no Seifert–van Kampen theorem in any form, and Seifert–van Kampen for two open sets with
 simply connected intersection is general algebraic topology rather than Belyi mathematics:
-5.5 records the exact declarations UniversalCovers supplies, and 5.6 instantiates them at
+5.5 records the exact declarations this roadmap requires of AlgebraicTopology Stage 1, and 5.6 instantiates them at
 5.1's two-set cover. Everything else in this layer is Belyi's own. The base case
 `π₁(ℂ ∖ {0}) ≅ ℤ` is not proved by hand either — it is read off the pin's
 `Complex.isAddQuotientCoveringMap_exp`, which presents `exp : ℂ → ℂ ∖ {0}` as the quotient of
@@ -1573,10 +1623,13 @@ Prove the four facts the rest of the layer runs on, each an explicit computation
 
 **New object: `U`.** Basic API:
 
-- *Constructors and instances.* `TopologicalSpace`, `T2Space`, `LocPathConnectedSpace`,
-  `PathConnectedSpace`, second countability, and the semilocal simple connectivity class
-  UniversalCovers' classification needs — all from "open subset of `ℂ`", each proved once
-  here rather than at each use. `Nonempty`, the coercion to `ℂ`, and the two membership
+- *Constructors and instances.* `TopologicalSpace`, `T2Space`, `LocallyPathConnectedSpace`,
+  `PathConnectedSpace`, second countability, and `TauCeti.SemilocallySimplyConnectedSpace`,
+  the hypothesis class of Tau Ceti's universal-cover API. All follow from "open subset of `ℂ`",
+  and each is proved once here rather than at each use. Tau Ceti has no instance of that class
+  for open subsets of `ℂ`, so this instance is a target of this milestone; the route is
+  `TauCeti.SemilocallySimplyConnectedSpace.of_forall_exists_mem_nhds_isSimplyConnected`, with a
+  small open ball about each point, convex and hence simply connected, as the neighbourhood. `Nonempty`, the coercion to `ℂ`, and the two membership
   lemmas `ne_zero`, `ne_one`.
 - *Examples.* `b = 1/2`; the two circles of 5.2.
 - *Morphisms and functoriality.* The open embedding `U ↪ ℂ`; the open embedding
@@ -1628,8 +1681,9 @@ on its boundary lines `re = 0` and `re = 1`. Sliding the cut to `A = U ∩ {re <
 that a puncture falls inside the strip destroys the hypothesis of 5.5 and the conclusion
 of 5.6 with it.
 
-*Prerequisites:* Mathlib `Complex`, `LocPathConnectedSpace`, `OnePoint`,
-`Convex.isPathConnected`; UniversalCovers milestone 2's hypothesis classes.
+*Prerequisites:* Mathlib `Complex`, `LocallyPathConnectedSpace`, `OnePoint`,
+`Convex.isPathConnected`; Tau Ceti `TauCeti.SemilocallySimplyConnectedSpace` (UniversalCovers
+milestone 2).
 
 #### 5.2 The peripheral loops
 
@@ -1645,7 +1699,7 @@ both punctures, since `|γ0 t| = 1/2` and `|γ1 t − 1| = 1/2`; and their image
 lie in `A` and `B` respectively. The two circles are externally tangent — the distance
 between their centres is `1 = 1/2 + 1/2` — so they meet exactly at `b`. ⚠ That makes the
 picture a figure eight rather than two crossing circles, and nothing more: **no milestone
-retracts `U` onto `C₀ ∪ C₁`**, and the fundamental group is computed by UniversalCovers'
+retracts `U` onto `C₀ ∪ C₁`**, and the fundamental group is computed by AlgebraicTopology's
 two-open van Kampen theorem (5.5) instead.
 
 Define the peripheral elements of `FundamentalGroup U b`:
@@ -1738,10 +1792,12 @@ The reusable computation, stated for a convex open `V ⊆ ℂ`, a point `p ∈ V
 - **The base computation.** `π₁(ℂ ∖ {0}, 1) ≅ ℤ`, generated by the counterclockwise unit
   circle. Proof: `Complex.isAddQuotientCoveringMap_exp` exhibits `ℂ ∖ {0}` as the quotient
   of `ℂ` by `AddSubgroup.zmultiples (2πi)` acting freely and properly discontinuously; `ℂ`
-  is convex, hence simply connected; so UniversalCovers' quotient-covering identification
-  applies and `π₁` is the acting group. ⚠ That identification lands in the **opposite**
-  group in general (UniversalCovers milestone 5), which is invisible here only because
-  `ℤ` is abelian; do not carry the habit into Layer 6.4, where it is not.
+  is convex, hence simply connected; so Mathlib's
+  `IsAddQuotientCoveringMap.fundamentalGroupEquiv` applies and `π₁` is the acting group.
+  ⚠ That identification lands in the **opposite** group, `(Multiplicative G)ᵐᵒᵖ`, the same
+  convention as UniversalCovers milestone 5 (`TauCeti.UniversalCover.deckFundamentalGroupEquiv`);
+  the `ᵐᵒᵖ` is invisible here only because `ℤ` is abelian; do not carry the habit into Layer
+  6.4, where it is not.
 - **The transport.** For `V`, `p`, `r` as above, the inclusion `V ∖ {p} ↪ ℂ ∖ {p}` is a
   homotopy equivalence, because both deformation-retract onto the same circle; hence
   `π₁(V ∖ {p})` is infinite cyclic, generated by the circle loop of radius `r` about `p`.
@@ -1770,15 +1826,15 @@ to a circle — the punctured annulus is a counterexample. Convexity (or star-sh
 about the puncture) is doing real work.
 
 *Prerequisites:* Layers 5.1, 5.2; Mathlib `Complex.isAddQuotientCoveringMap_exp`,
-`IsQuotientCoveringMap`, `Convex`, `ContinuousMap.Homotopy`, the winding-number/index API;
-UniversalCovers milestones 4, 5.
+`IsQuotientCoveringMap`, `IsAddQuotientCoveringMap.fundamentalGroupEquiv`, `Convex`,
+`ContinuousMap.Homotopy`, the winding-number/index API.
 
-#### 5.5 Van Kampen with a simply connected intersection: the UniversalCovers input
+#### 5.5 Van Kampen with a simply connected intersection: the AlgebraicTopology input
 
 **Not a milestone of this roadmap.** Seifert–van Kampen for two open sets with simply
 connected intersection is general algebraic topology, reusable by anything that computes a
-fundamental group, and it is owned by [UniversalCovers](../UniversalCovers/README.md). This
-section exists to state the contract exactly, so that the instantiation in 5.6 has something
+fundamental group, and it is owned by [AlgebraicTopology](../AlgebraicTopology/README.md) (its
+Stage 1). This section exists to state the contract exactly, so that the instantiation in 5.6 has something
 to `apply` and so that no second copy is written anywhere.
 
 For a space `X`, open `A, B` with `A ∪ B = X`, a basepoint `x ∈ A ∩ B`, with `A`, `B`,
@@ -1812,7 +1868,7 @@ strip, so the hypothesis must be present in the supplier's statement.
 with simply connected intersection, where the amalgamating subgroup is trivial and the
 pushout is the free product.
 
-*Prerequisites:* Roadmap UniversalCovers, its two-open van Kampen milestone. Nothing in this
+*Prerequisites:* Roadmap AlgebraicTopology, Stage 1, item 4. Nothing in this
 layer is discharged by a Belyi-local proof of it.
 
 #### 5.6 The fundamental group of the thrice-punctured sphere
@@ -1837,8 +1893,8 @@ satisfy the one relation of 5.2, and any two of them freely generate while all t
 not. Statements about "the three generators" always mean the ordered triple with its
 relation, never a free basis of rank three.
 
-*Prerequisites:* Layers 5.1, 5.2, 5.4; Roadmap UniversalCovers, its two-open van Kampen
-milestone (Layer 5.5 above); Mathlib `FreeGroup`, `Monoid.Coprod`, `FreeGroup.lift`.
+*Prerequisites:* Layers 5.1, 5.2, 5.4; Roadmap AlgebraicTopology, Stage 1, item 4
+(Layer 5.5 above); Mathlib `FreeGroup`, `Monoid.Coprod`, `FreeGroup.lift`.
 
 #### 5.7 Basepoint change
 
@@ -1849,7 +1905,8 @@ conjugacy-class invariance as the milestone; the element-level statement is fals
 fixing a path, and that failure is the topological origin of the outer form of the Galois
 action in Layer 12.8.
 
-*Prerequisites:* Layers 5.2, 5.6; UniversalCovers milestone 7's basepoint-change API.
+*Prerequisites:* Layers 5.2, 5.6; Mathlib `FundamentalGroup.fundamentalGroupMulEquivOfPath`;
+Tau Ceti `FundamentalGroup.basepointChangeSubgroup` (UniversalCovers milestone 7).
 
 #### 5.8 The loop at infinity
 
@@ -1982,92 +2039,119 @@ one bridge.
 > follow-up PRs, not declarations or completion criteria of this PR. Each follow-up begins only
 > after its owning supplier has landed and exposes the exact carriers named at the merge boundary.
 
-The converse construction, and the place where a cover is built rather than analysed. It is
-stated **generically**, for an arbitrary discrete `π₁`-set, under the exact hypotheses the
-universal-cover supplier requires; the finite case is a corollary, not the theorem.
+The converse construction, and the place where a cover is built rather than analysed. The
+general construction, for an arbitrary discrete `π₁`-set, is Tau Ceti's, from the completed
+[UniversalCovers](../../Completed/UniversalCovers/README.md) roadmap. This milestone consumes it by
+name, pins how its conventions meet this roadmap's, and owns the finite corollary and the
+instantiation at `U`. `Suggested.lean` restates each supplier statement below in the form
+consumed here, closed by the Tau Ceti declaration.
 
-This milestone is currently an **unresolved UniversalCovers supplier contract** and therefore has
-no public prototype in `Suggested.lean`. Once that roadmap exposes the class and universal-cover
-API, this roadmap must import them and add a closed check of the covering/deck theorem used in the
-Riemann-existence argument. The intended standing hypotheses, to be reconciled with that public
-API rather than imposed by a private class, are:
+The standing hypotheses are exactly the supplier's:
 
 ```text
-[TopologicalSpace X] [PathConnectedSpace X] [LocPathConnectedSpace X]
-[SemilocallySimplyConnectedSpace X]
+[TopologicalSpace X] [PathConnectedSpace X] [LocallyPathConnectedSpace X]
+[TauCeti.SemilocallySimplyConnectedSpace X]
 ```
 
-with `x : X` and `Ũ := UniversalCover x` its universal cover, `q : Ũ → X` the projection.
+with `x : X`, `Ũ := TauCeti.UniversalCover x` its universal cover, and
+`q := TauCeti.UniversalCover.proj : Ũ → X` the projection.
 ⚠ Semilocal simple connectivity is **not** optional and is not implied by the others: the
 Hawaiian earring is path-connected and locally path-connected and has no universal cover.
 `U` of 5.1 satisfies all three because it is an open subset of `ℂ` (Layer 5.1's instance
 list), and that is where the hypotheses are discharged for this roadmap's use.
 
-**The action, pinned.** UniversalCovers milestone 5 identifies the deck group with
-`(π₁)ᵐᵒᵖ`, so `π₁` acts on `Ũ` on the **right**: writing `ũ · γ` for the deck
-transformation attached to `γ`, one has `(ũ · δ) · γ = ũ · (δ γ)` and
-`ũ₀ · γ = monodromy γ ũ₀` on the fiber. For a discrete `π₁`-set `S` with action map
-`act : π₁ →* Equiv.Perm S`, the diagonal action on `Ũ × S` is therefore
+**The action, pinned.** Tau Ceti's `π₁(X, x)` acts on `Ũ` on the **left**
+(`MulAction (FundamentalGroup X x) (TauCeti.UniversalCover x)`), and monodromy along `γ` carries
+the constant-path point `ũ₀ := TauCeti.UniversalCover.basepointLift x` to `γ⁻¹ • ũ₀`
+(`TauCeti.UniversalCover.monodromy_basepointLift`). Writing `ũ · γ := γ⁻¹ • ũ` for the right
+action this defines, `(ũ · δ) · γ = ũ · (δ γ)` and `ũ₀ · γ = monodromy γ ũ₀` on the fiber; this
+right action is the `ᵐᵒᵖ` of UniversalCovers milestone 5,
+`TauCeti.UniversalCover.deckFundamentalGroupEquiv x : deck q ≃* (FundamentalGroup X x)ᵐᵒᵖ`. For a
+discrete `π₁`-set `S` the diagonal action on `Ũ × S` is
 
 ```text
-γ ⋆ (ũ, s) := (ũ · γ⁻¹, act γ s)
+γ ⋆ (ũ, s) := (γ • ũ, γ • s) = (ũ · γ⁻¹, γ • s)
 ```
 
-— a genuine **left** action, and the inverse in the first coordinate is exactly what the
-`ᵐᵒᵖ` of milestone 5 forces. Define
+This is a genuine **left** action, and the inverse in the right-action form is exactly what the
+`ᵐᵒᵖ` of milestone 5 forces. The associated cover is
 
 ```text
-assocCover S := (Ũ × S) ⧸ ⋆ ,        p ⟦ũ, s⟧ := q ũ .
+assocCover S := TauCeti.UniversalCover.ActionCover x S     -- (Ũ × S) ⧸ ⋆
+p            := TauCeti.UniversalCover.actionCoverProj x S  -- p ⟦ũ, s⟧ = q ũ
 ```
 
-The milestone owns these statements, each named:
+the balanced product `TauCeti.BalancedProduct (FundamentalGroup X x) Ũ S`, in which
+`⟦γ • ũ, s⟧ = ⟦ũ, γ⁻¹ • s⟧` (`TauCeti.BalancedProduct.mk_smul_left`). ⚠ The supplier puts `S` in
+the universe of `X`.
 
-1. **The quotient is a covering of `Ũ × S`.** The action is free and properly discontinuous
-   because it already is on `Ũ` (UniversalCovers milestone 3) and `S` is discrete, so
-   Mathlib's `IsQuotientCoveringMap` applies to `Ũ × S → assocCover S`. This is what gives
-   `assocCover S` its topology and the universal property for maps out of it.
-2. **`p` is a covering map.** Over an evenly covered connected open `V ∋ y` the equivariant
-   sheet decomposition gives `q ⁻¹' V ≃ V × π₁` with `π₁` acting by right translation on
-   the second factor, whence `p ⁻¹' V ≃ V × S`. ⚠ This does **not** follow from
-   `IsQuotientCoveringMap` alone: that theorem describes `Ũ × S → assocCover S`, not
-   `assocCover S → X`, and the two maps have different groups in play.
-3. **The fiber equivalence.** `ν_S : p ⁻¹' {x} ≃ S`, the inverse of `s ↦ ⟦ũ₀, s⟧`, using
-   that `π₁` acts simply transitively on `q ⁻¹' {x}`. ⚠ **This direction is forced**, and it
-   is the same direction as the numbering `ν` in 6.1: `Equiv.permCongr` transports
+The four statements this milestone consumes, each by name:
+
+1. **The quotient is a covering of `Ũ × S`.** The class map `Ũ × S → assocCover S` is a
+   quotient covering map for `⋆`: `TauCeti.BalancedProduct.isQuotientCoveringMap_mk`, applied to
+   `TauCeti.UniversalCover.isQuotientCoveringMap` (UniversalCovers milestone 3). This is what
+   gives `assocCover S` its topology and the universal property for maps out of it.
+2. **`p` is a covering map**: `TauCeti.UniversalCover.isCoveringMap_actionCoverProj`. ⚠ This
+   does **not** follow from statement 1 alone: that describes `Ũ × S → assocCover S`, not
+   `assocCover S → X`, and the two maps have different groups in play. The supplier proves it
+   by its own equivariant sheet computation, `TauCeti.BalancedProduct.isCoveringMap_proj`.
+3. **The fiber equivalence.** The supplier's `TauCeti.UniversalCover.actionCoverFiberEquiv x S :
+   S ≃ p ⁻¹' {x}` is `s ↦ ⟦ũ₀, s⟧`; this roadmap's numbering is its inverse,
+   `ν_S := (actionCoverFiberEquiv x S).symm : p ⁻¹' {x} ≃ S`. ⚠ **This direction is forced**, and
+   it is the same direction as the numbering `ν` in 6.1: `Equiv.permCongr` transports
    `Equiv.Perm` along an equivalence, so only `ν_S : p ⁻¹' {x} ≃ S` sends the monodromy
    permutation of the fiber to a permutation of `S`. Written the other way the next formula
    does not typecheck, and `ν_S.symm.permCongr` would be needed instead.
-4. **The monodromy calculation.** `ν_S.permCongr (monodromyHom p x γ) = act γ` for every
-   `γ`, **with no inverse and no `ᵐᵒᵖ`**. Proof: lift `γ` in `Ũ` from `ũ₀`; the path
-   `t ↦ ⟦γ̃ t, s⟧` lifts it in `assocCover S` and ends at
-   `⟦ũ₀ · γ, s⟧ = ⟦ũ₀, act γ s⟧`. Reversing the sign in the diagonal action would produce
-   `act γ⁻¹` here, which is why the formula above is displayed rather than described.
+4. **The monodromy calculation.** `ν_S.permCongr (monodromyHom p x γ) = MulAction.toPerm γ` for
+   every `γ`, **with no inverse and no `ᵐᵒᵖ`**. This is the supplier's
+   `TauCeti.UniversalCover.monodromy_actionCoverFiberEquiv`, which states
+   `monodromy γ (actionCoverFiberEquiv x S s) = actionCoverFiberEquiv x S (γ • s)`: the inverse
+   in `monodromy_basepointLift` cancels against the one in `mk_smul_left`. `Suggested.lean`
+   states it in exactly this form as `assocCoverNumbering_permCongr_monodromyHom`, with
+   `monodromyHom` Mathlib's `IsCoveringMap.monodromyPerm`. Reversing the sign in
+   the diagonal action would produce `γ⁻¹` here, which is why the formula above is displayed
+   rather than described.
 
-**The finite corollary.** For `S` finite of cardinality `n`, `assocCover S` has finite
-fibers of cardinality `n`, and composing with a numbering `S ≃ Fin n` makes it a numbered
-cover whose triple is the triple of the action. ⚠ It is a `ConnectedFiberNumberedCover b n`
-exactly when the action is **transitive**: the connectedness field of that carrier is
-discharged here, from transitivity, and for a non-transitive `S` the construction lands only
-in a bare numbered cover, which this roadmap does not carry. This is the form Layer 6.3
-consumes, and it supplies the inverse of `ConnectedFiberNumberedCoverClass.triple`.
+**The finite corollary, owned here.** For `S` finite of cardinality `n`, `assocCover S` has
+finite fibers of cardinality `n`, and composing `ν_S` with a numbering `S ≃ Fin n` makes it a
+numbered cover whose triple is the triple of the action. ⚠ It is a `ConnectedFiberNumberedCover b
+n` exactly when the action is **transitive**: the connectedness field of that carrier is
+discharged here, from transitivity, through Tau Ceti's `IsCoveringMap.pathConnectedSpace_iff`
+(over a path-connected base, the total space is path-connected exactly when a fiber is nonempty
+and monodromy is transitive on it), and for a non-transitive `S` the construction lands only in
+a bare numbered cover, which this roadmap does not carry. This is the form Layer 6.3 consumes,
+and it supplies the inverse of `ConnectedFiberNumberedCoverClass.triple`.
 
-**New object: `assocCover`.** Basic API:
+**API.** Supplied by Tau Ceti and consumed: the quotient topology, the covering map and the fiber
+identification above; the bundled cover `TauCeti.UniversalCover.actionCoveringSpace x S`, an
+object of `TauCeti.CoveringSpace (TopCat.of X)`, with its fiber identification
+`actionCoveringSpaceFiberEquiv` in the direction of `ν_S` and its equivariance
+`actionCoveringSpaceFiberEquiv_apply_monodromy`; and the equivalences of categories
+`TauCeti.CoveringSpace.fiberActionEquivalence x : CoveringSpace (TopCat.of X) ≌ Action (Type u)
+(FundamentalGroup X x)` and `TauCeti.ConnectedCoveringSpace.transitiveFiberActionEquivalence x`,
+connected covers against transitive `π₁`-sets. The inverse of `fiberActionEquivalence` is a
+chosen functor, not `actionCoveringSpace`, so the functoriality of this construction is not
+supplied. Owned here, each a target of this milestone:
 
-- *Constructors and instances.* The quotient topology, the covering map, the fiber
-  identification, and finiteness of the fiber for finite `S`.
+- *Instances.* Finiteness of the fiber for finite `S`, from `actionCoverFiberEquiv`.
+- *Morphisms and functoriality.* `S ↦ actionCoveringSpace x S` as a functor from `π₁`-sets to
+  `TauCeti.CoveringSpace (TopCat.of X)`, a map of `π₁`-sets inducing a map of covers over `X`; a
+  natural isomorphism `actionCoveringSpace x S ≅ (fiberActionEquivalence x).inverse.obj S`; and,
+  from it, preservation of coproducts.
 - *Examples.* `S` a one-point set gives `X` itself; `S = π₁` with the left translation
   action gives the universal cover back — an instance of the **general** construction, since
   `π₁(U, b)` is free of rank `2` and hence infinite, so it is not an example of the finite
   corollary; `S = Fin n` with the action of a triple gives the cover Layer 6.3 pairs with
   that triple.
-- *Morphisms and functoriality.* A map of `π₁`-sets induces a map of covers over `X`; the
-  construction is a functor from discrete `π₁`-sets to covers, and it preserves coproducts.
 - *Edge cases.* `S` empty, where the cover is empty; `S` with a non-transitive action, where
   the cover is disconnected and decomposes as the coproduct over the orbits.
 - *Downstream interfaces.* Layers 6.3, 6.5, 7.2.
 
-*Prerequisites:* Layers 5.3, 5.6; UniversalCovers milestones 3, 4, 5; Mathlib
-`IsQuotientCoveringMap`, `MulAction`, `LocPathConnectedSpace`.
+*Prerequisites:* Layers 5.3, 5.6; Tau Ceti `TauCeti.UniversalCover.ActionCover`,
+`TauCeti.UniversalCover.isCoveringMap_actionCoverProj`, `TauCeti.UniversalCover.actionCoverFiberEquiv`,
+`TauCeti.UniversalCover.monodromy_actionCoverFiberEquiv`, `TauCeti.BalancedProduct.isQuotientCoveringMap_mk`,
+`IsCoveringMap.pathConnectedSpace_iff` (UniversalCovers milestones 3, 5, 8); Mathlib
+`IsQuotientCoveringMap`, `MulAction`, `LocallyPathConnectedSpace`.
 
 #### 6.3 The classification, at three levels of rigidification
 
@@ -2111,14 +2195,26 @@ combinatorial counterpart:
    `ConnectedPointedCoverClass b n ≃ MarkedIsoClass n`, the marked label moving with the
    relabeling.
 
-   The further identification with **subgroups of `π₁(U, b)` of index `n`** — pointed
-   connected covers ↔ subgroups, and unpointed ↔ conjugacy classes of subgroups — is
-   UniversalCovers milestone 8 and is **not restated here**; this roadmap composes with it
-   rather than reproving it. Under that composite the subgroup attached to `(t, i)` is the
-   stabilizer of `i` under the monodromy action, forgetting the basepoint is passing to the
-   conjugation **orbit** of the subgroup, and the orbit relation is
-   `subgroupConjSetoid := MulAction.orbitRel (ConjAct G) (Subgroup G)`, which this roadmap
-   pins because `ConjClasses (Subgroup G)` is a different and wrong object.
+   The further identification with **subgroups of `π₁(U, b)` of index `n`**, pointed
+   connected covers against subgroups and unpointed ones against conjugacy classes of
+   subgroups, is UniversalCovers milestone 8 and is **not reproved here**; this roadmap
+   composes with Tau Ceti's theorems, and `Suggested.lean` restates them as closed checks. The
+   pointed half is `TauCeti.UniversalCover.existsUnique_subgroup_homeomorph_subgroupQuotient`: a
+   pointed path-connected cover is isomorphic, over `X` and matching base points, to
+   `TauCeti.UniversalCover.SubgroupQuotient x H` for exactly one `H`, and that `H` is its
+   recovered subgroup `(FundamentalGroup.mapOfEq ⟨p, _⟩ hpe).range`
+   (`TauCeti.UniversalCover.exists_homeomorph_subgroupQuotient_of_range_eq`). That subgroup is the stabilizer of the
+   chosen point under monodromy (`IsCoveringMap.stabilizer_eq_range`), so under the composite
+   the subgroup attached to `(t, i)` is the stabilizer of `i` under the monodromy action, and
+   its index is the degree (`IsCoveringMap.card_fiber_eq_index`). The unpointed half is
+   `TauCeti.UniversalCover.exists_homeomorph_subgroupQuotient_comp_eq_iff_exists_eq_map_conj`,
+   and `IsCoveringMap.exists_homeomorph_comp_eq_iff_exists_range_eq_map_conj` for any two covers
+   whose total spaces are path-connected and locally path-connected: forgetting the basepoint is passing to the conjugation **orbit** of the
+   subgroup. The supplier states conjugacy as `∃ γ, K = H.map (MulAut.conj γ).toMonoidHom`;
+   this roadmap names the orbit relation
+   `subgroupConjSetoid := MulAction.orbitRel (ConjAct G) (Subgroup G)`, because
+   `ConjClasses (Subgroup G)` is a different and wrong object, and proves the two agree
+   (`subgroupConjSetoid_iff` in `Suggested.lean`).
 
    Equivalently, fix the marked label once and take
 
@@ -2162,9 +2258,10 @@ map: `isoClass_forgetNumbering` (numbered → unnumbered is triple → relabelin
 `MarkedIsoClass.forget`). Prove also that the correspondences match degree with fiber
 cardinality and are natural in maps of covers.
 
-**Automorphism groups.** The automorphism group of a cover is UniversalCovers' `Deck p`, not
-a Belyi object; what descends through the quotients is that isomorphic covers have isomorphic
-deck groups, and the Belyi content is 6.4's identification of `Deck p` with Layer 0.4's
+**Automorphism groups.** The automorphism group of a cover is Mathlib's `deck p`, with its
+UniversalCovers API in Tau Ceti, not a Belyi object; what descends through the quotients is that
+isomorphic covers have isomorphic deck groups (`TauCeti.Deck.conjMulEquiv`), and the Belyi content
+is 6.4's identification of `deck p` with Layer 0.4's
 `automorphismGroup` of the triple. On the combinatorial side the corresponding descent is
 `automorphismGroup_smul`: relabeling conjugates `automorphismGroup`, so it is an invariant of
 a `ConnectedIsoClass n` as a subgroup **up to conjugacy** and not on the nose.
@@ -2196,8 +2293,11 @@ statement is false without that, and the analogue here is that the three marked 
 fixed once and for all. ⚠ That statement is this milestone's level 2, phrased with
 conjugacy on the combinatorial side; it is not level 1 and not level 3.
 
-*Prerequisites:* Layers 0.2, 2.6, 5.1, 5.2, 5.6, 6.1, 6.2; UniversalCovers milestone 8 for
-the subgroup identification only; Mathlib `existsUnique_continuousMap_lifts_of_range_le`,
+*Prerequisites:* Layers 0.2, 2.6, 5.1, 5.2, 5.6, 6.1, 6.2; for the subgroup identification only,
+Tau Ceti `TauCeti.UniversalCover.existsUnique_subgroup_homeomorph_subgroupQuotient`,
+`TauCeti.UniversalCover.exists_homeomorph_subgroupQuotient_comp_eq_iff_exists_eq_map_conj`,
+`IsCoveringMap.stabilizer_eq_range` and `IsCoveringMap.card_fiber_eq_index` (UniversalCovers
+milestone 8); Mathlib `existsUnique_continuousMap_lifts_of_range_le`,
 `Setoid`, `Quotient.lift`, `Equiv.ofBijective`.
 
 #### 6.4 Deck transformations
@@ -2210,7 +2310,8 @@ conjugates both sides by `τ` compatibly, so the abstract isomorphism descends t
 unnumbered cover while the embedding does not.
 
 ⚠ **This is where the `ᵐᵒᵖ` of UniversalCovers milestone 5 is absorbed, once, explicitly.**
-That milestone identifies the deck group of the universal cover with `(π₁)ᵐᵒᵖ`; composing
+That milestone identifies the deck group of the universal cover with `(π₁)ᵐᵒᵖ`
+(`TauCeti.UniversalCover.deckFundamentalGroupEquiv`); composing
 with the monodromy description turns deck transformations into permutations of the fiber
 commuting with the monodromy action, which is the simultaneous centralizer, which is
 Layer 0.4's automorphism group. The milestone states the composite with its direction
@@ -2221,7 +2322,13 @@ wrong would still produce a group of order `4` here, so the test is stated on th
 — which element of the deck group corresponds to which permutation — not on the abstract
 isomorphism type.
 
-*Prerequisites:* Layers 0.4, 6.1, 6.3; UniversalCovers milestones 4, 5, 8.
+*Prerequisites:* Layers 0.4, 6.1, 6.3; Mathlib `deck`; Tau Ceti
+`TauCeti.UniversalCover.deckFundamentalGroupEquiv`, `TauCeti.Deck.fiberHomeomorphHom` with
+`TauCeti.Deck.fiberHomeomorphHom_injective` (a deck transformation is determined by its action on
+the fiber), `TauCeti.Deck.monodromy_smul` (that action commutes with monodromy), and
+`TauCeti.CoveringSpace.fiberActionFunctor_full` (every monodromy-equivariant permutation of the
+fiber is induced by a map of covers over `X`, which gives surjectivity onto the centralizer)
+(UniversalCovers milestones 4, 5, 8).
 
 #### 6.5 Regular covers
 
@@ -2238,7 +2345,10 @@ extension, and then the covering group is `Gal(M(S₁)/M(S₂))`), and **Proposi
 (`f` is normal iff `deg f = |Mon(f)|`) — the last being the cleanest criterion to formalize,
 since both sides are already Layer 0 data.
 
-*Prerequisites:* Layers 4.6, 6.3, 6.4; UniversalCovers milestone 8.
+*Prerequisites:* Layers 4.6, 6.3, 6.4; Tau Ceti `TauCeti.Deck.isRegular_iff_fiber_isPretransitive`,
+`TauCeti.UniversalCover.isRegular_subgroupQuotientProj_iff_normal`,
+`TauCeti.UniversalCover.deckSubgroupQuotientProjEquiv` and
+`TauCeti.UniversalCover.deckSubgroupQuotientProjEquivOfNormal` (UniversalCovers milestone 8).
 
 ### Layer 7: compactification and topological branched covers
 
@@ -3668,9 +3778,9 @@ separate from `trueOrbitSize` for exactly this reason.
 `BelyiArithmeticActions`, the successor that owns this layer, consumes three milestones of
 generic profinite algebra — the profinite integers as a **ring**, the exponentiation calculus, and
 its pro-`ℓ` specialization. Their exact owner is **`ProfiniteArithmetic`**, the generic successor
-to #244 named in that roadmap's opening section; they are owned neither by #244 itself, which
-builds `zHat` only as a profinite group, nor by this roadmap. They must land there before the
-Belyi-specific declarations in 12.4 onward are opened.
+to #244 named in that roadmap's opening section; they extend Tau Ceti's profinite group
+`TauCeti.zHat`, and they are owned neither by #244 itself nor by this roadmap. They must land
+there before the Belyi-specific declarations in 12.4 onward are opened.
 
 The fundamental group's carrier is field-theoretic: the Galois theory of the maximal
 extension of `ℚ̄(t)` unramified outside the three marked places. Every object is then Mathlib Galois theory plus
@@ -3681,59 +3791,57 @@ shortens one, but it is not the definition.
 
 #### 12.1 The profinite integers as a topological ring
 
-⚠ **Supplier milestone, not a Belyi declaration.** ProfiniteProPGroups supplies the
-profinite completion of the infinite cyclic **group** and its maximal pro-`p` quotients.
-That gives no multiplication of two profinite exponents, no unit group, and no compatible
-projections to finite rings — yet 12.2's law `(x ^ᶻ a) ^ᶻ b = x ^ᶻ (a·b)`, 12.10's character
-`χ : Gal(ℚ̄/ℚ) →* ẑˣ` and 12.3's `ℓ`-adic component all need exactly those. `ProfiniteArithmetic`
-must build them in the generic `TauCeti/GroupTheory/Profinite/` home; `BelyiArithmeticActions`
-only consumes its exact exported API.
+⚠ **Supplier milestone, not a Belyi declaration.** Tau Ceti's `TauCeti.zHat` is the profinite
+completion of the infinite cyclic **group**, with its generator, universal property and maximal
+pro-`p` quotients. That gives no multiplication of two profinite exponents, no unit group, and no
+compatible projections to finite rings — yet 12.2's law `(x ^ᶻ a) ^ᶻ b = x ^ᶻ (a·b)`, 12.10's
+character `χ : Gal(ℚ̄/ℚ) →* ẑˣ` and 12.3's `ℓ`-adic component all need exactly those.
+`ProfiniteArithmetic` (its Layer 0) builds them as the ring structure on `TauCeti.zHat` itself;
+`BelyiArithmeticActions` only consumes its exact exported API.
 
-**Supplier object: `ProfiniteInt`.** Constructed in `ProfiniteArithmetic` as `lim (ZMod n)` over
-the divisibility order. `BelyiArithmeticActions` cites the name and API, not the construction.
-Required:
+**Supplier object: the ring `ẑ = Additive TauCeti.zHat`.** There is one profinite-integers
+object. `BelyiArithmeticActions` cites the names and API, not the construction. Required:
 
-- *Carrier and instances.* A topological commutative ring structure: `CommRing ProfiniteInt`,
-  `TopologicalSpace`, `IsTopologicalRing`, compactness, total disconnectedness, and
-  `T2Space`.
-- *The group comparison.* A `ContinuousMulEquiv` between the additive/procyclic group of
-  `ProfiniteInt` and ProfiniteProPGroups' `zHat`, so that `ẑ` in this roadmap means one object with
-  two structures and no milestone silently switches. State it as a named theorem, not as a
-  definitional identification.
-- *Projections.* Continuous ring homomorphisms `ProfiniteInt →+* ZMod n` for every `n`, with
-  the compatibility `ZMod m → ZMod n` for `n ∣ m`; the induced map to the inverse limit is
-  an isomorphism (the universal/limit property).
-- *`ℓ`-adic components.* A continuous ring homomorphism `ProfiniteInt →+* ℤ_[ℓ]` for each
-  prime `ℓ`, compatible with the `ZMod ℓ^k` projections, and the theorem that the induced
-  map to `∏_ℓ ℤ_[ℓ]` is a topological ring isomorphism.
-- *Units.* The unit group `ProfiniteIntˣ` with its topology, and the criterion
-  `a ∈ ProfiniteIntˣ ↔ ∀ n, image of a in ZMod n is a unit ↔ ∀ ℓ, component_ℓ a ∈ ℤ_[ℓ]ˣ`.
+- *Carrier and instances.* A topological commutative ring structure on `Additive TauCeti.zHat`:
+  `CommRing`, `IsTopologicalRing`, with the compactness, total disconnectedness and Hausdorffness
+  of `TauCeti.zHat`. The group `TauCeti.zHat` and the ring `ẑ` are one object with two structures,
+  so no milestone switches between carriers and no comparison isomorphism is needed.
+- *Projections.* Continuous ring homomorphisms `ẑ →+* ZMod n` for every `n`, with the
+  compatibility `ZMod m → ZMod n` for `n ∣ m`; the induced map to the inverse limit is an
+  isomorphism (the universal/limit property).
+- *`ℓ`-adic components.* A continuous ring homomorphism `ẑ →+* ℤ_[ℓ]` for each prime `ℓ`,
+  compatible with the `ZMod ℓ^k` projections and with Tau Ceti's
+  `TauCeti.zHat.maximalProPQuotientEquivPadicInt`, and the theorem that the induced map to
+  `∏_ℓ ℤ_[ℓ]` is a topological ring isomorphism.
+- *Units.* The unit group `ẑˣ` with its topology, and the criterion
+  `a ∈ ẑˣ ↔ ∀ n, image of a in ZMod n is a unit ↔ ∀ ℓ, component_ℓ a ∈ ℤ_[ℓ]ˣ`.
 - *The universal property for characters.* A compatible system of homomorphisms into
-  `(ZMod n)ˣ` assembles into one homomorphism into `ProfiniteIntˣ`; this is what 12.10 uses
-  to build the cyclotomic character out of the pin's finite levels.
-- *Edge cases.* `ProfiniteInt` is not a domain (it is `∏_ℓ ℤ_[ℓ]`); `ℤ → ProfiniteInt` is
-  injective with dense image.
+  `(ZMod n)ˣ` assembles into one homomorphism into `ẑˣ`; this is what 12.10 uses to build the
+  cyclotomic character out of the pin's finite levels.
+- *Edge cases.* `ẑ` is not a domain (it is `∏_ℓ ℤ_[ℓ]`); `ℤ → ẑ` is injective with dense image.
 
-*Prerequisites:* Mathlib `ZMod`, `PadicInt`, `ProfiniteGrp`, inverse limits of topological
-rings; ProfiniteProPGroups Layers 0, 4 for `zHat` and its group API.
+*Prerequisites:* Tau Ceti `TauCeti.zHat` with its group API; Mathlib `ZMod`, `PadicInt`;
+`ProfiniteArithmetic` Layer 0.
 
 #### 12.2 The profinite exponentiation calculus
 
 Owned with 12.1 by `ProfiniteArithmetic` and exported from the generic profinite
 namespace. Neither this supplier milestone nor the next mentions Belyi maps.
 
-Carrier: `ẑ := ProfiniteInt` of 12.1, whose underlying procyclic group is ProfiniteProPGroups' `zHat`
-by 12.1's comparison. For a profinite group `G` and `x : G`, define `x ^ᶻ a` for `a : ẑ` as
-the image of `a` under the unique continuous homomorphism `ẑ → G` sending `1` to `x` — the
-completion's universal property applied to `n ↦ xⁿ`, which lands in the closed procyclic
-subgroup generated by `x`.
+Carrier: `ẑ` of 12.1. For a profinite group `G` and `x : G`, `x ^ᶻ a` for `a : ẑ` is
+`TauCeti.zHat.lift x` applied to `a`: the unique continuous homomorphism from `TauCeti.zHat` to
+`G` sending the generator to `x`, which is the completion's universal property applied to
+`n ↦ xⁿ` and lands in the closed procyclic subgroup generated by `x`. `ProfiniteArithmetic`
+(its Layer 1.1) generalizes Tau Ceti's lift, with the universal property of profinite completion
+behind it, to profinite groups in every universe; there is no second lift and no second powering
+construction.
 
 **New object: `^ᶻ`.** Basic API:
 
 - *Constructors and instances.* The definition; the closed procyclic subgroup `⟨x⟩‾` and the
   fact that `x ^ᶻ a` lies in it.
-- *Examples.* `x ^ᶻ (n : ℤ) = x ^ n`; `x ^ᶻ 0 = 1`; `1 ^ᶻ a = 1`; in `ẑ` itself, `^ᶻ` is
-  multiplication.
+- *Examples.* `x ^ᶻ (n : ℤ) = x ^ n`; `x ^ᶻ 0 = 1`; `1 ^ᶻ a = 1`; in `TauCeti.zHat` itself,
+  `^ᶻ` is multiplication.
 - *Morphisms and functoriality.* **Naturality**: `f (x ^ᶻ a) = (f x) ^ᶻ a` for every
   continuous homomorphism `f`. This is the workhorse of the whole layer — it gives the
   conjugation instance `(c⁻¹ x c) ^ᶻ a = c⁻¹ (x ^ᶻ a) c` used in 12.11 and 13.3, and the
@@ -3751,24 +3859,26 @@ of `a`". No such representative exists, and the operation is defined by the univ
 property, never by a choice. Nor is `(xy) ^ᶻ a = x ^ᶻ a · y ^ᶻ a` — that needs `x` and `y`
 to commute.
 
-*Prerequisites:* Layer 12.1; Mathlib `ProfiniteGrp.profiniteCompletion` with `lift` and the
-adjunction; ProfiniteProPGroups Layers 0, 4 for `zHat` and its API.
+*Prerequisites:* Layer 12.1; Tau Ceti `TauCeti.zHat.lift` and
+`TauCeti.ProfiniteCompletion.continuousMonoidHomEquiv`, as `ProfiniteArithmetic` Layer 1.1
+generalizes them.
 
 #### 12.3 Pro-`ℓ` powers and the component comparison
 
-On a pro-`ℓ` group the power depends only on the `ℓ`-adic component of the exponent. Using
-ProfiniteProPGroups Layer 4's `maximalProPQuotient_zHat_equiv_padicInt`, define the
-`ℤ_ℓ`-power `x ^[ℓ] u` for `u : ℤ_[ℓ]` on a pro-`ℓ` group, prove it satisfies the same laws
-as 12.2, and prove the comparison
+On a pro-`ℓ` group the power depends only on the `ℓ`-adic component of the exponent. The
+`ℤ_ℓ`-power `x ^[ℓ] u` for `u : ℤ_[ℓ]` on a pro-`ℓ` group is Tau Ceti's
+`TauCeti.IsProP.padicPow`, with the same laws as 12.2, and `ProfiniteArithmetic` (its Layer 1.3)
+proves the comparison
 
 ```text
 x ^ᶻ a = x ^[ℓ] (component_ℓ a)
 ```
 
-by factoring the powering homomorphism `ẑ → G` through the maximal pro-`ℓ` quotient of `ẑ`
-— legitimate by ProfiniteProPGroups Layer 3's universal property, since `G` is pro-`ℓ` — and
-identifying that quotient with `ℤ_[ℓ]` compatibly with 12.1's component map, so that
-`component_ℓ` here is the ring homomorphism of 12.1 and not a second unrelated projection.
+by factoring the powering homomorphism `TauCeti.zHat → G` through the maximal pro-`ℓ` quotient
+of `TauCeti.zHat` — legitimate by `TauCeti.maximalProPQuotient.lift`, since `G` is pro-`ℓ` — and
+identifying that quotient with `ℤ_[ℓ]` by `TauCeti.zHat.maximalProPQuotientEquivPadicInt`,
+compatibly with 12.1's component map, so that `component_ℓ` here is the ring homomorphism of
+12.1 and not a second unrelated projection.
 
 ⚠ Every statement in this milestone and every consumer of `^[ℓ]` below carries
 `[Fact ℓ.Prime]`; `ℤ_[ℓ]` and the maximal pro-`ℓ` quotient are not the intended objects
@@ -3778,7 +3888,9 @@ otherwise.
 general profinite group the `ℓ`-adic component of `a` does not determine `x ^ᶻ a`, and no
 milestone applies `^[ℓ]` outside a pro-`ℓ` group.
 
-*Prerequisites:* Layers 12.1, 12.2; ProfiniteProPGroups Layers 3, 4; Mathlib `Fact`, `PadicInt`.
+*Prerequisites:* Layers 12.1, 12.2; Tau Ceti `TauCeti.IsProP.padicPow`,
+`TauCeti.maximalProPQuotient.lift`, `TauCeti.zHat.maximalProPQuotientEquivPadicInt`;
+`ProfiniteArithmetic` Layer 1.3; Mathlib `Fact`, `PadicInt`.
 
 #### 12.4 The `ℚ̄`/`ℂ` comparison of finite covers
 
@@ -3914,7 +4026,7 @@ finite group is the Galois group of a cover étale outside the three points. **E
 4.6.12(2)** is the Kummer case `π₁(ℙ¹_k ∖ {0,∞}) ≅ ẑ`, realized by normalizing in `xⁿ = t`,
 which is the tower Layers 12.9 and 12.11 compute with.
 
-*Prerequisites:* Layers 5.6, 6.1, 6.3, 12.4, 12.5; ProfiniteProPGroups Layers 0, 4; Mathlib
+*Prerequisites:* Layers 5.6, 6.1, 6.3, 12.4, 12.5; Tau Ceti `TauCeti.freeProfiniteGroup`; Mathlib
 `PreGaloisCategory`, `FiberFunctor`, `functorToContAction`, `IsFundamentalGroup` with
 `toAutMulEquiv`, the profinite topology on `Aut F`, `ProfiniteGrp.profiniteCompletion` with
 its adjunction.
@@ -4176,21 +4288,29 @@ and three orbits. Layer 14 never treats `pass_size` and `orbit_size` as the same
 
 ### Layer 13: the pro-`ℓ` peripheral theorem and faithfulness
 
-> **Owner:** successor roadmap `BelyiArithmeticActions`. Retained here as a dependency
-> specification; no milestone of this layer is a declaration or a completion claim of
-> this PR.
+> **Owner:** successor roadmap `BelyiArithmeticActions`, except that the existence statements of
+> 13.3 and 13.4 are instances of `PeripheralActions`' generic theorems (its Layers 2 and 4), which
+> are proved there for every free pro-`p` group of finite rank without the Galois action.
+> `BelyiArithmeticActions` owns the arithmetic route below and its Galois-equivariant
+> consequences. The two generic helpers 13.3 applies, `conjugation_transfer` and
+> `opposite_third_peripheral`, are exports of §Pinned conventions, not of this layer.
+> Retained here as a dependency specification; no milestone of this layer is a
+> declaration or a completion claim of this PR.
 
 #### 13.1 The pro-`ℓ` peripheral triple
 
 For a **prime** `ℓ` — every statement of Layer 13 carries `[Fact ℓ.Prime]`, since neither
 `maximalProPQuotient` nor `ℤ_[ℓ]` is the intended object otherwise — define
-`Δ_ℓ := ProfiniteProPGroups.freeProP ℓ (Fin 2)` directly, with `P_ℓ, T_ℓ, C_ℓ` the images
-of the supplier's canonical generators and the relation `C_ℓ * T_ℓ * P_ℓ = 1`. The
-supplier defines this carrier as the maximal pro-`ℓ` quotient of the free profinite group;
-this roadmap neither redefines that quotient nor introduces an isomorphic replacement.
+`Δ_ℓ := TauCeti.freeProP ℓ (Fin 2)` directly, with `P_ℓ, T_ℓ, C_ℓ` the images of Tau Ceti's
+canonical generators `TauCeti.freeProP.of` and the relation `C_ℓ * T_ℓ * P_ℓ = 1`. Tau Ceti
+defines this carrier as the maximal pro-`ℓ` quotient of `TauCeti.freeProfiniteGroup (Fin 2)`,
+the group `F̂₂` of §Pinned conventions; this roadmap neither redefines that quotient nor
+introduces an isomorphic replacement, and `PeripheralActions`' dyadic instance, with `e` the
+identity, is about this same carrier.
 
-The outer action descends: `proPKernel ℓ` is topologically characteristic (ProfiniteProPGroups Layer
-3), so 12.7's functoriality gives
+The outer action descends: `TauCeti.proPKernel ℓ` is topologically characteristic (Tau Ceti's
+`TauCeti.map_proPKernel_eq`, as `ProfiniteArithmetic`'s `isTopCharacteristic_proPKernel`), so
+12.7's functoriality gives
 
 ```text
 ρ_ℓ : Gal(ℚ̄/ℚ) →* ContinuousOut (Δ_ℓ) ,
@@ -4198,7 +4318,8 @@ The outer action descends: `proPKernel ℓ` is topologically characteristic (Pro
 
 and 12.11's statements descend with `^ᶻ` becoming `^[ℓ]` by 12.3.
 
-*Prerequisites:* Layers 12.7, 12.11, 12.2, 12.3; ProfiniteProPGroups Layers 3, 4.
+*Prerequisites:* Layers 12.7, 12.11, 12.2, 12.3; Tau Ceti `TauCeti.freeProP`,
+`TauCeti.freeProP.of`, `TauCeti.map_proPKernel_eq`.
 
 #### 13.2 Cyclotomic surjectivity
 
@@ -4226,8 +4347,14 @@ For every prime `ℓ` and every `u ∈ ℤ_[ℓ]ˣ` there exist a continuous aut
 φ_u C_ℓ = c_C⁻¹ · (C_ℓ ^[ℓ] u) · c_C .
 ```
 
-Proof: choose `σ` with `cyclotomicCharacter ℓ σ = u` (13.2); take `ρ_ℓ(σ)` (13.1) and any
-representative automorphism `φ_u` of that outer class; the three conjugacy statements of
+As an existence statement this is `PeripheralActions` Layer 2 (`exists_peripheralAut`) for
+`F = Δ_ℓ` with `e` the identity and basis `(P_ℓ, T_ℓ)`. Its cusp is
+`(P_ℓ · T_ℓ)⁻¹ = P_ℓ · C_ℓ · P_ℓ⁻¹` (`opposite_third_peripheral`), and the statement for `C_ℓ`
+follows by the conjugation-transfer lemma of §Pinned conventions at `q = P_ℓ⁻¹`. The proof
+recorded here is the arithmetic one.
+
+Arithmetic proof: choose `σ` with `cyclotomicCharacter ℓ σ = u` (13.2); take `ρ_ℓ(σ)` (13.1)
+and any representative automorphism `φ_u` of that outer class; the three conjugacy statements of
 12.11, descended by 13.1, say exactly that each `φ_u(X_ℓ)` is conjugate to `X_ℓ ^[ℓ] u`, and
 the conjugators are the witnesses.
 
@@ -4237,34 +4364,24 @@ conjugator would say `φ_u` is inner-times-the-power-map on the whole group, whi
 ⚠ The assignment `u ↦ φ_u` is **not** asserted to be a homomorphism, to be continuous, or to
 be canonical. Each is a strictly stronger statement and each is outside this roadmap.
 
-**The conjugation-transfer lemma**, stated generically because the conjugator is *computed*,
-not adjusted by inspection. Let `φ` be a continuous automorphism, `u` an exponent, and suppose
+**Change of convention.** The conjugation-transfer lemma of §Pinned conventions, with `pow` the
+`u`-th power and its hypothesis supplied by 12.2, transfers the theorem to every conjugate of a
+peripheral element. Applying it with `q = P_ℓ` and `x = C_ℓ` gives the opposite-convention third
+element `(P_ℓ · T_ℓ)⁻¹ = P_ℓ · C_ℓ · P_ℓ⁻¹`, so consumers using that spelling need no new
+mathematics.
 
-```text
-φ x = c⁻¹ · (x ^ u) · c .
-```
-
-Then for any conjugate `y = q · x · q⁻¹`,
-
-```text
-φ y = d⁻¹ · (y ^ u) · d   with   d := q · c · (φ q)⁻¹ .
-```
-
-The proof is `φ y = (φ q)(φ x)(φ q)⁻¹`, then naturality of the power under conjugation
-(12.2); the conjugator involves `φ q`, and is **not** obtained by multiplying `c` by `q` on
-one side.
-
-Applying it with `q = P_ℓ` and `x = C_ℓ` transfers the theorem to the opposite-convention
-third element `(P_ℓ · T_ℓ)⁻¹ = P_ℓ · C_ℓ · P_ℓ⁻¹`, so consumers using that spelling need no
-new mathematics.
-
-*Prerequisites:* Layers 12.2, 13.1, 13.2.
+*Prerequisites:* Layers 12.2, 13.1, 13.2; §Pinned conventions (`conjugation_transfer`,
+`opposite_third_peripheral`); `PeripheralActions` Layer 2 for the existence statement.
 
 #### 13.4 The dyadic instance
 
 The specialization to `ℓ = 2`, stated as its own named theorem with `u : ℤ_[2]ˣ` on
-`Δ_2 = freeProP 2 (Fin 2)`. It is the reusable dyadic peripheral-power statement; nothing in
-its statement or its proof mentions anything outside this roadmap.
+`Δ_2 = TauCeti.freeProP 2 (Fin 2)`. As an existence statement it is `PeripheralActions` Layer 4, the
+reusable dyadic peripheral-power theorem, in the form `exists_peripheralPowerAutomorphism_two'`,
+whose third element `(T * P)⁻¹` is this roadmap's `C_2`; the unprimed
+`exists_peripheralPowerAutomorphism_two` is stated for `PeripheralActions`' cusp `(P * T)⁻¹`. This
+milestone records its arithmetic proof, and nothing in that proof mentions anything outside this
+roadmap.
 
 *Prerequisites:* Layer 13.3.
 
@@ -4585,9 +4702,9 @@ None of the following is part of this roadmap, at any layer, and none is "deferr
   surface (every surface here arrives carrying its map; the general existence theorem is
   the Dirichlet-problem analysis this roadmap never needs);
 - uniformization, the `λ`-function, and Picard-type applications;
-- Seifert–van Kampen in any form, general or two-open: the two-open case with simply
-  connected intersection is UniversalCovers' (Layer 5.5 records the contract), and the general
-  pushout theorem is on no roadmap here; also topological surface classification and
+- Seifert–van Kampen in any form, general or two-open: both belong to AlgebraicTopology
+  Stage 1, and Layer 5.5 records the contract for the two-open case with simply connected
+  intersection that this roadmap consumes; also topological surface classification and
   orientation theory;
 - the étale fundamental group of a scheme, and the comparison of Layer 12's field-theoretic
   carrier with any scheme-theoretic one;
