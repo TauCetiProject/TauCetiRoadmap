@@ -13,7 +13,8 @@ their full contracts in the README.
 The signatures distinguish arithmetic and geometric Frobenius, coefficient
 fields from residue fields, and an intersection in the ambient vector space
 from its inverse image in a fixed lattice. Full characteristic polynomials,
-nonzero monodromy and nilpotent coefficient rings are retained in the checks.
+nonzero monodromy and nilpotent coefficient rings are retained as README Checks
+(§§2.4, 6.2, 6.8 and Layer 4 Examples).
 The nearly ordinary coefficient expression retains both finite and labelled
 algebraic unit factors; its Galois identification is a README target.
 -/
@@ -56,15 +57,22 @@ open Polynomial
 
 open scoped Classical in
 
-/-- Deligne–Serre §7.1: a subset of proportion at least 1−η has at most M
-distinct characteristic polynomials. The subset need not be a subgroup. -/
-def ConditionC (ℓ : ℕ) (G : Subgroup (GL (Fin 2) (ZMod ℓ))) (η : ℝ) (M : ℕ) : Prop :=
+/-- Deligne–Serre §7.1: over the prime field of order ℓ, a subset of proportion
+at least 1−η has at most M distinct characteristic polynomials.
+The subset need not be a subgroup. -/
+def ConditionC (ℓ : ℕ) [Fact ℓ.Prime]
+    (G : Subgroup (GL (Fin 2) (ZMod ℓ))) (η : ℝ) (M : ℕ) : Prop :=
   ∃ H : Finset (GL (Fin 2) (ZMod ℓ)), (∀ h ∈ H, h ∈ G) ∧ (1 - η) * (Nat.card G : ℝ) ≤ H.card ∧
     (H.image fun h : GL (Fin 2) (ZMod ℓ) => (h : Matrix (Fin 2) (Fin 2) (ZMod ℓ)).charpoly).card ≤ M
 
-/-- Every invariant subspace has an invariant complement. This does not
-require every group element to be diagonalizable. -/
-def IsSemisimpleSubgroup (ℓ : ℕ) (G : Subgroup (GL (Fin 2) (ZMod ℓ))) : Prop :=
+/-- Over the prime field of order ℓ, every invariant subspace has an invariant
+complement. This does not
+require every group element to be diagonalizable. This is Mathlib's
+`Representation.IsSemisimpleRepresentation` for the standard representation
+of G on Fin 2 → ZMod ℓ, unfolded. AlgebraicModularFormsAndSerreWeights uses
+that Mathlib predicate in `TauCeti.ClassicalModularGalois.weightOne_attachment`. -/
+def IsSemisimpleSubgroup (ℓ : ℕ) [Fact ℓ.Prime]
+    (G : Subgroup (GL (Fin 2) (ZMod ℓ))) : Prop :=
   ∀ W : Submodule (ZMod ℓ) (Fin 2 → ZMod ℓ),
     (∀ g ∈ G, W.map (Matrix.toLin' (g : Matrix (Fin 2) (Fin 2) (ZMod ℓ))) ≤ W) →
       ∃ W' : Submodule (ZMod ℓ) (Fin 2 → ZMod ℓ), IsCompl W W' ∧
@@ -130,6 +138,10 @@ section HilbertNormalization
 variable {K : Type*} [Field K]
 
 /-- The good geometric polynomial of the fixed Hilbert representation.
+It is IntegralHeckeAndGaloisDeterminants §3a.1's
+`Spherical.glnPolynomial 2 q ![1, t, s]` at geometric Frobenius.
+The inverse-operator convention of `carayolGeomCharpoly` and the weight-one
+case of `arithFrobCharpoly` supply the additional conventions here.
 For genuine good-place data q and s are nonzero. -/
 noncomputable def hilbertGeomCharpoly (t s q : K) : K[X] :=
   X ^ 2 - C t * X + C (q * s)
@@ -201,8 +213,8 @@ def ordinaryLatticePlus (T : Submodule O V) (Vplus : Submodule K V) : Submodule 
 def ordinaryLatticePlusIn (T : Submodule O V) (Vplus : Submodule K V) : Submodule O T :=
   (Vplus.restrictScalars O).comap T.subtype
 
-/-- README §5.1: intersection with a fraction-field subspace gives a
-saturated submodule, expressed by torsion-freeness of the actual quotient. -/
+/-- README §5.1: over a domain with fraction field K, the intersection of any
+O-submodule T with any K-subspace is saturated: its quotient in T is torsion-free. -/
 theorem ordinaryLatticePlus_saturated [IsDomain O] [IsFractionRing O K]
     (T : Submodule O V) (Vplus : Submodule K V) :
     NoZeroSMulDivisors O (T ⧸ ordinaryLatticePlusIn T Vplus) :=
