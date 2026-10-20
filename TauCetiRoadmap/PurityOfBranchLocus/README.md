@@ -29,6 +29,7 @@ of a morphism of schemes.
 
 ```text
 Mathlib + Tau Ceti → Layer 0 → Layer 1 → Layer 2
+DerivedModuleAlgebra §0.K.1 (general Koszul) → §0.3 (00OA)
 LocalPurity §2.1 (0BMA) ────────────────────→ Layer 2
 SchemeAndStackFoundations §§0.17, 4.13 ─────→ Layers 0, 2
 ModularCurves §4D (étale invariance) ───────→ Layer 2
@@ -47,7 +48,9 @@ Proposition 41.19.7 (025P)); the global dimension of a ring, the Auslander–Buc
 (Proposition 10.111.1 (090V)), Serre's characterization of regular local rings by finite global
 dimension and the regularity of their localizations (Algebra, Section 10.110: Lemmas 10.109.13
 (00O8), 10.106.5 (00NS), 10.106.6 (00NT), 10.104.9 (00NG), Proposition 10.110.1 (00O7), Lemmas
-10.110.3 (00OA) and 10.110.4 (00OB), Proposition 10.110.5 (00OC), Lemma 10.110.6 (0AFS));
+10.110.3 (00OA) and 10.110.4 (00OB), Proposition 10.110.5 (00OC), Lemma 10.110.6 (0AFS)),
+including the finite-free realization (0CXF), minimization (00MT) and augmented chain-comparison
+(00LS) interfaces used in §0.3;
 the ramification, non-étale and branch loci of a morphism of schemes (§0.4) and their
 codimension-one purity (§2.3); elementary étale localization of a morphism quasi-finite at a
 point (More on Morphisms, Lemma 37.41.1 (02LK)); étaleness is étale local on the source (Descent,
@@ -81,6 +84,9 @@ algebra without becoming prerequisites of LocalPurity.
   `isCohenMacaulay_quotSMulTop_iff`, `Ring.IsCohenMacaulay.of_isRegularRing`).
 - *Projective dimension and `Ext`*: Mathlib `CategoryTheory.projectiveDimension`,
   `CategoryTheory.HasProjectiveDimensionLE`, `Ext`, `ModuleCat`.
+- *General Koszul complex*: [DerivedModuleAlgebra §0.K.1](https://github.com/TauCetiProject/TauCetiRoadmap/pull/944)
+  supplies the exterior-power complex, differential and augmentation for arbitrary finite
+  sequences. §0.3 consumes this construction, not its weak-regularity exactness theorem.
 - *Invariance of regularity and dimension under étale morphisms* (Étale Morphisms, Lemma 41.19.1
   (039S) and Proposition 41.19.4 (025N)): [ModularCurves](../ModularCurves/README.md) §4D, which owns
   the scheme-level API of regular schemes, including its invariance under étale morphisms.
@@ -199,8 +205,31 @@ API; this does not assume `IsRegularRing` of every prime localization. Match the
 interface proposed in mathlib4 #29802: it has both the concrete `Localization.AtPrime` theorem
 and the form for any `S` with `[IsLocalization.AtPrime S p]`. Implement the target here at the
 pin rather than waiting for that work.
+
+**00OA dependency and interface.** For an arbitrary Noetherian local ring `(R, 𝔪, κ)`, §0.3
+constructs from `HasProjectiveDimensionLE (ModuleCat.of R κ) d` an augmented finite free
+resolution `F → κ`, zero above degree `d` (0CXF), and minimizes it by splitting off contractible
+`R → R` summands (00MT), preserving the augmentation and length bound and giving
+`im(dᵢ) ⊆ 𝔪Fᵢ₋₁`. Supply these interfaces for every finite module: iterate finite free
+surjections using Mathlib's `Module.Finite.exists_fin'`, keep kernels finite by Noetherianity,
+and use `ShortComplex.ShortExact.hasProjectiveDimensionLT_X₃_iff` and
+`projective_iff_hasProjectiveDimensionLE_zero` to make the last kernel projective; convert via
+`IsProjective.iff_projective` and `Module.free_of_flat_of_isLocalRing`. These are pinned
+inputs, whereas finite-free realization and minimization are targets here. For lifts `x₁,…,xₙ`
+of a basis of `𝔪/𝔪²`, use DerivedModuleAlgebra §0.K.1's general `K(x)`, with
+`Kᵢ = ⋀ⁱ Rⁿ` and augmentation to `κ` by Nakayama. That construction is specified there;
+mathlib4 [#43708](https://github.com/leanprover-community/mathlib4/pull/43708) supplies its design,
+not an implementation at the pin. Construct here the augmentation-preserving comparison
+`α : K(x) → F` inducing `id_κ` (00LS), degreewise via
+`ShortComplex.Exact.liftFromProjective`; only the target `F → κ` must be exact. Prove the 00OA
+induction that every `αᵢ ⊗ κ` is injective, using the linearized Koszul differential
+`⋀ⁱ κⁿ → ⋀ⁱ⁻¹ κⁿ ⊗κ 𝔪/𝔪²` and minimality of `F`. The nonzero top exterior power then gives
+`Fₙ ⊗ κ ≠ 0`, hence `n ≤ d`; the infinite-projective-dimension case is immediate. Neither
+regularity nor Cohen–Macaulayness of `R`, nor exactness of `K(x)`, is an input to this argument.
 *Needs:* SchemeAndStackFoundations §0.17 (depth and Cohen–Macaulay API,
 `Ring.IsCohenMacaulay.of_isRegularRing`); Tau Ceti `TauCeti.IsRegularLocalRing.quotient_span_singleton`;
+DerivedModuleAlgebra §0.K.1 (general Koszul construction); the 0CXF, 00MT and 00LS interfaces
+constructed in this §0.3 from Mathlib's finite-module, projective-dimension and lifting APIs above;
 Mathlib `CategoryTheory.projectiveDimension`, `CategoryTheory.HasProjectiveDimensionLE`, `Ext`,
 `ModuleCat`, `IsRegularLocalRing`, `IsRegularRing`, `IsLocalization.AtPrime`.
 
