@@ -29,7 +29,10 @@ variable {E G V P : Type*} [Field E]
   [Group G] [AddCommGroup V] [Module E V] [FiniteDimensional E V]
 
 /-- All-embeddings purity on a splitting coefficient field admitting a complex embedding.
-The arithmetic adapter supplies continuity and actual local Galois data. -/
+The arithmetic adapter supplies continuity and actual local Galois data.
+For q v > 1 outside T, this expanded pinned-carrier form agrees with
+∀ v ∉ T, (∀ g ∈ I v, ρ g = 1) ∧ IsPure (q v : ℝ) w (ρ (F v)),
+using DeligneWeightsAndPurity §§0.6–0.7's scalar and endomorphism predicates. -/
 def IsPureOutside [CharZero E] [Algebra ℚ E] [IsAlgClosed E]
     [Nonempty (E →+* ℂ)] (ρ : Representation E G V) (I : P → Subgroup G)
     (F : P → G) (q : P → ℕ) (T : Set P) (w : ℤ) : Prop :=
@@ -167,6 +170,14 @@ theorem IsPureOutside.prod (ρ : Representation E G V) (σ : Representation E G 
     IsPureOutside (ρ.prod σ) I F q T w := by
   sorry
 
+/-- R34.1, Linear algebra operations: duality negates geometric weight and preserves
+unramifiedness over an algebraically closed coefficient field with a complex embedding. -/
+theorem IsPureOutside.dual (ρ : Representation E G V) (I : P → Subgroup G)
+    (F : P → G) (q : P → ℕ) (T : Set P) (w : ℤ)
+    (h : IsPureOutside ρ I F q T w) :
+    IsPureOutside (Representation.dual ρ) I F q T (-w) := by
+  sorry
+
 /-- R34.1, Linear algebra operations: tensor products add geometric weights. -/
 theorem IsPureOutside.tprod (ρ : Representation E G V) (σ : Representation E G W)
     (I : P → Subgroup G) (F : P → G) (q : P → ℕ) (T : Set P) (w w' : ℤ)
@@ -226,13 +237,6 @@ end IntegralMilestones
 end GaloisRep
 open GaloisRep
 
-/-- R34.1, Continuous Frobenius eigenvalues: on the profinite-integer presentation of
-the finite-field Galois group, a unit determines a unique continuous character.
-The generator is identified with geometric Frobenius. -/
-theorem finite_field_unit_character (ℓ : ℕ) [Fact ℓ.Prime] (u : ℤ_[ℓ]ˣ) :
-    ∃! χ : TauCeti.zHat.{0} →ₜ* ℤ_[ℓ]ˣ, χ TauCeti.zHat.gen = u := by
-  sorry
-
 /-- R34.1, Continuous Frobenius eigenvalues need not be algebraic: a continuous
 rank-one character has a transcendental geometric Frobenius eigenvalue. -/
 theorem continuous_frobenius_not_algebraic (ℓ : ℕ) [Fact ℓ.Prime] :
@@ -244,30 +248,12 @@ theorem continuous_frobenius_not_algebraic (ℓ : ℕ) [Fact ℓ.Prime] :
 noncomputable abbrev scalarRep : Representation ℂ ℂˣ ℂ :=
   Representation.ofDistribMulAction ℂ ℂˣ ℂ
 
-/-- Duality negates geometric weight, retaining the unramified condition. -/
-theorem pureOutside_dual {G V P : Type*} [Group G] [AddCommGroup V] [Module ℂ V]
-    [FiniteDimensional ℂ V] (ρ : Representation ℂ G V) (I : P → Subgroup G)
-    (F : P → G) (q : P → ℕ) (T : Set P) (w : ℤ)
-    (_hq : ∀ v ∉ T, 1 < q v) (h : IsPureOutside ρ I F q T w) :
-    IsPureOutside (Representation.dual ρ) I F q T (-w) := by
-  sorry
-
 -- Rational-integrality is not stable under an arbitrary invariant summand.
 /-- An invariant line of an integer-polynomial operator need not have a rational polynomial. -/
 theorem integer_charpoly_factor_nonexample :
     ∃ α : ℂ, α ^ 2 = 2 ∧
       (X - C α) * (X + C α) = (X ^ 2 - C 2 : ℂ[X]) ∧
       ¬ ∃ Q : ℤ[X], Q.map (Int.castRingHom ℂ) = X - C α := by
-  sorry
-
--- At an inert quadratic place, induction of the trivial character has roots ±1.
-/-- The inert quadratic permutation block has characteristic roots one and minus one. -/
-theorem charpoly_induced_inert_trivial :
-    (!![(0 : ℚ), 1; 1, 0]).charpoly = X ^ 2 - 1 := by
-  sorry
-
-/-- Complex eigenvalues need not be algebraic over the rationals. -/
-theorem transcendental_not_pure : ∃ α : ℂ, ¬ IsIntegral ℚ α := by
   sorry
 
 -- The same irreducible rational polynomial has unit-circle and non-unit-circle
@@ -291,35 +277,13 @@ theorem chosen_embedding_purity_nonexample : ∃ α : ℂˣ,
       (fun _ => α) (fun _ => 3) ∅ 0 := by
   sorry
 
-/-- All-embeddings purity specializes to any chosen complex embedding. -/
-theorem pureOutside_implies_iota {G V P : Type*} [Group G] [AddCommGroup V]
-    [Module ℂ V] [FiniteDimensional ℂ V] (ρ : Representation ℂ G V)
-    (I : P → Subgroup G) (F : P → G) (q : P → ℕ) (T : Set P) (w : ℤ)
-    (ι : ℂ →+* ℂ) (h : IsPureOutside ρ I F q T w) :
-    IsIotaPureOutside ρ I F q T ι (w : ℝ) := by
-  sorry
-
 /-! ## Layer R34.2: Tate/H¹ variance and good-reduction traces -/
 
-/-- The geometric action on the dual is the transpose of the arithmetic action. -/
-theorem tate_h1_inverse_dual {G V : Type*} [Group G] [AddCommGroup V] [Module ℂ V]
-    [FiniteDimensional ℂ V] (ρ : Representation ℂ G V) (F : G) :
+/-- Over any coefficient field, the dual at the inverse element has the original
+characteristic polynomial, expressing the geometric/arithmetic variance convention. -/
+theorem tate_h1_inverse_dual {E G V : Type*} [Field E] [Group G] [AddCommGroup V]
+    [Module E V] [FiniteDimensional E V] (ρ : Representation E G V) (F : G) :
     ((Representation.dual ρ) F⁻¹).charpoly = (ρ F).charpoly := by
-  sorry
-
-/-- The geometric Tate constant coefficient at positive dimension is not an integer. -/
-theorem positive_dimension_tate_constant (q g : ℕ) (hq : 1 < q) (hg : 0 < g) :
-    ¬ ∃ z : ℤ, (z : ℚ) = (q : ℚ) ^ (-(g : ℤ)) := by
-  sorry
-
-/-- The elliptic curve y²=x³−x over F₅ has seven affine points and one point at infinity. -/
-theorem card_points_y2_eq_x3_sub_x_F5 :
-    (Finset.univ.filter (fun p : ZMod 5 × ZMod 5 => p.2 ^ 2 = p.1 ^ 3 - p.1)).card + 1 = 8 := by
-  decide
-
-/-- Trace squared minus twice the determinant gives the trace of the second power. -/
-theorem elliptic_second_power_trace (α β a q : ℂ) (ht : α + β = a)
-    (hd : α * β = q) : α ^ 2 + β ^ 2 = a ^ 2 - 2 * q := by
   sorry
 
 /-! ## Layer R34.3: geometric monodromy normalization -/
@@ -332,48 +296,6 @@ theorem nodal_monodromy_scaling (q : ℚ) (hq : q ≠ 0) :
     let N : Matrix (Fin 2) (Fin 2) ℚ := !![0, 1; 0, 0]
     F * N * Finv = q⁻¹ • N ∧ N * N = 0 ∧
       N.mulVec ![0, 1] = ![1, 0] ∧ N.mulVec ![1, 0] = 0 := by
-  sorry
-
-/-! ## Layer R34.5: degree and Tate-twist checks -/
-
-/-- Symmetric degree k−2 and curve degree one give weight k−1. -/
-theorem parabolic_degree_weight (k : ℤ) : (k - 2) + 1 = k - 1 := by
-  sorry
-
-/-- The arithmetic Lefschetz twist makes the source and target weights equal. -/
-theorem hard_lefschetz_target_weight (d a : ℤ) : d + a - 2 * a = d - a := by
-  sorry
-
-/-! ## Layer R34.6: trace bounds and the local twist -/
-
-/-- Common alternating and outer traces give a common degree-one trace through both
-coefficient maps. The arithmetic application supplies the outer trace comparisons. -/
-theorem degree_one_trace_from_alternating {L E E' : Type*}
-    [CommRing L] [CommRing E] [CommRing E'] (iotaLambda : L →+* E) (iotaMu : L →+* E')
-    (t₀ t₂ t_alt : L) (u : Fin 3 → E) (v : Fin 3 → E')
-    (hu₀ : u 0 = iotaLambda t₀) (hu₂ : u 2 = iotaLambda t₂)
-    (hv₀ : v 0 = iotaMu t₀) (hv₂ : v 2 = iotaMu t₂)
-    (hu : u 0 - u 1 + u 2 = iotaLambda t_alt)
-    (hv : v 0 - v 1 + v 2 = iotaMu t_alt) :
-    u 1 = iotaLambda (t₀ + t₂ - t_alt) ∧ v 1 = iotaMu (t₀ + t₂ - t_alt) := by
-  constructor
-  · rw [map_sub, map_add, ← hu₀, ← hu₂, ← hu]
-    ring
-  · rw [map_sub, map_add, ← hv₀, ← hv₂, ← hv]
-    ring
-
-/-- Two roots of the same modulus give the rank-two Ramanujan trace bound. -/
-theorem ramanujan_trace_bound (α β : ℂ) (R : ℝ) (hα : ‖α‖ = R) (hβ : ‖β‖ = R) :
-    ‖α + β‖ ≤ 2 * R := by
-  sorry
-
-/-- Equal root moduli do not determine a characteristic polynomial. -/
-theorem equal_root_norms_not_same_polynomial :
-    ‖(1 : ℂ)‖ = ‖(-1 : ℂ)‖ ∧ (X - 1 : ℂ[X]) ≠ X + 1 := by
-  sorry
-
-/-- A Tate twist lowers the upper rank-two monodromy weight to the lower weight. -/
-theorem local_monodromy_twist_weight (w : ℤ) : (w - 1 + 1) - 2 = w - 2 := by
   sorry
 
 /-! README targets over arithmetic and geometric carriers:
