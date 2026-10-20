@@ -97,6 +97,21 @@ theorem mem_canonicalSet_powerSeries_iff (p : ℕ) [Fact p.Prime] (f : PowerSeri
     f ∈ canonicalSet (PowerSeries ℤ_[p]) ℤ_[p] ↔ ¬ (PowerSeries.C (p : ℤ_[p])) ∣ f := by
   sorry
 
+/-- In the residual one-variable algebra, the canonical denominators are exactly the nonzero
+series (§1.1): a nonzero series is a unit times a power of `X`, whose quotient is finite over
+`ZMod p`; the quotient by zero is infinite-dimensional. -/
+theorem mem_canonicalSet_residualPowerSeries_iff (p : ℕ) [Fact p.Prime]
+    (f : PowerSeries (ZMod p)) :
+    f ∈ canonicalSet (PowerSeries (ZMod p)) (ZMod p) ↔ f ≠ 0 := by
+  sorry
+
+/-- In the rational polynomial algebra, the canonical denominators are exactly the nonzero
+polynomials (§1.1): division gives a finite basis for their quotients, whereas the quotient by
+zero retains all monomials. -/
+theorem mem_canonicalSet_ratPolynomial_iff (f : Polynomial ℚ) :
+    f ∈ canonicalSet (Polynomial ℚ) ℚ ↔ f ≠ 0 := by
+  sorry
+
 /-- The cyclotomic parameter is a canonical denominator: its quotient is `ℤ_p` (§1.1). -/
 theorem X_mem_canonicalSet_powerSeries (p : ℕ) [Fact p.Prime] :
     PowerSeries.X ∈ canonicalSet (PowerSeries ℤ_[p]) ℤ_[p] := by
