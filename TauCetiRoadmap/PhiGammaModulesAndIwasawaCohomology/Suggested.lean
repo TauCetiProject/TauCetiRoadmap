@@ -15,6 +15,8 @@ noncomputable section
 
 open scoped TensorProduct BigOperators
 
+open CategoryTheory
+
 universe u v
 
 namespace TauCetiRoadmap.PhiGammaModulesAndIwasawaCohomology
@@ -84,8 +86,9 @@ theorem psiOfLinearization_continuous
   sorry
 
 /-- A nonnormalized scalar functional need not recover the second tensor factor. -/
-example (m : ℚ) : psiTensor (0 : ℚ →ₗ[ℚ] ℚ) ((1 : ℚ) ⊗ₜ[ℚ] m) = 0 := by
-  simp [psiTensor]
+example (m : ℚ) : psiTensor (0 : ℚ →ₗ[ℚ] ℚ) ((1 : ℚ) ⊗ₜ[ℚ] m) = 0 ∧
+    psiTensor (LinearMap.id : ℚ →ₗ[ℚ] ℚ) ((2 : ℚ) ⊗ₜ[ℚ] (3 : ℚ)) = 6 := by
+  norm_num [psiTensor]
 
 /-- A coordinate retraction is not multiplication of the two scalar coordinates. -/
 example :
@@ -141,8 +144,18 @@ theorem rankOnePsi_changeBasis (φ : A →+* A) (ψ : A →+ A)
 example : rankOnePsi (AddMonoidHom.id ℚ) (Units.mk0 2 (by decide)) 6 = 3 := by
   norm_num [rankOnePsi]
 
-/-- The inverse basis factor preserves its sign. -/
-example : rankOnePsi (AddMonoidHom.id ℚ) (Units.mk0 (-1) (by decide)) 7 = -7 := by
+/-- A swap-semilinear ψ cannot pull a nonfixed inverse basis coefficient outside. -/
+example :
+    let swap : (ℚ × ℚ) →+ (ℚ × ℚ) :=
+      { toFun := fun x => (x.2, x.1)
+        map_zero' := rfl
+        map_add' := fun _ _ => rfl }
+    let a : (ℚ × ℚ)ˣ :=
+      { val := (2, 3), inv := (1/2, 1/3)
+        val_inv := by norm_num
+        inv_val := by norm_num }
+    rankOnePsi swap a 1 = (1/3, 1/2) ∧
+      rankOnePsi swap a 1 ≠ (↑a⁻¹ : ℚ × ℚ) * swap 1 := by
   norm_num [rankOnePsi]
 
 end RankOne
@@ -168,15 +181,170 @@ theorem psiProjection_uniqueSplit (φ ψ : M →ₗ[C] M)
     ∃! mk : M × LinearMap.ker ψ, x = φ mk.1 + (mk.2 : M) := by
   sorry
 
-/-- The map 1 − φ sends ψ-fixed vectors to ker ψ and has the indicated kernel. -/
-theorem oneSubPhiOnPsiOne (φ ψ : M →ₗ[C] M)
-    (hψφ : ψ.comp φ = LinearMap.id) (x : psiFixed ψ) :
-    ψ (x.val - φ x.val) = 0 ∧ (x.val - φ x.val = 0 ↔ φ x.val = x.val) := by
+/-- The coefficient-linear projector is idempotent under the left-inverse relation. -/
+theorem psiProjection_idempotent (φ ψ : M →ₗ[C] M)
+    (hψφ : ψ.comp φ = LinearMap.id) :
+    (psiProjection φ ψ).comp (psiProjection φ ψ) = psiProjection φ ψ := by
   sorry
 
-/-- Identity φ and ψ have zero complementary projector. -/
-example (x : ℚ) : psiProjection (LinearMap.id : ℚ →ₗ[ℚ] ℚ) LinearMap.id x = 0 := by
-  simp [psiProjection]
+/-- The complementary projector has exactly the ψ-zero submodule as its range. -/
+theorem psiProjection_range (φ ψ : M →ₗ[C] M)
+    (hψφ : ψ.comp φ = LinearMap.id) :
+    LinearMap.range (psiProjection φ ψ) = LinearMap.ker ψ := by
+  sorry
+
+/-- The map 1 − φ from ψ-fixed vectors to ψ-zero vectors. -/
+def oneSubPhiOnPsiOne (φ ψ : M →ₗ[C] M)
+    (hψφ : ψ.comp φ = LinearMap.id) : psiFixed ψ →ₗ[C] LinearMap.ker ψ :=
+  ((LinearMap.id - φ).comp (psiFixed ψ).subtype).codRestrict _ (by
+    intro x
+    change ψ (x.val - φ x.val) = 0
+    have hx : ψ x.val - x.val = 0 := x.property
+    have hφ : ψ (φ x.val) = x.val := by
+      simpa only [LinearMap.comp_apply, LinearMap.id_apply] using LinearMap.congr_fun hψφ x.val
+    rw [map_sub, hφ]
+    exact hx)
+
+/-- Evaluation of 1 − φ and its zero criterion on ψ-fixed vectors. -/
+theorem oneSubPhiOnPsiOne_spec (φ ψ : M →ₗ[C] M)
+    (hψφ : ψ.comp φ = LinearMap.id) (x : psiFixed ψ) :
+    (oneSubPhiOnPsiOne φ ψ hψφ x : M) = x.val - φ x.val ∧
+      (oneSubPhiOnPsiOne φ ψ hψφ x = 0 ↔ φ x.val = x.val) := by
+  sorry
+
+/-- The kernel inside ψ-fixed vectors is the common Frobenius-fixed submodule. -/
+theorem oneSubPhiOnPsiOne_kernel (φ ψ : M →ₗ[C] M)
+    (hψφ : ψ.comp φ = LinearMap.id) :
+    LinearMap.ker (oneSubPhiOnPsiOne φ ψ hψφ) =
+      (LinearMap.ker (φ - LinearMap.id)).comap (psiFixed ψ).subtype := by
+  sorry
+
+namespace psiComplex
+
+/-- The ψ complex has its module only in degrees one and two. -/
+abbrev term (M : Type v) [AddCommGroup M] [Module C M] (i : ℤ) : ModuleCat.{v} C :=
+  if i = 1 ∨ i = 2 then ModuleCat.of C M else ModuleCat.of C PUnit
+
+/-- The sole nonzero differential of the ψ complex is ψ − 1 in degree one. -/
+def differential (ψ : M →ₗ[C] M) (i : ℤ) :
+    term (C := C) M i ⟶ term (C := C) M (i + 1) :=
+  if hi : i = 1 then by
+    subst i
+    exact ModuleCat.ofHom (ψ - LinearMap.id)
+  else 0
+
+end psiComplex
+
+/-- The native two-term ψ complex in cohomological degrees one and two. -/
+def psiComplex (ψ : M →ₗ[C] M) : CochainComplex (ModuleCat.{v} C) ℤ :=
+  CochainComplex.of (psiComplex.term M) (psiComplex.differential ψ) (by
+    intro i
+    by_cases hi : i = 1
+    · subst i
+      simp [psiComplex.differential]
+    · simp [psiComplex.differential, hi])
+
+/-- A commuting linear map acts in both nonzero degrees of the ψ complex. -/
+def psiComplex.map {N : Type v} [AddCommGroup N] [Module C N]
+    (ψ : M →ₗ[C] M) (ψ' : N →ₗ[C] N) (h : M →ₗ[C] N)
+    (hh : h.comp ψ = ψ'.comp h) : psiComplex ψ ⟶ psiComplex ψ' :=
+  CochainComplex.ofHom (fun i => by
+    by_cases hi : i = 1 ∨ i = 2
+    · change psiComplex.term M i ⟶ psiComplex.term N i
+      simp only [psiComplex.term, ite_eq_left hi]
+      exact ModuleCat.ofHom h
+    · exact 0) (by
+      intro i
+      by_cases hi : i = 1
+      · subst i
+        apply ModuleCat.hom_ext
+        change (ψ' - LinearMap.id).comp h = h.comp (ψ - LinearMap.id)
+        apply LinearMap.ext
+        intro x
+        change ψ' (h x) - h x = h (ψ x - x)
+        rw [map_sub]
+        exact congrArg (fun y => y - h x) (LinearMap.congr_fun hh x).symm
+      · simp [psiComplex, CochainComplex.of_d, psiComplex.differential, hi])
+
+/-- Identity maps give the identity chain map. -/
+theorem psiComplex_map_id (ψ : M →ₗ[C] M) :
+    psiComplex.map ψ ψ LinearMap.id (by simp) = CategoryTheory.CategoryStruct.id _ := by
+  sorry
+
+/-- Composition of commuting maps agrees with composition of chain maps. -/
+theorem psiComplex_map_comp {N P : Type v} [AddCommGroup N] [Module C N]
+    [AddCommGroup P] [Module C P] (ψ : M →ₗ[C] M) (ψ' : N →ₗ[C] N)
+    (ψ'' : P →ₗ[C] P) (h : M →ₗ[C] N) (k : N →ₗ[C] P)
+    (hh : h.comp ψ = ψ'.comp h) (hk : k.comp ψ' = ψ''.comp k) :
+    psiComplex.map ψ ψ'' (k.comp h) (by
+      rw [LinearMap.comp_assoc, hh, ← LinearMap.comp_assoc, hk, LinearMap.comp_assoc]) =
+      psiComplex.map ψ ψ' h hh ≫ psiComplex.map ψ' ψ'' k hk := by
+  sorry
+
+/-- Degree-one homology is the native ψ-fixed kernel. -/
+theorem psiComplex_h1 (ψ : M →ₗ[C] M) :
+    ∃ e : (psiComplex ψ).homology 1 ≅ ModuleCat.of C (psiFixed ψ),
+      ∀ z : (psiComplex ψ).cycles 1,
+        (e.hom ((psiComplex ψ).homologyπ 1 z) : M) = (psiComplex ψ).iCycles 1 z := by
+  sorry
+
+/-- Degree-two homology is the native quotient by the range of ψ − 1. -/
+theorem psiComplex_h2 (ψ : M →ₗ[C] M) :
+    ∃ e : (psiComplex ψ).homology 2 ≅ ModuleCat.of C (psiCokernel ψ),
+      ∀ z : (psiComplex ψ).cycles 2,
+        e.hom ((psiComplex ψ).homologyπ 2 z) =
+          Submodule.Quotient.mk ((psiComplex ψ).iCycles 2 z) := by
+  sorry
+
+/-- The ψ complex has no homology outside degrees one and two. -/
+theorem psiComplex_homology_isZero (ψ : M →ₗ[C] M) (i : ℤ) (hi : i ≠ 1) (hi' : i ≠ 2) :
+    CategoryTheory.Limits.IsZero ((psiComplex ψ).homology i) := by
+  sorry
+
+/-- Polynomial coefficient extraction divides exponents divisible by three. -/
+def polynomialPsi : Polynomial ℚ →ₗ[ℚ] Polynomial ℚ where
+  toFun := Polynomial.contract 3
+  map_add' := Polynomial.contract_add (by decide)
+  map_smul' := by
+    intro c f
+    ext n
+    simp [Polynomial.coeff_contract (by decide : 3 ≠ 0)]
+
+/-- The polynomial projector retains U, kills U³, and 1 − φ misses U on ψ-fixed vectors. -/
+example :
+    let φ := (Polynomial.expand ℚ 3).toLinearMap
+    psiProjection φ polynomialPsi Polynomial.X = Polynomial.X ∧
+    psiProjection φ polynomialPsi (Polynomial.X ^ 3) = 0 ∧
+    ¬ ∃ x : psiFixed polynomialPsi, x.val - φ x.val = Polynomial.X := by
+  dsimp only
+  have hψX : polynomialPsi Polynomial.X = 0 := by
+    apply Polynomial.ext
+    intro n
+    change (Polynomial.contract 3 (Polynomial.X : Polynomial ℚ)).coeff n =
+      (0 : Polynomial ℚ).coeff n
+    rw [Polynomial.coeff_contract (by decide : 3 ≠ 0), Polynomial.coeff_X,
+      Polynomial.coeff_zero, ite_eq_right (by omega : ¬ (1 = n * 3))]
+  have hψX3 : polynomialPsi (Polynomial.X ^ 3) = Polynomial.X := by
+    simpa [polynomialPsi] using (Polynomial.contract_expand (R := ℚ) (f := Polynomial.X) 3
+      (by decide : 3 ≠ 0))
+  refine ⟨by simp [psiProjection, hψX], by simp [psiProjection, hψX3], ?_⟩
+  rintro ⟨x, hx⟩
+  have hfix : polynomialPsi x.val = x.val := sub_eq_zero.mp x.property
+  have hdeg : x.val.natDegree = 0 := by
+    by_contra hn
+    have hc := congrArg (fun f : Polynomial ℚ => f.coeff x.val.natDegree) hfix
+    have hz : x.val.coeff (x.val.natDegree * 3) = 0 :=
+      Polynomial.coeff_eq_zero_of_natDegree_lt (by omega)
+    have hc0 : x.val.leadingCoeff = 0 := by
+      simpa only [polynomialPsi, LinearMap.coe_mk, AddHom.coe_mk,
+        Polynomial.coeff_contract (by decide : 3 ≠ 0), hz, Polynomial.coeff_natDegree]
+        using hc.symm
+    have hx0 := Polynomial.leadingCoeff_eq_zero.mp hc0
+    simp [hx0] at hn
+  have hconst := Polynomial.eq_C_of_natDegree_le_zero (Nat.le_of_eq hdeg)
+  rw [hconst] at hx
+  have hz : (0 : Polynomial ℚ) = Polynomial.X := by simpa using hx
+  exact Polynomial.X_ne_zero hz.symm
 
 /-- If ψ = 0 then the fixed space vanishes, while its cokernel also vanishes. -/
 example : psiFixed (0 : ℚ →ₗ[ℚ] ℚ) = ⊥ ∧
@@ -191,11 +359,6 @@ example : psiFixed (0 : ℚ →ₗ[ℚ] ℚ) = ⊥ ∧
     change Subsingleton (ℚ ⧸ LinearMap.range ((0 : ℚ →ₗ[ℚ] ℚ) - LinearMap.id))
     rw [h]
     infer_instance
-
-/-- Identity ψ fixes the whole module and its cokernel is the quotient by zero. -/
-example : psiFixed (LinearMap.id : ℚ →ₗ[ℚ] ℚ) = ⊤ ∧
-    LinearMap.range ((LinearMap.id : ℚ →ₗ[ℚ] ℚ) - LinearMap.id) = ⊥ := by
-  simp [psiFixed]
 
 /-! ## Layer 3: signed Herr comparison and arithmetic descent -/
 
@@ -267,19 +430,77 @@ example : herrD0 (C := ℚ) (M := ℚ) (2 • (LinearMap.id : ℚ →ₗ[ℚ] �
 example : phiPsiOne (LinearMap.id : ℚ →ₗ[ℚ] ℚ) (5, 11) = (-5, 11) := by
   rfl
 
-/-- The correction changes the first coordinate even when that input coordinate is zero. -/
-example : herrSectionOne (LinearMap.id : ℚ →ₗ[ℚ] ℚ) LinearMap.id (0, 7) = (-7, 7) := by
-  norm_num [herrSectionOne]
+/-- The polynomial resolvent satisfies every section hypothesis and corrects (0,U). -/
+example :
+    let φ := (Polynomial.expand ℚ 3).toLinearMap
+    let ψ := polynomialPsi
+    let G := 2 • (LinearMap.id : Polynomial ℚ →ₗ[ℚ] Polynomial ℚ)
+    let q := psiProjection φ ψ
+    ψ.comp φ = LinearMap.id ∧
+    G.comp φ = φ.comp G ∧ G.comp ψ = ψ.comp G ∧
+    (G - LinearMap.id).comp q = psiProjection φ ψ ∧
+    q.comp (G - LinearMap.id) = psiProjection φ ψ ∧
+    q.comp φ = 0 ∧ ψ.comp q = 0 ∧
+    herrSectionOne φ q (0, Polynomial.X) = (-Polynomial.X, Polynomial.X) := by
+  dsimp only
+  have hψφ : polynomialPsi.comp (Polynomial.expand ℚ 3).toLinearMap = LinearMap.id := by
+    apply LinearMap.ext
+    intro f
+    exact Polynomial.contract_expand 3 (by decide : 3 ≠ 0)
+  have hG : 2 • (LinearMap.id : Polynomial ℚ →ₗ[ℚ] Polynomial ℚ) - LinearMap.id =
+      LinearMap.id := by
+    ext f
+    simp [two_smul]
+  have hψX : polynomialPsi Polynomial.X = 0 := by
+    apply Polynomial.ext
+    intro n
+    change (Polynomial.contract 3 (Polynomial.X : Polynomial ℚ)).coeff n =
+      (0 : Polynomial ℚ).coeff n
+    rw [Polynomial.coeff_contract (by decide : 3 ≠ 0), Polynomial.coeff_X,
+      Polynomial.coeff_zero, ite_eq_right (by omega : ¬ (1 = n * 3))]
+  refine ⟨hψφ, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+  · apply LinearMap.ext
+    intro f
+    change (2 : ℚ) • _ = (Polynomial.expand ℚ 3).toLinearMap ((2 : ℚ) • f)
+    exact ((Polynomial.expand ℚ 3).toLinearMap.map_smul 2 f).symm
+  · apply LinearMap.ext
+    intro f
+    change (2 : ℚ) • polynomialPsi f = polynomialPsi ((2 : ℚ) • f)
+    exact (polynomialPsi.map_smul 2 f).symm
+  · rw [hG]; simp
+  · rw [hG]; simp
+  · apply LinearMap.ext
+    intro f
+    have hf := LinearMap.congr_fun hψφ f
+    change _ - (Polynomial.expand ℚ 3) (polynomialPsi ((Polynomial.expand ℚ 3) f)) = 0
+    rw [show polynomialPsi ((Polynomial.expand ℚ 3) f) = f from hf]
+    simp
+  · apply LinearMap.ext
+    intro f
+    have hf := LinearMap.congr_fun hψφ (polynomialPsi f)
+    change polynomialPsi (f - (Polynomial.expand ℚ 3) (polynomialPsi f)) = 0
+    rw [map_sub, show polynomialPsi ((Polynomial.expand ℚ 3) (polynomialPsi f)) =
+      polynomialPsi f from hf]
+    simp
+  · simp [herrSectionOne, psiProjection, hψX]
 
-/-- A zero power gives no generator isomorphism; the third geometric sum at G = 2 is 7. -/
+/-- Characteristic three makes the third generator sum zero at the identity. -/
 example : herrGeneratorSum (2 • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) 0 = 0 ∧
-    herrGeneratorSum (2 • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) 3 = 7 • LinearMap.id := by
-  constructor
-  · simp [herrGeneratorSum]
+    herrGeneratorSum (2 • (LinearMap.id : ℚ →ₗ[ℚ] ℚ)) 3 = 7 • LinearMap.id ∧
+    herrGeneratorSum (C := ℤ) (M := ZMod 3) LinearMap.id 3 =
+      (0 : ZMod 3 →ₗ[ℤ] ZMod 3) := by
+  refine ⟨by simp [herrGeneratorSum], ?_, ?_⟩
   · apply LinearMap.ext
     intro x
     norm_num [herrGeneratorSum, Finset.sum_range_succ, pow_succ, Module.End.mul_apply]
     ring
+  · apply LinearMap.ext
+    intro x
+    change (∑ i ∈ Finset.range 3, (LinearMap.id : Module.End ℤ (ZMod 3)) ^ i) x = 0
+    norm_num [Finset.sum_range_succ, show (LinearMap.id : Module.End ℤ (ZMod 3)) = 1 from rfl,
+      ← add_mul]
+    left
+    decide
 
 end Operators
 
@@ -292,7 +513,7 @@ integral overconvergent lattices; radius models and decompletion; equivariant pe
 realizations; character-type lines over Q_p and general K; native Herr complexes, maps,
 resolvents, chain sections, homotopies, generator changes, arithmetic Δ models and dyadic
 derived descent; localized Herr complexes and their stable lattices; period ψ and module ψ;
-relative analytic Γ rings and coadmissible modules; native psiComplex and psiComplexMap;
+relative analytic Γ rings and coadmissible modules;
 cyclotomicDeformation on its affinoid exhaustion; the independent derived Iwasawa complex,
 finite-character specialization and the residue-normalized Iwasawa pairing; H_e and its
 exponential; the all-level exponential-image condition; unramified Wach base change,
@@ -302,13 +523,11 @@ coherent flags with t-power defects. Their full API and checks are in README.md.
 
 Additional README API targets for the light definitions are psiOfLinearization_unique;
 rankOnePsi_apply, rankOnePsi_leftInverse, rankOnePsi_basisChange;
-psiProjection_idempotent, psiProjection_range; psiComplex and psiComplex.map;
-psiComplex_map_id, psiComplex_map_comp, psiComplex_h1, psiComplex_h2;
 embeddingPeriodIdeal and embeddingPeriodIdeal_comaximal, embeddingPeriodIdeal_prod;
 characterModule and characterModule_mul, characterModule_inv, characterModule_baseChange,
 characterModule_reciprocity, characterModule_cohomology,
 characterModule_deRham_iff_locallyAlgebraic.
-Further milestones: oneSubPhiOnPsiOne_kernel; psiCokernel_finite;
+Further milestones: psiCokernel_finite;
 psiFixed_generation and psiFixed_pairingPerfect. Their arithmetic carriers and native
 constructions are specified by the README.
 -/
