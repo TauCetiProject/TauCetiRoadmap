@@ -781,13 +781,13 @@ log-regular fs scheme `X` with a tame generically free action of a finite group 
 over a dense open. If `Z` is the boundary where the log structure of `X` is nontrivial
 and `T` is the nonfree locus of the action, the source has boundary `Z′=h⁻¹(Z∪T)`,
 is log regular and carries a very tame action. The morphism `h` need not be log smooth
-or log étale (ILO VIII Theorem 1.1 and Remark 1.2(a), pp. 103–104).
+or log étale (ILO VIII Theorem 1.1 and Remark 1.2(a), pp. 85–86).
 For the relative version assume `X→B` is an equivariant log-smooth map of log-regular pairs
 between noetherian quasi-excellent separated log-regular fs schemes, `H` acts trivially on
 `B`, and tamely and generically freely on `X`. With the same enlarged boundary,
 `(X′,Z′)` is log smooth over `B`; when the action on `X′` is admissible, its quotient
 pair `(X′/H,Z′/H)` exists and is log smooth over `B`
-(ILO X Theorem 1.1, p. 168; VI §3). Admissibility means that every orbit lies in an affine open.
+(ILO X Theorem 1.1, pp. 135–136; VI §3). Admissibility means that every orbit lies in an affine open.
 The regular log blow-up below is a separate log-étale morphism.
 *Needs:* log charts, quotients, tame and generically free actions above;
 SchemeAndStackFoundations §§0.21, 1.1; StableReduction Layer 4 (blow-ups).
@@ -4457,7 +4457,8 @@ Layer C5; Completed HodgeStructures (layer L2) and Tau Ceti `TauCeti.Hodge.Mixed
 - [Illusie 2021] L. Illusie, Grothendieck and vanishing cycles, *Ann. Fac. Sci. Toulouse Math.* (6) 30 (2021), 83–115.
   https://www.numdam.org/article/AFST_2021_6_30_1_83_0.pdf
 - [ILO] L. Illusie, Y. Laszlo, F. Orgogozo (eds.), *Travaux de Gabber sur l'uniformisation locale et la cohomologie étale
-  des schémas quasi-excellents*, Astérisque 363–364 (2014); Exposé XVI by J. Riou. https://arxiv.org/abs/1207.3648
+  des schémas quasi-excellents*, Astérisque 363–364 (2014); Exposé XVI by J. Riou. All ILO locators use the
+  printed page and section numbering of arXiv:1207.3648v1 (16 July 2012). https://arxiv.org/abs/1207.3648v1
 - [Saito 2003] T. Saito, Weight spectral sequences and independence of ℓ, *J. Inst. Math. Jussieu* 2 (2003), 583–634;
   author manuscript of 9 June 2003 (numbering cited). https://www.ms.u-tokyo.ac.jp/~t-saito/pp/wmr2r.pdf
 - [Haines–Ngô 2002] T. Haines, B. C. Ngô, Nearby cycles for local models of some Shimura varieties, *Compositio Math.* 133
