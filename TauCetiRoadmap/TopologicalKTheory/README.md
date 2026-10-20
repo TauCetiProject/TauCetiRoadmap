@@ -97,7 +97,7 @@ manifold, bundle or group-completion vocabulary replaces an existing API.
   and algebraic periodicity. Existing Tau Ceti `Spin.Structure`, `Spin.OddStructure`
   and `Spin.Polarization.CliffordAction` are consumed; algebraic periodicity does
   not prove topological periodicity.
-- [HomotopySpheres §4A–4B](https://github.com/TauCetiProject/TauCetiRoadmap/pull/284)
+- [HomotopySpheres §4A–4B](https://github.com/TauCetiProject/TauCetiRoadmap/pull/1287)
   supplies stable O/SO, the loop comparison with T1.6's oriented classifier,
   and the full real Bott loop chain with its Clifford comparison. T1.5–T1.6
   own the finite Grassmannian carriers, fixed-rank BO(n)/BSO(n), stable BO/BSO
@@ -293,33 +293,91 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    group before using a fibration sequence. On finite-dimensional CW pairs,
    prove existence/uniqueness of section extensions with the corresponding
    strict/weak dimension bounds, applied to the bundle of surjections E→F.
+   **T1.5a. First Stiefel groups and normalized boundary.** On these same
+   finite orthonormal-frame carriers write V_r(R^n), 0≤r≤n, m=n−r. Construct
+   the last-vector forgetful map, local trivializations and sphere fibre S^m.
+   Consume the native bundle-to-Serre adapter and DGF1.2's actual based LES.
+   For m≥1 prove (m−1)-connectivity. For r=1 the space is S^m and π_m=Z
+   for either parity. For r≥2,m≥1 prove π_m=Z when m is even and Z/2 when
+   m is odd, with the bottom-fibre Z map the stated quotient and generator.
+   For r=2 the preceding boundary is the tangent-sphere clutching evaluation
+   x↦2⟨x,e⟩x−e on S^m. Compute its degree directly by the hemispheres as
+   1−(−1)^m; for m=1 this is the degree2 double-angle map. This is a sphere
+   degree calculation, independent of later Euler/Poincare–Hopf theory.
+   For r>2 fix the first r−2 frame vectors and prove the naturality square
+   with this r=2 bundle. The inductive bottom sphere generates the preceding
+   Z first group when m is odd, hence the boundary image is2Z. When m is
+   even the preceding first group is finite (or r=2 has boundary0), so its
+   map to Z vanishes. Prove all actual generator/LES/group comparisons.
+   The m=0 full-frame carrier is O(n), with determinant components; its
+   identity component is SO(n), with π1=0 for n≤1, Z for n=2 and Z/2 for
+   n≥3. Treat n=0 and r=0 separately. Construct the relative triple
+   (SO(n),SO(k+1),SO(k)) and its inclusion/boundary square on the actual
+   positive-rank quotient carriers, retaining every k=0/low-rank exception.
+   For complex r-frames prove2(n−r)-connectivity and first group
+   π_(2(n−r)+1)=Z by the same sphere LES, whose preceding base is sufficiently
+   connected to leave the bottom sphere group unchanged. Export basepoint
+   change, coordinate permutations, stabilization and the actual orientation
+   action local systems. This early phase consumes finite-frame charts,
+   ordinary sphere degree and the actual fibration LES; it has no Schubert,
+   universal-class, Bott or later CC obstruction premise.
+
 6. **T1.6a. Stable carriers and classification.** Build stable complex/unoriented real Grassmannian classification of bundles
    of bounded rank over compact bases and stable classes over finite CW bases,
-   with clutching naturality. For oriented real stable bundles compare
-   using CharacteristicClasses C1.1a's finite oriented-cover precursor.
-   Own the fixed-rank BSO(n) ambient colimits and
-   `stableOrientedGrassmannian` BSO rank-colimit on those lifted cells,
-   their universal bundle diagrams and stabilization. HomotopySpheres §4A
-   consumes this carrier/classification and owns ΩBSO≃SO and its comparison
-   with its stable homogeneous-space models.
-   This supplies T7's BO/BSO classification input. Prove numerable fixed-rank classification
+   with clutching naturality. For oriented real bundles of fixed positive rank
+   n≥1 compare using CharacteristicClasses C1.1a's finite oriented-cover
+   precursor. Own the fixed-rank BSO(n) ambient colimits in this range and
+   `stableOrientedGrassmannian` BSO as the positive-cofinal rank-colimit on
+   those lifted cells, with their universal bundle diagrams and stabilization.
+   Set BSO(0)=pt for the canonically positively oriented zero bundle.
+   HomotopySpheres §4A consumes this carrier/classification and owns ΩBSO≃SO
+   and its comparison with its stable homogeneous-space models.
+   This supplies T7's BO/BSO classification input. Prove numerable fixed-rank
+   BO(n)/BU(n) classification for n≥0 and BSO(n) classification for n≥1
    over paracompact Hausdorff bases, with the universal numerable bundle and
    locally finite partition/classifying-map proof explicitly constructed.
+   Oriented classification is up to isomorphisms preserving the supplied
+   orientation; a bare SO(0) frame reduction does not classify arbitrary
+   chosen zero-dimensional orientations.
+
+   In rank0 retain a chosen orientation as a locally constant sign
+   σ:X→{+1,−1}, equivalently a section of the trivial two-point orientation
+   cover. Construct its comparison with the actual native
+   `Orientation ℝ (Fin 0→ℝ) (Fin 0)` and the canonical positive empty-basis
+   ray. Native `Orientation.eq_or_eq_neg_of_isEmpty` gives the two signs,
+   and `Orientation.map_of_isEmpty` fixes each sign under every
+   zero-dimensional linear isomorphism. Thus the two oriented zero bundles
+   over a point are not isomorphic as oriented bundles, whereas [pt,BSO(0)]
+   is a singleton. Give the rank0 sign classification and its pullback,
+   reversal and ordered-product laws separately from the BSO(0) classifier.
+   For variable rank, apply the positive-rank theorem on its clopen strata
+   and retain this sign datum on the rank0 stratum. The canonical rank0 point
+   in the stable tower carries only the positive empty-basis orientation.
+   Compare the positive-cofinal stable tower with this canonical starting
+   point. To stabilize a supplied signed zero bundle, adjoin the specified
+   positively oriented trivial line and construct its actual oriented-bundle
+   and classifying-map comparisons. Retain the original σ and these maps;
+   do not recover or equate the unstabilized signs from their stable
+   classifier images. No fixed-rank rank0 signed-classification theorem is
+   inferred from the positive-rank or stable theorem.
+
    Name the fixed-rank universal carrier `Gr_k∞(𝕜)` as the union of the
    T1.5 carriers finiteGrassmannian 𝕜 k (N+k) along coordinate closed embeddings,
    appending the last coordinate by Fin.castSucc, with the final topology
    for those inclusions. This fixed-rank carrier is used for numerable
-   classification. Use T1.5's finite Schubert cells and pinned rank/ambient
-   maps to construct the CW structure, proving agreement of the weak topology
-   with the compactly generated colimit. Construct the universal tautological
-   bundle by those compatible finite stages. CC C1.1a owns the finite oriented
-   lift of T1.5's new-line-first rank map and its
-   last-column SO comparison. Define `stableRealGrassmannian` and
-   `stableComplexGrassmannian` as the rank-colimits of these fixed-rank
-   carriers in CompactlyGenerated, with underlying weak-CW union topology
-   and the transported Schubert cells. The basepoint is the image of the
-   rank0 point, represented in rank k by span(e₀,…,e_(k−1)). Pin the universal stable
-   bundle and pullback classification; BO/BU denote these connected
+   complex/unoriented real classification, including its canonical rank0 point.
+   Use T1.5's finite Schubert cells and pinned rank/ambient maps to construct
+   the CW structure, proving agreement of the weak topology with the
+   compactly generated colimit. Construct the universal tautological bundle
+   by those compatible finite stages. CC C1.1a owns the positive-rank finite
+   oriented lift of T1.5's new-line-first rank map and its last-column SO
+   comparison; its rank0 point has the canonical positive convention above.
+   Define `stableRealGrassmannian` and `stableComplexGrassmannian` as the
+   rank-colimits of the fixed-rank unoriented real/complex carriers in
+   CompactlyGenerated, with underlying weak-CW union topology and the
+   transported Schubert cells. The basepoint is the image of the canonical
+   rank0 point, represented in rank k by span(e₀,…,e_(k−1)). Pin the universal
+   stable bundle and pullback classification; BO/BU denote these connected
    Grassmannian models.
 
    **T1.6b. Actual BO/BU sum and coherent coordinate homotopies.** Define
@@ -468,6 +526,18 @@ these generators. Tensor products use the Koszul sign for Z/2 gradings.
    and CKG K7's finite CPⁿ characteristic maps and owns the cellular/cup comparisons
    with these carriers. The carrier/bundle/CW construction precedes classification
    and uses earlier AT CW/Whitehead tools, without AT8.10–8.12.
+   For these rank-one carriers also construct the direct finite-projective
+   model before general classification: identify Gr_1(𝕜^(N+1)) with native
+   Projectivization, transport AT4.6's real and CKG K7.2's complex characteristic
+   cells through the actual ratio charts, and compare the rank-one Schubert
+   labels and stage inclusions. Their weak CW union is the SAME RP∞/CP∞ carrier.
+   Use its compact-image finite-subcomplex theorem and the finite-coordinate
+   unit-sphere tower to prove contractibility of the universal sphere total
+   space by connectivity and CW Whitehead. Keep the real double-cover and
+   complex principal-circle local trivializations and actual colimit quotient
+   comparison. This rank-one producer needs no general Dynkin classification,
+   bundle representability or ordinary EM theorem; later arbitrary-rank
+   Schubert/classification/coherence programmes remain required unchanged.
    On smooth finite-dimensional manifolds prove that
    continuous bundles admit smooth representatives, continuous isomorphisms
    admit smooth representatives, and continuous homotopies induce the same
